@@ -1,138 +1,104 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16CEB39A7E7
-	for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 08:18:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8949C39891E
+	for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 08:18:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777277920; cv=none; b=u660xwgv712g230wntX+ZSHCYsraXERQ4jrZHTnh5TdgRNPy/kxeyZrw8uZXFakWVU6nwt61bUw9R0meC2Et7ZaXdInqf0U8LeMfxc5Tjf4ytPv9a0K+fj8HJKP62fpzEJE2D10EEEFzWZ7HpbvwepnT2VK3WmxfVtoVqYVV8T4=
+	t=1777277939; cv=none; b=lVeew/4SBmeXQEEvCxJsSOvAj9WSZUw5axsX0eEGl2vtrKJnws28MED3ifFYhwb9Fym2lgDf/qyqElSazR2GUR8X3L/ojJjsd/dlSYgSraKV2lJla93yCtADvTFe32c8PinUAzQ6I/lp1Axbx/IrZBTCW1tKcKXdPVRRoGIS1yk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777277920; c=relaxed/simple;
-	bh=QsWgV/TRc8h5FUj2uOm4q4TApmuKuKTXIme2FfHuqZM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ms4uZDDVEiYkg1M0t9TQ840HKaFue8UgivbkAXiYpfMTmoM2TplZkVZNXfVfXP9EDrLxbnALE3m6podJB9gQk+7Ty4kQgoTeV11UOEj7iRYndq2MwZt8ysIPnxqLhjsGL/rp/iII5621DEJowuHXDQusKCGirYE3xrmj+OwmZFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZVk/ZrdE; arc=none smtp.client-ip=209.85.128.47
+	s=arc-20240116; t=1777277939; c=relaxed/simple;
+	bh=T0sbXkSjL1mT5QotmfhxZTftm4nSnzjJ+BmkUXi3jYM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KNrH1oSftD0Y4AYzGThriHdpZge5jiqp0xA7x1k8uysRJq/MN6wEOhJPOPYvtW7wnSlnZSEe6vNnRvDmVKByr+7uIkFESdAKZ7yH/4YVSIt4vIrYQ5BmHux6onNC+uXT7llPRuWKZvGXqsNAkric+0YD9LwtfloTROE+ePiDRLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LP4qyk7j; arc=none smtp.client-ip=209.85.128.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZVk/ZrdE"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-488b8bc6bc9so71281525e9.3
-        for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 01:18:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LP4qyk7j"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4896c22fcbaso72046765e9.0
+        for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 01:18:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777277917; x=1777882717; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HVlRFyF005cdj3KbEszpkmE7tTQiTu1k1/BY4S0J3Oo=;
-        b=ZVk/ZrdEzhSJ5DfAQS025IX6iQaemjgM7Qo+MgWqBxqmSTaYBxfI/HOU971vKxGGzE
-         W1Q65eQ7r+wL/n7eh6N5XC9wNFwfFRpDO8Eayzy5TFSc+Hp+3kFgidpRgyl8DD2v+VQI
-         Hg7EwPumm6YqsJE1Ij0XZBmxvzrWWZqe7E5MQtZY3LbTaGDFyEYP9AGWGuYfzrXBKKGI
-         s8L9l1JPiBTl+Eu2w3k7aXJFT0n17aMHJgYXdcGW+6unMJolYpQn9E6/Uf8MxF2LMlL7
-         tdgQfz/YPvmYIspzl9HVxYHkF2I+z7X8MV9IjWGeK8mvLPoQVEK/K/YcZmU+Y/XChjUd
-         eE2A==
+        d=gmail.com; s=20251104; t=1777277936; x=1777882736; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=OcwOCXeAR5ogbgmVs39szOKmOHLVy+rS144H43uqveA=;
+        b=LP4qyk7jAJLi2yfzWt/2ub/ia2NGGywoazGN57OQH51RqeQu19Algu/6KU7zwaP/W/
+         jpr48QkDQKEudHr1Sir1clCSRRVidtvWd6JvHSYnZGbNLGWjKU/PkXKDWV55ivWqdPN5
+         ElJNFywKa1HBu9sZ5p8/1BpME1D5eUy2f18c+C0vJzkNtNBAxpaz0Bdfo3kVruPthjQG
+         wj1wJrscPNQjqyWuA+HtW2MHiiqDyGhZ6zBj9swpCyHCky4KHbSexmRlUNBlH6dPx6yN
+         uFU+cVhqct1/WJT2/zRNL+SAim1Hpy9CcMKTNa9R0pqypb58GpiVc7RAAABcyYy9IPYv
+         ZXHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777277917; x=1777882717;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=HVlRFyF005cdj3KbEszpkmE7tTQiTu1k1/BY4S0J3Oo=;
-        b=ec+WxgItIWCY8mDB6pqnmqaGRwh//8UfZWbk+RV1opU9e46dPJYC8GS/tFywr4P1A7
-         D56rzHdV+AB69SlYiPEWkLyXTvZjEgU7VZsUafLyrZG+beqsQJ8knnzONFzbLCzZNYih
-         +0CtVuSqPby4y4hLw73RRtI3ceZwsYpminO8/F6sIJxDHRDreThwmb5Oh2yTYwt5ZLSz
-         BPSxKKZNVvK2vqPTlKcMYmAqmhsy6fhG2IOoPBLNyBAwE/vXWEEeG/ijdSysIbaBUtXm
-         CDYEN8dmaxhnF22xKLI1ZUV6TKZR8iGmSiuk3Y8vFmK1CiM+VZQ1S/nxCCZuIE8JKESi
-         gYAg==
-X-Forwarded-Encrypted: i=1; AFNElJ/12poFzLGhlbdw5Bm5w5UDxC/Jn41Qq7pNIwFmmO9pGaWHK+WyiKy2lWM16oii9DQpskCO6HiprELwLgi9@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx582OOa7/CHXwLgP4LCn3L5eI7zej5KRNQ35LU1wgo+IM+kEFc
-	OdkzYNVOv/xRnKjQIGiM9SdGEh13ZOEFZRH00Acr/2w5M0FU1GJqpfj4
-X-Gm-Gg: AeBDiesQQeiW+wvYDJ8PjqUtPVdlKPAaSvpu6Mf+8gOg1FHR45NwciFBzOyNP9I93mU
-	q/5XFWYuhvL2HIjCT2Q4GY3OXPLCvIN84SaN8TF32HAGx2NszSRNVp1z5x5JAbwOf6vLsRZIOjv
-	SHQrDAoiffe2asa/3KivZfU68e9ecrWBwsLSAK5fBtPnPE/aOd8/uwiiSLYPDRtqVWSRWA4XONd
-	dh3vIz7vkd/HmA05F3Envc0tvDS9tmAvuOW4nmg29q+WzGxOb8OwPMfHZdqSqwomJL1jOJhNibG
-	TDiQINajMh6gKdjoKMjm8zrjLHgB/X2of8KmXibaHqxWj2g408Br3rYICK5ctTAb0cVofGfGm1W
-	kfCWPHZ+8EHNiNpzqO6+GaE22BTG7ih/GT+m7S2XPnMtcYQjhtObIsvRCIP/iID0gH5cdHC3Hvd
-	HoqgdQV1b+Rl7qRUUll5TXFYH9OYMZCO51VDa7OLF7DfLfaP/kZe+ijs0bgIT4iW1JJ/6IgxLmU
-	m5jf1VF9XcQluysR15xb21oqLefPIdvCZjwFWbm0vcz+BPgIOMx48wy0W8GEh6m5klGmds=
-X-Received: by 2002:a05:600c:548a:b0:48a:75b9:b0bc with SMTP id 5b1f17b1804b1-48a75b9b0c5mr734945e9.29.1777277917225;
-        Mon, 27 Apr 2026 01:18:37 -0700 (PDT)
-Received: from ahossu.localdomain ([82.78.232.184])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488fc14a61asm712652115e9.15.2026.04.27.01.18.33
+        d=1e100.net; s=20251104; t=1777277936; x=1777882736;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OcwOCXeAR5ogbgmVs39szOKmOHLVy+rS144H43uqveA=;
+        b=LoLd/31cIw2dfYBhRG76ZiMrYz/WDQF2WTosNDyEV1egNAPr3aL8ZDglfehkZuMuK2
+         H84Uu8GPr9UEHzpYHb7vlYa1V1Lu+Sv2yKKNg6wKj2SUhk0Ur3YDfVFAw5f/wCZtPFwx
+         r7cguoe7gK1sdIazHkHGLTRMu88LdGUsd0vP6UIjKX7/DB6wm8Ey5L5UQQCKu70vra8/
+         6pt9AS3kMDJWNgrhbcFqBc3pH6U18N5t1MUgBWXrxiGQg7gc8Yco+RsV3CyqHweQVHAP
+         oT2WIoKvoh2Er0bw69kJhY5SFXGVhGEHi2/OSN4rgShHMkR4enOZJdXlWrWfSNc8oDAo
+         /Zaw==
+X-Forwarded-Encrypted: i=1; AFNElJ+Kz3OYT+OozNbK8Nx80MnPE0MKLuJbZexdrDGwWk7H3obfYOx6OBM2ekm9JT7kh034QGDD9w6KMPf9I/of@lists.linux.dev
+X-Gm-Message-State: AOJu0YxZykhXIKEPkjFIlQfQeA71a+rNlfM5c4XldlpanS+9H/haKi5o
+	zp1yqSzmr5e/H4xAF8gfC9KBE14h9o5lMqFgocidjMJxXdM7zK4rIVXn
+X-Gm-Gg: AeBDieusehRJG9kEXdXkCEBh/HnbvRylldisGEQzru/iT+13WVomvto6WHC7pDH+VcO
+	QyVgi7Oj/5kUEDJvTm0f4Z9UwDVhBes2a3qNzcDszUcvUGfjgCPp/xGyKhkTnOFziMNuI92njuW
+	jzaZskK863dTOwRi0RfZpA+4UxhIBmiIFZ5BueXbfCO09VlCRZyb+w7Zvnu/Gw74zIuDqhuGc0U
+	Bewn+6YJR+eCtVnE3PdrU15KWmmcYxUP4pt2LzLXpkzcOBKVEBlTJPT6DXbgvgwoNi1ghlqb3re
+	VcOhACIbmwJjXul/gkfdDyJoN/ECGTQ6Buox52h2m7UcDq46g/cioSU2a+HTb5LBTNJ00Fm+e6s
+	pmeEOOvErcNW2hiynU/8gg9UiGpx/GB0CzdE5iftu9TjwH07ocXihiVz5zCyxx1VKGviRjcjXRE
+	bkNA3Tf+tEGSkcdejRj5xfLMMZUBnhnw==
+X-Received: by 2002:a05:600c:5246:b0:487:219e:42d with SMTP id 5b1f17b1804b1-488fb750a1dmr588591455e9.11.1777277935677;
+        Mon, 27 Apr 2026 01:18:55 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488fc1cfbf2sm814399735e9.15.2026.04.27.01.18.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Apr 2026 01:18:36 -0700 (PDT)
-From: Alexandru Hossu <hossu.alexandru@gmail.com>
-To: gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: error27@gmail.com,
-	luka.gejak@linux.dev,
-	Alexandru Hossu <hossu.alexandru@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v3 3/3] staging: rtl8723bs: fix heap buffer overflow in rtw_cfg80211_set_wpa_ie()
-Date: Mon, 27 Apr 2026 10:16:26 +0200
-Message-ID: <20260427081626.3393697-4-hossu.alexandru@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260427081626.3393697-1-hossu.alexandru@gmail.com>
-References: <20260427081626.3393697-1-hossu.alexandru@gmail.com>
+        Mon, 27 Apr 2026 01:18:55 -0700 (PDT)
+Date: Mon, 27 Apr 2026 11:18:51 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Maxwell Doose <m32285159@gmail.com>
+Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
+	gregkh@linuxfoundation.org, David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: iio: adt7316: Add error handling to
+ adt7316_spi_probe()
+Message-ID: <ae8b6wdyNR-G-i1m@stanley.mountain>
+References: <20260426205039.125818-1-m32285159@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260426205039.125818-1-m32285159@gmail.com>
 
-supplicant_ie is a 256-byte array in struct security_priv. The WPA and
-WPA2 IE copy paths use:
+On Sun, Apr 26, 2026 at 03:50:38PM -0500, Maxwell Doose wrote:
+> Currently, the return values of the adt7316_spi_write() calls in
+> adt7316_spi_probe() are unchecked. Add error handling to return early
+> and pass on the error code if we receive an error from
+> adt7316_spi_write().
+> 
+> While at it, move all three adt7316_spi_write() calls inside a for loop
+> to condense the logic.
+> 
+> Signed-off-by: Maxwell Doose <m32285159@gmail.com>
+> ---
 
-    memcpy(padapter->securitypriv.supplicant_ie, &pwpa[0], wpa_ielen + 2);
+A lot of the time, functions can't fail or if they do it means
+you need to buy a new computer and there is nothing the
+operating system can do to help you.  spi_write() feels like
+one of those things.
 
-where wpa_ielen is the raw IE length field (u8, 0-255). When a local user
-supplies a connect request via nl80211 with a crafted WPA IE of length 255,
-wpa_ielen + 2 equals 257, overflowing the 256-byte buffer by one byte into
-the adjacent last_mic_err_time field.
+Plus we wouldn't add new checks like this unless they had been
+tested.
 
-rtw_parse_wpa_ie() does not prevent this: its length consistency check
-compares *(wpa_ie+1) against (u8)(wpa_ie_len-2), which is (u8)(255) == 255
-when wpa_ie_len = 257, so the check passes silently.
-
-Add explicit bounds checks for both the WPA and WPA2 paths before the
-memcpy, rejecting any IE whose total size (wpa_ielen + 2) exceeds the
-supplicant_ie buffer.
-
-Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
-Cc: stable@vger.kernel.org
-Reviewed-by: Luka Gejak <luka.gejak@linux.dev>
-Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
----
- drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index 098456e97c96..3d930d9af184 100644
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -1443,6 +1443,10 @@ static int rtw_cfg80211_set_wpa_ie(struct adapter *padapter, u8 *pie, size_t iel
- 
- 	pwpa = rtw_get_wpa_ie(buf, &wpa_ielen, ielen);
- 	if (pwpa && wpa_ielen > 0) {
-+		if (wpa_ielen + 2 > sizeof(padapter->securitypriv.supplicant_ie)) {
-+			ret = -EINVAL;
-+			goto exit;
-+		}
- 		if (rtw_parse_wpa_ie(pwpa, wpa_ielen + 2, &group_cipher, &pairwise_cipher, NULL) == _SUCCESS) {
- 			padapter->securitypriv.dot11AuthAlgrthm = dot11AuthAlgrthm_8021X;
- 			padapter->securitypriv.ndisauthtype = Ndis802_11AuthModeWPAPSK;
-@@ -1452,6 +1456,10 @@ static int rtw_cfg80211_set_wpa_ie(struct adapter *padapter, u8 *pie, size_t iel
- 
- 	pwpa2 = rtw_get_wpa2_ie(buf, &wpa2_ielen, ielen);
- 	if (pwpa2 && wpa2_ielen > 0) {
-+		if (wpa2_ielen + 2 > sizeof(padapter->securitypriv.supplicant_ie)) {
-+			ret = -EINVAL;
-+			goto exit;
-+		}
- 		if (rtw_parse_wpa2_ie(pwpa2, wpa2_ielen + 2, &group_cipher, &pairwise_cipher, NULL) == _SUCCESS) {
- 			padapter->securitypriv.dot11AuthAlgrthm = dot11AuthAlgrthm_8021X;
- 			padapter->securitypriv.ndisauthtype = Ndis802_11AuthModeWPA2PSK;
--- 
-2.53.0
+regards,
+dan carpenter
 
