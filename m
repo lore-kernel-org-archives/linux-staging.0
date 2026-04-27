@@ -1,123 +1,103 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E83439B4BB
-	for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 08:19:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B41B4286425
+	for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 08:32:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777277993; cv=none; b=Sy+dzFSYGJowybnRn5ix/9JFMlbzDIm8tM5guuWxNyXmVlvfotTQ+Opz/wa/KPTxF2fIAiGwh5O7mvsyapvGdm50HVqdXk1+KXTItfEtVgM1ueYB3PeIATj4s2znb6KMA6c00cKfot85/Vn04wa5Tfjbq1f+VOBrUhyQqI7qGC8=
+	t=1777278775; cv=none; b=EGiYtl/BO2UpJiWlYTtx9YdEGEyFvT9spF+dXiIjDTsvdtlNhHSScE5fIdFrmZwprcYyUnVz2QY9mvCp/+GW3aggyegdB1gP6OpMXRRt2+YMCcewYMmI38FPFZ7DglZNc9gFFs1V1f+7/zZooMxm1b+7aE3gjTUMGkYTo7YLmVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777277993; c=relaxed/simple;
-	bh=+YeUIV1+wtcPKuOvB4oPRVaxMCPwWFWxjyfdg1SSC4U=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KArt6aONRqHB3aU9XVisaRfzbLCMj64VtRctLDCd3YR/R5ZnWh3TQNHkjbHyBmbnsnf8qKtonEFBTnolzBJ3wajh+afmaY7QkPkQE6aykzZGzz9Tdzgit3ztFx8tXx9LLYEq10aSZ1e1t6Tk6QFwD8OCRr+8excacYroBp0dK5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ue9QdCsk; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777278775; c=relaxed/simple;
+	bh=YaYMCjalTMCbBQ72xseFkrZwEhXM/knhQ2GbQZO1G+4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZVW3n3uPTk4t37q/wiPq90YzFEsC66h4qArmUEOYDLGB0he87mVFocxbLJoEUVTtt0HOko72wSh0JjMSn+j14NWZN4tqE5hAPcP5SDdp45Pkx2r74a1gfDkIWnMk69TurD00vsniRywPqe6SZ3Gjz4bQKaculA70w2HQd7Jv3G4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=grRNqWao; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ue9QdCsk"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-488e1a8ac40so123054055e9.2
-        for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 01:19:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777277990; x=1777882790; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nMczc9e1ajSbK4Mrr/Qq92dYlg6aGcU3H3gAe4DnWL8=;
-        b=Ue9QdCskne7Eo0KEVvj1Lr97WKoWBpr894dY7y6HJinwIePKIT5x8VOM6FQii+tS73
-         of26GJv29cRelFdJ8nU4VJSs2KJgV5k0grPYGmvxNuyynMdB3QC0BNPKTvxhzmKJ6qZ7
-         U5AHzuYXEmdvK5dCKVJaXyaWivM/nrfYKCzN0gZBEM7x0x6c4ePsLZ0mL1KsDcDI9VFQ
-         YjLn1ywQwIX+ql76CHx7y6YzW0XPrZqF49vy22EJVitDIdxRa2zQ9fvNfDqR9rhIYdvl
-         kqKKNTpsPNpuy/A+4Axt1vXxYkfKIf9Apzm/hw6icE9GVphnNaKG5kxgGsERc91PKkKq
-         n8vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777277990; x=1777882790;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=nMczc9e1ajSbK4Mrr/Qq92dYlg6aGcU3H3gAe4DnWL8=;
-        b=iAcCusBmNvO7Qg2GMMKmFsuGajZtkQfJc2k3gfAWEM/N7uwxucfh905Uu/jQkDBOFm
-         fRucrNIM1mYB+prZn1qbBrtW97x0HEuh4ueElAzYhDWAR74XLR1Bkwbv8+hXdykTbvBG
-         D6sqxsiOqmSO8M4mKodAGM9EkK7/dy181Rm6KAw0fd1VHEAOyGax8q1Uv9Z7xxS22VrV
-         zXO7XIil7aruO0XhM1vNNO08sEQNoTpfRg4Xpnk6AP1KqcVwouYXevEEQNRqY1TkcUOT
-         DDkjUsmPvelJ4of0EZx3WvGFCu6gPkWCoG6r5rD1WJDOKma69MhRGvLaT6goX6NUdrpP
-         9NAw==
-X-Forwarded-Encrypted: i=1; AFNElJ/jC1SGftI1PBttJHgQ777Ua8FKqHXBywWsBD7aMMXnod6wHsd0Byu4/zSBu0pu950Gnw9g1lsczcTUdkpg@lists.linux.dev
-X-Gm-Message-State: AOJu0YwuzPLp3BQ7nD69ocBRD3+QAmYFqWxdBngv6pFiqkUvGy24Q25E
-	E9XFK6GtXBT0HwU1vh1tpUXHAhCP0ud7IxKK1T7Ui25WXFCRmy0ICBMy
-X-Gm-Gg: AeBDievWRNkFegNBKU4ylhPfVvp84Fz4DtcDyrHJLUVj2i7oAi3AgCIKXLkrAao/hXM
-	B8vbxK6t4LF/LrBxMKM3P38do3DfdwIQ5VZrbcPn+33W36enDEsB3YUqQseSN5nCyNUpNpbJgCu
-	vbA5BL3qLe9qxxbLbv+YBH/hr1oa1tC5A0zcjQtydG2anYruzIQkytdUSe9EIjlLbkM0U2ueneQ
-	ro9iw/2Rilhz4AD9hw1Gz32wPNM+alTT9mreNUjByvOGTL1FlAPiFZS8sxVBPlbzlIlWY+evG1D
-	JfU0QCTKO47Du6wb1tUfd1SlrTchCibctnuNkbXOYU/kr5mdrx3FgH9HjtcewhR4n4eahn1AY41
-	uvBM8UfaWPHYr6It18jl3y/wOpGf+PpjrDC3c7w2oqYJ0jgCHN7nkPBAsGX7XJ9QAvKOAMoEIlL
-	FYbEijmn7/jXFY/DkPvpZmCROwJQZpbqE01rctHRvvTLDBoP3Rd9dBCJ4bn5dfNEaKbnhF0rcJ8
-	NAQve0TgmDGx4VPjKde+pQsgemf3n0Kq3RyxmCSlKAdpPG4LiY2nCsk7ls0tVlFNOtyTvo=
-X-Received: by 2002:a05:600c:c090:b0:488:9e54:94c0 with SMTP id 5b1f17b1804b1-488fb74e130mr452914045e9.8.1777277989920;
-        Mon, 27 Apr 2026 01:19:49 -0700 (PDT)
-Received: from ahossu.localdomain ([82.78.232.184])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4e3a18csm90455670f8f.20.2026.04.27.01.19.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Apr 2026 01:19:49 -0700 (PDT)
-From: Alexandru Hossu <hossu.alexandru@gmail.com>
-To: gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: error27@gmail.com,
-	luka.gejak@linux.dev,
-	Alexandru Hossu <hossu.alexandru@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v2 2/2] staging: rtl8723bs: fix OOB read in OnAssocRsp() IE loop
-Date: Mon, 27 Apr 2026 10:17:48 +0200
-Message-ID: <20260427081748.3407939-3-hossu.alexandru@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260427081748.3407939-1-hossu.alexandru@gmail.com>
-References: <20260427081748.3407939-1-hossu.alexandru@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="grRNqWao"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777278774; x=1808814774;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YaYMCjalTMCbBQ72xseFkrZwEhXM/knhQ2GbQZO1G+4=;
+  b=grRNqWaoa4oQhyPY5wve/dYKFlAPfpvvgamzLWNawgUXg6w3YxRWbgXv
+   qUa/ZKMw1s2OURIl+czeHxPXRPc6Pi3HONSygIiYxiISexGHmBDOyCBYJ
+   lpXH0Is460tfGnWHMSO9MKG2+vpr9sdP5Kgjq76aegBqI4vOkXdWavrp3
+   1K5qwLGdAif0K5kk7ioYtAeVgP2zO3StULl9sNK2UEffhJDZViTJD7kFJ
+   TNZaQQdyjFITNYQZbPXq+t2Fdp8FQQiNTqHxmDd/OrhiuBKZMKztpkBR5
+   +eLBCZn0XGqhY5IO6264+3UBmBAlE7Ym2GQSYCdRugIWHewt4cy7XSnDb
+   Q==;
+X-CSE-ConnectionGUID: evAurZ0lQh6KoDq+czkmKw==
+X-CSE-MsgGUID: EQOU1yZkSs2w06cKOB4+2g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11768"; a="77319237"
+X-IronPort-AV: E=Sophos;i="6.23,201,1770624000"; 
+   d="scan'208";a="77319237"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2026 01:32:54 -0700
+X-CSE-ConnectionGUID: YUe8OhUKQiy8gdLQyLHnug==
+X-CSE-MsgGUID: CWY9Z7xFTBiPwWVYNVHoew==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,201,1770624000"; 
+   d="scan'208";a="233397694"
+Received: from fpallare-mobl4.ger.corp.intel.com (HELO localhost) ([10.245.244.2])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2026 01:32:52 -0700
+Date: Mon, 27 Apr 2026 11:32:49 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Maxwell Doose <m32285159@gmail.com>
+Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
+	gregkh@linuxfoundation.org, David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: iio: adt7316: Add error handling to
+ adt7316_spi_probe()
+Message-ID: <ae8fMVgQ0ESPvwZl@ashevche-desk.local>
+References: <20260426205039.125818-1-m32285159@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260426205039.125818-1-m32285159@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-The IE parsing loop in OnAssocRsp() advances by (pIE->length + 2) each
-iteration but only guards on i < pkt_len. When a malicious AP sends an
-AssocResponse whose last IE has only one byte remaining in the frame
-(the element_id byte lands at pkt_len-1), the loop reads pIE->length
-from pframe[pkt_len], which is one byte past the allocated receive buffer.
+On Sun, Apr 26, 2026 at 03:50:38PM -0500, Maxwell Doose wrote:
+> Currently, the return values of the adt7316_spi_write() calls in
+> adt7316_spi_probe() are unchecked. Add error handling to return early
+> and pass on the error code if we receive an error from
+> adt7316_spi_write().
+> 
+> While at it, move all three adt7316_spi_write() calls inside a for loop
+> to condense the logic.
 
-Additionally, even when the header bytes are in bounds, pIE->length
-itself can extend the data window beyond pkt_len, silently passing a
-truncated IE to the handler functions.
+...
 
-Add two guards at the top of the loop body:
-  1. Break if fewer than sizeof(*pIE) bytes remain (can't read header).
-  2. Break if the IE's declared data extends past pkt_len.
+> -	adt7316_spi_write(spi_dev, 0, 0);
+> -	adt7316_spi_write(spi_dev, 0, 0);
+> -	adt7316_spi_write(spi_dev, 0, 0);
+> +	for (i = 0; i < 3; i++) {
 
-Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 4 ++++
- 1 file changed, 4 insertions(+)
+	for (unsigned int i = 0; i < 3; i++) {
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index c646dc2a1741..68ce422305ed 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -1406,7 +1406,11 @@ unsigned int OnAssocRsp(struct adapter *padapter, union recv_frame *precv_frame)
- 	/* to handle HT, WMM, rate adaptive, update MAC reg */
- 	/* for not to handle the synchronous IO in the tasklet */
- 	for (i = (6 + WLAN_HDR_A3_LEN); i < pkt_len;) {
-+		if (i + sizeof(*pIE) > pkt_len)
-+			break;
- 		pIE = (struct ndis_80211_var_ie *)(pframe + i);
-+		if (i + sizeof(*pIE) + pIE->length > pkt_len)
-+			break;
- 
- 		switch (pIE->element_id) {
- 		case WLAN_EID_VENDOR_SPECIFIC:
+The magic 3 has to be explained in the comment above.
+
+> +		ret = adt7316_spi_write(spi_dev, 0, 0);
+> +		/* Check for errors, if we get an error, return early */
+> +		if (ret < 0)
+> +			return ret;
+> +	}
+
+Are you sure that's fine to make those fatal? Have you read datasheet on this?
+maybe it will return errors which we have to ignore?
+
 -- 
-2.53.0
+With Best Regards,
+Andy Shevchenko
+
 
