@@ -1,45 +1,45 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EE5C3ECBC1
-	for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 17:59:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CD553ECBC6
+	for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 17:59:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777312748; cv=none; b=T2U/+nATYOLQEwCEsBEQAhGtyK+4JlV4VcrFA/b1zkJiiHS0oOmYi8e3ORpqLGz1bvUmQBITQngbuRs/ckudKDDrZNfuCyYEII3tS130sw+Z2/b5EZl0PjBVxkyWBNMl9qqEk+u20dbawjCeIfEPRi/caLazAmRuacfSwC8rmP0=
+	t=1777312749; cv=none; b=p19QGmaypCcWhycjtSuQ9xCnZqjKwE5nQ4912JgkbrF3IWVOUxOUlD0z3c8y/W1XdA0rfkHBiFa6YBkLdO2X19vU2pfQsrV6r1JPTShp4obReIAbbPUW46CdR0BNCG2NNZVIMOx3TrLTW+LvvkraBeUFMfR7HSuxRoqvBYJUjjY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777312748; c=relaxed/simple;
-	bh=+fnYq9ub8XbMqVJ/+d7i9VYX5fq+L7LN91JS4gyfsAM=;
+	s=arc-20240116; t=1777312749; c=relaxed/simple;
+	bh=diqyZS2WrLkzQGFvJawEJzsuMzqI6JSMCV+fAjUXwhc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=D19QeDD+T3EACVksYPl39P8ZJGGTgoKi8dxY1s36UZp/0UWcLexv3kWw+5RRwLvRgACGMnchC4mPJORY5Dfh2HU392nXFICnTLJAAk2S43FfHD6JmQqV/W+JRJ9vXvicGXdcNM9G1wsLKald+E2I9td0QhG5YzwI1I1Cf/AoixY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=jlhIqnn6; arc=none smtp.client-ip=80.241.56.171
+	 MIME-Version; b=oR8VN/RID+Y5wHaDA7L32c8Hekszy5Js/2aUMGa1Z6EOgyQBH2sAN9UerH06O1soF2j1PZ03yAxDfwJuH5FVusBtWSu3eqWF4c4cQYINTnEGMv+4JobEepTvh2dreqe5pKcvBC6GfxwHCk9emWxyqPTtjaih5qa8piD/4qPaM7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=L9HtGwKj; arc=none smtp.client-ip=80.241.56.152
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="jlhIqnn6"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="L9HtGwKj"
 Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4g4BCB1xyLz9v0s;
-	Mon, 27 Apr 2026 19:59:02 +0200 (CEST)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4g4BCC1lgtz9vNy;
+	Mon, 27 Apr 2026 19:59:03 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1777312742;
+	t=1777312743;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=MtiW/bjHDO7l2Cikwbhaq8R7NxTI+rcyOfKpL7E2M6k=;
-	b=jlhIqnn6WcnCKRrMyb0cw1G9nxiYaAlwi4eoMPFIA3QckQ0i5JFQLjMWZtdj5emo6znq3E
-	B74TXjROzOan8ZJUYp3mzyKI5QxX9UEDXIsiz8xc9e7ZYyj4BsFoVNLsyZcSALdNcljUnv
-	ZtUUFwYAk4PAR1qop0rfkzUtOkFUBJyIu4AIJ12ZH5cY1UwGPZhGe8+/aXVHXvXQ/O2SUf
-	NInqqzQCFkJNbdgkJEH7fgJrhF1qOvHxgBVpi18BRkAbIWMA0GrMiSA5fnJ2jrE6Npq4Hn
-	QR3Jqxl8B3IjXXrh6O6qKzw0jv2OQrJkoUztdxU9CSikM4Hojk1qLkyzLQ1yfw==
+	bh=OZE9WXAYmdgEQOm8IDchMVK42c5jRogGV1RiukhbAuo=;
+	b=L9HtGwKjoR/YwZifD9O/Sb5hE5lCq4r4Y6DLmrZYMwuaPRaEFDDkXFFYQRleORUB1NcH7F
+	+CgbmX1XnSRSp/oOWDiz4Blq84U5JLRa+pFrcn/GTK4Cjvh7fql9Um8viwM2edykA+9dYP
+	41p4EW5P2Khcs0YkUdRffEBz13seRP3m5O02jWp6AYrqjXZN5PrWbKDHELK4pXCcjBUcXN
+	PSKlZu9LkKJwS4H+Mj/kZvCkceyzdzbaUZFT+Pvd6Z+TvUzv+A4YjNMezK9J0/i6455J2c
+	WuMHaAqP9dONlriVgTtes2EWIC42Jp7F1FVf6YKS8UkDJm86FpVbylfq+DxlJQ==
 From: Andrei Khomenkov <khomenkov@mailbox.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev
-Subject: [PATCH v6 2/8] staging: rtl8723bs: hal: simplify boolean comparisons
-Date: Mon, 27 Apr 2026 20:58:40 +0300
-Message-ID: <20260427175846.23470-3-khomenkov@mailbox.org>
+Subject: [PATCH v6 3/8] staging: rtl8723bs: os_dep: simplify boolean comparisons
+Date: Mon, 27 Apr 2026 20:58:41 +0300
+Message-ID: <20260427175846.23470-4-khomenkov@mailbox.org>
 In-Reply-To: <20260427175846.23470-1-khomenkov@mailbox.org>
 References: <20260427175846.23470-1-khomenkov@mailbox.org>
 Precedence: bulk
@@ -49,457 +49,260 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: axt9jrwsdd4mmzs1hponfdzx1qx31t8d
-X-MBO-RS-ID: 7676089ed4c2b488418
+X-MBO-RS-ID: af78ac5156d543d0b48
+X-MBO-RS-META: 8zyg9r917gmjsnbtp63yn5z6xscbih1s
 
 Simplify boolean comparisons to improve readability
 and conform to the Linux kernel coding style.
 
 Signed-off-by: Andrei Khomenkov <khomenkov@mailbox.org>
 ---
- drivers/staging/rtl8723bs/hal/hal_btcoex.c    | 10 ++++----
- drivers/staging/rtl8723bs/hal/hal_com.c       |  4 ++--
- .../staging/rtl8723bs/hal/hal_com_phycfg.c    |  4 ++--
- drivers/staging/rtl8723bs/hal/hal_intf.c      |  4 ++--
- drivers/staging/rtl8723bs/hal/odm.c           |  8 +++----
- .../staging/rtl8723bs/hal/odm_CfoTracking.c   |  2 +-
- drivers/staging/rtl8723bs/hal/odm_DIG.c       | 24 +++++++++----------
- drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c  |  2 +-
- drivers/staging/rtl8723bs/hal/rtl8723b_dm.c   | 12 +++++-----
- .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 12 +++++-----
- .../staging/rtl8723bs/hal/rtl8723bs_recv.c    |  2 +-
- .../staging/rtl8723bs/hal/rtl8723bs_xmit.c    |  8 +++----
- drivers/staging/rtl8723bs/hal/sdio_halinit.c  |  2 +-
- 13 files changed, 47 insertions(+), 47 deletions(-)
+ .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 52 +++++++++----------
+ .../staging/rtl8723bs/os_dep/sdio_ops_linux.c |  4 +-
+ drivers/staging/rtl8723bs/os_dep/xmit_linux.c |  2 +-
+ 3 files changed, 29 insertions(+), 29 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/hal_btcoex.c b/drivers/staging/rtl8723bs/hal/hal_btcoex.c
-index 2a2dd60be8bb..3974fa0e38b0 100644
---- a/drivers/staging/rtl8723bs/hal/hal_btcoex.c
-+++ b/drivers/staging/rtl8723bs/hal/hal_btcoex.c
-@@ -164,8 +164,8 @@ static u8 halbtcoutsrc_IsWifiBusy(struct adapter *padapter)
+diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+index a55c6808755e..9453180fbb0e 100644
+--- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
++++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+@@ -275,7 +275,7 @@ struct cfg80211_bss *rtw_cfg80211_inform_bss(struct adapter *padapter, struct wl
+ 	notify_timestamp = ktime_to_us(ktime_get_boottime());
  
- 	pmlmepriv = &padapter->mlmepriv;
- 
--	if (check_fwstate(pmlmepriv, WIFI_ASOC_STATE) == true) {
--		if (check_fwstate(pmlmepriv, WIFI_AP_STATE) == true)
-+	if (check_fwstate(pmlmepriv, WIFI_ASOC_STATE)) {
-+		if (check_fwstate(pmlmepriv, WIFI_AP_STATE))
- 			return true;
- 		if (pmlmepriv->link_detect_info.busy_traffic)
- 			return true;
-@@ -185,8 +185,8 @@ static u32 _halbtcoutsrc_GetWifiLinkStatus(struct adapter *padapter)
- 	bp2p = false;
- 	portConnectedStatus = 0;
- 
--	if (check_fwstate(pmlmepriv, WIFI_ASOC_STATE) == true) {
--		if (check_fwstate(pmlmepriv, WIFI_AP_STATE) == true) {
-+	if (check_fwstate(pmlmepriv, WIFI_ASOC_STATE)) {
-+		if (check_fwstate(pmlmepriv, WIFI_AP_STATE)) {
- 			if (bp2p)
- 				portConnectedStatus |= WIFI_P2P_GO_CONNECTED;
- 			else
-@@ -528,7 +528,7 @@ static u8 halbtcoutsrc_Set(void *pBtcContext, u8 setType, void *pInBuf)
- 	case BTC_SET_ACT_UPDATE_RAMASK:
- 		pBtCoexist->btInfo.raMask = *pU4Tmp;
- 
--		if (check_fwstate(&padapter->mlmepriv, WIFI_ASOC_STATE) == true) {
-+		if (check_fwstate(&padapter->mlmepriv, WIFI_ASOC_STATE)) {
- 			struct sta_info *psta;
- 			struct wlan_bssid_ex *cur_network;
- 
-diff --git a/drivers/staging/rtl8723bs/hal/hal_com.c b/drivers/staging/rtl8723bs/hal/hal_com.c
-index b4b135a9ca22..7fd6e0249390 100644
---- a/drivers/staging/rtl8723bs/hal/hal_com.c
-+++ b/drivers/staging/rtl8723bs/hal/hal_com.c
-@@ -94,7 +94,7 @@ bool HAL_IsLegalChannel(struct adapter *adapter, u32 Channel)
- 	bool bLegalChannel = true;
- 
- 	if ((Channel <= 14) && (Channel >= 1)) {
--		if (is_supported_24g(adapter->registrypriv.wireless_mode) == false)
-+		if (!is_supported_24g(adapter->registrypriv.wireless_mode))
- 			bLegalChannel = false;
+ 	/* We've set wiphy's signal_type as CFG80211_SIGNAL_TYPE_MBM: signal strength in mBm (100*dBm) */
+-	if (check_fwstate(pmlmepriv, _FW_LINKED) == true &&
++	if (check_fwstate(pmlmepriv, _FW_LINKED) &&
+ 	    is_same_network(&pmlmepriv->cur_network.network, &pnetwork->network, 0)) {
+ 		notify_signal = 100 * translate_percentage_to_dbm(padapter->recvpriv.signal_strength);/* dbm */
  	} else {
- 		bLegalChannel = false;
-@@ -563,7 +563,7 @@ void SetHwReg(struct adapter *adapter, u8 variable, u8 *val)
- 		odm->SupportAbility = *((u32 *)val);
- 		break;
- 	case HW_VAR_DM_FUNC_OP:
--		if (*((u8 *)val) == true) {
-+		if (*((u8 *)val)) {
- 			/* save dm flag */
- 			odm->BK_SupportAbility = odm->SupportAbility;
+@@ -372,7 +372,7 @@ void rtw_cfg80211_ibss_indicate_connect(struct adapter *padapter)
+ 		struct wlan_bssid_ex  *pnetwork = &(padapter->mlmeextpriv.mlmext_info.network);
+ 		struct wlan_network *scanned = pmlmepriv->cur_network_scanned;
+ 
+-		if (check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) == true) {
++		if (check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE)) {
+ 			memcpy(&cur_network->network, pnetwork, sizeof(struct wlan_bssid_ex));
+ 			rtw_cfg80211_inform_bss(padapter, cur_network);
  		} else {
-diff --git a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
-index 45dbe1782bae..1e5669b17d0f 100644
---- a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
-+++ b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
-@@ -461,7 +461,7 @@ u8 PHY_GetTxPowerIndexBase(
- 	u8 txPower = 0;
- 	u8 chnlIdx = (Channel-1);
- 
--	if (HAL_IsLegalChannel(padapter, Channel) == false)
-+	if (!HAL_IsLegalChannel(padapter, Channel))
- 		chnlIdx = 0;
- 
- 	if (IS_CCK_RATE(Rate))
-@@ -489,7 +489,7 @@ s8 PHY_GetTxPowerTrackingOffset(struct adapter *padapter, u8 RFPath, u8 Rate)
- 	struct dm_odm_t *pDM_Odm = &pHalData->odmpriv;
- 	s8 offset = 0;
- 
--	if (pDM_Odm->RFCalibrateInfo.TxPowerTrackControl  == false)
-+	if (!pDM_Odm->RFCalibrateInfo.TxPowerTrackControl)
- 		return offset;
- 
- 	if ((Rate == MGN_1M) || (Rate == MGN_2M) || (Rate == MGN_5_5M) || (Rate == MGN_11M))
-diff --git a/drivers/staging/rtl8723bs/hal/hal_intf.c b/drivers/staging/rtl8723bs/hal/hal_intf.c
-index 529648036f58..e4b2ceba545e 100644
---- a/drivers/staging/rtl8723bs/hal/hal_intf.c
-+++ b/drivers/staging/rtl8723bs/hal/hal_intf.c
-@@ -124,7 +124,7 @@ s32	rtw_hal_mgnt_xmit(struct adapter *padapter, struct xmit_frame *pmgntframe)
- 	/* pwlanhdr = (struct rtw_ieee80211_hdr *)pframe; */
- 	/* memcpy(pmgntframe->attrib.ra, pwlanhdr->addr1, ETH_ALEN); */
- 
--	if (padapter->securitypriv.binstallBIPkey == true) {
-+	if (padapter->securitypriv.binstallBIPkey) {
- 		if (is_multicast_ether_addr(pmgntframe->attrib.ra)) {
- 			pmgntframe->attrib.encrypt = _BIP_;
- 			/* pmgntframe->attrib.bswenc = true; */
-@@ -170,7 +170,7 @@ void rtw_hal_update_ra_mask(struct sta_info *psta, u8 rssi_level)
- 
- 	pmlmepriv = &(padapter->mlmepriv);
+@@ -410,7 +410,7 @@ void rtw_cfg80211_indicate_connect(struct adapter *padapter)
+ 		return;
+ 	}
  
 -	if (check_fwstate(pmlmepriv, WIFI_AP_STATE) == true)
 +	if (check_fwstate(pmlmepriv, WIFI_AP_STATE))
- 		add_ratid(padapter, psta, rssi_level);
- 	else {
- 		UpdateHalRAMask8723B(padapter, psta->mac_id, rssi_level);
-diff --git a/drivers/staging/rtl8723bs/hal/odm.c b/drivers/staging/rtl8723bs/hal/odm.c
-index 3dffa7620768..b01e9016e30c 100644
---- a/drivers/staging/rtl8723bs/hal/odm.c
-+++ b/drivers/staging/rtl8723bs/hal/odm.c
-@@ -381,7 +381,7 @@ static void FindMinimumRSSI(struct adapter *padapter)
- 	/* 1 1.Determine the minimum RSSI */
- 
- 	if (
--		(pDM_Odm->bLinked != true) &&
-+		!pDM_Odm->bLinked &&
- 		(pdmpriv->EntryMinUndecoratedSmoothedPWDB == 0)
- 	) {
- 		pdmpriv->MinUndecoratedPWDBForDM = 0;
-@@ -400,7 +400,7 @@ static void odm_RSSIMonitorCheckCE(struct dm_odm_t *pDM_Odm)
- 	u32 PWDB_rssi[NUM_STA] = {0};/* 0~15]:MACID, [16~31]:PWDB_rssi */
- 	struct ra_t *pRA_Table = &pDM_Odm->DM_RA_Table;
- 
--	if (pDM_Odm->bLinked != true)
-+	if (!pDM_Odm->bLinked)
  		return;
  
- 	pRA_Table->firstconnect = pDM_Odm->bLinked;
-@@ -431,7 +431,7 @@ static void odm_RSSIMonitorCheckCE(struct dm_odm_t *pDM_Odm)
- 
- 		for (i = 0; i < sta_cnt; i++) {
- 			if (PWDB_rssi[i] != (0)) {
--				if (pHalData->fw_ractrl == true)/*  Report every sta's RSSI to FW */
-+				if (pHalData->fw_ractrl)/*  Report every sta's RSSI to FW */
- 					rtl8723b_set_rssi_cmd(Adapter, (u8 *)(&PWDB_rssi[i]));
- 			}
- 		}
-@@ -623,7 +623,7 @@ void ODM_DMWatchdog(struct dm_odm_t *pDM_Odm)
- 	}
- 	odm_CCKPacketDetectionThresh(pDM_Odm);
- 
--	if (*(pDM_Odm->pbPowerSaving) == true)
-+	if (*pDM_Odm->pbPowerSaving)
+ 	{
+@@ -479,7 +479,7 @@ void rtw_cfg80211_indicate_disconnect(struct adapter *padapter)
  		return;
- 
- 
-diff --git a/drivers/staging/rtl8723bs/hal/odm_CfoTracking.c b/drivers/staging/rtl8723bs/hal/odm_CfoTracking.c
-index 0eaedd8f6469..7e6b49399abb 100644
---- a/drivers/staging/rtl8723bs/hal/odm_CfoTracking.c
-+++ b/drivers/staging/rtl8723bs/hal/odm_CfoTracking.c
-@@ -138,7 +138,7 @@ void ODM_CfoTracking(void *pDM_VOID)
- 		pCfoTrack->CFO_ave_pre = CFO_ave;
- 
- 		/* 4 1.4 Dynamic Xtal threshold */
--		if (pCfoTrack->bAdjust == false) {
-+		if (!pCfoTrack->bAdjust) {
- 			if (CFO_ave > CFO_TH_XTAL_HIGH || CFO_ave < (-CFO_TH_XTAL_HIGH))
- 				pCfoTrack->bAdjust = true;
- 		} else {
-diff --git a/drivers/staging/rtl8723bs/hal/odm_DIG.c b/drivers/staging/rtl8723bs/hal/odm_DIG.c
-index a31c8368f9d9..426989986cc3 100644
---- a/drivers/staging/rtl8723bs/hal/odm_DIG.c
-+++ b/drivers/staging/rtl8723bs/hal/odm_DIG.c
-@@ -82,7 +82,7 @@ void odm_NHMBB(void *pDM_VOID)
- 
- 
- 	if ((pDM_Odm->NHMCurTxOkcnt) + 1 > (u64)(pDM_Odm->NHMCurRxOkcnt<<2) + 1) { /* Tx > 4*Rx possible for adaptivity test */
--		if (pDM_Odm->NHM_cnt_0 >= 190 || pDM_Odm->adaptivity_flag == true) {
-+		if (pDM_Odm->NHM_cnt_0 >= 190 || pDM_Odm->adaptivity_flag) {
- 			/* Enable EDCCA since it is possible running Adaptivity testing */
- 			/* test_status = 1; */
- 			pDM_Odm->adaptivity_flag = true;
-@@ -99,7 +99,7 @@ void odm_NHMBB(void *pDM_VOID)
- 			}
- 		}
- 	} else { /*  TX<RX */
--		if (pDM_Odm->adaptivity_flag == true && pDM_Odm->NHM_cnt_0 <= 200) {
-+		if (pDM_Odm->adaptivity_flag && pDM_Odm->NHM_cnt_0 <= 200) {
- 			/* test_status = 2; */
- 			pDM_Odm->tolerance_cnt = 0;
- 		} else {
-@@ -189,7 +189,7 @@ void odm_AdaptivityInit(void *pDM_VOID)
- {
- 	struct dm_odm_t *pDM_Odm = (struct dm_odm_t *)pDM_VOID;
- 
--	if (pDM_Odm->Carrier_Sense_enable == false)
-+	if (!pDM_Odm->Carrier_Sense_enable)
- 		pDM_Odm->TH_L2H_ini = 0xf7; /*  -7 */
- 	else
- 		pDM_Odm->TH_L2H_ini = 0xa;
-@@ -232,7 +232,7 @@ void odm_Adaptivity(void *pDM_VOID, u8 IGI)
- 	pDM_Odm->IGI_target = (u8) IGI_target;
- 
- 	/* Search pwdB lower bound */
--	if (pDM_Odm->TxHangFlg == true) {
-+	if (pDM_Odm->TxHangFlg) {
- 		PHY_SetBBReg(pDM_Odm->Adapter, ODM_REG_DBG_RPT_11N, bMaskDWord, 0x208);
- 		odm_SearchPwdBLowerBound(pDM_Odm, pDM_Odm->IGI_target);
- 	}
-@@ -253,9 +253,9 @@ void odm_Adaptivity(void *pDM_VOID, u8 IGI)
- 
- 	if (
- 		pDM_Odm->bLinked &&
--		pDM_Odm->Carrier_Sense_enable == false &&
--		pDM_Odm->NHM_disable == false &&
--		pDM_Odm->TxHangFlg == false
-+		!pDM_Odm->Carrier_Sense_enable &&
-+		!pDM_Odm->NHM_disable &&
-+		!pDM_Odm->TxHangFlg
- 	)
- 		odm_NHMBB(pDM_Odm);
- 
-@@ -323,7 +323,7 @@ bool odm_DigAbort(void *pDM_VOID)
- 		return	true;
- 
- 	/* add by Neil Chen to avoid PSD is processing */
--	if (pDM_Odm->bDMInitialGainEnable == false)
-+	if (!pDM_Odm->bDMInitialGainEnable)
- 		return	true;
- 
- 	return	false;
-@@ -387,14 +387,14 @@ void odm_DIG(void *pDM_VOID)
- 	if (odm_DigAbort(pDM_Odm))
- 		return;
- 
--	if (pDM_Odm->adaptivity_flag == true)
-+	if (pDM_Odm->adaptivity_flag)
- 		Adap_IGI_Upper = pDM_Odm->Adaptivity_IGI_upper;
- 
- 
- 	/* 1 Update status */
- 	DIG_Dynamic_MIN = pDM_DigTable->DIG_Dynamic_MIN_0;
--	FirstConnect = (pDM_Odm->bLinked) && (pDM_DigTable->bMediaConnect_0 == false);
--	FirstDisConnect = (!pDM_Odm->bLinked) && (pDM_DigTable->bMediaConnect_0 == true);
-+	FirstConnect = (pDM_Odm->bLinked) && !pDM_DigTable->bMediaConnect_0;
-+	FirstDisConnect = (!pDM_Odm->bLinked) && pDM_DigTable->bMediaConnect_0;
- 
- 	/* 1 Boundary Decision */
- 	/* 2 For WIN\CE */
-@@ -529,7 +529,7 @@ void odm_DIG(void *pDM_VOID)
- 	/* 1 Force upper bound and lower bound for adaptivity */
- 	if (
- 		pDM_Odm->SupportAbility & ODM_BB_ADAPTIVITY &&
--		pDM_Odm->adaptivity_flag == true
-+		pDM_Odm->adaptivity_flag
- 	) {
- 		if (CurrentIGI > Adap_IGI_Upper)
- 			CurrentIGI = Adap_IGI_Upper;
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
-index 4bdc8e314015..6c9337179645 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
-@@ -359,7 +359,7 @@ void rtl8723b_set_FwPwrMode_cmd(struct adapter *padapter, u8 psmode)
  	}
  
- 	if (psmode > 0) {
--		if (hal_btcoex_IsBtControlLps(padapter) == true) {
-+		if (hal_btcoex_IsBtControlLps(padapter)) {
- 			PowerState = hal_btcoex_RpwmVal(padapter);
- 			byte5 = hal_btcoex_LpsVal(padapter);
- 
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c b/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c
-index 928226679ab4..5cb13a10efd6 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c
-@@ -131,21 +131,21 @@ void rtl8723b_HalDmWatchDog(struct adapter *Adapter)
- 
- 	hw_init_completed = Adapter->hw_init_completed;
- 
--	if (hw_init_completed == false)
-+	if (!hw_init_completed)
- 		goto skip_dm;
- 
- 	fw_current_in_ps_mode = adapter_to_pwrctl(Adapter)->fw_current_in_ps_mode;
- 	rtw_hal_get_hwreg(Adapter, HW_VAR_FWLPS_RF_ON, (u8 *)(&bFwPSAwake));
- 
- 	if (
--		(hw_init_completed == true) &&
--		((!fw_current_in_ps_mode) && bFwPSAwake)
-+		hw_init_completed &&
-+		(!fw_current_in_ps_mode && bFwPSAwake)
- 	) {
- 		rtw_hal_check_rxfifo_full(Adapter);
- 	}
- 
- 	/* ODM */
--	if (hw_init_completed == true) {
-+	if (hw_init_completed) {
- 		u8 bLinked = false;
- 		u8 bsta_state = false;
- 		bool bBtDisabled = true;
-@@ -207,7 +207,7 @@ void rtl8723b_HalDmWatchDog_in_LPS(struct adapter *Adapter)
- 	struct sta_priv *pstapriv = &Adapter->stapriv;
- 	struct sta_info *psta = NULL;
- 
--	if (Adapter->hw_init_completed == false)
-+	if (!Adapter->hw_init_completed)
- 		goto skip_lps_dm;
- 
- 
-@@ -216,7 +216,7 @@ void rtl8723b_HalDmWatchDog_in_LPS(struct adapter *Adapter)
- 
- 	ODM_CmnInfoUpdate(&pHalData->odmpriv, ODM_CMNINFO_LINK, bLinked);
- 
--	if (bLinked == false)
-+	if (!bLinked)
- 		goto skip_lps_dm;
- 
- 	if (!(pDM_Odm->SupportAbility & ODM_BB_RSSI_MONITOR))
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-index 9a91fd0a96eb..aa469fe57ba8 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-@@ -738,7 +738,7 @@ static void hal_ReadEFuse_BT(
- 	Hal_GetEfuseDefinition(padapter, EFUSE_BT, TYPE_AVAILABLE_EFUSE_BYTES_BANK, &total);
- 
- 	for (bank = 1; bank < 3; bank++) { /*  8723b Max bake 0~2 */
--		if (hal_EfuseSwitchToBank(padapter, bank) == false)
-+		if (!hal_EfuseSwitchToBank(padapter, bank))
- 			goto exit;
- 
- 		eFuse_Addr = 0;
-@@ -882,7 +882,7 @@ void rtl8723b_InitBeaconParameters(struct adapter *padapter)
- 	rtw_write16(padapter, REG_TBTT_PROHIBIT, 0x6404);/*  ms */
- 	/*  Firmware will control REG_DRVERLYINT when power saving is enable, */
- 	/*  so don't set this register on STA mode. */
--	if (check_fwstate(&padapter->mlmepriv, WIFI_STATION_STATE) == false)
-+	if (!check_fwstate(&padapter->mlmepriv, WIFI_STATION_STATE))
- 		rtw_write8(padapter, REG_DRVERLYINT, DRIVER_EARLY_INT_TIME_8723B); /*  5ms */
- 	rtw_write8(padapter, REG_BCNDMATIM, BCN_DMA_ATIME_INT_TIME_8723B); /*  2ms */
- 
-@@ -998,7 +998,7 @@ void rtl8723b_SetBeaconRelatedRegisters(struct adapter *padapter)
- 	rtw_write32(padapter, REG_TCR, value32);
- 
- 	/*  NOTE: Fix test chip's bug (about contention windows's randomness) */
--	if (check_fwstate(&padapter->mlmepriv, WIFI_ADHOC_STATE|WIFI_ADHOC_MASTER_STATE|WIFI_AP_STATE) == true) {
-+	if (check_fwstate(&padapter->mlmepriv, WIFI_ADHOC_STATE|WIFI_ADHOC_MASTER_STATE|WIFI_AP_STATE)) {
- 		rtw_write8(padapter, REG_RXTSF_OFFSET_CCK, 0x50);
- 		rtw_write8(padapter, REG_RXTSF_OFFSET_OFDM, 0x50);
- 	}
-@@ -2119,7 +2119,7 @@ static void hw_var_set_mlme_sitesurvey(struct adapter *padapter, u8 variable, u8
- 	/*  config RCR to receive different BSSID & not to receive data frame */
- 	value_rxfltmap2 = 0;
- 
--	if ((check_fwstate(pmlmepriv, WIFI_AP_STATE) == true))
+-	if (check_fwstate(pmlmepriv, WIFI_AP_STATE) == true)
 +	if (check_fwstate(pmlmepriv, WIFI_AP_STATE))
- 		rcr_clear_bit = RCR_CBSSID_BCN;
+ 		return;
  
- 	value_rcr = rtw_read32(padapter, REG_RCR);
-@@ -2186,7 +2186,7 @@ static void hw_var_set_mlme_join(struct adapter *padapter, u8 variable, u8 *val)
- 			val32 |= RCR_CBSSID_DATA|RCR_CBSSID_BCN;
- 		rtw_write32(padapter, REG_RCR, val32);
+ 	if (!padapter->mlmepriv.not_indic_disco) {
+@@ -768,7 +768,7 @@ static int rtw_cfg80211_set_encryption(struct net_device *dev, struct ieee_param
+ 		struct sta_info *psta, *pbcmc_sta;
+ 		struct sta_priv *pstapriv = &padapter->stapriv;
  
--		if (check_fwstate(pmlmepriv, WIFI_STATION_STATE) == true)
-+		if (check_fwstate(pmlmepriv, WIFI_STATION_STATE))
- 			RetryLimit = (pEEPROM->CustomerID == RT_CID_CCX) ? 7 : 48;
- 		else /*  Ad-hoc Mode */
- 			RetryLimit = 0x7;
-@@ -2724,7 +2724,7 @@ void SetHwReg8723B(struct adapter *padapter, u8 variable, u8 *val)
- 		break;
+-		if (check_fwstate(pmlmepriv, WIFI_STATION_STATE | WIFI_MP_STATE) == true) { /* sta mode */
++		if (check_fwstate(pmlmepriv, WIFI_STATION_STATE | WIFI_MP_STATE)) { /* sta mode */
+ 			psta = rtw_get_stainfo(pstapriv, get_bssid(pmlmepriv));
+ 			if (psta) {
+ 				/* Jeff: don't disable ieee8021x_blocked while clearing key */
+@@ -892,15 +892,15 @@ static int cfg80211_rtw_add_key(struct wiphy *wiphy, struct wireless_dev *wdev,
+ 		memcpy(param->u.crypt.key, (u8 *)params->key, params->key_len);
+ 	}
  
- 	case HW_VAR_DL_RSVD_PAGE:
--		if (check_fwstate(&padapter->mlmepriv, WIFI_AP_STATE) == true)
-+		if (check_fwstate(&padapter->mlmepriv, WIFI_AP_STATE))
- 			rtl8723b_download_BTCoex_AP_mode_rsvd_page(padapter);
- 		else
- 			rtl8723b_download_rsvd_page(padapter, RT_MEDIA_CONNECT);
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c
-index cab4707091e2..888029e21dcb 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c
-@@ -135,7 +135,7 @@ static void update_recvframe_phyinfo(union recv_frame *precvframe,
- 	precvframe->u.hdr.psta = NULL;
- 	if (
- 		pkt_info.bssid_match &&
--		(check_fwstate(&padapter->mlmepriv, WIFI_AP_STATE) == true)
-+		(check_fwstate(&padapter->mlmepriv, WIFI_AP_STATE))
- 	) {
- 		if (psta) {
- 			precvframe->u.hdr.psta = psta;
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-index ff39077deb69..705becfe6043 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-@@ -93,7 +93,7 @@ static s32 rtl8723_dequeue_writeport(struct adapter *padapter)
- 	)
- 		goto free_xmitbuf;
+-	if (check_fwstate(pmlmepriv, WIFI_STATION_STATE) == true) {
++	if (check_fwstate(pmlmepriv, WIFI_STATION_STATE)) {
+ 		ret =  rtw_cfg80211_set_encryption(ndev, param, param_len);
+-	} else if (check_fwstate(pmlmepriv, WIFI_AP_STATE) == true) {
++	} else if (check_fwstate(pmlmepriv, WIFI_AP_STATE)) {
+ 		if (mac_addr)
+ 			memcpy(param->sta_addr, mac_addr, ETH_ALEN);
  
--	if (rtw_sdio_wait_enough_TxOQT_space(padapter, pxmitbuf->agg_num) == false)
-+	if (!rtw_sdio_wait_enough_TxOQT_space(padapter, pxmitbuf->agg_num))
- 		goto free_xmitbuf;
+ 		ret = rtw_cfg80211_ap_set_encryption(ndev, param, param_len);
+-	} else if (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE) == true
+-		|| check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) == true) {
++	} else if (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)
++		|| check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE)) {
+ 		ret =  rtw_cfg80211_set_encryption(ndev, param, param_len);
+ 	}
  
- 	traffic_check_for_leave_lps(padapter, true, pxmitbuf->agg_num);
-@@ -225,7 +225,7 @@ static s32 xmit_xmitframes(struct adapter *padapter, struct xmit_priv *pxmitpriv
+@@ -1033,7 +1033,7 @@ static int cfg80211_rtw_change_iface(struct wiphy *wiphy,
+ 	struct mlme_ext_priv *pmlmeext = &(padapter->mlmeextpriv);
+ 	int ret = 0;
  
- 			frame_phead = get_list_head(pframe_queue);
+-	if (adapter_to_dvobj(padapter)->processing_dev_remove == true) {
++	if (adapter_to_dvobj(padapter)->processing_dev_remove) {
+ 		ret = -EPERM;
+ 		goto exit;
+ 	}
+@@ -1074,7 +1074,7 @@ static int cfg80211_rtw_change_iface(struct wiphy *wiphy,
  
--			while (list_empty(frame_phead) == false) {
-+			while (!list_empty(frame_phead)) {
- 				frame_plist = get_next(frame_phead);
- 				pxmitframe = container_of(frame_plist, struct xmit_frame, list);
+ 	rtw_wdev->iftype = type;
  
-@@ -269,7 +269,7 @@ static s32 xmit_xmitframes(struct adapter *padapter, struct xmit_priv *pxmitpriv
- 				}
+-	if (rtw_set_802_11_infrastructure_mode(padapter, networkType) == false) {
++	if (!rtw_set_802_11_infrastructure_mode(padapter, networkType)) {
+ 		rtw_wdev->iftype = old_type;
+ 		ret = -EPERM;
+ 		goto exit;
+@@ -1209,8 +1209,8 @@ static int cfg80211_rtw_scan(struct wiphy *wiphy
+ 	pwdev_priv->scan_request = request;
+ 	spin_unlock_bh(&pwdev_priv->scan_req_lock);
  
- 				/*  ok to send, remove frame from queue */
--				if (check_fwstate(&padapter->mlmepriv, WIFI_AP_STATE) == true)
-+				if (check_fwstate(&padapter->mlmepriv, WIFI_AP_STATE))
- 					if (
- 						(pxmitframe->attrib.psta->state & WIFI_SLEEP_STATE) &&
- 						(pxmitframe->attrib.triggered == 0)
-@@ -566,7 +566,7 @@ void rtl8723bs_free_xmit_priv(struct adapter *padapter)
- 	spin_unlock_bh(&pqueue->lock);
+-	if (check_fwstate(pmlmepriv, WIFI_AP_STATE) == true) {
+-		if (check_fwstate(pmlmepriv, WIFI_UNDER_WPS | _FW_UNDER_SURVEY | _FW_UNDER_LINKING) == true) {
++	if (check_fwstate(pmlmepriv, WIFI_AP_STATE)) {
++		if (check_fwstate(pmlmepriv, WIFI_UNDER_WPS | _FW_UNDER_SURVEY | _FW_UNDER_LINKING)) {
+ 			need_indicate_scan_done = true;
+ 			goto check_need_indicate_scan_done;
+ 		}
+@@ -1225,10 +1225,10 @@ static int cfg80211_rtw_scan(struct wiphy *wiphy
+ 	if (request->ie && request->ie_len > 0)
+ 		rtw_cfg80211_set_probe_req_wpsp2pie(padapter, (u8 *)request->ie, request->ie_len);
  
- 	phead = &tmplist;
--	while (list_empty(phead) == false) {
-+	while (!list_empty(phead)) {
- 		plist = get_next(phead);
- 		list_del_init(plist);
+-	if (check_fwstate(pmlmepriv, _FW_UNDER_SURVEY) == true) {
++	if (check_fwstate(pmlmepriv, _FW_UNDER_SURVEY)) {
+ 		need_indicate_scan_done = true;
+ 		goto check_need_indicate_scan_done;
+-	} else if (check_fwstate(pmlmepriv, _FW_UNDER_LINKING) == true) {
++	} else if (check_fwstate(pmlmepriv, _FW_UNDER_LINKING)) {
+ 		ret = -EBUSY;
+ 		goto check_need_indicate_scan_done;
+ 	}
+@@ -1284,7 +1284,7 @@ static int cfg80211_rtw_scan(struct wiphy *wiphy
+ 	}
+ 	spin_unlock_bh(&pmlmepriv->lock);
  
-diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit.c b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-index b3366830edbb..f27970ef54c8 100644
---- a/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-+++ b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-@@ -584,7 +584,7 @@ u32 rtl8723bs_hal_init(struct adapter *padapter)
- 	pwrctrlpriv = adapter_to_pwrctl(padapter);
+-	if (_status == false)
++	if (!_status)
+ 		ret = -1;
  
- 	if (
--		adapter_to_pwrctl(padapter)->bips_processing == true &&
-+		adapter_to_pwrctl(padapter)->bips_processing &&
- 		adapter_to_pwrctl(padapter)->pre_ips_type == 0
- 	) {
- 		unsigned long start_time;
+ check_need_indicate_scan_done:
+@@ -1584,7 +1584,7 @@ static int cfg80211_rtw_join_ibss(struct wiphy *wiphy, struct net_device *ndev,
+ 	ret = rtw_cfg80211_set_auth_type(psecuritypriv, NL80211_AUTHTYPE_OPEN_SYSTEM);
+ 	rtw_set_802_11_authentication_mode(padapter, psecuritypriv->ndisauthtype);
+ 
+-	if (rtw_set_802_11_ssid(padapter, &ndis_ssid) == false) {
++	if (!rtw_set_802_11_ssid(padapter, &ndis_ssid)) {
+ 		ret = -1;
+ 		goto exit;
+ 	}
+@@ -1610,7 +1610,7 @@ static int cfg80211_rtw_leave_ibss(struct wiphy *wiphy, struct net_device *ndev)
+ 
+ 		rtw_wdev->iftype = NL80211_IFTYPE_STATION;
+ 
+-		if (rtw_set_802_11_infrastructure_mode(padapter, Ndis802_11Infrastructure) == false) {
++		if (!rtw_set_802_11_infrastructure_mode(padapter, Ndis802_11Infrastructure)) {
+ 			rtw_wdev->iftype = old_type;
+ 			ret = -EPERM;
+ 			goto leave_ibss;
+@@ -1634,7 +1634,7 @@ static int cfg80211_rtw_connect(struct wiphy *wiphy, struct net_device *ndev,
+ 
+ 	padapter->mlmepriv.not_indic_disco = true;
+ 
+-	if (adapter_wdev_data(padapter)->block == true) {
++	if (adapter_wdev_data(padapter)->block) {
+ 		ret = -EBUSY;
+ 		goto exit;
+ 	}
+@@ -1664,11 +1664,11 @@ static int cfg80211_rtw_connect(struct wiphy *wiphy, struct net_device *ndev,
+ 	ndis_ssid.ssid_length = sme->ssid_len;
+ 	memcpy(ndis_ssid.ssid, (u8 *)sme->ssid, sme->ssid_len);
+ 
+-	if (check_fwstate(pmlmepriv, _FW_UNDER_LINKING) == true) {
++	if (check_fwstate(pmlmepriv, _FW_UNDER_LINKING)) {
+ 		ret = -EBUSY;
+ 		goto exit;
+ 	}
+-	if (check_fwstate(pmlmepriv, _FW_UNDER_SURVEY) == true)
++	if (check_fwstate(pmlmepriv, _FW_UNDER_SURVEY))
+ 		rtw_scan_abort(padapter);
+ 
+ 	psecuritypriv->ndisencryptstatus = Ndis802_11EncryptionDisabled;
+@@ -1761,7 +1761,7 @@ static int cfg80211_rtw_connect(struct wiphy *wiphy, struct net_device *ndev,
+ 
+ 	/* rtw_set_802_11_encryption_mode(padapter, padapter->securitypriv.ndisencryptstatus); */
+ 
+-	if (rtw_set_802_11_connect(padapter, (u8 *)sme->bssid, &ndis_ssid) == false) {
++	if (!rtw_set_802_11_connect(padapter, (u8 *)sme->bssid, &ndis_ssid)) {
+ 		ret = -1;
+ 		goto exit;
+ 	}
+@@ -2067,7 +2067,7 @@ static netdev_tx_t rtw_cfg80211_monitor_if_xmit_entry(struct sk_buff *skb, struc
+ 		u32 len = skb->len;
+ 		u8 category, action;
+ 
+-		if (rtw_action_frame_parse(buf, len, &category, &action) == false)
++		if (!rtw_action_frame_parse(buf, len, &category, &action))
+ 			goto fail;
+ 
+ 		/* starting alloc mgmt frame to dump it */
+@@ -2249,7 +2249,7 @@ static int rtw_add_beacon(struct adapter *adapter, const u8 *head, size_t head_l
+ 	uint len, wps_ielen = 0;
+ 	struct mlme_priv *pmlmepriv = &(adapter->mlmepriv);
+ 
+-	if (check_fwstate(pmlmepriv, WIFI_AP_STATE) != true)
++	if (!check_fwstate(pmlmepriv, WIFI_AP_STATE))
+ 		return -EINVAL;
+ 
+ 	if (head_len < 24)
+@@ -2343,7 +2343,7 @@ static int cfg80211_rtw_del_station(struct wiphy *wiphy,
+ 	struct sta_priv *pstapriv = &padapter->stapriv;
+ 	const u8 *mac = params->mac;
+ 
+-	if (check_fwstate(pmlmepriv, (_FW_LINKED | WIFI_AP_STATE)) != true)
++	if (!check_fwstate(pmlmepriv, _FW_LINKED | WIFI_AP_STATE))
+ 		return -EINVAL;
+ 
+ 	if (!mac) {
+@@ -2549,7 +2549,7 @@ static int cfg80211_rtw_mgmt_tx(struct wiphy *wiphy, struct wireless_dev *wdev,
+ 	/* indicate ack before issue frame to avoid racing with rsp frame */
+ 	rtw_cfg80211_mgmt_tx_status(padapter, *cookie, buf, len, ack, GFP_KERNEL);
+ 
+-	if (rtw_action_frame_parse(buf, len, &category, &action) == false)
++	if (!rtw_action_frame_parse(buf, len, &category, &action))
+ 		goto exit;
+ 
+ 	rtw_ps_deny(padapter, PS_DENY_MGNT_TX);
+diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c b/drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c
+index 3ea9fdfa14f8..e9a2f3f7ec74 100644
+--- a/drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c
++++ b/drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c
+@@ -224,7 +224,7 @@ u32 sd_read32(struct intf_hdl *pintfhdl, u32 addr, s32 *err)
+ 			if ((-ESHUTDOWN == *err) || (-ENODEV == *err))
+ 				padapter->bSurpriseRemoved = true;
+ 
+-			if (rtw_inc_and_chk_continual_io_error(psdiodev) == true) {
++			if (rtw_inc_and_chk_continual_io_error(psdiodev)) {
+ 				padapter->bSurpriseRemoved = true;
+ 				break;
+ 			}
+@@ -300,7 +300,7 @@ void sd_write32(struct intf_hdl *pintfhdl, u32 addr, u32 v, s32 *err)
+ 			if ((-ESHUTDOWN == *err) || (-ENODEV == *err))
+ 				padapter->bSurpriseRemoved = true;
+ 
+-			if (rtw_inc_and_chk_continual_io_error(psdiodev) == true) {
++			if (rtw_inc_and_chk_continual_io_error(psdiodev)) {
+ 				padapter->bSurpriseRemoved = true;
+ 				break;
+ 			}
+diff --git a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
+index 54a6d54400e2..d5bb1c7932fc 100644
+--- a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
++++ b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
+@@ -175,7 +175,7 @@ void _rtw_xmit_entry(struct sk_buff *pkt, struct net_device *pnetdev)
+ 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 	s32 res = 0;
+ 
+-	if (rtw_if_up(padapter) == false)
++	if (!rtw_if_up(padapter))
+ 		goto drop_packet;
+ 
+ 	rtw_check_xmit_resource(padapter, pkt);
 -- 
 2.53.0
 
