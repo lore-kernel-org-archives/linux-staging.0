@@ -1,47 +1,46 @@
 Received: from mail.cipherat.com (mail.cipherat.com [91.98.42.103])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B24643EF0AF
-	for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 19:05:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0CE23EF0AB
+	for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 19:06:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.98.42.103
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777316761; cv=none; b=nbtRn/maOTgEbiCHZSby//Ie+HeW88nLKtBVQrz7w6p2spkEmgVvzHPzZM7RbWnhmOXSPB+yGuO4xXoUo65cPVDVpQkluKHPPIqB+0yRDwiPgpj2D8T+qLjyWUxmCveDiCFLFjayAVEElyaaq+QZmEl+TjyrKnBvoVT+Ho1HezE=
+	t=1777316763; cv=none; b=XrzNnbz3AZIBFfH12BFvGYsFIx8qpg/by/Xp0kdFLBF3b+D8jJ0Prmpf0hZbFQjQAD8g18b68KXoCglfSGEAB4Ohvj6Pqud/k/qX69l0oUVTDEyiGlptsz5szrRLJbbRIN24cVau+v1StbXRCqoJq/K/bda9oajKYOJ8s+d0a3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777316761; c=relaxed/simple;
-	bh=rZHYkXggah79PkVFN+6E/RKD6b6tAyfkViysUFDb8oc=;
+	s=arc-20240116; t=1777316763; c=relaxed/simple;
+	bh=ogfnSpVkWhJjYE4H76H+8fnS1yys5WSfk3yGwfOQqio=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jYag6/0goGvzzIwu57y9XVOKtjcANI694f8moH6Q7cRCllCWoFiPuvUa778j6jOhJD0cW96d6oO7xo+NzmSMf3kgpXHMvD3+jKQN7BZYRJCsurAMRoTCNX+jzXpSKt6joFqFEgksf2mRwfZLdqho6VXvbV7pFlTaZqJ2d7axbog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cipherat.com; spf=pass smtp.mailfrom=cipherat.com; dkim=pass (4096-bit key) header.d=cipherat.com header.i=@cipherat.com header.b=BfvGQhLq; arc=none smtp.client-ip=91.98.42.103
+	 MIME-Version; b=bucc3XEEthjZh+DcT6cpil/AmyifFKaUZIAVlrxfQweuKSvzUxIpUQ4uvBk4n4udBUrvnA9ZDF6zeh4i6MEOrZkyfQG6ZqXKI12T1bNXfwoD2NEB7v+bUj46F2kiiwPDCA34hTRVtQXqZiSvQakRMVEjqsIIl4AdYLZTnYsyljE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cipherat.com; spf=pass smtp.mailfrom=cipherat.com; dkim=pass (4096-bit key) header.d=cipherat.com header.i=@cipherat.com header.b=LWNzwYkX; arc=none smtp.client-ip=91.98.42.103
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cipherat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cipherat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=cipherat.com header.i=@cipherat.com header.b="BfvGQhLq"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 784BD84F34;
-	Mon, 27 Apr 2026 22:05:57 +0300 (+03)
+	dkim=pass (4096-bit key) header.d=cipherat.com header.i=@cipherat.com header.b="LWNzwYkX"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B986884F35;
+	Mon, 27 Apr 2026 22:05:59 +0300 (+03)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cipherat.com;
-	s=dkim; t=1777316757; h=from:subject:date:message-id:to:cc:mime-version:
+	s=dkim; t=1777316760; h=from:subject:date:message-id:to:cc:mime-version:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=9UgJASqxAWAeh3eiXQ4y7gcX7HLK+OapSPbuxmiLW5Y=;
-	b=BfvGQhLqSSHesh1CHXphVUo3P2eNXVUO/xG8+65Dz0V44UpyTpm3twFvf+WwEOtzuteYn/
-	dpVsJDIy1FVYaasD8K7UI652oEPgaty0/QMOGT9CszxnXFjSsvteE6QgTkyiU57LAjlPwP
-	BQNhpUFl2aPIgjdl8risVjLYUpCBQ634nf9/xmYgwtQkngdHVCXQubSixNsx3FhOCgd+Dr
-	azBuiE46kN2kNU83Go1azuiPuxMWkifacllGw2//cNcZxROfeJKoDpsYo+aojUJxcbAbv2
-	Ccz4E9Ai0maP1OVhVn7W/jst7HC1RGM6FWUh2q2fDgrjXNtEt/eqmdbWYZbNHVVDVUcDjH
-	FboxUE7qzSc/Q1NUIPRoccmtGSn6N8xZDI9kjZkSJBEH91s9iMfolJI8d6P4lJWUfrmS1p
-	eHWVDZud1FlCiFIV3uIawXD5J2N2e/Q5n1kOg+tdlDn8gVYN7AnHyiaZRIDfzIvPJ4nJz2
-	qJZ+DoO61yF4KEDdRnnALZ8Df01y1lbUCSQLuca7GIv+TZ1rPpadUmBZW3YlxYeENPx9q9
-	zFVrCfsE3tfE0TV0J+3hWM9M0E9o19sRlhQXHj1GMVzoXFEkYeq4i/AdAXt9NHG7proXvc
-	fqerwx1Y4mZtPx5rCGGewzcdtFBldj92gu/PfDul32zYdz05kNW0w=
+	bh=Ds0s6x/IEdSEFe5Ej/ZAy7XvpQEIA8Z6370zk4udx44=;
+	b=LWNzwYkXTunQ00pDAZOOCtDCKYE+VT7I9UGY+Rrgu813kJsmMFgumg6UWjGzsRrhrJryVC
+	51T2A/bhyfhHSOBn1q4I+Yv2NxQ9FJfqluzpk+2gJRweu75rcgsJ21+vtngWJuZBqNvFkU
+	Z9GVHHnnJO+RrdUvP8cYcz8WsZGRwVFSctGPTlo7JxRC94D5JFZZaVu4Mvji3OdHY6huXa
+	trkyuytrBLRHt7y3K7l2OUkV56H63IX8bn81Zh/MMOPt4ACsFm/Bp/0DLQnhWyYpbYPmmL
+	E/IU8UfuqD29ifRsN2DNfFRlFvVLCqYRDC2SIZn6l43e/CLCZcO2P4qYRK/9HiJzt1+IRa
+	X5HodywoRznCa2P4phjnkAuA2NI4J9rr6rbvvx9YO7qXMv72Z5yxrpPtQ7+wWJrEs+5R0P
+	V+/mykwz9Vr0K5wI9Xxikf5jlZur4ApLCdGJW2NyhuGRjeqfaO3d4ZZr9v/s8M0ldMy8lY
+	1B4Dlu8l28j8A7/CcxrI2PvpVtkzoqukLDYCdA+t6Zx839bbLNVbAVncSO2QJkWhezpK29
+	EFPdgIoPiBAlnDrwpzMHCDCL1octruPRDzYEuDuCSMy+mFbQezrLo4YGfvRco3sPSb+1Iw
+	mveAyk6eciURcNx/2dxPRky9jWqxfeWGd1mJSDzcehS/K+074s6IU=
 From: Salman Alghamdi <me@cipherat.com>
 To: gregkh@linuxfoundation.org
 Cc: luka.gejak@linux.dev,
 	straube.linux@gmail.com,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH v4 1/7] staging: rtl8723bs: fix buffer over-read in rtw_update_protection
-Date: Mon, 27 Apr 2026 22:05:29 +0300
-Message-ID: <20260427190548.156499-2-me@cipherat.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v4 2/7] staging: rtl8723bs: rtw_mlme: add bounds checks before ie_length subtraction
+Date: Mon, 27 Apr 2026 22:05:30 +0300
+Message-ID: <20260427190548.156499-3-me@cipherat.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260427190548.156499-1-me@cipherat.com>
 References: <20260427190548.156499-1-me@cipherat.com>
@@ -54,50 +53,47 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-rtw_update_protection() is called with a pointer offset into the
-ies buffer but the full ie_length is passed, causing a potential
-buffer over-read.
+Add guards to ensure ie_length is large enough before subtracting
+fixed IE offsets to prevent unsigned integer underflow.
 
-Fixes: e945c43df60b ("Staging: rtl8723bs: Delete dead code from update_current_network()")
-Fixes: d3fcee1b78a5 ("staging: rtl8723bs: fix camel case in struct wlan_bssid_ex")
-Reported-by: Luka Gejak <luka.gejak@linux.dev>
-Closes: https://lore.kernel.org/linux-staging/DI2H39EAAFBZ.3KI5NWN02AQ2S@linux.dev
-Cc: stable@vger.kernel.org
 Signed-off-by: Salman Alghamdi <me@cipherat.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_mlme.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index ddfc56f0253d..268f294528e6 100644
+index 268f294528e6..9f21a2226dbd 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -464,8 +464,11 @@ static void update_current_network(struct adapter *adapter, struct wlan_bssid_ex
+@@ -604,6 +604,8 @@ static bool rtw_is_desired_network(struct adapter *adapter, struct wlan_network
+ 	privacy = pnetwork->network.privacy;
  
- 	if (check_fwstate(pmlmepriv, _FW_LINKED) && (is_same_network(&pmlmepriv->cur_network.network, pnetwork, 0))) {
- 		update_network(&pmlmepriv->cur_network.network, pnetwork, adapter, true);
-+		if (pmlmepriv->cur_network.network.ie_length < sizeof(struct ndis_802_11_fix_ie))
-+			return;
-+
- 		rtw_update_protection(adapter, (pmlmepriv->cur_network.network.ies) + sizeof(struct ndis_802_11_fix_ie),
--								pmlmepriv->cur_network.network.ie_length);
-+								pmlmepriv->cur_network.network.ie_length - sizeof(struct ndis_802_11_fix_ie));
+ 	if (check_fwstate(pmlmepriv, WIFI_UNDER_WPS)) {
++		if (pnetwork->network.ie_length < _FIXED_IE_LENGTH_)
++			return false;
+ 		if (rtw_get_wps_ie(pnetwork->network.ies + _FIXED_IE_LENGTH_, pnetwork->network.ie_length - _FIXED_IE_LENGTH_, NULL, &wps_ielen))
+ 			return true;
+ 		else
+@@ -617,11 +619,15 @@ static bool rtw_is_desired_network(struct adapter *adapter, struct wlan_network
+ 			bselected = false;
+ 
+ 		if (psecuritypriv->ndisauthtype == Ndis802_11AuthModeWPA2PSK) {
+-			p = rtw_get_ie(pnetwork->network.ies + _BEACON_IE_OFFSET_, WLAN_EID_RSN, &ie_len, (pnetwork->network.ie_length - _BEACON_IE_OFFSET_));
+-			if (p && ie_len > 0)
+-				bselected = true;
+-			else
++			if (pnetwork->network.ie_length < _BEACON_IE_OFFSET_) {
+ 				bselected = false;
++			} else {
++				p = rtw_get_ie(pnetwork->network.ies + _BEACON_IE_OFFSET_, WLAN_EID_RSN, &ie_len, (pnetwork->network.ie_length - _BEACON_IE_OFFSET_));
++				if (p && ie_len > 0)
++					bselected = true;
++				else
++					bselected = false;
++			}
+ 		}
  	}
- }
  
-@@ -1072,8 +1075,11 @@ static void rtw_joinbss_update_network(struct adapter *padapter, struct wlan_net
- 			break;
- 	}
- 
-+	if (cur_network->network.ie_length < sizeof(struct ndis_802_11_fix_ie))
-+		return;
-+
- 	rtw_update_protection(padapter, (cur_network->network.ies) + sizeof(struct ndis_802_11_fix_ie),
--									(cur_network->network.ie_length));
-+									(cur_network->network.ie_length - sizeof(struct ndis_802_11_fix_ie)));
- 
- 	rtw_update_ht_cap(padapter, cur_network->network.ies, cur_network->network.ie_length, (u8) cur_network->network.configuration.ds_config);
- }
 -- 
 2.54.0
 
