@@ -1,101 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E77D939FCC4;
-	Mon, 27 Apr 2026 09:59:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D08863B27CE
+	for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 10:00:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777283983; cv=none; b=cXhqyIfbp6hoZG+aWsGfdOsATNRka38z6gjvsG0iWIU6Ux4OL9plhlmfUF+xR16FjaEWGpk+9ARt6LuAnJx90oyKmB8Ai+3SoZb4BAp+1uNGStNP9BB0Q3irs9EIXLZJt/11RnSjDwfyrVcCY6QiKYuSudbUZw6ljalyyBhO3Aw=
+	t=1777284059; cv=none; b=l/xg75FGzsDgTuXz2aYs4T5fh9cZKCMy4o8K41tUhnvaaGxf8dzTeKNpwLdLES0nP5HHTbkgGgMDNpwPA6OvexRTGZoII5hL4rhla0lRxaIH0G2psTMggFTuKxHJgkVA8kLX3zMLAeA+J70Nhz0ePfmRFZGBlSAqg7CsA0Ada7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777283983; c=relaxed/simple;
-	bh=FSaXwopToFHGSbp6zJjvzRg9Qo4fhIOtz1gJ/p2ujYI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=j4iJztOMN0YlAQ3xvt0BJebHOet423MfEAgybP434eO4mA9FNBG2l+9FCGn4udF2hAmJ3lCQ9a4JJ/x2YiENNbTZRxlB3AJiPUsl1a13DDxV4pEFNxQSwve23koVJJjns15AVwsPBdL7Ltzu8HnV6oYZk5ZASieQFiC2w0VJV3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TKB2q9JD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777284059; c=relaxed/simple;
+	bh=ZI6ZwXlG1e5ACFzhDMQRxll59Q4E3kZhbdsX1UNQ54c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NH6wQsLFb2FbW9OQtN32N/6YHiLop0UET0x5XV0o3y9Vn+nl2dYO1coP+GU4ZP98EtZ4fT4XNPBAbot61tISwUF1lzxhI3s9xFMfGBereI7BAA3h2VodyUwvzg4aNFzxN7zgZROl0+zyYoxkXopc0Ci8sL339lNsHC5NmeO625M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gql2NRY3; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TKB2q9JD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7AA9C19425;
-	Mon, 27 Apr 2026 09:59:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777283982;
-	bh=FSaXwopToFHGSbp6zJjvzRg9Qo4fhIOtz1gJ/p2ujYI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=TKB2q9JDT87p6PfJ4kQU3VdMwa8yti+aafDQ1bzVMplaw+mRZoqkbKawt77L0AnWZ
-	 7QVm56/pmYAlZWaFwm9BN1Wd2L2P4/iELeDfcZKdOcLZ82o3SKooKWvovbR6AZyi2j
-	 JTMovBxlVlI0WERNDHdtR26dTHeZsbHqa0SA1R7Z0mMFujFkvnPm+gKTSphT/mmw+A
-	 30B+DrjYqEJCvBFPtsX3qAylJeFGEXcMDXbrkoqkA8kzaJE1FBHtwqtPKEO01vhZ1p
-	 k4KOM6SFYpoKQUiGcNdCcuPJx3j1LdKpdYvonq3zgis8VDFgKafu/YVA+BEjRF35m0
-	 i/Ln/Lk5uwBvw==
-Date: Mon, 27 Apr 2026 10:59:31 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Maxwell Doose <m32285159@gmail.com>
-Cc: lars@metafoo.de, Michael.Hennerich@analog.com,
- gregkh@linuxfoundation.org, David Lechner <dlechner@baylibre.com>, Nuno
- =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
- linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: iio: adt7316: Add error handling to
- adt7316_spi_probe()
-Message-ID: <20260427105931.471655e9@jic23-huawei>
-In-Reply-To: <20260426205039.125818-1-m32285159@gmail.com>
-References: <20260426205039.125818-1-m32285159@gmail.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gql2NRY3"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2a871daa98fso65202365ad.1
+        for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 03:00:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777284057; x=1777888857; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0EvvvHNzTOaXmxdzFUeL0y2A0j/j9spluGpaFZP3FMU=;
+        b=gql2NRY30OJLLeOobf4hSGkCc5WqR6XXXPbGgg6JsyyKl6eVta6fyE1+vX5So30UlO
+         sEePuHQM+OFebI43KFZcGmnivO8+HsCnJIFgJqct6n6aUWJK/91LthqUJ67sb1Tvjn42
+         ZzxixEWh6az1IxRwBMl7GqEA/6xdhF5acJdMiQbH4zAv2wskfXgoEmzgutt15QKi1pOf
+         aWMqlXxo6n49YM55cHFa3+r9DKQA+ffW0gZBUbKDZM4efgRQE0bAbzaYyID67DbtAVz+
+         +i3dYCuN2pRKiTnpAOdAowt3oZppKtgZCh7PdhMRXKyT6k0ML2bte4zoCHLEkYiKP/Bt
+         OhyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777284057; x=1777888857;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0EvvvHNzTOaXmxdzFUeL0y2A0j/j9spluGpaFZP3FMU=;
+        b=LqYsQgk8yB2+N0VNeVJqROozTxjwWIiE1QXsH7xQi522Lg6pJ6FaGUkR9aUG6CBDMf
+         ylb9+i+SWo1AXDTjvoX/HACyzXmk3g25O3Y3e/OtscKgEyRVrZ6w65wnporDV0twDhe4
+         XiKkbxICmKPbqZCKoOBZlKij7qT4foxoe97miCrBhX20cSgPQPFh38seTgLvNAXb7sYv
+         NvGhBzf+AVBckdSqDwGFaYdFwdZy1jd+Sd4RYwoIJiigT62tgEwJVTs6WxJtG4HL/7/u
+         KkSVSygRbKnzE8g2Pfy8T2UqpaTPlnpqHbOCk5PzUTmVclowGUwxENF4GV4rthK+mvFt
+         Vwpg==
+X-Forwarded-Encrypted: i=1; AFNElJ8W2HCWUxweProegEIOoPE5up3we93fcHDuHcmV35Vj09/ZQ5/zSUrMf3YUmU7k4W1//l4cCzbuicPq0hDE@lists.linux.dev
+X-Gm-Message-State: AOJu0YykQbfxJFnS9Tb/DxJ6cbsGFMTM6sh2nnaYyuuUfL9PLcoHjNgg
+	dqTldC9byitPaqKo6Mnv71PJYLLEJuS5EdDOPBGuVZmF+ZmFZecZ4rg=
+X-Gm-Gg: AeBDieuqb64+iKjFrwV9Cy+Ymwop0/swY1f2uw3r1FCucDCiVJ+nLa8d5Fo3V8NkBvO
+	TCacrUPVSy1cWxS6xL2HI7286IjTESK7ZOc4ALoAC0xNVef1qXSzk1c+ofzOf4FyC6cDtNIivkk
+	JVe7ztczT2kjWyTO8RDTiQdkMFLqjH0k2Uz23mVS8uhff47sqDHaV6U/qNurkwI8TBBNcrtin8v
+	6shtZ2NhmuVT2bYjwgsIOAj1MJZ6XaXbQITEv7erFqJF9Ve8uOpM9xk5n9R4cOR/ERBIMs2BCrb
+	k5TXwg0hRVXsAdKftj8NH4APvvirruzITDOlzmZVf2GCKRlXhSC1OIoIkbymHnk3PEfL6R0DdKl
+	8nhab3YD1o8PDCavCSk91fYiW+elWEN3fupa5vvwaezVWMDMpVnBKBzUqx7id9Jn9/tZJpXQZ2Y
+	hLwtfpPl8rXhh2xIgnUdNHQRH1vZ5SXAcgbwRV0jrQqAxIUZoT+wODfJ90f+f/9cloW6i0KGxae
+	0AMqPurWlAyF0AC1TEaUdcp6MkrFaewr5aJQrjJ3NcJfRQ=
+X-Received: by 2002:a17:902:e54e:b0:2ae:ce35:2686 with SMTP id d9443c01a7336-2b5f9e64c77mr424633395ad.5.1777284057141;
+        Mon, 27 Apr 2026 03:00:57 -0700 (PDT)
+Received: from localhost.localdomain ([1.226.165.54])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b5fa9ff713sm304240245ad.5.2026.04.27.03.00.53
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Mon, 27 Apr 2026 03:00:56 -0700 (PDT)
+From: "=?UTF-8?q?=EB=B0=95=EB=AA=85=ED=9B=88?=" <mhun512@gmail.com>
+X-Google-Original-From: =?UTF-8?q?=EB=B0=95=EB=AA=85=ED=9B=88?= <pakmyeonghun@bagmyeonghun-ui-MacBookPro.local>
+To: Maxime Ripard <mripard@kernel.org>,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: Myeonghun Pak <mhun512@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Ijae Kim <ae878000@gmail.com>
+Subject: [PATCH] media: cedrus: clean up media device on probe failure
+Date: Mon, 27 Apr 2026 19:00:10 +0900
+Message-ID: <20260427100049.29034-1-pakmyeonghun@bagmyeonghun-ui-MacBookPro.local>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Sun, 26 Apr 2026 15:50:38 -0500
-Maxwell Doose <m32285159@gmail.com> wrote:
+From: Myeonghun Pak <mhun512@gmail.com>
 
-> Currently, the return values of the adt7316_spi_write() calls in
-> adt7316_spi_probe() are unchecked. Add error handling to return early
-> and pass on the error code if we receive an error from
-> adt7316_spi_write().
-> 
-> While at it, move all three adt7316_spi_write() calls inside a for loop
-> to condense the logic.
-> 
-> Signed-off-by: Maxwell Doose <m32285159@gmail.com>
-> ---
->  drivers/staging/iio/addac/adt7316-spi.c | 10 +++++++---
->  1 file changed, 7 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/iio/addac/adt7316-spi.c b/drivers/staging/iio/addac/adt7316-spi.c
-> index f91325d11394..ffd1dae8d1b1 100644
-> --- a/drivers/staging/iio/addac/adt7316-spi.c
-> +++ b/drivers/staging/iio/addac/adt7316-spi.c
-> @@ -98,6 +98,7 @@ static int adt7316_spi_probe(struct spi_device *spi_dev)
->  		.multi_read = adt7316_spi_multi_read,
->  		.multi_write = adt7316_spi_multi_write,
->  	};
-> +	int i, ret;
->  
->  	/* don't exceed max specified SPI CLK frequency */
->  	if (spi_dev->max_speed_hz > ADT7316_SPI_MAX_FREQ_HZ) {
-> @@ -107,9 +108,12 @@ static int adt7316_spi_probe(struct spi_device *spi_dev)
->  	}
->  
->  	/* switch from default I2C protocol to SPI protocol */
-> -	adt7316_spi_write(spi_dev, 0, 0);
-> -	adt7316_spi_write(spi_dev, 0, 0);
-> -	adt7316_spi_write(spi_dev, 0, 0);
-> +	for (i = 0; i < 3; i++) {
-> +		ret = adt7316_spi_write(spi_dev, 0, 0);
-> +		/* Check for errors, if we get an error, return early */
+cedrus_probe() initializes the media device before registering the video
+device, the media controller, and the media device. If any of those later
+steps fails, probe returns without calling media_device_cleanup(), so the
+media device internals initialized by media_device_init() are left behind.
 
-If this is tested (and I agree with the others that this is a special
-bit of code, as it's hammering a device using one protocol with messages
-using the other, then the comment is pointless given we can see the code.
+Add a media-device cleanup label to the probe unwind path and route video
+registration failures through it as well.
 
-> +		if (ret < 0)
-> +			return ret;
-> +	}
->  
->  	return adt7316_probe(&spi_dev->dev, &bus, spi_dev->modalias);
->  }
+Fixes: 50e761516f2b8c ("media: platform: Add Cedrus VPU decoder driver")
+Cc: stable@vger.kernel.org
+Co-developed-by: Ijae Kim <ae878000@gmail.com>
+Signed-off-by: Ijae Kim <ae878000@gmail.com>
+Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
+---
+ drivers/staging/media/sunxi/cedrus/cedrus.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
+index 6600245dff..2c25654640 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+@@ -507,7 +507,7 @@ static int cedrus_probe(struct platform_device *pdev)
+ 	ret = video_register_device(vfd, VFL_TYPE_VIDEO, 0);
+ 	if (ret) {
+ 		v4l2_err(&dev->v4l2_dev, "Failed to register video device\n");
+-		goto err_m2m;
++		goto err_media_cleanup;
+ 	}
+ 
+ 	v4l2_info(&dev->v4l2_dev,
+@@ -533,6 +533,8 @@ static int cedrus_probe(struct platform_device *pdev)
+ 	v4l2_m2m_unregister_media_controller(dev->m2m_dev);
+ err_video:
+ 	video_unregister_device(&dev->vfd);
++err_media_cleanup:
++	media_device_cleanup(&dev->mdev);
+ err_m2m:
+ 	v4l2_m2m_release(dev->m2m_dev);
+ err_v4l2:
+-- 
+2.50.1
