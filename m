@@ -1,117 +1,120 @@
-Received: from mail-4320.protonmail.ch (mail-4320.protonmail.ch [185.70.43.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35B863B775A
-	for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 11:17:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.20
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777288681; cv=none; b=Z3KQw0Z0XaI1ApTdr9VI9s935EPDc2qXAdjGT82z/qLR5GXvSU3jCj9bZxVuuL202KgHM9ybuaNkjWWwQbkwiqL7cA83hplK4IELla5ef/R4yXwS9Fn5IoZSpcMeE9IRi8TRi5VfQ+w1aYB260Zr0IErRjX7w2aWqGlOtpw+D4c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777288681; c=relaxed/simple;
-	bh=g5NNe6gF4OXSnwcJlSWtKzcnfdVY2mQrcldMyOKeUOA=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Hov3SvvL+1jxHnqNPpQE44bYc4eb4RRu8E2hL0Lw1/zl0Xs72oIjoEiOQxhy1vM6pqZXRm5PnVzAVgFB2SENmFaLfxNacm+Wt5cPKxaU0fzcePIwAbllGfKw/ZiznfmLa526tO+j45lMMk3spy8Se2KCgHR+5rr0YlIY6f20SNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=innora.ai; spf=pass smtp.mailfrom=innora.ai; dkim=pass (2048-bit key) header.d=innora.ai header.i=@innora.ai header.b=jlexiK9V; arc=none smtp.client-ip=185.70.43.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=innora.ai
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=innora.ai
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB8FE3B8D4A
+	for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 12:38:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777293507; cv=pass; b=eqBOkwsDGYSbAckoH0FPLCtSyBRZYDA4mPYXrd4gcxeqS+QJXnUHYVev6Wq4A7LbLDgK+l+f6U/3x7rDs5NrrANp1QFI8l1mJBvj1SmfHSOTorI+0SRhjWeTrjE1NQQNqnJNmFP7j/l7pdj4PvLH5+riNY26s4Dm/5VrasjwRWM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777293507; c=relaxed/simple;
+	bh=zamNpFeA1MZ17r8CMsJit4TwZ+RjEPZDXwmFPClldsg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sF4rtG5bYUKURD58hpc4AR4QbOirnO25Wlom+2ohFXd+KwKZ/m1/qSqWq4gsDFg/EMLOrbmp/UuVMCVLUkQ71uIHxr9sM3dodWqPqEXJmAiaa4t5DfHNE0yEXHKE+ETgbE8dXC506ZF0OSqA+638lZFfT3J3YV+WTnDx0BCQBaE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FzsUFIpt; arc=pass smtp.client-ip=74.125.224.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=innora.ai header.i=@innora.ai header.b="jlexiK9V"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=innora.ai;
-	s=protonmail2; t=1777288670; x=1777547870;
-	bh=FmfuV6p5cZWjbgVuJpb7PqBFGvks9LcqmK99A5kkTwE=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=jlexiK9Vu2D3i9D2SLwtF/LYKunWeSm4a6z0cqdV3JH1xztS4GNEQXGGWSKYuKu2u
-	 eyftdZhoLSL3FL/MIA6e56HmqxcJKv3nfjqGgURVhjQNcHgJRpar19Q7pJwOaLBWBX
-	 KQfTVLeDsO0D1/1xiz9+KOiLTPENr+Bd/hZEhITBAjwrJrsoGPCBFggqeNDiQr+Bsf
-	 O4MEPTDy5hTySs0V2qc/t+SPQQ5ni1PcNOYF46063wgDle2uYVeJwCgIDiE+rikYeQ
-	 0oWJ0r3bpomYOZN/F72toiiFezJZErJyNAijHtkiBoXQWmAOJ8+QJfErvCXkFNJnIw
-	 5VmsVcUGI/FmA==
-Date: Mon, 27 Apr 2026 11:17:45 +0000
-To: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev
-From: Feng Ning <feng@innora.ai>
-Cc: Luka Gejak <luka.gejak@linux.dev>, linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: [PATCH v6] staging: rtl8723bs: fix heap buffer overflow in cfg80211_rtw_add_key()
-Message-ID: <20260427111738.33069-1-feng@innora.ai>
-In-Reply-To: <2026042626-tabloid-suitor-33c5@gregkh>
-References: <20260413113224.5201-1-feng@innora.ai> <2026042626-tabloid-suitor-33c5@gregkh>
-Feedback-ID: 140578448:user:proton
-X-Pm-Message-ID: 9e717287eba13d6fd05d95c3707f90afcb0a57ef
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FzsUFIpt"
+Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-65427236e94so6769354d50.1
+        for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 05:38:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777293506; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ZXG8MRgwg25jQEF+BhnLLU3KsshwuEKpIlJnfQ3gGs804vYzhkSztHLzo0FLr85qfr
+         uF+qIoeQUx3msCo13tNUZ8vOUqUZUucezewwwkWh172CMxMTTsUO4os7WzDixzK8XdDp
+         Xz2npTrLttW/iSTbgCm1YzFWWwCae/NrTj16BhWlvZHFpKzXgfg//e6q1iN1HBhFp4dP
+         bZbbjdBh17642BHBmIncTSW/JW27yVOyyFLGPduNjis0Jpi8QoR0tsd0cjbu5QSJOSBD
+         99G1hT6GErc8dxkSxlS5KE8os/OzDSDe7Yp/j+gvScdgDTwfkYoRQYryYmzQluF40a1S
+         0KFA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=zamNpFeA1MZ17r8CMsJit4TwZ+RjEPZDXwmFPClldsg=;
+        fh=zoL5iAz1DDBa9I4ZFnBJTJDuvn+bsgHkmTgrx89hhCc=;
+        b=M1SMWPSObMkVdRfFl+pvD7nYgcpfNFhFUgopxPPbgtwsmxW8Bb43JEXrkG9lv06C3Y
+         DaIhjB9fbEQjaoDTXhmViTi7oDQNtvtD9akffxLfFGlbai8I8cjr2rwYE4n9yVfy2mAq
+         wFQFYyQRgpp6S8NniHK8n3FV0MrBynRQeu6b1PLsjmHqcDM+ry4JvGs7ezGdXZa54iqA
+         HPejO8Zi7xWtbQhxfi16ByYBtE8K6OmX2fkl3Pb9+bo0d87LwB2ySvW+3KxAF0JGwuDV
+         wdJYCwLBCh87gxucIpOALMKhlW4dcOk+NPUIbOcV7U3gYN6CSLMV+ddMTA77YKdt1EU8
+         je1Q==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777293506; x=1777898306; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zamNpFeA1MZ17r8CMsJit4TwZ+RjEPZDXwmFPClldsg=;
+        b=FzsUFIptOvbcf4mOw2j4Z0OEEMh3vUFpaMrb3jsqa7GmwLMQjCn2Ukx/eYh5KapuIk
+         XPHJh4WOg3q8r+xqx00SzMh7MtnUAKuFF7Nylu0JupppLCOXpAXIy22Yrj8wAh/nAo1h
+         8q3JCop/YV6FZjbN1tdfULghVRRTCSNdwToVf7BFlU/MEfN4xOwsdUJokiEt6GLcM63T
+         jlW20LHvskuAfiTZhvIJM0REwAHkYXhbsuAR/2802E3Fi5oDCZAzmi8POoffrc9EYdvq
+         sJH6OocU2GdgqNIombOlX6g+OzRtzTFXDl1m1NjS+T/aQ0L/kqMPZfGjfPfdKvZzLQOQ
+         YcYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777293506; x=1777898306;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=zamNpFeA1MZ17r8CMsJit4TwZ+RjEPZDXwmFPClldsg=;
+        b=TLxCGJzIbBIqiEHl39HFA7JBynndXdXSBJNOxgROGYmtwHkpFREV9Xt+cSp5hyrXqG
+         VnlYaSDnkfza5nB2PGL0scUZJMcOI2IaIJnnf3wLI4Vm4VVySFqR9irA6mn9GPSgGPWk
+         XG9GpBkSl4baVeeyTOLLVruUH+9rXWBpB17cEOZlNeeG5etatUEHEnHaxfo5ndNSkUUH
+         OWHw5/edchZR8tTqJYy1qc1nnc5Q7TcPX9OQILXWEhRyKB7Ls3cyQanXpyvRge+8aIor
+         SQHlEa1pAkyM4W6Qmb7YdRsOvhfpvpaebI5sRIS/1XM+DfUlm4Rdq2hknUxaI3Q6DDzH
+         fXrQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+RnMoobkuybySIGKhWZcj60mCQdbyBijl8Qtm5oGwa4WXpulO9C2yqLq5MYeW4YkUKznIx3tqY0/Dgxmit@lists.linux.dev
+X-Gm-Message-State: AOJu0YyF2lvZINWFVQ7QGZIWB4wlQfQUIl/mrpIrOZMBhrAfMuGeAI8m
+	iJ9EcmXP+jVIxnBhZHjFtEzXNzmHCg/PlapcldWORAha47r2dfrsymniB23vXNcotp1hrVWVgNe
+	+RIxbwGpIe5g7v1HzhFymbQEh1kcmmz4=
+X-Gm-Gg: AeBDieuUTOsxLT1BETxqhwc+jn9r2rpZOIdZ6dMfgtfKnh3JiC2XyprfX9zCSZ6Li68
+	wNChivZNyAsVWPGEbmb1ruEf7pqmxPP2f2jN7yvLy4y4+yLu6woT9Qiq4UNFwGV0ZvTMy+AznpK
+	krqLZ4oe8PQPHlSQ7f+3drJlwDjvhPlyyFduT+pggT99d15+n652nqHcSOwHsrIc2lTDWhtz2Wb
+	KBU5sfoAW3xTWrHXuM09CSD+cyKuYXVVbU3RscNWvT2QNeMxCLqj58GdNcou6eECgRh3YD2289A
+	qyf8B/VTqC/xVCI=
+X-Received: by 2002:a05:690e:124a:b0:651:b13e:f9ef with SMTP id
+ 956f58d0204a3-65310803d3fmr38518177d50.14.1777293505766; Mon, 27 Apr 2026
+ 05:38:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20260426205039.125818-1-m32285159@gmail.com> <ae8b6wdyNR-G-i1m@stanley.mountain>
+ <20260427110215.1d3eb495@jic23-huawei>
+In-Reply-To: <20260427110215.1d3eb495@jic23-huawei>
+From: Maxwell Doose <m32285159@gmail.com>
+Date: Mon, 27 Apr 2026 07:38:14 -0500
+X-Gm-Features: AVHnY4JH8ViBvHUm4gauKJie9Jw5lHzogx117wNnCK5_l03aEMkAwKbZrOFS4eU
+Message-ID: <CAKqfh0Hk3fAysVR_g43F6it9xaeTBwk7VoG9BDVH_h5HNAJ85Q@mail.gmail.com>
+Subject: Re: [PATCH] staging: iio: adt7316: Add error handling to adt7316_spi_probe()
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Dan Carpenter <error27@gmail.com>, lars@metafoo.de, Michael.Hennerich@analog.com, 
+	gregkh@linuxfoundation.org, David Lechner <dlechner@baylibre.com>, 
+	=?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	Andy Shevchenko <andy@kernel.org>, linux-iio@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-The cfg80211 framework allows userspace to specify a key sequence
-counter (NL80211_KEY_SEQ) of up to 16 bytes via NL80211_CMD_NEW_KEY
-netlink messages, but ieee_param.crypt.seq is a fixed 8-byte buffer.
-When cfg80211_rtw_add_key() copies the sequence counter via memcpy()
-without checking seq_len, a heap buffer overflow of up to 8 bytes
-occurs, overwriting bytes following seq within the same ieee_param
-structure (key_len and the trailing key[] flexible array).
+Hi everyone,
 
-Cap the copy length at the buffer size using min_t().
+On Mon, Apr 27, 2026 at 5:02=E2=80=AFAM Jonathan Cameron <jic23@kernel.org>=
+ wrote:
+>
+> We do normally check spi and i2c writes.
 
-Reviewed-by: Luka Gejak <luka.gejak@linux.dev>
-Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Feng Ning <feng@innora.ai>
----
-Changes v5 -> v6:
-  - Restore the changelog that was lost in v5 (per Greg KH feedback)
-  - Add Cc: stable@vger.kernel.org (user-reachable heap overflow)
-  - Tighten wording about which fields are clobbered (avoid implying
-    a specific layout when padding may exist)
-  - No code changes from v5; v4..v6 are byte-identical at the code
-    level, so Luka Gejak's Reviewed-by from v4 is carried over
+Knew that, I was looking for unchecked probing and writing in this
+area and came across this.
 
-Changes v4 -> v5:
-  - Rebase onto staging-next (line numbers and surrounding hashes
-    refreshed; the hunk itself is unchanged)
-  - No code changes from v4
+> Anyhow as far as I'm concerned adding checks to normal calls is
+> fine, but not to things around reset, mode switches or power
+> management unless you can test them.
 
-Changes v3 -> v4:
-  - Resend as plain text without PGP signature and public-key
-    attachment (per Luka Gejak feedback)
-  - No code changes from v3
+Sorry, I didn't realize this area was *very* special. Obviously I do
+now, but anyways, I'm going to drop this patch and focus on some other
+things.
 
-Changes v2 -> v3:
-  - Move the changelog below the cut line (per gregkh patch-bot)
-  - No code changes from v2
-
-Changes v1 -> v2:
-  - Reformat as a proper kernel patch with Fixes: tag and
-    Signed-off-by; address comments from the initial submission
-  - No code changes from v1
-
- drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/st=
-aging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index 7cb0c6f22..4fba53c2d 100644
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -883,8 +883,11 @@ static int cfg80211_rtw_add_key(struct wiphy *wiphy, s=
-truct net_device *ndev,
-
- =09param->u.crypt.idx =3D key_index;
-
--=09if (params->seq_len && params->seq)
--=09=09memcpy(param->u.crypt.seq, (u8 *)params->seq, params->seq_len);
-+=09if (params->seq_len && params->seq) {
-+=09=09size_t seq_copy =3D min_t(size_t, params->seq_len,
-+=09=09=09=09       sizeof(param->u.crypt.seq));
-+=09=09memcpy(param->u.crypt.seq, (u8 *)params->seq, seq_copy);
-+=09}
-
- =09if (params->key_len && params->key) {
- =09=09param->u.crypt.key_len =3D params->key_len;
---
-2.43.0
-
+best regards,
+maxwell
