@@ -1,63 +1,63 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5602034BA57
-	for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 15:54:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F17334572F
+	for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 15:54:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777305282; cv=none; b=mpcNGdXxosVSwedtrkNVe4fi2BvD+Xfy5FY6k0dtTBvL+FZTj/hWOmVa98FQ2yTreeFuhoirVTaOxc/M7QKXzJEBWLHf1EzvAjVxRuk7+cy4CtYETV2jN7qj2tfaDxwslAC547+RBGDV5b2ywCweHKXZyydUvkUCUWu/XW6Z8ZU=
+	t=1777305285; cv=none; b=j+DE5Q9aneEdYY5gtDUwrpgoKGzilaaX1wsFBfdK+5+JztlKE7F8cEfjxGVnW+XWpeRgCi1cJZ99L0fycDljyrtt+aJct3M0YyYRM58D2Ac2XP6QwLWrKVkfhTX1QbpsvU4KZZg8kWg9XfTmnqkifG9vjPu75lmN+Jgb+q7T9WU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777305282; c=relaxed/simple;
-	bh=dPVmA4SAKvP8uttiAwiTIqfYjB1yylln+rbXAL0TOHw=;
+	s=arc-20240116; t=1777305285; c=relaxed/simple;
+	bh=Lx+FWdTX4CUROM4Gf843xRsUmieLSZtB1d7xcdZ8S/k=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gtUgRjaOo0zX9Xo54CuSsMsg0wENBL8KtlNhPylCyeG7Oa3rW0yMsgHm3uWDtevPvUVn7ZTciiA435GTSjiavx4uBxMsaKLXCUN0HthOUTl02Edo12dkB5RI1mgSErXl56FhDMapMM9+PT9tVNKOEaZEJu8Tyy//YDKDf6SdEPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VmkeIaZj; arc=none smtp.client-ip=209.85.210.176
+	 MIME-Version; b=W6LVptxR4U23utdO6omaMcI/6Z/senq033wN0nR1IK2PwpbOqrLbzpH0h37iVLSOV3gZDZGPi7b/4dbjGTNYLPuXm6ZoIbXbeFq10vVNOjoYspZ09PR45TzCznFhnp9TlnfJzpOizW5gEnikApY1If5eJz04oljqU5QnX5Iehvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WpanEBtp; arc=none smtp.client-ip=209.85.210.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VmkeIaZj"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-827270d50d4so9322165b3a.3
-        for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 08:54:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WpanEBtp"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-82fbdd60b64so5590880b3a.3
+        for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 08:54:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777305281; x=1777910081; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1777305284; x=1777910084; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/nEwsx1IE37alek/UbFFJIAS/ZU1TO09DbXxHjDA5/4=;
-        b=VmkeIaZjxC9N2cPEGDoqXvKh1MZAZbJV08SRwrHxRrmPRhVpXgLAlNSkcilJQZu5fM
-         cXcHZJplOPyXV3O4GbbmWCB1TSWqrl/YtV6cdUpZbxFOMR500AOjUi2VPwZJZFVg5OtB
-         GSxmh2CepTBXTlhxoBBN3jgWnOZ+eoS2DI+lOvh5ikPJcrdT8MDxDavlXKdFFii7i7Ds
-         X7k8xMG4TBuXAEHf8BXb5AlGxzcgcRUjaz6qcF0+0qINekYTd07xWq55eFA8HZO6xD8r
-         IFFVY9xt+Yb3BQ4JojY9wkW6OAIoNGMRgM4FPkY6tIfMEpTkVDDkmG5cIt/NHEJwuXyW
-         kD1A==
+        bh=DgFqJGxTSWQ0zarrhY26FqAsVAR+FlyVmEuRhaiFjvY=;
+        b=WpanEBtpDBr7u8Rc8eAZhxOWWjqcN3LykPq2MPRvegSED+nHCYBiOj5VLQM0unBwzf
+         tPnt9/2AzyAkeAWgzqVlLR0McDA7qVvE7kI7BFu7zUScEe+4pKTe7xi/eQyCWXLK/WNG
+         uee3X5+8jZa6o1PkI3B8toSR61hquaI7kx/tP+1zfPPzpnsdr04JZBfAA2OkaG3e/ynj
+         TXM+iAqC2Eg7daPeBTOdpQYjpD5lfzjO5ygQJuwvz2wj5tDxUqpwEqVEndJAOq6a2O9+
+         UdjWpG+5gtFdiXq5wMBBmjsIQkbb9T3D1M959E7z+11cReN3uID1yqAn7P3/0dCjt34Y
+         XeYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777305281; x=1777910081;
+        d=1e100.net; s=20251104; t=1777305284; x=1777910084;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=/nEwsx1IE37alek/UbFFJIAS/ZU1TO09DbXxHjDA5/4=;
-        b=GXtNsu9hGLUZZdJs66WH6uRIgeiPoYCUv4p4uou4kvvv9vyCtmUunble+TSuZa3kr2
-         +UADde+sD5Y7ND+PMo8UB8dUALynUW/YKxZrmhLFajreb08BXPqeiAYCtptytPw0lMat
-         PJZ2Amfpl/Uo5YtR3kmX1/bwYpd8D9dDb6SFlONNIeCrz7S3TmDKa3abg722rCZyQiRd
-         luOCJuvzykGI2rdH2fKMVkLVJY6kOK9RBCVRwTtqFRG3nasRiBXdrNyQlPVx3zQkOOyu
-         RW5r1l+wG5G5Wyxph9j4irDPdwXkVTfUFxp5PQJO2GvXVm13AkO/DQ56fxx93bg510G/
-         fcrw==
-X-Forwarded-Encrypted: i=1; AFNElJ+UU0ttZ1HtM3uNix7LIJTG75cU3iPVPYH/9tvjRKmwo+pdWP213iPCjXgxvXUZJLqD7leRHJaYkBAkbfU5@lists.linux.dev
-X-Gm-Message-State: AOJu0YwBzSYJgfS8SB//TlN0D/io9KY+ziHPPiEjbexDJXX5XLIHqhDe
-	rbMlckcSGOBS/L27HxFaHA5XXAwCJHtaSieuOD5tBgOgPKkP3iCU5Y+UU5xYMZXXO2P08Q==
-X-Gm-Gg: AeBDiesr0kw83yrqX6oa7Gb0NNg6D1x2F0SAmU0YE7J4WZciws1feD5cIHSN9s90s8d
-	gJUDCawPfY4hwIfo0NKdcgwHE3DQWGA9FxdDiuM77itKZ07RYP/H0i0AzSCrwdGeehDK4Ge3no9
-	2BmcWsaWPvsqeJ4UnLxIX8ismT9HW5YZOISHB/eA6MK+VPVRP2T4vs/Xm+dPu7yaFAqNc+UbU2f
-	Bo7w0cg+Wuo50/3qxvsiUD0AxNpd7yrusmZpMS0L8Bbypr5JP2hyOCygZs1rfdZ0sF92PC0eU4c
-	CKNxxZ6TsOn87qVHq0/2Fj9jOhqaJUv5beKUd4sK9PDwIdvmtXBti3W9GdeY9FhpzPc65LZgAbV
-	xLVfOWMhMJ4jkyWn7ywGGsbsAt/l8q5UegnpKvdhw8HutbDAlcknByvFU9mezU70C1CZf4qydpn
-	6V02GD7oaJEipMuOY9p1EFnllMKRhY4MW80SUGvFLU
-X-Received: by 2002:a05:6a00:1acc:b0:82f:4a4d:377e with SMTP id d2e1a72fcca58-82f8c8c2f8fmr48204285b3a.28.1777305280668;
-        Mon, 27 Apr 2026 08:54:40 -0700 (PDT)
+        bh=DgFqJGxTSWQ0zarrhY26FqAsVAR+FlyVmEuRhaiFjvY=;
+        b=bSDB/yEZtabnhWF5DHGkBXq1F7JlwNr3u3ismW+FNn62KzobhrAnfcTIGGsfR9EMe0
+         6ZB8jDSWz05+xW+svzzQVCsMa4pyAQRDxBH0o+ZdVfqdAVpxIhRJbD4GOhz35dKmDm1Q
+         hW6KlXlotBc50ynbhix+HAtOtN5TOHWVlj2WWZozM4A+Y28TPSetEPMa4Jm8zlA88jzy
+         r8f8zFyxclsMM4owK/1IWMRQDcK7/l9iZIzU/Pq+geAtWd4v2xegUkV3T99mIAO5YpLq
+         KbHH0yfczhjavbD8YMdRugs6hMqePqvvF609+XUjlXhKkDiMrTks4gzXM52Hhu9bn6lg
+         UU+A==
+X-Forwarded-Encrypted: i=1; AFNElJ88OWoJm+fevJZnI44H8QIu+qNzX4a9WYhDVgDczeu32PCyW6K6KU3RqPWHCUMt+YWn4CvdOKVXupYCiCqE@lists.linux.dev
+X-Gm-Message-State: AOJu0YxGlgOsGrm1TbKZ4GgWeF1vOX9fcL1j7eR8uBv4SDfw6Eo2CyoQ
+	uqhsb+RY/P00LdF5yB5ayLWQ7/a3oDMlDrg3nIdq1fjcSOrBKz9ixxiwfPJKDQtNUdk/IQ==
+X-Gm-Gg: AeBDietLC7x7yv/L35XddeNThIkT+m4HPCVz3lOqc2ffC6sN7+3/c3yu48UZZZtlwHE
+	9mW6HVvVZknpr16xfxgfLTFEQrpK+ILixEWsTD+M5K+bzAZQWUPgrMPxQxjpPOgtmnj4VYzbDdV
+	k6vBfmeayj7v84Ury8E05CduiOZEkOb2BxqQkS6M38F11/uAHH+2CBQpy5iZVpG5ecD4QE34ECh
+	26L1c/LfF5SUOBzImr+ZLm9tqqk456AF9NO92Vnphyo2hrVEuGJozF0A9zyzyOjAQkiUnqP+sqB
+	WdilI8QTqXG/zfcpCsdkjkAg0pmg7RuaJV0e+x9Lm1V7UvxmSVV0Vj4g0/4XbrB6JClbHFX1+YE
+	2ggI83GKrNVJQVbLOpYRXdWtAVqcemdLqprqVFmBAYihIcwn0djvd3kX4G/6gf84O3L+x1Ibc94
+	uu232gkk4NgTXlAlnEyhRX+wsSmesKyqHwBk5YbZured/rPhwQ0gE=
+X-Received: by 2002:a05:6a00:2e15:b0:82c:d7c9:5479 with SMTP id d2e1a72fcca58-82f8c9024bamr47144381b3a.32.1777305283728;
+        Mon, 27 Apr 2026 08:54:43 -0700 (PDT)
 Received: from localhost (vps-e1cc9378.vps.ovh.us. [2604:2dc0:202:300::1365])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f932daa68sm34339028b3a.49.2026.04.27.08.54.40
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f8ebb3829sm34445786b3a.31.2026.04.27.08.54.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Apr 2026 08:54:40 -0700 (PDT)
+        Mon, 27 Apr 2026 08:54:43 -0700 (PDT)
 From: Eric Wu <kunjinkao.jp@gmail.com>
 To: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -65,9 +65,9 @@ Cc: linux-mips@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Eric Wu <kunjinkao.jp@gmail.com>
-Subject: [PATCH 3/7] staging: octeon: convert cvmx_pow_wait_t from typedef to plain enum
-Date: Mon, 27 Apr 2026 23:54:23 +0800
-Message-ID: <20260427155427.668540-4-kunjinkao.jp@gmail.com>
+Subject: [PATCH 4/7] staging: octeon: convert cvmx_pko_lock_t from typedef to plain enum
+Date: Mon, 27 Apr 2026 23:54:24 +0800
+Message-ID: <20260427155427.668540-5-kunjinkao.jp@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260427155427.668540-1-kunjinkao.jp@gmail.com>
 References: <20260427155427.668540-1-kunjinkao.jp@gmail.com>
@@ -80,7 +80,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 The Linux kernel coding style discourages the use of typedefs for
-enums. Convert cvmx_pow_wait_t to a plain 'enum cvmx_pow_wait' and
+enums. Convert cvmx_pko_lock_t to a plain 'enum cvmx_pko_lock' and
 update all users across the MIPS Octeon architecture code and the
 staging driver stubs.
 
@@ -88,102 +88,91 @@ No functional change.
 
 Signed-off-by: Eric Wu <kunjinkao.jp@gmail.com>
 ---
- arch/mips/include/asm/octeon/cvmx-pow.h | 12 ++++++------
- drivers/staging/octeon/octeon-stubs.h   | 10 +++++-----
- 2 files changed, 11 insertions(+), 11 deletions(-)
+ arch/mips/include/asm/octeon/cvmx-pko.h | 10 +++++-----
+ drivers/staging/octeon/octeon-stubs.h   |  8 ++++----
+ 2 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/arch/mips/include/asm/octeon/cvmx-pow.h b/arch/mips/include/asm/octeon/cvmx-pow.h
-index 21b4378244fa..409029809639 100644
---- a/arch/mips/include/asm/octeon/cvmx-pow.h
-+++ b/arch/mips/include/asm/octeon/cvmx-pow.h
-@@ -84,10 +84,10 @@ enum cvmx_pow_tag_type {
+diff --git a/arch/mips/include/asm/octeon/cvmx-pko.h b/arch/mips/include/asm/octeon/cvmx-pko.h
+index f18a7f24daf8..d8e74a305646 100644
+--- a/arch/mips/include/asm/octeon/cvmx-pko.h
++++ b/arch/mips/include/asm/octeon/cvmx-pko.h
+@@ -93,7 +93,7 @@ typedef enum {
  /**
-  * Wait flag values for pow functions.
+  * This enumeration represents the different locking modes supported by PKO.
   */
 -typedef enum {
-+enum cvmx_pow_wait {
- 	CVMX_POW_WAIT = 1,
- 	CVMX_POW_NO_WAIT = 0,
--} cvmx_pow_wait_t;
++enum cvmx_pko_lock {
+ 	/*
+ 	 * PKO doesn't do any locking. It is the responsibility of the
+ 	 * application to make sure that no other core is accessing
+@@ -112,7 +112,7 @@ typedef enum {
+ 	 * ll/sc. This is the most portable locking mechanism.
+ 	 */
+ 	CVMX_PKO_LOCK_CMD_QUEUE = 2,
+-} cvmx_pko_lock_t;
 +};
  
- /**
-  *  POW tag operations.	 These are used in the data stored to the POW.
-@@ -1348,7 +1348,7 @@ static inline void cvmx_pow_tag_sw_wait(void)
-  * Returns: the WQE pointer from POW. Returns NULL if no work
-  * was available.
+ typedef struct {
+ 	uint32_t packets;
+@@ -374,7 +374,7 @@ static inline void cvmx_pko_doorbell(uint64_t port, uint64_t queue,
   */
--static inline struct cvmx_wqe *cvmx_pow_work_request_sync_nocheck(cvmx_pow_wait_t
-+static inline struct cvmx_wqe *cvmx_pow_work_request_sync_nocheck(enum cvmx_pow_wait
- 							     wait)
- {
- 	cvmx_pow_load_addr_t ptr;
-@@ -1382,7 +1382,7 @@ static inline struct cvmx_wqe *cvmx_pow_work_request_sync_nocheck(cvmx_pow_wait_
-  * Returns: the WQE pointer from POW. Returns NULL if no work
-  * was available.
-  */
--static inline struct cvmx_wqe *cvmx_pow_work_request_sync(cvmx_pow_wait_t wait)
-+static inline struct cvmx_wqe *cvmx_pow_work_request_sync(enum cvmx_pow_wait wait)
- {
- 	if (CVMX_ENABLE_POW_CHECKS)
- 		__cvmx_pow_warn_if_pending_switch(__func__);
-@@ -1436,7 +1436,7 @@ static inline enum cvmx_pow_tag_type cvmx_pow_work_request_null_rd(void)
-  *	  timeout), 0 to cause response to return immediately
-  */
- static inline void cvmx_pow_work_request_async_nocheck(int scr_addr,
--						       cvmx_pow_wait_t wait)
-+						       enum cvmx_pow_wait wait)
- {
- 	cvmx_pow_iobdma_store_t data;
  
-@@ -1465,7 +1465,7 @@ static inline void cvmx_pow_work_request_async_nocheck(int scr_addr,
-  *		    timeout), 0 to cause response to return immediately
-  */
- static inline void cvmx_pow_work_request_async(int scr_addr,
--					       cvmx_pow_wait_t wait)
-+					       enum cvmx_pow_wait wait)
+ static inline void cvmx_pko_send_packet_prepare(uint64_t port, uint64_t queue,
+-						cvmx_pko_lock_t use_locking)
++						enum cvmx_pko_lock use_locking)
  {
- 	if (CVMX_ENABLE_POW_CHECKS)
- 		__cvmx_pow_warn_if_pending_switch(__func__);
+ 	if (use_locking == CVMX_PKO_LOCK_ATOMIC_TAG) {
+ 		/*
+@@ -419,7 +419,7 @@ static inline cvmx_pko_status_t cvmx_pko_send_packet_finish(
+ 	uint64_t queue,
+ 	union cvmx_pko_command_word0 pko_command,
+ 	union cvmx_buf_ptr packet,
+-	cvmx_pko_lock_t use_locking)
++	enum cvmx_pko_lock use_locking)
+ {
+ 	cvmx_cmd_queue_result_t result;
+ 	if (use_locking == CVMX_PKO_LOCK_ATOMIC_TAG)
+@@ -463,7 +463,7 @@ static inline cvmx_pko_status_t cvmx_pko_send_packet_finish3(
+ 	union cvmx_pko_command_word0 pko_command,
+ 	union cvmx_buf_ptr packet,
+ 	uint64_t addr,
+-	cvmx_pko_lock_t use_locking)
++	enum cvmx_pko_lock use_locking)
+ {
+ 	cvmx_cmd_queue_result_t result;
+ 	if (use_locking == CVMX_PKO_LOCK_ATOMIC_TAG)
 diff --git a/drivers/staging/octeon/octeon-stubs.h b/drivers/staging/octeon/octeon-stubs.h
-index 6c0329270464..df0456417f15 100644
+index df0456417f15..06cb4f15d9d5 100644
 --- a/drivers/staging/octeon/octeon-stubs.h
 +++ b/drivers/staging/octeon/octeon-stubs.h
-@@ -235,10 +235,10 @@ enum cvmx_helper_interface_mode {
- 	CVMX_HELPER_INTERFACE_MODE_LOOP,
+@@ -240,11 +240,11 @@ enum cvmx_pow_wait {
+ 	CVMX_POW_NO_WAIT = 0,
  };
  
 -typedef enum {
-+enum cvmx_pow_wait {
- 	CVMX_POW_WAIT = 1,
- 	CVMX_POW_NO_WAIT = 0,
--} cvmx_pow_wait_t;
++enum cvmx_pko_lock {
+ 	CVMX_PKO_LOCK_NONE = 0,
+ 	CVMX_PKO_LOCK_ATOMIC_TAG = 1,
+ 	CVMX_PKO_LOCK_CMD_QUEUE = 2,
+-} cvmx_pko_lock_t;
 +};
  
  typedef enum {
- 	CVMX_PKO_LOCK_NONE = 0,
-@@ -1344,11 +1344,11 @@ static inline unsigned int cvmx_get_core_num(void)
+ 	CVMX_PKO_SUCCESS,
+@@ -1383,12 +1383,12 @@ static inline union cvmx_gmxx_rxx_rx_inbnd cvmx_spi4000_check_speed(int interfac
  }
  
- static inline void cvmx_pow_work_request_async_nocheck(int scr_addr,
--						       cvmx_pow_wait_t wait)
-+						       enum cvmx_pow_wait wait)
+ static inline void cvmx_pko_send_packet_prepare(u64 port, u64 queue,
+-						cvmx_pko_lock_t use_locking)
++						enum cvmx_pko_lock use_locking)
  { }
  
- static inline void cvmx_pow_work_request_async(int scr_addr,
--					       cvmx_pow_wait_t wait)
-+					       enum cvmx_pow_wait wait)
- { }
- 
- static inline struct cvmx_wqe *cvmx_pow_work_response_async(int scr_addr)
-@@ -1358,7 +1358,7 @@ static inline struct cvmx_wqe *cvmx_pow_work_response_async(int scr_addr)
- 	return wqe;
- }
- 
--static inline struct cvmx_wqe *cvmx_pow_work_request_sync(cvmx_pow_wait_t wait)
-+static inline struct cvmx_wqe *cvmx_pow_work_request_sync(enum cvmx_pow_wait wait)
+ static inline cvmx_pko_status_t cvmx_pko_send_packet_finish(u64 port,
+ 		u64 queue, union cvmx_pko_command_word0 pko_command,
+-		union cvmx_buf_ptr packet, cvmx_pko_lock_t use_locking)
++		union cvmx_buf_ptr packet, enum cvmx_pko_lock use_locking)
  {
- 	return (void *)(unsigned long)wait;
+ 	return 0;
  }
 -- 
 2.43.0
