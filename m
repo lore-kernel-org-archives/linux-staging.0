@@ -1,85 +1,86 @@
-Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com [95.215.58.179])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 506E736DA07
-	for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 06:22:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9DEB39022B
+	for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 07:11:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777270937; cv=none; b=du14Q+0LJgahS5qrIbGQZu9lIiwdJa85lih9yYQeLH4Lm+kdbinF6TsW/F0m6VqlHp/ed/eLyK2UV2gniXe0Bpd3LvEWJp8x6Ue9kfzrUOZ2JZ64DowN5G2WvOe+IrYZiwH6rkUcpHs4u4h/rE6IpD8s8rBR2lqKAWLjV4cs5kM=
+	t=1777273879; cv=none; b=RpoKG3Mry/vuIMgKTr6gpyvtvPBoXFVQHK8M/3mDTcj5fAQyPi/vKbRQ9Qj8RMzEdpfMReN1paa/n+0drxE3T1l61LdgySxyVQq3x7JIskJHrnpwmzF1afoVJP4swloxct+JvuxBedRa4CiMCovo7kwRa12Tf5MkhJc9raEOT50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777270937; c=relaxed/simple;
-	bh=j7e/du9+j2jk9AVNnfbZtHDbOyDozY0XpogdSRtO4ZQ=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=ZJ5s1Yv9iL5Sk4VyDUSmOHErstT38gsQyMcyQXhsZsGlepEFUA/TJ9Oc9fqkpxLKpfq9Mi+DnkruuFls12pSiHPpHKsJEii33hUyF06us/WJTWIE1vHnVBIgLyorfD+WGda/TbZFoCqnDh+9Gkg7G3EmUeH4iIOAxPWC9cNZcZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=UFkX7keM; arc=none smtp.client-ip=95.215.58.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1777273879; c=relaxed/simple;
+	bh=ySJzayWuu8pA8XhVo8gOfKNeveBOndo7TY8qlXdbrbM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=e1IiqpjDn/oGyzFADdtqwgZOEACuoTK6BFmQSB4Smz1EeOzJXmONMwWoaypPJJNk8JHe8TYkzdjPrAV51zYGYFgUyrF3QeIcvM8mbJunExKOwuYFAd+dQvSiRS2dT4/Sv/v42Jf1FDN9HC7Nbnk5G8p2Y/DrzWZbI4ueUgNBRiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FPGBPeG6; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="UFkX7keM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FPGBPeG6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777273878; x=1808809878;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ySJzayWuu8pA8XhVo8gOfKNeveBOndo7TY8qlXdbrbM=;
+  b=FPGBPeG6AP7hBN52VvYMjr0upL0uM6GMhG7lJicym7n9THA7610HWmz/
+   Dd1l7f/fCLY4fDkGNk7L0r1Qlh10PmOdYHPZGlD6WeLgs8NThrs33A1Vp
+   54d58qOgfViz4bd++zVrD5te2CBM+QWIMA1NsgOA+MTnFczYBYBSEoyEy
+   k/6n9qM5yvO76raOvNbX2D4Uu94yXmQhpBmd2Im06dx8fMEoOoIdk4Atj
+   7YZTJhZmQ795zYHulVEzg65GtF95Aq9cWXCLgG+OsYLlgy32oBCgCU6ub
+   pDUgos9xmnQseE67mhqUa7+DoR734+fy2JWTbF/EB2ANMyxL6ZrTkbgLG
+   g==;
+X-CSE-ConnectionGUID: T4WOkCmUSAGcGdut/T9o+w==
+X-CSE-MsgGUID: T4sOTmAyTbORidgR+JQpLQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11768"; a="77179549"
+X-IronPort-AV: E=Sophos;i="6.23,201,1770624000"; 
+   d="scan'208";a="77179549"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2026 00:11:17 -0700
+X-CSE-ConnectionGUID: VC5Vo7cMTUu5TNoa+QWg0Q==
+X-CSE-MsgGUID: PvCHKEAbSi2YwLrS/Tu8MA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,201,1770624000"; 
+   d="scan'208";a="230925811"
+Received: from fpallare-mobl4.ger.corp.intel.com (HELO localhost) ([10.245.244.2])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2026 00:11:15 -0700
+Date: Mon, 27 Apr 2026 10:11:12 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Tomasz Unger <tomasz.unger@yahoo.pl>
+Cc: Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: media: atomisp: fix typo "commmit" in comments
+Message-ID: <ae8MEA1kEa8Ag7Z3@ashevche-desk.local>
+References: <20260425-atomisp-fix-typo-v1-1-7ded6cd4bc97.ref@yahoo.pl>
+ <20260425-atomisp-fix-typo-v1-1-7ded6cd4bc97@yahoo.pl>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1777270933;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1bE8rFBtiQN18oD9KtRCn2qzsGYI1oD+qH+aBAA9CSY=;
-	b=UFkX7keMFUFJkiY9FF3Bp8XkSi/yZCcSxV0rhvBUI6/EIdkYZL/PYdFsl3N3fstseUGsSz
-	0dE6FmkDcZL0utlRHB19qRMRgBz2Cq1z0H6L4Dcwt9pwyln2pbKXbUhHUIWUMwvzg8vmUZ
-	IbXsERwebYYybh5OsZAYDjXv5yS1U3o=
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 27 Apr 2026 08:22:06 +0200
-Message-Id: <DI3PYO2WBVJC.3J79HVNKTFNOO@linux.dev>
-Cc: <straube.linux@gmail.com>, <linux-staging@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 2/5] staging: rtl8723bs: rtw_mlme: fix lines
- exceeding 100 columns
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Luka Gejak" <luka.gejak@linux.dev>
-To: "Luka Gejak" <luka.gejak@linux.dev>, "Salman Alghamdi"
- <me@cipherat.com>, <gregkh@linuxfoundation.org>
-References: <20260426225552.87114-1-me@cipherat.com>
- <20260426225552.87114-3-me@cipherat.com>
- <DI3PAOMCIRAL.3FHL3M7JUSBXT@linux.dev>
-In-Reply-To: <DI3PAOMCIRAL.3FHL3M7JUSBXT@linux.dev>
-X-Migadu-Flow: FLOW_OUT
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260425-atomisp-fix-typo-v1-1-7ded6cd4bc97@yahoo.pl>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Mon Apr 27, 2026 at 7:50 AM CEST, Luka Gejak wrote:
-> On Mon Apr 27, 2026 at 12:54 AM CEST, Salman Alghamdi wrote:
->> Wrap long lines and extract local variables to bring all lines
->> within the 100 column limit.
->>
->> Signed-off-by: Salman Alghamdi <me@cipherat.com>
->> ---
+On Sat, Apr 25, 2026 at 12:15:08PM +0200, Tomasz Unger wrote:
+> Fix a repeated typo "commmit" -> "commit" in generated code comments
+> across five files. Found with codespell.
 
-...
+This code is very unlikely is going to be re-generated (as it's coupled with
+all problems, including legal ones, to the associated firmware).
 
- 		/*  Added by Albert 2009/02/18 */
->> -		/*  Restore the PMK information to securitypriv structure for the fol=
-lowing connection. */
->> -		memcpy(&adapter->securitypriv.PMKIDList[0], &backupPMKIDList[0], size=
-of(struct rt_pmkid_list) * NUM_PMKID_CACHE);
->> +		/*  Restore the PMK information to securitypriv structure
->> +		 * for the following connection.
->> +		 */
->
-> This is not aligned correctly either. f from from should go under R from
-> Restore:
-> /*  Restore the PMK information to securitypriv structure
->  *  for the following connection.
->  */
+That said, just drop that comment altogether instead of fixing typos in it.
+(Also drop the same where no typos were detected.)
 
-...
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Hi Salman,
-this is the only viable change you need to make from this email. I have=20
-verified that the other ones are visual glitches. Other emails are still
-valid and you still have to send v4 to address other isues.
-Best regards,
-Luka Gejak
+
