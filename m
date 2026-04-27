@@ -1,64 +1,64 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BF5039A074
-	for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 08:18:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16CEB39A7E7
+	for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 08:18:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777277916; cv=none; b=eQHT5XuHGkBQvx9NmwVeBsM5kOJoo06NsbZ14pl1XMqPEMHwv++EdbwyzveLwcKbh76Syk7m4UtpD+cEHNqNcfeottFbauyYwTNPAxH/rhkEptket9fpoO1m9aMqDMrTYRFEJgW/nKu4Puy7V+ZVoeqItpMYqdN4SPNerTiFBTI=
+	t=1777277920; cv=none; b=u660xwgv712g230wntX+ZSHCYsraXERQ4jrZHTnh5TdgRNPy/kxeyZrw8uZXFakWVU6nwt61bUw9R0meC2Et7ZaXdInqf0U8LeMfxc5Tjf4ytPv9a0K+fj8HJKP62fpzEJE2D10EEEFzWZ7HpbvwepnT2VK3WmxfVtoVqYVV8T4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777277916; c=relaxed/simple;
-	bh=UGUi2ZtX1bemwYp8cSksp8hkcBsw8FfUwrFHOQVPgO8=;
+	s=arc-20240116; t=1777277920; c=relaxed/simple;
+	bh=QsWgV/TRc8h5FUj2uOm4q4TApmuKuKTXIme2FfHuqZM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pmLRkSGceibY7/G6HmkmngboVEbjfmBWyrwXKxQEiS1qa98Da3/1x0aFbByjFciJpGWeaSDB6denvsYttQ5tCxPH1VugTLA70V+bPD9Xpf48Hy2qBC/EHfbgldBFVjUa4p45Bn/7uGQ2uxXiTn3zqgVa+qe6KK6KyCH2NtmL8Ys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=amcjZGYv; arc=none smtp.client-ip=209.85.128.52
+	 MIME-Version; b=ms4uZDDVEiYkg1M0t9TQ840HKaFue8UgivbkAXiYpfMTmoM2TplZkVZNXfVfXP9EDrLxbnALE3m6podJB9gQk+7Ty4kQgoTeV11UOEj7iRYndq2MwZt8ysIPnxqLhjsGL/rp/iII5621DEJowuHXDQusKCGirYE3xrmj+OwmZFE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZVk/ZrdE; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="amcjZGYv"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-488b0046078so90465905e9.1
-        for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 01:18:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZVk/ZrdE"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-488b8bc6bc9so71281525e9.3
+        for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 01:18:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777277913; x=1777882713; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1777277917; x=1777882717; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ORRSLkmyVRQ6NCw35RQV07Yi/LmWTcjj6Iy7t//9MNM=;
-        b=amcjZGYvyEQ7x902kLXvoo5wBT5YOOik/GyUIIcJrpbWmhjTYJ1EAR0iBEoE3Hq3eG
-         FrlfwoZK9j4GAHK86xHitwTrlgXbXhX7I4C8iPciuqespxhS+5Js1IAu3AQZduAN8QUn
-         c+guU/rSDiqpb1JlII7w7fls8rOn3eKZm/AerHZaQ0TY00KabXl7cAuroy3ghS1CMNvg
-         aDLh2CP0zSUYv5TCk9IDPmrvwCJyq8DwSlsFh4/6GfKKf8J6lsmAQ3Rd7Jz2IsmmRJr6
-         l+GyFtdNW6fZ5azUC+aiuYq/kEs4vbcxFILqp37ulXS62uqzfvUb+CTU8EdqsXwsUIdS
-         lwlA==
+        bh=HVlRFyF005cdj3KbEszpkmE7tTQiTu1k1/BY4S0J3Oo=;
+        b=ZVk/ZrdEzhSJ5DfAQS025IX6iQaemjgM7Qo+MgWqBxqmSTaYBxfI/HOU971vKxGGzE
+         W1Q65eQ7r+wL/n7eh6N5XC9wNFwfFRpDO8Eayzy5TFSc+Hp+3kFgidpRgyl8DD2v+VQI
+         Hg7EwPumm6YqsJE1Ij0XZBmxvzrWWZqe7E5MQtZY3LbTaGDFyEYP9AGWGuYfzrXBKKGI
+         s8L9l1JPiBTl+Eu2w3k7aXJFT0n17aMHJgYXdcGW+6unMJolYpQn9E6/Uf8MxF2LMlL7
+         tdgQfz/YPvmYIspzl9HVxYHkF2I+z7X8MV9IjWGeK8mvLPoQVEK/K/YcZmU+Y/XChjUd
+         eE2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777277913; x=1777882713;
+        d=1e100.net; s=20251104; t=1777277917; x=1777882717;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=ORRSLkmyVRQ6NCw35RQV07Yi/LmWTcjj6Iy7t//9MNM=;
-        b=tEERpTckvJ1XIwDM16I5tKblmhs1GfnHa6zSG+XgaMLsEqPGgz9mbwIpTB0volAEs7
-         hZXvFOn1bFnnDIRb44UAJlJAcVX9S0w04pfOH9+nk01fa4uvEyCg3avzJjKUPqJtEIa3
-         S8m0Z2NeGyX7vrbBnMuaJemjHlkO/LNILkpJaLb0ebQV4k89jkIRMo9SVKjkM/t3mBJi
-         CBpnBveDtdIbIDTcTOEBsM7gUHTFA6jN4Cq3QCVa7Z+Dr041TzkVdT+eEOt2Che7QV1G
-         UEmmwFVP7Y8vuAf8itV/p0XfwS1G5l9UoTB7apcwr225MdCMBxTAiTZV++g/Fdp/GMFM
-         2rHw==
-X-Forwarded-Encrypted: i=1; AFNElJ+NeBkYXvw4d/ufIsay7a89tyvmtySKBv/NqL7+wBX3SByr5ie8m1Rpx0w5eW2/TKKPGGUsoCihr+N/6nSB@lists.linux.dev
-X-Gm-Message-State: AOJu0YwnWIoKJzCpMolN8amKWHarqqAuk/f08MZe9+e11mWilq65fem7
-	zVtfeuPtCEQDrzS/XbhrzGl1Vyojrlvz93i4Q2xkF1lGCgLpHy59aGcw
-X-Gm-Gg: AeBDietJKr7gv3SAbOq2reiLDcWvql9eiDaPZZ/y2CD75rnlNQM8hdZhuk26M3M325a
-	ozZml24QusEWw1v48fo4C3yWVVCJHbXyc1LOogsa2spwE0YFOMrv99wIl+t2n0AdqOBNo590jtC
-	R6riEwdCdUee8xuDZS6VxH23vaqVwruGc5sleh0K0gLkmTUhT81hCbJaJROWu4Y+VVd28ztv/8P
-	O6SHISVrS/X3v2pk1j5gRFLCofYPnKrZKZaIddUTiMSkAO45CRHQSOjMuhfYmVZsWnkKwlc3Vwc
-	cNnr7lkgtdd5iCUqIcsS1oFl1PBC6bFsgwtkJcgLaAHk1ldtkffdNGAToU5zjUOel0jMNqOgAQW
-	chCD10UZh2r0eguBTzxBvmTNW47FWyKLe7yw2tQH9bs35md9bthi3dPQilX2iNzs20nv8QIX4nQ
-	E3szSBRH66c149hoHY98S5hhORnVGWIFfchbFg1knzanry837jCEekHbNPssyv14vTscmcGOAUH
-	UQobQsv2rZH/xW6leCuQbUZHpK00CoWJ/KNQhklG6KSMrM8mdX1n+hDrjuMmyWGV2YIayA=
-X-Received: by 2002:a05:600c:4652:b0:489:a4:e578 with SMTP id 5b1f17b1804b1-48900a4e944mr303852385e9.14.1777277912730;
-        Mon, 27 Apr 2026 01:18:32 -0700 (PDT)
+        bh=HVlRFyF005cdj3KbEszpkmE7tTQiTu1k1/BY4S0J3Oo=;
+        b=ec+WxgItIWCY8mDB6pqnmqaGRwh//8UfZWbk+RV1opU9e46dPJYC8GS/tFywr4P1A7
+         D56rzHdV+AB69SlYiPEWkLyXTvZjEgU7VZsUafLyrZG+beqsQJ8knnzONFzbLCzZNYih
+         +0CtVuSqPby4y4hLw73RRtI3ceZwsYpminO8/F6sIJxDHRDreThwmb5Oh2yTYwt5ZLSz
+         BPSxKKZNVvK2vqPTlKcMYmAqmhsy6fhG2IOoPBLNyBAwE/vXWEEeG/ijdSysIbaBUtXm
+         CDYEN8dmaxhnF22xKLI1ZUV6TKZR8iGmSiuk3Y8vFmK1CiM+VZQ1S/nxCCZuIE8JKESi
+         gYAg==
+X-Forwarded-Encrypted: i=1; AFNElJ/12poFzLGhlbdw5Bm5w5UDxC/Jn41Qq7pNIwFmmO9pGaWHK+WyiKy2lWM16oii9DQpskCO6HiprELwLgi9@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx582OOa7/CHXwLgP4LCn3L5eI7zej5KRNQ35LU1wgo+IM+kEFc
+	OdkzYNVOv/xRnKjQIGiM9SdGEh13ZOEFZRH00Acr/2w5M0FU1GJqpfj4
+X-Gm-Gg: AeBDiesQQeiW+wvYDJ8PjqUtPVdlKPAaSvpu6Mf+8gOg1FHR45NwciFBzOyNP9I93mU
+	q/5XFWYuhvL2HIjCT2Q4GY3OXPLCvIN84SaN8TF32HAGx2NszSRNVp1z5x5JAbwOf6vLsRZIOjv
+	SHQrDAoiffe2asa/3KivZfU68e9ecrWBwsLSAK5fBtPnPE/aOd8/uwiiSLYPDRtqVWSRWA4XONd
+	dh3vIz7vkd/HmA05F3Envc0tvDS9tmAvuOW4nmg29q+WzGxOb8OwPMfHZdqSqwomJL1jOJhNibG
+	TDiQINajMh6gKdjoKMjm8zrjLHgB/X2of8KmXibaHqxWj2g408Br3rYICK5ctTAb0cVofGfGm1W
+	kfCWPHZ+8EHNiNpzqO6+GaE22BTG7ih/GT+m7S2XPnMtcYQjhtObIsvRCIP/iID0gH5cdHC3Hvd
+	HoqgdQV1b+Rl7qRUUll5TXFYH9OYMZCO51VDa7OLF7DfLfaP/kZe+ijs0bgIT4iW1JJ/6IgxLmU
+	m5jf1VF9XcQluysR15xb21oqLefPIdvCZjwFWbm0vcz+BPgIOMx48wy0W8GEh6m5klGmds=
+X-Received: by 2002:a05:600c:548a:b0:48a:75b9:b0bc with SMTP id 5b1f17b1804b1-48a75b9b0c5mr734945e9.29.1777277917225;
+        Mon, 27 Apr 2026 01:18:37 -0700 (PDT)
 Received: from ahossu.localdomain ([82.78.232.184])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488fc14a61asm712652115e9.15.2026.04.27.01.18.22
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488fc14a61asm712652115e9.15.2026.04.27.01.18.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Apr 2026 01:18:32 -0700 (PDT)
+        Mon, 27 Apr 2026 01:18:36 -0700 (PDT)
 From: Alexandru Hossu <hossu.alexandru@gmail.com>
 To: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
@@ -67,9 +67,9 @@ Cc: error27@gmail.com,
 	luka.gejak@linux.dev,
 	Alexandru Hossu <hossu.alexandru@gmail.com>,
 	stable@vger.kernel.org
-Subject: [PATCH v3 2/3] staging: rtl8723bs: fix OOB reads in IE loops in issue_assocreq() and join_cmd_hdl()
-Date: Mon, 27 Apr 2026 10:16:25 +0200
-Message-ID: <20260427081626.3393697-3-hossu.alexandru@gmail.com>
+Subject: [PATCH v3 3/3] staging: rtl8723bs: fix heap buffer overflow in rtw_cfg80211_set_wpa_ie()
+Date: Mon, 27 Apr 2026 10:16:26 +0200
+Message-ID: <20260427081626.3393697-4-hossu.alexandru@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260427081626.3393697-1-hossu.alexandru@gmail.com>
 References: <20260427081626.3393697-1-hossu.alexandru@gmail.com>
@@ -81,60 +81,58 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Two IE parsing loops are missing the header bounds checks before they
-dereference pIE->length:
+supplicant_ie is a 256-byte array in struct security_priv. The WPA and
+WPA2 IE copy paths use:
 
- - issue_assocreq() walks pmlmeinfo->network.ies to build the
-   association request. If the stored IE data ends with only an
-   element_id byte and no length byte, pIE->length is read one byte
-   past the end of the buffer.
+    memcpy(padapter->securitypriv.supplicant_ie, &pwpa[0], wpa_ielen + 2);
 
- - join_cmd_hdl() walks pnetwork->ies during station join and has
-   the same problem under the same conditions.
+where wpa_ielen is the raw IE length field (u8, 0-255). When a local user
+supplies a connect request via nl80211 with a crafted WPA IE of length 255,
+wpa_ielen + 2 equals 257, overflowing the 256-byte buffer by one byte into
+the adjacent last_mic_err_time field.
 
-Both buffers are filled from AP beacon and probe-response frames, so a
-malicious AP that sends a truncated final IE can trigger the issue.
+rtw_parse_wpa_ie() does not prevent this: its length consistency check
+compares *(wpa_ie+1) against (u8)(wpa_ie_len-2), which is (u8)(255) == 255
+when wpa_ie_len = 257, so the check passes silently.
 
-Apply the two-guard pattern already used in OnAssocRsp():
-  1. Break if fewer than sizeof(*pIE) bytes remain.
-  2. Break if the IE's declared data extends past the buffer end.
+Add explicit bounds checks for both the WPA and WPA2 paths before the
+memcpy, rejecting any IE whose total size (wpa_ielen + 2) exceeds the
+supplicant_ie buffer.
 
 Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
 Cc: stable@vger.kernel.org
 Reviewed-by: Luka Gejak <luka.gejak@linux.dev>
 Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 8 ++++++++
+ drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 8 ++++++++
  1 file changed, 8 insertions(+)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index 884cd39ec756..c646dc2a1741 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -2931,7 +2931,11 @@ void issue_assocreq(struct adapter *padapter)
+diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+index 098456e97c96..3d930d9af184 100644
+--- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
++++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+@@ -1443,6 +1443,10 @@ static int rtw_cfg80211_set_wpa_ie(struct adapter *padapter, u8 *pie, size_t iel
  
- 	/* vendor specific IE, such as WPA, WMM, WPS */
- 	for (i = sizeof(struct ndis_802_11_fix_ie); i < pmlmeinfo->network.ie_length;) {
-+		if (i + sizeof(*pIE) > pmlmeinfo->network.ie_length)
-+			break;
- 		pIE = (struct ndis_80211_var_ie *)(pmlmeinfo->network.ies + i);
-+		if (i + sizeof(*pIE) + pIE->length > pmlmeinfo->network.ie_length)
-+			break;
+ 	pwpa = rtw_get_wpa_ie(buf, &wpa_ielen, ielen);
+ 	if (pwpa && wpa_ielen > 0) {
++		if (wpa_ielen + 2 > sizeof(padapter->securitypriv.supplicant_ie)) {
++			ret = -EINVAL;
++			goto exit;
++		}
+ 		if (rtw_parse_wpa_ie(pwpa, wpa_ielen + 2, &group_cipher, &pairwise_cipher, NULL) == _SUCCESS) {
+ 			padapter->securitypriv.dot11AuthAlgrthm = dot11AuthAlgrthm_8021X;
+ 			padapter->securitypriv.ndisauthtype = Ndis802_11AuthModeWPAPSK;
+@@ -1452,6 +1456,10 @@ static int rtw_cfg80211_set_wpa_ie(struct adapter *padapter, u8 *pie, size_t iel
  
- 		switch (pIE->element_id) {
- 		case WLAN_EID_VENDOR_SPECIFIC:
-@@ -5324,7 +5328,11 @@ u8 join_cmd_hdl(struct adapter *padapter, u8 *pbuf)
- 
- 	/* sizeof(struct ndis_802_11_fix_ie) */
- 	for (i = _FIXED_IE_LENGTH_; i < pnetwork->ie_length;) {
-+		if (i + sizeof(*pIE) > pnetwork->ie_length)
-+			break;
- 		pIE = (struct ndis_80211_var_ie *)(pnetwork->ies + i);
-+		if (i + sizeof(*pIE) + pIE->length > pnetwork->ie_length)
-+			break;
- 
- 		switch (pIE->element_id) {
- 		case WLAN_EID_VENDOR_SPECIFIC:/* Get WMM IE. */
+ 	pwpa2 = rtw_get_wpa2_ie(buf, &wpa2_ielen, ielen);
+ 	if (pwpa2 && wpa2_ielen > 0) {
++		if (wpa2_ielen + 2 > sizeof(padapter->securitypriv.supplicant_ie)) {
++			ret = -EINVAL;
++			goto exit;
++		}
+ 		if (rtw_parse_wpa2_ie(pwpa2, wpa2_ielen + 2, &group_cipher, &pairwise_cipher, NULL) == _SUCCESS) {
+ 			padapter->securitypriv.dot11AuthAlgrthm = dot11AuthAlgrthm_8021X;
+ 			padapter->securitypriv.ndisauthtype = Ndis802_11AuthModeWPA2PSK;
 -- 
 2.53.0
 
