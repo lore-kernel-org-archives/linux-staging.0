@@ -1,135 +1,117 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72B522EDD62
-	for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 04:55:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40D4840DFA5
+	for <linux-staging@lists.linux.dev>; Mon, 27 Apr 2026 05:32:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777265703; cv=none; b=ACCk3ywH6sjKCy4zeo+5m/1leyFNQEUjJt7/9zv2RUZKWaTo7SN+YDLf3hjLiAof0+sQWeUm4/pQuoWjpwr03w2S6k2fkFfsUizKLcMhmTJ6KqUiaNx4yCr3Dy8tKekWbAcY+UkHIC9K9OcDaCNEL5NTch8uC5ZyGLQwt7/O5Ac=
+	t=1777267963; cv=none; b=uWY7WRZcd0VQCOodPAa7929ATr0CK+ptiKKQqVnuonhxgb5q/fRT3TWaxfEOOvE8Obm2TQthcW63ZDrYOWjLMwsfYdcqcmkOLZExFcG/TpvOMHUE0hravWLzlel501IIV6o4ErbKzC4W4k0gDkt/DvQ4EEHprvkF66TaUY9BKVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777265703; c=relaxed/simple;
-	bh=kzR4tTank6nQucPVfQWtrXjauNtrYKZpw16r3ImS3pw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ggXubehaSiMnrNIuKIjCaHqzjFbrjoS96HyBmKUgamVs2nWM5g2gX/BMjMxPWQU0NwphDGh9TFKL6WsSAxZLZpTpxLXjH59l85FZwmPaiBPHWOR2kX4XOAzfp1nvRkTxQuDmqAS048q1XyAgHLxYREIjBr2YzFkt5r0x6TYkudU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JJR+JzlJ; arc=none smtp.client-ip=209.85.215.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777267963; c=relaxed/simple;
+	bh=l/D6Srbph4WaFMd/nlFuph+wiRelvGj3s5Rnbyl8ApI=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=J9Cf00ICbIMX2Gs/6L7H0z+SvwL/Emx1ZKlPdsg4pPksH2WZY5KHxZFq4I1IwgjuXCEAptc0SkxrN1QXLJ6VM3TT0aeEGa+zrQbyV0aCPHaTrEEaD+iVRxlQFcpNxsAdNzqgXu7xJNcKcZRydX7CGLSyE4QTo56kfpYKeA4bnGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=TfIGIBG8; arc=none smtp.client-ip=95.215.58.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JJR+JzlJ"
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-c7963df6f17so6462812a12.0
-        for <linux-staging@lists.linux.dev>; Sun, 26 Apr 2026 21:55:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777265701; x=1777870501; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cFgTfDtQqAbkf7ATgQZ3F8aWPMjefay/fF2UFGDgFWQ=;
-        b=JJR+JzlJm2u5Mok+u2C/bZAvJkMeW+X8/cXw/C2yZKN0neNVPRL9TvQeSdXM26+OIr
-         GeE1/zlLebYufne0Hl80OpVUqV0wobann5ozlS7yWXlS6ZZ9HdBUuaoP32clq5sBFaRg
-         vRXML2Oqk21AP5Ytg4D6jE62wswgAgU21ZVky2YIG9lfKzj2FUIjo021kk910Gw8e0kE
-         cd2Ej0S9bw2IsvwUHjF5y9cBE0FWt+maj9x4SUP0ufdzY7wh5rbwvIY+9zHKXuJDehpu
-         3U1n23wEhXqoC5w/1gpXRS8aQ718ugsCXFidUsv4GUvjMcClhN7gYsg804/kHErZUdvz
-         oZig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777265701; x=1777870501;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=cFgTfDtQqAbkf7ATgQZ3F8aWPMjefay/fF2UFGDgFWQ=;
-        b=gPqIplXfDnw+CdxGo4lf9F7IJuulWlPp7l0Q/Ozrqzd3z1qJORqOjkqgR+wGrxyRGB
-         WgRnUCuZ3n2BfwO0Rkt4PSth3Yvm4FMA9g3BuMMIrOGBhexQ8wxYYEIIfCGLsjNNlVVG
-         h/U4XUaIyYiZxnSWPVc6Y4Rs5CEcBCklfV6n+vlw5jnBs9wP+PBwO5j+JxEFSQa3xUZY
-         Z48ejZDLj4ZcamflaOa9XEqsC+KV3ud/gefXm7mddZSaE9MHBQNGkNlhDF8RL9OJ/xKU
-         CzD1s2qp4YcpHZJW1M/53yon8grM93S4yNQM+75rvIu4KRuLULSK6NS80eQgYhGwiQpF
-         2tBA==
-X-Forwarded-Encrypted: i=1; AFNElJ/PdO6Q2pNPnVJ6p7muAIMQC/WbsH5S3gJR4hz6wKI1ro7QWL/oXNwMjt/4TPcRgL1vcffU332Wj4RUWIzw@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw4F6Xde2pWT8qU2vSpB5qSla8IfwXWNTP9ZrjDhebPtao/B47x
-	c0tQsfw6+fRzkpC42VvcQ6YB6K4pKS6nf3DvGpOnojUS52eG0dqb5BXZ
-X-Gm-Gg: AeBDiesnjBoXER/OKj/R2C05/Wl6C+GQIy3jKfdrA+FXgJBuODNnew9ajB2HzFHUoVW
-	X4SGK9LDHNhEjMtb9KveRb1v1gBHqnWuyr9jXaSpPgLXYsvNp0DFqb7vsGSoCUJQvKthSxxUf+6
-	4LQwznmvyIWbhu9jXdb2XgDPYZ4ppVQyd2uWBICbZSlcCAX9C2GtO4nLBqP0O0zz1FAweNNEF9u
-	Fa7dJ0KtGBhSOTRdAvevHGkL5Ay40NVLnBu9SDtmYbnffjfU0p143bbF7kADco42ZAreL66JpFe
-	7vQHUjZHP7nAV7AZlARq1MzMPnYDpwYgbz4SqQC1vo7ffJ1ApCejuIyZyPZhIXoqq94awqrQoRU
-	6rcuxTnkkOlzH8wUZoFujxyatyjO6dlWUFpqWhRGNjBLMu4Dhp5sfqOs5HD9jPjNmzPim/4I55s
-	Ri1IG/IRK4duT95WBiEQQKJcYN8w0jQ1HRWjbox2ACNH9VWa+Gh09XJLJMZiIRdQbg
-X-Received: by 2002:a05:6a21:99a3:b0:39b:d937:8010 with SMTP id adf61e73a8af0-3a08d8e076dmr45768555637.45.1777265700690;
-        Sun, 26 Apr 2026 21:55:00 -0700 (PDT)
-Received: from arch.localdomain ([2405:201:8043:c04b:e09f:2c00:55ad:2561])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c797703059fsm23361399a12.24.2026.04.26.21.54.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Apr 2026 21:55:00 -0700 (PDT)
-From: Debjeet Banerjee <debjeetbanerjee48@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: debjeetbanerjee48@gmail.com,
-	dtwlin@gmail.com,
-	elder@kernel.org,
-	greybus-dev@lists.linaro.org,
-	johan@kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH v2] staging: greybus: uart: clear unsupported c_cflag bits in set_termios
-Date: Mon, 27 Apr 2026 10:24:46 +0530
-Message-ID: <20260427045446.16430-1-debjeetbanerjee48@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <2026042618-whole-cassette-b15e@gregkh>
-References: <2026042618-whole-cassette-b15e@gregkh>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="TfIGIBG8"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1777267958;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=y9Bwcv2NkTBlACnJo3WBcLyRmdmBOvvnLQoVPGVhjI4=;
+	b=TfIGIBG8OmeBNRT0EqfFtHLwnBKSNQ99VVUY/s4h/1WCn+qumUQsV544T/U7RTmdvOh5J+
+	y+if3ULlEegRrXqL5QDWrK24ba4CZgHg3aOlyJj5Hk37xt//N84UibbZ6jGvwY5bmwt+9d
+	EhuHcCbuKtGyEEcAFSahLdPh3JEm+lc=
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 27 Apr 2026 07:32:24 +0200
+Message-Id: <DI3OWMGDI1IJ.17IMQ692X34FU@linux.dev>
+Subject: Re: [PATCH v3 3/5] staging: rtl8723bs: rtw_mlme: remove dead
+ commented-out code
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Luka Gejak" <luka.gejak@linux.dev>
+To: "Salman Alghamdi" <me@cipherat.com>, <gregkh@linuxfoundation.org>
+Cc: <luka.gejak@linux.dev>, <straube.linux@gmail.com>,
+ <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+References: <20260426225552.87114-1-me@cipherat.com>
+ <20260426225552.87114-4-me@cipherat.com>
+In-Reply-To: <20260426225552.87114-4-me@cipherat.com>
+X-Migadu-Flow: FLOW_OUT
 
-gb_tty_set_termios() derives UART line configuration from a subset of
-termios->c_cflag bits (CSIZE, CSTOPB, PARENB, PARODD, CMSPAR, CRTSCTS,
-CLOCAL and CBAUD). Other bits are not interpreted by the driver and are
-not represented in the Greybus UART protocol.
+On Mon Apr 27, 2026 at 12:55 AM CEST, Salman Alghamdi wrote:
+> Remove commented-out code and its related comments/notes.
+>
+> Signed-off-by: Salman Alghamdi <me@cipherat.com>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_mlme.c | 15 ---------------
+>  1 file changed, 15 deletions(-)
+>
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/=
+rtl8723bs/core/rtw_mlme.c
+> index cdc631464565..c8971c03704c 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+> @@ -758,9 +758,6 @@ void rtw_surveydone_event_callback(struct adapter	*ad=
+apter, u8 *pbuf)
+>  					struct wlan_bssid_ex *pdev_network =3D &regs->dev_network;
+>  					u8 *pibss =3D regs->dev_network.mac_address;
+> =20
+> -					/* pmlmepriv->fw_state ^=3D _FW_UNDER_SURVEY;
+> -					 * because don't set assoc_timer
+> -					 */
+>  					_clr_fwstate_(pmlmepriv, _FW_UNDER_SURVEY);
+> =20
+>  					memcpy(&pdev_network->ssid, &pmlmepriv->assoc_ssid,
+> @@ -1721,12 +1718,8 @@ void rtw_dynamic_check_timer_handler(struct adapte=
+r *adapter)
+> =20
+>  		should_enter_ps =3D traffic_status_watchdog(adapter, true);
+>  		if (should_enter_ps) {
+> -			/* rtw_lps_ctrl_wk_cmd(adapter, LPS_CTRL_ENTER, 1); */
+>  			rtw_hal_dm_watchdog_in_lps(adapter);
+>  		} else {
+> -			/* call rtw_lps_ctrl_wk_cmd(padapter, LPS_CTRL_LEAVE, 1)
+> -			 * in traffic_status_watchdog()
+> -			 */
+>  		}
 
-Mask unsupported c_cflag bits so that userspace-visible termios
-reflects the supported bits implemented by the driver.
+By removing these comments above you are leaving empty else block that=20
+should be removed.
 
-This addresses the existing FIXME.
+> =20
+>  	} else {
+> @@ -2265,19 +2258,11 @@ void rtw_update_registrypriv_dev_network(struct a=
+dapter *adapter)
+>  	/*  1. Supported rates */
+>  	/*  2. IE */
+> =20
+> -	/* rtw_set_supported_rate(pdev_network->supported_rates,
+> -	 * pregistrypriv->wireless_mode);  will be called in rtw_generate_ie
+> -	 */
+>  	sz =3D rtw_generate_ie(pregistrypriv);
+> =20
+>  	pdev_network->ie_length =3D sz;
+> =20
+>  	pdev_network->length =3D get_wlan_bssid_ex_sz((struct wlan_bssid_ex  *)=
+pdev_network);
+> -
+> -	/* notes: translate ie_length & length after assign the
+> -	 * length to cmdsz in createbss_cmd();
+> -	 */
+> -	/* pdev_network->ie_length =3D cpu_to_le32(sz); */
+>  }
+> =20
+>  /* the function is at passive_level */
 
-Signed-off-by: Debjeet Banerjee <debjeetbanerjee48@gmail.com>
----
-v2:
-  - Clear unsupported c_cflag bits as suggested
-  - Update comment to mention the change
----
- drivers/staging/greybus/uart.c | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/staging/greybus/uart.c b/drivers/staging/greybus/uart.c
-index 7d060b4cd33d..9c10e6baa7e0 100644
---- a/drivers/staging/greybus/uart.c
-+++ b/drivers/staging/greybus/uart.c
-@@ -495,7 +495,24 @@ static void gb_tty_set_termios(struct tty_struct *tty,
- 
- 	newline.data_bits = tty_get_char_size(termios->c_cflag);
- 
--	/* FIXME: needs to clear unsupported bits in the termios */
-+	/*
-+	 * The Greybus UART driver only interprets a subset of termios
-+	 * c_cflag bits when configuring line settings:
-+	 *
-+	 *   - CSIZE via tty_get_char_size() for data bits
-+	 *   - CSTOPB for stop-bit format
-+	 *   - PARENB, PARODD, CMSPAR for parity encoding
-+	 *   - CRTSCTS for hardware flow control
-+	 *   - CLOCAL for modem control handling
-+	 *   - CBAUD via C_BAUD() for baud rate and B0 semantics
-+	 *
-+	 * Mask unsupported c_cflag bits.
-+	 */
-+	termios->c_cflag &= (CSIZE | CSTOPB |
-+			     PARENB | PARODD | CMSPAR |
-+			     CLOCAL | CRTSCTS |
-+			     CBAUD);
-+
- 	gb_tty->clocal = ((termios->c_cflag & CLOCAL) != 0);
- 
- 	if (C_BAUD(tty) == B0) {
--- 
-2.53.0
-
+Best regards,
+Luka Gejak
