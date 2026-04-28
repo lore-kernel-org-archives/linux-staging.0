@@ -1,47 +1,46 @@
 Received: from mail.cipherat.com (mail.cipherat.com [91.98.42.103])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA5A8329E79
-	for <linux-staging@lists.linux.dev>; Tue, 28 Apr 2026 16:45:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 677EF32ED27
+	for <linux-staging@lists.linux.dev>; Tue, 28 Apr 2026 16:45:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.98.42.103
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777394732; cv=none; b=h6i48foxdaBdjMbgTTGRPP7xz9lupVh8OzL7cIhxNu+BJBZv8PTwOzD593RUmpCziZcJchbqB02QfzBUfKNo79mS67dQ4N5lzs4VaL6KwY4KplznSWpabEvdOZ5aDGaSZpt0vi3CjksOobZ1GjI9VgwduU8vUaPAXiKcqZVpYRY=
+	t=1777394732; cv=none; b=lAjUrIbBJpppSESUL6fRlvb41AdMNvpiIbZZ0oEBwsNJnPFYkh/FdFHjplKc3PCj0BjEtV/A3QZAWBCr4zY8aaC4Ad4CgJY3f423HrO30sot/0aBtp4DimNtVyjs00EArq8HI72Mj2bu9Kj/0rSMuNBofAwrhZzv8ZaL5o+RDSo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1777394732; c=relaxed/simple;
-	bh=rZHYkXggah79PkVFN+6E/RKD6b6tAyfkViysUFDb8oc=;
+	bh=9HdIemgfR4VrPqTNiZHWFj+ptqaf+4Vv3NXR+2U51Wk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=J6199SHSbc8cpveqUEsTlIuF/I45NuZHgnlLylh6iK1z9W1Rk/frdCBh/knkzDz5xwTfwNr+cMfPrRKjRiqKOii4Uf8Mocmv7jPFCQA2sstqG5nPnzkihXTaGmH0LAOQb7qlLOa7YubwW0CYpZRXnlCP1lPH5yXoACllnyZggxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cipherat.com; spf=pass smtp.mailfrom=cipherat.com; dkim=pass (4096-bit key) header.d=cipherat.com header.i=@cipherat.com header.b=kMXdw3V+; arc=none smtp.client-ip=91.98.42.103
+	 MIME-Version; b=Hu3V5YTWrGww8PxpKAruNj/5WD0qhth3yT16VvjMLDwRiW6CMVdkwJdf8iirj54v52PuswrZ6JwDjB2lOqG44UptFQpLoSfrOCr5OTXrmQyW0D+FMCt2HkMvTDZPQW3HVAqSmx6Mi7rFANOjdO9bwYDiy7zlU3VVrVjAHP1AzVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cipherat.com; spf=pass smtp.mailfrom=cipherat.com; dkim=pass (4096-bit key) header.d=cipherat.com header.i=@cipherat.com header.b=F23s9SxG; arc=none smtp.client-ip=91.98.42.103
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cipherat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cipherat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=cipherat.com header.i=@cipherat.com header.b="kMXdw3V+"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 637EC84F95;
-	Tue, 28 Apr 2026 19:45:22 +0300 (+03)
+	dkim=pass (4096-bit key) header.d=cipherat.com header.i=@cipherat.com header.b="F23s9SxG"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6BD4084F98;
+	Tue, 28 Apr 2026 19:45:29 +0300 (+03)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cipherat.com;
-	s=dkim; t=1777394722; h=from:subject:date:message-id:to:cc:mime-version:
+	s=dkim; t=1777394729; h=from:subject:date:message-id:to:cc:mime-version:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=9UgJASqxAWAeh3eiXQ4y7gcX7HLK+OapSPbuxmiLW5Y=;
-	b=kMXdw3V+X6KaN5jNvIsUSwjtoV9CmY+pp7Y/en//lQ8nmd423LdSDsJRhRtA/WssAY6WGJ
-	5henIhw9hhiG/aZLkzsLaD3npjFsbU7eCHlcK4lrVH2HOC68iiCaCmwwFDruk+NBpIUNcY
-	Ef1y0Zx9+0PKS37moQ/pVU0a2cOUArCfo88go5kGYgkBYRJNQck+DFTZ8iiYAhRyfk3zfm
-	OgR5sFXkNg/GTxpchOnUpWziIrB3UAqS3rR9k6sKjZsUk3LA4K/zO9RLWvWBD3cCAqeCrP
-	jyFPwp7tdfblH76Ji53OJaJqQqEU9qywjdoNPDlPtOgGkoS6KTEuPGFgGPFKfZVR1JL8DD
-	c7JQisNAH2nIsgdAOwZ0BRKCigXMYvNVJIuS0m4sV/rAtJ1oCLXGUHLYyr/81eZHq4g+64
-	U0MLQe8dcbSxeJkA+BriweQX9MyE5OP5zvrIx3EQI3WjB8QM1aSLTZqcAYNEeXorX8DtoN
-	K7n2fWai2jucAqiC6ii1uzGOHXT3YsuPfwMRE/sFFB1Li5gPOrtwefdyM/X/06qQElu05o
-	WGGMu0djklXS4J/yGC18rF9LPNE/NFCAU6VsuxhrdncXZCWYUEElf7gEOao7sVnWAhOnc0
-	Ib/TT60wReMad+Fw/JqpZg7hcRtsK3SWO/I0YDvj0TTnBFIF+AXk8=
+	bh=3j1c5EDJo/k0wJE4iA56/aLTF1LlfKvBBoU57CDpPI0=;
+	b=F23s9SxGTWiLspqsDuzI6F74IPt7Auu/k+SMODoM9uwn6llO4TUiaDl6ZXADusa5KdjXMj
+	iND6mdsFdYxcOyRYAtEwY/1diWeoWkb1ciVrJEJQOQ6xG7lrWkyGCGKRhgN/FCHZxpgWwx
+	pTDSuz59hgoeiHoZz5lWN4H7srjaMyhgTWLzuNfebigw1UutSlvcyvmXXRr/+QMMqHTFqs
+	fJU3w2erYw7JxXDduPBm5iIsEjymv4kq4ahNROEwEPrKaKNeDNmoLIGaRml5c5LM7ZwwUO
+	uZ0OrteNtFOizJkSlz3ARtA0bi/rOr5H0IvCRM82jgF31w2o7B5nz94C60DDBpdoLLm+X6
+	h73acdlQZdIm6Pd1FixH9rDMgijz0l9bGfnhgRoljhh1zqkV4AMs6tNiCgLY3mZnlOdjBZ
+	nql7xxjlhho183vCd76Can0ttRPl+2VTt7ablJs+u8VCXM+zmaf6Tn5nzB4NciDSLSC7c4
+	nZKcPAhcCP1jVu26ifEPfgSNsag0bPa2Nzb1tdwhQOH4VJ52jr/owDoMe4KUvZaNJybsM9
+	a8gSbZqdEiC6MgYHa4Zq+BLRuBoDI3DbpN5qMhrs881JkZwb0Vu52dDSYqxAqZ27FkgSKt
+	Z8W3MXLO1SW4vUB5P8/QsM8ghBzEfRkoLRyhIVmXBlTZeK5EENncY=
 From: Salman Alghamdi <me@cipherat.com>
 To: gregkh@linuxfoundation.org
 Cc: luka.gejak@linux.dev,
 	straube.linux@gmail.com,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH v6 1/8] staging: rtl8723bs: fix buffer over-read in rtw_update_protection
-Date: Tue, 28 Apr 2026 19:44:31 +0300
-Message-ID: <20260428164513.763471-2-me@cipherat.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v6 4/8] staging: rtl8723bs: rtw_mlme: wrap rtw_sitesurvey_cmd condition
+Date: Tue, 28 Apr 2026 19:44:34 +0300
+Message-ID: <20260428164513.763471-5-me@cipherat.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260428164513.763471-1-me@cipherat.com>
 References: <20260428164513.763471-1-me@cipherat.com>
@@ -54,50 +53,31 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-rtw_update_protection() is called with a pointer offset into the
-ies buffer but the full ie_length is passed, causing a potential
-buffer over-read.
+Inline rtw_sitesurvey_cmd() directly in the if condition to reduce
+line length.
 
-Fixes: e945c43df60b ("Staging: rtl8723bs: Delete dead code from update_current_network()")
-Fixes: d3fcee1b78a5 ("staging: rtl8723bs: fix camel case in struct wlan_bssid_ex")
-Reported-by: Luka Gejak <luka.gejak@linux.dev>
-Closes: https://lore.kernel.org/linux-staging/DI2H39EAAFBZ.3KI5NWN02AQ2S@linux.dev
-Cc: stable@vger.kernel.org
 Signed-off-by: Salman Alghamdi <me@cipherat.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_mlme.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index ddfc56f0253d..268f294528e6 100644
+index a35d726b803c..caaad38dd790 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -464,8 +464,11 @@ static void update_current_network(struct adapter *adapter, struct wlan_bssid_ex
- 
- 	if (check_fwstate(pmlmepriv, _FW_LINKED) && (is_same_network(&pmlmepriv->cur_network.network, pnetwork, 0))) {
- 		update_network(&pmlmepriv->cur_network.network, pnetwork, adapter, true);
-+		if (pmlmepriv->cur_network.network.ie_length < sizeof(struct ndis_802_11_fix_ie))
-+			return;
-+
- 		rtw_update_protection(adapter, (pmlmepriv->cur_network.network.ies) + sizeof(struct ndis_802_11_fix_ie),
--								pmlmepriv->cur_network.network.ie_length);
-+								pmlmepriv->cur_network.network.ie_length - sizeof(struct ndis_802_11_fix_ie));
- 	}
- }
- 
-@@ -1072,8 +1075,11 @@ static void rtw_joinbss_update_network(struct adapter *padapter, struct wlan_net
- 			break;
- 	}
- 
-+	if (cur_network->network.ie_length < sizeof(struct ndis_802_11_fix_ie))
-+		return;
-+
- 	rtw_update_protection(padapter, (cur_network->network.ies) + sizeof(struct ndis_802_11_fix_ie),
--									(cur_network->network.ie_length));
-+									(cur_network->network.ie_length - sizeof(struct ndis_802_11_fix_ie)));
- 
- 	rtw_update_ht_cap(padapter, cur_network->network.ies, cur_network->network.ie_length, (u8) cur_network->network.configuration.ds_config);
- }
+@@ -772,9 +772,9 @@ void rtw_surveydone_event_callback(struct adapter	*adapter, u8 *pbuf)
+ 				rtw_indicate_connect(adapter);
+ 			} else {
+ 				if (rtw_to_roam(adapter) != 0) {
+-					if (rtw_dec_to_roam(adapter) == 0
+-						|| _SUCCESS != rtw_sitesurvey_cmd(adapter, &pmlmepriv->assoc_ssid, 1, NULL, 0)
+-					) {
++					if (rtw_dec_to_roam(adapter) == 0 ||
++					    rtw_sitesurvey_cmd(adapter, &pmlmepriv->assoc_ssid,
++							       1, NULL, 0) != _SUCCESS) {
+ 						rtw_set_to_roam(adapter, 0);
+ 						rtw_free_assoc_resources(adapter, 1);
+ 						rtw_indicate_disconnect(adapter);
 -- 
 2.54.0
 
