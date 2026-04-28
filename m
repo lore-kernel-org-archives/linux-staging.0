@@ -1,147 +1,120 @@
-Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
+Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E92637CD4A
-	for <linux-staging@lists.linux.dev>; Tue, 28 Apr 2026 14:32:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777386731; cv=pass; b=gVe7KTsg2aKYvlLc5YJ9hOH9UL1WQbB4ZDp0lGBqx9XzQ871kOMHgRdViYyTsvvMEQ+EPYh/Oe72CCxMOP2PT3D889IEiwlM7ikwUvnZk99zNsDNYL+QWjRUye/OT4RuWsTBqzu9AnVCRZp7R9QbzylGFmNzw7tRQouTj5mPhjc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777386731; c=relaxed/simple;
-	bh=Njhm4gAMjvXMvfeDSS0ZJ8A5PT7pQ5zSnvqqe8yzsS0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Uo7NxkFtt8u1d4Kk5WGxf/N/ioD4qPl6jgre7/MTQjms6MICO1+V1MCwYv9XS9GtJgkBhYd8QcnQt67nEPLsOPeVZQbDCuPJTTjHm8qH8DDBsIpWlvSPu4akyBfPFlZ89Yx2dKrFNdUP44r8wFUNNrC54f+bnkHHDjPGlu/aTss=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pr1eHhX/; arc=pass smtp.client-ip=74.125.82.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 587F2326D51
+	for <linux-staging@lists.linux.dev>; Tue, 28 Apr 2026 15:46:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777391189; cv=none; b=Ah3EOpSKRBUKUTCwIpMuVIJYECNpCrN41ryMcZgDGamdi3sIUuSxYzUsOknwnZv1NWZgrFS2olZV5oYn6qaTYkf4ooW82tagfTpkIzuO29ZFvNIq8F+nzfewKbFRFf7HvXUqif/f1YjhGZqV9+KRKjM1yUfec9tWIwDABEmbhhU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777391189; c=relaxed/simple;
+	bh=3l8/jYpkdXsG6SyQfIwBjPSuCSBodHOhQRlhk1OXomI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=p2cj05WnsC8liHnh70QAIVaUNLWg3ALXSEQLh9FN1xH6570/ZIKHLw6MxSFknEx5JFZ0g45tLCqDeF8hQYzYK50P5Va5Gih0mEoSFsoyHISTlA9lzTYJEsiI/YgS1GK6YH+SWV5tziEpiqfdFerDtkk6jCmOWY9oXKcNfMnMYN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MOAud41F; arc=none smtp.client-ip=209.85.161.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pr1eHhX/"
-Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-12714f01940so823848c88.0
-        for <linux-staging@lists.linux.dev>; Tue, 28 Apr 2026 07:32:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777386725; cv=none;
-        d=google.com; s=arc-20240605;
-        b=KoMX8I9Z99XoeKSg8Ah9vF7tmNGWB098q5iUDADUW9QWQsaT2IVrP9xlG2GZpfon0V
-         JUcJqN8O7jvqyN3x0qy5Ep7sExEVRp/rlm8BTj3wxzaSmoVFHZJH6tgy3ISqtC5dQ+Bc
-         iKpLiXseqpKStlS8lXNImM0y6FbEFt4JYaFN9YpsUGaCvFPtpQq8XOq5nBD9D8oZA+Sq
-         KO7+oeD/gJGl0+xVj4hPkw5yH076j+xXUVKSvu/mmWNJ2/7S4Wh35jY98pnDq8DIOmJ6
-         PSHt+TciBZuuWTzVPfo5tpFW/vuhiG5I3DrM27IyrRczVZsKa8Iwi20pRR9eyWzp1/pw
-         +DaA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Dn+YzpzB4BaLD2GgdFenCva20VhYKGBmVOjqbpavyoA=;
-        fh=dXNOXv1nH+p77Tj7nc+8EFhQdvESl+T/Ec3Zd95sBs0=;
-        b=Kxsf7l1T7rusYpnbOD6jfUOCNnjKZwRDcNgTn5hVvpXGxzzsQ6mSVOVkn4yLBhBAjk
-         U/h6U1ru2R+P63jBozZijKEP8M0nx2o4edvdOVwdDfP/x84KadIAKlGKDB/kSW8lX9z5
-         fMkoQMlsTsBzvR4dKOxBtj9IsILCBr6mIJm4zb7jSHV9pjx1i27U7+z5BhQGUJ+cORO/
-         paBlRFhOUnBCYsJSzPw7YTYFCh2vHmCt8RQGuHf/Eo9Awsr1ESwjlDySs7cIY6ZR62Yy
-         QMm8mi4WU6aoS77cxUWyvWoeP+1xTrot7nHkfpRCNZzxBqv2BkraV8vjPwOXesL1P/RV
-         hzgg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MOAud41F"
+Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-6948b5b1c53so5283436eaf.1
+        for <linux-staging@lists.linux.dev>; Tue, 28 Apr 2026 08:46:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777386725; x=1777991525; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Dn+YzpzB4BaLD2GgdFenCva20VhYKGBmVOjqbpavyoA=;
-        b=Pr1eHhX/2PoGWl3XYJM+uXNhpkvd9Y2RJ4mFhWQsG/QhCLGeVM9/AKUOevpvsF/iog
-         pHy7DgBI7ac/rI7SE6qV31ZP/ResvPvDBEKp8cin8ML47j+QDBkhPk4RZxDHVxxjP0fk
-         ZPXHzK3ZTw1AqX5GxqExi4HyzL+a+u/sv1J0DaDWnfvhVsLcPZHzgOXSKyKjQ9NmpnPX
-         rlnjOdX0G/g7dV6hzW2jig8gTd/TbvBrHpt+c1lIYYqb39qOOGQdxKZM3oLpr9pSuZ3o
-         jp/pUvFbu0K2WvJtHYC+41MtbioYZWlBYhzW4wfESIDnuHHPpetTsWbjeGVe8tmVcK6D
-         K0oQ==
+        d=gmail.com; s=20251104; t=1777391187; x=1777995987; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=k9WYxtMVhrcTFANW9nJ4oPBcCFr6W4sm1HRZsTUDwQ8=;
+        b=MOAud41F3lP5Gv00ptip6XAPELzV4OFjb8n/uzCzMXUvCMyd0zsUd/P9psVXFM66zd
+         /vtDFJvZDx1gZyUD39M/oC6ATjtqOzaJ4ljTk5XAM6Zm7o56/uqhYKOkvjj6xb+CmX2O
+         0bsw9QZB/xxULlU23QwxoR3J7thb5CAs9BchPRavG/tjkjuvpYXh8EBhRcbfcV3Dp9oQ
+         GCkOlaOyEUKinUHZ/YT9eSZ1dlKGMgVw8Dt/XHoVODY/C8xEJ2zTzYaNkxjvF7kUoSWp
+         NMjPWTOUnvUztnQgzJTT3yKHMODorEdtxOgY37K8s1RP/iVLTbeGmDsn0djAnuR80lPB
+         MDPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777386725; x=1777991525;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Dn+YzpzB4BaLD2GgdFenCva20VhYKGBmVOjqbpavyoA=;
-        b=d0Z5+tnuadF0cNx3XQeNLUpE2efQ2c1NBR/OT+LNJeQ/aPOjsRUVevzMWtFxsJE81Q
-         BvbBA+sJDYzmCSZ6snVxPWUoTLPvGyi08iEjQbslF6cG5eGv5lDApYnsE5NsUbqrq3ew
-         7tQEkhLSXMr9GgOPHSix2edcwyp7KiSUi7mqzOy2httbSIYxwF4I4xApzqMxb9SC8zjU
-         tYb9kLOfK549ie5AwkXN79FMyIZIz7bEosqtl/GyrkHvEKB8QLi+7l6BRdWH4gBi1378
-         yXq7c3SAF5Ar3O5hTcHkGxJXtbq/O8fbTn9hfjeWwmXCanhZyx/XZjPw0eCBG4cuwi0g
-         ayAA==
-X-Forwarded-Encrypted: i=1; AFNElJ8oo5ki0wdcSy/fTI9YOs4Bog5u2rHMsktCFHvbzG+5zBPBilMd4zYXNBn3PqFGZXQCCyRjZ6UKajIs2HJl@lists.linux.dev
-X-Gm-Message-State: AOJu0YwEtZHhMrxxYNMNOvrE8CRVC2/CzaDKlKikchDytMHwuQL+ooI0
-	98S9Wtp0gVZeEXueN0XzaWNyPDPL+pgLdE5R1dMAprIWURlt4Wi9nfhYsULG2IGVGGS5phAgzL/
-	CIRn3McBBIgKmk6KGYbiMgYu9aNVsrdE=
-X-Gm-Gg: AeBDieviNlWuoEgheiGaStQwnIzNJqJ0MuoIJX9zoOui6sWCJyU9RkA5k72wecoIV32
-	c8VdUiX/iaWy0JzB078rEW/Dz2H28nr+BpG0uVn4wnXZ4V+0JbnBic79BdYdrgo8unlgfulXSKl
-	Ld9oP9a9s/6yBe8nLmgsInh5leNGhwCbIyGvLwitkjDAng97d2UJE/OaV+591VsYqz79am7CoZ3
-	Nz3qb7DCyudgWvThq1v65n13Vz+e+KVRT28GFItj3I/xpb4YvGJaOllfGQ8dJdt/v2eqPnQhYwR
-	HHhX9yRGGXskg+ZZ4BRnRXwVchSwoFTp5GNHAhwR9+o0ewHzP9Ew7X00IxAuwxQZPmRmvAcXeC2
-	rmt/+tgYPVrDOvg2X5Pufm877gN6jyUFe+gvOIA==
-X-Received: by 2002:a05:7022:618c:b0:12d:c389:ae54 with SMTP id
- a92af1059eb24-12ddd4e12admr894171c88.2.1777386724829; Tue, 28 Apr 2026
- 07:32:04 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1777391187; x=1777995987;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=k9WYxtMVhrcTFANW9nJ4oPBcCFr6W4sm1HRZsTUDwQ8=;
+        b=fQ7AApv5uBDcPQxAos6WE7II08J3tivi5d0jNk2I18OvFJOsSgSQ2f/D7EnoOZsmZf
+         9L2AZCCv3n9dOfxNdmw8sykW6RjJN9rWznJnC+Ifvd5Lm3yyC3DR0d9Qw5SOAXFRc+Kn
+         h5MvFFF8TUQCorcEfC9ENXfUlmkv43nwpevuYlNnzUdv1zQnLc4ZR/bu5mhejN95gJOb
+         37YREvasBxXjJOscKiMS9V+R7vDI8NWeiR2N9h2b66JPX2GeoKnpwYPCO3a/hNKgMqp0
+         0QpdgfNy6T8CYiPtIS39NmKJDbr8p62bNvflx7EYh6pgja7ZrZ5J5Ubysul1jRdjdEeB
+         +2UQ==
+X-Gm-Message-State: AOJu0YxSEpvidsvH1aUAFgYPpGp2YyvmxjwR/Zl7WVZZN6xAiDD206rI
+	7ngUJ3GbSRNE0uBLmuvcWuBOHOdtk/rVm2nNgw8O6es3GWJPOnb2YycDOMoAyEN+jA==
+X-Gm-Gg: AeBDieuOefO+H3/gufIgI552PP69nLTgfIyD1wNjeTnA3fcg+HnkM8tKPuNiy+Mreqe
+	MWySrh+4qOmYp4HZnheyJ9C//bbJd3sA721UjRH9HKnPzhoirJJOvqhPu9esWz2+EEknQ94l2F5
+	KwjUb+DFv+XamC26EAs0+5tna8aTPpPEMwGDhNwAiqq5/52BLt1xYqQbDUoDammaIu/qSucWaoa
+	NU89oKvjebK8tSG5tKrzTAZwTMNrQG6RZGvHxINkQny3Dk1SKSUlTeya+ew7y3y5vDWAJ0cVnf0
+	+9l6bnInAc2/vvxtZRQtxeewd6Ir5Yc4ZtZ0yFKX6o8VSLxtRe02Zk2D7rAatd0jCCdm9wXrD3M
+	tvZl9PE2/eMETqlxHMP0a1cOsK4AnYLpD//Vlr3VOfGZvfuvLVA+rM/JL1v1zFyfKkohHpMdVOB
+	ALgGZ8zRz51IawOga+H4yO/dLXohaCb/011s3dMUU6wYl3eL9vf9vqUm65q2dldp9DGcnr98TVO
+	429kFqTJpFzW+rgcD3xJcUDH0I=
+X-Received: by 2002:a05:6820:612:b0:694:9e64:6785 with SMTP id 006d021491bc7-6965ca7355fmr2030129eaf.21.1777391186824;
+        Tue, 28 Apr 2026 08:46:26 -0700 (PDT)
+Received: from MSI.hitronhub.home (24-40-252-177.fidnet.com. [24.40.252.177])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6965ba3686bsm1710931eaf.9.2026.04.28.08.46.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Apr 2026 08:46:26 -0700 (PDT)
+From: Mhanna112-code <marchanna111@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: linux-media@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	thierry.reding@kernel.org,
+	jonathanh@nvidia.com,
+	skomatineni@nvidia.com,
+	luca.ceresoli@bootlin.com,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	Mhanna112-code <marchanna111@gmail.com>
+Subject: [PATCH] staging: tegra-video: Fix function argument alignment
+Date: Tue, 28 Apr 2026 10:40:22 -0500
+Message-ID: <20260428154022.6997-1-marchanna111@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260427151556.91153-1-ayushmukkanwar@gmail.com>
- <20260427151556.91153-5-ayushmukkanwar@gmail.com> <afCCbbPAcwtY3IS-@stanley.mountain>
-In-Reply-To: <afCCbbPAcwtY3IS-@stanley.mountain>
-From: Ayush Mukkanwar <ayushmukkanwar@gmail.com>
-Date: Tue, 28 Apr 2026 20:01:52 +0530
-X-Gm-Features: AVHnY4Kxyv52BBP7vzmNWPN0AWHk-N6T0CiMC4Q_XsZvNeAIyl8HYdoSUNr3Ivs
-Message-ID: <CABJ81bhY3f5rGmfC4Amyf8SDbvqeQiTbFu+kBKVqFEPSBOmgow@mail.gmail.com>
-Subject: Re: [PATCH v5 4/4] staging: octeon: refactor to per-device state and
- pass platform_device
-To: Dan Carpenter <error27@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 28, 2026 at 3:18=E2=80=AFPM Dan Carpenter <error27@gmail.com> w=
-rote:
->
-> On Mon, Apr 27, 2026 at 08:45:55PM +0530, Ayush Mukkanwar wrote:
-> > Move the static oct_rx_group array from ethernet-rx.c into the
-> > octeon_ethernet_platform structure to associate receive group state
-> > with the platform device.
->
-> How is this related to logging?
->
-> > Pass struct platform_device instead of
-> > struct device through the ethernet-mem and ethernet-rx call chains,
-> > extracting &pdev->dev only at the point of use in dev_warn() calls.
->
-> You're undoing something that you did in patch 1.  Just do it
-> correctly the first time instead of doing it and the fixing it
-> in the same patchset.
->
-> >
-> > Move struct oct_rx_group and struct octeon_ethernet_platform
-> > definitions into octeon-ethernet.h so they are shared across
-> > compilation units.
-> >
->
-> Btw, here:
->
-> > +     struct octeon_ethernet_platform *plt =3D platform_get_drvdata(pde=
-v);
->
-> Could you name it "plat" instead of "plt"?  Generally "plt" is an
-> acronym for something else.  Procedure Linkage Table or
-> Phy LED Trigger.  There are a couple other meanings.
->
-> regards,
-> dan carpenter
->
+Separate long function calls into multiple lines to comply with kernel formatting style.
 
-Thanks for the review, Dan.
+This fixes the following checkpatch warnings:
 
-The rx_group refactoring was requested by Greg in his v4 review. The
-logging conversion required storing a device pointer in the static
-oct_rx_group array to pass it through the rx poll path. Greg asked to
-eliminate that global state by moving it into the platform device
-local structure.
+CHECK: Alignment should match open parenthesis
 
-You're right that I should fold the platform_device change into the
-earlier patches to avoid the undo. I'll also rename plt to plat. Will
-send v6 with these fixes.
+Signed-off-by: Marc Hanna <marchanna111@gmail.com>
+---
+ drivers/staging/media/tegra-video/tegra20.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/media/tegra-video/tegra20.c b/drivers/staging/media/tegra-video/tegra20.c
+index e513e6ccb776..eb1fc5b7e2cd 100644
+--- a/drivers/staging/media/tegra-video/tegra20.c
++++ b/drivers/staging/media/tegra-video/tegra20.c
+@@ -552,7 +552,8 @@ static void tegra20_channel_vi_buffer_setup(struct tegra_vi_channel *chan,
+ 	case V4L2_PIX_FMT_YUYV:
+ 	case V4L2_PIX_FMT_YVYU:
+ 		tegra20_vi_write(chan, TEGRA_VI_VB0_BASE_ADDRESS(TEGRA_VI_OUT_1),  base);
+-		tegra20_vi_write(chan, TEGRA_VI_VB0_START_ADDRESS(TEGRA_VI_OUT_1), base + chan->start_offset);
++		tegra20_vi_write(chan, TEGRA_VI_VB0_START_ADDRESS(TEGRA_VI_OUT_1),
++				 base + chan->start_offset);
+ 		break;
+ 	/* RAW8 */
+ 	case V4L2_PIX_FMT_SRGGB8:
+@@ -565,7 +566,8 @@ static void tegra20_channel_vi_buffer_setup(struct tegra_vi_channel *chan,
+ 	case V4L2_PIX_FMT_SGBRG10:
+ 	case V4L2_PIX_FMT_SBGGR10:
+ 		tegra20_vi_write(chan, TEGRA_VI_VB0_BASE_ADDRESS(TEGRA_VI_OUT_2),  base);
+-		tegra20_vi_write(chan, TEGRA_VI_VB0_START_ADDRESS(TEGRA_VI_OUT_2), base + chan->start_offset);
++		tegra20_vi_write(chan, TEGRA_VI_VB0_START_ADDRESS(TEGRA_VI_OUT_2),
++				 base + chan->start_offset);
+ 		break;
+ 	}
+ }
+-- 
+2.43.0
+
