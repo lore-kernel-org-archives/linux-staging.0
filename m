@@ -1,78 +1,115 @@
-Received: from mail.cipherat.com (mail.cipherat.com [91.98.42.103])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 097C33B2FFD
-	for <linux-staging@lists.linux.dev>; Tue, 28 Apr 2026 11:46:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.98.42.103
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D4443F23AB
+	for <linux-staging@lists.linux.dev>; Tue, 28 Apr 2026 11:55:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777376816; cv=none; b=pEu75oQxJrXaZkA4HxKft9vD7RoxJDIn6+x0yCuRLKrJcwej5Si9PJv/b22RDQRrsNIPkVnLGLSAK/q0NLty8byoifb27ud6qMwBN+zb8+UtgqSr3M3YFWz2d+/yFuiGPEi4JIvDjqukVg/GziDOCtZ1n0k0SwZvrkGTeFlIO9w=
+	t=1777377315; cv=none; b=WKNnbEtiJk0A29j/i1E7xWamrqDalokvMsVH13n5oU4KBC9VKvc9A2y3VTq00TpznU0d4IFgnVLYO2GeRSNOe28ehBxwajudmI/gjBwQLAR7QOIe0nnuKVkAcSVUVZ7O9Bgl/RPq9ymAGxNwldAHmma1jbBbF3vLChtgSccHvOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777376816; c=relaxed/simple;
-	bh=DoZItnNhihX3rpkapjq5Z1COmljE1ebuaVaFQ5xsp50=;
-	h=From:In-Reply-To:Content-Type:References:Date:Cc:To:MIME-Version:
-	 Message-ID:Subject; b=h/3ltMOPpD2bwh/k3beDs8su07ghZtD3sXyXr/KQI/i1uNMHe0tTk2ol4wpIdW3URnApEhw4uKPbMg8XY4RMo5TNXlzE22R7dJDA1hGNnRdjhyTlCLJtm+EbAY6WyDd68gl3Ry2LBOSdqR8vPsz/cPknIcPbBYM/8hWLc0bU9Cs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cipherat.com; spf=pass smtp.mailfrom=cipherat.com; dkim=pass (4096-bit key) header.d=cipherat.com header.i=@cipherat.com header.b=zc54OAsg; arc=none smtp.client-ip=91.98.42.103
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cipherat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cipherat.com
+	s=arc-20240116; t=1777377315; c=relaxed/simple;
+	bh=S7N2xG2r677UOw9avIF07lXlPqSlkGhRoYEopSh3eFo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TQMdJI1P2qfyAyRFTSZGSYHiQisCRna/ThXx8Ck7S16AK4QVKUkwJ/EFjTwSboNkCio3MjNcP498gcgDPDfiN/ELSh+mT/BCvMQZBlxhCinPm2WoVcMFCrRS8Gj0oVXrG3cGHeEEvoaSYcy96Velad1kMZeGqMJSnnhccHWK6ro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ce+xSD+9; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=cipherat.com header.i=@cipherat.com header.b="zc54OAsg"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPA id 3810884F8E;
-	Tue, 28 Apr 2026 14:46:51 +0300 (+03)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cipherat.com;
-	s=dkim; t=1777376812;
-	h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=UJpMlC7zGtiDvlKG3wyhvRJ3zonmeo5nh79Mh17WUnw=;
-	b=zc54OAsgjc06+lFNR9F1/yBLQ1Yp11O9gV28HXPUJngFDJpZh1v3TeNUgZE4cf1vU3rh7D
-	yeOgCM95Ep6yqW2RS0E590ZWZKfU3ykoFREpyLRGPNhRhKr+SSOeWYziFKIXn6ArelLPmz
-	H6tyxptBeScB6DXOwSZAzvqBm3si0fyexmPg8l54NpcrbFuy8ZlFAq89hZav31Q1vYXzkc
-	ozPvGhxllz32vX3T2qX/hBfSPW8LEciARuV7IvnYIqDMU7BUCZcPhth3bfNw3EOuMnAcM7
-	zco8cQxXakLtXrZIwBY5MZ9fYyerBShMmQoO1vGGyXfC+IpQgPYC861yaYTPy1AllAytS3
-	9d2+9CQAudERJNsTsT9S6ZY9KQrnbtp9ZlSRdpillvKwjaAdbhPHxiyby+e/d8orKRexDH
-	CczHDB3DpzYp5BXEn1gBjW/hLhBNmR1yUOq690fOcnMVcdlzidu/Iz9OZy0hojQQurIvIn
-	I5JbakNqoOmYD0pT0PZUkHb3jnOVjCMih5tgoAqmueoCDZ9Z8Rn4+iF+Vy0xOzQ+4/QIOT
-	5ANVdqKq9B9s4oETW2w2RYh3ALcfpWO3CnwGWSQXJJjXm05FscSM0CqNm6mHbjQc7cfLL1
-	1x10CL0fi7Z9nHKUPF+jnh+b5SuIkYYRvE3hSJQo1K8Od1hB1sfQE=
-From: "Salman Alghamdi" <me@cipherat.com>
-In-Reply-To: <afB5jnwGX6H5j0PG@stanley.mountain>
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ce+xSD+9"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-48a3e9862f0so60700035e9.1
+        for <linux-staging@lists.linux.dev>; Tue, 28 Apr 2026 04:55:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777377311; x=1777982111; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=l6xR9z333a9hFwRkoAgx3vUaOdgKW8U8CNCC2N3LLcA=;
+        b=ce+xSD+92m4CMIDauRaCU78M9z3plhdwQOOcb6Owp5BcJC2nFx3X/Sq4iyq8+kqWwa
+         /xUfMFPzpmEfM0E2ENl5+zSLIo1Sla5jTJne+k1o9CwfOOD80WUo7EPUX9Io1yDNh/8Z
+         xbVZIgYDyB/zG/O9bVNSw39mDg2QTbYJNVn+77h7S+TOF9LmElWnXzLjvxfz2LFOxT81
+         OFAdfEIekARF7uszGyDovgQ5sT7+YKtT4o7wylU9152lUaIBw0f6agul3N9+9+/OQNy8
+         64ERF0KMn024ZvADaSZgE2ZIBWRCq0+Q/Mt2hoT+LDnY3TJpYhzWwktxVNSrPlc0q9G/
+         9G3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777377311; x=1777982111;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=l6xR9z333a9hFwRkoAgx3vUaOdgKW8U8CNCC2N3LLcA=;
+        b=LTUeBr+IuR2ELPhcLevjQPPVgYVJb6Lm1aFVK/1+3IjcgRBhvIDUAv5mcm98eYCcre
+         fHhTyd48OYFrtUJ97DqPo5SzRDh7YNU4TufUnDuOyfezoETXMpSK0T8SUEAVFicyL7sH
+         PxT80tYcZNMroY8pYW7gj88RZ9z9MnqG5bXBXrvm8JJuK/psPp/lcHcDuvNq6NcS7Nm9
+         Flh4qhrP886GzMwQkhA32Oao7vtUUPLMTadEjdh70Xm08XO5pSQFbwqamFoRCVYdI766
+         +rYz55YDq84IAG5Wgl263aOsK0tNDVz12IDPK541Hj+ztj5sZHAtJ869aYralkE92s+T
+         LQPQ==
+X-Forwarded-Encrypted: i=1; AFNElJ925iZJug1F2RZy4uA/TSMbZOvKEf/UerrtPHDLXOKYrwkXEuZqLJDTEejLR5qywJA2BUcczNDQjK4OXlmx@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyfu14bZxPFV2lzfgs0E5zoWMXdcjAWM5+nlpP9663o1pNi3hSv
+	+KUo+OOtFdi8nc+kkym7bsxt8tIq94MYWvL25Cs8O8Bjkr7hrsyZSinX
+X-Gm-Gg: AeBDietuY7UIJnlE4w75J1WYpGw5OicGS//DVdzG8xfN1eWwCCnNhLkyO5RZG6f7prO
+	sKkULN1apB4pEJmSQ73bfau5WiD8hRK5kexhQcjzUBxfIajSRgOLdBC2Vc0L98Is8Nqovi7F4Vh
+	APF5v54D9YMEctHBw3x3HmtW62GrKCZ1DNBk5+wHUlb65Wn4aR5CvroCKDgkcfMSh72qa0mYCTf
+	GRIzwB64oCMfM1PyViJsnYJttdup9+TDQDWKAddwfFiu7ox5IBEamfLE3pd8yIpHR2UrBdRdYET
+	E123XOGIpdxuKHB5Rg+dlum9I5wJWfB5522b8X4hLihUIQNoPvXSf9XNzTHTNd9jiVRrz2UFEzh
+	u0xpPoZDflDB2dFmEBMVcTMsJI2eDuAJO1nk3I21qPekw2yAKcw8MgpW0m33lsotY4RhO4GF9xQ
+	pIwlmmWdpebGR1cHrmtAsJzjBcOQuyYg==
+X-Received: by 2002:a05:600c:42d3:b0:48a:79d8:a8d6 with SMTP id 5b1f17b1804b1-48a79d8acf1mr9964435e9.7.1777377311348;
+        Tue, 28 Apr 2026 04:55:11 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a79cf4952sm5345145e9.18.2026.04.28.04.55.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Apr 2026 04:55:10 -0700 (PDT)
+Date: Tue, 28 Apr 2026 14:55:06 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Salman Alghamdi <me@cipherat.com>
+Cc: gregkh@linuxfoundation.org, luka.gejak@linux.dev,
+	straube.linux@gmail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 4/7] staging: rtl8723bs: rtw_mlme: extract local
+ variables for long expressions
+Message-ID: <afCgGuAShUy0RtVY@stanley.mountain>
 References: <20260427190548.156499-1-me@cipherat.com>
- <20260427190548.156499-5-me@cipherat.com> <afB5jnwGX6H5j0PG@stanley.mountain>
-Date: Tue, 28 Apr 2026 14:46:51 +0300
-Cc: gregkh@linuxfoundation.org, luka.gejak@linux.dev, straube.linux@gmail.com, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-To: "Dan Carpenter" <error27@gmail.com>
+ <20260427190548.156499-5-me@cipherat.com>
+ <afB5jnwGX6H5j0PG@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <097542ec-adba-ff0f-7d7e-8b496a9e78ef@cipherat.com>
-Subject: =?utf-8?q?Re=3A?= [PATCH v4 4/7] =?utf-8?q?staging=3A?=
- =?utf-8?q?_rtl8723bs=3A?==?utf-8?q?_rtw=5Fmlme=3A?= extract local variables 
- for long expressions
-User-Agent: SOGoMail 5.12.5
-Content-Transfer-Encoding: quoted-printable
-X-Last-TLS-Session-Version: None
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <afB5jnwGX6H5j0PG@stanley.mountain>
 
+On Tue, Apr 28, 2026 at 12:10:38PM +0300, Dan Carpenter wrote:
+> On Mon, Apr 27, 2026 at 10:05:32PM +0300, Salman Alghamdi wrote:
+> > @@ -772,9 +783,14 @@ void rtw_surveydone_event_callback(struct adapter	*adapter, u8 *pbuf)
+> >  				rtw_indicate_connect(adapter);
+> >  			} else {
+> >  				if (rtw_to_roam(adapter) != 0) {
+> > -					if (rtw_dec_to_roam(adapter) == 0
+> > -						|| _SUCCESS != rtw_sitesurvey_cmd(adapter, &pmlmepriv->assoc_ssid, 1, NULL, 0)
+> > -					) {
+> > +					bool roam_failed = false;
+> > +
+> > +					if (rtw_dec_to_roam(adapter) == 0)
+> > +						roam_failed = true;
+> > +					else if (rtw_sitesurvey_cmd(adapter, &pmlmepriv->assoc_ssid,
+> > +								    1, NULL, 0) != _SUCCESS)
+> > +						roam_failed = true;
+> > +					if (roam_failed) {
+> 
 > Just write this as:
-> 					if (!rtw=5Fdec=5Fto=5Froam(adapter) ||
-> 					    rtw=5Fsitesurvey=5Fcmd(adapter, &pmlmepriv->assoc=5Fssid,
-> 							       1, NULL, 0) !=3D =5FSUCCESS) {
->=20
-> The "roam=5Ffailed" variable isn't beautiful and the if else makes th=
-e line
-> five characters longer than it would be otherwise.  Eventually we'll =
-get
-> rid of the =5FSUCCESS but I like it to look ugly so we know which cod=
-e to
+> 					if (!rtw_dec_to_roam(adapter) ||
+> 					    rtw_sitesurvey_cmd(adapter, &pmlmepriv->assoc_ssid,
+> 							       1, NULL, 0) != _SUCCESS) {
+> 
+> The "roam_failed" variable isn't beautiful and the if else makes the line
+> five characters longer than it would be otherwise.  Eventually we'll get
+> rid of the _SUCCESS but I like it to look ugly so we know which code to
 > change.
 
-Should this change be in the same commit it was originally made on?
-I'm not sure if removing a variable from an "introducing variables" com=
-mit
-makes sense so I wanted to make sure before v5.
+Do it by itself.  It doesn't fit in with patch 3 which just does
+newline and it doesn't really fit in with this patch either.
 
-Regards,
-Salman Alghamdi
+regards,
+dan carpenter
 
