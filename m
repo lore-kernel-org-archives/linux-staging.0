@@ -1,66 +1,66 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B5DD43CED3
-	for <linux-staging@lists.linux.dev>; Tue, 28 Apr 2026 12:41:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4166426ED6
+	for <linux-staging@lists.linux.dev>; Tue, 28 Apr 2026 12:41:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777380095; cv=none; b=lhvGsnJ5x7i4Q7JefOId1LaaVyiamXQE9WTfG/2AH36lc08iRKp1yV6cbKX+F6Skw0SlQgHlqW5bg/TU/uoc2xPQsr0lWgDLk0P9u2gGtWPNofNYx7W/epoEoHUTus42tNeqQ/87VitYjrWtLQH1Yf62npwd//ykwOGbC5hajaQ=
+	t=1777380097; cv=none; b=Yk4rgcVKI35q24xBo992UslQRIHp6zgqekYDWxKTHNHJNl/MBGKA0xU3SX852dLkRh5u4ugUAkCUnGiF5vg+e0NVBFyt/2IL/l5kd1BD93z7sJZhYlQeWrI2lduvzoKmv+QlHyN/OjVlfYsbvHlWIkCYQf7V1pjG7UZKs0JF32Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777380095; c=relaxed/simple;
-	bh=fM+EOez8tTjZWMaKaiEYlL+/TS0+1cDYerp5pGjy9hQ=;
+	s=arc-20240116; t=1777380097; c=relaxed/simple;
+	bh=GwGpe5Wt4f65zgUFFPN3Xc69ChmANQfroRnFxnuMqXY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=WQe/VVmt3cQ6r2mnqPRXecmonuFW62HkcJdA40lOZy/LhqeQwjht9IJEawdE854MYMMCAiRcCBY61SFLRKH5aFwcYWnapBhka2BCyu/xFDy60TvkJDoIqbUN9RjnE7eCAMY6Tt5ExQpBFS52fCtXpv6gdfElhiTNYR7Aq5okD/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=cGsBUOzq; arc=none smtp.client-ip=209.85.167.48
+	 In-Reply-To:To:Cc; b=KvtGfX9MbUI0yHgM1Udm/NJfOsWQaXmgWJ+EeSUzaNzWx50PmfnV0aVXsxHu9yBgg3mkRxb2iQGarvWjdpY5/+A8Im+im51LCzYaluKqGHWeXvnQXpRutYbNFaKgsIoHqRdOmJtd3F+y6WWqcaPh2zfkMIE7NettNbKq2hoNJDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=NBGZJoGI; arc=none smtp.client-ip=209.85.167.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="cGsBUOzq"
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5a337552604so10444704e87.2
-        for <linux-staging@lists.linux.dev>; Tue, 28 Apr 2026 05:41:27 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="NBGZJoGI"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5a41099fa86so9991175e87.2
+        for <linux-staging@lists.linux.dev>; Tue, 28 Apr 2026 05:41:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1777380084; x=1777984884; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1777380088; x=1777984888; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=iu0V+UWGhKofbsqLMuK6FkwiFliyODBO+j8A2mvjt3M=;
-        b=cGsBUOzqbDZuR3ec+PyTB10+JNOYmpHbp7OwTCfHQCvoYkYbRNVBhOpf1WswuYS9Tp
-         e5ombFzt5M6Ho0L/nO8B4M7lVncG4watPq2pd4Qz+/44U6k+F4TElRRfhAstFKGDU9PW
-         oy+pTZkSJCzLuUzw2p4dF6ilh12odU7rS0rN4=
+        bh=7jNyWZOzTH0keZ+Or/bxi1/4rkv0VzTqmw2qXTfXKYk=;
+        b=NBGZJoGIm+L4ya7w3mQjehve5WJIc0qRNxRBSTU3PFNdmDKUxYVZHlrLXMwoKKm347
+         xYO+2wz8QhPg9/KA1B+eupgK0Hie5brh9Qe/8gCAacBt0R4pseuxVOqKWWYRDMykyx89
+         /g6Wp1falezZTBfRlLDGN7VfQ/Q4hd7cuDR8g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777380084; x=1777984884;
+        d=1e100.net; s=20251104; t=1777380088; x=1777984888;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=iu0V+UWGhKofbsqLMuK6FkwiFliyODBO+j8A2mvjt3M=;
-        b=jGB8G9eXmUm4/jTVU95r9hAH+88UVz9jAreTZF8OEHAfJGf4zzWw8ho8/hgyrFXiZx
-         GZbT1+gKbiaEWoxT2RrCCsSejJ4G6YNleZVbeBEiRa1BH5oZDutYrKZHsnMLWfTKJsck
-         E8wSyndRH6ncF1HhLk2oQrV/s4H840MPmIz4eublYWWBYz0KcNcIoUkHwX9Q83Fiomlr
-         XepVax0rbuPHpzilDMcQRQvFMOqwR7dSy5Qw9YMOSKn7QLs8592mNWV4JQedgsSfdCiW
-         L+5HE+JwzGSpCViQgZ6G6paShwnX8CSplj0QB6gYHi1DSc6tpHV03Tv2J9VtnPp3Zx12
-         LWLw==
-X-Forwarded-Encrypted: i=1; AFNElJ9DarrQBM1LCw4I6xgGihB4KEypVPa1QGXYiexeG2KC4ZdrPO/HLorhSE1dle0gb1NEgVewnLaIwsW6sNt0@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz8GG9XpDaeaHLTwULV9TAz+Q9hAv7UPHRh6qgsd/qNk9X/mRSd
-	y+Z2DgV18eHoqm92FMuxqKBReGHyVhzQeazCi7+DM69oTp7n/c6jGtDapAGzwM5fbNUQghGAFma
-	/msVjF7Pw
-X-Gm-Gg: AeBDiev63N3QKoUBvNRGpprQHayenmQg+39ZGqw/MzNrjz+NLbjPGNmbI3j6Q6QR/m0
-	C5U34CqtZQLBcmtIXXJDmyU370sDa496nJ/pP4t+t+byapKtemgX2b23VEiszcfTrysoqwQTNfW
-	4qyDVEnTBUNB85/kvuqWxpF+QudG7MqR/NMvV8E+tPGNZwvU+fuoL44pmWC1xEqYUdwxeddywLf
-	SuB1pZBONNjyUgpbzrL/Dt1snq/0248y3YUmm4wbd5p6VoP2ycM1ODpoFa4qZwtW+HVj/zclBXF
-	1ZmvZs4Siy/FADvGErhMJ/neZf6PZnQr8z1LPXk34KiI9S0WH9bw7VCOJtuD/4Q4/pM/rXY9ySc
-	pznyDHF8YT7koXzUpGGX7oNeB3q31ch9KBRiqvvSj6e3wnQpi9FcIEEelPOxs4LvTnavuC35Nb3
-	Lq67yg7zGRiOOHaD6719KXX0LmYxIefNHwjVWAXs8Bk47zobwATktwVdJMkzcQPOnz2beO/5t5p
-	QNyvu2sG1VGnPchAA==
-X-Received: by 2002:a05:6512:3d1e:b0:5a4:1672:59d6 with SMTP id 2adb3069b0e04-5a746416040mr1270829e87.15.1777380083740;
-        Tue, 28 Apr 2026 05:41:23 -0700 (PDT)
+        bh=7jNyWZOzTH0keZ+Or/bxi1/4rkv0VzTqmw2qXTfXKYk=;
+        b=Ew6uTGfdsANgoutYBHjIxreA416FIYgHAwilXBkRzERf7xXZoTSD1RXqELRVmQ2OE1
+         9F2kSK+OfcUs2ocqimcH9l85IEfHpGu8bC/WDYnnEA4mkVVbYKQ4zgHIT7LcKOdAtb70
+         xgDzSI3n5Zmy85yAGR6JEv57OvrwxrGsCfcpd4Wo1WF2eDBJSCHQlwNWbrDZLXQrEpPx
+         /th8QvrS/MhN49APv45vLfMas98Hs2+aatoCtm8hIgW6BerPaxoSDeKWXQyKm/MFXe8k
+         k0tMna47sZkhPxfkV9PG8CgetDEJc80/BWl2MFtSGWmRhRaIitmcvWccr0iB9K7AcbhN
+         PWNA==
+X-Forwarded-Encrypted: i=1; AFNElJ/oP6jIF/JG9S1Yiaa6pp42iHj/XvSxMpdOxO3wlwBRmBZd8nHGY56cCDjGaVjBWU8bsrGuVz4Kui4P8Zoq@lists.linux.dev
+X-Gm-Message-State: AOJu0YyLXU0JLObXXbUfry8O/lNbnLl8Ml0iuYPxObjfHPdWGJtsTqb9
+	3DLaAZ0BGBAn80oVyZnswBlJ67RBzYcPx9Vl9ywp2U8aa6erNC4bjNn6OgmGHWbSFldKYMVuYc4
+	drN6ULWNo
+X-Gm-Gg: AeBDiestGV9gZ1HnteGBJW79pOh//EXYn9ixHe9B30bU8M6MNL/e6qvO4vAcNgHpjOw
+	CYYOI5gLESRLGYg8LrBZI5RbUOsoJkf/mon/mvJhBxA542TXa0nDZgEQVVYYDUUz0bCggg/0RKh
+	ConFbkFcrwpfR64N+Ii6RvY+lPP7OK88S1/6P64E7OXFiboJvwAPiFiZB7rp/WFcYj4QO77B8yv
+	CpBCPqjENQDS2x7OrUp23O/ezz/B4g6/HzNHuvaJjgTrdi32Rj/cCaVCr5uM7+Mn2ft/qT+Io0p
+	AgC/NPWUC0gvQUz4yCNAA+m67115UXybs5WwzMNG1WUwNaDHo5XyY5SfObpvQqyM9ic29AEggwV
+	K/ckUDMq2xjlp/tQV3dGYYBUyeZce1FHEXcD59VacnRHDfvIPXRE1qNHmun4XWrvASGk55741IU
+	sw1SSlh8oEUGVCsRZxuGdpi0C31Qwr1NsV1SYehLBKPhz+dTOjGQsXUgn+ntc+pp4RmG1cYKKhS
+	/5cQiaoyHssi6SZ6Q==
+X-Received: by 2002:a05:6512:3502:b0:5a2:86a3:709f with SMTP id 2adb3069b0e04-5a74660cd3amr1254340e87.17.1777380087720;
+        Tue, 28 Apr 2026 05:41:27 -0700 (PDT)
 Received: from ribalda.c.googlers.com (52.163.228.35.bc.googleusercontent.com. [35.228.163.52])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a7463f5fb5sm594617e87.38.2026.04.28.05.41.20
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a7463f5fb5sm594617e87.38.2026.04.28.05.41.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Apr 2026 05:41:22 -0700 (PDT)
+        Tue, 28 Apr 2026 05:41:26 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Tue, 28 Apr 2026 12:41:10 +0000
-Subject: [PATCH 4/6] media: chips-media: wave5: Add range checks for
- dec_output_info
+Date: Tue, 28 Apr 2026 12:41:12 +0000
+Subject: [PATCH 6/6] media: amlogic-c3: Add validations for ae and awb
+ config
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -69,7 +69,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260428-smatch-7-1-v1-4-46890dffb611@chromium.org>
+Message-Id: <20260428-smatch-7-1-v1-6-46890dffb611@chromium.org>
 References: <20260428-smatch-7-1-v1-0-46890dffb611@chromium.org>
 In-Reply-To: <20260428-smatch-7-1-v1-0-46890dffb611@chromium.org>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -84,39 +84,42 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-staging@lists.linux.dev, Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.14.3
 
-If the driver's dec_output_info contains invalid data the driver can
-write in invalid memory. Add a range check for that.
+Avoid invalid memory access if the zones_num is bigger than
+zone_weight.
 
-This fixes this smatch error:
-drivers/media/platform/chips-media/wave5/wave5-vpuapi.c:588 wave5_vpu_dec_get_output_info() error: buffer overflow 'inst->frame_buf' 64 <= 127
+This patch fixes the following smatch errors:
+drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:111 c3_isp_params_awb_wt() error: buffer overflow 'cfg->zone_weight' 768 <= u32max
+drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:111 c3_isp_params_awb_wt() error: buffer overflow 'cfg->zone_weight' 768 <= u32max
+drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:227 c3_isp_params_ae_wt() error: buffer overflow 'cfg->zone_weight' 255 <= u32max
+drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:227 c3_isp_params_ae_wt() error: buffer overflow 'cfg->zone_weight' 255 <= u32max
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/platform/chips-media/wave5/wave5-vpuapi.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ drivers/media/platform/amlogic/c3/isp/c3-isp-params.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
-index d26ffc942219..f77abd5e122a 100644
---- a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
-+++ b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
-@@ -584,8 +584,15 @@ int wave5_vpu_dec_get_output_info(struct vpu_instance *inst, struct dec_output_i
- 		p_dec_info->num_of_decoding_fbs : p_dec_info->num_of_display_fbs;
+diff --git a/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c b/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
+index 6f9ca7a7dd88..42d780f684d1 100644
+--- a/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
++++ b/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
+@@ -104,6 +104,8 @@ static void c3_isp_params_awb_wt(struct c3_isp_device *isp,
+ 	c3_isp_write(isp, ISP_AWB_BLK_WT_ADDR, 0);
  
- 	if (info->index_frame_display >= 0 &&
--	    info->index_frame_display < (int)max_dec_index)
--		info->disp_frame = inst->frame_buf[val + info->index_frame_display];
-+	    info->index_frame_display < (int)max_dec_index) {
-+		u32 idx = val + info->index_frame_display;
-+
-+		if (WARN_ON(idx >= MAX_REG_FRAME)) {
-+			ret = -EINVAL;
-+			goto err_out;
-+		}
-+		info->disp_frame = inst->frame_buf[idx];
-+	}
+ 	zones_num = cfg->horiz_zones_num * cfg->vert_zones_num;
++	if (WARN_ON(zones_num > C3_ISP_AWB_MAX_ZONES))
++		zones_num = C3_ISP_AWB_MAX_ZONES;
  
- 	info->rd_ptr = p_dec_info->stream_rd_ptr;
- 	info->wr_ptr = p_dec_info->stream_wr_ptr;
+ 	/* Need to write 8 weights at once */
+ 	for (i = 0; i < zones_num / 8; i++) {
+@@ -220,6 +222,8 @@ static void c3_isp_params_ae_wt(struct c3_isp_device *isp,
+ 	c3_isp_write(isp, ISP_AE_BLK_WT_ADDR, 0);
+ 
+ 	zones_num = cfg->horiz_zones_num * cfg->vert_zones_num;
++	if (WARN_ON(zones_num > C3_ISP_AE_MAX_ZONES))
++		zones_num = C3_ISP_AE_MAX_ZONES;
+ 
+ 	/* Need to write 8 weights at once */
+ 	for (i = 0; i < zones_num / 8; i++) {
 
 -- 
 2.54.0.545.g6539524ca2-goog
