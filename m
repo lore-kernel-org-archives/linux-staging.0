@@ -1,151 +1,124 @@
-Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D6CC449EAB
-	for <linux-staging@lists.linux.dev>; Tue, 28 Apr 2026 13:26:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02FF944BC87
+	for <linux-staging@lists.linux.dev>; Tue, 28 Apr 2026 13:26:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777382775; cv=none; b=TrrNOt7+tSXBt2KH8AC8AYam8tH+SNqT8qnONvWEa4dwoUXzIt3bRZdbnI3zDjGoh0zZDXR7Kss6aywMK4A8MdOVqnIFUW6B2BuK7QWiEYWQP6VaNKX9PtRrorMzKDYSWIs1GhFmiL7jzbCuzU/fcwWfm/FJGClwcwbp3zaTwUk=
+	t=1777382814; cv=none; b=Izlap3Usd2Hf+8RHQB/HL5Jd3mQManZgBsEWQ2mey25WOz6PQ8hdAfOeY10ij/aEbKrVHXaEh/bOZnJueRVfFybIi9mzeSY+QgVPpJhiMxY8y31mkcivwTtL2gW2hPvfF1B6Hewo8kbsvlcKUustHgrCxyvBCn3UxBE/JBt3Evo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777382775; c=relaxed/simple;
-	bh=jj8OfkOR9W8grZdct+0Tfg2In3+QWoldzHpIBjw6DC4=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=torU90yIPqiQTA00c7pw4JxulKb9Hro5ABHE9J8cUe08Eo1koGqceHsL1ZaWERITuT6zifg3VlxEEoDgAJKzbei436OSx+9wQS+IGvE3+OTAJhS6I/m579Eh68kuUBpq8aX+p2Z0ZTPw5HscZDFgl8UQwcBqJDrBmSHuQjTF/TA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=DRvoOK9J; arc=none smtp.client-ip=95.215.58.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1777382814; c=relaxed/simple;
+	bh=oQfEbefBU76bTTDJ30vAsEyMuIeQfu4d7/r4PxQLcLM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NPtkHtqmPChtJNMK58zyVkfgWhKJOveAhS7HDioxKr1nPx13n7Dp1MWUt9I/NHmhIDs69OgZncl7XrRjqlC2yI7OEF4Ydont7VSrTPUCFu1zV+Gy2zvdHbqKj67i9vgBrk1t68a8ZLnDInVbAsuG/Hb0/dpLfnqISwIoxx3VHMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=heLSEN2G; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="DRvoOK9J"
-Date: Tue, 28 Apr 2026 15:25:37 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1777382772;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OIic9+nSV+sJrh7uLkvHP7ClekZIHocW+uisTMzSlmU=;
-	b=DRvoOK9J933sV4bqbb2BDEZQd3vmP+hG+O9LN47HoWdtZD/254wSzHEGV3LWWo/QFZn9M0
-	JPz9sSRQH8OfqQYeUz4M2W/ZCgGAx0TUFmrnXL223xsO5wmRWUMr1CTJ/4flkQZnsb2ahv
-	R9MjaEGqWSBQjJwXhAFmuTCTXyGtqEk=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Luka Gejak <luka.gejak@linux.dev>
-To: Salman Alghamdi <me@cipherat.com>, gregkh@linuxfoundation.org
-CC: straube.linux@gmail.com, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, luka.gejak@linux.dev
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v5_5/8=5D_staging=3A_rtl8723bs=3A_rtw=5Fmlm?=
- =?US-ASCII?Q?e=3A_extract_local_variables_for_long_expressions?=
-In-Reply-To: <20260428121737.435248-6-me@cipherat.com>
-References: <20260428121737.435248-1-me@cipherat.com> <20260428121737.435248-6-me@cipherat.com>
-Message-ID: <62E6BFE6-BACF-4791-A020-E7B98F5A27E0@linux.dev>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="heLSEN2G"
+Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CC82FE91;
+	Tue, 28 Apr 2026 15:25:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1777382708;
+	bh=oQfEbefBU76bTTDJ30vAsEyMuIeQfu4d7/r4PxQLcLM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=heLSEN2GPQYH8w/3e7p4/mpZkAOFw8Wk84o31LOs7aEr3L5Nck/knJ6LHKtrAkGkG
+	 RYEHsPtJnHDMHudlAv/x64NFq7Ei5iaqwOjnP4Y724kppE+s4AWirHRSkOXmvqwMZT
+	 faSkEXFce6IlWXzhewL0EuuxFVzYMkahYrpyHb3A=
+Date: Tue, 28 Apr 2026 16:26:49 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Nas Chung <nas.chung@chipsnmedia.com>,
+	Jackson Lee <jackson.lee@chipsnmedia.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Keke Li <keke.li@amlogic.com>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Subject: Re: [PATCH 6/6] media: amlogic-c3: Add validations for ae and awb
+ config
+Message-ID: <20260428132649.GD120836@killaraus.ideasonboard.com>
+References: <20260428-smatch-7-1-v1-0-46890dffb611@chromium.org>
+ <20260428-smatch-7-1-v1-6-46890dffb611@chromium.org>
+ <20260428131038.GA120836@killaraus.ideasonboard.com>
+ <CANiDSCvaS-Jz9m5H2OHo2akD-o-sffsZyEw6_CrfUhD1BN+m2g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CANiDSCvaS-Jz9m5H2OHo2akD-o-sffsZyEw6_CrfUhD1BN+m2g@mail.gmail.com>
 
-On April 28, 2026 2:15:48 PM GMT+02:00, Salman Alghamdi <me@cipherat=2Ecom>=
- wrote:
->Extract local variables to shorten lines that cannot be wrapped
->cleanly=2E
->
->Signed-off-by: Salman Alghamdi <me@cipherat=2Ecom>
->---
-> drivers/staging/rtl8723bs/core/rtw_mlme=2Ec | 49 +++++++++++++++--------
-> 1 file changed, 33 insertions(+), 16 deletions(-)
->
->diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme=2Ec b/drivers/stagin=
-g/rtl8723bs/core/rtw_mlme=2Ec
->index caaad38dd790=2E=2Ec7609f1a90f6 100644
->--- a/drivers/staging/rtl8723bs/core/rtw_mlme=2Ec
->+++ b/drivers/staging/rtl8723bs/core/rtw_mlme=2Ec
+On Tue, Apr 28, 2026 at 03:14:21PM +0200, Ricardo Ribalda wrote:
+> On Tue, 28 Apr 2026 at 15:10, Laurent Pinchart wrote:
+> > On Tue, Apr 28, 2026 at 12:41:12PM +0000, Ricardo Ribalda wrote:
+> > > Avoid invalid memory access if the zones_num is bigger than
+> > > zone_weight.
+> > >
+> > > This patch fixes the following smatch errors:
+> > > drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:111 c3_isp_params_awb_wt() error: buffer overflow 'cfg->zone_weight' 768 <= u32max
+> > > drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:111 c3_isp_params_awb_wt() error: buffer overflow 'cfg->zone_weight' 768 <= u32max
+> > > drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:227 c3_isp_params_ae_wt() error: buffer overflow 'cfg->zone_weight' 255 <= u32max
+> > > drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:227 c3_isp_params_ae_wt() error: buffer overflow 'cfg->zone_weight' 255 <= u32max
+> > >
+> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > ---
+> > >  drivers/media/platform/amlogic/c3/isp/c3-isp-params.c | 4 ++++
+> > >  1 file changed, 4 insertions(+)
+> > >
+> > > diff --git a/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c b/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
+> > > index 6f9ca7a7dd88..42d780f684d1 100644
+> > > --- a/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
+> > > +++ b/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
+> > > @@ -104,6 +104,8 @@ static void c3_isp_params_awb_wt(struct c3_isp_device *isp,
+> > >       c3_isp_write(isp, ISP_AWB_BLK_WT_ADDR, 0);
+> > >
+> > >       zones_num = cfg->horiz_zones_num * cfg->vert_zones_num;
+> > > +     if (WARN_ON(zones_num > C3_ISP_AWB_MAX_ZONES))
+> >
+> > This is triggerable by userspace, it shouldn't result in a WARN_ON().
+> > Ideally the horiz_zones_num and vert_zones_num should be validated at
+> > buf prepare time, and an error should be returned to userspace. That
+> > will likely not fix your smatch issue though, I don't think it will be
+> > able to understand that the values have been validated.
+> 
+> Based on the warnings from the other drivers I also suspect that if
+> you have validated the data somewhere else smatch will understand it.
+> 
+> Even if you add a validate function I would suggest to keep the
+> WARN_ON(), ideally it should never trigger, and if it triggers it will
+> get a lot more attention to get it fixed.
 
-=2E=2E=2E
+We could keep the WARN_ON() if we first validate the data, but the
+driver doesn't currently :-/ I expect there could be more similar
+issues.
 
->@@ -650,7 +654,13 @@ static bool rtw_is_desired_network(struct adapter *a=
-dapter, struct wlan_network
-> 		bselected =3D false;
->=20
-> 	if (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)) {
->-		if (pnetwork->network=2Einfrastructure_mode !=3D pmlmepriv->cur_networ=
-k=2Enetwork=2Einfrastructure_mode)
->+		enum ndis_802_11_network_infrastructure inf_mode;
->+		enum ndis_802_11_network_infrastructure cur_inf;
->+
->+		inf_mode =3D pnetwork->network=2Einfrastructure_mode;
->+		cur_inf =3D pmlmepriv->cur_network=2Enetwork=2Einfrastructure_mode;
->+
->+		if (inf_mode !=3D cur_inf)
-> 			bselected =3D false;
-> 	}
->=20
->@@ -735,9 +745,10 @@ void rtw_surveydone_event_callback(struct adapter	*a=
-dapter, u8 *pbuf)
-> 				if (rtw_select_and_join_from_scanned_queue(pmlmepriv) =3D=3D _SUCCES=
-S) {
-> 					_set_timer(&pmlmepriv->assoc_timer, MAX_JOIN_TIMEOUT);
-> 				} else {
->+					struct wlan_bssid_ex *pdev_network =3D &regs->dev_network;
->+					struct registry_priv *regs =3D &adapter->registrypriv;
+> > Jacopo, do we need to add a validate function pointer to
+> > v4l2_isp_params_block_type_info ?
+> >
+> > > +             zones_num = C3_ISP_AWB_MAX_ZONES;
+> > >
+> > >       /* Need to write 8 weights at once */
+> > >       for (i = 0; i < zones_num / 8; i++) {
+> > > @@ -220,6 +222,8 @@ static void c3_isp_params_ae_wt(struct c3_isp_device *isp,
+> > >       c3_isp_write(isp, ISP_AE_BLK_WT_ADDR, 0);
+> > >
+> > >       zones_num = cfg->horiz_zones_num * cfg->vert_zones_num;
+> > > +     if (WARN_ON(zones_num > C3_ISP_AE_MAX_ZONES))
+> > > +             zones_num = C3_ISP_AE_MAX_ZONES;
+> > >
+> > >       /* Need to write 8 weights at once */
+> > >       for (i = 0; i < zones_num / 8; i++) {
 
-I understand that you want to follow reverse christmas tree order as=20
-Dan requested, but you can't introduce compilation failures by doing=20
-that=2E Here, you are attempting to use regs to initialize pdev_network=20
-on the first line, but regs is not declared until the second line,
-therefore this will fail to compile=2E
+-- 
+Regards,
 
->+					u8 *pibss =3D regs->dev_network=2Emac_address;
-> 					u8 ret =3D _SUCCESS;
->-					struct wlan_bssid_ex    *pdev_network =3D &adapter->registrypriv=2E=
-dev_network;
->-					u8 *pibss =3D adapter->registrypriv=2Edev_network=2Emac_address;
->=20
-> 					/* pmlmepriv->fw_state ^=3D _FW_UNDER_SURVEY;
-> 					 * because don't set assoc_timer
->@@ -792,8 +803,10 @@ void rtw_surveydone_event_callback(struct adapter	*a=
-dapter, u8 *pbuf)
-> 			if (check_fwstate(pmlmepriv, WIFI_STATION_STATE)
-> 				&& check_fwstate(pmlmepriv, _FW_LINKED)) {
-> 				if (rtw_select_roaming_candidate(pmlmepriv) =3D=3D _SUCCESS) {
->-					receive_disconnect(adapter, pmlmepriv->cur_network=2Enetwork=2Emac_=
-address
->-						, WLAN_REASON_ACTIVE_ROAM);
->+					u8 *mac_addr =3D pmlmepriv->cur_network=2Enetwork=2Emac_address;
->+
->+					receive_disconnect(adapter, mac_addr,
->+							   WLAN_REASON_ACTIVE_ROAM);
-
-Thanks for fixing this :)
-
-> 				}
-> 			}
-> 		}
->@@ -1069,8 +1082,9 @@ static void rtw_joinbss_update_network(struct adapt=
-er *padapter,
-> 				       struct wlan_network *ptarget_wlan,
-> 				       struct wlan_network  *pnetwork)
-> {
->-	struct mlme_priv *pmlmepriv =3D &padapter->mlmepriv;
->+	u8 signal_strength =3D ptarget_wlan->network=2Ephy_info=2Esignal_streng=
-th;
-> 	struct wlan_network  *cur_network =3D &pmlmepriv->cur_network;
->+	struct mlme_priv *pmlmepriv =3D &padapter->mlmepriv;
-
-You have the exact same issue here, pmlmepriv is used to initialize=20
-cur_network before it is actually declared=2E
-
->=20
-> 	/*  why not use ptarget_wlan?? */
-> 	memcpy(&cur_network->network, &pnetwork->network, pnetwork->network=2El=
-ength);
-
-=2E=2E=2E
-
-Please fix these errors, and ensure the code successfully compiles=20
-before sending v6=2E
-Best regards,
-Luka Gejak
+Laurent Pinchart
