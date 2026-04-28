@@ -1,46 +1,46 @@
 Received: from mail.cipherat.com (mail.cipherat.com [91.98.42.103])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FE693B95E3
-	for <linux-staging@lists.linux.dev>; Tue, 28 Apr 2026 16:45:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F25ED42B754
+	for <linux-staging@lists.linux.dev>; Tue, 28 Apr 2026 16:45:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.98.42.103
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777394739; cv=none; b=XzNM3gD2lE64YX5xau7lrEE6sy9tTMJNbQVGpUOvXGsw0/ghHFeCuXpF65RARbh8N5L8kSbm77Ar/NqG0J3h7PYMafbvk0Y2+f0+UnVOPrVTIGXbenNXZRSTVim/Vt1vWh4whzm5cYToRFA3Wk1JRISw0C/k9IPNO0VYbQQZpEg=
+	t=1777394743; cv=none; b=IKCbAfLPbF/CHAX2uj/LW/p9ISSyHSwvVr0pOFJ7t4pWKEGL3QwID6ZbTAj9MaaT4UB39n89jfqcQ8Ghjea3rOesHhOHvXOp2QhpLUKFVjx9ggJrV2Ljmfs/McFwyhlNZwN0yqTmGoAW7GmHuV264IsSdobED/nQVrKZ3UXS+fY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777394739; c=relaxed/simple;
-	bh=M+Kh61XUw5qSuJ9eydYBrMjcoDbLbGczaAqYsj2uK3A=;
+	s=arc-20240116; t=1777394743; c=relaxed/simple;
+	bh=3VjogJRvlVNg3t8adN5DZTXgCr4LrHLIkitkB/fmWkc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WzXkjzJEDKm9CofTLFuImbb/wS7gi5mMWm+XOjvfyJmOGmThvWtCBfpZ7l98N+qE3AsySqVk3dYLXfWopkeXjL3yPIImADeMMPJyI19pRqPuFeAc6psHhtA4sjBlLnCswnEDDa8oCqRUGH+uvdYO925r1usiUznV/7rvSHlzPhc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cipherat.com; spf=pass smtp.mailfrom=cipherat.com; dkim=pass (4096-bit key) header.d=cipherat.com header.i=@cipherat.com header.b=t23Cz0vt; arc=none smtp.client-ip=91.98.42.103
+	 MIME-Version; b=LRs/jZbjStABdxt1jcrF4rYTrZ0ClZrLgJT8FyyitOA5mz5fWof4copVX7mUpiC+BaV72Z0SI4rqhUSpoq9r5k0wEpHL36mq0H0Nvda7+BKv5bEUU16d0AJAI4usW4dU/iUrDGSP53GUhfN1dSXSGotcfggjDzHr2JmYJUlFvsQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cipherat.com; spf=pass smtp.mailfrom=cipherat.com; dkim=pass (4096-bit key) header.d=cipherat.com header.i=@cipherat.com header.b=DWcyd7b+; arc=none smtp.client-ip=91.98.42.103
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cipherat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cipherat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=cipherat.com header.i=@cipherat.com header.b="t23Cz0vt"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4042B84F99;
-	Tue, 28 Apr 2026 19:45:36 +0300 (+03)
+	dkim=pass (4096-bit key) header.d=cipherat.com header.i=@cipherat.com header.b="DWcyd7b+"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8AA4684F90;
+	Tue, 28 Apr 2026 19:45:38 +0300 (+03)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cipherat.com;
-	s=dkim; t=1777394736; h=from:subject:date:message-id:to:cc:mime-version:
+	s=dkim; t=1777394739; h=from:subject:date:message-id:to:cc:mime-version:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=6MzwDyMCw+yTZnEHoNY6HNZh+Y9BdZNnBKLOBVGuZaU=;
-	b=t23Cz0vttwR74Wf2I+y9ba1ry9j2wSS1ed9MZZxp7yFRrye7od5qqevtpC6NNnl3Tsz+V6
-	bWbjxBF/acsdiPKCVU0/mbNmtlHhpCmTnrovQcLSMEkOf30HDE6jttvtcO/l4/LwCTUCvw
-	q7hxauPcYPSM5khbSeH+adnoOvusU5ukaqcn26vuwYXKMb1ibiTr567CdGI3K6BkzALCYd
-	db2Z36QoJFLRsjolb7IPEWNgJANcd3Z07+uupOq9svtfF1FshN+b3GRArPwA3vGiJyrX1H
-	lNvzAJVmiN23GX3aZtxY2Vwr0gEuHpjfNHWn2V7ytkLSIBzRY3iNoOfwPja3V9Yl6EO4BB
-	YEsXkJpbrpSzo4hZ4UHlevdmCj0nw8h4lxveL655GEN62H7ymvEuP+Fln5T7Je+byWmTFZ
-	LGyhmhgwndDbz2m6HOP57D/B32nUTHjpnPPmcISHxE/nxZ4jeW0OENx3L0TfoY48ATbvkH
-	3XgG2EN7P0R+3i1ld060YnrOy4ITmAmhDhRMZTohIJaw8iwrXDa0+79gL9NIjLQLkQyA/4
-	whff9LGwiq/z374pTWxH0zncJq8jWjhM9kS7ZAUGciFL45oYDqUkUAuMRomuF77FmBX5Ek
-	L/BvaqQ1PkviVQaIm3BOtDg5vjNv6TVB3OQ8ruaOMMGbavUHinrhU=
+	bh=d9Ed+ndE0rLiuYa70jJCdm2waF2bxaiVchc8o7SFhK8=;
+	b=DWcyd7b+sErVKkGr0ckRAaEiEEWp8pnKZDBN7//1Yw2tA5GLGvLwEStZtVchvVCd925Ada
+	6zw8OFmgwlV+7oCC8e6VMyJudHMm9vO1ZarqQIKe2otaeZ7F1jzI1bN3pb3BitE0GIXbOg
+	KB2vASg7kcVKCrlbU8eP5kGvuXton6zT1Mg17PxXTX/6c6fu+nRNjghpHDPle4Jt2JHxPA
+	PAnwh5o4BBAcnOKLLHoxjAochKzD06BrPkB5sRxr0Z+605bVKCdMsk040giKHg8u8nzSQ/
+	3061GCOuy8IM8SklspRVWRKjfdYMGFMmoeV+06UJJEIpn/bru8lNCGFtkB4qeOfWm9aEU0
+	3U5csCL0GfS5o809ilOOTyQidErQzvfBZ+A9yxK0FmOjNa4GGsyB9WydErAl1qtDKmsF2a
+	MWmtCnNVKqabIgRKLoUvpywd8sOZeXacYIUHrNwYsj9pgqc0FxggAEpYtaRzMXK0g3OkB7
+	o5EGaxqkcdDtA2zMtJhBBY81FCUbL1ydBIo/vKkuk8OBM/ufEfgCDplIpQ25z5TgnyZEjp
+	iEFwsSqAwq6X5CzDOR7dc366VxW+fzkR92vvnoQowyEg/7SdkU7ZWCImh+3KE+dGvYO2er
+	fmUJGHIi1v3dmeESBkojB205cjK1gjgETZi93Cw55j61ITl9hcpII=
 From: Salman Alghamdi <me@cipherat.com>
 To: gregkh@linuxfoundation.org
 Cc: luka.gejak@linux.dev,
 	straube.linux@gmail.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v6 7/8] staging: rtl8723bs: rtw_mlme: consolidate capability comparisons lines
-Date: Tue, 28 Apr 2026 19:44:37 +0300
-Message-ID: <20260428164513.763471-8-me@cipherat.com>
+Subject: [PATCH v6 8/8] staging: rtl8723bs: rtw_mlme: add blank line for readability
+Date: Tue, 28 Apr 2026 19:44:38 +0300
+Message-ID: <20260428164513.763471-9-me@cipherat.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260428164513.763471-1-me@cipherat.com>
 References: <20260428164513.763471-1-me@cipherat.com>
@@ -53,30 +53,26 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-Place capability comparisons on single lines.
+Add a blank line between the WIFI_UNDER_WPS block and the
+wifi_spec block to improve readability.
 
 Signed-off-by: Salman Alghamdi <me@cipherat.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_mlme.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index 233675f3a045..be8b50e8a232 100644
+index be8b50e8a232..0104829ca50a 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -367,10 +367,8 @@ int is_same_network(struct wlan_bssid_ex *src, struct wlan_bssid_ex *dst, u8 fea
- 	return (src->ssid.ssid_length == dst->ssid.ssid_length) &&
- 			((!memcmp(src->mac_address, dst->mac_address, ETH_ALEN))) &&
- 			((!memcmp(src->ssid.ssid, dst->ssid.ssid, src->ssid.ssid_length))) &&
--			((s_cap & WLAN_CAPABILITY_IBSS) ==
--			(d_cap & WLAN_CAPABILITY_IBSS)) &&
--			((s_cap & WLAN_CAPABILITY_ESS) ==
--			(d_cap & WLAN_CAPABILITY_ESS));
-+			((s_cap & WLAN_CAPABILITY_IBSS) == (d_cap & WLAN_CAPABILITY_IBSS)) &&
-+			((s_cap & WLAN_CAPABILITY_ESS) == (d_cap & WLAN_CAPABILITY_ESS));
- }
- 
- struct wlan_network *_rtw_find_same_network(struct __queue *scanned_queue,
+@@ -626,6 +626,7 @@ static bool rtw_is_desired_network(struct adapter *adapter, struct wlan_network
+ 		else
+ 			return false;
+ 	}
++
+ 	if (adapter->registrypriv.wifi_spec == 1) { /* for  correct flow of 8021X  to do.... */
+ 		u8 *p = NULL;
+ 		uint ie_len = 0;
 -- 
 2.54.0
 
