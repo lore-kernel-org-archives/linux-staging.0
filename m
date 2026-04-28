@@ -1,73 +1,102 @@
-Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com [91.218.175.173])
+Received: from forward205a.mail.yandex.net (forward205a.mail.yandex.net [178.154.239.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02AA0328B75
-	for <linux-staging@lists.linux.dev>; Tue, 28 Apr 2026 19:52:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 409FB3115AF
+	for <linux-staging@lists.linux.dev>; Tue, 28 Apr 2026 20:52:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.88
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777405937; cv=none; b=DlrKhQ7nOfNMdJrsoP95Vots4ms9SJ2Zog+JAwKEg6BpKcO1rs6wxuMY7MIknVU1wSFb2WJJFwZmQUD+KmerRNl1mRmBuUJ49Aaa06rXnzGWJ7QnNYnDnSG3mlvpXj76PXplfw37rssP7sn7Wqam5GBC1bcY8EqYhbjOGFbCSAw=
+	t=1777409556; cv=none; b=qLkCbLnJVE5f018kYwSR2tYv7+HXg5Soi3iJP+DIPfC8NZQLZAczTpH75/So4kRd5zsN6Nt91n67G4hZMkGMeY7HHPWLoLMeiF9ESSy7ZZreGcuASr/aUZjiUEGnZVZB/x9wLtFjbs7CResl7sqVgSi6BremRNcsRDmHFPTmpDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777405937; c=relaxed/simple;
-	bh=nwobxcnUP8fT/YjKT2j5rd7iB8DkE+wNbXazSu/6yC4=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=TsA2tQaa6/jIb6ZQzbPTIHR1LDlZ7oYnAaAOa/QY2shhV3NWXiKai1iuaOddWlnXraJMv4y5q5/DvbWVkkFRxMkFD9BGhydgHmp0SOSz+so0hdhqiS7zdnPx5h3nrnr4l5EyiV+Hq419MjociBNoBBQFgPvvnw4UcaaJLesqeFA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=k6qJ39KT; arc=none smtp.client-ip=91.218.175.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1777409556; c=relaxed/simple;
+	bh=F/OmEEhKAmmu4QalJ/slS3LVVrJMytLXKdajWueqpf0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=g7fBZJBCjrBEUBDqNEOkK4+kATzg2xE0CMZJpNRa01WHeSlJMBhoSaE2Pblp1GS4mZE8jkDeTfpg7Z5x++MD0IWPTgolQ+groCdafYDQZKYDt9InFaPbp0RnEa0q4JI3KhNiYJ7GtfHUOwlfnsGxvvQ+Qxd+5hNJMctEjRO5hWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net; spf=pass smtp.mailfrom=sezginduran.net; dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b=hNotqIgw; arc=none smtp.client-ip=178.154.239.88
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sezginduran.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="k6qJ39KT"
-Date: Tue, 28 Apr 2026 21:52:07 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1777405933;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nwobxcnUP8fT/YjKT2j5rd7iB8DkE+wNbXazSu/6yC4=;
-	b=k6qJ39KTbFZjlocKZlI+0rId/LRrEwvwqk2QtVVoBvboru9OFArKhsj75WyiZu549tPnTF
-	27q18TUarqGM3qcgeg395u4ukfh0AJ0NlNdOwV8Zzz1OLRdNMMWsZeegHatO7AX062MKjW
-	8fUR6Uj0zU9bGv+9w9OHkfEMO5mUVKI=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Luka Gejak <luka.gejak@linux.dev>
-To: Salman Alghamdi <me@cipherat.com>
-CC: gregkh@linuxfoundation.org, straube.linux@gmail.com,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- luka.gejak@linux.dev
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v6_0/8=5D_staging=3A_rtl8723bs=3A_rt?=
- =?US-ASCII?Q?w=5Fmlme=3A_fix_long_lines_and__related_issues?=
-In-Reply-To: <c681a3f1-fc6b-2f0f-6b17-d3fc29ec5fba@cipherat.com>
-References: <20260428164513.763471-1-me@cipherat.com> <9EC2EE03-DBFE-42D0-AC1E-520D73C83C5F@linux.dev> <c681a3f1-fc6b-2f0f-6b17-d3fc29ec5fba@cipherat.com>
-Message-ID: <07342DFC-EFBB-4E48-8032-B4925771B871@linux.dev>
+	dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b="hNotqIgw"
+Received: from forward100a.mail.yandex.net (forward100a.mail.yandex.net [IPv6:2a02:6b8:c0e:500:1:45:d181:d100])
+	by forward205a.mail.yandex.net (Yandex) with ESMTPS id C84EBC552C
+	for <linux-staging@lists.linux.dev>; Tue, 28 Apr 2026 23:44:29 +0300 (MSK)
+Received: from mail-nwsmtp-smtp-production-main-64.vla.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-64.vla.yp-c.yandex.net [IPv6:2a02:6b8:c18:31e:0:640:f144:0])
+	by forward100a.mail.yandex.net (Yandex) with ESMTPS id 40163C03BC;
+	Tue, 28 Apr 2026 23:44:22 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-64.vla.yp-c.yandex.net (smtp) with ESMTPSA id Iig5pN5S3mI0-WyHfxO9D;
+	Tue, 28 Apr 2026 23:44:21 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sezginduran.net;
+	s=mail; t=1777409061;
+	bh=kizDuhpz/ZW0XbVGAZ4ZeGP8avn86nvPk7wLDHXIDP4=;
+	h=Message-ID:Date:Cc:Subject:To:From;
+	b=hNotqIgw7K4QMghY1XfdeM1qwDgSnHot+0ZyR4SiAnYe5z0m+C8TslOafjDwNLcd7
+	 HLiRk42CK+Xus1cc8eahvWsXRvomkVpqhdVv9fDwiqr2TpEU4Kd7Pr93xN+lSms7SX
+	 Nxgp+IMa4Mowbww8r/3J8vC55FO3f6ZcEhmegD3U=
+Authentication-Results: mail-nwsmtp-smtp-production-main-64.vla.yp-c.yandex.net; dkim=pass header.i=@sezginduran.net
+From: Ahmet Sezgin Duran <ahmet@sezginduran.net>
+To: gregkh@linuxfoundation.org
+Cc: linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Ahmet Sezgin Duran <ahmet@sezginduran.net>
+Subject: [PATCH] staging: sm750fb: remove double space in fb_ops entries
+Date: Tue, 28 Apr 2026 20:44:16 +0000
+Message-ID: <20260428204416.55374-1-ahmet@sezginduran.net>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 
-On April 28, 2026 8:43:31 PM GMT+02:00, Salman Alghamdi <me@cipherat=2Ecom>=
- wrote:
->> LGTM, so unless Dan has something to add, for the patch series:
->>=20
->> Reviewed-by: Luka Gejak <luka=2Egejak@linux=2Edev>
->
->Thank you for your patience and detailed reviews throughout this process=
-=2E
->This is my first kernel contribution and your guidance has been invaluabl=
-e=2E
->Looking forward to contributing more! -hopefully fewer silly mistakes :P
->
->Kindest regards,
->Salman Alghamdi
->
+Remove extra space after '=' in .fb_check_var assignments.
 
-No problem, I'm here if you need any help in the future and feel free=20
-to cc me in any future patches=2E One more thing, silly mistakes are=20
-part of the process and you will do them less as time goes by=2E Hope to
-see more patches in the future :)
-Best regards,
-Luka Gejak
+Signed-off-by: Ahmet Sezgin Duran <ahmet@sezginduran.net>
+---
+ drivers/staging/sm750fb/sm750.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+index 8f43eea2868b..fadba95850be 100644
+--- a/drivers/staging/sm750fb/sm750.c
++++ b/drivers/staging/sm750fb/sm750.c
+@@ -670,7 +670,7 @@ static int sm750fb_set_drv(struct lynxfb_par *par)
+ static const struct fb_ops lynxfb_ops = {
+ 	.owner = THIS_MODULE,
+ 	FB_DEFAULT_IOMEM_OPS,
+-	.fb_check_var =  lynxfb_ops_check_var,
++	.fb_check_var = lynxfb_ops_check_var,
+ 	.fb_set_par = lynxfb_ops_set_par,
+ 	.fb_setcolreg = lynxfb_ops_setcolreg,
+ 	.fb_blank = lynxfb_ops_blank,
+@@ -680,7 +680,7 @@ static const struct fb_ops lynxfb_ops = {
+ static const struct fb_ops lynxfb_ops_with_cursor = {
+ 	.owner = THIS_MODULE,
+ 	FB_DEFAULT_IOMEM_OPS,
+-	.fb_check_var =  lynxfb_ops_check_var,
++	.fb_check_var = lynxfb_ops_check_var,
+ 	.fb_set_par = lynxfb_ops_set_par,
+ 	.fb_setcolreg = lynxfb_ops_setcolreg,
+ 	.fb_blank = lynxfb_ops_blank,
+@@ -691,7 +691,7 @@ static const struct fb_ops lynxfb_ops_with_cursor = {
+ static const struct fb_ops lynxfb_ops_accel = {
+ 	.owner = THIS_MODULE,
+ 	__FB_DEFAULT_IOMEM_OPS_RDWR,
+-	.fb_check_var =  lynxfb_ops_check_var,
++	.fb_check_var = lynxfb_ops_check_var,
+ 	.fb_set_par = lynxfb_ops_set_par,
+ 	.fb_setcolreg = lynxfb_ops_setcolreg,
+ 	.fb_blank = lynxfb_ops_blank,
+@@ -705,7 +705,7 @@ static const struct fb_ops lynxfb_ops_accel = {
+ static const struct fb_ops lynxfb_ops_accel_with_cursor = {
+ 	.owner = THIS_MODULE,
+ 	__FB_DEFAULT_IOMEM_OPS_RDWR,
+-	.fb_check_var =  lynxfb_ops_check_var,
++	.fb_check_var = lynxfb_ops_check_var,
+ 	.fb_set_par = lynxfb_ops_set_par,
+ 	.fb_setcolreg = lynxfb_ops_setcolreg,
+ 	.fb_blank = lynxfb_ops_blank,
+-- 
+2.53.0
+
