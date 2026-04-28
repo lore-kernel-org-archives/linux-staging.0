@@ -1,124 +1,158 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02FF944BC87
-	for <linux-staging@lists.linux.dev>; Tue, 28 Apr 2026 13:26:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CF5D28C037
+	for <linux-staging@lists.linux.dev>; Tue, 28 Apr 2026 13:37:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777382814; cv=none; b=Izlap3Usd2Hf+8RHQB/HL5Jd3mQManZgBsEWQ2mey25WOz6PQ8hdAfOeY10ij/aEbKrVHXaEh/bOZnJueRVfFybIi9mzeSY+QgVPpJhiMxY8y31mkcivwTtL2gW2hPvfF1B6Hewo8kbsvlcKUustHgrCxyvBCn3UxBE/JBt3Evo=
+	t=1777383475; cv=none; b=cS7M1QnnmVsts7Y3zFV0vjiH1tylwyvWyly0O0yqGaJzrAAOi7DZhzcQVWXpUvV+ODabQVJZqbPPIGNpxID5WCFLjqod6OonM5ZkkHuwN3k4qi5nB/qpueMHvrc7oDPLHnlDMoP85gB2soWMhYgsNmND+Zl864Hg1h7LmklhPWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777382814; c=relaxed/simple;
-	bh=oQfEbefBU76bTTDJ30vAsEyMuIeQfu4d7/r4PxQLcLM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NPtkHtqmPChtJNMK58zyVkfgWhKJOveAhS7HDioxKr1nPx13n7Dp1MWUt9I/NHmhIDs69OgZncl7XrRjqlC2yI7OEF4Ydont7VSrTPUCFu1zV+Gy2zvdHbqKj67i9vgBrk1t68a8ZLnDInVbAsuG/Hb0/dpLfnqISwIoxx3VHMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=heLSEN2G; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1777383475; c=relaxed/simple;
+	bh=SQHXDGhlN0CKDU05O67gYV+qSo6uKu9tcDe+F+cIKco=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LUSLFWY9tuASTfeTJhU15w8G0jM8U85w3QTSn/FmWEZ1U5TlAa6HiInRMkjj+I6fOlADChkAg2PxZQPltJ9oa/nmM201pXUAv30lh8UZ0oCdQLJyO5i0b/Z1Bdwew6q/Ddt4R+fa8go8UGfzEYvbLuwZX3C8iNdm827Clu1qc84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=cRtZgpiP; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="heLSEN2G"
-Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CC82FE91;
-	Tue, 28 Apr 2026 15:25:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1777382708;
-	bh=oQfEbefBU76bTTDJ30vAsEyMuIeQfu4d7/r4PxQLcLM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=heLSEN2GPQYH8w/3e7p4/mpZkAOFw8Wk84o31LOs7aEr3L5Nck/knJ6LHKtrAkGkG
-	 RYEHsPtJnHDMHudlAv/x64NFq7Ei5iaqwOjnP4Y724kppE+s4AWirHRSkOXmvqwMZT
-	 faSkEXFce6IlWXzhewL0EuuxFVzYMkahYrpyHb3A=
-Date: Tue, 28 Apr 2026 16:26:49 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Nas Chung <nas.chung@chipsnmedia.com>,
-	Jackson Lee <jackson.lee@chipsnmedia.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Keke Li <keke.li@amlogic.com>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Subject: Re: [PATCH 6/6] media: amlogic-c3: Add validations for ae and awb
- config
-Message-ID: <20260428132649.GD120836@killaraus.ideasonboard.com>
-References: <20260428-smatch-7-1-v1-0-46890dffb611@chromium.org>
- <20260428-smatch-7-1-v1-6-46890dffb611@chromium.org>
- <20260428131038.GA120836@killaraus.ideasonboard.com>
- <CANiDSCvaS-Jz9m5H2OHo2akD-o-sffsZyEw6_CrfUhD1BN+m2g@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="cRtZgpiP"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-ba7a1cc0380so1905733966b.2
+        for <linux-staging@lists.linux.dev>; Tue, 28 Apr 2026 06:37:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1777383468; x=1777988268; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=RHq5MBFE9EcTuWJZwxZrVzl/yev30bjkGe3MAVogf3g=;
+        b=cRtZgpiP0z9EvyQwZuaY8HY9eCi3SUs1cMdoxqlXyTwqHzzR52Ib1QYlyQxPvKK4BI
+         9qi4pMi8d91O/ciMUZ23cM1bEdlYeupMXaZf2M2c7r2BJqiOAkkVzD81Kq2fwuAWvphf
+         yQgYgc2iWMrwpUMtjLuClyoilcagJ6oMOV8Qo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777383468; x=1777988268;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RHq5MBFE9EcTuWJZwxZrVzl/yev30bjkGe3MAVogf3g=;
+        b=m55sAaS5lSvHfNrhIv73LoQvQ7EgzQEXal5PPso8MSb6NIDtYqG6G/cVModj+ldBS8
+         ikHG7cf+WaaXQ+l7kgJtNCdMaKwERNiDtY8JOC+uCBO0tYg52NUGxSCd8vWbTWlyp4Nt
+         /zx7JzvoCjNvscA4sxCpLff/8xSCjQ9wxwQN7HJ1z9+UekLbKrjkj0Jgn6ExwLOpiL9j
+         xhn4QE2tXAbC7SzHv86fZhGZrRwpbRSYDuDNY5RMpR4g6Tu+ERG7F5IImLtFsrGMrCUL
+         n2YMAktk91AbbL3tUZdXKA6LAW1hBavJjBPrq7x9fa3yrziBXqMlwZNZ+1SEEQk719VC
+         dYMw==
+X-Forwarded-Encrypted: i=1; AFNElJ8DhkRpHf6up/5WJ9UJk7EaR5j+zH+CH8b96CIMVApIi+3UzJT5+/FVZfxRUxyoBnCMQa4lXzMg/4AH3i8E@lists.linux.dev
+X-Gm-Message-State: AOJu0YzGw89B8wgAwMmSg2m9EAtk6UElcQVXQQVo3fmBeLiasSy1oSZ6
+	eMG8AlPtNACa+yLk6OsZ34xXUZwsRdSrY0cjx5UGAwO2TXjQkM1OLXXh+vfUtCrm1B+L2nWCJpV
+	Ndz4ugVOx
+X-Gm-Gg: AeBDieucGXbyeA7l0y/TPvLxBdvrDCSDA2v5nNpaLS3SJ5OjeZ/OcxQ0FXTZmgtsMTg
+	SAEBCJF0NuhzcHLvmVObR3r+P2/AAslOMqLQMbg/ZyNyTE9FVGLoa1WKPAfUqL1R/V3P5oC9nIP
+	5HodlqfLin1BHaQ3fOwLCOUjaiCsqg0xlMcVAgtZC0MP81PP1gfp1//YzqElwyTByx0Na561DTc
+	oxNw0twraSsOIT33G2tNxVa/WwvMzyCbyVBfG6EPgCCCW3JwIsgcgf1s2xjgBT3cY5N2oNnsb4U
+	xGJI9aCh1u7y7UnAja8Ek0QRtwtknZmhYZdS24iihaG48bjV2QOoBmTKIjl38Az/Qpy4CgMV7XF
+	1WZj2FZUiPH2eT2O+J3psGMUnzEuaBtClcWByW4DwB6dOKJkmXCIrl17ncAEcgJKsZClcGF3ajJ
+	/OiqzhfYVtm5dDkwsSXcF2vHB789FFAPdlXKHzJaECPVysssSyYsC7tqk9Md7UNvwfr+7E7wk=
+X-Received: by 2002:a17:907:970a:b0:b9c:b069:8ac3 with SMTP id a640c23a62f3a-bb80100def1mr184409466b.3.1777383467990;
+        Tue, 28 Apr 2026 06:37:47 -0700 (PDT)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com. [209.85.218.48])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bb8057df17bsm106464066b.0.2026.04.28.06.37.47
+        for <linux-staging@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Apr 2026 06:37:47 -0700 (PDT)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b8f9568e074so1885790666b.0
+        for <linux-staging@lists.linux.dev>; Tue, 28 Apr 2026 06:37:47 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9N7HNuWm5ASTpZKvuGefITYqM6nWhy7WQfhJF7QQCiBXcY4meVhhbP5NDkHZITCCLyeMBuEj7E1Sh0yobm@lists.linux.dev
+X-Received: by 2002:a17:907:928d:b0:ba9:2611:31e6 with SMTP id
+ a640c23a62f3a-bb80100e760mr207203766b.6.1777383466155; Tue, 28 Apr 2026
+ 06:37:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CANiDSCvaS-Jz9m5H2OHo2akD-o-sffsZyEw6_CrfUhD1BN+m2g@mail.gmail.com>
+References: <20260428-smatch-7-1-v1-0-46890dffb611@chromium.org>
+ <20260428-smatch-7-1-v1-2-46890dffb611@chromium.org> <20260428132524.GC120836@killaraus.ideasonboard.com>
+In-Reply-To: <20260428132524.GC120836@killaraus.ideasonboard.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Tue, 28 Apr 2026 15:37:33 +0200
+X-Gmail-Original-Message-ID: <CANiDSCtm4Nh4Ub4rbEBvpjV8GXT9VQ5eFXZTHn=Wy=0RpR=3JA@mail.gmail.com>
+X-Gm-Features: AVHnY4I9JlmrxhVAZa-s9WvlzX0ziQwglaziYU7IOODauoNSlCyTGKWM9aV5MO0
+Message-ID: <CANiDSCtm4Nh4Ub4rbEBvpjV8GXT9VQ5eFXZTHn=Wy=0RpR=3JA@mail.gmail.com>
+Subject: Re: [PATCH 2/6] media: i2c: mt9p031: Rewrite a bitwise mask
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Hans Verkuil <hverkuil@kernel.org>, Nas Chung <nas.chung@chipsnmedia.com>, 
+	Jackson Lee <jackson.lee@chipsnmedia.com>, Bingbu Cao <bingbu.cao@intel.com>, 
+	Tianshu Qiu <tian.shu.qiu@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Keke Li <keke.li@amlogic.com>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Apr 28, 2026 at 03:14:21PM +0200, Ricardo Ribalda wrote:
-> On Tue, 28 Apr 2026 at 15:10, Laurent Pinchart wrote:
-> > On Tue, Apr 28, 2026 at 12:41:12PM +0000, Ricardo Ribalda wrote:
-> > > Avoid invalid memory access if the zones_num is bigger than
-> > > zone_weight.
-> > >
-> > > This patch fixes the following smatch errors:
-> > > drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:111 c3_isp_params_awb_wt() error: buffer overflow 'cfg->zone_weight' 768 <= u32max
-> > > drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:111 c3_isp_params_awb_wt() error: buffer overflow 'cfg->zone_weight' 768 <= u32max
-> > > drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:227 c3_isp_params_ae_wt() error: buffer overflow 'cfg->zone_weight' 255 <= u32max
-> > > drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:227 c3_isp_params_ae_wt() error: buffer overflow 'cfg->zone_weight' 255 <= u32max
-> > >
-> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > ---
-> > >  drivers/media/platform/amlogic/c3/isp/c3-isp-params.c | 4 ++++
-> > >  1 file changed, 4 insertions(+)
-> > >
-> > > diff --git a/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c b/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
-> > > index 6f9ca7a7dd88..42d780f684d1 100644
-> > > --- a/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
-> > > +++ b/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
-> > > @@ -104,6 +104,8 @@ static void c3_isp_params_awb_wt(struct c3_isp_device *isp,
-> > >       c3_isp_write(isp, ISP_AWB_BLK_WT_ADDR, 0);
-> > >
-> > >       zones_num = cfg->horiz_zones_num * cfg->vert_zones_num;
-> > > +     if (WARN_ON(zones_num > C3_ISP_AWB_MAX_ZONES))
+Hi Laurent
+
+On Tue, 28 Apr 2026 at 15:25, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> On Tue, Apr 28, 2026 at 12:41:08PM +0000, Ricardo Ribalda wrote:
+> > The current code makes smatch a bit uncomfortable:
+> > drivers/media/i2c/mt9p031.c:799 mt9p031_s_ctrl() warn: assigning (-1952) to unsigned variable 'data'
 > >
-> > This is triggerable by userspace, it shouldn't result in a WARN_ON().
-> > Ideally the horiz_zones_num and vert_zones_num should be validated at
-> > buf prepare time, and an error should be returned to userspace. That
-> > will likely not fix your smatch issue though, I don't think it will be
-> > able to understand that the values have been validated.
-> 
-> Based on the warnings from the other drivers I also suspect that if
-> you have validated the data somewhere else smatch will understand it.
-> 
-> Even if you add a validate function I would suggest to keep the
-> WARN_ON(), ideally it should never trigger, and if it triggers it will
-> get a lot more attention to get it fixed.
-
-We could keep the WARN_ON() if we first validate the data, but the
-driver doesn't currently :-/ I expect there could be more similar
-issues.
-
-> > Jacopo, do we need to add a validate function pointer to
-> > v4l2_isp_params_block_type_info ?
+> > Probably because smatch is not clever enough (yet). Do a simple rewrite
+> > to make sure that smatch understands what we are doing here.
 > >
-> > > +             zones_num = C3_ISP_AWB_MAX_ZONES;
-> > >
-> > >       /* Need to write 8 weights at once */
-> > >       for (i = 0; i < zones_num / 8; i++) {
-> > > @@ -220,6 +222,8 @@ static void c3_isp_params_ae_wt(struct c3_isp_device *isp,
-> > >       c3_isp_write(isp, ISP_AE_BLK_WT_ADDR, 0);
-> > >
-> > >       zones_num = cfg->horiz_zones_num * cfg->vert_zones_num;
-> > > +     if (WARN_ON(zones_num > C3_ISP_AE_MAX_ZONES))
-> > > +             zones_num = C3_ISP_AE_MAX_ZONES;
-> > >
-> > >       /* Need to write 8 weights at once */
-> > >       for (i = 0; i < zones_num / 8; i++) {
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > ---
+> >  drivers/media/i2c/mt9p031.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/media/i2c/mt9p031.c b/drivers/media/i2c/mt9p031.c
+> > index ea5d43d925ff..5c9dff030b4d 100644
+> > --- a/drivers/media/i2c/mt9p031.c
+> > +++ b/drivers/media/i2c/mt9p031.c
+> > @@ -795,7 +795,7 @@ static int mt9p031_s_ctrl(struct v4l2_ctrl *ctrl)
+> >                       ctrl->val &= ~1;
+> >                       data = (1 << 6) | (ctrl->val >> 1);
+> >               } else {
+> > -                     ctrl->val &= ~7;
+> > +                     ctrl->val -= ctrl->val % 8;
+>
+> This is less readable than it was :-/ Is there a way to avoid the
+> warning while keeping the ~7 ? Maybe by assigning
+
+I guess it is a matter of taste. I find my version more readable.
+Also yours do not seem to convince smatch :P
+
+
+drivers/media/i2c/mt9p031.c:800 mt9p031_s_ctrl() warn: '(data << 8) |
+(1 << 6) | 32' 16775264 can't fit into 65535 'data'
+
+ribalda@ribalda:~/work/linux$ git diff
+diff --git a/drivers/media/i2c/mt9p031.c b/drivers/media/i2c/mt9p031.c
+index 5c9dff030b4d..f9f51d5060f6 100644
+--- a/drivers/media/i2c/mt9p031.c
++++ b/drivers/media/i2c/mt9p031.c
+@@ -795,8 +795,9 @@ static int mt9p031_s_ctrl(struct v4l2_ctrl *ctrl)
+                        ctrl->val &= ~1;
+                        data = (1 << 6) | (ctrl->val >> 1);
+                } else {
+-                       ctrl->val -= ctrl->val % 8;
+-                       data = ((ctrl->val - 64) << 5) | (1 << 6) | 32;
++                       ctrl->val &= ~7;
++                       data = (ctrl->val - 64) >> 3;
++                       data = (data << 8) | (1 << 6) | 32;
+
+>
+>                         data = (ctrl->val - 64) >> 3;
+>                         data = (data << 8) | (1 << 6) | 32;
+>
+> >                       data = ((ctrl->val - 64) << 5) | (1 << 6) | 32;
+> >               }
+> >
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
+
+
 
 -- 
-Regards,
-
-Laurent Pinchart
+Ricardo Ribalda
