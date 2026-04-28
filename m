@@ -1,104 +1,73 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com [91.218.175.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B26A047AF63
-	for <linux-staging@lists.linux.dev>; Tue, 28 Apr 2026 18:59:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02AA0328B75
+	for <linux-staging@lists.linux.dev>; Tue, 28 Apr 2026 19:52:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777402761; cv=none; b=tdUyjzYcFRQR65JXV4iG4Z12ZKqbc+e/swYt0t3+o5fwNn6x+N7NPs+tTSTi29oOL+1lQlwht4XZR2Ya/9TxUdGiZSlHraPTmVQ4oTqTLu/YBB9LJ83+/T0FCoHJAxsb5KWA+/CwTWB5X8ca/HTRPvce0uQj1vWZFHhuH28unss=
+	t=1777405937; cv=none; b=DlrKhQ7nOfNMdJrsoP95Vots4ms9SJ2Zog+JAwKEg6BpKcO1rs6wxuMY7MIknVU1wSFb2WJJFwZmQUD+KmerRNl1mRmBuUJ49Aaa06rXnzGWJ7QnNYnDnSG3mlvpXj76PXplfw37rssP7sn7Wqam5GBC1bcY8EqYhbjOGFbCSAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777402761; c=relaxed/simple;
-	bh=6a9Orqs4M+G9Ps0bWLS4aQAcCVzvmv1AumdBspToX0w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qDjxI/+9Coy4zzOEAO5rYciqjUrqZAsvIzlFj2lyZqoi5axziB/DOsKihHWsHORNSiZSn11yznfo6I4D8b8Nfp91vDmm7ppkQTCrSYvWju5m6h0HY5z1OpowdtEXwZJhiTR5YMeMRagyKSoYo/KzVKBPefx0p6cqvkjAKgiUdak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gThDwZel; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777405937; c=relaxed/simple;
+	bh=nwobxcnUP8fT/YjKT2j5rd7iB8DkE+wNbXazSu/6yC4=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=TsA2tQaa6/jIb6ZQzbPTIHR1LDlZ7oYnAaAOa/QY2shhV3NWXiKai1iuaOddWlnXraJMv4y5q5/DvbWVkkFRxMkFD9BGhydgHmp0SOSz+so0hdhqiS7zdnPx5h3nrnr4l5EyiV+Hq419MjociBNoBBQFgPvvnw4UcaaJLesqeFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=k6qJ39KT; arc=none smtp.client-ip=91.218.175.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gThDwZel"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4891d7164ddso60439245e9.3
-        for <linux-staging@lists.linux.dev>; Tue, 28 Apr 2026 11:59:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777402758; x=1778007558; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=iXO2sWkYj08jDd50w1qkyZoYNw3zJTVw3EQTk5oc1B8=;
-        b=gThDwZelnh92d43nczSLlDTJFJJuw0II2CiUs1DtmZ5XOl2bJvRn6biv6kdarL9y/c
-         WNYcbWEhm/Kvk0Wc/IIcCdple9Af3Jy3ToqNBuLvHK8M96si5bxu5OcMz8Zn7PxM/RLU
-         1IGjqUbITtao1I5R8HpWWV5ZRS+VYHCx5l0irvLdxOHffJqK0e8hrM7HJSDshjSD0bSn
-         FH/vWKlzs12WA1sTENnjjHIcy+g7/Gt29WdURfELdZMkCxZP4HqFzwLtPgIBdUaBQ9XX
-         xyobDrWQWkQttFgkDKEAgU8xsI2rp+vwBsJQCgnCP/PFbw1QiEb+O25ZOsSGs2JEY9n3
-         22Hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777402758; x=1778007558;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iXO2sWkYj08jDd50w1qkyZoYNw3zJTVw3EQTk5oc1B8=;
-        b=Zr1LY/ZXz6Qm4W26c965n6MbMyRVQtx36pUiduCZtU+C6kORYBRQDZDIaDB6+qccPX
-         tO11uHaXMsxigpHNA55gOlQlfz+WjK0XpFX3nL+ljimyD/ZD9L7cFneE5SQUd9mLJ2E2
-         Hi2o/ONZi5RnJxCSCXu3RfLSO0wCt21aj0CPU01lgiLN1APkH7Ngs4IzssVGLscEJ5IT
-         rPnkPtYw0SuVYcWv6KTobrGcT7zpi8gp6cAfWr2x1Nr+qolv67EQVL1lx+C0R4KETBW4
-         jMk+vdHgtOkM9YdLaFqGeNGj4MRgf6NH0cHFDP/6FAhif7KBtmonVj8CO8j4klCukpKj
-         RiyQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9ifwhaWzbXTdSi739UxU89u4zOHL2LEAA9TJ8r1liKc9OnjvLptCJKpyhxBFsUUOERvWzEyKA55yiMhVwC@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz9oBfV6CDbhstD1NUuRJB+0AH4RyjPAF4u2wMf1E+3YReHKHig
-	5GpKGrxa2/Y2aDNOMl01bUdhdGHDTSV6iTajDGuj94O/HkiGJXEJnKM3
-X-Gm-Gg: AeBDievkuzyNGowDhmxiGqjlQ/iiwyIrlRzYk8LZI0hsnAuBfaPA5wBmJoimLPzZEuC
-	AKUnLdcjBipF/eQHwLBdONvVgfB7neyuMY4DhHiZ/uI8cBLBVd+4Da+O5Mqn+VH0LzWytPTic9I
-	0/wtuyL/1oHB2ZGET/fbwH97o+VgfqJJWHSRZeHNPKQ6nabZHN55MXO1FCUO2pyeeoKRK6bLRBG
-	wxCPmB8oYqDCViYe9dmz2boYl8AWXwRgMoUEs5ANBrIJC60NnROgdHwbNPExwsLotbHePMci4l2
-	mJcC7m/cbXz8Wr0HtiBwHjQbZ1g0Wvgt3SIOH3/eD3Dzddr9jcMJGIcgqyKmIwbeZA6cCWWkkwa
-	q+3dNX4NsVfTMRvBwbGQbsLxtetILoSwVcomW5AcGyvfiO7gRtuE/WoW+oQLhXTOcgr7KvrUgVf
-	QYZJptf28C199YqMzMbWBJ5BoBmKwhhEzRWV2zR4h7
-X-Received: by 2002:a05:600c:6610:b0:489:1ba8:5bf0 with SMTP id 5b1f17b1804b1-48a7b54009cmr13442935e9.21.1777402757968;
-        Tue, 28 Apr 2026 11:59:17 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4463fa89038sm8391584f8f.26.2026.04.28.11.59.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Apr 2026 11:59:17 -0700 (PDT)
-Date: Tue, 28 Apr 2026 21:59:14 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Marc Hanna <marchanna111@gmail.com>
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-	thierry.reding@gmail.com, jonathanh@nvidia.com,
-	skomatineni@nvidia.com, luca.ceresoli@bootlin.com,
-	mchehab@kernel.org, gregkh@linuxfoundation.org
-Subject: Re: [PATCH v2] staging: tegra-video: Align wrapped function arguments
-Message-ID: <afEDgrzzxGf_VM5B@stanley.mountain>
-References: <20260428185024.853-1-marchanna111@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="k6qJ39KT"
+Date: Tue, 28 Apr 2026 21:52:07 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1777405933;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nwobxcnUP8fT/YjKT2j5rd7iB8DkE+wNbXazSu/6yC4=;
+	b=k6qJ39KTbFZjlocKZlI+0rId/LRrEwvwqk2QtVVoBvboru9OFArKhsj75WyiZu549tPnTF
+	27q18TUarqGM3qcgeg395u4ukfh0AJ0NlNdOwV8Zzz1OLRdNMMWsZeegHatO7AX062MKjW
+	8fUR6Uj0zU9bGv+9w9OHkfEMO5mUVKI=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Luka Gejak <luka.gejak@linux.dev>
+To: Salman Alghamdi <me@cipherat.com>
+CC: gregkh@linuxfoundation.org, straube.linux@gmail.com,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ luka.gejak@linux.dev
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v6_0/8=5D_staging=3A_rtl8723bs=3A_rt?=
+ =?US-ASCII?Q?w=5Fmlme=3A_fix_long_lines_and__related_issues?=
+In-Reply-To: <c681a3f1-fc6b-2f0f-6b17-d3fc29ec5fba@cipherat.com>
+References: <20260428164513.763471-1-me@cipherat.com> <9EC2EE03-DBFE-42D0-AC1E-520D73C83C5F@linux.dev> <c681a3f1-fc6b-2f0f-6b17-d3fc29ec5fba@cipherat.com>
+Message-ID: <07342DFC-EFBB-4E48-8032-B4925771B871@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260428185024.853-1-marchanna111@gmail.com>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Migadu-Flow: FLOW_OUT
 
-The subject still says the patch is aligning function arguments when
-the patch is about long lines.
+On April 28, 2026 8:43:31 PM GMT+02:00, Salman Alghamdi <me@cipherat=2Ecom>=
+ wrote:
+>> LGTM, so unless Dan has something to add, for the patch series:
+>>=20
+>> Reviewed-by: Luka Gejak <luka=2Egejak@linux=2Edev>
+>
+>Thank you for your patience and detailed reviews throughout this process=
+=2E
+>This is my first kernel contribution and your guidance has been invaluabl=
+e=2E
+>Looking forward to contributing more! -hopefully fewer silly mistakes :P
+>
+>Kindest regards,
+>Salman Alghamdi
+>
 
-
-On Tue, Apr 28, 2026 at 01:50:24PM -0500, Marc Hanna wrote:
-> Align wrapped arguments in tegra20.c
-> to follow kernel coding style.
-> 
-> v2:
-> - Fix From header
-> - Update commit message per review feedback
-> 
-This goes under the --- cut off line.
-
-> Signed-off-by: Marc Hanna <marchanna111@gmail.com>
-> ---
-  ^^^
-here.
-
-https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
-
-regards,
-dan carpenter
-
+No problem, I'm here if you need any help in the future and feel free=20
+to cc me in any future patches=2E One more thing, silly mistakes are=20
+part of the process and you will do them less as time goes by=2E Hope to
+see more patches in the future :)
+Best regards,
+Luka Gejak
