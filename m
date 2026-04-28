@@ -1,42 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15219406263;
-	Tue, 28 Apr 2026 10:42:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF90A4279EC;
+	Tue, 28 Apr 2026 10:43:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777372956; cv=none; b=DM68Se5uxlnrhBRxHkMtvjMFko3HFnXkNADV835s1fC13vNeCXmKCMlAo1iRwCRvt6AAiLXH/VfTB0QACGdG5m2gJ7uFflu6TKyjGH64Dk1r5dLCmGh+2Z1n0zW6JdisrJ6VcnzXXjd15b7XnxY1N4QY9xyREF+RdhvmMvnYPik=
+	t=1777372994; cv=none; b=B58spRc1bGpTpgY5HB6lMzV9CS/AtEZgumKkKqG9NwR4EbW96QtuvW0UuTxkTKdMnpogIjI11IH68lm/zP/fFdhMt3Bl49TLXZKD4+tGr9jvq6hkCeJgD0MUSBOYb7DBX577BZkyoTNHsQwGqAw+AiM8amvbfoGFdFHligB71i8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777372956; c=relaxed/simple;
-	bh=l8QWHbBPzKwGDe11zpw//Wb5TUPZCWp0EWKeU/dRgZc=;
+	s=arc-20240116; t=1777372994; c=relaxed/simple;
+	bh=Znrx21NGU17OdZVXSWf/ORE426dIdVD8RmoYWbTq1oc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bzNNI0Dm26oMMRQLG1M1uhAkOLLJnMnzv/nsdFZKyeCwydH3FY0vmDK/OhxCCwZjx4F2gVRLUSTfJn7wakOuiYfWppPwLRMGd+mbXg17VbUrfWOFyCV5YMMxjjnGyAJao5DnPJVHgc7uRlOpxpPCppToRGzwI/axONzfcjICQkw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n4o+sEhN; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=NT9w8SLufyuo810TMNKBvbROe1bKnDryO8yGnvDtnXCOGjIL+lFisJkUOAoAeMvXVsboW0SxV2R4X9bzpE6xhin6xVr7g7VgXw8jlXZyXg56QEYl/ThPOABkscwmcSMwpDs4o1QC1VIdrdW7idnlPS98HDoTv4aEb7Jm8786aw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hsyESaeA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n4o+sEhN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0055C4AF0D;
-	Tue, 28 Apr 2026 10:42:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hsyESaeA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B373C2BCAF;
+	Tue, 28 Apr 2026 10:43:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777372955;
-	bh=l8QWHbBPzKwGDe11zpw//Wb5TUPZCWp0EWKeU/dRgZc=;
+	s=k20201202; t=1777372994;
+	bh=Znrx21NGU17OdZVXSWf/ORE426dIdVD8RmoYWbTq1oc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=n4o+sEhNmapsdomH07al+HhS6Rm/SXKYtpsJlb2NW6yvZk4FeMHPY4CRULWJSoSiZ
-	 n8HtjpBXsruMhTQDx+L4FbfmWweKBfo7A7iNGgWINzzadTstm4xpQhYtpPgX3L7mtu
-	 Fv/i2OsvRW06ASAzIzNAUUWg77QiZd719Y64iskE2eSowT/xsGGNxGIVLKSYEUV2U6
-	 kE0lj2Tw4ZF4QGrnpj5oCoX98o4M9s/O089vZvoSUoAJy5j7nklHLFY0+/Jm3yUKDV
-	 1uVlFWpelQCkyqkfgFeZso/cJACFVgPG6Gg49JV5+AgNMZf9jpJomTA4H4s/ovGxSC
-	 lZQTkvra9t0cg==
+	b=hsyESaeARlgFxb+wOfumQ+uYkYC+DVEkciPkGHEKRDnosf24vNbAi56U50dOi2gyk
+	 KlApiijcfGzrjytDKOOJ5w6aDi+xzfHVoIi68jKvgl+/KrVP+2OmiSnN3keAzx0rL0
+	 FWJEroWieuKDjiOAm76QlOyyws3iqpprw/Ld8d3Wbq9BTeNTM9oBeCaWpTRErB2PIl
+	 pA35yg6sSAyk1ettYBoIsycci8BJUFgCVmUsgITLMJokWouCKwD2TesgjRHYckiuVD
+	 xx1A44RLz9BuGnifyeYuOki9R8UBq7Q24lqxfQAo3RSQTviNoaGxk9fVO0VFdicFb5
+	 fpFhkwsCVBHGQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Yuvraj Singh Chauhan <ysinghcin@gmail.com>,
+Cc: Artem Lytkin <iprintercanon@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@intel.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Sasha Levin <sashal@kernel.org>,
+	dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 7.0-5.10] staging: octeon: fix free_irq dev_id mismatch in cvm_oct_rx_shutdown
-Date: Tue, 28 Apr 2026 06:40:55 -0400
-Message-ID: <20260428104133.2858589-44-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 7.0-5.10] staging: fbtft: fix unchecked write return value in fb_agm1264k-fl
+Date: Tue, 28 Apr 2026 06:41:21 -0400
+Message-ID: <20260428104133.2858589-70-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260428104133.2858589-1-sashal@kernel.org>
 References: <20260428104133.2858589-1-sashal@kernel.org>
@@ -49,322 +52,349 @@ MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 7.0.2
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Yuvraj Singh Chauhan <ysinghcin@gmail.com>
+From: Artem Lytkin <iprintercanon@gmail.com>
 
-[ Upstream commit 41db5b76eeb4cc11a1097384caba7cfc659f7293 ]
+[ Upstream commit f80760f5fc02c1ab384a974097964aa8e6720331 ]
 
-In cvm_oct_rx_initialize(), request_irq() is called with
-&oct_rx_group[i].napi as the dev_id:
+The second call to par->fbtftops.write() does not capture the return
+value, so the subsequent error check tests a stale value from the
+first write call. Add the missing assignment so the error check
+applies to the correct write operation.
 
-	request_irq(oct_rx_group[i].irq, cvm_oct_do_interrupt, 0, "Ethernet",
-							&oct_rx_group[i].napi);
-
-However, cvm_oct_rx_shutdown() passes cvm_oct_device (an array of
-struct net_device pointers) as the dev_id to free_irq():
-
-  free_irq(oct_rx_group[i].irq, cvm_oct_device);
-
-Since __free_irq() matches the action to remove by comparing
-dev_id pointers, the mismatched cookie means the IRQ handler is
-never found, triggering a WARN and leaving the IRQ line permanently
-allocated. This prevents proper driver cleanup on module removal.
-
-Fix the mismatch by passing &oct_rx_group[i].napi as the dev_id
-to free_irq(), matching what was used during request_irq().
-
-Signed-off-by: Yuvraj Singh Chauhan <ysinghcin@gmail.com>
-Link: https://patch.msgid.link/20260212171903.1417804-1-ysinghcin@gmail.com
+Signed-off-by: Artem Lytkin <iprintercanon@gmail.com>
+Acked-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+Link: https://patch.msgid.link/20260207220523.3816-1-iprintercanon@gmail.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-Now I have enough information to provide a comprehensive analysis.
+Now I have enough information to complete the analysis.
 
 ## Analysis
 
 ### PHASE 1: COMMIT MESSAGE FORENSICS
 
-**Step 1.1:** Parse subject line
-- Record: Subsystem `staging: octeon:`, verb `fix`, summary: "free_irq
-  dev_id mismatch in cvm_oct_rx_shutdown"
+**Step 1.1** - Subject parsing:
+Record: Subsystem `staging: fbtft:`, action verb `fix`, summary:
+"unchecked write return value in fb_agm1264k-fl"
 
-**Step 1.2:** Parse commit message tags
-- Record: `Signed-off-by: Yuvraj Singh Chauhan`; `Link:` to
-  patch.msgid.link; `Signed-off-by: Greg Kroah-Hartman`. No Fixes:,
-  Reported-by:, Reviewed-by:, or Tested-by: tags. No syzbot reporter. No
-  Cc: stable.
+**Step 1.2** - Tags:
+Record:
+- `Signed-off-by: Artem Lytkin <iprintercanon@gmail.com>` (author)
+- `Acked-by: Andy Shevchenko <andriy.shevchenko@intel.com>` (senior
+  reviewer, knowledgeable in staging/fbtft)
+- `Link: https://patch.msgid.link/20260207220523.3816-1-
+  iprintercanon@gmail.com`
+- `Signed-off-by: Greg Kroah-Hartman` (staging maintainer merged it)
+- NO `Fixes:` tag, NO `Reported-by:`, NO `Cc: stable`, NO `Tested-by:`
 
-**Step 1.3:** Analyze commit body
-- Record: Bug is a mismatch between the dev_id cookie passed to
-  `request_irq()` (`&oct_rx_group[i].napi`) vs. `free_irq()`
-  (`cvm_oct_device`). `__free_irq()` matches the action to remove by
-  comparing dev_id pointers. With the mismatch, the action is never
-  found, triggering `WARN(1, "Trying to free already-free IRQ %d\n",
-  irq)` and leaving the IRQ line permanently allocated.
-- Failure mode: WARN splat on module remove; IRQ handler stays
-  registered; driver cleanup is incomplete.
+**Step 1.3** - Commit body analysis:
+Record: Author explains that the second `par->fbtftops.write()` call
+does not assign its return to `ret`. The subsequent `if (ret < 0)` check
+therefore tests a stale value from the first write. Fix adds the missing
+assignment. Clear mechanism explanation, no stack trace, no version
+info.
 
-**Step 1.4:** Hidden bug fix check
-- Record: This is an explicit "fix" - not hidden. The description
-  clearly explains the mechanism.
+**Step 1.4** - Hidden bug detection:
+Record: Not hidden; the commit is explicitly a "fix" and the title says
+so. The mechanism description is honest and clear.
 
 ### PHASE 2: DIFF ANALYSIS
 
-**Step 2.1:** Inventory
-- Record: 1 file (`drivers/staging/octeon/ethernet-rx.c`), +1/-1 = 1
-  line effective change inside `cvm_oct_rx_shutdown()`. Scope
-  classification: single-file surgical one-liner.
+**Step 2.1** - Inventory:
+Record: Single file `drivers/staging/fbtft/fb_agm1264k-fl.c`, +1/-1
+line, single function `write_vmem()`, scope: surgical one-line fix.
 
-**Step 2.2:** Code flow
-- Record: Before: `free_irq(oct_rx_group[i].irq, cvm_oct_device)` -
-  wrong cookie. After: `free_irq(oct_rx_group[i].irq,
-  &oct_rx_group[i].napi)` - matches the `request_irq()` cookie used in
-  `cvm_oct_rx_initialize()` at line 481.
+**Step 2.2** - Code flow change:
+Record: BEFORE: `par->fbtftops.write(par, buf, len);` — return value
+discarded. The following `if (ret < 0)` tests stale `ret` from the prior
+left-half write performed earlier in the same loop iteration.
+AFTER: `ret = par->fbtftops.write(par, buf, len);` — return captured,
+error check now applies to the correct call.
 
-**Step 2.3:** Bug mechanism
-- Record: Category: logic/correctness (mismatched function-pair
-  parameter). Specifically, the request_irq() is called with
-  `&oct_rx_group[i].napi` and `free_irq()` must pass the same pointer.
-  Verified in kernel/irq/manage.c:1886 (`if (action->dev_id ==
-  dev_id)`).
+**Step 2.3** - Bug mechanism:
+Record: Category (g) Logic/correctness fix — wrong variable (stale)
+used; silent swallowing of errors returned by the write hook. If left
+half succeeds (ret ≥ 0) and right half fails, the error is silently
+ignored and `write_vmem()` returns 0 (success), causing the caller
+`fbtft_update_display()` to also not log its error. Silent write failure
+for the right half of the 128×64 LCD.
 
-**Step 2.4:** Fix quality
-- Record: Obviously correct - it literally makes the teardown mirror the
-  setup. Zero regression risk - if the module were working with the
-  "old" dev_id in free_irq (it wasn't, as shown by the WARN behavior),
-  no user would depend on that behavior.
+**Step 2.4** - Fix quality:
+Record: Fix is obviously correct; zero chance of regression. It is
+purely an error-reporting/propagation correction — no new branches, no
+new locking, no ABI change.
 
 ### PHASE 3: GIT HISTORY INVESTIGATION
 
-**Step 3.1:** Blame
-- Record: The line `free_irq(oct_rx_group[i].irq, cvm_oct_device)` was
-  touched by revert `422d97b8b05ed` (2020) but that was a mass revert
-  restoring the driver. The actual bug was introduced earlier.
+**Step 3.1** - git blame on the buggy line:
+Record: The buggy line (379) was introduced by commit `b2ebd4be6fa1d2`
+("staging: fbtft: add fb_agm1264k-fl driver") by Thomas Petazzoni,
+2014-12-31 — first appearing in `v4.0-rc1`. Andy Shevchenko confirmed on
+list: "it was like that from the day 1." The bug has been present for
+~11 years in all stable trees that include this driver.
 
-**Step 3.2:** Follow Fixes tag
-- Record: No Fixes: tag present. Tracing manually: commit
-  `08712f9de1013` ("staging: octeon: pass the NAPI instance reference to
-  irq handler", Aug 2016) changed `request_irq()` from using
-  `cvm_oct_device` to `&cvm_oct_napi` but did NOT update the matching
-  `free_irq()` - introducing this mismatch. This went into v4.9. Commit
-  `e971a119f713a` then extended it to multiple rx groups (also v4.9),
-  still leaving `free_irq()` with `cvm_oct_device`.
+**Step 3.2** - Follow Fixes: tag:
+Record: No Fixes: tag. Manually identified introducing commit
+`b2ebd4be6fa1d2` via git blame. That commit is present in all stable
+kernels since 4.0.
 
-**Step 3.3:** Related changes
-- Record: No recent churn in this file's shutdown path. Last functional
-  changes around napi/irq were in 2016. Related commit `60c85e23bed17`
-  (switch to netif_napi_add_weight) did not touch free_irq.
+**Step 3.3** - File history:
+Record: Recent changes to the file are almost all cleanups (BIT macro,
+gpio descriptors, style). The line in question has been untouched since
+2014. No series dependencies.
 
-**Step 3.4:** Author context
-- Record: Yuvraj Singh Chauhan - first-time contributor to the kernel
-  based on the lore thread (no Reviewed-by/Tested-by responses). Patch
-  applied directly by Greg KH (staging maintainer).
+**Step 3.4** - Author context:
+Record: Artem Lytkin has one other commit (`sm750fb: add missing
+pci_release_region`) — also a staging bug fix. Not a maintainer; a
+newcomer fixing real bugs. The Acked-by comes from Andy Shevchenko who
+is the de facto staging/fbtft reviewer.
 
-**Step 3.5:** Dependencies
-- Record: No dependencies. The code structure (`oct_rx_group[i].napi`)
-  exists in all stable trees since v4.9. Standalone fix.
+**Step 3.5** - Dependencies:
+Record: None. `par->fbtftops.write` and `ret` exist unchanged in all
+stable trees. Completely standalone, applies cleanly.
 
 ### PHASE 4: MAILING LIST RESEARCH
 
-**Step 4.1/4.2:** b4 dig results
-- Record: Found single submission at https://lore.kernel.org/all/2026021
-  2171903.1417804-1-ysinghcin@gmail.com/. Only v1, no revisions. Thread
-  mbox contains only the original patch - no review replies, no NAKs, no
-  stable suggestions. Applied by Greg KH without external review (common
-  for trivial staging fixes).
+**Step 4.1** - b4 dig -c f80760f5fc02c:
+Record: Matched by patch-id. Lore URL: https://lore.kernel.org/all/20260
+207220523.3816-1-iprintercanon@gmail.com/. Only v1 of the patch was
+submitted; no revisions.
 
-**Step 4.3:** Bug report
-- Record: No Reported-by: tag. No bug report linked. Appears to be
-  discovered via code inspection.
+**Step 4.2** - b4 dig -w (recipients):
+Record: Artem Lytkin, Andy Shevchenko, Greg Kroah-Hartman, dri-devel,
+linux-fbdev, linux-staging, linux-kernel — appropriate maintainer/list
+coverage.
 
-**Step 4.4:** Related patches
-- Record: Standalone patch, not part of a series.
+**Step 4.3** - Bug report search:
+Record: No bug report link; no Reported-by; no syzbot. Bug was found by
+code inspection.
 
-**Step 4.5:** Stable mailing list
-- Record: No prior discussion on stable@ for this specific bug found.
+**Step 4.4** - Series context:
+Record: Single standalone patch. No series.
+
+**Step 4.5** - Stable list:
+Record: No stable mailing list discussion found. No reviewer explicitly
+suggested Cc:stable; no one objected either. Andy's comment "it was like
+that from the day 1" is an observation of longevity, not a NAK or
+objection to stable.
 
 ### PHASE 5: CODE SEMANTIC ANALYSIS
 
-**Step 5.1-5.4:** Function impact
-- Record: `cvm_oct_rx_shutdown()` is called only from `cvm_oct_remove()`
-  in `drivers/staging/octeon/ethernet.c:936`, which is the
-  platform_device remove callback. Trigger path: module unload or device
-  unbind. Limited trigger frequency but reachable from standard module
-  lifecycle.
+**Step 5.1** - Modified function:
+Record: `write_vmem()` in `drivers/staging/fbtft/fb_agm1264k-fl.c`.
 
-**Step 5.5:** Similar patterns
-- Record: `drivers/staging/octeon/ethernet-tx.c` uses `cvm_oct_device`
-  consistently for BOTH its `request_irq()` (line 663) and `free_irq()`
-  (line 672) - that pair is correctly matched. The bug is isolated to
-  the rx path.
+**Step 5.2** - Callers:
+Record: `write_vmem` is the driver's `fbtftops.write_vmem` callback
+(registered at line 432), called from `fbtft-core.c:272` in
+`fbtft_update_display()` which in turn is called from the deferred-IO
+workqueue when the framebuffer is dirtied by userspace writes.
 
-### PHASE 6: CROSS-REFERENCING AND STABLE TREE ANALYSIS
+**Step 5.3** - Callees:
+Record: `par->fbtftops.write` → `write()` local function → bit-bangs
+data onto GPIO lines. Failure path returns negative errno to
+`write_vmem()`.
 
-**Step 6.1:** Buggy code in stable
-- Record: Verified identical `free_irq(oct_rx_group[i].irq,
-  cvm_oct_device);` in v6.1, v6.6, v6.12 at line 538. Bug exists in all
-  active LTS trees. Bug introduced in v4.9 (2016).
+**Step 5.4** - Call chain / reachability:
+Record: Userspace mmap/write to /dev/fb* → deferred IO →
+`fbtft_update_display()` → `write_vmem()` → `par->fbtftops.write()`. The
+buggy path is reached for every display refresh whenever `addr_win.xe >=
+xres/2`, i.e. almost every update of any non-empty region.
 
-**Step 6.2:** Backport complexity
-- Record: The one-line change would apply cleanly to all stable trees
-  since the surrounding code (the for-loop structure with
-  `oct_rx_group[i].irq`) is stable since v4.9.
+**Step 5.5** - Similar patterns:
+Record: Inspected sibling fbtft drivers (fb_uc1611, fb_ssd1306,
+fb_pcd8544, etc.) — they call the central `fbtft_write_vmem16_bus8/9/16`
+helpers and don't have this specific split-half bug. The bug is unique
+to `fb_agm1264k-fl` because the AGM1264K-FL has two physically separate
+64-column halves that must be written independently.
 
-**Step 6.3:** Already in stable
-- Record: No prior fix exists; the patch would be the first for this
-  bug.
+### PHASE 6: CROSS-REFERENCING STABLE TREES
 
-### PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+**Step 6.1** - Code in stable:
+Record: The driver was added in v4.0 (commit b2ebd4be6fa1d2, Dec 2014)
+with the bug present. The buggy line has been textually unchanged since
+then. Every stable tree that contains this driver (5.4, 5.10, 5.15, 6.1,
+6.6, 6.12) has the bug.
 
-**Step 7.1:** Criticality
-- Record: `drivers/staging/octeon/` - staging driver for Cavium OCTEON
-  MIPS SoCs. PERIPHERAL criticality - affects only OCTEON hardware users
-  (real users exist per TODO file stating "functional and supports
-  Ethernet on OCTEON+/OCTEON2/OCTEON3").
+**Step 6.2** - Backport complications:
+Record: The file has had only cosmetic/stylistic changes since 2014. The
+1-line change applies cleanly to all stable trees with no adjustments.
+Expected: clean apply.
 
-**Step 7.2:** Subsystem activity
-- Record: Low activity - mostly cleanup/style commits over recent years.
-  The driver is mature but still in staging.
+**Step 6.3** - Related fixes already in stable:
+Record: No prior fix for this specific bug exists in stable.
 
-### PHASE 8: IMPACT AND RISK ASSESSMENT
+### PHASE 7: SUBSYSTEM CONTEXT
 
-**Step 8.1:** Affected users
-- Record: Driver-specific - users of Cavium OCTEON MIPS SoCs with
-  `CONFIG_OCTEON_ETHERNET=m`.
+**Step 7.1** - Subsystem & criticality:
+Record: `drivers/staging/fbtft/` — a staging framebuffer driver for
+obscure small LCDs. Criticality: PERIPHERAL (used mainly by hobbyists
+with the specific AGM1264K-FL 128×64 LCD).
 
-**Step 8.2:** Trigger conditions
-- Record: Triggered on module unload (`rmmod octeon_ethernet`) or driver
-  unbind via sysfs. Not triggered during normal operation. Not
-  triggerable by unprivileged users.
+**Step 7.2** - Activity:
+Record: Moderately active — mostly cleanups, occasional real bug fixes
+(e.g. `47d3949a9b04c` memory-leak fix in probe, `be26a07c61af5` build
+failure fix). Staging/fbtft sees a steady trickle of commits.
 
-**Step 8.3:** Failure mode severity
-- Record:
-  - Immediate: WARN splat with stack trace (MEDIUM - no crash).
-  - Persistent: IRQ line permanently allocated after module removal
-    (MEDIUM - resource leak).
-  - Potential: If module re-loaded, `request_irq()` could fail or re-
-    register on the same IRQ unpredictably. More concerning, after
-    module unload the IRQ handler function pointer in the irqaction
-    still references unloaded module code - if an interrupt fires, it
-    would be a kernel oops.
-  - Overall severity: MEDIUM (resource leak + latent crash risk on
-    unload+interrupt).
+### PHASE 8: IMPACT & RISK ASSESSMENT
 
-**Step 8.4:** Risk-benefit
-- Record: Benefit: LOW-MEDIUM (narrow hardware audience, uncommon
-  trigger). Risk: VERY LOW (1 line, trivially correct, mirrors well-
-  understood request/free pair). Ratio: favorable for backport.
+**Step 8.1** - Affected users:
+Record: Only users of the `fb_agm1264k-fl` driver
+(CONFIG_FB_TFT_AGM1264K_FL), i.e., those with the AGM1264K-FL monochrome
+LCD connected via GPIO. Niche hardware, likely a small number of users.
+
+**Step 8.2** - Trigger conditions:
+Record: Triggered whenever the underlying `par->fbtftops.write()` fails
+on the right half of the display (I/O error on GPIO/SPI bus, allocation
+failure in bit-bang helper, etc.). Failures of the write hook are rare
+but real — they happen on transient hardware issues. No privilege
+required (userspace framebuffer write eventually drives this).
+
+**Step 8.3** - Failure mode severity:
+Record: When a right-half write fails: (a) no dev_err logged, (b)
+`write_vmem()` returns 0 falsely indicating success, (c)
+`fbtft_update_display()` also suppresses the error. Net effect is silent
+display corruption with no diagnostic trail. No crash, no memory
+corruption, no security impact, no hang. Severity: LOW — pure error-
+reporting/propagation bug; user-visible only as incorrect display output
+without explanation.
+
+**Step 8.4** - Risk-benefit:
+Record: BENEFIT — low-moderate. Real users of this specific hardware
+gain proper error diagnostics when writes fail. RISK — essentially zero.
+The change is a one-line variable assignment in an error path; it cannot
+introduce new behavior when writes succeed (ret still starts 0), and it
+can only improve diagnostics when writes fail. No locking, no memory, no
+ABI changes. Ratio strongly favors backporting.
 
 ### PHASE 9: FINAL SYNTHESIS
 
-**Step 9.1:** Evidence
-- FOR: Obviously correct fix, minimal scope, bug present since v4.9 in
-  all stable trees, clean application expected, mirrors existing pattern
-  in ethernet-tx.c.
-- AGAINST: Staging driver, narrow audience, no reviewer endorsement, no
-  user bug report, WARN is typically considered medium severity.
-- UNRESOLVED: Whether any real user has hit this WARN (no Reported-by).
+**Step 9.1** - Evidence:
 
-**Step 9.2:** Stable rules checklist
-1. Obviously correct and tested? YES (the patch mirrors the matching
-   setup call; fix is trivially verifiable)
-2. Fixes a real bug? YES (mismatch is real, `__free_irq` logic verified
-   in kernel/irq/manage.c)
-3. Important issue? BORDERLINE-YES (WARN + resource leak on module
-   unload; latent crash potential)
-4. Small and contained? YES (1 line)
-5. No new features? YES
-6. Applies to stable? YES
+FOR:
+- Obviously correct 1-line fix
+- Fixes a real bug (silent write failure, false success return)
+- Acked by knowledgeable reviewer (Andy Shevchenko)
+- Zero regression risk
+- Applies cleanly to all stable trees back to v4.0
+- Clear "fix" language in subject; mechanism explained in commit message
+- Accepted by staging maintainer (Greg KH)
 
-**Step 9.3:** Exception category
-- Not an explicit exception category but qualifies as a "small, surgical
-  bug fix" per stable rules.
+AGAINST:
+- Staging driver (lower priority by convention)
+- Obscure hardware (small user base)
+- Bug is low severity (no crash/corruption/security)
+- No Fixes: tag, no Reported-by:, no Cc: stable
+- Bug has been dormant for 11 years with no user reports, indicating
+  hardware failures that reach this path are extremely rare
 
-**Step 9.4:** Decision
-- The fix is obviously correct, one line, zero regression risk, and
-  fixes a genuine kernel WARN plus IRQ leak on module unload in a driver
-  with real hardware users. It applies to all active stable trees. Even
-  though it's a staging driver and the trigger is module unload, stable
-  routinely backports such clearly correct tiny fixes. The cost-benefit
-  is clearly positive.
+UNRESOLVED: None.
+
+**Step 9.2** - Stable rules checklist:
+1. Obviously correct and tested? YES — trivially correct; tested
+   implicitly by Acked-by and staging tree merge
+2. Fixes a real bug? YES — silent error swallowing in driver error path
+3. Important issue? MARGINAL — not a crash/corruption/security bug, just
+   bad diagnostics and a false success return
+4. Small and contained? YES — 1 line, 1 file, 1 function
+5. No new features/APIs? YES
+6. Applies cleanly? YES — verified 11-year-unchanged context
+
+**Step 9.3** - Exception category:
+Not strictly an exception category (not a device ID, quirk, DT update,
+build, or docs fix), so must stand on merits of being a legitimate bug
+fix.
+
+**Step 9.4** - Decision:
+The fix is obviously correct, minimal (1 line), has zero regression
+risk, and fixes a real if low-severity bug. The absence of
+crash/security/corruption severity pushes this into borderline territory
+for a staging driver; however, the "do no harm" principle of stable
+(conservative about regressions) strongly favors inclusion because there
+is literally no way this change can regress anything — it only changes
+behavior when the write hook actually returns an error, and in that case
+the new behavior is unambiguously better. This matches the profile of
+fixes that AUTOSEL routinely accepts for staging subsystems.
 
 ## Verification
 
-- [Phase 1] Read commit 41db5b76eeb4c with `git show` - confirmed tags
-  and body
-- [Phase 2] Diff confirmed: one line change in `cvm_oct_rx_shutdown()`
-  replacing `cvm_oct_device` with `&oct_rx_group[i].napi`
-- [Phase 2] Read `drivers/staging/octeon/ethernet-rx.c` at HEAD and at
-  41db5b76eeb4c to confirm before/after states
-- [Phase 2] Verified `__free_irq()` semantics in
-  `kernel/irq/manage.c:1858-1889` - WARN when action not found, returns
-  NULL
-- [Phase 2] Verified `action->dev_id = dev_id` stored at
-  `kernel/irq/manage.c:2167` and `:2307`, matched at `:1886`
-- [Phase 3] `git blame` on lines 530-545 - returned revert commit
-  422d97b8b05ed3 (2020)
-- [Phase 3] `git log --follow --diff-filter=A` traced first addition to
-  80ff0fd3ab645 (v2.6.30) and revert
-- [Phase 3] `git show 08712f9de1013` - confirmed this commit (v4.9, Aug
-  2016) changed request_irq to `&cvm_oct_napi` but left free_irq
-  unchanged (line 505 still used `cvm_oct_device`)
-- [Phase 3] `git show e971a119f713a` - extended to per-group arrays in
-  v4.9, still with mismatched free_irq
-- [Phase 3] `git tag --contains 08712f9de1013` - showed v4.9 as first
-  containing tag
-- [Phase 4] `b4 dig -c 41db5b76eeb4c` - found original submission at
-  patch.msgid.link
-- [Phase 4] `b4 dig -c 41db5b76eeb4c -a` - only v1, no prior revisions
-- [Phase 4] `b4 dig -c 41db5b76eeb4c -w` - only gregkh and staging/lkml
-  mailing lists were CC'd
-- [Phase 4] Thread mbox (117 lines) - only the original submission, no
-  replies/reviews
-- [Phase 4] lore.kernel.org direct fetch was blocked by Anubis; relied
-  on mbox content instead
-- [Phase 5] `git grep "cvm_oct_device\b"` showed tx.c uses it
-  consistently for both request_irq and free_irq (correctly matched),
-  confirming only rx.c is buggy
-- [Phase 5] `git grep "cvm_oct_rx_shutdown"` - called from
-  `cvm_oct_remove()` (platform_device remove callback only)
-- [Phase 6] Verified bug exists in v6.1, v6.6, v6.12 with `git show
-  vX.Y:drivers/staging/octeon/ethernet-rx.c | grep free_irq` - all show
-  the buggy line at 538
-- [Phase 7] Read `drivers/staging/octeon/TODO` - driver supports real
-  hardware (OCTEON+/OCTEON2/OCTEON3 up to CN7030)
-- [Phase 8] Trigger path confirmed via `cvm_oct_remove()` callchain in
-  ethernet.c:936
-- UNVERIFIED: Exact kernel version the bug was first introduced (v4.9
-  per `git tag --contains`, but I did not check if v4.9.y was the oldest
-  still-supported LTS)
-- UNVERIFIED: Whether any user has actually reported hitting the WARN in
-  production - no Reported-by in commit, no bug tracker link
+- [Phase 1] Read full commit message; confirmed tags: Artem Lytkin SOB,
+  Andy Shevchenko Acked-by, GKH SOB, Link to patch.msgid.link. No
+  Fixes/Reported-by/Cc:stable.
+- [Phase 2] Read `drivers/staging/fbtft/fb_agm1264k-fl.c` lines 280-392;
+  confirmed `ret` initialized to 0 at line 283; left-half assigns `ret
+  =` (line 356); right-half lacks assignment (line 379); check on line
+  380 uses stale `ret`; function returns `ret` on line 391.
+- [Phase 3.1] `git blame` on lines 370-390: line 379 (buggy code)
+  introduced in `b2ebd4be6fa1d2` on 2014-12-31.
+- [Phase 3.1] `git describe --contains b2ebd4be6fa1d2` →
+  `v4.0-rc1~82^2~274`, confirming bug present since v4.0.
+- [Phase 3.2] `git show b2ebd4be6fa1d2 --stat`: confirmed it is the
+  original driver add of 471 lines.
+- [Phase 3.3] `git log --oneline --
+  drivers/staging/fbtft/fb_agm1264k-fl.c` showed only cosmetic changes
+  since 2014; line 379 untouched by any intermediate fix.
+- [Phase 3.4] `git log --author="Artem Lytkin" --oneline` returned one
+  other commit (sm750fb pci_release_region fix) — author is a bug-hunter
+  in staging.
+- [Phase 4.1] `b4 dig -c f80760f5fc02c` matched patch-id `a8ded4803c...`
+  → lore thread https://lore.kernel.org/all/20260207220523.3816-1-
+  iprintercanon@gmail.com/.
+- [Phase 4.1] `b4 dig -c f80760f5fc02c -a`: confirmed only v1 submitted;
+  no revisions.
+- [Phase 4.1] Read the saved mbox at `/tmp/fbtft_thread.mbox`: confirmed
+  Andy Shevchenko's reply "Sounds about right, but it was like that from
+  the day 1. Acked-by: Andy Shevchenko". No NAKs, no stable nomination
+  request, no objections.
+- [Phase 4.2] `b4 dig -c f80760f5fc02c -w`: confirmed CC list includes
+  Andy, GKH, dri-devel, linux-fbdev, linux-staging, LKML.
+- [Phase 5] Grep for `write_vmem` across staging/fbtft: confirmed caller
+  is `fbtft-core.c:272` (`fbtft_update_display`), confirmed the callback
+  is registered as `.write_vmem = write_vmem` at line 432 of the driver.
+- [Phase 5] Read `fbtft-core.c:270-276`: confirmed return value is only
+  used for dev_err logging; no propagation to userspace.
+- [Phase 6] Confirmed via blame that the buggy line has been unchanged
+  since 2014; file is present and structurally similar across all stable
+  trees (5.4+).
+- [Phase 7] Read Kconfig help: driver is "FB driver for the AGM1264K-FL
+  LCD display (two Samsung KS0108 compatible chips)" — confirmed two-
+  halves architecture that is the root cause of the split-write bug.
+- [Phase 8] Failure mode verified by code inspection: silent error
+  swallowing + false success return; no crash/corruption/security
+  consequence.
+- UNVERIFIED: The exact number of users running this driver in
+  production (unknowable); did not test runtime behavior on actual
+  hardware.
 
-The fix is a trivial, obviously-correct one-line change that corrects a
-genuine bug present since v4.9, in a driver with real users, with zero
-regression risk. It meets all stable kernel criteria.
+The commit is a trivial, obviously-correct, zero-risk one-line fix to a
+real (if low-severity) bug present in every stable tree. It meets stable
+kernel rules modulo the "important issue" criterion which is only weakly
+satisfied, but the risk-benefit ratio overwhelmingly favors inclusion
+because the fix cannot regress any working system.
 
 **YES**
 
- drivers/staging/octeon/ethernet-rx.c | 2 +-
+ drivers/staging/fbtft/fb_agm1264k-fl.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/octeon/ethernet-rx.c b/drivers/staging/octeon/ethernet-rx.c
-index 965330eec80a8..d0b43d50b83ce 100644
---- a/drivers/staging/octeon/ethernet-rx.c
-+++ b/drivers/staging/octeon/ethernet-rx.c
-@@ -535,7 +535,7 @@ void cvm_oct_rx_shutdown(void)
- 			cvmx_write_csr(CVMX_POW_WQ_INT_THRX(i), 0);
+diff --git a/drivers/staging/fbtft/fb_agm1264k-fl.c b/drivers/staging/fbtft/fb_agm1264k-fl.c
+index af2dbebefc72b..6fc8f4e9c814d 100644
+--- a/drivers/staging/fbtft/fb_agm1264k-fl.c
++++ b/drivers/staging/fbtft/fb_agm1264k-fl.c
+@@ -376,7 +376,7 @@ static int write_vmem(struct fbtft_par *par, size_t offset, size_t len)
  
- 		/* Free the interrupt handler */
--		free_irq(oct_rx_group[i].irq, cvm_oct_device);
-+		free_irq(oct_rx_group[i].irq, &oct_rx_group[i].napi);
- 
- 		netif_napi_del(&oct_rx_group[i].napi);
- 	}
+ 			/* write bitmap */
+ 			gpiod_set_value(par->RS, 1); /* RS->1 (data mode) */
+-			par->fbtftops.write(par, buf, len);
++			ret = par->fbtftops.write(par, buf, len);
+ 			if (ret < 0)
+ 				dev_err(par->info->device,
+ 					"write failed and returned: %d\n",
 -- 
 2.53.0
 
