@@ -1,106 +1,78 @@
-Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
+Received: from mail.cipherat.com (mail.cipherat.com [91.98.42.103])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF8E52D248B
-	for <linux-staging@lists.linux.dev>; Tue, 28 Apr 2026 11:44:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 097C33B2FFD
+	for <linux-staging@lists.linux.dev>; Tue, 28 Apr 2026 11:46:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.98.42.103
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777376701; cv=none; b=VCXzGRDAGPfgp2RoUal3X8wixxfAyEKXDKrgFyOObDb0e0kqkRLdZbOdJOzBpgWPgTilCAl3azZxeElxMODhsYyo93DORM7lgeYHODxDGy9UVSKKQrs2ajO/Hz00Sv6Wm52R6NJJvmI1ChzSD0S2jG+5VH+kPE0lJUsZheso+qk=
+	t=1777376816; cv=none; b=pEu75oQxJrXaZkA4HxKft9vD7RoxJDIn6+x0yCuRLKrJcwej5Si9PJv/b22RDQRrsNIPkVnLGLSAK/q0NLty8byoifb27ud6qMwBN+zb8+UtgqSr3M3YFWz2d+/yFuiGPEi4JIvDjqukVg/GziDOCtZ1n0k0SwZvrkGTeFlIO9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777376701; c=relaxed/simple;
-	bh=hkzH6X4MspMymVkiKD+mT62ikKI91e+x9tNKmbPUwkA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YJ4tMiRIgcabhIux1RS8rQEta/mwjYgH5QRsn60w2a1v3IPUcGHLW2XCYtEcRR+hrs1rTNCv13DOuW2L/ZlciDXUihkv6Umj7Pfg8bdJGkezR1Tq+WFV+jjaQKpXqxXG5x3N7kYUIm3f9fF/EKLJ6U52bGtAgK6UpCTjkhTDfOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=pdkIwZQe; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=NytO3xLA; arc=none smtp.client-ip=202.12.124.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
+	s=arc-20240116; t=1777376816; c=relaxed/simple;
+	bh=DoZItnNhihX3rpkapjq5Z1COmljE1ebuaVaFQ5xsp50=;
+	h=From:In-Reply-To:Content-Type:References:Date:Cc:To:MIME-Version:
+	 Message-ID:Subject; b=h/3ltMOPpD2bwh/k3beDs8su07ghZtD3sXyXr/KQI/i1uNMHe0tTk2ol4wpIdW3URnApEhw4uKPbMg8XY4RMo5TNXlzE22R7dJDA1hGNnRdjhyTlCLJtm+EbAY6WyDd68gl3Ry2LBOSdqR8vPsz/cPknIcPbBYM/8hWLc0bU9Cs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cipherat.com; spf=pass smtp.mailfrom=cipherat.com; dkim=pass (4096-bit key) header.d=cipherat.com header.i=@cipherat.com header.b=zc54OAsg; arc=none smtp.client-ip=91.98.42.103
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cipherat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cipherat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="pdkIwZQe";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="NytO3xLA"
-Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
-	by mailfout.stl.internal (Postfix) with ESMTP id EF9B91D0003A;
-	Tue, 28 Apr 2026 07:44:58 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-07.internal (MEProxy); Tue, 28 Apr 2026 07:44:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1777376698; x=1777463098; bh=bm+tleJWDp
-	2qM3s0/SMhGJUZNPI07Pf+jAi3udjkuqI=; b=pdkIwZQeJuKEnemq+f808/bJM+
-	ZX1jA03xJGHFUNs7hbHgbitV78SR3vcoZ5OYhIuMYh+9YQf2nuWJDiLVO6LRIKgK
-	tBrzzkLVtn9+ZRhFWtmAlijUNW2hz5Mi0FhrC3GaAFe4p7XfwQaNBRmajW4jAanc
-	LnMJCj45ipGxDcS3tOreixZvn1KVjRDIyHSq1Dwb+1aDFGJChM2tCg5JthBYVxtD
-	c+Prx05llSANMEOOkYYq/8psIjDvw8sk16GmUYHfEt7pH23aU9UtXlSe4ZVf31oC
-	j7a06RcSWGOnhrAoiohqwfWgbhkuTN0hq6eUHK4xLsDnEIyzHLN9nTmw2ARg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1777376698; x=1777463098; bh=bm+tleJWDp2qM3s0/SMhGJUZNPI07Pf+jAi
-	3udjkuqI=; b=NytO3xLA/l2Gi+7weZdAhiw1/Inxm5iQEfNs9HqKILOnM3S9Ps6
-	Q2MaPlK4Vqf+R177BqKPLXMkFXVCmshr5M1JzjzWCAgCwgQHSI0uosZA4KezhWcQ
-	YQl0/wxqmZP3QW0e5T5UKtSWI4xT5g6RYFNdKtx8nr77aZrw7o9uUNjI9AG1x42R
-	5fpHOjwZTnfgPvZCRp2s+dln7uG9n7fRbyB1G5/4+gDbSzwKnWwbX4RgXOQURHBx
-	XmpM8qxFwLTvMaNO8QZmRo4IhjEUEZqhPfcGx3nflkmOkQ0YOMsQUomF83bDpCVx
-	NTRWIknBbJwHrMb8V/O/EGo3EUZG49X19Aw==
-X-ME-Sender: <xms:up3wafeXQRtj0GE09xJ2m_dgdT8k8oT9P_pIdIsLUxUSp5KwIgwjGA>
-    <xme:up3waegNF7e_znsZ6FIygppM3IFkiN3OUgdFp4Dnnt7KQL_ooZP5hskv0620JliUI
-    h62tDLeObLmmx1nlvXYqp745yiDbiRmhwVksuLp1HIdExleJo0>
-X-ME-Received: <xmr:up3wafwqpRMugwgf1U7gkpEeAK-OSlxMCRAviHzT5Z6htVkmAfh_9HyrIg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdekudegjecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecunecujfgurhepfffhvfevuffkfhggtggujgesthdtredttd
-    dtvdenucfhrhhomhepifhrvghgucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecu
-    ggftrfgrthhtvghrnhepgeehueehgfdtledutdelkeefgeejteegieekheefudeiffdvud
-    effeelvedttddvnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghr
-    ufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhrohgrhhdrtg
-    homhdpnhgspghrtghpthhtohepiedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohep
-    ghhinhhgvghrrdhjiihllhgvvgesghhmrghilhdrtghomhdprhgtphhtthhopeguphgvnh
-    hklhgvrhesghhmrghilhdrtghomhdprhgtphhtthhopehlihhnuhigqdhsthgrghhinhhg
-    sehlihhsthhsrdhlihhnuhigrdguvghv
-X-ME-Proxy: <xmx:up3waSPUcXn-JAdOkEkezpWwel1Depi8wmmonHqPT9M1S-SYsULabg>
-    <xmx:up3waYU7W_IJq2EptrgF9tnMEqmJ_RCsFCi1hW6O5VY_q8J9EqvhuQ>
-    <xmx:up3wae3Zu1tZlv6gyGr-9w8zsOgw8Xri3VyN7Wt_EKjuK_W1ZCDTQQ>
-    <xmx:up3waeqThixwhjYG2EUtLLnDadDEmRxFcwcwsMQQjTmbSLU_jczNVQ>
-    <xmx:up3waf_XyD_RE2N7wMr7GDh1DaZzD6AoLj5My7_MvB6WZrU-XP_9dL6t>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 28 Apr 2026 07:44:58 -0400 (EDT)
-Date: Tue, 28 Apr 2026 05:44:21 -0600
-From: Greg KH <greg@kroah.com>
-To: Ginger <ginger.jzllee@gmail.com>
-Cc: dpenkler@gmail.com, linux-staging@lists.linux.dev
-Subject: Re: [bug report] Potential order bug in
- 'drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c', primarily in
- 'skel_disconnect()'
-Message-ID: <2026042846-character-tamale-78ab@gregkh>
-References: <CAGp+u1YiO_nf4dNvEtxTDWv86D80ac4TrP1-DhrYuQtt-JsyoA@mail.gmail.com>
+	dkim=pass (4096-bit key) header.d=cipherat.com header.i=@cipherat.com header.b="zc54OAsg"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPA id 3810884F8E;
+	Tue, 28 Apr 2026 14:46:51 +0300 (+03)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cipherat.com;
+	s=dkim; t=1777376812;
+	h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=UJpMlC7zGtiDvlKG3wyhvRJ3zonmeo5nh79Mh17WUnw=;
+	b=zc54OAsgjc06+lFNR9F1/yBLQ1Yp11O9gV28HXPUJngFDJpZh1v3TeNUgZE4cf1vU3rh7D
+	yeOgCM95Ep6yqW2RS0E590ZWZKfU3ykoFREpyLRGPNhRhKr+SSOeWYziFKIXn6ArelLPmz
+	H6tyxptBeScB6DXOwSZAzvqBm3si0fyexmPg8l54NpcrbFuy8ZlFAq89hZav31Q1vYXzkc
+	ozPvGhxllz32vX3T2qX/hBfSPW8LEciARuV7IvnYIqDMU7BUCZcPhth3bfNw3EOuMnAcM7
+	zco8cQxXakLtXrZIwBY5MZ9fYyerBShMmQoO1vGGyXfC+IpQgPYC861yaYTPy1AllAytS3
+	9d2+9CQAudERJNsTsT9S6ZY9KQrnbtp9ZlSRdpillvKwjaAdbhPHxiyby+e/d8orKRexDH
+	CczHDB3DpzYp5BXEn1gBjW/hLhBNmR1yUOq690fOcnMVcdlzidu/Iz9OZy0hojQQurIvIn
+	I5JbakNqoOmYD0pT0PZUkHb3jnOVjCMih5tgoAqmueoCDZ9Z8Rn4+iF+Vy0xOzQ+4/QIOT
+	5ANVdqKq9B9s4oETW2w2RYh3ALcfpWO3CnwGWSQXJJjXm05FscSM0CqNm6mHbjQc7cfLL1
+	1x10CL0fi7Z9nHKUPF+jnh+b5SuIkYYRvE3hSJQo1K8Od1hB1sfQE=
+From: "Salman Alghamdi" <me@cipherat.com>
+In-Reply-To: <afB5jnwGX6H5j0PG@stanley.mountain>
+Content-Type: text/plain; charset="utf-8"
+References: <20260427190548.156499-1-me@cipherat.com>
+ <20260427190548.156499-5-me@cipherat.com> <afB5jnwGX6H5j0PG@stanley.mountain>
+Date: Tue, 28 Apr 2026 14:46:51 +0300
+Cc: gregkh@linuxfoundation.org, luka.gejak@linux.dev, straube.linux@gmail.com, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+To: "Dan Carpenter" <error27@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAGp+u1YiO_nf4dNvEtxTDWv86D80ac4TrP1-DhrYuQtt-JsyoA@mail.gmail.com>
+Message-ID: <097542ec-adba-ff0f-7d7e-8b496a9e78ef@cipherat.com>
+Subject: =?utf-8?q?Re=3A?= [PATCH v4 4/7] =?utf-8?q?staging=3A?=
+ =?utf-8?q?_rtl8723bs=3A?==?utf-8?q?_rtw=5Fmlme=3A?= extract local variables 
+ for long expressions
+User-Agent: SOGoMail 5.12.5
+Content-Transfer-Encoding: quoted-printable
+X-Last-TLS-Session-Version: None
 
-On Tue, Apr 28, 2026 at 01:07:36PM +0800, Ginger wrote:
-> Dear Linux kernel maintainers,
-> 
-> My research-based static analyzer found a potential order bug within
-> the 'drivers/staging/gpib/lpvo_usb_gpib' subsystem, more specifically,
-> in 'drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c'.
-> This bug is similar to a previous bug report as discussed in
-> 'https://lore.kernel.org/linux-usb/2026042718-unwieldy-dicing-626f@gregkh'.
-> 
-> Kernel version: long-term kernel v6.18.9
+> Just write this as:
+> 					if (!rtw=5Fdec=5Fto=5Froam(adapter) ||
+> 					    rtw=5Fsitesurvey=5Fcmd(adapter, &pmlmepriv->assoc=5Fssid,
+> 							       1, NULL, 0) !=3D =5FSUCCESS) {
+>=20
+> The "roam=5Ffailed" variable isn't beautiful and the if else makes th=
+e line
+> five characters longer than it would be otherwise.  Eventually we'll =
+get
+> rid of the =5FSUCCESS but I like it to look ugly so we know which cod=
+e to
+> change.
 
-Please do not run "static analyzer tools" on old kernel versions.
-Please always do so on the latest kernel release (hint, this file is no
-longer in this place anymore.)
+Should this change be in the same commit it was originally made on?
+I'm not sure if removing a variable from an "introducing variables" com=
+mit
+makes sense so I wanted to make sure before v5.
 
-thanks,
+Regards,
+Salman Alghamdi
 
-greg k-h
