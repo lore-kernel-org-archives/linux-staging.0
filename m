@@ -1,134 +1,147 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94D1843CED6
-	for <linux-staging@lists.linux.dev>; Tue, 28 Apr 2026 13:58:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777384707; cv=none; b=paGKomDzifyxmBpwPSLmqTRiNj2Zk2OLREd8lp1fTOfsJ+j4YvSiuAZXc3tqtGMNEiTvKK1ZL1GXvL4bVmxfqrieN/80qdeJonkgnFDzOqEiS4VNOpjLusw7iDb3WKCbe2vypN2b4X2X0dNksjbOjrUtVuCBz1pCUoI6v1jz6kE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777384707; c=relaxed/simple;
-	bh=YUuWQHUFJHFX0a/heeDHaCC6p018XOr4Etgk+Jrwurg=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E92637CD4A
+	for <linux-staging@lists.linux.dev>; Tue, 28 Apr 2026 14:32:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777386731; cv=pass; b=gVe7KTsg2aKYvlLc5YJ9hOH9UL1WQbB4ZDp0lGBqx9XzQ871kOMHgRdViYyTsvvMEQ+EPYh/Oe72CCxMOP2PT3D889IEiwlM7ikwUvnZk99zNsDNYL+QWjRUye/OT4RuWsTBqzu9AnVCRZp7R9QbzylGFmNzw7tRQouTj5mPhjc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777386731; c=relaxed/simple;
+	bh=Njhm4gAMjvXMvfeDSS0ZJ8A5PT7pQ5zSnvqqe8yzsS0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iwX/vfVTo/f1onTVBUqyHUUjf1MUW/y5+FnafVOSTwwRWTq/AkFdfaJKybk/+vuptIZgTgQcy6r2jlkRpDIFEgSdAuKWYuK5qOoC+UyvTls5fuA25ArQo/PsVVMi8R5oZWMpXq5wOEPuGAiPji8fKWWqv4hQPm8sHSFvzFR0DA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=SIjuUEYz; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	 To:Cc:Content-Type; b=Uo7NxkFtt8u1d4Kk5WGxf/N/ioD4qPl6jgre7/MTQjms6MICO1+V1MCwYv9XS9GtJgkBhYd8QcnQt67nEPLsOPeVZQbDCuPJTTjHm8qH8DDBsIpWlvSPu4akyBfPFlZ89Yx2dKrFNdUP44r8wFUNNrC54f+bnkHHDjPGlu/aTss=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pr1eHhX/; arc=pass smtp.client-ip=74.125.82.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="SIjuUEYz"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-ba6b39871a3so1454190766b.0
-        for <linux-staging@lists.linux.dev>; Tue, 28 Apr 2026 06:58:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pr1eHhX/"
+Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-12714f01940so823848c88.0
+        for <linux-staging@lists.linux.dev>; Tue, 28 Apr 2026 07:32:06 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777386725; cv=none;
+        d=google.com; s=arc-20240605;
+        b=KoMX8I9Z99XoeKSg8Ah9vF7tmNGWB098q5iUDADUW9QWQsaT2IVrP9xlG2GZpfon0V
+         JUcJqN8O7jvqyN3x0qy5Ep7sExEVRp/rlm8BTj3wxzaSmoVFHZJH6tgy3ISqtC5dQ+Bc
+         iKpLiXseqpKStlS8lXNImM0y6FbEFt4JYaFN9YpsUGaCvFPtpQq8XOq5nBD9D8oZA+Sq
+         KO7+oeD/gJGl0+xVj4hPkw5yH076j+xXUVKSvu/mmWNJ2/7S4Wh35jY98pnDq8DIOmJ6
+         PSHt+TciBZuuWTzVPfo5tpFW/vuhiG5I3DrM27IyrRczVZsKa8Iwi20pRR9eyWzp1/pw
+         +DaA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Dn+YzpzB4BaLD2GgdFenCva20VhYKGBmVOjqbpavyoA=;
+        fh=dXNOXv1nH+p77Tj7nc+8EFhQdvESl+T/Ec3Zd95sBs0=;
+        b=Kxsf7l1T7rusYpnbOD6jfUOCNnjKZwRDcNgTn5hVvpXGxzzsQ6mSVOVkn4yLBhBAjk
+         U/h6U1ru2R+P63jBozZijKEP8M0nx2o4edvdOVwdDfP/x84KadIAKlGKDB/kSW8lX9z5
+         fMkoQMlsTsBzvR4dKOxBtj9IsILCBr6mIJm4zb7jSHV9pjx1i27U7+z5BhQGUJ+cORO/
+         paBlRFhOUnBCYsJSzPw7YTYFCh2vHmCt8RQGuHf/Eo9Awsr1ESwjlDySs7cIY6ZR62Yy
+         QMm8mi4WU6aoS77cxUWyvWoeP+1xTrot7nHkfpRCNZzxBqv2BkraV8vjPwOXesL1P/RV
+         hzgg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1777384702; x=1777989502; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Zuh0L2ou97F5J1Q89+nkH3GU/qVTw9rZ5VYJg149j5M=;
-        b=SIjuUEYzTQ2A16mC5pQc0KtGgXK+zkAiC9pMC9AVGZjr7m9NoEy3Ty8ZCV8IAm/9jL
-         u0PPGfIlxLmJ0PgmnPHG1rGPPmCE2B/a/Rac3cEtfYvX+vsYBgUuxQ+NrCgRlNs0ex56
-         hiLV9Wvc9+PX1eph5FL/rHKNht4/TQlZUUzdo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777384702; x=1777989502;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1777386725; x=1777991525; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Zuh0L2ou97F5J1Q89+nkH3GU/qVTw9rZ5VYJg149j5M=;
-        b=WPAiZ3SSOKAX+zaswPibcb/n0/kyJW83M6jX/CRdBS6nbJo0hfcKQiztJUf7VTTv4H
-         KMrEMOdYuIfjDe3UxV4BKXNqUKOgNOuPDn3cEnwRePMm+iivX5Ez9qwFRmffw6WmiFP+
-         EM682WLyA1E4YrMadSLWzU6vT4rpxn9Qz1JeJ/2q/yZHjrkIfYf2bKaItM9F6gCRBl2y
-         L3ZAQ6lkShBt81hr8pkOdf1E+LXXslwDphbrt8wSMduYJZPQwUEs3/pkxCnLTUjkfGxX
-         j+8VsePM0cZNI7z+YHqtgRbNQCjiXm1dmWMTbP1tNHpU+w/xtGXCBVgYGV4UvBw83xzn
-         8PUg==
-X-Forwarded-Encrypted: i=1; AFNElJ+LVXKDCULmiw9ScBDcT7dXfV0mAaT4a6X4TvhOaBfzFqgf3MERfnLM4UPQH+jYyWfz0dRr7ibmf8+x0Vm3@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz9RmgE17hAE8qj6ChkSAjguq3xxXHUvTt1yAnvyLAc6rKgKgv/
-	Qy8FGYcFbzSkQerAQ8TbzU0SfAyQE1ciMNhIJXuqt5eM6XswX4Net1cThTQWV6rezvFqWhwZncT
-	mQxDezb1R
-X-Gm-Gg: AeBDieu9wYHcErnX6h4knY9oPqWdIBrzieq1aKtvnWTQzFHoKdfRI2I5TyfMD96qDNO
-	ViGWWE/FdsgWgZUjgAFP4c3f5osGWi8UgUc6Zni1pFvdPzyIpEI31f3vbIdfYNs9R9VVYif+yy9
-	D3gM4/FAHRIBdgQR2v/tYQXVSABhwXVdFI8p3rrn94eMuSISBFt8Zd5gdSec5gCRGjBGN+PPmle
-	f6OIuM/1jJGjPEOa8We+K+0I6RIdWXGZgmAWlO4D3mjd8FgfDoJgebpZMQazcDmueSEu+1m/qiE
-	3Hp336vNqpXyTalw1STUu00QH/np9moSqtNpcr3a5tq5ngKIMFH1kp6wfjyJ4q2+96J6BIXAnB3
-	G7FEH2mJXi7RGE5H5WfoS/7qyo07g7AEhLiEYt7pP2nzdcnto3oGqqk2ey0gc3+qmF09Xcu7MSh
-	rxqTMFC+Yf20nLcBFDyDBWUNeAh3XbhJfKyeONHDZjvIeIYrPnw7Xjqll6mTVRe+rQhcVmheI=
-X-Received: by 2002:a17:907:80c:b0:bae:a225:104c with SMTP id a640c23a62f3a-bb808b316b2mr147499066b.32.1777384701792;
-        Tue, 28 Apr 2026 06:58:21 -0700 (PDT)
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com. [209.85.218.52])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bb80853b479sm109008966b.6.2026.04.28.06.58.21
-        for <linux-staging@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Apr 2026 06:58:21 -0700 (PDT)
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-ba6b39871a3so1454184566b.0
-        for <linux-staging@lists.linux.dev>; Tue, 28 Apr 2026 06:58:21 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8bLVd42Zf1femx3B83K7AnwlawWglqyg7w36wxdarRV63+Iql6gi9alzz+pprTpHBl4NUuP8QTuUAsdha6@lists.linux.dev
-X-Received: by 2002:a17:906:6a28:b0:bac:6585:b02b with SMTP id
- a640c23a62f3a-bb846d629b8mr154647166b.9.1777384700081; Tue, 28 Apr 2026
- 06:58:20 -0700 (PDT)
+        bh=Dn+YzpzB4BaLD2GgdFenCva20VhYKGBmVOjqbpavyoA=;
+        b=Pr1eHhX/2PoGWl3XYJM+uXNhpkvd9Y2RJ4mFhWQsG/QhCLGeVM9/AKUOevpvsF/iog
+         pHy7DgBI7ac/rI7SE6qV31ZP/ResvPvDBEKp8cin8ML47j+QDBkhPk4RZxDHVxxjP0fk
+         ZPXHzK3ZTw1AqX5GxqExi4HyzL+a+u/sv1J0DaDWnfvhVsLcPZHzgOXSKyKjQ9NmpnPX
+         rlnjOdX0G/g7dV6hzW2jig8gTd/TbvBrHpt+c1lIYYqb39qOOGQdxKZM3oLpr9pSuZ3o
+         jp/pUvFbu0K2WvJtHYC+41MtbioYZWlBYhzW4wfESIDnuHHPpetTsWbjeGVe8tmVcK6D
+         K0oQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777386725; x=1777991525;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Dn+YzpzB4BaLD2GgdFenCva20VhYKGBmVOjqbpavyoA=;
+        b=d0Z5+tnuadF0cNx3XQeNLUpE2efQ2c1NBR/OT+LNJeQ/aPOjsRUVevzMWtFxsJE81Q
+         BvbBA+sJDYzmCSZ6snVxPWUoTLPvGyi08iEjQbslF6cG5eGv5lDApYnsE5NsUbqrq3ew
+         7tQEkhLSXMr9GgOPHSix2edcwyp7KiSUi7mqzOy2httbSIYxwF4I4xApzqMxb9SC8zjU
+         tYb9kLOfK549ie5AwkXN79FMyIZIz7bEosqtl/GyrkHvEKB8QLi+7l6BRdWH4gBi1378
+         yXq7c3SAF5Ar3O5hTcHkGxJXtbq/O8fbTn9hfjeWwmXCanhZyx/XZjPw0eCBG4cuwi0g
+         ayAA==
+X-Forwarded-Encrypted: i=1; AFNElJ8oo5ki0wdcSy/fTI9YOs4Bog5u2rHMsktCFHvbzG+5zBPBilMd4zYXNBn3PqFGZXQCCyRjZ6UKajIs2HJl@lists.linux.dev
+X-Gm-Message-State: AOJu0YwEtZHhMrxxYNMNOvrE8CRVC2/CzaDKlKikchDytMHwuQL+ooI0
+	98S9Wtp0gVZeEXueN0XzaWNyPDPL+pgLdE5R1dMAprIWURlt4Wi9nfhYsULG2IGVGGS5phAgzL/
+	CIRn3McBBIgKmk6KGYbiMgYu9aNVsrdE=
+X-Gm-Gg: AeBDieviNlWuoEgheiGaStQwnIzNJqJ0MuoIJX9zoOui6sWCJyU9RkA5k72wecoIV32
+	c8VdUiX/iaWy0JzB078rEW/Dz2H28nr+BpG0uVn4wnXZ4V+0JbnBic79BdYdrgo8unlgfulXSKl
+	Ld9oP9a9s/6yBe8nLmgsInh5leNGhwCbIyGvLwitkjDAng97d2UJE/OaV+591VsYqz79am7CoZ3
+	Nz3qb7DCyudgWvThq1v65n13Vz+e+KVRT28GFItj3I/xpb4YvGJaOllfGQ8dJdt/v2eqPnQhYwR
+	HHhX9yRGGXskg+ZZ4BRnRXwVchSwoFTp5GNHAhwR9+o0ewHzP9Ew7X00IxAuwxQZPmRmvAcXeC2
+	rmt/+tgYPVrDOvg2X5Pufm877gN6jyUFe+gvOIA==
+X-Received: by 2002:a05:7022:618c:b0:12d:c389:ae54 with SMTP id
+ a92af1059eb24-12ddd4e12admr894171c88.2.1777386724829; Tue, 28 Apr 2026
+ 07:32:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260428-smatch-7-1-v1-0-46890dffb611@chromium.org> <afC7qXCCkTTOS7jr@stanley.mountain>
-In-Reply-To: <afC7qXCCkTTOS7jr@stanley.mountain>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Tue, 28 Apr 2026 15:58:08 +0200
-X-Gmail-Original-Message-ID: <CANiDSCvn3EbrPUiGYzE1zDHp=kKPJLAgHx17OJvv7gWLZM9tBw@mail.gmail.com>
-X-Gm-Features: AVHnY4KSxj-3Id50OdGKMMLxc9W5Lx_IbFbVckx8UjhHCc5VdI8JIttSLEpvHFA
-Message-ID: <CANiDSCvn3EbrPUiGYzE1zDHp=kKPJLAgHx17OJvv7gWLZM9tBw@mail.gmail.com>
-Subject: Re: [PATCH 0/6] media: Fix new smatch warnings
+References: <20260427151556.91153-1-ayushmukkanwar@gmail.com>
+ <20260427151556.91153-5-ayushmukkanwar@gmail.com> <afCCbbPAcwtY3IS-@stanley.mountain>
+In-Reply-To: <afCCbbPAcwtY3IS-@stanley.mountain>
+From: Ayush Mukkanwar <ayushmukkanwar@gmail.com>
+Date: Tue, 28 Apr 2026 20:01:52 +0530
+X-Gm-Features: AVHnY4Kxyv52BBP7vzmNWPN0AWHk-N6T0CiMC4Q_XsZvNeAIyl8HYdoSUNr3Ivs
+Message-ID: <CABJ81bhY3f5rGmfC4Amyf8SDbvqeQiTbFu+kBKVqFEPSBOmgow@mail.gmail.com>
+Subject: Re: [PATCH v5 4/4] staging: octeon: refactor to per-device state and
+ pass platform_device
 To: Dan Carpenter <error27@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Hans Verkuil <hverkuil@kernel.org>, 
-	Nas Chung <nas.chung@chipsnmedia.com>, Jackson Lee <jackson.lee@chipsnmedia.com>, 
-	Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Keke Li <keke.li@amlogic.com>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-staging@lists.linux.dev
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Dan
-
-On Tue, 28 Apr 2026 at 15:52, Dan Carpenter <error27@gmail.com> wrote:
+On Tue, Apr 28, 2026 at 3:18=E2=80=AFPM Dan Carpenter <error27@gmail.com> w=
+rote:
 >
-> On Tue, Apr 28, 2026 at 12:41:06PM +0000, Ricardo Ribalda wrote:
-> > Current version of smatch triggers some warnings for the media tree.
-> > Most of them are inoffensive, but we would like to have zero smatch
-> > warnings.
-> >
-> > drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:111 c3_isp_params_awb_wt() error: buffer overflow 'cfg->zone_weight' 768 <= u32max
-> > drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:111 c3_isp_params_awb_wt() error: buffer overflow 'cfg->zone_weight' 768 <= u32max
-> > drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:227 c3_isp_params_ae_wt() error: buffer overflow 'cfg->zone_weight' 255 <= u32max
-> > drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:227 c3_isp_params_ae_wt() error: buffer overflow 'cfg->zone_weight' 255 <= u32max
-> > drivers/media/v4l2-core/v4l2-dev.c:1036 __video_register_device() error: buffer overflow 'video_devices' 256 <= 288
-> > drivers/media/v4l2-core/v4l2-dev.c:1043 __video_register_device() error: buffer overflow 'video_devices' 256 <= 288
-> > drivers/media/v4l2-core/v4l2-dev.c:1101 __video_register_device() error: buffer overflow 'video_devices' 256 <= 288
-> > drivers/media/platform/chips-media/wave5/wave5-vpuapi.c:588 wave5_vpu_dec_get_output_info() error: buffer overflow 'inst->frame_buf' 64 <= 127
-> > drivers/staging/media/ipu3/ipu3-css-params.c:1792 imgu_css_cfg_acc_stripe() warn: 'acc->stripe.bds_out_stripes[0]->width - 2 * f' 4294967168 can't fit into 65535 'acc->stripe.bds_out_stripes[1]->offset'
-> > drivers/media/i2c/adv7604.c:3672 adv76xx_probe() error: buffer overflow 'state->pads' 7 <= 4294967294
-> > drivers/media/i2c/adv7604.c:3673 adv76xx_probe() error: buffer overflow 'state->pads' 7 <= u32max
-> > drivers/media/i2c/mt9p031.c:799 mt9p031_s_ctrl() warn: assigning (-1952) to unsigned variable 'data'
-> >
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> On Mon, Apr 27, 2026 at 08:45:55PM +0530, Ayush Mukkanwar wrote:
+> > Move the static oct_rx_group array from ethernet-rx.c into the
+> > octeon_ethernet_platform structure to associate receive group state
+> > with the platform device.
 >
-> I'm re-writing a bunch of core stuff right now...  Feel free to
-> complain about false positives.  I'm going to re-write the buffer
-> overflow warning in the next couple weeks.
-
-The only one that deserves a complain is this one:
-https://lore.kernel.org/linux-media/CANiDSCtm4Nh4Ub4rbEBvpjV8GXT9VQ5eFXZTHn=Wy=0RpR=3JA@mail.gmail.com/T/#m650723c33ec0318d8f32f1a6cc74c74a952ae11a
-
-There are other false positives like this one:
-https://lore.kernel.org/linux-media/CANiDSCtm4Nh4Ub4rbEBvpjV8GXT9VQ5eFXZTHn=Wy=0RpR=3JA@mail.gmail.com/T/#md58851baa54c511f57b05a4dcf3aecf0ffb1b1fa
-But I think the extra check makes the code more robust.
-
-Thanks for your tool :)
-
+> How is this related to logging?
+>
+> > Pass struct platform_device instead of
+> > struct device through the ethernet-mem and ethernet-rx call chains,
+> > extracting &pdev->dev only at the point of use in dev_warn() calls.
+>
+> You're undoing something that you did in patch 1.  Just do it
+> correctly the first time instead of doing it and the fixing it
+> in the same patchset.
+>
+> >
+> > Move struct oct_rx_group and struct octeon_ethernet_platform
+> > definitions into octeon-ethernet.h so they are shared across
+> > compilation units.
+> >
+>
+> Btw, here:
+>
+> > +     struct octeon_ethernet_platform *plt =3D platform_get_drvdata(pde=
+v);
+>
+> Could you name it "plat" instead of "plt"?  Generally "plt" is an
+> acronym for something else.  Procedure Linkage Table or
+> Phy LED Trigger.  There are a couple other meanings.
 >
 > regards,
 > dan carpenter
+>
 
+Thanks for the review, Dan.
 
+The rx_group refactoring was requested by Greg in his v4 review. The
+logging conversion required storing a device pointer in the static
+oct_rx_group array to pass it through the rx poll path. Greg asked to
+eliminate that global state by moving it into the platform device
+local structure.
 
--- 
-Ricardo Ribalda
+You're right that I should fold the platform_device change into the
+earlier patches to avoid the undo. I'll also rename plt to plat. Will
+send v6 with these fixes.
