@@ -1,111 +1,113 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFA713D6CAD
-	for <linux-staging@lists.linux.dev>; Tue, 28 Apr 2026 09:48:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 776EF3E5EC7
+	for <linux-staging@lists.linux.dev>; Tue, 28 Apr 2026 10:17:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777369716; cv=none; b=rWO5ktVfqJkclswyz3Q5r/DQvZiv/XtkgiXFevPTagzSOOkiDo+lSkke53IWQ6Wo0T/pltpEKfFfMykioxTh2OwqRRi7nlBaejEn80lKOPh9KAk7YHnDX6gFT7QkrTCjc8mAo5rcbIXdFcwaIbE9MU7ouE9ox4mHh8fUVeIRKqM=
+	t=1777371437; cv=none; b=K5xP6Vc/cwZ3wH0FiwPyagE2UQIVwxVqvQZYnU/kiAmRwqsifttNsKKXU8wf/obu2FAEQtocahggSvWYfervARuyRTZowDpGfkqnN4y3uYRoRhg3PeDmKVE8t/VcRdW5nKjUh93GbiIYMDPaRnDyB0tPruD+kM7ZTtNMWaLl7jE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777369716; c=relaxed/simple;
-	bh=W8HGzQJFGOvOk1Wnj506pBzw5Rf/xaX4Wio8E6icdxs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KIKY9HZDT2fIIIhQIwH31k6qfYPmMP1bVfaZc4ZzMfualC8jiDRWIY/pJFeiXEJgPmheSUGFyPK0JjjAi7HLGMv03SNKPF0jMh4+RxWRWZmzGEWZCZ59AGZiZfTzzcKBhrcwl13qXrt8b1Lk5SovFh/Gdzng/tJQJwsgBe1Wgsw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B7OnOwwn; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777371437; c=relaxed/simple;
+	bh=IWcmOY2pfrEGSaWXBvBvs5xeFyk03dK4Yqb8uKvYoCo=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=DyvAjT7pSKYJ+YmKIdvkfETnCEKYljmlVHEoYQu3xTX/O3HyO9YNrr8FY5VBLcLWVVaXsNuAsnnffPV/uOSdMEdnFfgFXSsaPVO1xJ94BRtY0DKtYRc2eybbMuwTVcFi3HBrpod1az/Wo73XduKA6+B0nh3qGTkWMPAoN4FTFNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=DG3oEzaF; arc=none smtp.client-ip=91.218.175.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B7OnOwwn"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-43d6fbd0954so8557473f8f.1
-        for <linux-staging@lists.linux.dev>; Tue, 28 Apr 2026 02:48:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777369713; x=1777974513; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qO9AMiD4sJRw4hR2b81vFZ+0BepqwH69J84Nu4gaIE4=;
-        b=B7OnOwwn2KmK1I+7kIL/mjBb2RwwcvjS5oa/daKAAaUkykN0rHyVOEa7aLrYnY+YVd
-         vliCFer/d7mGK+6qEg1yEw6jqdSNY1Z7zJI99XcmhTRV8Ay0f90O9OoSi43ZR4bOwU88
-         jRPqQNGPXKtLQKIsiOAdtsFskN5FnaIGbn6omvwEhoW5kjHUQA3wsWEtITG3xJj5WbSL
-         LK8adBOPPj2nJh3z4gc/0IGsIkQPa/OYs8YlXSvDPzA5n77Z1F5bLFQlnruNZwk+4yj/
-         ZoG7KqJM/zf0si/NUjPaTWQboLL7C4yhEnrD7IDIBSgJQaBUCIje/EwEE66u/HRblxUy
-         1+ZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777369713; x=1777974513;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qO9AMiD4sJRw4hR2b81vFZ+0BepqwH69J84Nu4gaIE4=;
-        b=hJIrqX5ocFIB1XX2C0RMNoTzOlskIYh1AUXdIDLkmGxB4I9k+Zs5rhDi2xFv01T+BV
-         lzLipnbADE7JukGUDwye4xDF65Zg2r8vNg5VTiPCllMhwc4BZFDksL9aCq5yeASJNlbI
-         sX8kksGY/JSP5tkcEW0TIqbiGdi0ixZn5cDtruoelLbMnUdlzSoGJpWeA2F38NFUDRfx
-         bIJWCTHoc7vnnt/MK8ggkhGrpkQVyn61bFn8D0o3bTfoUh51Z8k0HbAk18+1Pt4eti2+
-         q0d0xCSxJ466Y9A8a5pSaPrQRLStCXmMTvF1AwMncz87T1t3ZH1hTqoI806CP7fQ+6Cp
-         nOiw==
-X-Forwarded-Encrypted: i=1; AFNElJ/+ZindMH/UqKkVJBCas3HvtqLcu+A5JGIFo0CJ8QBZUIgyyRlkJpBSyhFtBjVAynpzJW7vszJEIvBrpTPY@lists.linux.dev
-X-Gm-Message-State: AOJu0YwyngzVn95XrLj6Kf7DmV5Sfz08H0wGBLvXbMIi/fJRS0pClmBx
-	0IRXhirhi3BvvnoRF7sR/2ks8l9mZNfufBq1USI5l66BmKRe6agwQ67cNpQn5w==
-X-Gm-Gg: AeBDietPs6zfv54WiXC0tOcLJkcJEK8dsMQlYc+yveUbNX+km5c0/T7/AfS0eCn7E4x
-	TyqTMYyUECWC9223XHBBxwwcgEjrJ9W3Pxd5DaHwbvWQ5sK7zSAUhz9mNjLSA+ofihYkIoOQyNN
-	Rrp82mK+G7OQ/wSTfA090LO4IFGh2BWHvVkwxfrWOkjPP1I+5MUyuJ7yfoa9h3N0BSFvEktSeyJ
-	sP+GptePQCb7Hwbbyoqo5rE36c2rsafa0T8m/3sTLozaCfDy1LlyCLA2iOU6FswXNVgBLg7UbgQ
-	11pA+Pp8G9YB+8wao9aZBDphYpSZGOQzscAWecWV2yFNMx9es6eHjm94RsMmqIoBCDUCootH9zq
-	hV7/zSOCz5n+qKjJxZGU0tme6nWQiTqytdPi+Zn3sWbMdC8N+YKerYA25J0f1wC1Gq45Ih8ITsM
-	orCQHnKxuoZolfRKmZKXsG4Semv8+0zg==
-X-Received: by 2002:a05:6000:2212:b0:43b:8f4e:27f8 with SMTP id ffacd0b85a97d-446481b01e4mr4140361f8f.12.1777369713097;
-        Tue, 28 Apr 2026 02:48:33 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4463fa890a6sm4622204f8f.30.2026.04.28.02.48.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Apr 2026 02:48:32 -0700 (PDT)
-Date: Tue, 28 Apr 2026 12:48:29 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Ayush Mukkanwar <ayushmukkanwar@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 4/4] staging: octeon: refactor to per-device state and
- pass platform_device
-Message-ID: <afCCbbPAcwtY3IS-@stanley.mountain>
-References: <20260427151556.91153-1-ayushmukkanwar@gmail.com>
- <20260427151556.91153-5-ayushmukkanwar@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="DG3oEzaF"
+Date: Tue, 28 Apr 2026 12:17:02 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1777371427;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4VsdcX/qUFeVQhnzcj75Hb3FckCFnDIqtslfNvFtrZQ=;
+	b=DG3oEzaF74RuHl6eu/EVkruNXTngX6c+TYpA4OvUcZWSMKcbbiWhmMn3btqmBHdsxvy9d6
+	Lbm9u9fUPDmNtBgZ5b21VPwsVAMb2AtWYIj6qRS3wGd8k40MC0Y8qoF6YPygaM03Tejr4o
+	LuFE3YJP9G+0B98ZKwBfPBdbfZIMJMs=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Luka Gejak <luka.gejak@linux.dev>
+To: Alexandru Hossu <hossu.alexandru@gmail.com>, gregkh@linuxfoundation.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+CC: error27@gmail.com, hossu.alexandru@gmail.com, stable@vger.kernel.org,
+ luka.gejak@linux.dev
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v3_1/2=5D_staging=3A_rtl8723b?=
+ =?US-ASCII?Q?s=3A_fix_OOB_write_in_HT=5Fcaps=5Fhandler=28=29?=
+In-Reply-To: <20260428091621.739680-2-hossu.alexandru@gmail.com>
+References: <20260428091621.739680-1-hossu.alexandru@gmail.com> <20260428091621.739680-2-hossu.alexandru@gmail.com>
+Message-ID: <6F31E192-AB57-4738-9C9D-2C11931D2DFC@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260427151556.91153-5-ayushmukkanwar@gmail.com>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, Apr 27, 2026 at 08:45:55PM +0530, Ayush Mukkanwar wrote:
-> Move the static oct_rx_group array from ethernet-rx.c into the
-> octeon_ethernet_platform structure to associate receive group state
-> with the platform device.
-
-How is this related to logging?
-
-> Pass struct platform_device instead of
-> struct device through the ethernet-mem and ethernet-rx call chains,
-> extracting &pdev->dev only at the point of use in dev_warn() calls.
-
-You're undoing something that you did in patch 1.  Just do it
-correctly the first time instead of doing it and the fixing it
-in the same patchset.
-
-> 
-> Move struct oct_rx_group and struct octeon_ethernet_platform
-> definitions into octeon-ethernet.h so they are shared across
-> compilation units.
+On April 28, 2026 11:16:20 AM GMT+02:00, Alexandru Hossu <hossu=2Ealexandru=
+@gmail=2Ecom> wrote:
+>HT_caps_handler() iterates pIE->length bytes and writes into
+>HT_caps=2Eu=2EHT_cap[], which is a fixed 26-byte array (sizeof struct
+>HT_caps_element)=2E Because pIE->length is a raw u8 from an over-the-air
+>802=2E11 AssocResponse frame and is never validated, a malicious AP can
+>set it up to 255, causing up to 229 bytes of out-of-bounds writes into
+>adjacent fields of struct mlme_ext_info=2E
 >
+>Truncate the iteration count to the size of HT_caps=2Eu=2EHT_cap using
+>umin() so that data from a longer-than-expected IE is silently ignored
+>rather than written out of bounds, preserving interoperability with APs
+>that pad the element=2E An early return on oversized IEs was considered
+>but rejected: it would bypass the pmlmeinfo->HT_caps_enable =3D 1
+>assignment that precedes the loop, silently disabling HT mode for APs
+>that append extra bytes to the HT Capabilities IE=2E
+>
+>Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
+>Cc: stable@vger=2Ekernel=2Eorg
+>Signed-off-by: Alexandru Hossu <hossu=2Ealexandru@gmail=2Ecom>
+>---
+>Changes in v3:
+>- Use umin() instead of min_t() (Dan Carpenter)
+>- Keep truncation approach; early return would bypass
+>  HT_caps_enable =3D 1, disabling HT mode for vendor-padded IEs
+>  (Luka Gejak, AI review)
+>- Expand commit message to document the early return tradeoff
+>- Add changelog
+>
+>AI review (flagged early return as regression-inducing):
+>  https://sashiko=2Edev/#/patchset/2026041408-grill-mahogany-d1e3%40gregk=
+h
+>Greg KH v1 reply (requested truncation over early return):
+>  https://lore=2Ekernel=2Eorg/linux-staging/2026042630-tightness-runner-2=
+121@gregkh/
+>
+> drivers/staging/rtl8723bs/core/rtw_wlan_util=2Ec | 3 ++-
+> 1 file changed, 2 insertions(+), 1 deletion(-)
+>
+>diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util=2Ec b/drivers/s=
+taging/rtl8723bs/core/rtw_wlan_util=2Ec
+>index e0d73c267786=2E=2Edd34f229df12 100644
+>--- a/drivers/staging/rtl8723bs/core/rtw_wlan_util=2Ec
+>+++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util=2Ec
+>@@ -936,7 +936,8 @@ void HT_caps_handler(struct adapter *padapter, struct=
+ ndis_80211_var_ie *pIE)
+>=20
+> 	pmlmeinfo->HT_caps_enable =3D 1;
+>=20
+>-	for (i =3D 0; i < (pIE->length); i++) {
+>+	for (i =3D 0; i < umin(pIE->length,
+>+			     sizeof(pmlmeinfo->HT_caps=2Eu=2EHT_cap)); i++) {
+> 		if (i !=3D 2) {
+> 			/* Commented by Albert 2010/07/12 */
+> 			/* Got the endian issue here=2E */
 
-Btw, here:
+LGTM,
 
-> +	struct octeon_ethernet_platform *plt = platform_get_drvdata(pdev);
+Reviewed-by: Luka Gejak <luka=2Egejak@linux=2Edev>
 
-Could you name it "plat" instead of "plt"?  Generally "plt" is an
-acronym for something else.  Procedure Linkage Table or
-Phy LED Trigger.  There are a couple other meanings.
-
-regards,
-dan carpenter
-
+Best regards,
+Luka Gejak
