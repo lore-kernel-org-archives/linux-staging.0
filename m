@@ -1,39 +1,39 @@
 Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 499C32C0F69;
-	Tue, 28 Apr 2026 01:58:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33FB12C0F69;
+	Tue, 28 Apr 2026 01:58:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777341532; cv=none; b=E6LAhfQpPQti826ri5EvRvZ2mDL5Da7r3tVxsJTV1OYK2o7CoDi/dQN2Sk/PZf+kUF1MwK9DJx1EaFYAr28KSETl/AOJ53P4NiEpWloqabD+YAZAt87A/hKN/hw87lKrxJjTdDcYGHy5NyrJO67gAQGfethkHZ1muHIOadPPpJU=
+	t=1777341536; cv=none; b=gm+dgXyOUOXWJG2hjPw4umVJqjFHHui0jJ+F6ludYfDTXp7n9bw0dTOXwO1bPZhqxgD1EOdTHaDOav38+RBUIq/6heC7P5f2YeHgAih1H+FoISVwUeTuLwbyknEFZePAWoreyyNdPYyr3cZEluWUtEygf80bK3Ke96fr0an7z08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777341532; c=relaxed/simple;
-	bh=NJd5GgoD+NpDQOZVGEsWKI5NWwOmiridCsA38gkHMZo=;
+	s=arc-20240116; t=1777341536; c=relaxed/simple;
+	bh=p6TwhnyFdL+YCmBa1aUDfnObxWIkDDbB5DfzqgVrtow=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TCB27PvxM2p87/dscGZTGUyGdyVZdKakcA4fKK/G6Q69jfY1lv5APR1+s2/5nkR9QPCWz8nJyDVGQlRzZeg+LrrwC/vQdYpA2JQjkai/8/nP1mcRrnfrzLc4XELlzzoXC4tpowc49gsZ/w6LxhNCmjpJnUEcwdQog/445BpfhOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=gmkBHsXQ; arc=none smtp.client-ip=213.97.179.56
+	 In-Reply-To:Content-Type; b=L6ZdHrmSdqyIDyQSL67MmhG3nz8epJUyCGXqByiF9Y/8FI8v3aTMYuFghCK6tg9Oxv8fhgFw/ZVib2xgQqH5j7IZ185u9nTS1hmkFVOaeYGOtv/RyTStVuCNGtH2ztIp9Jps35JhAQEZmkGwvBgNO5XUXz72MUC6KA+DnKYdgoM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=ROMuvAvP; arc=none smtp.client-ip=213.97.179.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="gmkBHsXQ"
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="ROMuvAvP"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
 	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
 	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
 	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=V8UwvXyUMjLBtws4s7k7jbSM5GLv2sSezjqGQwVVv7c=; b=gmkBHsXQEbTXhEx6g2fcSwDDZB
-	vzbp26tODcpSFYCukuu3cZtW2oO/9J0mfmdLeHNAkTxqfjss0ft7rADvoqO2fyr2JJzMgfE2c/ZOy
-	o201LZD+v4bcnbRTVUlPKJu7RpX1VA32hMRZvr7IgCYvoSO9wovavfiRlf9RAZvewNnMpL0T9GXRV
-	FYdINzfmb4PZ9kSgkOvCkRS+7VB7TnvpIisv+GG/WbBDE0BsxbRhInwbUq+AZlq0zaUr3jyfEqhIQ
-	LVmYqGPVARH6UNr2W2YLC4ILdFd2WhsiXnpYd4TM85IURKqCMNUEh72YrkwXiF8qOd92TnlvQm8rx
-	Qnepm75w==;
+	bh=xKsMHfXpUNSTsQzDjlxd9LBKdBey3BJ1dZihz4dzf0Y=; b=ROMuvAvPzVfV3r7BKIbXM/3TW+
+	gk4+0AOHEefHsmU5fAEZGb+tsjyxawdx0/01UxsLlZgBe6fHhHBPyEluzbiZXNLPj3LpHFhNpTzwS
+	6pMGpkTdxmSxTbXdQA+02MZ38CU4wYCXGJjQQFfrzHncBl25r9QvYgOMfk21zBXDI1m4NpLjqsy8C
+	xuiqLCCjd9keOJ+nsqpK56SD3q09VDQRQczFM4t7Z6VjgmQJ9CXw8W0lfDIiW4tBrvhdn0Zj12Mcl
+	9hLeUhw8xq2fJfe6BL7xA2+haM2FO21soJSiZT+D73UAq17ux0vI4YTMRMf/JPLN5iQlI8JPZKtlb
+	2x3IEysw==;
 Received: from [179.221.49.249] (helo=[192.168.0.108])
 	by fanzine2.igalia.com with esmtpsa 
 	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1wHXij-003BUR-Gk; Tue, 28 Apr 2026 03:58:40 +0200
-Message-ID: <c624a91f-6ae2-441d-a6c4-c76cb2c816b3@igalia.com>
-Date: Mon, 27 Apr 2026 22:58:33 -0300
+	id 1wHXiu-003BUd-Lu; Tue, 28 Apr 2026 03:58:52 +0200
+Message-ID: <81082476-d3e4-45c9-bb2b-28344dc5612a@igalia.com>
+Date: Mon, 27 Apr 2026 22:58:46 -0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -41,45 +41,38 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: atomisp: Use negation to check for NULL
+Subject: Re: [PATCH] media: atomisp: Remove unnecessary function return
 To: Andy Shevchenko <andriy.shevchenko@intel.com>,
- Gabriel Sanches <gabriel@gsr.dev>
-Cc: linux-staging@lists.linux.dev, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org,
- sakari.ailus@linux.intel.com, mchehab@kernel.org, hansg@kernel.org,
- andy@kernel.org, ~lkcamp/patches@lists.sr.ht
-References: <20260423181443.46566-1-gabriel@gsr.dev>
- <aesvvPPq35g2yHR0@ashevche-desk.local>
+ Everton Colombo <e.rcolombo2@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, andy@kernel.org, hansg@kernel.org,
+ mchehab@kernel.org, sakari.ailus@linux.intel.com,
+ gregkh@linuxfoundation.org, ~lkcamp/patches@lists.sr.ht
+References: <20260423183814.84729-1-e.rcolombo2@gmail.com>
+ <aeswGWHvGTOxmu7a@ashevche-desk.local>
 Content-Language: en-US
 From: Helen Koike <koike@igalia.com>
-In-Reply-To: <aesvvPPq35g2yHR0@ashevche-desk.local>
+In-Reply-To: <aeswGWHvGTOxmu7a@ashevche-desk.local>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi Gabriel,
+Hi Everton,
 
 Thanks for your patch, please see my comments below.
 
-On 4/23/26 3:14 PM, Gabriel Sanches wrote:
- > Fix checkpath error 'CHECK: Comparison to NULL could be written
-
-typo: checkpatch.
-
-On 4/24/26 5:54 AM, Andy Shevchenko wrote:
-> On Thu, Apr 23, 2026 at 03:14:36PM -0300, Gabriel Sanches wrote:
+On 4/24/26 5:55 AM, Andy Shevchenko wrote:
+> On Thu, Apr 23, 2026 at 03:38:14PM -0300, Everton Colombo wrote:
 > 
-> ...
-> 
->> Hey, this is my first patch ever. I would appreciate any
->> feedback. Thanks!
+>> ---
+>> Hey, this is my first patch! Any feedback would be appreciated!
 > 
 > Please, start reviewing others' patches for the same driver and read other
 > reviews and learn from them first.
-
-Gabriel, fyi, you can check previous reviews on this driver on 
-lore.kernel.org, for instance: https://lore.kernel.org/all/?q=atomisp
-
 > 
+
+fyi, you can check previous reviews on this driver on lore.kernel.org, 
+for instance: https://lore.kernel.org/all/?q=atomisp
+
 > I'm not going to repeat what I said already several times on a patches like
 > this over the very same driver (atomisp).
 > 
@@ -88,14 +81,20 @@ You can see in the previous reviews a few comments to not fix just a
 single occurrence of the issue on the driver, but to fix in a set of 
 files or in the entire driver.
 
-By running checkpatch recursively on the entire driver, I found 5 
-occurrences of this same problem.
+This same error occurs multiple times on the same file, and also in the 
+entire driver.
 
-You can check with:
+My suggestion is for you to fix all this sort of errors under the folder
+    drivers/staging/media/atomisp/pci/hive_isp_css_common/host/
+otherwise it might become a big commit for a first contribution (unless 
+others think otherwise).
 
-   find drivers/staging/media/atomisp -name "*.c" -o -name "*.h" \
-     | xargs scripts/checkpatch.pl -f 2>&1 \
-     | grep -A3 "Comparison to NULL"
+i.e.:
+
+    ./scripts/checkpatch.pl 
+drivers/staging/media/atomisp/pci/hive_isp_css_common/host/* | \
+    grep -a3 "WARNING: void function return statements are not generally 
+useful"
 
 I hope this helps.
 
