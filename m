@@ -1,95 +1,161 @@
-Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
+Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com [95.215.58.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1EF323EAB2
-	for <linux-staging@lists.linux.dev>; Wed, 29 Apr 2026 10:24:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 816C73D091F
+	for <linux-staging@lists.linux.dev>; Wed, 29 Apr 2026 10:25:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777458301; cv=none; b=Bx1Qm+DYW5YkWI7MCtWcGPPtb3qqJZvUpOH4EV/R2lwE32EiSKgbM5jKgtebxnWzKgZ98d18Cdc46MQhmGMHzuwMG97RXS7fER+RNUOQVbHcYdJxT8RpWxswCmkd7mO7PXg3cPHVv/aWqyOGqnF/s5j7h95lO0oTX7q5mniwWAc=
+	t=1777458337; cv=none; b=nXn1nvHvVE7hnt/6RZUVWW1xfzWIFtE3aWil7kXNhTVDOCUevd+KBtJrY9TNGZ/p5nr5vBlZFBxjSvpYMatpQerEjcpLJCsBiuLsaD8r1OF+mDEXKPA+cFtozi6JeGbO/Lxi8b3A6qPJkALgTeao/93ijPIYlyOp1DAf8Gh805k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777458301; c=relaxed/simple;
-	bh=o4R2rZCEQUm5p1t2ADSbVpepvNb+E6+GOpF7MFcIbbo=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=cUOq/vxi8o1MDwWWIh33Z+AYG7Oi1jv+MB3XzZo9uwGurGDXcAZgADAreD3YfV454uWsCPq1+sp+s/Mdsjo/CmRYFUwmFIeebaCtfpFdrA6WOPvEoLj2M9jQ5yFD0xZg7F3uES5x11JzGMyV4QOA/wpENCNKiLUxFW+zklCpVh4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=mX7A1all; arc=none smtp.client-ip=91.218.175.172
+	s=arc-20240116; t=1777458337; c=relaxed/simple;
+	bh=uKx2BLK4SWtORQ3Y1X9QU+u3JmhryAfpmr007sf8OrM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=dK9wY684v7bCX1I/X5xn578C9r+DP/ygT1hmsvdNACxzGeKGhtxUZbGBZv8Zt7Wu26Hh9sWLckV9w8g+88NsbEge+VjNdxPvoqv3cIRuSZGbKXvpPRnWON6Yhcw7BRcsfCx7aPBgdnVtk8a6dFLheKsRJdab8j2Rl5EOc9ENiDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=syDuJ2eb; arc=none smtp.client-ip=95.215.58.186
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="mX7A1all"
-Date: Wed, 29 Apr 2026 12:24:53 +0200
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="syDuJ2eb"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1777458297;
+	t=1777458333;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=QPcnVZqxsD/rQFwROM5EH9/8f3vJkDYj8YOE/5zz1S8=;
-	b=mX7A1allR+CJz1PVKpRcfahZK9mgiCsZI/9si2w7pAOAc7lIb1if46W+DmO+H0V5XeUW48
-	fA94tyMH+oUVoNCtZAQWVcTovzryPHTe2DRWysjvXjwWFebzJJXa9igYUM6mnSq5r5QF2S
-	Hg+APOjSSa0VHEiGk43R+c6ccKhTMBs=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Luka Gejak <luka.gejak@linux.dev>
-To: linus.probert@gmail.com
-CC: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, luka.gejak@linux.dev
-Subject: Re: [PATCH 0/8] staging: rtl8723bs: remove warnings in rtw_btcoex.h
-In-Reply-To: <12186A7D-522A-4900-9E4A-E2B575930A72@linux.dev>
-References: <12186A7D-522A-4900-9E4A-E2B575930A72@linux.dev>
-Message-ID: <2097F9CE-F003-4BE1-AEF5-0B30294973FB@linux.dev>
+	bh=0ubnPqyEuUH+bb9tWP9+TOUp+n6C5onOR58LCuBDEiw=;
+	b=syDuJ2ebh9z2sjffREH58o0aT6Ajjew8W5I8ReEUtvp2EQkdghmYv8iT9JcU1iX87oMIbX
+	D+xmbMoFNHgWVKDoL6XEe6kPFjJgAeA5FQrv1tK/6uUbSyjmFqItMdxDS/n3eJA5ihtrWC
+	pDy1LXDxeyfrSgRVjezaD0bM6Fa+Scc=
+From: Usama Arif <usama.arif@linux.dev>
+To: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+Cc: Usama Arif <usama.arif@linux.dev>,
+	Yury Norov <ynorov@nvidia.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	David Laight <david.laight.linux@gmail.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	linux-alpha@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mips@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	kvm@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-s390@vger.kernel.org,
+	sparclinux@vger.kernel.org,
+	linux-um@lists.infradead.org,
+	dmaengine@vger.kernel.org,
+	linux-efi@vger.kernel.org,
+	linux-fsi@lists.ozlabs.org,
+	amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org,
+	linux-wpan@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	linux-spi@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-serial@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	xen-devel@lists.xenproject.org,
+	linux-fsdevel@vger.kernel.org,
+	ocfs2-devel@lists.linux.dev,
+	bpf@vger.kernel.org,
+	kasan-dev@googlegroups.com,
+	linux-mm@kvack.org,
+	linux-x25@vger.kernel.org,
+	rust-for-linux@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	sound-open-firmware@alsa-project.org,
+	linux-csky@vger.kernel.org,
+	linux-hexagon@vger.kernel.org,
+	loongarch@lists.linux.dev,
+	linux-m68k@lists.linux-m68k.org,
+	linux-openrisc@vger.kernel.org,
+	linux-parisc@vger.kernel.org,
+	linux-sh@vger.kernel.org,
+	linux-arch@vger.kernel.org
+Subject: Re: [RFC PATCH v1 7/9] x86: Add unsafe_copy_from_user()
+Date: Wed, 29 Apr 2026 03:25:19 -0700
+Message-ID: <20260429102520.1617327-1-usama.arif@linux.dev>
+In-Reply-To: <0ee46bb228d97163fbdc14f2a7c52b93d8bc34ce.1777306795.git.chleroy@kernel.org>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
-On April 29, 2026 12:18:12 PM GMT+02:00, Luka Gejak <luka=2Egejak@linux=2Ed=
-ev> wrote:
->> This series eliminates all remaining checkpatch warnings in
->> rtw_btcoex=2Eh=2E Such as CamelCase, redundant blank lines and unnamed
->> function definition arguments=2E
->>=20
->> Linus Probert (8):
->>   staging: rtl8723bs: remove blank line in rtw_btcoex=2Eh
->>   staging: rtl8723bs: add function definition arg names to rtw_btcoex=
-=2Eh
->>   staging: rtl8723bs: rename rtw_btcoex_MediaStatusNotify()
->>   staging: rtl8723bs: rename rtw_btcoex_media_status_notify definition =
-arg
->>   staging: rtl8723bs: rtw_btcoex_HaltNotify() -> rtw_btcoex_halt_notify=
-()
->>   staging: rtl8723bs: rename rtw_btcoex_RejectApAggregatedPacket()
->>   staging: rtl8723bs: rtw_btcoex_LPS_Enter() -> rtw_btcoex_lps_enter()
->>   staging: rtl8723bs: rename rtw_btcoex_LPS_Leave to rtw_btcoex_lps_lea=
-ve
->>=20
->>  drivers/staging/rtl8723bs/core/rtw_ap=2Ec        |  2 +-
->>  drivers/staging/rtl8723bs/core/rtw_btcoex=2Ec    | 10 +++++-----
->>  drivers/staging/rtl8723bs/core/rtw_cmd=2Ec       |  4 ++--
->>  drivers/staging/rtl8723bs/core/rtw_mlme_ext=2Ec  |  2 +-
->>  drivers/staging/rtl8723bs/hal/hal_btcoex=2Ec     | 12 ++++++------
->>  drivers/staging/rtl8723bs/include/rtw_btcoex=2Eh | 11 +++++------
->>  drivers/staging/rtl8723bs/os_dep/sdio_intf=2Ec   |  2 +-
->>  7 files changed, 21 insertions(+), 22 deletions(-)
->>=20
->> --=20
->> 2=2E54=2E0
->>
->
->LGTM, so for the patch series:
->
->Reviewed-by: Luka Gejak <luka=2Egejak@linux=2Edev>
->
->Best regards,
->Luka Gejak
+On Mon, 27 Apr 2026 19:13:48 +0200 "Christophe Leroy (CS GROUP)" <chleroy@kernel.org> wrote:
 
-One note:
-For the future cleanup series, feel free to squash identical logical=20
-changes into a single patch to keep the commit history concise=2E It's=20
-up to Greg if he wants v2 but logic is sound as is=2E
-Best regards,
-Luka Gejak
+> At the time being, x86 and arm64 are missing unsafe_copy_from_user().
+> 
+> Add it.
+> 
+> Signed-off-by: Christophe Leroy (CS GROUP) <chleroy@kernel.org>
+> ---
+>  arch/x86/include/asm/uaccess.h | 29 ++++++++++++++++++++++++-----
+>  1 file changed, 24 insertions(+), 5 deletions(-)
+> 
+> diff --git a/arch/x86/include/asm/uaccess.h b/arch/x86/include/asm/uaccess.h
+> index 3a0dd3c2b233..10c458ffa399 100644
+> --- a/arch/x86/include/asm/uaccess.h
+> +++ b/arch/x86/include/asm/uaccess.h
+> @@ -598,7 +598,7 @@ _label:									\
+>   * We want the unsafe accessors to always be inlined and use
+>   * the error labels - thus the macro games.
+>   */
+> -#define unsafe_copy_loop(dst, src, len, type, label)				\
+> +#define unsafe_put_loop(dst, src, len, type, label)				\
+>  	while (len >= sizeof(type)) {						\
+>  		unsafe_put_user(*(type *)(src),(type __user *)(dst),label);	\
+>  		dst += sizeof(type);						\
+> @@ -611,10 +611,29 @@ do {									\
+>  	char __user *__ucu_dst = (_dst);				\
+>  	const char *__ucu_src = (_src);					\
+>  	size_t __ucu_len = (_len);					\
+> -	unsafe_copy_loop(__ucu_dst, __ucu_src, __ucu_len, u64, label);	\
+> -	unsafe_copy_loop(__ucu_dst, __ucu_src, __ucu_len, u32, label);	\
+> -	unsafe_copy_loop(__ucu_dst, __ucu_src, __ucu_len, u16, label);	\
+> -	unsafe_copy_loop(__ucu_dst, __ucu_src, __ucu_len, u8, label);	\
+> +	unsafe_put_loop(__ucu_dst, __ucu_src, __ucu_len, u64, label);	\
+> +	unsafe_put_loop(__ucu_dst, __ucu_src, __ucu_len, u32, label);	\
+> +	unsafe_put_loop(__ucu_dst, __ucu_src, __ucu_len, u16, label);	\
+> +	unsafe_put_loop(__ucu_dst, __ucu_src, __ucu_len, u8, label);	\
+> +} while (0)
+> +
+> +#define unsafe_get_loop(dst, src, len, type, label)				\
+> +	while (len >= sizeof(type)) {						\
+> +		unsafe_get_user(*(type __user *)(src),(type *)(dst),label);	\
+
+Hi,
+
+Just wanted to check if src and dst need to be swapped? Same for arm64 patch.
+
+> +		dst += sizeof(type);						\
+> +		src += sizeof(type);						\
+> +		len -= sizeof(type);						\
+> +	}
+> +
+> +#define unsafe_copy_from_user(_dst,_src,_len,label)			\
+> +do {									\
+> +	char *__ucu_dst = (_dst);					\
+> +	const char __user *__ucu_src = (_src);				\
+> +	size_t __ucu_len = (_len);					\
+> +	unsafe_get_loop(__ucu_dst, __ucu_src, __ucu_len, u64, label);	\
+> +	unsafe_get_loop(__ucu_dst, __ucu_src, __ucu_len, u32, label);	\
+> +	unsafe_get_loop(__ucu_dst, __ucu_src, __ucu_len, u16, label);	\
+> +	unsafe_get_loop(__ucu_dst, __ucu_src, __ucu_len, u8, label);	\
+>  } while (0)
+>  
+>  #ifdef CONFIG_CC_HAS_ASM_GOTO_OUTPUT
+> -- 
+> 2.49.0
+> 
+> 
