@@ -1,161 +1,159 @@
-Received: from out-186.mta1.migadu.com (out-186.mta1.migadu.com [95.215.58.186])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 816C73D091F
-	for <linux-staging@lists.linux.dev>; Wed, 29 Apr 2026 10:25:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 808F73E3151
+	for <linux-staging@lists.linux.dev>; Wed, 29 Apr 2026 10:31:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777458337; cv=none; b=nXn1nvHvVE7hnt/6RZUVWW1xfzWIFtE3aWil7kXNhTVDOCUevd+KBtJrY9TNGZ/p5nr5vBlZFBxjSvpYMatpQerEjcpLJCsBiuLsaD8r1OF+mDEXKPA+cFtozi6JeGbO/Lxi8b3A6qPJkALgTeao/93ijPIYlyOp1DAf8Gh805k=
+	t=1777458673; cv=none; b=lR71s+zhSTJ4lTtDCtcuXygSn/jaErdM3mIY4rx+yd+7Ne8AzNE2xrXmeblTDauPJVQmFwcpD7WE+z2ny/PEk+5QEPvY59LfVPGG1/qV8PPzfxuXC+1IxdQC9MVtYR1vrAG98rV+tpi9YR2jYO74sSp9XL4nzH8UqiotANxDXSo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777458337; c=relaxed/simple;
-	bh=uKx2BLK4SWtORQ3Y1X9QU+u3JmhryAfpmr007sf8OrM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dK9wY684v7bCX1I/X5xn578C9r+DP/ygT1hmsvdNACxzGeKGhtxUZbGBZv8Zt7Wu26Hh9sWLckV9w8g+88NsbEge+VjNdxPvoqv3cIRuSZGbKXvpPRnWON6Yhcw7BRcsfCx7aPBgdnVtk8a6dFLheKsRJdab8j2Rl5EOc9ENiDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=syDuJ2eb; arc=none smtp.client-ip=95.215.58.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1777458673; c=relaxed/simple;
+	bh=IsPYo5A1NKgvPCB5OTEUwXERR7zAmjTkNZR4+UsSSBU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IHEXvEPeHLHA0ZrCUO/0tB15Z2jVLwZ0WuYkdvq6kveCmykFNvUYUkLiVjbDAxkp3mEb3seuk/ppC1av6nO5fbqSuQ3bjG31hXT2GU3Qs/cYbP8RBCuGpN94lyGdocHD75ka8VD79D/pct4EcXlg/rCE5YtsH3d2/GExYN1c0mY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fgx++S5l; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="syDuJ2eb"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1777458333;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0ubnPqyEuUH+bb9tWP9+TOUp+n6C5onOR58LCuBDEiw=;
-	b=syDuJ2ebh9z2sjffREH58o0aT6Ajjew8W5I8ReEUtvp2EQkdghmYv8iT9JcU1iX87oMIbX
-	D+xmbMoFNHgWVKDoL6XEe6kPFjJgAeA5FQrv1tK/6uUbSyjmFqItMdxDS/n3eJA5ihtrWC
-	pDy1LXDxeyfrSgRVjezaD0bM6Fa+Scc=
-From: Usama Arif <usama.arif@linux.dev>
-To: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
-Cc: Usama Arif <usama.arif@linux.dev>,
-	Yury Norov <ynorov@nvidia.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	David Laight <david.laight.linux@gmail.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	linux-alpha@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mips@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	kvm@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-s390@vger.kernel.org,
-	sparclinux@vger.kernel.org,
-	linux-um@lists.infradead.org,
-	dmaengine@vger.kernel.org,
-	linux-efi@vger.kernel.org,
-	linux-fsi@lists.ozlabs.org,
-	amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org,
-	linux-wpan@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org,
-	linux-spi@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-serial@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	xen-devel@lists.xenproject.org,
-	linux-fsdevel@vger.kernel.org,
-	ocfs2-devel@lists.linux.dev,
-	bpf@vger.kernel.org,
-	kasan-dev@googlegroups.com,
-	linux-mm@kvack.org,
-	linux-x25@vger.kernel.org,
-	rust-for-linux@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	sound-open-firmware@alsa-project.org,
-	linux-csky@vger.kernel.org,
-	linux-hexagon@vger.kernel.org,
-	loongarch@lists.linux.dev,
-	linux-m68k@lists.linux-m68k.org,
-	linux-openrisc@vger.kernel.org,
-	linux-parisc@vger.kernel.org,
-	linux-sh@vger.kernel.org,
-	linux-arch@vger.kernel.org
-Subject: Re: [RFC PATCH v1 7/9] x86: Add unsafe_copy_from_user()
-Date: Wed, 29 Apr 2026 03:25:19 -0700
-Message-ID: <20260429102520.1617327-1-usama.arif@linux.dev>
-In-Reply-To: <0ee46bb228d97163fbdc14f2a7c52b93d8bc34ce.1777306795.git.chleroy@kernel.org>
-References: 
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fgx++S5l"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4891e5b9c1fso108374965e9.2
+        for <linux-staging@lists.linux.dev>; Wed, 29 Apr 2026 03:31:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777458669; x=1778063469; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=2n5GHFY1IUCVIi1ZttxoD6PyKrxGhAIV1l0a9WHxBdg=;
+        b=fgx++S5lkBv2WymZlZJRpwf4NM9hrN/lXPAwlGN30M0PBUHhgDflPHQ6NOJD/FCVv6
+         RA7GZy4FSOxx9jI0t7rhFjzq39KjIFA3MjGKZUHlHgQjhWZJ9AzVItsO/IahtC7719wo
+         TTHjIQOwggZxbm5adjly9b3gPIhiLJZYzMFtWFEzRvJRZuYFWq51wLnZ2/4a/SE6Vc1R
+         tlRldB1cgIvW76tzA4zDEoa83c3OjfU1sEfJgwQEhAYAvzPysTl/yx+Ofmk9EOSf9nTn
+         9U8BYyt4dZbIC54+yuWi7SwO3Q7e2jwASdbfrEm9ILv0wCrMBpeXIoTvsFodLrVkNVRi
+         hB7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777458669; x=1778063469;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2n5GHFY1IUCVIi1ZttxoD6PyKrxGhAIV1l0a9WHxBdg=;
+        b=HOAwQZfGl/IB70unrEH/R/HLQjqzEvFcxVVEPMVqYOzxqDmRuCHFF8uRSZrpTk+qs9
+         fLOPTIXQ13VjiP1/x4DTZJBerl7UiJ+AdQD7B9ZPEwgfdZzsrS3tmvZRPQ9LiyHLicLt
+         eg2cP0PZS3b9a3qnhC4kPhp8hV01Pg0l2JQb9g+Dlp6xOV0nWyGXHQ4o5XaIf1Tgc8xH
+         Zqk0Mmuf5NipCYD8FqtG5zn8tAN+t3aywBADnbqysUWnTzupmfKy87/KmbTwthct0seW
+         EgLjD7LfjpDL9XBUxYjSdcTSz48b/X43VCcbZy7/Y+RxzQtPpgAnRWGeYnTN2e2oyvBC
+         Om/w==
+X-Forwarded-Encrypted: i=1; AFNElJ8aNr7lxhI+DhM2ATlpjcABZ65CAGL9pHwKq+Fx0MWSAoCQB4wRr1JQhuhqjVW6fn9YhEvviatbu1Ztjeph@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx1LAp2ZzTc+E7gS8Jt97KeyYubFOClB4IMfW/Nh0ekqtXjctjC
+	dce5BaxbBEJskEbOvMnPyma7E+gE74qXI0xW7g1t7DlS6R8Z9vrfLh8S
+X-Gm-Gg: AeBDievObPg3MuEbrBsqnQRkQAoJEyz2w1KMjLqS+DdIoHvNvBIOmKfLU23+V5yQ4TD
+	VqtrF+Ida6Cq0tcexrEMbGI+Kdqzs9laIpi8FC7wjqzyt2/GlIcqYFklc7rIliYk5BGt1bKTCiA
+	985JaMKbm02OuVAMvDFShEluxuSPVImW/6zDwrXFNBg6+UAxGMDIHihJnd8FPSq6F2PU4186nNT
+	LoOpv1Tcq1og1zGt6tJjmdHrkaWA47JrhENUdzgH0e1K2Amc8NgQyd9dbFfgSIPEhWHggjDa3SN
+	+5BWEbTR30kmUKGwFAItleCiVldpRJ+WfZl6c26hL3Vgj0OToLcJU3XJ2eUg84cZTZmmNKYExQR
+	ZTjbaATgGp+jgtC28yMGJYWgSlrDjVxMIFCV1aOdWDBo4wtyrXQONuGTJfB3mt5T/VqkcHNtNeC
+	GRj01E9UQLBOLYS5BBKYo8hFUi1dl0HA==
+X-Received: by 2002:a05:600c:3b13:b0:488:c40b:c8a4 with SMTP id 5b1f17b1804b1-48a77add9cemr108962985e9.1.1777458669022;
+        Wed, 29 Apr 2026 03:31:09 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a7c2ddc65sm23523735e9.4.2026.04.29.03.31.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Apr 2026 03:31:08 -0700 (PDT)
+Date: Wed, 29 Apr 2026 13:31:04 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Nas Chung <nas.chung@chipsnmedia.com>,
+	Jackson Lee <jackson.lee@chipsnmedia.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Keke Li <keke.li@amlogic.com>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 0/6] media: Fix new smatch warnings
+Message-ID: <afHd6LT7rCPlqDQE@stanley.mountain>
+References: <20260428-smatch-7-1-v1-0-46890dffb611@chromium.org>
+ <afC7qXCCkTTOS7jr@stanley.mountain>
+ <CANiDSCvn3EbrPUiGYzE1zDHp=kKPJLAgHx17OJvv7gWLZM9tBw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: multipart/mixed; boundary="PCA+ff0wVcep1+Lo"
+Content-Disposition: inline
+In-Reply-To: <CANiDSCvn3EbrPUiGYzE1zDHp=kKPJLAgHx17OJvv7gWLZM9tBw@mail.gmail.com>
 
-On Mon, 27 Apr 2026 19:13:48 +0200 "Christophe Leroy (CS GROUP)" <chleroy@kernel.org> wrote:
 
-> At the time being, x86 and arm64 are missing unsafe_copy_from_user().
-> 
-> Add it.
-> 
-> Signed-off-by: Christophe Leroy (CS GROUP) <chleroy@kernel.org>
-> ---
->  arch/x86/include/asm/uaccess.h | 29 ++++++++++++++++++++++++-----
->  1 file changed, 24 insertions(+), 5 deletions(-)
-> 
-> diff --git a/arch/x86/include/asm/uaccess.h b/arch/x86/include/asm/uaccess.h
-> index 3a0dd3c2b233..10c458ffa399 100644
-> --- a/arch/x86/include/asm/uaccess.h
-> +++ b/arch/x86/include/asm/uaccess.h
-> @@ -598,7 +598,7 @@ _label:									\
->   * We want the unsafe accessors to always be inlined and use
->   * the error labels - thus the macro games.
->   */
-> -#define unsafe_copy_loop(dst, src, len, type, label)				\
-> +#define unsafe_put_loop(dst, src, len, type, label)				\
->  	while (len >= sizeof(type)) {						\
->  		unsafe_put_user(*(type *)(src),(type __user *)(dst),label);	\
->  		dst += sizeof(type);						\
-> @@ -611,10 +611,29 @@ do {									\
->  	char __user *__ucu_dst = (_dst);				\
->  	const char *__ucu_src = (_src);					\
->  	size_t __ucu_len = (_len);					\
-> -	unsafe_copy_loop(__ucu_dst, __ucu_src, __ucu_len, u64, label);	\
-> -	unsafe_copy_loop(__ucu_dst, __ucu_src, __ucu_len, u32, label);	\
-> -	unsafe_copy_loop(__ucu_dst, __ucu_src, __ucu_len, u16, label);	\
-> -	unsafe_copy_loop(__ucu_dst, __ucu_src, __ucu_len, u8, label);	\
-> +	unsafe_put_loop(__ucu_dst, __ucu_src, __ucu_len, u64, label);	\
-> +	unsafe_put_loop(__ucu_dst, __ucu_src, __ucu_len, u32, label);	\
-> +	unsafe_put_loop(__ucu_dst, __ucu_src, __ucu_len, u16, label);	\
-> +	unsafe_put_loop(__ucu_dst, __ucu_src, __ucu_len, u8, label);	\
-> +} while (0)
-> +
-> +#define unsafe_get_loop(dst, src, len, type, label)				\
-> +	while (len >= sizeof(type)) {						\
-> +		unsafe_get_user(*(type __user *)(src),(type *)(dst),label);	\
+--PCA+ff0wVcep1+Lo
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi,
-
-Just wanted to check if src and dst need to be swapped? Same for arm64 patch.
-
-> +		dst += sizeof(type);						\
-> +		src += sizeof(type);						\
-> +		len -= sizeof(type);						\
-> +	}
-> +
-> +#define unsafe_copy_from_user(_dst,_src,_len,label)			\
-> +do {									\
-> +	char *__ucu_dst = (_dst);					\
-> +	const char __user *__ucu_src = (_src);				\
-> +	size_t __ucu_len = (_len);					\
-> +	unsafe_get_loop(__ucu_dst, __ucu_src, __ucu_len, u64, label);	\
-> +	unsafe_get_loop(__ucu_dst, __ucu_src, __ucu_len, u32, label);	\
-> +	unsafe_get_loop(__ucu_dst, __ucu_src, __ucu_len, u16, label);	\
-> +	unsafe_get_loop(__ucu_dst, __ucu_src, __ucu_len, u8, label);	\
->  } while (0)
->  
->  #ifdef CONFIG_CC_HAS_ASM_GOTO_OUTPUT
-> -- 
-> 2.49.0
+On Tue, Apr 28, 2026 at 03:58:08PM +0200, Ricardo Ribalda wrote:
 > 
-> 
+> The only one that deserves a complain is this one:
+> https://lore.kernel.org/linux-media/CANiDSCtm4Nh4Ub4rbEBvpjV8GXT9VQ5eFXZTHn=Wy=0RpR=3JA@mail.gmail.com/T/#m650723c33ec0318d8f32f1a6cc74c74a952ae11a
+
+Thanks.  I've written a fix for this.  Let me test it tonight
+and I'll push later.
+
+I've attached the validation/ test so you can look at the new
+ouput. ./smatch sm_mask1.c
+
+regards,
+dan carpenter
+
+--PCA+ff0wVcep1+Lo
+Content-Type: text/x-csrc; charset=us-ascii
+Content-Disposition: attachment; filename="sm_mask1.c"
+
+#include "check_debug.h"
+
+void func(int a, int b, int c, int d, int e)
+{
+	if (a < 65)
+		return;
+	if (b < 0 || b > 7)
+		return;
+	if (c < 7 || c > 17)
+		return;
+	if (d < 0)
+		return;
+
+	e &= 0xf0;
+
+	__smatch_implied(a);
+	__smatch_implied(a & ~7);
+	__smatch_implied(~7 & a);
+	__smatch_implied(b & ~7);
+	__smatch_implied(c & ~7);
+	__smatch_implied(d & 0xff);
+	__smatch_implied(d & 0xf0);
+	__smatch_implied(d & e);
+	__smatch_implied(d & (unsigned char)a);
+	__smatch_implied(b & (unsigned char)a);
+	__smatch_implied(c & (unsigned char)a);
+}
+
+/*
+ * check-name: smatch: mask #1
+ * check-command: ./smatch -I.. sm_mask1.c
+ *
+ * check-output-start
+sm_mask1.c:16 func() implied: a = '65-s32max'
+sm_mask1.c:17 func() implied: a & ~7 = '64-s32max'
+sm_mask1.c:18 func() implied: ~7 & a = '64-s32max'
+sm_mask1.c:19 func() implied: b & ~7 = '0'
+sm_mask1.c:20 func() implied: c & ~7 = '0,8-16'
+sm_mask1.c:21 func() implied: d & 255 = '0-255'
+sm_mask1.c:22 func() implied: d & 240 = '0,16-240'
+sm_mask1.c:23 func() implied: d & e = '0,16-240'
+sm_mask1.c:24 func() implied: d & a = '0-255'
+sm_mask1.c:25 func() implied: b & a = '0-7'
+sm_mask1.c:26 func() implied: c & a = '0-17'
+ * check-output-end
+ */
+
+--PCA+ff0wVcep1+Lo--
