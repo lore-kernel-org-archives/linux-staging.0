@@ -1,124 +1,90 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E04A3EF646
-	for <linux-staging@lists.linux.dev>; Wed, 29 Apr 2026 11:10:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEA70302750;
+	Wed, 29 Apr 2026 11:26:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777461027; cv=none; b=LfPiEBVVv5VWqZ0aLO26XqNrUQGkHqNq/ze20M1DJ3/rItafFYpj2vcJu0cepjXw7ToDI8hgbtn3huAZYvFW7WW0nFFqrmXPj9U+EWOoxHz+RAb88LSjSI9yZZ0Y9N9z9ingidWvao/EohxH2gtKnXlripFySkekSYQG55sCf/Q=
+	t=1777462002; cv=none; b=T4w88c8pfdui+uKTZ/A75N54vv5+ygt6XtOs+c3C834wo0jn3RKHbz8ymm034YMsyjybqeQRh4/Pkv4+hdKrXyhNd6+FeEmf1vc8g4TePtP2zeSpc7qPPwVv/agvMsclMeZvSkFsu2dIiPIE3NOV7HwPXDkT9IpDdJth3Fb3HrQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777461027; c=relaxed/simple;
-	bh=gV1m5kJaR+4PFhB12dRHn3Hn15UHY/7B+jn/4mKAuac=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EMN/t2jZxfSxpgswIS0npwCyYzZUd4Yj1wcKYNPymxaqawqd4w+z+ccsth1G6Wma8YQ3FHUeg/7OIUaLGzOD9x8S4E6FhNpw1adR5ajgiCwCuMiz0/r7Kht/F45ytVo2eysSL7jtnzUUPGaa5UPmsxUfGeRzrNYAu1I/8oeEzkI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OFe2/O4w; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777462002; c=relaxed/simple;
+	bh=HgV0q/+gZ9n2giWTxhUD6P3yQ6wEmY66ZwCWQHhgQ2g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kKGPImIqofHhHWkrh4obt4PWgAsqITzuUZVnGNDkfXyNLSZcsDoFgpxWWpSmbc5g0edrzTytstBlWuiMROxKCSnCuFDN5vsyWoqKkpkiSdJCcn9sghnNkWFaAx9gXkuVuHeVxtZuU4tcBqXoQ9JIGTcKIDXLTkfHvbQdDMgSy0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ejvHWE1z; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OFe2/O4w"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-488b8bc6bc9so89097495e9.3
-        for <linux-staging@lists.linux.dev>; Wed, 29 Apr 2026 04:10:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777461022; x=1778065822; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qxyPStcojxHgvpxKVMISd/wfgWnS9k+N27aPIWZ+4Kg=;
-        b=OFe2/O4wvUKwv5AM8SUTB6r7fHSiSOXHCFSU32MUBvdo8ofKyrcs88pRcN7AvGLD97
-         mU/n3pnEUXh54GUMlQ8ap0w+Lgt7K/ubFUf2Tr8Sogc/e+QRKapJ+4Q1PsjQmHXlgY00
-         yjcsfpsttO9pJmhXBLxj7A0gigqXQbs1IQ57FzJWqoJiTyPVSnAqbLpctXM2gqEg1Lk4
-         hKabhuujLEKpYDOuD/5MBdSFhAo7EXZSxHps07tWwHt1I6XJJyQn3Qu+bz/hTDVlFpus
-         byk8Cuud6oETisT5MWKP5OPYZV40+3K50iY6m7Am2RDKMT28SB9jakaj4WrlhCVl3Oib
-         HdpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777461022; x=1778065822;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qxyPStcojxHgvpxKVMISd/wfgWnS9k+N27aPIWZ+4Kg=;
-        b=gyXPZ9jgXI6s4SpunCMmAuxHjSp6/KiGK+wiZ6ZB0LE/IqWXvW19nH7kHn1zuUiWf7
-         5+7STWozt+dDtgm4fk2/nczL3crpvv4biELPBwgBbxZik9FJNDWV4bYsWtSHPXPL09C9
-         1oIGrjTQ5s4N1uTNW8hs8nYoD/51DGz9OudmTk2Ao5l7vcHD5Gi33/gyOTR5WLET+f3h
-         2Fw5gqRBaexJo7AM36jGe+9rub2JxASW9drDHknj0/oWdPNkgNAmIhZY89Wk9diBehr4
-         WiitenNZBEr0IZ77kio22d+XLWSfZKwn9YTTXex8nd+7uiKk0q8kWeKJKhSO6+Tx6uV7
-         NCeg==
-X-Forwarded-Encrypted: i=1; AFNElJ+zWflv6FNgv+RYkF8SOw2QJsb7xADXOGvfjaXxSLCMTHcKljBEDLgu8H60PuORKKmJmkrprXYKKpsBnUgd@lists.linux.dev
-X-Gm-Message-State: AOJu0YwbcVI6aUVp2LfMUlPMn3i/pMObXJrYXEcz+n8OzjEVZuEIOxpQ
-	cSyjEl6ihXAb0qs6UheFBiMJAeaAP7rsTXjkfxlbRnZrntgc817K3Af92C6l6Adt
-X-Gm-Gg: AeBDiesiiGqGr8S+JwjJhbFpoxSztnzQcILqEFVhGaMZWg4sDq2kJd6UI3jdUHuOpDH
-	GXCJAQZLGQTmID3h7pBabsoVhA1bEziJI9XfnOCdPYe9ZOfTURPMxFwz9r18iNJYKUToTpv6nPu
-	ILrZbzmaOommMLCl8h16Elaz653I9ChH/9M8yrDiuVwbigl8mqiPv1GLC3YI6mKqpyrnr2N1EIN
-	wi8GWqBd1InYIBd9Zedqc9Lk9wKksSfvDiGyf3QYjM45mnOdc7RwA8xk4Ifquv4WJ1KSxa6sZuH
-	FNGPtXvpQfeRyqImouJOW2w9VfHjdUjH7jtD1oQUoBPNmAciGodYFE/XB24lSFCnzCzSW+FUBbI
-	4Q9dUaNg10cLqYFP0b7kddF29wyyAddV1wqnByXFpd3dlHcFjaEXMxbq560WS3pREf/Zigf3XI7
-	Jo9tydkYtgV9N1XhQltgBFP/SRa7U63aG0lUgikZEf+YL/94lP29ehFVdl3ju0tefXNCkDO106
-X-Received: by 2002:a05:600c:1d0a:b0:488:a824:fe04 with SMTP id 5b1f17b1804b1-48a77b1e893mr120619325e9.26.1777461021482;
-        Wed, 29 Apr 2026 04:10:21 -0700 (PDT)
-Received: from localhost (c188-150-77-196.bredband.tele2.se. [188.150.77.196])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-447b3d4843bsm5047744f8f.7.2026.04.29.04.10.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Apr 2026 04:10:20 -0700 (PDT)
-From: Linus Probert <linus.probert@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	error27@gmail.com
-Cc: kernel-janitors@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Linus Probert <linus.probert@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: fix potential speculative cpu oob read
-Date: Wed, 29 Apr 2026 13:10:16 +0200
-Message-ID: <20260429111016.1260295-1-linus.probert@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ejvHWE1z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 158D1C19425;
+	Wed, 29 Apr 2026 11:26:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777462002;
+	bh=HgV0q/+gZ9n2giWTxhUD6P3yQ6wEmY66ZwCWQHhgQ2g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ejvHWE1zJ0tb1KwQu/gVCMj0KcNhlMqCOjLI4kQmWC01EPIO4HFDTFQg5PpNyMx2F
+	 7OMWgwbyfp16yd5ZKGLwfDDMuBlWK8CK9qcSIqUHZRxyhnWE4iAN+OK+xmr5WBtr4T
+	 BgqmCB7r/rsFvwFu/mT2z67QkDE/mDzOf7GDi68KHsQjYM3r7svy7TXqJDW5kWsfNa
+	 xYHmkznhflijvwvOUJkH6AcM42ZHWo8kZp7k26fwbFC82N/jHC8/F/rL8GlM8z6Ksh
+	 UMOZ5KVH94exo80oAIrmoHKOK/k/qke5mU8V2uOXUW3Mlxuf7JynBO/Edq8wMcfI5M
+	 twwrBSWDcoLLw==
+Date: Wed, 29 Apr 2026 12:26:30 +0100
+From: Will Deacon <will@kernel.org>
+To: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+Cc: Yury Norov <ynorov@nvidia.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	David Laight <david.laight.linux@gmail.com>,
+	Thomas Gleixner <tglx@linutronix.de>, linux-alpha@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+	sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
+	dmaengine@vger.kernel.org, linux-efi@vger.kernel.org,
+	linux-fsi@lists.ozlabs.org, amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+	linux-wpan@vger.kernel.org, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-spi@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+	xen-devel@lists.xenproject.org, linux-fsdevel@vger.kernel.org,
+	ocfs2-devel@lists.linux.dev, bpf@vger.kernel.org,
+	kasan-dev@googlegroups.com, linux-mm@kvack.org,
+	linux-x25@vger.kernel.org, rust-for-linux@vger.kernel.org,
+	linux-sound@vger.kernel.org, sound-open-firmware@alsa-project.org,
+	linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
+	loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+	linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org,
+	linux-sh@vger.kernel.org, linux-arch@vger.kernel.org,
+	catalin.marinas@arm.com
+Subject: Re: [RFC PATCH v1 8/9] arm64: Add unsafe_copy_from_user()
+Message-ID: <afHq5vyNUJzxVwDV@willie-the-truck>
+References: <cover.1777306795.git.chleroy@kernel.org>
+ <5b09e58a84c9edcfe5724db5cd57e45d96a96bfa.1777306795.git.chleroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5b09e58a84c9edcfe5724db5cd57e45d96a96bfa.1777306795.git.chleroy@kernel.org>
 
-Fixes potential speculative cpu oob read in os_intfs.c by guarding the
-index with array_index_nospec.
+[+Catalin]
 
-Fixes smatch warning:
-warn: potential spectre issue 'rtw_1d_to_queue' [r]
+On Mon, Apr 27, 2026 at 07:13:49PM +0200, Christophe Leroy (CS GROUP) wrote:
+> At the time being, x86 and arm64 are missing unsafe_copy_from_user().
+> 
+> Add it.
+> 
+> Signed-off-by: Christophe Leroy (CS GROUP) <chleroy@kernel.org>
+> ---
+>  arch/arm64/include/asm/uaccess.h | 29 ++++++++++++++++++++++++-----
+>  1 file changed, 24 insertions(+), 5 deletions(-)
 
-Signed-off-by: Linus Probert <linus.probert@gmail.com>
----
+Why?
 
-I can't argue with 100% certainty if this is a real risk. I found the
-warning when I was testing out smatch (awesome work on that by the way)
-and thought I'd take a look.
+And please cc the arm64 maintainers on arm64 patches next time. You've
+managed to cc most of the world apart from us.
 
-I did a quick search on the linux-staging list but couldn't find any
-mention of 'spectre'. So as far as I could see it hasn't been brought up
-before.
-
-Was unsure if I should prefix this with RFC first.
-
- drivers/staging/rtl8723bs/os_dep/os_intfs.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-index e943dcea1a21..8eea05111e79 100644
---- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-+++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-@@ -347,7 +347,7 @@ static u16 rtw_select_queue(struct net_device *dev, struct sk_buff *skb,
- 	if (pmlmepriv->acm_mask != 0)
- 		skb->priority = qos_acm(pmlmepriv->acm_mask, skb->priority);
- 
--	return rtw_1d_to_queue[skb->priority];
-+	return rtw_1d_to_queue[array_index_nospec(skb->priority, ARRAY_SIZE(rtw_1d_to_queue))];
- }
- 
- u16 rtw_recv_select_queue(struct sk_buff *skb)
-@@ -374,7 +374,7 @@ u16 rtw_recv_select_queue(struct sk_buff *skb)
- 		priority = 0;
- 	}
- 
--	return rtw_1d_to_queue[priority];
-+	return rtw_1d_to_queue[array_index_nospec(priority, ARRAY_SIZE(rtw_1d_to_queue))];
- }
- 
- static int rtw_ndev_init(struct net_device *dev)
--- 
-2.54.0
-
+Will
