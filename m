@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E755D3A4F23;
-	Wed, 29 Apr 2026 07:38:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 697F23822AF;
+	Wed, 29 Apr 2026 07:40:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777448322; cv=none; b=SwBhT0BsgUm6fIzMn91X+Ts+Ek2zd1iOJk9B5bI/Raj4A6L6bZ4NF7L1eBFKl9eXJyeoyq2D0snRagfyX+C0dd8T2VRcFySRclxq7Pf1oGtPT+rAChK5SVLAgAhgEXrbsg2zI5EGkpmSM6Mr+mTP6pntD0bpNAC8EG/r9KtJYbM=
+	t=1777448416; cv=none; b=p50jctLPHG4u0sXSnVNjFgTA1EDOm6k7217e5lI6cz5r1oMJL7AraWXhbRZ09azki9B0uqD1eGSCrowORZ5QT91TLSp41qMwRqfFIKs8bzjCSjviYkygWEy7/i9GzUSmmbLdjAyUk785Q0zIcneEwOreuuiiiZDlj89kUB7Sutk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777448322; c=relaxed/simple;
-	bh=l6HxjGtr1txeLKd6AVDc25uiFiMRpHcFs9qZ0EBcb9E=;
+	s=arc-20240116; t=1777448416; c=relaxed/simple;
+	bh=zmNbVrNp2RW4Zg4aJgDXOMdQjPgGOPwR4cHpP92Taj0=;
 	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=SXxtUfyO0gmjlFU3cnVMQ0awDTC5+PfDK4/Ox9WEA3JiTJxGTEUfrdjNPHt8vwg6sWL9ZDZ74Yyz4O1nS604syKoWjcHRPy0UqpvigHz/r05JAfOpWwNZCj0PbAhOLYYU0kxI99SQ6UWlkNxvLlgf83+N/pesvd3U7qlcC0IP6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KTk6xag1; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=SwJNZLUOVqAYat6fl+/7fDZFGqme9OBhz4HGVcxpqXDT97gOqekWaXJEzConZky5Y0l5ID7mdoF3q1RWGoJChryx0z7FTIOcs670fkqgbh7zSH7on4z1qISKPSYRhdetwOcyaFZDjl0IMM6UQNWCGPejVOTgW3QRhcSm8fYLr2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sgTHDlSZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KTk6xag1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AAD2C19425;
-	Wed, 29 Apr 2026 07:38:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sgTHDlSZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78F85C19425;
+	Wed, 29 Apr 2026 07:40:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777448321;
-	bh=l6HxjGtr1txeLKd6AVDc25uiFiMRpHcFs9qZ0EBcb9E=;
+	s=k20201202; t=1777448416;
+	bh=zmNbVrNp2RW4Zg4aJgDXOMdQjPgGOPwR4cHpP92Taj0=;
 	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=KTk6xag1JeMYQ+UeIIhqCYRyEO7XSNaTbqYXkzqYHaHSxJHxDUrCaiwLGEMRreMMm
-	 4QAosDrNVNiOldtFqhr1qEEzgq99Df34FzPWcGG4y4TwfwzLGugBj1gJlAg61uke3G
-	 yrxkCotnDEkvVuzjiYk1yTMh4w5qBBZG8C8VA0E1PF/QeS33oqWyfGHp8LwSGGYLjO
-	 Jm9P7Pdx3sSwDyHAjxyrhyIun+b/OT9WKzBUOM+03aIHkCkXMzjGBI2eL/MMlcokf+
-	 pdxRKjOwvdGMhQ+62MGLz51pTojkW5Py6OAnDkEWgTvVL9yiYfTNLRlKNv+u8kJalG
-	 9iCuvldPaLiyg==
-Message-ID: <b98e172f-ce29-4cfb-9632-393a5e833017@kernel.org>
-Date: Wed, 29 Apr 2026 09:38:36 +0200
+	b=sgTHDlSZoF7UMGvIvD3/7l09RbdRsHpyU70n4QkDdJjOKcMQ25lS6J78rYrfIxI67
+	 fOL2fy8enHKoK4j1hSeQSU0SeouzUZFEhsiSIsZ2JRpLCjf7Kyb+TT3lwCWZ+I5ZHi
+	 YPsNFOweD76DammEHOhyhuYg0OYYbSIJvcw/XqtEdpOKswaYEJdrY7bqgVWIoOHB7V
+	 GZxyZfRAUKqcAA68PD29pEp7c+CLTw2vhtYVrM+gR6G0Eu2QN/YIjHSpvWGfz04pI5
+	 L+HKSetvgAXjuH9Sb9x3DEj8UXSpGlfdZJmeWb5DUC0iccqVouA2bwYxV6F6Ny4GXV
+	 8rp/y60QcNpWg==
+Message-ID: <5d6c6af3-06ee-479f-8003-8b0b5cab569b@kernel.org>
+Date: Wed, 29 Apr 2026 09:40:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -36,7 +36,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH 1/6] media: v4l2-dev: Add range check for vdev->minor
+Subject: Re: [PATCH 3/6] media: i2c: adv7604: Add range checks for chip info
 To: Ricardo Ribalda <ribalda@chromium.org>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -49,60 +49,47 @@ To: Ricardo Ribalda <ribalda@chromium.org>,
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-staging@lists.linux.dev
 References: <20260428-smatch-7-1-v1-0-46890dffb611@chromium.org>
- <20260428-smatch-7-1-v1-1-46890dffb611@chromium.org>
+ <20260428-smatch-7-1-v1-3-46890dffb611@chromium.org>
 Content-Language: en-US, nl
-In-Reply-To: <20260428-smatch-7-1-v1-1-46890dffb611@chromium.org>
+In-Reply-To: <20260428-smatch-7-1-v1-3-46890dffb611@chromium.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 28/04/2026 14:41, Ricardo Ribalda wrote:
-> If the fixed minor ranges are not properly set we could end up in a
-> situation where the calculated minor is invalid. Add a check for this in
-> the code.
-
-the code -> the code to make it more robust.
-
+> If the driver's chip information is invalid we can end up accessing an
+> invalid memory region.
 > 
-> This check also fixes the following smatch warning:
+> This fixes the following smatch errors:
 
-I'd say:
+"This fixes the following false positive smatch errors:"
 
-This check also fixes the following false positive smatch warnings:
-
-> 
-> drivers/media/v4l2-core/v4l2-dev.c:1036 __video_register_device() error: buffer overflow 'video_devices' 256 <= 288
-> drivers/media/v4l2-core/v4l2-dev.c:1043 __video_register_device() error: buffer overflow 'video_devices' 256 <= 288
-> drivers/media/v4l2-core/v4l2-dev.c:1101 __video_register_device() error: buffer overflow 'video_devices' 256 <= 288
+> drivers/media/i2c/adv7604.c:3672 adv76xx_probe() error: buffer overflow 'state->pads' 7 <= 4294967294
+> drivers/media/i2c/adv7604.c:3673 adv76xx_probe() error: buffer overflow 'state->pads' 7 <= u32max
 > 
 > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 
-The code in __video_register_device is quite complex, so adding this check is
-worthwhile. So even though the warning is a false positive, it's a good change.
-
-Regards,
-
-	Hans
+Reviewed-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 
 > ---
->  drivers/media/v4l2-core/v4l2-dev.c | 6 ++++++
+>  drivers/media/i2c/adv7604.c | 6 ++++++
 >  1 file changed, 6 insertions(+)
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
-> index 6ce623a1245a..a731ffdb91ee 100644
-> --- a/drivers/media/v4l2-core/v4l2-dev.c
-> +++ b/drivers/media/v4l2-core/v4l2-dev.c
-> @@ -1032,6 +1032,12 @@ int __video_register_device(struct video_device *vdev,
->  	vdev->minor = i + minor_offset;
->  	vdev->num = nr;
+> diff --git a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c
+> index 67116a4ef134..ae75982fb514 100644
+> --- a/drivers/media/i2c/adv7604.c
+> +++ b/drivers/media/i2c/adv7604.c
+> @@ -3668,6 +3668,12 @@ static int adv76xx_probe(struct i2c_client *client)
 >  
-> +	if (WARN_ON(vdev->minor >= VIDEO_NUM_DEVICES)) {
-> +		mutex_unlock(&videodev_lock);
-> +		pr_err("invalid minor. Check ranges.\n");
-> +		return -EINVAL;
+>  	state->source_pad = state->info->num_dv_ports
+>  			  + (state->info->has_afe ? 2 : 0);
+> +	if (WARN_ON(state->source_pad >= ADV76XX_PAD_MAX)) {
+> +		err = -EINVAL;
+> +		v4l2_err(sd, "invalid chip info\n");
+> +		goto err_i2c;
 > +	}
 > +
->  	/* Should not happen since we thought this minor was free */
->  	if (WARN_ON(video_devices[vdev->minor])) {
->  		mutex_unlock(&videodev_lock);
+>  	for (i = 0; i < state->source_pad; ++i)
+>  		state->pads[i].flags = MEDIA_PAD_FL_SINK;
+>  	state->pads[state->source_pad].flags = MEDIA_PAD_FL_SOURCE;
 > 
 
