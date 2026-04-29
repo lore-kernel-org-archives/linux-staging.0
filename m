@@ -1,75 +1,74 @@
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+Received: from mail-dl1-f43.google.com (mail-dl1-f43.google.com [74.125.82.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1883933F390
-	for <linux-staging@lists.linux.dev>; Wed, 29 Apr 2026 17:56:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CE113FE357
+	for <linux-staging@lists.linux.dev>; Wed, 29 Apr 2026 18:02:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777485377; cv=none; b=YTOkf/+D57VDdCZut7lISPqxvOxuyEdno1TRgdZyn8r6ElVIzBwGVyQxf4fXIA9p6bYgX1D+EkCQwJpqJXlgqsGSyE9/C7s2Ocu5UlrlYMheVnlcvmZm8llfN41nhbftLnXJQzjG7X/vwb9ZjdOzVIvlMC3Qhv48jnxhZnyKyCQ=
+	t=1777485776; cv=none; b=a9dNIYzPQAZ9t28FNhxXI+A9fHEc2OOMB+kxEdlLRVELK62zGx4CQmALlKJY8sJkiTeOXsivNf13AbUxzLChshMHMT88NXmBN7uXXIQYDyLNmqxHRXcsPigwD7xXJb4tc/bqI3pF1AL8HinyPhTPrzqaCygf2b4oFRh0bFXblC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777485377; c=relaxed/simple;
-	bh=GXDy2EPWSVIeOj61/oWjBf0bAkD5nNMFZ37O68A7Nfc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=iTJZv1Z4tDgD4uje3VCM0nsRk5LvVK0GOm2wwetl/Vo/MlM7jxQI+WX9g5jxyAA2IIY5FrvFpnSc49mSOGK7i6KCLjtOMORwc/LagSDaj3h84/UmAvEni6nBoU00XbkI2kD5UWgmSn13b9dlGLWTIWQiTWPT6L9QNfJulR6/NfQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LzgDiH5T; arc=none smtp.client-ip=209.85.219.51
+	s=arc-20240116; t=1777485776; c=relaxed/simple;
+	bh=uLVEIPwqWzxjK4dmir2rj8E7ndD1cjUKSSZ8yXCQuiw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=kbZ+8txGgRt5bLA536B4a/BG1WynKa8GBE7+RIxNuAxhf3XP8uMzDjEIjSnA3frfrprdXo6NKIYjEBIbWLCbhqfWuPh1sXBymA/ruDnioQu6TaFMy+LGAhCnZMrThMdNZ6sj2PQ7NGG8koHeBJAXx0JqEKG4vxTBTeMXP0D0moA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nZuV+moE; arc=none smtp.client-ip=74.125.82.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LzgDiH5T"
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-8acb856a674so1291086d6.0
-        for <linux-staging@lists.linux.dev>; Wed, 29 Apr 2026 10:56:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nZuV+moE"
+Received: by mail-dl1-f43.google.com with SMTP id a92af1059eb24-12db7bf1541so49845c88.0
+        for <linux-staging@lists.linux.dev>; Wed, 29 Apr 2026 11:02:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777485375; x=1778090175; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1777485774; x=1778090574; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2cs6IAugrzoJGGoa8oOAhhUyVMrU1DfkZ5ti3ubmr9E=;
-        b=LzgDiH5TdEDPcU7Eu/w+nICiLsaUCIYzbPyjKBwcqbWNhr3wVXz2V0MAWrqAYajD7V
-         M2Nly6UtFUAHgqA89EvbxU11YA7yzc796TBooWGAntCfIaoENkrdlHmvGwfXG85ukxAZ
-         3L3hb2dP4BqFojV2C0Gef+LQpLhON+GMSYrcC4eflEKJoEmmdsNN0OKL3OdFvuodcRpq
-         +m+JJrNQVm83G63YMJ7OSrNUZObMOtvfUPqZGv1WN4YeiSOc3bHsa5YdAzuPv4VxA78m
-         TeE6j3uEf08knrsa8Q/u0wYD0Fcrkk3cXf9cyRAUeW6HeBfw8dcqC8FAWUOgrXaFOxax
-         1l1w==
+        bh=EwC21Ix9lFUTGf8usPBb6lkawYvA9xdVs2jYHSayj4g=;
+        b=nZuV+moE7YSdEz6WnxmHsYBkczxn07+2GCJ5y/ApkV7E2j7rHgKHLI6Yb3TkuQW1nm
+         c/3lPLMoZ2dMLo1Z1pq8hncnZFCQ1L4kX9YV0m5wlLWCYfRykVeLReeC+B4hqLRmSu0t
+         unZww7KNNe4PkscDh/6Bjds8TCqb55+9A24Aiyq1VY+nVWWXkZADxotG71lcB6034nLv
+         +P2YqLJx/7Zq6RqcCb5Xg3Zhzilr/PCqV+5byw/xSSVXhnjIT+mV8cP98R1L6eVLdlC7
+         RjktGhTYxnDhLLmiaGEy6OqDEFrlcYQtpAMmYY4VB9IuYhPOaf84TSX0zQsOSrN/vN02
+         tgxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777485375; x=1778090175;
+        d=1e100.net; s=20251104; t=1777485774; x=1778090574;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2cs6IAugrzoJGGoa8oOAhhUyVMrU1DfkZ5ti3ubmr9E=;
-        b=aFHRJK1VJeEYupXlCVwB6k265NkDdjDsEA1nmeBaFz5BO64QUNweALTvfo7fBc82sK
-         DUy0ouHHBV+HLpdD7Bhd51uPd7j5wbJ5/I2n+YOSdWBU286HQEl+SoBWp649Z9NWnB1I
-         C2DTq0rAAfZjFW3usMJF+8+ohkPdPJEPgzqgXcSMwftB3ebP9c2dExq8DP2lBX92fX2x
-         0x8BkuQZseog2oNU/KEGzsIleqC2myEQZWUG+uX1BDJ+yXmu8pM10ccves10jU7vmxQr
-         z/VmJW07UH9Kitt34SJcpIwyMG6BgCmLaRR5FFTeM5bhGxmj7TknaCzq7F6TjZAq6zzo
-         ZrTA==
-X-Forwarded-Encrypted: i=1; AFNElJ84DT742EHsNBCFMYIX8TT6lazpYniNWT7BiXESfTsIS0cByxFtEDgtYp+2NHwoMW6ibz8pCNXrvr3PAVKH@lists.linux.dev
-X-Gm-Message-State: AOJu0YzpmGoRUSxA9eqc0MmX+3tMFnVIcXmAn+msMi4g4vFQDD7B184F
-	+WAzanZmCwDT+miP2EpC2Kmx9FYxa+MjNzaQkbNNaM2Q4Bh0xV8tLXSJ
-X-Gm-Gg: AeBDiesMYmIcGyywXcLxS/9yWmklRFySoWaDOXnE8kz7xQv8GRzw9f8zDV0YfGFN/zY
-	DjNMMuZ1WjnbjpzYFoPpf9fp48NC69L48tu0jkBI6M3b94tkJb+8i5APb4HgTJ/KipA0BeBdDuu
-	oPIqQDoUmlodHneoI/7wjB+Y3sUR1GZHeunyRR9qgYrSE6npWuhXHveA8+ukQDZEnWZb0PJ5nIs
-	+GUE5rmsUR5t49Q3mH20s0IpSu9Q6ValO28nrxaiUbXGcPyn4ptvX7DySf/p+b5dHhVdY8yN0v+
-	VBUX0hFQuJodZGbo1/v34R+hkT9gZS5WjIntLGRG4URCCJUhjGP0JFw7zk6f2azTVOiGvMDYk4Q
-	U5EVJhZAmlwxPqM75HdfG3kZ6nyGHxd20FbYWpqaCDhKvb+PeXihgnDKw63PeGNqA9gLak1OqM5
-	5OYO094pVZ+JA3i4Joo6T6gqxN27Hzm/f9wUfCyqG4+F3Z6TecFrtalXR8FEXYQniSv/bxd/AQc
-	FmIv9k=
-X-Received: by 2002:a05:6214:3007:b0:8ac:aa89:6bb0 with SMTP id 6a1803df08f44-8b3ee990841mr57214366d6.11.1777485374954;
-        Wed, 29 Apr 2026 10:56:14 -0700 (PDT)
+        bh=EwC21Ix9lFUTGf8usPBb6lkawYvA9xdVs2jYHSayj4g=;
+        b=SsQZ2zxvipI2eS/7DMBYPXVC/K+aF6l9yKGxWrGK5XR7Pa/9oF2bpj0y9vy0/k0UBZ
+         43RTc/4T4Z9gZwtimhW1AfLLMcpAR6+G3kSfj4ULcy/C0SejGqB0AE+PU4O+RZ0la4OG
+         Do9MkFhVu7aCNF1bAmd5EfBr+CdGJ2vJL6GY63ChYK5U+/1iS8MC97PKJwf2DHpyx59f
+         Ao2gXYG5pspQLCnLmJlPToOIgh3vH2+n4zZKFkJYy4ozWYpdmgcLRgZT824SpOrUe6K5
+         DCgcGxDcdcHdZ5QfmvVbcI7oxGJF0BBWBBC/bhvfJ/5rsxOw3viC6wVtsQUxSDEY9pV+
+         MXPQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9do/d0VHmmHmr+ngYeqZJkBA9W5XCO+aUevpV1nNWsVn8WfmVrfynCpKljc1hCBtM/rxun1+hGk5eY4K8J@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy0xwCz++R2BHeRCt8vW+Fbx9PqtS/ZQOpey3P5MWrW7+lcVjqv
+	DfcsNeBuk9ridoQsJiqBnvpHYyHnMQBDaoG0jF/bY62qFefVJ6yPmF4N
+X-Gm-Gg: AeBDieutv/XRkos1iD6a1jcx28L0+Bi7+NQ5FpuRKOQAZr2CekxmncBu1FIFXJrCMKr
+	fFe8H2WH30BDO99zO8DVPx+IWEzFm6IH3FI1qcJMbD5Tlzt0h8lv5Ec93bEfYlt8c/IxUKLdsQG
+	IifqW5JGBgH7wbQHGPRHEa5FdAcp9qz7pwalqO8PQHCwgVji+pmwIZO3jXaR3dp3E9HYznPGPDe
+	p0roEldZJnHt0XXLro6CUMFjCQrgb/lA1AqmVCUV+TmSMqucc/M9k8idHtV+Y2mw0NSGt4VqVT/
+	65u7LWb1jgmjwKNtgSy1K3Osio8q3DId4IMmnjEEshbG320V9eCqEoactEOqMLU93VWVdMwWuAU
+	PA2KFj0jS5CosyG7dyARdKtQB9PwddGLpSDuuk7Xs/7/6Erg72CkKKRlA8ybOq/9bybIRf6Mueg
+	VxGjSBhLXrcHthwCtcJF04TWGS0rmIODCdoDklz8ym2KZX+bqqAC460BuYwYScmEKcz6gX
+X-Received: by 2002:a05:7022:128d:b0:11a:4016:44a5 with SMTP id a92af1059eb24-12ddd9d9d75mr4129744c88.24.1777485774105;
+        Wed, 29 Apr 2026 11:02:54 -0700 (PDT)
 Received: from House.mynetworksettings.com ([2600:4040:2afb:6400:cdc9:3f29:858c:a856])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8b3ef8422a4sm29658796d6.41.2026.04.29.10.56.14
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8b3ef842f12sm23199806d6.44.2026.04.29.11.02.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Apr 2026 10:56:14 -0700 (PDT)
+        Wed, 29 Apr 2026 11:02:53 -0700 (PDT)
 From: Maha Maryam Javaid <mahamaryamjavaid@gmail.com>
-To: hansg@kernel.org,
-	mchehab@kernel.org,
-	andy@kernel.org
+To: andy@kernel.org,
+	hansg@kernel.org,
+	mchehab@kernel.org
 Cc: sakari.ailus@linux.intel.com,
 	gregkh@linuxfoundation.org,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Maha Maryam Javaid <mahamaryamjavaid@gmail.com>
-Subject: [PATCH] staging: media: sh_css_mmu: fix typo in sh_css_mmu.c
-Date: Wed, 29 Apr 2026 13:55:09 -0400
-Message-Id: <20260429175509.6306-1-mahamaryamjavaid@gmail.com>
+Subject: [PATCH] staging: media: ia_css_isp_states: fix typo in ia_css_isp_states.c
+Date: Wed, 29 Apr 2026 14:01:48 -0400
+Message-Id: <20260429180148.6581-1-mahamaryamjavaid@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -79,26 +78,26 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix spelling mistake: Suppres -> Suppress
+Fix spelling mistake: commmit -> commit
 
 Signed-off-by: Maha Maryam Javaid <mahamaryamjavaid@gmail.com>
 ---
- drivers/staging/media/atomisp/pci/sh_css_mmu.c | 2 +-
+ drivers/staging/media/atomisp/pci/ia_css_isp_states.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_mmu.c b/drivers/staging/media/atomisp/pci/sh_css_mmu.c
-index f2a84c1d6e52..f2838e40617a 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_mmu.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_mmu.c
-@@ -25,7 +25,7 @@ ia_css_mmu_invalidate_cache(void)
- 	if (sh_css_sp_is_running()) {
- 		HIVE_ADDR_ia_css_dmaproxy_sp_invalidate_tlb = fw->info.sp.invalidate_tlb;
+diff --git a/drivers/staging/media/atomisp/pci/ia_css_isp_states.c b/drivers/staging/media/atomisp/pci/ia_css_isp_states.c
+index af1765040464..cb3c2af91c51 100644
+--- a/drivers/staging/media/atomisp/pci/ia_css_isp_states.c
++++ b/drivers/staging/media/atomisp/pci/ia_css_isp_states.c
+@@ -3,7 +3,7 @@
+  * Support for Intel Camera Imaging ISP subsystem.
+  * Copyright (c) 2015, Intel Corporation.
+  */
+-/* Generated code: do not edit or commmit. */
++/* Generated code: do not edit or commit. */
  
--		(void)HIVE_ADDR_ia_css_dmaproxy_sp_invalidate_tlb; /* Suppres warnings in CRUN */
-+		(void)HIVE_ADDR_ia_css_dmaproxy_sp_invalidate_tlb; /* Suppress warnings in CRUN */
- 
- 		sp_dmem_store_uint32(SP0_ID,
- 				     (unsigned int)sp_address_of(ia_css_dmaproxy_sp_invalidate_tlb),
+ #include "ia_css_pipeline.h"
+ #include "ia_css_isp_states.h"
 -- 
 2.34.1
 
