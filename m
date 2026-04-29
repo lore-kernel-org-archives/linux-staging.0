@@ -1,111 +1,124 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12B273E63A4
-	for <linux-staging@lists.linux.dev>; Wed, 29 Apr 2026 10:49:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E04A3EF646
+	for <linux-staging@lists.linux.dev>; Wed, 29 Apr 2026 11:10:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777459802; cv=none; b=c+n1/ySQ+Zvevvcu8BYa/leVdZLSWRbATALF4zLjxA0VaO/was9mPFxBTca1Z4FaN/Qb8q0u/+E88QjLjfUyrAF2nn45bET44iX5oFKodT+Z90Su6xuy/HJEXoUQaPts2UZN+ObtEx7KO3e07o6aMOEAW5wFW+hl0hRCfDei6y0=
+	t=1777461027; cv=none; b=LfPiEBVVv5VWqZ0aLO26XqNrUQGkHqNq/ze20M1DJ3/rItafFYpj2vcJu0cepjXw7ToDI8hgbtn3huAZYvFW7WW0nFFqrmXPj9U+EWOoxHz+RAb88LSjSI9yZZ0Y9N9z9ingidWvao/EohxH2gtKnXlripFySkekSYQG55sCf/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777459802; c=relaxed/simple;
-	bh=Oh/Ob5Y/L8o14cR6ZoVlhC9Kq0oV/DMTyaQSm/rDuWU=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=YMdsuXlYr9ma+4YulyDaBJXahpVecXPclvoGRzn5K9DuuNBVmTaRoHzVON+jo8HqZqnYrhmmZRiVxvM3scNhnHFzJzUtmsh3Yd9fYm49SxXMwWc04ZVQnR5LvrTG4tcrTZ1AoCjdM3igBwd653g3+P+3Ade2cRNoUBzMmIpGxaM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=bqtEgdOR; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1777461027; c=relaxed/simple;
+	bh=gV1m5kJaR+4PFhB12dRHn3Hn15UHY/7B+jn/4mKAuac=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EMN/t2jZxfSxpgswIS0npwCyYzZUd4Yj1wcKYNPymxaqawqd4w+z+ccsth1G6Wma8YQ3FHUeg/7OIUaLGzOD9x8S4E6FhNpw1adR5ajgiCwCuMiz0/r7Kht/F45ytVo2eysSL7jtnzUUPGaa5UPmsxUfGeRzrNYAu1I/8oeEzkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OFe2/O4w; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="bqtEgdOR"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 8B1454E42AED;
-	Wed, 29 Apr 2026 10:49:58 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 577EC601DF;
-	Wed, 29 Apr 2026 10:49:58 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1178910729835;
-	Wed, 29 Apr 2026 12:49:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1777459797; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=WXbajj9BBIsUoAggvYIZsmgmbeeRvJ4lzJfq8wHWrnM=;
-	b=bqtEgdORUNeErEiYzN2IAtMlvp2mklDRGorR7bsrVZWoGfMhzWvPDoa3ciPplfC9n7DJdJ
-	zbaOQtR3qe7R0gd5VVcBiV/5clg7uC/XNCWCdY0ve9NqYjPc4tavSHsJh+KjkkSmurlPQh
-	dz8Rz3ZYiX38Qm+0fAyh1XuxOn+Jq0Hct8Nse1AqIrrK68f9uZX1sq9HZxS/u9AgRReVZP
-	e3Lk7rELors7g6uTYydPl0noWzJD3enkS/SA/CVgNdunCA04/JVL/CO6qWhd9PJ/C/U6I3
-	AoZeQ76EGV2j+Q6AIBr9cqUHoUglsAASMt2Ulo+Qkug4MEjp8OzYhkvGooB8oA==
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OFe2/O4w"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-488b8bc6bc9so89097495e9.3
+        for <linux-staging@lists.linux.dev>; Wed, 29 Apr 2026 04:10:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777461022; x=1778065822; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qxyPStcojxHgvpxKVMISd/wfgWnS9k+N27aPIWZ+4Kg=;
+        b=OFe2/O4wvUKwv5AM8SUTB6r7fHSiSOXHCFSU32MUBvdo8ofKyrcs88pRcN7AvGLD97
+         mU/n3pnEUXh54GUMlQ8ap0w+Lgt7K/ubFUf2Tr8Sogc/e+QRKapJ+4Q1PsjQmHXlgY00
+         yjcsfpsttO9pJmhXBLxj7A0gigqXQbs1IQ57FzJWqoJiTyPVSnAqbLpctXM2gqEg1Lk4
+         hKabhuujLEKpYDOuD/5MBdSFhAo7EXZSxHps07tWwHt1I6XJJyQn3Qu+bz/hTDVlFpus
+         byk8Cuud6oETisT5MWKP5OPYZV40+3K50iY6m7Am2RDKMT28SB9jakaj4WrlhCVl3Oib
+         HdpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777461022; x=1778065822;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qxyPStcojxHgvpxKVMISd/wfgWnS9k+N27aPIWZ+4Kg=;
+        b=gyXPZ9jgXI6s4SpunCMmAuxHjSp6/KiGK+wiZ6ZB0LE/IqWXvW19nH7kHn1zuUiWf7
+         5+7STWozt+dDtgm4fk2/nczL3crpvv4biELPBwgBbxZik9FJNDWV4bYsWtSHPXPL09C9
+         1oIGrjTQ5s4N1uTNW8hs8nYoD/51DGz9OudmTk2Ao5l7vcHD5Gi33/gyOTR5WLET+f3h
+         2Fw5gqRBaexJo7AM36jGe+9rub2JxASW9drDHknj0/oWdPNkgNAmIhZY89Wk9diBehr4
+         WiitenNZBEr0IZ77kio22d+XLWSfZKwn9YTTXex8nd+7uiKk0q8kWeKJKhSO6+Tx6uV7
+         NCeg==
+X-Forwarded-Encrypted: i=1; AFNElJ+zWflv6FNgv+RYkF8SOw2QJsb7xADXOGvfjaXxSLCMTHcKljBEDLgu8H60PuORKKmJmkrprXYKKpsBnUgd@lists.linux.dev
+X-Gm-Message-State: AOJu0YwbcVI6aUVp2LfMUlPMn3i/pMObXJrYXEcz+n8OzjEVZuEIOxpQ
+	cSyjEl6ihXAb0qs6UheFBiMJAeaAP7rsTXjkfxlbRnZrntgc817K3Af92C6l6Adt
+X-Gm-Gg: AeBDiesiiGqGr8S+JwjJhbFpoxSztnzQcILqEFVhGaMZWg4sDq2kJd6UI3jdUHuOpDH
+	GXCJAQZLGQTmID3h7pBabsoVhA1bEziJI9XfnOCdPYe9ZOfTURPMxFwz9r18iNJYKUToTpv6nPu
+	ILrZbzmaOommMLCl8h16Elaz653I9ChH/9M8yrDiuVwbigl8mqiPv1GLC3YI6mKqpyrnr2N1EIN
+	wi8GWqBd1InYIBd9Zedqc9Lk9wKksSfvDiGyf3QYjM45mnOdc7RwA8xk4Ifquv4WJ1KSxa6sZuH
+	FNGPtXvpQfeRyqImouJOW2w9VfHjdUjH7jtD1oQUoBPNmAciGodYFE/XB24lSFCnzCzSW+FUBbI
+	4Q9dUaNg10cLqYFP0b7kddF29wyyAddV1wqnByXFpd3dlHcFjaEXMxbq560WS3pREf/Zigf3XI7
+	Jo9tydkYtgV9N1XhQltgBFP/SRa7U63aG0lUgikZEf+YL/94lP29ehFVdl3ju0tefXNCkDO106
+X-Received: by 2002:a05:600c:1d0a:b0:488:a824:fe04 with SMTP id 5b1f17b1804b1-48a77b1e893mr120619325e9.26.1777461021482;
+        Wed, 29 Apr 2026 04:10:21 -0700 (PDT)
+Received: from localhost (c188-150-77-196.bredband.tele2.se. [188.150.77.196])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-447b3d4843bsm5047744f8f.7.2026.04.29.04.10.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Apr 2026 04:10:20 -0700 (PDT)
+From: Linus Probert <linus.probert@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	error27@gmail.com
+Cc: kernel-janitors@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Linus Probert <linus.probert@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: fix potential speculative cpu oob read
+Date: Wed, 29 Apr 2026 13:10:16 +0200
+Message-ID: <20260429111016.1260295-1-linus.probert@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 29 Apr 2026 12:49:55 +0200
-Message-Id: <DI5KWT8REASP.1XFX10F0TLQGP@bootlin.com>
-Subject: Re: [PATCH] staging: tegra-video: replace bit shifts with BIT()
- macro
-Cc: <thierry.reding@kernel.org>, <jonathanh@nvidia.com>,
- <skomatineni@nvidia.com>, <mchehab@kernel.org>,
- <gregkh@linuxfoundation.org>, <linux-media@vger.kernel.org>,
- <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-To: "Mhanna112-code" <marchanna111@gmail.com>,
- <linux-staging@lists.linux.dev>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-X-Mailer: aerc 0.20.1
-References: <20260428163312.7374-1-marchanna111@gmail.com>
-In-Reply-To: <20260428163312.7374-1-marchanna111@gmail.com>
-X-Last-TLS-Session-Version: TLSv1.3
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue Apr 28, 2026 at 6:33 PM CEST, Mhanna112-code wrote:
-> Replace manual bit shifts with the BIT() macro to follow kernel
-> coding style and improve readability.
->
-> Fixes the following checkpatch warning:
->
-> CHECK: Prefer using the BIT macro
->
-> Signed-off-by: Marc Hanna <marchanna111@gmail.com>
-> ---
->  drivers/staging/media/tegra-video/tegra20.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/staging/media/tegra-video/tegra20.c b/drivers/stagin=
-g/media/tegra-video/tegra20.c
-> index eb1fc5b7e2cd..f3edca909684 100644
-> --- a/drivers/staging/media/tegra-video/tegra20.c
-> +++ b/drivers/staging/media/tegra-video/tegra20.c
-> @@ -177,15 +177,15 @@ enum tegra_vi_out {
->  #define       CSI_SKIP_PACKET_THRESHOLD(n)		(((n) & 0xff) << 16)
->  #define TEGRA_CSI_PIXEL_STREAM_CONTROL0(n)		(0x0018 + (n) * 0x2c)
->  #define       CSI_PP_PAD_FRAME_PAD0S			(0 << 28)
-> -#define       CSI_PP_PAD_FRAME_PAD1S			(1 << 28)
-> +#define       CSI_PP_PAD_FRAME_PAD1S			BIT(28)
->  #define       CSI_PP_PAD_FRAME_NOPAD			(2 << 28)
->  #define       CSI_PP_HEADER_EC_ENABLE			BIT(27)
->  #define       CSI_PP_PAD_SHORT_LINE_PAD0S		(0 << 24)
-> -#define       CSI_PP_PAD_SHORT_LINE_PAD1S		(1 << 24)
-> +#define       CSI_PP_PAD_SHORT_LINE_PAD1S		BIT(24)
->  #define       CSI_PP_PAD_SHORT_LINE_NOPAD		(2 << 24)
->  #define       CSI_PP_EMBEDDED_DATA_EMBEDDED		BIT(20)
->  #define       CSI_PP_OUTPUT_FORMAT_ARBITRARY		(0 << 16)
-> -#define       CSI_PP_OUTPUT_FORMAT_PIXEL		(1 << 16)
-> +#define       CSI_PP_OUTPUT_FORMAT_PIXEL		BIT(16)
->  #define       CSI_PP_OUTPUT_FORMAT_PIXEL_REP		(2 << 16)
->  #define       CSI_PP_OUTPUT_FORMAT_STORE		(3 << 16)
->  #define       CSI_PP_VIRTUAL_CHANNEL_ID(n)		(((n) - 1) << 14)
+Fixes potential speculative cpu oob read in os_intfs.c by guarding the
+index with array_index_nospec.
 
-I think this change would make code worse, not better. These look like
-enum-like values for 2-bit register fields, and as such should be described
-the same way for readability.
+Fixes smatch warning:
+warn: potential spectre issue 'rtw_1d_to_queue' [r]
 
-If we want to change them they should perhaps use a GENMASK or similar, but
-it probably makes sense to just leave them as is. They are mostly unused
-anyway.
+Signed-off-by: Linus Probert <linus.probert@gmail.com>
+---
 
-Luca
+I can't argue with 100% certainty if this is a real risk. I found the
+warning when I was testing out smatch (awesome work on that by the way)
+and thought I'd take a look.
 
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+I did a quick search on the linux-staging list but couldn't find any
+mention of 'spectre'. So as far as I could see it hasn't been brought up
+before.
+
+Was unsure if I should prefix this with RFC first.
+
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+index e943dcea1a21..8eea05111e79 100644
+--- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
++++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+@@ -347,7 +347,7 @@ static u16 rtw_select_queue(struct net_device *dev, struct sk_buff *skb,
+ 	if (pmlmepriv->acm_mask != 0)
+ 		skb->priority = qos_acm(pmlmepriv->acm_mask, skb->priority);
+ 
+-	return rtw_1d_to_queue[skb->priority];
++	return rtw_1d_to_queue[array_index_nospec(skb->priority, ARRAY_SIZE(rtw_1d_to_queue))];
+ }
+ 
+ u16 rtw_recv_select_queue(struct sk_buff *skb)
+@@ -374,7 +374,7 @@ u16 rtw_recv_select_queue(struct sk_buff *skb)
+ 		priority = 0;
+ 	}
+ 
+-	return rtw_1d_to_queue[priority];
++	return rtw_1d_to_queue[array_index_nospec(priority, ARRAY_SIZE(rtw_1d_to_queue))];
+ }
+ 
+ static int rtw_ndev_init(struct net_device *dev)
+-- 
+2.54.0
+
