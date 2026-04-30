@@ -1,65 +1,38 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D7B2279917
-	for <linux-staging@lists.linux.dev>; Thu, 30 Apr 2026 06:05:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 083223D6CC3;
+	Thu, 30 Apr 2026 07:40:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777529151; cv=none; b=g+5ZiUhe3VIIa/m+NPKMqNrR7ge6gkEkv4AkTUfu+TyNjgTkhgFkcNQ/9APOVqnXwYPQTamUYNUtNOJZmyTgDtONXiryCiNGDavP9c0XP16qYIQlP8FEGxmFkcH/tskFTCzhZcWn7oSjarxqvSsL76EbCvvdpv8vG5FbRzFa30g=
+	t=1777534825; cv=none; b=EvkUfrwSne28eFKHmYcGhTYE2ROebT2FNQeTIIad0Kf2Y9ryl8+yBLu4YpQVWpbVPSQblR7GJ504dScuuL9PfEajOSsD9LIvCxe8cyaXqhP+QWJnnNSeu1TmhL3duVeqnd1fPBUOXqSDwttxDsEXS8wJwjM+rC9iw4T6kDwO2hQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777529151; c=relaxed/simple;
-	bh=MAgqiHxTHVhhgEAEAOOfc1268HvQAf01a+K2UTI+3K8=;
+	s=arc-20240116; t=1777534825; c=relaxed/simple;
+	bh=JbH3L81KysEftyrwRDhCB0RqFyOb+vxC02USZZLMmB4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qhRC23wil8S68/KbIE9+RnWmPYyFWYWbn0FYd5RiPcPdf5iMfJTlPxIEJoOJpVYwf+gslld/utTEz3/D/6Qyl1y5uBqPnIdBH/gkL58OOL503RKxvnTfDu9QAxlprvD4yYTmQQBaumlNNGM2h5Dj9F9Mp0uT87MqtVdksQ/3ohA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n+3sFwyb; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=GzFccLf+DRDDmSfpj+3vzb63omcU1HO3Fn1qko0/lXEpPUAahjtpwRgsHdrivrzL4bT/zyi3QADeTxCF4PTadz6/oOj4YGBq2jzEqjZepLTCHmfwSAKx3kJ42BDjM3xgaIfPoKnXlmKNNHVvDhyZCwLABYcUlLzTufkgY4jLxWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=KMhSzsqY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n+3sFwyb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777529151; x=1809065151;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MAgqiHxTHVhhgEAEAOOfc1268HvQAf01a+K2UTI+3K8=;
-  b=n+3sFwyb43scmOHurYWs43MUoFe98fQfb5joo56slach01sWs/Fh1gFT
-   hymaHQF5GfYIdnq3hBsW44fTigK/B0d9/oa43BQ8aDUwmCkAWEYG4X7/0
-   70VMJm8HQAp6cEh/uxc9E+ExL5XK/y60Jti3fUnDcoJuPmtNGSVOU3uPH
-   BYr9ULqsJ7bnOsgQmu6mlJcsbPBr/iiFYACVqz9+311IsmdAd7nwfsKda
-   yTcT7DEtuqxkw8PCZ2gqX9ce/r2n76aopQoZEuYL0i6KbyJ5OTIhbSYlx
-   U1obxQ7XzZ9pYwDEtkiif59x1Q0HOj9zIWzs+friCdXS3fUeRvUqawsqw
-   Q==;
-X-CSE-ConnectionGUID: FMxM82d8RweVxHn1dGV05A==
-X-CSE-MsgGUID: +P/EZ/A/SFexL9tAJLYj0g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="82077064"
-X-IronPort-AV: E=Sophos;i="6.23,207,1770624000"; 
-   d="scan'208";a="82077064"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 23:05:50 -0700
-X-CSE-ConnectionGUID: 3ihSaDnoR1CjeQ4YAqUw1Q==
-X-CSE-MsgGUID: /VN4PyLITKeLvtvMLZOT1g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,207,1770624000"; 
-   d="scan'208";a="229881428"
-Received: from zzombora-mobl1 (HELO localhost) ([10.245.244.42])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 23:05:47 -0700
-Date: Thu, 30 Apr 2026 09:05:44 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Jack Lee <skunkolee@gmail.com>
-Cc: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>, Kees Cook <kees@kernel.org>,
-	Ingo Molnar <mingo@kernel.org>,
-	"open list:STAGING - ATOMISP DRIVER" <linux-media@vger.kernel.org>,
-	"open list:INTEL MID (Mobile Internet Device) PLATFORM" <linux-kernel@vger.kernel.org>,
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
-Subject: Re: [PATCH] staging: media: atomisp: ov2722: clean up
- ov2722_startup()
-Message-ID: <afLxOIy_RwjzltcG@ashevche-desk.local>
-References: <20260429234110.7879-1-skunkolee@gmail.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="KMhSzsqY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C372EC2BCC4;
+	Thu, 30 Apr 2026 07:40:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1777534824;
+	bh=JbH3L81KysEftyrwRDhCB0RqFyOb+vxC02USZZLMmB4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KMhSzsqYOShyJ1kbKcjSzSByIfxgYj6ULeLjCjz8fhkIYaFBJO07d/kvd6vqAgRsC
+	 Ls2TnSruvUQWczb4xt7l52bGozs9cOBMtk+l6x+WO/Szon5GLLf9qLMxiJwEhW3CTT
+	 YdExRalQBmxfEk9D9bLEm6L+3nK7jsrWfkeFB4Dc=
+Date: Thu, 30 Apr 2026 09:39:45 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: kernelcoredev <sonionwhat@gmail.com>
+Cc: vireshk@kernel.org, johan@kernel.org, elder@kernel.org,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: greybus: bootrom: replace dev_info with
+ dev_dbg for firmware name
+Message-ID: <2026043031-uncurious-credible-d476@gregkh>
+References: <20260430002220.3665-1-sonionwhat@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -68,22 +41,20 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260429234110.7879-1-skunkolee@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20260430002220.3665-1-sonionwhat@gmail.com>
 
-On Wed, Apr 29, 2026 at 05:41:06PM -0600, Jack Lee wrote:
-> Remove stale TODO comment that has been present since the file
-> was first added to staging in 2017 and was never really acted on.
-> Also replace return ret with return 0 since ret is guaranteed
-> to be zero at that point, both write calls return early on
-> failure.
+On Wed, Apr 29, 2026 at 08:22:20PM -0400, kernelcoredev wrote:
+> The original dev_info call was intentionally temporary, with a FIXME
+> comment noting it should be downgraded to dev_dbg once modules with
+> valid VID/PID values were common. Project Ara was cancelled in 2016,
+> so that time has long passed.
+> 
+> Remove the FIXME comment and downgrade to dev_dbg as originally intended.
+> 
+> Tested via code inspection only, as Project Ara hardware is no longer
+> available.
+> 
+> Signed-off-by: Bentley Blacketer  <sonionwhat@gmail.com>
 
-NAK. This is not a real change. It has no value on itself.
-Moreover, it removes a comment without actually addressing it.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+Does not match the "From:" line :(
 
