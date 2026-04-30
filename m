@@ -1,78 +1,74 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+Received: from mail-yx1-f67.google.com (mail-yx1-f67.google.com [74.125.224.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F4E83A8727
-	for <linux-staging@lists.linux.dev>; Wed, 29 Apr 2026 23:41:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB2FE4A3E
+	for <linux-staging@lists.linux.dev>; Thu, 30 Apr 2026 00:22:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777506084; cv=none; b=SAKt0b5JYITZ+ae8m7DNxGct6wdodNiFikuR/dyl5qnUVPV/nlOp/f/IxeEQQsL3aRa1RZlcYvVGop5z/u5Ha/uG1i/lLFs/2uHpui84IIGq1C8kY2nAaWASf/Pt5A68ZH1wVvR11/2XZZvdb8x3nhlspUu7dMkqQr8BaypAX1w=
+	t=1777508546; cv=none; b=bwNefyFDe/PfLSwXj92PFRNF5fz+OAf+KJZBfOBNhOafJPY4b+TeRKWAQ68Butc2lAC1uYtTim9YvvZ1Rli4TOegKNTJE8bfLXHgGlFYwJpNVuN0fnnyWdLYz966d5kAuZNlw3MeDcT9PO3a77LKl8T2M77lsVl3/YBG19CjDI8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777506084; c=relaxed/simple;
-	bh=SENc4XzcXhXZH4RQPf5YBtAV9F2SAEGP6vKTlctEGbQ=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=sFvJXJ77iwTV4e3KR2uof0fxS443NmriOU69TntUVIaK3+f2MT9K7C/W+4DuoYqdrHIKt9zOjdoVWzLMBqm6ZoGZ5aK/sVFLMxKeGFEu89W819Cemw6yGXZzNY5eksmhH8vVlYU94O6WnCkkPZ+eighROyO9X9nSy/vLi8Uc4Ac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZV9yUkjo; arc=none smtp.client-ip=209.85.216.49
+	s=arc-20240116; t=1777508546; c=relaxed/simple;
+	bh=Ei+yusGr1waT5D5MmKA+mppSGTTxd9CTBPqJxfbgUtg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=I8SUuwWc6SaVNS8s0bfXMk9gjNpsaFs40DJaW0l4jK7t6/jtDMMmu3P9O59d+R6qxfzzo56DSMFUPDX/cg+g3/dBTD/1KrmDobPdgiDuXM6Tu0wzhyUyPmXQB60+d1eM+Xr5HtMr96i1/en6YmtJekkRlok7e3+YN255UvdnMzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fianKiUG; arc=none smtp.client-ip=74.125.224.67
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZV9yUkjo"
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-364ad762ef8so136550a91.1
-        for <linux-staging@lists.linux.dev>; Wed, 29 Apr 2026 16:41:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fianKiUG"
+Received: by mail-yx1-f67.google.com with SMTP id 956f58d0204a3-652f220595fso325539d50.0
+        for <linux-staging@lists.linux.dev>; Wed, 29 Apr 2026 17:22:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777506082; x=1778110882; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DEbN0PRYPELCXuCsVB1AGme2es0zOz+5Jz+a4L5FzlI=;
-        b=ZV9yUkjoyohXQjjKoIzkKE6aWjqLs2cruNlb6ChEAG3kmjxUSIw1cJJis9PvU1q2Xi
-         WIbrK4Z/VQfPbEgUOEtZyZ9N8yFgczrWpGFaRqlUvTriANu2ABfJQGajrQ5WvNo/EQ6q
-         BquzQfkIW+S1jjWzzsmbvcEN3RgDsu/AQHU7LHrO96KaIyIBON8E1k7F7TS1UAdGMxGp
-         2CU7+N4ze1iG7v218Yakh6rdW0dBXT9WHdKJhuhXS9AQnlqNsoLHhMIDDah/sBvUDXwm
-         VQ0wDRptiBpwaZ34UwKXTaNTBAjm3oaEVSETpli4d8jdRQ8zaVcC8FiedoeEXuVdibD6
-         Fs+A==
+        d=gmail.com; s=20251104; t=1777508544; x=1778113344; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZCJerECtiCXIBCz7zgU9qCjidNXdZcf6eEV/QCLYq+A=;
+        b=fianKiUGQfxzc+8OPBH6RlwGX7vsusTiHWw0X3zA7qOakfMj6OyvzJ++E9cstGLAc3
+         MGJZ2+rUYGzNoCqrGYd9o5CLRHD4tLcV/w74WHXAoCRocLWLEd7RHAlG5lDC9Uy4vHBG
+         Gx/Kajfaun/UdlfRP2dS1eUdEYc/ar4TH2kAmX7sULNtRrzlsozGL1LJU9EoOiqHTKoZ
+         O22AqdjrjolIeGXJdEJ/B4sg3JFBxyQFgZ5558rhzjVYqQLcQQfGCBHMx4EcmjW85KnD
+         Y1rXhj7S0XfeV033lbSox8pULxVnfovy4bmbXsHN2hrl/3QlIc7NU5cDAq6diYMW/GUl
+         D/Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777506082; x=1778110882;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DEbN0PRYPELCXuCsVB1AGme2es0zOz+5Jz+a4L5FzlI=;
-        b=QlBg3PqyGJjN/xW3idLp5MqouKgZbpJkexxXrcOHKxg7GU7fO2qhZkZw7WELwiK8TT
-         YR1MtUa8W/2d7onjCY9T0EtHlCabCsVl+urobBk6KdkFIL8u+smndWFQXIPLmLyodQq+
-         Av2Yz2rqBCiH3wR9d03VGYv0hsYe9c39sHRypa7WNlMJWbloc8OLj6qJ18AzZNtO/GMi
-         VpKZwZAgPbqnjQ/ondRD2P8IzyoMUn4MuNQDDaiu27SgPk+Lrz2D1sWQNllzZum+ID52
-         hZtS0Dtlw2Kao717JWzOMMd8tEWWBUl+lf9zSAipKHaSssr2GBAIZzmX77gBCCyNsGNQ
-         1fjg==
-X-Forwarded-Encrypted: i=1; AFNElJ8gAlAB7xc/0gYROqXVpPusRknh5ZEGIDssYQ5fbTrWD1MMxWG9OPALjcPtrTHAgvmIPz8tVa3jrhp+Q0rZ@lists.linux.dev
-X-Gm-Message-State: AOJu0YwipJsUNmG+afbWlKO5uks+J5W7cdWFC67B5oUNuGxb8iAxiWJt
-	sJ9dhS/1hNmOKrIv9AKaVLzU1QEACS4Zx0n8Wrqyd1soBLTj5iTrBNMg
-X-Gm-Gg: AeBDievJ53a9e8RCCwVJon8gRtbmhZSaLkAevJFpF7oXEzwj7RhPFoO6GNfh/BrZJS/
-	5jvKLAEdAr/LzRYCiDtoZ6yrEdQaskcgW5ILRIVn+pDstgIzCURqhkYyYhSqGH+NEVJVVdsDNNG
-	a+3fD2ONZHBqHv2jlVkOtU8e4TdJnS5+SvRgBCrsLWhWoEu3SKahCQI4eIQFPbucGUB7dLsJ59E
-	j6RiqdB6b8fWRDjSVvHV7Da8hVIL/BYw/IyfMwOFhv5YINPU65k4uEoRmfKDEojyFW5FXvcXczg
-	7uS6CpRYRXUDAD/sqazQgpwMCsJ+hrRWy9O9XJYK8bQe1yd/F5o2tRUODxw7mUKu++m6D/tBm+k
-	K5ctoiPwLLKMGv6pW/fX0UqMOw/2pylNun51tuCNK3xUoPwOVlNzs20hAkY2rZ6uaEqCdmqHLwx
-	m2qvYiciptqNKFE5Hvr6ZNsAVXpgyaIdqpQR+nHHLe53h4SA03RiKLLdydIEiFVIqmEflzjg9p4
-	cqJv3G+EBcwjDORIqopjop/Rkg=
-X-Received: by 2002:a17:90b:2fc8:b0:364:87dd:b2c4 with SMTP id 98e67ed59e1d1-364c32aa4bdmr345691a91.25.1777506081799;
-        Wed, 29 Apr 2026 16:41:21 -0700 (PDT)
-Received: from archlinux (S010680dac2bce256.cg.shawcable.net. [174.0.186.197])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-364be02940dsm702390a91.15.2026.04.29.16.41.20
+        d=1e100.net; s=20251104; t=1777508544; x=1778113344;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZCJerECtiCXIBCz7zgU9qCjidNXdZcf6eEV/QCLYq+A=;
+        b=ZHn5FrDB+SHRwPn4Buey7VYtjup1QhY5mR+4jTFZyXrpPDHL4ojalKUzuIL3C0a1hn
+         andlSzHgvWvYwrImN9pn22e4rvtbL8fLKb2COks+dqIKgHkfa8+NPcU5ZZ0XMJFm7UGS
+         RXEvtcTMjNzweFb3iqAqI6mpaIvZaRyPu5gJxO9XolPSzbMWAqgXFNYUSj2NWnNAgl+7
+         tUgrrMJderujJQzToPUZlDElxnAUruq0CK9+6iHydgYnFzdr7WuaWYfVEzqQHaCh12fT
+         aijvkxwXWX0e9PvysxJHP4/8gMPUEJE6Oxydb21CY3H/JvtivaHtqfUtfNfIlRmIzPeJ
+         6dFQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8YzOb/T5EM5Mx7SiXi7YfGCjueQ3nQBFYdt52jETbBrs6Gk77bwK1Nr/BIwV3n8rIZW5OOhhgnwL/b18JO@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw6Txbn0o7KI5DKWRqRHdRdQhZWXX12Ty3qVBc4yhDUAfN0520p
+	DHjvgDl2fwYXnxip0QcDkdDQSxNQJY3Fq6ryHU/onIgJid3GnbNAp7JX
+X-Gm-Gg: AeBDieuH5CPez1O5dHrsvodDW2Wsu6wg4KQxoLIVVbNznvgF/TMjjUvabyqtZHd86gC
+	McHh5YhATI1ObuqXeavanoAD2qX7w1a45U2JpsuBd0qopK2Grc91XTZht8Rw+DiBL+o1AM7Yj+Y
+	Z9kc/B2YkveRFdCcEPgIScfETWw88H0O4gYF78ZQKXLFlHHXaCIRv8q1weUSQI8jeKchqaluY5u
+	AfQG3+mWnjs1piMUPdy2TrerFVYOMBzQhDKb1ub25S89OVRx1B37G91O0Qq/WoeX0quiIbNw5OF
+	8nKVUPAVWRjDtXnUJgxP6tIJEpUvDNOT7V7PkCgW3Q5eAcSSBclL/dP164WA1btdqHr80yIBsJS
+	Pn5jlBGoZqhxhroAa81f20QkIWt6ZOsSMDk983FP5s/skEEsXLZHmTdLeASQHXBs7mB7hUU19Sv
+	Rpzwn/VbVGTxz+TxEvKR1RTFN3hrrq83v0/CAaOuAbxKMRfj5iRkUvFmHSE52bji4IpeW1w/B9Y
+	w==
+X-Received: by 2002:a05:690e:128a:b0:65c:1a0f:d89e with SMTP id 956f58d0204a3-65c1a0fe0bamr296688d50.23.1777508543896;
+        Wed, 29 Apr 2026 17:22:23 -0700 (PDT)
+Received: from localhost ([2600:1700:3420:b5d0::d])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-65bff71d4c1sm1940136d50.14.2026.04.29.17.22.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Apr 2026 16:41:21 -0700 (PDT)
-From: Jack Lee <skunkolee@gmail.com>
-To: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jack Lee <skunkolee@gmail.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	Ingo Molnar <mingo@kernel.org>,
-	linux-media@vger.kernel.org (open list:STAGING - ATOMISP DRIVER),
-	linux-kernel@vger.kernel.org (open list:INTEL MID (Mobile Internet Device) PLATFORM),
-	linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM)
-Subject: [PATCH] staging: media: atomisp: ov2722: clean up ov2722_startup()
-Date: Wed, 29 Apr 2026 17:41:06 -0600
-Message-ID: <20260429234110.7879-1-skunkolee@gmail.com>
+        Wed, 29 Apr 2026 17:22:23 -0700 (PDT)
+From: kernelcoredev <sonionwhat@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: vireshk@kernel.org,
+	johan@kernel.org,
+	elder@kernel.org,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	kernelcoredev <sonionwhat@gmail.com>
+Subject: [PATCH v2] staging: greybus: bootrom: replace dev_info with dev_dbg for firmware name
+Date: Wed, 29 Apr 2026 20:22:20 -0400
+Message-ID: <20260430002220.3665-1-sonionwhat@gmail.com>
 X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -82,38 +78,46 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove stale TODO comment that has been present since the file
-was first added to staging in 2017 and was never really acted on.
-Also replace return ret with return 0 since ret is guaranteed
-to be zero at that point, both write calls return early on
-failure.
+The original dev_info call was intentionally temporary, with a FIXME
+comment noting it should be downgraded to dev_dbg once modules with
+valid VID/PID values were common. Project Ara was cancelled in 2016,
+so that time has long passed.
 
-Signed-off-by: Jack Lee <skunkolee@gmail.com>
+Remove the FIXME comment and downgrade to dev_dbg as originally intended.
+
+Tested via code inspection only, as Project Ara hardware is no longer
+available.
+
+Signed-off-by: Bentley Blacketer  <sonionwhat@gmail.com>
 ---
- drivers/staging/media/atomisp/i2c/atomisp-ov2722.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/staging/greybus/bootrom.c | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-index 2c41c496daa6..fcd71cc55731 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-@@ -599,7 +599,6 @@ static int ov2722_s_power(struct v4l2_subdev *sd, int on)
- 	return ret;
- }
+diff --git a/drivers/staging/greybus/bootrom.c b/drivers/staging/greybus/bootrom.c
+index 83921d90c..058044ba7 100644
+--- a/drivers/staging/greybus/bootrom.c
++++ b/drivers/staging/greybus/bootrom.c
+@@ -163,18 +163,13 @@ static int find_firmware(struct gb_bootrom *bootrom, u8 stage)
+ 	 *
+ 	 * XXX Name it properly..
+ 	 */
+-	snprintf(firmware_name, sizeof(firmware_name),
++snprintf(firmware_name, sizeof(firmware_name),
+ 		 FW_NAME_PREFIX "%08x_%08x_%08x_%08x_s2l.tftf",
+ 		 intf->ddbl1_manufacturer_id, intf->ddbl1_product_id,
+ 		 intf->vendor_id, intf->product_id);
  
--/* TODO: remove it. */
- static int ov2722_startup(struct v4l2_subdev *sd)
- {
- 	struct ov2722_device *dev = to_ov2722_sensor(sd);
-@@ -619,7 +618,7 @@ static int ov2722_startup(struct v4l2_subdev *sd)
- 		return ret;
- 	}
- 
--	return ret;
-+	return 0;
- }
- 
- static int ov2722_set_fmt(struct v4l2_subdev *sd,
+-	// FIXME:
+-	// Turn to dev_dbg later after everyone has valid bootloaders with good
+-	// ids, but leave this as dev_info for now to make it easier to track
+-	// down "empty" vid/pid modules.
+-	dev_info(&connection->bundle->dev, "Firmware file '%s' requested\n",
++	dev_dbg(&connection->bundle->dev, "Firmware file '%s' requested\n",
+ 		 firmware_name);
+-
+ 	rc = request_firmware(&bootrom->fw, firmware_name,
+ 			      &connection->bundle->dev);
+ 	if (rc) {
 -- 
 2.54.0
 
