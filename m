@@ -1,126 +1,134 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E2964266BC;
-	Thu, 30 Apr 2026 13:41:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2033F406297
+	for <linux-staging@lists.linux.dev>; Thu, 30 Apr 2026 14:25:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777556503; cv=none; b=GU7dH3x1ze99mseTQ0riJbBcFWipXonrAAvaaXj0sarQQW3zUap/2mFcKJqtDufLxM/wERFrLCc7xF6bgXckRVCL3tFqTq9b4BtO3sNDtvIPemA2L2YKq+I0LFMUnVulCGvtfvw0YmCHq3U322HdvNGN34gz9sFR9I+u3LwyoIo=
+	t=1777559142; cv=none; b=QJXF05yhhB/eEXXM4ukM4N5sU47YExWC+YHH37+45JMgcw+DeNl9yk0ExvQYpf/u6iOmgeOBL01ggkmsHEzW0JkavxEB6uoDq9oLyUIN+JuXszZmcneNcGAFk6NthphrWGE/wzr+gsAix9CqKSQ/gClP6fKcQKjsFujZdN6pepQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777556503; c=relaxed/simple;
-	bh=qo0NVFUmB45SVo0XMWqHC4qOMxTWR++i0ZQMSOzxZkE=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=D8qbDp7o0wyYfYKvc8E+s9TT6Ap/6l8b98cf+dHrVLqMGjs3hdIGiygzaRIFWD3/YXJYRp0fm+hM0CK8Ook8K11cWWX1ZEhcygByOodShIaE+Bw0MfqmRoPipQwURO7NUuJsA8Ra4rGnUnWkVjZEjQEUB2M2DKn4eg5p1eVZHt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qep3HF6J; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777559142; c=relaxed/simple;
+	bh=SsB3fVBmTDjC/TDn0evKIsstRQxjanBDMF1KqALO2L0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cYLz6B68HeVOa9goEofKHDN15Kd25PZ38BjfxUwocQjfj+d6dqpd84zyEbX3p0f1HS532tqE3lEGcer6Sk1v+NlDtrQ6Ix9FNU8+yJFUuafRzSFb5D7NGhw/YMC+OLYl5KEixqhCmkfnJNzfter619KubOIYFmtNzjYrS8chsNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qd8d9soR; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qep3HF6J"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDF17C2BCB3;
-	Thu, 30 Apr 2026 13:41:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777556503;
-	bh=qo0NVFUmB45SVo0XMWqHC4qOMxTWR++i0ZQMSOzxZkE=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=qep3HF6J7LU9utiSV6oY7tghewHVRkU6ejIBxqhGqkcMONqXqpem5RPYWLTDmKFBw
-	 WgyTxRXQv2jFoP5jbRZ+PrYO/TM+cWVnz/Go+Zf5LGx0LkaVJKdgEjj3ty3Ny3D5m0
-	 SgXndJWbzinHtk02ey/XuQXoTNG83/vB5PGOIlbYGIeXd4z+wjZo4dgvNjWjK05rdm
-	 w8y7Fbs1ro1ke2y87ZMz7jLvbHiaysrbJkpbLJslDyglv5Rng6UkMmvOkvh2KGo1kC
-	 rE6/KvLoyBHXuUrFqohF4dDZKPwt2E+DF+sKVueXBffIJqH55VRgedDsXwTOeFoB7U
-	 NcSUXWveZiATA==
-Date: Thu, 30 Apr 2026 08:41:41 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qd8d9soR"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2b2d3a9e149so9578315ad.1
+        for <linux-staging@lists.linux.dev>; Thu, 30 Apr 2026 07:25:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777559140; x=1778163940; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SxQQAfFaaiRvrhNuhc/nEMGhJjTGCuoSHZosD17X3GQ=;
+        b=qd8d9soRbniI7agVCt4vpy82lh0hTQYALL3l+UICxEIDotYNsxlofHgdHBLhV/iM9Q
+         Akbk1S6N0wz2STH5NSP9JHDU5bgPI1oZ+QCOR4sLuVh8rquUPxsrWshAPL8G4RC9+gMZ
+         Zwyf7or3E7PP8OcwPFZdEM2htV+GLlJiGH4na7Pn1Qu3PJVHVB26o/GzXERpKUb74u+2
+         YS80jFfMzhgB0m2SqGvXpRlp6ilpjjHqqAqNPRVEyPtHBQiJo2m7QQwpDsHtk23YeR/S
+         2GFP+qBESxZ3ePanZocRrffd8DcV2B1NOO2VUMyUp81Dn57f3ZntxW0qyJd/d/nHGA8q
+         zHSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777559140; x=1778163940;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SxQQAfFaaiRvrhNuhc/nEMGhJjTGCuoSHZosD17X3GQ=;
+        b=PrP81e5xBRviccEBfUh9dUqc3YZtu8IoWcPaAy/vkS4bJ30qp59vTLXosrVlQS2WeT
+         mlVmmWvhWI8ZpFQblv8DDk2beHzDGPpymIHdL1c1PXccYFCXhbosIPnCco1+aTWpRdhP
+         iQ5rgPoLSemYVETLGVlgS5Or0Cvz0mNUPwcHZiw+/mcYD//KXFxLKlcgYd21ahRWrnyK
+         pzeXhoqddh7l7tz3qX3mfBJfSkUoxGIdKwEGm/BNeiguL5kuEHCvnAY5aaj9Oz+B+JAH
+         FWq7X0JWAVpN1CYBi/YuauH43UOKAAiOtWu7J2mTT/ybaZEA1mvA/52u102YnTMMm3nm
+         fjMg==
+X-Forwarded-Encrypted: i=1; AFNElJ/1yq7SiE1gJd8Q+j5rao2pOVKGL8PklBUs+jIL2SKzpFoOrol+ODbd6tTbOjCnRPr7UUdLobQZNOrzqtL5@lists.linux.dev
+X-Gm-Message-State: AOJu0YxYjOJpN6ftK3Diqagoj80Cx920KnkrQLRDWUK9pKPpHyjyAImJ
+	Z/4zwpAq9IE0Wf6gbPMcnVbTD55xerKLTlKckwZpzco8+s1p0wQmOVt0O3EvVwi9hg==
+X-Gm-Gg: AeBDievypzLdUWEoofQh8xtIA1GWRpS72XD4RpJxe1o8tWes3PiBuckhjVjz1TnrdnK
+	g8/ppNWHT5eVPXOG8G7lisuSx4sRnh4Wcn8EINVEP0+5AEijoFandwtdJWL2tyRZQ7CzgcpGdLI
+	tEkQLEFm1M7/YkoWYUNWaXRQ6z1lvZAjaHQVqzffdzclPSdNdkB9nt6nX0GifXViFZ2qE1mpQ8C
+	gPIf99u7KDBH5pU3yJUPITrFSFKcqaUsNgKkNRcBfdRBxeB1Cah7RgQllyIGAf4qDLUqQMF1ZlQ
+	v7lfMsRLuEbkXTNaOQhZWKf1TeBbmLDWw+84ITAnIwEjSw0Q5ljGLT96x/EYn9GWUH5feb7ILT3
+	3X4cjBjANafUh5+KW02X4rNLkV3wLVFy8SE4z5dQJzvqMSkn0ewp77k3kzP99BPSiIdB8blZeY5
+	Z9nwCit+ZmlMDL6QvNrTvsTJJ/7ZF3hBzIE7c4zY41bopQi2SRLI81Ta/VhR4odjWIGGm3DuV9a
+	DmRkbN0j8Jpmaoae0opjdSCIhIEnZVNgHUfHxw5UGqHMT9JG2pC6ButSCTc1/o=
+X-Received: by 2002:a17:903:3b86:b0:2b2:ec33:cf15 with SMTP id d9443c01a7336-2b9a42dc3b8mr23951415ad.7.1777559140212;
+        Thu, 30 Apr 2026 07:25:40 -0700 (PDT)
+Received: from localhost.localdomain ([1.226.165.54])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b98897edefsm54194885ad.74.2026.04.30.07.25.37
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Thu, 30 Apr 2026 07:25:39 -0700 (PDT)
+From: "=?UTF-8?q?=EB=B0=95=EB=AA=85=ED=9B=88?=" <mhun512@gmail.com>
+X-Google-Original-From: =?UTF-8?q?=EB=B0=95=EB=AA=85=ED=9B=88?= <pakmyeonghun@bagmyeonghun-ui-MacBookPro.local>
+To: Maxime Ripard <mripard@kernel.org>,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: Myeonghun Pak <mhun512@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Ijae Kim <ae878000@gmail.com>
+Subject: [PATCH v2] media: cedrus: clean up media device on probe failure
+Date: Thu, 30 Apr 2026 23:25:29 +0900
+Message-ID: <20260430142534.12928-1-pakmyeonghun@bagmyeonghun-ui-MacBookPro.local>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: linusw@kernel.org, gregkh@linuxfoundation.org, 
- linux-i3c@lists.infradead.org, brgl@kernel.org, conor+dt@kernel.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-staging@lists.linux.dev, alexandre.belloni@bootlin.com, 
- linux-gpio@vger.kernel.org, Frank.Li@nxp.com, krzk+dt@kernel.org
-To: zain_zhou@realsil.com.cn
-In-Reply-To: <20260430121354.6253-1-zain_zhou@realsil.com.cn>
-References: <20260430121354.6253-1-zain_zhou@realsil.com.cn>
-Message-Id: <177755650101.425569.4344368132239630879.robh@kernel.org>
-Subject: Re: [PATCH 1/2] dt-bindings: i3c: add binding for Realtek RTS490x
- I3C HUB
+Content-Transfer-Encoding: 8bit
 
+From: Myeonghun Pak <mhun512@gmail.com>
 
-On Thu, 30 Apr 2026 20:13:53 +0800, zain_zhou@realsil.com.cn wrote:
-> From: zain_zhou <zain_zhou@realsil.com.cn>
-> 
-> Add DT binding schema for Realtek RTS490x series I3C HUB devices.
-> 
-> The binding describes configuration properties for:
->   - LDO enable/disable and voltage level per port group
->   - Pull-up resistance per port group
->   - IO driver strength per port
->   - Per target-port mode (I3C/SMBus/GPIO/disabled), pull-up,
->     IO mode, SMBus clock frequency and polling interval
->   - Hub network always-I3C mode
->   - Hardware identification via CSEL pin (id) and CP1 pins (id-cp1)
-> 
-> Signed-off-by: zain_zhou <zain_zhou@realsil.com.cn>
-> ---
->  .../bindings/i3c/realtek,rts490x-i3c-hub.yaml | 410 ++++++++++++++++++
->  MAINTAINERS                                   |   6 +
->  2 files changed, 416 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/i3c/realtek,rts490x-i3c-hub.yaml
-> 
+cedrus_probe() initializes the media device before registering the video
+device, the media controller, and the media device. If any of those later
+steps fails, probe returns without calling media_device_cleanup(), so the
+media device internals initialized by media_device_init() are left behind.
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Add a media-device cleanup label to the probe unwind path and route video
+registration failures through it as well.
 
-yamllint warnings/errors:
+Fixes: 50e761516f2b8c ("media: platform: Add Cedrus VPU decoder driver")
+Cc: stable@vger.kernel.org
+Co-developed-by: Ijae Kim <ae878000@gmail.com>
+Signed-off-by: Ijae Kim <ae878000@gmail.com>
+Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
+---
+Changes in v2:
+- Drop the now-unused err_m2m label.
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/i3c/realtek,rts490x-i3c-hub.yaml: ignoring, error in schema: patternProperties: @[0-9]$: properties: polling-interval-ms: type
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/i3c/realtek,rts490x-i3c-hub.yaml: patternProperties:@[0-9]$:properties:polling-interval-ms: 'anyOf' conditional failed, one must be fixed:
-	'maxItems' is a required property
-		hint: Only "maxItems" is required for a single entry if there are no constraints defined for the values.
-	'type' is not one of ['maxItems', 'description', 'deprecated']
-		hint: Only "maxItems" is required for a single entry if there are no constraints defined for the values.
-	Additional properties are not allowed ('type' was unexpected)
-		hint: Arrays must be described with a combination of minItems/maxItems/items
-	'type' is not one of ['description', 'deprecated', 'const', 'enum', 'minimum', 'maximum', 'multipleOf', 'default', '$ref', 'oneOf']
-	hint: cell array properties must define how many entries and what the entries are when there is more than one entry.
-	from schema $id: http://devicetree.org/meta-schemas/cell.yaml
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/i3c/realtek,rts490x-i3c-hub.yaml: patternProperties:@[0-9]$:properties:polling-interval-ms:type: 'uint32' is not one of ['boolean', 'object']
-	from schema $id: http://devicetree.org/meta-schemas/core.yaml
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/i3c/realtek,rts490x-i3c-hub.yaml: patternProperties:@[0-9]$:properties:clock-frequency:type: 'uint32' is not one of ['boolean', 'object']
-	from schema $id: http://devicetree.org/meta-schemas/core.yaml
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/i3c/realtek,rts490x-i3c-hub.yaml: patternProperties:@[0-9]$:properties:clock-frequency: 'type' is not one of ['description', 'deprecated', 'const', 'enum', 'minimum', 'maximum', 'multipleOf', 'default', '$ref', 'oneOf']
-	from schema $id: http://devicetree.org/meta-schemas/cell.yaml
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/i3c/realtek,rts490x-i3c-hub.yaml: patternProperties:@[0-9]$:properties:clock-frequency:type: 'anyOf' conditional failed, one must be fixed:
-	'uint32' is not one of ['array', 'boolean', 'integer', 'null', 'number', 'object', 'string']
-	'uint32' is not of type 'array'
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/i3c/realtek,rts490x-i3c-hub.yaml: patternProperties:@[0-9]$:properties:polling-interval-ms:type: 'anyOf' conditional failed, one must be fixed:
-	'uint32' is not one of ['array', 'boolean', 'integer', 'null', 'number', 'object', 'string']
-	'uint32' is not of type 'array'
-Lexical error: Documentation/devicetree/bindings/i3c/realtek,rts490x-i3c-hub.example.dts:50.34-55 Unexpected 'I2C_OWN_SLAVE_ADDRESS'
-Lexical error: Documentation/devicetree/bindings/i3c/realtek,rts490x-i3c-hub.example.dts:114.34-55 Unexpected 'I2C_OWN_SLAVE_ADDRESS'
-FATAL ERROR: Syntax error parsing input tree
-make[2]: *** [scripts/Makefile.dtbs:140: Documentation/devicetree/bindings/i3c/realtek,rts490x-i3c-hub.example.dtb] Error 1
-make[2]: *** Waiting for unfinished jobs....
-make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1637: dt_binding_check] Error 2
-make: *** [Makefile:248: __sub-make] Error 2
+ drivers/staging/media/sunxi/cedrus/cedrus.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.kernel.org/project/devicetree/patch/20260430121354.6253-1-zain_zhou@realsil.com.cn
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
+index 6600245dff..2c25654640 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+@@ -507,7 +507,7 @@ static int cedrus_probe(struct platform_device *pdev)
+ 	ret = video_register_device(vfd, VFL_TYPE_VIDEO, 0);
+ 	if (ret) {
+ 		v4l2_err(&dev->v4l2_dev, "Failed to register video device\n");
+-		goto err_m2m;
++		goto err_media_cleanup;
+ 	}
+ 
+ 	v4l2_info(&dev->v4l2_dev,
+@@ -533,6 +533,7 @@ static int cedrus_probe(struct platform_device *pdev)
+ 	v4l2_m2m_unregister_media_controller(dev->m2m_dev);
+ err_video:
+ 	video_unregister_device(&dev->vfd);
+-err_m2m:
++err_media_cleanup:
++	media_device_cleanup(&dev->mdev);
+ 	v4l2_m2m_release(dev->m2m_dev);
+ err_v4l2:
+-- 
+2.50.1
