@@ -1,118 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f195.google.com (mail-dy1-f195.google.com [74.125.82.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4B0E3D75D1;
-	Thu, 30 Apr 2026 07:40:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47630401A0E
+	for <linux-staging@lists.linux.dev>; Thu, 30 Apr 2026 10:25:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777534837; cv=none; b=l1SdanJgXMYavPZNBypSbf5eZ8ssvlhGg041VGnydNxL0eneZqoAIM5oJRWEg642Zp8BBxh2xUCn1AUz37TpswkTJnTbr5j1Ee5paJqYjqOhIafiMq1M+G+G1sG72JDyNuYVdgysOk9eoGtD+cpADEZc4wI6s+MBEhAaOmE7zII=
+	t=1777544750; cv=none; b=B1F+W0JxosRgcH6vPdmFd65ZzbfSHpFbpDORFNdA455XFOOdFGSP4D147q0A3A301EpVddbz6oLzf/f84igDsvwI8s5hxBZUNkE73OLqTDSkZxBYoVI3dnmlaITmpHEVEBeAI5/LRZ7c7NpP7OuCEBMaDjM+hty804k+QpWxgco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777534837; c=relaxed/simple;
-	bh=Bqh6wwvM/uSrblB04mHM/qXj+llExjD0Nur/+NvNzQg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JjVByHCkSDrOGoO2yzu4cRB+5kzR7+0WE8mn00Vzdvi7W4AVluft1OR0Z9Kc0OPrX6Io9UL2+076m4bbhw2KcTeD1GXln61XKYeslpJZzB6IW6+AMmZfQP56iShpaS91UE9zuoUsrWHa1CceC82RitRqj+iDuO3DohP3W8O+Su0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=bwl2+D23; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777544750; c=relaxed/simple;
+	bh=3uV3oobCX+C+KtmVFK+xxp2L0k+Bn/WYb55L660d+6E=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=g4V2OJL/yQDoFUJNyc0dV1UZfv95lJENUYMW66OOIRcVPpMMpqbTaS3/ZGGKgpePhpq4JfhO5vYkkK6hhLoq/JeTuzP09qwmkVC30kEmIaGIKMkaR78tAQtMwkwz8OB1S/9rcXD5tp32KTMcisTfmB2gEnn2jIuXPJ/BCrJ4pKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GDjMvH4F; arc=none smtp.client-ip=74.125.82.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="bwl2+D23"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4136C2BCB3;
-	Thu, 30 Apr 2026 07:40:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1777534837;
-	bh=Bqh6wwvM/uSrblB04mHM/qXj+llExjD0Nur/+NvNzQg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bwl2+D23yY9PVhGbV21m4iZpL6hUkRvjHzM0o8EZY8y9y0ZyaFBXR7kjl8yEjrsJI
-	 P+NWRuBo/ugZQKsBnR0wZVZ/cKxrO7B5TXX/46QnCsm9GyBONTkM6JbUT4pFQDXLN2
-	 GHZJqeOJ/W28+KthHxzWGqSD82jV6hIUf7AsvLqU=
-Date: Thu, 30 Apr 2026 09:39:57 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: kernelcoredev <sonionwhat@gmail.com>
-Cc: vireshk@kernel.org, johan@kernel.org, elder@kernel.org,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: greybus: bootrom: replace dev_info with
- dev_dbg for firmware name
-Message-ID: <2026043046-prelaunch-supermom-ecce@gregkh>
-References: <20260430002220.3665-1-sonionwhat@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GDjMvH4F"
+Received: by mail-dy1-f195.google.com with SMTP id 5a478bee46e88-2d96243c91fso166136eec.1
+        for <linux-staging@lists.linux.dev>; Thu, 30 Apr 2026 03:25:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777544745; x=1778149545; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uyYaWTV5ahYl27fxYzw7aiTm9/pi+cupE4KnUEMoGHo=;
+        b=GDjMvH4FAjMHfjMgz/Iyhny08mx7DU+oYvSK2g1fudiKqlgxVhr2uduZyDG4oCZXEB
+         jM6M2BRFzDWC/h+h4g4VYnnjD/9YgXrcxT6WZJQUU+UYLIMUdJdRMZKKlVzR9qNWLFFC
+         7HR8/N5omn7FmxqzF6wSBfiCPH9xETQ1C72dbHsAZA1vefwQebMChQpoEd4Yed2GW5wS
+         ffkjGZeV0TLukKbe9UsdX2vstjEQwQpcZfhnTrxsxnVj4jvUHJ+oXJlP48nbF39tlhWO
+         JNFp5GThjvH67E1GDyon1woIMKBjlBHttr49M3a7wo8AFt/rscMBa05qvG8Ev2qbkpa6
+         Bphg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777544745; x=1778149545;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uyYaWTV5ahYl27fxYzw7aiTm9/pi+cupE4KnUEMoGHo=;
+        b=rrJE0dGbbozvaGdzSkAlPSJRqrUL9gxW4388ZVvvK41WdTufimInofnL5zwFuyBiFE
+         RgxvYL2h2UAy5l/x1ApalEVxJb2j6K/N8v6ZnY0F1mdWTYS6gCsrB57jBfb/i4klPCG9
+         R9Xrp9CWxeo7FxaeiytuEy7Hy6fgGqIGPaOvCAjU1DzIjEpP+1ZqjpsDDIUZOeixSL/j
+         T8nx5t4MfyRefRDnjQVVw1xhZPuHxAyADGH9Gn8F26DDyigm9hG4w6X0NNv1uhJIW/xR
+         STOb3Yluw3jwVhAJ+wqM5xAtG+bF9qXjPV7Uo4kCdZlc2PEYzAtXqgSYRvpfpH0t7/Bw
+         x4UQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/RYJazP1bs/90SMEcVrEnuZ5qI+GWiT/GyIk8eqPZ9i/qx1ZPh29mGCIMvmmawT4Q1PeHEb2OCbaJLMZLa@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz/LzmNaH6FICv5WKUYvE9NqPWZQ3+8sPpTZgAHMXME37EQ/8MK
+	RpRhn9CwFhdWrj/RqTzbPA0SP9Dvk0sncSJ2n4CWkpkLA1V4rooDeJSb
+X-Gm-Gg: AeBDietlrJK84VrXxUhBi39Y1ModdpPnbQlrwLnpnpdIeDNA3auWtT4I8Za+WOwIhyM
+	cCNivHY8c7UFQM89sxR4UmboChntclXNXYNMhKJmouIKhzrnJ/WciHeGRN8gIjwcqzvcf2GtcrP
+	thUTflIwZ2Rkj9tUN7xbipPr00tGMKTK/pgF38rUC3Zp2bEE6Guy1b5LtsqKqvuyUUjC6wlW0HR
+	5i+kYq3on9MR4gpAQj5VIhhS5D6jkiRUHDCvviu8Lw/1DWtJOFdg4dp9WkMPwCdofYzWpyita2z
+	/4q1zYysP7AMSa8evf9xCBZ/h37zAIqp/qpoZtjHKzaHdm0GZ7j8SrNIg8f/ONyq9QyBmwNYz8C
+	ICQVL3shB1uahqM6IHhUAzNAoCdD1P7Sv7yqlau591VsA31642glVJQrfPrJs0RL2J8y/mmQRwJ
+	Sby3FkjyzrCbwBOozSxr/n3Y3+kqzpS1IXZXYoHDYijYE9zyWiHGfPj0DhB4ppyZh36w==
+X-Received: by 2002:a05:7300:e614:b0:2e6:4d6e:2cbd with SMTP id 5a478bee46e88-2ed3bef29dcmr951391eec.8.1777544745512;
+        Thu, 30 Apr 2026 03:25:45 -0700 (PDT)
+Received: from localhost.localdomain ([76.32.119.210])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ed1bf6d419sm6191614eec.2.2026.04.30.03.25.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Apr 2026 03:25:44 -0700 (PDT)
+From: Hungyu Lin <dennylin0707@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: andy@kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Hungyu Lin <dennylin0707@gmail.com>
+Subject: [PATCH] staging: fbtft: remove unused function fbtft_write_gpio16_wr_latched
+Date: Thu, 30 Apr 2026 10:25:29 +0000
+Message-Id: <20260430102529.25019-1-dennylin0707@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260430002220.3665-1-sonionwhat@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 29, 2026 at 08:22:20PM -0400, kernelcoredev wrote:
-> The original dev_info call was intentionally temporary, with a FIXME
-> comment noting it should be downgraded to dev_dbg once modules with
-> valid VID/PID values were common. Project Ara was cancelled in 2016,
-> so that time has long passed.
-> 
-> Remove the FIXME comment and downgrade to dev_dbg as originally intended.
-> 
-> Tested via code inspection only, as Project Ara hardware is no longer
-> available.
-> 
-> Signed-off-by: Bentley Blacketer  <sonionwhat@gmail.com>
-> ---
->  drivers/staging/greybus/bootrom.c | 9 ++-------
->  1 file changed, 2 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/staging/greybus/bootrom.c b/drivers/staging/greybus/bootrom.c
-> index 83921d90c..058044ba7 100644
-> --- a/drivers/staging/greybus/bootrom.c
-> +++ b/drivers/staging/greybus/bootrom.c
-> @@ -163,18 +163,13 @@ static int find_firmware(struct gb_bootrom *bootrom, u8 stage)
->  	 *
->  	 * XXX Name it properly..
->  	 */
-> -	snprintf(firmware_name, sizeof(firmware_name),
-> +snprintf(firmware_name, sizeof(firmware_name),
->  		 FW_NAME_PREFIX "%08x_%08x_%08x_%08x_s2l.tftf",
->  		 intf->ddbl1_manufacturer_id, intf->ddbl1_product_id,
->  		 intf->vendor_id, intf->product_id);
->  
-> -	// FIXME:
-> -	// Turn to dev_dbg later after everyone has valid bootloaders with good
-> -	// ids, but leave this as dev_info for now to make it easier to track
-> -	// down "empty" vid/pid modules.
-> -	dev_info(&connection->bundle->dev, "Firmware file '%s' requested\n",
-> +	dev_dbg(&connection->bundle->dev, "Firmware file '%s' requested\n",
->  		 firmware_name);
-> -
->  	rc = request_firmware(&bootrom->fw, firmware_name,
->  			      &connection->bundle->dev);
->  	if (rc) {
-> -- 
-> 2.54.0
-> 
-> 
+The function fbtft_write_gpio16_wr_latched is not referenced anywhere
+in the driver and only contains a stub implementation.
 
-Hi,
+Remove it from the driver.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+---
+ drivers/staging/fbtft/fbtft-io.c | 7 -------
+ drivers/staging/fbtft/fbtft.h    | 1 -
+ 2 files changed, 8 deletions(-)
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+diff --git a/drivers/staging/fbtft/fbtft-io.c b/drivers/staging/fbtft/fbtft-io.c
+index de1904a443c2..7d331eba947a 100644
+--- a/drivers/staging/fbtft/fbtft-io.c
++++ b/drivers/staging/fbtft/fbtft-io.c
+@@ -227,10 +227,3 @@ int fbtft_write_gpio16_wr(struct fbtft_par *par, void *buf, size_t len)
+ 	return 0;
+ }
+ EXPORT_SYMBOL(fbtft_write_gpio16_wr);
+-
+-int fbtft_write_gpio16_wr_latched(struct fbtft_par *par, void *buf, size_t len)
+-{
+-	dev_err(par->info->device, "%s: function not implemented\n", __func__);
+-	return -1;
+-}
+-EXPORT_SYMBOL(fbtft_write_gpio16_wr_latched);
+diff --git a/drivers/staging/fbtft/fbtft.h b/drivers/staging/fbtft/fbtft.h
+index 317be17b95c1..c7afb0fd3943 100644
+--- a/drivers/staging/fbtft/fbtft.h
++++ b/drivers/staging/fbtft/fbtft.h
+@@ -262,7 +262,6 @@ int fbtft_write_spi_emulate_9(struct fbtft_par *par, void *buf, size_t len);
+ int fbtft_read_spi(struct fbtft_par *par, void *buf, size_t len);
+ int fbtft_write_gpio8_wr(struct fbtft_par *par, void *buf, size_t len);
+ int fbtft_write_gpio16_wr(struct fbtft_par *par, void *buf, size_t len);
+-int fbtft_write_gpio16_wr_latched(struct fbtft_par *par, void *buf, size_t len);
+ 
+ /* fbtft-bus.c */
+ int fbtft_write_vmem8_bus8(struct fbtft_par *par, size_t offset, size_t len);
+-- 
+2.34.1
 
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
