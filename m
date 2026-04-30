@@ -1,123 +1,212 @@
-Received: from mail-yx1-f67.google.com (mail-yx1-f67.google.com [74.125.224.67])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB2FE4A3E
-	for <linux-staging@lists.linux.dev>; Thu, 30 Apr 2026 00:22:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CC63346E5A;
+	Thu, 30 Apr 2026 03:43:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777508546; cv=none; b=bwNefyFDe/PfLSwXj92PFRNF5fz+OAf+KJZBfOBNhOafJPY4b+TeRKWAQ68Butc2lAC1uYtTim9YvvZ1Rli4TOegKNTJE8bfLXHgGlFYwJpNVuN0fnnyWdLYz966d5kAuZNlw3MeDcT9PO3a77LKl8T2M77lsVl3/YBG19CjDI8=
+	t=1777520625; cv=none; b=uiNSH6c6lje4ViteI/jRMGekol//UPR+1BaDS9mcwM6zcysIBX1ltFHGIpbLL6erxgkFcTpJIWP126fqPp6asUXh3qDIuHeAItsjXqxeoP6uGRt9cSZ5rsjL3jgdctTHi9J6YiYQEbsH/tVIiI7YVmDEcca1Xo29H8X71E6gaAY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777508546; c=relaxed/simple;
-	bh=Ei+yusGr1waT5D5MmKA+mppSGTTxd9CTBPqJxfbgUtg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=I8SUuwWc6SaVNS8s0bfXMk9gjNpsaFs40DJaW0l4jK7t6/jtDMMmu3P9O59d+R6qxfzzo56DSMFUPDX/cg+g3/dBTD/1KrmDobPdgiDuXM6Tu0wzhyUyPmXQB60+d1eM+Xr5HtMr96i1/en6YmtJekkRlok7e3+YN255UvdnMzU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fianKiUG; arc=none smtp.client-ip=74.125.224.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777520625; c=relaxed/simple;
+	bh=LSUoyAnS3qyXHkVYSP2kHgLGwbPtR+uewKnGUpz/K/8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EH0+xdVhIdGL2h1sVcGWN833w2Pj/IsZyD8f8CdzfVCM0StmoCY6oEVot3SZEYekPjo+fc101fxxeHCoGn2LUvP2MrGcvbG5Hb6FcJl3ETN4QZOjB9aRaP4R/ZyWAlPoFB+121TmgoxGQ+2JZpc+J4NOiBbID8hwwXi1g8w6WgM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AG+SHbmb; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fianKiUG"
-Received: by mail-yx1-f67.google.com with SMTP id 956f58d0204a3-652f220595fso325539d50.0
-        for <linux-staging@lists.linux.dev>; Wed, 29 Apr 2026 17:22:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777508544; x=1778113344; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZCJerECtiCXIBCz7zgU9qCjidNXdZcf6eEV/QCLYq+A=;
-        b=fianKiUGQfxzc+8OPBH6RlwGX7vsusTiHWw0X3zA7qOakfMj6OyvzJ++E9cstGLAc3
-         MGJZ2+rUYGzNoCqrGYd9o5CLRHD4tLcV/w74WHXAoCRocLWLEd7RHAlG5lDC9Uy4vHBG
-         Gx/Kajfaun/UdlfRP2dS1eUdEYc/ar4TH2kAmX7sULNtRrzlsozGL1LJU9EoOiqHTKoZ
-         O22AqdjrjolIeGXJdEJ/B4sg3JFBxyQFgZ5558rhzjVYqQLcQQfGCBHMx4EcmjW85KnD
-         Y1rXhj7S0XfeV033lbSox8pULxVnfovy4bmbXsHN2hrl/3QlIc7NU5cDAq6diYMW/GUl
-         D/Og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777508544; x=1778113344;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZCJerECtiCXIBCz7zgU9qCjidNXdZcf6eEV/QCLYq+A=;
-        b=ZHn5FrDB+SHRwPn4Buey7VYtjup1QhY5mR+4jTFZyXrpPDHL4ojalKUzuIL3C0a1hn
-         andlSzHgvWvYwrImN9pn22e4rvtbL8fLKb2COks+dqIKgHkfa8+NPcU5ZZ0XMJFm7UGS
-         RXEvtcTMjNzweFb3iqAqI6mpaIvZaRyPu5gJxO9XolPSzbMWAqgXFNYUSj2NWnNAgl+7
-         tUgrrMJderujJQzToPUZlDElxnAUruq0CK9+6iHydgYnFzdr7WuaWYfVEzqQHaCh12fT
-         aijvkxwXWX0e9PvysxJHP4/8gMPUEJE6Oxydb21CY3H/JvtivaHtqfUtfNfIlRmIzPeJ
-         6dFQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8YzOb/T5EM5Mx7SiXi7YfGCjueQ3nQBFYdt52jETbBrs6Gk77bwK1Nr/BIwV3n8rIZW5OOhhgnwL/b18JO@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw6Txbn0o7KI5DKWRqRHdRdQhZWXX12Ty3qVBc4yhDUAfN0520p
-	DHjvgDl2fwYXnxip0QcDkdDQSxNQJY3Fq6ryHU/onIgJid3GnbNAp7JX
-X-Gm-Gg: AeBDieuH5CPez1O5dHrsvodDW2Wsu6wg4KQxoLIVVbNznvgF/TMjjUvabyqtZHd86gC
-	McHh5YhATI1ObuqXeavanoAD2qX7w1a45U2JpsuBd0qopK2Grc91XTZht8Rw+DiBL+o1AM7Yj+Y
-	Z9kc/B2YkveRFdCcEPgIScfETWw88H0O4gYF78ZQKXLFlHHXaCIRv8q1weUSQI8jeKchqaluY5u
-	AfQG3+mWnjs1piMUPdy2TrerFVYOMBzQhDKb1ub25S89OVRx1B37G91O0Qq/WoeX0quiIbNw5OF
-	8nKVUPAVWRjDtXnUJgxP6tIJEpUvDNOT7V7PkCgW3Q5eAcSSBclL/dP164WA1btdqHr80yIBsJS
-	Pn5jlBGoZqhxhroAa81f20QkIWt6ZOsSMDk983FP5s/skEEsXLZHmTdLeASQHXBs7mB7hUU19Sv
-	Rpzwn/VbVGTxz+TxEvKR1RTFN3hrrq83v0/CAaOuAbxKMRfj5iRkUvFmHSE52bji4IpeW1w/B9Y
-	w==
-X-Received: by 2002:a05:690e:128a:b0:65c:1a0f:d89e with SMTP id 956f58d0204a3-65c1a0fe0bamr296688d50.23.1777508543896;
-        Wed, 29 Apr 2026 17:22:23 -0700 (PDT)
-Received: from localhost ([2600:1700:3420:b5d0::d])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-65bff71d4c1sm1940136d50.14.2026.04.29.17.22.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Apr 2026 17:22:23 -0700 (PDT)
-From: kernelcoredev <sonionwhat@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: vireshk@kernel.org,
-	johan@kernel.org,
-	elder@kernel.org,
-	greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	kernelcoredev <sonionwhat@gmail.com>
-Subject: [PATCH v2] staging: greybus: bootrom: replace dev_info with dev_dbg for firmware name
-Date: Wed, 29 Apr 2026 20:22:20 -0400
-Message-ID: <20260430002220.3665-1-sonionwhat@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AG+SHbmb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777520621; x=1809056621;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=LSUoyAnS3qyXHkVYSP2kHgLGwbPtR+uewKnGUpz/K/8=;
+  b=AG+SHbmbUOlggELoTjm809M0yKLXvga7XihKWWxempv2AcfannJKWq2p
+   40wJ4dQkAsolXyk0ITwUz/TRwdDDVDXwT4Cod1V21IdcPv/rzuzB1mAhx
+   RXPUkto+cETV9jml8YG8rlPNdDK6QZWVroKtFql+CTWNZ+QmBf5RjcOdu
+   TIFfbWaVHBOWBGBhXskbiR/mftyp4A+4+Ca2aDTESRWu6mF0EHbGe+VlX
+   b5hodzPTcomONXoK+3NfP5sYlYer0NretMMQOBdxzNQfwmKk8+DJ1MvkO
+   KxCzNcdf0ReW+P84ldDz5JxMM0jSHz1zbpGEWGQkLqJyhoTtYmOKgJqu6
+   w==;
+X-CSE-ConnectionGUID: 7Zb95XYYSpSGbhQxCZtmpA==
+X-CSE-MsgGUID: 2nr0jyhrTsuOITcJ0xpZgQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="82317514"
+X-IronPort-AV: E=Sophos;i="6.23,207,1770624000"; 
+   d="scan'208";a="82317514"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 20:43:40 -0700
+X-CSE-ConnectionGUID: 9rP5uj6BQWibB8lOKzn9Mg==
+X-CSE-MsgGUID: 5wkqXb7wT9KuGBtol5KTJw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,207,1770624000"; 
+   d="scan'208";a="272575622"
+Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 29 Apr 2026 20:43:36 -0700
+Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wIIJJ-00000000Btg-2HtA;
+	Thu, 30 Apr 2026 03:43:33 +0000
+Date: Thu, 30 Apr 2026 11:42:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: =?utf-8?B?67CV66qF7ZuI?= <mhun512@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org, Myeonghun Pak <mhun512@gmail.com>,
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org, Ijae Kim <ae878000@gmail.com>
+Subject: Re: [PATCH] media: cedrus: clean up media device on probe failure
+Message-ID: <202604301101.Nszhy0yB-lkp@intel.com>
+References: <20260427100049.29034-1-pakmyeonghun@bagmyeonghun-ui-MacBookPro.local>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260427100049.29034-1-pakmyeonghun@bagmyeonghun-ui-MacBookPro.local>
 
-The original dev_info call was intentionally temporary, with a FIXME
-comment noting it should be downgraded to dev_dbg once modules with
-valid VID/PID values were common. Project Ara was cancelled in 2016,
-so that time has long passed.
+Hi 박명훈,
 
-Remove the FIXME comment and downgrade to dev_dbg as originally intended.
+kernel test robot noticed the following build warnings:
 
-Tested via code inspection only, as Project Ara hardware is no longer
-available.
+[auto build test WARNING on sunxi/sunxi/for-next]
+[also build test WARNING on linus/master v7.1-rc1 next-20260429]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Signed-off-by: Bentley Blacketer  <sonionwhat@gmail.com>
----
- drivers/staging/greybus/bootrom.c | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/media-cedrus-clean-up-media-device-on-probe-failure/20260427-235223
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/for-next
+patch link:    https://lore.kernel.org/r/20260427100049.29034-1-pakmyeonghun%40bagmyeonghun-ui-MacBookPro.local
+patch subject: [PATCH] media: cedrus: clean up media device on probe failure
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260430/202604301101.Nszhy0yB-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260430/202604301101.Nszhy0yB-lkp@intel.com/reproduce)
 
-diff --git a/drivers/staging/greybus/bootrom.c b/drivers/staging/greybus/bootrom.c
-index 83921d90c..058044ba7 100644
---- a/drivers/staging/greybus/bootrom.c
-+++ b/drivers/staging/greybus/bootrom.c
-@@ -163,18 +163,13 @@ static int find_firmware(struct gb_bootrom *bootrom, u8 stage)
- 	 *
- 	 * XXX Name it properly..
- 	 */
--	snprintf(firmware_name, sizeof(firmware_name),
-+snprintf(firmware_name, sizeof(firmware_name),
- 		 FW_NAME_PREFIX "%08x_%08x_%08x_%08x_s2l.tftf",
- 		 intf->ddbl1_manufacturer_id, intf->ddbl1_product_id,
- 		 intf->vendor_id, intf->product_id);
- 
--	// FIXME:
--	// Turn to dev_dbg later after everyone has valid bootloaders with good
--	// ids, but leave this as dev_info for now to make it easier to track
--	// down "empty" vid/pid modules.
--	dev_info(&connection->bundle->dev, "Firmware file '%s' requested\n",
-+	dev_dbg(&connection->bundle->dev, "Firmware file '%s' requested\n",
- 		 firmware_name);
--
- 	rc = request_firmware(&bootrom->fw, firmware_name,
- 			      &connection->bundle->dev);
- 	if (rc) {
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604301101.Nszhy0yB-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/staging/media/sunxi/cedrus/cedrus.c:538:1: warning: unused label 'err_m2m' [-Wunused-label]
+     538 | err_m2m:
+         | ^~~~~~~~
+   1 warning generated.
+
+
+vim +/err_m2m +538 drivers/staging/media/sunxi/cedrus/cedrus.c
+
+50e761516f2b8c Paul Kocialkowski 2018-09-13  449  
+50e761516f2b8c Paul Kocialkowski 2018-09-13  450  static int cedrus_probe(struct platform_device *pdev)
+50e761516f2b8c Paul Kocialkowski 2018-09-13  451  {
+50e761516f2b8c Paul Kocialkowski 2018-09-13  452  	struct cedrus_dev *dev;
+50e761516f2b8c Paul Kocialkowski 2018-09-13  453  	struct video_device *vfd;
+50e761516f2b8c Paul Kocialkowski 2018-09-13  454  	int ret;
+50e761516f2b8c Paul Kocialkowski 2018-09-13  455  
+50e761516f2b8c Paul Kocialkowski 2018-09-13  456  	dev = devm_kzalloc(&pdev->dev, sizeof(*dev), GFP_KERNEL);
+50e761516f2b8c Paul Kocialkowski 2018-09-13  457  	if (!dev)
+50e761516f2b8c Paul Kocialkowski 2018-09-13  458  		return -ENOMEM;
+50e761516f2b8c Paul Kocialkowski 2018-09-13  459  
+708938f8495147 Dmitry Osipenko   2022-08-18  460  	platform_set_drvdata(pdev, dev);
+708938f8495147 Dmitry Osipenko   2022-08-18  461  
+50e761516f2b8c Paul Kocialkowski 2018-09-13  462  	dev->vfd = cedrus_video_device;
+50e761516f2b8c Paul Kocialkowski 2018-09-13  463  	dev->dev = &pdev->dev;
+50e761516f2b8c Paul Kocialkowski 2018-09-13  464  	dev->pdev = pdev;
+50e761516f2b8c Paul Kocialkowski 2018-09-13  465  
+50e761516f2b8c Paul Kocialkowski 2018-09-13  466  	ret = cedrus_hw_probe(dev);
+50e761516f2b8c Paul Kocialkowski 2018-09-13  467  	if (ret) {
+50e761516f2b8c Paul Kocialkowski 2018-09-13  468  		dev_err(&pdev->dev, "Failed to probe hardware\n");
+50e761516f2b8c Paul Kocialkowski 2018-09-13  469  		return ret;
+50e761516f2b8c Paul Kocialkowski 2018-09-13  470  	}
+50e761516f2b8c Paul Kocialkowski 2018-09-13  471  
+50e761516f2b8c Paul Kocialkowski 2018-09-13  472  	mutex_init(&dev->dev_mutex);
+50e761516f2b8c Paul Kocialkowski 2018-09-13  473  
+7c38a551bda1b7 Jernej Skrabec    2022-02-01  474  	INIT_DELAYED_WORK(&dev->watchdog_work, cedrus_watchdog);
+7c38a551bda1b7 Jernej Skrabec    2022-02-01  475  
+50e761516f2b8c Paul Kocialkowski 2018-09-13  476  	ret = v4l2_device_register(&pdev->dev, &dev->v4l2_dev);
+50e761516f2b8c Paul Kocialkowski 2018-09-13  477  	if (ret) {
+50e761516f2b8c Paul Kocialkowski 2018-09-13  478  		dev_err(&pdev->dev, "Failed to register V4L2 device\n");
+50e761516f2b8c Paul Kocialkowski 2018-09-13  479  		return ret;
+50e761516f2b8c Paul Kocialkowski 2018-09-13  480  	}
+50e761516f2b8c Paul Kocialkowski 2018-09-13  481  
+50e761516f2b8c Paul Kocialkowski 2018-09-13  482  	vfd = &dev->vfd;
+50e761516f2b8c Paul Kocialkowski 2018-09-13  483  	vfd->lock = &dev->dev_mutex;
+50e761516f2b8c Paul Kocialkowski 2018-09-13  484  	vfd->v4l2_dev = &dev->v4l2_dev;
+50e761516f2b8c Paul Kocialkowski 2018-09-13  485  
+50e761516f2b8c Paul Kocialkowski 2018-09-13  486  	snprintf(vfd->name, sizeof(vfd->name), "%s", cedrus_video_device.name);
+50e761516f2b8c Paul Kocialkowski 2018-09-13  487  	video_set_drvdata(vfd, dev);
+50e761516f2b8c Paul Kocialkowski 2018-09-13  488  
+50e761516f2b8c Paul Kocialkowski 2018-09-13  489  	dev->m2m_dev = v4l2_m2m_init(&cedrus_m2m_ops);
+50e761516f2b8c Paul Kocialkowski 2018-09-13  490  	if (IS_ERR(dev->m2m_dev)) {
+50e761516f2b8c Paul Kocialkowski 2018-09-13  491  		v4l2_err(&dev->v4l2_dev,
+50e761516f2b8c Paul Kocialkowski 2018-09-13  492  			 "Failed to initialize V4L2 M2M device\n");
+50e761516f2b8c Paul Kocialkowski 2018-09-13  493  		ret = PTR_ERR(dev->m2m_dev);
+50e761516f2b8c Paul Kocialkowski 2018-09-13  494  
+bac875349f8525 Jernej Skrabec    2019-04-07  495  		goto err_v4l2;
+50e761516f2b8c Paul Kocialkowski 2018-09-13  496  	}
+50e761516f2b8c Paul Kocialkowski 2018-09-13  497  
+50e761516f2b8c Paul Kocialkowski 2018-09-13  498  	dev->mdev.dev = &pdev->dev;
+50e761516f2b8c Paul Kocialkowski 2018-09-13  499  	strscpy(dev->mdev.model, CEDRUS_NAME, sizeof(dev->mdev.model));
+ae0688f659adb1 Hans Verkuil      2019-08-30  500  	strscpy(dev->mdev.bus_info, "platform:" CEDRUS_NAME,
+ae0688f659adb1 Hans Verkuil      2019-08-30  501  		sizeof(dev->mdev.bus_info));
+50e761516f2b8c Paul Kocialkowski 2018-09-13  502  
+50e761516f2b8c Paul Kocialkowski 2018-09-13  503  	media_device_init(&dev->mdev);
+50e761516f2b8c Paul Kocialkowski 2018-09-13  504  	dev->mdev.ops = &cedrus_m2m_media_ops;
+50e761516f2b8c Paul Kocialkowski 2018-09-13  505  	dev->v4l2_dev.mdev = &dev->mdev;
+50e761516f2b8c Paul Kocialkowski 2018-09-13  506  
+0e17c50fcf6a9e Hans Verkuil      2020-02-03  507  	ret = video_register_device(vfd, VFL_TYPE_VIDEO, 0);
+50e761516f2b8c Paul Kocialkowski 2018-09-13  508  	if (ret) {
+50e761516f2b8c Paul Kocialkowski 2018-09-13  509  		v4l2_err(&dev->v4l2_dev, "Failed to register video device\n");
+e8660f15f165e6 Myeonghun Pak     2026-04-27  510  		goto err_media_cleanup;
+50e761516f2b8c Paul Kocialkowski 2018-09-13  511  	}
+50e761516f2b8c Paul Kocialkowski 2018-09-13  512  
+50e761516f2b8c Paul Kocialkowski 2018-09-13  513  	v4l2_info(&dev->v4l2_dev,
+50e761516f2b8c Paul Kocialkowski 2018-09-13  514  		  "Device registered as /dev/video%d\n", vfd->num);
+50e761516f2b8c Paul Kocialkowski 2018-09-13  515  
+bac875349f8525 Jernej Skrabec    2019-04-07  516  	ret = v4l2_m2m_register_media_controller(dev->m2m_dev, vfd,
+bac875349f8525 Jernej Skrabec    2019-04-07  517  						 MEDIA_ENT_F_PROC_VIDEO_DECODER);
+bac875349f8525 Jernej Skrabec    2019-04-07  518  	if (ret) {
+bac875349f8525 Jernej Skrabec    2019-04-07  519  		v4l2_err(&dev->v4l2_dev,
+bac875349f8525 Jernej Skrabec    2019-04-07  520  			 "Failed to initialize V4L2 M2M media controller\n");
+bac875349f8525 Jernej Skrabec    2019-04-07  521  		goto err_video;
+bac875349f8525 Jernej Skrabec    2019-04-07  522  	}
+bac875349f8525 Jernej Skrabec    2019-04-07  523  
+50e761516f2b8c Paul Kocialkowski 2018-09-13  524  	ret = media_device_register(&dev->mdev);
+50e761516f2b8c Paul Kocialkowski 2018-09-13  525  	if (ret) {
+50e761516f2b8c Paul Kocialkowski 2018-09-13  526  		v4l2_err(&dev->v4l2_dev, "Failed to register media device\n");
+50e761516f2b8c Paul Kocialkowski 2018-09-13  527  		goto err_m2m_mc;
+50e761516f2b8c Paul Kocialkowski 2018-09-13  528  	}
+50e761516f2b8c Paul Kocialkowski 2018-09-13  529  
+50e761516f2b8c Paul Kocialkowski 2018-09-13  530  	return 0;
+50e761516f2b8c Paul Kocialkowski 2018-09-13  531  
+50e761516f2b8c Paul Kocialkowski 2018-09-13  532  err_m2m_mc:
+50e761516f2b8c Paul Kocialkowski 2018-09-13  533  	v4l2_m2m_unregister_media_controller(dev->m2m_dev);
+50e761516f2b8c Paul Kocialkowski 2018-09-13  534  err_video:
+50e761516f2b8c Paul Kocialkowski 2018-09-13  535  	video_unregister_device(&dev->vfd);
+e8660f15f165e6 Myeonghun Pak     2026-04-27  536  err_media_cleanup:
+e8660f15f165e6 Myeonghun Pak     2026-04-27  537  	media_device_cleanup(&dev->mdev);
+bac875349f8525 Jernej Skrabec    2019-04-07 @538  err_m2m:
+bac875349f8525 Jernej Skrabec    2019-04-07  539  	v4l2_m2m_release(dev->m2m_dev);
+50e761516f2b8c Paul Kocialkowski 2018-09-13  540  err_v4l2:
+50e761516f2b8c Paul Kocialkowski 2018-09-13  541  	v4l2_device_unregister(&dev->v4l2_dev);
+50e761516f2b8c Paul Kocialkowski 2018-09-13  542  
+50e761516f2b8c Paul Kocialkowski 2018-09-13  543  	return ret;
+50e761516f2b8c Paul Kocialkowski 2018-09-13  544  }
+50e761516f2b8c Paul Kocialkowski 2018-09-13  545  
+
 -- 
-2.54.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
