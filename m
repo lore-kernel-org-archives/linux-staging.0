@@ -1,103 +1,93 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com [209.85.216.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8159A31B830
-	for <linux-staging@lists.linux.dev>; Fri,  1 May 2026 20:19:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 921554219E7
+	for <linux-staging@lists.linux.dev>; Fri,  1 May 2026 20:32:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777666753; cv=none; b=i2HGFpk+xrDAJT4uVpy4Ul7rE/MG+eSa1/gk69uQrjLjpWxP5OJeDqQEWnHLSdpBisdjF9SmTMNddVn70W6VAi2GAoOW8KtXOJD2jOXtuwgEHU3+Hlwm01bvBcBkwNfJAQ65qd5FaVsifhBLRCXI2jFLSknizGlRh230kB1QQa4=
+	t=1777667540; cv=none; b=MqeDwc6s83DV8jPL2i+pCr2PWbmUmbhG5g4RdsJwJg9BgCeL1MO0i73dpLcAKI3Bkzbg1S2AlP19o9Y2im5yRb2DEZPtRzcDhH1+WyiDI7GEDObLABF8FaNUu9m2xFDmZ/kudPncVv++OXl+ndQY1iox8yb/jxgaJSISoY7GW0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777666753; c=relaxed/simple;
-	bh=nTjZPSq8DBGTmtRgO55BiuONxSkZofggTHq8jvdoUmg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T4atfZUzhgVi5FJ3Kk+AWvVM6k/FUYNUNHp+2CK89CTxCOZqNk0jTC+xilX6Wn0apmQkWLbpP0dZBkvikEtYji5PJWuFxoyUgsXbDHNoaG0uqayK5Zv8eRqwCZ4XPSgBu71q6qygGhig34jUHPn3bDBumOsyYY703YoMDUNQX/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=QhnIgNjQ; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1777667540; c=relaxed/simple;
+	bh=CY5pib6gsyLnYAgGsr6BkpktNQm4OcgtfKHGal8nuQw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gxEIxjFqO+hB9t5GtPfI2XRXdiXr2k2zZJ2Jcw4C1gg8FF2EUd/p1X0YDQLYBiHIUz/s82BlphvnjA6Dy9sZbBDDdTp+C1HD1+h2uGi22OyV4YkpwJiYlVrg5lDtRju84i6m9KTtDRPWRVmBOreYzk6L/r8j30CrtEDknGrRMMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SxnDlMYc; arc=none smtp.client-ip=209.85.216.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QhnIgNjQ"
-Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0662E379;
-	Fri,  1 May 2026 22:17:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1777666643;
-	bh=nTjZPSq8DBGTmtRgO55BiuONxSkZofggTHq8jvdoUmg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QhnIgNjQgi5FyiBaC6epUhdaXRIqM9ZC9nLt/3+8mph0qLiV+/O3kIQOm/RMXjhV4
-	 n5KebhU+BX0DpXMRDYuFcUX2TpvHTCMsWyESXxJVcYDVjbkOJ0rCSPqkklox0mZK4P
-	 yGzPqF+y/T670DoHjt09RGakaujlNp4zG7HaIlPc=
-Date: Fri, 1 May 2026 23:19:06 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Nas Chung <nas.chung@chipsnmedia.com>,
-	Jackson Lee <jackson.lee@chipsnmedia.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Keke Li <keke.li@amlogic.com>, Yong Zhi <yong.zhi@intel.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SxnDlMYc"
+Received: by mail-pj1-f66.google.com with SMTP id 98e67ed59e1d1-36505450d0dso519451a91.1
+        for <linux-staging@lists.linux.dev>; Fri, 01 May 2026 13:32:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777667539; x=1778272339; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=okIm2jI9kgSMPvyEfWv64gIQ/4sWbeBaAQC0+G9pQd8=;
+        b=SxnDlMYcqFwGOxNY1L/pSXROuW022EKbNKNTgWHdY//0AqAW9oOZsdpp8gabLLGVbz
+         x51BxH6zKkXstZp/t4PqZwNm8hEjjlcHhSb+KWDBZ/PeABfsfzU3fiRVUnE0puV0Ln5Z
+         F54DspmyfZcqeFfXl+OpGxhuNCYCj/zyxoSsvF4rQSEJMtmRa23EY9jh893WyPm16q+e
+         7ufdhPfuXMPBAUtM8hp5fIlUus/0S1cCnPthUzU/EFr1Ji17OeEgMaQilgACsPsG5uMb
+         ijnpncENhxJV8fM81xU7yXGKhD+YE52Fe+/PibDIacGvpH/VdveyNGQy0GHXOSXdSYT+
+         XD9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777667539; x=1778272339;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=okIm2jI9kgSMPvyEfWv64gIQ/4sWbeBaAQC0+G9pQd8=;
+        b=sNCOYv8xG+wJYyOLf/6xr5c4aDSCoxuBEejiA9EFrC4AxSxMtjEJu6H4XSAKLh+y7O
+         VZ4eKD0Euiu/75p5CtGw2uUjIIwa4m+7z1M4VQiFfIVlbt/rP0ow3md5zQzZ4sSKU6h0
+         DCEjLfODL2T3klimnN6m6PAtqA2qpU9++2CaiLQW0b7FoUkBwi+ZJtVHcloL3iDb6myB
+         SfYuRkzyKuWOdPC7p9rbpE9500cwu1WZhZxDtPZztbAWEo0b9V+CqSI0gVLwjlxhbKAk
+         AZl6uo5QUqD7whQlScUSRSP0oo8kBC8jWBZEm3JUpoYpTPsePR3y1jPHcGoirmeNV4Kf
+         pYLA==
+X-Forwarded-Encrypted: i=1; AFNElJ/h9VHI8mirLruDDUh+S2bGeV2F2X4fe751/t1S08P5HVYMizt7NP3cJbQ32sqv7WBTWv+NULO4Fjyq/pBH@lists.linux.dev
+X-Gm-Message-State: AOJu0YwaTUBV7z3QrJ3PTzod0C0Dawo+NVIhNQmI5qt7a6kfxrJ3DJlX
+	Ffpbua4pLm9sXIxDFfe5boseMqgP+msyVrofJTrHujQWN+JXsvJx/pusJixTnGhnqZQ=
+X-Gm-Gg: AeBDietCnIJiAr047diwDISBUIzmpt8zxYUuWlUeREPwi5U4eD1FIOqsEUFBaFFNaWd
+	mRDbZR0rMXkPbZO+jnD+/ynjp3Snoae5MAKGS+tFjU6e7wqKoZyOAOXBIv+McGe5CYu7TUSP4vA
+	7drtmBqGqtC9bB861FRYqaCjOmGGSSZENpie5zN2nH2rUUFfGq7IjAiz0R9j9kE06/lQPV24LgY
+	pTDzUf7lBRJVNveQmExnmkuBYkRb95ZdnB1OH5+KTpOKHhwnxFUKdDx3fprEzLR5yC9/6Jk74SC
+	N10Vb4uaIkV5tTW/d3FWzoTSAklWUdd/RZCmhwGxVCN957RUPDGDOXPcLAWisj4yVx/0IW6wEVC
+	wf35Pr2gC2GPkNEbIXW75buG5hHsJyunUwJevG3+QMW1XH7N9EssjdwNQairEKyJjCvz6dnpO0h
+	tBGgyis3aF3iG44YWYWYtZCkZwg7lT4mOVKbhSgUTE5kEtVc7cGmQ=
+X-Received: by 2002:a17:90b:4ac2:b0:35f:b6a1:8d27 with SMTP id 98e67ed59e1d1-3650ce83a97mr618316a91.18.1777667538924;
+        Fri, 01 May 2026 13:32:18 -0700 (PDT)
+Received: from horstaufmental.lan ([159.192.179.162])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-364f47f1f67sm1306071a91.4.2026.05.01.13.32.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 May 2026 13:32:18 -0700 (PDT)
+From: Siwanan Bungtong <horstaufmental@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Subject: Re: [PATCH v2 2/6] media: i2c: mt9p031: Rewrite a bitwise mask
-Message-ID: <20260501201906.GA488660@killaraus.ideasonboard.com>
-References: <20260501-smatch-7-1-v2-0-a2fcfb2531ac@chromium.org>
- <20260501-smatch-7-1-v2-2-a2fcfb2531ac@chromium.org>
+	straube.linux@gmail.com,
+	ignacio.pena87@gmail.com,
+	Siwanan Bungtong <horstaufmental@gmail.com>
+Subject: [PATCH 0/2] staging: rtl8723bs: add braces to if/else statements
+Date: Sat,  2 May 2026 03:31:19 +0700
+Message-ID: <20260501203121.227992-1-horstaufmental@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260501-smatch-7-1-v2-2-a2fcfb2531ac@chromium.org>
+Content-Transfer-Encoding: 8bit
 
-On Fri, May 01, 2026 at 11:32:47AM +0000, Ricardo Ribalda wrote:
-> The current code makes smatch a bit uncomfortable:
-> drivers/media/i2c/mt9p031.c:799 mt9p031_s_ctrl() warn: assigning (-1952) to unsigned variable 'data'
-> 
-> Probably because smatch is not clever enough (yet). Do a simple rewrite
-> to make sure that smatch understands what we are doing here.
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/media/i2c/mt9p031.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/i2c/mt9p031.c b/drivers/media/i2c/mt9p031.c
-> index ea5d43d925ff..5c9dff030b4d 100644
-> --- a/drivers/media/i2c/mt9p031.c
-> +++ b/drivers/media/i2c/mt9p031.c
-> @@ -795,7 +795,7 @@ static int mt9p031_s_ctrl(struct v4l2_ctrl *ctrl)
->  			ctrl->val &= ~1;
->  			data = (1 << 6) | (ctrl->val >> 1);
->  		} else {
-> -			ctrl->val &= ~7;
-> +			ctrl->val -= ctrl->val % 8;
->  			data = ((ctrl->val - 64) << 5) | (1 << 6) | 32;
+This series adds missing braces to if/else statements in rtl8723bs
+to comply with the kernel coding style and improve code readability.
 
-I'd still like to keep the ~7 (and, while at it, making the register
-computation easier to read). I previously proposed
+No functional changes.
 
-			ctrl->val &= ~7;
-			data = (ctrl->val - 64) >> 3;
-			data = (data << 8) | (1 << 6) | 32;
+Siwanan Bungtong (2):
+  staging: rtl8723bs: add braces to if/else arms in rtw_efuse.c
+  staging: rtl8723bs: add braces to if/else arms in HalBtc8723b1Ant.c
 
-which didn't quite appease smatch. We could use an explicit mask:
-
-			ctrl->val &= ~7;
-			data = ((ctrl->val - 64) >> 3) & 0xff;
-			data = (data << 8) | (1 << 6) | 32;
-
->  		}
->  
-> 
+ drivers/staging/rtl8723bs/core/rtw_efuse.c      | 4 ++--
+ drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c | 7 ++++---
+ 2 files changed, 6 insertions(+), 5 deletions(-)
 
 -- 
-Regards,
+2.53.0
 
-Laurent Pinchart
