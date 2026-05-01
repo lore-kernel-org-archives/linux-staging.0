@@ -1,390 +1,137 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ECFB36921B;
-	Fri,  1 May 2026 09:37:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1D962EDD62
+	for <linux-staging@lists.linux.dev>; Fri,  1 May 2026 11:32:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777628227; cv=none; b=r7qCv1SF4JIE2sPbrEAuEtU/mkGz1uqGmisojw9GigTv4up04wk6LhCcGr8zRt63pwgT0Nx5r/dKbtokCTOU3Iym6f9AIsse6jdMRKNbt5NlL/MzOgMRHj9ERG3dJkx0usYRsIIbc+BIPx2SvXnJYVuxNADezOJKanrwgA9Sebs=
+	t=1777635177; cv=none; b=oygf+Wq2K4QVVOG81gOgznoa2SBZ3Di1aUkwpQrfaUHvWD2KtIlC1tCvJ5KLZEzX6ZJjefMpDt5wdeX+ZgAp6gS3Ze8j52U9MZNUGlOXtdFZ99fDjcH5nUTv7EoChmV3ESiVpzcbHKYmsNHvF6Sxm37/e9vbPPWnT1TASMnM+QI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777628227; c=relaxed/simple;
-	bh=AGM6FBt/D8fwDvTU3Zazf9pg/4pj+IOLeTF5LYXuwOA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hcL+8n4Sc3CJdDj2f5o9fCL902nrb/mJ2NEzlNd153bnkgfgU2gxNJWotZqO3iILz/pE/HZ2TeC1QwkbR0gsW0GTBcQ0Vn/XAHA1zQ18LG9MCFQoSq1dCp9/5wTn17I11lMEia1CIjF+eloKZlLsXR6O+fc5EMP3Vo2O+yIf28Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SV9TZHbR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777635177; c=relaxed/simple;
+	bh=lNE0nPjKixAgd1P12CjQb2oJjktRa0U2UO4AEVXrWtc=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=g1KYynEIcIahw3FyJb/4eKZPqwZ44FEkBBBqt5smLzh606vPtnQAn+4p2Jn2UmJSpyZfgEz1M+OUTeGguScH3EzwXM0SUJFcNQ2Kcce9TK5oVPHeca7NxWyIVib8VbaNVnDg6tVAWPf/aJkPxgRQ20b3749f919uL/MZL6MXWSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=kqpuE3wL; arc=none smtp.client-ip=209.85.167.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SV9TZHbR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE089C2BCB4;
-	Fri,  1 May 2026 09:37:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777628227;
-	bh=AGM6FBt/D8fwDvTU3Zazf9pg/4pj+IOLeTF5LYXuwOA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=SV9TZHbRJluhWrVkUX17MWh1clzaULGmfmgcHTL6T9eTBX7+SFkKoD31bs1Frs5i9
-	 5CO+NeYtus7D0zMdnddIpxZvkzVeO1wDen/uBjt3JK9/jVsp06qx+EFemykNcYW7rY
-	 7hQCnUnLdKWiIcP7QYw4Xaw/1YsQTYuM+2GDsPXTM0k5NHS16qJdZrAlPl6oIaD74Q
-	 yvZz9r7ixdv/oQ5TF2KkOOX/XQOkwG22q+02V3Fqks9gZqbaSwh6iV3yDjgWo/8oTg
-	 dO1wUJEO3VeUiU4dDPuNqb1YW9P3HZ5hsULIOsQaiJ2fp83O+fIyOjOvaAlR0UFkbR
-	 ujXcbWJSbMNXA==
-Message-ID: <a75d18d5-1637-45ec-ba78-01867089a2af@kernel.org>
-Date: Fri, 1 May 2026 11:37:01 +0200
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="kqpuE3wL"
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5a74962749aso1998694e87.3
+        for <linux-staging@lists.linux.dev>; Fri, 01 May 2026 04:32:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1777635173; x=1778239973; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Io9wfmVyuN/9T/zzUi+4EApFsonZHuvDhFNcgPKwqIU=;
+        b=kqpuE3wLzP5ukZZESXdf/oe3EUsY3onXZhtPCn3jIzQIw3+JiTTuBJJR9ZO0MjMbwA
+         qYo59fnWF7AUMWEM0wZze04fYs8zQXd/cb39uXxSpJunW9l6NqVAAIM8Ry1YIlIHgaFC
+         GVSl9Wr5Fn0hD6UCrBE6tN4MX9ehocEXD3f14=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777635173; x=1778239973;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Io9wfmVyuN/9T/zzUi+4EApFsonZHuvDhFNcgPKwqIU=;
+        b=jlBuuY/zqTAuLGwJbEh82yMsydhSxAeX0yGumhKmbdFAM6OoaiKxObbzrBK1BU3N9Q
+         xqDFBexUvPMOLeqmcPDgY6Vid+FuCTzho7UruwFHObDflbznxfk4HX4hFgFXv493F4Co
+         8y9Op+eezkelSnmZv86zloLSG2infuwIoKzh2sPrGjYnpLTAsM/fc4rNedsXK2RgSRVy
+         6Y+T3JPArRyTMF2aBsPn8wyPiUd9KUNBEi8+1xEYMlc3gRtyL9kvJDc90Kzt+s31DkTG
+         GedsC1Fn8goL5N7+SHTwdwU707I5xQI5dcU+MEqu/9rUUUCLBYs1fRDKBS1Jb7cqAaDJ
+         TF7w==
+X-Forwarded-Encrypted: i=1; AFNElJ+QtiCQEFPgohlc0QEQ7fbOr2sRUegJOeGdXmoWYKZlPFqxbrV2YfK6t6Da611h98g4UPstRcsVwagLmnFj@lists.linux.dev
+X-Gm-Message-State: AOJu0YzVZfcK+AdDkHsN5T2kGQkGRT75M2XwjZAkee4QeP8kkKjcrg+r
+	gnuclha2L7Fm8zgeR8iQPshL5okfrUKQ/vtjC68PDeFFpBKAaJroB5OweO2QAPDZ9g==
+X-Gm-Gg: AeBDietAxrORNj5irPHSXKdRsjjC2wHwakZY/PZIhhQUv3rRri3VtpQqFoSdTqpZgpF
+	QRCTIcTrmbcv3rTQ/GWBhrNiZmxR2/gCqShUolp+N3nrmjDFIrQrGDJ8DSLcZTLooHUXD0vmQS1
+	6G8uyBRWzdKinrq3LCf83LoLEfgR838218a3xu1lK6k0j+4wzC6e+eLkTF8vmc96vW+MVQqPMO7
+	WuzmGM3lGarM+tjIQ5wTKVIsvYouT+dL7RfA782DHKR4ghoFwBc+ObJ+WQpD6rrgSghy32sktlu
+	0O0IVfvU/Hc068BkEss8wySGV6O4y2VwW0q8AEJTcqG3HZha9QXdSyiwAfzWhSsDu1P0/9epOhT
+	yut36eZdz1jWbhkhjIgsl9OVw+/1e8bs2oOS844B6qZOR/XDn6yevTpeSS9lkLMEPlBkndsT8H+
+	N5BK9vgBrhmpA3zfpBiAVB7szJolVqQtONTeVrVYviL49V+vDpZ/KpfR/ZXDQ0XxhZgZZXrLM7d
+	coi+PklLDeEefHugUn8eALG4xLC
+X-Received: by 2002:a05:6512:31c5:b0:5a4:4cc:7a52 with SMTP id 2adb3069b0e04-5a8522d0d4cmr2841534e87.17.1777635173080;
+        Fri, 01 May 2026 04:32:53 -0700 (PDT)
+Received: from ribalda.c.googlers.com (52.163.228.35.bc.googleusercontent.com. [35.228.163.52])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a85c346c02sm429166e87.74.2026.05.01.04.32.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 May 2026 04:32:51 -0700 (PDT)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH v2 0/6] media: Fix new smatch warnings
+Date: Fri, 01 May 2026 11:32:45 +0000
+Message-Id: <20260501-smatch-7-1-v2-0-a2fcfb2531ac@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: i3c: add binding for Realtek RTS490x I3C
- HUB
-To: zain_zhou@realsil.com.cn, linux-staging@lists.linux.dev,
- linux-i3c@lists.infradead.org, devicetree@vger.kernel.org
-Cc: gregkh@linuxfoundation.org, alexandre.belloni@bootlin.com,
- Frank.Li@nxp.com, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- linusw@kernel.org, brgl@kernel.org, linux-gpio@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260430121354.6253-1-zain_zhou@realsil.com.cn>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20260430121354.6253-1-zain_zhou@realsil.com.cn>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAF2P9GkC/23MSw7CIBSF4a00d+w1gA0WR92H6aDyKHdAMVCJp
+ mHvYscO/5Ocb4dsE9kMt26HZAtlimsLcepA+3ldLJJpDYIJyXoxYA7zpj1ekaNRUgmljLloB+3
+ wTNbR+8DuU2tPeYvpc9iF/9a/TOHIsJeDYsa5h+R81D7FQK9wjmmBqdb6BUdKOM6nAAAA
+X-Change-ID: 20260428-smatch-7-1-d969299dd3cf
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Hans Verkuil <hverkuil@kernel.org>, Nas Chung <nas.chung@chipsnmedia.com>, 
+ Jackson Lee <jackson.lee@chipsnmedia.com>, 
+ Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Keke Li <keke.li@amlogic.com>, Yong Zhi <yong.zhi@intel.com>, 
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-staging@lists.linux.dev, 
+ Mauro Carvalho Chehab <mchehab+samsung@kernel.org>, 
+ Ricardo Ribalda <ribalda@chromium.org>, 
+ Hans Verkuil <hverkuil+cisco@kernel.org>, stable@vger.kernel.org
+X-Mailer: b4 0.14.3
 
-On 30/04/2026 14:13, zain_zhou@realsil.com.cn wrote:
-> From: zain_zhou <zain_zhou@realsil.com.cn>
-> 
-> Add DT binding schema for Realtek RTS490x series I3C HUB devices.
+Current version of smatch triggers some warnings for the media tree.
+Most of them are inoffensive, but we would like to have zero smatch
+warnings.
 
-A nit, subject: drop second/last, redundant "bindings". The
-"dt-bindings" prefix is already stating that these are bindings.
-See also:
-https://elixir.bootlin.com/linux/v6.17-rc3/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
+drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:111 c3_isp_params_awb_wt() error: buffer overflow 'cfg->zone_weight' 768 <= u32max
+drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:111 c3_isp_params_awb_wt() error: buffer overflow 'cfg->zone_weight' 768 <= u32max
+drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:227 c3_isp_params_ae_wt() error: buffer overflow 'cfg->zone_weight' 255 <= u32max
+drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:227 c3_isp_params_ae_wt() error: buffer overflow 'cfg->zone_weight' 255 <= u32max
+drivers/media/v4l2-core/v4l2-dev.c:1036 __video_register_device() error: buffer overflow 'video_devices' 256 <= 288
+drivers/media/v4l2-core/v4l2-dev.c:1043 __video_register_device() error: buffer overflow 'video_devices' 256 <= 288
+drivers/media/v4l2-core/v4l2-dev.c:1101 __video_register_device() error: buffer overflow 'video_devices' 256 <= 288
+drivers/media/platform/chips-media/wave5/wave5-vpuapi.c:588 wave5_vpu_dec_get_output_info() error: buffer overflow 'inst->frame_buf' 64 <= 127
+drivers/staging/media/ipu3/ipu3-css-params.c:1792 imgu_css_cfg_acc_stripe() warn: 'acc->stripe.bds_out_stripes[0]->width - 2 * f' 4294967168 can't fit into 65535 'acc->stripe.bds_out_stripes[1]->offset'
+drivers/media/i2c/adv7604.c:3672 adv76xx_probe() error: buffer overflow 'state->pads' 7 <= 4294967294
+drivers/media/i2c/adv7604.c:3673 adv76xx_probe() error: buffer overflow 'state->pads' 7 <= u32max
+drivers/media/i2c/mt9p031.c:799 mt9p031_s_ctrl() warn: assigning (-1952) to unsigned variable 'data'
 
-> 
-> The binding describes configuration properties for:
->   - LDO enable/disable and voltage level per port group
->   - Pull-up resistance per port group
->   - IO driver strength per port
->   - Per target-port mode (I3C/SMBus/GPIO/disabled), pull-up,
->     IO mode, SMBus clock frequency and polling interval
->   - Hub network always-I3C mode
->   - Hardware identification via CSEL pin (id) and CP1 pins (id-cp1)
-> 
-> Signed-off-by: zain_zhou <zain_zhou@realsil.com.cn>
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+Changes in v2:
+- Remove WARN_ON() in user triggerable checks.
+- Add fixes for user triggerable errors.
+- Remove pr_err in v4l-dev
+- Link to v1: https://lore.kernel.org/r/20260428-smatch-7-1-v1-0-46890dffb611@chromium.org
 
-Don't use login name as full name, but rather latin transliteration.
-Name in your native language would also be fine.
+---
+Ricardo Ribalda (6):
+      media: v4l2-dev: Add range check for vdev->minor
+      media: i2c: mt9p031: Rewrite a bitwise mask
+      media: i2c: adv7604: Add range checks for chip info
+      media: chips-media: wave5: Add range checks for dec_output_info
+      media: staging: ipu3-imgu: Add range check for imgu_css_cfg_acc_stripe
+      media: amlogic-c3: Add validations for ae and awb config
 
-But login name is not fine.
-
-
-> ---
->  .../bindings/i3c/realtek,rts490x-i3c-hub.yaml | 410 ++++++++++++++++++
->  MAINTAINERS                                   |   6 +
->  2 files changed, 416 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/i3c/realtek,rts490x-i3c-hub.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/i3c/realtek,rts490x-i3c-hub.yaml b/Documentation/devicetree/bindings/i3c/realtek,rts490x-i3c-hub.yaml
-> new file mode 100644
-> index 000000000000..30295eefee89
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/i3c/realtek,rts490x-i3c-hub.yaml
-> @@ -0,0 +1,410 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/i3c/realtek,rts490x-i3c-hub.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: I3C HUB
-
-Proper name here of your device
-
-
-> +
-> +maintainers:
-> +  - zain_zhou <zain_zhou@realsil.com.cn>
-> +
-> +description: |
-> +  I3C HUB is smart device which provides multiple functionality:
-
-
-Are you describing particular device or I3C HUB?
-
-> +  * enabling voltage compatibility across I3C Controller and Target devices,
-> +  * bus capacitance isolation
-> +  * address conflict isolation
-> +  * I3C port expansion
-> +  * two controllers in a single I3C bus
-> +  * I3C and SMBus device compatibility
-> +  * GPIO expansion
-> +
-> +  Having such big number of features, there is a need to have some DT knobs to tell the I3C HUB
-> +  driver which features shall be enabled and how they shall be configured. I3C HUB driver read,
-
-Please wrap code according to the preferred limit expressed in Kernel
-coding style (checkpatch is not a coding style description, but only a
-tool).  However don't wrap blindly (see Kernel coding style).
-
-> +  validate DT knobs and set corresponding registers with the right way to satisfy user requests from
-> +  DT.
-
-Irrelevant. This is binding, so describe hardware. Not your drivers.
-
-DT is irrelevant as well.
-
-> +
-> +  All the DT properties for I3C HUB are located under dedicated (for I3C HUB) DT entry. I3C HUB DT
-> +  entry structure is aligned with regular I3C device DT entry described in i3c.yaml.
-> +
-
-Irrelevant. Describe your hardware.
-
-> +allOf:
-> +  - $ref: i3c.yaml#
-> +
-> +properties:
-> +  $nodename:
-> +    pattern: "^hub@0,0$"
-> +
-> +  cp0-ldo-en:
-> +    enum:
-> +      - disabled
-> +      - enabled
-
-Sorry, but what? Your binding does not look like accepted bindings AT
-ALL. Please read writing bindings carefully or go via DTS101 slides.
-
-
-
-> +    description: |
-> +      I3C HUB Controller Port 0 LDO disabling/enabling setting. If enabled, voltage produced by
-> +      on-die LDO will be available externally on dedicated pin. This option could be used to supply
-> +      external pull-up resistors or for any other purpose which does not cross LDO capabilities.
-> +
-> +      This property is optional. If not provided, LDO will be disabled.
-> +
-> +  cp1-ldo-en:
-> +    enum:
-> +      - disabled
-> +      - enabled
-> +    description: |
-> +      I3C HUB Controller Port 1 LDO disabling/enabling setting. If enabled, voltage produced by
-> +      on-die LDO will be available externally on dedicated pin. This option could be used to supply
-> +      external pull-up resistors or for any other purpose which does not cross LDO capabilities.
-> +
-> +      This property is optional. If not provided, LDO will be disabled.
-> +
-> +  tp0145-ldo-en:
-> +    enum:
-> +      - disabled
-> +      - enabled
-> +    description: |
-> +      I3C HUB Target Ports 0/1/4/5 LDO disabling/enabling setting. If enabled, voltage produced by
-> +      on-die LDO will be available externally on dedicated pin. This option could be used to supply
-> +      external pull-up resistors or for any other purpose which does not cross LDO capabilities.
-> +
-> +      This property is optional. If not provided, LDO will be disabled.
-> +
-> +  tp2367-ldo-en:
-> +    enum:
-> +      - disabled
-> +      - enabled
-> +    description: |
-> +      I3C HUB Target Ports 2/3/6/7 LDO disabling/enabling setting. If enabled, voltage produced by
-> +      on-die LDO will be available externally on dedicated pin. This option could be used to supply
-> +      external pull-up resistors or for any other purpose which does not cross LDO capabilities.
-> +
-> +      This property is optional. If not provided, LDO will be disabled.
-> +
-> +  cp0-ldo-volt:
-
-Nope. There are no such properties. Missing vendor prefix, missing
-proper unit suffix. Look at other bindings.
-
-> +    enum:
-> +      - 1.0V
-> +      - 1.1V
-> +      - 1.2V
-> +      - 1.8V
-> +    description: |
-> +      I3C HUB Controller Port 0 LDO setting to control the Controller Port 1 voltage level. This
-> +      property is optional.
-> +
-
-...
-
-
-> +
-> +additionalProperties: true
-
-No, you cannot have it. Please read writing bindings, writing schema or
-open ANY other binding.
-
-> +
-> +examples:
-> +  - |
-> +    i3c-master@d040000 {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      hub@0,0 {
-> +        cp0-ldo-en = "disabled";
-> +        cp1-ldo-en = "enabled";
-> +        cp0-ldo-volt = "1.0V";
-> +        cp1-ldo-volt = "1.1V";
-> +        tp0145-ldo-en = "enabled";
-> +        tp2367-ldo-en = "disabled";
-> +        tp0145-ldo-volt = "1.2V";
-> +        tp2367-ldo-volt = "1.8V";
-> +        tp0145-pullup = "2k";
-> +        tp2367-pullup = "500R";
-> +        tp0145-io-strength = "50Ohms";
-> +        tp2367-io-strength = "30Ohms";
-> +        cp0-io-strength = "20Ohms";
-> +        cp1-io-strength = "40Ohms";
-> +
-> +        target-port@0 {
-> +          mode = "i3c";
-> +          pullup = "enabled";
-> +          always_enable;
-> +        };
-> +        target-port@1 {
-> +          mode = "smbus";
-> +          pullup = "enabled";
-> +          clock-frequency = <1000000>;
-> +          polling-interval-ms = <10>;
-> +          backend@10{
-> +              compatible = "i2c-slave-mqueue";
-> +              reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
-> +          };
-> +        };
-> +        target-port@2 {
-> +          mode = "gpio";
-> +          pullup = "disabled";
-> +        };
-> +        target-port@3 {
-> +          mode = "disabled";
-> +          pullup = "disabled";
-> +        };
-> +      };
-> +    };
-> +
-> +  - |
-> +    i3c-master@d040000 {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      hub@70,3C000000100 {
-
-No way it passes validation. You just said it CANNOT be anything else
-than hub@0,0
-
-> +        reg = <0x70 0x3C0 0x00000100>;
-
-Lower case hex. Anyway, one example is enough.
-
-> +        assigned-address = <0x70>;
-> +        dcr = <0xC2>;
-> +
-> +        cp0-ldo-en = "disabled";
-> +        cp1-ldo-en = "enabled";
-> +        cp0-ldo-volt = "1.0V";
-> +        cp1-ldo-volt = "1.1V";
-> +        tp0145-ldo-en = "enabled";
-> +        tp2367-ldo-en = "disabled";
-> +        tp0145-ldo-volt = "1.2V";
-> +        tp2367-ldo-volt = "1.8V";
-> +        tp0145-pullup = "2k";
-> +        tp2367-pullup = "500R";
-> +        tp0145-io-strength = "50Ohms";
-> +        tp2367-io-strength = "30Ohms";
-> +        cp0-io-strength = "20Ohms";
-> +        cp1-io-strength = "40Ohms";
-> +
-> +        target-port@0 {
-> +          mode = "i3c";
-> +          pullup = "enabled";
-> +          always-enable;
-> +        };
-> +        target-port@1 {
-> +          mode = "smbus";
-> +          pullup = "enabled";
-> +          backend@12{
-> +              compatible = "i2c-slave-mqueue";
-> +              reg = <(0x12 | I2C_OWN_SLAVE_ADDRESS)>;
-> +          };
-> +        };
-> +        target-port@2 {
-> +          mode = "gpio";
-> +          pullup = "disabled";
-> +        };
-> +        target-port@3 {
-> +          mode = "disabled";
-> +          pullup = "disabled";
-> +        };
-> +      };
-> +    };
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 2fb1c75afd16..71ee5071ac0f 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -12214,6 +12214,12 @@ S:	Supported
->  F:	Documentation/devicetree/bindings/i3c/renesas,i3c.yaml
->  F:	drivers/i3c/master/renesas-i3c.c
->  
-> +I3C HUB DRIVER FOR REALTEK RTS490X
-> +M:	zain_zhou <zain_zhou@realsil.com.cn>
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/i3c/realtek,rts490x-i3c-hub.yaml
-> +F:	drivers/staging/rts490x/
-
-There is no such directory.
-
-
+ drivers/media/i2c/adv7604.c                             |  6 ++++++
+ drivers/media/i2c/mt9p031.c                             |  2 +-
+ drivers/media/platform/amlogic/c3/isp/c3-isp-params.c   |  4 ++++
+ drivers/media/platform/chips-media/wave5/wave5-vpuapi.c | 11 +++++++++--
+ drivers/media/v4l2-core/v4l2-dev.c                      |  5 +++++
+ drivers/staging/media/ipu3/ipu3-css-params.c            |  8 ++++++--
+ 6 files changed, 31 insertions(+), 5 deletions(-)
+---
+base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
+change-id: 20260428-smatch-7-1-d969299dd3cf
 
 Best regards,
-Krzysztof
+-- 
+Ricardo Ribalda <ribalda@chromium.org>
+
