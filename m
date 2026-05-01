@@ -1,422 +1,390 @@
-Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78FC7325495
-	for <linux-staging@lists.linux.dev>; Fri,  1 May 2026 06:57:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ECFB36921B;
+	Fri,  1 May 2026 09:37:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777618632; cv=none; b=Wgd1S3z5y2H8DGXd4SwbYMZEl5wxXFI3OSJBMwKne+tT+Vfxpb532MmzvC3FUODqvSVw+92+AuUxMVwbfV7aZvUy+jk0xTuNFqbvwRt1i5bkT71faEveliWJwGcHdFuPOwR4O8XC4kb+gmcCWsEyH1o6MYb1Zm7VXbat4P3G82o=
+	t=1777628227; cv=none; b=r7qCv1SF4JIE2sPbrEAuEtU/mkGz1uqGmisojw9GigTv4up04wk6LhCcGr8zRt63pwgT0Nx5r/dKbtokCTOU3Iym6f9AIsse6jdMRKNbt5NlL/MzOgMRHj9ERG3dJkx0usYRsIIbc+BIPx2SvXnJYVuxNADezOJKanrwgA9Sebs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777618632; c=relaxed/simple;
-	bh=36nZ5uQ2SW65wtgOSKRl3cJuftBBoKQIWd8wc0bE6hA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LN2pK7mYZXnufD2tRHd/zc6GvpjOr/IGk6qiAZ5h2uQZp1IFr0M6FhgMSzb0+qa4DurRQP5p7KXbOAeISsy89zESIdHTLHpc6HgRCpq/8mCaRyCsnBvVEgIUaJqytbR4x+AcMZQA/u+e/YQZo+3nsM5co5PrfXDy9wth1u0rBAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=otzCwUhT; arc=none smtp.client-ip=74.125.82.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777628227; c=relaxed/simple;
+	bh=AGM6FBt/D8fwDvTU3Zazf9pg/4pj+IOLeTF5LYXuwOA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hcL+8n4Sc3CJdDj2f5o9fCL902nrb/mJ2NEzlNd153bnkgfgU2gxNJWotZqO3iILz/pE/HZ2TeC1QwkbR0gsW0GTBcQ0Vn/XAHA1zQ18LG9MCFQoSq1dCp9/5wTn17I11lMEia1CIjF+eloKZlLsXR6O+fc5EMP3Vo2O+yIf28Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SV9TZHbR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="otzCwUhT"
-Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-2c156c4a9efso3256859eec.1
-        for <linux-staging@lists.linux.dev>; Thu, 30 Apr 2026 23:57:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777618628; x=1778223428; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JshYsFvUOKaMtASTwzsKR7hLhL/B5/hphZW4u9fYfSc=;
-        b=otzCwUhT+AXWDsr15GyNPjthf/qd3Qkzp/uUUJaNA8vkZMMsKsv80S9FOknsYSxgId
-         bYrksTuaOd+5WtTOO62jzkXZvCvK1jt83A0kqHE8EsIdBZfDBlumzeCufJCLfUEq/xtF
-         EdLYxs5IaMtArX7+EYL7iZ4WhmJqPwUTwssPeeBUKAeftTeDpqsVwIfyAZG7agFmD8uL
-         LgSdJtnvr5l4IyhfKxSNoHVSj3QFIEhjbg1IvrVz7EmCnDfvqFRQnnpwfubY8c1/CCRW
-         D4f5cr64XRWVUZyyT5phqJzQXwMYQYvRhY6c7XDbe2xFB1NGAkPt3Xmx6MzJsUN9diOZ
-         rB2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777618628; x=1778223428;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JshYsFvUOKaMtASTwzsKR7hLhL/B5/hphZW4u9fYfSc=;
-        b=KC/8ivv/whXkgyEgK25j/PZ8AGRbmNWfBIs58cPwn1NN7gcpJ/15Lj7+7hAry5EPk6
-         fLGqZ7EZNj1GmpoliMUt3r4aOXQDn2rnli0NyFZjyK5iLC6+iG+ffEcOHCPa84NvsEJ5
-         NMoIMIRV//VQcwxOSeN4GdJrow+luTbywc058vX/njxR8WUduFRJFtPfvBa8tp/DpPfI
-         WsWQ4lPEhjtYrDHvi4idYEeMewXIoUPMVZfo3FAz1pZAKg5918KNoROhf2wSP3c7RnXA
-         0bkC1r0mX/xFt318bwlZlRiEmDMh3g8j0vXZbkpEJtI1f4+P6zlB8aop5Drt+QymExLF
-         QsTw==
-X-Gm-Message-State: AOJu0YzsVxXdllMQYMWZzDTBPtmJnD4V6FDBNusSNM6IVqPpho841Bzm
-	8Y9FsUyLJM9RSSYQRiGKC0/svfAU/SVC/6M4DvYjZi5QgqC6C/9NLnza
-X-Gm-Gg: AeBDietqJIGCWZ/iMi4XK/y6YM/6CZRtv1UcERHIjBkpoDF5g/9aNJZL29NbN48mZEy
-	MrdoTP5K9bbV5vG1m1c+9tk5vUUFcL3Z1s0y0wQ68Sozbre6UAubMNKZtRRJZac5Tk9sZxkzDeY
-	wNZuMkxcsdGaK/pEd4qf6IvlyZb5VTtCKW89J1LUzx8x5t/IV7WkNG66Jfod+XMe61X+J0zqTQo
-	yb7bWDbUMc8W/seh4RAMg9iFGRtNiH370X5smVldafIkpPmRpVJ87tIqSs6xzIcU8UIL3WeI57E
-	DIroz4EzM74IgbWGAskHkOsSLpGVzn/mIiOQjxXWzTDoGVcbhzNQZ8zUCqf3HxFLSl4zHJyixY5
-	R52FRlkW9M+JHzcgOTu26opYwtOhtCd4ByGqW9J1v+rdWONiLpIu6iItgvYeaF0RrKGsvMacSht
-	roq1VnehogqPCxaCvFsmVMBRucpAOFVskzTMz6WgB7LTmaHFC2hElDC+OauRBlvnQzancuypDVY
-	gBT9w5kIlg=
-X-Received: by 2002:a05:7022:f40f:b0:12c:4928:e57e with SMTP id a92af1059eb24-12deacdf2f8mr2524874c88.21.1777618628395;
-        Thu, 30 Apr 2026 23:57:08 -0700 (PDT)
-Received: from aidan-cachyPC ([8.3.93.248])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12df8424ef1sm2747899c88.9.2026.04.30.23.57.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Apr 2026 23:57:07 -0700 (PDT)
-From: Aidan Russell <aidanlrussell@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Aidan Russell <aidanlrussell@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: Fix spelling mistakes in comments
-Date: Thu, 30 Apr 2026 23:56:57 -0700
-Message-ID: <20260501065657.641287-1-aidanlrussell@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SV9TZHbR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE089C2BCB4;
+	Fri,  1 May 2026 09:37:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777628227;
+	bh=AGM6FBt/D8fwDvTU3Zazf9pg/4pj+IOLeTF5LYXuwOA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=SV9TZHbRJluhWrVkUX17MWh1clzaULGmfmgcHTL6T9eTBX7+SFkKoD31bs1Frs5i9
+	 5CO+NeYtus7D0zMdnddIpxZvkzVeO1wDen/uBjt3JK9/jVsp06qx+EFemykNcYW7rY
+	 7hQCnUnLdKWiIcP7QYw4Xaw/1YsQTYuM+2GDsPXTM0k5NHS16qJdZrAlPl6oIaD74Q
+	 yvZz9r7ixdv/oQ5TF2KkOOX/XQOkwG22q+02V3Fqks9gZqbaSwh6iV3yDjgWo/8oTg
+	 dO1wUJEO3VeUiU4dDPuNqb1YW9P3HZ5hsULIOsQaiJ2fp83O+fIyOjOvaAlR0UFkbR
+	 ujXcbWJSbMNXA==
+Message-ID: <a75d18d5-1637-45ec-ba78-01867089a2af@kernel.org>
+Date: Fri, 1 May 2026 11:37:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] dt-bindings: i3c: add binding for Realtek RTS490x I3C
+ HUB
+To: zain_zhou@realsil.com.cn, linux-staging@lists.linux.dev,
+ linux-i3c@lists.infradead.org, devicetree@vger.kernel.org
+Cc: gregkh@linuxfoundation.org, alexandre.belloni@bootlin.com,
+ Frank.Li@nxp.com, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ linusw@kernel.org, brgl@kernel.org, linux-gpio@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260430121354.6253-1-zain_zhou@realsil.com.cn>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20260430121354.6253-1-zain_zhou@realsil.com.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Fix several spelling mistakes in comments in the rtl8723bs staging
-driver.
+On 30/04/2026 14:13, zain_zhou@realsil.com.cn wrote:
+> From: zain_zhou <zain_zhou@realsil.com.cn>
+> 
+> Add DT binding schema for Realtek RTS490x series I3C HUB devices.
 
-No functional changes.
+A nit, subject: drop second/last, redundant "bindings". The
+"dt-bindings" prefix is already stating that these are bindings.
+See also:
+https://elixir.bootlin.com/linux/v6.17-rc3/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
 
-Signed-off-by: Aidan Russell <aidanlrussell@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_cmd.c          |  2 +-
- drivers/staging/rtl8723bs/core/rtw_efuse.c        |  2 +-
- drivers/staging/rtl8723bs/core/rtw_mlme.c         |  9 ++++++---
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c     |  3 ++-
- drivers/staging/rtl8723bs/core/rtw_pwrctrl.c      |  2 +-
- drivers/staging/rtl8723bs/core/rtw_recv.c         |  4 ++--
- drivers/staging/rtl8723bs/core/rtw_xmit.c         |  4 ++--
- drivers/staging/rtl8723bs/hal/HalPhyRf.c          |  2 +-
- drivers/staging/rtl8723bs/hal/odm_DIG.c           |  2 +-
- drivers/staging/rtl8723bs/hal/odm_types.h         |  2 +-
- drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c      |  2 +-
- drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 12 ++++++++----
- drivers/staging/rtl8723bs/hal/rtl8723b_rf6052.c   |  2 +-
- drivers/staging/rtl8723bs/include/drv_types.h     |  2 +-
- drivers/staging/rtl8723bs/include/hal_com_reg.h   |  6 +++---
- drivers/staging/rtl8723bs/include/rtw_xmit.h      |  2 +-
- drivers/staging/rtl8723bs/include/wlan_bssdef.h   |  4 ++--
- drivers/staging/rtl8723bs/os_dep/wifi_regd.c      |  2 +-
- 18 files changed, 36 insertions(+), 28 deletions(-)
+> 
+> The binding describes configuration properties for:
+>   - LDO enable/disable and voltage level per port group
+>   - Pull-up resistance per port group
+>   - IO driver strength per port
+>   - Per target-port mode (I3C/SMBus/GPIO/disabled), pull-up,
+>     IO mode, SMBus clock frequency and polling interval
+>   - Hub network always-I3C mode
+>   - Hardware identification via CSEL pin (id) and CP1 pins (id-cp1)
+> 
+> Signed-off-by: zain_zhou <zain_zhou@realsil.com.cn>
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-index 72d5905a48e9..eca1a5bc79be 100644
---- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-@@ -1650,7 +1650,7 @@ u8 rtw_c2h_packet_wk_cmd(struct adapter *padapter, u8 *pbuf, u16 length)
- 	return res;
- }
- 
--/* dont call R/W in this function, beucase SDIO interrupt have claim host */
-+/* dont call R/W in this function, because SDIO interrupt have claim host */
- /* or deadlock will happen and cause special-systemserver-died in android */
- u8 rtw_c2h_wk_cmd(struct adapter *padapter, u8 *c2h_evt)
- {
-diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-index a7a636449813..205fc5a5ce50 100644
---- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-@@ -28,7 +28,7 @@ rtw_efuse_calculate_word_counts(u8 word_en)
- /*-----------------------------------------------------------------------------
-  * Function:	rtw_efuse_read_1_byte
-  *
-- * Overview:	Copy from WMAC fot EFUSE read 1 byte.
-+ * Overview:	Copy from WMAC for EFUSE read 1 byte.
-  *
-  * Input:       NONE
-  *
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index 3ecf4f979c03..35818df73808 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0
- /******************************************************************************
-- *
-+
-  * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
-  *
-  ******************************************************************************/
-@@ -52,7 +52,10 @@ int	rtw_init_mlme_priv(struct adapter *padapter)
- 	pmlmepriv->pscanned = NULL;
- 	pmlmepriv->fw_state = WIFI_STATION_STATE; /*  Must sync with rtw_wdev_alloc() */
- 	pmlmepriv->cur_network.network.infrastructure_mode = Ndis802_11AutoUnknown;
--	pmlmepriv->scan_mode = SCAN_ACTIVE;/*  1: active, 0: passive. Maybe someday we should rename this varable to "active_mode" (Jeff) */
-+	pmlmepriv->scan_mode = SCAN_ACTIVE;/*  1: active, 0: passive.
-+					    * Maybe someday we should rename
-+					    * this variable to "active_mode" (Jeff)
-+					    */
- 
- 	spin_lock_init(&pmlmepriv->lock);
- 	INIT_LIST_HEAD(&pmlmepriv->free_bss_pool.queue);
-@@ -1378,7 +1381,7 @@ void rtw_stadel_event_callback(struct adapter *adapter, u8 *pbuf)
- 		u16 media_status;
- 
- 		media_status = (mac_id << 8) | 0; /*   MACID|OPMODE:0 means disconnect */
--		/* for STA, AP, ADHOC mode, report disconnect stauts to FW */
-+		/* for STA, AP, ADHOC mode, report disconnect status to FW */
- 		rtw_hal_set_hwreg(adapter, HW_VAR_H2C_MEDIA_STATUS_RPT, (u8 *)&media_status);
- 	}
- 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index cfd3eb253350..cccba2dd9cf2 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -1478,7 +1478,8 @@ unsigned int OnDeAuth(struct adapter *padapter, union recv_frame *precv_frame)
- 	/* Commented by Albert 20130604
- 	 * Before sending the auth frame to start the STA/GC mode connection with AP/GO,
- 	 * we will send the deauth first.
--	 * However, the Win8.1 with BRCM Wi-Fi will send the deauth with reason code 6 to us after receieving our deauth.
-+	 * However, the Win8.1 with BRCM Wi-Fi will send the deauth with
-+	 * reason code 6 to us after receiving our deauth.
- 	 * Added the following code to avoid this case.
- 	 */
- 	if ((pmlmeinfo->state & WIFI_FW_AUTH_STATE) ||
-diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-index f074ea6e0f38..ca1cb58fc801 100644
---- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-@@ -576,7 +576,7 @@ void LPS_Leave_check(struct adapter *padapter)
-  *
-  * This will be called when CPWM interrupt is up.
-  *
-- * using to update cpwn of drv; and drv willl make a decision to up or down pwr level
-+ * using to update cpwn of drv; and drv will make a decision to up or down pwr level
-  */
- void cpwm_int_hdl(struct adapter *padapter, struct reportpwrstate_parm *preportpwrstate)
- {
-diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
-index e11127992cfd..5ef31e604775 100644
---- a/drivers/staging/rtl8723bs/core/rtw_recv.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
-@@ -828,7 +828,7 @@ static signed int ap2sta_data_frame(struct adapter *adapter, union recv_frame *p
- 		}
- 
- 		if (GetFrameSubType(ptr) & BIT(6)) {
--			/* No data, will not indicate to upper layer, temporily count it here */
-+			/* No data, will not indicate to upper layer, temporarily count it here */
- 			count_rx_stats(adapter, precv_frame, *psta);
- 			ret = RTW_RX_HANDLED;
- 			goto exit;
-@@ -909,7 +909,7 @@ static signed int sta2ap_data_frame(struct adapter *adapter, union recv_frame *p
- 			process_wmmps_data(adapter, precv_frame);
- 
- 		if (GetFrameSubType(ptr) & BIT(6)) {
--			/* No data, will not indicate to upper layer, temporily count it here */
-+			/* No data, will not indicate to upper layer, temporarily count it here */
- 			count_rx_stats(adapter, precv_frame, *psta);
- 			ret = RTW_RX_HANDLED;
- 			goto exit;
-diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-index dba146b696e0..a21aa2964a6b 100644
---- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-@@ -726,7 +726,7 @@ static s32 update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct p
- 			}
- 		}
- 
--		/* for parsing ICMP pakcets */
-+		/* for parsing ICMP packets */
- 		{
- 			struct iphdr *piphdr = (struct iphdr *)tmp;
- 
-@@ -1358,7 +1358,7 @@ s32 rtw_mgmt_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, s
- 			/* set final tx command size */
- 			pattrib->last_txcmdsz = pattrib->pktlen;
- 
--			/* set protected bit must be beofre SW encrypt */
-+			/* set protected bit must be before SW encrypt */
- 			SetPrivacy(mem_start);
- 			/* software encrypt */
- 			xmitframe_swencrypt(padapter, pxmitframe);
-diff --git a/drivers/staging/rtl8723bs/hal/HalPhyRf.c b/drivers/staging/rtl8723bs/hal/HalPhyRf.c
-index 7bef05a9a063..fbc045a02852 100644
---- a/drivers/staging/rtl8723bs/hal/HalPhyRf.c
-+++ b/drivers/staging/rtl8723bs/hal/HalPhyRf.c
-@@ -18,7 +18,7 @@ void ConfigureTxpowerTrack(struct dm_odm_t *pDM_Odm, struct txpwrtrack_cfg *pCon
- /*  Otherwise the previous compensation is gone, because we record the */
- /*  delta of temperature between two TxPowerTracking watch dogs. */
- /*  */
--/*  NOTE: If Tx BB swing or Tx scaling is varified during run-time, still */
-+/*  NOTE: If Tx BB swing or Tx scaling is verified during run-time, still */
- /*        need to call this function. */
- /*  */
- void ODM_ClearTxPowerTrackingState(struct dm_odm_t *pDM_Odm)
-diff --git a/drivers/staging/rtl8723bs/hal/odm_DIG.c b/drivers/staging/rtl8723bs/hal/odm_DIG.c
-index a31c8368f9d9..f794b6b2d402 100644
---- a/drivers/staging/rtl8723bs/hal/odm_DIG.c
-+++ b/drivers/staging/rtl8723bs/hal/odm_DIG.c
-@@ -602,7 +602,7 @@ void odm_DIGbyRSSI_LPS(void *pDM_VOID)
- }
- 
- /* 3 ============================================================ */
--/* 3 FASLE ALARM CHECK */
-+/* 3 FALSE ALARM CHECK */
- /* 3 ============================================================ */
- 
- void odm_FalseAlarmCounterStatistics(void *pDM_VOID)
-diff --git a/drivers/staging/rtl8723bs/hal/odm_types.h b/drivers/staging/rtl8723bs/hal/odm_types.h
-index 0da662e1493a..a2fe4f258408 100644
---- a/drivers/staging/rtl8723bs/hal/odm_types.h
-+++ b/drivers/staging/rtl8723bs/hal/odm_types.h
-@@ -9,7 +9,7 @@
- 
- #include <drv_types.h>
- 
--/*  Deifne HW endian support */
-+/*  Define HW endian support */
- #define	ODM_ENDIAN_BIG	0
- #define	ODM_ENDIAN_LITTLE	1
- 
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
-index 4bdc8e314015..9fc104af343b 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
-@@ -832,7 +832,7 @@ static void SetFwRsvdPagePkt_BTCoex(struct adapter *padapter)
- 
- 	BufIndex += (CurtPktPageNum*PageSize);
- 
--	/*  Jump to lastest page */
-+	/*  Jump to last page */
- 	if (BufIndex < (MaxRsvdPageBufSize - PageSize)) {
- 		BufIndex = TxDescOffset + (MaxRsvdPageBufSize - PageSize);
- 		TotalPageNum = BCNQ_PAGE_NUM_8723B - 1;
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-index 9a91fd0a96eb..8af6bff13fa4 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-@@ -1859,9 +1859,11 @@ void rtl8723b_update_txdesc(struct xmit_frame *pxmitframe, u8 *pbuf)
- }
- 
- /*  */
--/*  Description: In normal chip, we should send some packet to Hw which will be used by Fw */
--/* 			in FW LPS mode. The function is to fill the Tx descriptor of this packets, then */
--/* 			Fw can tell Hw to send these packet derectly. */
-+/*  Description: In normal chip, we should send some packet to Hw which will be used by Fw
-+ *		 in FW LPS mode. The function is to fill the
-+ *		 Tx descriptor of this packets, then
-+ *		 Fw can tell Hw to send these packet directly.
-+ */
- /*  Added by tynli. 2009.10.15. */
- /*  */
- /* type1:pspoll, type2:null */
-@@ -2582,7 +2584,9 @@ void SetHwReg8723B(struct adapter *padapter, u8 variable, u8 *val)
- 		{
- 			u8 psmode = *val;
- 
--			/*  Forece leave RF low power mode for 1T1R to prevent conficting setting in Fw power */
-+			/*  Force leave RF low power mode for 1T1R to
-+			 *  prevent conflicting setting in Fw power
-+			 */
- 			/*  saving sequence. 2010.06.07. Added by tynli. Suggested by SD3 yschang. */
- 			if (psmode != PS_MODE_ACTIVE) {
- 				ODM_RF_Saving(&pHalData->odmpriv, true);
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_rf6052.c b/drivers/staging/rtl8723bs/hal/rtl8723b_rf6052.c
-index ffb35e1ace62..d4095b0b441b 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_rf6052.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_rf6052.c
-@@ -119,7 +119,7 @@ static int phy_RF6052_Config_ParaFile(struct adapter *Adapter)
- 		PHY_SetBBReg(Adapter, pPhyReg->rfHSSIPara2, b3WireDataLength, 0x0);	/*  Set 0 to 12  bits for 8255 */
- 		udelay(1);/* PlatformStallExecution(1); */
- 
--		/*----Initialize RF fom connfiguration file----*/
-+		/*----Initialize RF from configuration file----*/
- 		switch (eRFPath) {
- 		case RF_PATH_A:
- 		case RF_PATH_B:
-diff --git a/drivers/staging/rtl8723bs/include/drv_types.h b/drivers/staging/rtl8723bs/include/drv_types.h
-index 7ed375ba18d8..4f6b4ec220c0 100644
---- a/drivers/staging/rtl8723bs/include/drv_types.h
-+++ b/drivers/staging/rtl8723bs/include/drv_types.h
-@@ -273,7 +273,7 @@ enum {
- struct adapter {
- 	int	DriverState;/*  for disable driver using module, use dongle to replace module. */
- 	int	pid[3];/* process id from UI, 0:wps, 1:hostapd, 2:dhcpcd */
--	int	bDongle;/* build-in module or external dongle */
-+	int	bDongle;/* built-in module or external dongle */
- 
- 	struct dvobj_priv *dvobj;
- 	struct	mlme_priv mlmepriv;
-diff --git a/drivers/staging/rtl8723bs/include/hal_com_reg.h b/drivers/staging/rtl8723bs/include/hal_com_reg.h
-index cf5c15dc2bfd..407894ce4d86 100644
---- a/drivers/staging/rtl8723bs/include/hal_com_reg.h
-+++ b/drivers/staging/rtl8723bs/include/hal_com_reg.h
-@@ -20,7 +20,7 @@
- #define REG_RSV_CTRL					0x001C
- #define REG_RF_CTRL						0x001F
- #define REG_AFE_XTAL_CTRL				0x0024
--#define REG_MAC_PHY_CTRL				0x002c /* for 92d, DMDP, SMSP, DMSP contrl */
-+#define REG_MAC_PHY_CTRL				0x002c /* for 92d, DMDP, SMSP, DMSP control */
- #define REG_EFUSE_CTRL					0x0030
- #define REG_EFUSE_TEST					0x0034
- #define REG_PWR_DATA					0x0038
-@@ -186,7 +186,7 @@
- 
- /*  */
- /*  */
--/* 	Redifine 8192C register definition for compatibility */
-+/*	Redefine 8192C register definition for compatibility */
- /*  */
- /*  */
- #define EFUSE_CTRL				REG_EFUSE_CTRL		/*  E-Fuse Control. */
-@@ -273,7 +273,7 @@
- /*  */
- /*        8192C (RCR) Receive Configuration Register	(Offset 0x608, 32 bits) */
- /*  */
--#define RCR_APPFCS				BIT31	/*  WMAC append FCS after pauload */
-+#define RCR_APPFCS				BIT31	/*  WMAC append FCS after payload */
- #define RCR_APP_MIC				BIT30	/*  MACRX will retain the MIC at the bottom of the packet. */
- #define RCR_APP_ICV				BIT29	/*  MACRX will retain the ICV at the bottom of the packet. */
- #define RCR_APP_PHYST_RXFF		BIT28	/*  PHY Status is appended before RX packet in RXFF */
-diff --git a/drivers/staging/rtl8723bs/include/rtw_xmit.h b/drivers/staging/rtl8723bs/include/rtw_xmit.h
-index b0189a703d28..a00163f41853 100644
---- a/drivers/staging/rtl8723bs/include/rtw_xmit.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_xmit.h
-@@ -157,7 +157,7 @@ struct pkt_attrib {
- 	u8 key_idx;
- 	u8 qos_en;
- 	u8 ht_en;
--	u8 raid;/* rate adpative id */
-+	u8 raid;/* rate adaptive id */
- 	u8 bwmode;
- 	u8 ch_offset;/* PRIME_CHNL_OFFSET */
- 	u8 sgi;/* short GI */
-diff --git a/drivers/staging/rtl8723bs/include/wlan_bssdef.h b/drivers/staging/rtl8723bs/include/wlan_bssdef.h
-index 812a68394268..2d45e69f4f4c 100644
---- a/drivers/staging/rtl8723bs/include/wlan_bssdef.h
-+++ b/drivers/staging/rtl8723bs/include/wlan_bssdef.h
-@@ -137,7 +137,7 @@ struct wlan_phy_info {
- };
- 
- struct wlan_bcn_info {
--	/* these infor get from rtw_get_encrypt_info when
-+	/* these info get from rtw_get_encrypt_info when
- 	 * * translate scan to UI */
- 	u8 encryp_protocol;/* ENCRYP_PROTOCOL_E: OPEN/WEP/WPA/WPA2/WAPI */
- 	int group_cipher; /* WPA/WPA2 group cipher */
-@@ -149,7 +149,7 @@ struct wlan_bcn_info {
- 	unsigned char ht_info_infos_0;
- };
- 
--/* temporally add #pragma pack for structure alignment issue of
-+/* temporarily add #pragma pack for structure alignment issue of
- *   struct wlan_bssid_ex and get_wlan_bssid_ex_sz()
- */
- struct wlan_bssid_ex {
-diff --git a/drivers/staging/rtl8723bs/os_dep/wifi_regd.c b/drivers/staging/rtl8723bs/os_dep/wifi_regd.c
-index c48a1e3ba4ac..c80f844e45cb 100644
---- a/drivers/staging/rtl8723bs/os_dep/wifi_regd.c
-+++ b/drivers/staging/rtl8723bs/os_dep/wifi_regd.c
-@@ -27,7 +27,7 @@
-  * by case basis by regulatory domain
-  */
- 
--/* 2G chan 12 - chan 13, PASSIV SCAN */
-+/* 2G chan 12 - chan 13, PASSIVE SCAN */
- #define RTW_2GHZ_CH12_13	\
- 	REG_RULE(2467 - 10, 2472 + 10, 40, 0, 20,	\
- 	NL80211_RRF_PASSIVE_SCAN)
--- 
-2.54.0
+Don't use login name as full name, but rather latin transliteration.
+Name in your native language would also be fine.
 
+But login name is not fine.
+
+
+> ---
+>  .../bindings/i3c/realtek,rts490x-i3c-hub.yaml | 410 ++++++++++++++++++
+>  MAINTAINERS                                   |   6 +
+>  2 files changed, 416 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/i3c/realtek,rts490x-i3c-hub.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/i3c/realtek,rts490x-i3c-hub.yaml b/Documentation/devicetree/bindings/i3c/realtek,rts490x-i3c-hub.yaml
+> new file mode 100644
+> index 000000000000..30295eefee89
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/i3c/realtek,rts490x-i3c-hub.yaml
+> @@ -0,0 +1,410 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/i3c/realtek,rts490x-i3c-hub.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: I3C HUB
+
+Proper name here of your device
+
+
+> +
+> +maintainers:
+> +  - zain_zhou <zain_zhou@realsil.com.cn>
+> +
+> +description: |
+> +  I3C HUB is smart device which provides multiple functionality:
+
+
+Are you describing particular device or I3C HUB?
+
+> +  * enabling voltage compatibility across I3C Controller and Target devices,
+> +  * bus capacitance isolation
+> +  * address conflict isolation
+> +  * I3C port expansion
+> +  * two controllers in a single I3C bus
+> +  * I3C and SMBus device compatibility
+> +  * GPIO expansion
+> +
+> +  Having such big number of features, there is a need to have some DT knobs to tell the I3C HUB
+> +  driver which features shall be enabled and how they shall be configured. I3C HUB driver read,
+
+Please wrap code according to the preferred limit expressed in Kernel
+coding style (checkpatch is not a coding style description, but only a
+tool).  However don't wrap blindly (see Kernel coding style).
+
+> +  validate DT knobs and set corresponding registers with the right way to satisfy user requests from
+> +  DT.
+
+Irrelevant. This is binding, so describe hardware. Not your drivers.
+
+DT is irrelevant as well.
+
+> +
+> +  All the DT properties for I3C HUB are located under dedicated (for I3C HUB) DT entry. I3C HUB DT
+> +  entry structure is aligned with regular I3C device DT entry described in i3c.yaml.
+> +
+
+Irrelevant. Describe your hardware.
+
+> +allOf:
+> +  - $ref: i3c.yaml#
+> +
+> +properties:
+> +  $nodename:
+> +    pattern: "^hub@0,0$"
+> +
+> +  cp0-ldo-en:
+> +    enum:
+> +      - disabled
+> +      - enabled
+
+Sorry, but what? Your binding does not look like accepted bindings AT
+ALL. Please read writing bindings carefully or go via DTS101 slides.
+
+
+
+> +    description: |
+> +      I3C HUB Controller Port 0 LDO disabling/enabling setting. If enabled, voltage produced by
+> +      on-die LDO will be available externally on dedicated pin. This option could be used to supply
+> +      external pull-up resistors or for any other purpose which does not cross LDO capabilities.
+> +
+> +      This property is optional. If not provided, LDO will be disabled.
+> +
+> +  cp1-ldo-en:
+> +    enum:
+> +      - disabled
+> +      - enabled
+> +    description: |
+> +      I3C HUB Controller Port 1 LDO disabling/enabling setting. If enabled, voltage produced by
+> +      on-die LDO will be available externally on dedicated pin. This option could be used to supply
+> +      external pull-up resistors or for any other purpose which does not cross LDO capabilities.
+> +
+> +      This property is optional. If not provided, LDO will be disabled.
+> +
+> +  tp0145-ldo-en:
+> +    enum:
+> +      - disabled
+> +      - enabled
+> +    description: |
+> +      I3C HUB Target Ports 0/1/4/5 LDO disabling/enabling setting. If enabled, voltage produced by
+> +      on-die LDO will be available externally on dedicated pin. This option could be used to supply
+> +      external pull-up resistors or for any other purpose which does not cross LDO capabilities.
+> +
+> +      This property is optional. If not provided, LDO will be disabled.
+> +
+> +  tp2367-ldo-en:
+> +    enum:
+> +      - disabled
+> +      - enabled
+> +    description: |
+> +      I3C HUB Target Ports 2/3/6/7 LDO disabling/enabling setting. If enabled, voltage produced by
+> +      on-die LDO will be available externally on dedicated pin. This option could be used to supply
+> +      external pull-up resistors or for any other purpose which does not cross LDO capabilities.
+> +
+> +      This property is optional. If not provided, LDO will be disabled.
+> +
+> +  cp0-ldo-volt:
+
+Nope. There are no such properties. Missing vendor prefix, missing
+proper unit suffix. Look at other bindings.
+
+> +    enum:
+> +      - 1.0V
+> +      - 1.1V
+> +      - 1.2V
+> +      - 1.8V
+> +    description: |
+> +      I3C HUB Controller Port 0 LDO setting to control the Controller Port 1 voltage level. This
+> +      property is optional.
+> +
+
+...
+
+
+> +
+> +additionalProperties: true
+
+No, you cannot have it. Please read writing bindings, writing schema or
+open ANY other binding.
+
+> +
+> +examples:
+> +  - |
+> +    i3c-master@d040000 {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +
+> +      hub@0,0 {
+> +        cp0-ldo-en = "disabled";
+> +        cp1-ldo-en = "enabled";
+> +        cp0-ldo-volt = "1.0V";
+> +        cp1-ldo-volt = "1.1V";
+> +        tp0145-ldo-en = "enabled";
+> +        tp2367-ldo-en = "disabled";
+> +        tp0145-ldo-volt = "1.2V";
+> +        tp2367-ldo-volt = "1.8V";
+> +        tp0145-pullup = "2k";
+> +        tp2367-pullup = "500R";
+> +        tp0145-io-strength = "50Ohms";
+> +        tp2367-io-strength = "30Ohms";
+> +        cp0-io-strength = "20Ohms";
+> +        cp1-io-strength = "40Ohms";
+> +
+> +        target-port@0 {
+> +          mode = "i3c";
+> +          pullup = "enabled";
+> +          always_enable;
+> +        };
+> +        target-port@1 {
+> +          mode = "smbus";
+> +          pullup = "enabled";
+> +          clock-frequency = <1000000>;
+> +          polling-interval-ms = <10>;
+> +          backend@10{
+> +              compatible = "i2c-slave-mqueue";
+> +              reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
+> +          };
+> +        };
+> +        target-port@2 {
+> +          mode = "gpio";
+> +          pullup = "disabled";
+> +        };
+> +        target-port@3 {
+> +          mode = "disabled";
+> +          pullup = "disabled";
+> +        };
+> +      };
+> +    };
+> +
+> +  - |
+> +    i3c-master@d040000 {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +
+> +      hub@70,3C000000100 {
+
+No way it passes validation. You just said it CANNOT be anything else
+than hub@0,0
+
+> +        reg = <0x70 0x3C0 0x00000100>;
+
+Lower case hex. Anyway, one example is enough.
+
+> +        assigned-address = <0x70>;
+> +        dcr = <0xC2>;
+> +
+> +        cp0-ldo-en = "disabled";
+> +        cp1-ldo-en = "enabled";
+> +        cp0-ldo-volt = "1.0V";
+> +        cp1-ldo-volt = "1.1V";
+> +        tp0145-ldo-en = "enabled";
+> +        tp2367-ldo-en = "disabled";
+> +        tp0145-ldo-volt = "1.2V";
+> +        tp2367-ldo-volt = "1.8V";
+> +        tp0145-pullup = "2k";
+> +        tp2367-pullup = "500R";
+> +        tp0145-io-strength = "50Ohms";
+> +        tp2367-io-strength = "30Ohms";
+> +        cp0-io-strength = "20Ohms";
+> +        cp1-io-strength = "40Ohms";
+> +
+> +        target-port@0 {
+> +          mode = "i3c";
+> +          pullup = "enabled";
+> +          always-enable;
+> +        };
+> +        target-port@1 {
+> +          mode = "smbus";
+> +          pullup = "enabled";
+> +          backend@12{
+> +              compatible = "i2c-slave-mqueue";
+> +              reg = <(0x12 | I2C_OWN_SLAVE_ADDRESS)>;
+> +          };
+> +        };
+> +        target-port@2 {
+> +          mode = "gpio";
+> +          pullup = "disabled";
+> +        };
+> +        target-port@3 {
+> +          mode = "disabled";
+> +          pullup = "disabled";
+> +        };
+> +      };
+> +    };
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 2fb1c75afd16..71ee5071ac0f 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -12214,6 +12214,12 @@ S:	Supported
+>  F:	Documentation/devicetree/bindings/i3c/renesas,i3c.yaml
+>  F:	drivers/i3c/master/renesas-i3c.c
+>  
+> +I3C HUB DRIVER FOR REALTEK RTS490X
+> +M:	zain_zhou <zain_zhou@realsil.com.cn>
+> +S:	Maintained
+> +F:	Documentation/devicetree/bindings/i3c/realtek,rts490x-i3c-hub.yaml
+> +F:	drivers/staging/rts490x/
+
+There is no such directory.
+
+
+
+Best regards,
+Krzysztof
