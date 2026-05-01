@@ -1,130 +1,152 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CD863947B7
-	for <linux-staging@lists.linux.dev>; Fri,  1 May 2026 11:33:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B511A367F21
+	for <linux-staging@lists.linux.dev>; Fri,  1 May 2026 14:17:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777635190; cv=none; b=RuSRO5IYhLP9i+1liOVsEI4rgNiRuURNfPbPdQR/FsUVq0jfhDDBID1cdCvQUJMH7xY3xaollKxxWj1vTO7mKbiCNwQr9AiWmWVtf/ynMUEhMTQhQm3MVp7H4wzuu8MnAxKrrCf4nskef/AuljadbFZ/qlIF5SCHfkk7Kpya2Nw=
+	t=1777645027; cv=none; b=H2Tnxb8DZPyZf5qRntbcuBOycGJfn2kVagHlVBuC9J091hSxuW/890hRXNXVVHtxtxoNcPeMuCtzSFesrkiVffCvnZNWvzBT7y7IGdVkj0XMQDLFeWalJ53E5JgIqclSJ0XlL71BahwKx3tWPRzJzWaEcxAucFALkRFER7u1ywY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777635190; c=relaxed/simple;
-	bh=maPN0uAGh5T9TmRwUDufwkMVbmorC5oANIGuNmwR7ek=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ODBFyNIL3SJVsd7z+3lkZgmhg0DGJGnANIgdcv3YowQTvRgOfl61h8SixzfbwazOdQysih88v5mRDY9y2aQVKt7U8ZMVDF0UDYeKNcGk/zQgazBLJjrErGgMRdQ+lNsdFqQlVnf+kAVIY9COe3ugLTh+m5JKGb++lt6hChrqVTw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=BidNw9r4; arc=none smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1777645027; c=relaxed/simple;
+	bh=Je8A1JMAIx/JqcPYGzJKsOaZh8ZNsgWDlpuE+XhhojU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TbY+48s+6nZqjqeINbCtvVrvjCEFvGh8hTv+OTEr076nYE6443LnDSmpy3as0x8/4vBPSM+Xn5s4/dOQI8RZWzlX7QCEMDVG7lzdeIwulfuMjgzaFlq2e9jDg7Fas5shbPQED+BtQZXuhd4eBi6O5csAeDm0PM5zuwdjGedaJXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a80xZDX/; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="BidNw9r4"
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5a40b2bc96dso2016491e87.3
-        for <linux-staging@lists.linux.dev>; Fri, 01 May 2026 04:33:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a80xZDX/"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3650a4eb605so44193a91.0
+        for <linux-staging@lists.linux.dev>; Fri, 01 May 2026 07:17:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1777635187; x=1778239987; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1kcPDoUx1Q/YaISrAn+S58ePlDUIO7Y3t/DDUcj1x4Y=;
-        b=BidNw9r45oyQDj/CsJmw/ckONFa95ajArynrNO3o53CiCIbHi4HLeT9cxYVGakZ7OV
-         SGNd3alohLd48HEw1YaVkVxDtteJY/4gJbFP6d23M8A7/1nZztEE51RKI2QtbhqYva5f
-         INgdrdoQTt7X2GhFMNDTbAHKT945pYwnf/2Ks=
+        d=gmail.com; s=20251104; t=1777645026; x=1778249826; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BpWu2F1fF1FptrmyDGMQb5fmzeBhfU0DO5L7Hlee5Z8=;
+        b=a80xZDX/tsMQD/WbPPe3U7zwsjIf4DcyiOP3+dKUUgKKRYoHO97+sqYJrvRDhrg5kg
+         5rO+DR3kbyaRmYfu6NmSPGf6NSOndXyoEUJmUPkJGRcBhFZ7xtCYWv3Oo0Vinkc6wH9V
+         n3yCHhAVIfDeV2/BFSVCFG4kOu7894Sd4eM9b6tpGnu900G6v7/IltwaR/SBqoU0zXmf
+         jyRkZzps29JAU3HEPfJFLCzKRRrr5nh7nhYFzSBL5TUIeiF2erNSpXXCEDea68UZRHSK
+         YQsYACHzdY6+VGAT3WzRs/Cu+bOLe7X9ueMQRBLaH+eOw0652qunybFqK33dbAPQjUsz
+         WnBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777635187; x=1778239987;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=1kcPDoUx1Q/YaISrAn+S58ePlDUIO7Y3t/DDUcj1x4Y=;
-        b=WevLHmt8zv73+D22pTjBLriIQawgiq1ta2PDE3SOQZxChj0yvULFTK3o17UVf33Rsd
-         z+ChpoHzMhlzwnWs9fpPYzylFZ9VJtregVwo+uPNwu+PhIYQ7Nx2Q17d79ylY3dqveM0
-         kvsxD16q8p875x/CnMycthL0ArzJpMqO/JtJMOo7H177STfbE8rgYi6E/BhybFAyaHEY
-         7PJT+mmOPIsz3A7v42kBx8AxdD5SWKCWdcVeJhVhWDMvqSepqCLcomfRy55/nFjTBtQy
-         Z++sE6094HhwYWIktDP0Dvq/wcmRPOsImRWk+l7IjLX6mUlMJBF2o1m8RYKSHmG+2g+P
-         TZKA==
-X-Forwarded-Encrypted: i=1; AFNElJ9v+T8BlqLMc6Yhcp6Jz6TXOlfUSDyFNoiNmWXB5MDBB9w5IsRpyvoq+7qGQnWzIz9fnkwuDNEmnLxHlSXo@lists.linux.dev
-X-Gm-Message-State: AOJu0YxPIBqNttZI4ToWX1cu05dp3cfo53Ij+xjBsL6vFPwYRxw+7atJ
-	7kKo7dMJ2zumbhA7/CK/lh6K+YNv7JRaPqkUtHjDNm8lCI8eUsfZZWYh5PQQNzcXvw==
-X-Gm-Gg: AeBDievI5IzvJiKNu5WayEQliVdwsAmxVSOD59HkRW2evDwhgxLR/ukubh9uK8e+GTH
-	FEWH/TT7GuvA11jIQ0HBV8lqTwii2tWMD6SBcCnSIoamngr+yFn9vTyaY00z72LuTAWxVG/Ft9R
-	GLXK5h8RC0EwjpKb9XW28wXe1R/pHHUDX2uHH5D0a9d1Z3fL3g6GuqClKjrGnpibgiFeLhzEmlx
-	ak8YABLwbO0iPBnsLCVjH8XO1de2Ak5fgLudwf8iF9bGYCySGis75E/KW8LQ42aMCix7zvk5JKg
-	VOqkr0ODuOchirr9Q0OW5w5p1QBqcoJFQzDgqMxVVVA/YxNCSEGYbpUBdD4raYjJIdl6TRone3H
-	45c+CaRXxZk9QyEBJXNTcU9CuxohYpj2Z1WBiMp2x9gevSGnbwWj1Q/eNNGBHaoPPlw/R/bj+AI
-	EmrCur3PqQ1keWEVO5ttMInf3V7nvjrpfbERqZ2gcc1m7+8VuXDC/TCODL3pGO+7eaE/sX5rOgF
-	H7X4pvCTKPFV+d+qg==
-X-Received: by 2002:a05:6512:10cc:b0:5a3:cd94:df73 with SMTP id 2adb3069b0e04-5a8522dda2emr2212355e87.38.1777635187389;
-        Fri, 01 May 2026 04:33:07 -0700 (PDT)
-Received: from ribalda.c.googlers.com (52.163.228.35.bc.googleusercontent.com. [35.228.163.52])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a85c346c02sm429166e87.74.2026.05.01.04.33.03
+        d=1e100.net; s=20251104; t=1777645026; x=1778249826;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BpWu2F1fF1FptrmyDGMQb5fmzeBhfU0DO5L7Hlee5Z8=;
+        b=RgmgNiAuDsGcwES+qP1dMOh+s6O4dg+bzwCt1lRnnBHrpwNACZYygOxWipzhFZa2Lg
+         EZfRmQg9pIX1WoQMe5GgvQSjlpJyRyu/43iY59cl/Yk2/heYEgydgcRbF0YPfIia1ZOa
+         9idx1Hx8KyyLwFa+raWLndiV9fSpnS1iMQoo72SUEAj6R7gePsXJJe63Nf52zr7wMMyC
+         wSK/FneGo6St9df49uMBIV0Ud1kmFkht/MmVxJnbcSlJPT0aEGB9N4wo616bNVlGbxl7
+         ATnbH78tobSnF6d89VO0zebyD+JoJ9zWkAgQ3s1iSnq57edHF+F4GzTNNK9I0OC1CAmd
+         zLdA==
+X-Forwarded-Encrypted: i=1; AFNElJ94MdgHxExYLhPaWBBB+/fiHhuD0ZxrZom2BAiaix1O7KGv8vLHjy92Ht1xpBwAAewNiq3Ct5U1gcB6a0zA@lists.linux.dev
+X-Gm-Message-State: AOJu0YzLDNAxqkwEfw2pRwisTWkgc1ygRRxxQB1zBRTHPj5aHH6Zpzkp
+	dRPiU/PHmnnr6PL2sPbKz6O/OpojYataclZiXYv42xQcX9pvPvofhrcc
+X-Gm-Gg: AeBDiev46ogVxMyE5ya9GQXzwrxeri4K/A22PPpWzlINGRY9BmkJfbjQjDzdMn6X19U
+	mXItIFOBXNh7nqe7HjQ+UWIofC8jN0HhuBqGyrGEqUWl5S/01KQ0ksqhFg2KpppJ/XngobAqfrR
+	H3B4sXD7ziVGMf1Y6VsQI6X5cZrlzZ42fVlW+IaMCFziYGgnJzX/K/7GIZMIjrafJX0bekJonsL
+	lJMyUvm665Tm/C8XAgdg55+NB7979kbsg+btgMVZYdNRFhSwmau6rY0ySR+SpnF9PPn//d2fyzE
+	vsz6exBrRgM/15hWOM2LPoZotWY3fFuKlugQ+F84SHA++NWl73XMZq5wT45WrUMzx6aV4blwcmp
+	kLEUZgAR6avGzKrabRx2hV7/a91slxfPGKVuvmdaUFRm6WP78f2Sbfem9uy7gMxumc5sZrzymyX
+	py/hmUcSQIdUbbT6tBjhCUzpsyHTvDrvb+VivSGqdQ3vLNw1BP5WUvbUO5pTySs1R9Wrl0/CdXJ
+	I1EBag7RsRJ39xFBidVq843ZARhxYe6+Q==
+X-Received: by 2002:a17:90b:1b4f:b0:35e:5aa5:ae38 with SMTP id 98e67ed59e1d1-364ef3a6e12mr3415480a91.9.1777645025909;
+        Fri, 01 May 2026 07:17:05 -0700 (PDT)
+Received: from shyam-VMware-Virtual-Platform.localdomain ([223.181.115.140])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-364f4558e0dsm1025415a91.2.2026.05.01.07.17.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 May 2026 04:33:05 -0700 (PDT)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Fri, 01 May 2026 11:32:51 +0000
-Subject: [PATCH v2 6/6] media: amlogic-c3: Add validations for ae and awb
- config
+        Fri, 01 May 2026 07:17:05 -0700 (PDT)
+From: Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
+To: vaibhav.sr@gmail.com,
+	mgreer@animalcreek.com,
+	johan@kernel.org,
+	elder@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
+Subject: [PATCH] staging: greybus:add missing newline in sysfs show() output
+Date: Fri,  1 May 2026 19:46:17 +0530
+Message-ID: <20260501141620.24411-1-shyamsunderreddypadira@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260501-smatch-7-1-v2-6-a2fcfb2531ac@chromium.org>
-References: <20260501-smatch-7-1-v2-0-a2fcfb2531ac@chromium.org>
-In-Reply-To: <20260501-smatch-7-1-v2-0-a2fcfb2531ac@chromium.org>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Hans Verkuil <hverkuil@kernel.org>, Nas Chung <nas.chung@chipsnmedia.com>, 
- Jackson Lee <jackson.lee@chipsnmedia.com>, 
- Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Keke Li <keke.li@amlogic.com>, Yong Zhi <yong.zhi@intel.com>, 
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-staging@lists.linux.dev, 
- Mauro Carvalho Chehab <mchehab+samsung@kernel.org>, 
- Ricardo Ribalda <ribalda@chromium.org>, stable@vger.kernel.org
-X-Mailer: b4 0.14.3
+Content-Transfer-Encoding: 8bit
 
-Avoid invalid memory access if the zones_num is bigger than
-zone_weight.
+Sysfs show() functions should return newline-terminated
+strings.Add missing newline to sysfs_emit() format string.
 
-This patch fixes the following smatch errors:
-drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:111 c3_isp_params_awb_wt() error: buffer overflow 'cfg->zone_weight' 768 <= u32max
-drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:111 c3_isp_params_awb_wt() error: buffer overflow 'cfg->zone_weight' 768 <= u32max
-drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:227 c3_isp_params_ae_wt() error: buffer overflow 'cfg->zone_weight' 255 <= u32max
-drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:227 c3_isp_params_ae_wt() error: buffer overflow 'cfg->zone_weight' 255 <= u32max
+No functional changes.
 
-Cc: stable@vger.kernel.org
-Fixes: fb2e135208f3 ("media: platform: Add C3 ISP driver")
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+Signed-off-by: Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
 ---
- drivers/media/platform/amlogic/c3/isp/c3-isp-params.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/staging/greybus/audio_manager_module.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c b/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
-index 6f9ca7a7dd88..aec3eed0e443 100644
---- a/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
-+++ b/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
-@@ -104,6 +104,8 @@ static void c3_isp_params_awb_wt(struct c3_isp_device *isp,
- 	c3_isp_write(isp, ISP_AWB_BLK_WT_ADDR, 0);
+diff --git a/drivers/staging/greybus/audio_manager_module.c b/drivers/staging/greybus/audio_manager_module.c
+index dc90cc2d2308..5737f2a32f5a 100644
+--- a/drivers/staging/greybus/audio_manager_module.c
++++ b/drivers/staging/greybus/audio_manager_module.c
+@@ -75,7 +75,7 @@ static void gb_audio_module_release(struct kobject *kobj)
+ static ssize_t gb_audio_module_name_show(struct gb_audio_manager_module *module,
+ 					 struct gb_audio_manager_module_attribute *attr, char *buf)
+ {
+-	return sysfs_emit(buf, "%s", module->desc.name);
++	return sysfs_emit(buf, "%s\n", module->desc.name);
+ }
  
- 	zones_num = cfg->horiz_zones_num * cfg->vert_zones_num;
-+	if (zones_num > C3_ISP_AWB_MAX_ZONES)
-+		zones_num = C3_ISP_AWB_MAX_ZONES;
+ static struct gb_audio_manager_module_attribute gb_audio_module_name_attribute =
+@@ -84,7 +84,7 @@ static struct gb_audio_manager_module_attribute gb_audio_module_name_attribute =
+ static ssize_t gb_audio_module_vid_show(struct gb_audio_manager_module *module,
+ 					struct gb_audio_manager_module_attribute *attr, char *buf)
+ {
+-	return sysfs_emit(buf, "%d", module->desc.vid);
++	return sysfs_emit(buf, "%d\n", module->desc.vid);
+ }
  
- 	/* Need to write 8 weights at once */
- 	for (i = 0; i < zones_num / 8; i++) {
-@@ -220,6 +222,8 @@ static void c3_isp_params_ae_wt(struct c3_isp_device *isp,
- 	c3_isp_write(isp, ISP_AE_BLK_WT_ADDR, 0);
+ static struct gb_audio_manager_module_attribute gb_audio_module_vid_attribute =
+@@ -93,7 +93,7 @@ static struct gb_audio_manager_module_attribute gb_audio_module_vid_attribute =
+ static ssize_t gb_audio_module_pid_show(struct gb_audio_manager_module *module,
+ 					struct gb_audio_manager_module_attribute *attr, char *buf)
+ {
+-	return sysfs_emit(buf, "%d", module->desc.pid);
++	return sysfs_emit(buf, "%d\n", module->desc.pid);
+ }
  
- 	zones_num = cfg->horiz_zones_num * cfg->vert_zones_num;
-+	if (zones_num > C3_ISP_AE_MAX_ZONES)
-+		zones_num = C3_ISP_AE_MAX_ZONES;
+ static struct gb_audio_manager_module_attribute gb_audio_module_pid_attribute =
+@@ -103,7 +103,7 @@ static ssize_t gb_audio_module_intf_id_show(struct gb_audio_manager_module *modu
+ 					    struct gb_audio_manager_module_attribute *attr,
+ 					    char *buf)
+ {
+-	return sysfs_emit(buf, "%d", module->desc.intf_id);
++	return sysfs_emit(buf, "%d\n", module->desc.intf_id);
+ }
  
- 	/* Need to write 8 weights at once */
- 	for (i = 0; i < zones_num / 8; i++) {
-
+ static struct gb_audio_manager_module_attribute
+@@ -114,7 +114,7 @@ static ssize_t gb_audio_module_ip_devices_show(struct gb_audio_manager_module *m
+ 					       struct gb_audio_manager_module_attribute *attr,
+ 					       char *buf)
+ {
+-	return sysfs_emit(buf, "0x%X", module->desc.ip_devices);
++	return sysfs_emit(buf, "0x%X\n", module->desc.ip_devices);
+ }
+ 
+ static struct gb_audio_manager_module_attribute
+@@ -125,7 +125,7 @@ static ssize_t gb_audio_module_op_devices_show(struct gb_audio_manager_module *m
+ 					       struct gb_audio_manager_module_attribute *attr,
+ 					       char *buf)
+ {
+-	return sysfs_emit(buf, "0x%X", module->desc.op_devices);
++	return sysfs_emit(buf, "0x%X\n", module->desc.op_devices);
+ }
+ 
+ static struct gb_audio_manager_module_attribute
 -- 
-2.54.0.545.g6539524ca2-goog
+2.43.0
 
