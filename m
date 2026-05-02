@@ -1,69 +1,69 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 895482E413
-	for <linux-staging@lists.linux.dev>; Sat,  2 May 2026 22:01:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C3762E413
+	for <linux-staging@lists.linux.dev>; Sat,  2 May 2026 22:01:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777759303; cv=none; b=Yl9BZjOMQBHS1ZEKaclBJLx4EKRuGEKrHUGQPFq/F5wR3+D7Rwc+pt/78rhWcV65Ux9wHropkpiRSr/jhlcgZ4V+kQvOq9sO/kUnx91hYZ7NWrFLd/oRH38IWPHPXXb3P24JUtixV4OV3cdsDUnYAndzwhY96raNxd3jzojsJXI=
+	t=1777759306; cv=none; b=NPcPKdI+A78mEr2gUdPKP+LoD2oWPNVN+b5br4IMvzQrcucerqvx5ju5pxdP/T8feRcoFKKvOrPjMW+EyDe+lLpae2f9SQPe8txnj7x2rDdnRXZz5+9zjSQPK2wGFak6CqsUGgzK6g44oL0/cFCMLCn0Lpw23/GMQydJ1nA121g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777759303; c=relaxed/simple;
-	bh=toj1NDXNl6GlrtVcBbk8TxRjqzshgmqdEg61GmzTx5M=;
+	s=arc-20240116; t=1777759306; c=relaxed/simple;
+	bh=R2NXK90mhH2FzFXDvHJA/vzjwORHXEb7BF4QcG+IEVY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ucpGqUxrD12cx7gpbhQYWP2BewWCf705cxdCyByNbbkACRXkF51+7qBRzOg4aqRLvC1kWjQgbn+Dz0ugL8mUcrFvpdg/+YROEHMBhg6Z4wA5YH/3Nrc6WoiOonjF28CaoRTWATQIHUKVB99nwVUi0LgLcbABBZ/rIg4886tpfy4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AUHNZzua; arc=none smtp.client-ip=209.85.167.48
+	 MIME-Version; b=e7jOaWGRDO/k7Tb48fRx7wi29EondtmixZCWzat8iw7HW4DMVZupLyc1taZ033/Tbh3TJCS0cU22JJi/RIXuQYq6yOc1ICV0Gp5gznOpVN/fx8BZ2p6AqB72vc3pb6nh75rYvQA4HjOZU2VuxgCfMqALi2864PlRfnEzmie8aF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DCyJlWCl; arc=none smtp.client-ip=209.85.208.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AUHNZzua"
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5a41099fa86so3244078e87.2
-        for <linux-staging@lists.linux.dev>; Sat, 02 May 2026 15:01:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DCyJlWCl"
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-393800586aeso5207831fa.1
+        for <linux-staging@lists.linux.dev>; Sat, 02 May 2026 15:01:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777759301; x=1778364101; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1777759303; x=1778364103; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sJhNoLy4KH5KknBMvH7p8x28XXFd8k8kBHDvJzr25Mw=;
-        b=AUHNZzuajRGJfozAe1rqbfB9cud+TlFNgBWGnwCYE7nsYCF7U6trwZhRxkvNqrZ+ix
-         ik0NVScRoa+Uhjd27PxwPlUWbCnfvtRw+zFS2moRyVTCvBx/RJJM9xbPRXc0naMgVgLM
-         NROHgnl4u7X5IgUlmSt9wcQMXdkm0N4yQftr9uPPCeFbwVuZw5QKKW6cWOhGnbKE16zg
-         qWK/HBNANnaRBR8oEQr2SzSDOiqSOw7HkwDHUbAHEp2WtOxhFDUBFWyrRXQSbKKrsCjV
-         zjjfM2iTkp4NbdG9cAkyqDuEiXl7Dtns8TrAaR2MmlSnbGRI/KVyn70zKuMqunG460As
-         c4fQ==
+        bh=iGYOtomeuQ3qT9ZjPWg9vgnvxOf+hqy+2UfYBdISFec=;
+        b=DCyJlWClOn0zKG983Qf7HkUk48Nl6ZfRApibea0k72EnndpmEtgrhfZi1AzV1vEP6H
+         4b2cjEAcqtBhuwo4Y+bCE3LFCdHpocuVie4C21sms5Svz9Ru/TeJXDHhxeCKEhzBh0KD
+         r7Fko50rpjZzBIR4JyOB59wSSsr2us7w/EdV/zveGITmcuOMpjroheJ+i8W1nPdK/0aD
+         C07QxZbloMGKoYGvEh+uyz8Al0D9McqM34wbPV7YAiz6d9BxN57dAY5oWkXxKJ2SSmjQ
+         j6ZtghDEonxzTY47OIvbsAVQ2RbeADMzhencfTg9ri/Xx0AChdtkCSRuDpmLd6n9EjOj
+         6qwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777759301; x=1778364101;
+        d=1e100.net; s=20251104; t=1777759303; x=1778364103;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=sJhNoLy4KH5KknBMvH7p8x28XXFd8k8kBHDvJzr25Mw=;
-        b=GCZEqATMROTc5VVFWjZUKJuYe6vLA88+fGafAhdhOzBTUNZwrACGGUpP20G4LtiMER
-         WSzK8psADWqT8Kqw1o6cSMd7AbUITLi7TXNNBIb08XZ+GrOSrUMH2Kr4oQRjN82HtoC+
-         MnamxHx/WWUrDKazGgWMWfiH3wOpVmQRdnLdNtGG0Eb6XYcI+FXGjC41JdQUB5juxZC7
-         1gNqnxbFp+vyR9w+/mbAPEBWRRGQDVkYScCkyvB4mzztFbB9Rv8UF3tONvslsqQwx4HP
-         yNfX41gZGlUs32IbsupxPKv9dE412nxd5sEk5tx7+VJMaUUJZpD4teD+Hw9z0cQbwJFG
-         1K1g==
-X-Gm-Message-State: AOJu0Yy+Tk0SI7mqttfO9+b28IulawYHFMsn+qyoPxmgxbbmdl106XwT
-	eMfme1k946tJra2BUWb5SQDnhsEeamJwOW0/pMDnZ3jWQ+kNEB9lJgqiTGqbug==
-X-Gm-Gg: AeBDieuaOjOKV4co5bC8zebiKes1Eds/KQyVgCXcdTwA1RKv30J6lG9WV8ROI4c+hYX
-	Cjk7NyC8LwfwF25UJejOzwkTLbV5MFtUqUayCTgofDdLjw/D+DUXP/5YfmUv2z7ryNuADWcohn7
-	LqgQc30GTHCKJWiAA5NU/4rloYuv9ZjnlMkNhLXCi+1JZYBR1dqSzQAc9Y1nq0yEi9lk3qMJmPq
-	W3X9K2fw6yNTjyrZfhir3hNukErK1JUlFGurxQtgy7S//jRXjJZth/Lg9UfUfXa64AUJ+P+2gqx
-	ouDdzlsj47jzqjURzumJtZ7Yc8goqxe8bqMfltzoYkfocSN6Y1dVWA2Ua+Hu/hjoxVXDQCxuqa2
-	WMztmTYp1j0r1s1mElQTWgHTpP9x5BbuhHlBhT8LqBz1gJEJHkVM2lyNwuu81cj3pcNPm901g9b
-	C9QJuoeV2McMlkB2meopRCEAb6GVMzQc1hjP8=
-X-Received: by 2002:a05:6512:3b12:b0:5a2:836a:ca47 with SMTP id 2adb3069b0e04-5a8631b78d8mr1137853e87.20.1777759300615;
-        Sat, 02 May 2026 15:01:40 -0700 (PDT)
+        bh=iGYOtomeuQ3qT9ZjPWg9vgnvxOf+hqy+2UfYBdISFec=;
+        b=Pu9kV0zIFF5lZ72M6H8HGdd0QkvQiSC9Bn3ftscsomgJmhdmgPVUcn8eEhIwYxg0ep
+         3Cf4AWzAgjQ+z2NJAop7fMH8NdgkzKBFuIzBnX89QpEOfbWbuxss3knVJE3I55IQpG+r
+         2OWZFhDnOrUaIOemesULHjXLNNTEJBxELvA8r7wrJak1BKIgIzr/Bex4ZSXyX7WZMYI0
+         5d9TdNfxQzMOXtfA9w5HqbQ+rIusnVmi1oWLMvUeXsd4r1OcNeUyGX53HaIZBHAyO11s
+         4IUSTTadntEr4NwCAd1TTHcmrBmthG3ybpmTtOTwL8z2Vez9cMx4AuP22xUsChHgqyvR
+         OxPg==
+X-Gm-Message-State: AOJu0Yx9D+IMgAaFgdChijr2ydzCSt3DkQsq9t98EQaUhmBciAX51YsW
+	EGj8ke8GWsZilBsLldBOWkJN4sP8q3/i7PRdVcZuqd1N5BTQ7b7YYb9/R9pu7g==
+X-Gm-Gg: AeBDievs/vvQ1F7wVR4Acaj9Rvp6XwYFspS35bzYyEhJ1Z3fuxpW2LIKH9PIkqYIyCq
+	2Pd1KcuJ8ruiBYnm8tTw86fUubPeCVqRBaNFSoyf9NvlVMgTGAzrGgahVG3dTsDcfOLudeXO4KJ
+	aKjGFyVJlsHdhOt8J32FbZsFWVV5bottXgQg1zZcFKsMTOHN5QuNX2VU8//SQsitLs7n2pHvc+R
+	g+p+/4sW4n/yTgcQAycXaiIDIWNEFoGE1GDbn3rX7R/SgJyLDdBQ62AnZNM+Pogpo4OwnQ2otb8
+	PhgLFgFM004O+RiwDrjpita5q7iFhv5sfX4eiTyIp5SZ9yG31ej7Gmnv4C1X6wyUko+4l2Uvpz9
+	8oU7/x3Bx8pMaMwAroiWlvURkVpf4SlSKxs3E0o9kzFGzRD9xvf6HIqTQJ3o/m/8Y8mC2Ayyo9L
+	xD0wyghnG0ICgu44vA9W7mvf94gwXkS54EUOg=
+X-Received: by 2002:a05:6512:3d20:b0:5a4:b02:66b1 with SMTP id 2adb3069b0e04-5a86212766fmr1621173e87.9.1777759303190;
+        Sat, 02 May 2026 15:01:43 -0700 (PDT)
 Received: from archlinux ([185.140.161.214])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a85c230d6asm1539179e87.23.2026.05.02.15.01.39
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a85c230d6asm1539179e87.23.2026.05.02.15.01.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 May 2026 15:01:40 -0700 (PDT)
+        Sat, 02 May 2026 15:01:42 -0700 (PDT)
 From: Nikolay Kulikov <nikolayof23@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	Nikolay Kulikov <nikolayof23@gmail.com>
-Subject: [PATCH 06/10] staging: rtl8723bs: remove unused CUTVersion from struct hal_version
-Date: Sun,  3 May 2026 00:55:45 +0300
-Message-ID: <20260502220056.59815-7-nikolayof23@gmail.com>
+Subject: [PATCH 07/10] staging: rtl8723bs: remove unused ROMVer from struct hal_version
+Date: Sun,  3 May 2026 00:55:46 +0300
+Message-ID: <20260502220056.59815-8-nikolayof23@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260502220056.59815-1-nikolayof23@gmail.com>
 References: <20260502220056.59815-1-nikolayof23@gmail.com>
@@ -75,39 +75,44 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove the 'CUTVersion' field from 'struct hal_version', which is read
-during initialization but is never used anywhere in the driver.
+'ROMVer' field of 'sturct hal_version' never used anywhere in the
+driver, so remove it to eliminate unused code.
+
+Remove the related call to rtw_read32(), the result of which is only
+used for 'ROMVer' and is no longer needed.
 
 Signed-off-by: Nikolay Kulikov <nikolayof23@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 1 -
+ drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 3 ---
  drivers/staging/rtl8723bs/include/HalVerDef.h     | 1 -
- 2 files changed, 2 deletions(-)
+ 2 files changed, 4 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-index 6828db1e3eed..29b120e192fb 100644
+index 29b120e192fb..0818034563b1 100644
 --- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
 +++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-@@ -836,7 +836,6 @@ static struct hal_version ReadChipVersion8723B(struct adapter *padapter)
- 
- 	value32 = rtw_read32(padapter, REG_SYS_CFG);
- 	ChipVersion.chip_normal = ((value32 & RTL_ID) ? false : true);
--	ChipVersion.CUTVersion = (value32 & CHIP_VER_RTL_MASK)>>CHIP_VER_RTL_SHIFT; /*  IC version (CUT) */
- 
+@@ -840,9 +840,6 @@ static struct hal_version ReadChipVersion8723B(struct adapter *padapter)
  	/*  For regulator mode. by tynli. 2011.01.14 */
  	pHalData->RegulatorMode = ((value32 & SPS_SEL) ? RT_LDO_REGULATOR : RT_SWITCHING_REGULATOR);
+ 
+-	value32 = rtw_read32(padapter, REG_GPIO_OUTSTS);
+-	ChipVersion.ROMVer = ((value32 & RF_RL_ID) >> 20);	/*  ROM code version. */
+-
+ 	/*  For multi-function consideration. Added by Roger, 2010.10.06. */
+ 	pHalData->MultiFunc = RT_MULTI_FUNC_NONE;
+ 	value32 = rtw_read32(padapter, REG_MULTI_FUNC_CTRL);
 diff --git a/drivers/staging/rtl8723bs/include/HalVerDef.h b/drivers/staging/rtl8723bs/include/HalVerDef.h
-index 9428f82c248c..249acd83c89f 100644
+index 249acd83c89f..90ef37b1ddae 100644
 --- a/drivers/staging/rtl8723bs/include/HalVerDef.h
 +++ b/drivers/staging/rtl8723bs/include/HalVerDef.h
 @@ -43,7 +43,6 @@ enum hal_vendor_e { /* tag_HAL_Manufacturer_Version_Definition */
  
  struct hal_version { /* tag_HAL_VERSION */
  	bool chip_normal;	/* true - normal chip, false - test chip */
--	enum hal_cut_version_e	CUTVersion;
- 	u8 			ROMVer;
+-	u8 			ROMVer;
  };
  
+ /* hal_version			VersionID; */
 -- 
 2.54.0
 
