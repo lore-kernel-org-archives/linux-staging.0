@@ -1,139 +1,159 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC4E818C2C
-	for <linux-staging@lists.linux.dev>; Sat,  2 May 2026 02:18:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41AD72F290E
+	for <linux-staging@lists.linux.dev>; Sat,  2 May 2026 07:56:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777688304; cv=none; b=WtxifpK+6TuyI6G7Y8qlwy+lGBbO0dzm8mpoAGs15NCr3/8wzT6PdJp7XdD/RMPnU9kPO9vzXDJrHYZ8IRKIvFhpUabDyw7ANHP6+LzJ5dimJOH6GSnEz2aO0L6CRJEa53wB921XJpy+PGcGPGvsDydxbCYyCtsJ8xhOSbpwt3E=
+	t=1777708597; cv=none; b=Fsp+RTNy51qLvvzhRvOv6a9XofBGDD0OVM2QxyqGeS+hZZuFid3t5DKmrnowdmIrif88CJzSyPEw+kQ5JUt+uncZkUM9zjVjVoRDdR03oClyIbyR4QGypapK/k1lQpjOlzJ4RrGHKnWQ7I1GyZMYldnPUgF4a1Tj6JudpZ2OgJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777688304; c=relaxed/simple;
-	bh=3/+Pr4j5iSVX/Vmbx8yW6ovs9S4TRVc2mRVxpfIkpCk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JNzRBWb5B8/nSn+JMGjQcFELPldCN6D66HqMXz9/KYzHCsdDqJmaABKt+hXleebpOY25gGzc+Ns02LI0NEifx4p92ILuK4S2Fy3edbZxi92KdJXCQqyT44P8BK7yr+E8YExK9Vs2xxfvrHy5VxR4sCuzEJ6nobcYY02DBCJQMoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dQDBrFZk; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777708597; c=relaxed/simple;
+	bh=dJhRFO0sNwBpX6Zfbh5W+9NU4SEl0aFCDsJ/1X8239Q=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VMYoa2KnVIHIPx1dh77oLJdRjP9we8IgGNKM5CCSCy5dzuOjZ914S9fpU/Pgvkkm94OblTxNatCm25gKGnV55Zz+1nZNb9GbC2YxCrNFtSxKZuBbXGHJwpoPdNBFHOuMmKwZG+oXebpEuoUrJFI93euxtenCrZoFQcMTZMQtol8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=TAMGa83i; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dQDBrFZk"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2ad9f316d68so9800675ad.2
-        for <linux-staging@lists.linux.dev>; Fri, 01 May 2026 19:18:22 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="TAMGa83i"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-677f7c29af6so4588152a12.2
+        for <linux-staging@lists.linux.dev>; Sat, 02 May 2026 00:56:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777688302; x=1778293102; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8bus8UEoB8rKoM7Ii6ZhV3wSXwGSHXrSXqNMvxh7aHw=;
-        b=dQDBrFZkC3bFLscAa4omxIA4vF1fJUK4l4rvCEQSfPoqQjD4S6sWQUabDC8s637Zu2
-         AKcdNPqm/w/r9nieFi6sLeftc+aLfi5GzCFsJlp4RMhLcqawp6MY8NRPA9hplybbZyBK
-         Ql5ovrNDY+U9FbZmW/SvviXAzCKZqDzJmvGxmXiOqywU2t/WQ1M1hf5ljaqRoj7yxBob
-         goguB5JHkiz5QiBIFWgDFytAen9JlwmIk05RrWgOs40C+WFynMMw6972bqxqnTwY8ULZ
-         Protp98mtZFzZTfPhTOr4bktnF44nIX9QPuAIncT0hQYGR3UCVmMjJRKmM6tAV1lrygf
-         gUfQ==
+        d=chromium.org; s=google; t=1777708594; x=1778313394; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=yYbYReA77LGHmC7qNGAH0FMT9lWcS8+NBZbc8XS+URY=;
+        b=TAMGa83iRzGw30W0xAV64+uYv7ty4uIv4hguYDHTKA/dcURsJMwlLB6VJaDUrC9V9a
+         IdTheQn4327sUSe1BM2gtI+q1DVl2wbVhXvncAMVTTh5gZ8ZCiMTBa0OzlOsLUvhc26y
+         MgiwlsLf4brXnkJ/5KxQiWCNv0mDvYxyAy4eU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777688302; x=1778293102;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1777708594; x=1778313394;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8bus8UEoB8rKoM7Ii6ZhV3wSXwGSHXrSXqNMvxh7aHw=;
-        b=AGx3J04ue/3/1TKULAp6PXd5DiCnjzWWnQstrm1ZMHoq+f9gC04d8sZWEm4hBg0wcH
-         JTJ/9qprgixT+hz66frAPIN1Gmph2iEcK3IW0/FG8aqiWPuTxqPqVDD7yHbrBpU5ZSje
-         Xj2jQfrRjhC++mXSAYDzaB/0KuGxjuUtyaaw0/7HvafVf2NmuUwFyNpN/ndunNsttxV7
-         26TPLlZl07l3yghDj0ABb2ClrsW7cza2vLfWy3Xs9PMtT+OYIBwMjPt48AO0pDHSHA2v
-         9ttBCNWqIl4Ed7yVXraaEP9SrO+pSyEdqfXvNUMB+In1Q7JA0IYXgkBQ6jGPMhxzWwQY
-         KoFg==
-X-Gm-Message-State: AOJu0YzTF7VyFj/UlwF1ks1yW0rfTpNG6B951nxJca92cXGJFKO03E2j
-	KpxDuBvqMsZ9uV9UMnoWMglVXcZisGFDCA8t+63oWXfB7y53H7Opw0Km
-X-Gm-Gg: AeBDieuODSPGSZBqD/uylmYabe0WisFAcNHWbB/CDSgBKjN1r2RdY2zOkll66VNBehs
-	S5T2Ft02eEHdkr+PMX/e1QaaDFZTafWb8mPxy+/Q8qSzcv6sRvTpYEswFayQn7klO4iWz2baFgr
-	K0ShDApfvIxcjX1CLJOzeswq+/azCKtbz1rRqsR5/0J7VWUnNg08BcffOmSq7fd0rYRMd09BcJs
-	n9qb5Lw8HplPasrTyq5Vee00YkeqjtPPBMkUmegQI1JnoSGJGHf84f3htjElcEMVw57XaWWoK59
-	Y+FHUo4USdgDM7rQlufvoPF6OBC+4fk6RtsEXn1AioiyMbtah6xt8i3Fvid+ueze7EV0FbdMv/n
-	k/AFZ2h/DR8x4PVU3cQWYZ0M6MygfdrS0C3beYF6fCP9gp+5TygXLpuT/yscHwrkBHkN/scrCfH
-	oCqkhuLlep45c+Z8NiNsh5p8llO+aTcJySi7ya/70=
-X-Received: by 2002:a17:903:4b47:b0:2b7:895f:407b with SMTP id d9443c01a7336-2b9f25e3063mr14076565ad.21.1777688302096;
-        Fri, 01 May 2026 19:18:22 -0700 (PDT)
-Received: from scootaloo.modem ([101.179.112.69])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b9cae110acsm31770245ad.42.2026.05.01.19.18.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 May 2026 19:18:21 -0700 (PDT)
-From: Angus Gardner <angusg778@gmail.com>
-To: linux-iio@vger.kernel.org
-Cc: linux-staging@lists.linux.dev,
-	gregkh@linuxfoundation.org,
-	jic23@kernel.org,
-	lars@metafoo.de,
-	Michael.Hennerich@analog.com
-Subject: [PATCH] staging: iio: ad9834: fix probe error handling and comment typo
-Date: Sat,  2 May 2026 12:18:15 +1000
-Message-ID: <20260502021815.3953423-1-angusg778@gmail.com>
-X-Mailer: git-send-email 2.51.0
+        bh=yYbYReA77LGHmC7qNGAH0FMT9lWcS8+NBZbc8XS+URY=;
+        b=HWX2x82xmPSRnuuQ7dfjhn7l5/8WjpAQ8EFKj3XEfCoNKlyn2T9F1kFTjSyJIWuceB
+         AXxIW0mOzAO0I6mWO0RJUqzzH4UYlQj2dETGwzPsz9ij+0711v2pqFKGzqpMIcbAbEFe
+         GhBTBwIMPVl6d7x7XR+bYXGanUHQ7s9cfpd43hiUKi0/tzVqg6ry48UTAfeo+p6MXUiY
+         5PL8i/GIH6lfbajteqlUAQDTKlo4vfXr+FXDsSF4fgLMsrzhQ0wkl+uIvw0yjZzL1VS0
+         XhDOrA2ohVxzwrnO1Bg8kkgPk7mgV+n6ErPYEx+PLcbnR97TDjXOQUdQjtzcHu+4UFhl
+         zMVA==
+X-Forwarded-Encrypted: i=1; AFNElJ8nfHw+uCwQw3gyCwne89nvtQUAhlWl95NX2gLUylCya7g3uIaotGlxgwXulJLg17/juRB/r3Sa0nU/xGYS@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy7cagVL7/sHqVYx/qPT5idYF98h4SBL6sW598zvEcaN3iCVZlt
+	a4VjCchinvxzg7Y3CN358gwESfFFvpJmNhY3itabsRNoJtvoR+6uAThy2h1zYoeFMpUtNgtNNZP
+	gpcemLA==
+X-Gm-Gg: AeBDieu3rpeviUkLNzXhz7BgDHHuCdZPda6x6mcTDIq1p8JQFA+vjvH7Mchrzv1OFHy
+	fC+eCnQgz/7WNJ6o5hTOKeJK4eKZZX8gIrI+3tJqRlnJJPvHW8EwYaEGkie0HRoXID1pXdgmQ2g
+	j4YpXOYturkQ9gRi6av+QOuYZI3zSlj/4m3IrdM9b3APbFQ0gCqGqKnWfZfYoQsNUoZf9okk8v5
+	Z56RaWM8YwOQLS4G1eTkPMvrdqcolBWYhLQipQ6zIBk3/MNd8smmuvp5y9pF3vlptY+RfYdftQS
+	1x4ydQAP5GNvcEZ33+RqBZEYOsu6WrZUZw5zn7Zl+WRjhoLwJY3JeWxQ0RvJi5Lunsfiy8ul5Us
+	xsgnMXM1yZypEalVHYUWII6lKHfnklHSRanZrisqjBWgWxTY6526kzt1QgujwxFCKLZY5NUhsay
+	mBANjurovlIYpRm7HeoR7zmq+yuV7S03hpeo4s9EZ0x1ATgPVLBEcceC2T7n+YeXV5n+p0S9g=
+X-Received: by 2002:a17:906:ef07:b0:ba9:2611:31e6 with SMTP id a640c23a62f3a-bbff941502amr113077466b.6.1777708594025;
+        Sat, 02 May 2026 00:56:34 -0700 (PDT)
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com. [209.85.218.42])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bbe6d06e3b1sm182412366b.38.2026.05.02.00.56.32
+        for <linux-staging@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 02 May 2026 00:56:32 -0700 (PDT)
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-b8f9568e074so391693166b.0
+        for <linux-staging@lists.linux.dev>; Sat, 02 May 2026 00:56:32 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/O7oCwo7/arWk+BEj+tNfYc4m3kwWgybfpq3RFEGZB3peo8xlguoZLIdu6mysZt9evjiBcR0lotvXTsJWG@lists.linux.dev
+X-Received: by 2002:a17:906:9f87:b0:bac:39f1:220e with SMTP id
+ a640c23a62f3a-bbffc57c1c1mr87403766b.37.1777708591185; Sat, 02 May 2026
+ 00:56:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260501-smatch-7-1-v2-0-a2fcfb2531ac@chromium.org>
+ <20260501-smatch-7-1-v2-2-a2fcfb2531ac@chromium.org> <20260501201906.GA488660@killaraus.ideasonboard.com>
+In-Reply-To: <20260501201906.GA488660@killaraus.ideasonboard.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Sat, 2 May 2026 09:56:19 +0200
+X-Gmail-Original-Message-ID: <CANiDSCtf9ThohCR8XT7LNQUsbYeTdB=gGkmnXKc1cPjxUsVHdA@mail.gmail.com>
+X-Gm-Features: AVHnY4JUgNnRVAJTA9Gn-Ci274fEJRaLMJcO_S9jFpe5SlS-M9HCUtA97BJPkUE
+Message-ID: <CANiDSCtf9ThohCR8XT7LNQUsbYeTdB=gGkmnXKc1cPjxUsVHdA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/6] media: i2c: mt9p031: Rewrite a bitwise mask
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Hans Verkuil <hverkuil@kernel.org>, Nas Chung <nas.chung@chipsnmedia.com>, 
+	Jackson Lee <jackson.lee@chipsnmedia.com>, Bingbu Cao <bingbu.cao@intel.com>, 
+	Tianshu Qiu <tian.shu.qiu@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Keke Li <keke.li@amlogic.com>, Yong Zhi <yong.zhi@intel.com>, 
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
+	Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Use dev_err_probe() for the master clock error path instead of open-coding
-dev_err() + PTR_ERR(), consistent with the avdd regulator error path above
-it and with the equivalent driver ad9832.c.
+Hi Laurent
 
-Simplify the -ENOMEM return after devm_iio_device_alloc() to a direct
-return rather than bouncing through a local variable.
+On Fri, 1 May 2026 at 22:19, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> On Fri, May 01, 2026 at 11:32:47AM +0000, Ricardo Ribalda wrote:
+> > The current code makes smatch a bit uncomfortable:
+> > drivers/media/i2c/mt9p031.c:799 mt9p031_s_ctrl() warn: assigning (-1952) to unsigned variable 'data'
+> >
+> > Probably because smatch is not clever enough (yet). Do a simple rewrite
+> > to make sure that smatch understands what we are doing here.
+> >
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > ---
+> >  drivers/media/i2c/mt9p031.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/media/i2c/mt9p031.c b/drivers/media/i2c/mt9p031.c
+> > index ea5d43d925ff..5c9dff030b4d 100644
+> > --- a/drivers/media/i2c/mt9p031.c
+> > +++ b/drivers/media/i2c/mt9p031.c
+> > @@ -795,7 +795,7 @@ static int mt9p031_s_ctrl(struct v4l2_ctrl *ctrl)
+> >                       ctrl->val &= ~1;
+> >                       data = (1 << 6) | (ctrl->val >> 1);
+> >               } else {
+> > -                     ctrl->val &= ~7;
+> > +                     ctrl->val -= ctrl->val % 8;
+> >                       data = ((ctrl->val - 64) << 5) | (1 << 6) | 32;
+>
+> I'd still like to keep the ~7 (and, while at it, making the register
+> computation easier to read). I previously proposed
+>
+>                         ctrl->val &= ~7;
+>                         data = (ctrl->val - 64) >> 3;
+>                         data = (data << 8) | (1 << 6) | 32;
+>
+> which didn't quite appease smatch. We could use an explicit mask:
+>
+>                         ctrl->val &= ~7;
+>                         data = ((ctrl->val - 64) >> 3) & 0xff;
 
-Fix a copy-paste typo in two comments that referred to 'AD9843' instead
-of the correct chip name 'AD9834'.
+Why 0xff and not 0x7f?
 
-Signed-off-by: Angus Gardner <angusg778@gmail.com>
----
- drivers/staging/iio/frequency/ad9834.c | 17 +++++++----------
- 1 file changed, 7 insertions(+), 10 deletions(-)
+If I understand it correctly the max is 1024 and (1024-64) >> 3 is < 127.
 
-diff --git a/drivers/staging/iio/frequency/ad9834.c b/drivers/staging/iio/frequency/ad9834.c
-index bdb2580e29bf..5968aca74ecf 100644
---- a/drivers/staging/iio/frequency/ad9834.c
-+++ b/drivers/staging/iio/frequency/ad9834.c
-@@ -164,7 +164,7 @@ static ssize_t ad9834_write(struct device *dev,
- 		break;
- 	case AD9834_OPBITEN:
- 		if (st->control & AD9834_MODE) {
--			ret = -EINVAL;  /* AD9843 reserved mode */
-+			ret = -EINVAL;  /* AD9834 reserved mode */
- 			break;
- 		}
- 
-@@ -239,7 +239,7 @@ static ssize_t ad9834_store_wavetype(struct device *dev,
- 				st->control &= ~AD9834_OPBITEN;
- 				st->control |= AD9834_MODE;
- 			} else if (st->control & AD9834_OPBITEN) {
--				ret = -EINVAL;	/* AD9843 reserved mode */
-+				ret = -EINVAL;	/* AD9834 reserved mode */
- 			} else {
- 				st->control |= AD9834_MODE;
- 			}
-@@ -389,17 +389,14 @@ static int ad9834_probe(struct spi_device *spi)
- 		return dev_err_probe(&spi->dev, ret, "Failed to enable specified AVDD supply\n");
- 
- 	indio_dev = devm_iio_device_alloc(&spi->dev, sizeof(*st));
--	if (!indio_dev) {
--		ret = -ENOMEM;
--		return ret;
--	}
-+	if (!indio_dev)
-+		return -ENOMEM;
- 	st = iio_priv(indio_dev);
- 	mutex_init(&st->lock);
- 	st->mclk = devm_clk_get_enabled(&spi->dev, NULL);
--	if (IS_ERR(st->mclk)) {
--		dev_err(&spi->dev, "Failed to enable master clock\n");
--		return PTR_ERR(st->mclk);
--	}
-+	if (IS_ERR(st->mclk))
-+		return dev_err_probe(&spi->dev, PTR_ERR(st->mclk),
-+				     "Failed to enable master clock\n");
- 
- 	st->spi = spi;
- 	st->devid = spi_get_device_id(spi)->driver_data;
+
+Anyway... following the mask idea what about:
+
+ctrl->val &= ~7;
+data = (((ctrl->val - 64) & 0x3ff) << 5) | (3 << 5);
+
+?
+
+
+>                         data = (data << 8) | (1 << 6) | 32;
+>
+> >               }
+> >
+> >
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
+
+
+
 -- 
-2.51.0
-
+Ricardo Ribalda
