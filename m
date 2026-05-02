@@ -1,159 +1,142 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41AD72F290E
-	for <linux-staging@lists.linux.dev>; Sat,  2 May 2026 07:56:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AE3F2FF170
+	for <linux-staging@lists.linux.dev>; Sat,  2 May 2026 08:25:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777708597; cv=none; b=Fsp+RTNy51qLvvzhRvOv6a9XofBGDD0OVM2QxyqGeS+hZZuFid3t5DKmrnowdmIrif88CJzSyPEw+kQ5JUt+uncZkUM9zjVjVoRDdR03oClyIbyR4QGypapK/k1lQpjOlzJ4RrGHKnWQ7I1GyZMYldnPUgF4a1Tj6JudpZ2OgJg=
+	t=1777710327; cv=none; b=F4Fyw/MAllvigNTlm5z0Ki6K4pctnf7b6MuC0vRa2iFV4DibrxI165AcZG8hpm6R3hZEsOOXlVoUHt2Q1HJ9Lifi/rylyFG2NS9WW4YDuNkfhsuqcqEr+D1cpdLqxlibg4lCJ+sIm2m9pVbkJIxAmvyjfuJMcM5H7F/TPQVpvZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777708597; c=relaxed/simple;
-	bh=dJhRFO0sNwBpX6Zfbh5W+9NU4SEl0aFCDsJ/1X8239Q=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VMYoa2KnVIHIPx1dh77oLJdRjP9we8IgGNKM5CCSCy5dzuOjZ914S9fpU/Pgvkkm94OblTxNatCm25gKGnV55Zz+1nZNb9GbC2YxCrNFtSxKZuBbXGHJwpoPdNBFHOuMmKwZG+oXebpEuoUrJFI93euxtenCrZoFQcMTZMQtol8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=TAMGa83i; arc=none smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1777710327; c=relaxed/simple;
+	bh=0WAZDhluGVrY0GiqCvIRLbyr+zl9TYqg+4LeOUz2ppk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uaNCi8+1HlpXgRoh0dn3Cry2os6igF2BsWV2U1tSboK5lVuWBwwEQxHDNP9y3y15Fjbh7P3SxaZQAkZX78NMZ2oisTWno9OqpkW9MBxVO1YMcr0dnvYHj0r2SWaQ8ljWrQV1fQvl8hR0QxzlsZ7Nw5l0xU7SaWtl0IxgbwFT/RM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ekCrVWzt; arc=none smtp.client-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="TAMGa83i"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-677f7c29af6so4588152a12.2
-        for <linux-staging@lists.linux.dev>; Sat, 02 May 2026 00:56:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ekCrVWzt"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-82fbdd60b64so1884188b3a.3
+        for <linux-staging@lists.linux.dev>; Sat, 02 May 2026 01:25:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1777708594; x=1778313394; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=yYbYReA77LGHmC7qNGAH0FMT9lWcS8+NBZbc8XS+URY=;
-        b=TAMGa83iRzGw30W0xAV64+uYv7ty4uIv4hguYDHTKA/dcURsJMwlLB6VJaDUrC9V9a
-         IdTheQn4327sUSe1BM2gtI+q1DVl2wbVhXvncAMVTTh5gZ8ZCiMTBa0OzlOsLUvhc26y
-         MgiwlsLf4brXnkJ/5KxQiWCNv0mDvYxyAy4eU=
+        d=gmail.com; s=20251104; t=1777710325; x=1778315125; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=LDLzCL5jMxLJXRki96FPHhfOoa6lvhYX7V+gzTmTkqU=;
+        b=ekCrVWztMX+4/u6ngVxsG/R7m+u1Dby9JEaw3J9fzSPBiTJxzY6Fx9woCS8PbocE1g
+         xxOejdc+EFKHtNzIimaw8cWKWRbkUnB7uOHET6hyvHZE+QA3DkAr061JszeefGnhHrt+
+         1hHyABLHf0THhhRZUYwex2o9f/cmIK10XzJTEqQ/LHIqPCPVAQnEICn/xqthhZG3KRpT
+         rWGKCgrT/Kex2c0aHMgpPAaB1lbggpsfHX4dmS51lUNuylg9bKXsSiiimNBjXqNY/IQy
+         pxtacgSQhhUxyFxgSqwrY7eyPpzhgx0DA0pTKFUQ3DeK3xbY95i7h6mf3doemc00dZZd
+         3Xyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777708594; x=1778313394;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1777710325; x=1778315125;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yYbYReA77LGHmC7qNGAH0FMT9lWcS8+NBZbc8XS+URY=;
-        b=HWX2x82xmPSRnuuQ7dfjhn7l5/8WjpAQ8EFKj3XEfCoNKlyn2T9F1kFTjSyJIWuceB
-         AXxIW0mOzAO0I6mWO0RJUqzzH4UYlQj2dETGwzPsz9ij+0711v2pqFKGzqpMIcbAbEFe
-         GhBTBwIMPVl6d7x7XR+bYXGanUHQ7s9cfpd43hiUKi0/tzVqg6ry48UTAfeo+p6MXUiY
-         5PL8i/GIH6lfbajteqlUAQDTKlo4vfXr+FXDsSF4fgLMsrzhQ0wkl+uIvw0yjZzL1VS0
-         XhDOrA2ohVxzwrnO1Bg8kkgPk7mgV+n6ErPYEx+PLcbnR97TDjXOQUdQjtzcHu+4UFhl
-         zMVA==
-X-Forwarded-Encrypted: i=1; AFNElJ8nfHw+uCwQw3gyCwne89nvtQUAhlWl95NX2gLUylCya7g3uIaotGlxgwXulJLg17/juRB/r3Sa0nU/xGYS@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy7cagVL7/sHqVYx/qPT5idYF98h4SBL6sW598zvEcaN3iCVZlt
-	a4VjCchinvxzg7Y3CN358gwESfFFvpJmNhY3itabsRNoJtvoR+6uAThy2h1zYoeFMpUtNgtNNZP
-	gpcemLA==
-X-Gm-Gg: AeBDieu3rpeviUkLNzXhz7BgDHHuCdZPda6x6mcTDIq1p8JQFA+vjvH7Mchrzv1OFHy
-	fC+eCnQgz/7WNJ6o5hTOKeJK4eKZZX8gIrI+3tJqRlnJJPvHW8EwYaEGkie0HRoXID1pXdgmQ2g
-	j4YpXOYturkQ9gRi6av+QOuYZI3zSlj/4m3IrdM9b3APbFQ0gCqGqKnWfZfYoQsNUoZf9okk8v5
-	Z56RaWM8YwOQLS4G1eTkPMvrdqcolBWYhLQipQ6zIBk3/MNd8smmuvp5y9pF3vlptY+RfYdftQS
-	1x4ydQAP5GNvcEZ33+RqBZEYOsu6WrZUZw5zn7Zl+WRjhoLwJY3JeWxQ0RvJi5Lunsfiy8ul5Us
-	xsgnMXM1yZypEalVHYUWII6lKHfnklHSRanZrisqjBWgWxTY6526kzt1QgujwxFCKLZY5NUhsay
-	mBANjurovlIYpRm7HeoR7zmq+yuV7S03hpeo4s9EZ0x1ATgPVLBEcceC2T7n+YeXV5n+p0S9g=
-X-Received: by 2002:a17:906:ef07:b0:ba9:2611:31e6 with SMTP id a640c23a62f3a-bbff941502amr113077466b.6.1777708594025;
-        Sat, 02 May 2026 00:56:34 -0700 (PDT)
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com. [209.85.218.42])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bbe6d06e3b1sm182412366b.38.2026.05.02.00.56.32
-        for <linux-staging@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 02 May 2026 00:56:32 -0700 (PDT)
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-b8f9568e074so391693166b.0
-        for <linux-staging@lists.linux.dev>; Sat, 02 May 2026 00:56:32 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ/O7oCwo7/arWk+BEj+tNfYc4m3kwWgybfpq3RFEGZB3peo8xlguoZLIdu6mysZt9evjiBcR0lotvXTsJWG@lists.linux.dev
-X-Received: by 2002:a17:906:9f87:b0:bac:39f1:220e with SMTP id
- a640c23a62f3a-bbffc57c1c1mr87403766b.37.1777708591185; Sat, 02 May 2026
- 00:56:31 -0700 (PDT)
+        bh=LDLzCL5jMxLJXRki96FPHhfOoa6lvhYX7V+gzTmTkqU=;
+        b=hruNX3XYPHmfAABRW8qStSPyg2dh/hLLpUNCedAloFkToZowYsFi5bGvuRdjxxTenp
+         VjsSGkB+Eiohl+76wj+WWt5/74fa2ETFeTTQ3D5i4h5e3trr5RTEsXifolk3wnn4otJP
+         yd7KnRtcYz2N1iTiZdpK8DAFefZsB/fU5KBXLUOoueJRbtXOqIFbzA5WpGQnUIg8oheF
+         nzGa3k4Pma/YW4hQzjpmfOvaOLIpl4G7YhuFE4eWADkHEoQUwkr1c5D57YonpwZg3H6E
+         g19gt3+Jp/SSauTPt2X8h6Dt4kWikuHFjYuqxn6f3B0UM20MtucxtIidnjVUA8KXuGkb
+         22Uw==
+X-Gm-Message-State: AOJu0YwwnsUa+9TZDyIa8nl6EiGrz6RwM0UTRib9LWWQU2Lvpr0ZJeV7
+	Zdj1dYFN9kI8jdebHk09MOKnruinDinEaA4W9krVAqQpKoh0QLJN8isM06kaS7+8qkU=
+X-Gm-Gg: AeBDievqdWrgxJGbdqqlohjsqTqmS6ab4Cf9g8p+GLHoul+h7+jGnGL2TP2xYnV6zt7
+	kMtOEm8X09w2bu7R698lsb91wuaxEN1LpJShfIs6xDfalgnjXEAUTwVRnaQRxLTPJ+G2/q3U3Rx
+	4LmewZYBISsGAPupNIzytAwV4DtegvQoJbyBX1T8ilC8jsrRgueizuDUtpuWguFpSefFqEkszWy
+	F0mYfpx4j6nM1lekaWu5d9ta5dbpLyQkY5w/0m7ZBvt3KHpqDUJhBZlXxOa4UmbWwY8eL0+s14y
+	hefyxbWgeDDbhG0xu5qY8YrwkoGmsaOZU+H0vv6S3YgmkHW7RSEkm7UKvFW5lC77Y5DV1er2X/B
+	sZP76WU1tq7KFnjhimB8HRE9Q7NSua+WJ4/0yzu8vMavwPXUVhBRWC/h2VB3mKUNJnCdD1zOTLd
+	TsMe1FFZbLmD3lG+1xtEkrANc9GPMgYhawqcaTGkaFmX2DgXgfRMUv
+X-Received: by 2002:a05:6a00:b904:b0:82d:162c:581f with SMTP id d2e1a72fcca58-8352d2efbfcmr2346847b3a.48.1777710325373;
+        Sat, 02 May 2026 01:25:25 -0700 (PDT)
+Received: from shirinkaul.localdomain ([122.172.84.203])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8351d08065asm4133233b3a.3.2026.05.02.01.25.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 May 2026 01:25:24 -0700 (PDT)
+From: Shirin Kaul <shirin.kaul11@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: gregkh@linuxfoundation.org,
+	hansg@kernel.org,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	andy@kernel.org,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Shirin Kaul <shirin.kaul11@gmail.com>
+Subject: [PATCH] staging: atomisp: isp: xnr 3.0 fix whitespace issue
+Date: Sat,  2 May 2026 08:25:16 +0000
+Message-ID: <20260502082516.16302-1-shirin.kaul11@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260501-smatch-7-1-v2-0-a2fcfb2531ac@chromium.org>
- <20260501-smatch-7-1-v2-2-a2fcfb2531ac@chromium.org> <20260501201906.GA488660@killaraus.ideasonboard.com>
-In-Reply-To: <20260501201906.GA488660@killaraus.ideasonboard.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Sat, 2 May 2026 09:56:19 +0200
-X-Gmail-Original-Message-ID: <CANiDSCtf9ThohCR8XT7LNQUsbYeTdB=gGkmnXKc1cPjxUsVHdA@mail.gmail.com>
-X-Gm-Features: AVHnY4JUgNnRVAJTA9Gn-Ci274fEJRaLMJcO_S9jFpe5SlS-M9HCUtA97BJPkUE
-Message-ID: <CANiDSCtf9ThohCR8XT7LNQUsbYeTdB=gGkmnXKc1cPjxUsVHdA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/6] media: i2c: mt9p031: Rewrite a bitwise mask
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Hans Verkuil <hverkuil@kernel.org>, Nas Chung <nas.chung@chipsnmedia.com>, 
-	Jackson Lee <jackson.lee@chipsnmedia.com>, Bingbu Cao <bingbu.cao@intel.com>, 
-	Tianshu Qiu <tian.shu.qiu@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Keke Li <keke.li@amlogic.com>, Yong Zhi <yong.zhi@intel.com>, 
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
-	Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Laurent
+Fix spaces by replacing them with tabs in function calls to comply
+with kernel coding style.
 
-On Fri, 1 May 2026 at 22:19, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> On Fri, May 01, 2026 at 11:32:47AM +0000, Ricardo Ribalda wrote:
-> > The current code makes smatch a bit uncomfortable:
-> > drivers/media/i2c/mt9p031.c:799 mt9p031_s_ctrl() warn: assigning (-1952) to unsigned variable 'data'
-> >
-> > Probably because smatch is not clever enough (yet). Do a simple rewrite
-> > to make sure that smatch understands what we are doing here.
-> >
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > ---
-> >  drivers/media/i2c/mt9p031.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/media/i2c/mt9p031.c b/drivers/media/i2c/mt9p031.c
-> > index ea5d43d925ff..5c9dff030b4d 100644
-> > --- a/drivers/media/i2c/mt9p031.c
-> > +++ b/drivers/media/i2c/mt9p031.c
-> > @@ -795,7 +795,7 @@ static int mt9p031_s_ctrl(struct v4l2_ctrl *ctrl)
-> >                       ctrl->val &= ~1;
-> >                       data = (1 << 6) | (ctrl->val >> 1);
-> >               } else {
-> > -                     ctrl->val &= ~7;
-> > +                     ctrl->val -= ctrl->val % 8;
-> >                       data = ((ctrl->val - 64) << 5) | (1 << 6) | 32;
->
-> I'd still like to keep the ~7 (and, while at it, making the register
-> computation easier to read). I previously proposed
->
->                         ctrl->val &= ~7;
->                         data = (ctrl->val - 64) >> 3;
->                         data = (data << 8) | (1 << 6) | 32;
->
-> which didn't quite appease smatch. We could use an explicit mask:
->
->                         ctrl->val &= ~7;
->                         data = ((ctrl->val - 64) >> 3) & 0xff;
+Signed-off-by: Shirin Kaul <shirin.kaul11@gmail.com>
+---
+ .../kernels/xnr/xnr_3.0/ia_css_xnr3.host.c    | 20 +++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-Why 0xff and not 0x7f?
-
-If I understand it correctly the max is 1024 and (1024-64) >> 3 is < 127.
-
-
-Anyway... following the mask idea what about:
-
-ctrl->val &= ~7;
-data = (((ctrl->val - 64) & 0x3ff) << 5) | (3 << 5);
-
-?
-
-
->                         data = (data << 8) | (1 << 6) | 32;
->
-> >               }
-> >
-> >
->
-> --
-> Regards,
->
-> Laurent Pinchart
-
-
-
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/xnr/xnr_3.0/ia_css_xnr3.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/xnr/xnr_3.0/ia_css_xnr3.host.c
+index e90dea58215b..3da73001d645 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/xnr/xnr_3.0/ia_css_xnr3.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/xnr/xnr_3.0/ia_css_xnr3.host.c
+@@ -34,8 +34,8 @@ static const s16 x[XNR3_LOOK_UP_TABLE_POINTS] = {
+ 
+ static const s16 a[XNR3_LOOK_UP_TABLE_POINTS] = {
+ 	-7213, -5580, -4371, -3421, -2722, -2159, -6950, -5585,
+-	    -4529, -3697, -3010, -2485, -2070, -1727, -1428, 0
+-    };
++	-4529, -3697, -3010, -2485, -2070, -1727, -1428, 0
++	};
+ 
+ static const s16 b[XNR3_LOOK_UP_TABLE_POINTS] = {
+ 	4096, 3603, 3178, 2811, 2497, 2226, 1990, 1783,
+@@ -125,9 +125,9 @@ compute_blending(int strength)
+ 
+ void
+ ia_css_xnr3_encode(
+-    struct sh_css_isp_xnr3_params *to,
+-    const struct ia_css_xnr3_config *from,
+-    unsigned int size)
++	struct sh_css_isp_xnr3_params *to,
++	const struct ia_css_xnr3_config *from,
++	unsigned int size)
+ {
+ 	int kernel_size = XNR_FILTER_SIZE;
+ 	int adjust_factor = roundup_pow_of_two(kernel_size);
+@@ -180,9 +180,9 @@ ia_css_xnr3_encode(
+ */
+ void
+ ia_css_xnr3_vmem_encode(
+-    struct sh_css_isp_xnr3_vmem_params *to,
+-    const struct ia_css_xnr3_config *from,
+-    unsigned int size)
++	struct sh_css_isp_xnr3_vmem_params *to,
++	const struct ia_css_xnr3_config *from,
++	unsigned int size)
+ {
+ 	unsigned int i, j, base;
+ 	const unsigned int total_blocks = 4;
+@@ -232,8 +232,8 @@ ia_css_xnr3_vmem_encode(
+ /* Dummy Function added as the tool expects it*/
+ void
+ ia_css_xnr3_debug_dtrace(
+-    const struct ia_css_xnr3_config *config,
+-    unsigned int level)
++	const struct ia_css_xnr3_config *config,
++	unsigned int level)
+ {
+ 	(void)config;
+ 	(void)level;
 -- 
-Ricardo Ribalda
+2.43.0
+
