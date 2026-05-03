@@ -1,147 +1,104 @@
-Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF43429B78B
-	for <linux-staging@lists.linux.dev>; Sun,  3 May 2026 15:07:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAC082D839C
+	for <linux-staging@lists.linux.dev>; Sun,  3 May 2026 15:42:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777820835; cv=none; b=ADnIsDOLTRrFhpx1CkrLAlZLwz2fo6TGXDrgV1hSFGfKNaxYCGjO8mRMOnIAtdWIHqXmj1t00vlmylnfdVzr3mr88xORNFfF+N8oQXQGae3mD+Pbrxl1NdYpeDnMddHkUx0XVgrhldelbbDhQP2ZufeMjXt6zYXCkdWucsZ9pAE=
+	t=1777822942; cv=none; b=jRQNg3DDPTzAQV2knk1RvrkxdL6VXX20v/w6wu1hlAytUwBE6QzuQ2p3gOpJzFdcTOwQaGF5Z737lrU8yaXsIOVKIZzAKS4D8StO3LhsSARcCuAqLAdtLA42k3fQuP1H1M1WKvngqLOFPDeIc7QYwJHZ67ujHSsPOjxBIavIWEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777820835; c=relaxed/simple;
-	bh=J28qUt42U2ywe8Qh758ft7/XmQc3VZ3WZ01C48q0Ejo=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=l0ckBYeb1I45zJ75BBGo/ISPZWQwZcIxlMm1M72WnO0FaeP6vb93nByRIt3S+MGCQgeuDl/qfrnhmcru9IqhZmvhfl01M229YZNPjOCvfl1hdLjn7D/KugvJMYjP95HZLZshEFa5RA/5yi3D8dsizmsdYrph+wwsf4xQY/hlvy0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UfkwEUBl; arc=none smtp.client-ip=209.85.161.51
+	s=arc-20240116; t=1777822942; c=relaxed/simple;
+	bh=cEwDWDfHWUTVMRMMby8OG7tHLUyF2mKRPsrW/mUPIrg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HFQL9p5Y5ZrAQIHHpx0Ze/zTUnrrRYZ2td5pRm3Kfd/ofzON8NS0A4KTI21KQOEvWh6UVBSsd88/3JU5v5Wml1xhQFsRTXiqbyQFkpIPagUIUxDGpmN5KpUXBf6LDRfF91xYYBav/eZ57lTeBHsoc+qrf+ou0Kks4r0c1ivJbBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hHbrYtmY; arc=none smtp.client-ip=209.85.208.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UfkwEUBl"
-Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-69498319ee7so2331776eaf.1
-        for <linux-staging@lists.linux.dev>; Sun, 03 May 2026 08:07:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hHbrYtmY"
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-39389398838so7138571fa.3
+        for <linux-staging@lists.linux.dev>; Sun, 03 May 2026 08:42:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777820833; x=1778425633; darn=lists.linux.dev;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gJ32wrJad+vJgf55WvDC0i5Fcg2nT0atoJX8MKvBu0s=;
-        b=UfkwEUBlziQQf8Kxs7Xnji2MyBow3V5HHA14VXypg43hTf5+/NzFiDD7DIg/XYOPVc
-         oqERv0w91vDh51ubxg8Cdxey9zx/TncytDrXEEw+O3cdUPJqnzTzvo5Bhmq3p43nPZDa
-         7jGOAc4EHcALlwmfhd1TADmTzXDmzBBEV/IrZibkXzSWN+J7+5ZnCWJylC0Ap5VtcidQ
-         rCAzv0QOspYfFo3PzNTaHHdrekgGFd+e5fKvPcN7rUHAMviGVYZV9MJHl06fq6uF6FTf
-         p1cv0UIFEnFRuGlwNrbddkc6Z9mxkodU9+j6SDAW273Ar73i5YszxTsQT127SJc24KxU
-         oLPQ==
+        d=gmail.com; s=20251104; t=1777822939; x=1778427739; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=94+F6TRVbfA8R3Pb7VFTMIPChuyRr0kl9WH9wx1Cnck=;
+        b=hHbrYtmY0aAv+hMeOaBkEq6zDSqku0vLBvezD+E0FwkOQq82swPTmN/h6uEdFqaqpj
+         zsV0KALBCKCpvnzsk4AfPZFR3OkwTDIhCTk+WHeGIJ1QKXDFzPsq+Xh5V5ghETbngV16
+         ZyYfijXrDshP3isGoWoG4xvU7EEcxHZlBI/0sSMil0hRD6/7cII6B1uesI+TisNYiE4V
+         3dSYc3crpw+gfT/obZehWEzHMYp71bqDAiknICtONgqMyaBWsxzsdXQWVhJjBV7KPPww
+         atLQAyQITMbOXNev20qruRezlR1xTg1SNhbnw/le8BfdVismG6iDxjkuBj23zT0tMcbF
+         E+Ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777820833; x=1778425633;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=gJ32wrJad+vJgf55WvDC0i5Fcg2nT0atoJX8MKvBu0s=;
-        b=l2BwzNM+rfcPL8sCnGAyJCSUhsNRium3ztscOee3t6D3VbR1VZ2eItCb/WYsE0+ho/
-         PSHpNDboevCJpGNLZk8S1o7bW+9kc1Mj8vsrwjMAEmUmJbwP/+R5Dr9WWblUI8s3SFxP
-         vM2YoDD39jpctV0mVDnrDRwnetiRR6nAln980gBGBY86n+l18rbm04+MXsQeAgtC0H1M
-         IOKc4SVLrYroLMNiEdhVPipS3VrHVLV19XpG++E9Z8F4K+TEzS0j2bYTEa4rmBhHxa7z
-         ow/SnMD3Shxzb0v+ENVkp7FnvngFoW/lZG+5DIMcXZ69n2SXpe/TpGdMDDgk+UzktcRJ
-         6bUQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/GqKF0DFwxfo1pytISrf2GO4UlmxY1vFU2I5P+pO6zRywpvjSt9kn8KSAhV4y7Nf7URdelcMyTLcqLlA9b@lists.linux.dev
-X-Gm-Message-State: AOJu0YwFOxgAa7DLAX8hoqTKV58v2v0dmPmKFnuUilWwLFoXvPqifvbf
-	byB0a8dPob75UfKXPrlY9XyfwQj57hRRsowH9/2YWxAnEg6/BswMfb8c
-X-Gm-Gg: AeBDiet0EcU/BuN90H1JtIVvXF19+FhrVe+IkEUy9SXb5d/TptND2i7esqaT41XjpSh
-	C1ITEYbY9EEvWcdv4tgoB2g1rfq8r9yvpBE4Gx8ttI1wUqPJCt8H1R/Y9aPG/GjJrT25biBYaie
-	zDzt7qY2sUc4ESvJv928QHqZFjFLFAqgc+sVFJrZCp64H/0uCmR6roJxVA7YuqvFKk0nlPdLFrW
-	1JJdOMTDNE4OBtkZKWXq0Lp+nPuLKpzjwN/D17FImcRwg7Qs6pIV5Ll22dLeALHLWm8JqTe5KoR
-	QRUAOdw75LOJPc9B9GqVNE6e/Jr1ZbJmMDyVdMyfxme2VVuimgJJhgmhqCQkuu+x7TmdWp62xdw
-	fNnK2/wR6Uv1JeLprUVoPPLV9seoLudPc8yv/xS8WtoQaJYp1bXq1BzEf6kWJHiHwAQUrte9WHa
-	RAMU8rQSPuyRvRRb6aCEgMV2MoB7vK1+uEqC3IPg/kUNwLwtcemvZIE+RiqeI7
-X-Received: by 2002:a05:6820:1352:b0:696:1b32:f14 with SMTP id 006d021491bc7-69696ba2752mr2762840eaf.14.1777820832679;
-        Sun, 03 May 2026 08:07:12 -0700 (PDT)
-Received: from localhost (23-88-128-2.fttp.usinternet.com. [23.88.128.2])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-69689440f5asm4758594eaf.1.2026.05.03.08.07.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 03 May 2026 08:07:12 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1777822939; x=1778427739;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=94+F6TRVbfA8R3Pb7VFTMIPChuyRr0kl9WH9wx1Cnck=;
+        b=A/4CxXhw2NzNZbzLdzTni1hrhLaqSGNuThfXchdADcQpw/14SQhoHoya90NZ5BUH6q
+         Sna26TS3mKDcj+921xIp4vbwOmPyiZX5Uft9gjrftPB8IULplAXVWJxSucJgvovWkPMv
+         cX49/OSBMBEP/gvrGS7j3Ha2LglQbCjvYIRMjiKU4LQWRJvSicR4APNnvGPXxHZqOlH5
+         LDQAAPzEeUcKjSwhsNXDsSHAfLUN6WJRsEtrXq+WYYhSvkU+VPdh7EKPZJWuY3e5251k
+         nZK4h3l+vrHtB3mlvbxI8OtcBCoZ9E2yB/rVt/lKSzs34/uIwuDT+DRxJ35oeoj+wX5O
+         Z9ew==
+X-Forwarded-Encrypted: i=1; AFNElJ+QA6NxvBOF9JHaV73Y+E+xfGxba0fR5eARYbbtxx5RmiOmBKdD57zUYtvzrFlEkjOC8veqz6B3U+v/jb16@lists.linux.dev
+X-Gm-Message-State: AOJu0YwFUKe+nGBr7tJAr3IhQUZIhIfxP2y6kqberWs5IX4Olb1rs7Y6
+	zJiPRKveBmbFjgI5FwPitDupoNp5pzNMpGF3eEK/x4L16ggvYGFepvqh
+X-Gm-Gg: AeBDietTEuxXoh2aZZcLR+nLoPNVYBTlK/pMxlBovNR5SJgzm3uomrODbEoIDor6Lmk
+	jerIstSTo1rGQNdCcd7/l7E/kacawB6cSzaPuPGST32U93TxazyEPad/qAhpIns54HAdRVYa1TV
+	Utv8L3x3cfMAqutWsB2meCmbDGUAWkMLMQEjR+jiV63xBcSoi1w1+rZ2UssMFxJt3tgi1Ub9R+L
+	n4lDGkN1uwMBDrY0+bhEtZ9EzBENo1x1wB9ywBNOjNFdEAivSv/z3aB6FWLN1vWteyIE0gca+Va
+	9PNIdJgYMYK4O7S2LmnvpnKToVusfgD1TiL3ZToxxm02yzOSXjfWDMO5LIIErWf4+Th3StnP7S2
+	778b7uhQf/4n4f+FMcU5HezkNBPcDDgzSq8KU7Twp3m3bvuggI3WGwG1wg+h7MSY+xjYhHaGqsF
+	ern0a83bKrC0bNQnW5CQo+n1A6X4PVy5TgVn4=
+X-Received: by 2002:a2e:bea6:0:b0:38c:6b40:c6bc with SMTP id 38308e7fff4ca-39378585d48mr19078991fa.27.1777822938673;
+        Sun, 03 May 2026 08:42:18 -0700 (PDT)
+Received: from archlinux ([185.140.161.214])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-393900c9c94sm7542431fa.40.2026.05.03.08.42.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 May 2026 08:42:18 -0700 (PDT)
+Date: Sun, 3 May 2026 18:42:15 +0300
+From: Nikolay Kulikov <nikolayof23@gmail.com>
+To: Aidan Russell <aidanlrussell@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: rtl8723bs: Fix spelling mistakes in comments
+Message-ID: <afds118E7NODetnJ@archlinux>
+References: <20260503145346.10791-1-aidanlrussell@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sun, 03 May 2026 10:07:11 -0500
-Message-Id: <DI94VYXA009L.2BNJPUI3KZHF1@gmail.com>
-Cc: "Angus Gardner" <angusg778@gmail.com>, <linux-iio@vger.kernel.org>,
- <linux-staging@lists.linux.dev>, <gregkh@linuxfoundation.org>,
- <jic23@kernel.org>, <lars@metafoo.de>, <Michael.Hennerich@analog.com>
-Subject: Re: [PATCH] staging: iio: ad9834: fix probe error handling and
- comment typo
-From: "Maxwell Doose" <m32285159@gmail.com>
-To: "Joshua Crofts" <joshua.crofts1@gmail.com>, "Maxwell Doose"
- <m32285159@gmail.com>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260502021815.3953423-1-angusg778@gmail.com>
- <DI8GD8RZU94B.Q3VZJO6EIP3N@gmail.com>
- <CALoEA-xEv9T4tv5fOYEh8ts=3rGOQMsW1ZrHVBbK8TVPuFvGFA@mail.gmail.com>
-In-Reply-To: <CALoEA-xEv9T4tv5fOYEh8ts=3rGOQMsW1ZrHVBbK8TVPuFvGFA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260503145346.10791-1-aidanlrussell@gmail.com>
 
-On Sun May 3, 2026 at 3:53 AM CDT, Joshua Crofts wrote:
-> On Sat, 2 May 2026 at 21:54, Maxwell Doose <m32285159@gmail.com> wrote:
->>
->> Hi Angus,
->>
->> On Fri May 1, 2026 at 9:18 PM CDT, Angus Gardner <angusg778@gmail.com> w=
-rote:
->> > Use dev_err_probe() for the master clock error path instead of open-co=
-ding
->> > dev_err() + PTR_ERR(), consistent with the avdd regulator error path a=
-bove
->> > it and with the equivalent driver ad9832.c.
->
-> I found another dev_err() call in the same function, maybe change this on=
-e also?
-> https://elixir.bootlin.com/linux/v7.0.1/source/drivers/staging/iio/freque=
-ncy/ad9834.c#L452
->
+On Sun, May 03, 2026 at 07:53:46AM -0700, Aidan Russell wrote:
+> Fix several spelling mistakes in comments in the rtl8723bs staging
+> driver.
+> 
+> No functional changes.
+> 
+> Signed-off-by: Aidan Russell <aidanlrussell@gmail.com>
+...
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> index 72d5905a48e9..eca1a5bc79be 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> @@ -1650,7 +1650,7 @@ u8 rtw_c2h_packet_wk_cmd(struct adapter *padapter, u8 *pbuf, u16 length)
+>  	return res;
+>  }
+>  
+> -/* dont call R/W in this function, beucase SDIO interrupt have claim host */
+> +/* dont call R/W in this function, because SDIO interrupt have claim host */
+      ^^^^
+"dont" is also misspelled - could you change it to "don't" or "do not"
+since you are here?
 
-Shoot, I seem to have missed that in my review. Nice catch.
+Otherwise, it looks good.
 
->
->> > Simplify the -ENOMEM return after devm_iio_device_alloc() to a direct
->> > return rather than bouncing through a local variable.
->> >
->> > Fix a copy-paste typo in two comments that referred to 'AD9843' instea=
-d
->> > of the correct chip name 'AD9834'.
->> >
->> > Signed-off-by: Angus Gardner <angusg778@gmail.com>
->> > ---
->> >  drivers/staging/iio/frequency/ad9834.c | 17 +++++++----------
->> >  1 file changed, 7 insertions(+), 10 deletions(-)
->> >
->>
->> Patch itself looks good but maybe rephrase subject to say "Use probe
->> error handling and fix comment typo" instead? "Fix" seems a bit generic
->> for my tastes, and we're not really fixing anything anyways.
->>
->> I'm not the final authority on naming so its at the discretion of
->> either Andy or Jonathan, and maybe Greg. So either way,
->> Reviewed-by: Maxwell Doose <m32285159@gmail.com>
->
-> You're mixing different logical changes into one patch, therefore it's
-> harder to review and harder to keep track of the changes after merging
-> (e.g. running git blame). Instead, you should have a series (named
-> something like "ad9834: driver cleanup") and three patches under it:
-> 1. simplify -ENOMEM errno return
-> 2. use dev_err_probe()
-> 3. fix typos in comments
->
 
-Of course this is undeniable but I think the other changes are so
-miniscule that it wouldn't matter as much, but that's just my personal
-opinion. Angus, you should probably split this into a patch series.
-
-Either way, I still stand by my reviewed-by, at least based on technical
-correctness, but make sure you at least add the missing dev_err_probe()
-call that Joshua wanted Angus :)
-
-best regards,
-maxwell
-
+Thanks,
+Nikolay
