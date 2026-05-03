@@ -1,143 +1,434 @@
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC17C3C6A38
-	for <linux-staging@lists.linux.dev>; Sun,  3 May 2026 13:11:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777813892; cv=pass; b=jFIgLv/fgQFCqsd0zd832ZjODtH8rIJMkVoBqPneTIWK3aRG5QLS+pXPR9iU7MAnUZQv532K0IdDC+gHTdMQk/e61dCRok6R1pEUPMdiDcYFdhbJBCqTc5urruLby8iSqS+w7e6qu+taxsC9NJPhzAMgD+fzeWoPHrWyIwsVCy8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777813892; c=relaxed/simple;
-	bh=HyBbeD7jH/q1wggk6L9xoXXRW1SsgszsFSHW8izjd5c=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=ZKJ8PCUG9Ne/7cy8bS9FJXdcTGp+Va6gxPpErTP24YsNStLxqwdFxIxc7f0jJpXcDe75y/jL6896cVmS590d8GbB1mseHkH/Z7IiI5OGCc9rkxlmuzhgcmhmGk4Wd1SdHR2KUgPpEH7peS794OpNz6NFXFKko4k9999YdgHkrec=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X2uE2ZHc; arc=pass smtp.client-ip=209.85.219.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72DD32D8390
+	for <linux-staging@lists.linux.dev>; Sun,  3 May 2026 13:57:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777816665; cv=none; b=lRuk44gJGcb73tHNBf3elOcYrBvv3J9sHzMMNkwuiMjwZhIKeX93fzNZfWE9vPNuzVJTrAaO+eAwcAhR+SaBKg12Rj9grSOhAjiUiUUBe1uh7KQpDeuWZKSEygLNtEeO7amShE/RixCyMKUW8mvfyu7XqSYAFfH/NBO3/eN3zP0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777816665; c=relaxed/simple;
+	bh=yaM2l25k0qE3jRkqQGzeQvd2kbcFfN6t3wS0xIT7MGE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=S0+greQgrgWobBYQ3PWVuyjKDyZPa7DeKnJLYZ+iIeVMPwr8M7pz8dsBFYIfLI6GjCNNJ22Z4xLQMviAJNa2T2AnoxuhkVbmAqxUybF8Aq2xmhoU1gAwayD6mFVMXgx6hXGk47L85AInQGmoJ8qeLEXeavcNK9QWqSsGvvdtZxI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m++EPpyq; arc=none smtp.client-ip=209.85.167.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X2uE2ZHc"
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-8b3fecdd3c6so5798456d6.0
-        for <linux-staging@lists.linux.dev>; Sun, 03 May 2026 06:11:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777813890; cv=none;
-        d=google.com; s=arc-20240605;
-        b=JMq4PUHI6CvbhjPisUnXzZoBAiXiF2YfHaimBfOtw/VwmjTU7h8e/YCA+m88RiBnFq
-         RzH9vmbglU9jicww1N4wejGRUZdkhWiG4l1/tJ57bGK3EzmP1p7zHUWfkgA+MGusEyUB
-         AQ60FTcTjfm5lTsDZI3rI+g3lB/RP1xaEhPYZ7z9kRsNLOssTZ5aS2ljnwu1RYTE7K5m
-         /H5oaoWNgaF9ZEibRdyGIu6iEcJPlpgWnnwzhQ3PJHkFIwdkTrFGHBUENcDMqAdsjIeU
-         cjY6rDoCNl88UwEFcy5ziNDL/b6W/4T2h/ERjv0ERTpaVamNEfTL1t8MsR8AVQhhDNQc
-         UyPg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=v7aiQO6fvNvJpdsJuZvEgPD+doUEhRpaySSpZmv7mPg=;
-        fh=OGuGyImkAcJwt+sRhpXRgKfXKBxNQnSga2zoz3XK8eQ=;
-        b=CG3fXU8ViYXdb6Y3L1IlagWGAldS7lDxO7z5ro/EBfrCx034bd9l8gyfKwGHjeYzW3
-         cAF8WouKCpqfhi/3rL8ANlfC5KMcNlJcs525oyS5iTM7hr7wCcqgatRHf4NtAIy6onbj
-         y5ncPNjTGTOD2ogDPbqNwys8YEV3sJPPawu0uqG5Kp729hHbGeXZArYQnUbXK2V/dWN7
-         M5dn9jbamn5BPsq9bo0Tl9sNm5F51IhD869oCBYxZTE0IipvcBQiTLyl4SVll5+84hDW
-         0K2KpsAhktv4Si9tALfBOSIr7xxhFfnQyleL7qmZPDdt4jXoNim7GJCnKMDpizYbEhMn
-         FTPg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m++EPpyq"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-59dcdf60427so2878075e87.3
+        for <linux-staging@lists.linux.dev>; Sun, 03 May 2026 06:57:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777813890; x=1778418690; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=v7aiQO6fvNvJpdsJuZvEgPD+doUEhRpaySSpZmv7mPg=;
-        b=X2uE2ZHco2Am+LCJOqEXcOGS3wqP/Hn+nGDdN8fbMEdm/8+0g8i8s3afppEd/7zlrg
-         Xirjg3/2RMveWlzsSazTQx4GhLhOo7YWRniuYibNtnCSYMFBAAq9NnraxlwxT134kMK9
-         N8qS43LDt7MBBBnUnrcwzIj2yGUGmGqv6htPcFvHoCeyEFGP1rNBLBHfDs4qsoHOtN8H
-         ALvq/W77C47mCV4P/kvDIuUxJSbesMFTSQoPZXGqsubdF+xOuKtDrrG9SLsBIXlyGb3L
-         IZNNS2ekVS0drcOAs8DBHwVr5ZfsBbcNG7RFrxp0m5dtXlihwTxARTs3ZZOJYKsQ0W6Z
-         tmLw==
+        d=gmail.com; s=20251104; t=1777816662; x=1778421462; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z23gOWoR1z1ahTQKLxmV0sRvBUZMTeXg1Wmc4ZGdXz4=;
+        b=m++EPpyqEtv3DaLst2Sxdi+AtOem1MMTQa0I6UaDtZf71col8SO1VaG4mBPMMYmW53
+         QZHKpVuWw5X3IQ2dyqrrr+4J+5UAg/JAJrgHlfdXek6FpDKI02W8JHcNQA8uelLov7RW
+         0vwhHb49kKrjCd/ygXrM5aHfp7VEvSAKnkohmS7iYJZmoaTRgYRxaCX6pn0DsuZeDsUo
+         bx5A84fwk5EqzujNIXGohQTsI88T6vhJP5Voiqg5CJf90Ed+ePEPOVasAPHzVEPeeBAA
+         DyuV1HyR4PNDi/Sll0WDwUAH/BOrBadDZ6+autkNU2rXi641ezjqM6FrOWQcxa7a8XzW
+         w23A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777813890; x=1778418690;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=v7aiQO6fvNvJpdsJuZvEgPD+doUEhRpaySSpZmv7mPg=;
-        b=Fb4fDIEabtzX4zqkSZW3C9IdnWlEq8WUveGUuY4tK2mxs43KxnSOI+T0N0w5ID2dKe
-         XKvy9Osa677J8S0A4bmqQAEqvfodi65u1Q8MtKNNP7ElcgnCdJQOCPYY5mwW6DYcypby
-         zeTfGdTViKWuLMf1xnsyM6X6bhOoR3R+UNWWTQtatgY5+0a4Hb4FRLthvkenEtOPGUVT
-         a7Q2eC1K2SLuTy8283C6J8BnWKeT4iuWa+yrExch3fp2C0KLAaGzCRHFhnRuHA5N3cf8
-         /cO+uK6F4LGBHMvJHSV+yNIbRwEGm5wSLkLZF8Ru81f5TAdwzDO2DBgIl6jKiH6jgGxu
-         25Vw==
-X-Gm-Message-State: AOJu0YxfmrVepSObb/pJfEaQFBmHtoihBYJMuwT5E50ZpXGnVt/7BjwG
-	xgyY6OtYVt9Ucmr/4QRbMMD1ca48YWztdn+yIi9xIJi+48y5YFCYKYzOBI5Ol6flHgCoMMMrmp4
-	ChlZQ72w+9H4NaWA5gxaDZlZMVixpcBY=
-X-Gm-Gg: AeBDievQBqYlxQTAspkhsNPTkwu9Cab5ymS3f0cZv29y+bqP+JaEqnccp67CytURRiP
-	TsvFtCNbF53/QmKBhXgkkBlHF/nVVebZBj7a5mVaBPFnJ8MqziaA4chOwsewwrb/2aOZqKei3vU
-	qddBVI1sY9rJhXyRT4m88gVUcjVLPvZFGkFuueJbgUXfYbP3WFq0CzyAkRqXnThv2qUl2VTUZXi
-	8WDf5frjkEQrafAkF9KzuoPN92xESxPVxSIWFq/p6O+JLn2/N/ARH7ITS7hS/G0ZzvVPwxzvhgA
-	kpyEiffJkhExWNrrNx+xfApO7ShDVMqNxbtQvubi5blpKSitjznu
-X-Received: by 2002:a05:6214:508b:b0:8ac:a833:a22d with SMTP id
- 6a1803df08f44-8b66788d60dmr69566206d6.3.1777813890538; Sun, 03 May 2026
- 06:11:30 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1777816662; x=1778421462;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Z23gOWoR1z1ahTQKLxmV0sRvBUZMTeXg1Wmc4ZGdXz4=;
+        b=gsTuKMKekbuqS4fIoyoK75iEbZN31f02qrT8yynt5oeTlTZ03mMiISVcOjgfy32ryx
+         dpCT7XuqLTdVVpiQhVLgle5q5WApjF5L3iyY5tK6Jd4WxUtrbhN3zWA1apfm46oh9hk3
+         wpnrkh0uGJ9gfJA0QyDp7bsBMu3AV1WY8hwgSRvA+MCzwTu4wGB9WJDlq3ow0PeDvDwW
+         f6p0qLMV5rxtbI/ILgZeeWE3n+mbsblfN6mTBcY55WtJ+McKT/2HmEmOt5QQXw2tQ6Al
+         lXtWXFyjGNcuikZn3hiZn6ib85PnqNrZJD7XARYDm3PkwXDjgIgdA38gEdvtNRbiGXYx
+         35uA==
+X-Forwarded-Encrypted: i=1; AFNElJ/NIHww0cTeglE37HurNWNkCyDMU8cmELmOLh1/1f2s3A1mBDxTErfvGMeYQmwfboAlzT+GikEpHykZu6U5@lists.linux.dev
+X-Gm-Message-State: AOJu0YwS0Z0dJ/U/+M5BjSKxve547ZWUf2fnojxsOkx4b0rixIuZV+uD
+	ovLG4Px9eFuEeVkG0e0Qvhuz+bLWCptSlljREpk40cPUG+lZQKVfEjks
+X-Gm-Gg: AeBDieuECoz+6CGcHzTlbaTco7JB5lqGTRYglrLsRgnsArb4K4Tb9yKzAAGYc1kwkEk
+	zAv+jw1S0o3VlkRJk9+gdepfbiU8TMgt6Ki7UGgpS9yxjO4GyC5RE6Hp+tp6tVz/417e/SSsnOT
+	3zwpf9He69O8Sx8qF8l0iVTZvri3Ybx6eZ+W2EgUJJLSOxOYmuo16dPFZqmbFNw2HBRwht/wnLU
+	usTm19m2OgRiJ7N+AIEcGzc0Aa6aDABpk7e0WJG4EywfGJkXMvPqj+Z2umh1nNDpuZN4PxjI78S
+	gUNMkr5dTjCvILCvBtzkDPwTWu2Y73ztZZEk8EwWe9HyCz0BD7Sy/bmrbqPaT+Cb6iO6uIgM6S5
+	THU3bAYKMY5Ul55OHn1bOFkAPoNx5eamRIOI//u3yd/JZ4I0O6EyeuPr/myCK9Q5l4RE95njIE5
+	RFQdb8F0MW/PDOuvbOJDTYQ+ix7Kwmko2+QJM=
+X-Received: by 2002:a05:6512:68b:b0:5a7:49e7:a7b6 with SMTP id 2adb3069b0e04-5a862ebb69amr1758174e87.1.1777816661114;
+        Sun, 03 May 2026 06:57:41 -0700 (PDT)
+Received: from archlinux ([185.140.161.214])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a85c342498sm2068506e87.68.2026.05.03.06.57.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 May 2026 06:57:40 -0700 (PDT)
+Date: Sun, 3 May 2026 16:57:37 +0300
+From: Nikolay Kulikov <nikolayof23@gmail.com>
+To: Aidan Russell <aidanlrussell@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: Fix spelling mistakes in comments
+Message-ID: <afdUUVrjrN0PKBRw@archlinux>
+References: <20260501065657.641287-1-aidanlrussell@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Ashwin Gundarapu <ashwin.gundarapu@gmail.com>
-Date: Sun, 3 May 2026 18:40:53 +0530
-X-Gm-Features: AVHnY4L2wIemsAQA-ab3Y9mKPRUBH0FEFueJOt3gBWrEDFq7kW-lkoqk6BEQ3_0
-Message-ID: <CANAeh8e6rfBackrS4Vm1x2rFA2gW08iz2t1Kc3HCcPgN9S51xw@mail.gmail.com>
-Subject: [PATCH] staging: rtl8723bs: remove unnecessary comparison to true
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: multipart/mixed; boundary="0000000000006c54eb0650e98de4"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260501065657.641287-1-aidanlrussell@gmail.com>
 
---0000000000006c54eb0650e98de4
-Content-Type: multipart/alternative; boundary="0000000000006c54eb0650e98de2"
+On Thu, Apr 30, 2026 at 11:56:57PM -0700, Aidan Russell wrote:
+> Fix several spelling mistakes in comments in the rtl8723bs staging
+> driver.
+> 
+> No functional changes.
+> 
+> Signed-off-by: Aidan Russell <aidanlrussell@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_cmd.c          |  2 +-
+>  drivers/staging/rtl8723bs/core/rtw_efuse.c        |  2 +-
+>  drivers/staging/rtl8723bs/core/rtw_mlme.c         |  9 ++++++---
+>  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c     |  3 ++-
+>  drivers/staging/rtl8723bs/core/rtw_pwrctrl.c      |  2 +-
+>  drivers/staging/rtl8723bs/core/rtw_recv.c         |  4 ++--
+>  drivers/staging/rtl8723bs/core/rtw_xmit.c         |  4 ++--
+>  drivers/staging/rtl8723bs/hal/HalPhyRf.c          |  2 +-
+>  drivers/staging/rtl8723bs/hal/odm_DIG.c           |  2 +-
+>  drivers/staging/rtl8723bs/hal/odm_types.h         |  2 +-
+>  drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c      |  2 +-
+>  drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 12 ++++++++----
+>  drivers/staging/rtl8723bs/hal/rtl8723b_rf6052.c   |  2 +-
+>  drivers/staging/rtl8723bs/include/drv_types.h     |  2 +-
+>  drivers/staging/rtl8723bs/include/hal_com_reg.h   |  6 +++---
+>  drivers/staging/rtl8723bs/include/rtw_xmit.h      |  2 +-
+>  drivers/staging/rtl8723bs/include/wlan_bssdef.h   |  4 ++--
+>  drivers/staging/rtl8723bs/os_dep/wifi_regd.c      |  2 +-
+>  18 files changed, 36 insertions(+), 28 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> index 72d5905a48e9..eca1a5bc79be 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> @@ -1650,7 +1650,7 @@ u8 rtw_c2h_packet_wk_cmd(struct adapter *padapter, u8 *pbuf, u16 length)
+>  	return res;
+>  }
+>  
+> -/* dont call R/W in this function, beucase SDIO interrupt have claim host */
+> +/* dont call R/W in this function, because SDIO interrupt have claim host */
+>  /* or deadlock will happen and cause special-systemserver-died in android */
+>  u8 rtw_c2h_wk_cmd(struct adapter *padapter, u8 *c2h_evt)
+>  {
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c b/drivers/staging/rtl8723bs/core/rtw_efuse.c
+> index a7a636449813..205fc5a5ce50 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
+> @@ -28,7 +28,7 @@ rtw_efuse_calculate_word_counts(u8 word_en)
+>  /*-----------------------------------------------------------------------------
+>   * Function:	rtw_efuse_read_1_byte
+>   *
+> - * Overview:	Copy from WMAC fot EFUSE read 1 byte.
+> + * Overview:	Copy from WMAC for EFUSE read 1 byte.
+>   *
+>   * Input:       NONE
+>   *
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+> index 3ecf4f979c03..35818df73808 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+> @@ -1,6 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0
+>  /******************************************************************************
+> - *
+> +
+>   * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
+>   *
+>   ******************************************************************************/
+> @@ -52,7 +52,10 @@ int	rtw_init_mlme_priv(struct adapter *padapter)
+>  	pmlmepriv->pscanned = NULL;
+>  	pmlmepriv->fw_state = WIFI_STATION_STATE; /*  Must sync with rtw_wdev_alloc() */
+>  	pmlmepriv->cur_network.network.infrastructure_mode = Ndis802_11AutoUnknown;
+> -	pmlmepriv->scan_mode = SCAN_ACTIVE;/*  1: active, 0: passive. Maybe someday we should rename this varable to "active_mode" (Jeff) */
+> +	pmlmepriv->scan_mode = SCAN_ACTIVE;/*  1: active, 0: passive.
+> +					    * Maybe someday we should rename
+> +					    * this variable to "active_mode" (Jeff)
+> +					    */
+>  
+>  	spin_lock_init(&pmlmepriv->lock);
+>  	INIT_LIST_HEAD(&pmlmepriv->free_bss_pool.queue);
+> @@ -1378,7 +1381,7 @@ void rtw_stadel_event_callback(struct adapter *adapter, u8 *pbuf)
+>  		u16 media_status;
+>  
+>  		media_status = (mac_id << 8) | 0; /*   MACID|OPMODE:0 means disconnect */
+> -		/* for STA, AP, ADHOC mode, report disconnect stauts to FW */
+> +		/* for STA, AP, ADHOC mode, report disconnect status to FW */
+>  		rtw_hal_set_hwreg(adapter, HW_VAR_H2C_MEDIA_STATUS_RPT, (u8 *)&media_status);
+>  	}
+>  
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> index cfd3eb253350..cccba2dd9cf2 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> @@ -1478,7 +1478,8 @@ unsigned int OnDeAuth(struct adapter *padapter, union recv_frame *precv_frame)
+>  	/* Commented by Albert 20130604
+>  	 * Before sending the auth frame to start the STA/GC mode connection with AP/GO,
+>  	 * we will send the deauth first.
+> -	 * However, the Win8.1 with BRCM Wi-Fi will send the deauth with reason code 6 to us after receieving our deauth.
+> +	 * However, the Win8.1 with BRCM Wi-Fi will send the deauth with
+> +	 * reason code 6 to us after receiving our deauth.
+>  	 * Added the following code to avoid this case.
+>  	 */
+>  	if ((pmlmeinfo->state & WIFI_FW_AUTH_STATE) ||
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+> index f074ea6e0f38..ca1cb58fc801 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+> @@ -576,7 +576,7 @@ void LPS_Leave_check(struct adapter *padapter)
+>   *
+>   * This will be called when CPWM interrupt is up.
+>   *
+> - * using to update cpwn of drv; and drv willl make a decision to up or down pwr level
+> + * using to update cpwn of drv; and drv will make a decision to up or down pwr level
+>   */
+>  void cpwm_int_hdl(struct adapter *padapter, struct reportpwrstate_parm *preportpwrstate)
+>  {
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
+> index e11127992cfd..5ef31e604775 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_recv.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
+> @@ -828,7 +828,7 @@ static signed int ap2sta_data_frame(struct adapter *adapter, union recv_frame *p
+>  		}
+>  
+>  		if (GetFrameSubType(ptr) & BIT(6)) {
+> -			/* No data, will not indicate to upper layer, temporily count it here */
+> +			/* No data, will not indicate to upper layer, temporarily count it here */
+>  			count_rx_stats(adapter, precv_frame, *psta);
+>  			ret = RTW_RX_HANDLED;
+>  			goto exit;
+> @@ -909,7 +909,7 @@ static signed int sta2ap_data_frame(struct adapter *adapter, union recv_frame *p
+>  			process_wmmps_data(adapter, precv_frame);
+>  
+>  		if (GetFrameSubType(ptr) & BIT(6)) {
+> -			/* No data, will not indicate to upper layer, temporily count it here */
+> +			/* No data, will not indicate to upper layer, temporarily count it here */
+>  			count_rx_stats(adapter, precv_frame, *psta);
+>  			ret = RTW_RX_HANDLED;
+>  			goto exit;
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+> index dba146b696e0..a21aa2964a6b 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+> @@ -726,7 +726,7 @@ static s32 update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct p
+>  			}
+>  		}
+>  
+> -		/* for parsing ICMP pakcets */
+> +		/* for parsing ICMP packets */
+>  		{
+>  			struct iphdr *piphdr = (struct iphdr *)tmp;
+>  
+> @@ -1358,7 +1358,7 @@ s32 rtw_mgmt_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, s
+>  			/* set final tx command size */
+>  			pattrib->last_txcmdsz = pattrib->pktlen;
+>  
+> -			/* set protected bit must be beofre SW encrypt */
+> +			/* set protected bit must be before SW encrypt */
+>  			SetPrivacy(mem_start);
+>  			/* software encrypt */
+>  			xmitframe_swencrypt(padapter, pxmitframe);
+> diff --git a/drivers/staging/rtl8723bs/hal/HalPhyRf.c b/drivers/staging/rtl8723bs/hal/HalPhyRf.c
+> index 7bef05a9a063..fbc045a02852 100644
+> --- a/drivers/staging/rtl8723bs/hal/HalPhyRf.c
+> +++ b/drivers/staging/rtl8723bs/hal/HalPhyRf.c
+> @@ -18,7 +18,7 @@ void ConfigureTxpowerTrack(struct dm_odm_t *pDM_Odm, struct txpwrtrack_cfg *pCon
+>  /*  Otherwise the previous compensation is gone, because we record the */
+>  /*  delta of temperature between two TxPowerTracking watch dogs. */
+>  /*  */
+> -/*  NOTE: If Tx BB swing or Tx scaling is varified during run-time, still */
+> +/*  NOTE: If Tx BB swing or Tx scaling is verified during run-time, still */
+>  /*        need to call this function. */
+>  /*  */
+>  void ODM_ClearTxPowerTrackingState(struct dm_odm_t *pDM_Odm)
+> diff --git a/drivers/staging/rtl8723bs/hal/odm_DIG.c b/drivers/staging/rtl8723bs/hal/odm_DIG.c
+> index a31c8368f9d9..f794b6b2d402 100644
+> --- a/drivers/staging/rtl8723bs/hal/odm_DIG.c
+> +++ b/drivers/staging/rtl8723bs/hal/odm_DIG.c
+> @@ -602,7 +602,7 @@ void odm_DIGbyRSSI_LPS(void *pDM_VOID)
+>  }
+>  
+>  /* 3 ============================================================ */
+> -/* 3 FASLE ALARM CHECK */
+> +/* 3 FALSE ALARM CHECK */
+>  /* 3 ============================================================ */
+>  
+>  void odm_FalseAlarmCounterStatistics(void *pDM_VOID)
+> diff --git a/drivers/staging/rtl8723bs/hal/odm_types.h b/drivers/staging/rtl8723bs/hal/odm_types.h
+> index 0da662e1493a..a2fe4f258408 100644
+> --- a/drivers/staging/rtl8723bs/hal/odm_types.h
+> +++ b/drivers/staging/rtl8723bs/hal/odm_types.h
+> @@ -9,7 +9,7 @@
+>  
+>  #include <drv_types.h>
+>  
+> -/*  Deifne HW endian support */
+> +/*  Define HW endian support */
+>  #define	ODM_ENDIAN_BIG	0
+>  #define	ODM_ENDIAN_LITTLE	1
+>  
+> diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
+> index 4bdc8e314015..9fc104af343b 100644
+> --- a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
+> +++ b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
+> @@ -832,7 +832,7 @@ static void SetFwRsvdPagePkt_BTCoex(struct adapter *padapter)
+>  
+>  	BufIndex += (CurtPktPageNum*PageSize);
+>  
+> -	/*  Jump to lastest page */
+> +	/*  Jump to last page */
+>  	if (BufIndex < (MaxRsvdPageBufSize - PageSize)) {
+>  		BufIndex = TxDescOffset + (MaxRsvdPageBufSize - PageSize);
+>  		TotalPageNum = BCNQ_PAGE_NUM_8723B - 1;
+> diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+> index 9a91fd0a96eb..8af6bff13fa4 100644
+> --- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+> +++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+> @@ -1859,9 +1859,11 @@ void rtl8723b_update_txdesc(struct xmit_frame *pxmitframe, u8 *pbuf)
+>  }
+>  
+>  /*  */
+> -/*  Description: In normal chip, we should send some packet to Hw which will be used by Fw */
+> -/* 			in FW LPS mode. The function is to fill the Tx descriptor of this packets, then */
+> -/* 			Fw can tell Hw to send these packet derectly. */
+> +/*  Description: In normal chip, we should send some packet to Hw which will be used by Fw
+> + *		 in FW LPS mode. The function is to fill the
+> + *		 Tx descriptor of this packets, then
+> + *		 Fw can tell Hw to send these packet directly.
+> + */
+>  /*  Added by tynli. 2009.10.15. */
+>  /*  */
+>  /* type1:pspoll, type2:null */
+> @@ -2582,7 +2584,9 @@ void SetHwReg8723B(struct adapter *padapter, u8 variable, u8 *val)
+>  		{
+>  			u8 psmode = *val;
+>  
+> -			/*  Forece leave RF low power mode for 1T1R to prevent conficting setting in Fw power */
+> +			/*  Force leave RF low power mode for 1T1R to
+> +			 *  prevent conflicting setting in Fw power
+> +			 */
+>  			/*  saving sequence. 2010.06.07. Added by tynli. Suggested by SD3 yschang. */
+>  			if (psmode != PS_MODE_ACTIVE) {
+>  				ODM_RF_Saving(&pHalData->odmpriv, true);
+> diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_rf6052.c b/drivers/staging/rtl8723bs/hal/rtl8723b_rf6052.c
+> index ffb35e1ace62..d4095b0b441b 100644
+> --- a/drivers/staging/rtl8723bs/hal/rtl8723b_rf6052.c
+> +++ b/drivers/staging/rtl8723bs/hal/rtl8723b_rf6052.c
+> @@ -119,7 +119,7 @@ static int phy_RF6052_Config_ParaFile(struct adapter *Adapter)
+>  		PHY_SetBBReg(Adapter, pPhyReg->rfHSSIPara2, b3WireDataLength, 0x0);	/*  Set 0 to 12  bits for 8255 */
+>  		udelay(1);/* PlatformStallExecution(1); */
+>  
+> -		/*----Initialize RF fom connfiguration file----*/
+> +		/*----Initialize RF from configuration file----*/
+>  		switch (eRFPath) {
+>  		case RF_PATH_A:
+>  		case RF_PATH_B:
+> diff --git a/drivers/staging/rtl8723bs/include/drv_types.h b/drivers/staging/rtl8723bs/include/drv_types.h
+> index 7ed375ba18d8..4f6b4ec220c0 100644
+> --- a/drivers/staging/rtl8723bs/include/drv_types.h
+> +++ b/drivers/staging/rtl8723bs/include/drv_types.h
+> @@ -273,7 +273,7 @@ enum {
+>  struct adapter {
+>  	int	DriverState;/*  for disable driver using module, use dongle to replace module. */
+>  	int	pid[3];/* process id from UI, 0:wps, 1:hostapd, 2:dhcpcd */
+> -	int	bDongle;/* build-in module or external dongle */
+> +	int	bDongle;/* built-in module or external dongle */
+>  
+>  	struct dvobj_priv *dvobj;
+>  	struct	mlme_priv mlmepriv;
+> diff --git a/drivers/staging/rtl8723bs/include/hal_com_reg.h b/drivers/staging/rtl8723bs/include/hal_com_reg.h
+> index cf5c15dc2bfd..407894ce4d86 100644
+> --- a/drivers/staging/rtl8723bs/include/hal_com_reg.h
+> +++ b/drivers/staging/rtl8723bs/include/hal_com_reg.h
+> @@ -20,7 +20,7 @@
+>  #define REG_RSV_CTRL					0x001C
+>  #define REG_RF_CTRL						0x001F
+>  #define REG_AFE_XTAL_CTRL				0x0024
+> -#define REG_MAC_PHY_CTRL				0x002c /* for 92d, DMDP, SMSP, DMSP contrl */
+> +#define REG_MAC_PHY_CTRL				0x002c /* for 92d, DMDP, SMSP, DMSP control */
+>  #define REG_EFUSE_CTRL					0x0030
+>  #define REG_EFUSE_TEST					0x0034
+>  #define REG_PWR_DATA					0x0038
+> @@ -186,7 +186,7 @@
+>  
+>  /*  */
+>  /*  */
+> -/* 	Redifine 8192C register definition for compatibility */
+> +/*	Redefine 8192C register definition for compatibility */
+>  /*  */
+>  /*  */
+>  #define EFUSE_CTRL				REG_EFUSE_CTRL		/*  E-Fuse Control. */
+> @@ -273,7 +273,7 @@
+>  /*  */
+>  /*        8192C (RCR) Receive Configuration Register	(Offset 0x608, 32 bits) */
+>  /*  */
+> -#define RCR_APPFCS				BIT31	/*  WMAC append FCS after pauload */
+> +#define RCR_APPFCS				BIT31	/*  WMAC append FCS after payload */
+>  #define RCR_APP_MIC				BIT30	/*  MACRX will retain the MIC at the bottom of the packet. */
+>  #define RCR_APP_ICV				BIT29	/*  MACRX will retain the ICV at the bottom of the packet. */
+>  #define RCR_APP_PHYST_RXFF		BIT28	/*  PHY Status is appended before RX packet in RXFF */
+> diff --git a/drivers/staging/rtl8723bs/include/rtw_xmit.h b/drivers/staging/rtl8723bs/include/rtw_xmit.h
+> index b0189a703d28..a00163f41853 100644
+> --- a/drivers/staging/rtl8723bs/include/rtw_xmit.h
+> +++ b/drivers/staging/rtl8723bs/include/rtw_xmit.h
+> @@ -157,7 +157,7 @@ struct pkt_attrib {
+>  	u8 key_idx;
+>  	u8 qos_en;
+>  	u8 ht_en;
+> -	u8 raid;/* rate adpative id */
+> +	u8 raid;/* rate adaptive id */
+>  	u8 bwmode;
+>  	u8 ch_offset;/* PRIME_CHNL_OFFSET */
+>  	u8 sgi;/* short GI */
+> diff --git a/drivers/staging/rtl8723bs/include/wlan_bssdef.h b/drivers/staging/rtl8723bs/include/wlan_bssdef.h
+> index 812a68394268..2d45e69f4f4c 100644
+> --- a/drivers/staging/rtl8723bs/include/wlan_bssdef.h
+> +++ b/drivers/staging/rtl8723bs/include/wlan_bssdef.h
+> @@ -137,7 +137,7 @@ struct wlan_phy_info {
+>  };
+>  
+>  struct wlan_bcn_info {
+> -	/* these infor get from rtw_get_encrypt_info when
+> +	/* these info get from rtw_get_encrypt_info when
+>  	 * * translate scan to UI */
+>  	u8 encryp_protocol;/* ENCRYP_PROTOCOL_E: OPEN/WEP/WPA/WPA2/WAPI */
+>  	int group_cipher; /* WPA/WPA2 group cipher */
+> @@ -149,7 +149,7 @@ struct wlan_bcn_info {
+>  	unsigned char ht_info_infos_0;
+>  };
+>  
+> -/* temporally add #pragma pack for structure alignment issue of
+> +/* temporarily add #pragma pack for structure alignment issue of
+>  *   struct wlan_bssid_ex and get_wlan_bssid_ex_sz()
+>  */
+>  struct wlan_bssid_ex {
+> diff --git a/drivers/staging/rtl8723bs/os_dep/wifi_regd.c b/drivers/staging/rtl8723bs/os_dep/wifi_regd.c
+> index c48a1e3ba4ac..c80f844e45cb 100644
+> --- a/drivers/staging/rtl8723bs/os_dep/wifi_regd.c
+> +++ b/drivers/staging/rtl8723bs/os_dep/wifi_regd.c
+> @@ -27,7 +27,7 @@
+>   * by case basis by regulatory domain
+>   */
+>  
+> -/* 2G chan 12 - chan 13, PASSIV SCAN */
+> +/* 2G chan 12 - chan 13, PASSIVE SCAN */
+>  #define RTW_2GHZ_CH12_13	\
+>  	REG_RULE(2467 - 10, 2472 + 10, 40, 0, 20,	\
+>  	NL80211_RRF_PASSIVE_SCAN)
+> -- 
+> 2.54.0
+> 
 
---0000000000006c54eb0650e98de2
-Content-Type: text/plain; charset="UTF-8"
+In commit message you say you're fixing spelling mistakes, but in
+reality you're making several other unrelated changes.
+Please remove them or split them into separate patches so that each
+patch contains one logical change.
 
-Remove unnecessary comparison to true in conditional statement.
-Found by checkpatch.
 
-Signed-off-by: Ashwin Gundarapu <ashwin.gundarapu@gmail.com>
----
-
---0000000000006c54eb0650e98de2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Remove unnecessary comparison to true in conditional state=
-ment.<br>Found by checkpatch.<br><br>Signed-off-by: Ashwin Gundarapu &lt;<a=
- href=3D"mailto:ashwin.gundarapu@gmail.com">ashwin.gundarapu@gmail.com</a>&=
-gt;<br>---<br>=C2=A0</div>
-
---0000000000006c54eb0650e98de2--
---0000000000006c54eb0650e98de4
-Content-Type: text/x-patch; charset="US-ASCII"; 
-	name="0001-staging-rtl8723bs-remove-unnecessary-comparison-to-t.patch"
-Content-Disposition: attachment; 
-	filename="0001-staging-rtl8723bs-remove-unnecessary-comparison-to-t.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_mopsgbc70>
-X-Attachment-Id: f_mopsgbc70
-
-RnJvbSBiNDlkNjIxNTc5YmU5NmVmNzFlMzIwNmI4ODhmM2FiMzljMjk3NDkxIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBBc2h3aW4gR3VuZGFyYXB1IDxhc2h3aW4uZ3VuZGFyYXB1QGdt
-YWlsLmNvbT4KRGF0ZTogU2F0LCAyIE1heSAyMDI2IDE3OjE5OjQ4ICswNTMwClN1YmplY3Q6IFtQ
-QVRDSF0gc3RhZ2luZzogcnRsODcyM2JzOiByZW1vdmUgdW5uZWNlc3NhcnkgY29tcGFyaXNvbiB0
-byB0cnVlCgpSZW1vdmUgZXhwbGljaXQgY29tcGFyaXNvbiB0byB0cnVlIGluIGNoZWNrX2Z3c3Rh
-dGUoKSBjYWxsIGFuZAphZGQgc3BhY2luZyBhcm91bmQgdGhlIGJpdHdpc2UgT1Igb3BlcmF0b3Ig
-dG8gaW1wcm92ZSBjb2RlIHN0eWxlLgoKU2lnbmVkLW9mZi1ieTogQXNod2luIEd1bmRhcmFwdSA8
-YXNod2luLmd1bmRhcmFwdUBnbWFpbC5jb20+Ci0tLQogZHJpdmVycy9zdGFnaW5nL3J0bDg3MjNi
-cy9jb3JlL3J0d19pb2N0bF9zZXQuYyB8IDMgKystCiAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRp
-b25zKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9zdGFnaW5nL3J0bDg3
-MjNicy9jb3JlL3J0d19pb2N0bF9zZXQuYyBiL2RyaXZlcnMvc3RhZ2luZy9ydGw4NzIzYnMvY29y
-ZS9ydHdfaW9jdGxfc2V0LmMKaW5kZXggYzcwNTQxZjk1YTczLi5jMTAwYTBkNzBmZTIgMTAwNjQ0
-Ci0tLSBhL2RyaXZlcnMvc3RhZ2luZy9ydGw4NzIzYnMvY29yZS9ydHdfaW9jdGxfc2V0LmMKKysr
-IGIvZHJpdmVycy9zdGFnaW5nL3J0bDg3MjNicy9jb3JlL3J0d19pb2N0bF9zZXQuYwpAQCAtMTUx
-LDcgKzE1MSw4IEBAIHU4IHJ0d19zZXRfODAyXzExX3NzaWQoc3RydWN0IGFkYXB0ZXIgKnBhZGFw
-dGVyLCBzdHJ1Y3QgbmRpc184MDJfMTFfc3NpZCAqc3NpZCkKIAllbHNlIGlmIChjaGVja19md3N0
-YXRlKHBtbG1lcHJpdiwgX0ZXX1VOREVSX0xJTktJTkcpID09IHRydWUpCiAJCWdvdG8gcmVsZWFz
-ZV9tbG1lX2xvY2s7CiAKLQlpZiAoY2hlY2tfZndzdGF0ZShwbWxtZXByaXYsIF9GV19MSU5LRUR8
-V0lGSV9BREhPQ19NQVNURVJfU1RBVEUpID09IHRydWUpIHsKKwlpZiAoY2hlY2tfZndzdGF0ZShw
-bWxtZXByaXYsCisJCV9GV19MSU5LRUQgfCBXSUZJX0FESE9DX01BU1RFUl9TVEFURSkpIHsKIAkJ
-aWYgKChwbWxtZXByaXYtPmFzc29jX3NzaWQuc3NpZF9sZW5ndGggPT0gc3NpZC0+c3NpZF9sZW5n
-dGgpICYmCiAJCSAgICAoIW1lbWNtcCgmcG1sbWVwcml2LT5hc3NvY19zc2lkLnNzaWQsIHNzaWQt
-PnNzaWQsIHNzaWQtPnNzaWRfbGVuZ3RoKSkpIHsKIAkJCWlmIChjaGVja19md3N0YXRlKHBtbG1l
-cHJpdiwgV0lGSV9TVEFUSU9OX1NUQVRFKSA9PSBmYWxzZSkgewotLSAKMi40My4wCgo=
---0000000000006c54eb0650e98de4--
+Thanks,
+Nikolay
