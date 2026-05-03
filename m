@@ -1,168 +1,143 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 243D32E5B2A
-	for <linux-staging@lists.linux.dev>; Sun,  3 May 2026 10:55:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777805726; cv=none; b=r0BS+I7xsguQp1G8cKqNWmTmvTisFgellA065kYZhxbbcdv9WKWSIkYDmMSw/093ai3XhhlOuBdjEestnbwuYPkPUCxzb7HlG45kFuc08M8oA6GKWbJVf/ndtUiWSSCLLNCQnny3di7aRmy/0f5c2MQ16TdS8h0rsFsKxBuOAY8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777805726; c=relaxed/simple;
-	bh=1hO51x4h8CPdx9jGG2GAutIl/f60gAsDJNQC7HCqxG4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FeigIV7s9ZG8vrvCv9HHVITxWQ4V8z7felcaTLMXs3dTJ36n2ATfLa+KcEhh9aaxzbSnR7eToQI1aoKqv3U5spEqQVcJU8wn0mlLG5aVtTAazz5CwFepKKrC7+WiV5H9J4xTOTQj9EZOgLkxWUa2aq6f3G5O6xe804Jk+bHGbTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MellxoKX; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC17C3C6A38
+	for <linux-staging@lists.linux.dev>; Sun,  3 May 2026 13:11:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777813892; cv=pass; b=jFIgLv/fgQFCqsd0zd832ZjODtH8rIJMkVoBqPneTIWK3aRG5QLS+pXPR9iU7MAnUZQv532K0IdDC+gHTdMQk/e61dCRok6R1pEUPMdiDcYFdhbJBCqTc5urruLby8iSqS+w7e6qu+taxsC9NJPhzAMgD+fzeWoPHrWyIwsVCy8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777813892; c=relaxed/simple;
+	bh=HyBbeD7jH/q1wggk6L9xoXXRW1SsgszsFSHW8izjd5c=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=ZKJ8PCUG9Ne/7cy8bS9FJXdcTGp+Va6gxPpErTP24YsNStLxqwdFxIxc7f0jJpXcDe75y/jL6896cVmS590d8GbB1mseHkH/Z7IiI5OGCc9rkxlmuzhgcmhmGk4Wd1SdHR2KUgPpEH7peS794OpNz6NFXFKko4k9999YdgHkrec=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X2uE2ZHc; arc=pass smtp.client-ip=209.85.219.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MellxoKX"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-356337f058aso2016475a91.2
-        for <linux-staging@lists.linux.dev>; Sun, 03 May 2026 03:55:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X2uE2ZHc"
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-8b3fecdd3c6so5798456d6.0
+        for <linux-staging@lists.linux.dev>; Sun, 03 May 2026 06:11:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777813890; cv=none;
+        d=google.com; s=arc-20240605;
+        b=JMq4PUHI6CvbhjPisUnXzZoBAiXiF2YfHaimBfOtw/VwmjTU7h8e/YCA+m88RiBnFq
+         RzH9vmbglU9jicww1N4wejGRUZdkhWiG4l1/tJ57bGK3EzmP1p7zHUWfkgA+MGusEyUB
+         AQ60FTcTjfm5lTsDZI3rI+g3lB/RP1xaEhPYZ7z9kRsNLOssTZ5aS2ljnwu1RYTE7K5m
+         /H5oaoWNgaF9ZEibRdyGIu6iEcJPlpgWnnwzhQ3PJHkFIwdkTrFGHBUENcDMqAdsjIeU
+         cjY6rDoCNl88UwEFcy5ziNDL/b6W/4T2h/ERjv0ERTpaVamNEfTL1t8MsR8AVQhhDNQc
+         UyPg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=v7aiQO6fvNvJpdsJuZvEgPD+doUEhRpaySSpZmv7mPg=;
+        fh=OGuGyImkAcJwt+sRhpXRgKfXKBxNQnSga2zoz3XK8eQ=;
+        b=CG3fXU8ViYXdb6Y3L1IlagWGAldS7lDxO7z5ro/EBfrCx034bd9l8gyfKwGHjeYzW3
+         cAF8WouKCpqfhi/3rL8ANlfC5KMcNlJcs525oyS5iTM7hr7wCcqgatRHf4NtAIy6onbj
+         y5ncPNjTGTOD2ogDPbqNwys8YEV3sJPPawu0uqG5Kp729hHbGeXZArYQnUbXK2V/dWN7
+         M5dn9jbamn5BPsq9bo0Tl9sNm5F51IhD869oCBYxZTE0IipvcBQiTLyl4SVll5+84hDW
+         0K2KpsAhktv4Si9tALfBOSIr7xxhFfnQyleL7qmZPDdt4jXoNim7GJCnKMDpizYbEhMn
+         FTPg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777805724; x=1778410524; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tqeyPpFoIkQJEcRegJwv7jhnh6PyDcMcrJOjjALCVsE=;
-        b=MellxoKX/KNiNX02KXN7n1RmbZxwOYEvKRd6aWXxUu6L21DX7zq/6otY3yVyc6z5iE
-         3a9r9Qnc3iP1w8x02HEUzCLEeC6SQrTenyTaAWR9eCz9Qh2HuJwT0HWfCF4hV3bZQ2fg
-         58UK/ixEUBkLfjuVWyehi/49ZS52bZj+XCoAWTfpzFPfMzmz527rudzLfaNli5agmVFV
-         DC3ZuIC32EnM4P2XIq8/t3VzQk1voLhr3vLrQi1xjfIQiqkk4wtI71KnENgJ5Ld6Te6s
-         uCQsbltUPiilXZPlgOEYa/l0BEdyst3tbsNCvXvyIM4GRbEB1cjHZFfTwbVNjPLGpoQ2
-         SCfA==
+        d=gmail.com; s=20251104; t=1777813890; x=1778418690; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=v7aiQO6fvNvJpdsJuZvEgPD+doUEhRpaySSpZmv7mPg=;
+        b=X2uE2ZHco2Am+LCJOqEXcOGS3wqP/Hn+nGDdN8fbMEdm/8+0g8i8s3afppEd/7zlrg
+         Xirjg3/2RMveWlzsSazTQx4GhLhOo7YWRniuYibNtnCSYMFBAAq9NnraxlwxT134kMK9
+         N8qS43LDt7MBBBnUnrcwzIj2yGUGmGqv6htPcFvHoCeyEFGP1rNBLBHfDs4qsoHOtN8H
+         ALvq/W77C47mCV4P/kvDIuUxJSbesMFTSQoPZXGqsubdF+xOuKtDrrG9SLsBIXlyGb3L
+         IZNNS2ekVS0drcOAs8DBHwVr5ZfsBbcNG7RFrxp0m5dtXlihwTxARTs3ZZOJYKsQ0W6Z
+         tmLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777805724; x=1778410524;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=tqeyPpFoIkQJEcRegJwv7jhnh6PyDcMcrJOjjALCVsE=;
-        b=fQVoUOlnhnV4jtsDHYOcwk3kR99ozdqw28nICRriHsFQuu/2ZBtV4uwvSxiuSy3Ejn
-         zOVLeigNH693oGQIra8OWKGcZfBHjHWEZ+chgG67HBkx9GXRSmmXv96GOaUPSU5Gftn9
-         pwFUjaecPCvy+AxqvdyQvnykrecUMvQRpYx/4Vc2MBybJgqHNgyAiEK253Tms1RoFLcx
-         k4S3Y3iKn9u/L+faoXch+fgqehucH9nafdbzw+VbgVqMRbLcSyPv4bAvc48NrvaRyXfY
-         hRB39/i6EdCmBF/fN1pcNQ4ysCpx728xu7JnsybrFpZEILVUSeKPIvE8pSQtFEI256gI
-         4LnA==
-X-Gm-Message-State: AOJu0Yz4o6pBEQvsKOS1AjqIR7Zk9YrjvPuGVUIeOREuIEzUXN9OiERa
-	EV881WxnhuB06e8gZCo+x6RG5xdgFT6yHySq2lqzHdwFN4o62kf+FhXarfwOBvt5OxI=
-X-Gm-Gg: AeBDieudy0ednz9LH/BNSF09apwoJKXUUEu+sxpKAPMk0yjVwHGoBFrvVeNuh9OzlZk
-	nIXdbsiDWbiA+QpMY4brxTbISr6QWbTUfKwFLj/OHGj3vxhfryHG4/eAYcarNy0TmFT1Je/BDhl
-	4zMI9PDXgUvj8i4KRzURSkRDuA4OCdUQWGUssZbAia3lTr2lnWzAsrl5sl2O0k1+frwxY9Zv2Wl
-	n8sd80/0imXNnxRhFdiJCPOVZrQY8DrbA88v3xfZvz4xmDXqIuvY/G1yFisnZ1tJMmqBdq1jE46
-	plT4FQV6H5IBJWXZS3yw1p/wB+nySSbdyReoCvbAV80MUIUyIZz0dE/sfPXBg6sGnFJZbNCsSQf
-	8C6OYOqk+j+z29WNbqBZUWqGlT5aPgG+HWM4N5eB+kj0+RvnADDktKhNxlWN5ahbj7S0CnDGHfZ
-	Oy2dsSPSqMEmLJU1bzD8UNpalA41ao/PvxZGryKG/RcmCvdvtQictJ
-X-Received: by 2002:a17:90b:3f0f:b0:35d:ab26:5786 with SMTP id 98e67ed59e1d1-3650ceb4dcamr5990174a91.19.1777805724058;
-        Sun, 03 May 2026 03:55:24 -0700 (PDT)
-Received: from shirinkaul.localdomain ([122.172.84.203])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-364ec027690sm7897479a91.13.2026.05.03.03.55.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 May 2026 03:55:23 -0700 (PDT)
-From: Shirin Kaul <shirin.kaul11@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: gregkh@linuxfoundation.org,
-	hansg@kernel.org,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	andy@kernel.org,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Shirin Kaul <shirin.kaul11@gmail.com>
-Subject: [PATCH v2] staging: atomisp: isp: xnr 3.0 fix whitespace issue
-Date: Sun,  3 May 2026 10:54:45 +0000
-Message-ID: <20260503105445.45058-1-shirin.kaul11@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260502082516.16302-1-shirin.kaul11@gmail.com>
-References: <20260502082516.16302-1-shirin.kaul11@gmail.com>
+        d=1e100.net; s=20251104; t=1777813890; x=1778418690;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=v7aiQO6fvNvJpdsJuZvEgPD+doUEhRpaySSpZmv7mPg=;
+        b=Fb4fDIEabtzX4zqkSZW3C9IdnWlEq8WUveGUuY4tK2mxs43KxnSOI+T0N0w5ID2dKe
+         XKvy9Osa677J8S0A4bmqQAEqvfodi65u1Q8MtKNNP7ElcgnCdJQOCPYY5mwW6DYcypby
+         zeTfGdTViKWuLMf1xnsyM6X6bhOoR3R+UNWWTQtatgY5+0a4Hb4FRLthvkenEtOPGUVT
+         a7Q2eC1K2SLuTy8283C6J8BnWKeT4iuWa+yrExch3fp2C0KLAaGzCRHFhnRuHA5N3cf8
+         /cO+uK6F4LGBHMvJHSV+yNIbRwEGm5wSLkLZF8Ru81f5TAdwzDO2DBgIl6jKiH6jgGxu
+         25Vw==
+X-Gm-Message-State: AOJu0YxfmrVepSObb/pJfEaQFBmHtoihBYJMuwT5E50ZpXGnVt/7BjwG
+	xgyY6OtYVt9Ucmr/4QRbMMD1ca48YWztdn+yIi9xIJi+48y5YFCYKYzOBI5Ol6flHgCoMMMrmp4
+	ChlZQ72w+9H4NaWA5gxaDZlZMVixpcBY=
+X-Gm-Gg: AeBDievQBqYlxQTAspkhsNPTkwu9Cab5ymS3f0cZv29y+bqP+JaEqnccp67CytURRiP
+	TsvFtCNbF53/QmKBhXgkkBlHF/nVVebZBj7a5mVaBPFnJ8MqziaA4chOwsewwrb/2aOZqKei3vU
+	qddBVI1sY9rJhXyRT4m88gVUcjVLPvZFGkFuueJbgUXfYbP3WFq0CzyAkRqXnThv2qUl2VTUZXi
+	8WDf5frjkEQrafAkF9KzuoPN92xESxPVxSIWFq/p6O+JLn2/N/ARH7ITS7hS/G0ZzvVPwxzvhgA
+	kpyEiffJkhExWNrrNx+xfApO7ShDVMqNxbtQvubi5blpKSitjznu
+X-Received: by 2002:a05:6214:508b:b0:8ac:a833:a22d with SMTP id
+ 6a1803df08f44-8b66788d60dmr69566206d6.3.1777813890538; Sun, 03 May 2026
+ 06:11:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Ashwin Gundarapu <ashwin.gundarapu@gmail.com>
+Date: Sun, 3 May 2026 18:40:53 +0530
+X-Gm-Features: AVHnY4L2wIemsAQA-ab3Y9mKPRUBH0FEFueJOt3gBWrEDFq7kW-lkoqk6BEQ3_0
+Message-ID: <CANAeh8e6rfBackrS4Vm1x2rFA2gW08iz2t1Kc3HCcPgN9S51xw@mail.gmail.com>
+Subject: [PATCH] staging: rtl8723bs: remove unnecessary comparison to true
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: multipart/mixed; boundary="0000000000006c54eb0650e98de4"
 
-Fix spaces by replacing them with tabs in function calls to comply
-with kernel coding style with checkpatch.pl.
+--0000000000006c54eb0650e98de4
+Content-Type: multipart/alternative; boundary="0000000000006c54eb0650e98de2"
 
-v2:
-- Added trailing commas in arrays
-- Fixed indentation
-Signed-off-by: Shirin Kaul <shirin.kaul11@gmail.com>
+--0000000000006c54eb0650e98de2
+Content-Type: text/plain; charset="UTF-8"
+
+Remove unnecessary comparison to true in conditional statement.
+Found by checkpatch.
+
+Signed-off-by: Ashwin Gundarapu <ashwin.gundarapu@gmail.com>
 ---
- .../kernels/xnr/xnr_3.0/ia_css_xnr3.host.c    | 29 +++++++++----------
- 1 file changed, 13 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/xnr/xnr_3.0/ia_css_xnr3.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/xnr/xnr_3.0/ia_css_xnr3.host.c
-index e90dea58215b..a3ee8827c44d 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/xnr/xnr_3.0/ia_css_xnr3.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/xnr/xnr_3.0/ia_css_xnr3.host.c
-@@ -29,21 +29,21 @@
- 
- static const s16 x[XNR3_LOOK_UP_TABLE_POINTS] = {
- 	1024, 1164, 1320, 1492, 1680, 1884, 2108, 2352,
--	2616, 2900, 3208, 3540, 3896, 4276, 4684, 5120
-+	2616, 2900, 3208, 3540, 3896, 4276, 4684, 5120,
- };
- 
- static const s16 a[XNR3_LOOK_UP_TABLE_POINTS] = {
- 	-7213, -5580, -4371, -3421, -2722, -2159, -6950, -5585,
--	    -4529, -3697, -3010, -2485, -2070, -1727, -1428, 0
--    };
-+	-4529, -3697, -3010, -2485, -2070, -1727, -1428, 0,
-+};
- 
- static const s16 b[XNR3_LOOK_UP_TABLE_POINTS] = {
- 	4096, 3603, 3178, 2811, 2497, 2226, 1990, 1783,
--	1603, 1446, 1307, 1185, 1077, 981, 895, 819
-+	1603, 1446, 1307, 1185, 1077, 981, 895, 819,
- };
- 
- static const s16 c[XNR3_LOOK_UP_TABLE_POINTS] = {
--	1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-+	1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
- };
- 
- /*
-@@ -124,10 +124,9 @@ compute_blending(int strength)
- }
- 
- void
--ia_css_xnr3_encode(
--    struct sh_css_isp_xnr3_params *to,
--    const struct ia_css_xnr3_config *from,
--    unsigned int size)
-+ia_css_xnr3_encode(struct sh_css_isp_xnr3_params *to,
-+		   const struct ia_css_xnr3_config *from,
-+		   unsigned int size)
- {
- 	int kernel_size = XNR_FILTER_SIZE;
- 	int adjust_factor = roundup_pow_of_two(kernel_size);
-@@ -179,10 +178,9 @@ ia_css_xnr3_encode(
-  * VMEM Encode Function to translate UV parameters from userspace into ISP space
- */
- void
--ia_css_xnr3_vmem_encode(
--    struct sh_css_isp_xnr3_vmem_params *to,
--    const struct ia_css_xnr3_config *from,
--    unsigned int size)
-+ia_css_xnr3_vmem_encode(struct sh_css_isp_xnr3_vmem_params *to,
-+			const struct ia_css_xnr3_config *from,
-+			unsigned int size)
- {
- 	unsigned int i, j, base;
- 	const unsigned int total_blocks = 4;
-@@ -231,9 +229,8 @@ ia_css_xnr3_vmem_encode(
- 
- /* Dummy Function added as the tool expects it*/
- void
--ia_css_xnr3_debug_dtrace(
--    const struct ia_css_xnr3_config *config,
--    unsigned int level)
-+ia_css_xnr3_debug_dtrace(const struct ia_css_xnr3_config *config,
-+			 unsigned int level)
- {
- 	(void)config;
- 	(void)level;
--- 
-2.43.0
+--0000000000006c54eb0650e98de2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">Remove unnecessary comparison to true in conditional state=
+ment.<br>Found by checkpatch.<br><br>Signed-off-by: Ashwin Gundarapu &lt;<a=
+ href=3D"mailto:ashwin.gundarapu@gmail.com">ashwin.gundarapu@gmail.com</a>&=
+gt;<br>---<br>=C2=A0</div>
+
+--0000000000006c54eb0650e98de2--
+--0000000000006c54eb0650e98de4
+Content-Type: text/x-patch; charset="US-ASCII"; 
+	name="0001-staging-rtl8723bs-remove-unnecessary-comparison-to-t.patch"
+Content-Disposition: attachment; 
+	filename="0001-staging-rtl8723bs-remove-unnecessary-comparison-to-t.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_mopsgbc70>
+X-Attachment-Id: f_mopsgbc70
+
+RnJvbSBiNDlkNjIxNTc5YmU5NmVmNzFlMzIwNmI4ODhmM2FiMzljMjk3NDkxIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBBc2h3aW4gR3VuZGFyYXB1IDxhc2h3aW4uZ3VuZGFyYXB1QGdt
+YWlsLmNvbT4KRGF0ZTogU2F0LCAyIE1heSAyMDI2IDE3OjE5OjQ4ICswNTMwClN1YmplY3Q6IFtQ
+QVRDSF0gc3RhZ2luZzogcnRsODcyM2JzOiByZW1vdmUgdW5uZWNlc3NhcnkgY29tcGFyaXNvbiB0
+byB0cnVlCgpSZW1vdmUgZXhwbGljaXQgY29tcGFyaXNvbiB0byB0cnVlIGluIGNoZWNrX2Z3c3Rh
+dGUoKSBjYWxsIGFuZAphZGQgc3BhY2luZyBhcm91bmQgdGhlIGJpdHdpc2UgT1Igb3BlcmF0b3Ig
+dG8gaW1wcm92ZSBjb2RlIHN0eWxlLgoKU2lnbmVkLW9mZi1ieTogQXNod2luIEd1bmRhcmFwdSA8
+YXNod2luLmd1bmRhcmFwdUBnbWFpbC5jb20+Ci0tLQogZHJpdmVycy9zdGFnaW5nL3J0bDg3MjNi
+cy9jb3JlL3J0d19pb2N0bF9zZXQuYyB8IDMgKystCiAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRp
+b25zKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9zdGFnaW5nL3J0bDg3
+MjNicy9jb3JlL3J0d19pb2N0bF9zZXQuYyBiL2RyaXZlcnMvc3RhZ2luZy9ydGw4NzIzYnMvY29y
+ZS9ydHdfaW9jdGxfc2V0LmMKaW5kZXggYzcwNTQxZjk1YTczLi5jMTAwYTBkNzBmZTIgMTAwNjQ0
+Ci0tLSBhL2RyaXZlcnMvc3RhZ2luZy9ydGw4NzIzYnMvY29yZS9ydHdfaW9jdGxfc2V0LmMKKysr
+IGIvZHJpdmVycy9zdGFnaW5nL3J0bDg3MjNicy9jb3JlL3J0d19pb2N0bF9zZXQuYwpAQCAtMTUx
+LDcgKzE1MSw4IEBAIHU4IHJ0d19zZXRfODAyXzExX3NzaWQoc3RydWN0IGFkYXB0ZXIgKnBhZGFw
+dGVyLCBzdHJ1Y3QgbmRpc184MDJfMTFfc3NpZCAqc3NpZCkKIAllbHNlIGlmIChjaGVja19md3N0
+YXRlKHBtbG1lcHJpdiwgX0ZXX1VOREVSX0xJTktJTkcpID09IHRydWUpCiAJCWdvdG8gcmVsZWFz
+ZV9tbG1lX2xvY2s7CiAKLQlpZiAoY2hlY2tfZndzdGF0ZShwbWxtZXByaXYsIF9GV19MSU5LRUR8
+V0lGSV9BREhPQ19NQVNURVJfU1RBVEUpID09IHRydWUpIHsKKwlpZiAoY2hlY2tfZndzdGF0ZShw
+bWxtZXByaXYsCisJCV9GV19MSU5LRUQgfCBXSUZJX0FESE9DX01BU1RFUl9TVEFURSkpIHsKIAkJ
+aWYgKChwbWxtZXByaXYtPmFzc29jX3NzaWQuc3NpZF9sZW5ndGggPT0gc3NpZC0+c3NpZF9sZW5n
+dGgpICYmCiAJCSAgICAoIW1lbWNtcCgmcG1sbWVwcml2LT5hc3NvY19zc2lkLnNzaWQsIHNzaWQt
+PnNzaWQsIHNzaWQtPnNzaWRfbGVuZ3RoKSkpIHsKIAkJCWlmIChjaGVja19md3N0YXRlKHBtbG1l
+cHJpdiwgV0lGSV9TVEFUSU9OX1NUQVRFKSA9PSBmYWxzZSkgewotLSAKMi40My4wCgo=
+--0000000000006c54eb0650e98de4--
