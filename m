@@ -1,70 +1,69 @@
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49DC5D531
-	for <linux-staging@lists.linux.dev>; Sun,  3 May 2026 00:41:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 514171EFFA1
+	for <linux-staging@lists.linux.dev>; Sun,  3 May 2026 00:41:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777768910; cv=none; b=iTSbfX/eJCkMP1Ghx6TN1GO+mhkeW/aOYVuKNBuXH5LoWUtH74KmqM3Vb0k6Ae3R3d2PLJ5cHeDBRw9cGchw3ggEgi/eX2Gj0o/lH/U3SJ6Fa9cvn504QGIlYzD0kgJZnnJSXzdYAi/6Mj9B43Ze6MCaTyUgCF+HpRxItd+emEA=
+	t=1777768918; cv=none; b=X/ehgqBDwF+8hX60kYTiUJ92UQIV849jqWNn90940R8KL68x030j2JIseEqZwgBnqpdavDFbqtx2m/Ri/3Auu/HE+NzxerMK+aermmSx+25gkYmPJFrFlqWa4Dn1oAy8vdh/cUgC1VMuohqp8E7Akf+fGssC0/PJQHQ7IoJSafs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777768910; c=relaxed/simple;
-	bh=adMz23+f4UNba44m11Rs5Aa9KaMHy2XPwuE3opRayVI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GI2jhZNXdo4uQl69KThIsqLz/sZ4PjprNeGHnkhgkuTR/UpL64kA7Z3mY2vQNTQnYxT5BY5unQKky1NtWsMX6CLOjkDDSEX2/Sr0f4fkBvnW3+HFLbhx57QHOktZX64fLCQMfK2stNnNLuwqTG48S19jMRWESbVdOisPJ23GTQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maestretorreblanca.com; spf=pass smtp.mailfrom=maestretorreblanca.com; dkim=pass (2048-bit key) header.d=maestretorreblanca.com header.i=@maestretorreblanca.com header.b=ChKH5Aqq; arc=none smtp.client-ip=209.85.222.49
+	s=arc-20240116; t=1777768918; c=relaxed/simple;
+	bh=WB3lzlErDkBJ9xEtQJqPpE6XHiLn7Kp9ViRAVVT+cXc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XiojFJRhvcRaF2uM/XpXo2HOXJTqHwSB7wh0wF5rDJ+KALV1+ZZ9PJpPZWh4uqWl7b6UNfpnGydBBsXvB2VfQa87g8QNeMyspaWGnM4WTYpM9rYFbkIhpX4s5QCNDGQyZPfkyiZRKZwl742yQoBHKNdbElXyTc7EzLT1ZXHt4RY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maestretorreblanca.com; spf=pass smtp.mailfrom=maestretorreblanca.com; dkim=pass (2048-bit key) header.d=maestretorreblanca.com header.i=@maestretorreblanca.com header.b=I/mhVJWx; arc=none smtp.client-ip=209.85.221.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maestretorreblanca.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=maestretorreblanca.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=maestretorreblanca.com header.i=@maestretorreblanca.com header.b="ChKH5Aqq"
-Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-94ac8cbf3feso2022273241.0
-        for <linux-staging@lists.linux.dev>; Sat, 02 May 2026 17:41:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=maestretorreblanca.com header.i=@maestretorreblanca.com header.b="I/mhVJWx"
+Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-56f6afbd205so1570439e0c.0
+        for <linux-staging@lists.linux.dev>; Sat, 02 May 2026 17:41:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=maestretorreblanca.com; s=google; t=1777768908; x=1778373708; darn=lists.linux.dev;
+        d=maestretorreblanca.com; s=google; t=1777768916; x=1778373716; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=O/F8bXbgGOM8tevmwPesJRPikwJcjSh3UPiudh1R8Jo=;
-        b=ChKH5Aqqz9LntvKPa+zISrYnPUChGOCEpt4Y2mpI1ImavU5VHKIYFxYAsY4P6VpcRU
-         YzduanIsHzUhGHXRG3ZHhmQje09RQqWy4xoHdaKjbHWjK54N0xtAhrAa6DajssQDCt80
-         rmtCqS+jT0YObSdqh1sImRT9bGVvxGOvaE95wQindt81C0P4a6qlhMjjCrZlVNx2+q8/
-         Tg2vWF4ppiZODZ8UVmo6NszKru1M0RGXy7dhCg9VsFrbKUB6vprDIqHWiOjuDYQ4Bkm0
-         HC5hk0lg6BTS5OXAjrZ+3zK8qtAMJv3y464N2mtfgtb3NCDbr6AATz34YawI+FcHf1q2
-         PWpA==
+        bh=l9IaLFpZyhk+IxeOLET4Cgsc2RWloxrUQgsSuokmv1s=;
+        b=I/mhVJWxAa+boVAEq4L0O8uq478YiROW7stPnbL2QvOrZszQKNqif2bOtSK0tA14hM
+         WWbW8K6EqeRF7WJ79S4CKUnJj5pcVTdRjdromGPPYIHVz4TCzcRueTdiFysNUERLkWqB
+         VBXc9Q+3MLp0VG8Ny63GVyHnHUReEEDRcrrufOn06Flv7cfKPhzhTVA9mP6Qv0oV3WPD
+         B+ApYL9L6pb1Ufr3PNmVtY7DBL4KVQ7Hc3TlQ/Oma4IAoj0rPjqipxO0PuUWD1c3NHX6
+         pGm7rWAPGJSUyGta/4pQ52KSTt4igsya4wasGXeLHS1xcLpcZ5tGoAcdA5cQzilO9a5x
+         gpJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777768908; x=1778373708;
+        d=1e100.net; s=20251104; t=1777768916; x=1778373716;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=O/F8bXbgGOM8tevmwPesJRPikwJcjSh3UPiudh1R8Jo=;
-        b=deWj4Si66CvbVbYsvajM5VM/yT1jFApW7SMaj/7z5+Mb9cygo6wHxppUCN7VrGTsQG
-         5vb9EamcT2SVvw3jD3ee1CPIh+fgLrASUc49LQhWNm+PNuiiDtc98KupaeYiIp+4RPdP
-         rfQdLH4Suzuwx7rObJgG3C/lcAjrAfdDCjE5Q+eq6XWwRKamM4PGlaPa/5JwoVqUipZe
-         O3CPyAKXTLH0f+u/pOdbknT763y695KUzdAVFhcxdFIA3yFZiTo3U5Mfbu9ib+4a8o9Y
-         jL7P8tSP2NrRdha2aQFf8xsd9G9JtU2UDSDpiL0rH6U5m8t8PZ33/+p8iNiGwWvZFMGw
-         Mn5A==
-X-Gm-Message-State: AOJu0YwYqCo0Kf+AQ+auIqgVIslLjcZ//RqFAt/IYnStaXGDJ1xn5R4w
-	VA7vHv2zZxc/yPcVRXWI5s/lI4OhaVry7jaM8AdyRrxKVxRiZMneRUCbL696USWxNTV5Y6IWkCv
-	v7RJtWg12qw==
-X-Gm-Gg: AeBDieuA2Rr5iTggCQYA7wcnkSKNT3neDvDd5GLDctQoM8/xUuN0AR90h/uow+OmKgI
-	H6wIb6HK9buQHf+1N0ej7wTu7WzN7KITtP29bkoyfbeB0MGixvJBALDQo1O3J1xOQ3jS7hJa8QN
-	7ziNdr9W5+nAzzAQtKpp6LwJOtfc2AMFqF78gs6kSNP5/fYdbkuI59w0z/GhdSOhqGGAfdEkkdJ
-	9rpgTrhuM1AQsG/UTgUjYR3a8fnJ3B3nGTsn7VMmnCWzgefhS1t9bbhwvlqTNyYqFcXT0tOXWRP
-	EuKWXfNPa4nD8IrJA+Iv2ksCMpqVKQ39wtPDX4nzCWZDXox47rRLfxRFTuuoysQPUZkEYEZfsjS
-	b/XDB9o49TFN5YJQRT42rL1MSC03K64kK8k7+d0znFtElPKUbuY1PLzC+SFV+odHl1kO5MCOEXl
-	Yd7/Q3VXeqXsOk0fsUj5MnDK9faXlJ4/odWX4iDW1FodG4EvoOtn/JoChdkRMYiewm560d//NjN
-	uNGgMrkitb1bswA8gRwkBzl5pNaG7PA2MfG1Q==
-X-Received: by 2002:a05:6122:896:b0:56c:3a57:aee2 with SMTP id 71dfb90a1353d-5750c5b2c39mr2290390e0c.6.1777768908203;
-        Sat, 02 May 2026 17:41:48 -0700 (PDT)
+        bh=l9IaLFpZyhk+IxeOLET4Cgsc2RWloxrUQgsSuokmv1s=;
+        b=Y5eCVBJQ0yZVVxYS7I+wZO2dKX9b4kyxhyuaQLQP1Tj7rZc+WrBd4+3IjGv1VSYYZ4
+         AgC40tL0xHXw71w2E9qB7eCVm+Ws6or6hX8HYO2obmCi/eFOl5GbE9uvgseZSoPD4Zq/
+         g2EjCNec2YA+5GzbBNdOs5sTX5SJrPp+npAaPPC90SeruuTSau+2CR8h6nES2RINxme3
+         uh7Zyc8nJR7pXKnIuIoLVZtr6k7PPxESb05qgFZ+vK5BnRVd5pvIrclcik41ulnteqjL
+         ELh1qLwkUl5VenRBM7j9FSaiiGiKhkeTCdUrSZ7zTGCVytXue0upcQSbQLKzWLj7yf80
+         tRQQ==
+X-Gm-Message-State: AOJu0YxnCHAg3ZziUubY/IIrUPAZp0xThyWYp6EEI/2IkD8jguzIqZ8x
+	P+t4pM5o9WdzRYjUbsBwDSAadLkXawFTBaHYr+3qO5PlexsPSlK2HtEf+0IB9dLj0Xw=
+X-Gm-Gg: AeBDievk+KDdbljINv8q78sWpR8VA/cvNb0EiNN+nmQ7EcJyGde9GiOaOOEbWV8JXu/
+	5EEzfbYost1vdeQqSXLpc4aaN6jjQrDixF7xJqQ3lfP0onsG4GU8qkLajQFDIC7om4yQl4KQjA8
+	asZxRyDtPJTBIu1lYi3EAZYsW5pPY4enrveuH7pVrVEy/SaEPhXugoQQ2MlWxkvrpkL6V0DQeE/
+	Qr6/26Fj0GR60fQgu+Jp5/TMoz2Ga6xIqvqk4c288tLTUbMcCveM1fQBMgl6Ip1un4BC/2Ph/om
+	AQgS6eCrzsTiYAobpxFcv4BJ2L9zfiPJWCeEvIC/kCSO69DAwm0eKbKK3AE6BuEEZreAghoBLZO
+	pFJlyyY+6VWNXnfEJK8GYRDy6b3cBiGfSwk8LU2/Cgnxe7WYaqkIkAqsWU86WNvsEVldtOcb5MY
+	ZOAGQ6ZJsKZN++H7i8n/W2oVm+9Z4O1VUkKOyLx21capkOtcLERIDPdOJHrLJ1/hNNH9Aue5Pmv
+	PTMXdVG8pRyxl2j83strkZdNFJiq580fRmkqg==
+X-Received: by 2002:a05:6122:d86:b0:56d:3451:4cc0 with SMTP id 71dfb90a1353d-5750c279e1emr1685868e0c.7.1777768916170;
+        Sat, 02 May 2026 17:41:56 -0700 (PDT)
 Received: from localhost.localdomain ([95.214.114.12])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-95ce0af57f6sm3511233241.8.2026.05.02.17.41.46
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-574a6ef15e0sm3815758e0c.17.2026.05.02.17.41.54
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 02 May 2026 17:41:47 -0700 (PDT)
+        Sat, 02 May 2026 17:41:55 -0700 (PDT)
 From: Francisco Maestre <francisco@maestretorreblanca.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Francisco Maestre <francisco@maestretorreblanca.com>
-Subject: [PATCH 2/3] staging: rtl8723bs: remove unnecessary braces in sdio_intf.c
-Date: Sat,  2 May 2026 19:41:44 -0500
-Message-ID: <20260503004144.66733-1-francisco@maestretorreblanca.com>
+Subject: [PATCH 3/3] staging: rtl8723bs: fix block comment alignment in hal_pwr_seq.c
+Date: Sat,  2 May 2026 19:41:52 -0500
+Message-ID: <20260503004152.66767-1-francisco@maestretorreblanca.com>
 X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -74,32 +73,48 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove braces around a single-statement block in the SDIO
-disconnect path, as per kernel coding style guidelines.
+Fix the multi-line block comment at the top of the file to follow
+the kernel coding style: each continuation line should start with
+' * ' and the closing '*/' should be on its own line without a
+preceding blank line.
 
 This fixes the following checkpatch.pl warning:
-  WARNING: braces {} are not necessary for single statement blocks
+  WARNING: Block comments should align the * on each line
 
 Signed-off-by: Francisco Maestre <francisco@maestretorreblanca.com>
 ---
- drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/staging/rtl8723bs/hal/hal_pwr_seq.c | 18 ++++++++----------
+ 1 file changed, 8 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-index d664e254912c..a86252ccac76 100644
---- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-+++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-@@ -146,9 +146,8 @@ static void sdio_deinit(struct dvobj_priv *dvobj)
- 		sdio_claim_host(func);
- 		sdio_disable_func(func);
+diff --git a/drivers/staging/rtl8723bs/hal/hal_pwr_seq.c b/drivers/staging/rtl8723bs/hal/hal_pwr_seq.c
+index 2438931ca51b..0b60eba128af 100644
+--- a/drivers/staging/rtl8723bs/hal/hal_pwr_seq.c
++++ b/drivers/staging/rtl8723bs/hal/hal_pwr_seq.c
+@@ -6,16 +6,14 @@
+  ******************************************************************************/
  
--		if (dvobj->irq_alloc) {
-+		if (dvobj->irq_alloc)
- 			sdio_release_irq(func);
--		}
+ /*
+-*
+-This file includes all kinds of Power Action event for RTL8723B
+-and corresponding hardware configurations which are released from HW SD.
+-
+-Major Change History:
+-	When       Who               What
+-	---------- ---------------   -------------------------------
+-	2011-08-08 Roger            Create.
+-
+-*/
++ * This file includes all kinds of Power Action event for RTL8723B
++ * and corresponding hardware configurations which are released from HW SD.
++ *
++ * Major Change History:
++ *	When       Who               What
++ *	---------- ---------------   -------------------------------
++ *	2011-08-08 Roger            Create.
++ */
  
- 		sdio_release_host(func);
- 	}
+ #include "hal_pwr_seq.h"
+ 
 -- 
 2.50.1 (Apple Git-155)
 
