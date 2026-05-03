@@ -1,188 +1,159 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30B3A23D7E6;
-	Sun,  3 May 2026 14:52:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24B7B299944
+	for <linux-staging@lists.linux.dev>; Sun,  3 May 2026 14:54:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777819980; cv=none; b=SCf7+IgGhzxcIIGoq1yMsBqVMJhQPP81njl6FSHofQKSIS1o7M2QXCJYD+A7wu4SUrh7GxPTFBJsZVGDBVw1nuKuxq7iSs+4ercy3ENYGF4m/y2TzXpleh4K7h4wgd0reZzQ5UCNjDMKGOANxyn7FFEM/ItzYhKCGQX3wQOkBwo=
+	t=1777820045; cv=none; b=GA/Ht94C6cr5oZgcQjyErq5COiDQXXrgERFDRR2auOZ/sNPTNGYlx7SFssNd/138S9sHU1z6muFl9mlIFoSkgHrJNB0JPzWC1C7cvl/5QKI4fNdglLXJCLCO5HurwI9aBzK63QoczJEXzg8TK9z7n+3aNbEeb+Oxbxlc8P1Y6xk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777819980; c=relaxed/simple;
-	bh=C2wVE/sIvMEAvhthdCARXccZQpF7oYZBLXDphUbG2Os=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ThrCp/YENW8jqmfXSMOjf0lEWJzwzXlyBO3k/wQC6/gOCjcClaIvYh0EigC/slopm8FnV6czjPXuxiirUkKgfNlF0+mLxKUcYgCWXxqHpjc93+09PPAZE/ZH5dwQcH2NSCfMwsrbf7Wu+e/lxGkJ4vZmsWCpoUcG75itcLLT3+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZC4QxfIJ; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1777820045; c=relaxed/simple;
+	bh=gToyUiOqohbe5R57VtnsHMFMnf2LQAdLEtnfeGQxFGI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nVnbhU4slbWznz33zqQ1aGnP2GEXzJkab+DeohSmiuBc9cle/8Z/QYnQB6JSWY0oESw4zt4xQwiYg4bhRdgBf2wcz/c42p/4jbqtmsBrAblJXneF+zPhHeYPY++8uj+lfKJcBniY7dmUJ7ryHBDaQeUxJbY4UWBKCWcJ8NKMJfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dWXXjWid; arc=none smtp.client-ip=74.125.82.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZC4QxfIJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777819978; x=1809355978;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=C2wVE/sIvMEAvhthdCARXccZQpF7oYZBLXDphUbG2Os=;
-  b=ZC4QxfIJFxqtdVeZuBFlIdYwSUBUbO0GQysUBEIzH0UAyTl1tyqGCREA
-   DUUSBdbTew7FxIfJMSUAAunZOQRYyqp9NLZtcrLKcid0SftaMAeV+Lsw3
-   QK1QcZXIHjJqLDjT3Be3aenVS3E/vHgI3n5xKOU6PjGrnpCKMCU0HpxJJ
-   Ho83EyxqwX+J0SWhetB+6bEAx+z8sxCUlArKVdeXp+z0O+mrZtG6cRsrA
-   P62bNAYCsvjOBm0bRYN5xBV4uU/qr/2AWl8d63TtC1vlf1U+MQHfgpq4V
-   94g+rRGesxm/GxAkyDkC+oiwOaqF0PzmuDrPtTspvVJJvgLcaEcKNfU+C
-   w==;
-X-CSE-ConnectionGUID: eMdNDKKLSwqfhQLh+hiobg==
-X-CSE-MsgGUID: Ft3kFw6+QIuemhk/JMU6eA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11775"; a="104153666"
-X-IronPort-AV: E=Sophos;i="6.23,213,1770624000"; 
-   d="scan'208";a="104153666"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2026 07:52:57 -0700
-X-CSE-ConnectionGUID: aA34QxKrQW+Vx0+WNBfInA==
-X-CSE-MsgGUID: ydHjP4+nTxatXV3fjKeqDw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,213,1770624000"; 
-   d="scan'208";a="228801147"
-Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 03 May 2026 07:52:55 -0700
-Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wJYBg-000000002ez-0Ojf;
-	Sun, 03 May 2026 14:52:52 +0000
-Date: Sun, 3 May 2026 22:51:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Guangshuo Li <lgs201920130244@gmail.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil@kernel.org>, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Guangshuo Li <lgs201920130244@gmail.com>
-Subject: Re: [PATCH] media: staging/ipu7: Fix pdata double free in init error
- paths
-Message-ID: <202605032224.WHCEx7uc-lkp@intel.com>
-References: <20260430053820.446080-1-lgs201920130244@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dWXXjWid"
+Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-2f0d3e07e30so2235352eec.0
+        for <linux-staging@lists.linux.dev>; Sun, 03 May 2026 07:54:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777820043; x=1778424843; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YkEsclOu+REOPjmojQS4a/93xHP6wsT//Khs5D3FlxM=;
+        b=dWXXjWidfZn+IsT+eVtFmNaOxlwlQifcZx8l5pSB+UJPerCD7yyA5Hljl7dZnt+uN4
+         5L7xArMPT1iDezwQq5NXavQLx0WMG0G3AcF2TagZUqCF1O1VZ/KRexL76buSm53VAesr
+         2gsUMjFP4R5lwVF9D5b51sBBQGIByBK9K2xTm+B0iDamkclzOjtbXgPdcZslaWlukLvw
+         ugYr1rHGMx865fZShfFlDiSG4kZpYYlp5o44ZRV3UQjXeccBvXIPS2V6aEBLEkPy4t05
+         B64sx836GgKBaWAwKfh8eOG34THLR3JFi8axR+txvrtle3izxNPAQLfZpvjkA/YgfbTz
+         +DBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777820043; x=1778424843;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YkEsclOu+REOPjmojQS4a/93xHP6wsT//Khs5D3FlxM=;
+        b=jBsc0hn9ccJ1oAkPPiF12+matBB3iEV2a4mLqwq1kWd9FAyFZSg8z5Zdqb0tBzU0B7
+         kFja6TsTI4X3NXlfFWNdm5v9l+mGGAYB0TjhK/PLBUc8CTTFTo0ue4RA8mBCLOLU8//u
+         pqvzTfgy68p6stMQu7owErijomzhtPEf9e6RDZCbij2Lk8W36JJ2oAFKKrs7bPfVhaUu
+         9FBD1A5on8h6FDCJkqb7PPxaaW/o6FOWHlF8KfcTxZAJ2pPKrK8VTPfTaIa9yBd7NGfx
+         aOK7kR+YRpKBGgvXJhOyOvmDjkiknlxJCZWBAeVJytQihhBqzetP4kRtbRFZCdeC0FHf
+         +mIw==
+X-Forwarded-Encrypted: i=1; AFNElJ9SawNuIx/+eljZazt06PuZy1kpmXRAegekDbDE29mWd1S3fWV76u6HkihpFH6ieEF+h6kzizzmG3ieZ50R@lists.linux.dev
+X-Gm-Message-State: AOJu0YxkIv/ves4fO35jciFHtv9+FzUgDCaPIie4P8T29GFsVp5qk59M
+	tEvxryC5yETZliVXPNgwJySta3TVgCXA2IvCMUBCkZBq30bMwTwqffCo
+X-Gm-Gg: AeBDieumZ2eoFUzqQwSipDmk5xko8372lWtRWSGXFsOC6EbLMlyCD0mH4bs95iDyEiH
+	6To1SUbCIrItpZOMuM/6M5nPLOJNulrqFzQRv2v8JXcP3OrkLtkcN3BE4OxINoUlNtqCtyXtPLR
+	e/52rA0KD9o3yCzKzw1eOe1fZJx6yOS8HgkyF/oa6J85YY4k7rmWJrRBHBaMsNyjAboPRhLHwN1
+	9NT5Y29TqvtuZu3eaP7aJCxpb/zGtGR7nbe5SICczsh+HftBsskSUEeHFGeEgnfRVHn8UypPpje
+	wGqWvcyfpjVsk8cpQuQ41vIQhNNmORAUak71g5Oa1/zYfvp+vcayBZZqkt4jFjTTRl7BR3TMvIZ
+	0ZqZOJ6s4IuO0dw3hSVjtm/jDP1jDplcHJQoMj5npTPLuhecAZ+aZVgXDMAmjRJziPX0/Qr8NPV
+	c65l76cRKDs4jgB8Tl6JtOe0uta4dconPAd6d7H/uvHT5vMAY1aGcxOQ45IPpZVWS1g4SjhcCdD
+	FLj3zt225bzc7vkadnO5Q==
+X-Received: by 2002:a05:7300:fd0e:b0:2f2:5726:db4e with SMTP id 5a478bee46e88-2f25726e488mr69486eec.18.1777820043065;
+        Sun, 03 May 2026 07:54:03 -0700 (PDT)
+Received: from aidan-cachyPC ([8.3.93.248])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ee3bf67a3dsm12534544eec.27.2026.05.03.07.54.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 May 2026 07:54:02 -0700 (PDT)
+From: Aidan Russell <aidanlrussell@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Nikolay Kulikov <nikolayof23@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Aidan Russell <aidanlrussell@gmail.com>
+Subject: [PATCH v2] staging: rtl8723bs: Fix spelling mistakes in comments
+Date: Sun,  3 May 2026 07:53:46 -0700
+Message-ID: <20260503145346.10791-1-aidanlrussell@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260430053820.446080-1-lgs201920130244@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Guangshuo,
+Fix several spelling mistakes in comments in the rtl8723bs staging
+driver.
 
-kernel test robot noticed the following build errors:
+No functional changes.
 
-[auto build test ERROR on staging/staging-testing]
+Signed-off-by: Aidan Russell <aidanlrussell@gmail.com>
+---
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Guangshuo-Li/media-staging-ipu7-Fix-pdata-double-free-in-init-error-paths/20260501-032323
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20260430053820.446080-1-lgs201920130244%40gmail.com
-patch subject: [PATCH] media: staging/ipu7: Fix pdata double free in init error paths
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20260503/202605032224.WHCEx7uc-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260503/202605032224.WHCEx7uc-lkp@intel.com/reproduce)
+Changes in v2:
+ * Limit patch to spelling-only comment edits.
+ * Drop unrelated comment formatting
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605032224.WHCEx7uc-lkp@intel.com/
+ drivers/staging/rtl8723bs/core/rtw_cmd.c     | 2 +-
+ drivers/staging/rtl8723bs/core/rtw_mlme.c    | 2 +-
+ drivers/staging/rtl8723bs/core/rtw_pwrctrl.c | 2 +-
+ drivers/staging/rtl8723bs/core/rtw_xmit.c    | 4 ++--
+ 4 files changed, 5 insertions(+), 5 deletions(-)
 
-All errors (new ones prefixed by >>):
-
-   drivers/staging/media/ipu7/ipu7.c: In function 'ipu7_isys_init':
->> drivers/staging/media/ipu7/ipu7.c:2176:33: error: passing argument 1 of 'ERR_CAST' makes pointer from integer without a cast [-Wint-conversion]
-    2176 |                 return ERR_CAST(ret);
-         |                                 ^~~
-         |                                 |
-         |                                 int
-   In file included from include/linux/cleanup.h:6,
-                    from include/linux/acpi.h:11,
-                    from drivers/staging/media/ipu7/ipu7.c:6:
-   include/linux/err.h:102:64: note: expected 'const void *' but argument is of type 'int'
-     102 | static inline void * __must_check ERR_CAST(__force const void *ptr)
-         |                                                    ~~~~~~~~~~~~^~~
-   drivers/staging/media/ipu7/ipu7.c: In function 'ipu7_psys_init':
-   drivers/staging/media/ipu7/ipu7.c:2221:33: error: passing argument 1 of 'ERR_CAST' makes pointer from integer without a cast [-Wint-conversion]
-    2221 |                 return ERR_CAST(ret);
-         |                                 ^~~
-         |                                 |
-         |                                 int
-   include/linux/err.h:102:64: note: expected 'const void *' but argument is of type 'int'
-     102 | static inline void * __must_check ERR_CAST(__force const void *ptr)
-         |                                                    ~~~~~~~~~~~~^~~
-
-
-vim +/ERR_CAST +2176 drivers/staging/media/ipu7/ipu7.c
-
-  2125	
-  2126	static struct ipu7_bus_device *
-  2127	ipu7_isys_init(struct pci_dev *pdev, struct device *parent,
-  2128		       const struct ipu_buttress_ctrl *ctrl, void __iomem *base,
-  2129		       const struct ipu_isys_internal_pdata *ipdata,
-  2130		       unsigned int nr)
-  2131	{
-  2132		struct fwnode_handle *fwnode = dev_fwnode(&pdev->dev);
-  2133		struct ipu7_bus_device *isys_adev;
-  2134		struct device *dev = &pdev->dev;
-  2135		struct ipu7_isys_pdata *pdata;
-  2136		int ret;
-  2137	
-  2138		ret = ipu7_isys_check_fwnode_graph(fwnode);
-  2139		if (ret) {
-  2140			if (fwnode && !IS_ERR_OR_NULL(fwnode->secondary)) {
-  2141				dev_err(dev,
-  2142					"fwnode graph has no endpoints connection\n");
-  2143				return ERR_PTR(-EINVAL);
-  2144			}
-  2145	
-  2146			ret = ipu_bridge_init(dev, ipu_bridge_parse_ssdb);
-  2147			if (ret) {
-  2148				dev_err_probe(dev, ret, "IPU bridge init failed\n");
-  2149				return ERR_PTR(ret);
-  2150			}
-  2151		}
-  2152	
-  2153		pdata = kzalloc_obj(*pdata);
-  2154		if (!pdata)
-  2155			return ERR_PTR(-ENOMEM);
-  2156	
-  2157		pdata->base = base;
-  2158		pdata->ipdata = ipdata;
-  2159	
-  2160		isys_adev = ipu7_bus_initialize_device(pdev, parent, pdata, ctrl,
-  2161						       IPU_ISYS_NAME);
-  2162		if (IS_ERR(isys_adev)) {
-  2163			dev_err_probe(dev, PTR_ERR(isys_adev),
-  2164				      "ipu7_bus_initialize_device isys failed\n");
-  2165			kfree(pdata);
-  2166			return ERR_CAST(isys_adev);
-  2167		}
-  2168	
-  2169		isys_adev->mmu = ipu7_mmu_init(dev, base, ISYS_MMID,
-  2170					       &ipdata->hw_variant);
-  2171		if (IS_ERR(isys_adev->mmu)) {
-  2172			ret = PTR_ERR(isys_adev->mmu);
-  2173			dev_err_probe(dev, ret,
-  2174				      "ipu7_mmu_init(isys_adev->mmu) failed\n");
-  2175			put_device(&isys_adev->auxdev.dev);
-> 2176			return ERR_CAST(ret);
-  2177		}
-  2178	
-  2179		isys_adev->mmu->dev = &isys_adev->auxdev.dev;
-  2180		isys_adev->subsys = IPU_IS;
-  2181	
-  2182		ret = ipu7_bus_add_device(isys_adev);
-  2183		if (ret)
-  2184			return ERR_PTR(ret);
-  2185	
-  2186		return isys_adev;
-  2187	}
-  2188	
-
+diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+index 72d5905a48e9..eca1a5bc79be 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
++++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+@@ -1650,7 +1650,7 @@ u8 rtw_c2h_packet_wk_cmd(struct adapter *padapter, u8 *pbuf, u16 length)
+ 	return res;
+ }
+ 
+-/* dont call R/W in this function, beucase SDIO interrupt have claim host */
++/* dont call R/W in this function, because SDIO interrupt have claim host */
+ /* or deadlock will happen and cause special-systemserver-died in android */
+ u8 rtw_c2h_wk_cmd(struct adapter *padapter, u8 *c2h_evt)
+ {
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+index 3ecf4f979c03..7a6bd87c8d08 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+@@ -1378,7 +1378,7 @@ void rtw_stadel_event_callback(struct adapter *adapter, u8 *pbuf)
+ 		u16 media_status;
+ 
+ 		media_status = (mac_id << 8) | 0; /*   MACID|OPMODE:0 means disconnect */
+-		/* for STA, AP, ADHOC mode, report disconnect stauts to FW */
++		/* for STA, AP, ADHOC mode, report disconnect status to FW */
+ 		rtw_hal_set_hwreg(adapter, HW_VAR_H2C_MEDIA_STATUS_RPT, (u8 *)&media_status);
+ 	}
+ 
+diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+index f074ea6e0f38..ca1cb58fc801 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
++++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+@@ -576,7 +576,7 @@ void LPS_Leave_check(struct adapter *padapter)
+  *
+  * This will be called when CPWM interrupt is up.
+  *
+- * using to update cpwn of drv; and drv willl make a decision to up or down pwr level
++ * using to update cpwn of drv; and drv will make a decision to up or down pwr level
+  */
+ void cpwm_int_hdl(struct adapter *padapter, struct reportpwrstate_parm *preportpwrstate)
+ {
+diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+index dba146b696e0..a21aa2964a6b 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
++++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+@@ -726,7 +726,7 @@ static s32 update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct p
+ 			}
+ 		}
+ 
+-		/* for parsing ICMP pakcets */
++		/* for parsing ICMP packets */
+ 		{
+ 			struct iphdr *piphdr = (struct iphdr *)tmp;
+ 
+@@ -1358,7 +1358,7 @@ s32 rtw_mgmt_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, s
+ 			/* set final tx command size */
+ 			pattrib->last_txcmdsz = pattrib->pktlen;
+ 
+-			/* set protected bit must be beofre SW encrypt */
++			/* set protected bit must be before SW encrypt */
+ 			SetPrivacy(mem_start);
+ 			/* software encrypt */
+ 			xmitframe_swencrypt(padapter, pxmitframe);
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.54.0
+
