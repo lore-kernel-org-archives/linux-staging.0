@@ -1,181 +1,142 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D66A21FE47B;
-	Sun,  3 May 2026 08:27:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777796854; cv=none; b=KoFm2wOiBDa1FUBG4rPBAzBAqUhs+wynAGb9g934jSaTUjpWJx8ZrcUOQUA+cC/a+fStJ7uoq/UoYGxZFymtQvGhn9rNpXFatlVpTaEg/47evi0mGsAXo5AF/Sy5UVPgGb4dSAaaBVohzWrSBanapNPAEvWx8za5uvGLZCm70gg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777796854; c=relaxed/simple;
-	bh=aOJPRty6ZPD2MUyv+rgFs7MC2mTzB8Tb1pC83m3vXr8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jbIJnN2/rmHT8KStjzJjrxNkozS7ejlhT4bSVBv9fHdDCneLnM0ANTp0D2orEsiGHuBw1imyvKaZAU99sR1xnvnQm89uLwm0FI9mQD0/LGmwFWfuRfOpAtLWyJTqejeyCLawFX9qkA/4rw33WY7cm4GQbB/7QP44F8ICi+4bNsA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OQD3CjrZ; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E99842264A9
+	for <linux-staging@lists.linux.dev>; Sun,  3 May 2026 08:53:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777798426; cv=pass; b=Xo+qWo+4Seb7SlOMyCBnA9Ko5Yi4cu2eV5X4MKHtyytB3dMIKtPSXKqq2L6gWZVcR4zYcGEEi8WmFW13i061DO9Bic+Jib5/nXuircXZ7jlKc/U2genf3WvBNIAS1/Ccdf32u/WsnSq5tT2iOUu+onNc+GQgcBTdBmd12Sg69YA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777798426; c=relaxed/simple;
+	bh=TN38G3GI/HX4MCUlFvl6FUE6KgcFjBtEqV/pHZDos5A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=A2nKasBJcZFW1/CJbyQZTQtaGYBT/6jytIBYFdppLVponUd/O/0QvXl8AqxP3YyFZjqYlY0ios/xfXLISI8I0VOpbLsgk+8n1ehAPjswmI5+/o7CX5GLF49dn7E3WY0Pm5lrgkE/Bo4CQQVNMpuRdqpGn4TXajn9jxFcFGI4De8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OHhqk7Yb; arc=pass smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OQD3CjrZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777796853; x=1809332853;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=aOJPRty6ZPD2MUyv+rgFs7MC2mTzB8Tb1pC83m3vXr8=;
-  b=OQD3CjrZAu3ZCa9Xv7YHs9k3dNZGnC7z8HPIq0QxBOKzWecv2O+xZ8Zw
-   HWVJ4sl6r6WiNBbN9AZRwbpWFHHQ8qy0nTOTMx1vPMz7o2rjKg37B0gEv
-   knhRXh7B45YZJOM8nJGeyfj+b29EAcc+W2gFiQK8ble43NBnaheyHhkPH
-   CmjV7823QPkCfZcZBXKaQZosf0icuapLrG+mS9rfB86dwDD5dePvl5z2I
-   gd4jR6fDhb/BhqCexnCIzlttD6fNSh0QFBk/W8eJimxBR4HUuWUgwuMxz
-   BTdeRX7yDm7VID4wdWe18/BeonpEs51Rgzuuu4MFV7nDDZUndo35EyxiM
-   Q==;
-X-CSE-ConnectionGUID: q2/poksPSx+g1d3ahLrZAQ==
-X-CSE-MsgGUID: BJmsH9q/SL+uwBDL7uTMtg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11774"; a="89379369"
-X-IronPort-AV: E=Sophos;i="6.23,213,1770624000"; 
-   d="scan'208";a="89379369"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 May 2026 01:27:32 -0700
-X-CSE-ConnectionGUID: uQnNaEeWSaeW3rZqP4a07A==
-X-CSE-MsgGUID: v9e4KFUqSSWLdt2WOeSJcQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,213,1770624000"; 
-   d="scan'208";a="234215372"
-Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 03 May 2026 01:27:29 -0700
-Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wJSAg-000000002MD-3IUC;
-	Sun, 03 May 2026 08:27:26 +0000
-Date: Sun, 3 May 2026 16:26:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Guangshuo Li <lgs201920130244@gmail.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil@kernel.org>, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org,
-	Guangshuo Li <lgs201920130244@gmail.com>
-Subject: Re: [PATCH] media: staging/ipu7: Fix pdata double free in init error
- paths
-Message-ID: <202605031607.jGN5iKun-lkp@intel.com>
-References: <20260430053820.446080-1-lgs201920130244@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OHhqk7Yb"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-488ba840146so25878145e9.1
+        for <linux-staging@lists.linux.dev>; Sun, 03 May 2026 01:53:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777798423; cv=none;
+        d=google.com; s=arc-20240605;
+        b=f5vEREhoxr8MNxpHVybNomHGhny+qscRgBQw0HY6h+rResRPMaXUYf4yQOHLHBzPUJ
+         vrJrYs/Hvm6RsehcfbTYecw+SB7vLrW1fAJwH5NbVB8istoZwA3v5KzVs8aP/mbyFv8R
+         Ge9rsunjQmpOQGjq5zPdRLgJkckBoRo9EdlOf1cEBx1XCNhIR5JrRBdmtO1HNSI1j4P1
+         oTL242RGViY07UKkBljQvhMCq7/oG0Chcw0fmvXEAb2/8R4rbSIYKoRXcl6pEl3WDdRp
+         n3CATNlvCjeY041NdarU+pgkfq4MdrMr2vdSzesXI8VJEY8kJGVRruUaoJjFhfbKDMU+
+         nbnA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=DuzbqSf46naLhH5+skcD+oKWabUFj8WqimsDijuWm78=;
+        fh=JIITVe7PWE7XcbgyWq7MBVPx7a3erJf5KLA1ugOucvQ=;
+        b=Mdegp8OlJJytPn2QUCEr3XBz/Hyb1BNd+X7Zo6q8hY+JKwD3UOCvSLpvTqEqNUxcxt
+         FNh/okgUCshXlqm4pppEXaDBgGTohBPKlhqMT+xmQAnBzOlN7ozuAz3rHEeP5/yJq7Xz
+         PGGuyIujkfMyVFnJHhokSHi7OW3aXhfTG5bmcRaTs6H0XTN7FcA3bKurr1GDYja7Puge
+         Saq862It0yqZi86J4FPEMWot4UZX9GjffWsdsWhrCunNbAkaJbIFIlUeE3J3ZNPuLMZB
+         N/5UcKpLA14TyNlFeAySWcmNxI8KbeqC/QywmsqihE44YeRXVtnE/XuZPQrrqh+Sy2v6
+         /VUg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777798423; x=1778403223; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=DuzbqSf46naLhH5+skcD+oKWabUFj8WqimsDijuWm78=;
+        b=OHhqk7Yb4clnd8M2TJlQJ8hUopmSIBCR0xi35Twiva/IohTwu7dwjMJuJBd4k1IZSx
+         hIvg/h24F2nj4a4/tzhDwr+XyTXJWAU2m1zDfzZM2eI9T+OEKhfK6HAdU/4PNgvrbDp5
+         AbRHle72fH2OQtn9KWXDK5cE6mJVSu0d+0P8qLBjYLVwqf/B8qSk8h4q9aurhZ/aBMxe
+         jW21yR9MVjSKVmJesQRr7tJADiP72rkVV9tQh4QKB6GC9BmMzi5T9AGH1d43R09WhWiI
+         v++ysOloUwNx4w7i5SuEXaXDMrTy8TDjJMKleB2cvm1Zn4W/kNDukEeKQ/tqKIjSwn91
+         Hdqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777798423; x=1778403223;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DuzbqSf46naLhH5+skcD+oKWabUFj8WqimsDijuWm78=;
+        b=o7lERouS08kPCrY8OVG0h5GPN8/ZPo/RVV2OtKQawrlkPwqjwcl4w9XJ4XQ5UZO43p
+         nz27nG8JZLNLjdWS3ZSyEm+6ja8fgGNO63tB7+VuJlIMRL4/xDMiP5fNGgkrjK+mJAbg
+         XiJMkgybvWZZF0frZGziPYLa5HqWCT4h0MhkBHWUwUsjpM8+CZufAOHhF6q2rHpCjJF9
+         QqzoGk5IAtd6uHkl8Macnv3mox/n1MNDiDkc/AXrbVYkAjGlVpUUCfjEJSeGNcpVKkBX
+         JOnZAZ44zkR4ZZ13DP/Al0WLRJDiydEDIMl3sDcGYXtbAbOxQUs8MnfIFp9OQm/8XDUg
+         RTuA==
+X-Forwarded-Encrypted: i=1; AFNElJ8inD/U+Q1l+2GxB4Drub8feLYpNn/PrOGBlc/DQAeB/m9vHqxBoiFfE+l3WqDQ7+pXpLy9XthbicrxEdtf@lists.linux.dev
+X-Gm-Message-State: AOJu0YxSELJsN0rlnXpaiswwqNgTI18ZmbFJsVzAn8KX/MFoUxs4jTSa
+	MM1pFYXyeTi3cvxuJzJzM+hIgVVdn4k7gnOCcqlrpmgFWUsrIlQRY0UC3PwNdhDFZ7Fn0GtTmmK
+	F7ELa995zA2m8UgjUDzTsbtAX60xFCae5vF/b
+X-Gm-Gg: AeBDievxYF68l6FOFFQ9B/g4kozxyS7VwIHMQR15lzS5FVG7vRF8Dy9Pvl+5kEXFemC
+	GBj/I1kc1WhGUDSyvjMtUBI1/CicAMmr8kghIxbPmXcchaDmq85ktorsOdDJKRXa10ILJK4He7E
+	ns0QO39EYnNxmEjYuIiBA/xvJ5AYS93o0ImaiKXt4Agh1b9lO5xGhjR7vFrVUgw4/sIZh+3ucXG
+	p0ZJ8vh0TlnA1ZwIFHqKNeLgypNT+f5SjcgPj06gaMzQpFhbJh/xj1gR9EQ5TVgH8PBS37dDmap
+	FNO5IDOMDt5brPwZdIj6E6QLkOpthBPp75l/j0GfQEEYHzatRzGi6HB5F5XYuH1xFcU06yMuBHB
+	UkJcvtlz4kjZEgNiGL1GX62v1R83TL3ne3D2RwFTyF7xUPNYPObssjzq1mObNk2/v4V4770zFij
+	c3xDGRKhCFFXjDygkF6Qg/kNOIc6R9e2iibBeF0NZpWlW54rMA
+X-Received: by 2002:a05:600c:3f06:b0:485:3abe:ab86 with SMTP id
+ 5b1f17b1804b1-48a9852cc0bmr90855945e9.4.1777798423150; Sun, 03 May 2026
+ 01:53:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260430053820.446080-1-lgs201920130244@gmail.com>
+References: <20260502021815.3953423-1-angusg778@gmail.com> <DI8GD8RZU94B.Q3VZJO6EIP3N@gmail.com>
+In-Reply-To: <DI8GD8RZU94B.Q3VZJO6EIP3N@gmail.com>
+From: Joshua Crofts <joshua.crofts1@gmail.com>
+Date: Sun, 3 May 2026 10:53:31 +0200
+X-Gm-Features: AVHnY4Kx_9zs4n__h8hqrjEXG6h1AeEpvFH-nAh2fqyqyHGXdzMFxFLYPbhHe_A
+Message-ID: <CALoEA-xEv9T4tv5fOYEh8ts=3rGOQMsW1ZrHVBbK8TVPuFvGFA@mail.gmail.com>
+Subject: Re: [PATCH] staging: iio: ad9834: fix probe error handling and
+ comment typo
+To: Maxwell Doose <m32285159@gmail.com>
+Cc: Angus Gardner <angusg778@gmail.com>, linux-iio@vger.kernel.org, 
+	linux-staging@lists.linux.dev, gregkh@linuxfoundation.org, jic23@kernel.org, 
+	lars@metafoo.de, Michael.Hennerich@analog.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Guangshuo,
+On Sat, 2 May 2026 at 21:54, Maxwell Doose <m32285159@gmail.com> wrote:
+>
+> Hi Angus,
+>
+> On Fri May 1, 2026 at 9:18 PM CDT, Angus Gardner <angusg778@gmail.com> wrote:
+> > Use dev_err_probe() for the master clock error path instead of open-coding
+> > dev_err() + PTR_ERR(), consistent with the avdd regulator error path above
+> > it and with the equivalent driver ad9832.c.
 
-kernel test robot noticed the following build errors:
+I found another dev_err() call in the same function, maybe change this one also?
+https://elixir.bootlin.com/linux/v7.0.1/source/drivers/staging/iio/frequency/ad9834.c#L452
 
-[auto build test ERROR on staging/staging-testing]
+> > Simplify the -ENOMEM return after devm_iio_device_alloc() to a direct
+> > return rather than bouncing through a local variable.
+> >
+> > Fix a copy-paste typo in two comments that referred to 'AD9843' instead
+> > of the correct chip name 'AD9834'.
+> >
+> > Signed-off-by: Angus Gardner <angusg778@gmail.com>
+> > ---
+> >  drivers/staging/iio/frequency/ad9834.c | 17 +++++++----------
+> >  1 file changed, 7 insertions(+), 10 deletions(-)
+> >
+>
+> Patch itself looks good but maybe rephrase subject to say "Use probe
+> error handling and fix comment typo" instead? "Fix" seems a bit generic
+> for my tastes, and we're not really fixing anything anyways.
+>
+> I'm not the final authority on naming so its at the discretion of
+> either Andy or Jonathan, and maybe Greg. So either way,
+> Reviewed-by: Maxwell Doose <m32285159@gmail.com>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Guangshuo-Li/media-staging-ipu7-Fix-pdata-double-free-in-init-error-paths/20260501-032323
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20260430053820.446080-1-lgs201920130244%40gmail.com
-patch subject: [PATCH] media: staging/ipu7: Fix pdata double free in init error paths
-config: x86_64-randconfig-076-20260503 (https://download.01.org/0day-ci/archive/20260503/202605031607.jGN5iKun-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260503/202605031607.jGN5iKun-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605031607.jGN5iKun-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/staging/media/ipu7/ipu7.c:2176:19: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'const void *' [-Wint-conversion]
-    2176 |                 return ERR_CAST(ret);
-         |                                 ^~~
-   include/linux/err.h:102:64: note: passing argument to parameter 'ptr' here
-     102 | static inline void * __must_check ERR_CAST(__force const void *ptr)
-         |                                                                ^
-   drivers/staging/media/ipu7/ipu7.c:2221:19: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'const void *' [-Wint-conversion]
-    2221 |                 return ERR_CAST(ret);
-         |                                 ^~~
-   include/linux/err.h:102:64: note: passing argument to parameter 'ptr' here
-     102 | static inline void * __must_check ERR_CAST(__force const void *ptr)
-         |                                                                ^
-   2 errors generated.
-
-
-vim +2176 drivers/staging/media/ipu7/ipu7.c
-
-  2125	
-  2126	static struct ipu7_bus_device *
-  2127	ipu7_isys_init(struct pci_dev *pdev, struct device *parent,
-  2128		       const struct ipu_buttress_ctrl *ctrl, void __iomem *base,
-  2129		       const struct ipu_isys_internal_pdata *ipdata,
-  2130		       unsigned int nr)
-  2131	{
-  2132		struct fwnode_handle *fwnode = dev_fwnode(&pdev->dev);
-  2133		struct ipu7_bus_device *isys_adev;
-  2134		struct device *dev = &pdev->dev;
-  2135		struct ipu7_isys_pdata *pdata;
-  2136		int ret;
-  2137	
-  2138		ret = ipu7_isys_check_fwnode_graph(fwnode);
-  2139		if (ret) {
-  2140			if (fwnode && !IS_ERR_OR_NULL(fwnode->secondary)) {
-  2141				dev_err(dev,
-  2142					"fwnode graph has no endpoints connection\n");
-  2143				return ERR_PTR(-EINVAL);
-  2144			}
-  2145	
-  2146			ret = ipu_bridge_init(dev, ipu_bridge_parse_ssdb);
-  2147			if (ret) {
-  2148				dev_err_probe(dev, ret, "IPU bridge init failed\n");
-  2149				return ERR_PTR(ret);
-  2150			}
-  2151		}
-  2152	
-  2153		pdata = kzalloc_obj(*pdata);
-  2154		if (!pdata)
-  2155			return ERR_PTR(-ENOMEM);
-  2156	
-  2157		pdata->base = base;
-  2158		pdata->ipdata = ipdata;
-  2159	
-  2160		isys_adev = ipu7_bus_initialize_device(pdev, parent, pdata, ctrl,
-  2161						       IPU_ISYS_NAME);
-  2162		if (IS_ERR(isys_adev)) {
-  2163			dev_err_probe(dev, PTR_ERR(isys_adev),
-  2164				      "ipu7_bus_initialize_device isys failed\n");
-  2165			kfree(pdata);
-  2166			return ERR_CAST(isys_adev);
-  2167		}
-  2168	
-  2169		isys_adev->mmu = ipu7_mmu_init(dev, base, ISYS_MMID,
-  2170					       &ipdata->hw_variant);
-  2171		if (IS_ERR(isys_adev->mmu)) {
-  2172			ret = PTR_ERR(isys_adev->mmu);
-  2173			dev_err_probe(dev, ret,
-  2174				      "ipu7_mmu_init(isys_adev->mmu) failed\n");
-  2175			put_device(&isys_adev->auxdev.dev);
-> 2176			return ERR_CAST(ret);
-  2177		}
-  2178	
-  2179		isys_adev->mmu->dev = &isys_adev->auxdev.dev;
-  2180		isys_adev->subsys = IPU_IS;
-  2181	
-  2182		ret = ipu7_bus_add_device(isys_adev);
-  2183		if (ret)
-  2184			return ERR_PTR(ret);
-  2185	
-  2186		return isys_adev;
-  2187	}
-  2188	
+You're mixing different logical changes into one patch, therefore it's
+harder to review and harder to keep track of the changes after merging
+(e.g. running git blame). Instead, you should have a series (named
+something like "ad9834: driver cleanup") and three patches under it:
+1. simplify -ENOMEM errno return
+2. use dev_err_probe()
+3. fix typos in comments
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Kind regards
+
+CJD
