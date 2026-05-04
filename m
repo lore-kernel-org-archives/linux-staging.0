@@ -1,96 +1,226 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com [74.125.224.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2C413D646B
-	for <linux-staging@lists.linux.dev>; Mon,  4 May 2026 12:44:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777898693; cv=none; b=o6xmWS71z0PMr43ziB3vUENPw2mznuctgAXUkyStA5y1lFRlNsZaeFnPmuzlKYgr7H0tBT/8wfc5+nd2brC7G9sY0RvJ52k5CkSN5wAp9V7X5BrWE8jw0KEG5B9eMXZTWtSr6hEvfVxFdbmaFjEqtL+0Ed37dhelvsNerLJuZsk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777898693; c=relaxed/simple;
-	bh=oM24je9Poee3D9Uz2W74hGkbi/3tqTcdi6OEfmzPcs0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hcEvWt1QZp6v8q3Syz9O7a15qNHtiF5MEJBvPemgaU/9Yz7q7/3DaiREMP24Lyt0t5+xXaxTnWM3tRaK2/tDn2+p1vx3ADb+9RNyk1WOaKYcB1z9LW32m1oa9M4AplcET+9Qm20kB3xsyOUBvC7n7ApXyENuX6SV6dbtlmcKSc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NRBHZmsE; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79E253D6481
+	for <linux-staging@lists.linux.dev>; Mon,  4 May 2026 12:48:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777898934; cv=pass; b=EfmYyFkup/J635nLBMr2+Eur+I448RbpydtkzEYicOT1G9WbKqVYb1+ReoFPVcl1Zpz/a0RbUDJnkeDvrX+LURoxo1ZsFpYdHxe3grQ4uP7YftBTxbex7oRt2x+cOnfZb2Vq/s3Exp7wNe451Zw9AxT4086FvOs0hGcs5vs687c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777898934; c=relaxed/simple;
+	bh=2kY5BIuB+ufB2Pehc7AcK+zOLtv4KIKzsUJRFie7MG4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sECX5RUFlpMHkkeHXov+63oLqR5mBK4AeRylgpNDu8+z8W5a/D4/ei9Be8Jo/kbSVFOrdqPDjIi68Y8iXqr4MgIfmh9RfN7YPCK+nRmPgK1iBjWRa2w1xeqq4cwCHsoc1brx4ZRyZpwBV/xBXa1Urir47xwfnz8A7HhvYd9LX+Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f28+mNKo; arc=pass smtp.client-ip=74.125.224.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NRBHZmsE"
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-59e5aa4ca41so4423327e87.2
-        for <linux-staging@lists.linux.dev>; Mon, 04 May 2026 05:44:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f28+mNKo"
+Received: by mail-yx1-f44.google.com with SMTP id 956f58d0204a3-64eb84d1e37so2982152d50.2
+        for <linux-staging@lists.linux.dev>; Mon, 04 May 2026 05:48:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777898930; cv=none;
+        d=google.com; s=arc-20240605;
+        b=KE672UAWl3THwjVavWvQI2D85wj0SCxUclgSIHpEU+lIFjbRVkkYhUliUv3v7H4nIR
+         KFPPib8GN2trw+4G8ncI8TKgvcETeE3axQtHUVKLcdSMFPYgPNSsvwG/oebVABqxX1PH
+         sknN9W+f2mK5VzieMGnE279GQAPqU4z6inRLyIflJPRhyvLZ7uHIWf9f3+bLlelLg7zZ
+         iRQ5bzC6GfiP6K8QW/N07YMOd2xk2ZlPpyTF90e/bVR08iRi5jpIQnYAZsbAhNpQiMV9
+         On8X06FVDP/NFCRYnlbAU3zWADygaDT89WYZRCQPBPI3PId7u4VbaIQIp1CQVEIuOnMc
+         3utQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=AwgutxwEVlGDgPMcTWx07aMbhOve2XFxqkKRegLCJPo=;
+        fh=546BJwixN83Fe190DqpqhAvh5YZJHUZAwpW2XdyThjI=;
+        b=Ec+ZFRrw74EEs2A1qPTwXolStYv1OKsts07ZFIGe6OL/IB9bUIclBhCD7C+2ExlIRS
+         bp8/PaS0tndFYTjvQvq8ub3HIcr/vAEaPr/QUQ34IbuJP4+OWBaeHZuOgGg9C7S/SSvy
+         xqk+DpnoGKcFTHMvGTf0OOByvh/bO1DMi+gPTPFU4S3I75T1oApCKm3GNwyoUwnUNt2a
+         ok2r+dudCPWZTijdU7CI/NJ3cNDTK+xngzD0JVdBYAKYA8RkfV8UuJ7qHfgIT/0f7hmM
+         vACSz8mRAuiHQKeQlmvaT9FAgiw+uSWpbLOwHkE7azN8a53XthBvepn5+ETA2z5pXSba
+         xl0w==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777898685; x=1778503485; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tr8yCoKWDZeFgocKCbcvByhcL4YIhXGxM0QCyRyeLgM=;
-        b=NRBHZmsErh+/E8xuG46UAYec5K2loaN7lS/mCp+jg9MtSFRER/7lOHryR4p8KctmxY
-         YHUcP3aHi/LgoV8OYLsseX8wR5OHD3UIssJ7abFziEKd75tyNRewF/cbYslvS4F0ShN7
-         fWbD3ssbFpcJutE9MzLZigwirmaBF46qI2kHggGWjGZGDjTiH85kGdM5kt7irUPVZT0q
-         ZRlL3hXwKSdvPGaIDEmIPZ4/3SabqibYINU/Crr+pYecZKdav1DU7fiKvMUE1f8CYiI1
-         cItmQCx2UhTQ3oHtYH+VsLYhhn5LtEtfqobbbABAHe/ZBzIPLULhGDNsurSUcB7cr4HB
-         5N9w==
+        d=gmail.com; s=20251104; t=1777898930; x=1778503730; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=AwgutxwEVlGDgPMcTWx07aMbhOve2XFxqkKRegLCJPo=;
+        b=f28+mNKo/bDFWBrDnCgz4NDgW3Re280uzFjCYGW3tZKBWV7Vi2RmagVLCITtAw8qMm
+         ZJQ4ZdjWma8XKzNlqiKGNoRoEWrd1uD5ZRu0a0DPDf+Sfj/mzCOf9jY7AMa/g78P6ii0
+         XEaTH2ng3rJ2KbT26lRgJQ4fCzd/Fv6o7V8yId1yg+Cp2UEzmiDoLdcINg7zoPDRTt2K
+         bGBEXEzQoqLeUbk/HxkqLiUkI1h+EKIQZF91Hy63+8CTn+irxxe/yNNuIhZoWcqJ1KPJ
+         nl1wir+G2zko35xkWKBJcYkb2d9rjMkEMc2pPY7udlFavzLCLlkv0BnNm4pvDAP6yDKa
+         fkmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777898685; x=1778503485;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tr8yCoKWDZeFgocKCbcvByhcL4YIhXGxM0QCyRyeLgM=;
-        b=X8G9mz/RkqhXT3C5KggAwJ/rzuQCN7tn4h7yPWErb8sZqbVF7IxQ82aJwXFSWKEIui
-         uRSf/QV7llUx1YV0WekJ/Y95X6RfvDSIPzKuPyuWTmVzBWKEBJ8PAK9uF6R2IAPrRfUG
-         c2xo8omVyq21RolVg5NF6py+aYa92PfTnoZiWeepnaDTmy/kpLDqaK8VuK1e/db440yP
-         KxzLB4M6o/sTVwe+0ckc09KMZWVRPv/0z9JC5cTslFULpJ7kPQqhcclL0GCH3WznHFWT
-         O0Vs1hBo/3wrjr77uUKWUQ65Epkc00gBowwr/VkLtQZpkzuDH6JUFEav9p0A6yhmSsVO
-         Pj4w==
-X-Forwarded-Encrypted: i=1; AFNElJ/i/0UvtA4SgMkMRj9jcLT/YngUGsIoKGdGgE2iWpROT6X6kc+tRZo6/qRLjBWTJ9/H984QMgPh+vgeJ2T7@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz2L8Y6BoLgT6WroBJFbNRd1Zbx3ll8E5Nj//B0oNVMV4PYUnJ7
-	IJikz8eGypiQnsNky/Y9KFY6q62I99uq2YsiwwRJXQyN/SEuVBnDwkG4
-X-Gm-Gg: AeBDies2WhYAaWJFowBAyfn6pdUqIvI6ZLVmG94vzhCxXZmV/bdjJNrPZ8HYgS1Kq2b
-	Bii9HKVzX3uMUHKaR9P8TaV+TdIuX8Set6aF7dtzE2usO1gNoJEqMXAz121h3PmwUFupx/6qSQT
-	nG9Xj731Vgfcoh46uAFOPcpHVzozikaA9E8uOL8GAXnmfaXyuyFI8QIePf8lJwZezjTS8oh3BnY
-	fkadeATbVp7euZ8gpPD0o5Zw39qjec6HcKFfPaIPMWOuXQFGV9z206uRpixP2gQT7mG+innNfku
-	jIebnuaIq6fV0skQ1smUvXfIZDzcPtzouuHUhaDp6u36Xa6YaSJtX6MXwVrNmNAa+gnWxleHxzf
-	k/DkyHC2xNbw+yfgWrramKYC5UqDUaroeGEwo+rHXMbzL+BPSdN/NtP1Klep8bLqokLJkNTse0h
-	ZIW27xehmdUW+I8NCJVL7lxflqGBdwrvmWmOKasAGhlA9wvg==
-X-Received: by 2002:a05:6512:1395:b0:5a4:8b:a075 with SMTP id 2adb3069b0e04-5a862fbd7b3mr2755927e87.16.1777898684697;
-        Mon, 04 May 2026 05:44:44 -0700 (PDT)
-Received: from archlinux ([185.140.161.214])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a87791b4bdsm331341e87.39.2026.05.04.05.44.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 May 2026 05:44:44 -0700 (PDT)
-Date: Mon, 4 May 2026 15:44:41 +0300
-From: Nikolay Kulikov <nikolayof23@gmail.com>
-To: Stepan Ionichev <sozdayvek@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, luka.gejak@linux.dev
-Subject: Re: [PATCH v2] staging: rtl8723bs: remove unnecessary blank lines in
- rtw_ioctl_set.c
-Message-ID: <afiUuSKLYW8oLkxd@archlinux>
-References: <20260501163815.759-1-sozdayvek@gmail.com>
- <20260502084930.857-1-sozdayvek@gmail.com>
+        d=1e100.net; s=20251104; t=1777898930; x=1778503730;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AwgutxwEVlGDgPMcTWx07aMbhOve2XFxqkKRegLCJPo=;
+        b=KXcTfKYcCpb1ialeZEYp9uNpQhfsFLd0MxX1J6GCosxtZHrT4ZvvY2NiELlACxdvUn
+         7bz6fzmNyh+e6Jpoj2C2wrJtdbz1JYJFI7aw1+nLt9kKKnrQdgR47yjUEDvHpgCvZvxX
+         381TNyuPJuvNN20RuaqT+7CCWKkT6N76XTHrQQbFZIg3QXy04Ib7gbopZFkLzxTJoROG
+         xwbD99+u3MdbyqInEZ66RAz7QDzN/rVjovg4VteXKK3lcz6ott79oNJFyyaHsWTClYcx
+         /jqNIpxqw7ulRXorxcaZR4wK+0s9ImkkO4CK9hQbAMDQa2UhqD+ULKTAftgVixyxNFgj
+         AESw==
+X-Forwarded-Encrypted: i=1; AFNElJ/t0LGIzIUMdJJiU0YutKPB/s29VgH2TS8D7QFI4lisRnyI/7Up2sL3SYSkC59YLxy22VCbA43HsYwZ+l5T@lists.linux.dev
+X-Gm-Message-State: AOJu0YwaAP1wwgruiNlzKatFnN9NMLg0zlHTRcnHd/lCe9chagH2Ce72
+	0m+D4I30p7BJm30+ZnAOm8qkTjWQWW6JvAn0GINysv+ZYV+xOUPqVxVIQHYjjug8LKPkx6e36Kr
+	u43owTl9RaQkFeQf8VstkgEkRZWPYres=
+X-Gm-Gg: AeBDieuNZcsNXuu4s13rUmD6uaVh8GnfxkpL0SGi5a09DwigLDd1L3noC/J42pt1K83
+	7/t91aIfrII+j/e2nwWfNN+Py1FKt1At/jSRxgo0z05jMtb5IqzitK+hFjFrSPkoqnOrPa0Rlkn
+	ug7INItiE0JOnAmNCJ/08/3Rx0WuPReRRWEiQXsqLBqxq+TLRjvWCit0xiRTFLBQUw30SKjYktE
+	Hpu7MNr8tJEb6dCvaKt861nthaJLy9vFmU0yO6994PolwGclm0WtuexmBP4D+uWtFCY8FiMH4TY
+	CLHB9J0YPMHIwhuC/Q==
+X-Received: by 2002:a05:690e:168c:b0:651:d0a5:ce2 with SMTP id
+ 956f58d0204a3-65c3dbd0c18mr9274835d50.60.1777898929910; Mon, 04 May 2026
+ 05:48:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260502084930.857-1-sozdayvek@gmail.com>
+References: <20260430053820.446080-1-lgs201920130244@gmail.com> <202605032224.WHCEx7uc-lkp@intel.com>
+In-Reply-To: <202605032224.WHCEx7uc-lkp@intel.com>
+From: Guangshuo Li <lgs201920130244@gmail.com>
+Date: Mon, 4 May 2026 20:48:40 +0800
+X-Gm-Features: AVHnY4KjNnZnjqUSHDRUd793YOF0624mKw7IO-xD2BfGfwjxsYdj1bk1K-D3VyQ
+Message-ID: <CANUHTR_UeQq5hLtLFMqeEORbGuWTJBZdpmi+0AqzzO42y-S3ow@mail.gmail.com>
+Subject: Re: [PATCH] media: staging/ipu7: Fix pdata double free in init error paths
+To: kernel test robot <lkp@intel.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, Bingbu Cao <bingbu.cao@intel.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Hans Verkuil <hverkuil@kernel.org>, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev, 
+	linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Sat, May 02, 2026 at 01:49:30PM +0500, Stepan Ionichev wrote:
-> Drop blank lines flagged by checkpatch.pl in rtw_ioctl_set.c:
-> 
->   CHECK: Blank lines aren't necessary before a close brace '}'
->   CHECK: Blank lines aren't necessary after an open brace '{'
-> 
-> No functional change.
-> 
-> Signed-off-by: Stepan Ionichev <sozdayvek@gmail.com>
+Hi kernel test robot,
 
-Looks good to me.
+Thanks for the report.
 
-Reviewed-by: Nikolay Kulikov <nikolayof23@gmail.com>
+On Sun, 3 May 2026 at 22:52, kernel test robot <lkp@intel.com> wrote:
+>
+> Hi Guangshuo,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on staging/staging-testing]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Guangshuo-Li/media-staging-ipu7-Fix-pdata-double-free-in-init-error-paths/20260501-032323
+> base:   staging/staging-testing
+> patch link:    https://lore.kernel.org/r/20260430053820.446080-1-lgs201920130244%40gmail.com
+> patch subject: [PATCH] media: staging/ipu7: Fix pdata double free in init error paths
+> config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20260503/202605032224.WHCEx7uc-lkp@intel.com/config)
+> compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260503/202605032224.WHCEx7uc-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202605032224.WHCEx7uc-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    drivers/staging/media/ipu7/ipu7.c: In function 'ipu7_isys_init':
+> >> drivers/staging/media/ipu7/ipu7.c:2176:33: error: passing argument 1 of 'ERR_CAST' makes pointer from integer without a cast [-Wint-conversion]
+>     2176 |                 return ERR_CAST(ret);
+>          |                                 ^~~
+>          |                                 |
+>          |                                 int
+>    In file included from include/linux/cleanup.h:6,
+>                     from include/linux/acpi.h:11,
+>                     from drivers/staging/media/ipu7/ipu7.c:6:
+>    include/linux/err.h:102:64: note: expected 'const void *' but argument is of type 'int'
+>      102 | static inline void * __must_check ERR_CAST(__force const void *ptr)
+>          |                                                    ~~~~~~~~~~~~^~~
+>    drivers/staging/media/ipu7/ipu7.c: In function 'ipu7_psys_init':
+>    drivers/staging/media/ipu7/ipu7.c:2221:33: error: passing argument 1 of 'ERR_CAST' makes pointer from integer without a cast [-Wint-conversion]
+>     2221 |                 return ERR_CAST(ret);
+>          |                                 ^~~
+>          |                                 |
+>          |                                 int
+>    include/linux/err.h:102:64: note: expected 'const void *' but argument is of type 'int'
+>      102 | static inline void * __must_check ERR_CAST(__force const void *ptr)
+>          |                                                    ~~~~~~~~~~~~^~~
+>
+>
+> vim +/ERR_CAST +2176 drivers/staging/media/ipu7/ipu7.c
+>
+>   2125
+>   2126  static struct ipu7_bus_device *
+>   2127  ipu7_isys_init(struct pci_dev *pdev, struct device *parent,
+>   2128                 const struct ipu_buttress_ctrl *ctrl, void __iomem *base,
+>   2129                 const struct ipu_isys_internal_pdata *ipdata,
+>   2130                 unsigned int nr)
+>   2131  {
+>   2132          struct fwnode_handle *fwnode = dev_fwnode(&pdev->dev);
+>   2133          struct ipu7_bus_device *isys_adev;
+>   2134          struct device *dev = &pdev->dev;
+>   2135          struct ipu7_isys_pdata *pdata;
+>   2136          int ret;
+>   2137
+>   2138          ret = ipu7_isys_check_fwnode_graph(fwnode);
+>   2139          if (ret) {
+>   2140                  if (fwnode && !IS_ERR_OR_NULL(fwnode->secondary)) {
+>   2141                          dev_err(dev,
+>   2142                                  "fwnode graph has no endpoints connection\n");
+>   2143                          return ERR_PTR(-EINVAL);
+>   2144                  }
+>   2145
+>   2146                  ret = ipu_bridge_init(dev, ipu_bridge_parse_ssdb);
+>   2147                  if (ret) {
+>   2148                          dev_err_probe(dev, ret, "IPU bridge init failed\n");
+>   2149                          return ERR_PTR(ret);
+>   2150                  }
+>   2151          }
+>   2152
+>   2153          pdata = kzalloc_obj(*pdata);
+>   2154          if (!pdata)
+>   2155                  return ERR_PTR(-ENOMEM);
+>   2156
+>   2157          pdata->base = base;
+>   2158          pdata->ipdata = ipdata;
+>   2159
+>   2160          isys_adev = ipu7_bus_initialize_device(pdev, parent, pdata, ctrl,
+>   2161                                                 IPU_ISYS_NAME);
+>   2162          if (IS_ERR(isys_adev)) {
+>   2163                  dev_err_probe(dev, PTR_ERR(isys_adev),
+>   2164                                "ipu7_bus_initialize_device isys failed\n");
+>   2165                  kfree(pdata);
+>   2166                  return ERR_CAST(isys_adev);
+>   2167          }
+>   2168
+>   2169          isys_adev->mmu = ipu7_mmu_init(dev, base, ISYS_MMID,
+>   2170                                         &ipdata->hw_variant);
+>   2171          if (IS_ERR(isys_adev->mmu)) {
+>   2172                  ret = PTR_ERR(isys_adev->mmu);
+>   2173                  dev_err_probe(dev, ret,
+>   2174                                "ipu7_mmu_init(isys_adev->mmu) failed\n");
+>   2175                  put_device(&isys_adev->auxdev.dev);
+> > 2176                  return ERR_CAST(ret);
+>   2177          }
+>   2178
+>   2179          isys_adev->mmu->dev = &isys_adev->auxdev.dev;
+>   2180          isys_adev->subsys = IPU_IS;
+>   2181
+>   2182          ret = ipu7_bus_add_device(isys_adev);
+>   2183          if (ret)
+>   2184                  return ERR_PTR(ret);
+>   2185
+>   2186          return isys_adev;
+>   2187  }
+>   2188
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
+The build failure is caused by my use of ERR_CAST(ret) after caching
+PTR_ERR(isys_adev->mmu) / PTR_ERR(psys_adev->mmu) into the integer variable
+ret. ERR_CAST() expects an error pointer, not an integer error code.
+
+I will fix this in v2 by returning ERR_PTR(ret) instead.
 
 Thanks,
-Nikolay
+Guangshuo
