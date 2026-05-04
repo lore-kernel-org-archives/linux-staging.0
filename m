@@ -1,113 +1,112 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F9BF35DA6F
-	for <linux-staging@lists.linux.dev>; Mon,  4 May 2026 09:21:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18E4B3537FB
+	for <linux-staging@lists.linux.dev>; Mon,  4 May 2026 09:23:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777886478; cv=none; b=MQ+IWBqQ//I4/0T/9qXY/N8XnAgR50TWRuT4s3U6kaOhfdtD0X4jyS4nRPL8tr/A9wj8MWhNPJ6QlldL6w8H3wa8chaYjpAJ9BFM0FAnjCYapSGrxwZx5IOiZrxRsgDxSND1UKLEorrk1MZI2l1c4sl3W9pc7OpeeAFZCZU7dcQ=
+	t=1777886590; cv=none; b=s5QriHpPUlzvs/adwQaj0PCC4W15i5G702pdNUH97cjDF4vnP+aGq5MSxf222Y6twwX5vYVJD3phF8T/S5apeDQ8OcEwSs3ZVT/Fl/i1rPpLqx3Epmd/ICzPHQuYhWdCH449Rfmm62sMMs1WWujdSxlLK+/Auq9iC/g+QyKy5fw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777886478; c=relaxed/simple;
-	bh=uCtvUv4bxEywi3tg4tIQ/iZN1R/dih7qyJa/FT2wfkg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YKwUVRDp7AvhfZBQpflbfgAvaUJweMFiUf28TEXUjlFZXkv4lGpYdrGj9ZEizC/am661sNFw5iOt42QhLq2reuxEyovvVH3WqbRqnp2MXTjSY3XJ0t1zkUlBrnNT4/InNTfTCjOdjU7QdGRxySWJeNRSPfiWM+bbx4kwpWvYaPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W+nZP+di; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777886590; c=relaxed/simple;
+	bh=nZb0z9pTsXJI05TJH4UO/YC/GWTdUKG+HJaCP67coDE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CVt+0D8wHWx3EyHWbRF6jGzsTRsrarYI1lIXlIiWW9qbbQRfCuz2u4LQBKchlm689C5dgl0YH6/RBiu9nTIJPe0yxsA5u9sQu/j1AmcTZW4VnIBvsVfVFjqLbXJg1Y8ajebyhhid605dIVsXfU7XuFt3Ip2GatsqfDN3tngfB5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CdlEHcn/; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W+nZP+di"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-82418b0178cso1803238b3a.1
-        for <linux-staging@lists.linux.dev>; Mon, 04 May 2026 02:21:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777886477; x=1778491277; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZcAeOLR7xmJOHuEzHLeDXQ/7X479DK/0Yz3LFZ7fIeo=;
-        b=W+nZP+diNTOAASDUCT7pVBE7gCM9ocd+prrMg3+stpvCWq70X4oFNkSyBTM7aaNK/z
-         a5sUnO0xFEi25C2f+Lh2X+02gTgEkTCeAiRRYcdK2DIG4a/Cy8QIJn9SSFN+3Y7+pGlv
-         SQ2Fjy9AHLbumHNBzzjB00DkbZZ6+HOTqGzSWsSr1iCmuiWldJ668mz9tFLtY/kh4K7s
-         TjxM78RbYA/G4ec8RlZGRCusZHYH0ZWiXnQQT0ysOctBFI1D0Mr0Q1izMeIeIbFDbPy2
-         Ar69DOBsO+WvnXGSehxiGsM9Gk+FLEA82rU/aed/2rvokbfOXX9hMXPQExkRzAV8utLk
-         GX2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777886477; x=1778491277;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ZcAeOLR7xmJOHuEzHLeDXQ/7X479DK/0Yz3LFZ7fIeo=;
-        b=VvH9GMR7wN4OAmzITxlkiJTMjd2ahSYNGfsL+A3CFsF3v86zvkyFzPOVCisaMn7LDM
-         IHmmy9L4fz/PkwxIeBhTx1bGsSR08cewoJW30qZi1R6BZAfaF1XEa8InkC886M5hIlxQ
-         rCo32ku+SsYmSftrLUQ/swfU/NpCz9rDAUQUsAZ8YfLqMrqvNKgriUNj4342hUil7QSt
-         7OClcgBc3kV+ybSbmJJpp8U65XrzNXGwN5VW1QnrT+iQqK7p7qHFEEbQyoGsLXuGmsVM
-         SOpm8HjtZzkitRk0Mqmz+2v/E7QxJrcSinQ+QQCTFC3v8b1kAiN53XD5ZvZSKGnUFPJ2
-         WYcg==
-X-Gm-Message-State: AOJu0YxOL9+CQpzD8zTCDckzkJ3VJIfKWvQ/y9Tm9fvd6v8YqGYVgX3b
-	IBFGe+FrVvROUWRmuRsAfs8InGqc4K/1e/BYF9TmfDmBgGEdqDR9oXHZsbXgdFGqIxM=
-X-Gm-Gg: AeBDieu5J1FyscBbGIWqmyMCAYR3k0CawAUQIHTlEHBTGPTXWb5Wjj/S6z1VeVvDdvv
-	TUAegVW9XtxdFVzGJM2Xa2JGn1fvyEPGtUDsOraXBy9xYbAvmST6+SCR4GBAb0bijuFFcEo6MDX
-	0FFpWhVG3hmjHv8hpqLyKw40wWbETIUysWG5FPbFlgIxgnjHIcqAIfP05VvEM6TWJviXCqyVk6m
-	en1+S1tjM1N2VGTyXXxX3lxOXUnt0qwqBViYGZo8Cq9Da+vjJOWpKUEd2fudnbQDvV42/pJ/PJz
-	oRfJ1gYFowZDTBuHs9/41+QKVAxnvZIoNilSWnYRUEtQHthy0XRwYOJtsTTJGCxuaBJYx+HUyOc
-	2d0dSgwC/4LM5TUZvz/nBtG1TiNK8Y+LYbqzM3N6V1aOg4mHisQ4/3JC53GFTzVdV4+fsmVaPm3
-	h64aMFYSJqaUVw8utihIMVPAwheVYvAg==
-X-Received: by 2002:a05:6a20:3949:b0:3a0:aee6:acc3 with SMTP id adf61e73a8af0-3a7f1c24df4mr9623065637.38.1777886476890;
-        Mon, 04 May 2026 02:21:16 -0700 (PDT)
-Received: from scootaloo ([101.179.98.31])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c802545908esm4163923a12.27.2026.05.04.02.21.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 May 2026 02:21:16 -0700 (PDT)
-From: Angus Gardner <angusg778@gmail.com>
-To: linux-iio@vger.kernel.org
-Cc: linux-staging@lists.linux.dev,
-	gregkh@linuxfoundation.org,
-	jic23@kernel.org,
-	lars@metafoo.de,
-	Michael.Hennerich@analog.com
-Subject: [PATCH 3/3] staging: iio: ad9834: fix chip name typo in comments
-Date: Mon,  4 May 2026 19:20:59 +1000
-Message-ID: <20260504092059.1536094-4-angusg778@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260504092059.1536094-1-angusg778@gmail.com>
-References: <20260504092059.1536094-1-angusg778@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CdlEHcn/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777886589; x=1809422589;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nZb0z9pTsXJI05TJH4UO/YC/GWTdUKG+HJaCP67coDE=;
+  b=CdlEHcn/DhzhZnuI0POrhjPIfDpijzPHNQEuD2zVbbqtHReBjnaJ7lg9
+   673UrjEQtMjZsImVeSu/99ux3c9tr6T7r+3Js5WdExy0D+aybUXu8hh5m
+   UzGxdaAuWh+maR2ezG/wXYjDcPYU9aIUmiKFn9RhuE31c3J9XChu+hanL
+   lcCfqasZ08IIR78flCV0wiAvAcVI4XoF55FIuBKUFrbHVhNf0q/13CcOn
+   YY9q3PlqlxU+fDL4nWArdE1NFZLShssCwXC+dbZ7194VwePiXBiG3SCYn
+   4fHP/azReD/X50yimxAbJoCkDFS7yb3KHuuq7D6hEfdbJKTUhedxhgEM1
+   w==;
+X-CSE-ConnectionGUID: ivlKERGZTsK+yJl/DZX35w==
+X-CSE-MsgGUID: BwVnMr7HSACJwoSfQucc7Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11775"; a="82589819"
+X-IronPort-AV: E=Sophos;i="6.23,215,1770624000"; 
+   d="scan'208";a="82589819"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 02:23:08 -0700
+X-CSE-ConnectionGUID: lMWpqpVDQA6m+lgKQHiWpQ==
+X-CSE-MsgGUID: B59DyxOwSSWdP1Kb4r6Dsg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,215,1770624000"; 
+   d="scan'208";a="234603399"
+Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.245.78])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 02:23:06 -0700
+Date: Mon, 4 May 2026 12:23:03 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
+Cc: andy@kernel.org, hansg@kernel.org, mchehab@kernel.org,
+	gregkh@linuxfoundation.org, sakari.ailus@linux.intel.com,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: media: atomisp: drop unnecessary else block
+ after return/break
+Message-ID: <afhldw80eBVTR8Fo@ashevche-desk.local>
+References: <20260503172200.94712-1-shyamsunderreddypadira@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260503172200.94712-1-shyamsunderreddypadira@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Two comments incorrectly refer to 'AD9843' instead of 'AD9834'.
-Fix the copy-paste typo.
+On Sun, May 03, 2026 at 10:52:00PM +0530, Shyam Sunder Reddy Padira wrote:
+> Remove redundant else blocks following return or break
+> statements.As control flow exits in these cases, the
 
-Signed-off-by: Angus Gardner <angusg778@gmail.com>
----
- drivers/staging/iio/frequency/ad9834.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+There is a room for more words on the lines. Also respect English grammar and
+punctuation, exempli gratia use space after a punctuation.
 
-diff --git a/drivers/staging/iio/frequency/ad9834.c b/drivers/staging/iio/frequency/ad9834.c
-index 0e4727fb8cde..a27c03387526 100644
---- a/drivers/staging/iio/frequency/ad9834.c
-+++ b/drivers/staging/iio/frequency/ad9834.c
-@@ -164,7 +164,7 @@ static ssize_t ad9834_write(struct device *dev,
- 		break;
- 	case AD9834_OPBITEN:
- 		if (st->control & AD9834_MODE) {
--			ret = -EINVAL;  /* AD9843 reserved mode */
-+			ret = -EINVAL;  /* AD9834 reserved mode */
- 			break;
- 		}
- 
-@@ -239,7 +239,7 @@ static ssize_t ad9834_store_wavetype(struct device *dev,
- 				st->control &= ~AD9834_OPBITEN;
- 				st->control |= AD9834_MODE;
- 			} else if (st->control & AD9834_OPBITEN) {
--				ret = -EINVAL;	/* AD9843 reserved mode */
-+				ret = -EINVAL;	/* AD9834 reserved mode */
- 			} else {
- 				st->control |= AD9834_MODE;
- 			}
+> else branch is unnecessary.Dropping it improves code
+> readability.
+> 
+> No functional change.
+
+...
+
+Code wise almost good, see below.
+
+
+> +	pci_read_config_dword(pdev, PCI_INTERRUPT_CTRL, &irq);
+> +	irq &= BIT(INTR_IIR);
+> +	pci_write_config_dword(pdev, PCI_INTERRUPT_CTRL, irq);
+> +
+> +	pci_read_config_dword(pdev, PCI_INTERRUPT_CTRL, &irq);
+> +	if (!(irq & BIT(INTR_IIR))) {
+> +		atomisp_css2_hw_store_32(MRFLD_INTR_ENABLE_REG, 0x0);
+> +		goto done;
+> +	}
+
+> +	dev_err(isp->dev,
+> +		"%s: error in iunit interrupt. status reg=0x%x\n",
+> +		__func__, irq);
+
+Now it may occupy two lines only.
+
+	dev_err(isp->dev, "%s: error in iunit interrupt. status reg=0x%x\n",
+		__func__, irq);
+
+> +	spin_unlock_irqrestore(&isp->lock, flags);
+> +	return -EAGAIN;
+
 -- 
-2.51.0
+With Best Regards,
+Andy Shevchenko
+
 
