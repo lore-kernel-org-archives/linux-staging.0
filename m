@@ -1,84 +1,93 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E5A937754E
-	for <linux-staging@lists.linux.dev>; Mon,  4 May 2026 09:20:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 823EE4086A
+	for <linux-staging@lists.linux.dev>; Mon,  4 May 2026 09:21:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777886405; cv=none; b=Bv57R0v9VXb8SGlHQ+44/3U1oL8eoQRPMCUL7duPoKs63urbTF7VRT9d7XH2ICvrEWUwUBy5orczxVFm144RouGnq+CPiMS8oyfWhTkJSYNACT/QVIftmtrE3Ue7znwKtApV2l4A4WRcotmm9FBKQHTX072PSApCIrQQqjbVrUk=
+	t=1777886468; cv=none; b=pnGaY2O/uvRrnnOng8cEh8xa1FBHAb+wtRVK349ChzTDQtaqK5rs7rI29lrksFyseHicrZjdajjeCtI80qxMZREdInxJYKdllkVU5763kLNIMpBlPz4GnQ9J9VFyKkCt/QAZ8UiWYBGPOWj9bpBMl6d8yz6DMoBeNj7B+Pp0FsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777886405; c=relaxed/simple;
-	bh=yupxrrPMZBoEUv4zEx6yv+pw0K30bFRGJXzOH7fKlYQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=riJjUv1ljW8FwGETwt9TFwwswOqr/zR4W2u9NIN0Uu7ostNFIKHgapdvdcTNXR3NjOBvUBl+a82GSJgxM3gfn8C4thf450ZpplQBi455gvIyzlEThw0V8VHjZXwaTicqZz+dVw8Ws+HnIh3oklmZ1xLLbqa78UJ2ya4ibe08R+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ypn+5Ppj; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1777886468; c=relaxed/simple;
+	bh=BnX504wY/5jbOBLNNdjC1wdvPax3nTDRleB/fm83Flk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KYrZ9MBqzC1HEdRPHW8YcfWFq2O+nmw/PMAivicae4KH+UvOaQKYYIH3r3R7YrXBd+36F6DP14WGEKJxY5WUUKXsjDA3GtTugJHQ3KxdB1FTKhh1Ku3pgbrcWHgKKd1MBfrtV1lXT+xKe3xh4TgHpz5b9x2k/IgzbuahAljllHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IGpo8Q7E; arc=none smtp.client-ip=209.85.215.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ypn+5Ppj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777886403; x=1809422403;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yupxrrPMZBoEUv4zEx6yv+pw0K30bFRGJXzOH7fKlYQ=;
-  b=Ypn+5PpjnuDhYsdfrhvlC6RKCW+uoEyAqlpVm8nLIxnBfjfB4a/uJPsZ
-   uDNyCyW1AFMSXjo5GpA+6XuR2TrLLEcNVxp6ppxDNFComX59CSBD4AOB1
-   QbdyZQhFZ9VrbXjtx0oW8JGFPu1ptD2NpkX0AiaEhhvWwS/6wtObH6eZi
-   EdbL8RB9yiCvI8vBU/GNuUjMTVBLwpbidZ+ywy3p+GFpzdNY9/EL5kCk7
-   sCJE6QIfmkPbdNkF8xjuWPCAGKBPdgRbnnjK9LMceNjrC9xL6gRftQByR
-   krfvxeUfEwFA3w6dGup4X6p326aBOjOK6ryZ50CEv56OOZji2PRHYbVKp
-   g==;
-X-CSE-ConnectionGUID: N3YmHbNWSG6mMRUkOGDHtg==
-X-CSE-MsgGUID: RoovBZWqRO2A/R9IoytETQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11775"; a="78732171"
-X-IronPort-AV: E=Sophos;i="6.23,215,1770624000"; 
-   d="scan'208";a="78732171"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 02:20:03 -0700
-X-CSE-ConnectionGUID: dUg4em3cRuiM6xkO6m9NfA==
-X-CSE-MsgGUID: jCnSynjuRaO8TvxDy36VuQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,215,1770624000"; 
-   d="scan'208";a="265814320"
-Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.245.78])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 02:20:01 -0700
-Date: Mon, 4 May 2026 12:19:58 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Stepan Ionichev <sozdayvek@gmail.com>
-Cc: hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com,
-	andy@kernel.org, gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: media: atomisp: fix typos in
- input_formatter_rst() comment
-Message-ID: <afhkvt283Okjs0Xy@ashevche-desk.local>
-References: <20260503164755.1899-1-sozdayvek@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IGpo8Q7E"
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-c7980c060cfso1118758a12.2
+        for <linux-staging@lists.linux.dev>; Mon, 04 May 2026 02:21:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777886467; x=1778491267; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Fuuo/z2LhU5LQUkwEEphmvYVaLYefqtEf3mo5jJ8+1A=;
+        b=IGpo8Q7EII/OKuUT8d+iJFESq2Q3IsXGvIKfLyF2QcYhPaDk/7xBGdH+jlwT8cgyKI
+         DNRPuG02J4KjYoJXHlz9MxtxLg3tRvI2KEGsMyAq64gASytYWRWqJenHvGQxRmIC8Gdo
+         AHUYvQZftZH8vfIjfo36Fe+L/22+wnAxVGF8TwB0tTiSwyaqdvzuCDS9PKDi2jqSaUO3
+         y2yncqUEPSxXGaDwgo7TVUWDbNYzUDA7xKh9Df7pis43Pdsb55bSob+OdBWIxenGn/z8
+         5SiAYn+aRMD/Ha073xzv94aqjPQ46uUbGKu7SoBIS/EiBypxwQVu8G2IpVZ/eqgLxxbV
+         Kd2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777886467; x=1778491267;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Fuuo/z2LhU5LQUkwEEphmvYVaLYefqtEf3mo5jJ8+1A=;
+        b=niiwvcBUBRH4JGxy7+TIMDJVfVZ7Aw02C7SCsR7ndTwYCj5amcgpQD3U7uiq/etwMa
+         pz/eWjeuCFEMdubpl8KXTfctM6Eh9sTUywWt47siKeExQa8OhbtqGqASPjSV5xbzZXGz
+         yeExd/JA0FPmqcwvSGLKQSVTmHxtyzl4SDK7ibuDkDIzxoIDCGdG9OEkiutCK7dA5Vai
+         1Mn9dEl0EeyMuMJw7uK2VY095tCQUM8ygWn/Ogc1atRZMk7qtXe4kYdQvO2tz8sA7kZ2
+         237DkShwNt4qDVOlYDpunsXE6g8J1TSCcjtQLHMyiPf9JOz9fEGO2RN3cTjolnEbJkaa
+         uNMA==
+X-Gm-Message-State: AOJu0YxqbVkKQDekUkQiPzcDIwOYXUtt0pL2uTPGCNCk9Wz8ZCnOSpYy
+	8aQ+LkMX2Kh4OfWgKflXPMkPYM3A9HoxGRZbGcPok0TIAO23YU0S4zg9
+X-Gm-Gg: AeBDies4nKU6wOCajTFyjHwE87UMwIXeS3BSSz7Aw41nrOqrBht6CMd+fRV9fW+iyr8
+	p/IIbVRaYWQiEk41RO6Jqf6JVAq3SvgPkhEqg7MkTKobCzJAon1RrLSfEKzhOPD8COYhpWGnt3A
+	S8Ajm8viExWLS5ZOWgtjv4JL8X6JNT1Lf663ZygwXGhMZK/cMBLtVXIbbxnESmBRKK2nB6zsyD0
+	MxnUjQg5e301kwfghA0SSmIWTREBVQwjDPl6mb/NGxoyLhs5NPo7M7pJ09ZZ7VLE2CB2iyJkUAh
+	e+p0e1sk1XsRi8waNbTyCirOntZKZry+/FVIVWaFSiM5OrK9do9hRgQBDV1lvbf3KogPyGVAMTI
+	798bSlf2yF6qLLByUk6Oj1DwkPlJS4WHAKKftcXye/GSZILzepMmDwGmEivn9lwq30Hs2hUAx2k
+	j4ELy+hrKMwfhijv5lONG5jtSL3N+GaQ==
+X-Received: by 2002:a05:6a20:1e62:b0:3a8:9dd:75bb with SMTP id adf61e73a8af0-3a809dde19fmr4369375637.56.1777886466767;
+        Mon, 04 May 2026 02:21:06 -0700 (PDT)
+Received: from scootaloo ([101.179.98.31])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c802545908esm4163923a12.27.2026.05.04.02.21.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 May 2026 02:21:06 -0700 (PDT)
+From: Angus Gardner <angusg778@gmail.com>
+To: linux-iio@vger.kernel.org
+Cc: linux-staging@lists.linux.dev,
+	gregkh@linuxfoundation.org,
+	jic23@kernel.org,
+	lars@metafoo.de,
+	Michael.Hennerich@analog.com
+Subject: [PATCH v2 0/3] staging: iio: ad9834: driver cleanup
+Date: Mon,  4 May 2026 19:20:56 +1000
+Message-ID: <20260504092059.1536094-1-angusg778@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260503164755.1899-1-sozdayvek@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Sun, May 03, 2026 at 09:47:55PM +0500, Stepan Ionichev wrote:
-> Fix two typos in the TEMPORARY HACK comment in input_formatter_rst():
-> 
->   WICH         -> WHICH
->   STREAM2MEMRY -> STREAM2MEMORY
-> 
-> No functional change.
+v2: Split into a series of three patches as suggested by reviewer feedback.
+    Also add a missing dev_err_probe() conversion for the SPI init error
+    path pointed out by Joshua.
 
-NAK. There are a few reasons why, please start reviewing others' changes
-and learn from other reviews.
+v1: https://lore.kernel.org/linux-staging/20260502021815.3953423-1-angusg778@gmail.com/
+
+Angus Gardner (3):
+  staging: iio: ad9834: simplify -ENOMEM return in probe
+  staging: iio: ad9834: use dev_err_probe() in probe function
+  staging: iio: ad9834: fix chip name typo in comments
+
+ drivers/staging/iio/frequency/ad9834.c | 24 ++++++++++--------------
+ 1 file changed, 10 insertions(+), 14 deletions(-)
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.51.0
 
