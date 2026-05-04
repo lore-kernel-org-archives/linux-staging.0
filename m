@@ -1,38 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E5D0378812;
-	Mon,  4 May 2026 14:56:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DEA13DE44C;
+	Mon,  4 May 2026 14:56:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777906588; cv=none; b=Ma05I2F9DMWmlVX8blrdt+S8WfnaGzwFwU+HlKN8wT3IhqtNYN9Ca0CrblVhl6WnSGyuZFcnUG4TGkaTQpuAfB7cpSH2C+WAatrJMYqH4x1X+MQ8X63PisBemImy4tewx4JAzIK/A76F8MSxp60WxYg5NFMjKRBKDtWWoBJ7Z+U=
+	t=1777906593; cv=none; b=ThSW3qXfC11YJUBHIz0yYD6y/JbIzCUu7QVK/0lTpoUmINtmaV6Hq7CP3hCEs6PO/dvEIfQHoxn9gLn4Wl7K8zZDKNtvDA7ftYRqtoiR7UsWVT5HhruUe5EeCdW9mGQa8QKdf81acRO9928AB9Bv/nzJTdUuNsFQ7+9IZlYx5vg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777906588; c=relaxed/simple;
-	bh=Z77KrgFOO4+pNFr6e/bYqMBfKko2jtGFoe/GTrXwigQ=;
+	s=arc-20240116; t=1777906593; c=relaxed/simple;
+	bh=15aLjGkCbpugF1uEUrR4LpZ+meDAtHejyTtKptSgyRg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PNqjtZ2rhMFrrrxfoZS27dAntoZHHaQNntNkdmomLmwqZe3ZxSorQo95+TFLJvQe9efrPXvo2jyEaHbGKdGUGooKsHfeQXabNoXLJApNvQhgVctyCs1M5PGWMOv4tNgO3pTAzfauI7zTJ5pmW+V1P3q/7fUL4O1n+/gzr7Q+C1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=i56B9zVE; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=F4GJ7SWPlv/hw6pdtUAJGOkLOkGtxTyvP7dx+IgJkUUJy7rV4PENuBvAzCTwh8gFPqrhfCqR0Ve2lYWxfp2BWr5yrJ8lKxXc8ATemI5xKBhEU4D68OXknC75jVUoafxK4haOedmqn/gXDBEOLy50AA/cDfsa7pgRVM8EXnXIhEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=0SNTu1aa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="i56B9zVE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7095C2BCF6;
-	Mon,  4 May 2026 14:56:27 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="0SNTu1aa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C336C2BCB8;
+	Mon,  4 May 2026 14:56:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1777906588;
-	bh=Z77KrgFOO4+pNFr6e/bYqMBfKko2jtGFoe/GTrXwigQ=;
+	s=korg; t=1777906590;
+	bh=15aLjGkCbpugF1uEUrR4LpZ+meDAtHejyTtKptSgyRg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=i56B9zVEZzMup/8wpw3zgUgsfdBWx2kkszvMK+i/E2IEUFUTWS4HlWctAd39MoC99
-	 7qLfs9N5JcHz+7E5V01z/qtPqnShLDoNGVvxF2x8A4bw42qXMG5MA24rMApcNn4v7m
-	 oV+kjJoHSMHi2mv2NSna12ED7L+BH1hmlkH2rwuM=
-Date: Mon, 4 May 2026 16:21:06 +0200
+	b=0SNTu1aaJqAvrTtb1sbqX+MjfSutMFWWamQAP2sG79scngmx/Ykpc4KaqCTiG2LxD
+	 wAC8Fr3QfEZPI4hpLjNsuaNPl2E6fKZu+RZ6AET1sm4R25uJmmBtLWf5irz2FGIcSz
+	 lav13yYGRgensoWtA5QlG6sHox7x+oSYaE87MFks=
+Date: Mon, 4 May 2026 16:22:27 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Ayush Mukkanwar <ayushmukkanwar@gmail.com>
-Cc: error27@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 2/4] staging: octeon: replace pr_warn with dev_warn in
- fill path
-Message-ID: <2026050441-vessel-goldmine-2bb6@gregkh>
-References: <20260427151556.91153-1-ayushmukkanwar@gmail.com>
- <20260427151556.91153-3-ayushmukkanwar@gmail.com>
+To: Linus Probert <linus.probert@gmail.com>
+Cc: Luka Gejak <luka.gejak@linux.dev>, Dan Carpenter <error27@gmail.com>,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 0/8] staging: rtl8723bs: remove warnings in rtw_btcoex.h
+Message-ID: <2026050421-wrench-driver-de6d@gregkh>
+References: <12186A7D-522A-4900-9E4A-E2B575930A72@linux.dev>
+ <2097F9CE-F003-4BE1-AEF5-0B30294973FB@linux.dev>
+ <177745958799.1254637.4289009650997698120.b4-reply@b4>
+ <FD718F1D-8156-4E27-BEE7-23E66D045A2E@linux.dev>
+ <afH0RlRIDQdC08dV@stanley.mountain>
+ <5103B748-E9AE-4164-B81F-CB24326F3F7D@linux.dev>
+ <177746706634.1273374.11369919005007087628.b4-reply@b4>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -41,25 +45,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260427151556.91153-3-ayushmukkanwar@gmail.com>
+In-Reply-To: <177746706634.1273374.11369919005007087628.b4-reply@b4>
 
-On Mon, Apr 27, 2026 at 08:45:53PM +0530, Ayush Mukkanwar wrote:
-> Replace pr_warn() with dev_warn() in cvm_oct_fill_hw_memory() to
-> include device information in log messages.
+On Wed, Apr 29, 2026 at 02:51:06PM +0200, Linus Probert wrote:
+> On 2026-04-29 14:18:55+02:00, Luka Gejak wrote:
+> > On April 29, 2026 2:06:30 PM GMT+02:00, Dan Carpenter <error27@gmail.com> wrote:
+> > 
+> > >On Wed, Apr 29, 2026 at 01:34:41PM +0200, Luka Gejak wrote:
+> > >
+> > >Greg has said in the past he prefers them all as separate changes the
+> > >way this patchset does it.  He recently asked somone to split up a
+> > >typedef patch into one typedef per patch.
+> > >
+> > >regards,
+> > >dan carpenter
+> > 
+> > Thanks for that information Dan, I wasn't awear of that.
+> > Best regards,
+> > Luka Gejak
 > 
-> To make the device pointer accessible from the workqueue callback,
-> introduce struct octeon_ethernet_platform to hold both a struct
-> device pointer and the delayed_work. This replaces the static global
-> cvm_oct_rx_refill_work. The struct is allocated with devm_kzalloc()
-> in probe() and stored via platform_set_drvdata(). The worker
-> retrieves it using container_of().
-> 
-> Add a struct device pointer to oct_rx_group and thread it through
-> cvm_oct_rx_initialize() to support the NAPI poll refill path.
+> Thanks, then I did understand your suggestion correctly. Just wasn't
+> sure. As Dan stated I've learnt that Greg prefers one commit per function
+> for these cases.
 
-Why isn't this the platform device?  And why isn't this data just part
-of the platform device's data anyway?  Why is it a separate "thing"?
-
-thanks,
+Yes, this is great, thanks!
 
 greg k-h
