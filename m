@@ -1,122 +1,103 @@
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8323F39B97F
-	for <linux-staging@lists.linux.dev>; Mon,  4 May 2026 11:14:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D943E3B9D84
+	for <linux-staging@lists.linux.dev>; Mon,  4 May 2026 11:57:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777893266; cv=none; b=TNqFeI/6C0cqm2CGuTbz3wL33KEQS56TZyc2C4+CkUIkIhQqgVrr2mOPc9ZhLSuq6/e88015TVXN96jmGanb+ldPPyOo9IvEyDIR1l5rE76bz2YU8a6W4bjwe5uo8WBb2W1CD5vJPVSR74fj/LLStb24gIlm+VR2x6w+dRGyVME=
+	t=1777895880; cv=none; b=RwbhIR50ODJgcC52dX38hnLXrOMnY1sVeIJTigN/rFzyVzUicIbZd7CEyYilMm51hZxvz+Gdwi8g4Uhq6AYD+TQhKhIjDg710ILimGksgt1W09jHXcKClZk99tp7zOd1tCHm0zwuCmKvVlBO44Gq0QdEnA5snPlnvnG3r9h+qxg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777893266; c=relaxed/simple;
-	bh=5gqcOaHGDYCc2EdNv2Pfg+YmYLebbGoz42XP/KxddRI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=r2pOCMHvLhY4mZmqZxFAJHky0xThAfHkTUo7+5fDe3LDbPj1OWMN0ITrKRvltrovIdeyWkgFsWhfAj3z9ak6v8OC3/7hmiyDT4WDRYo3QyArY+rPWru8TSSYnXdtORWiwWXxG2SOmqlnNcl9Z8MvieSxhfB62L3eH14LHfDtsOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y+QWhY3N; arc=none smtp.client-ip=209.85.222.181
+	s=arc-20240116; t=1777895880; c=relaxed/simple;
+	bh=BcKKSL8vSSZF0gP55JcdQZVPre5XJmBMh2A9VhxYOqs=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=XfiKVfnJg9ZTYDE/lokXoWcxoCI5prCfLYQAXC2Dbp/xzco53iR8TcsMtimFNqPqFx3Z7no37iYTFho+o3USg1jumUnvxddncb8THG6dtdzr/h3M965+s8DFgyEiQHmLiucpLxaEv1y2Mszfaenpf2BABdA1Wq5zEYQhajKPBgk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WrjYoTTE; arc=none smtp.client-ip=209.85.167.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y+QWhY3N"
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-8ef45a6d9dfso440561685a.0
-        for <linux-staging@lists.linux.dev>; Mon, 04 May 2026 04:14:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WrjYoTTE"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5a8704dc3a8so912581e87.3
+        for <linux-staging@lists.linux.dev>; Mon, 04 May 2026 04:57:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777893264; x=1778498064; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=eIoXQIVw/Vuj4jbZ/QrXIRnsUY3etOFhZ4gnsuho/XY=;
-        b=Y+QWhY3NNWwyew9KVj4Kl7ZloaTZNYrpv+cClsJLwSjI7gz90YykEryuA5FgiDuOXw
-         txmsYUtVTUC7oMSJimX8atdyXa7bKLTpDpnD+9ucwTb4zxGhgJ7JETEZJ4JMwbPEr6MD
-         Md2HRf/Pn5R+YkLzuXLrTs5aSxgL/rqfyKzPmaZ2DW0VvrkzlRoAcs4zxbE1ntwcFWeG
-         K9RcPkl32h5WULiaJWIwXaef+Mb7NNVvOx7ZWWNuGshfG9z/ZznmyipL9NLxUoqcKiVB
-         cnCglAmWUo03oZ37Fv2nOYG7WvykYPGBc8H59bs7eyv1DumO4eW0wL6HK2t8BUC2gI59
-         FmEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777893264; x=1778498064;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1777895877; x=1778500677; darn=lists.linux.dev;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=eIoXQIVw/Vuj4jbZ/QrXIRnsUY3etOFhZ4gnsuho/XY=;
-        b=AidjWwQaYT9ObZG0mJsHSKp4GOlZ+inBLdRj18jLYhAMVNAVkCkLotng/vjqJ25+vx
-         30GEz5dvMXEdyRdDH00QnahfP3LXcoLbWICrOm1djNuPQ+S9alVhhky6SD8Tl6yplLCf
-         RccgBAMsG/5mrTYv38B3VnnbwgPWLHlJmHfPiB7oDUtKTKmmfd8QP45Je4b6kVozzhzf
-         HlmJ8s+u1Dcapz1KGa5yXwRRzfCJMi3wfoVX9BUbmRNRVyC8mCFMi7lh+6RydjzB+ZcI
-         09F+UIZ7Eev/0azfc4+toCPdkFJIEPurKQqOkIauXkfxmvDFL6uAzjv+tqSPceMmv1+F
-         jWAw==
-X-Forwarded-Encrypted: i=1; AFNElJ86e/TbKMvqORfnkdtnQ2APTrGsoftIBHLbjh1n3UQzqlnXv2ukl3WuklnOPZpewuU0wkzuRP+aFh0Q/zie@lists.linux.dev
-X-Gm-Message-State: AOJu0YyXMkthQ63jaDaWVGIoWCdcFD0GfGXg/y/5me7D3caGPfhmXH2X
-	VN5gjJ3mBsDAyGW97lkMzCuRHaFycC/2tfrTq6KWaqkszgdHllQpv45p
-X-Gm-Gg: AeBDieviNZGhjl1M/0AXMhwb5vQpK/+OsGXudBU2JYPUpZ7TwSzwOTjAJzZxY2mwMfY
-	099vDYAMzpj2je8pnyR6d+q44oLvoVHjn0NNIJDsiVx0cKucNi7iUHpt3fxh0C/VNh9sIyWHl7B
-	MWx+RoLP71jY1xgCZAPB9XppYv5cPKJ+hooCm5cBfTTlrM55dP40QFpRuZVNp1x6UAj9MNow8Rs
-	isSu+8Glxl3HakaLNKyc7HFoLpfJzkQBu6kGDR2MPjJ41OqTteD0i4c0hjMFwVyzBMscoh131GX
-	70A7UF1KOs9tiwYNpc4Vp3z8Y4tgoP8PygdSL6Wo1pF0XIdtWaEAczhbTC2lvVKpsjQ7kxs6vHY
-	nF0GvYAzd6LZd7oL/fYETDK2RJjFcyY8mNavhOAKWK3XDsu7NBe00i86OFc54g1r8LCFYa5Aly6
-	HsEp0IfgBkz9fff9/zujbUYDcDnGXqhQzvTOJXNlsUZBZRZu9TkmO3vRhCXHDjk/hBjYJ1utISP
-	cSagQ==
-X-Received: by 2002:a05:620a:230b:10b0:902:df55:8ee1 with SMTP id af79cd13be357-902df558f8bmr29755685a.8.1777893264457;
-        Mon, 04 May 2026 04:14:24 -0700 (PDT)
-Received: from House.mynetworksettings.com ([2600:4040:2afb:6400:b95a:c81a:e3b:6e2c])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9027c2baea8sm214559385a.45.2026.05.04.04.14.23
+        bh=gL45qAsvoGd0CGyXzQ6wh+njmPCmoNGWYA6JLpdzAXY=;
+        b=WrjYoTTEGElMCwVEj1az5qs9I3P8DRp7RpNAtakbeO2m37RIp+BbR0//1+uPXfJMWe
+         aKVp8xGmIsSjlMPif/6RHWDca25uN0BNdPmDf2/wqpwhG24VvXUZBZ+/oYvRFqm+LSNL
+         EVeFngpJjpdjsyv6VyHqJXqXO00cHjnd9ntPQk80YlqW5MIs1iUqX16OkW7/6tbDONzy
+         ZCwVW9HKvl4lvBtcQ8KNAbi2m+2Sfb5lSJGq9S9HJSbzS+matXkf+GLrhdligAz3mP5N
+         fVU0wpaw/+YSXBoncpOYvwyhi4u+bnDtZds9tDC99kmzAym9QhPMnOhm/X8+5mFyjz0m
+         1QvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777895877; x=1778500677;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gL45qAsvoGd0CGyXzQ6wh+njmPCmoNGWYA6JLpdzAXY=;
+        b=OLEXI3fBH7Kk6yNqDe6kucHNumfB4d6jUKUgNyoEZUiQ9RdHIA+ipzUbB6y/b0dyn+
+         uKECtjPfgh2u1OjwAeDOlOjbRvlhCPD2ihuWex6JRygvzERzh4Zjx5qB10rsiGpU9vcM
+         ksn/5E4IoaPAewXvvyi4eBXOH9YfRH75ROspJxuzTfl4w7OP7WWITSlUjGEdJiGeeSz1
+         wHyC1Z5FGdf+mjmnXdTbJ4hiCoUHqwymBL7kI157ZcIsIW8pjx/dCNsh4jhqs4+q663a
+         ga5Tydoinr+m5j/M1gImUQaU7b9TOmbIe2UflE2Mu9dKW6S4oOkgOSBBB6WXKwroIIlW
+         VhrQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9imILu1HxulFAel4BFgtbHgfPFzpjDgAHdeXcF7nm/EdYLcHRVvyEpm5sH7ZvBBj6Oy4CKnAVEMYS1kDgp@lists.linux.dev
+X-Gm-Message-State: AOJu0YyhwFMycLOtlp6VA6OXhusFTD8bNYrVHdTHDHDlBgNOWQFJWMEQ
+	GINys0SzOzySdQVQuSrcSPrwbQp/l82DicK9TlYuOinN45wmJHw58w2feb1MFA==
+X-Gm-Gg: AeBDietg1L0ioSEN+4zJbvtRkvnaKkNoa6yBeoOJDq24x6tQtBQI3+CWKDOwP/E+js7
+	7UYF0Q31JgaO6c/VjQpnXozANNqRH1Tyvu+SwB7e/jv/DhSvyKIYAxrCvRaoRIhQxi6yOFPkzkf
+	29H74Dzny83USo8B/TgRpYYeu1aPSauANEHHYNdCK9z7ZrGNEolXEiplCmx02viTXcpmWwsNej3
+	oPFS7qQWGlZIxCFP52+U1q03gEVEHVMM/adxCpeRukDg5niSINQ+eAkMNhR0cIpVS2JhFe6R/T9
+	/Go/t9ltxsBW8u+9ODUBvxSQlfXncR7u55L5+mWn3Qk9kaDTEvFNEbLSJMDTvnfRojX5xD+C2Lr
+	lvZNP3z28KiD+OkC4Eo2t9DD4yb5IoPJyEVMF5W2NcGnptlJbqIgnrA5mOaP73t1jTWxF856U++
+	IWWhvhSEbvh3BoKhW7acd9i8ZuQBsqT/eAhmbXRoPWAxW/cw==
+X-Received: by 2002:a05:6512:3d88:b0:5a8:6c7b:f9d7 with SMTP id 2adb3069b0e04-5a86c7bfaf1mr2023721e87.41.1777895876820;
+        Mon, 04 May 2026 04:57:56 -0700 (PDT)
+Received: from [192.168.243.250] ([185.140.161.214])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a85c230e5asm2893276e87.33.2026.05.04.04.57.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 May 2026 04:14:24 -0700 (PDT)
-From: Maha Maryam Javaid <mahamaryamjavaid@gmail.com>
-To: neil.armstrong@linaro.org
-Cc: mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	khilman@baylibre.com,
-	jbrunet@baylibre.com,
-	martin.blumenstingl@googlemail.com,
-	linux-media@vger.kernel.org,
-	linux-amlogic@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	hverkuil+cisco@kernel.org,
-	Maha Maryam Javaid <mahamaryamjavaid@gmail.com>
-Subject: [PATCH] staging: media: meson: fix typo in codec files
-Date: Mon,  4 May 2026 07:12:19 -0400
-Message-Id: <20260504111219.7797-1-mahamaryamjavaid@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Mon, 04 May 2026 04:57:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH] staging: rtl8723bs: fix unbalanced braces in if/else
+ statements
+From: Nikolay Kulikov <nikolayof23@gmail.com>
+To: Siwanan Bungtong <horstaufmental@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
+ linux-staging@lists.linux.dev, b9788213@gmail.com
+In-Reply-To: <20260501205336.230955-1-horstaufmental@gmail.com>
+References: <20260501205336.230955-1-horstaufmental@gmail.com>
+Date: Mon, 04 May 2026 14:57:53 +0300
+Message-Id: <177789587345.4095.15139970597218245618.b4-reply@b4>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1777895875; l=357;
+ i=nikolayof23@gmail.com; s=20260402; h=from:subject:message-id;
+ bh=BcKKSL8vSSZF0gP55JcdQZVPre5XJmBMh2A9VhxYOqs=;
+ b=Gi8BG8Envm3oWz8U+Tcxz4ptnbVNHzvgJDE0kWRyGosPo4tVFdzTzIJHPXCo8gsep6m74hFFN
+ n0fX/4l9/VCBeOlPREWLFND1BKL2waIiGSe0uTmn7fqfB+mZ2nVUEa9
+X-Developer-Key: i=nikolayof23@gmail.com; a=ed25519;
+ pk=2GWUU1isl5NJpkwSCQ4OG80EinZ3EUZXlrgAg6Pz5zI=
 
-Fix spelling mistake: substracted -> subtracted
+On 2026-05-02 03:53 +0700, Siwanan Bungtong wrote:
+> Fix inconsistent brace usage in if/else blocks to improve readability
+> and avoid misleading indentation.
+> 
+> No functional changes.
+> 
+> Signed-off-by: Siwanan Bungtong <horstaufmental@gmail.com>
 
-Signed-off-by: Maha Maryam Javaid <mahamaryamjavaid@gmail.com>
----
- drivers/staging/media/meson/vdec/codec_h264.c   | 2 +-
- drivers/staging/media/meson/vdec/codec_mpeg12.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Looks good to me.
 
-diff --git a/drivers/staging/media/meson/vdec/codec_h264.c b/drivers/staging/media/meson/vdec/codec_h264.c
-index 89e0f8624e5b..a6074de15118 100644
---- a/drivers/staging/media/meson/vdec/codec_h264.c
-+++ b/drivers/staging/media/meson/vdec/codec_h264.c
-@@ -16,7 +16,7 @@
- #define SIZE_SEI	(8 * SZ_1K)
- 
- /*
-- * Offset added by the firmware which must be substracted
-+ * Offset added by the firmware which must be subtracted
-  * from the workspace phyaddr
-  */
- #define WORKSPACE_BUF_OFFSET	0x1000000
-diff --git a/drivers/staging/media/meson/vdec/codec_mpeg12.c b/drivers/staging/media/meson/vdec/codec_mpeg12.c
-index 76e9ca7191ab..ab4374e3b2ef 100644
---- a/drivers/staging/media/meson/vdec/codec_mpeg12.c
-+++ b/drivers/staging/media/meson/vdec/codec_mpeg12.c
-@@ -12,7 +12,7 @@
- #include "vdec_helpers.h"
- 
- #define SIZE_WORKSPACE		SZ_128K
--/* Offset substracted by the firmware from the workspace paddr */
-+/* Offset subtracted by the firmware from the workspace paddr */
- #define WORKSPACE_OFFSET	(5 * SZ_1K)
- 
- /* map firmware registers to known MPEG1/2 functions */
--- 
-2.34.1
+Reviewed-by: Nikolay Kulikov <nikolayof23@gmail.com>
+
+
+Thanks,
+Nikolay
 
