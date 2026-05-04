@@ -1,171 +1,97 @@
-Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9B973D1CB6
-	for <linux-staging@lists.linux.dev>; Mon,  4 May 2026 12:30:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.180
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777897854; cv=pass; b=tGPbf7gzoD0Xfh2RABvTWVQOclogXOq0V8uAGykA5IrZAqpO1TYpi706b3DSSuV1AX1l9z529+BR54cIXk0mVtTWRfHA0gb5vJZoDW4umWhPGQJ9oqtnbpNNnHoAki4Rrmx2d9r/dDwZ+67gCsl9qRWSvbxcuWtxltB1Mt6HRnY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777897854; c=relaxed/simple;
-	bh=QPiRMH0LSCbSzFcOuFbZcmwAH8uHpao/KcbtijXV+4k=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=LWU83vGIIxfbBx0crmnp42gGEXXJ/I2uYGrTQlsFrkv4qUlS/MJPMTTlDxslI3PC5WP/FjN+PrZS2iJG5iRftLEb1oWC5i99RUGnOKVzGstKA0QdEP/WC8tqbG3zzSfIhKLlUKpKqIV7u2xH5qOvhlyXBn0qtypf0RE9f8l8d/M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KNG47DcE; arc=pass smtp.client-ip=74.125.82.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CBD03D1CB6
+	for <linux-staging@lists.linux.dev>; Mon,  4 May 2026 12:33:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777898021; cv=none; b=Qf4AEvw4cg8UWM/AeyYHQiFf72MJiWE/y2utWAIM48FuZ+zAG39B01pGwbeWcB6i8t7ko0VmOqs0bSHjaYGhbhuiydq8kzuaqHzYgRZGdKUH/I8XwdIQGUbSN0zPmGk3tdrtOqBk9Fk/7/L8kaHahStOh6Piu8KAfZNk+X9Zs68=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777898021; c=relaxed/simple;
+	bh=NbVs/Bw2APpoJ6GFh3qNcHWoaEW8QSqVbgB/Psz1ItM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=W73/wWbMalzNURD8E1GOa/PpzwEuZmw5VFZzRBhCZdgb/HP2njX4lAcOH073Jvh+lhciPcHLMt8eb0iXYQ43H+vow1iR/NFfSuIifTS9vWaG0qxV2r4+Sn/SL/S+DSlFpWpNd52QnOZdWXXJY+fVJve5i96tFXx1nDPOge0l5j4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DkKm8iTf; arc=none smtp.client-ip=209.85.167.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KNG47DcE"
-Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-2eadb000b8cso7446721eec.0
-        for <linux-staging@lists.linux.dev>; Mon, 04 May 2026 05:30:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777897851; cv=none;
-        d=google.com; s=arc-20240605;
-        b=gfKke0A10/0ntjFyqPSl4fNAC0V0wyPHVMWPOR56JR2zooj3GLqHluP0UUWsDooy/D
-         vvtv5tM/kg2hpOc0zXH4+JZFT+1QjKyoQgL0c9OvNXZZG1NreSif/hze7js1UlbxYRyo
-         YY8Ja/0CDHPk/9yvKC8oklOR9cyUHyQIbpAw20gczPJer1dG3T6+p2nD7LsvgITznvjr
-         LHZ0jEW8QMN8JclbD02UqPooX/tZlSLcNkI/Na7pZ9WP/D7BuYAEtNB1i2ldNRmYCuUR
-         4U13alcTYDcWETAb5H98trrxzOx9ESW8hIeypeS0Kb0QyQCIxzxAXDzLLd8mCovYKkc8
-         1+Gg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=u3bY5lfOOPZ5RSg7fXQTezdEPLaKqvTUTDObGN59FRo=;
-        fh=+uyH4bQAk+yBJ7I5cbeuedeeuIsobtehMVyTkF42feA=;
-        b=PPPSo2EPc1GxvbMEZv0QnX+Id4PFkWmUpV7B/TUQ7Gz7tk9/xJkxwKDeX6JiehtTaV
-         xum4zhcrvnkbE5sSNurU4uofZXTQ5yIgb/fnWOp6cIHm8A2t6IBkaGO8Cwh23hbFct4r
-         GE5GdQev+C/I3bdZZ+xs+MwxpOOi8S4LaFTYPllz4T0EBSb6H8eRmw+fs07jI8svW5TD
-         E0gShBXtvuZOkDoW24LdhuSrbpDXPsPW1JMzRocyCbRR7Pbg/4KsboMikNhyuYP+CYgt
-         NeGMLccPRDedc0mOGe9DnBE7WjRVj1HQneYE3pk3wg5Epu1o83sGpgkgerbiqcDSQL91
-         UJwQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DkKm8iTf"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5a62f43b76aso3532501e87.3
+        for <linux-staging@lists.linux.dev>; Mon, 04 May 2026 05:33:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777897851; x=1778502651; darn=lists.linux.dev;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=u3bY5lfOOPZ5RSg7fXQTezdEPLaKqvTUTDObGN59FRo=;
-        b=KNG47DcES//9mvjkU1iVu41Gl/GtLcl2Ig6B1L58WMOM9PwSqxIEy7ELCKP3arpykU
-         RsLfyLiSLsCyw4MGUxjB7qssHkFVpbcFPAd7x8NO7cPMuJoHIWWKtwRhnbcqN3zrH/hy
-         vaexANoxM37OeTjlTOxJdX3g34dURm5s693ekgmpoiAymwHrbupkKIXZ/0/t63IExBcS
-         sB/ATz2TgyVXhxn8R8RTnjC7N2WRvdw2F7LeSpJ+KqJAjy4nileDV4CuAhj3VuXoI+Gr
-         qOHFb1LFO3S8k894powWgfBrn6rv5DlDG7QgmAxG2SZ0/eha9pvNcngVkNFgCM/EPv9H
-         eNcw==
+        d=gmail.com; s=20251104; t=1777898018; x=1778502818; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=YVNM0EYz7XT1m2PVNvAVtyRFSW/cSMV3/52iY/ZVHWA=;
+        b=DkKm8iTffbOhiDTm6a+fqnNjf6sBy2o7GXVjSnFCLdCq3UIF7tD6bqxRXIX+aHpEpY
+         lrkM7Z5RB9SAUMuI08KtVKC096FGYwIFj2zwNoOclBRrwJXXzyhSJGYxEO+2bX/WXHde
+         GRPS5AI2WWali3rjujHFpCtJH5OE0JI1hcxJ8THDczdSC+/lHLBh/qGlpESIRQV8LxsM
+         AvegndGF6lX3ZzeJMJwdBMPUij6NpPlo5hIadmJmVzeiOm4I+XaVoaJF9lxoWOVlxIQ+
+         RM2i8r8/90+PGhckHfrTCKfTG4p/P9LhNdPdtcNUo4rR5ve1ANIH/6Tq85LVKcQVbVNn
+         RIkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777897851; x=1778502651;
-        h=to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=u3bY5lfOOPZ5RSg7fXQTezdEPLaKqvTUTDObGN59FRo=;
-        b=ayzYsXXe+cGhgkwPlofqHiSGvwqD46CzAFCPFQyMR5nj7BGogRnTOhUtlHni2yJ7aV
-         j37XUC4RtXJbz3qIn3RBvOjlZMYHzMnttAUDqphULE8SqUxM6DFEHSWSEmCTLsXZYsfO
-         BFNkj5q57F3vYHa7xHCMFrgSjv+5aGcAXg3NrYo2TDEANyyhI6YCSt5GkIy/RE97cccP
-         DcdBkeV9Qf5e9iHoBxRYX3CcTGpG646/UjnJTJ65dLVmi0TIMzEHGpsF2/OPQiczQpMa
-         NELtcJ0TqiPC2u2Vf/qv2qzjiU7Iu1UhKjD5TqYckgFZIK5Jo4IHOWNPTpZZ2Hcr3oL3
-         8WWw==
-X-Gm-Message-State: AOJu0YytajS/xMIOrcPsPwAweArXtnX3NT8rpP3Uv4r/6ufDOSqVNLVN
-	8RTI0Zupw8SUT7hSgmbpYBoHKJTlyXKj/NIODfF+zK226oA2v1Wi226xeMVoanqzEswOCwywu1g
-	FbfRkEegatwl1jmmjANT1COOWULsDKjGE0KvZOwY=
-X-Gm-Gg: AeBDiesAEYddYVYLHjuPtD7bOefminuypV+wn0z3iEoP0+U5ut9nikPbS+k14NUk9il
-	a2GbWEWkp73sK5PXscdQk+Ni+ixl+9jzYPH5ECXERcqbrsYB2X8lm6gDFtHgVAPk7XmEiRUbl9i
-	oFgpPQnjHG0V2vJ5mNDrE/9RElIlQ5FrlhFpjr0H0ju0j3ihdSlINpwNFrwH5q4BXLrk8TlqR91
-	Bw1Yuk6N4kbr/imAenUfrnMvWBm/czR2TesC3NGqWXUklXAUyruJm2/Zd7LNBT10ptIXe8MQZMn
-	cr6Fbv7oAae17wuHuu8S
-X-Received: by 2002:a05:7300:e885:b0:2da:7e33:9261 with SMTP id
- 5a478bee46e88-2efba179843mr4428638eec.27.1777897851387; Mon, 04 May 2026
- 05:30:51 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1777898018; x=1778502818;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YVNM0EYz7XT1m2PVNvAVtyRFSW/cSMV3/52iY/ZVHWA=;
+        b=mNDXsJpgWHJCRM8G2HLZwKpbUjq85Fpp7lAMdA8A209/Xp+ksDWbPksYi6CFUeRmNw
+         04q8sME/zvtqkBUVrZKHk69QLo98f0GKQ2tjS+zZy+LXc3OI63uYDOoOFNPpBti5dSZm
+         OFqLgktwA+NjHuuyRTDoUbed2EWVBuzA7SFcGj5OCGu0TXOVAzDbHws0RtT2+VfwUqVN
+         fvjCCF/KEedl5uKV0ri7HVUvz6vUR9eltjJgY33aUQIcNgeOfiD/8hv8Ge7+ZYmrsVVG
+         L9W2licLDn76qR/v1tK0Ejdc9f4oxOUxNdlUH2GtbmwQKqxdzDWnGML9+eo5SVgBctm+
+         JLMw==
+X-Forwarded-Encrypted: i=1; AFNElJ9PfI+N8e4j777EwTJf8HT3MF/TU2/CrNU8VfVToOfLMUCUfMoIilsbx8K2VXBDhF1M+wTfO6iXr8EB9pbh@lists.linux.dev
+X-Gm-Message-State: AOJu0YzrlxXmVIGcJq9uYaRxncQyHIelp4Ol5KMTgYdaNJwC+9AaWK7/
+	RMJapEqUwkmexqzKSWPony7ZuLBjEoRzN/ry5aR/IGS9ZB7sVQzfyhH9863B7g==
+X-Gm-Gg: AeBDiet+eg01mVdkveIogMAWsM9h2ZKIq8JXTRa6ofgsuaOzRfVwTsFlQ3IzdlR/ROZ
+	kB+g3F7LNOqxSFC/mVLyNsjlU5zbNTrvQcAGGKgsseWL8qbA4SrNLNNh99AgQaER2+Ea6bECUlL
+	ZYfwSZpt8493Nst6p13u8pMQcshVoKD9zieobs2dvB8B2S/ysp6Ew2yNZMSxw06xTY9x7dqgkLs
+	xRX1fBL1p4xVhIPGuQUp29YTCQcqQc3FN4tX/y6mAlLGAXqLYgL5lGtuXzB8buSv86Oik8EshtO
+	sNafaHFpHOGGqiNBzJOguLbK6lAj3G3exuXD/tC1GYyI0uo2/deyMDsyqRnTxYnnqahn1pPtTLz
+	2SBb8CbuU9PoS75ZACt+gz2VnM57HK05VwA2dFyE/1eXTkU/RIA5RbHIZjjzbCbv1m6ww5wVSr5
+	BBs1SFXtmR/SmGxDT1fPd2ypLJOjID2rwm3v8=
+X-Received: by 2002:ac2:559a:0:b0:5a8:65d9:613f with SMTP id 2adb3069b0e04-5a865d96276mr2172890e87.24.1777898018249;
+        Mon, 04 May 2026 05:33:38 -0700 (PDT)
+Received: from archlinux ([185.140.161.214])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a8616598c0sm2459090e87.83.2026.05.04.05.33.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 May 2026 05:33:37 -0700 (PDT)
+Date: Mon, 4 May 2026 15:33:35 +0300
+From: Nikolay Kulikov <nikolayof23@gmail.com>
+To: Siwanan Bungtong <horstaufmental@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, straube.linux@gmail.com,
+	ignacio.pena87@gmail.com
+Subject: Re: [PATCH 0/2] staging: rtl8723bs: add braces to if/else statements
+Message-ID: <afiSH93kfMa8yrhU@archlinux>
+References: <20260501203121.227992-1-horstaufmental@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Romuald Delene <delenetchior1@gmail.com>
-Date: Mon, 4 May 2026 13:30:39 +0100
-X-Gm-Features: AVHnY4I1ex5Rg5woHMAVviNlZlxFWIDWZ-mKF5NrL3BG4U7GGjEOnwhZsOc70cA
-Message-ID: <CABKit+duj0zU6kT913Q1LVuZOpsSTxhz0rff1aBTo6A=XkxDxQ@mail.gmail.com>
-Subject: Re: [PATCH] staging: rtl8723bs: fix heap buffer overflow in recvframe_defrag()
-To: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	error27@gmail.com, luka.gejak@linux.dev, hansg@kernel.org, 
-	Greg KH <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260501203121.227992-1-horstaufmental@gmail.com>
 
-On Mon, May 04, 2026 at 10:27:00AM +0200, Greg KH wrote:
-> For some reason you sent this only to me, which is a bit rude to
-> everyone else on the mailing list.  I'll be glad to respond if you
-> resend it to everyone.
+On Sat, May 02, 2026 at 03:31:19AM +0700, Siwanan Bungtong wrote:
+> This series adds missing braces to if/else statements in rtl8723bs
+> to comply with the kernel coding style and improve code readability.
+> 
+> No functional changes.
+> 
+> Siwanan Bungtong (2):
+>   staging: rtl8723bs: add braces to if/else arms in rtw_efuse.c
+>   staging: rtl8723bs: add braces to if/else arms in HalBtc8723b1Ant.c
+> 
+>  drivers/staging/rtl8723bs/core/rtw_efuse.c      | 4 ++--
+>  drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c | 7 ++++---
+>  2 files changed, 6 insertions(+), 5 deletions(-)
+> 
 
-You are right and I am sorry, this exchange should have been on
-the list from the start. Thank you for the gentle correction;
-I will be more careful going forward.
+This is not applicable to staging-next, please rebase.
 
-Resending the methodology below so everyone has the same context.
-
-For reference, the rebased series is now on the list as
-[PATCH v6 0/5] and has received Reviewed-by from Dan Carpenter
-and Luka Gejak.
-
-The exchange this answers (also sent privately on April 5,
-quoted here for everyone's benefit) was:
-
-  > > To answer your questions:
-  > >
-  > > I do not own any RTL8723BS hardware. The problem was discovered
-  > > during a code review of `recvframe_defrag()` and has not been
-  > > tested on any hardware.
-  >
-  > What type of "manual review"?  How did you trace the data flow
-  > here exactly?
-  >
-  > thanks,
-  > greg k-h
-
-The methodology explanation :
-
------ -------------------------------------------------------------------------------
------
-
-I reviewed memory operations (memcpy, kmalloc, buffer pointer
-manipulation) in the rtl8723bs driver, focusing on rtw_recv.c which
-has 40 memcpy calls handling network-received data.
-
-I traced the buffer pointers (rx_data, rx_tail, rx_end) through the
-inline helpers in rtw_recv.h to verify bounds checking before each
-copy.
-
-The recv_frame_hdr structure (rtw_recv.h:280-297) has four pointers
-that define the buffer layout:
-
-  rx_head --> rx_data --> rx_tail --> rx_end
-
-rx_tail marks the end of valid data, rx_end marks the end of the
-allocated buffer. The space available for writing is rx_end - rx_tail.
-
-The defrag path in recvframe_defrag() (rtw_recv.c:1074) stood out
-because it is the only place where memcpy is called before
-recvframe_put validates the buffer space. In each iteration of the
-while loop (line 1108), three operations happen in sequence:
-
- 1. recvframe_pull(pnextrframe, wlanhdr_offset) at line 1130 strips
-    the 802.11 header from the incoming fragment by advancing its
-    rx_data pointer (rtw_recv.h:369). After this, pnfhdr->len
-    contains only the payload size.
-
- 2. recvframe_pull_tail(prframe, icv_len) at line 1133 removes the
-    ICV from the accumulation buffer by moving rx_tail backward
-    (rtw_recv.h:420), freeing a few bytes of space.
-
- 3. memcpy(pfhdr->rx_tail, pnfhdr->rx_data, pnfhdr->len) at line
-    1136 copies the fragment payload into the accumulation buffer.
-    Then recvframe_put(prframe, pnfhdr->len) at line 1138 advances
-    rx_tail and checks if rx_tail > rx_end (rtw_recv.h:395-399).
-
-The problem is the ordering of step 3: memcpy writes pnfhdr->len
-bytes at rx_tail BEFORE recvframe_put checks whether rx_tail + len
-exceeds rx_end. If the accumulated fragments exceed the buffer,
-memcpy writes past rx_end into adjacent heap memory. The return
-value of recvframe_put (NULL on overflow) is also never checked,
-so execution continues normally.
-
-The fragment payloads are attacker-controlled (received over the
-air) and 802.11 fragmentation is handled at the MAC layer before
-any authentication, so no association or key exchange is required.
-
-Best regards,
- Romuald
+Thanks,
+Nikolay
