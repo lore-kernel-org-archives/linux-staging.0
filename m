@@ -1,39 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E4E03DF011;
-	Mon,  4 May 2026 14:56:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B517D3E0241;
+	Mon,  4 May 2026 14:56:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777906573; cv=none; b=cx2plBXnM1nDj4ejoEIrHCLwtQo3GZPCFHP8M59YXbdK17JpE+vgO5AgOSMsMd5sKCdnj4FpN8RVC+X/kMEWO4gxFtNsVO1TadSZCtXhnNBU2YLTiKYEULfVJ88o8SDv8zJe3RWU/JozivTyxVSDuPVcmHT+tYIbZTcwcIANL7s=
+	t=1777906575; cv=none; b=l7sjfUTpi0PCjZeuPoLZev9KkhcOBH84RvTbBBMxUjMYWGjisRLgtE3gqHEhvZ/e9eiKnx7BJTXgg/zwagWWu0josx8Oy2jEJ8x63hvMrFY47OHfPilXkqxb5bCQKKNWr2MMZocst1xuhvkJRiq6JSteznDZN7yy8TldboWev40=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777906573; c=relaxed/simple;
-	bh=6Ran1wl6jjk1U4QW+1lEUi34u91hdseej9fzZ7JFpEw=;
+	s=arc-20240116; t=1777906575; c=relaxed/simple;
+	bh=TGrMC8wMZ0IU+PhUdAMUD3VAxI0ZiiLqV3dxncd3KhM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=livX+KGsnJbzqh84vFvZeUSbVg8qSwiaCnMh4fiQT8Mn67Q6kLLua3G+tkUxpdlRl2YrNoHNIZ2IxkqgnCi8aX/tFT0qV+pBa1hYnPRA1OG4cBOnnrIWcC5mHTciiu58nS9/zxa8gaEH8cHRDj2ZdbMTggZuTdD5mi+VPo8Ly3c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=XW2rsONK; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=U9PSz7mpeXb43aAWkpIAH+fPwH/LpAEhxQNz6pJULYIJfvcIQGy/QdbbyeQ0DdtRd/uDbsZR/ffTsYILvPvt9EGYMkS2yA4dekjnJ5+L0xLms9f8AoIEhkz+MvKTqgr0UeUPY/OSUi4JP6LaTkyIoUVH4YArxm0itYwKiCVHqqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=kENsYOdB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="XW2rsONK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45BCFC2BCC4;
-	Mon,  4 May 2026 14:56:12 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="kENsYOdB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1358C2BCB8;
+	Mon,  4 May 2026 14:56:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1777906572;
-	bh=6Ran1wl6jjk1U4QW+1lEUi34u91hdseej9fzZ7JFpEw=;
+	s=korg; t=1777906575;
+	bh=TGrMC8wMZ0IU+PhUdAMUD3VAxI0ZiiLqV3dxncd3KhM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XW2rsONKDQ8O4ObwagF0c1yaVmOV9AkyGY/WDqWbphlr3E6XysSuTHuMz+tn5rLhq
-	 IOEh9gbIYrGBZubDUpteOHeG6+5M5/OEuhqYoWjQy8qb7CWTi3IOcrX59cpl4xEwDM
-	 K1jeFWnEJHeVR36dG+SDJbl9mwp+SyPO7xsQsRq8=
-Date: Mon, 4 May 2026 16:12:44 +0200
+	b=kENsYOdBIp7VfaaaQIAXBkohSyIHWxxz+7bsPVLXwncgybTK4FrkRrzOkiHacuWir
+	 KA+F+RbmLwkPYW1UI9LJVir3Xl+rg7SAt7CNOjbD2VSgYrqSrw5N2hdjx3n4EzfUc9
+	 vEOX+4NhrpDpc5qssLqCZN9BRqZ7F9ibRrk4lqrU=
+Date: Mon, 4 May 2026 16:13:38 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Feng Ning <feng@innora.ai>
-Cc: linux-staging@lists.linux.dev, Luka Gejak <luka.gejak@linux.dev>,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v6] staging: rtl8723bs: fix heap buffer overflow in
- cfg80211_rtw_add_key()
-Message-ID: <2026050417-monkhood-backless-4c3e@gregkh>
-References: <20260413113224.5201-1-feng@innora.ai>
- <2026042626-tabloid-suitor-33c5@gregkh>
- <20260427111738.33069-1-feng@innora.ai>
+To: Alexandru Hossu <hossu.alexandru@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	error27@gmail.com, luka.gejak@linux.dev
+Subject: Re: [PATCH v3 0/2] staging: rtl8723bs: fix OOB write in
+ HT_caps_handler and OOB read in OnAssocRsp
+Message-ID: <2026050402-ranch-imprint-1c7c@gregkh>
+References: <20260428091621.739680-1-hossu.alexandru@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -42,31 +40,19 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260427111738.33069-1-feng@innora.ai>
+In-Reply-To: <20260428091621.739680-1-hossu.alexandru@gmail.com>
 
-On Mon, Apr 27, 2026 at 11:17:45AM +0000, Feng Ning wrote:
-> The cfg80211 framework allows userspace to specify a key sequence
-> counter (NL80211_KEY_SEQ) of up to 16 bytes via NL80211_CMD_NEW_KEY
-> netlink messages, but ieee_param.crypt.seq is a fixed 8-byte buffer.
-> When cfg80211_rtw_add_key() copies the sequence counter via memcpy()
-> without checking seq_len, a heap buffer overflow of up to 8 bytes
-> occurs, overwriting bytes following seq within the same ieee_param
-> structure (key_len and the trailing key[] flexible array).
+On Tue, Apr 28, 2026 at 11:16:19AM +0200, Alexandru Hossu wrote:
+> v3, addressing Dan Carpenter's and Luka Gejak's feedback on v2.
 > 
-> Cap the copy length at the buffer size using min_t().
-> 
-> Reviewed-by: Luka Gejak <luka.gejak@linux.dev>
-> Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Feng Ning <feng@innora.ai>
-> ---
+> Greg, please drop your patch and take this one instead.
 
-What about these review comments:
-	https://sashiko.dev/#/patchset/20260427111738.33069-1-feng@innora.ai
+What patch should I drop?  What is the git id of it?
 
-Are they incorrect?
+And what about these review comments:
+	https://sashiko.dev/#/patchset/20260428091621.739680-1-hossu.alexandru@gmail.com
 
-And was this tested on real hardware?
+And have you tested this on real hardware?
 
 thanks,
 
