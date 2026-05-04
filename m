@@ -1,97 +1,115 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CBD03D1CB6
-	for <linux-staging@lists.linux.dev>; Mon,  4 May 2026 12:33:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777898021; cv=none; b=Qf4AEvw4cg8UWM/AeyYHQiFf72MJiWE/y2utWAIM48FuZ+zAG39B01pGwbeWcB6i8t7ko0VmOqs0bSHjaYGhbhuiydq8kzuaqHzYgRZGdKUH/I8XwdIQGUbSN0zPmGk3tdrtOqBk9Fk/7/L8kaHahStOh6Piu8KAfZNk+X9Zs68=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777898021; c=relaxed/simple;
-	bh=NbVs/Bw2APpoJ6GFh3qNcHWoaEW8QSqVbgB/Psz1ItM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W73/wWbMalzNURD8E1GOa/PpzwEuZmw5VFZzRBhCZdgb/HP2njX4lAcOH073Jvh+lhciPcHLMt8eb0iXYQ43H+vow1iR/NFfSuIifTS9vWaG0qxV2r4+Sn/SL/S+DSlFpWpNd52QnOZdWXXJY+fVJve5i96tFXx1nDPOge0l5j4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DkKm8iTf; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40A923D1CC0
+	for <linux-staging@lists.linux.dev>; Mon,  4 May 2026 12:34:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.178
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777898045; cv=pass; b=UvFBSpQpUlbXb3W0nmM/ZR6AhU/gwxanHXCBosFHlZgrgu3ADO5x8pXubt8B5A+RAKqe7mqGJG216OQCN383pdX2oE5sHIUdt31i9JJSYFBDEX1RoSb2ogWFjggKMo7LvRLcoiC3ICNTK+2971aAgXhhkXmDRsKlHFzY44PxMa8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777898045; c=relaxed/simple;
+	bh=fdRzuOE2JukbcFuhzpeBC4aQS7QxeNaOt6L7+0oD+r8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iE623669vggteFqaDMZV06Q33fzbdet52AjIs7mOlrlMX2K2MDjmBaSk8g4EhBc+asq9jV9cAmgiLbZlco8MDBbHzCbjr1IJ3vqfjoLmgh4wZH6KwkMqirRr61w8Y/SNNUOxkRYhZuinwvO9s0cah5EaTluhZbsnP2en90EjwQU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qDI+Cizr; arc=pass smtp.client-ip=209.85.128.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DkKm8iTf"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5a62f43b76aso3532501e87.3
-        for <linux-staging@lists.linux.dev>; Mon, 04 May 2026 05:33:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qDI+Cizr"
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-7bd5c582c47so32239217b3.2
+        for <linux-staging@lists.linux.dev>; Mon, 04 May 2026 05:34:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777898043; cv=none;
+        d=google.com; s=arc-20240605;
+        b=IL3V8OQz7/qrXHMyI4fSYhi/qtysFj6n2SYkWcvQ0PN9E+Ots/WTTVkOTKguVwYUnb
+         63XQyE035FugPM8fGjXEvM4ptdQYxOC/m2YXlWEYShHlLpG5KL0fy4kuziYdtyJSNjJ1
+         TUIpko9QI9luF375RQNKupIKdidOvlHXIrJehJeejofw8twUJJnqy3zRghPAEYdyE1JI
+         KoIwIVgmkT/FZIE24/vb6JCm22PIuZFmlsaaPOUDQKf7F5nVRdS3pYtJRtkCk4gHcszj
+         hqA++YkZWTdxVDb4h526gRNwM5IeH0k5gpJw9j6Hg0A5PNx8cVp98oAmCTwo+0+rtuV0
+         dczQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Lpwh7LTdKk3iuzrAc4lIytt+Woc4z1HLw/5auAee8Dc=;
+        fh=al8Fop6rNbqxceEQLGGgBhZAh3UxMb/eRRYsxbGgygc=;
+        b=CJnqR5aTS23RcwRDXK10zfevTFugxdYvSmSz3YdR5wjHgEhi4Z+MQBma7qeALGuJrd
+         Pb68Wp68Wr7bVE6KbsIW7MR0HQ+L26A/uugQ8c+/BvdcQRg7ry/u1GEsSOUPUumHgxqV
+         ekFPQ8g+wLKm2aILuECRZy6Z4ykWgW66w1T1UQ+FDWHfXTgfECxGtasR7HjVegyGfwy5
+         bXRFyG8MYzRexdFR0eZpEtUBM+23B6EuqCs3NbkJHgFi85PJacDst3ujpkj0ErgFlk03
+         8r5JcBz3/oS791rEH9tP7qSOG+NU+h0vTa3l9loGV1iL44qh8OnZypt/N0hWGQRKowPl
+         3B+Q==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777898018; x=1778502818; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=YVNM0EYz7XT1m2PVNvAVtyRFSW/cSMV3/52iY/ZVHWA=;
-        b=DkKm8iTffbOhiDTm6a+fqnNjf6sBy2o7GXVjSnFCLdCq3UIF7tD6bqxRXIX+aHpEpY
-         lrkM7Z5RB9SAUMuI08KtVKC096FGYwIFj2zwNoOclBRrwJXXzyhSJGYxEO+2bX/WXHde
-         GRPS5AI2WWali3rjujHFpCtJH5OE0JI1hcxJ8THDczdSC+/lHLBh/qGlpESIRQV8LxsM
-         AvegndGF6lX3ZzeJMJwdBMPUij6NpPlo5hIadmJmVzeiOm4I+XaVoaJF9lxoWOVlxIQ+
-         RM2i8r8/90+PGhckHfrTCKfTG4p/P9LhNdPdtcNUo4rR5ve1ANIH/6Tq85LVKcQVbVNn
-         RIkQ==
+        d=gmail.com; s=20251104; t=1777898043; x=1778502843; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Lpwh7LTdKk3iuzrAc4lIytt+Woc4z1HLw/5auAee8Dc=;
+        b=qDI+CizrIER9T/KFz/yDYK/odBxhxA5+uyMrLpmg8vlu8XnSxcOm3OXB7KD1vQ8+GT
+         VPfpwb0iiTx4vLyH7KLV1pe1tEp6h3/Ww61o7+xFzB+AZACdm7ayvz+BStH1shVIOopz
+         lOIhdtMCaz1NilDxxIuHwVdBMTCxcfz6ScG39l+7Hy4ROaDVeY5PCz/wevQKDD48xdiM
+         hS48PiZq1IIvDuBrqE0kXwRqRULCHZ457K6ere64OrhPTgZnWY6mkisNHKWsTHgexj4p
+         8eH+copMwnkIg1pGvKyAUqlx1ZKIbPFp2R3MCfjaFYaWRrNf7kbRnPgUFA/OtLm/Znjq
+         Jbow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777898018; x=1778502818;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YVNM0EYz7XT1m2PVNvAVtyRFSW/cSMV3/52iY/ZVHWA=;
-        b=mNDXsJpgWHJCRM8G2HLZwKpbUjq85Fpp7lAMdA8A209/Xp+ksDWbPksYi6CFUeRmNw
-         04q8sME/zvtqkBUVrZKHk69QLo98f0GKQ2tjS+zZy+LXc3OI63uYDOoOFNPpBti5dSZm
-         OFqLgktwA+NjHuuyRTDoUbed2EWVBuzA7SFcGj5OCGu0TXOVAzDbHws0RtT2+VfwUqVN
-         fvjCCF/KEedl5uKV0ri7HVUvz6vUR9eltjJgY33aUQIcNgeOfiD/8hv8Ge7+ZYmrsVVG
-         L9W2licLDn76qR/v1tK0Ejdc9f4oxOUxNdlUH2GtbmwQKqxdzDWnGML9+eo5SVgBctm+
-         JLMw==
-X-Forwarded-Encrypted: i=1; AFNElJ9PfI+N8e4j777EwTJf8HT3MF/TU2/CrNU8VfVToOfLMUCUfMoIilsbx8K2VXBDhF1M+wTfO6iXr8EB9pbh@lists.linux.dev
-X-Gm-Message-State: AOJu0YzrlxXmVIGcJq9uYaRxncQyHIelp4Ol5KMTgYdaNJwC+9AaWK7/
-	RMJapEqUwkmexqzKSWPony7ZuLBjEoRzN/ry5aR/IGS9ZB7sVQzfyhH9863B7g==
-X-Gm-Gg: AeBDiet+eg01mVdkveIogMAWsM9h2ZKIq8JXTRa6ofgsuaOzRfVwTsFlQ3IzdlR/ROZ
-	kB+g3F7LNOqxSFC/mVLyNsjlU5zbNTrvQcAGGKgsseWL8qbA4SrNLNNh99AgQaER2+Ea6bECUlL
-	ZYfwSZpt8493Nst6p13u8pMQcshVoKD9zieobs2dvB8B2S/ysp6Ew2yNZMSxw06xTY9x7dqgkLs
-	xRX1fBL1p4xVhIPGuQUp29YTCQcqQc3FN4tX/y6mAlLGAXqLYgL5lGtuXzB8buSv86Oik8EshtO
-	sNafaHFpHOGGqiNBzJOguLbK6lAj3G3exuXD/tC1GYyI0uo2/deyMDsyqRnTxYnnqahn1pPtTLz
-	2SBb8CbuU9PoS75ZACt+gz2VnM57HK05VwA2dFyE/1eXTkU/RIA5RbHIZjjzbCbv1m6ww5wVSr5
-	BBs1SFXtmR/SmGxDT1fPd2ypLJOjID2rwm3v8=
-X-Received: by 2002:ac2:559a:0:b0:5a8:65d9:613f with SMTP id 2adb3069b0e04-5a865d96276mr2172890e87.24.1777898018249;
-        Mon, 04 May 2026 05:33:38 -0700 (PDT)
-Received: from archlinux ([185.140.161.214])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a8616598c0sm2459090e87.83.2026.05.04.05.33.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 May 2026 05:33:37 -0700 (PDT)
-Date: Mon, 4 May 2026 15:33:35 +0300
-From: Nikolay Kulikov <nikolayof23@gmail.com>
-To: Siwanan Bungtong <horstaufmental@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev, straube.linux@gmail.com,
-	ignacio.pena87@gmail.com
-Subject: Re: [PATCH 0/2] staging: rtl8723bs: add braces to if/else statements
-Message-ID: <afiSH93kfMa8yrhU@archlinux>
-References: <20260501203121.227992-1-horstaufmental@gmail.com>
+        d=1e100.net; s=20251104; t=1777898043; x=1778502843;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Lpwh7LTdKk3iuzrAc4lIytt+Woc4z1HLw/5auAee8Dc=;
+        b=dJ6Q8kunmyUxI5J6mDwMDsK2CUJkjV6k1hziK/IJQK5PsXFulYG2deRI6mldiqzNcq
+         0AwvlaKKCZu6XZ4pP3LQylRLQGww62piLBYBH8CQfAxGbQoTQ+4SZDkyxEJzF48dMyE1
+         KVx2ekaUj8i2sq8TWt1511TptmSR/IkOTl9XAsSRYPmpu2kwAA2OVwC3WLSKrmgiov6P
+         g6DOb4RszuluuVgc/K6hAQLbZ8tC6TgWu80kYL8PZmXUZ6RfQaNlbUOE2lcltO7jB5yE
+         OQyFgdzsHTT8eMJ/ow8LvwI7VYqvhAgXEHMcuuYEUykURVhSI2SmKxHUuf4ncRcbaEL9
+         C87w==
+X-Forwarded-Encrypted: i=1; AFNElJ8sGerYJXXHzF1Bzw6Ul/lpImMSg02cdwhgOoO90r7U8Aq62xGCBA4uePEW/lAjddUTN6sl5ojKot/X0Loc@lists.linux.dev
+X-Gm-Message-State: AOJu0YzdBxWtPTnQxJNvRl9waerLIbOQXuWjhcvhQjR1ZmWaX/Kmshb3
+	5CMj5U2ZNW8iZNnr5KmPHRoIlPjwUEXYQbPWV7NnqQQxj1w/OpH036p+zS06TbwNCnIVkVGtswK
+	5RVCowZE/uwFqZj+wkMozWwMZwtxndsc=
+X-Gm-Gg: AeBDietmFayDU0x9eMLRDAt9w3fZooFUTG89D5TANpIVK/merpamP90xd111dxytG7z
+	waXJKTB+XHC8tIcWtNXJo//81KVdLle2NY2Lf0SecKzFLdeIWoaz5Vz4FK/EEVG2JDSQV1oWj64
+	ANNoPUM+8Q/FFL7cWaQbA2B/0WXnG0YaGBlA2OPZSpnRhvWe8lBxZOw/FGbTZMCD2DPmI/qC5w3
+	x5x6+slg5mreVhk1yEdcyiB2FUdwag+iop364u2aP3xfar4eQLHF2HBu6FDkkeKKhmmiCZEFL29
+	gDZ+p6GtDHsYbq0=
+X-Received: by 2002:a05:690c:e094:b0:79b:e346:fcfb with SMTP id
+ 00721157ae682-7bd770df5b9mr91665357b3.32.1777898043205; Mon, 04 May 2026
+ 05:34:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260501203121.227992-1-horstaufmental@gmail.com>
+References: <20260504092059.1536094-1-angusg778@gmail.com> <20260504092059.1536094-4-angusg778@gmail.com>
+In-Reply-To: <20260504092059.1536094-4-angusg778@gmail.com>
+From: Maxwell Doose <m32285159@gmail.com>
+Date: Mon, 4 May 2026 07:33:52 -0500
+X-Gm-Features: AVHnY4JyzW74CEzgIwtXgm7P2OtMfbQwu5ChxR-G6flb6oLVOdZORlY_wrThGGQ
+Message-ID: <CAKqfh0Gfwnaj+chzWUvujSVrw6wmqJAhSL9O2eYuZ136QbbD7w@mail.gmail.com>
+Subject: Re: [PATCH 3/3] staging: iio: ad9834: fix chip name typo in comments
+To: Angus Gardner <angusg778@gmail.com>
+Cc: linux-iio@vger.kernel.org, linux-staging@lists.linux.dev, 
+	gregkh@linuxfoundation.org, jic23@kernel.org, lars@metafoo.de, 
+	Michael.Hennerich@analog.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, May 02, 2026 at 03:31:19AM +0700, Siwanan Bungtong wrote:
-> This series adds missing braces to if/else statements in rtl8723bs
-> to comply with the kernel coding style and improve code readability.
-> 
-> No functional changes.
-> 
-> Siwanan Bungtong (2):
->   staging: rtl8723bs: add braces to if/else arms in rtw_efuse.c
->   staging: rtl8723bs: add braces to if/else arms in HalBtc8723b1Ant.c
-> 
->  drivers/staging/rtl8723bs/core/rtw_efuse.c      | 4 ++--
->  drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c | 7 ++++---
->  2 files changed, 6 insertions(+), 5 deletions(-)
-> 
+On Mon, May 4, 2026 at 4:21=E2=80=AFAM Angus Gardner <angusg778@gmail.com> =
+wrote:
+>
+> Two comments incorrectly refer to 'AD9843' instead of 'AD9834'.
+> Fix the copy-paste typo.
+>
+> Signed-off-by: Angus Gardner <angusg778@gmail.com>
+> ---
+>  drivers/staging/iio/frequency/ad9834.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+[snip]
 
-This is not applicable to staging-next, please rebase.
+Looks good to me.
+Reviewed-by: Maxwell Doose <m32285159@gmail.com>
 
-Thanks,
-Nikolay
+best regards,
+maxwell
