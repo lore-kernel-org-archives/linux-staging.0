@@ -1,103 +1,114 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D943E3B9D84
-	for <linux-staging@lists.linux.dev>; Mon,  4 May 2026 11:57:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8ACB3C1412;
+	Mon,  4 May 2026 11:59:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777895880; cv=none; b=RwbhIR50ODJgcC52dX38hnLXrOMnY1sVeIJTigN/rFzyVzUicIbZd7CEyYilMm51hZxvz+Gdwi8g4Uhq6AYD+TQhKhIjDg710ILimGksgt1W09jHXcKClZk99tp7zOd1tCHm0zwuCmKvVlBO44Gq0QdEnA5snPlnvnG3r9h+qxg=
+	t=1777896000; cv=none; b=hvTFZyNUqHVzel+K/1SJ7cK+yJnsb9sHoDQkbMqPoZekNfGYu3ztow5EXD1WY2z5PBbtJ/0OVLnM7MQ88kAE+Rn5ErkntdH2WPc0Lf4aBVJy05zQL1UedahmPluog0RcRIMnCYbRgV4Z1CC4U/d3OfYvI1NTbYUTYTi5W4p4aCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777895880; c=relaxed/simple;
-	bh=BcKKSL8vSSZF0gP55JcdQZVPre5XJmBMh2A9VhxYOqs=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=XfiKVfnJg9ZTYDE/lokXoWcxoCI5prCfLYQAXC2Dbp/xzco53iR8TcsMtimFNqPqFx3Z7no37iYTFho+o3USg1jumUnvxddncb8THG6dtdzr/h3M965+s8DFgyEiQHmLiucpLxaEv1y2Mszfaenpf2BABdA1Wq5zEYQhajKPBgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WrjYoTTE; arc=none smtp.client-ip=209.85.167.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777896000; c=relaxed/simple;
+	bh=FmmU1zdzb/NwHV/okkpMG5ffX1wADS5zh2r5zlKF9J0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RuumQZ3qHW5USMcJdryqcDErSTLSLqKyoEisVnWbfDR6zm3Ev/PIL0Z9WlGIxK6zMU/aXqhf43Hp4Sr2DY3w0Kq0m2hsYx6STivDXpwfkVvif7T48FQGA4KiKXYne5dPpDnMckYaNMgiTZqS/28jYXyKnrJ1XO4qYiuML/b3WOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=xU7lD3QM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WrjYoTTE"
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5a8704dc3a8so912581e87.3
-        for <linux-staging@lists.linux.dev>; Mon, 04 May 2026 04:57:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777895877; x=1778500677; darn=lists.linux.dev;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gL45qAsvoGd0CGyXzQ6wh+njmPCmoNGWYA6JLpdzAXY=;
-        b=WrjYoTTEGElMCwVEj1az5qs9I3P8DRp7RpNAtakbeO2m37RIp+BbR0//1+uPXfJMWe
-         aKVp8xGmIsSjlMPif/6RHWDca25uN0BNdPmDf2/wqpwhG24VvXUZBZ+/oYvRFqm+LSNL
-         EVeFngpJjpdjsyv6VyHqJXqXO00cHjnd9ntPQk80YlqW5MIs1iUqX16OkW7/6tbDONzy
-         ZCwVW9HKvl4lvBtcQ8KNAbi2m+2Sfb5lSJGq9S9HJSbzS+matXkf+GLrhdligAz3mP5N
-         fVU0wpaw/+YSXBoncpOYvwyhi4u+bnDtZds9tDC99kmzAym9QhPMnOhm/X8+5mFyjz0m
-         1QvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777895877; x=1778500677;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=gL45qAsvoGd0CGyXzQ6wh+njmPCmoNGWYA6JLpdzAXY=;
-        b=OLEXI3fBH7Kk6yNqDe6kucHNumfB4d6jUKUgNyoEZUiQ9RdHIA+ipzUbB6y/b0dyn+
-         uKECtjPfgh2u1OjwAeDOlOjbRvlhCPD2ihuWex6JRygvzERzh4Zjx5qB10rsiGpU9vcM
-         ksn/5E4IoaPAewXvvyi4eBXOH9YfRH75ROspJxuzTfl4w7OP7WWITSlUjGEdJiGeeSz1
-         wHyC1Z5FGdf+mjmnXdTbJ4hiCoUHqwymBL7kI157ZcIsIW8pjx/dCNsh4jhqs4+q663a
-         ga5Tydoinr+m5j/M1gImUQaU7b9TOmbIe2UflE2Mu9dKW6S4oOkgOSBBB6WXKwroIIlW
-         VhrQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9imILu1HxulFAel4BFgtbHgfPFzpjDgAHdeXcF7nm/EdYLcHRVvyEpm5sH7ZvBBj6Oy4CKnAVEMYS1kDgp@lists.linux.dev
-X-Gm-Message-State: AOJu0YyhwFMycLOtlp6VA6OXhusFTD8bNYrVHdTHDHDlBgNOWQFJWMEQ
-	GINys0SzOzySdQVQuSrcSPrwbQp/l82DicK9TlYuOinN45wmJHw58w2feb1MFA==
-X-Gm-Gg: AeBDietg1L0ioSEN+4zJbvtRkvnaKkNoa6yBeoOJDq24x6tQtBQI3+CWKDOwP/E+js7
-	7UYF0Q31JgaO6c/VjQpnXozANNqRH1Tyvu+SwB7e/jv/DhSvyKIYAxrCvRaoRIhQxi6yOFPkzkf
-	29H74Dzny83USo8B/TgRpYYeu1aPSauANEHHYNdCK9z7ZrGNEolXEiplCmx02viTXcpmWwsNej3
-	oPFS7qQWGlZIxCFP52+U1q03gEVEHVMM/adxCpeRukDg5niSINQ+eAkMNhR0cIpVS2JhFe6R/T9
-	/Go/t9ltxsBW8u+9ODUBvxSQlfXncR7u55L5+mWn3Qk9kaDTEvFNEbLSJMDTvnfRojX5xD+C2Lr
-	lvZNP3z28KiD+OkC4Eo2t9DD4yb5IoPJyEVMF5W2NcGnptlJbqIgnrA5mOaP73t1jTWxF856U++
-	IWWhvhSEbvh3BoKhW7acd9i8ZuQBsqT/eAhmbXRoPWAxW/cw==
-X-Received: by 2002:a05:6512:3d88:b0:5a8:6c7b:f9d7 with SMTP id 2adb3069b0e04-5a86c7bfaf1mr2023721e87.41.1777895876820;
-        Mon, 04 May 2026 04:57:56 -0700 (PDT)
-Received: from [192.168.243.250] ([185.140.161.214])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a85c230e5asm2893276e87.33.2026.05.04.04.57.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 May 2026 04:57:56 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="xU7lD3QM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A5C4C2BCB8;
+	Mon,  4 May 2026 11:59:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1777895998;
+	bh=FmmU1zdzb/NwHV/okkpMG5ffX1wADS5zh2r5zlKF9J0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=xU7lD3QMbhkmxDobaKClWo0Ll+gqvoaXSTlzZeHGZZ3iffFnzpMwX+5f1E3r/WFqd
+	 L8lwnD76oZHMLGYxeePjOEDzIrJ83gLCqJQ6KFn2TFIn7fhgzcpsY+m+Mc+MNUrq3+
+	 eMdHsGfftMnf1k3rFNS3asR73qnTjm1SBBGZQnf4=
+Date: Mon, 4 May 2026 13:59:56 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Maha Maryam Javaid <mahamaryamjavaid@gmail.com>
+Cc: neil.armstrong@linaro.org, mchehab@kernel.org, khilman@baylibre.com,
+	jbrunet@baylibre.com, martin.blumenstingl@googlemail.com,
+	linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, hverkuil+cisco@kernel.org
+Subject: Re: [PATCH] staging: media: meson: fix typo in codec files
+Message-ID: <2026050442-rut-zipping-5de8@gregkh>
+References: <20260504111219.7797-1-mahamaryamjavaid@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH] staging: rtl8723bs: fix unbalanced braces in if/else
- statements
-From: Nikolay Kulikov <nikolayof23@gmail.com>
-To: Siwanan Bungtong <horstaufmental@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
- linux-staging@lists.linux.dev, b9788213@gmail.com
-In-Reply-To: <20260501205336.230955-1-horstaufmental@gmail.com>
-References: <20260501205336.230955-1-horstaufmental@gmail.com>
-Date: Mon, 04 May 2026 14:57:53 +0300
-Message-Id: <177789587345.4095.15139970597218245618.b4-reply@b4>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1777895875; l=357;
- i=nikolayof23@gmail.com; s=20260402; h=from:subject:message-id;
- bh=BcKKSL8vSSZF0gP55JcdQZVPre5XJmBMh2A9VhxYOqs=;
- b=Gi8BG8Envm3oWz8U+Tcxz4ptnbVNHzvgJDE0kWRyGosPo4tVFdzTzIJHPXCo8gsep6m74hFFN
- n0fX/4l9/VCBeOlPREWLFND1BKL2waIiGSe0uTmn7fqfB+mZ2nVUEa9
-X-Developer-Key: i=nikolayof23@gmail.com; a=ed25519;
- pk=2GWUU1isl5NJpkwSCQ4OG80EinZ3EUZXlrgAg6Pz5zI=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260504111219.7797-1-mahamaryamjavaid@gmail.com>
 
-On 2026-05-02 03:53 +0700, Siwanan Bungtong wrote:
-> Fix inconsistent brace usage in if/else blocks to improve readability
-> and avoid misleading indentation.
+On Mon, May 04, 2026 at 07:12:19AM -0400, Maha Maryam Javaid wrote:
+> Fix spelling mistake: substracted -> subtracted
 > 
-> No functional changes.
+> Signed-off-by: Maha Maryam Javaid <mahamaryamjavaid@gmail.com>
+> ---
+>  drivers/staging/media/meson/vdec/codec_h264.c   | 2 +-
+>  drivers/staging/media/meson/vdec/codec_mpeg12.c | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 > 
-> Signed-off-by: Siwanan Bungtong <horstaufmental@gmail.com>
+> diff --git a/drivers/staging/media/meson/vdec/codec_h264.c b/drivers/staging/media/meson/vdec/codec_h264.c
+> index 89e0f8624e5b..a6074de15118 100644
+> --- a/drivers/staging/media/meson/vdec/codec_h264.c
+> +++ b/drivers/staging/media/meson/vdec/codec_h264.c
+> @@ -16,7 +16,7 @@
+>  #define SIZE_SEI	(8 * SZ_1K)
+>  
+>  /*
+> - * Offset added by the firmware which must be substracted
+> + * Offset added by the firmware which must be subtracted
+>   * from the workspace phyaddr
+>   */
+>  #define WORKSPACE_BUF_OFFSET	0x1000000
+> diff --git a/drivers/staging/media/meson/vdec/codec_mpeg12.c b/drivers/staging/media/meson/vdec/codec_mpeg12.c
+> index 76e9ca7191ab..ab4374e3b2ef 100644
+> --- a/drivers/staging/media/meson/vdec/codec_mpeg12.c
+> +++ b/drivers/staging/media/meson/vdec/codec_mpeg12.c
+> @@ -12,7 +12,7 @@
+>  #include "vdec_helpers.h"
+>  
+>  #define SIZE_WORKSPACE		SZ_128K
+> -/* Offset substracted by the firmware from the workspace paddr */
+> +/* Offset subtracted by the firmware from the workspace paddr */
+>  #define WORKSPACE_OFFSET	(5 * SZ_1K)
+>  
+>  /* map firmware registers to known MPEG1/2 functions */
+> -- 
+> 2.34.1
+> 
+> 
 
-Looks good to me.
+Hi,
 
-Reviewed-by: Nikolay Kulikov <nikolayof23@gmail.com>
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
+
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/process/submitting-patches.rst for what
+  needs to be done here to properly describe this.
 
 
-Thanks,
-Nikolay
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
 
+thanks,
+
+greg k-h's patch email bot
