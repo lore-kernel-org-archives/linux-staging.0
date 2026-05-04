@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1AE63D6CA4;
-	Mon,  4 May 2026 14:58:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CB873DF019;
+	Mon,  4 May 2026 14:59:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777906695; cv=none; b=XA4aiCEbrzsa2+5z3OZPg3iaMDyn77KOOO41xTxKMElfOj4OBKAxz8fpaykdbRdlNqFBGTthVyAoO8hkH0bIown2iQxjXs6/Vka7Ha45i7jQzst68Xj8lAXVp0E84d5f43NEmlL37LbHeX3Xbki3tloSvhv7a+TXiKXIqzHf750=
+	t=1777906754; cv=none; b=aT0CWJHk7sMYnHYAzWJR4m5brEW8ksfXooQi20H1hgCXxW2D0ZD5cfd3jjv3sMS2dX+zkoRTVk2zzXlq79IkFaaRNx3yFCf1LA2gAdIIFZ1YhOKvVH2gCFgAtq9lN6hAj5zoS3Rl4b+/v6Mfmit9E4UfG/I7sqymtErF1opSh10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777906695; c=relaxed/simple;
-	bh=J1RaCawFrOi34ZcpPXeTu6CvwP4kcVzKJ+0eWcHY4uk=;
+	s=arc-20240116; t=1777906754; c=relaxed/simple;
+	bh=SgzRQTnzKPXhoBbZSVqEKQqoUPBysO/3wr+yAp6wIC4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SOVL/90BLozkJeakBEfVawP2Uab8udq6aIXCK76TAJ+k5Pfz7f3/itn/RdGf18dUsJGsnigcMyT+J1PP4VucIB96eSLlfpYxdDIb9seoe9hH8sV3D2K/PYxDrCohFTL3ywXZKevmvhNaMAt/B4xj8o65IfF7OiNuGHt4mLGJyUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=roCtShcy; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=flYxJrbW3SpUEhsExVxrEhKMqFyDooGnCLUSZuW4D1sE954CSe09sodtxC5pYfuY6xdZLsY8SwcZjppdGw12lVP3a3yrALAGi05+568KM5jda3aG4EjV774mtLB4sfy30EL5ic+PT/zmU7zx5YPnFUV34NfPYWb81d3t+1O4gyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=oFKJKgzW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="roCtShcy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD1EEC2BCB8;
-	Mon,  4 May 2026 14:58:13 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="oFKJKgzW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6ED64C2BCF5;
+	Mon,  4 May 2026 14:59:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1777906694;
-	bh=J1RaCawFrOi34ZcpPXeTu6CvwP4kcVzKJ+0eWcHY4uk=;
+	s=korg; t=1777906753;
+	bh=SgzRQTnzKPXhoBbZSVqEKQqoUPBysO/3wr+yAp6wIC4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=roCtShcyfKzGhXD+tx66wXB8btfVLd4Fw1YsNjx1YpM2e3dep5zm2AKqlZTQ9pywU
-	 ooY6n2SesZrdP/8BhcN0SVeBHmbp3HNd6JJS+T8OPfS20u4C55BKN5rBvZ2DWqJIko
-	 GhMNqkLHOvnGq5wWrvph0Eboy4dEj9lj1dJT9I2Q=
-Date: Mon, 4 May 2026 16:52:38 +0200
+	b=oFKJKgzWCx92OUjWTe1fG5o4g+AXjOzVUAbVC6QKAi/HcH3hqfjgfEN+P0GLWdyAP
+	 SNDbLn6e9a1ovRZrWAZVQaWeTbBiQsw8oL06Yu/fm8WtktyiIMrAW2BwM74iZHQJXq
+	 H4jOODz0mJATx6uIqw/jD+ZPKZiHb5gyZMqsI5hk=
+Date: Mon, 4 May 2026 16:55:25 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Siwanan Bungtong <horstaufmental@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	straube.linux@gmail.com, ignacio.pena87@gmail.com
-Subject: Re: [PATCH 1/2] staging: rtl8723bs: add braces to if/else arms in
- rtw_efuse.c
-Message-ID: <2026050433-cube-shrubs-9d80@gregkh>
-References: <20260501203121.227992-1-horstaufmental@gmail.com>
- <20260501203121.227992-2-horstaufmental@gmail.com>
+To: Francisco Maestre <francisco@maestretorreblanca.com>
+Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: sm750fb: add const qualifier to string
+ pointer arrays
+Message-ID: <2026050401-opposite-contently-15eb@gregkh>
+References: <20260503005744.68974-1-francisco@maestretorreblanca.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -41,38 +41,47 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260501203121.227992-2-horstaufmental@gmail.com>
+In-Reply-To: <20260503005744.68974-1-francisco@maestretorreblanca.com>
 
-On Sat, May 02, 2026 at 03:31:20AM +0700, Siwanan Bungtong wrote:
-> Add missing braces to if/else statements to comply with kernel
-> coding style and improve readability.
+On Sat, May 02, 2026 at 07:57:44PM -0500, Francisco Maestre wrote:
+> Add 'const' qualifier to 'g_fbmode' and 'g_def_fbmode' pointer
+> declarations to make them 'static const char * const', as the
+> pointers themselves are not modified after initialization.
 > 
-> No functional changes.
+> This fixes the following checkpatch.pl warning:
+>   WARNING: static const char * array should probably be
+>   static const char * const
 > 
-> Signed-off-by: Siwanan Bungtong <horstaufmental@gmail.com>
+> Signed-off-by: Francisco Maestre <francisco@maestretorreblanca.com>
 > ---
->  drivers/staging/rtl8723bs/core/rtw_efuse.c | 4 ++--
+> v2: Resend as individual patch, not part of an unrelated series.
+>  drivers/staging/sm750fb/sm750.c | 4 ++--
 >  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-> index 099320e4eb50..7600b723fda3 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-> @@ -76,9 +76,9 @@ u16		Address)
->  				break;
->  		}
->  		return rtw_read8(Adapter, EFUSE_CTRL);
-> -	} else
-> +	} else {
->  		return 0xFF;
-> -
-> +	}
->  } /* EFUSE_Read1Byte */
->  
->  /*  11/16/2008 MH Read one byte from real Efuse. */
+> diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+> index 62f6e0cdff4d..dc9653ed2108 100644
+> --- a/drivers/staging/sm750fb/sm750.c
+> +++ b/drivers/staging/sm750fb/sm750.c
+> @@ -33,8 +33,8 @@
+>  static int g_hwcursor = 1;
+>  static int g_noaccel;
+>  static int g_nomtrr;
+> -static const char *g_fbmode[] = {NULL, NULL};
+> -static const char *g_def_fbmode = "1024x768-32@60";
+> +static const char * const g_fbmode[] = {NULL, NULL};
+> +static const char * const g_def_fbmode = "1024x768-32@60";
+>  static char *g_settings;
+>  static int g_dualview;
+>  static char *g_option;
 > -- 
-> 2.53.0
+> 2.50.1 (Apple Git-155)
 > 
 > 
 
-Does not apply to my tree :(
+Any reason why you did not test build this patch?  Always do so so that
+you don't get grumpy maintainers asking why you didn't test build your
+patch :)
+
+thanks,
+
+greg k-h
