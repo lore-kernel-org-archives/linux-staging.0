@@ -1,88 +1,140 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f49.google.com (mail-dl1-f49.google.com [74.125.82.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F30C13E3D9C;
-	Mon,  4 May 2026 17:01:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777914063; cv=none; b=YUn+a+IacCrbpznMVHy+uxNm0mE5ShDdsHwIZBZZk69OSVpHDeg7KH719011ZX23d0ll1Ms1r+qEfe2gxaOJpzG0wEXaf+swvyep79NeHYgHZcNuojDb9Km7XGQxjNYoFthb1DvPzA7HsHZJHHUVy8Nm98pWtG8KzyhEJVdYHW4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777914063; c=relaxed/simple;
-	bh=lAYBYeOeu14ggNWEnuE6Ij/ZfPo8Sdq4PY0ZwB5kwKU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kpfgV4DvDSadXE+P91iOBiI333xO1TS+WyjX3IrFS3Hp9Cfc9J2GlcSpPWfbqeDQ5pbnnwaN99Rydkv+VpXXyjJ2GMKiFs/CtqlSB8buv1JuZSR0v3ZWxferWf/8e1K/FSYM3Vc2FiaxjpknQWdCC9jJM908SZcs25D/ebDMMDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=XJ7ACMUd; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0AC422068D
+	for <linux-staging@lists.linux.dev>; Mon,  4 May 2026 17:04:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777914279; cv=pass; b=JF7oHK6JKIEThar3sIWAXVia5uo+o5e2Vqt5zRuT08Bm5a6d2RH4Jhb9VpGpUiKnxOV+bCDk3eGnqAB8/WQfxtFMo/hRN8t6lVWf1fYymegoErlvYUybWUVb/P9J5znC/nDWV1G+YSJqYjeRX0GxhgHwvsp33GGH2aL0zZPU2cs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777914279; c=relaxed/simple;
+	bh=1B6oGlTtzRvP/n5nvn9v6mIZKQ4jQNjE27WqL7Za6ms=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZgmUCCX93+7OHG6Y8ivO0UIT3pJI7pEosiylXEJNA9mpR2VZqLq9MR/uD/shj0CfCvqFfn8GlYLrCLV+YjGIHlsaaHNQRrpSsBRW7zs0lw1aphYnFcxLAvi4LV7UlI8HsUjCjjviwY6TxqTQVSc/JZiLL/B0/Yvz55geUVXHJkk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HelLqsgM; arc=pass smtp.client-ip=74.125.82.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="XJ7ACMUd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A74AC2BCB8;
-	Mon,  4 May 2026 17:01:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1777914062;
-	bh=lAYBYeOeu14ggNWEnuE6Ij/ZfPo8Sdq4PY0ZwB5kwKU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XJ7ACMUdgipQw8K++TdwNSPa/NGFVkFYyWD0HqBC67osB216uDYiVEfHl7JgwAR5+
-	 B3t33hHHLTVLXGL5cZSC2EAFZKFR/3Zoj8q7NTAoUzPGZzjRZFJr1VIs52ob8HuBaa
-	 pxIsJO5idgulcen/KRvQZ6ZO6M51DyOapc5XD9Dw=
-Date: Mon, 4 May 2026 19:01:00 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Feng Ning <feng@innora.ai>
-Cc: linux-staging@lists.linux.dev, Luka Gejak <luka.gejak@linux.dev>,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v6] staging: rtl8723bs: fix heap buffer overflow in
- cfg80211_rtw_add_key()
-Message-ID: <2026050434-unpadded-sandstone-0412@gregkh>
-References: <20260413113224.5201-1-feng@innora.ai>
- <2026042626-tabloid-suitor-33c5@gregkh>
- <20260427111738.33069-1-feng@innora.ai>
- <2026050417-monkhood-backless-4c3e@gregkh>
- <20260504154823.52057-1-feng@innora.ai>
- <2026050458-numbness-haven-1ae4@gregkh>
- <20260504163828.90294-1-feng@innora.ai>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HelLqsgM"
+Received: by mail-dl1-f49.google.com with SMTP id a92af1059eb24-12c1161232dso285951c88.1
+        for <linux-staging@lists.linux.dev>; Mon, 04 May 2026 10:04:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777914278; cv=none;
+        d=google.com; s=arc-20240605;
+        b=K6IKD6KqY1r7rHAKldVeWX1GiIDhkQUKu+nzLDLsI+wtD6Py4ZbPjqOf7ACWrhMyoA
+         lsKp4DdIn1M2xR/30r6VCc+GZxeufFKniY2JsapoLCAbOU2dBZwqjBTsGCKBjpSqWcAZ
+         bwNqxnSKl85/L/97utBd+0LfxP7IaY8b2Eg2M6SzptkmHnq4WgsZV0Run7AjoWm+H1MZ
+         GAP7vCMWyj3wGFp/PQ6Lz5QBqR2N+3e3OqWZEPaD+gBw4JeKeK6MAKFDQQ5iB081pIpz
+         6Oh8DmCvCaTrA6ZdOMAWImSLJXfUSZD663ZFKrYHo36ERjyVs+SmciPTB6XbXTjfW08r
+         LC/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=rERfG4yN7TQvy/21xSO+cz7wynpWbXMX5MJUJ76hvPo=;
+        fh=mto8jhwOUTv/C4JQNWC6DUkCcLPYfbY/5cjLSdFHowk=;
+        b=KmjLUUKCnvK27AcRE1CiJq3qd6VNVyDzooLjcbs0RqVOcddUOaOesY6R8jm0riETpL
+         3wctZD6+VAqzRBUXKQJ1tSdSFC0/BU6pPq5HJPq+N3rUNAM0iv4cQAgiLwRrka8XPjeH
+         fzWC++9tVtAmjg8m5xR2coY+Z5Qo52du6H/dkbLxBCyVZ3GCqXnrlbCUvJs0P4N7XuQN
+         cAnBNy36nIygnTM35RggZYzyvnzxApSFsivH2t6V+CULFjSJzJlnDenavHKrwSTJp6sE
+         qSozd0glcro3KaVWuOKktYog74qTbdIcaRcbj5fNj7xgZqh//hQjlLZT/3UgMHHz9meQ
+         QxhA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777914278; x=1778519078; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rERfG4yN7TQvy/21xSO+cz7wynpWbXMX5MJUJ76hvPo=;
+        b=HelLqsgMymZfJN5MQ6ma5snX4ZnGk8XCYnRg7Vh7w/28InfLN0+iRHLots5u08zF9d
+         VQdZbNR0V+qFn/fMeVWTXmXiLi9OouEPveVylPZKHEvhlZ8F/hsZtxbTsYa7NMZJuUFj
+         UVi/MqPMfqA5vjmgL7lSc4joFm/8tb7wztftMNLJB76k7gLBNx1Fz0YJxe6XgnmArhK2
+         oIN/yDNXXv88J3ur/wUzGk5VpkMuM5jnSPJJVjvDSP3yKa+Jv68SlIvjOTAaxHRd1uqj
+         MsU7m51IA0wCS98632HKeIdicD09eGXeS3oHzS8QvEO/+CRQviz+2p4eafVAEqgTJlA3
+         LSmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777914278; x=1778519078;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=rERfG4yN7TQvy/21xSO+cz7wynpWbXMX5MJUJ76hvPo=;
+        b=OR7vwxDH6/s+NZeS1lQ1ibfgB36AhUD9hlzHoHJjFAhrlw0vwr3lsutBGm+7HT/LBb
+         M9ujwXFWIuPAkA+ADj+jncXm+i3KX6sLJy9SmIW88LdW7IH1eYH3VHjEkwWPwbgzwv97
+         Y795LVQQ4Qa/Rthlw3APPf/nbdQeL20HnMqDM791jplgbAO6Hqj8M4oAg1TTHJOfa+xc
+         HyJ+pRnXBA2BFAosOYN1WV3EL0JqfOLoDldSTzyztRixwAzdkrAiZrVrUYNvUD02MPXh
+         7aSlpQ8C7PIklfaQ4nio9g+ZPMpgSiVpaGm9jk426rBuv86UI0XNHYkfe0JFg8aQTl33
+         vYfQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8xOOAY3Y+ysMRUZwHqDuI4SYsAzYkC+spM61ZBld5XVy0B/1L2Qfacf3Hy3h6AJ8d4YiuZHMl4aPZOesme@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw9bpzxRY5O+eSSMQCU3+wlqq0hjy1sulzgWMKM01pecmNlEgku
+	i+AeHQr5JHrDwbLptOHwOfBrJvBgKDSMYkA6/6Jgoey+1HVEkjQs5HvlMwUIxSSxFHmUfKvJS7d
+	hztZ7KLqD/aqPptcc/o2dWIHFz9/8ank=
+X-Gm-Gg: AeBDieuiwoHNOqMzXGWbbpUpVI5z7eDuDfuxTJlstpxMbzBoejY1Xo8AsIfOIXkOl5M
+	smqmqYCx35Rkzj1S4llEi5MbNfTZJxCDADj2RDmiDlFHl6D1gXvjPINuX078GlAwP8yf2+BKR73
+	phflK9mDuoN6Qjyg6D6xqiHjYexm5pmQN44HZTcI32oiS2XZzAuTiZRm/I3oH6iQ5kASe/pumHD
+	6XbgpmZPxmQgbPj2ap0s5B24zpzKK5pOWRr3uA+qCCnVpqLRrK3dvVKDB4KzD3G2414J+UJOxg2
+	qGtarcY2FtHpNtLr5+IFH/KPi8Gjct8o26R2Q6DDT8USRzwxzMeC5Y+MF+qYhWfCTTFHJwwPsdS
+	bIerbIL86geC3DAMGhh4lb6LtKORXW/FsRy5E4Q==
+X-Received: by 2002:a05:7022:ef0c:b0:130:8ed9:2027 with SMTP id
+ a92af1059eb24-1308ed92079mr665684c88.0.1777914277735; Mon, 04 May 2026
+ 10:04:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260504163828.90294-1-feng@innora.ai>
+References: <20260427151556.91153-1-ayushmukkanwar@gmail.com>
+ <20260427151556.91153-3-ayushmukkanwar@gmail.com> <2026050441-vessel-goldmine-2bb6@gregkh>
+In-Reply-To: <2026050441-vessel-goldmine-2bb6@gregkh>
+From: Ayush Mukkanwar <ayushmukkanwar@gmail.com>
+Date: Mon, 4 May 2026 22:34:23 +0530
+X-Gm-Features: AVHnY4KCJDtiwn4AnLxSUS2fNJ4c_Ep9Se4J6RRFofzm_AzjcWgtDf6YYMwnkdY
+Message-ID: <CABJ81bj2OtVPDV15_qLnTHyKmDPqGJG8QKGNRSGUkJbu=7g=0Q@mail.gmail.com>
+Subject: Re: [PATCH v5 2/4] staging: octeon: replace pr_warn with dev_warn in
+ fill path
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: error27@gmail.com, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 04, 2026 at 04:38:35PM +0000, Feng Ning wrote:
-> On Mon, May 04, 2026 at 06:03:02PM +0200, Greg KH wrote:
-> > Let's fix this in a way that the code can be moved out of staging
-> > someday please.
+On Mon, May 4, 2026 at 8:26=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org>=
+ wrote:
+>
+> On Mon, Apr 27, 2026 at 08:45:53PM +0530, Ayush Mukkanwar wrote:
+> > Replace pr_warn() with dev_warn() in cvm_oct_fill_hw_memory() to
+> > include device information in log messages.
 > >
-> > > That said, I can see the argument for -EINVAL: it makes the contract
-> > > explicit and avoids installing a key with a truncated sequence counter
-> > > that could produce unexpected crypto behaviour.
+> > To make the device pointer accessible from the workqueue callback,
+> > introduce struct octeon_ethernet_platform to hold both a struct
+> > device pointer and the delayed_work. This replaces the static global
+> > cvm_oct_rx_refill_work. The struct is allocated with devm_kzalloc()
+> > in probe() and stored via platform_set_drvdata(). The worker
+> > retrieves it using container_of().
 > >
-> > Yes, that is better.
-> >
-> > > Regarding hardware testing: I do not currently have a physical
-> > > rtl8723bs device.
-> >
-> > Ideally someone can test this on the real hardware.  I'm loath to take
-> > real patches for this driver without that happening.
-> 
-> Hi Greg,
-> 
-> Thank you.  I will change the silent truncation to an explicit -EINVAL
-> when seq_len > sizeof(param->u.crypt.seq) for the next iteration.
-> 
-> Regarding testing: I do not have access to RTL8723BS/BU hardware to
-> verify this, and I will not resubmit as a regular PATCH without a
-> Tested-by from real hardware.
-> 
-> Would you prefer I send the -EINVAL revision as an RFC on
-> linux-staging and linux-wireless to ask for a community tester, or
-> should I drop the patch until someone with the hardware picks up the
-> thread?
+> > Add a struct device pointer to oct_rx_group and thread it through
+> > cvm_oct_rx_initialize() to support the NAPI poll refill path.
+>
+> Why isn't this the platform device?  And why isn't this data just part
+> of the platform device's data anyway?  Why is it a separate "thing"?
+>
+> thanks,
+>
+> greg k-h
 
-Submit the patch and ask for someone to test it.  I think Luka here said
-they were getting a device, and I might have one somewhere around here
-as well if I dig hard enough...
+Hi Greg,
 
-thanks,
+Thank you for the review.
 
-greg k-h
+The changes you're pointing out were in the later patches of the v5 series.
+My mistake was splitting them across patches rather than doing it
+correctly from the start, which left an inconsistent intermediate
+state.
+
+I've reworked the series so that struct platform_device is passed
+from the first patch, and oct_rx_group is placed inside
+octeon_ethernet_platform in the same patch that introduces it.
+
+Will send v6 shortly.
+
+Thanks,
+Ayush
