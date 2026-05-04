@@ -1,81 +1,150 @@
-Received: from forward102b.mail.yandex.net (forward102b.mail.yandex.net [178.154.239.149])
+Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013009.outbound.protection.outlook.com [52.101.72.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7C5031716C
-	for <linux-staging@lists.linux.dev>; Mon,  4 May 2026 20:47:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.149
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777927626; cv=none; b=NxZwLMtoASdY+tpnO90O6tOm9mTSjlebIZLWvTDTV3KQNaL2LSpsc2hbv5AiMC7YOOjERBIFh3tEmy2nM8Rn8S87Vw+EZhJksiFYrGwuiFIqWyDwlS3XWIbaOF1+SvVp+ubN/AMnxXBQAroFRZDe28pbG2cxJhxARxOnLaPR65E=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777927626; c=relaxed/simple;
-	bh=08t+r0coPFPOtxXp3hFRFYMI0LSHb3U5gWeUqynXig0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CoC7g40Rt8VNacBzFZ2+9ZnKTL4IwYfaWbhT0ZyjUjRvGSMtg+fpQBPntj3OV+SS2gzV1sppn1qnaE0XRRywOD62quIHubNhg69QzMySHGUnLNYLV+Dh5EmGfcHo38rRiO2x4UbmUEtAGoQHNXx83GuH2350exib4obimXe69fM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net; spf=pass smtp.mailfrom=sezginduran.net; dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b=gq+ubEuj; arc=none smtp.client-ip=178.154.239.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sezginduran.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90E0433DEE0;
+	Mon,  4 May 2026 21:03:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.9
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777928625; cv=fail; b=WeREJI6O1jGez0+km+DFRKDx6uDKkXEvbUUWnS2wZuF/H2MILFIQm+xqKS8Ih5j8L15asHAuFHFxc8rZT/yrtgjYq8Qhzbpv125JVvDIlyDPrWAuUpvFhJjeV8RIaz9Ij2DsI5L/Y7AeoDYtnAb+WQ7QdbEJhW7XYvAMywAjUxA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777928625; c=relaxed/simple;
+	bh=srG4wZXJGyagE6wuYHmKoZ9PP/QTh93FynE6wLg6NiY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Yk+QH1GU6XUtySiMoLLYyTvXecaizamuFvfblgBfkfV3ZI5KkgTVDZ6CznZ1X86yJAFCtHHsjzzzidK98KJnVjCtDz0n5+nEvkWUgmXnwZ8oZN3dkA6f+LyxcGJEl3SR6nYmsNeYvDeZkHWfDEh3C55ru6cZJtBC3jyPm0YprqY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=dw2VNZ7j; arc=fail smtp.client-ip=52.101.72.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b="gq+ubEuj"
-Received: from mail-nwsmtp-smtp-production-main-89.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-89.sas.yp-c.yandex.net [IPv6:2a02:6b8:c11:2281:0:640:870e:0])
-	by forward102b.mail.yandex.net (Yandex) with ESMTPS id 91A0CC0079;
-	Mon, 04 May 2026 23:46:53 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-89.sas.yp-c.yandex.net (smtp) with ESMTPSA id okmaLUwSNqM0-B2CvVUOY;
-	Mon, 04 May 2026 23:46:53 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sezginduran.net;
-	s=mail; t=1777927613;
-	bh=ieK1us3BRhqqmU6g0lTUV7iD/KLBEH3TK39pum1eGq0=;
-	h=Message-ID:Date:Cc:Subject:To:From;
-	b=gq+ubEujHzO5rabbXCLzOGJyMqKJKshAN5dvjhz1w+onyRsgZhgZK2mtso9AG81OJ
-	 OXW5YhLzG/YSYzcmBOLzGi3xlklYyaSpJ01S+2FtFCXtTCv1m1GUtJafp2PubVDiLK
-	 mp45ISwTj8x3Bu6XbQ93bbl9b2icvPRJu6P1z8iE=
-Authentication-Results: mail-nwsmtp-smtp-production-main-89.sas.yp-c.yandex.net; dkim=pass header.i=@sezginduran.net
-From: Ahmet Sezgin Duran <ahmet@sezginduran.net>
-To: gregkh@linuxfoundation.org
-Cc: linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Ahmet Sezgin Duran <ahmet@sezginduran.net>
-Subject: [PATCH] staging: sm750fb: remove unnecessary initializations
-Date: Mon,  4 May 2026 23:46:12 +0300
-Message-ID: <20260504204612.55657-1-ahmet@sezginduran.net>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="dw2VNZ7j"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tgRPONZU2mrgAMfJz8LbLksMnJa5VgMX40kv+8CPrTMTyabtTIgvKF2B4g7t2Yuh+JkuSNO+JQBhtrbCnuxLf4daL7wCwZk1xbsYoDiQqa7rMDBqp2xlVdETzXbjCX5g+P29HFlVQBI4f/m9pYOGVRpJE4/y4NFkPUPBdzWDBcJauX5Ij0VKWiaFNLqcIrJAbx+XsNRI+MTsudjtX9CHXU0+XEUWTVj/Ho5r6SdH/sLRPGbYObnb+6UmTaUwjjdQX8YaD0VuCJTs54b7JVtq0z0e2HBeMMz0xrsJyLC0ST6/mampA6S9xmkUOG8Xwbc5d4WBk7itZberB5ri8UBHIw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=R6Q2xrEXfs3bm9OmQZ+QUXVGsU3eNQatyDeCgAzBfgM=;
+ b=SFd7WPsHmwl/S4hp67aPgf1SjD2sv+KVv0TvPQD9548I5nUtYgk+35jvphYz0+KhDkLhrSaqonBQIJXyrAGhKZtOqsBmTXA1ceeRqcwDxlA/tt5IgfYwL0PtuwSTKMHzvAbpPYtk51NbuWkLfCPfjLwXjMv0Z2fusPZa7Eapl3/NsuoPENC48p6B5XKbSQ/aXsQYi5n8KJEzQ4WmfBFsxhF/2x/GxAtApa9xAr74Ox1Q3VcfIHhsOyKLJ4zmdpUN/68LrUj6EKnPO/ojAaatM6EyC24bj5ak14EIFLvULK8bZp687EHRrf15ketTGeTSzXieNLGXdWt3JDHy4GWNWA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=R6Q2xrEXfs3bm9OmQZ+QUXVGsU3eNQatyDeCgAzBfgM=;
+ b=dw2VNZ7jlFgjW9/Qx0AbNDwyCvKsBloafBA0CA5tqe9Nhkid22JdYt8BIIZjNgItkAiLxXavz0eL7to4zrdcMs4pTYkpXg2LFagSfbOOHAznvh4YglJ9nQFEmygAvEDo51gDu2wAgd9TtfktKN7+1+LJoxBwIThMn4fNj2CSah1K2fTHKYJwbCx1E6Jnk8v0yhsdHubZUBymDMF0dqKwNKETlh1jLyF97muPTEUmbclP3rSmFFXlXIScfSljyz1y049CcBW9b7WXXRaSL9MeH7QkQyqBkzsMG4kmdBAxUqhTBtZJRlzdxqhg4OVfJt8T4aYZtVkCQJ1C/Mx/OaXVUQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PA4PR04MB9366.eurprd04.prod.outlook.com (2603:10a6:102:2a9::8)
+ by PA4PR04MB7693.eurprd04.prod.outlook.com (2603:10a6:102:e0::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.25; Mon, 4 May
+ 2026 21:03:41 +0000
+Received: from PA4PR04MB9366.eurprd04.prod.outlook.com
+ ([fe80::75e4:8143:ddbc:6588]) by PA4PR04MB9366.eurprd04.prod.outlook.com
+ ([fe80::75e4:8143:ddbc:6588%6]) with mapi id 15.20.9870.023; Mon, 4 May 2026
+ 21:03:41 +0000
+From: Frank Li <Frank.Li@nxp.com>
+To: linux-staging@lists.linux.dev,
+	Mark Adamenko <marusik.adamenko@gmail.com>
+Cc: Frank Li <Frank.Li@nxp.com>,
+	slongerbeam@gmail.com,
+	p.zabel@pengutronix.de,
+	gregkh@linuxfoundation.org,
+	imx@lists.linux.dev,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] staging: media: imx: fix parenthesis ending checks
+Date: Mon,  4 May 2026 17:03:16 -0400
+Message-ID: <177792858724.2483158.13315501032694493892.b4-ty@nxp.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260310002643.27465-1-marusik.adamenko@gmail.com>
+References: <20260310002643.27465-1-marusik.adamenko@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: PH8PR07CA0034.namprd07.prod.outlook.com
+ (2603:10b6:510:2cf::15) To PA4PR04MB9366.eurprd04.prod.outlook.com
+ (2603:10a6:102:2a9::8)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA4PR04MB9366:EE_|PA4PR04MB7693:EE_
+X-MS-Office365-Filtering-Correlation-Id: 65c771bb-43e2-4058-778a-08deaa209e65
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|19092799006|376014|52116014|1800799024|38350700014|56012099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	m+R1XBIcEyIFq1b1IuW/J1/9Vc+4EBOtzt/tSk2UhSB8RjwH2s+uVU94qt6wBQlFOAh4nJglMW+o9G5Gv/XZmv+S56MNki5Q/WCOAEwBjdRr8KSy9iaKqCm48hp/xWTGZQjwsAlpHOZGohOfvbYQrdO3BCPD1cF5JNdbYRGnPPf7H+a1alF8LPs3hNrIKhzblVhzygoNUCA07jNsQPPSLgNvYwNx57x7gRy5wNxp3TsWUhkSVdkkdtg7EjY+W2ZUE5VvFhaGJJtgAZycMNcY7xpKBVToh1SYv/3zpKCsv5/TwG/LBB1CpPh2VkPq08AfqSQpjq1V6r2Fyk6qLaGGgj1RzfgFDqzNv8csPg9BfVBYmKtl9VB7Orv2YTlcA/HShD9SoK0m22hpdCWHea4iod+MgpLqIYFPTEmlZozUiqdQVrnyx1CrZvEHW0gzGtOXcEXfKVDOTh4FQnOtWMcezuoYX1Jl1TosErW8TS5xZHgdHzrsID8G5D0Xv58q05cImY3kpJyc2gpLnxoLh+IhFahqpmXDGBd99Jt126/KexTpt84ZOk2hoaOwtAxdmg5GWQhIG5eqClHHZzrxe7gsbSpMKmG/WaaozWQtGiUwpMdE3M36qLFMHYTwgoauRbM7vVLDMxEAq0g3+h7SeGJaUadKK13tNNut2MEdJkooe/PqXCrNzzlNU27Xpxp/j1nmeypLUQ5x+yXjQKKks2VFMXA2CowXfOTdFeK4t6IRrdlVW8CbgjML8ulsdlKdnKaP
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9366.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(19092799006)(376014)(52116014)(1800799024)(38350700014)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?dk84ZHA4UFpOeUJDMXJLS2dHaDRXRmFpeUdOcFkzVExLZ1hLWnk0dk03cFU5?=
+ =?utf-8?B?eDRuMVJiYUdheXUzdGcxajJxbTdPS3BBR2pHWmZqOUZhN3gvQXQ3aHpNQmlW?=
+ =?utf-8?B?YTNGQUNjUGpuT3hWRk5pL3NDOVpyR1RHdjlSN0xsaGlVZzBWaEdNYWJFekgr?=
+ =?utf-8?B?MVI3cmdPcTg1TzMwOWhNL0pTN2JSS21GRGVjaG01Mm5DTGFyZHZvTWtnODdw?=
+ =?utf-8?B?bEUzOFVlQXpWUk9zVFlMOWd3a1ZkNFF0d3p2NDFjbjhHQ2YyZXJVSm9EYXpH?=
+ =?utf-8?B?QktUZzJyMjVFQ1d2MzdZTWpqMGVLWlJQZ3FRbU9ueHNuZW5lYzhTeUN0TXJL?=
+ =?utf-8?B?OU9USC9heWprTzA0WVJQZWtsRlRuT3BHNC9tWnlsLzNKRUx2bjIzNmRDWFQ5?=
+ =?utf-8?B?dmdhNGhNKzJveEEyNnBjREhFd3JVRkJHWWJ4aHJTcmxoSjVxR09YOHZndElW?=
+ =?utf-8?B?dkVRSTBXbVhGZGpuSWd3VVJaOW5CM0FjcUtPWXYwdTJENmVFcGNuUVhWY0pM?=
+ =?utf-8?B?VFpIVlJXMWljKzF0alNZQnYwdHl4ME1YVnJEczhHZ3QwTTNPWUNHWWxUai9M?=
+ =?utf-8?B?MEZMYThHVDg2L2FkZ0FZcCtxanhUSUtFQTByNlo2MUdEWTR5cnoxSHM1Z0VR?=
+ =?utf-8?B?ZzRaRHdPZWV5b2kzZHZEa0JmQlpNUm5rUTdhd3JmS2lLRGZHQjM0S0VsOExl?=
+ =?utf-8?B?YnpHWFpXNWdxWG1RdXhLdG82WGUxRm8rZGV6Uyswc092TWJyRzJ1VWRJOWtX?=
+ =?utf-8?B?UDRYUXZuQmQ0VUdwcVFpSzBWR0lLSUZ6UE1qNThBL29QNXRoRkFlbWc1RVZB?=
+ =?utf-8?B?Q0RpVjVzR0ZpdGFneTF2OXV1U2tOVjlRSGdXYU1xLytMa1VhUHhNcnJrZHNR?=
+ =?utf-8?B?VE1JbHlhdXVjamoxOHc0dFdTbFIzZ1BzcXVNd1FkVXVtbUhYdUQyTyszRzgr?=
+ =?utf-8?B?K1ZXZ0JYRXJjR1c4Yk8vMWV3K01xUEhSZXZjbW9Ua2Jnb1BTMFBwL2RVUUJ1?=
+ =?utf-8?B?S1NPVkdBZnlOMzUwdXNpeTQ2b3hia28zU3hLQ3Y4d1ZNdUFUVjh6a3pPWU55?=
+ =?utf-8?B?VkwrS2lUZk9HV0crODV6MS8rbHFZSkhVeEJXTjdYZkYxbW5JcVNZNW5SOEF4?=
+ =?utf-8?B?a0lxNWNVNml2Y3JKVkJDWkNoV2hGZlVvWnhGd1hISmJVT2p3WUJDVjB1SlBX?=
+ =?utf-8?B?Q3EyR3pSMjF4Y2ZlQXh2d08xOTFBVi9wMVNlQlNGVnlrc1lxNVNwZ0tsQjJX?=
+ =?utf-8?B?ZklLblNyZHNCcGJxZnhBSld4RmFIS3RBOVBtZys0Z3locnk0NXVsbUlQVWNV?=
+ =?utf-8?B?azNKdUdzZjJrUFdXbFZGOEkwL2JpeWV2M011eU1XdzhxTU0xMDVlVU9tRE5F?=
+ =?utf-8?B?YlZycVVoUU9hT2swZzNtSmJGQnp6VjV6K2pKQVBMK3hTeU1uY0paSVBxaThv?=
+ =?utf-8?B?Uy8vc3h3QkRYM1ZQYU5FQVNRbXFCKzFnb21sMTQ1Z0pTSzVyMG1LR2VtMm9p?=
+ =?utf-8?B?VE9OZC8zek9QUG1CbkYyaFAyUkhnSUN2SlFWc2tzOStzdDhMTjdvT0FlUVFE?=
+ =?utf-8?B?eHhtOGdqK2pUb2FCcHpDTHY2UTg1L0tMWG1MUXQybEN5ZDQvRDRpYnZSZDly?=
+ =?utf-8?B?TEV3NWY1Q29BMEJoekh6MnNiWjArWUtVNWkxZTd6QjV2WDJnQVF3MjNkWW5E?=
+ =?utf-8?B?ZGJPMHpnSk0rKy9XMmszd01MRzhESUZ2cXlpUnBWdkZ4ZDBOQXJydGVvNWxu?=
+ =?utf-8?B?NmkyRW1Rd0NHY05pdnRnY0Vmc3NpVVY4QTY4QlpjOU5DQTNPRWh5QzZFMndj?=
+ =?utf-8?B?eDl6ek1LSnJYU2RnUFdmYkJ6ZmdtVlJLQjZ0Y3A3SWt6RHZXQVZwYnNrbHZR?=
+ =?utf-8?B?L2VYQ2R1Mkc2L1hDTHZiTkZzakJMNHV1VEh2L0ZQR2tjTjZkcVpwa0U1TFpG?=
+ =?utf-8?B?cDQ1dTE3OHpHNURReldVSHVJeWFJaVJMVFZ2NXJDNXNQTjBHOUNiMEphN0dz?=
+ =?utf-8?B?aSt5aTlWd0FWcWd1eUhTMVFuZTVsSWE3Vk5wUnJNc296Ynkzc2xvSFQ5eGxF?=
+ =?utf-8?B?VE9TaXBBZDVsYy9veWRiOE1LME4zWllxOG5RWi8xR0RvZm93cVl1YXZadzRh?=
+ =?utf-8?B?S2F6WldRTTZ1R3pLRms4S1J6YkhxVVJHVzBkcVVKeGgvTUpxQTI4UWhLczVN?=
+ =?utf-8?B?TlV1Z1hvb1lPdng0WGtKbEFJQ1hqQ2lKSm5MZUp4KzJZdGd1MlNnYjBZQzBZ?=
+ =?utf-8?B?MUpYdTRmTEtzVmh1WmVIdGFnRUdMOXo3b3dQMzNjQytSc2pHTW8yOGlBNjZ2?=
+ =?utf-8?B?Qm1GU1gybFJ6WXM0a3NpR2ZJUWVwZTFPWDY4akVBY1RBMXN3Ui9KUT09?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 65c771bb-43e2-4058-778a-08deaa209e65
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9366.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2026 21:03:40.9443
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CezafCV31BKQH8NYe0vIHDZ39H6HP3WTIG7NEVzVGASbEuE1lADpMFenD6moMFE3dYgncjtWR5hhgUVXj7GEgg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB7693
 
-Remove two instances of `ret = 0` initializations since the variable
-is overridden unconditionally before being used.
 
-Signed-off-by: Ahmet Sezgin Duran <ahmet@sezginduran.net>
----
- drivers/staging/sm750fb/sm750_hw.c | 3 ---
- 1 file changed, 3 deletions(-)
+On Mon, 09 Mar 2026 17:26:43 -0700, Mark Adamenko wrote:
+> Remove 4 checks for ending with a parenthesis by removing unnecessary
+> line breaks, and forward declare a variable for a function call that
+> would otherwise remain over 80 columns.
+> 
+> 
 
-diff --git a/drivers/staging/sm750fb/sm750_hw.c b/drivers/staging/sm750fb/sm750_hw.c
-index beef05ded98d..780fe6c391d3 100644
---- a/drivers/staging/sm750fb/sm750_hw.c
-+++ b/drivers/staging/sm750fb/sm750_hw.c
-@@ -29,8 +29,6 @@ int hw_sm750_map(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
- {
- 	int ret;
- 
--	ret = 0;
--
- 	sm750_dev->vidreg_start = pci_resource_start(pdev, 1);
- 	sm750_dev->vidreg_size = SZ_2M;
- 
-@@ -243,7 +241,6 @@ int hw_sm750_crtc_set_mode(struct lynxfb_crtc *crtc,
- 	struct sm750_dev *sm750_dev;
- 	struct lynxfb_par *par;
- 
--	ret = 0;
- 	par = container_of(crtc, struct lynxfb_par, crtc);
- 	sm750_dev = par->dev;
- 
+Applied, thanks!
+
+[1/1] staging: media: imx: fix parenthesis ending checks
+      commit: 616d687e7d419cd7f6464f37b8d1906fd351fd53
+
+Best regards,
 -- 
-2.54.0
-
+Frank Li <Frank.Li@nxp.com>
