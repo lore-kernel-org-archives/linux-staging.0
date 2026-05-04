@@ -1,121 +1,170 @@
-Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50AE735DA4F
-	for <linux-staging@lists.linux.dev>; Mon,  4 May 2026 23:15:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57D873DD532
+	for <linux-staging@lists.linux.dev>; Mon,  4 May 2026 23:35:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777936558; cv=none; b=ipxC/Eo2oGMT0r2IlR6t+LFdM1DSxZHC9wDTmiSu8dXebBj8ymgZgp/Fd0IH2x3dQ2G3y655PccDlk3KyPiHbh9tV5HSNkxhUAzKKQ8dvK3oOnjkXxAcC8kR15Xp8PuYUwwokOV2vJzY+aYfbi6ZKYp/WsJiBU6Lk/0Ztvp68y4=
+	t=1777937709; cv=none; b=HRzqG38Cg5CJtphG/gddi1pxoMuRmETrfczjzDq0J1v4r/laCy+c5r1mGeqs07C7jZAnP8drHrl6iQ/qaMyF1yOV76PT+fZnNcntTsYNN6ka2hi9QNSKRJsI4BI2ep2uQxQKeC+912MI2E6fTuplyOGSSzGQHHlYsy6WQaJtBwo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777936558; c=relaxed/simple;
-	bh=6kA5f8/Eq1uu4hnjHTbRSXA1fMelDXAzD0GtxiZTMBo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k+aYNkQzDTYTFBJhfPW+x1Ey1FBeFd62bNxcRQ7YMoB4dDSa1zhsTfNsWo9tYgudn3L7C+MGydpgdFhhvCuHsDWCfptvsRWa5BjV3SNLtFkk0B/7S84yiJm3SWP+qS6Y1MQGWJb2ES3ee0IsXzGTUgKIYT+EaSr+44jsXEXNYos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=s6KlY0Gn; arc=none smtp.client-ip=74.125.82.54
+	s=arc-20240116; t=1777937709; c=relaxed/simple;
+	bh=VegP8TQrk6P3ldkT7/tjydF0ELscB0e9zJXGue7eDRQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZAQv0T/DzGK+5lLzXVMtegTk2fIjg7SWm0vayN7H7934kYqp0DikfzT/Rhmhzcm2qewXSbkWFmsAXkPS5vwqHkJHH4ChPHUaTTpTlyqXHkqCXQqJHSZ0sCkvx8rxaWr+l2QkXNQL0qMOKkZT0o7RVE9Lxbzlj7jBMX1XA9RP6xQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gabjgb+0; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="s6KlY0Gn"
-Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-12c45281a06so7198551c88.1
-        for <linux-staging@lists.linux.dev>; Mon, 04 May 2026 16:15:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gabjgb+0"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-488a88aeec9so51853175e9.2
+        for <linux-staging@lists.linux.dev>; Mon, 04 May 2026 16:35:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777936556; x=1778541356; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=uJUaPNEnLT6eI3Sz+OplXWx4CX0ycNqOaqliP4b8tDU=;
-        b=s6KlY0GnK3M0nJnCq3vmUGRvRXNN7YpXU3qsY7/Uyu6R2/WyBXniRCNmotBxzSv//f
-         j/y6DS8Z66XAH3BkhBiTxJKd3y14XdtJxQJODWy6UO7tp053qsUAAMzDHG0B4QPef5pD
-         rb3IulqqJAASnElQPYLaMIYOVWAGh1lji/HuyEw8ceVG4M4rLXdBnQLloAKqJoV0GmbG
-         zqT+/ejoYvx6ho+v9qyaJhnsFDV2KpP9OPg1CSOIE5ag8imTwhzadfLXKR7JIfC+AKsP
-         gth3Ipue5tTIxdEQvvDA/PwRWCGdAQ0TRPX8NEnhj5OhKIPspB3KZH07ZKn2UZQ5RrUQ
-         YNRA==
+        d=gmail.com; s=20251104; t=1777937707; x=1778542507; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WqpTPO4JM1ij5VfC2iJKwCbrcvO2GqT/K+xw0onwWmI=;
+        b=Gabjgb+0R4+WMI0n3r3s19WusJGX1UEgaZ8xjuP3I8H+NjDo5MZtxbuRSrHC/oYBND
+         UG8F7oKdG3hsmFrC7qO3VU4fj+eqyELXKvFmRasCO5iqfOXPoeSBaDmtEXMVUyZfg+vi
+         0SoWI4Dz5jedD5aMS6WrbYqk4K4Xsd4SWRB+6UusBOWQmz0a4XBRN9ZmO96V4LulhbBY
+         ns+DEIcCtgkvOjBtMHPl8ut6wTMeNMU8gbu10FQ3dxvStAR1psw79RI5nttZZMkI00Hs
+         RR8lMHOOSAFcH1TsV+VVaZFPpLlkNwpWY7E6cqks6D+PNkn/gG7WXuAQMhYXT0sYRb2S
+         aO2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777936556; x=1778541356;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uJUaPNEnLT6eI3Sz+OplXWx4CX0ycNqOaqliP4b8tDU=;
-        b=ZQVhTuqatEcj1dsjQIXchagkpQEkoiakApTeiTELzeZcDmFvJ7qBewhptzP1kCO7ju
-         tI1mtrbb8VcTupXu+nQePXaxOiQRKYR+jo3wr8bM4b+kAnwinyrdUjq0Evjcw3+eo16S
-         3/z8dzLgC03esOk2LczIfKd2t/W2vCJqLTvY4DhALFsNpi6ZFHBsYHFGSkY2jXnRgZon
-         ifgPlbN7IdNv/h7FLsvn05xMcD5xRPWT+FjilWk0r/PnLrOE2FeyCeLgt+aJCKgVxUVj
-         ijEBdsY1bGUe1uUZ77quCt57tbKiFQM92GeNjZthnq5Wja0C6HaVnvkoDmXPUqJ3W0iJ
-         x19A==
-X-Forwarded-Encrypted: i=1; AFNElJ+MaHLNGdPM4xliFWRjMQiiWRTldvM+JRYZU9fPtgoJfIsEOBHO92A04nb2o7pYpt/rtUM8YlTsRrJ5DQsk@lists.linux.dev
-X-Gm-Message-State: AOJu0YxsFdf4MI5e0eLbKG7VIqaABipIj3pPxXF8tByyRcr8rkDDnHOD
-	Ju52WgisAYy5GQsW/Nr32/P5LaRGaLiGnuKslS5e0PA7EexEnr24+1Pw
-X-Gm-Gg: AeBDieu2gHrZ8c6VQPPSnib/1i8QVLkiyRIrRUcrp7t6Qcuba0XQKWRPp/CuszzbKxc
-	4bAcej5sNyPdSzmFHW8jB/at4jJNgwFNIv5BhUTWpBHQ8BUbeVnap9kXJ6KPMv3dNv7nwIarM8m
-	h0YC0CYxvmwLIq1EkNUb1owB+B6lKitGyFL4WVLzDMfDldhOniWD9jnV9KKv8/pyT+5q9OpWUS2
-	jChJJhP4lkVb2agd1muiFWQMUpB7usWlreY7gAKTuMYsRiwN1VkMPyrC/FsXXrH+fpSQtmLSXBb
-	wKKrLb/XiNUlhJViv1TWNSjG4kqlZuMAfALxiUbwEkVRkD73pfoI9iX62ViYXNRUu02NhmY1cJi
-	hP0zsjFyCetGeebnk+lV2EOxIBH106ZzZuR+M6W1m7Nqfv94BS9ixqEIvzmAiRPNa2q8Cg5tZ6/
-	L1MpJXmifO73vcqDiuZniATL9RI+o7Ucf+nlhxreaW0eFACout+p52xC5BnD4vM5VcTfhe3QDFW
-	auTEcXPvRHB0g==
-X-Received: by 2002:a05:7022:605:b0:12c:8b9:7208 with SMTP id a92af1059eb24-130b1b67874mr477748c88.26.1777936556135;
-        Mon, 04 May 2026 16:15:56 -0700 (PDT)
-Received: from google.com ([2a00:79e0:2ebe:8:5b87:9b19:32e2:2981])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12df84252c0sm20605766c88.10.2026.05.04.16.15.54
+        d=1e100.net; s=20251104; t=1777937707; x=1778542507;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WqpTPO4JM1ij5VfC2iJKwCbrcvO2GqT/K+xw0onwWmI=;
+        b=NnaNtwS537NcTz1V7Oi7uITPRtjsNcNGHvSnYEHj/L9ef2mcdNQ5w8MAZKP0mUS29G
+         vWWhnww/iH1HKaP9EOGZ+keYusXX6q8iLjXyqw8z11K+iZTuD8jmbuxEuQeD+Buc1elB
+         UpyVJBIcUrW3F/y+JARIMbdXo2frZ0+UhPse87Iw8ghti/3BGh4GLq+RKAbNYAiIopfY
+         EfcmLuhBa/G1fpI6WyQ1DmHiROUTwxpKYuE1gsHvvr5wrG90yk8GMN6dg89jXZIDRkqV
+         OYAgwGHkx6NQroZUm/pfklY4Ske3wG5eOsQjIq2FF/SSk5aACEEteIfeTpbXc25S6TlA
+         LkQA==
+X-Forwarded-Encrypted: i=1; AFNElJ/shZ2E6PvVDAjDEBA5BVi0+K7QBRfXyh75nU94dG4VssfQi4/3/FPk6c4aKsu4ftEMsxt1C28KO1To1YlH@lists.linux.dev
+X-Gm-Message-State: AOJu0YxIPdyEMYigehRfTFOkYxX3hTL3U5LG3Hm1jCEfUOD5SINbGojW
+	jSLXtXQlFZJQfdPHKIQLpRKyzMsa1l26LXsjRT1l8ZwapmsdYyfPqGkE
+X-Gm-Gg: AeBDietCVwFgXAbw/VIq4D/fccvFnSg1YMpAaCKQhp4yAseKPYHH6ittmuUznCOltve
+	8gFdmg9Bt5CL8rGlKUKYLP+l+2NkkfjNN+XAV6wB3D/9RpGYaxKB3CZidudafNyVENNT72RlNvE
+	I/S/rKBckfudY0fhAbIBI/Um+mRBdyQN0tx2+dVdGItjAJ8fV9IcaY5uFBqrRoEYf2GRPfCSKyZ
+	+8lccLQFT87B5OaxBx9ZMPgwXhZkzES1fxBGMjQ0eTt1VxFF+F6u9PSn46eCsHwaHWVeJ76WbXW
+	uW3UGdQRCXrSpUUGGyFTsLakDqaWRQDjVd+8GDJV2uQ6zecxqpQ1TBbxFLHJLq4hvR4hH84+yAz
+	yDJ45WUA5k9I41Mg4y4czu4pVeM/XT95+Ugs/qCN0DMMPDD5KApansH/Hm1T0vYqxQ5tD6A0pjj
+	N04mSN2sn6eWVyOu8wYbz8wb9EcKM=
+X-Received: by 2002:a05:600c:4445:b0:48a:52ee:5776 with SMTP id 5b1f17b1804b1-48a986380ecmr189126045e9.11.1777937706367;
+        Mon, 04 May 2026 16:35:06 -0700 (PDT)
+Received: from node ([202.47.63.86])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a822bf3ffsm390071835e9.7.2026.05.04.16.35.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 May 2026 16:15:55 -0700 (PDT)
-Date: Mon, 4 May 2026 16:15:51 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Benjamin Tissoires <bentiss@kernel.org>
-Cc: Jiri Kosina <jikos@kernel.org>, 
-	Filipe =?utf-8?B?TGHDrW5z?= <lains@riseup.net>, Bastien Nocera <hadess@hadess.net>, 
-	Ping Cheng <ping.cheng@wacom.com>, Jason Gerecke <jason.gerecke@wacom.com>, 
-	Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Lee Jones <lee@kernel.org>, Icenowy Zheng <uwu@icenowy.me>, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, greybus-dev@lists.linaro.org, 
-	linux-staging@lists.linux.dev, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v3 4/4] HID: wacom: use __free(kfree) to clean up
- temporary buffers
-Message-ID: <afknxbpP7oj4bNab@google.com>
-References: <20260504-wip-fix-core-v3-0-ce1f11f4968f@kernel.org>
- <20260504-wip-fix-core-v3-4-ce1f11f4968f@kernel.org>
+        Mon, 04 May 2026 16:35:05 -0700 (PDT)
+From: Muhammad Bilal <meatuni001@gmail.com>
+To: greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev
+Cc: vireshk@kernel.org,
+	johan@kernel.org,
+	elder@kernel.org,
+	gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	Muhammad Bilal <meatuni001@gmail.com>
+Subject: [PATCH v1] greybus: authentication: validate CAP response payload size
+Date: Mon,  4 May 2026 19:33:28 -0400
+Message-ID: <20260504233328.7409-1-meatuni001@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260504-wip-fix-core-v3-4-ce1f11f4968f@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-Hi Benjamin,
+cap_get_ims_certificate() and cap_authenticate() copy variable-length
+response data directly into fixed-size UAPI buffers using the
+untrusted op->response->payload_size value without any bounds checks.
 
-On Mon, May 04, 2026 at 10:47:25AM +0200, Benjamin Tissoires wrote:
-> @@ -386,10 +381,11 @@ static void wacom_feature_mapping(struct hid_device *hdev,
->  	case WACOM_HID_WD_OFFSETRIGHT:
->  	case WACOM_HID_WD_OFFSETBOTTOM:
->  		/* read manually */
-> -		n = hid_report_len(field->report);
-> -		data = hid_alloc_report_buf(field->report, GFP_KERNEL);
-> +		u8 *data __free(kfree) = hid_alloc_report_buf(field->report, GFP_KERNEL);
-> +
->  		if (!data)
->  			break;
-> +		n = hid_report_len(field->report);
->  		data[0] = field->report->id;
->  		ret = wacom_get_report(hdev, HID_FEATURE_REPORT,
->  					data, n, WAC_CMD_RETRIES);
-> @@ -400,7 +396,6 @@ static void wacom_feature_mapping(struct hid_device *hdev,
->  			hid_warn(hdev, "%s: could not retrieve sensor offsets\n",
->  				 __func__);
->  		}
-> -		kfree(data);
->  		break;
->  	}
+A malicious or compromised Greybus endpoint can return an oversized
+certificate or signature payload, causing a kernel heap overflow.
 
-I'd recommend establishing a new scope for the "data", otherwise it is
-fragile. If there was another label below then this cleanup would
-explode since current scope of "data" is from the declaration point
-until the end of the switch statement.
+Fix both functions by:
+  - Rejecting responses shorter than sizeof(*response) with -EPROTO.
+  - Rejecting payloads exceeding CAP_CERTIFICATE_MAX_SIZE (1600) or
+    CAP_SIGNATURE_MAX_SIZE (320) with -EMSGSIZE.
+  - Copying only the validated size into the UAPI buffer.
 
-Having a dedicated scope makes lifertime explicit.
+Fixes: e3eda54d0b5f ("greybus: Add Component Authentication Protocol support")
+Signed-off-by: Muhammad Bilal <meatuni001@gmail.com>
+---
+ drivers/staging/greybus/authentication.c | 34 +++++++++++++++++++++---
+ 1 file changed, 30 insertions(+), 4 deletions(-)
 
-Thanks.
-
+diff --git a/drivers/staging/greybus/authentication.c b/drivers/staging/greybus/authentication.c
+index 97b9937bb..103cc15d2 100644
+--- a/drivers/staging/greybus/authentication.c
++++ b/drivers/staging/greybus/authentication.c
+@@ -109,6 +109,7 @@ static int cap_get_ims_certificate(struct gb_cap *cap, u32 class, u32 id,
+ 	struct gb_cap_get_ims_certificate_request *request;
+ 	struct gb_cap_get_ims_certificate_response *response;
+ 	size_t max_size = gb_operation_get_payload_size_max(connection);
++	size_t cert_size;
+ 	struct gb_operation *op;
+ 	int ret;
+ 
+@@ -131,9 +132,21 @@ static int cap_get_ims_certificate(struct gb_cap *cap, u32 class, u32 id,
+ 	}
+ 
+ 	response = op->response->payload;
++
++	if (op->response->payload_size < sizeof(*response)) {
++		ret = -EPROTO;
++		goto done;
++	}
++
++	cert_size = op->response->payload_size - sizeof(*response);
++	if (cert_size > CAP_CERTIFICATE_MAX_SIZE) {
++		ret = -EMSGSIZE;
++		goto done;
++	}
++
+ 	*result = response->result_code;
+-	*size = op->response->payload_size - sizeof(*response);
+-	memcpy(certificate, response->certificate, *size);
++	*size = (u32)cert_size;
++	memcpy(certificate, response->certificate, cert_size);
+ 
+ done:
+ 	gb_operation_put(op);
+@@ -148,6 +161,7 @@ static int cap_authenticate(struct gb_cap *cap, u32 auth_type, u8 *uid,
+ 	struct gb_cap_authenticate_request *request;
+ 	struct gb_cap_authenticate_response *response;
+ 	size_t max_size = gb_operation_get_payload_size_max(connection);
++	size_t sig_size;
+ 	struct gb_operation *op;
+ 	int ret;
+ 
+@@ -170,10 +184,22 @@ static int cap_authenticate(struct gb_cap *cap, u32 auth_type, u8 *uid,
+ 	}
+ 
+ 	response = op->response->payload;
++
++	if (op->response->payload_size < sizeof(*response)) {
++		ret = -EPROTO;
++		goto done;
++	}
++
++	sig_size = op->response->payload_size - sizeof(*response);
++	if (sig_size > CAP_SIGNATURE_MAX_SIZE) {
++		ret = -EMSGSIZE;
++		goto done;
++	}
++
+ 	*result = response->result_code;
+-	*signature_size = op->response->payload_size - sizeof(*response);
++	*signature_size = (u32)sig_size;
+ 	memcpy(auth_response, response->response, sizeof(response->response));
+-	memcpy(signature, response->signature, *signature_size);
++	memcpy(signature, response->signature, sig_size);
+ 
+ done:
+ 	gb_operation_put(op);
 -- 
-Dmitry
+2.54.0
+
