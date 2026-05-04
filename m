@@ -1,40 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75F32378812;
-	Mon,  4 May 2026 14:56:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3AD93E0245;
+	Mon,  4 May 2026 14:57:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777906593; cv=none; b=Cws1r00e08TqMCXoxyxTa8jV4V2t2DC9Hwl8wXD/0XVm9fZoLHly00BhOnC4fjub6GPJ9Y1frz3OJksG2NvNkwAqsUXYpk34jA93Qn53MlFIFnINC6BzBdoSrkx6sAdEPwnKegRxg6lX0BMO0PXhzF7hktYqqo6G/Rm+SSKnnmw=
+	t=1777906642; cv=none; b=gyokfqOA8jCzFo4YKRZ71e7DHB8TLfkVmLnVjYr5S1OQiWcrGdoYhSTMR2d4Oi8kYr20SU451IBqVWnjaB9F882t30ceamZmSvFi8Ts4i4yJ5lhQpliudHIlKfrIfBQrzo7PZF/4sPaCLhu6qhBW5EgGxhI0SSR7yTvVH6OBhoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777906593; c=relaxed/simple;
-	bh=KtagOfNLEs02cUVPj4FT+pAk0pBIYBNPgs62jaR0P04=;
+	s=arc-20240116; t=1777906642; c=relaxed/simple;
+	bh=bZ60xL5GqomCBM73nZx7wpbCwMvQtggO2WCNHNRRwrg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SN5MiwxExtWN+KuS21TBdMMq9ue8e0FcAzyhuBi/L5MKAK2+pcmUXwnFy1KHUtLuf7meW9kGuXHQ4M2nN/aT59h/fpFGFj4mMRANGSe6Mzrf3UjWM0n1JuT17iobB0eQWAdSM86cwg1Hl2xC4gjnWGLC6ACCSCgEdoVR8S/DQOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=rZWMKMgL; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=AnT7WdS9LX2kLzqmI9sQHcWRZ3QdMz9j8HyRthko30bKqnz9ugOWoKTuB5NdvnaptBnG8WJa7AHdzz8wWZhHoPcxDKY0lCysyTy3Lv3BBCKw4XxCAItBlB3LkbgXMSZKwOxrVobqgwoyAVpDIBMUg6qUPuLdvlNsVq1Mx9y8UE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=D/v3b7ty; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="rZWMKMgL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9353C2BCC4;
-	Mon,  4 May 2026 14:56:32 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="D/v3b7ty"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BEB7C2BCB8;
+	Mon,  4 May 2026 14:57:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1777906593;
-	bh=KtagOfNLEs02cUVPj4FT+pAk0pBIYBNPgs62jaR0P04=;
+	s=korg; t=1777906642;
+	bh=bZ60xL5GqomCBM73nZx7wpbCwMvQtggO2WCNHNRRwrg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rZWMKMgLDxLk8OfQEWZkHQ2/vZEF0UzjawV1RjbsheUbUR0tnauJh5gj5Ey5UfcDf
-	 H+BJVA+E3umxco6Q9Ic/zwyrI1E3tp4zGaooZbUCwpYQSS7Q/M+DbU4EuhAuwKuyw0
-	 PlNfJx6LjogUGtJRiBAidVhHmbbM/0lv9OhL/QtY=
-Date: Mon, 4 May 2026 16:25:41 +0200
+	b=D/v3b7tyqvvlZHAcptAZojIGR/MAMTiL7+LNw/c8/YMUEDYDTfZCBlu+BSuaAcUw2
+	 X79pyMAhoJxd1lMqHkRke3muHZO+lFGZ18YlZZGAAIqrS1OFs09X6YgrjEUZFoZ3Q3
+	 qg31XiX5vS2+05QAOzdDNtzKH3Cm2qaYuOAtR5Eo=
+Date: Mon, 4 May 2026 16:47:51 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: zain_zhou@realsil.com.cn
-Cc: linux-staging@lists.linux.dev, linux-i3c@lists.infradead.org,
-	devicetree@vger.kernel.org, alexandre.belloni@bootlin.com,
-	Frank.Li@nxp.com, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, linusw@kernel.org, brgl@kernel.org,
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] staging: i3c: add Realtek RTS490x I3C HUB driver
-Message-ID: <2026050412-bush-rosy-959d@gregkh>
-References: <20260430121354.6253-1-zain_zhou@realsil.com.cn>
- <20260430121354.6253-2-zain_zhou@realsil.com.cn>
+To: Seonbin Yoon <seonbin.yoon0@gmail.com>
+Cc: dan.carpenter@linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: rtl8723bs: Fix CamelCase variable name
+ pHT_info_ie
+Message-ID: <2026050446-catty-amenity-c1c1@gregkh>
+References: <ae8x5glEKN_3Pnfl@stanley.mountain>
+ <20260427111022.37282-1-seonbin.yoon0@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -43,76 +41,57 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260430121354.6253-2-zain_zhou@realsil.com.cn>
+In-Reply-To: <20260427111022.37282-1-seonbin.yoon0@gmail.com>
 
-On Thu, Apr 30, 2026 at 08:13:54PM +0800, zain_zhou@realsil.com.cn wrote:
-> From: zain_zhou <zain_zhou@realsil.com.cn>
+On Mon, Apr 27, 2026 at 08:10:22PM +0900, Seonbin Yoon wrote:
+> Rename variable pHT_info_ie to ht_info_ie to comply with
+> kernel coding style (snake_case) and remove the unnecessary
+> pointer prefix.
 > 
-> Add driver for Realtek RTS490x series I3C HUB devices (RTS4900,
-> RTS4901, RTS4902, RTS4903, RTS4904, RTS4906).
+> Fixes the following checkpatch warning:
+> CHECK: Avoid CamelCase: <pHT_info_ie>
 > 
-> The I3C HUB is a smart device that provides:
->   - voltage compatibility across I3C Controller and Target devices
->   - bus capacitance isolation
->   - address conflict isolation
->   - I3C port expansion (up to 8 target ports)
->   - dual controller port support
->   - I3C and SMBus device compatibility
->   - GPIO expansion via target ports
+> Signed-off-by: Seonbin Yoon <seonbin.yoon0@gmail.com>
+> ---
+> v2: Remove the 'p_' prefix from the variable name as suggested by Dan Carpenter.
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_ap.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> The driver supports:
->   - Device Tree based configuration of LDO, pull-up, IO strength
->     and per-port mode (I3C/SMBus/GPIO/disabled)
->   - Logical I3C bus registration per target port
->   - SMBus agent functionality with IBI and polling modes
->   - GPIO chip with IRQ support
->   - DebugFS interface for register access and DT config inspection
->   - IBI (In-Band Interrupt) handling
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
+> index 4b4012411011..36af7d07269b 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_ap.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+> @@ -798,7 +798,7 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
+>  	int ret = _SUCCESS;
+>  	u8 *p;
+>  	u8 *ht_caps_ie = NULL;
+> -	u8 *pHT_info_ie = NULL;
+> +	u8 *ht_info_ie = NULL;
+>  	struct sta_info *psta = NULL;
+>  	u16 cap, ht_cap = false;
+>  	uint ie_len = 0;
+> @@ -1054,7 +1054,7 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
+>  		       &ie_len,
+>  		       (pbss_network->ie_length - _BEACON_IE_OFFSET_));
+>  	if (p && ie_len > 0)
+> -		pHT_info_ie = p;
+> +		ht_info_ie = p;
+>  
+>  	switch (network_type) {
+>  	case WIRELESS_11B:
+> @@ -1091,7 +1091,7 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
+>  
+>  		HT_caps_handler(padapter, (struct ndis_80211_var_ie *)ht_caps_ie);
+>  
+> -		HT_info_handler(padapter, (struct ndis_80211_var_ie *)pHT_info_ie);
+> +		HT_info_handler(padapter, (struct ndis_80211_var_ie *)ht_info_ie);
+>  	}
+>  
+>  	pbss_network->length =
+> -- 
+> 2.53.0
 > 
-> The driver is placed in staging as it has known issues to be resolved
-> before mainlining; see drivers/staging/rts490x/TODO for details.
 > 
-> Signed-off-by: zain_zhou <zain_zhou@realsil.com.cn>
 
-We need a real name, not an email alias.
-
-And no, please don't add new drivers to drivers/staging/ especially when
-it is so easy to fix them up properly "first" before adding them to the
-kernel tree.
-
-Your TODO file is pretty easy:
-
-> diff --git a/drivers/staging/rts490x/TODO b/drivers/staging/rts490x/TODO
-> new file mode 100644
-> index 000000000000..0be2d7693d68
-> --- /dev/null
-> +++ b/drivers/staging/rts490x/TODO
-> @@ -0,0 +1,19 @@
-> +TODO list for rts490xa-i3c-hub staging driver
-> +==============================================
-> +
-> +- Move driver out of staging once the following are addressed:
-> +  - Add proper DT binding schema validation (dt-schema)
-> +  - Clean up open-coded OF property parsing; use device_property_* APIs
-> +    instead of of_property_read_* where possible
-> +  - Remove use of full_name / sscanf for node name parsing; use
-> +    of_node_name_eq() and fwnode helpers instead
-> +  - Replace global mutex (i3c_hub_regmap_mutex) with per-device locking
-> +  - Add kernel-doc comments for all exported/public functions
-> +  - Resolve TODO comment in i3c_hub_hw_configure_tp() regarding MUX
-> +    connection verification
-> +  - Remove TBD comment in i3c_hub_probe() regarding DEV_CMD security lock
-> +  - Review and fix potential locking issues in i3c_hub_delayed_work()
-> +    when registering logical buses
-> +  - Fix error handling in i3c_hub_delayed_work(): early return on failure
-> +    does not unregister already-registered logical buses, causing resource
-> +    leak; needs proper cleanup on error path
-
-All of those you could do this week.  Don't add stuff to staging that
-you are going to maintain, as it will be more work in the end.  Just do
-the needed extra effort and then merge it to the proper place in the
-tree.
-
-thanks,
-
-greg k-h
+Does not apply to my tree :(
