@@ -1,96 +1,135 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0739E31327A
-	for <linux-staging@lists.linux.dev>; Mon,  4 May 2026 08:46:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DCEF289E13;
+	Mon,  4 May 2026 08:47:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777884362; cv=none; b=JNgKLC9ug/loKRUC1dcw+uk3oxBGjuSHXkWkNCBxlmw9l8fX2gDsBkGrwghVMtKBll8Exq16i8RrNEHJzbdcRUa16J+/cg80CFxelJJQhS5O1pGHlsbDla3yQGTNiExNylgFXi5RWfHT6cfWWYL8/xHuGny/O2o3Hx3e6ZjUYiM=
+	t=1777884463; cv=none; b=UyAYe2YZCK785Kqn3kuDJRKzV07uC4J/kKZiQRHcCyYW7rLetvW773ZZt2equZl/jADp4DYnydkGL08e65DJL+vqgUVhue2ysMFBXNPH7aJG0/qeScHbcsOia6P8dY2uW/JQ/4YABUG0zqVKuwFQx3A9AvM+0Mqzpl3/YmLNjvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777884362; c=relaxed/simple;
-	bh=yWEzCDgoGDnMWPKJjVfR9r0muUqxhdSGv8T8xVqkZ8g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mlh31rMTjKOOs9XX3FoJc5OyiGVoHzE4EtSSSa+IiIR6N2EbRpoDYyI91pMKCI51PJ/o6jJ6rsUxhusyGw6NWmaR2xUJkXsCjYgb0usagk/CN0OIIGf4ir7fKoFdKK4/jf5VLMiV/19MuUpcKUvAW6fZv895tjSP5nUDRyTkYUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DtvPvzgh; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1777884463; c=relaxed/simple;
+	bh=b3z35is89oPXeENyhLsF89vCn8J4SZIObLZfQ01bcQA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=TTlvadZaChKEjuiJpRKLudYcbZcX8XATQ1sCcaXqRmrlPJCVBr6RLpfudlP4/kiS3iL18TuSLUrJ5OVyefMZ0IkDJ30h298in3mBj0kx4/vFWSK25j34kjToBFm3+EdPVyzhn6STNKIIkOEyRX+G7vTlnLwGJyYOBYiXOgN1M68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RnsNA/ma; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DtvPvzgh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777884361; x=1809420361;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yWEzCDgoGDnMWPKJjVfR9r0muUqxhdSGv8T8xVqkZ8g=;
-  b=DtvPvzgh0I8aMasYcLz2tP3SUoaQCXZjrvoo/qVbUNIduhFFpa+9EMs0
-   LWNpquREBajvfcGhYSwX0JCQb+KzyDtfWJyi+mgCviVN+CjBXsMBeIv9p
-   /QdCARrxmIIfwm2AwCHE9f5qrxNoDXk7YMYuxFl9Uu/7E8sp/JSaowIR1
-   udfD4oHsQE6S3MqS6n91YPGqJhaqC9G0zI0KLBA5+8y69eyvJYHPH/DOY
-   1DUdtxbZoQRQd7/yL7KO4fVMiNatPNo/OanekEzto7ONA5+KbQWmOMV42
-   kqRNDu9TDT6gNXymr49Vsf+8J8HZUohXnVrrb0as/4D+bO5RueN1XpFCZ
-   Q==;
-X-CSE-ConnectionGUID: F1W0plCTSgunxH25DcFyqw==
-X-CSE-MsgGUID: MqHfK6aZRvupLdhd+AO1hA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11775"; a="82349930"
-X-IronPort-AV: E=Sophos;i="6.23,215,1770624000"; 
-   d="scan'208";a="82349930"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 01:46:01 -0700
-X-CSE-ConnectionGUID: S6cLh6lERmaxYO/jal4ZyA==
-X-CSE-MsgGUID: q5GrRO34S1m1keH3QGBBtg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,215,1770624000"; 
-   d="scan'208";a="240441681"
-Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.245.78])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 01:45:58 -0700
-Date: Mon, 4 May 2026 11:45:56 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Shirin Kaul <shirin.kaul11@gmail.com>
-Cc: linux-staging@lists.linux.dev, gregkh@linuxfoundation.org,
-	hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com,
-	andy@kernel.org, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: atomisp: isp: xnr 3.0 fix whitespace issue
-Message-ID: <afhcxJeQ19nXKvAo@ashevche-desk.local>
-References: <20260502082516.16302-1-shirin.kaul11@gmail.com>
- <20260503105445.45058-1-shirin.kaul11@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RnsNA/ma"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EABCAC2BCB8;
+	Mon,  4 May 2026 08:47:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777884463;
+	bh=b3z35is89oPXeENyhLsF89vCn8J4SZIObLZfQ01bcQA=;
+	h=From:Subject:Date:To:Cc:From;
+	b=RnsNA/makSoQ3GKhXZ7RamY3KP4fb8iU5LMyDvdMQsxTKLLeDPRHlrZSrSPddgJHn
+	 qnq1kwn9KqDwoQ3rotidKz4FMqAI6ZTRFhuT9XUZzFH4fxOChmXwsl4ApBLqUrXmck
+	 6O2PLa1RUlnArZtLAU/ONFSlc7pFJExQ00y7JShaqYdjV/EgEK1I0cDG3b/jslwdHD
+	 OsyJclo1/rt58u3Raq6zeWnDCZI0K/VleAQUmTFfYGf1zkwCvLpiI86wOHkRfSoWlW
+	 j3C+UPWpyUysZ1gN8uaJWq/uZ4NKidN08hpHk2UnDS99U+PWH+5f/Q1FYsllbXKv/q
+	 Xtrum7QyJyacg==
+From: Benjamin Tissoires <bentiss@kernel.org>
+Subject: [PATCH v3 0/4] HID: Proper fix for OOM in hid-core
+Date: Mon, 04 May 2026 10:47:21 +0200
+Message-Id: <20260504-wip-fix-core-v3-0-ce1f11f4968f@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260503105445.45058-1-shirin.kaul11@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3WMQQ7CIBBFr2JmLQamBaor72FcKIwt0ZRmMKhpe
+ ndpV2ri8v2f90ZIxIES7FYjMOWQQuwLVOsVuO7UtySCLwwo0chaafEIg7iEp3CRSVjfaNdoZch
+ LKMrAVL4ldzgW7kK6R34t9azm9U8oKyEF+crVrsFKWb2/Evd020RuYS5l/LTNj43FPtMWtZWkD
+ dove5qmN9NKrg3nAAAA
+X-Change-ID: 20260415-wip-fix-core-7d85c8516ed0
+To: Jiri Kosina <jikos@kernel.org>, 
+ =?utf-8?q?Filipe_La=C3=ADns?= <lains@riseup.net>, 
+ Bastien Nocera <hadess@hadess.net>, Ping Cheng <ping.cheng@wacom.com>, 
+ Jason Gerecke <jason.gerecke@wacom.com>, Viresh Kumar <vireshk@kernel.org>, 
+ Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Lee Jones <lee@kernel.org>
+Cc: Icenowy Zheng <uwu@icenowy.me>, linux-input@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, greybus-dev@lists.linaro.org, 
+ linux-staging@lists.linux.dev, linux-usb@vger.kernel.org, 
+ Benjamin Tissoires <bentiss@kernel.org>, stable@vger.kernel.org
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1777884459; l=3032;
+ i=bentiss@kernel.org; s=20230215; h=from:subject:message-id;
+ bh=b3z35is89oPXeENyhLsF89vCn8J4SZIObLZfQ01bcQA=;
+ b=TQu4P6b/RpFFvIMfL1ijYih/MvkNRh3fGMcO4Ui85Axyhiy6Mph0TvOIA5M5ZUHVq7eeGevLa
+ ZMI+iRgeurEBZPCLqYX6YRidM81bx1IftPpaEpZ8G6P4UNKjQPfQCFz
+X-Developer-Key: i=bentiss@kernel.org; a=ed25519;
+ pk=7D1DyAVh6ajCkuUTudt/chMuXWIJHlv2qCsRkIizvFw=
 
-On Sun, May 03, 2026 at 10:54:45AM +0000, Shirin Kaul wrote:
-> Fix spaces by replacing them with tabs in function calls to comply
-> with kernel coding style with checkpatch.pl.
+Commit 0a3fe972a7cb ("HID: core: Mitigate potential OOB by removing
+bogus memset()") enforced the provided data to be at least the size of
+the declared buffer in the report descriptor to prevent a buffer
+overflow.
 
-Subject is wrong. The patch doesn't cover things outside the single file.
-The patch does two things (has to be split). Also patch doesn't anyhow
-rely on the preexisted changes that were submitted to the mailing list
-(that cover much more that this one).
+We only had corner cases of malicious devices exposing the OOM because
+in most cases, the buffer provided by the transport layer needs to be
+allocated at probe time and is large enough to handle all the possible
+reports.
 
-> v2:
-> - Added trailing commas in arrays
-> - Fixed indentation
+However, the patch from above, which enforces the spec a little bit more
+introduced both regressions for devices not following the spec (not
+necesserally malicious), but also a stream of errors for those devices.
 
-We have special place for the changelog and comments...
+Let's revert to the old behavior by giving more information to HID core
+to be able to decide whether it can or not memset the rest of the buffer
+to 0 and continue the processing.
 
-> Signed-off-by: Shirin Kaul <shirin.kaul11@gmail.com>
-> ---
+Note that the first commit makes an API change, but the callers are
+relatively limited, so it should be fine on its own. The second patch
+can't really make the same kind of API change because we have too many
+callers in various subsystems. We can switch them one by one to the safe
+approach when needed.
 
-...somewhere here.
+The last 2 patches are small cleanups I initially put together with the
+2 first patches, but they can be applied on their own and don't need to
+be pulled in stable like the first 2.
 
->  .../kernels/xnr/xnr_3.0/ia_css_xnr3.host.c    | 29 +++++++++----------
->  1 file changed, 13 insertions(+), 16 deletions(-)
+Cheers,
+Benjamin
 
+Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+---
+Changes in v3:
+- fixed ghib -> ghid in greybus
+- fixed i386 size_t debug size reported by kernel-bot
+- Link to v2: https://lore.kernel.org/r/20260416-wip-fix-core-v2-0-be92570e5627@kernel.org
+
+Changes in v2:
+- added a small blurb explaining the difference between the safe and the
+  non safe version of hid_safe_input_report
+- Link to v1: https://lore.kernel.org/r/20260415-wip-fix-core-v1-0-ed3c4c823175@kernel.org
+
+---
+Benjamin Tissoires (4):
+      HID: pass the buffer size to hid_report_raw_event
+      HID: core: introduce hid_safe_input_report()
+      HID: multitouch: use __free(kfree) to clean up temporary buffers
+      HID: wacom: use __free(kfree) to clean up temporary buffers
+
+ drivers/hid/bpf/hid_bpf_dispatch.c |  6 ++--
+ drivers/hid/hid-core.c             | 67 ++++++++++++++++++++++++++++++--------
+ drivers/hid/hid-gfrm.c             |  4 +--
+ drivers/hid/hid-logitech-hidpp.c   |  2 +-
+ drivers/hid/hid-multitouch.c       | 18 ++++------
+ drivers/hid/hid-primax.c           |  2 +-
+ drivers/hid/hid-vivaldi-common.c   |  2 +-
+ drivers/hid/i2c-hid/i2c-hid-core.c |  7 ++--
+ drivers/hid/usbhid/hid-core.c      | 11 ++++---
+ drivers/hid/wacom_sys.c            | 46 +++++++++-----------------
+ drivers/staging/greybus/hid.c      |  2 +-
+ include/linux/hid.h                |  6 ++--
+ include/linux/hid_bpf.h            | 14 +++++---
+ 13 files changed, 109 insertions(+), 78 deletions(-)
+---
+base-commit: 7df6572f1cb381d6b89ceed58e3b076c233c2cd0
+change-id: 20260415-wip-fix-core-7d85c8516ed0
+
+Best regards,
 -- 
-With Best Regards,
-Andy Shevchenko
-
+Benjamin Tissoires <bentiss@kernel.org>
 
