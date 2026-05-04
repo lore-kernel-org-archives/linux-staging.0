@@ -1,64 +1,65 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 102652D7393
-	for <linux-staging@lists.linux.dev>; Mon,  4 May 2026 06:54:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D9232E093A
+	for <linux-staging@lists.linux.dev>; Mon,  4 May 2026 06:54:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777877651; cv=none; b=O77jnx3KN883iyznE4bYqNjg48ptoJV/EEtDnrrydsftYJaQfTgkMb1X00ZDGbwQOhNxvwW4tNffX5pDxsiY1vKggLBhLw8TGp2DXAWez3nmj7AthGx7KChfHCP0aKPtZYF5Vxqs/F/CoMcqdQO1FiY+ltIZMy6F7Y8qH5RybnM=
+	t=1777877656; cv=none; b=BNaYx51FRlojiunxaCnQc0ZpaSm7wS8bppexqZhJk7qEPXrL/b3FHBCsCnwFE4Ia7jBK1lIn4pHozD9tkmqG7lj4Kw3c4t/r8fu8RLVz8w2Cxc6GM3WGe+mqZ1UJIOZ5UeKGn+Id/iZ73MC/E9DLOdLJNtGJimc6lovVbISwVN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777877651; c=relaxed/simple;
-	bh=ne42xYajKx8Kiea21amC61A8URblNNdzVSYQ5+DXQtM=;
+	s=arc-20240116; t=1777877656; c=relaxed/simple;
+	bh=tLwMsZtKESL5KitvooJvICOu2RrZ4OM6qvgcLZaroZk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=HvtPaDzKHj8L+CTM4xsLvNCBwdUDyggtBGe6EWAtgH7TssCyLwOjX3hixTOygPmJI412JHM37+eyyqRQeM6mOImY51xikdTaXvoNhO6R1+glJBMfOp4tz72K7YtNxXBpLrGxGwbL0aBFqGCr/xrZr47xajnCU7HNt8JDaK68HTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Q1SOneHt; arc=none smtp.client-ip=209.85.167.41
+	 In-Reply-To:To:Cc; b=jUWkou4s2j/stj5Igb6Broa0ohLwTmd3RCJ2cNpv+HKybDEMWbsxXcrDiv72d+XRJm1dpWbMWTpOHe/VuvhqY+Y2P2wjRJyqPSZ1/FmIvpvhkdL6lu0HjN1ltRkqq7tZZFBQjJ7atgr4QNTCdTZGehFRQK2PsMH+3QYW+A7lmJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=IAl0p3nd; arc=none smtp.client-ip=209.85.167.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Q1SOneHt"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5a86bfa2a4eso1678279e87.1
-        for <linux-staging@lists.linux.dev>; Sun, 03 May 2026 23:54:09 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="IAl0p3nd"
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5a0ff30b240so5572559e87.0
+        for <linux-staging@lists.linux.dev>; Sun, 03 May 2026 23:54:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1777877648; x=1778482448; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1777877653; x=1778482453; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=VgEZKNrl10DgxlH1xZQyC/yRD4psOac+PKsvu6TEYIs=;
-        b=Q1SOneHt45QURe8LKjDMB28c+T/Y/X/NfvRckknytpJwQeAK/tAXSbUHnh5oRpu1mK
-         OLjh7cmHOpGCchl0WhJerNgEkeZTuxwFtlpbHtE+Pi6v0I2dwQQJqPPQjr2YcOUNzK3x
-         Rzmp9vB1hv8C6PAmViLe6RwMxx0ExzjsGESrs=
+        bh=DO6EYg4vrsGld5Vns0zx8Rx5L9ViOljnC9zyP7KqNys=;
+        b=IAl0p3ndHpv6Z2+W+8JKMKWAtCppe7ni/SMYAHWcQiWM6F1pV3OPE60hK2s6WRkXjK
+         Vork7PDc4gKqiAqgkR6MvGSfvP+brd2hPNzdAAi4QywZIQA9a3ltX1o8G1NQXeNTGQPS
+         6pU0KtQKK3JCYPIh7GFSMfAcpaTXsRKQjVt0c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777877648; x=1778482448;
+        d=1e100.net; s=20251104; t=1777877653; x=1778482453;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=VgEZKNrl10DgxlH1xZQyC/yRD4psOac+PKsvu6TEYIs=;
-        b=iGNeCi+5G4yNyYGSg2daF+ZupSOfH0G87fCSI6SUKiIXNhD4rrzYA4GcCyNQCJ36Kb
-         J+81p/REtuKN6/YIrxjBU2jfjngzzO+lip044P2E+iCfk02FL2avEMYLMCx5ZaOO7Upj
-         Ji1+i907As/buE5lQsBh89+Z2OPgsYxu1QvRT0BQ58EQB+dKUAFFpWONKuLoyDI1eIeO
-         kV5FzrBK2VrUP7PFJmJiE4WFeYT3fy+G8rc7QUOXUhhajwsG+1DncgktoVsgqqNvG6YS
-         zsONmB4kzcZxhqpfZWhI+ApBcGDeAmviqAEYG0sWjEcwcAfVlvinqrmgWTOAUcSTB5a5
-         V/Sw==
-X-Forwarded-Encrypted: i=1; AFNElJ+ecJAcXifQcz7tDtAuYub7Xvl+xxMsCsvdYLNz90c5rm+WQmWDvvGRyjo+S0puPWW4b9DD5tvGXR2mkGc+@lists.linux.dev
-X-Gm-Message-State: AOJu0YwHOciWMHYScHZNajFaCWVWexcD6lpaLjsOba5x48NIHDgjRRGb
-	pS+KtFlKZ1jSboWCvMwHSEJKyjQSaMLjpq6l+w6t5RwcXSWLetHQsY+VvAlVX9EIJA==
-X-Gm-Gg: AeBDieseXY7WLfssWOcBewnjQtbcWkr2T1uC4qf/4AI5h2sKNcZf7H1Y2fLSdZm72vK
-	eWhnCRvNIppXn5O90VqaH9W8R7wuHI/WWaSsUMzmdH4GU1SCC1xk5kvUdvdbVRNws5EjGyE17qZ
-	Z9N+mssdYIkDhyqDikR95NB8F/PaQYj7oCPtjrhSCIj3hctSHAVgG0eksQiHC7w2kgdNOCHaxme
-	fODgphYDfsSGlv6wOMiXnqscvneqIrXxMSQzxTxs7PkW9EDIbxiU7O1CIyz3ILAGuK8r756ZLAA
-	ZORiM4PX6MKVlOd7rsWmbSAlPKYYCaH29g6NWcH9LeOVpDPxkbT6hDVwcfuzb/edRLnTcuHe+9K
-	DOOENTdwO5NsmAwVu2AWS181A+BsYqUcnbRhOigCPs3F3LB0LFO4o7WOL1CVrX0TvTVYf/gmWeb
-	sVUV2oSbPNXXLrrl52bfd7FOtVXgXltvhZrhAHJGtxggBwQZr/d6yHlP0d2DzbVZ8pIB4DDXqIE
-	2sf7gDeFFmrQviaAA==
-X-Received: by 2002:a05:6512:114d:b0:5a8:7352:a885 with SMTP id 2adb3069b0e04-5a87352aa2bmr615908e87.17.1777877648177;
-        Sun, 03 May 2026 23:54:08 -0700 (PDT)
+        bh=DO6EYg4vrsGld5Vns0zx8Rx5L9ViOljnC9zyP7KqNys=;
+        b=qoXTJYg1UCAB/zlZVPJQCnO/sYbaIfc83gzNI6lBvXtD3fl9bWX4B7Pdj9QmTql+bi
+         8SFC+FIzeiqy4SNcLELpk9+FrZe34mVl1ylaf3hjYkXChWDwVwsK9fE3oKEsRfdMACJe
+         iKGuJ4ihwFtLeYrJbrG99Vh5ICMhfIhbv9eYe7B2v/ZlexdlScROJPBeP41qi6jzbDC1
+         VMlfA+k7K/xuBjL1jr1QBialz+Q2Vv4eNQmWNTM8FvCLkL5sfg/mtEQdmZuAQULViK4i
+         A/vl7Ukmh/agXOKUIy9wtrUE9swmXN1p0fQITOi1ajKKx6RN4Ygwg3gEJ9th47KjMU9O
+         arIg==
+X-Forwarded-Encrypted: i=1; AFNElJ8OeChghoXlKdTBRvkHg8suzUOcxMzn+NrLPsLpGVI3iW8OaVB7pqw1PT22PKPrLf/k3wRUSZHMTglnPt5/@lists.linux.dev
+X-Gm-Message-State: AOJu0YwE/nyFxBRfamKOrm6HWc9S2XMOa1q0i10nFOLxpGnOJSOwcTTK
+	p/ZyhaaPIui6tntaq7CE/3AuD5s92V2RRfd/uDirn849BfoqwgA0t+s0+tR5tJc2nw==
+X-Gm-Gg: AeBDievZ9CyWgK1VGTgFiL5gksO6RjO3cBWQiaft9LwOPNz2CnaFDZHzRMkTI8g4zCa
+	QEAkCHMqo5xKpL7v9L6YidQRzJnKSba/H9StnItaqi0Oup4dfLiSv8CB3CTjRpEUa7pAg4MmOLH
+	zq7hht6n4vC9PgeXfrm1iZMsmTVIZW8oWo4DeI4HPNFiBo8UKVvMzBMH4rpp09M/7MiXifuOcsY
+	UixJb9BWcUzZggzdRhNDREop5KwNWpFhnuX0Gp8I+ialSyeasrTBdxSJ82BO1xenBOhUmo/BRiE
+	0N4T2WQaz6Vb+jA11+scPCWvfz/K5e54/g6ny41t4vRVvAOajwHWvt08n0sVRoPbFiQgMVurxOh
+	nwj8GU5ADz8br2B/44fGd2yv4e03TNEkaEvajzA5Q8gQDocBSiyI51I9Y4OaHMsxbZgBZMUfCzs
+	njwP2v7nzSU8KxJamV/TjrvBAMcVsJAJRP0IV5vRcOv9aB/pxHC0ZwmNeBhkffG0MiMN/JelRnQ
+	kG9DQgGlNYVxKfmeUXYXHzN6tj3
+X-Received: by 2002:a05:6512:3ba2:b0:5a3:d1d9:6080 with SMTP id 2adb3069b0e04-5a8631c00famr2451231e87.29.1777877651260;
+        Sun, 03 May 2026 23:54:11 -0700 (PDT)
 Received: from ribalda.c.googlers.com (52.163.228.35.bc.googleusercontent.com. [35.228.163.52])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a85c22e1d4sm2674579e87.9.2026.05.03.23.54.06
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a85c22e1d4sm2674579e87.9.2026.05.03.23.54.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 May 2026 23:54:07 -0700 (PDT)
+        Sun, 03 May 2026 23:54:09 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 04 May 2026 06:54:04 +0000
-Subject: [PATCH v3 1/6] media: v4l2-dev: Add range check for vdev->minor
+Date: Mon, 04 May 2026 06:54:05 +0000
+Subject: [PATCH v3 2/6] media: i2c: mt9p031: Rewrite assignment to make
+ smatch happy
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,7 +68,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260504-smatch-7-1-v3-1-fda125c30058@chromium.org>
+Message-Id: <20260504-smatch-7-1-v3-2-fda125c30058@chromium.org>
 References: <20260504-smatch-7-1-v3-0-fda125c30058@chromium.org>
 In-Reply-To: <20260504-smatch-7-1-v3-0-fda125c30058@chromium.org>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -85,37 +86,31 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.14.3
 
-If the fixed minor ranges are not properly set we could end up in a
-situation where the calculated minor is invalid. Add a check for this in
-the code to make it more robust.
+The current code makes smatch a bit uncomfortable:
+drivers/media/i2c/mt9p031.c:799 mt9p031_s_ctrl() warn: assigning (-1952) to unsigned variable 'data'
 
-This check also fixes the following false positive smatch warning:
-
-drivers/media/v4l2-core/v4l2-dev.c:1036 __video_register_device() error: buffer overflow 'video_devices' 256 <= 288
-drivers/media/v4l2-core/v4l2-dev.c:1043 __video_register_device() error: buffer overflow 'video_devices' 256 <= 288
-drivers/media/v4l2-core/v4l2-dev.c:1101 __video_register_device() error: buffer overflow 'video_devices' 256 <= 288
+Probably because smatch is not clever enough (yet). Do a simple rewrite
+to make sure that smatch understands what we are doing here.
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/v4l2-core/v4l2-dev.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/media/i2c/mt9p031.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
-index 6ce623a1245a..5516b2bbb08f 100644
---- a/drivers/media/v4l2-core/v4l2-dev.c
-+++ b/drivers/media/v4l2-core/v4l2-dev.c
-@@ -1032,6 +1032,11 @@ int __video_register_device(struct video_device *vdev,
- 	vdev->minor = i + minor_offset;
- 	vdev->num = nr;
+diff --git a/drivers/media/i2c/mt9p031.c b/drivers/media/i2c/mt9p031.c
+index ea5d43d925ff..8dc57eeba606 100644
+--- a/drivers/media/i2c/mt9p031.c
++++ b/drivers/media/i2c/mt9p031.c
+@@ -796,7 +796,8 @@ static int mt9p031_s_ctrl(struct v4l2_ctrl *ctrl)
+ 			data = (1 << 6) | (ctrl->val >> 1);
+ 		} else {
+ 			ctrl->val &= ~7;
+-			data = ((ctrl->val - 64) << 5) | (1 << 6) | 32;
++			data = ((ctrl->val - 64) >> 3) & 0x7f;
++			data = (data << 8) | (1 << 6) | 32;
+ 		}
  
-+	if (WARN_ON(vdev->minor >= VIDEO_NUM_DEVICES)) {
-+		mutex_unlock(&videodev_lock);
-+		return -EINVAL;
-+	}
-+
- 	/* Should not happen since we thought this minor was free */
- 	if (WARN_ON(video_devices[vdev->minor])) {
- 		mutex_unlock(&videodev_lock);
+ 		return mt9p031_write(client, MT9P031_GLOBAL_GAIN, data);
 
 -- 
 2.54.0.545.g6539524ca2-goog
