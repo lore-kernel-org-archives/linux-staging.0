@@ -1,103 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0388A39B97F;
-	Mon,  4 May 2026 16:03:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777910585; cv=none; b=SVvOFI5wdb+qfxVKm9NZtgE9f1lC/1sQIivdoodsMMqpkfqNLB5KxVHwzS5VIp9uZhebPllFNeLZ6EsMASbEiex+cX/alPYVxY0y8W5vQdgq65cs1EGav3uOwIOtmtVjkzdT4fz7oSigpe1LjCgoJeMgVJtELrbYp+IsUERMAvc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777910585; c=relaxed/simple;
-	bh=MquTlFp80T6ZCdO4Poniu3OoOL4Jn+PRvnOMfdB6ngc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eVk23P4hJFvNRcQ30qSiQhCugpcBnAIu8/S+0ASSd126obQQHw11ZIbN197YUqld39ygYiA1SvaRAu72D24VrPQnMXkyD5mnq4x5RwCLfae+2IgfciATOQfmH09HI9F9xE6uGYQZmljMkPCI9+yy4/FH/bsyMk7vkKBGbO6iU1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=e2SciqKd; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A11E93DE434
+	for <linux-staging@lists.linux.dev>; Mon,  4 May 2026 16:10:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.175
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777911041; cv=pass; b=BQctUFd+JrTxXYOwHx8riMBJcIy5hUfTbR9lyvBCTG4lb7J3ZrtxMO4BJE31CB71arD+w4cqYcBnEu8y6WlCgjey1twcSp7L+0w/mgBPIdhCVcDmuDy0SmBwBt0Ik8gO/IOluOSWlbzhYG0j+/5NCs7EpOEhzqSl8M+rj04yRME=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777911041; c=relaxed/simple;
+	bh=QXSLC9K2LUyolFUxq1Np6YwX9Z+I2FxGsd//jAT5sO0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bzQrZcLIU9Ew7P5cEFFyHDkW77tjoSbgCCYAM6uBUnP6DcWX+CTmBqA+uchAX3hDfYH+pY5EbGMNK6iBmI23tCSW4o39YSMbz4RHPLn9UTG4BagltODiVWjZmctpDrEPM6AXQF1wbR/i9U3oxRQZyzZjN8MTdC4noEqvlYi6yi0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DE7Yo24a; arc=pass smtp.client-ip=209.85.128.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="e2SciqKd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3438AC2BCB8;
-	Mon,  4 May 2026 16:03:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1777910584;
-	bh=MquTlFp80T6ZCdO4Poniu3OoOL4Jn+PRvnOMfdB6ngc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=e2SciqKdaX8KOm507QbAl8NxRfNTVYnWNQUK+iTFAXJgD1zkZS1yKsOPW9eTHIpAS
-	 TCkSSCKTA1yjOwddwXRK6lJ9J9hL9oAFazrSmcqgCTNXbHfgiEFHh0dfVJpBUi+G1p
-	 XewYSTwmYhmGZhfkK1ea4U+mRUGkb3DM1hPboJ/M=
-Date: Mon, 4 May 2026 18:03:02 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Feng Ning <feng@innora.ai>
-Cc: linux-staging@lists.linux.dev, Luka Gejak <luka.gejak@linux.dev>,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v6] staging: rtl8723bs: fix heap buffer overflow in
- cfg80211_rtw_add_key()
-Message-ID: <2026050458-numbness-haven-1ae4@gregkh>
-References: <20260413113224.5201-1-feng@innora.ai>
- <2026042626-tabloid-suitor-33c5@gregkh>
- <20260427111738.33069-1-feng@innora.ai>
- <2026050417-monkhood-backless-4c3e@gregkh>
- <20260504154823.52057-1-feng@innora.ai>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DE7Yo24a"
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-7bd8c55c885so15212647b3.2
+        for <linux-staging@lists.linux.dev>; Mon, 04 May 2026 09:10:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777911040; cv=none;
+        d=google.com; s=arc-20240605;
+        b=DevlWd0OOtigFYf0avlFVB0Mfx05OYxb3eqHPImTO13WZzYhGCqlDAv7if6qXSZwxZ
+         NmuivHjdKkN4bw7db4xWh0NmRKZ8c/XsZVOPMKm4GUlMqcfZv1fyMXPayTq01ULkcHZi
+         7AdcQ11UP7FvcDZoQZvpudVEWfEk2o59GFTTmUJvWe3KuK8oBrIRSQ2ElgpWvpySxt2u
+         eQqCNZ9FEe2scCnelJWoy+7LrlJDAEx6VeKUhtjSkWQgzrsUdA3LYfCvsdbDHbGdTIJL
+         EES99Aftu1BQjn1o8Lc7YBKmYr1veQyTaH2ldUn6hblTcvraV7L0jUDIAP7n9emhclp/
+         fZZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=qutAn5+FACFY9CJnkdgihQani3q+IAXospNoRfuglOI=;
+        fh=siuKiK6SRDFvKkdSNqKq0Jink5i2CDvGyHCYupfDtBw=;
+        b=ZkDe7W01+FWd1mWtYNqUzCWOxG7HiSRoC1KeFxVafag0BmrirbfkiflrqyUulrqZDv
+         NRe/NhTlQuy0hQxiF1N65QgqvaVKlHyRB4wET3GlvvTmU3xZFAGeoB49enPuqeoqj9SA
+         KtUqhpYdn0h0baLhMhy649+uWiMlXESrzKixHguK13gKzv5Ru+OaCccbbM+/wBa/2qeD
+         HgLTX7Cy2CKuqO1KHZVUByI83OmDtddQ3DQBXfJbUsbN4kjNxa4rNOC6qYxhNbv3vLKQ
+         UEB178GxcY/hpm7cTQk2V6xdpLiv0I4dTmiLPue63V2eT5rlXlz27DaWJa89HynGQ0M5
+         Uhfw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777911040; x=1778515840; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qutAn5+FACFY9CJnkdgihQani3q+IAXospNoRfuglOI=;
+        b=DE7Yo24aMKwP9kVc+OzPBl1N2lEsxShwfHfLUrYyHgsWe1glsNS8td1mmEm1/on+ol
+         wTKrhmx8IwmGW0Xge/k8LdJF/ViNGjpmD2KuNP5VVSxE5P9UApB6398sWYxRAQ8EtUHh
+         Tm2oTxPzGZGojT6oLer8DidHNMAbqbY1G6nJD3Si9QPdHj8yPevzmlgYpZi9ZW82LPov
+         SdxROELTV3KWSV8acCclpxExADAIoTJU+S0rMUZJOWf256iY1rdTYCzMWe/dcRurCtME
+         gly4cJiYPuvcZekeZxpxSLsgin+QxfhVpWng27TKzByq4Wi/HQBLOUfSkGkhcnCEf0wz
+         yPMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777911040; x=1778515840;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=qutAn5+FACFY9CJnkdgihQani3q+IAXospNoRfuglOI=;
+        b=HaVbTCtdKWmdUqJq6wm46WUoOKYBH3YZdJ3Etv4yr0gQu4KMyyyCVqBdd7M1UjBClo
+         pWjsgX6s9ig5DoUoEUhUsVUf7CXZJgB/ayLnnLDE0O+1hBm1cx5i1lhBgNNG2M5Roeym
+         6S7nwZHNrtYw9DuglNBgaEkbW9IW+yEwPUDkaDztE9/ndZ1vYrumPunpHssRXNbuhhDy
+         wHiDenMLJRM5v1JLz+7D61uJnEl74xPcUyWvTEGTi8nwK9gf4ZWs9OBTpKeU/4k8gny8
+         Bcpx+bOHkobZGcD996A+FVARy0gkqdAh3OI/Ehv5WQrURas+jRJRZoz76xZ1QW77bXAW
+         vPcQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+t65UXKS1ZWu6eN0Pd7ZYa4Cz6zR9qlq37cwwamr2WgU7fvDFFV/JEEOscABztOlscmW2ygSjgtyI4zXRq@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzd0hfzkq9+OS0+AvKlsoX7buml/Pz9asoPHBUKQkKqEUBagKxu
+	k16WS6AoZHsGC67T3QAGAbWHsPXeD+AoIV0jAo7QxO0Snu1DEGWJJNulIl6Vt/ZlwVXVWh5z/Hs
+	LDUQdVBCqCL3NLeOfJYPXGrXnOxRHOk8=
+X-Gm-Gg: AeBDievM1GrWgy3tMlJoJgsN0gHS4s3j7mvGzR3LfmBNxwkYyiPDJhlDB0OSWv9YaXw
+	jQEhzg89A6bzi2zgZGVkjaFyAlazWxWvV1HU4Ayva6WvJYrJooBOPzDAi432uexQqErGxb1rQfP
+	+RZCbcLYeDTrqMY4j3vXRChWBnOFO5zi3KviEIlXtA6mBFAkw4BtZ0+5X6f9y7NB23qo0QVc1rn
+	1jwkENM5++IwTqbgkogxBxrrFdQG/41zTbGrcH8S1t05qFiPsIM9XY9cXRAR3LUQfEm6avPVYl3
+	ypEIfZT/ccxrlmPf9axKEMcJmpdFj1I=
+X-Received: by 2002:a05:690c:c6cb:b0:7bd:4792:66f0 with SMTP id
+ 00721157ae682-7bd7716fbc0mr81990687b3.46.1777911039612; Mon, 04 May 2026
+ 09:10:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260504154823.52057-1-feng@innora.ai>
+References: <20260504092059.1536094-1-angusg778@gmail.com> <20260504162346.53668925@jic23-huawei>
+In-Reply-To: <20260504162346.53668925@jic23-huawei>
+From: Maxwell Doose <m32285159@gmail.com>
+Date: Mon, 4 May 2026 11:10:27 -0500
+X-Gm-Features: AVHnY4Knbk-TsM_DmQ2n_xN8NRlpmOqGAfjG9IJqfTYXUwMg5Fq9WPp19C79NKs
+Message-ID: <CAKqfh0FiqN3ztMxYRWasj8+2+z0wvYanrdfvze4z3U8YVcgS9A@mail.gmail.com>
+Subject: Re: [PATCH v2 0/3] staging: iio: ad9834: driver cleanup
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Angus Gardner <angusg778@gmail.com>, linux-iio@vger.kernel.org, 
+	linux-staging@lists.linux.dev, gregkh@linuxfoundation.org, lars@metafoo.de, 
+	Michael.Hennerich@analog.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 04, 2026 at 03:48:30PM +0000, Feng Ning wrote:
-> On Mon, May 04, 2026 at 04:12:44PM +0200, Greg KH wrote:
-> > What about these review comments:
-> >         https://sashiko.dev/#/patchset/20260427111738.33069-1-feng@innora.ai
+On Mon, May 4, 2026 at 10:23=E2=80=AFAM Jonathan Cameron <jic23@kernel.org>=
+ wrote:
+>
+> On Mon,  4 May 2026 19:20:56 +1000
+> Angus Gardner <angusg778@gmail.com> wrote:
+>
+> > v2: Split into a series of three patches as suggested by reviewer feedb=
+ack.
+> >     Also add a missing dev_err_probe() conversion for the SPI init erro=
+r
+> >     path pointed out by Joshua.
 > >
-> > Are they incorrect?
-> >
-> > And was this tested on real hardware?
-> 
-> Hi Greg,
-> 
-> Thank you for the pointer to the Sashiko review.
-> 
-> Regarding the review comment (Medium): Sashiko suggests returning -EINVAL
-> when params->seq_len exceeds sizeof(param->u.crypt.seq), rather than
-> silently truncating with min_t().
-> 
-> The comment raises a valid point.  I chose min_t() for two reasons:
-> 
->   1. The upstream cfg80211 framework does not enforce an upper bound on
->      seq_len before reaching the driver, so a strict -EINVAL could
->      break any existing userspace that happens to pass seq_len > 8
->      (even if no standard cipher requires more than 6 bytes).
-> 
->   2. Staging drivers historically favour silent clamping over hard
->      rejections for parameters that are out of the ordinary but
->      otherwise harmless -- the primary goal was to close the overflow,
->      not to police the caller.
+> > v1: https://lore.kernel.org/linux-staging/20260502021815.3953423-1-angu=
+sg778@gmail.com/
+> Hi Angus
+>
+> Series looks good to me (Thanks Maxwell and Joshua for reviewing!)
+>
+> Applied to the testing branch of iio.git.
+>
 
-Let's fix this in a way that the code can be moved out of staging
-someday please.
+I realized I forgot to add my explicit reviewed-by to the v2 of the
+"use dev_err_probe() in probe function" patch. If it's not too much
+trouble, could I get my reviewed-by tag added to that patch? If not
+then no worries.
 
-> That said, I can see the argument for -EINVAL: it makes the contract
-> explicit and avoids installing a key with a truncated sequence counter
-> that could produce unexpected crypto behaviour.
+best regards,
+maxwell
 
-Yes, that is better.
-
-> Regarding hardware testing: I do not currently have a physical
-> rtl8723bs device.  My verification was based on code review of the
-> cfg80211 key installation path and static analysis confirming that
-> ieee_param.crypt.seq is an 8-byte fixed buffer while params->seq_len
-> is fully userspace-controlled via NL80211_CMD_NEW_KEY.
-> 
-> I understand this is a limitation.  If hardware testing is required
-> before merge I can source a RTL8723BU/BS USB dongle (approximately
-> 1-2 weeks), or alternatively a community member with the hardware
-> could confirm the fix.  Please advise on your preference.
-
-Ideally someone can test this on the real hardware.  I'm loath to take
-real patches for this driver without that happening.
-
-thanks,
-
-greg k-h
+(p.s., feel free to call me Max, cheers)
