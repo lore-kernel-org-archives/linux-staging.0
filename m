@@ -1,84 +1,100 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93543333730
-	for <linux-staging@lists.linux.dev>; Mon,  4 May 2026 14:36:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC7E43E51D1
+	for <linux-staging@lists.linux.dev>; Mon,  4 May 2026 14:46:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777905400; cv=none; b=WZPhBW+/VXITT5Qus1MNWsNmpj6uNasA62Ghb+yj+thDySUC+pkpR7ujrenHKkrUgeO9R+J5WKsU6eF1GRiCgJSmo/F0RTdXSKE94IUz6hjDAElMq81IfkZqwc3InPdV3UlQ9y1RoZddmfnBr0BgfWUYSS3PepmFMITaqDuq3xQ=
+	t=1777905978; cv=none; b=L6lGPvQR9pvcNJ2aulN9xicyVNrwjSe18UY8YO79h4MrpgCdDbErMFvYmsdq7gB5FTa7m8fuFY0lMTNMPGw56nlZtvhILyxOEFA37eEeJYfkJt9h9D7WwUcLKEunpUjW7m0D0fgJCf8q3mL0Vlv6ESliqAVguY0sDC2/2XnOaR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777905400; c=relaxed/simple;
-	bh=vQURBi2zGUBc/OA/dc9cSh8XhaVACnsFfcHy6CCBX7Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l8q71v8ALnzughbjJCrIIN+QxWeCrd0fea0+412WrVVHymyts2jFUUX2FchJ6gCDgY2jinqcFqaHi+YV/h2FuSu1YbJzyHn0VTpsTDmAAss2yO+cxe5mVk4THPhMTsV47MxZV7cH4QGtU4CJ5fNe63xsLh5DY/8CrKAsKaAPM3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NicN69wG; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1777905978; c=relaxed/simple;
+	bh=pU/IZ3Cb0ZdLTOUut/XZ7b0zkUm07w6ooKgbv1GpEKY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LorGmckBxfilQi8YhkDOUck7IgAehr9vdrNbHEUpgSiZYIpHznbln/RXwp72EkZZSibt+p7q1Lm9TW+SQ7vrsqz4BZ5N1+mGkGFGeJNSsR3tkZ3w5gXqdpyvT7iW6SwbMeWNp5OzkFuw+JIC2JzmnLLu5IKwm6zgTV05JvUz9Lc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MejxYCW7; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NicN69wG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777905400; x=1809441400;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vQURBi2zGUBc/OA/dc9cSh8XhaVACnsFfcHy6CCBX7Q=;
-  b=NicN69wGtEJD0VkFBpy40H4qW90CumgGXnbLunKTlD4J3c6JmwkCUvCE
-   vNRn5hXqXOD+zW7/AmI4xASjjI52QgX2SPpn+aO7sRYRI2kaUp6b1fqL+
-   Jcj9JQTAl+CE8131anZmkgMvIShdWHLGy04NIe24D78RVY+iP2sPGDQy9
-   m7Oz8w5Vlxk2y0m16qhk5OLm79dprbgSd6bH6YlgcZPsbD1QUQXZFJLEb
-   NBGKSSVKukqn75auM4wrmES+2z5WYkXntA9KatvLfX2ZbRZtxXN9B8YC+
-   LyDNDkPJ+az+Yuq71wGdrP8/FsuJHBTLkx2homyEGh0AzjbfEsoXYxKs+
-   Q==;
-X-CSE-ConnectionGUID: cLqKHZ+cTsmjX6jG6xOOvg==
-X-CSE-MsgGUID: raA/WQZLQt2yxpCYZI/Z5w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11776"; a="101428605"
-X-IronPort-AV: E=Sophos;i="6.23,215,1770624000"; 
-   d="scan'208";a="101428605"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 07:36:39 -0700
-X-CSE-ConnectionGUID: HUZ5QlHQTEmaoiHsfh9Bqg==
-X-CSE-MsgGUID: u+bFkSX4SyKmRjti2PeyPQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,215,1770624000"; 
-   d="scan'208";a="273646847"
-Received: from ettammin-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.245.198])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 07:36:37 -0700
-Date: Mon, 4 May 2026 17:36:34 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
-Cc: andy@kernel.org, hansg@kernel.org, mchehab@kernel.org,
-	gregkh@linuxfoundation.org, sakari.ailus@linux.intel.com,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2] staging: media: atomisp: drop unnecessary else block
- after return/break
-Message-ID: <afiu8j_S_nDsWmiB@ashevche-desk.local>
-References: <20260504103656.32945-1-shyamsunderreddypadira@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MejxYCW7"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-48d10c981e4so1773995e9.0
+        for <linux-staging@lists.linux.dev>; Mon, 04 May 2026 07:46:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777905975; x=1778510775; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2F5ypXoNBfSK2GDWueaCHZ2LLEzn8ANr0z5NfQhFyfc=;
+        b=MejxYCW7gTXAN1LrR69xo0WzO7VTB52kUPGUDuocRnhfTNqaMVuQqlqFu07yBH1cFS
+         5F9lswupt9S5k0896mOvptj6UNuFRTx/Ec9cHrT1yQ9vX6z7AJ3CaYDbXx1tEc9NA5bE
+         OGg4XDngK2MmWFN2f+rl4UVmpZYNGlNFaXC2INaosdRwMVyqP3nURTCVLO9BiTFaxjlq
+         2RmXWSQNbINpk6QCuP7dDok7E8/OtrpEG/ruNXvfl0eGtoHib4snAiyEvBQARnHKitaX
+         fR7C8XUSZQauhih4xJOKLcuO7W6c6z4O3lPzxO3HC2A+4XuM3SC+X+E3xwVL+lI7ebIZ
+         AY2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777905975; x=1778510775;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2F5ypXoNBfSK2GDWueaCHZ2LLEzn8ANr0z5NfQhFyfc=;
+        b=qZk0OD4vfIRYOE2oGn7aLlYjC05fpy9ghryY4ycBIBFPoPKXBV9+ZHR93P8NWmDJKt
+         tBnvt2UfM1otnGuXY5drbwFDvMCmmYMFacKrlT9CUwmkCCbS8ORiwxmrsm5DF8px69DA
+         Ts476iqXJcwFaqWkeT3W3KMtUoDsuu5A12q1GT/MiHu1Pzth4X7mPmx/i0CoUsdxbGwg
+         1KlgrhpMKpZBK8rAMJp7KFVbgaG0y83Pz3/PqAsg5FR7HKuVyz+MlkYbeVmyx17lFjE3
+         TmVjoVt1TN1LTCeg2aaDuH8uPBvu29mpTP15HrzVXJNH4QSF5WzJLNjT9ltMbj1k9ScA
+         /zYQ==
+X-Gm-Message-State: AOJu0YwigcHJ1poy0Jx0cK1YWBs2dAzyrOXcJ4MqXbltSErzKQGCNm0v
+	Cfv6XBfPdWtvVxZ/1+jmXcRsJDYn3EPZoPQgd8zbuPA+r+jzRQOWFWkO
+X-Gm-Gg: AeBDiesVoFcqpG00ZM8iXIN6DxgArZAOCrheTgHl13EOVuitQXwCvz6lGpkXjhbhVmO
+	LTMOGmbsiLXGtDdg+O8PUtPcYJVX25E1/yVSL+FJIalsidfVLCQkdcrytAHVhQtsJKUJrSrTNHK
+	3r3x2jYzOMfees4XzkNSb2v/G7nV/bu+Pn4CX7A4tpY1lN6sNXE3/dgeHJC46adjPlKoKD+6JUc
+	FkUD4XzAKV9naZLXjsO0dZmM9b2I5a4WoLmZF1OES+6EmARJq47nH0AUQhFSD1hzxhwZ8dYNP3V
+	iCVAeSMdnoREg7Pfav7B43e4sjlFLMMlqmtrZGLmX9VaOzAAIIUjYs+wXCbVBh1JFZji+JTtp1v
+	ibc6Z+wxpAfVTzYWU0nwFx0EJYJVjj3KVxhLsizO9X1V/YtiftftF74hULJ43rSzxbQiUCnQkF+
+	g8jgkL1b0uG6t5fnqMkIf9
+X-Received: by 2002:a05:600c:5253:b0:48a:56d4:7274 with SMTP id 5b1f17b1804b1-48a9865d363mr85548285e9.3.1777905975009;
+        Mon, 04 May 2026 07:46:15 -0700 (PDT)
+Received: from lucas ([2a01:e0a:354:c290:234c:5dad:48b0:9188])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-44a981ded99sm27133296f8f.18.2026.05.04.07.46.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 May 2026 07:46:14 -0700 (PDT)
+From: Lucas Poupeau <lucasp.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	Lucas Poupeau <anonymecode077@gmail.com>
+Subject: [PATCH] staging: vme_user: add missing blank line after declarations
+Date: Mon,  4 May 2026 16:46:12 +0200
+Message-ID: <20260504144612.12727-1-lucasp.linux@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260504103656.32945-1-shyamsunderreddypadira@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Mon, May 04, 2026 at 04:06:56PM +0530, Shyam Sunder Reddy Padira wrote:
-> Remove redundant else blocks following return or break statements.
-> As control flow exits in these cases, the else branch is
-> unnecessary. Dropping it improves code readability.
-> 
-> No functional change.
+From: Lucas Poupeau <anonymecode077@gmail.com>
 
-There is still a lot of room to improve in these pieces of code, but it is
-out of scope of this simple change, FWIW,
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+Fix the following checkpatch.pl warning:
+WARNING: Missing a blank line after declarations
 
+Signed-off-by: Lucas Poupeau <anonymecode077@gmail.com>
+---
+ drivers/staging/vme_user/vme_fake.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/staging/vme_user/vme_fake.c b/drivers/staging/vme_user/vme_fake.c
+index be4ad47ed526..d108f9549b0d 100644
+--- a/drivers/staging/vme_user/vme_fake.c
++++ b/drivers/staging/vme_user/vme_fake.c
+@@ -67,7 +67,9 @@ struct fake_driver {
+ 	unsigned long long lm_base;
+ 	u32 lm_aspace;
+ 	u32 lm_cycle;
++
+ 	void (*lm_callback[4])(void *);
++
+ 	void *lm_data[4];
+ 	struct tasklet_struct int_tasklet;
+ 	int int_level;
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.54.0
 
