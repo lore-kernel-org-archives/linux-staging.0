@@ -1,72 +1,72 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44A433E5EC3
-	for <linux-staging@lists.linux.dev>; Mon,  4 May 2026 17:44:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 420CB3E63BF
+	for <linux-staging@lists.linux.dev>; Mon,  4 May 2026 17:44:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777916663; cv=none; b=DtU+fA9dSwsd6Za6KILikgamIS1pBk1WYQQeNbB275SAFJuwIW1ksCJPUWkVXecNWEP2eddpPLaNpJeO/qC0pOnyRFTXmxtNnvuOVEg29+3sW8uDHczqeYn6Usaq1H4wugbxTxyF7ujRPt9+u33k/swg2Iy/uFpX4PN5SpSn61c=
+	t=1777916666; cv=none; b=BjxNqnPokiMp718Elcu3NesEU8XOXm1GNXA8cdtmxxq65JoE4xQcefFQRUjXCwt9Txv3N2RaD4pj6KoSRx2N3fdC/dXAkuxUVNV3XF3pR9Cr91RWVJwgTgpG7KngfkZAsakWayKNfRMJW/7CFWXKPzld0eHFqXOFSMt8LmTcRp8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777916663; c=relaxed/simple;
-	bh=UVPIF+sdrfM6NBHHlN4FeC/sqESWRpaMVlGigUdv/SY=;
+	s=arc-20240116; t=1777916666; c=relaxed/simple;
+	bh=YYvpgqkGcESzblP9Rg0okEYFQUZWUrc2vIkh5JgCDog=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=q+YAhkpFhuR945yFyViypQM9g0qXNH7jJ6boS95ZgWusOiKFhgudI70qTwLcb63Rm6QA1SJjOgjxetU+fAGNitEtnberNm9o67yUG3YnahH2eEvAcTNE3v5LpAlK2+uV90o8UOBus77ecaISKr7feZGdYAayCZcCR1xTkrsBxas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KaInA3ED; arc=none smtp.client-ip=209.85.210.182
+	 MIME-Version; b=ceS/rS4AICRIRuYo+0mEJOR1HNXWW6V5thMxM2E3dyEvuwzkCgwpvN+yHmpbKQqKX9zxc2R3bSbQyV9bIp05b7vpvURVd+a/xG1wZNopFW5l9VwOIIoxtwB59JAOW0sy9+dcO4wYkUd52K/m8GUp6hP1hO3KI3POWMj4ly7saFU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PjpzuIg9; arc=none smtp.client-ip=209.85.210.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KaInA3ED"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-837b704783bso122724b3a.0
-        for <linux-staging@lists.linux.dev>; Mon, 04 May 2026 10:44:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PjpzuIg9"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-823be54d49cso296016b3a.3
+        for <linux-staging@lists.linux.dev>; Mon, 04 May 2026 10:44:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777916662; x=1778521462; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1777916665; x=1778521465; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/3r7HpB0/DU/QpLYQMcgaK+OCH5zehE0tbXldsuLb0A=;
-        b=KaInA3EDNdRPmO1TRsXO0wayY7PN81fIAU/4FaVGxk1LrnTHtJV8ti9iTQ8QddwnuH
-         p90uG+PS++1PUTCJFmzCqkCdHA5lyM3gXik16LXyspzfjB+yxE5hl0qz9dcn4rDu/yKK
-         3HH6At7UcbXhcwKuCFGEjwKvJuTPJz+FocmTEEAuMEK4J5r/N2wthFV9IUTOlcLcivhB
-         bWHyyKMRDK69u5Qweb8KBC0lLTMK1g4Pka1HAVDa6jg9NjEvdY4llTZAYcozhtCMYFTq
-         c0vUY5IGICtF3fEgdW13elZ2apoHPYM+tCGlCQr6u5bGGZOP61c3CvSOlJ7zDXwPf51w
-         Nsvw==
+        bh=S9NrbK7+XvJgPClZ1GqtV5IQNzES6CwjBK/rud9MZ0Q=;
+        b=PjpzuIg9ASRz9wZ/Vjpb8EkvHaC6s7I3GyhRCXlhUYagd0oNvbm2ZiETt4YeI5QQUs
+         MhN4MSfDURuGnynNP/Cw4pIMd0hHFJgvB6Rn5+6URJm7NiiIathgNFqTAylWSLUzHKcp
+         KrbuDUVcGjEZcUqXRg+1UidJeFRFQUo8aGHuaKbzX1l3MrxRRa8HS4Kqaa1nxTYHA+06
+         CChqdmT42EdkE0s2nJ2xFW8g5FOszCw9vWBx8gxzrrnZenY4Zg8/ZNLhDnQzcmK5sHRs
+         HDbxZSKWW9Y1UgBW8vlaT+j3mtNvGakq6M7w6O0YzRkFEGy1MvnuwfU/v6//1IpfQ7ri
+         C++A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777916662; x=1778521462;
+        d=1e100.net; s=20251104; t=1777916665; x=1778521465;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=/3r7HpB0/DU/QpLYQMcgaK+OCH5zehE0tbXldsuLb0A=;
-        b=TnS2IncgFMpkEnIDtOHRGPvhZFUbD2wluPVwVJ7oW0b1gZL7Tm6xUHv+fGZJ+/Utia
-         CWO29l5H8dX+kUx6PwTc65nfjHkRbdule5WGckF6O0NBzwaUSfABDeiCqWVn4a5cMazN
-         AYtzxYfTCw6DcD+TSkOhZ4jH1mioB210wqHtZnOCq7yqqG7AJjm0HOQmp2BIV0cM/Sv9
-         Hcum8x74/GuOBuEnPtbmLaaKHSfKvxSiIHPp5KhluCMCdlqMJ8FLv7bkqAF/r6nGvv+e
-         aPVF30UgJi0Pd/0pUa0SkBjptgA4TQdrbA2FKp88G5sIdNfxEU8QVqXtJcUVlSU+k2UY
-         aSMw==
-X-Gm-Message-State: AOJu0YysoIAcM1o1NlRZ6gEHAWwdPLXWpi1f0dqKGUMMZpBUEREiX3VJ
-	xH8A4EIMckjuASDr0+y+hjPg6kLUfSYsUDVmJ8E4gu+oegDPhzukJ9YK
-X-Gm-Gg: AeBDiesqLcBXl9nX9iV20prrKAYQhhAawiW6t7qPNv6yqI2E2k7pYudsz/Isz0pdvpy
-	Vhdtu5OFXsxoldG79L0nWcoAE3tK9YQjis42wogM+VquOFqgq9n5cVc/epNEBmbq9y0H3R/k/42
-	HC4jrETciQCQ55JbilRk0L0EjOf2Zor0tnMOx3NRhcoE45ymcuz856ByKevTaSdh8/CIvLtyVaq
-	AZ3IkZz7oB77iW65ziJkmkvBenD/33iNLNsgELXxNGC7dpns3JFBJl+dSXxNUwKK9Yuruc32i8G
-	FmdhP7NnZ8lCXQ0n4grRpGXB6eXLzjkAUsPVyvdr4wY5AM7Z77xNxhlFCYS0+CsiohqcUBzK4p7
-	PSHlcY0rpramVi8VDwufDmqL2R8lGO3hKAf7m+XNrn3DjrrO5FdUCK3HzaKxTjCz2OIX3a2nyxr
-	Dz4//HwYGzMOnRZnPGH70s7vdRC0PpjMZm0du0cd1BwTdODQmjnhvRro0yOXUvlHUh6XQl3xXFu
-	Y2No6Tzw5ZHs8fZ6CGZDNpnLIs=
-X-Received: by 2002:aa7:88c8:0:b0:837:42a6:58a8 with SMTP id d2e1a72fcca58-83742b5accdmr2731386b3a.2.1777916661377;
-        Mon, 04 May 2026 10:44:21 -0700 (PDT)
+        bh=S9NrbK7+XvJgPClZ1GqtV5IQNzES6CwjBK/rud9MZ0Q=;
+        b=Ns4E+gxLAaXvnNeu9gTf2+QvKO8H/hKEbD/9xP41g/cKisRv0OvTEDNXtj+d/WzA+7
+         3suvuxe+17sdpbI1xi1UC9AR1IlJ59bO5E3peBd1N9DmwzSDUyChgmRTzjsbNjHKPEzM
+         EJ7fEU90uTPwukSdRM+9bx4H4F8NPp5NTHdAi1AVHpD/2KgkfPhxCejmw8QgkPhK6+IL
+         kQ9WUEJceUtN5R/P65KwJ8/4wu3LbtNvV/2MoYfCn+yYM8H55yKBVGMS//KKpRZY45Of
+         qmaCg303bsy3cn3uhNATFOxrl+g/fhGaGC4PZ/7x1d+cgBMbT+c3ndG8MndpcRfdtTV4
+         Qapw==
+X-Gm-Message-State: AOJu0YyTl+zpzLO1hIJuvH1QZY5/rDYD7ucZCMnd5imF+ar7a4l+NaW5
+	xHQ5XaOrPL3qorkbyjZoMAEvKBiHNsimpS1tGmQ3/Jsoj4orNKKtIWWV
+X-Gm-Gg: AeBDiethtx4W97gYwLpBOkspCL12U9Q8Hgx0COTwnyz5v2sNCRSVM0tg1wd4Nq6zZZb
+	upwKn8l2sjRDCjthKdI7PfruWbLpjAvFljpLfkDMDxFqYYVET84gokN0RPu7Jtni3Rgmm1TNeRE
+	veUhDmcnmQrw3vQCNnaJ2yShqb4at9gL1koBQB6ZEzDnx80F9SLwJg1wgaMNubCUpPMJbPtd3hd
+	2Gt//UovaEsaLrCIlTKyS6yBEV0BbpdGzaESOa2zHjeku9wSeZoVSgnX69QUjUNHhJpr8tVMfuX
+	Y5zBUYI8jk7SODwLDpzFMrgMNE0qvTN52nyGrpHdfHkcdRgqzW6wop8oWBIvY4XLF8JyxLexnqW
+	j8ZVji2ZF2TOgeGSYPUInxrC/ey4tObWWnhm5rF6YziOoSLZdVcfuJtYwdZLV6j3Gdw/74I89Dw
+	TkI+QvxpD3BxNUTktTZQBdks4+Wlg/pwqvR9+jKWvcPsGE7K91dITOlUbK2lk+xaJmEiihu3xH7
+	me3iOiDAhfwE90Mgcco4Urc9og=
+X-Received: by 2002:a05:6a21:a510:b0:3a3:2819:5d41 with SMTP id adf61e73a8af0-3a7f1c8590amr6200524637.5.1777916664548;
+        Mon, 04 May 2026 10:44:24 -0700 (PDT)
 Received: from fedora ([2401:4900:a3fd:82cb:c080:4c49:655c:41ba])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83707fab756sm5923388b3a.44.2026.05.04.10.44.18
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83707fab756sm5923388b3a.44.2026.05.04.10.44.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 May 2026 10:44:21 -0700 (PDT)
+        Mon, 04 May 2026 10:44:24 -0700 (PDT)
 From: Ayush Mukkanwar <ayushmukkanwar@gmail.com>
 To: gregkh@linuxfoundation.org,
 	dan.carpenter@linaro.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Ayush Mukkanwar <ayushmukkanwar@gmail.com>
-Subject: [PATCH v6 1/3] staging: octeon: ethernet-mem: replace pr_warn with dev_warn in free functions
-Date: Mon,  4 May 2026 23:11:44 +0530
-Message-ID: <20260504174146.117026-2-ayushmukkanwar@gmail.com>
+Subject: [PATCH v6 2/3] staging: octeon: ethernet: replace pr_err and pr_info with dev_err and netdev_err
+Date: Mon,  4 May 2026 23:11:45 +0530
+Message-ID: <20260504174146.117026-3-ayushmukkanwar@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260504174146.117026-1-ayushmukkanwar@gmail.com>
 References: <20260504174146.117026-1-ayushmukkanwar@gmail.com>
@@ -78,138 +78,74 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add struct platform_device parameter to cvm_oct_free_hw_skbuff,
-cvm_oct_free_hw_memory and cvm_oct_mem_empty_fpa. Replace pr_warn
-calls with dev_warn, using &pdev->dev for device-aware logging.
+Replace pr_err() and pr_info() calls in cvm_oct_probe() with
+dev_err(), netdev_err(), and netdev_info() to include device
+information in log messages. Use dev_err() where no net_device
+is available (allocation failures), and netdev_err()/netdev_info()
+where a net_device exists.
 
 Signed-off-by: Ayush Mukkanwar <ayushmukkanwar@gmail.com>
 ---
- drivers/staging/octeon/ethernet-mem.c | 31 ++++++++++++++++-----------
- drivers/staging/octeon/ethernet-mem.h |  5 ++++-
- drivers/staging/octeon/ethernet.c     |  6 +++---
- 3 files changed, 25 insertions(+), 17 deletions(-)
+ drivers/staging/octeon/ethernet.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/staging/octeon/ethernet-mem.c b/drivers/staging/octeon/ethernet-mem.c
-index 532594957ebc..11036c6eb36f 100644
---- a/drivers/staging/octeon/ethernet-mem.c
-+++ b/drivers/staging/octeon/ethernet-mem.c
-@@ -5,6 +5,7 @@
-  * Copyright (c) 2003-2010 Cavium Networks
-  */
- 
-+#include <linux/platform_device.h>
- #include <linux/kernel.h>
- #include <linux/netdevice.h>
- #include <linux/slab.h>
-@@ -40,11 +41,13 @@ static int cvm_oct_fill_hw_skbuff(int pool, int size, int elements)
- 
- /**
-  * cvm_oct_free_hw_skbuff- free hardware pool skbuffs
-+ * @pdev:      Platform device for logging
-  * @pool:     Pool to allocate an skbuff for
-  * @size:     Size of the buffer needed for the pool
-  * @elements: Number of buffers to allocate
-  */
--static void cvm_oct_free_hw_skbuff(int pool, int size, int elements)
-+static void cvm_oct_free_hw_skbuff(struct platform_device *pdev,
-+				   int pool, int size, int elements)
- {
- 	char *memory;
- 
-@@ -59,11 +62,11 @@ static void cvm_oct_free_hw_skbuff(int pool, int size, int elements)
- 	} while (memory);
- 
- 	if (elements < 0)
--		pr_warn("Freeing of pool %u had too many skbuffs (%d)\n",
--			pool, elements);
-+		dev_warn(&pdev->dev, "Freeing of pool %u had too many skbuffs (%d)\n",
-+			 pool, elements);
- 	else if (elements > 0)
--		pr_warn("Freeing of pool %u is missing %d skbuffs\n",
--			pool, elements);
-+		dev_warn(&pdev->dev, "Freeing of pool %u is missing %d skbuffs\n",
-+			 pool, elements);
- }
- 
- /**
-@@ -107,11 +110,13 @@ static int cvm_oct_fill_hw_memory(int pool, int size, int elements)
- 
- /**
-  * cvm_oct_free_hw_memory - Free memory allocated by cvm_oct_fill_hw_memory
-+ * @pdev:      Platform device for logging
-  * @pool:     FPA pool to free
-  * @size:     Size of each buffer in the pool
-  * @elements: Number of buffers that should be in the pool
-  */
--static void cvm_oct_free_hw_memory(int pool, int size, int elements)
-+static void cvm_oct_free_hw_memory(struct platform_device *pdev,
-+				   int pool, int size, int elements)
- {
- 	char *memory;
- 	char *fpa;
-@@ -127,11 +132,11 @@ static void cvm_oct_free_hw_memory(int pool, int size, int elements)
- 	} while (fpa);
- 
- 	if (elements < 0)
--		pr_warn("Freeing of pool %u had too many buffers (%d)\n",
--			pool, elements);
-+		dev_warn(&pdev->dev, "Freeing of pool %u had too many buffers (%d)\n",
-+			 pool, elements);
- 	else if (elements > 0)
--		pr_warn("Warning: Freeing of pool %u is missing %d buffers\n",
--			pool, elements);
-+		dev_warn(&pdev->dev, "Freeing of pool %u is missing %d buffers\n",
-+			 pool, elements);
- }
- 
- int cvm_oct_mem_fill_fpa(int pool, int size, int elements)
-@@ -145,10 +150,10 @@ int cvm_oct_mem_fill_fpa(int pool, int size, int elements)
- 	return freed;
- }
- 
--void cvm_oct_mem_empty_fpa(int pool, int size, int elements)
-+void cvm_oct_mem_empty_fpa(struct platform_device *pdev, int pool, int size, int elements)
- {
- 	if (pool == CVMX_FPA_PACKET_POOL)
--		cvm_oct_free_hw_skbuff(pool, size, elements);
-+		cvm_oct_free_hw_skbuff(pdev, pool, size, elements);
- 	else
--		cvm_oct_free_hw_memory(pool, size, elements);
-+		cvm_oct_free_hw_memory(pdev, pool, size, elements);
- }
-diff --git a/drivers/staging/octeon/ethernet-mem.h b/drivers/staging/octeon/ethernet-mem.h
-index 692dcdb7154d..ff10ba4525ee 100644
---- a/drivers/staging/octeon/ethernet-mem.h
-+++ b/drivers/staging/octeon/ethernet-mem.h
-@@ -6,4 +6,7 @@
-  */
- 
- int cvm_oct_mem_fill_fpa(int pool, int size, int elements);
--void cvm_oct_mem_empty_fpa(int pool, int size, int elements);
-+struct platform_device;
-+
-+void cvm_oct_mem_empty_fpa(struct platform_device *pdev, int pool, int size,
-+			   int elements);
 diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
-index eadb74fc14c8..badf5ceaf5b4 100644
+index badf5ceaf5b4..27c282ef64dd 100644
 --- a/drivers/staging/octeon/ethernet.c
 +++ b/drivers/staging/octeon/ethernet.c
-@@ -958,12 +958,12 @@ static void cvm_oct_remove(struct platform_device *pdev)
- 	cvmx_ipd_free_ptr();
+@@ -685,7 +685,7 @@ static int cvm_oct_probe(struct platform_device *pdev)
  
- 	/* Free the HW pools */
--	cvm_oct_mem_empty_fpa(CVMX_FPA_PACKET_POOL, CVMX_FPA_PACKET_POOL_SIZE,
-+	cvm_oct_mem_empty_fpa(pdev, CVMX_FPA_PACKET_POOL, CVMX_FPA_PACKET_POOL_SIZE,
- 			      num_packet_buffers);
--	cvm_oct_mem_empty_fpa(CVMX_FPA_WQE_POOL, CVMX_FPA_WQE_POOL_SIZE,
-+	cvm_oct_mem_empty_fpa(pdev, CVMX_FPA_WQE_POOL, CVMX_FPA_WQE_POOL_SIZE,
- 			      num_packet_buffers);
- 	if (CVMX_FPA_OUTPUT_BUFFER_POOL != CVMX_FPA_PACKET_POOL)
--		cvm_oct_mem_empty_fpa(CVMX_FPA_OUTPUT_BUFFER_POOL,
-+		cvm_oct_mem_empty_fpa(pdev, CVMX_FPA_OUTPUT_BUFFER_POOL,
- 				      CVMX_FPA_OUTPUT_BUFFER_POOL_SIZE, 128);
- }
+ 	pip = pdev->dev.of_node;
+ 	if (!pip) {
+-		pr_err("Error: No 'pip' in /aliases\n");
++		dev_err(&pdev->dev, "No 'pip' in /aliases\n");
+ 		return -EINVAL;
+ 	}
  
+@@ -783,16 +783,16 @@ static int cvm_oct_probe(struct platform_device *pdev)
+ 			dev->max_mtu = OCTEON_MAX_MTU - mtu_overhead;
+ 
+ 			if (register_netdev(dev) < 0) {
+-				pr_err("Failed to register ethernet device for POW\n");
++				netdev_err(dev, "Failed to register ethernet device for POW\n");
+ 				free_netdev(dev);
+ 			} else {
+ 				cvm_oct_device[CVMX_PIP_NUM_INPUT_PORTS] = dev;
+-				pr_info("%s: POW send group %d, receive group %d\n",
+-					dev->name, pow_send_group,
+-					pow_receive_group);
++				netdev_info(dev, "POW send group %d, receive group %d\n",
++					    pow_send_group,
++					    pow_receive_group);
+ 			}
+ 		} else {
+-			pr_err("Failed to allocate ethernet device for POW\n");
++			dev_err(&pdev->dev, "Failed to allocate ethernet device for POW\n");
+ 		}
+ 	}
+ 
+@@ -812,8 +812,8 @@ static int cvm_oct_probe(struct platform_device *pdev)
+ 			struct net_device *dev =
+ 			    alloc_etherdev(sizeof(struct octeon_ethernet));
+ 			if (!dev) {
+-				pr_err("Failed to allocate ethernet device for port %d\n",
+-				       port);
++				dev_err(&pdev->dev, "Failed to allocate ethernet device for port %d\n",
++					port);
+ 				continue;
+ 			}
+ 
+@@ -897,8 +897,8 @@ static int cvm_oct_probe(struct platform_device *pdev)
+ 			if (!dev->netdev_ops) {
+ 				free_netdev(dev);
+ 			} else if (register_netdev(dev) < 0) {
+-				pr_err("Failed to register ethernet device for interface %d, port %d\n",
+-				       interface, priv->port);
++				netdev_err(dev, "Failed to register ethernet device for interface %d, port %d\n",
++					   interface, priv->port);
+ 				free_netdev(dev);
+ 			} else {
+ 				cvm_oct_device[priv->port] = dev;
 -- 
 2.53.0
 
