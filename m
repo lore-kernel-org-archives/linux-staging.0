@@ -1,37 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B517D3E0241;
-	Mon,  4 May 2026 14:56:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CF833D6CAF;
+	Mon,  4 May 2026 14:56:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777906575; cv=none; b=l7sjfUTpi0PCjZeuPoLZev9KkhcOBH84RvTbBBMxUjMYWGjisRLgtE3gqHEhvZ/e9eiKnx7BJTXgg/zwagWWu0josx8Oy2jEJ8x63hvMrFY47OHfPilXkqxb5bCQKKNWr2MMZocst1xuhvkJRiq6JSteznDZN7yy8TldboWev40=
+	t=1777906583; cv=none; b=BB8dsbDfoP7qZX3hJyIEQpjUidyh7moAWLN9WethMXn14uyg0DAsh0V3l8PMJPvZvv77vErKuWfJA5+18b/5/7JjUclBGfCOVNoTmkXhDn2hfCyiy9zP6I8oZ3XGZOy8T71MKz17hbZ8fEdqYGXwpKx0+y4xoFgcTY+o9AGE8/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777906575; c=relaxed/simple;
-	bh=TGrMC8wMZ0IU+PhUdAMUD3VAxI0ZiiLqV3dxncd3KhM=;
+	s=arc-20240116; t=1777906583; c=relaxed/simple;
+	bh=OMa+PW8rNJuqoeSB6MroRicoWmkA5SOqhlT+psuymAA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U9PSz7mpeXb43aAWkpIAH+fPwH/LpAEhxQNz6pJULYIJfvcIQGy/QdbbyeQ0DdtRd/uDbsZR/ffTsYILvPvt9EGYMkS2yA4dekjnJ5+L0xLms9f8AoIEhkz+MvKTqgr0UeUPY/OSUi4JP6LaTkyIoUVH4YArxm0itYwKiCVHqqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=kENsYOdB; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=brdfyQOYEledC4KWYWzBHkIIbzfMEppcv6m7negQUc+xC7twUgSoXDkB4+B3iXeD2coh9XZc0Ist4pSqiAJjtpsJJBvF1mv6XQiN9hD/MyLSbGtkpKx/ZhyLfAFZpzTV3rLDeM73pqyEpz89m2+VuPw+RWXXLs6V+cxXOS8u1PE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=MyayezfJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="kENsYOdB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1358C2BCB8;
-	Mon,  4 May 2026 14:56:14 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="MyayezfJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D268C2BCC4;
+	Mon,  4 May 2026 14:56:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1777906575;
-	bh=TGrMC8wMZ0IU+PhUdAMUD3VAxI0ZiiLqV3dxncd3KhM=;
+	s=korg; t=1777906580;
+	bh=OMa+PW8rNJuqoeSB6MroRicoWmkA5SOqhlT+psuymAA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kENsYOdBIp7VfaaaQIAXBkohSyIHWxxz+7bsPVLXwncgybTK4FrkRrzOkiHacuWir
-	 KA+F+RbmLwkPYW1UI9LJVir3Xl+rg7SAt7CNOjbD2VSgYrqSrw5N2hdjx3n4EzfUc9
-	 vEOX+4NhrpDpc5qssLqCZN9BRqZ7F9ibRrk4lqrU=
-Date: Mon, 4 May 2026 16:13:38 +0200
+	b=MyayezfJxOwY/vkKj8u/Uz4Cc+cFl7REfktW47Oqs33JRMLvvGo4D58JrJmhg4Evh
+	 YkHyH4UNBMpyhStgJs+k8Kt4MVT7I/vk7SXN19+6ggyl+NEyvIqILXFftLiERzhwPj
+	 qp1J7taGQaRgvMJ2XEItUvO0gJoBNSejyfOxugZk=
+Date: Mon, 4 May 2026 16:15:32 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Alexandru Hossu <hossu.alexandru@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	error27@gmail.com, luka.gejak@linux.dev
-Subject: Re: [PATCH v3 0/2] staging: rtl8723bs: fix OOB write in
- HT_caps_handler and OOB read in OnAssocRsp
-Message-ID: <2026050402-ranch-imprint-1c7c@gregkh>
-References: <20260428091621.739680-1-hossu.alexandru@gmail.com>
+To: Debjeet Banerjee <debjeetbanerjee48@gmail.com>
+Cc: dtwlin@gmail.com, elder@kernel.org, greybus-dev@lists.linaro.org,
+	johan@kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2] staging: greybus: uart: clear unsupported c_cflag
+ bits in set_termios
+Message-ID: <2026050413-smell-ramp-e2a6@gregkh>
+References: <2026042618-whole-cassette-b15e@gregkh>
+ <20260427045446.16430-1-debjeetbanerjee48@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,19 +42,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260428091621.739680-1-hossu.alexandru@gmail.com>
+In-Reply-To: <20260427045446.16430-1-debjeetbanerjee48@gmail.com>
 
-On Tue, Apr 28, 2026 at 11:16:19AM +0200, Alexandru Hossu wrote:
-> v3, addressing Dan Carpenter's and Luka Gejak's feedback on v2.
+On Mon, Apr 27, 2026 at 10:24:46AM +0530, Debjeet Banerjee wrote:
+> gb_tty_set_termios() derives UART line configuration from a subset of
+> termios->c_cflag bits (CSIZE, CSTOPB, PARENB, PARODD, CMSPAR, CRTSCTS,
+> CLOCAL and CBAUD). Other bits are not interpreted by the driver and are
+> not represented in the Greybus UART protocol.
 > 
-> Greg, please drop your patch and take this one instead.
+> Mask unsupported c_cflag bits so that userspace-visible termios
+> reflects the supported bits implemented by the driver.
+> 
+> This addresses the existing FIXME.
+> 
+> Signed-off-by: Debjeet Banerjee <debjeetbanerjee48@gmail.com>
+> ---
+> v2:
+>   - Clear unsupported c_cflag bits as suggested
+>   - Update comment to mention the change
 
-What patch should I drop?  What is the git id of it?
-
-And what about these review comments:
-	https://sashiko.dev/#/patchset/20260428091621.739680-1-hossu.alexandru@gmail.com
-
-And have you tested this on real hardware?
+Has this been tested?  If not, I'd prefer to leave this as-is until it
+can be.
 
 thanks,
 
