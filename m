@@ -1,53 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB50934CFD6;
-	Mon,  4 May 2026 09:31:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B64F34CFD6;
+	Mon,  4 May 2026 09:32:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777887112; cv=none; b=sI/mOremAkVfYGh/a7K/qwjQgxca5FY9a18DMIf9X2HRdQYdN80ZwqlYaYsA/VuyteCR/razdKpqWm8YcbYht+rj7S++lNr2jHZ2uSWbmxNf/0OfQZJiXa7LeRVOsTS5CqOd+P2Vipugkr0G9xzV0HsenRkGnklNG4JXUhUcv/U=
+	t=1777887125; cv=none; b=Q+MKchuuu04g6KeBJhitYI+4yiU/IOYUVyWYpMhNc1J2FJK8WyOmgH0LdJHWs5/aiGZBZPws0wDmu5dlhXS9jr3RWKccq4kW/AIogBGIK6mHtnpE3XRghOnV1ohWNRF/Rm0sBN6DhTG0zy6u07xuN5rPIUq05u5/cUbMiZznaLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777887112; c=relaxed/simple;
-	bh=jK7LX7CZZc6vAL2TRvrSWHbkmr37igAqzuml4yVAFMo=;
+	s=arc-20240116; t=1777887125; c=relaxed/simple;
+	bh=vMA5PRgs8ntTwHIEk6v3P+NKINvjgkQSqHQu3XwTxEk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Cc4/z4+D+DNwlmVaUTpnGsPMGCNSanFL+O36pCyEBjXAvTiU4OI2INXCTcjrA9IQ9kkRrcCY+O6obGIffWBrBp9Uyuz6ZKZqsAVLl1ZLefuc9fDkrCxEC7CRVBS7uz2NgIvvqxbjQWBSNEPOZDxkjmpNy7BCYG3Or0etUiBPiRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bTvNNvOy; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=KxEbNf6I/XFYIO5B2ftMKgAYwrEND6FN539SZXa5sC8uvvVTZ6rdSDskwVSyBpL1sZs02u9g3vsGFgFdsUCwovi2ecMcuwmyOaPsCNB0ae0LKnC5ZMH6Hb3T/6s91enDHfNhz04488snxi+51ymOUscaGNpEfz74IP5WpBOwM0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=M4GIoMUQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bTvNNvOy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44684C2BCB8;
-	Mon,  4 May 2026 09:31:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777887112;
-	bh=jK7LX7CZZc6vAL2TRvrSWHbkmr37igAqzuml4yVAFMo=;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="M4GIoMUQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98729C2BCB8;
+	Mon,  4 May 2026 09:32:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1777887124;
+	bh=vMA5PRgs8ntTwHIEk6v3P+NKINvjgkQSqHQu3XwTxEk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bTvNNvOyUQnDUk9HijCP1jx6eqymW90Q2cpLkrTh1jI6gWBTDeMbyWor3SN0lwKj+
-	 M0h0EugNAbetQIZMYZkAUA4ocRZ811PTHm7lP6IImzjzYLtwtJ0fz4/z9Pz4ESTKv1
-	 HWN/kH9H4IIKCI/6VzEIrk2VwohVB//h70GOr4pgLGbanl7NBwozKCJXdfJiIZDCes
-	 Af55zZ+jcDOHWQ1KeJ/rgnUTrCmLnMLv7txxD+NJkpB2XcbQZkO60AYTbhQv90MvLL
-	 cAlYdDz0D7XYBwnctqLCyYq8Km+tHst7XO5iV2pwfXuSqZBcQlYaD3kf19MqspdZab
-	 YKA+y+CGsEd5Q==
-Received: from johan by xi.lan with local (Exim 4.98.2)
-	(envelope-from <johan@kernel.org>)
-	id 1wJpeX-00000001lnX-2NlD;
-	Mon, 04 May 2026 11:31:49 +0200
-Date: Mon, 4 May 2026 11:31:49 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Benjamin Tissoires <bentiss@kernel.org>
-Cc: Jiri Kosina <jikos@kernel.org>,
-	Filipe =?utf-8?B?TGHDrW5z?= <lains@riseup.net>,
-	Bastien Nocera <hadess@hadess.net>,
-	Ping Cheng <ping.cheng@wacom.com>,
-	Jason Gerecke <jason.gerecke@wacom.com>,
-	Viresh Kumar <vireshk@kernel.org>, Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Lee Jones <lee@kernel.org>, Icenowy Zheng <uwu@icenowy.me>,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-usb@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v3 1/4] HID: pass the buffer size to hid_report_raw_event
-Message-ID: <afhnhcMVSBLYboEo@hovoldconsulting.com>
-References: <20260504-wip-fix-core-v3-0-ce1f11f4968f@kernel.org>
- <20260504-wip-fix-core-v3-1-ce1f11f4968f@kernel.org>
+	b=M4GIoMUQcv9QIzRWZ7fhyBvuU35VlanpYbJ7C8mCJN2SS/uy5vrIDL4K8JOz2ruOY
+	 Tq8/BT4Rc1pdQNnovH00Hjlw4wpAGvX3a/jUreoJrMHLeIwgcI1Xu/gBawHUjdzh2W
+	 If+hHGL2gjb5czEYCROpKYCdloPkpCMmGYr1fBI4=
+Date: Mon, 4 May 2026 11:32:02 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: auth <skunkolee@gmail.com>
+Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>,
+	"open list:STAGING - SILICON MOTION SM750 FRAME BUFFER DRIVER" <linux-fbdev@vger.kernel.org>,
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] sm750fb: fix spelling typo in comment
+Message-ID: <2026050447-outskirts-parted-db83@gregkh>
+References: <20260429001557.71737-1-skunkolee@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,38 +42,57 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260504-wip-fix-core-v3-1-ce1f11f4968f@kernel.org>
+In-Reply-To: <20260429001557.71737-1-skunkolee@gmail.com>
 
-On Mon, May 04, 2026 at 10:47:22AM +0200, Benjamin Tissoires wrote:
-> commit 0a3fe972a7cb ("HID: core: Mitigate potential OOB by removing
-> bogus memset()") enforced the provided data to be at least the size of
-> the declared buffer in the report descriptor to prevent a buffer
-> overflow. However, we can try to be smarter by providing both the buffer
-> size and the data size, meaning that hid_report_raw_event() can make
-> better decision whether we should plaining reject the buffer (buffer
-> overflow attempt) or if we can safely memset it to 0 and pass it to the
-> rest of the stack.
+On Tue, Apr 28, 2026 at 06:15:56PM -0600, auth wrote:
+> Fixed suspected typo in comment ("programe" -> "program").
 > 
-> Fixes: 0a3fe972a7cb ("HID: core: Mitigate potential OOB by removing bogus memset()")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+> Signed-off-by: auth <skunkolee@gmail.com>
 > ---
->  drivers/hid/bpf/hid_bpf_dispatch.c |  6 ++++--
->  drivers/hid/hid-core.c             | 42 +++++++++++++++++++++++++-------------
->  drivers/hid/hid-gfrm.c             |  4 ++--
->  drivers/hid/hid-logitech-hidpp.c   |  2 +-
->  drivers/hid/hid-multitouch.c       |  2 +-
->  drivers/hid/hid-primax.c           |  2 +-
->  drivers/hid/hid-vivaldi-common.c   |  2 +-
->  drivers/hid/wacom_sys.c            |  6 +++---
->  drivers/staging/greybus/hid.c      |  2 +-
+>  drivers/staging/sm750fb/ddk750_mode.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/sm750fb/ddk750_mode.c b/drivers/staging/sm750fb/ddk750_mode.c
+> index 7163232c0701..6363a66d5570 100644
+> --- a/drivers/staging/sm750fb/ddk750_mode.c
+> +++ b/drivers/staging/sm750fb/ddk750_mode.c
+> @@ -82,7 +82,7 @@ static void program_mode_registers(struct mode_parameter *mode_param,
+>  	unsigned int tmp, reg;
+>  
+>  	if (pll->clock_type == SECONDARY_PLL) {
+> -		/* programe secondary pixel clock */
+> +		/* program secondary pixel clock */
+>  		poke32(CRT_PLL_CTRL, sm750_format_pll_reg(pll));
+>  
+>  		tmp = ((mode_param->horizontal_total - 1) <<
+> -- 
+> 2.54.0
+> 
 
-The Greybus change builds fine now:
+Hi,
 
-Acked-by: Johan Hovold <johan@kernel.org>
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
->  include/linux/hid.h                |  4 ++--
->  include/linux/hid_bpf.h            | 14 ++++++++-----
->  11 files changed, 53 insertions(+), 33 deletions(-)
+You are receiving this message because of the following common error(s)
+as indicated below:
 
-Johan
+- It looks like you did not use your "real" name for the patch on either
+  the Signed-off-by: line, or the From: line (both of which have to
+  match).  Please read the kernel file,
+  Documentation/process/submitting-patches.rst for how to do this
+  correctly.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
