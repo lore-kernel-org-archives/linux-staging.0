@@ -1,79 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender-pp-o91.zoho.in (sender-pp-o91.zoho.in [103.117.158.91])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6525C3148C5;
-	Tue,  5 May 2026 09:58:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777975091; cv=none; b=mGgEq89gq5mLw4amuoCzaDUZS5TXBFkLh5ruAKloIXEHGz1As0zhHuDAQqbfbMOMIi0zFTvHbqnSZbylUdHfXfIH8qLI4VegUn0/dd6Hd2GeU32ai7u8ZTB4Hh59U3J+MRRwdF5Zh8AfF2xFyadSqEjMyVkmv24WMiTzyWeLvSE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777975091; c=relaxed/simple;
-	bh=wHsGY403j+eHi/ZLsk+PV9x1DNws0frM1L+aVY6f9EE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XJvWioCSGx5vjkC3YrlvIC1GXMtgYigNPHo7LSohUqeycIKctUm8/WYqFZB4kvHyqDlknKkTCXyJCPPxZR04KreA9RN5Z/zHFOo9+imZ3ttXOSR+sY7n8ZLvdszwTDJhrRmvkI4jHOcgOZt1MNVYxotRGcYE5bQcLWWxmMJfBA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=dyFB8gCk; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3380363092
+	for <linux-staging@lists.linux.dev>; Tue,  5 May 2026 10:09:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=103.117.158.91
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777975747; cv=pass; b=hvIsSYlfPvDv9Ly34jATWiQlkUNpwS2M3futKzLVZpSst6Ny2xoVGnRlTH+yTrBtA8QvfMN3OoiJkUNoVLH5pWn0Bq4VI95F3CI6DadupEJ0gejhjtkes35y4bW+EYW23WHd7JVtGm79/wjn0ty6dsCZwVhfTjHUs1N1c2SW1AM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777975747; c=relaxed/simple;
+	bh=Sl1TQa8WeMZ4EuLWhlqAJXgF9hosucPpfOCt4Tz5lto=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=b5zNDVA1NR4Bg1c/UbuMIhjHZGAN9ZfCUw8Bkey+dV7ryVuu6p+GTOJkJo8knT2NezneciBnDQ0nCrl/jZY4pwfkcM2GT0dZXjt52s8a5yDNk/+Sj1qy1527LTW4i7KVBkaZjchb5oZ0Z61c3DoQietU9nxjcQC+jnN2LhvKJdw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in; spf=pass smtp.mailfrom=zohomail.in; dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b=JO5qFGGt; arc=pass smtp.client-ip=103.117.158.91
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.in
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="dyFB8gCk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96A34C2BCB4;
-	Tue,  5 May 2026 09:58:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1777975090;
-	bh=wHsGY403j+eHi/ZLsk+PV9x1DNws0frM1L+aVY6f9EE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dyFB8gCkmWufZywb4DJrzuCBpiq2ozlO35Dlpj84ds8dUAQJG0nwaCqtYV0IOS3ED
-	 1XS+8t4+efCX57u6P5rdMuNBPd3qErcZZbK5bQvrIilCR7+Ps72mZ7CyArSYDQyuVv
-	 t9L2rA+yK7N8t2Sy4yHL1Qcl04Jp57DCJxlO0ou0=
-Date: Tue, 5 May 2026 11:58:08 +0200
-From: gregkh <gregkh@linuxfoundation.org>
-To: Ashwin Gundarapu <linuxuser509@zohomail.in>
-Cc: linux-staging <linux-staging@lists.linux.dev>,
-	linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] staging: rtl8723bs: remove unnecessary comparison to true
-Message-ID: <2026050541-banjo-pranker-490d@gregkh>
-References: <19df78192f1.8499078d18124.8136902784979453848@zohomail.in>
+	dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b="JO5qFGGt"
+ARC-Seal: i=1; a=rsa-sha256; t=1777975729; cv=none; 
+	d=zohomail.in; s=zohoarc; 
+	b=T0b6e4nP3TcWP9Gbz4ofMdgcLo1CEdjXAcTgi2akCEJvWGA2BDHQpYhqD5RqBCrug6jKDUU77T/HTbyL+jTSCZSXtB/g21S9ye8nY+cMA9+xbA8yt1tuvJeBqKLTi/NokwhuQzXbu+PoguK1kcaX1WylJFqvGpANcvqg0L+Yivg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in; s=zohoarc; 
+	t=1777975729; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=7WBjnqEyMc8TLCU2Vdko79mPVTllFaEDx1C+goelZ4s=; 
+	b=MyyRY7luMD5gPz6OAbns+rC8Ek77Nzsis5TW5JUBVJrYxSyZA1y7XUlsX0S1789ZtsxC65GcpOs7bA0eW6HLz9/2Zp6kq8hHEVQD+kaws9CUSLU5G6PyhZbHyzK9wy6waHrJrevxTuPHsBh51oBFYthCwTSIu/Q2tVq4U67Nt7o=
+ARC-Authentication-Results: i=1; mx.zohomail.in;
+	dkim=pass  header.i=zohomail.in;
+	spf=pass  smtp.mailfrom=linuxuser509@zohomail.in;
+	dmarc=pass header.from=<linuxuser509@zohomail.in>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1777975729;
+	s=zoho; d=zohomail.in; i=linuxuser509@zohomail.in;
+	h=Message-ID:Date:Date:MIME-Version:To:To:Cc:Cc:From:From:Subject:Subject:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=7WBjnqEyMc8TLCU2Vdko79mPVTllFaEDx1C+goelZ4s=;
+	b=JO5qFGGtOIkTqxn7BQkR3th370TeSczc4xMd6R7c9ix3LXIgU1hOwUMvGF8ghu09
+	CdsJbDRLqbDT/xrCt8nWzTTHruLRuL4eYsH7PgjbYHXYmhIj3s/lK7D3nJ792HzS7Lb
+	1zQXQFLnp9FJFhxfdMF0xOWOhFtonRXYzzeK2R7I=
+Received: by mx.zoho.in with SMTPS id 1777975728899202.3550388756977;
+	Tue, 5 May 2026 15:38:48 +0530 (IST)
+Message-ID: <c4d5b70f-dcc7-47cd-a026-2864e0d76e46@zohomail.in>
+Date: Tue, 5 May 2026 15:38:39 +0530
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <19df78192f1.8499078d18124.8136902784979453848@zohomail.in>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+From: Ashwin Gundarapu <linuxuser509@zohomail.in>
+Subject: [PATCH] staging: rtl8723bs: remove unnecessary comparison to true
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-On Tue, May 05, 2026 at 03:09:17PM +0530, Ashwin Gundarapu wrote:
-> 
-> >From 833733dda327c72d63bcfb18701fadabae03e4d2 Mon Sep 17 00:00:00 2001
-> From: Ashwin Gundarapu <linuxuser509@zohomail.in>
-> Date: Sat, 2 May 2026 17:19:48 +0530
-> Subject: [PATCH] staging: rtl8723bs: remove unnecessary comparison to true
+ From 833733dda327c72d63bcfb18701fadabae03e4d2 Mon Sep 17 00:00:00 2001
+From: Ashwin Gundarapu <linuxuser509@zohomail.in>
+Date: Sat, 2 May 2026 17:19:48 +0530
+Subject: [PATCH] staging: rtl8723bs: remove unnecessary comparison to true
 
-This should not be here.
+Remove explicit comparison to true in check_fwstate() call and
+add spacing around the bitwise OR operator to improve code style.
 
-> 
-> Remove explicit comparison to true in check_fwstate() call and
-> add spacing around the bitwise OR operator to improve code style.
-> 
-> Signed-off-by: Ashwin Gundarapu <linuxuser509@zohomail.in>
-> ---
->  drivers/staging/rtl8723bs/core/rtw_ioctl_set.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-> index c70541f95a73..c100a0d70fe2 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-> @@ -151,7 +151,8 @@ u8 rtw_set_802_11_ssid(struct adapter *padapter, struct ndis_802_11_ssid *ssid)
->  	else if (check_fwstate(pmlmepriv, _FW_UNDER_LINKING) == true)
->  		goto release_mlme_lock;
->  
-> -	if (check_fwstate(pmlmepriv, _FW_LINKED|WIFI_ADHOC_MASTER_STATE) == true) {
-> +	if (check_fwstate(pmlmepriv,
-> +		_FW_LINKED | WIFI_ADHOC_MASTER_STATE)) {
+Signed-off-by: Ashwin Gundarapu <linuxuser509@zohomail.in>
+---
+  drivers/staging/rtl8723bs/core/rtw_ioctl_set.c | 3 ++-
+  1 file changed, 2 insertions(+), 1 deletion(-)
 
-You also wrapped the line, why?  checkpatch should have complained about
-this too.
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c 
+b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
+index c70541f95a73..c100a0d70fe2 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
+@@ -151,7 +151,8 @@ u8 rtw_set_802_11_ssid(struct adapter *padapter, 
+struct ndis_802_11_ssid *ssid)
+      else if (check_fwstate(pmlmepriv, _FW_UNDER_LINKING) == true)
+          goto release_mlme_lock;
 
-thanks,
+-    if (check_fwstate(pmlmepriv, _FW_LINKED|WIFI_ADHOC_MASTER_STATE) == 
+true) {
++    if (check_fwstate(pmlmepriv,
++        _FW_LINKED | WIFI_ADHOC_MASTER_STATE)) {
+          if ((pmlmepriv->assoc_ssid.ssid_length == ssid->ssid_length) &&
+              (!memcmp(&pmlmepriv->assoc_ssid.ssid, ssid->ssid, 
+ssid->ssid_length))) {
+              if (check_fwstate(pmlmepriv, WIFI_STATION_STATE) == false) {
 
-greg k-h
+base-commit: 26fd6bff2c050196005312d1d306889220952a99
+-- 
+2.43.0
+
+
