@@ -1,157 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C49AE313550;
-	Tue,  5 May 2026 12:43:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A988A478E25;
+	Tue,  5 May 2026 13:09:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777985011; cv=none; b=ACS/g/NeDxDxqMHJsNYqZojJrxWZb+MbCDcNYghS/T3d0F3LociNdXrKdHzjBLoJPypVvyP7XIx8uuLLaoSl6zdsmWNK6p+lnlDRf6ynuj/4+Of3QaAxXHJIAF7h5OaQaVA36v25g9cyb91ztQBQNgel5AgIca67iARkhvh2IKw=
+	t=1777986589; cv=none; b=MqgHeZdt3XNFooxwnd5srun9BXSYQ3XNZaUzV8NSBN3I+rSgyFiNYTTRN/3cJHOlPPBHsgf8WjTOPtHT/f0divm5kqLx80XdjIFugaCyMJ07d3j9bBBio/w9PEGdTSpXClMcJGKQrBpyFVDaxpcAQEAyFZDZiZy/2chAsAgs2Xk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777985011; c=relaxed/simple;
-	bh=RRFrNkOQz3XsDjXV2ZqAeXaXDFjrJW31GWWurgjfvfI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qth+g0RT5pQH6ju2rO3wVXYUVU9HP1kOxuZQ57ZsNM+PCnxbV/KCy07cGV6vmg+Oc7Uq7lhU7c2Eh8FsVJidjbduHYIxf8GL454/sDnbHDA/XrA1GR1LIbFBFRHOWNM8RIDNEHFtIW24Zpq7iQreSbWBbDjv4XQDLssHmV9ft90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GMrdL2dU; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GMrdL2dU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00AEAC2BCB9;
-	Tue,  5 May 2026 12:43:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777985011;
-	bh=RRFrNkOQz3XsDjXV2ZqAeXaXDFjrJW31GWWurgjfvfI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=GMrdL2dUbXiR3Dp7iC3H5WssTbXGbccCKDf6DHtUJfIyupoN4/C1d2V9LfYMccDNF
-	 VEeJlqhD7tHgE0AuYWspvO2FPaGCoMBw14jGcRX+h8BbYfGw9WcBPnk2S5M0AThKcr
-	 Hj2xDsviqtd1GZMyE93TSu35fUn6k5xPLZ2HW4zoheXoh8405wuyRtiELKb5jLHJWz
-	 iRHWVlH32gX1LoabadE3nOUPcb9+Y0yXNMnUpvLiSH/26mc+hO9Yr5aiU0DZnhCupF
-	 uQfqcoACXbmEidz567vY4/t2JovYH2axbsiB2h0+GtFaD1hL4Aq3GORg0fOi8bkf/L
-	 x5ZBDqXdOkxZg==
-Message-ID: <936a9b7d-0602-49d1-992f-abf620b37836@kernel.org>
-Date: Tue, 5 May 2026 14:43:28 +0200
+	s=arc-20240116; t=1777986589; c=relaxed/simple;
+	bh=5ieFLJMSGOSPSZfYVl+lUg2WjCFI+Kug2GPWbar7ei4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=attn5wW0Ugxfu/eCDDmXs1EYfDJ2uX96nw4Mbi6E2q2jJtNAOgtMDe1RNd/rfAoroGIado22LOfGHtqKpNK78m0k1BB2+BAJyrT9Dx4gBQCz8SsaiWe0Rs1y1oEG7DTPN0t+wWUQODQ+RytYv+9pb8TR0fIKwCPImXcueX28fyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
+Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
+	by leonov.paulk.fr (Postfix) with ESMTPS id 43DDF1F8005C;
+	Tue,  5 May 2026 13:09:32 +0000 (UTC)
+Received: by laika.paulk.fr (Postfix, from userid 65534)
+	id DF293B40550; Tue,  5 May 2026 13:09:30 +0000 (UTC)
+X-Spam-Level: 
+Received: from shepard (unknown [192.168.1.1])
+	by laika.paulk.fr (Postfix) with ESMTPSA id 72EE5B40540;
+	Tue,  5 May 2026 13:09:29 +0000 (UTC)
+Date: Tue, 5 May 2026 15:09:26 +0200
+From: Paul Kocialkowski <paulk@sys-base.io>
+To: =?utf-8?B?67CV66qF7ZuI?= <mhun512@gmail.com>
+Cc: Maxime Ripard <mripard@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org, Ijae Kim <ae878000@gmail.com>
+Subject: Re: [PATCH v2] media: cedrus: clean up media device on probe failure
+Message-ID: <afnsBu1nepWi8yy_@shepard>
+References: <20260430142534.12928-1-pakmyeonghun@bagmyeonghun-ui-MacBookPro.local>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] staging: media: av7110: coding style fixes: too many
- tabs
-To: Sudarshan Srinivasan <ss22.kern.dev@gmail.com>, mchehab@kernel.org,
- gregkh@linuxfoundation.org, error27@gmail.com
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20260401191743.26951-1-ss22.kern.dev@gmail.com>
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Content-Language: en-US
-In-Reply-To: <20260401191743.26951-1-ss22.kern.dev@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="OKqRcrL7IoYtAh8b"
+Content-Disposition: inline
+In-Reply-To: <20260430142534.12928-1-pakmyeonghun@bagmyeonghun-ui-MacBookPro.local>
 
-On 4/1/26 21:17, Sudarshan Srinivasan wrote:
-> Fix warning reported by checkpatch.pl
-> "WARNING: Too many leading tabs - consider code refactoring"
-> 
-> Signed-off-by: Sudarshan Srinivasan <ss22.kern.dev@gmail.com>
+
+--OKqRcrL7IoYtAh8b
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+On Thu 30 Apr 26, 23:25, =EB=B0=95=EB=AA=85=ED=9B=88 wrote:
+> From: Myeonghun Pak <mhun512@gmail.com>
+>=20
+> cedrus_probe() initializes the media device before registering the video
+> device, the media controller, and the media device. If any of those later
+> steps fails, probe returns without calling media_device_cleanup(), so the
+> media device internals initialized by media_device_init() are left behind.
+>=20
+> Add a media-device cleanup label to the probe unwind path and route video
+> registration failures through it as well.
+
+The label should be named "err_media" instead of "err_media_cleanup" to be
+consistent with the other labels. With that fixed:
+
+Reviewed-by: Paul Kocialkowski <paulk@sys-base.io>
+
+Thanks for the fix!
+
+Paul
+
+> Fixes: 50e761516f2b8c ("media: platform: Add Cedrus VPU decoder driver")
+> Cc: stable@vger.kernel.org
+> Co-developed-by: Ijae Kim <ae878000@gmail.com>
+> Signed-off-by: Ijae Kim <ae878000@gmail.com>
+> Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
 > ---
-> v4:
->   - Added the missing check for  "feed->ts_type"
->   - Removed initialization of 'ret'
->   - handle_ts_memory_fe() accepts only "feed", "demux" and "av7110" extracted thereafter
->   - demux->playing assigned to int, instead of bool to maintain original style
-> v3:
->   - Removed the additional tabs in handle_ts_memory_fe() as indicated by Greg KH
->   - Retained the original code style as suggested by Dan Carpenter
-> v2:
->   - Refactored change by adding function handle_ts_memory_fe
-> 
-> v2: https://lore.kernel.org/linux-staging/20260318191149.109616-1-ss22.kern.dev@gmail.com/
-> v1: https://lore.kernel.org/linux-staging/20260316152340.238100-1-ss22.kern.dev@gmail.com/
-> 
->  drivers/staging/media/av7110/av7110.c | 36 +++++++++++++++++++--------
->  1 file changed, 26 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/staging/media/av7110/av7110.c b/drivers/staging/media/av7110/av7110.c
-> index 607992100baf..486dd8010e7f 100644
-> --- a/drivers/staging/media/av7110/av7110.c
-> +++ b/drivers/staging/media/av7110/av7110.c
-> @@ -932,6 +932,31 @@ static int dvb_feed_stop_pid(struct dvb_demux_feed *dvbdmxfeed)
->  	return ret;
->  }
-> 
-> +static int handle_ts_memory_fe(struct dvb_demux_feed *feed)
-> +{
-> +	struct dvb_demux *demux = feed->demux;
-> +	struct av7110 *av7110 = demux->priv;
-> +	int ret;
-> +
-> +	if (!(feed->ts_type & TS_DECODER))
-> +		return 0;
-> +
-> +	if (feed->pes_type >= 2)
-> +		return 0;
-> +
-> +	if ((demux->pids[0] & 0x8000) || (demux->pids[1] & 0x8000))
-> +		return 0;
-> +
-> +	dvb_ringbuffer_flush_spinlock_wakeup(&av7110->avout);
-> +	dvb_ringbuffer_flush_spinlock_wakeup(&av7110->aout);
-> +
-> +	ret = av7110_av_start_play(av7110, RP_AV);
-> +	if (!ret)
-> +		demux->playing = 1;
-> +
-> +	return ret;
-> +}
-> +
->  static int av7110_start_feed(struct dvb_demux_feed *feed)
->  {
->  	struct dvb_demux *demux = feed->demux;
-> @@ -951,16 +976,7 @@ static int av7110_start_feed(struct dvb_demux_feed *feed)
->  		    (feed->pes_type <= DMX_PES_PCR)) {
->  			switch (demux->dmx.frontend->source) {
->  			case DMX_MEMORY_FE:
-> -				if (feed->ts_type & TS_DECODER)
-> -					if (feed->pes_type < 2 &&
-> -					    !(demux->pids[0] & 0x8000) &&
-> -					    !(demux->pids[1] & 0x8000)) {
-> -						dvb_ringbuffer_flush_spinlock_wakeup(&av7110->avout);
-> -						dvb_ringbuffer_flush_spinlock_wakeup(&av7110->aout);
-> -						ret = av7110_av_start_play(av7110, RP_AV);
-> -						if (!ret)
-> -							demux->playing = 1;
-> -					}
+> Changes in v2:
+> - Drop the now-unused err_m2m label.
+>=20
+>  drivers/staging/media/sunxi/cedrus/cedrus.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/stagin=
+g/media/sunxi/cedrus/cedrus.c
+> index 6600245dff..2c25654640 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+> @@ -507,7 +507,7 @@ static int cedrus_probe(struct platform_device *pdev)
+>  	ret =3D video_register_device(vfd, VFL_TYPE_VIDEO, 0);
+>  	if (ret) {
+>  		v4l2_err(&dev->v4l2_dev, "Failed to register video device\n");
+> -		goto err_m2m;
+> +		goto err_media_cleanup;
+>  	}
+> =20
+>  	v4l2_info(&dev->v4l2_dev,
+> @@ -533,6 +533,7 @@ static int cedrus_probe(struct platform_device *pdev)
+>  	v4l2_m2m_unregister_media_controller(dev->m2m_dev);
+>  err_video:
+>  	video_unregister_device(&dev->vfd);
+> -err_m2m:
+> +err_media_cleanup:
+> +	media_device_cleanup(&dev->mdev);
+>  	v4l2_m2m_release(dev->m2m_dev);
+>  err_v4l2:
+> --=20
+> 2.50.1
 
-If you rework this as follows:
+--=20
+Paul Kocialkowski,
 
-				if (!(feed->ts_type & TS_DECODER))
-					break;
-				if (feed->pes_type >= 2)
-					break;
-				if ((demux->pids[0] & 0x8000) ||
-				    (demux->pids[1] & 0x8000))
-					break;
-				dvb_ringbuffer_flush_spinlock_wakeup(&av7110->avout);
-				dvb_ringbuffer_flush_spinlock_wakeup(&av7110->aout);
-				ret = av7110_av_start_play(av7110, RP_AV);
-				if (!ret)
-					demux->playing = 1;
+Independent contractor - sys-base - https://www.sys-base.io/
+Free software developer - https://www.paulk.fr/
 
-Does that fix the warning?
+Expert in multimedia, graphics and embedded hardware support with Linux.
 
-I prefer that over creating a new function. If this doesn't help,
-then I can take this patch as-is.
+--OKqRcrL7IoYtAh8b
+Content-Type: application/pgp-signature; name=signature.asc
 
-Regards,
+-----BEGIN PGP SIGNATURE-----
 
-	Hans
+iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmn57AYACgkQhP3B6o/u
+lQxYTQ//Vg6dZ/FBGwVcZvEbR67CmVXDfwgz6zE8GeXVEXwu7GY40c3yev5F2pNn
+0N2ec5Jj2a+nTeRv62lgSsUBy1K+YsRhcQ30RpCkrRGYXESPJ5WeFBU/+IYRJjmN
+G6hW5bN7ZiOZN2jQ53swcwHOZq5cZcxdtpSG9OFDDB66E46fCs67UnfLuv6koUFH
+wtGTgHJKOg5MkO4SjNpN2KEZmDcuPodnaHdvRo/BX1rkY+fS3GKIP5Dtd6W5xBVn
+6ag9Wrwr24akqGWfjRTstDTFglqPIvUZtXJp1w4QVqYsik1o0d9UY+rLqe66DzQZ
+KGNSe9DufKyB9WmeaaXlGFhCbMdLKqWr+LfiVKY0fmEkJlPJkjazs4eKm/c8VN2i
+9TfeW8hlaWev8RrC/pLJxcnJOWNtJCo7pjp2d4zIXg629SAN2yIqn2hMi4cQtpOL
+Ixc3c30xVlEAnSSVXXZgaMGCCgIoSY7JcuWq6JE4cxMmAnZe+zWZKNI8gyi7906r
+mx/ZsKPA91CmsZn02R3/RnaAhHKRTxvRPI3oAnK4mLrzDkNy+1JurgxAr8IuKBQ8
+BLzJr4XI0W1YIrXzo1vMn2PSdaLmroX8ok3TEXS/JAsoeCEjlTsBy2TS1Bliq/2t
++YNKoMFNF6OU34nh+74LO9nsvS/hlPFSixiBiIDOH8zl9AmemqU=
+=PbbW
+-----END PGP SIGNATURE-----
 
-> +				ret = handle_ts_memory_fe(feed);
->  				break;
->  			default:
->  				ret = dvb_feed_start_pid(feed);
-> --
-> 2.43.0
-> 
-> 
-
+--OKqRcrL7IoYtAh8b--
