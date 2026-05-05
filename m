@@ -1,103 +1,141 @@
-Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
+Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05FE23D16E8
-	for <linux-staging@lists.linux.dev>; Tue,  5 May 2026 20:04:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D242B30C35F;
+	Tue,  5 May 2026 20:35:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778011483; cv=none; b=ij9tSmFYtGOlbYD9q5+hR3OWXBht0qDz3H8pbY1IwLCCi9BBTM0JMaaPO8GaGWGr6fgyZjQO0NwRBoYzeIgbq6j8hy4mSaHB8kk9zgQJUo3DV2z3UZc5xjdImR5e9h9hhRxeqJbjNfBmcV2kQEZ0SjEcUnjndaDsZAGmPEJHwxg=
+	t=1778013333; cv=none; b=bxVP7iFTBq/XL6vf2hApTouWJVv4OR3Juh6RHnUdD9LilZ2F0AByJO+lOXr6/1nUco9XgH5Ob6dZWNNwkGcnE8FYtr9VEpSadk6JUS3zurh9nIqM2bZJH2ifFD8fOv7eOPWnH7p2TIdDktRMNxsXwE+QANGhCqE0DHT4f7AZtrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778011483; c=relaxed/simple;
-	bh=MmoaovAWFRTFBc9PhK7nEaBrmzdaJ4bRRxyyepxPf8E=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=Wpz8MxR+bSFSu9+MPKc1lHhDMinhU7APzHM0j52x7x7S+zp1QVhgRcZNQ/ZyWH5XaIlwQqSg0QPgMIK8gijcCRvTv3zjpk0l8ICKM8/tFzy7vpVZu1KvcYVuuy1mgQR5N3OSncPZW8aO+O+c6wzGGlmN6NfBvcZsHEL1qrg+7XM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Lj0pDdPs; arc=none smtp.client-ip=95.215.58.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Lj0pDdPs"
-Date: Tue, 05 May 2026 22:04:27 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1778011478;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LmuVpxHvRehCyVtpfMoFPpSUr10pei5H6v2Vlv6Qqls=;
-	b=Lj0pDdPszd8Z3lXZtbgHowUHmW48SAGb+yAihyKn8hs3mcj4GQkEHLFqpNBXKSvVfXq/Ud
-	iQZBF4KPW4Bo7bpa+z7oG8AwoZvefR2MhLiK/e0Pj3fDrqNNsbMVj11/v64y6I0IkUPTYl
-	kT545uRzttloJNlHtLV9gMWKgrsw/X4=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Luka Gejak <luka.gejak@linux.dev>
-To: Greg KH <gregkh@linuxfoundation.org>, Feng Ning <feng@innora.ai>
-CC: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, luka.gejak@linux.dev
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v6=5D_staging=3A_rtl8723bs=3A_fix_hea?=
- =?US-ASCII?Q?p_buffer_overflow_in_cfg80211=5Frtw=5Fadd=5Fkey=28=29?=
-In-Reply-To: <2026050434-unpadded-sandstone-0412@gregkh>
-References: <20260413113224.5201-1-feng@innora.ai> <2026042626-tabloid-suitor-33c5@gregkh> <20260427111738.33069-1-feng@innora.ai> <2026050417-monkhood-backless-4c3e@gregkh> <20260504154823.52057-1-feng@innora.ai> <2026050458-numbness-haven-1ae4@gregkh> <20260504163828.90294-1-feng@innora.ai> <2026050434-unpadded-sandstone-0412@gregkh>
-Message-ID: <F9E617FC-FE79-4EA7-A5FD-004997CC127D@linux.dev>
+	s=arc-20240116; t=1778013333; c=relaxed/simple;
+	bh=UXC9+hPU2ndmcK4oDF3blwKtby0Kh/UxqWZqMo0pXNM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Hg+VZBtKa/jVGqlvkVOk7jxIS5ggCfPe+m9ajjudZotEnZNCbAH4qZNU+0RfMEm/0v87GnzBO1GAdLc3zBDEXmgvJfJpiV9UmFjMBMd6TUSLpmThErsuE3Yw3yDtUDaqIqH/vLPjtZ8IrfEfhlyUzcB5IkX/RJOUElWj3LvoMys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
+Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
+	by leonov.paulk.fr (Postfix) with ESMTPS id E87D01F8004F;
+	Tue,  5 May 2026 20:35:27 +0000 (UTC)
+Received: by laika.paulk.fr (Postfix, from userid 65534)
+	id 68C00B4058E; Tue,  5 May 2026 20:35:26 +0000 (UTC)
+X-Spam-Level: 
+Received: from shepard (unknown [192.168.1.1])
+	by laika.paulk.fr (Postfix) with ESMTPSA id 2A1DAB4058A;
+	Tue,  5 May 2026 20:35:25 +0000 (UTC)
+Date: Tue, 5 May 2026 22:35:22 +0200
+From: Paul Kocialkowski <paulk@sys-base.io>
+To: Chen-Yu Tsai <wens@kernel.org>
+Cc: Maxime Ripard <mripard@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Jernej Skrabec <jernej@kernel.org>,
+	Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 5/7] arm64: dts: allwinner: sun50i-h6: Add missing SRAM
+ region for video engine
+Message-ID: <afpUiupOgPhLksM8@shepard>
+References: <20260505134812.408316-1-wens@kernel.org>
+ <20260505134812.408316-6-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="FpfFtflQBQQ4ZJAp"
+Content-Disposition: inline
+In-Reply-To: <20260505134812.408316-6-wens@kernel.org>
+
+
+--FpfFtflQBQQ4ZJAp
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-X-Migadu-Flow: FLOW_OUT
 
-On May 4, 2026 7:01:00 PM GMT+02:00, Greg KH <gregkh@linuxfoundation=2Eorg>=
- wrote:
->On Mon, May 04, 2026 at 04:38:35PM +0000, Feng Ning wrote:
->> On Mon, May 04, 2026 at 06:03:02PM +0200, Greg KH wrote:
->> > Let's fix this in a way that the code can be moved out of staging
->> > someday please=2E
->> >
->> > > That said, I can see the argument for -EINVAL: it makes the contrac=
-t
->> > > explicit and avoids installing a key with a truncated sequence coun=
-ter
->> > > that could produce unexpected crypto behaviour=2E
->> >
->> > Yes, that is better=2E
->> >
->> > > Regarding hardware testing: I do not currently have a physical
->> > > rtl8723bs device=2E
->> >
->> > Ideally someone can test this on the real hardware=2E  I'm loath to t=
-ake
->> > real patches for this driver without that happening=2E
->>=20
->> Hi Greg,
->>=20
->> Thank you=2E  I will change the silent truncation to an explicit -EINVA=
-L
->> when seq_len > sizeof(param->u=2Ecrypt=2Eseq) for the next iteration=2E
->>=20
->> Regarding testing: I do not have access to RTL8723BS/BU hardware to
->> verify this, and I will not resubmit as a regular PATCH without a
->> Tested-by from real hardware=2E
->>=20
->> Would you prefer I send the -EINVAL revision as an RFC on
->> linux-staging and linux-wireless to ask for a community tester, or
->> should I drop the patch until someone with the hardware picks up the
->> thread?
->
->Submit the patch and ask for someone to test it=2E  I think Luka here sai=
-d
->they were getting a device, and I might have one somewhere around here
->as well if I dig hard enough=2E=2E=2E
->
->thanks,
->
->greg k-h
+Hi Chen-Yu,
 
-Hi Greg,
-my hardware (medion akoya s2218 laptop) is currently on its way from=20
-Germany and should arrive in approximetely 10-14 days (approximation=20
-is based on time that it took other orders to arrive from same area)=2E
-Once it arrives I would be happy to serve as a tester if necessary=2E
-Best regards,
-Luka Gejak
+On Tue 05 May 26, 21:48, Chen-Yu Tsai wrote:
+> The SRAM C region contains a partial alias to the VE SRAM already
+> referenced by the video engine. To avoid access through this alias
+> window, the region should also be claimed by the video engine.
+>=20
+> Add a reference to the SRAM C region to the video engine node.
+
+It feels very weird to have a reference to the DE2 SRAM region in the
+VE node. It seems unlikely that the same region would be used by both DE2 a=
+nd
+VE and I am pretty sure can have both running at the same time without
+overstepping.
+
+=46rom what I can see we have so far assumed that the SRAM C and SRAM C1
+are two different physical SRAM areas, but this is most likely not the case.
+My guess would be that SRAM C1 is actually a part of SRAM C and the DE2 is
+using another part of it. The syscon block probably allows switching access
+to these different parts of SRAM C.
+
+Also the sram_c1 node implies it's 2 MiB, which sounds quite unlikely.
+
+All the best,
+
+Paul
+
+>=20
+> Fixes: b542570e5605 ("arm64: dts: allwinner: h6: Add Video Engine node")
+> Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
+> ---
+>  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi b/arch/arm64/bo=
+ot/dts/allwinner/sun50i-h6.dtsi
+> index 72ce1a75647b..88c6e3e105c0 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
+> @@ -205,7 +205,7 @@ video-codec@1c0e000 {
+>  			clock-names =3D "ahb", "mod", "ram";
+>  			resets =3D <&ccu RST_BUS_VE>;
+>  			interrupts =3D <GIC_SPI 89 IRQ_TYPE_LEVEL_HIGH>;
+> -			allwinner,sram =3D <&ve_sram 1>;
+> +			allwinner,sram =3D <&ve_sram 1>, <&de2_sram 1>;
+>  			iommus =3D <&iommu 3>;
+>  		};
+> =20
+> --=20
+> 2.47.3
+>=20
+
+--=20
+Paul Kocialkowski,
+
+Independent contractor - sys-base - https://www.sys-base.io/
+Free software developer - https://www.paulk.fr/
+
+Expert in multimedia, graphics and embedded hardware support with Linux.
+
+--FpfFtflQBQQ4ZJAp
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmn6VIoACgkQhP3B6o/u
+lQz8VBAAkfyeAYZhinUwpsJmf+oDlItFt7Lfusv+8SkH/qZnD6zCrAQk/Geol1rW
+wZlYqRlWIV1tboLHrW+hgJmK43/FRZ8zoXdUVBTmn1qlfDX0VtLF2DvHC+uaufyF
+4DTP/NfJmIdPOIltCC3FEYzt78hqUzYwwEnsyR+uZ0kPKS8dQyvBoS24LOwnF70g
+huYXW9SWc+458Sjd+NVae7vJneQsx8xrtafjkfPP5Zx2PdYmMTsGPxuBNgLa2CiA
+TvtW1mzJtP2egSTdCfzIJRVCdQ6w9/lYvQoFQfz7U+L+MwpB8U7g3yU7sbIEEBwz
+1RzbbYTvHm68D95/Qb4wkxEPXPw/HTD5Hy3iHdw6JLz3VOXvvQapTbOQqADL7SqD
+6HE8NxgGcLLVMO6P3Na0l+nu6AyuXnou5x99ukr1lQYNAVeUCcq4CpN6GV9/Tgq+
+5ZcTzVFJqD2RJfdPbuljaRgWU5i7fUk1QX0QiNmW+m84Kg5e+wkzf/TB1E5JmypQ
+w4d8oYb059s57puI8NZgwHnyhoLu3HB/NhjboHLcuwzcbgY6PMq68lqazv6qNY/p
+bvQU0TQ/2HwBmCtQT7dIn1ShT5xfo0cu3qpl0bHH9iKBcnXCjdGGqmrNliwBIhta
+5rW/eK5LQyKRXSSg3mKHjITNERBpiraMB65z3LMKUrE/UHivWxA=
+=03GE
+-----END PGP SIGNATURE-----
+
+--FpfFtflQBQQ4ZJAp--
