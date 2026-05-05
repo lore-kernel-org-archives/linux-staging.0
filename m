@@ -1,71 +1,79 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E13893EAC8D
-	for <linux-staging@lists.linux.dev>; Tue,  5 May 2026 20:58:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 016A748A2B1
+	for <linux-staging@lists.linux.dev>; Tue,  5 May 2026 21:13:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778014722; cv=none; b=V5B428IW8DnzbpDiPIC1vjFGnp9Nw4b4MAdIE4iNuXskMAWYK4ze8RiUbxds3bAR8noYNRzcU6Sg0oKCeCBkcCkOAhIjkdnOGRnn9AHd2GEWX3EwKPnq2sW4lLo8MWz7ZL3xIIgHxIL++yq1ytBmQJB+uYZ1N1EP6PIxavgwMLk=
+	t=1778015606; cv=none; b=g76U8IBIvyCZ/RQQLcVEVLeA/8CFcvwEjj5pfd1HUgnoJVEARzKq+G9DlX62LgkdTrmprAyUmEKW2e8XIAf95ycH58Doie2z/qC1I/ZP7jyTDvsUQgtJCkPx9cqF9KeXzCdi8vtoXdE4l/+kmxa7pwn/UIkZYBXQoWGhqSk+SKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778014722; c=relaxed/simple;
-	bh=6TVlG5PziR3qmd7U7JHFkcbO6djhkN6spgVpg6Q98GY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TKQtsrBh4pxjITyi7AyTXhP8JYnJXFWCxY3SNTcsOKkSOzxNHLU2u5mDJv4TNau12IIy8QnqWyAeh0sPixSmGW6Wsz6ADzZ7tosqzcunxJ/hvoq1NRpV554rLX+6dbeUnA6g9jCpxrY7s36leqxHbzR9U226D0egP479CspXpCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c3zdcRf9; arc=none smtp.client-ip=209.85.216.54
+	s=arc-20240116; t=1778015606; c=relaxed/simple;
+	bh=9K/q20kdv9UEMqCTifcl6QltCpdUFZ3I/NdHZCda5FY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=thK0dEamIn5otlxJop5neTU8W67Lu2lDodbKNYm4uG2x+S0/fV94MevquK70Z17rhVvrS8jXPWA472AF0BVFhB1HDrsojrD8DEMpBK7vAGtyoh3X/yvZBJWUJVDcmSzzY2WBWSPmuwd5Q8uZC9U0xG2KpWVUOSNYlz4U4OQ/HwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mk03xsRd; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c3zdcRf9"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-36525730172so3285424a91.1
-        for <linux-staging@lists.linux.dev>; Tue, 05 May 2026 13:58:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mk03xsRd"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4891f625344so2833495e9.0
+        for <linux-staging@lists.linux.dev>; Tue, 05 May 2026 14:13:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778014720; x=1778619520; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=v/KIP2hVXgnRxDhtLbrroKUeWc6NpJcgq/yST8Hr7Cc=;
-        b=c3zdcRf9w5TCtpCBA769i1dkebt5avn87xeY3XWwz+CRuLluBoajZZkUFzT8lX+01A
-         Pqyslu0bDV1l+1GnsJI5mE4FiLCOTp0yH37iTNCME1mAJe52XDV6QcovG5yRfMpLOQ2g
-         oys2V66Byjuc8PNfRaAx3wM8uN9wTnkgOnSKO+jl96SXGr/P9wnuTiomATK93Bb6Iojo
-         wuooZyKvU8KU1EdzU1OB3KEGjdRzMuIrrqa+NV+agksBg8+frzmrVwaGtp4QSsy1qDgT
-         wryNdQ++L7mWlLFJRChjhz1MgYtc1Iwzz4HaMWwwv1J7nqfIolCbUrztnslvzSa6gbar
-         ZINw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778014720; x=1778619520;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1778015603; x=1778620403; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=v/KIP2hVXgnRxDhtLbrroKUeWc6NpJcgq/yST8Hr7Cc=;
-        b=V6ywY4eMwUiHvElJHUM/kb/tMb2wuRZhmygmMzbjBlrJFZqHg0T9XqEOS+oN1UiIxa
-         Y5lhf1TjorsfJ0Zn/eCfdLUEmJBKCB3LhC0Hp7uPPDt8NVrRajs3TilW3TO0VuZGkKTT
-         YmrqSIb+OoFydHoarUVeHlbxE8znUwR0ZHi12AWSLzQb7oM9eyO9RTJhUW88NO88Us2L
-         McoNtJqFwekOZaR27zrSCyEoDC0t1dhmHuP2nCZa7buSQg/JjkqRcqDtEh/asL5E1ZX+
-         tihnKSu+S1ehA64SCk1IFsWh6HlNXkOc3EfUEOVapqozOHFEJNsuz/aRKzHbPXB8f91C
-         zB8Q==
-X-Forwarded-Encrypted: i=1; AFNElJ/CRm92D9RNskZpCrDYnYRL8ygCnpZCbGEh54OpRyv5fBALNLSPqwGewQaPbxP12tT+TrhGkae3zbOgQ20C@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywyq7cr5b+zQw1qlRxyR0DJSOOe+i7jwRI5fZdDIwVhsozuPfA1
-	+QBuBlRTGF/Pzppog0GL2NrWhy2PIxNeuHeSnh9BBABvAzgILD5v4PKf
-X-Gm-Gg: AeBDietbM9fvBNHK8sIur0LPQOh+WLNJhDuNvFyHm7LbC7yXkQP3RKcw1zTHhjZolWe
-	iLMLIXtCiZgsug8JzWrdMDo5cCVu38gSWYWzrVFlTQptvgy0ON0Vs7Lxv4CDm1/kyNn1e+KHQKG
-	kDWe61ODlZp7z8/vVTE+lWi617L09UoWzHdBnEk0ADBOGtZMUgj0FiVkt/Y3GTfbYWa6UNVIFzj
-	RHo/UIMDeKxDjtpMtur3Tyx7evpee7xAZPovlx22BqLM2IN42EIBYgqn1pGTdhiqFanHfT6vYag
-	gQd126ls87VDPgvQHGv6vsk/Ze+96V0nZZtvy6gQrScs20GJM6cbFouLcvxULj3Qi7JDNctiXyD
-	8b87udVV9wKr7kxwXurJFGGO+fgzGOpz4SsyIwMVhbJ7Lb2j6bPq7wnFgEUYXqhwO9whe8hRfdq
-	JyL27JMP1PAdWO1XYJMUK5QrSZDz0pg20d5tHYgZrmXsAMUxkJEGHGt/mRgndFVXRyd6mFg7spb
-	DpfofZ2qB6dpmlPrQiBD0lRbH4NAMgn
-X-Received: by 2002:a17:90b:2d0c:b0:35e:30bc:96e2 with SMTP id 98e67ed59e1d1-365abadcd42mr467821a91.10.1778014720131;
-        Tue, 05 May 2026 13:58:40 -0700 (PDT)
-Received: from shyam-VMware-Virtual-Platform.localdomain ([223.181.114.20])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ba7bf2c4aasm1678015ad.23.2026.05.05.13.58.37
+        bh=8vtHOcfXlCeIRCIaOeTZhMJHEfAK35Rv4RbP/F/HJDg=;
+        b=mk03xsRd1uuwIWBG8wZSN9wtmnt8Lb87aViOZQYnOZuNmJY2DUcRESLyC2tCfJq4E8
+         pZ9C85hQNSUZi4mflllaFqbtP6UQ8hiwVmPblvsjNpj76mjqMpFaVqohBWXgJ8IWsUq8
+         4cTg9q7pOkitb/4swz4znUGDKwyQr2pj4KMPQvI4E9t5KKFf+0moCYMqnlm9mxXqHO6q
+         zraFUSLhSpvtcJ0HPx0BhbNvXu/0rrtgv+tN1uxDraakwJFMm1Y0kDw3vdQwhUfx8xqP
+         1f4AZrwqxZoQzIW0+CGT+IDyut7JhPyXMiLdWSXJHnkMFPOQ6tlLkRDZ1I9IEngIh1aj
+         U2qA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778015603; x=1778620403;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=8vtHOcfXlCeIRCIaOeTZhMJHEfAK35Rv4RbP/F/HJDg=;
+        b=Cm/k82R20pWwTj8YNTG3o8mNuAwOKJUK+m/m3MQPHVbhxPqDIkgA09/PLKY3B9Uwrw
+         t7H5ymcacwTHYmWjhHMgwE7HJU/4z5qOc6U0p7qeffmz8NaWy32svBL7m6NnfBeq04J1
+         l7mBoF8tHudMFOsJT/Ihb+e0o5kFjF+8ts0+nHyxvXS90sJyrzcoAyycTTN1109CoZSa
+         4y27mbt28J2XdiZgb81TrPUS2kY0tT5IySm1DrcKHgQiKUAUqRAl740VL38IMh6otNUt
+         orvvZiaC0jejezFAxfIk4FAg5+5NMj/AKrT/p2ZOk+vt1B2Zcq+k0XRzgHg1FtTbokmR
+         Lv/w==
+X-Forwarded-Encrypted: i=1; AFNElJ+Kp1EonV88l0hr1eMV0m3Zw8Eh9IE6sb1EyBINbUN4t/mHiTtd2iNTEOKuy+JZSGVwlI3k/Vr3eCTZW3tt@lists.linux.dev
+X-Gm-Message-State: AOJu0YxoyZgy9I3dLOz0Fc+AOpzki44WGM1gLWJ/62h0HNEkB1pfNYbJ
+	eL/y802o5nJS8e0HRL4PGW1TlwuJw5QkG/ZwfQCuJGR+raRwWTEP3JSg
+X-Gm-Gg: AeBDiet/oORjMIqLhGI5PeZAstFu+Dnj7D4ZNETCBMVmd1kV/haeuKcJwtVlzPKwTPp
+	HDWzgHJgAsIQqDtXUVRkDMcZ5xMhPHKzHkVZ0jeRDcI7NmaZfqIMMiHBMa/LZW4AZnQ2kv8pn0d
+	ikjlippnLttjP8OzkthIgdCohlys3dUG2YaMZBNgdFopWo1DUHKeiPyzw7WDT0doFH0+TKPa/n+
+	bDL1sD2TQyn6zicWOnA2zZc71wBwy2uM7jYuJdol8mQEasdTLVPmCUx/1CpYFzg2yPC8gVDdb0m
+	CELMRfYTQVYBQFFKxiBHXy80nxhpoRUJcAsOxOYqURPKbl8zuM8CUSi7FxvhCeifmcg5FUF6sIx
+	q3cxJje4TruwZ2j/Qk98DLlvDJFKc4zZYdmUalPRWTWXXaY1oASb42GA6qq7nbURJGltDGh++M1
+	7+6ZzOsOGAZafLUCm35FVeqah3LkZQmnmmAcBygvFq22+kRODs7Kg7zNaryc3YdHbVxjB4kjOAY
+	jbkLPlVHzh3XR2rwmSCoYGsD7DIS4LWcKCebhbT9cKlxSKeHD4AtdgkuKyvYEPdsA9D0vk=
+X-Received: by 2002:a05:600d:d:b0:48a:53cb:8604 with SMTP id 5b1f17b1804b1-48e522c0909mr6320335e9.14.1778015603208;
+        Tue, 05 May 2026 14:13:23 -0700 (PDT)
+Received: from ahossu.localdomain ([82.78.232.184])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a8eb6fffcsm403400045e9.4.2026.05.05.14.13.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2026 13:58:39 -0700 (PDT)
-From: Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org,
+        Tue, 05 May 2026 14:13:22 -0700 (PDT)
+From: Alexandru Hossu <hossu.alexandru@gmail.com>
+To: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
-	Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
-Subject: [PATCH] staging: vme_user: check find_bridge() return value
-Date: Wed,  6 May 2026 02:27:46 +0530
-Message-ID: <20260505205746.227144-1-shyamsunderreddypadira@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	linux-kernel@vger.kernel.org
+Cc: error27@gmail.com,
+	stable@vger.kernel.org,
+	luka.gejak@linux.dev,
+	hansg@kernel.org,
+	Alexandru Hossu <hossu.alexandru@gmail.com>
+Subject: [PATCH v7 0/2] staging: rtl8723bs: fix OOB reads in OnAuth() and OnAuthClient()
+Date: Tue,  5 May 2026 23:13:14 +0200
+Message-ID: <20260505211316.3837020-1-hossu.alexandru@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <2026050453-scorer-rebate-3898@gregkh>
+References: <2026050453-scorer-rebate-3898@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -74,232 +82,53 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-find_bridge() returns NULL when no matching bridge is found
-for a given resource. Some call sites dereference the return
-value without verifying it is non-NULL.
+v7, addressing the sashiko review comments on v6.
 
-Add NULL checks before use to avoid potentail NULL pointer
-dereferences.
+Regarding hardware: I do not have rtl8723bs hardware available.  The
+patches in this series are derived from static analysis of the code,
+cross-checking against the 802.11 spec, and reviewing the patterns
+already in use elsewhere in the same driver.
 
-Signed-off-by: Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
----
- drivers/staging/vme_user/vme.c | 63 ++++++++++++++++++++++++++++++++++
- 1 file changed, 63 insertions(+)
+This series fixes authentication frame handling in the rtl8723bs driver.
 
-diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
-index b5c66b66ce32..2ed2f1fe502f 100644
---- a/drivers/staging/vme_user/vme.c
-+++ b/drivers/staging/vme_user/vme.c
-@@ -82,6 +82,9 @@ void *vme_alloc_consistent(struct vme_resource *resource, size_t size,
- {
- 	struct vme_bridge *bridge = find_bridge(resource);
- 
-+	if (!bridge)
-+		return NULL;
-+
- 	if (!bridge->alloc_consistent) {
- 		dev_err(bridge->parent,
- 			"alloc_consistent not supported by bridge %s\n",
-@@ -107,6 +110,9 @@ void vme_free_consistent(struct vme_resource *resource, size_t size,
- {
- 	struct vme_bridge *bridge = find_bridge(resource);
- 
-+	if (!bridge)
-+		return;
-+
- 	if (!bridge->free_consistent) {
- 		dev_err(bridge->parent,
- 			"free_consistent not supported by bridge %s\n",
-@@ -136,6 +142,9 @@ size_t vme_get_size(struct vme_resource *resource)
- 	dma_addr_t buf_base;
- 	u32 aspace, cycle, dwidth;
- 
-+	if (!bridge)
-+		return 0;
-+
- 	switch (resource->type) {
- 	case VME_MASTER:
- 		retval = vme_master_get(resource, &enabled, &base, &size,
-@@ -332,6 +341,9 @@ int vme_slave_set(struct vme_resource *resource, int enabled,
- 	struct vme_slave_resource *image;
- 	int retval;
- 
-+	if (!bridge)
-+		return 0;
-+
- 	if (resource->type != VME_SLAVE) {
- 		dev_err(bridge->parent, "Not a slave resource\n");
- 		return -EINVAL;
-@@ -381,6 +393,9 @@ int vme_slave_get(struct vme_resource *resource, int *enabled,
- 	struct vme_bridge *bridge = find_bridge(resource);
- 	struct vme_slave_resource *image;
- 
-+	if (!bridge)
-+		return 0;
-+
- 	if (resource->type != VME_SLAVE) {
- 		dev_err(bridge->parent, "Not a slave resource\n");
- 		return -EINVAL;
-@@ -409,6 +424,9 @@ void vme_slave_free(struct vme_resource *resource)
- 	struct vme_bridge *bridge = find_bridge(resource);
- 	struct vme_slave_resource *slave_image;
- 
-+	if (!bridge)
-+		return;
-+
- 	if (resource->type != VME_SLAVE) {
- 		dev_err(bridge->parent, "Not a slave resource\n");
- 		return;
-@@ -529,6 +547,9 @@ int vme_master_set(struct vme_resource *resource, int enabled,
- 	struct vme_master_resource *image;
- 	int retval;
- 
-+	if (!bridge)
-+		return 0;
-+
- 	if (resource->type != VME_MASTER) {
- 		dev_err(bridge->parent, "Not a master resource\n");
- 		return -EINVAL;
-@@ -579,6 +600,9 @@ int vme_master_get(struct vme_resource *resource, int *enabled,
- 	struct vme_bridge *bridge = find_bridge(resource);
- 	struct vme_master_resource *image;
- 
-+	if (!bridge)
-+		return 0;
-+
- 	if (resource->type != VME_MASTER) {
- 		dev_err(bridge->parent, "Not a master resource\n");
- 		return -EINVAL;
-@@ -618,6 +642,9 @@ ssize_t vme_master_read(struct vme_resource *resource, void *buf, size_t count,
- 	struct vme_master_resource *image;
- 	size_t length;
- 
-+	if (!bridge)
-+		return 0;
-+
- 	if (!bridge->master_read) {
- 		dev_warn(bridge->parent,
- 			 "Reading from resource not supported\n");
-@@ -667,6 +694,9 @@ ssize_t vme_master_write(struct vme_resource *resource, void *buf,
- 	struct vme_master_resource *image;
- 	size_t length;
- 
-+	if (!bridge)
-+		return 0;
-+
- 	if (!bridge->master_write) {
- 		dev_warn(bridge->parent, "Writing to resource not supported\n");
- 		return -EINVAL;
-@@ -718,6 +748,9 @@ unsigned int vme_master_rmw(struct vme_resource *resource, unsigned int mask,
- 	struct vme_bridge *bridge = find_bridge(resource);
- 	struct vme_master_resource *image;
- 
-+	if (!bridge)
-+		return 0;
-+
- 	if (!bridge->master_rmw) {
- 		dev_warn(bridge->parent, "Writing to resource not supported\n");
- 		return -EINVAL;
-@@ -753,6 +786,9 @@ int vme_master_mmap_prepare(struct vme_resource *resource,
- 	struct vme_master_resource *image;
- 	phys_addr_t phys_addr;
- 
-+	if (!bridge)
-+		return 0;
-+
- 	if (resource->type != VME_MASTER) {
- 		dev_err(bridge->parent, "Not a master resource\n");
- 		return -EINVAL;
-@@ -783,6 +819,9 @@ void vme_master_free(struct vme_resource *resource)
- 	struct vme_bridge *bridge = find_bridge(resource);
- 	struct vme_master_resource *master_image;
- 
-+	if (!bridge)
-+		return;
-+
- 	if (resource->type != VME_MASTER) {
- 		dev_err(bridge->parent, "Not a master resource\n");
- 		return;
-@@ -889,6 +928,9 @@ struct vme_dma_list *vme_new_dma_list(struct vme_resource *resource)
- 	struct vme_bridge *bridge = find_bridge(resource);
- 	struct vme_dma_list *dma_list;
- 
-+	if (!bridge)
-+		return NULL;
-+
- 	if (resource->type != VME_DMA) {
- 		dev_err(bridge->parent, "Not a DMA resource\n");
- 		return NULL;
-@@ -1173,6 +1215,9 @@ int vme_dma_free(struct vme_resource *resource)
- 	struct vme_bridge *bridge = find_bridge(resource);
- 	struct vme_dma_resource *ctrlr;
- 
-+	if (!bridge)
-+		return 0;
-+
- 	if (resource->type != VME_DMA) {
- 		dev_err(bridge->parent, "Not a DMA resource\n");
- 		return -EINVAL;
-@@ -1494,6 +1539,9 @@ int vme_lm_count(struct vme_resource *resource)
- 	struct vme_bridge *bridge = find_bridge(resource);
- 	struct vme_lm_resource *lm;
- 
-+	if (!bridge)
-+		return 0;
-+
- 	if (resource->type != VME_LM) {
- 		dev_err(bridge->parent, "Not a Location Monitor resource\n");
- 		return -EINVAL;
-@@ -1525,6 +1573,9 @@ int vme_lm_set(struct vme_resource *resource, unsigned long long lm_base,
- 	struct vme_bridge *bridge = find_bridge(resource);
- 	struct vme_lm_resource *lm;
- 
-+	if (!bridge)
-+		return 0;
-+
- 	if (resource->type != VME_LM) {
- 		dev_err(bridge->parent, "Not a Location Monitor resource\n");
- 		return -EINVAL;
-@@ -1561,6 +1612,9 @@ int vme_lm_get(struct vme_resource *resource, unsigned long long *lm_base,
- 	struct vme_bridge *bridge = find_bridge(resource);
- 	struct vme_lm_resource *lm;
- 
-+	if (!bridge)
-+		return 0;
-+
- 	if (resource->type != VME_LM) {
- 		dev_err(bridge->parent, "Not a Location Monitor resource\n");
- 		return -EINVAL;
-@@ -1598,6 +1652,9 @@ int vme_lm_attach(struct vme_resource *resource, int monitor,
- 	struct vme_bridge *bridge = find_bridge(resource);
- 	struct vme_lm_resource *lm;
- 
-+	if (!bridge)
-+		return 0;
-+
- 	if (resource->type != VME_LM) {
- 		dev_err(bridge->parent, "Not a Location Monitor resource\n");
- 		return -EINVAL;
-@@ -1631,6 +1688,9 @@ int vme_lm_detach(struct vme_resource *resource, int monitor)
- 	struct vme_bridge *bridge = find_bridge(resource);
- 	struct vme_lm_resource *lm;
- 
-+	if (!bridge)
-+		return 0;
-+
- 	if (resource->type != VME_LM) {
- 		dev_err(bridge->parent, "Not a Location Monitor resource\n");
- 		return -EINVAL;
-@@ -1664,6 +1724,9 @@ void vme_lm_free(struct vme_resource *resource)
- 	struct vme_bridge *bridge = find_bridge(resource);
- 	struct vme_lm_resource *lm;
- 
-+	if (!bridge)
-+		return;
-+
- 	if (resource->type != VME_LM) {
- 		dev_err(bridge->parent, "Not a Location Monitor resource\n");
- 		return;
+Patch 1/2 fixes heap overflows in the Challenge Text IE paths of both
+OnAuthClient() (STA mode) and OnAuth() (AP mode): the IE length field
+from the received frame was used without checking it equals 128, the
+fixed size mandated by IEEE 802.11.
+
+Patch 2/2 adds frame length guards before the first direct pframe
+dereferences in both OnAuth() and OnAuthClient().  Without these checks,
+a frame shorter than WLAN_HDR_A3_LEN bytes causes out-of-bounds reads
+before any IE parsing even begins.  Two additional guards cover the
+algorithm/sequence fields in OnAuth() and the seq/status fields in
+OnAuthClient(), which are read at variable offsets past the 802.11 header.
+
+OnAssocRsp() was already fixed in a separate series.
+
+What changed in v7:
+
+Patch 1/2:
+  - No code changes from v6; dropping Reviewed-by: Dan Carpenter because
+    patch 2/2 changes code from the reviewed version.
+
+Patch 2/2:
+  - Add frame length checks for OnAuth(): guard before GetAddr2Ptr
+    (len < WLAN_HDR_A3_LEN) and guard before algorithm/seq reads
+    (len < WLAN_HDR_A3_LEN + offset + 4).
+  - Correct commit message: remove incorrect claim that rtw_get_ie()
+    unsigned underflow causes OOB scan; rtw_get_ie() uses signed int
+    limit and returns NULL immediately when limit < 2, so the wrapped
+    value is caught before any scan occurs.
+
+Alexandru Hossu (2):
+  staging: rtl8723bs: fix Challenge Text IE length checks in
+    OnAuthClient() and OnAuth()
+  staging: rtl8723bs: fix missing frame length checks in OnAuth() and
+    OnAuthClient()
+
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
+
 -- 
-2.43.0
+2.53.0
 
