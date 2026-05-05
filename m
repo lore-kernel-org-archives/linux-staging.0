@@ -1,63 +1,64 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40B354A2E38
-	for <linux-staging@lists.linux.dev>; Tue,  5 May 2026 17:38:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A52B148C3FE
+	for <linux-staging@lists.linux.dev>; Tue,  5 May 2026 17:38:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778002712; cv=none; b=OIShqMN3PyBrxYiHxlWC5FzDMnqNrfvClGrqw0r5w7OapC8ueJWVVUIghq1ne2GQVKr72CSBdc8Uaqf3gQs5ERrs+wwpYw5Y2ZvpAbz7FpmFf2G2DTfn4whpH2FPwdQqj8/LwMddMRMrmMrQoxZ2b3GR9/LN+tWga/DELR9KDro=
+	t=1778002713; cv=none; b=bBrYb+2OJRYLTzgkmIN2DD48vUUKfImCuX8HeTqveqX/h+bweP4/4L9KpAohVCqthkEqOV7so+LiN0AUyJZcRpYEKtgLj8M50usCp/p5EmRxNb8v/3qhPnD+mjwzG8eK7CypM6eBROF6+HaQPXqB7mwePrqvNHmVBp73wQUwrwQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778002712; c=relaxed/simple;
-	bh=2eHvbI1mk/aj/Zi5PxQSpJypU7yoSMe2lKX08aSATJw=;
+	s=arc-20240116; t=1778002713; c=relaxed/simple;
+	bh=RdfwN/LYtP4aF0CJvFVTs0hMjHmoDcKmx6pMoxp/CbY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=S9BKrZyHHF8idyruiVe4QLStnT3nmxE5yg91tkY/XbFzKGkba3uHDuQIXlQTSTurWNR1zbGQoGiHKzfVl4WkgPd244ctICiH7jw7khZ9TmfbZWsi+jTXRZGOAur5uvlYwqA3pNxwneH8io3Q5vyYo5o0R8jjbDOdv47tIcQyAk0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QCyxs/Hd; arc=none smtp.client-ip=209.85.128.49
+	 MIME-Version; b=Jwc4S+xnOSU2vHcWSZkeFrnVg5NRWn2VWzVf0aO6kD/XwXy3/0PlhI40QZGQyhV+Mrq8UhThUveHvL74b/IMGgBTT9OtjsXkZDReLoOk6XbvU9/bVMw5/Y8/vtscqD6fMwUdb59GsMtIPqp3bufuhpauvBZhi2hexww2ce5LxbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ItbhtNa/; arc=none smtp.client-ip=209.85.128.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QCyxs/Hd"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-48a3e9862f0so666995e9.1
-        for <linux-staging@lists.linux.dev>; Tue, 05 May 2026 10:38:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ItbhtNa/"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-488b0e1b870so87234855e9.2
+        for <linux-staging@lists.linux.dev>; Tue, 05 May 2026 10:38:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778002708; x=1778607508; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1778002709; x=1778607509; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3HzUgHbapU2iUW6a55uMohE0Ic8YmFRsZ+OhWqMaW50=;
-        b=QCyxs/HdwZ2LMgTrs+QQEr3iIwZFClxpoKSYzNJszousbWjcVzOyRDPsI+gasVnDWD
-         KjM0S+nKhKtFUqP3P2WH1YSrEJOqKnPr50EGq/NMKH8Scy77sdrY5q2HZjDFt7l4Thr5
-         d29uxqDzOiqz3abAaXithuL3lPC2CdCZ3xpvZnPai1U+6t9G2wRLOP1LI//YkTJnX4tF
-         X685XmZhf4f89MzvGQS6j3zzffdyUVgzdNlSHQuqayJTlfn0ml3awg9u1kSM/wQAdeMc
-         7lDG/bdSOoYMiB/F9TW4r1pYS/krIJ8+onDFjla+VWgFGBKEyKKR3E/QxD2lf0P6puXp
-         DQog==
+        bh=2NpaDj1OSOuFZ6NR+/4KPE7w1qddaBejMbo1xZezZe4=;
+        b=ItbhtNa/Yzhe+zDhKFf6O5HZELNiItft25oOwgZZ6/aUhrv24P9ExC0UF840wDcK9Z
+         /oeZldMr3oDG4GDmmVjA0Et25ZemvpnZKz+76MeVs1Q1XqF65l80X1zS/2YhoLgD08FW
+         DWU5TVsBGbSYzg8XQ2ZKY+L3rPzom+lo2Rg2ExvLR2NFvpLdRbpmyiKhrjyi/44rlQpJ
+         zEvok+F9IDzk4tdujQhFAwm8JMyJfD8kXoPRhM22gFOTYj1EB7XlygLH0EeQ14ZdtzGS
+         nMZ5R97vT8c7gLI7CrbzNoQpFfu2pPPBeT88vhHSU2Bfb2FE3v0AaD8keL96oHLzhxbW
+         aNLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778002708; x=1778607508;
+        d=1e100.net; s=20251104; t=1778002709; x=1778607509;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=3HzUgHbapU2iUW6a55uMohE0Ic8YmFRsZ+OhWqMaW50=;
-        b=IuQUW/7U6ac5PCxb2gfMO3QOVG5RghfVHjHFjvYGeXe3kUGxziFmME6Q1g2wqFENAK
-         mawBKx8oQ8yeBAru4KGCc5lvg9GHWmVHx9cake0Aqw5tpVAeGHmdokBKVN/w/6s2nXBQ
-         BoPTAec1Kil9svtnbtiFoxf4lHnevm0mcNqOlnMV4gQWVFSbwwunjCMqsI1lz40ywxQ+
-         U/8xGS+J0Y665s6knWX26WOfcLcBaDJDSERsDi1m7gsW/Z0tDVN5TYCGPNUy+u2Pbmy5
-         qvt/tizLDPm8wTk46bkt8rhfkO8g0Lgu/Zm87jo2KvlCzkolb2SfWXlC4uxtt35Xk2uZ
-         WwSw==
-X-Gm-Message-State: AOJu0YxGzO25WWTHI4yA/dEtkjKMP1fMgCyQzDygfXO/W7kTaBxXxxV4
-	OFWdXNCMtGi+mo4WBd9Jh3WuuTzfBwPa7slH/t5Ekhd2uwaFxiGtMUiw
-X-Gm-Gg: AeBDievcDMu+cD1hCJxjMcDNO9P4N9hOjawJRpuJ5xUA/V1HlXFLKZN+YI7boJuosn4
-	FFuMdAqIGhJdIfpw/7iF+a5OgEit7Iw97bbEp+SjaJn5EfMcnrAaeL5veORYEeISN6Oc8c3kUMt
-	z4gLt9oSdLhLQCzMuTlUv7gxbZ32BlSXJ47x2B8Mm77vPnzzE6kXSYRSQMk8H9HCLHquzE890DF
-	+H46Z0jpoBg/bmn2wgsg5YXtmHlN5xxB6aaosMLQBqE5iXxQRmsRdXc8GgtwssT9Sixr9/k4YG7
-	l7Y9RRFVtRuDqsaLm7A3N5k7hSIqNp4HMwNrJClAr78kaLp8wUX4JofkAaLRx5arVV8auUb2w5o
-	IO+OoQ8kt1WNDcDdXtDZKVI+2oj8wC8Aog/tI3eoNio7hs0UMYz30grekSBqBH4tTMbek1nOsLU
-	+/LqoKvIh2AEIDPOrUajjKOI46lcR9mDTlFHvR4tw0+26PcbgyefTS4W7NYbanCQFbEfjFbUbpo
-	vXadyrX1l7z04dAy8km4XLToEE0vVf4IVcm3RKZB1tEQdzBglUaCgJpGlUXVNEE373reDU=
-X-Received: by 2002:a05:600c:3152:b0:489:1d7a:4537 with SMTP id 5b1f17b1804b1-48d1422bafamr75630445e9.3.1778002707536;
-        Tue, 05 May 2026 10:38:27 -0700 (PDT)
+        bh=2NpaDj1OSOuFZ6NR+/4KPE7w1qddaBejMbo1xZezZe4=;
+        b=Yei7gOI3Rc5RvJlZ7xJQNjUKqBU49kEUM0vjCmzfjrMZ8IN/y2gZno6jRQ4Uhu+vmO
+         x2WzdVcibVR+HicdwR0LivZwwbe5VEK2HvkbXWnAo0dwW0X6WLi2ChCctTU1vuzZGt7n
+         AJaeKu4mZIJQnYPmproTlBpmJI5gkkaMYRMAWV3tFdMTgKQ/lwZP4gWVREmGgt5UI28v
+         +UUdesU/met7zJKmUvu3STD2s+4XWhnSDGJU5JtO/seTCt9H2KfeLKMZIZ2dcS+GJo2J
+         dbftHuU/EEdawc4qOoRKXoPsPGC5whMISPVHtEEf97OMPEc2+10fSdVvipvCrJHaQ+0h
+         kaDw==
+X-Gm-Message-State: AOJu0YwEW0BVUkuCyu1Vf/KG/+AzZwafNfgX7mUvU3cTLnTHNdrMomv7
+	faYekk6UryaTR4CiQ2az5QrFAmwOgo62oqMOWVHuuedadQ3bC6Q2QVre
+X-Gm-Gg: AeBDiesBOazagLKmMv9ORe6crpVqwFG961Z9q2c1M38xDC/rIg2O9tqnQaqdjEkktZb
+	BM0Icv3KcdBXqDg7O9Wzbmx0tvFgITVe+JC91SvDMrD8lWdygaq2PhH5e4GEWyuuFI7363dYvfj
+	E/Ayu59oBWQNoS9VD2/Z+uaUaJY3K7HUdb8iJ4JQ2FuZM6Ju7LauJ+bONtKBxmhJm4biLhFVa/f
+	2r4n2SZDo1kI//hNHHLz+VRVrj6l9tK99NHdCtt9Z7iGKz1ycOQkMW8yDkQG57y4B7HDpRovCKA
+	uobtSu8dPgQmrGufQab15+kWEteBbwXzMtQe3mGD91B8W6MTW7xQ8lDyy1u+LIIfy8FDVZYFww9
+	3D5gSH5vs3R7WNwhZBv3MZO08CVormxcoA6e9XiSW6GViDgeR8JZ/x2VrsfcAqtC12WyGVzF8ar
+	Z0aUEgea1mvZfBcDK9h5rHhKg+MhDuJdTMmezcY9zhdaBiX0rdg19ymdXmrctIvyqZ5TeT02Yep
+	v1BudrNHY0Aj3O8rAfh0QgC4VRm4o8cGpnha2yQqvarOB15+GROJWFMMuF5pU8QCN7clzABl1qt
+	Gwwn0A==
+X-Received: by 2002:a05:600c:8585:b0:487:2439:b7be with SMTP id 5b1f17b1804b1-48e51e0b5c1mr3428345e9.6.1778002708617;
+        Tue, 05 May 2026 10:38:28 -0700 (PDT)
 Received: from ahossu.localdomain ([82.78.232.184])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a82301ad1sm655473875e9.9.2026.05.05.10.38.26
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a82301ad1sm655473875e9.9.2026.05.05.10.38.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2026 10:38:27 -0700 (PDT)
+        Tue, 05 May 2026 10:38:28 -0700 (PDT)
 From: Alexandru Hossu <hossu.alexandru@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
@@ -65,9 +66,9 @@ Cc: linux-staging@lists.linux.dev,
 	error27@gmail.com,
 	luka.gejak@linux.dev,
 	stable@vger.kernel.org
-Subject: [PATCH v4 2/3] staging: rtl8723bs: fix OOB reads in IE loops in issue_assocreq() and join_cmd_hdl()
-Date: Tue,  5 May 2026 19:38:17 +0200
-Message-ID: <20260505173818.3674164-3-hossu.alexandru@gmail.com>
+Subject: [PATCH v4 3/3] staging: rtl8723bs: fix OOB reads in rtw_get_wps_ie() and rtw_cfg80211_set_wpa_ie()
+Date: Tue,  5 May 2026 19:38:18 +0200
+Message-ID: <20260505173818.3674164-4-hossu.alexandru@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260505173818.3674164-1-hossu.alexandru@gmail.com>
 References: <2026050436-italics-clumsy-e83c@gregkh>
@@ -80,170 +81,111 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Five out-of-bounds read paths in the IE parsing loops of
-issue_assocreq() and join_cmd_hdl():
+Three out-of-bounds read or write paths:
 
-1. Missing IE header bounds checks (both functions).
+1. rtw_get_wps_ie() reads the IE length byte without a header bounds
+   check.
 
-   Both loops advance by pIE->length + 2 per iteration but only guard
-   on i < ie_length.  When the buffer ends with a single element_id
-   byte and no length byte, the loop reads pIE->length from one byte
-   past the end of the buffer.  Even when both header bytes are in
-   bounds, pIE->length can extend the data window past ie_length,
-   silently passing a truncated IE to handler functions.  Add two
-   guards at the top of each loop: break if fewer than sizeof(*pIE)
-   bytes remain, and break if the declared IE payload extends past
-   ie_length.
+   The loop only guards on cnt < in_len, so when the buffer ends with
+   a single element_id byte and no length byte, in_ie[cnt + 1] is read
+   one byte past the end of the buffer.  Add a check that at least
+   two header bytes remain (cnt + 2 <= in_len) before reading
+   in_ie[cnt + 1].
 
-2. Vendor-specific OUI comparison reads 4 bytes past a possibly short
-   IE payload (both functions).
+2. rtw_get_wps_ie() does not verify the declared IE payload fits within
+   in_len.
 
-   For WLAN_EID_VENDOR_SPECIFIC, the code calls memcmp(pIE->data,
-   OUI, 4) on RTW_WPA_OUI, WMM_OUI, and WPS_OUI without first
-   verifying that pIE->length is at least 4.  A short IE at the end
-   of the frame causes the memcmp to read into adjacent frame data.
-   Add pIE->length >= 4 guard before the comparisons.
+   After reading the length byte, the loop does not verify that
+   in_ie[cnt + 1] + 2 bytes are available starting at cnt.  A crafted
+   length value can cause the subsequent memcmp and memcpy to read past
+   the end of the buffer.  Add a check that the full IE (header plus
+   payload) fits within in_len.
 
-3. HT Capability IE memcpy reads sizeof(struct HT_caps_element) bytes
-   from an IE that may be shorter (issue_assocreq only).
+3. rtw_get_wps_ie() reads 4 bytes from the IE payload via memcmp
+   without checking that pIE->length >= 4.
 
-   The WLAN_EID_HT_CAPABILITY handler copies:
+   For WLAN_EID_VENDOR_SPECIFIC, the code calls
+   memcmp(&in_ie[cnt + 2], wps_oui, 4) without first verifying that
+   the IE payload is at least 4 bytes long.  Add an in_ie[cnt + 1] >= 4
+   guard before the comparison.
 
-     memcpy(&pmlmeinfo->HT_caps, pIE->data, sizeof(struct HT_caps_element));
+4. rtw_cfg80211_set_wpa_ie() can overflow the 256-byte supplicant_ie
+   buffer.
 
-   If pIE->length < sizeof(struct HT_caps_element), the memcpy reads
-   beyond the end of the IE payload into adjacent frame data.  Add a
-   minimum length check and skip the IE if it is too short.
-
-4. rtw_set_ie called with untrusted pIE->length for HT Capability
-   (issue_assocreq only).
-
-   After the memcpy the code passes pIE->length directly to
-   rtw_set_ie() as the IE body length.  If pIE->length exceeds
-   sizeof(struct HT_caps_element), rtw_set_ie copies that many bytes
-   from pmlmeinfo->HT_caps, reading past the end of the struct into
-   adjacent fields.  Use sizeof(struct HT_caps_element) instead.
-
-5. HT Operation IE accessed without minimum length check (join_cmd_hdl
-   only).
-
-   The WLAN_EID_HT_OPERATION handler casts pIE->data to
-   struct HT_info_element * and reads pht_info->infos[0] (offset 1)
-   without verifying pIE->length >= sizeof(struct HT_info_element).
-   A zero- or one-byte HT Operation IE causes an out-of-bounds read.
-   Add a minimum length check and break if the IE is too short.
+   supplicant_ie is a 256-byte array in struct security_priv.  The WPA
+   and WPA2 IE copy paths use memcpy(..., wpa_ielen + 2) where
+   wpa_ielen is the raw IE length field (u8, 0-255).  When a local
+   user supplies a connect request via nl80211 with a crafted WPA IE
+   of length 255, wpa_ielen + 2 equals 257, overflowing the 256-byte
+   buffer.  Add explicit bounds checks for both paths before memcpy.
 
 Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
 Cc: stable@vger.kernel.org
 Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
 ---
 Changes in v4:
-  - Add pIE->length >= 4 guard before the 4-byte OUI memcmps in the
-    WLAN_EID_VENDOR_SPECIFIC cases of both functions (sashiko review of v3).
-  - In issue_assocreq() WLAN_EID_HT_CAPABILITY: add minimum length check
-    (pIE->length < sizeof(struct HT_caps_element)) and use
-    sizeof(struct HT_caps_element) instead of pIE->length in rtw_set_ie()
-    to prevent OOB reads past the HT_caps struct (sashiko review of v3).
-  - In join_cmd_hdl() WLAN_EID_HT_OPERATION: add minimum length check
-    (pIE->length < sizeof(struct HT_info_element)) before casting pIE->data
-    to struct HT_info_element * and reading infos[0] (sashiko review of v3).
+  - Add two IE bounds checks in rtw_get_wps_ie(): break if fewer than two
+    header bytes remain, and break if the declared payload extends past
+    in_len; add in_ie[cnt + 1] >= 4 guard before the 4-byte WPS OUI memcmp
+    (sashiko review of v3).
 
 Changes in v3:
   - No code changes from v2.
 
 Changes in v2:
-  - Add IE loop header and payload bounds checks for issue_assocreq()
-    and join_cmd_hdl().
+  - Add explicit size checks in rtw_cfg80211_set_wpa_ie() before memcpy
+    to prevent the 256-byte supplicant_ie buffer overflow.
 
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 30 ++++++++++++++-----
- 1 file changed, 23 insertions(+), 7 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_ieee80211.c    | 9 ++++++++-
+ drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 8 ++++++++
+ 2 files changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index 5f00fe282d1b..0c130d0f9a48 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -2925,13 +2925,18 @@ void issue_assocreq(struct adapter *padapter)
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+index 72b7f731dd47..d6d5f3a8db4c 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+@@ -661,7 +661,14 @@ u8 *rtw_get_wps_ie(u8 *in_ie, uint in_len, u8 *wps_ie, uint *wps_ielen)
+ 	while (cnt < in_len) {
+ 		eid = in_ie[cnt];
  
- 	/* vendor specific IE, such as WPA, WMM, WPS */
- 	for (i = sizeof(struct ndis_802_11_fix_ie); i < pmlmeinfo->network.ie_length;) {
-+		if (i + sizeof(*pIE) > pmlmeinfo->network.ie_length)
+-		if ((eid == WLAN_EID_VENDOR_SPECIFIC) && (!memcmp(&in_ie[cnt + 2], wps_oui, 4))) {
++		if (cnt + 2 > in_len)
 +			break;
- 		pIE = (struct ndis_80211_var_ie *)(pmlmeinfo->network.ies + i);
-+		if (i + sizeof(*pIE) + pIE->length > pmlmeinfo->network.ie_length)
-+			break;
- 
- 		switch (pIE->element_id) {
- 		case WLAN_EID_VENDOR_SPECIFIC:
--			if ((!memcmp(pIE->data, RTW_WPA_OUI, 4)) ||
-+			if (pIE->length >= 4 &&
-+			    ((!memcmp(pIE->data, RTW_WPA_OUI, 4)) ||
- 					(!memcmp(pIE->data, WMM_OUI, 4)) ||
--					(!memcmp(pIE->data, WPS_OUI, 4))) {
-+					(!memcmp(pIE->data, WPS_OUI, 4)))) {
- 				vs_ie_length = pIE->length;
- 				if ((!padapter->registrypriv.wifi_spec) && (!memcmp(pIE->data, WPS_OUI, 4))) {
- 					/* Commented by Kurt 20110629
-@@ -2953,8 +2958,10 @@ void issue_assocreq(struct adapter *padapter)
- 		case WLAN_EID_HT_CAPABILITY:
- 			if (padapter->mlmepriv.htpriv.ht_option) {
- 				if (!(is_ap_in_tkip(padapter))) {
-+					if (pIE->length < sizeof(struct HT_caps_element))
-+						break;
- 					memcpy(&(pmlmeinfo->HT_caps), pIE->data, sizeof(struct HT_caps_element));
--					pframe = rtw_set_ie(pframe, WLAN_EID_HT_CAPABILITY, pIE->length, (u8 *)(&(pmlmeinfo->HT_caps)), &(pattrib->pktlen));
-+					pframe = rtw_set_ie(pframe, WLAN_EID_HT_CAPABILITY, sizeof(struct HT_caps_element), (u8 *)(&(pmlmeinfo->HT_caps)), &(pattrib->pktlen));
- 				}
- 			}
- 			break;
-@@ -2967,7 +2974,7 @@ void issue_assocreq(struct adapter *padapter)
- 			break;
- 		}
- 
--		i += (pIE->length + 2);
-+		i += sizeof(*pIE) + pIE->length;
- 	}
- 
- 	if (pmlmeinfo->assoc_AP_vendor == HT_IOT_PEER_REALTEK)
-@@ -5318,11 +5325,15 @@ u8 join_cmd_hdl(struct adapter *padapter, u8 *pbuf)
- 
- 	/* sizeof(struct ndis_802_11_fix_ie) */
- 	for (i = _FIXED_IE_LENGTH_; i < pnetwork->ie_length;) {
-+		if (i + sizeof(*pIE) > pnetwork->ie_length)
-+			break;
- 		pIE = (struct ndis_80211_var_ie *)(pnetwork->ies + i);
-+		if (i + sizeof(*pIE) + pIE->length > pnetwork->ie_length)
-+			break;
- 
- 		switch (pIE->element_id) {
- 		case WLAN_EID_VENDOR_SPECIFIC:/* Get WMM IE. */
--			if (!memcmp(pIE->data, WMM_OUI, 4))
-+			if (pIE->length >= 4 && !memcmp(pIE->data, WMM_OUI, 4))
- 				WMM_param_handler(padapter, pIE);
- 			break;
- 
-@@ -5335,7 +5346,12 @@ u8 join_cmd_hdl(struct adapter *padapter, u8 *pbuf)
- 
- 			/* spec case only for cisco's ap because cisco's ap issue assoc rsp using mcs rate @40MHz or @20MHz */
- 			{
--				struct HT_info_element *pht_info = (struct HT_info_element *)(pIE->data);
-+				struct HT_info_element *pht_info;
 +
-+				if (pIE->length < sizeof(struct HT_info_element))
-+					break;
++		if (in_ie[cnt + 1] + 2 > in_len - cnt)
++			break;
 +
-+				pht_info = (struct HT_info_element *)(pIE->data);
++		if ((eid == WLAN_EID_VENDOR_SPECIFIC) && (in_ie[cnt + 1] >= 4) &&
++		    (!memcmp(&in_ie[cnt + 2], wps_oui, 4))) {
+ 			wpsie_ptr = &in_ie[cnt];
  
- 				if (pnetwork->configuration.ds_config <= 14) {
- 					if ((pregpriv->bw_mode & 0x0f) > CHANNEL_WIDTH_20)
-@@ -5366,7 +5382,7 @@ u8 join_cmd_hdl(struct adapter *padapter, u8 *pbuf)
- 			break;
- 		}
+ 			if (wps_ie)
+diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+index fd3bae31b0ed..e7ba5ccfa03c 100644
+--- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
++++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+@@ -1445,6 +1445,10 @@ static int rtw_cfg80211_set_wpa_ie(struct adapter *padapter, u8 *pie, size_t iel
  
--		i += (pIE->length + 2);
-+		i += sizeof(*pIE) + pIE->length;
- 	}
+ 	pwpa = rtw_get_wpa_ie(buf, &wpa_ielen, ielen);
+ 	if (pwpa && wpa_ielen > 0) {
++		if (wpa_ielen + 2 > sizeof(padapter->securitypriv.supplicant_ie)) {
++			ret = -EINVAL;
++			goto exit;
++		}
+ 		if (rtw_parse_wpa_ie(pwpa, wpa_ielen + 2, &group_cipher, &pairwise_cipher, NULL) == _SUCCESS) {
+ 			padapter->securitypriv.dot11AuthAlgrthm = dot11AuthAlgrthm_8021X;
+ 			padapter->securitypriv.ndisauthtype = Ndis802_11AuthModeWPAPSK;
+@@ -1454,6 +1458,10 @@ static int rtw_cfg80211_set_wpa_ie(struct adapter *padapter, u8 *pie, size_t iel
  
- 	/* check channel, bandwidth, offset and switch */
+ 	pwpa2 = rtw_get_wpa2_ie(buf, &wpa2_ielen, ielen);
+ 	if (pwpa2 && wpa2_ielen > 0) {
++		if (wpa2_ielen + 2 > sizeof(padapter->securitypriv.supplicant_ie)) {
++			ret = -EINVAL;
++			goto exit;
++		}
+ 		if (rtw_parse_wpa2_ie(pwpa2, wpa2_ielen + 2, &group_cipher, &pairwise_cipher, NULL) == _SUCCESS) {
+ 			padapter->securitypriv.dot11AuthAlgrthm = dot11AuthAlgrthm_8021X;
+ 			padapter->securitypriv.ndisauthtype = Ndis802_11AuthModeWPA2PSK;
 -- 
 2.53.0
 
