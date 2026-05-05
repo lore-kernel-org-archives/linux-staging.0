@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B212438550C;
-	Tue,  5 May 2026 11:40:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C49AE313550;
+	Tue,  5 May 2026 12:43:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777981244; cv=none; b=gAYOvANinuSVPVCvN04D6SUFZoF2LdfggQwhwFMJQ0kL+FVIoEqPSbHbcjalXTRWEZJhcUqoidYXxCxYgdEoOPxIGkGFC9mDlXemGOwee8o8VKebodYgskDgKsIawOlIe0T0DhMekmlHzh3398rm6tOkitycseNCoM58a+F3Qj8=
+	t=1777985011; cv=none; b=ACS/g/NeDxDxqMHJsNYqZojJrxWZb+MbCDcNYghS/T3d0F3LociNdXrKdHzjBLoJPypVvyP7XIx8uuLLaoSl6zdsmWNK6p+lnlDRf6ynuj/4+Of3QaAxXHJIAF7h5OaQaVA36v25g9cyb91ztQBQNgel5AgIca67iARkhvh2IKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777981244; c=relaxed/simple;
-	bh=4+Iu46KmbMltdWMjKfTVCvDNPFKWfMnkj1wvZLVT7oc=;
+	s=arc-20240116; t=1777985011; c=relaxed/simple;
+	bh=RRFrNkOQz3XsDjXV2ZqAeXaXDFjrJW31GWWurgjfvfI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=J/mpHYPmSTVmdNTuC9EjZi1BwuWDjqjJiIJlH1EOsDqoucbhGzNkZag66MiNeEf1bKGN7p5D4BqDcGKDaGVv3QB+ioZ8jGZm8CGEwK0YZtexrI2k7Jpj3AmsFSWHJ4sbUqG9reASiC5ERPcbiGMR7OMKkFo3smTGzplzJawxL+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J/ntJLGM; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=qth+g0RT5pQH6ju2rO3wVXYUVU9HP1kOxuZQ57ZsNM+PCnxbV/KCy07cGV6vmg+Oc7Uq7lhU7c2Eh8FsVJidjbduHYIxf8GL454/sDnbHDA/XrA1GR1LIbFBFRHOWNM8RIDNEHFtIW24Zpq7iQreSbWBbDjv4XQDLssHmV9ft90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GMrdL2dU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J/ntJLGM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 067FEC2BCB4;
-	Tue,  5 May 2026 11:40:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GMrdL2dU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00AEAC2BCB9;
+	Tue,  5 May 2026 12:43:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777981244;
-	bh=4+Iu46KmbMltdWMjKfTVCvDNPFKWfMnkj1wvZLVT7oc=;
+	s=k20201202; t=1777985011;
+	bh=RRFrNkOQz3XsDjXV2ZqAeXaXDFjrJW31GWWurgjfvfI=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=J/ntJLGMTyoKqqLlFe8fcMmMZxpgTO3QrCREk+dbG0lZv3g0+OzBiLSuY7SNqBL/q
-	 jk+yCyLlDIUZPXBlwpyS7S4YK5gy1O9bYVXzydzQ7NvmgHF54zjztvPmuK0yJHbALl
-	 Swfp/qfM7e7pFHFxsAySCv0iQuKXesyU4UiOEfAjn4FiPw/AG6LVn+zunwF/T3cfZ1
-	 lrQe2ubne4LutvlaXsKcXyE2BmD7N6AgXU8J7/RjYNtvGhRPjZ+epBxBKfOPHZIR/d
-	 n0nPCOCaQtBGDGbRyxSd2hHliM+GT20dPyZVO/mBuyLRp1+fCYFAGme/ba9BjWR5Xi
-	 3Qt0seZU4dlOA==
-Message-ID: <4ea02e8e-c0e1-4da9-b7bb-d2ecdc7f1194@kernel.org>
-Date: Tue, 5 May 2026 13:40:40 +0200
+	b=GMrdL2dUbXiR3Dp7iC3H5WssTbXGbccCKDf6DHtUJfIyupoN4/C1d2V9LfYMccDNF
+	 VEeJlqhD7tHgE0AuYWspvO2FPaGCoMBw14jGcRX+h8BbYfGw9WcBPnk2S5M0AThKcr
+	 Hj2xDsviqtd1GZMyE93TSu35fUn6k5xPLZ2HW4zoheXoh8405wuyRtiELKb5jLHJWz
+	 iRHWVlH32gX1LoabadE3nOUPcb9+Y0yXNMnUpvLiSH/26mc+hO9Yr5aiU0DZnhCupF
+	 uQfqcoACXbmEidz567vY4/t2JovYH2axbsiB2h0+GtFaD1hL4Aq3GORg0fOi8bkf/L
+	 x5ZBDqXdOkxZg==
+Message-ID: <936a9b7d-0602-49d1-992f-abf620b37836@kernel.org>
+Date: Tue, 5 May 2026 14:43:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -35,74 +35,123 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7] staging: media: av7110: fix coding style
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Chethan C <mail.chethanc@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Petr Mladek <pmladek@suse.com>, Kees Cook <kees@kernel.org>,
- Osama Albahrani <osalbahr@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+Subject: Re: [PATCH v4] staging: media: av7110: coding style fixes: too many
+ tabs
+To: Sudarshan Srinivasan <ss22.kern.dev@gmail.com>, mchehab@kernel.org,
+ gregkh@linuxfoundation.org, error27@gmail.com
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org
-References: <20260328165049.899917-1-mail.chethanc@gmail.com>
- <CAGhNHKgiMQ1Km-JZKQTfkw6aXh-KDKM3gjKyNiyhRwQRvyptPA@mail.gmail.com>
- <adY7MwE5dorn9FlT@ashevche-desk.local>
+References: <20260401191743.26951-1-ss22.kern.dev@gmail.com>
 From: Hans Verkuil <hverkuil+cisco@kernel.org>
 Content-Language: en-US
-In-Reply-To: <adY7MwE5dorn9FlT@ashevche-desk.local>
+In-Reply-To: <20260401191743.26951-1-ss22.kern.dev@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 4/8/26 13:25, Andy Shevchenko wrote:
-> On Wed, Apr 08, 2026 at 10:33:28AM +0530, Chethan C wrote:
->> Hi,
->>
->> Just a gentle ping on this patch.
->>
->> I wanted to check if there are any comments or changes needed from my side.
->>
->> Thanks for your time.
+On 4/1/26 21:17, Sudarshan Srinivasan wrote:
+> Fix warning reported by checkpatch.pl
+> "WARNING: Too many leading tabs - consider code refactoring"
 > 
-> You need to:
-> - do not top-post!
-> - do not quote hundreds of lines just for this message!
-> - wait a bit more, we are almost at the merge window time, quite unlikely
-> somebody will take this right away
-
-Yup, but now I'm picking it up!
-
-> - the Subject should have "staging:" part to be dropped; all media patches
-> are started with "media: " even for the staging folder
-
-Actually, either way is fine, as long as the 'media:' part is present in the
-subject.
-
+> Signed-off-by: Sudarshan Srinivasan <ss22.kern.dev@gmail.com>
+> ---
+> v4:
+>   - Added the missing check for  "feed->ts_type"
+>   - Removed initialization of 'ret'
+>   - handle_ts_memory_fe() accepts only "feed", "demux" and "av7110" extracted thereafter
+>   - demux->playing assigned to int, instead of bool to maintain original style
+> v3:
+>   - Removed the additional tabs in handle_ts_memory_fe() as indicated by Greg KH
+>   - Retained the original code style as suggested by Dan Carpenter
+> v2:
+>   - Refactored change by adding function handle_ts_memory_fe
 > 
-> Also note the formatting patches are lowest in the priority.
+> v2: https://lore.kernel.org/linux-staging/20260318191149.109616-1-ss22.kern.dev@gmail.com/
+> v1: https://lore.kernel.org/linux-staging/20260316152340.238100-1-ss22.kern.dev@gmail.com/
+> 
+>  drivers/staging/media/av7110/av7110.c | 36 +++++++++++++++++++--------
+>  1 file changed, 26 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/staging/media/av7110/av7110.c b/drivers/staging/media/av7110/av7110.c
+> index 607992100baf..486dd8010e7f 100644
+> --- a/drivers/staging/media/av7110/av7110.c
+> +++ b/drivers/staging/media/av7110/av7110.c
+> @@ -932,6 +932,31 @@ static int dvb_feed_stop_pid(struct dvb_demux_feed *dvbdmxfeed)
+>  	return ret;
+>  }
+> 
+> +static int handle_ts_memory_fe(struct dvb_demux_feed *feed)
+> +{
+> +	struct dvb_demux *demux = feed->demux;
+> +	struct av7110 *av7110 = demux->priv;
+> +	int ret;
+> +
+> +	if (!(feed->ts_type & TS_DECODER))
+> +		return 0;
+> +
+> +	if (feed->pes_type >= 2)
+> +		return 0;
+> +
+> +	if ((demux->pids[0] & 0x8000) || (demux->pids[1] & 0x8000))
+> +		return 0;
+> +
+> +	dvb_ringbuffer_flush_spinlock_wakeup(&av7110->avout);
+> +	dvb_ringbuffer_flush_spinlock_wakeup(&av7110->aout);
+> +
+> +	ret = av7110_av_start_play(av7110, RP_AV);
+> +	if (!ret)
+> +		demux->playing = 1;
+> +
+> +	return ret;
+> +}
+> +
+>  static int av7110_start_feed(struct dvb_demux_feed *feed)
+>  {
+>  	struct dvb_demux *demux = feed->demux;
+> @@ -951,16 +976,7 @@ static int av7110_start_feed(struct dvb_demux_feed *feed)
+>  		    (feed->pes_type <= DMX_PES_PCR)) {
+>  			switch (demux->dmx.frontend->source) {
+>  			case DMX_MEMORY_FE:
+> -				if (feed->ts_type & TS_DECODER)
+> -					if (feed->pes_type < 2 &&
+> -					    !(demux->pids[0] & 0x8000) &&
+> -					    !(demux->pids[1] & 0x8000)) {
+> -						dvb_ringbuffer_flush_spinlock_wakeup(&av7110->avout);
+> -						dvb_ringbuffer_flush_spinlock_wakeup(&av7110->aout);
+> -						ret = av7110_av_start_play(av7110, RP_AV);
+> -						if (!ret)
+> -							demux->playing = 1;
+> -					}
 
-Low prio, yes, but to be honest it is nice to get rid of the camelcase in this
-driver :-)
+If you rework this as follows:
+
+				if (!(feed->ts_type & TS_DECODER))
+					break;
+				if (feed->pes_type >= 2)
+					break;
+				if ((demux->pids[0] & 0x8000) ||
+				    (demux->pids[1] & 0x8000))
+					break;
+				dvb_ringbuffer_flush_spinlock_wakeup(&av7110->avout);
+				dvb_ringbuffer_flush_spinlock_wakeup(&av7110->aout);
+				ret = av7110_av_start_play(av7110, RP_AV);
+				if (!ret)
+					demux->playing = 1;
+
+Does that fix the warning?
+
+I prefer that over creating a new function. If this doesn't help,
+then I can take this patch as-is.
 
 Regards,
 
 	Hans
 
-> If you wish to provide a real contribution, try something else. For example,
-> one of the listed in [1]. It's not that your patch is bad or unwelcome, no,
-> this is about the change that does almost nothing to the driver that needs
-> more real work.
+> +				ret = handle_ts_memory_fe(feed);
+>  				break;
+>  			default:
+>  				ret = dvb_feed_start_pid(feed);
+> --
+> 2.43.0
 > 
->> On Sat, Mar 28, 2026 at 10:21 PM Chethan C <mail.chethanc@gmail.com> wrote:
-> 
->>> Fix indentation and alignment issues reported by checkpatch.pl.
->>>
->>> Rename enums av7110_rec_play_state, av7110_type_rec_play_format,
->>> and av7110_encoder_command to follow kernel naming style.
->>>
->>> Rename wssData and wssMode to wss_data and wss_mode to avoid
->>> camelCase identifiers.
-> 
-> [1]: https://gist.github.com/andy-shev/a2cb1ee4767d6d2f5d20db53ecb9aabc
 > 
 
