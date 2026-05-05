@@ -1,42 +1,42 @@
 Received: from sender-pp-o91.zoho.in (sender-pp-o91.zoho.in [103.117.158.91])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48E55441031
-	for <linux-staging@lists.linux.dev>; Tue,  5 May 2026 10:17:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5722F40243E
+	for <linux-staging@lists.linux.dev>; Tue,  5 May 2026 10:44:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=103.117.158.91
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777976263; cv=pass; b=bwNg3mqn8GNrlEphSDgOS6FBthy5VmqbFPRwkVhD+hM3OIJvxRBJQGkqM1yS9Ws0kk1mDYBm1CJk+Y/Mi/tTGAj/riNfGhP4MTaOAVR0fwccahi7H1nSf4E3QhCq/GBOIyGj2yqD9Nb9hKkQrnN9NZwK0OjVG48vwqhMRz/+lLc=
+	t=1777977866; cv=pass; b=VzK8hlpQLtpYYbammmDzdfNSnhf4aczFQtnU7vPDcxJ6VmsMMN7xN2CQnvGP1v8OGdPM8xsQ6fQ6L+b5oBqZ7CGclkgC4BjhUe5cbmVT27k6RyitTdYoKmqeEeC8S1gNoceaeo9mfyQoRRhCJXOibVS24KhqpL8RF0WqI9Ya1Wk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777976263; c=relaxed/simple;
-	bh=YHs3KBgVGmbLPPtj8jzwzvHa+IVJiHcmkhLvjNsjMRI=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=C6RCWUKjaw6ZtxJTWYxSzfgeLeYmfItrMvxoJZ+nh3JUfgU+dV7cN4kC8CIGlb1r8G4XCXryT9IwFtxY1roHW8rM6frKA/NSpwh6X88nBuDeR9aA+BnnuB9LS28tbbanI+QOfoyoGtPhOzcpUZMT46TOF7kNlAReEgwHyXTJ9vw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in; spf=pass smtp.mailfrom=zohomail.in; dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b=k8bjy02+; arc=pass smtp.client-ip=103.117.158.91
+	s=arc-20240116; t=1777977866; c=relaxed/simple;
+	bh=o+e7ieN7j1KzKMdKBeAQEWDZO1fgUWd5XexCP8ZhlIo=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=Q1ZVpYovYv/aYsfwDoso5pj/EssprFliR4l91b0Z01r0y3qjMh/Huf3Aa13vBDuZsKdGOhvOlgjV1ohdVgvzik+L/uqNwmmbzsdsP87Zq2wrWxpqBCA8P331axKQ+bkqItKH0jhQFr5l032LJ6fOvKkWWHY26gWoj8W/tz4yBoA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in; spf=pass smtp.mailfrom=zohomail.in; dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b=MoETOZdV; arc=pass smtp.client-ip=103.117.158.91
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.in
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b="k8bjy02+"
-ARC-Seal: i=1; a=rsa-sha256; t=1777976242; cv=none; 
+	dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b="MoETOZdV"
+ARC-Seal: i=1; a=rsa-sha256; t=1777977846; cv=none; 
 	d=zohomail.in; s=zohoarc; 
-	b=K7oOcGi7FFUh3K9rn3J+6iaC19yY9UOxNA8edU4NFOdY1pcW5gtoIKh6munbiMfKqjwk5z7FHlgSgYTPq5YRESTi7plbRI4iOrWa1+ncE7OOplIDnUiGR4RIXkOKWUvauKurTb4xiY3JmKoMYqrE03DrNpW84KuPTSMcp5+qfJA=
+	b=YzpTJIyvNtHzrelIvE/OvK7DmAeRL4TPX050ebrvSopdgn6uIEf9vls3sKctm0iXfr7mPLrLBZYRBUVGP3+ijfrfZmx8au+rqkprnEyw1NQBqXPwTV+c5O+zwgYXjGaKBmWj7sTOoDisQynuEEif64+EzK8JlqJpL0qgkZpooss=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in; s=zohoarc; 
-	t=1777976242; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=wlpDoWHkK+8NEWZEYYJFbx1kUCOTe2MyW5u2fZNMLmg=; 
-	b=F42xliadcK3KhdFiigwokZXXIPQgU/q9+jeRUhc0Jm83BuMD9WBaGFrvw+NMLwgM1tmNHHmORuj3jYhZJJudw3286VSx0W07yNklxjEl9QuEuPZFEeSH1/7So+830Asj5XfPWZpXC9xGYVafbxF4XGA8YBcgmKqRh8nd7iKQ2uM=
+	t=1777977846; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=y9WX/rDmWztHJ9ekAt+vzdsOsFg0/wH8/JzuyxVqyHY=; 
+	b=FnsOvA0zV47NmhJCdydotpIBFbqcI13yiwvxmY0W/CAgJCH1ol/cb7jHTgruH62VCL77kUlY04lj1ysrJm5NN8zWDITM9u3UXWmI3Hin85W4+icKq5Av+i8gVFfPr46/18eTd12E61vvAtn/3VkZRa4MJ+6ySh+w68KQCAJ64SU=
 ARC-Authentication-Results: i=1; mx.zohomail.in;
 	dkim=pass  header.i=zohomail.in;
 	spf=pass  smtp.mailfrom=linuxuser509@zohomail.in;
 	dmarc=pass header.from=<linuxuser509@zohomail.in>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1777976242;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1777977846;
 	s=zoho; d=zohomail.in; i=linuxuser509@zohomail.in;
 	h=Message-ID:Date:Date:MIME-Version:To:To:Cc:Cc:From:From:Subject:Subject:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=wlpDoWHkK+8NEWZEYYJFbx1kUCOTe2MyW5u2fZNMLmg=;
-	b=k8bjy02+PNh5rS96yTJcrFK9Bx4C8UfT2GCdJJ2jzyiKbBP5Qv20kok2TUzFmozh
-	frdn3Wo/E2hOkqTbdzaT2sBIzmvk/bCAiUg4y8iQd5KLPIjjgnpsjEfI6jJiPFXAsEW
-	tg5J2HTooEV/Bczz6oyYzkHU+WPECqD/Kgw6fE6E=
-Received: by mx.zoho.in with SMTPS id 1777976241196120.77549720749039;
-	Tue, 5 May 2026 15:47:21 +0530 (IST)
-Message-ID: <794ad23a-ff17-451f-9d6e-144623d76a18@zohomail.in>
-Date: Tue, 5 May 2026 15:47:11 +0530
+	bh=y9WX/rDmWztHJ9ekAt+vzdsOsFg0/wH8/JzuyxVqyHY=;
+	b=MoETOZdVVq2Twrz3+3q7wzGXzLB6s9rFwuBl1/vzzPliIGs7bG4cwESiWS9AfH8c
+	EOz2ae8Ib7FkBy/467AUnT8aYrTVunAVMr2kWVEcgchwiK1uO0XVXMkWypyqIzs9AAk
+	8IaclErJDJWXdEGpKhJ/JliIXdJwU2J53+4+c2oE=
+Received: by mx.zoho.in with SMTPS id 1777977846058605.1256011103803;
+	Tue, 5 May 2026 16:14:06 +0530 (IST)
+Message-ID: <f14818bb-0d1a-45c3-93c3-17505571b071@zohomail.in>
+Date: Tue, 5 May 2026 16:13:54 +0530
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -48,15 +48,10 @@ Content-Language: en-US
 To: gregkh@linuxfoundation.org
 Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
 From: Ashwin Gundarapu <linuxuser509@zohomail.in>
-Subject: [PATCH] staging: rtl8723bs: remove unnecessary comparison to true
+Subject: [PATCH v2] staging: rtl8723bs: remove unnecessary comparison to true
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-ZohoMailClient: External
-
- From 86e105cece56ebf48c8e9ac86d417d201ebf081d Mon Sep 17 00:00:00 2001
-From: Ashwin Gundarapu <linuxuser509@zohomail.in>
-Date: Sat, 2 May 2026 17:19:48 +0530
-Subject: [PATCH] staging: rtl8723bs: remove unnecessary comparison to true
 
 Remove explicit comparison to true in check_fwstate() call and
 add spacing around the bitwise OR operator to improve code style.
