@@ -1,86 +1,108 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60B4B32C302;
-	Tue,  5 May 2026 11:03:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B212438550C;
+	Tue,  5 May 2026 11:40:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777979034; cv=none; b=hlJdc3YTeKhwC0tL6foNC0+kDWsCpkUrAbo0SR7q3Mrzk06NRfD4Q8I1tjc7GEefCm0zevFmS/nTxPQoyNqwsTSYxV3f4Be37VRLblGfOUMFt5ySuYG8v7hEByesI8udEB2y+UJRUs/Dvv9lGLeONv2FpNk6aSMKp7BHgdPTU6I=
+	t=1777981244; cv=none; b=gAYOvANinuSVPVCvN04D6SUFZoF2LdfggQwhwFMJQ0kL+FVIoEqPSbHbcjalXTRWEZJhcUqoidYXxCxYgdEoOPxIGkGFC9mDlXemGOwee8o8VKebodYgskDgKsIawOlIe0T0DhMekmlHzh3398rm6tOkitycseNCoM58a+F3Qj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777979034; c=relaxed/simple;
-	bh=4kj7JreQkz9Y3PAojB1GgEOH3Ilo0M0dncTpOVtlbto=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JO8nhKAAUFwhpI6OTMmcMroGJ32ou/ufrgL88817g+ZA8scXg8Jk/h9FTuEOgBVOwFkMZEphs8xCne2RL52kB/s1esqBPFIoKBO3YjrwniRt12x/MhCV5BfWO0zQml0rU1j/dWQwcH7qpNfyVDUQnTNKufqkC8DStKKvtPRUStw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ScqG3kfC; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777981244; c=relaxed/simple;
+	bh=4+Iu46KmbMltdWMjKfTVCvDNPFKWfMnkj1wvZLVT7oc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=J/mpHYPmSTVmdNTuC9EjZi1BwuWDjqjJiIJlH1EOsDqoucbhGzNkZag66MiNeEf1bKGN7p5D4BqDcGKDaGVv3QB+ioZ8jGZm8CGEwK0YZtexrI2k7Jpj3AmsFSWHJ4sbUqG9reASiC5ERPcbiGMR7OMKkFo3smTGzplzJawxL+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J/ntJLGM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ScqG3kfC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86028C2BCB4;
-	Tue,  5 May 2026 11:03:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1777979033;
-	bh=4kj7JreQkz9Y3PAojB1GgEOH3Ilo0M0dncTpOVtlbto=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ScqG3kfC8XRtRHHCATW3jIDipzNss5MThhQNvtsoHBTWsVtIouSnw6O8XJX+jaoJ9
-	 TvTqFUiwnPNCaG78eoYSolcmMqRbHU61quU83kLVKC5PPZqxGMKfgnT1iBZDrHqqDl
-	 Yt9mTrx2VTIfHxS6R/W1q1nJQtTN3L2hhnv4gNJ0=
-Date: Tue, 5 May 2026 13:03:51 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Ashwin Gundarapu <linuxuser509@zohomail.in>
-Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2] staging: rtl8723bs: remove unnecessary comparison to
- true
-Message-ID: <2026050500-twitch-unblock-7897@gregkh>
-References: <f14818bb-0d1a-45c3-93c3-17505571b071@zohomail.in>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J/ntJLGM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 067FEC2BCB4;
+	Tue,  5 May 2026 11:40:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777981244;
+	bh=4+Iu46KmbMltdWMjKfTVCvDNPFKWfMnkj1wvZLVT7oc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=J/ntJLGMTyoKqqLlFe8fcMmMZxpgTO3QrCREk+dbG0lZv3g0+OzBiLSuY7SNqBL/q
+	 jk+yCyLlDIUZPXBlwpyS7S4YK5gy1O9bYVXzydzQ7NvmgHF54zjztvPmuK0yJHbALl
+	 Swfp/qfM7e7pFHFxsAySCv0iQuKXesyU4UiOEfAjn4FiPw/AG6LVn+zunwF/T3cfZ1
+	 lrQe2ubne4LutvlaXsKcXyE2BmD7N6AgXU8J7/RjYNtvGhRPjZ+epBxBKfOPHZIR/d
+	 n0nPCOCaQtBGDGbRyxSd2hHliM+GT20dPyZVO/mBuyLRp1+fCYFAGme/ba9BjWR5Xi
+	 3Qt0seZU4dlOA==
+Message-ID: <4ea02e8e-c0e1-4da9-b7bb-d2ecdc7f1194@kernel.org>
+Date: Tue, 5 May 2026 13:40:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7] staging: media: av7110: fix coding style
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Chethan C <mail.chethanc@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Petr Mladek <pmladek@suse.com>, Kees Cook <kees@kernel.org>,
+ Osama Albahrani <osalbahr@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20260328165049.899917-1-mail.chethanc@gmail.com>
+ <CAGhNHKgiMQ1Km-JZKQTfkw6aXh-KDKM3gjKyNiyhRwQRvyptPA@mail.gmail.com>
+ <adY7MwE5dorn9FlT@ashevche-desk.local>
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Content-Language: en-US
+In-Reply-To: <adY7MwE5dorn9FlT@ashevche-desk.local>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <f14818bb-0d1a-45c3-93c3-17505571b071@zohomail.in>
 
-On Tue, May 05, 2026 at 04:13:54PM +0530, Ashwin Gundarapu wrote:
-> Remove explicit comparison to true in check_fwstate() call and
-> add spacing around the bitwise OR operator to improve code style.
+On 4/8/26 13:25, Andy Shevchenko wrote:
+> On Wed, Apr 08, 2026 at 10:33:28AM +0530, Chethan C wrote:
+>> Hi,
+>>
+>> Just a gentle ping on this patch.
+>>
+>> I wanted to check if there are any comments or changes needed from my side.
+>>
+>> Thanks for your time.
 > 
-> ---
+> You need to:
+> - do not top-post!
+> - do not quote hundreds of lines just for this message!
+> - wait a bit more, we are almost at the merge window time, quite unlikely
+> somebody will take this right away
+
+Yup, but now I'm picking it up!
+
+> - the Subject should have "staging:" part to be dropped; all media patches
+> are started with "media: " even for the staging folder
+
+Actually, either way is fine, as long as the 'media:' part is present in the
+subject.
+
 > 
-> v2: Resent with corrected whitespace via Thunderbird plain text mode.
+> Also note the formatting patches are lowest in the priority.
 
-This goes below the --- line below.  There should not be a --- line in
-the middle of the changelog.
+Low prio, yes, but to be honest it is nice to get rid of the camelcase in this
+driver :-)
 
+Regards,
+
+	Hans
+
+> If you wish to provide a real contribution, try something else. For example,
+> one of the listed in [1]. It's not that your patch is bad or unwelcome, no,
+> this is about the change that does almost nothing to the driver that needs
+> more real work.
 > 
-> Signed-off-by: Ashwin Gundarapu <linuxuser509@zohomail.in>
-> ---
->  drivers/staging/rtl8723bs/core/rtw_ioctl_set.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>> On Sat, Mar 28, 2026 at 10:21â€¯PM Chethan C <mail.chethanc@gmail.com> wrote:
 > 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-> b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-> index c70541f95a73..c100a0d70fe2 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-> @@ -151,7 +151,8 @@ u8 rtw_set_802_11_ssid(struct adapter *padapter, struct
-> ndis_802_11_ssid *ssid)
->      else if (check_fwstate(pmlmepriv, _FW_UNDER_LINKING) == true)
->          goto release_mlme_lock;
+>>> Fix indentation and alignment issues reported by checkpatch.pl.
+>>>
+>>> Rename enums av7110_rec_play_state, av7110_type_rec_play_format,
+>>> and av7110_encoder_command to follow kernel naming style.
+>>>
+>>> Rename wssData and wssMode to wss_data and wss_mode to avoid
+>>> camelCase identifiers.
 > 
-> -    if (check_fwstate(pmlmepriv, _FW_LINKED|WIFI_ADHOC_MASTER_STATE) ==
-> true) {
-> +    if (check_fwstate(pmlmepriv,
-> +        _FW_LINKED | WIFI_ADHOC_MASTER_STATE)) {
+> [1]: https://gist.github.com/andy-shev/a2cb1ee4767d6d2f5d20db53ecb9aabc
+> 
 
-again, your patch is corrupted, and you ignored my previous review
-comments.
-
-Please relax, take a few days, fix up your email client and test it out
-by sending a patch to yourself, and then send a new version.  There is
-no rush here.
-
-thanks,
-
-greg k-h
