@@ -1,137 +1,96 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender-pp-o91.zoho.in (sender-pp-o91.zoho.in [103.117.158.91])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1335144D020
-	for <linux-staging@lists.linux.dev>; Wed,  6 May 2026 12:41:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778071293; cv=none; b=r2Lizk2V6J33Zdn8/5t/uSp2wGfdxCs8NsusOdkQRoPSQElRieg0KhAxssPJJau1cMFLpt2Rh+9lT0D25YaOsaT5NUlO0F9CGCP7wjjnUC/OSAF/cfAcSOoznuiqH3tWSqNqGSFpQYgMXJ0JC9DaiVeYLsg9Q71BnwoNpQZXirc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778071293; c=relaxed/simple;
-	bh=OinERmBbACIBYleiV1Zs0L/VJbZMb7jzEBvebOjGfjs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=f3IbVyCzBHLLbs5+FYXuz46f8y4wu6uPV/+DGqztOFZggBCfLM2vi2faPMPyT1ujHwCAZR1myxjzQ884UMm7hKH40six6BfkpzDyv9Lf0dIZPlRj0DCbdufQkQ42PkCsn6+dUXUVNINvFWlVkPvpq04JtZFma0mWASATFmxEys8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OLrXPEN/; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63C33175A9A
+	for <linux-staging@lists.linux.dev>; Wed,  6 May 2026 13:39:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=103.117.158.91
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778074762; cv=pass; b=sde4jNAXZaV897IP/jvCMlZ6awczgVpwqHscxjUUTLl4dBDc+63Fn67FDlhqk7z8hR1dM+usUCedcwjxk2QsNK7mre9BtQc3lsBJbQMgCWWgfP5CPuLUs9slUmQKgshtTXPanX0a7ou3SB2153/MuOOtaYYA58SNFZVUM+bK5Tw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778074762; c=relaxed/simple;
+	bh=qm6izKadeV9kSFa+bj5O7G5iaDZ+qVHrHd7aOeppdDI=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:Subject:MIME-Version:
+	 Content-Type; b=TwRQYB1mUPpQ2HCa5l/mt6hksaLOUIER/ascpAvSMGGYOwcAiQJCFDrXlRaM5TO6cojGOa5+XRADZQ5JCg0N14pc0mqGA7mGXtOQWdyjthUkoKjQibE28hctBmTM76jKO7Bz9QD4NbuzEqfLFpJf69Y7RNVjba63LvLWSfULty4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in; spf=pass smtp.mailfrom=zohomail.in; dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b=R+ICuf8a; arc=pass smtp.client-ip=103.117.158.91
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.in
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OLrXPEN/"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-835399c11e0so1672624b3a.0
-        for <linux-staging@lists.linux.dev>; Wed, 06 May 2026 05:41:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778071290; x=1778676090; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0IlqU8VwEU2SI0FZdxgow47FUylG/UcOkwWktFbacV4=;
-        b=OLrXPEN/9HiBCXoGpuQ9/MDYs/61oeNjnkJpgqpH0sjq+tAXy/Vll4KAwHZfUSPtu6
-         I/8pISxkBSxiTEi1l7MInZnr8cgovUW3qGa7VFH8z48ruSKlfECxRd4VybF5dtJRMjT+
-         fLPvZ4mVq1UfXfD35aPNQcMNWojLsg525TSlm/bMoe8qFGSC/WxUxSymnz82yROJGq+x
-         efqfotXevP1wI+nk/sz8LncA3/LeRU89ZSOPRbSKKtWvCT/VwS34KUK2SktKmvLnAKnG
-         /GdbXfzLDYVirpbczzIB2tzGWMZJ8DZF7tSHcj0MWVrmUSFVBClzQ0ZrfqVunJvIrC37
-         WSMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778071290; x=1778676090;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0IlqU8VwEU2SI0FZdxgow47FUylG/UcOkwWktFbacV4=;
-        b=OablNw+gV8Vx4RmBfEP/VFN9rkwGI1iHa/XU9JiLwJxdvHaWuhvuA46GskMXlH14Rx
-         rdf48D4/9DKvZdD1ncRObjcq+o1XCKc3y823YK24LNOD4ym8Hf8BfPFdYEGLkpvSUZfL
-         tmasCBXZdJm/VANGmuj3ywKO5cYPF1Q4Mruavf/le2SdA3yczBuHqIXyZxxqLqckutAw
-         rbEWQUgToQk84ZXaRakz5TjdrHHJk9NjmeVvfy1XbeJmVQax3YcL1l+TU2vwV2npERfO
-         AEfvJBTXSG1x3pwmLDMHdE/VfujkJj9RV5L0c1rHdjnWcIKT97prQhHwf03vgy7mpgEa
-         Xf0g==
-X-Forwarded-Encrypted: i=1; AFNElJ+vT1WUZVwgZVarUq1W9zOu+2YFcy+NG2vxtb8wJYJM7OEhWZG8IHdGXgZmyrLFBX80wKqaiWWkFNqSF9wH@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzeh0lzz4FIx7Y1a4+q3WkHkwOtPdGZWcje0+/F80IqpWO3NJed
-	UADKzblMM7Gy6L73LZncVl+6h7FcNGDmTlD3ipm755medxNQ5sZywTo=
-X-Gm-Gg: AeBDiesuLYNou9iV1qWNKHHuRgIkKPwR7+5bgGx17S8w3zzmAw/fUrAZ3jV1jtF5zaJ
-	TumarBZWkaMWIKoKyDPlaxiJHDmaOT0Hl6Z+PpuWspXwnJoLDNshlpZFC3YlnMd0gqsVsLA78mp
-	TxDwN+2Ynfk/+J0tiVMsQ8NPxWdpbf32328WRVdOMj2vpyYZ/vlAvoQUwR5L6x0JDpdoFtByTCB
-	vXg4tXtBLEhGL7qLTYqrL/2JCuKNO6SzJyq90ujC2ShURneaozvF69hAzTttMW4/F4DBmi+Z1bl
-	J/vn16udOkKEPmyRpam2ZR3hUvSG1AAbK2nrQ9lOeb3BZB3A8eEFRm1IfaD69RDcAf+iP5S5HRP
-	7mMvA9boExd1jcQ2CHbo2XPK5dS/q7PHoTPPhqbPzaALNpTFa91nmR5wcqpw/QgJBS/uhnInZlt
-	6I+dC3OO1Uwvoo6idhEBLW0wNDBrs95ofSgnHukPphSGJe1xLoI1C+1diw7xcd9OoHENgHtNYkD
-	mCH1agTHQ==
-X-Received: by 2002:a05:6a00:4193:b0:781:2291:1045 with SMTP id d2e1a72fcca58-83a5b2d34damr3232862b3a.8.1778071290350;
-        Wed, 06 May 2026 05:41:30 -0700 (PDT)
-Received: from localhost.localdomain ([1.226.165.54])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-839679c7ba9sm5494056b3a.35.2026.05.06.05.41.27
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 06 May 2026 05:41:29 -0700 (PDT)
-From: Myeonghun Pak <mhun512@gmail.com>
-To: Maxime Ripard <mripard@kernel.org>,
-	Paul Kocialkowski <paulk@sys-base.io>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: Myeonghun Pak <mhun512@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Ijae Kim <ae878000@gmail.com>
-Subject: [PATCH v3] media: cedrus: clean up media device on probe failure
-Date: Wed,  6 May 2026 21:41:16 +0900
-Message-ID: <20260506124124.27802-1-mhun512@gmail.com>
-X-Mailer: git-send-email 2.47.1
+	dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b="R+ICuf8a"
+ARC-Seal: i=1; a=rsa-sha256; t=1778074742; cv=none; 
+	d=zohomail.in; s=zohoarc; 
+	b=cK/kDJcEUcOTda6LdupLDPokTfaeO06XsxM3LHwz6mj0DiG80/gczblU8Q63mVXPmQneakOZpaf/s3Ta03jaGkOcWUA0xv9In/FNjkj3b+AiYc6FvGtlCXFqRHhpU6gCF8oSPBS6EcF6MwIhde4zS5109WqIjRGja5N/n0qqOuE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in; s=zohoarc; 
+	t=1778074742; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=+/KT2tIRe9WnG6FF5zp1c6bqyhwpWmskkDFOgWPCEvc=; 
+	b=HOvJJpj0/m97EHrzhdYlSETVOaXPPm5MT13c1AbpfHZJdfYJsCN1vYWuavSh/Qd+x7aRYwSJlA3vUCJJG50+dX3rCsKDQGkgX+qDp/uPALK27Gr63J/EGKqCSUQ70DTX0Kue5jY6ZxPCC8InndOE6H+ZWtS4cePbVXiIFJw5j/E=
+ARC-Authentication-Results: i=1; mx.zohomail.in;
+	dkim=pass  header.i=zohomail.in;
+	spf=pass  smtp.mailfrom=linuxuser509@zohomail.in;
+	dmarc=pass header.from=<linuxuser509@zohomail.in>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1778074742;
+	s=zoho; d=zohomail.in; i=linuxuser509@zohomail.in;
+	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=+/KT2tIRe9WnG6FF5zp1c6bqyhwpWmskkDFOgWPCEvc=;
+	b=R+ICuf8aXyOsKuKQySF0tBPVnKITa0lJDRa1SgvapNp3Te2pLTXisVqcidc+CNEV
+	RrTk4VV9Kpnmw5JzBVZuIpOesDZIgBpLGVSCMEwYeUun8ArRGl+2AgrasyLwZvkvWsd
+	rYqVbd6Nt/B5ZU08p7nLxWO4S9a8qGuJcaxWQeUo=
+Received: from mail.zoho.in by mx.zoho.in
+	with SMTP id 1778074741874267.09198889582535; Wed, 6 May 2026 19:09:01 +0530 (IST)
+Received: from  [103.164.208.221] by mail.zoho.in
+	with HTTP;Wed, 6 May 2026 19:09:01 +0530 (IST)
+Date: Wed, 06 May 2026 19:09:01 +0530
+From: Ashwin Gundarapu <linuxuser509@zohomail.in>
+To: "gregkh" <gregkh@linuxfoundation.org>
+Cc: "linux-staging" <linux-staging@lists.linux.dev>,
+	"linux-kernel" <linux-kernel@vger.kernel.org>
+Message-ID: <19dfd836c6b.17df539d18654.525093089149603654@zohomail.in>
+In-Reply-To: 
+Subject: [PATCH v4] staging: rtl8723bs: remove unnecessary comparison to
+ true
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
 
-cedrus_probe() initializes the media device before registering the video
-device, the media controller, and the media device. If any of those later
-steps fails, probe returns without calling media_device_cleanup(), so the
-media device internals initialized by media_device_init() are left behind.
+From 86e105cece56ebf48c8e9ac86d417d201ebf081d Mon Sep 17 00:00:00 2001
+From: Ashwin Gundarapu <linuxuser509@zohomail.in>
+Date: Sat, 2 May 2026 17:19:48 +0530
+Subject: [PATCH v4] staging: rtl8723bs: remove unnecessary comparison to true
 
-Add a media-device cleanup label to the probe unwind path and route video
-registration failures through it as well.
+Remove explicit comparison to true in check_fwstate() call and
+add spacing around the bitwise OR operator to improve code style.
 
-Fixes: 50e761516f2b8c ("media: platform: Add Cedrus VPU decoder driver")
-Cc: stable@vger.kernel.org
-Reviewed-by: Paul Kocialkowski <paulk@sys-base.io>
-Co-developed-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
+Signed-off-by: Ashwin Gundarapu <linuxuser509@zohomail.in>
 ---
-Changes in v3:
-- Rename the media cleanup label to err_media.
-- Add Paul's Reviewed-by tag.
+v4: Moved changelog below the --- separator. Ran checkpatch.pl - no errors
+or warnings. Fixed whitespace per Greg KH's review.
 
-Changes in v2:
-- Drop the now-unused err_m2m label.
+ drivers/staging/rtl8723bs/core/rtw_ioctl_set.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
- drivers/staging/media/sunxi/cedrus/cedrus.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
-index 6600245dff..7cb1f110d6 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-@@ -507,7 +507,7 @@ static int cedrus_probe(struct platform_device *pdev)
- 	ret = video_register_device(vfd, VFL_TYPE_VIDEO, 0);
- 	if (ret) {
- 		v4l2_err(&dev->v4l2_dev, "Failed to register video device\n");
--		goto err_m2m;
-+		goto err_media;
- 	}
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
+index c70541f95a73..c100a0d70fe2 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
+@@ -151,7 +151,8 @@ u8 rtw_set_802_11_ssid(struct adapter *padapter, struct ndis_802_11_ssid *ssid)
+ 	else if (check_fwstate(pmlmepriv, _FW_UNDER_LINKING) == true)
+ 		goto release_mlme_lock;
  
- 	v4l2_info(&dev->v4l2_dev,
-@@ -533,7 +533,8 @@ static int cedrus_probe(struct platform_device *pdev)
- 	v4l2_m2m_unregister_media_controller(dev->m2m_dev);
- err_video:
- 	video_unregister_device(&dev->vfd);
--err_m2m:
-+err_media:
-+	media_device_cleanup(&dev->mdev);
- 	v4l2_m2m_release(dev->m2m_dev);
- err_v4l2:
- 	v4l2_device_unregister(&dev->v4l2_dev);
+-	if (check_fwstate(pmlmepriv, _FW_LINKED|WIFI_ADHOC_MASTER_STATE) == true) {
++	if (check_fwstate(pmlmepriv,
++		_FW_LINKED | WIFI_ADHOC_MASTER_STATE)) {
+ 		if ((pmlmepriv->assoc_ssid.ssid_length == ssid->ssid_length) &&
+ 		    (!memcmp(&pmlmepriv->assoc_ssid.ssid, ssid->ssid, ssid->ssid_length))) {
+ 			if (check_fwstate(pmlmepriv, WIFI_STATION_STATE) == false) {
+
+base-commit: 26fd6bff2c050196005312d1d306889220952a99
 -- 
-2.47.1
+2.43.0
+
