@@ -1,63 +1,62 @@
-Received: from mail-dy1-f193.google.com (mail-dy1-f193.google.com [74.125.82.193])
+Received: from mail-dy1-f195.google.com (mail-dy1-f195.google.com [74.125.82.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7A2A3E0C47
-	for <linux-staging@lists.linux.dev>; Wed,  6 May 2026 07:58:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DECE3E025E
+	for <linux-staging@lists.linux.dev>; Wed,  6 May 2026 07:58:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778054286; cv=none; b=CLBChvpGd5r3xeAU0r8aUGkb0o3TgS7WM+An8oh7egdzfHh8BsMBG+NYPdz+ZRnbt8RoCCdysbptCfj6012SpAwvGf9qy/H5C3awj9KKJBIH/S2KHCoL3Tu0tKjtOt9sn0WENTkZ60IU23LJho8lPaPpIORQDnNKcz9G6Jz2d14=
+	t=1778054286; cv=none; b=S+/vrplccwe7lFDOlKVfbxzg1cNZiY0RkLEQgkvv1fAX6w59CQJ7PWwz+RLNB2VfC1eIdVkUgDCdHnuE0h1DHJ+1PmgTM4UqjEbjRp7n/Rshdkwh3Dc1+ScWCmJBFMWm90Rkd7OJE0pxzqL7u7XHhOU1CFFbUx93lEe+YM0oozA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1778054286; c=relaxed/simple;
-	bh=NxDn3Yx28HJtPbWuriUuKQ1bU4FkzVJ+n8JDBIb0o2I=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=VUabYYm8+LNODiqO1zCEY4qB5ioVMV4lTki4PpnnkIoXIeLub1xcvKPVyDrPAHolAJ55JG8WFXpA4H2xLPvNhFqsTH0/4ljL/h0PE0GcrTZDBXBPaXvJpEtQA72TGDSihY62i9pwkaarDQ7hdIuD9WoLgRcJE9f/RKE3NZPT/n8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NAhr1rMi; arc=none smtp.client-ip=74.125.82.193
+	bh=xR1RM3RWJW47Z9xeWRrmmEaNfsdqusccHbBUDCDmcQg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GHslEojD4+AeSn5gA6FsaLcIc01Yr1xUUFga+HK5Vgn7XZ2eox+kJfOFlCRQZCHUkeAP1vWTZqzOxB2n2KfwgX65CahiDyoh6HbkfNNwlaLjVmtY2nr0LpPhV12P9olycv6Zde8J6+O8hiH/UuQbKZiSV5J0bSbwHo5j5dT3Zng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h28leHhN; arc=none smtp.client-ip=74.125.82.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NAhr1rMi"
-Received: by mail-dy1-f193.google.com with SMTP id 5a478bee46e88-2f0d3e07e30so5534778eec.0
-        for <linux-staging@lists.linux.dev>; Wed, 06 May 2026 00:58:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h28leHhN"
+Received: by mail-dy1-f195.google.com with SMTP id 5a478bee46e88-2bdcf5970cdso486165eec.0
+        for <linux-staging@lists.linux.dev>; Wed, 06 May 2026 00:58:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778054284; x=1778659084; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0yP+mwFYhjefiJc9HNwtug4g60Bu6O6itewJ8verryo=;
-        b=NAhr1rMiYBIAxNsO1dAXBzpYIk07xXJFPGf5127NPmoeLw3XJ0ZOEDFt3ZubmpqvSU
-         p6HfM1mTk1UkOPTCVTECmtyj484CU0qOezVXyIW4CZ2nuZCz9FwQqitTrJLZYDtL7n0e
-         XfsdPPrVqrImBc7bLqQQcXlH+PzeNdnEByQcl3U2M6rNzM4qIaqJMqEQbUJLoWN2HCLf
-         7SQusMlDtPk0VSx9/aXHaZqZXamCa3RH8uA3WOU4fJEiiymvL5i1rsPXJF1/HdYmagC5
-         WthkodMisdhWWt2zmpaUjqymq32pPtFuPQECh2W+kVzfvQzKqY3dvZMi+GKL8H0srxEc
-         rFPg==
+        d=gmail.com; s=20251104; t=1778054283; x=1778659083; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=97mCRoyN7YDaEeJKPq2/ZEaKlSBE3boJ8GScN+I6XWA=;
+        b=h28leHhNVYX+O++xDU0XLJD34KdtTr4vPRk88REz3bcM1iJ5K+RowNTcQFtm/Sm2b5
+         0ess7s+T1EU5t55MPoedRfC25c1XzXxtI1aW65DBPrl22iiWY6roh3vEWo1+Dz3k6I4B
+         d2mCv+cdv4y0q1XmHeueYQ4dz1RRHPQal+D7I9Rv9HvnnXWaf4WkELB5fDxwkSeoAGXH
+         Zm5G5zsng6cQu/1bu0vL7BnsLW6CgoWajnY14cLpNc/DJK3VwRv8Tr2np0AiqBOUFOm7
+         /a7NrGIhXzKQuyPByHD8mAcJBebwuf+ycOuedajtm+4WPvENExE3LWdmMg60Oo3dZz6/
+         ONdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778054284; x=1778659084;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=0yP+mwFYhjefiJc9HNwtug4g60Bu6O6itewJ8verryo=;
-        b=ob6hjcdgNXBLzTECyiOU2oYTbCXDtQ+rHlvzvkmjqU37/lZ2P7F8N1D/qQdGbywGiJ
-         eFX2xEaUUFl3lktuZ+gHFxM9m/Z/cHApPsEq9S9MRXGmCnZyyl5lYse1Sfvqmwel6MYh
-         D5tanzByaTSBk+1KrZsFt3IKCdwpWKv7C9kzSNrcQ7hXLX8RbeVrW8++KhyI7SR4rYf0
-         YZ6aygGQU9DRL7SLyR/oZ0CucrP9J5SL70eE6AEczvK+/lTSTDf+o3SmDM201KCqIOTJ
-         ZqPO21iWjO+CWV+IJCpnPKBjSdUJ8pcqM46/1orBljBVpx/pu2eBfcPnUBGeeoJfpf+K
-         aGHQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8ypYIMiV4QFl1mivkA8MG9KIlyQHTXbeRlXHAbXjltFo8CcasQDx4mbXHul7cNGnHHvh1O0uHoD4y9eHAT@lists.linux.dev
-X-Gm-Message-State: AOJu0YyRU4N7Zc4yioO+9HqB/Mo/yGdUqGiAdpHukzBoyrTqdyGcs5/l
-	MQEAgoYbzuqz4/JEMnSNoayRSdnpUacCEgOFzIjkyfSqdCuJ2rvo7BEo
-X-Gm-Gg: AeBDieuAmxdpmjLh+XS5/BfMKTCXQAVjiF3Vmd8fWwGZSbxNJiEbBc6z17wCCrH8ZP1
-	r3DqPICRdgAzhKwB6pB8sgFnjK4jiIkF8tnEWVCjHhcDXTO92imv/vJCNvvNpd+yc3cp8u++F3i
-	HAECYmn6VfrKUYp+RCIXMmaQWSJUlzO8p49JD3SWS8jx0Bm78grHbi/KvRkFmN4ez9kcHQwSF0S
-	at2GrYVMl00FyOxiZO2FJl++m8rUkFFTx/zHQU9avXj3NlpY0Jsin50A6ZFD+Dwe56QDaLdSo1U
-	77oEIG3Yp3++H5V3Xto0SuAo33AdBWCmpnHHZWVv826UpqCERZH0HxU4B6FaxiN3fryPZ3PxjPY
-	LZZTs6tyXPSIfZZ2dNNLoTLqXnBS97T2ap2H4l6pdDfPPI6uP7V+orD0aNv7phBCktguYq+u9/r
-	RT4rwodIRw58us56mis/n9RukCUSwsXlGzxzm4DgJTmf+gSG8whkCju7kfG1xrhV40AQ==
-X-Received: by 2002:a05:7300:4794:b0:2f2:5726:db4e with SMTP id 5a478bee46e88-2f54ac74abcmr1120763eec.18.1778054283787;
-        Wed, 06 May 2026 00:58:03 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1778054283; x=1778659083;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=97mCRoyN7YDaEeJKPq2/ZEaKlSBE3boJ8GScN+I6XWA=;
+        b=VWO9xGywr1VDxDmcrq3Z49dI+lJrHnojeiktZyFVw7sTM2zgNOT/Nhyqy92ec2dsfz
+         nOZyigVf/EilG+cMurSG7UE7HVS5I+vZXCOXrqvTo5Ek6yPKsYhQX3o6Qs9u+6O7H4Kr
+         BTc5qs0QWh6Pi+uEVfS21zx5zCsSLVG7bOt+yl65hxPNaqB0AuIbUc07Ma72BTd81VML
+         LLgMW2yLHyfu/1Bh0ZkgOffuRsncveNm2Q/hAzgY8+N+ZSMwYUQ7j0zP40+ZCgoOyav3
+         BPQyI3unZxahacwn509Ihf4cLNxdZ2wF3qDD+P111yiDwgKrxXJ0CFezAkNaj+tIbZg2
+         M5Qg==
+X-Forwarded-Encrypted: i=1; AFNElJ+jPpV7cTuJXswP5mriZk2K0kv4OsJLNM6o0nv9ghncLBcTIch3Pol44ALRhRKSOJh1Vn1YhBEEaN1cr8CM@lists.linux.dev
+X-Gm-Message-State: AOJu0YyNpeeUT/fX6YL5Jwsr3MxMCV2oCciRdAqAWJZ4GTdMDsdMbN2l
+	qblH2Itpm3i1OH7+lLOEh600UOAS/1f+QnsDEiNlSCMO71cBygsWdZ81
+X-Gm-Gg: AeBDiet5hkabS0UvMtUfygdi65ItzIbghGIFMeiXBslMnaNtKyAxewXJJVdb7gTr/NL
+	PY0t4iJRXh7s5aCi4tQJqHiHREUDKhQtEIiAo4HJKrDkf6upd8OHZi5NJv92f9JPlD1LgaVa6RL
+	NcOil91jrQjIfySxzwiQVEK3AKngP3TBpIEHtKJMX4qQnw3DUYTgCzZbZZjyyUSetOoQ6B1UuCF
+	Kvkg0HKRXMJPLiEt5k6gSq8QxS8lqgDT+B9Z0gsB42C/e8TED+vH+9IbB14Xa4iRNoB5+sObLdw
+	k+8KxBuerb5P0CLRHrjh2X/suHSek2F8iAYbuAfBSYy1nRofQGFMWXrJm2HzvmyBi4TdY/o1JGG
+	UyZ8RlOyZojXQsDVoQ9KfWNp59pIWBdiUde/PfQSZnEnxd8BU36E8DB4mMMW/35ta/zIIXUPVUS
+	/eob8r1/cj1ZHplk2rh86KX36YR6JlrcZmGINSCEI3vlEeILSNteAjmYzXW6HIMo/2plIQTgo4H
+	OVx
+X-Received: by 2002:a05:7300:ec08:b0:2f0:ee2:f6c6 with SMTP id 5a478bee46e88-2f3d19ce4a7mr2903276eec.19.1778054282508;
+        Wed, 06 May 2026 00:58:02 -0700 (PDT)
 Received: from localhost.localdomain ([76.32.119.210])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2f56d4cf2fdsm2416561eec.8.2026.05.06.00.58.02
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2f56d4cf2fdsm2416561eec.8.2026.05.06.00.58.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 May 2026 00:58:03 -0700 (PDT)
+        Wed, 06 May 2026 00:58:01 -0700 (PDT)
 From: Hungyu Lin <dennylin0707@gmail.com>
 To: thierry.reding@kernel.org,
 	jonathanh@nvidia.com,
@@ -72,12 +71,10 @@ Cc: hverkuil+cisco@kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Hungyu Lin <dennylin0707@gmail.com>
-Subject: [PATCH v2 1/1] media: tegra-video: vi: fix invalid u32 return value in format lookup
-Date: Wed,  6 May 2026 07:57:45 +0000
-Message-Id: <20260506075745.28574-2-dennylin0707@gmail.com>
+Subject: [PATCH v2 0/1] media: tegra-video: vi: fix invalid u32 return value in format lookup
+Date: Wed,  6 May 2026 07:57:44 +0000
+Message-Id: <20260506075745.28574-1-dennylin0707@gmail.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260506075745.28574-1-dennylin0707@gmail.com>
-References: <20260506075745.28574-1-dennylin0707@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -86,35 +83,16 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-tegra_get_format_fourcc_by_idx() returns a u32 but uses -EINVAL to
-signal an out-of-bounds index. This results in a large unsigned
-value being returned, which may be interpreted as a valid fourcc.
+Changes in v2:
+- Follow Hans Verkuil's suggestion to use WARN_ON_ONCE()
+  and return the first available format (index 0) as a safe fallback.
 
-Returning 0 is not a valid fourcc either. This condition should
-never happen, so use WARN_ON_ONCE() to catch unexpected out-of-bounds
-access and return a valid fallback format instead.
+Hungyu Lin (1):
+  media: tegra-video: vi: fix invalid u32 return value in format lookup
 
-Suggested-by: Hans Verkuil <hverkuil+cisco@kernel.org>
-Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
----
  drivers/staging/media/tegra-video/vi.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-index f14cdc7b5211..456134a9e8cf 100644
---- a/drivers/staging/media/tegra-video/vi.c
-+++ b/drivers/staging/media/tegra-video/vi.c
-@@ -80,8 +80,8 @@ static int tegra_get_format_idx_by_code(struct tegra_vi *vi,
- static u32 tegra_get_format_fourcc_by_idx(struct tegra_vi *vi,
- 					  unsigned int index)
- {
--	if (index >= vi->soc->nformats)
--		return -EINVAL;
-+	if (WARN_ON_ONCE(index >= vi->soc->nformats))
-+		return vi->soc->video_formats[0].fourcc;
- 
- 	return vi->soc->video_formats[index].fourcc;
- }
 -- 
 2.34.1
 
