@@ -1,123 +1,76 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5DC930E0E4;
-	Wed,  6 May 2026 07:05:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAB84370D45;
+	Wed,  6 May 2026 07:14:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778051107; cv=none; b=IUGPmJoJPuzuBLGVrNmXAqlxLoiRlyTH4frbO0wx9l/wnpqZ75HOoxvc5f3eMjzKdMEISghEa0/Lpm6Vqc4JnsEzDL1JHfehC/eW3mo9loxH+fqdJmNngjECpVZ7K3NWjNz+sHHaCVfEtNS6JoWBUYHOsrpC+mMaGPP3FT7gDGc=
+	t=1778051656; cv=none; b=m6EhRQGboTFnuOyxDLr+TmDqKpHtdDbmL9ARQGeYiPbp8qjFN7rrKjKu8hnm7MfKYffNVkxb61MzRANDw79U0Fmwl3zpoC+GF2bf7UM+o4T1dPHswO+Or7oQ1twNwcoMwNwa3eJnqBoqwoddZJFCZV+fylwgpejHZFyiqbcVjdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778051107; c=relaxed/simple;
-	bh=0kQs4mwh7DEMQx2/yk0kO06Ch3Q058Iv5aVOkWviCv4=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=evqtmOsXGoFyw8YeqRJVZmo/TKqm3oNp/PeLi09wunQhdpzK2inQ3GhC24sj59Z9+l/QPrhkMHshbpLkLImq3bQl+kokH63Xy4Waz7eq8HFazk/KeED8rcD0g79OHiDnult/A0E3c4BgsafBU7XvFkX+1HD/o1P4ipoU8g+vgH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jhjt0gFH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778051656; c=relaxed/simple;
+	bh=vtIkiSWfxRkPEyv05CMtAYn2ynQAD8wup7kuijMa85I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=f2tdAIfK+hKw+k2eki7SFBzJCvWklzwYFz4KxK7Q1AJKzDmFVcen8yGXoXgoN/EE1XvYHLZO0A6wIHPXp+5pkbBRraN86QY4bnbalOROXHHVxvoYkoZC+ktlPg6gZh4yYEUjMGUnr9Q5vPwsCR+PQs0W4ItT50cSrDZtFRiKHRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=g4JhqEEF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jhjt0gFH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07661C2BCB8;
-	Wed,  6 May 2026 07:05:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778051107;
-	bh=0kQs4mwh7DEMQx2/yk0kO06Ch3Q058Iv5aVOkWviCv4=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=Jhjt0gFHefbul1JYAok9JADgl4cJjDJAvysYHOtQV/g3OV0Yh3dfSss4/iWq8olsX
-	 mHRKmS2ojgRSFwIFoUsRpwBobwVuIs9Zas0pj1fdZTy/GUMjsupa5bnBmUsT/n2af4
-	 p2lomRY5u3SK0kZDAqPdtOryTB83jhFKocyBihcYNehr3oMg5KqZWQP5j7Yvcpog9I
-	 awscApk8X5R6RpSvnaztwAoxYHm0U3/vzUqqK897J1l3WdtR8eXTlWl8pibCUb9Q4h
-	 OFyYSewf/ZSKXe8fxL6wEVGQhuDsKkeWePPKujJcPAdKFQHAr6nkaFZbYNfVFWUJkV
-	 z6HlhzsqjJtIg==
-Message-ID: <4db267a6-4d00-4777-a7d9-c18b303624c1@kernel.org>
-Date: Wed, 6 May 2026 09:05:03 +0200
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="g4JhqEEF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01004C2BCB8;
+	Wed,  6 May 2026 07:14:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1778051656;
+	bh=vtIkiSWfxRkPEyv05CMtAYn2ynQAD8wup7kuijMa85I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=g4JhqEEFeQpjM5Oh1S8z3aUurdeqhxEZ74x2AxaiS5oHQisO7cA0VbKoYtMurcZC7
+	 omCd66wEWTT5LwbqIhpinSzY8Jzpc14HnHxSQ8nz1TW2QqYq7mHwvpvwvSlA7M/cju
+	 ZGYwFJbbiPHMijloiGmlHcsXqcR2wJh3jOOf2/no=
+Date: Wed, 6 May 2026 09:14:13 +0200
+From: gregkh <gregkh@linuxfoundation.org>
+To: Ashwin Gundarapu <linuxuser509@zohomail.in>
+Cc: linux-staging <linux-staging@lists.linux.dev>,
+	linux-kernel <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3] staging: rtl8723bs: remove unnecessary comparison to
+ true
+Message-ID: <2026050625-counting-paprika-7198@gregkh>
+References: <19dfbab05a8.2d751ade4111.3028810368318669188@zohomail.in>
+ <2026050614-roster-walrus-6995@gregkh>
+ <85d6c003-500f-41a6-a9e1-ad83a586d694@zohomail.in>
+ <2026050626-blinked-armadillo-c405@gregkh>
+ <19dfbf2f695.283866a26574.4001086986822756666@zohomail.in>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH 1/2] staging: media: tegra-video: fix wrong return type in
- tegra_get_format_fourcc_by_idx()
-To: Alexandru Hossu <hossu.alexandru@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>
-Cc: Jonathan Hunter <jonathanh@nvidia.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20260411211006.150782-1-hossu.alexandru@gmail.com>
-Content-Language: en-US, nl
-In-Reply-To: <20260411211006.150782-1-hossu.alexandru@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <19dfbf2f695.283866a26574.4001086986822756666@zohomail.in>
 
-On 11/04/2026 23:10, Alexandru Hossu wrote:
-> The function is declared to return u32, but returns -EINVAL on the error
-> path. Due to implicit conversion, -EINVAL (-22) becomes 0xFFFFFFEA as u32,
-> which is an invalid V4L2 pixel format value.
+On Wed, May 06, 2026 at 11:51:37AM +0530, Ashwin Gundarapu wrote:
+> On Wed, May 06, 2026 at 10:33:02AM +0530, Ashwin Gundarapu wrote:
+> > Remove explicit comparison to true in check_fwstate() call and
+> > add spacing around the bitwise OR operator to improve code style.
+> >
+> > Signed-off-by: Ashwin Gundarapu <linuxuser509@zohomail.in>
+> > ---
+> > v3: Fixed double --- line and corrected whitespace formatting as
+> > requested by Greg KH.
 > 
-> The caller tegra_channel_enum_format() assigns this garbage value directly
-> to f->pixelformat and returns 0 (success) to userspace via VIDIOC_ENUM_FMT,
-> giving applications a silently wrong format descriptor instead of an error.
+> Changes from v1:
+> - v2: Resent with corrected whitespace via Thunderbird plain text mode
+> - v3: Fixed double --- line and corrected whitespace formatting
 > 
-> Fix this by changing the return type to int and propagating the error
-> correctly in the caller.
-> 
-> Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
+> The original v1 was sent from Gmail web client which corrupted tabs
+> to spaces. v2 attempted Thunderbird plain text. v3 fixes the double
+> --- separator and uses Zoho webmail plain text which preserved tabs.
 
-It's a duplicate of https://patchwork.linuxtv.org/project/linux-media/patch/20260412000245.26696-1-dennylin0707@gmail.com/
+This all needs to go below the --- line.
 
-I prefer that version (after my suggested change) over this one.
+Please add it to v4 when you resend that in a day or so.
 
-Regards,
+Also realize you did not run your patch through checkpatch to verify
+that you did not add any issues with your change :(
 
-	Hans
+thanks,
 
-> ---
->  drivers/staging/media/tegra-video/vi.c | 11 ++++++++---
->  1 file changed, 8 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-> index 9c0b38585d63..afc7327ef318 100644
-> --- a/drivers/staging/media/tegra-video/vi.c
-> +++ b/drivers/staging/media/tegra-video/vi.c
-> @@ -77,13 +77,13 @@ static int tegra_get_format_idx_by_code(struct tegra_vi *vi,
->  	return -1;
->  }
->  
-> -static u32 tegra_get_format_fourcc_by_idx(struct tegra_vi *vi,
-> +static int tegra_get_format_fourcc_by_idx(struct tegra_vi *vi,
->  					  unsigned int index)
->  {
->  	if (index >= vi->soc->nformats)
->  		return -EINVAL;
->  
-> -	return vi->soc->video_formats[index].fourcc;
-> +	return (int)vi->soc->video_formats[index].fourcc;
->  }
->  
->  static const struct tegra_video_format *
-> @@ -395,6 +395,7 @@ static int tegra_channel_enum_format(struct file *file, void *fh,
->  	struct tegra_vi_channel *chan = video_drvdata(file);
->  	unsigned int index = 0, i;
->  	unsigned long *fmts_bitmap = chan->tpg_fmts_bitmap;
-> +	int ret;
->  
->  	if (!IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG))
->  		fmts_bitmap = chan->fmts_bitmap;
-> @@ -405,7 +406,11 @@ static int tegra_channel_enum_format(struct file *file, void *fh,
->  	for (i = 0; i < f->index + 1; i++, index++)
->  		index = find_next_bit(fmts_bitmap, MAX_FORMAT_NUM, index);
->  
-> -	f->pixelformat = tegra_get_format_fourcc_by_idx(chan->vi, index - 1);
-> +	ret = tegra_get_format_fourcc_by_idx(chan->vi, index - 1);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	f->pixelformat = ret;
->  
->  	return 0;
->  }
-
+greg k-h
