@@ -1,100 +1,83 @@
-Received: from sender-pp-o91.zoho.in (sender-pp-o91.zoho.in [103.117.158.91])
+Received: from forward501b.mail.yandex.net (forward501b.mail.yandex.net [178.154.239.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7E852F691D
-	for <linux-staging@lists.linux.dev>; Wed,  6 May 2026 06:21:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=103.117.158.91
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778048513; cv=pass; b=ATo+FAvsoLnNpXdNCgdGDomNAIpJse2EQsM88mD36tOjdFhwvuBL8Yj6Wr3uqVxzBgCiH6jV7yeJckSLV3mYGnkzcVr99L2aZX8lsgP7KYUsFuhuI1JsSob1byU/G9u/+dEh2wM53CtVJgtr3GOLu//snWYb0wtzzZum6S69pjo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778048513; c=relaxed/simple;
-	bh=9UCV3Sh+5nD+ABZ3Qtn03aGo/updz1jHkbnyUIkt7OE=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=iM9yiPbGyBifzWZu+rRkYWHEWGuNBTUF9T3JoBtzgrt+U+Baha39lWTAjIdKziP5ScAtDv14vxI0lKZxL2AL3NmUD/f3IwrXmMVw7jA5LuiA5n+wC30hfW86Rc/84xEadHHcSPxQ2m7xldmjZoLC5qDCHta6DpBEM/9jECKXjm8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in; spf=pass smtp.mailfrom=zohomail.in; dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b=bUTa/j2R; arc=pass smtp.client-ip=103.117.158.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.in
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CA4E2556E
+	for <linux-staging@lists.linux.dev>; Wed,  6 May 2026 06:34:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.145
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778049247; cv=none; b=fG828NCOqGnnQs3T6Dt3nP4F5SHi9YXegs6/iqaqIaV93v/Od09SZ7xcVt5VtYbDgO2cSbSiuOSkYzzy5XOBJyLRO4mNyEvAZ6i7MBnGYKMdSTIESkc7IiSQtjhYreBl8O5Z/X8Wa4mJhTvXrfeBKzuMgViLDSFsDwv/qEgkCXk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778049247; c=relaxed/simple;
+	bh=X8n8tYEYVSFckriQ2NNLKWHkPAOG8wXm5IiiaOa0JvA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GV52mYowWR2hvpFIt+gdpDh1cKoJURxUOeUaouZkP1bqLA1tgfRzlLWPxSlUvOAgm+2S48vCbsQhXPRRljanpupXLSvtjVYVYx5DYR9JsZDvXlWBr31AuJosDj5R++wnv+5ATfHvG6ynySwNAxOip+r0XYps/ZvGDOVHW5VdOb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net; spf=pass smtp.mailfrom=sezginduran.net; dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b=FxwO8Uzd; arc=none smtp.client-ip=178.154.239.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sezginduran.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b="bUTa/j2R"
-ARC-Seal: i=1; a=rsa-sha256; t=1778048499; cv=none; 
-	d=zohomail.in; s=zohoarc; 
-	b=aa18dYpSirtbBEcVb5L5566THfy63KvuZi6AWljwXsS9daPRlcU704jTCSABPWNZ9tWCEDc6RlyIC026L/0Yc+dMXfBAXnDyAeoY0S8sWxQC9KxEQmQBdADeOd8g9tMWlwQn6KyjjOdgEsjzVBuEravtE+YQ+GgxMmHwMeS1u+A=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in; s=zohoarc; 
-	t=1778048499; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=E40EchJDUgUbsvzbL+E6WTfnXyqjYF2qVAAT94pU4jo=; 
-	b=FmpGcqpE009lel1cdNsLUicAhq8CgBZv1KmLRMbiLeLDAbo9TMZS+mC2ytjzVaw5fokNhfgRGyCMBURWVLN6oK98h5qWzCH3buv8ctA49CvL/FbpYrqRWLb3YApjLYw3Z6EfWa+UPyg9OTPXhHMbk5aA5scKX46wWlLBcC274aw=
-ARC-Authentication-Results: i=1; mx.zohomail.in;
-	dkim=pass  header.i=zohomail.in;
-	spf=pass  smtp.mailfrom=linuxuser509@zohomail.in;
-	dmarc=pass header.from=<linuxuser509@zohomail.in>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1778048499;
-	s=zoho; d=zohomail.in; i=linuxuser509@zohomail.in;
-	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=E40EchJDUgUbsvzbL+E6WTfnXyqjYF2qVAAT94pU4jo=;
-	b=bUTa/j2RLpgY6KLN921sZqf/cktWna4AYjlg2eo9zECAoyYx21qcjZvlBFoszai4
-	7vcIyuUyIN3bJutp7Q+l+xNIcyaZWlVDHyu+ZQAGdaOfJsCtgVuBo4gEDWMRiy8J6oX
-	dzq07xhLq2r44j39z1cQg3HXsriOsV1GmJj2tPE4=
-Received: from mail.zoho.in by mx.zoho.in
-	with SMTP id 1778048497310528.5887892751522; Wed, 6 May 2026 11:51:37 +0530 (IST)
-Received: from  [103.164.208.221] by mail.zoho.in
-	with HTTP;Wed, 6 May 2026 11:51:37 +0530 (IST)
-Date: Wed, 06 May 2026 11:51:37 +0530
-From: Ashwin Gundarapu <linuxuser509@zohomail.in>
-To: "gregkh" <gregkh@linuxfoundation.org>
-Cc: "linux-staging" <linux-staging@lists.linux.dev>,
-	"linux-kernel" <linux-kernel@vger.kernel.org>
-Message-ID: <19dfbf2f695.283866a26574.4001086986822756666@zohomail.in>
-In-Reply-To: <2026050626-blinked-armadillo-c405@gregkh>
-References: <19dfbab05a8.2d751ade4111.3028810368318669188@zohomail.in>
- <2026050614-roster-walrus-6995@gregkh>
- <85d6c003-500f-41a6-a9e1-ad83a586d694@zohomail.in> <2026050626-blinked-armadillo-c405@gregkh>
-Subject: Re: [PATCH v3] staging: rtl8723bs: remove unnecessary comparison to
- true
+	dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b="FxwO8Uzd"
+Received: from mail-nwsmtp-smtp-production-main-91.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-91.sas.yp-c.yandex.net [IPv6:2a02:6b8:c16:161c:0:640:b95e:0])
+	by forward501b.mail.yandex.net (Yandex) with ESMTPS id 92C6381707;
+	Wed, 06 May 2026 09:27:18 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-91.sas.yp-c.yandex.net (smtp) with ESMTPSA id ERa7n2739Os0-agotJqmI;
+	Wed, 06 May 2026 09:27:17 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sezginduran.net;
+	s=mail; t=1778048838;
+	bh=niWCALGlyrgaeT7K/gU5sVSbn65KOcJj/Toritv3bGE=;
+	h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+	b=FxwO8UzdHXPpC6BBy4xDMQ/jsdQFfR75BzKyj9rdE1NuB1SEJS3C9MPaiVCPpLCSn
+	 S1olVRy2FNDIj5yuCIGBGMGvvUWVAxvEUmUQlZWQea2ZUsr5sbPdNQJr1qX0YOT4an
+	 xIxi891pX+MBkvzTL9xwbz0AQSwXMehXj5BxdTe4=
+Authentication-Results: mail-nwsmtp-smtp-production-main-91.sas.yp-c.yandex.net; dkim=pass header.i=@sezginduran.net
+Message-ID: <fcfbdb1a-188a-4ab1-b7cc-b2c430d2cca4@sezginduran.net>
+Date: Wed, 6 May 2026 09:27:13 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: sm750fb: add const to g_fbmode array
+To: Chaitanya Sabnis <chaitanya.msabnis@gmail.com>,
+ sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
+ gregkh@linuxfoundation.org
+Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20260506035641.5060-1-chaitanya.msabnis@gmail.com>
+Content-Language: tr
+From: Ahmet Sezgin Duran <ahmet@sezginduran.net>
+In-Reply-To: <20260506035641.5060-1-chaitanya.msabnis@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
 
-On Wed, May 06, 2026 at 10:33:02AM +0530, Ashwin Gundarapu wrote:
-> Remove explicit comparison to true in check_fwstate() call and
-> add spacing around the bitwise OR operator to improve code style.
->
-> Signed-off-by: Ashwin Gundarapu <linuxuser509@zohomail.in>
+On 5/6/26 6:56 AM, Chaitanya Sabnis wrote:
+> Fix a checkpatch warning by changing the `g_fbmode` array of
+> pointers to be `static const char * const`. This ensures that both
+> the strings and the array of pointers are placed in read-only memory,
+> preventing unintended modifications and improving security.
+> 
+> Signed-off-by: Chaitanya Sabnis <chaitanya.msabnis@gmail.com>
 > ---
-> v3: Fixed double --- line and corrected whitespace formatting as
-> requested by Greg KH.
+>   drivers/staging/sm750fb/sm750.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+> index dec1f6b88a7d..08d4979c6755 100644
+> --- a/drivers/staging/sm750fb/sm750.c
+> +++ b/drivers/staging/sm750fb/sm750.c
+> @@ -33,7 +33,7 @@
+>   static int g_hwcursor = 1;
+>   static int g_noaccel;
+>   static int g_nomtrr;
+> -static const char *g_fbmode[] = {NULL, NULL};
+> +static const char * const g_fbmode[] = {NULL, NULL};
+>   static const char *g_def_fbmode = "1024x768-32@60";
+>   static char *g_settings;
+>   static int g_dualview;
 
-Changes from v1:
-- v2: Resent with corrected whitespace via Thunderbird plain text mode
-- v3: Fixed double --- line and corrected whitespace formatting
+Did you compile these changes?
 
-The original v1 was sent from Gmail web client which corrupted tabs
-to spaces. v2 attempted Thunderbird plain text. v3 fixes the double
---- separator and uses Zoho webmail plain text which preserved tabs.
-
-
-From: gregkh <gregkh@linuxfoundation.org>
-To: "Ashwin Gundarapu"<linuxuser509@zohomail.in>
-Date: Wed, 06 May 2026 10:55:34 +0530
-Subject: Re: [PATCH v3] staging: rtl8723bs: remove unnecessary comparison to true
-
- > On Wed, May 06, 2026 at 10:42:52AM +0530, Ashwin Gundarapu wrote: 
- >  
- > <snip> 
- >  
- > For some reason you sent this only to me, which is a bit rude to 
- > everyone else on the mailing list.  I'll be glad to respond if you 
- > resend it to everyone. 
- >  
- > thanks, 
- >  
- > greg k-h 
- > 
-
+Regards,
+Ahmet Sezgin Duran
