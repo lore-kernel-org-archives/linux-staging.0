@@ -1,74 +1,76 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCE062AE78
-	for <linux-staging@lists.linux.dev>; Wed,  6 May 2026 19:02:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E83191EA84
+	for <linux-staging@lists.linux.dev>; Wed,  6 May 2026 19:04:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778094136; cv=none; b=APxQ6/wNNeeW4D+hawFWRQ0m9wjXozsTt81nF/uC+KMc2n5KgnB1IHxF5tQAGmruI1oRtRgrbDLsAAXK7B/StWEJZQe5KOaE9ULAUAl4qEOwXRGNsnF0qvfLOZrrn91MsCg0MVQz72nGUl6gJhD2KktNIcKmHZJZbtJ5FvjZC70=
+	t=1778094265; cv=none; b=qRKtj3WoH0qsidRQvyLC7htxR3MUNSnj0egKqUUN9ioIl9n4UReMvRlCF0jkghExWIJazqW9JvcD1zdE2UkEVB8B5Y26/kDJqEIeaoFRXCZvuI2w0ykgmRoEmIg7TYc025RiZNrk8bJfcBskRkER0PV8p8iXZmrEL7FREV3P2zA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778094136; c=relaxed/simple;
-	bh=JZaYrfEozMKjSaZ1YP5VhkkzGdyFrIk1JlrrX6YYOZk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bnB/0d6VhHcj/EpJt3oyVIqQbL0jaP78HaPbXp7xW7LBO2+iCVyfUBcBlEI2yY9MUO1VuRguUPATP1n6krhpw5VyWPEgIyN5jLqUhAg0NyHy3SV7WqhLdRJwCIuOruSx7PqS+G/IDeadnKROr2ANJAwa2ZaIMQpyIONsC4g3cmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EE9t8QWr; arc=none smtp.client-ip=209.85.216.50
+	s=arc-20240116; t=1778094265; c=relaxed/simple;
+	bh=Qm47VOHilI0Ekcg9Bgb7zRDq/m8oX4UXAkYaFL3YqOU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aOaP1xp5sejAgyUXL4dVaMleybX7aQneGsAuBb3CtRKYpiXYbeLXLCUvHTDoLu5+S9/cJ7/9EBF8Q7T6ja72jA08a+P1df4aelI8IG0ryU+wb3xXFJ8rjz9Js4OWpfy19GImlTKIBuuVzPMKDo+IihpabVypKDJuedbvVs5T0Ck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=okCTYdtH; arc=none smtp.client-ip=209.85.215.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EE9t8QWr"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-364f65f6eaeso45308a91.0
-        for <linux-staging@lists.linux.dev>; Wed, 06 May 2026 12:02:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="okCTYdtH"
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-c8026aa4d53so635a12.3
+        for <linux-staging@lists.linux.dev>; Wed, 06 May 2026 12:04:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778094135; x=1778698935; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Z9tOsIvukdXEoOpeYE1gtqLz9A1OHR7NyB1FjpZTaRE=;
-        b=EE9t8QWr+WANYEwIMjiu6NuhJr1Jf0r67RYi0M9lTO/YtnH8iYX30+i3ryLjnXjlD5
-         sdfX0jixNwClrQAK1Z4lb8a8B/n4BzTgdt+PiMnhdGDvcNoTPm6rBywKxuTFxNLzIfto
-         xGMij9k71zjWcTBWovMdrnC2Rl+UwBukMBLcp9csj2qK3PT5E9tmQsmu9PQ0HRvNS2iw
-         cJ8SXHhORPnB6SR5uF+j91/ftR4jmvva+DQdZ0ykiuU9HOQGOimS7rfGVD8heoHkBLhx
-         MKDAmemPb2bBofDaLGAFcZDCu8zIs0OG+aAAvM/f1JGWl/PHu62naa5KWZCgGC9/dCz5
-         5aVg==
+        d=gmail.com; s=20251104; t=1778094263; x=1778699063; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xr8j6cYh4BuqZiBygDpRH8RzfRjXC+SyaJhk/f1cXX4=;
+        b=okCTYdtHtSx+G4hGfT7hTTX8hdPA43+nknQs5Q8Ym7zCjhce3XKDdZmOaYlMVk7cMD
+         K5S+ZeTQQJaKs6VgjcmY/iKReW2eQk6wiv/R9oqI1//swcf06qMHfBNMrd2Elv19FNb8
+         9ryDNRvxXw6+9vFhBK3UarfifyGIG7YFow3+84XsOlxtemiegbrawsV8F4t6XNPH3NKk
+         nUhEKq2GWTfxDYoB2g01brF1EnX65QZ6I+9Fv8GEYJdAmfu+MvS12Gta2NXS6emStJra
+         XUPnISk4Bw2atn57y12ciorHa2Wqk5fkBARAkMuo191TsCvs31HUJ+OamIfA25NLP/5n
+         6PDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778094135; x=1778698935;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Z9tOsIvukdXEoOpeYE1gtqLz9A1OHR7NyB1FjpZTaRE=;
-        b=XYCUtvjrOIem9Uq9CvzuLehBisLIU1HqkgLk6hfYhEOnk4HBALSi6AJs/vjFjeQLIN
-         OSnaA6Rxw/cH99OAaTLYhCRIGFo+q5AIuVT8XQXpBtNoRbwM7uZvGxun6uS1cjqRlbDS
-         ILxKGfsqvOds6vt5f4NBDpBWRWpGIVUWBZwFfLLQ+duF23tXNqXTVDxGEbwR4y3NPj0X
-         sr7lxzSMOWaCTL4wLXfHMTLId0EW81Dwdt2A4xqV4oXjJb4gcMfWClWQkMnJp0DHGvA3
-         fCRqY9xhkToqIKqR+I10w2lP4yqsW9AdIx6tQIaMubNj8uKd272tHttNcmOgHRoPTfvY
-         ApQQ==
-X-Gm-Message-State: AOJu0YzHVYahfH0bwWfUbVSzcNKs6OcV9omYBZ4yBQ7iMlpnfUFDglWM
-	UTk1KPzHWUofuj1IHDkir80A2SxvJ/GrHL6CEIPk2AYOxEKpAkISRx8j
-X-Gm-Gg: AeBDieu1AeDVL7wlV+ok1j9EHFYLir3AZ5pYxmDdrs9D3brs3DaT3A149DHKyfXmADH
-	n1S1Yx4K1NOBVjDnF3pMV9abceBuwUjAm8oOxkm0fkYLgaOsvxoJllQzcXb0wCy3eHolGZ2qxtq
-	cZKN08mwuC0JlB70OV4SEsl1Bfs/Wjhf2/oqSFb1UuuukHOY5+SUbDM12hMbo24vPhQnyIo19N2
-	l7EgL2mnmRlkeu1aCDbmBxHSvpOLOWaq7ww3LE7PoLjjWu0dOfHRNI6MIUnyRFB2F2596ausZTi
-	WtO0AdXwYHMJqGXVFnjN9KmykxQ2j4CtA89dW/6nChN7C6i0T3EGnUBSZwZs9o7N9t4B3yDGr7Z
-	NrG8q6tdE0u20+ZqqcRdruqF12zzoKSvvbFankrdCi5LNlKjeP43t3vVgcCzy3L7Ruh+zX3NEiy
-	VoL1G19XpHuNJq3Bctyphz5fzeIvhAjhH+8QhpcsnDHupQUn5oxUY=
-X-Received: by 2002:a17:90b:2f4e:b0:359:1130:1047 with SMTP id 98e67ed59e1d1-365abe8c511mr4920397a91.17.1778094134933;
-        Wed, 06 May 2026 12:02:14 -0700 (PDT)
-Received: from sohail.. ([2401:4900:88f7:997:22aa:2a67:7f83:6413])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3660228d9a0sm24319a91.10.2026.05.06.12.02.12
+        d=1e100.net; s=20251104; t=1778094263; x=1778699063;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xr8j6cYh4BuqZiBygDpRH8RzfRjXC+SyaJhk/f1cXX4=;
+        b=psGoSNFobnq+he4cpcu89OrEBL5L63EGU6ZvF1+eNIv9uOC+2d9sFe1gPv41K2z2du
+         qTaBFS298+NJEg678+CXjbe/viaxoKEDQn1zXzF/8KjJmj2H+7idbYkgdJa1bodmMMJN
+         1s6Cfj19pG27nv76oFZDTDzmT9mcMXkFs48nEn2ZvrReShx03dW7y+DpyPfTa943X6PG
+         QZV7NOK2asTPzG7vYQoObfQmc7gtbyDfprBi0LTQWezmFzVIdS564rHvMqljiit2XgAq
+         DNPPJU48vizDJWQRxqHcMEZS9bEQfu0PreV3lISP/OzM/p0OhJOatjPk+tu5EzjP2e0I
+         iuUg==
+X-Forwarded-Encrypted: i=1; AFNElJ+1zCz3T5S2D3eGPhHqS6Xwmq9dF4ce52i6in8l+CehAQwI5WOFP6TLijD1FQhsMeMv8EkwqLtqKIYUE9p9@lists.linux.dev
+X-Gm-Message-State: AOJu0YzlXHQXpLfdpjmSZxyRp7X513ZQ4PskDVCHKeIWV/nTnUDfQAts
+	hTo/ErOAGIoHxG6j1GzjRc5BrVssWdtuU6YXsEWZJan6hzK51uxQjsXI
+X-Gm-Gg: AeBDiev6EOokHQA7ZEDgNQIeaL0SysICJKXM/VipsBHzu5A6AtWd521fckSQICDbyc9
+	KkPiJCCDd/f56MnTaZSUtOee6t/huGsoXTc5PGzAjOSW+qGRiM2P1YE0Azl2QQqxw9AEAEtIeez
+	UAh3EC1GudU4J4XgqiwA3XZbZlanO1RGxcnIH8ltgTuMw2qUQrVu1PV3cUTx3aDxpMBjYPSvnz9
+	J679q9DQb+4v/pPfq/ZO406RAb+qGCJQA6Pc914UPLOeaFo7Vi+8ZAzn40PWU1dlfqCkwem2LmX
+	Sz8oihJTkMdyCeLdEPWIvdqTwRUI3lHs88cP0Re09UNr0aoFJVu5yK3OWuF4eh5AWogKGW6eLNh
+	6/GFnXqNYq4+WFMZZ/5hTRK15eIwhwJzLEgulNjjGhD+gCa961Wl/rEgPESEYU+jCiSWQnb8Zqu
+	ZliHFM71wtl7nZ2CtERwjVvhmRxhr+0U435SHp+ANZKWaUPb/lPbHZkhQRogvOLlMXA30F7uhWt
+	lm3uRE8SKa3zCH2W4BrJNDJl9qFuvAgTPeUCMCMV4Q=
+X-Received: by 2002:a05:6a20:938e:b0:38b:d9b5:5de2 with SMTP id adf61e73a8af0-3aa5ac51514mr5193061637.50.1778094263002;
+        Wed, 06 May 2026 12:04:23 -0700 (PDT)
+Received: from shyam-VMware-Virtual-Platform.localdomain ([223.181.114.20])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c8242ac9146sm3063347a12.8.2026.05.06.12.04.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 May 2026 12:02:14 -0700 (PDT)
-From: Mohammed Sohail <mohd.sohail.biz@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
+        Wed, 06 May 2026 12:04:22 -0700 (PDT)
+From: Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
+To: hansg@kernel.org,
+	mchehab@kernel.org,
+	andy@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: sakari.ailus@linux.intel.com,
+	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	nikolayof23@gmail.com,
-	Mohammed Sohail <mohd.sohail.biz@gmail.com>
-Subject: [PATCH v2] staging: rtl8723bs: simplify NULL pointer checks
-Date: Thu,  7 May 2026 00:32:01 +0530
-Message-ID: <20260506190201.75571-1-mohd.sohail.biz@gmail.com>
+	linux-staging@lists.linux.dev,
+	Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
+Subject: [PATCH] staging: media: atomisp: mark pmic_name array as const
+Date: Thu,  7 May 2026 00:33:40 +0530
+Message-ID: <20260506190341.272469-1-shyamsunderreddypadira@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <afcUjiVlxZIj3Ma0@archlinux>
-References: <afcUjiVlxZIj3Ma0@archlinux>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,73 +79,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace ptr == NULL with !ptr in rtw_recv.h and ioctl_cfg80211.c.
+The pmic_name array is not modified after initialization and is only used
+for used for lookup. Mark it as 'static const char *const' to place it in
+read-only memory and prevent accidental modification.
 
-Improves readability and follows kernel coding style.
-No functional changes.
+No functional change.
 
-Signed-off-by: Mohammed Sohail <mohd.sohail.biz@gmail.com>
+Signed-off-by: Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
 ---
-v2:
-- Use real name in Signed-off-by as requested by reviewer
----
- drivers/staging/rtl8723bs/include/rtw_recv.h      | 8 ++++----
- drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 2 +-
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/rtw_recv.h b/drivers/staging/rtl8723bs/include/rtw_recv.h
-index 8e45871f07f0..9c32d480a20a 100644
---- a/drivers/staging/rtl8723bs/include/rtw_recv.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_recv.h
-@@ -349,7 +349,7 @@ s32  rtw_recv_entry(union recv_frame *precv_frame);
- static inline u8 *get_rxmem(union recv_frame *precvframe)
- {
- 	/* always return rx_head... */
--	if (precvframe == NULL)
-+	if (!precvframe)
- 		return NULL;
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+index 4026e98c5845..d32d98720455 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+@@ -109,7 +109,7 @@ static enum {
+ 	PMIC_CRYSTALCOVE
+ } pmic_id;
  
- 	return precvframe->u.hdr.rx_head;
-@@ -362,7 +362,7 @@ static inline u8 *recvframe_pull(union recv_frame *precvframe, signed int sz)
- 	/* used for extract sz bytes from rx_data, update rx_data and return the updated rx_data to the caller */
- 
- 
--	if (precvframe == NULL)
-+	if (!precvframe)
- 		return NULL;
- 
- 
-@@ -387,7 +387,7 @@ static inline u8 *recvframe_put(union recv_frame *precvframe, signed int sz)
- 	/* after putting, rx_tail must be still larger than rx_end. */
- 	unsigned char *prev_rx_tail;
- 
--	if (precvframe == NULL)
-+	if (!precvframe)
- 		return NULL;
- 
- 	prev_rx_tail = precvframe->u.hdr.rx_tail;
-@@ -414,7 +414,7 @@ static inline u8 *recvframe_pull_tail(union recv_frame *precvframe, signed int s
- 	/* used for extract sz bytes from rx_end, update rx_end and return the updated rx_end to the caller */
- 	/* after pulling, rx_end must be still larger than rx_data. */
- 
--	if (precvframe == NULL)
-+	if (!precvframe)
- 		return NULL;
- 
- 	precvframe->u.hdr.rx_tail -= sz;
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index fd3bae31b0ed..8ae3adecafd9 100644
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -2429,7 +2429,7 @@ static int	cfg80211_rtw_dump_station(struct wiphy *wiphy,
- 	spin_lock_bh(&pstapriv->asoc_list_lock);
- 	psta = rtw_sta_info_get_by_idx(idx, pstapriv);
- 	spin_unlock_bh(&pstapriv->asoc_list_lock);
--	if (psta == NULL) {
-+	if (!psta) {
- 		ret = -ENOENT;
- 		goto exit;
- 	}
+-static const char *pmic_name[] = {
++static const char *const pmic_name[] = {
+ 	[PMIC_UNSET]		= "ACPI device PM",
+ 	[PMIC_REGULATOR]	= "regulator driver",
+ 	[PMIC_AXP]		= "XPower AXP288 PMIC",
 -- 
 2.43.0
 
