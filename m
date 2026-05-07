@@ -1,98 +1,113 @@
-Received: from sender-pp-o91.zoho.in (sender-pp-o91.zoho.in [103.117.158.91])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8F871F16B
-	for <linux-staging@lists.linux.dev>; Thu,  7 May 2026 05:21:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=103.117.158.91
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778131284; cv=pass; b=QjRdmsa6I4Zc9PturRqhJMI70IzdCtUr3QDgdt1vYeZYK28LbkU306gJblf4sJg6nBpGBthn1X1Fen6DllO5wn2D0CCkGpoFbQAi2x2FOIRIhh/k0tp15PNwiGABnAL6Ausf7WART9im9iE9ptUWDh/HuHNlqT/h+VoB94LXRls=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778131284; c=relaxed/simple;
-	bh=qyQoSLW2V42H7MGUJY1ZIWKriitvmZCTdXNSDkur2L8=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:Subject:MIME-Version:
-	 Content-Type; b=Zf7wCk8kXPI53z1YDkV8aW1WdkRQ/MrJd7uesudV2KeZqiJ8lKerm6IEzk1JQsn8zh5Yt5f2t2acRK9dbDfkHbapBQPQhnlxuTQkbsWV4lKHRLKtUFjkjHtImSVcnf/THRX0dPqZv0iSfkAFTcejs+DMVzpbwY9g3fiok1tm8UM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in; spf=pass smtp.mailfrom=zohomail.in; dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b=WcYdr8yI; arc=pass smtp.client-ip=103.117.158.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.in
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D74E32F770
+	for <linux-staging@lists.linux.dev>; Thu,  7 May 2026 11:02:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778151760; cv=none; b=NDvXj1Wa8QoJWbOuX+h7yLx6rpR63QzRdiHTbmyjpgGrOXxPaUubxKC5l3w3gF2aeS5YvTRbUm41CuCFqnKcWgTZHs4rz7WGZB18gbDSvfvqIBXr775z5aeq8ItAiY5vawQrQWrroQdYD4luTzfYcwPbh9YdV9UfoFeZUAwM2yw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778151760; c=relaxed/simple;
+	bh=cMgJqIA89J5jSDyNSTxWxOeL0VqIoE8Nxhg1/ff2B9s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UqaZCJJI8vb8ECxMPqZqSD5Nl7clZ6k/GWge/NOZ/KS01bI9ocA/SW8/5iVEpu4KKrwv+QI0ds4vXLQYcftidjMpgWpU3aVfLJPkC3pi+3v2Pi6aU9igr6NGIzzfk6bFMAqSnzOUbFl2UKk7M6drBVSnnyUSp7M4fFRueIj4lp0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qCt8xzu1; arc=none smtp.client-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b="WcYdr8yI"
-ARC-Seal: i=1; a=rsa-sha256; t=1778131270; cv=none; 
-	d=zohomail.in; s=zohoarc; 
-	b=KoFB2oko5qKhYDH43xVlF80nu2aeXHiezQNxApJ0ebMpBWUoCh4hrLzuMfG6H1XdB96R/kN3xfT418r/hQ+RV4T+TAXG9Yi/WG4ZKQpambm7ylqfEsD5TG32yD1VgjzJRhqwjUcAHJlbjAs4liIwi+wDBe0T1P/6T9Aza8PpSqs=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in; s=zohoarc; 
-	t=1778131270; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=MTJXJEl//2Ydjiy1UgO0X1+nAsYw1Bm5PY2RhodvAjk=; 
-	b=PKzR0smC1UB3MFV5X5/gx361KsBGdcdeWAEYhD/6lH2ZY7/avva0GTqxDhoJHSSfj0dLcFWfxTEvCfgs/2NhlFX1VhUy5QD9ca2HJpp/IYESCm4DFgA8OpnlHWUjRDhnmlR8QeQak6POWvK9E3TheA9T9AnMVMalDIgHXHEBJ0U=
-ARC-Authentication-Results: i=1; mx.zohomail.in;
-	dkim=pass  header.i=zohomail.in;
-	spf=pass  smtp.mailfrom=linuxuser509@zohomail.in;
-	dmarc=pass header.from=<linuxuser509@zohomail.in>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1778131270;
-	s=zoho; d=zohomail.in; i=linuxuser509@zohomail.in;
-	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=MTJXJEl//2Ydjiy1UgO0X1+nAsYw1Bm5PY2RhodvAjk=;
-	b=WcYdr8yI4hbW3wco71YakVDp5PY15QItgUxACS3KmckME/2d9zJi8pfRyIWK9mBM
-	7RJ9qR757FfkTQ8FUAMxe711Q2bQrXHu+tz7oPSbHEDc6SRwx5rpaVlI4Jfvn8HoAKb
-	btsFH1ZNjiYd5mzr28P0sH2/+phe9gyTrULLlNH4=
-Received: from mail.zoho.in by mx.zoho.in
-	with SMTP id 1778131268290154.48732202567624; Thu, 7 May 2026 10:51:08 +0530 (IST)
-Received: from  [103.164.208.221] by mail.zoho.in
-	with HTTP;Thu, 7 May 2026 10:51:08 +0530 (IST)
-Date: Thu, 07 May 2026 10:51:08 +0530
-From: Ashwin Gundarapu <linuxuser509@zohomail.in>
-To: "gregkh" <gregkh@linuxfoundation.org>
-Cc: "linux-kernel" <linux-kernel@vger.kernel.org>,
-	"linux-staging" <linux-staging@lists.linux.dev>
-Message-ID: <19e00e1f2ba.31c276864378.4102205719868900596@zohomail.in>
-In-Reply-To: 
-Subject: [PATCH v5] staging: rtl8723bs: remove unnecessary comparison to
- true
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qCt8xzu1"
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-364e5d895e3so606075a91.2
+        for <linux-staging@lists.linux.dev>; Thu, 07 May 2026 04:02:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778151757; x=1778756557; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7del58ZNoXTYS1UrwtFFdHbvVnfss3cuhksZj/ziuKs=;
+        b=qCt8xzu1xvq7JCFjNQokk7MEa8D1q/DPAYJxi017B3tK7wRLnO1SfuQk43HjMplMlz
+         SnkhALnoU8RSY861S+blX8SfrqvHL0mrQcVk7hIJj3okRWp5ktXzukJsGZ4jMX7oQBYP
+         9+0rjY6o1gGUeE24JFXvcr9RnXy0REiLU0sxK04EpGXeJqytKqOhFCFdHFOpmURe8bGK
+         SviQII3d/4T/sX+nXCmc1P9wiVSOlT/+mHns35S6zzWVMjaKzVAr5U3ljb4WK3TAckbf
+         quWfbImC3+JwAQ476LaKVdaZYoOJys1RKy4YZARP4ORTRGUMGD3CbKXbCLcZFG/VeGru
+         HmiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778151757; x=1778756557;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7del58ZNoXTYS1UrwtFFdHbvVnfss3cuhksZj/ziuKs=;
+        b=MPrI1zEzx5YvQw+zSKWDtj2c2Mf1IbM9YdWnC5j2sQ/2VZIOMmko+RSeAmXLOAn1lQ
+         MDqj5LdrShFUq3X5H0rSMlwOXF2c/n8POO5R5V4KihVg6+zJIe8WrMNBWib5nqr4a920
+         uGf+eSOfWuy05axF7DROWBnUp59A/0mJ1FPObitJ8ly+OJjK3gXXeZbFCqddVLq1js3W
+         avH57Uks2U6oUSALE7EkODZdGDxvARusmdAXWHmeVoqNZ+g4d2uRTJ9KHFWtikQpZ+/b
+         J39TZd2jxIa2NIWT5RX2afR9SzFY52QxkYcTC9bIt5hf50w0XE1fO/GGKQa/J6w6FtNl
+         IU4w==
+X-Forwarded-Encrypted: i=1; AFNElJ9OGpOr+t6XAaTpjRQZTbTmk7y/yGmhsZXL2UxHYKpEITMqBH8t/y1K4Ba3CXxPGwLZsDPRUOOSchcJa90u@lists.linux.dev
+X-Gm-Message-State: AOJu0YyaNq1ANCSAzxewzG6cZ2Lm7OBhLI8qHI6v0jJyivajgEdgIuBV
+	OVCgfhBUXxdUIK1kqPq3eAYE/OVHsCSp2nEsVZkjHed78KWPCs9OeQq3
+X-Gm-Gg: AeBDiesuImLmldYNb055IUearW7fq70+BBksdpwnjhsZcVT135hSyuuFDWd3VAef1z5
+	XH2HsbyboDX6DwXM7QFtMbnwhqhNUOsauwJsDnr8md3Flp4DsMqZZ2NyN8XsYZ3twxWIUnPG+7K
+	Z9TlggRcm3N+XSyQYArKZsgOTaQsOXLPtVC2fjeIUriOqAt3pLsoDpi2SPuZWj8j0M6heLrTjFu
+	X9Rc3rfM57jnoVGx9UlmKhdapWC0fqwJYMZEwSDkqHf8tFkSjsiC0LvLrEL3LIqrDS3nA5N0oEK
+	uN4cX4oEscSs/+ajq/SboEPcSR5QdBXGqDKjPpbOtu4OkfIeYxVQC3Lu3QgQjewldoEXfGrrOAD
+	Q/m13++IDSQQaARkzRBTcLbipyjVOSosZgTvq7DGgieA9qPkCPem2UOQ75SONA4ZQgd+sfBHkle
+	OMUUOow/BM5J06v2Yr0ra/iEG6XKzcXDwjO9QZe+A5+AA=
+X-Received: by 2002:a17:90b:55cc:b0:366:16d1:6a25 with SMTP id 98e67ed59e1d1-36616d172e4mr1466210a91.5.1778151756721;
+        Thu, 07 May 2026 04:02:36 -0700 (PDT)
+Received: from phu-arch.lan ([2405:4802:1bf7:b0a0:33c8:3ea:357a:8f94])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-365d8e3dad8sm3961371a91.1.2026.05.07.04.02.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 May 2026 04:02:35 -0700 (PDT)
+From: Nguyen Hai Phu <nguyenhaiphu06@gmail.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Nguyen Hai Phu <nguyenhaiphu06@gmail.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: media/ipu7: Remove unused struct ia_gofo_secondary_boot_config
+Date: Thu,  7 May 2026 18:01:55 +0700
+Message-ID: <20260507110209.127549-1-nguyenhaiphu06@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
+Content-Transfer-Encoding: 8bit
 
-Remove explicit comparison to true in check_fwstate() call and
-add spacing around the bitwise OR operator to improve code style.
+The struct ia_gofo_secondary_boot_config in abi/ipu7_fw_boot_abi.h is
+not used in the driver. Remove it to cleanup the ABI headers.
 
-Signed-off-by: Ashwin Gundarapu <linuxuser509@zohomail.in>
+Signed-off-by: Nguyen Hai Phu <nguyenhaiphu06@gmail.com>
 ---
-v5: Removed git header from email body. Fixed indentation on
-the second line of the function call. Added full version history.
+ drivers/staging/media/ipu7/abi/ipu7_fw_boot_abi.h | 11 -----------
+ 1 file changed, 11 deletions(-)
 
-v4: Moved changelog below the --- separator. Ran checkpatch.pl
-- no errors or warnings. Fixed whitespace per Greg KH's review.
-
-v3: Fixed double --- line and corrected whitespace formatting.
-
-v2: Resent with corrected whitespace via Thunderbird plain text mode.
-
- drivers/staging/rtl8723bs/core/rtw_ioctl_set.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-index c70541f95a73..c100a0d70fe2 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-@@ -151,7 +151,8 @@ u8 rtw_set_802_11_ssid(struct adapter *padapter, struct ndis_802_11_ssid *ssid)
-	else if (check_fwstate(pmlmepriv, _FW_UNDER_LINKING) == true)
-		goto release_mlme_lock;
+diff --git a/drivers/staging/media/ipu7/abi/ipu7_fw_boot_abi.h b/drivers/staging/media/ipu7/abi/ipu7_fw_boot_abi.h
+index a1519c4fe661..21d1ff7ab29a 100644
+--- a/drivers/staging/media/ipu7/abi/ipu7_fw_boot_abi.h
++++ b/drivers/staging/media/ipu7/abi/ipu7_fw_boot_abi.h
+@@ -91,17 +91,6 @@ struct ia_gofo_boot_config {
+ 	struct syscom_config_s syscom_context_config;
+ };
  
--	if (check_fwstate(pmlmepriv, _FW_LINKED|WIFI_ADHOC_MASTER_STATE) == true) {
-+	if (check_fwstate(pmlmepriv,
-+		_FW_LINKED | WIFI_ADHOC_MASTER_STATE)) {
-		if ((pmlmepriv->assoc_ssid.ssid_length == ssid->ssid_length) &&
-		    (!memcmp(&pmlmepriv->assoc_ssid.ssid, ssid->ssid, ssid->ssid_length))) {
-			if (check_fwstate(pmlmepriv, WIFI_STATION_STATE) == false) {
-
-base-commit: 26fd6bff2c050196005312d1d306889220952a99
+-struct ia_gofo_secondary_boot_config {
+-	u32 length;
+-	struct ia_gofo_version_s config_version;
+-	struct ia_gofo_msg_version_list client_version_support;
+-	u8 reserved1[IA_GOFO_BOOT_SECONDARY_RESERVED_FIELDS];
+-	u16 checksum;
+-	u8 padding[2];
+-	u32 reserved2[IA_GOFO_BOOT_SECONDARY_RESERVED_SIZE];
+-	struct syscom_config_s syscom_context_config;
+-};
+-
+ #pragma pack(pop)
+ 
+ #define IA_GOFO_WDT_TIMEOUT_ERR			0xdead0401U
 -- 
-2.43.0
+2.54.0
 
