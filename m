@@ -1,84 +1,168 @@
-Received: from mail.cipherat.com (mail.cipherat.com [91.98.42.103])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81DEA332906
-	for <linux-staging@lists.linux.dev>; Thu,  7 May 2026 22:05:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.98.42.103
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D761E33FE06
+	for <linux-staging@lists.linux.dev>; Thu,  7 May 2026 23:27:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778191531; cv=none; b=q+v/+3UxFivVeHQIJWBfgmQ0aKgyog+EEvr0uxZx59Tm0eXTrRp0SVgKaYLDLdXcIoZq2NQ8vo+Bno+oe/5rA2IikeR9KW4rzTM+mBEucW6NVusPJ/Jf8lLl9exlBlSno+KsrUjfBwTRwX2Fph7oI7rtZTSs3djAUsFfxNd7h38=
+	t=1778196450; cv=none; b=ShLkKfjWeHYtQFucVdDxziZix9ONJ3pFAvjUb3EX3acmpthNyCPGVC/WHYCh8kTescplJQnDpmaag1mH7OvOGDVn2N/b0FM9JsEpyJMKxnzavowgH98acRUfmGTQfAogAdd7Q5MDHLU0S4oRXCWuulfLPZpdCzCLVu4haj584Zw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778191531; c=relaxed/simple;
-	bh=kaaOXyw6ksfngpOsy4YCSRVrWmenVmKOyKXzm7twyrM=;
-	h=From:In-Reply-To:Content-Type:References:Date:Cc:To:MIME-Version:
-	 Message-ID:Subject; b=sarB3RJ5M1H5jz9p3X0d/If0OL+3zYPk6I0s8Wt/Vfqv3Awb1dgA6IraoojzeSozLO3W5SsdjXHpH5bvzHysQyisq0EdGXLg8LSJL/GjCL92V/hX3dvYTN9NtNrSPpiMxBKb5e44Pm07/2L2OuSbw23oyi/VGR0D6D/qdTOFcnk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cipherat.com; spf=pass smtp.mailfrom=cipherat.com; dkim=pass (4096-bit key) header.d=cipherat.com header.i=@cipherat.com header.b=aQKDjGql; arc=none smtp.client-ip=91.98.42.103
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cipherat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cipherat.com
+	s=arc-20240116; t=1778196450; c=relaxed/simple;
+	bh=yL3ozqXIvNHQL09rzJqznkF0RKFhQNFidnZSc4uHoEg=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=H9kPUZi0em/nbez8+PDWxZf3q27xboQmctW9hCtD4dYl2gX3pWF4nNCX9gGzWH0ZAj3g0TzxaCr3qSnobKNpORz5rLcvLO1oeytvLrBpb9dZ9/PyoMW4fdonZ+huFeHeL6J7eu4WQaBZEisbnfN4KJNHkjuLaXMdJ29tLfvswfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20251104.gappssmtp.com header.i=@ndufresne-ca.20251104.gappssmtp.com header.b=VuhPJVDw; arc=none smtp.client-ip=209.85.219.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=cipherat.com header.i=@cipherat.com header.b="aQKDjGql"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPA id CB76784FB1;
-	Fri,  8 May 2026 00:56:09 +0300 (+03)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cipherat.com;
-	s=dkim; t=1778190970;
-	h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=Jv2HF9/u/LmHnenfroq2x+AhhZ6LaGW50XARg6m/Dis=;
-	b=aQKDjGqlOQ9GLuOx0Tk1kOFzm4C/6WV6rK9WKr0YcEgOrzSRthUJpFqiFHph69UXIt5w3A
-	gfZg4ZQUJjtZ6Ukz1J/2QgLCCCoK9evPN0InM6jyyIpX5BY6t49pHxluZqiDDN1SPnOLhz
-	/p7785l8oYvz6S+CGd8Lr436lkjPtoLI0p/moptMuy2ECZPULqH/OAf7i780dL23kgG2Bb
-	t3qVZPM7UZ1ljZKVKSzirQai6n5EEVUXMGypWi7R8Rq10gopLBsehExmu4VFyYcAoY9Rhs
-	++UhyakKbpl26NrtP8TvfknBaCuYhxaiucUVv6hjzsv1a7M2VywZZCuNivq4L6KC7UZdBr
-	z2OKyIAIU1HbqXdxvq9Int3DoY8FEqG522EIA6Z6YZ9E3FINpM9vXN9WkYc/dJBpPWJWXn
-	ll5tLC5sVXhyjuAlyVUzUCw0BmahZhs3c0f1vctCxevR04Ojcn5pw9PGArUU77bXbWVmQG
-	/LEzmnzVuXjSX1U6PxaJwdDZlMlzhd92vsWyBLtnvQ+vPIVwTSNuq/VrWmt3l6JZ0Jzty5
-	UzyRMESvAe0Dxuj300T5vrIrbxElSXpeVtz8XtVaNOs9w7nCPqzpvTxzOsu4fiCaFmAbvE
-	u1v0IBcPCzkkfV7ru6jggS3uOAOX8FgkTE7B8u1z7AUSyOXqgKk2c=
-From: "Salman Alghamdi" <me@cipherat.com>
-In-Reply-To: <2026050434-construct-starter-5468@gregkh>
-Content-Type: text/plain; charset="utf-8"
-References: <20260428164513.763471-1-me@cipherat.com>
- <20260428164513.763471-2-me@cipherat.com> <2026050434-construct-starter-5468@gregkh>
-Date: Fri, 08 May 2026 00:56:09 +0300
-Cc: luka.gejak@linux.dev, straube.linux@gmail.com, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, stable@vger.kernel.org
-To: "Greg KH" <gregkh@linuxfoundation.org>
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20251104.gappssmtp.com header.i=@ndufresne-ca.20251104.gappssmtp.com header.b="VuhPJVDw"
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-8acb3daf2aaso18443426d6.0
+        for <linux-staging@lists.linux.dev>; Thu, 07 May 2026 16:27:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20251104.gappssmtp.com; s=20251104; t=1778196448; x=1778801248; darn=lists.linux.dev;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
+         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=b6U2uX4TwvjS/3Q0UsrL7npn0f3jqdHzvW4G7Vy/bgI=;
+        b=VuhPJVDwfJ6R++TtqKmiyeWQP5ftQxMnsmI5wLEUYqPa+MGyaRDA6pIzLk48a9IiiL
+         b6Nxlc5mClDiJjBx5KcR6/A8bf5ijeXc/stz96hYKnD3bCzvU4RcrQ4QrZSy5vwdbYVv
+         FuJb72soqNDFDdes7zKT6ME7nkX50eBF29pxLeZJlCT6F3gvIb492kUKhykIE/rAat77
+         SSs35Mrl+Mxd43dabuOSDzdIitYsbpgEuId7DubPrf6z57Y+sc/GiofjlxkeqOtcAOkv
+         fOnvwejDPYMv76fNzZ7TID6HU3dcDcSfnvVug8QmVG560hc2ouN9s+60xIZnQ1INYDd2
+         YHqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778196448; x=1778801248;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
+         :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=b6U2uX4TwvjS/3Q0UsrL7npn0f3jqdHzvW4G7Vy/bgI=;
+        b=fa6oNFlhPLvbEA7sjf83oxyombai8yiNEyty4ky0vGJFy3nutaG98eyGqtbukpqlzm
+         nQNW7394znpTgbuEinRST+C8QctFRe9u3PuQykHXJ/BOqK5riZMayBCoale9p9no26Hy
+         MrQs8sTR28Bq2CJ7+A/oCHktJ3g5ylfLhIacck6oj8uUhuTonCG4cJ71zEQNoJ10YwhN
+         qybbKWoRVPKPwp7iRqodOVQgdkR8eeKwpJVTyyAA/5+8Pwnnid0qE86L+hJnkAZlGyh2
+         2J8Pa5r+g0eXvl8U25y1DBcFvd7VbVwWHsNvq+fNaXqGS/EsOcthPTPGTopBuZf0TBQ3
+         2yTw==
+X-Forwarded-Encrypted: i=1; AFNElJ9V/pR4/Lfer5EyRB2Pynm3oyubExXL0OGuf/JiEuv7RSJ8tEQeX/bR70hon02owhokJATz1NqKDQlqb+VG@lists.linux.dev
+X-Gm-Message-State: AOJu0YypDHVd3Kd+GyzOY3A5cYeXHSaIywcGfQXQ27tQ3FfTX/3RQrA1
+	DhA7qBgKG26S1azN0xk9YUOPT4yAa3R9REHaYGBcjAm0i3gcrgW+/LoaCdFZlFBD3+k=
+X-Gm-Gg: Acq92OGnbjCDsubvwuFbAC/ER8Q37/5XE1KCXQfVUmLkUIRtuPh2m88MZwzf8YlWOph
+	Ki0amXp64WBBzdJidzYUy4c4hUPvqG0ZDrDxkiiRJ672xmjBt81OvByTjhW8LWirdpu7iIxIBTk
+	BcN5eEZke4Rg64+dQxc0/FdyfFbDj5gjIajdi7ESacC763bvomHZfwgX/W44+mwV3TZ/bBbgkVp
+	LW2MC278rAFk2vh45yIBmpAjjtFZnPum+m6FKVaUaI+UEmDwY1FSN3vJ2zxrBjyzrwJGXG6Wd4B
+	SsM6CgpBA1QN5POy8Q/XKqSWpmTsOlK6PEGgUzHXa9TR51g2R11ZKDnt1FfdXYATE+7oG/y8iML
+	Z4jcePgSg97VdACdpqvyUagq69/qGhrFtfhImy876Nd9VItdLMrE7JpSrkaNH5Faxcc0qcrYnpL
+	iN8FSBAQP6QkMQkaoue75YocQJ+Vdm
+X-Received: by 2002:a05:6214:627:b0:8ac:a689:34ce with SMTP id 6a1803df08f44-8bc4600fe8bmr158890996d6.45.1778196447798;
+        Thu, 07 May 2026 16:27:27 -0700 (PDT)
+Received: from ?IPv6:2606:6d00:15:e06b::c41? ([2606:6d00:15:e06b::c41])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8bf3a43636fsm2179986d6.21.2026.05.07.16.27.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 May 2026 16:27:26 -0700 (PDT)
+Message-ID: <2e891600319c2fd4219ed32d884c2b5bd975c3d0.camel@ndufresne.ca>
+Subject: Re: [PATCH v4 4/6] media: chips-media: wave5: Add range checks for
+ dec_output_info
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Ricardo Ribalda <ribalda@chromium.org>, Mauro Carvalho Chehab	
+ <mchehab@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+  Sakari Ailus <sakari.ailus@linux.intel.com>, Hans Verkuil
+ <hverkuil@kernel.org>, Nas Chung	 <nas.chung@chipsnmedia.com>, Jackson Lee
+ <jackson.lee@chipsnmedia.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Keke Li <keke.li@amlogic.com>, Yong Zhi
+ <yong.zhi@intel.com>,  Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev, Mauro Carvalho Chehab
+ <mchehab+samsung@kernel.org>
+Date: Thu, 07 May 2026 19:27:24 -0400
+In-Reply-To: <20260507-smatch-7-1-v4-4-cc195f142167@chromium.org>
+References: <20260507-smatch-7-1-v4-0-cc195f142167@chromium.org>
+	 <20260507-smatch-7-1-v4-4-cc195f142167@chromium.org>
+Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-kS8qr0UdOx8Un+zOSSmW"
+User-Agent: Evolution 3.60.1 (3.60.1-1.fc44) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <eb3759ee-ecfb-f707-4105-6029d236ce3a@cipherat.com>
-Subject: =?utf-8?q?Re=3A?= [PATCH v6 1/8] =?utf-8?q?staging=3A?=
- =?utf-8?q?_rtl8723bs=3A?= fix buffer over-read in 
- =?utf-8?q?rtw=5Fupdate=5Fprotection?=
-User-Agent: SOGoMail 5.12.5
+
+
+--=-kS8qr0UdOx8Un+zOSSmW
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Last-TLS-Session-Version: None
 
-On May 04, 2026 12:35 +03, Greg KH <gregkh@linuxfoundation.org> wrote:
-> >  drivers/staging/rtl8723bs/core/rtw=5Fmlme.c | 10 ++++++++--
-> >  1 file changed, 8 insertions(+), 2 deletions(-)
+Le jeudi 07 mai 2026 =C3=A0 20:58 +0000, Ricardo Ribalda a =C3=A9crit=C2=A0=
+:
+> If the driver's dec_output_info contains invalid data the driver can
+> write in invalid memory. Add a range check for that.
 >=20
-> You should not mix patches for the current release (i.e. this one), w=
-ith
-> patches for the next release (i.e. the rest of the patches in this
-> series), as that means I can't take the full series for either :(
+> This fixes this smatch error:
+> drivers/media/platform/chips-media/wave5/wave5-vpuapi.c:588
+> wave5_vpu_dec_get_output_info() error: buffer overflow 'inst->frame_buf' =
+64 <=3D
+> 127
 >=20
-> Please break this up into two different sets of patches and resend th=
-em
-> that way.
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 
-Hi Greg,
-Thank you for the review.
+It theoretical, but considering its a warn_on, I'm fine with it.
 
-Two questions before I resend:
-1. How do I tell which release a patch targets? Is it purely based on w=
-hether it's a bug fix (current release) vs. a new change (next release)=
-, or is there a more specific rule I should follow?
-2. For versioning the split series, should the bug fix patch restart at=
- v1, and the rest of the series continue at v7? Or should I keep them s=
-equential (bug fix as v7, next-release patches as v8)?
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-Thanks,
-Salman Alghamdi
+> ---
+> =C2=A0drivers/media/platform/chips-media/wave5/wave5-vpuapi.c | 11 ++++++=
++++--
+> =C2=A01 file changed, 9 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
+> b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
+> index d26ffc942219..f77abd5e122a 100644
+> --- a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
+> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
+> @@ -584,8 +584,15 @@ int wave5_vpu_dec_get_output_info(struct vpu_instanc=
+e
+> *inst, struct dec_output_i
+> =C2=A0		p_dec_info->num_of_decoding_fbs : p_dec_info-
+> >num_of_display_fbs;
+> =C2=A0
+> =C2=A0	if (info->index_frame_display >=3D 0 &&
+> -	=C2=A0=C2=A0=C2=A0 info->index_frame_display < (int)max_dec_index)
+> -		info->disp_frame =3D inst->frame_buf[val + info-
+> >index_frame_display];
+> +	=C2=A0=C2=A0=C2=A0 info->index_frame_display < (int)max_dec_index) {
+> +		u32 idx =3D val + info->index_frame_display;
+> +
+> +		if (WARN_ON(idx >=3D MAX_REG_FRAME)) {
+> +			ret =3D -EINVAL;
+> +			goto err_out;
+> +		}
+> +		info->disp_frame =3D inst->frame_buf[idx];
+> +	}
+> =C2=A0
+> =C2=A0	info->rd_ptr =3D p_dec_info->stream_rd_ptr;
+> =C2=A0	info->wr_ptr =3D p_dec_info->stream_wr_ptr;
 
+--=-kS8qr0UdOx8Un+zOSSmW
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaf0f3AAKCRDZQZRRKWBy
+9CNGAP9gRqo81pnTjYo/Dv0B+1g35GzQWjGMHtczGWARA6nZpQEAt4GJoVEZNftD
+pcOsX6aYlBZ5WpmmaVt+Vnn1wqk5ZAg=
+=l+59
+-----END PGP SIGNATURE-----
+
+--=-kS8qr0UdOx8Un+zOSSmW--
