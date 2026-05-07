@@ -1,115 +1,112 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender-pp-o91.zoho.in (sender-pp-o91.zoho.in [103.117.158.91])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08662378D79
-	for <linux-staging@lists.linux.dev>; Thu,  7 May 2026 15:14:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778166896; cv=none; b=tTovdbMd0uFADvjWa840eb7Ztpg/mrbD5pedTdSk6VWbDU2UGR//ZMNxPompXtsH/VKYYfms5wjEZcb8TzWHZpSVQ5MHAq3LshelqG/4AykkkDMGazxeK9p42JmILlDyyEwnrm0aIG0RVlgULv8Va04Hkm8d0f88dMajbTUSnjk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778166896; c=relaxed/simple;
-	bh=xFS5J5u77pt3Y7Hf4FpTk5D9ePHHCptoA+oAHM0seJg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Rv9x8UnSxAPHHAPmkxJstWhfxp8+gjHMKQ9We47lbr+iHmoZ9cWc2rObvHrSieLgEaC7I4ri3+bqOjDmGXFH7iad/fCdrhPf4rCHjueGxJTvrxcWYYIrI711quk1ZWoQSmPbVomR7d/txHdQWKUj36BoM3aiPgyXd1Lzm0xGwVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dnnCLXnj; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FFAC47885C
+	for <linux-staging@lists.linux.dev>; Thu,  7 May 2026 16:06:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=103.117.158.91
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778169982; cv=pass; b=jFYRCLmooOxovzQ83e1Eku2aUW0OOpqiepmVE+YMVHzrZ4iMdye1y5LXWVTsN8nsLqthwRQJn/hTv+3ZbZ1HgEOJYc4dfmFC6PqukJnaAq7hPSyCcERf8uK23EQOopT2cnd/phwmF43HGWdzWJGYmXcvOPkVmS2WbuuUiUXKWMc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778169982; c=relaxed/simple;
+	bh=mK7J2ID/D1dShdS3fpRmaYIO9fDDq5hQ/ktF1P8Ag+A=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:Subject:MIME-Version:
+	 Content-Type; b=FGxiflKoO3JYOypy8uFJGW6LJ6MXlgBFtifmWcW9WhzBCxGoq/W01Wbi+apVtRaVU0Ifu/WyyZ/BRs/rAyHi4Kd1lEx4fFeUkVd/Ur0I4n0rv4TduIEeZh56BB5suWLwt4DAY58NXnA04iIgVw1J5a5ylBY2Y6QmteHTD1oT7gw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in; spf=pass smtp.mailfrom=zohomail.in; dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b=hjtJ8a2d; arc=pass smtp.client-ip=103.117.158.91
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.in
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dnnCLXnj"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2ab077e3f32so4824745ad.3
-        for <linux-staging@lists.linux.dev>; Thu, 07 May 2026 08:14:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778166894; x=1778771694; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=EkKYvF0OF++20NLzTdvDQYF9J4JuHMfHvRom9bmio3E=;
-        b=dnnCLXnj7QBFxjhc5JnheF3P5ZdV4E1xYDW48x4020W3BNS6mePomGSCXfYRvNtPXs
-         YYAYZx888cYBsFQkYu9b/aZZgarZ/l//taKvsh15/OL1QWKbfqInUgSZGEAtKgSpide5
-         aSmcmJBW4RmDgmmGp4JVptPn9HWRK+dMFjpxCKgp/iCCJiTCBXRf/PFPKOr2SDPKSKth
-         nUY8T9do0Myr7njrnJZI1/NrKaAj5r8sdOhbgI6NpfWaOOJABY+5W6SiwgH/C1qGyLOM
-         7PzItEOJ2Re6ztLAGVu+sW08LznZP1mXM8FiDOOVyDLtxML9f3SlqGD09+IeOSM4YUg5
-         q3WA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778166894; x=1778771694;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EkKYvF0OF++20NLzTdvDQYF9J4JuHMfHvRom9bmio3E=;
-        b=cqaAV8lhUuMcjc7MrAryNuXKRzvIWBcC+z1UIm9IEmi/xmZIe18keBsHa1epZh9LxY
-         1nynr7JmyS2g6m4rSIQRbOzmZrGc4OITPVtUrhXSG73fuAVkrBCVFHvl15G9dfHXl7rl
-         cC7dKR1LzeQh00vku9SN+asBjf4DEjnwmGtRH7NUUrDB3oV7gS+58cSOTWI4DBWaSpzt
-         vapsK/gGGIajjXkrsx/8j7vDmphOmlo0vkuHrO8M5uvBoVEBSLVWX1WmcWneJcIrZMHl
-         oOiA2BVDXxZgS+jhHOAADwLAb7xIbUCYXxIC8RaZgQWOPdspEnky5/InNFhEZo92JXFw
-         oZrA==
-X-Forwarded-Encrypted: i=1; AFNElJ+s0r6TTj1L9oHSNcMR/zGrKhO97W9loCvXuKKetm4E/Pz0cVbyz8tQGjk4LuU8cD/hgEn7GQldOSA/gjUX@lists.linux.dev
-X-Gm-Message-State: AOJu0YwjSzDHx8i3G3YTqxO+W0Hl3+L7Sbc5sUKiFDdOAk03EKDJVGI1
-	H//lunD00Ili/wM0BevFqw2+xaKCjAodWhTll2g02B2rEyy1saZCz/Qd
-X-Gm-Gg: AeBDiet9fwpHRYVwcB08LINfrtnyB06fSDhGi/tNyKWj3naEmbjsG+OwbAT+aE0MTvJ
-	sf+xM8F4isVtcrhR7jkw/yFK9GTK2LCzD0cJIctVN6yJPROL0IVeHoYPCqjCYx/+sHpMfry1+r+
-	u44qEttJBk6wkKenIfS/91NTVMLnmDyQFxQ45HG3kfZZCpwg5RSHE9x1IwwWrSQKHm3yA0eZwTQ
-	X454Q5v7lF3Bep7RuIcqzR+eN/T1nTUMy1Zhe3uXfwvdk1ah+wV6k0zZPrQRzudm5MeYL6Rm85a
-	oD2tzl5oZ5hjgbjcpaXCrbnWNiQUlTPe0AGRyQFIRRuf0XIzY8+XNByRMmS6YTdKkXGcx3a8I9J
-	iQ4+oUf6x7YyRI8wGYLYpdiO71m2QsOjqykwFZI4lglr7UL6SII/rwUreg4koMP/jjUKTK3U6rf
-	UKRldpK8cY1Yy7Z65pcdHdZxOWyYdPz86kabB6iuk=
-X-Received: by 2002:a17:902:e54e:b0:2ba:4eee:6c1e with SMTP id d9443c01a7336-2ba78e40c8fmr87801885ad.15.1778166894387;
-        Thu, 07 May 2026 08:14:54 -0700 (PDT)
-Received: from localhost ([2405:4802:1bf7:b0a0:33c8:3ea:357a:8f94])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bae78544ddsm112945ad.56.2026.05.07.08.14.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 May 2026 08:14:54 -0700 (PDT)
-From: Nguyen Hai Phu <nguyenhaiphu06@gmail.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Nguyen Hai Phu <nguyenhaiphu06@gmail.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] staging: media: ipu7: Remove unused struct ia_gofo_secondary_boot_config
-Date: Thu,  7 May 2026 22:14:27 +0700
-Message-ID: <20260507151446.153614-1-nguyenhaiphu06@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b="hjtJ8a2d"
+ARC-Seal: i=1; a=rsa-sha256; t=1778169961; cv=none; 
+	d=zohomail.in; s=zohoarc; 
+	b=CY/cJ/F3t8Yvwit57gp3+fWKmGeGJtmllYTPfxHrqdZ/tZK1egXVTseTimeH1Z3ddktCM+S6VlL//yc+7YtLGhJ/HEnV7UT1qthQlJn+OgoUKhJx/5h7LeXmxsJ4aR0oB3r5ZVsIp8zh8EKFl9khvx83XjxwbUFwKkAyWdfog8E=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in; s=zohoarc; 
+	t=1778169961; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=Ab4F+runtXLhTlCdQi0dIDRJOksMsJem6KppAp8PrBk=; 
+	b=aOoVn2qJT2hCgehnHHcu8zxKIV31GihfGTakfoGEQm+w9wBeceeV5qXG0X93DU7jPEXQnC/M+V/YJpZZWBlOt2duNN5NoZOpzz6hvQYbVhnB3lzf7D+JdrDcB/4IXo/P7/rAEjLZ7e9XJdnNbOBsDPbPYdWMZQfJTvoEE/Iom+8=
+ARC-Authentication-Results: i=1; mx.zohomail.in;
+	dkim=pass  header.i=zohomail.in;
+	spf=pass  smtp.mailfrom=linuxuser509@zohomail.in;
+	dmarc=pass header.from=<linuxuser509@zohomail.in>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1778169961;
+	s=zoho; d=zohomail.in; i=linuxuser509@zohomail.in;
+	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=Ab4F+runtXLhTlCdQi0dIDRJOksMsJem6KppAp8PrBk=;
+	b=hjtJ8a2dPR6458eIvXFDVT88gskTvh4kqU0X6J7qRSua3QpzAPh1IJOb4Lfob8Tn
+	gVVwM1N4sLQUTNgwTId/nFbMYeAkefKfibPI0fIZ/rdke46ulowH4dUQAwvn8I1fiis
+	aiV5GrvUNFRiMEDMwReVlcf97UC3TcMaoy/9TzRg=
+Received: from mail.zoho.in by mx.zoho.in
+	with SMTP id 1778169960195705.683681161421; Thu, 7 May 2026 21:36:00 +0530 (IST)
+Received: from  [103.164.208.221] by mail.zoho.in
+	with HTTP;Thu, 7 May 2026 21:36:00 +0530 (IST)
+Date: Thu, 07 May 2026 21:36:00 +0530
+From: Ashwin Gundarapu <linuxuser509@zohomail.in>
+To: "gregkh" <gregkh@linuxfoundation.org>
+Cc: "linux-kernel" <linux-kernel@vger.kernel.org>,
+	"linux-staging" <linux-staging@lists.linux.dev>
+Message-ID: <19e033056fb.47bb4db720358.3907801390816381202@zohomail.in>
+In-Reply-To: 
+Subject: [PATCH v6] staging: rtl8723bs: remove unnecessary braces in
+ rtw_mlme.c
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
 
-The struct ia_gofo_secondary_boot_config in abi/ipu7_fw_boot_abi.h is
-not used in the driver. Remove it to cleanup the ABI headers.
 
-Signed-off-by: Nguyen Hai Phu <nguyenhaiphu06@gmail.com>
+
+From 50c6b6259becbb357e3d7c9f8e26cef10b4e0ef3 Mon Sep 17 00:00:00 2001
+From: Ashwin Gundarapu <linuxuser509@zohomail.in>
+Date: Thu, 7 May 2026 21:29:11 +0530
+Subject: [PATCH] staging: rtl8723bs: remove unnecessary braces in rtw_mlme.c
+
+Remove braces around single statement blocks.
+
+Found by checkpatch.pl --strict
+
+Signed-off-by: Ashwin Gundarapu <linuxuser509@zohomail.in>
 ---
-v2: fix subject line prefix
+ drivers/staging/rtl8723bs/core/rtw_mlme.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
- drivers/staging/media/ipu7/abi/ipu7_fw_boot_abi.h | 11 -----------
- 1 file changed, 11 deletions(-)
-
-diff --git a/drivers/staging/media/ipu7/abi/ipu7_fw_boot_abi.h b/drivers/staging/media/ipu7/abi/ipu7_fw_boot_abi.h
-index a1519c4fe661..21d1ff7ab29a 100644
---- a/drivers/staging/media/ipu7/abi/ipu7_fw_boot_abi.h
-+++ b/drivers/staging/media/ipu7/abi/ipu7_fw_boot_abi.h
-@@ -91,17 +91,6 @@ struct ia_gofo_boot_config {
- 	struct syscom_config_s syscom_context_config;
- };
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+index 9cf1c95dd924..c14b8dbd478b 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+@@ -483,13 +483,13 @@ void rtw_update_scanned_network(struct adapter *adapter, struct wlan_bssid_ex *t
+                        break;
+                }
  
--struct ia_gofo_secondary_boot_config {
--	u32 length;
--	struct ia_gofo_version_s config_version;
--	struct ia_gofo_msg_version_list client_version_support;
--	u8 reserved1[IA_GOFO_BOOT_SECONDARY_RESERVED_FIELDS];
--	u16 checksum;
--	u8 padding[2];
--	u32 reserved2[IA_GOFO_BOOT_SECONDARY_RESERVED_SIZE];
--	struct syscom_config_s syscom_context_config;
--};
--
- #pragma pack(pop)
+-               if (rtw_roam_flags(adapter)) {
++               if (rtw_roam_flags(adapter))
+                        /* TODO: don't select network in the same ess as oldest if it's new enough*/
+-               }
++
  
- #define IA_GOFO_WDT_TIMEOUT_ERR			0xdead0401U
+                if (!oldest || time_after(oldest->last_scanned, pnetwork->last_scanned))
+                        oldest = pnetwork;
+-       }
++
+ 
+        /*
+         * If we didn't find a match, then get a new network slot to initialize
+@@ -2410,9 +2410,8 @@ void rtw_update_ht_cap(struct adapter *padapter, u8 *pie, uint ie_len, u8 channe
+ 
+        len = 0;
+        p = rtw_get_ie(pie + sizeof(struct ndis_802_11_fix_ie), WLAN_EID_HT_OPERATION, &len, ie_len - sizeof(struct ndis_802_11_fix_ie));
+-       if (p && len > 0) {
++       if (p && len > 0)
+                /* todo: */
+-       }
+ 
+        if ((pregistrypriv->bw_mode & 0x0f) > 0)
+                cbw40_enable = 1;
 -- 
-2.54.0
+2.43.0
 
