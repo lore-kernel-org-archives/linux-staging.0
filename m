@@ -1,112 +1,166 @@
-Received: from sender-pp-o91.zoho.in (sender-pp-o91.zoho.in [103.117.158.91])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FFAC47885C
-	for <linux-staging@lists.linux.dev>; Thu,  7 May 2026 16:06:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=103.117.158.91
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778169982; cv=pass; b=jFYRCLmooOxovzQ83e1Eku2aUW0OOpqiepmVE+YMVHzrZ4iMdye1y5LXWVTsN8nsLqthwRQJn/hTv+3ZbZ1HgEOJYc4dfmFC6PqukJnaAq7hPSyCcERf8uK23EQOopT2cnd/phwmF43HGWdzWJGYmXcvOPkVmS2WbuuUiUXKWMc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778169982; c=relaxed/simple;
-	bh=mK7J2ID/D1dShdS3fpRmaYIO9fDDq5hQ/ktF1P8Ag+A=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:Subject:MIME-Version:
-	 Content-Type; b=FGxiflKoO3JYOypy8uFJGW6LJ6MXlgBFtifmWcW9WhzBCxGoq/W01Wbi+apVtRaVU0Ifu/WyyZ/BRs/rAyHi4Kd1lEx4fFeUkVd/Ur0I4n0rv4TduIEeZh56BB5suWLwt4DAY58NXnA04iIgVw1J5a5ylBY2Y6QmteHTD1oT7gw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in; spf=pass smtp.mailfrom=zohomail.in; dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b=hjtJ8a2d; arc=pass smtp.client-ip=103.117.158.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.in
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E04D3AD513
+	for <linux-staging@lists.linux.dev>; Thu,  7 May 2026 17:43:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.174
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778175797; cv=none; b=FvRO87FrAwdv5D122Dx8oqn5utWvF/tRnakUBZTHKFerST2+nhm+RXBNvz2lMdMLsxRX5bjOscBKkUUKvhrkWNYQeAcYDhrE57gow/Oo/lG84Vp7Nh2HAudR8Pugo/AXYOPtLpO3G9OGCSJToPmOyTKq9N6h17T6xFiHEJfFmrQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778175797; c=relaxed/simple;
+	bh=gDOogxUeHJVjw6xuLfQ2+HHzJl+6Cf344948mZTd6wA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ManD0p4Zm4UBfNVJJ6ZXtSPVGOzxr2DWfokirDpcc+r2ZmhFm0RpFawJr80Pz6xzzOtrUn4a4Ydq0ScGuhKQ7zg1HP/rZGMznYRJKbyS0m9O2yOnk9qzEC4Y1McOo0f9uBBAiU3DC1N0Tgqpa2THt+jFjLb95fUwybOZOysxZBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=o486BZQG; arc=none smtp.client-ip=74.125.82.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b="hjtJ8a2d"
-ARC-Seal: i=1; a=rsa-sha256; t=1778169961; cv=none; 
-	d=zohomail.in; s=zohoarc; 
-	b=CY/cJ/F3t8Yvwit57gp3+fWKmGeGJtmllYTPfxHrqdZ/tZK1egXVTseTimeH1Z3ddktCM+S6VlL//yc+7YtLGhJ/HEnV7UT1qthQlJn+OgoUKhJx/5h7LeXmxsJ4aR0oB3r5ZVsIp8zh8EKFl9khvx83XjxwbUFwKkAyWdfog8E=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in; s=zohoarc; 
-	t=1778169961; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=Ab4F+runtXLhTlCdQi0dIDRJOksMsJem6KppAp8PrBk=; 
-	b=aOoVn2qJT2hCgehnHHcu8zxKIV31GihfGTakfoGEQm+w9wBeceeV5qXG0X93DU7jPEXQnC/M+V/YJpZZWBlOt2duNN5NoZOpzz6hvQYbVhnB3lzf7D+JdrDcB/4IXo/P7/rAEjLZ7e9XJdnNbOBsDPbPYdWMZQfJTvoEE/Iom+8=
-ARC-Authentication-Results: i=1; mx.zohomail.in;
-	dkim=pass  header.i=zohomail.in;
-	spf=pass  smtp.mailfrom=linuxuser509@zohomail.in;
-	dmarc=pass header.from=<linuxuser509@zohomail.in>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1778169961;
-	s=zoho; d=zohomail.in; i=linuxuser509@zohomail.in;
-	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=Ab4F+runtXLhTlCdQi0dIDRJOksMsJem6KppAp8PrBk=;
-	b=hjtJ8a2dPR6458eIvXFDVT88gskTvh4kqU0X6J7qRSua3QpzAPh1IJOb4Lfob8Tn
-	gVVwM1N4sLQUTNgwTId/nFbMYeAkefKfibPI0fIZ/rdke46ulowH4dUQAwvn8I1fiis
-	aiV5GrvUNFRiMEDMwReVlcf97UC3TcMaoy/9TzRg=
-Received: from mail.zoho.in by mx.zoho.in
-	with SMTP id 1778169960195705.683681161421; Thu, 7 May 2026 21:36:00 +0530 (IST)
-Received: from  [103.164.208.221] by mail.zoho.in
-	with HTTP;Thu, 7 May 2026 21:36:00 +0530 (IST)
-Date: Thu, 07 May 2026 21:36:00 +0530
-From: Ashwin Gundarapu <linuxuser509@zohomail.in>
-To: "gregkh" <gregkh@linuxfoundation.org>
-Cc: "linux-kernel" <linux-kernel@vger.kernel.org>,
-	"linux-staging" <linux-staging@lists.linux.dev>
-Message-ID: <19e033056fb.47bb4db720358.3907801390816381202@zohomail.in>
-In-Reply-To: 
-Subject: [PATCH v6] staging: rtl8723bs: remove unnecessary braces in
- rtw_mlme.c
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="o486BZQG"
+Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-2ef8d6ba48bso653156eec.1
+        for <linux-staging@lists.linux.dev>; Thu, 07 May 2026 10:43:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778175795; x=1778780595; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rUlGO+hmTdn76QVwPi6yv7XLRMlmihN0y8VNjIwWANg=;
+        b=o486BZQGFI58my2gOB66MRgRtx2/YuWRCvi0TwDBS6HrIyRPTtXAqt/fbwXrn2OBXW
+         o9ASQqmLgP11P87yAttnYD79mKWnvu6kcaAmXc/+QhgNppMpE5DHJvE0WCzEj/npcVHQ
+         7dg4MICIjPs3WF+PqFOw3Gtc+65K+2PQ8t9w2smVmQdhrA47BdN5AdsH/YutS2WIxKVt
+         eS5YZrBmpyjFDW5MA57FHRwHbmAH7JENjbrJBglAyTAbmKWCMdb+vfHxvCSfSsNbPBax
+         2pLARlO7EhEzcoc7Q6TGzPAg5K2WknkoPnDWka9EwUgWBFAVJeKv8yUb8ppSfVUdXxrE
+         F5Gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778175795; x=1778780595;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rUlGO+hmTdn76QVwPi6yv7XLRMlmihN0y8VNjIwWANg=;
+        b=R2QICY/MkD/vA5Jq5Y2BsrRlc/7mOnT9YGDhWBygpyCsrxwXnWxzHWBqcIPy72dj9I
+         GH0W/siLaTtcpqd8rpxflVhGnj24c/kV4USf6AgmkoY3vKBfPQy4gKWVg+VqzzEOD0Po
+         JOhmrz281LIeKVju8VCqTuuKKMvxHaoXxYnyaPi18+fJrBaOXD93Qaql1IsB/23q3D1i
+         MbkBqvkYFbdpoDsKMAE3xjsVd1QcH4dUU+wu6kQBScgE6bVlTsJbiyzwofi1kM3Fqm8I
+         7iNqPM3Di1akx/OVg5ZV9JEmwDYOzVrVeXyMy9TkdS8/UYftsgdzOruYL160ZX6YIA84
+         ttTQ==
+X-Gm-Message-State: AOJu0YwsMdEBFGfwSnKvd7v4qve5msg1Jo35YDOuU8LsnKhpiDnJNIAg
+	lrmcb6WC8TwAnkWhZfVzVCCI8sTfqs2jwzl2xGpKbp1HIexOqMhVh+WWbfgDuA==
+X-Gm-Gg: AeBDiev6+11q9vnXuuWSwdgMZD0phAcRQG30L5aiLznTOHQA0BMgpHGfCBjEwp4C87A
+	8QX8tQ7AKoZwbek5m2BaK+qA9mhe1/FZgzOWBvckMSgEgTlNaT835AXLQhB8g28CPEDrFU+uWzp
+	Z73mLd3O+o1Lz8XOXkVcvlHMcDXCiZWPo1a5l9BnDF7Ch0ExE6kbj2FbSp1Qqm56kog6Uv4/mAQ
+	IK0Z1G4DGQpq/mOMm2DOp4ELKChAUgGN4KZT2gI30JX7LdNMpLDh3tZODv9R1XHUIYJSKunW3Ys
+	ZQ8a+DPUkSpb9o0JL3N6+F087iUsoCtnCMSvgVVsIHUTyhpHAIHvsYz692yQXU6D+p+OvWG2L0O
+	9M+nuh+e/W0r5s67Mx3RuEN47GSEmszOtlTco9a6KAZvP7ZYF0mXED83a68AtZJkii49oECvhrP
+	PvGXid7apXnDBgBey/oGBIyGeMUP1PtIpQ
+X-Received: by 2002:a05:7300:b58b:b0:2ea:ea7:480e with SMTP id 5a478bee46e88-2f6e3e93cbbmr1608006eec.10.1778175795111;
+        Thu, 07 May 2026 10:43:15 -0700 (PDT)
+Received: from TestUbuntu22.. ([73.15.108.84])
+        by smtp.googlemail.com with ESMTPSA id 5a478bee46e88-2f56cec593dsm9766437eec.6.2026.05.07.10.43.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 May 2026 10:43:14 -0700 (PDT)
+From: Jennifer Guo <guojy.bj@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: gregkh@linuxfoundation.org,
+	Jennifer Guo <guojy.bj@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: fix block comment alignment in hal/ header files
+Date: Thu,  7 May 2026 10:42:56 -0700
+Message-Id: <20260507174256.5319-1-guojy.bj@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
+Content-Transfer-Encoding: 8bit
 
+Add leading whitespace to block comments in order to adhere to
+the kernel coding style.
 
+This fixes the following checkpatch.pl warning:
+  WARNING: Block comments should align the * on each line.
 
-From 50c6b6259becbb357e3d7c9f8e26cef10b4e0ef3 Mon Sep 17 00:00:00 2001
-From: Ashwin Gundarapu <linuxuser509@zohomail.in>
-Date: Thu, 7 May 2026 21:29:11 +0530
-Subject: [PATCH] staging: rtl8723bs: remove unnecessary braces in rtw_mlme.c
-
-Remove braces around single statement blocks.
-
-Found by checkpatch.pl --strict
-
-Signed-off-by: Ashwin Gundarapu <linuxuser509@zohomail.in>
+Signed-off-by: Jennifer Guo <guojy.bj@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ .../staging/rtl8723bs/hal/HalHWImg8723B_MAC.h | 12 +++++------
+ .../staging/rtl8723bs/hal/HalHWImg8723B_RF.h  | 20 +++++++++----------
+ 2 files changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index 9cf1c95dd924..c14b8dbd478b 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -483,13 +483,13 @@ void rtw_update_scanned_network(struct adapter *adapter, struct wlan_bssid_ex *t
-                        break;
-                }
+diff --git a/drivers/staging/rtl8723bs/hal/HalHWImg8723B_MAC.h b/drivers/staging/rtl8723bs/hal/HalHWImg8723B_MAC.h
+index 50429c159fee..82de8aa0008b 100644
+--- a/drivers/staging/rtl8723bs/hal/HalHWImg8723B_MAC.h
++++ b/drivers/staging/rtl8723bs/hal/HalHWImg8723B_MAC.h
+@@ -1,17 +1,17 @@
+ /* SPDX-License-Identifier: GPL-2.0 */
+ /******************************************************************************
+-*
+-* Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
+-*
+-******************************************************************************/
++ *
++ * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
++ *
++ ******************************************************************************/
  
--               if (rtw_roam_flags(adapter)) {
-+               if (rtw_roam_flags(adapter))
-                        /* TODO: don't select network in the same ess as oldest if it's new enough*/
--               }
-+
+ #ifndef __INC_MP_MAC_HW_IMG_8723B_H
+ #define __INC_MP_MAC_HW_IMG_8723B_H
  
-                if (!oldest || time_after(oldest->last_scanned, pnetwork->last_scanned))
-                        oldest = pnetwork;
--       }
-+
  
-        /*
-         * If we didn't find a match, then get a new network slot to initialize
-@@ -2410,9 +2410,8 @@ void rtw_update_ht_cap(struct adapter *padapter, u8 *pie, uint ie_len, u8 channe
+ /******************************************************************************
+-*                           MAC_REG.TXT
+-******************************************************************************/
++ *                           MAC_REG.TXT
++ ******************************************************************************/
  
-        len = 0;
-        p = rtw_get_ie(pie + sizeof(struct ndis_802_11_fix_ie), WLAN_EID_HT_OPERATION, &len, ie_len - sizeof(struct ndis_802_11_fix_ie));
--       if (p && len > 0) {
-+       if (p && len > 0)
-                /* todo: */
--       }
+ void
+ ODM_ReadAndConfig_MP_8723B_MAC_REG(/*  TC: Test Chip, MP: MP Chip */
+diff --git a/drivers/staging/rtl8723bs/hal/HalHWImg8723B_RF.h b/drivers/staging/rtl8723bs/hal/HalHWImg8723B_RF.h
+index acf5679d188c..04441fdeaa26 100644
+--- a/drivers/staging/rtl8723bs/hal/HalHWImg8723B_RF.h
++++ b/drivers/staging/rtl8723bs/hal/HalHWImg8723B_RF.h
+@@ -1,17 +1,17 @@
+ /* SPDX-License-Identifier: GPL-2.0 */
+ /******************************************************************************
+-*
+-* Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
+-*
+-******************************************************************************/
++ *
++ * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
++ *
++ ******************************************************************************/
  
-        if ((pregistrypriv->bw_mode & 0x0f) > 0)
-                cbw40_enable = 1;
+ #ifndef __INC_MP_RF_HW_IMG_8723B_H
+ #define __INC_MP_RF_HW_IMG_8723B_H
+ 
+ 
+ /******************************************************************************
+-*                           RadioA.TXT
+-******************************************************************************/
++ *                           RadioA.TXT
++ ******************************************************************************/
+ 
+ void
+ ODM_ReadAndConfig_MP_8723B_RadioA(/*  TC: Test Chip, MP: MP Chip */
+@@ -19,8 +19,8 @@ ODM_ReadAndConfig_MP_8723B_RadioA(/*  TC: Test Chip, MP: MP Chip */
+ );
+ 
+ /******************************************************************************
+-*                           TxPowerTrack_SDIO.TXT
+-******************************************************************************/
++ *                           TxPowerTrack_SDIO.TXT
++ ******************************************************************************/
+ 
+ void
+ ODM_ReadAndConfig_MP_8723B_TxPowerTrack_SDIO(/*  TC: Test Chip, MP: MP Chip */
+@@ -29,8 +29,8 @@ ODM_ReadAndConfig_MP_8723B_TxPowerTrack_SDIO(/*  TC: Test Chip, MP: MP Chip */
+ u32 ODM_GetVersion_MP_8723B_TxPowerTrack_SDIO(void);
+ 
+ /******************************************************************************
+-*                           TXPWR_LMT.TXT
+-******************************************************************************/
++ *                           TXPWR_LMT.TXT
++ ******************************************************************************/
+ 
+ void
+ ODM_ReadAndConfig_MP_8723B_TXPWR_LMT(/*  TC: Test Chip, MP: MP Chip */
 -- 
-2.43.0
+2.34.1
 
