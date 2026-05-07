@@ -1,113 +1,218 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D74E32F770
-	for <linux-staging@lists.linux.dev>; Thu,  7 May 2026 11:02:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1661C3148A8
+	for <linux-staging@lists.linux.dev>; Thu,  7 May 2026 11:14:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778151760; cv=none; b=NDvXj1Wa8QoJWbOuX+h7yLx6rpR63QzRdiHTbmyjpgGrOXxPaUubxKC5l3w3gF2aeS5YvTRbUm41CuCFqnKcWgTZHs4rz7WGZB18gbDSvfvqIBXr775z5aeq8ItAiY5vawQrQWrroQdYD4luTzfYcwPbh9YdV9UfoFeZUAwM2yw=
+	t=1778152468; cv=none; b=bfbwjG9OUE+ZeW25fpjUw7rVIqawErPSJo+yy/iAZGnyvA1S9dVcS++tYuhj5C72qzM97et6FQL9A2zpZmta8o1fYiZzIqTK+HDRc59jyNNL9HHp1XmzWxWz7RbHI5MGKgyC2eS1ftT/CznE9aPnsCRyw6SzHrfbC4zoqVwqTss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778151760; c=relaxed/simple;
-	bh=cMgJqIA89J5jSDyNSTxWxOeL0VqIoE8Nxhg1/ff2B9s=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UqaZCJJI8vb8ECxMPqZqSD5Nl7clZ6k/GWge/NOZ/KS01bI9ocA/SW8/5iVEpu4KKrwv+QI0ds4vXLQYcftidjMpgWpU3aVfLJPkC3pi+3v2Pi6aU9igr6NGIzzfk6bFMAqSnzOUbFl2UKk7M6drBVSnnyUSp7M4fFRueIj4lp0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qCt8xzu1; arc=none smtp.client-ip=209.85.216.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778152468; c=relaxed/simple;
+	bh=W9kIN/t19RCvfj+cHpxGuYUX/PCjtNSSxz/nI/u6N0o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FuX/rlFBPs2QTJXrNTFK8ISJGzay/VQ+fETBRAFRRSb1jU7hWBqH+aTdKtvIRwOQWG/yqGhpaijnCHmI5BYCEviRnY2S+0l9zNYNnFBfr41Q0AdnMhtnLI9J4HNl4yYfX2BdLbtwH8M4piPHq05l+5w+AlG3QbLV9eVoY9v2PfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=uxO71/Di; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qCt8xzu1"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-364e5d895e3so606075a91.2
-        for <linux-staging@lists.linux.dev>; Thu, 07 May 2026 04:02:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778151757; x=1778756557; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7del58ZNoXTYS1UrwtFFdHbvVnfss3cuhksZj/ziuKs=;
-        b=qCt8xzu1xvq7JCFjNQokk7MEa8D1q/DPAYJxi017B3tK7wRLnO1SfuQk43HjMplMlz
-         SnkhALnoU8RSY861S+blX8SfrqvHL0mrQcVk7hIJj3okRWp5ktXzukJsGZ4jMX7oQBYP
-         9+0rjY6o1gGUeE24JFXvcr9RnXy0REiLU0sxK04EpGXeJqytKqOhFCFdHFOpmURe8bGK
-         SviQII3d/4T/sX+nXCmc1P9wiVSOlT/+mHns35S6zzWVMjaKzVAr5U3ljb4WK3TAckbf
-         quWfbImC3+JwAQ476LaKVdaZYoOJys1RKy4YZARP4ORTRGUMGD3CbKXbCLcZFG/VeGru
-         HmiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778151757; x=1778756557;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7del58ZNoXTYS1UrwtFFdHbvVnfss3cuhksZj/ziuKs=;
-        b=MPrI1zEzx5YvQw+zSKWDtj2c2Mf1IbM9YdWnC5j2sQ/2VZIOMmko+RSeAmXLOAn1lQ
-         MDqj5LdrShFUq3X5H0rSMlwOXF2c/n8POO5R5V4KihVg6+zJIe8WrMNBWib5nqr4a920
-         uGf+eSOfWuy05axF7DROWBnUp59A/0mJ1FPObitJ8ly+OJjK3gXXeZbFCqddVLq1js3W
-         avH57Uks2U6oUSALE7EkODZdGDxvARusmdAXWHmeVoqNZ+g4d2uRTJ9KHFWtikQpZ+/b
-         J39TZd2jxIa2NIWT5RX2afR9SzFY52QxkYcTC9bIt5hf50w0XE1fO/GGKQa/J6w6FtNl
-         IU4w==
-X-Forwarded-Encrypted: i=1; AFNElJ9OGpOr+t6XAaTpjRQZTbTmk7y/yGmhsZXL2UxHYKpEITMqBH8t/y1K4Ba3CXxPGwLZsDPRUOOSchcJa90u@lists.linux.dev
-X-Gm-Message-State: AOJu0YyaNq1ANCSAzxewzG6cZ2Lm7OBhLI8qHI6v0jJyivajgEdgIuBV
-	OVCgfhBUXxdUIK1kqPq3eAYE/OVHsCSp2nEsVZkjHed78KWPCs9OeQq3
-X-Gm-Gg: AeBDiesuImLmldYNb055IUearW7fq70+BBksdpwnjhsZcVT135hSyuuFDWd3VAef1z5
-	XH2HsbyboDX6DwXM7QFtMbnwhqhNUOsauwJsDnr8md3Flp4DsMqZZ2NyN8XsYZ3twxWIUnPG+7K
-	Z9TlggRcm3N+XSyQYArKZsgOTaQsOXLPtVC2fjeIUriOqAt3pLsoDpi2SPuZWj8j0M6heLrTjFu
-	X9Rc3rfM57jnoVGx9UlmKhdapWC0fqwJYMZEwSDkqHf8tFkSjsiC0LvLrEL3LIqrDS3nA5N0oEK
-	uN4cX4oEscSs/+ajq/SboEPcSR5QdBXGqDKjPpbOtu4OkfIeYxVQC3Lu3QgQjewldoEXfGrrOAD
-	Q/m13++IDSQQaARkzRBTcLbipyjVOSosZgTvq7DGgieA9qPkCPem2UOQ75SONA4ZQgd+sfBHkle
-	OMUUOow/BM5J06v2Yr0ra/iEG6XKzcXDwjO9QZe+A5+AA=
-X-Received: by 2002:a17:90b:55cc:b0:366:16d1:6a25 with SMTP id 98e67ed59e1d1-36616d172e4mr1466210a91.5.1778151756721;
-        Thu, 07 May 2026 04:02:36 -0700 (PDT)
-Received: from phu-arch.lan ([2405:4802:1bf7:b0a0:33c8:3ea:357a:8f94])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-365d8e3dad8sm3961371a91.1.2026.05.07.04.02.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 May 2026 04:02:35 -0700 (PDT)
-From: Nguyen Hai Phu <nguyenhaiphu06@gmail.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Nguyen Hai Phu <nguyenhaiphu06@gmail.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="uxO71/Di"
+Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3FFC09CE;
+	Thu,  7 May 2026 13:14:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1778152461;
+	bh=W9kIN/t19RCvfj+cHpxGuYUX/PCjtNSSxz/nI/u6N0o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uxO71/DiQedpJsbxKeHUguvfiR3mNsKzp+BlIS75V518nevu45g2127zqQn7BF0Qb
+	 WUAv/wma9yVFCObKGPQXs38hHJ4J0eYyVhCc/UUYVuzwSyyMzfNHU6Qajdg1y/GGdb
+	 zl9IV26tzJfiqnQJ9I/O8mfF3Ii5P6B1aocdZaLM=
+Date: Thu, 7 May 2026 14:14:23 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Hans Verkuil <hverkuil@kernel.org>,
-	linux-media@vger.kernel.org,
+	Nas Chung <nas.chung@chipsnmedia.com>,
+	Jackson Lee <jackson.lee@chipsnmedia.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Keke Li <keke.li@amlogic.com>, Yong Zhi <yong.zhi@intel.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: media/ipu7: Remove unused struct ia_gofo_secondary_boot_config
-Date: Thu,  7 May 2026 18:01:55 +0700
-Message-ID: <20260507110209.127549-1-nguyenhaiphu06@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Subject: Re: [PATCH v3 1/6] media: v4l2-dev: Add range check for vdev->minor
+Message-ID: <20260507111423.GA1938994@killaraus.ideasonboard.com>
+References: <20260504-smatch-7-1-v3-0-fda125c30058@chromium.org>
+ <20260504-smatch-7-1-v3-1-fda125c30058@chromium.org>
+ <20260505231211.GE1598374@killaraus.ideasonboard.com>
+ <CANiDSCtwPC1ihe5u=HuDG0f261zq76=TL90oMqfP8VQ6UK771g@mail.gmail.com>
+ <20260506111838.GL1598374@killaraus.ideasonboard.com>
+ <CANiDSCvo_J+jTUAjWAMhoVWnkvaYFH_=LJ+TBovfDhcskaooOA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CANiDSCvo_J+jTUAjWAMhoVWnkvaYFH_=LJ+TBovfDhcskaooOA@mail.gmail.com>
 
-The struct ia_gofo_secondary_boot_config in abi/ipu7_fw_boot_abi.h is
-not used in the driver. Remove it to cleanup the ABI headers.
+On Wed, May 06, 2026 at 02:12:47PM +0200, Ricardo Ribalda wrote:
+> On Wed, 6 May 2026 at 13:18, Laurent Pinchart wrote:
+> > On Wed, May 06, 2026 at 08:48:06AM +0200, Ricardo Ribalda wrote:
+> > > On Wed, 6 May 2026 at 01:12, Laurent Pinchart wrote:
+> > > > On Mon, May 04, 2026 at 06:54:04AM +0000, Ricardo Ribalda wrote:
+> > > > > If the fixed minor ranges are not properly set we could end up in a
+> > > > > situation where the calculated minor is invalid. Add a check for this in
+> > > > > the code to make it more robust.
+> > > >
+> > > > If it was just for that, we could define the ranges in a way that could
+> > > > not lead to future programmatic errors.
+> > > >
+> > > > > This check also fixes the following false positive smatch warning:
+> > > > >
+> > > > > drivers/media/v4l2-core/v4l2-dev.c:1036 __video_register_device() error: buffer overflow 'video_devices' 256 <= 288
+> > > > > drivers/media/v4l2-core/v4l2-dev.c:1043 __video_register_device() error: buffer overflow 'video_devices' 256 <= 288
+> > > > > drivers/media/v4l2-core/v4l2-dev.c:1101 __video_register_device() error: buffer overflow 'video_devices' 256 <= 288
+> > > > >
+> > > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > > > ---
+> > > > >  drivers/media/v4l2-core/v4l2-dev.c | 5 +++++
+> > > > >  1 file changed, 5 insertions(+)
+> > > > >
+> > > > > diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+> > > > > index 6ce623a1245a..5516b2bbb08f 100644
+> > > > > --- a/drivers/media/v4l2-core/v4l2-dev.c
+> > > > > +++ b/drivers/media/v4l2-core/v4l2-dev.c
+> > > > > @@ -1032,6 +1032,11 @@ int __video_register_device(struct video_device *vdev,
+> > > > >       vdev->minor = i + minor_offset;
+> > > > >       vdev->num = nr;
+> > > > >
+> > > > > +     if (WARN_ON(vdev->minor >= VIDEO_NUM_DEVICES)) {
+> > > > > +             mutex_unlock(&videodev_lock);
+> > > >
+> > > > I may get tempted to convert code to using scoped guards at some point.
+> > > >
+> > > > > +             return -EINVAL;
+> > > > > +     }
+> > > > > +
+> > > >
+> > > > I'm annoyed by the proliferation of workarounds for smatch false
+> > > > positives that generate useless code :-/ This is in particular is not a
+> > > > big deal though, so
+> > > >
+> > > > Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > > >
+> > > > but I don't want to continue in this direction with every new kernel
+> > > > release. We need a way to tell smatch that this is safe with incurring
+> > > > an runtime cost.
+> > >
+> > > To provide some context, in this release alone we have found two "Fixes:".
+> > >
+> > > Do you have any data regarding the runtime cost of these new checks?
+> > > Most of the time, the compiler simply optimizes them out, so the
+> > > impact is either zero or minimal.
+> >
+> > If the compiler can optimize them out, then I expect the static analysis
+> > tools to also get the ability to avoid those false positives.
+> 
+> Ideally yes, but LLVM/gcc has hundreds (maybe thousands?) of
+> contributors and sparse/smatch are maintained by a handful group of
+> heroic warriors.
 
-Signed-off-by: Nguyen Hai Phu <nguyenhaiphu06@gmail.com>
----
- drivers/staging/media/ipu7/abi/ipu7_fw_boot_abi.h | 11 -----------
- 1 file changed, 11 deletions(-)
+What I meant is that I don't think compilers will optimize this one out.
 
-diff --git a/drivers/staging/media/ipu7/abi/ipu7_fw_boot_abi.h b/drivers/staging/media/ipu7/abi/ipu7_fw_boot_abi.h
-index a1519c4fe661..21d1ff7ab29a 100644
---- a/drivers/staging/media/ipu7/abi/ipu7_fw_boot_abi.h
-+++ b/drivers/staging/media/ipu7/abi/ipu7_fw_boot_abi.h
-@@ -91,17 +91,6 @@ struct ia_gofo_boot_config {
- 	struct syscom_config_s syscom_context_config;
- };
- 
--struct ia_gofo_secondary_boot_config {
--	u32 length;
--	struct ia_gofo_version_s config_version;
--	struct ia_gofo_msg_version_list client_version_support;
--	u8 reserved1[IA_GOFO_BOOT_SECONDARY_RESERVED_FIELDS];
--	u16 checksum;
--	u8 padding[2];
--	u32 reserved2[IA_GOFO_BOOT_SECONDARY_RESERVED_SIZE];
--	struct syscom_config_s syscom_context_config;
--};
--
- #pragma pack(pop)
- 
- #define IA_GOFO_WDT_TIMEOUT_ERR			0xdead0401U
+> > > The added checks make the code more robust for future refactoring and
+> > > serve as useful documentation.
+> >
+> > In this specific case, if we want to make the code more robust, I think
+> > we should have an array of minor offsets and calculate the minor ranges
+> > based on that. It would avoid offsets and ranges getting out of sync. I
+> > don't think it's worth it though, because I don't foresee we will ever
+> > change ranges for the fixed minors case.
+> >
+> > > Furthermore, when false positives occur
+> > > in new code, they force the author to write more idiomatic code, which
+> > > improves maintainability.
+> >
+> > Up to a point only. Sometimes guarantees are provided in a very remote
+> > place. For instance, control values have ranges that are set when
+> > creating the control, and enforced by the control framework. Adding
+> > range checks to .s_ctrl() is redundant, but I don't expect static
+> > analysis tools to be able to understand that the value is guaranteed to
+> > be within the range (especially given that we support modifying ranges
+> > at runtime). How can we avoid those redundant checks (or mask
+> > operations, as in the mt9p031 patch in this series) ?
+> 
+> It depends on the nature of the range check and the consequences of
+> failing it. We can decide case by case and worst case scenario we can
+> ignore specific errors.
+> 
+> The mt9p031 patch in this series is special, the issue is not the
+> range check, but that smatch did not properly handle a mask operation.
+> Dan is working to fix it.
+
+In the mt9p031 case, we have
+
+	ctrl->val &= ~7;
+	data = ((ctrl->val - 64) << 5) | (1 << 6) | 32;
+
+ctrl->val is a 32-bit value, data is a 16-bit value. We know that
+ctrl->val will be at most 1024, because that's the maximum limit set
+when creating the control, but I don't see how smatch or a compiler
+would be able to see that. I'm not blaming smatch on this one.
+
+> > > We have a deficit of maintainers, not
+> > > authors.
+> > >
+> > > So, I DO want to continue in this direction. I am very grateful for
+> > > these static analysis tools; they truly make our code more
+> > > maintainable.
+> >
+> > I do like smatch a lot, it points out real issues. My concern is that we
+> > have code that offers guarantees in ways that are not visible to static
+> > analysis tools (or to compilers), and having to add more runtime checks
+> > everywhere to silence warning is not nice. Those checks can over time
+> > become redundant (because tools improve, or because we remove the code),
+> > and will likely not be removed because nobody notices.
+> >
+> > There's a broader question here of how to connect pieces of code where
+> > one piece offers a guarantee that the other piece depends on, in a way
+> > that can be exposed to tools.
+> 
+> I agree with the idea, but this might not the right forum. It would be
+> a great topic for the Kernel Summit, though.
+
+I was thinking about the same, yes.
+
+> The "rust people" would love to have some annotations about the
+> guarantees of the C code.
+
+I wonder if that could be used to offer similar guarantees (or rather a
+subset thereof) of the rust type system. Note that I'd expect rust to
+also struggle in many cases, as we really have guarantees that won't be
+expressable through its type system.
+
+> But until we have those annotations the best we can do is runtime
+> checks where they make sense and keep track of where they do not make
+> sense (allow lists). That will make future discussions more
+> productive.
+
+Should we add comments on top of all those redundant checks, with a
+standardized formatting to make them easy to locate in the future ? For
+instance
+
+	/* false-positive: Should never happen due to ... */
+
+> > > > >       /* Should not happen since we thought this minor was free */
+> > > > >       if (WARN_ON(video_devices[vdev->minor])) {
+> > > > >               mutex_unlock(&videodev_lock);
+> > > > >
+
 -- 
-2.54.0
+Regards,
 
+Laurent Pinchart
