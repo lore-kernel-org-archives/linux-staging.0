@@ -1,64 +1,65 @@
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2954C340DB8
-	for <linux-staging@lists.linux.dev>; Thu,  7 May 2026 20:58:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0314A342509
+	for <linux-staging@lists.linux.dev>; Thu,  7 May 2026 20:58:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778187500; cv=none; b=r/8gftcNzMyfBggE7i814svfFcyZGofTTVnh/wDShE3xzMHhjOrrEdI7r9fb/CIpdiQIY7h3fTUZovZSGJIhfrMzaAKkrXQQOL86h9X9/QI19XPBYJiiOXovh2p68dTsbMHWCJ372cpphOCQzekrZY4Y9/sM9L9WmiVfdSNISbg=
+	t=1778187502; cv=none; b=YZ0r5uyh+5i765ir7aoJRkKYJTLhPFlVCJWxoTV71FK39fCwuPikY9TcArHkB/G2Vu+YgpoF0nbw84G0lYdiDehMfHaxHtlXdo1O0/1MhH5pzcOQtsjvj48RfW9dIszOiJLtK71OK5unnVRdYqwE0kORp7a3tq9ZwCKXwUUpCFw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778187500; c=relaxed/simple;
-	bh=qlDyVSguO43yD+o1D6syNL7bDlNFGJb1XrBv5FCyraM=;
+	s=arc-20240116; t=1778187502; c=relaxed/simple;
+	bh=bhiAdfSzncpURbgdsQrG1MdM2mxUmXSubgdV4ifgDbk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=R68GzHS5LQPpI0KQzq0FaX/zVx3daBQK1awjUbvRWz7xHMPCpWfMSj/5EqA2/dnwxI755J/jECv125A5Q8IdaPUzjq1kuEg4RoLxdUGT/t0wrqHnupnMPvA1uUyrNl3fweEIeQxBPriqPZ0LhfufXSCtRbevHa6ex0P/b44qH2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=OROTtEn9; arc=none smtp.client-ip=209.85.208.173
+	 In-Reply-To:To:Cc; b=rzdkS9iqhYyeVqT5j9aL7s3qanXva7WEn9nhEVI6pYmf8uv20ORVrjdI3XzMnkuFFGtJX4gSO80Gl38G6RqL+PawxphRfXbyyYz28LB1M3uozltAdReCSlH2f+6YlmJOXHjkmWPIF38hv9TaGd6xcW0/zowsrME2WTDleedFULc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=bUY67jP5; arc=none smtp.client-ip=209.85.208.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="OROTtEn9"
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-3938cc204a7so10948661fa.1
-        for <linux-staging@lists.linux.dev>; Thu, 07 May 2026 13:58:17 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="bUY67jP5"
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-39393ec4ed0so11952611fa.0
+        for <linux-staging@lists.linux.dev>; Thu, 07 May 2026 13:58:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1778187496; x=1778792296; darn=lists.linux.dev;
+        d=chromium.org; s=google; t=1778187498; x=1778792298; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=rR9uqI1Ds3GQSANQEb3RBFKQcN17Sla3ff1JK+seUFw=;
-        b=OROTtEn90kJwhB2dcKMdq7jHbC/hoyVxxx3IRXBgAkFqrPxOSYQ4auh0xOARxYQfM4
-         T+FivEjouVIrBR9Jc3+S05146/wd8Jr32Is4Yn5/NJNDGY0lgDPN5WG841CEJjAnOh1j
-         8LWPh40KWZycF/EKNZijCtfarbirji61SABoo=
+        bh=UAoOc6QkMdG4r56PaqK1IeCoUwn5Lvm7uulH9yzKLh8=;
+        b=bUY67jP58HKOO8E23MsODmVyp2S8+LrXg74ugWGXlRfD+e33ckKZnCXt+KPpcE/ri9
+         wrC39+qYA2N5W2AWWXu4o/vjCSQnsWcXRl6Dcos8QzkQSRD8o/+PkuRXWT/0eLw7EW5v
+         Td7uwJIabVpDoS2AjucpuYNLhk9gsLeNkclIU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778187496; x=1778792296;
+        d=1e100.net; s=20251104; t=1778187498; x=1778792298;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=rR9uqI1Ds3GQSANQEb3RBFKQcN17Sla3ff1JK+seUFw=;
-        b=KSG3guc94UIGN+r1POqGmG6fgoFXhvZ/OVcyAsacAaHfB+enkSfRVCsUlHDkialX0b
-         7Sca261gishpYvYLL+e6gn+U0CUZ6vC/pQv2tXYVIbWFBAqerv7G7rHj++VZzQPmz57r
-         LrJLZfyjT1TaHlOngxKbwnXf4Ahxiso3C6T0WH6Wi8s7wxIRk/MhU+b3960KP+OcLpgL
-         eJHOMx5WUgSPP2E9ZGgTMPZggHDtmyeHBqH/DtRdRtkr4D+kjSODKz/5vtfXR8BX6RPR
-         CpH2ybMpgk5+TS150eXqDAF1ILJiX0wGh3yqq3nYxobWchCXKEGtkGEkw5lcmrmlhp5k
-         188g==
-X-Forwarded-Encrypted: i=1; AFNElJ8UHzLHFzd+OhNXY1z2oE2SsBP1Ngv26rB9X0fM0rBqsHcZxZ44STUT7lrIxDilk1A7smmwsEH6uzlIYwLH@lists.linux.dev
-X-Gm-Message-State: AOJu0YzbbHVgPj87SzJywexuFlPgU/BEUJn6RVffYJJBB6mob/Dk/I/3
-	3v46IMlpzTi6MpS8UGHf9qQX5Io9+bnc/8xXZmWVbiKCx2nPiy08vOjfmud0Tu/FVw==
-X-Gm-Gg: AeBDiesJbTqRmL6FOh1HdVpHz9LfQorJ95n2+kJKVZhKCqxU7LU21k+eniWkdsjuuBB
-	ZEMIpHyH7J1YWVUXmto8xW61AEkQ7suVhmiZbeRgQyKcEORxZi/Ffo1jRxm9IO0klGFiXktb9Mi
-	ij6VzQiBDQnRKtPBd0onnw73lkf5oZ8kBkn28DEZx+L1Bsp2kQKbFCvTJVFrQsJYNwfvUkhoK9b
-	PY+d9qXARYgiCmjrSzMMXPSNHUcauvzpJFeDz8xyymTKRiheg1+VUCAeyAtXt0Jt9gJxAsZnsH6
-	x7/CuJJ6NED9BNtVbGtJCzKNxrdTnFw5pRg9Fub71H0LMKXyIihcwyYny3IXfpT92oFkzwIBEL7
-	uYFLx1Mq3OTCGGqZOj+kdP7mtAn7uQQTBrqTwYqX3V0/koUrvT4m4JG0fkoAmxACMRnr6TQGe1c
-	lpmjpSfwSdeQew9yn+QWNdTuYfrzyhtq5al13MUS9jUKWr9T7KAooLuR3qVmuQjXfKWYRRKFvXk
-	EvQZ9Q=
-X-Received: by 2002:a2e:95d4:0:b0:38e:d870:1db4 with SMTP id 38308e7fff4ca-393c41efc1amr27481061fa.22.1778187496487;
-        Thu, 07 May 2026 13:58:16 -0700 (PDT)
+        bh=UAoOc6QkMdG4r56PaqK1IeCoUwn5Lvm7uulH9yzKLh8=;
+        b=AAsqTVoyuZib4Ks68jKTUWmUv3fq9qIxznp+r3O85OMsaw/p2Kst4d4h9HBrJPRUjC
+         eSdhkmg8l60LTmIq3xvBAJz5RqRJHYsI/vr1feoxPKpStIbmsAZq4rKARtbtnKbyc12r
+         iGdsurHq1Awy9zes2LkL0FJESowy2AudDx3V7M0OlBCL25uZUva4tz5y3VYRRiRHb9ZY
+         MGG47pyGG+BS1wIPgm4lEoWqEYZQRTuKnzqLzftb27oGBcnyHcwZo0FGAqrBxCaih+/K
+         QD5oG8MYFkTAY5tEfTwG1RUFAObVP+e0XwDvYmwFYqrT0XJLAy9sJH+3sptldGzfuvn8
+         D9Cw==
+X-Forwarded-Encrypted: i=1; AFNElJ/r3kQRc1RZi9QMnlhS+vEEeZpro1FRERLxyNYHWU8OEK05TX8Pf2NmeEC6beC0wky59cA/TbjlS9G1rrPe@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy+1ixNXjKendtK39laMEvPF7l2+FLNjzwBzC7fdd3JeiW5LnSY
+	TwoUMII+YCe7uVcqUO8dsSifkbKBLQYe9Zsw/vOhNeg+2DpSVaHe6D4oQxY3BDfQUQ==
+X-Gm-Gg: AeBDiev9nUQ33WdGU9TLa6nuGdWsGbFzfR0z/qOh4sV7xBWaejfqMu3cGqRAH5+dQCZ
+	v+6VxA6lK5syD2ldNDRuoKsLzcjG8oYqmjAPy3l14oXJyc7+c3/nStsRNdgH+/vFA/Eu3yG8fzq
+	PKqOCw3rNVKgPJS1JLEVoUS+cd2pPegOJb2D4C5fxEWaRFVC0cAZn+s6i8qb0dVp5ehd1E60+dC
+	cwFMGi9kg8JYlhyB6IISMr2Gx8c1lwZ28kbvZiQ1/Ac1rijvNL61lbEjl0ODjhMSbzNrnnWAnXf
+	ErKBv9Q5FXBFFf5a6cpadfEhAz1/2l9q6VvRYEFTw879dCmD6FPTw6W4rmBSD/CmprMnyvMLF+n
+	Z2K3+SjVKL20Kxs/t/vsBwLxRlRspEOeqOc8NU6jxbrYab+rKh+8w1Vg0k0hVjkKemzGi5BIiCO
+	+Ft5054H8k8w1PgeCv3oy90lfwZ7fe5w4nqYUd7zPn3vj1A9+niIwYsZ0nHbFxPG7dYbTEh1CN5
+	dGosE0=
+X-Received: by 2002:a05:6512:681:b0:5a8:52e0:7bc5 with SMTP id 2adb3069b0e04-5a887ce6338mr3443107e87.27.1778187498409;
+        Thu, 07 May 2026 13:58:18 -0700 (PDT)
 Received: from ribalda.c.googlers.com (52.163.228.35.bc.googleusercontent.com. [35.228.163.52])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-393eee53655sm2325571fa.0.2026.05.07.13.58.13
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-393eee53655sm2325571fa.0.2026.05.07.13.58.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 May 2026 13:58:14 -0700 (PDT)
+        Thu, 07 May 2026 13:58:17 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Thu, 07 May 2026 20:58:08 +0000
-Subject: [PATCH v4 3/6] media: i2c: adv7604: Add range checks for chip info
+Date: Thu, 07 May 2026 20:58:09 +0000
+Subject: [PATCH v4 4/6] media: chips-media: wave5: Add range checks for
+ dec_output_info
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,7 +68,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260507-smatch-7-1-v4-3-cc195f142167@chromium.org>
+Message-Id: <20260507-smatch-7-1-v4-4-cc195f142167@chromium.org>
 References: <20260507-smatch-7-1-v4-0-cc195f142167@chromium.org>
 In-Reply-To: <20260507-smatch-7-1-v4-0-cc195f142167@chromium.org>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -81,40 +82,42 @@ To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
  linux-staging@lists.linux.dev, 
  Mauro Carvalho Chehab <mchehab+samsung@kernel.org>, 
- Ricardo Ribalda <ribalda@chromium.org>, 
- Hans Verkuil <hverkuil+cisco@kernel.org>
+ Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.14.3
 
-If the driver's chip information is invalid we can end up accessing an
-invalid memory region.
+If the driver's dec_output_info contains invalid data the driver can
+write in invalid memory. Add a range check for that.
 
-This fixes the following false positive smatch errors:
-drivers/media/i2c/adv7604.c:3672 adv76xx_probe() error: buffer overflow 'state->pads' 7 <= 4294967294
-drivers/media/i2c/adv7604.c:3673 adv76xx_probe() error: buffer overflow 'state->pads' 7 <= u32max
+This fixes this smatch error:
+drivers/media/platform/chips-media/wave5/wave5-vpuapi.c:588 wave5_vpu_dec_get_output_info() error: buffer overflow 'inst->frame_buf' 64 <= 127
 
-Reviewed-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/i2c/adv7604.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/media/platform/chips-media/wave5/wave5-vpuapi.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c
-index 67116a4ef134..ae75982fb514 100644
---- a/drivers/media/i2c/adv7604.c
-+++ b/drivers/media/i2c/adv7604.c
-@@ -3668,6 +3668,12 @@ static int adv76xx_probe(struct i2c_client *client)
+diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
+index d26ffc942219..f77abd5e122a 100644
+--- a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
++++ b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
+@@ -584,8 +584,15 @@ int wave5_vpu_dec_get_output_info(struct vpu_instance *inst, struct dec_output_i
+ 		p_dec_info->num_of_decoding_fbs : p_dec_info->num_of_display_fbs;
  
- 	state->source_pad = state->info->num_dv_ports
- 			  + (state->info->has_afe ? 2 : 0);
-+	if (WARN_ON(state->source_pad >= ADV76XX_PAD_MAX)) {
-+		err = -EINVAL;
-+		v4l2_err(sd, "invalid chip info\n");
-+		goto err_i2c;
-+	}
+ 	if (info->index_frame_display >= 0 &&
+-	    info->index_frame_display < (int)max_dec_index)
+-		info->disp_frame = inst->frame_buf[val + info->index_frame_display];
++	    info->index_frame_display < (int)max_dec_index) {
++		u32 idx = val + info->index_frame_display;
 +
- 	for (i = 0; i < state->source_pad; ++i)
- 		state->pads[i].flags = MEDIA_PAD_FL_SINK;
- 	state->pads[state->source_pad].flags = MEDIA_PAD_FL_SOURCE;
++		if (WARN_ON(idx >= MAX_REG_FRAME)) {
++			ret = -EINVAL;
++			goto err_out;
++		}
++		info->disp_frame = inst->frame_buf[idx];
++	}
+ 
+ 	info->rd_ptr = p_dec_info->stream_rd_ptr;
+ 	info->wr_ptr = p_dec_info->stream_wr_ptr;
 
 -- 
 2.54.0.563.g4f69b47b94-goog
