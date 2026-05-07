@@ -1,67 +1,68 @@
-Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E04D3AD513
-	for <linux-staging@lists.linux.dev>; Thu,  7 May 2026 17:43:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 496A32D97BA
+	for <linux-staging@lists.linux.dev>; Thu,  7 May 2026 17:54:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778175797; cv=none; b=FvRO87FrAwdv5D122Dx8oqn5utWvF/tRnakUBZTHKFerST2+nhm+RXBNvz2lMdMLsxRX5bjOscBKkUUKvhrkWNYQeAcYDhrE57gow/Oo/lG84Vp7Nh2HAudR8Pugo/AXYOPtLpO3G9OGCSJToPmOyTKq9N6h17T6xFiHEJfFmrQ=
+	t=1778176487; cv=none; b=nwaztYX1UTKyC6sG9cYPpG68gNPRO5VsWfIuxLn7Ne0q4Zny726GETxpZoMcefk3rm9J2ugKxMA6x6bVPvbdqvy3qyRPydFxPFvUQ3yN2YtGB9At3Wm00ssO/2M8twVLPY3c82pthtNTv//NRvxC//DONFSMEEXar2dGqmuySzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778175797; c=relaxed/simple;
-	bh=gDOogxUeHJVjw6xuLfQ2+HHzJl+6Cf344948mZTd6wA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ManD0p4Zm4UBfNVJJ6ZXtSPVGOzxr2DWfokirDpcc+r2ZmhFm0RpFawJr80Pz6xzzOtrUn4a4Ydq0ScGuhKQ7zg1HP/rZGMznYRJKbyS0m9O2yOnk9qzEC4Y1McOo0f9uBBAiU3DC1N0Tgqpa2THt+jFjLb95fUwybOZOysxZBQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=o486BZQG; arc=none smtp.client-ip=74.125.82.174
+	s=arc-20240116; t=1778176487; c=relaxed/simple;
+	bh=ApIdv6ScYarklrgejDtBJS4KJIjKeS7V0CybnauQijU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=YagdSA6Un8bFFssFABxNNANb3OCXfMOo3rSxYyW3nR8Gn9WcTy3WUS96z2yYgdFj4W61cTwg9NQJ4G9pqZq81/ezKnjn88N6a5LrlHQ67xzB7Blg2T/LQchGcY88vXQVk18qE3KnGVnikq3zZIpc0vy6K5dtgOifoC1CPy1q/Ao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hh/C4AcD; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="o486BZQG"
-Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-2ef8d6ba48bso653156eec.1
-        for <linux-staging@lists.linux.dev>; Thu, 07 May 2026 10:43:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hh/C4AcD"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2b9e9a6802aso4554585ad.3
+        for <linux-staging@lists.linux.dev>; Thu, 07 May 2026 10:54:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778175795; x=1778780595; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1778176486; x=1778781286; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rUlGO+hmTdn76QVwPi6yv7XLRMlmihN0y8VNjIwWANg=;
-        b=o486BZQGFI58my2gOB66MRgRtx2/YuWRCvi0TwDBS6HrIyRPTtXAqt/fbwXrn2OBXW
-         o9ASQqmLgP11P87yAttnYD79mKWnvu6kcaAmXc/+QhgNppMpE5DHJvE0WCzEj/npcVHQ
-         7dg4MICIjPs3WF+PqFOw3Gtc+65K+2PQ8t9w2smVmQdhrA47BdN5AdsH/YutS2WIxKVt
-         eS5YZrBmpyjFDW5MA57FHRwHbmAH7JENjbrJBglAyTAbmKWCMdb+vfHxvCSfSsNbPBax
-         2pLARlO7EhEzcoc7Q6TGzPAg5K2WknkoPnDWka9EwUgWBFAVJeKv8yUb8ppSfVUdXxrE
-         F5Gg==
+        bh=sS2b5XRDHlulXvvSoNXnc31hTrbe+aIGEPYfO1L1ivs=;
+        b=hh/C4AcDbjhY9x5p7Afysn7EHOkPEJiThzmdNYrAOXbkPKpe1lxEFphqZthkfW4Y7E
+         29eeogJe2FWEy6jtnaIoeYZpcvnLSN4MtLJmKGMHMCAyLnqSKOuhkn08IPRaj8cR/le/
+         melAWOfcu4/AhPLgruXTkwZ7GoFZ7HA14Ymyfw4x6WnGJA5y5yTUTpXONwIHnF9v/CSd
+         D1JXn/Wd37q943Px92DLSO+tLeu4SAH2ZN7RjNVALzyC4n7s6nvM7QEZV4inYmbPkfw0
+         s9NLR9HHe9Virdczs4357nMbaO2y4sKec629X8Ml44XNEYY5IFsamhizhZgGZmnsjiFH
+         cGpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778175795; x=1778780595;
+        d=1e100.net; s=20251104; t=1778176486; x=1778781286;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rUlGO+hmTdn76QVwPi6yv7XLRMlmihN0y8VNjIwWANg=;
-        b=R2QICY/MkD/vA5Jq5Y2BsrRlc/7mOnT9YGDhWBygpyCsrxwXnWxzHWBqcIPy72dj9I
-         GH0W/siLaTtcpqd8rpxflVhGnj24c/kV4USf6AgmkoY3vKBfPQy4gKWVg+VqzzEOD0Po
-         JOhmrz281LIeKVju8VCqTuuKKMvxHaoXxYnyaPi18+fJrBaOXD93Qaql1IsB/23q3D1i
-         MbkBqvkYFbdpoDsKMAE3xjsVd1QcH4dUU+wu6kQBScgE6bVlTsJbiyzwofi1kM3Fqm8I
-         7iNqPM3Di1akx/OVg5ZV9JEmwDYOzVrVeXyMy9TkdS8/UYftsgdzOruYL160ZX6YIA84
-         ttTQ==
-X-Gm-Message-State: AOJu0YwsMdEBFGfwSnKvd7v4qve5msg1Jo35YDOuU8LsnKhpiDnJNIAg
-	lrmcb6WC8TwAnkWhZfVzVCCI8sTfqs2jwzl2xGpKbp1HIexOqMhVh+WWbfgDuA==
-X-Gm-Gg: AeBDiev6+11q9vnXuuWSwdgMZD0phAcRQG30L5aiLznTOHQA0BMgpHGfCBjEwp4C87A
-	8QX8tQ7AKoZwbek5m2BaK+qA9mhe1/FZgzOWBvckMSgEgTlNaT835AXLQhB8g28CPEDrFU+uWzp
-	Z73mLd3O+o1Lz8XOXkVcvlHMcDXCiZWPo1a5l9BnDF7Ch0ExE6kbj2FbSp1Qqm56kog6Uv4/mAQ
-	IK0Z1G4DGQpq/mOMm2DOp4ELKChAUgGN4KZT2gI30JX7LdNMpLDh3tZODv9R1XHUIYJSKunW3Ys
-	ZQ8a+DPUkSpb9o0JL3N6+F087iUsoCtnCMSvgVVsIHUTyhpHAIHvsYz692yQXU6D+p+OvWG2L0O
-	9M+nuh+e/W0r5s67Mx3RuEN47GSEmszOtlTco9a6KAZvP7ZYF0mXED83a68AtZJkii49oECvhrP
-	PvGXid7apXnDBgBey/oGBIyGeMUP1PtIpQ
-X-Received: by 2002:a05:7300:b58b:b0:2ea:ea7:480e with SMTP id 5a478bee46e88-2f6e3e93cbbmr1608006eec.10.1778175795111;
-        Thu, 07 May 2026 10:43:15 -0700 (PDT)
-Received: from TestUbuntu22.. ([73.15.108.84])
-        by smtp.googlemail.com with ESMTPSA id 5a478bee46e88-2f56cec593dsm9766437eec.6.2026.05.07.10.43.14
+        bh=sS2b5XRDHlulXvvSoNXnc31hTrbe+aIGEPYfO1L1ivs=;
+        b=IKAVRHgGMo8MQtbx/fZGfA2aPelLOW4g/pjOYM7u8Ls9KGpKI3NQC4MaDGNRhPCSzj
+         /z64zSwH4h/JJuA5Ij/RybpiCgXwPk9OyIAqZfQbJbmQDpi4uUhzPLUT27vaLhW7B4gp
+         WnPLdRJBBzOb/9PEaSChsRMrHFY7lMANFNlYjouP9+32Ze/jGdrBWMg40BVRQYR1m4Bq
+         auUVaUsdOzdi5Fd3YLWiCLnUOoqO0hGYCCB9aL/AIqEHv5kGWneUUY4E02kAsmaNyL0P
+         h6jSj8wsZZ/6bIbQ0Nvu87irdXkk0hdiTM9yTQ2TfxmQVMjSmiQEqYWbdGBAe8VOVzwD
+         TGvw==
+X-Gm-Message-State: AOJu0Yx9RSRQgrS3VP3CyrVmhQNMuNTgWp/T8Z2QObVWD4Fp8OMRxD8u
+	H4XMkLI5HbJCaWisr69yH4pCb4LPSAf4dZAW0C9OlxOfMvrdiSYQHXQE80CrNwGpXwRG4wD5
+X-Gm-Gg: AeBDietQ2zQ+HDW9+LpE6LEhqvx1ghDjhZ305DR6EPnsNAmmO5vS74O9vQiXZ/ZXib3
+	GqkXm8kVGSyYheNsx9vRq/pTDyRTEc1ZDn8dW0mQtaN2vz+8STDkxuNV6mdHxygFXjSvRcusRhn
+	s2TZxljAfgkUwVxULcoGS8AAteazCZTMOJ1vVYyCyF7JfF1oirKbgJMhyeOtA+ZnKlPp+IICB9J
+	6zVO1pQsPTou52pzW2W+TdedaH9aRGs9y5+c+AcL9UiK5lLsqCI6mnwRHHnIzcJD8O9aRu3/nCx
+	I+VwkswOUtv3yn3nzofK593x/x1CkOXqKqxJZVHBjQcdPpbiCd46ASrs14rPQSWSzHTJJ3OdPax
+	XOWLfY91dFjczFpbQE4dcLePvzMuy9RiQL60uCCVmf9U7FxalNABRtzlFld2DdJknkKQ780DEwx
+	vAiMhpF0Jko17NTQ82m43flRNo6/V4tNpLd/bdLz8VQZ5D2N6huEBbgBi3cLbcZtQEUThHB15zc
+	to/9I8ODcJiVwk=
+X-Received: by 2002:a17:903:1a88:b0:2ba:7610:3f21 with SMTP id d9443c01a7336-2ba792b2efemr94837605ad.5.1778176485375;
+        Thu, 07 May 2026 10:54:45 -0700 (PDT)
+Received: from dreamhell.. ([157.15.35.8])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bae752d0e6sm3818565ad.10.2026.05.07.10.54.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 May 2026 10:43:14 -0700 (PDT)
-From: Jennifer Guo <guojy.bj@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: gregkh@linuxfoundation.org,
-	Jennifer Guo <guojy.bj@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: fix block comment alignment in hal/ header files
-Date: Thu,  7 May 2026 10:42:56 -0700
-Message-Id: <20260507174256.5319-1-guojy.bj@gmail.com>
+        Thu, 07 May 2026 10:54:44 -0700 (PDT)
+From: Shivam Gupta <shivgupta751157@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	Shivam Gupta <shivgupta751157@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: remove unnecessary braces
+Date: Thu,  7 May 2026 23:22:18 +0530
+Message-Id: <20260507175218.16831-1-shivgupta751157@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -71,96 +72,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add leading whitespace to block comments in order to adhere to
-the kernel coding style.
+Remove unnecessary braces around a single statement block
+reported by checkpatch.
 
-This fixes the following checkpatch.pl warning:
-  WARNING: Block comments should align the * on each line.
-
-Signed-off-by: Jennifer Guo <guojy.bj@gmail.com>
+Signed-off-by: Shivam Gupta <shivgupta751157@gmail.com>
 ---
- .../staging/rtl8723bs/hal/HalHWImg8723B_MAC.h | 12 +++++------
- .../staging/rtl8723bs/hal/HalHWImg8723B_RF.h  | 20 +++++++++----------
- 2 files changed, 16 insertions(+), 16 deletions(-)
+ drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/HalHWImg8723B_MAC.h b/drivers/staging/rtl8723bs/hal/HalHWImg8723B_MAC.h
-index 50429c159fee..82de8aa0008b 100644
---- a/drivers/staging/rtl8723bs/hal/HalHWImg8723B_MAC.h
-+++ b/drivers/staging/rtl8723bs/hal/HalHWImg8723B_MAC.h
-@@ -1,17 +1,17 @@
- /* SPDX-License-Identifier: GPL-2.0 */
- /******************************************************************************
--*
--* Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
--*
--******************************************************************************/
-+ *
-+ * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
-+ *
-+ ******************************************************************************/
+diff --git a/drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c b/drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c
+index 58f6cf063498..f3195f6f7e57 100644
+--- a/drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c
++++ b/drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c
+@@ -294,9 +294,8 @@ static u8 halbtc8723b2ant_ActionAlgorithm(struct btc_coexist *pBtCoexist)
  
- #ifndef __INC_MP_MAC_HW_IMG_8723B_H
- #define __INC_MP_MAC_HW_IMG_8723B_H
+ 	pBtCoexist->fBtcGet(pBtCoexist, BTC_GET_BL_HS_OPERATION, &bBtHsOn);
  
+-	if (!pBtLinkInfo->bBtLinkExist) {
++	if (!pBtLinkInfo->bBtLinkExist)
+ 		return algorithm;
+-	}
  
- /******************************************************************************
--*                           MAC_REG.TXT
--******************************************************************************/
-+ *                           MAC_REG.TXT
-+ ******************************************************************************/
- 
- void
- ODM_ReadAndConfig_MP_8723B_MAC_REG(/*  TC: Test Chip, MP: MP Chip */
-diff --git a/drivers/staging/rtl8723bs/hal/HalHWImg8723B_RF.h b/drivers/staging/rtl8723bs/hal/HalHWImg8723B_RF.h
-index acf5679d188c..04441fdeaa26 100644
---- a/drivers/staging/rtl8723bs/hal/HalHWImg8723B_RF.h
-+++ b/drivers/staging/rtl8723bs/hal/HalHWImg8723B_RF.h
-@@ -1,17 +1,17 @@
- /* SPDX-License-Identifier: GPL-2.0 */
- /******************************************************************************
--*
--* Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
--*
--******************************************************************************/
-+ *
-+ * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
-+ *
-+ ******************************************************************************/
- 
- #ifndef __INC_MP_RF_HW_IMG_8723B_H
- #define __INC_MP_RF_HW_IMG_8723B_H
- 
- 
- /******************************************************************************
--*                           RadioA.TXT
--******************************************************************************/
-+ *                           RadioA.TXT
-+ ******************************************************************************/
- 
- void
- ODM_ReadAndConfig_MP_8723B_RadioA(/*  TC: Test Chip, MP: MP Chip */
-@@ -19,8 +19,8 @@ ODM_ReadAndConfig_MP_8723B_RadioA(/*  TC: Test Chip, MP: MP Chip */
- );
- 
- /******************************************************************************
--*                           TxPowerTrack_SDIO.TXT
--******************************************************************************/
-+ *                           TxPowerTrack_SDIO.TXT
-+ ******************************************************************************/
- 
- void
- ODM_ReadAndConfig_MP_8723B_TxPowerTrack_SDIO(/*  TC: Test Chip, MP: MP Chip */
-@@ -29,8 +29,8 @@ ODM_ReadAndConfig_MP_8723B_TxPowerTrack_SDIO(/*  TC: Test Chip, MP: MP Chip */
- u32 ODM_GetVersion_MP_8723B_TxPowerTrack_SDIO(void);
- 
- /******************************************************************************
--*                           TXPWR_LMT.TXT
--******************************************************************************/
-+ *                           TXPWR_LMT.TXT
-+ ******************************************************************************/
- 
- void
- ODM_ReadAndConfig_MP_8723B_TXPWR_LMT(/*  TC: Test Chip, MP: MP Chip */
+ 	if (pBtLinkInfo->bScoExist)
+ 		numOfDiffProfile++;
 -- 
 2.34.1
 
