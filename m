@@ -1,131 +1,170 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA46C3451AA
-	for <linux-staging@lists.linux.dev>; Thu,  7 May 2026 20:58:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778187504; cv=none; b=J6mMdA8KsYloq1evFF9CVSWSejmGHBSmg9+3N9udNDHQ+zIloztsrY/vDPos8p9AB+P25Il3L4BXw5G9WOnBfQwcnTayFvgG6u60pYqd5egApOmkTMjK7tzLNNjw1WsR+YEtj7pPyBFZuWRa1iLdwP684PE96qtXYUA6N5mS32I=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778187504; c=relaxed/simple;
-	bh=d+O67gl2GIGylI6phsIj9TBlpbKokc/OVLyxskjLlYY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=kTTCTi3RHbZQF7BH9jyREXa7a9s3HgdBp/1kTUPUw5cupqRMTzbTMEUS36f8ucbZpZsrwMcLwEKuE56iZFpP4FMwFMvphhNupxBmbYe5tqVerO8evpaMSxvkS62o9mNvHnPoXuSYPb9s7IbUg7W4ghcJ1Yk7Sc1tijpROQfZ3ro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=EBRZdmqj; arc=none smtp.client-ip=209.85.208.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A262DB780
+	for <linux-staging@lists.linux.dev>; Thu,  7 May 2026 21:05:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778187914; cv=pass; b=iK6EVCwyAT+6BLKXRaloPJrVS+qxYgamhz90st8e9qrl182Dma1zUjO6EVzdPcBfIwEEXjcpJ9kvzgs+HYaqwRpVpmPzovY60nn5DVI2rJGHXZklLjo9dU+7ImIr1t/QwMjikClyD4LPDddVlhzzeYRascRu90IG9qR5Aob03go=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778187914; c=relaxed/simple;
+	bh=jE+/jUqv7pNoCfzauPI8lFa2VQ2OKNCvpXHgcRT4LRE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=q2q4ZMzrmxDhHwni0S6czd7nhMBDOCv5vnBi0alEQEu7E4qYYEHRd4etbP7PqKoUkAiOAjRFhYAaqy9uKOf7yGAStIN+EbRLqivG1dpEay8yU795QQERfwDbMuKNDhByaDdVhd7H2qGC6qzN5eiAIQGK4tT/hF+omE5H4s1Cozo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CjpuMQkH; arc=pass smtp.client-ip=209.85.160.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="EBRZdmqj"
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-38ea6a5a0b3so10686181fa.3
-        for <linux-staging@lists.linux.dev>; Thu, 07 May 2026 13:58:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CjpuMQkH"
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-42c0b0ffac1so768304fac.2
+        for <linux-staging@lists.linux.dev>; Thu, 07 May 2026 14:05:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778187912; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ftEOsCcMC4XmuXdUiqJkBG1TQJXTEkNh4JZJni3vGUFFnoWcYOZV05ZP8uMrfdyyJY
+         Goh5P70GLBOUsxX2L/3ndL4gI7irt+fuckVfmxp7YiVeogEdFmp0CHXeGXz3n0H+Cw5E
+         4aAboSJ9E6hgywKeNpWBTS7GNW9xZ/M5fEge5Z4ffUBtBSwXX7Cx8y7nGBJf741G/ZqJ
+         X3M1xo/2GjVv/VMxL0yotapAFmjCLx+58eWm3cji2DmhDSm/1dO8aAnrK2qX9sReSNZ0
+         nJi52++f/FbZdZ8EzhDB7nbZc/8fepa2GMrf91d6VUaNPde9uNbWnWQqj+WeLSTKx793
+         YVBg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=uM69f/OhaRvPDM2WKfYEa4uqX5GcZJHERLXCxzT36H0=;
+        fh=oGNB4AYpNq1r6kO95sN5UnppxUikkcbv9mfzz85cWNI=;
+        b=N0ikN1bv9tD8B467V2mZ0CSrNMSlWTODDcAcwFGu/9PPCLbufna4c74nM7MrGIxqRa
+         UdEjP+KwKAt7jddUZednGeVruQNqcId+T13pvGUCdJeN6Po5ylZCHPwBk/ROvfXf+37/
+         w7xf9qM+R5GleYteYUrmSDcOoTTd7fM9WuhJH36Px0icQZ/ccCloaG+MWwpyHBkE6md9
+         TMRcdyt128A2LEKBeeSfcy1Bje5fuYm5KqHL/+Gs/01sR+BFTyaMVELgs0u4PgC4Ov5m
+         e4qsT+mcobZCbRE6uSFGLVliehDZEyAq8+ZuVb6Rx4blSRcgh0lqHjwFHegsSZjHeRMQ
+         7bog==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1778187501; x=1778792301; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=62sCEoVz1H20Bvb3z6VX8x/23MkbndGwBQZwPeDoJW4=;
-        b=EBRZdmqjVGUOpuRIUo4nGOyDkSnEZutev/jeKPjkboQ+hAr2HxYdYtVtBGICRsQARb
-         dK3btDj5Mh41FIGvRPl7fJOUWBmbirbLPji97x+jihrVhuzp7XUKRK1a9Zwh5kRDtP32
-         Q1LEy74tLh2e1QNFeUseT4mYFEJdhS2wK9VJM=
+        d=gmail.com; s=20251104; t=1778187912; x=1778792712; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uM69f/OhaRvPDM2WKfYEa4uqX5GcZJHERLXCxzT36H0=;
+        b=CjpuMQkHm562bV22jxLh2T7U0h/vmk2I+ViEYat1NyhNSorQr5xfQTp3Xw3VX/dbKW
+         k83EwoUeOIh5XSGd3SksP3eun9i69xG2yQphbhd2dnjzfNs7K2SaUpFLTySg7nNsiakQ
+         /aj4U//ypCjdbM3h1PNu3Drgc7QhYt3x5MTw2Frv8Y7mHob8fhp51gsNoDjNZR9bx+RT
+         jQeV3Jvt4kms9TZTeanCCBD81iX2kPr6fAAtgMwdAkTg2JMEoAMisGbEE+V/0sD58h/P
+         OpwiiSZLYwzAyJdXKU3233w7RcuS7ML/l/TXBggBESJb8sLlC6gfSzTSTuY1CsVjNX7m
+         UX1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778187501; x=1778792301;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=62sCEoVz1H20Bvb3z6VX8x/23MkbndGwBQZwPeDoJW4=;
-        b=omVG1Karht/0pAFr+ss7qZ/3LjFYOEXglNCb3eQCNxW8/5DKIBc6L2j5k/CSBBdP4/
-         1XjDo8xGyY9X/QGov1c1pgd+V8+uEfRxJL3MvzPgkflk3mbtGzc+iHgaZNr6bCdhgoIQ
-         hBD/MS2cqxegUzxxQbjhQAS40mQqU+gXM/B4XYWdcPEGHylQaNtSuGp7IaJ2YgOgongU
-         D7TLytWcUIxaY7cHUHcojOcjcoqjrWACGJxIOUdbsxFSYR7BlWqd+VCnYtxkcfe17JLY
-         STOwh/OtD4p7ngoqD27FUq8jdMcaWk1xq3RThg/3La0Td3qauJ+5io8Bp4KXVxPO+UnX
-         qKTQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9tuaKLe3xQGtJIGsZLCzj0+MSw+iUOe/BI3QPoNL/WiX8zR0q2dRAltGIWXpbb4FTihQ3LJiXug1LNkbPA@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy1R/q/U0a8mZoxx0lJLfYdPR8U7bckpIR5z+zVm+8WyGRuRyvR
-	kI9MYN3FEaZNtgkqhkIAiumINwZN3oSN6/1I3WdSx0wAh2fD3YvPs6L4UmecssBK8g==
-X-Gm-Gg: AeBDieuteEAmalGrNUY9L8c4neiavws5DHi27jdUulJVWiDudZNh6+ZeLHb/g9qhIjd
-	nlvD+Pg+Sxb9sLD8sUPNjvXDcuewRC2R+hxso90fF42DFpe/EPqUIxoevc5z3LSyH9DlIZ766Zi
-	QRjKsB0BSWUYcJXtkWO6xW06M1xvUGOoTZ5iwG0Q1hAheZKJqtItWyfPR2BdA6ghlPeoMvm9foY
-	m4dPUcZodsYoubXEAf8e5uF7Ro4ngWMLRTv8rpIL4SBf5zLQ3IrqrlGB31Nws6H9lBs7ZLpgF5l
-	dDXB1b21Ef63015Jvt0TtdY+L0hd0aQK2geGPzybXQ4Irt81KsSgg1VIYQVlbVumaOZ7JKgRTjI
-	fve14DKx3nhLa+i/fgaiUJ5SZ3oRwKcvVl0Q8EBKmaofam4ujG5p8XVtwvnuvFaNNWPiOO0NsJz
-	+rg/MUuhnhPhruxXURPpIWl+S/clud25wx7ivEc4BgIw0iy9/EGulARYCXdJfDb16JEdscFXy7o
-	fjtVK4=
-X-Received: by 2002:a2e:9783:0:b0:393:903c:225b with SMTP id 38308e7fff4ca-393c4338719mr27191651fa.31.1778187501297;
-        Thu, 07 May 2026 13:58:21 -0700 (PDT)
-Received: from ribalda.c.googlers.com (52.163.228.35.bc.googleusercontent.com. [35.228.163.52])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-393eee53655sm2325571fa.0.2026.05.07.13.58.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 May 2026 13:58:19 -0700 (PDT)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Thu, 07 May 2026 20:58:11 +0000
-Subject: [PATCH v4 6/6] media: amlogic-c3: Add validations for ae and awb
- config
+        d=1e100.net; s=20251104; t=1778187912; x=1778792712;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=uM69f/OhaRvPDM2WKfYEa4uqX5GcZJHERLXCxzT36H0=;
+        b=QbRSPlNNMfkrvwruchr2AVGHKEbdsGQNzrFFH4vpl8QX8WZs9KI3/ve0vcX4HpBD5K
+         93uqtiH3xSKQKFW2fwgWF/qrN4AhaZBj6O4Q6UImnIByHXuIs0R8iieg2Zpz4TwDh7se
+         eMGYVsuGA1T8wIXjvXn1Z1oi2KEIVT2/3bO3snTW321wnvqfKbx8K4b3F3JlTdtbqduJ
+         tAmKcNsvKbauqqhcJpiydX5D/kpdSRpPRSwqZtH3hDKb+hPg/jsjs7xhYncxw9JMoyME
+         7UUMnRVR2RGrTUe0Mnr65LrtsHui2Rv7VoNPPwOkU5v9vdVXNQbocy9rfigCWzkBkE3W
+         c4iA==
+X-Forwarded-Encrypted: i=1; AFNElJ8qjazFbME1XXkafgz1WozNahCy6tYTRny+NJzs6wrJJcxzEYAHrgXUbAMyZ/6gp4FCwGN7zlGh8FzvVJBI@lists.linux.dev
+X-Gm-Message-State: AOJu0YzMyrJw6RTh/26/TYNHw1Lhku1Mx2VWHZc3/9FKksXakUc18pcx
+	lEGylwFTxdMMY+dvwB8nWy2PzLF3JEfylcrpzTFGDkFlmMnGZ41OckHxHs8pV/CxN8Z0HgNKLYH
+	8t1682K4bPAtrIrZ+xXf2L9CXM05yDaI=
+X-Gm-Gg: AeBDieu4ME1TDfl7c52Qt3GqWF6e7HtXm78imBIixlg4qWykQelmJ2RK8zXMp/5Ghi+
+	R98Iaa1KnghDp4LrNPl0DSiSVeyVpIZ2a0bLtuQS5c5UbSwXRjUtQUFUPzHaPtMSIlbvZBSyKLV
+	buP/xQj3Gj4/QWE1WYIWanFOVP1jZUPjoyeDzlZNPHa7O0XrjOBBdPmJTo7pzJwyMvJkj4r4exo
+	rUre0eTm4ZW91eXN6X3pa3P3CdWVddyE5GgHXQrTuCqGrFRk3iCPCPoMlBIhj4fGpX8htbVmt5t
+	50pz3V3mrFZtkxA0QJbdcxVsGCLry0jDtepQjQ==
+X-Received: by 2002:a05:6870:9120:b0:40a:605b:518a with SMTP id
+ 586e51a60fabf-434f64f0e2bmr6401085fac.27.1778187911702; Thu, 07 May 2026
+ 14:05:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260507-smatch-7-1-v4-6-cc195f142167@chromium.org>
-References: <20260507-smatch-7-1-v4-0-cc195f142167@chromium.org>
-In-Reply-To: <20260507-smatch-7-1-v4-0-cc195f142167@chromium.org>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Hans Verkuil <hverkuil@kernel.org>, Nas Chung <nas.chung@chipsnmedia.com>, 
- Jackson Lee <jackson.lee@chipsnmedia.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Keke Li <keke.li@amlogic.com>, Yong Zhi <yong.zhi@intel.com>, 
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-staging@lists.linux.dev, 
- Mauro Carvalho Chehab <mchehab+samsung@kernel.org>, 
- Ricardo Ribalda <ribalda@chromium.org>, stable@vger.kernel.org
-X-Mailer: b4 0.14.3
+References: <20260507022213.29290-1-dennylin0707@gmail.com>
+ <20260507022213.29290-2-dennylin0707@gmail.com> <CAGEkeHc2MiJenQnyHa8wwYxpZfaBwZpy3=iXJCjAjvXrs9UsiQ@mail.gmail.com>
+In-Reply-To: <CAGEkeHc2MiJenQnyHa8wwYxpZfaBwZpy3=iXJCjAjvXrs9UsiQ@mail.gmail.com>
+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Date: Thu, 7 May 2026 23:04:51 +0200
+X-Gm-Features: AVHnY4Jo1IyTHyb9HmNlTOZ-S9HjOMOViUseCpdHPNPhWjhasIYCpZvP3cqqYK8
+Message-ID: <CAPybu_1RvjRQ5ySkJum3AzTX9-bxmNmkcMMK7Q-Q14tZPSQHnQ@mail.gmail.com>
+Subject: Re: [PATCH v3 1/1] media: tegra-video: vi: fix invalid u32 return
+ value in format lookup
+To: Denny Lin <dennylin0707@gmail.com>
+Cc: mchehab@kernel.org, gregkh@linuxfoundation.org, luca.ceresoli@bootlin.com, 
+	thierry.reding@kernel.org, jonathanh@nvidia.com, skomatineni@nvidia.com, 
+	digetx@gmail.com, hverkuil+cisco@kernel.org, dan.carpenter@linaro.org, 
+	linux-media@vger.kernel.org, linux-tegra@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Avoid invalid memory access if the zones_num is bigger than
-zone_weight.
+Hi Denny
 
-This patch fixes the following smatch errors:
-drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:111 c3_isp_params_awb_wt() error: buffer overflow 'cfg->zone_weight' 768 <= u32max
-drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:111 c3_isp_params_awb_wt() error: buffer overflow 'cfg->zone_weight' 768 <= u32max
-drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:227 c3_isp_params_ae_wt() error: buffer overflow 'cfg->zone_weight' 255 <= u32max
-drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:227 c3_isp_params_ae_wt() error: buffer overflow 'cfg->zone_weight' 255 <= u32max
+On Thu, May 7, 2026 at 6:06=E2=80=AFAM Denny Lin <dennylin0707@gmail.com> w=
+rote:
+>
+> Hi,
+>
+> The media CI reports a missing Signed-off-by from Ricardo Ribalda,
+> but this patch was submitted directly by me and has not been handled
+> by any committer yet.
+>
+> I believe this is a false positive.
 
-Cc: stable@vger.kernel.org
-Fixes: fb2e135208f3 ("media: platform: Add C3 ISP driver")
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/media/platform/amlogic/c3/isp/c3-isp-params.c | 4 ++++
- 1 file changed, 4 insertions(+)
+It is indeed a false positive. Sorry about that
 
-diff --git a/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c b/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
-index 6f9ca7a7dd88..aec3eed0e443 100644
---- a/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
-+++ b/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
-@@ -104,6 +104,8 @@ static void c3_isp_params_awb_wt(struct c3_isp_device *isp,
- 	c3_isp_write(isp, ISP_AWB_BLK_WT_ADDR, 0);
- 
- 	zones_num = cfg->horiz_zones_num * cfg->vert_zones_num;
-+	if (zones_num > C3_ISP_AWB_MAX_ZONES)
-+		zones_num = C3_ISP_AWB_MAX_ZONES;
- 
- 	/* Need to write 8 weights at once */
- 	for (i = 0; i < zones_num / 8; i++) {
-@@ -220,6 +222,8 @@ static void c3_isp_params_ae_wt(struct c3_isp_device *isp,
- 	c3_isp_write(isp, ISP_AE_BLK_WT_ADDR, 0);
- 
- 	zones_num = cfg->horiz_zones_num * cfg->vert_zones_num;
-+	if (zones_num > C3_ISP_AE_MAX_ZONES)
-+		zones_num = C3_ISP_AE_MAX_ZONES;
- 
- 	/* Need to write 8 weights at once */
- 	for (i = 0; i < zones_num / 8; i++) {
+Regards!
+>
+> Could you please confirm?
+>
+> Thanks,
+> Hungyu
+>
+> On Wed, May 6, 2026 at 7:22=E2=80=AFPM Hungyu Lin <dennylin0707@gmail.com=
+> wrote:
+> >
+> > tegra_get_format_fourcc_by_idx() returns a u32 but uses -EINVAL to
+> > signal an out-of-bounds index. This results in a large unsigned
+> > value being returned, which may be interpreted as a valid fourcc.
+> >
+> > Returning 0 is not a valid fourcc either. This condition should
+> > never happen, so use WARN_ON_ONCE() to catch unexpected out-of-bounds
+> > access and return a valid fallback format instead.
+> >
+> > Suggested-by: Hans Verkuil <hverkuil+cisco@kernel.org>
+> > Fixes: 3d8a97eabef0 ("media: tegra-video: Add Tegra210 Video input driv=
+er")
+> > Cc: stable@vger.kernel.org
+> > Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> > Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+> > ---
+> >  drivers/staging/media/tegra-video/vi.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/m=
+edia/tegra-video/vi.c
+> > index f14cdc7b5211..456134a9e8cf 100644
+> > --- a/drivers/staging/media/tegra-video/vi.c
+> > +++ b/drivers/staging/media/tegra-video/vi.c
+> > @@ -80,8 +80,8 @@ static int tegra_get_format_idx_by_code(struct tegra_=
+vi *vi,
+> >  static u32 tegra_get_format_fourcc_by_idx(struct tegra_vi *vi,
+> >                                           unsigned int index)
+> >  {
+> > -       if (index >=3D vi->soc->nformats)
+> > -               return -EINVAL;
+> > +       if (WARN_ON_ONCE(index >=3D vi->soc->nformats))
+> > +               return vi->soc->video_formats[0].fourcc;
+> >
+> >         return vi->soc->video_formats[index].fourcc;
+> >  }
+> > --
+> > 2.34.1
+> >
+>
 
--- 
-2.54.0.563.g4f69b47b94-goog
 
+--=20
+Ricardo Ribalda
