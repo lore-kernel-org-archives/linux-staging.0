@@ -1,470 +1,75 @@
-Received: from mail-24430.protonmail.ch (mail-24430.protonmail.ch [109.224.244.30])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44558282F08
-	for <linux-staging@lists.linux.dev>; Fri,  8 May 2026 02:49:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46FC8336896;
+	Fri,  8 May 2026 05:00:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778208553; cv=none; b=Fp0MUxDzvYs7a+wlNpnhpXj2H7QoAWBrw+aKIJ+VjGvXH7xA+imayC+i9Lh2/4jWp0GzA99fbhFvBwdZoccDowIWsI74t3T4Mbx//Osgg0OcI8Gb22xAoYqt5sFq6Kf0xo49gkXm2a+aJjJbEoo2Ar8Occ+Nhb7P3/pkOBq9I5U=
+	t=1778216414; cv=none; b=NqRF35d4SbPYXC/r9mwhJ55qvgjl83WkpXS7lxaWSHWlr0foK1GKryz+rgKzMgbL6Jjd3/CGNnkQ5IMBkNMGu6aG6goAjd5pDeLjO1hLeufvVZVU76+EaCbvyn5ex6H79YoHNO6RYNK5rN7FRIyKBGOBBDSJR+mgNcHVO3+Rxvc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778208553; c=relaxed/simple;
-	bh=2uESVaWZnBsDEFSs07jK7aMGF6C38IZy1FGMsqBFAY8=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PjF5U0zQ5X9F+Hv0xipINViBB8NyXAq/4iuyOumU5Oj2TXFuITEymXjqBaaWXPtCQJE0dZ5VcRc7BhUcrK870ITzNtnlinTFo34ld44Du/Ma155uV9pS5OBdyeogA9ngBNneqd81XbBSaZ95GJkQ/G7BYpK3Iva4UnlOLlZ66qk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=DopNV1IY; arc=none smtp.client-ip=109.224.244.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+	s=arc-20240116; t=1778216414; c=relaxed/simple;
+	bh=ZhM/xLOMtdFvz9oROaLThjf426l02NlqEWHWB1iIG8s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AIYqXlFMLy9JT9FSxZcYI5QI9JFdxuD+U0eRUJv3mTEpYe3G082mLtF39mKBWQ+OH32cR5h1bsgpJnHlylBAGoRn6NaL3FUpbn+KbAHqBN2t1EsY9b73f6fxLyBUWvquCssBlKE2YJfJOAQkOD6iviDEvofIXUI8lRIBxe8vRiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ce237xU7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="DopNV1IY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1778208540; x=1778467740;
-	bh=7a+K9frEvEJL25oumxEfPimoMQ6dvao5bQM+UHxWvnI=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=DopNV1IY3sfRDxs3L+U0LwYnZ9OQWA7Lsx0/QxtdkZ2OXj1I4iauThXI5JRLs9cVp
-	 7suKsi1XxjvUscajMl+D1Y1Cl6eO8oZohMXJVgRw87+5cDK6VtGy+IjFPEddQ0YWt0
-	 lG+LLO2yNui7vkEPG4kDnUh1qPDB21NT/KtM4H1hoZOxJFpEdf/mlfsaePag9YVX6/
-	 cXOE7KxwGMSHQ3d6nqUCwXf44CMrKHvAXugzipJMw731fkeTrPwiwTbBdvSd0RdgL7
-	 UJiidCpPsNpasf/i4iohx39C6JU+mloZ8x0TDD5+rXm5HnbkShQ3lYQl8Xg1N8DRUE
-	 V27JRU6mq3jkw==
-Date: Fri, 08 May 2026 02:48:55 +0000
-To: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-From: David Cardenas <ldcc@proton.me>
-Cc: "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2] staging: rtl8723bs: fix open parenthesis at end of line
-Message-ID: <IzXMpb3HpYTWCGRxzFNRhYk599YySxA0stKf5vVJlvJkgGRLvbhpYNjfCf5XYgqOqA0yyApLi82SPBGg1dKA3wEd6-B_fgd5X_2Vdb5NfM0=@proton.me>
-In-Reply-To: <1XxaPkNOP-p-F8PW1lsqdkdN9K2o6TS3kphmVpxm6gXIMn9Ygk7UPsiOosb9eybCDX_1lCU4PwdUKlPmFdTuAhAAg_aS65tADEe2YeAisek=@proton.me>
-References: <OorLKjBEmwLMB-OuQC_MerB0GkYg2fsHmJcvxPmc8EFrk7VuBlisVIa90K86InsIr2MjgjoSceOv_PUY0OfsepmQ42JdZIoSvK0pMggDfYI=@proton.me> <2026050635-gravitate-sprinkled-575f@gregkh> <1XxaPkNOP-p-F8PW1lsqdkdN9K2o6TS3kphmVpxm6gXIMn9Ygk7UPsiOosb9eybCDX_1lCU4PwdUKlPmFdTuAhAAg_aS65tADEe2YeAisek=@proton.me>
-Feedback-ID: 66630834:user:proton
-X-Pm-Message-ID: 911d137fe523f475e4777f7805be3eeadff9e8e4
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ce237xU7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75F0FC2BCB0;
+	Fri,  8 May 2026 05:00:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1778216413;
+	bh=ZhM/xLOMtdFvz9oROaLThjf426l02NlqEWHWB1iIG8s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ce237xU7StpzSMGiAKoVNHPQPMNPS7Jd2MMCMhEUPf2BZyGTDuVl+U4whhI9kKQza
+	 ryGLutsjRqcBKEwZMph+FkAidHMzgTswQvU+XyZpwd63QKQYmTJOGsUm9wOW/SQQWZ
+	 XI1sAcwLlJbYaZ6vNgdguKnKEFnGPXouwi3EM55M=
+Date: Fri, 8 May 2026 07:00:11 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Salman Alghamdi <me@cipherat.com>
+Cc: luka.gejak@linux.dev, straube.linux@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v6 1/8] staging: rtl8723bs: fix buffer over-read in
+ rtw_update_protection
+Message-ID: <2026050839-remover-barrack-8511@gregkh>
+References: <20260428164513.763471-1-me@cipherat.com>
+ <20260428164513.763471-2-me@cipherat.com>
+ <2026050434-construct-starter-5468@gregkh>
+ <eb3759ee-ecfb-f707-4105-6029d236ce3a@cipherat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <eb3759ee-ecfb-f707-4105-6029d236ce3a@cipherat.com>
 
-v2: add missing period to commit message, clarify blank line fix
+On Fri, May 08, 2026 at 12:56:09AM +0300, Salman Alghamdi wrote:
+> On May 04, 2026 12:35 +03, Greg KH <gregkh@linuxfoundation.org> wrote:
+> > >  drivers/staging/rtl8723bs/core/rtw_mlme.c | 10 ++++++++--
+> > >  1 file changed, 8 insertions(+), 2 deletions(-)
+> > 
+> > You should not mix patches for the current release (i.e. this one), with
+> > patches for the next release (i.e. the rest of the patches in this
+> > series), as that means I can't take the full series for either :(
+> > 
+> > Please break this up into two different sets of patches and resend them
+> > that way.
+> 
+> Hi Greg,
+> Thank you for the review.
+> 
+> Two questions before I resend:
+> 1. How do I tell which release a patch targets? Is it purely based on whether it's a bug fix (current release) vs. a new change (next release), or is there a more specific rule I should follow?
 
-Function declarations and conditional statements should not end
-with an opening parenthesis. Reformat affected functions and
-if statements to place the opening condition or first parameter
-on the same line as the function name or keyword. Add a missing
-blank like after array declaration.
+That is exactly what it is based on.
 
-Signed-off-by: David Cardenas <ldcc@proton.me>
----
- .../staging/rtl8723bs/hal/HalPhyRf_8723B.c    | 179 +++++++-----------
- 1 file changed, 64 insertions(+), 115 deletions(-)
+> 2. For versioning the split series, should the bug fix patch restart at v1, and the rest of the series continue at v7? Or should I keep them sequential (bug fix as v7, next-release patches as v8)?
 
-diff --git a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c b/drivers/stagi=
-ng/rtl8723bs/hal/HalPhyRf_8723B.c
-index 6ab65e9e8..59b8f7e99 100644
---- a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
-+++ b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
-@@ -30,6 +30,7 @@ static u8 DeltaSwingTableIdx_2GA_N_8188E[] =3D {
-        0, 0, 0, 2, 2, 3, 3, 4,  4,  4,  4,  5,  5,  6,  6,
-        7, 7, 7, 7, 8, 8, 9, 9, 10, 10, 10, 11, 11, 11, 11
- };
-+
- static u8 DeltaSwingTableIdx_2GA_P_8188E[] =3D {
-        0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 4, 4, 4,
-        4, 4, 4, 5, 5, 7, 7, 8, 8, 8, 9, 9, 9, 9, 9
-@@ -39,14 +40,11 @@ static u8 DeltaSwingTableIdx_2GA_P_8188E[] =3D {
- /* 3 Tx Power Tracking */
- /* 3 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D */
+two separate series, so yes, split it that way should be fine.
 
--
--static void setIqkMatrix_8723B(
--       struct dm_odm_t *pDM_Odm,
--       u8 OFDM_index,
--       u8 RFPath,
--       s32 IqkResult_X,
--       s32 IqkResult_Y
--)
-+static void setIqkMatrix_8723B(struct dm_odm_t *pDM_Odm,
-+                               u8 OFDM_index,
-+                               u8 RFPath,
-+                               s32 IqkResult_X,
-+                               s32 IqkResult_Y)
- {
-        s32 ele_A =3D 0, ele_D, ele_C =3D 0, value32;
+thanks,
 
-@@ -149,12 +147,10 @@ static void setCCKFilterCoefficient(struct dm_odm_t *=
-pDM_Odm, u8 CCKSwingIndex)
-  *04/23/2012   MHC     Create Version 0.
-  *
-  *------------------------------------------------------------------------=
----*/
--void ODM_TxPwrTrackSetPwr_8723B(
--       struct dm_odm_t *pDM_Odm,
--       enum pwrtrack_method Method,
--       u8 RFPath,
--       u8 ChannelMappedIndex
--)
-+void ODM_TxPwrTrackSetPwr_8723B(struct dm_odm_t *pDM_Odm,
-+                                enum pwrtrack_method Method,
-+                                u8 RFPath,
-+                                u8 ChannelMappedIndex)
- {
-        struct adapter *Adapter =3D pDM_Odm->Adapter;
-        struct hal_com_data *pHalData =3D GET_HAL_DATA(Adapter);
-@@ -287,13 +283,11 @@ void ODM_TxPwrTrackSetPwr_8723B(
-                return; /*  This method is not supported. */
- }
-
--static void GetDeltaSwingTable_8723B(
--       struct dm_odm_t *pDM_Odm,
--       u8 **TemperatureUP_A,
--       u8 **TemperatureDOWN_A,
--       u8 **TemperatureUP_B,
--       u8 **TemperatureDOWN_B
--)
-+static void GetDeltaSwingTable_8723B(struct dm_odm_t *pDM_Odm,
-+                                     u8 **TemperatureUP_A,
-+                                     u8 **TemperatureDOWN_A,
-+                                     u8 **TemperatureUP_B,
-+                                     u8 **TemperatureDOWN_B)
- {
-        struct adapter *Adapter =3D pDM_Odm->Adapter;
-        struct odm_rf_cal_t *pRFCalibrateInfo =3D &pDM_Odm->RFCalibrateInfo=
-;
-@@ -340,9 +334,7 @@ void ConfigureTxpowerTrack_8723B(struct txpwrtrack_cfg =
-*pConfig)
- #define MAX_TOLERANCE          5
-
- /* bit0 =3D 1 =3D> Tx OK, bit1 =3D 1 =3D> Rx OK */
--static u8 phy_PathA_IQK_8723B(
--       struct adapter *padapter, bool configPathB, u8 RF_Path
--)
-+static u8 phy_PathA_IQK_8723B(struct adapter *padapter, bool configPathB, =
-u8 RF_Path)
- {
-        u32 regEAC, regE94, regE9C, tmp, Path_SEL_BB /*, regEA4*/;
-        u8 result =3D 0x00;
-@@ -425,14 +417,12 @@ static u8 phy_PathA_IQK_8723B(
-        if ((tmp & 0x200) > 0)
-                tmp =3D 0x400 - tmp;
-
--       if (
--               !(regEAC & BIT28) &&
-+       if (!(regEAC & BIT28) &&
-                (((regE94 & 0x03FF0000)>>16) !=3D 0x142) &&
-                (((regE9C & 0x03FF0000)>>16) !=3D 0x42) &&
-                (((regE94 & 0x03FF0000)>>16) < 0x110) &&
-                (((regE94 & 0x03FF0000)>>16) > 0xf0) &&
--               (tmp < 0xf)
--       )
-+               (tmp < 0xf))
-                result |=3D 0x01;
-        else                                    /* if Tx not OK, ignore Rx =
-*/
-                return result;
-@@ -441,9 +431,7 @@ static u8 phy_PathA_IQK_8723B(
- }
-
- /* bit0 =3D 1 =3D> Tx OK, bit1 =3D 1 =3D> Rx OK */
--static u8 phy_PathA_RxIQK8723B(
--       struct adapter *padapter, bool configPathB, u8 RF_Path
--)
-+static u8 phy_PathA_RxIQK8723B(struct adapter *padapter, bool configPathB,=
- u8 RF_Path)
- {
-        u32 regEAC, regE94, regE9C, regEA4, u4tmp, tmp, Path_SEL_BB;
-        u8 result =3D 0x00;
-@@ -524,14 +512,12 @@ static u8 phy_PathA_RxIQK8723B(
-        if ((tmp & 0x200) > 0)
-                tmp =3D 0x400 - tmp;
-
--       if (
--               !(regEAC & BIT28) &&
-+       if (!(regEAC & BIT28) &&
-                (((regE94 & 0x03FF0000)>>16) !=3D 0x142) &&
-                (((regE9C & 0x03FF0000)>>16) !=3D 0x42) &&
-                (((regE94 & 0x03FF0000)>>16) < 0x110) &&
-                (((regE94 & 0x03FF0000)>>16) > 0xf0) &&
--               (tmp < 0xf)
--       )
-+               (tmp < 0xf))
-                result |=3D 0x01;
-        else                            /* if Tx not OK, ignore Rx */
-                return result;
-@@ -615,14 +601,12 @@ static u8 phy_PathA_RxIQK8723B(
-        if ((tmp & 0x200) > 0)
-                tmp =3D 0x400 - tmp;
-
--       if (
--               !(regEAC & BIT27) && /* if Tx is OK, check whether Rx is OK=
- */
-+       if (!(regEAC & BIT27) && /* if Tx is OK, check whether Rx is OK */
-                (((regEA4 & 0x03FF0000)>>16) !=3D 0x132) &&
-                (((regEAC & 0x03FF0000)>>16) !=3D 0x36) &&
-                (((regEA4 & 0x03FF0000)>>16) < 0x110) &&
-                (((regEA4 & 0x03FF0000)>>16) > 0xf0) &&
--               (tmp < 0xf)
--       )
-+               (tmp < 0xf))
-                result |=3D 0x02;
-
-        return result;
-@@ -708,14 +692,12 @@ static u8 phy_PathB_IQK_8723B(struct adapter *padapte=
-r)
-        if ((tmp & 0x200) > 0)
-                tmp =3D 0x400 - tmp;
-
--       if (
--               !(regEAC & BIT28) &&
-+       if (!(regEAC & BIT28) &&
-                (((regE94 & 0x03FF0000)>>16) !=3D 0x142) &&
-                (((regE9C & 0x03FF0000)>>16) !=3D 0x42) &&
-                (((regE94 & 0x03FF0000)>>16) < 0x110) &&
-                (((regE94 & 0x03FF0000)>>16) > 0xf0) &&
--               (tmp < 0xf)
--       )
-+               (tmp < 0xf))
-                result |=3D 0x01;
-
-        return result;
-@@ -803,14 +785,12 @@ static u8 phy_PathB_RxIQK8723B(struct adapter *padapt=
-er, bool configPathB)
-        if ((tmp & 0x200) > 0)
-                tmp =3D 0x400 - tmp;
-
--       if (
--               !(regEAC & BIT28) &&
-+       if (!(regEAC & BIT28) &&
-                (((regE94 & 0x03FF0000)>>16) !=3D 0x142) &&
-                (((regE9C & 0x03FF0000)>>16) !=3D 0x42)  &&
-                (((regE94 & 0x03FF0000)>>16) < 0x110) &&
-                (((regE94 & 0x03FF0000)>>16) > 0xf0) &&
--               (tmp < 0xf)
--       )
-+               (tmp < 0xf))
-                        result |=3D 0x01;
-        else    /* if Tx not OK, ignore Rx */
-                return result;
-@@ -895,26 +875,22 @@ static u8 phy_PathB_RxIQK8723B(struct adapter *padapt=
-er, bool configPathB)
-        if ((tmp & 0x200) > 0)
-                tmp =3D 0x400 - tmp;
-
--       if (
--               !(regEAC & BIT27) && /* if Tx is OK, check whether Rx is OK=
- */
-+       if (!(regEAC & BIT27) && /* if Tx is OK, check whether Rx is OK */
-                (((regEA4 & 0x03FF0000)>>16) !=3D 0x132) &&
-                (((regEAC & 0x03FF0000)>>16) !=3D 0x36) &&
-                (((regEA4 & 0x03FF0000)>>16) < 0x110) &&
-                (((regEA4 & 0x03FF0000)>>16) > 0xf0) &&
--               (tmp < 0xf)
--       )
-+               (tmp < 0xf))
-                result |=3D 0x02;
-
-        return result;
- }
-
--static void _PHY_PathAFillIQKMatrix8723B(
--       struct adapter *padapter,
--       bool bIQKOK,
--       s32 result[][8],
--       u8 final_candidate,
--       bool bTxOnly
--)
-+static void _PHY_PathAFillIQKMatrix8723B(struct adapter *padapter,
-+                                         bool bIQKOK,
-+                                         s32 result[][8],
-+                                         u8 final_candidate,
-+                                         bool bTxOnly)
- {
-        u32 Oldval_0, X, TX0_A, reg;
-        s32 Y, TX0_C;
-@@ -982,13 +958,11 @@ static void _PHY_PathAFillIQKMatrix8723B(
-        }
- }
-
--static void _PHY_PathBFillIQKMatrix8723B(
--       struct adapter *padapter,
--       bool bIQKOK,
--       s32 result[][8],
--       u8 final_candidate,
--       bool bTxOnly /* do Tx only */
--)
-+static void _PHY_PathBFillIQKMatrix8723B(struct adapter *padapter,
-+                                         bool bIQKOK,
-+                                         s32 result[][8],
-+                                         u8 final_candidate,
-+                                         bool bTxOnly /* do Tx only */)
- {
-        u32 Oldval_1, X, TX1_A, reg;
-        s32     Y, TX1_C;
-@@ -1068,12 +1042,10 @@ void ODM_SetIQCbyRFpath(struct dm_odm_t *pDM_Odm, u=
-32 RFpath)
-        struct odm_rf_cal_t *pRFCalibrateInfo =3D &pDM_Odm->RFCalibrateInfo=
-;
-        u8 path;
-
--       if (
--               (pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC80][VAL] !=
-=3D 0x0) &&
-+       if ((pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC80][VAL] !=3D 0x=
-0) &&
-                (pRFCalibrateInfo->RxIQC_8723B[PATH_S0][IDX_0xC14][VAL] !=
-=3D 0x0) &&
-                (pRFCalibrateInfo->TxIQC_8723B[PATH_S1][IDX_0xC80][VAL] !=
-=3D 0x0) &&
--               (pRFCalibrateInfo->RxIQC_8723B[PATH_S1][IDX_0xC14][VAL] !=
-=3D 0x0)
--       ) {
-+               (pRFCalibrateInfo->RxIQC_8723B[PATH_S1][IDX_0xC14][VAL] !=
-=3D 0x0)) {
-                if (RFpath)
-                        path =3D PATH_S0;
-                else
-@@ -1094,12 +1066,10 @@ static bool ODM_CheckPowerStatus(struct adapter *Ad=
-apter)
-        return true;
- }
-
--static void _PHY_SaveADDARegisters8723B(
--       struct adapter *padapter,
--       u32 *ADDAReg,
--       u32 *ADDABackup,
--       u32 RegisterNum
--)
-+static void _PHY_SaveADDARegisters8723B(struct adapter *padapter,
-+                                        u32 *ADDAReg,
-+                                        u32 *ADDABackup,
-+                                        u32 RegisterNum)
- {
-        u32 i;
-        struct hal_com_data *pHalData =3D GET_HAL_DATA(padapter);
-@@ -1114,9 +1084,7 @@ static void _PHY_SaveADDARegisters8723B(
- }
-
-
--static void _PHY_SaveMACRegisters8723B(
--       struct adapter *padapter, u32 *MACReg, u32 *MACBackup
--)
-+static void _PHY_SaveMACRegisters8723B(struct adapter *padapter, u32 *MACR=
-eg, u32 *MACBackup)
- {
-        u32 i;
-        struct hal_com_data     *pHalData =3D GET_HAL_DATA(padapter);
-@@ -1130,12 +1098,10 @@ static void _PHY_SaveMACRegisters8723B(
- }
-
-
--static void _PHY_ReloadADDARegisters8723B(
--       struct adapter *padapter,
--       u32 *ADDAReg,
--       u32 *ADDABackup,
--       u32 RegiesterNum
--)
-+static void _PHY_ReloadADDARegisters8723B(struct adapter *padapter,
-+                                          u32 *ADDAReg,
-+                                          u32 *ADDABackup,
-+                                          u32 RegiesterNum)
- {
-        u32 i;
-        struct hal_com_data     *pHalData =3D GET_HAL_DATA(padapter);
-@@ -1146,9 +1112,7 @@ static void _PHY_ReloadADDARegisters8723B(
-        }
- }
-
--static void _PHY_ReloadMACRegisters8723B(
--       struct adapter *padapter, u32 *MACReg, u32 *MACBackup
--)
-+static void _PHY_ReloadMACRegisters8723B(struct adapter *padapter, u32 *MA=
-CReg, u32 *MACBackup)
- {
-        u32 i;
-
-@@ -1159,11 +1123,7 @@ static void _PHY_ReloadMACRegisters8723B(
- }
-
-
--static void _PHY_PathADDAOn8723B(
--       struct adapter *padapter,
--       u32 *ADDAReg,
--       bool is2T
--)
-+static void _PHY_PathADDAOn8723B(struct adapter *padapter, u32 *ADDAReg, b=
-ool is2T)
- {
-        u32 pathOn;
-        u32 i;
-@@ -1184,9 +1144,7 @@ static void _PHY_PathADDAOn8723B(
-
- }
-
--static void _PHY_MACSettingCalibration8723B(
--       struct adapter *padapter, u32 *MACReg, u32 *MACBackup
--)
-+static void _PHY_MACSettingCalibration8723B(struct adapter *padapter, u32 =
-*MACReg, u32 *MACBackup)
- {
-        u32 i =3D 0;
-        struct hal_com_data     *pHalData =3D GET_HAL_DATA(padapter);
-@@ -1201,12 +1159,7 @@ static void _PHY_MACSettingCalibration8723B(
-
- }
-
--static bool phy_SimularityCompare_8723B(
--       struct adapter *padapter,
--       s32 result[][8],
--       u8  c1,
--       u8  c2
--)
-+static bool phy_SimularityCompare_8723B(struct adapter *padapter, s32 resu=
-lt[][8], u8  c1, u8  c2)
- {
-        u32 i, j, diff, SimularityBitMap, bound =3D 0;
-        u8 final_candidate[2] =3D {0xFF, 0xFF}; /* for path A and path B */
-@@ -1284,13 +1237,11 @@ static bool phy_SimularityCompare_8723B(
-
-
-
--static void phy_IQCalibrate_8723B(
--       struct adapter *padapter,
--       s32 result[][8],
--       u8 t,
--       bool is2T,
--       u8 RF_Path
--)
-+static void phy_IQCalibrate_8723B(struct adapter *padapter,
-+                                  s32 result[][8],
-+                                  u8 t,
-+                                  bool is2T,
-+                                  u8 RF_Path)
- {
-        struct hal_com_data     *pHalData =3D GET_HAL_DATA(padapter);
-        struct dm_odm_t *pDM_Odm =3D &pHalData->odmpriv;
-@@ -1544,13 +1495,11 @@ static void phy_LCCalibrate_8723B(struct dm_odm_t *=
-pDM_Odm, bool is2T)
-
- /* IQK version:V2.5    20140123 */
- /* IQK is controlled by Is2ant, RF path */
--void PHY_IQCalibrate_8723B(
--       struct adapter *padapter,
--       bool bReCovery,
--       bool bRestore,
--       bool Is2ant,    /* false:1ant, true:2-ant */
--       u8 RF_Path      /* 0:S1, 1:S0 */
--)
-+void PHY_IQCalibrate_8723B(struct adapter *padapter,
-+                           bool bReCovery,
-+                           bool bRestore,
-+                           bool Is2ant,        /* false:1ant, true:2-ant *=
-/
-+                           u8 RF_Path  /* 0:S1, 1:S0 */)
- {
-        struct hal_com_data     *pHalData =3D GET_HAL_DATA(padapter);
-
---
-2.43.0
+greg k-h
