@@ -1,198 +1,225 @@
-Received: from SEYPR02CU001.outbound.protection.outlook.com (mail-koreacentralazon11023076.outbound.protection.outlook.com [40.107.44.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com [209.85.222.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA4F0366045
-	for <linux-staging@lists.linux.dev>; Fri,  8 May 2026 06:27:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.44.76
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778221644; cv=fail; b=Gfw4vcQhnMG7SxHd+Z2XVnzySeVEQ3xbz93ZlseH0wKDkk/kWNyumxYAH8RQq9mmKSxePEGMogyZsZd5kLQSI5QJP5Zj91cSX2i0bJJu38YyhbXVT4iePtPPXyHYtLNsNNnN2v0SEHII/y2AOkV7nOdIAJVcFaPpuz6lDYwppBs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778221644; c=relaxed/simple;
-	bh=3Za7xtLVr6bE72LLs8N5NkM34XDRE5TyCrFQkbJ5yNo=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=jMkjyO+Wr/ONxODr9WpeUPqgtVT0+QvEbUNW6sGXYKMCEPz3nYezAzg+zSLvOBIio8Tg2Z4q1As9Ll8yT+ZKqmV5jZ2Hn3bYmTAXS2spxEwWr65XddfQIyQHwoVwShvmLs1p10R5s9TPhTtM9VmORsF1cLDIr60xY+6h7+qMOdA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amlogic.com; spf=pass smtp.mailfrom=amlogic.com; dkim=pass (2048-bit key) header.d=amlogic.com header.i=@amlogic.com header.b=VJbh2y6t; arc=fail smtp.client-ip=40.107.44.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amlogic.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amlogic.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A039355803
+	for <linux-staging@lists.linux.dev>; Fri,  8 May 2026 17:58:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.195
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778263137; cv=none; b=ZCvWbek+CsHRINn28pUogh9ghy4Pt5JdaRTGXIaT3Qk+oWQAZQ8cKviiTM15EpD6Zkd0M44Z2kRI8TiNsX8MGsBxJno48mc5MLqUx/luhHKtZFmjAV4ixbTHHqtS2hjEO295w4ErQYMMd/2DpdbSR5ebpCMf9bZlEB9g5oDMqKo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778263137; c=relaxed/simple;
+	bh=Bx7obrnEMz/0J+55OaMLyw7MVpmUbgAokSapGCLEtNg=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=QqJIv1qjff8s2GfrmlctZmiKDH+bKIhDQ30N4+Ije6bGnUugcg6PCq51/tAXvDJOuFe+KQOHonLLJUeg7JPwVWT2u5dgQ8dPJ3NMHvEwsCMYsFIl4U0PIWUmRbsaCe/Db+Q5StgzO2E+ADOzQPTJRWuJu/A4fI+szNS84telhtQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20251104.gappssmtp.com header.i=@ndufresne-ca.20251104.gappssmtp.com header.b=AX3YqHen; arc=none smtp.client-ip=209.85.222.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amlogic.com header.i=@amlogic.com header.b="VJbh2y6t"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KNr74y9tlOzDYcnax3A7VN/5WaOFt0LMf8au8az0gFJkcgohJQqmakr/LQ0hidz1wgtNB3YsfWrHhu/UfO0PBMbzs1P4TIJeBlxybnXzrDQPiqkKhuBDpbXzQ/OblYWzYb+UlyzyBs9NFhtjNnftUwyyotNTZRLxZj3dizhf4c9Do5dOVsXswvCXXrRV8IKeNcaOBLbJd0CuQeyYyvEr9/N9GA57r4X1esVf05745rmW3/YRgIjVvjIrrnSYosq00IdcHsM7gu2OnHvYtiJKC/ntHTiBQAJ/MTiKwiwsS22Cqz6pYHFz91daSGxh+7cGe2JkufV1arsUnXBxaS4/GQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qs4EArZEGTn4P2twmWNjso8LuMmTG2RoaDSHaTzbetY=;
- b=Zu8BY0zWbxKZm3+tfs3G/wOAxGme8u2JF03r6knOudRqmC+h3mjJAvg9b9YLUUcGilmjoCIidsh94GObSedZGokvCBsMMImTXvp+L4RAs1CXvTsz/OWwS8AhisWVoRf8G7keTqCdKmig4N6bgsT6SDBC9oLwgufU6F/xmNZ6EMZ7wDDwVYZYdBsZn/nj0gTxWFAwSncO1OiRWHaA5IWwELHagw/uq3h+W84qaOC9WI2/tSL5DNXVP1GRVtNJ26UJq542JClydsVr6y6fc/EB2b+uoJspYOgqpIYTKv1lX3x/QcdsYf2ApwCa64wpZF5/fJRUN1YU8WruUPfUC5uFpg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amlogic.com; dmarc=pass action=none header.from=amlogic.com;
- dkim=pass header.d=amlogic.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amlogic.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qs4EArZEGTn4P2twmWNjso8LuMmTG2RoaDSHaTzbetY=;
- b=VJbh2y6tZCAd+3iK1rH7YLBvsX4yVU3YmMthZLRZtMKBDNBXXqMrCn2DlbZhYJGQ03AT4mk2PzuzodZ1bF7wysCd1123kz5s+lgv0Ghh/NcNw4uuHMA+64FeLFsTcTI9GuinWXC9KC6FShXKit+ubHVGtJgWoMec2dyPFzQtHEGq8fOs1uHIRRPx5yqQblwX4rsGQfQ51tlCmlPE/sGQ7i3QCIcnRbU3FlSI4pxPcZtnWQEjXRh8s1N8QaOCWDAk1MNFB+7Ivpx8LbieIGF9icm6juN9mjQp3IqWQboN/XS4Z6OXF0UkPZbcJtIOx9+djkAJGl1yixquQHSiYdsbkA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amlogic.com;
-Received: from TYSPR03MB8627.apcprd03.prod.outlook.com (2603:1096:405:8a::9)
- by TY0PR03MB8298.apcprd03.prod.outlook.com (2603:1096:405:10::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.10; Fri, 8 May 2026
- 06:27:06 +0000
-Received: from TYSPR03MB8627.apcprd03.prod.outlook.com
- ([fe80::bc0e:21e7:ef9e:e77b]) by TYSPR03MB8627.apcprd03.prod.outlook.com
- ([fe80::bc0e:21e7:ef9e:e77b%4]) with mapi id 15.20.9913.006; Fri, 8 May 2026
- 06:27:06 +0000
-Message-ID: <964aa668-89aa-4c97-b6e5-51c23cdae266@amlogic.com>
-Date: Fri, 8 May 2026 14:27:02 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 6/6] media: amlogic-c3: Add validations for ae and awb
- config
-To: Ricardo Ribalda <ribalda@chromium.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Hans Verkuil <hverkuil@kernel.org>, Nas Chung <nas.chung@chipsnmedia.com>,
- Jackson Lee <jackson.lee@chipsnmedia.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Yong Zhi <yong.zhi@intel.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev,
- Mauro Carvalho Chehab <mchehab+samsung@kernel.org>, stable@vger.kernel.org
-References: <20260507-smatch-7-1-v4-0-cc195f142167@chromium.org>
- <20260507-smatch-7-1-v4-6-cc195f142167@chromium.org>
-Content-Language: en-US
-From: Keke Li <keke.li@amlogic.com>
-In-Reply-To: <20260507-smatch-7-1-v4-6-cc195f142167@chromium.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SI2P153CA0009.APCP153.PROD.OUTLOOK.COM
- (2603:1096:4:140::18) To TYSPR03MB8627.apcprd03.prod.outlook.com
- (2603:1096:405:8a::9)
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20251104.gappssmtp.com header.i=@ndufresne-ca.20251104.gappssmtp.com header.b="AX3YqHen"
+Received: by mail-qk1-f195.google.com with SMTP id af79cd13be357-8ee62a19730so264918985a.3
+        for <linux-staging@lists.linux.dev>; Fri, 08 May 2026 10:58:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20251104.gappssmtp.com; s=20251104; t=1778263134; x=1778867934; darn=lists.linux.dev;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:to
+         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=IEzQxhdIrgs8qVdjonR+CtIhh7E7By7r+yqbMW6WaoE=;
+        b=AX3YqHenX7OqKyc1z4mj1C9YU6XIiuDNq+wXVwN/dw0wpHTvhtCYQG83+MfFBgxtnp
+         E/eFdUtWHClGQmI8P8nrgJf+z1KOSA4xe/76VF4ouqRHQj5G8eKqcS3myKzTL4cKSVAR
+         WpakwVPONFCXxa6m6AoSIi72SeepHh+hPjUG11kzUXrl2cHlBFfOTN4kLpCJ6ZSmrZ6J
+         3MWw4a40CVaiYKklO8Vjkxj7ivMjNnpx4EU0S7Ifuuuv6BYoXD8O8zOhnUUR62Ec7fc8
+         m3cNiklXDlezANDur73U0dxdfPFeJ8RVJIuSiRObtKZkOWZk4DMzESPEyNVfafKjTZHI
+         i5fw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778263134; x=1778867934;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:to
+         :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IEzQxhdIrgs8qVdjonR+CtIhh7E7By7r+yqbMW6WaoE=;
+        b=my02jtEqZXP6r/yOdq/XmTdMz66aqhGDdUPO0XJ9ZaZu4Sf6dtMCeQyn1DJRUBBahN
+         hg7m2qFo3yrlkWKMaQ6UdxTx80195YfwYHk+lgIXfwBaG/vH/DGiU5CcW257b23Ys4Kc
+         aePy5QWcjW4HrN/BQl3a8+Jf+zGJAuKK2QW87quc6pl8vAgeVcxoSH1wKG4P1qaLDKkN
+         1Ab/GSmnTnQJ6LFJPkTS9J03v8TEP4TBnigHrrzKIFZs14X7Bl9CEOHRz/rdZ9hNyG5G
+         fgk56+5aHDDnKUHmTGrQZoXxSWoYfilHEC2BvoC9ZPa/PlPdGktjZX0+fBp3IepnFR++
+         fa3Q==
+X-Forwarded-Encrypted: i=1; AFNElJ8YWvRn9hZKEHboNnYBFcIcLCg+XQn+owq77HlwsA1wpJaK35SCJ8kuLM8tGU7g7qy2fw4pZ800rmkLzaDz@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxpk3/cDQTEFAdMKd0mayVEqUz+BsMCupjFt0RLwpNE++zve4R2
+	aL2TqaBQEOcwphicKHj/mYhbq9XlOSdjRuL1DBB4DSkEimR1AnhOVANf6ao/Q96suX0=
+X-Gm-Gg: AeBDietx0EVlNBAZadSZQAgoeD1KTBpHILik2xZ2a+HauBx2YLo63LIPz98+iFNyRuS
+	LsIyBjf872l1Gn38iGQZeuEM98OImqvllBuXCAYdmkoIMl9m33ail0lZk4Flp7pFDc/UJQtGXTX
+	nKj+sCaK5L4M/LKS5MmIuu+xniufIhLz6h7R6IqDQ4MMxZNwQXdL8EsG54qlTcEpziOLcyuyABZ
+	9x/w+NCLIHeTL6n070MNX0v4kUBuFYnZ77mCpMGosO5E3R6t+1tISsNdPGM8XF2Pp1xxHYBr5+K
+	SQO43ysQ2vsOmz3Wb8SlsqNhIOhTkt5mxACXxM6yZ50RX6WoEjlEMNiDGtmsw1ZH4gvR8VSBcGf
+	EExQIqiz4OVRNeMTZgHh4E/en3WxUs23pslfTZBMYfpPjuBNHTBKhgA5oSdt8pwK6py4iAycVWD
+	IAUHXfEhe3oBYWGIG2d2BXEHTea1qn
+X-Received: by 2002:a05:620a:2584:b0:8f8:d217:f46a with SMTP id af79cd13be357-904d3fa500bmr1997866885a.8.1778263133866;
+        Fri, 08 May 2026 10:58:53 -0700 (PDT)
+Received: from ?IPv6:2606:6d00:15:e06b::c41? ([2606:6d00:15:e06b::c41])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-907b8d9eed0sm270004885a.19.2026.05.08.10.58.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 May 2026 10:58:53 -0700 (PDT)
+Message-ID: <49260ed9ce09b0684ed72787b5635e2c26059297.camel@ndufresne.ca>
+Subject: Re: [PATCH v2] media: meson: vdec: Fix memory leak in error path of
+ vdec_open
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Anand Moon <linux.amoon@gmail.com>, Neil Armstrong	
+ <neil.armstrong@linaro.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Kevin Hilman
+ <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,  Martin
+ Blumenstingl <martin.blumenstingl@googlemail.com>, Maxime Jourdan
+ <mjourdan@baylibre.com>, Hans Verkuil	 <hverkuil@kernel.org>, "open
+ list:MESON VIDEO DECODER DRIVER FOR AMLOGIC SOCS"
+ <linux-media@vger.kernel.org>, "open list:MESON VIDEO DECODER DRIVER FOR
+ AMLOGIC SOCS" <linux-amlogic@lists.infradead.org>, "open list:STAGING
+ SUBSYSTEM"	 <linux-staging@lists.linux.dev>, "moderated list:ARM/Amlogic
+ Meson SoC support" <linux-arm-kernel@lists.infradead.org>, open list
+ <linux-kernel@vger.kernel.org>
+Date: Fri, 08 May 2026 13:58:51 -0400
+In-Reply-To: <20260321065408.209723-1-linux.amoon@gmail.com>
+References: <20260321065408.209723-1-linux.amoon@gmail.com>
+Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-3VX71bn7qLKjvDPsQYLL"
+User-Agent: Evolution 3.60.1 (3.60.1-1.fc44) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYSPR03MB8627:EE_|TY0PR03MB8298:EE_
-X-MS-Office365-Filtering-Correlation-Id: a5c4ac25-c742-4f08-81d1-08deaccad34e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|366016|1800799024|22082099003|18002099003|921020|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	lnqDRQf2+ne5MDdWq7bVF+IEYUVKp0YqjpTYwWr9VuMgyFgtiPvB0jH5+G9JOxF3mXrRRqAlLI9eoZJ5lJy7T3OJcveWUIfnaCpOPsoXlLnApC1KL5B5GmshFUQHfmb60ELCLz34NJiut+oJREde4QK5hIcQbp0cjIqeULqUtsu0w820/so79g9lAOygpFyQXfbbE3y8JNERGDfb9AcO91aAwaVxwB3dvCA/17nuipVdpGqUeap+0pShJZqZbyNHwurm5QQ6BLPqTErNuIX5PQT1Icb2f8s3cLqsHtrGuUIsJcHWx9H4zSnse3U3K6XYXyAxdzjPxmf5951PnmTuJDwle9F2QW0a5u87rwF8yvAyGD8UdgBIoXEaJtPHr/U7pON/Uz/5H8BHWgyZlTYwfUpIqfjRdDcSNbm113kFSMZSSg3TVk6CVM+KfIsAWnox1vC0pLYuWf9uLDSNGS9+H0IkZXi8kOa2vOJfMAzhKJTcEB8CYtyMIXUXKuBoMuTdfYwWAnokYu7R0MNihjN8rioppJXpfUNwjPVoWsg5SF/VIcFI/TE44FfJwMz49yDscXXLt9c23sEVn+9VJS5foS8YUhkqDON/6vMDnJLf3bGOnnASJy1bXW6lQ8ebE26QldLg062nVoopjfZvX21XOzl0ebRqIzgi9FWbJPJ79FCQ0WekLo+HZxn0vM4kwENwYBpCraS7pFVetAcuxbG3NTAzo1dkrlGw5zqfxKHhiT19GxYBIm/2JRcVxLHJH4cR
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYSPR03MB8627.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(22082099003)(18002099003)(921020)(56012099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?cVVUamlld2trOHFvZWoxaWJrdFAvQmhxMWFjOUljV0pERUIzQmh0U1U5UnhX?=
- =?utf-8?B?UDI3MnlrdXM3TTFROVhTMWFkQ2pGSzl5UVllL0VDanFWaHJGdHVDQWozaEJp?=
- =?utf-8?B?NnNrcUVmbFEzSWVOeWczVGJXaFBXZkErTTE3bENheEhPZ0p1RXBxQ0xwQVRK?=
- =?utf-8?B?SmJMT1UxTWF2Y2FuVklPUzJ3U3dYVlFIeXdyVDIwakNkUWVtNTB5bFpOZy9l?=
- =?utf-8?B?NTRCNy9YUlpDUW40MGVTY3JyS09tVFFBaVNaM21QLytiNExlVllpSW85UUR1?=
- =?utf-8?B?TEovVjhSQWZ5WUo4bUdaOFZPNnhKU1hrSnFLUkJtMUIyb2pneS84c2Q5WURn?=
- =?utf-8?B?N1VwaWFKSEJtWnFPNHdWTkNCZ2lva3JVZGY0U3QxVW5ycmxBanUycjdRNmhi?=
- =?utf-8?B?ci95dzMva3Zjbm1LdVdlUGE2OG5SaWhvUVg2UkFZUHhwaHpHYktLczBKVy93?=
- =?utf-8?B?clBBcEk0MGZ3UTljN04xc0lSU1JQWC9iNndOdld6ZFBFNHRSd1N3UXBqWVhm?=
- =?utf-8?B?dFd3c1FpdmJMa2RoSzhUUm1DNVkyLzV1NjFDNXZQVlFRM1FidWIwY3llQjIr?=
- =?utf-8?B?VlViUHlib3cwWlZCamUwZVNWa1ZlVURMRVJscnVpR284MUcyUDBESnVod1FI?=
- =?utf-8?B?VU5LS1g1N29rYzJoRkVhNVFXNVI1a0VYZDZheDZhb2RvcWU3L0gzTGlCSW1S?=
- =?utf-8?B?UklWS2JlR1lmVDEyckdQejJIRVlQYzd0V3JCYmpBNVNISG1FMm92Q2hkVU91?=
- =?utf-8?B?NDh5bytFcndRRnBwUVdEcUdSYVpCWDN3K0syWFRQY1BhSnJnTjg3S25zT2d0?=
- =?utf-8?B?VGR0OXU2b1UzeUZEVXc3M2luNWVhdHg5K2xxbHp6UHhUZ3JBRW1HSzhWRGps?=
- =?utf-8?B?THRRWit2dG40N1NRV1k5RFRKVkZWbTR4MHBxYUtFYmw1S1pIYm9CTURIdklV?=
- =?utf-8?B?cmJFclNxOWRiTFBYQ2R3a0JPUzY1YjU4WjFpRWZQbFhHV1BDcTdEdUhnZ1ZZ?=
- =?utf-8?B?MFdhMTZDSU03aFlLdTFhdFN5dngzWmlmYUF3UDZ5dm01aDFDS2lJajJsK1B6?=
- =?utf-8?B?MXFhb1hHd1dBTUE4cVJkSFVjU1IwWWhvdmN0ZldvVkJEdHpPbGpDcHprWFp3?=
- =?utf-8?B?SnNiUmd3VWZXT3RlcmQvWk1nV0FyYTRNbTNpRXlwSUtZVnZoMjUvNWRjamNj?=
- =?utf-8?B?M21IYjJuUDZGSnNRcTNVdmx1Wm9raDZoY1M2cGdrNXhQbUhqYlBBL2RiV2VB?=
- =?utf-8?B?N05nOXR6NTMxeFRXTTNEcXJmSUNXSm9UTTVpeEFOejNYQzk3RnBJMWI5RDlO?=
- =?utf-8?B?LzRaRlBmZFBBQVUvMFl1MjhhMTVZUFdKUUxQdEQ2V1ZOMHBBTVF2RGR6NFR6?=
- =?utf-8?B?RjJlajlhRlF5d1lWOExtc21KaGd4UEVoMVRyN2w4T1hyZk9pLzhYYUZIWHFP?=
- =?utf-8?B?ZDJnQis3b052SzByS1NOS0pTNC9FL0NCSGg1RkVrY04wMUpTWC9tNjY5ZmFk?=
- =?utf-8?B?eVpzRHpzd3NSbXpueEJGRmNOeWpLRWFUUGtpVSswMExhN2EwVW5LWmdGQ3do?=
- =?utf-8?B?ZlJ6d3dhZW9BTFFDRmdvRDZFNnNMayt1UWdFNnJ3Tm5ZSnA5V0FnOWV1UUVi?=
- =?utf-8?B?cHFZWmF0bWtMUzRlaUc5dXJYVDkvWjQyNkcvTENpbDlMU1l1cWFHZTVsZDdQ?=
- =?utf-8?B?MVcwd2ZyUTVGZVczbkVqa1YydDFSL3k3amVkbXdnbDNNSnM4L1piUVdCVkJP?=
- =?utf-8?B?TVRkTnVidU45djBCdHBEc2xQazRmbVR6RlQzMUFzVHNNSHZMNEdwVC9PWlJK?=
- =?utf-8?B?RWUvRmJwcUlxUWFvU2ZuSlNzenpEUERJZE5GL1lSUURFaW1SUkdCWFdBUnVq?=
- =?utf-8?B?T2hMSW8xMWxVVEJFMFpUaXIwOGxNREJ4MzlrTGFOa3BhMEJkS3gyemladnNH?=
- =?utf-8?B?YnZ1aVNYNk1yK1Q1VW9GdU85TWVJWFBHcGloZ0plaDcyc3cyQ2Jta2ZjQXNN?=
- =?utf-8?B?dHNSdzUvRVFkaGgrbXBERzI2eGMvc2NtVXJYZGxYRHVCZWZSV2VjMXRiOFJJ?=
- =?utf-8?B?RlZ3Q3BmTFNQRVNGK0JPTlZtUDlTczV6dXpWSEZkNGhmVWZmRDI1cUdESlA3?=
- =?utf-8?B?OVNKY2c0V0xKZVhUT3RHY1Z2UEdaUHY4VHVoaVJsRXg5S0RrNFY0RFJnVktm?=
- =?utf-8?B?N2dSVWgxMnpxaFZsSWRZZWhETTdkN1MwTXA5YThVcUVrc0xSWlAwUy9oTXZU?=
- =?utf-8?B?QkhOL2kvREtRVk16K0VzNDl3eTF5VEJEOE9LSHRhM0FxQXVEU3FJMHBBdjha?=
- =?utf-8?B?Y1JLaE9qdXczVm5sNmFHakR5OHBOVDgvK1RvN051dWM3dlppL3dMZz09?=
-X-OriginatorOrg: amlogic.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a5c4ac25-c742-4f08-81d1-08deaccad34e
-X-MS-Exchange-CrossTenant-AuthSource: TYSPR03MB8627.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2026 06:27:06.3384
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0df2add9-25ca-4b3a-acb4-c99ddf0b1114
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: i7hKma6MvBq3Y59Xuh2ucFs+DDwhKV1DpofYs1n7dmmQxf5Kn6rs4Mqg8b11h9E8NRKeUCWchMt7gzJSkyR4RQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY0PR03MB8298
 
-Hi Ricardo
 
-Thanks for your patches.
+--=-3VX71bn7qLKjvDPsQYLL
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 5/8/26 04:58, Ricardo Ribalda wrote:
-> [ EXTERNAL EMAIL ]
->
-> Avoid invalid memory access if the zones_num is bigger than
-> zone_weight.
->
-> This patch fixes the following smatch errors:
-> drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:111 c3_isp_params_awb_wt() error: buffer overflow 'cfg->zone_weight' 768 <= u32max
-> drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:111 c3_isp_params_awb_wt() error: buffer overflow 'cfg->zone_weight' 768 <= u32max
-> drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:227 c3_isp_params_ae_wt() error: buffer overflow 'cfg->zone_weight' 255 <= u32max
-> drivers/media/platform/amlogic/c3/isp/c3-isp-params.c:227 c3_isp_params_ae_wt() error: buffer overflow 'cfg->zone_weight' 255 <= u32max
->
-> Cc: stable@vger.kernel.org
-> Fixes: fb2e135208f3 ("media: platform: Add C3 ISP driver")
-> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+Hi,
+
+sorry I missed your patch, catching up now.
+
+
+Le samedi 21 mars 2026 =C3=A0 12:24 +0530, Anand Moon a =C3=A9crit=C2=A0:
+> The vdec_open and vdec_close functions in the Meson VDEC driver failed
+> to release several resources, leading to memory leaks and potential
+> use-after-free scenarios.
+>=20
+> This patch addresses:
+> - Missing v4l2_ctrl_handler_free() in both the close path and error
+> =C2=A0 exit of the open path, preventing control memory leaks.
+> - A leak of the M2M context if vdec_init_ctrls() failed.
+>=20
+> The error labels in vdec_open() have been reordered to ensure a proper
+> Last-In-First-Out (LIFO) teardown of all initialized resources.
+>=20
+> This was identified via kmemleak:
+> unreferenced object 0xffff0000205d6878 (size 8):
+> =C2=A0 comm "v4l_id", pid 5289, jiffies 4294938580
+> =C2=A0 hex dump (first 8 bytes):
+> =C2=A0=C2=A0=C2=A0 40 d2 49 18 00 00 ff ff=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 @.I.....
+> =C2=A0 backtrace (crc d3204599):
+> =C2=A0=C2=A0=C2=A0 kmemleak_alloc+0xc8/0xf0
+> =C2=A0=C2=A0=C2=A0 __kvmalloc_node_noprof+0x60c/0x850
+> =C2=A0=C2=A0=C2=A0 v4l2_ctrl_handler_init_class+0x1b4/0x2e8 [videodev]
+> =C2=A0=C2=A0=C2=A0 vdec_open+0x1f4/0x788 [meson_vdec]
+> =C2=A0=C2=A0=C2=A0 v4l2_open+0x144/0x460 [videodev]
+> =C2=A0=C2=A0=C2=A0 chrdev_open+0x1ac/0x500
+> =C2=A0=C2=A0=C2=A0 do_dentry_open+0x3f0/0xfe8
+> =C2=A0=C2=A0=C2=A0 vfs_open+0x68/0x320
+> =C2=A0=C2=A0=C2=A0 do_open+0x2d8/0x9a8
+> =C2=A0=C2=A0=C2=A0 path_openat+0x1d0/0x4f0
+> =C2=A0=C2=A0=C2=A0 do_filp_open+0x190/0x380
+> =C2=A0=C2=A0=C2=A0 do_sys_openat2+0xf8/0x1b0
+> =C2=A0=C2=A0=C2=A0 __arm64_sys_openat+0x13c/0x1e8
+> =C2=A0=C2=A0=C2=A0 invoke_syscall+0xdc/0x268
+> =C2=A0=C2=A0=C2=A0 el0_svc_common.constprop.0+0x178/0x258
+> =C2=A0=C2=A0=C2=A0 do_el0_svc+0x4c/0x70
+>=20
+> Cc: Nicolas Dufresne <nicolas@ndufresne.ca>
+> Fixes: 3e7f51bd9607 ("media: meson: add v4l2 m2m video decoder driver")
+> Signed-off-by: Anand Moon <linux.amoon@gmail.com>
 > ---
->   drivers/media/platform/amlogic/c3/isp/c3-isp-params.c | 4 ++++
->   1 file changed, 4 insertions(+)
->
-> diff --git a/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c b/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
-> index 6f9ca7a7dd88..aec3eed0e443 100644
-> --- a/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
-> +++ b/drivers/media/platform/amlogic/c3/isp/c3-isp-params.c
-> @@ -104,6 +104,8 @@ static void c3_isp_params_awb_wt(struct c3_isp_device *isp,
->          c3_isp_write(isp, ISP_AWB_BLK_WT_ADDR, 0);
->
->          zones_num = cfg->horiz_zones_num * cfg->vert_zones_num;
-> +       if (zones_num > C3_ISP_AWB_MAX_ZONES)
-> +               zones_num = C3_ISP_AWB_MAX_ZONES;
->
->          /* Need to write 8 weights at once */
->          for (i = 0; i < zones_num / 8; i++) {
-> @@ -220,6 +222,8 @@ static void c3_isp_params_ae_wt(struct c3_isp_device *isp,
->          c3_isp_write(isp, ISP_AE_BLK_WT_ADDR, 0);
->
->          zones_num = cfg->horiz_zones_num * cfg->vert_zones_num;
-> +       if (zones_num > C3_ISP_AE_MAX_ZONES)
-> +               zones_num = C3_ISP_AE_MAX_ZONES;
->
->          /* Need to write 8 weights at once */
->          for (i = 0; i < zones_num / 8; i++) {
+> v1: https://lore.kernel.org/all/20260304100557.126488-1-linux.amoon@gmail=
+.com/
+> =C2=A0=C2=A0 tried to address the issue reported by Nicolas
+> =C2=A0=C2=A0 improve the commit message.
+> ---
+> =C2=A0drivers/staging/media/meson/vdec/vdec.c | 9 ++++++---
+> =C2=A01 file changed, 6 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/drivers/staging/media/meson/vdec/vdec.c
+> b/drivers/staging/media/meson/vdec/vdec.c
+> index 4b77ec1af5a76..3a5e4ebe0b34c 100644
+> --- a/drivers/staging/media/meson/vdec/vdec.c
+> +++ b/drivers/staging/media/meson/vdec/vdec.c
+> @@ -877,7 +877,7 @@ static int vdec_open(struct file *file)
+> =C2=A0	if (IS_ERR(sess->m2m_dev)) {
+> =C2=A0		dev_err(dev, "Fail to v4l2_m2m_init\n");
+> =C2=A0		ret =3D PTR_ERR(sess->m2m_dev);
+> -		goto err_free_sess;
+> +		goto err_m2m_release;
 
-These two if statements are acceptable.
+If m2m_dev creation failed, why do you want to call v4l2_m2m_release() ?
 
-Reviewed-by: Keke Li <keke.li@amlogic.com>
+> =C2=A0	}
+> =C2=A0
+> =C2=A0	sess->m2m_ctx =3D v4l2_m2m_ctx_init(sess->m2m_dev, sess,
+> m2m_queue_init);
+> @@ -889,7 +889,7 @@ static int vdec_open(struct file *file)
+> =C2=A0
+> =C2=A0	ret =3D vdec_init_ctrls(sess);
+> =C2=A0	if (ret)
+> -		goto err_m2m_release;
+> +		goto err_m2m_ctx_release;
+> =C2=A0
+> =C2=A0	sess->pixfmt_cap =3D formats[0].pixfmts_cap[0];
+> =C2=A0	sess->fmt_out =3D &formats[0];
+> @@ -913,9 +913,11 @@ static int vdec_open(struct file *file)
+> =C2=A0
+> =C2=A0	return 0;
+> =C2=A0
+> +err_m2m_ctx_release:
+> +	v4l2_m2m_ctx_release(sess->m2m_ctx);
+> =C2=A0err_m2m_release:
+> =C2=A0	v4l2_m2m_release(sess->m2m_dev);
+> -err_free_sess:
+> +	v4l2_ctrl_handler_free(&sess->ctrl_handler);
+> =C2=A0	kfree(sess);
+> =C2=A0	return ret;
+> =C2=A0}
+> @@ -926,6 +928,7 @@ static int vdec_close(struct file *file)
+> =C2=A0
+> =C2=A0	v4l2_m2m_ctx_release(sess->m2m_ctx);
+> =C2=A0	v4l2_m2m_release(sess->m2m_dev);
+> +	v4l2_ctrl_handler_free(&sess->ctrl_handler);
+> =C2=A0	v4l2_fh_del(&sess->fh, file);
+> =C2=A0	v4l2_fh_exit(&sess->fh);
+> =C2=A0
+>=20
+> base-commit: a0c83177734ab98623795e1ba2cf4b72c23de5e7
 
+--=-3VX71bn7qLKjvDPsQYLL
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
 
-Thanks!
+-----BEGIN PGP SIGNATURE-----
 
-> --
-> 2.54.0.563.g4f69b47b94-goog
->
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaf4kWwAKCRDZQZRRKWBy
+9B5rAP9MVO41rRXQ4VKCwIshF3QfT75K/0d2qKK2EUMjAEW/SwEA2/UqAeSY68BC
+VhnK/FFYRn0PpC4HYZLbmtXFz58mBwE=
+=4xTS
+-----END PGP SIGNATURE-----
+
+--=-3VX71bn7qLKjvDPsQYLL--
