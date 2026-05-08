@@ -1,69 +1,69 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99672376BC2
-	for <linux-staging@lists.linux.dev>; Fri,  8 May 2026 19:39:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 484C730F803
+	for <linux-staging@lists.linux.dev>; Fri,  8 May 2026 19:39:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778269176; cv=none; b=gWnVswrUKjpUpR0S68kaiOWvJOawH3GFAipsTrzt64vv4d3fqWwyh6kA1X4wwciZ6+eTbz2Z5KO/anD69B8HhfhlgLLaiK/2i4Yf/Uf5316EmsUUnMrwGh7Oq5mJc7gdVNsFczsduYywlqV6QrbA/lrocHvOCO3R56aw+JYN1Vs=
+	t=1778269177; cv=none; b=oD8kDK43BYwlZ+sOvYc1Phu2OSWtL03qMdPFuAxSDTVmntelZ3uSSTWydjEUoYxusn6jrmd3r53dOGW6EhrSdC9cJmBqRDXBrHCEibr3N9TV0lWZc50tiLS0mTMEaJMiGHBNAc9WB9ZtFugL3UvDlW4WpNeLh/Cig1fYzlj1EpI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778269176; c=relaxed/simple;
-	bh=x35HqTsN14wag/h4IhgJvXJosEb99tLjjkU3noYfeXw=;
+	s=arc-20240116; t=1778269177; c=relaxed/simple;
+	bh=7ycmDMsuBmTlyI103iKa+MvOZIXXFKpl1sR6jirlImY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qu8UlxHWOpRfnAjMYWiIAMo3KrLdSYc5cWHMv8zBVZ/0pff/EyDf7J0FW7lG0ivtxhcrJ0wQ84C+NSSgTvND5kr+sQvjkjRrIRSQvyzTChb3rvvhdYL51tRcbjM2HxbzQOhT+omCmdPS+p2bjohabhwaJzxeAQAK3VngxgbJ1jI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kAZ/yuTM; arc=none smtp.client-ip=209.85.167.44
+	 MIME-Version; b=nt7JLAaU/WKvFz10oMt2NbPu0mL/Dt8owneVtFMlp3W3ZMoHTUEiXtUwJOHEKvrCRnAxuhtKq+F/L9kdnB1L0Svx+2jU5HPCBJRQ/oE4a+vFjTMtVQbpPb4Ufc7NA1Z6xdcnyrTkRT54Xt+YuGKwTNWQcUgDrS57mxFE4t3VTOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wk9QPf2B; arc=none smtp.client-ip=209.85.167.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kAZ/yuTM"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5a8738c178dso1604792e87.1
-        for <linux-staging@lists.linux.dev>; Fri, 08 May 2026 12:39:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wk9QPf2B"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5a87edf88b3so1910224e87.0
+        for <linux-staging@lists.linux.dev>; Fri, 08 May 2026 12:39:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778269173; x=1778873973; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1778269174; x=1778873974; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lC1iB7OEkTFsAJipPD4Is9/iULhDuok9XZb8th1RitU=;
-        b=kAZ/yuTMz38m4PvYaWxceX0nEy9oWI4wooj3tp+cwSvEyF94aWpulCnds5Pws1MeLr
-         gJg3UH7VHRI2rS5DqFtlJzC5qWzRH9g5Vw4jx8DKJpXmEjxNZaSEZy++KFMdz86eYSyl
-         1vEJrtdai/6Nsr6fETptBPAvsSpmFt7jdX1qowpQdPh87bL3LVymjvUAYRyAcNT4NHrn
-         sF3toholPRn2vXAxVipEpFnTsnOyIHLdLoXGHqWCzwAanr+QNylvAMIpphNBgWOhymPy
-         FCEIK2w0+MQXKL+YCXaserdW0yiME3n6tzl27mp82kbf50cMNCOPNu3+kGtc3r0DHbct
-         K3rw==
+        bh=HlRglvXwbVp8yNm4s9n5eRynmWqDWK0IA9lCdzN+A2A=;
+        b=Wk9QPf2Bb1QZRB1J/JXvKtqp0ngP/WGVSAqugoSiU53aeYTiif1ES+ymwmhKPFPocp
+         vITY0ziOU/DkXCgspWDUxtT1nb6kfUOHbGliMmSS1efGMZVSjjHUs78fjsPQXxJFPG5z
+         Lq+IdICrlTTQAqrojaRONQXZIbW6Wi2EF6pvw/TrWV78Pvw4lAybfaCKlTxv4S/xWfdS
+         cXvRE4CUxx2NS0TEm/S78EwYujTFiR4hhu8lKPkT8W4R+XutirznQ4JC6PVxZmaIh1mT
+         Wjb4O38o1H4PkaQVt3d/dhigkze3SXqJADdsu3qtPSWz9SLWcogNu8sbPCZJKE6i6Gkq
+         pgtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778269173; x=1778873973;
+        d=1e100.net; s=20251104; t=1778269174; x=1778873974;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=lC1iB7OEkTFsAJipPD4Is9/iULhDuok9XZb8th1RitU=;
-        b=tIszW8EQOFuAQDGVFo60RTiUMO8Djat5s7PdHUuX8vIa2mPq5sjTBSclR5uKXpP15C
-         D33Dkb7yPvF09LR9o4O2x33Pf313vMxGhcZmgo+vyZAqzMjEYjhe6eHpV/UWjgg0gMLD
-         47bl0XsHKdnaiMHV4ubPmyP8lOKSvNurwQkMGZZNxeo5MOk/za9U33QYCQcDgtjNUiSK
-         cYxCVuA9Dcsy1aeT+X7WORS6Ebt+Q4Rb/gUh556+Dgy4iFWYDWEH4+HdbDMTJgWOxvyb
-         EA9RNy9IZbnBdAWw05n8nK3Y1/y6Nd/y519nngpnGhjAUOOT6PTTWqr/ZJJd3eQU8a9S
-         zTmg==
-X-Gm-Message-State: AOJu0YxrzYINA4VTmY3nOOiSgxc/46oVlxHvDeVPz2+R5pn1e+t9J0AF
-	ngWxPPTJfIt8l2kQ16L9/soLkohIx9bEhkifynoUtb5GIB+PiiK937j1
-X-Gm-Gg: Acq92OEf4CFaaJbhEEyEmOODTLIjtfzA07ghztOI87vGMZ5aWzcPjkLD45tr9F3afai
-	NCBcb2Id8Qt7W4UrOZrOghsQ1HAgH/aH5gQhJW+FIYL8RgDNST0BbhIHHSbeCUhjmoGsQaoaUK4
-	TMwiGSPv4JBKFpKG48Cs+s67tGVQDB77ogY6W5YfAoB+o+qfomKo7twnm+MidPB23Wg0Bqlpr4P
-	UMLLDCICScWHLoGLx9Nd7OS4nP3J1qsTwQbrjuhz8H7NZEYdD/QFIgPUVDoeD3lCZKFKKRb7Hcc
-	OWE5W19nLOUCDc8oPIHaqr0GOLFkYcLS2O9J6Em5WBXVvbjiudrQ1PfK4AWUwBybhWVaCOJqKfo
-	IC1atV1XsuoBpFvlJ8c7UJrj+1JA26F0/o+wkRwNN69g0ReT8JUlxiAz56dtWloKqAyDwD6NSMt
-	eJWt27YKdn7WuXbmwiFqUQKpoYr87Mm2pqIoWhWyeUjDrWMQ==
-X-Received: by 2002:a05:6512:3b9e:b0:5a8:72e2:dba8 with SMTP id 2adb3069b0e04-5a887ada87amr5059764e87.3.1778269172446;
-        Fri, 08 May 2026 12:39:32 -0700 (PDT)
+        bh=HlRglvXwbVp8yNm4s9n5eRynmWqDWK0IA9lCdzN+A2A=;
+        b=LQjBS3YReiLSXuG7DQGMfPs4gvLw8jlfs8yi0tNF0RSTAIyESoo60aeMPJau8sPfVR
+         0WRZ91ZvAZag0qVkjc62PSlyJ4yiO/eoO2qU+5A89JsbGYjWOWbor845vbU4zy9EdcDx
+         IV3XtR2m9cMVHF75VMjogwWAi60uJdE92fWHqnhkQ06pDEuJResOF18NnRUn02Gu3rdB
+         SPd/0+4qsBcvWI4fCdEn6iepmpY5FATT+L6b65v1rsFxA3qoW/TLZmCTNbuHPmfYJ1G2
+         MtZSWGUDnhXV16KVyDtl6UZg/nQjgwbZjakYrmGdQvHsGFswgPvtArv0a9H6Hv8QxRAb
+         gAPg==
+X-Gm-Message-State: AOJu0YzJwHqWm88wxqGhy3EOxQ8T2KacuDGWC1KtkyP6I8eR1CwLow72
+	XllLYqcy6qX+2LciO9x8s7S0LOn7csvpkSxiq6r74CB0Kli8xnjyv5B285RnjIiM
+X-Gm-Gg: Acq92OHs5Ad6VDJwmB/jbNUDQVFfZTAHqQr/V/4tDqV6GvUSGFuLsf+SsqGQCxBC1br
+	5psNvTFj46kMEHhThWnoBGRvfUy2Xgva1gML9nsTvODywG64R6OjrwYfI1cNWUn1yAYE3EnaIe6
+	tQ14Vt4usRJvQviQBxNp0K6/n39gm2LFjnLPpl9zAtFTSUC4DpGxi83/lVgqiUeCn1YDdQH77s8
+	ERAEA68VftNNGYardDkwzSzrveukMbaj/wk2hRRJURc2Re6jmYkSiSPB+rN4KC0NDzEuuhzn6TQ
+	GTe8EEKWsykqHvXCIjwdeLO3CFLpmrn5SkxzKVNY6XUSmYhTvsZiQNwngWBV9dYcmHvev/6yBLe
+	DFR8WS7LGxEkXMcPNcOJLjZpyERIQU4mQ77e0ecdzhP/eP+FZh9zmoq/ZTdqAYYbgkL8KeVcjLv
+	WeV0p+DXGvu3Jm+Go4RdYagBBQQxmxGjTPMMs=
+X-Received: by 2002:a05:6512:33ca:b0:5a4:6f3:ddd with SMTP id 2adb3069b0e04-5a887cd01a7mr4832219e87.13.1778269174337;
+        Fri, 08 May 2026 12:39:34 -0700 (PDT)
 Received: from archlinux ([185.140.161.214])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a8a955df99sm776407e87.45.2026.05.08.12.39.31
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a8a955df99sm776407e87.45.2026.05.08.12.39.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2026 12:39:32 -0700 (PDT)
+        Fri, 08 May 2026 12:39:34 -0700 (PDT)
 From: Nikolay Kulikov <nikolayof23@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	Nikolay Kulikov <nikolayof23@gmail.com>
-Subject: [PATCH RFC 02/11] staging: rtl8723bs: declare helper sdio functions in .h files
-Date: Fri,  8 May 2026 22:38:31 +0300
-Message-ID: <20260508193909.16015-3-nikolayof23@gmail.com>
+Subject: [PATCH RFC 03/11] staging: rtl8723bs: inline sd_read8() and sdio_read8() into rtw_read8()
+Date: Fri,  8 May 2026 22:38:32 +0300
+Message-ID: <20260508193909.16015-4-nikolayof23@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260508193909.16015-1-nikolayof23@gmail.com>
 References: <20260508193909.16015-1-nikolayof23@gmail.com>
@@ -75,80 +75,135 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-These functions may be needed in the future in other files when fixing a
-large numbrer of abstractions over SDIO in this driver.
+The rtw_read8() func calls sdio_read8(), which performs address
+conversation and calls sd_read8(), which calls sdio_readb()
+
+Remove this deep level of indirection by directly handling the address
+translation and the sdio_readb() call from rtw_read8() to significantly
+reduce the number of abstractions and simplify the code.
 
 Signed-off-by: Nikolay Kulikov <nikolayof23@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/sdio_ops.c           | 5 ++---
- drivers/staging/rtl8723bs/include/sdio_hal.h       | 3 +++
- drivers/staging/rtl8723bs/include/sdio_ops_linux.h | 2 ++
- drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c  | 2 +-
- 4 files changed, 8 insertions(+), 4 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_io.c       | 22 +++++++++++----
+ drivers/staging/rtl8723bs/hal/sdio_ops.c      | 10 -------
+ drivers/staging/rtl8723bs/include/rtw_io.h    |  1 -
+ .../staging/rtl8723bs/os_dep/sdio_ops_linux.c | 28 -------------------
+ 4 files changed, 17 insertions(+), 44 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-index bfe8ac5d2bfe..a0b5d36d3b02 100644
---- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
-+++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-@@ -13,8 +13,7 @@
- /*  */
- /*  Creadted by Roger, 2011.01.31. */
- /*  */
--static void hal_sdio_get_cmd_addr_8723b(struct adapter *adapter, u8 device_id,
--					u32 addr, u32 *cmdaddr)
-+void hal_sdio_get_cmd_addr_8723b(struct adapter *adapter, u8 device_id, u32 addr, u32 *cmdaddr)
+diff --git a/drivers/staging/rtl8723bs/core/rtw_io.c b/drivers/staging/rtl8723bs/core/rtw_io.c
+index c793ae7ea5c4..838e5336ea18 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_io.c
++++ b/drivers/staging/rtl8723bs/core/rtw_io.c
+@@ -27,13 +27,25 @@
+ 
+ u8 rtw_read8(struct adapter *adapter, u32 addr)
  {
- 	switch (device_id) {
- 	case SDIO_LOCAL_DEVICE_ID:
-@@ -85,7 +84,7 @@ static u8 get_deviceid(u32 addr)
- 	return devide_id;
+-	struct io_priv *pio_priv = &adapter->iopriv;
+-	struct intf_hdl *pintfhdl = &pio_priv->intf;
+-	u8 (*_read8)(struct intf_hdl *pintfhdl, u32 addr);
++	struct sdio_data *sdio = &adapter->dvobj->intf_data;
++	struct sdio_func *func = sdio->func;
++	bool claim_needed;
++	u32 ftaddr;
++	u8 ret = 0;
++
++	if (adapter->bSurpriseRemoved)
++		return ret;
++
++	ftaddr = _cvrt2ftaddr(addr, NULL, NULL);
++	claim_needed = rtw_sdio_claim_host_needed(func);
+ 
+-	_read8 = pintfhdl->io_ops._read8;
++	if (claim_needed)
++		sdio_claim_host(func);
++	ret = sdio_readb(func, addr, NULL);
++	if (claim_needed)
++		sdio_release_host(func);
+ 
+-	return _read8(pintfhdl, addr);
++	return ret;
  }
  
--static u32 _cvrt2ftaddr(const u32 addr, u8 *pdevice_id, u16 *poffset)
-+u32 _cvrt2ftaddr(const u32 addr, u8 *pdevice_id, u16 *poffset)
+ u16 rtw_read16(struct adapter *adapter, u32 addr)
+diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c b/drivers/staging/rtl8723bs/hal/sdio_ops.c
+index a0b5d36d3b02..2d442a8db586 100644
+--- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
++++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
+@@ -124,15 +124,6 @@ u32 _cvrt2ftaddr(const u32 addr, u8 *pdevice_id, u16 *poffset)
+ 	return ftaddr;
+ }
+ 
+-static u8 sdio_read8(struct intf_hdl *intfhdl, u32 addr)
+-{
+-	u32 ftaddr;
+-
+-	ftaddr = _cvrt2ftaddr(addr, NULL, NULL);
+-
+-	return sd_read8(intfhdl, ftaddr, NULL);
+-}
+-
+ static u16 sdio_read16(struct intf_hdl *intfhdl, u32 addr)
  {
- 	u8 device_id;
- 	u16 offset;
-diff --git a/drivers/staging/rtl8723bs/include/sdio_hal.h b/drivers/staging/rtl8723bs/include/sdio_hal.h
-index 6538253765f1..96f494dd1bc5 100644
---- a/drivers/staging/rtl8723bs/include/sdio_hal.h
-+++ b/drivers/staging/rtl8723bs/include/sdio_hal.h
-@@ -7,6 +7,9 @@
- #ifndef __SDIO_HAL_H__
- #define __SDIO_HAL_H__
+ 	u32 ftaddr;
+@@ -347,7 +338,6 @@ static u32 sdio_write_port(
  
-+u32 _cvrt2ftaddr(const u32 addr, u8 *pdevice_id, u16 *poffset);
-+void hal_sdio_get_cmd_addr_8723b(struct adapter *adapter, u8 device_id, u32 addr, u32 *cmdaddr);
-+
- u8 sd_int_isr(struct adapter *padapter);
- void sd_int_dpc(struct adapter *padapter);
- void rtw_set_hal_ops(struct adapter *padapter);
-diff --git a/drivers/staging/rtl8723bs/include/sdio_ops_linux.h b/drivers/staging/rtl8723bs/include/sdio_ops_linux.h
-index 18830dd18372..ab8b58acfe4b 100644
---- a/drivers/staging/rtl8723bs/include/sdio_ops_linux.h
-+++ b/drivers/staging/rtl8723bs/include/sdio_ops_linux.h
-@@ -11,6 +11,8 @@
- #define SDIO_ERR_VAL16	0xEAEA
- #define SDIO_ERR_VAL32	0xEAEAEAEA
+ void sdio_set_intf_ops(struct adapter *adapter, struct _io_ops *ops)
+ {
+-	ops->_read8 = &sdio_read8;
+ 	ops->_read16 = &sdio_read16;
+ 	ops->_read32 = &sdio_read32;
  
-+bool rtw_sdio_claim_host_needed(struct sdio_func *func);
-+
- s32 _sd_cmd52_read(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *pdata);
- s32 _sd_cmd52_write(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *pdata);
- s32 sd_cmd52_read(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *pdata);
+diff --git a/drivers/staging/rtl8723bs/include/rtw_io.h b/drivers/staging/rtl8723bs/include/rtw_io.h
+index 3c99a2bc19bd..f58cf740f099 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_io.h
++++ b/drivers/staging/rtl8723bs/include/rtw_io.h
+@@ -11,7 +11,6 @@
+ struct intf_hdl;
+ 
+ struct _io_ops {
+-		u8 (*_read8)(struct intf_hdl *pintfhdl, u32 addr);
+ 		u16 (*_read16)(struct intf_hdl *pintfhdl, u32 addr);
+ 		u32 (*_read32)(struct intf_hdl *pintfhdl, u32 addr);
+ 
 diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c b/drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c
-index e9a2f3f7ec74..33bf826679f1 100644
+index 33bf826679f1..33d0d87051fa 100644
 --- a/drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c
 +++ b/drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c
-@@ -7,7 +7,7 @@
+@@ -152,34 +152,6 @@ s32 sd_cmd52_write(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *pdata)
+ 	return err;
+ }
  
- #include <drv_types.h>
- 
--static bool rtw_sdio_claim_host_needed(struct sdio_func *func)
-+bool rtw_sdio_claim_host_needed(struct sdio_func *func)
+-u8 sd_read8(struct intf_hdl *pintfhdl, u32 addr, s32 *err)
+-{
+-	struct adapter *padapter;
+-	struct dvobj_priv *psdiodev;
+-	struct sdio_data *psdio;
+-
+-	u8 v = 0;
+-	struct sdio_func *func;
+-	bool claim_needed;
+-
+-	padapter = pintfhdl->padapter;
+-	psdiodev = pintfhdl->pintf_dev;
+-	psdio = &psdiodev->intf_data;
+-
+-	if (padapter->bSurpriseRemoved)
+-		return v;
+-
+-	func = psdio->func;
+-	claim_needed = rtw_sdio_claim_host_needed(func);
+-
+-	if (claim_needed)
+-		sdio_claim_host(func);
+-	v = sdio_readb(func, addr, err);
+-	if (claim_needed)
+-		sdio_release_host(func);
+-	return v;
+-}
+-
+ u32 sd_read32(struct intf_hdl *pintfhdl, u32 addr, s32 *err)
  {
- 	struct dvobj_priv *dvobj = sdio_get_drvdata(func);
- 	struct sdio_data *sdio_data = &dvobj->intf_data;
+ 	struct adapter *padapter;
 -- 
 2.54.0
 
