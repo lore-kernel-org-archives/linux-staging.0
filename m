@@ -1,168 +1,470 @@
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-24430.protonmail.ch (mail-24430.protonmail.ch [109.224.244.30])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D761E33FE06
-	for <linux-staging@lists.linux.dev>; Thu,  7 May 2026 23:27:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44558282F08
+	for <linux-staging@lists.linux.dev>; Fri,  8 May 2026 02:49:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778196450; cv=none; b=ShLkKfjWeHYtQFucVdDxziZix9ONJ3pFAvjUb3EX3acmpthNyCPGVC/WHYCh8kTescplJQnDpmaag1mH7OvOGDVn2N/b0FM9JsEpyJMKxnzavowgH98acRUfmGTQfAogAdd7Q5MDHLU0S4oRXCWuulfLPZpdCzCLVu4haj584Zw=
+	t=1778208553; cv=none; b=Fp0MUxDzvYs7a+wlNpnhpXj2H7QoAWBrw+aKIJ+VjGvXH7xA+imayC+i9Lh2/4jWp0GzA99fbhFvBwdZoccDowIWsI74t3T4Mbx//Osgg0OcI8Gb22xAoYqt5sFq6Kf0xo49gkXm2a+aJjJbEoo2Ar8Occ+Nhb7P3/pkOBq9I5U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778196450; c=relaxed/simple;
-	bh=yL3ozqXIvNHQL09rzJqznkF0RKFhQNFidnZSc4uHoEg=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=H9kPUZi0em/nbez8+PDWxZf3q27xboQmctW9hCtD4dYl2gX3pWF4nNCX9gGzWH0ZAj3g0TzxaCr3qSnobKNpORz5rLcvLO1oeytvLrBpb9dZ9/PyoMW4fdonZ+huFeHeL6J7eu4WQaBZEisbnfN4KJNHkjuLaXMdJ29tLfvswfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20251104.gappssmtp.com header.i=@ndufresne-ca.20251104.gappssmtp.com header.b=VuhPJVDw; arc=none smtp.client-ip=209.85.219.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
+	s=arc-20240116; t=1778208553; c=relaxed/simple;
+	bh=2uESVaWZnBsDEFSs07jK7aMGF6C38IZy1FGMsqBFAY8=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=PjF5U0zQ5X9F+Hv0xipINViBB8NyXAq/4iuyOumU5Oj2TXFuITEymXjqBaaWXPtCQJE0dZ5VcRc7BhUcrK870ITzNtnlinTFo34ld44Du/Ma155uV9pS5OBdyeogA9ngBNneqd81XbBSaZ95GJkQ/G7BYpK3Iva4UnlOLlZ66qk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=DopNV1IY; arc=none smtp.client-ip=109.224.244.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20251104.gappssmtp.com header.i=@ndufresne-ca.20251104.gappssmtp.com header.b="VuhPJVDw"
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-8acb3daf2aaso18443426d6.0
-        for <linux-staging@lists.linux.dev>; Thu, 07 May 2026 16:27:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20251104.gappssmtp.com; s=20251104; t=1778196448; x=1778801248; darn=lists.linux.dev;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=b6U2uX4TwvjS/3Q0UsrL7npn0f3jqdHzvW4G7Vy/bgI=;
-        b=VuhPJVDwfJ6R++TtqKmiyeWQP5ftQxMnsmI5wLEUYqPa+MGyaRDA6pIzLk48a9IiiL
-         b6Nxlc5mClDiJjBx5KcR6/A8bf5ijeXc/stz96hYKnD3bCzvU4RcrQ4QrZSy5vwdbYVv
-         FuJb72soqNDFDdes7zKT6ME7nkX50eBF29pxLeZJlCT6F3gvIb492kUKhykIE/rAat77
-         SSs35Mrl+Mxd43dabuOSDzdIitYsbpgEuId7DubPrf6z57Y+sc/GiofjlxkeqOtcAOkv
-         fOnvwejDPYMv76fNzZ7TID6HU3dcDcSfnvVug8QmVG560hc2ouN9s+60xIZnQ1INYDd2
-         YHqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778196448; x=1778801248;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=b6U2uX4TwvjS/3Q0UsrL7npn0f3jqdHzvW4G7Vy/bgI=;
-        b=fa6oNFlhPLvbEA7sjf83oxyombai8yiNEyty4ky0vGJFy3nutaG98eyGqtbukpqlzm
-         nQNW7394znpTgbuEinRST+C8QctFRe9u3PuQykHXJ/BOqK5riZMayBCoale9p9no26Hy
-         MrQs8sTR28Bq2CJ7+A/oCHktJ3g5ylfLhIacck6oj8uUhuTonCG4cJ71zEQNoJ10YwhN
-         qybbKWoRVPKPwp7iRqodOVQgdkR8eeKwpJVTyyAA/5+8Pwnnid0qE86L+hJnkAZlGyh2
-         2J8Pa5r+g0eXvl8U25y1DBcFvd7VbVwWHsNvq+fNaXqGS/EsOcthPTPGTopBuZf0TBQ3
-         2yTw==
-X-Forwarded-Encrypted: i=1; AFNElJ9V/pR4/Lfer5EyRB2Pynm3oyubExXL0OGuf/JiEuv7RSJ8tEQeX/bR70hon02owhokJATz1NqKDQlqb+VG@lists.linux.dev
-X-Gm-Message-State: AOJu0YypDHVd3Kd+GyzOY3A5cYeXHSaIywcGfQXQ27tQ3FfTX/3RQrA1
-	DhA7qBgKG26S1azN0xk9YUOPT4yAa3R9REHaYGBcjAm0i3gcrgW+/LoaCdFZlFBD3+k=
-X-Gm-Gg: Acq92OGnbjCDsubvwuFbAC/ER8Q37/5XE1KCXQfVUmLkUIRtuPh2m88MZwzf8YlWOph
-	Ki0amXp64WBBzdJidzYUy4c4hUPvqG0ZDrDxkiiRJ672xmjBt81OvByTjhW8LWirdpu7iIxIBTk
-	BcN5eEZke4Rg64+dQxc0/FdyfFbDj5gjIajdi7ESacC763bvomHZfwgX/W44+mwV3TZ/bBbgkVp
-	LW2MC278rAFk2vh45yIBmpAjjtFZnPum+m6FKVaUaI+UEmDwY1FSN3vJ2zxrBjyzrwJGXG6Wd4B
-	SsM6CgpBA1QN5POy8Q/XKqSWpmTsOlK6PEGgUzHXa9TR51g2R11ZKDnt1FfdXYATE+7oG/y8iML
-	Z4jcePgSg97VdACdpqvyUagq69/qGhrFtfhImy876Nd9VItdLMrE7JpSrkaNH5Faxcc0qcrYnpL
-	iN8FSBAQP6QkMQkaoue75YocQJ+Vdm
-X-Received: by 2002:a05:6214:627:b0:8ac:a689:34ce with SMTP id 6a1803df08f44-8bc4600fe8bmr158890996d6.45.1778196447798;
-        Thu, 07 May 2026 16:27:27 -0700 (PDT)
-Received: from ?IPv6:2606:6d00:15:e06b::c41? ([2606:6d00:15:e06b::c41])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8bf3a43636fsm2179986d6.21.2026.05.07.16.27.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 May 2026 16:27:26 -0700 (PDT)
-Message-ID: <2e891600319c2fd4219ed32d884c2b5bd975c3d0.camel@ndufresne.ca>
-Subject: Re: [PATCH v4 4/6] media: chips-media: wave5: Add range checks for
- dec_output_info
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Ricardo Ribalda <ribalda@chromium.org>, Mauro Carvalho Chehab	
- <mchehab@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-  Sakari Ailus <sakari.ailus@linux.intel.com>, Hans Verkuil
- <hverkuil@kernel.org>, Nas Chung	 <nas.chung@chipsnmedia.com>, Jackson Lee
- <jackson.lee@chipsnmedia.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Keke Li <keke.li@amlogic.com>, Yong Zhi
- <yong.zhi@intel.com>,  Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-staging@lists.linux.dev, Mauro Carvalho Chehab
- <mchehab+samsung@kernel.org>
-Date: Thu, 07 May 2026 19:27:24 -0400
-In-Reply-To: <20260507-smatch-7-1-v4-4-cc195f142167@chromium.org>
-References: <20260507-smatch-7-1-v4-0-cc195f142167@chromium.org>
-	 <20260507-smatch-7-1-v4-4-cc195f142167@chromium.org>
-Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-kS8qr0UdOx8Un+zOSSmW"
-User-Agent: Evolution 3.60.1 (3.60.1-1.fc44) 
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="DopNV1IY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail; t=1778208540; x=1778467740;
+	bh=7a+K9frEvEJL25oumxEfPimoMQ6dvao5bQM+UHxWvnI=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=DopNV1IY3sfRDxs3L+U0LwYnZ9OQWA7Lsx0/QxtdkZ2OXj1I4iauThXI5JRLs9cVp
+	 7suKsi1XxjvUscajMl+D1Y1Cl6eO8oZohMXJVgRw87+5cDK6VtGy+IjFPEddQ0YWt0
+	 lG+LLO2yNui7vkEPG4kDnUh1qPDB21NT/KtM4H1hoZOxJFpEdf/mlfsaePag9YVX6/
+	 cXOE7KxwGMSHQ3d6nqUCwXf44CMrKHvAXugzipJMw731fkeTrPwiwTbBdvSd0RdgL7
+	 UJiidCpPsNpasf/i4iohx39C6JU+mloZ8x0TDD5+rXm5HnbkShQ3lYQl8Xg1N8DRUE
+	 V27JRU6mq3jkw==
+Date: Fri, 08 May 2026 02:48:55 +0000
+To: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+From: David Cardenas <ldcc@proton.me>
+Cc: "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: [PATCH v2] staging: rtl8723bs: fix open parenthesis at end of line
+Message-ID: <IzXMpb3HpYTWCGRxzFNRhYk599YySxA0stKf5vVJlvJkgGRLvbhpYNjfCf5XYgqOqA0yyApLi82SPBGg1dKA3wEd6-B_fgd5X_2Vdb5NfM0=@proton.me>
+In-Reply-To: <1XxaPkNOP-p-F8PW1lsqdkdN9K2o6TS3kphmVpxm6gXIMn9Ygk7UPsiOosb9eybCDX_1lCU4PwdUKlPmFdTuAhAAg_aS65tADEe2YeAisek=@proton.me>
+References: <OorLKjBEmwLMB-OuQC_MerB0GkYg2fsHmJcvxPmc8EFrk7VuBlisVIa90K86InsIr2MjgjoSceOv_PUY0OfsepmQ42JdZIoSvK0pMggDfYI=@proton.me> <2026050635-gravitate-sprinkled-575f@gregkh> <1XxaPkNOP-p-F8PW1lsqdkdN9K2o6TS3kphmVpxm6gXIMn9Ygk7UPsiOosb9eybCDX_1lCU4PwdUKlPmFdTuAhAAg_aS65tADEe2YeAisek=@proton.me>
+Feedback-ID: 66630834:user:proton
+X-Pm-Message-ID: 911d137fe523f475e4777f7805be3eeadff9e8e4
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-
-
---=-kS8qr0UdOx8Un+zOSSmW
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Le jeudi 07 mai 2026 =C3=A0 20:58 +0000, Ricardo Ribalda a =C3=A9crit=C2=A0=
-:
-> If the driver's dec_output_info contains invalid data the driver can
-> write in invalid memory. Add a range check for that.
->=20
-> This fixes this smatch error:
-> drivers/media/platform/chips-media/wave5/wave5-vpuapi.c:588
-> wave5_vpu_dec_get_output_info() error: buffer overflow 'inst->frame_buf' =
-64 <=3D
-> 127
->=20
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+v2: add missing period to commit message, clarify blank line fix
 
-It theoretical, but considering its a warn_on, I'm fine with it.
+Function declarations and conditional statements should not end
+with an opening parenthesis. Reformat affected functions and
+if statements to place the opening condition or first parameter
+on the same line as the function name or keyword. Add a missing
+blank like after array declaration.
 
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Signed-off-by: David Cardenas <ldcc@proton.me>
+---
+ .../staging/rtl8723bs/hal/HalPhyRf_8723B.c    | 179 +++++++-----------
+ 1 file changed, 64 insertions(+), 115 deletions(-)
 
-> ---
-> =C2=A0drivers/media/platform/chips-media/wave5/wave5-vpuapi.c | 11 ++++++=
-+++--
-> =C2=A01 file changed, 9 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
-> b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
-> index d26ffc942219..f77abd5e122a 100644
-> --- a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
-> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
-> @@ -584,8 +584,15 @@ int wave5_vpu_dec_get_output_info(struct vpu_instanc=
-e
-> *inst, struct dec_output_i
-> =C2=A0		p_dec_info->num_of_decoding_fbs : p_dec_info-
-> >num_of_display_fbs;
-> =C2=A0
-> =C2=A0	if (info->index_frame_display >=3D 0 &&
-> -	=C2=A0=C2=A0=C2=A0 info->index_frame_display < (int)max_dec_index)
-> -		info->disp_frame =3D inst->frame_buf[val + info-
-> >index_frame_display];
-> +	=C2=A0=C2=A0=C2=A0 info->index_frame_display < (int)max_dec_index) {
-> +		u32 idx =3D val + info->index_frame_display;
-> +
-> +		if (WARN_ON(idx >=3D MAX_REG_FRAME)) {
-> +			ret =3D -EINVAL;
-> +			goto err_out;
-> +		}
-> +		info->disp_frame =3D inst->frame_buf[idx];
-> +	}
-> =C2=A0
-> =C2=A0	info->rd_ptr =3D p_dec_info->stream_rd_ptr;
-> =C2=A0	info->wr_ptr =3D p_dec_info->stream_wr_ptr;
+diff --git a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c b/drivers/stagi=
+ng/rtl8723bs/hal/HalPhyRf_8723B.c
+index 6ab65e9e8..59b8f7e99 100644
+--- a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
++++ b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
+@@ -30,6 +30,7 @@ static u8 DeltaSwingTableIdx_2GA_N_8188E[] =3D {
+        0, 0, 0, 2, 2, 3, 3, 4,  4,  4,  4,  5,  5,  6,  6,
+        7, 7, 7, 7, 8, 8, 9, 9, 10, 10, 10, 11, 11, 11, 11
+ };
++
+ static u8 DeltaSwingTableIdx_2GA_P_8188E[] =3D {
+        0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 4, 4, 4,
+        4, 4, 4, 5, 5, 7, 7, 8, 8, 8, 9, 9, 9, 9, 9
+@@ -39,14 +40,11 @@ static u8 DeltaSwingTableIdx_2GA_P_8188E[] =3D {
+ /* 3 Tx Power Tracking */
+ /* 3 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D */
 
---=-kS8qr0UdOx8Un+zOSSmW
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+-
+-static void setIqkMatrix_8723B(
+-       struct dm_odm_t *pDM_Odm,
+-       u8 OFDM_index,
+-       u8 RFPath,
+-       s32 IqkResult_X,
+-       s32 IqkResult_Y
+-)
++static void setIqkMatrix_8723B(struct dm_odm_t *pDM_Odm,
++                               u8 OFDM_index,
++                               u8 RFPath,
++                               s32 IqkResult_X,
++                               s32 IqkResult_Y)
+ {
+        s32 ele_A =3D 0, ele_D, ele_C =3D 0, value32;
 
------BEGIN PGP SIGNATURE-----
+@@ -149,12 +147,10 @@ static void setCCKFilterCoefficient(struct dm_odm_t *=
+pDM_Odm, u8 CCKSwingIndex)
+  *04/23/2012   MHC     Create Version 0.
+  *
+  *------------------------------------------------------------------------=
+---*/
+-void ODM_TxPwrTrackSetPwr_8723B(
+-       struct dm_odm_t *pDM_Odm,
+-       enum pwrtrack_method Method,
+-       u8 RFPath,
+-       u8 ChannelMappedIndex
+-)
++void ODM_TxPwrTrackSetPwr_8723B(struct dm_odm_t *pDM_Odm,
++                                enum pwrtrack_method Method,
++                                u8 RFPath,
++                                u8 ChannelMappedIndex)
+ {
+        struct adapter *Adapter =3D pDM_Odm->Adapter;
+        struct hal_com_data *pHalData =3D GET_HAL_DATA(Adapter);
+@@ -287,13 +283,11 @@ void ODM_TxPwrTrackSetPwr_8723B(
+                return; /*  This method is not supported. */
+ }
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaf0f3AAKCRDZQZRRKWBy
-9CNGAP9gRqo81pnTjYo/Dv0B+1g35GzQWjGMHtczGWARA6nZpQEAt4GJoVEZNftD
-pcOsX6aYlBZ5WpmmaVt+Vnn1wqk5ZAg=
-=l+59
------END PGP SIGNATURE-----
+-static void GetDeltaSwingTable_8723B(
+-       struct dm_odm_t *pDM_Odm,
+-       u8 **TemperatureUP_A,
+-       u8 **TemperatureDOWN_A,
+-       u8 **TemperatureUP_B,
+-       u8 **TemperatureDOWN_B
+-)
++static void GetDeltaSwingTable_8723B(struct dm_odm_t *pDM_Odm,
++                                     u8 **TemperatureUP_A,
++                                     u8 **TemperatureDOWN_A,
++                                     u8 **TemperatureUP_B,
++                                     u8 **TemperatureDOWN_B)
+ {
+        struct adapter *Adapter =3D pDM_Odm->Adapter;
+        struct odm_rf_cal_t *pRFCalibrateInfo =3D &pDM_Odm->RFCalibrateInfo=
+;
+@@ -340,9 +334,7 @@ void ConfigureTxpowerTrack_8723B(struct txpwrtrack_cfg =
+*pConfig)
+ #define MAX_TOLERANCE          5
 
---=-kS8qr0UdOx8Un+zOSSmW--
+ /* bit0 =3D 1 =3D> Tx OK, bit1 =3D 1 =3D> Rx OK */
+-static u8 phy_PathA_IQK_8723B(
+-       struct adapter *padapter, bool configPathB, u8 RF_Path
+-)
++static u8 phy_PathA_IQK_8723B(struct adapter *padapter, bool configPathB, =
+u8 RF_Path)
+ {
+        u32 regEAC, regE94, regE9C, tmp, Path_SEL_BB /*, regEA4*/;
+        u8 result =3D 0x00;
+@@ -425,14 +417,12 @@ static u8 phy_PathA_IQK_8723B(
+        if ((tmp & 0x200) > 0)
+                tmp =3D 0x400 - tmp;
+
+-       if (
+-               !(regEAC & BIT28) &&
++       if (!(regEAC & BIT28) &&
+                (((regE94 & 0x03FF0000)>>16) !=3D 0x142) &&
+                (((regE9C & 0x03FF0000)>>16) !=3D 0x42) &&
+                (((regE94 & 0x03FF0000)>>16) < 0x110) &&
+                (((regE94 & 0x03FF0000)>>16) > 0xf0) &&
+-               (tmp < 0xf)
+-       )
++               (tmp < 0xf))
+                result |=3D 0x01;
+        else                                    /* if Tx not OK, ignore Rx =
+*/
+                return result;
+@@ -441,9 +431,7 @@ static u8 phy_PathA_IQK_8723B(
+ }
+
+ /* bit0 =3D 1 =3D> Tx OK, bit1 =3D 1 =3D> Rx OK */
+-static u8 phy_PathA_RxIQK8723B(
+-       struct adapter *padapter, bool configPathB, u8 RF_Path
+-)
++static u8 phy_PathA_RxIQK8723B(struct adapter *padapter, bool configPathB,=
+ u8 RF_Path)
+ {
+        u32 regEAC, regE94, regE9C, regEA4, u4tmp, tmp, Path_SEL_BB;
+        u8 result =3D 0x00;
+@@ -524,14 +512,12 @@ static u8 phy_PathA_RxIQK8723B(
+        if ((tmp & 0x200) > 0)
+                tmp =3D 0x400 - tmp;
+
+-       if (
+-               !(regEAC & BIT28) &&
++       if (!(regEAC & BIT28) &&
+                (((regE94 & 0x03FF0000)>>16) !=3D 0x142) &&
+                (((regE9C & 0x03FF0000)>>16) !=3D 0x42) &&
+                (((regE94 & 0x03FF0000)>>16) < 0x110) &&
+                (((regE94 & 0x03FF0000)>>16) > 0xf0) &&
+-               (tmp < 0xf)
+-       )
++               (tmp < 0xf))
+                result |=3D 0x01;
+        else                            /* if Tx not OK, ignore Rx */
+                return result;
+@@ -615,14 +601,12 @@ static u8 phy_PathA_RxIQK8723B(
+        if ((tmp & 0x200) > 0)
+                tmp =3D 0x400 - tmp;
+
+-       if (
+-               !(regEAC & BIT27) && /* if Tx is OK, check whether Rx is OK=
+ */
++       if (!(regEAC & BIT27) && /* if Tx is OK, check whether Rx is OK */
+                (((regEA4 & 0x03FF0000)>>16) !=3D 0x132) &&
+                (((regEAC & 0x03FF0000)>>16) !=3D 0x36) &&
+                (((regEA4 & 0x03FF0000)>>16) < 0x110) &&
+                (((regEA4 & 0x03FF0000)>>16) > 0xf0) &&
+-               (tmp < 0xf)
+-       )
++               (tmp < 0xf))
+                result |=3D 0x02;
+
+        return result;
+@@ -708,14 +692,12 @@ static u8 phy_PathB_IQK_8723B(struct adapter *padapte=
+r)
+        if ((tmp & 0x200) > 0)
+                tmp =3D 0x400 - tmp;
+
+-       if (
+-               !(regEAC & BIT28) &&
++       if (!(regEAC & BIT28) &&
+                (((regE94 & 0x03FF0000)>>16) !=3D 0x142) &&
+                (((regE9C & 0x03FF0000)>>16) !=3D 0x42) &&
+                (((regE94 & 0x03FF0000)>>16) < 0x110) &&
+                (((regE94 & 0x03FF0000)>>16) > 0xf0) &&
+-               (tmp < 0xf)
+-       )
++               (tmp < 0xf))
+                result |=3D 0x01;
+
+        return result;
+@@ -803,14 +785,12 @@ static u8 phy_PathB_RxIQK8723B(struct adapter *padapt=
+er, bool configPathB)
+        if ((tmp & 0x200) > 0)
+                tmp =3D 0x400 - tmp;
+
+-       if (
+-               !(regEAC & BIT28) &&
++       if (!(regEAC & BIT28) &&
+                (((regE94 & 0x03FF0000)>>16) !=3D 0x142) &&
+                (((regE9C & 0x03FF0000)>>16) !=3D 0x42)  &&
+                (((regE94 & 0x03FF0000)>>16) < 0x110) &&
+                (((regE94 & 0x03FF0000)>>16) > 0xf0) &&
+-               (tmp < 0xf)
+-       )
++               (tmp < 0xf))
+                        result |=3D 0x01;
+        else    /* if Tx not OK, ignore Rx */
+                return result;
+@@ -895,26 +875,22 @@ static u8 phy_PathB_RxIQK8723B(struct adapter *padapt=
+er, bool configPathB)
+        if ((tmp & 0x200) > 0)
+                tmp =3D 0x400 - tmp;
+
+-       if (
+-               !(regEAC & BIT27) && /* if Tx is OK, check whether Rx is OK=
+ */
++       if (!(regEAC & BIT27) && /* if Tx is OK, check whether Rx is OK */
+                (((regEA4 & 0x03FF0000)>>16) !=3D 0x132) &&
+                (((regEAC & 0x03FF0000)>>16) !=3D 0x36) &&
+                (((regEA4 & 0x03FF0000)>>16) < 0x110) &&
+                (((regEA4 & 0x03FF0000)>>16) > 0xf0) &&
+-               (tmp < 0xf)
+-       )
++               (tmp < 0xf))
+                result |=3D 0x02;
+
+        return result;
+ }
+
+-static void _PHY_PathAFillIQKMatrix8723B(
+-       struct adapter *padapter,
+-       bool bIQKOK,
+-       s32 result[][8],
+-       u8 final_candidate,
+-       bool bTxOnly
+-)
++static void _PHY_PathAFillIQKMatrix8723B(struct adapter *padapter,
++                                         bool bIQKOK,
++                                         s32 result[][8],
++                                         u8 final_candidate,
++                                         bool bTxOnly)
+ {
+        u32 Oldval_0, X, TX0_A, reg;
+        s32 Y, TX0_C;
+@@ -982,13 +958,11 @@ static void _PHY_PathAFillIQKMatrix8723B(
+        }
+ }
+
+-static void _PHY_PathBFillIQKMatrix8723B(
+-       struct adapter *padapter,
+-       bool bIQKOK,
+-       s32 result[][8],
+-       u8 final_candidate,
+-       bool bTxOnly /* do Tx only */
+-)
++static void _PHY_PathBFillIQKMatrix8723B(struct adapter *padapter,
++                                         bool bIQKOK,
++                                         s32 result[][8],
++                                         u8 final_candidate,
++                                         bool bTxOnly /* do Tx only */)
+ {
+        u32 Oldval_1, X, TX1_A, reg;
+        s32     Y, TX1_C;
+@@ -1068,12 +1042,10 @@ void ODM_SetIQCbyRFpath(struct dm_odm_t *pDM_Odm, u=
+32 RFpath)
+        struct odm_rf_cal_t *pRFCalibrateInfo =3D &pDM_Odm->RFCalibrateInfo=
+;
+        u8 path;
+
+-       if (
+-               (pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC80][VAL] !=
+=3D 0x0) &&
++       if ((pRFCalibrateInfo->TxIQC_8723B[PATH_S0][IDX_0xC80][VAL] !=3D 0x=
+0) &&
+                (pRFCalibrateInfo->RxIQC_8723B[PATH_S0][IDX_0xC14][VAL] !=
+=3D 0x0) &&
+                (pRFCalibrateInfo->TxIQC_8723B[PATH_S1][IDX_0xC80][VAL] !=
+=3D 0x0) &&
+-               (pRFCalibrateInfo->RxIQC_8723B[PATH_S1][IDX_0xC14][VAL] !=
+=3D 0x0)
+-       ) {
++               (pRFCalibrateInfo->RxIQC_8723B[PATH_S1][IDX_0xC14][VAL] !=
+=3D 0x0)) {
+                if (RFpath)
+                        path =3D PATH_S0;
+                else
+@@ -1094,12 +1066,10 @@ static bool ODM_CheckPowerStatus(struct adapter *Ad=
+apter)
+        return true;
+ }
+
+-static void _PHY_SaveADDARegisters8723B(
+-       struct adapter *padapter,
+-       u32 *ADDAReg,
+-       u32 *ADDABackup,
+-       u32 RegisterNum
+-)
++static void _PHY_SaveADDARegisters8723B(struct adapter *padapter,
++                                        u32 *ADDAReg,
++                                        u32 *ADDABackup,
++                                        u32 RegisterNum)
+ {
+        u32 i;
+        struct hal_com_data *pHalData =3D GET_HAL_DATA(padapter);
+@@ -1114,9 +1084,7 @@ static void _PHY_SaveADDARegisters8723B(
+ }
+
+
+-static void _PHY_SaveMACRegisters8723B(
+-       struct adapter *padapter, u32 *MACReg, u32 *MACBackup
+-)
++static void _PHY_SaveMACRegisters8723B(struct adapter *padapter, u32 *MACR=
+eg, u32 *MACBackup)
+ {
+        u32 i;
+        struct hal_com_data     *pHalData =3D GET_HAL_DATA(padapter);
+@@ -1130,12 +1098,10 @@ static void _PHY_SaveMACRegisters8723B(
+ }
+
+
+-static void _PHY_ReloadADDARegisters8723B(
+-       struct adapter *padapter,
+-       u32 *ADDAReg,
+-       u32 *ADDABackup,
+-       u32 RegiesterNum
+-)
++static void _PHY_ReloadADDARegisters8723B(struct adapter *padapter,
++                                          u32 *ADDAReg,
++                                          u32 *ADDABackup,
++                                          u32 RegiesterNum)
+ {
+        u32 i;
+        struct hal_com_data     *pHalData =3D GET_HAL_DATA(padapter);
+@@ -1146,9 +1112,7 @@ static void _PHY_ReloadADDARegisters8723B(
+        }
+ }
+
+-static void _PHY_ReloadMACRegisters8723B(
+-       struct adapter *padapter, u32 *MACReg, u32 *MACBackup
+-)
++static void _PHY_ReloadMACRegisters8723B(struct adapter *padapter, u32 *MA=
+CReg, u32 *MACBackup)
+ {
+        u32 i;
+
+@@ -1159,11 +1123,7 @@ static void _PHY_ReloadMACRegisters8723B(
+ }
+
+
+-static void _PHY_PathADDAOn8723B(
+-       struct adapter *padapter,
+-       u32 *ADDAReg,
+-       bool is2T
+-)
++static void _PHY_PathADDAOn8723B(struct adapter *padapter, u32 *ADDAReg, b=
+ool is2T)
+ {
+        u32 pathOn;
+        u32 i;
+@@ -1184,9 +1144,7 @@ static void _PHY_PathADDAOn8723B(
+
+ }
+
+-static void _PHY_MACSettingCalibration8723B(
+-       struct adapter *padapter, u32 *MACReg, u32 *MACBackup
+-)
++static void _PHY_MACSettingCalibration8723B(struct adapter *padapter, u32 =
+*MACReg, u32 *MACBackup)
+ {
+        u32 i =3D 0;
+        struct hal_com_data     *pHalData =3D GET_HAL_DATA(padapter);
+@@ -1201,12 +1159,7 @@ static void _PHY_MACSettingCalibration8723B(
+
+ }
+
+-static bool phy_SimularityCompare_8723B(
+-       struct adapter *padapter,
+-       s32 result[][8],
+-       u8  c1,
+-       u8  c2
+-)
++static bool phy_SimularityCompare_8723B(struct adapter *padapter, s32 resu=
+lt[][8], u8  c1, u8  c2)
+ {
+        u32 i, j, diff, SimularityBitMap, bound =3D 0;
+        u8 final_candidate[2] =3D {0xFF, 0xFF}; /* for path A and path B */
+@@ -1284,13 +1237,11 @@ static bool phy_SimularityCompare_8723B(
+
+
+
+-static void phy_IQCalibrate_8723B(
+-       struct adapter *padapter,
+-       s32 result[][8],
+-       u8 t,
+-       bool is2T,
+-       u8 RF_Path
+-)
++static void phy_IQCalibrate_8723B(struct adapter *padapter,
++                                  s32 result[][8],
++                                  u8 t,
++                                  bool is2T,
++                                  u8 RF_Path)
+ {
+        struct hal_com_data     *pHalData =3D GET_HAL_DATA(padapter);
+        struct dm_odm_t *pDM_Odm =3D &pHalData->odmpriv;
+@@ -1544,13 +1495,11 @@ static void phy_LCCalibrate_8723B(struct dm_odm_t *=
+pDM_Odm, bool is2T)
+
+ /* IQK version:V2.5    20140123 */
+ /* IQK is controlled by Is2ant, RF path */
+-void PHY_IQCalibrate_8723B(
+-       struct adapter *padapter,
+-       bool bReCovery,
+-       bool bRestore,
+-       bool Is2ant,    /* false:1ant, true:2-ant */
+-       u8 RF_Path      /* 0:S1, 1:S0 */
+-)
++void PHY_IQCalibrate_8723B(struct adapter *padapter,
++                           bool bReCovery,
++                           bool bRestore,
++                           bool Is2ant,        /* false:1ant, true:2-ant *=
+/
++                           u8 RF_Path  /* 0:S1, 1:S0 */)
+ {
+        struct hal_com_data     *pHalData =3D GET_HAL_DATA(padapter);
+
+--
+2.43.0
