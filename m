@@ -1,69 +1,69 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1E9D13A86C
-	for <linux-staging@lists.linux.dev>; Fri,  8 May 2026 19:39:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CFCC13A86C
+	for <linux-staging@lists.linux.dev>; Fri,  8 May 2026 19:39:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778269189; cv=none; b=hl4bp3YxAZwgz+vsCihKf66Wh980Guf2bSTMoCgxyMruk+2BD3dwwfj0OhV4ndxdLRrU00jxH+qCBk6z3tn0UBuucZXAEj5HeiymK5Lq3T+TmNUo/zWdmobA8tCr49DkynDImAH2C45wBXQsmhSX1vdEmxbH3G9QRvxotTxGNww=
+	t=1778269191; cv=none; b=gtHuTYFPrABrgLWNP+1Xo8Dn/yXzNavF5snN/rTF6sx+2yFEThg5CVOXoX45/ymzrD6c4aWBHVgn9zQhYCYtB4ZpqkPSft1DmT2uObjI3iibGiOfHGNIxPlK9OopRPSrT5JWTjGh8QF4gF3v6iq5ZAf0++DMKUs3KyIMy/ymEqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778269189; c=relaxed/simple;
-	bh=jgZB6YN3wldeIb9USxy9MtM6vb9QKOrpiC9J7m1Mq3Y=;
+	s=arc-20240116; t=1778269191; c=relaxed/simple;
+	bh=S/mkYZjrHBxl+TCuj7S5LtyIOZvsyNuslLoawv34OYg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BGhgwWnXpTtVTVNhVvWXjhnY7sBh4+LxS7+LwEnd4jzyVBioVhQptuUyQt+VBf157s8zvqTl7V1xY66Hmm7G6FVRJskUIsQkl6zrb5V1c/Yw319jLD6esuuT49oMbJMGLtA5RH5o5jyk/wyhF3QIIuh6kmuemDCtEGzSBpusuNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cfic+nQS; arc=none smtp.client-ip=209.85.167.49
+	 MIME-Version; b=P58ceNqMBxGfDCUk0zt4WVgB/kgLrHIpk45aNZ2dQ1cySrjKCLrkMTQADNv7UXmD1HinoIeuZXwooFC4vL973AAYPArnm6LfsObEej06H87AqJ8jowSGcOEJ83/5LLJ+Ybh8yjzjw7FfamRGNnfuNwBPsX2/1xQ53Ku6eOEJ4fY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rlpRDJEo; arc=none smtp.client-ip=209.85.167.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cfic+nQS"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5a85b30dd54so2513320e87.2
-        for <linux-staging@lists.linux.dev>; Fri, 08 May 2026 12:39:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rlpRDJEo"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5a858881ad2so2392492e87.3
+        for <linux-staging@lists.linux.dev>; Fri, 08 May 2026 12:39:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778269186; x=1778873986; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1778269188; x=1778873988; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=oZQqVMRaPCG6l0ijmrzxsoH/wor/WtXwr8JmgZkD+3c=;
-        b=cfic+nQS3Amn6StG8XJJkW66KRnPF/pqjL9FdYPLXHU9w/+QLY5RjdUuTa+mRb+nT3
-         oxPxZJ5pXU5r+0jumva8PfPGq/x3xxY7ow7gNBwFcfSWq7kn8UwWQVLcC4A9J5xkV7bT
-         52YsaLX4v80R1T4gbDVs2SyRpfOHg++o6bepbCeqobtrFOq0J9mK+YWentLHtgABPTI7
-         p+FGX+1KSveLajOFPHlIE/+ZvfJqp0O0PWTiLhZIfFJO23yxgd7V5jhc7aMTPwMaFDVm
-         lRN07vlIM6+kvZvEF7/V2wTBsDVFCV+iWw2N2G1pMmsvKSDgvXk8BhiyKxRn/LdRIT4B
-         L9/A==
+        bh=WaKtt37+Juonis3rjKs5Kt8DeukMELNEbsNso6cOyIU=;
+        b=rlpRDJEoWCxVepP+8RQLKLkzCj0i50DkzH+r4Bk7EE2DcfcO87oqgPLAwMZM8qcAHc
+         WVRRzJu/koMSpi/vjLSHWZLDkvGPYDNdhm6aY+V85yZhd76nfcKEaqcZMunTB3zlNlYy
+         zGZtkeYYF4FeLSby6S8/OQWNA3VLB0UumxEbZ4DIbpn1L+QAzvv8eZQD/mzIpRfSTKtg
+         FOwSssk17qkWQB1EB4tBpb8doQtBKcnrGk4UJAVVVD1Bicg+2x0rt155B/yJqC8XfuAm
+         LvOy7XnylI/b9RsmVDPyO7m5GLLeKZT7lzB4z6eQkuQfFOGp5tkT/aeAkdeyQXLRqqeS
+         2bhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778269186; x=1778873986;
+        d=1e100.net; s=20251104; t=1778269188; x=1778873988;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=oZQqVMRaPCG6l0ijmrzxsoH/wor/WtXwr8JmgZkD+3c=;
-        b=D7zAL+2B8BSqKlMheGBy1mb1lkSYaBEXW0HXkqkbD/Mjbx8uaYwESa42p5yaZnoWOs
-         saJaU9tfE3FrF57YFg8YmqPOAQFYjD8YA0Nt64oVRkLb9Jp5uyj+y3c5CziBrr7Gr0Yt
-         v5QWStvVdW3YvgtUCxp8zIn6/BYweQ/57vvTY6iUyru0UU+cYd1ZpDgbprQfxTlhnVyj
-         HPd67AMSZlAI3YMigfXc83TOgAwPXpDOvwN82m0BF428U7HM0hOrcEy1zIOKZ44thgnL
-         v0D8oAnOg61AeIakuWM680XzmXC/dwNm6sPtVPKVs1D7U/je0XkCVLBUgeAo2xY9J9mm
-         Sing==
-X-Gm-Message-State: AOJu0YwDtEQRJWRGCBuHgjmbd82nLRGv+NyV+Us0YtBKtuQmZuJEeYql
-	yyUAL8fibNt78f4pcrgiOhCjC8sMceWQQ5uKIryHovS80ZxSxIu6x0qM
-X-Gm-Gg: Acq92OFguwkopP86y4OwquCMjpjscZTzNpn8j7nP9pzvInSq1YrIG0UoiKwybFzZL9w
-	dk81ptshvjefv+sjJtH3KEUc2SBPW/tBo51PV28z8xHlihbzGx8QLVZwLdk67Hjtrs+6cQE+a4t
-	OpYH6hkxybKga7je95sp6ErYlJ8a+x48w2qlSbMXCWfL+EOTkAK6tOMO0AUsND9Ed39t2lEfAUD
-	X7orFnONzzInrYfOrgmRQwUKcRkYOn72KaQWcFi3/NxTptErLhe0A0IqASy1ItW+Kp2nlvhwlJa
-	PJfi84QQN4Qsb+ULe6709HpzVdvULEuJMppL2rHvdt4TXsPGMhzYcPiIx3AjeBVz20C07oFj6Eh
-	3Xm7YyLNluzdzHGxPGR1LaCVp553Df0/7h51JBaw2kMfPkzAQsTcrH1773EJnkk70o7AR/tDDkb
-	Q9EIsQj9xzQnWAC+Di4AuKClDh
-X-Received: by 2002:a05:6512:1153:b0:5a8:a558:63ae with SMTP id 2adb3069b0e04-5a8a5586466mr1870921e87.13.1778269185873;
-        Fri, 08 May 2026 12:39:45 -0700 (PDT)
+        bh=WaKtt37+Juonis3rjKs5Kt8DeukMELNEbsNso6cOyIU=;
+        b=I68O4SVzRQGasQCVf+r8B6FuDRH4PUjgmnu4R2DIWxQyrz+s7ylHrUPhSWIMr9E6AF
+         4SHJnAVY0jx/zr/ChACRpa9zb86LUh02Hn//fWI8c+nzGt6+p2T+5+OBoqJ7wKSFcWuB
+         YGGjD0slzgOgoB0A+W2CB6VnQUmR+B1GFV8t36cO/kcu2So2rdCkwjrqqmA7Yr0zJa3A
+         eNs+O2V25iz0l0ioErWNiJtKKaEecXclyrOQAE/GLE28WG8isC4YfNAmGDUpHWQs7uu6
+         fqjnPfplOX59ilEXRvPEDLZlVHKfMGOYfPhjitFtF/vHgmMOsA5qyuL6chbRjsgfXHAD
+         cNvQ==
+X-Gm-Message-State: AOJu0YwAlUTECFWVunmYbAwEsRsIrvqaECkQ6lnIk+FTP8qoYhocHQ1o
+	AIo82jFbq65J7aO4iDP80+Jgn1kXUSvS0OBksDxQovCKNDrmhwttlES+
+X-Gm-Gg: Acq92OHAAg3N1cjMlNjqh+uK1oM+Cqb7AhF5R9WFlUf6ZYNY3VMf4NQg3bBTK40kxSN
+	C4xlORodZT8zzi/r/IFv8v+g0LofsOrcEhu+wIzTIwI4h+Y316eJk2SqbZcTElLGzO13DLBitI6
+	I1/q+YQBJuS6sF82Xdm+W3Vci6qyn7fZXhTPgpo/0/O4PlnA4DNIRnPhT62+Ro+DxqrZS5t1HqC
+	rvnLHJhs0PkyeOM9SSo7bqUY4cCMIjBr+V7xxvCHQbBIK1mG/JlVem63JGESZXOg2xNgrnfgWo0
+	y+KlKZCzwMyFSQKUK1uRFoopjPzsyxxJA4i937XMxKM1MobQg1OYUBqAtRUm6ZOmP9fAKfiSKO4
+	I2GZKIwwlpXGJDhGQO4c5hqRD63vdN8Ftj2/rmh+yd360dRdNKevLFk+B/TQas27PYXn5odqqdy
+	d13RWySeLIxu2N2i3c+mruKExRZECybZ+jPUs=
+X-Received: by 2002:a05:6512:124b:b0:5a4:496:5bac with SMTP id 2adb3069b0e04-5a887ceb4d8mr6176408e87.36.1778269188025;
+        Fri, 08 May 2026 12:39:48 -0700 (PDT)
 Received: from archlinux ([185.140.161.214])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a8a955df99sm776407e87.45.2026.05.08.12.39.44
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a8a955df99sm776407e87.45.2026.05.08.12.39.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2026 12:39:45 -0700 (PDT)
+        Fri, 08 May 2026 12:39:47 -0700 (PDT)
 From: Nikolay Kulikov <nikolayof23@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	Nikolay Kulikov <nikolayof23@gmail.com>
-Subject: [PATCH RFC 08/11] staging: rtl8723bs: inline sdio_write32() into rtw_write32()
-Date: Fri,  8 May 2026 22:38:37 +0300
-Message-ID: <20260508193909.16015-9-nikolayof23@gmail.com>
+Subject: [PATCH RFC 09/11] staging: rtl8723bs: inline sdio_write_port() into rtw_write_port()
+Date: Fri,  8 May 2026 22:38:38 +0300
+Message-ID: <20260508193909.16015-10-nikolayof23@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260508193909.16015-1-nikolayof23@gmail.com>
 References: <20260508193909.16015-1-nikolayof23@gmail.com>
@@ -75,136 +75,153 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-rtw_write32() is a wrapper around sdio_write32(), combining them will
-simplify the code and reduce the number of indirect calls.
+rtw_write_port() is just a wrapper around sdio_write_port(). Combine
+them to reduce the number of abstractions and simplify the code.
+
+Update the function description to match the actual parameters.
 
 Signed-off-by: Nikolay Kulikov <nikolayof23@gmail.com>
 ---
-
-The call sites of rtw_write32() also require _SUCCESS/_FAIL, so we need
-to use RTW_STATUS_CODE().
-
- drivers/staging/rtl8723bs/core/rtw_io.c    | 32 ++++++++++++++----
- drivers/staging/rtl8723bs/hal/sdio_ops.c   | 39 ----------------------
- drivers/staging/rtl8723bs/include/rtw_io.h |  2 --
- 3 files changed, 25 insertions(+), 48 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_io.c    | 41 ++++++++++++++--
+ drivers/staging/rtl8723bs/hal/sdio_ops.c   | 54 +---------------------
+ drivers/staging/rtl8723bs/include/rtw_io.h |  1 -
+ 3 files changed, 37 insertions(+), 59 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_io.c b/drivers/staging/rtl8723bs/core/rtw_io.c
-index 38c4bdd918b8..f1f3ca46bd15 100644
+index f1f3ca46bd15..2f99e5e6e2ac 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_io.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_io.c
-@@ -141,16 +141,34 @@ int rtw_write16(struct adapter *adapter, u32 addr, u16 val)
+@@ -171,15 +171,46 @@ int rtw_write32(struct adapter *adapter, u32 addr, u32 val)
+ 	return RTW_STATUS_CODE(err);
+ }
  
- int rtw_write32(struct adapter *adapter, u32 addr, u32 val)
++/*
++ * Description:
++ * Write to TX FIFO
++ * Align write size block size,
++ * and make sure data could be written in one command.
++ *
++ * Parameters:
++ * @adapter: adapter
++ * @addr: port ID
++ * @cnt: size to write
++ * @pmem: pointer to struct xmit_buf
++ *
++ * Return:
++ * _SUCCESS(1)		Success
++ * _FAIL(0)		Fail
++ */
+ u32 rtw_write_port(struct adapter *adapter, u32 addr, u32 cnt, u8 *pmem)
  {
+-	u32 (*_write_port)(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *pmem);
 -	struct io_priv *pio_priv = &adapter->iopriv;
 -	struct intf_hdl *pintfhdl = &pio_priv->intf;
--	int (*_write32)(struct intf_hdl *pintfhdl, u32 addr, u32 val);
--	int ret;
++	struct sdio_data *sdio = &adapter->dvobj->intf_data;
++	struct xmit_buf *xmitbuf = (struct xmit_buf *)pmem;
 +	struct intf_hdl *intfhdl = &adapter->iopriv.intf;
-+	u8 mac_pwr_ctrl_on, device_id, shift;
-+	__le32 le_tmp;
-+	s32 err = 0;
-+	u16 offset;
-+	u32 ftaddr;
++	s32 err;
  
--	_write32 = pintfhdl->io_ops._write32;
-+	ftaddr = _cvrt2ftaddr(addr, &device_id, &offset);
- 
--	ret = _write32(pintfhdl, addr, val);
-+	rtw_hal_get_hwreg(adapter, HW_VAR_APFM_ON_MAC, &mac_pwr_ctrl_on);
-+	if (((device_id == WLAN_IOREG_DEVICE_ID) && (offset < 0x100)) ||
-+	    (!mac_pwr_ctrl_on) ||
-+	    (adapter_to_pwrctl(adapter)->fw_current_in_ps_mode)) {
-+		le_tmp = cpu_to_le32(val);
-+		err = sd_cmd52_write(intfhdl, ftaddr, 4, (u8 *)&le_tmp);
-+		return RTW_STATUS_CODE(err);
-+	}
- 
--	return RTW_STATUS_CODE(ret);
-+	/*  4 bytes alignment */
-+	shift = ftaddr & 0x3;
-+	if (shift == 0) {
-+		sd_write32(intfhdl, ftaddr, val, &err);
-+	} else {
-+		le_tmp = cpu_to_le32(val);
-+		err = sd_cmd52_write(intfhdl, ftaddr, 4, (u8 *)&le_tmp);
-+	}
+-	_write_port = pintfhdl->io_ops._write_port;
++	if (!adapter->hw_init_completed || !xmitbuf)
++		return _FAIL;
 +
-+	return RTW_STATUS_CODE(err);
++	cnt = round_up(cnt, 4);
++	hal_sdio_get_cmd_addr_8723b(adapter, addr, cnt >> 2, &addr);
++
++	if (cnt > sdio->block_transfer_len)
++		cnt = _RND(cnt, sdio->block_transfer_len);
++
++	err = sd_write(intfhdl, addr, cnt, xmitbuf->pdata);
+ 
+-	return _write_port(pintfhdl, addr, cnt, pmem);
++	rtw_sctx_done_err(&xmitbuf->sctx,
++			  err ? RTW_SCTX_DONE_WRITE_PORT_ERR : RTW_SCTX_DONE_SUCCESS);
++
++	if (err)
++		return _FAIL;
++	return _SUCCESS;
  }
  
- u32 rtw_write_port(struct adapter *adapter, u32 addr, u32 cnt, u8 *pmem)
+ int rtw_init_io_priv(struct adapter *padapter,
 diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-index b6d0774652dc..a162815e24a4 100644
+index a162815e24a4..3b90bab3b92f 100644
 --- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
 +++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-@@ -124,44 +124,6 @@ u32 _cvrt2ftaddr(const u32 addr, u8 *pdevice_id, u16 *poffset)
- 	return ftaddr;
+@@ -168,61 +168,9 @@ static u32 sdio_read_port(
+ 	return _SUCCESS;
  }
  
--static s32 sdio_write32(struct intf_hdl *intfhdl, u32 addr, u32 val)
+-/*
+- * Description:
+- *Write to TX FIFO
+- *Align write size block size,
+- *and make sure data could be written in one command.
+- *
+- * Parameters:
+- *intfhdl	a pointer of intf_hdl
+- *addr		port ID
+- *cnt			size to write
+- *wmem		data pointer to write
+- *
+- * Return:
+- *_SUCCESS(1)		Success
+- *_FAIL(0)		Fail
+- */
+-static u32 sdio_write_port(
+-	struct intf_hdl *intfhdl,
+-	u32 addr,
+-	u32 cnt,
+-	u8 *mem
+-)
 -{
 -	struct adapter *adapter;
--	u8 mac_pwr_ctrl_on;
--	u8 device_id;
--	u16 offset;
--	u32 ftaddr;
--	u8 shift;
+-	struct sdio_data *psdio;
 -	s32 err;
--	__le32 le_tmp;
+-	struct xmit_buf *xmitbuf = (struct xmit_buf *)mem;
 -
 -	adapter = intfhdl->padapter;
--	err = 0;
+-	psdio = &adapter_to_dvobj(adapter)->intf_data;
 -
--	ftaddr = _cvrt2ftaddr(addr, &device_id, &offset);
+-	if (!adapter->hw_init_completed)
+-		return _FAIL;
 -
--	rtw_hal_get_hwreg(adapter, HW_VAR_APFM_ON_MAC, &mac_pwr_ctrl_on);
--	if (
--		((device_id == WLAN_IOREG_DEVICE_ID) && (offset < 0x100)) ||
--		(!mac_pwr_ctrl_on) ||
--		(adapter_to_pwrctl(adapter)->fw_current_in_ps_mode)
--	) {
--		le_tmp = cpu_to_le32(val);
+-	cnt = round_up(cnt, 4);
+-	hal_sdio_get_cmd_addr_8723b(adapter, addr, cnt >> 2, &addr);
 -
--		return sd_cmd52_write(intfhdl, ftaddr, 4, (u8 *)&le_tmp);
--	}
+-	if (cnt > psdio->block_transfer_len)
+-		cnt = _RND(cnt, psdio->block_transfer_len);
 -
--	/*  4 bytes alignment */
--	shift = ftaddr & 0x3;
--	if (shift == 0) {
--		sd_write32(intfhdl, ftaddr, val, &err);
--	} else {
--		le_tmp = cpu_to_le32(val);
--		err = sd_cmd52_write(intfhdl, ftaddr, 4, (u8 *)&le_tmp);
--	}
--	return err;
+-	err = sd_write(intfhdl, addr, cnt, xmitbuf->pdata);
+-
+-	rtw_sctx_done_err(
+-		&xmitbuf->sctx,
+-		err ? RTW_SCTX_DONE_WRITE_PORT_ERR : RTW_SCTX_DONE_SUCCESS
+-	);
+-
+-	if (err)
+-		return _FAIL;
+-	return _SUCCESS;
 -}
 -
- /*
-  * Description:
-  *Read from RX FIFO
-@@ -260,7 +222,6 @@ static u32 sdio_write_port(
- 
  void sdio_set_intf_ops(struct adapter *adapter, struct _io_ops *ops)
  {
--	ops->_write32 = &sdio_write32;
- 	ops->_write_port = &sdio_write_port;
+-	ops->_write_port = &sdio_write_port;
++	return;
  }
  
+ /*
 diff --git a/drivers/staging/rtl8723bs/include/rtw_io.h b/drivers/staging/rtl8723bs/include/rtw_io.h
-index db2e00554aff..9fc2f7413543 100644
+index 9fc2f7413543..4e3504260bbc 100644
 --- a/drivers/staging/rtl8723bs/include/rtw_io.h
 +++ b/drivers/staging/rtl8723bs/include/rtw_io.h
-@@ -11,8 +11,6 @@
+@@ -11,7 +11,6 @@
  struct intf_hdl;
  
  struct _io_ops {
--		int (*_write32)(struct intf_hdl *pintfhdl, u32 addr, u32 val);
--
- 		u32 (*_write_port)(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *pmem);
+-		u32 (*_write_port)(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *pmem);
  };
  
+ struct	intf_hdl {
 -- 
 2.54.0
 
