@@ -1,46 +1,45 @@
 Received: from mail.cipherat.com (mail.cipherat.com [91.98.42.103])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E983037BE62
-	for <linux-staging@lists.linux.dev>; Fri,  8 May 2026 22:27:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17BF532E743
+	for <linux-staging@lists.linux.dev>; Fri,  8 May 2026 22:27:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.98.42.103
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778279226; cv=none; b=nvIefIOR97AKJRJxk0XayNacXUMp/bhDe7B6KSRl5roV1m/W0jYytWKJUCh4ujZRwEWWVwhLtzgnwqJrD2oDP8GGqsJwN4f/PiahEqN2RYGmgPkZoliN2068t9iYvpPAQRuCe8VijPsrfnz1B13wK7Ho+AP2UlzFJOj/58TPH9M=
+	t=1778279252; cv=none; b=fI/tpR5AdAzi3EqIuiuncTZJuAj+pX6sz6P/Fl0AGhKwvvryQ23fSroy8a81RmkkSdLXJ4C0saFhMU0kve7VGjvYHbYtf4OHZ0/VHi6oIEyIhpiDAqSYDXqkwFZupvga+qoGFfdHC7AQOOaCU9M32p7k1HpgSGrKWgcnSJuY0UQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778279226; c=relaxed/simple;
-	bh=rZHYkXggah79PkVFN+6E/RKD6b6tAyfkViysUFDb8oc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=B8pu/DKoys97Soq+8AMPPhsPfnUo1zcf7VicshvwNtWPEltV6OCNaqQAA0ZkhUpajHpiXz8M9nt5muC4A30RWb7/P30UVxs0gw0IFPNSw3i2pEihQjCHr09AVxM0e0/XFjkn6Wfmm7qZdxYOVUUeYI+Y8fcN4Q74+9qyZbhknmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cipherat.com; spf=pass smtp.mailfrom=cipherat.com; dkim=pass (4096-bit key) header.d=cipherat.com header.i=@cipherat.com header.b=HjUjVyRo; arc=none smtp.client-ip=91.98.42.103
+	s=arc-20240116; t=1778279252; c=relaxed/simple;
+	bh=TlxT4SQ+jhvEeUSKmnFps6CGepiSOHV1EysHfMUVJcw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Nhl8PP7YmHteQ8HARSISnhaDgi7CrYr/1njQZMU21TlBKGY146Dgbt2lyrUdVr4n1xFz/AbA6wLmeJjikUrJSwCsHW96vP0KDUCElrguLmS7k9FZ61I/9C+Donbz/FBo3TgeGAhjVQuekFEjTbupyxl6vACAM22Oczw8TkfL8/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cipherat.com; spf=pass smtp.mailfrom=cipherat.com; dkim=pass (4096-bit key) header.d=cipherat.com header.i=@cipherat.com header.b=czoCr2jU; arc=none smtp.client-ip=91.98.42.103
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cipherat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cipherat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=cipherat.com header.i=@cipherat.com header.b="HjUjVyRo"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9AE1184FCA;
-	Sat,  9 May 2026 01:26:54 +0300 (+03)
+	dkim=pass (4096-bit key) header.d=cipherat.com header.i=@cipherat.com header.b="czoCr2jU"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C18F484FCA;
+	Sat,  9 May 2026 01:27:28 +0300 (+03)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cipherat.com;
-	s=dkim; t=1778279215; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding; bh=9UgJASqxAWAeh3eiXQ4y7gcX7HLK+OapSPbuxmiLW5Y=;
-	b=HjUjVyRodngW/H+qn2dcAWiBquCCdo7+YuY232Q5ddlqK7AoC7h1ZxI0urdwJ+nA1FC99I
-	B+Ykjf90Tj+1Zk7VagrgJLLco0flhv4gaSCC0RlV7j934e62xlULZHaAK4LV+BvbWFB67K
-	HEi8COEYKOcYrTSIontfab9RIxc6n6/CnQ2R5KU4rSfu+8ediVixFzfXcW5bbzXXMAYcYw
-	sC+ky/RZYab63qdbKQMOJGTM6NVbxbOwgpar+HVa5AUyiYQLpIZZVjNUtysU0y2Sv3oAtg
-	8aA+9dOgRrAZ1kt65YQysOYGyMvisS2yQt7j3F703T+kGzBKjud6ResqBI5PNui+KwmeY0
-	OWAB4gzoQM1ZxXPfrHbf4pcR0WI0kipSTmMYEgbxo9D/e/6V0zQxPwo9VwIq6MmyT8pUQq
-	5sSpfG8vy03PeIY82vWh9p/v6DnBYVVfyROUz88seH1bNv4G+rkYeZYIeyXL7vpR0g8jhh
-	++rSuL62l3E7G/wuueuL1uKBmuSYt7IOyqmY6oOopV5dm8H45CY744c6YDi43TjqxGidvi
-	OzXFdNUd02J6R0lBa8jBbdNDhXHKCWrzefGgqTTIKmIug2lCVSAThqwiMVUA9n7mbsul6i
-	3dhk1q5nPYT689bJinsovN7q6rU+836s1X6Ef0ISUFPRpKGip/92o=
+	s=dkim; t=1778279249; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding; bh=4ZnDbFFu+FvMhqsWW2jow55EzXzf52hbUfBzZzdi4hU=;
+	b=czoCr2jUA6pi3jFKTNzk8vyWOhjBGaG3WaquTDYR0sd70JBSpntevnx+InCA/xwPHYo7bf
+	qtlOb2MNxf0hHPlxgL3wXPQxbUmvFRYbfhoFOPeh49eymoJwblGIiMcSO3m8I8oh71U2iL
+	PryoaI/QtG6o2d4McHx/MyvyTbtLgw+E/FOXlzOQ8ECeuHFTgMP1GjMAL539Cxt0aEh97L
+	PXNP9atNYlCx0EADyVWQ90eLmyReS72h1k8Onk58vQ95AUKKwWrrvurD4s9ykCOIzCssf+
+	XTbUzqJF3qwa9cARW9QNC+E3R/gg5Bk3GtU4IuOQm/F4Lij63Vo9WiM7TZHbAtZ7TVn3qU
+	Z7kbcsxpGQu8HdqSld9l2zw2nA1taY+DDKQXYHubqQ2n+0auHBKbrH3nWWcviB08/De0QB
+	AeKyHZVNvvJdQk1ZerlUwCBBl2IVB39S3ndRf0ERG/a2Km0Eb2ZghsRXBpuv68xRHENnxU
+	qtVxB3dnfr+d/l45wnq8Tfs8XQaA9PGaZ2ZOFzBXVBF7qnJl+TAHCrkDvyk8m0e7ca++8B
+	MzrAZgF+nQ1OqGLUW3ngRXEiRrz7OFoZ6CPzAPu5JiHmTX1OURunq/UZUvp/sKyuHCiGXR
+	J76jdel4/kmGNRpuX+nMrZMAQye62qEE+041uuBhSEUQ0YRWsZJ0s=
 From: Salman Alghamdi <me@cipherat.com>
 To: gregkh@linuxfoundation.org
 Cc: straube.linux@gmail.com,
 	error27@gmail.com,
 	luka.gejak@linux.dev,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH v1] staging: rtl8723bs: fix buffer over-read in rtw_update_protection
-Date: Sat,  9 May 2026 01:26:14 +0300
-Message-ID: <20260508222649.23989-1-me@cipherat.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v7 0/7] staging: rtl8723bs: rtw_mlme: line length cleanup
+Date: Sat,  9 May 2026 01:26:56 +0300
+Message-ID: <20260508222725.24075-1-me@cipherat.com>
 X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -51,50 +50,29 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Last-TLS-Session-Version: TLSv1.3
 
-rtw_update_protection() is called with a pointer offset into the
-ies buffer but the full ie_length is passed, causing a potential
-buffer over-read.
+This series cleans up lines exceeding 100 columns in rtw_mlme.c,
+along with minor readability improvements.
 
-Fixes: e945c43df60b ("Staging: rtl8723bs: Delete dead code from update_current_network()")
-Fixes: d3fcee1b78a5 ("staging: rtl8723bs: fix camel case in struct wlan_bssid_ex")
-Reported-by: Luka Gejak <luka.gejak@linux.dev>
-Closes: https://lore.kernel.org/linux-staging/DI2H39EAAFBZ.3KI5NWN02AQ2S@linux.dev
-Cc: stable@vger.kernel.org
-Signed-off-by: Salman Alghamdi <me@cipherat.com>
----
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+The buffer over-read fix previously included in this series has been
+split out and sent separately as a standalone patch at Greg's request.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index ddfc56f0253d..268f294528e6 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -464,8 +464,11 @@ static void update_current_network(struct adapter *adapter, struct wlan_bssid_ex
- 
- 	if (check_fwstate(pmlmepriv, _FW_LINKED) && (is_same_network(&pmlmepriv->cur_network.network, pnetwork, 0))) {
- 		update_network(&pmlmepriv->cur_network.network, pnetwork, adapter, true);
-+		if (pmlmepriv->cur_network.network.ie_length < sizeof(struct ndis_802_11_fix_ie))
-+			return;
-+
- 		rtw_update_protection(adapter, (pmlmepriv->cur_network.network.ies) + sizeof(struct ndis_802_11_fix_ie),
--								pmlmepriv->cur_network.network.ie_length);
-+								pmlmepriv->cur_network.network.ie_length - sizeof(struct ndis_802_11_fix_ie));
- 	}
- }
- 
-@@ -1072,8 +1075,11 @@ static void rtw_joinbss_update_network(struct adapter *padapter, struct wlan_net
- 			break;
- 	}
- 
-+	if (cur_network->network.ie_length < sizeof(struct ndis_802_11_fix_ie))
-+		return;
-+
- 	rtw_update_protection(padapter, (cur_network->network.ies) + sizeof(struct ndis_802_11_fix_ie),
--									(cur_network->network.ie_length));
-+									(cur_network->network.ie_length - sizeof(struct ndis_802_11_fix_ie)));
- 
- 	rtw_update_ht_cap(padapter, cur_network->network.ies, cur_network->network.ie_length, (u8) cur_network->network.configuration.ds_config);
- }
+Changes since v6:
+- Split fix patch into a separate series per Greg KH's review
+
+Salman Alghamdi (7):
+  staging: rtl8723bs: rtw_mlme: add bounds checks before ie_length
+    subtraction
+  staging: rtl8723bs: rtw_mlme: wrap lines exceeding 100 columns
+  staging: rtl8723bs: rtw_mlme: wrap rtw_sitesurvey_cmd condition
+  staging: rtl8723bs: rtw_mlme: extract local variables for long
+    expressions
+  staging: rtl8723bs: rtw_mlme: remove dead commented-out code
+  staging: rtl8723bs: rtw_mlme: consolidate capability comparisons lines
+  staging: rtl8723bs: rtw_mlme: add blank line for readability
+
+ drivers/staging/rtl8723bs/core/rtw_mlme.c | 272 ++++++++++++++--------
+ 1 file changed, 178 insertions(+), 94 deletions(-)
+
 -- 
 2.54.0
 
