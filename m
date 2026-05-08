@@ -1,225 +1,146 @@
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com [209.85.222.195])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A039355803
-	for <linux-staging@lists.linux.dev>; Fri,  8 May 2026 17:58:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E02513A86C
+	for <linux-staging@lists.linux.dev>; Fri,  8 May 2026 19:39:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778263137; cv=none; b=ZCvWbek+CsHRINn28pUogh9ghy4Pt5JdaRTGXIaT3Qk+oWQAZQ8cKviiTM15EpD6Zkd0M44Z2kRI8TiNsX8MGsBxJno48mc5MLqUx/luhHKtZFmjAV4ixbTHHqtS2hjEO295w4ErQYMMd/2DpdbSR5ebpCMf9bZlEB9g5oDMqKo=
+	t=1778269167; cv=none; b=QTCZZN/trrfoa1e09sSd8vBChYmU79vkruu5nFJLbwfQRg7RRlLhwBBFaDyd9sevYChVkpeJVw6Ui07g8MF3WhN9XCIC0mhowoLqcRjZ8ndd8oKUbA/i2SWL35kMRAD0mk5ghKjRFNO67m4k0W+6s+yrS80oInHSkAMEJl4b+fI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778263137; c=relaxed/simple;
-	bh=Bx7obrnEMz/0J+55OaMLyw7MVpmUbgAokSapGCLEtNg=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=QqJIv1qjff8s2GfrmlctZmiKDH+bKIhDQ30N4+Ije6bGnUugcg6PCq51/tAXvDJOuFe+KQOHonLLJUeg7JPwVWT2u5dgQ8dPJ3NMHvEwsCMYsFIl4U0PIWUmRbsaCe/Db+Q5StgzO2E+ADOzQPTJRWuJu/A4fI+szNS84telhtQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20251104.gappssmtp.com header.i=@ndufresne-ca.20251104.gappssmtp.com header.b=AX3YqHen; arc=none smtp.client-ip=209.85.222.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
+	s=arc-20240116; t=1778269167; c=relaxed/simple;
+	bh=pyQNLTfPGn+ldunAwPjnMUlE7JDu2WIeEJbAZGDXyJE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZQZntGbhTXw0wnGpEJkmPGzMKRLM0lsfRA6ofHuPeBngqbEvbp7fdrGFo1YhhulU2/+/hOXj7GK6UlWH+czCqf9qCaeIoIrGjXtuH/mn+4w9CEnZK3j+Wtn6nqSQ+Z+1z/WcM7Hi4DHnCTpf65rH4FXlOPARQW1nAH9+7qQQx24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H6oiLfNR; arc=none smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20251104.gappssmtp.com header.i=@ndufresne-ca.20251104.gappssmtp.com header.b="AX3YqHen"
-Received: by mail-qk1-f195.google.com with SMTP id af79cd13be357-8ee62a19730so264918985a.3
-        for <linux-staging@lists.linux.dev>; Fri, 08 May 2026 10:58:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H6oiLfNR"
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5a746f9c092so4009690e87.1
+        for <linux-staging@lists.linux.dev>; Fri, 08 May 2026 12:39:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20251104.gappssmtp.com; s=20251104; t=1778263134; x=1778867934; darn=lists.linux.dev;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:to
-         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=IEzQxhdIrgs8qVdjonR+CtIhh7E7By7r+yqbMW6WaoE=;
-        b=AX3YqHenX7OqKyc1z4mj1C9YU6XIiuDNq+wXVwN/dw0wpHTvhtCYQG83+MfFBgxtnp
-         E/eFdUtWHClGQmI8P8nrgJf+z1KOSA4xe/76VF4ouqRHQj5G8eKqcS3myKzTL4cKSVAR
-         WpakwVPONFCXxa6m6AoSIi72SeepHh+hPjUG11kzUXrl2cHlBFfOTN4kLpCJ6ZSmrZ6J
-         3MWw4a40CVaiYKklO8Vjkxj7ivMjNnpx4EU0S7Ifuuuv6BYoXD8O8zOhnUUR62Ec7fc8
-         m3cNiklXDlezANDur73U0dxdfPFeJ8RVJIuSiRObtKZkOWZk4DMzESPEyNVfafKjTZHI
-         i5fw==
+        d=gmail.com; s=20251104; t=1778269164; x=1778873964; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Kfa4XkII5RKrd0xZkjGb9AuY4jmClyTMrBmaDL5wEoc=;
+        b=H6oiLfNRCGJDl8CaD0EroXFIF1n7QnetsqCT6o3bDftjkoffe2mToqr27VyJZFdBFg
+         0W3e4eHQifFXKZcSBsiiAYwusVrAtE/fzwDGTc5Fo9J6uL7hZGO2/hLpTYqv6XU4l4Px
+         tMbq0oPdpg3vsDJmc813U2dvkgeJj3BhZJBadMSBsQ2Aly7y8boFbDt9H2ieRmYF1R7w
+         kLidvRdtyvARrL04F7oKEjglYa+ZOFabNvyELMLEV124lKIRuSJsA/D65AOFePkcRWMn
+         V/cHHxVzyWMwwkST64th4VDbnpHwbNUNOF8P7som//vQ+PgeAzotLHootLSwV/gPSv1R
+         mO9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778263134; x=1778867934;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:to
-         :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IEzQxhdIrgs8qVdjonR+CtIhh7E7By7r+yqbMW6WaoE=;
-        b=my02jtEqZXP6r/yOdq/XmTdMz66aqhGDdUPO0XJ9ZaZu4Sf6dtMCeQyn1DJRUBBahN
-         hg7m2qFo3yrlkWKMaQ6UdxTx80195YfwYHk+lgIXfwBaG/vH/DGiU5CcW257b23Ys4Kc
-         aePy5QWcjW4HrN/BQl3a8+Jf+zGJAuKK2QW87quc6pl8vAgeVcxoSH1wKG4P1qaLDKkN
-         1Ab/GSmnTnQJ6LFJPkTS9J03v8TEP4TBnigHrrzKIFZs14X7Bl9CEOHRz/rdZ9hNyG5G
-         fgk56+5aHDDnKUHmTGrQZoXxSWoYfilHEC2BvoC9ZPa/PlPdGktjZX0+fBp3IepnFR++
-         fa3Q==
-X-Forwarded-Encrypted: i=1; AFNElJ8YWvRn9hZKEHboNnYBFcIcLCg+XQn+owq77HlwsA1wpJaK35SCJ8kuLM8tGU7g7qy2fw4pZ800rmkLzaDz@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxpk3/cDQTEFAdMKd0mayVEqUz+BsMCupjFt0RLwpNE++zve4R2
-	aL2TqaBQEOcwphicKHj/mYhbq9XlOSdjRuL1DBB4DSkEimR1AnhOVANf6ao/Q96suX0=
-X-Gm-Gg: AeBDietx0EVlNBAZadSZQAgoeD1KTBpHILik2xZ2a+HauBx2YLo63LIPz98+iFNyRuS
-	LsIyBjf872l1Gn38iGQZeuEM98OImqvllBuXCAYdmkoIMl9m33ail0lZk4Flp7pFDc/UJQtGXTX
-	nKj+sCaK5L4M/LKS5MmIuu+xniufIhLz6h7R6IqDQ4MMxZNwQXdL8EsG54qlTcEpziOLcyuyABZ
-	9x/w+NCLIHeTL6n070MNX0v4kUBuFYnZ77mCpMGosO5E3R6t+1tISsNdPGM8XF2Pp1xxHYBr5+K
-	SQO43ysQ2vsOmz3Wb8SlsqNhIOhTkt5mxACXxM6yZ50RX6WoEjlEMNiDGtmsw1ZH4gvR8VSBcGf
-	EExQIqiz4OVRNeMTZgHh4E/en3WxUs23pslfTZBMYfpPjuBNHTBKhgA5oSdt8pwK6py4iAycVWD
-	IAUHXfEhe3oBYWGIG2d2BXEHTea1qn
-X-Received: by 2002:a05:620a:2584:b0:8f8:d217:f46a with SMTP id af79cd13be357-904d3fa500bmr1997866885a.8.1778263133866;
-        Fri, 08 May 2026 10:58:53 -0700 (PDT)
-Received: from ?IPv6:2606:6d00:15:e06b::c41? ([2606:6d00:15:e06b::c41])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-907b8d9eed0sm270004885a.19.2026.05.08.10.58.52
+        d=1e100.net; s=20251104; t=1778269164; x=1778873964;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Kfa4XkII5RKrd0xZkjGb9AuY4jmClyTMrBmaDL5wEoc=;
+        b=jEmkYskqcVtnR9Z3RxwbxIkIFGYB1fk8v1B5T96v5kk3nVQYVklycG1UuldyPWyZOi
+         UnAoywISO58vAnepBYxBHKM63o02Ezdq0NtKCa7wuWhvJWWWAqkSxmlGr+ZWlc9QzLN1
+         EEWxeKtPP2ABs8Npe29ORsGNtUT+GPqggvB8sSirmtD661vvjD1PsONZitw6Dzz9ihXO
+         Nvk0Rcy2JqP1blgmWnwxlF+Wk7L01/aM8K+Je41xAgvoNfzUL/j2jKwLIX2towWVOIBv
+         FWvYjUT8181mtsCuQ0v4uytaLCNaR0SVzRlMkswqSp57G7jzPExW/alVFoMvAjSPEREX
+         PH3A==
+X-Gm-Message-State: AOJu0Yxdu4LcrXdU8ocax5GnbpKR6jCZE2RyeNkr3j9qDhWWkKU+7Urw
+	Jy/hRZ3OkNFL5BlSfGJJV0FeIr7xxuvdm+qw8et+4tSfkmcq/rQH1LhX
+X-Gm-Gg: Acq92OEOvXvNY/Xr8FRtDS30jydfIQ/xKoUHWBIaNk97QFaGmilX6gxBfXctym2ePp2
+	XZwvWs06ChcmKSAqbPRuv9lslIowJ5zgyD5ddCVttJTQBwOsHFvIPHAO+5cC0EY2JUvvQnn1y+C
+	HxTtvLxRH8LDSe0EttLpx07v4El2S0sbsVyLXjpGuN16qytCPg1U2nqbosLtXasmVnB91BfrRtO
+	W2CGf+zBMmwEKAeQPz2tDY4cqofzYyrqFp7apJd+YIPWiJXXe4eZkHkFTY4opoqOdF0qtG5CkBV
+	Y0Y4USolxCzEv12ds6lXpHcTKEfaMcaKQ5lV6y8nNv/EIWPdiW0fQEgXi/OMfnEZcczwYL36kIT
+	Phke5AQp8qq+2hwDjV4FuUu4b/0Ku9KdwCloBGtRF1zb3kyzSa+md3QHcE6swJBjdWBBiXSn9g5
+	i9fUMFdJO+cXyP00LpuTyk+HoQ
+X-Received: by 2002:a05:6512:3042:b0:5a7:46f9:be3b with SMTP id 2adb3069b0e04-5a899bbdacbmr2642257e87.14.1778269163978;
+        Fri, 08 May 2026 12:39:23 -0700 (PDT)
+Received: from archlinux ([185.140.161.214])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a8a955df99sm776407e87.45.2026.05.08.12.39.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2026 10:58:53 -0700 (PDT)
-Message-ID: <49260ed9ce09b0684ed72787b5635e2c26059297.camel@ndufresne.ca>
-Subject: Re: [PATCH v2] media: meson: vdec: Fix memory leak in error path of
- vdec_open
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Anand Moon <linux.amoon@gmail.com>, Neil Armstrong	
- <neil.armstrong@linaro.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Kevin Hilman
- <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,  Martin
- Blumenstingl <martin.blumenstingl@googlemail.com>, Maxime Jourdan
- <mjourdan@baylibre.com>, Hans Verkuil	 <hverkuil@kernel.org>, "open
- list:MESON VIDEO DECODER DRIVER FOR AMLOGIC SOCS"
- <linux-media@vger.kernel.org>, "open list:MESON VIDEO DECODER DRIVER FOR
- AMLOGIC SOCS" <linux-amlogic@lists.infradead.org>, "open list:STAGING
- SUBSYSTEM"	 <linux-staging@lists.linux.dev>, "moderated list:ARM/Amlogic
- Meson SoC support" <linux-arm-kernel@lists.infradead.org>, open list
- <linux-kernel@vger.kernel.org>
-Date: Fri, 08 May 2026 13:58:51 -0400
-In-Reply-To: <20260321065408.209723-1-linux.amoon@gmail.com>
-References: <20260321065408.209723-1-linux.amoon@gmail.com>
-Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-3VX71bn7qLKjvDPsQYLL"
-User-Agent: Evolution 3.60.1 (3.60.1-1.fc44) 
+        Fri, 08 May 2026 12:39:23 -0700 (PDT)
+From: Nikolay Kulikov <nikolayof23@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev,
+	Nikolay Kulikov <nikolayof23@gmail.com>
+Subject: [PATCH RFC 00/11] staging: rtl8723bs: remove struct _io_ops
+Date: Fri,  8 May 2026 22:38:29 +0300
+Message-ID: <20260508193909.16015-1-nikolayof23@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+
+I don't have hardware. Tested only by compiling.
+
+So, in this series I've attempted to simplify a bunch of abstractions in
+core/rtw_io.c (and hal/sdio_ops.c and os_dep/sdio_ops_linux.c files).
+
+In general, the logic is as follows:
+
+	1. Functions from core/rtw_io.c (with the 'rtw_*' prefix) call
+	   functions from hal/sdio_ops.c (with the 'sdio_*' prefix),
+	   obtaining them from a pointer in 'struct _io_ops'.
+	2. Functions from hal/sdio_ops.c convert the passed address
+	   (call _cvrt2ftaddr()) and call functions from
+	   os_dep/sdio_ops_linux.c (with the 'sd_*' prefix).
+	3. Only functions from os_dep/sdio_ops_linux.c perform the work
+	   we're interested in - they call other functions from the
+	   kernel MMC subsystem (sdio_readb(), sdio_writeb(), and so on)
+
+For the rtw_read8() (rtw_write8()) functions, I was able to remove all
+these abstraction layers (this is the only place where this happens) by
+directly calling sdio_readb() (sdio_writeb()).
+
+For the rtw_read16() (rtw_write16()) functions, I had to retain the
+sd_cmd52_read() (sd_cmd52_write()) calls from os_dep/sdio_ops_linux.c,
+since there are no equivalents for them.
+
+rtw_read32() (rtw_write32()) calls differet read (write) functions
+depending on the address alignment. I simply pasted everything from
+sdio_read32() (sdio_write32()) into them.
+
+I described some details in the comments to the corresponding patches.
+
+I also slightly formatted the modified code to avoid creating new
+checkpatch.pl warnings.
 
 
---=-3VX71bn7qLKjvDPsQYLL
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In any case, this will completely eliminate the 'struct _io_ops'
+and consolidate the reading (writing) code in one place so that
+error hadling can be found and corrected.
 
-Hi,
+This series is marked as RFC because I need your opinion on it and also
+maybe someone wants to test it?
 
-sorry I missed your patch, catching up now.
+
+Nikolay Kulikov (11):
+  staging: rtl8723bs: remove unused sdio_local_read()
+  staging: rtl8723bs: declare helper sdio functions in .h files
+  staging: rtl8723bs: inline sd_read8() and sdio_read8() into
+    rtw_read8()
+  staging: rtl8723bs: inline sdio_read16() into rtw_read16()
+  staging: rtl8723bs: inline sdio_read32() into rtw_read32()
+  staging: rtl8723bs: inline sd_write8() and sdio_write8() in
+    rtw_write8()
+  staging: rtl8723bs: inline sdio_write16() into rtw_write16()
+  staging: rtl8723bs: inline sdio_write32() into rtw_write32()
+  staging: rtl8723bs: inline sdio_write_port() into rtw_write_port()
+  staging: rtl8723bs: remove the empty function set_intf_ops()
+  staging: rtl8723bs: remove empty struct _io_ops
+
+ drivers/staging/rtl8723bs/core/rtw_io.c       | 208 +++++++++++-----
+ drivers/staging/rtl8723bs/hal/sdio_ops.c      | 235 +-----------------
+ drivers/staging/rtl8723bs/include/rtw_io.h    |  16 +-
+ drivers/staging/rtl8723bs/include/sdio_hal.h  |   3 +
+ drivers/staging/rtl8723bs/include/sdio_ops.h  |   3 -
+ .../rtl8723bs/include/sdio_ops_linux.h        |   2 +
+ drivers/staging/rtl8723bs/os_dep/sdio_intf.c  |   2 +-
+ .../staging/rtl8723bs/os_dep/sdio_ops_linux.c |  55 +---
+ 8 files changed, 162 insertions(+), 362 deletions(-)
 
 
-Le samedi 21 mars 2026 =C3=A0 12:24 +0530, Anand Moon a =C3=A9crit=C2=A0:
-> The vdec_open and vdec_close functions in the Meson VDEC driver failed
-> to release several resources, leading to memory leaks and potential
-> use-after-free scenarios.
->=20
-> This patch addresses:
-> - Missing v4l2_ctrl_handler_free() in both the close path and error
-> =C2=A0 exit of the open path, preventing control memory leaks.
-> - A leak of the M2M context if vdec_init_ctrls() failed.
->=20
-> The error labels in vdec_open() have been reordered to ensure a proper
-> Last-In-First-Out (LIFO) teardown of all initialized resources.
->=20
-> This was identified via kmemleak:
-> unreferenced object 0xffff0000205d6878 (size 8):
-> =C2=A0 comm "v4l_id", pid 5289, jiffies 4294938580
-> =C2=A0 hex dump (first 8 bytes):
-> =C2=A0=C2=A0=C2=A0 40 d2 49 18 00 00 ff ff=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 @.I.....
-> =C2=A0 backtrace (crc d3204599):
-> =C2=A0=C2=A0=C2=A0 kmemleak_alloc+0xc8/0xf0
-> =C2=A0=C2=A0=C2=A0 __kvmalloc_node_noprof+0x60c/0x850
-> =C2=A0=C2=A0=C2=A0 v4l2_ctrl_handler_init_class+0x1b4/0x2e8 [videodev]
-> =C2=A0=C2=A0=C2=A0 vdec_open+0x1f4/0x788 [meson_vdec]
-> =C2=A0=C2=A0=C2=A0 v4l2_open+0x144/0x460 [videodev]
-> =C2=A0=C2=A0=C2=A0 chrdev_open+0x1ac/0x500
-> =C2=A0=C2=A0=C2=A0 do_dentry_open+0x3f0/0xfe8
-> =C2=A0=C2=A0=C2=A0 vfs_open+0x68/0x320
-> =C2=A0=C2=A0=C2=A0 do_open+0x2d8/0x9a8
-> =C2=A0=C2=A0=C2=A0 path_openat+0x1d0/0x4f0
-> =C2=A0=C2=A0=C2=A0 do_filp_open+0x190/0x380
-> =C2=A0=C2=A0=C2=A0 do_sys_openat2+0xf8/0x1b0
-> =C2=A0=C2=A0=C2=A0 __arm64_sys_openat+0x13c/0x1e8
-> =C2=A0=C2=A0=C2=A0 invoke_syscall+0xdc/0x268
-> =C2=A0=C2=A0=C2=A0 el0_svc_common.constprop.0+0x178/0x258
-> =C2=A0=C2=A0=C2=A0 do_el0_svc+0x4c/0x70
->=20
-> Cc: Nicolas Dufresne <nicolas@ndufresne.ca>
-> Fixes: 3e7f51bd9607 ("media: meson: add v4l2 m2m video decoder driver")
-> Signed-off-by: Anand Moon <linux.amoon@gmail.com>
-> ---
-> v1: https://lore.kernel.org/all/20260304100557.126488-1-linux.amoon@gmail=
-.com/
-> =C2=A0=C2=A0 tried to address the issue reported by Nicolas
-> =C2=A0=C2=A0 improve the commit message.
-> ---
-> =C2=A0drivers/staging/media/meson/vdec/vdec.c | 9 ++++++---
-> =C2=A01 file changed, 6 insertions(+), 3 deletions(-)
->=20
-> diff --git a/drivers/staging/media/meson/vdec/vdec.c
-> b/drivers/staging/media/meson/vdec/vdec.c
-> index 4b77ec1af5a76..3a5e4ebe0b34c 100644
-> --- a/drivers/staging/media/meson/vdec/vdec.c
-> +++ b/drivers/staging/media/meson/vdec/vdec.c
-> @@ -877,7 +877,7 @@ static int vdec_open(struct file *file)
-> =C2=A0	if (IS_ERR(sess->m2m_dev)) {
-> =C2=A0		dev_err(dev, "Fail to v4l2_m2m_init\n");
-> =C2=A0		ret =3D PTR_ERR(sess->m2m_dev);
-> -		goto err_free_sess;
-> +		goto err_m2m_release;
+base-commit: 81f55766523e5293604cb96c5e98d10da345ff33
+-- 
+2.54.0
 
-If m2m_dev creation failed, why do you want to call v4l2_m2m_release() ?
-
-> =C2=A0	}
-> =C2=A0
-> =C2=A0	sess->m2m_ctx =3D v4l2_m2m_ctx_init(sess->m2m_dev, sess,
-> m2m_queue_init);
-> @@ -889,7 +889,7 @@ static int vdec_open(struct file *file)
-> =C2=A0
-> =C2=A0	ret =3D vdec_init_ctrls(sess);
-> =C2=A0	if (ret)
-> -		goto err_m2m_release;
-> +		goto err_m2m_ctx_release;
-> =C2=A0
-> =C2=A0	sess->pixfmt_cap =3D formats[0].pixfmts_cap[0];
-> =C2=A0	sess->fmt_out =3D &formats[0];
-> @@ -913,9 +913,11 @@ static int vdec_open(struct file *file)
-> =C2=A0
-> =C2=A0	return 0;
-> =C2=A0
-> +err_m2m_ctx_release:
-> +	v4l2_m2m_ctx_release(sess->m2m_ctx);
-> =C2=A0err_m2m_release:
-> =C2=A0	v4l2_m2m_release(sess->m2m_dev);
-> -err_free_sess:
-> +	v4l2_ctrl_handler_free(&sess->ctrl_handler);
-> =C2=A0	kfree(sess);
-> =C2=A0	return ret;
-> =C2=A0}
-> @@ -926,6 +928,7 @@ static int vdec_close(struct file *file)
-> =C2=A0
-> =C2=A0	v4l2_m2m_ctx_release(sess->m2m_ctx);
-> =C2=A0	v4l2_m2m_release(sess->m2m_dev);
-> +	v4l2_ctrl_handler_free(&sess->ctrl_handler);
-> =C2=A0	v4l2_fh_del(&sess->fh, file);
-> =C2=A0	v4l2_fh_exit(&sess->fh);
-> =C2=A0
->=20
-> base-commit: a0c83177734ab98623795e1ba2cf4b72c23de5e7
-
---=-3VX71bn7qLKjvDPsQYLL
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaf4kWwAKCRDZQZRRKWBy
-9B5rAP9MVO41rRXQ4VKCwIshF3QfT75K/0d2qKK2EUMjAEW/SwEA2/UqAeSY68BC
-VhnK/FFYRn0PpC4HYZLbmtXFz58mBwE=
-=4xTS
------END PGP SIGNATURE-----
-
---=-3VX71bn7qLKjvDPsQYLL--
