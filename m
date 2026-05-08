@@ -1,72 +1,47 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.cipherat.com (mail.cipherat.com [91.98.42.103])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 781443264F2
-	for <linux-staging@lists.linux.dev>; Fri,  8 May 2026 19:39:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E983037BE62
+	for <linux-staging@lists.linux.dev>; Fri,  8 May 2026 22:27:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.98.42.103
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778269194; cv=none; b=iMVqhInNoKnMfQ4tJcbwS2Ny6fvz5UMzqOWO7XeCSP1rgwamM4+eH0i5cE1HijyY9WEUbCOTJ1prPtAI4KjNy0fHHpzw4M/gpqLwqLrFVDRSibfdnnHmZDr0OjPVVwhisoNZ1URXGT7JXrz2QStcnesE2g05mts2NhaCVWUZmsg=
+	t=1778279226; cv=none; b=nvIefIOR97AKJRJxk0XayNacXUMp/bhDe7B6KSRl5roV1m/W0jYytWKJUCh4ujZRwEWWVwhLtzgnwqJrD2oDP8GGqsJwN4f/PiahEqN2RYGmgPkZoliN2068t9iYvpPAQRuCe8VijPsrfnz1B13wK7Ho+AP2UlzFJOj/58TPH9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778269194; c=relaxed/simple;
-	bh=kz9Y0WN66+vx1tzieEBRp3PfqJHOMf/thgqmufLb/NQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fmQc7JQ/Hdeu5qaMsDlOb/NAoIPUngM6vTS0xFLTRXlUtr9K4qVkBvNsGT7EFFsjRTuYDh2VgBv3Hnm8QUnDm3LWILC9A9NbiHcWgElcY0j3RX5Cm0D7xM0PTakZ2W78CH5Jpx08S8zXqajZsvgCxZzP98ljQa+hUuEHjpQYpPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=guWJ/0NH; arc=none smtp.client-ip=209.85.208.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778279226; c=relaxed/simple;
+	bh=rZHYkXggah79PkVFN+6E/RKD6b6tAyfkViysUFDb8oc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=B8pu/DKoys97Soq+8AMPPhsPfnUo1zcf7VicshvwNtWPEltV6OCNaqQAA0ZkhUpajHpiXz8M9nt5muC4A30RWb7/P30UVxs0gw0IFPNSw3i2pEihQjCHr09AVxM0e0/XFjkn6Wfmm7qZdxYOVUUeYI+Y8fcN4Q74+9qyZbhknmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cipherat.com; spf=pass smtp.mailfrom=cipherat.com; dkim=pass (4096-bit key) header.d=cipherat.com header.i=@cipherat.com header.b=HjUjVyRo; arc=none smtp.client-ip=91.98.42.103
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cipherat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cipherat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="guWJ/0NH"
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-393da8f389bso21530071fa.1
-        for <linux-staging@lists.linux.dev>; Fri, 08 May 2026 12:39:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778269192; x=1778873992; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=469lO2bVQwt3MiANg1OhtME0GvlHXkdD0DRW/3rpC1Y=;
-        b=guWJ/0NHuiDsrwpCSYqZQYCvMqwBb2QRDO+nc8dE4MnkB7cTq7ZvjhhXqIMaL/fUAi
-         MNGrRA8fgnmI7821nuHRO7RYkHrcREfI+5ob5dpDWTl6SIO794Yr4PH2TB7Hvm8MXXzU
-         O6E2nqgpaRFYYUuq/UV5jLveCpjN48BMFEpsx/1RzdVatmsxe5UkcZ1sN4Tl6EgotNYr
-         vSHtFuQfHnE6ZfdOitc2LtbRb4ORZGnzzu6Z9nxknwaSZhHJHIzo7T1DsG9i47xU7txC
-         Q3zlZYlVrAv8PgPPdKO7K6a+5Cx7lh6uWRe0VX8OPLaY5i710pU6MrPFLGq2/0h+rH44
-         hAhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778269192; x=1778873992;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=469lO2bVQwt3MiANg1OhtME0GvlHXkdD0DRW/3rpC1Y=;
-        b=JMSri7EKZRRG//xD4EuUYeIiOO9ghJl55EAwpDokWDUPdER3GXoI5s2JblqGZ0B7dl
-         J6Ph7pPxQkd/tn5s6JCt1AKAvq5WLJZlOgzaxww37O+HviyVco3wQQFzX3e+VBAqvOlQ
-         b+C0r4bC1nRcqk0/XyXan0JV6+1HzGsRTQXtGmGhPvulxZGnmdCToPY0UmgQ7n0CkFj/
-         9EdKuuFeEODc4DiGSHWSwpHJNvfxWiDULLwWZhX2qcXcXQqAdXRC0D6/LMyLPVe/N7GN
-         TM79P5sU/PbzwoC480yKAZSxGAXmnXaRrCqb/ZPZ7D2cAbM0T/bsNU/4CRXIMxJl9V7P
-         2LlA==
-X-Gm-Message-State: AOJu0YxSYnVxP5/f5Opcy2qpVVLBgnNGARlzLx91mDfsbsB8bOKkInou
-	uM9IMCCtO4FrxXN2ltN5IANg59kDL7JikrL4+oMVuskpunRSA5J4vUUr
-X-Gm-Gg: Acq92OEoWyklPDGRB79ChohcnJXcKP4PH/SR93glPyqp0ULUmQ+y16nXCeuQ8hbCjdt
-	n2BRyHEnmFfHE4bz+cklPjx7FYwkdzdm3sA3EzawaX/b6IRUakusRuI4kIuWw7pdjn8sRXKmI/N
-	Md544Y0lydzUIpHllTLQ4Ta+ZkqkxLgRv9l/DS18yCpoFnRqVtmt+/A8nh0MhldHsbzq9F82PPU
-	BlGwybCLWBkZ+oSq6HLzYRiz+HdYh+qqC7nX8BICy7vl7z1ZwrI63gSNdT6KiyRRhN54ef/NXTT
-	brCZrWyZIBWgloDv0ThHB+/6cSfmpaVwpyUM7atRFzFGybkf2RYOl02GvtuvpNSyNXnXj6+Ew96
-	0AVYHPuV8uUfxhRbOXOa4oCcKA7hyJaN/izeUYhZKqxQLSPsErk/G81AJH1QNWd5j4z4Rb21Dfr
-	4xvyVFvS+N4HQHxVzXjZRxkJNaEmVMJMos7hU=
-X-Received: by 2002:a05:6512:1304:b0:5a2:b3dd:7a74 with SMTP id 2adb3069b0e04-5a887ceafc7mr5218680e87.33.1778269191702;
-        Fri, 08 May 2026 12:39:51 -0700 (PDT)
-Received: from archlinux ([185.140.161.214])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a8a955df99sm776407e87.45.2026.05.08.12.39.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2026 12:39:51 -0700 (PDT)
-From: Nikolay Kulikov <nikolayof23@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev,
-	Nikolay Kulikov <nikolayof23@gmail.com>
-Subject: [PATCH RFC 11/11] staging: rtl8723bs: remove empty struct _io_ops
-Date: Fri,  8 May 2026 22:38:40 +0300
-Message-ID: <20260508193909.16015-12-nikolayof23@gmail.com>
+	dkim=pass (4096-bit key) header.d=cipherat.com header.i=@cipherat.com header.b="HjUjVyRo"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9AE1184FCA;
+	Sat,  9 May 2026 01:26:54 +0300 (+03)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cipherat.com;
+	s=dkim; t=1778279215; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding; bh=9UgJASqxAWAeh3eiXQ4y7gcX7HLK+OapSPbuxmiLW5Y=;
+	b=HjUjVyRodngW/H+qn2dcAWiBquCCdo7+YuY232Q5ddlqK7AoC7h1ZxI0urdwJ+nA1FC99I
+	B+Ykjf90Tj+1Zk7VagrgJLLco0flhv4gaSCC0RlV7j934e62xlULZHaAK4LV+BvbWFB67K
+	HEi8COEYKOcYrTSIontfab9RIxc6n6/CnQ2R5KU4rSfu+8ediVixFzfXcW5bbzXXMAYcYw
+	sC+ky/RZYab63qdbKQMOJGTM6NVbxbOwgpar+HVa5AUyiYQLpIZZVjNUtysU0y2Sv3oAtg
+	8aA+9dOgRrAZ1kt65YQysOYGyMvisS2yQt7j3F703T+kGzBKjud6ResqBI5PNui+KwmeY0
+	OWAB4gzoQM1ZxXPfrHbf4pcR0WI0kipSTmMYEgbxo9D/e/6V0zQxPwo9VwIq6MmyT8pUQq
+	5sSpfG8vy03PeIY82vWh9p/v6DnBYVVfyROUz88seH1bNv4G+rkYeZYIeyXL7vpR0g8jhh
+	++rSuL62l3E7G/wuueuL1uKBmuSYt7IOyqmY6oOopV5dm8H45CY744c6YDi43TjqxGidvi
+	OzXFdNUd02J6R0lBa8jBbdNDhXHKCWrzefGgqTTIKmIug2lCVSAThqwiMVUA9n7mbsul6i
+	3dhk1q5nPYT689bJinsovN7q6rU+836s1X6Ef0ISUFPRpKGip/92o=
+From: Salman Alghamdi <me@cipherat.com>
+To: gregkh@linuxfoundation.org
+Cc: straube.linux@gmail.com,
+	error27@gmail.com,
+	luka.gejak@linux.dev,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH v1] staging: rtl8723bs: fix buffer over-read in rtw_update_protection
+Date: Sat,  9 May 2026 01:26:14 +0300
+Message-ID: <20260508222649.23989-1-me@cipherat.com>
 X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260508193909.16015-1-nikolayof23@gmail.com>
-References: <20260508193909.16015-1-nikolayof23@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -74,34 +49,52 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-All fields of this structure were removed earlier, so remove this
-unused struct.
+rtw_update_protection() is called with a pointer offset into the
+ies buffer but the full ie_length is passed, causing a potential
+buffer over-read.
 
-Signed-off-by: Nikolay Kulikov <nikolayof23@gmail.com>
+Fixes: e945c43df60b ("Staging: rtl8723bs: Delete dead code from update_current_network()")
+Fixes: d3fcee1b78a5 ("staging: rtl8723bs: fix camel case in struct wlan_bssid_ex")
+Reported-by: Luka Gejak <luka.gejak@linux.dev>
+Closes: https://lore.kernel.org/linux-staging/DI2H39EAAFBZ.3KI5NWN02AQ2S@linux.dev
+Cc: stable@vger.kernel.org
+Signed-off-by: Salman Alghamdi <me@cipherat.com>
 ---
- drivers/staging/rtl8723bs/include/rtw_io.h | 5 -----
- 1 file changed, 5 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_mlme.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/rtw_io.h b/drivers/staging/rtl8723bs/include/rtw_io.h
-index f86ad3fa46cc..cb26e74162da 100644
---- a/drivers/staging/rtl8723bs/include/rtw_io.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_io.h
-@@ -10,14 +10,9 @@
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+index ddfc56f0253d..268f294528e6 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+@@ -464,8 +464,11 @@ static void update_current_network(struct adapter *adapter, struct wlan_bssid_ex
  
- struct intf_hdl;
+ 	if (check_fwstate(pmlmepriv, _FW_LINKED) && (is_same_network(&pmlmepriv->cur_network.network, pnetwork, 0))) {
+ 		update_network(&pmlmepriv->cur_network.network, pnetwork, adapter, true);
++		if (pmlmepriv->cur_network.network.ie_length < sizeof(struct ndis_802_11_fix_ie))
++			return;
++
+ 		rtw_update_protection(adapter, (pmlmepriv->cur_network.network.ies) + sizeof(struct ndis_802_11_fix_ie),
+-								pmlmepriv->cur_network.network.ie_length);
++								pmlmepriv->cur_network.network.ie_length - sizeof(struct ndis_802_11_fix_ie));
+ 	}
+ }
  
--struct _io_ops {
--};
--
- struct	intf_hdl {
- 	struct adapter *padapter;
- 	struct dvobj_priv *pintf_dev;/* 	pointer to &(padapter->dvobjpriv); */
--
--	struct _io_ops	io_ops;
- };
+@@ -1072,8 +1075,11 @@ static void rtw_joinbss_update_network(struct adapter *padapter, struct wlan_net
+ 			break;
+ 	}
  
- #define SD_IO_TRY_CNT (8)
++	if (cur_network->network.ie_length < sizeof(struct ndis_802_11_fix_ie))
++		return;
++
+ 	rtw_update_protection(padapter, (cur_network->network.ies) + sizeof(struct ndis_802_11_fix_ie),
+-									(cur_network->network.ie_length));
++									(cur_network->network.ie_length - sizeof(struct ndis_802_11_fix_ie)));
+ 
+ 	rtw_update_ht_cap(padapter, cur_network->network.ies, cur_network->network.ie_length, (u8) cur_network->network.configuration.ds_config);
+ }
 -- 
 2.54.0
 
