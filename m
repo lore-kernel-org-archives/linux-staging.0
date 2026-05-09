@@ -1,122 +1,107 @@
-Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5DED1DB13A
-	for <linux-staging@lists.linux.dev>; Sat,  9 May 2026 05:12:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93C3437DEBC
+	for <linux-staging@lists.linux.dev>; Sat,  9 May 2026 06:57:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778303568; cv=none; b=tdVZfYDOp1ZT2jz6XHMSnevWGleM76fS0q6uevVBz0BWKs+vL4zFBFEeY1GD4a9jIWV786c3NakMSBy+8+thmxrMEK+g+J1ELNtLKi56A9yW9gbMceJETpH/NvDSI+RmPA7rlk+J0d1BnQ9vPASgYu5c9OGGyPYtHZLIMFlsE0w=
+	t=1778309854; cv=none; b=jk+lyHWiR55dj9jbXXnnM4fopu7CKVn8Wgop1vFp4Ingdc/UPobXM+wWlQAwlNbh+HjXQ5n/3gUkeHm9oKZOAe4ioBMQRnzlqVl48BR4Kk+8ynHcC/u93xxTLZUqp3U+w7MJ5b83V0Idh1KwuP8X92veKr7iP+s21fNDVVLmZeM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778303568; c=relaxed/simple;
-	bh=w4ATt3P3lrlthTiBVk1sogm4Y7nfMAxy1BwfCAB8SC4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dXBKBDR2Fp32zMdm+NLMkeZ63gxsvlcWSaJ/E/1ZjWN/qlQu6nEsIcORop8DVlM2RpbIzvqCbJUtnZY4N3jme6M/xEPTn6lXJzVYB6Fmwbbj8KRV3EYlIhQw/SQ15Veq/lYYvAVjFSmlu/s2C+6kdgUcozo/dtGrdVOFCLcJrUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qOvAAY31; arc=none smtp.client-ip=74.125.82.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778309854; c=relaxed/simple;
+	bh=5Qzv1SATPTfl2chwFg8bltmrUqRdT/H8j7cTs2SHPQs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZBEdiTEms8Oz3H56lV6+vMTBI8RSLdIl6mj/0b6s5/Bs428tEesgWpvmV+YcTxKPLHUB9O42ohEO/HfKhcoWKYmftJo+t2jlmmzSE/1Zr2p61tu+YCybCjxJh4o23FiX6sDtvzT+x4In4NHH4cWP9GyKLmJzZO8i4IawMX1brio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KNDSeS5n; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qOvAAY31"
-Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-2f0d3e07e30so6932334eec.0
-        for <linux-staging@lists.linux.dev>; Fri, 08 May 2026 22:12:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778303565; x=1778908365; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=A9vLmaed1NKlqpycQGKmJTiTIqndTowhpZapHL6YmV4=;
-        b=qOvAAY31lcx9tWkfsJlWEOg+8lk7DBcVLPEAEWqjR+PLkM0LK2L37WgJ1Zn2G9IR50
-         hKxWh9+8VulD4R0ld72HzcXhqcXS14OzU6VSgPfon5S3euMYspyKMgDSzQucm0bL8wqA
-         DUdxzQUJ4vWBwLEqMzIanTMspAGgrVF49quGJuh2ZY+Ld5B7qxY6XzmLL2jsG7OyojRT
-         zLkXV21lUdLeMlipUZhg0N7PYlZKk/mLDj1jW4+WdDdvh32SW1P+kdEuqrT8E75clyg+
-         aD+ArZ0pRVC7QKrzA6aB1FR43ShNGhR5OLONZV5RC1s6IR4GBLL7PvgYBWD0EVIslMwU
-         tjHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778303565; x=1778908365;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=A9vLmaed1NKlqpycQGKmJTiTIqndTowhpZapHL6YmV4=;
-        b=nqE1jQPXO6aLdOYRVnPtxQe3KH2lgi8xovk5og4N63lkU7iy1DrxUDRdZPedB0eehu
-         +zkuYCCMbgJjbuGZcG0Rb4FudjZNkZSXg5GvqhJ/278xGhskfD3MCaTdtmSdL+B3H0kE
-         S1u6r4upaCm4/t1oaV6JX7IEh+baP4I2uXTZSbqcL85zxDKjMKtj7ZCrxvcUxduDb1Jq
-         nRsnGFNZrSrmCgJPi4yNKWrokTk3lamG6+Gl213ns1anQPwdLWy3buK2kynVvQOWMbrm
-         FGD3yZZouEnG+My5RyYoj5lwyzq1jnzJObWYslXyXAhAQlH/MplnFD+9YiQdFWOhrb5E
-         mSng==
-X-Gm-Message-State: AOJu0YzxFQcGwEp18EPzRj/inIm8l2yklxrlkGavu87NaqRBWe0knxiS
-	AGrO4B/7o1iXZFLel4U0qpuIYn+PL1XaQveH/UCFEp7uc7OBYKwh84L+rBgg6Q==
-X-Gm-Gg: Acq92OE0VgE9wN/+hQ1UMfBTckDbgv3+4Xol/0Eq8Cp7i+0ZbBsuTNZm00qjovWLYhm
-	scDjJ0Kkv6HzBiK+x4tOyoaZ8r5ajxh9nOsLnAh2NNXMgSI7AST0wzQxyj36ynD9PY05KVjHItp
-	tBQKHmsma7DwC6m1UB/tLo8ZRmRsr77PN3u+TY0N58gVYZ0GPwMzk8ROcKdAw6HZCBMqQDREbEA
-	gKkOnHkvFjAxX+Zbq4Cgtsh4avwcL2GXJeK12RdL2HIF2e/3+x9Pqw1/29pI5PA8F3Hrrz/Vglb
-	9QXyh/KUP1rE4LzA1xReptB5CmgRbL2DAHxtXT4iRUVWzkNJXG8uBEGfple9x474CJhYH2aWeXi
-	McMwGkxMjoCqGvhG9PhWTUhQueJHr8B9O7rA3tXRQfy5c4c84Qan9W8thIKjqzmFUHXmrW2rJTJ
-	US34Beo3ZM2XAo8CYlXwV6AanyZ4lq2FazjA0zoPYAcm0=
-X-Received: by 2002:a05:7300:818d:b0:2e5:8ec2:82c9 with SMTP id 5a478bee46e88-2f54b57e91amr8319187eec.26.1778303565524;
-        Fri, 08 May 2026 22:12:45 -0700 (PDT)
-Received: from TestUbuntu22.. ([73.15.108.84])
-        by smtp.googlemail.com with ESMTPSA id 5a478bee46e88-2f8893441absm6691534eec.31.2026.05.08.22.12.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2026 22:12:45 -0700 (PDT)
-From: Jennifer Guo <guojy.bj@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: gregkh@linuxfoundation.org,
-	Jennifer Guo <guojy.bj@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: remove commented out code from odm.c
-Date: Fri,  8 May 2026 22:12:40 -0700
-Message-Id: <20260509051240.5807-1-guojy.bj@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KNDSeS5n"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778309853; x=1809845853;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5Qzv1SATPTfl2chwFg8bltmrUqRdT/H8j7cTs2SHPQs=;
+  b=KNDSeS5nRXTAUsLKskNB9FNPFQPgLOVVqkJc6UwlrD0/29LMQ3flH3vi
+   qENQhCeOQT403CHNZeUJxY7KBDNCqbKWGBUeLiV033n/lz6w2Yi2Vs1ft
+   +TlRUoK25UF53KSgPge23tY9bYwjFkgWdgw3yENCmsw/gdfcnwZGrGnCY
+   aBrf0A539zgipXMd9mppQTthhGnjSli31EpP7EiDG1HtezHUp+F/ivKgT
+   48biDZvRswAEozTr1FCM2hxvGET89YsOS0ukenJy+lEkclKnffF6KVk0j
+   AQv/iPZnLW+CGqLH8dQVNw3ej9KAbyexMMVsW2U5uulH+17snmHupKUPF
+   w==;
+X-CSE-ConnectionGUID: 7NJf82zeS9erqYgkbmNhow==
+X-CSE-MsgGUID: ujzNQlf4Sz+dkVXusJt8ZQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11780"; a="79302523"
+X-IronPort-AV: E=Sophos;i="6.23,225,1770624000"; 
+   d="scan'208";a="79302523"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2026 23:57:26 -0700
+X-CSE-ConnectionGUID: NoN0p9OcQ8Ce4OkTnYFnSQ==
+X-CSE-MsgGUID: HvUnvdzSRaGSs6+LGYT+Vw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,225,1770624000"; 
+   d="scan'208";a="240951551"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.146])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2026 23:57:22 -0700
+Date: Sat, 9 May 2026 09:57:20 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Hungyu Lin <dennylin0707@gmail.com>
+Cc: jic23@kernel.org, lars@metafoo.de, Michael.Hennerich@analog.com,
+	dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
+	gregkh@linuxfoundation.org, linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] iio: adc: ad7816: propagate SPI error codes
+Message-ID: <af7a0OV-3GLH490W@ashevche-desk.local>
+References: <20260509020646.82778-1-dennylin0707@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260509020646.82778-1-dennylin0707@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Remove commented out case statements for better readability.
+On Sat, May 09, 2026 at 02:06:46AM +0000, Hungyu Lin wrote:
+> The driver currently returns -EIO for SPI read/write failures,
+> which hides the actual error code returned by the SPI subsystem.
+> 
+> Return the original error code instead to allow better diagnostics
+> and error handling by callers.
 
-This also fixes the checkpatch.pl warning:
-WARNING: Block comments use * on subsequent lines.
+...
 
-Signed-off-by: Jennifer Guo <guojy.bj@gmail.com>
----
- drivers/staging/rtl8723bs/hal/odm.c | 25 -------------------------
- 1 file changed, 25 deletions(-)
+> static ssize_t ad7816_show_value(struct device *dev,
 
-diff --git a/drivers/staging/rtl8723bs/hal/odm.c b/drivers/staging/rtl8723bs/hal/odm.c
-index b4f872f4d6c9..92ea6d0f772a 100644
---- a/drivers/staging/rtl8723bs/hal/odm.c
-+++ b/drivers/staging/rtl8723bs/hal/odm.c
-@@ -952,31 +952,6 @@ void ODM_CmnInfoUpdate(struct dm_odm_t *pDM_Odm, u32 CmnInfo, u64 Value)
- 		pDM_Odm->bBtDisableEdcaTurbo = (bool)Value;
- 		break;
- 
--/*
--	case	ODM_CMNINFO_OP_MODE:
--		pDM_Odm->OPMode = (u8)Value;
--		break;
--
--	case	ODM_CMNINFO_WM_MODE:
--		pDM_Odm->WirelessMode = (u8)Value;
--		break;
--
--	case	ODM_CMNINFO_SEC_CHNL_OFFSET:
--		pDM_Odm->SecChOffset = (u8)Value;
--		break;
--
--	case	ODM_CMNINFO_SEC_MODE:
--		pDM_Odm->Security = (u8)Value;
--		break;
--
--	case	ODM_CMNINFO_BW:
--		pDM_Odm->BandWidth = (u8)Value;
--		break;
--
--	case	ODM_CMNINFO_CHNL:
--		pDM_Odm->Channel = (u8)Value;
--		break;
--*/
- 	default:
- 		/* do nothing */
- 		break;
+>  	ret = ad7816_spi_read(chip, &data);
+>  	if (ret)
+> -		return -EIO;
+> +		return ret;
+
+At least this is an ABI change and should have been mentioned in the commit
+message and justified.
+
+Yes, error code is an ABI and infamous case is already known when similar
+change badly broke user space.
+
+https://lkml.org/lkml/2012/12/23/75
+
+...
+
+> static inline ssize_t ad7816_set_oti(struct device *dev,
+
+>  	ret = ad7816_spi_write(chip, data);
+>  	if (ret)
+> -		return -EIO;
+> +		return ret;
+
+Haven't checked this one, though.
+
 -- 
-2.34.1
+With Best Regards,
+Andy Shevchenko
+
 
