@@ -1,68 +1,72 @@
-Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
+Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C1F12AF1D
-	for <linux-staging@lists.linux.dev>; Sat,  9 May 2026 04:23:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 704702AF1D
+	for <linux-staging@lists.linux.dev>; Sat,  9 May 2026 04:23:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778300599; cv=none; b=JWiQnOHlHzI52mstcm2Ogpvv3lb13J567OCxwPXoR/LijV9e6qZSicQFa0EC603DhB4gf3r4esIn/reDX/E6RkCnEaZ723RfX/mRi3XbwDlowO+7AjIkHF3H/kPIFqt1wyNE8IoPPPp4NHw7shauU8bsgd6eaJ0GZPuxE2fAaLQ=
+	t=1778300622; cv=none; b=hNuuubGMY2tp0nwUgmkgyhPJpnacwe2Y4/ITbLukPf9tO7b9uEu0SD6XojU/P38596zAE6yro10ZQx3agVdp1EbDb0hn0vEn4tQGiFY5bmMdfVuOBv/NdW5zfq953+bRYnoVrwkyIygeiCbIqM6aYge/xocj0f9vuBjBj4WKh2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778300599; c=relaxed/simple;
-	bh=kZA7urSYS5Wgt4Zbm9v8JFwDQV3nMJJd4VIURCeNE6U=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=hW/5CxFWb2DHo3p18QBTP3Zoam4YO7T/HHdVvVNx/naI8/vysJJQgnidQxvPU+8tJyCFHlY4PbPK+aNqQuYNnmHXNvgqjMVuAVLIJ5GfV1nFbduy9a6qz03NbW+vczadd4zhSMajQzfduLe/TrVETRz7TzUhnD4djPt4ZiRx+Ww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PzbNSZ3v; arc=none smtp.client-ip=74.125.82.171
+	s=arc-20240116; t=1778300622; c=relaxed/simple;
+	bh=0T6qjHsNZxO9w15fToqOWcd9m2mIzAFQaIC/5vygG9g=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=A4yVHgbQAyKnCmc9f9K1djnwR4qUIflaXFCrRWp3NoSeAjwWh7sGW+1rBYoTgbyjCLzSm+GvBDJ4SKftL25nVBoOJtcr0R2R7dVAGW/9UyUI/vOqx/HLx4+oCqgKisaGlet8gxppsTsrS3wAPdAXKYbCl8dau43WCW3YDN/ivmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LblgLBBz; arc=none smtp.client-ip=74.125.82.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PzbNSZ3v"
-Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-2f33ae12f97so2003614eec.1
-        for <linux-staging@lists.linux.dev>; Fri, 08 May 2026 21:23:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LblgLBBz"
+Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-2f7020a928eso3672084eec.1
+        for <linux-staging@lists.linux.dev>; Fri, 08 May 2026 21:23:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778300597; x=1778905397; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=uOcTnyjqqrCWsWwBm0ZIbkmix0CeLTXmxB+5eE/J0Xo=;
-        b=PzbNSZ3vNd6DZbX0/8oRtqa2kxeHmceVL+H6TCMvii6O/Jr3F1nuZzm00VgBvxm11+
-         U8liKwnlg4pspOTtMjXSq4+IsuYi2sbLyQvoiTrCxlk0PIOljOelWBoa+sQD4km6+b9V
-         2rWUq1H4sjA7friYr/3ufNmYZzVYtJ9wawAR3QV9WO+/wohFdX+mLksEMVG51biC2aYV
-         j1MwVdIAsPbrniJFp15wx2IXH4JBvRXB0VDHfiS4cTki0uoZ2jNHaCCMSTk9nlrW2rB1
-         e4I3Rb7FLeLsm9W5ABll0nRXHcx3rOvhvs/M13PZizYm4lzbqnjtsTkciIO6o5sJoJ1+
-         Xrkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778300597; x=1778905397;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1778300620; x=1778905420; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uOcTnyjqqrCWsWwBm0ZIbkmix0CeLTXmxB+5eE/J0Xo=;
-        b=dwHcFenpHRgCQwIj3H+poFwwpEe/eBjWXUSfMAf7tZmxgsHC5jNzpwpa9a/KKQBm/G
-         YEDMQ/eSOXu1I3037JrtWcNwBLtuKfr8gjBM1/O0vHFuCspBIW3XNVMpA19GfG1Khhvr
-         hnBOhIlo7zN9emiEJqTSDGE9J7iy8lkrFqpKEgSDE/DT9rI2Dlj/r+BnwnkhQC1vmkB9
-         dewkgZU95q0d3jbyuqQUwQH3eVowfNQI9Vim+S4/5wLb3wrxClNQ3sN+FALaewCRhFre
-         Yz2ZPvBZe+SgJtElekB8r76IbVhfefqt3rZpgXrtIOcwlGzxWrDeyKMhrRGMkpGRR+OR
-         Vvxw==
-X-Gm-Message-State: AOJu0YwDPX+GCA30xCczjN/YQFii/7UTgHRF4nMRpPAsGNAS2/4X5bem
-	ByXsXF4bw/YhROQ8TGQCT8HV7hcmXpm0WCDLCBU07frGlY+gGx4vJLwkCeclEQ==
-X-Gm-Gg: Acq92OFYsD4mFyrwdauim9H0jtAu9/lPfY1gq17UsHeF6q0gqQJjvLcpcGjTPCrPpJw
-	MFe+jUag5awhgA4BJxSY8pQ1onDYsPZJIa0xVrKNKr6HlPgcM6483+/1eXGTR/XyiwkIBWMkPqx
-	PvCxaIESWW4KHgp4spv36sH9QbKTGHDuf5+U53R34UGkG+XJvDdujZwB7g79oNp63W8H6A0591W
-	uuzrzI3DAuOeMulxnHX8wAhxTAhLlDys5iyj4HZ6Ll1w5g5Qun/whK7A0eRtrFhoIWhYlkZUnXT
-	iPR1egJHnL/FVvKZkOJJsI03NAPioPFm+cZtLDxyQqkKZHU2MkRr8xgkWj+tRth3sMwmUygS2j7
-	ecjeXH9+Mow0NgFUj7M62KFYkHP7Qps62t0hhwj7hGG3F/68mUj9/kVyL2gh+KJEubWOB0KKUYP
-	/1DVAjxB+hxL1mmhn1ku0zyedbUsjB1E9uwUiMaYUQ4Yw=
-X-Received: by 2002:a05:7301:4088:b0:2ed:6f94:9d9f with SMTP id 5a478bee46e88-2f85c07ca45mr2936995eec.11.1778300596474;
-        Fri, 08 May 2026 21:23:16 -0700 (PDT)
+        bh=8OeFnHlOvTtUV47d0Rz6zh6gVSL9a/ePsR4VyuJRUtU=;
+        b=LblgLBBzR506VGpocYxsI1t4M8BwmLoLXoP+NsLzPGw9EDWiYZDHgaJBDkXK318Vac
+         vru7forHyNTp7TX8e6QtzqHshR3n0jw79m1LFanlxyV2kV6LgJ2IeqDvNDLtylapq5q1
+         5MEb1UhytmDdvao0DZ9hMtZpqLn2PnNFxVrqBvZ8ioVy2s3L509Pgl5uP7tUQ5/qcr3r
+         c27zPF3HKthbU188OMN+gAMnblSA/5rHspf/ASdbcOk1OR68ve6tItzz9LzoGJ02KVLP
+         zBTBo0S8dMQQugDC7kFzP7EVUZRldNG2g6RZHeAyYzi7/Ly6/BrrCgikuCQ5q3aSkm5m
+         I85A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778300620; x=1778905420;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=8OeFnHlOvTtUV47d0Rz6zh6gVSL9a/ePsR4VyuJRUtU=;
+        b=UwLFWfanuoQy9X/eWKh4TJrnkPl4ijVYa809zlC0y60Z6kiiBykMn/joSmxOcZTsPB
+         /ITA/lUuKLrjNL7f9zLQhmFQvUzRWaPidknfaiD1RG+UbyQk2O5S1Qq9w9hj9U6yjxN8
+         E+ToBNgmgLpGJcXqu1qatKesQC9Qby+Exz34YhAsxMJBu23+IJSrbmcDn6M+FrSRZaS8
+         d0PW8yZgcJ86RJPy0Wxd0/LS7gz/Ga2LDrucZRc/W8puMKRL+zWzohDpSt7ZaCxkIXhm
+         emtfs1dsvaAokj2Rzb364VR8bRgKmQ1g/VRQAhi03pbbEaw9O1w3yDxMf5y5w79fvGB2
+         ju7g==
+X-Gm-Message-State: AOJu0YywwhmW7huyTuhq39A5IGCHnfAs0HVXXO2Dc0k64hC+O0MqWw72
+	p0rSFnRq4p7R7ahjjeNicUQ658jKQ4BssZjo6bLYCpMIHNnIOQBnEDCRtCpRnw==
+X-Gm-Gg: Acq92OFGB9hxk/sZVeXB/S7wuNV51gEYBQTVzXRG3pZPVGL737AMrY5w/WG4j1pJIFO
+	749Ca7XT+DmQgaAwsgtzF338ZXPMIhiT790H7Dz9neDnFdGilStIie8tmf5FJlWprqHmhMpaKoz
+	a08LFnmplBCW35xfEY4I7+wYZwbY2o+XVmSIMpTRXmmfDL0zNeWeZMjURmyUuk3O6SORFCc1V2N
+	eAwZNn3PcGKTb9p6HBQUN5PkZcZyO2FUpLzxcML/Eshvk6Qw6nQNrKqPio/QTXLPYvn5gw3d7/Y
+	/JftEHO9pq4Cmm2COevygxbg08YYx+gCUNgYneugnYZDpHx4M3QvXLdcKP8nMZRoK6vBl3VVI7x
+	TJJrmPVbLCO81XWhLtsdzerU4Jpeu2dvOq68FhyKdv7sRVrzRmBhXn8+NKs+I6y/wIk4kPQ0H/0
+	pTT55bLnrcbfFbpbOKxg90Fxi9V6wsKyymwQvzE5U/b0E=
+X-Received: by 2002:a05:7301:1e4a:b0:2c1:7793:7bbb with SMTP id 5a478bee46e88-2f54af69705mr7547070eec.27.1778300619928;
+        Fri, 08 May 2026 21:23:39 -0700 (PDT)
 Received: from TestUbuntu22.. ([73.15.108.84])
-        by smtp.googlemail.com with ESMTPSA id 5a478bee46e88-2f8884750ffsm4950956eec.19.2026.05.08.21.23.15
+        by smtp.googlemail.com with ESMTPSA id 5a478bee46e88-2f8884750ffsm4950956eec.19.2026.05.08.21.23.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2026 21:23:15 -0700 (PDT)
+        Fri, 08 May 2026 21:23:39 -0700 (PDT)
 From: Jennifer Guo <guojy.bj@gmail.com>
 To: linux-staging@lists.linux.dev
 Cc: gregkh@linuxfoundation.org,
 	Jennifer Guo <guojy.bj@gmail.com>
-Subject: [PATCH 0/2] staging: rtl8723bs: block comment formatting fixes
-Date: Fri,  8 May 2026 21:23:08 -0700
-Message-Id: <20260509042310.4745-1-guojy.bj@gmail.com>
+Subject: [PATCH 1/2] staging: rtl8723bs: fix block comment alignment in hal/ source files
+Date: Fri,  8 May 2026 21:23:09 -0700
+Message-Id: <20260509042310.4745-2-guojy.bj@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260509042310.4745-1-guojy.bj@gmail.com>
+References: <20260509042310.4745-1-guojy.bj@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -71,23 +75,179 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patchset addresses two separate block comment related
-checkpatch.pl warnings in hal/ source files.
+Add leading whitespace to block comments in order to adhere to
+the kernel coding style.
 
-No functional changes.
+This fixes the following checkpatch.pl warning:
+  WARNING: Block comments should align the * on each line.
 
-Jennifer Guo (2):
-  staging: rtl8723bs: fix block comment alignment in hal/ source files
-  staging: rtl8723bs: move block comment terminator to new line
-
- .../staging/rtl8723bs/hal/HalPhyRf_8723B.c    |  3 +-
+Signed-off-by: Jennifer Guo <guojy.bj@gmail.com>
+---
  drivers/staging/rtl8723bs/hal/hal_com.c       | 28 ++++++++--------
  .../staging/rtl8723bs/hal/hal_com_phycfg.c    |  6 ++--
  drivers/staging/rtl8723bs/hal/odm.c           | 32 +++++++++----------
  drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c  | 14 ++++----
- .../staging/rtl8723bs/hal/rtl8723b_rf6052.c   |  5 +--
- 6 files changed, 45 insertions(+), 43 deletions(-)
+ .../staging/rtl8723bs/hal/rtl8723b_rf6052.c   |  2 +-
+ 5 files changed, 41 insertions(+), 41 deletions(-)
 
+diff --git a/drivers/staging/rtl8723bs/hal/hal_com.c b/drivers/staging/rtl8723bs/hal/hal_com.c
+index 25686aeb073b..51dbb21345f8 100644
+--- a/drivers/staging/rtl8723bs/hal/hal_com.c
++++ b/drivers/staging/rtl8723bs/hal/hal_com.c
+@@ -435,10 +435,10 @@ void rtw_init_hal_com_default_value(struct adapter *Adapter)
+ }
+ 
+ /*
+-* C2H event format:
+-* Field	 TRIGGER		CONTENT	   CMD_SEQ	CMD_LEN		 CMD_ID
+-* BITS	 [127:120]	[119:16]      [15:8]		  [7:4]		   [3:0]
+-*/
++ * C2H event format:
++ * Field	 TRIGGER		CONTENT	   CMD_SEQ	CMD_LEN		 CMD_ID
++ * BITS	 [127:120]	[119:16]      [15:8]		  [7:4]		   [3:0]
++ */
+ 
+ void c2h_evt_clear(struct adapter *adapter)
+ {
+@@ -446,10 +446,10 @@ void c2h_evt_clear(struct adapter *adapter)
+ }
+ 
+ /*
+-* C2H event format:
+-* Field    TRIGGER    CMD_LEN    CONTENT    CMD_SEQ    CMD_ID
+-* BITS    [127:120]   [119:112]    [111:16]	     [15:8]         [7:0]
+-*/
++ * C2H event format:
++ * Field    TRIGGER    CMD_LEN    CONTENT    CMD_SEQ    CMD_ID
++ * BITS    [127:120]   [119:112]    [111:16]	     [15:8]         [7:0]
++ */
+ s32 c2h_evt_read_88xx(struct adapter *adapter, u8 *buf)
+ {
+ 	s32 ret = _FAIL;
+@@ -483,9 +483,9 @@ s32 c2h_evt_read_88xx(struct adapter *adapter, u8 *buf)
+ 
+ clear_evt:
+ 	/*
+-	* Clear event to notify FW we have read the command.
+-	* If this field isn't clear, the FW won't update the next command message.
+-	*/
++	 * Clear event to notify FW we have read the command.
++	 * If this field isn't clear, the FW won't update the next command message.
++	 */
+ 	c2h_evt_clear(adapter);
+ exit:
+ 	return ret;
+@@ -582,9 +582,9 @@ void SetHwReg(struct adapter *adapter, u8 variable, u8 *val)
+ 		break;
+ 	case HW_VAR_DM_FUNC_CLR:
+ 		/*
+-		* input is already a mask to clear function
+-		* don't invert it again! George, Lucas@20130513
+-		*/
++		 * input is already a mask to clear function
++		 * don't invert it again! George, Lucas@20130513
++		 */
+ 		odm->SupportAbility &= *((u32 *)val);
+ 		break;
+ 	case HW_VAR_AMPDU_MIN_SPACE:
+diff --git a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
+index 1e5669b17d0f..ea79e300f83b 100644
+--- a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
++++ b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
+@@ -407,9 +407,9 @@ struct adapter *padapter
+ }
+ 
+ /*
+-  * This function must be called if the value in the PHY_REG_PG.txt(or header)
+-  * is exact dBm values
+-  */
++ * This function must be called if the value in the PHY_REG_PG.txt(or header)
++ * is exact dBm values
++ */
+ void PHY_TxPowerByRateConfiguration(struct adapter *padapter)
+ {
+ 	phy_StoreTxPowerByRateBase(padapter);
+diff --git a/drivers/staging/rtl8723bs/hal/odm.c b/drivers/staging/rtl8723bs/hal/odm.c
+index b4f872f4d6c9..4f9e5edecaa1 100644
+--- a/drivers/staging/rtl8723bs/hal/odm.c
++++ b/drivers/staging/rtl8723bs/hal/odm.c
+@@ -279,22 +279,22 @@ static void odm_RefreshRateAdaptiveMaskCE(struct dm_odm_t *pDM_Odm)
+ }
+ 
+ /*-----------------------------------------------------------------------------
+-* Function:	odm_RefreshRateAdaptiveMask()
+-*
+-* Overview:	Update rate table mask according to rssi
+-*
+-* Input:		NONE
+-*
+-* Output:		NONE
+-*
+-* Return:		NONE
+-*
+-* Revised History:
+-*When		Who		Remark
+-*05/27/2009	hpfan	Create Version 0.
+-*
+-* --------------------------------------------------------------------------
+-*/
++ * Function:	odm_RefreshRateAdaptiveMask()
++ *
++ * Overview:	Update rate table mask according to rssi
++ *
++ * Input:		NONE
++ *
++ * Output:		NONE
++ *
++ * Return:		NONE
++ *
++ * Revised History:
++ *When		Who		Remark
++ *05/27/2009	hpfan	Create Version 0.
++ *
++ * --------------------------------------------------------------------------
++ */
+ static void odm_RefreshRateAdaptiveMask(struct dm_odm_t *pDM_Odm)
+ {
+ 
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
+index 6c9337179645..2485c415f14b 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
+@@ -32,13 +32,13 @@ static u8 _is_fw_read_cmd_down(struct adapter *padapter, u8 msgbox_num)
+ 
+ 
+ /*****************************************
+-* H2C Msg format :
+-*| 31 - 8		|7-5	| 4 - 0	|
+-*| h2c_msg	|Class	|CMD_ID	|
+-*| 31-0						|
+-*| Ext msg					|
+-*
+-******************************************/
++ * H2C Msg format :
++ *| 31 - 8		|7-5	| 4 - 0	|
++ *| h2c_msg	|Class	|CMD_ID	|
++ *| 31-0						|
++ *| Ext msg					|
++ *
++ ******************************************/
+ s32 FillH2CCmd8723B(struct adapter *padapter, u8 ElementID, u32 CmdLen, u8 *pCmdBuffer)
+ {
+ 	u8 h2c_box_num;
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_rf6052.c b/drivers/staging/rtl8723bs/hal/rtl8723b_rf6052.c
+index ffb35e1ace62..e56536dbbd96 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_rf6052.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_rf6052.c
+@@ -24,7 +24,7 @@
+  * 11/05/2008	MHC		Add API for tw power setting.
+  *
+  *
+-******************************************************************************/
++ ******************************************************************************/
+ 
+ #include <rtl8723b_hal.h>
+ 
 -- 
 2.34.1
 
