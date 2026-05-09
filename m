@@ -1,142 +1,129 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-dl1-f65.google.com (mail-dl1-f65.google.com [74.125.82.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B35D38E5ED
-	for <linux-staging@lists.linux.dev>; Sat,  9 May 2026 08:41:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AE9E2EFDA6
+	for <linux-staging@lists.linux.dev>; Sat,  9 May 2026 09:03:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778316075; cv=none; b=tK536A/S0o4TI2WtINOI+l+Ip3Gf0ILF418koWtmUgyOHbk3B8gJ9lobxE9PjbzJmLc1KiHxpU9hLd+Dml8DxtJVsnvO/33E3EXD31v2+kVnuCtiSukLPjXiRap/3p2fDGvaM7AVkzxMI19xvveg66JYaiwxomq3mliIE2sEQKY=
+	t=1778317422; cv=none; b=RwmOzxf8Sxtikvv/lhliv1NsOc1GpGdt4CZ3MSPm5BRbLX8lFR3W9s8WUDOTjRJBTGW7iEdKdlJMZA+aynVOv0fvUHanY97L7uZ5d0wN3NzESQUs82XqvzXlpt1OkwQPKvmTA5BliL2B6C0e9Kg63vI8VoSz8YQCHTJXLvzj+Us=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778316075; c=relaxed/simple;
-	bh=7NVYnCMvS/7X3T3G89maX0Gdoroi3w8DAJG4EMNUKLk=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=IixyAhmdEH0TfNaQi293K9hhkAR1Xqv8dS54yt3/H/ruY89hMaxQW69r81W0s1gS79bvjlOoxzNT2VTwXWcF1kmpq0LYIgVh3YZEbRxoe1+7tatHPF9/vdmJ6j4eB+LInNa+MDqmmFba+U9xvaPmaJBHlw6UEAXVtuvrpGcl8nw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RfK8hPYP; arc=none smtp.client-ip=209.85.128.44
+	s=arc-20240116; t=1778317422; c=relaxed/simple;
+	bh=byOtteQFJj7wH2m03b47SoF27/lgF6IuUDHq8SOBtxQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=u/gnkjBcrSr+NF9kXVTxQvw16lpa11p6GGqZTSq4SiGTu9j7Jqi09c7xTXHS2IcDSA453b2xMABHKTkByNJIeK5DuQLOXWcDlYaS5/S1ykHk6vvseYZqQCdtzADzlHWKdOooBAFmsXjdJjNzp6zKGileNi190gyQmsG+yqwpl0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XAQuQfvN; arc=none smtp.client-ip=74.125.82.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RfK8hPYP"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-48e56c1bf5dso16656815e9.3
-        for <linux-staging@lists.linux.dev>; Sat, 09 May 2026 01:41:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XAQuQfvN"
+Received: by mail-dl1-f65.google.com with SMTP id a92af1059eb24-12c8f9846c8so3991518c88.0
+        for <linux-staging@lists.linux.dev>; Sat, 09 May 2026 02:03:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778316073; x=1778920873; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=CgQX5/FDdpguyCea7DnUd7QUmiY5RWdQxW1ZkTMJo1E=;
-        b=RfK8hPYPv0cWTW1+oyqSPOas/1IHyB1p6yJ5DYE4TOAgFC587wWQZ5krNBE+76qoz3
-         eaDkr7N/jR8cDqIUJFWo45m3XMuGBjFTFKoQHgX65PUkDl2of3PNT9XLF8HZdnwEeOTR
-         KtEpkSPEVniOj2FBuShye6Dsq/7n++LgsjOLLYgrHmalk6u8UKTam56oOIAVoXKq+Gbb
-         N5uhtoZz3bdZYpItF5p3bolMfkGpx0iz3JW24xKHxqJy0Iok5pVUkZW9N+jggdW8w/36
-         eJJCVnMGrnSRLvB9gyb4qEx9Vui1voysbcilLOtDiib5huUf+s9OISHm0k6HjgLOpGug
-         +p3A==
+        d=gmail.com; s=20251104; t=1778317420; x=1778922220; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ng77Sr+Aq2eTeCc4veSUx5zjPL7nDApX4AemJNimqX8=;
+        b=XAQuQfvNWr1v7uO3VrezC7CJZmEPMqQiy+CgsaxixDY2r+2n8XbMRRSZrdYeOQmmgr
+         xMhaulHDxckr2pcj4rxdNILDCeMOfvucB9HVw8NHZUxkx230wwF7c3T32klFEiuO1wAz
+         VtGAHYvbRJF6Wi48XUqp+aYJOD6L+wGK/SFydoVI0VIx85z3auE+sTIu1Q2bep7trQv3
+         EXlY4KdiPGDUrD0uXRDdhWUF7jL+Gx5+Llq/YyFNGRgzJFzqCBq0b9iYG+Sl0SrtHONy
+         zgZcE45aL4DpNDai+wDJGrDMoOJzNh/EcXbb8RfBQM4k9uPD2wiQYGfWnXXkyhy1a4sY
+         ymeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778316073; x=1778920873;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CgQX5/FDdpguyCea7DnUd7QUmiY5RWdQxW1ZkTMJo1E=;
-        b=hHiSKVveGb4mE5tm9cfLHc1Ky5siYJJ0oBDTaGGqREBtfQac5jUwSJKCjSVaA3uLIV
-         C4ffMZzF6XUVxkkw2bS/tgJQLaWA4IUZ7Nj0iAee90mq/qj+Bt2ZzmVLElLaDPOWtLCq
-         NzPtITG15BN6ZaPJ7sxDxDRIQkUXnYU+rNunQydYlOCAbEsWmGIZphQUyR1H73qrRtDo
-         y7DFhk/5xO3iNZ/p/LbqyyXx94rZZBLTRHdkDOFHaXLdQHnFoUvOAJe9E1+kQwwCc/dk
-         ymjrGCnDcB/bW0kGid9K4vSBBDFIYObSAopKwL+B9F2GI+2AWNUhuDBqxPvj9rt50w1m
-         bXmQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+9H6eiwGluLhN3HJlWR6fJF0HviY/frz2IXXw6IAq2V2wB5RUZ0rX7l08XbCMPeHR4YE9hX5TOHLWmtTRy@lists.linux.dev
-X-Gm-Message-State: AOJu0YwyanGmaLIv0WoAqnV5oE6Cy42xlsf55ZKY3SIj/315OBhpUlos
-	tkYnc2JfHNP+ER/ZmExhvkziJWCP7YRsqrgjH7gmkNHgGkl6zetBEBlmFq+Mxg==
-X-Gm-Gg: AeBDiesGu4LJwPz/PsTthtUBvWaq6f+geqV5alIq/Dp5ZXxlodxbXBjObOeTuP9EtmS
-	U1FZ+A4T/m/8/WKsxTLd1hGMo0P8grp1O2hTEfhRb+UmuiB40IrqF1OFctMzGuGwv0+eJ+RQVUm
-	C4X2N+MNrbg8MdCjO/EkWMSrL9Y5y89KfAbk82RtGgUK8wH1oEL8JMLkNMMTsrr1vVwsgZ7qgCa
-	PWs7r8pK6ThtgrLvm9WqnwyMxASN39xpmKfQ+A2Aq80uY75mcHI0mCG4ROaRp1o7xch6+BKXWBH
-	8pVhMbf6gktFaR2SqB5n4PHIqeJhUC//VnxfAdxKAKK2kvHCFiV55iqcwGnK4y4JeZcpUnGskEx
-	IMgyJXxaF9lWoBYUYeXDF3aH2qvOXhgad6+4lF7bM1kAKqBkWHeLWuCB7xtErGeZu3gCkQUPJkT
-	n7WIMFlCtNK9z5bEe82HKHnv1XTyemcp+GsBFfpDq7s43SbuIuXu+qIOtMCHO5UdGaCmy/flmwU
-	Q==
-X-Received: by 2002:a05:600c:17c3:b0:489:1ff1:74df with SMTP id 5b1f17b1804b1-48e70687ec7mr13078515e9.1.1778316072356;
-        Sat, 09 May 2026 01:41:12 -0700 (PDT)
-Received: from ?IPv6:2001:818:ea56:d000:56e0:ceba:7da4:6673? ([2001:818:ea56:d000:56e0:ceba:7da4:6673])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e6db0b08asm24056555e9.8.2026.05.09.01.41.11
+        d=1e100.net; s=20251104; t=1778317420; x=1778922220;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ng77Sr+Aq2eTeCc4veSUx5zjPL7nDApX4AemJNimqX8=;
+        b=m9S/Sf5Rbw7UeLGDmk6QHJ03dSCygMjWGZAK/cHvSrfpighzQDPf584p0L2n2kip1f
+         vRapS9cR3/Joc0h4J9eFRZV4Gndx2LA34LVFF6EXDgQxVQIRlyROH3BJyhJAjd4EII4K
+         2ugvn5jTuA5YXYLBaz2u6I9fK/6XThQl8gcsjkezoJeW7XyPEPlC/LiV5XXhRZ8nbLmV
+         G/Ub3sJ2F2q4R+JbwP89FtgHBIl0yXbExrdexWYbLQpD1t1+MniyFETUAjTgEOtln6Ky
+         +D6mQYyVNpd5ALnvNzuVecCi6kXvgw8QsWIsIX9kF31DM53bLYk/OzPywnN3KvyBTYYa
+         yEYA==
+X-Forwarded-Encrypted: i=1; AFNElJ/VQJ5eyUEEdKFo+/Guh8EiV1rgUL8A95/+gEjtnvJOxfZkFZfuvl0ahjgGAfStJtMFY5xnnQ2TlPG3+QCT@lists.linux.dev
+X-Gm-Message-State: AOJu0YxQ4T/oI908c9Hu97cGwvn5qcZD+bXN1id+RDiIy7ct8uWeaW0n
+	dj8FlX9bdUbYftux1fzr+9byOUFrLeVvU4jHYFYTnaHOfTN6daK00COx
+X-Gm-Gg: Acq92OGfmifUU4n3r1GumN9EmR6mndNVdhI7bryFTQ1KgfLc19oVb9kcqnbUEam99zh
+	T9HjL2WikF6QVAta980VMg0CxY7TY/xZgbKoQzuCWc4vLUgJXM5TiAaGVuPUXct3NA29zt0ig5J
+	9E2dWbAO+Xk/jm0YvOJVn2YmTRrlQsy98TlOfvIGtp7aqLOQZIZToyiDLPYGE2dOYWNpf0uYNsg
+	g7seSAx8sEhEA2kPUGUzWyg+l2HE0t0t5WVKAnsSYwOK3aMeM43urV4k77pymrEqRfQtYWKGaHv
+	crDRA5QI+OK6P5BZudFjrLa3+ZtisFnoSjyZoBj0W7vjeBSLUqHQAq+EDqlpiQMyPwtp/v/McA2
+	0I2FYH99U9zd6ufPpLSSGYUFRU1LC6cmukGGV+faxqXgl789nZqIQJGa18Yi8z/8yBBRonENpeB
+	4+0rcmI3bthhxMzeDlz4YDak9ie9mECP90m02G4nN1ng2ML3YvkLfmgqA=
+X-Received: by 2002:a05:7022:672a:b0:128:bae0:e043 with SMTP id a92af1059eb24-1318eb4a66bmr7629992c88.31.1778317420273;
+        Sat, 09 May 2026 02:03:40 -0700 (PDT)
+Received: from localhost.localdomain ([76.32.119.210])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13278758e0csm6116676c88.12.2026.05.09.02.03.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 May 2026 01:41:11 -0700 (PDT)
-Message-ID: <a0d363994bc55ef2b4c3c5c70b0cd91e94acaeef.camel@gmail.com>
-Subject: Re: [PATCH] staging: iio: addac: adt7316: check SPI write errors in
- probe
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Hungyu Lin <dennylin0707@gmail.com>, linux-iio@vger.kernel.org, Jonathan
- Cameron <jic23@kernel.org>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich	
- <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, Nuno
- =?ISO-8859-1?Q?S=E1?=	 <nuno.sa@analog.com>, Andy Shevchenko
- <andy@kernel.org>, Greg Kroah-Hartman	 <gregkh@linuxfoundation.org>,
- linux-kernel@vger.kernel.org, 	linux-staging@lists.linux.dev
-Date: Sat, 09 May 2026 09:42:12 +0100
-In-Reply-To: <20260509082636.85114-1-dennylin0707@gmail.com>
-References: <20260509082636.85114-1-dennylin0707@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+        Sat, 09 May 2026 02:03:39 -0700 (PDT)
+From: Hungyu Lin <dennylin0707@gmail.com>
+To: linux-iio@vger.kernel.org,
+	Jonathan Cameron <jic23@kernel.org>
+Cc: Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	David Lechner <dlechner@baylibre.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Hungyu Lin <dennylin0707@gmail.com>
+Subject: [PATCH v2] staging: iio: addac: adt7316: check SPI write errors in probe
+Date: Sat,  9 May 2026 09:03:20 +0000
+Message-Id: <20260509090320.85481-1-dennylin0707@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Sat, 2026-05-09 at 08:26 +0000, Hungyu Lin wrote:
-> The probe function issues three SPI writes to switch the device
-> from the default I2C protocol to SPI protocol, but ignores their
-> return values.
->=20
-> Add error checking and emit a warning if any of these writes fail,
-> to improve error visibility without changing existing behavior.
->=20
-> Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
-> ---
+The probe function issues three SPI writes to switch the device
+from the default I2C protocol to SPI protocol, but ignores their
+return values.
 
-Hi Hungyu,
+Switch the repeated SPI writes to a loop and return an error
+if any of them fail, as failing to switch the protocol should
+abort the probe.
 
-Small comment from me. With that addressed:
+Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+---
+Changes in v2:
+- Return error instead of just warning
+- Clarify that repeated SPI writes are converted to a loop
+---
+ drivers/staging/iio/addac/adt7316-spi.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-Reviewed-by: Nuno S=C3=A1 <nuno.sa@analog.com>
+diff --git a/drivers/staging/iio/addac/adt7316-spi.c b/drivers/staging/iio/addac/adt7316-spi.c
+index f91325d11394..056a4505bf30 100644
+--- a/drivers/staging/iio/addac/adt7316-spi.c
++++ b/drivers/staging/iio/addac/adt7316-spi.c
+@@ -98,6 +98,7 @@ static int adt7316_spi_probe(struct spi_device *spi_dev)
+ 		.multi_read = adt7316_spi_multi_read,
+ 		.multi_write = adt7316_spi_multi_write,
+ 	};
++	int i, ret;
+ 
+ 	/* don't exceed max specified SPI CLK frequency */
+ 	if (spi_dev->max_speed_hz > ADT7316_SPI_MAX_FREQ_HZ) {
+@@ -107,9 +108,11 @@ static int adt7316_spi_probe(struct spi_device *spi_dev)
+ 	}
+ 
+ 	/* switch from default I2C protocol to SPI protocol */
+-	adt7316_spi_write(spi_dev, 0, 0);
+-	adt7316_spi_write(spi_dev, 0, 0);
+-	adt7316_spi_write(spi_dev, 0, 0);
++	for (i = 0; i < 3; i++) {
++		ret = adt7316_spi_write(spi_dev, 0, 0);
++		if (ret)
++			return ret;
++	}
+ 
+ 	return adt7316_probe(&spi_dev->dev, &bus, spi_dev->modalias);
+ }
+-- 
+2.34.1
 
-> =C2=A0drivers/staging/iio/addac/adt7316-spi.c | 9 ++++++---
-> =C2=A01 file changed, 6 insertions(+), 3 deletions(-)
->=20
-> diff --git a/drivers/staging/iio/addac/adt7316-spi.c
-> b/drivers/staging/iio/addac/adt7316-spi.c
-> index f91325d11394..25b7772bd05f 100644
-> --- a/drivers/staging/iio/addac/adt7316-spi.c
-> +++ b/drivers/staging/iio/addac/adt7316-spi.c
-> @@ -98,6 +98,7 @@ static int adt7316_spi_probe(struct spi_device *spi_dev=
-)
-> =C2=A0		.multi_read =3D adt7316_spi_multi_read,
-> =C2=A0		.multi_write =3D adt7316_spi_multi_write,
-> =C2=A0	};
-> +	int i, ret;
-> =C2=A0
-> =C2=A0	/* don't exceed max specified SPI CLK frequency */
-> =C2=A0	if (spi_dev->max_speed_hz > ADT7316_SPI_MAX_FREQ_HZ) {
-> @@ -107,9 +108,11 @@ static int adt7316_spi_probe(struct spi_device *spi_=
-dev)
-> =C2=A0	}
-> =C2=A0
-> =C2=A0	/* switch from default I2C protocol to SPI protocol */
-> -	adt7316_spi_write(spi_dev, 0, 0);
-> -	adt7316_spi_write(spi_dev, 0, 0);
-> -	adt7316_spi_write(spi_dev, 0, 0);
-> +	for (i =3D 0; i < 3; i++) {
-> +		ret =3D adt7316_spi_write(spi_dev, 0, 0);
-> +		if (ret)
-> +			dev_warn(&spi_dev->dev, "SPI init write %d failed: %d\n",
-> i, ret);
-> +	}
-
-Hmm this is a bit useless no :)? Agree we should check for error codes but =
-we should
-bail in case of errors. You can also mention the loop() introduction. =20
-
-- Nuno S=C3=A1
-> =C2=A0
-> =C2=A0	return adt7316_probe(&spi_dev->dev, &bus, spi_dev->modalias);
-> =C2=A0}
