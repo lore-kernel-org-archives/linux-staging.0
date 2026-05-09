@@ -1,50 +1,77 @@
-Received: from mail.cipherat.com (mail.cipherat.com [91.98.42.103])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f195.google.com (mail-dy1-f195.google.com [74.125.82.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D13639C011
-	for <linux-staging@lists.linux.dev>; Fri,  8 May 2026 22:27:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.98.42.103
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB43D235045
+	for <linux-staging@lists.linux.dev>; Sat,  9 May 2026 02:07:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778279268; cv=none; b=EfC9uzL/iUD3abpy4V6rrXHYOqdU39wxhF8+nM6AWH6zWJdlGGyfZ/EfDyxk5ezzcDEULeSnP6R4XJJyaXeopr0AXCf8Ndu654y9Ryn1gLbYH5ux5Yc+nVgU1wHZOlieMD7gInlDfdi4MXVcxN+tMkQt8WeKlO03to7gh+/tckw=
+	t=1778292423; cv=none; b=rtd0tlpQ4PWE72m/v/8g5c9sqm8YFB9paPw5UlxWXSiKEmUoq5YSga5sb0F7P0UX5p9vUxqBRJOcXOxdlzAYEee3Vvj/KRxuUwOuMatBtM3vnIsLJsw1vl3ZHLCAAdY7hpg7wrKWwhyoLgPrVJ6xjUS/v1YtuAWQPNmTlJffIOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778279268; c=relaxed/simple;
-	bh=3VjogJRvlVNg3t8adN5DZTXgCr4LrHLIkitkB/fmWkc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=d5a2CDbs8wlKvyhGdC5gDQ1+gL/yQLgjzKTHWY5Kq/vYBKIvxGxP0/KQIwLw5Hx75guxMSpBlPgB7y8zgtawk18UIXTcAudz/3sNCnfE2kehZuefiuphsDvPqAtrypoqZ6zAukkLz5RsnapLWEAq6GUBq/X7oGalLqBpmQpWUNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cipherat.com; spf=pass smtp.mailfrom=cipherat.com; dkim=pass (4096-bit key) header.d=cipherat.com header.i=@cipherat.com header.b=oVPOsZkK; arc=none smtp.client-ip=91.98.42.103
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cipherat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cipherat.com
+	s=arc-20240116; t=1778292423; c=relaxed/simple;
+	bh=0UqRGMGJFyQR4ZU9B1gZnIWfgj1nOftZ7YXBLwSK29o=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ZSEePCqBD/B9XHGTz3LDVZgerAyA5xRI+KUxiU/3Q7EiD30j524AOZKD+bbK4j//81/f3MXp+O4wQuj+nyvZmh7FMf+RRK6dSTjnRnR+mGUFQNYXulPmkWWhTOfeirE0TFffixcK/RcDW+OH7T9cKfT9n3Wc1oyrNLinttDBiMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OxXRns/s; arc=none smtp.client-ip=74.125.82.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=cipherat.com header.i=@cipherat.com header.b="oVPOsZkK"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8255084FCD;
-	Sat,  9 May 2026 01:27:44 +0300 (+03)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cipherat.com;
-	s=dkim; t=1778279264; h=from:subject:date:message-id:to:cc:mime-version:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=d9Ed+ndE0rLiuYa70jJCdm2waF2bxaiVchc8o7SFhK8=;
-	b=oVPOsZkK3nEOkYhPNorJdjnF6qrY9RXqRjG8vqNWjxivcM7hbFbUfiCWYugZX4ViX91PnZ
-	Uu/xZ/FjBcyJ5tz9il/Qfu043AV9jU5CTfAX1CR6zfes18WsmYN6yqXjmKd+9Q68QJSLd0
-	j/8y0CfxQKYjrS8aYv85NPxBc3KlD3TvkCZWrx06CEx7ZHGshPqHSHqjjh7Zj/lMx3tb22
-	u30RNGlY+EM3R/51G7dnWX2Q5eR5yhYm8UhCiUFF6AGT6ZMRHwEi/0HbfFEM9Pp4I1iOUk
-	M+uc5a1H3hO6L3ZU50qk7RHwxBZtafDagkylJxH8o6EkIx0JYm08BPhYXgBhbPe03HdS7o
-	GhdNh2PcADCoi87XaEpDtR0SrPhw2ctfZuViWJGFre6uWQjiLHZekNW4oP0Zr4Vp3Ztsdx
-	jXtV6UyYxzLztKw5ACfHjcHnsUywOlxL51mRzCnVq1iimy8oJkcVb4Ni7+f+NPtOmU6C9L
-	YK/CF13Vi3upTZmoshecUpnLGroiHGyoq1fqZYh6jHXgYJ26Oet/GgvaUMBxx6rGyP+ylP
-	V7CsNec49h7kTsTJ3hiMLzhGwjwKAB6FkRmpSMCsiZX2F/vsAgZxVWaXGPiOLWrJiKD+NW
-	9fnXiGSdR9+v0a0DPaaMBOg2KLiZs50XHEKpc5+Arp//nhnz6HgJQ=
-From: Salman Alghamdi <me@cipherat.com>
-To: gregkh@linuxfoundation.org
-Cc: straube.linux@gmail.com,
-	error27@gmail.com,
-	luka.gejak@linux.dev,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OxXRns/s"
+Received: by mail-dy1-f195.google.com with SMTP id 5a478bee46e88-2f03d6cf77bso2911116eec.0
+        for <linux-staging@lists.linux.dev>; Fri, 08 May 2026 19:07:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778292421; x=1778897221; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ai/n2cnUufP8ldkhBkibpvPnnhM8YVdLaYJ+C13VY6g=;
+        b=OxXRns/sc1vbGLFWR/yM5h67hORo460goTnBHKSJlFvmQtx3XhBI2na6mXjNCmrKCw
+         xJMxNZ4117IcOjb8io113raa+SafVpkQXBvEQlVPbRdQ5BdZHVxjbiSzmQz5DnDn3Qgm
+         eFZcwYAUeuZ+amiilzl/bZxnh4ea06j+jlxWuMgHBuQc/QWdbsjT49wId3ckUwHir2tg
+         Twx5tyVNyy4wESVpjgkFEWBCz6fLI/3Ff4J756DA96o7C49WLvqpzrMs0b4n/wA/z5+L
+         gbMc6l+9Kw8IKxOSK8MSU8TTOpambJZZPrhF1exgRR7rlzdBuCrfSwjuQvFx9b/BBn9X
+         4Bpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778292421; x=1778897221;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ai/n2cnUufP8ldkhBkibpvPnnhM8YVdLaYJ+C13VY6g=;
+        b=E+dFlOBwe128g598bGHF3GtkKkWHGPviUq6iUscMQz+F2jabChLUjbZZ0VP1hHDniu
+         LlAw6p1ofbIAwD+M/Qx7qK32UExgilL1SACFESjLQs1VeChUFSP119VAgK9pyuf2UbHZ
+         /x8LENAdhkqoYV3iLTTCUHOkmq/rrDv88kC+cSXMjE7mO0ReXhxbP09c9oGvS/XAlM9c
+         aOXFqWi/5z8asdk5XBQE8xJ9T0TzGDkqVmD4/lbliiUM42OrpsGk0mJM0X6wvYgOGGfk
+         4+B4PULpYdA98lUhL7/uT01xxFF71JwouhPweZgQhfh5GjiLaZjAvKQ3Kh1tfOtBiKd8
+         cNkQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/e2gWU1eYXn0+4DkP9QLDRpU9szxyOsocLYEm3mlKj4aSwzfeSW/Es702mv7SmlqWp+OtnT9+IxZNcCP+0@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywh1vMy4CRA4rKq8nUJm8VD6K4RIeMO/x18UdEJvpCxY9ix6kug
+	sB+9UwwTFQIICk2R2WUk2y4Imtm2vMe0Z52Ed5Pm04DBOXq0T/S5VFYt
+X-Gm-Gg: Acq92OEjgVVNJ1QpUuq6TKmfUyQHdYubo74Jpq1Xgk41+1d3igxXWQLlufW7fT3GUSf
+	KpjMCdWs9ce7p0TOcORWyl1brMi4tn18wZWZ62Ea656G3mI5oIlf8hNs+OeUMeMoEd73rVxsbFh
+	kvAZbAQXSFjObEUvC9btc/GzR0kqBYyeHrJlltvqTyRyJM0t2GOc7QxLOah3jiWmiatI3CsYqE+
+	Gq2LxUQNIKMDnas8CXYJeVArxHOfrnzZzna19BUf9r1TPpHvtT1wcCZ8P4JgQaUYAQ1Jx34H0kI
+	EOkoYUBm+f0nxwqBynLdqd8/7GE9du4ZdyQKjeyaO5KeyFsnSbBUjFku/DwVJ6hCu3lssfNwTGA
+	ryRX8mAVFsbGUP5PAfRb1+ZsiHtcVZR3GH3Le6HIJGCbjHS9+2ENyGyRLIGVtRbwJMrb7mbUzMI
+	5CBZ2sWQ14KbBjjU02skYn2SQH8ImiPC8XA4eQmjySjK/TMkQAQdnda7I=
+X-Received: by 2002:a05:7300:b919:b0:2dd:c066:c02 with SMTP id 5a478bee46e88-2f54a87e845mr7917637eec.22.1778292420587;
+        Fri, 08 May 2026 19:07:00 -0700 (PDT)
+Received: from localhost.localdomain ([76.32.119.210])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2f8893441absm6080859eec.31.2026.05.08.19.06.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 May 2026 19:07:00 -0700 (PDT)
+From: Hungyu Lin <dennylin0707@gmail.com>
+To: jic23@kernel.org
+Cc: lars@metafoo.de,
+	Michael.Hennerich@analog.com,
+	dlechner@baylibre.com,
+	nuno.sa@analog.com,
+	andy@kernel.org,
+	gregkh@linuxfoundation.org,
+	linux-iio@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v7 7/7] staging: rtl8723bs: rtw_mlme: add blank line for readability
-Date: Sat,  9 May 2026 01:27:03 +0300
-Message-ID: <20260508222725.24075-8-me@cipherat.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260508222725.24075-1-me@cipherat.com>
-References: <20260508222725.24075-1-me@cipherat.com>
+	linux-kernel@vger.kernel.org,
+	Hungyu Lin <dennylin0707@gmail.com>
+Subject: [PATCH] iio: adc: ad7816: propagate SPI error codes
+Date: Sat,  9 May 2026 02:06:46 +0000
+Message-Id: <20260509020646.82778-1-dennylin0707@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -52,28 +79,40 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
 
-Add a blank line between the WIFI_UNDER_WPS block and the
-wifi_spec block to improve readability.
+The driver currently returns -EIO for SPI read/write failures,
+which hides the actual error code returned by the SPI subsystem.
 
-Signed-off-by: Salman Alghamdi <me@cipherat.com>
+Return the original error code instead to allow better diagnostics
+and error handling by callers.
+
+Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/staging/iio/adc/ad7816.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index be8b50e8a232..0104829ca50a 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -626,6 +626,7 @@ static bool rtw_is_desired_network(struct adapter *adapter, struct wlan_network
- 		else
- 			return false;
- 	}
-+
- 	if (adapter->registrypriv.wifi_spec == 1) { /* for  correct flow of 8021X  to do.... */
- 		u8 *p = NULL;
- 		uint ie_len = 0;
+diff --git a/drivers/staging/iio/adc/ad7816.c b/drivers/staging/iio/adc/ad7816.c
+index 0e32a2295990..9052203eb4f3 100644
+--- a/drivers/staging/iio/adc/ad7816.c
++++ b/drivers/staging/iio/adc/ad7816.c
+@@ -222,7 +222,7 @@ static ssize_t ad7816_show_value(struct device *dev,
+ 
+ 	ret = ad7816_spi_read(chip, &data);
+ 	if (ret)
+-		return -EIO;
++		return ret;
+ 
+ 	data >>= AD7816_VALUE_OFFSET;
+ 
+@@ -320,7 +320,7 @@ static inline ssize_t ad7816_set_oti(struct device *dev,
+ 
+ 	ret = ad7816_spi_write(chip, data);
+ 	if (ret)
+-		return -EIO;
++		return ret;
+ 
+ 	chip->oti_data[chip->channel_id] = data;
+ 
 -- 
-2.54.0
+2.34.1
 
