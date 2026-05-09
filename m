@@ -1,107 +1,135 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A4CF262D0B
-	for <linux-staging@lists.linux.dev>; Sat,  9 May 2026 17:16:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778346966; cv=none; b=Tz7qMyFE0ZVrTDOtvgquyO6/CFbSrpGSTX7sxdg2y+5c9ihSXNe9Tv2QRV/YCU9Wb4mDzSx6zLp8xiluSMBQJlKay33vXv1Iy8vPpweOWimCvxN8PD5bm54e+ZltZfinZaDx5D7seCXU0RV7rQHF3oL8K3HHU3D78YD3TqG3mng=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778346966; c=relaxed/simple;
-	bh=IcGOyTmLRGu7gZmiijMzPNtc7H2UhPCYKm8NOyo4lu8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qvoS9a15qoIjiyMw7la0yO9PYE4ZtQyyW2mUb0hi0tmGacyymHuKb/A73LXydiIMTLGOfpdDoHWCLvpafGUns1F1HgXERTj8Vd0iA5h3nl9azvQZZ/1s7QqZvNGUf5RoMhDZ/g+Sxm8xS7NqXjKCLAXTwGaG+5m2+HM8UrHzz5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UZNVtjwZ; arc=none smtp.client-ip=209.85.215.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F08AD382F25
+	for <linux-staging@lists.linux.dev>; Sat,  9 May 2026 20:26:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.175
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778358365; cv=pass; b=EBzg4ehGZbCrwr/jYvv8XUQ5/HimI7lihIp3aD5VcmXVWT4CFf6tlWeGT0pi6jfMk7MzAGp/F7TeiLR6pbxmxsBY8Z46ZJHhXuJgj18pOElkzvuTVotpT4IqHFqk7UnDFTQtcsG+WILI9qDj7RRsH+6mk5PPIA3Bd/Hcqr6bF+M=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778358365; c=relaxed/simple;
+	bh=su+isiQqtQCsNpLq6V2xgnU6bpChhZzlORZaROftQN0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PqhJYBFjQRXmbjZ8OxYv3CWOXI2Vkg5D4BuHjW4b21t7IxEr1lvPUgaGZfq/zcYyRrhrXNQ/KB5gdRP9yvfFaig4BfTJHxgvIuws6fO55MM4YJcLrecH+gtiH9m2cw2tu6vH5OUWFusL63juU118rWfpFJM/Dp32KaF3ickkVVI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rHOGjxte; arc=pass smtp.client-ip=209.85.128.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UZNVtjwZ"
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-c80291e6237so2072190a12.0
-        for <linux-staging@lists.linux.dev>; Sat, 09 May 2026 10:16:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rHOGjxte"
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-7b4ee3a88e1so31695887b3.1
+        for <linux-staging@lists.linux.dev>; Sat, 09 May 2026 13:26:03 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778358363; cv=none;
+        d=google.com; s=arc-20240605;
+        b=GsxAycdloYkG4dnNzkQG0WItIW2BFYLizV4aTvAq/Vjte61RytFobLQPkiV9Z7kjqH
+         2u3elZexVuTy5S+srOD4sZ2nXNdYnw6ItE1VsoBqw6Q7M8QcnUMjNy1pOwWyjbyBlCr+
+         looQAJZ9IvCknyLlvE/sAUsCuN69TKIx3Q2D71Cj6Pe4YmyPkFlRenA+SSE/RcHnCEup
+         LhMAN9C3KV9YdJ6+L9iidGQMnFEakE5pSB8gpWpFEhkdcSeo5EfwmFnP2w5yQm4XK8es
+         vrf7U5seRlRl9GSfDdgorS/AT37QtYi114klRQQeLpmiRBXm8qY0J0QE9WLL3xQb24uz
+         ERag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=R8YQsGP8uw0vp9urmqjIKxpnukHxbZTJqWmAo3vcZPw=;
+        fh=70HCKJZ/aI2elvZ10ib1j2A+WdTx1J0P6wb/yEiGvEY=;
+        b=J8Y8JtWAbxTw0y78aQjfejDZr04xhamq/dO6CbsXgA2jfCWmwMerxqVH4i5jSkMgSw
+         tn6p/2WYAaI6RwLWdttvIJRjej3Pt8q1z6J2DKXfpni8HfAo3WzYa7f0t7hsorhEBUNd
+         48/1+IHCBjDPQ0EvQnZGDAH5HI7l7ICzITliPBaya/OL4Bk2U6PBGGVhwtcFe9Fn4xzq
+         Pqhyr2JO6hbPUzzmMpfaB6LNsIoq/X4b+MzC2BdeWdeP80Dz7qrXI1fQdRdBboJzmapk
+         4uUOPzNYwa59j7Ps/zUosz63Cu1oPTEDC3ncawpih25ZEgoZih/DOSoRp5AbQrnqSJwA
+         uwUQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778346964; x=1778951764; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DRTN+RHqMoaCUUiRCW8MKBD9GjsMxoDdYFLzjJW3gq0=;
-        b=UZNVtjwZ5L1NrDMLmx8pbpfTK6U/bJTl/xJ2QtNl5JKx3kleD3d/zjWlttq7SYEzn9
-         MDGkqLncZsaBMdsG1kpjJyolMeRBr9j7ZjiufslSIMkAEGyf0oB64NtLz9lB6+qgXur+
-         bOONBl9Hr6N8Ta1I9xv6g784IlcSHkUprUnVfqBdYUKiCdO+bpSdYeIwVrHdPx2DNf8M
-         s9BaRpvdoTjhV4Ywil98oMheEjAftVRQlc0ATpslseroBdWQVmSd7Ecz5wrss6xE3Gvz
-         dueSQkob6LiS/a3RUjOfZqSOXdlrVL2yIm+KV3fOrAujIG0gWfyockGxLLX9wYaHMrd5
-         mVDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778346964; x=1778951764;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1778358363; x=1778963163; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DRTN+RHqMoaCUUiRCW8MKBD9GjsMxoDdYFLzjJW3gq0=;
-        b=pbSxqwIedqYEVsLqh/LXaKP1gV3EyHRsvnytqhRh1xfsRP+xO5P+A8U+S4JXFfCC1Z
-         df5en2Y0pgp4OQNoaOJ7cfwo/ovley96u+g7IVlCwkhQdJvVwdtKZKKgS1ZMDEyYpY8H
-         WQM+kTS4hoZA0CIxkePPQQNSCOz0bcywjw9AnuMb86OmrX8NHwhV9hor/1nXYLIjGl9z
-         Lcd5LyqgIyz6HGrQ9KjKBxwL5fxk9eHy+JsIeVti1oxPf1w7mlBO/7KiQTd7QO5GaqL0
-         /oTP2dbHOuWXWygvesc1Z7zOTaqaVBM1RUpvuaHk2AfbEaj0cgE7bZN/BN/u0GgUNVHK
-         rK5g==
-X-Forwarded-Encrypted: i=1; AFNElJ/lQxy0E3xZfOU1zap+nOGpn61Nxor8oPBjczqvTXC3/nvsQGmKK8Ow+kYmLcuPk9lBq942x2KN3z1ryiJ6@lists.linux.dev
-X-Gm-Message-State: AOJu0YxwADMfvcKUmgsfWK1AvDU9WE7Duz3X+VOQmxOnY1CriMPsCGlt
-	Ssi1z3eDi1VHc18BdXYezQq6+7QiGTuKbqC0t6ySh4mXx1wYOCgZg969
-X-Gm-Gg: Acq92OEKe4ADb5vafMtS4SSqFpKhcfaGkZPLQgTFAmhYAjOcg73oZSSuakgbqfba0ZZ
-	HnMJep6c9dALQRmF84r1YhN9ijYSu0foy4LgE9+hpT88sEJeRcDSUj7vEZVruVqeLyey8tE6yaN
-	Vzm4tafodrWyKJ07HoShxxJ8lB+apjJZiqYunigUi4oStf7bINu9HxhcIBEdhSen/ost6HwRVCq
-	HVa4oJNWuyxRuZOfIFk42wsxzsDgVpzqcVAyv+K2Vk9hLaNcD0fsrzxsisH6wdhrvOTeYobVYBE
-	3Z4r3YDefKHW7YPtmu7kMgCEnQVNEeKTaAXk4xyClufXUwUSHLZgusPHFoW1Q7NF0W0WFO1Q9UW
-	Wrkr3CO0jschc/lU3ct7OE2YhOCCOvPkcfX1sTMpbFweWfSrBxfT8xCo4x4E52BEuw+xaiiZAx6
-	0pabDeGHZVejaIa0V1MGnjA21zuzcIYg8+SZBZ7ABs
-X-Received: by 2002:a17:903:1a6b:b0:2b2:4029:d781 with SMTP id d9443c01a7336-2ba798d56c9mr194251615ad.20.1778346964392;
-        Sat, 09 May 2026 10:16:04 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:d008:80b:a00:27ff:feb6:42dd])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2baf1ec7d35sm57164895ad.83.2026.05.09.10.16.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 May 2026 10:16:03 -0700 (PDT)
-From: Pramod Maurya <pramod.nexgen@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: pramod.nexgen@gmail.com,
-	Jacob Feder <jacobsfeder@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: axis-fifo: Fix alignment of wait_event_interruptible arguments
-Date: Sat,  9 May 2026 13:15:38 -0400
-Message-ID: <20260509171538.46396-1-pramod.nexgen@gmail.com>
-X-Mailer: git-send-email 2.52.0
+        bh=R8YQsGP8uw0vp9urmqjIKxpnukHxbZTJqWmAo3vcZPw=;
+        b=rHOGjxtegEe7gusXaxKt8ifC/tDeA6gfWRugjopmiUnsla3VQkatAH/I5iVmPgE06Q
+         Vlvh2eElq51kaavEwJzUQAKMdCdZT5ezqjD3AgBJwnazNk4EAdYYeB++TDlIfck8KlRO
+         bvoYSo/bZBb4i/zDR641OOGofcc/aFa34cIqhO/PXeYUdh0qRPS7z3kjncFZbW7ApCkQ
+         RFsXCxozYZH3b1PURYD1GHVjk0MOJWkaeBUlDLr9K2LDgSxHb3ZBPXB+CsQ/HPYQ7TEh
+         uCxOpNxUNdSUKE0QS1jYyU4x5GXVMyT0nAo9R2C331UYJoLGT2ky0i3B3zQT7zYs+TXm
+         pNTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778358363; x=1778963163;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=R8YQsGP8uw0vp9urmqjIKxpnukHxbZTJqWmAo3vcZPw=;
+        b=lXIOiQe2+b8WgzBLmVBiqlHOx3hhLiBWiQQl/MO4II7DrwQUmD1nChj7tsaAN3xodC
+         SGyedCPuC2lVcXupfdBCHqII92/OMRv9KSMMWyFlhtIFYzrGvRG787G7L5ad2bGpR546
+         QP8VLdDPZx/ggvl1XssoQJ29gZgKE7Q9gkEPknFmE1LTnkqxucCBbDWiY47KCmrrNvks
+         GAt17BuziP2QYpwJ6uNBj6z4LX4in4s4lxdAcfocRAAw/pAOdgFBrN2ZP/kJyItVhwf/
+         k+tFZ6zZSDuNp98Yf/KWrz6fBE7mD0PE7wIGRmiX4VRsEP9OEkrQCrg6VpvQNQ85X9Q3
+         OlZQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8JI+xghQCC40Vtb043BQxjyHBkgtGKlCzinIL1z3cj2OHyfzIgfDO/lVWjmOUw088gQRwwVYzdgkw2Ka/v@lists.linux.dev
+X-Gm-Message-State: AOJu0YzXAv0dD19mlLv7ema/ZoLvmkiVWfTEusKl3CpPCz7uOcnlbuYw
+	xXfwBDT8fGQyomIMHo3k8S1sY9u+Ka80UGK459AhU3tt/wAYBIzgV+A9e1TWzPSibW68vn9J8Ro
+	+r8Adpj2G6iKGBreOuVQyrsuVSfWQQHk=
+X-Gm-Gg: Acq92OFNtT7XarGzF/wkLqfHefNZxCfIGxjKvuRdrWYoD7vWWcwbE/fGx425lpjvRx8
+	ahN/zEnbR6yGXJvSoZdmE7NX5NiaN1RwdJjaNBhi/O0BQna+30zmGvxHqz8b04bzubI5zpj6ZKW
+	bakcnQG7hHZ3SMw1c4252Hh/bIG9OR5hQYSRIqLqLb1bgVkmQxek0dv8xj7f0R1+u9qOckWYrlq
+	5bNC9l6weGjvoZ10JQYaCYkz+Z5bfdVGra5BcSglAvBEIpRjJWy5C4tw2i6cKJagLxi9vGjreOE
+	OuZt
+X-Received: by 2002:a05:690c:c6c3:b0:7b3:f33:35e5 with SMTP id
+ 00721157ae682-7bdf5e07727mr152824747b3.16.1778358362999; Sat, 09 May 2026
+ 13:26:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260509090320.85481-1-dennylin0707@gmail.com>
+In-Reply-To: <20260509090320.85481-1-dennylin0707@gmail.com>
+From: Maxwell Doose <m32285159@gmail.com>
+Date: Sat, 9 May 2026 15:25:52 -0500
+X-Gm-Features: AVHnY4Lsr7DnfygKRm3d_eW32fDtFl_-Ze2-Xadd1Z7KS_jr9JbRFTdGKxviX9g
+Message-ID: <CAKqfh0F+rAqAwdu=BtagPa2D-F-TANm8Tx3RCOoLyZXkYAn2pg@mail.gmail.com>
+Subject: Re: [PATCH v2] staging: iio: addac: adt7316: check SPI write errors
+ in probe
+To: Hungyu Lin <dennylin0707@gmail.com>
+Cc: linux-iio@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	David Lechner <dlechner@baylibre.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	Andy Shevchenko <andy@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The second argument to wait_event_interruptible() was indented with a
-single tab instead of being aligned to the opening parenthesis. Since
-the full aligned form exceeds 100 columns, break the condition at the
-comparison operator and align both continuation lines to the opening
-parenthesis.
+On Sat, May 9, 2026 at 4:03=E2=80=AFAM Hungyu Lin <dennylin0707@gmail.com> =
+wrote:
+>
+> The probe function issues three SPI writes to switch the device
+> from the default I2C protocol to SPI protocol, but ignores their
+> return values.
+>
+> Switch the repeated SPI writes to a loop and return an error
+> if any of them fail, as failing to switch the protocol should
+> abort the probe.
+>
+> Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+> ---
+> Changes in v2:
+> - Return error instead of just warning
+> - Clarify that repeated SPI writes are converted to a loop
+> ---
+>  drivers/staging/iio/addac/adt7316-spi.c | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
+>
+[snip]
 
-Fixes the following checkpatch.pl warning:
-  CHECK: Alignment should match open parenthesis
+Hmmm...has this been tested? Normally patches like these don't get
+merged unless tested since we need to know how the hardware would
+respond when we hit an error case and quit sending data, and also some
+of the timing changes introduced by writing, checking if its an error,
+then jumping back. I've personally tried this patch before and it got
+rejected so I'll link it below since the questions that you might get
+asked will likely be similar.
 
-Signed-off-by: Pramod Maurya <pramod.nexgen@gmail.com>
----
- drivers/staging/axis-fifo/axis-fifo.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Link: https://lore.kernel.org/linux-iio/20260426205039.125818-1-m32285159@g=
+mail.com/
 
-diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-index 3aa2aa870ea9..1c34de020cf8 100644
---- a/drivers/staging/axis-fifo/axis-fifo.c
-+++ b/drivers/staging/axis-fifo/axis-fifo.c
-@@ -246,7 +246,8 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
- 		mutex_lock(&fifo->write_lock);
- 
- 		ret = wait_event_interruptible(fifo->write_queue,
--			ioread32(fifo->base_addr + XLLF_TDFV_OFFSET) >= words_to_write);
-+					       ioread32(fifo->base_addr + XLLF_TDFV_OFFSET) >=
-+					       words_to_write);
- 		if (ret)
- 			goto end_unlock;
- 	}
--- 
-2.52.0
-
+best regards,
+max
