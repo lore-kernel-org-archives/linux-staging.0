@@ -1,135 +1,376 @@
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CF1429B79B
-	for <linux-staging@lists.linux.dev>; Sun, 10 May 2026 06:36:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.177
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778394969; cv=pass; b=ntNM5mQRVaQkMf9wccr55uQztyMqGIDUSuctpqrL6KQkvpL41o0E+GYDwusr1hu3jOUbznXujWAi7tAwsyydi8r5WfLzj6KU7rHtEUyKOUu3HWHDrmLfocVOuxgwzThGMh8FDb8nvP6PB7fYm9zAfh6O8Fk17Q4OHZ4oY6V+kZc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778394969; c=relaxed/simple;
-	bh=XVPuHVaudv1XRrcrlNGyZ1MparSuw9338ihUKYeXXfI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GBeGw+gp6aqs8J3CRWPQhumW9agSkkQVZcQ9/58AMbFC8RFSSiHb4hXHAs+j59lpr+UF/NjDMsGorEGOOHK201NuCNgqIZVjg3Ip9OdOiiIcJFkCr4utzh3EBlpypa7RBGCW1gSCwB9o2AedzS8Ytxxa21K2gFasbWfqc5QtGUw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YNXXBOBX; arc=pass smtp.client-ip=209.85.128.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13C31355F49
+	for <linux-staging@lists.linux.dev>; Sun, 10 May 2026 06:58:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.178
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778396321; cv=none; b=kXR/tyg4ym/wOBmgBrO4khRRpnGGoQVVvIEuLsWYyDXJgVvPPvNid4j+vMDwMYnYWpMc6Aj8NiCyLO7MQG6GJOjK2okdekb/MbJfIamhawR/sIDJmrVyUU++JrBWH1mNOMwNZZdgEGkwHthqpD5FGC/12w1BGVHrs3Il7mPEYRU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778396321; c=relaxed/simple;
+	bh=WP6kKubO4pkSvkU87GIC83YxeNcjvwByUQFsMTA0Ly0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Iyi/Y136XnkdHt3uil3b+XcyHF1/Ry+VPL2t6U7aXx7FrCboEE+eQ/FzkjqlxkKd4Xefq9Nx1gti3vqYQuYyYgY09WRKMOwez3j+KVMp8sbToixELKaf960M0vssRjmzdDjdr3c/mHUMieN4bUqES62OVKH/cm8mw9YU2KFrLjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m2Q9R9D9; arc=none smtp.client-ip=74.125.82.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YNXXBOBX"
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-7bf1433b80cso20319057b3.1
-        for <linux-staging@lists.linux.dev>; Sat, 09 May 2026 23:36:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778394967; cv=none;
-        d=google.com; s=arc-20240605;
-        b=OheoncQ2OynZQ3So4RfXk55CKymslrNyXXATOyanfwwDqBJnZfeGtpvPwTIJCYAAcS
-         avB9ciyvDH67c1srqRMav9SJHxkoUNecf7lLei/yzzQRAxMV40gReL/MuStxtPLGwFV8
-         I24/is464iV6gHpD9SfSc512Sf1GVqb1he2jZWpHu4vOP8ixmLplSE62ra9WTIhc/bNe
-         zAWV2/0siqM6QjeOt7y4BQ/MUQZ6b9nQw8BFWZWDpjytjTM00V5/mhSqncnAe6IYFXJg
-         wxFA/7LL+9TbxHEUD2d9KUUQOLFwYmX8Xs8abGZkG3e2NK7XmjoDReJieuPe5AEu92Em
-         Rf6w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=XVPuHVaudv1XRrcrlNGyZ1MparSuw9338ihUKYeXXfI=;
-        fh=PxFTA6e2T3epNx7dsSFT4204GR356JK+znAVoyua5Cc=;
-        b=H6xcqTKjafBtKoo4SYg5B4KYuZn3b5Q2ljYL09hzdnkWLj8OtHXHZwulk8biqVLjEM
-         s5jNl1dcl82NvMHIb6Dc9xjx7OHR4ZpNB/ra8Dn25vgwUXiyyoKOFR2HHhDmKcK1JYKd
-         2/4n1o+AOsqAVCeKxmfF3gEwxom2QjPw+yXOcCcAg+KcemTcEHNAw1jHddIHOwIvTW6q
-         3ZNSXLM/mWhuBGltwWB2lQAyhprEzH2WfK68hLobLuxK8fDeN0mSaFcJJUuDDbfL3Kzh
-         hc856ypNBhg+pPqdCFZw1tKhUUjwpqf97mqR7Xy3KxsJ2+do/T0IY2eP/vLcwXWD/2Ff
-         YTiw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m2Q9R9D9"
+Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-2f30a4601bbso3439595eec.1
+        for <linux-staging@lists.linux.dev>; Sat, 09 May 2026 23:58:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778394967; x=1778999767; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XVPuHVaudv1XRrcrlNGyZ1MparSuw9338ihUKYeXXfI=;
-        b=YNXXBOBXkdnek8zo8QFHIul9sArsAzoIyfrTqr7yU5CRh85MV1KUqcJgWNUNF4Z9NN
-         G04Mv64wh4fSBYmGxeJa303QBu4PTqUeI4z1bopwE2oclK3wuzNkoguz8KBjBIA9TWG/
-         RT53TxvWLf0Jtte8Rr9zLJkHFdQz1XFEmO9eUZg1FFQb/FvCzhr1S7oUObSME5JiScAT
-         +VpynhjybWDxFRQH/NKNcv/7k9JiU67Acsw+/ZA3YFf6bqVYh871vyW5EB6dwtI+rqh3
-         9pyICgKSmXmdvzmcCeBwxXsLGby7i5SHckwWAOOUxGB7eDxi7bQ9DZzTMidTdVUIWjnC
-         iG7g==
+        d=gmail.com; s=20251104; t=1778396319; x=1779001119; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2HbnrXJ7yOcDRmQVG3hX5pdmrUoW3FaMYDlIYk+ofyY=;
+        b=m2Q9R9D9hRWxFTkiCX1qgV7T7dCQHBxKxlsv85XIjpoIZXnGR5g7JiP++pQ8tYClUU
+         xuSmZ9Z8TjqncLmeuMiMX0JdC2AZLcOZdgm7wS4yp53geF+9duFN7xZLTcuRMV8TjFER
+         BkNM/O62347WkySqYW2sbys3eisDRdh2yTbltHebVCWBrb/QWOn0vXeuYqvUbtFyLLZ6
+         QvfXcWgKq9dnnmfz4jL+UxFgLq3ZmSOiMTL66Kl2aqaf+Dj8obqSz3HNHt37+RxJwDAR
+         DgU06Qvv0NDiKr48F1SsycBXHzhLcWHUsQ30oS6o8LnTIxQ62lQeWIsozUK9+dQMaWgr
+         WFCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778394967; x=1778999767;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=XVPuHVaudv1XRrcrlNGyZ1MparSuw9338ihUKYeXXfI=;
-        b=eQJgsqp4PUqiA3e7tEtzWa7JHdLg6sIAcFq5ZevgdwEf4Aa6vU//L4hNft/Z15dbJ6
-         Ge9pWZxmSeQ08ecaypTIU5kRr9xfC7Nq2pd1LqjgPK4JfEorGDe9Q26EEg3JDQIi3q0k
-         adRYV1tzDLxl5inoCMeje6SYgl7/uOpNxSTmRjrQs4UnpN5DXAv5tZnTfE1rYIogBhEA
-         xCo35e9dfGebbstmgtarjH4Jm+UvBTj1oHZi2daLLzrY1bG+H4Tp/pbyaLGjDK94HmOX
-         qX3R2hm0KGQ3Owu4ygyG086l2n2OPGnbXXUtBaRYExKSdaSHwzTkfdHj2aMLRv6qR629
-         EFvw==
-X-Forwarded-Encrypted: i=1; AFNElJ+AdEO2sUY1ijBHMiUzmq1o13IJwJgMFTOj7XUdY+NErCbpU5r2L4hMkuV7hJprxrb78Fk8zoL4PCwoRoRU@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxa5+55W6N8Ncq7CrHqRuruJ+88dQUI5ySkZv/KT0jCe15tl24+
-	A/dyrU3rczbhCkxg0lgPqFOEE1wFOzOoQ7P/CpGmPdBfdu6BRHRRBV+nDhF61sDIhdJpquCDSdL
-	cITD3Jie3CwqN+7zzuyGppRcaItxovhY=
-X-Gm-Gg: Acq92OGtut30APBaXTEKD3ktADHY1OpCTePotsw4r+n5AL7VQ1D12hE91HH0GCCRhd2
-	2U/DomXWKRuqL1vD1q2d4zjI29mBe3Hi1eWoG9gIDYPviGy5Mb8wyiHVKVfq9caPjoJlre2j5Zk
-	A8McDn8ZRnQLNnikt9XGO5fG6QCookJ5+qmSHMqzlUUITsU7/w7NImglW1cpMX+v037Dz0MywK0
-	B3qjaKnayA7Tn5bRG6WBAEYqYvLA5e2M2dpX4cGDjItXCMjBy+HTSL/GWommnxACN2j/uRZ309L
-	vVGiuH5YZRJX9z4=
-X-Received: by 2002:a05:690c:10c:b0:7ba:e420:7ffc with SMTP id
- 00721157ae682-7c104daa119mr49302637b3.25.1778394967174; Sat, 09 May 2026
- 23:36:07 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1778396319; x=1779001119;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2HbnrXJ7yOcDRmQVG3hX5pdmrUoW3FaMYDlIYk+ofyY=;
+        b=QTB0EnO/mtrRHDcTFr0HFoCZnvm6FwRBOURTwzGpHSXXBVwJwgHDyQcrxYm/iK7XQL
+         n/wvD3x2zSXrf4jl3OiHCeSOLbhRzP8NNDthSJdPB1rfQkBuiCucmMLR1bZJkjNBZZlR
+         o/TjSwUs8+8N/B4lyQSsN9GhxgaNoGHxSqsczM2sL0AZfQiLA7d2y9TevO5jRjaDiiOI
+         jqCahEV7Zv7C41dL0oTQm1lzOrgNrBOW3nhuS9v5Plf9IQBOBfUZ96dzadP3Lz8t1epT
+         GmXjvdFR1YIDAMYsxggwk1TePUXI7hhELB73p+qIyKprg4PxCUtEi1hZ9t3vXHGeSZtJ
+         ecmA==
+X-Gm-Message-State: AOJu0YzDZvAzCi0uvZnWiMPc9iKvg6EhtLey3SJb44LkhAlQhjHMJETM
+	xd7sxew/zgbukquvMaRg8x/GZGAUeegWR2As4wuc45huh5NCaKied7G35cTlOQ==
+X-Gm-Gg: Acq92OHW2gfzVtRX8CMWOoAm8qNwEVCDZ/W4Q9OEg3laLyGvbLsuBXzTQK2AgKAz0JW
+	9Rg15Cm5QrfNUpKCnRAORxX5m/xNLxbcIlPgH6z/l98uaVqlzZUUT/qYKjOLc4ABjUJnJ8Bp9/T
+	UijwpHU4mXLZtlYDMxInKycdjpYuYvv47FKWut2pGVhgVXTv5HBfAkT3N3ALP/WcVwFs/SCaUS8
+	EWUuTmC40ntG+LvW+xl6mL2jTLp23hrOkxulQgpdGHKUJhlYpbZWYVUZVbsAAhZwrmRzB4r61d+
+	pYXJNcBgYvlpCXj9yLX/ADH/ag+fJlzafLJrRvJXJqw/KwC9/E0ZgXQzofPNV0Km5fEuZiAl90J
+	T3Elphr4D9rIky6DY7VcDR/MKKTu83xp9hA2r8gglmXjQfMddkyfjn5w/2NQRgd5IxlxiYSJFpL
+	GzrSVrqsditChj2u0CSrzz7+s3cx/IJYXHWcPsxw6gf5E=
+X-Received: by 2002:a05:7300:a191:b0:2ed:e14:7f56 with SMTP id 5a478bee46e88-2f54e47ea02mr8359866eec.32.1778396318156;
+        Sat, 09 May 2026 23:58:38 -0700 (PDT)
+Received: from TestUbuntu22.. ([73.15.108.84])
+        by smtp.googlemail.com with ESMTPSA id 5a478bee46e88-2f8884752ccsm8651226eec.17.2026.05.09.23.58.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 09 May 2026 23:58:37 -0700 (PDT)
+From: Jennifer Guo <guojy.bj@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: gregkh@linuxfoundation.org,
+	Jennifer Guo <guojy.bj@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: remove unnecessary blank lines in rtw_recv.c
+Date: Sat,  9 May 2026 23:58:29 -0700
+Message-Id: <20260510065829.68957-1-guojy.bj@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260509090320.85481-1-dennylin0707@gmail.com> <agAkRBbJiTmWxGtS@ashevche-desk.local>
-In-Reply-To: <agAkRBbJiTmWxGtS@ashevche-desk.local>
-From: Maxwell Doose <m32285159@gmail.com>
-Date: Sun, 10 May 2026 01:35:56 -0500
-X-Gm-Features: AVHnY4K1-afpEJc8d_Awt34ZUpRahp8hORh9_ArNAzQniWxelZARb_jFw8-Niu8
-Message-ID: <CAKqfh0FkUfAh=O6BdM3mX+koRaQk+RF2732XFESR9utxeeWMJw@mail.gmail.com>
-Subject: Re: [PATCH v2] staging: iio: addac: adt7316: check SPI write errors
- in probe
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Hungyu Lin <dennylin0707@gmail.com>, linux-iio@vger.kernel.org, 
-	Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, 
-	=?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sun, May 10, 2026 at 1:23=E2=80=AFAM Andy Shevchenko
-<andriy.shevchenko@intel.com> wrote:
-> On Sat, May 09, 2026 at 09:03:20AM +0000, Hungyu Lin wrote:
-[snip]
->
-> There was an attempt in the past to do the same and it was NAKed, so is t=
-his now.
-> NAK.
->
-> Instead, add a better comment, if you wish, with the citing from the data=
-sheet
-> to explain the magic here and why we don't check for the error codes.
->
+Remove unnecessary blank lines around braces {}.
 
-Agree with Andy here on the comment, I'm personally not a fan of how
-undocumented this "spam data on the bus and see if it works" stuff is.
-Make sure to mention:
+This fixes the following checkpatch.pl checks in rtw_recv.c:
+- CHECK: Blank lines aren't necessary after an open brace '{'
+- CHECK: Blank lines aren't necessary before a close brace '}'
 
-1. We're in the transitional state between I2C and SPI
-2. Facts from the data sheet about why this is what we're doing
-3. Why we shouldn't check the return values from the spi_write() calls
+Signed-off-by: Jennifer Guo <guojy.bj@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_recv.c | 38 -----------------------
+ 1 file changed, 38 deletions(-)
 
-best regards,
-max
+diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
+index b3a38ffa6ef7..fc0397ad4741 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_recv.c
++++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
+@@ -69,7 +69,6 @@ signed int _rtw_init_recv_priv(struct recv_priv *precvpriv, struct adapter *pada
+ 
+ 		precvframe->u.hdr.adapter = padapter;
+ 		precvframe++;
+-
+ 	}
+ 
+ 	res = rtw_hal_init_recv_priv(padapter);
+@@ -111,7 +110,6 @@ void _rtw_free_recv_priv(struct recv_priv *precvpriv)
+ 
+ union recv_frame *_rtw_alloc_recvframe(struct __queue *pfree_recv_queue)
+ {
+-
+ 	union recv_frame  *precvframe;
+ 	struct list_head	*plist, *phead;
+ 	struct adapter *padapter;
+@@ -178,7 +176,6 @@ int rtw_free_recvframe(union recv_frame *precvframe, struct __queue *pfree_recv_
+ 
+ signed int _rtw_enqueue_recvframe(union recv_frame *precvframe, struct __queue *queue)
+ {
+-
+ 	struct adapter *padapter = precvframe->u.hdr.adapter;
+ 	struct recv_priv *precvpriv = &padapter->recvpriv;
+ 
+@@ -270,7 +267,6 @@ signed int rtw_enqueue_recvbuf(struct recv_buf *precvbuf, struct __queue *queue)
+ 	list_add_tail(&precvbuf->list, get_list_head(queue));
+ 	spin_unlock_bh(&queue->lock);
+ 	return _SUCCESS;
+-
+ }
+ 
+ struct recv_buf *rtw_dequeue_recvbuf(struct __queue *queue)
+@@ -290,13 +286,11 @@ struct recv_buf *rtw_dequeue_recvbuf(struct __queue *queue)
+ 		precvbuf = container_of(plist, struct recv_buf, list);
+ 
+ 		list_del_init(&precvbuf->list);
+-
+ 	}
+ 
+ 	spin_unlock_bh(&queue->lock);
+ 
+ 	return precvbuf;
+-
+ }
+ 
+ static void rtw_handle_tkip_mic_err(struct adapter *padapter, u8 bgroup)
+@@ -345,7 +339,6 @@ static void rtw_handle_tkip_mic_err(struct adapter *padapter, u8 bgroup)
+ 
+ static signed int recvframe_chkmic(struct adapter *adapter,  union recv_frame *precvframe)
+ {
+-
+ 	signed int	i, res = _SUCCESS;
+ 	u32 datalen;
+ 	u8 miccode[8];
+@@ -417,18 +410,15 @@ static signed int recvframe_chkmic(struct adapter *adapter,  union recv_frame *p
+ 		}
+ 
+ 		recvframe_pull_tail(precvframe, 8);
+-
+ 	}
+ 
+ exit:
+ 	return res;
+-
+ }
+ 
+ /* decrypt and set the ivlen, icvlen of the recv_frame */
+ static union recv_frame *decryptor(struct adapter *padapter, union recv_frame *precv_frame)
+ {
+-
+ 	struct rx_pkt_attrib *prxattrib = &precv_frame->u.hdr.attrib;
+ 	struct security_priv *psecuritypriv = &padapter->securitypriv;
+ 	union recv_frame *return_packet = precv_frame;
+@@ -573,7 +563,6 @@ static signed int recv_decache(union recv_frame *precv_frame, u8 bretry, struct
+ 	prxcache->tid_rxseq[tid] = seq_ctrl;
+ 
+ 	return _SUCCESS;
+-
+ }
+ 
+ static void process_pwrbit_data(struct adapter *padapter, union recv_frame *precv_frame)
+@@ -595,7 +584,6 @@ static void process_pwrbit_data(struct adapter *padapter, union recv_frame *prec
+ 				/* pstapriv->sta_dz_bitmap |= BIT(psta->aid); */
+ 
+ 				stop_sta_xmit(padapter, psta);
+-
+ 			}
+ 		} else {
+ 			if (psta->state & WIFI_SLEEP_STATE) {
+@@ -605,7 +593,6 @@ static void process_pwrbit_data(struct adapter *padapter, union recv_frame *prec
+ 				wakeup_sta_to_xmit(padapter, psta);
+ 			}
+ 		}
+-
+ 	}
+ }
+ 
+@@ -706,7 +693,6 @@ static signed int sta2sta_data_frame(struct adapter *adapter, union recv_frame *
+ 
+ 	if (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE) ||
+ 	    check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE)) {
+-
+ 		/*  filter packets that SA is myself or multicast or broadcast */
+ 		if (!memcmp(myhwaddr, pattrib->src, ETH_ALEN)) {
+ 			ret = _FAIL;
+@@ -792,7 +778,6 @@ static signed int ap2sta_data_frame(struct adapter *adapter, union recv_frame *p
+ 	if (check_fwstate(pmlmepriv, WIFI_STATION_STATE) &&
+ 	    (check_fwstate(pmlmepriv, _FW_LINKED) ||
+ 	     check_fwstate(pmlmepriv, _FW_UNDER_LINKING))) {
+-
+ 		/*  filter packets that SA is myself or multicast or broadcast */
+ 		if (!memcmp(myhwaddr, pattrib->src, ETH_ALEN)) {
+ 			ret = _FAIL;
+@@ -809,7 +794,6 @@ static signed int ap2sta_data_frame(struct adapter *adapter, union recv_frame *p
+ 		if (is_zero_ether_addr(pattrib->bssid) ||
+ 		    is_zero_ether_addr(mybssid) ||
+ 		    (memcmp(pattrib->bssid, mybssid, ETH_ALEN))) {
+-
+ 			if (!bmcast)
+ 				issue_deauth(adapter, pattrib->bssid, WLAN_REASON_CLASS3_FRAME_FROM_NONASSOC_STA);
+ 
+@@ -859,7 +843,6 @@ static signed int ap2sta_data_frame(struct adapter *adapter, union recv_frame *p
+ 		if (!memcmp(myhwaddr, pattrib->dst, ETH_ALEN) && (!bmcast)) {
+ 			*psta = rtw_get_stainfo(pstapriv, pattrib->bssid); /*  get sta_info */
+ 			if (!*psta) {
+-
+ 				/* for AP multicast issue , modify by yiwei */
+ 				static unsigned long send_issue_deauth_time;
+ 
+@@ -1052,7 +1035,6 @@ static signed int validate_recv_ctrl_frame(struct adapter *padapter, union recv_
+ 	}
+ 
+ 	return _FAIL;
+-
+ }
+ 
+ /* perform defrag */
+@@ -1123,7 +1105,6 @@ static union recv_frame *recvframe_defrag(struct adapter *adapter,
+ 
+ 		pfhdr->attrib.icv_len = pnfhdr->attrib.icv_len;
+ 		plist = get_next(plist);
+-
+ 	}
+ 
+ 	/* free the defrag_q queue and return the prframe */
+@@ -1195,7 +1176,6 @@ static union recv_frame *recvframe_chk_defrag(struct adapter *padapter, union re
+ 			rtw_free_recvframe(precv_frame, pfree_recv_queue);
+ 			prtnframe = NULL;
+ 		}
+-
+ 	}
+ 
+ 	if ((ismfrag == 0) && (fragnum != 0)) {
+@@ -1216,7 +1196,6 @@ static union recv_frame *recvframe_chk_defrag(struct adapter *padapter, union re
+ 			rtw_free_recvframe(precv_frame, pfree_recv_queue);
+ 			prtnframe = NULL;
+ 		}
+-
+ 	}
+ 
+ 	if ((prtnframe) && (prtnframe->u.hdr.attrib.privacy)) {
+@@ -1269,7 +1248,6 @@ static signed int validate_recv_mgnt_frame(struct adapter *padapter, union recv_
+ 	mgt_dispatcher(padapter, precv_frame);
+ 
+ 	return _SUCCESS;
+-
+ }
+ 
+ static signed int validate_recv_data_frame(struct adapter *adapter, union recv_frame *precv_frame)
+@@ -1325,7 +1303,6 @@ static signed int validate_recv_data_frame(struct adapter *adapter, union recv_f
+ 	default:
+ 		ret = _FAIL;
+ 		break;
+-
+ 	}
+ 
+ 	if (ret == _FAIL || ret == RTW_RX_HANDLED)
+@@ -1454,7 +1431,6 @@ static signed int validate_80211w_mgmt(struct adapter *adapter, union recv_frame
+ 
+ validate_80211w_fail:
+ 	return _FAIL;
+-
+ }
+ 
+ static signed int validate_recv_frame(struct adapter *adapter, union recv_frame *precv_frame)
+@@ -1714,7 +1690,6 @@ static int amsdu_to_msdu(struct adapter *padapter, union recv_frame *prframe)
+ 	pdata = prframe->u.hdr.rx_data;
+ 
+ 	while (a_len > ETH_HLEN) {
+-
+ 		/* Offset 12 denote 2 mac address */
+ 		nSubframe_Length = get_unaligned_be16(pdata + 12);
+ 
+@@ -1821,7 +1796,6 @@ static int enqueue_reorder_recvframe(struct recv_reorder_ctrl *preorder_ctrl, un
+ 			return false;
+ 		else
+ 			break;
+-
+ 	}
+ 
+ 	/* spin_lock_irqsave(&ppending_recvframe_queue->lock, irql); */
+@@ -1835,7 +1809,6 @@ static int enqueue_reorder_recvframe(struct recv_reorder_ctrl *preorder_ctrl, un
+ 	/* spin_unlock_irqrestore(&ppending_recvframe_queue->lock, irql); */
+ 
+ 	return true;
+-
+ }
+ 
+ static int rtw_recv_indicatepkt(struct adapter *padapter, union recv_frame *precv_frame)
+@@ -1903,13 +1876,11 @@ static int recv_indicatepkts_in_order(struct adapter *padapter, struct recv_reor
+ 		pattrib = &prframe->u.hdr.attrib;
+ 
+ 		preorder_ctrl->indicate_seq = pattrib->seq_num;
+-
+ 	}
+ 
+ 	/*  Prepare indication list and indication. */
+ 	/*  Check if there is any packet need indicate. */
+ 	while (!list_empty(phead)) {
+-
+ 		prframe = (union recv_frame *)plist;
+ 		pattrib = &prframe->u.hdr.attrib;
+ 
+@@ -1946,7 +1917,6 @@ static int recv_indicatepkts_in_order(struct adapter *padapter, struct recv_reor
+ 			bPktInBuf = true;
+ 			break;
+ 		}
+-
+ 	}
+ 
+ 	/* spin_unlock(&ppending_recvframe_queue->lock); */
+@@ -1971,11 +1941,9 @@ static int recv_indicatepkt_reorder(struct adapter *padapter, union recv_frame *
+ 			    !padapter->bSurpriseRemoved) {
+ 				rtw_recv_indicatepkt(padapter, prframe);
+ 				return _SUCCESS;
+-
+ 			}
+ 
+ 			return _FAIL;
+-
+ 		}
+ 
+ 		if (!preorder_ctrl->enable) {
+@@ -2056,7 +2024,6 @@ void rtw_reordering_ctrl_timeout_handler(struct timer_list *t)
+ 		_set_timer(&preorder_ctrl->reordering_ctrl_timer, REORDER_WAIT_TIME);
+ 
+ 	spin_unlock_bh(&ppending_recvframe_queue->lock);
+-
+ }
+ 
+ static int process_recv_indicatepkts(struct adapter *padapter, union recv_frame *prframe)
+@@ -2090,11 +2057,9 @@ static int process_recv_indicatepkts(struct adapter *padapter, union recv_frame
+ 			retval = _FAIL;
+ 			return retval;
+ 		}
+-
+ 	}
+ 
+ 	return retval;
+-
+ }
+ 
+ static int recv_func_prehandle(struct adapter *padapter, union recv_frame *rframe)
+@@ -2168,7 +2133,6 @@ static int recv_func(struct adapter *padapter, union recv_frame *rframe)
+ 	ret = recv_func_prehandle(padapter, rframe);
+ 
+ 	if (ret == _SUCCESS) {
+-
+ 		/* check if need to enqueue into uc_swdec_pending_queue*/
+ 		if (check_fwstate(mlmepriv, WIFI_STATION_STATE) &&
+ 		    !is_multicast_ether_addr(prxattrib->ra) &&
+@@ -2236,7 +2200,6 @@ static void rtw_signal_stat_timer_hdl(struct timer_list *t)
+ 		adapter->recvpriv.signal_strength = adapter->recvpriv.signal_strength_dbg;
+ 		adapter->recvpriv.rssi = (s8)translate_percentage_to_dbm((u8)adapter->recvpriv.signal_strength_dbg);
+ 	} else {
+-
+ 		if (recvpriv->signal_strength_data.update_req == 0) {/*  update_req is clear, means we got rx */
+ 			avg_signal_strength = recvpriv->signal_strength_data.avg_val;
+ 			num_signal_strength = recvpriv->signal_strength_data.total_num;
+@@ -2289,5 +2252,4 @@ static void rtw_signal_stat_timer_hdl(struct timer_list *t)
+ 
+ set_timer:
+ 	rtw_set_signal_stat_timer(recvpriv);
+-
+ }
+-- 
+2.34.1
 
-
-
-
-> --
-> With Best Regards,
-> Andy Shevchenko
->
->
->
