@@ -1,35 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5D733ACF00;
-	Sun, 10 May 2026 16:09:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1803B39B483;
+	Sun, 10 May 2026 16:09:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778429354; cv=none; b=r+fp3Uc0WV16525nUgW4dpO6KJc6MFC94bC36a671vyKIR2S/ipqKkEm1YIsaKA3+L4yUeKqGMWMNvKY3Ki6jNoXi5wnlFVkrymN2rtWts0kTiC9gQOKGrknEGOEYbWckvlNf5Bm7KnD69YHV6hb6Wd5lHL7qbz3ZEgPBrqc9Bc=
+	t=1778429394; cv=none; b=QC5khGJLQxoQPU61blA89aPTJzc3fEFg2rpi+GV0EKzOkBan3KXIzjpZUkCWKF/aIx1Z9WcBrN4eYOwHqB3w7x5/qAfEdeY40FSVzLQwN538cQnluLQeHO/L3i88w7GyxKRNwmQzNwHDNjiYN9ic5/VMhwNPWzpA1hiQ41PTYBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778429354; c=relaxed/simple;
-	bh=r6ypH5vOnmCdK1x0mVxId89IQ4X3q82AZwHSPatmsmE=;
+	s=arc-20240116; t=1778429394; c=relaxed/simple;
+	bh=6/qBy+30UOU5yShzCH/a1o4rLsX2M3n2P6q/NMQJFbc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UKeL5W74xPsNCgo2D1YbfOHSv9F7ip6P9S830TYwpjBmkZ2k4ZrKgQiqYWBdrzHbisVjzcd0+kOR2tUo4WB9DM5585R2Sp3q9mCXtpukk8HXw9Nz4poQt9h1Wk4C8wSeuW6sreShGn8hoJ9hea2jASy283Wo561p3j0c0Y21CIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=tWtXrdRf; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=oXB2IYpcWD97YOcFwT2E2Bi4TT2L0zUB8+ZVWMdsXr9//umlV0qmxk2rmhCzNE6ek33sQ0tN4e8svqxtkk6tAfk7NeU0yDf4jXuddIdHrOeo64NQh89uK/avD8QEd5giSTgt+TmLS0HwVShtnsvmrhieRG8jbq6pyUWnCzP6eJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=p4SPS1N9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="tWtXrdRf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08537C2BCB8;
-	Sun, 10 May 2026 16:09:13 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="p4SPS1N9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65D48C2BCB8;
+	Sun, 10 May 2026 16:09:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1778429354;
-	bh=r6ypH5vOnmCdK1x0mVxId89IQ4X3q82AZwHSPatmsmE=;
+	s=korg; t=1778429393;
+	bh=6/qBy+30UOU5yShzCH/a1o4rLsX2M3n2P6q/NMQJFbc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tWtXrdRfffFp2d/AUGJlBgx19JteV1Qzqb29AY/rGQ9w0H4qtBsBgVuGexkO0SgJT
-	 w9S2+C3PXR4bxP46Iu/j9JPhxtb2V1VWEuRIYThnaD6e0CQZiNEcnu84xPwb7gbZmB
-	 0zkV3W20atjHSWrrz7joxRUn/9ksg3aC/IT7BBac=
-Date: Sun, 10 May 2026 18:08:31 +0200
+	b=p4SPS1N9p7FKvK531lhI83wdgumScSJOY4tP0N1zASAVfh3QESDh+XCzdv4gOhJ5u
+	 AQC0bKvXaNi4BQkw6vrxsnA9i5P7mq76yJ243N+x16vd00EbxPdGBAB/MqeMU6Wkmc
+	 +ueHqI6ReAOyRcLhMkbGmL++BL39kBR87qMp9ih0=
+Date: Sun, 10 May 2026 18:09:10 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Moksh Panicker <mokshpanicker.7@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: fix coding style in rtw_efuse.c
-Message-ID: <2026051009-overcast-art-f552@gregkh>
-References: <20260510063314.34066-1-mokshpanicker.7@gmail.com>
+To: Pramod Maurya <pramod.nexgen@gmail.com>
+Cc: Jacob Feder <jacobsfeder@gmail.com>, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: axis-fifo: Fix alignment of
+ wait_event_interruptible arguments
+Message-ID: <2026051047-dining-overcome-d9dc@gregkh>
+References: <20260509171538.46396-1-pramod.nexgen@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -38,56 +40,39 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260510063314.34066-1-mokshpanicker.7@gmail.com>
+In-Reply-To: <20260509171538.46396-1-pramod.nexgen@gmail.com>
 
-On Sun, May 10, 2026 at 06:33:14AM +0000, Moksh Panicker wrote:
-> Fix the following checkpatch.pl warnings in rtw_efuse.c:
-> - Reformat multi-line function signature to fit on a single line
-> - Add braces to else branch to balance with the if block
+On Sat, May 09, 2026 at 01:15:38PM -0400, Pramod Maurya wrote:
+> The second argument to wait_event_interruptible() was indented with a
+> single tab instead of being aligned to the opening parenthesis. Since
+> the full aligned form exceeds 100 columns, break the condition at the
+> comparison operator and align both continuation lines to the opening
+> parenthesis.
 > 
-> Signed-off-by: Moksh Panicker <mokshpanicker.7@gmail.com>
+> Fixes the following checkpatch.pl warning:
+>   CHECK: Alignment should match open parenthesis
+> 
+> Signed-off-by: Pramod Maurya <pramod.nexgen@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/core/rtw_efuse.c | 13 +++----------
->  1 file changed, 3 insertions(+), 10 deletions(-)
+>  drivers/staging/axis-fifo/axis-fifo.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-> index a7a636449813..b4e1b6efdc77 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-> @@ -41,10 +41,7 @@ rtw_efuse_calculate_word_counts(u8 word_en)
->   * 09/23/2008	MHC		Copy from WMAC.
->   *
->   */
-> -u8
-> -rtw_efuse_read_1_byte(
-> -struct adapter *Adapter,
-> -u16		Address)
-> +u8 rtw_efuse_read_1_byte(struct adapter *Adapter, u16 Address)
->  {
->  	u8 Bytetemp = {0x00};
->  	u8 temp = {0x00};
-> @@ -76,17 +73,13 @@ u16		Address)
->  				break;
->  		}
->  		return rtw_read8(Adapter, EFUSE_CTRL);
-> -	} else
-> +	} else {
->  		return 0xFF;
+> diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
+> index 3aa2aa870ea9..1c34de020cf8 100644
+> --- a/drivers/staging/axis-fifo/axis-fifo.c
+> +++ b/drivers/staging/axis-fifo/axis-fifo.c
+> @@ -246,7 +246,8 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
+>  		mutex_lock(&fifo->write_lock);
 >  
->  } /* rtw_efuse_read_1_byte */
->  
->  /*  11/16/2008 MH Read one byte from real Efuse. */
-> -u8
-> -rtw_efuse_one_byte_read(
-> -struct adapter *padapter,
-> -u16	addr,
-> -u8	*data)
-> +u8 rtw_efuse_one_byte_read(struct adapter *padapter, u16   addr, u8	*data)
->  {
->  	u32 tmpidx = 0;
->  	u8 bResult;
+>  		ret = wait_event_interruptible(fifo->write_queue,
+> -			ioread32(fifo->base_addr + XLLF_TDFV_OFFSET) >= words_to_write);
+> +					       ioread32(fifo->base_addr + XLLF_TDFV_OFFSET) >=
+> +					       words_to_write);
+>  		if (ret)
+>  			goto end_unlock;
+>  	}
 > -- 
-> 2.34.1
+> 2.52.0
 > 
 > 
 
@@ -104,13 +89,10 @@ kernel tree.
 You are receiving this message because of the following common error(s)
 as indicated below:
 
-- Your patch did many different things all at once, making it difficult
-  to review.  All Linux kernel patches need to only do one thing at a
-  time.  If you need to do multiple things (such as clean up all coding
-  style issues in a file/driver), do it in a sequence of patches, each
-  one doing only one thing.  This will make it easier to review the
-  patches to ensure that they are correct, and to help alleviate any
-  merge issues that larger patches can cause.
+- You sent a patch that has been sent multiple times in the past, and is
+  identical to ones that have been rejected.  Please always look at the
+  mailing list traffic to determine if you are duplicating other
+  people's work.
 
 If you wish to discuss this problem further, or you have questions about
 how to resolve this issue, please feel free to respond to this email and
