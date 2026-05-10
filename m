@@ -1,127 +1,157 @@
-Received: from mail-dl1-f65.google.com (mail-dl1-f65.google.com [74.125.82.65])
+Received: from mail-yx1-f43.google.com (mail-yx1-f43.google.com [74.125.224.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9111C21773D
-	for <linux-staging@lists.linux.dev>; Sun, 10 May 2026 08:11:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.65
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778400662; cv=none; b=WkLIzZow/eYX5fcFps1E49pMVibZ8N0Wj0fEBOIpe6Si+z7a0Pz6HcPtt8/MZgsLsEFX1jGELxfznuj8HKji1kHNiUQ4u2nZBPnUwwAUZZ9Qg0GNF2/DMBWJaofiRe8NuI3YHPZn1zTcBRWbRklJjsHKn7BV7UsJrggA2nTMKbM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778400662; c=relaxed/simple;
-	bh=qV39xNtfL4QWl44+opgnZA/dVGnBNDm/6My8Yisoxac=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=gEYxi5fMdCVDv/8Nkm/qUk8V8MRvDcyTtVsCSZtDTRxQxY0F1Sa+G/mSS/oMNpXsPHNvaBLeHcmyoZbBr8VlFrgHcgi26zPQ4p+AylpxJPZOLphIzF44Kz2uPao7ii5jNFxCqPmHGSMowfkTu8YEPLNKfDDDiDqKYQNwL5F2xeg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=geNzJo49; arc=none smtp.client-ip=74.125.82.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C1FA308F32
+	for <linux-staging@lists.linux.dev>; Sun, 10 May 2026 08:20:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778401225; cv=pass; b=gW3uEie827WqZtMw7Oj1SAZSoGPNtGoj070peiILOc8JEVKNxVV3VD+UBsTAe5RcrewO7Pnxin1HfcsXOrTZcerI7wD2LEC26Ql+xzWnuqRtbwr3IXoO8Rtr6Nt8uciRadTRH3SFTKZkZ7FivQL/BgQrmCS4rIInfKlZqCVzbtM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778401225; c=relaxed/simple;
+	bh=226qSkdwAuGxE3RyDwqiSlo2IOVonGu8uER8+95vIoY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AZSyEEoGQKXDa8Pplik8S/cLDqATiQLsygmnnF8//ocy2dXlQU9nimlogRur4i+Fhc/+8Jl5xVfYYUz86iRDwx9Y6yHYW9pYMqY+p/7g32Ywch3M2QpRLhv4BAQA+0/xw2fDFtUve/aFy3fA4xpZJV/DI8E8v2zYtZmQpMPtuxY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eVjhGBAm; arc=pass smtp.client-ip=74.125.224.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="geNzJo49"
-Received: by mail-dl1-f65.google.com with SMTP id a92af1059eb24-12c19d23b19so5660718c88.0
-        for <linux-staging@lists.linux.dev>; Sun, 10 May 2026 01:11:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eVjhGBAm"
+Received: by mail-yx1-f43.google.com with SMTP id 956f58d0204a3-651d6347a69so3672922d50.0
+        for <linux-staging@lists.linux.dev>; Sun, 10 May 2026 01:20:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778401223; cv=none;
+        d=google.com; s=arc-20240605;
+        b=NN0BMiNyhihlGK2e+S72D+I4mREbSgH3Zw5Nvo1Jm0G5Ga9+bqJ9prbbE6w6QmWljm
+         AwtSGjXBQG2vlKDpoK1Odqdim+a+hTRYqkakQ+n7/xQhKjhJmAS+J9TgSJSeAi0KFTsi
+         1+50i2U/fgBm7ACikHf3bJowHT2CpClKK3Ynh4N21B9S/K/HIOXXPrE3Ns15Drhhs+6v
+         j9NpkhsVPWqhYqZLm2hjg32ez5AAJeMROaRPX3LNVXxbXPXpRkgkVbrkAo/Ynrvo5Ixm
+         B68NDSyMtn8oP+au1Zd0oy3OhaNtKt0c2t7JYuxutdpJ5Sqv9Ncm9C8OdXb39gtvFoql
+         LqdQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=gCbOhGmC2ASoNRhJ45rrQzr1riSuWbHWDX3kRpzdSDY=;
+        fh=cBvG2cpsnJWEC2pEWGtrvR6A9N+03/e0YlkfFLmHM3U=;
+        b=jih59rFBmU7ql0iLViCDUUHzOd34Loc+UMTpRLCKzvDhCZRlFragCzrpH+LXvCC6LL
+         fV2NCtMJma6LwLXECgM7uAVUy6CN691u7lHLjuIqmIEGv9oBSh1RXxIQs62A3qxYn41F
+         ST0CYwVUMCmDtY83TPCu9RFGdzUnE1jqswi7/OYVC5UozYp0G/NW9tHPjp7OGFm7Nrup
+         6GwyVDJ5kgyGA1Pq05zo7V0SEmkHrgnFYn+TaNFJH85zxN8UdNriT02KNHX0+JZaR/pA
+         UrL0rMlbYXqwD9O4/cSBLENmN95p4XvtTbgopscJKkW4Badd2sO9xjMvJQoRqOyiJI7t
+         JWpQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778400660; x=1779005460; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bIvPRt9dlizeEm93tbtAZzvWwvO1azBOrboHx0X4jRw=;
-        b=geNzJo49w6JSH4gstduyLmSfDn3nr3Vn6TWkF7i6bRcqReikKsDW6rlufVdzQeP29A
-         gk2+TsDTKl+DxYoNWb7jV6SYb02mh8hBQtPyymilWR3uzOsyXrsLCEwY45/LVx/eWyfV
-         oXYwXYUeCo5PmxlWAC3RILrIkScnFuV4V6duVzU47R4ay4qBuvMONYwNk3hQ/pEq1798
-         KVy8b6DzugFIYngJ4DlU0rU7SfRohPYOdEZFKb5EyNt9E8I0EfsB2VRXEzvrQQu8vPL1
-         QGGjNEhipScZA7KLBC49TFTTSXmu36uDc63swUXhUc5jJbyJOjwguKgQhVWgTiYsclXW
-         1dmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778400660; x=1779005460;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1778401223; x=1779006023; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bIvPRt9dlizeEm93tbtAZzvWwvO1azBOrboHx0X4jRw=;
-        b=qeiZzZxwg2cWn7Mc7LVZH7VOAisbApSEnrB/bDyV2j9Wq/1TRV6KTy8cBs/qLpgilA
-         XqbdCXqBq7RUnqbKfryBQtdmR55YnYQxt4S7VON670Su8uTVbBLSqXxOMKb/13xdhRLf
-         5jBYFfMbk9ahpJx3iAFIuFj6emKJHn/L/oNpYFxYY1+pIueSnssjqsVRUv1t+ARdsET+
-         VwK7YWI1oCzdIHQIDLVc5o9dL2LpHiOPzrMhT+3IwSpVwtItH/8FoycWnBriX8okRUQd
-         FtyY2bwoyFj90SdUWouyOCpgUSf+7bXWqFyX0Xcx2dE+FXYoIz9ADPXttB2YxvTf8Z4v
-         huOg==
-X-Forwarded-Encrypted: i=1; AFNElJ9rlFiX7G3nVdYqrx3RGVqnSLdh81Wi0HunygfieeZeZyWe39aoEDvseOl3wlm77IqJB/Ut/s8k++1Tum1J@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxq+NNLcuQ4u8zftZ1SSRXhAXMcOKU/0LAejOVyzDcRDg9L9W6o
-	2ZmRBHEeihNS05KgO1L9QWQlAmiumL6fziRqtilHkFExxMyxQB8392/N
-X-Gm-Gg: Acq92OGjJeG7njFSt3soO8ljfSIOQbceHabbaR1tNHlh/NwrRT5LHUnk/nHW6nFcdTk
-	WpVLUlauGoVtVPfseM3mawzjZ7k/NqROlqjpdlkdR7rDw0bw18gwEUeLlJBvf9+iAXEYsWfM3f5
-	XkKM5nSDIjBX9TYEH75sNjEJOrNebE0ixdFXywgWKWTXw8JY9qz4WuZrctEsN5Re4Xyz5nKmmWx
-	Tml6nGny5+Cj+TD49RMd0PUTtQwap280c9bQA4+Q2oEZWv4rkInD2k49uvJQSu3dgcpKzf2dqj9
-	3jGPXaNmIdp3Jdy6QKclU0meDB08d7FZc4kALvrJv/cKN3spSG3yrBA63wiVzi0lK62Rnm354n7
-	T8HYr4b8l4g5pQ+FSWnsWjaNBauGTlwkrldqtvRN/khy6lsn4Z4Nwow2CxpbaVytqEHfzj/HpWs
-	YRXSyFn6lN99CIk0liaKza2yimGeO62uiqKabktRyZDlXjkvE4kW3ukwwJtOwPR2qJPA==
-X-Received: by 2002:a05:7022:4a9:b0:12d:de3e:be88 with SMTP id a92af1059eb24-131a69f2f19mr8868177c88.36.1778400659598;
-        Sun, 10 May 2026 01:10:59 -0700 (PDT)
-Received: from localhost.localdomain ([76.32.119.210])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-132787673ffsm12053688c88.15.2026.05.10.01.10.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 May 2026 01:10:59 -0700 (PDT)
-From: Hungyu Lin <dennylin0707@gmail.com>
-To: jic23@kernel.org,
-	lars@metafoo.de,
-	Michael.Hennerich@analog.com,
-	gregkh@linuxfoundation.org
-Cc: dlechner@baylibre.com,
-	nuno.sa@analog.com,
-	andy@kernel.org,
-	linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Hungyu Lin <dennylin0707@gmail.com>
-Subject: [PATCH v2] staging: iio: addac: adt7316: document SPI interface switching sequence
-Date: Sun, 10 May 2026 08:10:41 +0000
-Message-Id: <20260510081041.85880-1-dennylin0707@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        bh=gCbOhGmC2ASoNRhJ45rrQzr1riSuWbHWDX3kRpzdSDY=;
+        b=eVjhGBAm1192/t9D1K/vTdgi+G0LrqcbXKvq3b3maHHvWzaKiipr4OVi6eI/jxPaoB
+         pJoMESnRmXs6pf6ln3LLO4H1DbYvsN7QI6+3TEeMNJygLNpSrxwNPCnJ4Tbubf09Oa5b
+         l4wrC7jliWztXpwZUs0984S7ZsNJZdFxn3Jf9RNSfuevRBH60+W0TWnr2ubchLdUgLcq
+         I11AgJMAlvQ7F9IKkrOBrn0y+raFdZvn+VAXHwmDtFkRkx6gQZ7LmEXr9aEulO3OPWF6
+         hioUkHL9T8h4HqXG41cPGV1M+vN0G0XqhPO2fydcd0KXzSQwAUt7szOMMKqwO30N3YvP
+         mvgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778401223; x=1779006023;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=gCbOhGmC2ASoNRhJ45rrQzr1riSuWbHWDX3kRpzdSDY=;
+        b=IW5d3+fi64obPspwN8I21JksE6rSNboiVfWrpZlTDdcn8K10vDgXngJ/H0mSqRaP9C
+         92p9BdPMJuLmk42nELr2TROru7lkeUJzH9i7XiKbIBjGKqDCtpv6Vg/MlExKUMUKnIJT
+         QPgjWoJNGzsi1YH/W1x19jNvixxAthnP4t6u5GYKY4Vy/ekFmVsfP34yWVO2GiPXvAbk
+         UUHKSZSINQFRPWS3b2zZwPqexUcAo/Zk93THLbdU52aIo+nt2S0hq0/u5jr6qBdmLUF9
+         raAJpHidUoksojq8qZ/C3JPio0qYPugMubmuKwRILOS/4yD4OhDAvMq5pjJ7WnMyZLY/
+         iHtw==
+X-Forwarded-Encrypted: i=1; AFNElJ8B1+qEkec2Vd3MrjqWob/aCG7bRIIm5QD0pcadjpD8936hzCuljXR3magSIJOipxFpVjiBysVYNZaRseIv@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx79XzMzG9lF/wm6QHpblqZJdYVL2cvF/fLsEGGS/f/nqiBCSph
+	65RRwgZ6VmYeMQgyNQcGVHlOdM8EGGLL5hu/gLIy3esGK0q7yHzP3cM5oUIYwSZ2Po83nk/FpdU
+	9jBGjtW0ewWcDtpMyU399XgJjXLEbggs=
+X-Gm-Gg: Acq92OFmJaVPs8QY0BGFdlOsE2PysetoUkF7jX8BvnAqt+V8omjmux0Ee5SK+uBpeOS
+	4xMTm0dOP7n6bfvq3KDJtp5+z5FiBpV2rPS8WEiSEIsFxbIV+u1kqvrhzZhViGTKCGUhlTetXBG
+	buA5CGMOtcsoHDRYDXgZFS5gkEq0hbwxWICvxerittul7ZTZaYmEC+0buWUSTTDa9vG5xpl9lYC
+	pzD/lpIB+276nhmtr4zEI2TS+NiYbe0yU+plF4hz014WXRL0BfflfmOPvq3F5xoZcUT3KQiKoiU
+	c6CJ
+X-Received: by 2002:a05:690e:d84:b0:657:a6a4:6ee2 with SMTP id
+ 956f58d0204a3-65d7e7000e8mr11017061d50.3.1778401223591; Sun, 10 May 2026
+ 01:20:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260510081041.85880-1-dennylin0707@gmail.com>
+In-Reply-To: <20260510081041.85880-1-dennylin0707@gmail.com>
+From: Maxwell Doose <m32285159@gmail.com>
+Date: Sun, 10 May 2026 03:20:12 -0500
+X-Gm-Features: AVHnY4LpQ1hQb4HZvp8qOey_Vx13xFcgP7QYhhLIOenZ3Ym5fNoAtrTVgU_tL30
+Message-ID: <CAKqfh0GECZgj5aQZhTq8y4myp62Q7uVXhwKHUD-K2Sq-KH6UJA@mail.gmail.com>
+Subject: Re: [PATCH v2] staging: iio: addac: adt7316: document SPI interface
+ switching sequence
+To: Hungyu Lin <dennylin0707@gmail.com>
+Cc: jic23@kernel.org, lars@metafoo.de, Michael.Hennerich@analog.com, 
+	gregkh@linuxfoundation.org, dlechner@baylibre.com, nuno.sa@analog.com, 
+	andy@kernel.org, linux-iio@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The device powers up in I2C mode. Switching to SPI mode
-requires sending a sequence of SPI writes as described in
-the datasheet.
+On Sun, May 10, 2026 at 3:11=E2=80=AFAM Hungyu Lin <dennylin0707@gmail.com>=
+ wrote:
+>
+> The device powers up in I2C mode. Switching to SPI mode
+> requires sending a sequence of SPI writes as described in
+> the datasheet.
+>
+> During this sequence, the device may still be in I2C mode,
+> so SPI transactions may not be recognized and can fail.
+> Such errors are expected and are ignored.
+>
+> Add a comment to clarify this behavior.
+>
+> Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+> ---
+> Changes in v2:
+> - Add datasheet reference
+> - Add TL;DR note
+>
+>  drivers/staging/iio/addac/adt7316-spi.c | 12 +++++++++++-
+>  1 file changed, 11 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/staging/iio/addac/adt7316-spi.c b/drivers/staging/ii=
+o/addac/adt7316-spi.c
+> index f91325d11394..980532b7fa1e 100644
+> --- a/drivers/staging/iio/addac/adt7316-spi.c
+> +++ b/drivers/staging/iio/addac/adt7316-spi.c
+> @@ -106,7 +106,17 @@ static int adt7316_spi_probe(struct spi_device *spi_=
+dev)
+>                 return -EINVAL;
+>         }
+>
+> -       /* switch from default I2C protocol to SPI protocol */
+> +       /*
+> +        * The device powers up in I2C mode. Switching to SPI mode
+> +        * requires sending a sequence of SPI writes as described in
+> +        * the datasheet ("Serial Interface Selection" section).
+> +        *
+> +        * During this sequence, the device may still be in I2C mode,
+> +        * so SPI transactions may not be recognized and can fail.
+> +        * Such errors are expected and are ignored.
+> +        *
+> +        * TL;DR: Do not change this!
+> +        */
+>         adt7316_spi_write(spi_dev, 0, 0);
+>         adt7316_spi_write(spi_dev, 0, 0);
+>         adt7316_spi_write(spi_dev, 0, 0);
+> --
+> 2.34.1
+>
+>
 
-During this sequence, the device may still be in I2C mode,
-so SPI transactions may not be recognized and can fail.
-Such errors are expected and are ignored.
+Reviewed-by: Maxwell Doose <m32285159@gmail.com>
 
-Add a comment to clarify this behavior.
+but please, wait at least 24hrs before submitting a new version...
 
-Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
----
-Changes in v2:
-- Add datasheet reference
-- Add TL;DR note
-
- drivers/staging/iio/addac/adt7316-spi.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/staging/iio/addac/adt7316-spi.c b/drivers/staging/iio/addac/adt7316-spi.c
-index f91325d11394..980532b7fa1e 100644
---- a/drivers/staging/iio/addac/adt7316-spi.c
-+++ b/drivers/staging/iio/addac/adt7316-spi.c
-@@ -106,7 +106,17 @@ static int adt7316_spi_probe(struct spi_device *spi_dev)
- 		return -EINVAL;
- 	}
- 
--	/* switch from default I2C protocol to SPI protocol */
-+	/*
-+	 * The device powers up in I2C mode. Switching to SPI mode
-+	 * requires sending a sequence of SPI writes as described in
-+	 * the datasheet ("Serial Interface Selection" section).
-+	 *
-+	 * During this sequence, the device may still be in I2C mode,
-+	 * so SPI transactions may not be recognized and can fail.
-+	 * Such errors are expected and are ignored.
-+	 *
-+	 * TL;DR: Do not change this!
-+	 */
- 	adt7316_spi_write(spi_dev, 0, 0);
- 	adt7316_spi_write(spi_dev, 0, 0);
- 	adt7316_spi_write(spi_dev, 0, 0);
--- 
-2.34.1
-
+best regards,
+max
