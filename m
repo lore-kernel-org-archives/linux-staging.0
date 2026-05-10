@@ -1,71 +1,71 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7830A28A72F
-	for <linux-staging@lists.linux.dev>; Sun, 10 May 2026 17:52:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F00A923D291
+	for <linux-staging@lists.linux.dev>; Sun, 10 May 2026 17:52:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778435563; cv=none; b=tcoi5AtcIZkiXNgPoVw/Hz6Rtt5YqibDJnDqHD//VYHUpvD0U0uCb0T1tBlmMn/l7cMoi7YJtxN0QXa01ehrr3tqiOoi3Las0PZMBBUJXzxCwIdpOii+kStTt1pGMMKHSR6FtNqiJzweYpLiz0KvHp/Vkt5TSsLNH/JNMjsCbVw=
+	t=1778435566; cv=none; b=grjQphNQXQsz4ZmRUc8wV6V3hob/su/QEUKu+TOuYK2QKbe3pOMPyx6kc9GMPvjXBlptazxcDOCSboMHxbEBKFUnmQPnZU+1nkpJACqxlceM1k62sbGr04YKiAhQxZeWUZCm24bSmhAc9XbLHgPUGAKZXLhfJh4jQJNzeCqottA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778435563; c=relaxed/simple;
-	bh=ntV4bbIZ7YyfVbHUH4iz/+HU+UBaUjJlGU6cCysgYXU=;
+	s=arc-20240116; t=1778435566; c=relaxed/simple;
+	bh=TEmFqdFz7mOPGRowlf767z+jPiDJBcFJMcuO3YOu26k=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mLTgQ7/TU2aYMDshh+HWxWGZUodNysglqnTRljAG/keCzUPrgScYAcU7ugxV4zf/WbzI19XWAqbCeIlF4gNuDLNt0+W7mcV9cK23mv3zkPDPKLaB1CAImpYKTmH0W06qr/OyvDaieqkAFmIoxFSGktkOdNI6jKsv7c0rlarzqN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fIxo/Hs5; arc=none smtp.client-ip=209.85.214.182
+	 MIME-Version; b=liYPhFr/cN1qxc5HgN1xggfWlHlUf07+XFHogAjoYZchh28Nf74d1xp884daQ4W3Ep5/4hMmz+vL207fSNI7glNviObzR5TVUNewJEe1vMi4ZOXUlDOwNCNY6UaFuOvkdijy1JjUmIIOx+tdeOUJR4fkpl+HFRo0pGdbzV8iBtk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CQjzlvH9; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fIxo/Hs5"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2b9705613ddso21671525ad.1
-        for <linux-staging@lists.linux.dev>; Sun, 10 May 2026 10:52:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CQjzlvH9"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2ba1e9d3687so22477035ad.3
+        for <linux-staging@lists.linux.dev>; Sun, 10 May 2026 10:52:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778435562; x=1779040362; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1778435564; x=1779040364; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9HP4mHIWZaudzLmTmCsRDisT9DtTeZR5e/g4Q3kazt0=;
-        b=fIxo/Hs5fsYTp0tpk+Fd/Mzfjo+hmkmFLOPvG78EAm+0oHwzs+RMeFgeyi+Rw1bvNO
-         ockyvpzpVlj5KvGStS4gtinyGOzNkUuiC3Przl+mRYWXA55S2q3+VQuFYBZPYNmzutxQ
-         bTqQ/nXcJy8Y+YZWsulgdDvjaxDs9wL4GGlaniBftKb4enLRS+iiwzQfjq4aoSej0XU/
-         m6oZjXj7sZkJmuk6K5dfOFlyxnk6QpczXkBv3qCJ5vROTJZlIszMUUflQDldxGh1LHXZ
-         bdPpIzKueKhNQWjh4eHuXKvVlZVEw+Gla3M5eaRQrAGyEXUb0w27PLesmJJdjfX5T2Hi
-         vqng==
+        bh=Ln1IOvizuABrSOOBL/FBsK4w/tVniLBdUK73NGotIdg=;
+        b=CQjzlvH9XS3+a7TXnVl+5W3d9D4/vZTGEmrlu/F2moZIOKZBL6VvrbQXrsLZ4GB5EZ
+         KV2GkRl6WD1c9DoB1AOsXBC5UVmlYEl0zESUfgP8ZJILS/SGF2U0ydkzJ3NGDAIHESCk
+         p9ZrFA6HCI6RbDmmsbBQeO0JByuWV1H8Pc/H90/fYmZZ7MmiHJwp3jN9cQNPKIHLn1sb
+         2ea/OqloEGsOGAoyuahcI8Jltvn4zu/Lz/sfS29BHwXYz5mK5Gkbytpsy1cgHCeNksEJ
+         VlKtbOW2Xg1toHJMOJTeTv5jIADK0I6rrC+ZA77mvYZdicTGTqkfj0nQZB/1z1UB1gdZ
+         OWxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778435562; x=1779040362;
+        d=1e100.net; s=20251104; t=1778435564; x=1779040364;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=9HP4mHIWZaudzLmTmCsRDisT9DtTeZR5e/g4Q3kazt0=;
-        b=m0K+zBzf3ta0vVCiXnkgCKYs2JujkV0Ih3e60fYjS8Hrt5v3iyWlYgSNDe1A5STS+D
-         FaBVSi4T7SZL4hX6LrTdnUA3RSfCiloy89yltjR3nP4u2xf9QdS0jAAx3xaH526f3W2U
-         C32Cnq7/ZMB1hqTWN8ygHevmLghhnhQ1UiQexNKQWWdEWapt3B5HAa+xEf3LId+zePqd
-         JQMt0vZ95pkFz0gO2kguLb9+UbVLJm1p48+j4x51IizQlL7qF7iEU7dCaIZ/gOVEs8Qa
-         VOlqdp2PiHqw1hiLnf8i/lGlGtOTeLLudGajlFrqU2siaz8/yoedlG4ons9jb41LKYzg
-         D5sQ==
-X-Gm-Message-State: AOJu0YzqQj73QMgNijKFc9mVTbw3yfYlFu+EXZaqwOIB/xRcrQU57vWU
-	C62twVAAYzLpzDPDNWLDZYnpn6ZLk9i6YzJnVSCM97gf+8ZRAHxmMo19
-X-Gm-Gg: Acq92OFwksWUVps1m5HqqfxQ+qEXbnE0WmuNh3O4o5gpKwnIvUVhCZVS9fvuJczY1GC
-	YoiBSKyAKD4+EhQImLjbGxqrTlzM3HPITrAjrUv51/NVmKGqDu9twqu2j6F+VjDh0eBq8p+kyUX
-	BLnaHfGdokLxT9kV0OTAr7ftgp86gFiihtM4QT8CEHT0pXdqvTgef8J3YSlTHCR0d0mv3JTyPzY
-	wd3WMCbpVS+LRMhUYp3dh7mvO7ShAma1sp2LwGuFJCZ4yQZlVztQuJ/LdlhrdLbtfdku7FRcH1v
-	wgUicKvHqbuh1hFnP128qTL20jrCPjlDq2O6SoLf3H4nVIuUYAGWXP+8SWlYsVZNjealjkO48rN
-	Z3tIRPv7t5FcaBZDHmeQ0Imj/VNNiyS8FlhjhIjkt5PQ+t1kqdylttl5cy1CluL69Gkccski6l3
-	qVJlfovdW788Ebkgr/xGGfku8LR2B5uwHDe4UqujiL+SO+wB5/9CAOFvb5RykXeQ==
-X-Received: by 2002:a17:903:3d4b:b0:2b0:608d:d8a8 with SMTP id d9443c01a7336-2ba78f5005cmr156737915ad.1.1778435561714;
-        Sun, 10 May 2026 10:52:41 -0700 (PDT)
+        bh=Ln1IOvizuABrSOOBL/FBsK4w/tVniLBdUK73NGotIdg=;
+        b=O02P2HsmVjXY4LONRRV40nltYAG48bylZRqBrlEsW4AqqSrKLYps5vNj5sicW2UV0I
+         INOCGxct1lJzJfCbYgvddrkppYqPIaL0+p/9jWaD7teh0kzzS9wXE/6ap7ZWYNuSxPNQ
+         SxZZrGVLsMLOL553ShM6RRvhlu4VoYsU8TRFnC/8o6Ppv3LxnB9MmF25LoHgrk3kGRBb
+         No8/Ng4y+C18l4+zToo21crLejSe+emkL5e62tMai0SsN6aU3GOTgPC8miAJ6EF8SFtv
+         FtXr+jM6jQIgsXvsy2x5T4NoCRk2hLuMZ9UfgnYaJwdrV/Bjw1vUZErBZpY8HAFDQs69
+         Uuxg==
+X-Gm-Message-State: AOJu0YyySovcrkLEK64IJqSCwR5Yzhw1vSwaOHQWgwMn1H24xB7UWTjf
+	pUEpyayDZOhF25xhpp0XiEUtSok66hjdFLAXs6i9UDE16UTqHdr9B819
+X-Gm-Gg: Acq92OEeZk2Lul/9xGV/UU67QTkOZ6jsqt5N/ay9IYdwD9Zwbe6HKaKvorchuc9gIh+
+	RAvnsT1vkUWC0J8zYrl6+1gpbsGCfca8pv7gqXsxzcxXVfjsPm40ouL22XfGzFApmTJvs5RRMZZ
+	QjUffyV6Mt+ki7KZryhUHP4IqBIKUV++bnVQKMtEPky6vTwzUkDOfx6vYG4MCuzS87ORZ/4cXyw
+	WKgHH8nkgt0mdD785T82I1bf2uLQxyfDQX933ygQf2CsdxAMsEzxDDCoRS0bGOz8354gVH7KcmB
+	H9sUEUE/KxetOj9kpcYWHEMSfpGbh2YCL/yYwe14w7LP4LC1FW9XS/afd9/VNTDHQI2KwjFXcka
+	D1vI5i5a3VCX1qQUaXTKtEOdV2gnwzDjlmfsd0AqoA+vWdFX13AzyQyQfbBRmb8a2cDSNPtlc79
+	L29xSpgxRYCJPvDfTyBbI8NEqgtrZ8EzMeA/dB5bGpVflelWHpED0=
+X-Received: by 2002:a17:903:145:b0:2bc:7eee:200a with SMTP id d9443c01a7336-2bc7eee20a0mr50146965ad.22.1778435564478;
+        Sun, 10 May 2026 10:52:44 -0700 (PDT)
 Received: from localhost.localdomain ([2405:201:d008:80b:a00:27ff:feb6:42dd])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2baf1e374besm83169715ad.47.2026.05.10.10.52.39
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2baf1e374besm83169715ad.47.2026.05.10.10.52.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 May 2026 10:52:41 -0700 (PDT)
+        Sun, 10 May 2026 10:52:44 -0700 (PDT)
 From: Pramod Maurya <pramod.nexgen@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	nikolayof23@gmail.com,
 	Pramod Maurya <pramod.nexgen@gmail.com>
-Subject: [PATCH v2 3/4] staging: rtl8723bs: Fix block comment style in ieee80211.h
-Date: Sun, 10 May 2026 13:52:06 -0400
-Message-ID: <20260510175207.563378-4-pramod.nexgen@gmail.com>
+Subject: [PATCH v2 4/4] staging: rtl8723bs: Enclose CHAN_ARG macro body in parentheses
+Date: Sun, 10 May 2026 13:52:07 -0400
+Message-ID: <20260510175207.563378-5-pramod.nexgen@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260510175207.563378-1-pramod.nexgen@gmail.com>
 References: <20260510175207.563378-1-pramod.nexgen@gmail.com>
@@ -77,104 +77,36 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Move trailing '*/' to a new line in multi-line block comments, add
-proper ' * ' prefix to comment continuation lines, and consolidate
-the OUI_MICROSOFT multi-line comment into a single line.
+Wrap the macro expansion in outer parentheses to prevent operator
+precedence issues when the macro is used in expressions.
 
 Signed-off-by: Pramod Maurya <pramod.nexgen@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/ieee80211.h | 46 +++++++++----------
- 1 file changed, 23 insertions(+), 23 deletions(-)
+ drivers/staging/rtl8723bs/include/ieee80211.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/include/ieee80211.h b/drivers/staging/rtl8723bs/include/ieee80211.h
-index 11825ace95a9..beee37041eeb 100644
+index beee37041eeb..d1167d9ea846 100644
 --- a/drivers/staging/rtl8723bs/include/ieee80211.h
 +++ b/drivers/staging/rtl8723bs/include/ieee80211.h
-@@ -402,12 +402,14 @@ enum {
+@@ -639,7 +639,7 @@ struct rtw_ieee80211_channel {
+ 	/*"orig_mpwr:%d\n"*/
  
- /* NOTE: This data is for statistical purposes; not all hardware provides this
-  *       information for frames received.  Not setting these will not cause
-- *       any adverse affects. */
-+ *       any adverse affects.
-+ */
+ #define CHAN_ARG(channel) \
+-	/*(channel)->band*/ \
++	(/*(channel)->band*/ \
+ 	/*, (channel)->center_freq*/ \
+ 	(channel)->hw_value \
+ 	, (channel)->flags \
+@@ -649,7 +649,7 @@ struct rtw_ieee80211_channel {
+ 	/*, (channel)->beacon_found*/ \
+ 	/*, (channel)->orig_flags*/ \
+ 	/*, (channel)->orig_mag*/ \
+-	/*, (channel)->orig_mpwr*/ \
++	/*, (channel)->orig_mpwr*/)
  
- /* IEEE 802.11 requires that STA supports concurrent reception of at least
-  * three fragmented frames. This define can be increased to support more
-  * concurrent frames, but it should be noted that each entry can consume about
-- * 2 kB of RAM and increasing cache size will slow down frame reassembly. */
-+ * 2 kB of RAM and increasing cache size will slow down frame reassembly.
-+ */
- #define IEEE80211_FRAG_CACHE_LEN 4
- 
- #define SEC_KEY_1         (1<<0)
-@@ -433,19 +435,17 @@ enum {
- #define BIP_AAD_SIZE  20
- 
- /*
--
-- 802.11 data frame from AP
--
--      ,-------------------------------------------------------------------.
--Bytes |  2   |  2   |    6    |    6    |    6    |  2   | 0..2312 |   4  |
--      |------|------|---------|---------|---------|------|---------|------|
--Desc. | ctrl | dura |  DA/RA  |   TA    |    SA   | Sequ |  frame  |  fcs |
--      |      | tion | (BSSID) |         |         | ence |  data   |      |
--      `-------------------------------------------------------------------'
--
--Total: 28-2340 bytes
--
--*/
-+ * 802.11 data frame from AP
-+ *
-+ *       ,-------------------------------------------------------------------.
-+ * Bytes |  2   |  2   |    6    |    6    |    6    |  2   | 0..2312 |   4  |
-+ *       |------|------|---------|---------|---------|------|---------|------|
-+ * Desc. | ctrl | dura |  DA/RA  |   TA    |    SA   | Sequ |  frame  |  fcs |
-+ *       |      | tion | (BSSID) |         |         | ence |  data   |      |
-+ *       `-------------------------------------------------------------------'
-+ *
-+ * Total: 28-2340 bytes
-+ */
- 
- #define BEACON_PROBE_SSID_ID_POSITION 12
- 
-@@ -469,7 +469,8 @@ Total: 28-2340 bytes
- /* MAX_RATES_LENGTH needs to be 12.  The spec says 8, and many APs
-  * only use 8, and then use extended rates for the remaining supported
-  * rates.  Other APs, however, stick all of their supported rates on the
-- * main rates information element... */
-+ * main rates information element...
-+ */
- #define MAX_RATES_LENGTH                  ((u8)12)
- #define MAX_RATES_EX_LENGTH               ((u8)16)
- #define MAX_NETWORK_COUNT                  128
-@@ -499,11 +500,11 @@ Total: 28-2340 bytes
- #define IEEE80211_PS_MBCAST IEEE80211_DTIM_MBCAST
- #define IW_ESSID_MAX_SIZE 32
- /*
--join_res:
---1: authentication fail
---2: association fail
--> 0: TID
--*/
-+ * join_res:
-+ * -1: authentication fail
-+ * -2: association fail
-+ * > 0: TID
-+ */
- 
- #define DEFAULT_MAX_SCAN_AGE (15 * HZ)
- #define DEFAULT_FTS 2346
-@@ -557,8 +558,7 @@ enum {
- 	ACT_PUBLIC_MAX
- };
- 
--#define OUI_MICROSOFT 0x0050f2 /* Microsoft (also used in Wi-Fi specs)
--				* 00:50:F2 */
-+#define OUI_MICROSOFT 0x0050f2 /* Microsoft OUI (also used in Wi-Fi specs) */
- #define WME_OUI_TYPE 2
- #define WME_OUI_SUBTYPE_INFORMATION_ELEMENT 0
- #define WME_OUI_SUBTYPE_PARAMETER_ELEMENT 1
+ /* Parsed Information Elements */
+ struct rtw_ieee802_11_elems {
 -- 
 2.52.0
 
