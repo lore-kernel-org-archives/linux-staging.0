@@ -1,73 +1,77 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+Received: from mail-dl1-f65.google.com (mail-dl1-f65.google.com [74.125.82.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AB752F90E0
-	for <linux-staging@lists.linux.dev>; Sun, 10 May 2026 07:46:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9111C21773D
+	for <linux-staging@lists.linux.dev>; Sun, 10 May 2026 08:11:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778399184; cv=none; b=lLGOBPra+S+7AeRhbKaCcF+yYZObw8/YJynoltnLc1aEW9Rtw0ep35imd5Tqr1o3Ky8F0Sb60GFzIIMxCLEtDwrC2KLq038D6uFhupjKIRR8CwCPlFdhWhB4CDth0tjDLVJ7FKTcyTQ+pWwTptXSPTqy9TfwS/y0UN2Z2LwJpb0=
+	t=1778400662; cv=none; b=WkLIzZow/eYX5fcFps1E49pMVibZ8N0Wj0fEBOIpe6Si+z7a0Pz6HcPtt8/MZgsLsEFX1jGELxfznuj8HKji1kHNiUQ4u2nZBPnUwwAUZZ9Qg0GNF2/DMBWJaofiRe8NuI3YHPZn1zTcBRWbRklJjsHKn7BV7UsJrggA2nTMKbM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778399184; c=relaxed/simple;
-	bh=krXGrKDl/YCg9ufNR1bO6hxQdq1JwjkfLXdNDUljbkc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rCUmDSr8CISbveu8EHVLqa5QBov9KpP5RCFx9v42reDgsPHpYW5tYqyM8w5tiZsn62lLHq8owSYk5nLd8z7rV7OI0Sf2dwdS7MA++AJ523+hwdeP1WsyCj57LlDa5PHzCEnPqUnOA8tsiQA+xyp+dmeK0bhNFftqbG8AZjNEB5g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=En9kmJIo; arc=none smtp.client-ip=209.85.215.176
+	s=arc-20240116; t=1778400662; c=relaxed/simple;
+	bh=qV39xNtfL4QWl44+opgnZA/dVGnBNDm/6My8Yisoxac=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=gEYxi5fMdCVDv/8Nkm/qUk8V8MRvDcyTtVsCSZtDTRxQxY0F1Sa+G/mSS/oMNpXsPHNvaBLeHcmyoZbBr8VlFrgHcgi26zPQ4p+AylpxJPZOLphIzF44Kz2uPao7ii5jNFxCqPmHGSMowfkTu8YEPLNKfDDDiDqKYQNwL5F2xeg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=geNzJo49; arc=none smtp.client-ip=74.125.82.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="En9kmJIo"
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-c80227c9572so1438306a12.2
-        for <linux-staging@lists.linux.dev>; Sun, 10 May 2026 00:46:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="geNzJo49"
+Received: by mail-dl1-f65.google.com with SMTP id a92af1059eb24-12c19d23b19so5660718c88.0
+        for <linux-staging@lists.linux.dev>; Sun, 10 May 2026 01:11:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778399183; x=1779003983; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1778400660; x=1779005460; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=68HjT0r0URpGWCt1B0Ubioq53duC0QjuZw3UcjpYRCg=;
-        b=En9kmJIouUsnLBfJYqk3PNJxfHanO/7WHx3v0OGPe7mvlbR9pt+Bs1XX/NcDXreRTl
-         ELtOwBdfoSB7kcEjnkL/HDS1Vf0+1FO8uamsOUcgku7W1KmrhuWA8zOdapBH95oGNhnu
-         wPu3jTmtakAX73KSQjzkaHDs6qRP12LyWbUZyPtworCJuAQFkFrZSKRg8yQdxFHpRj2k
-         QJmh3ivLimZDyrscyD+5Bzme+QSFMXWwebnO2HwquWl8HLqKHKKDk/sR8ByutKku1YdK
-         eOuaXRsK/7xBNrOde9lRBnDuIUiiZ1SN3JhzOd2UJ34sRaWgm0Mpuj2/XFl58kaHhP9Z
-         kvaw==
+        bh=bIvPRt9dlizeEm93tbtAZzvWwvO1azBOrboHx0X4jRw=;
+        b=geNzJo49w6JSH4gstduyLmSfDn3nr3Vn6TWkF7i6bRcqReikKsDW6rlufVdzQeP29A
+         gk2+TsDTKl+DxYoNWb7jV6SYb02mh8hBQtPyymilWR3uzOsyXrsLCEwY45/LVx/eWyfV
+         oXYwXYUeCo5PmxlWAC3RILrIkScnFuV4V6duVzU47R4ay4qBuvMONYwNk3hQ/pEq1798
+         KVy8b6DzugFIYngJ4DlU0rU7SfRohPYOdEZFKb5EyNt9E8I0EfsB2VRXEzvrQQu8vPL1
+         QGGjNEhipScZA7KLBC49TFTTSXmu36uDc63swUXhUc5jJbyJOjwguKgQhVWgTiYsclXW
+         1dmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778399183; x=1779003983;
+        d=1e100.net; s=20251104; t=1778400660; x=1779005460;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=68HjT0r0URpGWCt1B0Ubioq53duC0QjuZw3UcjpYRCg=;
-        b=kjiICkPKOO0QXk3tdJnRjPHp5uAlPJUItPyrBtBvrzZY+CI+TelvFgUBi3f6uoZAHF
-         w92mWeI3QPCPG+cfsW1QqQgvNMjogJT/D+5R5Tad5V9KNENEXoNc7Z+MEHMpQVSc9XRi
-         kNgp/kZeXrvgZ9j5c980EQy3Ai/q4m6PftVQG0jdirfy7PZ1oW/hCdrcbQckcSvrY1vv
-         IprXYwxH9Ck9UN4pD7bSJgIp3XvRjsDJv/lEKyM4qUEwhCu78mcrq+9UCekrEHKKAf9m
-         4UMX/Na0X3xHFfSM9BUDoiAkZZUi5vd3H4LcbAq8Ur2rEMREQtm1IvQgH7wOk57VWQ3b
-         fKDw==
-X-Forwarded-Encrypted: i=1; AFNElJ+1c40hzI5m+QSb4RuGCDpuMAyx9fPNINqTct/kKBsVF/KtGhLFP5qJGQzICN4qpTJ58Obph0mHpcIpkuaH@lists.linux.dev
-X-Gm-Message-State: AOJu0YwNKrboAhv7tzHKUFP38mRNI9tpFr2IZjZ9KyV6GxwetRR+Sh77
-	4HQTpSHQmCbEghy/LQlxO2aj+0eveZJGw4jyYhEQazjKQ67wf1NIyWCi
-X-Gm-Gg: Acq92OFllW693RSv8FrKrQL+7omauwvqTib+0P/IM/KD3TlWs/WZFWBs39nkIz1ppLe
-	KsxtQ64jS3eKEi1oHanENtV195yhO51EoOqAPOSf4eIrqmhi5bRPoIszCDTndYbyGyS4gfpeQWh
-	QDExMjY6aWIaSZNGayFMt8xivduI4mblBAdgKqADY3tQazppYw/NxykIBhu8CH8k8/qzfYd2Z1B
-	lZl1bJLfjMbOOfEoZnoV9ZbPM22lXRHqqZu/NFyoKmgyEBzoqU+3IYBrC4FuvuFxLraknpN8StL
-	gBHVXVZhEAgtvcbqcp+Y+6YAN84abjz05YsANcG+xxm2mPzfpkky9D2lONg+y1q28Y6ZD1ifJUQ
-	mXLQXakA7lUcWa5qssLWEQRaKDSTithPxY2Y9Br57QJwohTIvtyu8kjzcWCkg0nFOJUgt7pjtEL
-	W+OcOFtxndBeDx2XbsR6tssEc+yYX9Pm+/ImpYE2o93gUnUlXbnXYcQAj3w4vnvGMNwRJxogiw/
-	TEBJVfCm8zR8LMXftA=
-X-Received: by 2002:a05:6a00:1805:b0:829:8942:2c93 with SMTP id d2e1a72fcca58-83a5b2d570emr18447462b3a.9.1778399182626;
-        Sun, 10 May 2026 00:46:22 -0700 (PDT)
-Received: from viveks-box ([2405:201:d027:287f:4759:6148:a4d8:7d0b])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-839681a9e33sm18618896b3a.50.2026.05.10.00.46.07
+        bh=bIvPRt9dlizeEm93tbtAZzvWwvO1azBOrboHx0X4jRw=;
+        b=qeiZzZxwg2cWn7Mc7LVZH7VOAisbApSEnrB/bDyV2j9Wq/1TRV6KTy8cBs/qLpgilA
+         XqbdCXqBq7RUnqbKfryBQtdmR55YnYQxt4S7VON670Su8uTVbBLSqXxOMKb/13xdhRLf
+         5jBYFfMbk9ahpJx3iAFIuFj6emKJHn/L/oNpYFxYY1+pIueSnssjqsVRUv1t+ARdsET+
+         VwK7YWI1oCzdIHQIDLVc5o9dL2LpHiOPzrMhT+3IwSpVwtItH/8FoycWnBriX8okRUQd
+         FtyY2bwoyFj90SdUWouyOCpgUSf+7bXWqFyX0Xcx2dE+FXYoIz9ADPXttB2YxvTf8Z4v
+         huOg==
+X-Forwarded-Encrypted: i=1; AFNElJ9rlFiX7G3nVdYqrx3RGVqnSLdh81Wi0HunygfieeZeZyWe39aoEDvseOl3wlm77IqJB/Ut/s8k++1Tum1J@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxq+NNLcuQ4u8zftZ1SSRXhAXMcOKU/0LAejOVyzDcRDg9L9W6o
+	2ZmRBHEeihNS05KgO1L9QWQlAmiumL6fziRqtilHkFExxMyxQB8392/N
+X-Gm-Gg: Acq92OGjJeG7njFSt3soO8ljfSIOQbceHabbaR1tNHlh/NwrRT5LHUnk/nHW6nFcdTk
+	WpVLUlauGoVtVPfseM3mawzjZ7k/NqROlqjpdlkdR7rDw0bw18gwEUeLlJBvf9+iAXEYsWfM3f5
+	XkKM5nSDIjBX9TYEH75sNjEJOrNebE0ixdFXywgWKWTXw8JY9qz4WuZrctEsN5Re4Xyz5nKmmWx
+	Tml6nGny5+Cj+TD49RMd0PUTtQwap280c9bQA4+Q2oEZWv4rkInD2k49uvJQSu3dgcpKzf2dqj9
+	3jGPXaNmIdp3Jdy6QKclU0meDB08d7FZc4kALvrJv/cKN3spSG3yrBA63wiVzi0lK62Rnm354n7
+	T8HYr4b8l4g5pQ+FSWnsWjaNBauGTlwkrldqtvRN/khy6lsn4Z4Nwow2CxpbaVytqEHfzj/HpWs
+	YRXSyFn6lN99CIk0liaKza2yimGeO62uiqKabktRyZDlXjkvE4kW3ukwwJtOwPR2qJPA==
+X-Received: by 2002:a05:7022:4a9:b0:12d:de3e:be88 with SMTP id a92af1059eb24-131a69f2f19mr8868177c88.36.1778400659598;
+        Sun, 10 May 2026 01:10:59 -0700 (PDT)
+Received: from localhost.localdomain ([76.32.119.210])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-132787673ffsm12053688c88.15.2026.05.10.01.10.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 May 2026 00:46:22 -0700 (PDT)
-From: Vivek N <nagaraj.vivek@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: ovidiu.panait.oss@gmail.com,
-	error27@gmail.com,
+        Sun, 10 May 2026 01:10:59 -0700 (PDT)
+From: Hungyu Lin <dennylin0707@gmail.com>
+To: jic23@kernel.org,
+	lars@metafoo.de,
+	Michael.Hennerich@analog.com,
+	gregkh@linuxfoundation.org
+Cc: dlechner@baylibre.com,
+	nuno.sa@analog.com,
+	andy@kernel.org,
+	linux-iio@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Vivek N <nagaraj.vivek@gmail.com>
-Subject: [PATCH] staging: axis-fifo: align arguments with open parenthesis
-Date: Sun, 10 May 2026 13:15:47 +0530
-Message-ID: <20260510074547.10003-1-nagaraj.vivek@gmail.com>
-X-Mailer: git-send-email 2.51.0
+	Hungyu Lin <dennylin0707@gmail.com>
+Subject: [PATCH v2] staging: iio: addac: adt7316: document SPI interface switching sequence
+Date: Sun, 10 May 2026 08:10:41 +0000
+Message-Id: <20260510081041.85880-1-dennylin0707@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -76,29 +80,48 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The wait_event_interruptible call had its arguments incorrectly aligned
-with the opening parenthesis, which violated the Linux kernel coding
-style. Re-align the arguments to improve code readability.
+The device powers up in I2C mode. Switching to SPI mode
+requires sending a sequence of SPI writes as described in
+the datasheet.
 
-Signed-off-by: Vivek N <nagaraj.vivek@gmail.com>
+During this sequence, the device may still be in I2C mode,
+so SPI transactions may not be recognized and can fail.
+Such errors are expected and are ignored.
+
+Add a comment to clarify this behavior.
+
+Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
 ---
- drivers/staging/axis-fifo/axis-fifo.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Changes in v2:
+- Add datasheet reference
+- Add TL;DR note
 
-diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-index 3aa2aa870ea9..e8facc9b429b 100644
---- a/drivers/staging/axis-fifo/axis-fifo.c
-+++ b/drivers/staging/axis-fifo/axis-fifo.c
-@@ -246,7 +246,8 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
- 		mutex_lock(&fifo->write_lock);
- 
- 		ret = wait_event_interruptible(fifo->write_queue,
--			ioread32(fifo->base_addr + XLLF_TDFV_OFFSET) >= words_to_write);
-+					       ioread32(fifo->base_addr +
-+					       XLLF_TDFV_OFFSET) >= words_to_write);
- 		if (ret)
- 			goto end_unlock;
+ drivers/staging/iio/addac/adt7316-spi.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/staging/iio/addac/adt7316-spi.c b/drivers/staging/iio/addac/adt7316-spi.c
+index f91325d11394..980532b7fa1e 100644
+--- a/drivers/staging/iio/addac/adt7316-spi.c
++++ b/drivers/staging/iio/addac/adt7316-spi.c
+@@ -106,7 +106,17 @@ static int adt7316_spi_probe(struct spi_device *spi_dev)
+ 		return -EINVAL;
  	}
+ 
+-	/* switch from default I2C protocol to SPI protocol */
++	/*
++	 * The device powers up in I2C mode. Switching to SPI mode
++	 * requires sending a sequence of SPI writes as described in
++	 * the datasheet ("Serial Interface Selection" section).
++	 *
++	 * During this sequence, the device may still be in I2C mode,
++	 * so SPI transactions may not be recognized and can fail.
++	 * Such errors are expected and are ignored.
++	 *
++	 * TL;DR: Do not change this!
++	 */
+ 	adt7316_spi_write(spi_dev, 0, 0);
+ 	adt7316_spi_write(spi_dev, 0, 0);
+ 	adt7316_spi_write(spi_dev, 0, 0);
 -- 
-2.51.0
+2.34.1
 
