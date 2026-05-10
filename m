@@ -1,109 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F0AA2F8E8E
-	for <linux-staging@lists.linux.dev>; Sun, 10 May 2026 07:45:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AB752F90E0
+	for <linux-staging@lists.linux.dev>; Sun, 10 May 2026 07:46:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778399153; cv=none; b=eBCegBnzvcPUFR/NeOnRzzSzTAqlgzuxaw1inYrLbRi8w9jJH7+ZdsyRTkwHGTRQh4G9N7/6yEUu3K8UuyquYMcihQ49piLME95qnXteWQCQHb+xoGjkvM92/wjTNi77OsbUtt6kEKiBG/+4fMoS5irOrC/PUrOsP9C5muVGlOg=
+	t=1778399184; cv=none; b=lLGOBPra+S+7AeRhbKaCcF+yYZObw8/YJynoltnLc1aEW9Rtw0ep35imd5Tqr1o3Ky8F0Sb60GFzIIMxCLEtDwrC2KLq038D6uFhupjKIRR8CwCPlFdhWhB4CDth0tjDLVJ7FKTcyTQ+pWwTptXSPTqy9TfwS/y0UN2Z2LwJpb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778399153; c=relaxed/simple;
-	bh=d3Rhn5UO3/0JsVSzG+DthgMlLavWYkAyytTrVrQQ8NI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WRU77LavfNdczb9EA8gKJavaHQ9dBviVpA/k8ZOPVpnkEQfmb45aTc9PAPrM0FspOKQ8Uofg4QO8H3ZwHOhndqBDSrPxcmQnx4jViSajC/UUp/kdQzX7rw6A3rtflrMLOKLExK4dWaTcs0rrtWlC51paa4m1zbap6fT5wYjASbE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hk07oB4e; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1778399184; c=relaxed/simple;
+	bh=krXGrKDl/YCg9ufNR1bO6hxQdq1JwjkfLXdNDUljbkc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rCUmDSr8CISbveu8EHVLqa5QBov9KpP5RCFx9v42reDgsPHpYW5tYqyM8w5tiZsn62lLHq8owSYk5nLd8z7rV7OI0Sf2dwdS7MA++AJ523+hwdeP1WsyCj57LlDa5PHzCEnPqUnOA8tsiQA+xyp+dmeK0bhNFftqbG8AZjNEB5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=En9kmJIo; arc=none smtp.client-ip=209.85.215.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hk07oB4e"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778399151; x=1809935151;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=d3Rhn5UO3/0JsVSzG+DthgMlLavWYkAyytTrVrQQ8NI=;
-  b=Hk07oB4e0+Ymi0KlZnCxfeMN0tsC65RtzgZ4de6OY9ouxIGLqpezp3zO
-   AmB2QfdxGiM9ua+pipWhjOFAQV9WdpXriUjLO/mfYZaQrZHNl2mfM9wUY
-   +PiWZVXgYeI3KuDBT391/J2ENTFoasNUJQb+FmtudV/lkE9adnF/sVSPR
-   tAc21mbZJLlvL3iTu+5Kq2WLliYFwZRWz1PGaPdZk9k96YTbtIWSsoH8q
-   PZuk6/UEPnxgRCzteaD1d/p/+HrKUjRJa5Ev68cGxlgu5p4TOX2f4x61X
-   6WjfDakyXuQ0hWYCe7vaXcl0Ej3FSyxv1cpgpVUqjTLo9NyjzZ5NSEc1j
-   w==;
-X-CSE-ConnectionGUID: utX6RbuQSIa6ZPAwjEaYXg==
-X-CSE-MsgGUID: tDPW9EfGR9uYwMgu5ySbZg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11781"; a="79258716"
-X-IronPort-AV: E=Sophos;i="6.23,227,1770624000"; 
-   d="scan'208";a="79258716"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2026 00:45:50 -0700
-X-CSE-ConnectionGUID: b66BKEjfRO2mal0w1gtiyA==
-X-CSE-MsgGUID: VZS98VipTm2+ArmBJc9TBA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,227,1770624000"; 
-   d="scan'208";a="241146663"
-Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost) ([10.245.244.171])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2026 00:45:48 -0700
-Date: Sun, 10 May 2026 10:45:45 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Hungyu Lin <dennylin0707@gmail.com>
-Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
-	gregkh@linuxfoundation.org, dlechner@baylibre.com,
-	nuno.sa@analog.com, andy@kernel.org, linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: iio: addac: adt7316: document SPI interface
- switching sequence
-Message-ID: <agA3qSyLQs1_ySKh@ashevche-desk.local>
-References: <20260510072918.85734-1-dennylin0707@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="En9kmJIo"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-c80227c9572so1438306a12.2
+        for <linux-staging@lists.linux.dev>; Sun, 10 May 2026 00:46:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778399183; x=1779003983; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=68HjT0r0URpGWCt1B0Ubioq53duC0QjuZw3UcjpYRCg=;
+        b=En9kmJIouUsnLBfJYqk3PNJxfHanO/7WHx3v0OGPe7mvlbR9pt+Bs1XX/NcDXreRTl
+         ELtOwBdfoSB7kcEjnkL/HDS1Vf0+1FO8uamsOUcgku7W1KmrhuWA8zOdapBH95oGNhnu
+         wPu3jTmtakAX73KSQjzkaHDs6qRP12LyWbUZyPtworCJuAQFkFrZSKRg8yQdxFHpRj2k
+         QJmh3ivLimZDyrscyD+5Bzme+QSFMXWwebnO2HwquWl8HLqKHKKDk/sR8ByutKku1YdK
+         eOuaXRsK/7xBNrOde9lRBnDuIUiiZ1SN3JhzOd2UJ34sRaWgm0Mpuj2/XFl58kaHhP9Z
+         kvaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778399183; x=1779003983;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=68HjT0r0URpGWCt1B0Ubioq53duC0QjuZw3UcjpYRCg=;
+        b=kjiICkPKOO0QXk3tdJnRjPHp5uAlPJUItPyrBtBvrzZY+CI+TelvFgUBi3f6uoZAHF
+         w92mWeI3QPCPG+cfsW1QqQgvNMjogJT/D+5R5Tad5V9KNENEXoNc7Z+MEHMpQVSc9XRi
+         kNgp/kZeXrvgZ9j5c980EQy3Ai/q4m6PftVQG0jdirfy7PZ1oW/hCdrcbQckcSvrY1vv
+         IprXYwxH9Ck9UN4pD7bSJgIp3XvRjsDJv/lEKyM4qUEwhCu78mcrq+9UCekrEHKKAf9m
+         4UMX/Na0X3xHFfSM9BUDoiAkZZUi5vd3H4LcbAq8Ur2rEMREQtm1IvQgH7wOk57VWQ3b
+         fKDw==
+X-Forwarded-Encrypted: i=1; AFNElJ+1c40hzI5m+QSb4RuGCDpuMAyx9fPNINqTct/kKBsVF/KtGhLFP5qJGQzICN4qpTJ58Obph0mHpcIpkuaH@lists.linux.dev
+X-Gm-Message-State: AOJu0YwNKrboAhv7tzHKUFP38mRNI9tpFr2IZjZ9KyV6GxwetRR+Sh77
+	4HQTpSHQmCbEghy/LQlxO2aj+0eveZJGw4jyYhEQazjKQ67wf1NIyWCi
+X-Gm-Gg: Acq92OFllW693RSv8FrKrQL+7omauwvqTib+0P/IM/KD3TlWs/WZFWBs39nkIz1ppLe
+	KsxtQ64jS3eKEi1oHanENtV195yhO51EoOqAPOSf4eIrqmhi5bRPoIszCDTndYbyGyS4gfpeQWh
+	QDExMjY6aWIaSZNGayFMt8xivduI4mblBAdgKqADY3tQazppYw/NxykIBhu8CH8k8/qzfYd2Z1B
+	lZl1bJLfjMbOOfEoZnoV9ZbPM22lXRHqqZu/NFyoKmgyEBzoqU+3IYBrC4FuvuFxLraknpN8StL
+	gBHVXVZhEAgtvcbqcp+Y+6YAN84abjz05YsANcG+xxm2mPzfpkky9D2lONg+y1q28Y6ZD1ifJUQ
+	mXLQXakA7lUcWa5qssLWEQRaKDSTithPxY2Y9Br57QJwohTIvtyu8kjzcWCkg0nFOJUgt7pjtEL
+	W+OcOFtxndBeDx2XbsR6tssEc+yYX9Pm+/ImpYE2o93gUnUlXbnXYcQAj3w4vnvGMNwRJxogiw/
+	TEBJVfCm8zR8LMXftA=
+X-Received: by 2002:a05:6a00:1805:b0:829:8942:2c93 with SMTP id d2e1a72fcca58-83a5b2d570emr18447462b3a.9.1778399182626;
+        Sun, 10 May 2026 00:46:22 -0700 (PDT)
+Received: from viveks-box ([2405:201:d027:287f:4759:6148:a4d8:7d0b])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-839681a9e33sm18618896b3a.50.2026.05.10.00.46.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 10 May 2026 00:46:22 -0700 (PDT)
+From: Vivek N <nagaraj.vivek@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: ovidiu.panait.oss@gmail.com,
+	error27@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Vivek N <nagaraj.vivek@gmail.com>
+Subject: [PATCH] staging: axis-fifo: align arguments with open parenthesis
+Date: Sun, 10 May 2026 13:15:47 +0530
+Message-ID: <20260510074547.10003-1-nagaraj.vivek@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260510072918.85734-1-dennylin0707@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Sun, May 10, 2026 at 07:29:18AM +0000, Hungyu Lin wrote:
-> The device powers up in I2C mode. Switching to SPI mode
-> requires sending a sequence of SPI writes as described in
-> the datasheet.
-> 
-> During this sequence, the device may still be in I2C mode,
-> so SPI transactions may not be recognized and can fail.
-> Such errors are expected and are ignored.
-> 
-> Add a comment to clarify this behavior.
+The wait_event_interruptible call had its arguments incorrectly aligned
+with the opening parenthesis, which violated the Linux kernel coding
+style. Re-align the arguments to improve code readability.
 
-...
+Signed-off-by: Vivek N <nagaraj.vivek@gmail.com>
+---
+ drivers/staging/axis-fifo/axis-fifo.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-> -	/* switch from default I2C protocol to SPI protocol */
-> +	/*
-> +	 * The device powers up in I2C mode. Switching to SPI mode
-> +	 * requires sending a sequence of SPI writes as described in
-> +	 * the datasheet.
-
-Add a reference (Section number and title, and/or table / chart number
-and its title).
-
-> +	 * During this sequence, the device may still be in I2C mode,
-> +	 * so SPI transactions may not be recognized and can fail.
-> +	 * Such errors are expected and are ignored.
-> +	 */
-
-Otherwise it is indeed what we want to be here.
-
-Perhaps also add a line closer to the code (that will be visible in the patch
-in case someone ignores to read the comment)
-
-	 *
-	 * TL;DR: Do not change this!
-	 */
-
+diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
+index 3aa2aa870ea9..e8facc9b429b 100644
+--- a/drivers/staging/axis-fifo/axis-fifo.c
++++ b/drivers/staging/axis-fifo/axis-fifo.c
+@@ -246,7 +246,8 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
+ 		mutex_lock(&fifo->write_lock);
+ 
+ 		ret = wait_event_interruptible(fifo->write_queue,
+-			ioread32(fifo->base_addr + XLLF_TDFV_OFFSET) >= words_to_write);
++					       ioread32(fifo->base_addr +
++					       XLLF_TDFV_OFFSET) >= words_to_write);
+ 		if (ret)
+ 			goto end_unlock;
+ 	}
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.51.0
 
