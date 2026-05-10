@@ -1,72 +1,70 @@
-Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7747832ED34
-	for <linux-staging@lists.linux.dev>; Sun, 10 May 2026 06:29:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C90A2836A6
+	for <linux-staging@lists.linux.dev>; Sun, 10 May 2026 06:33:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778394567; cv=none; b=EuyJgQC0UBpXgzmCmmDNnEnFKPHfm+WqRYm9wECyweyK8zEbBGoyOHJu5cg5wz+FckcZK1vzdMP8wABqb36GMe4XIwiPQx2WDQSU8i6JDcPxJ4RMvLSLo+/urRTNx3H75Mj4H2voxwB+sUiQ8w8fOV/O4uYeisvkeGHdJpRrrKY=
+	t=1778394807; cv=none; b=UpYB3PjSxIoHNQtVwtzAqm0xMhV7FYa/WxHLnGQJdDgJwsoNEPEfK8nVYIu29qmZ3XyEIFGBHkqU7FsA2mTJMy7h5/9cYMrWS4t3QK9OdKFyW4R/BRvAjH1feh5NpfwZf49mM9ny3sadkA2vovcQylVbUAfruMK1dMYfBflM2TY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778394567; c=relaxed/simple;
-	bh=HJhEkVWAALNP2QQZoVtbE5slz3NSDeP1knFhe96Z2WA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=OzxK47vUc95O8nI5WYgrpNmNj6nX1qKr40cqqKDkGlzw5nOSdnYRyZdRlGDaLBBkwQW66o15z79pkYTUmvjhxG3n6X8wqwDw1wBm2ms+aTSnN91WsTUSNzkhSMa2z6sPNNbJaM0ePuBM19CUaRwKDZCLEWhkxFOBM0RVis0ycnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rMMEFeU0; arc=none smtp.client-ip=74.125.82.178
+	s=arc-20240116; t=1778394807; c=relaxed/simple;
+	bh=tfxHWNX/YKjXKtxhdV8FXSm1Z5M4CJxYa+O48dpnGwY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=hG7aO0nUqgMX9EqkeO9ZjkMm28KvRK67Sogj43GB32K4cEUyOiANdamikWvxPOcPPoEHHIPE7+sBqJQGPJPwFpZpSqafXXP/JLjXllhzdB8K2ku+QY86C9ZMWQgjd0oSzM9XxclVyCn3S4qBWVv7MVmlOhR4ZQxp+ADj3HRm+so=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H9piEgHT; arc=none smtp.client-ip=209.85.214.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rMMEFeU0"
-Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-2c15849aa2cso4066398eec.0
-        for <linux-staging@lists.linux.dev>; Sat, 09 May 2026 23:29:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H9piEgHT"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2baca78cfaaso22250305ad.1
+        for <linux-staging@lists.linux.dev>; Sat, 09 May 2026 23:33:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778394565; x=1778999365; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=a+1FHS+d+X3bxekCY38W+OApUiQhZkjW5Ws+7M6cHmE=;
-        b=rMMEFeU08poBxnoAkXo7wf7ZOplzj5F5EwYiTCQ/uTu2Txs2jpDAF0y470ER309eDa
-         aGfbUhCcsEPZA2RwJJpZKoU6gY+pL+IhUH6GbfLmQ8wQ/YkEo3oNVSnjs8oe6km3WDqm
-         Ma/o51WiAZhRx2OOilZTXtUU2CflNPoD6gmimjsZVY6KscQdIvLIvDbXcNGVwuWrwcIm
-         ylXbmPQd3dioA9l5RlGHPiGJhx1KLffFDhtOfYpUJIgngVqasrzfMN6cb2HPXvMwLao8
-         uoD7BI7a7zEcFyg75Dk5I7yeKLxkeiiBIi6DRY2iCjLxOjGMUF72ULtrnd3CmPiNH+N9
-         S0CQ==
+        d=gmail.com; s=20251104; t=1778394806; x=1778999606; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4omzytCfkMsnieqo+OfTHvnc9JUer9I14cQu6zl2YFg=;
+        b=H9piEgHTy1tz/tgFI0NhrCKsczIIzqGXx5U8zuRW3Rd8u0M8vviJ9rFEgHIunEp9hI
+         4YbwTIXuP1b2rmKZmdUGrn5Yi2YMyCrAbfP4XTtETL/8jSEU0czLkYE3RVZC9sLl56dL
+         Wxz7IjOyTxI20Htol0+aCpuFyWTMJBpZPXPcixs/5MfqYqGcX2hw4y50+12P2Z8HJ+17
+         26wWX2YFreG0RgqaUpkjoikCM4eSXhrcl1+Ec5VdETuaOypE3/gGd6pT0fVIpk8IfS9E
+         8K3vsGpyNmIvG1IQ7NWIyrS1aHXgwoVnD0c4w4PBSSTTGdga70TpN30AmRgxWe0q53kn
+         7vLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778394565; x=1778999365;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=a+1FHS+d+X3bxekCY38W+OApUiQhZkjW5Ws+7M6cHmE=;
-        b=GRiit0KXRoxxKJJcxVO111/gPgXZWxl0IqrclG9AMQ0NBSAqFbL66NSO/Govre2AJR
-         6F1jGhzBo5ekvQ9itO8GTeC+mBYxwZInThcX6XH1NnxonKVh38eQS/fPJfjusBs4MGqp
-         AZKNQMOdI6AYYD8Cdw/C0SH/sVstPXIZ8Sctnt/m6LF2zMC04VCu4GppD+2g2fUlR1CC
-         gXwvPNXdBTf3Ucel+COa9Emd+9oddpRdglH8Psfk78VCUU3s0xOPySyeiaMh6TZm6ApU
-         KXMK7Rq4Wich8CiCVkBuWZuBvUqsA2lzm1d0o7K+sotuzM+uJWcf8EhK3NdO8D3d4dwy
-         UNwQ==
-X-Gm-Message-State: AOJu0Yy9gkI0zzazaBmF2c919QO+1zZMHsOOksOZtApkXAtKM+yTFn46
-	o8AStOvRoEk/x7TSQ5waG3K5GoibeDBdoVwk7Smh0RJ1vEbFv+buTEPxkGUNlg==
-X-Gm-Gg: Acq92OEOg7NkBGGE64M8CJqk77MFUtGOPo/8fKoRf+hZFgZ929G3lf/cOaWU5xuNqZL
-	R+e+C81G33sByBsRSEn/XYAnWkaOaTPcqodTkHk6QqY+GKttlbvUoM5sbzA3Qk9PhXmkh/ArVnl
-	hFUpIzOZpmPuIZIAixaaK5JJ9XSqfrDLrq0h48sQbXvb4U1NtuCtKqiereTBGQcAulSR5eqSAoG
-	TSrehMcaMGpL34ihG6TFNsPSyMym/GIvpneC90GubleCOZ2G4muJarKCkAZrRAtyXKmpPdLQWRc
-	wiBKVVGZc4GxsXzdikzo8VShdlt1q8zRWaZqcjv+KHPNHf0X/XdcFUDx0AtZDqQFpd6G3r0qBNz
-	dOHsBcGbe/Zb9sP/csabg2T7cckQRB7RhID7lbC6n/VOwuibnmHa5KGLg26PGGd48QpWwwm9S3A
-	LF7eDpJ9kD2ikaHLAA+wVhezBiM9F7MqfJ
-X-Received: by 2002:a05:7301:3f07:b0:2ed:e14:42e9 with SMTP id 5a478bee46e88-2f54b57793bmr9452112eec.34.1778394564642;
-        Sat, 09 May 2026 23:29:24 -0700 (PDT)
-Received: from TestUbuntu22.. ([73.15.108.84])
-        by smtp.googlemail.com with ESMTPSA id 5a478bee46e88-2f8893441absm11666347eec.31.2026.05.09.23.29.23
+        d=1e100.net; s=20251104; t=1778394806; x=1778999606;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4omzytCfkMsnieqo+OfTHvnc9JUer9I14cQu6zl2YFg=;
+        b=ReGxtg2Vs7Mcvj3KUGfEVuZSO5w1DTgMIF5sdZhKnII4Y5FLm3kfrBrkb3uLn0Mb3a
+         AhETARe0B1NSk+wUK648WLFWvd2ni1rfYojid60S4ZKZk3abWEcFcnNd19V1E3MEG3mv
+         S4L7tKFJ106GN2JgqcAaE4hWGFkH2GE3gyNgy0GqcX36Hi6hD7RFHNOae7tcsWgRVKCE
+         fvzooYjwHkDdaGvv0vwvpx00lDn+ym+Z0zilKQVHWB3Cwsg69PtqIn8L2ugCNDIZoyb+
+         5iJ2k1oJPmPgy8Lm5KH6iTwHD09K//EtSVOKp4/He1vA19H1wThELGQaflxkV9gpZoJC
+         VnaA==
+X-Gm-Message-State: AOJu0Yy3DD64Wlq9wjhBazxdoBGKcbVWx1gTofoDdS6MszAfxXx3+UD6
+	9cBblZipNvqqZrQndoFntD1DcbRsHxsvBfqhaFxMccSqHx477Wm8fnIj
+X-Gm-Gg: Acq92OHDdWGpNfOrC3iJVGUJ6/5l2OD8bp6fTve9VzbvqiwdXJlGseoW1ARNmYKeQMv
+	y+VlHiCLNzjpvOwiUxDsbrzapdNlDCnqdbh9dBdv3X+6Q31Sz1+jMt2XdOhX79cYJ53o9HVqDaG
+	oI8wHzfrTZ2Z1oRS3nebv7TR6K80skjmQzENXUgqXnnz6Gvxh4ffM6Byxl3lDdFphy/zWrlLm00
+	FaD7UKR8ym2WEYXJP1EKlPYre7Qs/tePiB2pX3GpRLzAZUOpDvb8Ch8I3U0fnrGLlWYoVWrUexe
+	pA0MEZlr/Iy4TBNKpHKe4YSsPMEcswKjIympRpi19Y0fbUtwIJiKX5mJF1i6xhXe82E+9idhSJ2
+	uLiv2qDxr0nRMZaIL1J8GorETp6jOaSa5ALUzi5WMcDaZ7qiKnILRd/8wjN3mCyjNiPaFaHb8np
+	67xYlkH6fXNp9HPwa6oyjEZ3cgXS6Z2LyEQ/lP9URqdm14miZJgzL+bsWWKV+PfHu2qgCfGBorr
+	mc=
+X-Received: by 2002:a17:903:13ce:b0:2b4:62bd:ee3 with SMTP id d9443c01a7336-2ba79c2cfffmr201519705ad.33.1778394805636;
+        Sat, 09 May 2026 23:33:25 -0700 (PDT)
+Received: from moksh-Nitro-ANV15-51.. ([203.194.96.64])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2baf1e66970sm67572315ad.56.2026.05.09.23.33.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 May 2026 23:29:24 -0700 (PDT)
-From: Jennifer Guo <guojy.bj@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: gregkh@linuxfoundation.org,
-	Jennifer Guo <guojy.bj@gmail.com>
-Subject: [PATCH 2/2] staging: sm750fb: change 2 CamelCase variables to snake_case
-Date: Sat,  9 May 2026 23:29:08 -0700
-Message-Id: <20260510062908.67848-3-guojy.bj@gmail.com>
+        Sat, 09 May 2026 23:33:25 -0700 (PDT)
+From: Moksh Panicker <mokshpanicker.7@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Moksh Panicker <mokshpanicker.7@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: fix coding style in rtw_efuse.c
+Date: Sun, 10 May 2026 06:33:14 +0000
+Message-Id: <20260510063314.34066-1-mokshpanicker.7@gmail.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260510062908.67848-1-guojy.bj@gmail.com>
-References: <20260510062908.67848-1-guojy.bj@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -75,57 +73,51 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Renames these variables inside struct init_status to adhere to
-kernel coding style:
-- powerMode -> power_mode
-- resetMemory -> reset_memory
+Fix the following checkpatch.pl warnings in rtw_efuse.c:
+- Reformat multi-line function signature to fit on a single line
+- Add braces to else branch to balance with the if block
 
-This fixes the following checkpatch.pl checks:
-- CHECK: Avoid CamelCase: <powerMode>
-- CHECK: Avoid CamelCase: <resetMemory>
-
-Signed-off-by: Jennifer Guo <guojy.bj@gmail.com>
+Signed-off-by: Moksh Panicker <mokshpanicker.7@gmail.com>
 ---
- drivers/staging/sm750fb/sm750.c | 4 ++--
- drivers/staging/sm750fb/sm750.h | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_efuse.c | 13 +++----------
+ 1 file changed, 3 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index d8cb9fce268d..996a586a3727 100644
---- a/drivers/staging/sm750fb/sm750.c
-+++ b/drivers/staging/sm750fb/sm750.c
-@@ -859,9 +859,9 @@ static void sm750fb_setup(struct sm750_dev *sm750_dev, char *src)
- 	sm750_dev->init_parm.chip_clk = 0;
- 	sm750_dev->init_parm.mem_clk = 0;
- 	sm750_dev->init_parm.master_clk = 0;
--	sm750_dev->init_parm.powerMode = 0;
-+	sm750_dev->init_parm.power_mode = 0;
- 	sm750_dev->init_parm.setAllEngOff = 0;
--	sm750_dev->init_parm.resetMemory = 1;
-+	sm750_dev->init_parm.reset_memory = 1;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c b/drivers/staging/rtl8723bs/core/rtw_efuse.c
+index a7a636449813..b4e1b6efdc77 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
++++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
+@@ -41,10 +41,7 @@ rtw_efuse_calculate_word_counts(u8 word_en)
+  * 09/23/2008	MHC		Copy from WMAC.
+  *
+  */
+-u8
+-rtw_efuse_read_1_byte(
+-struct adapter *Adapter,
+-u16		Address)
++u8 rtw_efuse_read_1_byte(struct adapter *Adapter, u16 Address)
+ {
+ 	u8 Bytetemp = {0x00};
+ 	u8 temp = {0x00};
+@@ -76,17 +73,13 @@ u16		Address)
+ 				break;
+ 		}
+ 		return rtw_read8(Adapter, EFUSE_CTRL);
+-	} else
++	} else {
+ 		return 0xFF;
  
- 	/* defaultly turn g_hwcursor on for both view */
- 	g_hwcursor = 3;
-diff --git a/drivers/staging/sm750fb/sm750.h b/drivers/staging/sm750fb/sm750.h
-index 2c9038d38b3c..d2c522e67f26 100644
---- a/drivers/staging/sm750fb/sm750.h
-+++ b/drivers/staging/sm750fb/sm750.h
-@@ -39,13 +39,13 @@ enum sm750_path {
- };
+ } /* rtw_efuse_read_1_byte */
  
- struct init_status {
--	ushort powerMode;
-+	ushort power_mode;
- 	/* below three clocks are in unit of MHZ*/
- 	ushort chip_clk;
- 	ushort mem_clk;
- 	ushort master_clk;
- 	ushort setAllEngOff;
--	ushort resetMemory;
-+	ushort reset_memory;
- };
- 
- struct lynx_accel {
+ /*  11/16/2008 MH Read one byte from real Efuse. */
+-u8
+-rtw_efuse_one_byte_read(
+-struct adapter *padapter,
+-u16	addr,
+-u8	*data)
++u8 rtw_efuse_one_byte_read(struct adapter *padapter, u16   addr, u8	*data)
+ {
+ 	u32 tmpidx = 0;
+ 	u8 bResult;
 -- 
 2.34.1
 
