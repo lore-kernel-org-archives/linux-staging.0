@@ -1,137 +1,104 @@
-Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E04C2836A6
-	for <linux-staging@lists.linux.dev>; Sun, 10 May 2026 03:50:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7155633F5B1
+	for <linux-staging@lists.linux.dev>; Sun, 10 May 2026 06:23:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778385008; cv=none; b=apV7yeYRsSaio5FQDSklci4423bdGOQss90+5Yx+s205zTKdtIvQasS5oKD6N05oNhA1rnGi6IzmJyFcLbAM7uuBR4z9FkX2rpdpd1xcHooAfBqPoPjf2jJ44PyHXCq7AXHb32hmy/rpxO8fs+mcxsEwhqUABbEYSoM0sTv3AeA=
+	t=1778394187; cv=none; b=Rfak3D/uEAFnySGc0XoaxlFu1BKoJMBuV3yDKbuJuRFoLXj+S+hQBR3gz8BfahurMwU6WvHoVFgB/mJh3s2nqljnC1psHoXyjc1RMaZ0L4XlwHGajVI/rEFHWWchBOWJXYg1Di71uSZP2naos3HDA37IqF/TmmeLAEs65E7+dl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778385008; c=relaxed/simple;
-	bh=j2LEaAPQIpovnO8bdIO0hn5mvoWAPLTxpWoQTaUIIuc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Z7o4ZUqfzaDRTEKJBYt4MDhHdY8z+Ho8JvT8tsr28ZiTztOPJyohHDUQl0GXhpTXIf+hrbMWqXYoxmAbbDkNhIr/pq0GBNHH3weWrpHt4KX+3ElOq+a3GIY6MPwU7/fcm2sz3iNDliYhK9aOq/AqeZ/CDgVoPoCKXLbFR6+M8uo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lTjjg7zU; arc=none smtp.client-ip=209.85.217.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778394187; c=relaxed/simple;
+	bh=DemQALTRe1W/SGwESwIR0+U3c8CZVOze6PFTRJJTlxw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CKjw0QAfqFyPWPWgWcHp3jbkc04ut74mfnJ0qSsf9u6NRgH8oEpIatU+yVUN4OILH/39J70B39fix9DnjJzJ5/OS0c70NbZdROAJjdQ2OAgtrgsGuQuBGdtCTNwtPEjqbNnK7oZ1u8RXQOafD4BDtKSRdpf7l/1GLrWK260VsRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iVDE5JLU; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lTjjg7zU"
-Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-631b313e3d0so293193137.3
-        for <linux-staging@lists.linux.dev>; Sat, 09 May 2026 20:50:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778385006; x=1778989806; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=deRb2TvVfH8Ko1X1t/LsmlOwKWc51QYx91tLHoUjrlk=;
-        b=lTjjg7zUhk817t57COUKaTXGRQPKjbWwaErOepGWFs8g/1rGAwPY0jH8p62pN4WUUF
-         rgXZFvAtcpxjqciXt8cVPsrTDGC1q7RJQUMu1v63DT07wHPagWbXFm58G9b4Bry9Xutx
-         hFHVn/pXXXyaS2GcwzhKYK5802MJYoOitfQshSewQFI0ZYR8yfSCPCl6F6fGdwPLjiNE
-         k5AGDtSf6QO9ZuSRAPDyLdOlYJbHf0ntlumbSmtNWEI9+q6vaotZENYrnwwo5ZqtYBWY
-         5Nnkcz4t/DpUsltlXqA2tKFi4EHtFC23bSRvd8k8B2+G1c9jv6YtP8Ly610y1cwxxo42
-         W/HQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778385006; x=1778989806;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=deRb2TvVfH8Ko1X1t/LsmlOwKWc51QYx91tLHoUjrlk=;
-        b=K00NejtUw4qdVGnJ6GeNBS6MUvKT3Gi4UDlvJkioJHRjTLjxuQMvdDMc7A9M0AaBqb
-         nLNy4CAjOx2x5aHq3xsQZc5yoy8i4DSd2681SNiRPYQwJEPfPRaIlGsA7tAe2Ls7x2Eg
-         G4toP8k1nqcF+C1qqpmDlNhh+z00VqlM3ed0+GdSOmFlzvDIc+nPeeYLKnBlsV31qHiM
-         S0MVQoajgzxEJODKLIysIfF5bke9Jdy8/WZUK3fRRR89BPeSUgAM2jc+LO+yqwYCgWI8
-         75L+M4Nc1HZQLjC0QEaLS+fMoxHRfcE1c/KHpAFyUQsu+7HlNTWe4j5M+a4Covq5l8d1
-         P6YA==
-X-Gm-Message-State: AOJu0Yx7KR2wD/+GnCMucnsYlgOLDmDg6bhxvfHjUVXQF0mQC3ZMIMic
-	TsrqxRJuoij+gJ5vdxqGomyD7e5C7Ogea22ZltBhe2hO0V+G6ick66Ky
-X-Gm-Gg: Acq92OGCFxov8ydCh/P+HU8JrzjfZOQfTfI/f1LCovhQlZz+wH+zF6S67vcwqtcSZ6s
-	PzUimGxnA6QPzvsisJqs6e38M0MgzyW6DhxiZo23BrbINj6LgqsEQWsxHjBsYnT+S/mGPCVZnV6
-	V4AdA2FveS6kjlTuBIldZL637jeVzqklLhv/tEZBUyHbrh4CdO2rx8cdOY7P31stYJDEGBNp4o3
-	CadSe5k9aeYxIfcmHnVl4YGcgx4aY3kyMdevm35Zam/V6ez2lqt21SRHcKAcGKImaesEjEwHUTM
-	Yt25rn5UQjX7dh5OBNAB9eaOOJCkMSXQnY3rjPcZAcFoI9sRofwMt4wn7+MD17uuwxEXS4dHnXu
-	OPYXGrwMuT5yQ2jexCJt+YNPh+bhvzUBt++4jpN8wesx0dCTmrsuWvD0RBWvy0vbJjQ315I7HzW
-	p2GHt21lVDhWcEuIgZz43PlY3ynWoa89VS1czYBd3AWUbNq6PUxdRBa7CLWiHl49izJlWNuYeFV
-	KqOleZi
-X-Received: by 2002:a05:6102:6447:b0:631:2a80:e492 with SMTP id ada2fe7eead31-631dcfbe4bamr1236337137.30.1778385006245;
-        Sat, 09 May 2026 20:50:06 -0700 (PDT)
-Received: from noahzen.tailef97f4.ts.net ([72.189.192.170])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-6313ffe8ac0sm3772840137.1.2026.05.09.20.50.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 May 2026 20:50:05 -0700 (PDT)
-From: Noah Techoueyres <noahtechoueyres@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Noah Techoueyres <noahtechoueyres@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: fix line length checks in rtw_cmd.c
-Date: Sat,  9 May 2026 23:29:36 -0400
-Message-ID: <20260510032936.2852-1-noahtechoueyres@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iVDE5JLU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778394186; x=1809930186;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DemQALTRe1W/SGwESwIR0+U3c8CZVOze6PFTRJJTlxw=;
+  b=iVDE5JLU2ho9kgJ8yvmMuWHPG0TINs+VZFpH0Q+PqQVNspp8C6aSfaO/
+   mCkeI0S0Pnc9oOS0F9FsVpI3rXcjASd5ULE3gviLMKHeW/RxQSoHnQdN/
+   wtSGkqx0U0eMBFMX9tBKa7ndEgzdAmLPlABcsqQkchkxyjM421Bd7qG38
+   1SPRx5giH6vjqR0/e7RpW5JHdtuUeQNSv9UBbP6lqbe6qBu0Aab69NK+S
+   GqzLcnFFgNS0plHlwlbBByJkDwNi8cbIAuoLWDLJLb49Tl+faF2ktyjdI
+   n5KEZfVLNiv3XVdhsSx3cEV4OYma3o77AkLSG+R57e5FtFZLleiAAs6yl
+   A==;
+X-CSE-ConnectionGUID: hf1M3z6dR5G5sPKwAfRWuA==
+X-CSE-MsgGUID: qls/A0a7QuCDMGtHsthBng==
+X-IronPort-AV: E=McAfee;i="6800,10657,11781"; a="78452904"
+X-IronPort-AV: E=Sophos;i="6.23,227,1770624000"; 
+   d="scan'208";a="78452904"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2026 23:23:05 -0700
+X-CSE-ConnectionGUID: IREfSvvhTjaOISPJh3L5xQ==
+X-CSE-MsgGUID: xmnjNMkeTninQMw2aLEhYQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,227,1770624000"; 
+   d="scan'208";a="275285352"
+Received: from dhhellew-desk2.ger.corp.intel.com (HELO localhost) ([10.245.244.171])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 May 2026 23:23:03 -0700
+Date: Sun, 10 May 2026 09:23:00 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Hungyu Lin <dennylin0707@gmail.com>
+Cc: linux-iio@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2] staging: iio: addac: adt7316: check SPI write errors
+ in probe
+Message-ID: <agAkRBbJiTmWxGtS@ashevche-desk.local>
+References: <20260509090320.85481-1-dennylin0707@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260509090320.85481-1-dennylin0707@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Fix both block comments and assignment statements that exceed the
-100-column limit to follow Linux guidelines for readability.
+On Sat, May 09, 2026 at 09:03:20AM +0000, Hungyu Lin wrote:
+> The probe function issues three SPI writes to switch the device
+> from the default I2C protocol to SPI protocol, but ignores their
+> return values.
+> 
+> Switch the repeated SPI writes to a loop and return an error
+> if any of them fail, as failing to switch the protocol should
+> abort the probe.
 
-Signed-off-by: Noah Techoueyres <noahtechoueyres@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_cmd.c | 23 +++++++++++++++++------
- 1 file changed, 17 insertions(+), 6 deletions(-)
+...
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-index c1185c25ed36..a401c856c727 100644
---- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-@@ -1117,13 +1117,17 @@ static void collect_traffic_statistics(struct adapter *padapter)
- 	pdvobjpriv->traffic_stat.rx_drop = padapter->recvpriv.rx_drop;
- 
- 	/*  Calculate throughput in last interval */
--	pdvobjpriv->traffic_stat.cur_tx_bytes = pdvobjpriv->traffic_stat.tx_bytes - pdvobjpriv->traffic_stat.last_tx_bytes;
--	pdvobjpriv->traffic_stat.cur_rx_bytes = pdvobjpriv->traffic_stat.rx_bytes - pdvobjpriv->traffic_stat.last_rx_bytes;
-+	pdvobjpriv->traffic_stat.cur_tx_bytes =
-+		pdvobjpriv->traffic_stat.tx_bytes - pdvobjpriv->traffic_stat.last_tx_bytes;
-+	pdvobjpriv->traffic_stat.cur_rx_bytes =
-+		pdvobjpriv->traffic_stat.rx_bytes - pdvobjpriv->traffic_stat.last_rx_bytes;
- 	pdvobjpriv->traffic_stat.last_tx_bytes = pdvobjpriv->traffic_stat.tx_bytes;
- 	pdvobjpriv->traffic_stat.last_rx_bytes = pdvobjpriv->traffic_stat.rx_bytes;
- 
--	pdvobjpriv->traffic_stat.cur_tx_tp = (u32)(pdvobjpriv->traffic_stat.cur_tx_bytes * 8 / 2 / 1024 / 1024);
--	pdvobjpriv->traffic_stat.cur_rx_tp = (u32)(pdvobjpriv->traffic_stat.cur_rx_bytes * 8 / 2 / 1024 / 1024);
-+	pdvobjpriv->traffic_stat.cur_tx_tp =
-+		(u32)(pdvobjpriv->traffic_stat.cur_tx_bytes * 8 / 2 / 1024 / 1024);
-+	pdvobjpriv->traffic_stat.cur_rx_tp =
-+		(u32)(pdvobjpriv->traffic_stat.cur_rx_bytes * 8 / 2 / 1024 / 1024);
- }
- 
- bool traffic_status_watchdog(struct adapter *padapter, bool from_timer)
-@@ -1743,7 +1747,11 @@ u8 rtw_drvextra_cmd_hdl(struct adapter *padapter, unsigned char *pbuf)
- 	pdrvextra_cmd = (struct drvextra_cmd_parm *)pbuf;
- 
- 	switch (pdrvextra_cmd->ec_id) {
--	case DYNAMIC_CHK_WK_CID:/* only  primary padapter go to this cmd, but execute dynamic_chk_wk_hdl() for two interfaces */
-+	case DYNAMIC_CHK_WK_CID:
-+		/*
-+		 * only primary padapter go to this cmd, but execute
-+		 * dynamic_chk_wk_hdl() for two interfaces
-+		 */
- 		dynamic_chk_wk_hdl(padapter);
- 		break;
- 	case POWER_SAVING_CTRL_WK_CID:
-@@ -1881,7 +1889,10 @@ void rtw_createbss_cmd_callback(struct adapter *padapter, struct cmd_obj *pcmd)
- 		_clr_fwstate_(pmlmepriv, _FW_UNDER_LINKING);
- 
- 		spin_unlock_bh(&pmlmepriv->scanned_queue.lock);
--		/*  we will set _FW_LINKED when there is one more sat to join us (rtw_stassoc_event_callback) */
-+		/*
-+		 * we will set _FW_LINKED when there is one more sta
-+		 * to join us (rtw_stassoc_event_callback)
-+		 */
- 	}
- 
- createbss_cmd_fail:
+>  	/* switch from default I2C protocol to SPI protocol */
+> -	adt7316_spi_write(spi_dev, 0, 0);
+> -	adt7316_spi_write(spi_dev, 0, 0);
+> -	adt7316_spi_write(spi_dev, 0, 0);
+> +	for (i = 0; i < 3; i++) {
+> +		ret = adt7316_spi_write(spi_dev, 0, 0);
+> +		if (ret)
+> +			return ret;
+> +	}
+
+There was an attempt in the past to do the same and it was NAKed, so is this now.
+NAK.
+
+Instead, add a better comment, if you wish, with the citing from the datasheet
+to explain the magic here and why we don't check for the error codes.
+
 -- 
-2.53.0
+With Best Regards,
+Andy Shevchenko
+
 
