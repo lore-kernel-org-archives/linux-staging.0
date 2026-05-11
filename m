@@ -1,85 +1,82 @@
-Received: from forward103a.mail.yandex.net (forward103a.mail.yandex.net [178.154.239.86])
+Received: from mta.al2klimov.de (mta.al2klimov.de [162.55.223.79])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFE5F2EBBA4
-	for <linux-staging@lists.linux.dev>; Mon, 11 May 2026 19:32:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.86
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D74393A962C
+	for <linux-staging@lists.linux.dev>; Mon, 11 May 2026 20:41:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.55.223.79
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778527959; cv=none; b=vFkEzGH8tbZ0Upzei1dQE5G7VVWROTH66DeennKTlYMywtUl2JDqvK6FtFIoj07yhaJoEo3a///GA8fu05ERwT/FDJg/KaKKo/kSfxVMWEDgYSru1zhS0sqQkoo+9k1mX4FuKDa5Z1Su7srxvLtgKGxWwuR0tAlkd0fLPK0c1Ng=
+	t=1778532074; cv=none; b=Bui84iK+7Cm+HUeUvcz314KAi4WWvHpoSi7ajAPsgfRBp0u3rcz7NEv1T4Dsv1RSYBPzH9lsRpQmdYPH1K9XK4h3pN9jDm0rxgc2mIp0HJRAuOFJQMLe8oapb3zG68+MGJgAEAqKyp3lxEuHIf4SvfkYvk8jJx3mjG0H3JCdyJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778527959; c=relaxed/simple;
-	bh=8fdBCbSnUqBhjbTn9UOWJoQwuXgVe/OWWz35TXe/r+k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=H6bl2OUjNYDQEoZtGL7uccIB9LWf35rQQijP40a2Jl6FZz7W2ljJRrnXydPiMeS9aVxhV734lN48FT0+tsYdjPKO0vei0sjVkZnRmjpyi2wvikveujBggEwcCN8TRIND6wH0sc/uJzCDvAmNiofBw6+PXO4ULL5iCDme/RSAXY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=noirlang.tr; spf=pass smtp.mailfrom=noirlang.tr; dkim=pass (1024-bit key) header.d=noirlang.tr header.i=@noirlang.tr header.b=wJSWrZfC; arc=none smtp.client-ip=178.154.239.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=noirlang.tr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=noirlang.tr
+	s=arc-20240116; t=1778532074; c=relaxed/simple;
+	bh=FXRdHHWXWAExJ9s38Z0mRo0D80CrRpHFA3+q6w7KFgE=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=uN16a5YZ4wIwpswm8gscib8UJb12crTfWFcbo8kf2VPPdkfTSBaApN5KEDQZd21WX37fklSdMC9ILuvIFFRIGyQViEuYnV7FDHZIDBvLzT4j1XdIiQorXUuFMCD+3zHIfZrklYy7G0tdUCHDIwVj5fP3HgfzoAnXqt8U2ebXsGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=al2klimov.de; spf=pass smtp.mailfrom=al2klimov.de; dkim=pass (2048-bit key) header.d=al2klimov.de header.i=@al2klimov.de header.b=U0fL8p3b; arc=none smtp.client-ip=162.55.223.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=al2klimov.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=al2klimov.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=noirlang.tr header.i=@noirlang.tr header.b="wJSWrZfC"
-Received: from mail-nwsmtp-smtp-production-main-94.vla.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-94.vla.yp-c.yandex.net [IPv6:2a02:6b8:c15:290e:0:640:f317:0])
-	by forward103a.mail.yandex.net (Yandex) with ESMTPS id 12D7F80549;
-	Mon, 11 May 2026 22:32:28 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-94.vla.yp-c.yandex.net (smtp) with ESMTPSA id MWPPbLwRCOs0-UptC5NAt;
-	Mon, 11 May 2026 22:32:27 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=noirlang.tr; s=mail;
-	t=1778527947; bh=54dvJyhuyWvLVSda8b3M+wY9FY7C0JLI3aCVMez42Ek=;
-	h=Message-ID:Date:Cc:Subject:To:From;
-	b=wJSWrZfCXh+BiSbSpXRK5YKUI0BcmxaYCM6Rv0HvjkPYqJP6FBkbV85+ncgF3wav0
-	 2Uu7ppzSGcDjt7G6hk5OveSLmCiEyjPx9aBzHzXy5d+FalNspVO3O2LtBmzurn4TsP
-	 qmm9QysF4+/P14bWwWpzt55CWazYYKQdwX+KHPB4=
-Authentication-Results: mail-nwsmtp-smtp-production-main-94.vla.yp-c.yandex.net; dkim=pass header.i=@noirlang.tr
-From: Melih Emik <melihemik@noirlang.tr>
-To: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Melih Emik <melihemik@noirlang.tr>
-Subject: [PATCH] atomisp: remove unused module parameter dbg_func
-Date: Mon, 11 May 2026 22:32:22 +0300
-Message-ID: <20260511193222.49582-1-melihemik@noirlang.tr>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=al2klimov.de header.i=@al2klimov.de header.b="U0fL8p3b"
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; s=default; bh=FXRdHHWXWAEx
+	J9s38Z0mRo0D80CrRpHFA3+q6w7KFgE=; h=in-reply-to:references:cc:to:
+	subject:from:date; d=al2klimov.de; b=U0fL8p3bJ6YFbigCbPayl9S+GhYo4tmrN
+	GoCz4mnKsjotF/T9p504EF1rHPPWbTnac9FrOZWoDBWjut7TSYw6SLop+XkjxIPyAp/lbI
+	7bTtbI+Nedy8eq5UwS1drvCs98HujyItfY6bnNB1eTfHzlbPHn050o2nwPnQ+w2Ax8UfGT
+	n1brvavkuI1g6azYz7kDUvBbPc4Fmp3nYXZznyG8QuvjHpLgpNIQQXTXLLM7VE7nPMWRJM
+	Kk0uNTIkVCbo9lLJVn9xIJEI2+LTD8kxdeZCITSbSQ+gsPJe2kpvEQqurFIotcggh/9wS6
+	2rBobnoPOXxLPnlpulPdei0RGdXeg==
+Received: from [IPV6:2a02:2455:18e9:e011:4d8a:aad2:c25c:50e5] (2a02-2455-18e9-e011-4d8a-aad2-c25c-50e5.dyn6.pyur.net [2a02:2455:18e9:e011:4d8a:aad2:c25c:50e5])
+	by mta.al2klimov.de (OpenSMTPD) with ESMTPSA id 7b2d9e2d (TLSv1.3:TLS_CHACHA20_POLY1305_SHA256:256:NO);
+	Mon, 11 May 2026 20:40:55 +0000 (UTC)
+Message-ID: <c17dd24c-2bf1-4ef8-a8d3-79014a75242f@al2klimov.de>
+Date: Mon, 11 May 2026 22:10:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+From: "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Subject: [PATCH v2] Greybus audio protocols drivers: correct sscanf() return
+ value check
+To: Dan Carpenter <error27@gmail.com>
+Cc: Vaibhav Agarwal <vaibhav.sr@gmail.com>,
+ Mark Greer <mgreer@animalcreek.com>, Johan Hovold <johan@kernel.org>,
+ Alex Elder <elder@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Pankaj Bharadiya <pankaj.bharadiya@gmail.com>
+References: <c758029d-186f-4a9f-b953-90121f43d8d8@al2klimov.de>
+ <agGdJFofiZYKqqhr@stanley.mountain>
+Content-Language: en-US
+In-Reply-To: <agGdJFofiZYKqqhr@stanley.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-atomisp_v4l2.c declared dbg_func as a module parameter to expose the
-CSS debug print switch at module load time.
+manager_sysfs_add_store() passes 6 pointers to sscanf(),
+but required latter to return 7 which failed the operation.
+I corrected it to 6.
 
-dbg_func remains as internal state for the CSS print environment, but
-no code depends on the module parameter registration. After this removal,
-git grep only finds the internal variable users and no module_param() or
-MODULE_PARM_DESC() entry for dbg_func.
-
-Remove the obsolete parameter while leaving the existing default debug
-print state unchanged.
-
-Signed-off-by: Melih Emik <melihemik@noirlang.tr>
+Fixes: 49b9137a6002 ("staging: greybus: audio: remove redundant slot field")
+Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
 ---
- drivers/staging/media/atomisp/pci/atomisp_v4l2.c | 3 ---
- 1 file changed, 3 deletions(-)
+  drivers/staging/greybus/audio_manager_sysfs.c | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-index 900a67552d6a..2d19582ee7c5 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-@@ -50,9 +50,6 @@ MODULE_PARM_DESC(dbg_level, "debug message level (default:0)");
- 
- /* log function switch */
- int dbg_func = 1;
--module_param(dbg_func, int, 0644);
--MODULE_PARM_DESC(dbg_func,
--		 "log function switch non/printk (default:printk)");
- 
- /*
-  * Set to 16x16 since this is the amount of lines and pixels the sensor
+diff --git a/drivers/staging/greybus/audio_manager_sysfs.c b/drivers/staging/greybus/audio_manager_sysfs.c
+index fcd518f954..ff323ca815 100644
+--- a/drivers/staging/greybus/audio_manager_sysfs.c
++++ b/drivers/staging/greybus/audio_manager_sysfs.c
+@@ -23,7 +23,7 @@ static ssize_t manager_sysfs_add_store(struct kobject *kobj,
+  			desc.name, &desc.vid, &desc.pid, &desc.intf_id,
+  			&desc.ip_devices, &desc.op_devices);
+
+-	if (num != 7)
++	if (num != 6)
+  		return -EINVAL;
+
+  	num = gb_audio_manager_add(&desc);
 -- 
 2.54.0
 
