@@ -1,146 +1,114 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EDD3364EB8
-	for <linux-staging@lists.linux.dev>; Mon, 11 May 2026 18:23:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE45B4C0428
+	for <linux-staging@lists.linux.dev>; Mon, 11 May 2026 18:53:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778523831; cv=none; b=MqAONV9I+dRa1zOw9/RLFqezj1dCAAY5vv8C2JZn8XIua4nh7/54bzFVP6Rt+5Pftphj96ESCzmL/X9twPi49pNaIfzIn1sTllgvq4XDtB+zUHi69FdTFFu9ZnnHnWbdcUbD65cgmpZuOeS/F21spTv2dtXb22+FunZD5sxRIGo=
+	t=1778525614; cv=none; b=fEmveCxsI/PjqYNpuJLlYaNlYXIpl3DHcLk06T8xlC4Hzfmjeg2FyUqHNPy3/wehzTNGN1WP597a8oV/cD3lv08ICh1xD4ZTpoz+LgUGDLzj/dyKHWT+syeFZ4G4l4Dk9TjMp98RRV2TKRLMQiJOKxIEDAbPjrECVMLW+i9aN2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778523831; c=relaxed/simple;
-	bh=F8zrzlkx45OHJ29lp45H4tCMkhAj7460hK/3RU9O0gI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aPIBrKkOXjXzLQJdKzGAOM43xuD62wEJKl4KQxSCi20vdNgrIVMJV3jB40BIRvz8jmxbPCh07jxldk+Ogju2UnX5hY8+GweyUJlyI4vK9euoaXRxDB9JrOCXyqD9yysq8VO+6pqRscOOclei0rHzI7aGRjzQNbokIP//yLGt7oI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TYF52pes; arc=none smtp.client-ip=209.85.128.41
+	s=arc-20240116; t=1778525614; c=relaxed/simple;
+	bh=tE2iC7sszpnOcuH+niYxIh4RC5AK/cK3cnC8Y4kBU2w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ug27dLZ9QtY/k4rPTi1RG+SNjWNwcLiECqBufHAtkj/+bbTQAOQjC7VD7I4zrAHSyXcBTXnMBSkOmj9CXiQoGqPLfcVVfcsTyx4sE8Th0CLG1a8LKBc6VtLri285+o1G6YeVbPq/yNGTirwKwB4D5aYGYhE2JOzdoIOGiYobJbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y1c9i3jX; arc=none smtp.client-ip=209.85.218.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TYF52pes"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-488b0e1b870so79189095e9.2
-        for <linux-staging@lists.linux.dev>; Mon, 11 May 2026 11:23:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y1c9i3jX"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-bd01481e592so160752066b.2
+        for <linux-staging@lists.linux.dev>; Mon, 11 May 2026 11:53:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778523827; x=1779128627; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=QxNeZINcMY52Teiud5sjeLxhrrD/tQVmXIMDkkQmOJQ=;
-        b=TYF52pesLi20l18+DAQRVv77Un6tYbznORbU2IrtVU1g+3fheP5bnkNx8eSjAdbbWF
-         pJAJNPvJ4gm0MrGbfyuzhpohd92a8NeoMi8jzQKosgZZsvfXpFAyHjg+G0nmCjrqmXeM
-         6sQ09AudtERMdAf4zxBI2C9eK1suakLd7z8ksVvDR2566eJWtuxXu16zuoc8jX7Swxxz
-         MujVUF71nRKJoOdzz6ALKe1SQgJiyFu90fnJaYE+V/mb8AFgjIOx8ePOmfSLD900Lmwk
-         CpQhA+vCQagGmzTymqVdt2Xnawmiq8H4vs/iExj77cUjwILOLaNyCHyheGvTQei6bz6H
-         4U5g==
+        d=gmail.com; s=20251104; t=1778525611; x=1779130411; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1+zl/w0qMjkIyomblrooy7r7xj3W1V5Sk1CtAfoGnuo=;
+        b=Y1c9i3jX3pKIWNrtbI8FZlZc55t5Nd+oxNbF9CbgbqoFS7Hrzls3b3fuo5/+0fdMVB
+         CAjdq++qt6S5kCdtn+nV+u0bFD/XxwGfQFs2+gFWfV/AHwfAFGSuEWu/g/tqyYITmLqe
+         /hWKOIm1S//bNb5B3GiRIQff+ZD6WFtFAOLkotAi1Wbn5drpzUSiYWtTA8p4MID5x5Pp
+         ttHcgEKGKWNYk3W592hJTtb+ruX0KUOdgp2F5q0IoQuqlnPHkBOTeVegc17qdBexqnMi
+         9Sz6L6pSOhAykMBiyOMTtJ18ex7w3rCKOu8y2XWaFxgleYrg4/W35MGS8/CpkEAf01Sj
+         nxLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778523827; x=1779128627;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QxNeZINcMY52Teiud5sjeLxhrrD/tQVmXIMDkkQmOJQ=;
-        b=j/SgFmD0j+uNNRyFjg5TW0uKdKN89ExoIjIV5n+/CjBVicOVi6EYegS1/1AXM2dPH9
-         wv4PtJb0uqqg2WnmZieXF3lpbVRvz6mJG2Ua/suVkdR+ot4aRf4nfdkGQfeJzykgVDLJ
-         riM9+3moHe3P2NTXF7OarDWswAk4CN7kqd+g2ycE9tfRYJE6X+muNnsQ/Y52lPqbL5x2
-         44vI5Ix/RPn1EGpAuVoUfmpS7lMfErKlrMetTNVI/4V6amNJGPv2mrhoa6x05K6NIsmC
-         ELpw2mcOg2/8/JziTbLv5egI2DymQsDCkilVxOsi4GaMPHY0dpFzkxHjqg1Zm9KmfQL5
-         9rgA==
-X-Forwarded-Encrypted: i=1; AFNElJ+QqHjuL3S/RXSCgY9Gi1uQF/6eaSrDy6Z0F/2KS98fYTW062XPrtY04EVOcdY2+68alaAFYgEHpN3ysVnL@lists.linux.dev
-X-Gm-Message-State: AOJu0YxXULCl7RVNP1QDaoagD6cJz+Xn43aOAYUjuxumYGbasOJ+Hug1
-	eN9pyLGjYeXx2o5GiDqMddEtItXw5urocjVD5MZBSKQCeo2TvefVvXo3
-X-Gm-Gg: Acq92OFUriKLW9mnqYI1x+C66qK+vssxO9qou5tK5N1Rb8t5V1HIIAc4si0X+E6+CIn
-	2Z/yhvdVvuCXt4FUwrt/86I3nA5jQcGhQBg6+w16Qr+pYjJBArHFXR3i740dfSVDbZrUFXvZ5ij
-	5YZWarSEjYBduX6noXkTkJbTvfAwTea+K0u9VIm7G3Cvu04nItknueOtATQETi+IPIA70VEx9VH
-	gNq+8NO+kYnsqbfyikwqiNbqU4c25Y+hhOQbO/q9GP9g/IYZ0RyJnAhjJ3ZHQOBCI0zCUQgLFaQ
-	j8wJ0nj913USCJIzO3ghU33QarH0r4dECjozZSpsp9qct/DhZimhY41FgqDwRhrx5ScEg7jujjD
-	oLqpTJjDHR9MSYixRE/jEHjTKWy3wG3dKiBrCRgjSr61fCR6c+c0SaHzBbJEwlADaGP2HEhujsg
-	ge6lut2CAke5CUwYkh3Fa68fJmnxd5bg==
-X-Received: by 2002:a05:600c:8115:b0:48a:9540:1a3a with SMTP id 5b1f17b1804b1-48e51e196f9mr409040995e9.8.1778523827458;
-        Mon, 11 May 2026 11:23:47 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e8e61f7b8sm1806155e9.7.2026.05.11.11.23.46
+        d=1e100.net; s=20251104; t=1778525611; x=1779130411;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1+zl/w0qMjkIyomblrooy7r7xj3W1V5Sk1CtAfoGnuo=;
+        b=RXk/C3XPOcHN1BkNW3kLdncUKMjqNZFlvYAGrfttf/YCbO4fdRkQ9OYc/maZj71aJC
+         d/xdJMJrlFakwQquQ4HILCOdTLJwsH+s5sqNMPhskQRUYGQGy62dZDcUEcTESzMrYoSu
+         z474akic6Se0B9/LuJNTOv1WT1NMEXY9ZFQcC44vPtLVEqiPbkCH4Bq7tdhce1THOBte
+         H8o5WhcwSQ9cew0JDfLCLJWwsFWCfnZ0GagcVL6dOI9sb4WI0dKLzRYrkWq84lNCns2X
+         viamHCCkPKC58n3zzdqQyKkfFMa4+2OCggjO4WoxQFQKAln2G+JxAJXSw/34TXns96p0
+         hk6g==
+X-Gm-Message-State: AOJu0Yxk8KVvciShq/7oSj+m6t5DBRbWgrC79ROHabjnC+SVTsvHpm93
+	ioP+s7FoNrdDeP91xYwLcFqDM+znomWyCGEpcgxVp82icex23kyHuHx7
+X-Gm-Gg: Acq92OEZCtc7+nzqnsXXeonglggxONCbRGuIKNs6IkgaMEUTcNpODMhRzFZsD+4f1GW
+	Zk4KL5l+IIfmsbteJSEjzg2K9MmlHf8NBkINZUEIx/KqONqYkh8dWrI8eaBb4uyWj79g9t8Zjr1
+	XIPQJvlX9f3vCxnxAL5CE73us7U7OGBchjcjjjwyMsb0KwQ/puWKP538pzeJ184YroLEiV0IGtj
+	hu1gtQp+/zr1tCkBCFGrowkvSKdINQl/qnt2NyZO7nCA5P6tdAqt+DPylKl/l5rB+AD8boVahp4
+	yUxfAjMbAbt22/rpED1chcqLdMEZL/ClgNTg8i6BAYBDD4/BPWB9S6HCARAFONI6R4H10jcbDiO
+	+6TMCUFO0G+bJ+g7r99mwxYWVS3oLPcIMc+iDlN+FFih7NI9M9EfYGYTou95QgGq+Qry9kQtqmY
+	BJmV94CwhvF8QdjKEVkiDegGa/9i02PmzzXq3AgD8ekxVbFe/DqLT8zgWSFZR3QWqMEKjQ+TtT1
+	qJp5KM0GpuLeWdFOmFSv/Mza+bo1hfjZ4jqiZFWmpc3HvxNmQKYXPcg3paAiuGTDFaapgW1mZ3F
+X-Received: by 2002:a17:906:f591:b0:bcb:e626:522d with SMTP id a640c23a62f3a-bcbe6266f56mr742606366b.44.1778525610797;
+        Mon, 11 May 2026 11:53:30 -0700 (PDT)
+Received: from ahossu.localdomain ([2a02:a420:22d2:4061:8cc7:b361:391f:af99])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bcd7bf48623sm310803366b.48.2026.05.11.11.53.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 11:23:46 -0700 (PDT)
-Date: Mon, 11 May 2026 21:23:42 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Tomasz Unger <tomasz.unger@yahoo.pl>
-Cc: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Andy Shevchenko <andriy.shevchenko@intel.com>
-Subject: Re: [PATCH v2] staging: media: atomisp: remove stale "Generated
- code" comments
-Message-ID: <agIergH1dy_pKwQz@stanley.mountain>
-References: <20260511-atomisp-remove-generated-comment-v2-1-6ebc1b2d988f.ref@yahoo.pl>
- <20260511-atomisp-remove-generated-comment-v2-1-6ebc1b2d988f@yahoo.pl>
+        Mon, 11 May 2026 11:53:30 -0700 (PDT)
+From: Alexandru Hossu <hossu.alexandru@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Alexandru Hossu <hossu.alexandru@gmail.com>
+Subject: [PATCH v8 0/1] staging: rtl8723bs: fix missing frame length checks in OnAuth()
+Date: Mon, 11 May 2026 20:53:13 +0200
+Message-ID: <20260511185314.1625375-1-hossu.alexandru@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260511-atomisp-remove-generated-comment-v2-1-6ebc1b2d988f@yahoo.pl>
+Content-Transfer-Encoding: 8bit
 
-On Mon, May 11, 2026 at 06:55:31PM +0200, Tomasz Unger wrote:
-> Remove the "Generated code: do not edit or commmit." comments from
-> five files. As suggested by Andy Shevchenko, this code is coupled
-> with legacy firmware and will never be re-generated, so the comment
-> is misleading and should be dropped entirely rather than having its
-> typo fixed.
-> 
-> Suggested-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-> Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
-> ---
->  drivers/staging/media/atomisp/pci/ia_css_isp_configs.c | 1 -
->  drivers/staging/media/atomisp/pci/ia_css_isp_params.c  | 1 -
->  drivers/staging/media/atomisp/pci/ia_css_isp_params.h  | 1 -
->  drivers/staging/media/atomisp/pci/ia_css_isp_states.c  | 1 -
->  drivers/staging/media/atomisp/pci/ia_css_isp_states.h  | 1 -
->  5 files changed, 5 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/ia_css_isp_configs.c b/drivers/staging/media/atomisp/pci/ia_css_isp_configs.c
-> index 38c9c62366d6..96a8e58cfcee 100644
-> --- a/drivers/staging/media/atomisp/pci/ia_css_isp_configs.c
-> +++ b/drivers/staging/media/atomisp/pci/ia_css_isp_configs.c
-> @@ -4,7 +4,6 @@
->   * Copyright (c) 2015, Intel Corporation.
->   */
->  
-> -/* Generated code: do not edit or commmit. */
->  
->  #define IA_CSS_INCLUDE_CONFIGURATIONS
+v8, addressing the sashiko review comments on v7.
 
-Now there are two blank lines in a row.
+The Challenge Text IE checks from v7 patch 1 and the OnAuthClient
+frame length checks from v7 patch 2 are already in your tree:
 
->  #include "ia_css_pipeline.h"
-> diff --git a/drivers/staging/media/atomisp/pci/ia_css_isp_params.c b/drivers/staging/media/atomisp/pci/ia_css_isp_params.c
-> index 1cd3322b0da0..96af15f62060 100644
-> --- a/drivers/staging/media/atomisp/pci/ia_css_isp_params.c
-> +++ b/drivers/staging/media/atomisp/pci/ia_css_isp_params.c
-> @@ -48,7 +48,6 @@
->  #include "isp/kernels/eed1_8/ia_css_eed1_8.host.h"
->  #include "isp/kernels/bnlm/ia_css_bnlm.host.h"
->  #include "isp/kernels/conversion/conversion_1.0/ia_css_conversion.host.h"
-> -/* Generated code: do not edit or commmit. */
->  
->  #include "ia_css_pipeline.h"
->  #include "ia_css_isp_params.h"
-> diff --git a/drivers/staging/media/atomisp/pci/ia_css_isp_params.h b/drivers/staging/media/atomisp/pci/ia_css_isp_params.h
-> index a542f8979905..8c9468c5849f 100644
-> --- a/drivers/staging/media/atomisp/pci/ia_css_isp_params.h
-> +++ b/drivers/staging/media/atomisp/pci/ia_css_isp_params.h
-> @@ -4,7 +4,6 @@
->   * Copyright (c) 2015, Intel Corporation.
->   */
->  
-> -/* Generated code: do not edit or commmit. */
->  
->  #ifndef _IA_CSS_ISP_PARAM_H
+  9d6d63cf3c37 ("staging: rtl8723bs: fix heap overflow in OnAuthClient shared key path")
+  6ad4395aab1e ("staging: rtl8723bs: fix missing frame length checks in OnAuthClient")
 
-Same.
+This single patch adds the remaining fix: frame length guards for the
+AP-mode handler OnAuth().
 
-regards,
-dan carpenter
+What changed in v8 (compared to v7 patch 2/2):
 
+  - The len < WLAN_HDR_A3_LEN guard uses return _FAIL instead of goto
+    auth_fail.  The auth_fail block calls memcpy(pstat->hwaddr, sa, ...)
+    to build a rejection frame.  At that point sa has not been
+    initialised, so goto auth_fail would copy stack garbage into the
+    rejection frame's destination address.  Since we cannot build a
+    meaningful rejection without knowing the sender, return _FAIL is
+    the correct choice.
+
+  - A new guard is added before the iv[3] key-index read inside the
+    GetPrivacy() branch.  When the Privacy bit is set, the code computes
+    iv = pframe + WLAN_HDR_A3_LEN and immediately reads iv[3] without
+    verifying that len >= WLAN_HDR_A3_LEN + 4.  This was a new OOB read
+    path not present in any earlier version of the patch.
+
+  - The len < WLAN_HDR_A3_LEN + offset + 4 check now sets
+    status = WLAN_STATUS_UNSPECIFIED_FAILURE before goto auth_fail so
+    that the rejection frame carries a defined status code rather than
+    whatever happened to be on the stack.
+
+Alexandru Hossu (1):
+  staging: rtl8723bs: fix missing frame length checks in OnAuth()
+
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+--
+2.53.0
