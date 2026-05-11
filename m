@@ -1,45 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC0E83BADAA;
-	Mon, 11 May 2026 13:46:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B70FD3FADE5;
+	Mon, 11 May 2026 13:48:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778507175; cv=none; b=M+I0ujTsGaU0Jc0Vrb7A4j8kaAbuY7rNQxvq4rEEzZaIfWCtmyrW2p+COAtPg4pXREwKZpL3OSKbh8y87N7+Euk9XC+oISVb+fIpGUfvDQuGN2AwP4PbZFS9kfhGB3yhd0UwiDIHDZRlmIcwRekjy/A37eR5SYqsb1fyektA5X8=
+	t=1778507295; cv=none; b=pZ1cBqHacncW93AsEE1BKrcMD1ARrXddYRvdk2ZrRkJdtE/QY9xBkdxCRF23eqmoZVXXTvkQjN5OhYiK6sCAWAa8al70OSNgyCQ5LU3pllxKqFlJBT8FoRUAHXjxYwt61IDMMxQ4AP5qncb4b3Du5pbvSFvMr5pXc4bzF4DnmAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778507175; c=relaxed/simple;
-	bh=25VRdc+FnPWnIwss0dDaNjoDISpp7CIuq52EngA8iOU=;
+	s=arc-20240116; t=1778507295; c=relaxed/simple;
+	bh=x7U0VhCHy3UjVzi8fmxAB4HXsHUt6tX/F3i44Nob6VQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iRDXzzM19dQIKzS//aQDghA+7rYXLJsEhyAJexHtCtCPElx/E6h+SjrRH/ubBF1/XO5Gt2cu1isJTTC2KhNSjOpgpuf+OHA1Ah+TrPPLTpR03v2HqJZTpW4pdiLT8ENIexygxKm27Yg/SbLcjKDJwWMACJ/fBuTUzGAkSVMzlw8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N/lY8jPY; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=J/l9vbFx545/zaq0vmzziNoAhW+gqRQ2jcW20Tq2qT7o+kB87oedg9mb7kcBfM0Vm5rMqsvRpi8F+L2KaO/3b5zKFEZe6VQi9ibo509JGJGl9+i78JbxDo2mADG9YefCk9cCzxu8SvSzpQ6EQl9/ykSKp3enucCJ68wb3lxW7yM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qdXWXddZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N/lY8jPY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E88BC2BCC9;
-	Mon, 11 May 2026 13:46:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qdXWXddZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38E99C2BCFD;
+	Mon, 11 May 2026 13:48:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778507175;
-	bh=25VRdc+FnPWnIwss0dDaNjoDISpp7CIuq52EngA8iOU=;
+	s=k20201202; t=1778507295;
+	bh=x7U0VhCHy3UjVzi8fmxAB4HXsHUt6tX/F3i44Nob6VQ=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=N/lY8jPYdErH75Htiai1+LJvJrRRe1zD0ZGOCGwLkyB7DbtKNy5vBxzTOPuClJd1r
-	 3t4hHZyey6cxnpZO/pP+CpIucFldFFJxEj4s4KzDmCS7PKzYAGs+1DyJH5dRGjzU6/
-	 xmIXx2ydKBVCvUMQqTVyjqjaMcy2jKC8Tn2PmJUMisDYWb08RisAjiH7qPQfHhftsN
-	 /GKvGXNC06McrsvhXHtAVdxkP/IDeOKN9Zxcy6RxvD+IKv3uV4MnOyR1oLd2kkMHpR
-	 +VP46RHG4XyyxTws6bGZDq/bjZRdO/J1uwBRPrV4ZY+Si6e2bqL6sUybsBgwPfDoS7
-	 Z1JncbiTIOIHg==
-Date: Mon, 11 May 2026 14:46:05 +0100
+	b=qdXWXddZZAHcUAG+oRj6j0giJ7OeYLQWjnKKB2Wm0U9hj/bLP0N0Lnl0AHaGm65VV
+	 YoJ+sMytCrdTDux8V1K2lusThQ3y5U1RAFy+Yq51Ch4wX1LaPnkU5L4LUVxMdulsUz
+	 KJ//kjo759OncfizaB1TNpnm2jVL1J1xAuA4wdyoTgscPvhwgwS9U7PdebP2o0FWKS
+	 KYfzfvEwEZyIDLroOwnUgB/uKNiRdauecmjfm6/5VN94gTF3YCNCONQkUUsHr80crA
+	 XrLKVicEp+LGieMVlaYCSr+RPk/8Rft3lA6md99YIxqW2ZZVZFhj5l+crcIf0hbDzu
+	 FpgW4cy2FXQ7Q==
+Date: Mon, 11 May 2026 14:48:05 +0100
 From: Jonathan Cameron <jic23@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Hungyu Lin <dennylin0707@gmail.com>, lars@metafoo.de,
- Michael.Hennerich@analog.com, gregkh@linuxfoundation.org,
- dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
- m32285159@gmail.com, linux-iio@vger.kernel.org,
+To: Hungyu Lin <dennylin0707@gmail.com>
+Cc: lars@metafoo.de, Michael.Hennerich@analog.com,
+ gregkh@linuxfoundation.org, dlechner@baylibre.com, nuno.sa@analog.com,
+ andy@kernel.org, m32285159@gmail.com, linux-iio@vger.kernel.org,
  linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v3] staging: iio: addac: adt7316: document SPI interface
  switching sequence
-Message-ID: <20260511144605.76c8ff39@jic23-huawei>
-In-Reply-To: <agGtKQs0V679s6Kx@ashevche-desk.local>
+Message-ID: <20260511144805.153b1529@jic23-huawei>
+In-Reply-To: <20260511023127.86113-1-dennylin0707@gmail.com>
 References: <20260511023127.86113-1-dennylin0707@gmail.com>
-	<agGtKQs0V679s6Kx@ashevche-desk.local>
 X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -50,65 +48,66 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Mon, 11 May 2026 13:19:21 +0300
-Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
+On Mon, 11 May 2026 02:31:27 +0000
+Hungyu Lin <dennylin0707@gmail.com> wrote:
 
-> On Mon, May 11, 2026 at 02:31:27AM +0000, Hungyu Lin wrote:
-> > The device powers up in I2C mode. Switching to SPI mode
-> > requires sending a sequence of SPI writes as described in
-> > the datasheet.
-> > 
-> > During this sequence, the device may still be in I2C mode,
-> > so SPI transactions may not be recognized and can fail.
-> > Such errors are expected and are ignored.
-> > 
-> > Add a comment to clarify this behavior.
-> > 
-> > Datasheet: https://www.analog.com/en/products/adt7316.html
-> > Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>  
+> The device powers up in I2C mode. Switching to SPI mode
+> requires sending a sequence of SPI writes as described in
+> the datasheet.
 > 
-> Thanks, almost there!
-> Please, address the below and feel free to add
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-> to your v4 of this patch.
-> 
-> Also I think we don't need "staging" in the Subject, as we can deduce that,
-> in any case it's up to Jonathan (and yes, I see the common use of the pattern
-> in the Git history).
+> During this sequence, the device may still be in I2C mode,
+> so SPI transactions may not be recognized and can fail.
+> Such errors are expected and are ignored.
 
-I think keeping staging is appropriate for a couple of reasons.
+I'd not say they are 'expected' as such.  That's because SPI
+is a rather simple protocol so it is challenging to detect when
+anything is wrong on writes.   It might happen, it might not.
 
-1) Affects who looks at it.  
-2) Aligns with the more general pattern for most of staging that goes
-   directly through Greg rather than via another tree like IIO.
+Perhaps
+
+Such errors are therefore ignored.
+
+Same below - otherwise we might get someone trying to verify
+they get an error on this sequence ;)
 
 > 
-> ...
+> Add a comment to clarify this behavior.
 > 
-> > Changes in v3:
-> > - Add Datasheet tag
-> > - Use datasheet name in code comment  
+> Datasheet: https://www.analog.com/en/products/adt7316.html
+> Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+> ---
+> Changes in v3:
+> - Add Datasheet tag
+> - Use datasheet name in code comment
 > 
-> ...
+> Changes in v2:
+> - Add datasheet reference
+> - Add TL;DR note
 > 
-> > +	/*
-> > +	 * The device powers up in I2C mode. Switching to SPI mode
-> > +	 * requires sending a sequence of SPI writes as described in
-> > +	 * the datasheet "ADT7316/ADT7317/ADT7318", Rev. B.  
+>  drivers/staging/iio/addac/adt7316-spi.c | 12 +++++++++++-
+>  1 file changed, 11 insertions(+), 1 deletion(-)
 > 
-> Yeah, but you dropped the section title...
-> 
-> 	 * the datasheet "ADT7316/ADT7317/ADT7318", Rev. B in
-> 	 * the section "...".
-
-Absolutely agree on this! Can be hard to find this stuff in the bigger
-datasheets :(
-> 
-> > +	 * During this sequence, the device may still be in I2C mode,
-> > +	 * so SPI transactions may not be recognized and can fail.
-> > +	 * Such errors are expected and are ignored.
-> > +	 *
-> > +	 * TL;DR: Do not change this!
-> > +	 */  
-> 
+> diff --git a/drivers/staging/iio/addac/adt7316-spi.c b/drivers/staging/iio/addac/adt7316-spi.c
+> index f91325d11394..bd92dcddfd91 100644
+> --- a/drivers/staging/iio/addac/adt7316-spi.c
+> +++ b/drivers/staging/iio/addac/adt7316-spi.c
+> @@ -106,7 +106,17 @@ static int adt7316_spi_probe(struct spi_device *spi_dev)
+>  		return -EINVAL;
+>  	}
+>  
+> -	/* switch from default I2C protocol to SPI protocol */
+> +	/*
+> +	 * The device powers up in I2C mode. Switching to SPI mode
+> +	 * requires sending a sequence of SPI writes as described in
+> +	 * the datasheet "ADT7316/ADT7317/ADT7318", Rev. B.
+> +	 *
+> +	 * During this sequence, the device may still be in I2C mode,
+> +	 * so SPI transactions may not be recognized and can fail.
+> +	 * Such errors are expected and are ignored.
+> +	 *
+> +	 * TL;DR: Do not change this!
+> +	 */
+>  	adt7316_spi_write(spi_dev, 0, 0);
+>  	adt7316_spi_write(spi_dev, 0, 0);
+>  	adt7316_spi_write(spi_dev, 0, 0);
 
