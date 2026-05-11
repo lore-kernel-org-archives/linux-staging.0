@@ -1,37 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41E7D3A960A;
-	Mon, 11 May 2026 07:59:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87AD33A5E61;
+	Mon, 11 May 2026 08:00:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778486378; cv=none; b=C5SQqTf1zqoJXK8qweyoIPxxjABjZZuYGcsn8NLVF38N+APuIaQxpKVym+U/VVWarDoaPyk3z2vdG9R+Kb93/ZtXJpjQAbLao+Ubb9qAbXTuOAzNSVkQpDh/OR2BLknW6Vf7aDqBk8CdGvb16OonYmLssSfousIOjt+3KGXG0o4=
+	t=1778486439; cv=none; b=R3CnsDF4kX0B+RlkG7w51t2xTEmYDy6VESOPKNTGm2Vm+kQHK/GxUnlrOAnGiHyMLNMC+yyTFFAiEiN5cM6Atr+ZW5cfkdFhfmJXoaBHWFGjjXec9H3YTBogsj/BkgdoC17wKee0G/ysacvo/RjNjdOZlCTdQPjsfjlfpPi/Q9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778486378; c=relaxed/simple;
-	bh=wAPvxH/b6rZoPn49vYzkQMrIDojz7/QiyUOo678uPpw=;
+	s=arc-20240116; t=1778486439; c=relaxed/simple;
+	bh=gmA3l8MFsnlGhoyD1HQSO0+mo13ybnLGhHm64rrzYys=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B12+RWxgS7v271CgWjRThny+Y0Y8sylBErSxLwrGpCeEBlMdltHCHK+sRHL1cXxxXUikMiyZJ8HDuuUWiRgmKGrt+HgAEUAYjlUIG6N9rNKMH2HQa+0CPkfh/BUlnG89xjhzh1FlNOvzjdDDvFaV3OqgijP9vAf5d+GQj56pmRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=b4/NBJXM; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=EqY8WZA1jB4gp+J6ugYlgoUZ6lHwKj8cB4rMVJrOEJZse1Z7n63T6MVOesWK+M58Xfz2Ea3hvT//NNauAXT1FW5/KqDhCJ9he23YDV6Umw86KqCCMEiIKtrC10Zq56nvfmDB4V5F4+nzMDi8OkPolbl9GVVGr8hz25fpYC/6YNU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=C0T4Xw/J; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="b4/NBJXM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCED9C2BCF5;
-	Mon, 11 May 2026 07:59:36 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="C0T4Xw/J"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 417E3C2BCB0;
+	Mon, 11 May 2026 08:00:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1778486377;
-	bh=wAPvxH/b6rZoPn49vYzkQMrIDojz7/QiyUOo678uPpw=;
+	s=korg; t=1778486437;
+	bh=gmA3l8MFsnlGhoyD1HQSO0+mo13ybnLGhHm64rrzYys=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=b4/NBJXM075s5ZjYFRy8s/6252s68WJbdsWVXL5OPXWUNwO0OZT1910djl6+fIUpa
-	 HGhTo4lS+kO4CcntbWcsp74EvlcspvqdkzgNdGYfUqqFxntOYgw/j9PEAfwIm0gfM/
-	 Woo2lHckwto3feofiCd++tAv1c9EQckHIC1wlJ40=
-Date: Mon, 11 May 2026 09:59:34 +0200
-From: gregkh <gregkh@linuxfoundation.org>
-To: Ashwin Gundarapu <linuxuser509@zohomail.in>
-Cc: linux-kernel <linux-kernel@vger.kernel.org>,
-	linux-staging <linux-staging@lists.linux.dev>
-Subject: Re: [PATCH v6] staging: rtl8723bs: remove unnecessary braces in
- rtw_mlme.c
-Message-ID: <2026051124-washout-squander-471c@gregkh>
-References: <19e033056fb.47bb4db720358.3907801390816381202@zohomail.in>
+	b=C0T4Xw/JAL+RxWfxNlaawBgi+LABHHxyZ+5NM4uP8dyGT0N5t8nQH2uA570O7zuEF
+	 97yNaLQQURzH2aIwvAtsxrEBw7JNYkuZOmhx2vYv+t1zTd1A+4u+fTND5+jaTETaCS
+	 TLr05CjjoymAg2wBaKqgLZEBZu8WcNHkiob2Q1gU=
+Date: Mon, 11 May 2026 10:00:35 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Daisuke Iwasa <iwadjp@gmail.com>
+Cc: Ovidiu Panait <ovidiu.panait.oss@gmail.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: axis-fifo: fix alignment in
+ wait_event_interruptible()
+Message-ID: <2026051124-synopses-vaseline-8aaa@gregkh>
+References: <20260507184037.43613-1-iwadjp@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,59 +41,40 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <19e033056fb.47bb4db720358.3907801390816381202@zohomail.in>
+In-Reply-To: <20260507184037.43613-1-iwadjp@gmail.com>
 
-On Thu, May 07, 2026 at 09:36:00PM +0530, Ashwin Gundarapu wrote:
+On Fri, May 08, 2026 at 03:40:37AM +0900, Daisuke Iwasa wrote:
+> Fix a checkpatch warning for alignment in the
+> wait_event_interruptible() call in axis_fifo_write().
 > 
+> Adjust the indentation of the condition argument to align with
+> the opening parenthesis and wrap lines to satisfy line length
+> constraints.
 > 
-> >From 50c6b6259becbb357e3d7c9f8e26cef10b4e0ef3 Mon Sep 17 00:00:00 2001
-> From: Ashwin Gundarapu <linuxuser509@zohomail.in>
-> Date: Thu, 7 May 2026 21:29:11 +0530
-> Subject: [PATCH] staging: rtl8723bs: remove unnecessary braces in rtw_mlme.c
+> This is a whitespace-only change with no functional impact.
 > 
-> Remove braces around single statement blocks.
-> 
-> Found by checkpatch.pl --strict
-> 
-> Signed-off-by: Ashwin Gundarapu <linuxuser509@zohomail.in>
+> Signed-off-by: Daisuke Iwasa <iwadjp@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/core/rtw_mlme.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
+>  drivers/staging/axis-fifo/axis-fifo.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> index 9cf1c95dd924..c14b8dbd478b 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> @@ -483,13 +483,13 @@ void rtw_update_scanned_network(struct adapter *adapter, struct wlan_bssid_ex *t
->                         break;
->                 }
+> diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
+> index 3aa2aa870ea9..0ec9b6c5e7d2 100644
+> --- a/drivers/staging/axis-fifo/axis-fifo.c
+> +++ b/drivers/staging/axis-fifo/axis-fifo.c
+> @@ -246,7 +246,8 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
+>  		mutex_lock(&fifo->write_lock);
 >  
-> -               if (rtw_roam_flags(adapter)) {
-> +               if (rtw_roam_flags(adapter))
->                         /* TODO: don't select network in the same ess as oldest if it's new enough*/
-> -               }
-> +
->  
->                 if (!oldest || time_after(oldest->last_scanned, pnetwork->last_scanned))
->                         oldest = pnetwork;
-> -       }
-> +
->  
->         /*
->          * If we didn't find a match, then get a new network slot to initialize
-> @@ -2410,9 +2410,8 @@ void rtw_update_ht_cap(struct adapter *padapter, u8 *pie, uint ie_len, u8 channe
->  
->         len = 0;
->         p = rtw_get_ie(pie + sizeof(struct ndis_802_11_fix_ie), WLAN_EID_HT_OPERATION, &len, ie_len - sizeof(struct ndis_802_11_fix_ie));
-> -       if (p && len > 0) {
-> +       if (p && len > 0)
->                 /* todo: */
-> -       }
->  
->         if ((pregistrypriv->bw_mode & 0x0f) > 0)
->                 cbw40_enable = 1;
+>  		ret = wait_event_interruptible(fifo->write_queue,
+> -			ioread32(fifo->base_addr + XLLF_TDFV_OFFSET) >= words_to_write);
+> +					       ioread32(fifo->base_addr + XLLF_TDFV_OFFSET)
+> +					       >= words_to_write);
+>  		if (ret)
+>  			goto end_unlock;
+>  	}
 > -- 
-> 2.43.0
+> 2.34.1
+> 
 > 
 
 Hi,
@@ -108,11 +90,10 @@ kernel tree.
 You are receiving this message because of the following common error(s)
 as indicated below:
 
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
+- You sent a patch that has been sent multiple times in the past few
+  days, and is identical to ones that has been recently rejected.
+  Please always look at the mailing list traffic to determine if you are
+  duplicating other people's work.
 
 If you wish to discuss this problem further, or you have questions about
 how to resolve this issue, please feel free to respond to this email and
