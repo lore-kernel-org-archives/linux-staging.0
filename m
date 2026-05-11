@@ -1,38 +1,60 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D278E34846E;
-	Mon, 11 May 2026 10:08:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7DFD3CD8B8
+	for <linux-staging@lists.linux.dev>; Mon, 11 May 2026 10:19:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778494082; cv=none; b=k3A0U1in1FzoT8X+AbmAn6hCDSFczZhOh9EeDEIpCAMZbTNlE9z6PSLYS+nJKu13Bl1b4CLomc+KPJRO3lchNgiPXWGw9eUzsAhU++yIQzoadeyKwmTpLyo8x8KjLDinUtX/rUIntygxiF5Z4xYSiA6Wmlc3tAqjRNZGElxt1zQ=
+	t=1778494769; cv=none; b=BxD3Wdn8t8/d0ny2KnOGEdGu7xxIS55l8bG06jO58ptQ9CC+34tAwRDqJDQJ3bgTyANJvTGiL8IW1kfMcGuqJNzcp8pZFW1SqIXFsall59+6ozkU4g+xZ9/qI6AcoFX8pZZPqUF3jiV814kvIcAiKEJ5VREpQDAguKmomZ9/hfk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778494082; c=relaxed/simple;
-	bh=Nbljizss2S/ZpgjiIaDMH3Fy6IqbEV6yyocxG1uIy2c=;
+	s=arc-20240116; t=1778494769; c=relaxed/simple;
+	bh=ND9zYMmDY2uylW+7v4Wq6EyRj2ozvhX8+Ea4+9+aEHQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kh4WkcQsUNhpUtKQhndXbNRfsGWhgysFKTqSQM/0bUz1MHPUv82oM4c2kyFGByYavonLRKcLHvOQbBeOQFUvpVpctLo6fBoaTppwCMBGBuufFWpiofecNW19bzResM+EqmjVF00DbPwgWMdeHjuIaGxLQbQTmvF84TSq++7DwLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=YO+aaNgZ; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=FO+wKRHdh2OL/aqVETe3fvb0XRttW/OmIWwhmxxEQGViA8zn6IwMz5NfoRGMN1Yuld+uHRf16re33N5clSuvuRWurpblg+tP6vsG+kAq+Q+3ClEzJYlHZNr1gKmy6sddsDrL9su3GM6UXEvYPLwxHjRLN3oox8CRU0V0yPneBYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b6aorcYF; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="YO+aaNgZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 272D7C2BCB0;
-	Mon, 11 May 2026 10:08:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1778494082;
-	bh=Nbljizss2S/ZpgjiIaDMH3Fy6IqbEV6yyocxG1uIy2c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YO+aaNgZ1lTdvPrkJ+Zd48H8driL3kBDLK3SW2SzZt+534UMSyGXIO6lGj5MM3kcR
-	 uJjEmG7tzSPm2JrgQRP3VtseKo2YOv4LZ2jyEIB2CrVzq4Eiis/EUh/4MIjLFkGf8z
-	 v6J4n483cssvAN7+62fmU6BD0JP4EK6GErnupl8o=
-Date: Mon, 11 May 2026 12:08:00 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Harshit Shaw <shawharshit116@gmail.com>
-Cc: deller@gmx.de, tzimmermann@suse.de, chintanlike@gmail.com,
-	andriy.shevchenko@intel.com, linux-staging@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b6aorcYF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778494768; x=1810030768;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ND9zYMmDY2uylW+7v4Wq6EyRj2ozvhX8+Ea4+9+aEHQ=;
+  b=b6aorcYFvBe0IWGn3uR00ItehBHtyTjclB1HKBmkWOAv9gtSGokfb/gT
+   Z0DoRqhSNFbcEhvGrdSgWFO3DQaz4/gO5UNiXrRAOHbyAIygI/21wNM6D
+   aMkmfniL1wg5/qBr50X5QvlgixRmkIRAHw8wyBloML63b7HwD6Cf2/CwP
+   twHut+LE53+W4N9epPFxNL08yYgc0+Pok3fyNahZIqljDNYJILYTqRbcs
+   XPFIEFhOJtjjL7he7+Zxm5wQgxkgW6yOuj5keKHtMGJhSdlzz5xaHEGLX
+   55ELprrbbhn7Zc8gFIZPqpk980pEvKf1DZf5LyShRDPuH7qy0D7kigmQY
+   Q==;
+X-CSE-ConnectionGUID: JmqJOH3DTaKhqY9shv7f9g==
+X-CSE-MsgGUID: RkxjxsKXTgGgvfUI0+rSqw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11782"; a="78522322"
+X-IronPort-AV: E=Sophos;i="6.23,228,1770624000"; 
+   d="scan'208";a="78522322"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 03:19:27 -0700
+X-CSE-ConnectionGUID: QgUHizbjQsuO2FP2hd1FaQ==
+X-CSE-MsgGUID: slIiH5+LTt6t8uBBSnKttw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,228,1770624000"; 
+   d="scan'208";a="275549028"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.204])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 03:19:24 -0700
+Date: Mon, 11 May 2026 13:19:21 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Hungyu Lin <dennylin0707@gmail.com>
+Cc: jic23@kernel.org, lars@metafoo.de, Michael.Hennerich@analog.com,
+	gregkh@linuxfoundation.org, dlechner@baylibre.com,
+	nuno.sa@analog.com, andy@kernel.org, m32285159@gmail.com,
+	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: fbtft: check return value of
- device_create_file()
-Message-ID: <2026051146-banister-shelf-414f@gregkh>
-References: <20260511100140.4794-1-shawharshit116@gmail.com>
+Subject: Re: [PATCH v3] staging: iio: addac: adt7316: document SPI interface
+ switching sequence
+Message-ID: <agGtKQs0V679s6Kx@ashevche-desk.local>
+References: <20260511023127.86113-1-dennylin0707@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -41,47 +63,60 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260511100140.4794-1-shawharshit116@gmail.com>
+In-Reply-To: <20260511023127.86113-1-dennylin0707@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Mon, May 11, 2026 at 10:01:40AM +0000, Harshit Shaw wrote:
-> device_create_file() can fail but its return value was being
-> ignored in fbtft_sysfs_init(). Check the return value and
-> emit a warning if sysfs file creation fails.
+On Mon, May 11, 2026 at 02:31:27AM +0000, Hungyu Lin wrote:
+> The device powers up in I2C mode. Switching to SPI mode
+> requires sending a sequence of SPI writes as described in
+> the datasheet.
 > 
-> Signed-off-by: Harshit Shaw <shawharshit116@gmail.com>
-> ---
->  drivers/staging/fbtft/fbtft-sysfs.c | 13 ++++++++++---
->  1 file changed, 10 insertions(+), 3 deletions(-)
+> During this sequence, the device may still be in I2C mode,
+> so SPI transactions may not be recognized and can fail.
+> Such errors are expected and are ignored.
 > 
-> diff --git a/drivers/staging/fbtft/fbtft-sysfs.c b/drivers/staging/fbtft/fbtft-sysfs.c
-> index d05599d80011..cc6dbaeb6043 100644
-> --- a/drivers/staging/fbtft/fbtft-sysfs.c
-> +++ b/drivers/staging/fbtft/fbtft-sysfs.c
-> @@ -204,14 +204,21 @@ static struct device_attribute debug_device_attr =
->  void fbtft_sysfs_init(struct fbtft_par *par)
->  {
->  	struct device *dev;
-> +	int ret;
->  
->  	dev = dev_of_fbinfo(par->info);
->  	if (!dev)
->  		return;
->  
-> -	device_create_file(dev, &debug_device_attr);
-> -	if (par->gamma.curves && par->fbtftops.set_gamma)
-> -		device_create_file(dev, &gamma_device_attrs[0]);
-> +	ret = device_create_file(dev, &debug_device_attr);
-> +	if (ret)
-> +		dev_warn(dev, "failed to create debug sysfs entry\n");
+> Add a comment to clarify this behavior.
+> 
+> Datasheet: https://www.analog.com/en/products/adt7316.html
+> Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
 
-This sysfs file should not be there at all, can you work to remove it
-and just use the "normal" debug api for logging stuff?
+Thanks, almost there!
+Please, address the below and feel free to add
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+to your v4 of this patch.
 
-Also, no driver should be calling this function directly, a default
-attribute group is the correct solution.  So don't paper over this
-warning by just checking the error value now, do the right thing
-instead.
+Also I think we don't need "staging" in the Subject, as we can deduce that,
+in any case it's up to Jonathan (and yes, I see the common use of the pattern
+in the Git history).
 
-thanks,
+...
 
-greg k-h
+> Changes in v3:
+> - Add Datasheet tag
+> - Use datasheet name in code comment
+
+...
+
+> +	/*
+> +	 * The device powers up in I2C mode. Switching to SPI mode
+> +	 * requires sending a sequence of SPI writes as described in
+> +	 * the datasheet "ADT7316/ADT7317/ADT7318", Rev. B.
+
+Yeah, but you dropped the section title...
+
+	 * the datasheet "ADT7316/ADT7317/ADT7318", Rev. B in
+	 * the section "...".
+
+> +	 * During this sequence, the device may still be in I2C mode,
+> +	 * so SPI transactions may not be recognized and can fail.
+> +	 * Such errors are expected and are ignored.
+> +	 *
+> +	 * TL;DR: Do not change this!
+> +	 */
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
