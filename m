@@ -1,112 +1,120 @@
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC9C73BAD91
-	for <linux-staging@lists.linux.dev>; Mon, 11 May 2026 09:19:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A6253431F2
+	for <linux-staging@lists.linux.dev>; Mon, 11 May 2026 10:02:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778491148; cv=none; b=hyeUMWJ/5sJtdkR0CJ2eGOPKm7FQ1ymdApWJvFozbbUniOdzVuFV6S00lIVzy6U/tVxvTPAHPHeSJp1xsg8YFQLpVrHCAUqEeXD8H7qPmJBTZm7VgYgcrQ0rmTjRyb6UTt0BlUQU6FkWmcwu/utY2xsYntGG+v9AKxdEtD1Hjdg=
+	t=1778493724; cv=none; b=h1AzUUyEHI6ZqVwxmc3AQSojn3JCdDNrNpD+PatB8LdWL1XGhT9VBM4wAbxFps49B1vYYBGrklorePKhPJgI6xXn8r+37j5f3lBzzEqWflEJC9jTg8oYxOWOnyyjjKRWoIigYYjoszD8szLG64QeE3juNcAjlBl51Bg83x/CHic=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778491148; c=relaxed/simple;
-	bh=mzC4PLB9qRk/2P8uWHfO7LVYuSTxmJkENfQvp8kzIxw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u6Z/4CR97Z3Luz0V+1W3aDSWwASKgGUQcr2/lCe+oPha+Xqa6Qip8WnBk+YvO+yYdR/VPmaVfqLmuIwWlhJq+kuQY2aPfgoG9r3/BzZZEtjmT/+Q+wKe6I8m3T91S2Uj0iXPm4K4VUXBjxYsGdk5Ice5Is18Q8xrIhSoHCiWAxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jkXzxNQ8; arc=none smtp.client-ip=209.85.221.176
+	s=arc-20240116; t=1778493724; c=relaxed/simple;
+	bh=JNiYQmsYCBUUZDsrDAH1HR51mOfkmhfC5EqZAOv91Qg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=G05YNCFkGMPa0/F7qlFdtp6qLJlMC+VfMr01cRXdflCYhD23Az3l+7n7spUBH7B3LoFHhf16CSST6mnrQ2w9SVEsNn0bdmBsJ79pXsbF7rcMmNE1ZM1q0dVoAeVbW8DFwnQbitH86oocyiawQYYv++MjRm5sYtHD+7rZ1vabwu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PYOL1xjW; arc=none smtp.client-ip=209.85.216.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jkXzxNQ8"
-Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-56a86f0a23bso3863082e0c.0
-        for <linux-staging@lists.linux.dev>; Mon, 11 May 2026 02:19:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PYOL1xjW"
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-3664df32e91so2586157a91.3
+        for <linux-staging@lists.linux.dev>; Mon, 11 May 2026 03:02:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778491146; x=1779095946; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=venGsjONGdAMkc6DmOtDiWfs4Ltsyujig9VX4Fo6dEQ=;
-        b=jkXzxNQ8c3ZMNkguLcY2CUJwnliG3Bj77revKCx8spK6LooZ0JvIe1kr5j0JUKgDbb
-         D19l7J7ZhdYVlZ4KxLn3QNCeQvQKyFcYoPvTGklmAzO4sEp+6yRtUfWZ/TLf/DBNJIi5
-         rDd3VZoydGNLD+Mv6D3PdktS+usTutZFWgsX4cbnqTqJyeNf0KfWnRPtYhqHGTb/lwTb
-         yOnc3+who5gpX2a4DBS6sXoqrDeGo8iYDmhHxBs4qVOQMc8ObR0E6YmoB/KOvnupGcam
-         YeVVgooeYxDrvv9CyUD+DdEvhM6bQMhvJrm+7L7WDoEDRL705Nuhyg7k88h/Hb0nEw78
-         7FLA==
+        d=gmail.com; s=20251104; t=1778493723; x=1779098523; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BzYQbTh4CweYWONe7kp2YWa8+xOQ2qVZjBV6+S9phz8=;
+        b=PYOL1xjWJl0KzGUl3uF77nNkXEfAMc02A9GerrSzj68jl+rnF4xB30UNTyPyOBGwog
+         1VHK6CWn6uRoqHZFwLHq/dxB44wJwnQ2Z/uHgal/ffXHofk7wZjcy85aj2xa3WmPae5p
+         r0LAn0tnYGOFfD4fJrUxPiamFgqB/UTiCeBF7mqyZDgsFWSHMZJDanzGiYOd5KKOvHTu
+         Zh1U4RN+7GrVX3kesgM0knh2uzsARXhYJ1+DWIcG3nwENMYFZrdR1+t2CQBHbk7yAlDI
+         691OXTa3K1ZY/sDRtaHhWW0eoycGP+aOBlyrwTsNhLPq8YDcdDcAfrBKRVUSdxApxLax
+         R+yQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778491146; x=1779095946;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=venGsjONGdAMkc6DmOtDiWfs4Ltsyujig9VX4Fo6dEQ=;
-        b=FVorNOjzmX0D4BOEKvjFXN0D23udxkI+/Lkqll7FSZHUE7EwvJztXzvOVZVBYki+nU
-         1pmCZfUpD8jTg2y98ms0IpVz/fgNC2RfMipw0iFS6U7AHrGxXgIu7PHTTxQfH+/RAmWB
-         xA+IoH6xmMAuyqbd37JBb/UpH4gPAHJJ5KHf/pyKj8TE9z3/zqpYkinud33nfdkBDWZh
-         rYdOi+zdIre5uHOaj4aTcRksLqPqgRNFErDx7o69kWADgAuCZaBUTuyHjTNEQIO4CUnf
-         3rB6RBie10ioVVBKr/Gu59f48nLRRx0LNb4AZNvWzxqsSYRvDXPnB7hyCSULOZZpBKSl
-         kMpQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+KobEVOUZnAC9rp3PkiAP3YzJDm6uOGnd4oPa0x6h+3zyAV5e+8twQcHFlyZrfqg1LgIiZR/Mq2cfN3wSq@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx3CUp9P6Yl/Jy5Jy6WO/F60ePu0NLNJ+Du7e16s/xVevv6tMHj
-	oI6iZdfKPsCzLtSc6oyKDA+qgVVYQppI6VrTOOeCN8+FJkknchy3h4fl
-X-Gm-Gg: Acq92OGJ/q7gkFLi1e/QugC/zHEi6xxEs0txATi9tJjKPtrBOAaiTPAn2VmCz1J66t4
-	1y3+tSRRjl23kqGoGnFkKZMgDfs4/SEpx8NtBCiWXcG7XAaMXresiyOfUibyVhqXSqDQSSuezwy
-	CNyShgXtPv8U5RpWcSIjxod2DSM0C03EdM0izxKWj570D95NW5Cq06WqpLiM4Cj0ggbxdsbBT28
-	CCo9lCeWLGDPmnGIbHuhYHM8LgcNqUYd7eeofe8Lx+oHeSqCxQ2oiipVSiJmtck5Tp3fO5MDi+2
-	rHM1FIQ/g4kua4vvFlYfaxity2K8IkMKZVJJUw5zQUcxAfe/3+S232xYaAv2Zib5xG5cGzszTUw
-	PmbuYODMDnIPX84F/ObIuHyMIXKgpgRO2SehGV37WvjhUBYAetxuV48zYJmFUQs25Kpyaf4sxqd
-	WACJuo/lRAGdaaUUQWFQ==
-X-Received: by 2002:a05:6122:f06:b0:56d:9f2a:d6b1 with SMTP id 71dfb90a1353d-575596d0744mr12051800e0c.12.1778491145880;
-        Mon, 11 May 2026 02:19:05 -0700 (PDT)
-Received: from localhost ([185.141.119.51])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-95f219c6945sm5120781241.2.2026.05.11.02.19.02
+        d=1e100.net; s=20251104; t=1778493723; x=1779098523;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BzYQbTh4CweYWONe7kp2YWa8+xOQ2qVZjBV6+S9phz8=;
+        b=aUC6L3tyLPIXgx/d3lidcSS+FhdS5fWyxrb6GgILOz7frX0GOIhxrwf+1Csm3Ldcht
+         yM/EqbzwJ0nACM0Mf7PRlrD5dYYP3iyWMy03I58vq+paKcr/6VfuluZKWJapYaAUGFg8
+         ed2UwPZlsHYKQ/Qm3vZRyWCbuXrRYnJSM/YX+b0nBhYBs3jLc8Sh2sgY+Q/FqAoQMvrV
+         eY1Rr0v5ZQfs+q5nFgb2xxO4nqRZIsepyqnrCUJGLbZKSvXu6PTsEI1SikFuQJa1rNth
+         gEtDDl4thTlXI2ePB5vMINy4NaYl/WUIc5pNV4/lhZzrV2nXWZWVSnALEhWSQoa/6cDr
+         Hn8Q==
+X-Forwarded-Encrypted: i=1; AFNElJ9J5ohA0ujLoXrh2XKiZTYcRgEv+Rv2MosZRmebKhcVZ8gRWhn2bAFkjpnkuvehEU+76fHzNro4JIdETyEy@lists.linux.dev
+X-Gm-Message-State: AOJu0YzWjLpCaL6DSMt7odbJH6NCphSI9nTXccgKhh/U+GoqdBmANipt
+	fwveG+9m10YTtfmm4lWrzZmTxCyK+ySUTK4P54Qxpx24ecanjuZg1y03
+X-Gm-Gg: Acq92OEGt3KlZ6ID64Q9of91ZY2mbcML5emR5AmmGD2ShI9NhTMPil/4MlMi2HlfJlr
+	lbKDLY9SHW3dXCsh477TzgVtV39np+Gc7oijL4kuim1TRHp8fMnAURFV8aEr1VglmlKkvAqrLWu
+	47R44itYqcrY+rRMKaw7ZcpTQVr9J8PBeWbFf+v8hu8aNspfePNEUaVOAIQcw+08U7WfnZZxq1x
+	HeCejUlT8ko7ZHiNMiAJCd5rxU2LOIKHUd/W0Y7tIUY6p69DIlZOQTrsbfgNMMqdFo4E2486SFX
+	NmNJ7OhYzlxsVFcR0+ZRqZ3DG4H74wFb75khuHJTsLcubBf7CHGEP1+/XNS3XXhWWEhhZYRo8Xg
+	o0Sxzv3gxc4o7Dk6TYeBrJAf068mE3FqBmhJadlcYe/77qhcXJvaEm2mn0keBx16oJy9frPQLUT
+	QnbYyInJ1Rny/marIC2oWgkdLNLvertwYhzKwNcfbt
+X-Received: by 2002:a17:90b:3ecd:b0:366:1172:597e with SMTP id 98e67ed59e1d1-367d46b8236mr8511990a91.9.1778493722662;
+        Mon, 11 May 2026 03:02:02 -0700 (PDT)
+Received: from MAHADEV.localdomain ([103.211.132.226])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-367d65ed459sm9243825a91.14.2026.05.11.03.01.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 02:19:04 -0700 (PDT)
-Date: Mon, 11 May 2026 12:18:58 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Nikolay Kulikov <nikolayof23@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 3/4] staging: rtl8723bs: remove overwriting of current
- IMR settings
-Message-ID: <agGfAqihe8DHqTPp@stanley.mountain>
-References: <20260511075651.11637-1-nikolayof23@gmail.com>
- <20260511075651.11637-4-nikolayof23@gmail.com>
+        Mon, 11 May 2026 03:02:02 -0700 (PDT)
+From: Harshit Shaw <shawharshit116@gmail.com>
+To: deller@gmx.de
+Cc: tzimmermann@suse.de,
+	chintanlike@gmail.com,
+	andriy.shevchenko@intel.com,
+	gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Harshit Shaw <shawharshit116@gmail.com>
+Subject: [PATCH] staging: fbtft: check return value of device_create_file()
+Date: Mon, 11 May 2026 10:01:40 +0000
+Message-ID: <20260511100140.4794-1-shawharshit116@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260511075651.11637-4-nikolayof23@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, May 11, 2026 at 10:55:30AM +0300, Nikolay Kulikov wrote:
-> The code reads a 32-bit value from REG_HSIMR and writes the result back
-> to the same address. This operation does not change the register's
-> value.
-> 
-> This code does nothing and simply performs unnecessary SDIO operations.
-> Furthermore, if rtw_read32() returns an error or returns an
-> uninitialized value, writing it back will have unknown consequences.
-> 
+device_create_file() can fail but its return value was being
+ignored in fbtft_sysfs_init(). Check the return value and
+emit a warning if sysfs file creation fails.
 
-This commit message isn't very useful.
+Signed-off-by: Harshit Shaw <shawharshit116@gmail.com>
+---
+ drivers/staging/fbtft/fbtft-sysfs.c | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-There can be times where reading from a register and then writing the
-exact same thing back to it is how the hardware is designed.  So it's
-not obvious at all that making this change is safe.
+diff --git a/drivers/staging/fbtft/fbtft-sysfs.c b/drivers/staging/fbtft/fbtft-sysfs.c
+index d05599d80011..cc6dbaeb6043 100644
+--- a/drivers/staging/fbtft/fbtft-sysfs.c
++++ b/drivers/staging/fbtft/fbtft-sysfs.c
+@@ -204,14 +204,21 @@ static struct device_attribute debug_device_attr =
+ void fbtft_sysfs_init(struct fbtft_par *par)
+ {
+ 	struct device *dev;
++	int ret;
+ 
+ 	dev = dev_of_fbinfo(par->info);
+ 	if (!dev)
+ 		return;
+ 
+-	device_create_file(dev, &debug_device_attr);
+-	if (par->gamma.curves && par->fbtftops.set_gamma)
+-		device_create_file(dev, &gamma_device_attrs[0]);
++	ret = device_create_file(dev, &debug_device_attr);
++	if (ret)
++		dev_warn(dev, "failed to create debug sysfs entry\n");
++
++	if (par->gamma.curves && par->fbtftops.set_gamma) {
++		ret = device_create_file(dev, &gamma_device_attrs[0]);
++		if (ret)
++			dev_warn(dev, "failed to create gamma sysfs entry\n");
++	}
+ }
+ 
+ void fbtft_sysfs_exit(struct fbtft_par *par)
+-- 
+2.53.0
 
-What you should say is that:
-
-Originally, this code use to Step 1: read from the register,
-Step 2: add some bits to the value and then Step 3: write the result
-back to the register.
-
-However the problem was that the bits in step 2 were always zero so
-I have removed that code.  Now this function just reads a value and
-writes the exact same thing back.  It is unnecessary and can be
-removed.
-
-It's not 100% safe to make this change without testing, but it
-probably is safe enough once we see the explanation *why* the code
-*used* to exist.
-
-regards,
-dan carpenter
