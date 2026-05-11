@@ -1,94 +1,206 @@
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E33537268D
-	for <linux-staging@lists.linux.dev>; Mon, 11 May 2026 11:46:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5640B38F630;
+	Mon, 11 May 2026 12:26:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778499996; cv=none; b=gJuX4tM8qC2l7GJo2bB753+kgQ0KOX4IcTftlxF4vCJ8AQSD7jMBFCgP1mbpUQwYB5pw3aITByhYKPYe+ejNpp28rBi4MUjzUizEr6yYTjFgchH5cqrX3aOW+J8HHyn+xEM8CJHOo2dgYvXrMHxzsR8ONV/0t5dDrJsTM7LNIp4=
+	t=1778502404; cv=none; b=lBjeBAbveCQ78o0wLzAXTtn7vW0P0IgzKJa2ZQXjFpPQ4Qe5Z6XrajOgM4iwM2FTO4kpsGMt4Qa3jpadTNN7vRYvfXhFiKGC5TB2ehPa+Z8QYMZyuEOPGOWIBgZD3hmE2CDxtqlc6sEBYY+An0euHvBrS035dysYZBCSglFH/ZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778499996; c=relaxed/simple;
-	bh=pUAYSYUeKdjCjhBlXPieorkg7yLpWil/XC1QJ/SvyK0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kWQyMLACvYm0JFMSKN9w7d3D+7zfWKzOUYMZ8MOW+0645ky4sN9C62d88Bw47HHTGpwvGKAEOlIvy2J/TJLqPDrzSevH8At2AxvbzaMXsU2WU/UARESRL88nNmHlB51EQO05kiTdIVRx5NyG3EXkNp6LwZVwLbbsjbKlzQ9cX/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Eljp05Xr; arc=none smtp.client-ip=209.85.222.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778502404; c=relaxed/simple;
+	bh=TN5gW6iNB2jW1IrzWJimE/kYjWyumxoU2kSZpdU/BtA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=rQbPMhZub/mhI09CKXmaY/iiLqzzAEJ9k9uoTYLRyuAMxbnLWMdPYM7tm4az9NVjM5uRypKpj2GlErazhpKKtASKvJ9B9Gz/62w+xuQX9YeFtWV8SMIW2QaSYBh5rAv/3ZVzV3OoEanu+nyUZtPhfEEuz7yuOi3hI8YgiIbqEto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BToGzpcG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Eljp05Xr"
-Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-956849ae1efso1217155241.2
-        for <linux-staging@lists.linux.dev>; Mon, 11 May 2026 04:46:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778499994; x=1779104794; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=OO1IEzTaFF0ZAn9uDb8SVLUtUYQAq1Vq135ZbGyORw4=;
-        b=Eljp05XrJcrTgoZvtKFh2x2FcQmPgDzmC2bnj2dXSp4hCkV9ldsPeDy/i+hU3nq0e4
-         bT0GXz2bRvW7eqVNa4NwCYZmtTI6qX4dUapAXHwveTCsrWdeJkQIhZXLxv98yxU3HeXL
-         Qwxy62pE2YAyj6QnemOmJ5+UxW6H66YOjM0NnLtCD78y8wn9NSjHLwTm3bjCicph7yf+
-         v4BQ6hP2d5DW+F64F7+kRHmLbDj/zuuFuXfyyk3eymXl/ZD+IfdjpGPFIAoXfbuE9vDj
-         yAyRPq9wLJzxWHC4rB6f788mRCFd3thO8kiip+QTvEMKq+35iCViU+kKWe6NA6BZSkSj
-         ezpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778499994; x=1779104794;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OO1IEzTaFF0ZAn9uDb8SVLUtUYQAq1Vq135ZbGyORw4=;
-        b=qaImlUJUouuVrtSdqEeXdxrxReXKv2oOl+SQvqEdxulVxuOWU17UwaO62R+0wxoVdG
-         yYqpNWaf1bbPZQEc3NI2k4ywwF445FKnLkGMkdajqLSSfZw4lwkR7UJF+2I170J3ooLA
-         7rQ+eMRhauKQSDEFUG0nOLOH7VFZPdab04OnjPITKKYn+fgsqx0dgnXSJUspjPwUGC1m
-         ILXEAw1fyeo1G3rF7h7G7BRg8luNEXV2Yuynr4+ks9vudHBWDe2fXbnnSiQjQceHanWF
-         ejwzpUMxmBz6EdsqRRFNaSYNVmuUh5GRDtYS+F7cQy5iD7bgnTyB37SUQoiyHYHZN6n9
-         rtYg==
-X-Forwarded-Encrypted: i=1; AFNElJ+sd+oZA0NKtqaAKVT/qL5mpOK8x+YcmYjZQAwcuGvR6nB5Eqs13pRkukhd4CR47I4edPV9udmL96dzKjhU@lists.linux.dev
-X-Gm-Message-State: AOJu0YzfqtvBEKr1j+AE2KSYXCtePQot36NsLeGqbLM5ow19s2UP65gQ
-	p8MIRqHLUEC1EkQOzT1I0uWiDsowMBfpXyUK+ClGZFEnq2+TuyDOx4xC
-X-Gm-Gg: Acq92OEg88kWIuwXxosCJX36sxkHO0RG7SJLEyL+XmBEhnZbjyKFyriKosCmGldl8BA
-	s1MKT9qu3Qkq4ev3zgVRzAC7HUHnEmxWmvcLKur/PNvc2eb6UArvrgXPhodGYnQuJWO2HJHk22Y
-	BviLOI85L9yU9j41GbjkO+v4SjBJQHsImpxm6oktIBMBFNCIWRM3boLt1vNqU1hQF00iQRY4qeA
-	wmW9EBuaF2R6mhIZxewG1xgaMWjNhAJPTbMZga4eHLX8gsbkQlx+NIzbfa7JVVShQI0sqoa5Y4q
-	UHxKSINiDKAdYPP0PTNhaa9dxu3cXLELywYiK00TK4+z65+3cRAJguWgFINobT4/RD+dvn+2kXL
-	dI0lxm9fEczycXNy+cMr8pvJ3N+VCuk1I2ejJLp1xdWwo0OZhVnSRTlgh5st3LdRnGb/O+laCd/
-	vKKJn58B82a6XtnO6HEVZZmvxZ/yvJ
-X-Received: by 2002:a67:e7c5:0:b0:631:487a:23ab with SMTP id ada2fe7eead31-631487a27f2mr5386588137.5.1778499994324;
-        Mon, 11 May 2026 04:46:34 -0700 (PDT)
-Received: from localhost ([185.141.119.51])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-6314005a6acsm5701621137.5.2026.05.11.04.46.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 04:46:33 -0700 (PDT)
-Date: Mon, 11 May 2026 14:46:28 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Harshit Shaw <shawharshit116@gmail.com>
-Cc: deller@gmx.de, tzimmermann@suse.de, chintanlike@gmail.com,
-	andriy.shevchenko@intel.com, gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: fbtft: check return value of
- device_create_file()
-Message-ID: <agHBlP9Z1NVQMQ3W@stanley.mountain>
-References: <20260511100140.4794-1-shawharshit116@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BToGzpcG"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 27837C2BCFC;
+	Mon, 11 May 2026 12:26:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778502404;
+	bh=TN5gW6iNB2jW1IrzWJimE/kYjWyumxoU2kSZpdU/BtA=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=BToGzpcGkY8dRquvF+DHTYnSD0PPLVaixdJ8Urk4I107Qe6OrEEV8tn0gQLrOWd4Z
+	 PrjO8p1TiQCqqtm6QKFbg6bbbRHhxIXSIf9WQRmXg39vwfWpFVlbzrwiJx99rH/btP
+	 +US578n3SAl0fBsa25GjYJxjmuQGlSabaxM5EIrqLO/lN/M2S90X5SZZlQ8pIR7dGL
+	 wn18jzoS4IeJeSiHFPoR4MxLZIfAontz0kMHikfV9tKrHlOJ1F9G4Dt6eKtgJOu4Ty
+	 PHRkpqvnzYoht/l2VZXphaw87TSKvU/jd0oseSuhHQhl83oSVPtqDEAdJZK7LTCzBn
+	 YZ+5kto55GeHg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 181C8CD37AC;
+	Mon, 11 May 2026 12:26:44 +0000 (UTC)
+From: Dumitru Ceclan via B4 Relay <devnull+dumitru.ceclan.analog.com@kernel.org>
+Date: Mon, 11 May 2026 15:26:26 +0300
+Subject: [PATCH v11 03/22] dt-bindings: media: i2c: max96717: add support
+ for pinctrl/pinconf
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260511100140.4794-1-shawharshit116@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260511-gmsl2-3_serdes-v11-3-fc163073c16b@analog.com>
+References: <20260511-gmsl2-3_serdes-v11-0-fc163073c16b@analog.com>
+In-Reply-To: <20260511-gmsl2-3_serdes-v11-0-fc163073c16b@analog.com>
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Julien Massot <julien.massot@collabora.com>, Rob Herring <robh@kernel.org>, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Cosmin Tanislav <cosmin.tanislav@analog.com>
+Cc: mitrutzceclan@gmail.com, linux-media@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-staging@lists.linux.dev, linux-gpio@vger.kernel.org, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+ Martin Hecht <Martin.Hecht@avnet.eu>, 
+ Cosmin Tanislav <demonsingur@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1778502401; l=4016;
+ i=dumitru.ceclan@analog.com; s=20240313; h=from:subject:message-id;
+ bh=sExaJUhOeiAGEBZqr9l/7UndPhdjAg2W2En5kv5tuKE=;
+ b=6zybRjleAUARIY4N/ogBndNUYxw0MQ6Oclo8/ZI5WPjGgHUvbgJTCv/qZ03ai06Ye2qDyC38w
+ T6BD/KLRDijBTYldxAgkef6hxRwi9eiFDhYMgwWvoBOquwEFW6rgkqE
+X-Developer-Key: i=dumitru.ceclan@analog.com; a=ed25519;
+ pk=HdqMlVyrcazwoiai7oN6ghU+Bj1pusGUFRl30jhS7Bo=
+X-Endpoint-Received: by B4 Relay for dumitru.ceclan@analog.com/20240313
+ with auth_id=140
+X-Original-From: Dumitru Ceclan <dumitru.ceclan@analog.com>
+Reply-To: dumitru.ceclan@analog.com
 
-On Mon, May 11, 2026 at 10:01:40AM +0000, Harshit Shaw wrote:
-> device_create_file() can fail but its return value was being
-> ignored in fbtft_sysfs_init(). Check the return value and
-> emit a warning if sysfs file creation fails.
-> 
-> Signed-off-by: Harshit Shaw <shawharshit116@gmail.com>
-> ---
+From: Cosmin Tanislav <demonsingur@gmail.com>
 
-What's the point of this though?  How is your warning message more
-informative than the warning messages printed out by
-device_create_file()?
+MAX96717 is capable of configuring various pin properties.
 
-regards,
-dan carpenter
+Add pinctrl/pinconf properties to support this usecase.
+
+Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+---
+ .../bindings/media/i2c/maxim,max96717.yaml         | 105 +++++++++++++++++++++
+ 1 file changed, 105 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
+index 976f6dd2c164..d507cad18edc 100644
+--- a/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
+@@ -120,6 +120,111 @@ required:
+   - reg
+   - ports
+ 
++patternProperties:
++  '-pins$':
++    type: object
++    additionalProperties: false
++
++    properties:
++      function:
++        enum: [gpio, rclkout]
++
++      pins: true
++      drive-open-drain: true
++      drive-push-pull: true
++      bias-disable: true
++      output-disable: true
++      output-enable: true
++      output-low: true
++      output-high: true
++      input-enable: true
++
++      slew-rate:
++        description: |
++          Slew rate.
++          Rise and fall times represent the time needed for a GPIO to go
++          from 20% to 80% of VDDIO.
++          0 - Fastest
++              rise:  1.0ns @ 1.8V,  0.6ns @ 3.3V,
++              fall:  0.8ns @ 1.8V,  0.5ns @ 3.3V
++          1 - Fast
++              rise:  2.1ns @ 1.8V,  1.1ns @ 3.3V,
++              fall:  2.0ns @ 1.8V,  1.1ns @ 3.3V
++          2 - Slow
++              rise:  4.0ns @ 1.8V, 2.3ns @3.3V,
++              fall: 10.0ns @ 1.8V, 5.0ns @3.3V
++          3 - Slowest
++              rise:  9.0ns @ 1.8V, 5.0ns @3.3V,
++              fall: 10.0ns @ 1.8V, 5.0ns @3.3V
++        maximum: 3
++
++      bias-pull-up:
++        oneOf:
++          - type: boolean
++            description: Enable regular 40kOhm pull-up
++          - enum: [ 40000, 1000000 ]
++            description: Enable either the 40kOhm or the 1MOhm pull-up
++
++      bias-pull-down:
++        oneOf:
++          - type: boolean
++            description: Enable regular 40kOhm pull-down
++          - enum: [ 40000, 1000000 ]
++            description: Enable either the 40kOhm or the 1MOhm pull-down
++
++      maxim,jitter-compensation:
++        type: boolean
++        description: |
++          Enables jitter compensation.
++          Jitter compensation is used to minimize the jitter of the
++          signals transmitted from the deserializer to the serializer
++          by adding a fixed delay to every transition on the serializer
++          side. This can be used for pulse generation where timing is
++          critical.
++
++      maxim,tx-id:
++        $ref: /schemas/types.yaml#/definitions/uint32
++        description:
++          Enable transmission of the pin state from the serializer to
++          the deserializer using the specified identifier.
++        maximum: 31
++
++      maxim,rx-id:
++        $ref: /schemas/types.yaml#/definitions/uint32
++        description:
++          Enable transmission of the pin state from the deserializer to
++          the serializer using the specified identifier.
++        maximum: 31
++
++    required:
++      - pins
++      - function
++
++    allOf:
++      - $ref: /schemas/pinctrl/pincfg-node.yaml#
++      - $ref: /schemas/pinctrl/pinmux-node.yaml#
++
++      - if:
++          properties:
++            function:
++              const: gpio
++        then:
++          properties:
++            pins:
++              items:
++                enum: [mfp0, mfp1, mfp2, mfp3, mfp4, mfp5, mfp6, mfp7,
++                       mfp8, mfp9, mfp10]
++
++      - if:
++          properties:
++            function:
++              const: rclkout
++        then:
++          properties:
++            pins:
++              items:
++                enum: [mfp2, mfp4]
++
+ additionalProperties: false
+ 
+ allOf:
+
+-- 
+2.51.0
+
 
