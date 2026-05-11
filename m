@@ -1,69 +1,69 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18E532C08BB
-	for <linux-staging@lists.linux.dev>; Mon, 11 May 2026 06:44:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB3B925FA05
+	for <linux-staging@lists.linux.dev>; Mon, 11 May 2026 06:46:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778481873; cv=none; b=ttTYbSeQUTxJpJFCQxkrtu3XmoIOARBE2kz0u2CPwHOH2mHyvU+szN6RMmtOvgVfKjGids/7rf7RSf5P92Qp4MbDsOtt37Oo8UZt+EIVFnKiJ1SUBfHlMGAt0m+Yn5kOfzPwIVgd6T2W5WKHHxooG1XDyBBxEUnWg+txgBvSfgs=
+	t=1778482016; cv=none; b=MmYbToXrv5fL7C4FuCPZKrItbwEnH2FynWiz7banNgyD7A11hFeLUZmJC1b9ttEZ01YWtDXxQyvdNK9vh6ydLCrebsyq5sMqo9epi7n1DGnRdDv0J9vqn0s5F4fTQSQgm0kZIgK47PF6FjveChZqKv3wFRsW+gtPlI2yHwNycho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778481873; c=relaxed/simple;
-	bh=MubGKdVtElLZDMMLV2O4TfM6LdLRUl012f4NGy8OJQg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VhCgpgYv8cRNFxcSZD9iXbqoW9xBqoaKpmshPFeGpKzRF5veV/cMMc+t2Sls0Mu/TPqll3bd5lgElWhwkLKtmTSTBa2G5KjXPVhvl4sbecyaLG+U21hdSBUErUnsdApgWZlf6WAb6dUochjXDMzb7w1Eg7od5L6h2fHcCZQdHjw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ce9sSBMZ; arc=none smtp.client-ip=209.85.214.175
+	s=arc-20240116; t=1778482016; c=relaxed/simple;
+	bh=HNd4KcweqOerQ3yNSjA7mvwp9lyg8yR2Hb/yl9GmhR8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IG2ZZu+42z5aHkx6SvBEG6MmiO3UTpH1XNEcuQI0HPNBFdCyLkSrwXL6cQL3UtQFOm5p+rKU9hRKaeL7QBQjrG7gHG6q8V0I9M4K190/x5gKDDMOY31W2uEbPggX/XrCzmCZ6vCCsuDxq8YxAntRzhYncBSzgRXSQyUxO/GTM+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aasHWMQH; arc=none smtp.client-ip=209.85.215.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ce9sSBMZ"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2b4650d5f5cso14584015ad.0
-        for <linux-staging@lists.linux.dev>; Sun, 10 May 2026 23:44:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aasHWMQH"
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-c8025aecc40so1753300a12.0
+        for <linux-staging@lists.linux.dev>; Sun, 10 May 2026 23:46:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778481871; x=1779086671; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1778482015; x=1779086815; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UpE+0/qZleWuEVPXkrm2PRcTft37Agqw0mX3Um/YFlU=;
-        b=ce9sSBMZFB3OS1dIXjcvdY1PoK5rIGTeyl48GWKzyB88IgrEuJZlLsirQ1au/ikVit
-         BM7QzpIptGzvgww0oBT4UHifCKLuItd4XGYB4uBxUnuG9/oCRBZZENrC7eW2xT5ua8iu
-         ZBFuV23HFXghYa/6j7LWRPM7ZQJ6OLxzHQgQDeaGP4Fx5cX+S00J4diHLVbYsg1N8vBu
-         av5KnuvLLu24DPFD6AHZem2oBhALL1DIDRGO49TkPcwCnyqxt6XtHvZl4jF6hpQBvyy1
-         lsrg2ArRnWJUNTgqD60gryRheSWgzzhQWt8QBMEYTDAH1qNkFjeY49sORQV+KnlwtPGW
-         Ecuw==
+        bh=oCn2UQF341QKAGr5qaUtJj0Uc0HOfufLBQXtrbecHtQ=;
+        b=aasHWMQHFNP3/i7c3TJ27dClOLYJczt6OtbxmRxHPMp4z8n9312FBq16Vs+M4MsJ5Q
+         wrRwS08WALZgEpBHMrUF6twiD5ZNH5368Ngn8CgoBSulS5pO1sS/xW7/Bcj5SvZQFV9w
+         HZkALdd+sLy2/WtM4boi5ai9eAf7wSle79r2SRXVUNpk5sFfjiiHSpyG9EZLhgdvn7uc
+         m2Mg+gBIlCCnErnNzTlLY/bRed49mWIxnQMMcsgCzopByj0NEISfm+QpFztV4edt+fDj
+         1k9wKE3QB8wyw7GjVpsp9K9yma/A8w7shdvTDhC18JhKkKXvMTNIREm8vKTvnwbn0/NU
+         rSzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778481871; x=1779086671;
+        d=1e100.net; s=20251104; t=1778482015; x=1779086815;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UpE+0/qZleWuEVPXkrm2PRcTft37Agqw0mX3Um/YFlU=;
-        b=MQJu0S0iHR0UoyzgwJro9LziJ6JvD+FOP3q7QjW/QtCLDdtk2YQ/wQzug1EARnuUyx
-         +WgcQnKU28+RRNrRoo52GuSkXFq+5+o289aOHPy58L9ERrqJE7eNxVPrGFLBBxAYu5k7
-         ZkKSg94XyDWOD+oE61h/QFyrOxEj1yibVTs43EWxVVxBLVXpE8YkufQGWKfM5zoFnNxw
-         FcqPYtD44x2Mzwj9R3t944yWu363KqMkw/Lm35FbxJu9KvzrItAZygCkt9FgjrcYD5g+
-         dxhMl8XX7OA5+W9uv+7UjrIf3ORzAXAJwYbJ6yvJELPJr8YEPNXVYVmYfnoVWqtd+69S
-         6sHg==
-X-Forwarded-Encrypted: i=1; AFNElJ/tydoxFWnReSF5V1k3vHG4rle9V+IwQgm1pD70fnrMrCDwU+CH3GCg1H+a7SZzFCq4VKg48xyhrBDiXs0J@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw0zKCYZw9LvWTZabROkvSzNd8NJ2zWfTHVyrkfhLf1CCvFzXMN
-	CsnA6m7twNPJ0d0XZJbTKPJbuw05n/x6FPtmIjIGwCv+8ZXDQnkRZxMt
-X-Gm-Gg: Acq92OGDh2tV3VCLGl+8IgGdPY2+nX8EjPld2xSapfWgdxs/7iNn3P6xCs7u1z0dgW2
-	naHbr++JMFRswEkzQFKJiy1ye8/Lod65dn0bvysOkwKoeHu7gqo0CcFTHavNXKjH1VA8k/EaKm+
-	zuB1BENI04qlcFmrC4gdYDfskhrR/VJyB+MS3pVm1LvzzeAKVITfwLUSrW0pfPB/6SM/6QnUCwM
-	1WXiaM7SQqr57CdJ7686G8naYRvtPCnVYlByx5SuHmO/kirtljSJDswwJpfmXUFXELjTUECyhh6
-	8LHDtpOoV4qEsgtUjDgjOzNSZSte7t++HX8+kNj1vJK6/TR1rPThysLdJuZagh4xjOSi61ZdH6P
-	36XVpJ+lIP8kfeSqq/LLN1rs/Ru9YXCb3aLvWnJR41E6TOcBaISbWZkAZAr2aWc9QRkJws/6urD
-	CzT5ZKUXq/nGLuKGlHz3xgru+PtWHn0QTtQjgC138uHnEmnjKG82o=
-X-Received: by 2002:a17:902:ea0e:b0:2b2:481b:de68 with SMTP id d9443c01a7336-2ba79c14a7cmr264888785ad.35.1778481871270;
-        Sun, 10 May 2026 23:44:31 -0700 (PDT)
+        bh=oCn2UQF341QKAGr5qaUtJj0Uc0HOfufLBQXtrbecHtQ=;
+        b=hBBjQw080NgDQJut+6fXLGaW1d/Zp7XrOXeTwo6iA5lGMehtKm4rAFqIbjeYu86na+
+         bPj9txHjci/lLFOW1QcmAV1N26CZ5BtPi8uHH/5bkbLsKm0mmkgK6CAcqQwu29c8EC02
+         aJemxRGSTc7A6u8vVsaAyayO5MoBQTH6ujZyz1mcT6yCZyNwMrmQ2hmT4xeCXgaBWkmZ
+         CBzZZkhv3FcDbcACc/CVS6PHiyjCIpG2oNvO/XL5QjJNs4V9/K5V7M8SQD98M4Psi0ET
+         bnp+0Zq2HRe4+HNwNp1owDRyZYYI8cULcqMzK/sdBpu/AI3rMe2jCMlP5nW40M2Hrf16
+         bQOg==
+X-Forwarded-Encrypted: i=1; AFNElJ8v5iXVK10hzgC10zD969tpL/I/ZQnnNauMdkhk5KOpByDdp4bU7uP720MiYZgspgHqKnA73n4PK2OsNedj@lists.linux.dev
+X-Gm-Message-State: AOJu0YyvSEFxV75Jo2NHrrP8GFVMOuQXlEk9sLlU78MzyXvXOLHGRNYM
+	BFz25dQASOaHpjCDx7HY7HdmvZ4q7tToHXzg1SHT5o4G6T2iNL9glEg+
+X-Gm-Gg: Acq92OH/CHeV5TH0WJmLbHcxsbRx3USYMSmK9+cBbCX4MsNErAMhRoaPzHn1YiDphrP
+	YqV+i+2SKVxWH96EdnH/gXyVEVYL1eQyAk0w3BuJS0r29cZQsCkLd4YbTDLz9kDRQJT9SePUvXH
+	37rL559bh4Aultc82ZjDnk38GJ5gCatOfEUMTm+tqH5nFJd/7X72zLv7cmxXoh3AMoEuMMcMA2m
+	N+YFlZTMkaISNXsT78lZW3KZLnsPIbX9m6Pt4PPrc9mbc+9OiFQfHn5+cQj7tBTAuSyH1C0bqH4
+	r9JJt+AMUV8rihnaaDDg9AqMOOpcoqF2p1bNPp/bByfjy+im6oIyR1lDK3ieWAIH9WPIAI5Jo7W
+	jT+m4SeRnxbypwgtlqPhkg/RC7JJtt9NYFPcHHi4hsfZadCMGQlkzl50C3ND6IH/Qc0KVgarqsV
+	jYpG+HXjaBwWubqm5VGrE9FOlwICMZW5VZiK3rKmz0
+X-Received: by 2002:a17:903:2282:b0:2b0:4fb3:c771 with SMTP id d9443c01a7336-2babc858ca6mr155258745ad.6.1778482014989;
+        Sun, 10 May 2026 23:46:54 -0700 (PDT)
 Received: from MAHADEV.localdomain ([103.211.132.226])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2baf1ead90asm90453055ad.72.2026.05.10.23.44.28
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bc83101ee1sm56485835ad.79.2026.05.10.23.46.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 May 2026 23:44:30 -0700 (PDT)
+        Sun, 10 May 2026 23:46:54 -0700 (PDT)
 From: Hanu-man12 <shawharshit116@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	Hanu-man12 <shawharshit116@gmail.com>
-Subject: [PATCH] staging: vme_user: fix lines exceeding 80 characters in vme_tsi148.c
-Date: Mon, 11 May 2026 06:43:55 +0000
-Message-ID: <20260511064355.1177-1-shawharshit116@gmail.com>
+Subject: [PATCH] staging: vme_user: fix line exceeding 80 characters in vme_user.c
+Date: Mon, 11 May 2026 06:45:48 +0000
+Message-ID: <20260511064548.1247-2-shawharshit116@gmail.com>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -75,33 +75,25 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Hanu-man12 <shawharshit116@gmail.com>
 ---
- drivers/staging/vme_user/vme_tsi148.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/staging/vme_user/vme_user.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/vme_user/vme_tsi148.c b/drivers/staging/vme_user/vme_tsi148.c
-index 4cf3486646ce..0e8a67fbf562 100644
---- a/drivers/staging/vme_user/vme_tsi148.c
-+++ b/drivers/staging/vme_user/vme_tsi148.c
-@@ -755,7 +755,8 @@ static int tsi148_alloc_resource(struct vme_master_resource *image,
- 					size, 0x10000, PCIBIOS_MIN_MEM,
- 					0, NULL, NULL);
- 	if (retval) {
--		dev_err(tsi148_bridge->parent, "Failed to allocate mem resource for window %d size 0x%lx start 0x%lx\n",
-+		dev_err(tsi148_bridge->parent,
-+			"Failed to allocate mem resource for window %d size 0x%lx start 0x%lx\n",
- 			image->number, (unsigned long)size,
- 			(unsigned long)image->bus_resource.start);
- 		goto err_resource;
-@@ -2252,7 +2253,8 @@ static int tsi148_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	struct vme_lm_resource *lm;
+diff --git a/drivers/staging/vme_user/vme_user.c b/drivers/staging/vme_user/vme_user.c
+index 11e25c2f6b0a..f5e29933ba68 100644
+--- a/drivers/staging/vme_user/vme_user.c
++++ b/drivers/staging/vme_user/vme_user.c
+@@ -446,8 +446,9 @@ static void vme_user_vm_close(struct vm_area_struct *vma)
+ 	kfree(vma_priv);
+ }
  
- 	if (geoid >= VME_MAX_SLOTS) {
--		dev_err(&pdev->dev, "VME geographical address must be between 0 and %d (exclusive), but got %d\n",
-+		dev_err(&pdev->dev,
-+			"VME geographical address must be between 0 and %d (exclusive), but got %d\n",
- 			VME_MAX_SLOTS, geoid);
- 		return -EINVAL;
- 	}
+-static int vme_user_vm_mapped(unsigned long start, unsigned long end, pgoff_t pgoff,
+-			      const struct file *file, void **vm_private_data)
++static int vme_user_vm_mapped(unsigned long start, unsigned long end,
++			      pgoff_t pgoff, const struct file *file,
++			      void **vm_private_data)
+ {
+ 	const unsigned int minor = iminor(file_inode(file));
+ 	struct vme_user_vma_priv *vma_priv;
 -- 
 2.53.0
 
