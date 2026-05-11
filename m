@@ -1,132 +1,111 @@
-Received: from mail-yx1-f46.google.com (mail-yx1-f46.google.com [74.125.224.46])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2911B3612EE
-	for <linux-staging@lists.linux.dev>; Mon, 11 May 2026 03:00:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778468423; cv=pass; b=IT/4W2LeonA9ItIkx0C6mnbwX64kA0rZz3vzG8QOf2lZCS8Eb1gkQ7hoxt5+mMdUvgDqrva8ZxHbA0iLyk2cELG4hnyQZ7IIqwygGb/OTA6yOeAbuZOtV/Iof3jsnvoFyZSFIeVWt5MpxX16gtuOwkDP9Xs2LdQfth2jfbqgUu0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778468423; c=relaxed/simple;
-	bh=wnYjSkPEZQyv80cNHSsJv3e31CuX6BxVqPS6Cj5wfU0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OeXxQPZSnlWOzzl2Q22odbbeqd3zv33OjQ1Wa/cfzwWaMdkzsNfxzMFUF+md9ajONztATHHMXndupUG2Cd5xpDqlewEwNlbBCYM+nFN/YFmBl+pdGgpOX0KLgNwHAFnu9wFGyL47qM7KzVVlKPJPl9E/dlt9MQSr5EYgpCo7/pw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fB7l15Wd; arc=pass smtp.client-ip=74.125.224.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADD9726B742
+	for <linux-staging@lists.linux.dev>; Mon, 11 May 2026 03:48:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778471338; cv=none; b=cwnL5f9Uoh/OMKGfP3Z7/z6wKwQ1ZHqS/w/TcoUAVXzsZWibfv1FBCF7gK86vHvrHBWNGkigPN8bfQb1fC0t1GioPsg3Kw+imkyV8bMYU5ILlBLlSEWDz5ssvMxqWfIT2CkZ5Sqq+/0a1YLpR2X6jZoC6dSomyE1WyI92xKWwGk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778471338; c=relaxed/simple;
+	bh=AH7+rllUgr9cRttphcbDn4wOpxLHtvMKyuKiFut/RQ8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NmeG+asYuLi9NWpiLDRmy/zOlJ1Lujtcuc6Bly2e8qKiV+ib6mkgxCi0991U8owxK1nDwAgOzQ7vEmaTi/Nm6MlMYgqjqPvhQ1WPQpPaPYVxCbZtbCDN/nOJJi5P7pe9/+e68MoVcpVI/M1g38YW7ApdfPj0CSE5bfgDoRmj0jc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZHqnrnYc; arc=none smtp.client-ip=209.85.167.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fB7l15Wd"
-Received: by mail-yx1-f46.google.com with SMTP id 956f58d0204a3-65c7492a2ceso3323117d50.3
-        for <linux-staging@lists.linux.dev>; Sun, 10 May 2026 20:00:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778468421; cv=none;
-        d=google.com; s=arc-20240605;
-        b=jJpEmIvhmvI+ITAvVXikJ/FBBCIDrnBJeNwg50UVVXpVEn/OKAPv6pz5iBaWYWni7b
-         rHRi18pgv8/oZmqvqDoCwXobO9cE2KrG4hZmi1lHEJ5quRhvPwlFwpFupSa9BFHG82pK
-         0YnLOhHEXh2pr/grik/xM8rW8D4uZB9itHuzTWDDTVrg41yO65yUS3cNssp/rOccELFp
-         zVfEeHjc9wGvDMBEBB7haUcaBrroGs+DWy2pkZuCRR3Oc0dheKImUAs+wcboL4RFVY5v
-         TOoIsuiQvKNC+o2ZF8KsYGcBfDXNaP095ilHC084JqkWaSkSiQRTiEcB7VMOgxWMgDhT
-         CjrA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=xbEMPqybMxS5k6emiP8oE78P9zf/hCdjeiCvMvcaJ/E=;
-        fh=021pF5TrQQdnLTKbsCl8KE6Ts+/82jFsOQORltR86CU=;
-        b=AB4G1kW5eGoS3daSBKBQt9RkNgx0+V+E+t9xLUA8oxiSHF0b1Ws5V6076sAscE3ly9
-         Xpehd6rLZ4qh0LqFme17TYQK9ZCmi1OpJXkEz+KwNRDhtTPSUHsZWHGekjU0NJL1zmdH
-         kQnbobovdQJiAV0Jc1aWoAxGxzJbP81ADK+LbEkIFguHcMfEOfJvVPqhzObXYEisoAHV
-         kS9FJZO9vLIfsq03NLivqNFrP7oUwJpnNr1D95Zx95FacvfcB0y4pOgHWn15CISNEVRw
-         TaareU5BwOBah6gZVwYoEUnr96ZMFI4uUkH0epLMLzw5U1KDr5VlHKNfksIFpbgBQx04
-         jDvw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZHqnrnYc"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5a40b2bc96dso3395760e87.3
+        for <linux-staging@lists.linux.dev>; Sun, 10 May 2026 20:48:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778468421; x=1779073221; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xbEMPqybMxS5k6emiP8oE78P9zf/hCdjeiCvMvcaJ/E=;
-        b=fB7l15Wd2LETgxZ2z0XFShLZ68cy9FfyI468oRNYUPUCLDROAbXmNEfhSzago7l9x8
-         13pHO1wuLJMU/TPTqdgkUB4rdobXHVu26kCm3CgtxsfwDMes2EgCBvxuzyJLo/DuH1o2
-         v2ukDXRKc0qTpY2KaMgjWumjPgaXCf7d4b4h3YQRuXjt74C3/hYQEqjGHPMVeB9TVjO6
-         C5r062se23fQ1iW9CxN69uoK2Nrd9IIxUHxAJGv22uB8D54VNN2RynpCt4spJaXX0kKt
-         VVyP6+95B96AJrm1i1SnyDL8yK0W+hfpj+czqlqBDupQMAmFSG/WtXTo3VpHDFhownem
-         0tRw==
+        d=gmail.com; s=20251104; t=1778471335; x=1779076135; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=rPGkcrGIaEtncHosCoZMqsncXm4lY9+/rYNyGkd4nTY=;
+        b=ZHqnrnYcMy0zxb4aBEgtZBbmM5lYvhwFrFDFHDVdVMD4pDdeHV85brta+epWfZJ0tn
+         Aii+/0ViRW8lflVcb9srSMC3MylzUWBGHL93+YQMRCZWwbhvg6fCuC8izcDq2h+DLrbk
+         fziia9axUkOzSuwbvtgCzCgwci2mFGzRc88W/+59bSnqJPwdFDNX1u2bOoCAjK5wneFh
+         gaRvG/knSpHXI6MdrFsJFAQqsBRMG3cnHd/3dsGCIkIAWCvZFzieb8MGIjJxjzTj81+8
+         I74/2LNiY6GmcewqOdq7G6/0+ob1caHgUOQXTo8aCWJ8TZh4yJ5ca0ZdVh89jEIWJuOo
+         k3TQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778468421; x=1779073221;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=xbEMPqybMxS5k6emiP8oE78P9zf/hCdjeiCvMvcaJ/E=;
-        b=ZiQF2dRC6/GLPTI1157FZnd1/vvLMeQ7n2lDhFaiUToNjp5ODt5N6AUWM/mRZZnnA7
-         zsQn4pG+aQCW5Si2/HI3utw3bPMcGr+kxajQzKukbESOrzR7YObvrHwxZPPItuFmytV1
-         S3RkZ+3aS3NmRYVkoSCzP7IrLVQqgM2Xeiwhu9HTb0bRwGq06bVvJY9/is5Wy5P8DrFw
-         rtusm4qBLpl4EvsC3UHY9QNuBogl4LAl+/pCfTqkX+LmywGBbz/2oswnh+Oga3dz/8dU
-         2gDgrN7u0Z0CKXBq+KB5OBmiRVoKUwhzrcPsgStAEqlDGEUl0z97yfqi6uyu/deoGk9B
-         hUOQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8BNByK+cPADXp/2lypZiabqkVgb/0NjN1jloT4tkVUtgGbDBEwa3t3HFW15G9PZu2QrtYtFwVU8cEsMRQF@lists.linux.dev
-X-Gm-Message-State: AOJu0YxmwO3QICftqVl71CM0OpTQLUlGVdnG6AzQfWp8Mh1M92rrthaP
-	LQTp8vbx0urGR4w5oVaCK+4jl3rP0AfCghofSWtaQfcXjjkhM7t73ryVN0NHpGkyh2lzkKuryMy
-	QC3XW0vwBFk8ZgBkj6rzWBr7gEMnw1W0=
-X-Gm-Gg: Acq92OF9IOdbLneNYgqheHV2Mju4BA/emR53dRuiwrGw5pN2k34JpLJArMCkEnap+7i
-	7Lq/ad2HU0IMDGpzxLAhpvoLyT56xse9BJj0oV4dAF7Na9W3uBSgT6MKYrOL9pnJcAR1WyBNvWY
-	bf5b3LdLpW8lYr11NVOPyU6uMBVtqU8h/ghR1z0Qp17gIVhqimsg1HTSitBIeS0EVmW0KPoSdie
-	yOqeTPhkm8kmd0q0ojxZmIJWwF7k677v0en6uHToG6U+HZrycsG2alhkfIMP4O6nvlbH5xmf6WL
-	x/Om
-X-Received: by 2002:a05:690c:ed5:b0:79a:6249:a046 with SMTP id
- 00721157ae682-7bdf5d98b5cmr230355457b3.9.1778468420966; Sun, 10 May 2026
- 20:00:20 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1778471335; x=1779076135;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rPGkcrGIaEtncHosCoZMqsncXm4lY9+/rYNyGkd4nTY=;
+        b=EiQS1POY/lqzACA9FFlaTu1BflquSNCCyTtVbwIEShjDjdE10nfdLj4trnYoODI2uW
+         gN4gQbZD0XGyDo9MazSv0EWwg5bpqsS/7GitniUpkpHUHoAmKm0eqX8TG5DQVNfFNrbB
+         Izv59AZjNX+xKICD2l9B5vJJFy4W9ZPyLObqrteQzWE614nTGds0xDsFCXiq3U2SRlrp
+         ffP7wXn0MmH80uP7ILl/zgcD0+O2qYB5wE+2WR4VhEOdBvz5lyCJYza7pOLRsMEVN6A6
+         9FLJPrINBzWeql6bLDmst2hn0D9yXE3PqoSjsA27dmbtx3GXL7+TZHNZV7JMDR8ELsQC
+         WpXA==
+X-Forwarded-Encrypted: i=1; AFNElJ9uYp7I4uBM9gBppsyAD8G9aFbpIcb8rg4K/DB9dKh97iN77m9v8Mn3PLHjsAwKLt1ImM2NUf2bF7Pza7h4@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy8ut4IiRCyAbln9MZGHe+7OpEwAvisiFG5Cre2+/Eq+A0aggr+
+	8o57B7UTWe75pAkGsT6xaonH4kq2oyDaO/izoFZeWwmnp+TCMQwtvtLJ
+X-Gm-Gg: Acq92OFnuDM9A7gDPIgBfL+4Ux3u6QX5qCuY6lwfZNzAYYqbQwX0yI6XkuRJx8PbGGs
+	5pmKl+Y6rPvT3cf2LYIWSZ73M+QoCWS8qH0iLuOAGTFJCnXw5NbpCTiRBDx7wcAf2NQau2Ehk06
+	XQ+XD1mtFO7HR/rar02FFHeEziLGzsvPZQRh7wKg7m6wDObRBx8gfAcGdw/pFoL0xrWQdSBH/DN
+	gcTxeMo3NitELyDrWgI0WRbmapMATY+gqjv4pG6kiAqV4ZcTLvvhs6U7esBXYGzBySCWa3P8IbI
+	1sjnCmlUBXGY7ZrsmjyTd0pC7bOxJRpowp5ZznUXFKd6QftV78lAJpFU2XLrrzZc2bsfpS8StQl
+	+tWiz+d6160MN/RhGmRT4TE2V/8WZIvVvEXUNIxcVAe4ot+wFlf2bSyVXlxzHTzJVwgKoASFw2V
+	FDoMInsBsVyAxC2hqlJNOft6Bw
+X-Received: by 2002:a05:6512:15a0:b0:5a8:64c7:9592 with SMTP id 2adb3069b0e04-5a8a94c8da5mr4150614e87.37.1778471334459;
+        Sun, 10 May 2026 20:48:54 -0700 (PDT)
+Received: from archlinux ([185.140.161.214])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a8a955e14csm2318721e87.43.2026.05.10.20.48.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 10 May 2026 20:48:53 -0700 (PDT)
+Date: Mon, 11 May 2026 06:48:51 +0300
+From: Nikolay Kulikov <nikolayof23@gmail.com>
+To: Pramod Maurya <pramod.nexgen@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/4] staging: rtl8723bs: Fix comparison style in
+ IS_CCK_RATE and IS_OFDM_RATE macros
+Message-ID: <agFRo7v9NZ9Ogf7i@archlinux>
+References: <20260510175207.563378-1-pramod.nexgen@gmail.com>
+ <20260510175207.563378-3-pramod.nexgen@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260511023127.86113-1-dennylin0707@gmail.com>
-In-Reply-To: <20260511023127.86113-1-dennylin0707@gmail.com>
-From: Maxwell Doose <m32285159@gmail.com>
-Date: Sun, 10 May 2026 22:00:10 -0500
-X-Gm-Features: AVHnY4ItALizYXQfDO8oKAdbFa7ZxLNbEt0uRHNyscwB74f03CvaVSJUZ7IqBrU
-Message-ID: <CAKqfh0GVDCQzjTj7Hcejx3fgEPYeuT7cv7PWNgxOBWG3wEyUng@mail.gmail.com>
-Subject: Re: [PATCH v3] staging: iio: addac: adt7316: document SPI interface
- switching sequence
-To: Hungyu Lin <dennylin0707@gmail.com>
-Cc: jic23@kernel.org, lars@metafoo.de, Michael.Hennerich@analog.com, 
-	gregkh@linuxfoundation.org, dlechner@baylibre.com, nuno.sa@analog.com, 
-	andy@kernel.org, linux-iio@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260510175207.563378-3-pramod.nexgen@gmail.com>
 
-On Sun, May 10, 2026 at 9:31=E2=80=AFPM Hungyu Lin <dennylin0707@gmail.com>=
- wrote:
->
-> The device powers up in I2C mode. Switching to SPI mode
-> requires sending a sequence of SPI writes as described in
-> the datasheet.
->
-> During this sequence, the device may still be in I2C mode,
-> so SPI transactions may not be recognized and can fail.
-> Such errors are expected and are ignored.
->
-> Add a comment to clarify this behavior.
->
-> Datasheet: https://www.analog.com/en/products/adt7316.html
-> Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+On Sun, May 10, 2026 at 01:52:05PM -0400, Pramod Maurya wrote:
+> Place the variable on the left side of comparisons, wrap macro
+> arguments in parentheses to avoid precedence issues, and wrap the
+> long macro definitions with a line continuation.
+> 
+> Signed-off-by: Pramod Maurya <pramod.nexgen@gmail.com>
 > ---
-> Changes in v3:
-> - Add Datasheet tag
-> - Use datasheet name in code comment
->
-> Changes in v2:
-> - Add datasheet reference
-> - Add TL;DR note
->
->  drivers/staging/iio/addac/adt7316-spi.c | 12 +++++++++++-
->  1 file changed, 11 insertions(+), 1 deletion(-)
->
-[snip]
+>  drivers/staging/rtl8723bs/include/ieee80211.h | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/include/ieee80211.h b/drivers/staging/rtl8723bs/include/ieee80211.h
+> index 7a3609d019aa..11825ace95a9 100644
+> --- a/drivers/staging/rtl8723bs/include/ieee80211.h
+> +++ b/drivers/staging/rtl8723bs/include/ieee80211.h
+> @@ -394,8 +394,10 @@ enum {
+>  };
+>  
+>  #define IS_HT_RATE(_rate)				(_rate >= MGN_MCS0 && _rate <= MGN_MCS31)
+> -#define IS_CCK_RATE(_rate)				(MGN_1M == _rate || _rate == MGN_2M || _rate == MGN_5_5M || _rate == MGN_11M)
+> -#define IS_OFDM_RATE(_rate)				(MGN_6M <= _rate && _rate <= MGN_54M  && _rate != MGN_11M)
+> +#define IS_CCK_RATE(_rate)				\
+> +	((_rate) == MGN_1M || (_rate) == MGN_2M || (_rate) == MGN_5_5M || (_rate) == MGN_11M)
+> +#define IS_OFDM_RATE(_rate)				\
+> +	((_rate) >= MGN_6M && (_rate) <= MGN_54M && (_rate) != MGN_11M)
 
-Reviewed-by: Maxwell Doose <m32285159@gmail.com>
+The IS_OFDM_RATE() macro is also not used, peprhaps it would be better
+to remove it instead of formatting dead code? Of cource, in a separate
+patch to avoid mixing up different changes.
 
-best regards,
-max
+
+Thanks,
+Nikolay
