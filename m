@@ -1,79 +1,72 @@
-Received: from mail-dy1-f194.google.com (mail-dy1-f194.google.com [74.125.82.194])
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6D333FBEAC
-	for <linux-staging@lists.linux.dev>; Mon, 11 May 2026 14:07:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A4E73D6CDE
+	for <linux-staging@lists.linux.dev>; Mon, 11 May 2026 15:12:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778508430; cv=none; b=Ub/SSoA3GSMtvGUgrFYfAeuDm0s/Dhw+IlUAWxfw8abdK4Q7pM0bDPOuaWXKQ8G4m8+qTOV4+5lt1ec0RX4lI+u5/PMFNEIvIRbUURKCgLGGfSfONI4nyCf2GUKzih9s+sHa1EAkVYoMq7a2gxvzujEQMRI99rQUTMJMMhNIz84=
+	t=1778512344; cv=none; b=fpRvVQcc/bPISwcbiFTbDw+lyWxizpjGuX0LShfGH2vua8NL6afv1IXowwLB75fVngkloRU8M4fYRZbEADo4aU7hP2/NRSI5/NqPvL5ON41L6MEcUMQdGjlVy6xPhWVBWG06Pu59cMGc5Qg1hdC3eH3T8n5K7sRuLBY1TQczAZ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778508430; c=relaxed/simple;
-	bh=/gZeyJV8x7Aeejwh7qyX5OSj6X3GN6xwf1eZzzNee6o=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=vDzg3UK883FoFc7T8kMt1CUn6WlRYRUmFQLPeE4eLN/SLkhJr37Or7Du/Zyo6rpTYcNx9z+lmOw2nEqooHRPlkUUx8tYVPlF2WPFeQ+E49FsjA4Ny+Lil+6l+WMZoQpdj9wLLl2ZsHo/XfSIbMBIzmJ19HSnU4RGcA7qFHdjbIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rxDOYq2q; arc=none smtp.client-ip=74.125.82.194
+	s=arc-20240116; t=1778512344; c=relaxed/simple;
+	bh=Uno2yHfO6vRZMPcSUaJToJ+vN4MPbjDNh2Ttx/1D3DY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TloY/uDhHphuOa6G4F/4ggCDlmJ8rRHGykxIuEuVEstK0hFpPHm/PqycZO2/GNhbUD4dbBGLpzj7zWhgaf9KrZxJrtTquH945+xgrELTjmMChzo/m+3Y8Tu2zUiBXNYUYGkVppLMzY+JwZYRcZWiOXLiN0r3sqKmSckPIo2q8Bw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HEM2rvBs; arc=none smtp.client-ip=209.85.216.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rxDOYq2q"
-Received: by mail-dy1-f194.google.com with SMTP id 5a478bee46e88-2f00a567cfaso2970478eec.0
-        for <linux-staging@lists.linux.dev>; Mon, 11 May 2026 07:07:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HEM2rvBs"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-365de41f8a1so621364a91.2
+        for <linux-staging@lists.linux.dev>; Mon, 11 May 2026 08:12:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778508428; x=1779113228; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1778512343; x=1779117143; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZkQ5/goWHs+AMVv0uCTHxRAt4oXWP81t+SslhUkMMnQ=;
-        b=rxDOYq2q8XrSmpibPy58J22hH5dGdisEI6BAjnF/QCtg68yOApkhKKAw3La56t3yS2
-         6DuXdn6Fov4XebQyoCLb8k91gp6eH2WBuYPEQyfEGLcOv1IByBpU0bvO7gc8cJKMbctZ
-         aJt98QeYv1GmEHTi1UYLIGz4rmWnB8dUNC8QhxRvG9lVuM0wO0PjE0YdKXlIStzu5cz6
-         FHR6cvJgOxxKXsjgvw2vUTb/od/p5ll6c8iRkXsqa7WWH/mWFqVIMpDB/g2vYZvLnySU
-         ghw5kTGhgMc6KMWdUxd6ac2bI4QvjUszXuPUW2sLeVAqkSxfyVubrIvESUIUSpvZ3kiY
-         cJVA==
+        bh=haE4bS8JwUCpjpgBiMBFEursLJkSm5h8JymKWoD/p0Y=;
+        b=HEM2rvBsY82bl/kvsCJQnCq3j4EIUfvOZvAN39YSKJeEm3RGWD0cVxGRAQSQ1FON4P
+         0dU3MwKgbty7x+qBj124OE8wRGkkBa2WDbXesc+y9HqAmNprFlbLsH1cQZB1Jr3Yfg8h
+         /0dgmhLT+xgf4qo7TmRM7NlZr/kPoOEF8V7J2o9FOrHysRecGSU3Tp+4OBBhx3+hm7E9
+         CkkTSx//hIQqO7NMxRCYUl0AsFk/0U/Mjs2saMWblxhdkogaR3KLLcmIPvsYHGZNudYq
+         clA+2bdNXn89oPGY4HtxPd7mFbcKAxZhLBPD5KQ4AgTf4tv4+nWnm4F0R7xfFp3TCGJM
+         ZLEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778508428; x=1779113228;
+        d=1e100.net; s=20251104; t=1778512343; x=1779117143;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZkQ5/goWHs+AMVv0uCTHxRAt4oXWP81t+SslhUkMMnQ=;
-        b=JrPvtVEe5tX5Or5eyJ9n4J3UTczp5pN2h1lO+CKsmiqPfcXavJvpih4OvHLIOM1c7t
-         TtTvwc+XprNeSaliAtZhhZFwuW+ywJcIMHYCXe0vsCQCqHnDBD4/ourS5fXXhLDC7H6b
-         QtBc8AgvMBD0V+MAi+v4uH/7br5dLBX+jRrrVhzcs6xZjUlVUf5VcNJCUqhYEu1q6ZLM
-         KYBRPcDxIWmDEaKH2fDmvmnBOf2ZK7XdiUkeeT8qx9j+6JfM8HNF9z3K1sAX+VlQC6rS
-         VUMZ++73CN/1t7k7hmg5NUVKZkESHK3lzSM1Ib0uxM3W3iZ0gdsnCktOIYDciKgnsFlk
-         6r5A==
-X-Forwarded-Encrypted: i=1; AFNElJ/jdyffeXEmBsRy8hM9wY3VCQDd+OSRZJEwdpzCf8yWmn4ozmM5n/WKQpVdRpKJbKX61iYB/Yz1Y2o+yDay@lists.linux.dev
-X-Gm-Message-State: AOJu0YzQVwXw9pBUuyuQ1fD9tUJvzw4pesun6mQaU2ikX2JMtWLbdC76
-	TAv7/FYqC8yrvrIopmgYUPltEvUdC/DlaMFchyyJD16cdMvMwczwQSaZ
-X-Gm-Gg: Acq92OEN9Ba1NYimDBDnchopTluDwbhxIEWrVoWaP8M9bsWP0HemQspWL2mhekk2VP0
-	Kv0ax96y04KllCMjGvLqvQa+GiBCwtz3BVdQejxpmB4s4R30hMa6mmHQRIGIr6DLQrTigaMrMTU
-	mE6cG0P6r+H6Y2ykEH6cBnKpTPF2BDPR5Aq41WSGbX0xudCkugCgIdQ7qrGsDaPtKvVsHssYIvk
-	jIq20pgD1X3d1ZjYM0t9z0PTYehTTdBs1gE3KeXQiOWS63/fNgKSkb+z1gCX065JXsLXc/FoMQ6
-	85bPgoG3tM7LbrdxccOACdXDTtZlHXWR2ulVAUm2y1cnzZxF4EVRXsfWLeFt0TJ7GYEmW5L9zpL
-	gX0Ypc4kxn+7wMcJ8sKy0m1E76ZPLVQRQqJP5ETWwRBiUoSbG13mZVPF7r66dkWKv4peIz+p6mY
-	Cc8Xa1JckPm5v68UKb0jlpSu1eI9fp3r+ukSgh6WcdVrWCjNQirjgpZ7msaWCfsJkOOg==
-X-Received: by 2002:a05:7022:6187:b0:12c:15ce:a71b with SMTP id a92af1059eb24-1323b1bd713mr8099105c88.25.1778508427507;
-        Mon, 11 May 2026 07:07:07 -0700 (PDT)
-Received: from localhost.localdomain ([76.32.119.210])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2f88847504dsm13699258eec.15.2026.05.11.07.07.06
+        bh=haE4bS8JwUCpjpgBiMBFEursLJkSm5h8JymKWoD/p0Y=;
+        b=dA1+NfALkFxMEcFL8+TU++HLNmWCdoGv+uBiDac/pu8EAO//QFt8CrTYGNJqZ5vbMn
+         j6hXc7H7yMkffknZu5K92LHkNt/QGdVuFcuLBbZfm1RkFc4Qr4PLJOlRXPup8h1b9HwV
+         +SC9gkuXtO1aWX6JqPVWTkY9+UaRh9Q+A5GDqQ8NUeo9qBhMyPT90/RNegZk3+/ZrI29
+         8QwJurUCcOu6noYQk7kr205Q5Pqk6+hkzrCMByIeNkGjSdYO9kfl3poXy2OpSf+egheK
+         O6TXPDlqy9GFC8O0nB3nsZFqxxzUo1MHBfUSDxFkNjgLS/RdXIcSwrXWT4S3T3kYRbR6
+         kLAQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8oqZKOoasMMgpqBbem8UM4bSs0M0SCaF8JjoF1yyhIiacXO/j+Jyy9Mgg6c93n3s2Eu0l4j+Ek1W1OTV/D@lists.linux.dev
+X-Gm-Message-State: AOJu0YzOJrwSAhxVysRCPw/4KPtHNDXIiaRM+kH1waSVbCfEUeQYGfjl
+	uQ/6UXwy+j/plC3Edg1B2vZ2pW7Kln9dIUxwqT3ULpADGSItntqS/9Ub
+X-Gm-Gg: Acq92OFtyA55cSMRcl9wvp+5Mo+tm8SXquWQgWAmoY8a5LKrSRUR3QVTZRUFHky9St6
+	tv5rGKpPbKsyl7EUlk0VUMOXm8Lp3Ugr6RelPQqOQMS2lSHSYL/0blSB6hywwTeYdB6yy0TRD1R
+	0Qdpd5zSSCau4JiZVejmznhuUwMUR3JwfUb6ezfOuusdul7vZkR15rGipmqvSfkv7YToD+yqibJ
+	PpI7wEtDhxijT3Zjv4zAYx59eetcPmSpUFeH2PFFuacR83yHgZc+nnonprm/k654sKxFO45Iq+a
+	gfN0LlXE/UwqjlD7q/k1VDAIXeI3eOKDkqIA2/ixmAJJAe6s5QJHG3VD6z/GKTUVqmXtHwAfvTy
+	HXYhFhdHS09hvnllQ423oBre/TxgeYaMAziqLYl0qxsdircUfsBNb91D3IMJn8WurWM5Yp1Sd+A
+	ruNECjXaZwvJIcrYc8Lhb+ZQgS0CztpPwiXvcCWKpbgQqzZR65KrboHwXE5j6e2icThAyAK67Az
+	+qtjVSBEQnZZ4FQ1Q==
+X-Received: by 2002:a17:90b:2b8b:b0:364:be8f:1d86 with SMTP id 98e67ed59e1d1-365adadc1famr14169536a91.8.1778512342648;
+        Mon, 11 May 2026 08:12:22 -0700 (PDT)
+Received: from fedora ([2401:4900:bffc:e9a7:49ca:5a41:a2bb:6936])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-367d683fa7asm9932363a91.10.2026.05.11.08.12.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 07:07:06 -0700 (PDT)
-From: Hungyu Lin <dennylin0707@gmail.com>
-To: jic23@kernel.org,
-	lars@metafoo.de,
-	Michael.Hennerich@analog.com,
-	gregkh@linuxfoundation.org
-Cc: dlechner@baylibre.com,
-	nuno.sa@analog.com,
-	andy@kernel.org,
-	m32285159@gmail.com,
-	linux-iio@vger.kernel.org,
+        Mon, 11 May 2026 08:12:22 -0700 (PDT)
+From: Ayush Mukkanwar <ayushmukkanwar@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: error27@gmail.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Hungyu Lin <dennylin0707@gmail.com>,
-	Andy Shevchenko <andriy.shevchenko@intel.com>
-Subject: [PATCH v4] staging: iio: addac: adt7316: document SPI interface switching sequence
-Date: Mon, 11 May 2026 14:06:41 +0000
-Message-Id: <20260511140641.86389-1-dennylin0707@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	Ayush Mukkanwar <ayushmukkanwar@gmail.com>
+Subject: [PATCH v7 0/3] staging: octeon: replace pr_* with dev_* logging
+Date: Mon, 11 May 2026 20:39:28 +0530
+Message-ID: <20260511150931.93382-1-ayushmukkanwar@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -82,61 +75,76 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The device powers up in I2C mode. Switching to SPI mode
-requires sending a sequence of SPI writes as described in
-the datasheet.
-
-During this sequence, the device may still be in I2C mode,
-so SPI transactions may not be recognized and can fail.
-Such errors are therefore ignored.
-
-Add a comment to clarify this behavior.
-
-Datasheet: https://www.analog.com/en/products/adt7316.html
-Reviewed-by: Maxwell Doose <m32285159@gmail.com>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
----
+This patch series replaces pr_warn(), pr_err(), and pr_info() calls
+with device-aware logging functions (dev_warn(), dev_err(),
+netdev_err(), and netdev_info()) throughout the Octeon ethernet driver.
+To support this, struct platform_device is passed through the memory
+allocation and receive call chains. Additionally, the receive group
+state (oct_rx_group) and the rx refill delayed work (rx_refill_work)
+are refactored from static globals into the per-device platform data
+structure (octeon_ethernet_platform).
+Changes in v7:
+- Fix @pdev doc comment alignment from 6 to 5 spaces to match
+  existing parameter descriptions in ethernet-mem.c
+- Remove extra blank line added in cvm_oct_remove() between
+  atomic_inc_return() and cancel_delayed_work_sync()
+- Shorten patch 3 subject line to meet length guidelines
+- Rebase onto latest gregkh/staging-testing
+Changes in v6:
+- Squash the structural refactoring into the same patch that
+  introduces the platform data, so each patch is a self-contained
+  logical change with no inconsistent intermediate states (Greg)
+- Rename local platform device data variables from `plt` to `plat`
+  to adhere to standard kernel naming conventions (Dan Carpenter)
+Changes in v5:
+- Pass struct platform_device instead of struct device through
+  ethernet-mem and ethernet-rx call chains (Greg)
+- Move static oct_rx_group[16] array into the platform device
+  private structure to eliminate file-scoped global state (Greg)
+- Update kdoc parameter names to match renamed parameters
 Changes in v4:
-- Restore section title in datasheet reference
-- Adjust wording per Jonathan's suggestion
-- Add Reviewed-by tags
-
+- Broke the series into much smaller, focused patches to ease review
+- Removed the global cvm_oct_rx_refill_work by introducing a per-device
+  struct octeon_ethernet_platform, allocated during probe
+- Retrieved the device pointer via platform_get_drvdata() and passed it
+  down the call chain (NAPI poll -> rx refill -> mem free/fill) as the
+  first argument to avoid global state
+- Note: Dropped the ethernet-spi.c IRQ handler conversions from this
+  series for now, as those errors are SPI4 bus-level
 Changes in v3:
-- Add Datasheet tag
-- Use datasheet name in code comment
-
+- Use netdev_err() instead of dev_err() in ethernet-spi.c
+- Pass the netdev pointer directly to request_irq/free_irq
+  instead of dev->dev.parent
+- Move the device pointer to be the first argument in helper
+  functions
+- Fix checkpatch alignment and line-length warnings
+- Add missing @dev kernel-doc parameter descriptions
+- Wrap commit message body to 75 characters
+- Fix author name formatting
 Changes in v2:
-- Add datasheet reference
-- Add TL;DR note
+- Instead of adding pr_fmt() macros, replace pr_*() calls with
+  proper dev_*() and netdev_*() calls
+- Thread device pointer through call chains via function parameters
+- Introduce struct octeon_ethernet_platform to pass device pointer
+  through work queue callbacks via container_of
+- Store device pointer in oct_rx_group for NAPI poll functions
+- Use dev_id in interrupt handler to pass and retrieve device pointer
 
- drivers/staging/iio/addac/adt7316-spi.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+Ayush Mukkanwar (3):
+  staging: octeon: ethernet-mem: replace pr_warn with dev_warn in free
+    functions
+  staging: octeon: ethernet: replace pr_err and pr_info with dev_err and
+    netdev_err
+  staging: octeon: replace pr_warn with dev_warn in fill and rx paths
 
-diff --git a/drivers/staging/iio/addac/adt7316-spi.c b/drivers/staging/iio/addac/adt7316-spi.c
-index f91325d11394..1debcc36c1af 100644
---- a/drivers/staging/iio/addac/adt7316-spi.c
-+++ b/drivers/staging/iio/addac/adt7316-spi.c
-@@ -106,7 +106,18 @@ static int adt7316_spi_probe(struct spi_device *spi_dev)
- 		return -EINVAL;
- 	}
- 
--	/* switch from default I2C protocol to SPI protocol */
-+	/*
-+	 * The device powers up in I2C mode. Switching to SPI mode
-+	 * requires sending a sequence of SPI writes as described in
-+	 * the datasheet "ADT7316/ADT7317/ADT7318", Rev. B,
-+	 * in the "Serial Interface Selection" section.
-+	 *
-+	 * During this sequence, the device may still be in I2C mode,
-+	 * so SPI transactions may not be recognized and can fail.
-+	 * Such errors are therefore ignored.
-+	 *
-+	 * TL;DR: Do not change this!
-+	 */
- 	adt7316_spi_write(spi_dev, 0, 0);
- 	adt7316_spi_write(spi_dev, 0, 0);
- 	adt7316_spi_write(spi_dev, 0, 0);
--- 
-2.34.1
+ drivers/staging/octeon/ethernet-mem.c    | 43 +++++++++-------
+ drivers/staging/octeon/ethernet-mem.h    |  8 ++-
+ drivers/staging/octeon/ethernet-rx.c     | 49 +++++++++---------
+ drivers/staging/octeon/ethernet-rx.h     | 11 +++--
+ drivers/staging/octeon/ethernet.c        | 63 ++++++++++++++----------
+ drivers/staging/octeon/octeon-ethernet.h | 14 ++++++
+ 6 files changed, 113 insertions(+), 75 deletions(-)
+
+--
+2.53.0
 
