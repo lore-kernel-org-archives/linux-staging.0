@@ -1,101 +1,99 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BF7A3D88F5;
-	Mon, 11 May 2026 12:26:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E479381B13;
+	Mon, 11 May 2026 12:35:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778502405; cv=none; b=DYP+VHRzgyCVQ0uY+kKrBwG/XE2yut3qA3OtbYptpZ9J9+zCzGvYgk12gJB+SgAEHwX4XwX6odwA/fkkBwYl5Fx73JJCR4Gao9ovXrSws3QMW0B0mRpo24wmvrQ3lyZkaM51GA9CyjyA926tJ7aoWUYPZmdvlWoYQDkpNPevw20=
+	t=1778502954; cv=none; b=eTP4EE/Ld0IujOf6GSro276unzO70tFxuP+8MvWbqHevs2e61Gy7k00zSW/V8LYghYHFp48+Ra1TjrErL/Mgn5po1r1D/w14129VOkCytKlA2AHbMPnmASHIQiZyQ7u0QUXf2PCS77orQArzxZdgaZXmOa2yyhf0o9E0tNiQh/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778502405; c=relaxed/simple;
-	bh=oDOoD2PFJhsWK1U4+tLNzTMSsOIi6lAvsLbY677e5ck=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=aZHXUv5NgrdMKbmC7bq8qrCcgiavjICsqNeCgIYIE86UdFt9iz+RLNdDJjUTbxC51jZ2BvYCB64eikf2qhPrdhHONoqtLg61HvzYMnRq5m7U0bzNZ/q4uWyaAPYq8kXaebI0Hb5+n/aNkDgpgh2tgN6cUR3Y+bENRliGz4ZPKRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gDH+SOZz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778502954; c=relaxed/simple;
+	bh=/1TfUMIRUq0ugEX2axuVMQR7jVeiCCs8I/n0zDxDk/g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hixAoWTq5gWmb7rhmSMFUXI6pNFu5N0uDeCtdPPLZXsn2eIs9636CqG/Uwkw0LKZb+Z5Re+VmlqlRqghPtGnMOaDQTICBfLFc/Eu8BxEWxixIgDqHKiu4fOEqrtD4oFtEufKuo5QagO3MEQqoAOT0RF/v0+JGBk5qodAyJaQXUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=uoXLDJ0J; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gDH+SOZz"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 70C9FC2BCC9;
-	Mon, 11 May 2026 12:26:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778502405;
-	bh=oDOoD2PFJhsWK1U4+tLNzTMSsOIi6lAvsLbY677e5ck=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=gDH+SOZzKJmAWWTzxpr3syszho+aUbQEg3V/3s5PeK+I6vrSAWYNZ9JoEjCcnPEB2
-	 J5Td42p98BYcqtP6cZ21EBPJMd93ZLe4DsXWeBFj4bbhrUENuFNoXGMeo1FuGK/CtP
-	 D3vNNWN7yih622ag3nTCu97E/McRduY+/tQh68aZeWHjAgXYTRIEN4uVfzFO3BbAUn
-	 D8CACl7ZLQtNygwyVhJ8A1shdp6ZTT/EOKL09fWjwrKHN+rBotygzOgiAvNnaozvKE
-	 mAAuJF057AxwJjfLPFoJYuURjYJs1D20o/145zmSYuByHfkOrRud4cyi+Y7iZ69AwA
-	 Mes/0BkHkqSnA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 686FACD4842;
-	Mon, 11 May 2026 12:26:45 +0000 (UTC)
-From: Dumitru Ceclan via B4 Relay <devnull+dumitru.ceclan.analog.com@kernel.org>
-Date: Mon, 11 May 2026 15:26:42 +0300
-Subject: [PATCH v11 19/22] arm64: defconfig: disable deprecated MAX96712
- driver
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="uoXLDJ0J"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59A3EC2BCB0;
+	Mon, 11 May 2026 12:35:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1778502953;
+	bh=/1TfUMIRUq0ugEX2axuVMQR7jVeiCCs8I/n0zDxDk/g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uoXLDJ0J4A7PBkYcPCxyuoQvj7oxzO5Htlwk33aU6HJ3E6Cs5xuOfcL1JZgTRyg5+
+	 PYzAkg8cONxfI9rVXRFpFxEczzwuHZEHKNQWCPEMRSbZ1a1c1JED3ljjrTSSmlPmZO
+	 Ow9Z4mx4yE97KooQzSvuqlmPJUQXyD+wI/4CfA2U=
+Date: Mon, 11 May 2026 14:35:51 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Alexandru Hossu <hossu.alexandru@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	error27@gmail.com, luka.gejak@linux.dev, stable@vger.kernel.org
+Subject: Re: [PATCH v4 0/2] staging: rtl8723bs: fix OOB write and read in
+ HT_caps_handler and OnAssocRsp
+Message-ID: <2026051157-dictate-traverse-684c@gregkh>
+References: <20260428091621.739680-1-hossu.alexandru@gmail.com>
+ <20260505172214.3650398-1-hossu.alexandru@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260511-gmsl2-3_serdes-v11-19-fc163073c16b@analog.com>
-References: <20260511-gmsl2-3_serdes-v11-0-fc163073c16b@analog.com>
-In-Reply-To: <20260511-gmsl2-3_serdes-v11-0-fc163073c16b@analog.com>
-To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Julien Massot <julien.massot@collabora.com>, Rob Herring <robh@kernel.org>, 
- =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Cosmin Tanislav <cosmin.tanislav@analog.com>
-Cc: mitrutzceclan@gmail.com, linux-media@vger.kernel.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-staging@lists.linux.dev, linux-gpio@vger.kernel.org, 
- =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
- Martin Hecht <Martin.Hecht@avnet.eu>, 
- Cosmin Tanislav <demonsingur@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1778502401; l=722;
- i=dumitru.ceclan@analog.com; s=20240313; h=from:subject:message-id;
- bh=uFFBSdBZnvpPu6qZGSqZLWXhF45z99ke82/PAfeR72Q=;
- b=TNtsfW2n6hwQIHa4QQePN9QO8vQAFtMrVeolEiKxzt5RDKVWjNYpwcFPwulSHdjF9++XqWuPH
- WCroM/h0PYlC2VNKxcHwge0k74upAHVz2L7/lRa4JQbnjWedSUZfIFF
-X-Developer-Key: i=dumitru.ceclan@analog.com; a=ed25519;
- pk=HdqMlVyrcazwoiai7oN6ghU+Bj1pusGUFRl30jhS7Bo=
-X-Endpoint-Received: by B4 Relay for dumitru.ceclan@analog.com/20240313
- with auth_id=140
-X-Original-From: Dumitru Ceclan <dumitru.ceclan@analog.com>
-Reply-To: dumitru.ceclan@analog.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260505172214.3650398-1-hossu.alexandru@gmail.com>
 
-From: Cosmin Tanislav <demonsingur@gmail.com>
+On Tue, May 05, 2026 at 07:22:12PM +0200, Alexandru Hossu wrote:
+> v4, addressing the sashiko review comments on v3.
+> 
+> Regarding your questions:
+> 
+> The two patches to drop from your tree are the ones applied from v2:
+> 
+>   41a866092f09 ("staging: rtl8723bs: fix OOB write in HT_caps_handler()")
 
-The staging MAX96712 driver will be removed as its functionality has
-been moved to the MAX96724 driver which makes use of the Maxim
-GMSL2/3 deserializer framework.
-
-Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
----
- arch/arm64/configs/defconfig | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index da34bdc1a7f0..893d78b138ea 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -1321,7 +1321,6 @@ CONFIG_GREYBUS=m
- CONFIG_GREYBUS_BEAGLEPLAY=m
- CONFIG_STAGING=y
- CONFIG_STAGING_MEDIA=y
--CONFIG_VIDEO_MAX96712=m
- CONFIG_VIDEO_MESON_VDEC=m
- CONFIG_SND_BCM2835=m
- CONFIG_CHROME_PLATFORMS=y
-
--- 
-2.51.0
+I have no such git id in my tree, where is this coming from?
 
 
+>   e36c54247447 ("staging: rtl8723bs: fix OOB read in OnAssocRsp() IE loop")
+
+Same here, where is that git id in my tree?  What branch?
+
+totally confused.
+
+> v4 supersedes both.
+
+What happened to v3?
+
+> Regarding hardware: I do not have rtl8723bs hardware available.  The
+> patches are derived from reading the code, cross-checking against the
+> 802.11 spec, and comparing against the existing HT_info_handler() guard
+> pattern in the same file.
+> 
+> What changed in v4:
+> 
+> Patch 1 (HT_caps_handler):
+>   The v3 umin() loop bounded the write side correctly, but three macros
+>   that run after the loop access pIE->data[0] and pIE->data[1]
+>   unconditionally.  If pIE->length is 0 or 1 those reads go out of
+>   bounds.  Added if (pIE->length < 2) return; placed after
+>   HT_caps_enable = 1 so that HT negotiation is not regressed.
+> 
+> Patch 2 (OnAssocRsp):
+>   Two additional issues found by sashiko:
+>   - The fixed-field reads (capability, status, AID) at
+>     pframe + WLAN_HDR_A3_LEN + {0,2,4} run without any minimum frame
+>     length check.  Added if (pkt_len < WLAN_HDR_A3_LEN + 6) return _FAIL.
+>   - The WMM OUI comparison (memcmp of 6 bytes) ran without checking
+>     pIE->length >= 6.  An IE with length < 6 at the end of the packet
+>     caused the memcmp to read into adjacent frame data.  Added
+>     pIE->length >= 6 guard.
+
+what changed in the previous versions?  You have to list them all.
+
+And you have 3 different sets of patches I see, why is this not all one
+big series?  What is the order of these different sets?
+
+really really confused now...
+
+greg k-h
