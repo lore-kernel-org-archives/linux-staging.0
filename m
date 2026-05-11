@@ -1,113 +1,105 @@
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFA45388E7C
-	for <linux-staging@lists.linux.dev>; Mon, 11 May 2026 12:55:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 172EB3A1A2F
+	for <linux-staging@lists.linux.dev>; Mon, 11 May 2026 12:59:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778504133; cv=none; b=VTqm9ouG+RHTljJ0tdnMNGf1wz9SFTRI+R0achSEEllBdfQe0Ncsf7a7uBa3SBcav2ZVvKZ1So6HcqdC7ue8xdVrGCwQVa6c04mmC0yJNr6QFl6bBRqFCTqeY9sZHsWFjZ3mzcZOiCK/22YzMVeubb3R+RNRjlsLVOqUkBxQQCs=
+	t=1778504394; cv=none; b=HkD1nwEsaqR33kwUrrOd+d2cGE2184i8keTGHmo6eikE0v1gEY9akox8TMQ33sQW8zudTqR4aU1WU5P/aLw+YzFMbsaASFMT0N6Z47cpMWxCLOb7yxAIJX0QUtSKSHCiv0TDqBx9ZknfhRUD7jKPFqEmWRzhU3PGzVKDikT6XXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778504133; c=relaxed/simple;
-	bh=+U98w72ZCri64mso5WVBjyRYMUFczhjaoQGfNleZhz4=;
+	s=arc-20240116; t=1778504394; c=relaxed/simple;
+	bh=VKfH3YxWp4xko6Ek50yD1tYVkvq7tHbg9rFb3KbmKsU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pb+/VvmDc9McBrM4ogyYxfalwPipTvuMw+Am00zw5hVDglNE2QE45iU+YyC9hiQZP+81AfkmHpL5NV/Qp8fpp96jXEpIfCrjlad/zhItdEsWEKcKfD0/hpqzPT72RRvXEN0n56XE+fShAnWUe6IaKQ4AEDfO2cvPToea+ZGS8zU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IFQxJCdQ; arc=none smtp.client-ip=209.85.208.179
+	 Content-Type:Content-Disposition:In-Reply-To; b=gnL6mXPte1MOBvdWFBdWgHb4bFcIC97z+4PDetHSkAWmxoN/hqBBAjL76/wjn2x9MrmyR+/ZKwbHMVoUoUOpwY1IygPHipFaIGZ73NG3MUtwbmrFoSpOC/Paj5kCrPeJRlGHvuxid1MIm3by0RNX9s0IQWZkV+7wbPhShjlomVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mNbHDHi1; arc=none smtp.client-ip=209.85.167.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IFQxJCdQ"
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-39393ec4ed0so38235521fa.0
-        for <linux-staging@lists.linux.dev>; Mon, 11 May 2026 05:55:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mNbHDHi1"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5a40b2bc96dso3862678e87.3
+        for <linux-staging@lists.linux.dev>; Mon, 11 May 2026 05:59:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778504130; x=1779108930; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=K1bOG3hf5gk3P2hHlfxVaUWnQMt3Q5Lh2bd1865iZQo=;
-        b=IFQxJCdQFPQmtYgv/As7hj9pl8077ZTkRaRo7/mzABOEEAm8PhBntFWw8ZpXg5fQxk
-         BX3MWo4PrePvP4jATjHN/aybs7NzMUv6+lDNUPtKQrNtbD5Miljwa0DyfRD572Qd2lUh
-         ybJepGMQ3jPdKFQtdPUGNhj1DLnYMUKmGSz1qY5dYuhBtFMTX3xKTQ9+cP8JUOZLJRuG
-         UaTCrfPcX85khmxQqRVa5pmZncQWFCaRQsJJHPt+UZ2sVv0kzE6hNm78xCqIBcGzyTDV
-         kBSAQ7yj9qp53ujfd1OgbbhwTEYrlNISR1VOUqyBtU8anaEduBZ8OYq9h4nSD+adsWGI
-         6R/Q==
+        d=gmail.com; s=20251104; t=1778504391; x=1779109191; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=2QMO+Gz8PfVKu/eolXLN2n0KsiOaj48rOzsVlwL9wPc=;
+        b=mNbHDHi1HMQEYUeUm0vwostIluKticLXXxYk2VOiuTjnJ0+VZRUdtAzAybDqhOXkN+
+         fJZpOA+sklYa2j2i8I6f1uqHzjpYL/EXE8AYXRPgKRnT4XNB+pIDmnSlPntLrbb7l7v0
+         Vjd0AGx423fGPo0xeUiKP272wum65fwcqC2U7ESgkbnWuO4260zWTFOkm8yg209+1fKB
+         lKBSDw3VEQjlvBwzVDOvReY3U0kjVVNio+GPdh+ieiikG3lZ3E13MJ/JZsASSoRpuo9d
+         u4HdJ2lBZR1YqYblS/OZ8Thl/7aeAGM+JaaIB4d4adsNyqjJ0l0K8IMe9jKErBtyB3tx
+         DmmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778504130; x=1779108930;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=K1bOG3hf5gk3P2hHlfxVaUWnQMt3Q5Lh2bd1865iZQo=;
-        b=kcic4h5H2aXhIRkM/gQDcBSd+Nj/MDcLqpAVDPexMkhDBoNogkZMxmPlDBrYqPIjBI
-         YkDpiXOysvPHkIM4CmfSbnm07Ma1Zu1jRzbXFCdT5FE4ZxqI7h7NBLuCrMGXU6DdP45r
-         8x4/j1H7RTtALZVVkaYDgLXnLkpFCt/p3NZA3nRP1MkMXT9COp5MdaEhh5IPVeXEOy1/
-         TALcybnTV43T9NGFe+ZaxH0M9g321tmS8ElbA0CgL2OTy8TA1OqKyKfs0hOdTSXfqr/H
-         eJOZP6fKhMbpPPIdi9QjfFjvCQf8YuqGU76nJO+bSdK98b15kzsGWaZpA6rKkEc7RV1M
-         DaRw==
-X-Forwarded-Encrypted: i=1; AFNElJ9EWFEveaN+1EUaroY/dpGfQt6fDZ9wsH0hz8GVwwzdqF7VehppvGrZ1GQ8WPN+MGwlhooz88rlw/DaiB5B@lists.linux.dev
-X-Gm-Message-State: AOJu0YyJlsVFL8U0vvE5YvlSrJsNzmR6DH2wKJ9vShjRK0nF0Hrv6BA+
-	d68TkVxLM60pFJ5K2PV4y02EknzUeAqrkbHcgNrN4ptNRVkePPyXcekr
-X-Gm-Gg: Acq92OF4ca8dGb4IZSWjFhBEFdPeNAIAdSMUAcLOQ4nUU/SsiOUqxUlnbkHDd8FjXc1
-	h99FE25JpLAMzz3DaKz1ukJqgzXbn8RUyqGWdblM/vni5fqL2LIaOobZo2bBQtmUDOQWmG0zB3C
-	XMlKviyf8WTzwgG4kruJCxtPR3oPb7u6lBl99c0ugDnPpmACVC2iiw1rmOhtRzanWopeuJwTGbH
-	UCm+XNiToHK7N1CJdK3eAp51PRfwPE5Ho0+Ez/L2y4h/1TId3z1krT3V3B4lXwLaqraVzuA9Ins
-	vGpRXp9H98QX6Jpq51hViwas+dCe+e2fxft2XpjabjRkh28IlSy+HSWHSbrVeajIUNJTbcpRAZl
-	kW/E5nu2pYbRB2KoAZeBJ8pF6q4873QLYDjnv//rM43pTVjPsbOEjb/fjpj2AyQV+Ln2xGNCsjo
-	ZYFE8Y3esDQGFao0KsxNsBuUlr
-X-Received: by 2002:a2e:be2c:0:b0:38e:8102:cbdd with SMTP id 38308e7fff4ca-393c40a4dbfmr87109361fa.3.1778504129888;
-        Mon, 11 May 2026 05:55:29 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1778504391; x=1779109191;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2QMO+Gz8PfVKu/eolXLN2n0KsiOaj48rOzsVlwL9wPc=;
+        b=mahkFnSgupPLPuKPYh+1VsXsnny7SjdWOFwGDZKTsK8GMd8hSLolcPReZ3TRxbLzgp
+         Di9iMf/XcCHJw+skz32ruDlBEbEX0lfoNwxbL5qRZ+gt4upmqrvS1hAsQQyQQEx/hDB+
+         eXVeVe5R9dvOdyUx1uMW20SHUNCBRHhN+gDNI6Jiwhznner05UPOxO45udXT5arYVGPK
+         NHmUMhCeKIop4Y+BVoBigcWuwFvwdyJyKVZBjK4MgO+Sw8knuG6mFF551HxL82ZoHZcB
+         lMv6rLRdfNOXvSlqbahBHYaz9ajgUo3AxIDDgecJ0W+tL538lXhYTybDUjIa/e7oHuYY
+         7tOg==
+X-Forwarded-Encrypted: i=1; AFNElJ+PjL4++e1wOzVd9ME5ftGLDHeNG8tKpI6Y/PBM4EEjdhyB+Aupg3aXMFFXiAlkiwSYmvrrJOlWa73ivI1U@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxgif/mNPHeBmIlVNtzOYQ34heekKtgWoUY1+s11rN8gLaZ+R/U
+	5dKOXHL/1HDNywAMLxmvNk+3WT9Z2Lq2DCIASG4c78/qz2FIvoVyr5y0a3nJ9Hqs
+X-Gm-Gg: Acq92OHHkF31OBl19SgeEvogOHU/19QxIUYPNACSfHDp6k9x+VgBu0wwThiqBvE1t9p
+	FJ4L1gpqVHsZzvXGV5bC/SenJNaxkDZnUDu+9LIxoNQJmhgQR4IO1CrQekrnojEtXXeWsyoKjtO
+	whpwRTfaM1qbN3TKc+4dTH6svb2JdQA+D0qluD7cLfyZB/6fkElJLy0GqeBvAml8xEN3quZ1zGV
+	jLL3RMBzt9EP4QNngKcTxHDmSB8j9G6h23b5J+HdMbwMHVXeYdmFUoEdMmTaLJUEYNOjTomNxsH
+	N+nBHSlQJk7tULFs81MRkBkDyXsIZo/GzmuhAIMvJP6BDoHXPb0t1fKK3lJSAxzYmK0WiYksD7p
+	IR8pS0/qB06+S824pPE3mBnRMv6n+mnZ7p3dtyut/qVWbduY5p5/rNnRE3T/X+bh1JYnM0EKubq
+	PtU6KTeiFQNTOY1hkOeGEnaZPR
+X-Received: by 2002:a05:6512:1387:b0:5a8:735f:aeba with SMTP id 2adb3069b0e04-5a8a94bc4bemr5253826e87.23.1778504389468;
+        Mon, 11 May 2026 05:59:49 -0700 (PDT)
 Received: from archlinux ([185.140.161.214])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-393f628ef7fsm26179731fa.40.2026.05.11.05.55.28
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a8b6b20ecesm1835213e87.29.2026.05.11.05.59.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 05:55:29 -0700 (PDT)
-Date: Mon, 11 May 2026 15:55:26 +0300
+        Mon, 11 May 2026 05:59:49 -0700 (PDT)
+Date: Mon, 11 May 2026 15:59:46 +0300
 From: Nikolay Kulikov <nikolayof23@gmail.com>
 To: Dan Carpenter <error27@gmail.com>
-Cc: PRAMOD MAURYA <pramod.nexgen@gmail.com>, gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Ethan Tidmore <ethantidmore06@gmail.com>,
-	Yuvraj Singh Chauhan <ysinghcin@gmail.com>,
-	Bryant Boatright <bryant.boatright@proton.me>
-Subject: Re: [PATCH] staging: rtl8723bs: Fix coding style in ieee80211.h
-Message-ID: <agHRvlftXepSzPDJ@archlinux>
-References: <20260510110228.96612-1-pramod.nexgen@gmail.com>
- <agC1-rqon7nRUdvM@archlinux>
- <CAKR_b74W78QpNKvF_bU1EfT0WhXq4GxQDJiQ05Z454eABRsYWA@mail.gmail.com>
- <agDInsLI8UV7LdhV@archlinux>
- <agGYe8_ggP5aQHha@stanley.mountain>
+Cc: Andrei Khomenkov <khomenkov@mailbox.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH 8/9] staging: rtl8723bs: remove commented out code in
+ rtw_mlme_ext.c
+Message-ID: <agHSwq6KyRF3Dd5Z@archlinux>
+References: <20260510134315.64295-1-khomenkov@mailbox.org>
+ <20260510134315.64295-9-khomenkov@mailbox.org>
+ <agFV6Bpe_HyxC4qG@archlinux>
+ <agGbearJiYajq7rv@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <agGYe8_ggP5aQHha@stanley.mountain>
+In-Reply-To: <agGbearJiYajq7rv@stanley.mountain>
 
-On Mon, May 11, 2026 at 11:51:07AM +0300, Dan Carpenter wrote:
-> On Sun, May 10, 2026 at 09:04:14PM +0300, Nikolay Kulikov wrote:
-> > On Sun, May 10, 2026 at 10:48:22PM +0530, PRAMOD MAURYA wrote:
-> > > Hi Nikolay,
-> > > 
-> > > Thanks for the review.
-> > > 
-> > > Understood. I’ll split the changes into separate logical patches and keep
-> > > future submissions more focused.
-> > > 
-> > > The Cc list was generated using get_maintainer.pl. I’ll review it more
-> > > carefully before sending the next revision.
+On Mon, May 11, 2026 at 12:03:53PM +0300, Dan Carpenter wrote:
+> On Mon, May 11, 2026 at 07:07:04AM +0300, Nikolay Kulikov wrote:
+> > On Sun, May 10, 2026 at 04:43:14PM +0300, Andrei Khomenkov wrote:
+> > > Remove commented out code in the site_survey function as it is not used.
+> > 				   ^^^^^^^^^^^
+> > It is better to indicate function names with brackets: site_survey().
 > > 
-> > Run this script with the '--nogit-fallback' flag, it will not output the
-> > developers who modified this file, only the maintainer and mailing
-> > lists.
 > 
-> The CC list was fine.  If you send Yuvraj and Bryant can figure out how to
-> handle emails.  If we really decide that everyone should use
-> --nogit-fallback then that should be made the default.
+> I feel like we can go mad with these sorts of review comments.  I spent
+> five minute reviewing all these patches and now I have to review them
+> all again because of this really minor thing?
+> 
+> My trick for minor review comments, is that I try to find a real bug
+> and I tie the minor thing to a major comment.  "Sorry, you forgot to
+> add clean up on error and also you forgot a comma in your commit
+> message".
+> 
+> There a lot of minor stuff that I end up ignoring...
 
-Understood. I suggested this flag because it helps me avoid sendig
-patches to people who haven't explicity requested them. But you're
-right, the decision is up to the sender.
+This is a really good trick, I will take note.
 
 
 Thanks,
