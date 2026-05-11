@@ -1,110 +1,62 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D607386578
-	for <linux-staging@lists.linux.dev>; Mon, 11 May 2026 12:41:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A04AF39E6F0;
+	Mon, 11 May 2026 12:42:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778503312; cv=none; b=pr/b9Q9Z1N6gMN4/pwNUgr4jlbwBIYCOtFJrxxTvPLrHVaKz7CwrT1dnYRtF0ZKQHU5KSVfWgDhoevK9ZLtS2uy1x1/zKkxSE6zurLSZWh8s/KAooAdYdrmrqW0MdaaNZMtIG0zuGyXqY/fJs+lHG64azpRb+Qf9Dwdyac3jygs=
+	t=1778503339; cv=none; b=RKZprtIZpyzSyrx1F+eMOIXAxRoq0RkMc8YA8jsVv480VU+1mwZo7Mj3dPO00LLtTDd/fnb3AURJZ93Kvv9O0GLa8hvRf1Lic0XN5BKsTQ5KROX2pFyBHom7RZlVJ1ItD2r094YYOA8IGepXNsAGX51yxd/6KPxfcyJMgqOcecE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778503312; c=relaxed/simple;
-	bh=+qZYh7WR+ScKTDa+5gXvi01wqyGsVDFVH86LVwo1Vi0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ViAxd8BhJE9pwCrlZYrlhCDDYr4uEh9fey2/nJb3nxmWsFhIrmxWzjt7HAQD263e+oZ1sKa2IwvwAil1lz3Rqh+YhuwXQVErW9PukL/CeGhMVnojvstciC4U/HKJw2fXOknW6lomtpoeV11+gmD6iO6dyGhabK3QuxhKckdJP+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HXkDd44h; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778503339; c=relaxed/simple;
+	bh=RFGhCYUvJZL88tchva9CVGvhbW+QURAp3QrfH2pvdGw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Awp0CmGNs5YXop4qLHdZ9PHp9RxkY1goMKRAc+1wLhaZ1fsCvCjVZAHjENV//rWd8xIhBImgvDU9seUd959HaGorehRrBC7DogbeLvdgq6BlFboajRe5XaVZVkFPodE11lmBp84SsOjReFbZnbGIxflrOWDeDXSRSkF9ykdYdWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=fnJ7ilhB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HXkDd44h"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4891e86fabeso50571635e9.1
-        for <linux-staging@lists.linux.dev>; Mon, 11 May 2026 05:41:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778503310; x=1779108110; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=keb7XlVhDus/Aq9Wo25qkQ1a+272nuyuUKaQUlw/8i0=;
-        b=HXkDd44hut3C1mtTGE9+jmxFAsbdeEiTnNJLhXlYW37IaER6oBWTNRNDPiizoIr9eP
-         vUIjioMb1j/o+yFC+l/9TSf4LJpX70IqNy2zG1Ado7rA4c4lhKvhbjAJb5yFOw4+ScDH
-         LAkXzyAaoks+Wrl7YueN5/sncv2dAmeXAk7X/pilAC0aTvnCPZcbY3ZZEtDgLx/1GOAr
-         QPdvZIIktjSBq6XKiEZcvIePUaPj+nxDQWbvZwMyUiTiKZkvY1+yYY49BItsjKtzelBs
-         OvURxLMJaWfmctf5/eNOSqDRscHpohGBdhm3LN7zUsTcJTWq3NzLm7sPSTfXzCrnlVWo
-         06JQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778503310; x=1779108110;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=keb7XlVhDus/Aq9Wo25qkQ1a+272nuyuUKaQUlw/8i0=;
-        b=d9mh/8J74Ct2/rGVGrBMEvoa84Cq8nKa4ulW8kHF5Gxq9X1yRe9hHmP6myCd7WJHAR
-         /FI6MfSfxE/NECxh9nHkBwhBoEUFctOVZ1izpeS4mMJoloryYrXYXkwqQ11mozzmMlUv
-         qLFdmVzJGxgAdPkbpwG+mxG8z2/2qku94FDJDMChlAZT63+1hY3b8binEvQ206Ivht8h
-         MDeuk3Ii3RRDH6idisIyioPPAhNwUKfu/bqW2ojgCmAezvS0jOrwaqa2Joj2dfjGrF3b
-         fZuvt0vX0qaFr16+CxXFaWocR3sPBN25t1svIRFxbPwiO8igfiaIDl6uGRwyQzG6urZV
-         /TuA==
-X-Forwarded-Encrypted: i=1; AFNElJ/TiE4KB4CA1f6PeXYeOup9bVGrFoZ4Whzlm1v/1LZuakQy5YCWohFc0Q3uB8PQhJcFNg7MPinPcrOvdSPA@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzm7Ldl0mIaQLpcdkp+aMsYkoUD2/X+hm346geyFdKoOxlQsrQd
-	rQ+hJmjlvkLKRe3PZn8EJLsThFmPFMPLBZyq85/63tqFIkiAmby11Lxl
-X-Gm-Gg: Acq92OFl03RSPAYjFO4VnPNRi1DQhef10S89ZBf1ag2sHm/7lXP2Fni1XZ+6S5X2v4n
-	eqRkCd4wAdvjcvWTLgQHhiJTxq3XfcPRT876Xmr+f+R4wGWdF0rJgTgHCbnjLHpWuOFLg2OSacB
-	WU7zr80R3sjQc2ZgfeX+nV1DPKYAZAmzzQvTPNvMkDz9w3MGy/U8VWDZqnRV/UAEPu88mbJDpS6
-	g8zXHXpBBgqMmuHQrCsPovl/KnIyEvWqZHcZGIZRDUlGb+JvoP6Ii8mbeck/ZFUkAmc0Hg3uzom
-	Ajb4EE7NaIX+zdR67HnCQj+AjrFlG0P60SiYdLv+TNoraIm1yZLzaMlA0Y0JPpMen/HHIgWGBTo
-	qT/LV4lR+ny4GGUIEbYPfVe7DuZjV/sS0M0ieBw1LyU0ZdnMvlKG+IZfUYk0FeJhMr2FZfknUpB
-	O9DIspPyxq+MusmdyTrhE+mr7l92/BWrHn9fAUzRLBraeJWcotzxWGZsMLLFNh5FybcrytRoquL
-	a3ZVahe0Fk3
-X-Received: by 2002:a5d:64e8:0:b0:43b:5672:efe with SMTP id ffacd0b85a97d-4515b056cf3mr39035174f8f.9.1778503309258;
-        Mon, 11 May 2026 05:41:49 -0700 (PDT)
-Received: from node ([202.47.63.86])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4548ec6c221sm26056634f8f.13.2026.05.11.05.41.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 05:41:49 -0700 (PDT)
-From: Muhammad Bilal <meatuni001@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	vireshk@kernel.org,
-	johan@kernel.org,
-	elder@kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] greybus: authentication: validate CAP response payload size
-Date: Mon, 11 May 2026 08:41:30 -0400
-Message-ID: <20260511124130.22092-1-meatuni001@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <2026051156-hamster-plating-7ae7@gregkh>
-References: <2026051156-hamster-plating-7ae7@gregkh>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="fnJ7ilhB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCAB5C2BCF7;
+	Mon, 11 May 2026 12:42:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1778503339;
+	bh=RFGhCYUvJZL88tchva9CVGvhbW+QURAp3QrfH2pvdGw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fnJ7ilhBNM/bghrndc42AZb97lnJXyIFun1NzO9w7/purYcI0CozwE+ZR2PxoyJOQ
+	 iflRydUHwj5el3Age33T6uC+QD8AQEc8BOodHFLo1edQq+ab0ZRjqCrlS+ZaG3wYVV
+	 Ufl6rPP+WX339MqnFHmiRFVtZS5Zza3GdKM8cs64=
+Date: Mon, 11 May 2026 14:42:16 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Alexandru Hossu <hossu.alexandru@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	error27@gmail.com, luka.gejak@linux.dev, stable@vger.kernel.org
+Subject: Re: [PATCH v4 0/3] staging: rtl8723bs: fix OOB reads and heap
+ overflow in IE parsing
+Message-ID: <2026051126-clergyman-bright-9ffd@gregkh>
+References: <2026050436-italics-clumsy-e83c@gregkh>
+ <20260505173818.3674164-1-hossu.alexandru@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260505173818.3674164-1-hossu.alexandru@gmail.com>
 
-On Mon, May 11, 2026 at 03:53:00AM +0000, Greg KH wrote:
-> Was this tested on any real greybus devices?
+On Tue, May 05, 2026 at 07:38:15PM +0200, Alexandru Hossu wrote:
+> v4, addressing the sashiko review comments on v3.
 
-No, I do not have access to real Greybus hardware. The issue was
-identified through code review of drivers/staging/greybus/authentication.c.
+There are still loads of new sashiko review comments on this series:
+	https://sashiko.dev/#/patchset/20260505173818.3674164-1-hossu.alexandru@gmail.com
 
-The vulnerable paths are:
+> Regarding hardware: I do not have rtl8723bs hardware available.  The
+> patches in this series are derived from static analysis of the code,
+> cross-checking against the 802.11 spec, and reviewing the patterns
+> already in use elsewhere in the same driver.
 
-1. payload_size is used in a subtraction without first verifying
-   payload_size >= sizeof(*response), which can underflow on short
-   responses.
+I'll have to defer to the bot here, let's get it to agree that you are
+making the needed changes, as you can't test the code.
 
-2. The resulting size is passed directly to memcpy() into fixed-size
-   UAPI buffers without validating against CAP_CERTIFICATE_MAX_SIZE
-   or CAP_SIGNATURE_MAX_SIZE.
+thanks,
 
-A malicious or compromised Greybus endpoint could therefore trigger
-an out-of-bounds write through an oversized payload.
-
-The fix adds the missing bounds checks before the memcpy() calls,
-which matches common kernel validation patterns.
-
-If testing on real hardware is required before merging, I am happy
-to wait.
-
-Thanks,
-Muhammad Bilal
+greg k-h
