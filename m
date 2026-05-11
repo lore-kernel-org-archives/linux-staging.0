@@ -1,63 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B268E31F9AE;
-	Mon, 11 May 2026 20:43:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE4D820E334;
+	Mon, 11 May 2026 23:30:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778532186; cv=none; b=umtEr6GD7g366PyI5OorZ7B7dQ8jdRC7LfpHuRzgwrr6o7g+vxlmgPqBCyJ0cUFqh3IMZ29TkAHtjv8Jnfc+GUXvDtBaqUpOgRYyRbYkdZmOYuoUlMtVSS3xVpCz8O5E/35N4mlZVyhAYnPFfDu3bjS5GZ5RwNvcnnpbFYCPjEI=
+	t=1778542228; cv=none; b=ZZrWzFpVfL3IhRg5t318lzVQ9kMNPvhtYOg8BOmE5H3wD4u+KFKxoNGo8ZjyQ6X60iruQYE7Bbb1O5z+NntOwa1WMvB4Q+FpPIcv6Gwn2v53lWWHP8WLtEX5Hh89zQpaM5g6l2goFO+xbi4lfCylO70eIogVRoiJquEwAPgGuog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778532186; c=relaxed/simple;
-	bh=67SPvg3yiYKzTo54n1Y6foF5cbwYKVi9H2uevMHI7Pk=;
+	s=arc-20240116; t=1778542228; c=relaxed/simple;
+	bh=GvAJBnrtFKgXQtZB4E7zOI5jH5LH1X1JwsiYoQttBQM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IUMQswN6dMxy3beS3rIWgXLwvJHFq21LwqbrSQrPwXXIQfes6fYWsCxa+XH/hehRlmwJjH5lEz90ZtmhhzdXmtHO54xD/EYviFnlYBxuqlvufBI92MuQW0MjjanvHH3rUjfV6PxnY2DQAKnEL+NSDFrr2Tchi70Cl9XsYUxbdtw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OZvY5KUC; arc=none smtp.client-ip=192.198.163.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=SVYdcyq0M8S6+shXeDNXd3o6Sl93UV/J+DpRn4/YLmCyMIZyP+ZrJD1i5+DKwdgxG++jSzs3Xm3YfL56+dCyHOXhb7mzXYWNoVZuy0aMR2rx3k1GAioLsh8nFCn5ZZzPdx0pyHAohrXwtzsFLnMvUEaZ8wBAnZ017mvslw2kW+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hszuLZ6K; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OZvY5KUC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hszuLZ6K"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778532184; x=1810068184;
+  t=1778542225; x=1810078225;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=67SPvg3yiYKzTo54n1Y6foF5cbwYKVi9H2uevMHI7Pk=;
-  b=OZvY5KUCYN2daoZ7IkrkLV01Y6yGgcmKLPRX8eSRxVM8PlAhrdVaI5ET
-   ceI2zWCgZqHEmIXVkpX9APf1FWg2GooZgchXNocibTxuNNfmDUN2ZT6Gx
-   v34qdTOTHZ23mHwe0bO8MrM/3w9Zj18xGJlDnSOFxr8GFOh7hOR3Ow4KG
-   DIuzimDLqZEZEAugoZMx6/uL9ZRY1nBqCRsEvlwyEIH/A0ppyX22WunCC
-   QdjjhBjMM6X7GjrKnrXSdnAm5WJLSMZcOKAxBHDALtiHrw7UNvN8WI64m
-   yQ19reELO2rkA1Gnlz408R/4KK8OpbfgaLZI71seB+QaH5l2ScBEMBrKB
-   Q==;
-X-CSE-ConnectionGUID: zTffG92BQ4m7O9geQYq6ng==
-X-CSE-MsgGUID: N/66BErNQPK7CU7wM/JtOg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="81996037"
+  bh=GvAJBnrtFKgXQtZB4E7zOI5jH5LH1X1JwsiYoQttBQM=;
+  b=hszuLZ6Kyws+ZhktVCx3niwigij15Cv1QPXZhQ1NmHxEVd5xMP6SRmt/
+   ledVMwc7tJG1agFXvjxcln8CJ4RQpc1OjLDOrUA1cjz59qRfCFASIDhY6
+   PQdF4tbDENTicTZyhkNL+ZD/13piGcEilYU2gA8osfVo/jio+b/4Expj6
+   2JM/yvs6K1g6ddaS8Oioa3fbGkAOjPxxmUd4+JkOkCL4AGOWd6lHO6N9E
+   2/uv3CIJ3a7FcH7kSdkhF5JWPI5UuKhX6sFscpIN2m3dPMZP/pczfgbNz
+   VWHFY1cDgyaZr9gIlc0FE52/ioqs5sr8nS3PN+Kv1QVTthTMDXqmeVmL8
+   A==;
+X-CSE-ConnectionGUID: Sq6CW+PrTsSyofLxVu+0Fg==
+X-CSE-MsgGUID: MTVUaoEIRk2DIr6V9+4H3g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11783"; a="90826304"
 X-IronPort-AV: E=Sophos;i="6.23,229,1770624000"; 
-   d="scan'208";a="81996037"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 13:43:03 -0700
-X-CSE-ConnectionGUID: rUJcvrXFSOa7+7Cv9T/Keg==
-X-CSE-MsgGUID: EkCGXHZNQFuNA9rSAUegxQ==
+   d="scan'208";a="90826304"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2026 16:30:24 -0700
+X-CSE-ConnectionGUID: jCl0O/RfSIShfmrfe1B/RA==
+X-CSE-MsgGUID: gKEJ9YQFRpCXzXlco7TVVg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,229,1770624000"; 
-   d="scan'208";a="241553507"
+   d="scan'208";a="241947502"
 Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 11 May 2026 13:43:01 -0700
+  by orviesa004.jf.intel.com with ESMTP; 11 May 2026 16:30:21 -0700
 Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wMXSs-0000000019J-0m9B;
-	Mon, 11 May 2026 20:42:58 +0000
-Date: Tue, 12 May 2026 04:42:49 +0800
+	id 1wMa4n-000000001HB-1zox;
+	Mon, 11 May 2026 23:30:17 +0000
+Date: Tue, 12 May 2026 07:30:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chaitanya Sabnis <chaitanya.msabnis@gmail.com>,
-	sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
-	gregkh@linuxfoundation.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Chaitanya Sabnis <chaitanya.msabnis@gmail.com>
-Subject: Re: [PATCH] staging: sm750fb: add const to g_fbmode array
-Message-ID: <202605120426.9EKM6cs7-lkp@intel.com>
-References: <20260506035641.5060-1-chaitanya.msabnis@gmail.com>
+To: Everton Colombo <e.rcolombo2@gmail.com>, andy@kernel.org,
+	hansg@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, mchehab@kernel.org,
+	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
+	koike@igalia.com, ~lkcamp/patches@lists.sr.ht,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Everton Colombo <e.rcolombo2@gmail.com>
+Subject: Re: [PATCH v2] media: atomisp: remove returns from void functions
+Message-ID: <202605120751.1V5xT63P-lkp@intel.com>
+References: <20260506173028.24417-1-e.rcolombo2@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -66,258 +68,305 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260506035641.5060-1-chaitanya.msabnis@gmail.com>
+In-Reply-To: <20260506173028.24417-1-e.rcolombo2@gmail.com>
 
-Hi Chaitanya,
+Hi Everton,
 
 kernel test robot noticed the following build errors:
 
 [auto build test ERROR on staging/staging-testing]
+[also build test ERROR on staging/staging-next staging/staging-linus linus/master v7.1-rc3 next-20260508]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Chaitanya-Sabnis/staging-sm750fb-add-const-to-g_fbmode-array/20260509-141744
+url:    https://github.com/intel-lab-lkp/linux/commits/Everton-Colombo/media-atomisp-remove-returns-from-void-functions/20260510-154432
 base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20260506035641.5060-1-chaitanya.msabnis%40gmail.com
-patch subject: [PATCH] staging: sm750fb: add const to g_fbmode array
-config: i386-randconfig-053-20260511 (https://download.01.org/0day-ci/archive/20260512/202605120426.9EKM6cs7-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260512/202605120426.9EKM6cs7-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20260506173028.24417-1-e.rcolombo2%40gmail.com
+patch subject: [PATCH v2] media: atomisp: remove returns from void functions
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20260512/202605120751.1V5xT63P-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260512/202605120751.1V5xT63P-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605120426.9EKM6cs7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605120751.1V5xT63P-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/staging/sm750fb/sm750.c: In function 'lynxfb_set_fbinfo':
->> drivers/staging/sm750fb/sm750.c:785:33: error: assignment of read-only location 'g_fbmode[index]'
-     785 |                 g_fbmode[index] = g_def_fbmode;
-         |                                 ^
-   drivers/staging/sm750fb/sm750.c:787:41: error: assignment of read-only location 'g_fbmode[index]'
-     787 |                         g_fbmode[index] = g_fbmode[0];
-         |                                         ^
-   drivers/staging/sm750fb/sm750.c: In function 'sm750fb_setup':
->> drivers/staging/sm750fb/sm750.c:896:45: error: assignment of read-only location 'g_fbmode[0]'
-     896 |                                 g_fbmode[0] = opt;
-         |                                             ^
-   drivers/staging/sm750fb/sm750.c:900:45: error: assignment of read-only location 'g_fbmode[1]'
-     900 |                                 g_fbmode[1] = opt;
-         |                                             ^
+>> drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:443:1: error: function definition is not allowed here
+     443 | {
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:808:1: error: function definition is not allowed here
+     808 | {
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:825:1: error: function definition is not allowed here
+     825 | {
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:840:1: error: function definition is not allowed here
+     840 | {
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:854:1: error: function definition is not allowed here
+     854 | {
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:879:1: error: function definition is not allowed here
+     879 | {
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:947:1: error: function definition is not allowed here
+     947 | {
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:977:1: error: function definition is not allowed here
+     977 | {
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1012:1: error: function definition is not allowed here
+    1012 | {
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1026:1: error: function definition is not allowed here
+    1026 | {
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1041:1: error: function definition is not allowed here
+    1041 | {
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1050:1: error: function definition is not allowed here
+    1050 | {
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1069:1: error: function definition is not allowed here
+    1069 | {
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1105:1: error: function definition is not allowed here
+    1105 | {
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1115:1: error: function definition is not allowed here
+    1115 | {
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1160:1: error: function definition is not allowed here
+    1160 | {
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1370:1: error: function definition is not allowed here
+    1370 | {
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1401:1: error: function definition is not allowed here
+    1401 | {
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1413:1: error: function definition is not allowed here
+    1413 | {
+         | ^
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   20 errors generated.
+--
+>> drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:114:1: error: function definition is not allowed here
+     114 | {
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:124:1: error: function definition is not allowed here
+     124 | {
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:133:1: error: function definition is not allowed here
+     133 | {
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:141:1: error: function definition is not allowed here
+     141 | {
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:150:1: error: function definition is not allowed here
+     150 | {
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:161:1: error: function definition is not allowed here
+     161 | {
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:175:1: error: function definition is not allowed here
+     175 | {
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:185:1: error: function definition is not allowed here
+     185 | {
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:192:1: error: function definition is not allowed here
+     192 | {
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:209:1: error: function definition is not allowed here
+     209 | {
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:296:1: error: function definition is not allowed here
+     296 | {
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:343:1: error: function definition is not allowed here
+     343 | {
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:370:1: error: function definition is not allowed here
+     370 | {
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:392:1: error: function definition is not allowed here
+     392 | {
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:403:1: error: function definition is not allowed here
+     403 | {
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:425:1: error: function definition is not allowed here
+     425 | {
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:449:1: error: function definition is not allowed here
+     449 | {
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:472:1: error: function definition is not allowed here
+     472 | {
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:490:1: error: function definition is not allowed here
+     490 | {
+         | ^
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   20 errors generated.
+--
+>> drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c:638:1: error: function definition is not allowed here
+     638 | {
+         | ^
+>> drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c:646:2: error: expected '}'
+     646 | }
+         |  ^
+   drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c:543:1: note: to match this '{'
+     543 | {
+         | ^
+   2 errors generated.
 
 
-vim +785 drivers/staging/sm750fb/sm750.c
+vim +443 drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
 
-81dee67e215b23f Sudip Mukherjee      2015-03-03  719  
-81dee67e215b23f Sudip Mukherjee      2015-03-03  720  static int lynxfb_set_fbinfo(struct fb_info *info, int index)
-81dee67e215b23f Sudip Mukherjee      2015-03-03  721  {
-81dee67e215b23f Sudip Mukherjee      2015-03-03  722  	int i;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  723  	struct lynxfb_par *par;
-e359b6a863e19f2 Mike Rapoport        2015-10-26  724  	struct sm750_dev *sm750_dev;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  725  	struct lynxfb_crtc *crtc;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  726  	struct lynxfb_output *output;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  727  	struct fb_var_screeninfo *var;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  728  	struct fb_fix_screeninfo *fix;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  729  
-81dee67e215b23f Sudip Mukherjee      2015-03-03  730  	const struct fb_videomode *pdb[] = {
-81dee67e215b23f Sudip Mukherjee      2015-03-03  731  		lynx750_ext, NULL, vesa_modes,
-81dee67e215b23f Sudip Mukherjee      2015-03-03  732  	};
-81dee67e215b23f Sudip Mukherjee      2015-03-03  733  	int cdb[] = {ARRAY_SIZE(lynx750_ext), 0, VESA_MODEDB_SIZE};
-d0856045f0e9fc9 Hungyu Lin           2026-04-01  734  	static const char * const fix_id[2] = {
-81dee67e215b23f Sudip Mukherjee      2015-03-03  735  		"sm750_fb1", "sm750_fb2",
-81dee67e215b23f Sudip Mukherjee      2015-03-03  736  	};
-81dee67e215b23f Sudip Mukherjee      2015-03-03  737  
-81dee67e215b23f Sudip Mukherjee      2015-03-03  738  	int ret, line_length;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  739  
-81dee67e215b23f Sudip Mukherjee      2015-03-03  740  	ret = 0;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  741  	par = (struct lynxfb_par *)info->par;
-e359b6a863e19f2 Mike Rapoport        2015-10-26  742  	sm750_dev = par->dev;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  743  	crtc = &par->crtc;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  744  	output = &par->output;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  745  	var = &info->var;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  746  	fix = &info->fix;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  747  
-81dee67e215b23f Sudip Mukherjee      2015-03-03  748  	/* set index */
-81dee67e215b23f Sudip Mukherjee      2015-03-03  749  	par->index = index;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  750  	output->channel = &crtc->channel;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  751  	sm750fb_set_drv(par);
-81dee67e215b23f Sudip Mukherjee      2015-03-03  752  
-d11ac7cbcc266c6 Sudip Mukherjee      2015-08-07  753  	/*
-d11ac7cbcc266c6 Sudip Mukherjee      2015-08-07  754  	 * set current cursor variable and proc pointer,
-d11ac7cbcc266c6 Sudip Mukherjee      2015-08-07  755  	 * must be set after crtc member initialized
-d11ac7cbcc266c6 Sudip Mukherjee      2015-08-07  756  	 */
-fdc234d85210d91 Benjamin Philip      2021-07-28  757  	crtc->cursor.offset = crtc->o_screen + crtc->vidmem_size - 1024;
-e359b6a863e19f2 Mike Rapoport        2015-10-26  758  	crtc->cursor.mmio = sm750_dev->pvReg +
-e359b6a863e19f2 Mike Rapoport        2015-10-26  759  		0x800f0 + (int)crtc->channel * 0x140;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  760  
-cd33da26036ea54 Christopher Carbone  2022-08-23  761  	crtc->cursor.max_h = 64;
-cd33da26036ea54 Christopher Carbone  2022-08-23  762  	crtc->cursor.max_w = 64;
-39f9137268ee3df Benjamin Philip      2021-07-26  763  	crtc->cursor.size = crtc->cursor.max_h * crtc->cursor.max_w * 2 / 8;
-e359b6a863e19f2 Mike Rapoport        2015-10-26  764  	crtc->cursor.vstart = sm750_dev->pvMem + crtc->cursor.offset;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  765  
-3de08a2d14ff8c7 Lorenzo Stoakes      2015-03-20  766  	memset_io(crtc->cursor.vstart, 0, crtc->cursor.size);
-f7c8a046577e09d Thomas Zimmermann    2023-11-27  767  	if (!g_hwcursor)
-52d0744d751d8f1 Arnd Bergmann        2016-11-09  768  		sm750_hw_cursor_disable(&crtc->cursor);
-81dee67e215b23f Sudip Mukherjee      2015-03-03  769  
-81dee67e215b23f Sudip Mukherjee      2015-03-03  770  	/* set info->fbops, must be set before fb_find_mode */
-e359b6a863e19f2 Mike Rapoport        2015-10-26  771  	if (!sm750_dev->accel_off) {
-81dee67e215b23f Sudip Mukherjee      2015-03-03  772  		/* use 2d acceleration */
-f7c8a046577e09d Thomas Zimmermann    2023-11-27  773  		if (!g_hwcursor)
-f7c8a046577e09d Thomas Zimmermann    2023-11-27  774  			info->fbops = &lynxfb_ops_accel;
-f7c8a046577e09d Thomas Zimmermann    2023-11-27  775  		else
-f7c8a046577e09d Thomas Zimmermann    2023-11-27  776  			info->fbops = &lynxfb_ops_accel_with_cursor;
-f7c8a046577e09d Thomas Zimmermann    2023-11-27  777  	} else {
-f7c8a046577e09d Thomas Zimmermann    2023-11-27  778  		if (!g_hwcursor)
-81dee67e215b23f Sudip Mukherjee      2015-03-03  779  			info->fbops = &lynxfb_ops;
-f7c8a046577e09d Thomas Zimmermann    2023-11-27  780  		else
-f7c8a046577e09d Thomas Zimmermann    2023-11-27  781  			info->fbops = &lynxfb_ops_with_cursor;
-f7c8a046577e09d Thomas Zimmermann    2023-11-27  782  	}
-81dee67e215b23f Sudip Mukherjee      2015-03-03  783  
-81dee67e215b23f Sudip Mukherjee      2015-03-03  784  	if (!g_fbmode[index]) {
-81dee67e215b23f Sudip Mukherjee      2015-03-03 @785  		g_fbmode[index] = g_def_fbmode;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  786  		if (index)
-81dee67e215b23f Sudip Mukherjee      2015-03-03  787  			g_fbmode[index] = g_fbmode[0];
-81dee67e215b23f Sudip Mukherjee      2015-03-03  788  	}
-81dee67e215b23f Sudip Mukherjee      2015-03-03  789  
-81dee67e215b23f Sudip Mukherjee      2015-03-03  790  	for (i = 0; i < 3; i++) {
-81dee67e215b23f Sudip Mukherjee      2015-03-03  791  		ret = fb_find_mode(var, info, g_fbmode[index],
-81dee67e215b23f Sudip Mukherjee      2015-03-03  792  				   pdb[i], cdb[i], NULL, 8);
-81dee67e215b23f Sudip Mukherjee      2015-03-03  793  
-db7fb3588ab4920 Artem Lytkin         2026-02-23  794  		if (ret == 1 || ret == 2)
-81dee67e215b23f Sudip Mukherjee      2015-03-03  795  			break;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  796  	}
-81dee67e215b23f Sudip Mukherjee      2015-03-03  797  
-81dee67e215b23f Sudip Mukherjee      2015-03-03  798  	/* set par */
-81dee67e215b23f Sudip Mukherjee      2015-03-03  799  	par->info = info;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  800  
-81dee67e215b23f Sudip Mukherjee      2015-03-03  801  	/* set info */
-e3a3f9f5123683b Mike Rapoport        2015-10-26  802  	line_length = ALIGN((var->xres_virtual * var->bits_per_pixel / 8),
-e3a3f9f5123683b Mike Rapoport        2015-10-26  803  			    crtc->line_pad);
-81dee67e215b23f Sudip Mukherjee      2015-03-03  804  
-81dee67e215b23f Sudip Mukherjee      2015-03-03  805  	info->pseudo_palette = &par->pseudo_palette[0];
-cc59bde1c920ab6 Benjamin Philip      2021-07-28  806  	info->screen_base = crtc->v_screen;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  807  	info->screen_size = line_length * var->yres_virtual;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  808  
-81dee67e215b23f Sudip Mukherjee      2015-03-03  809  	/* set info->fix */
-81dee67e215b23f Sudip Mukherjee      2015-03-03  810  	fix->type = FB_TYPE_PACKED_PIXELS;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  811  	fix->type_aux = 0;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  812  	fix->xpanstep = crtc->xpanstep;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  813  	fix->ypanstep = crtc->ypanstep;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  814  	fix->ywrapstep = crtc->ywrapstep;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  815  	fix->accel = FB_ACCEL_SMI;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  816  
-8c475735085a7db Tim Wassink          2025-12-21  817  	strscpy(fix->id, fix_id[index], sizeof(fix->id));
-81dee67e215b23f Sudip Mukherjee      2015-03-03  818  
-fdc234d85210d91 Benjamin Philip      2021-07-28  819  	fix->smem_start = crtc->o_screen + sm750_dev->vidmem_start;
-d11ac7cbcc266c6 Sudip Mukherjee      2015-08-07  820  	/*
-d11ac7cbcc266c6 Sudip Mukherjee      2015-08-07  821  	 * according to mmap experiment from user space application,
-81dee67e215b23f Sudip Mukherjee      2015-03-03  822  	 * fix->mmio_len should not larger than virtual size
-81dee67e215b23f Sudip Mukherjee      2015-03-03  823  	 * (xres_virtual x yres_virtual x ByPP)
-81dee67e215b23f Sudip Mukherjee      2015-03-03  824  	 * Below line maybe buggy when user mmap fb dev node and write
-81dee67e215b23f Sudip Mukherjee      2015-03-03  825  	 * data into the bound over virtual size
-d11ac7cbcc266c6 Sudip Mukherjee      2015-08-07  826  	 */
-81dee67e215b23f Sudip Mukherjee      2015-03-03  827  	fix->smem_len = crtc->vidmem_size;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  828  	info->screen_size = fix->smem_len;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  829  	fix->line_length = line_length;
-e359b6a863e19f2 Mike Rapoport        2015-10-26  830  	fix->mmio_start = sm750_dev->vidreg_start;
-e359b6a863e19f2 Mike Rapoport        2015-10-26  831  	fix->mmio_len = sm750_dev->vidreg_size;
-b610e1193a917f4 Matej Dujava         2020-04-30  832  
-b610e1193a917f4 Matej Dujava         2020-04-30  833  	lynxfb_set_visual_mode(info);
-81dee67e215b23f Sudip Mukherjee      2015-03-03  834  
-81dee67e215b23f Sudip Mukherjee      2015-03-03  835  	/* set var */
-81dee67e215b23f Sudip Mukherjee      2015-03-03  836  	var->activate = FB_ACTIVATE_NOW;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  837  	var->accel_flags = 0;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  838  	var->vmode = FB_VMODE_NONINTERLACED;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  839  
-61c507cf652da1b Michel von Czettritz 2015-03-26  840  	ret = fb_alloc_cmap(&info->cmap, 256, 0);
-61c507cf652da1b Michel von Czettritz 2015-03-26  841  	if (ret < 0) {
-fbab250eb51d6d6 Artem Lytkin         2026-02-07  842  		dev_err(info->device, "Could not allocate memory for cmap.\n");
-81dee67e215b23f Sudip Mukherjee      2015-03-03  843  		goto exit;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  844  	}
-81dee67e215b23f Sudip Mukherjee      2015-03-03  845  
-81dee67e215b23f Sudip Mukherjee      2015-03-03  846  exit:
-81dee67e215b23f Sudip Mukherjee      2015-03-03  847  	lynxfb_ops_check_var(var, info);
-81dee67e215b23f Sudip Mukherjee      2015-03-03  848  	return ret;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  849  }
-81dee67e215b23f Sudip Mukherjee      2015-03-03  850  
-81dee67e215b23f Sudip Mukherjee      2015-03-03  851  /*	chip specific g_option configuration routine */
-700591a9adc8b1b Mike Rapoport        2015-10-26  852  static void sm750fb_setup(struct sm750_dev *sm750_dev, char *src)
-81dee67e215b23f Sudip Mukherjee      2015-03-03  853  {
-81dee67e215b23f Sudip Mukherjee      2015-03-03  854  	char *opt;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  855  	int swap;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  856  
-81dee67e215b23f Sudip Mukherjee      2015-03-03  857  	swap = 0;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  858  
-cc34db609ff98c1 Madhumitha Sundar    2026-01-27  859  	sm750_dev->init_parm.chip_clk = 0;
-cc34db609ff98c1 Madhumitha Sundar    2026-01-27  860  	sm750_dev->init_parm.mem_clk = 0;
-cc34db609ff98c1 Madhumitha Sundar    2026-01-27  861  	sm750_dev->init_parm.master_clk = 0;
-cc34db609ff98c1 Madhumitha Sundar    2026-01-27  862  	sm750_dev->init_parm.powerMode = 0;
-cc34db609ff98c1 Madhumitha Sundar    2026-01-27  863  	sm750_dev->init_parm.setAllEngOff = 0;
-cc34db609ff98c1 Madhumitha Sundar    2026-01-27  864  	sm750_dev->init_parm.resetMemory = 1;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  865  
-81dee67e215b23f Sudip Mukherjee      2015-03-03  866  	/* defaultly turn g_hwcursor on for both view */
-81dee67e215b23f Sudip Mukherjee      2015-03-03  867  	g_hwcursor = 3;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  868  
-81dee67e215b23f Sudip Mukherjee      2015-03-03  869  	if (!src || !*src) {
-c56de0967a658cb Elise Lennion        2016-10-31  870  		dev_warn(&sm750_dev->pdev->dev, "no specific g_option.\n");
-81dee67e215b23f Sudip Mukherjee      2015-03-03  871  		goto NO_PARAM;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  872  	}
-81dee67e215b23f Sudip Mukherjee      2015-03-03  873  
-0fa96e39279988b Sudip Mukherjee      2015-03-10  874  	while ((opt = strsep(&src, ":")) != NULL && *opt != 0) {
-c56de0967a658cb Elise Lennion        2016-10-31  875  		dev_info(&sm750_dev->pdev->dev, "opt=%s\n", opt);
-c56de0967a658cb Elise Lennion        2016-10-31  876  		dev_info(&sm750_dev->pdev->dev, "src=%s\n", src);
-81dee67e215b23f Sudip Mukherjee      2015-03-03  877  
-144634a6b421468 Katie Dunne          2017-02-19  878  		if (!strncmp(opt, "swap", strlen("swap"))) {
-81dee67e215b23f Sudip Mukherjee      2015-03-03  879  			swap = 1;
-144634a6b421468 Katie Dunne          2017-02-19  880  		} else if (!strncmp(opt, "nocrt", strlen("nocrt"))) {
-1757d106a9ce8cc Mike Rapoport        2015-10-26  881  			sm750_dev->nocrt = 1;
-144634a6b421468 Katie Dunne          2017-02-19  882  		} else if (!strncmp(opt, "36bit", strlen("36bit"))) {
-94c938a0c158635 Shubham Chakraborty  2026-04-07  883  			sm750_dev->pnltype = SM750_DOUBLE_TFT;
-144634a6b421468 Katie Dunne          2017-02-19  884  		} else if (!strncmp(opt, "18bit", strlen("18bit"))) {
-94c938a0c158635 Shubham Chakraborty  2026-04-07  885  			sm750_dev->pnltype = SM750_DUAL_TFT;
-144634a6b421468 Katie Dunne          2017-02-19  886  		} else if (!strncmp(opt, "24bit", strlen("24bit"))) {
-94c938a0c158635 Shubham Chakraborty  2026-04-07  887  			sm750_dev->pnltype = SM750_24TFT;
-144634a6b421468 Katie Dunne          2017-02-19  888  		} else if (!strncmp(opt, "nohwc0", strlen("nohwc0"))) {
-81dee67e215b23f Sudip Mukherjee      2015-03-03  889  			g_hwcursor &= ~0x1;
-144634a6b421468 Katie Dunne          2017-02-19  890  		} else if (!strncmp(opt, "nohwc1", strlen("nohwc1"))) {
-81dee67e215b23f Sudip Mukherjee      2015-03-03  891  			g_hwcursor &= ~0x2;
-144634a6b421468 Katie Dunne          2017-02-19  892  		} else if (!strncmp(opt, "nohwc", strlen("nohwc"))) {
-81dee67e215b23f Sudip Mukherjee      2015-03-03  893  			g_hwcursor = 0;
-144634a6b421468 Katie Dunne          2017-02-19  894  		} else {
-81dee67e215b23f Sudip Mukherjee      2015-03-03  895  			if (!g_fbmode[0]) {
-81dee67e215b23f Sudip Mukherjee      2015-03-03 @896  				g_fbmode[0] = opt;
-cee9ba1c30d0517 Abdul Rauf           2017-01-08  897  				dev_info(&sm750_dev->pdev->dev,
-cee9ba1c30d0517 Abdul Rauf           2017-01-08  898  					 "find fbmode0 : %s\n", g_fbmode[0]);
-81dee67e215b23f Sudip Mukherjee      2015-03-03  899  			} else if (!g_fbmode[1]) {
-81dee67e215b23f Sudip Mukherjee      2015-03-03  900  				g_fbmode[1] = opt;
-cee9ba1c30d0517 Abdul Rauf           2017-01-08  901  				dev_info(&sm750_dev->pdev->dev,
-cee9ba1c30d0517 Abdul Rauf           2017-01-08  902  					 "find fbmode1 : %s\n", g_fbmode[1]);
-81dee67e215b23f Sudip Mukherjee      2015-03-03  903  			} else {
-c56de0967a658cb Elise Lennion        2016-10-31  904  				dev_warn(&sm750_dev->pdev->dev, "How many view you wann set?\n");
-81dee67e215b23f Sudip Mukherjee      2015-03-03  905  			}
-81dee67e215b23f Sudip Mukherjee      2015-03-03  906  		}
-81dee67e215b23f Sudip Mukherjee      2015-03-03  907  	}
-81dee67e215b23f Sudip Mukherjee      2015-03-03  908  
-81dee67e215b23f Sudip Mukherjee      2015-03-03  909  NO_PARAM:
-e359b6a863e19f2 Mike Rapoport        2015-10-26  910  	if (sm750_dev->revid != SM750LE_REVISION_ID) {
-a3f92cc94c6126d Mike Rapoport        2016-01-17  911  		if (sm750_dev->fb_count > 1) {
-81dee67e215b23f Sudip Mukherjee      2015-03-03  912  			if (swap)
-1757d106a9ce8cc Mike Rapoport        2015-10-26  913  				sm750_dev->dataflow = sm750_dual_swap;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  914  			else
-1757d106a9ce8cc Mike Rapoport        2015-10-26  915  				sm750_dev->dataflow = sm750_dual_normal;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  916  		} else {
-81dee67e215b23f Sudip Mukherjee      2015-03-03  917  			if (swap)
-1757d106a9ce8cc Mike Rapoport        2015-10-26  918  				sm750_dev->dataflow = sm750_simul_sec;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  919  			else
-1757d106a9ce8cc Mike Rapoport        2015-10-26  920  				sm750_dev->dataflow = sm750_simul_pri;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  921  		}
-81dee67e215b23f Sudip Mukherjee      2015-03-03  922  	} else {
-81dee67e215b23f Sudip Mukherjee      2015-03-03  923  		/* SM750LE only have one crt channel */
-1757d106a9ce8cc Mike Rapoport        2015-10-26  924  		sm750_dev->dataflow = sm750_simul_sec;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  925  		/* sm750le do not have complex attributes */
-1757d106a9ce8cc Mike Rapoport        2015-10-26  926  		sm750_dev->nocrt = 0;
-81dee67e215b23f Sudip Mukherjee      2015-03-03  927  	}
-81dee67e215b23f Sudip Mukherjee      2015-03-03  928  }
-81dee67e215b23f Sudip Mukherjee      2015-03-03  929  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  387  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  388  void ia_css_debug_binary_print(const struct ia_css_binary *bi)
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  389  {
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  390  	unsigned int i;
+bdfe0beb95eebc drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  391  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  392  	debug_binary_info_print(bi->info);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  393  	ia_css_debug_dtrace(2,
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  394  			    "input:  %dx%d, format = %d, padded width = %d\n",
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  395  			    bi->in_frame_info.res.width,
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  396  			    bi->in_frame_info.res.height,
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  397  			    bi->in_frame_info.format,
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  398  			    bi->in_frame_info.padded_width);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  399  	ia_css_debug_dtrace(2,
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  400  			    "internal :%dx%d, format = %d, padded width = %d\n",
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  401  			    bi->internal_frame_info.res.width,
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  402  			    bi->internal_frame_info.res.height,
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  403  			    bi->internal_frame_info.format,
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  404  			    bi->internal_frame_info.padded_width);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  405  	for (i = 0; i < IA_CSS_BINARY_MAX_OUTPUT_PORTS; i++) {
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  406  		if (bi->out_frame_info[i].res.width != 0) {
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  407  			ia_css_debug_dtrace(2,
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  408  					    "out%d:    %dx%d, format = %d, padded width = %d\n",
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  409  					    i,
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  410  					    bi->out_frame_info[i].res.width,
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  411  					    bi->out_frame_info[i].res.height,
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  412  					    bi->out_frame_info[i].format,
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  413  					    bi->out_frame_info[i].padded_width);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  414  		}
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  415  	}
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  416  	ia_css_debug_dtrace(2,
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  417  			    "vf out: %dx%d, format = %d, padded width = %d\n",
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  418  			    bi->vf_frame_info.res.width,
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  419  			    bi->vf_frame_info.res.height,
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  420  			    bi->vf_frame_info.format,
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  421  			    bi->vf_frame_info.padded_width);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  422  	ia_css_debug_dtrace(2, "online = %d\n", bi->online);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  423  	ia_css_debug_dtrace(2, "input_buf_vectors = %d\n",
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  424  			    bi->input_buf_vectors);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  425  	ia_css_debug_dtrace(2, "deci_factor_log2 = %d\n", bi->deci_factor_log2);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  426  	ia_css_debug_dtrace(2, "vf_downscale_log2 = %d\n",
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  427  			    bi->vf_downscale_log2);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  428  	ia_css_debug_dtrace(2, "dis_deci_factor_log2 = %d\n",
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  429  			    bi->dis.deci_factor_log2);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  430  	ia_css_debug_dtrace(2, "dis hor coef num = %d\n",
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  431  			    bi->dis.coef.pad.width);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  432  	ia_css_debug_dtrace(2, "dis ver coef num = %d\n",
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  433  			    bi->dis.coef.pad.height);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  434  	ia_css_debug_dtrace(2, "dis hor proj num = %d\n",
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  435  			    bi->dis.proj.pad.height);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  436  	ia_css_debug_dtrace(2, "sctbl_width_per_color = %d\n",
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  437  			    bi->sctbl_width_per_color);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  438  	ia_css_debug_dtrace(2, "s3atbl_width = %d\n", bi->s3atbl_width);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  439  	ia_css_debug_dtrace(2, "s3atbl_height = %d\n", bi->s3atbl_height);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  440  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  441  void ia_css_debug_frame_print(const struct ia_css_frame *frame,
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  442  			      const char *descr)
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19 @443  {
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  444  	char *data = NULL;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  445  
+bdfe0beb95eebc drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  446  	assert(frame);
+bdfe0beb95eebc drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  447  	assert(descr);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  448  
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  449  	data = (char *)HOST_ADDRESS(frame->data);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  450  	ia_css_debug_dtrace(2, "frame %s (%p):\n", descr, frame);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  451  	ia_css_debug_dtrace(2, "  resolution    = %dx%d\n",
+9a29f5fc340406 drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c                  Hans de Goede         2022-10-14  452  			    frame->frame_info.res.width, frame->frame_info.res.height);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  453  	ia_css_debug_dtrace(2, "  padded width  = %d\n",
+9a29f5fc340406 drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c                  Hans de Goede         2022-10-14  454  			    frame->frame_info.padded_width);
+9a29f5fc340406 drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c                  Hans de Goede         2022-10-14  455  	ia_css_debug_dtrace(2, "  format        = %d\n", frame->frame_info.format);
+9a29f5fc340406 drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c                  Hans de Goede         2022-10-14  456  	switch (frame->frame_info.format) {
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  457  	case IA_CSS_FRAME_FORMAT_NV12:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  458  	case IA_CSS_FRAME_FORMAT_NV16:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  459  	case IA_CSS_FRAME_FORMAT_NV21:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  460  	case IA_CSS_FRAME_FORMAT_NV61:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  461  		ia_css_debug_dtrace(2, "  Y = %p\n",
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  462  				    data + frame->planes.nv.y.offset);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  463  		ia_css_debug_dtrace(2, "  UV = %p\n",
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  464  				    data + frame->planes.nv.uv.offset);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  465  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  466  	case IA_CSS_FRAME_FORMAT_YUYV:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  467  	case IA_CSS_FRAME_FORMAT_UYVY:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  468  	case IA_CSS_FRAME_FORMAT_CSI_MIPI_YUV420_8:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  469  	case IA_CSS_FRAME_FORMAT_CSI_MIPI_LEGACY_YUV420_8:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  470  	case IA_CSS_FRAME_FORMAT_YUV_LINE:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  471  		ia_css_debug_dtrace(2, "  YUYV = %p\n",
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  472  				    data + frame->planes.yuyv.offset);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  473  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  474  	case IA_CSS_FRAME_FORMAT_YUV420:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  475  	case IA_CSS_FRAME_FORMAT_YUV422:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  476  	case IA_CSS_FRAME_FORMAT_YUV444:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  477  	case IA_CSS_FRAME_FORMAT_YV12:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  478  	case IA_CSS_FRAME_FORMAT_YV16:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  479  	case IA_CSS_FRAME_FORMAT_YUV420_16:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  480  	case IA_CSS_FRAME_FORMAT_YUV422_16:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  481  		ia_css_debug_dtrace(2, "  Y = %p\n",
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  482  				    data + frame->planes.yuv.y.offset);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  483  		ia_css_debug_dtrace(2, "  U = %p\n",
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  484  				    data + frame->planes.yuv.u.offset);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  485  		ia_css_debug_dtrace(2, "  V = %p\n",
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  486  				    data + frame->planes.yuv.v.offset);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  487  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  488  	case IA_CSS_FRAME_FORMAT_RAW_PACKED:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  489  		ia_css_debug_dtrace(2, "  RAW PACKED = %p\n",
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  490  				    data + frame->planes.raw.offset);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  491  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  492  	case IA_CSS_FRAME_FORMAT_RAW:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  493  		ia_css_debug_dtrace(2, "  RAW = %p\n",
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  494  				    data + frame->planes.raw.offset);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  495  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  496  	case IA_CSS_FRAME_FORMAT_RGBA888:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  497  	case IA_CSS_FRAME_FORMAT_RGB565:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  498  		ia_css_debug_dtrace(2, "  RGB = %p\n",
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  499  				    data + frame->planes.rgb.offset);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  500  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  501  	case IA_CSS_FRAME_FORMAT_QPLANE6:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  502  		ia_css_debug_dtrace(2, "  R    = %p\n",
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  503  				    data + frame->planes.plane6.r.offset);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  504  		ia_css_debug_dtrace(2, "  RatB = %p\n",
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  505  				    data + frame->planes.plane6.r_at_b.offset);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  506  		ia_css_debug_dtrace(2, "  Gr   = %p\n",
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  507  				    data + frame->planes.plane6.gr.offset);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  508  		ia_css_debug_dtrace(2, "  Gb   = %p\n",
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  509  				    data + frame->planes.plane6.gb.offset);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  510  		ia_css_debug_dtrace(2, "  B    = %p\n",
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  511  				    data + frame->planes.plane6.b.offset);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  512  		ia_css_debug_dtrace(2, "  BatR = %p\n",
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  513  				    data + frame->planes.plane6.b_at_r.offset);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  514  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  515  	case IA_CSS_FRAME_FORMAT_BINARY_8:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  516  		ia_css_debug_dtrace(2, "  Binary data = %p\n",
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  517  				    data + frame->planes.binary.data.offset);
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  518  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  519  	default:
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  520  		ia_css_debug_dtrace(2, "  unknown frame type\n");
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  521  		break;
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  522  	}
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  523  }
+ad85094b293e40 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  524  
 
 -- 
 0-DAY CI Kernel Test Service
