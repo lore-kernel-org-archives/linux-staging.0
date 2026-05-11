@@ -1,106 +1,114 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 172EB3A1A2F
-	for <linux-staging@lists.linux.dev>; Mon, 11 May 2026 12:59:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC0E83BADAA;
+	Mon, 11 May 2026 13:46:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778504394; cv=none; b=HkD1nwEsaqR33kwUrrOd+d2cGE2184i8keTGHmo6eikE0v1gEY9akox8TMQ33sQW8zudTqR4aU1WU5P/aLw+YzFMbsaASFMT0N6Z47cpMWxCLOb7yxAIJX0QUtSKSHCiv0TDqBx9ZknfhRUD7jKPFqEmWRzhU3PGzVKDikT6XXs=
+	t=1778507175; cv=none; b=M+I0ujTsGaU0Jc0Vrb7A4j8kaAbuY7rNQxvq4rEEzZaIfWCtmyrW2p+COAtPg4pXREwKZpL3OSKbh8y87N7+Euk9XC+oISVb+fIpGUfvDQuGN2AwP4PbZFS9kfhGB3yhd0UwiDIHDZRlmIcwRekjy/A37eR5SYqsb1fyektA5X8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778504394; c=relaxed/simple;
-	bh=VKfH3YxWp4xko6Ek50yD1tYVkvq7tHbg9rFb3KbmKsU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gnL6mXPte1MOBvdWFBdWgHb4bFcIC97z+4PDetHSkAWmxoN/hqBBAjL76/wjn2x9MrmyR+/ZKwbHMVoUoUOpwY1IygPHipFaIGZ73NG3MUtwbmrFoSpOC/Paj5kCrPeJRlGHvuxid1MIm3by0RNX9s0IQWZkV+7wbPhShjlomVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mNbHDHi1; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778507175; c=relaxed/simple;
+	bh=25VRdc+FnPWnIwss0dDaNjoDISpp7CIuq52EngA8iOU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=iRDXzzM19dQIKzS//aQDghA+7rYXLJsEhyAJexHtCtCPElx/E6h+SjrRH/ubBF1/XO5Gt2cu1isJTTC2KhNSjOpgpuf+OHA1Ah+TrPPLTpR03v2HqJZTpW4pdiLT8ENIexygxKm27Yg/SbLcjKDJwWMACJ/fBuTUzGAkSVMzlw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N/lY8jPY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mNbHDHi1"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5a40b2bc96dso3862678e87.3
-        for <linux-staging@lists.linux.dev>; Mon, 11 May 2026 05:59:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778504391; x=1779109191; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2QMO+Gz8PfVKu/eolXLN2n0KsiOaj48rOzsVlwL9wPc=;
-        b=mNbHDHi1HMQEYUeUm0vwostIluKticLXXxYk2VOiuTjnJ0+VZRUdtAzAybDqhOXkN+
-         fJZpOA+sklYa2j2i8I6f1uqHzjpYL/EXE8AYXRPgKRnT4XNB+pIDmnSlPntLrbb7l7v0
-         Vjd0AGx423fGPo0xeUiKP272wum65fwcqC2U7ESgkbnWuO4260zWTFOkm8yg209+1fKB
-         lKBSDw3VEQjlvBwzVDOvReY3U0kjVVNio+GPdh+ieiikG3lZ3E13MJ/JZsASSoRpuo9d
-         u4HdJ2lBZR1YqYblS/OZ8Thl/7aeAGM+JaaIB4d4adsNyqjJ0l0K8IMe9jKErBtyB3tx
-         DmmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778504391; x=1779109191;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2QMO+Gz8PfVKu/eolXLN2n0KsiOaj48rOzsVlwL9wPc=;
-        b=mahkFnSgupPLPuKPYh+1VsXsnny7SjdWOFwGDZKTsK8GMd8hSLolcPReZ3TRxbLzgp
-         Di9iMf/XcCHJw+skz32ruDlBEbEX0lfoNwxbL5qRZ+gt4upmqrvS1hAsQQyQQEx/hDB+
-         eXVeVe5R9dvOdyUx1uMW20SHUNCBRHhN+gDNI6Jiwhznner05UPOxO45udXT5arYVGPK
-         NHmUMhCeKIop4Y+BVoBigcWuwFvwdyJyKVZBjK4MgO+Sw8knuG6mFF551HxL82ZoHZcB
-         lMv6rLRdfNOXvSlqbahBHYaz9ajgUo3AxIDDgecJ0W+tL538lXhYTybDUjIa/e7oHuYY
-         7tOg==
-X-Forwarded-Encrypted: i=1; AFNElJ+PjL4++e1wOzVd9ME5ftGLDHeNG8tKpI6Y/PBM4EEjdhyB+Aupg3aXMFFXiAlkiwSYmvrrJOlWa73ivI1U@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxgif/mNPHeBmIlVNtzOYQ34heekKtgWoUY1+s11rN8gLaZ+R/U
-	5dKOXHL/1HDNywAMLxmvNk+3WT9Z2Lq2DCIASG4c78/qz2FIvoVyr5y0a3nJ9Hqs
-X-Gm-Gg: Acq92OHHkF31OBl19SgeEvogOHU/19QxIUYPNACSfHDp6k9x+VgBu0wwThiqBvE1t9p
-	FJ4L1gpqVHsZzvXGV5bC/SenJNaxkDZnUDu+9LIxoNQJmhgQR4IO1CrQekrnojEtXXeWsyoKjtO
-	whpwRTfaM1qbN3TKc+4dTH6svb2JdQA+D0qluD7cLfyZB/6fkElJLy0GqeBvAml8xEN3quZ1zGV
-	jLL3RMBzt9EP4QNngKcTxHDmSB8j9G6h23b5J+HdMbwMHVXeYdmFUoEdMmTaLJUEYNOjTomNxsH
-	N+nBHSlQJk7tULFs81MRkBkDyXsIZo/GzmuhAIMvJP6BDoHXPb0t1fKK3lJSAxzYmK0WiYksD7p
-	IR8pS0/qB06+S824pPE3mBnRMv6n+mnZ7p3dtyut/qVWbduY5p5/rNnRE3T/X+bh1JYnM0EKubq
-	PtU6KTeiFQNTOY1hkOeGEnaZPR
-X-Received: by 2002:a05:6512:1387:b0:5a8:735f:aeba with SMTP id 2adb3069b0e04-5a8a94bc4bemr5253826e87.23.1778504389468;
-        Mon, 11 May 2026 05:59:49 -0700 (PDT)
-Received: from archlinux ([185.140.161.214])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a8b6b20ecesm1835213e87.29.2026.05.11.05.59.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 05:59:49 -0700 (PDT)
-Date: Mon, 11 May 2026 15:59:46 +0300
-From: Nikolay Kulikov <nikolayof23@gmail.com>
-To: Dan Carpenter <error27@gmail.com>
-Cc: Andrei Khomenkov <khomenkov@mailbox.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 8/9] staging: rtl8723bs: remove commented out code in
- rtw_mlme_ext.c
-Message-ID: <agHSwq6KyRF3Dd5Z@archlinux>
-References: <20260510134315.64295-1-khomenkov@mailbox.org>
- <20260510134315.64295-9-khomenkov@mailbox.org>
- <agFV6Bpe_HyxC4qG@archlinux>
- <agGbearJiYajq7rv@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N/lY8jPY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E88BC2BCC9;
+	Mon, 11 May 2026 13:46:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778507175;
+	bh=25VRdc+FnPWnIwss0dDaNjoDISpp7CIuq52EngA8iOU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=N/lY8jPYdErH75Htiai1+LJvJrRRe1zD0ZGOCGwLkyB7DbtKNy5vBxzTOPuClJd1r
+	 3t4hHZyey6cxnpZO/pP+CpIucFldFFJxEj4s4KzDmCS7PKzYAGs+1DyJH5dRGjzU6/
+	 xmIXx2ydKBVCvUMQqTVyjqjaMcy2jKC8Tn2PmJUMisDYWb08RisAjiH7qPQfHhftsN
+	 /GKvGXNC06McrsvhXHtAVdxkP/IDeOKN9Zxcy6RxvD+IKv3uV4MnOyR1oLd2kkMHpR
+	 +VP46RHG4XyyxTws6bGZDq/bjZRdO/J1uwBRPrV4ZY+Si6e2bqL6sUybsBgwPfDoS7
+	 Z1JncbiTIOIHg==
+Date: Mon, 11 May 2026 14:46:05 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Hungyu Lin <dennylin0707@gmail.com>, lars@metafoo.de,
+ Michael.Hennerich@analog.com, gregkh@linuxfoundation.org,
+ dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
+ m32285159@gmail.com, linux-iio@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] staging: iio: addac: adt7316: document SPI interface
+ switching sequence
+Message-ID: <20260511144605.76c8ff39@jic23-huawei>
+In-Reply-To: <agGtKQs0V679s6Kx@ashevche-desk.local>
+References: <20260511023127.86113-1-dennylin0707@gmail.com>
+	<agGtKQs0V679s6Kx@ashevche-desk.local>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <agGbearJiYajq7rv@stanley.mountain>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, May 11, 2026 at 12:03:53PM +0300, Dan Carpenter wrote:
-> On Mon, May 11, 2026 at 07:07:04AM +0300, Nikolay Kulikov wrote:
-> > On Sun, May 10, 2026 at 04:43:14PM +0300, Andrei Khomenkov wrote:
-> > > Remove commented out code in the site_survey function as it is not used.
-> > 				   ^^^^^^^^^^^
-> > It is better to indicate function names with brackets: site_survey().
+On Mon, 11 May 2026 13:19:21 +0300
+Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
+
+> On Mon, May 11, 2026 at 02:31:27AM +0000, Hungyu Lin wrote:
+> > The device powers up in I2C mode. Switching to SPI mode
+> > requires sending a sequence of SPI writes as described in
+> > the datasheet.
 > > 
+> > During this sequence, the device may still be in I2C mode,
+> > so SPI transactions may not be recognized and can fail.
+> > Such errors are expected and are ignored.
+> > 
+> > Add a comment to clarify this behavior.
+> > 
+> > Datasheet: https://www.analog.com/en/products/adt7316.html
+> > Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>  
 > 
-> I feel like we can go mad with these sorts of review comments.  I spent
-> five minute reviewing all these patches and now I have to review them
-> all again because of this really minor thing?
+> Thanks, almost there!
+> Please, address the below and feel free to add
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+> to your v4 of this patch.
 > 
-> My trick for minor review comments, is that I try to find a real bug
-> and I tie the minor thing to a major comment.  "Sorry, you forgot to
-> add clean up on error and also you forgot a comma in your commit
-> message".
+> Also I think we don't need "staging" in the Subject, as we can deduce that,
+> in any case it's up to Jonathan (and yes, I see the common use of the pattern
+> in the Git history).
+
+I think keeping staging is appropriate for a couple of reasons.
+
+1) Affects who looks at it.  
+2) Aligns with the more general pattern for most of staging that goes
+   directly through Greg rather than via another tree like IIO.
+
 > 
-> There a lot of minor stuff that I end up ignoring...
+> ...
+> 
+> > Changes in v3:
+> > - Add Datasheet tag
+> > - Use datasheet name in code comment  
+> 
+> ...
+> 
+> > +	/*
+> > +	 * The device powers up in I2C mode. Switching to SPI mode
+> > +	 * requires sending a sequence of SPI writes as described in
+> > +	 * the datasheet "ADT7316/ADT7317/ADT7318", Rev. B.  
+> 
+> Yeah, but you dropped the section title...
+> 
+> 	 * the datasheet "ADT7316/ADT7317/ADT7318", Rev. B in
+> 	 * the section "...".
 
-This is a really good trick, I will take note.
+Absolutely agree on this! Can be hard to find this stuff in the bigger
+datasheets :(
+> 
+> > +	 * During this sequence, the device may still be in I2C mode,
+> > +	 * so SPI transactions may not be recognized and can fail.
+> > +	 * Such errors are expected and are ignored.
+> > +	 *
+> > +	 * TL;DR: Do not change this!
+> > +	 */  
+> 
 
-
-Thanks,
-Nikolay
