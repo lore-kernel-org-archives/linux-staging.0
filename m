@@ -1,959 +1,460 @@
-Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24C89228CB0
-	for <linux-staging@lists.linux.dev>; Sun, 10 May 2026 21:15:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CF671F5EA;
+	Mon, 11 May 2026 01:13:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778447738; cv=none; b=teZFYZ2se1nn3OE1kD4SS8G5GDb5ytTwCnd61fjJDZqr+ABanmUoVkzl3I4BtLWQPid60qMyqOYY1LdYttxechcr6Ea8FN6Fi8tG2HwCwi05hjBKqcq6FWOn5NjGASj+c7looakd/0mAwuPyMMtJbIWNzOi+tF9AwDbIKpkSWVE=
+	t=1778461984; cv=none; b=nXCFhq/WbeAIswRIEcwkvKU6GBlOfEAKkAAj8ahqeLBD8LY4mADkLd8qJL12WaoX3gwJuDVOAOzYiSV+Jv20dF4vvGaQmQXqI8C1ROykVlup4vvNz5SsLwgMXIrkxVq64c4jgvTXHaodXQgSi+sHvCoxOu0yFFODG+c1uiF2gms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778447738; c=relaxed/simple;
-	bh=5nc3rYwWJAKdTeHwsrQVloV4eEMzmzNNIKzthnT86nQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=D9ic7hK4l2qHNFaT/qls8xcQeQmUPCFFIz5WQpMCBg1PcQMZY8bt2qA2mzzGfm0W3F+wUroqm35/v0PE8vXmFmf8QskWbeP5MD66mrA7se0VLV87ddZdu7Ved9t8wG1DCAO53f0UNMOc7gi7U4ZMKM0/7YyJaetEH5CynHvazGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZBNPENWU; arc=none smtp.client-ip=74.125.82.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778461984; c=relaxed/simple;
+	bh=8a7VpMh58wv5nQrfJzU52FbQ1t6Y3A8ge63+Ug+4QX4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UdOHwDV78ydGD6ynj2Fxjlc23m0YLSFXyFgF1xOtA678zRXVJOXfl0/KnPTjxerVOLM9rlfwds6XYs+h6dJVM4265lMs99gFHITpRFtlxpiCxlk+M2pKIKFV/UJjIgA+mSgiyhNX8sN0Orl+HZiiaX6qh0P+RlhKyykHiPNbfac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O23Q4+Jn; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZBNPENWU"
-Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-132c3280e8fso1064850c88.1
-        for <linux-staging@lists.linux.dev>; Sun, 10 May 2026 14:15:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778447734; x=1779052534; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6uIY53EGr2Edf1diOOhJamof7AIyWQY8UrppMrS7/Ck=;
-        b=ZBNPENWU18msSoyTDHNamuHR9qEAbijZfdC7ZcTRXAMaokhUGuZOStPDG3GbrDAVWq
-         SmQpxmOH6ZSlJDIOqTK36QZ5e+FfveV6uP/h98TqoXrO7xPgKm3440hZsXsUjv8aHGoR
-         5rJCh1t1eoe7NRRo78nWONHue/ctyxVxl0qGXc0Q7jV9orxB6J0W+VCfvgJkZLIZ58IY
-         Y44YrABJmjd5O1MaubUErN/lWRQ4/MeS65B0kPvNFgEX12EVHPuJW01vw1JXsqLoIxk8
-         Bvvj5LxS231C5oi34OVFW5+zH+NrRQZmhsQjcyWPBJpolbpN02arG+wr/q/b6RdwFq10
-         rdEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778447734; x=1779052534;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6uIY53EGr2Edf1diOOhJamof7AIyWQY8UrppMrS7/Ck=;
-        b=eCovJ+FLhD6rkf0JO1ceoT89/0IPFFNKOLFjwhbWOmSs54cNhnqKOrQBQ0uCczm5hI
-         uM5sv9vu4ff/4EpYAnhlVmFADrGMYaJ4BAH6e3aBm2dT4HZPQp4efPieUmwBaUQm4b2u
-         CVdKFO6GYstvJq5zCrLOLuDOv2HPW6fJcIxhHHtPXPxSrcnmYe4kbUlJ7Pf0PHehKtSt
-         Lzgiy2vmR3jiya9CjAU5oXyYHM5r8G7OLqErtX7ELZ8R2pz8deK4rqRM4p20xv/nVCNO
-         k0f4Qfvs2SEjxtPsgYgIFf5qK29RhQfV5hfs6pKUE0+AQ/rI1O4j4Q+K/TwLRRIXcVqg
-         z0Uw==
-X-Forwarded-Encrypted: i=1; AFNElJ/X4GvcZ/oSjMDeGOoxajRGnko0s+5QPlVrw7E3RdC+X0gg+rCyZo8sokaG8AB8XDpI90jOXTRG8CeSqPXZ@lists.linux.dev
-X-Gm-Message-State: AOJu0YwJOeCuEbd/5cy5/cN8/rJ5yjChnXPuy+H+Xdriur1J3/0orFI5
-	EvJgBBLIOrEMktADpIcQC98PqFwae31989uqGDGhLRJb71usisNN+CRT
-X-Gm-Gg: Acq92OH6nIaHuLNKlvADaAn1natIaW+JHWBgfVIlz/2yf/PUVcW3cv7eni8RCTIMDGV
-	MGgaZuG8+eXyt7q51EY/pUwekEyqWrFSD+M8JbNGjQAfHu2duEP8BwXyVn7iIc0xYIzZ6WlBxpN
-	C8c3dy5Xv48TabTl5k/YNIB6k96ozO5Ex58zLe7g1cleFtWGcOM+ZO4sn65JNMWTtNf1GhXVMyt
-	jiUZKdUSbQWLjhwHxmzTISaAdSpoGGJrFM7YspfBPn2KjEObBm4YWXYW2wv7N/swETgTsUJt/YD
-	tuT0kGjTR1b8BXVQ6qlNhA0QDEFfZ1bIE0b5GqoRT82fKKATXaAD3B34UX4J6MD5I7BCXtphGzM
-	JvSgLsXTQI24DevcnNjKNEqssWwViSO7qO5QmELNqE5aCGyoB+LKMYpdWexHeOothz+7/oHCQXj
-	NywysTU2c7rP5r9znLz1r1KJrEcAFbqS7aZXcOGItN3OshMHOMKA==
-X-Received: by 2002:a05:7022:6b9b:b0:12d:b2ca:a9ef with SMTP id a92af1059eb24-132a7fe21admr3372870c88.17.1778447733716;
-        Sun, 10 May 2026 14:15:33 -0700 (PDT)
-Received: from everton-Dell-G15-5530.. ([177.62.230.31])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1327875a269sm11705210c88.13.2026.05.10.14.15.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 May 2026 14:15:32 -0700 (PDT)
-From: Everton Colombo <e.rcolombo2@gmail.com>
-To: andy@kernel.org,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O23Q4+Jn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778461980; x=1809997980;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8a7VpMh58wv5nQrfJzU52FbQ1t6Y3A8ge63+Ug+4QX4=;
+  b=O23Q4+JnbR28Oo5daL6TB6MxvkpdjOdyM7o4YZbQTzPVYJpTlQzq8TNm
+   5CpOuUSQfYeRbO8nKUtT8aNJYv2rIdODUPDOrLHuk7M4fvuteE21nUxXU
+   BGuBgBpmysUbPdqRQ1csDAHd1Iol+EQs8bZT1wjh5DleD0+HmY7/4HEh7
+   L4igxHHkSuU5MchBgc5UU3JKhwT6lotMPMsw2s4sD261Z/sDpurtu/QXn
+   Sn/Gy+xarKZ2VY6P+6UjwAV9wPEtaQzqqnpL3b6FMR7lwSJmUGn5SBYyc
+   S1H1uwjh9XtKmu9uBNlzCei5Exo8NPYwvItr1yhy2/iTBSw8t+I2++4NK
+   g==;
+X-CSE-ConnectionGUID: MkGK2PzQRvGpfLDs7Z5NvA==
+X-CSE-MsgGUID: h0Bdf0OLRG+K+8kJZxuwtA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11782"; a="66879149"
+X-IronPort-AV: E=Sophos;i="6.23,228,1770624000"; 
+   d="scan'208";a="66879149"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 May 2026 18:12:59 -0700
+X-CSE-ConnectionGUID: WtWc4diRSyGT+55IuEMuUw==
+X-CSE-MsgGUID: RQCIBGdZRBuPXBz8g5ANPQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,228,1770624000"; 
+   d="scan'208";a="236336829"
+Received: from lkp-server01.sh.intel.com (HELO 82327192134e) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 10 May 2026 18:12:56 -0700
+Received: from kbuild by 82327192134e with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wMFCQ-000000002nB-2FF1;
+	Mon, 11 May 2026 01:12:49 +0000
+Date: Mon, 11 May 2026 09:12:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Everton Colombo <e.rcolombo2@gmail.com>, andy@kernel.org,
 	hansg@kernel.org
-Cc: mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org,
-	koike@igalia.com,
-	~lkcamp/patches@lists.sr.ht,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
+Cc: oe-kbuild-all@lists.linux.dev, mchehab@kernel.org,
+	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
+	koike@igalia.com, ~lkcamp/patches@lists.sr.ht,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	Everton Colombo <e.rcolombo2@gmail.com>
-Subject: [PATCH v3] media: atomisp: remove returns from void functions
-Date: Sun, 10 May 2026 18:15:25 -0300
-Message-Id: <20260510211525.70500-1-e.rcolombo2@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Subject: Re: [PATCH v2] media: atomisp: remove returns from void functions
+Message-ID: <202605110909.yaoxzCej-lkp@intel.com>
+References: <20260506173028.24417-1-e.rcolombo2@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260506173028.24417-1-e.rcolombo2@gmail.com>
 
-Fixed the following checkpath warning on all files:
-WARNING: void function return statements are not generally useful.
+Hi Everton,
 
-Signed-off-by: Everton Colombo <e.rcolombo2@gmail.com>
+kernel test robot noticed the following build errors:
 
----
-Hey, this is my first patch! Any feedback would be appreciated!
+[auto build test ERROR on staging/staging-testing]
+[also build test ERROR on staging/staging-next staging/staging-linus linus/master v7.1-rc2 next-20260508]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Changes in v3:
- - Fixed missing braces introduced in v2 that caused build failures
-   (caught by kernel test robot).
- - Rebased onto the latest staging-testing tree.
+url:    https://github.com/intel-lab-lkp/linux/commits/Everton-Colombo/media-atomisp-remove-returns-from-void-functions/20260510-154432
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20260506173028.24417-1-e.rcolombo2%40gmail.com
+patch subject: [PATCH v2] media: atomisp: remove returns from void functions
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20260511/202605110909.yaoxzCej-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260511/202605110909.yaoxzCej-lkp@intel.com/reproduce)
 
-Changes in v2:
- - Expanded the fix to cover all files within the driver per maintainer
-   feedback.
----
- drivers/staging/media/atomisp/pci/atomisp_cmd.c  |  1 -
- .../host/event_fifo_private.h                    |  1 -
- .../pci/hive_isp_css_common/host/fifo_monitor.c  |  5 -----
- .../host/fifo_monitor_private.h                  |  3 ---
- .../atomisp/pci/hive_isp_css_common/host/gdc.c   |  2 --
- .../pci/hive_isp_css_common/host/gp_device.c     |  1 -
- .../hive_isp_css_common/host/gp_device_private.h |  1 -
- .../pci/hive_isp_css_common/host/gpio_private.h  |  1 -
- .../hive_isp_css_common/host/input_formatter.c   |  8 --------
- .../host/input_formatter_private.h               |  1 -
- .../atomisp/pci/hive_isp_css_common/host/irq.c   | 10 ----------
- .../pci/hive_isp_css_common/host/irq_private.h   |  1 -
- .../atomisp/pci/hive_isp_css_common/host/isp.c   |  1 -
- .../pci/hive_isp_css_common/host/isp_private.h   |  6 ------
- .../atomisp/pci/hive_isp_css_common/host/mmu.c   |  2 --
- .../pci/hive_isp_css_common/host/sp_private.h    |  8 --------
- .../pci/hive_isp_css_include/host/mmu_public.h   |  1 -
- drivers/staging/media/atomisp/pci/hmm/hmm_bo.c   |  2 --
- .../atomisp/pci/isp2400_input_system_private.h   |  4 ----
- .../atomisp/pci/runtime/binary/src/binary.c      |  1 -
- .../media/atomisp/pci/runtime/bufq/src/bufq.c    |  1 -
- .../atomisp/pci/runtime/debug/src/ia_css_debug.c |  9 ---------
- .../media/atomisp/pci/runtime/frame/src/frame.c  |  4 ----
- .../media/atomisp/pci/runtime/ifmtr/src/ifmtr.c  |  2 --
- .../pci/runtime/inputfifo/src/inputfifo.c        | 16 ----------------
- .../media/atomisp/pci/runtime/isys/src/rx.c      |  7 -------
- drivers/staging/media/atomisp/pci/sh_css.c       |  4 ----
- .../staging/media/atomisp/pci/sh_css_param_dvs.c |  1 -
- 28 files changed, 104 deletions(-)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605110909.yaoxzCej-lkp@intel.com/
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index fec369575d88..683e9d39a831 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -1415,7 +1415,6 @@ static void atomisp_update_grid_info(struct atomisp_sub_device *asd,
- 
- err:
- 	atomisp_css_free_stat_buffers(asd);
--	return;
- }
- 
- static void atomisp_curr_user_grid_info(struct atomisp_sub_device *asd,
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/event_fifo_private.h b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/event_fifo_private.h
-index 439c69444942..b467cd7a63db 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/event_fifo_private.h
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/event_fifo_private.h
-@@ -20,7 +20,6 @@ STORAGE_CLASS_EVENT_C void event_wait_for(const event_ID_t ID)
- 	assert(ID < N_EVENT_ID);
- 	assert(event_source_addr[ID] != ((hrt_address) - 1));
- 	(void)ia_css_device_load_uint32(event_source_addr[ID]);
--	return;
- }
- 
- STORAGE_CLASS_EVENT_C void cnd_event_wait_for(const event_ID_t ID,
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/fifo_monitor.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/fifo_monitor.c
-index f0de78815456..9aee5ebb2004 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/fifo_monitor.c
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/fifo_monitor.c
-@@ -492,8 +492,6 @@ void fifo_channel_get_state(
- 		assert(0);
- 		break;
- 	}
--
--	return;
- }
- 
- void fifo_switch_get_state(
-@@ -514,8 +512,6 @@ void fifo_switch_get_state(
- 	state->is_none = (data == HIVE_ISP_CSS_STREAM_SWITCH_NONE);
- 	state->is_sp = (data == HIVE_ISP_CSS_STREAM_SWITCH_SP);
- 	state->is_isp = (data == HIVE_ISP_CSS_STREAM_SWITCH_ISP);
--
--	return;
- }
- 
- void fifo_monitor_get_state(
-@@ -537,7 +533,6 @@ void fifo_monitor_get_state(
- 		fifo_switch_get_state(ID, sw_id,
- 				      &state->fifo_switches[sw_id]);
- 	}
--	return;
- }
- 
- static inline bool fifo_monitor_status_valid(
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/fifo_monitor_private.h b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/fifo_monitor_private.h
-index 53a3fb796aab..123cb89cf3ee 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/fifo_monitor_private.h
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/fifo_monitor_private.h
-@@ -31,8 +31,6 @@ STORAGE_CLASS_FIFO_MONITOR_C void fifo_switch_set(
- 	(void)ID;
- 
- 	gp_device_reg_store(GP_DEVICE0_ID, FIFO_SWITCH_ADDR[switch_id], sel);
--
--	return;
- }
- 
- STORAGE_CLASS_FIFO_MONITOR_C hrt_data fifo_switch_get(
-@@ -56,7 +54,6 @@ STORAGE_CLASS_FIFO_MONITOR_C void fifo_monitor_reg_store(
- 	assert(FIFO_MONITOR_BASE[ID] != (hrt_address) - 1);
- 	ia_css_device_store_uint32(FIFO_MONITOR_BASE[ID] + reg * sizeof(hrt_data),
- 				   value);
--	return;
- }
- 
- STORAGE_CLASS_FIFO_MONITOR_C hrt_data fifo_monitor_reg_load(
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gdc.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gdc.c
-index 8bb78b4d7c67..81870a6d9751 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gdc.c
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gdc.c
-@@ -49,7 +49,6 @@ void gdc_lut_store(
- 		gdc_reg_store(ID, lut_offset++, word_0);
- 		gdc_reg_store(ID, lut_offset++, word_1);
- 	}
--	return;
- }
- 
- /*
-@@ -102,5 +101,4 @@ static inline void gdc_reg_store(
-     const hrt_data		value)
- {
- 	ia_css_device_store_uint32(GDC_BASE[ID] + reg * sizeof(hrt_data), value);
--	return;
- }
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_device.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_device.c
-index b934d20c88ea..35366da05390 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_device.c
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_device.c
-@@ -96,5 +96,4 @@ void gp_device_get_state(
- 				   _REG_GP_SYNCGEN_FRAME_CNT_ADDR);
- 	state->soft_reset = gp_device_reg_load(ID,
- 					       _REG_GP_SOFT_RESET_ADDR);
--	return;
- }
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_device_private.h b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_device_private.h
-index 71f20992ee98..f43e79a39f4d 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_device_private.h
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gp_device_private.h
-@@ -22,7 +22,6 @@ STORAGE_CLASS_GP_DEVICE_C void gp_device_reg_store(
- 	assert(GP_DEVICE_BASE[ID] != (hrt_address) - 1);
- 	assert((reg_addr % sizeof(hrt_data)) == 0);
- 	ia_css_device_store_uint32(GP_DEVICE_BASE[ID] + reg_addr, value);
--	return;
- }
- 
- STORAGE_CLASS_GP_DEVICE_C hrt_data gp_device_reg_load(
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gpio_private.h b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gpio_private.h
-index bcf6538ac0dc..27809117dde6 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gpio_private.h
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gpio_private.h
-@@ -18,7 +18,6 @@ static inline void gpio_reg_store(
- 	OP___assert(ID < N_GPIO_ID);
- 	OP___assert(GPIO_BASE[ID] != (hrt_address) - 1);
- 	ia_css_device_store_uint32(GPIO_BASE[ID] + reg * sizeof(hrt_data), value);
--	return;
- }
- 
- static inline hrt_data gpio_reg_load(
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter.c
-index 40b3f1e48c56..6f866814428b 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter.c
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter.c
-@@ -65,8 +65,6 @@ void input_formatter_rst(
- 	if (!HIVE_IF_BIN_COPY[ID]) {
- 		input_formatter_reg_store(ID, addr, rst);
- 	}
--
--	return;
- }
- 
- unsigned int input_formatter_get_alignment(
-@@ -88,7 +86,6 @@ void input_formatter_set_fifo_blocking_mode(
- 		input_formatter_reg_store(ID,
- 					  HIVE_IF_BLOCK_FIFO_NO_REQ_ADDRESS, enable);
- 	}
--	return;
- }
- 
- void input_formatter_get_switch_state(
-@@ -121,8 +118,6 @@ void input_formatter_get_switch_state(
- 					   _REG_GP_IFMT_input_switch_fsync_lut);
- 	state->if_input_switch_ch_id_fmt_type = gp_device_reg_load(GP_DEVICE0_ID,
- 						_REG_GP_IFMT_input_switch_ch_id_fmt_type);
--
--	return;
- }
- 
- void input_formatter_get_state(
-@@ -202,8 +197,6 @@ void input_formatter_get_state(
- 				HIVE_IF_FSM_VECTOR_SUPPORT);
- 	state->sensor_data_lost = input_formatter_reg_load(ID,
- 				  HIVE_IF_FIFO_SENSOR_STATUS);
--
--	return;
- }
- 
- void input_formatter_bin_get_state(
-@@ -231,5 +224,4 @@ void input_formatter_bin_get_state(
- 			 HIVE_STR2MEM_DUAL_BYTE_INPUTS_ENABLED_REG_ADDRESS);
- 	state->en_status_update = input_formatter_reg_load(ID,
- 				  HIVE_STR2MEM_EN_STAT_UPDATE_ADDRESS);
--	return;
- }
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter_private.h b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter_private.h
-index 6b6ba49656e5..823861f2abe3 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter_private.h
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/input_formatter_private.h
-@@ -22,7 +22,6 @@ STORAGE_CLASS_INPUT_FORMATTER_C void input_formatter_reg_store(
- 	assert(INPUT_FORMATTER_BASE[ID] != (hrt_address)-1);
- 	assert((reg_addr % sizeof(hrt_data)) == 0);
- 	ia_css_device_store_uint32(INPUT_FORMATTER_BASE[ID] + reg_addr, value);
--	return;
- }
- 
- STORAGE_CLASS_INPUT_FORMATTER_C hrt_data input_formatter_reg_load(
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/irq.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/irq.c
-index b66560bca625..a8fac8aebede 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/irq.c
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/irq.c
-@@ -61,7 +61,6 @@ void irq_clear_all(
- 
- 	irq_reg_store(ID,
- 		      _HRT_IRQ_CONTROLLER_CLEAR_REG_IDX, mask);
--	return;
- }
- 
- /*
-@@ -105,8 +104,6 @@ void irq_enable_channel(
- 		      _HRT_IRQ_CONTROLLER_MASK_REG_IDX, mask);
- 
- 	irq_wait_for_write_complete(ID);
--
--	return;
- }
- 
- void irq_enable_pulse(
-@@ -121,7 +118,6 @@ void irq_enable_pulse(
- 	/* output is given as edge, not pulse */
- 	irq_reg_store(ID,
- 		      _HRT_IRQ_CONTROLLER_EDGE_NOT_PULSE_REG_IDX, edge_out);
--	return;
- }
- 
- void irq_disable_channel(
-@@ -151,8 +147,6 @@ void irq_disable_channel(
- 		      _HRT_IRQ_CONTROLLER_CLEAR_REG_IDX, me);
- 
- 	irq_wait_for_write_complete(ID);
--
--	return;
- }
- 
- enum hrt_isp_css_irq_status irq_get_channel_id(
-@@ -213,7 +207,6 @@ void irq_raise(
- 			    (unsigned int)addr, 1);
- 	gp_device_reg_store(GP_DEVICE0_ID,
- 			    (unsigned int)addr, 0);
--	return;
- }
- 
- bool any_virq_signal(void)
-@@ -252,7 +245,6 @@ void cnd_virq_enable_channel(
- 			irq_disable_channel(IRQ0_ID, IRQ_NESTING_ID[ID]);
- 		}
- 	}
--	return;
- }
- 
- void virq_clear_all(void)
-@@ -262,7 +254,6 @@ void virq_clear_all(void)
- 	for (irq_id = (irq_ID_t)0; irq_id < N_IRQ_ID; irq_id++) {
- 		irq_clear_all(irq_id);
- 	}
--	return;
- }
- 
- enum hrt_isp_css_irq_status
-@@ -304,7 +295,6 @@ void virq_clear_info(struct virq_info *irq_info)
- 	for (ID = (irq_ID_t)0 ; ID < N_IRQ_ID; ID++) {
- 		irq_info->irq_status_reg[ID] = 0;
- 	}
--	return;
- }
- 
- enum hrt_isp_css_irq_status virq_get_channel_id(
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/irq_private.h b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/irq_private.h
-index ae0a8466a70a..5e27f053f00c 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/irq_private.h
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/irq_private.h
-@@ -21,7 +21,6 @@ STORAGE_CLASS_IRQ_C void irq_reg_store(
- 	assert(ID < N_IRQ_ID);
- 	assert(IRQ_BASE[ID] != (hrt_address) - 1);
- 	ia_css_device_store_uint32(IRQ_BASE[ID] + reg * sizeof(hrt_data), value);
--	return;
- }
- 
- STORAGE_CLASS_IRQ_C hrt_data irq_reg_load(
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/isp.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/isp.c
-index 39cccbfa3fca..17a04ac623ff 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/isp.c
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/isp.c
-@@ -27,7 +27,6 @@ void cnd_isp_irq_enable(
- 		isp_ctrl_clearbit(ID, ISP_IRQ_READY_REG,
- 				  ISP_IRQ_READY_BIT);
- 	}
--	return;
- }
- 
- /* ISP functions to control the ISP state from the host, even in crun. */
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/isp_private.h b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/isp_private.h
-index 177770a9bc1d..b699a1c3af0b 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/isp_private.h
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/isp_private.h
-@@ -30,7 +30,6 @@ STORAGE_CLASS_ISP_C void isp_ctrl_store(
- #else
- 	hrt_master_port_store_32(ISP_CTRL_BASE[ID] + reg * sizeof(hrt_data), value);
- #endif
--	return;
- }
- 
- STORAGE_CLASS_ISP_C hrt_data isp_ctrl_load(
-@@ -64,7 +63,6 @@ STORAGE_CLASS_ISP_C void isp_ctrl_setbit(
- 	hrt_data	data = isp_ctrl_load(ID, reg);
- 
- 	isp_ctrl_store(ID, reg, (data | (1UL << bit)));
--	return;
- }
- 
- STORAGE_CLASS_ISP_C void isp_ctrl_clearbit(
-@@ -75,7 +73,6 @@ STORAGE_CLASS_ISP_C void isp_ctrl_clearbit(
- 	hrt_data	data = isp_ctrl_load(ID, reg);
- 
- 	isp_ctrl_store(ID, reg, (data & ~(1UL << bit)));
--	return;
- }
- 
- STORAGE_CLASS_ISP_C void isp_dmem_store(
-@@ -91,7 +88,6 @@ STORAGE_CLASS_ISP_C void isp_dmem_store(
- #else
- 	hrt_master_port_store(ISP_DMEM_BASE[ID] + addr, data, size);
- #endif
--	return;
- }
- 
- STORAGE_CLASS_ISP_C void isp_dmem_load(
-@@ -107,7 +103,6 @@ STORAGE_CLASS_ISP_C void isp_dmem_load(
- #else
- 	hrt_master_port_load(ISP_DMEM_BASE[ID] + addr, data, size);
- #endif
--	return;
- }
- 
- STORAGE_CLASS_ISP_C void isp_dmem_store_uint32(
-@@ -123,7 +118,6 @@ STORAGE_CLASS_ISP_C void isp_dmem_store_uint32(
- #else
- 	hrt_master_port_store_32(ISP_DMEM_BASE[ID] + addr, data);
- #endif
--	return;
- }
- 
- STORAGE_CLASS_ISP_C uint32_t isp_dmem_load_uint32(
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/mmu.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/mmu.c
-index 064e88a5e064..6d5434a27a7c 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/mmu.c
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/mmu.c
-@@ -12,7 +12,6 @@ void mmu_set_page_table_base_index(
-     const hrt_data		base_index)
- {
- 	mmu_reg_store(ID, _HRT_MMU_PAGE_TABLE_BASE_ADDRESS_REG_IDX, base_index);
--	return;
- }
- 
- hrt_data mmu_get_page_table_base_index(
-@@ -25,7 +24,6 @@ void mmu_invalidate_cache(
-     const mmu_ID_t		ID)
- {
- 	mmu_reg_store(ID, _HRT_MMU_INVALIDATE_TLB_REG_IDX, 1);
--	return;
- }
- 
- void mmu_invalidate_cache_all(void)
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/sp_private.h b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/sp_private.h
-index c69778411f2f..b03ae6658df3 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/sp_private.h
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/sp_private.h
-@@ -21,7 +21,6 @@ STORAGE_CLASS_SP_C void sp_ctrl_store(
- 	assert(ID < N_SP_ID);
- 	assert(SP_CTRL_BASE[ID] != (hrt_address)-1);
- 	ia_css_device_store_uint32(SP_CTRL_BASE[ID] + reg * sizeof(hrt_data), value);
--	return;
- }
- 
- STORAGE_CLASS_SP_C hrt_data sp_ctrl_load(
-@@ -51,7 +50,6 @@ STORAGE_CLASS_SP_C void sp_ctrl_setbit(
- 	hrt_data	data = sp_ctrl_load(ID, reg);
- 
- 	sp_ctrl_store(ID, reg, (data | (1UL << bit)));
--	return;
- }
- 
- STORAGE_CLASS_SP_C void sp_ctrl_clearbit(
-@@ -62,7 +60,6 @@ STORAGE_CLASS_SP_C void sp_ctrl_clearbit(
- 	hrt_data	data = sp_ctrl_load(ID, reg);
- 
- 	sp_ctrl_store(ID, reg, (data & ~(1UL << bit)));
--	return;
- }
- 
- STORAGE_CLASS_SP_C void sp_dmem_store(
-@@ -74,7 +71,6 @@ STORAGE_CLASS_SP_C void sp_dmem_store(
- 	assert(ID < N_SP_ID);
- 	assert(SP_DMEM_BASE[ID] != (hrt_address)-1);
- 	ia_css_device_store(SP_DMEM_BASE[ID] + addr, data, size);
--	return;
- }
- 
- STORAGE_CLASS_SP_C void sp_dmem_load(
-@@ -86,7 +82,6 @@ STORAGE_CLASS_SP_C void sp_dmem_load(
- 	assert(ID < N_SP_ID);
- 	assert(SP_DMEM_BASE[ID] != (hrt_address)-1);
- 	ia_css_device_load(SP_DMEM_BASE[ID] + addr, data, size);
--	return;
- }
- 
- STORAGE_CLASS_SP_C void sp_dmem_store_uint8(
-@@ -98,7 +93,6 @@ STORAGE_CLASS_SP_C void sp_dmem_store_uint8(
- 	assert(SP_DMEM_BASE[ID] != (hrt_address)-1);
- 	(void)ID;
- 	ia_css_device_store_uint8(SP_DMEM_BASE[SP0_ID] + addr, data);
--	return;
- }
- 
- STORAGE_CLASS_SP_C void sp_dmem_store_uint16(
-@@ -110,7 +104,6 @@ STORAGE_CLASS_SP_C void sp_dmem_store_uint16(
- 	assert(SP_DMEM_BASE[ID] != (hrt_address)-1);
- 	(void)ID;
- 	ia_css_device_store_uint16(SP_DMEM_BASE[SP0_ID] + addr, data);
--	return;
- }
- 
- STORAGE_CLASS_SP_C void sp_dmem_store_uint32(
-@@ -122,7 +115,6 @@ STORAGE_CLASS_SP_C void sp_dmem_store_uint32(
- 	assert(SP_DMEM_BASE[ID] != (hrt_address)-1);
- 	(void)ID;
- 	ia_css_device_store_uint32(SP_DMEM_BASE[SP0_ID] + addr, data);
--	return;
- }
- 
- STORAGE_CLASS_SP_C uint8_t sp_dmem_load_uint8(
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/mmu_public.h b/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/mmu_public.h
-index 1a435a348318..2fc137ef46da 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/mmu_public.h
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/mmu_public.h
-@@ -63,7 +63,6 @@ static inline void mmu_reg_store(
- 	assert(ID < N_MMU_ID);
- 	assert(MMU_BASE[ID] != (hrt_address) - 1);
- 	ia_css_device_store_uint32(MMU_BASE[ID] + reg * sizeof(hrt_data), value);
--	return;
- }
- 
- /*! Read from a control register of MMU[ID]
-diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
-index 856561e951a5..5c82d9de7663 100644
---- a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
-+++ b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
-@@ -483,7 +483,6 @@ void hmm_bo_release(struct hmm_buffer_object *bo)
- 	__bo_insert_to_free_rbtree(&bdev->free_rbtree, bo);
- 
- 	mutex_unlock(&bdev->rbtree_mutex);
--	return;
- }
- 
- void hmm_bo_device_exit(struct hmm_bo_device *bdev)
-@@ -948,7 +947,6 @@ void hmm_bo_vunmap(struct hmm_buffer_object *bo)
- 	}
- 
- 	mutex_unlock(&bo->mutex);
--	return;
- }
- 
- void hmm_bo_ref(struct hmm_buffer_object *bo)
-diff --git a/drivers/staging/media/atomisp/pci/isp2400_input_system_private.h b/drivers/staging/media/atomisp/pci/isp2400_input_system_private.h
-index a6762683a0ac..00e6574f186a 100644
---- a/drivers/staging/media/atomisp/pci/isp2400_input_system_private.h
-+++ b/drivers/staging/media/atomisp/pci/isp2400_input_system_private.h
-@@ -22,7 +22,6 @@ STORAGE_CLASS_INPUT_SYSTEM_C void input_system_reg_store(
- 	assert(INPUT_SYSTEM_BASE[ID] != (hrt_address)-1);
- 	ia_css_device_store_uint32(INPUT_SYSTEM_BASE[ID] + reg * sizeof(hrt_data),
- 				   value);
--	return;
- }
- 
- STORAGE_CLASS_INPUT_SYSTEM_C hrt_data input_system_reg_load(
-@@ -43,7 +42,6 @@ STORAGE_CLASS_INPUT_SYSTEM_C void receiver_reg_store(
- 	assert(ID < N_RX_ID);
- 	assert(RX_BASE[ID] != (hrt_address)-1);
- 	ia_css_device_store_uint32(RX_BASE[ID] + reg * sizeof(hrt_data), value);
--	return;
- }
- 
- STORAGE_CLASS_INPUT_SYSTEM_C hrt_data receiver_reg_load(
-@@ -67,7 +65,6 @@ STORAGE_CLASS_INPUT_SYSTEM_C void receiver_port_reg_store(
- 	assert(MIPI_PORT_OFFSET[port_ID] != (hrt_address)-1);
- 	ia_css_device_store_uint32(RX_BASE[ID] + MIPI_PORT_OFFSET[port_ID] + reg *
- 				   sizeof(hrt_data), value);
--	return;
- }
- 
- STORAGE_CLASS_INPUT_SYSTEM_C hrt_data receiver_port_reg_load(
-@@ -95,7 +92,6 @@ STORAGE_CLASS_INPUT_SYSTEM_C void input_system_sub_system_reg_store(
- 	assert(SUB_SYSTEM_OFFSET[sub_ID] != (hrt_address)-1);
- 	ia_css_device_store_uint32(INPUT_SYSTEM_BASE[ID] + SUB_SYSTEM_OFFSET[sub_ID] +
- 				   reg * sizeof(hrt_data), value);
--	return;
- }
- 
- STORAGE_CLASS_INPUT_SYSTEM_C hrt_data input_system_sub_system_reg_load(
-diff --git a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
-index af93ca96747c..c3645fc074e4 100644
---- a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
-@@ -344,7 +344,6 @@ ia_css_binary_dvs_stat_grid_info(
- {
- 	(void)pipe;
- 	sh_css_binary_common_grid_info(binary, info);
--	return;
- }
- 
- int
-diff --git a/drivers/staging/media/atomisp/pci/runtime/bufq/src/bufq.c b/drivers/staging/media/atomisp/pci/runtime/bufq/src/bufq.c
-index 0f0d16f4ce7c..51f7c9d6f378 100644
---- a/drivers/staging/media/atomisp/pci/runtime/bufq/src/bufq.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/bufq/src/bufq.c
-@@ -176,7 +176,6 @@ static void map_buffer_type_to_queue_id(
- 	}
- 
- 	assert(i != SH_CSS_MAX_NUM_QUEUES);
--	return;
- }
- 
- static void unmap_buffer_type_to_queue_id(
-diff --git a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-index b411ca2f415e..e19b6342fe04 100644
---- a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-@@ -136,7 +136,6 @@ void ia_css_debug_dtrace(unsigned int level, const char *fmt, ...)
- void ia_css_debug_set_dtrace_level(const unsigned int trace_level)
- {
- 	dbg_level = trace_level;
--	return;
- }
- 
- unsigned int ia_css_debug_get_dtrace_level(void)
-@@ -315,7 +314,6 @@ static void debug_print_fifo_channel_state(const fifo_channel_state_t *state,
- 			    state->fifo_valid);
- 	ia_css_debug_dtrace(2, "\t%-32s: %d\n", "sink accept",
- 			    state->sink_accept);
--	return;
- }
- 
- void ia_css_debug_dump_pif_a_isp_fifo_state(void)
-@@ -364,7 +362,6 @@ void ia_css_debug_dump_all_fifo_state(void)
- 	for (i = 0; i < N_FIFO_CHANNEL; i++)
- 		debug_print_fifo_channel_state(&state.fifo_channels[i],
- 					       "squepfstqkt");
--	return;
- }
- 
- static void debug_binary_info_print(const struct ia_css_binary_xinfo *info)
-@@ -386,7 +383,6 @@ static void debug_binary_info_print(const struct ia_css_binary_xinfo *info)
- 	ia_css_debug_dtrace(2, "enable_uds = %d\n", info->sp.enable.uds);
- 	ia_css_debug_dtrace(2, "enable ds = %d\n", info->sp.enable.ds);
- 	ia_css_debug_dtrace(2, "s3atbl_use_dmem = %d\n", info->sp.s3a.s3atbl_use_dmem);
--	return;
- }
- 
- void ia_css_debug_binary_print(const struct ia_css_binary *bi)
-@@ -441,7 +437,6 @@ void ia_css_debug_binary_print(const struct ia_css_binary *bi)
- 			    bi->sctbl_width_per_color);
- 	ia_css_debug_dtrace(2, "s3atbl_width = %d\n", bi->s3atbl_width);
- 	ia_css_debug_dtrace(2, "s3atbl_height = %d\n", bi->s3atbl_height);
--	return;
- }
- 
- void ia_css_debug_frame_print(const struct ia_css_frame *frame,
-@@ -526,7 +521,6 @@ void ia_css_debug_frame_print(const struct ia_css_frame *frame,
- 		ia_css_debug_dtrace(2, "  unknown frame type\n");
- 		break;
- 	}
--	return;
- }
- 
- #if SP_DEBUG != SP_DEBUG_NONE
-@@ -808,8 +802,6 @@ void ia_css_debug_print_sp_debug_state(const struct sh_css_sp_debug_state
- #endif
- 
- #if SP_DEBUG != SP_DEBUG_NONE
--
--	return;
- }
- #endif
- 
-@@ -823,7 +815,6 @@ void ia_css_debug_dump_sp_sw_debug_info(void)
- #endif
- 	ia_css_bufq_dump_queue_info();
- 	ia_css_pipeline_dump_thread_map_info();
--	return;
- }
- 
- /* this function is for debug use, it can make SP go to sleep
-diff --git a/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c b/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
-index 8614efc28b19..ae952df03cc6 100644
---- a/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
-@@ -525,7 +525,6 @@ static void frame_init_nv_planes(struct ia_css_frame *frame,
- 	frame_init_plane(&frame->planes.nv.y, y_width, y_stride, y_height, 0);
- 	frame_init_plane(&frame->planes.nv.uv, uv_width,
- 			 uv_stride, uv_height, y_bytes);
--	return;
- }
- 
- static void frame_init_yuv_planes(struct ia_css_frame *frame,
-@@ -558,7 +557,6 @@ static void frame_init_yuv_planes(struct ia_css_frame *frame,
- 		frame_init_plane(&frame->planes.yuv.v, uv_width, uv_stride,
- 				 uv_height, y_bytes + uv_bytes);
- 	}
--	return;
- }
- 
- static void frame_init_rgb_planes(struct ia_css_frame *frame,
-@@ -575,7 +573,6 @@ static void frame_init_rgb_planes(struct ia_css_frame *frame,
- 			 width, stride, height, 1 * bytes);
- 	frame_init_plane(&frame->planes.planar_rgb.b,
- 			 width, stride, height, 2 * bytes);
--	return;
- }
- 
- static void frame_init_qplane6_planes(struct ia_css_frame *frame)
-@@ -599,7 +596,6 @@ static void frame_init_qplane6_planes(struct ia_css_frame *frame)
- 			 width, stride, height, 4 * bytes);
- 	frame_init_plane(&frame->planes.plane6.b_at_r,
- 			 width, stride, height, 5 * bytes);
--	return;
- }
- 
- static int frame_allocate_buffer_data(struct ia_css_frame *frame)
-diff --git a/drivers/staging/media/atomisp/pci/runtime/ifmtr/src/ifmtr.c b/drivers/staging/media/atomisp/pci/runtime/ifmtr/src/ifmtr.c
-index 50b0b31d734a..9739ab25000c 100644
---- a/drivers/staging/media/atomisp/pci/runtime/ifmtr/src/ifmtr.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/ifmtr/src/ifmtr.c
-@@ -471,8 +471,6 @@ static void ifmtr_set_if_blocking_mode(
- 			input_formatter_set_fifo_blocking_mode(id, block[id]);
- 		}
- 	}
--
--	return;
- }
- 
- static int ifmtr_start_column(
-diff --git a/drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c b/drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c
-index 8e1efeb6372c..f0dcd839e33b 100644
---- a/drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c
-@@ -88,7 +88,6 @@ _sh_css_fifo_snd(unsigned int token)
- 	while (!can_event_send_token(STR2MIPI_EVENT_ID))
- 		udelay(1);
- 	event_send_token(STR2MIPI_EVENT_ID, token);
--	return;
- }
- 
- static void inputfifo_send_data_a(
-@@ -98,7 +97,6 @@ static void inputfifo_send_data_a(
- 	unsigned int token = (1 << HIVE_STR_TO_MIPI_VALID_A_BIT) |
- 			     (data << HIVE_STR_TO_MIPI_DATA_A_LSB);
- 	_sh_css_fifo_snd(token);
--	return;
- }
- 
- static void inputfifo_send_data_b(
-@@ -108,7 +106,6 @@ static void inputfifo_send_data_b(
- 	unsigned int token = (1 << HIVE_STR_TO_MIPI_VALID_B_BIT) |
- 			     (data << _HIVE_STR_TO_MIPI_DATA_B_LSB);
- 	_sh_css_fifo_snd(token);
--	return;
- }
- 
- static void inputfifo_send_data(
-@@ -121,7 +118,6 @@ static void inputfifo_send_data(
- 			      (a << HIVE_STR_TO_MIPI_DATA_A_LSB) |
- 			      (b << _HIVE_STR_TO_MIPI_DATA_B_LSB));
- 	_sh_css_fifo_snd(token);
--	return;
- }
- 
- static void inputfifo_send_sol(void)
-@@ -131,7 +127,6 @@ static void inputfifo_send_sol(void)
- 				1 << HIVE_STR_TO_MIPI_SOL_BIT);
- 
- 	_sh_css_fifo_snd(token);
--	return;
- }
- 
- static void inputfifo_send_eol(void)
-@@ -140,7 +135,6 @@ static void inputfifo_send_eol(void)
- 	hrt_data	token = inputfifo_wrap_marker(
- 				1 << HIVE_STR_TO_MIPI_EOL_BIT);
- 	_sh_css_fifo_snd(token);
--	return;
- }
- 
- static void inputfifo_send_sof(void)
-@@ -150,7 +144,6 @@ static void inputfifo_send_sof(void)
- 				1 << HIVE_STR_TO_MIPI_SOF_BIT);
- 
- 	_sh_css_fifo_snd(token);
--	return;
- }
- 
- static void inputfifo_send_eof(void)
-@@ -159,7 +152,6 @@ static void inputfifo_send_eof(void)
- 	hrt_data	token = inputfifo_wrap_marker(
- 				1 << HIVE_STR_TO_MIPI_EOF_BIT);
- 	_sh_css_fifo_snd(token);
--	return;
- }
- 
- static void inputfifo_send_ch_id_and_fmt_type(
-@@ -177,7 +169,6 @@ static void inputfifo_send_ch_id_and_fmt_type(
- 	 */
- 	token = inputfifo_wrap_marker(0);
- 	_sh_css_fifo_snd(token);
--	return;
- }
- 
- static void inputfifo_send_empty_token(void)
-@@ -186,7 +177,6 @@ static void inputfifo_send_empty_token(void)
- 	hrt_data	token = inputfifo_wrap_marker(0);
- 
- 	_sh_css_fifo_snd(token);
--	return;
- }
- 
- static void inputfifo_start_frame(
-@@ -196,7 +186,6 @@ static void inputfifo_start_frame(
- {
- 	inputfifo_send_ch_id_and_fmt_type(ch_id, fmt_type);
- 	inputfifo_send_sof();
--	return;
- }
- 
- static void inputfifo_end_frame(
-@@ -207,7 +196,6 @@ static void inputfifo_end_frame(
- 	for (i = 0; i < marker_cycles; i++)
- 		inputfifo_send_empty_token();
- 	inputfifo_send_eof();
--	return;
- }
- 
- static void inputfifo_send_line2(
-@@ -297,7 +285,6 @@ static void inputfifo_send_line2(
- 	for (i = 0; i < hblank_cycles; i++)
- 		inputfifo_send_empty_token();
- 	inputfifo_send_eol();
--	return;
- }
- 
- static void
-@@ -377,7 +364,6 @@ static void inputfifo_send_frame(
- 		}
- 	}
- 	inputfifo_end_frame(marker_cycles);
--	return;
- }
- 
- static enum inputfifo_mipi_data_type inputfifo_determine_type(
-@@ -453,7 +439,6 @@ void ia_css_inputfifo_start_frame(
- 	s2mi->streaming = true;
- 
- 	inputfifo_start_frame(ch_id, s2mi->fmt_type);
--	return;
- }
- 
- void ia_css_inputfifo_send_line(
-@@ -516,5 +501,4 @@ void ia_css_inputfifo_end_frame(
- 	inputfifo_end_frame(s2mi->marker_cycles);
- 
- 	s2mi->streaming = false;
--	return;
- }
-diff --git a/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c b/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c
-index 9cfb8bc97e24..5d90587bac73 100644
---- a/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c
-@@ -43,8 +43,6 @@ void ia_css_isys_rx_enable_all_interrupts(enum mipi_port_id port)
- 	 * The CSI is nested into the Iunit IRQ's
- 	 */
- 	ia_css_irq_enable(IA_CSS_IRQ_INFO_CSS_RECEIVER_ERROR, true);
--
--	return;
- }
- 
- /* This function converts between the enum used on the CSS API and the
-@@ -196,8 +194,6 @@ void ia_css_isys_rx_clear_irq_info(enum mipi_port_id port,
- 	receiver_port_reg_store(RX0_ID,
- 				port,
- 				_HRT_CSS_RECEIVER_IRQ_ENABLE_REG_IDX, bits);
--
--	return;
- }
- 
- static int ia_css_isys_2400_set_fmt_type(enum atomisp_input_format input_format,
-@@ -637,8 +633,6 @@ void ia_css_isys_rx_configure(const rx_cfg_t *config,
- 	 *                INPUT_SYSTEM_CSI_RECEIVER_SELECT_BACKENG, 1);
- 	 */
- 	input_system_reg_store(INPUT_SYSTEM0_ID, 0x207, 1);
--
--	return;
- }
- 
- void ia_css_isys_rx_disable(void)
-@@ -650,5 +644,4 @@ void ia_css_isys_rx_disable(void)
- 					_HRT_CSS_RECEIVER_DEVICE_READY_REG_IDX,
- 					false);
- 	}
--	return;
- }
-diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-index 6cda5925fa45..3f4968dd638b 100644
---- a/drivers/staging/media/atomisp/pci/sh_css.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css.c
-@@ -2928,8 +2928,6 @@ ia_css_get_crop_offsets(
- 	in_frame->crop_info.start_line = row;
- 
- 	IA_CSS_LEAVE_PRIVATE("void start_col: %u start_row: %u", column, row);
--
--	return;
- }
- 
- static int
-@@ -3326,8 +3324,6 @@ static void send_raw_frames(struct ia_css_pipe *pipe)
- 							    pipe->continuous_frames[i], pipe->cont_md_buffers[i]);
- 		}
- 	}
--
--	return;
- }
- 
- static int
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c b/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
-index 9ccdb66de2df..3d2cb2d25fdb 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
-@@ -269,5 +269,4 @@ ia_css_dvs_statistics_get(enum dvs_statistics_type type,
- 		ia_css_get_dvs2_statistics(host_stats->p_dvs2_statistics_host,
- 					   isp_stats->p_dvs_statistics_isp);
- 	}
--	return;
- }
+All errors (new ones prefixed by >>):
+
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c: In function 'ia_css_debug_binary_print':
+>> drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:853:1: error: invalid storage class for function 'findf_dmem_params'
+     853 | findf_dmem_params(struct ia_css_stream *stream, short idx)
+         | ^~~~~~~~~~~~~~~~~
+>> drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1049:28: error: invalid storage class for function 'dtrace_dot'
+    1049 | static void __printf(1, 2) dtrace_dot(const char *fmt, ...)
+         |                            ^~~~~~~~~~
+>> drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1063:1: error: invalid storage class for function 'ia_css_debug_pipe_graph_dump_frame'
+    1063 | ia_css_debug_pipe_graph_dump_frame(
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1875:1: error: expected declaration or statement at end of input
+    1875 | }
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c: At top level:
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1862:6: warning: 'ia_css_debug_pc_dump' defined but not used [-Wunused-function]
+    1862 | void ia_css_debug_pc_dump(sp_ID_t id, unsigned int num_of_dumps)
+         |      ^~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1848:6: warning: 'ia_css_debug_dump_trace' defined but not used [-Wunused-function]
+    1848 | void ia_css_debug_dump_trace(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1575:1: warning: 'ia_css_debug_dump_stream_config' defined but not used [-Wunused-function]
+    1575 | ia_css_debug_dump_stream_config(
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1475:1: warning: 'ia_css_debug_dump_pipe_config' defined but not used [-Wunused-function]
+    1475 | ia_css_debug_dump_pipe_config(
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1447:1: warning: 'ia_css_debug_dump_pipe_extra_config' defined but not used [-Wunused-function]
+    1447 | ia_css_debug_dump_pipe_extra_config(
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1399:1: warning: 'ia_css_debug_pipe_graph_dump_stream_config' defined but not used [-Wunused-function]
+    1399 | ia_css_debug_pipe_graph_dump_stream_config(
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1368:1: warning: 'ia_css_debug_pipe_graph_dump_sp_raw_copy' defined but not used [-Wunused-function]
+    1368 | ia_css_debug_pipe_graph_dump_sp_raw_copy(
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1157:1: warning: 'ia_css_debug_pipe_graph_dump_stage' defined but not used [-Wunused-function]
+    1157 | ia_css_debug_pipe_graph_dump_stage(
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1114:6: warning: 'ia_css_debug_pipe_graph_dump_epilogue' defined but not used [-Wunused-function]
+    1114 | void ia_css_debug_pipe_graph_dump_epilogue(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1039:1: warning: 'ia_css_debug_mode_enable_dma_channel' defined but not used [-Wunused-function]
+    1039 | ia_css_debug_mode_enable_dma_channel(int dma_id,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1024:1: warning: 'ia_css_debug_mode_disable_dma_channel' defined but not used [-Wunused-function]
+    1024 | ia_css_debug_mode_disable_dma_channel(int dma_id,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1011:6: warning: 'ia_css_debug_mode_init' defined but not used [-Wunused-function]
+    1011 | bool ia_css_debug_mode_init(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:976:6: warning: 'ia_css_debug_dump_isp_binary' defined but not used [-Wunused-function]
+     976 | void ia_css_debug_dump_isp_binary(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:946:6: warning: 'sh_css_dump_sp_raw_copy_linecount' defined but not used [-Wunused-function]
+     946 | void sh_css_dump_sp_raw_copy_linecount(bool reduced)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:877:6: warning: 'ia_css_debug_dump_isp_params' defined but not used [-Wunused-function]
+     877 | void ia_css_debug_dump_isp_params(struct ia_css_stream *stream,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:839:6: warning: 'ia_css_debug_wake_up_sp' defined but not used [-Wunused-function]
+     839 | void ia_css_debug_wake_up_sp(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:824:6: warning: 'ia_css_debug_enable_sp_sleep_mode' defined but not used [-Wunused-function]
+     824 | void ia_css_debug_enable_sp_sleep_mode(enum ia_css_sp_sleep_mode mode)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:807:6: warning: 'ia_css_debug_dump_sp_sw_debug_info' defined but not used [-Wunused-function]
+     807 | void ia_css_debug_dump_sp_sw_debug_info(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:441:6: warning: 'ia_css_debug_frame_print' defined but not used [-Wunused-function]
+     441 | void ia_css_debug_frame_print(const struct ia_css_frame *frame,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~
+--
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c: In function 'inputfifo_send_data_b':
+>> drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:110:13: error: invalid storage class for function 'inputfifo_send_data'
+     110 | static void inputfifo_send_data(
+         |             ^~~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:122:13: error: invalid storage class for function 'inputfifo_send_sol'
+     122 | static void inputfifo_send_sol(void)
+         |             ^~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:131:13: error: invalid storage class for function 'inputfifo_send_eol'
+     131 | static void inputfifo_send_eol(void)
+         |             ^~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:139:13: error: invalid storage class for function 'inputfifo_send_sof'
+     139 | static void inputfifo_send_sof(void)
+         |             ^~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:148:13: error: invalid storage class for function 'inputfifo_send_eof'
+     148 | static void inputfifo_send_eof(void)
+         |             ^~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:156:13: error: invalid storage class for function 'inputfifo_send_ch_id_and_fmt_type'
+     156 | static void inputfifo_send_ch_id_and_fmt_type(
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:173:13: error: invalid storage class for function 'inputfifo_send_empty_token'
+     173 | static void inputfifo_send_empty_token(void)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:181:13: error: invalid storage class for function 'inputfifo_start_frame'
+     181 | static void inputfifo_start_frame(
+         |             ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:190:13: error: invalid storage class for function 'inputfifo_end_frame'
+     190 | static void inputfifo_end_frame(
+         |             ^~~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:200:13: error: invalid storage class for function 'inputfifo_send_line2'
+     200 | static void inputfifo_send_line2(
+         |             ^~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:290:1: error: invalid storage class for function 'inputfifo_send_line'
+     290 | inputfifo_send_line(const unsigned short *data,
+         | ^~~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:333:13: error: invalid storage class for function 'inputfifo_send_frame'
+     333 | static void inputfifo_send_frame(
+         |             ^~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:368:38: error: invalid storage class for function 'inputfifo_determine_type'
+     368 | static enum inputfifo_mipi_data_type inputfifo_determine_type(
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:390:35: error: invalid storage class for function 'inputfifo_get_inst'
+     390 | static struct inputfifo_instance *inputfifo_get_inst(
+         |                                   ^~~~~~~~~~~~~~~~~~
+>> drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:503:1: error: expected declaration or statement at end of input
+     503 | }
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c: At top level:
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:488:6: warning: 'ia_css_inputfifo_end_frame' defined but not used [-Wunused-function]
+     488 | void ia_css_inputfifo_end_frame(
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:467:6: warning: 'ia_css_inputfifo_send_embedded_line' defined but not used [-Wunused-function]
+     467 | void ia_css_inputfifo_send_embedded_line(
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:443:6: warning: 'ia_css_inputfifo_send_line' defined but not used [-Wunused-function]
+     443 | void ia_css_inputfifo_send_line(
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:421:6: warning: 'ia_css_inputfifo_start_frame' defined but not used [-Wunused-function]
+     421 | void ia_css_inputfifo_start_frame(
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c:396:6: warning: 'ia_css_inputfifo_send_input_frame' defined but not used [-Wunused-function]
+     396 | void ia_css_inputfifo_send_input_frame(
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c: In function 'ia_css_isys_rx_configure':
+>> drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c:646:1: error: expected declaration or statement at end of input
+     646 | }
+         | ^
+   drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c: At top level:
+   drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c:637:6: warning: 'ia_css_isys_rx_disable' defined but not used [-Wunused-function]
+     637 | void ia_css_isys_rx_disable(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/findf_dmem_params +853 drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
+
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   850  
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   851  /* Find a stage that support the kernel and return the parameters for that kernel */
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   852  static char *
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  @853  findf_dmem_params(struct ia_css_stream *stream, short idx)
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   854  {
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   855  	int i;
+bdfe0beb95eebc8 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   856  
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   857  	for (i = 0; i < stream->num_pipes; i++) {
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   858  		struct ia_css_pipe *pipe = stream->pipes[i];
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   859  		struct ia_css_pipeline *pipeline = ia_css_pipe_get_pipeline(pipe);
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   860  		struct ia_css_pipeline_stage *stage;
+bdfe0beb95eebc8 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   861  
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   862  		for (stage = pipeline->stages; stage; stage = stage->next) {
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   863  			struct ia_css_binary *binary = stage->binary;
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   864  			short *offsets = (short *)&binary->info->mem_offsets.offsets.param->dmem;
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   865  			short dmem_offset = offsets[idx];
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   866  			const struct ia_css_host_data *isp_data =
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   867  			    ia_css_isp_param_get_mem_init(&binary->mem_params,
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   868  							  IA_CSS_PARAM_CLASS_PARAM, IA_CSS_ISP_DMEM0);
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   869  			if (dmem_offset < 0)
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   870  				continue;
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   871  			return &isp_data->address[dmem_offset];
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   872  		}
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   873  	}
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   874  	return NULL;
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   875  }
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   876  
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   877  void ia_css_debug_dump_isp_params(struct ia_css_stream *stream,
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   878  				  unsigned int enable)
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   879  {
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   880  	ia_css_debug_dtrace(IA_CSS_DEBUG_VERBOSE, "ISP PARAMETERS:\n");
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   881  
+bdfe0beb95eebc8 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   882  	assert(stream);
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   883  	if ((enable & IA_CSS_DEBUG_DUMP_FPN)
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   884  	    || (enable & IA_CSS_DEBUG_DUMP_ALL)) {
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   885  		ia_css_fpn_dump(FIND_DMEM_PARAMS(stream, fpn), IA_CSS_DEBUG_VERBOSE);
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   886  	}
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   887  	if ((enable & IA_CSS_DEBUG_DUMP_OB)
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   888  	    || (enable & IA_CSS_DEBUG_DUMP_ALL)) {
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   889  		ia_css_ob_dump(FIND_DMEM_PARAMS(stream, ob), IA_CSS_DEBUG_VERBOSE);
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   890  	}
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   891  	if ((enable & IA_CSS_DEBUG_DUMP_SC)
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   892  	    || (enable & IA_CSS_DEBUG_DUMP_ALL)) {
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   893  		ia_css_sc_dump(FIND_DMEM_PARAMS(stream, sc), IA_CSS_DEBUG_VERBOSE);
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   894  	}
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   895  	if ((enable & IA_CSS_DEBUG_DUMP_WB)
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   896  	    || (enable & IA_CSS_DEBUG_DUMP_ALL)) {
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   897  		ia_css_wb_dump(FIND_DMEM_PARAMS(stream, wb), IA_CSS_DEBUG_VERBOSE);
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   898  	}
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   899  	if ((enable & IA_CSS_DEBUG_DUMP_DP)
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   900  	    || (enable & IA_CSS_DEBUG_DUMP_ALL)) {
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   901  		ia_css_dp_dump(FIND_DMEM_PARAMS(stream, dp), IA_CSS_DEBUG_VERBOSE);
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   902  	}
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   903  	if ((enable & IA_CSS_DEBUG_DUMP_BNR)
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   904  	    || (enable & IA_CSS_DEBUG_DUMP_ALL)) {
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   905  		ia_css_bnr_dump(FIND_DMEM_PARAMS(stream, bnr), IA_CSS_DEBUG_VERBOSE);
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   906  	}
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   907  	if ((enable & IA_CSS_DEBUG_DUMP_S3A)
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   908  	    || (enable & IA_CSS_DEBUG_DUMP_ALL)) {
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   909  		ia_css_s3a_dump(FIND_DMEM_PARAMS(stream, s3a), IA_CSS_DEBUG_VERBOSE);
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   910  	}
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   911  	if ((enable & IA_CSS_DEBUG_DUMP_DE)
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   912  	    || (enable & IA_CSS_DEBUG_DUMP_ALL)) {
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   913  		ia_css_de_dump(FIND_DMEM_PARAMS(stream, de), IA_CSS_DEBUG_VERBOSE);
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   914  	}
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   915  	if ((enable & IA_CSS_DEBUG_DUMP_YNR)
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   916  	    || (enable & IA_CSS_DEBUG_DUMP_ALL)) {
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   917  		ia_css_nr_dump(FIND_DMEM_PARAMS_TYPE(stream, nr, ynr),  IA_CSS_DEBUG_VERBOSE);
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   918  		ia_css_yee_dump(FIND_DMEM_PARAMS(stream, yee), IA_CSS_DEBUG_VERBOSE);
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   919  	}
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   920  	if ((enable & IA_CSS_DEBUG_DUMP_CSC)
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   921  	    || (enable & IA_CSS_DEBUG_DUMP_ALL)) {
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   922  		ia_css_csc_dump(FIND_DMEM_PARAMS(stream, csc), IA_CSS_DEBUG_VERBOSE);
+eaa399eb542cdfc drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   923  		ia_css_yuv2rgb_dump(FIND_DMEM_PARAMS_TYPE(stream, yuv2rgb, csc),
+eaa399eb542cdfc drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   924  				    IA_CSS_DEBUG_VERBOSE);
+eaa399eb542cdfc drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   925  		ia_css_rgb2yuv_dump(FIND_DMEM_PARAMS_TYPE(stream, rgb2yuv, csc),
+eaa399eb542cdfc drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   926  				    IA_CSS_DEBUG_VERBOSE);
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   927  	}
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   928  	if ((enable & IA_CSS_DEBUG_DUMP_GC)
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   929  	    || (enable & IA_CSS_DEBUG_DUMP_ALL)) {
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   930  		ia_css_gc_dump(FIND_DMEM_PARAMS(stream, gc), IA_CSS_DEBUG_VERBOSE);
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   931  	}
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   932  	if ((enable & IA_CSS_DEBUG_DUMP_TNR)
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   933  	    || (enable & IA_CSS_DEBUG_DUMP_ALL)) {
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   934  		ia_css_tnr_dump(FIND_DMEM_PARAMS(stream, tnr), IA_CSS_DEBUG_VERBOSE);
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   935  	}
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   936  	if ((enable & IA_CSS_DEBUG_DUMP_ANR)
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   937  	    || (enable & IA_CSS_DEBUG_DUMP_ALL)) {
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   938  		ia_css_anr_dump(FIND_DMEM_PARAMS(stream, anr), IA_CSS_DEBUG_VERBOSE);
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   939  	}
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   940  	if ((enable & IA_CSS_DEBUG_DUMP_CE)
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   941  	    || (enable & IA_CSS_DEBUG_DUMP_ALL)) {
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   942  		ia_css_ce_dump(FIND_DMEM_PARAMS(stream, ce), IA_CSS_DEBUG_VERBOSE);
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   943  	}
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   944  }
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   945  
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   946  void sh_css_dump_sp_raw_copy_linecount(bool reduced)
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   947  {
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   948  	const struct ia_css_fw_info *fw;
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   949  	unsigned int HIVE_ADDR_raw_copy_line_count;
+bdfe0beb95eebc8 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   950  	s32 raw_copy_line_count;
+bdfe0beb95eebc8 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   951  	static s32 prev_raw_copy_line_count = -1;
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   952  
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   953  	fw = &sh_css_sp_fw;
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   954  	HIVE_ADDR_raw_copy_line_count =
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   955  	    fw->info.sp.raw_copy_line_count;
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   956  
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   957  	(void)HIVE_ADDR_raw_copy_line_count;
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   958  
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   959  	sp_dmem_load(SP0_ID,
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   960  		     (unsigned int)sp_address_of(raw_copy_line_count),
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   961  		     &raw_copy_line_count,
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   962  		     sizeof(raw_copy_line_count));
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   963  
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   964  	/* only indicate if copy loop is active */
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   965  	if (reduced)
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   966  		raw_copy_line_count = (raw_copy_line_count < 0) ? raw_copy_line_count : 1;
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   967  	/* do the handling */
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   968  	if (prev_raw_copy_line_count != raw_copy_line_count) {
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   969  		ia_css_debug_dtrace(IA_CSS_DEBUG_VERBOSE,
+bdfe0beb95eebc8 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   970  				    "sh_css_dump_sp_raw_copy_linecount() line_count=%d\n",
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   971  				    raw_copy_line_count);
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   972  		prev_raw_copy_line_count = raw_copy_line_count;
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   973  	}
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   974  }
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   975  
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   976  void ia_css_debug_dump_isp_binary(void)
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   977  {
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   978  	const struct ia_css_fw_info *fw;
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   979  	unsigned int HIVE_ADDR_pipeline_sp_curr_binary_id;
+bdfe0beb95eebc8 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   980  	u32 curr_binary_id;
+bdfe0beb95eebc8 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   981  	static u32 prev_binary_id = 0xFFFFFFFF;
+bdfe0beb95eebc8 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   982  	static u32 sample_count;
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   983  
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   984  	fw = &sh_css_sp_fw;
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   985  	HIVE_ADDR_pipeline_sp_curr_binary_id = fw->info.sp.curr_binary_id;
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   986  
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   987  	(void)HIVE_ADDR_pipeline_sp_curr_binary_id;
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   988  
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   989  	sp_dmem_load(SP0_ID,
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   990  		     (unsigned int)sp_address_of(pipeline_sp_curr_binary_id),
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   991  		     &curr_binary_id,
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   992  		     sizeof(curr_binary_id));
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   993  
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   994  	/* do the handling */
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   995  	sample_count++;
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   996  	if (prev_binary_id != curr_binary_id) {
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   997  		ia_css_debug_dtrace(IA_CSS_DEBUG_VERBOSE,
+bdfe0beb95eebc8 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   998  				    "sh_css_dump_isp_binary() pipe_id=%d, binary_id=%d, sample_count=%d\n",
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19   999  				    (curr_binary_id >> 16),
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1000  				    (curr_binary_id & 0x0ffff),
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1001  				    sample_count);
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1002  		sample_count = 0;
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1003  		prev_binary_id = curr_binary_id;
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1004  	}
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1005  }
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1006  
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1007  /*
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1008   * @brief Initialize the debug mode.
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1009   * Refer to "ia_css_debug.h" for more details.
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1010   */
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1011  bool ia_css_debug_mode_init(void)
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1012  {
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1013  	bool rc;
+bdfe0beb95eebc8 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1014  
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1015  	rc = sh_css_sp_init_dma_sw_reg(0);
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1016  	return rc;
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1017  }
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1018  
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1019  /*
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1020   * @brief Disable the DMA channel.
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1021   * Refer to "ia_css_debug.h" for more details.
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1022   */
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1023  bool
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1024  ia_css_debug_mode_disable_dma_channel(int dma_id,
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1025  				      int channel_id, int request_type)
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1026  {
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1027  	bool rc;
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1028  
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1029  	rc = sh_css_sp_set_dma_sw_reg(dma_id, channel_id, request_type, false);
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1030  
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1031  	return rc;
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1032  }
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1033  
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1034  /*
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1035   * @brief Enable the DMA channel.
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1036   * Refer to "ia_css_debug.h" for more details.
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1037   */
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1038  bool
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1039  ia_css_debug_mode_enable_dma_channel(int dma_id,
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1040  				     int channel_id, int request_type)
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1041  {
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1042  	bool rc;
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1043  
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1044  	rc = sh_css_sp_set_dma_sw_reg(dma_id, channel_id, request_type, true);
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1045  
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1046  	return rc;
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1047  }
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1048  
+01cc2ec6ea04473 drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c                  Mauro Carvalho Chehab 2020-09-23 @1049  static void __printf(1, 2) dtrace_dot(const char *fmt, ...)
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1050  {
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1051  	va_list ap;
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1052  
+bdfe0beb95eebc8 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1053  	assert(fmt);
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1054  	va_start(ap, fmt);
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1055  
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1056  	ia_css_debug_dtrace(IA_CSS_DEBUG_INFO, "%s", DPG_START);
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1057  	ia_css_debug_vdtrace(IA_CSS_DEBUG_INFO, fmt, ap);
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1058  	ia_css_debug_dtrace(IA_CSS_DEBUG_INFO, "%s", DPG_END);
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1059  	va_end(ap);
+ad85094b293e40e drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1060  }
+bdfe0beb95eebc8 drivers/staging/media/atomisp/pci/atomisp2/css2400/runtime/debug/src/ia_css_debug.c Mauro Carvalho Chehab 2020-04-19  1061  
+
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
