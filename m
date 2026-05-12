@@ -1,81 +1,96 @@
-Received: from forward201b.mail.yandex.net (forward201b.mail.yandex.net [178.154.239.156])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6F8E3D79F0
-	for <linux-staging@lists.linux.dev>; Tue, 12 May 2026 16:55:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.156
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9995F3D5C1C
+	for <linux-staging@lists.linux.dev>; Tue, 12 May 2026 17:00:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778604939; cv=none; b=oHsGyuuk1+Fp5jfeG+orZmQi27HRYo8Gav+908xaKBCHuspy3O+EEJZcFjxe+FRSHFOJuXfF/jvX504CENu8e6d6BWIQWTOXy2AJo3PqPahod5sdoX9sE6lT8G66BBiqec3izt0shhAEt12Eih8WJZxQaD2uvm/Qft0asCwpcG4=
+	t=1778605249; cv=none; b=QI8IvvtVDjRjh1/LbMh8xFzsVTT6jg19FjN8uoDqejIYUKzSB1QebsEkDCwrG7jVzXUiKBXrE8pjs8SFD2DiPjCnB2VVcAzYdtROR24JjErp8tWWpVx8S9Wm/hoK1Xp4sAz5nxtZzpZM4tzWwHPVbKHNMrVmTX6iSqPK3bTDhZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778604939; c=relaxed/simple;
-	bh=lXWy77SnZsUNQL8OZuCYQBixu6UPF5N2uPbtAbDm81A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jv0i6GQ5UIp9VaYzaXhXF0PMoskfO0t2rhBuA0tjlO/AMNVNvR1OpBeI1/ZoHL96aA5IFOFuAnyfetUQPjl6uChVQllVcQAIdGfWwWBRdCfJE6nUVhxPj+3NdMQwZjSn91qgNgStfIJycV3YkyKzLyOZCGpicsfTdOfX3WFxSfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net; spf=pass smtp.mailfrom=sezginduran.net; dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b=AjBSLLXA; arc=none smtp.client-ip=178.154.239.156
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sezginduran.net
+	s=arc-20240116; t=1778605249; c=relaxed/simple;
+	bh=k6HLYgxn1OTzvh/XSsj+s8Xe8oyn9z21HvDBjIXXB+4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=k4H7dDqSzhUIx011PfvOGFAL8MdcPvxvtvgQl5ON5RXYG7WRMRQUqVXkYnXG6IhJ7gx6Y9w31t2eVptBFgN26TaLY88VX+o3pW0eGtTUEW43JksKi/jzAxtSj7trmvZFNPQt4Mw8USrZPs3+OjspCsNe0PswPKYZcN+T5ve0j20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G5n9jGr3; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b="AjBSLLXA"
-Received: from forward102b.mail.yandex.net (forward102b.mail.yandex.net [IPv6:2a02:6b8:c02:900:1:45:d181:d102])
-	by forward201b.mail.yandex.net (Yandex) with ESMTPS id AC5B2C46F8
-	for <linux-staging@lists.linux.dev>; Tue, 12 May 2026 19:47:59 +0300 (MSK)
-Received: from mail-nwsmtp-smtp-production-main-95.iva.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-95.iva.yp-c.yandex.net [IPv6:2a02:6b8:c0c:1f87:0:640:a06a:0])
-	by forward102b.mail.yandex.net (Yandex) with ESMTPS id 59B8FC00C9;
-	Tue, 12 May 2026 19:47:52 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-95.iva.yp-c.yandex.net (smtp) with ESMTPSA id nlNSSYsRFCg0-9xopn763;
-	Tue, 12 May 2026 19:47:51 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sezginduran.net;
-	s=mail; t=1778604471;
-	bh=0Gg+wbrLji/tRqRmZB74iRx8IBsbBs/XfOZegHLyiWg=;
-	h=Message-ID:Date:Cc:Subject:To:From;
-	b=AjBSLLXAw1Mvt8iGF7xaEQ+f5YMjJoEHO7vFaHU4HTLJoRVcaYI+ROu/U75g1FMLS
-	 ZqdBK3MmjVMgybS8KZBX9xdIU16yHFXJihTDQPrMUL/lp5xvEQwEdHX4ZLBSX9N1sL
-	 FsvM/ZXV/KPP1RdAQSurXKcz8IUsEY0Hfi5Qxms0=
-Authentication-Results: mail-nwsmtp-smtp-production-main-95.iva.yp-c.yandex.net; dkim=pass header.i=@sezginduran.net
-From: Ahmet Sezgin Duran <ahmet@sezginduran.net>
-To: gregkh@linuxfoundation.org
-Cc: linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Ahmet Sezgin Duran <ahmet@sezginduran.net>
-Subject: [PATCH 0/4] staging: sm750fb: various code cleanups
-Date: Tue, 12 May 2026 16:41:20 +0000
-Message-ID: <20260512164124.188210-1-ahmet@sezginduran.net>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G5n9jGr3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778605249; x=1810141249;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=k6HLYgxn1OTzvh/XSsj+s8Xe8oyn9z21HvDBjIXXB+4=;
+  b=G5n9jGr3IktfKJKfL1/sgy78akQnn4Ot9DAgtS2dTC1eqyRfha0gZOP8
+   IdLqg00Ziegun2BwrvMJ1TRCdU4NPgOGMzO3c9O2ghx5PPCa8M18br4Em
+   C3h4ORwASe8WLmhxk/eAaCz4bymvY0Qkxgk4QuxEZ2GHpCmbcJEJfFnYu
+   ZqM1mNA6OY5/5Tn94J1fc5OfJj945z31ksXS3lt7VlnoMmc15S8CSSPW1
+   GzxJZGdJPTIoqtXlRIwKZDsf4JbiAbMEz2pjL9oZf41UK3JsFcfNjWhrL
+   JEvNF8hvxvBqif76u1jt4ebAmKCCYO2v+9meCGhAGA1wFr1yasCExnkCB
+   Q==;
+X-CSE-ConnectionGUID: K8r/2PVMQ+Skcq/wuaZPqw==
+X-CSE-MsgGUID: wWAHsfm7RVmHqZefKPXZbQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11784"; a="79630519"
+X-IronPort-AV: E=Sophos;i="6.23,231,1770624000"; 
+   d="scan'208";a="79630519"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 10:00:48 -0700
+X-CSE-ConnectionGUID: 8zTvYSsHSXGRklNSr1vVfQ==
+X-CSE-MsgGUID: RtVoBSRCR3OzxVbhlNaPug==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,231,1770624000"; 
+   d="scan'208";a="261305881"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.244])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 10:00:46 -0700
+Date: Tue, 12 May 2026 20:00:43 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Harshit Shaw <shawharshit116@gmail.com>
+Cc: gregkh@linuxfoundation.org, error27@gmail.com, deller@gmx.de,
+	chintanlike@gmail.com, tzimmermann@suse.de,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: fbtft: convert sysfs attributes to use
+ ATTRIBUTE_GROUPS
+Message-ID: <agNcu-D4zjHnZarz@ashevche-desk.local>
+References: <20260512154020.491-1-shawharshit116@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260512154020.491-1-shawharshit116@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-This series performs several cleanups on the sm750fb staging driver to
-improve code readability and remove redundancy.
+On Tue, May 12, 2026 at 03:40:19PM +0000, Harshit Shaw wrote:
+> Replace direct device_create_file() calls with the correct
+> ATTRIBUTE_GROUPS() macro. Add fbtft_groups as dev_groups in the
+> driver structure so the driver core automatically adds and removes
+> the sysfs attributes when a device is bound or unbound.
 
-The changes include:
-- Removing unused header includes and blocks.
-- Simplifying frequency validation logic using early returns to reduce
-  nesting.
-- Removing a redundant variable initialization.
-- Fixing a minor stylistic issue (double space).
+> Signed-off-by: Harshit Shaw <shawharshit116@gmail.com>
+> ---
 
-All changes were verified to have no functional impact on the driver.
+This is not a v2 as you read the Subject.
 
-Ahmet Sezgin Duran (4):
-  staging: sm750fb: remove unused includes
-  staging: sm750fb: use early returns in frequency checks
-  staging: sm750fb: remove unnecessary initialization
-  staging: sm750fb: remove double space in assignment
+> v2: Use ATTRIBUTE_GROUPS() macro and add dev_groups to driver
+>     structure instead of using sysfs_create_group() directly,
+>     as suggested by Greg KH.
 
- drivers/staging/sm750fb/ddk750_chip.c  | 153 +++++++++++++------------
- drivers/staging/sm750fb/sm750.c        |  12 --
- drivers/staging/sm750fb/sm750_accel.c  |  16 +--
- drivers/staging/sm750fb/sm750_cursor.c |  15 ---
- drivers/staging/sm750fb/sm750_hw.c     |  17 ---
- 5 files changed, 79 insertions(+), 134 deletions(-)
+I gave you the comments in previous version, and at least some of them were
+ignored. Why?
 
-base-commit: 6abf0b2df0b1c2205a4c0591425e6461afa62edb
+...
+
+> +extern const struct attribute_group *fbtft_groups[];
+
+You haven't compiled that?
+
 -- 
-2.53.0
+With Best Regards,
+Andy Shevchenko
+
 
