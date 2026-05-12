@@ -1,141 +1,120 @@
-Received: from mail-dy1-f196.google.com (mail-dy1-f196.google.com [74.125.82.196])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F219374E59
-	for <linux-staging@lists.linux.dev>; Tue, 12 May 2026 03:05:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.196
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778555107; cv=none; b=FyAdlKfMzM2FjaVP01KYqoq7L904SiTL0cMRg0kcyAw0hlr+ez7eKaENzbHLdr6/VY9z2mTNI65/YrpbqgtRe+YOnRfKuHSrq+sZ754HGirx+R+nML/dsX4saMvGizqbbUXy8ryZaqaO5IfVccgkrmsrZDk9pEZVOSdhz6TM198=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778555107; c=relaxed/simple;
-	bh=OjS84fyr1Np8GryesdkwyZdtusIvDqhk9G7atC1y9sw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Cfc0xRMEiWMKvzkwEMUd1sT5dNafrcTh3aQtnAp15G33Jn0tdzghJTK/WI9kfO+1jtOPEXA2uTqmGdBmQC5gjYoQbZwa/BikACPv0BbuBVgCLPEm6zChmLLCvo0wBEI0lNeUUKp0v6+EKg55qTF1USkwX7e4DFq9OkRelYK2Goc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=elPP9UUU; arc=none smtp.client-ip=74.125.82.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E789284690
+	for <linux-staging@lists.linux.dev>; Tue, 12 May 2026 04:26:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778560019; cv=pass; b=YWGqD06pUk6l9ZbZdZUz6xnlhNlCCFkvJspa3IigCZItRSKMy53H3f21oMa0kS1jdH5gfKBi+BWHMJ/I3Fj4cS6uPyg4+Jl5PIBiLfBNby8Ll5EN0ZKPGfIG7RyJvYLFTmJYe5RoIpDf5TFc4iib8J5fsAxLx2bEaDaXjeHaE7c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778560019; c=relaxed/simple;
+	bh=+ySoRi6LeXBU8zA55VzU96r7TVruowwBuL5UEALxqcY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ndKSVKWANJrRFCO9hpuxLWr/64nLjFbn91vMJ2Tr4TRXZoGJ4g0EmBMXLvsk5KYpD0yUUBTU/kD2z35Mt9E0wp2JcdSaDlIRbgpMsxjxkr26OjgwTuW97VShFEqob1VzX+jMYXzzApohEcP8xkka/va0GRmVhQQr8YIZM0fQTw0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tj3xYfG7; arc=pass smtp.client-ip=209.85.218.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="elPP9UUU"
-Received: by mail-dy1-f196.google.com with SMTP id 5a478bee46e88-2f00a567cfaso3350492eec.0
-        for <linux-staging@lists.linux.dev>; Mon, 11 May 2026 20:05:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tj3xYfG7"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-bd22b2abaa4so110280166b.0
+        for <linux-staging@lists.linux.dev>; Mon, 11 May 2026 21:26:57 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778560016; cv=none;
+        d=google.com; s=arc-20240605;
+        b=hj4YEoWLwUeP/k7s7Iky5Kzc/g+MYIxybiQaebTYr7R0Lnie57ZMtdveMfl8JcURax
+         DQPBwFHQKKUuRCnTiKiyskG14/xoF6WM/wJlW4gIUjcFqotrlvKXQRgQoS8p/iUKWObM
+         9FJbr7+pH/hx69Gv9v0KCxSF92BYn/AbmCcv7jyQFTtrKnbIKwYYs4MZFp9GIT/a9wpY
+         wNhh0o8UCpybLYNFJGCWs/g/FlW54PIRGsPz6jSJNStRRzj+QKP5AgSr7NoBobI65GQG
+         SHA/uJ5raRJhfdrzdqnh7WBfeuQzTpNb2VpET/NKdnuTsR48pV/tHVrpmPBwfVl8YnRI
+         4FCA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=+ySoRi6LeXBU8zA55VzU96r7TVruowwBuL5UEALxqcY=;
+        fh=T5D7L17K21Hs/KOrTRMhM5J//C6gEtdj7J7KykNcyNU=;
+        b=OHpPu/b/zOJJzOlZ8y3SMkvhDdBrs1KfyeAFcoheiaW/uzh9zxRnv+dPznlvZyblB6
+         EUHdac3HGSrY6NrFROx66EgWOwenXqC/xpWgiD54gnSwagz5tLMK2IJZjsqM4SkRomyG
+         +UP9X4j81D3YuxzDq4LY9F0f+k/RXjRdQE5/wVR3hPtWzSNaRTYqSsi+xcd7DxDJPzDM
+         pKM4V1Zgff5mC/sa0mpXyocv/q1cXJduwvti6L34wKp5WToAP/dEhfKCYm9C3eTDHF9K
+         ww+SgqohnNHR4sZmU+EQ0hAeU87BM4mlLCP4bGKMYT/obHLRepaVOjS+4he/Z4qn2v85
+         1m0A==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778555104; x=1779159904; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1778560016; x=1779164816; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mwrfpKa7ZrSAnPBOF79N3IhxzqvT+3wAOiHHA54y3cQ=;
-        b=elPP9UUUznLwa9sglnNYe6IVkFFsw67WhPTruOXF9avq3FFHBlmeNlb2n/nCfS/uOV
-         4h74xNXV7V06WQOScICNKLi5DdZLBkVhok/XydxAyUen+3P2DosTgmbjpQjhaFi7bljp
-         lyXoLatjEcq8cIrRGzzfHoUoogrlklPiebEgIs8ufr9I6rtBp3T42cgZygIttZag8f1e
-         7K3dAVHbJkZtRFwvr0yH64/yrkBY7Nb9+uug4bGtX14w+dlYGTdzvjMb4OGAMqHjZ89u
-         ZOxsmgefUNag/dVP5U6AtpCxgex+gwv3SsjO14BcTOABito1y/vAocqclnI01+p8yLEA
-         TDqA==
+        bh=+ySoRi6LeXBU8zA55VzU96r7TVruowwBuL5UEALxqcY=;
+        b=Tj3xYfG7j98NmKN1tMEDvJPpw6earyGRg6GA2mt+FbkqsgwdngWyxOVoni3+K1tcIh
+         nBaGaQ/Sp7twbl/jIT4P39hN71uU18CbpQeTDNZ28xASp1gj/t6kPCN+D7JtBiSvt+OJ
+         TniF4GxFBGgE3rfY0Wnwt+qMKLM4rMDXUDrcxwRlZjhUZZVAYrA3vpWUfCnj8q5VW9KJ
+         GX4IJHw8sodebQsk0kQTjQ0UX6IkkBaduJZ8QmND61TtskD6CfxT/NFZShP4RswmNhE7
+         cGkhcP+EyM0NSqVXxGkp74VptEDxZRILeP6mby3nlLcp97yZijGLKCBES5mzxJC97MOi
+         88xA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778555104; x=1779159904;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1778560016; x=1779164816;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=mwrfpKa7ZrSAnPBOF79N3IhxzqvT+3wAOiHHA54y3cQ=;
-        b=Oamwt37nUxZ6bSpIEa/FkfYix8Aov+DMmUgoVLM56d105L8ol2YizuaxyGQQtwc7sr
-         jv80UTFF9yzgPSZBH6gtwvsnHZxOSkA2BBkLLjpunkskvXm5momH6MCeXmscOmqxeAw5
-         loS5ruprUMkqUowT9Cmw5YanERDVNC/zk+QL2lcyiEUh8hDOREqSCONshJQiq2qZJfyv
-         UxRpii9S5O/I4J2QbzzsRVx5OHbV92/wNI54T4GGVAiot2FjPQPxODw/90DurLEfJya0
-         EMA7oHhDoySECwySEZ0f71PRzG6txmmNVIap9DeEjUf6HsVFPXHhFkcD4JoaKqSWfr7d
-         cKGA==
-X-Forwarded-Encrypted: i=1; AFNElJ+1NiFe3IzhE/wEdXrDJGeMWFbGl91+mPIOTQnxj/xjA7mi1RyWoQpSG+y1awmaXWEnQravKKTDnE41gKLh@lists.linux.dev
-X-Gm-Message-State: AOJu0YyHiU8OTVXFeWFzNWrfds2LGCPen4A5VL3hJtseUMLvHOTYPBH6
-	+x4SWDAF+S6sK9k/FnJhMWRW/mOBW+8JTznh51xQehJlzxW3MydDRYQWAfBueExV
-X-Gm-Gg: Acq92OFVNIsIY2POB4guU/XeiYpKYoNSnBQwjTQuxiNINtPe7M5p0IirK0qepJoBi1B
-	pO770bp7zyot9IMJQCMxfobimgXFjFRW2dqGy13Yn12APj5b2U8OFzLm6h0eLrWWbC9OqLK6bJs
-	bB8mg2LHyiT8iBtxiiT76PIhnFjnHMJlb60ShTQqsmYNRa4IrK8yQcJDUYhJat7T7o1K/GesSWn
-	LKvMXThdqpGNanKMCFDfoblhH/mj26KTn0QaZ6eL3BTGLxyJ3MFT1mxb7/91XNct00T5q0lWXnU
-	NIEnHlKVH3Qn+mmUe/Y/BAwKtESBWC7KnFph3OxDDnWNSr1R61w4Nt1uyD+KZMbyhtzlGeUesby
-	QNHfp7Tif+AhTcpcOPqQW8r3uovGNzMjOmL8jZBNvKImB08oSsChhnraXotw0Q/JZQb/2ILF3It
-	8fzlFslIPKALvfL/wzyjptDFzk+RlInSROq99QbrNbtwD6lJT7+P5oIzk=
-X-Received: by 2002:a05:7301:4591:b0:2ed:e16:6b39 with SMTP id 5a478bee46e88-2ff946e0259mr1090002eec.17.1778555104173;
-        Mon, 11 May 2026 20:05:04 -0700 (PDT)
-Received: from localhost.localdomain ([76.32.119.210])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2f888e381c9sm15858223eec.26.2026.05.11.20.05.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 20:05:03 -0700 (PDT)
-From: Hungyu Lin <dennylin0707@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Hungyu Lin <dennylin0707@gmail.com>
-Subject: [PATCH 2/2] staging: rtl8723bs: convert LPS_RF_ON_check to errno
-Date: Tue, 12 May 2026 03:04:45 +0000
-Message-Id: <20260512030445.6360-3-dennylin0707@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260512030445.6360-2-dennylin0707@gmail.com>
-References: <20260512030445.6360-1-dennylin0707@gmail.com>
- <20260512030445.6360-2-dennylin0707@gmail.com>
+        bh=+ySoRi6LeXBU8zA55VzU96r7TVruowwBuL5UEALxqcY=;
+        b=b3Zfi+hbC3/COI5Yb08nYtMzMwRez7pkQKzwCH97AjGYnp2IOfkqaLSfyQ62gGTDyH
+         FpQ9bIfK4tXE7nDj5FvBkK1lhWOtTFC7HkdgNxUcF2N9UUQxoqbIDx1nXF44Ll/FEQIP
+         RGT+UvGp1s781NZU7QkKfWL8I2OjiIVK/rjc/RBLB5Lhk46fcZCYDNfD+YMbTz425epI
+         3ru7EMD1Oe8aJSaHKcS53wcAM0jOmJow97A3AKplfwI+mgcu8aGgHnM6haTtqn3SInZP
+         E7VoD6z34rc3NCd/Y+PtW7DrwPO4Jo0qI54lXlQ2HYVtfdPOCWXlTroIlfKlfUNCEYyL
+         7WfA==
+X-Forwarded-Encrypted: i=1; AFNElJ98uFRH40MY/1twFLA0XcJTAPK6YZ9VtopmPLClQrkDE4hi41ybo27Ol3xnk9STWwDC5EEqFTLTVhOfoRdq@lists.linux.dev
+X-Gm-Message-State: AOJu0YyrnsHyjxwlL+/rEaw01lki4GPC52hMOgb/4YJiQG1fAdejQjfp
+	mK5twSq1/UXIUcRBDcB129B1rUWwBnbZgBn/z9d9y9cHJ4l3MfVqdHQ3Rmb1in1zsNtMVwOtxdn
+	uyrydHpsfsBUOCDvy9fU5V8vAEInuZ5g=
+X-Gm-Gg: Acq92OE0eqiitTK7QP5q/dsDR28JQo+Y6USxLLcH7yvZtTwymROqJiz4AI3xKYSiIjI
+	+u0XTHz0wAs877iR73FRW6WNsG1RMWxnVO4zFmviswdeRrl8hk7XNuNd+tBpah8HiURhyw94182
+	YnZIp1QkV7waGty/yk98wEfOSt7OwtQRgsUxetAImgpk0GtARdA6Y6BtQ+ofGyhedEiq93vgAqn
+	GDcifwa1JNvjbg3vDd3rOofrIJaAanHLK6L2PJykxLoN3AUXLJVEp5HLgCACgV/7Shp+m07PHTW
+	aID6SP5QVor8aKA9A3vAb0ea+FaioutOLLzXFoHtgG8SAApWXsBj9bHnSZpwntHbTAtB7M38Mg2
+	nRFR99+M=
+X-Received: by 2002:a17:906:4787:b0:bb4:92dc:b84b with SMTP id
+ a640c23a62f3a-bc56cd3782cmr1545358966b.26.1778560016349; Mon, 11 May 2026
+ 21:26:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260511193222.49582-1-melihemik@noirlang.tr>
+In-Reply-To: <20260511193222.49582-1-melihemik@noirlang.tr>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Tue, 12 May 2026 07:26:20 +0300
+X-Gm-Features: AVHnY4Kn9Rv-3n24WJGHghzuyLr222ljoNomIq2KvZY0XGkSQ0Weq_cay6ZEOcY
+Message-ID: <CAHp75VebM9wwKpjnZKEGVvwA=TfmF4MDDuYssNAFWDnXsXyRTw@mail.gmail.com>
+Subject: Re: [PATCH] atomisp: remove unused module parameter dbg_func
+To: Melih Emik <melihemik@noirlang.tr>
+Cc: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Andy Shevchenko <andy@kernel.org>, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Convert LPS_RF_ON_check() to return standard kernel error codes.
+On Mon, May 11, 2026 at 10:32=E2=80=AFPM Melih Emik <melihemik@noirlang.tr>=
+ wrote:
+>
+> atomisp_v4l2.c declared dbg_func as a module parameter to expose the
+> CSS debug print switch at module load time.
+>
+> dbg_func remains as internal state for the CSS print environment, but
+> no code depends on the module parameter registration. After this removal,
+> git grep only finds the internal variable users and no module_param() or
+> MODULE_PARM_DESC() entry for dbg_func.
+>
+> Remove the obsolete parameter while leaving the existing default debug
+> print state unchanged.
 
-Replace -1 and -2 with -ETIMEDOUT and -ENODEV respectively.
+While the direction is good, the patch is half-baked. Instead make
+sure the similar infrastructure is available at runtime, exempli
+gratia via trace events or dynamic debug.
 
-No functional change intended as callers currently ignore
-the return value.
-
-Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_pwrctrl.c    | 10 +++++-----
- drivers/staging/rtl8723bs/include/rtw_pwrctrl.h |  2 +-
- 2 files changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-index 7f297f2d2ff4..b0122eef5c32 100644
---- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-@@ -390,10 +390,10 @@ void rtw_set_ps_mode(struct adapter *padapter, u8 ps_mode,
- /*
-  * Return:
-  * 0:    Leave OK
-- * -1:   Timeout
-- * -2:   Other error
-+ * -ETIMEDOUT:  Timeout
-+ * -ENODEV:     Other error
-  */
--s32 LPS_RF_ON_check(struct adapter *padapter, u32 delay_ms)
-+int LPS_RF_ON_check(struct adapter *padapter, u32 delay_ms)
- {
- 	unsigned long start_time;
- 	u8 bAwake = false;
-@@ -405,10 +405,10 @@ s32 LPS_RF_ON_check(struct adapter *padapter, u32 delay_ms)
- 			return 0;
- 
- 		if (padapter->bSurpriseRemoved)
--			return -2;
-+			return -ENODEV;
- 
- 		if (jiffies_to_msecs(jiffies - start_time) > delay_ms)
--			return -1;
-+			return -ETIMEDOUT;
- 
- 		msleep(1);
- 	}
-diff --git a/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h b/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
-index c27d07861b8c..7dc9c4e2dfd2 100644
---- a/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
-@@ -233,7 +233,7 @@ int ips_leave(struct adapter *padapter);
- 
- void rtw_ps_processor(struct adapter *padapter);
- 
--s32 LPS_RF_ON_check(struct adapter *padapter, u32 delay_ms);
-+int LPS_RF_ON_check(struct adapter *padapter, u32 delay_ms);
- void LPS_Enter(struct adapter *padapter, const char *msg);
- void LPS_Leave(struct adapter *padapter, const char *msg);
- void traffic_check_for_leave_lps(struct adapter *padapter, u8 tx, u32 tx_packets);
--- 
-2.34.1
-
+--=20
+With Best Regards,
+Andy Shevchenko
