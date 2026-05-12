@@ -1,34 +1,37 @@
-Received: from forward102a.mail.yandex.net (forward102a.mail.yandex.net [178.154.239.85])
+Received: from forward201d.mail.yandex.net (forward201d.mail.yandex.net [178.154.239.220])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1D753D5C38
-	for <linux-staging@lists.linux.dev>; Tue, 12 May 2026 16:48:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.85
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78BE43D5C10
+	for <linux-staging@lists.linux.dev>; Tue, 12 May 2026 16:54:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.220
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778604490; cv=none; b=I1T7/yxZzt23FDbDLrpy/Dw7cTPg4EKOlSxHNmReys+XSXF7kEo41XUA9aLvYPAqogsuwVOuwZboRQyWgEHC7JRDRDu/V/uYU2acGypTw4cT2wM1InpQf2sBpqnQrijrMDKMwAgpoangz+6c/5kUgZnDymCGcuM/K3DMKQPrkXY=
+	t=1778604851; cv=none; b=WykEkC0Or3yEeIoGDwGsQrYb2rEnemdb3pDq9wrNRzRV4z3/HwKuTH+f6XmgBk8RlnrWufyN9RAlQ75bvOVb7QVT/qafArAYMNG/Vjw7X2NP/oJm//nPAsQBv6RypkVMJEj1+yXP6wgM1evSFUNO9vcQg74MmXSjTJCX9Lw/bws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778604490; c=relaxed/simple;
-	bh=Gnn1Do81QrR5wbkPcvYAjV4e1rUZsyWvtIaNJyyyrU4=;
+	s=arc-20240116; t=1778604851; c=relaxed/simple;
+	bh=/u3E5r4BMpeh8UtVluRHgFfJElRK1+V1FFj8u7VEeNs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GByzKH8EnaF+tGt93eZqPUB9VQh1flQ7a5XKo3nLMtG1iUvjDe/repQWAOL+WRetb93bYeNXWgNhII9ungwIMdXBoFE8ib2E/5ZESnvc1Zl5XlAjyLriipP6muYS/XrrnYIHzKrgv68r4dMj0PUSpiBKK54EkOlXjvkrX7q6pZs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net; spf=pass smtp.mailfrom=sezginduran.net; dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b=c4Ykpoxy; arc=none smtp.client-ip=178.154.239.85
+	 MIME-Version; b=gsR+658OUTarmTKGT99gpVmp/r0qyDi0I2b4DqX7ZZUVHkdxZ+sEHN731ILf3Lw1xs+6iYvpzVrFOkOkoxA1e5wRP+Vg02IdLOSKDgsm9QvfYTINBcU4DQAaLatR3lxsgHbHAFmtc6T4Oi4ybyaXfNeNFd9wfiAviUz+AOkDE1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net; spf=pass smtp.mailfrom=sezginduran.net; dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b=X6i6TWVU; arc=none smtp.client-ip=178.154.239.220
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sezginduran.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b="c4Ykpoxy"
+	dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b="X6i6TWVU"
+Received: from forward100d.mail.yandex.net (forward100d.mail.yandex.net [IPv6:2a02:6b8:c41:1300:1:45:d181:d100])
+	by forward201d.mail.yandex.net (Yandex) with ESMTPS id 9DD9483B98
+	for <linux-staging@lists.linux.dev>; Tue, 12 May 2026 19:48:03 +0300 (MSK)
 Received: from mail-nwsmtp-smtp-production-main-95.iva.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-95.iva.yp-c.yandex.net [IPv6:2a02:6b8:c0c:1f87:0:640:a06a:0])
-	by forward102a.mail.yandex.net (Yandex) with ESMTPS id 35EDEC005B;
-	Tue, 12 May 2026 19:47:59 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-95.iva.yp-c.yandex.net (smtp) with ESMTPSA id nlNSSYsRFCg0-fwHlyR5l;
-	Tue, 12 May 2026 19:47:58 +0300
+	by forward100d.mail.yandex.net (Yandex) with ESMTPS id B5392C0051;
+	Tue, 12 May 2026 19:47:55 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-95.iva.yp-c.yandex.net (smtp) with ESMTPSA id nlNSSYsRFCg0-cQ9lIMaw;
+	Tue, 12 May 2026 19:47:55 +0300
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sezginduran.net;
-	s=mail; t=1778604478;
-	bh=5pWz9nArF2Zrub8NMeqq45B5mVOj7NGAOhfY1XGqvNc=;
+	s=mail; t=1778604475;
+	bh=djGYuQvNXpa9sAArIcWPO2XIUXUNsetAa9bOTrZwd3A=;
 	h=Message-ID:Date:In-Reply-To:Cc:Subject:References:To:From;
-	b=c4YkpoxyJJxnCYNd2svB5nAgROxgnj6jRI4Xip2K2QiCFTqhZTGZRv7YMNCz9LiuN
-	 Xh31D9zWUkWN1QrwSPe1lk3Tnh8dvtQUkRlXi4XmRiR5Tz3Ey5I4RhsCTYZNT+7uac
-	 vFWDNyw3dJRaAhEqXuO84LJbQetyUSu+LREnl6Ig=
+	b=X6i6TWVU4/3XOemQa8a3DQWAeaoYEgLe1kZZVcy9+kG/kfaA3KbNJ+bTVkSDV+2xo
+	 KgaayEFygZI5EhN4wbLT6aOSMxwzmFoJGwsLfjbJwnJM0bqsOysFf10ZpVWgn5O0BO
+	 Vgmynri6C+EDvo+ehfxKZ9hj9Wx+94IlnXWmoDi8=
 Authentication-Results: mail-nwsmtp-smtp-production-main-95.iva.yp-c.yandex.net; dkim=pass header.i=@sezginduran.net
 From: Ahmet Sezgin Duran <ahmet@sezginduran.net>
 To: gregkh@linuxfoundation.org
@@ -36,9 +39,9 @@ Cc: linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Ahmet Sezgin Duran <ahmet@sezginduran.net>
-Subject: [PATCH 4/4] staging: sm750fb: remove double space in assignment
-Date: Tue, 12 May 2026 16:41:24 +0000
-Message-ID: <20260512164124.188210-5-ahmet@sezginduran.net>
+Subject: [PATCH 2/4] staging: sm750fb: use early returns in frequency checks
+Date: Tue, 12 May 2026 16:41:22 +0000
+Message-ID: <20260512164124.188210-3-ahmet@sezginduran.net>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260512164124.188210-1-ahmet@sezginduran.net>
 References: <20260512164124.188210-1-ahmet@sezginduran.net>
@@ -50,26 +53,200 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove extra space after `=` in assignment of `reg` variable.
+Invert the frequency validation conditions and use early returns
+to reduce nesting and improve readability.
+
+No functional changes.
 
 Signed-off-by: Ahmet Sezgin Duran <ahmet@sezginduran.net>
 ---
- drivers/staging/sm750fb/sm750_accel.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/sm750fb/ddk750_chip.c | 153 +++++++++++++-------------
+ 1 file changed, 78 insertions(+), 75 deletions(-)
 
-diff --git a/drivers/staging/sm750fb/sm750_accel.c b/drivers/staging/sm750fb/sm750_accel.c
-index f695a2a61c28..e3225c0c320b 100644
---- a/drivers/staging/sm750fb/sm750_accel.c
-+++ b/drivers/staging/sm750fb/sm750_accel.c
-@@ -26,7 +26,7 @@ void sm750_hw_de_init(struct lynx_accel *accel)
- 	write_dpr(accel, DE_MASKS, 0xFFFFFFFF);
+diff --git a/drivers/staging/sm750fb/ddk750_chip.c b/drivers/staging/sm750fb/ddk750_chip.c
+index 136692b00804..0bb56bbec43f 100644
+--- a/drivers/staging/sm750fb/ddk750_chip.c
++++ b/drivers/staging/sm750fb/ddk750_chip.c
+@@ -61,25 +61,26 @@ static void set_chip_clock(unsigned int frequency)
+ 	if (sm750_get_chip_type() == SM750LE)
+ 		return;
  
- 	/* dpr1c */
--	reg =  0x3;
-+	reg = 0x3;
+-	if (frequency) {
+-		/*
+-		 * Set up PLL structure to hold the value to be set in clocks.
+-		 */
+-		pll.input_freq = DEFAULT_INPUT_CLOCK; /* Defined in CLOCK.H */
+-		pll.clock_type = MXCLK_PLL;
++	if (!frequency)
++		return;
  
- 	clr = DE_STRETCH_FORMAT_PATTERN_XY |
- 	      DE_STRETCH_FORMAT_PATTERN_Y_MASK |
+-		/*
+-		 * Call sm750_calc_pll_value() to fill the other fields
+-		 * of the PLL structure. Sometimes, the chip cannot set
+-		 * up the exact clock required by the User.
+-		 * Return value of sm750_calc_pll_value gives the actual
+-		 * possible clock.
+-		 */
+-		sm750_calc_pll_value(frequency, &pll);
++	/*
++	 * Set up PLL structure to hold the value to be set in clocks.
++	 */
++	pll.input_freq = DEFAULT_INPUT_CLOCK; /* Defined in CLOCK.H */
++	pll.clock_type = MXCLK_PLL;
+ 
+-		/* Master Clock Control: MXCLK_PLL */
+-		poke32(MXCLK_PLL_CTRL, sm750_format_pll_reg(&pll));
+-	}
++	/*
++	 * Call sm750_calc_pll_value() to fill the other fields
++	 * of the PLL structure. Sometimes, the chip cannot set
++	 * up the exact clock required by the User.
++	 * Return value of sm750_calc_pll_value gives the actual
++	 * possible clock.
++	 */
++	sm750_calc_pll_value(frequency, &pll);
++
++	/* Master Clock Control: MXCLK_PLL */
++	poke32(MXCLK_PLL_CTRL, sm750_format_pll_reg(&pll));
+ }
+ 
+ static void set_memory_clock(unsigned int frequency)
+@@ -93,37 +94,38 @@ static void set_memory_clock(unsigned int frequency)
+ 	if (sm750_get_chip_type() == SM750LE)
+ 		return;
+ 
+-	if (frequency) {
+-		/*
+-		 * Set the frequency to the maximum frequency
+-		 * that the DDR Memory can take which is 336MHz.
+-		 */
+-		if (frequency > MHz(336))
+-			frequency = MHz(336);
+-
+-		/* Calculate the divisor */
+-		divisor = DIV_ROUND_CLOSEST(get_mxclk_freq(), frequency);
+-
+-		/* Set the corresponding divisor in the register. */
+-		reg = peek32(CURRENT_GATE) & ~CURRENT_GATE_M2XCLK_MASK;
+-		switch (divisor) {
+-		default:
+-		case 1:
+-			reg |= CURRENT_GATE_M2XCLK_DIV_1;
+-			break;
+-		case 2:
+-			reg |= CURRENT_GATE_M2XCLK_DIV_2;
+-			break;
+-		case 3:
+-			reg |= CURRENT_GATE_M2XCLK_DIV_3;
+-			break;
+-		case 4:
+-			reg |= CURRENT_GATE_M2XCLK_DIV_4;
+-			break;
+-		}
++	if (!frequency)
++		return;
++
++	/*
++	 * Set the frequency to the maximum frequency
++	 * that the DDR Memory can take which is 336MHz.
++	 */
++	if (frequency > MHz(336))
++		frequency = MHz(336);
++
++	/* Calculate the divisor */
++	divisor = DIV_ROUND_CLOSEST(get_mxclk_freq(), frequency);
+ 
+-		sm750_set_current_gate(reg);
++	/* Set the corresponding divisor in the register. */
++	reg = peek32(CURRENT_GATE) & ~CURRENT_GATE_M2XCLK_MASK;
++	switch (divisor) {
++	default:
++	case 1:
++		reg |= CURRENT_GATE_M2XCLK_DIV_1;
++		break;
++	case 2:
++		reg |= CURRENT_GATE_M2XCLK_DIV_2;
++		break;
++	case 3:
++		reg |= CURRENT_GATE_M2XCLK_DIV_3;
++		break;
++	case 4:
++		reg |= CURRENT_GATE_M2XCLK_DIV_4;
++		break;
+ 	}
++
++	sm750_set_current_gate(reg);
+ }
+ 
+ /*
+@@ -145,37 +147,38 @@ static void set_master_clock(unsigned int frequency)
+ 	if (sm750_get_chip_type() == SM750LE)
+ 		return;
+ 
+-	if (frequency) {
+-		/*
+-		 * Set the frequency to the maximum frequency
+-		 * that the SM750 engine can run, which is about 190 MHz.
+-		 */
+-		if (frequency > MHz(190))
+-			frequency = MHz(190);
+-
+-		/* Calculate the divisor */
+-		divisor = DIV_ROUND_CLOSEST(get_mxclk_freq(), frequency);
+-
+-		/* Set the corresponding divisor in the register. */
+-		reg = peek32(CURRENT_GATE) & ~CURRENT_GATE_MCLK_MASK;
+-		switch (divisor) {
+-		default:
+-		case 3:
+-			reg |= CURRENT_GATE_MCLK_DIV_3;
+-			break;
+-		case 4:
+-			reg |= CURRENT_GATE_MCLK_DIV_4;
+-			break;
+-		case 6:
+-			reg |= CURRENT_GATE_MCLK_DIV_6;
+-			break;
+-		case 8:
+-			reg |= CURRENT_GATE_MCLK_DIV_8;
+-			break;
+-		}
++	if (!frequency)
++		return;
++
++	/*
++	 * Set the frequency to the maximum frequency
++	 * that the SM750 engine can run, which is about 190 MHz.
++	 */
++	if (frequency > MHz(190))
++		frequency = MHz(190);
++
++	/* Calculate the divisor */
++	divisor = DIV_ROUND_CLOSEST(get_mxclk_freq(), frequency);
+ 
+-		sm750_set_current_gate(reg);
++	/* Set the corresponding divisor in the register. */
++	reg = peek32(CURRENT_GATE) & ~CURRENT_GATE_MCLK_MASK;
++	switch (divisor) {
++	default:
++	case 3:
++		reg |= CURRENT_GATE_MCLK_DIV_3;
++		break;
++	case 4:
++		reg |= CURRENT_GATE_MCLK_DIV_4;
++		break;
++	case 6:
++		reg |= CURRENT_GATE_MCLK_DIV_6;
++		break;
++	case 8:
++		reg |= CURRENT_GATE_MCLK_DIV_8;
++		break;
+ 	}
++
++	sm750_set_current_gate(reg);
+ }
+ 
+ unsigned int ddk750_get_vm_size(void)
 -- 
 2.53.0
 
