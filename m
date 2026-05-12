@@ -1,61 +1,63 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A66A925B0A4
-	for <linux-staging@lists.linux.dev>; Tue, 12 May 2026 06:35:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7B0B4DD6C2
+	for <linux-staging@lists.linux.dev>; Tue, 12 May 2026 06:35:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778567720; cv=none; b=Pa9uC+nKtdfSeXlzv0r8YuwT76wgCVOqtktMEdbaWQzn8yM3cUBFeC680G7XD1rRPM84exIBTJUppB+1f9eXUTeUKj4KqU/gwJKzlNm+tbuCcWAHc3XPlXMp8eNhHCzBdgFbQq5B1PHeARqZ2a+SA8k7d03XlbeL94go96q8RD0=
+	t=1778567725; cv=none; b=eFYMs3IiKfW+QYl0LdDp6pDIY3LAoaFy6YwWTBSOPL0ICjlHE2hLK+rptLTnpvYnpyqxQqyJIkE1My2YsvyOkj8eQVRcXYnRFZ/wyUsyeucs0yui7W0OiNHQCSe0Pxj/W5VhdelAmWbokDXOIopJNim5O8oBvToXIFBaWARxdyo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778567720; c=relaxed/simple;
-	bh=2doWczqNtnCVGsUAUmmyk0SfDHaoSrWEhkfH1ShARKw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DdcyTlDKrg+gIhqsA8viGxdvETmIeIT2SHCz1+qVaddCPRfolrur8HPhEqZIpufJalebE3MxAtMlNSBSlsi6koCHtz6Y/i9k+WLfftd6Ohke9i3HMZDKVp4dNzzcLf3nrjVfDebRPBWvtG3IjaBmPBjtjJY9+kJxIRyRWrHlxME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gl5LBkKN; arc=none smtp.client-ip=209.85.210.171
+	s=arc-20240116; t=1778567725; c=relaxed/simple;
+	bh=CQ0Pqhp/4QAbSk8gZsBCYrlwBk8J/VBMcD/nYEp7h/k=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=U57U5NcmcbS3RDZIhzOlBOfj8zBfdvjPv+CrxTTDFRYjjbyboWAK/TpOAjZBEbJvlf5JsCXGaDhsS54OBW6DH8WCCeXlnUe6DgAMN5GhvbkeGXISmKMEFJnrrnjFLh3YYncA1RfR8SWNj9WIetVRto26n1Iu9GKutG4VzXhILsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e9DylbuB; arc=none smtp.client-ip=209.85.210.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gl5LBkKN"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-834f1075805so3603360b3a.2
-        for <linux-staging@lists.linux.dev>; Mon, 11 May 2026 23:35:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e9DylbuB"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-8383fb7143aso2410699b3a.3
+        for <linux-staging@lists.linux.dev>; Mon, 11 May 2026 23:35:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778567703; x=1779172503; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=hdBRmXm0EN9CDrqJgubz6nI5ID1Ljz0DfpQ5I23ebu4=;
-        b=gl5LBkKNyjB3Dz0H8xwVXfdEq2U0oG7Fp3CtAmA8NU5sgzmDjV3zuoffYf7slEn/qH
-         lLpi2sBFcy9/faUbwDm/hPlWr/LALvJwZHm2tQa/or/ZDsnUZBRDYxcl/mLuZivoYIME
-         OLfjthOeui2V6ng0K4xeA9AgiI2WW5rFr/vtgl/7/iRHxuMQpLN4239NuvDF91MuSFeH
-         J5m9lb4CbpCiKBPoen/zrp/u31LeRAjPMm82l+OshLzR6ogQYSfPlloHnhALrvmF3IFs
-         VKhJQXx31GTdhYuUZi3cIgsK0FYMR80sig9fV5cr3UQDBU7wauH2JMENkbmbRwwm9DRP
-         QVzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778567703; x=1779172503;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1778567709; x=1779172509; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hdBRmXm0EN9CDrqJgubz6nI5ID1Ljz0DfpQ5I23ebu4=;
-        b=JFnjwkRpIcafT9m6GWFjW4MeBXEcEYqEM9Uz7wG1mC6AlgUk4T8LcJjGORJDfDypsj
-         WIFqUCqw6Dy5cHdFcKyf4E7Vsnz304M79GxVIKmcJJMPQPO7RsadBefXqMBtqcMw0JDY
-         wZEBYS8/qlUhNB6CS53Ge64hJ33JD/PCrRbuMx/RrlM+6n111IqFLomjOwWZ6uJnXaBL
-         XVOOnp06fRp6rXvPn9lmQNMLX6MvBLSXhSqZzMf949AOLixF3RktebWUMsaEu9AdNwbz
-         aMZSJkIDSw9wywekEiOYAn9ecMMKrG6v/rBjEeQeQIDLSbrkYp0jG1rxCKhgn9RG14zn
-         aSCw==
-X-Forwarded-Encrypted: i=1; AFNElJ8mP7VBDMvFU6NKPrOY9L0moW5n0BdsGmfxtYANqYwh03gOnJsxvVCwxBExyENt47HgJTy1nwv4AnPj3863@lists.linux.dev
-X-Gm-Message-State: AOJu0YyagRgNu6pkYK4drAXNlK4RCvRHkGtNbfV3I3ceTRycmrk1Ngnm
-	ygi0sCU+ftSdgvKkHg/eH3/Jeji21Yj7P6Cfibkd8ZXa/duLluscfZ/k
-X-Gm-Gg: Acq92OH57Z+SRIHzj/zdRr6RNkw/yFgKSDqgt/48hGc6xcZWfO0jCUBuiJcfNB2/Brq
-	RKkfOQ1RTr26EhR4RBzxj8SzAwOdXs/mOpcZMrzVKmzrqoLWmpM8j0STDHQwvOZf6HwDVfq+Ata
-	Jm9V+DOwrvShRNDkCAg3CTU6KhWR7X6JJT3+ODU3xdvumKCuBAzyFuUWYtaWwrIYBilMn8I+BFb
-	CaASqC9T4jeTa84R3pBSRDnxNDDbOR39MBcvWdZxu8nu6SYa0d2foaPk/SN/VSlTb6aIum7IMSl
-	NGg89uJ1yP95zlZjC1Ki7gIbKcxydKf5XKEUHqB13+S03vw6RESIVuDMDoz1qbpFf5vXi/0CYCq
-	j84iS4pa4LMAEmaY0QgdZR5zYSvsg+Zsa6S/Qo7NRajlP02UBGp2pmWRq0iG6IhnszmdpGU95Jh
-	o0sQSMkeOYBkQ/xzKUzg5Y0/BBAvN5OF2eW9xycVjuQV80LiPPi2JhfiThqhdcrVz666/V7ng=
-X-Received: by 2002:a05:6a00:2e87:b0:82f:5034:77a4 with SMTP id d2e1a72fcca58-83a5c4be2eemr27641558b3a.21.1778567703220;
-        Mon, 11 May 2026 23:35:03 -0700 (PDT)
+        bh=7bfTIHcuxdABvkVe+pMs5cot1hi6l98N1mvQQvDnmrQ=;
+        b=e9DylbuBbHaEkXKqSGZwOj6Y16Ss01YFfYU/zKH0OSwFgtpKwrqCRgt9Mel3Xeh0Jn
+         P2fkyU0p3B9WhEPBTNpgX7v8eclfD5KuXxS+F4BZ+H/AqLlsG0Lyhlkf96f2ENqvkEUL
+         wqWvH3SmSOBUyrOWgoTjQ8GcOdop/tnkHBPo1BNxcB4SVOM4mN08Q+U2zvl7XXAx4s1o
+         bYJWI9vMS1Q1xeEl4IgRZBUWxvpVqVxdlOrDdlSTAyXa2DfuxHoeTWLKmJwI2NoMm1vZ
+         oU/nbWpxridPNEiPsVNQ9A1DVH/X0G4kjlqiTdgAwCGYlTHukZ6V2FgXBFfc8LjIWLUP
+         jDUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778567709; x=1779172509;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=7bfTIHcuxdABvkVe+pMs5cot1hi6l98N1mvQQvDnmrQ=;
+        b=mACs3d4k0B1xxsNi0dpLq21zYsR1lTiIcenvU5I4V1ThgUt5K+kGWZ/wdjtyMFLR30
+         Ns2Ig4x2K7V+LEM93kHPATLJw9/p3URBZD5wOmyQnaWTVOO4Yp+Ci79s+IvqS+dEYklr
+         jJIyWaI2apBM2Dv6xyi9NWJWg0Eef8cU5DRLsQlx1X1QwxhgeO192q24KaB4qXFtGSt/
+         l0RNkpMvHVG1Ojlk7cZtERzdR7wOb4iPI2GlS5kxbL8dPgnJOOaCePB6xwqUysUQEdEh
+         sNNLQFJKEUYP+Vq63PvsZbORSLqIjHx3bVbyKROfQmHVOxd4y0vQkqK1AeK1jbYaP9bS
+         I7Ww==
+X-Forwarded-Encrypted: i=1; AFNElJ+p8DbpjzlNqBIan6caAV1JnN5x48DYjg0/A5yhl3cl/vKOdIxVC34PNrxtvNKxdkjuH3E9Yh5GdRELDacL@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw1OI0HMImMvuv37dM1eDfk2iq9LRM4kquG4JBI5fQqWj6Tp01z
+	z0f0LF29CYsx1OX+o2QBK0zK3R61VmmHRZFVIvfy3HYTWc6xS3+hKAlZ
+X-Gm-Gg: Acq92OGrovTaqxnNIX1A08GDHnDiM49I8dO63ttkJCW3/C/oCqc7A/7+slA0CSGj0Nc
+	OGCsHHMqQWnyp1DgDB7QtADrxAWLRju85oSAOpGFnfd0r8/XsnbYE3s48TOIVs/+aOl0XFAUB4j
+	D/h1xUKTR5ZXqJbLuDhaMB84gO1xtw8hYL1ZhFa4srHnI1lJ4wBLhgkLuHWmjl+9V36RCtN4NFZ
+	te36+FZGf+CB5q+q9Mw78PxS3RgFykc5eqMtl0AabRKySlvqw1UwuV6nQi5RsOQsZHhhY+sYA8+
+	lrzy30AIQNJAdjVMjNuPkPUQXU2AjJ84+q4PaR8CL9J54YxwIEqfRofehuNmuDr2sfbq5AWdH8g
+	6twE0mQaPvCbT2ABmhUKUM/9Iass73MJmknK7PPjsf8Koxp4/y6kAXh3zSijXsyiHrAONKvMYYQ
+	wr6LEXZrJkvFklLvSW0x/nTp5tTRavuSPfiK6Cu7epeubVj1GTBvO6/ka4EKsz
+X-Received: by 2002:a05:6a00:4ac4:b0:82c:6da7:2d3d with SMTP id d2e1a72fcca58-83e39c3312cmr12860106b3a.11.1778567709152;
+        Mon, 11 May 2026 23:35:09 -0700 (PDT)
 Received: from localhost ([2404:7c00:52:d485:aae2:91ff:fe57:5e15])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83965d36c10sm27475783b3a.25.2026.05.11.23.35.02
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83967dbee14sm29994346b3a.48.2026.05.11.23.35.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 23:35:02 -0700 (PDT)
+        Mon, 11 May 2026 23:35:08 -0700 (PDT)
 From: Chhabilal Dangal <yogeshdangal66@gmail.com>
 To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
 	Teddy Wang <teddy.wang@siliconmotion.com>,
@@ -64,10 +66,12 @@ Cc: linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Chhabilal Dangal <yogeshdangal66@gmail.com>
-Subject: [PATCH v3 1/3] staging: sm750fb: remove unused <asm/mtrr.h> include
-Date: Tue, 12 May 2026 12:19:55 +0545
-Message-ID: <20260512063457.80882-1-yogeshdangal66@gmail.com>
+Subject: [PATCH v3 2/3] staging: sm750fb: remove unused <linux/platform_device.h> include
+Date: Tue, 12 May 2026 12:19:56 +0545
+Message-ID: <20260512063457.80882-2-yogeshdangal66@gmail.com>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260512063457.80882-1-yogeshdangal66@gmail.com>
+References: <20260512063457.80882-1-yogeshdangal66@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -76,32 +80,88 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-sm750_hw.c includes <asm/mtrr.h> under CONFIG_MTRR, but no
-mtrr_add/mtrr_del calls exist in the file; the driver uses
-arch_phys_wc_add/arch_phys_wc_del in sm750.c instead.
+sm750_accel.c and sm750_cursor.c include <linux/platform_device.h>
+but never call any platform device APIs. This is a PCI driver.
 
-Remove the dead include.
+Remove the dead includes.
 
 Signed-off-by: Chhabilal Dangal <yogeshdangal66@gmail.com>
 ---
- drivers/staging/sm750fb/sm750_hw.c | 4 ----
- 1 file changed, 4 deletions(-)
+ drivers/staging/sm750fb/sm750_accel.c  |  1 -
+ drivers/staging/sm750fb/sm750_cursor.c | 44 --------------------------
+ 2 files changed, 45 deletions(-)
 
-diff --git a/drivers/staging/sm750fb/sm750_hw.c b/drivers/staging/sm750fb/sm750_hw.c
-index a2798d428663..f491d3aca468 100644
---- a/drivers/staging/sm750fb/sm750_hw.c
-+++ b/drivers/staging/sm750fb/sm750_hw.c
-@@ -13,10 +13,6 @@
+diff --git a/drivers/staging/sm750fb/sm750_accel.c b/drivers/staging/sm750fb/sm750_accel.c
+index 0f94d859e91c..0100fec6533b 100644
+--- a/drivers/staging/sm750fb/sm750_accel.c
++++ b/drivers/staging/sm750fb/sm750_accel.c
+@@ -13,7 +13,6 @@
  #include <linux/vmalloc.h>
  #include <linux/pagemap.h>
  #include <linux/console.h>
--#ifdef CONFIG_MTRR
--#include <asm/mtrr.h>
--#endif
 -#include <linux/platform_device.h>
- #include <linux/sizes.h>
  
  #include "sm750.h"
+ #include "sm750_accel.h"
+diff --git a/drivers/staging/sm750fb/sm750_cursor.c b/drivers/staging/sm750fb/sm750_cursor.c
+index 7ede144905c9..552fd30e0d38 100644
+--- a/drivers/staging/sm750fb/sm750_cursor.c
++++ b/drivers/staging/sm750fb/sm750_cursor.c
+@@ -13,7 +13,6 @@
+ #include <linux/vmalloc.h>
+ #include <linux/pagemap.h>
+ #include <linux/console.h>
+-#include <linux/platform_device.h>
+ 
+ #include "sm750.h"
+ #include "sm750_cursor.h"
+@@ -130,46 +129,3 @@ void sm750_hw_cursor_set_data(struct lynx_cursor *cursor, u16 rop,
+ 		}
+ 	}
+ }
+-
+-void sm750_hw_cursor_set_data2(struct lynx_cursor *cursor, u16 rop,
+-			       const u8 *pcol, const u8 *pmsk)
+-{
+-	int i, j, count, pitch, offset;
+-	u8 color, mask;
+-	u16 data;
+-	void __iomem *pbuffer, *pstart;
+-
+-	/*  in byte*/
+-	pitch = cursor->w >> 3;
+-
+-	/* in byte	*/
+-	count = pitch * cursor->h;
+-
+-	/* in byte */
+-	offset = cursor->max_w * 2 / 8;
+-
+-	data = 0;
+-	pstart = cursor->vstart;
+-	pbuffer = pstart;
+-
+-	for (i = 0; i < count; i++) {
+-		color = *pcol++;
+-		mask = *pmsk++;
+-		data = 0;
+-
+-		for (j = 0; j < 8; j++) {
+-			if (mask & (1 << j))
+-				data |= ((color & (1 << j)) ? 1 : 2) << (j * 2);
+-		}
+-		iowrite16(data, pbuffer);
+-
+-		/* assume pitch is 1,2,4,8,...*/
+-		if (!(i & (pitch - 1))) {
+-			/* need a return */
+-			pstart += offset;
+-			pbuffer = pstart;
+-		} else {
+-			pbuffer += sizeof(u16);
+-		}
+-	}
+-}
 -- 
 2.54.0
 
