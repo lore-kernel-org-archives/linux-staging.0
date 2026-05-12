@@ -1,104 +1,170 @@
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8267C360EEA
-	for <linux-staging@lists.linux.dev>; Tue, 12 May 2026 12:58:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E37D03A985E;
+	Tue, 12 May 2026 14:08:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778590730; cv=none; b=uPOcQ+qzR+L+jsmpikywv5P/bihBQjd37Pce6wAEV4P4f9484ZsBQRq81LVrZafuQ+rRjssRATf5vqVzshy3OrSVdQNpqcmBOkmXMSnXTGAfXa4TUvMZLGbXeQPCyKcHNGhO2ssvvinAgLipmQYKf1KVUdU6Q9VMXY3jHDQceJU=
+	t=1778594936; cv=none; b=sWEKcRlrp8ZBI0wX461eTsQnhzqJ+oDytNPCfMnCFvUwG67826WguoDSWL+A2OBCW8ouaqV+FvBJwOf5fnpb9MZHYbiZ00LXPJc24gxv+0xCBLwNcGgq70Jnh/fC0ebY4I+cDGv1vNXsbjSpCdRDYmsj7B4bruacIZ6aYXkONxk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778590730; c=relaxed/simple;
-	bh=CnAheTNpc0KT8HsboBTOztXaayTxXb4jvCsEPw0KUzE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=f123XKd69SgUKQxrOi0EzprhehRijIAJ/qNyBlDCLa6sfNJxwFWEYQuXpNSNMQ+IB3ctIHEuTXsDqLw3ZxEmEWZ1lpKbqr5tlIB9bbSFZjmezw3LlAXKBiDA+JTAfE9vaYPOWWn24uCeSz/jRkC0Oq+CJNfx2roHp/hZX1GjLKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ol8dtpNS; arc=none smtp.client-ip=209.85.208.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778594936; c=relaxed/simple;
+	bh=QsyZ+jGDUdo8t+SlKtoH09azsiN5A9KyulAjlpufLOM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Jp/cgKx5ZFO6mm5FJhZyOnRLulb/9jZj1LETMbGKwxvXIYhH6OCK4+To+zFrcHzX0QUOmTrl2gqqmjHSCBWbo3JozxkwxsjCUPrwbMWMiiBxtxzMhoAjY/myNOSqVx9oLLvcdMa9M3QEZOZRGfijcUDG3dpRT64FWuM81bMwLdc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eNbu7yYr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ol8dtpNS"
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-393c40246afso56416001fa.1
-        for <linux-staging@lists.linux.dev>; Tue, 12 May 2026 05:58:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778590727; x=1779195527; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=le4UWGuDVYuzgKF8WnQAIVyZMe2RrVrZLNf992h3Nx8=;
-        b=ol8dtpNSLEk9QsHjQnaHuP7JHcgz8IMvdCwR3JuDVKyGUn5jTrrkfnj119RS6IHWUh
-         8iOYMhGc+bJf5DMWBgT119X1XFrBW6E0+oritot+q4nrgljuoc0DhrqVoRzqRS5UZ7XA
-         ZSNJN4g+dvnVlFoP66KMw1co2P9fB4QLegJznIK0tl+CCNwrLrldCbCj8nYINyytF3ox
-         nCVq2zpQaiJjPaYYNucMD26alN1Jqd0BlKWXP+2l0G4Zr7J2GAUnO8fh8HvlKKjnFewJ
-         9BPoxuZ4QPl0tpdq9WrJaCsdk6bJ+MRCQ5uc9PYmjoRcfHYmDmOQbtGUApbxpURmS/5w
-         Akgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778590727; x=1779195527;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=le4UWGuDVYuzgKF8WnQAIVyZMe2RrVrZLNf992h3Nx8=;
-        b=TtOru3iIkoJZaFf7Hq7aqIGNA6dbKB+YCBy6cIS+41Bjr1gwGSLEg1+Y2OpdrSlIHd
-         8NcwZHhSrWTnxMGkoaFB8sjy5Le4j1auXZnxJMwAfgtngPuFGnxJfSz+7ipXDSbD9+CJ
-         jL5tH6pv29tywE6Elyg79lmrqdkONZjVVcrSz/HVJln8J8oXqVsXLWt20R0PBGFcHx+v
-         ZWTy9Dd7w3fH+ozCGR18Xr5lMxk2W5uL2tNHU2fICyAZKN3A6HHeMj5ilmexsrr1hFc9
-         /89F/uaCBlkyGEN9k73GLVz4Hu7MjKbj1SarAM2V4MHeKvqXIDui6SpUZuCJ2b1ygbSS
-         Uaog==
-X-Forwarded-Encrypted: i=1; AFNElJ8gIu5oKqOScVpk65bSGCLtQ53TM1oxzVezbys3hvaPeiXpNiy3amUxjaPWdBlqVjXYcnftmgcl3FW0+kxj@lists.linux.dev
-X-Gm-Message-State: AOJu0YzjA3Ne1n99B9LqRLue018iSVgR0k5Fz5WN92KY2EsLv1R0RxpU
-	O7MbKyb/FZsiGMrPVB+EGBZaMLlFwRZHB9+YqKz0G8AbLhizjJymw5MzmVgKWQ==
-X-Gm-Gg: Acq92OGUELLO6Apv82vqCb8s27ubb/br1psJIx3jWmUDDYF16zkaiK29wqMLPTtZri1
-	LqoeVHJIi2R3qSN+uLBJAIAPfW+UeOEG3Z9eOOtYKaywMKHHijjuiIPCxc94JT+BJRwZuFG00vB
-	dpfnzs7iEjwEodwb9eqE0w/SAwOnUCxRV4Oa4MPHUk0dd8MGtRi4q6cWaVnZHLCGdpNWDHwFA7d
-	8cr0eBZhADVagKss/6lbAybKCWv3vAawhsqsapmDQrvej97NnzNdbFidZ6jQks/r23S/JLXOawM
-	JC56yRsPBIIYNa3m7evJjFrNXhgOBKlBZN4cFRzJGKN5duEmrtQTtnAY84J4A4X0QqES20VTfaa
-	hMwEcE9ZazYoeg9aqDyqTTzhWabPBlmMDnAQzwqDj+ATyKMFlOJ6n+BMAP6ATreIAXuCvCCx4bT
-	cvpkmEuefM2M/SIs9XAVaHpMaz
-X-Received: by 2002:a05:651c:f07:b0:38e:96b5:2f45 with SMTP id 38308e7fff4ca-3943cb408d6mr9278871fa.8.1778590726323;
-        Tue, 12 May 2026 05:58:46 -0700 (PDT)
-Received: from archlinux ([185.140.161.214])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-393f6131c08sm34949831fa.30.2026.05.12.05.58.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2026 05:58:45 -0700 (PDT)
-From: Nikolay Kulikov <nikolayof23@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Dan Carpenter <error27@gmail.com>,
-	linux-staging@lists.linux.dev,
-	Nikolay Kulikov <nikolayof23@gmail.com>
-Subject: [PATCH v2 4/4] staging: rtl8723bs: remove unused SysIntrStatus from struct hal_com_data
-Date: Tue, 12 May 2026 15:55:34 +0300
-Message-ID: <20260512125703.6878-5-nikolayof23@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260512125703.6878-1-nikolayof23@gmail.com>
-References: <20260512125703.6878-1-nikolayof23@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eNbu7yYr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D0A5C2BCF6;
+	Tue, 12 May 2026 14:08:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778594935;
+	bh=QsyZ+jGDUdo8t+SlKtoH09azsiN5A9KyulAjlpufLOM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=eNbu7yYrsLW7QH2rujl0MiD4eVRhdZ9nDwZB7qYPKAKvKOvew2m5Rd440Tgabvehl
+	 ZH3vYHLR0Puxn//GYFxz2kfhZqPXEyLzeY9rCQnGutKfOSVZU1mhorDWpCOLS1/8yP
+	 8Ua4lkvKgkN78WKacarOvqOPQ2qkp0d6aOYq7XhkmsoIrMyC9NCxIV2o+9CjvBZchP
+	 Jm5yJNmBsVlRTsMvBounv9jX93WHECTHU1y4nnxI/uBNdpyJX4tSSXLZPVpxPsEqCg
+	 B3+VMt6eJWOXtii5VdkVpDQwJrVqDvmWpwO2tlfh4DpAl4bkGtFdBjItzWlJ16S5yq
+	 GednzJJ912DfQ==
+Date: Tue, 12 May 2026 15:08:46 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Abinash Singh <abinashsinghlalotra@gmail.com>
+Cc: gregkh@linuxfoundation.org, dlechner@baylibre.com, nuno.sa@analog.com,
+ andy@kernel.org, linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Abinash Singh <abinashlalotra@gmail.com>
+Subject: Re: [PATCH] staging: Documentation: dds: replace frequencyY with
+ frequency
+Message-ID: <20260512150846.76f896a7@jic23-huawei>
+In-Reply-To: <20260511171255.9668-1-abinashsinghlalotra@gmail.com>
+References: <20260511171255.9668-1-abinashsinghlalotra@gmail.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-This field has not been used anywhere since the driver was added, so
-remove it to eliminate dead code.
+On Mon, 11 May 2026 22:42:55 +0530
+Abinash Singh <abinashsinghlalotra@gmail.com> wrote:
 
-Signed-off-by: Nikolay Kulikov <nikolayof23@gmail.com>
----
- drivers/staging/rtl8723bs/include/hal_data.h | 3 ---
- 1 file changed, 3 deletions(-)
+> From: Abinash Singh <abinashlalotra@gmail.com>
+> 
+> The documented frequencyY attribute naming is implementation
+> specific and differs from common IIO sysfs attribute
+> conventions.
+> 
+> Replace the non-standard frequencyY attribute documentation with
+> out_altvoltageX_frequency and document tuning word selection
+> through out_altvoltageX_frequencysymbol
+> 
+> This makes the documented ABI naming consistent with standard
+> IIO sysfs attribute conventions and clarifies how tuning word
+> registers are selected and programmed.
+> 
 
-diff --git a/drivers/staging/rtl8723bs/include/hal_data.h b/drivers/staging/rtl8723bs/include/hal_data.h
-index d3e5c4039693..3a93ac312ded 100644
---- a/drivers/staging/rtl8723bs/include/hal_data.h
-+++ b/drivers/staging/rtl8723bs/include/hal_data.h
-@@ -387,9 +387,6 @@ struct hal_com_data {
- 	/*  For bluetooth co-existence */
- 	struct bt_coexist		bt_coexist;
- 
--	/*  Interrupt related register information. */
--	u32 		SysIntrStatus;
--
- 	/* Chip version information */
- 	bool chip_normal;	/* true - normal chip, false - test chip */
- };
--- 
-2.54.0
+Hmm. So some history on why it was done like this (long time back
+but I think I recall the basic argument).
+
+Consider the programming you need to set up FSK on a channel and
+the fact that someone is recieving the result.
+
+When you set the symbol to program it that channel will begin
+outputting the voltage. That means someone at the other end starts
+decoding it.
+
+Hence we normally expect to set a frequency 'before' changing the
+symbol.  Hence the per symbol files.
+
+There might be a valid way to set them up using your proposed
+interface but I'm not currently understanding what it is.
+
+We went through the same dance with the more complex DDS that
+Rodrigo is working on. Take a look at the multichannel approach
+he is using.  It may apply here - I'm not sure.
+
+
+> 
+> Signed-off-by: Abinash Singh <abinashlalotra@gmail.com>
+> ---
+> 
+> The out_altvoltageX_frequencysymbol and
+> out_altvoltageX_frequency_scale attributes can be added
+> through extended channel attributes (.ext_info in channel_spec struct of IIO)
+> 
+> Feedback on this approach would be appreciated, and if
+> there is some other way in your mind. I would like to 
+> work on that.
+> 
+> I am also interested in working on the sysfs-bus-iio-dds
+> documentation and the ad9834 driver. I recently bought an
+> AD9833 IC for experimentation and testing.
+> 
+Excellent!
+
+Thanks,
+
+Jonathan
+
+> Thanks
+> 
+>  .../iio/Documentation/sysfs-bus-iio-dds       | 31 ++++++++++---------
+>  1 file changed, 16 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/staging/iio/Documentation/sysfs-bus-iio-dds b/drivers/staging/iio/Documentation/sysfs-bus-iio-dds
+> index ee8c509c6733..dfc6ae3964d1 100644
+> --- a/drivers/staging/iio/Documentation/sysfs-bus-iio-dds
+> +++ b/drivers/staging/iio/Documentation/sysfs-bus-iio-dds
+> @@ -1,33 +1,34 @@
+>  
+> -What:		/sys/bus/iio/devices/.../out_altvoltageX_frequencyY
+> +What:		/sys/bus/iio/devices/.../out_altvoltageX_frequency
+>  KernelVersion:	2.6.37
+>  Contact:	linux-iio@vger.kernel.org
+>  Description:
+> -		Stores frequency into tuning word Y.
+> -		There will be more than one out_altvoltageX_frequencyY file,
+> -		which allows for pin controlled FSK Frequency Shift Keying
+> -		(out_altvoltageX_pincontrol_frequency_en is active) or the user
+> -		can control the desired active tuning word by writing Y to the
+> +		Stores frequency into active tuning word register.
+> +		To select active tuning word register, the user
+> +		must write the desired index to the
+>  		out_altvoltageX_frequencysymbol file.
+> +		For pin controlled FSK (Frequency Shift Keying),
+> +		tuning word registers must be loaded by selecting
+> +		each via out_altvoltageX_frequencysymbol before enabling
+> +		out_altvoltageX_pincontrol_frequency_en.
+>  
+> -What:		/sys/bus/iio/devices/.../out_altvoltageX_frequencyY_scale
+> +What:		/sys/bus/iio/devices/.../out_altvoltageX_frequency_scale
+>  KernelVersion:	2.6.37
+>  Contact:	linux-iio@vger.kernel.org
+>  Description:
+> -		Scale to be applied to out_altvoltageX_frequencyY in order to
+> -		obtain the desired value in Hz. If shared across all frequency
+> -		registers Y is not present. It is also possible X is not present
+> +		Scale to be applied to out_altvoltageX_frequency in order to
+> +		obtain the desired value in Hz. It is also possible X is not present
+>  		if shared across all channels.
+>  
+>  What:		/sys/bus/iio/devices/.../out_altvoltageX_frequencysymbol
+>  KernelVersion:	2.6.37
+>  Contact:	linux-iio@vger.kernel.org
+>  Description:
+> -		Specifies the active output frequency tuning word. The value
+> -		corresponds to the Y in out_altvoltageX_frequencyY.
+> -		To exit this mode the user can write
+> -		out_altvoltageX_pincontrol_frequency_en or
+> -		out_altvoltageX_out_enable file.
+> +		Specifies the active output frequency tuning word index.
+> +		Writing an index here selects which tuning word register
+> +		is written by out_altvoltageX_frequency. To exit this mode
+> +		the user can write out_altvoltageX_pincontrol_frequency_en
+> +		or out_altvoltageX_out_enable file.
+>  
+>  What:		/sys/bus/iio/devices/.../out_altvoltageX_phaseY
+>  KernelVersion:	2.6.37
 
