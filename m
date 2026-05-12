@@ -1,40 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DB4E388E52;
-	Tue, 12 May 2026 05:36:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32E423C3BE6;
+	Tue, 12 May 2026 05:36:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778564168; cv=none; b=NBa/2RjMKwLd9C+GOYqRoIdrBiBu21AeNIJcfQ2dcOaVMCWPxkZk4EN8TJAztq5yY6pvuNUlie/7omCuzXdHb7UXXEogy0XVxDCL69VuoGS+GbNryqBPnAOWVBHnmZplxOVliuc/IQNcnD+8x495S56+AHZR++BgOtrDz6bEan0=
+	t=1778564200; cv=none; b=gw3I0yLke2MDsaxad2gGNyc4h3m74wsWkOclkLYmt5rI3ws6WV/wqLQRzLb0EshvpJm0r8skssr4zv7WeYfzRpsj4b8jfEl8Wdau8cwiGSopcLEoFej+joSjL41VqfbfVcywY5FedMsCNP8bXjiClnREkU/trCNjClLnQwk3Cl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778564168; c=relaxed/simple;
-	bh=DZH5yH5vZbTuff6CKFBxrdPNRi5PhD/0sETkrpzSgX8=;
+	s=arc-20240116; t=1778564200; c=relaxed/simple;
+	bh=xfFsFtsDakbrNqsqZLxOrs/j5C5aaRhg1tce9eGqvn8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YG+1H3CpNp0QryQsMh+CMFkrGfzwYbUd57rXKb3VSkW1YUsRxzyGamN6MXFKTF0oLe4yyGDuZjEhBdbaI3p/3hQ+VhI2FsYrSnrLyoBUY3vwpElPKEx/fNIx5VeQ/+zrfTLmjttSfBmwM++JunxUGstRwfffzGEFwfaAEvQ783Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=aVi+rA53; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=S2q/p0BWNId7MKnSQTegt5QMwwczFA3BfOXMk1ylSDDjRV01g6gfcRklK1DZjRgV+JPG1TyRooTzBr0BTvZHc2nmtpZRbpl/Rsf8W30/UkBgjh76qun2yHeJvQ77FUlMjW756Yzv4AJwPUtMkCFjoicQQtO2e5y/fEhiDrlxmf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=pZjYmoY8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="aVi+rA53"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78E2BC4AF18;
-	Tue, 12 May 2026 05:36:06 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="pZjYmoY8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A64CC2BCB0;
+	Tue, 12 May 2026 05:36:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1778564167;
-	bh=DZH5yH5vZbTuff6CKFBxrdPNRi5PhD/0sETkrpzSgX8=;
+	s=korg; t=1778564199;
+	bh=xfFsFtsDakbrNqsqZLxOrs/j5C5aaRhg1tce9eGqvn8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aVi+rA53fQYulcZb7kAiPI+b7sf1jNogk8gH/VcsbOTpHfMvoYZY0zw6Rze+4U1ES
-	 +Q9lvuc51/kBGUJ2lNvwSgrQJMK1Ar6eFZ8sXF6Bn+JHVnuGmtt8srjdinObYopT45
-	 OdWW8cmifoFPclQQvP1NQOcBfUw208V2GAncKAaI=
-Date: Tue, 12 May 2026 07:35:22 +0200
+	b=pZjYmoY8yzYAu4255MnxVjFRsrtl5vmqmfaURns3XLQKamqlthvFwEt1hw/SfJORK
+	 23tXIAZCP581nPcD+s0VZ+jeB0yweP3WFf3ot7X/aEEi1PsgFa2NvIpAxsT6XQf6le
+	 HS5LlhMBPjp7Lx72q0MB16Py3uNk8saxxyeCAHCM=
+Date: Tue, 12 May 2026 07:35:55 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Alone <yogeshdangal66@gmail.com>
-Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: sm750fb: Keep g_fbmode array non-const
-Message-ID: <2026051255-ditto-stainless-e4ba@gregkh>
-References: <20260511170245.53556-1-yogeshdangal66@gmail.com>
- <2026051150-yearbook-detention-49d8@gregkh>
- <CAF9nfaDfdBKUnC6sVN8w84ruH5NkSxm8cqXN8JCWH0RESff4Rg@mail.gmail.com>
+To: "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Cc: Dan Carpenter <error27@gmail.com>,
+	Vaibhav Agarwal <vaibhav.sr@gmail.com>,
+	Mark Greer <mgreer@animalcreek.com>,
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Pankaj Bharadiya <pankaj.bharadiya@gmail.com>
+Subject: Re: [PATCH v2] Greybus audio protocols drivers: correct sscanf()
+ return value check
+Message-ID: <2026051243-factual-lyricism-6c54@gregkh>
+References: <c758029d-186f-4a9f-b953-90121f43d8d8@al2klimov.de>
+ <agGdJFofiZYKqqhr@stanley.mountain>
+ <c17dd24c-2bf1-4ef8-a8d3-79014a75242f@al2klimov.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -43,24 +47,61 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAF9nfaDfdBKUnC6sVN8w84ruH5NkSxm8cqXN8JCWH0RESff4Rg@mail.gmail.com>
+In-Reply-To: <c17dd24c-2bf1-4ef8-a8d3-79014a75242f@al2klimov.de>
 
-On Tue, May 12, 2026 at 12:48:05AM +0545, Alone wrote:
-> Thanks for the clarification and guidance.
+On Mon, May 11, 2026 at 10:10:16PM +0200, Alexander A. Klimov wrote:
+> manager_sysfs_add_store() passes 6 pointers to sscanf(),
+> but required latter to return 7 which failed the operation.
+> I corrected it to 6.
 > 
-> I want to learn the correct workflow. As a student contributor, what checks
-> and testing steps should I always perform before sending a patch?
+> Fixes: 49b9137a6002 ("staging: greybus: audio: remove redundant slot field")
+> Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
+> ---
+>  drivers/staging/greybus/audio_manager_sysfs.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/greybus/audio_manager_sysfs.c b/drivers/staging/greybus/audio_manager_sysfs.c
+> index fcd518f954..ff323ca815 100644
+> --- a/drivers/staging/greybus/audio_manager_sysfs.c
+> +++ b/drivers/staging/greybus/audio_manager_sysfs.c
+> @@ -23,7 +23,7 @@ static ssize_t manager_sysfs_add_store(struct kobject *kobj,
+>  			desc.name, &desc.vid, &desc.pid, &desc.intf_id,
+>  			&desc.ip_devices, &desc.op_devices);
+> 
+> -	if (num != 7)
+> +	if (num != 6)
+>  		return -EINVAL;
+> 
+>  	num = gb_audio_manager_add(&desc);
+> -- 
+> 2.54.0
+> 
+> 
 
-Please start with not top-posting and sending html email :)
+Hi,
 
-After that, go through the kernelnewbies.org first-patch tutorial, as
-well as the free Linux Foundation kernel development online class.
-Between those two, you should have a good basis for working on this
-correctly.
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-Also read all of the documentation we have about submitting a patch.
-People wrote that for a reason, don't ignore it :)
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/process/submitting-patches.rst for what
+  needs to be done here to properly describe this.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
 
 thanks,
 
-greg k-h
+greg k-h's patch email bot
