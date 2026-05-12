@@ -1,88 +1,107 @@
-Received: from mta.al2klimov.de (mta.al2klimov.de [162.55.223.79])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC1003EDE7F
-	for <linux-staging@lists.linux.dev>; Tue, 12 May 2026 19:16:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.55.223.79
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6D173EDE7F
+	for <linux-staging@lists.linux.dev>; Tue, 12 May 2026 19:16:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778613364; cv=none; b=RfYzHNzFaq84A/5ZZyhWVwjhWifhLjOSCg+ilgqhgKXB9UeLyRmKFvEHeoLjHlWfkJwEAQ2lfPfxsZ/fDjmnqxtrRgW+VXJETwt0vFFnJl4B7k5mAIavBEBNlsDluWY1IFfUWVKI5KQrS3z0WPTJELrFYzneCiac2GXT5tFJdSw=
+	t=1778613376; cv=none; b=pGYYs/1VyBJwa4M4le6o1QAsyKB778UrFO9wxRUTheLokFm84o+7aHZR04rYn/IJ9Mw63CnzhYlUaSVHbff+IEG96WkDM5HKUw0X3uGdFlL3umamDqjF8ybOyXvRmrJ2/Tb1w9A0JMbTg+HRo3gyERDJvmq46BSUOhN+VbjmxvQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778613364; c=relaxed/simple;
-	bh=nSrzsEM4v9JYjvlMGeLKj765Mq3O901EWWl79pFBeS8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RQOhVEyd1STJuc84REXC6PHba8fjfJ0+Pfsu49C8VTwJ3lJhvjBzIJEUZ/SgTmO8Wtkn4JqmLYx3a0MzI6/X/dBTkZPq4SW7LNHnzp5JU6Ba+3PUlnrocKwZALFdoehnWMQgCIOo3DPJACzZLc4BF4tMcDMzBJnmZtaOmOI2WY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=al2klimov.de; spf=pass smtp.mailfrom=al2klimov.de; dkim=pass (2048-bit key) header.d=al2klimov.de header.i=@al2klimov.de header.b=dF01P+wz; arc=none smtp.client-ip=162.55.223.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=al2klimov.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=al2klimov.de
+	s=arc-20240116; t=1778613376; c=relaxed/simple;
+	bh=Nlg8Iomep7NHl+3W4p3P3mZPQJUQxuy3EEKfvqNot60=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uMfOUKtqlKns1sxlXGMKbzYt/v4YfMSVhuz++1a3Pi7DRJyGK5ElrIi1Lp7JaowDyTd4muCED47WqvXkgP4eQsz1okQjW7dhhwHmZO+BDXubAikW5l2cuT1QykbzHEuui0+7GE74Y51mmyP4Kx0j9iXZCJ51kPBcDdGi1OVGQ2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KQsqGjPf; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=al2klimov.de header.i=@al2klimov.de header.b="dF01P+wz"
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; s=default; bh=nSrzsEM4v9JY
-	jvlMGeLKj765Mq3O901EWWl79pFBeS8=; h=in-reply-to:from:references:cc:to:
-	subject:date; d=al2klimov.de; b=dF01P+wz2wQO+ekJj3NFr0nKu4E/KeqyHWUx/V
-	1vcL5Dk62yx8Mo7lZ/yMmdHa0UoLybDw64OiNdDrAJzYIJ74XV2hgAa/dW/pQcfBNZ045z
-	SoNyhqF8w1z1CG/QchUSKgvkSBdBAgYGzp7fBs/VeCG8fLhk7N7rGAfl3jPPjx3VJoVr7n
-	fYk3nSLCarkMf6YGTO+wGY7UC+MB6nO+lV5Qic5+8dJbNx8SlJF79sYawerflUQL7PWB57
-	dXMGSRyeLBpAX9ukMsOIxaDZIlr33tN2vPLd7M8yIH+pJV8+iqwtRJe0xmawdxQm6gX/LF
-	pJDB4g+zuJNC79Vu6gK6UMhw==
-Received: from [IPV6:2a02:2455:18e9:e011:4d8a:aad2:c25c:50e5] (2a02-2455-18e9-e011-4d8a-aad2-c25c-50e5.dyn6.pyur.net [2a02:2455:18e9:e011:4d8a:aad2:c25c:50e5])
-	by mta.al2klimov.de (OpenSMTPD) with ESMTPSA id 89055c18 (TLSv1.3:TLS_CHACHA20_POLY1305_SHA256:256:NO);
-	Tue, 12 May 2026 19:15:55 +0000 (UTC)
-Message-ID: <381ed71b-1db1-45d3-a9be-bf2f8018a611@al2klimov.de>
-Date: Tue, 12 May 2026 21:15:54 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KQsqGjPf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778613376; x=1810149376;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Nlg8Iomep7NHl+3W4p3P3mZPQJUQxuy3EEKfvqNot60=;
+  b=KQsqGjPfiXKEK3cTg7sXHfIBQ0HjArZ7TdcCffW3P/rQZqNO9lrgDo8O
+   dGlIFMq7nDaPq57gqUvZOrwhFACn06prhQefL9jGJjc6HwBxe5EofGCAE
+   qJzKptTpCJRwwy3cwntwDk91P4N1j4/Vo22/Krul0jV1aMppWw+cigtWN
+   ONOgaaD0kJq3ZzPOglux5xIDRblwCknDfdOLfrZ9mhzG+FAdXCWCbr46E
+   HI6iujYel3l4oJsAvLqs8Wssa4EYz1+3C1Na6gkRw7mbTIwDvLY/Jx+xa
+   gXkCHZDTQO2qHbgZdLN0C0doeNZYqIMCotZzVhwBgvyK7cdw5623I4BEw
+   A==;
+X-CSE-ConnectionGUID: eovR77efTaC4LD6zsWbE9g==
+X-CSE-MsgGUID: E9+gXreOSfuK0gqubrqClg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11784"; a="79248290"
+X-IronPort-AV: E=Sophos;i="6.23,231,1770624000"; 
+   d="scan'208";a="79248290"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 12:16:15 -0700
+X-CSE-ConnectionGUID: inW+ZvqEQGqpeizbR++UDw==
+X-CSE-MsgGUID: JIWRgqa8Sl2JCSO7WHubBg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,231,1770624000"; 
+   d="scan'208";a="261338791"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.244])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 12:16:13 -0700
+Date: Tue, 12 May 2026 22:16:10 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Harshit Shaw <shawharshit116@gmail.com>
+Cc: gregkh@linuxfoundation.org, error27@gmail.com, deller@gmx.de,
+	chintanlike@gmail.com, tzimmermann@suse.de,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: fbtft: convert sysfs attributes to use
+ ATTRIBUTE_GROUPS
+Message-ID: <agN8et6OW183t5TH@ashevche-desk.local>
+References: <20260512183007.14511-1-shawharshit116@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: [PATCH v3] staging: greybus: audio: correct sscanf() return value
- check
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Dan Carpenter <error27@gmail.com>, Vaibhav Agarwal
- <vaibhav.sr@gmail.com>, Mark Greer <mgreer@animalcreek.com>,
- Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
- greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Pankaj Bharadiya <pankaj.bharadiya@gmail.com>
-References: <c758029d-186f-4a9f-b953-90121f43d8d8@al2klimov.de>
- <agGdJFofiZYKqqhr@stanley.mountain>
- <c17dd24c-2bf1-4ef8-a8d3-79014a75242f@al2klimov.de>
- <2026051243-factual-lyricism-6c54@gregkh>
-Content-Language: en-US
-From: "Alexander A. Klimov" <grandmaster@al2klimov.de>
-In-Reply-To: <2026051243-factual-lyricism-6c54@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260512183007.14511-1-shawharshit116@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-manager_sysfs_add_store() passes 6 pointers to sscanf(),
-but required latter to return 7 which always failed the operation.
-I corrected it to 6.
+On Tue, May 12, 2026 at 06:30:06PM +0000, Harshit Shaw wrote:
+> Replace direct device_create_file() calls with the correct
+> ATTRIBUTE_GROUPS() macro. Add fbtft_groups as dev_groups in the
+> driver structure so the driver core automatically adds and removes
+> the sysfs attributes when a device is bound or unbound.
 
-Fixes: 49b9137a6002 ("staging: greybus: audio: remove redundant slot field")
-Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
----
-  v2: added "Fixes:" to commit message
-  v3: added all these v2/v3 lines here as requested by Greg KH
-  v3: while on it, replaced title "Greybus audio protocols drivers:" ...
-  v3: ... with "staging: greybus: audio:"
+> Signed-off-by: Harshit Shaw <shawharshit116@gmail.com>
+> ---
+> v2: - Use DEVICE_ATTR_RW() macro instead of DEVICE_ATTR()
+>     - Move DEVICE_ATTR_RW() definitions closer to their callbacks
+>     - Remove trailing comma after NULL in attribute array
+>     - Remove extern declaration from internal.h, not needed
+>     - Use ATTRIBUTE_GROUPS() macro and add dev_groups to driver
+>       structure as suggested by Greg KH and Andy Shevchenko
+>     - Compile tested with: make M=drivers/staging/fbtft modules
 
-  drivers/staging/greybus/audio_manager_sysfs.c | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks for the update!
 
-diff --git a/drivers/staging/greybus/audio_manager_sysfs.c b/drivers/staging/greybus/audio_manager_sysfs.c
-index fcd518f954..ff323ca815 100644
---- a/drivers/staging/greybus/audio_manager_sysfs.c
-+++ b/drivers/staging/greybus/audio_manager_sysfs.c
-@@ -23,7 +23,7 @@ static ssize_t manager_sysfs_add_store(struct kobject *kobj,
-  			desc.name, &desc.vid, &desc.pid, &desc.intf_id,
-  			&desc.ip_devices, &desc.op_devices);
+...
 
--	if (num != 7)
-+	if (num != 6)
-  		return -EINVAL;
+> +static struct attribute *fbtft_attrs[] = {
+>  
 
-  	num = gb_audio_manager_add(&desc);
+Now it has stray blank line here.
+
+> +	&dev_attr_debug.attr,
+> +	&dev_attr_gamma.attr,
+> +	NULL
+> +};
+
+...
+
+Otherwise LGTM, and if Sashiko and others are happy with it
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+
 -- 
-2.54.0
+With Best Regards,
+Andy Shevchenko
+
 
