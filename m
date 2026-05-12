@@ -1,96 +1,208 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from forward100d.mail.yandex.net (forward100d.mail.yandex.net [178.154.239.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9995F3D5C1C
-	for <linux-staging@lists.linux.dev>; Tue, 12 May 2026 17:00:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CDEB34E744
+	for <linux-staging@lists.linux.dev>; Tue, 12 May 2026 18:10:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778605249; cv=none; b=QI8IvvtVDjRjh1/LbMh8xFzsVTT6jg19FjN8uoDqejIYUKzSB1QebsEkDCwrG7jVzXUiKBXrE8pjs8SFD2DiPjCnB2VVcAzYdtROR24JjErp8tWWpVx8S9Wm/hoK1Xp4sAz5nxtZzpZM4tzWwHPVbKHNMrVmTX6iSqPK3bTDhZA=
+	t=1778609414; cv=none; b=gVF2eNS2yBfirj27N/xbv7iKyrxv5BwdGBdYvpwh69JFKi0Sx2qgduVzGLZBnXqtuWXfWw2kg81xXzAy24DEr5iOh0/x3uQjorVTgahYsdbOv2FQFH5GMt8Fv1BiV9EIXw82c3GPRzA5HVpEuM/MHjuZvnW2zlDHpKCltW8qJoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778605249; c=relaxed/simple;
-	bh=k6HLYgxn1OTzvh/XSsj+s8Xe8oyn9z21HvDBjIXXB+4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k4H7dDqSzhUIx011PfvOGFAL8MdcPvxvtvgQl5ON5RXYG7WRMRQUqVXkYnXG6IhJ7gx6Y9w31t2eVptBFgN26TaLY88VX+o3pW0eGtTUEW43JksKi/jzAxtSj7trmvZFNPQt4Mw8USrZPs3+OjspCsNe0PswPKYZcN+T5ve0j20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G5n9jGr3; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1778609414; c=relaxed/simple;
+	bh=dbmNzqj00M9E8ozGSSWahBG7eq8Usw3Vq6JChJl7zlI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=HLsxtH7xJV8CXnOx5I/nhjX28n9x1xtEkcLjPyrfwKAEHSJgMkaqNav5Xf/EZqnpbOrihptjYtdRULN38lncNjkH60yplDf8Typ6g3HYdiKyRY0+9pt40lkIaKLWjj4U6GK2PMxdLqcj9QH09ibXn04hc5jZ6Pt6QEnJFE+gKR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=noirlang.tr; spf=pass smtp.mailfrom=noirlang.tr; dkim=pass (1024-bit key) header.d=noirlang.tr header.i=@noirlang.tr header.b=ql3IVP4u; arc=none smtp.client-ip=178.154.239.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=noirlang.tr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=noirlang.tr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G5n9jGr3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778605249; x=1810141249;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=k6HLYgxn1OTzvh/XSsj+s8Xe8oyn9z21HvDBjIXXB+4=;
-  b=G5n9jGr3IktfKJKfL1/sgy78akQnn4Ot9DAgtS2dTC1eqyRfha0gZOP8
-   IdLqg00Ziegun2BwrvMJ1TRCdU4NPgOGMzO3c9O2ghx5PPCa8M18br4Em
-   C3h4ORwASe8WLmhxk/eAaCz4bymvY0Qkxgk4QuxEZ2GHpCmbcJEJfFnYu
-   ZqM1mNA6OY5/5Tn94J1fc5OfJj945z31ksXS3lt7VlnoMmc15S8CSSPW1
-   GzxJZGdJPTIoqtXlRIwKZDsf4JbiAbMEz2pjL9oZf41UK3JsFcfNjWhrL
-   JEvNF8hvxvBqif76u1jt4ebAmKCCYO2v+9meCGhAGA1wFr1yasCExnkCB
-   Q==;
-X-CSE-ConnectionGUID: K8r/2PVMQ+Skcq/wuaZPqw==
-X-CSE-MsgGUID: wWAHsfm7RVmHqZefKPXZbQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11784"; a="79630519"
-X-IronPort-AV: E=Sophos;i="6.23,231,1770624000"; 
-   d="scan'208";a="79630519"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 10:00:48 -0700
-X-CSE-ConnectionGUID: 8zTvYSsHSXGRklNSr1vVfQ==
-X-CSE-MsgGUID: RtVoBSRCR3OzxVbhlNaPug==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,231,1770624000"; 
-   d="scan'208";a="261305881"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.244])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 10:00:46 -0700
-Date: Tue, 12 May 2026 20:00:43 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Harshit Shaw <shawharshit116@gmail.com>
-Cc: gregkh@linuxfoundation.org, error27@gmail.com, deller@gmx.de,
-	chintanlike@gmail.com, tzimmermann@suse.de,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: fbtft: convert sysfs attributes to use
- ATTRIBUTE_GROUPS
-Message-ID: <agNcu-D4zjHnZarz@ashevche-desk.local>
-References: <20260512154020.491-1-shawharshit116@gmail.com>
+	dkim=pass (1024-bit key) header.d=noirlang.tr header.i=@noirlang.tr header.b="ql3IVP4u"
+Received: from mail-nwsmtp-smtp-production-main-57.klg.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-57.klg.yp-c.yandex.net [IPv6:2a02:6b8:c42:494f:0:640:ed81:0])
+	by forward100d.mail.yandex.net (Yandex) with ESMTPS id CF493C0087;
+	Tue, 12 May 2026 21:10:07 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-57.klg.yp-c.yandex.net (smtp) with ESMTPSA id x9PigJ7S2iE0-GGgGwotl;
+	Tue, 12 May 2026 21:10:06 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=noirlang.tr; s=mail;
+	t=1778609406; bh=jb5bILg+ZhK9MUy4+9WQFLrMzitOSBnZe+kyjXuO+oM=;
+	h=Message-ID:Date:In-Reply-To:Cc:Subject:References:To:From;
+	b=ql3IVP4uVbU8Zj91+eN7GAgAV4D28CPnnu5umZsWfsykUBcF9aXErWmJDik2JDwNZ
+	 Q4SGufOWF3/HJ/x99JPtvytKfQwiaFEFy0v/xfk/r6uwOv8RsTcUqdJ7e51XfM64Tb
+	 G6XF3zFoHKcWw9+6yFqFaPuwQoEShp2qgmBzmb1A=
+Authentication-Results: mail-nwsmtp-smtp-production-main-57.klg.yp-c.yandex.net; dkim=pass header.i=@noirlang.tr
+From: Melih Emik <melihemik@noirlang.tr>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Melih Emik <melihemik@noirlang.tr>
+Subject: [PATCH v2] atomisp: replace dbg_func parameter with dynamic debug
+Date: Tue, 12 May 2026 21:09:58 +0300
+Message-ID: <20260512180958.18098-1-melihemik@noirlang.tr>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <CAHp75VebM9wwKpjnZKEGVvwA=TfmF4MDDuYssNAFWDnXsXyRTw@mail.gmail.com>
+References: <CAHp75VebM9wwKpjnZKEGVvwA=TfmF4MDDuYssNAFWDnXsXyRTw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260512154020.491-1-shawharshit116@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Tue, May 12, 2026 at 03:40:19PM +0000, Harshit Shaw wrote:
-> Replace direct device_create_file() calls with the correct
-> ATTRIBUTE_GROUPS() macro. Add fbtft_groups as dev_groups in the
-> driver structure so the driver core automatically adds and removes
-> the sysfs attributes when a device is bound or unbound.
+The dbg_func module parameter in atomisp_v4l2.c toggles the CSS
+debug_print callback through a writable module parameter. Removing only
+the parameter drops the runtime switch that users had through sysfs.
 
-> Signed-off-by: Harshit Shaw <shawharshit116@gmail.com>
-> ---
+Keep the debug path available at runtime by routing CSS debug output
+through dynamic debug instead. The callback remains installed, but its
+output is controlled by the dynamic debug callsite. CSS error output
+continues to use vprintk().
 
-This is not a v2 as you read the Subject.
+Remove the obsolete parameter, its global state and the unused get/set
+helpers.
 
-> v2: Use ATTRIBUTE_GROUPS() macro and add dev_groups to driver
->     structure instead of using sysfs_create_group() directly,
->     as suggested by Greg KH.
+Signed-off-by: Melih Emik <melihemik@noirlang.tr>
+---
+ .../media/atomisp/pci/atomisp_common.h        |  1 -
+ .../media/atomisp/pci/atomisp_compat_css20.c  | 47 ++++++-------------
+ .../media/atomisp/pci/atomisp_compat_css20.h  |  3 --
+ .../staging/media/atomisp/pci/atomisp_v4l2.c  |  6 ---
+ 4 files changed, 15 insertions(+), 42 deletions(-)
 
-I gave you the comments in previous version, and at least some of them were
-ignored. Why?
-
-...
-
-> +extern const struct attribute_group *fbtft_groups[];
-
-You haven't compiled that?
-
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_common.h b/drivers/staging/media/atomisp/pci/atomisp_common.h
+index a2462fc306fb..145b35ad13cb 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_common.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_common.h
+@@ -21,7 +21,6 @@
+ #include "ia_css.h"
+ 
+ extern int dbg_level;
+-extern int dbg_func;
+ extern int pad_w;
+ extern int pad_h;
+ 
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+index be5f37f4a6fd..fb18c204266b 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+@@ -25,6 +25,7 @@
+ #include "sh_css_hrt.h"
+ #include "ia_css_isys.h"
+ 
++#include <linux/dynamic_debug.h>
+ #include <linux/io.h>
+ #include <linux/pm_runtime.h>
+ 
+@@ -152,6 +153,19 @@ static int  __printf(1, 0) atomisp_vprintk(const char *fmt, va_list args)
+ 	return 0;
+ }
+ 
++static int __printf(1, 0) atomisp_vpr_debug(const char *fmt, va_list args)
++{
++#if defined(CONFIG_DYNAMIC_DEBUG)
++	DEFINE_DYNAMIC_DEBUG_METADATA(descriptor, "CSS debug");
++
++	if (DYNAMIC_DEBUG_BRANCH(descriptor))
++		vprintk(fmt, args);
++#elif defined(DEBUG)
++	vprintk(fmt, args);
++#endif
++	return 0;
++}
++
+ void atomisp_load_uint32(hrt_address addr, uint32_t *data)
+ {
+ 	*data = atomisp_css2_hw_load_32(addr);
+@@ -745,20 +759,6 @@ int atomisp_css_init(struct atomisp_device *isp)
+ 	return 0;
+ }
+ 
+-static inline int __set_css_print_env(struct atomisp_device *isp, int opt)
+-{
+-	int ret = 0;
+-
+-	if (opt == 0)
+-		isp->css_env.isp_css_env.print_env.debug_print = NULL;
+-	else if (opt == 1)
+-		isp->css_env.isp_css_env.print_env.debug_print = atomisp_vprintk;
+-	else
+-		ret = -EINVAL;
+-
+-	return ret;
+-}
+-
+ int atomisp_css_load_firmware(struct atomisp_device *isp)
+ {
+ 	int err;
+@@ -783,8 +783,7 @@ int atomisp_css_load_firmware(struct atomisp_device *isp)
+ 	isp->css_env.isp_css_env.hw_access_env.load = atomisp_css2_hw_load;
+ 	isp->css_env.isp_css_env.hw_access_env.store = atomisp_css2_hw_store;
+ 
+-	__set_css_print_env(isp, dbg_func);
+-
++	isp->css_env.isp_css_env.print_env.debug_print = atomisp_vpr_debug;
+ 	isp->css_env.isp_css_env.print_env.error_print = atomisp_vprintk;
+ 
+ 	/* load isp fw into ISP memory */
+@@ -3360,22 +3359,6 @@ void atomisp_css_set_isp_config_applied_frame(struct atomisp_sub_device *asd,
+ 	asd->params.config.output_frame = output_frame;
+ }
+ 
+-int atomisp_get_css_dbgfunc(void)
+-{
+-	return dbg_func;
+-}
+-
+-int atomisp_set_css_dbgfunc(struct atomisp_device *isp, int opt)
+-{
+-	int ret;
+-
+-	ret = __set_css_print_env(isp, opt);
+-	if (ret == 0)
+-		dbg_func = opt;
+-
+-	return ret;
+-}
+-
+ void atomisp_en_dz_capt_pipe(struct atomisp_sub_device *asd, bool enable)
+ {
+ 	ia_css_en_dz_capt_pipe(
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.h b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.h
+index 75781807544a..e1c0b7e77974 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.h
+@@ -150,9 +150,6 @@ void atomisp_css_set_isp_config_id(struct atomisp_sub_device *asd,
+ void atomisp_css_set_isp_config_applied_frame(struct atomisp_sub_device *asd,
+ 	struct ia_css_frame *output_frame);
+ 
+-int atomisp_get_css_dbgfunc(void);
+-
+-int atomisp_set_css_dbgfunc(struct atomisp_device *isp, int opt);
+ struct ia_css_dvs_grid_info *atomisp_css_get_dvs_grid_info(
+     struct ia_css_grid_info *grid_info);
+ #endif
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+index 900a67552d6a..d4374b7fc1ba 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+@@ -48,12 +48,6 @@ int dbg_level;
+ module_param(dbg_level, int, 0644);
+ MODULE_PARM_DESC(dbg_level, "debug message level (default:0)");
+ 
+-/* log function switch */
+-int dbg_func = 1;
+-module_param(dbg_func, int, 0644);
+-MODULE_PARM_DESC(dbg_func,
+-		 "log function switch non/printk (default:printk)");
+-
+ /*
+  * Set to 16x16 since this is the amount of lines and pixels the sensor
+  * exports extra. If these are kept at the 10x8 that they were on, in yuv
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.54.0
 
