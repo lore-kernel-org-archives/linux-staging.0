@@ -1,74 +1,68 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A44D24BBFD
-	for <linux-staging@lists.linux.dev>; Tue, 12 May 2026 05:08:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4CE01B87C9
+	for <linux-staging@lists.linux.dev>; Tue, 12 May 2026 05:08:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778562486; cv=none; b=dygel4yH+MzjiCd6WV2C9puaocq2KRR8JfS3781qlpeA56Xl+vd4Qh9sSF7KLDWMAYBsaeInPys79rMFU0bbNgmmVyLnUKdnkCqRnsFcjdAZQ03PF9lEj7s275KdzyQ7pSrb+TYXK6KD0WegqnS3llsG9fmknIFeY9Ltc6AaPlM=
+	t=1778562518; cv=none; b=S4/xX5ryQIssgmoptmFLzO5ZHpGprtI0TzaIZ5bu2vU/h2rHVY6gUmoRF5SSlEcOo0ey5Ie82qU56SfjmKdwu1XuPWHWUzcBR7yBjVF83CHvHhrYhD2WZgJwfwRXnZJXo/Yh61MvL9vxp2BvO1i4o1kFxMyfUssbPBVxOIoPwRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778562486; c=relaxed/simple;
-	bh=BAuthF2Z16WH+zfDEHk3KKdJ2eXOVPk1jSTNkvFdwRk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Bxv3FWr31xjMuvHYpc14UZE3jkHDK/uF66HPOgBaLMQ4PpDbWEZrrSDjBSAEz6IoxO5c5EiPqNfdl1/P09AIPs452DT0EzQXgatbN0/v+FrqGwqZWhXBy05qlAQ9qV2e6x0Zds0wwr89Dg/BzwhYtMrOh/gRrqdKCYhw/dAJ8i4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m5ihgdcL; arc=none smtp.client-ip=209.85.210.172
+	s=arc-20240116; t=1778562518; c=relaxed/simple;
+	bh=83LddXt6y9XsgGUPENIs/HyvLcB7pq36Dlo8ANwdI/U=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=e1ugBEPMKwGJK1CtmUof1AE7oJSrDzN9dg0EvuEI8DBuA9oemrY45sgUwP2iGMPg8tYvkQ9qjSwdZ+ddv1Jm72RNiR0QwuM8sMdWTfSOn00egTxCdObhcf6gJYnefA3fXKupTeQJ5xpEBBjzqHZeHwEE/qQjoEWn+rghTMvl7Gg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fnejTSj2; arc=none smtp.client-ip=74.125.82.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m5ihgdcL"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-8353fd1cb5fso2437541b3a.0
-        for <linux-staging@lists.linux.dev>; Mon, 11 May 2026 22:08:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fnejTSj2"
+Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-12c8f9846c8so7423016c88.0
+        for <linux-staging@lists.linux.dev>; Mon, 11 May 2026 22:08:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778562485; x=1779167285; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1778562515; x=1779167315; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=upF+QNLvJv5Mrb2znPY+HkCjKz2u/xiqje/4qNyRhbA=;
-        b=m5ihgdcL5tPYrm/0zj/lMzll5cmtG5rr5GVeMHZ3D9JlNPYqkdg3CwQmwpTJDsEXi7
-         rnoKhbzN6LLZTvsY2uGrwymavMV3zAK4iKFJpm18TBGcdISX/7pb/YuEtl9AbuUiN1V0
-         2KNDQWFrvag0m3Jkel8OcWEQ523k98QQmLcoZ+9sGw8LfE7PDw24dsWAT281AqT4xWo2
-         00kDJAHO9Y9U98AxofPIsu5zx2xb9VcHaE5baDwRqwJkZBWkwE6QdbpCCwDWfTXiqIP4
-         +Lo5SJJqJY6Dp7RymQS/AnpIuKUmvPJZ1J69iKYbmKjl9YRnHkHiJ/5ObOSLcu/Brwmh
-         Ddeg==
+        bh=dBwoxfNRgLrjQ0fBBhnPJbHvF1eN57dw8jk1dTBmQe0=;
+        b=fnejTSj2HR1vtCgXowBY/scBDGh3HHpqofxcHBRgjVv8lCe1WXGLntlimaaWu8iS/n
+         NvwX0WmLeb3WY//SnOshPqEf7IsgwZrtIgjmPHHCKKOsEdlOYRJiwunXlDTDLT7/Z2Lf
+         MXg9HJDH3gl1QIEiIamBLAdZYj77EP2EhRHUbMek479SiBRWcVj865eC8jJwbWuIleVj
+         GUfh2ODi0p4maVC/KToJGh5w89kNmr29IO8By049hBxVtwitvlzQSLyPidYsNJWnwmLI
+         O+HXkNo8N4e56MKTynBKoB9u5GMuzu1IL4VaFhroU9s6kgGNK8ezGd92Yuh4KFTdgrxd
+         9TDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778562485; x=1779167285;
+        d=1e100.net; s=20251104; t=1778562515; x=1779167315;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=upF+QNLvJv5Mrb2znPY+HkCjKz2u/xiqje/4qNyRhbA=;
-        b=qlkqotJ9bdmw6tc4l/Bl3Wk3jsbypnd4xTjcJF2nlpiQcIdW2/l5bM80wAkPrZvIOa
-         JyN5nqGxqba31HHUZI4h3UQtlTjNxZhxB2qWQpu10JIOiuGyvCad+dzcu30aqkJ7vhAd
-         3fxFZi/iQkUmZ1514VhCgbTPiQ+YEyc1lbyC5qBfZkM+BNysCcgJ+vRSJ74UeYOcar7Y
-         Nm32SoOmjFwERriQvm+BP7IZrW9MBG57K12OE82kS3C0hX8VHdTzAml6xyXXCtZy2Kp2
-         XB3rtz72qxnpcpNE59VpWXjQtvBslk0WWseuQOn4AnhJHu7QqAr/D3FP2R8CWhDz7N4R
-         sOdg==
-X-Forwarded-Encrypted: i=1; AFNElJ83a6PyvcoSM5G5TJZG6x5vTr97KPdMo6O/l5UvflqZrDnkwUqG68byc53aUb/k/xvXS96QuQq5UiwTP6Cf@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyfy8iURvYBUXaie6L4e6goLqjvzEu8QwMK06f3X32gvly3vm2o
-	wl1cFIoRH1SPPx4rFRPxUUf7iowj3usREiFRXOaeJxMJjaXofDxajTrz
-X-Gm-Gg: Acq92OF5TcUGjg/mMY/09G1R2McA0I3LvG95vVYcERYf+eOcKVRh4ntfQeJtNonqM60
-	M3u8SDXGJHQzud9QmFVRuiaGS4V/1rJAkA3V2jDulPAtYlFFFfAfaLK79ot7f9Kcx0w7Sb7BZnp
-	p0/yrhnEonzy5CCVS+OX9Vk7cbJl6lgRCsWcxTXpyGnjt4GbbCg/pKVxgM8wkC37QbbujosBbzr
-	m6tlpGaaHXCbn2qo3e6RBsS0nz42Yrnh+6WueJcawTO1yhMxnzQRqtbDGsDKjdtxakNHWv8vJJs
-	dhVL1CDlopUEtUU/A+g9LuASaDdVgJ77U3kVvmLNrcmrKIjSEsSrCd9R73cj45I6vm1RvSrtVou
-	F3k018NfhPojmSr52ylvM6VJDFAyj9o1w4G5/7oDbaQYxolOokyIcv0SSlCqdM/EWwHrv2VyXh5
-	Gf3CuTMwPOraK5ovJ+XexPR6A5LXAQNwN9bvIvc38wy95SuuZsw9Lx6x5e1VC29bCA7whjnwEus
-	cbKVG2v2i4rfSY=
-X-Received: by 2002:a05:6a00:3981:b0:82f:39df:dd54 with SMTP id d2e1a72fcca58-83ee83021e3mr2137334b3a.8.1778562484707;
-        Mon, 11 May 2026 22:08:04 -0700 (PDT)
-Received: from localhost.localdomain ([2404:7c00:52:d485:aae2:91ff:fe57:5e15])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-839679c7b92sm21645449b3a.29.2026.05.11.22.08.01
+        bh=dBwoxfNRgLrjQ0fBBhnPJbHvF1eN57dw8jk1dTBmQe0=;
+        b=rmd0xwOlgxeNMQOz+3IVaEck07Onnudww50yYdJJ2vWmWlBl773bUfQtm7eLV4VCsh
+         u1AMM23p01DbubXFT8sfKEKgUEndQltzZ9ZMfV3UkfQrctyCkmxc0bHpBhaJnEUcCgc0
+         cSud6nL83xk7tNhKfAishHTm1IFCbzL5DGPiiMxZgXWbAxTmdmxTZrDqycndsXBcAM1J
+         z0uwxVPDhs9li5hTE0Esn1U4ppuRgugOKZIrbl1D2iLBZDqdBdJ5pc2dFbyI2vnhbIFs
+         BPkapRXJvRdjHB90JNapVkz66C+yjVVmFBH3Glt006yWZqLb4iPC4jh4ELLPTn4OU/3V
+         nVfw==
+X-Gm-Message-State: AOJu0YwSlel75LSkWOP0y0ObdEojGKMKCdriooz4ia6ISWpQhV8jql+3
+	seDKwJ7VGqEh2BjnNEUhrTQ/VEvGQK+Dal5mLF50KGrWPgKmauwQYdIJty1GYA==
+X-Gm-Gg: Acq92OGYKelsRz2tlE3pSZ9msDRxtF26iNqtkq9AW+cTLyUOoko6+R/14LMXJW9Edte
+	toVolBgDT2xdIoC4H2C7q4bJIR0bVYSJalGb6ieRs0jDWSEFHrTEJ9+1AzCw+SrEXJpwt68zSwc
+	WeyWNyiZMka++TnhUw7Ml5M9TjUDzY5tq+mDPskkawne0hA5rToy0WdhtP49zYcj8oO9y4mzgts
+	Yt9edKt4aJ6GkRiCVoACMLKx8sdA6RgN0/XoNXFcR2Ck9eIeX6+UxXMExjWmDf9bww8ayEwGaUt
+	lft9heG1/To46nbICH5YlQUD8gPLbVCcIBHrELS7XGJmBS5L4OxKZ8MrO5f0WISwMZ2/GnjKm/8
+	ROtGA7Fjnujvkrv3aqEQnFfc3/UnbSC1e0P7/VcY92K7hXmI65y1GOFoXmlfEXBkaNYxbVu/OHq
+	xsyy5yFgnpvCmOU6KbhyyR6EgXVbt1ViBJkHNJsrsgdVQ=
+X-Received: by 2002:a05:7022:611:b0:132:5db9:27b3 with SMTP id a92af1059eb24-13344fa52d4mr881931c88.29.1778562514995;
+        Mon, 11 May 2026 22:08:34 -0700 (PDT)
+Received: from TestUbuntu22.. ([73.15.108.84])
+        by smtp.googlemail.com with ESMTPSA id a92af1059eb24-132787673ffsm22405403c88.15.2026.05.11.22.08.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2026 22:08:04 -0700 (PDT)
-From: Chhabilal Dangal <yogeshdangal66@gmail.com>
-To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Chhabilal Dangal <yogeshdangal66@gmail.com>
-Subject: [PATCH v1 2/2] staging: sm750fb: remove unused functions
-Date: Tue, 12 May 2026 10:52:25 +0545
-Message-ID: <20260512050725.58408-1-yogeshdangal66@gmail.com>
-X-Mailer: git-send-email 2.54.0
+        Mon, 11 May 2026 22:08:34 -0700 (PDT)
+From: Jennifer Guo <guojy.bj@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: gregkh@linuxfoundation.org,
+	Jennifer Guo <guojy.bj@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: fix unbalanced braces in rtw_recv.c
+Date: Mon, 11 May 2026 22:08:26 -0700
+Message-Id: <20260512050826.3117-1-guojy.bj@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,76 +71,118 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-sm750_hw_cursor_set_data2() in sm750_cursor.c is defined and declared
-but never called anywhere in the driver.
+Add missing braces to if/else statements to comply with kernel coding
+style.
 
-sm750_enable_i2c() in ddk750_power.c is similarly defined and declared
-but has no callers. The software I2C implementation (ddk750_swi2c.c)
-uses GPIO directly rather than the I2C gate.
+This fixes the following checkpatch.pl checks for rtw_recv.c:
+- CHECK: Unbalanced braces around else statement
+- CHECK: braces {} should be used on all arms of this statement
 
-Remove both dead functions and their declarations per the TODO item
-to refine the code and remove unused code.
-
-Tested by building the full kernel and module with CONFIG_FB_SM750=m
-on x86_64:
-  make -j$(nproc)
-  make M=drivers/staging/sm750fb modules
-Signed-off-by: Chhabilal Dangal <yogeshdangal66@gmail.com>
+Signed-off-by: Jennifer Guo <guojy.bj@gmail.com>
 ---
- drivers/staging/sm750fb/ddk750_power.c | 16 ----------------
- drivers/staging/sm750fb/ddk750_power.h |  5 -----
- drivers/staging/sm750fb/sm750_cursor.h |  2 --
- 3 files changed, 23 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_recv.c | 30 ++++++++++++++---------
+ 1 file changed, 18 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/staging/sm750fb/ddk750_power.c b/drivers/staging/sm750fb/ddk750_power.c
-index 12834f78eef7..1f7e0ec1d02b 100644
---- a/drivers/staging/sm750fb/ddk750_power.c
-+++ b/drivers/staging/sm750fb/ddk750_power.c
-@@ -127,19 +127,3 @@ void sm750_enable_gpio(unsigned int enable)
- 	sm750_set_current_gate(gate);
+diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
+index e9ec6def7216..86c5e2c4e7dd 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_recv.c
++++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
+@@ -115,9 +115,9 @@ union recv_frame *_rtw_alloc_recvframe(struct __queue *pfree_recv_queue)
+ 	struct adapter *padapter;
+ 	struct recv_priv *precvpriv;
+ 
+-	if (list_empty(&pfree_recv_queue->queue))
++	if (list_empty(&pfree_recv_queue->queue)) {
+ 		precvframe = NULL;
+-	else {
++	} else {
+ 		phead = get_list_head(pfree_recv_queue);
+ 
+ 		plist = get_next(phead);
+@@ -276,9 +276,9 @@ struct recv_buf *rtw_dequeue_recvbuf(struct __queue *queue)
+ 
+ 	spin_lock_bh(&queue->lock);
+ 
+-	if (list_empty(&queue->queue))
++	if (list_empty(&queue->queue)) {
+ 		precvbuf = NULL;
+-	else {
++	} else {
+ 		phead = get_list_head(queue);
+ 
+ 		plist = get_next(phead);
+@@ -471,8 +471,9 @@ static union recv_frame *decryptor(struct adapter *padapter, union recv_frame *p
+ 	if (res == _FAIL) {
+ 		rtw_free_recvframe(return_packet, &padapter->recvpriv.free_recv_queue);
+ 		return_packet = NULL;
+-	} else
++	} else {
+ 		prxattrib->bdecrypted = true;
++	}
+ 
+ 	return return_packet;
  }
+@@ -518,9 +519,9 @@ static union recv_frame *portctrl(struct adapter *adapter, union recv_frame *pre
+ 			memcpy(&be_tmp, ptr, 2);
+ 			ether_type = ntohs(be_tmp);
  
--/*
-- * This function enable/disable the I2C Engine
-- */
--void sm750_enable_i2c(unsigned int enable)
--{
--	u32 gate;
--
--	/* Enable I2C Gate */
--	gate = peek32(CURRENT_GATE);
--	if (enable)
--		gate |= CURRENT_GATE_I2C;
--	else
--		gate &= ~CURRENT_GATE_I2C;
--
--	sm750_set_current_gate(gate);
--}
-diff --git a/drivers/staging/sm750fb/ddk750_power.h b/drivers/staging/sm750fb/ddk750_power.h
-index 5cbb11986bb8..1c4f054d7276 100644
---- a/drivers/staging/sm750fb/ddk750_power.h
-+++ b/drivers/staging/sm750fb/ddk750_power.h
-@@ -33,9 +33,4 @@ void sm750_enable_dma(unsigned int enable);
-  */
- void sm750_enable_gpio(unsigned int enable);
+-			if (ether_type == eapol_type)
++			if (ether_type == eapol_type) {
+ 				prtnframe = precv_frame;
+-			else {
++			} else {
+ 				/* free this frame */
+ 				rtw_free_recvframe(precv_frame, &adapter->recvpriv.free_recv_queue);
+ 				prtnframe = NULL;
+@@ -539,8 +540,9 @@ static union recv_frame *portctrl(struct adapter *adapter, union recv_frame *pre
+ 			/* else { */
+ 			/*  */
+ 		}
+-	} else
++	} else {
+ 		prtnframe = precv_frame;
++	}
  
--/*
-- * This function enable/disable the I2C Engine
-- */
--void sm750_enable_i2c(unsigned int enable);
--
- #endif
-diff --git a/drivers/staging/sm750fb/sm750_cursor.h b/drivers/staging/sm750fb/sm750_cursor.h
-index 88fa02f6377a..51ba0da0270c 100644
---- a/drivers/staging/sm750fb/sm750_cursor.h
-+++ b/drivers/staging/sm750fb/sm750_cursor.h
-@@ -10,6 +10,4 @@ void sm750_hw_cursor_set_pos(struct lynx_cursor *cursor, int x, int y);
- void sm750_hw_cursor_set_color(struct lynx_cursor *cursor, u32 fg, u32 bg);
- void sm750_hw_cursor_set_data(struct lynx_cursor *cursor, u16 rop,
- 			      const u8 *data, const u8 *mask);
--void sm750_hw_cursor_set_data2(struct lynx_cursor *cursor, u16 rop,
--			       const u8 *data, const u8 *mask);
- #endif
+ 	return prtnframe;
+ }
+@@ -746,8 +748,9 @@ static signed int sta2sta_data_frame(struct adapter *adapter, union recv_frame *
+ 		memcpy(pattrib->ta, pattrib->src, ETH_ALEN);
+ 
+ 		sta_addr = mybssid;
+-	} else
++	} else {
+ 		ret  = _FAIL;
++	}
+ 
+ 	if (bmcast)
+ 		*psta = rtw_get_bcmc_stainfo(adapter);
+@@ -1144,10 +1147,12 @@ static union recv_frame *recvframe_chk_defrag(struct adapter *padapter, union re
+ 		if (type != WIFI_DATA_TYPE) {
+ 			psta = rtw_get_bcmc_stainfo(padapter);
+ 			pdefrag_q = &psta->sta_recvpriv.defrag_q;
+-		} else
++		} else {
+ 			pdefrag_q = NULL;
+-	} else
++		}
++	} else {
+ 		pdefrag_q = &psta->sta_recvpriv.defrag_q;
++	}
+ 
+ 	if ((ismfrag == 0) && (fragnum == 0))
+ 		prtnframe = precv_frame;/* isn't a fragment frame */
+@@ -1530,9 +1535,10 @@ static signed int wlanhdr_to_ethhdr(union recv_frame *precvframe)
+ 		 !memcmp(psnap, bridge_tunnel_header, SNAP_SIZE)) {
+ 		/* remove RFC1042 or Bridge-Tunnel encapsulation and replace EtherType */
+ 		bsnaphdr = true;
+-	} else
++	} else {
+ 		/* Leave Ethernet header part of hdr and full payload */
+ 		bsnaphdr = false;
++	}
+ 
+ 	rmv_len = pattrib->hdrlen + pattrib->iv_len + (bsnaphdr ? SNAP_SIZE : 0);
+ 	len = precvframe->u.hdr.len - rmv_len;
 -- 
-2.54.0
+2.34.1
 
