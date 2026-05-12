@@ -1,271 +1,126 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32BBE360EED
-	for <linux-staging@lists.linux.dev>; Tue, 12 May 2026 20:01:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E40A3A8740
+	for <linux-staging@lists.linux.dev>; Tue, 12 May 2026 20:07:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778616076; cv=none; b=iUhAHbgoZlufjZQEXcqrUAmmnX6vq3Nc1y6nsxhsUhqEWGlbwoPnH7gnptnRsbbwBB3/8/bmk8pPdRn1UebcJlrB4pGSgwRtgqsTPgjSbKsASZtFLLz9+Mjram+TBsbMdQjRUHFk7PihDFmRT5dLTUl48lBbNkWE2Z3sga7esqs=
+	t=1778616460; cv=none; b=JELPQa+TtoDRA9h1DHw4hI9wM9GtVQBT+zC2VDEUMCdTKr7JkN5jR8MzuXBB2yfi+m5gITLUeNE6LwOwp5Pm+uvB6gZiI3n60OJi+nG5kGW9isyGNh4EV+hgZiOmYaWUldaZ7uGIdTT5Vr9TUveyeLZqeXq/IJEIxUuuBiyX0Jc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778616076; c=relaxed/simple;
-	bh=MKDpSJRPEOkKOwK5I5btBRFs2g54luTXp+aSanxNapk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jfRUuP/SvyUO3gotrD3yXqh22nlmKI4FG9o/GBS/KAPdsFepnc40V0Gy86f7Yis1lELqDAPX8ocpUsvmbGpXCv5U203+x5h0wnnUejAqmzg0nITQ1bLDFy3/ZQ46xZeFSDHlz/IGD4QBKOCTAbdcEl995zRiXa6PNi+VsHXInnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=brzC0XW4; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778616460; c=relaxed/simple;
+	bh=K8No+YeWuFkZxveWkNDGdwNXEdXZViioPZHmyw0x7uA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=h0+AQzYeYjeqBlMFAHnwDivAJa0wDrtqsH+OcwP0K2aEpbkSLzZMstMult54iqXz7KnOiiyCYU8M/+BghnJBshB0oZg67ckb0YkKi0kqmvKVaTVwU1tV1fir7AsufT8mCG2nZh6XLiIjlUFKY26FdhOA9EpdP5UULyNmkQ2FZQE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ieee.org; spf=pass smtp.mailfrom=ieee.org; dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b=g/kr33Db; arc=none smtp.client-ip=209.85.160.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ieee.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="brzC0XW4"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2ba6485d219so39041915ad.3
-        for <linux-staging@lists.linux.dev>; Tue, 12 May 2026 13:01:15 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b="g/kr33Db"
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-50d75bfb259so40243461cf.1
+        for <linux-staging@lists.linux.dev>; Tue, 12 May 2026 13:07:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778616074; x=1779220874; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=78YRgXF4hW4GjfUu2dLBslOjL8I6aeWdAJYB94/EVoA=;
-        b=brzC0XW4nk1Emai4t9GIM5MMKY42j0XOG8Nd8gO2H3BJACVNw2QZq5YuePHxH2GS6T
-         cmXnXLdi4kLewtlL/QPbne0Az/U6DV9ppiuDRn7+7z8M2xk6NaHWtzkvLSJtjCgnwwRz
-         Ab9+IJEsL9f9ebmwOMb5KHf9YRI0YNKXM1xaPO+mNQRpXoKg5PXxB/TWVdgxjGMbQ0yZ
-         F5T3MQ3BEuMkej/kY+VF/oQNRDgRPbTMBENfbhl+zsCSWd9XdoMw4IJJEV2jxLMcrcca
-         BDsiiiNLRlBjqmZUxuUX82HwjHnV+ZXkeptImtQOGvc4NVZi2mrsslMfO3i3xWGvJF6S
-         96pA==
+        d=ieee.org; s=google; t=1778616457; x=1779221257; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5ixm4A9b1aqS3/lbS+x6VLWagRbgpxDZK7p6coKIV70=;
+        b=g/kr33DbCYUV49dzy5R9JoLrK1BIpAAJwS9RclXeMojprCjtDP92YB1myxJEQwKpdo
+         6lGzJyMQBubgl1fQ7jPYEo9D+Iw1FwT1sSrVNT4xkqPK9N6wht1j9q1P1bL70OtLjUbk
+         UzJgBHz3BVwfddLgIxvfVwALb3HHVxJoqhmfI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778616074; x=1779220874;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=78YRgXF4hW4GjfUu2dLBslOjL8I6aeWdAJYB94/EVoA=;
-        b=N5FkhBdeAMMbb9D6sxRGDqsuIIDPAlHswouT/q0OjDTKLzDn6VfB+QHtZFvMN/31XY
-         Ktez4FnXP0ewR8rm6qwRxM3lmAysuTj54NGUhkA+IXHCW5rbnFDV7Ev3o8fOqkh2V8EU
-         UW4Z52Lh8mVUHQ/92caIgZTmeo3zJpankFeFyKbADl94dzZ2zrNlxdLYXFwlfJMz23hL
-         0EwlE7tvOyGuktIA/HN2cC1iPdQ0nElEvPApXIhorre1Bi19sOOMNG2AzG1MpnlgaVUJ
-         W3jqNinBV25wZtyOa/41biKNI/GmR+gFErzE2PLYlMBTWdWtCJSJkBYEL6pFiQSx2NIS
-         NTyw==
-X-Forwarded-Encrypted: i=1; AFNElJ87DVF3u2N9y+UOylwTB7jrx/+9S9ReGCLE/cBAHSccihs/qcrhx3bpuYR6pdDgrqEHC7TczEvt+i/1RrcP@lists.linux.dev
-X-Gm-Message-State: AOJu0YwILsHZOvkOhVSLwQqr0JiEBpwuf0kvRATRvbcBYV3oWRvANky5
-	D6aK2I4iGhVQZMZAD9hjbVxjOyhsiZWWw4KHxjMK5NRBPTvHfuRYTtq8
-X-Gm-Gg: Acq92OH2jBuJBMfUIJP2VVEy0VoauHYQr/DsZZgb0RdJyveGF+7LqihoQ/WldsrOrax
-	rvwZkOhqkEHDNFMdDXK6tW8Td+pg5ZaMnUSoixjVF0p4rbHBWwd9/B1ZHXbBgRPRYFgL16P1EpT
-	G1V8+L+4V+9WDJbeunWpf4Yloe4xubhXP5rHo3lUMxJkan1emgm4+vlerdLmu0TJNovadWQTeoq
-	e9kkebmrNiGKGDUXHST43SyyAZ9m8DbHEgx8+nK3g+2J9ycDqKwRVl7fFESVlpGERrddGA3Vjw2
-	b1ABo6xZF2fj4/2r9oQ8wz/TjrjQi1S+idooiMohPU/Mp687Au+Y07St62byuFersbOe9f18+Xg
-	RrFkRgfNNhp1MzjfZd/oO+k3mArHGaa+jZ39Zj738beRmW3j4EX370M1gPRFVEHgEG3ew0Dmo+P
-	OzYJOhYG1OBHNPpBySVPJrf8mC548VVJAtkiBazO9A
-X-Received: by 2002:a17:902:7042:b0:2bc:d1ec:9f09 with SMTP id d9443c01a7336-2bd274ac286mr3390575ad.40.1778616074352;
-        Tue, 12 May 2026 13:01:14 -0700 (PDT)
-Received: from MAHADEV.localdomain ([103.135.229.217])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2baf1d3ff52sm146933835ad.26.2026.05.12.13.01.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2026 13:01:13 -0700 (PDT)
-From: Harshit Shaw <shawharshit116@gmail.com>
-To: andriy.shevchenko@intel.com
-Cc: gregkh@linuxfoundation.org,
-	error27@gmail.com,
-	deller@gmx.de,
-	chintanlike@gmail.com,
-	tzimmermann@suse.de,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Harshit Shaw <shawharshit116@gmail.com>
-Subject: [PATCH v3] staging: fbtft: convert sysfs attributes to use ATTRIBUTE_GROUPS
-Date: Tue, 12 May 2026 20:01:04 +0000
-Message-ID: <20260512200104.19002-1-shawharshit116@gmail.com>
-X-Mailer: git-send-email 2.53.0
+        d=1e100.net; s=20251104; t=1778616457; x=1779221257;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5ixm4A9b1aqS3/lbS+x6VLWagRbgpxDZK7p6coKIV70=;
+        b=JScXxRL3iebHznjXlALiM0nQf2farXU3Tfrjjgdw7MxoHgjY+fb3TzYhepDrgKO/te
+         YzI2IyCdCpnOpctIyKue8Qc9JPUiKtltaPhi2pyz1Mfje9WxYn57l5xgwbxhUNKinKSx
+         h959IfuF2Cf+tdXIbpDh3+Y9+P51lcc48GeYayOlC/oS2GR9E3KxRMiejlMCiTjzRXRV
+         Zlj3FXQ+UHbspC30UDKxN+o4NjOxw8RHfVRNGjTr5zYySgO+qPawhyh0Nh2SxJ3LjX4P
+         1l0UWoNkTAhnTqS0Ns8BiF69aeznvtVCQJjLBLDKd4l4F9T7MCMEgJQkbnWkiZVed46O
+         AwZQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+cUJom6frMMoZUwM79DHABRBvJqPCMibh/w+8DfOhg2+jOVqQZerUvVVZG/hbnuXa3BQOKEJcaZ8N8/E72@lists.linux.dev
+X-Gm-Message-State: AOJu0YxfiK3m/QHkGTgfGPt7y/+sMg9Hy0mNqfwpErfTGpPH/LZbkfVm
+	Zyaan9GjvcSPElMp7FDmrJ1nQCRgPapQbIENknwMeZmcMhs1CR5xNzap0/65mYFvKQ==
+X-Gm-Gg: Acq92OFW42M2PDkokxJpYildHrLAPnFZHk/MqvJE8rbLf4K5Yx0G28FaUpQwiK0jtYy
+	ylwXuLwnTrnmNcwMWG1daBb3STg7fmV5c/YNm1jzC+LzSkgR8+z+ds6IYCuIyi8Za1LLE8t4Ouw
+	ll4wuSxXpy2yZ4wBZDhasfObFuJCkGvVbf2ht18cg1rwd0aVoq09AZv+bTuHXTuCaThxy/pBlnl
+	wFzjYqH3xrzKE9M1ljtkDL51ySV8YXvd8GFCMPSu2DwPXzkc2TycNnEscPwDPc5l8YC3db7N3LZ
+	SRKmTsxVpD7OfafTLNu5p0E87iN3kuspCQG5Azrf4lUyvLkJDyErij35YzRl9iNF9hh5EFD0u7w
+	FMHAIxFP34KzlErEXkljFkY1lqPLYzrS0bZwDQS/9//XvfKAxTD3pLFzQHdkUH+Pi5AwwWFe+SK
+	vCukOneTvb38vCZLJ0aR6TcXdpc4+agNktTObjhhxI+lksAeJ3HpcBxZ/wTg==
+X-Received: by 2002:a05:622a:114:b0:50d:8e2c:6a68 with SMTP id d75a77b69052e-5162f62ff6amr1586561cf.51.1778616456762;
+        Tue, 12 May 2026 13:07:36 -0700 (PDT)
+Received: from [172.22.22.28] (c-75-72-117-212.hsd1.mn.comcast.net. [75.72.117.212])
+        by smtp.googlemail.com with ESMTPSA id d75a77b69052e-5148e82579fsm125729151cf.24.2026.05.12.13.07.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 May 2026 13:07:36 -0700 (PDT)
+Message-ID: <77358a41-b4cf-4c11-b751-86f024fd4b72@ieee.org>
+Date: Tue, 12 May 2026 15:07:34 -0500
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] staging: greybus: audio: correct sscanf() return value
+ check
+To: "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Dan Carpenter <error27@gmail.com>, Vaibhav Agarwal
+ <vaibhav.sr@gmail.com>, Mark Greer <mgreer@animalcreek.com>,
+ Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+ greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Pankaj Bharadiya <pankaj.bharadiya@gmail.com>
+References: <c758029d-186f-4a9f-b953-90121f43d8d8@al2klimov.de>
+ <agGdJFofiZYKqqhr@stanley.mountain>
+ <c17dd24c-2bf1-4ef8-a8d3-79014a75242f@al2klimov.de>
+ <2026051243-factual-lyricism-6c54@gregkh>
+ <381ed71b-1db1-45d3-a9be-bf2f8018a611@al2klimov.de>
+Content-Language: en-US
+From: Alex Elder <elder@ieee.org>
+In-Reply-To: <381ed71b-1db1-45d3-a9be-bf2f8018a611@al2klimov.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Replace direct device_create_file() calls with the correct
-ATTRIBUTE_GROUPS() macro. Add fbtft_groups as dev_groups in the
-driver structure so the driver core automatically adds and removes
-the sysfs attributes when a device is bound or unbound.
+On 5/12/26 2:15 PM, Alexander A. Klimov wrote:
+> manager_sysfs_add_store() passes 6 pointers to sscanf(),
+> but required latter to return 7 which always failed the operation.
+> I corrected it to 6.
+> 
+> Fixes: 49b9137a6002 ("staging: greybus: audio: remove redundant slot 
+> field")
+> Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
 
-Signed-off-by: Harshit Shaw <shawharshit116@gmail.com>
----
-v3: Remove stray blank line in fbtft_attrs[] array
-v2: - Use DEVICE_ATTR_RW() macro instead of DEVICE_ATTR()
-    - Move DEVICE_ATTR_RW() definitions closer to their callbacks
-    - Remove trailing comma after NULL in attribute array
-    - Remove extern declaration from internal.h, not needed
-    - Use ATTRIBUTE_GROUPS() macro and add dev_groups to driver
-      structure as suggested by Greg KH and Andy Shevchenko
-    - Compile tested with: make M=drivers/staging/fbtft modules
+Looks good.
 
- drivers/staging/fbtft/fbtft-core.c  |  3 --
- drivers/staging/fbtft/fbtft-sysfs.c | 81 +++++++++++------------------
- drivers/staging/fbtft/fbtft.h       |  2 +
- drivers/staging/fbtft/internal.h    |  2 -
- 4 files changed, 32 insertions(+), 56 deletions(-)
+Reviewed-by: Alex Elder <elder@riscstar.com>
 
-diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-index 3da42c8ca6e3..e6d33127cecc 100644
---- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -782,8 +782,6 @@ int fbtft_register_framebuffer(struct fb_info *fb_info)
- 	if (ret < 0)
- 		goto reg_fail;
- 
--	fbtft_sysfs_init(par);
--
- 	if (par->txbuf.buf && par->txbuf.len >= 1024)
- 		sprintf(text1, ", %zu KiB buffer memory", par->txbuf.len >> 10);
- 	if (spi)
-@@ -826,7 +824,6 @@ int fbtft_unregister_framebuffer(struct fb_info *fb_info)
- 
- 	if (par->fbtftops.unregister_backlight)
- 		par->fbtftops.unregister_backlight(par);
--	fbtft_sysfs_exit(par);
- 	unregister_framebuffer(fb_info);
- 
- 	return 0;
-diff --git a/drivers/staging/fbtft/fbtft-sysfs.c b/drivers/staging/fbtft/fbtft-sysfs.c
-index d05599d80011..579ac9dcdd9f 100644
---- a/drivers/staging/fbtft/fbtft-sysfs.c
-+++ b/drivers/staging/fbtft/fbtft-sysfs.c
-@@ -107,9 +107,18 @@ sprintf_gamma(struct fbtft_par *par, u32 *curves, char *buf)
- 	return len;
- }
- 
--static ssize_t store_gamma_curve(struct device *device,
--				 struct device_attribute *attr,
--				 const char *buf, size_t count)
-+static ssize_t gamma_show(struct device *device,
-+			  struct device_attribute *attr, char *buf)
-+{
-+	struct fb_info *fb_info = dev_get_drvdata(device);
-+	struct fbtft_par *par = fb_info->par;
-+
-+	return sprintf_gamma(par, par->gamma.curves, buf);
-+}
-+
-+static ssize_t gamma_store(struct device *device,
-+			   struct device_attribute *attr,
-+			   const char *buf, size_t count)
- {
- 	struct fb_info *fb_info = dev_get_drvdata(device);
- 	struct fbtft_par *par = fb_info->par;
-@@ -133,18 +142,7 @@ static ssize_t store_gamma_curve(struct device *device,
- 	return count;
- }
- 
--static ssize_t show_gamma_curve(struct device *device,
--				struct device_attribute *attr, char *buf)
--{
--	struct fb_info *fb_info = dev_get_drvdata(device);
--	struct fbtft_par *par = fb_info->par;
--
--	return sprintf_gamma(par, par->gamma.curves, buf);
--}
--
--static struct device_attribute gamma_device_attrs[] = {
--	__ATTR(gamma, 0660, show_gamma_curve, store_gamma_curve),
--};
-+static DEVICE_ATTR_RW(gamma);
- 
- void fbtft_expand_debug_value(unsigned long *debug)
- {
-@@ -173,7 +171,16 @@ void fbtft_expand_debug_value(unsigned long *debug)
- 	}
- }
- 
--static ssize_t store_debug(struct device *device,
-+static ssize_t debug_show(struct device *device,
-+			  struct device_attribute *attr, char *buf)
-+{
-+	struct fb_info *fb_info = dev_get_drvdata(device);
-+	struct fbtft_par *par = fb_info->par;
-+
-+	return sysfs_emit(buf, "%lu\n", par->debug);
-+}
-+
-+static ssize_t debug_store(struct device *device,
- 			   struct device_attribute *attr,
- 			   const char *buf, size_t count)
- {
-@@ -189,40 +196,12 @@ static ssize_t store_debug(struct device *device,
- 	return count;
- }
- 
--static ssize_t show_debug(struct device *device,
--			  struct device_attribute *attr, char *buf)
--{
--	struct fb_info *fb_info = dev_get_drvdata(device);
--	struct fbtft_par *par = fb_info->par;
--
--	return sysfs_emit(buf, "%lu\n", par->debug);
--}
-+static DEVICE_ATTR_RW(debug);
- 
--static struct device_attribute debug_device_attr =
--	__ATTR(debug, 0660, show_debug, store_debug);
--
--void fbtft_sysfs_init(struct fbtft_par *par)
--{
--	struct device *dev;
--
--	dev = dev_of_fbinfo(par->info);
--	if (!dev)
--		return;
--
--	device_create_file(dev, &debug_device_attr);
--	if (par->gamma.curves && par->fbtftops.set_gamma)
--		device_create_file(dev, &gamma_device_attrs[0]);
--}
--
--void fbtft_sysfs_exit(struct fbtft_par *par)
--{
--	struct device *dev;
--
--	dev = dev_of_fbinfo(par->info);
--	if (!dev)
--		return;
-+static struct attribute *fbtft_attrs[] = {
-+	&dev_attr_debug.attr,
-+	&dev_attr_gamma.attr,
-+	NULL
-+};
- 
--	device_remove_file(dev, &debug_device_attr);
--	if (par->gamma.curves && par->fbtftops.set_gamma)
--		device_remove_file(dev, &gamma_device_attrs[0]);
--}
-+ATTRIBUTE_GROUPS(fbtft);
-diff --git a/drivers/staging/fbtft/fbtft.h b/drivers/staging/fbtft/fbtft.h
-index 317be17b95c1..ab71db017d05 100644
---- a/drivers/staging/fbtft/fbtft.h
-+++ b/drivers/staging/fbtft/fbtft.h
-@@ -299,6 +299,7 @@ static struct spi_driver fbtft_driver_spi_driver = {				\
- 	.driver = {								\
- 		.name = _name,							\
- 		.of_match_table = dt_ids,					\
-+		.dev_groups = fbtft_groups,					\
- 	},									\
- 	.id_table = _spi_ids,							\
- 	.probe = fbtft_driver_probe_spi,					\
-@@ -328,6 +329,7 @@ static struct platform_driver fbtft_driver_platform_driver = {             \
- 		.name   = _name,                                           \
- 		.owner  = THIS_MODULE,                                     \
- 		.of_match_table = dt_ids,                                  \
-+		.dev_groups = fbtft_groups,                                \
- 	},                                                                 \
- 	.probe  = fbtft_driver_probe_pdev,                                 \
- 	.remove = fbtft_driver_remove_pdev,				   \
-diff --git a/drivers/staging/fbtft/internal.h b/drivers/staging/fbtft/internal.h
-index ae2ff4a4a472..7869cf8dbf2a 100644
---- a/drivers/staging/fbtft/internal.h
-+++ b/drivers/staging/fbtft/internal.h
-@@ -4,8 +4,6 @@
- #ifndef __LINUX_FBTFT_INTERNAL_H
- #define __LINUX_FBTFT_INTERNAL_H
- 
--void fbtft_sysfs_init(struct fbtft_par *par);
--void fbtft_sysfs_exit(struct fbtft_par *par);
- void fbtft_expand_debug_value(unsigned long *debug);
- int fbtft_gamma_parse_str(struct fbtft_par *par, u32 *curves,
- 			  const char *str, int size);
--- 
-2.53.0
+> ---
+>   v2: added "Fixes:" to commit message
+>   v3: added all these v2/v3 lines here as requested by Greg KH
+>   v3: while on it, replaced title "Greybus audio protocols drivers:" ...
+>   v3: ... with "staging: greybus: audio:"
+> 
+>   drivers/staging/greybus/audio_manager_sysfs.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/greybus/audio_manager_sysfs.c b/drivers/ 
+> staging/greybus/audio_manager_sysfs.c
+> index fcd518f954..ff323ca815 100644
+> --- a/drivers/staging/greybus/audio_manager_sysfs.c
+> +++ b/drivers/staging/greybus/audio_manager_sysfs.c
+> @@ -23,7 +23,7 @@ static ssize_t manager_sysfs_add_store(struct kobject 
+> *kobj,
+>               desc.name, &desc.vid, &desc.pid, &desc.intf_id,
+>               &desc.ip_devices, &desc.op_devices);
+> 
+> -    if (num != 7)
+> +    if (num != 6)
+>           return -EINVAL;
+> 
+>       num = gb_audio_manager_add(&desc);
 
