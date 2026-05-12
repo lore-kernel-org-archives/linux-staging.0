@@ -1,71 +1,39 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14F97332EA0
-	for <linux-staging@lists.linux.dev>; Tue, 12 May 2026 07:27:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BA8C379C28;
+	Tue, 12 May 2026 07:36:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778570878; cv=none; b=KNcKGMkZw9z1iC25hAYK4qHOolIPDhayrGwmwzALvfFue/ukpQlNK0HzDaFzD/fYtyO0tTSosD/On+j7ZndSBbNbpU8g+CWkMM9wIkwtJjQQscC3tt3M865DNbL3iyjg5zPQLgPcnuMrf05yfOmsC6dQkvkPJ9m3Q9rpcVFpKk8=
+	t=1778571404; cv=none; b=keJLgiCblTOMO3lMK21cECz2x2c/h7U6uVmMalsDzCWCVuNduC2ZHiMKochj1mNaytv+qUR8v1PhuVt13J+37pqLOqOfGRkUgw4rWTwvoXNMaMMfgxtQDouBU65Yzfq754oUUZUSns1itGgTNtWWfnIR8SV1LSnmHFQCSJDHwvs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778570878; c=relaxed/simple;
-	bh=Wb5Eaixtf8ds6w5uqD4P2ndnnK2y3udztabhmv6EE/U=;
+	s=arc-20240116; t=1778571404; c=relaxed/simple;
+	bh=WOHHUJNSb2WnE7C9dFgWjj4jGg0IoQ3Fk/F1s97/06Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E9XDWX4oZ8fC93HlB75UsQT8/uLplaLb6/3nL77zlQTCrDseL0G9QDGaK4ZpfNDj/VmPrCKNCQI5UJB3Cffjp6XEE7XekNhT4rdnZw8/E/I6P6V0WKCJFI/5Prfm+41fnRLNdQw6Zb/rcB08Migm96enuDyw/9lPn1BzgwXyllE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TMFac3g/; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=QReE0HdTPL9WJE3HINeBWP0+6pO3KRIrXqGSFqSONEETsgi+s0z6Y8ZdWO8guqyJT7ZeN6gemrC6VxBXyef7FLXB0HqRlJ54rY1F2FWy/sIk/TdWgob0iPTP8EJBBfkVmwkJzpATh+iJS/rJJSolKoOPb9lqfsOEV+5wK9YneAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=uRnubecS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TMFac3g/"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-48a7fe4f40bso59371995e9.0
-        for <linux-staging@lists.linux.dev>; Tue, 12 May 2026 00:27:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778570875; x=1779175675; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=K/KXokBmQXfYB3ymboSTLTvRoQOVtSVEUAohP9gpfDk=;
-        b=TMFac3g/KHD7YEkJO9e5A353vJo+CG1DZ4/0KxA885YhkIwfBgiwKRwZDmca4ARNMj
-         pW/iqZOFpNil2TSrp2JPUaJcYJXZRdazMaJrPWvZgJDz8Zv9+7I34z84OA/R+wYdK5pX
-         nbPhbgbUkIbCJY6emrAs89D2rqaUuSUQ/w0AW1xxbxFgrpNKJUGXLUkh5x72DAp7Ejrr
-         hhkBDvOlPemZds085K+tjNCjvu+Uma45jKvtU0ybecucuKcN0UnKPgSLH2NOD0i57Z6h
-         8M9sxeHFY7784m4FxTDMSKEHLGB19VyIqYO7OlyE7wOcU+qsZuLI71hURaYIIBacYVlW
-         5uxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778570875; x=1779175675;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=K/KXokBmQXfYB3ymboSTLTvRoQOVtSVEUAohP9gpfDk=;
-        b=jcpvG5XN9QAitbuFnPXC9uIB2EJH02TCAVmsnZ9WC9Ec03kPd77eaLho3EU70G0YVB
-         hKx7heIMKtEhDHJv9F7xse0N2Jo3JZEJf/OGGqStMcOWEjU7H6Kg5RiJ2f+GDqF3ce4d
-         5TAnbjJLNjkiHBbVfr9/bp2Zcw8qy7FU5ZyZYJWiVwYIydX21VV8V7xi3KE7eNEThab3
-         MOA0c2GjicgMpgv7bo3Vm10e9wUbMP28nSQ66cLYlgDtAsSCtW81sNtfVJyMklnw51Dh
-         rGePqIBzM9By/EPXX6dJwasE3S8u1cvOfDQXSyqVXSmtMlKdEyWmNEfCn8RkNCp+/jwL
-         aOxg==
-X-Forwarded-Encrypted: i=1; AFNElJ9gqrMhKTkYh9s6TSj9kbsFs8teViw+3rtomebwwF7HoYVyNTUvy5KYIXTssqsQvmew7ToEhebER1IDhjQn@lists.linux.dev
-X-Gm-Message-State: AOJu0YwWgGfYA8XVuoiW7g2Pi9MbgKzTYfMjL3UPoaOfxqRperzlhjcu
-	iRrXTopUIBIKO5IbM1HeYoo7+qfPNqv51xkNVJqhwMAjgoFdJs8UM2lP
-X-Gm-Gg: Acq92OG0yXLZBKcC+jR6n8ksPPkJx6SYnHTy0ad41o514nz8Z8Grho2EHCZkSlHVYOF
-	XXXtPxH9fXcYuNG7EdKlpMGABKd7xdhIe2T3JfDO+2otHDUJecjnPYxsTZ1WpuLOXdpBgjyfAVX
-	3HpH6k0tSv/WzyjaJK5idwdTybqX1S1x5kiLpHX5R5qtNRvuukFv1ZSptXO8nBdbvMkPthu/zI7
-	pJx3BMy9Dd8OAhdLoRSjFWOUY9c8Psj44YUfDB5+eL8nuX6kMKD30FEy8KMXWhzbHi8xca4/ptS
-	1nO4cCU44pkSItLrtPhWEBIDHcYqpAdVxUwx1sXTAVhKa796Gxuh22II4jEZuNzAiSe4//3UDtv
-	SjSGxn/chlcqZTtRTAVNqY4CJaBmYx8P8MzvRuYW4Wi8oZtMNp2yAp9FXW3C9sL9783gZ3cTXGC
-	GGo43RW7SRxM5ob5PhK1k=
-X-Received: by 2002:a05:600c:1da8:b0:48e:635a:18d7 with SMTP id 5b1f17b1804b1-48e635a1ba0mr320493495e9.0.1778570875315;
-        Tue, 12 May 2026 00:27:55 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4548eb75c29sm29966188f8f.9.2026.05.12.00.27.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2026 00:27:54 -0700 (PDT)
-Date: Tue, 12 May 2026 10:27:51 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Noah Techoueyres <noahtechoueyres@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	nikolayof23@gmail.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: rtl8723bs: fix line length checks in
- rtw_cmd.c
-Message-ID: <agLWd1tPaHQvmhBE@stanley.mountain>
-References: <20260512003115.5570-1-noahtechoueyres@gmail.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="uRnubecS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 741B0C2BCB0;
+	Tue, 12 May 2026 07:36:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1778571403;
+	bh=WOHHUJNSb2WnE7C9dFgWjj4jGg0IoQ3Fk/F1s97/06Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uRnubecS+v3il9rGVV6NV7Ffe2T/zk1sHoUrUXWDa9aztXkhtJaNTxkK+ZXrg69Br
+	 QyQnBsHhfr5Vqf/hZwvPd+YkbNWUNd/ls8bbLwQn4UnZFrs5LrJ1TUV+p4ZSxAFyMx
+	 Bexq5KZWZUFICgjE0FhwLIpHaH4aOlPrfvmqf/Mg=
+Date: Tue, 12 May 2026 09:36:41 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Chhabilal Dangal <yogeshdangal66@gmail.com>
+Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] staging: sm750fb: remove unused <asm/mtrr.h>
+ include
+Message-ID: <2026051227-mayday-factual-c81b@gregkh>
+References: <20260512063457.80882-1-yogeshdangal66@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -74,37 +42,49 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260512003115.5570-1-noahtechoueyres@gmail.com>
+In-Reply-To: <20260512063457.80882-1-yogeshdangal66@gmail.com>
 
-On Mon, May 11, 2026 at 08:31:15PM -0400, Noah Techoueyres wrote:
-> Fix both block comments and assignment statements that exceed the
-> 100-column limit to follow Linux guidelines for readability. Used
-> intermediate pointers to fix assignment statements.
+On Tue, May 12, 2026 at 12:19:55PM +0545, Chhabilal Dangal wrote:
+> sm750_hw.c includes <asm/mtrr.h> under CONFIG_MTRR, but no
+> mtrr_add/mtrr_del calls exist in the file; the driver uses
+> arch_phys_wc_add/arch_phys_wc_del in sm750.c instead.
 > 
-
-These are unrelated.  Do it in two patches.
-
-> Signed-off-by: Noah Techoueyres <noahtechoueyres@gmail.com>
+> Remove the dead include.
+> 
+> Signed-off-by: Chhabilal Dangal <yogeshdangal66@gmail.com>
 > ---
->  Changes in v2:
->  - Replaced repeated struct access paths with an intermediate 
->    pointer to traffic_stat to resolve the 100-column limit.
+>  drivers/staging/sm750fb/sm750_hw.c | 4 ----
+>  1 file changed, 4 deletions(-)
 > 
->  drivers/staging/rtl8723bs/core/rtw_cmd.c | 38 ++++++++++++++----------
->  1 file changed, 23 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> index c1185c25ed36..5c6999ac17f6 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> @@ -1106,24 +1106,25 @@ static void collect_traffic_statistics(struct adapter *padapter)
->  {
->  	struct dvobj_priv *pdvobjpriv = adapter_to_dvobj(padapter);
+> diff --git a/drivers/staging/sm750fb/sm750_hw.c b/drivers/staging/sm750fb/sm750_hw.c
+> index a2798d428663..f491d3aca468 100644
+> --- a/drivers/staging/sm750fb/sm750_hw.c
+> +++ b/drivers/staging/sm750fb/sm750_hw.c
+> @@ -13,10 +13,6 @@
+>  #include <linux/vmalloc.h>
+>  #include <linux/pagemap.h>
+>  #include <linux/console.h>
+> -#ifdef CONFIG_MTRR
+> -#include <asm/mtrr.h>
+> -#endif
+> -#include <linux/platform_device.h>
+>  #include <linux/sizes.h>
 >  
-> +	struct rtw_traffic_statistics *stat = &pdvobjpriv->traffic_stat;
+>  #include "sm750.h"
+> -- 
+> 2.54.0
+> 
+> 
 
-Don't put a blank line in the middle of the declaration block.
+Please slow down.  Wait at least a full day between patch submissions.
+There is no rush or deadline here.  As pointed out, your patches don't
+even apply :(
 
-regards,
-dan carpenter
+Take a few days off, redo these.  Send them to yourself and see if you
+can apply them from the message you send, and then, if all works, send
+them out AFTER reading all of the review comments (again this series was
+not sent properly, there is no version information...)
 
+thanks,
+
+greg k-h
