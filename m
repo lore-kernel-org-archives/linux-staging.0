@@ -1,136 +1,128 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2641D395AD7;
-	Tue, 12 May 2026 10:17:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E12026F46F
+	for <linux-staging@lists.linux.dev>; Tue, 12 May 2026 10:46:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778581050; cv=none; b=aj9JycjCs0RbTqd96k8luu3z8qCF5JEIchdmkLkI/VGxQoi+NiuM/5/sr8ptrEFJ2sPqVLCzx6PnINNzdH7o63/Euha6d6//NT3Bt6c7iVwkKgM+q8yJAlyXowWB5bps+kUhWDCzuqRTVP9tIQEuUOxsCZf4tlntgNKVE9Wit7o=
+	t=1778582777; cv=none; b=gAhEJr7sbqBxOvznLoL3xhA0qSEA+CLwjTo7FWULPBezmitbHrQpJBgEzGixNVujvQDG7XMwBXhpH4x47DaPNLCrNUxJtqd/5t7/P+r46P0Hri3B3alr0jzjyc7FsYCWvJlk0QdyOZMNXMDjLMqeS9Yvc3ShbzdSYqSXp9Od3i4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778581050; c=relaxed/simple;
-	bh=Xf/dZSb4r/xorL3Z004zEE2WN5eXTDvsTSt9dICU6jU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iyOKJ8ESrTrkzSjjt/PfiHZtiHRibiAF8HJJI4f6749HrzU6VyaOMqqXgU06TJYD2FVDMV7tBMF9iqVPvEc+Pms6vVUq1WI4/c8hmUIqLeRpBBy3m1e0FKTb9sAjpgOwrL4ZkGDy5NdhE1TIy2UuBckQViRg5R4oLfMOemXPvE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WzkoRyrK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778582777; c=relaxed/simple;
+	bh=wOtsid2cUg2EVxRaTz8NHiq6PheKKCzEcGzh7pVPZJA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QfIReQh4enOxm5mg3zD/9rHaZQu2Wy3ZPJKTaoq8T3MyN7oCvUlOci8tm0h+Z6FCIMY5USSS3dNLHZHaEXDMQ/I+nemNTIzVkwd/7poTFY2Zo9D69zfg8xkY19XmCicSuQVZVQSHDLfz2VyrU5+UyfynhYt6bSXMK5T9x+S6KTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BDE8Rpu3; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WzkoRyrK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32A7CC2BCB0;
-	Tue, 12 May 2026 10:17:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778581049;
-	bh=Xf/dZSb4r/xorL3Z004zEE2WN5eXTDvsTSt9dICU6jU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WzkoRyrKcGg/bp+KVynim/KWvs4CKaRmE/hZdfUYUA+72r/dAd7eLumhr0JGAv+Qe
-	 EoXYHrCTZw+UhQaFx4GtS873mGzEPlFbBsUufDZXNuPBEv6VXh9MNFkknk1eMq4Kqd
-	 f7N+S9WMXtfYCug6tePMzg6ZNp3gtMBy03VDcZ2H2sfaHFhY2/kGEhbBL4sNQSnKGu
-	 o2yTwb8+WxXNb3TROm0nyLJSBv6LzQUC2TAJDJltWXMbcxj/srRYIUaJZUogbogTsx
-	 ylj2LdaOyRwTTPRM1Wg5qxEy9SzwDVECR08yV2nxnKZGrCH+Mpg6UGZhkj2KNEcahZ
-	 WlV8SM5if0o/Q==
-Date: Tue, 12 May 2026 11:17:23 +0100
-From: Lee Jones <lee@kernel.org>
-To: Benjamin Tissoires <bentiss@kernel.org>
-Cc: Jiri Kosina <jikos@kernel.org>,
-	Filipe =?iso-8859-1?Q?La=EDns?= <lains@riseup.net>,
-	Bastien Nocera <hadess@hadess.net>,
-	Ping Cheng <ping.cheng@wacom.com>,
-	Jason Gerecke <jason.gerecke@wacom.com>,
-	Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Icenowy Zheng <uwu@icenowy.me>, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev, linux-usb@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v3 0/4] HID: Proper fix for OOM in hid-core
-Message-ID: <20260512101723.GU305027@google.com>
-References: <20260504-wip-fix-core-v3-0-ce1f11f4968f@kernel.org>
- <20260506091606.GB305027@google.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BDE8Rpu3"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2b9ec9443c2so33825915ad.1
+        for <linux-staging@lists.linux.dev>; Tue, 12 May 2026 03:46:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778582776; x=1779187576; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WJ/WCKT66Ns5XkPseXRzaBnBs4PK/XwpCXzZJVvd2Q8=;
+        b=BDE8Rpu3OlnPcnuPjXoAUzsE32fqKjcq1nyvr8D1JnQZd4Al1MPDh5qN3XeiEjQ+TP
+         oIdE9yhZadkJJueM7YIOhKGvGmMyJULfW8Dk7/TEX5eSBYMkD2TZ8S58otfk9hqu5gIg
+         eu8AigNj0TUPEsjhdDkP3BmIgAHNtGRITqanDPUHC98Nb6SADCKQ06JfWUIamGUYalSa
+         fb0WO8r0Le9uKwAZAkdb5a209cMVLV7i0BYwVCuYtwn7oF+Pc4KLA2S7uRo1uoy5Zdw9
+         mKZyryQdCDa0WizqlMxxxw0FyPAA8M0OlhI6N8kE+sCDCT6oKYek4sN6ksjGB46CfrhN
+         /s8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778582776; x=1779187576;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WJ/WCKT66Ns5XkPseXRzaBnBs4PK/XwpCXzZJVvd2Q8=;
+        b=tUceHSCEB20+FWW1ga/be8LrgrU/WBK1guu25xNozITH5UzZU79qFMZ8RQtLvRPT87
+         KzWH/BslSZjV+AJMAJgdsDtWoAVrdYaZshZywk3SWeO4sZz5aSQcDXsUxnxc0oiYxxBI
+         ATiLAHS5+eFEmhhzHtgwbcNf9or1bLSwBaN7aQXCNpK+CMpo1y+EfSI8EYSuap5eUTD6
+         2UfPfIW1cACt/dbxgTOGZAwF6qiADOWIgs+4WJcqeydAWr1CGouPX4L8QkQeSPd37qzE
+         2DymsrWSU0FNxm4vJ18vKbScFSn5fsnueaqDlYdBDBiALzOQ9ZquKsXAkEsnHapYiG0c
+         zptA==
+X-Gm-Message-State: AOJu0Yw8xWoeeUKvFm5sEH+eL9e85LFrit3vhNHqYHDzAM2U364OSMzb
+	Xjkhwch4xVCuNCJyx90Hgl6XXX8a2sACYDhxP8rwGSjN/cbg51clH2vL5SHmxirH
+X-Gm-Gg: Acq92OGc9Bah00dbRWHpsMjSeIXJckvA5aqJhcK5s3S47eFDB6kcCw2CK3ER32iYUCU
+	fsFID34dJNyPkRrtK2E/T47ei2s7wlNTbXKyvFo7H5uEFy0MOMmUrukYM8wM81fp08LesJRQ9NZ
+	hlnrLxU61+DDyLexnQ8U4oJe3xaX6BcQjDXvUoTaW+rYtgj6+9JuCm8a5upEJ08lOfhh9YJSess
+	ED8EOwxLrdOjcQ3qDP1D4bIurO3BucESPmSR0pwS6I/upyfV9ckKZ62pTwsR3vRwMG80Pux1Hvw
+	HSJGPN2epLe64o/s+ze0FCAJ5N1HeOxfKFHjfOiYE6MIsqgQ423HI4n7irfxVjxgpvj6XukuHM3
+	fhQojxfeZ1T2oNh+n9eBOg6pWot3UFFoq+pTmuD+nqaDbO/GfBFLd8LuOuhXY3MvwKe5rOrKM8X
+	gGLd2+SXMU2HhsbYZXNlLgpgwffSfSIn6bG+3ojzoYqVi/qs4msXLej1sLn0ruBGmCrSTa5d9SR
+	hXbi7kOa1R28VmXY4SQ+JVe90ogNVgoysqXYGoxvlq2
+X-Received: by 2002:a17:902:d651:b0:2bc:b834:6ec7 with SMTP id d9443c01a7336-2bcfcc22e69mr21947075ad.2.1778582775943;
+        Tue, 12 May 2026 03:46:15 -0700 (PDT)
+Received: from nixos ([2405:201:c40d:9039:37b1:eaf5:1d3e:993e])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2baf1ecc4bbsm127773325ad.84.2026.05.12.03.46.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 May 2026 03:46:15 -0700 (PDT)
+From: Ayushman Rout <ayushmanrout27@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Ayushman Rout <ayushmanrout27@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: fix CamelCase of DelayLPSLastTimeStamp
+Date: Tue, 12 May 2026 16:15:39 +0530
+Message-ID: <20260512104539.18629-1-ayushmanrout27@gmail.com>
+X-Mailer: git-send-email 2.51.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260506091606.GB305027@google.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, 06 May 2026, Lee Jones wrote:
+Rename CamelCase variable DelayLPSLastTimeStamp to
+delay_lps_last_time_stamp across rtw_cmd.c, rtw_pwrctrl.c
+and rtw_pwrctrl.h.
 
-> On Mon, 04 May 2026, Benjamin Tissoires wrote:
-> 
-> > Commit 0a3fe972a7cb ("HID: core: Mitigate potential OOB by removing
-> > bogus memset()") enforced the provided data to be at least the size of
-> > the declared buffer in the report descriptor to prevent a buffer
-> > overflow.
-> > 
-> > We only had corner cases of malicious devices exposing the OOM because
-> > in most cases, the buffer provided by the transport layer needs to be
-> > allocated at probe time and is large enough to handle all the possible
-> > reports.
-> > 
-> > However, the patch from above, which enforces the spec a little bit more
-> > introduced both regressions for devices not following the spec (not
-> > necesserally malicious), but also a stream of errors for those devices.
-> > 
-> > Let's revert to the old behavior by giving more information to HID core
-> > to be able to decide whether it can or not memset the rest of the buffer
-> > to 0 and continue the processing.
-> > 
-> > Note that the first commit makes an API change, but the callers are
-> > relatively limited, so it should be fine on its own. The second patch
-> > can't really make the same kind of API change because we have too many
-> > callers in various subsystems. We can switch them one by one to the safe
-> > approach when needed.
-> > 
-> > The last 2 patches are small cleanups I initially put together with the
-> > 2 first patches, but they can be applied on their own and don't need to
-> > be pulled in stable like the first 2.
-> > 
-> > Cheers,
-> > Benjamin
-> > 
-> > Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
-> > ---
-> > Changes in v3:
-> > - fixed ghib -> ghid in greybus
-> > - fixed i386 size_t debug size reported by kernel-bot
-> > - Link to v2: https://lore.kernel.org/r/20260416-wip-fix-core-v2-0-be92570e5627@kernel.org
-> > 
-> > Changes in v2:
-> > - added a small blurb explaining the difference between the safe and the
-> >   non safe version of hid_safe_input_report
-> > - Link to v1: https://lore.kernel.org/r/20260415-wip-fix-core-v1-0-ed3c4c823175@kernel.org
-> > 
-> > ---
-> > Benjamin Tissoires (4):
-> >       HID: pass the buffer size to hid_report_raw_event
-> >       HID: core: introduce hid_safe_input_report()
-> >       HID: multitouch: use __free(kfree) to clean up temporary buffers
-> >       HID: wacom: use __free(kfree) to clean up temporary buffers
-> > 
-> >  drivers/hid/bpf/hid_bpf_dispatch.c |  6 ++--
-> >  drivers/hid/hid-core.c             | 67 ++++++++++++++++++++++++++++++--------
-> >  drivers/hid/hid-gfrm.c             |  4 +--
-> >  drivers/hid/hid-logitech-hidpp.c   |  2 +-
-> >  drivers/hid/hid-multitouch.c       | 18 ++++------
-> >  drivers/hid/hid-primax.c           |  2 +-
-> >  drivers/hid/hid-vivaldi-common.c   |  2 +-
-> >  drivers/hid/i2c-hid/i2c-hid-core.c |  7 ++--
-> >  drivers/hid/usbhid/hid-core.c      | 11 ++++---
-> >  drivers/hid/wacom_sys.c            | 46 +++++++++-----------------
-> >  drivers/staging/greybus/hid.c      |  2 +-
-> >  include/linux/hid.h                |  6 ++--
-> >  include/linux/hid_bpf.h            | 14 +++++---
-> >  13 files changed, 109 insertions(+), 78 deletions(-)
-> 
-> What's the plan for this set Benjamin? -rcs or -next?
+Signed-off-by: Ayushman Rout <ayushmanrout27@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_cmd.c        | 2 +-
+ drivers/staging/rtl8723bs/core/rtw_pwrctrl.c    | 2 +-
+ drivers/staging/rtl8723bs/include/rtw_pwrctrl.h | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-Are there any updates on this set please?
-
-FYI, this set is still important to us.
-
-Ideally, if all is well, it would go into the -rcs for v7.1.
-
+diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+index ef15b513d363..9d7b94c75537 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
++++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+@@ -1308,7 +1308,7 @@ void lps_ctrl_wk_hdl(struct adapter *padapter, u8 lps_ctrl_type)
+ 		rtw_hal_set_hwreg(padapter, HW_VAR_H2C_FW_JOINBSSRPT, (u8 *)(&mstatus));
+ 		break;
+ 	case LPS_CTRL_SPECIAL_PACKET:
+-		pwrpriv->DelayLPSLastTimeStamp = jiffies;
++		pwrpriv->delay_lps_last_time_stamp = jiffies;
+ 		hal_btcoex_SpecialPacketNotify(padapter, PACKET_DHCP);
+ 		LPS_Leave(padapter, "LPS_CTRL_SPECIAL_PACKET");
+ 		break;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+index f074ea6e0f38..bcbe78d93270 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
++++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+@@ -302,7 +302,7 @@ static u8 PS_RDY_CHECK(struct adapter *padapter)
+ 
+ 	curr_time = jiffies;
+ 
+-	delta_time = curr_time - pwrpriv->DelayLPSLastTimeStamp;
++	delta_time = curr_time - pwrpriv->delay_lps_last_time_stamp;
+ 
+ 	if (delta_time < LPS_DELAY_TIME)
+ 		return false;
+diff --git a/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h b/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
+index c27d07861b8c..7b210cc3b2d3 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
++++ b/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
+@@ -169,7 +169,7 @@ struct pwrctrl_priv {
+ 	u8 power_mgnt;
+ 	u8 org_power_mgnt;
+ 	bool fw_current_in_ps_mode;
+-	unsigned long	DelayLPSLastTimeStamp;
++	unsigned long	delay_lps_last_time_stamp;
+ 	s32		pnp_current_pwr_state;
+ 	u8 pnp_bstop_trx;
+ 
 -- 
-Lee Jones
+2.51.2
+
