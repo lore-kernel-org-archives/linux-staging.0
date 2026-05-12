@@ -1,205 +1,186 @@
-Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
+Received: from sonic303-21.consmr.mail.ir2.yahoo.com (sonic303-21.consmr.mail.ir2.yahoo.com [77.238.178.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D6FE35979
-	for <linux-staging@lists.linux.dev>; Tue, 12 May 2026 19:32:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8BF635979
+	for <linux-staging@lists.linux.dev>; Tue, 12 May 2026 19:35:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.238.178.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778614367; cv=none; b=FRbBrXXw2mnHnI/sy8SrZl8Rga+seJF9OtveX3YrpaEa4RjC/2HGJOzgQsprtxiuEBsIivbJU4WXTbJEce5OKVS+gbwGFljKSqBGkZKBpHQN6kC6B/ZvzscDVvRD6oRAAkilzfGzHwsnr6L7EYA5DOqiN5CMif2zElHvMOMenxM=
+	t=1778614525; cv=none; b=j99epY5tYZ273/U9G8yEYJw92jD/ruzzPqd5d5Qmb8sBIQvrFCfeeK1zHIbjWpgSpaWo9MlKZXoF/x0hHOTh8/LyGzCGnVb285MdeyWKMCfB/sZPfam2gbln0GHKWTp0pQzy+0nHRz2r/ei0Ue0FckVyFEPqzqOubv6+OBy7dSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778614367; c=relaxed/simple;
-	bh=YaZQcxMPOZ5/Dp5YStDxKEPNdAL4OEo28UJCf+YTGVc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GCcx9J3hBTV7KMSCD5CMZY0N+G0CW+iP5gKNWN0f2Z6aH67uiHcqKIWKG7q9jl5jmo8RuU4GiJzQ8aQ0uH/CMXP2QaJQq9BktPZQPyMx018Q7AeMlPlxzafrfPAidT/EwA9Q1pDnFxwgtEUHHShME2UT0zbuz53/wSLaWIumCS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hUZL7iR3; arc=none smtp.client-ip=74.125.82.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778614525; c=relaxed/simple;
+	bh=SWcprvJI19SCcP7aeYTJ3NgcYp2vxGmrTPZCl7ZBcYE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc:
+	 References; b=BYub0gq7JlCfufabd5MgUTkb488ufmq5WgqMAXhByL5gSNLS2tuGAUk0BRxS4q0rUjyj4RSz9+fO6WAN0IDwrVsUu7vOoRsMbc+8icM1l1CsBj2byGlj8SD6HUcb44Rstnez8V4Q+RKdJDsCxcQCarKilB1GCfHhKzI4BLUOXXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=CB4G9YGr; arc=none smtp.client-ip=77.238.178.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hUZL7iR3"
-Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-2f36da5c8fbso5886921eec.0
-        for <linux-staging@lists.linux.dev>; Tue, 12 May 2026 12:32:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778614365; x=1779219165; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=wVD8VTj0+dLMOEBwXxKMmvzU2blKWnplzzkaGTkbKZs=;
-        b=hUZL7iR3COw7xELRl0vG2KaDKNwsMWd7pm3og2qzSKWIyGAxAEhD5HhQGyWSSF3cof
-         Iv0umtDYac/pKMx7GlQFV7LH5xEKKi13i7HhwgtWenCalq1QqN4dfW0lv5cRnRGtwBEU
-         IAGRmYDjLjwopf0TlZfmEYZuMeGFBMI047dYZn+f1Tr0lz5WHvW9/6q8s6n0tQj7Yb7T
-         6QJEM6HO8b2mKyKA4L0gaA5VnLlQ9NlU8JXaxAvvEoXaEsIG+OBNcUt1tg+QO/6CHdrY
-         hhwnkz4gBFFymUQgQEEanndtKRzXbTPrS09Df1ZNfbfvybPPI0x+pbSiHMJTnqVt4d7l
-         uv2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778614365; x=1779219165;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wVD8VTj0+dLMOEBwXxKMmvzU2blKWnplzzkaGTkbKZs=;
-        b=QGczxoJKchcepNbyCIzS0bHCM5wcKpo5ijDd6XGEEgDiuwKzRrTn7RwxDJHpFvZdaJ
-         Va32aBMve8OGz1DARRuOgg6wtktljEiIj0tg4x0oWm3z/rKQfORO/XXujv7QNR+aYP4P
-         rkopRPE1reI5xFmMWPXKl0bm2ikF3Yrp6DwHDoOQSqQlq53Gg3UyC8PP/OpvWYYmaXYk
-         kRYIJ1vJ6cCPgpTHu7zmiXJu4rDajSgi/nQKM89m1KIDK3tGSa17KkNQPyXznEDCX8Q5
-         ggyxUKhwDaTCHchWSidR6hEwhtS7DzWNaZ3csraOdpoiTMI5G6TUQrnTev/XqHe4rxX5
-         NxFQ==
-X-Gm-Message-State: AOJu0YzGgQ0M1fbYifhNiboRa7n2TjFk1LWaXESOfKRAneJG6sgUXUZr
-	U2oTwup2Z+UoWh5dBo4jC7jRUqYiof/40lFg+pLy8GECt7aBgXD3zLr+HwhqkQ==
-X-Gm-Gg: Acq92OEBxa6O5qHGTE/r83LjRqWwl0I2refKfpdG4/qxRqkC4D5hL83r7YqoFAKKXxo
-	7OMHJdNnVsqstVRc2gPz9+FM5KtjCwu7ZKrR1NQozSL99/F/gcprE8R7xSBsCNVjT6zCV6iiFZ8
-	fFHhhJJ48FOvShCLB4NqBKk+8eHdb31O/OeCZ9q7m7Mv9sd5nU+ljl5ihoDJ/xsYpZjBBh8cHqs
-	3+6aEovBcSPRIxp1REnVEYWGr6gZu0u4kShBvjmVWdVopR0Maj1WU0vrVjQVPUFCrUPMeWTLgvF
-	fhJusRW1msUcplqGV+P3jABXGs4Cf8YUCGMzR7Onh1jh/EIK5Ar1EMEWypbmmKbx/jSZwYt931w
-	Lxet4w9YPgZpT71aAQA8NOEOcuFY2ueO8wDj4taeBhpHpiWT8r0uTOgfNSkuC1f7n1blOzxhyvt
-	rHfqhTJ2R8V7o5BxH+DTm7ufggpdLpnvhk
-X-Received: by 2002:a05:7301:1296:b0:2c4:dd55:ffc1 with SMTP id 5a478bee46e88-30117c7e420mr236067eec.2.1778614364789;
-        Tue, 12 May 2026 12:32:44 -0700 (PDT)
-Received: from TestUbuntu22.. ([73.15.108.84])
-        by smtp.googlemail.com with ESMTPSA id 5a478bee46e88-2f888c3b301sm24226858eec.23.2026.05.12.12.32.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2026 12:32:44 -0700 (PDT)
-From: Jennifer Guo <guojy.bj@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: gregkh@linuxfoundation.org,
-	Jennifer Guo <guojy.bj@gmail.com>
-Subject: [PATCH] staging: media: atomisp: fix indentation for function parameters
-Date: Tue, 12 May 2026 12:32:34 -0700
-Message-Id: <20260512193234.43156-1-guojy.bj@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="CB4G9YGr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1778614521; bh=GCL+7JZ51kYJLm0NYk/mb+ZAptiRR6xYLPfYPOAAqoM=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=CB4G9YGrZybDdrnntES5LAdnVw+mKN7Ux36rmk2MODwxxrVFEaqEPOwDVUnL05tPLBpxHxXzMbw0UqaY31/xU27hgNsA8TVC2NGNf5ZWU+0Yh1+CBOI38rQAapSb02bllqcMFMtfoC4GOEhJPB7gaDJdzXZ+kAL/LquiYdLpqdp0960gG2m46OoBl2kk4/yNc1Z4YNNxb4YxEXUJy2/GfC41VzoU7GZb85YwhWMqCjfhU5hXesf++kcoyuHllTViyAMHvsT+jlq5LWNrPS/c2xsRV0+/+K/UIFU8ZGIPEc3QvZ7ZTIK5fzxN4JHv6Ckr7um11omDnzkAKF+oq6ShlA==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1778614521; bh=o3AcOD+BrbCA2yggyuVC2QuoF3UdG2ECXOPU931bXDb=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=fYfXgN/cjArsMKLLT+X+bwWOo2oDyiAJ0Ro43fLvzVv0V7fwBiC2T7sySoIhl8cF7jvwcmTOgry2DaAWKj4qpYa4qSp391Q4+UvN6ZRFM2bthGUaMYFurzciTZ6fkeO35q14mahZQSsmFCkNd5XJv6K/WKBNNbHZKWkbWbMBS0NkEggZbbAV+TpZ6186nNCvc6/tVtAwGmWdhPHkJfUysn4fKXP9o3gXGlQ0dOuAJPnCttLuoBA9KUY/qPn5LmNuR8n1519AWtaEGE5eRQP+vy3SQMi+pA3pus4l+4NcezEr8eBWIPKIXEyY8pyeZyZrDBUskzJlv430Ix4o8mTvAQ==
+X-YMail-OSG: X.CrbtAVM1mUAjHb3jLr3uyrvIZSmFH6sb6LjhxagKZ6BPgEKJlrx5P35TydIL1
+ L91eixhLbnUc5dbRvFu6Xw6emXLAcy5aOwBYYC3oA2Siyg_2FwzSP3Gi3qdls4pjXhBco_lYZs.d
+ 3_928DW_9O2MpEjRnaKCJZM.y04kcOysjufjhJvuTip4Rr_qSy65lz6CPJlw6nPz1o2Fpp.GX82w
+ bZubZfH6LnjLFKMGIh1QMtSKNvUnXjhhqJSY7vlprwOiL5NfupwDB0FKxiAAKhnRKFBCjQHvpgnw
+ wd5p71a5I0YzIHFZ_GBAZNpQt5_hfmOIsTl2FOLFmNJwsTqkQbe60flmty8648uJFWCK8u51lY6k
+ q2EcspQ0zF26cDgWGqSMUZXEfZ_gCLVO0Yvt7a_cTCNVTpmIiBhw8pNIiUe2LXFgL5xwGfmZKtq9
+ P17d4LGczpKJ83AxT.gIgYO_l4VwXCsv9NpuhTz0k.7561DnYcgGnB4OkeM_Z1VrySOeaKNItfcT
+ _qlivtup.rUh0kqK629kelFY5oiezkMHBkDtWSp9fDmAPOmndQ.gFPRblskS3DsRifnz2h_l6B.4
+ WtnS2h48DcJR8egE2WiE_peUc.JHjbC2nWCHVaAfCjYNjkEQsi0BIVrBYu8c6YOL8gAgMTT5pqew
+ oEi85ngyCQlC_ehNgQAruiaSDxgLwRTD5dAips639sGur6S5tjkFkTbc4eNK4ROc8EFFxoFt9TZu
+ AaWIsy58ctfGnCkJGwWQ6Ka703wq7.8qIBfOFQb4UrW.679dvlYzzxA8OcRVR4M2g44OTg.uctxR
+ o_sGBsEbZIfkcOysJjQ5iyyCIXT7VxS4GlSDNl4Sij__QnVnByZycfCv1X.8cd06E7QXx.0bfbnR
+ NaQXqPL58V5mS.EiGGBo1l3zqfKxpF2Zg__P03BMcy0rvxkehCZ98_PjR4EKBCrLLlLstAhL0xnM
+ GUrRUbNuTGDXee5v96ty9798mN.wQ0BChvFeeC3RxRRrS9PPGeg0E6_wb1qn29DPxs6vhpmUMMx5
+ RUhjrv0nd88.OoWwMBorCVPlmrJ3XhnB9VsG5fMVqqllBt8muLAnkSmiF5JHruHrmXx7nVfA5FxQ
+ fvtCp.a8xWyOO94kSxtSSRwzNZke0P_lktiTeZ7Fp636jGpjRokByagAZRtfFKqZ.BZHrJ6IPElL
+ xuV4c16GWlCykMQl4fqOrKIFX0CL_rtD0RuEZmQlVwaQhEM18pSloaljiUSM6OT3gorLXunyRoJp
+ tPUyxIAzkV0vTdFOUpFfQ6dg8wKKpXxhasUXhftdOlmXISYLTutSz_CzevhLar8EM_YeN8CQXHba
+ bvx6rTeSpsJ9NTenHcYR0TY3OmxZmNdR9u7R.XxoNRsxjForDD4lHgM2EyHpaZI2iwIgZpMLemuI
+ JCJ3gTw86EIAX0PSH7gqfJ5DIypH.WNuyU4e3BS3c8OF5uN.TSz0yn5ZXWC_.hFC1c6LIKrdQ1Wy
+ X4co8m0aaNtn7gg4XJdeJGMegpyp0_utNVN_1TFz1HBq07ppO7Nr4AV0Z_ezke259s.nZuHuLX4w
+ Q3tPN6tzirCEKgBexQcEmby_q8GDj3FwfMs4XniICxmpClIEXGC0eX6hgfr5tbw1HuS15cuu8mVT
+ UJKVLCBvec9ri13ZYlvl9NDlk7ng463xJhBImsvflcHqx10gG846cGXwzbgmSNnIVSENqlwTmLwz
+ vy7wAODD.jppbZAtBPX1oBhJUH7oXK._0xTEtmvGrSO38cx5WA4YqmcNc3Mefc3zTGVJmukmHgpj
+ Ohl0Ie4F0PALVnZvh_9ck2U5weYqmEVQ1Z3kde5pqx1b8.oLkdfq2HHaUZNFVX.eRKvcU0Suyh_I
+ sIBULy1.2JQsewnmxvI39T4FkkGIGIQoyVcH6NojE0CrfPn0u1jQx3yo80jEBC7nw2ChSCBU2Wlu
+ x8dloCIYKPGnxJI7bQeuS_QpR0VfhE9VlmVAYE53rdJt76CNO5MJQk5MPhmifjmwZ5BwYLAyI8tl
+ tTjLIzpEnRGDh1nXkVb0HmX52fFR3amNLbThaOQCcCFd6hgKzqt8INCyShAPyvzaAWRrpbuTpRG5
+ v.2Rirh6vGeEG0B4I8n84xHuvDpaKrSiO2J5kVEkOEDM1tvZlVemIac4k22HI4rcfKxh5FwRqyd.
+ d4BxczUi7UXeAf_F_ifMEK.T6.jSBMUQlH09TJ9FGd7NffBwCXdb_pC9H_d0KCY3PTvVYniBi27i
+ s.Hb3e1c3XI5m2qcniaTw4KSJriBYO.QVF.8Daqhs0hvsbnuwNZPj_5de1JwFyt9n_rvQbQoZaJL
+ BULom0_DR3pq4zsjicxBFY7igFp0LLyektf2kYTNqtNok
+X-Sonic-MF: <tomasz.unger@yahoo.pl>
+X-Sonic-ID: 8d6d1f8e-33ce-4714-b4d0-ede039141a79
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic303.consmr.mail.ir2.yahoo.com with HTTP; Tue, 12 May 2026 19:35:21 +0000
+Received: by hermes--production-ir2-89844b765-bdgnn (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 4dd80eb2b435a56120c49aad29270489;
+          Tue, 12 May 2026 19:35:18 +0000 (UTC)
+From: Tomasz Unger <tomasz.unger@yahoo.pl>
+Date: Tue, 12 May 2026 21:35:15 +0200
+Subject: [PATCH v4] staging: media: atomisp: remove stale "Generated code"
+ comments
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260512-atomisp-remove-generated-comment-v4-1-4095ab7e2c14@yahoo.pl>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/5WOQQ6CMBBFr0K6dkxbEMGV9zAsShlgjG1JWxsJ4
+ e4CnsDlS17++wsL6AkDu2UL85gokLMbFKeM6VHZAYG6jZnksuQXIUFFZyhM4NG4hDCgRa8idqC
+ dMWgj8L6shex0pduKbTOTx54+R+LR/Di82yfquO/uxkghOj8fH1K+e3/kUg4C6mudcyxQaFXdZ
+ zU6d55erFnX9QuRrJYl4QAAAA==
+X-Change-ID: 20260512-atomisp-remove-generated-comment-0f6912dc8cb8
+To: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-staging@lists.linux.dev, 
+ Andy Shevchenko <andriy.shevchenko@intel.com>, 
+ Tomasz Unger <tomasz.unger@yahoo.pl>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1778614517; l=3940;
+ i=tomasz.unger@yahoo.pl; s=20260311; h=from:subject:message-id;
+ bh=SWcprvJI19SCcP7aeYTJ3NgcYp2vxGmrTPZCl7ZBcYE=;
+ b=tT12TQcSEVICjrlPkjrAVrp1L5v2MzL3nIRAQ5ojo9ioDLKeOQzD0reBUGi4b6R7+LXKB0FHl
+ nX0m7zyUhwsA1w48/rTwmmuv+VKxNyTLKA1jc556qFRm46yFvtLRA8l
+X-Developer-Key: i=tomasz.unger@yahoo.pl; a=ed25519;
+ pk=EPPsO91uz/0J2cTQ6ol+dgxYaieEc9dKSXWUb51n46c=
+References: <20260512-atomisp-remove-generated-comment-v4-1-4095ab7e2c14.ref@yahoo.pl>
 
-Change the indentation for function parameters to avoid a '(' at the end
-of the line.
+Remove the "Generated code: do not edit or commmit." comments and
+the resulting double blank lines from five files. This code is coupled
+with legacy firmware and will never be re-generated, so the comment
+is misleading and should be dropped entirely rather than having its
+typo fixed.
 
-This addresses the following checkpatch.pl check for csi_rx_private.h:
-CHECK: Lines should not end with a '('
-
-Signed-off-by: Jennifer Guo <guojy.bj@gmail.com>
+Suggested-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
 ---
- .../pci/css_2401_system/host/csi_rx_private.h | 51 ++++++++-----------
- 1 file changed, 21 insertions(+), 30 deletions(-)
+Changes in v4:
+- Fix Suggested-by tag attribution (Andy Shevchenko, not Dan Carpenter)
+- Add Reviewed-by from Andy Shevchenko
+- Link to v3: https://patch.msgid.link/20260512-atomisp-remove-generated-comment-v3-1-97930e4e1ca8@yahoo.pl
+---
+ drivers/staging/media/atomisp/pci/ia_css_isp_configs.c | 2 --
+ drivers/staging/media/atomisp/pci/ia_css_isp_params.c  | 1 -
+ drivers/staging/media/atomisp/pci/ia_css_isp_params.h  | 2 --
+ drivers/staging/media/atomisp/pci/ia_css_isp_states.c  | 1 -
+ drivers/staging/media/atomisp/pci/ia_css_isp_states.h  | 1 -
+ 5 files changed, 7 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/css_2401_system/host/csi_rx_private.h b/drivers/staging/media/atomisp/pci/css_2401_system/host/csi_rx_private.h
-index 989f55bec519..0b5a9d56bf98 100644
---- a/drivers/staging/media/atomisp/pci/css_2401_system/host/csi_rx_private.h
-+++ b/drivers/staging/media/atomisp/pci/css_2401_system/host/csi_rx_private.h
-@@ -25,9 +25,8 @@
-  * @brief Load the register value.
-  * Refer to "csi_rx_public.h" for details.
+diff --git a/drivers/staging/media/atomisp/pci/ia_css_isp_configs.c b/drivers/staging/media/atomisp/pci/ia_css_isp_configs.c
+index 38c9c62366d6..c33d963d9069 100644
+--- a/drivers/staging/media/atomisp/pci/ia_css_isp_configs.c
++++ b/drivers/staging/media/atomisp/pci/ia_css_isp_configs.c
+@@ -4,8 +4,6 @@
+  * Copyright (c) 2015, Intel Corporation.
   */
--static inline hrt_data csi_rx_fe_ctrl_reg_load(
--    const csi_rx_frontend_ID_t ID,
--    const hrt_address reg)
-+static inline hrt_data csi_rx_fe_ctrl_reg_load(const csi_rx_frontend_ID_t ID,
-+					       const hrt_address reg)
- {
- 	assert(ID < N_CSI_RX_FRONTEND_ID);
- 	assert(CSI_RX_FE_CTRL_BASE[ID] != (hrt_address)-1);
-@@ -39,10 +38,9 @@ static inline hrt_data csi_rx_fe_ctrl_reg_load(
-  * @brief Store a value to the register.
-  * Refer to "ibuf_ctrl_public.h" for details.
-  */
--static inline void csi_rx_fe_ctrl_reg_store(
--    const csi_rx_frontend_ID_t ID,
--    const hrt_address reg,
--    const hrt_data value)
-+static inline void csi_rx_fe_ctrl_reg_store(const csi_rx_frontend_ID_t ID,
-+					    const hrt_address reg,
-+					    const hrt_data value)
- {
- 	assert(ID < N_CSI_RX_FRONTEND_ID);
- 	assert(CSI_RX_FE_CTRL_BASE[ID] != (hrt_address)-1);
-@@ -55,9 +53,8 @@ static inline void csi_rx_fe_ctrl_reg_store(
-  * @brief Load the register value.
-  * Refer to "csi_rx_public.h" for details.
-  */
--static inline hrt_data csi_rx_be_ctrl_reg_load(
--    const csi_rx_backend_ID_t ID,
--    const hrt_address reg)
-+static inline hrt_data csi_rx_be_ctrl_reg_load(const csi_rx_backend_ID_t ID,
-+					       const hrt_address reg)
- {
- 	assert(ID < N_CSI_RX_BACKEND_ID);
- 	assert(CSI_RX_BE_CTRL_BASE[ID] != (hrt_address)-1);
-@@ -69,10 +66,9 @@ static inline hrt_data csi_rx_be_ctrl_reg_load(
-  * @brief Store a value to the register.
-  * Refer to "ibuf_ctrl_public.h" for details.
-  */
--static inline void csi_rx_be_ctrl_reg_store(
--    const csi_rx_backend_ID_t ID,
--    const hrt_address reg,
--    const hrt_data value)
-+static inline void csi_rx_be_ctrl_reg_store(const csi_rx_backend_ID_t ID,
-+					    const hrt_address reg,
-+					    const hrt_data value)
- {
- 	assert(ID < N_CSI_RX_BACKEND_ID);
- 	assert(CSI_RX_BE_CTRL_BASE[ID] != (hrt_address)-1);
-@@ -92,10 +88,9 @@ static inline void csi_rx_be_ctrl_reg_store(
-  * @brief Get the state of the csi rx fe dlane process.
-  * Refer to "csi_rx_public.h" for details.
-  */
--static inline void csi_rx_fe_ctrl_get_dlane_state(
--    const csi_rx_frontend_ID_t ID,
--    const u32 lane,
--    csi_rx_fe_ctrl_lane_t *dlane_state)
-+static inline void
-+csi_rx_fe_ctrl_get_dlane_state(const csi_rx_frontend_ID_t ID, const u32 lane,
-+			       csi_rx_fe_ctrl_lane_t *dlane_state)
- {
- 	dlane_state->termen =
- 	    csi_rx_fe_ctrl_reg_load(ID, _HRT_CSI_RX_DLY_CNT_TERMEN_DLANE_REG_IDX(lane));
-@@ -107,9 +102,8 @@ static inline void csi_rx_fe_ctrl_get_dlane_state(
-  * @brief Get the csi rx fe state.
-  * Refer to "csi_rx_public.h" for details.
-  */
--static inline void csi_rx_fe_ctrl_get_state(
--    const csi_rx_frontend_ID_t ID,
--    csi_rx_fe_ctrl_state_t *state)
-+static inline void csi_rx_fe_ctrl_get_state(const csi_rx_frontend_ID_t ID,
-+					    csi_rx_fe_ctrl_state_t *state)
- {
- 	u32 i;
  
-@@ -146,9 +140,8 @@ static inline void csi_rx_fe_ctrl_get_state(
-  * @brief dump the csi rx fe state.
-  * Refer to "csi_rx_public.h" for details.
-  */
--static inline void csi_rx_fe_ctrl_dump_state(
--    const csi_rx_frontend_ID_t ID,
--    csi_rx_fe_ctrl_state_t *state)
-+static inline void csi_rx_fe_ctrl_dump_state(const csi_rx_frontend_ID_t ID,
-+					     csi_rx_fe_ctrl_state_t *state)
- {
- 	u32 i;
+-/* Generated code: do not edit or commmit. */
+-
+ #define IA_CSS_INCLUDE_CONFIGURATIONS
+ #include "ia_css_pipeline.h"
+ #include "ia_css_isp_configs.h"
+diff --git a/drivers/staging/media/atomisp/pci/ia_css_isp_params.c b/drivers/staging/media/atomisp/pci/ia_css_isp_params.c
+index 1cd3322b0da0..96af15f62060 100644
+--- a/drivers/staging/media/atomisp/pci/ia_css_isp_params.c
++++ b/drivers/staging/media/atomisp/pci/ia_css_isp_params.c
+@@ -48,7 +48,6 @@
+ #include "isp/kernels/eed1_8/ia_css_eed1_8.host.h"
+ #include "isp/kernels/bnlm/ia_css_bnlm.host.h"
+ #include "isp/kernels/conversion/conversion_1.0/ia_css_conversion.host.h"
+-/* Generated code: do not edit or commmit. */
  
-@@ -184,9 +177,8 @@ static inline void csi_rx_fe_ctrl_dump_state(
-  * @brief Get the csi rx be state.
-  * Refer to "csi_rx_public.h" for details.
+ #include "ia_css_pipeline.h"
+ #include "ia_css_isp_params.h"
+diff --git a/drivers/staging/media/atomisp/pci/ia_css_isp_params.h b/drivers/staging/media/atomisp/pci/ia_css_isp_params.h
+index a542f8979905..40ef6e35c30d 100644
+--- a/drivers/staging/media/atomisp/pci/ia_css_isp_params.h
++++ b/drivers/staging/media/atomisp/pci/ia_css_isp_params.h
+@@ -4,8 +4,6 @@
+  * Copyright (c) 2015, Intel Corporation.
   */
--static inline void csi_rx_be_ctrl_get_state(
--    const csi_rx_backend_ID_t ID,
--    csi_rx_be_ctrl_state_t *state)
-+static inline void csi_rx_be_ctrl_get_state(const csi_rx_backend_ID_t ID,
-+					    csi_rx_be_ctrl_state_t *state)
- {
- 	u32 i;
  
-@@ -247,9 +239,8 @@ static inline void csi_rx_be_ctrl_get_state(
-  * @brief Dump the csi rx be state.
-  * Refer to "csi_rx_public.h" for details.
+-/* Generated code: do not edit or commmit. */
+-
+ #ifndef _IA_CSS_ISP_PARAM_H
+ #define _IA_CSS_ISP_PARAM_H
+ 
+diff --git a/drivers/staging/media/atomisp/pci/ia_css_isp_states.c b/drivers/staging/media/atomisp/pci/ia_css_isp_states.c
+index af1765040464..1ea71477e774 100644
+--- a/drivers/staging/media/atomisp/pci/ia_css_isp_states.c
++++ b/drivers/staging/media/atomisp/pci/ia_css_isp_states.c
+@@ -3,7 +3,6 @@
+  * Support for Intel Camera Imaging ISP subsystem.
+  * Copyright (c) 2015, Intel Corporation.
   */
--static inline void csi_rx_be_ctrl_dump_state(
--    const csi_rx_backend_ID_t ID,
--    csi_rx_be_ctrl_state_t *state)
-+static inline void csi_rx_be_ctrl_dump_state(const csi_rx_backend_ID_t ID,
-+					     csi_rx_be_ctrl_state_t *state)
- {
- 	u32 i;
+-/* Generated code: do not edit or commmit. */
  
--- 
-2.34.1
+ #include "ia_css_pipeline.h"
+ #include "ia_css_isp_states.h"
+diff --git a/drivers/staging/media/atomisp/pci/ia_css_isp_states.h b/drivers/staging/media/atomisp/pci/ia_css_isp_states.h
+index d637ea1d13f6..5bd1d4ae1fe4 100644
+--- a/drivers/staging/media/atomisp/pci/ia_css_isp_states.h
++++ b/drivers/staging/media/atomisp/pci/ia_css_isp_states.h
+@@ -15,7 +15,6 @@
+ #include "isp/kernels/ynr/ynr_1.0/ia_css_ynr.host.h"
+ #include "isp/kernels/dpc2/ia_css_dpc2.host.h"
+ #include "isp/kernels/eed1_8/ia_css_eed1_8.host.h"
+-/* Generated code: do not edit or commmit. */
+ 
+ #ifndef _IA_CSS_ISP_STATE_H
+ #define _IA_CSS_ISP_STATE_H
+
+---
+base-commit: 6abf0b2df0b1c2205a4c0591425e6461afa62edb
+change-id: 20260512-atomisp-remove-generated-comment-0f6912dc8cb8
+
+Best regards,
+--  
+Tomasz Unger <tomasz.unger@yahoo.pl>
 
