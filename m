@@ -1,47 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0B193A59A7;
-	Tue, 12 May 2026 16:04:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3295C320CAD;
+	Tue, 12 May 2026 16:07:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778601895; cv=none; b=t5uHkXhcVBFXJm2FeZHgCyBzcOPbFb4kERazlcY3YppZGCXTr4XE6cP28+y1QJ3D1ufYhIpObh2wViMcZGG+w+NIj4RfLKaYi+j5PHoxIx+2JYgw3gQx2p/DRaruxzvtDZWTxUNOMPWnlPE+X6+rSfkjCFgYHaBzN878mkM7Xlc=
+	t=1778602060; cv=none; b=uUWG3TltRHmet8zueA6eXP37c8hpYSG2RnQoGDkBKg4q/UUF/VNw6LOwet9Kuwccg0IrNuhGCeZgnMROhHWLInl7X0L9rpS+KYfYrR8WF0L6fJ/dovV9Y37DB1xMXbOzccNuGtdsQjNkynKqzUNtniwXotRuKF4XpA/6Qk3gQUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778601895; c=relaxed/simple;
-	bh=yNslzli12YKyZvlTHWY9UvoN4jJ9sdRDmcEAHEZTQQ0=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=q38/b8T938GxbxpA/vUzixQzmrrgeK8dArBARWUarwUyGgS6/mdE+Eo8r+uxAo2c76UMGbH+0d66KqYyWbQCd/8fgWu412IpoCCqWfnCha2vxZXAiKL6CcecSq+kksUhm7I9AhRp/7Pre6sEqT2uTndafmffvUEqJVqKsSf37FY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rvtoakmb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778602060; c=relaxed/simple;
+	bh=A3AZ3UwRROF1/9EvAFuMvm52ozhwNC0d0HbbzFf9W1o=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ngcNXDVaYtmRAAa9nxPFYHNPXARIPRx2fH3Jvpzs/ceH+hdLRUrd4jon37nhXF8PX7XLVXqIaEXMkkyktn7nrgJnmG8BR8edsdGzlxgHjhDkIxU22vnSQmK5qekSbKCpx4NzHr3aV2ws8DpoWrf2ecDhfczoYxoqJp0X8DRYdTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VQavlAHc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rvtoakmb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E61AC2BCB0;
-	Tue, 12 May 2026 16:04:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VQavlAHc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60BCCC2BCB0;
+	Tue, 12 May 2026 16:07:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778601895;
-	bh=yNslzli12YKyZvlTHWY9UvoN4jJ9sdRDmcEAHEZTQQ0=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=Rvtoakmb0htAdo8CaX4xrzAbM8hNYEEz/rLZWgwEdvN8mYD+fJuxiqRV+mKAf0URC
-	 KtSOqk1VeAwcBMoXShBGQJraFn3cLRADuvh+XgwMEeX/vOFrL7636Gq0p1rsA0AkU6
-	 guhdqOjGfJUp4mw0eRN8SrovG5TQePor5nXmqc7yHnB/9NAbu24YRLYT9ffLXbMGIs
-	 ObLcTsT+jTSD3VJew+bWvotIn1Vh0dshpQ44Oh4kZfTYa6L0Qb+oF+dxNa5N4BKnY9
-	 Mm017n3Jx/j+ElLTvwaBtcc51UizLCSONG4bYDbpWqnUdIXztV+TvMYixhYpmAgq+N
-	 XTj2YaNC6yaBQ==
-Date: Tue, 12 May 2026 18:04:52 +0200 (CEST)
-From: Jiri Kosina <jikos@kernel.org>
-To: Benjamin Tissoires <bentiss@kernel.org>
-cc: =?ISO-8859-15?Q?Filipe_La=EDns?= <lains@riseup.net>, 
-    Bastien Nocera <hadess@hadess.net>, Ping Cheng <ping.cheng@wacom.com>, 
-    Jason Gerecke <jason.gerecke@wacom.com>, Viresh Kumar <vireshk@kernel.org>, 
-    Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, 
-    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-    Lee Jones <lee@kernel.org>, Icenowy Zheng <uwu@icenowy.me>, 
-    linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-    greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, 
-    linux-usb@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v3 0/4] HID: Proper fix for OOM in hid-core
-In-Reply-To: <20260504-wip-fix-core-v3-0-ce1f11f4968f@kernel.org>
-Message-ID: <op9823q8-55ss-91s3-7690-q5prq170s265@xreary.bet>
-References: <20260504-wip-fix-core-v3-0-ce1f11f4968f@kernel.org>
+	s=k20201202; t=1778602059;
+	bh=A3AZ3UwRROF1/9EvAFuMvm52ozhwNC0d0HbbzFf9W1o=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=VQavlAHcGm5fGKNN5D3GI0FxzIkspSiLci0O/f+WeBNTGqtlGuXLzBOXG4W+8d0ue
+	 DMyMCfrffzBLG+sWDnTP+FLQBM6wkLD0kq2WFAPmWNkm/8MV+FkgFcL4aRXlGtDWz5
+	 zikTbvgK9k/ZwMy23R9XFk816mR//6He4Z1OmxStdpffRabv5tzlywsNzYeh/0dQKL
+	 UvGy+qv2HiL7m4wmiK2FNBy2ta+UCtNl3RyGpTxtxjxDZDKrZCiPUL8ZJoci712Y9N
+	 pbp3fqYs0FFoEa1CJYwevw/wwYmw5GlVFrxKmKE78MSmBpv46yopoSVP5/l02pL/16
+	 3eHvvWbs38lmg==
+Date: Tue, 12 May 2026 17:07:29 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Hungyu Lin <dennylin0707@gmail.com>
+Cc: lars@metafoo.de, Michael.Hennerich@analog.com,
+ gregkh@linuxfoundation.org, dlechner@baylibre.com, nuno.sa@analog.com,
+ andy@kernel.org, m32285159@gmail.com, linux-iio@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Andy
+ Shevchenko <andriy.shevchenko@intel.com>
+Subject: Re: [PATCH v4] staging: iio: addac: adt7316: document SPI interface
+ switching sequence
+Message-ID: <20260512170722.73bd4b5f@jic23-huawei>
+In-Reply-To: <20260511140641.86389-1-dennylin0707@gmail.com>
+References: <20260511140641.86389-1-dennylin0707@gmail.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -49,50 +47,28 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, 4 May 2026, Benjamin Tissoires wrote:
+On Mon, 11 May 2026 14:06:41 +0000
+Hungyu Lin <dennylin0707@gmail.com> wrote:
 
-> Commit 0a3fe972a7cb ("HID: core: Mitigate potential OOB by removing
-> bogus memset()") enforced the provided data to be at least the size of
-> the declared buffer in the report descriptor to prevent a buffer
-> overflow.
+> The device powers up in I2C mode. Switching to SPI mode
+> requires sending a sequence of SPI writes as described in
+> the datasheet.
 > 
-> We only had corner cases of malicious devices exposing the OOM because
-> in most cases, the buffer provided by the transport layer needs to be
-> allocated at probe time and is large enough to handle all the possible
-> reports.
+> During this sequence, the device may still be in I2C mode,
+> so SPI transactions may not be recognized and can fail.
+> Such errors are therefore ignored.
 > 
-> However, the patch from above, which enforces the spec a little bit more
-> introduced both regressions for devices not following the spec (not
-> necesserally malicious), but also a stream of errors for those devices.
+> Add a comment to clarify this behavior.
 > 
-> Let's revert to the old behavior by giving more information to HID core
-> to be able to decide whether it can or not memset the rest of the buffer
-> to 0 and continue the processing.
-> 
-> Note that the first commit makes an API change, but the callers are
-> relatively limited, so it should be fine on its own. The second patch
-> can't really make the same kind of API change because we have too many
-> callers in various subsystems. We can switch them one by one to the safe
-> approach when needed.
-> 
-> The last 2 patches are small cleanups I initially put together with the
-> 2 first patches, but they can be applied on their own and don't need to
-> be pulled in stable like the first 2.
-> 
-> Cheers,
-> Benjamin
-> 
-> Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+> Datasheet: https://www.analog.com/en/products/adt7316.html
+> Reviewed-by: Maxwell Doose <m32285159@gmail.com>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+> Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
 
-I have now queued the first two in hid.git#for-7.1/upstream-fixes.
+Applied!
 
-I expect the remaining two will be applied once respun with Dmitry's 
-suggestion on proper guarding.
+Thanks
 
-Thanks,
-
--- 
-Jiri Kosina
-SUSE Labs
-
+Jonathan
