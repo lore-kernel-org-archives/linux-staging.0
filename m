@@ -1,166 +1,117 @@
-Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com [95.215.58.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACB193A7832
-	for <linux-staging@lists.linux.dev>; Wed, 13 May 2026 18:19:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.177
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778696377; cv=none; b=XlFtVJV4Ps9ZYdjXAs5yRN8fImfM8HCkxI0mJaqH9NAAcBhtLbLuhKOy8Q91x6BH1IKj+9e+77jrBameSECqcY5Ed92B6ARh8fnIXyE3DydbCXWoNGIrxl5XfvpMaXGfjjoGgOg2k4JqbxEGbpTzb3dJKN7oIiP+Bb3ticj2TAo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778696377; c=relaxed/simple;
-	bh=SqDUWOcGg1DOG4eUjn40UHul3iQc8hPYMTUPRK26v3Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ugx9Nzgm+W73sTOHAZ7DqvGu6C50jz+TwEtfwaH3XwmPtMJQj8xepZCgpZZTWdF1hBQSiD9uduL2R7gqFo5KoBafNnylgzqBnkJpWcEMeJp9OxX+XmpMwyhNr9pLtpesrGGmcWaWwcv5FAXlQJ2ie+LTWJ2/b/GPV/g1BsEIF/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=htpyC556; arc=none smtp.client-ip=95.215.58.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 252323A426D
+	for <linux-staging@lists.linux.dev>; Wed, 13 May 2026 19:55:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778702140; cv=pass; b=L/GVU1P11dBlSAaJN5zTbVstKEP+I2BZylndU4f6ljVHQ1m0qDy8Ha7guWnal1i0NgZkutJMzZIIF+a8CiiVvNhcJ5XBTkIVzj87ln6CzwRnVdRNXBLHHRmN52grPz8mDaztXf7cvcCgPifehxNUeKoLGBjSzSO37BkwHpJ9cMw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778702140; c=relaxed/simple;
+	bh=WcWio7mgXRUVAYpzCib9WcVF//wmjkBti/gng1GlHL4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PCZJjMN+lwSzqUVlXU99bZZdubPUsazDbcMb5TsmxHIQaGxJFtBfHmqWECCYiFqFW9JxqDPBHRLN32UDrh1N3Y9ORXIY/nvAYTDbKTUC1P0BWYcGTD1otO3WTA/9jAECCGZoydASvCSAUhnN0Jldsd6KsHKs77K/+x3FdMR/4Fk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pJw3TGzg; arc=pass smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="htpyC556"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1778696362;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=duqhmHkP8CnjyuzNSByI4zMgLaDiBfY8Brm9nHr4YjQ=;
-	b=htpyC556PcUJy2nSSjLWiV0n3vFFgZ0V1IIgR0H9tWyAUPxXKjUHTnxsUJyZukHvNPNWnB
-	68rQYgEEtZP++jErvLlDcfdBFOVkfPPtzru+YxPJeH53+psZ/O5o3mlo9lNR19FyCPZ2Ps
-	aeq3MabgSlPjfcUPy/lkaf8a4Q8bLn4=
-From: luka.gejak@linux.dev
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Luka Gejak <luka.gejak@linux.dev>,
-	stable@vger.kernel.org
-Subject: [PATCH v5] staging: rtl8723bs: fix remote heap info disclosure and OOB reads
-Date: Wed, 13 May 2026 20:18:42 +0200
-Message-ID: <20260513181842.17480-1-luka.gejak@linux.dev>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pJw3TGzg"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-bd124546379so520629066b.3
+        for <linux-staging@lists.linux.dev>; Wed, 13 May 2026 12:55:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778702137; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Flrl5MzpV/0kb3x5yIxmtHXrCzaTzty9FHURMemVHk/xrqEEP+XkPhNV4oAm3XYCnA
+         CMQY1Lf8+PdN/uhihY5WxNsBzgkFK5jFMSGPTutxs3ljpds7L3IZwF6sNrEw+0u84uf/
+         14fDXEErPY1Q9swBLgDH7TpTS1qLGAArpepKLMHKUnPMKg0YEabaOPK8Yo9VICBt+XMq
+         s/vE6DbQU8dPgyz5JQ7nNAj55o2rKejT9wW5WuThkcrhsaj/B29J3RnzyWUj+KRzf/Ww
+         JRQtUlqjAK3NQGtNuFh0yQGjeQme7FpQXR/Iz5lf1fjLgkwRNhZF1GUKlrTimF9E6iiN
+         SaRQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=822c3uVxAqn4jqapQ1Rlah50pmYeZWCyU1NZmpi0pUY=;
+        fh=Xayhns+GAQSODepoNnkEfPJG9gqSQ0iI5xw0A/iTFV0=;
+        b=DL6KUqHndqgq6c8dyS0OLnSkBmzr8lC8Re4aK/ZmUAqZCG22CWT5mx8uIDScT9CjdA
+         RA9IpV6HIgV6dgHf4NngPoCK7P9/5o217FkYkVgdH7JXq+SFnUV7TOI/cRAlgxjccbrR
+         FIMRcgthHRCwW2Lk1/VLAH96ADEykkbCM1ISrpbU9i81es67+BGmdwRICC2Lhdz3Tz1Z
+         ospmQA2DFXa4D5Qg/Z8C8TSCjIrYfqnekF+gEJa8G54Si3CyFdIAizIk9ltkUj+9cm70
+         YUfU8tG59eymS/8YxOdT0/bJ7PTOBJKQC8QvwdqfBZOWv7dg4L9ZKnSS7dUj9gY/OS93
+         sDpg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778702137; x=1779306937; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=822c3uVxAqn4jqapQ1Rlah50pmYeZWCyU1NZmpi0pUY=;
+        b=pJw3TGzgUDYpZ6+g6Y5Qv1wXo5OdXHGQeDdt16g4y5HQ1/O16zaTLJWQyoTEG6tPRs
+         rErgjAFFjG8y7ACFGzHPW3/05uzMEHlFrfpqbh2Dv5Y3kN1fPkuJ4TOWD55QYgXUnbRO
+         Mrw/aHjAxqafdHhzlZuzOg2kS7Axgxhw1BLni7eK7hBKbEgSn9JNFIx+I/HVFeKdIm/G
+         TfWBTl1CKCNIdLsf9JFQJ2b15qvDRKjUuQJMggr/h03uTcTK1JkwEAfvNced9TRB43E5
+         kwyvhZIwOAYL8/MNm6pQbiocNd8QOrywJaRMz2qXuIxIEcccgKsdbSHfEbYFdPIEPsgb
+         YH5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778702137; x=1779306937;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=822c3uVxAqn4jqapQ1Rlah50pmYeZWCyU1NZmpi0pUY=;
+        b=QVhtJZC9vAQUvBZDa9UYzSaYErfoPKbWgRq9JmFnYlcNyt9I4m5hELwa4rPxHmMXXN
+         5p2Nop7yODqKQAAxaRwwkgkqrpu1lKD1SduotYpJRFQ14F/hqMYkF4a5E4xvE9eQ7jxs
+         sHCMLH911aWJKvZpMih1M0sgdKDFc9d/ntiexWry5T4nCgvqJVZmGreOx/QtCo1NTGy2
+         zvMagRe6dVrypulAua8oGhOsAxiLAJONBJ6nYpnUqdAOdA+Ca7oa1RWjjy7HKmwRpbK8
+         krssgJ8hC54B18wFG9PWtWBUVdxkGv5DJNQMSDtsRMi/ItvWECGsPzIv+0Roc+iEOhFU
+         qzpA==
+X-Forwarded-Encrypted: i=1; AFNElJ/dUo1xqPupCwBcYhK+ylW0+HXmovi/AZhhKyRRBnfepIEFlr6ZIdI1I2wZzFj9wgk0gyYbnMwuG18UQ9am@lists.linux.dev
+X-Gm-Message-State: AOJu0YxKe/uPzxlhfStUfjmjX9dIeg38ug0GoAAWdrMvvdFuQfLd/9u1
+	/hcbiuO/8BgF9AlzNqQvePldVWYzCHNBhGzcx3xZl/ZOd35JPei0Ga2R1kK1OJgUSXXUsl8c/Sa
+	ADSG4QAlYZp2ImVWwEzLEuApwN1yAjfE=
+X-Gm-Gg: Acq92OHCzyeZQ3Y4/phPsAV/8j9mfb4QVhq0/0o4MnjixY1d6q5L6lW/EMIWf56T9Fi
+	8JzdONrMnGd3GJuf5CZzi2HkNqrLzxYYkTqKxcQ93n1eK0BRuXHXMfRE/HwjrfLf9YkPMYyPsZN
+	MmwoGVhM3dsWqafQs6J1noAQy9dOAERPuPKunHzZzhn9ulabWPLCMFccqVztlBGyhhDZJeZuCfk
+	QCWd01+GcsSYogESaSUDMnPb0u2W5kyAW5ZS7caxptqCZ/gpv7M5EUB35uJG7KEwR3CwCoz+jWH
+	HheyAoY5xvv1dQI/EG64RvFa9wzuZEqmv7TFlLcRs3StTqIIcU01QSOL16PAuddUl12ulfe10GG
+	t9zn44oXI4Ok+pH83XQ==
+X-Received: by 2002:a17:906:7945:b0:ba6:8f34:b419 with SMTP id
+ a640c23a62f3a-bd3dfc6cea8mr288622466b.13.1778702137270; Wed, 13 May 2026
+ 12:55:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+References: <20260513170413.58469-1-igorpetindev@gmail.com>
+In-Reply-To: <20260513170413.58469-1-igorpetindev@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Wed, 13 May 2026 22:55:01 +0300
+X-Gm-Features: AVHnY4KTHQag2G4g38UzEExnxRw-lvkXriTG6I3lrf3pzMt1lNqsyn2RTcgnr2Y
+Message-ID: <CAHp75VfDXdRTk41tgdEjmaPYUGCKh8L5CtWo=KKUKQhcg3pAVg@mail.gmail.com>
+Subject: Re: [PATCH v2] staging: media: atomisp: fix trailing statements in input_system.c
+To: IgorpetinDev <igorpetindev@gmail.com>
+Cc: hansg@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org, 
+	sakari.ailus@linux.intel.com, andy@kernel.org, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Luka Gejak <luka.gejak@linux.dev>
+On Wed, May 13, 2026 at 8:04=E2=80=AFPM IgorpetinDev <igorpetindev@gmail.co=
+m> wrote:
 
-When building an association request frame, the driver iterates over
-the ies received from the ap. In three places, the driver trusts the
-attacker-controlled pIE->length without validating that it meets the
-minimum expected size for the respective ie.
+Missed commit message is a big red flag.
+So, no, thanks. We may not accept this.
 
-For WLAN_EID_HT_CAPABILITY, this causes an oob read of adjacent heap
-memory which is then transmitted over the air (remote heap information
-disclosure). For WLAN_EID_VENDOR_SPECIFIC, it causes two separate oob
-reads: one when checking the 4-byte oui, and another when copying the
-14-byte wps ie.
+> Signed-off-by: IgorpetinDev <igorpetindev@gmail.com>
 
-Fix these issues by adding upper-bound checks at the start of the loop
-to ensure the ie fits within the buffer, and explicit lower-bound
-checks to return a failure if the length is insufficient. For
-HT_CAPABILITY, also clamp the length passed to rtw_set_ie() to the
-struct size.
+Also you need to use a real name and not an alias.
 
-Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Luka Gejak <luka.gejak@linux.dev>
----
-Changes in v5:
- - Address shamiko comments.
- 
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 32 ++++++++++++++++++-
- .../staging/rtl8723bs/core/rtw_wlan_util.c    |  6 ++++
- 2 files changed, 37 insertions(+), 1 deletion(-)
+>  .../hive_isp_css_common/host/input_system.c    | 18 ++++++++++++------
+>  1 file changed, 12 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index cfd3eb253350..e448a814eb1c 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -2862,6 +2862,9 @@ void issue_assocreq(struct adapter *padapter)
- 		if (pmlmeinfo->network.supported_rates[i] == 0)
- 			break;
- 
-+		if (index >= NumRates)
-+			break;
-+
- 		/*  Check if the AP's supported rates are also supported by STA. */
- 		for (j = 0; j < sta_bssrate_len; j++) {
- 			 /*  Avoid the proprietary data rate (22Mbps) of Handlink WSG-4000 AP */
-@@ -2891,10 +2894,25 @@ void issue_assocreq(struct adapter *padapter)
- 
- 	/* vendor specific IE, such as WPA, WMM, WPS */
- 	for (i = sizeof(struct ndis_802_11_fix_ie); i < pmlmeinfo->network.ie_length;) {
-+		if (i + 2 > pmlmeinfo->network.ie_length) {
-+			rtw_free_xmitbuf(pxmitpriv, pmgntframe->pxmitbuf);
-+			rtw_free_xmitframe(pxmitpriv, pmgntframe);
-+			goto exit;
-+		}
-+
- 		pIE = (struct ndis_80211_var_ie *)(pmlmeinfo->network.ies + i);
- 
-+		if (pIE->length > pmlmeinfo->network.ie_length - i - 2) {
-+			rtw_free_xmitbuf(pxmitpriv, pmgntframe->pxmitbuf);
-+			rtw_free_xmitframe(pxmitpriv, pmgntframe);
-+			goto exit;
-+		}
-+
- 		switch (pIE->element_id) {
- 		case WLAN_EID_VENDOR_SPECIFIC:
-+			if (pIE->length < 4)
-+				goto exit;
-+
- 			if ((!memcmp(pIE->data, RTW_WPA_OUI, 4)) ||
- 					(!memcmp(pIE->data, WMM_OUI, 4)) ||
- 					(!memcmp(pIE->data, WPS_OUI, 4))) {
-@@ -2906,6 +2924,9 @@ void issue_assocreq(struct adapter *padapter)
- 					 * extensions information to AP
- 					 */
- 
-+					if (pIE->length < 14)
-+						goto exit;
-+
- 					vs_ie_length = 14;
- 				}
- 
-@@ -2919,8 +2940,17 @@ void issue_assocreq(struct adapter *padapter)
- 		case WLAN_EID_HT_CAPABILITY:
- 			if (padapter->mlmepriv.htpriv.ht_option) {
- 				if (!(is_ap_in_tkip(padapter))) {
-+					if (pIE->length < sizeof(struct HT_caps_element)) {
-+						rtw_free_xmitbuf(pxmitpriv, pmgntframe->pxmitbuf);
-+						rtw_free_xmitframe(pxmitpriv, pmgntframe);
-+						goto exit;
-+					}
-+
- 					memcpy(&(pmlmeinfo->HT_caps), pIE->data, sizeof(struct HT_caps_element));
--					pframe = rtw_set_ie(pframe, WLAN_EID_HT_CAPABILITY, pIE->length, (u8 *)(&(pmlmeinfo->HT_caps)), &(pattrib->pktlen));
-+					pframe = rtw_set_ie(pframe, WLAN_EID_HT_CAPABILITY,
-+							    sizeof(struct HT_caps_element),
-+							    (u8 *)&pmlmeinfo->HT_caps,
-+							    &pattrib->pktlen);
- 				}
- 			}
- 			break;
-diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-index cc1a7497764c..dc4abef3a7b8 100644
---- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-@@ -1327,8 +1327,14 @@ unsigned int is_ap_in_tkip(struct adapter *padapter)
- 
- 	if (rtw_get_capability((struct wlan_bssid_ex *)cur_network) & WLAN_CAPABILITY_PRIVACY) {
- 		for (i = sizeof(struct ndis_802_11_fix_ie); i < pmlmeinfo->network.ie_length;) {
-+			if (i + 2 > pmlmeinfo->network.ie_length)
-+				return false;
-+
- 			pIE = (struct ndis_80211_var_ie *)(pmlmeinfo->network.ies + i);
- 
-+			if (pIE->length > pmlmeinfo->network.ie_length - i - 2)
-+				return false;
-+
- 			switch (pIE->element_id) {
- 			case WLAN_EID_VENDOR_SPECIFIC:
- 				if ((!memcmp(pIE->data, RTW_WPA_OUI, 4)) && (!memcmp((pIE->data + 12), WPA_TKIP_CIPHER, 4)))
--- 
-2.54.0
+In the entire almost 100kLoC driver this is the only file with such a probl=
+em?
 
+--=20
+With Best Regards,
+Andy Shevchenko
