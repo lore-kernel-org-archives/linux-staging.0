@@ -1,71 +1,75 @@
-Received: from mail-dy1-f194.google.com (mail-dy1-f194.google.com [74.125.82.194])
+Received: from mail-dy1-f193.google.com (mail-dy1-f193.google.com [74.125.82.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C8E6379C3B
-	for <linux-staging@lists.linux.dev>; Wed, 13 May 2026 21:37:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B2E33BB123
+	for <linux-staging@lists.linux.dev>; Wed, 13 May 2026 21:37:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778708253; cv=none; b=XIocgABnEFvcVLWx60kEH2CMun1wg/UcSFOWz7ZS/nnOlqMPaO5P3mAT2GhMx2iN55lfh7jNaqEaXIc8BwlWyCB5jXi4nnI/IFWk7dncULfmcA1xor60gAlIUJNdGnTr3SSReIHEtL5/vliLN/r+McGIQJAHoLJl1loEedm6xzE=
+	t=1778708254; cv=none; b=c1MA57yxPjhO0GsKSJXb+MxEusL3LV+8aYBZqtjrg01ewP9NEdx2EyG0Af/hFktTjRQe7I/f/xFSgqrau3ZTzWBEz9S6AvTsedaUAUtHDXibsl5ZsOHW+Jbl2vyr3BxT55jDC1KWeJ02VetuC6y1SJK1PYRWUIOKHL5xF5kQ9dA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778708253; c=relaxed/simple;
-	bh=Gva0dW0irEQ3Mstyu8dG3k4pu01rO2oytyuG7pOORdg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=B20OINj4nV12PWiFzsrHFVeSI8gbA+PxPv7jn9fWztMmUvGJP7QbpqktLCzL8YUE0mK9r4gA/UJvLr87KN340T5Uia0xcSLqT03d5L4FdS+YjCJo4FBBeWEjcQOjIZ5MnMlJRdgA5KFCILYum7CuCmIlxwVwAIYXL7Q+l3eWg2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nMAvFTkm; arc=none smtp.client-ip=74.125.82.194
+	s=arc-20240116; t=1778708254; c=relaxed/simple;
+	bh=PcpcQkXViZhUKZA+2YXsPoC9d9V56U/9nIYtS4ld5OM=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=Ei2WIpkSLrHr41/g9hEfqwWExGsb+IaTEYJxvxPxjf4dLJ4XZREFIGBE4KdGBRyiVNs6wu+upS6bXR2nol9XdNOXo9gEvYvdVLNY0aMsfOw86VwJ1JJukgKpXdXExnREhLV7NqYuJY2nLJk3fWw031MIeEu8LmGBIROkPbrQFWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cg7tVyj8; arc=none smtp.client-ip=74.125.82.193
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nMAvFTkm"
-Received: by mail-dy1-f194.google.com with SMTP id 5a478bee46e88-2f68f3b075fso10296828eec.0
-        for <linux-staging@lists.linux.dev>; Wed, 13 May 2026 14:37:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cg7tVyj8"
+Received: by mail-dy1-f193.google.com with SMTP id 5a478bee46e88-2f3c623322bso12277427eec.0
+        for <linux-staging@lists.linux.dev>; Wed, 13 May 2026 14:37:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778708252; x=1779313052; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SZw3FUsMo1VsiZYfbmopRCv0gpePoifdx2CirCGGWbc=;
-        b=nMAvFTkmEsjm0nDzjZ67bCxrS/wjraXgLqxRTffCLQwY3Ug79grNeHLIOGajlzJMwR
-         88a7YD2+hDeEut+332qIHk9SQ3kKrbHNsx6LZkq8ExnFj0t7Lw29Xl1BBNwwmHz0E0/3
-         92k94R148BnqMXr1WMdhLBfxY5txbYPbptM1VcqHmM0uTF1nPh24UkxkfImKWx/K4WUV
-         0AAV6XcXmbWMBZcOlRkUIgo3deTml9tW4DX5tvy4o1LtNgBSuWK/RDvyRuUJ+duyqUcf
-         srsCnijFluYuGsHFGTKSBtYJOlJm1vo3GHbMn7jhhzFVS9Wop6+TR96omkEXX8wFZ+gp
-         3vaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778708252; x=1779313052;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1778708253; x=1779313053; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=SZw3FUsMo1VsiZYfbmopRCv0gpePoifdx2CirCGGWbc=;
-        b=Kas2N7KlyZYJ+gzG4OZvvncB4A5cDSELSbAqW36cJgFj37jcfAiY9KU8wK5qLFRoWi
-         IzhHOEEZMK/xdodMqT+Myk4392mSmfUUBqiudz5apazf34TZXogwqGYGyS5gtEhcNiGd
-         YTcbidh11nSMqmCyGHSXkqb03rkxzWjWLwMrQK4vABvrJHeIaPwGDyMO4ISQ6NdTXUls
-         rQq7ONQWvjAL5+aHYSGfTlvG9BFA7v3XpBpBWZPMB8moazD5bE+pg91kszqAfiyJ4qxn
-         zy8DOry0NfVL128lbyQWyKTVRwfiGZCcgAkRpJFGFyg33dULKhjO321A2qHuAqskJG3m
-         gsDw==
-X-Forwarded-Encrypted: i=1; AFNElJ+oLS6tv/kePnfG/U+qo1uO6E7H1iBZWNckqiR15m8JeJWpVstf+zwkX6MfaeSoLAyBXqzn6cyIzNbT7Hv4@lists.linux.dev
-X-Gm-Message-State: AOJu0YyuvoAS3Y9VwIkHG17ug4WIwrWql9UzEijFtvT4DIm9LKJmAl+8
-	I2mjAVywFZV9TkgdYZk5K/me1eH6YkVJNdMCJt2nHwpcOP1FaUwkB4+HY4068uYRfI4=
-X-Gm-Gg: Acq92OGNf+f/Zhmmz2e+X2suSxBWqFMgW6vhLfMiEt/P/9oId+JkY7EhLfXI1oYHD3e
-	8oDfIS87wED4dmLY8QUQP5IE8DTPW9oTrcuNUrV1eZN62Zv9qcYpGkoSCSRpGJihvF5NLf1VmGV
-	Cn8Xk/8H1EWu7UOO2R7Ga7pqBAlDsoqmcLEKmsq6oEVWjfwfd61aoMucrKREYV7fKYTLd4/YIQi
-	InwEd0B8Jk5TPANUGhNRmkAIfIoSpDwiNvjtSWyS/U9srkE477wmUfGkGvMt889DZLqpFNCwH/N
-	4Dg0U0YjnjdaXOvhzaqX7spMCezS7SXV/IKNA2LaqADTP1kRfUV/bUlOO68bFwDVCEub+krsppw
-	4us7UBzYPiSlM/LWoYitjSl80lf31OkrJn0cZJUMhImQYUqnyryXo+aj5DhGCUPDoN7DTerq0/Z
-	7JjB2ggwWajhFxjcdrrDNvrxz76BsGy4avmgGFscD+Hy6FtLUcr1gPjUJY05MN6AULSg==
-X-Received: by 2002:a05:7300:a2ca:b0:2d8:97d6:6ac8 with SMTP id 5a478bee46e88-30118e9ffa9mr3329514eec.21.1778708251557;
-        Wed, 13 May 2026 14:37:31 -0700 (PDT)
+        bh=qYqx1W3EaSSwEdkgWkOBSBqz8m20fk2SN+NNLNnkM+8=;
+        b=cg7tVyj8LUItEGGjcIcMJvAKkCddFgEgwv0EuDlEefZW54B/hhqAI6P44BKlHHd0ik
+         0NbgRA1nIUrDNEqr85KLfYZKyq6EHBx7pk5OUfdFQJCVK9H+xbTmt/NBkBN/Wj6GWery
+         D2FcAiMCP/nqAQGCTTxhphBpAwYK+btnuBnR3DHZ6Gl3EfhGua9B/8R03Yh28uDAB4k6
+         z+eFUV+JOAhqeqydXLScaqQqUUiIV8j+TomBnridLFzj+mAb1F7ojCHJzH8SNsUOG2rS
+         0G8v4G7nn4I9CQtkGk6SV6tx1HLKb6HpDKBS44i2dswl7vR0U+kSY0+b9112h5ZrF49A
+         ODNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778708253; x=1779313053;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=qYqx1W3EaSSwEdkgWkOBSBqz8m20fk2SN+NNLNnkM+8=;
+        b=ZiTYvpBRyQdr4a57cW5llO06fCDvj5K2IWqRWjGaoZHqky++4bYYOPmEgOzxhlM9KA
+         x2BJas2W4BuqHm/eUgH21e+s2Vduw3A0QFc+nnf+8pISe/s8mHlKzPgKk+d8yqiHPXPa
+         7HJDxG9Cx+E1KJFLyFwyix4pP8kfR71xk+kweH9miSX89N0WC9E1rbo+O7cRq93jIBiB
+         MHKvbaqpNK5VTRTnGPCEbVsrY1dbr/6/LEFlK21IHHY24q/PazNcniJ7h3W6dN6DxHp0
+         TixsjzUVEqh9rH+qNM/+e8W0EcKGY0CYo0E6GOerZMADL+DrA0fe+Bj9UxjK/6ku7JLA
+         hfOg==
+X-Forwarded-Encrypted: i=1; AFNElJ+OqoNnvNwE+bCb4y+7wX1RIf0NLafB5wUAanoYS0rRqSRzQPywPpoD6PwQDhlQOCRfZtPEAnLaY4VTgmbz@lists.linux.dev
+X-Gm-Message-State: AOJu0YziMGhRHoMqCzs65IAglWSCecuAPNiRfbxn8vTiUlBXOgLna4wz
+	qg9OmjwZ8ulQ/kCq8AZulTHjCbgyfv29RKd58m1W7mWpUABLh7peXZDl
+X-Gm-Gg: Acq92OEIo03S9qQzfK2WOFmLvpnFGHEFnSSL92QpxEextOpWzuKC4mX80o2baG8RilI
+	9WjybbnipHfjXRaIFxS0jj7IXqA/+L4DdvXo4c53b+Bbnih/OzDEDF4SRKK3SdpaG3ZYtu+H4Ir
+	fYZFiyie9kqapFFdwJwMF2SW6i+xnkxJMsR/63n9mctN8pmHYOCY0TgH/D4KJNy41n0eqI2MNkP
+	LtpQxU2xIMkGrbLP91Lrw/6denlCGP7fnYRikfm/i245rHhdNGfNNt+BA8lX4FIPyJgBlFGRHnb
+	Kl4NM1dXR1t2sFZWEZymeLE/h7aOLvi7n20O7W1/tk6uruYIcBjXk2weWzQS7fOv6bhk+vNLGpO
+	v+snMoKhBB7GaMVXKlAfs11c3gN7yW2yHXXfhSg+ZkNkDWXwCJGaJTHtec+URDMxI2Hxe3Ag6VP
+	HZxJaLoAReX8t03GYATw2ssndiCoF+5DizGytlE3aEIYwE8zQYq5OIVjg=
+X-Received: by 2002:a05:7300:571f:b0:2ea:5057:a31d with SMTP id 5a478bee46e88-30153ade430mr3047022eec.1.1778708252783;
+        Wed, 13 May 2026 14:37:32 -0700 (PDT)
 Received: from localhost.localdomain ([76.32.119.210])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30293e2e69esm732316eec.1.2026.05.13.14.37.30
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30293e2e69esm732316eec.1.2026.05.13.14.37.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 May 2026 14:37:30 -0700 (PDT)
+        Wed, 13 May 2026 14:37:32 -0700 (PDT)
 From: Hungyu Lin <dennylin0707@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Dan Carpenter <dan.carpenter@linaro.org>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Hungyu Lin <dennylin0707@gmail.com>
-Subject: [PATCH 0/4] staging: rtl8723bs: cleanup rtw_enqueue_cmd flow
-Date: Wed, 13 May 2026 21:37:15 +0000
-Message-Id: <20260513213719.12246-1-dennylin0707@gmail.com>
+Subject: [PATCH 1/4] staging: rtl8723bs: simplify _rtw_enqueue_cmd control flow
+Date: Wed, 13 May 2026 21:37:16 +0000
+Message-Id: <20260513213719.12246-2-dennylin0707@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260513213719.12246-1-dennylin0707@gmail.com>
+References: <20260513213719.12246-1-dennylin0707@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -74,33 +78,37 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series cleans up the command enqueue path in rtw_cmd.c.
+Replace the goto exit pattern with a direct return to simplify
+the control flow and improve readability.
 
-Patch 1 simplifies the control flow of _rtw_enqueue_cmd() by
-removing the goto exit pattern and using direct returns.
+No functional change intended.
 
-Patch 2 limits the scope of _rtw_enqueue_cmd() by making it static
-and removing its declaration from the header.
+Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_cmd.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Patch 3 simplifies the control flow of rtw_enqueue_cmd() by removing
-the goto exit pattern.
-
-Patch 4 converts the private helper _rtw_enqueue_cmd() to return 0 on
-success, while keeping rtw_enqueue_cmd() translating the result to
-the existing legacy return convention.
-
-No functional changes intended.
-
-Hungyu Lin (4):
-  staging: rtl8723bs: simplify _rtw_enqueue_cmd control flow
-  staging: rtl8723bs: make _rtw_enqueue_cmd static
-  staging: rtl8723bs: simplify rtw_enqueue_cmd control flow
-  staging: rtl8723bs: make _rtw_enqueue_cmd return 0 on success
-
- drivers/staging/rtl8723bs/core/rtw_cmd.c      | 20 +++++++++----------
- drivers/staging/rtl8723bs/include/cmd_osdep.h |  1 -
- 2 files changed, 10 insertions(+), 11 deletions(-)
-
+diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+index adc151326feb..654f0aa72263 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
++++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+@@ -252,7 +252,7 @@ int _rtw_enqueue_cmd(struct __queue *queue, struct cmd_obj *obj)
+ 	unsigned long irqL;
+ 
+ 	if (!obj)
+-		goto exit;
++		return _SUCCESS;
+ 
+ 	/* spin_lock_bh(&queue->lock); */
+ 	spin_lock_irqsave(&queue->lock, irqL);
+@@ -262,7 +262,6 @@ int _rtw_enqueue_cmd(struct __queue *queue, struct cmd_obj *obj)
+ 	/* spin_unlock_bh(&queue->lock); */
+ 	spin_unlock_irqrestore(&queue->lock, irqL);
+ 
+-exit:
+ 	return _SUCCESS;
+ }
+ 
 -- 
 2.34.1
 
