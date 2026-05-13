@@ -1,440 +1,295 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D56B934752F;
-	Wed, 13 May 2026 04:19:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 423A33AA1A8
+	for <linux-staging@lists.linux.dev>; Wed, 13 May 2026 06:43:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778645987; cv=none; b=MMQJt7QlJvRjxG+K2hPWKilTASEIuDxpIHjWg0TMgm/sSuegsMnyZYMjf39JcDEWk+BzTYNz5aXF3lSS37eokiX730b3LkF/BnYLneIxUr+pV06zSCPcNMz4OMYuxgfjBi9vdLsAnpOtNwJI8Hm0Bmwnn1pL8MgN7HztPt99xpA=
+	t=1778654596; cv=none; b=dujjeUB+XIhzLNtZb+osoXOsqW4M/uTct4jM6KX5FdojNPJ8Xz/kmDn9mARg2FTDLySUJvrznDUfzcKNnQHbyyGAqSK5Tidy/mj2dE0JrJ5iWuRMTgsA9jOAhDsZz0jo2Ic/51z0Yk/0fn8XgeXMGNaycf/NR/DBf2L4xPoG8yQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778645987; c=relaxed/simple;
-	bh=Rnee8NAwRXRr/4sLd4W0aqMpfxXARj0vuCYq9oaaF60=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZzNQs3BO9Xob7j2eYSjIwQZg+4Gh5jUHN7BOimDPIYlhhgasgOoTSdDWB+AAnZPcNCc0WIWaCp7HaAzZ8mjSQR5BboHKC1056YfObcjsxaWs2Idmcpyi0jz1BJ/pg7Ab3eEva9fsiJmIwkWkFQsUZfHeAWdIPOnvhyttGxyXxwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FKj0X6vF; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1778654596; c=relaxed/simple;
+	bh=Q4YPQlo7gwRvDV9/x1R33vYQjZUydBveTnvcjWiecPQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Gy9A7v4dvF6TXziO8u4+Hx9cfiy64Vyt+fUGoM+F1yu86pkXgeJnOkubWCjIIlCUCkvMRnZwWADcMW9yduIDIZ9BI1O/8Tf24EGl6/mrz9jAVCfFsM6RzX3/z6Jfpg6LUAb/7rUFxPlscyV//Lzxq2phemz4pkDDRKYYuTicZLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LzEIJsG+; arc=none smtp.client-ip=209.85.215.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FKj0X6vF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778645985; x=1810181985;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Rnee8NAwRXRr/4sLd4W0aqMpfxXARj0vuCYq9oaaF60=;
-  b=FKj0X6vF388iNHQS3CZ/L+Y2Aqy1f1N9G5Hm2VN+RDGznhraZnBh282A
-   BFFXkKMx7wfuCOzib6RQqNHjsGXx9lHmXrakaafbSBRgpBbk/Yhfizt6h
-   n5WousH9JgqvBqfUf646QicqEMHQiZaM4OFWrXtsN1HW6ShjGGGFkl770
-   7e2IMiPaDce7gU9roQ7GEDsZUrxyJ+bBztCSiHCHG/cvnLH3iomxXcXtk
-   lxgcTyBq7qbz2o8rx+jJeALeDA4xHCYmwBFsZK+79HydEaUTUqD9OJVmy
-   1xDKq5u9Sr7jC2x9HNJhlkg1va06zrQtBYjGzXUkyaRQx6O8wk8ivzczu
-   A==;
-X-CSE-ConnectionGUID: hyXxT2Q1RMKRj4mrZcoSqQ==
-X-CSE-MsgGUID: bDxD8l/7SA2GLUQ5bZmoGg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11784"; a="97132525"
-X-IronPort-AV: E=Sophos;i="6.23,232,1770624000"; 
-   d="scan'208";a="97132525"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2026 21:19:44 -0700
-X-CSE-ConnectionGUID: YHOUdzTdR0WYfEX9Kwo+7Q==
-X-CSE-MsgGUID: grRUPO5PRLiNloBeJGlFJw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,232,1770624000"; 
-   d="scan'208";a="239779683"
-Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 12 May 2026 21:19:41 -0700
-Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wN14M-000000003Pd-2np0;
-	Wed, 13 May 2026 04:19:38 +0000
-Date: Wed, 13 May 2026 12:19:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Harshit Shaw <shawharshit116@gmail.com>, andriy.shevchenko@intel.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	gregkh@linuxfoundation.org, error27@gmail.com, deller@gmx.de,
-	chintanlike@gmail.com, tzimmermann@suse.de,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Harshit Shaw <shawharshit116@gmail.com>
-Subject: Re: [PATCH v3] staging: fbtft: convert sysfs attributes to use
- ATTRIBUTE_GROUPS
-Message-ID: <202605131232.m3YE1tEv-lkp@intel.com>
-References: <20260512200104.19002-1-shawharshit116@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LzEIJsG+"
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-c801d732058so3089152a12.1
+        for <linux-staging@lists.linux.dev>; Tue, 12 May 2026 23:43:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778654594; x=1779259394; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=55alrhY2zIYtMPfbO1NXYJvxjlF+zysdW1Gb8jsYWrY=;
+        b=LzEIJsG+PhnOqKDSfK3+zj5J24coZIJHwJ2TSru6a6Ohckso0ngsP/CnDN/ndZI4Xo
+         K5rLm3YQSJsrStNXRD2i9x5BDAxZ/bXSJiDgQjkD68w79jKH+qgbA4gUSuMPygPEw+9c
+         +Bim75Q4V6nTV05coFEIr6iWdaxTmuYW65MNIYa/YwXkNWDcZRfl8+pgu1YY7U31nWpG
+         0lCS5P1bDPvTCaRSo+7xYU5+oho+N8ZzdDR+UqJK69NGhBQpXKgwdm49kbdSKz2av4ef
+         SltsalP1ohLvwo6Tkz72+lfAg8GqnAxazNoczin3jZbV0q10QUPcuhg9kSdbYdUe60sl
+         xbJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778654594; x=1779259394;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=55alrhY2zIYtMPfbO1NXYJvxjlF+zysdW1Gb8jsYWrY=;
+        b=I9vMzmFL49GC0X9p4JVG+pQlVmSH6AKMkDd+jwZ9z1OGjs1EvYyC2GCWl1kqBBOVMl
+         l8Z4s3gEOSS2n9NcRWd++AXSHWHnOkzPgi+FAz5t0sOVSFKvb6N8EgLk2hoBCe3w70Yr
+         ZtdP+Er3JwC4N+vmG32GsuZFf+9uP8lA2ztnw8cJ5lsCiSpNra11rJ8ONaUQxnJ7nvL8
+         aTNOGrjHsf723RS8IZ0bDAx05Iz63ke+Xo7KJw/EUt6P85LNvt5v0DbqQldt+ECWJNn2
+         2k17gamh0IcTlZBAikP8Cgl14yJ9Ml9aAkM/l4wkhf7UHhx2IMP3Qcx84q7pUHq/8iD0
+         vX2Q==
+X-Forwarded-Encrypted: i=1; AFNElJ8UJET6cb1RZ/A0DOHVtMsXrMu/UAeNivXeDKOc53oAOr0n8gLGAkoXpN446zFp0dY/2YDlP3Qo6yp5Ljhr@lists.linux.dev
+X-Gm-Message-State: AOJu0YyCqbQq4v8g4g8gLsnH9WhV1ZKbGqSTp9aJ9fmx93lMBtpUsNas
+	mOJRjp5BJSk84ONg77qtbRKN1F13oUYyhNQQwSNSVgys+4UL6HfNWtxn
+X-Gm-Gg: Acq92OE1fffgUwJZMP5xUCn2YPktqU/0FtJgkGDYIiY8AUE0wEzXDk32g6y42KlbBPA
+	NBkACWr16Pfl/wB0JR/j+G4toIcL5bspoA7qjWlt3o5UoabU3HgZkn3ERtAlU8ARJNjTVtQKSed
+	elEC+67ZKlFYz5iKfEQrwMGCnSc2Y7GEN98S2LRdgcVToedUW9L6yqquZIYjG1E08V+NUlGvd9a
+	w/ULoFrQ2KAb3jrfO0hBi+MEOAuv0OusVpvLwZOJrYd2fcMOh8F0m7JxAkRD8a3KsyNFD37mXwX
+	YatmEZCuhrxeha1nwqtHQjz+lvPrq02yTNegIBgS//ev1qcTgbKNIJh7j/JN6EtBYU/Vua7DU3+
+	fxG7xJVE1BIypX4KyRpzPF1Dv+SvF4D6gCi2eg62Cs7+nZByQJk9ubLZF1UvhuoDPt5A5mJ8zEH
+	zfoznk7IOruTqIMlLo8qwSWI1fG04sLRo6eZqX5gf1NVmnxwxLh0Q=
+X-Received: by 2002:a05:6a20:94ca:b0:39f:c93e:c7f7 with SMTP id adf61e73a8af0-3af60cf9d74mr2213436637.0.1778654594433;
+        Tue, 12 May 2026 23:43:14 -0700 (PDT)
+Received: from MAHADEV.localdomain ([103.175.168.230])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c8267689d76sm13748809a12.11.2026.05.12.23.43.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 May 2026 23:43:13 -0700 (PDT)
+From: Harshit Shaw <shawharshit116@gmail.com>
+To: andriy.shevchenko@intel.com
+Cc: gregkh@linuxfoundation.org,
+	error27@gmail.com,
+	deller@gmx.de,
+	chintanlike@gmail.com,
+	tzimmermann@suse.de,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Harshit Shaw <shawharshit116@gmail.com>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH v4] staging: fbtft: convert sysfs attributes to use ATTRIBUTE_GROUPS
+Date: Wed, 13 May 2026 06:42:57 +0000
+Message-ID: <20260513064257.1238-1-shawharshit116@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260512200104.19002-1-shawharshit116@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Harshit,
+Replace direct device_create_file() calls with the correct
+ATTRIBUTE_GROUPS() macro. Add fbtft_groups as dev_groups in the
+driver structure so the driver core automatically adds and removes
+the sysfs attributes when a device is bound or unbound.
 
-kernel test robot noticed the following build errors:
+Signed-off-by: Harshit Shaw <shawharshit116@gmail.com>
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202605131232.m3YE1tEv-lkp@intel.com/
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+---
+v4: Fix build error - add extern declaration of fbtft_groups in
+    fbtft.h so all drivers using FBTFT_REGISTER_DRIVER macro can
+    see the symbol
+v3: Remove stray blank line in fbtft_attrs[] array
+v2: - Use DEVICE_ATTR_RW() macro instead of DEVICE_ATTR()
+    - Move DEVICE_ATTR_RW() definitions closer to their callbacks
+    - Remove trailing comma after NULL in attribute array
+    - Use ATTRIBUTE_GROUPS() macro and add dev_groups to driver
+      structure as suggested by Greg KH and Andy Shevchenko
+    - Compile tested with: make M=drivers/staging/fbtft modules
 
-[auto build test ERROR on staging/staging-testing]
+ drivers/staging/fbtft/fbtft-core.c  |  3 --
+ drivers/staging/fbtft/fbtft-sysfs.c | 81 +++++++++++------------------
+ drivers/staging/fbtft/fbtft.h       |  6 +++
+ drivers/staging/fbtft/internal.h    |  2 -
+ 4 files changed, 36 insertions(+), 56 deletions(-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Harshit-Shaw/staging-fbtft-convert-sysfs-attributes-to-use-ATTRIBUTE_GROUPS/20260513-044051
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20260512200104.19002-1-shawharshit116%40gmail.com
-patch subject: [PATCH v3] staging: fbtft: convert sysfs attributes to use ATTRIBUTE_GROUPS
-config: powerpc64-randconfig-002-20260513 (https://download.01.org/0day-ci/archive/20260513/202605131232.m3YE1tEv-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260513/202605131232.m3YE1tEv-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605131232.m3YE1tEv-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/staging/fbtft/fb_ssd1305.c:198:1: error: use of undeclared identifier 'fbtft_groups'; did you mean 'set_groups'?
-     198 | FBTFT_REGISTER_DRIVER(DRVNAME, "solomon,ssd1305", &display);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:323:13: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     323 |                                                                            \
-         |                                                                            ^
-     324 | FBTFT_SPI_DRIVER(_name, _compatible, _display, NULL)                       \
-         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:301:17: note: expanded from macro '\
-   FBTFT_SPI_DRIVER'
-     301 |                 .dev_groups = fbtft_groups,                                     \
-         |                               ^~~~~~~~~~~~
-   include/linux/cred.h:70:13: note: 'set_groups' declared here
-      70 | extern void set_groups(struct cred *, struct group_info *);
-         |             ^
->> drivers/staging/fbtft/fb_ssd1305.c:198:1: error: incompatible pointer types initializing 'const struct attribute_group **' with an expression of type 'void (struct cred *, struct group_info *)' [-Wincompatible-pointer-types]
-     198 | FBTFT_REGISTER_DRIVER(DRVNAME, "solomon,ssd1305", &display);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:323:13: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     323 |                                                                            \
-         |                                                                            ^
-     324 | FBTFT_SPI_DRIVER(_name, _compatible, _display, NULL)                       \
-         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:301:17: note: expanded from macro '\
-   FBTFT_SPI_DRIVER'
-     301 |                 .dev_groups = fbtft_groups,                                     \
-         |                               ^~~~~~~~~~~~
-   drivers/staging/fbtft/fb_ssd1305.c:198:1: error: use of undeclared identifier 'fbtft_groups'; did you mean 'set_groups'?
-     198 | FBTFT_REGISTER_DRIVER(DRVNAME, "solomon,ssd1305", &display);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:331:17: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     331 |                 .dev_groups = fbtft_groups,                                \
-         |                               ^~~~~~~~~~~~
-   include/linux/cred.h:70:13: note: 'set_groups' declared here
-      70 | extern void set_groups(struct cred *, struct group_info *);
-         |             ^
->> drivers/staging/fbtft/fb_ssd1305.c:198:1: error: incompatible pointer types initializing 'const struct attribute_group **' with an expression of type 'void (struct cred *, struct group_info *)' [-Wincompatible-pointer-types]
-     198 | FBTFT_REGISTER_DRIVER(DRVNAME, "solomon,ssd1305", &display);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:331:17: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     331 |                 .dev_groups = fbtft_groups,                                \
-         |                               ^~~~~~~~~~~~
-   4 errors generated.
---
-   drivers/staging/fbtft/fb_upd161704.c:175:1: error: use of undeclared identifier 'fbtft_groups'; did you mean 'set_groups'?
-     175 | FBTFT_REGISTER_DRIVER(DRVNAME, "nec,upd161704", &display);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:323:13: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     323 |                                                                            \
-         |                                                                            ^
-     324 | FBTFT_SPI_DRIVER(_name, _compatible, _display, NULL)                       \
-         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:301:17: note: expanded from macro '\
-   FBTFT_SPI_DRIVER'
-     301 |                 .dev_groups = fbtft_groups,                                     \
-         |                               ^~~~~~~~~~~~
-   include/linux/cred.h:70:13: note: 'set_groups' declared here
-      70 | extern void set_groups(struct cred *, struct group_info *);
-         |             ^
->> drivers/staging/fbtft/fb_upd161704.c:175:1: error: incompatible pointer types initializing 'const struct attribute_group **' with an expression of type 'void (struct cred *, struct group_info *)' [-Wincompatible-pointer-types]
-     175 | FBTFT_REGISTER_DRIVER(DRVNAME, "nec,upd161704", &display);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:323:13: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     323 |                                                                            \
-         |                                                                            ^
-     324 | FBTFT_SPI_DRIVER(_name, _compatible, _display, NULL)                       \
-         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:301:17: note: expanded from macro '\
-   FBTFT_SPI_DRIVER'
-     301 |                 .dev_groups = fbtft_groups,                                     \
-         |                               ^~~~~~~~~~~~
-   drivers/staging/fbtft/fb_upd161704.c:175:1: error: use of undeclared identifier 'fbtft_groups'; did you mean 'set_groups'?
-     175 | FBTFT_REGISTER_DRIVER(DRVNAME, "nec,upd161704", &display);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:331:17: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     331 |                 .dev_groups = fbtft_groups,                                \
-         |                               ^~~~~~~~~~~~
-   include/linux/cred.h:70:13: note: 'set_groups' declared here
-      70 | extern void set_groups(struct cred *, struct group_info *);
-         |             ^
->> drivers/staging/fbtft/fb_upd161704.c:175:1: error: incompatible pointer types initializing 'const struct attribute_group **' with an expression of type 'void (struct cred *, struct group_info *)' [-Wincompatible-pointer-types]
-     175 | FBTFT_REGISTER_DRIVER(DRVNAME, "nec,upd161704", &display);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:331:17: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     331 |                 .dev_groups = fbtft_groups,                                \
-         |                               ^~~~~~~~~~~~
-   4 errors generated.
---
-   drivers/staging/fbtft/fb_tls8204.c:153:1: error: use of undeclared identifier 'fbtft_groups'; did you mean 'set_groups'?
-     153 | FBTFT_REGISTER_DRIVER(DRVNAME, "teralane,tls8204", &display);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:323:13: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     323 |                                                                            \
-         |                                                                            ^
-     324 | FBTFT_SPI_DRIVER(_name, _compatible, _display, NULL)                       \
-         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:301:17: note: expanded from macro '\
-   FBTFT_SPI_DRIVER'
-     301 |                 .dev_groups = fbtft_groups,                                     \
-         |                               ^~~~~~~~~~~~
-   include/linux/cred.h:70:13: note: 'set_groups' declared here
-      70 | extern void set_groups(struct cred *, struct group_info *);
-         |             ^
->> drivers/staging/fbtft/fb_tls8204.c:153:1: error: incompatible pointer types initializing 'const struct attribute_group **' with an expression of type 'void (struct cred *, struct group_info *)' [-Wincompatible-pointer-types]
-     153 | FBTFT_REGISTER_DRIVER(DRVNAME, "teralane,tls8204", &display);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:323:13: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     323 |                                                                            \
-         |                                                                            ^
-     324 | FBTFT_SPI_DRIVER(_name, _compatible, _display, NULL)                       \
-         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:301:17: note: expanded from macro '\
-   FBTFT_SPI_DRIVER'
-     301 |                 .dev_groups = fbtft_groups,                                     \
-         |                               ^~~~~~~~~~~~
-   drivers/staging/fbtft/fb_tls8204.c:153:1: error: use of undeclared identifier 'fbtft_groups'; did you mean 'set_groups'?
-     153 | FBTFT_REGISTER_DRIVER(DRVNAME, "teralane,tls8204", &display);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:331:17: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     331 |                 .dev_groups = fbtft_groups,                                \
-         |                               ^~~~~~~~~~~~
-   include/linux/cred.h:70:13: note: 'set_groups' declared here
-      70 | extern void set_groups(struct cred *, struct group_info *);
-         |             ^
->> drivers/staging/fbtft/fb_tls8204.c:153:1: error: incompatible pointer types initializing 'const struct attribute_group **' with an expression of type 'void (struct cred *, struct group_info *)' [-Wincompatible-pointer-types]
-     153 | FBTFT_REGISTER_DRIVER(DRVNAME, "teralane,tls8204", &display);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:331:17: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     331 |                 .dev_groups = fbtft_groups,                                \
-         |                               ^~~~~~~~~~~~
-   4 errors generated.
---
-   drivers/staging/fbtft/fb_ili9341.c:136:1: error: use of undeclared identifier 'fbtft_groups'; did you mean 'set_groups'?
-     136 | FBTFT_REGISTER_SPI_DRIVER(DRVNAME, "ilitek", "ili9341", &display);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:368:11: note: expanded from macro 'FBTFT_REGISTER_SPI_DRIVER'
-     368 |                                                                                 \
-         |                                                                                 ^
-     369 | FBTFT_SPI_DRIVER(_name, _comp_vend "," _comp_dev, _display, spi_ids)            \
-         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:301:17: note: expanded from macro '\
-   FBTFT_SPI_DRIVER'
-     301 |                 .dev_groups = fbtft_groups,                                     \
-         |                               ^~~~~~~~~~~~
-   include/linux/cred.h:70:13: note: 'set_groups' declared here
-      70 | extern void set_groups(struct cred *, struct group_info *);
-         |             ^
->> drivers/staging/fbtft/fb_ili9341.c:136:1: error: incompatible pointer types initializing 'const struct attribute_group **' with an expression of type 'void (struct cred *, struct group_info *)' [-Wincompatible-pointer-types]
-     136 | FBTFT_REGISTER_SPI_DRIVER(DRVNAME, "ilitek", "ili9341", &display);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:368:11: note: expanded from macro 'FBTFT_REGISTER_SPI_DRIVER'
-     368 |                                                                                 \
-         |                                                                                 ^
-     369 | FBTFT_SPI_DRIVER(_name, _comp_vend "," _comp_dev, _display, spi_ids)            \
-         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:301:17: note: expanded from macro '\
-   FBTFT_SPI_DRIVER'
-     301 |                 .dev_groups = fbtft_groups,                                     \
-         |                               ^~~~~~~~~~~~
-   2 errors generated.
---
-   drivers/staging/fbtft/fb_st7735r.c:165:1: error: use of undeclared identifier 'fbtft_groups'; did you mean 'set_groups'?
-     165 | FBTFT_REGISTER_DRIVER(DRVNAME, "sitronix,st7735r", &display);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:323:13: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     323 |                                                                            \
-         |                                                                            ^
-     324 | FBTFT_SPI_DRIVER(_name, _compatible, _display, NULL)                       \
-         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:301:17: note: expanded from macro '\
-   FBTFT_SPI_DRIVER'
-     301 |                 .dev_groups = fbtft_groups,                                     \
-         |                               ^~~~~~~~~~~~
-   include/linux/cred.h:70:13: note: 'set_groups' declared here
-      70 | extern void set_groups(struct cred *, struct group_info *);
-         |             ^
->> drivers/staging/fbtft/fb_st7735r.c:165:1: error: incompatible pointer types initializing 'const struct attribute_group **' with an expression of type 'void (struct cred *, struct group_info *)' [-Wincompatible-pointer-types]
-     165 | FBTFT_REGISTER_DRIVER(DRVNAME, "sitronix,st7735r", &display);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:323:13: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     323 |                                                                            \
-         |                                                                            ^
-     324 | FBTFT_SPI_DRIVER(_name, _compatible, _display, NULL)                       \
-         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:301:17: note: expanded from macro '\
-   FBTFT_SPI_DRIVER'
-     301 |                 .dev_groups = fbtft_groups,                                     \
-         |                               ^~~~~~~~~~~~
-   drivers/staging/fbtft/fb_st7735r.c:165:1: error: use of undeclared identifier 'fbtft_groups'; did you mean 'set_groups'?
-     165 | FBTFT_REGISTER_DRIVER(DRVNAME, "sitronix,st7735r", &display);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:331:17: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     331 |                 .dev_groups = fbtft_groups,                                \
-         |                               ^~~~~~~~~~~~
-   include/linux/cred.h:70:13: note: 'set_groups' declared here
-      70 | extern void set_groups(struct cred *, struct group_info *);
-         |             ^
->> drivers/staging/fbtft/fb_st7735r.c:165:1: error: incompatible pointer types initializing 'const struct attribute_group **' with an expression of type 'void (struct cred *, struct group_info *)' [-Wincompatible-pointer-types]
-     165 | FBTFT_REGISTER_DRIVER(DRVNAME, "sitronix,st7735r", &display);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:331:17: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     331 |                 .dev_groups = fbtft_groups,                                \
-         |                               ^~~~~~~~~~~~
-   4 errors generated.
---
-   drivers/staging/fbtft/fb_hx8357d.c:178:1: error: use of undeclared identifier 'fbtft_groups'; did you mean 'set_groups'?
-     178 | FBTFT_REGISTER_DRIVER(DRVNAME, "himax,hx8357d", &display);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:323:13: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     323 |                                                                            \
-         |                                                                            ^
-     324 | FBTFT_SPI_DRIVER(_name, _compatible, _display, NULL)                       \
-         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:301:17: note: expanded from macro '\
-   FBTFT_SPI_DRIVER'
-     301 |                 .dev_groups = fbtft_groups,                                     \
-         |                               ^~~~~~~~~~~~
-   include/linux/cred.h:70:13: note: 'set_groups' declared here
-      70 | extern void set_groups(struct cred *, struct group_info *);
-         |             ^
->> drivers/staging/fbtft/fb_hx8357d.c:178:1: error: incompatible pointer types initializing 'const struct attribute_group **' with an expression of type 'void (struct cred *, struct group_info *)' [-Wincompatible-pointer-types]
-     178 | FBTFT_REGISTER_DRIVER(DRVNAME, "himax,hx8357d", &display);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:323:13: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     323 |                                                                            \
-         |                                                                            ^
-     324 | FBTFT_SPI_DRIVER(_name, _compatible, _display, NULL)                       \
-         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:301:17: note: expanded from macro '\
-   FBTFT_SPI_DRIVER'
-     301 |                 .dev_groups = fbtft_groups,                                     \
-         |                               ^~~~~~~~~~~~
-   drivers/staging/fbtft/fb_hx8357d.c:178:1: error: use of undeclared identifier 'fbtft_groups'; did you mean 'set_groups'?
-     178 | FBTFT_REGISTER_DRIVER(DRVNAME, "himax,hx8357d", &display);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:331:17: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     331 |                 .dev_groups = fbtft_groups,                                \
-         |                               ^~~~~~~~~~~~
-   include/linux/cred.h:70:13: note: 'set_groups' declared here
-      70 | extern void set_groups(struct cred *, struct group_info *);
-         |             ^
->> drivers/staging/fbtft/fb_hx8357d.c:178:1: error: incompatible pointer types initializing 'const struct attribute_group **' with an expression of type 'void (struct cred *, struct group_info *)' [-Wincompatible-pointer-types]
-     178 | FBTFT_REGISTER_DRIVER(DRVNAME, "himax,hx8357d", &display);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:331:17: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     331 |                 .dev_groups = fbtft_groups,                                \
-         |                               ^~~~~~~~~~~~
-   4 errors generated.
---
-   drivers/staging/fbtft/fb_hx8347d.c:174:1: error: use of undeclared identifier 'fbtft_groups'; did you mean 'set_groups'?
-     174 | FBTFT_REGISTER_DRIVER(DRVNAME, "himax,hx8347d", &display);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:323:13: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     323 |                                                                            \
-         |                                                                            ^
-     324 | FBTFT_SPI_DRIVER(_name, _compatible, _display, NULL)                       \
-         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:301:17: note: expanded from macro '\
-   FBTFT_SPI_DRIVER'
-     301 |                 .dev_groups = fbtft_groups,                                     \
-         |                               ^~~~~~~~~~~~
-   include/linux/cred.h:70:13: note: 'set_groups' declared here
-      70 | extern void set_groups(struct cred *, struct group_info *);
-         |             ^
->> drivers/staging/fbtft/fb_hx8347d.c:174:1: error: incompatible pointer types initializing 'const struct attribute_group **' with an expression of type 'void (struct cred *, struct group_info *)' [-Wincompatible-pointer-types]
-     174 | FBTFT_REGISTER_DRIVER(DRVNAME, "himax,hx8347d", &display);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:323:13: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     323 |                                                                            \
-         |                                                                            ^
-     324 | FBTFT_SPI_DRIVER(_name, _compatible, _display, NULL)                       \
-         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:301:17: note: expanded from macro '\
-   FBTFT_SPI_DRIVER'
-     301 |                 .dev_groups = fbtft_groups,                                     \
-         |                               ^~~~~~~~~~~~
-   drivers/staging/fbtft/fb_hx8347d.c:174:1: error: use of undeclared identifier 'fbtft_groups'; did you mean 'set_groups'?
-     174 | FBTFT_REGISTER_DRIVER(DRVNAME, "himax,hx8347d", &display);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:331:17: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     331 |                 .dev_groups = fbtft_groups,                                \
-         |                               ^~~~~~~~~~~~
-   include/linux/cred.h:70:13: note: 'set_groups' declared here
-      70 | extern void set_groups(struct cred *, struct group_info *);
-         |             ^
->> drivers/staging/fbtft/fb_hx8347d.c:174:1: error: incompatible pointer types initializing 'const struct attribute_group **' with an expression of type 'void (struct cred *, struct group_info *)' [-Wincompatible-pointer-types]
-     174 | FBTFT_REGISTER_DRIVER(DRVNAME, "himax,hx8347d", &display);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:331:17: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     331 |                 .dev_groups = fbtft_groups,                                \
-         |                               ^~~~~~~~~~~~
-   4 errors generated.
---
-   drivers/staging/fbtft/fb_uc1611.c:325:1: error: use of undeclared identifier 'fbtft_groups'; did you mean 'set_groups'?
-     325 | FBTFT_REGISTER_DRIVER(DRVNAME, "ultrachip,uc1611", &display);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:323:13: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     323 |                                                                            \
-         |                                                                            ^
-     324 | FBTFT_SPI_DRIVER(_name, _compatible, _display, NULL)                       \
-         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:301:17: note: expanded from macro '\
-   FBTFT_SPI_DRIVER'
-     301 |                 .dev_groups = fbtft_groups,                                     \
-         |                               ^~~~~~~~~~~~
-   include/linux/cred.h:70:13: note: 'set_groups' declared here
-      70 | extern void set_groups(struct cred *, struct group_info *);
-         |             ^
->> drivers/staging/fbtft/fb_uc1611.c:325:1: error: incompatible pointer types initializing 'const struct attribute_group **' with an expression of type 'void (struct cred *, struct group_info *)' [-Wincompatible-pointer-types]
-     325 | FBTFT_REGISTER_DRIVER(DRVNAME, "ultrachip,uc1611", &display);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:323:13: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     323 |                                                                            \
-         |                                                                            ^
-     324 | FBTFT_SPI_DRIVER(_name, _compatible, _display, NULL)                       \
-         | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:301:17: note: expanded from macro '\
-   FBTFT_SPI_DRIVER'
-     301 |                 .dev_groups = fbtft_groups,                                     \
-         |                               ^~~~~~~~~~~~
-   drivers/staging/fbtft/fb_uc1611.c:325:1: error: use of undeclared identifier 'fbtft_groups'; did you mean 'set_groups'?
-     325 | FBTFT_REGISTER_DRIVER(DRVNAME, "ultrachip,uc1611", &display);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:331:17: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     331 |                 .dev_groups = fbtft_groups,                                \
-         |                               ^~~~~~~~~~~~
-   include/linux/cred.h:70:13: note: 'set_groups' declared here
-      70 | extern void set_groups(struct cred *, struct group_info *);
-         |             ^
->> drivers/staging/fbtft/fb_uc1611.c:325:1: error: incompatible pointer types initializing 'const struct attribute_group **' with an expression of type 'void (struct cred *, struct group_info *)' [-Wincompatible-pointer-types]
-     325 | FBTFT_REGISTER_DRIVER(DRVNAME, "ultrachip,uc1611", &display);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/fbtft/fbtft.h:331:17: note: expanded from macro 'FBTFT_REGISTER_DRIVER'
-     331 |                 .dev_groups = fbtft_groups,                                \
-         |                               ^~~~~~~~~~~~
-   4 errors generated.
-..
-
-
-vim +198 drivers/staging/fbtft/fb_ssd1305.c
-
-5795354f75132a Alexey Mednyy 2016-01-27  197  
-5795354f75132a Alexey Mednyy 2016-01-27 @198  FBTFT_REGISTER_DRIVER(DRVNAME, "solomon,ssd1305", &display);
-5795354f75132a Alexey Mednyy 2016-01-27  199  
-
+diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
+index 3da42c8ca6e3..e6d33127cecc 100644
+--- a/drivers/staging/fbtft/fbtft-core.c
++++ b/drivers/staging/fbtft/fbtft-core.c
+@@ -782,8 +782,6 @@ int fbtft_register_framebuffer(struct fb_info *fb_info)
+ 	if (ret < 0)
+ 		goto reg_fail;
+ 
+-	fbtft_sysfs_init(par);
+-
+ 	if (par->txbuf.buf && par->txbuf.len >= 1024)
+ 		sprintf(text1, ", %zu KiB buffer memory", par->txbuf.len >> 10);
+ 	if (spi)
+@@ -826,7 +824,6 @@ int fbtft_unregister_framebuffer(struct fb_info *fb_info)
+ 
+ 	if (par->fbtftops.unregister_backlight)
+ 		par->fbtftops.unregister_backlight(par);
+-	fbtft_sysfs_exit(par);
+ 	unregister_framebuffer(fb_info);
+ 
+ 	return 0;
+diff --git a/drivers/staging/fbtft/fbtft-sysfs.c b/drivers/staging/fbtft/fbtft-sysfs.c
+index d05599d80011..579ac9dcdd9f 100644
+--- a/drivers/staging/fbtft/fbtft-sysfs.c
++++ b/drivers/staging/fbtft/fbtft-sysfs.c
+@@ -107,9 +107,18 @@ sprintf_gamma(struct fbtft_par *par, u32 *curves, char *buf)
+ 	return len;
+ }
+ 
+-static ssize_t store_gamma_curve(struct device *device,
+-				 struct device_attribute *attr,
+-				 const char *buf, size_t count)
++static ssize_t gamma_show(struct device *device,
++			  struct device_attribute *attr, char *buf)
++{
++	struct fb_info *fb_info = dev_get_drvdata(device);
++	struct fbtft_par *par = fb_info->par;
++
++	return sprintf_gamma(par, par->gamma.curves, buf);
++}
++
++static ssize_t gamma_store(struct device *device,
++			   struct device_attribute *attr,
++			   const char *buf, size_t count)
+ {
+ 	struct fb_info *fb_info = dev_get_drvdata(device);
+ 	struct fbtft_par *par = fb_info->par;
+@@ -133,18 +142,7 @@ static ssize_t store_gamma_curve(struct device *device,
+ 	return count;
+ }
+ 
+-static ssize_t show_gamma_curve(struct device *device,
+-				struct device_attribute *attr, char *buf)
+-{
+-	struct fb_info *fb_info = dev_get_drvdata(device);
+-	struct fbtft_par *par = fb_info->par;
+-
+-	return sprintf_gamma(par, par->gamma.curves, buf);
+-}
+-
+-static struct device_attribute gamma_device_attrs[] = {
+-	__ATTR(gamma, 0660, show_gamma_curve, store_gamma_curve),
+-};
++static DEVICE_ATTR_RW(gamma);
+ 
+ void fbtft_expand_debug_value(unsigned long *debug)
+ {
+@@ -173,7 +171,16 @@ void fbtft_expand_debug_value(unsigned long *debug)
+ 	}
+ }
+ 
+-static ssize_t store_debug(struct device *device,
++static ssize_t debug_show(struct device *device,
++			  struct device_attribute *attr, char *buf)
++{
++	struct fb_info *fb_info = dev_get_drvdata(device);
++	struct fbtft_par *par = fb_info->par;
++
++	return sysfs_emit(buf, "%lu\n", par->debug);
++}
++
++static ssize_t debug_store(struct device *device,
+ 			   struct device_attribute *attr,
+ 			   const char *buf, size_t count)
+ {
+@@ -189,40 +196,12 @@ static ssize_t store_debug(struct device *device,
+ 	return count;
+ }
+ 
+-static ssize_t show_debug(struct device *device,
+-			  struct device_attribute *attr, char *buf)
+-{
+-	struct fb_info *fb_info = dev_get_drvdata(device);
+-	struct fbtft_par *par = fb_info->par;
+-
+-	return sysfs_emit(buf, "%lu\n", par->debug);
+-}
++static DEVICE_ATTR_RW(debug);
+ 
+-static struct device_attribute debug_device_attr =
+-	__ATTR(debug, 0660, show_debug, store_debug);
+-
+-void fbtft_sysfs_init(struct fbtft_par *par)
+-{
+-	struct device *dev;
+-
+-	dev = dev_of_fbinfo(par->info);
+-	if (!dev)
+-		return;
+-
+-	device_create_file(dev, &debug_device_attr);
+-	if (par->gamma.curves && par->fbtftops.set_gamma)
+-		device_create_file(dev, &gamma_device_attrs[0]);
+-}
+-
+-void fbtft_sysfs_exit(struct fbtft_par *par)
+-{
+-	struct device *dev;
+-
+-	dev = dev_of_fbinfo(par->info);
+-	if (!dev)
+-		return;
++static struct attribute *fbtft_attrs[] = {
++	&dev_attr_debug.attr,
++	&dev_attr_gamma.attr,
++	NULL
++};
+ 
+-	device_remove_file(dev, &debug_device_attr);
+-	if (par->gamma.curves && par->fbtftops.set_gamma)
+-		device_remove_file(dev, &gamma_device_attrs[0]);
+-}
++ATTRIBUTE_GROUPS(fbtft);
+diff --git a/drivers/staging/fbtft/fbtft.h b/drivers/staging/fbtft/fbtft.h
+index 317be17b95c1..1a3b9691f24a 100644
+--- a/drivers/staging/fbtft/fbtft.h
++++ b/drivers/staging/fbtft/fbtft.h
+@@ -8,6 +8,7 @@
+ #include <linux/spinlock.h>
+ #include <linux/spi/spi.h>
+ #include <linux/platform_device.h>
++#include <linux/sysfs.h>
+ 
+ #define FBTFT_ONBOARD_BACKLIGHT 2
+ 
+@@ -274,6 +275,9 @@ void fbtft_write_reg8_bus9(struct fbtft_par *par, int len, ...);
+ void fbtft_write_reg16_bus8(struct fbtft_par *par, int len, ...);
+ void fbtft_write_reg16_bus16(struct fbtft_par *par, int len, ...);
+ 
++/* fbtft-sysfs.c */
++extern const struct attribute_group *fbtft_groups[];
++
+ #define FBTFT_DT_TABLE(_compatible)						\
+ static const struct of_device_id dt_ids[] = {					\
+ 	{ .compatible = _compatible },						\
+@@ -299,6 +303,7 @@ static struct spi_driver fbtft_driver_spi_driver = {				\
+ 	.driver = {								\
+ 		.name = _name,							\
+ 		.of_match_table = dt_ids,					\
++		.dev_groups = fbtft_groups,					\
+ 	},									\
+ 	.id_table = _spi_ids,							\
+ 	.probe = fbtft_driver_probe_spi,					\
+@@ -328,6 +333,7 @@ static struct platform_driver fbtft_driver_platform_driver = {             \
+ 		.name   = _name,                                           \
+ 		.owner  = THIS_MODULE,                                     \
+ 		.of_match_table = dt_ids,                                  \
++		.dev_groups = fbtft_groups,                                \
+ 	},                                                                 \
+ 	.probe  = fbtft_driver_probe_pdev,                                 \
+ 	.remove = fbtft_driver_remove_pdev,				   \
+diff --git a/drivers/staging/fbtft/internal.h b/drivers/staging/fbtft/internal.h
+index ae2ff4a4a472..7869cf8dbf2a 100644
+--- a/drivers/staging/fbtft/internal.h
++++ b/drivers/staging/fbtft/internal.h
+@@ -4,8 +4,6 @@
+ #ifndef __LINUX_FBTFT_INTERNAL_H
+ #define __LINUX_FBTFT_INTERNAL_H
+ 
+-void fbtft_sysfs_init(struct fbtft_par *par);
+-void fbtft_sysfs_exit(struct fbtft_par *par);
+ void fbtft_expand_debug_value(unsigned long *debug);
+ int fbtft_gamma_parse_str(struct fbtft_par *par, u32 *curves,
+ 			  const char *str, int size);
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.53.0
+
