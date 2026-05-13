@@ -1,75 +1,75 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from outbound.ci.icloud.com (ci-2004b-snip4-1.eps.apple.com [57.103.89.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8B01390998;
-	Wed, 13 May 2026 10:37:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCFFE3DD871
+	for <linux-staging@lists.linux.dev>; Wed, 13 May 2026 10:48:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.89.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778668655; cv=none; b=d108xmCcwCXtRDT0jC3WOzxGmesxoR7A8z5BfR2IGOsGZ6N2xTwct9pbfK0SLjxblOdn9XOWlq92UnBVKuIPDcrZ36bbCnrhS+AS8UxjjR0AgH1GKhsV7dq4BpcwZv9ZTQOwKnggqYDTXhavvTHK6N7UkEFDkz7QhRfFUosyGtY=
+	t=1778669283; cv=none; b=EXIylANqarqjNuEA/RAgjmrha32c3RkLjspkhMvMOeBRB0k72SB17UCQmF0W5BCA6HjgyKI8NEgwZ6DI60s45z2gDe/1J6wCA4d0pboSxukPZpjGzAYALYmFe9hpqkHYElssjSkEpYW+cvwu1YwwXCnP0fbkxHqW78RebK8CDl8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778668655; c=relaxed/simple;
-	bh=7lLHw/tq9WptnGccyFjuybNXgQfowqreDcImWIMil3I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ccEz/II5kkj1PHr0M+0QlzkC8QU5WCjO58o8Sl+d8k2D+p0PSiLgDULNp6QOVtlBp9A2o61xLgbMggt36h501C+RWvuTSSdk0kml+BywA0i4laeiY8XRCdSB1Tm1MHQDdcOJZS+ambhk/9a9rjAvNHwGRUfns6A7Hlkq1Pjyyl0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=2PzbQ2El; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778669283; c=relaxed/simple;
+	bh=L/Z9gU6k6e4i7AdpW08MHfdPkbxdagX9ILHtKnhumHQ=;
+	h=Content-Type:From:Mime-Version:Subject:Date:Message-Id:References:
+	 Cc:In-Reply-To:To; b=FgaHfQVA71mYgQKXMUOXajrg2S2Qnri3ZTp9KPCMTvMRUqUDi4bDmGFihfNtVoCZ+KA/ORwfWl74ABexfzLUwBiwXHTXPJ/7cH6cV19qqHxHUfO2ZV0UnCEzucjUiB3V522O8gywuul4Lj2QVnsSe2gRV14UUOU1UqPcYmCtDBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=nW5JYQgd; arc=none smtp.client-ip=57.103.89.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="2PzbQ2El"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B8FBC2BCB7;
-	Wed, 13 May 2026 10:37:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1778668655;
-	bh=7lLHw/tq9WptnGccyFjuybNXgQfowqreDcImWIMil3I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=2PzbQ2El/MshaoGMCgpRlTMqHHxBc8RUps2/GtJqKv9qGCg0NPdMpEIDIilwJat+L
-	 QwmARYuFOGJ4Ijeba25gG2QGgAkig5Q3HhGxsVuwCof/rF7dyH85TOQk/NNjyTojt7
-	 wCGbvm7Q/0G3VfFbvmO5eOD23Zu27TflC/oPQdPo=
-Date: Wed, 13 May 2026 12:37:40 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Harshit Shaw <shawharshit116@gmail.com>
-Cc: andriy.shevchenko@intel.com, error27@gmail.com, deller@gmx.de,
-	chintanlike@gmail.com, tzimmermann@suse.de,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] staging: fbtft: convert sysfs attributes to use
- ATTRIBUTE_GROUPS
-Message-ID: <2026051345-calculate-elves-048a@gregkh>
-References: <20260513085949.484-1-shawharshit116@gmail.com>
+	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="nW5JYQgd"
+Received: from outbound.ci.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-central-1k-60-percent-3 (Postfix) with ESMTPS id E3795180016F;
+	Wed, 13 May 2026 10:47:59 +0000 (UTC)
+X-ICL-Out-Info: HUtFAUMEWwJACUgBTUQeDx5WFlZNRAJCTQxWB1sZUgVeDkETCFNWVgVUGV0AUgNfFU0LUgBSH3IZWhRcGFNFUR9UWFUJCg9HHVgWXghfBlcEShleCEMrWxNVF0YJGQhdHRkKUFAGWxIYXBRcUFgeRhJWDV0JGQhbXlAbXwJCDxwTVhUTHUMZDysISgRDB0UCXgslEwlTVlsTVRdGCRkIXR0ZFVoJCld0MX9Kdl1xUx9HCEl1QANbCkcUOgIrD0Z0NXpAC1UOKAU1DjxzBFQHXQVdVlACWlUSBEAIVlBeCF4fTBw=
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1778669282; x=1781261282; bh=L/Z9gU6k6e4i7AdpW08MHfdPkbxdagX9ILHtKnhumHQ=; h=Content-Type:From:Mime-Version:Subject:Date:Message-Id:To:x-icloud-hme; b=nW5JYQgdyghBsWM4rNbkIAkwS6RsLAdreIvaiuGdk+/fFw32NmW9TY2yO4dhYpd0wevhFMowhT7xRz9807kRdEYtpJZSwq1e8RvlcNHs6hXr9jT/Uk1UnAlrrtwpI0pugx5o0LHMBPU77KYSwQIj9zBKocf961fwP6yvOvfVG6i8u2PaWVYVC04DWEDECGx4Rocr30EAote3AQ5k6HoC9PjHOH87EhdCaMir025n13G65IUb8awPfNPYNaAP3TxoSqAhD5jgEdPonrDXo7OHk8b9eXDnJYKdUnzDbGhD3y/d7BFd1gmTpxIcLQWhlOntDRy7ob4bodx55HV/6uX2RA==
+Received: from smtpclient.apple (unknown [17.57.156.36])
+	by p00-icloudmta-asmtp-us-central-1k-60-percent-3 (Postfix) with ESMTPSA id 0271318000FD;
+	Wed, 13 May 2026 10:47:59 +0000 (UTC)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From: "M.samet Duman" <dumanmehmetsamet@icloud.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260513085949.484-1-shawharshit116@gmail.com>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH v4] staging: media: atomisp: remove stale "Generated code" comments
+Date: Wed, 13 May 2026 13:47:46 +0300
+Message-Id: <FAF2E0F8-711F-4087-B1F8-FEC8889C7E7D@icloud.com>
+References: <20260512-atomisp-remove-generated-comment-v4-1-4095ab7e2c14@yahoo.pl>
+Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev,
+ Andy Shevchenko <andriy.shevchenko@intel.com>,
+ Tomasz Unger <tomasz.unger@yahoo.pl>
+In-Reply-To: <20260512-atomisp-remove-generated-comment-v4-1-4095ab7e2c14@yahoo.pl>
+To: Tomasz Unger <tomasz.unger@yahoo.pl>
+X-Mailer: iPhone Mail (23D8133)
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTEzMDExMyBTYWx0ZWRfX9fpyi5r8TIeg
+ 3shTq81B6p1RLxyItpO/Qt/AraCPZ40ePIazpgnr9voSnNpaXWkTCjzfbVSxI7ilK+rUWeKvxHi
+ Ly6UZ0HxslY0rTSF3s9/UwgaM6kSfy1yF/eYS5eyerGIgWObP4LwMeHc3X1yAAwUtOZgzARbV/x
+ mNartaJZRjyMmMlSHAyOhQwswvKdEQpp772Gb/5U1XeJXxszXdck/JFqDBb8huEZBGIP1/1g6Pa
+ fbVj1mghKJCMhCJUxp0YghzFojkfbNOk63muYSVamrfGPJTq/uks1fl8zMVI2HT193IObu2aOvH
+ DVcV46NVbu63g425mHhfjsL9QtIM99vemVOMqcgLIgKIDCLIrnJ088Y5lbCmIk=
+X-Proofpoint-ORIG-GUID: fhbFFq9RK_W9RMz5aRm33gjGgKOcorKR
+X-Authority-Info-Out: v=2.4 cv=FY86BZ+6 c=1 sm=1 tr=0 ts=6a0456e0
+ cx=c_apl:c_pps:t_out a=2G65uMN5HjSv0sBfM2Yj2w==:117
+ a=2G65uMN5HjSv0sBfM2Yj2w==:17 a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10
+ a=x7bEGLp0ZPQA:10 a=aRhIMoA-k8UA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=0eSXS4il8qRmlOZU7j4A:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: fhbFFq9RK_W9RMz5aRm33gjGgKOcorKR
 
-On Wed, May 13, 2026 at 08:59:48AM +0000, Harshit Shaw wrote:
-> Replace direct device_create_file() calls with the correct
-> ATTRIBUTE_GROUPS() macro. Add fbtft_groups as dev_groups in the
-> driver structure so the driver core automatically adds and removes
-> the sysfs attributes when a device is bound or unbound.
-> 
-> Signed-off-by: Harshit Shaw <shawharshit116@gmail.com>
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-> ---
-> v4: Fix build error - add extern declaration of fbtft_groups in
->     fbtft.h so all drivers using FBTFT_REGISTER_DRIVER macro can
->     see the symbol
-> v3: Remove stray blank line in fbtft_attrs[] array
-> v2: - Use DEVICE_ATTR_RW() macro instead of DEVICE_ATTR()
->     - Move DEVICE_ATTR_RW() definitions closer to their callbacks
->     - Remove trailing comma after NULL in attribute array
->     - Use ATTRIBUTE_GROUPS() macro and add dev_groups to driver
->       structure as suggested by Greg KH and Andy Shevchenko
->     - Compile tested with: make M=drivers/staging/fbtft modules
+It's interesting that there's an extra 'm', and I think it must be left over=
+ from the porting application they used when they first tried to include thi=
+s driver.
 
-I see too many v4 versions on the list for there really to be just 1 v4
-:(
+--
+Samet
 
-Please wait a bit, take some time, and resubmit a new version after a
-few days making sure it's all correct.  There is no rush or deadline
-here.
-
-thanks,
-
-greg k-h
+> 2026. 5. 12. =EC=98=A4=ED=9B=84 10:39, Tomasz Unger <tomasz.unger@yahoo.pl=
+> =EC=9E=91=EC=84=B1:
+>=20
+> generated
