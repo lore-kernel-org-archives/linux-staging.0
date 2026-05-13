@@ -1,295 +1,110 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 423A33AA1A8
-	for <linux-staging@lists.linux.dev>; Wed, 13 May 2026 06:43:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA69239E75
+	for <linux-staging@lists.linux.dev>; Wed, 13 May 2026 07:00:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778654596; cv=none; b=dujjeUB+XIhzLNtZb+osoXOsqW4M/uTct4jM6KX5FdojNPJ8Xz/kmDn9mARg2FTDLySUJvrznDUfzcKNnQHbyyGAqSK5Tidy/mj2dE0JrJ5iWuRMTgsA9jOAhDsZz0jo2Ic/51z0Yk/0fn8XgeXMGNaycf/NR/DBf2L4xPoG8yQ=
+	t=1778655626; cv=none; b=HTKXiBCSXQb1BNoq7y8cCZZ8aDUqW6emQelt2TebA+fxZigOe590AOpC+j7oDXG95QYrr3uvhBdUvej/lCC08F/O1wlNfGCVQeE4tqfE5FKXAspOelt7B0pwaQpWCal8RWD7k+xYlop1s3LQxUYSe8SSKA6LpCuPIY3N7/09wKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778654596; c=relaxed/simple;
-	bh=Q4YPQlo7gwRvDV9/x1R33vYQjZUydBveTnvcjWiecPQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Gy9A7v4dvF6TXziO8u4+Hx9cfiy64Vyt+fUGoM+F1yu86pkXgeJnOkubWCjIIlCUCkvMRnZwWADcMW9yduIDIZ9BI1O/8Tf24EGl6/mrz9jAVCfFsM6RzX3/z6Jfpg6LUAb/7rUFxPlscyV//Lzxq2phemz4pkDDRKYYuTicZLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LzEIJsG+; arc=none smtp.client-ip=209.85.215.173
+	s=arc-20240116; t=1778655626; c=relaxed/simple;
+	bh=MFN9/QoNknbsqvcPfXG8PDiKo1RlCEzFG6pJYopYdkM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YtBWH8gEOOYAgCEFMvibIkl3MsrVUtz8HNHTpO5dxlURshzgiaAtxFGYQteSuKx8TlOFC0G+fb0yjir+1i4miXzEAexOxRIgFsPSYWuENqZ5nP1E7O2KJgXZgTqAnee7AywcBX4k/kUM6H/LahFuN+Fl8mWLzfaTO8WzN6aZUI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k5N3mnux; arc=none smtp.client-ip=209.85.221.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LzEIJsG+"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-c801d732058so3089152a12.1
-        for <linux-staging@lists.linux.dev>; Tue, 12 May 2026 23:43:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k5N3mnux"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-449de065cb3so5769675f8f.2
+        for <linux-staging@lists.linux.dev>; Wed, 13 May 2026 00:00:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778654594; x=1779259394; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=55alrhY2zIYtMPfbO1NXYJvxjlF+zysdW1Gb8jsYWrY=;
-        b=LzEIJsG+PhnOqKDSfK3+zj5J24coZIJHwJ2TSru6a6Ohckso0ngsP/CnDN/ndZI4Xo
-         K5rLm3YQSJsrStNXRD2i9x5BDAxZ/bXSJiDgQjkD68w79jKH+qgbA4gUSuMPygPEw+9c
-         +Bim75Q4V6nTV05coFEIr6iWdaxTmuYW65MNIYa/YwXkNWDcZRfl8+pgu1YY7U31nWpG
-         0lCS5P1bDPvTCaRSo+7xYU5+oho+N8ZzdDR+UqJK69NGhBQpXKgwdm49kbdSKz2av4ef
-         SltsalP1ohLvwo6Tkz72+lfAg8GqnAxazNoczin3jZbV0q10QUPcuhg9kSdbYdUe60sl
-         xbJQ==
+        d=gmail.com; s=20251104; t=1778655624; x=1779260424; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=KWUn8+SjlDuoSwuw8nKOZYEXk7UtcnUYxUiUlW/Jo5w=;
+        b=k5N3mnuxbQCav0GA/jr3xxltuINfxBMpDkoDi/dkWfVC5xfQgRcvQjRkfIU/M8lHK/
+         AI2z4aUDhTYHycvhh3gCrQtfh76+51HJAF0nWkwgIEkdoEq3/FWr+yMpAervS+tiA7yU
+         69QAdWcLSXFNbTJH4WE/XsbZks+h7ffUyIfVhCJEJsy8uJEnYDNFky9fYS1eMp7gh6gs
+         Q9HBT3M9KPDB/4EOs5ljf2Zll8mrQx+AnoUZ+Dhw86t7wt1ee+SUg57J6he5QUvuCkLE
+         4F3+WAEkPDxFGkItZGTEq0FhyqWZrmN8Vq9eTY6lI0MGWA4gNvt4OLLQebTNJYHBKtCe
+         3UqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778654594; x=1779259394;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=55alrhY2zIYtMPfbO1NXYJvxjlF+zysdW1Gb8jsYWrY=;
-        b=I9vMzmFL49GC0X9p4JVG+pQlVmSH6AKMkDd+jwZ9z1OGjs1EvYyC2GCWl1kqBBOVMl
-         l8Z4s3gEOSS2n9NcRWd++AXSHWHnOkzPgi+FAz5t0sOVSFKvb6N8EgLk2hoBCe3w70Yr
-         ZtdP+Er3JwC4N+vmG32GsuZFf+9uP8lA2ztnw8cJ5lsCiSpNra11rJ8ONaUQxnJ7nvL8
-         aTNOGrjHsf723RS8IZ0bDAx05Iz63ke+Xo7KJw/EUt6P85LNvt5v0DbqQldt+ECWJNn2
-         2k17gamh0IcTlZBAikP8Cgl14yJ9Ml9aAkM/l4wkhf7UHhx2IMP3Qcx84q7pUHq/8iD0
-         vX2Q==
-X-Forwarded-Encrypted: i=1; AFNElJ8UJET6cb1RZ/A0DOHVtMsXrMu/UAeNivXeDKOc53oAOr0n8gLGAkoXpN446zFp0dY/2YDlP3Qo6yp5Ljhr@lists.linux.dev
-X-Gm-Message-State: AOJu0YyCqbQq4v8g4g8gLsnH9WhV1ZKbGqSTp9aJ9fmx93lMBtpUsNas
-	mOJRjp5BJSk84ONg77qtbRKN1F13oUYyhNQQwSNSVgys+4UL6HfNWtxn
-X-Gm-Gg: Acq92OE1fffgUwJZMP5xUCn2YPktqU/0FtJgkGDYIiY8AUE0wEzXDk32g6y42KlbBPA
-	NBkACWr16Pfl/wB0JR/j+G4toIcL5bspoA7qjWlt3o5UoabU3HgZkn3ERtAlU8ARJNjTVtQKSed
-	elEC+67ZKlFYz5iKfEQrwMGCnSc2Y7GEN98S2LRdgcVToedUW9L6yqquZIYjG1E08V+NUlGvd9a
-	w/ULoFrQ2KAb3jrfO0hBi+MEOAuv0OusVpvLwZOJrYd2fcMOh8F0m7JxAkRD8a3KsyNFD37mXwX
-	YatmEZCuhrxeha1nwqtHQjz+lvPrq02yTNegIBgS//ev1qcTgbKNIJh7j/JN6EtBYU/Vua7DU3+
-	fxG7xJVE1BIypX4KyRpzPF1Dv+SvF4D6gCi2eg62Cs7+nZByQJk9ubLZF1UvhuoDPt5A5mJ8zEH
-	zfoznk7IOruTqIMlLo8qwSWI1fG04sLRo6eZqX5gf1NVmnxwxLh0Q=
-X-Received: by 2002:a05:6a20:94ca:b0:39f:c93e:c7f7 with SMTP id adf61e73a8af0-3af60cf9d74mr2213436637.0.1778654594433;
-        Tue, 12 May 2026 23:43:14 -0700 (PDT)
-Received: from MAHADEV.localdomain ([103.175.168.230])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c8267689d76sm13748809a12.11.2026.05.12.23.43.10
+        d=1e100.net; s=20251104; t=1778655624; x=1779260424;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KWUn8+SjlDuoSwuw8nKOZYEXk7UtcnUYxUiUlW/Jo5w=;
+        b=FPFnRjXm1W3a8tIWFUbF8z/GdDaeeiBBrql0tH36hzAYagud8Tl/RKwNrzbR7kdTON
+         unfQv/wrCcJtK+VMx6r4DiPHOpmgtRW579lM9FwKcbkLX6Zn1vWmB5qB13a6+nHHIFoV
+         McgHWyYHTktYfpivivGsBKXZQpO6px8lTFDoGbfQ0J1VsR5wPA2uiZenUgWbsbun0rqB
+         xS1/tKaWmRaOU6VCxbWvCoVOKHL5OxD9z9fE7SLdiqtT70yAWz4Ptcc/jNWQFdDN0yox
+         uQYJR76lLU5kjDIhQNGi1IcWT3g6oGX403tmlGX4p01gZQEyuNcS1wxGmROqaQOAn+Ha
+         47eQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8MfQttTWMM1PWbij2b+qRxnGTBh+01WcYw4wlEN3S8ruKMOYBQsnT4hFrP7HQY8SvVgOuuhAaxotV0+UYO@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz8QGvetuAwTFKOnmmqvPvYg3N6DdHs32iW34Hh4IoNiRpw2MCL
+	lR0mnnlw+mEE8oXrsjqC8Njn0HQ6T44My+jFUiB+fP+d26CKNO9vdJ1S
+X-Gm-Gg: Acq92OFiqzdMfDuEhUx9E5IXpA6+PpeZZu4ll6y0w977YUxSlp6rZ0uDtZ8xAbcT75p
+	XLLzX2U1Otlg9KvLdHMZuFprThXr1/0s2GzwD8zOQk70vdenay0FdAZKDd8Iv4I7KA8vpJgf01g
+	WY1SYlVj4/g1MW9yObTkMleQYjc5TVHYoitmVeV/t3NvJjoFHyydb2aDyCVLvGH4O9J/EfgAiNn
+	eiCV3AkCkiZczez45GOM6Z4kU89/Xi7cEVFq+jtWWmWrlhWlYCUHCmEMEWTj4SjJjLKBW8cZMb3
+	uAaqC67hXMhiLpYKJUxbg5zLXt+BnkGQ/A2rpaeRJ61PuvCjyawr/u9GX1qMS1BJuVVIZTV144N
+	npfs/KjSmKVoiUtxEF7rbKQtB4c+5MyremVVXbIcveNZeIoITHpB3RkwcrCYxvish8uV3myAQkm
+	aTkPdYNUclvXMnnZgNJeahm9P8VKH7uQ==
+X-Received: by 2002:a05:6000:2586:b0:452:c246:ab79 with SMTP id ffacd0b85a97d-45c79586435mr2329827f8f.14.1778655623487;
+        Wed, 13 May 2026 00:00:23 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-454913049ecsm37112411f8f.19.2026.05.13.00.00.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2026 23:43:13 -0700 (PDT)
-From: Harshit Shaw <shawharshit116@gmail.com>
-To: andriy.shevchenko@intel.com
-Cc: gregkh@linuxfoundation.org,
-	error27@gmail.com,
-	deller@gmx.de,
-	chintanlike@gmail.com,
-	tzimmermann@suse.de,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Harshit Shaw <shawharshit116@gmail.com>,
-	kernel test robot <lkp@intel.com>
-Subject: [PATCH v4] staging: fbtft: convert sysfs attributes to use ATTRIBUTE_GROUPS
-Date: Wed, 13 May 2026 06:42:57 +0000
-Message-ID: <20260513064257.1238-1-shawharshit116@gmail.com>
-X-Mailer: git-send-email 2.53.0
+        Wed, 13 May 2026 00:00:21 -0700 (PDT)
+Date: Wed, 13 May 2026 10:00:18 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Tomasz Unger <tomasz.unger@yahoo.pl>
+Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH v3] staging: media: atomisp: remove stale "Generated
+ code" comments
+Message-ID: <agQhgsgYJfizeLuk@stanley.mountain>
+References: <20260512-atomisp-remove-generated-comment-v3-1-97930e4e1ca8.ref@yahoo.pl>
+ <20260512-atomisp-remove-generated-comment-v3-1-97930e4e1ca8@yahoo.pl>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260512-atomisp-remove-generated-comment-v3-1-97930e4e1ca8@yahoo.pl>
 
-Replace direct device_create_file() calls with the correct
-ATTRIBUTE_GROUPS() macro. Add fbtft_groups as dev_groups in the
-driver structure so the driver core automatically adds and removes
-the sysfs attributes when a device is bound or unbound.
+On Tue, May 12, 2026 at 08:10:52PM +0200, Tomasz Unger wrote:
+> Remove the "Generated code: do not edit or commmit." comments and
+> the resulting double blank lines from five files. This code is coupled
+> with legacy firmware and will never be re-generated, so the comment
+> is misleading and should be dropped entirely rather than having its
+> typo fixed.
+> 
+> Suggested-by: Dan Carpenter <error27@gmail.com>
 
-Signed-off-by: Harshit Shaw <shawharshit116@gmail.com>
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202605131232.m3YE1tEv-lkp@intel.com/
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
----
-v4: Fix build error - add extern declaration of fbtft_groups in
-    fbtft.h so all drivers using FBTFT_REGISTER_DRIVER macro can
-    see the symbol
-v3: Remove stray blank line in fbtft_attrs[] array
-v2: - Use DEVICE_ATTR_RW() macro instead of DEVICE_ATTR()
-    - Move DEVICE_ATTR_RW() definitions closer to their callbacks
-    - Remove trailing comma after NULL in attribute array
-    - Use ATTRIBUTE_GROUPS() macro and add dev_groups to driver
-      structure as suggested by Greg KH and Andy Shevchenko
-    - Compile tested with: make M=drivers/staging/fbtft modules
+I didn't really suggest it.  I just pointed out that you need to
+delete the blank line following it so the right way to do this would
+be to put a little note under the ---
 
- drivers/staging/fbtft/fbtft-core.c  |  3 --
- drivers/staging/fbtft/fbtft-sysfs.c | 81 +++++++++++------------------
- drivers/staging/fbtft/fbtft.h       |  6 +++
- drivers/staging/fbtft/internal.h    |  2 -
- 4 files changed, 36 insertions(+), 56 deletions(-)
 
-diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-index 3da42c8ca6e3..e6d33127cecc 100644
---- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -782,8 +782,6 @@ int fbtft_register_framebuffer(struct fb_info *fb_info)
- 	if (ret < 0)
- 		goto reg_fail;
- 
--	fbtft_sysfs_init(par);
--
- 	if (par->txbuf.buf && par->txbuf.len >= 1024)
- 		sprintf(text1, ", %zu KiB buffer memory", par->txbuf.len >> 10);
- 	if (spi)
-@@ -826,7 +824,6 @@ int fbtft_unregister_framebuffer(struct fb_info *fb_info)
- 
- 	if (par->fbtftops.unregister_backlight)
- 		par->fbtftops.unregister_backlight(par);
--	fbtft_sysfs_exit(par);
- 	unregister_framebuffer(fb_info);
- 
- 	return 0;
-diff --git a/drivers/staging/fbtft/fbtft-sysfs.c b/drivers/staging/fbtft/fbtft-sysfs.c
-index d05599d80011..579ac9dcdd9f 100644
---- a/drivers/staging/fbtft/fbtft-sysfs.c
-+++ b/drivers/staging/fbtft/fbtft-sysfs.c
-@@ -107,9 +107,18 @@ sprintf_gamma(struct fbtft_par *par, u32 *curves, char *buf)
- 	return len;
- }
- 
--static ssize_t store_gamma_curve(struct device *device,
--				 struct device_attribute *attr,
--				 const char *buf, size_t count)
-+static ssize_t gamma_show(struct device *device,
-+			  struct device_attribute *attr, char *buf)
-+{
-+	struct fb_info *fb_info = dev_get_drvdata(device);
-+	struct fbtft_par *par = fb_info->par;
-+
-+	return sprintf_gamma(par, par->gamma.curves, buf);
-+}
-+
-+static ssize_t gamma_store(struct device *device,
-+			   struct device_attribute *attr,
-+			   const char *buf, size_t count)
- {
- 	struct fb_info *fb_info = dev_get_drvdata(device);
- 	struct fbtft_par *par = fb_info->par;
-@@ -133,18 +142,7 @@ static ssize_t store_gamma_curve(struct device *device,
- 	return count;
- }
- 
--static ssize_t show_gamma_curve(struct device *device,
--				struct device_attribute *attr, char *buf)
--{
--	struct fb_info *fb_info = dev_get_drvdata(device);
--	struct fbtft_par *par = fb_info->par;
--
--	return sprintf_gamma(par, par->gamma.curves, buf);
--}
--
--static struct device_attribute gamma_device_attrs[] = {
--	__ATTR(gamma, 0660, show_gamma_curve, store_gamma_curve),
--};
-+static DEVICE_ATTR_RW(gamma);
- 
- void fbtft_expand_debug_value(unsigned long *debug)
- {
-@@ -173,7 +171,16 @@ void fbtft_expand_debug_value(unsigned long *debug)
- 	}
- }
- 
--static ssize_t store_debug(struct device *device,
-+static ssize_t debug_show(struct device *device,
-+			  struct device_attribute *attr, char *buf)
-+{
-+	struct fb_info *fb_info = dev_get_drvdata(device);
-+	struct fbtft_par *par = fb_info->par;
-+
-+	return sysfs_emit(buf, "%lu\n", par->debug);
-+}
-+
-+static ssize_t debug_store(struct device *device,
- 			   struct device_attribute *attr,
- 			   const char *buf, size_t count)
- {
-@@ -189,40 +196,12 @@ static ssize_t store_debug(struct device *device,
- 	return count;
- }
- 
--static ssize_t show_debug(struct device *device,
--			  struct device_attribute *attr, char *buf)
--{
--	struct fb_info *fb_info = dev_get_drvdata(device);
--	struct fbtft_par *par = fb_info->par;
--
--	return sysfs_emit(buf, "%lu\n", par->debug);
--}
-+static DEVICE_ATTR_RW(debug);
- 
--static struct device_attribute debug_device_attr =
--	__ATTR(debug, 0660, show_debug, store_debug);
--
--void fbtft_sysfs_init(struct fbtft_par *par)
--{
--	struct device *dev;
--
--	dev = dev_of_fbinfo(par->info);
--	if (!dev)
--		return;
--
--	device_create_file(dev, &debug_device_attr);
--	if (par->gamma.curves && par->fbtftops.set_gamma)
--		device_create_file(dev, &gamma_device_attrs[0]);
--}
--
--void fbtft_sysfs_exit(struct fbtft_par *par)
--{
--	struct device *dev;
--
--	dev = dev_of_fbinfo(par->info);
--	if (!dev)
--		return;
-+static struct attribute *fbtft_attrs[] = {
-+	&dev_attr_debug.attr,
-+	&dev_attr_gamma.attr,
-+	NULL
-+};
- 
--	device_remove_file(dev, &debug_device_attr);
--	if (par->gamma.curves && par->fbtftops.set_gamma)
--		device_remove_file(dev, &gamma_device_attrs[0]);
--}
-+ATTRIBUTE_GROUPS(fbtft);
-diff --git a/drivers/staging/fbtft/fbtft.h b/drivers/staging/fbtft/fbtft.h
-index 317be17b95c1..1a3b9691f24a 100644
---- a/drivers/staging/fbtft/fbtft.h
-+++ b/drivers/staging/fbtft/fbtft.h
-@@ -8,6 +8,7 @@
- #include <linux/spinlock.h>
- #include <linux/spi/spi.h>
- #include <linux/platform_device.h>
-+#include <linux/sysfs.h>
- 
- #define FBTFT_ONBOARD_BACKLIGHT 2
- 
-@@ -274,6 +275,9 @@ void fbtft_write_reg8_bus9(struct fbtft_par *par, int len, ...);
- void fbtft_write_reg16_bus8(struct fbtft_par *par, int len, ...);
- void fbtft_write_reg16_bus16(struct fbtft_par *par, int len, ...);
- 
-+/* fbtft-sysfs.c */
-+extern const struct attribute_group *fbtft_groups[];
-+
- #define FBTFT_DT_TABLE(_compatible)						\
- static const struct of_device_id dt_ids[] = {					\
- 	{ .compatible = _compatible },						\
-@@ -299,6 +303,7 @@ static struct spi_driver fbtft_driver_spi_driver = {				\
- 	.driver = {								\
- 		.name = _name,							\
- 		.of_match_table = dt_ids,					\
-+		.dev_groups = fbtft_groups,					\
- 	},									\
- 	.id_table = _spi_ids,							\
- 	.probe = fbtft_driver_probe_spi,					\
-@@ -328,6 +333,7 @@ static struct platform_driver fbtft_driver_platform_driver = {             \
- 		.name   = _name,                                           \
- 		.owner  = THIS_MODULE,                                     \
- 		.of_match_table = dt_ids,                                  \
-+		.dev_groups = fbtft_groups,                                \
- 	},                                                                 \
- 	.probe  = fbtft_driver_probe_pdev,                                 \
- 	.remove = fbtft_driver_remove_pdev,				   \
-diff --git a/drivers/staging/fbtft/internal.h b/drivers/staging/fbtft/internal.h
-index ae2ff4a4a472..7869cf8dbf2a 100644
---- a/drivers/staging/fbtft/internal.h
-+++ b/drivers/staging/fbtft/internal.h
-@@ -4,8 +4,6 @@
- #ifndef __LINUX_FBTFT_INTERNAL_H
- #define __LINUX_FBTFT_INTERNAL_H
- 
--void fbtft_sysfs_init(struct fbtft_par *par);
--void fbtft_sysfs_exit(struct fbtft_par *par);
- void fbtft_expand_debug_value(unsigned long *debug);
- int fbtft_gamma_parse_str(struct fbtft_par *par, u32 *curves,
- 			  const char *str, int size);
--- 
-2.53.0
+> Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
+> ---
+  ^^^
+cut off line, here.
+
+v3: remove trailing blank lines (as noted by Dan Carpenter)
+
+Although I'm also happy to boost my tag count so I don't really mind
+being credited either.
+
+regards,
+dan carpenter
 
