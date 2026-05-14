@@ -1,39 +1,71 @@
-Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f67.google.com (mail-dl1-f67.google.com [74.125.82.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 367D03C0621
-	for <linux-staging@lists.linux.dev>; Thu, 14 May 2026 09:05:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AFA738B142
+	for <linux-staging@lists.linux.dev>; Thu, 14 May 2026 10:07:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778749557; cv=none; b=ekC6EtFfRTMfJnJjJ3WKsFjYtGUZ2Xk+LC0p583Ur8MLqlKENiHCIwm1M0pSiwy0ayN0Bs/rtiH6rMws+LYAE25PU2Qh7PLKQUR8qDs/bxqXTyxcGg7VZ922z/7mC7EgT9e5tAVR1tpLNY/B0Ov/4oZylHEodQM2OXXelT9i4I0=
+	t=1778753246; cv=none; b=VKsrYK+FLbfJVP3vpYQigTvfPrKgD/bwkpHde0HDDHULADVGZ0OonPLhHR3Qmr/g2F3+T8Ar7SpMlLbu5qQxxSHKzyJpzBBtsov+VJ+bTRBtCI9zopHIqjsPDOUgBY0V+FuT+1pXiVDn2fhrfjhVGfk8SaOau2niu/BmEp2Nv0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778749557; c=relaxed/simple;
-	bh=KeSs1IZyaM5XXAriQLFAQWjNHnLfy6KHENc5JdOH3sM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=L6QZRjTNADe3nXB8TBTzppiMj0NnXykTAFbC7vLV7vBa2C+8sAXhV7GkxZPgXpaUAthnOyVl+/g0IGTyBu1J2d+rm9WsIejLDcAt+LldpCIqYIO9BoBIofgz6Gn4hqm6lCsUoiRrl34897FmMnSW07WeljvXyW29G8w70LFCKEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=HwoOa57P; arc=none smtp.client-ip=91.218.175.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1778753246; c=relaxed/simple;
+	bh=2vmXRrytz4iGXlltNXIB2UjK/hXLhHP7qHHyy0ZoQuE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=I6lz6aZEm63DQ1/5O1Yu4TiiyzvWKpPuSi0XheKXtsp6Qnx4BPp1yle2HJIzxtgqkQmYWRfJOP/Mu03PuKTEsmiPCubzDtVFkftRlp2q5jBhtxSX8GfH8igGbdmvfXLdO5Q80RykSBAFf+hvPmDxW9k/VSYdDUhQsNP0MbKDNyg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i3Te6iem; arc=none smtp.client-ip=74.125.82.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="HwoOa57P"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1778749553;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=iZJL4wKnNFo+5di5y00KUEPbBrFyfQZabLTGGCpuu58=;
-	b=HwoOa57PkDCW4fg7k5LM7Byxle86aOdbZk/xYT6BInK3ij956ZEEESE/Ec04BubT0SPH08
-	7A0/gisn+ewIXhM4QESC8LSHoYMU63Tlxw14OZaAZ3GjZWXX9Q+Zdw41iqxCjVRDzFEnsu
-	zyJZ01orNJIfRBKhbfdlTUAPSUuM2Rw=
-From: luka.gejak@linux.dev
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i3Te6iem"
+Received: by mail-dl1-f67.google.com with SMTP id a92af1059eb24-1309f4ee97fso9799795c88.1
+        for <linux-staging@lists.linux.dev>; Thu, 14 May 2026 03:07:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778753243; x=1779358043; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=s98BsH3cPoX1V+Aa4Eby+V0MBo1kkzt5yyryucGMezc=;
+        b=i3Te6iem4vJUHfltoJwDQ71hnc7hTO+isJUfeIRo8x6+ShPD+aCVV2+aOUGfrn++W+
+         ixKPVotbPuXTq455um+Hw2OzQAIfChNK3yl7MktUhJl3Jzlc8tLWoRqauE5QdeLA0Nwn
+         NGbv6lzDLS6gTTqcX3yTf7l4Hy7JY+ICDB8taGF4Ffnunnlt9lcimxTFvP/ojfu0sl5U
+         7Gw0+j7WOieah3AGwxoLswTCIRjBznpRhTymSAgRMfHJyti7N2UE1sY2s5VInL++GQ/4
+         3eNtrT8sMB854ds6gDldKBunlWqDo7wS+ybdWlcHpZ/bPlLvZd393KX5UgjThYiPLzgm
+         KAbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778753243; x=1779358043;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=s98BsH3cPoX1V+Aa4Eby+V0MBo1kkzt5yyryucGMezc=;
+        b=PLMHuHssYUFbnX9NhPuR95IYHf/Z4+52W0wzdZxZbxZM00Vn9tTG5bHXkkGTVYcXtC
+         G+yt0ivthErLn3HJIad6Qb2frLDPdTHF1fTN3ScrZIJE1zjRvPUmOMDUa8E6owzNV+J5
+         6k/U0g+19ZzeeoZ8GOF1UsMfj76naoBDkbQspgQ5CuZbtJPb6i50TJ5rPitI71yyMZ/S
+         bG71rl+3HNdKr0GLcPHaAmQGBzLHiyhUOx//yKT9s0QP8KBdXiCNNM3IWumjJp5Cn10R
+         drJtkaiOpCg2kZsSfBr/VCMOlgjrIiliUfJQ3PAgXrxyAdd7DRQJVBY7Ab76M0jMMaQe
+         /EjQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9j4769u3TacGUyecQTLX3g1+HgBJb15Os7NdUrgnfEdXiLgO+/IuBvTurNOF5wbqZtUn3NUiY4OcTVAwsj@lists.linux.dev
+X-Gm-Message-State: AOJu0YzyNmA3Tfl3O+DzEqTOu2Lu5G+JnFkETsyr6i7oNfime95ituXh
+	/zL3HnLfAdvsZb5NPdURMTVDXW4CrhstLX/d2L/59h9/gNMV/HzQbC1+c/Dx2J1NAhI=
+X-Gm-Gg: Acq92OGXK+1k4AXsvTozVMFMVC7nP9daWkSlRAiZrh9tAXNx+ZL1W2o0YRFjnizZCbJ
+	kr1C3sJs6V5j9XiXPeZ1hGil0ex4fuNUuzGm3qCU93arcRbDLek7bcgYGTQ1wDUN7W5hWZcN1Qs
+	QI6Yk0Z/XpmzVCY9jY97y+LlraBbzsSfXeeLdjmvNeH3rFqJVnsN9gEf8RofW2spPQMTjFK8fXH
+	qfs3zjr/o+wtduSJ6wAhue4/ksVZt0/yOkrW2o1nBcHFLZkNofcird0leSetGxNITGiPjBU/rKy
+	9ZyPzDxoNA2rBEfde9kxyE38eMoxYaVburaQYWWm0eDquiFZ/5KkMb22IZbf3SMDWAC4pOPETP6
+	uSht/SbmvTZ612jgm2OJb4INVSbiRniqeMe3kuub6u6muQt1pPjuc2sqAE9NACIYDLape5NHi3/
+	xvQRmPCO+TBuCufWGAvIovwdfXRzgr6qFo7au8VNdHrmxHadBRC+fd0LtSU9mxfKk2fw==
+X-Received: by 2002:a05:7022:b88:b0:130:a4aa:e4d1 with SMTP id a92af1059eb24-1349ac6e323mr4161582c88.34.1778753242826;
+        Thu, 14 May 2026 03:07:22 -0700 (PDT)
+Received: from localhost.localdomain ([76.32.119.210])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-134cbcb93f3sm3757921c88.3.2026.05.14.03.07.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 May 2026 03:07:22 -0700 (PDT)
+From: Hungyu Lin <dennylin0707@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev,
+Cc: Dan Carpenter <error27@gmail.com>,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Luka Gejak <luka.gejak@linux.dev>,
-	stable@vger.kernel.org
-Subject: [PATCH v6] staging: rtl8723bs: fix remote heap info disclosure and OOB reads
-Date: Thu, 14 May 2026 11:05:25 +0200
-Message-ID: <20260514090525.6161-1-luka.gejak@linux.dev>
+	Hungyu Lin <dennylin0707@gmail.com>
+Subject: [PATCH v2 0/5] staging: rtl8723bs: clean up xmit classifier and propagate errno
+Date: Thu, 14 May 2026 10:07:03 +0000
+Message-Id: <20260514100708.25031-1-dennylin0707@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -41,145 +73,36 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
-From: Luka Gejak <luka.gejak@linux.dev>
+v2:
+- Clarify commit message for hal xmit path as suggested by Dan Carpenter
+- None of the callers of rtw_hal_xmitframe_enqueue() check the
+  return value, so they do not need to be updated
 
-When building an association request frame, the driver iterates over
-the ies received from the ap. In three places, the driver trusts the
-attacker-controlled pIE->length without validating that it meets the
-minimum expected size for the respective ie.
+This series cleans up the xmit classifier path in rtl8723bs and
+converts the enqueue path to use standard errno-style return values.
 
-For WLAN_EID_HT_CAPABILITY, this causes an oob read of adjacent heap
-memory which is then transmitted over the air (remote heap information
-disclosure). For WLAN_EID_VENDOR_SPECIFIC, it causes two separate oob
-reads: one when checking the 4-byte oui, and another when copying the
-14-byte wps ie.
+The changes are split into small steps:
+- simplify control flow
+- make the helper static
+- convert the helper to return errno
+- propagate errno through the enqueue path
+- propagate errno through the HAL layer
 
-Fix these issues by adding upper-bound checks at the start of the loop
-to ensure the ie fits within the buffer, and explicit lower-bound
-checks to return a failure if the length is insufficient. For
-HT_CAPABILITY, also clamp the length passed to rtw_set_ie() to the
-struct size.
+Hungyu Lin (5):
+  staging: rtl8723bs: simplify rtw_xmit_classifier control flow
+  staging: rtl8723bs: make rtw_xmit_classifier static
+  staging: rtl8723bs: convert rtw_xmit_classifier to return errno
+  staging: rtl8723bs: propagate errno through xmit enqueue path
+  staging: rtl8723bs: propagate errno through hal xmit path
 
-Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Luka Gejak <luka.gejak@linux.dev>
----
-Changes in v6:
- - Restore full changes history.
+ drivers/staging/rtl8723bs/core/rtw_xmit.c     | 84 +++++++++----------
+ drivers/staging/rtl8723bs/hal/hal_intf.c      |  7 +-
+ .../staging/rtl8723bs/hal/rtl8723bs_xmit.c    |  8 +-
+ drivers/staging/rtl8723bs/include/hal_intf.h  |  2 +-
+ drivers/staging/rtl8723bs/include/rtw_xmit.h  |  3 +-
+ 5 files changed, 52 insertions(+), 52 deletions(-)
 
-Changes in v5:
- - Address sashiko comments.
-
-Changes in v4:
- - Added upper-bound checks at the start of the loop to ensure the ie
-  fits within the received buffer, as pointed out by Dan.
- - Updated commit message to reflect the addition of upper-bound checks.
-
-Changes in v3:
- - Switched to fail-fast handling for malformed IEs in issue_assocreq().
- - Fixed HT capability path to use structure-sized output length in 
-  rtw_set_ie().
- - Updated commit message to reflect all oob read cases.
-
-Changes in v2:
- - Refactored rtw_set_ie() alignment to follow "open parenthesis" style.
- - Allowed the line length to exceed 100 characters for better
-  readability as requested by Greg KH.
-
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 32 ++++++++++++++++++-
- .../staging/rtl8723bs/core/rtw_wlan_util.c    |  6 ++++
- 2 files changed, 37 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index cfd3eb253350..e448a814eb1c 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -2862,6 +2862,9 @@ void issue_assocreq(struct adapter *padapter)
- 		if (pmlmeinfo->network.supported_rates[i] == 0)
- 			break;
- 
-+		if (index >= NumRates)
-+			break;
-+
- 		/*  Check if the AP's supported rates are also supported by STA. */
- 		for (j = 0; j < sta_bssrate_len; j++) {
- 			 /*  Avoid the proprietary data rate (22Mbps) of Handlink WSG-4000 AP */
-@@ -2891,10 +2894,25 @@ void issue_assocreq(struct adapter *padapter)
- 
- 	/* vendor specific IE, such as WPA, WMM, WPS */
- 	for (i = sizeof(struct ndis_802_11_fix_ie); i < pmlmeinfo->network.ie_length;) {
-+		if (i + 2 > pmlmeinfo->network.ie_length) {
-+			rtw_free_xmitbuf(pxmitpriv, pmgntframe->pxmitbuf);
-+			rtw_free_xmitframe(pxmitpriv, pmgntframe);
-+			goto exit;
-+		}
-+
- 		pIE = (struct ndis_80211_var_ie *)(pmlmeinfo->network.ies + i);
- 
-+		if (pIE->length > pmlmeinfo->network.ie_length - i - 2) {
-+			rtw_free_xmitbuf(pxmitpriv, pmgntframe->pxmitbuf);
-+			rtw_free_xmitframe(pxmitpriv, pmgntframe);
-+			goto exit;
-+		}
-+
- 		switch (pIE->element_id) {
- 		case WLAN_EID_VENDOR_SPECIFIC:
-+			if (pIE->length < 4)
-+				goto exit;
-+
- 			if ((!memcmp(pIE->data, RTW_WPA_OUI, 4)) ||
- 					(!memcmp(pIE->data, WMM_OUI, 4)) ||
- 					(!memcmp(pIE->data, WPS_OUI, 4))) {
-@@ -2906,6 +2924,9 @@ void issue_assocreq(struct adapter *padapter)
- 					 * extensions information to AP
- 					 */
- 
-+					if (pIE->length < 14)
-+						goto exit;
-+
- 					vs_ie_length = 14;
- 				}
- 
-@@ -2919,8 +2940,17 @@ void issue_assocreq(struct adapter *padapter)
- 		case WLAN_EID_HT_CAPABILITY:
- 			if (padapter->mlmepriv.htpriv.ht_option) {
- 				if (!(is_ap_in_tkip(padapter))) {
-+					if (pIE->length < sizeof(struct HT_caps_element)) {
-+						rtw_free_xmitbuf(pxmitpriv, pmgntframe->pxmitbuf);
-+						rtw_free_xmitframe(pxmitpriv, pmgntframe);
-+						goto exit;
-+					}
-+
- 					memcpy(&(pmlmeinfo->HT_caps), pIE->data, sizeof(struct HT_caps_element));
--					pframe = rtw_set_ie(pframe, WLAN_EID_HT_CAPABILITY, pIE->length, (u8 *)(&(pmlmeinfo->HT_caps)), &(pattrib->pktlen));
-+					pframe = rtw_set_ie(pframe, WLAN_EID_HT_CAPABILITY,
-+							    sizeof(struct HT_caps_element),
-+							    (u8 *)&pmlmeinfo->HT_caps,
-+							    &pattrib->pktlen);
- 				}
- 			}
- 			break;
-diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-index cc1a7497764c..dc4abef3a7b8 100644
---- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-@@ -1327,8 +1327,14 @@ unsigned int is_ap_in_tkip(struct adapter *padapter)
- 
- 	if (rtw_get_capability((struct wlan_bssid_ex *)cur_network) & WLAN_CAPABILITY_PRIVACY) {
- 		for (i = sizeof(struct ndis_802_11_fix_ie); i < pmlmeinfo->network.ie_length;) {
-+			if (i + 2 > pmlmeinfo->network.ie_length)
-+				return false;
-+
- 			pIE = (struct ndis_80211_var_ie *)(pmlmeinfo->network.ies + i);
- 
-+			if (pIE->length > pmlmeinfo->network.ie_length - i - 2)
-+				return false;
-+
- 			switch (pIE->element_id) {
- 			case WLAN_EID_VENDOR_SPECIFIC:
- 				if ((!memcmp(pIE->data, RTW_WPA_OUI, 4)) && (!memcmp((pIE->data + 12), WPA_TKIP_CIPHER, 4)))
 -- 
-2.54.0
+2.34.1
 
