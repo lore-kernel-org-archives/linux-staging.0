@@ -1,172 +1,146 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABD433A4F4B;
-	Thu, 14 May 2026 03:34:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DD5D3612C7
+	for <linux-staging@lists.linux.dev>; Thu, 14 May 2026 03:45:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778729677; cv=none; b=eKOyCvaGetKxLpooo1UYE37MJt6vNNVKI+eGs7yC6dpbnJr6C2KqhNXFKiNVvfq2omUsg9su96RlzZi5jr/jSkkJ/2cc0DKsALlpX9kYlt6z/hgdQ9D+KeDlp5ympYqazeDvdk7RvHBZ07Z9du9Pz3/ZI6VSHIpR+NNYLueRLog=
+	t=1778730333; cv=none; b=SyOML7Tb0esXUn5w3H39bRa24xs8EvZDqXJaS/TYcTH+qoDfH4efSPOQ/ayFAsgaA6NmdUFUC5U9LVIgZOmM9//UWbHzwwJr2kureCfMqYzQXZ5Sd+ErJQo+tSncY6BRkPx2LXpDbuqr+M0Zxu8WsAS0TvsTS166UqcEf/ZMy4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778729677; c=relaxed/simple;
-	bh=3mxmo4gdeOSblWnNntG1/+LV+UhMCa+2jlTlT/fV9I0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ACJW/VmFARhOvKFaYxLVcbU08Y1gYuSnS+9NWvxBJESGTQmCLL5T0ubXNpOL8QmZBqmjW5xGrR+r2+/C0z6KHfsRZ/E9sf4CmPBKlqm1KrnhR5pxpglzI5bImA1Dsxq3sSZEXIpkl0BLt8EswOrhN6LU8/6uVUh/XHVHj8iRA6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ikRnDrPV; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1778730333; c=relaxed/simple;
+	bh=7fzvXNkKyCgXZZTF525bDdETOC4962M9Zz1rkuNpoXU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=S5BvSTE6WnGvzgoLelwotrhVtao1i+y0GKeso4DE1ftFLEqNwIRVpppFvEYWR0rkfBgQGVMiGuMeiPSLb1Ohba4NBD4dnvYiMpnxgHot2vRPTiLAv/8Tqafl4DvdgQ721oxcVzIsJruY2hx4CQpZs2EwdrYrSAOXGgmMkNOK8hY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Algh/K8E; arc=none smtp.client-ip=209.85.216.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ikRnDrPV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778729676; x=1810265676;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3mxmo4gdeOSblWnNntG1/+LV+UhMCa+2jlTlT/fV9I0=;
-  b=ikRnDrPVwbC4zVZfFJ6t3TElBZWB9l1p44Ms1/sXi7RdT8H+ssJcEzUq
-   6z15pzWWA2YRcdwxXkui/EQYIlHZ6UbBWZlWtRIDwZ1QsPGnw1T+Q9o14
-   cDQicq4oruiFyVwoQv2sgtQzPdHdEwLFUvsHslCVGOHNXUKbFb8TOnSEI
-   W9fZPtVsBClNEkhlTKdYSCaSJYz0s4YFr7lvYjEqcGLkluN4KnR04doNv
-   jLbVt129uE0sAfYvi8Zoc3/IbA2zGYIjb/5qufDpq1GLrHtj1RZ/wjvrj
-   0RKiwNgTnwhYWSjgD0gRq+f4sVwtePYKjuvbPhrFnxHjqE1AjcaBKa4C3
-   A==;
-X-CSE-ConnectionGUID: Au4G5Ad1QqGaqgNThdfSmw==
-X-CSE-MsgGUID: 4zln+thFRv6z8o7JnJObRQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="79648528"
-X-IronPort-AV: E=Sophos;i="6.23,234,1770624000"; 
-   d="scan'208";a="79648528"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 20:34:33 -0700
-X-CSE-ConnectionGUID: 07xLSzhxQJC6BsmkAFWnyQ==
-X-CSE-MsgGUID: 51apW2JcRuGuWaW0JwT1qg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,234,1770624000"; 
-   d="scan'208";a="242598641"
-Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 13 May 2026 20:34:32 -0700
-Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wNMqC-000000005kh-1kZW;
-	Thu, 14 May 2026 03:34:28 +0000
-Date: Thu, 14 May 2026 11:33:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ashwin Gundarapu <linuxuser509@zohomail.in>,
-	gregkh <gregkh@linuxfoundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel <linux-kernel@vger.kernel.org>,
-	linux-staging <linux-staging@lists.linux.dev>
-Subject: Re: [PATCH v7] staging: rtl8723bs: remove unnecessary braces in
- rtw_mlme.c
-Message-ID: <202605141108.KAKaXH7X-lkp@intel.com>
-References: <19e1c077ee4.2272059b46402.3689085453526247548@zohomail.in>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Algh/K8E"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-368763a1bdfso2881382a91.2
+        for <linux-staging@lists.linux.dev>; Wed, 13 May 2026 20:45:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778730330; x=1779335130; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8zuozrY6hf5U3ahVFjB+fzD34V5OcD0q+0qREX/Mock=;
+        b=Algh/K8EVBGRf6n7IaNbph28A1B5At36qKlp5AeWokq9c/M8hIuYHcys+fH4wS/1FJ
+         6HKNXBbgI0sp0TEwEC/MnRVhnAcMY0lbzxFBDn/8B7/Q5Sw7fbP1TYL+y2IfiHXQ6NwP
+         6TJrZj/5dhyTgy0PpcsA7OqTNVM39LeajSWx7J/lfQ3T8D8mAFUTevS5o8suXuaGPO38
+         zKMdrfdonuc3/ZI1y0gYOaouJ42Z/EfnyN1fBfC+l69JtpzlRRRGQnq+sdtcuOv8csq9
+         Y8vghdpjwpnD6qfAqs/MPIu02qkX27Z5QDaujBeddXCTOPCIQAroSDeu4KxyziSjvG6Z
+         lI7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778730330; x=1779335130;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=8zuozrY6hf5U3ahVFjB+fzD34V5OcD0q+0qREX/Mock=;
+        b=EdfBWsVivlI3JZExdv4LSdW/YbgHq/vuD8Dzd93RXYBrumWgrimw18Vg8DMDoGgTt3
+         1En1IQ8hJ/sAKM+Sa6RcXwzrCHIipiH8925oz5lzXLp2z6yQf0crjJXmdhEDtBhk/Gmf
+         XEF/riwTWEY2aFKe+yK7nQ9p+v6I6ocV3dUCJ7oN4TMy/X8yOpsXWSfIMF0OyiuY7V4i
+         8NJZAckInbMCjp/xWi2unLOUxwlcOAAxCn50SVcf7P7M2+JiXV6YZcbRvuicDoNVbYl6
+         /E+SRUOtKsaS+Py0t1RmwXtR2M0BGMrLhYJeNe7g9kwMkJU9oJN9yEZuUuF7tzl+vy2Y
+         pLHA==
+X-Gm-Message-State: AOJu0YwYeXUFL50E80Tzmiug1dgJjSXWMu5aCGYYHLwXU4qAZysNEa3i
+	y5GIZgBBOU5LxMk6OYim6XCdIpKdx+f4vohtbo+345AbJpIvlweLni5N
+X-Gm-Gg: Acq92OGoEZTxoMjSLtTdCtv/wozeK9jb4zZOtyzYUDofiwuklcrf0/X1YGNmsBQlK2I
+	lW5jTW/GcYRDE12eS8gwHG/X+ahsBfeZJqwPZGjrAsrTo0jK1/81hHEWLIcjq5f0NDXqYVJDKR6
+	ts0tbE2UEISVhR1HIg7F/kKdDW4qZyZZbe43Ybd+Ro/5y3EzObl7WLJq2QU7gYkZWnuOLLOVCjX
+	07oRHMyA2Vi18r58+/iqrtLc1si6uioYhLy4srzPnI3TRTPmtfAiDM4MvVKdOafjI4nirOZJ4uO
+	i7hvKhOwcgaa9o5egGEkINaMV11c1swu4c5TEUhJ4nTOTJ+DLPGCuOvVj7X0BSPFU+X4c1AO1WK
+	xm31NjHzhb2O0pyxwOHq3epXjMWUZrCGOHy06ciP8hndczhSZWC488YWrUeXN1chr6q0fqkP3nl
+	TNq++Hy0R0O5XHqe1hsVDKiMQ76vvCFCbMYj7zSGE4KcluHb7ZZh75ejIdt7EUdEAWfO6kkV6qM
+	w==
+X-Received: by 2002:a17:90b:2d4c:b0:366:1bab:c3d6 with SMTP id 98e67ed59e1d1-368f3ab59c9mr6146223a91.10.1778730330166;
+        Wed, 13 May 2026 20:45:30 -0700 (PDT)
+Received: from PC.asost.local (fs8572fbce.fkol001.ap.nuro.jp. [133.114.251.206])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-368edf4d940sm4434485a91.7.2026.05.13.20.45.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 May 2026 20:45:29 -0700 (PDT)
+From: Rion Kiguchi <kiguchi.r.sec@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Rion Kiguchi <kiguchi.r.sec@gmail.com>
+Subject: [PATCH v4] staging: vme_user: validate slave window size against buffer size
+Date: Thu, 14 May 2026 12:45:10 +0900
+Message-ID: <20260514034511.4244-1-kiguchi.r.sec@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <2026050947-easily-choosing-2f91@gregkh>
+References: <2026050947-easily-choosing-2f91@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <19e1c077ee4.2272059b46402.3689085453526247548@zohomail.in>
+Content-Transfer-Encoding: 8bit
 
-Hi Ashwin,
+The VME_SET_SLAVE ioctl in drivers/staging/vme_user/vme_user.c accepts
+a user-controlled slave.size and forwards it to vme_slave_set() without
+comparing it against image[minor].size_buf. The slave-image kernel
+buffer is allocated at probe time with a fixed size of PCI_BUF_SIZE
+(0x20000 / 128 KiB), but the configured VME window size can be made
+much larger via the ioctl.
 
-kernel test robot noticed the following build errors:
+Additionally, a slave.size of 0 is permitted, which causes vme_get_size()
+to return 0. In vme_user_read() and vme_user_write(), the boundary check
+(*ppos > image_size - 1) suffers from an integer underflow because
+image_size is size_t. This bypasses the bounds check entirely, allowing
+offsets beyond the actual allocation.
 
-[auto build test ERROR on staging/staging-testing]
+Result: a local user with read/write access to /dev/bus/vme/s* can
+trigger out-of-bounds read and write of the kernel slab adjacent to
+the slave-image buffer.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ashwin-Gundarapu/staging-rtl8723bs-remove-unnecessary-braces-in-rtw_mlme-c/20260514-040753
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/19e1c077ee4.2272059b46402.3689085453526247548%40zohomail.in
-patch subject: [PATCH v7] staging: rtl8723bs: remove unnecessary braces in rtw_mlme.c
-config: i386-buildonly-randconfig-006-20260514 (https://download.01.org/0day-ci/archive/20260514/202605141108.KAKaXH7X-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260514/202605141108.KAKaXH7X-lkp@intel.com/reproduce)
+Fix: reject slave.size == 0 and slave.size > size_buf in the VME_SET_SLAVE
+handler. With this check in place, the existing bounds checks in
+vme_user_read() / vme_user_write() against vme_get_size() are
+sufficient to prevent OOB access.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605141108.KAKaXH7X-lkp@intel.com/
+Assisted-by: Claude:claude-opus-4-7
+Signed-off-by: Rion Kiguchi <kiguchi.r.sec@gmail.com>
+---
+Changes in v4:
+ - Add check for slave.size == 0 to prevent integer underflow in bounds check.
+ - Remove trailing whitespaces inadvertently added in previous versions.
+ - Remove Fixes and Cc: stable tags to resolve checkpatch warnings based on maintainer feedback.
 
-All errors (new ones prefixed by >>):
+Changes in v3:
+ - Drop redundant checks in buffer_to_user() / buffer_from_user();
+   the existing vme_get_size()-based bounds checks in vme_user_read()
+   / vme_user_write() are sufficient once VME_SET_SLAVE rejects
+   oversized windows.
 
->> drivers/staging/rtl8723bs/core/rtw_mlme.c:568:1: error: function definition is not allowed here
-     568 | {
-         | ^
-   drivers/staging/rtl8723bs/core/rtw_mlme.c:582:1: error: function definition is not allowed here
-     582 | {
-         | ^
-   drivers/staging/rtl8723bs/core/rtw_mlme.c:628:1: error: function definition is not allowed here
-     628 | {
-         | ^
-   drivers/staging/rtl8723bs/core/rtw_mlme.c:632:1: error: function definition is not allowed here
-     632 | {
-         | ^
-   drivers/staging/rtl8723bs/core/rtw_mlme.c:675:1: error: function definition is not allowed here
-     675 | {
-         | ^
-   drivers/staging/rtl8723bs/core/rtw_mlme.c:774:1: error: function definition is not allowed here
-     774 | {
-         | ^
-   drivers/staging/rtl8723bs/core/rtw_mlme.c:778:1: error: function definition is not allowed here
-     778 | {
-         | ^
-   drivers/staging/rtl8723bs/core/rtw_mlme.c:782:1: error: function definition is not allowed here
-     782 | {
-         | ^
-   drivers/staging/rtl8723bs/core/rtw_mlme.c:805:1: error: function definition is not allowed here
-     805 | {
-         | ^
-   drivers/staging/rtl8723bs/core/rtw_mlme.c:823:1: error: function definition is not allowed here
-     823 | {
-         | ^
-   drivers/staging/rtl8723bs/core/rtw_mlme.c:853:1: error: function definition is not allowed here
-     853 | {
-         | ^
-   drivers/staging/rtl8723bs/core/rtw_mlme.c:879:1: error: function definition is not allowed here
-     879 | {
-         | ^
-   drivers/staging/rtl8723bs/core/rtw_mlme.c:908:1: error: function definition is not allowed here
-     908 | {
-         | ^
-   drivers/staging/rtl8723bs/core/rtw_mlme.c:920:1: error: function definition is not allowed here
-     920 | {
-         | ^
-   drivers/staging/rtl8723bs/core/rtw_mlme.c:942:1: error: function definition is not allowed here
-     942 | {
-         | ^
-   drivers/staging/rtl8723bs/core/rtw_mlme.c:1026:1: error: function definition is not allowed here
-    1026 | {
-         | ^
-   drivers/staging/rtl8723bs/core/rtw_mlme.c:1073:1: error: function definition is not allowed here
-    1073 | {
-         | ^
-   drivers/staging/rtl8723bs/core/rtw_mlme.c:1139:1: error: function definition is not allowed here
-    1139 | {
-         | ^
-   drivers/staging/rtl8723bs/core/rtw_mlme.c:1247:1: error: function definition is not allowed here
-    1247 | {
-         | ^
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   20 errors generated.
+Changes in v2:
+ - Use git send-email instead of Gmail web compose.
+ - Drop redundant Reported-by tag.
+ - Add Assisted-by tag.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for MFD_STMFX
-   Depends on [n]: HAS_IOMEM [=y] && I2C [=m] && OF [=n]
-   Selected by [m]:
-   - PINCTRL_STMFX [=m] && PINCTRL [=y] && I2C [=m] && HAS_IOMEM [=y]
+ drivers/staging/vme_user/vme_user.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-
-vim +568 drivers/staging/rtl8723bs/core/rtw_mlme.c
-
-554c0a3abf216c Hans de Goede 2017-03-29  565  
-554c0a3abf216c Hans de Goede 2017-03-29  566  void rtw_add_network(struct adapter *adapter, struct wlan_bssid_ex *pnetwork);
-554c0a3abf216c Hans de Goede 2017-03-29  567  void rtw_add_network(struct adapter *adapter, struct wlan_bssid_ex *pnetwork)
-554c0a3abf216c Hans de Goede 2017-03-29 @568  {
-554c0a3abf216c Hans de Goede 2017-03-29  569  	update_current_network(adapter, pnetwork);
-554c0a3abf216c Hans de Goede 2017-03-29  570  	rtw_update_scanned_network(adapter, pnetwork);
-554c0a3abf216c Hans de Goede 2017-03-29  571  }
-554c0a3abf216c Hans de Goede 2017-03-29  572  
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff --git a/drivers/staging/vme_user/vme_user.c b/drivers/staging/vme_user/vme_user.c
+index 11e25c2f6..ba4c9a6d0 100644
+--- a/drivers/staging/vme_user/vme_user.c
++++ b/drivers/staging/vme_user/vme_user.c
+@@ -394,6 +394,16 @@ static int vme_user_ioctl(struct inode *inode, struct file *file,
+ 				return -EFAULT;
+ 			}
+ 
++			/*
++			 * Reject window sizes larger than the kernel buffer
++			 * allocated at probe time, otherwise subsequent
++			 * read/write would access memory beyond kern_buf.
++			 * Also reject size == 0 to prevent integer underflow
++			 * in the boundary check (*ppos > image_size - 1).
++			 */
++			if (slave.size == 0 || slave.size > image[minor].size_buf)
++				return -EINVAL;
++
+ 			/* XXX	We do not want to push aspace, cycle and width
+ 			 *	to userspace as they are
+ 			 */
+-- 
+2.43.0
