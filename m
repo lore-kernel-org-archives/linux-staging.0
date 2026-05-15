@@ -1,685 +1,837 @@
-Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 824993F8ED3
-	for <linux-staging@lists.linux.dev>; Fri, 15 May 2026 17:51:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CA883FDC14
+	for <linux-staging@lists.linux.dev>; Fri, 15 May 2026 18:09:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778867509; cv=none; b=XBuRGLnBPCzc3GPq3AEv2WSrYqZoproFya3JMa+ug8+GJKG+5DyqL8Kj12LVlF1d7VzXw+Sdri4k0chPsScENgAOugTyE4iLFvXmKjMIte3hjQHwefMiRHROx4udSzoHb+xAUhUQKU6OVYmHZMrOya4ZEo+ai3f9HliZLFGJ7ws=
+	t=1778868588; cv=none; b=aYMp9b/xho9azeAGGYX8Hhk+0LRoQWCWr/6wETyGOcf9qwxlbAfsisDfU9fJZyQWQ5McuKBkW/MHm1KZpSiaRrhTBDYdWXCHX3QQV/ZuGLqy/f5BnKGlA4NblG8XIwmDehBlQkXYiLPLsir8dOUv8CIX+d4LFvDZ6ZC2Vp4iCOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778867509; c=relaxed/simple;
-	bh=FtgssZ+f6HN27vprPx3RK2voMlYP2+V6LuMP80GTec4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bxaDGS8mSrBde4pO309KPSq3I3QaBQlOfuhEXXeBIu5h0mrBlXStbFEuE/0YiQSPmGXeV7rygiiygX6jHplYhddFf8HmA7GScoSohJipB/rFIy6nnotIBgYAf4Xcf+7yZaPZjYh1sdCPGrci6PPzNU3ALKJPm/DABlBUX8AO75I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tHnaA270; arc=none smtp.client-ip=74.125.82.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778868588; c=relaxed/simple;
+	bh=c5DCL/C8iLidN9G2V70jVuTNE5P4vyIxTcmDyiA40n8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WRSQeE9k8LyOZA+uxKQAsTexZa7txVN3T45oDvcczxZhQgKtG48PJmbVpvpdyUwIt/BflUK6BLRYc8eMfEBuf4RTxiLzFOjazZSIW0J1yOsts6DOBJWz8kI/dceT703zauUCEJAmC8g0771MAYLbY3g3ZI2aiiCuKM3MxhYXd4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=GCc20xxU; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ULYKcGuu; arc=none smtp.client-ip=103.168.172.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tHnaA270"
-Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-2b4520f6b32so159945eec.0
-        for <linux-staging@lists.linux.dev>; Fri, 15 May 2026 10:51:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778867507; x=1779472307; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ATFlTaV5xxrGrd8AaUma55rreWGm/7yn3mgeUrfsIHk=;
-        b=tHnaA270C1xLzXhO/1T7/440YeF2RDIbd4ZdZE0z8UmEtMjhHBxOC1NikMEI++feSz
-         QGffMAnJp15VVQ0oJd3jmmEnZqNIO3/7IqrX9IyajBPCB5AbPTDEuLHBX3C5BECAGuaS
-         XRV0ReKm/FrnjRkRR9XQqPDN39MnxF/iqEy/LymkbcbGTsAI8n/4usZY5q+45qz+ihBQ
-         KCQ67NAKCHWyVhuIY0/VvsEUdyFZDv5g4MeD5PII18lDHQPJBaULT5gMOJU8xNYX5mEo
-         zxKHfyzlDvb3EMurYHT4Xh3ijRZr2j5gEkC6pl09NzVuh/e3JVza1wZNbnBLNeI9dJEX
-         z1AA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778867507; x=1779472307;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ATFlTaV5xxrGrd8AaUma55rreWGm/7yn3mgeUrfsIHk=;
-        b=ARG7w4iiTMQzgwuA7VOqtizn6aD988zwpv0A4Jr3cqQ/bxI9nJ2uCzuVrU28wSpEGz
-         uTlM2YwON3RLtrmH8PCd4qS6IdjOkpK3bUgFUUsAKh/xFH1QkDK0CWTnkACnQ5gp0tgn
-         ZBwNih07ppTR5FxsPMv3d/lobyCXfF7jPJzTMPhQ0perzOfkLdEehUt48W/kzFSl3fhn
-         JEwGFzc8+m2/vI/kqjs1WUD7S98MEnH11edxteOfSAVfzhfBJOai54HWVxsNNUkv7Kln
-         Ogdddn55/HprKsYhi67/vRxgHb0sFbFwFKdrwwWTJHmUjnBRcTXSDL9VxJqVMRUaiH8T
-         YBMg==
-X-Gm-Message-State: AOJu0YyqxS44KGC/b7ojmuOrMKCKxCe+8LpdnKEQW3l/QYLu0mQNqCa7
-	Ra/d4Z55fIfh/GdECOKU2PlF/6eGemELl8kfSUKjwi30GzWfdj7qt46PZOssrg==
-X-Gm-Gg: Acq92OF5YcWD9P9Q0G2NYvMQyU1/GxEhjUMOi2aiyBpCRHFqzi6FMpTRL625xX1F5Oz
-	4SZ6golNJA3OKBJ6Jpx6O42N/vHcRRO2nU37RaNlu3ZoOvfqvayni2FigXQensIuFMfOhBlVStF
-	LPArVLHvZ87LKvZRv2q6hWrd7a1mu9cUSXiLh6xXCB4GU0ScCF7Fr/pi0KT6z9ZFI9YDEZ+gDXx
-	sjla4YQEbyiXvXSjVEWdj/FZVuIlf7YzxnbZ+fk4VsNUdrVItEb0YFAv3UIvWTkVyN1l7oB3jgz
-	M5dhTig02vMBxN/ZQu10HGYSeLiII1dnq0cdQP8s0Jc3ggLTf6lVsSNV/Sge/FLd8eAe6aaBoNZ
-	BWUNaq2cjYnMLlo6T+Ru1V3P4Uui2AZBppJZHMNZWeh8kt/MqHYPpIbwn1hwMlFMF87/3xa7shm
-	7RK3PX9PHgZ9R/OEPnhrNPovDK1EK7+wDK
-X-Received: by 2002:a05:7300:570e:b0:2e6:ffa8:ef85 with SMTP id 5a478bee46e88-30397b9d820mr2748410eec.0.1778867506421;
-        Fri, 15 May 2026 10:51:46 -0700 (PDT)
-Received: from TestUbuntu22.. ([73.15.108.84])
-        by smtp.googlemail.com with ESMTPSA id 5a478bee46e88-302978ad18asm7618410eec.26.2026.05.15.10.51.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 May 2026 10:51:45 -0700 (PDT)
-From: Jennifer Guo <guojy.bj@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: gregkh@linuxfoundation.org,
-	Jennifer Guo <guojy.bj@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: fix multiple blank lines in more hal/ files
-Date: Fri, 15 May 2026 10:51:40 -0700
-Message-Id: <20260515175140.7439-1-guojy.bj@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="GCc20xxU";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ULYKcGuu"
+Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
+	by mailfout.phl.internal (Postfix) with ESMTP id B3B14EC00A7;
+	Fri, 15 May 2026 14:09:44 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-07.internal (MEProxy); Fri, 15 May 2026 14:09:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1778868584;
+	 x=1778954984; bh=krqp44enzSndnHvhribdC4KBpkMynKCpdBEAhbqrWjQ=; b=
+	GCc20xxURXl4Y4wSXrzdQf6VkUfUymkd0WeZcHEYqrorfsSVrlwbqGPUZFcYf1L7
+	TvdAi23quSNhN2XNkp81ZkfxhMxBOeRiFvCUyZP7yG4Nh2uRzm+MPKLXLDCtYL0i
+	YOZw7yhZ1EPByhR+ZFtd0XpQi3dOjv1ab8ZQW73pZz50E+C6j90VVTO/+ZO71Win
+	tx5gxqbYVYjJDDfRsxHvT45jKwwlWR2gnB5O0o5meHsCNTvnX4kDYOL042sMjEBk
+	ziLAu8qkimEzzADScXtZ0QT5p/oC1HDUo3EHH2yCxYor6goBzXEtdTz+2sNxLMob
+	htbhd2wIvUPezAZX2IRDcw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778868584; x=
+	1778954984; bh=krqp44enzSndnHvhribdC4KBpkMynKCpdBEAhbqrWjQ=; b=U
+	LYKcGuuvFUalPeugcHSaiQhwwXpuieKYi3TFkhWKv4dPvVyDNP9Euv9Nr9u5vl6K
+	VmYXbSQWZw5Ipz64wgM/wHT0EhizLLcqlbcod9eZkFYW1SAs462hV0HttFAGT4dL
+	g3NDGn4VI9N6UYKXtoxmTKrOV6oVzRFMMUs/FxYXxHoKW4jSyMtjSDFcECG/opx3
+	ZlHHWWRc6i37H30ijXMYk9l0Eb3hbrab5aLbcwaavAzhiikEin6l1b+mRsBoi9lv
+	EO6DqAhXAPxjTDRoeeFc+LR18fxmAYvqpa2MH6O621Y2nakFbGYRbYRqovRR2p1w
+	DyydSHDlZ9Umg03PYiMyA==
+X-ME-Sender: <xms:Z2EHakNiTSKEM2KYdWdTreFipLwV9wvjt9096g0mpUsefarX_Vp49w>
+    <xme:Z2EHalrhpPOvRJUZo43IDpNC0bExFqFh3v4SzEIL43xGTBwRjAdlFIonqWkitI4pu
+    10Z_QS7_9AQBtI7s-8oVgOFXuB0TcIhB74vmIy_UHTuNmdYP-pTjsLv>
+X-ME-Received: <xmr:Z2EHah6CYrfuL8wWLP_jvhuASNmCJdzgktzIWegfTpBHucxOKJCmJV7_o3Slfqcmpl8h92bWr9V9tB0UQqpCcxn4rT0FSAhrDTef>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddufedutdekucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhklhgr
+    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrg
+    htvggthhdrshgvqeenucggtffrrghtthgvrhhnpeevteegtddvvdfhtdekgefhfeefheet
+    heekkeegfeejudeiudeuleegtdehkeekteenucevlhhushhtvghrufhiiigvpedtnecurf
+    grrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhn
+    rghtvggthhdrshgvpdhnsggprhgtphhtthhopedujedpmhhouggvpehsmhhtphhouhhtpd
+    hrtghpthhtohepughumhhithhruhdrtggvtghlrghnsegrnhgrlhhoghdrtghomhdprhgt
+    phhtthhopehtohhmihdrvhgrlhhkvghinhgvnhdorhgvnhgvshgrshesihguvggrshhonh
+    gsohgrrhgurdgtohhmpdhrtghpthhtohepmhgthhgvhhgrsgeskhgvrhhnvghlrdhorhhg
+    pdhrtghpthhtohepshgrkhgrrhhirdgrihhluhhssehlihhnuhigrdhinhhtvghlrdgtoh
+    hmpdhrtghpthhtoheplhgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsgho
+    rghrugdrtghomhdprhgtphhtthhopehjuhhlihgvnhdrmhgrshhsohhtsegtohhllhgrsg
+    horhgrrdgtohhmpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphht
+    thhopehgrhgvghhkhheslhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtth
+    hopegtohhsmhhinhdrthgrnhhishhlrghvsegrnhgrlhhoghdrtghomh
+X-ME-Proxy: <xmx:Z2EHanr2qCqOcJLn8PuENwtQP83UgwDiWthg1L3pWZrsHHl0MmJf-w>
+    <xmx:Z2EHanKteUbsxAUwMPcB4yXaDhTWt47hs-xJuvdgdtCeC1QufnqrCw>
+    <xmx:Z2EHasjc1XaJenKhKuayC2eAecQyjkfijQz7PJ3KZfb0P5sBi_in9A>
+    <xmx:Z2EHao9wgVGwsfjLlTquuG32-17bDP-zPUDraaUcBSH6pIm08i5EwQ>
+    <xmx:aGEHalcsPt-f3Riy4i9Pf39kaQ3rmK6hdom6uXh6p8ejIT9MkrMertal>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 15 May 2026 14:09:43 -0400 (EDT)
+Date: Fri, 15 May 2026 20:09:41 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: dumitru.ceclan@analog.com
+Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Julien Massot <julien.massot@collabora.com>,
+	Rob Herring <robh@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Cosmin Tanislav <cosmin.tanislav@analog.com>,
+	mitrutzceclan@gmail.com, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-gpio@vger.kernel.org,
+	Martin Hecht <Martin.Hecht@avnet.eu>,
+	Cosmin Tanislav <demonsingur@gmail.com>
+Subject: Re: [PATCH v11 13/22] media: i2c: add Maxim GMSL2/3 serializer and
+ deserializer framework
+Message-ID: <20260515180941.GO332351@ragnatech.se>
+References: <20260511-gmsl2-3_serdes-v11-0-fc163073c16b@analog.com>
+ <20260511-gmsl2-3_serdes-v11-13-fc163073c16b@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260511-gmsl2-3_serdes-v11-13-fc163073c16b@analog.com>
 
-Remove multiple consecutive blank lines in more hal/ files.
+Hi Dumitru,
 
-This fixes the following checkpatch.pl check:
-CHECK: Please don't use multiple blank lines
+Thanks for your work.
 
-Signed-off-by: Jennifer Guo <guojy.bj@gmail.com>
----
+On 2026-05-11 15:26:36 +0300, Dumitru Ceclan via B4 Relay wrote:
+> From: Cosmin Tanislav <demonsingur@gmail.com>
+> 
+> These drivers are meant to be used as a common framework for Maxim
+> GMSL2/3 serializers and deserializers.
+> 
+> This framework enables support for the following new features across
+> all the chips:
+>  * Full Streams API support
+>  * .get_frame_desc()
+>  * .get_mbus_config()
+>  * I2C ATR
+>  * automatic GMSL link version negotiation
+>  * automatic stream id selection
+>  * automatic VC remapping
+>  * automatic pixel mode / tunnel mode selection
+>  * automatic double mode selection / data padding
+>  * logging of internal state and chip status registers via .log_status()
+>  * PHY modes
+>  * serializer pinctrl
+>  * TPG
+> 
+> Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
+> ---
+>  MAINTAINERS                                 |   1 +
+>  drivers/media/i2c/Kconfig                   |   2 +
+>  drivers/media/i2c/Makefile                  |   1 +
+>  drivers/media/i2c/maxim-serdes/Kconfig      |  17 ++
+>  drivers/media/i2c/maxim-serdes/Makefile     |   3 +
+>  drivers/media/i2c/maxim-serdes/max_serdes.c | 413 ++++++++++++++++++++++++++++
+>  drivers/media/i2c/maxim-serdes/max_serdes.h | 183 ++++++++++++
+>  7 files changed, 620 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 5ae68688008d..70d3eeef8bfe 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -15257,6 +15257,7 @@ M:	Cosmin Tanislav <cosmin.tanislav@analog.com>
+>  L:	linux-media@vger.kernel.org
+>  S:	Maintained
+>  F:	Documentation/devicetree/bindings/media/i2c/maxim,max9296a.yaml
+> +F:	drivers/media/i2c/maxim-serdes/
+>  
+>  MAXIM MAX11205 DRIVER
+>  M:	Ramona Bolboaca <ramona.bolboaca@analog.com>
+> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> index cdd7ba5da0d5..37f86e6de969 100644
+> --- a/drivers/media/i2c/Kconfig
+> +++ b/drivers/media/i2c/Kconfig
+> @@ -1718,6 +1718,8 @@ config VIDEO_MAX96717
+>  	  To compile this driver as a module, choose M here: the
+>  	  module will be called max96717.
+>  
+> +source "drivers/media/i2c/maxim-serdes/Kconfig"
+> +
+>  endmenu
+>  
+>  endif # VIDEO_DEV
+> diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+> index 57cdd8dc96f6..be3200b23819 100644
+> --- a/drivers/media/i2c/Makefile
+> +++ b/drivers/media/i2c/Makefile
+> @@ -71,6 +71,7 @@ obj-$(CONFIG_VIDEO_MAX9271_LIB) += max9271.o
+>  obj-$(CONFIG_VIDEO_MAX9286) += max9286.o
+>  obj-$(CONFIG_VIDEO_MAX96714) += max96714.o
+>  obj-$(CONFIG_VIDEO_MAX96717) += max96717.o
+> +obj-$(CONFIG_VIDEO_MAXIM_SERDES) += maxim-serdes/
+>  obj-$(CONFIG_VIDEO_ML86V7667) += ml86v7667.o
+>  obj-$(CONFIG_VIDEO_MSP3400) += msp3400.o
+>  obj-$(CONFIG_VIDEO_MT9M001) += mt9m001.o
+> diff --git a/drivers/media/i2c/maxim-serdes/Kconfig b/drivers/media/i2c/maxim-serdes/Kconfig
+> new file mode 100644
+> index 000000000000..f5a4ca80a263
+> --- /dev/null
+> +++ b/drivers/media/i2c/maxim-serdes/Kconfig
+> @@ -0,0 +1,17 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +
+> +config VIDEO_MAXIM_SERDES
+> +	tristate "Maxim GMSL2/3 Serializer and Deserializer support"
+> +	depends on VIDEO_DEV
+> +	depends on I2C
+> +	select I2C_ATR
+> +	select I2C_MUX
+> +	select MEDIA_CONTROLLER
+> +	select V4L2_FWNODE
+> +	select VIDEO_V4L2_SUBDEV_API
+> +	help
+> +	  This driver supports the Maxim GMSL2/3 common Serializer and
+> +	  Deserializer framework.
+> +
+> +	  To compile this driver as a module, choose M here: the module
+> +	  will be called max_serdes.
+> diff --git a/drivers/media/i2c/maxim-serdes/Makefile b/drivers/media/i2c/maxim-serdes/Makefile
+> new file mode 100644
+> index 000000000000..630fbb486bab
+> --- /dev/null
+> +++ b/drivers/media/i2c/maxim-serdes/Makefile
+> @@ -0,0 +1,3 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +max-serdes-objs := max_serdes.o
+> +obj-$(CONFIG_VIDEO_MAXIM_SERDES) += max-serdes.o
+> diff --git a/drivers/media/i2c/maxim-serdes/max_serdes.c b/drivers/media/i2c/maxim-serdes/max_serdes.c
+> new file mode 100644
+> index 000000000000..bed70b8ce99a
+> --- /dev/null
+> +++ b/drivers/media/i2c/maxim-serdes/max_serdes.c
+> @@ -0,0 +1,413 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (C) 2025 Analog Devices Inc.
+> + */
+> +
+> +#include <linux/export.h>
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/stringify.h>
+> +
+> +#include <media/mipi-csi2.h>
+> +
+> +#include <video/videomode.h>
+> +
+> +#include <uapi/linux/media-bus-format.h>
+> +
+> +#include "max_serdes.h"
+> +
+> +const char * const max_serdes_tpg_patterns[] = {
+> +	[MAX_SERDES_TPG_PATTERN_GRADIENT] = "Gradient",
+> +	[MAX_SERDES_TPG_PATTERN_CHECKERBOARD] = "Checkerboard",
+> +};
+> +
+> +static const char * const max_gmsl_versions[] = {
+> +	[MAX_SERDES_GMSL_2_3GBPS] = "GMSL2 3Gbps",
+> +	[MAX_SERDES_GMSL_2_6GBPS] = "GMSL2 6Gbps",
+> +	[MAX_SERDES_GMSL_3_12GBPS] = "GMSL3 12Gbps",
+> +};
+> +
+> +const char *max_serdes_gmsl_version_str(enum max_serdes_gmsl_version version)
+> +{
+> +	if (version > MAX_SERDES_GMSL_3_12GBPS)
+> +		return NULL;
+> +
+> +	return max_gmsl_versions[version];
+> +}
+> +
+> +static const char * const max_gmsl_mode[] = {
+> +	[MAX_SERDES_GMSL_PIXEL_MODE] = "pixel",
+> +	[MAX_SERDES_GMSL_TUNNEL_MODE] = "tunnel",
+> +};
+> +
+> +const char *max_serdes_gmsl_mode_str(enum max_serdes_gmsl_mode mode)
+> +{
+> +	if (mode > MAX_SERDES_GMSL_TUNNEL_MODE)
+> +		return NULL;
+> +
+> +	return max_gmsl_mode[mode];
+> +}
+> +
+> +static const struct max_serdes_mipi_format max_serdes_mipi_formats[] = {
+> +	{ MIPI_CSI2_DT_EMBEDDED_8B, 8 },
+> +	{ MIPI_CSI2_DT_YUV422_8B, 16 },
+> +	{ MIPI_CSI2_DT_YUV422_10B, 20 },
+> +	{ MIPI_CSI2_DT_RGB565, 16 },
+> +	{ MIPI_CSI2_DT_RGB666, 18 },
+> +	{ MIPI_CSI2_DT_RGB888, 24 },
+> +	{ MIPI_CSI2_DT_RAW8, 8 },
+> +	{ MIPI_CSI2_DT_RAW10, 10 },
+> +	{ MIPI_CSI2_DT_RAW12, 12 },
+> +	{ MIPI_CSI2_DT_RAW14, 14 },
+> +	{ MIPI_CSI2_DT_RAW16, 16 },
+> +};
+> +
+> +const struct max_serdes_mipi_format *max_serdes_mipi_format_by_dt(u8 dt)
+> +{
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(max_serdes_mipi_formats); i++)
+> +		if (max_serdes_mipi_formats[i].dt == dt)
+> +			return &max_serdes_mipi_formats[i];
+> +
+> +	return NULL;
+> +}
+> +
+> +int max_serdes_get_fd_stream_entry(struct v4l2_subdev *sd, u32 pad, u32 stream,
+> +				   struct v4l2_mbus_frame_desc_entry *entry)
+> +{
+> +	struct v4l2_mbus_frame_desc fd;
+> +	unsigned int i;
+> +	int ret;
+> +
+> +	ret = v4l2_subdev_call(sd, pad, get_frame_desc, pad, &fd);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (fd.type != V4L2_MBUS_FRAME_DESC_TYPE_CSI2)
+> +		return -EOPNOTSUPP;
+> +
+> +	for (i = 0; i < fd.num_entries; i++) {
+> +		if (fd.entry[i].stream == stream) {
+> +			*entry = fd.entry[i];
+> +			return 0;
+> +		}
+> +	}
+> +
+> +	return -ENOENT;
+> +}
+> +
+> +int max_serdes_get_fd_bpp(struct v4l2_mbus_frame_desc_entry *entry,
+> +			  unsigned int *bpp)
+> +{
+> +	const struct max_serdes_mipi_format *format;
+> +
+> +	format = max_serdes_mipi_format_by_dt(entry->bus.csi2.dt);
+> +	if (!format)
+> +		return -ENOENT;
+> +
+> +	*bpp = format->bpp;
+> +
+> +	return 0;
+> +}
+> +
+> +int max_serdes_process_bpps(struct device *dev, u32 bpps,
+> +			    u32 allowed_double_bpps, unsigned int *doubled_bpp)
+> +{
+> +	unsigned int min_bpp;
+> +	unsigned int max_bpp;
+> +	bool doubled = false;
+> +
+> +	if (!bpps)
+> +		return 0;
+> +
+> +	*doubled_bpp = 0;
+> +
+> +	/*
+> +	 * Hardware can double bpps 8, 10, 12, and it can pad bpps < 16
+> +	 * to another bpp <= 16:
+> +	 * Hardware can only stream a single constant bpp up to 24.
+> +	 *
+> +	 * From these features and limitations, the following rules
+> +	 * can be deduced:
+> +	 *
+> +	 * A bpp of 8 can always be doubled if present.
+> +	 * A bpp of 10 can be doubled only if there are no other bpps or the
+> +	 * only other bpp is 20.
+> +	 * A bpp of 12 can be doubled only if there are no other bpps or the
+> +	 * only other bpp is 24.
+> +	 * Bpps <= 16 cannot coexist with bpps > 16.
+> +	 * Bpps <= 16 need to be padded to the biggest bpp.
+> +	 */
+> +
+> +	min_bpp = __ffs(bpps);
+> +	max_bpp = __fls(bpps);
+> +
+> +	if (min_bpp == 8) {
+> +		doubled = true;
+> +	} else if (min_bpp == 10 || min_bpp == 12) {
+> +		u32 bpp_or_double = BIT(min_bpp) | BIT(min_bpp * 2);
+> +		u32 other_bpps = bpps & ~bpp_or_double;
+> +
+> +		if (!other_bpps)
+> +			doubled = true;
+> +	}
+> +
+> +	if (doubled && (allowed_double_bpps & BIT(min_bpp))) {
+> +		*doubled_bpp = min_bpp;
+> +		bpps &= ~BIT(min_bpp);
+> +		bpps |= BIT(min_bpp * 2);
+> +	}
+> +
+> +	min_bpp = __ffs(bpps);
+> +	max_bpp = __fls(bpps);
+> +
+> +	if (max_bpp > 24) {
+> +		dev_err(dev, "Cannot stream bpps > 24\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (min_bpp <= 16 && max_bpp > 16) {
+> +		dev_err(dev, "Cannot stream bpps <= 16 with bpps > 16\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (max_bpp > 16 && min_bpp != max_bpp) {
+> +		dev_err(dev, "Cannot stream multiple bpps when one is > 16\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +int max_serdes_xlate_enable_disable_streams(struct max_serdes_source *sources,
+> +					    u32 source_sink_pad_offset,
+> +					    const struct v4l2_subdev_state *state,
+> +					    u32 pad, u64 updated_streams_mask,
+> +					    u32 sink_pad_start, u32 num_sink_pads,
+> +					    bool enable)
+> +{
+> +	u32 failed_sink_pad;
+> +	int ret;
+> +	u32 i;
+> +
+> +	for (i = sink_pad_start; i < sink_pad_start + num_sink_pads; i++) {
+> +		u64 matched_streams_mask = updated_streams_mask;
+> +		u64 updated_sink_streams_mask;
+> +		struct max_serdes_source *source;
+> +
+> +		updated_sink_streams_mask =
+> +			v4l2_subdev_state_xlate_streams(state, pad, i,
+> +							&matched_streams_mask);
+> +		if (!updated_sink_streams_mask)
+> +			continue;
+> +
+> +		source = &sources[i + source_sink_pad_offset];
+> +		if (!source)
+> +			continue;
+> +
+> +		if (enable)
+> +			ret = v4l2_subdev_enable_streams(source->sd, source->pad,
+> +							 updated_sink_streams_mask);
+> +		else
+> +			ret = v4l2_subdev_disable_streams(source->sd, source->pad,
+> +							  updated_sink_streams_mask);
+> +		if (ret) {
+> +			failed_sink_pad = i;
+> +			goto err;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +
+> +err:
+> +	for (i = sink_pad_start; i < failed_sink_pad; i++) {
+> +		u64 matched_streams_mask = updated_streams_mask;
+> +		u64 updated_sink_streams_mask;
+> +		struct max_serdes_source *source;
+> +
+> +		updated_sink_streams_mask =
+> +			v4l2_subdev_state_xlate_streams(state, pad, i,
+> +							&matched_streams_mask);
+> +		if (!updated_sink_streams_mask)
+> +			continue;
+> +
+> +		source = &sources[i + source_sink_pad_offset];
+> +		if (!source)
+> +			continue;
+> +
+> +		if (!enable)
+> +			v4l2_subdev_enable_streams(source->sd, source->pad,
+> +						   updated_sink_streams_mask);
+> +		else
+> +			v4l2_subdev_disable_streams(source->sd, source->pad,
+> +						    updated_sink_streams_mask);
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +int max_serdes_get_streams_masks(struct device *dev,
+> +				 const struct v4l2_subdev_state *state,
+> +				 u32 pad, u64 updated_streams_mask,
+> +				 u32 num_pads, u64 *old_streams_masks,
+> +				 u64 **new_streams_masks, bool enable)
+> +{
+> +	u64 *streams_masks;
+> +	unsigned int i;
+> +
+> +	streams_masks = devm_kcalloc(dev, num_pads, sizeof(*streams_masks), GFP_KERNEL);
+> +	if (!streams_masks)
+> +		return -ENOMEM;
+> +
+> +	for (i = 0; i < num_pads; i++) {
+> +		u64 matched_streams_mask = updated_streams_mask;
+> +		u64 updated_sink_streams_mask;
+> +
+> +		updated_sink_streams_mask =
+> +			v4l2_subdev_state_xlate_streams(state, pad, i,
+> +							&matched_streams_mask);
+> +		if (!updated_sink_streams_mask)
+> +			continue;
+> +
+> +		streams_masks[i] = old_streams_masks[i];
+> +		if (enable)
+> +			streams_masks[i] |= updated_sink_streams_mask;
+> +		else
+> +			streams_masks[i] &= ~updated_sink_streams_mask;
+> +	}
+> +
+> +	if (enable)
+> +		streams_masks[pad] |= updated_streams_mask;
+> +	else
+> +		streams_masks[pad] &= ~updated_streams_mask;
+> +
+> +	*new_streams_masks = streams_masks;
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct videomode max_serdes_tpg_pixel_videomodes[] = {
+> +	{
+> +		.pixelclock = 25000000,
+> +		.hactive = 640,
+> +		.hfront_porch = 10,
+> +		.hsync_len = 96,
+> +		.hback_porch = 40,
+> +		.vactive = 480,
+> +		.vfront_porch = 2,
+> +		.vsync_len = 24,
+> +		.vback_porch = 24,
+> +	},
+> +	{
+> +		.pixelclock = 75000000,
+> +		.hactive = 1920,
+> +		.hfront_porch = 88,
+> +		.hsync_len = 44,
+> +		.hback_porch = 148,
+> +		.vactive = 1080,
+> +		.vfront_porch = 4,
+> +		.vsync_len = 16,
+> +		.vback_porch = 36,
+> +	},
+> +	{
+> +		.pixelclock = 150000000,
+> +		.hactive = 1920,
+> +		.hfront_porch = 88,
+> +		.hsync_len = 44,
+> +		.hback_porch = 148,
+> +		.vactive = 1080,
+> +		.vfront_porch = 4,
+> +		.vsync_len = 16,
+> +		.vback_porch = 36,
+> +	},
+> +};
+> +
+> +static void max_serdes_get_vm_timings(const struct videomode *vm,
+> +				      struct max_serdes_tpg_timings *timings)
+> +{
+> +	u32 hact = vm->hactive;
+> +	u32 hfp = vm->hfront_porch;
+> +	u32 hsync = vm->hsync_len;
+> +	u32 hbp = vm->hback_porch;
+> +	u32 htot = hact + hfp + hbp + hsync;
+> +
+> +	u32 vact = vm->vactive;
+> +	u32 vfp = vm->vfront_porch;
+> +	u32 vsync = vm->vsync_len;
+> +	u32 vbp = vm->vback_porch;
+> +	u32 vtot = vact + vfp + vbp + vsync;
+> +
+> +	*timings = (struct max_serdes_tpg_timings) {
+> +		.gen_vs = true,
+> +		.gen_hs = true,
+> +		.gen_de = true,
+> +		.vs_inv = true,
+> +		.vs_dly = 0,
+> +		.vs_high = vsync * htot,
+> +		.vs_low = (vact + vfp + vbp) * htot,
+> +		.v2h = 0,
+> +		.hs_high = hsync,
+> +		.hs_low = hact + hfp + hbp,
+> +		.hs_cnt = vact + vfp + vbp + vsync,
+> +		.v2d = htot * (vsync + vbp) + (hsync + hbp),
+> +		.de_high = hact,
+> +		.de_low = hfp + hsync + hbp,
+> +		.de_cnt = vact,
+> +		.clock = vm->pixelclock,
+> +		.fps = DIV_ROUND_CLOSEST(vm->pixelclock, vtot * htot),
+> +	};
+> +}
+> +
+> +int max_serdes_get_tpg_timings(const struct max_serdes_tpg_entry *entry,
+> +			       struct max_serdes_tpg_timings *timings)
+> +{
+> +	u32 fps;
+> +
+> +	if (!entry)
+> +		return 0;
+> +
+> +	fps = DIV_ROUND_CLOSEST(1 * entry->interval.denominator,
+> +				entry->interval.numerator);
+> +
+> +	for (unsigned int i = 0; i < ARRAY_SIZE(max_serdes_tpg_pixel_videomodes); i++) {
+> +		struct max_serdes_tpg_timings vm_timings;
+> +		const struct videomode *vm;
+> +
+> +		vm = &max_serdes_tpg_pixel_videomodes[i];
+> +
+> +		max_serdes_get_vm_timings(vm, &vm_timings);
+> +
+> +		if (vm->hactive == entry->width &&
+> +		    vm->vactive == entry->height &&
+> +		    vm_timings.fps == fps) {
+> +			*timings = vm_timings;
+> +			return 0;
+> +		}
+> +	}
+> +
+> +	return -EINVAL;
+> +}
+> +EXPORT_SYMBOL_NS_GPL(max_serdes_get_tpg_timings, "MAX_SERDES");
+> +
+> +int max_serdes_validate_tpg_routing(struct v4l2_subdev_krouting *routing)
+> +{
+> +	const struct v4l2_subdev_route *route;
+> +
+> +	if (routing->num_routes != 1)
+> +		return -EINVAL;
+> +
+> +	route = &routing->routes[0];
+> +
+> +	if (!(route->flags & V4L2_SUBDEV_ROUTE_FL_ACTIVE))
+> +		return -EINVAL;
+> +
+> +	if (route->sink_stream != MAX_SERDES_TPG_STREAM)
+> +		return -EINVAL;
+> +
+> +	return 0;
+> +}
+> +
+> +MODULE_DESCRIPTION("Maxim GMSL2 Serializer/Deserializer Driver");
+> +MODULE_AUTHOR("Cosmin Tanislav <cosmin.tanislav@analog.com>");
+> +MODULE_LICENSE("GPL");
+> diff --git a/drivers/media/i2c/maxim-serdes/max_serdes.h b/drivers/media/i2c/maxim-serdes/max_serdes.h
+> new file mode 100644
+> index 000000000000..d1d513e464d6
+> --- /dev/null
+> +++ b/drivers/media/i2c/maxim-serdes/max_serdes.h
+> @@ -0,0 +1,183 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (C) 2025 Analog Devices Inc.
+> + */
+> +
+> +#ifndef MAX_SERDES_H
+> +#define MAX_SERDES_H
+> +
+> +#include <linux/types.h>
+> +
+> +#include <media/mipi-csi2.h>
+> +#include <media/v4l2-subdev.h>
+> +
+> +#define REG_SEQUENCE_2(reg, val) \
+> +	{ (reg),     ((val) >> 8) & 0xff }, \
+> +	{ (reg) + 1, ((val) >> 0) & 0xff }
+> +
+> +#define REG_SEQUENCE_3(reg, val) \
+> +	{ (reg),     ((val) >> 16) & 0xff }, \
+> +	{ (reg) + 1, ((val) >> 8)  & 0xff }, \
+> +	{ (reg) + 2, ((val) >> 0)  & 0xff }
+> +
+> +#define REG_SEQUENCE_3_LE(reg, val) \
+> +	{ (reg),     ((val) >> 0) & 0xff }, \
+> +	{ (reg) + 1, ((val) >> 8)  & 0xff }, \
+> +	{ (reg) + 2, ((val) >> 16)  & 0xff }
+> +
+> +#define field_get(mask, val) (((val) & (mask)) >> __ffs(mask))
+> +#define field_prep(mask, val) (((val) << __ffs(mask)) & (mask))
 
-This patch together with two similar independent patches I sent out
-before fixes this issue for all files under hal/.
----
- drivers/staging/rtl8723bs/hal/odm.c           | 10 ----------
- drivers/staging/rtl8723bs/hal/odm.h           |  2 --
- drivers/staging/rtl8723bs/hal/odm_DIG.c       | 10 ----------
- drivers/staging/rtl8723bs/hal/odm_HWConfig.c  |  3 ---
- drivers/staging/rtl8723bs/hal/odm_HWConfig.h  |  1 -
- .../rtl8723bs/hal/odm_RegConfig8723B.c        |  1 -
- .../staging/rtl8723bs/hal/odm_RegDefine11N.h  |  2 --
- drivers/staging/rtl8723bs/hal/odm_interface.h |  3 ---
- drivers/staging/rtl8723bs/hal/odm_types.h     |  1 -
- drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c  |  4 ----
- drivers/staging/rtl8723bs/hal/rtl8723b_dm.c   |  5 -----
- .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 19 -------------------
- .../staging/rtl8723bs/hal/rtl8723b_rf6052.c   |  3 ---
- .../staging/rtl8723bs/hal/rtl8723b_rxdesc.c   |  1 -
- .../staging/rtl8723bs/hal/rtl8723bs_recv.c    |  1 -
- .../staging/rtl8723bs/hal/rtl8723bs_xmit.c    |  4 ----
- 16 files changed, 70 deletions(-)
+These two macros seems to conflict with similar ones from 
+include/linux/bitfield.h.
 
-diff --git a/drivers/staging/rtl8723bs/hal/odm.c b/drivers/staging/rtl8723bs/hal/odm.c
-index df394323d901..180aac640a14 100644
---- a/drivers/staging/rtl8723bs/hal/odm.c
-+++ b/drivers/staging/rtl8723bs/hal/odm.c
-@@ -434,8 +434,6 @@ static void odm_RSSIMonitorCheckCE(struct dm_odm_t *pDM_Odm)
- 		}
- 	}
- 
--
--
- 	if (tmpEntryMaxPWDB != 0)	/*  If associated entry is found */
- 		pdmpriv->EntryMaxUndecoratedSmoothedPWDB = tmpEntryMaxPWDB;
- 	else
-@@ -509,7 +507,6 @@ void odm_TXPowerTrackingInit(struct dm_odm_t *pDM_Odm)
- 	struct adapter *Adapter = pDM_Odm->Adapter;
- 	struct hal_com_data *pHalData = GET_HAL_DATA(Adapter);
- 
--
- 	struct dm_priv *pdmpriv = &pHalData->dmpriv;
- 
- 	pdmpriv->bTXPowerTracking = true;
-@@ -623,7 +620,6 @@ void ODM_DMWatchdog(struct dm_odm_t *pDM_Odm)
- 	if (*pDM_Odm->pbPowerSaving)
- 		return;
- 
--
- 	odm_RefreshRateAdaptiveMask(pDM_Odm);
- 	odm_EdcaTurboCheck(pDM_Odm);
- 	ODM_CfoTracking(pDM_Odm);
-@@ -637,7 +633,6 @@ void ODM_DMWatchdog(struct dm_odm_t *pDM_Odm)
- 	pDM_Odm->PhyDbgInfo.NumQryBeaconPkt = 0;
- }
- 
--
- /*  */
- /*  Init /.. Fixed HW value. Only init time. */
- /*  */
-@@ -732,7 +727,6 @@ void ODM_CmnInfoInit(struct dm_odm_t *pDM_Odm, enum odm_cmninfo_e CmnInfo, u32 V
- 
- }
- 
--
- void ODM_CmnInfoHook(struct dm_odm_t *pDM_Odm, enum odm_cmninfo_e CmnInfo, void *pValue)
- {
- 	/*  */
-@@ -856,7 +850,6 @@ void ODM_CmnInfoHook(struct dm_odm_t *pDM_Odm, enum odm_cmninfo_e CmnInfo, void
- 
- }
- 
--
- void ODM_CmnInfoPtrArrayHook(
- 	struct dm_odm_t *pDM_Odm,
- 	enum odm_cmninfo_e CmnInfo,
-@@ -882,7 +875,6 @@ void ODM_CmnInfoPtrArrayHook(
- 
- }
- 
--
- /*  */
- /*  Update Band/CHannel/.. The values are dynamic but non-per-packet. */
- /*  */
-@@ -956,8 +948,6 @@ void ODM_CmnInfoUpdate(struct dm_odm_t *pDM_Odm, u32 CmnInfo, u64 Value)
- 		/* do nothing */
- 		break;
- 	}
--
--
- }
- 
- /* 3 ============================================================ */
-diff --git a/drivers/staging/rtl8723bs/hal/odm.h b/drivers/staging/rtl8723bs/hal/odm.h
-index ef23a2088733..ee263790b32b 100644
---- a/drivers/staging/rtl8723bs/hal/odm.h
-+++ b/drivers/staging/rtl8723bs/hal/odm.h
-@@ -5,7 +5,6 @@
-  *
-  ******************************************************************************/
- 
--
- #ifndef	__HALDMOUTSRC_H__
- #define __HALDMOUTSRC_H__
- 
-@@ -174,7 +173,6 @@ struct swat_t { /* _SW_Antenna_Switch_ */
- 
- /* Remove Edca by YuChen */
- 
--
- struct odm_rate_adaptive {
- 	u8 Type;				/*  DM_Type_ByFW/DM_Type_ByDriver */
- 	u8 LdpcThres;			/*  if RSSI > LdpcThres => switch from LPDC to BCC */
-diff --git a/drivers/staging/rtl8723bs/hal/odm_DIG.c b/drivers/staging/rtl8723bs/hal/odm_DIG.c
-index ef3c2db8553e..4e28b7742bfe 100644
---- a/drivers/staging/rtl8723bs/hal/odm_DIG.c
-+++ b/drivers/staging/rtl8723bs/hal/odm_DIG.c
-@@ -80,7 +80,6 @@ void odm_NHMBB(void *pDM_VOID)
- 	pDM_Odm->NHMLastRxOkcnt =
- 		*(pDM_Odm->pNumRxBytesUnicast);
- 
--
- 	if ((pDM_Odm->NHMCurTxOkcnt) + 1 > (u64)(pDM_Odm->NHMCurRxOkcnt<<2) + 1) { /* Tx > 4*Rx possible for adaptivity test */
- 		if (pDM_Odm->NHM_cnt_0 >= 190 || pDM_Odm->adaptivity_flag) {
- 			/* Enable EDCCA since it is possible running Adaptivity testing */
-@@ -128,7 +127,6 @@ void odm_SearchPwdBLowerBound(void *pDM_VOID, u8 IGI_target)
- 	IGI = 0x50; /*  find H2L, L2H lower bound */
- 	ODM_Write_DIG(pDM_Odm, IGI);
- 
--
- 	Diff = IGI_target-(s8)IGI;
- 	TH_L2H_dmc = pDM_Odm->TH_L2H_ini + Diff;
- 	if (TH_L2H_dmc > 10)
-@@ -212,7 +210,6 @@ void odm_AdaptivityInit(void *pDM_VOID)
- 	PHY_SetBBReg(pDM_Odm->Adapter, REG_RD_CTRL, BIT(11), 1); /*  stop counting if EDCCA is asserted */
- }
- 
--
- void odm_Adaptivity(void *pDM_VOID, u8 IGI)
- {
- 	struct dm_odm_t *pDM_Odm = (struct dm_odm_t *)pDM_VOID;
-@@ -363,7 +360,6 @@ void odm_DIGInit(void *pDM_VOID)
- 	pDM_DigTable->rx_gain_range_min = DM_DIG_MIN_NIC;
- }
- 
--
- void odm_DIG(void *pDM_VOID)
- {
- 	struct dm_odm_t *pDM_Odm = (struct dm_odm_t *)pDM_VOID;
-@@ -388,7 +384,6 @@ void odm_DIG(void *pDM_VOID)
- 	if (pDM_Odm->adaptivity_flag)
- 		Adap_IGI_Upper = pDM_Odm->Adaptivity_IGI_upper;
- 
--
- 	/* 1 Update status */
- 	DIG_Dynamic_MIN = pDM_DigTable->DIG_Dynamic_MIN_0;
- 	FirstConnect = (pDM_Odm->bLinked) && !pDM_DigTable->bMediaConnect_0;
-@@ -469,7 +464,6 @@ void odm_DIG(void *pDM_VOID)
- 	if (pDM_DigTable->rx_gain_range_min > pDM_DigTable->rx_gain_range_max)
- 		pDM_DigTable->rx_gain_range_min = pDM_DigTable->rx_gain_range_max;
- 
--
- 	/* 1 False alarm threshold decision */
- 	odm_FAThresholdCheck(pDM_Odm, bDFSBand, bPerformance, RxTp, TxTp, dm_FA_thres);
- 
-@@ -536,7 +530,6 @@ void odm_DIG(void *pDM_VOID)
- 		}
- 	}
- 
--
- 	/* 1 Update status */
- 	if (pDM_Odm->bBtHsOperation) {
- 		if (pDM_Odm->bLinked) {
-@@ -581,7 +574,6 @@ void odm_DIGbyRSSI_LPS(void *pDM_VOID)
- 	else if (pFalseAlmCnt->Cnt_all < DM_DIG_FA_TH0_LPS)
- 		CurrentIGI = CurrentIGI-2;
- 
--
- 	/* Lower bound checking */
- 
- 	/* RSSI Lower bound check */
-@@ -683,7 +675,6 @@ void odm_FalseAlarmCounterStatistics(void *pDM_VOID)
- 		FalseAlmCnt->Cnt_OFDM_CCA + FalseAlmCnt->Cnt_CCK_CCA;
- }
- 
--
- void odm_FAThresholdCheck(
- 	void *pDM_VOID,
- 	bool bDFSBand,
-@@ -763,7 +754,6 @@ void odm_CCKPacketDetectionThresh(void *pDM_VOID)
- 	struct false_ALARM_STATISTICS *FalseAlmCnt = &pDM_Odm->FalseAlmCnt;
- 	u8 CurCCK_CCAThres;
- 
--
- 	if (
- 		!(pDM_Odm->SupportAbility & ODM_BB_CCK_PD) ||
- 		!(pDM_Odm->SupportAbility & ODM_BB_FA_CNT)
-diff --git a/drivers/staging/rtl8723bs/hal/odm_HWConfig.c b/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
-index 4784d33eab0e..e995cb5c2518 100644
---- a/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
-+++ b/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
-@@ -116,7 +116,6 @@ static void odm_rx_phy_status_parsing(struct dm_odm_t *dm_odm,
- 	phy_info->rx_mimo_signal_quality[RF_PATH_A] = -1;
- 	phy_info->rx_mimo_signal_quality[RF_PATH_B] = -1;
- 
--
- 	if (is_cck_rate) {
- 		u8 cck_agc_rpt;
- 
-@@ -258,7 +257,6 @@ static void odm_Process_RSSIForDM(
- 	u32 Weighting = 0;
- 	PSTA_INFO_T pEntry;
- 
--
- 	if (pPktinfo->station_id == 0xFF)
- 		return;
- 
-@@ -389,7 +387,6 @@ static void odm_Process_RSSIForDM(
- 	}
- }
- 
--
- /*  */
- /*  Endianness before calling this API */
- /*  */
-diff --git a/drivers/staging/rtl8723bs/hal/odm_HWConfig.h b/drivers/staging/rtl8723bs/hal/odm_HWConfig.h
-index 0c3697c38e64..615145812ed2 100644
---- a/drivers/staging/rtl8723bs/hal/odm_HWConfig.h
-+++ b/drivers/staging/rtl8723bs/hal/odm_HWConfig.h
-@@ -5,7 +5,6 @@
-  *
-  ******************************************************************************/
- 
--
- #ifndef __HALHWOUTSRC_H__
- #define __HALHWOUTSRC_H__
- 
-diff --git a/drivers/staging/rtl8723bs/hal/odm_RegConfig8723B.c b/drivers/staging/rtl8723bs/hal/odm_RegConfig8723B.c
-index b0ca46aec1a5..6514a711e6bd 100644
---- a/drivers/staging/rtl8723bs/hal/odm_RegConfig8723B.c
-+++ b/drivers/staging/rtl8723bs/hal/odm_RegConfig8723B.c
-@@ -83,7 +83,6 @@ void odm_ConfigRFReg_8723B(
- 	}
- }
- 
--
- void odm_ConfigRF_RadioA_8723B(struct dm_odm_t *pDM_Odm, u32 Addr, u32 Data)
- {
- 	u32  content = 0x1000; /*  RF_Content: radioa_txt */
-diff --git a/drivers/staging/rtl8723bs/hal/odm_RegDefine11N.h b/drivers/staging/rtl8723bs/hal/odm_RegDefine11N.h
-index 6d7062a1cbbe..9ba8e06e5ad5 100644
---- a/drivers/staging/rtl8723bs/hal/odm_RegDefine11N.h
-+++ b/drivers/staging/rtl8723bs/hal/odm_RegDefine11N.h
-@@ -8,7 +8,6 @@
- #ifndef	__ODM_REGDEFINE11N_H__
- #define __ODM_REGDEFINE11N_H__
- 
--
- /* 2 RF REG LIST */
- #define	ODM_REG_RF_MODE_11N				0x00
- #define	ODM_REG_RF_0B_11N				0x0B
-@@ -152,7 +151,6 @@
- #define	ODM_REG_ANT_TRAIN_PARA1_11N		0x7b0
- #define	ODM_REG_ANT_TRAIN_PARA2_11N		0x7b4
- 
--
- /* DIG Related */
- #define	ODM_BIT_IGI_11N					0x0000007F
- #define	ODM_BIT_CCK_RPT_FORMAT_11N		BIT(9)
-diff --git a/drivers/staging/rtl8723bs/hal/odm_interface.h b/drivers/staging/rtl8723bs/hal/odm_interface.h
-index c3b13f5f37db..f79c3d57edff 100644
---- a/drivers/staging/rtl8723bs/hal/odm_interface.h
-+++ b/drivers/staging/rtl8723bs/hal/odm_interface.h
-@@ -5,12 +5,9 @@
-  *
-  ******************************************************************************/
- 
--
- #ifndef	__ODM_INTERFACE_H__
- #define __ODM_INTERFACE_H__
- 
--
--
- /*  =========== Macro Define */
- 
- #define _reg_all(_name)			ODM_##_name
-diff --git a/drivers/staging/rtl8723bs/hal/odm_types.h b/drivers/staging/rtl8723bs/hal/odm_types.h
-index bc0c4d027492..25f0edd716cc 100644
---- a/drivers/staging/rtl8723bs/hal/odm_types.h
-+++ b/drivers/staging/rtl8723bs/hal/odm_types.h
-@@ -20,7 +20,6 @@ enum hal_status {
- 	HAL_STATUS_FAILURE,
- };
- 
--
- 	#if defined(__LITTLE_ENDIAN)
- 		#define	ODM_ENDIAN_TYPE			ODM_ENDIAN_LITTLE
- 	#else
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
-index 2485c415f14b..c35c7f1c38ef 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
-@@ -30,7 +30,6 @@ static u8 _is_fw_read_cmd_down(struct adapter *padapter, u8 msgbox_num)
- 	return !ret;
- }
- 
--
- /*****************************************
-  * H2C Msg format :
-  *| 31 - 8		|7-5	| 4 - 0	|
-@@ -167,15 +166,12 @@ static void ConstructBeacon(struct adapter *padapter, u8 *pframe, u32 *pLength)
- 		pframe = rtw_set_ie(pframe, WLAN_EID_IBSS_PARAMS, 2, (unsigned char *)(&ATIMWindow), &pktlen);
- 	}
- 
--
- 	/* todo: ERP IE */
- 
--
- 	/*  EXTERNDED SUPPORTED RATE */
- 	if (rate_len > 8)
- 		pframe = rtw_set_ie(pframe, WLAN_EID_EXT_SUPP_RATES, (rate_len - 8), (cur_network->supported_rates + 8), &pktlen);
- 
--
- 	/* todo:HT for adhoc */
- 
- _ConstructBeacon:
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c b/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c
-index 612351010359..2276dc1cb44a 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c
-@@ -99,7 +99,6 @@ static void Update_ODM_ComInfo_8723b(struct adapter *Adapter)
- 	ODM_CmnInfoHook(pDM_Odm, ODM_CMNINFO_SCAN, &(pmlmepriv->bScanInProcess));
- 	ODM_CmnInfoHook(pDM_Odm, ODM_CMNINFO_POWER_SAVING, &(pwrctrlpriv->bpower_saving));
- 
--
- 	for (i = 0; i < NUM_STA; i++)
- 		ODM_CmnInfoPtrArrayHook(pDM_Odm, ODM_CMNINFO_STA_STATUS, i, NULL);
- }
-@@ -183,7 +182,6 @@ void rtl8723b_hal_dm_in_lps(struct adapter *padapter)
- 	/* update IGI */
- 	ODM_Write_DIG(pDM_Odm, pDM_Odm->RSSI_Min);
- 
--
- 	/* set rssi to fw */
- 	psta = rtw_get_stainfo(pstapriv, get_bssid(pmlmepriv));
- 	if (psta && (psta->rssi_stat.UndecoratedSmoothedPWDB > 0)) {
-@@ -208,7 +206,6 @@ void rtl8723b_HalDmWatchDog_in_LPS(struct adapter *Adapter)
- 	if (!Adapter->hw_init_completed)
- 		goto skip_lps_dm;
- 
--
- 	if (rtw_linked_check(Adapter))
- 		bLinked = true;
- 
-@@ -220,7 +217,6 @@ void rtl8723b_HalDmWatchDog_in_LPS(struct adapter *Adapter)
- 	if (!(pDM_Odm->SupportAbility & ODM_BB_RSSI_MONITOR))
- 		goto skip_lps_dm;
- 
--
- 	/* ODM_DMWatchdog(&pHalData->odmpriv); */
- 	/* Do DIG by RSSI In LPS-32K */
- 
-@@ -245,7 +241,6 @@ void rtl8723b_HalDmWatchDog_in_LPS(struct adapter *Adapter)
- 	)
- 		rtw_dm_in_lps_wk_cmd(Adapter);
- 
--
- skip_lps_dm:
- 
- 	return;
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-index 2a748367fbba..bcaf63b2893c 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-@@ -152,7 +152,6 @@ void _8051Reset8723(struct adapter *padapter)
- 	u8 cpu_rst;
- 	u8 io_rst;
- 
--
- 	/*  Reset 8051(WLMCU) IO wrapper */
- 	/*  0x1c[8] = 0 */
- 	/*  Suggested by Isaac@SD1 and Gimmy@SD1, coding by Lucas@20130624 */
-@@ -571,7 +570,6 @@ void Hal_EfusePowerSwitch(
- 	u8 tempval;
- 	u16 tmpV16;
- 
--
- 	if (PwrState) {
- 		/*  To avoid cannot access efuse registers after disable/enable several times during DTM test. */
- 		/*  Suggested by SD1 IsaacHsu. 2013.07.08, added by tynli. */
-@@ -579,7 +577,6 @@ void Hal_EfusePowerSwitch(
- 		if (tempval & BIT(0)) { /*  SDIO local register is suspend */
- 			u8 count = 0;
- 
--
- 			tempval &= ~BIT(0);
- 			rtw_write8(padapter, SDIO_LOCAL_BASE|SDIO_REG_HSUS_CTRL, tempval);
- 
-@@ -721,7 +718,6 @@ static void hal_ReadEFuse_BT(
- 	u16 i, total, used;
- 	u8 efuse_usage;
- 
--
- 	/*  */
- 	/*  Do NOT excess total size of EFuse table. Added by Roger, 2008.11.10. */
- 	/*  */
-@@ -756,7 +752,6 @@ static void hal_ReadEFuse_BT(
- 				if (ALL_WORDS_DISABLED(efuseExtHdr))
- 					continue;
- 
--
- 				offset |= ((efuseExtHdr & 0xF0) >> 1);
- 				wden = (efuseExtHdr & 0x0F);
- 			} else {
-@@ -859,7 +854,6 @@ void rtl8723b_InitBeaconParameters(struct adapter *padapter)
- 	u16 val16;
- 	u8 val8 = DIS_TSF_UDT;
- 
--
- 	val16 = val8 | (val8 << 8); /*  port0 and port1 */
- 
- 	/*  Enable prot0 beacon function for PSTDMA */
-@@ -959,7 +953,6 @@ void rtl8723b_SetBeaconRelatedRegisters(struct adapter *padapter)
- 	/* REG_DUAL_TSF_RST */
- 	/* REG_BCN_CTRL (0x550) */
- 
--
- 	bcn_ctrl_reg = REG_BCN_CTRL;
- 
- 	/*  */
-@@ -1062,7 +1055,6 @@ void rtl8723b_init_default_value(struct adapter *padapter)
- 	struct dm_priv *pdmpriv;
- 	u8 i;
- 
--
- 	pHalData = GET_HAL_DATA(padapter);
- 	pdmpriv = &pHalData->dmpriv;
- 
-@@ -1190,7 +1182,6 @@ void Hal_EfuseParseIDCode(struct adapter *padapter, u8 *hwinfo)
- /* 	struct hal_com_data	*pHalData = GET_HAL_DATA(padapter); */
- 	u16 EEPROMId;
- 
--
- 	/*  Check 0x8129 again for making sure autoload status!! */
- 	EEPROMId = le16_to_cpu(*((__le16 *)hwinfo));
- 	if (EEPROMId != RTL_EEPROM_ID) {
-@@ -1313,7 +1304,6 @@ static void Hal_ReadPowerValueFromPROM_8723B(
- 	}
- }
- 
--
- void Hal_EfuseParseTxPowerInfo_8723B(
- 	struct adapter *padapter, u8 *PROMContent, bool AutoLoadFail
- )
-@@ -1426,8 +1416,6 @@ void Hal_EfuseParseEEPROMVer_8723B(
- 		pHalData->EEPROMVersion = 1;
- }
- 
--
--
- void Hal_EfuseParsePackageType_8723B(
- 	struct adapter *padapter, u8 *hwinfo, bool AutoLoadFail
- )
-@@ -1461,7 +1449,6 @@ void Hal_EfuseParsePackageType_8723B(
- 	}
- }
- 
--
- void Hal_EfuseParseVoltage_8723B(
- 	struct adapter *padapter, u8 *hwinfo, bool AutoLoadFail
- )
-@@ -1513,7 +1500,6 @@ void Hal_EfuseParseXtal_8723B(
- 		pHalData->CrystalCap = EEPROM_Default_CrystalCap_8723B;
- }
- 
--
- void Hal_EfuseParseThermalMeter_8723B(
- 	struct adapter *padapter, u8 *PROMContent, u8 AutoLoadFail
- )
-@@ -1534,7 +1520,6 @@ void Hal_EfuseParseThermalMeter_8723B(
- 	}
- }
- 
--
- void Hal_ReadRFGainOffset(
- 	struct adapter *Adapter, u8 *PROMContent, bool AutoloadFail
- )
-@@ -1603,7 +1588,6 @@ static void rtl8723b_cal_txdesc_chksum(struct tx_desc *ptxdesc)
- 	u32 index;
- 	u16 checksum = 0;
- 
--
- 	/*  Clear first */
- 	ptxdesc->txdw7 &= cpu_to_le32(0xffff0000);
- 
-@@ -2098,7 +2082,6 @@ static void hw_var_set_mlme_sitesurvey(struct adapter *padapter, u8 variable, u8
- 	struct hal_com_data *pHalData;
- 	struct mlme_priv *pmlmepriv;
- 
--
- 	pHalData = GET_HAL_DATA(padapter);
- 	pmlmepriv = &padapter->mlmepriv;
- 
-@@ -2161,7 +2144,6 @@ static void hw_var_set_mlme_join(struct adapter *padapter, u8 variable, u8 *val)
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 	struct eeprom_priv *pEEPROM;
- 
--
- 	pEEPROM = GET_EEPROM_EFUSE_PRIV(padapter);
- 
- 	if (type == 0) { /*  prepare to join */
-@@ -2225,7 +2207,6 @@ s32 c2h_id_filter_ccx_8723b(u8 *buf)
- 	return ret;
- }
- 
--
- s32 c2h_handler_8723b(struct adapter *padapter, u8 *buf)
- {
- 	struct c2h_evt_hdr_88xx *pC2hEvent = (struct c2h_evt_hdr_88xx *)buf;
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_rf6052.c b/drivers/staging/rtl8723bs/hal/rtl8723b_rf6052.c
-index 5564f3f20ba5..da4cb28276b2 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_rf6052.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_rf6052.c
-@@ -31,11 +31,9 @@
- /*---------------------------Define Local Constant---------------------------*/
- /*---------------------------Define Local Constant---------------------------*/
- 
--
- /*------------------------Define global variable-----------------------------*/
- /*------------------------Define global variable-----------------------------*/
- 
--
- /*------------------------Define local variable------------------------------*/
- /*  2008/11/20 MH For Debug only, RF */
- /*------------------------Define local variable------------------------------*/
-@@ -149,7 +147,6 @@ static int phy_RF6052_Config_ParaFile(struct adapter *Adapter)
- 	return _SUCCESS;
- }
- 
--
- int PHY_RF6052_Config8723B(struct adapter *Adapter)
- {
- 	struct hal_com_data *pHalData = GET_HAL_DATA(Adapter);
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_rxdesc.c b/drivers/staging/rtl8723bs/hal/rtl8723b_rxdesc.c
-index db3d7d72bffa..ac1249676794 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_rxdesc.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_rxdesc.c
-@@ -49,7 +49,6 @@ static void process_link_qual(struct adapter *padapter, union recv_frame *prfram
- 	signal_stat->avg_val = signal_stat->total_val / signal_stat->total_num;
- } /*  Process_UiLinkQuality8192S */
- 
--
- void rtl8723b_process_phy_info(struct adapter *padapter, void *prframe)
- {
- 	union recv_frame *precvframe = prframe;
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c
-index 888029e21dcb..97dce28fd0a3 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c
-@@ -110,7 +110,6 @@ static void update_recvframe_phyinfo(union recv_frame *precvframe,
- 	pkt_info.to_self = pkt_info.bssid_match &&
- 		ether_addr_equal(rx_ra, my_hwaddr);
- 
--
- 	pkt_info.is_beacon = pkt_info.bssid_match &&
- 		(GetFrameSubType(wlanhdr) == WIFI_BEACON);
- 
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-index a7f23335cdd9..66bb84694cf6 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-@@ -398,7 +398,6 @@ static s32 rtl8723bs_xmit_handler(struct adapter *padapter)
- 	if (ret == 1)
- 		goto next;
- 
--
- 	return _SUCCESS;
- }
- 
-@@ -474,7 +473,6 @@ s32 rtl8723bs_hal_xmit(
- 	struct xmit_priv *pxmitpriv;
- 	s32 err;
- 
--
- 	pxmitframe->attrib.qsel = pxmitframe->attrib.priority;
- 	pxmitpriv = &padapter->xmitpriv;
- 
-@@ -534,7 +532,6 @@ s32 rtl8723bs_init_xmit_priv(struct adapter *padapter)
- 	struct xmit_priv *xmitpriv = &padapter->xmitpriv;
- 	struct hal_com_data *phal;
- 
--
- 	phal = GET_HAL_DATA(padapter);
- 
- 	spin_lock_init(&phal->SdioTxFIFOFreePageLock);
-@@ -552,7 +549,6 @@ void rtl8723bs_free_xmit_priv(struct adapter *padapter)
- 	struct list_head *plist, *phead;
- 	struct list_head tmplist;
- 
--
- 	phead = get_list_head(pqueue);
- 	INIT_LIST_HEAD(&tmplist);
- 
+> +
+> +#define MAX_SERDES_PHYS_MAX		4
+> +#define MAX_SERDES_STREAMS_NUM		4
+> +#define MAX_SERDES_VC_ID_NUM		4
+> +#define MAX_SERDES_TPG_STREAM		0
+> +
+> +#define MAX_SERDES_GRAD_INCR		4
+> +#define MAX_SERDES_CHECKER_COLOR_A	0x00ccfe
+> +#define MAX_SERDES_CHECKER_COLOR_B	0xa76a00
+> +#define MAX_SERDES_CHECKER_SIZE		60
+> +
+> +extern const char * const max_serdes_tpg_patterns[];
+> +
+> +enum max_serdes_gmsl_version {
+> +	MAX_SERDES_GMSL_MIN,
+> +	MAX_SERDES_GMSL_2_3GBPS = MAX_SERDES_GMSL_MIN,
+> +	MAX_SERDES_GMSL_2_6GBPS,
+> +	MAX_SERDES_GMSL_3_12GBPS,
+> +	MAX_SERDES_GMSL_MAX = MAX_SERDES_GMSL_3_12GBPS,
+> +};
+> +
+> +enum max_serdes_gmsl_mode {
+> +	MAX_SERDES_GMSL_PIXEL_MODE,
+> +	MAX_SERDES_GMSL_TUNNEL_MODE,
+> +};
+> +
+> +enum max_serdes_tpg_pattern {
+> +	MAX_SERDES_TPG_PATTERN_MIN,
+> +	MAX_SERDES_TPG_PATTERN_CHECKERBOARD = MAX_SERDES_TPG_PATTERN_MIN,
+> +	MAX_SERDES_TPG_PATTERN_GRADIENT,
+> +	MAX_SERDES_TPG_PATTERN_MAX = MAX_SERDES_TPG_PATTERN_GRADIENT,
+> +};
+> +
+> +struct max_serdes_phys_config {
+> +	unsigned int lanes[MAX_SERDES_PHYS_MAX];
+> +	unsigned int clock_lane[MAX_SERDES_PHYS_MAX];
+> +};
+> +
+> +struct max_serdes_phys_configs {
+> +	const struct max_serdes_phys_config *configs;
+> +	unsigned int num_configs;
+> +};
+> +
+> +struct max_serdes_i2c_xlate {
+> +	u8 src;
+> +	u8 dst;
+> +	bool en;
+> +};
+> +
+> +struct max_serdes_mipi_format {
+> +	u8 dt;
+> +	u8 bpp;
+> +};
+> +
+> +struct max_serdes_vc_remap {
+> +	u8 src;
+> +	u8 dst;
+> +};
+> +
+> +struct max_serdes_source {
+> +	struct v4l2_subdev *sd;
+> +	u16 pad;
+> +	struct fwnode_handle *ep_fwnode;
+> +
+> +	unsigned int index;
+> +};
+> +
+> +struct max_serdes_asc {
+> +	struct v4l2_async_connection base;
+> +	struct max_serdes_source *source;
+> +};
+> +
+> +struct max_serdes_tpg_entry {
+> +	u32 width;
+> +	u32 height;
+> +	struct v4l2_fract interval;
+> +	u32 code;
+> +	u8 dt;
+> +	u8 bpp;
+> +};
+> +
+> +#define MAX_TPG_ENTRY_640X480P60_RGB888 \
+> +	{ 640, 480, { 1, 60 }, MEDIA_BUS_FMT_RGB888_1X24, MIPI_CSI2_DT_RGB888, 24 }
+> +
+> +#define MAX_TPG_ENTRY_1920X1080P30_RGB888 \
+> +	{ 1920, 1080, { 1, 30 }, MEDIA_BUS_FMT_RGB888_1X24, MIPI_CSI2_DT_RGB888, 24 }
+> +
+> +#define MAX_TPG_ENTRY_1920X1080P60_RGB888 \
+> +	{ 1920, 1080, { 1, 60 }, MEDIA_BUS_FMT_RGB888_1X24, MIPI_CSI2_DT_RGB888, 24 }
+> +
+> +struct max_serdes_tpg_entries {
+> +	const struct max_serdes_tpg_entry *entries;
+> +	unsigned int num_entries;
+> +};
+> +
+> +struct max_serdes_tpg_timings {
+> +	bool gen_vs;
+> +	bool gen_hs;
+> +	bool gen_de;
+> +	bool vs_inv;
+> +	bool hs_inv;
+> +	bool de_inv;
+> +	u32 vs_dly;
+> +	u32 vs_high;
+> +	u32 vs_low;
+> +	u32 v2h;
+> +	u32 hs_high;
+> +	u32 hs_low;
+> +	u32 hs_cnt;
+> +	u32 v2d;
+> +	u32 de_high;
+> +	u32 de_low;
+> +	u32 de_cnt;
+> +	u32 clock;
+> +	u32 fps;
+> +};
+> +
+> +static inline struct max_serdes_asc *asc_to_max(struct v4l2_async_connection *asc)
+> +{
+> +	return container_of(asc, struct max_serdes_asc, base);
+> +}
+> +
+> +const char *max_serdes_gmsl_version_str(enum max_serdes_gmsl_version version);
+> +const char *max_serdes_gmsl_mode_str(enum max_serdes_gmsl_mode mode);
+> +
+> +const struct max_serdes_mipi_format *max_serdes_mipi_format_by_dt(u8 dt);
+> +
+> +int max_serdes_get_fd_stream_entry(struct v4l2_subdev *sd, u32 pad, u32 stream,
+> +				   struct v4l2_mbus_frame_desc_entry *entry);
+> +
+> +int max_serdes_get_fd_bpp(struct v4l2_mbus_frame_desc_entry *entry,
+> +			  unsigned int *bpp);
+> +int max_serdes_process_bpps(struct device *dev, u32 bpps,
+> +			    u32 allowed_double_bpps, unsigned int *doubled_bpp);
+> +
+> +int max_serdes_xlate_enable_disable_streams(struct max_serdes_source *sources,
+> +					    u32 source_sink_pad_offset,
+> +					    const struct v4l2_subdev_state *state,
+> +					    u32 pad, u64 updated_streams_mask,
+> +					    u32 sink_pad_start, u32 num_sink_pads,
+> +					    bool enable);
+> +
+> +int max_serdes_get_streams_masks(struct device *dev,
+> +				 const struct v4l2_subdev_state *state,
+> +				 u32 pad, u64 updated_streams_mask,
+> +				 u32 num_pads, u64 *old_streams_masks,
+> +				 u64 **new_streams_masks, bool enable);
+> +
+> +int max_serdes_get_tpg_timings(const struct max_serdes_tpg_entry *entry,
+> +			       struct max_serdes_tpg_timings *timings);
+> +
+> +int max_serdes_validate_tpg_routing(struct v4l2_subdev_krouting *routing);
+> +
+> +#endif // MAX_SERDES_H
+> 
+> -- 
+> 2.51.0
+> 
+> 
+
 -- 
-2.34.1
-
+Kind Regards,
+Niklas Söderlund
