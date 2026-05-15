@@ -1,124 +1,78 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from forward501a.mail.yandex.net (forward501a.mail.yandex.net [178.154.239.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AACA36C59A
-	for <linux-staging@lists.linux.dev>; Fri, 15 May 2026 15:13:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB3CD3DA7E3
+	for <linux-staging@lists.linux.dev>; Fri, 15 May 2026 17:19:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778857988; cv=none; b=opeQzm1asPAv57/WmGF8eBBpyZrtGAQwxvXOz2+akdxdGr9YTi37U+FxTWvp/SQvyi4v9ytg2YrFJxqjClgz7OlNMChHxZgH1/vHkHjVKibfMSHateVqMl6IvwMHLwOcxJbYl7cSvIs4lndF/dSiOgUyKbZ0CcmrNygVkLRoT3E=
+	t=1778865569; cv=none; b=gWlmOgMLoXHt5U43ZD3FVYbrlr5taxOPoc2pFl0Br4KeOwArbFz2+HMGElOA8ckg/bcMNoScs+CjzqW1Mf/qeXxsWGxd/VyI1hLHtTMZLVHZNIEb/uzirw3RPcP9C94xb3oe9HhJvBy9VGou5oMAjof7UPxBKdmuNPbogsJwBmk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778857988; c=relaxed/simple;
-	bh=SnT5C8Icr/IxNYUBrSq4neZoCDnRwJlw36g6pIan8Mg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UDnvJA06s/uHP56R2JpAGZJjHYIEavQFb1+b8xiBR+I9t7p9YBKHq71hdDZKO/0voeSeWqMU62CXdMk+9/oUmvkNNGH1PpFx4mjQEzS4jJCAQzLOFXl7y9elkre5ItBMVyCFVtFK6zZdaWFx2vFmaOh8mIZjvEwlrQzW2M/XLNA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=g5KvJz87; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1778865569; c=relaxed/simple;
+	bh=7iXCUGOuHyC11W5gE7ry1sNNs+9n1w7vxQxIVcT4Sl8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QuZd3v/JrcvxgjZoL6OKmgdJ9NtQTRfqh8f8cge2CXeT9RxL9FLpDL9w2mmPpQoJNaFANJoexgshpG4GdRNlTGWAL/DPw+ddDgTHNGNVQj+7eowT0yXWTzuTnNeZcRs55TqTWmwgRXMwQLT3QPQ5R4r1xjYwU4b1SxfzqNaaWaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net; spf=pass smtp.mailfrom=sezginduran.net; dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b=Q9qnXaRL; arc=none smtp.client-ip=178.154.239.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sezginduran.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="g5KvJz87"
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4gH9gF0HXjz9tN5;
-	Fri, 15 May 2026 17:12:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1778857977;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jsZe+FNkGU90+Bz3czf+lkj200iM23wxJABgSwwn478=;
-	b=g5KvJz87X+dLznmVfuMvk3JYgF32ecQypRzaxpcBhAtjvLEtNJeBvGmOadF0mibXA6vE1j
-	uQMqlCeFu1tzlXp84DE3nEW85lItRs8KlVklB6p/6De3IdoGXPZU2UlIN+89GpFI6Spysn
-	8p1y8C8QyNqPgbrnSnogmP7envsL9QVLXXUU2AMo90+zpm/6ZNSGLM6z84IRhl/Os/QOyQ
-	JjgJKUId41MKSaLzzYemLn7Uwxo5cN1sLyByNV1cl5DlFIe2iuLSv185GmwE5ACmO2FNAC
-	Mq42A1xni5DddFaTqwrxXFjxi4UFOyIQAPbtPR9WIsfC3xGi2JkgJc2hlA2Naw==
-From: Andrei Khomenkov <khomenkov@mailbox.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev
-Subject: [PATCH 1/2] staging: rtl8723bs: remove unused DBG_XMIT_BUF and DBG_XMIT_BUF_EXT code
-Date: Fri, 15 May 2026 18:12:52 +0300
-Message-ID: <20260515151253.8106-2-khomenkov@mailbox.org>
-In-Reply-To: <20260515151253.8106-1-khomenkov@mailbox.org>
-References: <20260515151253.8106-1-khomenkov@mailbox.org>
+	dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b="Q9qnXaRL"
+Received: from mail-nwsmtp-smtp-production-main-74.vla.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-74.vla.yp-c.yandex.net [IPv6:2a02:6b8:c22:d15:0:640:87c2:0])
+	by forward501a.mail.yandex.net (Yandex) with ESMTPS id 400F080D1D;
+	Fri, 15 May 2026 20:19:19 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-74.vla.yp-c.yandex.net (smtp) with ESMTPSA id EJRC07jSQOs0-iLHY1ast;
+	Fri, 15 May 2026 20:19:18 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sezginduran.net;
+	s=mail; t=1778865558;
+	bh=pBAJbbudwvyAJovxTpvy8uAsMGe3p0Kwq2rypGEqgGs=;
+	h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+	b=Q9qnXaRLCGcI/yS6cw7EL0d4k3r+QNUD9IITRDhoGycxLYaiSb3z6CYZetx4Sox/V
+	 zTVVKZGliDarrTJsihjgEEURICnHnwAX0iRbT5W6zCLJ7nOAxS1v3ZM6/dUbwuXyYz
+	 rHMyU2bgbka30bhFlV2Guuc5ssYwhY1KuSAYYSpk=
+Authentication-Results: mail-nwsmtp-smtp-production-main-74.vla.yp-c.yandex.net; dkim=pass header.i=@sezginduran.net
+Message-ID: <8b04159a-86aa-4180-974c-80636673d1a5@sezginduran.net>
+Date: Fri, 15 May 2026 20:19:14 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: h6zb3tzxir5fib56pmxikrm9io1rq38e
-X-MBO-RS-ID: b763e99af555ec0fcd0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: sm750: rename CamelCase variable in sm750.c
+To: Rupert Zoone <zoone.rupert@gmail.com>,
+ Greg KH <gregkh@linuxfoundation.org>
+Cc: "M.samet Duman" <dumanmehmetsamet@icloud.com>,
+ sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
+ linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <03e9e75a-c63c-4a63-88b8-2287daf6c4ad@sezginduran.net>
+ <5A8D2A45-3C03-4D41-96BB-4F2ECC499813@icloud.com>
+ <2026051510-marbles-last-b661@gregkh>
+ <CABpb+S7EcSUnmnCn_aRURnVON39Jyrxe3oktnPphyOFzpaTU0g@mail.gmail.com>
+Content-Language: tr
+From: Ahmet Sezgin Duran <ahmet@sezginduran.net>
+In-Reply-To: <CABpb+S7EcSUnmnCn_aRURnVON39Jyrxe3oktnPphyOFzpaTU0g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Remove the DBG_XMIT_BUF and DBG_XMIT_BUF_EXT code since it is
-not used as the macros are not defined anywhere.
+On 5/15/26 7:37 PM, Rupert Zoone wrote:
+> Hi Ahmet,
+> Yes, I compiled the patch successfully without errors and warnings.
+> rupesh@yantra:~/patches/staging$ grep -n "pv_reg\|set_all_eng_off"
+> drivers/staging/sm750fb/sm750.c | head -10
+> 758: crtc->cursor.mmio = sm750_dev->pv_reg +
+> 863: sm750_dev->init_parm.set_all_eng_off = 0;
+> 1062: iounmap(sm750_dev->pv_reg);
+> 
 
-Signed-off-by: Andrei Khomenkov <khomenkov@mailbox.org>
----
- drivers/staging/rtl8723bs/core/rtw_xmit.c      | 7 -------
- drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c | 5 -----
- drivers/staging/rtl8723bs/include/rtw_xmit.h   | 5 -----
- 3 files changed, 17 deletions(-)
+I asked if you compiled it, you wrote the grep results of variable names.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-index 458e471535ad..ae74617ef08c 100644
---- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-@@ -191,10 +191,6 @@ s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
- 
- 		list_add_tail(&pxmitbuf->list,
- 			      &pxmitpriv->free_xmitbuf_queue.queue);
--		#ifdef DBG_XMIT_BUF
--		pxmitbuf->no = i;
--		#endif
--
- 		pxmitbuf++;
- 	}
- 
-@@ -264,9 +260,6 @@ s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
- 
- 		list_add_tail(&pxmitbuf->list,
- 			      &pxmitpriv->free_xmit_extbuf_queue.queue);
--		#ifdef DBG_XMIT_BUF_EXT
--		pxmitbuf->no = i;
--		#endif
- 		pxmitbuf++;
- 	}
- 
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-index a7f23335cdd9..49d556a72834 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-@@ -256,11 +256,6 @@ static s32 xmit_xmitframes(struct adapter *padapter, struct xmit_priv *pxmitpriv
- 
- 					pxmitbuf = rtw_alloc_xmitbuf(pxmitpriv);
- 					if (!pxmitbuf) {
--#ifdef DBG_XMIT_BUF
--						netdev_err(padapter->pnetdev,
--							   "%s: xmit_buf is not enough!\n",
--							   __func__);
--#endif
- 						err = -2;
- 						complete(&(pxmitpriv->xmit_comp));
- 						break;
-diff --git a/drivers/staging/rtl8723bs/include/rtw_xmit.h b/drivers/staging/rtl8723bs/include/rtw_xmit.h
-index b0189a703d28..adce0d211494 100644
---- a/drivers/staging/rtl8723bs/include/rtw_xmit.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_xmit.h
-@@ -254,11 +254,6 @@ struct xmit_buf {
- 	u32 ff_hwaddr;
- 	u8 pg_num;
- 	u8 agg_num;
--
--#if defined(DBG_XMIT_BUF) || defined(DBG_XMIT_BUF_EXT)
--	u8 no;
--#endif
--
- };
- 
- 
--- 
-2.47.3
+You might have forgotten to enable the sm750fb module. Make sure that 
+you enable it, then please, actually compile the changes, using `make` 
+or whatever actual command you use in order to compile.
 
+Spoiler alert: No, it does not compile.
+
+Regards,
+Ahmet Sezgin Duran
