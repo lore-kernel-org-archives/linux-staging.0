@@ -1,119 +1,102 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from forward501a.mail.yandex.net (forward501a.mail.yandex.net [178.154.239.81])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80A97426ED1
-	for <linux-staging@lists.linux.dev>; Fri, 15 May 2026 10:51:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85FA343636A
+	for <linux-staging@lists.linux.dev>; Fri, 15 May 2026 11:18:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778842283; cv=none; b=OY7k8Oeljzne7PRfmPez1v9+8ps7LxrxU/jSymo/MTxUT4FdyR2a/1m3BHjmZNV37HF28sQ18tCDjMsRDvL5Po4JbQIBMe5i7aiYDRuGUdCUfqp1pdKjcGvbD7XU2/pjH7VEFiSvwV4FI9ogX3hflSZIuWjG20XYcUJMaJLywLw=
+	t=1778843933; cv=none; b=lWbbDpl6VoKCg+MadOq6L1mCANYnk8eVJaFwUAaotZduBwNyp+XnDzTzJanQH4fK6iQrNOQDTLW7z279dpvkvbN5Ga/ILMZKW0LZm6d5JJnMIabj+9mO2dfbT2JhAfdZKmAFCQ1y0RlGUtDog8+iDHCP5x5YK/rsjs+fFB0Mg6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778842283; c=relaxed/simple;
-	bh=cvyV/WI0dRnDIwNczQydcASvrsgMMrlioZZHejIy2Ww=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TUVEVYJVoXUCEqHjdhmtrGTxiCA6PEq2f7hGNlTgNH0B8q2PFy8fWGlw1WpFD1bSo8kTaEISxh9rUsEp6PEilFFMWJi67u76UEUcCtkCZrpxkCtdU5LehGN3xYdg5h2h10NGfEYrctNRAevfx/MXJpsYGsRwOC/XdY1jxZa0K1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b+wL1A1w; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778843933; c=relaxed/simple;
+	bh=xWsaLDyR/aXTs0ZVfT/Jnd7ddmtd8lszJsDed0VF2DA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YDQqWrT/8qPcmgV/NovZeNAeIe9cPBa6szOospnkEPosrnquB1534ROODZjyRPj2r8Szp0yEGVH9z78oViDshTm0Ig4FvTDzCoM6uvyH2GXLKZkPc7VeeRymh8RolofvexjteDRSeMWgoXxLn2CT/hofCgfwEhorITyHBXCbjHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net; spf=pass smtp.mailfrom=sezginduran.net; dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b=FVjwzTFD; arc=none smtp.client-ip=178.154.239.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sezginduran.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b+wL1A1w"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4896c22fcbaso78604265e9.0
-        for <linux-staging@lists.linux.dev>; Fri, 15 May 2026 03:51:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778842281; x=1779447081; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+mUsN8FHr7tCwzAB6K+rR45LudEA+QL8sSLJPMSY+4k=;
-        b=b+wL1A1wD8CbbWxFRCppKlroEv5QvPYZcwKsLaITAfhmXIraxeWGGX6azjXaNkIKs2
-         Bw2Wfec/gXwXvvJHwP7nQ0AmyfZD78oQStD/53zpBUPjazogcGVM2SHicBkSOTGtRvdj
-         rs/Wfq6g1cc/WinuASH+BFn8oEjN0QAdNNyRNLTuyfHO0HA+LzbfEZD/p/qbeOyf/K/7
-         nAxI4MY7aE1obuj0WxE6a1+hzJJjduWyRyQ9dIJBv5dh99yZFFv5S4N4+IcpJsNDQImV
-         7QSxH6tjL2zrR1g/9MZHit7CWHtuG58lE0oNuzviKXINP7kOmv3DVN+91DaODK/MUQM8
-         UsUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778842281; x=1779447081;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+mUsN8FHr7tCwzAB6K+rR45LudEA+QL8sSLJPMSY+4k=;
-        b=tM4iNnxLGafmQqtMDwlgmYbjcbonLP3BCPTZxhSVXbW0ZEQWKnvHNuhGEMXFQdzUgO
-         BodHeoI34HuUT4vvsOp8CQbIvlHRhkXKjaLGYR3z/tT8XezPdMnWK0zHQfuWyGE0QMjB
-         NUZBmOM1d16f9tINOOo8rG1H+nl4UVcBD4jTwZwENyD5YOVqJASlCoQHdfFKkvbaSa3F
-         xYqsNFCpoRQqJgMqD/IZev/vcj7nb3bosBky+yfnh1LHhC1nNrDYzt7TnEpMxYjXJjQx
-         /zRfokRiut9cp2Im8bi1t50GpQRPmDuznd8Ku/vFVwpnMM2q3M2sqS6jSXO84r1+3JoW
-         HAvw==
-X-Forwarded-Encrypted: i=1; AFNElJ84fyvcfUfKYOti4ccuKehkxQuEQ39RLVi307ZK0aou2jFzCUOss/W4aETI+X7xOYg7d77in0UmjsGql8RV@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy7oAmRDs7yBQNL+Zg8v9DQXfmI9CLDIRECMGn4HBf792y5jL4d
-	h4lIjhyRHEDA6k+y1JxMNDDN5mI/Z58CvCgQO7e0E9Ygiv3ha6XBR3MZ
-X-Gm-Gg: Acq92OHoo1NqxK0iF4M/XI8EutKFjWlpXnmzNUMKYLBKQPfP8A56pvv9CV4gB+/VC5P
-	kOu8YxIpr0zBNF+NYx9ehfS4UasCkNTitCRynW/1QolyJq+E+j3I9FTLmhIJqjAtTRfWmwWfk2w
-	uGtNNWHj202DGx4oVTDydhIiYuDbRVkR3xix6HD7MAIPSURilDTxQdVGwxgkMuVp6IYc/rPc/EQ
-	WXfLOKs1nuz8LdIBxMcXR7PpuSLjAjHQ8cFeGzM+CGXKIeUZ1HNjoNZnrG0v6ZqJmFVjuj7dcLf
-	VYu3NTJFcunPTm2x7hmaLk+9SM0sopHHf0flLXyOftp/9vECpDYZI+MIwWs4rc7MFoZ2qRioYfw
-	SQ+d7s2JZQbTKRxQSuLwZZEdyoOKLvgPU119ZcwaiUs+36AcfasUZ+mH0Csdev9jck+fRFOoBM1
-	Xb/buoO8WsJr0fyIZZMZ8=
-X-Received: by 2002:a05:600c:4e87:b0:48a:93d2:60d2 with SMTP id 5b1f17b1804b1-48fe59ab8c8mr50422295e9.0.1778842280958;
-        Fri, 15 May 2026 03:51:20 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fe537c516sm55458295e9.13.2026.05.15.03.51.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 May 2026 03:51:20 -0700 (PDT)
-Date: Fri, 15 May 2026 13:51:17 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Alexandru Hossu <hossu.alexandru@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: rtl8723bs: fix OOB write in HT_caps_handler()
-Message-ID: <agb6pfUb7GhzdYAN@stanley.mountain>
-References: <6a06f87b.669ca06b.fb7de.57d2@mx.google.com>
+	dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b="FVjwzTFD"
+Received: from mail-nwsmtp-smtp-production-main-68.vla.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-68.vla.yp-c.yandex.net [IPv6:2a02:6b8:c1f:638c:0:640:aae5:0])
+	by forward501a.mail.yandex.net (Yandex) with ESMTPS id 22F0080B53;
+	Fri, 15 May 2026 14:18:46 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-68.vla.yp-c.yandex.net (smtp) with ESMTPSA id gILtOAgQTW20-0lAlUsac;
+	Fri, 15 May 2026 14:18:45 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sezginduran.net;
+	s=mail; t=1778843925;
+	bh=pPcL8QglBnduaJUdPx15aMenKqVYlzbpH6eenpJ5idQ=;
+	h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+	b=FVjwzTFD3ty4DlNDw0SqQAfhmrXvG0+fcapXyeLnLpEOLjV+1cALG5JwDSl8EuDDs
+	 an3QrFjBP+RabU3uY0pJAqCmMr8NeZm8TTeyElRn9/UDMw1m6WhHqTsgU+xP1ynZdZ
+	 jjrTIB+uQTY3+Cr3uHsiWpzsgrvtTQ4qalvqVk6U=
+Authentication-Results: mail-nwsmtp-smtp-production-main-68.vla.yp-c.yandex.net; dkim=pass header.i=@sezginduran.net
+Message-ID: <03e9e75a-c63c-4a63-88b8-2287daf6c4ad@sezginduran.net>
+Date: Fri, 15 May 2026 14:18:42 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6a06f87b.669ca06b.fb7de.57d2@mx.google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: sm750: rename CamelCase variable in sm750.c
+To: Rupesh Majhi <zoone.rupert@gmail.com>, gregkh@linuxfoundation.org
+Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
+ linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20260515103811.2808620-1-zoone.rupert@gmail.com>
+Content-Language: tr
+From: Ahmet Sezgin Duran <ahmet@sezginduran.net>
+In-Reply-To: <20260515103811.2808620-1-zoone.rupert@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, May 15, 2026 at 03:42:03AM -0700, Alexandru Hossu wrote:
-> Hi Greg,
+On 5/15/26 1:38 PM, Rupesh Majhi wrote:
+> Renamed the following CamelCase variables to snake_case to comply
+> with Linux kernel coding style:
+> - pvReg -> pv_reg
+> - setAllEngOff -> set_all_eng_off
 > 
-> Here is the fix.
+> Issue found by checkpatch.
 > 
-> Alexandru
-> 
+> Signed-off-by: Rupesh Majhi <zoone.rupert@gmail.com>
 > ---
+>   drivers/staging/sm750fb/sm750.c | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> The loop in HT_caps_handler() iterates up to pIE->length times, but
-> HT_cap[] is only 26 bytes. pIE->length comes from the HT Capability IE
-> in the association response and can be up to 255. This lets a rogue AP
-> write up to 229 bytes past the array using a bitwise AND into adjacent
-> struct fields.
-> 
-> Clamp the iteration count to the array size.
-> 
-> Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
-> ---
+> diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+> index 996a586a3727..9b30627a19d0 100644
+> --- a/drivers/staging/sm750fb/sm750.c
+> +++ b/drivers/staging/sm750fb/sm750.c
+> @@ -755,7 +755,7 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
+>   	 * must be set after crtc member initialized
+>   	 */
+>   	crtc->cursor.offset = crtc->o_screen + crtc->vidmem_size - 1024;
+> -	crtc->cursor.mmio = sm750_dev->pvReg +
+> +	crtc->cursor.mmio = sm750_dev->pv_reg +
+>   		0x800f0 + (int)crtc->channel * 0x140;
+>   
+>   	crtc->cursor.max_h = 64;
+> @@ -860,7 +860,7 @@ static void sm750fb_setup(struct sm750_dev *sm750_dev, char *src)
+>   	sm750_dev->init_parm.mem_clk = 0;
+>   	sm750_dev->init_parm.master_clk = 0;
+>   	sm750_dev->init_parm.power_mode = 0;
+> -	sm750_dev->init_parm.setAllEngOff = 0;
+> +	sm750_dev->init_parm.set_all_eng_off = 0;
+>   	sm750_dev->init_parm.reset_memory = 1;
+>   
+>   	/* defaultly turn g_hwcursor on for both view */
+> @@ -1059,7 +1059,7 @@ static void lynxfb_pci_remove(struct pci_dev *pdev)
+>   	sm750fb_framebuffer_release(sm750_dev);
+>   	arch_phys_wc_del(sm750_dev->mtrr.vram);
+>   
+> -	iounmap(sm750_dev->pvReg);
+> +	iounmap(sm750_dev->pv_reg);
+>   	iounmap(sm750_dev->vmem);
+>   	pci_release_region(pdev, 1);
+>   	kfree(g_settings);
 
-This isn't how you send a patch.  Try applying your email with:
-`cat raw_email.txt | git am` and use git log to see the problem.
+Did you compile this patch?
 
->  drivers/staging/rtl8723bs/core/rtw_wlan_util.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-> index 4f41f88908d7..e271d1e395a5 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-> @@ -935,7 +935,8 @@ void HT_caps_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE)
-> 
->  	pmlmeinfo->HT_caps_enable = 1;
-> 
-> -	for (i = 0; i < (pIE->length); i++) {
-> +	for (i = 0; i < min_t(unsigned int, pIE->length,
-> +			       sizeof(pmlmeinfo->HT_caps.u.HT_cap)); i++) {
-
-Just use min() instead of min_t().  They're both unsigned.
-
-regards,
-dan carpenter
-
+Regards,
+Ahmet Sezgin Duran
