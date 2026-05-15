@@ -1,36 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F084377543
-	for <linux-staging@lists.linux.dev>; Fri, 15 May 2026 06:06:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9E0A37D113;
+	Fri, 15 May 2026 06:17:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778825188; cv=none; b=s35WQrk1O7bn+7irESi3xXBFTwv3ZTuc0S/n2KSbgNhQLsYA3HsdzSAl04VfdA3953dHP25OKgZNXxN1kKqz3AT+Vx/lzFKYM9yXu971jOMhRnxdMOmLlNbm6O/ljbtJF/FcxmwUI8L7y8ObyEkRyw6Lmu24lOQIgKlT59LO9fw=
+	t=1778825868; cv=none; b=m9Q16jazNVnLbg2asfqRrbo/OqbDhJOM50sMreRfxpQU3rDR8/7XlJnrd/hr7YnL088gyp/5hwwhggy7Rmai1q+IlL1TfMBk1rZJ9jQhe+ir58xhKbvLGyYce6ESUJIbmfpOuPZ6HW0Si46xdPyJs1oNkkjKYH9Kok23q5ZNfoI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778825188; c=relaxed/simple;
-	bh=1TVzW2G697OzGVrTzaSxUYaKEHgZluPIKNFzut/yxbA=;
+	s=arc-20240116; t=1778825868; c=relaxed/simple;
+	bh=jQlT5g/KADfPCvxIwOmvCrRl9MRyjHSYOIvEquZiR/o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YBZKDXg/Mhi2gojS1XKISSDUtGJHnbW/cNYzZZs3hPqtR7AX1N52WAflq6UKZ79qQvaxHbtoluoaylPfqusR6EVzYXfgqIoJMtAsmPmQtDI5Tme6KhEu/KhOKwqVxlgPuMfp32HIN2hgFAcAUTbCAXpibs+aubmnfFYBkW89uAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=qRppjA1G; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=kthK6F7BmKS86LAT6Uw/sseg4+KhC4Ny+qdDc/VjTHfGfO8w+Gxwcr7HQnlq45jD0gxVXuJIt3Irxsq5p1Yp0DmzKPpGcciLtcp9ht88XDDSdc8lYFU8uiOaGMLsN/Lt/KKhnz9DQQscmdZopd746HDBawnGhaztT2ukcUU9QKU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=sKpqWMe2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="qRppjA1G"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11F0AC2BCB0;
-	Fri, 15 May 2026 06:06:27 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="sKpqWMe2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06350C2BCB0;
+	Fri, 15 May 2026 06:17:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1778825188;
-	bh=1TVzW2G697OzGVrTzaSxUYaKEHgZluPIKNFzut/yxbA=;
+	s=korg; t=1778825868;
+	bh=jQlT5g/KADfPCvxIwOmvCrRl9MRyjHSYOIvEquZiR/o=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qRppjA1GRqbs+Mn9N4DcMp9N7Rq1ygS7F3TYvr2q758C/XeTHiKdHqgQrcpmcztjr
-	 s4g7DdLmDAeu8gDGYScdcwN3qKlRtks72TgkuP5LzpfZ5hJo39cy0uCHVtUswu+3Ib
-	 tLGvIVXIB0HZAPCCfDtZT0xMirns2y3L0QJIfPRg=
-Date: Fri, 15 May 2026 08:06:32 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Moksh Panicker <mokshpanicker.7@gmail.com>
-Cc: linux-staging@lists.linux.dev
-Subject: Re: [PATCH 1/4] staging: rtl8723bs: reformat rtw_efuse_read_1_byte()
- signature
-Message-ID: <2026051520-unbaked-perjurer-bfd4@gregkh>
-References: <20260515013353.61614-1-mokshpanicker.7@gmail.com>
+	b=sKpqWMe2Rmn0Z6baLO9+Jx2S5y1wDLMw88E6yBVPAWFFH3lf5UFNe1Mol1eUFdRFH
+	 R1rUiUTuBRHp0Lx+gJVodg+UhC5KWBj6GnflVljw1ILhEkuH57TfZ6qr/y89M7qMRf
+	 OTHc6FCMBYpKQt4tGx27eyhRX0tZZzRmYb9URG+A=
+Date: Fri, 15 May 2026 08:17:52 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Nikolai Grlica <grlicanikolai@gmail.com>
+Cc: Vaibhav Agarwal <vaibhav.sr@gmail.com>,
+	Mark Greer <mgreer@animalcreek.com>,
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: greybus: audio: add missing newlines to sysfs
+ attributes
+Message-ID: <2026051538-paragraph-troubling-8104@gregkh>
+References: <CAKSDPXASdY+EP8r8YLJ6YcQYKTKsVrVEAK-BJOt-=UXMXk=DQQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,40 +43,121 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260515013353.61614-1-mokshpanicker.7@gmail.com>
+In-Reply-To: <CAKSDPXASdY+EP8r8YLJ6YcQYKTKsVrVEAK-BJOt-=UXMXk=DQQ@mail.gmail.com>
 
-On Fri, May 15, 2026 at 01:33:51AM +0000, Moksh Panicker wrote:
-> Reformat multi-line function signature to a single line to fix
-> line length and coding style warnings from checkpatch.pl.
+On Fri, May 15, 2026 at 10:02:26AM +0200, Nikolai Grlica wrote:
+> Sysfs attribute output should be newline-terminated.
 > 
-> Signed-off-by: Moksh Panicker <mokshpanicker.7@gmail.com>
+> Add missing newlines to the Greybus audio manager module attribute show
+> functions.
+> 
+> Signed-off-by: Nikolai Grlica <grlicanikolai@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/core/rtw_efuse.c | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
+>  drivers/staging/greybus/audio_manager_module.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
 > 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-> index 803a608b74fa..987d05816c5c 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-> @@ -41,10 +41,7 @@ rtw_efuse_calculate_word_counts(u8 word_en)
->   * 09/23/2008	MHC		Copy from WMAC.
->   *
->   */
-> -u8
-> -rtw_efuse_read_1_byte(
-> -struct adapter *Adapter,
-> -u16		Address)
-> +u8 rtw_efuse_read_1_byte(struct adapter *Adapter, u16 Address)
+> diff --git a/drivers/staging/greybus/audio_manager_module.c
+> b/drivers/staging/greybus/audio_manager_module.c
+> index dc90cc2d2308..5737f2a32f5a 100644
+> --- a/drivers/staging/greybus/audio_manager_module.c
+> +++ b/drivers/staging/greybus/audio_manager_module.c
+> @@ -75,7 +75,7 @@ static void gb_audio_module_release(struct kobject *kobj)
+>  static ssize_t gb_audio_module_name_show(struct gb_audio_manager_module
+> *module,
+>   struct gb_audio_manager_module_attribute *attr, char *buf)
 >  {
->  	u8 Bytetemp = {0x00};
->  	u8 temp = {0x00};
-> -- 
-> 2.34.1
+> - return sysfs_emit(buf, "%s", module->desc.name);
+> + return sysfs_emit(buf, "%s\n", module->desc.name);
+>  }
 > 
+>  static struct gb_audio_manager_module_attribute
+> gb_audio_module_name_attribute =
+> @@ -84,7 +84,7 @@ static struct gb_audio_manager_module_attribute
+> gb_audio_module_name_attribute =
+>  static ssize_t gb_audio_module_vid_show(struct gb_audio_manager_module
+> *module,
+>   struct gb_audio_manager_module_attribute *attr, char *buf)
+>  {
+> - return sysfs_emit(buf, "%d", module->desc.vid);
+> + return sysfs_emit(buf, "%d\n", module->desc.vid);
+>  }
 > 
+>  static struct gb_audio_manager_module_attribute
+> gb_audio_module_vid_attribute =
+> @@ -93,7 +93,7 @@ static struct gb_audio_manager_module_attribute
+> gb_audio_module_vid_attribute =
+>  static ssize_t gb_audio_module_pid_show(struct gb_audio_manager_module
+> *module,
+>   struct gb_audio_manager_module_attribute *attr, char *buf)
+>  {
+> - return sysfs_emit(buf, "%d", module->desc.pid);
+> + return sysfs_emit(buf, "%d\n", module->desc.pid);
+>  }
+> 
+>  static struct gb_audio_manager_module_attribute
+> gb_audio_module_pid_attribute =
+> @@ -103,7 +103,7 @@ static ssize_t gb_audio_module_intf_id_show(struct
+> gb_audio_manager_module *modu
+>      struct gb_audio_manager_module_attribute *attr,
+>      char *buf)
+>  {
+> - return sysfs_emit(buf, "%d", module->desc.intf_id);
+> + return sysfs_emit(buf, "%d\n", module->desc.intf_id);
+>  }
+> 
+>  static struct gb_audio_manager_module_attribute
+> @@ -114,7 +114,7 @@ static ssize_t gb_audio_module_ip_devices_show(struct
+> gb_audio_manager_module *m
+>         struct gb_audio_manager_module_attribute *attr,
+>         char *buf)
+>  {
+> - return sysfs_emit(buf, "0x%X", module->desc.ip_devices);
+> + return sysfs_emit(buf, "0x%X\n", module->desc.ip_devices);
+>  }
+> 
+>  static struct gb_audio_manager_module_attribute
+> @@ -125,7 +125,7 @@ static ssize_t gb_audio_module_op_devices_show(struct
+> gb_audio_manager_module *m
+>         struct gb_audio_manager_module_attribute *attr,
+>         char *buf)
+>  {
+> - return sysfs_emit(buf, "0x%X", module->desc.op_devices);
+> + return sysfs_emit(buf, "0x%X\n", module->desc.op_devices);
+>  }
+> 
+>  static struct gb_audio_manager_module_attribute
+> 
+> base-commit: 81f55766523e5293604cb96c5e98d10da345ff33
+> --
+> 2.54.0
 
-I only see 3 patches in this series, and it was sent twice?
+Hi,
 
-confused,
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-greg k-h
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- Your patch is malformed (tabs converted to spaces, linewrapped, etc.)
+  and can not be applied.  Please read the file,
+  Documentation/process/email-clients.rst in order to fix this.
+
+- You sent a patch that has been sent multiple times in the past few
+  days, and is identical to ones that has been recently rejected.
+  Please always look at the mailing list traffic to determine if you are
+  duplicating other people's work.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
