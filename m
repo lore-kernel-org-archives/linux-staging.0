@@ -1,35 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D1BA3CD8AC
-	for <linux-staging@lists.linux.dev>; Fri, 15 May 2026 11:34:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3104A39D6CC
+	for <linux-staging@lists.linux.dev>; Fri, 15 May 2026 12:33:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778844896; cv=none; b=Y/a4y7kDn+EMWRCcm1d6VWWd1ubbVvDkLM7lAibVtAk6lGzKdq9d1ZdKt755rDutRbWCJXAD6m/DFeryukhr0ydkuSIFQJj2XE7TS/M0qLelPXbeat4wlfCIBJQtXR1PtRRkx5ZmBcXYt6eebRh7+jYwOvY77urpSezW1etNNjI=
+	t=1778848401; cv=none; b=St+U7lLIU9zBHDqQszM5oM+dLW3SH+a2iiM85O+ja1XWaXE0C0NupO6efVooJm1dSP4g+0M1Ar1+12hCrXZbA/wg+2FrctowiDPqqrg0w2qR0dwIt4gKWCAwVlLKXcePkfUZaVpwXEAxPo6w2bn8fDcTUqEACOT5Humu4gx2wOs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778844896; c=relaxed/simple;
-	bh=mgM1w6yn4qoMauYLb28mMuE+PYe6zTL6yTfGDTgZ0r0=;
+	s=arc-20240116; t=1778848401; c=relaxed/simple;
+	bh=nsX53Jr1DZH6CN2CVi3DdkhEahLo7XxxSdqnsuJPDUk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PL1n4QDYRdM5Swk93DrchgLU7mwhDaXKkICoPgf/OCloOzSayaBtnj1leDPEVYd5bEkhcQbs82J+sdwQi+34qcFqrwFj6QIUuDYdmnZvTYmV+2I1IxS3rB7JmJ+40BW/6ZbA+2Kfb6yNTALKX0EjJsUew4Zccxy+/a85LfGBnjo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=XE7uJPwv; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=EXCvYk0YsFjo0awHnBXINyYv7cQ//bv/8BQi2ECMjjLIpRFweiM88TiQrKaOJCUeSuXxjzFo78nzk5hBV3FrAXVD0vJ4zbLzj+h3Y9UvTTH16ZA53octUFXLEw5Ft880BQbOsnZMvaDWmmBbREmIK3qsw+CnKYutIa1Jkuhwqjc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=SIAm2qUw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="XE7uJPwv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E4DBC2BCB0;
-	Fri, 15 May 2026 11:34:55 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="SIAm2qUw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71B95C2BCB0;
+	Fri, 15 May 2026 12:33:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1778844895;
-	bh=mgM1w6yn4qoMauYLb28mMuE+PYe6zTL6yTfGDTgZ0r0=;
+	s=korg; t=1778848400;
+	bh=nsX53Jr1DZH6CN2CVi3DdkhEahLo7XxxSdqnsuJPDUk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XE7uJPwv5y3L3dM5/5n/LX+93pakPSiT0Pi2tOqE50XRK9o21i7mF7H6Gdj1fZaKM
-	 rl5VZ1epKZFWJAqH2QYLIa4HUMO+AvDbLl/PstLo11L9gU8sBn/aPOJLMCrJoMJeiK
-	 SU8H62htgt47yPCoPtAx8AoKPArdn36X8euqvzek=
-Date: Fri, 15 May 2026 13:35:00 +0200
+	b=SIAm2qUwS2Ka/Xn5iCKqAGYQHYqJANvbg982Tj6g+Vtm8X7EGe9ZIpMkWwpNGr5x1
+	 gGPaT/3mEKSm1qYhra3JGSKmfQjFNKtLK9EQcpTP8sTymhLQw2ZiAh5mQDmKURCVYa
+	 lLaEFWCyR44UTpESDPTaYli8z46YdO9fWpmcD1XU=
+Date: Fri, 15 May 2026 14:33:25 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Alexandru Hossu <hossu.alexandru@gmail.com>
+To: Moksh Panicker <mokshpanicker.7@gmail.com>
 Cc: linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: rtl8723bs: fix OOB write in HT_caps_handler()
-Message-ID: <2026051526-impatient-feminine-17f7@gregkh>
-References: <6a06f87b.669ca06b.fb7de.57d2@mx.google.com>
+Subject: Re: [PATCH 1/4] staging: rtl8723bs: reformat rtw_efuse_read_1_byte()
+ signature
+Message-ID: <2026051503-crudely-mossy-19f9@gregkh>
+References: <20260515013353.61614-1-mokshpanicker.7@gmail.com>
+ <2026051520-unbaked-perjurer-bfd4@gregkh>
+ <CAK0z5OmSunDp2xVhwEcy+gYz7KCXPihSV3R4zLn-ia39Lbtirg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -38,50 +41,22 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6a06f87b.669ca06b.fb7de.57d2@mx.google.com>
+In-Reply-To: <CAK0z5OmSunDp2xVhwEcy+gYz7KCXPihSV3R4zLn-ia39Lbtirg@mail.gmail.com>
 
-On Fri, May 15, 2026 at 03:42:03AM -0700, Alexandru Hossu wrote:
-> Hi Greg,
+On Fri, May 15, 2026 at 05:37:24PM +0530, Moksh Panicker wrote:
+> Apologies for the confusion. I sent a v1 series earlier and then
+> resent as v2, both ended up on the list. The [PATCH 1/4] subject
+> was a mistake on my part; this is actually a 3-patch series with
+> no cover letter. I'll make sure to number them correctly and
+> include a cover letter in future submissions.
 > 
-> Here is the fix.
-> 
-> Alexandru
-> 
-> ---
-> 
-> The loop in HT_caps_handler() iterates up to pIE->length times, but
-> HT_cap[] is only 26 bytes. pIE->length comes from the HT Capability IE
-> in the association response and can be up to 255. This lets a rogue AP
-> write up to 229 bytes past the array using a bitwise AND into adjacent
-> struct fields.
-> 
-> Clamp the iteration count to the array size.
-> 
-> Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/core/rtw_wlan_util.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-> index 4f41f88908d7..e271d1e395a5 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-> @@ -935,7 +935,8 @@ void HT_caps_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE)
-> 
->  	pmlmeinfo->HT_caps_enable = 1;
-> 
-> -	for (i = 0; i < (pIE->length); i++) {
-> +	for (i = 0; i < min_t(unsigned int, pIE->length,
-> +			       sizeof(pmlmeinfo->HT_caps.u.HT_cap)); i++) {
->  		if (i != 2) {
->  			/* Commented by Albert 2010/07/12 */
->  			/* Got the endian issue here. */
+> Should I resend the series as v3 with the correct numbering
+> ([PATCH 1/3], [PATCH 2/3], [PATCH 3/3]) and a [PATCH 0/3](PATCH 0/3 being
+> the cover letter)
 
-How does this compare with this patch:
-	https://lore.kernel.org/r/2026041408-grill-mahogany-d1e3@gregkh
 
-or the others sent recently tothe staging list to fix this "issue" that
-the LLM tools keep tripping over?
+Yes please.  Also please don't send html email (the lists reject it) and
+don't top post :)
 
 thanks,
 
