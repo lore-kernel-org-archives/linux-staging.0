@@ -1,103 +1,85 @@
-Received: from outbound.mr.icloud.com (mr-2006i-snip4-8.eps.apple.com [57.103.70.91])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56BB62264A7
-	for <linux-staging@lists.linux.dev>; Fri, 15 May 2026 13:01:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.70.91
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04F0E30CDAB
+	for <linux-staging@lists.linux.dev>; Fri, 15 May 2026 13:12:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778850116; cv=none; b=av4aIp0fIGEZC/lqbpt4BPmryRaZ2EDf0CI/OyvCXfxqMENz1FSrmR/leaEtMkR/jewWkujPnRYXgPyZmAqyn1Rz5YHr+2aw4STs777VhhBufV/2ZoQaUh5hf2Jnkuy2gDssA8BtxaOPGwoCZNfTM0LgfG79UdLnbGhb2Ci62wc=
+	t=1778850773; cv=none; b=jyWUeI+zFF3+zKkufm/SJI4mYc/aB/kTLNUneKyD5QZUOX9pwoOn4JncIKfKqlzYa26l3+QRiBh3YcLWU/dz+CfJvOSiQnz+0AiNV5LdHi4KY1gJOl16nSl+Gmxntd8aPv/u8H2zzsyliXVNGsJPmkfXyY+rB8FkNbWwLh0Rd7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778850116; c=relaxed/simple;
-	bh=IOOpWNY6Yh9Rh+dggAmkseZbOjGF3PlZPpVrM0D+Rcg=;
-	h=Content-Type:From:Mime-Version:Subject:Date:Message-Id:References:
-	 Cc:In-Reply-To:To; b=kZcacTjO1WX4+Hg7kfOgDOEbs1tqzaoK59TaH3C3Z33aDHTdYqkb3HEcvCQfKDE1iPiTSmmNg4XazX0/stRr0O+SfYI19BK1CfHWgX+lE0b27a2+U6/QR979JdaQEA5iN972BzshdpXQhLp15ciOCY+Fxl0VT1w3EYb/R2kwzD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=hn12epCv; arc=none smtp.client-ip=57.103.70.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
+	s=arc-20240116; t=1778850773; c=relaxed/simple;
+	bh=/G/h3oa2+qOV+YzlBEWQmPswQ70lmZH9hY0xbdROWho=;
+	h=Message-ID:Date:Content-Type:MIME-Version:From:To:Cc:Subject:
+	 In-Reply-To:References; b=JM8azcpOjkU41SSAtETt4NL1aQSEFYx7BH2QxnY3Z9xgLybjN89BEs5kXnh/5MxC/iYffWlEFA95caF6TzhatusQulCQmNvrGldqC4HLlSkxA0U2sdqpdjeYa31UEW2JRMYuL5Y1S3EGaizrtUmhTpVb9SufzrzMmz+zw8megW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OKKaNSxO; arc=none smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="hn12epCv"
-Received: from outbound.mr.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-west-2a-100-percent-1 (Postfix) with ESMTPS id 66D04180358C;
-	Fri, 15 May 2026 13:01:53 +0000 (UTC)
-X-ICL-Out-Info: HUtFAUMEWwJACUgBTUQeDx5WFlZNRAJCTQxWB1sZUwZeC0gETVIPDxRMFVIDWg5aHVwMQAxaDkYwUBtfAkIPHBNWFRMLU1ZWBVQZXQBSA18VTQtSAFIfchlaFFwYU0VRH1RYQQ4KWBIYXBRcUFgeRhJWDV0JGQZAXlAbXwJCDxwTVhUTHUMZDysISgRDB0UCXgslEwlTVlsTVRdGCRkIXR0ZFVoJCld3NnxLdV0BXh80f0p1QANcC0AUQApbc0YKQg5AciwEWwFECDlzBFQHXQVdVlACWlUSBEAIVlBeCF4fTBw=
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1778850114; x=1781442114; bh=opRcPpaf7tTig9gIqlVPCAoefZbB9A7sYg7k+DAALRU=; h=Content-Type:From:Mime-Version:Subject:Date:Message-Id:To:x-icloud-hme; b=hn12epCvQdj3iX2WgkC3eE0/zXVJ0umDl8LxXgtvhSY1fkJMLcdIHDZ0d2oYEVd/2btT8DmXtq6EiPoaycNS8kJYb4j4VyUGuUuKh5kiZXsglIypiEMUxO/cXHFWgXh3N1LlBV1JHhPgAUAkLS/h2aVUCthLsqL5mhNUeiXShDnzdwKKDAr7rMZ2pv9GF1lRt45uBaA+pXpybQ+cREzUdJKofQS5ww+W9sCXN++wM3i24N/VLc2N9NeFEbMcAqfLxq2nS3dBVp/0qQ1RZh7x/lqPIjbA1rINg13MgRc4lF2i2Q8tB6pOknNZeZFAgYJ+I59CspnXmJCF5+TzA3mOmQ==
-Received: from smtpclient.apple (unknown [17.57.152.38])
-	by p00-icloudmta-asmtp-us-west-2a-100-percent-1 (Postfix) with ESMTPSA id 060971812CDF;
-	Fri, 15 May 2026 13:01:35 +0000 (UTC)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From: "M.samet Duman" <dumanmehmetsamet@icloud.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OKKaNSxO"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-6746d0b2b4aso14376997a12.3
+        for <linux-staging@lists.linux.dev>; Fri, 15 May 2026 06:12:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778850770; x=1779455570; darn=lists.linux.dev;
+        h=references:in-reply-to:subject:cc:to:from:content-transfer-encoding
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/G/h3oa2+qOV+YzlBEWQmPswQ70lmZH9hY0xbdROWho=;
+        b=OKKaNSxO0aed8HVc3RtwIQcWLHq1AW5q/h8w3LEmV2Aq4x1/79/LO8eZ+FPxwQ6G6+
+         kk/Xfary5lAQH9f2yCcvDNf3tQ5xAsunMlkY1NDqbTVDWHag6Vs9Z710ifOrbctLwksR
+         ISEOVgTP0gDTW7v9oHw/j+xOVnEzhEuLEJBw3cdea+hO/SSxnPFTZfQxWL1YJI+eNppf
+         SZwxmbC089T1cMTMqcYix/MFwfx0hJorBlINdkzJm/JTleAwbreJBOFZfWU9Ec+342VE
+         iT8WlwW90lculeE8NgYlyO5LuREvFLzc12zyKSrAWYR7XcJPEjeiiPa+TRh5snVVdlR1
+         MThQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778850770; x=1779455570;
+        h=references:in-reply-to:subject:cc:to:from:content-transfer-encoding
+         :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/G/h3oa2+qOV+YzlBEWQmPswQ70lmZH9hY0xbdROWho=;
+        b=sm3kKjnssszL0eZS8r6sDBQIDcqJb/RUOk73FBMg1Mvj4mXHwCYOJQEbE8+sOpkuND
+         ugpkJUgLUPVQtI2f+NO3mivWBQhSQKya9crCMtoP+BtnusuYxMO4dZWGpYwPXhEUFCyn
+         xg2zeKC2SpwBx5ydDx0F4ebIZ7AeDWUYoqnjb8RxEcCmwBNL1oUMCgxt4CFtwffUi+yv
+         k/kKujsZryqdUkusdykioyM7XkgWw24aMYvaMQjSkSyGtRXQ5xws2Ya2+4XEFEgQqgxP
+         081cl3BDpGo7D70YiuyiaovkapQSw5VnMIyfb9qopM5pqPdvd3Wl9wfH2pYfLPzMeqKb
+         f9SQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/PVCg4nAecfO0eft7gEA7SyNU/J6PllX2L1nBkpR4CXa8I7LcP5ajSPSkTCFjfelukRJ0bl2YhzqqpucNy@lists.linux.dev
+X-Gm-Message-State: AOJu0YyuZJVyv82+uscx/Pci+ggbQOxaDfrVN98qRhx5XVoYE2NoUUI8
+	NWQcQ55Z77fRXk2zLIdzx6bCic7B9pzQ3W6G+12mfALMwGhq9AtzDbO6
+X-Gm-Gg: Acq92OHhVuRP2Yp7y0J2aPFSJGnjOZ9qzolvG9/V/v9JcvgvbGm03QAi1RqZwlU28Jp
+	PCU6X181imY5SkpLQCM/L6lQXEPX75li1Ayoqk/RhZ7iajoGvwPj+2q913Pv/rgspu3wUHR0Jtn
+	vNFKpRgx4ZsyNVq5LPxyj7cnipGvkhlHRH4VJIkYPtC5aUuGqZT9BWImGqUcO7To/dMm6UoHVPh
+	bOl1UTiqP55gKySf6AXYqWgNUpp0ZlOmzwCD5BJWDsaEC+8HVnmnZxRHJp3wGEaEvd1uuzcqCuz
+	Bs8N/eKd0QxqWnRNXXSQaq8vC593E+aqt7r86QH1f3m60onaJrpl1ITs1hbADCFbSDwiDXqwX5S
+	rKai/R7spXhuGG4XnYGteSPOPkqYwmzGTWGeFRHWaEvSVfgOe66szIuQ+It+zIzOy06gX6UOrzg
+	omtUp5ztDgsrPhk3fMaKIIf25N0J6P1K9AU0m8ite2MixqwPmqWAnB7ZKcqIoXQEApvr9LpAU/t
+	cY6ziryQCdhrEDQL+4tMg3QpkPWnjRBmjxThjGJvKlyf6hHDsmsfhXKAETh4NdT9rp0hVDBkKtv
+	jBjD98cplQPk+vctVVY07X8rWjfs
+X-Received: by 2002:a17:907:785:b0:bd3:a112:c9a4 with SMTP id a640c23a62f3a-bd5177d46bcmr213404466b.6.1778850770229;
+        Fri, 15 May 2026 06:12:50 -0700 (PDT)
+Received: from ahossu.localdomain (ip-217-105-56-94.ip.prioritytelecom.net. [217.105.56.94])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bd4f4bd1bc9sm232424066b.9.2026.05.15.06.12.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 May 2026 06:12:49 -0700 (PDT)
+Message-ID: <6a071bd1.908e0b5f.32acc6.5951@mx.google.com>
+Date: Fri, 15 May 2026 06:12:49 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH] staging: rtl8723bs: fix OOB write in HT_caps_handler()
-Date: Fri, 15 May 2026 16:01:22 +0300
-Message-Id: <EFE3F065-DF2F-4790-896D-8278AA30341A@icloud.com>
-References: <6a06f87b.669ca06b.fb7de.57d2@mx.google.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+From: Alexandru Hossu <hossu.alexandru@gmail.com>
+To: dumanmehmetsamet@icloud.com
 Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev
-In-Reply-To: <6a06f87b.669ca06b.fb7de.57d2@mx.google.com>
-To: Alexandru Hossu <hossu.alexandru@gmail.com>
-X-Mailer: iPhone Mail (23D8133)
-X-Proofpoint-ORIG-GUID: nJd1UFfBjkjb1LCVAPoxEYha0fj7Emx6
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE1MDEzMiBTYWx0ZWRfX/K8hvDk5xwz2
- N8pukMt0q24SaxIuO37pEI5f/Omf3jFwvrxjTcVs7K3ePeacIAEzo0tD0BtQsTOpxfyrdjDcY02
- /VYVsacbe8rMu6p/HUXFI/5xo3jRfEWaQokobtKHWgAWkKeaRoac+ukMvdOvPBCaO9MEHAqGySM
- /Gb6U6xFODsd3gs2PKnHzfPF7Q0PfJEspqY+kRpgvlm0xXsui75+t1J0RcXhgdGBNcUReNcUjDT
- hj+YdHVCRRKkeEtJeKwaesJBeCmaui7IvFXnoBRMIEpqTYS08PxsPEHrwI7xmnZbWqioIGI59Pq
- g1p1pj/JM2kNvxoED8FfiLodgEc4h0GCAso0TrZnFc4JXM8ZtvAvCKaAb3bZv4=
-X-Proofpoint-GUID: nJd1UFfBjkjb1LCVAPoxEYha0fj7Emx6
-X-Authority-Info-Out: v=2.4 cv=fMA0HJae c=1 sm=1 tr=0 ts=6a071941
- cx=c_apl:c_pps:t_out a=9OgfyREA4BUYbbCgc0Y0oA==:117
- a=9OgfyREA4BUYbbCgc0Y0oA==:17 a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10
- a=x7bEGLp0ZPQA:10 a=aRhIMoA-k8UA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=pGLkceISAAAA:8 a=M4xulAB6ajHQm-HqXMkA:9 a=QEXdDO2ut3YA:10
+Subject: Re: [PATCH] staging: rtl8723bs: fix OOB write in HT_caps_handler()
+In-Reply-To: <EFE3F065-DF2F-4790-896D-8278AA30341A@icloud.com>
+References: <6a06f87b.669ca06b.fb7de.57d2@mx.google.com> <EFE3F065-DF2F-4790-896D-8278AA30341A@icloud.com>
 
-Was this patch written with LLM? Why is there separate text on the patch? It=
- could have been mentioned in the cover letter.
-
---
-Samet
-
-> 2026. 5. 15. =EC=98=A4=ED=9B=84 2:08, Alexandru Hossu <hossu.alexandru@gma=
-il.com> =EC=9E=91=EC=84=B1:
->=20
-> =EF=BB=BFHi Greg,
->=20
-> Here is the fix.
->=20
-> Alexandru
->=20
-> ---
->=20
-> The loop in HT_caps_handler() iterates up to pIE->length times, but
-> HT_cap[] is only 26 bytes. pIE->length comes from the HT Capability IE
-> in the association response and can be up to 255. This lets a rogue AP
-> write up to 229 bytes past the array using a bitwise AND into adjacent
-> struct fields.
->=20
-> Clamp the iteration count to the array size.
->=20
-> Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
-> ---
-> drivers/staging/rtl8723bs/core/rtw_wlan_util.c | 3 ++-
-> 1 file changed, 2 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/stag=
-ing/rtl8723bs/core/rtw_wlan_util.c
-> index 4f41f88908d7..e271d1e395a5 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-> @@ -935,7 +935,8 @@ void HT_caps_handler(struct adapter *padapter, struct n=
-dis_80211_var_ie *pIE)
->=20
->    pmlmeinfo->HT_caps_enable =3D 1;
->=20
-> -    for (i =3D 0; i < (pIE->length); i++) {
-> +    for (i =3D 0; i < min_t(unsigned int, pIE->length,
-> +                   sizeof(pmlmeinfo->HT_caps.u.HT_cap)); i++) {
->        if (i !=3D 2) {
->            /* Commented by Albert 2010/07/12 */
->            /* Got the endian issue here. */
+T24gRnJpLCBNYXkgMTUsIDIwMjYgYXQgMDQ6MDE6MjJQTSArMDMwMCwgTS5zYW1ldCBEdW1hbiB3
+cm90ZToKPiBXYXMgdGhpcyBwYXRjaCB3cml0dGVuIHdpdGggTExNPyBXaHkgaXMgdGhlcmUgc2Vw
+YXJhdGUgdGV4dCBvbiB0aGUKPiBwYXRjaD8gSXQgY291bGQgaGF2ZSBiZWVuIG1lbnRpb25lZCBp
+biB0aGUgY292ZXIgbGV0dGVyLgoKSSB3YXMgZXhwZXJpbWVudGluZyB3aXRoIHNvbWUgbG9jYWwg
+dG9vbGluZyBhbmQgY2xlYXJseSBpdCBkaWRuJ3QKcHJvZHVjZSBwcm9wZXIgb3V0cHV0LiBTb3Jy
+eSBmb3IgdGhlIG5vaXNlLiBOb3RlZCBmb3IgbmV4dCB0aW1lLgoKQWxleGFuZHJ1
