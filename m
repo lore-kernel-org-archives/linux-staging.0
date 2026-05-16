@@ -1,149 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BA592556E;
-	Sat, 16 May 2026 06:58:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66F59405C31
+	for <linux-staging@lists.linux.dev>; Sat, 16 May 2026 09:51:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778914719; cv=none; b=pHD1y0OOmp7GFNnw87/pt23eU8+B7lLj3Axulaskz8Ls8im9kfP12HVC3Pq7iGriK4SIAnnHy/j0U8+NrlXCwVCB65XirTKGPFMV6S1RdN3UWsJf8/dXCJh1YgFdRPw2SR4Wd8Pr/NFm2/dW+IYWnGyLwi+VhRKoLJ/M3EUqZa0=
+	t=1778925074; cv=none; b=WZZbk1iQzbtWvw3+EIpEnhvxkYAOg+UjiPb6BW97dXGLhihUWalNzkiv3MK4eeakTHI89XvfG3GcsfuJA238VI+J5+EAcA0wWJ+zgN4i4ASx1ID/2nMWdS2bsyzPBXbiTjsy/RYg3wQySRSVT8jUGNGNcKjwVtD2ldpuPwgXILo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778914719; c=relaxed/simple;
-	bh=wYulCIgVmHuwR3HS0lLL3mUQCLyj7dQ9d2Je3DjzZgI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qo6L+BSVhVGJTdW8nuO2wpjgaVMCF/Na2FdiFn3LQ7+T0VKMLoIu0TD5X+xlYmY6hEm3wRidbwu3v+nxtkmp/WVRVuwIbja94XkJxBUvXG7Wk4HQF67/jyTf/MC9IQWQ2Ivr2TQIoH1S+RgS34dgEG8rIo+U9c3a8ti14MMPOfk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=SVgRAOLT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1778925074; c=relaxed/simple;
+	bh=glthZY+TeF3WuDE6JLbfWI0WRcyhTMVu3WnPkFcL84Y=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=a1ZxxSoMk1/k61QJ8/OeDXPIDpqEv9PMkKKfYoCrX7eCLD2HdusuCHYkXH5/KBQuwOGuRlXsYeF7e02iN4ScgZpc1I4e+Aw0UNy6hvsRbRRiELVV0a4BIsep1EKFD5jfckFGBoxn05fxFDYjWpNnPRxYqTv2/6zfl4KQS0PjoH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qFJHjE/T; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="SVgRAOLT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85796C19425;
-	Sat, 16 May 2026 06:58:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1778914718;
-	bh=wYulCIgVmHuwR3HS0lLL3mUQCLyj7dQ9d2Je3DjzZgI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SVgRAOLTuaFcxFuEs1WgOTGuFZ9wouoAF0G1o/3JE6BHKKp1bfaQg94EdnkTGkE2v
-	 Ac7COiRp6LdO4LhjArm1FqvAk9CIg98PRBQtPfnAA8uM6GP96GGRk18V/yDc6xTnbW
-	 GF7u4ziTd3QpDDy9pWDgbHSA0/ffTLMypuFzli1w=
-Date: Sat, 16 May 2026 08:57:53 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Yousef Alhouseen <alhouseenyousef@gmail.com>
-Cc: Vaibhav Agarwal <vaibhav.sr@gmail.com>,
-	Mark Greer <mgreer@animalcreek.com>,
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: greybus: add missing newlines to sysfs_emit()
- output
-Message-ID: <2026051636-visitor-mummy-e3c9@gregkh>
-References: <20260515223342.40869-1-alhouseenyousef@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qFJHjE/T"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-83ea84df1d0so223883b3a.2
+        for <linux-staging@lists.linux.dev>; Sat, 16 May 2026 02:51:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778925073; x=1779529873; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WvQX8UThyFEgL4GFs7G4uznBl9OAkQJ/lHz8YrXfXY0=;
+        b=qFJHjE/TdUFYLu9A45fyG6PZ7QCWPbDd6DAqbzgG7HwiK6S8T4xWnimv7D7Z1RgOYi
+         tn8P/+eY2dRXepRANmb6/SCD7ceQRSAIbGkSyb6+LDbhc5OD06fnsSJiLERBToF6Iu3x
+         ozhhnQ1mdmPhYe/edQSMTUKdnDb2h54MmJ3q0lh0uOyoKHG4I0KoVZqA0yrqrVKfoR1J
+         DTa+zVFpye7PaPYZ3Pl4JV6RG3lQfV1ZTrqj1w5Tl51qVTdskf8vpydcvtwvE0Q2WQcg
+         pyhfUUiBbXzWh7yZrKok0GDNOnP+36YCDwfpDOJedeRS00VXx6I8yxpq7MEWj6VZgYEK
+         yF+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778925073; x=1779529873;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WvQX8UThyFEgL4GFs7G4uznBl9OAkQJ/lHz8YrXfXY0=;
+        b=N32lgm45A77N+cDfDQ5zgiT4balZQCgVKWVoVo/426vwHkZgOIbzzIOx/zZ7H6gsz4
+         8hxQGViteQA6f3f7p3a8JDEME19kJmejSgwwCU5hLY6Uu9V53T2QhLTX20p3iOrfD64l
+         tnQZjfGcj9Qt1Uv0x7lZz89K7Ac24mq+j6A/h0DE7M0zCFqXZhujQVUEuFsR7lnXR26u
+         8MUv04YQJ4VPbAZZtl+N8PwnGGveMu5f9hks/zH3agsPEfA9CQzW8BucXwZVRN5yxKEd
+         wfb5y69UEo/Dxlt/sLp1kbFAkmWknm7SWpXensthDcOHmxITlvj3jQS/s+Jy4wvGvd3u
+         aNPQ==
+X-Gm-Message-State: AOJu0YyebG9yt+0BcVNPvHySVvAL4u5ejOO/WuEzuQSaqULsscI9i0sp
+	WyouEk3C86t5KhMKOLXWt/EH/A1oHIcyyb6tuy6uOjz1sVT6KoRkzDpFkvj5Iex7
+X-Gm-Gg: Acq92OHxuG1L1+s+44F1jtxJCsCIU3W/DshejlrDP2Syk5VXafa15KHHHSyLlzUOVmf
+	MDhVxmd5/3cV1U3Ubq0MthLVP75/K0CHmd6Dk5hk6QrpaKiGpMlAND6Z2ycvpVRn2gL0TRrnTHe
+	iOiTNlzSQ6D2XD5jzFfFojpYI1xOWWwJBhlh/1/PekctopIBpA03bCxsixuz+PHRPvBaLEs0lkt
+	cpOGO2j5jXl/SNLkgX5jQSChHhWdVGbhtS2dNXDAXqzq46VjVzFHPWaVNWfLXzweQ86ESxiqdDo
+	xeGb/AOGZmHedCDHa3bp/dZDMGLYGlGLow8P3Q11ak91G9MwJ+xqEbj50oS6KYt9epiyOlPpISV
+	qx1FYTqNmpa4KjguA2su6L/8peK36O7Q3SwquXK05C2NQYLh9Gn9Ns0zSPQimnKvBhAGb6kVqdx
+	EB3OrXGrlUYPm1WHJkbtCRXm1i9w7eZRmziRGqp9zg0GU/8ZF/TpeqAEoFUaEf91uM3YGok3uG5
+	CkUNg==
+X-Received: by 2002:a05:6a00:124c:b0:835:3f51:72fb with SMTP id d2e1a72fcca58-83f33cbc0e7mr8232744b3a.12.1778925072624;
+        Sat, 16 May 2026 02:51:12 -0700 (PDT)
+Received: from localhost.localdomain ([2407:4840:a002:5ef4:d022:240f:d06b:67d5])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83f19f8b8b3sm8111593b3a.59.2026.05.16.02.51.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 May 2026 02:51:12 -0700 (PDT)
+From: Moksh Panicker <mokshpanicker.7@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: gregkh@linuxfoundation.org,
+	Moksh Panicker <mokshpanicker.7@gmail.com>
+Subject: [PATCH 1/4] staging: rtl8723bs: reformat rtw_efuse_read_1_byte() signature
+Date: Sat, 16 May 2026 09:51:01 +0000
+Message-Id: <20260516095103.12727-1-mokshpanicker.7@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260515223342.40869-1-alhouseenyousef@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Sat, May 16, 2026 at 12:33:42AM +0200, Yousef Alhouseen wrote:
-> Sysfs show() callbacks should emit a trailing newline for text output.
-> Several Greybus audio manager module attributes currently omit the
-> newline, which triggers checkpatch warnings and makes the attributes less
-> convenient to read from userspace.
-> 
-> Append missing newlines to the affected sysfs_emit() format strings.
-> 
-> Signed-off-by: Yousef Alhouseen <alhouseenyousef@gmail.com>
-> ---
->  drivers/staging/greybus/audio_manager_module.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/staging/greybus/audio_manager_module.c b/drivers/staging/greybus/audio_manager_module.c
-> index dc90cc2d2308..5737f2a32f5a 100644
-> --- a/drivers/staging/greybus/audio_manager_module.c
-> +++ b/drivers/staging/greybus/audio_manager_module.c
-> @@ -75,7 +75,7 @@ static void gb_audio_module_release(struct kobject *kobj)
->  static ssize_t gb_audio_module_name_show(struct gb_audio_manager_module *module,
->  					 struct gb_audio_manager_module_attribute *attr, char *buf)
->  {
-> -	return sysfs_emit(buf, "%s", module->desc.name);
-> +	return sysfs_emit(buf, "%s\n", module->desc.name);
->  }
->  
->  static struct gb_audio_manager_module_attribute gb_audio_module_name_attribute =
-> @@ -84,7 +84,7 @@ static struct gb_audio_manager_module_attribute gb_audio_module_name_attribute =
->  static ssize_t gb_audio_module_vid_show(struct gb_audio_manager_module *module,
->  					struct gb_audio_manager_module_attribute *attr, char *buf)
->  {
-> -	return sysfs_emit(buf, "%d", module->desc.vid);
-> +	return sysfs_emit(buf, "%d\n", module->desc.vid);
->  }
->  
->  static struct gb_audio_manager_module_attribute gb_audio_module_vid_attribute =
-> @@ -93,7 +93,7 @@ static struct gb_audio_manager_module_attribute gb_audio_module_vid_attribute =
->  static ssize_t gb_audio_module_pid_show(struct gb_audio_manager_module *module,
->  					struct gb_audio_manager_module_attribute *attr, char *buf)
->  {
-> -	return sysfs_emit(buf, "%d", module->desc.pid);
-> +	return sysfs_emit(buf, "%d\n", module->desc.pid);
->  }
->  
->  static struct gb_audio_manager_module_attribute gb_audio_module_pid_attribute =
-> @@ -103,7 +103,7 @@ static ssize_t gb_audio_module_intf_id_show(struct gb_audio_manager_module *modu
->  					    struct gb_audio_manager_module_attribute *attr,
->  					    char *buf)
->  {
-> -	return sysfs_emit(buf, "%d", module->desc.intf_id);
-> +	return sysfs_emit(buf, "%d\n", module->desc.intf_id);
->  }
->  
->  static struct gb_audio_manager_module_attribute
-> @@ -114,7 +114,7 @@ static ssize_t gb_audio_module_ip_devices_show(struct gb_audio_manager_module *m
->  					       struct gb_audio_manager_module_attribute *attr,
->  					       char *buf)
->  {
-> -	return sysfs_emit(buf, "0x%X", module->desc.ip_devices);
-> +	return sysfs_emit(buf, "0x%X\n", module->desc.ip_devices);
->  }
->  
->  static struct gb_audio_manager_module_attribute
-> @@ -125,7 +125,7 @@ static ssize_t gb_audio_module_op_devices_show(struct gb_audio_manager_module *m
->  					       struct gb_audio_manager_module_attribute *attr,
->  					       char *buf)
->  {
-> -	return sysfs_emit(buf, "0x%X", module->desc.op_devices);
-> +	return sysfs_emit(buf, "0x%X\n", module->desc.op_devices);
->  }
->  
->  static struct gb_audio_manager_module_attribute
-> -- 
-> 2.54.0
-> 
-> 
+Reformat multi-line function signature to a single line to fix
+line length and coding style warnings from checkpatch.pl.
 
-Hi,
+Signed-off-by: Moksh Panicker <mokshpanicker.7@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_efuse.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c b/drivers/staging/rtl8723bs/core/rtw_efuse.c
+index 803a608b74fa..987d05816c5c 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
++++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
+@@ -41,10 +41,7 @@ rtw_efuse_calculate_word_counts(u8 word_en)
+  * 09/23/2008	MHC		Copy from WMAC.
+  *
+  */
+-u8
+-rtw_efuse_read_1_byte(
+-struct adapter *Adapter,
+-u16		Address)
++u8 rtw_efuse_read_1_byte(struct adapter *Adapter, u16 Address)
+ {
+ 	u8 Bytetemp = {0x00};
+ 	u8 temp = {0x00};
+-- 
+2.34.1
 
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- You sent a patch that has been sent multiple times in the past few
-  days, and is identical to ones that has been recently rejected.
-  Please always look at the mailing list traffic to determine if you are
-  duplicating other people's work.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
