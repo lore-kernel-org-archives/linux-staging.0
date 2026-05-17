@@ -1,74 +1,69 @@
-Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C7B223536B
-	for <linux-staging@lists.linux.dev>; Sun, 17 May 2026 14:35:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2577117B506
+	for <linux-staging@lists.linux.dev>; Sun, 17 May 2026 14:38:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779028506; cv=none; b=bjBuYqT7DicplFmOin7F446qWG4jjmd4hXp5SYQEUt0t/NK7nziJJUVzMedxDE/HdNezE+woGzAF4rU6Ph0ztT6Mrpho5NmV3IIrdCyT8QmCcyZWHnau+F9VrhrnFGocsXig74P3w1jsg2zhGIflFWcSEj+a+JSOvX67dSfIUNo=
+	t=1779028689; cv=none; b=Q+md8/IvixLVLz0Jc26/Yu4P0njFsq5fyZpVBgj44EVZtX7L0wfp1g9tgpEpR0C/7NhE4/WI3xhWCNNon+JiOa4tRyJbU2I+KtV/LwTNO5lA0050kkS/LIIJc/cF28LuS4xIQJ5Bag3AfcnNRTCFFAXYg6GoaWkfUdaDGI+swmo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779028506; c=relaxed/simple;
-	bh=FF9ZfazRE2/igLFALqrXMsLabkFJ7d22RgehowDupYE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EdWame8t+vZiYDvgRiItcw5LKLSP/FN0FVQM4k4emXHHWVUoqf3zbuRZmRzij/TG0+h9nwiIXovcI2qM/6QIKmgRw3IX0NA9UHmrIeEb5/b+/pridAPhucu9j+dj/hwf0dRanaGAsx/L1zDOMYiwzAK1cvMt00vJim8eCrWgTdQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KZztQxwZ; arc=none smtp.client-ip=209.85.161.54
+	s=arc-20240116; t=1779028689; c=relaxed/simple;
+	bh=d41U0Knm0JA02Dsu9sgzHrWkNzyb5mRz2Y+g5omAHmQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=qhEtQtY8AAWOgpBjY357mKBLQ/boibYJIm6uEX3H/QzTs2Vg8aInYA03y1v8cjVZ2zQ4FGRuzHAgrznAKdjhQc8JbplAUiDcF5ZULZXYvXb5KBe3NfgWH8wo03mLbZTrU3sMDxDSb0v89jxwfItHmQY7RGMksx8DnzNGhkXzHm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=htjmEuMi; arc=none smtp.client-ip=209.85.215.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KZztQxwZ"
-Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-69b94acd958so656595eaf.3
-        for <linux-staging@lists.linux.dev>; Sun, 17 May 2026 07:35:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="htjmEuMi"
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-c70c112cb61so1123729a12.0
+        for <linux-staging@lists.linux.dev>; Sun, 17 May 2026 07:38:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779028503; x=1779633303; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1779028687; x=1779633487; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+5Tj8pIpwcuaWArASM+0sAuUc3qYDkIHm69X0MuttiY=;
-        b=KZztQxwZw4Q4CR0PB8QREfWM+CrWaGfP6atg869Xn8glpdeCHOHCPnxnnCs6yrHpCA
-         GXwRshntJqTaVJTVvMniDJb0YXTrFYjJ3Jv4DpfKNqpl24tDr7qHHf61/R3Lwd9cV3Db
-         Konbefy4BVqgqkB2L0pcg0XODb6DbQh4OjtGb6qXyWO0eVr5OuZ9sCkQsE/muRl+OVoj
-         csII9NbvfptjhVr+4TKBetR5M/dZctr+H3gd39MjRNfWLOgciTlWhsfQYGRN+vCyUWcM
-         0P5daUOVleOuA/vdWOd0KTdVVGBK8mNjoaZf73yZ6es20n8vOtA/ZuYFT18z4R1moCyI
-         JjBQ==
+        bh=8DKtLoFmEFtscZTJc7o4HWOd2/uMFzrwRD6BNQgKmBg=;
+        b=htjmEuMiN+POGoUYDXKxUMJyZxMhtxwG1k4dZR9dF188E43DKjXc/j/9DQ6LNbkS3C
+         gxXVREs4/2lHT3qwK5vajdaV1EG3Ff/yyRo1QSI2sYH5Ynyyr3j3e/wFYeyH/hcvEF9Q
+         M2FCGRG9NOX1GoP52NiomkqzRJ87q9RmmxTSsWVuLTqYQE+IfAF9Pd1Mte3LDuohbF6f
+         Y5Fh08Edz8dc+8jNBX0vdCQLNjwTOR2jM2Ykx8qHml8bfSNsEDBlgdFg2KMc7imHoMPd
+         eRi+wdViCeY8KpBC2ENWG/0va0TVA5XnbCb96KJEo/CBmgtlHAA3P6xT+0lhdbSmueZq
+         aI1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779028503; x=1779633303;
+        d=1e100.net; s=20251104; t=1779028687; x=1779633487;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+5Tj8pIpwcuaWArASM+0sAuUc3qYDkIHm69X0MuttiY=;
-        b=jbJzrYV8iqQH0h5vDZIEM3GruEQDDkoeh3WrvrvZFta35P+35QsSThG/HWkjvePqvn
-         x2jPJbHL72ivalrtdZOwGOFFMBPgasly4vE7+WfLR23yVqMlNhGZ9GnpBLGuRv8ej9Yd
-         yZUblKHaJ1nNlI70PwkftLnxmr0b5WgycnJlNbWm6V1SsYfeslDxiTo7jfoNitSwgpmO
-         3XwPLKu2B+5xctmkr5ClTZJ02aleI66bfrSZFoe1MIfRAWFCsn7ThbiBdfSAKTuDH4g9
-         kWFg0DHsMuKrL+bm2vMTGSRHZoRQTVBQTVoqzORx9jcybwOvaBSx1KngJP3auDZ6MUgb
-         gWIA==
-X-Forwarded-Encrypted: i=1; AFNElJ9ZCZMwhO7H8sAgC5tcPzNwAXjLGIHuc4slrEXjM1B6HMVwVeIu7DmFarABCOhLmLBuWYusT+YefERbHwGP@lists.linux.dev
-X-Gm-Message-State: AOJu0YwKJUIrT3DMmq0UdP97OUp/tHXuMknc5cQI++HLZUlwDQGI9ejE
-	lpg3Gy7OFnsXdPx6iq4u21TVTC8alvAihY0eT/bqD0/xfZNoaSwk8tqE
-X-Gm-Gg: Acq92OGgYYpfSPhivvErZY0h38BL4RECsusFI62MQABf/Vu3hY7rQyWmPqzp8zJ2LYl
-	0bj5iV2yXN/uJ3i9glc2AAIxGq5ME+ovP34ND5gyNfE8gBzqNETbZa/fXSgMNWvMSqsSBmAKxk0
-	uCLUiWJnmWgPXTCpdFyhZFG19sE0oQHvc/mxWB18591QIHjHvU32FvZL2RPehlbTpOyfkB7mMTM
-	V0gNlGEznSjnRRlR0vOBYrXXnOGhvwawCMPsIaRub3tWFs9bm7tHRxaC3Ocvxwg1lrDvSEKeHxh
-	90yBjWsLfgTUzvMtGc8lh/tVpiqeqKliFb5zXBRJ8VfpBRsfE9uY2aFLAPwoGTbJCC/RPO8IwLr
-	LLtUXSTPdYDYOgMpndLpzaOFRV+/i5gZdKD9WhYgQn1L088dvDZ82YOhf6ECgRZuOwVVn1s5epa
-	SgNjAuejIPP41nPZoFu1Lqcz+SfBWVaNQLzeyQsryT
-X-Received: by 2002:a05:6820:151f:b0:69c:502f:bcde with SMTP id 006d021491bc7-69c950fe8c7mr7870649eaf.49.1779028503353;
-        Sun, 17 May 2026 07:35:03 -0700 (PDT)
-Received: from MacMini.lan ([172.127.162.94])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-69d0465461bsm4114183eaf.7.2026.05.17.07.35.02
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 17 May 2026 07:35:02 -0700 (PDT)
-From: shayderrr <darknessshayder@gmail.com>
-To: sakari.ailus@linux.intel.com,
-	bingbu.cao@intel.com,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Pranav Bajjuri <darknessshayder@gmail.com>
-Subject: [PATCH] media: ipu7: fix boot config memory leak and replace polling loops
-Date: Sun, 17 May 2026 09:34:56 -0500
-Message-ID: <20260517143456.81109-1-darknessshayder@gmail.com>
-X-Mailer: git-send-email 2.50.1
+        bh=8DKtLoFmEFtscZTJc7o4HWOd2/uMFzrwRD6BNQgKmBg=;
+        b=QoeV8aRfKO3EzFUlL63p5wZR+ITvmrvkNv9Kx6cYk9RFJvgaCEGWoXygUbUUCGGg3B
+         Zzt1CnmzIPRzmXUGEHjH73bI3svImc0q4R+QCJzWbpBCA6ZYQtFELDvMjMWdGecbeyVi
+         emX/1thWcBiHATkUtaa9tzOsopRL7W1POjjpjz9y/4QT2c8KvSwpBoQ9uqk+ygNzxwMF
+         e9cTCsfAcHb5JjLJhhoWTHI0LrhyNRSnHVLH1qHNL8nzmNIB79iPwPLumdHeSCwAEFVB
+         1fmeTE2YbxxC6qj3GFdGrw5XQwCROwxVXp1mAxo7iT41gqLjBovSel3lSUjtvnUs/gIe
+         PQ6Q==
+X-Gm-Message-State: AOJu0YxLp9PIKY9GRKWpmAM+LqtcxGzTlvP/K9wRY4NbyimNlJ39zVmO
+	vygUMFxLKhg9nto9I8JqEK5fCfsAy58O51rsiW/eGfQVhHU4dSLQ+vI1wRO9UMdO
+X-Gm-Gg: Acq92OGMi/v9IPdk7heId2AfRVIL/WfSULLghZW+gh5xL+3VMfiUxk49yYzcuizmzOI
+	Am1Uui3cLCSskTNJycZh48bKkIrbvyN334RTPawtNTNP0mj37FQnOG9VsgKjOJsoLdMvRa04Eys
+	+O6KPDkNYaup+1P5M97a8mQcoogc+AvYrMq+Rj8T0Cf/yljEvOsqbiyyCAVXNNKK+IW+ePhI3ei
+	8jLmZrMhzX4tVBOStlFJ1HbOp4paVixN8PX+KGHL+ed4ZAWum88g/QUhPBaqER0piSbysfylBoO
+	ick3F/S/gl+sXBTBDBvfF97t80Y5znakH1svFsEeFNHYyWNamFTqACwnB37+q89fSzsVLTixpfL
+	yk7GHpZd+zKYAhY62OQ8XXWwFlFmkK7HbKnBv3d2KNE0jWvD8/O7k2mGBH0lRMY6bOqOD+TJl5h
+	0A/IqpivkObpZP1HMcugemVpPBgXyDKrxG33vRJE0Us9ZkpNPqfBg6H6syRMqE1zfcF2xXPzxNP
+	tjhHn5olnw3Gg==
+X-Received: by 2002:a05:6a20:a602:b0:3b2:8685:1473 with SMTP id adf61e73a8af0-3b28685150cmr1245755637.7.1779028687462;
+        Sun, 17 May 2026 07:38:07 -0700 (PDT)
+Received: from localhost.localdomain ([115.242.226.50])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83f196647aasm11036887b3a.5.2026.05.17.07.38.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 May 2026 07:38:06 -0700 (PDT)
+From: Moksh Panicker <mokshpanicker.7@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: gregkh@linuxfoundation.org,
+	Moksh Panicker <mokshpanicker.7@gmail.com>
+Subject: [PATCH v4 0/4] staging: rtl8723bs: fix efuse formatting and brace handling 
+Date: Sun, 17 May 2026 14:37:19 +0000
+Message-Id: <20260517143723.13281-1-mokshpanicker.7@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,240 +72,25 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Pranav Bajjuri <darknessshayder@gmail.com>
+This series fixes coding-style issues in
+drivers/staging/rtl8723bs/core/rtw_efuse.c and adds a missing brace fix.
 
-Free boot_config DMA allocation if queue memory alloc fails in
-ipu7_boot_init_boot_config(). Replace hand-rolled timeout loops in
-ipu7_boot_start_fw() and ipu7_boot_stop_fw() with read_poll_timeout().
-Fix variable declaration order in cell reset, start, and stop to follow
-reverse Christmas tree convention.
+Patch 1 reformats rtw_efuse_read_1_byte() signature.
+Patch 2 adds braces to the else clause in rtw_efuse.c.
+Patch 3 reformats rtw_efuse_one_byte_read() signature.
+Patch 4 fixes missing brace/comment formatting in rtw_efuse_read_1_byte().
 
-Signed-off-by: Pranav Bajjuri <darknessshayder@gmail.com>
----
- drivers/staging/media/ipu7/ipu7-boot.c | 88 +++++++++++---------------
- 1 file changed, 36 insertions(+), 52 deletions(-)
+v3 -> v4: added the missing brace fix as a separate patch and compile-tested the series. 
 
-diff --git a/drivers/staging/media/ipu7/ipu7-boot.c b/drivers/staging/media/ipu7/ipu7-boot.c
-index d7901ff78b38..f081c39604a7 100644
---- a/drivers/staging/media/ipu7/ipu7-boot.c
-+++ b/drivers/staging/media/ipu7/ipu7-boot.c
-@@ -22,8 +22,8 @@
- #include "ipu7-platform-regs.h"
- #include "ipu7-syscom.h"
- 
--#define IPU_FW_START_STOP_TIMEOUT		2000
--#define IPU_BOOT_CELL_RESET_TIMEOUT		(2 * USEC_PER_SEC)
-+#define IPU_FW_START_STOP_TIMEOUT	2000
-+#define IPU_BOOT_CELL_RESET_TIMEOUT	(2 * USEC_PER_SEC)
- #define BOOT_STATE_IS_CRITICAL(s)	IA_GOFO_FW_BOOT_STATE_IS_CRITICAL(s)
- #define BOOT_STATE_IS_READY(s)		((s) == IA_GOFO_FW_BOOT_STATE_READY)
- #define BOOT_STATE_IS_INACTIVE(s)	((s) == IA_GOFO_FW_BOOT_STATE_INACTIVE)
-@@ -39,17 +39,17 @@ struct ipu7_boot_context {
- static const struct ipu7_boot_context contexts[IPU_SUBSYS_NUM] = {
- 	{
- 		/* ISYS */
--		.dmem_address = IPU_ISYS_DMEM_OFFSET,
--		.status_ctrl_reg = BUTTRESS_REG_DRV_IS_UCX_CONTROL_STATUS,
--		.fw_start_address_reg = BUTTRESS_REG_DRV_IS_UCX_START_ADDR,
--		.fw_code_base_reg = IS_UC_CTRL_BASE
-+		.dmem_address		= IPU_ISYS_DMEM_OFFSET,
-+		.status_ctrl_reg	= BUTTRESS_REG_DRV_IS_UCX_CONTROL_STATUS,
-+		.fw_start_address_reg	= BUTTRESS_REG_DRV_IS_UCX_START_ADDR,
-+		.fw_code_base_reg	= IS_UC_CTRL_BASE
- 	},
- 	{
- 		/* PSYS */
--		.dmem_address = IPU_PSYS_DMEM_OFFSET,
--		.status_ctrl_reg = BUTTRESS_REG_DRV_PS_UCX_CONTROL_STATUS,
--		.fw_start_address_reg = BUTTRESS_REG_DRV_PS_UCX_START_ADDR,
--		.fw_code_base_reg = PS_UC_CTRL_BASE
-+		.dmem_address		= IPU_PSYS_DMEM_OFFSET,
-+		.status_ctrl_reg	= BUTTRESS_REG_DRV_PS_UCX_CONTROL_STATUS,
-+		.fw_start_address_reg	= BUTTRESS_REG_DRV_PS_UCX_START_ADDR,
-+		.fw_code_base_reg	= PS_UC_CTRL_BASE
- 	}
- };
- 
-@@ -85,9 +85,9 @@ static int ipu7_boot_cell_reset(const struct ipu7_bus_device *adev)
- {
- 	const struct ipu7_boot_context *ctx = &contexts[adev->subsys];
- 	const struct device *dev = &adev->auxdev.dev;
-+	void __iomem *base = adev->isp->base;
- 	u32 ucx_ctrl_status = ctx->status_ctrl_reg;
- 	u32 timeout = IPU_BOOT_CELL_RESET_TIMEOUT;
--	void __iomem *base = adev->isp->base;
- 	u32 val, val2;
- 	int ret;
- 
-@@ -134,8 +134,8 @@ static int ipu7_boot_cell_reset(const struct ipu7_bus_device *adev)
- static void ipu7_boot_cell_start(const struct ipu7_bus_device *adev)
- {
- 	const struct ipu7_boot_context *ctx = &contexts[adev->subsys];
--	void __iomem *base = adev->isp->base;
- 	const struct device *dev = &adev->auxdev.dev;
-+	void __iomem *base = adev->isp->base;
- 	u32 val;
- 
- 	dev_dbg(dev, "starting cell...\n");
-@@ -152,8 +152,8 @@ static void ipu7_boot_cell_start(const struct ipu7_bus_device *adev)
- static void ipu7_boot_cell_stop(const struct ipu7_bus_device *adev)
- {
- 	const struct ipu7_boot_context *ctx = &contexts[adev->subsys];
--	void __iomem *base = adev->isp->base;
- 	const struct device *dev = &adev->auxdev.dev;
-+	void __iomem *base = adev->isp->base;
- 	u32 val;
- 
- 	dev_dbg(dev, "stopping cell...\n");
-@@ -187,16 +187,14 @@ static int ipu7_boot_cell_init(const struct ipu7_bus_device *adev)
- }
- 
- static void init_boot_config(struct ia_gofo_boot_config *boot_config,
--			     u32 length, u8 major)
-+			     u32 config_size, u8 major)
- {
--	/* syscom version, new syscom2 version */
--	boot_config->length = length;
-+	boot_config->length = config_size;
- 	boot_config->config_version.major = 1U;
- 	boot_config->config_version.minor = 0U;
- 	boot_config->config_version.subminor = 0U;
- 	boot_config->config_version.patch = 0U;
- 
--	/* msg version for task interface */
- 	boot_config->client_version_support.num_versions = 1U;
- 	boot_config->client_version_support.versions[0].major = major;
- 	boot_config->client_version_support.versions[0].minor = 0U;
-@@ -221,7 +219,7 @@ int ipu7_boot_init_boot_config(struct ipu7_bus_device *adev,
- 
- 	dev_dbg(dev, "boot config queues_nr: %d freq: %u sys_conf: 0x%pad\n",
- 		num_queues, uc_freq, &subsys_config);
--	/* Allocate boot config. */
-+
- 	adev->boot_config_size =
- 		sizeof(*cfgs) * num_queues + sizeof(*boot_config);
- 	adev->boot_config = ipu7_dma_alloc(adev, adev->boot_config_size,
-@@ -257,12 +255,15 @@ int ipu7_boot_init_boot_config(struct ipu7_bus_device *adev,
- 		qconfigs[i].queue_size = queue_size;
- 	}
- 
--	/* Allocate queue memory */
- 	syscom->queue_mem = ipu7_dma_alloc(adev, total_queue_size_aligned,
- 					   &syscom->queue_mem_dma_addr,
- 					   GFP_KERNEL, 0);
- 	if (!syscom->queue_mem) {
- 		dev_err(dev, "Failed to allocate queue memory.\n");
-+		ipu7_dma_free(adev, adev->boot_config_size,
-+			      adev->boot_config,
-+			      adev->boot_config_dma_addr, 0);
-+		adev->boot_config = NULL;
- 		return -ENOMEM;
- 	}
- 	syscom->queue_mem_size = total_queue_size_aligned;
-@@ -312,7 +313,6 @@ EXPORT_SYMBOL_NS_GPL(ipu7_boot_release_boot_config, "INTEL_IPU7");
- int ipu7_boot_start_fw(const struct ipu7_bus_device *adev)
- {
- 	const struct device *dev = &adev->auxdev.dev;
--	u32 timeout = IPU_FW_START_STOP_TIMEOUT;
- 	void __iomem *base = adev->isp->base;
- 	u32 boot_state, last_boot_state;
- 	u32 indices_addr, msg_ver, id;
-@@ -323,37 +323,26 @@ int ipu7_boot_start_fw(const struct ipu7_bus_device *adev)
- 		return ret;
- 
- 	dev_dbg(dev, "start booting fw...\n");
--	/* store "uninit" state to syscom/boot state reg */
- 	write_fw_boot_param(adev, IA_GOFO_FW_BOOT_STATE_ID,
- 			    IA_GOFO_FW_BOOT_STATE_UNINIT);
--	/*
--	 * Set registers to zero
--	 * (not strictly required, but recommended for diagnostics)
--	 */
- 	write_fw_boot_param(adev,
- 			    IA_GOFO_FW_BOOT_SYSCOM_QUEUE_INDICES_BASE_ID, 0);
- 	write_fw_boot_param(adev, IA_GOFO_FW_BOOT_MESSAGING_VERSION_ID, 0);
--	/* store firmware configuration address */
- 	write_fw_boot_param(adev, IA_GOFO_FW_BOOT_CONFIG_ID,
- 			    adev->boot_config_dma_addr);
- 
--	/* Kick uC, then wait for boot complete */
- 	ipu7_boot_cell_start(adev);
- 
- 	last_boot_state = IA_GOFO_FW_BOOT_STATE_UNINIT;
--	while (timeout--) {
--		boot_state = read_fw_boot_param(adev,
--						IA_GOFO_FW_BOOT_STATE_ID);
--		if (boot_state != last_boot_state) {
--			dev_dbg(dev, "boot state changed from 0x%x to 0x%x\n",
--				last_boot_state, boot_state);
--			last_boot_state = boot_state;
--		}
--		if (BOOT_STATE_IS_CRITICAL(boot_state) ||
--		    BOOT_STATE_IS_READY(boot_state))
--			break;
--		usleep_range(1000, 1200);
--	}
-+	ret = read_poll_timeout(read_fw_boot_param, boot_state,
-+				BOOT_STATE_IS_CRITICAL(boot_state) ||
-+				BOOT_STATE_IS_READY(boot_state),
-+				1000, IPU_FW_START_STOP_TIMEOUT * 1000ULL,
-+				false, adev, IA_GOFO_FW_BOOT_STATE_ID);
-+
-+	if (boot_state != last_boot_state)
-+		dev_dbg(dev, "boot state changed from 0x%x to 0x%x\n",
-+			last_boot_state, boot_state);
- 
- 	if (BOOT_STATE_IS_CRITICAL(boot_state)) {
- 		ipu7_dump_fw_error_log(adev);
-@@ -365,13 +354,11 @@ int ipu7_boot_start_fw(const struct ipu7_bus_device *adev)
- 	}
- 	dev_dbg(dev, "fw boot done.\n");
- 
--	/* Get FW syscom queue indices addr */
- 	id = IA_GOFO_FW_BOOT_SYSCOM_QUEUE_INDICES_BASE_ID;
- 	indices_addr = read_fw_boot_param(adev, id);
- 	adev->syscom->queue_indices = base + indices_addr;
- 	dev_dbg(dev, "fw queue indices offset is 0x%x\n", indices_addr);
- 
--	/* Get message version. */
- 	msg_ver = read_fw_boot_param(adev,
- 				     IA_GOFO_FW_BOOT_MESSAGING_VERSION_ID);
- 	dev_dbg(dev, "ipu message version is 0x%08x\n", msg_ver);
-@@ -383,8 +370,8 @@ EXPORT_SYMBOL_NS_GPL(ipu7_boot_start_fw, "INTEL_IPU7");
- int ipu7_boot_stop_fw(const struct ipu7_bus_device *adev)
- {
- 	const struct device *dev = &adev->auxdev.dev;
--	u32 timeout = IPU_FW_START_STOP_TIMEOUT;
- 	u32 boot_state;
-+	int ret;
- 
- 	boot_state = read_fw_boot_param(adev, IA_GOFO_FW_BOOT_STATE_ID);
- 	if (BOOT_STATE_IS_CRITICAL(boot_state) ||
-@@ -394,18 +381,15 @@ int ipu7_boot_stop_fw(const struct ipu7_bus_device *adev)
- 		return -EBUSY;
- 	}
- 
--	/* Issue shutdown to start shutdown process */
- 	dev_dbg(dev, "stopping fw...\n");
- 	write_fw_boot_param(adev, IA_GOFO_FW_BOOT_STATE_ID,
- 			    IA_GOFO_FW_BOOT_STATE_SHUTDOWN_CMD);
--	while (timeout--) {
--		boot_state = read_fw_boot_param(adev,
--						IA_GOFO_FW_BOOT_STATE_ID);
--		if (BOOT_STATE_IS_CRITICAL(boot_state) ||
--		    BOOT_STATE_IS_INACTIVE(boot_state))
--			break;
--		usleep_range(1000, 1200);
--	}
-+
-+	ret = read_poll_timeout(read_fw_boot_param, boot_state,
-+				BOOT_STATE_IS_CRITICAL(boot_state) ||
-+				BOOT_STATE_IS_INACTIVE(boot_state),
-+				1000, IPU_FW_START_STOP_TIMEOUT * 1000ULL,
-+				false, adev, IA_GOFO_FW_BOOT_STATE_ID);
- 
- 	if (BOOT_STATE_IS_CRITICAL(boot_state)) {
- 		ipu7_dump_fw_error_log(adev);
+Moksh Panicker (4):
+   staging: rtl8723bs: reformat rtw_efuse_read_1_byte() signature
+   staging: rtl8723bs: add braces to else clause in rtw_efuse.c
+   staging: rtl8723bs: reformat rtw_efuse_one_byte_read() signature
+   staging: rtl8723bs: fix missing brace in rtw_efuse_read_1_byte
+
+ drivers/staging/rtl8723bs/core/rtw_efuse.c | 12 ++++--------
+ 2 files changed, 7 insertions(+), 8 deletions(-)
+
 -- 
-2.50.1 (Apple Git-155)
+2.34.1
 
