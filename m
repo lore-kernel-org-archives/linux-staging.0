@@ -1,139 +1,174 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mail-106121.protonmail.ch (mail-106121.protonmail.ch [79.135.106.121])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA7601C84BC;
-	Sun, 17 May 2026 19:00:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC7E12EAD0D
+	for <linux-staging@lists.linux.dev>; Sun, 17 May 2026 19:17:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.121
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779044452; cv=none; b=rQNcGFIeVafuePV/01iDdueH1v4NBN4f4P1OLIBZCqrm+8TWwH78DkrpYiJddLA+Q8fldv81JqaAEMK0f/XG9iboMwn7b7QdCcJiB4ZfG1V3U8W7SNB/4D10RHzfMmlq8MCeF+eglA2zlA8t/nOzNWKLN0wfPu71U8qmOd17KrY=
+	t=1779045481; cv=none; b=DXrPNIzZBHfhcox2f6POCQ1ef6s1ZFfKsIyXZ9BGiZkhmiPjd8urt6wRsLb6zyzTtbGSZ2lxv8R1H7vQGwH5ENtSiMl4zO1vOXvqxoCT3gxZ5tnP4YqIXruqcppiQCJtpCs1kff4ofsMFsh6TzWRSGmSuHnbh/H9IoYVmiJy2eg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779044452; c=relaxed/simple;
-	bh=STObEROyoT4+wLR/jIvqjJqwLhTr0Y6ltjsbAQ6M4Y4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HAmOxWARCQ2BqYOM/iIIHv8QWiKR3SfjQTOuhQ4EjY/tLsnX8WGsfJlMxmXW3au1A/mKqSsOA8ICMOxwvTzo3UU/ISLZoXdjPq9ehom7yY2FjJ8lZkHfVL9EmXy3vo5dCmCv4Mp1YjpjtTAFKQRJuYn+CVRbD47i/ZOjNG69eLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lbrhUKmg; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1779045481; c=relaxed/simple;
+	bh=GOBi/pRWmVL+Veh9IwhLDZRHfmJP1ezRNfavGxJ3mzA=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XsfDFPTLMQ/oomULOEJ4AgIekVsGsoHq+TZQu4uDE79Cqf25nR1xmLeNE1w2CVXl8hR5Ox892RbpjrGJPq1dK6x62sC2cgXy0KZAzgI+N346mCKgMcNpr3kQn/H9KZ+ZNjjO30z5/lFARugs4ycI4QyBb0Q9V0HBDLezkWvYUbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=a5OjVGJ2; arc=none smtp.client-ip=79.135.106.121
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lbrhUKmg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779044451; x=1810580451;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=STObEROyoT4+wLR/jIvqjJqwLhTr0Y6ltjsbAQ6M4Y4=;
-  b=lbrhUKmgUlAZ8vvQuXigzXuK7MQnLw880BQaTVqSFtzpudj3o8eXuIPj
-   D05W41NNGJMiX93q8EFydf44/dxbXH6wr8kg2gaSPIYComosYximtR6FG
-   EG2mwxqdWU+HNNQqFL3Sb6wOAdlZe6oS7OjXD5dlV7IkXskjNwU8GJCbO
-   R7c5Pt6TGtXQEwzL1oE7QLuXomSvJFDYF3HHpIVZ4x170D0KH2tPOZoWC
-   Kl8pf7N7Vxt9OAuaWqbl7bRtdrLEOOFJQzHBSqO6lXhtFWKXCJDG5z/k0
-   zUYowDH8oGgAo43Y+AcGLE5NT/o2YSe5ybgB2tju5tTmzBMIRZwIMmLy8
-   A==;
-X-CSE-ConnectionGUID: b29nRKuDTnKSmEZflvkPLQ==
-X-CSE-MsgGUID: wikDFAnWRm+wLXFZvNQVkw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11789"; a="80031736"
-X-IronPort-AV: E=Sophos;i="6.23,240,1770624000"; 
-   d="scan'208";a="80031736"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2026 12:00:50 -0700
-X-CSE-ConnectionGUID: DD4UPBvLQ5C+z/MRBdp93Q==
-X-CSE-MsgGUID: 1YK5O1uuTRCsKQeoD2Umfw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,240,1770624000"; 
-   d="scan'208";a="238229279"
-Received: from lkp-server01.sh.intel.com (HELO d94e5e629b2d) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 17 May 2026 12:00:49 -0700
-Received: from kbuild by d94e5e629b2d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wOgjF-000000001tK-498a;
-	Sun, 17 May 2026 19:00:45 +0000
-Date: Mon, 18 May 2026 03:00:22 +0800
-From: kernel test robot <lkp@intel.com>
-To: shayderrr <darknessshayder@gmail.com>, gregkh@linuxfoundation.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Pranav Bajjuri <darknessshayder@gmail.com>
-Subject: Re: [PATCH] net: octeon: fix carrier state, null guard, and
- modernize phy ioctl
-Message-ID: <202605180212.LjnBydnh-lkp@intel.com>
-References: <20260517141955.79666-1-darknessshayder@gmail.com>
+	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="a5OjVGJ2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
+	s=protonmail3; t=1779045471; x=1779304671;
+	bh=K8NQAnOha8d5JNbdYdd0AJXyY7YRm1TTkyKzdhoGALc=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=a5OjVGJ2gfOIinrqLlNmFTz9/VT17fCi70c7K/d1artQVe18Du9SUYOFK+CKMbVZg
+	 XStVCZxrXgkYvlZ2KlHibkk9khiyX+3fGsjAyFhIRo3FuAv1s+phABggnef7L8nds1
+	 05MzWRkCl+KE0Wt6EyAb4UJ1uvVYWTiCsB16Sn5aS+TmksCHKfR2YOzE6YpQXxbGny
+	 pqEHPMR5KnEIEQEIYfhYkfmiRXPVWaGyuqFYGULBHdpPIb3R1IdrtNuge0FJTIjyIv
+	 aH7njgAPiz4kr4VCmap3/EqeqUkuk1dceWDiim2lJY5/rxNN3p2SuK45HjNSoa0OeX
+	 VhcCOK0N4If0Q==
+Date: Sun, 17 May 2026 19:17:44 +0000
+To: Jonathan Cameron <jic23@kernel.org>, Hardik Phalet <hardik.phalet@pm.me>
+From: Hardik Phalet <hardik.phalet@pm.me>
+Cc: gregkh@linuxfoundation.org, andy@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org, dlechner@baylibre.com, krzk+dt@kernel.org, linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, me@brighamcampbell.com, nuno.sa@analog.com, robh@kernel.org, skhan@linuxfoundation.org, Hardik Phalet <hardik.phalet@gmail.com>
+Subject: Re: [PATCH v3 0/5] iio: magnetometer: add driver for QST QMC5883P
+Message-ID: <DIL6ZC7KKYMN.36KGJXKDRGFB0@pm.me>
+In-Reply-To: <20260420144534.0e47c06a@jic23-huawei>
+References: <20260420-qmc5883p-driver-v3-0-da1e97088f8b@pm.me> <20260420144534.0e47c06a@jic23-huawei>
+Feedback-ID: 166659585:user:proton
+X-Pm-Message-ID: e13c3f58e0d2edfad5428b12adb06f0f421ca919
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260517141955.79666-1-darknessshayder@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi shayderrr,
+On Mon Apr 20, 2026 at 7:15 PM IST, Jonathan Cameron wrote:
+> On Sun, 19 Apr 2026 22:32:09 +0000
+> Hardik Phalet <hardik.phalet@pm.me> wrote:
+>
+>> This series adds an IIO driver for the QST QMC5883P, a 3-axis
+>> anisotropic magneto-resistive (AMR) magnetometer with a 16-bit ADC,
+>> communicating over I2C. To my knowledge there is no existing
+>> upstream driver for this device (see "Prior-art register-map check"
+>> below).
+>>
+>> The driver supports:
+>>   - Raw magnetic field readings on X, Y and Z axes
+>>   - Four full-scale ranges (+/-2 G, +/-8 G, +/-12 G, +/-30 G),
+>>     selectable via IIO_CHAN_INFO_SCALE
+>>   - Four output data rates (10, 50, 100, 200 Hz), selectable via
+>>     IIO_CHAN_INFO_SAMP_FREQ
+>>   - Four oversampling ratios (1, 2, 4, 8), selectable via
+>>     IIO_CHAN_INFO_OVERSAMPLING_RATIO
+>
+> I'm suspicious about this one based on a very quick read of the datasheet=
+.
+> Conventional oversampling would involve running the internal sampling
+> engine at a multiple of the sampling frequency, and then averaging the
+> results.  The datasheet describes this as:
+> "Over sample Rate (OSR1) registers are used to control bandwidth of an
+>  internal digital filter. Larger OSR value leads to smaller filter bandwi=
+dth,
+>  less in-band noise and higher power consumption. It could be used to rea=
+ch a
+>  good balance between noise and power. Four over sample ratios can be sel=
+ected,
+>  8,4,2 or 1."
+>
+> That sounds like a boxcar filter to me not oversampling (which would be
+> a combination of box car and reducing the output data rate).
+>
+> If possible, can you enable the data ready output and put a scope on it
+> to see if that changes frequency when OSR or OSR2 are modified.
+>
+> Trickier to do would be looking at the noise levels whilst playing with
+> these filters and see if they at least match with standard filter types.
+>
+> If we can't figure these out, then it may be a case of picking something
+> that works well and hard coding that rather than letting userspace
+> change things in a fashion that might not match the ABI.
 
-kernel test robot noticed the following build errors:
+I could not arrange a oscilloscope. So wrote a small standalone tool that d=
+rives
+the chip directly over /dev/i2c-N (skipping the driver) on a Pi 4 and
+characterised all three fields in CTRL_1 with timing + noise measurements.
+Summary:
 
-[auto build test ERROR on staging/staging-testing]
-[also build test ERROR on staging/staging-next staging/staging-linus linus/master v7.1-rc3 next-20260508]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+  Field    Bits     Role per measurement
+  ODR      [3:2]    output rate, accurate to ~3% of nominal in Normal Mode
+  OSR1     [5:4]    low-pass filter (bandwidth control), no rate change
+  OSR2     [7:6]    N-sample averaging, no rate change (real oversampling)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/shayderrr/net-octeon-fix-carrier-state-null-guard-and-modernize-phy-ioctl/20260517-222121
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20260517141955.79666-1-darknessshayder%40gmail.com
-patch subject: [PATCH] net: octeon: fix carrier state, null guard, and modernize phy ioctl
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260518/202605180212.LjnBydnh-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260518/202605180212.LjnBydnh-lkp@intel.com/reproduce)
+1. DRDY interval vs each field (median of 500 samples per setting,
+   ms; SCHED_FIFO, pinned CPU):
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605180212.LjnBydnh-lkp@intel.com/
+   vary ODR (OSR1=3D1, OSR2=3D1):
+     ODR=3D10 Hz  -> 100.9 ms       ODR=3D100 Hz -> 10.30 ms
+     ODR=3D50 Hz  ->  20.5 ms       ODR=3D200 Hz ->  5.14 ms
 
-All errors (new ones prefixed by >>):
+   vary OSR1 (ODR=3D200 Hz, OSR2=3D1):
+     OSR1=3D1 -> 5.142 ms           OSR1=3D4 -> 5.139 ms
+     OSR1=3D2 -> 5.143 ms           OSR1=3D8 -> 5.141 ms
 
->> drivers/staging/octeon/ethernet-mdio.c:91:6: error: conflicting types for 'cvm_oct_common_stop'; have 'void(struct net_device *)'
-      91 | void cvm_oct_common_stop(struct net_device *dev)
-         |      ^~~~~~~~~~~~~~~~~~~
-   In file included from drivers/staging/octeon/ethernet-mdio.c:15:
-   drivers/staging/octeon/octeon-ethernet.h:90:5: note: previous declaration of 'cvm_oct_common_stop' with type 'int(struct net_device *)'
-      90 | int cvm_oct_common_stop(struct net_device *dev);
-         |     ^~~~~~~~~~~~~~~~~~~
+   vary OSR2 (ODR=3D200 Hz, OSR1=3D1):
+     OSR2=3D1 -> 5.142 ms           OSR2=3D4 -> 5.142 ms
+     OSR2=3D2 -> 5.140 ms           OSR2=3D8 -> 5.141 ms
 
+   ODR is the only knob that changes the rate.
 
-vim +91 drivers/staging/octeon/ethernet-mdio.c
+2. Per-axis noise stddev (2000 samples, sensor still, ratios vs N=3D1):
 
-    90	
-  > 91	void cvm_oct_common_stop(struct net_device *dev)
-    92	{
-    93		struct octeon_ethernet *priv = netdev_priv(dev);
-    94		int interface = INTERFACE(priv->port);
-    95		int index = INDEX(priv->port);
-    96		union cvmx_helper_link_info link_info;
-    97		union cvmx_gmxx_prtx_cfg gmx_cfg;
-    98	
-    99		gmx_cfg.u64 = cvmx_read_csr(CVMX_GMXX_PRTX_CFG(index, interface));
-   100		gmx_cfg.s.en = 0;
-   101		cvmx_write_csr(CVMX_GMXX_PRTX_CFG(index, interface), gmx_cfg.u64);
-   102	
-   103		priv->poll = NULL;
-   104	
-   105		netif_carrier_off(dev);
-   106	
-   107		if (dev->phydev)
-   108			phy_disconnect(dev->phydev);
-   109	
-   110		if (priv->last_link) {
-   111			link_info.u64	= 0;
-   112			priv->link_info	= 0;
-   113			priv->last_link	= 0;
-   114	
-   115			cvmx_helper_link_set(priv->port, link_info);
-   116			cvm_oct_note_carrier(priv, link_info);
-   117		}
-   118	}
-   119	
+   vary OSR1:                   vary OSR2:
+     OSR1=3D1 -> 1.000              OSR2=3D1 -> 1.000
+     OSR1=3D2 -> 0.723              OSR2=3D2 -> 0.706
+     OSR1=3D4 -> 0.544              OSR2=3D4 -> 0.494
+     OSR1=3D8 -> 0.416              OSR2=3D8 -> 0.333
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+   Reference for N-sample averaging (1/sqrt(N)):
+     1.000 / 0.707 / 0.500 / 0.354
+
+   OSR2 matches within measurement noise; OSR1 trails the curve,
+   which is the expected signature of a bandwidth-limiting filter
+   on non-white input noise.
+
+So to my understanding, OSR2 is true oversampling. OSR1 is a filter.
+
+v4 plan, pending your input on (c):
+
+  (a) Add an OSR2 regmap_field and expose it as
+      IIO_CHAN_INFO_OVERSAMPLING_RATIO with values {1, 2, 4, 8}.
+  (b) Drop the OVERSAMPLING_RATIO mapping on OSR1.
+  (c) For OSR1, two options:
+        i)  expose as IIO_CHAN_INFO_LOW_PASS_FILTER_3DB_FREQUENCY.
+            The public datasheet does not give cutoff frequencies,
+            so I'd have to either characterise them empirically and
+            document them in the driver, or use placeholder values
+            derived from the OSR1 setting alone (which feels wrong).
+        ii) hard-code OSR1=3D1 in chip_init and not expose it. Loses
+            the noise-vs-bandwidth tradeoff but keeps the ABI clean.
+      Slight preference for (ii) unless you'd rather see the filter
+      knob exposed.
+  (d) Keep ODR mapped to IIO_CHAN_INFO_SAMP_FREQ as in v3.
+
+One other finding worth mentioning: the datasheet's setup examples
+(sec 7.1, 7.2, 7.3) all write 0x06 to register 0x29 before entering
+an active mode, with the comment "Define the sign for X Y and Z axis".
+This register is not listed in the documented register map but the
+write is required for axes Y and Z to come out with the documented
+orientation. v4 will add this write to chip_init().
+
+If you have other measurements you'd like to see before v4, happy to
+run them.
+
+>
+>>   - Runtime PM with a 2 s autosuspend delay
+>>   - System suspend/resume delegated to the runtime callbacks
+
+Best regards,
+Hardik
+
