@@ -1,174 +1,99 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A37415665C;
-	Sun, 17 May 2026 04:01:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5033872623
+	for <linux-staging@lists.linux.dev>; Sun, 17 May 2026 04:35:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778990477; cv=none; b=GxVcjE29/ItttpHuMM98gM7V7Z7iKILHc6GMS+5fCBkfGsB3r+8FQ1ro7iy7Zyf9meYIL8XQz9owQiPeVyoyZp9Q/5pFDeYCeS0F5lY1xuIAyEoOePcN/4A3QcbcRODAVeMd2PZJuxS7NeobE5uuV2GibNL7Pnpg3KOcUamLAIM=
+	t=1778992541; cv=none; b=bLa8cUv1GOER7SDMEEluy7x00S58EK8jAKNucqmAQg2fq4GHXznnRXY3tfIfs6LWkF0Ev/YwTFdHxhXYpqwWzjG+Maxck7chQI/r91v+1b6WP5L98qWd8/UGD5EATD5r8AsJnDtnsGcco2Ag1TWetnkGkhVICBnGBcVr8v0G7Vs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778990477; c=relaxed/simple;
-	bh=G6qsVHppJitjTZV3PTAeKP3jKrpAIbi1PhTPv8klNY8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HSSPPuuvYpbOlq1l64AzOOEsNHWbsV56lr4UPGLX28APSn6M/pRsqw8pa3L3OT/SZBVR0BmLDWMfrgzXlv0yRKE+hhvkEGBdcnWIqbhr0EAndN4nYKyTGyhx9Ho7FhtkSUA3YHwYpd5Hf3LwMyorLsJFez/y/JsRWEaWR+SKOEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tqoqs4Bl; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1778992541; c=relaxed/simple;
+	bh=jAUFVJlwSkUvYLej5lDWUfcdWmjy/T72TyTmC+yTU8w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=dysKDBW1HX0wIa14NZHJ4y66oJlIssSPTPsRxlC0TlquAjfiKwjncI0UwsaBBar10UY0qjUqDVtTETQRQNJw0S3PTC9ijqVHq5CFWWzVx34FLIVHEB31s8W0AF4f/RCDExxeFWuivJI6ir5UpQodZLnaluUAB+gO9AXuJxa6dRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f/9cPASx; arc=none smtp.client-ip=209.85.210.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tqoqs4Bl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778990476; x=1810526476;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=G6qsVHppJitjTZV3PTAeKP3jKrpAIbi1PhTPv8klNY8=;
-  b=Tqoqs4BlTrf+0OlBNQEdYinAexY5EtdfQ77NYkuy6b+pZ4vppxsr0D45
-   yQUuEc2MWPlYyCE2nSZuAH/oLmHuI27mMvfcTY0IO+wRjXLWJl+oAM6Oo
-   cIJuu4aauffgauH0SrXBjm60SK23McDmuZ1Vw3M1Xo5DcL3oSYMyzRw/1
-   gcODPSpUpoNywP7lT/wWBjyqRkUQGs1GSxOIsS5v33mAVt2Kjf43+7CY3
-   1dHUEdbss0FpwjFGMfOR7lX/LC8Nj+AK4XHXZjCJXuOnh74pnHrT84cVj
-   28wbZYQxRxnl+9jlct6KC92NDiIxMKpjry6h7Wjw6c/2btLz7SS92ytxf
-   w==;
-X-CSE-ConnectionGUID: fiMie4hLSOG2Cq9PMfpixQ==
-X-CSE-MsgGUID: 0qpSUOE1QeOAmGrLZH0sFg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11788"; a="102560551"
-X-IronPort-AV: E=Sophos;i="6.23,239,1770624000"; 
-   d="scan'208";a="102560551"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2026 21:01:16 -0700
-X-CSE-ConnectionGUID: zS2ZAFVyTjWmSqRsC4uscQ==
-X-CSE-MsgGUID: WBAhgQTRSf+tp6+Fc/8S2g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,239,1770624000"; 
-   d="scan'208";a="232698962"
-Received: from lkp-server01.sh.intel.com (HELO d94e5e629b2d) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 16 May 2026 21:01:13 -0700
-Received: from kbuild by d94e5e629b2d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wOSgg-000000001L4-2UVE;
-	Sun, 17 May 2026 04:01:10 +0000
-Date: Sun, 17 May 2026 12:00:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Emmanuel Arias <eamanu@riseup.net>, sudipm.mukherjee@gmail.com,
-	teddy.wang@siliconmotion.com, gregkh@linuxfoundation.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Emmanuel Arias <eamanu@riseup.net>
-Subject: Re: [PATCH] staging: sm750fb: fix CamelCase variables name in sm750
-Message-ID: <202605171120.K414qtus-lkp@intel.com>
-References: <20260516222613.1178800-1-eamanu@riseup.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f/9cPASx"
+Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-7e4004a4a6fso1396199a34.1
+        for <linux-staging@lists.linux.dev>; Sat, 16 May 2026 21:35:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778992539; x=1779597339; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9R3JzuwDhapmoRuetkhs7VNnYfvYfnExgTfN7cfW74o=;
+        b=f/9cPASxfMWf4toObJQF5yaRfH2MrG+cQNKtSi8wKAl+3GPZLG+NCTP00nxVUDFAq5
+         XNv9TeC978W4tsc+C1lLVbNNfN0DRXen//PBMJlgd1uc9ZnFk3KY/ppB9cn2NhpOtDS6
+         XV/I1InmNm24dCDXRCrQCG11DShlctE3KTHEryd8Smxqkgl05SBqa+8WH2v2Cd4YLN0x
+         DpZjH3vk7tWvm1scJoT9jq3t5bO5h5TPh04isPOWhJNSXoWJDg3c1qe94WrCUGQfCIay
+         IyK0hCNOVemcZ9MtCenuGIRR3IJPfE4UEWvlmqePSOcWscxScDbo2YGWAk4VHoc90z9b
+         Nt/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778992539; x=1779597339;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9R3JzuwDhapmoRuetkhs7VNnYfvYfnExgTfN7cfW74o=;
+        b=p2F7symjRjPoe7zkCHEQ19VkW3O9x7J2iHAyJEChT2WUcTH7yavCipAIyV13nSMA9k
+         1swUVGG2B8vfzmm5TUzhTURDPMxFEbd62SHl1fFjvIy5nKTJgUcN87In4iDxICf5MYkO
+         jSMALArLJcHB3yrSS2LIRUE1QH3F7rYjudfXTATE0pwPwYU+xsPemQmRMdTfI0ZqdQDT
+         SL4mZteKaOcI49QpeKsLkKnmVxaupmzW4KsaP6d0cSmbHTm+W2OG6KWpvKLmJW7WRGSx
+         OL4iTn0v+Lyruzl1nVQ8nIq6JHFDneVMRc1mFvSDN+lcU9FM6oHoeNFezsgdGeCw3r7m
+         nsPQ==
+X-Gm-Message-State: AOJu0YypsFEL4SKweJlwmt+PgD/I2nyK38DIpKJtj/Sx7+eNrEusCu+B
+	9OoYlmzuzcq9s1bvbZQoOMCISw8fcUSbXbF0jTP/EEYxvI/a1Kth5vi7
+X-Gm-Gg: Acq92OGV0usxtSdkYJwKpnlbXdSV5pK73dU8fjQEEhXer4qgvrLDiUTKClKIU3u43Z/
+	2hHdH/vTAgmZSmU2DzBKNI/96RLYZAphfKNl4rbEmqJIq+XWgbGhcm5bS20ENChO/6MN0mJQ53N
+	tMBZPkWCRJDRALSQlbjk+HJekgZkv3DRGeO+2E2JZoG+lfbaU8niyiDtJ8QUa3/xNxtYxwHzCWM
+	WgqTHTv56dltQKwJIqDd2xzRwhTDR+5T+iW34Gwt7u9nuJNALZfG0jZc6bM883kT/+IqtR18q36
+	rv2QmS4K4Dph5GncWM6Akf2MzhPmaIjOvUiJSi/EIv7BcSvKZGpe025djBVEfgMVUEZGeHq9ZKo
+	OIsVWeOPx79wjRMWLiTNtPJqNB+Mc8brvioEBLVcw6iTVUR+ZfoFb1x4E6tErp1d4rQRxNPjx4x
+	NscUv7aQ3R5CU+g5l5bCiwl8Tco2hq2NM=
+X-Received: by 2002:a05:6830:6106:b0:7dc:e45a:adda with SMTP id 46e09a7af769-7e4f2b6e6ccmr6643463a34.19.1778992539319;
+        Sat, 16 May 2026 21:35:39 -0700 (PDT)
+Received: from pop-os.. ([2806:264:548c:885a:a314:9972:40f1:1f4d])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e55bbd0be3sm4996317a34.15.2026.05.16.21.35.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 May 2026 21:35:38 -0700 (PDT)
+From: =?UTF-8?q?Diego=20Fernando=20Mancera=20G=C3=B3mez?= <diegomancera.dev@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	=?UTF-8?q?Diego=20Fernando=20Mancera=20G=C3=B3mez?= <diegomancera.dev@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: remove redundant comparison with true
+Date: Sat, 16 May 2026 22:35:20 -0600
+Message-ID: <20260517043520.47423-1-diegomancera.dev@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260516222613.1178800-1-eamanu@riseup.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Emmanuel,
+Clean up the checkpatch.pl check: "Using comparison to true is
+error prone". Evaluating the boolean variable directly is preferred
+and more idiomatic in the Linux kernel.
 
-kernel test robot noticed the following build errors:
+Signed-off-by: Diego Fernando Mancera Gómez <diegomancera.dev@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_sta_mgt.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-[auto build test ERROR on staging/staging-testing]
+diff --git a/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c b/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
+index 07a6db1d2..349b27f91 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
++++ b/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
+@@ -531,7 +531,7 @@ u8 rtw_access_ctrl(struct adapter *padapter, u8 *mac_addr)
+ 		paclnode = list_entry(plist, struct rtw_wlan_acl_node, list);
+ 
+ 		if (!memcmp(paclnode->addr, mac_addr, ETH_ALEN))
+-			if (paclnode->valid == true) {
++			if (paclnode->valid) {
+ 				match = true;
+ 				break;
+ 			}
+-- 
+2.43.0
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Emmanuel-Arias/staging-sm750fb-fix-CamelCase-variables-name-in-sm750/20260517-062807
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20260516222613.1178800-1-eamanu%40riseup.net
-patch subject: [PATCH] staging: sm750fb: fix CamelCase variables name in sm750
-config: riscv-randconfig-001-20260517 (https://download.01.org/0day-ci/archive/20260517/202605171120.K414qtus-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260517/202605171120.K414qtus-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605171120.K414qtus-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/staging/sm750fb/sm750_hw.c:43:13: error: no member named 'pvReg' in 'struct sm750_dev'
-      43 |         sm750_dev->pvReg =
-         |         ~~~~~~~~~  ^
-   drivers/staging/sm750fb/sm750_hw.c:45:18: error: no member named 'pvReg' in 'struct sm750_dev'
-      45 |         if (!sm750_dev->pvReg) {
-         |              ~~~~~~~~~  ^
-   drivers/staging/sm750fb/sm750_hw.c:51:41: error: no member named 'pvReg' in 'struct sm750_dev'
-      51 |         sm750_dev->accel.dpr_base = sm750_dev->pvReg + DE_BASE_ADDR_TYPE1;
-         |                                     ~~~~~~~~~  ^
-   drivers/staging/sm750fb/sm750_hw.c:52:45: error: no member named 'pvReg' in 'struct sm750_dev'
-      52 |         sm750_dev->accel.dp_port_base = sm750_dev->pvReg + DE_PORT_ADDR_TYPE1;
-         |                                         ~~~~~~~~~  ^
-   drivers/staging/sm750fb/sm750_hw.c:54:23: error: no member named 'pvReg' in 'struct sm750_dev'
-      54 |         mmio750 = sm750_dev->pvReg;
-         |                   ~~~~~~~~~  ^
-   drivers/staging/sm750fb/sm750_hw.c:78:21: error: no member named 'pvReg' in 'struct sm750_dev'
-      78 |         iounmap(sm750_dev->pvReg);
-         |                 ~~~~~~~~~  ^
-   6 errors generated.
-
-
-vim +43 drivers/staging/sm750fb/sm750_hw.c
-
-efe9bc08bf479b Elise Lennion    2016-10-11  27  
-700591a9adc8b1 Mike Rapoport    2015-10-26  28  int hw_sm750_map(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
-81dee67e215b23 Sudip Mukherjee  2015-03-03  29  {
-81dee67e215b23 Sudip Mukherjee  2015-03-03  30  	int ret;
-81dee67e215b23 Sudip Mukherjee  2015-03-03  31  
-e359b6a863e19f Mike Rapoport    2015-10-26  32  	sm750_dev->vidreg_start = pci_resource_start(pdev, 1);
-e359b6a863e19f Mike Rapoport    2015-10-26  33  	sm750_dev->vidreg_size = SZ_2M;
-81dee67e215b23 Sudip Mukherjee  2015-03-03  34  
-8225489ddb9006 Artem Lytkin     2026-02-16  35  	/* reserve the vidreg space of smi adaptor */
-9a52ae2dd8c24a Anatoly Stepanov 2015-06-29  36  	ret = pci_request_region(pdev, 1, "sm750fb");
-9a52ae2dd8c24a Anatoly Stepanov 2015-06-29  37  	if (ret) {
-e5448f8d2ec5b4 Artem Lytkin     2026-02-23  38  		dev_err(&pdev->dev, "Can not request PCI regions.\n");
-8225489ddb9006 Artem Lytkin     2026-02-16  39  		return ret;
-81dee67e215b23 Sudip Mukherjee  2015-03-03  40  	}
-81dee67e215b23 Sudip Mukherjee  2015-03-03  41  
-81dee67e215b23 Sudip Mukherjee  2015-03-03  42  	/* now map mmio and vidmem */
-fdc234d85210d9 Benjamin Philip  2021-07-28 @43  	sm750_dev->pvReg =
-fdc234d85210d9 Benjamin Philip  2021-07-28  44  		ioremap(sm750_dev->vidreg_start, sm750_dev->vidreg_size);
-e359b6a863e19f Mike Rapoport    2015-10-26  45  	if (!sm750_dev->pvReg) {
-e5448f8d2ec5b4 Artem Lytkin     2026-02-23  46  		dev_err(&pdev->dev, "mmio failed\n");
-81dee67e215b23 Sudip Mukherjee  2015-03-03  47  		ret = -EFAULT;
-8225489ddb9006 Artem Lytkin     2026-02-16  48  		goto err_release_region;
-81dee67e215b23 Sudip Mukherjee  2015-03-03  49  	}
-81dee67e215b23 Sudip Mukherjee  2015-03-03  50  
-5865a858dbc9cb Yiming Qian      2025-09-09  51  	sm750_dev->accel.dpr_base = sm750_dev->pvReg + DE_BASE_ADDR_TYPE1;
-5865a858dbc9cb Yiming Qian      2025-09-09  52  	sm750_dev->accel.dp_port_base = sm750_dev->pvReg + DE_PORT_ADDR_TYPE1;
-81dee67e215b23 Sudip Mukherjee  2015-03-03  53  
-efe9bc08bf479b Elise Lennion    2016-10-11  54  	mmio750 = sm750_dev->pvReg;
-efe9bc08bf479b Elise Lennion    2016-10-11  55  	sm750_set_chip_type(sm750_dev->devid, sm750_dev->revid);
-81dee67e215b23 Sudip Mukherjee  2015-03-03  56  
-e359b6a863e19f Mike Rapoport    2015-10-26  57  	sm750_dev->vidmem_start = pci_resource_start(pdev, 0);
-f5016082f63d42 Eric S. Stone    2016-10-22  58  	/*
-f5016082f63d42 Eric S. Stone    2016-10-22  59  	 * don't use pdev_resource[x].end - resource[x].start to
-878336c3362d09 Stefan Wolz      2016-06-23  60  	 * calculate the resource size, it's only the maximum available
-878336c3362d09 Stefan Wolz      2016-06-23  61  	 * size but not the actual size, using
-3fcb465f1e74ef Elise Lennion    2016-10-13  62  	 * @ddk750_get_vm_size function can be safe.
-878336c3362d09 Stefan Wolz      2016-06-23  63  	 */
-3fcb465f1e74ef Elise Lennion    2016-10-13  64  	sm750_dev->vidmem_size = ddk750_get_vm_size();
-81dee67e215b23 Sudip Mukherjee  2015-03-03  65  
-81dee67e215b23 Sudip Mukherjee  2015-03-03  66  	/* reserve the vidmem space of smi adaptor */
-f50b4602fea62f Jennifer Guo     2026-05-09  67  	sm750_dev->vmem =
-fdc234d85210d9 Benjamin Philip  2021-07-28  68  		ioremap_wc(sm750_dev->vidmem_start, sm750_dev->vidmem_size);
-f50b4602fea62f Jennifer Guo     2026-05-09  69  	if (!sm750_dev->vmem) {
-e5448f8d2ec5b4 Artem Lytkin     2026-02-23  70  		dev_err(&pdev->dev, "Map video memory failed\n");
-81dee67e215b23 Sudip Mukherjee  2015-03-03  71  		ret = -EFAULT;
-8225489ddb9006 Artem Lytkin     2026-02-16  72  		goto err_unmap_reg;
-81dee67e215b23 Sudip Mukherjee  2015-03-03  73  	}
-8225489ddb9006 Artem Lytkin     2026-02-16  74  
-8225489ddb9006 Artem Lytkin     2026-02-16  75  	return 0;
-8225489ddb9006 Artem Lytkin     2026-02-16  76  
-8225489ddb9006 Artem Lytkin     2026-02-16  77  err_unmap_reg:
-8225489ddb9006 Artem Lytkin     2026-02-16  78  	iounmap(sm750_dev->pvReg);
-8225489ddb9006 Artem Lytkin     2026-02-16  79  err_release_region:
-8225489ddb9006 Artem Lytkin     2026-02-16  80  	pci_release_region(pdev, 1);
-81dee67e215b23 Sudip Mukherjee  2015-03-03  81  	return ret;
-81dee67e215b23 Sudip Mukherjee  2015-03-03  82  }
-81dee67e215b23 Sudip Mukherjee  2015-03-03  83  
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
