@@ -1,37 +1,66 @@
-Received: from forward502b.mail.yandex.net (forward502b.mail.yandex.net [178.154.239.146])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC1852BEC52
-	for <linux-staging@lists.linux.dev>; Sun, 17 May 2026 19:57:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F26F30E85B
+	for <linux-staging@lists.linux.dev>; Sun, 17 May 2026 20:28:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779047865; cv=none; b=KH1WLq6rsP9pnl38RE5VncKMhGMjTLEInV5nTzct7WiynPFynVUSdNwBqngeqlrmsoKBfPqz9xY9f92dk9XVMnU77pWG46EYiXNMJwbKfY2FMU6GjtWT/b+POpd+AFfgnVZeDfK1LWoZSQErp1oaY2df5B0OcxxGIZcio/OvF3o=
+	t=1779049707; cv=none; b=OaWidZy8OjTbdSuH456aKWfYIDINxCuatPBN5UwnzEiLcnnBokA9km2P2dykSs2VvIh+EbA5m2a+gk797Ox+RAvDs8cX2YyiHzX5Dz8JUnKzN4bReEUrxqNRNeLEFy00QVqGltoUdL4n2XegNpKCTODj7g/g6vanwfKJ9JVHwzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779047865; c=relaxed/simple;
-	bh=RyUQt1EQ3I60uIK/Do579vvTJwX9n+7QKF8NsmXJW8A=;
+	s=arc-20240116; t=1779049707; c=relaxed/simple;
+	bh=TfH3mebqGdarguuuYyHFAQAgVU0MPwFuKF0xD/rxr8g=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HWrHqPhpE/EttrW1SYqICtsEolIMKadPaLQwgaBNg3C/vB/OfEeTNU232yLX9WOOs15UnnpB1LF7CPjCV4/1B26uw0iEGyC12i+xJTEJTeHX5ztSZwmScjXFDvSZ/PDMu65DD+n7wzUnVV1g1x5dojuQ9IMLZts9gk/O4tWQQKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net; spf=pass smtp.mailfrom=sezginduran.net; dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b=ZLbK1JYc; arc=none smtp.client-ip=178.154.239.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sezginduran.net
+	 In-Reply-To:Content-Type; b=mGJ8Ih8ZpEAzVZkw/qlHrhnaI3FvUZTkMr/SM0pggtfgEHFmUaUKngyoEfOMeF254wisIlFlT8qv0z0hR4CyckRAu163O6KlUAWNyQG39a0mUUvNxpVnsWRYR875iditDfbjC/4bkxlQsM5vzdOv+vANzFzBxlPHwuEAxACDqgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=H6/3ITwc; arc=none smtp.client-ip=209.85.167.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b="ZLbK1JYc"
-Received: from mail-nwsmtp-smtp-production-main-74.iva.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-74.iva.yp-c.yandex.net [IPv6:2a02:6b8:c0c:181b:0:640:6cb9:0])
-	by forward502b.mail.yandex.net (Yandex) with ESMTPS id 23A7580BBA;
-	Sun, 17 May 2026 22:57:31 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-74.iva.yp-c.yandex.net (smtp) with ESMTPSA id SvVvEIgSDmI0-YOdja3zS;
-	Sun, 17 May 2026 22:57:30 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sezginduran.net;
-	s=mail; t=1779047850;
-	bh=sbb+FQbVVQjCCMDDei14LyUgPdT7sy2tbMko4Rs+3iI=;
-	h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
-	b=ZLbK1JYcH3097wNBQmAiTrBx65mZvLmLeEmakoO/0wFPOFNN9idjDuTdYHgt9O3eB
-	 v+7/3BBGZB5ovBhQB8Aa0i3HxBlVspijXr96+h5SndSUCI3yvrHBJPABRPD0YeAFiL
-	 Bi3cL3kf4TCzcwLWWctVzvO3UebKElGINAOqt9ts=
-Authentication-Results: mail-nwsmtp-smtp-production-main-74.iva.yp-c.yandex.net; dkim=pass header.i=@sezginduran.net
-Message-ID: <27a0c849-7aba-4ee6-89b6-362e1eb9c43d@sezginduran.net>
-Date: Sun, 17 May 2026 22:57:27 +0300
+	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="H6/3ITwc"
+Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-484cf882ce5so421680b6e.1
+        for <linux-staging@lists.linux.dev>; Sun, 17 May 2026 13:28:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1779049704; x=1779654504; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7Z68gGNxfq6iDTV2nCWXatC0CvTWumwI6Opr30zc3J4=;
+        b=H6/3ITwcqEGxPFOnfVfKVgQBqFlLGjjSVynrLPa+IKZf26GH7MTVEIdFM4IKiJZtvF
+         AA/CVwEwm/f7UZs+3Hj5MBiKSJEuC2hQ7+2C7GTG/vajWsxh2qpTi/l0Kz5btZ0fZe2P
+         MhEpttvYseaAOgxdjNwyuT+EZEKPpmEWFRAnbM1DH5pgi9lzAZTSBgn/9roIGmiyNjee
+         7iH7buuHX6H3c0wG/g79ZKzE2ReAmYQClNSIS4KmcQ3mcKhohTDuyl9NaTdvPJJmf0GT
+         iaFc8mDr6HlGR+lOuWiKBij3CK7VWrcyUGXluEROeQu0J1/2kJmjmxAzqzan2srHK+9A
+         Wofg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779049704; x=1779654504;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7Z68gGNxfq6iDTV2nCWXatC0CvTWumwI6Opr30zc3J4=;
+        b=B4kZXmiUPyzTrvXb5IMuaxnp+99vem7xCEKc0BSKwWmZYpya+myhd+kaoWlHCuZ3W+
+         S5XosXDsGEpys+iCCnyoOWc6YWkGHEF1O9mQaycXeM+0qpYJpxtqhEaiZVd799aFfi0t
+         k39xsvPyw2iKxIS1JWHwm4B3INmSRDUgOQcyWWPOHD1TV5TdoLZm9XdKjNdUOzmyIMDA
+         V3zNRZGPwNWa2h5Vl0qqJ/4Be0zpD1z1x2kwd46jP4dolDgmfOIjHIWLhsi+uGPvynW7
+         IahtTrDTE9Y3VoyI3dD7JxLbAdZ+RPHHsh50XmCNqU+Caag8v9tNmK4teirHQhDSl/qj
+         dUMw==
+X-Forwarded-Encrypted: i=1; AFNElJ9gtxibHf3cwmbWpmGYp/hkbxDQHOdr/DblkF9BtLy4o/7HYe/ZklQcGosBxGIOMdrJgGOPXuh+01VwWj9F@lists.linux.dev
+X-Gm-Message-State: AOJu0YzKKKCkip64kzBqHvcHFvjjWl/H2cvEHBRcssyQLemkLJHsVQaf
+	vGa82X/C7xGPlWdhZvuHOdZXNNvJsoFCEjGm+bj+HgUFpvps1KWui93NRa+77sZfaRo=
+X-Gm-Gg: Acq92OESPW9I4sXh3bpWO31w4NKsucBTzv4q1a+ow9mUhhDUEm3MkUVFyLrkRicONkV
+	w2t9tamctKFjX5l5jWbEXuaoDM6l0zVOkQVmw0KsEQF9FZ/iS0X3u2uyIrI4I3EbrHW1pC6jEp9
+	UeH+ert/2yaacC83bG4tW5YOV64m3+/PTTM5lWpReNU+lqeMofcqzlmZrNV3VgHfvWnZzPwJsq9
+	8FYfmnksV+n88wuy7Gx/vnn6YGKav02S+9s0MPE/bAie2GnW9rSWdN3HWbdtdzeb54HlE/V//sA
+	1Wutum5m0Nj7JAuJ7JSxaJNK+gGNKzGB7kSl6DqWO32WqxzcEDh2o/O4igT4yxQMaSYxl8DKfk0
+	M25w8Yh+PCrG7MJbE0NbDaUF+RP8qphyyjrZ6c1sFtUoFopJZ+G1MmGqsoQQkRQIUOh5a3WnpyA
+	fsoMBnx3Lu6OlWqNCpVUGgy6DOsXPbA8zVrnhFdzALEJHWP7eOVJq7PDu0MSK79A98iJzb/sM=
+X-Received: by 2002:a05:6808:e409:b0:482:4dbd:4fe1 with SMTP id 5614622812f47-482e57ce234mr6049210b6e.45.1779049704393;
+        Sun, 17 May 2026 13:28:24 -0700 (PDT)
+Received: from ?IPV6:2600:8803:e7e4:500:7a4b:ddf0:f61:f58d? ([2600:8803:e7e4:500:7a4b:ddf0:f61:f58d])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e55bc4f04fsm6341703a34.27.2026.05.17.13.28.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 17 May 2026 13:28:23 -0700 (PDT)
+Message-ID: <166a6262-0ad4-4957-9729-863e2694e81d@baylibre.com>
+Date: Sun, 17 May 2026 15:28:22 -0500
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,28 +68,156 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: rtl8723bs: clean up style in hal/sdio_halinit.c
-To: Artur Ugnivenko <artur.ugnivenko@gmx.de>, gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <agobLwfT2OEShgaL@b550aoruselitev2.locadomain>
-Content-Language: tr
-From: Ahmet Sezgin Duran <ahmet@sezginduran.net>
-In-Reply-To: <agobLwfT2OEShgaL@b550aoruselitev2.locadomain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH v3 0/5] iio: magnetometer: add driver for QST QMC5883P
+To: Hardik Phalet <hardik.phalet@pm.me>, Jonathan Cameron <jic23@kernel.org>
+Cc: gregkh@linuxfoundation.org, andy@kernel.org, conor+dt@kernel.org,
+ devicetree@vger.kernel.org, krzk+dt@kernel.org, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+ me@brighamcampbell.com, nuno.sa@analog.com, robh@kernel.org,
+ skhan@linuxfoundation.org, Hardik Phalet <hardik.phalet@gmail.com>
+References: <20260420-qmc5883p-driver-v3-0-da1e97088f8b@pm.me>
+ <20260420144534.0e47c06a@jic23-huawei> <DIL6ZC7KKYMN.36KGJXKDRGFB0@pm.me>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <DIL6ZC7KKYMN.36KGJXKDRGFB0@pm.me>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 5/17/26 10:46 PM, Artur Ugnivenko wrote:
-> Fix checkpatch style warnings in hal/sdio_halinit.c:
-> - excessive empty lines
-> - spaces before tabs
-> - inconsistent braces in if/else statements
-> - long lines (very long function calls)
-> - bool comparisons
+On 5/17/26 2:17 PM, Hardik Phalet wrote:
+> On Mon Apr 20, 2026 at 7:15 PM IST, Jonathan Cameron wrote:
+>> On Sun, 19 Apr 2026 22:32:09 +0000
+>> Hardik Phalet <hardik.phalet@pm.me> wrote:
+>>
+>>> This series adds an IIO driver for the QST QMC5883P, a 3-axis
+>>> anisotropic magneto-resistive (AMR) magnetometer with a 16-bit ADC,
+>>> communicating over I2C. To my knowledge there is no existing
+>>> upstream driver for this device (see "Prior-art register-map check"
+>>> below).
+>>>
+>>> The driver supports:
+>>>   - Raw magnetic field readings on X, Y and Z axes
+>>>   - Four full-scale ranges (+/-2 G, +/-8 G, +/-12 G, +/-30 G),
+>>>     selectable via IIO_CHAN_INFO_SCALE
+>>>   - Four output data rates (10, 50, 100, 200 Hz), selectable via
+>>>     IIO_CHAN_INFO_SAMP_FREQ
+>>>   - Four oversampling ratios (1, 2, 4, 8), selectable via
+>>>     IIO_CHAN_INFO_OVERSAMPLING_RATIO
+>>
+>> I'm suspicious about this one based on a very quick read of the datasheet.
+>> Conventional oversampling would involve running the internal sampling
+>> engine at a multiple of the sampling frequency, and then averaging the
+>> results.  The datasheet describes this as:
+>> "Over sample Rate (OSR1) registers are used to control bandwidth of an
+>>  internal digital filter. Larger OSR value leads to smaller filter bandwidth,
+>>  less in-band noise and higher power consumption. It could be used to reach a
+>>  good balance between noise and power. Four over sample ratios can be selected,
+>>  8,4,2 or 1."
+>>
+>> That sounds like a boxcar filter to me not oversampling (which would be
+>> a combination of box car and reducing the output data rate).
+>>
+>> If possible, can you enable the data ready output and put a scope on it
+>> to see if that changes frequency when OSR or OSR2 are modified.
+>>
+>> Trickier to do would be looking at the noise levels whilst playing with
+>> these filters and see if they at least match with standard filter types.
+>>
+>> If we can't figure these out, then it may be a case of picking something
+>> that works well and hard coding that rather than letting userspace
+>> change things in a fashion that might not match the ABI.
 > 
-> Signed-off-by: Artur Ugnivenko <artur.ugnivenko@gmx.de>
+> I could not arrange a oscilloscope. So wrote a small standalone tool that drives
+> the chip directly over /dev/i2c-N (skipping the driver) on a Pi 4 and
+> characterised all three fields in CTRL_1 with timing + noise measurements.
+> Summary:
+> 
+>   Field    Bits     Role per measurement
+>   ODR      [3:2]    output rate, accurate to ~3% of nominal in Normal Mode
+>   OSR1     [5:4]    low-pass filter (bandwidth control), no rate change
+>   OSR2     [7:6]    N-sample averaging, no rate change (real oversampling)
+> 
+> 1. DRDY interval vs each field (median of 500 samples per setting,
+>    ms; SCHED_FIFO, pinned CPU):
+> 
+>    vary ODR (OSR1=1, OSR2=1):
+>      ODR=10 Hz  -> 100.9 ms       ODR=100 Hz -> 10.30 ms
+>      ODR=50 Hz  ->  20.5 ms       ODR=200 Hz ->  5.14 ms
+> 
+>    vary OSR1 (ODR=200 Hz, OSR2=1):
+>      OSR1=1 -> 5.142 ms           OSR1=4 -> 5.139 ms
+>      OSR1=2 -> 5.143 ms           OSR1=8 -> 5.141 ms
+> 
+>    vary OSR2 (ODR=200 Hz, OSR1=1):
+>      OSR2=1 -> 5.142 ms           OSR2=4 -> 5.142 ms
+>      OSR2=2 -> 5.140 ms           OSR2=8 -> 5.141 ms
+> 
+>    ODR is the only knob that changes the rate.
+> 
+> 2. Per-axis noise stddev (2000 samples, sensor still, ratios vs N=1):
+> 
+>    vary OSR1:                   vary OSR2:
+>      OSR1=1 -> 1.000              OSR2=1 -> 1.000
+>      OSR1=2 -> 0.723              OSR2=2 -> 0.706
+>      OSR1=4 -> 0.544              OSR2=4 -> 0.494
+>      OSR1=8 -> 0.416              OSR2=8 -> 0.333
+> 
+>    Reference for N-sample averaging (1/sqrt(N)):
+>      1.000 / 0.707 / 0.500 / 0.354
+> 
+>    OSR2 matches within measurement noise; OSR1 trails the curve,
+>    which is the expected signature of a bandwidth-limiting filter
+>    on non-white input noise.
+> 
+> So to my understanding, OSR2 is true oversampling. OSR1 is a filter.
 
-Doesn't apply on Greg's latest staging-testing branch.
+The datasheet says that power consumption changes based on OSR1,
+so that makes me think that OSR1 is really oversampling since it
+would take more energy to do more conversions in the same amount
+of time. (Note 1 on table 2.1)
 
-Regards,
-Ahmet Sezgin Duran
+Another chip by the same mfg that looks like it has the same OSR1/
+OSR2 has a bit more info in the same table [1]. It looks like OSR2
+affects the sensitivity (and calls OSR2 a low pass filter instead
+of "down sampling rate").
+
+[1] https://www.qstcorp.com/upload/pdf/202601/CF382A94E1424763B3DE87DC967757FC.pdf
+
+> 
+> v4 plan, pending your input on (c):
+> 
+>   (a) Add an OSR2 regmap_field and expose it as
+>       IIO_CHAN_INFO_OVERSAMPLING_RATIO with values {1, 2, 4, 8}.
+>   (b) Drop the OVERSAMPLING_RATIO mapping on OSR1.
+>   (c) For OSR1, two options:
+>         i)  expose as IIO_CHAN_INFO_LOW_PASS_FILTER_3DB_FREQUENCY.
+>             The public datasheet does not give cutoff frequencies,
+>             so I'd have to either characterise them empirically and
+>             document them in the driver, or use placeholder values
+>             derived from the OSR1 setting alone (which feels wrong).
+>         ii) hard-code OSR1=1 in chip_init and not expose it. Loses
+>             the noise-vs-bandwidth tradeoff but keeps the ABI clean.
+>       Slight preference for (ii) unless you'd rather see the filter
+>       knob exposed.
+
+It sounds like we already figured out that OSR2 is just a moving average
+so might as well implement IIO_CHAN_INFO_LOW_PASS_FILTER_3DB_FREQUENCY.
+
+>   (d) Keep ODR mapped to IIO_CHAN_INFO_SAMP_FREQ as in v3.
+> 
+> One other finding worth mentioning: the datasheet's setup examples
+> (sec 7.1, 7.2, 7.3) all write 0x06 to register 0x29 before entering
+> an active mode, with the comment "Define the sign for X Y and Z axis".
+> This register is not listed in the documented register map but the
+> write is required for axes Y and Z to come out with the documented
+> orientation. v4 will add this write to chip_init().
+> 
+> If you have other measurements you'd like to see before v4, happy to
+> run them.
+> 
+>>
+>>>   - Runtime PM with a 2 s autosuspend delay
+>>>   - System suspend/resume delegated to the runtime callbacks
+> 
+> Best regards,
+> Hardik
 
