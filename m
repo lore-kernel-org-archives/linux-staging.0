@@ -1,68 +1,73 @@
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
+Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D08DC3B4EBD
-	for <linux-staging@lists.linux.dev>; Sun, 17 May 2026 14:20:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C7B223536B
+	for <linux-staging@lists.linux.dev>; Sun, 17 May 2026 14:35:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779027609; cv=none; b=tDWpG1qsx3pjXbwFLWuMxDPxqRjcoMNVKB+u7TA8HJu9BD8GZdQ9B0D0XVGyPomZRUxMkG2wDMznc2lD+4fDCKkmfKQP/FbgYPwEW6xHTgJIEhFusmOf3A8wLzlW6xzCvbN3D2WAmMqo39G7puFzeHGFMrCdPX4l4dq1TZZEmD4=
+	t=1779028506; cv=none; b=bjBuYqT7DicplFmOin7F446qWG4jjmd4hXp5SYQEUt0t/NK7nziJJUVzMedxDE/HdNezE+woGzAF4rU6Ph0ztT6Mrpho5NmV3IIrdCyT8QmCcyZWHnau+F9VrhrnFGocsXig74P3w1jsg2zhGIflFWcSEj+a+JSOvX67dSfIUNo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779027609; c=relaxed/simple;
-	bh=FgMuZMFbAPsvJz1TbL2odfi2bqtJjH8DMVa7sdhzyHI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nV3rSaYbTCspyPYYakbdDlu2ge//qvtnvzxUDSd8zvXzxrb+TR/ZBRcCfD65JDXDyLccFItWoR8O271n1ucycIjgwnXYBVxAY1P8mVt9KSp1U07ZvpDuHhuhQ/o87094HAly8AmFEI4+GlQrpZqC//HTK4+QxYB9RSnPl7Ov964=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=n+9wdqAR; arc=none smtp.client-ip=209.85.210.41
+	s=arc-20240116; t=1779028506; c=relaxed/simple;
+	bh=FF9ZfazRE2/igLFALqrXMsLabkFJ7d22RgehowDupYE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EdWame8t+vZiYDvgRiItcw5LKLSP/FN0FVQM4k4emXHHWVUoqf3zbuRZmRzij/TG0+h9nwiIXovcI2qM/6QIKmgRw3IX0NA9UHmrIeEb5/b+/pridAPhucu9j+dj/hwf0dRanaGAsx/L1zDOMYiwzAK1cvMt00vJim8eCrWgTdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KZztQxwZ; arc=none smtp.client-ip=209.85.161.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="n+9wdqAR"
-Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-7dbcb467f2bso1527619a34.3
-        for <linux-staging@lists.linux.dev>; Sun, 17 May 2026 07:20:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KZztQxwZ"
+Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-69b94acd958so656595eaf.3
+        for <linux-staging@lists.linux.dev>; Sun, 17 May 2026 07:35:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779027599; x=1779632399; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1779028503; x=1779633303; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=X2dHAbJHKvqoa7MzKayL3x2YgTfCv90vmXzecnGUpW4=;
-        b=n+9wdqAR2ca6z9sY4G1FnkrMXaCFBzx0sgGZaLSJmL5mN4U9m9ypRLuj9QWd/FpQWT
-         hEKDSS8cL6xR8Zb6vzyRsnVm7EM7ZWBjp0eSQhMpQ6bgjscJMxmxffPnvofvBEmJTOMG
-         EaKhjqmZTGlhtNEsKQBlN2o3SnwIz3qDvGOqNUfCt7Oul0yBMxu3MI4DYyN6iuwHmuBA
-         QF/WRBzf0zQwf4Zwu/mILzQ2Bn1litJLlvS4dCUPUXxkGad1tRDa1D7O0O0SzB9olt72
-         nzCfI7HjBvX9ADRDd3dKQkHb6DFY9Em3x82+S4K49SGUbrzocCBksktOa4NJV5RNQnvg
-         d56w==
+        bh=+5Tj8pIpwcuaWArASM+0sAuUc3qYDkIHm69X0MuttiY=;
+        b=KZztQxwZw4Q4CR0PB8QREfWM+CrWaGfP6atg869Xn8glpdeCHOHCPnxnnCs6yrHpCA
+         GXwRshntJqTaVJTVvMniDJb0YXTrFYjJ3Jv4DpfKNqpl24tDr7qHHf61/R3Lwd9cV3Db
+         Konbefy4BVqgqkB2L0pcg0XODb6DbQh4OjtGb6qXyWO0eVr5OuZ9sCkQsE/muRl+OVoj
+         csII9NbvfptjhVr+4TKBetR5M/dZctr+H3gd39MjRNfWLOgciTlWhsfQYGRN+vCyUWcM
+         0P5daUOVleOuA/vdWOd0KTdVVGBK8mNjoaZf73yZ6es20n8vOtA/ZuYFT18z4R1moCyI
+         JjBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779027599; x=1779632399;
+        d=1e100.net; s=20251104; t=1779028503; x=1779633303;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=X2dHAbJHKvqoa7MzKayL3x2YgTfCv90vmXzecnGUpW4=;
-        b=A8AsB6X0HlNvfgi5KVG1EVQ+XCWOrYISAOJXsl1Qjm0TY883qTDssRPf16q6L+7GZp
-         /0qpL1mrOz2GNX9whOKMIFzfAMfWw2kAxpISfynbuaoqSffrnuvMPd4HRm9ju4zZCz9O
-         fjXjliHnMFxuwAqhL1CuSwudOBRu1e0eI3XEM5f1NhNouI7icDdunkoBVwidvy7n8pW6
-         FrFzhzOZLeuW4jBZMxDtv49RkA+VdAR31bWfjyP0INm59G1vuX1p0gTzDW67VK7tr/Gb
-         Y6N9wvKgqRuAR1KGm4GfIlypSa7quxJDl0jVm5L/TSKRhq1OYR7Sj8bTx4zdR2CndCOz
-         186A==
-X-Gm-Message-State: AOJu0YwpdsSwHINiaCkcceMtCeEmSgmGNZcNLsMXGmGdDG0111hEmls6
-	F8ZygVnvHt+bxIr0Yu6IkcpbmC1DRoKdawzcuuUpjnepeOa2oyPQSrIx
-X-Gm-Gg: Acq92OGWcqh1kCZAvHwpHDRRKA2BijPCfCel76PPYG6YU1VhrstWivadd7gTURiBBUi
-	T5MULhTDINPVAdyZUr41hT5jxHoT20vDBRAVBwD/vgSILjCHrMyz3bwGB2TEm4HpYjwsxGjRnpZ
-	TitqiezCoysGeXznStkSR5OjfKKVVxd6J3oVcY8Qq+1ZNQqjaYKjaWj1yjyQY0i33uD+DpE8fZG
-	XQCnzgJJTbm9C3rdrWb+n5FrD9G+7hLNc9QPBv8AuvbX1j6CQg5AHznO/NhgMZG+8uDy+bh8HkK
-	ZK8+/oSsz4cqM63idQ5k+wthNYVOFU2suTGy4N8eS1FTbao0L/baywG4wuX/2N6jwktRFPwh2KH
-	4AUoevLnfIxuI8gfeYrO1GfYHFBNADNC9Dk7f8yv7unq9ZFUwZlwGcVROcq8DSYlFxBQN62aJ/u
-	6i/9oe1ppfoqNmkDK9mSgLZB/v4vFCzwjbv1GKOe/H
-X-Received: by 2002:a05:6820:615:b0:681:b070:3dc6 with SMTP id 006d021491bc7-69c942ad83cmr7426375eaf.10.1779027599500;
-        Sun, 17 May 2026 07:19:59 -0700 (PDT)
+        bh=+5Tj8pIpwcuaWArASM+0sAuUc3qYDkIHm69X0MuttiY=;
+        b=jbJzrYV8iqQH0h5vDZIEM3GruEQDDkoeh3WrvrvZFta35P+35QsSThG/HWkjvePqvn
+         x2jPJbHL72ivalrtdZOwGOFFMBPgasly4vE7+WfLR23yVqMlNhGZ9GnpBLGuRv8ej9Yd
+         yZUblKHaJ1nNlI70PwkftLnxmr0b5WgycnJlNbWm6V1SsYfeslDxiTo7jfoNitSwgpmO
+         3XwPLKu2B+5xctmkr5ClTZJ02aleI66bfrSZFoe1MIfRAWFCsn7ThbiBdfSAKTuDH4g9
+         kWFg0DHsMuKrL+bm2vMTGSRHZoRQTVBQTVoqzORx9jcybwOvaBSx1KngJP3auDZ6MUgb
+         gWIA==
+X-Forwarded-Encrypted: i=1; AFNElJ9ZCZMwhO7H8sAgC5tcPzNwAXjLGIHuc4slrEXjM1B6HMVwVeIu7DmFarABCOhLmLBuWYusT+YefERbHwGP@lists.linux.dev
+X-Gm-Message-State: AOJu0YwKJUIrT3DMmq0UdP97OUp/tHXuMknc5cQI++HLZUlwDQGI9ejE
+	lpg3Gy7OFnsXdPx6iq4u21TVTC8alvAihY0eT/bqD0/xfZNoaSwk8tqE
+X-Gm-Gg: Acq92OGgYYpfSPhivvErZY0h38BL4RECsusFI62MQABf/Vu3hY7rQyWmPqzp8zJ2LYl
+	0bj5iV2yXN/uJ3i9glc2AAIxGq5ME+ovP34ND5gyNfE8gBzqNETbZa/fXSgMNWvMSqsSBmAKxk0
+	uCLUiWJnmWgPXTCpdFyhZFG19sE0oQHvc/mxWB18591QIHjHvU32FvZL2RPehlbTpOyfkB7mMTM
+	V0gNlGEznSjnRRlR0vOBYrXXnOGhvwawCMPsIaRub3tWFs9bm7tHRxaC3Ocvxwg1lrDvSEKeHxh
+	90yBjWsLfgTUzvMtGc8lh/tVpiqeqKliFb5zXBRJ8VfpBRsfE9uY2aFLAPwoGTbJCC/RPO8IwLr
+	LLtUXSTPdYDYOgMpndLpzaOFRV+/i5gZdKD9WhYgQn1L088dvDZ82YOhf6ECgRZuOwVVn1s5epa
+	SgNjAuejIPP41nPZoFu1Lqcz+SfBWVaNQLzeyQsryT
+X-Received: by 2002:a05:6820:151f:b0:69c:502f:bcde with SMTP id 006d021491bc7-69c950fe8c7mr7870649eaf.49.1779028503353;
+        Sun, 17 May 2026 07:35:03 -0700 (PDT)
 Received: from MacMini.lan ([172.127.162.94])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-69d04911744sm4153583eaf.12.2026.05.17.07.19.58
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-69d0465461bsm4114183eaf.7.2026.05.17.07.35.02
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 17 May 2026 07:19:59 -0700 (PDT)
+        Sun, 17 May 2026 07:35:02 -0700 (PDT)
 From: shayderrr <darknessshayder@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
+To: sakari.ailus@linux.intel.com,
+	bingbu.cao@intel.com,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Pranav Bajjuri <darknessshayder@gmail.com>
-Subject: [PATCH] net: octeon: fix carrier state, null guard, and modernize phy ioctl
-Date: Sun, 17 May 2026 09:19:55 -0500
-Message-ID: <20260517141955.79666-1-darknessshayder@gmail.com>
+Subject: [PATCH] media: ipu7: fix boot config memory leak and replace polling loops
+Date: Sun, 17 May 2026 09:34:56 -0500
+Message-ID: <20260517143456.81109-1-darknessshayder@gmail.com>
 X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -74,158 +79,238 @@ Content-Transfer-Encoding: 8bit
 
 From: Pranav Bajjuri <darknessshayder@gmail.com>
 
-Add netif_carrier_off() to cvm_oct_common_stop(), guard
-cvm_oct_adjust_link() against null phydev, replace open-coded
-ioctl checks with phy_do_ioctl_running(), and zero priv->link_info
-on stop alongside last_link.
+Free boot_config DMA allocation if queue memory alloc fails in
+ipu7_boot_init_boot_config(). Replace hand-rolled timeout loops in
+ipu7_boot_start_fw() and ipu7_boot_stop_fw() with read_poll_timeout().
+Fix variable declaration order in cell reset, start, and stop to follow
+reverse Christmas tree convention.
 
 Signed-off-by: Pranav Bajjuri <darknessshayder@gmail.com>
 ---
- drivers/staging/octeon/ethernet-mdio.c | 64 +++++++++-----------------
- 1 file changed, 23 insertions(+), 41 deletions(-)
+ drivers/staging/media/ipu7/ipu7-boot.c | 88 +++++++++++---------------
+ 1 file changed, 36 insertions(+), 52 deletions(-)
 
-diff --git a/drivers/staging/octeon/ethernet-mdio.c b/drivers/staging/octeon/ethernet-mdio.c
-index 211423059e30..4b5cac324eff 100644
---- a/drivers/staging/octeon/ethernet-mdio.c
-+++ b/drivers/staging/octeon/ethernet-mdio.c
-@@ -17,6 +17,8 @@
- #include "ethernet-mdio.h"
- #include "ethernet-util.h"
+diff --git a/drivers/staging/media/ipu7/ipu7-boot.c b/drivers/staging/media/ipu7/ipu7-boot.c
+index d7901ff78b38..f081c39604a7 100644
+--- a/drivers/staging/media/ipu7/ipu7-boot.c
++++ b/drivers/staging/media/ipu7/ipu7-boot.c
+@@ -22,8 +22,8 @@
+ #include "ipu7-platform-regs.h"
+ #include "ipu7-syscom.h"
  
-+#define CVM_OCT_PHY_FLAGS 0
-+
- static void cvm_oct_get_drvinfo(struct net_device *dev,
- 				struct ethtool_drvinfo *info)
- {
-@@ -36,30 +38,16 @@ static int cvm_oct_nway_reset(struct net_device *dev)
- }
- 
- const struct ethtool_ops cvm_oct_ethtool_ops = {
--	.get_drvinfo = cvm_oct_get_drvinfo,
--	.nway_reset = cvm_oct_nway_reset,
--	.get_link = ethtool_op_get_link,
--	.get_link_ksettings = phy_ethtool_get_link_ksettings,
--	.set_link_ksettings = phy_ethtool_set_link_ksettings,
-+	.get_drvinfo		= cvm_oct_get_drvinfo,
-+	.nway_reset		= cvm_oct_nway_reset,
-+	.get_link		= ethtool_op_get_link,
-+	.get_link_ksettings	= phy_ethtool_get_link_ksettings,
-+	.set_link_ksettings	= phy_ethtool_set_link_ksettings,
+-#define IPU_FW_START_STOP_TIMEOUT		2000
+-#define IPU_BOOT_CELL_RESET_TIMEOUT		(2 * USEC_PER_SEC)
++#define IPU_FW_START_STOP_TIMEOUT	2000
++#define IPU_BOOT_CELL_RESET_TIMEOUT	(2 * USEC_PER_SEC)
+ #define BOOT_STATE_IS_CRITICAL(s)	IA_GOFO_FW_BOOT_STATE_IS_CRITICAL(s)
+ #define BOOT_STATE_IS_READY(s)		((s) == IA_GOFO_FW_BOOT_STATE_READY)
+ #define BOOT_STATE_IS_INACTIVE(s)	((s) == IA_GOFO_FW_BOOT_STATE_INACTIVE)
+@@ -39,17 +39,17 @@ struct ipu7_boot_context {
+ static const struct ipu7_boot_context contexts[IPU_SUBSYS_NUM] = {
+ 	{
+ 		/* ISYS */
+-		.dmem_address = IPU_ISYS_DMEM_OFFSET,
+-		.status_ctrl_reg = BUTTRESS_REG_DRV_IS_UCX_CONTROL_STATUS,
+-		.fw_start_address_reg = BUTTRESS_REG_DRV_IS_UCX_START_ADDR,
+-		.fw_code_base_reg = IS_UC_CTRL_BASE
++		.dmem_address		= IPU_ISYS_DMEM_OFFSET,
++		.status_ctrl_reg	= BUTTRESS_REG_DRV_IS_UCX_CONTROL_STATUS,
++		.fw_start_address_reg	= BUTTRESS_REG_DRV_IS_UCX_START_ADDR,
++		.fw_code_base_reg	= IS_UC_CTRL_BASE
+ 	},
+ 	{
+ 		/* PSYS */
+-		.dmem_address = IPU_PSYS_DMEM_OFFSET,
+-		.status_ctrl_reg = BUTTRESS_REG_DRV_PS_UCX_CONTROL_STATUS,
+-		.fw_start_address_reg = BUTTRESS_REG_DRV_PS_UCX_START_ADDR,
+-		.fw_code_base_reg = PS_UC_CTRL_BASE
++		.dmem_address		= IPU_PSYS_DMEM_OFFSET,
++		.status_ctrl_reg	= BUTTRESS_REG_DRV_PS_UCX_CONTROL_STATUS,
++		.fw_start_address_reg	= BUTTRESS_REG_DRV_PS_UCX_START_ADDR,
++		.fw_code_base_reg	= PS_UC_CTRL_BASE
+ 	}
  };
  
--/**
-- * cvm_oct_ioctl - IOCTL support for PHY control
-- * @dev:    Device to change
-- * @rq:     the request
-- * @cmd:    the command
-- *
-- * Returns Zero on success
-- */
- int cvm_oct_ioctl(struct net_device *dev, struct ifreq *rq, int cmd)
+@@ -85,9 +85,9 @@ static int ipu7_boot_cell_reset(const struct ipu7_bus_device *adev)
  {
--	if (!netif_running(dev))
--		return -EINVAL;
--
--	if (!dev->phydev)
--		return -EINVAL;
--
--	return phy_mii_ioctl(dev->phydev, rq, cmd);
-+	return phy_do_ioctl_running(dev, rq, cmd);
+ 	const struct ipu7_boot_context *ctx = &contexts[adev->subsys];
+ 	const struct device *dev = &adev->auxdev.dev;
++	void __iomem *base = adev->isp->base;
+ 	u32 ucx_ctrl_status = ctx->status_ctrl_reg;
+ 	u32 timeout = IPU_BOOT_CELL_RESET_TIMEOUT;
+-	void __iomem *base = adev->isp->base;
+ 	u32 val, val2;
+ 	int ret;
+ 
+@@ -134,8 +134,8 @@ static int ipu7_boot_cell_reset(const struct ipu7_bus_device *adev)
+ static void ipu7_boot_cell_start(const struct ipu7_bus_device *adev)
+ {
+ 	const struct ipu7_boot_context *ctx = &contexts[adev->subsys];
+-	void __iomem *base = adev->isp->base;
+ 	const struct device *dev = &adev->auxdev.dev;
++	void __iomem *base = adev->isp->base;
+ 	u32 val;
+ 
+ 	dev_dbg(dev, "starting cell...\n");
+@@ -152,8 +152,8 @@ static void ipu7_boot_cell_start(const struct ipu7_bus_device *adev)
+ static void ipu7_boot_cell_stop(const struct ipu7_bus_device *adev)
+ {
+ 	const struct ipu7_boot_context *ctx = &contexts[adev->subsys];
+-	void __iomem *base = adev->isp->base;
+ 	const struct device *dev = &adev->auxdev.dev;
++	void __iomem *base = adev->isp->base;
+ 	u32 val;
+ 
+ 	dev_dbg(dev, "stopping cell...\n");
+@@ -187,16 +187,14 @@ static int ipu7_boot_cell_init(const struct ipu7_bus_device *adev)
  }
  
- void cvm_oct_note_carrier(struct octeon_ethernet *priv,
-@@ -81,15 +69,15 @@ void cvm_oct_adjust_link(struct net_device *dev)
- 	struct octeon_ethernet *priv = netdev_priv(dev);
- 	union cvmx_helper_link_info link_info;
+ static void init_boot_config(struct ia_gofo_boot_config *boot_config,
+-			     u32 length, u8 major)
++			     u32 config_size, u8 major)
+ {
+-	/* syscom version, new syscom2 version */
+-	boot_config->length = length;
++	boot_config->length = config_size;
+ 	boot_config->config_version.major = 1U;
+ 	boot_config->config_version.minor = 0U;
+ 	boot_config->config_version.subminor = 0U;
+ 	boot_config->config_version.patch = 0U;
  
-+	if (WARN_ON(!dev->phydev))
-+		return;
+-	/* msg version for task interface */
+ 	boot_config->client_version_support.num_versions = 1U;
+ 	boot_config->client_version_support.versions[0].major = major;
+ 	boot_config->client_version_support.versions[0].minor = 0U;
+@@ -221,7 +219,7 @@ int ipu7_boot_init_boot_config(struct ipu7_bus_device *adev,
+ 
+ 	dev_dbg(dev, "boot config queues_nr: %d freq: %u sys_conf: 0x%pad\n",
+ 		num_queues, uc_freq, &subsys_config);
+-	/* Allocate boot config. */
 +
- 	link_info.u64		= 0;
- 	link_info.s.link_up	= dev->phydev->link ? 1 : 0;
--	link_info.s.full_duplex = dev->phydev->duplex ? 1 : 0;
-+	link_info.s.full_duplex	= dev->phydev->duplex ? 1 : 0;
- 	link_info.s.speed	= dev->phydev->speed;
- 	priv->link_info		= link_info.u64;
+ 	adev->boot_config_size =
+ 		sizeof(*cfgs) * num_queues + sizeof(*boot_config);
+ 	adev->boot_config = ipu7_dma_alloc(adev, adev->boot_config_size,
+@@ -257,12 +255,15 @@ int ipu7_boot_init_boot_config(struct ipu7_bus_device *adev,
+ 		qconfigs[i].queue_size = queue_size;
+ 	}
  
+-	/* Allocate queue memory */
+ 	syscom->queue_mem = ipu7_dma_alloc(adev, total_queue_size_aligned,
+ 					   &syscom->queue_mem_dma_addr,
+ 					   GFP_KERNEL, 0);
+ 	if (!syscom->queue_mem) {
+ 		dev_err(dev, "Failed to allocate queue memory.\n");
++		ipu7_dma_free(adev, adev->boot_config_size,
++			      adev->boot_config,
++			      adev->boot_config_dma_addr, 0);
++		adev->boot_config = NULL;
+ 		return -ENOMEM;
+ 	}
+ 	syscom->queue_mem_size = total_queue_size_aligned;
+@@ -312,7 +313,6 @@ EXPORT_SYMBOL_NS_GPL(ipu7_boot_release_boot_config, "INTEL_IPU7");
+ int ipu7_boot_start_fw(const struct ipu7_bus_device *adev)
+ {
+ 	const struct device *dev = &adev->auxdev.dev;
+-	u32 timeout = IPU_FW_START_STOP_TIMEOUT;
+ 	void __iomem *base = adev->isp->base;
+ 	u32 boot_state, last_boot_state;
+ 	u32 indices_addr, msg_ver, id;
+@@ -323,37 +323,26 @@ int ipu7_boot_start_fw(const struct ipu7_bus_device *adev)
+ 		return ret;
+ 
+ 	dev_dbg(dev, "start booting fw...\n");
+-	/* store "uninit" state to syscom/boot state reg */
+ 	write_fw_boot_param(adev, IA_GOFO_FW_BOOT_STATE_ID,
+ 			    IA_GOFO_FW_BOOT_STATE_UNINIT);
 -	/*
--	 * The polling task need to know about link status changes.
+-	 * Set registers to zero
+-	 * (not strictly required, but recommended for diagnostics)
 -	 */
- 	if (priv->poll)
- 		priv->poll(dev);
+ 	write_fw_boot_param(adev,
+ 			    IA_GOFO_FW_BOOT_SYSCOM_QUEUE_INDICES_BASE_ID, 0);
+ 	write_fw_boot_param(adev, IA_GOFO_FW_BOOT_MESSAGING_VERSION_ID, 0);
+-	/* store firmware configuration address */
+ 	write_fw_boot_param(adev, IA_GOFO_FW_BOOT_CONFIG_ID,
+ 			    adev->boot_config_dma_addr);
  
-@@ -100,13 +88,13 @@ void cvm_oct_adjust_link(struct net_device *dev)
+-	/* Kick uC, then wait for boot complete */
+ 	ipu7_boot_cell_start(adev);
+ 
+ 	last_boot_state = IA_GOFO_FW_BOOT_STATE_UNINIT;
+-	while (timeout--) {
+-		boot_state = read_fw_boot_param(adev,
+-						IA_GOFO_FW_BOOT_STATE_ID);
+-		if (boot_state != last_boot_state) {
+-			dev_dbg(dev, "boot state changed from 0x%x to 0x%x\n",
+-				last_boot_state, boot_state);
+-			last_boot_state = boot_state;
+-		}
+-		if (BOOT_STATE_IS_CRITICAL(boot_state) ||
+-		    BOOT_STATE_IS_READY(boot_state))
+-			break;
+-		usleep_range(1000, 1200);
+-	}
++	ret = read_poll_timeout(read_fw_boot_param, boot_state,
++				BOOT_STATE_IS_CRITICAL(boot_state) ||
++				BOOT_STATE_IS_READY(boot_state),
++				1000, IPU_FW_START_STOP_TIMEOUT * 1000ULL,
++				false, adev, IA_GOFO_FW_BOOT_STATE_ID);
++
++	if (boot_state != last_boot_state)
++		dev_dbg(dev, "boot state changed from 0x%x to 0x%x\n",
++			last_boot_state, boot_state);
+ 
+ 	if (BOOT_STATE_IS_CRITICAL(boot_state)) {
+ 		ipu7_dump_fw_error_log(adev);
+@@ -365,13 +354,11 @@ int ipu7_boot_start_fw(const struct ipu7_bus_device *adev)
  	}
- }
+ 	dev_dbg(dev, "fw boot done.\n");
  
--int cvm_oct_common_stop(struct net_device *dev)
-+void cvm_oct_common_stop(struct net_device *dev)
+-	/* Get FW syscom queue indices addr */
+ 	id = IA_GOFO_FW_BOOT_SYSCOM_QUEUE_INDICES_BASE_ID;
+ 	indices_addr = read_fw_boot_param(adev, id);
+ 	adev->syscom->queue_indices = base + indices_addr;
+ 	dev_dbg(dev, "fw queue indices offset is 0x%x\n", indices_addr);
+ 
+-	/* Get message version. */
+ 	msg_ver = read_fw_boot_param(adev,
+ 				     IA_GOFO_FW_BOOT_MESSAGING_VERSION_ID);
+ 	dev_dbg(dev, "ipu message version is 0x%08x\n", msg_ver);
+@@ -383,8 +370,8 @@ EXPORT_SYMBOL_NS_GPL(ipu7_boot_start_fw, "INTEL_IPU7");
+ int ipu7_boot_stop_fw(const struct ipu7_bus_device *adev)
  {
- 	struct octeon_ethernet *priv = netdev_priv(dev);
- 	int interface = INTERFACE(priv->port);
-+	int index = INDEX(priv->port);
- 	union cvmx_helper_link_info link_info;
- 	union cvmx_gmxx_prtx_cfg gmx_cfg;
--	int index = INDEX(priv->port);
+ 	const struct device *dev = &adev->auxdev.dev;
+-	u32 timeout = IPU_FW_START_STOP_TIMEOUT;
+ 	u32 boot_state;
++	int ret;
  
- 	gmx_cfg.u64 = cvmx_read_csr(CVMX_GMXX_PRTX_CFG(index, interface));
- 	gmx_cfg.s.en = 0;
-@@ -114,26 +102,21 @@ int cvm_oct_common_stop(struct net_device *dev)
- 
- 	priv->poll = NULL;
- 
-+	netif_carrier_off(dev);
-+
- 	if (dev->phydev)
- 		phy_disconnect(dev->phydev);
- 
- 	if (priv->last_link) {
--		link_info.u64 = 0;
--		priv->last_link = 0;
-+		link_info.u64	= 0;
-+		priv->link_info	= 0;
-+		priv->last_link	= 0;
- 
- 		cvmx_helper_link_set(priv->port, link_info);
- 		cvm_oct_note_carrier(priv, link_info);
+ 	boot_state = read_fw_boot_param(adev, IA_GOFO_FW_BOOT_STATE_ID);
+ 	if (BOOT_STATE_IS_CRITICAL(boot_state) ||
+@@ -394,18 +381,15 @@ int ipu7_boot_stop_fw(const struct ipu7_bus_device *adev)
+ 		return -EBUSY;
  	}
--	return 0;
- }
  
--/**
-- * cvm_oct_phy_setup_device - setup the PHY
-- *
-- * @dev:    Device to setup
-- *
-- * Returns Zero on success, negative on failure
-- */
- int cvm_oct_phy_setup_device(struct net_device *dev)
- {
- 	struct octeon_ethernet *priv = netdev_priv(dev);
-@@ -149,8 +132,8 @@ int cvm_oct_phy_setup_device(struct net_device *dev)
- 	if (!phy_node)
- 		goto no_phy;
- 
--	phydev = of_phy_connect(dev, phy_node, cvm_oct_adjust_link, 0,
--				priv->phy_mode);
-+	phydev = of_phy_connect(dev, phy_node, cvm_oct_adjust_link,
-+				CVM_OCT_PHY_FLAGS, priv->phy_mode);
- 	of_node_put(phy_node);
- 
- 	if (!phydev)
-@@ -160,10 +143,9 @@ int cvm_oct_phy_setup_device(struct net_device *dev)
- 	phy_start(phydev);
- 
- 	return 0;
+-	/* Issue shutdown to start shutdown process */
+ 	dev_dbg(dev, "stopping fw...\n");
+ 	write_fw_boot_param(adev, IA_GOFO_FW_BOOT_STATE_ID,
+ 			    IA_GOFO_FW_BOOT_STATE_SHUTDOWN_CMD);
+-	while (timeout--) {
+-		boot_state = read_fw_boot_param(adev,
+-						IA_GOFO_FW_BOOT_STATE_ID);
+-		if (BOOT_STATE_IS_CRITICAL(boot_state) ||
+-		    BOOT_STATE_IS_INACTIVE(boot_state))
+-			break;
+-		usleep_range(1000, 1200);
+-	}
 +
- no_phy:
--	/* If there is no phy, assume a direct MAC connection and that
--	 * the link is up.
--	 */
- 	netif_carrier_on(dev);
- 	return 0;
- }
-+
++	ret = read_poll_timeout(read_fw_boot_param, boot_state,
++				BOOT_STATE_IS_CRITICAL(boot_state) ||
++				BOOT_STATE_IS_INACTIVE(boot_state),
++				1000, IPU_FW_START_STOP_TIMEOUT * 1000ULL,
++				false, adev, IA_GOFO_FW_BOOT_STATE_ID);
+ 
+ 	if (BOOT_STATE_IS_CRITICAL(boot_state)) {
+ 		ipu7_dump_fw_error_log(adev);
 -- 
 2.50.1 (Apple Git-155)
 
