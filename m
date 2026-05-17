@@ -1,107 +1,139 @@
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 551C830DD2F
-	for <linux-staging@lists.linux.dev>; Sun, 17 May 2026 06:06:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0632405C57
+	for <linux-staging@lists.linux.dev>; Sun, 17 May 2026 07:28:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778997978; cv=none; b=p3wy9t8kBObD7bm5GMVmhugyxJ1WRgw4c9rg1gs+rLn+syGO5IRdbxHkTzJNcUpdTPv5DV9JCPs4xSgcDjx7MElRdd41HjFW/Da5tK/95XbluYAibH53/thG+u7YhmtZLw+Qd3YDUcimDkr8kPFpwTVL4cSrnkdoNkzgx0zWG6o=
+	t=1779002902; cv=none; b=RDkG0opPMp2E0oKh22ZrpeccCgGHy1EVGDDypjHqayLxf+d5hiYXGn7VOSkttebsJXs11h++kZnlsbQxGqmSwLb06ccRUPVcJ5GbHYIdiPmR52mC3QHo8AlYyh40rw+JD2i3Y+VDnpYMicAgTTiNU0W6NchZMk9+TGTGf4h75j0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778997978; c=relaxed/simple;
-	bh=WURkIoNSx7cpBfeNmDjEHI4iCOu0FPGWs5wvUfkxOAo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=iauJKT/6S03KB9QJ+UTgS2AQzFl+pPlDTYDaHq7xkmC6TxLjHH9DsATa6ciVaAKB5bfrX4yIX8uyBMM88Nsa5l/ZkOqGdymRoLB6GeJvlH1coE7jCDDC2tUU3E5+z5M8iq74ojHr/lqwv/h0/OZhkVL91/ZXZkrv0vzdFLA6L0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lXBpJOGw; arc=none smtp.client-ip=209.85.210.53
+	s=arc-20240116; t=1779002902; c=relaxed/simple;
+	bh=L5eO3pixj5NmxOTpRZvnfQnRMAnXDscCqyCnXCtwBnM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EMTtEnZZ5LzhkoygHDZ6lHPTfE6yOTnEkcDhHahqFWm2RFjjZYhOVlUO/Y00qKn7vUxKXVn0El6Hqhu1BxGYpcvDbInhEw7xQNhPOo7seNfl+8MGj1b66zCVH0BDQZEe8a+8fVUtAV5QNQ/LK0hARutUgoDgQIltn9Ufck9BEEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k9cfDBw6; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lXBpJOGw"
-Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-7dcc9b506d9so1282863a34.1
-        for <linux-staging@lists.linux.dev>; Sat, 16 May 2026 23:06:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k9cfDBw6"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-488b0e1b870so17373035e9.2
+        for <linux-staging@lists.linux.dev>; Sun, 17 May 2026 00:28:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778997976; x=1779602776; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1779002899; x=1779607699; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6gmKXteedUEtXr055uhX+38a7zvo9Ud/r154o82WzWM=;
-        b=lXBpJOGwNXFBrv26jIstKMEEUMVC2X/XxDOyb7QVwzd3cp75f4f7bnnJOoPBtDHz08
-         pHkHMHgIGuPqd9xUsbxvnB3aQBbZYVbE5KBK8NhxYmjJEiu6g2h+juzLAb6CPMfJIJfH
-         /g2ruzv+DxQuzkMxyvTIWhVfaseFEqND/kgzhbGjzEbOW2ZH2V9sroZtspE1slXXICdB
-         5riXuyzXznWtsj9imJZCL6qJDiLtydXtVfMbZwGDFUvlsrSX8py93Vg5VrOwNebaR7O4
-         WMzchkm4losAZ/nqCwIPUOEntFUlghtL60h3K9g1R7uMyIwd6k0XttCABt6Y9DY8F1pM
-         7+JA==
+        bh=ZfqgepPcLkpTbnXkfrRVH8YKdVaUwttUDjhi9Uy4sVY=;
+        b=k9cfDBw6z1mlCqdlEtl1xMZUU2tJQ/fiJyB1sxvM1+wGVzK/l1LnoMeo4uHuPjsqts
+         H2hnMbWv77wM8ZcCGdegcIEeTzvGxJJ/LN0mNPuwN5PdXk8DoaAvJmhbiVhiaqtlByNc
+         kvBwPkyEkJwpb5kdeLYBxqGHxETDrmldB/ErNYFa2iS5+Uzr3HbBBDJzQyov/IH+Lb4R
+         1MQrLuoD10sZ/bROnemMjRaJkWaKGID+jecmiJFJYFc2Ivgt77iQlyHy3skSHyslr6sK
+         u7OIbPRmmFb0FsI/U+yyz8G+fMNWCLcWw0fLpyrAuOedgrejFkLMNnqStmaJvC1BLq86
+         JGqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778997976; x=1779602776;
+        d=1e100.net; s=20251104; t=1779002899; x=1779607699;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6gmKXteedUEtXr055uhX+38a7zvo9Ud/r154o82WzWM=;
-        b=BYyUDyIPnb1CszYRMZddVESnT+E4CkmGL6+Cba7+SmnjB4MP09LW3qTxnqMm0yzSC7
-         j/kdsHCby0ynWgKCc1VoGEbN8n91IYpRUogCdXCc/9hCipkuLcwCfToSZ/qRl7wc6MHX
-         nW5MY2YfgcezgMZi/1UGHcpzMf+He4fpiVBXzl7cN38mh5fsdt1vvbdoYY6hFxIMAppt
-         BmEB5EbNTJ4lQeLqLBSgxhrTK0QL8eub4bwARAgp0ezedRGsToC0cS3kWsZJKYMt6Zpc
-         FvgVe82Ptrsr9Y4+4uIZFK2waRVeOoFLM7/Li5E/eE6l7OZDhsL6LozbqP91TLKonsv+
-         cckg==
-X-Forwarded-Encrypted: i=1; AFNElJ9DeyT09KK1dfmn8uuBRK99jH2w/Y+tBx1Cb6j4csBgJU7IQk6kGsE65W14I9hM5zLuYdUSmy03Lcg6Vapn@lists.linux.dev
-X-Gm-Message-State: AOJu0YwZ8hF4zjk4Y/Zug2R0mZXuBuZYGznzV1gz7MiNiLNCRh55X8hm
-	GcJxPNJPRr6QjyLQ0COoJuWol1b7VO/PH2iLw6AKupd60ZzSuLjXEHeY
-X-Gm-Gg: Acq92OH8GD/CLNJlHRPrJ42+lVPjIkFlcbZTWT04bB6XfN6JV4E1E5pRm0hesTGiT5D
-	RKp6rNEgtmNSAEkFhF2DBPgJPyzwg/xUNdezCUbhIq1I8JX7a13rnk/6d1D9WjmBg35LSD+jTRp
-	kXHFPySG39UV7ouquNkUrwW02JD7Y8BEauiPHh02en+C8SVAg+T9Kpo9Lq4DFJlR5QZhZt+JcKI
-	xnDINxUT0Il2mmbrakprP/C4S2mCTZXOnr9/3mbx7RgnvjpelmAhLW55hKhIDaGRqxoDKSJpu6p
-	hrTKjbiHS0ck0QpXBqTIGd70yqr6DW8rYdRWWUCYfz8QK0eWwJWnEPEwgeaTo+wsdv4zUpWifoG
-	+CBICMo4105m3+vZmJKpDo7x8z/yX+fdOMQ63f4f9141Cpc5/Clb7KMRVlwz32Fgg6P9ZXx0TIu
-	OH5xl82lGK1LFn+vpylxH0tYfRV9l1WUd7nz9gqjkLn2lVHsP2xXAN
-X-Received: by 2002:a05:6830:d01:b0:7d7:ed69:81b2 with SMTP id 46e09a7af769-7e4ea071959mr7144526a34.5.1778997976305;
-        Sat, 16 May 2026 23:06:16 -0700 (PDT)
-Received: from pop-os.. ([2806:264:548c:885a:a314:9972:40f1:1f4d])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e55b7cd6c0sm5550998a34.4.2026.05.16.23.06.15
+        bh=ZfqgepPcLkpTbnXkfrRVH8YKdVaUwttUDjhi9Uy4sVY=;
+        b=ZX57oGFOTJIv7XMz6haAfAMQiBRWwj6S80m/TzXgVOZJ+g/rlpVu5NyFVlvy0/7oSI
+         k9tvipVidoYZ0JvkBkLElYSiguf8ymxhQDifkvxN07BzWjxavPRcu1AuGi3lPHOpQaqQ
+         Oyx70vsTyEUJT7lqZj6KR7It+I+rdiiM8XnZWgwXLv93ibMsuzsrXdcUkroS9QJkuECm
+         9pvJL216CM91sRq9081f0QQ3JSYQvvuPDdgHWNFBGF3gwU4gywM0vYv2WLf6haPjcKKd
+         JK0munqLOTD98BOXfKYmcrF6KrLzJTG58RO0TyfqcWJHHwXW78a5nnMuq4z/v11Objj3
+         yEFw==
+X-Forwarded-Encrypted: i=1; AFNElJ8392fY+1SPzk7bYl8I2a0L3DrXLqjAoB83riUUldfqcTkVLEv0aKo9FnNuZBKnthypWD38SBtR92+M+yH4@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz+uzO3OGVjUEVwZOsd6UFSKIHcDt/J8rf7puhJBIl0veafYjWz
+	pm+A7cDW0c0/4ZdlooRKBA08Tl2Qw3gnefL7eZZQtlVm9L9K5TjOyOqP
+X-Gm-Gg: Acq92OHyWn+TbqGOn/WaZ2lVlc8C6+K5mRPDeqvBXJ1bUhgqXFDfp1+YzTf5gqsClbk
+	TlYnSlh+il8WHjmet+r//wfR9QXRL8Jz0HmnhYN3lEezh3o+Qabw6iLoMVdXE2g5OOrMVQGAv8w
+	vWJgVO/qDifhuLdbg1/CTx5ubh6sMHrm8uyfviWsoiI0z0GpZjpNcMB/HNn2LSUstMNfjV85uK7
+	BOCUPGeIukWd82kgMtpeRhdaqk1vLk3Eb0gZiA62rAWb8l3WCnj6eu/VJ1lYvOB19vT174a6dYy
+	/Hyr1HS7/6aMptt7ovW9WTlhplh3I4QUxSoEvokSHt16Wb/GFweqAfGxV5ftH038h2/8JojRuXJ
+	pDNsZWHpJKYQ0Y+cN/JwqeliU8xqlLE7g+FxzCayh1hXdf4qyMHzY59K+AwgzG/oTWDg8tDplUV
+	HrNHVCbtSxkR+OIeIxiYBesBY=
+X-Received: by 2002:a05:600c:3e1b:b0:48a:9562:7a30 with SMTP id 5b1f17b1804b1-48fe6515f20mr138558215e9.24.1779002898976;
+        Sun, 17 May 2026 00:28:18 -0700 (PDT)
+Received: from tumbleweed ([95.90.185.4])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48febe6b9efsm79400585e9.5.2026.05.17.00.28.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 May 2026 23:06:15 -0700 (PDT)
-From: =?UTF-8?q?Diego=20Fernando=20Mancera=20G=C3=B3mez?= <diegomancera.dev@gmail.com>
-To: thierry.reding@kernel.org,
-	jonathanh@nvidia.com,
-	skomatineni@nvidia.com,
-	luca.ceresoli@bootlin.com,
-	gregkh@linuxfoundation.org
-Cc: mchehab@kernel.org,
-	linux-media@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
+        Sun, 17 May 2026 00:28:18 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: hdegoede@redhat.com,
+	Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
-	=?UTF-8?q?Diego=20Fernando=20Mancera=20G=C3=B3mez?= <diegomancera.dev@gmail.com>
-Subject: [PATCH] staging: media: tegra-video: prefer using the BIT macro
-Date: Sun, 17 May 2026 00:05:11 -0600
-Message-ID: <20260517060511.231437-1-diegomancera.dev@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: remove READ_AND_CONFIG_MP macro
+Date: Sun, 17 May 2026 09:28:02 +0200
+Message-ID: <20260517072802.71149-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Replace open-coded bit shifts (1 << 28) with the standard kernel BIT
-macro. This improves code uniformity, matches style guidelines, and
-prevents accidental signed overflow issues.
+Remove the READ_AND_CONFIG_MP macro from odm_HWConfig.c and call the
+ODM_ReadAndConfig_MP_* functions directly to reduce code complexity and
+improve readability.
 
-Signed-off-by: Diego Fernando Mancera Gómez <diegomancera.dev@gmail.com>
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/media/tegra-video/tegra20.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/rtl8723bs/hal/odm_HWConfig.c | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/staging/media/tegra-video/tegra20.c b/drivers/staging/media/tegra-video/tegra20.c
-index e513e6ccb..08fa234af 100644
---- a/drivers/staging/media/tegra-video/tegra20.c
-+++ b/drivers/staging/media/tegra-video/tegra20.c
-@@ -177,7 +177,7 @@ enum tegra_vi_out {
- #define       CSI_SKIP_PACKET_THRESHOLD(n)		(((n) & 0xff) << 16)
- #define TEGRA_CSI_PIXEL_STREAM_CONTROL0(n)		(0x0018 + (n) * 0x2c)
- #define       CSI_PP_PAD_FRAME_PAD0S			(0 << 28)
--#define       CSI_PP_PAD_FRAME_PAD1S			(1 << 28)
-+#define       CSI_PP_PAD_FRAME_PAD1S			BIT(28)
- #define       CSI_PP_PAD_FRAME_NOPAD			(2 << 28)
- #define       CSI_PP_HEADER_EC_ENABLE			BIT(27)
- #define       CSI_PP_PAD_SHORT_LINE_PAD0S		(0 << 24)
+diff --git a/drivers/staging/rtl8723bs/hal/odm_HWConfig.c b/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
+index 4784d33eab0e..937002495d09 100644
+--- a/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
++++ b/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
+@@ -7,9 +7,6 @@
+ 
+ #include "odm_precomp.h"
+ 
+-#define READ_AND_CONFIG_MP(ic, txt) (ODM_ReadAndConfig_MP_##ic##txt(pDM_Odm))
+-#define READ_AND_CONFIG     READ_AND_CONFIG_MP
+-
+ static u8 odm_query_rx_pwr_percentage(s8 ant_power)
+ {
+ 	if ((ant_power <= -100) || (ant_power >= 20))
+@@ -415,9 +412,9 @@ enum hal_status ODM_ConfigRFWithHeaderFile(
+ )
+ {
+ 	if (ConfigType == CONFIG_RF_RADIO)
+-		READ_AND_CONFIG(8723B, _RadioA);
++		ODM_ReadAndConfig_MP_8723B_RadioA(pDM_Odm);
+ 	else if (ConfigType == CONFIG_RF_TXPWR_LMT)
+-		READ_AND_CONFIG(8723B, _TXPWR_LMT);
++		ODM_ReadAndConfig_MP_8723B_TXPWR_LMT(pDM_Odm);
+ 
+ 	return HAL_STATUS_SUCCESS;
+ }
+@@ -425,7 +422,7 @@ enum hal_status ODM_ConfigRFWithHeaderFile(
+ enum hal_status ODM_ConfigRFWithTxPwrTrackHeaderFile(struct dm_odm_t *pDM_Odm)
+ {
+ 	if (pDM_Odm->SupportInterface == ODM_ITRF_SDIO)
+-		READ_AND_CONFIG(8723B, _TxPowerTrack_SDIO);
++		ODM_ReadAndConfig_MP_8723B_TxPowerTrack_SDIO(pDM_Odm);
+ 
+ 	return HAL_STATUS_SUCCESS;
+ }
+@@ -435,11 +432,11 @@ enum hal_status ODM_ConfigBBWithHeaderFile(
+ )
+ {
+ 	if (ConfigType == CONFIG_BB_PHY_REG)
+-		READ_AND_CONFIG(8723B, _PHY_REG);
++		ODM_ReadAndConfig_MP_8723B_PHY_REG(pDM_Odm);
+ 	else if (ConfigType == CONFIG_BB_AGC_TAB)
+-		READ_AND_CONFIG(8723B, _AGC_TAB);
++		ODM_ReadAndConfig_MP_8723B_AGC_TAB(pDM_Odm);
+ 	else if (ConfigType == CONFIG_BB_PHY_REG_PG)
+-		READ_AND_CONFIG(8723B, _PHY_REG_PG);
++		ODM_ReadAndConfig_MP_8723B_PHY_REG_PG(pDM_Odm);
+ 
+ 	return HAL_STATUS_SUCCESS;
+ }
 -- 
-2.43.0
+2.53.0
 
