@@ -1,79 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DF213C584F;
-	Mon, 18 May 2026 06:07:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22BC9330D2A;
+	Mon, 18 May 2026 10:25:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779084478; cv=none; b=kTp0L8rqCBYklnarbIIIT6SVJWGaFNIA6JnCGMn1K04KuCNSQfkz3Bb6/e/BDTDbgNoKmyoipQQAJgSvSyriXERjQY2PWwZYb6iAzAWOt+Dzqynmixx8XVEr2NCXk8jxEuw9c9+8z02Q4GJ/Aom8tBmRm28mGr48lPcjAAGPAoA=
+	t=1779099931; cv=none; b=kxnrCFRU+C81Qfxdan6kaRf92W01WhOur+2IwbGc601uFf+TZGixJXT6qn3nq6ugOZoqWOfeqFUys0s4+JMy0tdGE5U85r5mkKYkBLHHZQ5lEs7+sl4cJACG1zZiuNun+4XoFwglDwEvQ+SY6d0ArOx52b46dUH64zu3FWlM1/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779084478; c=relaxed/simple;
-	bh=/ikUnS2vp5kNC2R6WwqL7cSOTSKahqhPT/a+m/wNDMQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JU64aTF7+3wD8Wd+mFCKS02aEtLB26u4fJGf/KblwBR4VlxGKb4dPXL24BqNXSl4CHQYn91sHCoNk6FVaHbH8MN2N3ux8Hjf7hQqbmuXacDbZmychb7z4cvqNbIV0MVupQoDejaPfGubwj/knyDnigb4/0vfR+o1UmbscfRObK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=xNA3Pg+r; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="xNA3Pg+r"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51E8AC2BCB7;
-	Mon, 18 May 2026 06:07:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1779084477;
-	bh=/ikUnS2vp5kNC2R6WwqL7cSOTSKahqhPT/a+m/wNDMQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=xNA3Pg+r01pVDIEMlRookG17sOFTx1lVuNt3MXCZoGbGlluZxTsShIfsJcRRLE44v
-	 ZbXuxOXP1wh+6aW3NIji01X5tpnPajff3HQflOolDXBc9lVacxS8nSk5rmIjFvC8XM
-	 keotqeCIhTRX8FAq1GOm26i38abTEljMJ3juo8YU=
-Date: Mon, 18 May 2026 08:07:11 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Dan Carpenter <error27@gmail.com>
-Cc: Sajal Gupta <sajal2005gupta@gmail.com>, dennylin0707@gmail.com,
-	khushalchitturi@gmail.com, nikolayof23@gmail.com,
-	khomenkov@mailbox.org, s9430939@naver.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: split multiple assignments in
- rtw_xmit.c
-Message-ID: <2026051858-nutcase-neurotic-de76@gregkh>
-References: <20260517092141.9518-1-sajal2005gupta@gmail.com>
- <agqhx2yQdbRe3zZp@stanley.mountain>
+	s=arc-20240116; t=1779099931; c=relaxed/simple;
+	bh=E1ZW9i0dYv/14hDo1SM4GZvuEWLlo3tOKSKIoH/g3qM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KKMfQbYczUFYKNWnGBoKO22GtabaH4M3XcpE9qBBVQdqcYO+ooLTQVwYWwbZUXRqXxHQHeUa5uJw1jQy/zlTA/n+p0pvePE/dFDPW4/l5AsJBzuoJEozrlw49aNsylhEFyNFHMvv6uz0LvlHobs/vkWbnQXq4OYXCtzYHM18yQQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
+Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
+	by leonov.paulk.fr (Postfix) with ESMTPS id 80F401F80041;
+	Mon, 18 May 2026 10:25:27 +0000 (UTC)
+Received: by laika.paulk.fr (Postfix, from userid 65534)
+	id 046C1B407FA; Mon, 18 May 2026 10:25:26 +0000 (UTC)
+X-Spam-Level: *
+Received: from collins (unknown [192.168.1.64])
+	by laika.paulk.fr (Postfix) with ESMTP id 52013B407E7;
+	Mon, 18 May 2026 10:24:52 +0000 (UTC)
+From: Paul Kocialkowski <paulk@sys-base.io>
+To: linux-media@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: Paul Kocialkowski <paulk@sys-base.io>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Arash Golgol <arash.golgol@gmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Subject: [PATCH 00/16] media: sun6i-csi/isp MC-centric support and cleanups
+Date: Mon, 18 May 2026 12:24:35 +0200
+Message-ID: <20260518102451.417971-1-paulk@sys-base.io>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <agqhx2yQdbRe3zZp@stanley.mountain>
+Content-Transfer-Encoding: 8bit
 
-On Mon, May 18, 2026 at 08:21:11AM +0300, Dan Carpenter wrote:
-> On Sun, May 17, 2026 at 02:51:20PM +0530, Sajal Gupta wrote:
-> > Split multiple assignments into separate statements to comply
-> > with kernel coding style. Fixes the checkpatch warnings:
-> > "multiple assignments should be avoided"
-> > 
-> > Signed-off-by: Sajal Gupta <sajal2005gupta@gmail.com>
-> > ---
-> >  drivers/staging/rtl8723bs/core/rtw_xmit.c | 15 ++++++++++-----
-> >  1 file changed, 10 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-> > index 458e471535ad..e30c99eeee89 100644
-> > --- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
-> > +++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-> > @@ -185,7 +185,8 @@ s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
-> >  		pxmitbuf->phead = pxmitbuf->pbuf;
-> >  		pxmitbuf->pend = pxmitbuf->pbuf + MAX_XMITBUF_SZ;
-> >  		pxmitbuf->len = 0;
-> > -		pxmitbuf->pdata = pxmitbuf->ptail = pxmitbuf->phead;
-> > +		pxmitbuf->ptail = pxmitbuf->phead;
-> > +		pxmitbuf->pdata = pxmitbuf->ptail;
-> 
-> I find this harder to read.
-> 
-> To be honest, I don't really have a problem with the original code.
+This series first introduces some fixes and new formats to v4l2 format
+info, one of which we need for the sun6i-csi driver. Support for
+MC-centric format enumeration is then added, along with cleanups and
+improvements for both the sun6i-csi and sun6i-isp drivers.
 
-I agree, let's leave it as-is.
+The first 4 patches are already reviewed and ready to go and are
+included here as a reminder that this series depends on them.
 
-thanks,
+Arash Golgol (4):
+  media: sun6i-csi: bridge: Use V4L2 subdev active state
+  media: sun6i-csi: capture: Implement vidioc_enum_framesizes
+  media: sun6i-mipi-csi2: Use V4L2 subdev active state
+  media: sun8i-a83t-mipi-csi2: Use V4L2 subdev active state
 
-greg k-h
+Paul Kocialkowski (12):
+  media: v4l2-common: Fix NV15_4L4 format info block height
+  media: v4l2-common: Add missing tiled format info block sizes
+  media: v4l2-common: Add NV12_16L16 pixel format to v4l2 format info
+  media: v4l2-common: Add NV12_32L32 pixel format to v4l2 format info
+  media: sun6i-csi: Split format validation to a dedicated helper
+  media: sun6i-csi: Add support for MC-centric format enumeration
+  media: sun6i-csi: Tidy up and unify coding style
+  media: sun6i-mipi-csi2: Fix parenthesis alignment
+  media: sun6i-isp: Add dummy params link_validate implementation
+  media: sun6i-isp: Use V4L2 subdev active state
+  media: sun6i-isp: Add support for MC-centric format enumeration
+  media: sun6i-isp: Add support for frame size enumeration
+
+ .../sunxi/sun6i-csi/sun6i_csi_bridge.c        | 153 +++++++---------
+ .../sunxi/sun6i-csi/sun6i_csi_bridge.h        |   9 -
+ .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 168 +++++++++++++-----
+ .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   | 107 ++++++-----
+ .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h   |   2 -
+ .../sun8i_a83t_mipi_csi2.c                    | 113 ++++++------
+ .../sun8i_a83t_mipi_csi2.h                    |   2 -
+ drivers/media/v4l2-core/v4l2-common.c         |  12 +-
+ .../media/sunxi/sun6i-isp/sun6i_isp_capture.c |  47 ++++-
+ .../media/sunxi/sun6i-isp/sun6i_isp_params.c  |  37 +++-
+ .../media/sunxi/sun6i-isp/sun6i_isp_params.h  |   4 +-
+ .../media/sunxi/sun6i-isp/sun6i_isp_proc.c    | 117 ++++++------
+ .../media/sunxi/sun6i-isp/sun6i_isp_proc.h    |   7 -
+ 13 files changed, 437 insertions(+), 341 deletions(-)
+
+-- 
+2.54.0
+
