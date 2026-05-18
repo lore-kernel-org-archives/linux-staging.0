@@ -1,28 +1,28 @@
 Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 180C33E3DB6;
-	Mon, 18 May 2026 10:29:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 460833EBF33;
+	Mon, 18 May 2026 10:29:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779100170; cv=none; b=HehU5WVnNzKGegWVxDzjKAbLE1QeP8QlYqS2D6n2fu1moyYb2JnGhHPK0JeYygdl84RGBlf6gVYYM8ubIMhP/jO1neZ6VUwYKiUvI26kIjDZfC+2GQbK+d/7mm3XWOa3BLHr1hLDBMUGyXxttmQk9+DKEDU97H6J/GevMOLtOiI=
+	t=1779100198; cv=none; b=h675zoKe2d24pYLtv91kfEcpq2ScWRyQg8fVP2ZIiJAh837R8qSNvYrZzbbVtM9VfffHC6WeHq8R+dggpHwbmHLfcUWAvyMOI5gF9tuHbte8bybwFzw80uZodGQvnqL5z405Rs94jTxSx7Re+XvI9tc0gDBYTGSg4wa02ZHXlPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779100170; c=relaxed/simple;
-	bh=eCvQTJjp2h8EORPuvx4oGznSj4EQT6vruXMeoKz4qjs=;
+	s=arc-20240116; t=1779100198; c=relaxed/simple;
+	bh=N6jBm7mjftN6RyzhLYEDB/ctTHQIpMFcWgaVKSlq3IY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Vku/tBNztq5+3Si1Aj3BIl90oSOLzko8iUJRFNQsTijMs8dDuKDs+NKPuUmqHnRzd5UaE3gtmA/Z5czcV/lakTycurks54tgyjaHENx7pvnn7Lxz+a8icHE+II4LbnY9vwCBfbQETIi+lHkquszyyKcGpMhndRdkKhjZBntDzLk=
+	 MIME-Version; b=APbiX4W55FT8kevvQhxGLpIRJjULMmxkp67fuCdWrgyan1jWpO6Rvys2ExOaoxjsWxQ98RfwFUbHh2ellJOM2tf5MzMK6SyS2NpAT74vSn0b8KhcNv6XEaw+q/PzLxdbpJy6DEBoN+ixmEZ3Xu6B3Lbjz3zYeRPMYdp39zPLTE0=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
 Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id E84571F80044;
-	Mon, 18 May 2026 10:29:18 +0000 (UTC)
+	by leonov.paulk.fr (Postfix) with ESMTPS id 8F9251F80044;
+	Mon, 18 May 2026 10:29:44 +0000 (UTC)
 Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id 757EFB40818; Mon, 18 May 2026 10:29:18 +0000 (UTC)
+	id 10E15B40818; Mon, 18 May 2026 10:29:43 +0000 (UTC)
 X-Spam-Level: *
 Received: from collins (unknown [192.168.1.64])
-	by laika.paulk.fr (Postfix) with ESMTP id A0656B407F5;
-	Mon, 18 May 2026 10:24:55 +0000 (UTC)
+	by laika.paulk.fr (Postfix) with ESMTP id 0C8EBB407F6;
+	Mon, 18 May 2026 10:24:56 +0000 (UTC)
 From: Paul Kocialkowski <paulk@sys-base.io>
 To: linux-media@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -38,9 +38,9 @@ Cc: Paul Kocialkowski <paulk@sys-base.io>,
 	Arash Golgol <arash.golgol@gmail.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Subject: [PATCH 08/16] media: v4l2-common: Add NV12_32L32 pixel format to v4l2 format info
-Date: Mon, 18 May 2026 12:24:43 +0200
-Message-ID: <20260518102451.417971-9-paulk@sys-base.io>
+Subject: [PATCH 09/16] media: sun6i-csi: Split format validation to a dedicated helper
+Date: Mon, 18 May 2026 12:24:44 +0200
+Message-ID: <20260518102451.417971-10-paulk@sys-base.io>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260518102451.417971-1-paulk@sys-base.io>
 References: <20260518102451.417971-1-paulk@sys-base.io>
@@ -52,27 +52,148 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Represent the NV12_32L32 pixel format in the v4l2 format info table.
-This is a 32x32 tiled version of NV12.
+Introduce a new sun6i_csi_capture_format_check helper based on the
+link_validate code, which will be reused to implement MC-style
+pixelformat enumeration.
+
+Formats not listed in v4l2_format_info are now checked via
+sun6i_csi_capture_format_check (which only concerns raw formats)
+instead of blindly allowing them.
+
+Also fix a comment in the raw format table.
 
 Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
 ---
- drivers/media/v4l2-core/v4l2-common.c | 2 ++
- 1 file changed, 2 insertions(+)
+ .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 87 +++++++++++--------
+ 1 file changed, 49 insertions(+), 38 deletions(-)
 
-diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-index 6194d6eb9c56..fe7141883ec5 100644
---- a/drivers/media/v4l2-core/v4l2-common.c
-+++ b/drivers/media/v4l2-core/v4l2-common.c
-@@ -315,6 +315,8 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
- 		  .block_w = { 4, 4, 0, 0 }, .block_h = { 4, 4, 0, 0 }},
- 		{ .format = V4L2_PIX_FMT_NV12_16L16,	.pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 2, .vdiv = 2,
- 		  .block_w = { 16, 16, 0, 0 }, .block_h = { 16, 16, 0, 0 }},
-+		{ .format = V4L2_PIX_FMT_NV12_32L32,	.pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 2, .vdiv = 2,
-+		  .block_w = { 32, 32, 0, 0 }, .block_h = { 32, 32, 0, 0 }},
+diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
+index f788b4234673..a836fa7f081a 100644
+--- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
++++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
+@@ -213,7 +213,7 @@ struct sun6i_csi_capture_format *sun6i_csi_capture_format_find(u32 pixelformat)
+ /* RAW formats need an exact match between pixel and mbus formats. */
+ static const
+ struct sun6i_csi_capture_format_match sun6i_csi_capture_format_matches[] = {
+-	/* YUV420 */
++	/* YUV422 */
+ 	{
+ 		.pixelformat	= V4L2_PIX_FMT_YUYV,
+ 		.mbus_code	= MEDIA_BUS_FMT_YUYV8_2X8,
+@@ -327,6 +327,51 @@ static bool sun6i_csi_capture_format_match(u32 pixelformat, u32 mbus_code)
+ 	return false;
+ }
  
- 		/* YUV planar formats, non contiguous variant */
- 		{ .format = V4L2_PIX_FMT_YUV420M, .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 3, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 2, .vdiv = 2 },
++static bool
++sun6i_csi_capture_format_check(const struct sun6i_csi_capture_format *capture_format,
++			       const struct sun6i_csi_bridge_format *bridge_format)
++{
++	const struct v4l2_format_info *format_info;
++	u32 pixelformat = capture_format->pixelformat;
++	u32 mbus_code = bridge_format->mbus_code;
++	bool match;
++
++	format_info = v4l2_format_info(pixelformat);
++
++	/* Some raw formats like JPEG are not listed: try a direct match. */
++	if (!format_info)
++		return sun6i_csi_capture_format_match(pixelformat, mbus_code);
++
++	if (format_info->pixel_enc == V4L2_PIXEL_ENC_BAYER &&
++	    bridge_format->input_format != SUN6I_CSI_INPUT_FMT_RAW)
++		return false;
++
++	if (format_info->pixel_enc == V4L2_PIXEL_ENC_RGB &&
++	    bridge_format->input_format != SUN6I_CSI_INPUT_FMT_RAW)
++		return false;
++
++	if (format_info->pixel_enc == V4L2_PIXEL_ENC_YUV) {
++		if (bridge_format->input_format != SUN6I_CSI_INPUT_FMT_YUV420 &&
++		    bridge_format->input_format != SUN6I_CSI_INPUT_FMT_YUV422)
++			return false;
++
++		/* YUV420 input can't produce YUV422 output. */
++		if (bridge_format->input_format == SUN6I_CSI_INPUT_FMT_YUV420 &&
++		    format_info->vdiv == 1)
++			return false;
++	}
++
++	/* With raw input mode, we need a 1:1 match between input and output. */
++	if (bridge_format->input_format == SUN6I_CSI_INPUT_FMT_RAW ||
++	    capture_format->input_format_raw) {
++		match = sun6i_csi_capture_format_match(pixelformat, mbus_code);
++		if (!match)
++			return false;
++	}
++
++	return true;
++}
++
+ /* Capture */
+ 
+ static void
+@@ -915,13 +960,11 @@ static int sun6i_csi_capture_link_validate(struct media_link *link)
+ 	const struct sun6i_csi_capture_format *capture_format;
+ 	const struct sun6i_csi_bridge_format *bridge_format;
+ 	unsigned int capture_width, capture_height;
+-	const struct v4l2_format_info *format_info;
+ 	struct v4l2_subdev_format src_fmt = {
+ 		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+ 		.pad = link->source->index
+ 	};
+ 	u32 pixelformat, capture_field;
+-	bool match;
+ 	int ret;
+ 
+ 	sun6i_csi_capture_dimensions(csi_dev, &capture_width, &capture_height);
+@@ -950,44 +993,12 @@ static int sun6i_csi_capture_link_validate(struct media_link *link)
+ 		return -EINVAL;
+ 	}
+ 
+-	format_info = v4l2_format_info(pixelformat);
+-	/* Some formats are not listed. */
+-	if (!format_info)
+-		return 0;
+-
+-	if (format_info->pixel_enc == V4L2_PIXEL_ENC_BAYER &&
+-	    bridge_format->input_format != SUN6I_CSI_INPUT_FMT_RAW)
+-		goto invalid;
+-
+-	if (format_info->pixel_enc == V4L2_PIXEL_ENC_RGB &&
+-	    bridge_format->input_format != SUN6I_CSI_INPUT_FMT_RAW)
+-		goto invalid;
+-
+-	if (format_info->pixel_enc == V4L2_PIXEL_ENC_YUV) {
+-		if (bridge_format->input_format != SUN6I_CSI_INPUT_FMT_YUV420 &&
+-		    bridge_format->input_format != SUN6I_CSI_INPUT_FMT_YUV422)
+-			goto invalid;
+-
+-		/* YUV420 input can't produce YUV422 output. */
+-		if (bridge_format->input_format == SUN6I_CSI_INPUT_FMT_YUV420 &&
+-		    format_info->vdiv == 1)
+-			goto invalid;
+-	}
+-
+-	/* With raw input mode, we need a 1:1 match between input and output. */
+-	if (bridge_format->input_format == SUN6I_CSI_INPUT_FMT_RAW ||
+-	    capture_format->input_format_raw) {
+-		match = sun6i_csi_capture_format_match(pixelformat,
+-						       src_fmt.format.code);
+-		if (!match)
+-			goto invalid;
++	if (!sun6i_csi_capture_format_check(capture_format, bridge_format)) {
++		v4l2_err(v4l2_dev, "invalid input/output format combination\n");
++		return -EINVAL;
+ 	}
+ 
+ 	return 0;
+-
+-invalid:
+-	v4l2_err(v4l2_dev, "invalid input/output format combination\n");
+-	return -EINVAL;
+ }
+ 
+ static const struct media_entity_operations sun6i_csi_capture_media_ops = {
 -- 
 2.54.0
 
