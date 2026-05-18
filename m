@@ -1,396 +1,294 @@
-Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F6363624A6;
-	Mon, 18 May 2026 14:09:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE9FC35E952
+	for <linux-staging@lists.linux.dev>; Mon, 18 May 2026 15:07:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779113393; cv=none; b=pqA4rAp+CpGpBZLhhOV0CwK/0Ds7iY0fH4MFEBVCguXeD743xnBaKBlzzhVwbnWiKk8332AIrO0pFhmn8Oh9PTYe8OiYeFjmdODLbPI5X8BgvnLhAny7q9MynRfxpl28iKQV8hsPQYCprTzdLHnGrL9mNmSM2RaiR2TfZy3RU8s=
+	t=1779116840; cv=none; b=Npwxttq4xDYJEOsKU5EYGfpme0HuGfH3c7eeIdSf/QxbWEx9oPbEh+ufOkk8XLiVn0g3QU3kZ4bLjroqEFhL2xWMFGORH55mgdLo5fLGTDXhLqz71jgriu4Zr6u1Mau4jaq74irJ6UDLEjxyZOEDTUl9FCOx1P78CW1ESFb97bg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779113393; c=relaxed/simple;
-	bh=THJGQ+eQ19c1iPFtahMpjAefG/fJYGebs2EgmM4psOE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lJ0M2lhUXYs6x7BvY6Mye3OgOMhmDEthEqhhEU54Gc6JW9uapXsqOsKl6wXz8fAsfw6yVAjvI7RxjRjQy5GMsM+Ii8K/hc4nV9AzANO0+Ggz2EH3s5FyO/1y4zlZAleBKnOz+ssO6mz0bYsh+Vld9m66457Gemv7708RwMAuq/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
-Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id 1038C1F80041;
-	Mon, 18 May 2026 14:09:47 +0000 (UTC)
-Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id EB612B407FB; Mon, 18 May 2026 14:09:45 +0000 (UTC)
-X-Spam-Level: 
-Received: from collins (unknown [192.168.1.1])
-	by laika.paulk.fr (Postfix) with ESMTPSA id 33A58B407F5;
-	Mon, 18 May 2026 14:09:44 +0000 (UTC)
-Date: Mon, 18 May 2026 16:09:41 +0200
-From: Paul Kocialkowski <paulk@sys-base.io>
-To: linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	s=arc-20240116; t=1779116840; c=relaxed/simple;
+	bh=8iwOiBL4VlrTh16766kHGnfn8SfR3ucLOA2dC/ddRew=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=F8iyiCRKjVSo2SYDnaRBLKOWQfCm/gCWSLgZsjkAFLvKyAc8RQosmDsXR3Z9dJyO1sJDcZvdsSokeHklnlJLJP2cSXgNut62LPYUHsoy1R/2ysXpZwP07KkvfTIWaqq3qf+/XZMMDzsP/Z+LZjEXTXI56Sby4g01TT4i85VizeY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=artur.ugnivenko@gmx.de header.b=kE6Y5caQ; arc=none smtp.client-ip=212.227.17.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=artur.ugnivenko@gmx.de header.b="kE6Y5caQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1779116828; x=1779721628; i=artur.ugnivenko@gmx.de;
+	bh=sF9z8ZY6RLOIcJlcy5UgtYxES24Ezs9yJQ/zvI83wnc=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:In-Reply-To:
+	 References:MIME-Version:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=kE6Y5caQlsL6uDoJ6Xw4i7rPsUmxNSrrpZKsTULjuRJ/xOEzPiWH06h7oa+cznek
+	 aDqI1XZoy4eCQR/jBHpNXcybSWgFvPJS3vJ5e8BOV3X8GKTf4XRlVumsqAdP8nXQK
+	 iQI7YY/Br+7fFIB6KKqME8bSMSMvUaS5f7+mwFnw1M8fM46eiH8I4cBibfibZ2OCN
+	 dWhpLANarlG7x52fOGrwHHxms52Y4kuQmQ7xtrznC45PixiHWMctFhhPJGJBamMzW
+	 elEJ7icl1yaGDALBC++VPxwOvRjnsKOUKSXL54wewnygrfDyws//GppwBptomhBZ8
+	 85ZduRBSwxl4pQ+sbg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from client.hidden.invalid by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MmlTC-1x7e380dKo-00ZgIj; Mon, 18
+ May 2026 17:07:08 +0200
+From: Artur Ugnivenko <artur.ugnivenko@gmx.de>
+To: error27@gmail.com
+Cc: ahmet@sezginduran.net,
+	gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Arash Golgol <arash.golgol@gmail.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Subject: Re: [PATCH 04/16] media: sun8i-a83t-mipi-csi2: Use V4L2 subdev
- active state
-Message-ID: <agsdpcxifnFwaUu3@collins>
-References: <20260518102451.417971-1-paulk@sys-base.io>
- <20260518102451.417971-5-paulk@sys-base.io>
+Subject: [PATCH v4 3/4] staging: rtl8723bs: remove excessive whitespace in hal/sdio_halinit.c
+Date: Mon, 18 May 2026 17:07:06 +0200
+Message-ID: <20260518150707.18868-1-artur.ugnivenko@gmx.de>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260518122543.15266-1-artur.ugnivenko@gmx.de>
+References: <20260518122543.15266-1-artur.ugnivenko@gmx.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="SmpESyxiLXAcu4zS"
-Content-Disposition: inline
-In-Reply-To: <20260518102451.417971-5-paulk@sys-base.io>
-
-
---SmpESyxiLXAcu4zS
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:kPkvQJra7tbIXWanbHFV6Od271o5BtEZhHmfWaV4p5QR3EdmHXV
+ Je7pQ/UgGdkdT0RZET+bXDfaciDBbi8s6Z1ygKQcgupHvYPRiMTV7qbqp1+EOXD3PFvIa8b
+ elC461HfUIprgypONyUlEGJnnL/9C0LQEY1b78kgAbBE1crnDCwqkPkWKAU8f8kmoYdYx2Z
+ ERqVW8mP+nmqOx7sE4kyA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:8p0mBYLPePo=;8Xc9znJqoa8KhaOR1d5n/5LjOHP
+ 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
 
-Le Mon 18 May 26, 12:24, Paul Kocialkowski a =C3=A9crit :
-> From: Arash Golgol <arash.golgol@gmail.com>
->=20
-> Use the V4L2 subdev active state API to store the active format.
-> This simplifies the driver not only by dropping the bridge mbus_format
-> field, but it also allows dropping the bridge lock, replaced with
-> the state lock.
->=20
-> The sun8i-a83t-mipi-csi2 hardware does not perform any format
-> conversion. Enforce identical formats on the sink and source pads in
-> the set_fmt() and init_state() callbacks.
->=20
-> Signed-off-by: Arash Golgol <arash.golgol@gmail.com>
+Fix checkpatch warnings on excessive empty lines after closing brackets,
+after opening brackets and multiple empty lines at once.
 
-I forgot to pick it up but this is already:
+Signed-off-by: Artur Ugnivenko <artur.ugnivenko@gmx.de>
+=2D--
+ drivers/staging/rtl8723bs/hal/sdio_halinit.c | 17 -----------------
+ 1 file changed, 17 deletions(-)
 
-Reviewed-by: Paul Kocialkowski <paulk@sys-base.io>
-Tested-by: Paul Kocialkowski <paulk@sys-base.io>
-
-Paul
-
-> ---
->  .../sun8i_a83t_mipi_csi2.c                    | 113 +++++++++---------
->  .../sun8i_a83t_mipi_csi2.h                    |   2 -
->  2 files changed, 56 insertions(+), 59 deletions(-)
->=20
-> diff --git a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t=
-_mipi_csi2.c b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t=
-_mipi_csi2.c
-> index dbc51daa4fe3..2b7635f3952d 100644
-> --- a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_c=
-si2.c
-> +++ b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_c=
-si2.c
-> @@ -144,12 +144,12 @@ sun8i_a83t_mipi_csi2_disable(struct sun8i_a83t_mipi=
-_csi2_device *csi2_dev)
->  }
-> =20
->  static void
-> -sun8i_a83t_mipi_csi2_configure(struct sun8i_a83t_mipi_csi2_device *csi2_=
-dev)
-> +sun8i_a83t_mipi_csi2_configure(struct sun8i_a83t_mipi_csi2_device *csi2_=
-dev,
-> +			       const struct v4l2_mbus_framefmt *mbus_format)
->  {
->  	struct regmap *regmap =3D csi2_dev->regmap;
->  	unsigned int lanes_count =3D
->  		csi2_dev->bridge.endpoint.bus.mipi_csi2.num_data_lanes;
-> -	struct v4l2_mbus_framefmt *mbus_format =3D &csi2_dev->bridge.mbus_forma=
-t;
->  	const struct sun8i_a83t_mipi_csi2_format *format;
->  	struct device *dev =3D csi2_dev->dev;
->  	u32 version =3D 0;
-> @@ -205,7 +205,8 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2_=
-subdev *subdev, int on)
->  	struct v4l2_subdev *source_subdev =3D csi2_dev->bridge.source_subdev;
->  	union phy_configure_opts dphy_opts =3D { 0 };
->  	struct phy_configure_opts_mipi_dphy *dphy_cfg =3D &dphy_opts.mipi_dphy;
-> -	struct v4l2_mbus_framefmt *mbus_format =3D &csi2_dev->bridge.mbus_forma=
-t;
-> +	struct v4l2_subdev_state *state;
-> +	const struct v4l2_mbus_framefmt *mbus_format;
->  	const struct sun8i_a83t_mipi_csi2_format *format;
->  	struct phy *dphy =3D csi2_dev->dphy;
->  	struct device *dev =3D csi2_dev->dev;
-> @@ -215,8 +216,12 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2=
-_subdev *subdev, int on)
->  	unsigned long pixel_rate;
->  	int ret;
-> =20
-> -	if (!source_subdev)
-> -		return -ENODEV;
-> +	state =3D v4l2_subdev_lock_and_get_active_state(subdev);
-> +
-> +	if (!source_subdev) {
-> +		ret =3D -ENODEV;
-> +		goto unlock;
-> +	}
-> =20
->  	if (!on) {
->  		v4l2_subdev_call(source_subdev, video, s_stream, 0);
-> @@ -228,7 +233,7 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2_=
-subdev *subdev, int on)
-> =20
->  	ret =3D pm_runtime_resume_and_get(dev);
->  	if (ret < 0)
-> -		return ret;
-> +		goto unlock;
-> =20
->  	/* Sensor pixel rate */
-> =20
-> @@ -254,6 +259,9 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2_=
-subdev *subdev, int on)
->  		goto error_pm;
->  	}
-> =20
-> +	mbus_format =3D
-> +		v4l2_subdev_state_get_format(state,
-> +					     SUN8I_A83T_MIPI_CSI2_PAD_SINK);
->  	format =3D sun8i_a83t_mipi_csi2_format_find(mbus_format->code);
->  	if (WARN_ON(!format)) {
->  		ret =3D -ENODEV;
-> @@ -292,7 +300,7 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2_=
-subdev *subdev, int on)
-> =20
->  	/* Controller */
-> =20
-> -	sun8i_a83t_mipi_csi2_configure(csi2_dev);
-> +	sun8i_a83t_mipi_csi2_configure(csi2_dev, mbus_format);
->  	sun8i_a83t_mipi_csi2_enable(csi2_dev);
-> =20
->  	/* D-PHY */
-> @@ -309,7 +317,8 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2_=
-subdev *subdev, int on)
->  	if (ret && ret !=3D -ENOIOCTLCMD)
->  		goto disable;
-> =20
-> -	return 0;
-> +	ret =3D 0;
-> +	goto unlock;
-> =20
->  disable:
->  	phy_power_off(dphy);
-> @@ -318,6 +327,8 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2_=
-subdev *subdev, int on)
->  error_pm:
->  	pm_runtime_put(dev);
-> =20
-> +unlock:
-> +	v4l2_subdev_unlock_state(state);
->  	return ret;
->  }
-> =20
-> @@ -341,22 +352,24 @@ sun8i_a83t_mipi_csi2_mbus_format_prepare(struct v4l=
-2_mbus_framefmt *mbus_format)
->  static int sun8i_a83t_mipi_csi2_init_state(struct v4l2_subdev *subdev,
->  					   struct v4l2_subdev_state *state)
->  {
-> -	struct sun8i_a83t_mipi_csi2_device *csi2_dev =3D
-> -		v4l2_get_subdevdata(subdev);
-> -	unsigned int pad =3D SUN8I_A83T_MIPI_CSI2_PAD_SINK;
-> -	struct v4l2_mbus_framefmt *mbus_format =3D
-> -		v4l2_subdev_state_get_format(state, pad);
-> -	struct mutex *lock =3D &csi2_dev->bridge.lock;
-> +	unsigned int pad;
-> =20
-> -	mutex_lock(lock);
-> +	/*
-> +	 * This subdev does not perform format conversion,
-> +	 * initialize both pads identically.
-> +	 */
-> +	for (pad =3D 0; pad < subdev->entity.num_pads; pad++) {
-> +		struct v4l2_mbus_framefmt *mbus_format;
-> =20
-> -	mbus_format->code =3D sun8i_a83t_mipi_csi2_formats[0].mbus_code;
-> -	mbus_format->width =3D 640;
-> -	mbus_format->height =3D 480;
-> +		mbus_format =3D v4l2_subdev_state_get_format(state, pad);
-> +
-> +		mbus_format->code =3D sun8i_a83t_mipi_csi2_formats[0].mbus_code;
-> +		mbus_format->width =3D 640;
-> +		mbus_format->height =3D 480;
-> =20
-> -	sun8i_a83t_mipi_csi2_mbus_format_prepare(mbus_format);
-> +		sun8i_a83t_mipi_csi2_mbus_format_prepare(mbus_format);
-> +	}
-> =20
-> -	mutex_unlock(lock);
-> =20
->  	return 0;
->  }
-> @@ -375,55 +388,33 @@ sun8i_a83t_mipi_csi2_enum_mbus_code(struct v4l2_sub=
-dev *subdev,
->  	return 0;
->  }
-> =20
-> -static int sun8i_a83t_mipi_csi2_get_fmt(struct v4l2_subdev *subdev,
-> -					struct v4l2_subdev_state *state,
-> -					struct v4l2_subdev_format *format)
-> -{
-> -	struct sun8i_a83t_mipi_csi2_device *csi2_dev =3D
-> -		v4l2_get_subdevdata(subdev);
-> -	struct v4l2_mbus_framefmt *mbus_format =3D &format->format;
-> -	struct mutex *lock =3D &csi2_dev->bridge.lock;
-> -
-> -	mutex_lock(lock);
-> -
-> -	if (format->which =3D=3D V4L2_SUBDEV_FORMAT_TRY)
-> -		*mbus_format =3D *v4l2_subdev_state_get_format(state,
-> -							     format->pad);
-> -	else
-> -		*mbus_format =3D csi2_dev->bridge.mbus_format;
-> -
-> -	mutex_unlock(lock);
-> -
-> -	return 0;
-> -}
-> -
->  static int sun8i_a83t_mipi_csi2_set_fmt(struct v4l2_subdev *subdev,
->  					struct v4l2_subdev_state *state,
->  					struct v4l2_subdev_format *format)
->  {
-> -	struct sun8i_a83t_mipi_csi2_device *csi2_dev =3D
-> -		v4l2_get_subdevdata(subdev);
-> -	struct v4l2_mbus_framefmt *mbus_format =3D &format->format;
-> -	struct mutex *lock =3D &csi2_dev->bridge.lock;
-> +	struct v4l2_mbus_framefmt *fmt;
-> =20
-> -	mutex_lock(lock);
-> +	/* The format on the source pad always matches the sink pad. */
-> +	if (format->pad !=3D SUN8I_A83T_MIPI_CSI2_PAD_SINK)
-> +		return v4l2_subdev_get_fmt(subdev, state, format);
-> =20
-> -	sun8i_a83t_mipi_csi2_mbus_format_prepare(mbus_format);
-> +	sun8i_a83t_mipi_csi2_mbus_format_prepare(&format->format);
-> =20
-> -	if (format->which =3D=3D V4L2_SUBDEV_FORMAT_TRY)
-> -		*v4l2_subdev_state_get_format(state, format->pad) =3D
-> -			*mbus_format;
-> -	else
-> -		csi2_dev->bridge.mbus_format =3D *mbus_format;
-> +	/* Set the format on the sink pad. */
-> +	fmt =3D v4l2_subdev_state_get_format(state, format->pad);
-> +	*fmt =3D format->format;
-> =20
-> -	mutex_unlock(lock);
-> +	/* Propagate the format to the source pad. */
-> +	fmt =3D v4l2_subdev_state_get_format(state,
-> +					   SUN8I_A83T_MIPI_CSI2_PAD_SOURCE);
-> +	*fmt =3D format->format;
-> =20
->  	return 0;
->  }
-> =20
->  static const struct v4l2_subdev_pad_ops sun8i_a83t_mipi_csi2_pad_ops =3D=
+diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit.c b/drivers/stagin=
+g/rtl8723bs/hal/sdio_halinit.c
+index 3756b8e3d8e9..e6570fa2e8fd 100644
+=2D-- a/drivers/staging/rtl8723bs/hal/sdio_halinit.c
++++ b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+@@ -21,7 +21,6 @@ static u8 CardEnable(struct adapter *padapter)
+ 	u8 bMacPwrCtrlOn;
+ 	u8 ret =3D _FAIL;
+=20
+-
+ 	rtw_hal_get_hwreg(padapter, HW_VAR_APFM_ON_MAC, &bMacPwrCtrlOn);
+ 	if (!bMacPwrCtrlOn) {
+ 		/*  RSV_CTRL 0x1C[7:0] =3D 0x00 */
+@@ -235,7 +234,6 @@ static void _InitNormalChipOneOutEpPriority(struct ada=
+pter *Adapter)
+ 	_InitNormalChipRegPriority(
+ 		Adapter, value, value, value, value, value, value
+ 	);
+-
+ }
+=20
+ static void _InitNormalChipTwoOutEpPriority(struct adapter *Adapter)
+@@ -244,7 +242,6 @@ static void _InitNormalChipTwoOutEpPriority(struct ada=
+pter *Adapter)
+ 	struct registry_priv *pregistrypriv =3D &Adapter->registrypriv;
+ 	u16 beQ, bkQ, viQ, voQ, mgtQ, hiQ;
+=20
+-
+ 	u16 valueHi =3D 0;
+ 	u16 valueLow =3D 0;
+=20
+@@ -283,7 +280,6 @@ static void _InitNormalChipTwoOutEpPriority(struct ada=
+pter *Adapter)
+ 	}
+=20
+ 	_InitNormalChipRegPriority(Adapter, beQ, bkQ, viQ, voQ, mgtQ, hiQ);
+-
+ }
+=20
+ static void _InitNormalChipThreeOutEpPriority(struct adapter *padapter)
+@@ -328,8 +324,6 @@ static void _InitQueuePriority(struct adapter *Adapter=
+)
+ 	default:
+ 		break;
+ 	}
+-
+-
+ }
+=20
+ static void _InitPageBoundary(struct adapter *padapter)
+@@ -372,7 +366,6 @@ static void _InitWMACSetting(struct adapter *padapter)
+ 	struct hal_com_data *pHalData;
+ 	u16 value16;
+=20
+-
+ 	pHalData =3D GET_HAL_DATA(padapter);
+=20
+ 	pHalData->ReceiveConfig =3D 0;
+@@ -526,7 +519,6 @@ static void _InitOperationMode(struct adapter *padapte=
+r)
+ 	}
+=20
+ 	rtw_write8(padapter, REG_BWOPMODE, regBwOpMode);
+-
+ }
+=20
+ static void _InitInterrupt(struct adapter *padapter)
+@@ -569,7 +561,6 @@ static bool HalDetectPwrDownMode(struct adapter *Adapt=
+er)
+ 	struct hal_com_data *pHalData =3D GET_HAL_DATA(Adapter);
+ 	struct pwrctrl_priv *pwrctrlpriv =3D adapter_to_pwrctl(Adapter);
+=20
+-
+ 	rtw_efuse_shadow_read(Adapter, 1, 0x7B/*EEPROM_RF_OPT3_92C*/, (u32 *)&tm=
+pvalue);
+=20
+ 	/*  2010/08/25 MH INF priority > PDN Efuse value. */
+@@ -613,7 +604,6 @@ u32 rtl8723bs_hal_init(struct adapter *padapter)
+ 		/* do polling cpwm */
+ 		start_time =3D jiffies;
+ 		do {
+-
+ 			mdelay(1);
+=20
+ 			rtw_hal_get_hwreg(padapter, HW_VAR_CPWM, &cpwm_now);
+@@ -744,7 +734,6 @@ u32 rtl8723bs_hal_init(struct adapter *padapter)
+ 	/*  set 0x0 to 0xFF by tynli. Default enable HW SEQ NUM. */
+ 	rtw_write8(padapter, REG_HWSEQ_CTRL, 0xFF);
+=20
+-
+ 	/*  */
+ 	/*  Configure SDIO TxRx Control to enable Rx DMA timer masking. */
+ 	/*  2010.02.24. */
+@@ -753,7 +742,6 @@ u32 rtl8723bs_hal_init(struct adapter *padapter)
+=20
+ 	_RfPowerSave(padapter);
+=20
+-
+ 	rtl8723b_InitHalDm(padapter);
+=20
+ 	/*  */
+@@ -916,7 +904,6 @@ u32 rtl8723bs_hal_deinit(struct adapter *padapter)
+ 				}
+=20
+ 				adapter_to_pwrctl(padapter)->pre_ips_type =3D 0;
+-
+ 			} else {
+ 				CardDisableRTL8723BSdio(padapter);
+=20
+@@ -935,7 +922,6 @@ void rtl8723bs_init_default_value(struct adapter *pada=
+pter)
  {
->  	.enum_mbus_code	=3D sun8i_a83t_mipi_csi2_enum_mbus_code,
-> -	.get_fmt	=3D sun8i_a83t_mipi_csi2_get_fmt,
-> +	.get_fmt	=3D v4l2_subdev_get_fmt,
->  	.set_fmt	=3D sun8i_a83t_mipi_csi2_set_fmt,
->  };
-> =20
-> @@ -540,8 +531,6 @@ sun8i_a83t_mipi_csi2_bridge_setup(struct sun8i_a83t_m=
-ipi_csi2_device *csi2_dev)
->  	bool notifier_registered =3D false;
->  	int ret;
-> =20
-> -	mutex_init(&bridge->lock);
-> -
->  	/* V4L2 Subdev */
-> =20
->  	v4l2_subdev_init(subdev, &sun8i_a83t_mipi_csi2_subdev_ops);
-> @@ -570,6 +559,12 @@ sun8i_a83t_mipi_csi2_bridge_setup(struct sun8i_a83t_=
-mipi_csi2_device *csi2_dev)
->  	if (ret)
->  		return ret;
-> =20
-> +	/* V4L2 Subdev finalize */
-> +
-> +	ret =3D v4l2_subdev_init_finalize(subdev);
-> +	if (ret < 0)
-> +		goto error_media_entity_cleanup;
-> +
->  	/* V4L2 Async */
-> =20
->  	v4l2_async_subdev_nf_init(notifier, subdev);
-> @@ -603,6 +598,9 @@ sun8i_a83t_mipi_csi2_bridge_setup(struct sun8i_a83t_m=
-ipi_csi2_device *csi2_dev)
->  error_v4l2_notifier_cleanup:
->  	v4l2_async_nf_cleanup(notifier);
-> =20
-> +	v4l2_subdev_cleanup(subdev);
-> +
-> +error_media_entity_cleanup:
->  	media_entity_cleanup(&subdev->entity);
-> =20
->  	return ret;
-> @@ -617,6 +615,7 @@ sun8i_a83t_mipi_csi2_bridge_cleanup(struct sun8i_a83t=
-_mipi_csi2_device *csi2_dev
->  	v4l2_async_unregister_subdev(subdev);
->  	v4l2_async_nf_unregister(notifier);
->  	v4l2_async_nf_cleanup(notifier);
-> +	v4l2_subdev_cleanup(subdev);
->  	media_entity_cleanup(&subdev->entity);
->  }
-> =20
-> diff --git a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t=
-_mipi_csi2.h b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t=
-_mipi_csi2.h
-> index f1e64c53434c..819527bcd64d 100644
-> --- a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_c=
-si2.h
-> +++ b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_c=
-si2.h
-> @@ -33,8 +33,6 @@ struct sun8i_a83t_mipi_csi2_bridge {
->  	struct media_pad		pads[SUN8I_A83T_MIPI_CSI2_PAD_COUNT];
->  	struct v4l2_fwnode_endpoint	endpoint;
->  	struct v4l2_async_notifier	notifier;
-> -	struct v4l2_mbus_framefmt	mbus_format;
-> -	struct mutex			lock; /* Mbus format lock. */
-> =20
->  	struct v4l2_subdev		*source_subdev;
->  };
-> --=20
-> 2.54.0
->=20
+ 	struct hal_com_data *pHalData;
+=20
+-
+ 	pHalData =3D GET_HAL_DATA(padapter);
+=20
+ 	rtl8723b_init_default_value(padapter);
+@@ -951,7 +937,6 @@ void rtl8723bs_interface_configure(struct adapter *pad=
+apter)
+ 	struct registry_priv *pregistrypriv =3D &padapter->registrypriv;
+ 	bool bWiFiConfig =3D pregistrypriv->wifi_spec;
+=20
+-
+ 	pdvobjpriv->RtOutPipe[0] =3D WLAN_TX_HIQ_DEVICE_ID;
+ 	pdvobjpriv->RtOutPipe[1] =3D WLAN_TX_MIQ_DEVICE_ID;
+ 	pdvobjpriv->RtOutPipe[2] =3D WLAN_TX_LOQ_DEVICE_ID;
+@@ -1003,7 +988,6 @@ static void _ReadRFType(struct adapter *Adapter)
+ 	pHalData->rf_chip =3D RF_6052;
+ }
+=20
+-
+ static void Hal_EfuseParseMACAddr_8723BS(
+ 	struct adapter *padapter, u8 *hwinfo, bool AutoLoadFail
+ )
+@@ -1098,7 +1082,6 @@ static s32 _ReadAdapterInfo8723BS(struct adapter *pa=
+dapter)
+ 	if (!padapter->hw_init_completed)
+ 		_InitPowerOn_8723BS(padapter);
+=20
+-
+ 	val8 =3D rtw_read8(padapter, 0x4e);
+ 	val8 |=3D BIT(6);
+ 	rtw_write8(padapter, 0x4e, val8);
+=2D-=20
+2.54.0
 
---=20
-Paul Kocialkowski,
-
-Independent contractor - sys-base - https://www.sys-base.io/
-Free software developer - https://www.paulk.fr/
-
-Expert in multimedia, graphics and embedded hardware support with Linux.
-
---SmpESyxiLXAcu4zS
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmoLHaUACgkQhP3B6o/u
-lQxtAg//S2QfTj832c+YdD3o+iJ3BWs9KibhqT9dGuWMlWVc/9HZIlEsqYfjH5x4
-Bxvv9Uz2F46nRp3UB4H5aqDC0s1cp7h2T2vGfo/UIZ3QAKUSzuC3Kt/NUltvEC9z
-/8XZGNj7Y5t5Op2lhlvsxMN8o3fB2blmd53xQjxSQKYuLK6jQwSmgo9LmGOcNgRu
-yRw8+D9nm1f9MC2Tb1JMlKnNLnDPuFLhtscgwSzOw/vxSj1EkiXnDH8wiBerG0IR
-375DfqmVwCmZfX0bjAeObTplFu5hzLDBZbHwBm9QxC6SBHEw9KeOC/4VJF9wApM4
-foqMGlyHbjpZEv/b56hqwpD7LIfyk/7dprJDKvvGyurnRXyVJIkpAkPymAaPMlre
-ik/2xFiorIjXjhbqEHndObXu5F7CxTVirQNbSFHtBr/KytuSZN/KFvu1PN75qrJl
-lJDe57UVDA1h8q6GUjHd/cLnTZN4YZgOLOidjEYKi0JQd/am3nz8iRaVolzMK++p
-8IhvjsnHYOemh8XsbQ9jGimWzrZqR1LnBc/kcpr0GCohmD7ttQQ50YK4CtYNXFip
-qBuyLkQDfzfcyMMgXj00KbQbEwndjkF58In4kWwqpCrmmAET0U8/afswDv1+J7Qu
-EwAdL0JFWWndXIYllxNVnzepuUdwbXov4HzLRMY1AfZr/ajf8Gk=
-=vz53
------END PGP SIGNATURE-----
-
---SmpESyxiLXAcu4zS--
