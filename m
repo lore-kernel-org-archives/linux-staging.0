@@ -1,96 +1,158 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99D6A4028CD
-	for <linux-staging@lists.linux.dev>; Tue, 19 May 2026 14:06:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42C734028D1
+	for <linux-staging@lists.linux.dev>; Tue, 19 May 2026 14:06:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779199570; cv=none; b=tKvtTjX32ZMhQ8meLanHUSL+LJc7uGdF6KIyS6HQCo7r5ZTJVIOUkzJS5ZXrpyVjy+UbEdX+FoqRhj1f2BtqDJ7sgHKe+ORbNMWMYwHgRrCB1yZwTR5UOmPdjGVUgbOwNba9u0539v9JIgi5qs60G4h0GdkhpoRLD6skbJUVgm8=
+	t=1779199595; cv=none; b=TfEJTUF/XinGRek7SbreSAb+lkAvm6w94Oa6kFxiB2hlTkl1Tls8TzUVunx8SHeqr30nHImfF8AwQrN41bL1lT19gfqpvqeIYrOW5XO/O4wlr3/B+UgF18QSpNC9keOB2ayf+QjuohvkCRmvxtJsbmZ7NVeMs/58bREeyQX7az4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779199570; c=relaxed/simple;
-	bh=o+Q+vmvCMJI2JaJKKyxQuVALSNyi1mjv8KkhERwNL30=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bsT9/ejZZfx1z+cPolFM+tfVUqHTF1DAizbZSIId4ojlvr6lqLPV9BwfjjIxzZ8F3W+YtvYgWgpKXC49BcE2FtChnvtYeSFfGm7yFD6MKo8tKfqmQ0pW8xTV/ljesb81ZGK8vjqnhxPIRq8hpabUSGND8LLTL9ild+KHCDX6iOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AC5sf8v+; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779199595; c=relaxed/simple;
+	bh=1FBR4g/VxQh+jJHTGxhfk5NruFCJTNpQXEUYu3wfoTo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=h04KGRX3kWEdbTD3Yvs0Mb0JCPSxBUk4Jw1HKGBRa9JUb1FD2GJoz3s/bohF4zVL03EYw3xHb76Vl98kttsKkyAx51y5T5XaEXIiQHNaediuBkul02h6LoaSAxdkxqU2vEBqs5C9HNspTd1Glkcwv+zrAczIAg3Pgp1fX7kvIqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=fkeC5UC8; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AC5sf8v+"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4891e5b9c1fso30911145e9.2
-        for <linux-staging@lists.linux.dev>; Tue, 19 May 2026 07:06:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="fkeC5UC8"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-43fe62837baso2036229f8f.3
+        for <linux-staging@lists.linux.dev>; Tue, 19 May 2026 07:06:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779199565; x=1779804365; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=pGtrp0IAf6lashkErUO9lfdTdCzLqP0NgVEXHzjtG90=;
-        b=AC5sf8v+6oGN4QXWtHS+H7pXgQ5xW7sFiee/+fpjxQyGdeLRvmvHz5OLIL9yImLZQu
-         Q8J5zTVbVh7By/KvcP7/2xJwZxGkGQIIurDS2WRN3uOlsBFQTAsxKimm8LQFqwaLuzp9
-         iYmwK2LEnGQ/+0+yoMlindao+p8yL8dKG0Kd0AhApP05TB+q4DkpNGPev28ATxHvXH+B
-         fWO83gVXJKyPUy3L81zuG66rKJsj+VWX9H/p2hkRyAAGkYqyJxAsZ0qtTJpY323t6L+N
-         gSbOQTC45R3Z4kBAnUd7PSrhlQjhWgHaLONIIk/Tgvvbj4j021NnIegmVRviG3mvxKW8
-         bMgw==
+        d=baylibre.com; s=google; t=1779199592; x=1779804392; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=F1rveWDJ/n3gZq22bLKQlpmlHtwzsA8j9KcVfu+WYds=;
+        b=fkeC5UC8AvF0+zA9e+AdH0wX7tKLqKKfDtwV86vnT9O7LpRVMOx5JMkMg5fSfuw3E8
+         vHHf9/m00j6bc9Xb+hpxvR+cX9uv2PGPTvsmOIw92scrW6do851WmgdUMEXDxoAHRfkW
+         6nhTY2ZFqoeTeUjGOPnBgoAByBGHZxClVix3194tbsLBaurn97dvcljBIstqWcm2tgho
+         75Qq1LLciae3zsBDJ2sV5uqBtcQ5yOArmdgKk3Z9wEecROLloFx95O+r5iG3HOYd0SOh
+         jAwCsp2ZfYTi6eJ18tUL05jOXsygwps4JXeRAHIcJtJYeCpf/eEmufKEKn73qTEOOwI0
+         MrnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779199565; x=1779804365;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pGtrp0IAf6lashkErUO9lfdTdCzLqP0NgVEXHzjtG90=;
-        b=DmtiR/yrow2F5wKJ/ks9gV1WhuPnHnv2/kJtgCk+z8Dhs1rFnSPdIkTUGEICt7vPhm
-         CPFZKhK1aLTYSSr8UHj/ZL4gHiwRZV+/kgVXv9M6QMMJxFUWPryZHgHLZoYoBiCvtN4p
-         68m+Qqy1MC31JBXhmQScQCMBaGdIG/CSfW5OUBZuDgZkAQbl7UQiy1p3b0Do8WECiQzM
-         P3vKp1s8/qtApgwX0Y/NO80Tizhi3hqwIh5AfV5tJAN6erP95VwIVT0FRKDRzHEizdUs
-         48yKDx4S7tA3QFv2Op05YIRB+y/iciicYQBHmZlr9YHSuih3PQE0t7A0G6qDMaiAvdns
-         yeqA==
-X-Forwarded-Encrypted: i=1; AFNElJ8h2BAnp82p+pJzV+FtQb2QhLQnbhp+M6DVHUgBcoWmStDYdAInAB7UT+bwc+68UX8cUl8nq44CUSqvvmXf@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz4QbqQ8RQL8EwiBzSex9suIAbGE4S+6rTInGIVPqZk35cvKq5s
-	/7Xl2TG7VHcCjbaZkUMvbCpNVtie5COWRq6pTwmdpaYrBV+rTm647P0K
-X-Gm-Gg: Acq92OG1nLl9Gson+4OJz9mmvl798ifa5kegQZH8k7bIPif7I94iB5SlnTgkH/sK2vo
-	VywS3Y91CcaFGgBZlX92GUlIF0kli2sZDwifS/+miT3xzixaOsjcWjauY3ml7o/faWl1SzezM1X
-	f52/S1A/naQYk+jmDV4Lt9/ZQcLPn+po9tT8ZhG6PwoGiItyHc2K80gMJVh+b7DuMiRBwI5SE/M
-	tRG2IO9tGwff32scaatNAfbQLF6L4Md6HMaGGNps1N/ZAWZunmbkQUYzz70rZBWazC11J2zoRwL
-	HaQCI3Af6ttSOAXVHbM5UYYLZc2jy/ney5dyr1xucvtVtQC6foIXIIhvI9RI9hNS34tTREDBJVv
-	MCv/xw6Q4zyY1v7iL94A2LWqQTjNWqLN31hgrOs1j5FzisWmtkP1nPOYNJBDCD9pf0uQUfSSjor
-	5MSyxDd+zyiQVnDC2M9/ISDPPf3tBRKlwEAA==
-X-Received: by 2002:a05:600c:4fcb:b0:488:a797:f0ac with SMTP id 5b1f17b1804b1-48fe6613ab3mr293317915e9.28.1779199564532;
-        Tue, 19 May 2026 07:06:04 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48febf81970sm153801075e9.8.2026.05.19.07.06.03
+        d=1e100.net; s=20251104; t=1779199592; x=1779804392;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=F1rveWDJ/n3gZq22bLKQlpmlHtwzsA8j9KcVfu+WYds=;
+        b=PC+NWGQs6Kdv5fhbWgQLVWkM0Vcg1/IReK5P9cmNnBoT4h8VO7jAnxk4WyqU/sVnCx
+         tLSvbzrF0aZVO6wmxI7KX5Em7RFyHB5NnvSkBcIen5HJ3vOe699Bgio0w5JoxbNXnjEp
+         BYd//+3+zo9FHBX1ObkGiQTQ62lhjUv/7sBp2BxuZdE0mqMEj+1Varjv/JtYXwKASZ3x
+         5ZkcwS0a1C6AkDpa7e+NfnJdKaxgAuOnMgdZHuNneRGWs4jiB+ZrOiLCMOyK6CtRwMba
+         eOzakkVuy6i9fnp6NSXY0H1r6K60JST69br9FDWk04XIe9DL9+lX4V09zxHzhcVSq218
+         /z4Q==
+X-Forwarded-Encrypted: i=1; AFNElJ95Z/YUGfNHBbXRnAfzK4JkqVMMbT7OFYf0g1423AB5yFfSSk5FuaRy++aFJF46bgspq6PJhwAZcSRvAARS@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxg/DCcHCms9xcTrRO0cfoE9CTxG+jsODQyEkppX+d3vZXQ/mwu
+	bI27BixQWaXRDyHox7nmqoLJ6DyTp4haRQlfOoGmcEyHKnd26MOKm9TkbK9XZpE1PjY=
+X-Gm-Gg: Acq92OEZdZh3Akl4z+agPpXQ2unKyy9Ch/t4Pbgfaq1MjwKDPUy9x26WVR6/Zq0jhtg
+	Vi+P8lNTlEhYdPZ78+rVg9qT8pINiYj6TKYP5aeMY0jywh7Jufc4rqleKKJOX3daysvc8/ULZK+
+	4OsBiRScFOJBATsqFXNh9Q9PWc3ARexdYmqxOiW/bNhPd8wVdDwCQgWZuMDSokWQ8mdHX041vuq
+	5QX9dCn/T+EiPUuMnwNoJsPnFHAE0DEtRRPyYd9ZYBYj8UbmoJEs4Zlfeu2V4nzZQXPujHxr+dY
+	htl/oq/f6DUVmk6Dn1oezqnE5Gm+dZ3q9aw20EJ+exV31Z5HhDD8n+3WKkdoICwXK9egu5k1EI5
+	qkYPD7GBGXQ7WbRrcO/X/R6dBm/+3grPHZmrjE6AViOdwDk/zsOFRDIwUEqeww/IrJtBK8n2TU4
+	2Il8HfLmkqvgQ5+TtLX71PId/chTHNmwqfmfzLgJQCZa4VyV7zQ6HZuyNvfXmNa9w1plRzkQ+kb
+	2NSLF+zjFL9/p8=
+X-Received: by 2002:adf:f284:0:b0:45e:65a3:badf with SMTP id ffacd0b85a97d-45e65a3bb1fmr18932862f8f.21.1779199591612;
+        Tue, 19 May 2026 07:06:31 -0700 (PDT)
+Received: from localhost (p200300f65f47db048a8dfcf61053817f.dip0.t-ipconnect.de. [2003:f6:5f47:db04:8a8d:fcf6:1053:817f])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-45da15a562dsm46552734f8f.33.2026.05.19.07.06.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 May 2026 07:06:03 -0700 (PDT)
-Date: Tue, 19 May 2026 17:06:00 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: lixinyu <xinyuili@126.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] staging: rtl8723bs: add missing spaces around
- operators in rtl8723b_hal_init.c
-Message-ID: <agxuSN4ZIVKzF9zI@stanley.mountain>
-References: <20260519090114.828918-1-xinyuili@126.com>
- <20260519094633.869233-1-xinyuili@126.com>
- <20260519094633.869233-3-xinyuili@126.com>
+        Tue, 19 May 2026 07:06:31 -0700 (PDT)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>
+To: Jonathan Cameron <jic23@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	David Lechner <dlechner@baylibre.com>,
+	=?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v1] staging: iio: Use named initializers for struct i2c_device_id
+Date: Tue, 19 May 2026 16:06:20 +0200
+Message-ID: <20260519140624.1585534-2-u.kleine-koenig@baylibre.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260519094633.869233-3-xinyuili@126.com>
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2374; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=1FBR4g/VxQh+jJHTGxhfk5NruFCJTNpQXEUYu3wfoTo=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqDG5gwmZax1mAiiSWvVmAabAkcCFNeU0lUJ667 /MMFAeuYQmJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCagxuYAAKCRCPgPtYfRL+ TsagCACejQTTKFEmHQ5sS0I7GdAhQh79jW5Ec/J2pSbo5S49iuFip5OtV+gI+wBtr7Q4FNCO2bZ mPlVyxCeEK6MpUexpedkiyJoyVYLIXClWYZnGToat8BT+7p0kKyjUwUTo5ao87hPVSscvHkws0h oTxpCXzz05df0YBsXp+UYtPwfTED9sDOieEEM2FOOCbcxpk3IOb6vs8KU04BuSddgWP4k4P47oG GAkLfhqToIMFVzXYoBMm/JSDJPZ3Iewo7QZOlbZu7WfBlyoM081ZR3Q+h/6mMij1pc39AHfNq0+ T63EfeucxqzUbEnsFksSd5xZZaGmPzH4hUzkfYx6hMelX7Mo
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
 
-On Tue, May 19, 2026 at 05:46:33PM +0800, lixinyu wrote:
-> Add missing spaces around binary operators (|, &, +, >>) to comply
-> with kernel coding style. This includes spacing fixes for register
-> offset patterns, bitwise operations on function arguments, array
-> index arithmetic, and bit shift operations.
-> 
-> Assisted-by: Claude:claude-4-opus
-> ---
+While being less compact, using named initializers allows to more easily
+see which members of the structs are assigned which value without having
+to lookup the declaration of the struct. And it's also more robust
+against changes to the struct definition.
 
-Wait a day between resends.
+This patch doesn't modify the compiled arrays, only their representation
+in source form benefits. The former was confirmed with x86 and arm64
+builds.
 
-Read the email I sent earlier again.  Use checkpatch etc.
+Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
+---
+Hello,
 
-regards,
-dan carpenter
+this patch is part of a bigger quest to use named initializers for
+mainly struct i2c_device_id::driver_data to be able to modify
+i2c_device_id. See e.g.
+https://lore.kernel.org/all/20260518111203.639603-2-u.kleine-koenig@baylibre.com/
+for the details.
+
+This patch here isn't critical for this quest, as no driver makes use of
+.driver_data, so apart from the better readability this is only about
+consistency with other subsystems.
+
+Best regards
+Uwe
+
+ drivers/staging/iio/addac/adt7316-i2c.c         | 12 ++++++------
+ drivers/staging/iio/impedance-analyzer/ad5933.c |  4 ++--
+ 2 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/staging/iio/addac/adt7316-i2c.c b/drivers/staging/iio/addac/adt7316-i2c.c
+index 3bdaee925dee..98f2e23c6a4b 100644
+--- a/drivers/staging/iio/addac/adt7316-i2c.c
++++ b/drivers/staging/iio/addac/adt7316-i2c.c
+@@ -109,12 +109,12 @@ static int adt7316_i2c_probe(struct i2c_client *client)
+ }
+ 
+ static const struct i2c_device_id adt7316_i2c_id[] = {
+-	{ "adt7316" },
+-	{ "adt7317" },
+-	{ "adt7318" },
+-	{ "adt7516" },
+-	{ "adt7517" },
+-	{ "adt7519" },
++	{ .name = "adt7316" },
++	{ .name = "adt7317" },
++	{ .name = "adt7318" },
++	{ .name = "adt7516" },
++	{ .name = "adt7517" },
++	{ .name = "adt7519" },
+ 	{ }
+ };
+ 
+diff --git a/drivers/staging/iio/impedance-analyzer/ad5933.c b/drivers/staging/iio/impedance-analyzer/ad5933.c
+index dde2ec9d1f6a..798e62bae29b 100644
+--- a/drivers/staging/iio/impedance-analyzer/ad5933.c
++++ b/drivers/staging/iio/impedance-analyzer/ad5933.c
+@@ -726,8 +726,8 @@ static int ad5933_probe(struct i2c_client *client)
+ }
+ 
+ static const struct i2c_device_id ad5933_id[] = {
+-	{ "ad5933" },
+-	{ "ad5934" },
++	{ .name = "ad5933" },
++	{ .name = "ad5934" },
+ 	{ }
+ };
+ 
+
+base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
+-- 
+2.47.3
 
