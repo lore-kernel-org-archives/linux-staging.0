@@ -1,166 +1,213 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F039A4E3763;
-	Tue, 19 May 2026 12:49:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779194985; cv=none; b=o0GTi8Je7vFrMpnutvF2ErljE5UyyNitpTEY0MwxdxvRKAr3Uu5+XkvV/HSY+2VtBJ+wNAaLzn4Iv0uh3mYjrpfDNKI31m1DwAGoQHn9WQ2qXQ9oNPkYtpN0FR9aMqgegPinhILaGjI2KU24fnMIIZIRMjwVj3grIKtNncX4odg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779194985; c=relaxed/simple;
-	bh=eqjqNP7S444fzbeIgre3bD11ZF6b0frGn5B3goLhHXU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QB/lwo3ofH9Gisv6LL49F26i1lmekJngBSiBXdVFjC29O0t/1SIqVUdi+TryLJfF6xUzRkX+tcyjKtcuRBUtxKXUlzva4u12VFj9Pubh8aOGwmW6GyRDeTJzxTm3zFtmqqIqZt8f9RRVcIGVyGxXChfjop1w2m+yb14N0S/aUk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Mi5Rgg1O; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ACE023BD1B
+	for <linux-staging@lists.linux.dev>; Tue, 19 May 2026 12:52:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779195140; cv=pass; b=tGve00U4C37VYt5uYLRfnK7a0N0LcKXEhR6qAcpsGB0jRJV+ufv8tS1qXocJyMgYNUNce1yCTx+dwp8ZenAm+XoFFK2uj4H3sK71D/42cadQL5pdXDZKl+DZdDcFn3pN1bHsd8FSLMcHJM3SKP7IXzRR0WR7i9tbGd/YODe3N5Y=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779195140; c=relaxed/simple;
+	bh=a4BQ8I08x1EPEigNRSyXm6VtrTFQK4h2Nn2Ek1yqIqU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=too8lsBLUi42XONKyKSfGH6OfnWlX6piSX7FHWuud9Y7O96ln8OwwX6OQdwMCgcjsXeJKr69DaX7/ygdUOp+NSk63kWle0LDId5gw9wRYP5lv/Zc5UhwqFh/B7Hb1i8yz7YJrQVnKdaJAxjO6h2xDAqsSZK9/ne9xqq3B5Zh0k4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=csFjeW8h; arc=pass smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Mi5Rgg1O"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0E11C2BCB3;
-	Tue, 19 May 2026 12:49:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1779194984;
-	bh=eqjqNP7S444fzbeIgre3bD11ZF6b0frGn5B3goLhHXU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Mi5Rgg1O6tyHGtgKJSao86QbGuasY0Fr9q+IHguBHFxT3sb5D4kkcPtO/07hqYuXk
-	 lrQpC75eUElj4HcidvDYQBVz0FhEM9qiHnuR0Qr2s6oTjLHFYOOCI4GWiGbN/8hepR
-	 TClJsBXZRyyDUuBReYn8wP+jDuCvxFUbW4ljbf8Q=
-Date: Tue, 19 May 2026 14:48:57 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Benjamin Tissoires <bentiss@kernel.org>
-Cc: Lee Jones <lee@kernel.org>, Jiri Kosina <jikos@kernel.org>,
-	Filipe =?iso-8859-1?Q?La=EDns?= <lains@riseup.net>,
-	Bastien Nocera <hadess@hadess.net>,
-	Ping Cheng <ping.cheng@wacom.com>,
-	Jason Gerecke <jason.gerecke@wacom.com>,
-	Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>, Icenowy Zheng <uwu@icenowy.me>,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-usb@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v3 0/4] HID: Proper fix for OOM in hid-core
-Message-ID: <2026051937-hefty-registry-37b2@gregkh>
-References: <20260504-wip-fix-core-v3-0-ce1f11f4968f@kernel.org>
- <20260506091606.GB305027@google.com>
- <20260512101723.GU305027@google.com>
- <20260519111723.GU305027@google.com>
- <agxbD6k60vQYrJ6T@beelink>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="csFjeW8h"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-bd8f9725b30so190614866b.3
+        for <linux-staging@lists.linux.dev>; Tue, 19 May 2026 05:52:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779195137; cv=none;
+        d=google.com; s=arc-20240605;
+        b=V7CIybiVHgmpYmlguoKU0VpHjWfHlZGTY+/qoUfNSU/5BRF39C2PMaCcOnoeamd098
+         //BIbDUZdz+5OsC43cCPdPOE3VqVL6HzXUG8QYHn311lc9u3d6v/E5eNeFe5kUauHSlO
+         Y38mqJewfpjeJdLeqPy8Qee+tWJniBo+tpdYWMPviolV5/GF++LHJl/5oiOIlnSqpWBO
+         WxJdszrJbpM5jaBp776jcrIB2gG7DVizFoCZJbOgb8/SOblq+AqJYJVsMp/HD0T3WMY1
+         glH9ilIVwoStLkaslbta9m2/m5sULASsJt8uPbsUR/54JP4m2JEWj6CiJ4s7lhT3lvAD
+         eACQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=PNhrOfvUs4Ys3+1Z3tMpWGGrhZ7sbxpwpvvFyMvDqg0=;
+        fh=3/tm5acniZPUSbtC3sf+JZ1tpG5Q4Ht0bc+V0VquDy8=;
+        b=VMjt1vMO1yCcpvMAh0rCTYzTVfIfCyc1MdJ4Yr1yE9oPiwm18qFb6V8IMgOW6ppICQ
+         3gBHiDCJNYWOKy1iRs8vi7c909oywZWUIs8++yspclmn+QjQIKancKmo9WbZU/muCyDF
+         8dtD4wyinEuxIAGtLQmG3kCbbOkkhAzdzf053u33PeiswubfgkOleTx/iqXaiQlPs8KG
+         xqYQrlTMz18DbtFuMa5mOBePDsPbxozWkPt7gu42uvWKQZoySmKrSUvHMd59PCreAJWA
+         2jxHQmujMIhQpHSPIW19Jb4wClSxTwo4ajJUjmmS3s709GTLdVhYtJug8lAnhrMHcAYu
+         KY8Q==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779195137; x=1779799937; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PNhrOfvUs4Ys3+1Z3tMpWGGrhZ7sbxpwpvvFyMvDqg0=;
+        b=csFjeW8haA/soTMT7Zk2AM7JeWOQRMEdv6XIoAZ4yYSAdZFoN5sL7oRv8sW1XLBwtS
+         BCcya2YLLcA043Sw+K2yUcydWUtpw64WQKPvps0uRbyFjo3o6WOPQfaPxxMry8vI/MRY
+         sER23XklGbXOcpIhxFCZJfHVaP76LhGf3iFY9NlmtwNRjpVsoYUqdFnyWMr1kKTXl77G
+         ouAFhXj6B5iruW4Xi5v+cWmMSlzVpghRHij2rewDal3REN9+0I5HoEfj/qjrZ6db82ZL
+         gD9tcKUBTB+f+xRiYHUAwsjrj1E8qlvgHqm7ZIRIHWjKr34SS8tajpPlp0XIk+SsPyJj
+         NEpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779195137; x=1779799937;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=PNhrOfvUs4Ys3+1Z3tMpWGGrhZ7sbxpwpvvFyMvDqg0=;
+        b=PaMNfpt7AmAbx4qE8gsXVRqmbMpZWH8IduOQM9bxJG5qyIT8NqWtTawK5R8DfssIwy
+         C3xKLwquStf15k2qql7O/fu/eVc+/RqDrwjecbEajyOY04zT2jWJi0f0FJbakaBqogR8
+         gB2MV+tnQtLB4BZHKzJFeIVLBm/JFklAHzZpJYz3ONTORtoJahs+djeHKVk0ZE5qUX9J
+         A1NlGq0vBr/A+wLOkm2v8T4dM69+VqxvW1yrjdN+FSdFXy4XAkjdZ85U9AFvfUg2RVhQ
+         PFvQS1Y3dfOlejrto2emdeTMkuyJ9uaJOdSh9pu3in5WZgoqZsn3D7goE5z93YfJBUxS
+         omvg==
+X-Forwarded-Encrypted: i=1; AFNElJ8z/kPtr2M2fjOgeER4VJQTecF2tbr4OiDIHzLnhT/QNs+C2EVO40N/5F7e49cCpnUBQii/y3qnaNFH2Yrp@lists.linux.dev
+X-Gm-Message-State: AOJu0YyIdNAI/htPiELC2x39dwWjzsKo4ckvVB7qBQU5QkCyqq30zedy
+	UmZM13Q7z+kPVFtxw15cK24mKisPDOATHR12aHn4UQ85Y7AaikVE01XDG183PllO1RxddCkwn5h
+	gR/dpT9Ktdt4alclhESVVAERmYZQHjLo=
+X-Gm-Gg: Acq92OGjP4kBCHQxPB3+zY638dSMnB4y+fnSt1CCwIaR3v7DnjxH5cyfkjsg9uau2PU
+	e5UERfeciXUkp5aoR+oBNakaJ/ZqI2gHgSBx8buTwRn0CLgKM/UzMPBTXbedJ3eeywIVGbNgA3y
+	F/Yi3ACnyJf4syZDUEE+4+DmLjWgjIwOsZuzcX47pLafSUlMxmX4WNQkxyTN4aQsoiBQaRVI9v+
+	iyQABNsbB5CF8LgBi3E/laP6A7Urzbkv0gE3SH3C8CV6Zb1uwIvj8jTTViZBAgsbyUS6gNOHhzD
+	rgrsQg==
+X-Received: by 2002:a17:907:971b:b0:bd8:61ff:f916 with SMTP id
+ a640c23a62f3a-bd86200058amr420267566b.44.1779195136644; Tue, 19 May 2026
+ 05:52:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <agxbD6k60vQYrJ6T@beelink>
+References: <20260321065408.209723-1-linux.amoon@gmail.com> <49260ed9ce09b0684ed72787b5635e2c26059297.camel@ndufresne.ca>
+In-Reply-To: <49260ed9ce09b0684ed72787b5635e2c26059297.camel@ndufresne.ca>
+From: Anand Moon <linux.amoon@gmail.com>
+Date: Tue, 19 May 2026 18:21:58 +0530
+X-Gm-Features: AVHnY4JJCSZj_mhTfm6UH5xrsKXtX_jQr95CpJqy1MIGyRQBSz4PwDNhz0eVEgg
+Message-ID: <CANAwSgRf-pPwsqfXTALrnYV2e7K9bkbOzNrrFjB5pA0QjT1hhg@mail.gmail.com>
+Subject: Re: [PATCH v2] media: meson: vdec: Fix memory leak in error path of vdec_open
+To: Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Kevin Hilman <khilman@baylibre.com>, 
+	Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Maxime Jourdan <mjourdan@baylibre.com>, 
+	Hans Verkuil <hverkuil@kernel.org>, 
+	"open list:MESON VIDEO DECODER DRIVER FOR AMLOGIC SOCS" <linux-media@vger.kernel.org>, 
+	"open list:MESON VIDEO DECODER DRIVER FOR AMLOGIC SOCS" <linux-amlogic@lists.infradead.org>, 
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
+	"moderated list:ARM/Amlogic Meson SoC support" <linux-arm-kernel@lists.infradead.org>, 
+	open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 19, 2026 at 02:46:13PM +0200, Benjamin Tissoires wrote:
-> On May 19 2026, Lee Jones wrote:
-> > On Tue, 12 May 2026, Lee Jones wrote:
-> > 
-> > > On Wed, 06 May 2026, Lee Jones wrote:
-> > > 
-> > > > On Mon, 04 May 2026, Benjamin Tissoires wrote:
-> > > > 
-> > > > > Commit 0a3fe972a7cb ("HID: core: Mitigate potential OOB by removing
-> > > > > bogus memset()") enforced the provided data to be at least the size of
-> > > > > the declared buffer in the report descriptor to prevent a buffer
-> > > > > overflow.
-> > > > > 
-> > > > > We only had corner cases of malicious devices exposing the OOM because
-> > > > > in most cases, the buffer provided by the transport layer needs to be
-> > > > > allocated at probe time and is large enough to handle all the possible
-> > > > > reports.
-> > > > > 
-> > > > > However, the patch from above, which enforces the spec a little bit more
-> > > > > introduced both regressions for devices not following the spec (not
-> > > > > necesserally malicious), but also a stream of errors for those devices.
-> > > > > 
-> > > > > Let's revert to the old behavior by giving more information to HID core
-> > > > > to be able to decide whether it can or not memset the rest of the buffer
-> > > > > to 0 and continue the processing.
-> > > > > 
-> > > > > Note that the first commit makes an API change, but the callers are
-> > > > > relatively limited, so it should be fine on its own. The second patch
-> > > > > can't really make the same kind of API change because we have too many
-> > > > > callers in various subsystems. We can switch them one by one to the safe
-> > > > > approach when needed.
-> > > > > 
-> > > > > The last 2 patches are small cleanups I initially put together with the
-> > > > > 2 first patches, but they can be applied on their own and don't need to
-> > > > > be pulled in stable like the first 2.
-> > > > > 
-> > > > > Cheers,
-> > > > > Benjamin
-> > > > > 
-> > > > > Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
-> > > > > ---
-> > > > > Changes in v3:
-> > > > > - fixed ghib -> ghid in greybus
-> > > > > - fixed i386 size_t debug size reported by kernel-bot
-> > > > > - Link to v2: https://lore.kernel.org/r/20260416-wip-fix-core-v2-0-be92570e5627@kernel.org
-> > > > > 
-> > > > > Changes in v2:
-> > > > > - added a small blurb explaining the difference between the safe and the
-> > > > >   non safe version of hid_safe_input_report
-> > > > > - Link to v1: https://lore.kernel.org/r/20260415-wip-fix-core-v1-0-ed3c4c823175@kernel.org
-> > > > > 
-> > > > > ---
-> > > > > Benjamin Tissoires (4):
-> > > > >       HID: pass the buffer size to hid_report_raw_event
-> > > > >       HID: core: introduce hid_safe_input_report()
-> > > > >       HID: multitouch: use __free(kfree) to clean up temporary buffers
-> > > > >       HID: wacom: use __free(kfree) to clean up temporary buffers
-> > > > > 
-> > > > >  drivers/hid/bpf/hid_bpf_dispatch.c |  6 ++--
-> > > > >  drivers/hid/hid-core.c             | 67 ++++++++++++++++++++++++++++++--------
-> > > > >  drivers/hid/hid-gfrm.c             |  4 +--
-> > > > >  drivers/hid/hid-logitech-hidpp.c   |  2 +-
-> > > > >  drivers/hid/hid-multitouch.c       | 18 ++++------
-> > > > >  drivers/hid/hid-primax.c           |  2 +-
-> > > > >  drivers/hid/hid-vivaldi-common.c   |  2 +-
-> > > > >  drivers/hid/i2c-hid/i2c-hid-core.c |  7 ++--
-> > > > >  drivers/hid/usbhid/hid-core.c      | 11 ++++---
-> > > > >  drivers/hid/wacom_sys.c            | 46 +++++++++-----------------
-> > > > >  drivers/staging/greybus/hid.c      |  2 +-
-> > > > >  include/linux/hid.h                |  6 ++--
-> > > > >  include/linux/hid_bpf.h            | 14 +++++---
-> > > > >  13 files changed, 109 insertions(+), 78 deletions(-)
-> > > > 
-> > > > What's the plan for this set Benjamin? -rcs or -next?
-> > > 
-> > > Are there any updates on this set please?
-> > > 
-> > > FYI, this set is still important to us.
-> > > 
-> > > Ideally, if all is well, it would go into the -rcs for v7.1.
-> > 
-> > I'm still actively tracking these.
-> > 
-> > It looks like Mark has been reverting them from -next and I'm getting
-> > complaints from the Stable folks that they are causing build errors.
-> > 
-> >   drivers/hid/hid-core.c: In function 'hid_safe_input_report':
-> >   drivers/hid/hid-core.c:2195:16: error: too many arguments to function '__hid_input_report'
-> >     2195 |         return __hid_input_report(hid, type, data, bufsize, size, interrupt, 0,
-> > 
-> > Are you folks still working on this set?
-> 
-> Well, everything is in Linus' tree:
-> 
-> not yet in a released rc (taken yesterday by Linus directly):
-> 
-> 4d3a2a466b8d HID: core: Fix size_t specifier in hid_report_raw_event()
-> 
-> Already in 7.1-rc4:
-> 
-> 206342541fc8 HID: core: introduce hid_safe_input_report()
-> 2c85c61d1332 HID: pass the buffer size to hid_report_raw_event
-> 
-> Not sure why the patches don't apply to stable, but from an upstream
-> subsystem point of view, everything is in order.
+Hi Nicolas.
 
-We dropped them from stable because of the build breakage :(
+Thanks for your review comments
+On Fri, 8 May 2026 at 23:28, Nicolas Dufresne <nicolas@ndufresne.ca> wrote:
+>
+> Hi,
+>
+> sorry I missed your patch, catching up now.
+>
+>
+> Le samedi 21 mars 2026 =C3=A0 12:24 +0530, Anand Moon a =C3=A9crit :
+> > The vdec_open and vdec_close functions in the Meson VDEC driver failed
+> > to release several resources, leading to memory leaks and potential
+> > use-after-free scenarios.
+> >
+> > This patch addresses:
+> > - Missing v4l2_ctrl_handler_free() in both the close path and error
+> >   exit of the open path, preventing control memory leaks.
+> > - A leak of the M2M context if vdec_init_ctrls() failed.
+> >
+> > The error labels in vdec_open() have been reordered to ensure a proper
+> > Last-In-First-Out (LIFO) teardown of all initialized resources.
+> >
+> > This was identified via kmemleak:
+> > unreferenced object 0xffff0000205d6878 (size 8):
+> >   comm "v4l_id", pid 5289, jiffies 4294938580
+> >   hex dump (first 8 bytes):
+> >     40 d2 49 18 00 00 ff ff                          @.I.....
+> >   backtrace (crc d3204599):
+> >     kmemleak_alloc+0xc8/0xf0
+> >     __kvmalloc_node_noprof+0x60c/0x850
+> >     v4l2_ctrl_handler_init_class+0x1b4/0x2e8 [videodev]
+> >     vdec_open+0x1f4/0x788 [meson_vdec]
+> >     v4l2_open+0x144/0x460 [videodev]
+> >     chrdev_open+0x1ac/0x500
+> >     do_dentry_open+0x3f0/0xfe8
+> >     vfs_open+0x68/0x320
+> >     do_open+0x2d8/0x9a8
+> >     path_openat+0x1d0/0x4f0
+> >     do_filp_open+0x190/0x380
+> >     do_sys_openat2+0xf8/0x1b0
+> >     __arm64_sys_openat+0x13c/0x1e8
+> >     invoke_syscall+0xdc/0x268
+> >     el0_svc_common.constprop.0+0x178/0x258
+> >     do_el0_svc+0x4c/0x70
+> >
+> > Cc: Nicolas Dufresne <nicolas@ndufresne.ca>
+> > Fixes: 3e7f51bd9607 ("media: meson: add v4l2 m2m video decoder driver")
+> > Signed-off-by: Anand Moon <linux.amoon@gmail.com>
+> > ---
+> > v1: https://lore.kernel.org/all/20260304100557.126488-1-linux.amoon@gma=
+il.com/
+> >    tried to address the issue reported by Nicolas
+> >    improve the commit message.
+> > ---
+> >  drivers/staging/media/meson/vdec/vdec.c | 9 ++++++---
+> >  1 file changed, 6 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/staging/media/meson/vdec/vdec.c
+> > b/drivers/staging/media/meson/vdec/vdec.c
+> > index 4b77ec1af5a76..3a5e4ebe0b34c 100644
+> > --- a/drivers/staging/media/meson/vdec/vdec.c
+> > +++ b/drivers/staging/media/meson/vdec/vdec.c
+> > @@ -877,7 +877,7 @@ static int vdec_open(struct file *file)
+> >       if (IS_ERR(sess->m2m_dev)) {
+> >               dev_err(dev, "Fail to v4l2_m2m_init\n");
+> >               ret =3D PTR_ERR(sess->m2m_dev);
+> > -             goto err_free_sess;
+> > +             goto err_m2m_release;
+>
+> If m2m_dev creation failed, why do you want to call v4l2_m2m_release() ?
+>
+I don=E2=80=99t recall the exact details, but the current handling appears =
+incorrect.
+I=E2=80=99ve prepared the following fix to resolve the issue, based on
+sashiko=E2=80=99s suggestion.
 
-thanks,
+[1] https://sashiko.dev/#/patchset/20260321065408.209723-1-linux.amoon%40gm=
+ail.com
 
-greg k-h
+-----8<----------8<--------
+$ git diff drivers/staging/media/meson/vdec/vdec.c
+diff --git a/drivers/staging/media/meson/vdec/vdec.c
+b/drivers/staging/media/meson/vdec/vdec.c
+index 4b77ec1af5a7..a039d925c0fe 100644
+--- a/drivers/staging/media/meson/vdec/vdec.c
++++ b/drivers/staging/media/meson/vdec/vdec.c
+@@ -889,7 +889,7 @@ static int vdec_open(struct file *file)
+
+        ret =3D vdec_init_ctrls(sess);
+        if (ret)
+-               goto err_m2m_release;
++               goto err_m2m_ctx_release;
+
+        sess->pixfmt_cap =3D formats[0].pixfmts_cap[0];
+        sess->fmt_out =3D &formats[0];
+@@ -913,6 +913,8 @@ static int vdec_open(struct file *file)
+
+        return 0;
+
++err_m2m_ctx_release:
++       v4l2_m2m_ctx_release(sess->m2m_ctx);
+ err_m2m_release:
+        v4l2_m2m_release(sess->m2m_dev);
+ err_free_sess:
+-----8<----------8<--------
+
+Thanks
+-Anand
