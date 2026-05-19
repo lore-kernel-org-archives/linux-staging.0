@@ -1,56 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from m16.mail.126.com (m16.mail.126.com [220.197.31.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5784447DD7C;
-	Tue, 19 May 2026 09:47:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C47F3D3D06
+	for <linux-staging@lists.linux.dev>; Tue, 19 May 2026 09:57:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779184024; cv=none; b=LMVk+6m1Hsj3gxfZ4+03MwMVk7Gvv48pzVAItYdz1sC+x5R2EXn7U4J0Dp7qNHIpY3h7LWrMrl1ivrF3HYVoToPbiJqrsND7TLihah1f+4KGhVdrjgtqoQA4GrH9SXJEI6KD3oNVE+J9newTr4xITsz/XAu60X4k8knscFYbCUs=
+	t=1779184652; cv=none; b=QB39eyldQtdV/w5IqQmJ0CDGFvBea247BO5DuZi5VcPHiCOcWiOc9GqZOv0ttYlrwjxz69/1JcP9KkorjMtfIOlMmKO3TpDrV0RJ/U0WvWqa/kYGD700DnJ1677rLnLpO5w/Tx/JhmJ2s7vHNH4nIifGZwCiviIfdxt2ItLWziE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779184024; c=relaxed/simple;
-	bh=aOdP0uvNt2qI/Fiipjy4kfTPjyUxLsb2hLYHQ3xzj04=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eaP9OO0rpDpQgwMPkdwFt11W4RcznbrNGFmpNaWJD1VwUy7q2J9F+O9scnDHSYMWsagLczIYhUldyNKR991GUzQ4zm5kOle2Xycw8pWZYbsvCxcWx4IfVZzlDGdnqiL6H+YtKojVvUV1jWUDDYKHcEEU91kFnE6aIboZX5aETV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=TCnwTCTJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1779184652; c=relaxed/simple;
+	bh=gRooj37K2KawzMvpm5/eN30FNqrhbzSxlI9J6OlhiYw=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=omyU1/HjsFtZmoHvZBdy7qPv6gU03tH1QrA0IKtIR2cPpFceY33xaeizyxE8lfru8fPAJ0mg1dIz+RP7MX8Bp/yguia9xcMn1vJT8RfBmNFHWaEcxmV6g2RROUtKo1SFWS/PSHJJaCX3a2HNv9ATa7rjIDscWnmzRHK38pdV0yc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=126.com; spf=pass smtp.mailfrom=126.com; dkim=pass (1024-bit key) header.d=126.com header.i=@126.com header.b=dMNYNzvX; arc=none smtp.client-ip=220.197.31.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=126.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=126.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="TCnwTCTJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85553C2BCF6;
-	Tue, 19 May 2026 09:47:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1779184024;
-	bh=aOdP0uvNt2qI/Fiipjy4kfTPjyUxLsb2hLYHQ3xzj04=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TCnwTCTJy+cgpEyd7LpjveL90ucgnjGOMCnqbmbUraF9fhDUxb8P0QjvemSoXRvun
-	 vtBMKmJQxjcuxvK59jxF2pNM2B60d9/RnfUqA91/0wlsL2j+oFjeWS7VeIwIjS6Z3S
-	 jgfcOiTvfUBqvnfLMkU5Bf2vUNoUNDnZii3EDK5Y=
-Date: Tue, 19 May 2026 11:46:16 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: lixinyu <xinyuili@126.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: fix coding style issues in
- rtl8723b_hal_init.c
-Message-ID: <2026051952-crayfish-speed-6970@gregkh>
+	dkim=pass (1024-bit key) header.d=126.com header.i=@126.com header.b="dMNYNzvX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=T7
+	cJb5gz5ANNADLPdXPOu5H1J25lCNDmFq9UbYiOPOE=; b=dMNYNzvXTh8HYMG6OK
+	BF1NFz2dnCY0Z6iv7kVWUYfqdSOLPQ+SHp6ALmQ30OlEwGlqd0M70i9/fot/EOwC
+	mf/XU7usGydTlQ5/TRDDjGn3pO2IwDCOTZEeEpGFaMfy5eeEz9izv1JRoMzKttHz
+	sxs3eEW1Q8v7LOMv+Bu9V6L6M=
+Received: from DESKTOP-EQVOVNC.localdomain (unknown [])
+	by gzga-smtp-mtada-g0-2 (Coremail) with SMTP id _____wD3v_X9Mwxqg0AXBw--.63806S3;
+	Tue, 19 May 2026 17:57:18 +0800 (CST)
+From: lixinyu <xinyuili@126.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 1/2] staging: rtl8723bs: replace C++ style comments with kernel style
+Date: Tue, 19 May 2026 17:57:16 +0800
+Message-Id: <20260519095717.878742-2-xinyuili@126.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260519095717.878742-1-xinyuili@126.com>
 References: <20260519090114.828918-1-xinyuili@126.com>
+ <20260519095717.878742-1-xinyuili@126.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260519090114.828918-1-xinyuili@126.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wD3v_X9Mwxqg0AXBw--.63806S3
+X-Coremail-Antispam: 1Uf129KBjvJXoW7CrWDJF4rKr4kCFW8KF1fCrg_yoW8Gr1xpr
+	Z7ury3Krs0qw1q9r4DJr1kZF1fua1kWasrKa1IvanYgFy7u343Xr98Kr109r45XrW7J3WY
+	qrn5Xw18W3Z8Gr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j24ENUUUUU=
+X-CM-SenderInfo: 50lq53xlolqiyswou0bp/xtbBrh6p8WoMM-6RCwAA3Z
 
-On Tue, May 19, 2026 at 05:01:14PM +0800, lixinyu wrote:
-> Fix checkpatch coding style issues:
-> - Add spaces around binary operators (|, &, +, >>) per kernel style
-> - Replace C++ style comments (//) with kernel style comments (/* */)
-> 
-> No functional change.
-> 
-> Assisted-by: Claude:claude-4-opus
+Replace C++ style comments (//) with kernel style comments (/* */)
+in rtl8723b_hal_init.c.
 
-Do not do ai-assisted fixes for drivers/staging/  They will be rejected
-as that is not the goal of this codebase, sorry.
+Signed-off-by: lixinyu <xinyuili@126.com>
+---
+ drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-greg k-h
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+index 2a748367fbba..2c98ecc98ce5 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+@@ -2877,15 +2877,15 @@ u8 GetHalDefVar8723B(struct adapter *padapter, enum hal_def_variable variable, v
+ 
+ 			rtw_write32(padapter, REG_HMEBOX_DBG_2_8723B, cmd);
+ 			msleep(10);
+-			rtw_read32(padapter, 0x2F0);	// info 1
++			rtw_read32(padapter, 0x2F0);	/* info 1 */
+ 
+ 			cmd = 0x40000400 | mac_id;
+ 			rtw_write32(padapter, REG_HMEBOX_DBG_2_8723B, cmd);
+ 			msleep(10);
+-			rtw_read32(padapter, 0x2F0);	// info 1
+-			rtw_read32(padapter, 0x2F4);	// info 2
+-			rtw_read32(padapter, 0x2F8);	// rate mask 1
+-			rtw_read32(padapter, 0x2FC);	// rate mask 2
++			rtw_read32(padapter, 0x2F0);	/* info 1 */
++			rtw_read32(padapter, 0x2F4);	/* info 2 */
++			rtw_read32(padapter, 0x2F8);	/* rate mask 1 */
++			rtw_read32(padapter, 0x2FC);	/* rate mask 2 */
+ 		}
+ 		break;
+ 
+-- 
+2.34.1
+
