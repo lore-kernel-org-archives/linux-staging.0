@@ -1,123 +1,145 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B2914028EE
-	for <linux-staging@lists.linux.dev>; Tue, 19 May 2026 14:20:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779200436; cv=pass; b=VvKvfNW19KlmGsW6VLG6YfqBtmXwAgtJHc+ZU4J39G7SybB9ZR8Np75vlrthBM+ByLNP+xigLK06L4Cz46r+uzwt0GaSsIXEdFVH5x6lnyYLqH1qWotYdPUx0kPjXlnaQNM0B0O3XRO0465eb9RTgCaKbnfkHgvAfcewhwz435g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779200436; c=relaxed/simple;
-	bh=Z67ptMys+N0txKzsrvuO8uwf/yKTvhIujA1K1RnDdTw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PFQ7kO5UUBzlFue+trL+o0vy8NdnnI4O6KtTWAZ2MNCjczk7jmBdehfPjIS8ZBDjIT79uVFfTyNSzGBWHKEQK0n3A6fcI7XnLa9xhghNXka8NpfcDiDXFZagS73D9RUBXV/2yuIkFit4XyzYcuEfLfGST/b2YCtnelJOR8kX3vM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R37Dx+QF; arc=pass smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AD57403E87;
+	Tue, 19 May 2026 15:16:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779203783; cv=none; b=rOvzsczEt0XSEIHp+aM5G6x5T/386Rr7GLR0PCN/rSoL1gJoeH4cXrTcLyrEYeM2t3hZ8aRtoNV3KWKBIIhIyNneNuuBNsB6aVvgmBfOYtKy3PxboOP5pDzpm8g91zpyLmZlm7ZXar4JwQZpTEQ923veqpNcTsO4jNUpyKz3fUo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779203783; c=relaxed/simple;
+	bh=LeeRjDKdU98xs9zRHyVlw4Dxq1DWY3AOHyqzA6RQyk8=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=rzndx6REa7fktUOl44iwRZt6WIevqXFCMAolXDD3TBF48khIy/XjoFq6pP/4lIPDY67Wc4G4pq+xJQm33QUYARBdlluumoiwMqkEPl0kJdd19oHPQKKOVdc5HPKgdicxZjTUOP8Kn9EDC7VNcPcBm5BDx/zOQwhAyHZZbMbh7+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=BIzGmVZX; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R37Dx+QF"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-43fe608cb92so2271504f8f.2
-        for <linux-staging@lists.linux.dev>; Tue, 19 May 2026 07:20:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779200433; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Azcg4+wNp6LhwzjfxiHt98jwcALtZ+nMCiGrc2gMVP84xvGoVfT7maIIGPSSvHhPbr
-         BoGcK+Q5zFQebZ8/2n9as+7Ag8UcUdqIiV7ooGZkQp7/nhiwNZQHFXE1l9E+MVQmLFrE
-         ypsEbXslZq7KIyEP8N5Q/Ja7yJmalQGWMMNaJgrxdbfqp0zDXLAApbSH398biZUb7F1A
-         HVtesfofEBXsIY3x5Sj08pd6N8Od3xvxSuRgUtVV72Tksd4ZV4IJQeTmb4NN/MtI+Yil
-         FoBWwTanM8JFuTlhcUNwv7kLVbAUHUIsPgayD2btxEDXfqrhFoMfwOJJSx+Ux4jCj1mD
-         njBQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Z67ptMys+N0txKzsrvuO8uwf/yKTvhIujA1K1RnDdTw=;
-        fh=/ncx6F5GONFsTNd8IP2qStFgM6w36WiWd6qro9N5qJ0=;
-        b=MSnrEKTZeSUH7MP9+K+c3DEV2S7YwEvYo6dgzZNFsVxOXMgW1+X7YR0m1xJTS9MUB5
-         38cE1GOVBQTSWCRkNvzDsD5bxqUCCyUWAVJwg7G7h1xPdQnX4IEtu3ytfjieib/x6L+1
-         UyP2buIarNLo7IW5G6nWiAy63lgeXuK6vEWyeGw+DGCiyYGRDVASl+E5c7XJ6hHcDMJQ
-         XLDxw0Tj8YVxNerPWcy1BTzF+UD8Mjl0exSWCetIhnDa+ZFOuMNi54kqSHxmXWH+Lh7+
-         AQ6ZC075RBtKvT5AJgNtRbdmPVddnxDbRUD10XDJag/nJxQ1uBrFbLSLBIaskrbsgIY0
-         GRnw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779200433; x=1779805233; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Z67ptMys+N0txKzsrvuO8uwf/yKTvhIujA1K1RnDdTw=;
-        b=R37Dx+QFFklF7RPLn+5Vc37UW5MTdGFJz99Hgw4AcOivIbJOOq6UAAnuxBvyj2u5Je
-         tvKhM0dKcUCv0hD7mAYsZaPZtAhrE1/kxyui4u3HxTMnloqgD9MnTS0JMlURdtG13qVj
-         rg3KIrA44xloQxyN2vDX7hFOotoF7pwUykS9tb4luFgRtOi+KwNAFeU93cm+Ek67R8fE
-         upqm3fzYjvvJcF0rctEDDgqsPH9OiKPMcjuP49Zgss1HUyI3BCyBngSDQpTlHZ+xZB8H
-         FLxNb2ACwY5/x2B4C5JoMXq+C8xV0cOE+HTATYc0vAX2rLJtvC7UV9QF7olwQB6GebCm
-         pNSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779200433; x=1779805233;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Z67ptMys+N0txKzsrvuO8uwf/yKTvhIujA1K1RnDdTw=;
-        b=Hn/xD6Zd+BPaJRJIh8in6w/aFMcYxuOLe8rrurBbDxX+EWaHePxtGRQLwqMTWc5dDe
-         6sPJBG3vEVD5ndiiP9KQpLi2ZbG6rLGIX3OSbKpEPc6Q5LCHLbvua6W2apN4AfexGeyG
-         876aaAdtDIF0avXpYwNKoxITn4ATvplel3LGxKYvttp+Psjbmek1mHAx9FcZ2WkBPaCi
-         062q4hO9OnW6bqI/7h5CJbl8yJ/h6BDiRWo3Mw8uNLYN+9bbiQcFQUGEgI/WeuU73+/o
-         g3wKqPFiv2L0ZZgI6H835vU2EdKu59YlWNVR/Gw3alD5LMv6XDekqylewMi45p0xuIHY
-         g9pg==
-X-Forwarded-Encrypted: i=1; AFNElJ+9N9XvrTN9Eq6LtYDVHL4uuM6IBb2w1PdJrIawiKWMZptxGXXCnp4frjDCV5L0Yb7S0mwA8fqzhTCkyaO7@lists.linux.dev
-X-Gm-Message-State: AOJu0YyRhINoCfyAsiUk8ml2FhWJKhq5QYtPm7g3TKXkdhQkNV1OSSwp
-	6JEmJ1dE4pKNmSAHQc9Ugdjp8NiHGY+vqT8Mz17nGN3v6p47PmQ4Oe37zsW8Tonw4O714eBJGrN
-	BIY7ElnWcyT2skG41vgEVxOHKkuq3Ja8=
-X-Gm-Gg: Acq92OH46HPaZ9QL5VxoI8owYbCxDiC0Gkd+sRKWTW16ifNACoTz3c4DWJkJWqwJi5Y
-	80vSOOwtBZnjlLBh5vmkdWBAGgy1ZA5kRFf6uPwoXL/Un5u/Sn5APgeK97aj7mWobF6Vx5Um7bZ
-	xScXt6jBVnGa4CeiplJ8n4BHloxaWxskAyyJJCmrQ9d7hqKFcHJZExenlprlCI3VtnNshE4mobR
-	8i+EOWkyrnvr6prZJWCbRZMup3lzSCaBx9qRvcqOdwIp8BiPqDpATHPXVL04ZvHcmGZbD9v6AXH
-	5z1YK9jyljYTohn0fcHEcChNDz8q2WuvuTujykad/A9+a7dXCc8z8J1OTSIrVFf4C0mQQ0ySxEF
-	Rv3nFC3kxUymHtNZxtr+Be7XKr0TdsVpTEqBzf6LB9j78DhpmZQg7Gonxj1ehWCIMtrK8Ndy1Hs
-	ZG+rqhlg==
-X-Received: by 2002:a5d:5f44:0:b0:45d:3a84:709c with SMTP id
- ffacd0b85a97d-45e5c5ccac2mr31715019f8f.31.1779200432677; Tue, 19 May 2026
- 07:20:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="BIzGmVZX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1779203780;
+	bh=LeeRjDKdU98xs9zRHyVlw4Dxq1DWY3AOHyqzA6RQyk8=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=BIzGmVZX7WuoGCBqs8TVvfe6IAiXzAbgNzXkT5K/YhBIwLJwSni7btMn9SumAwHRd
+	 yYMxK+FlNvhcL5reNzbEaqTVpwYwJMAn6mvoi86ru++B1H1wUBohGelADL4ThXNazp
+	 kcQ7ARc9mdtezse4LnovGMYXMcFZAfyeXmJSDv9Q31YkIq6Hfn3dcHmujAdWagpViT
+	 NnI9aZpdq6Vq57u7E9gC4ZWAXpXKep7D4xIRnxtEDOkZMUa5r4L7cTmzfLezpmOj2h
+	 RmDVZMINMEcFZkD8jeIj5MsoxAIs4UT/N/oXazgSSObDkVfO+d6jwxeWDJ/9ojYlNE
+	 DBUftxHB1ZJGg==
+Received: from [100.64.0.214] (unknown [100.64.0.214])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id AB6A017E1299;
+	Tue, 19 May 2026 17:16:18 +0200 (CEST)
+Message-ID: <d2c20b4cac22f04bf864534edf27993236ac9e09.camel@collabora.com>
+Subject: Re: [PATCH 05/16] media: v4l2-common: Fix NV15_4L4 format info
+ block height
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Paul Kocialkowski <paulk@sys-base.io>, linux-media@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Chen-Yu Tsai
+ <wens@kernel.org>,  Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
+ Holland <samuel@sholland.org>, Greg Kroah-Hartman	
+ <gregkh@linuxfoundation.org>, Arash Golgol <arash.golgol@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Date: Tue, 19 May 2026 11:16:17 -0400
+In-Reply-To: <20260518102451.417971-6-paulk@sys-base.io>
+References: <20260518102451.417971-1-paulk@sys-base.io>
+	 <20260518102451.417971-6-paulk@sys-base.io>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Organization: Collabora Canada
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-GJ5iBdhdx0UoTc8uYpG1"
+User-Agent: Evolution 3.60.1 (3.60.1-1.fc44) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260519140624.1585534-2-u.kleine-koenig@baylibre.com>
-In-Reply-To: <20260519140624.1585534-2-u.kleine-koenig@baylibre.com>
-From: Joshua Crofts <joshua.crofts1@gmail.com>
-Date: Tue, 19 May 2026 16:20:19 +0200
-X-Gm-Features: AVHnY4LlDW3ubSlPMx0c7gHoDozmlrUrvwNJTXT5K8k4JAnzlwn3Y8_StWRJIeE
-Message-ID: <CALoEA-xV3nNhrJsNL7Ge_ym04FMHM+BsTADrriAMKAjpqm4BVw@mail.gmail.com>
-Subject: Re: [PATCH v1] staging: iio: Use named initializers for struct i2c_device_id
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
-Cc: Jonathan Cameron <jic23@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	David Lechner <dlechner@baylibre.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, linux-iio@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
+
+
+--=-GJ5iBdhdx0UoTc8uYpG1
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, 19 May 2026 at 16:17, Uwe Kleine-K=C3=B6nig (The Capable Hub)
-<u.kleine-koenig@baylibre.com> wrote:
->
-> While being less compact, using named initializers allows to more easily
-> see which members of the structs are assigned which value without having
-> to lookup the declaration of the struct. And it's also more robust
-> against changes to the struct definition.
->
-> This patch doesn't modify the compiled arrays, only their representation
-> in source form benefits. The former was confirmed with x86 and arm64
-> builds.
->
-> Signed-off-by: Uwe Kleine-K=C3=B6nig (The Capable Hub) <u.kleine-koenig@b=
-aylibre.com>
+Le lundi 18 mai 2026 =C3=A0 12:24 +0200, Paul Kocialkowski a =C3=A9crit=C2=
+=A0:
+> The NV15_4L4 format is specified as a 4x4 format, not 4x1.
+> In addition the block size should not take subsampling in account,
+> so specify it as 4x4 for both luma and chroma.
+>=20
+> Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
 > ---
+> =C2=A0drivers/media/v4l2-core/v4l2-common.c | 2 +-
+> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-c=
+ore/v4l2-common.c
+> index 554c591e1113..77a0daa92c2b 100644
+> --- a/drivers/media/v4l2-core/v4l2-common.c
+> +++ b/drivers/media/v4l2-core/v4l2-common.c
+> @@ -309,7 +309,7 @@ const struct v4l2_format_info *v4l2_format_info(u32 f=
+ormat)
+> =C2=A0		/* Tiled YUV formats */
+> =C2=A0		{ .format =3D V4L2_PIX_FMT_NV12_4L4, .pixel_enc =3D V4L2_PIXEL_EN=
+C_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 1, 2, 0, 0 }, .bpp=
+_div =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2 },
+> =C2=A0		{ .format =3D V4L2_PIX_FMT_NV15_4L4, .pixel_enc =3D V4L2_PIXEL_EN=
+C_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 5, 10, 0, 0 }, .bp=
+p_div =3D { 4, 4, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2,
+> -		=C2=A0 .block_w =3D { 4, 2, 0, 0 }, .block_h =3D { 1, 1, 0, 0 }},
+> +		=C2=A0 .block_w =3D { 4, 4, 0, 0 }, .block_h =3D { 4, 4, 0, 0 }},
 
-Reviewed-by: Joshua Crofts <joshua.crofts1@gmail.com>
+Only the block_h is broken. The block_w is in "pixels" which for the UV pla=
+ne is
+component pairs. So both set of tiles have 5bytes stride. But since the sec=
+ond
+set, the UV tiles, are interleaved, they only have 2 pairs of UV per row. S=
+o to
+me the correct fix is:
 
---=20
-Kind regards
++		  .block_w =3D { 4, 2, 0, 0 }, .block_h =3D { 4, 4, 0, 0 }},
 
-CJD
+If its not the case for the camera pipeline, then a new format is needed, s=
+ince
+this format should perfectly match NV15 + VIVANTE_TILED in the DRM world.
+
+regards,
+Nicolas
+
+> =C2=A0		{ .format =3D V4L2_PIX_FMT_P010_4L4, .pixel_enc =3D V4L2_PIXEL_EN=
+C_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 2, 4, 0, 0 }, .bpp=
+_div =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2 },
+> =C2=A0
+> =C2=A0		/* YUV planar formats, non contiguous variant */
+
+--=-GJ5iBdhdx0UoTc8uYpG1
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCagx+wQAKCRDZQZRRKWBy
+9H3cAQCZckjwaH4Ua7bFNH0TlIe7qNnm4JBXewMsZ3UzDAKbHAD+MzI3Pek25YiV
+cuO2+w5f3DUEwgpRmjCUKnqmGO9WqQ4=
+=HPXQ
+-----END PGP SIGNATURE-----
+
+--=-GJ5iBdhdx0UoTc8uYpG1--
