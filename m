@@ -1,40 +1,40 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8241C3EA95A;
-	Tue, 19 May 2026 15:23:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C87F33546C5;
+	Tue, 19 May 2026 15:23:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779204187; cv=none; b=frwrkNYo1wp1O2fgfzTajdN8mYnNirk4cGZqlzymCAqJfLwjG9b91hLPQgfd7wnFUeHiT6egC0rTXF2mdlP9iRyhS1dkFAG4+tZ9E3WWs9UDzQDCgpY5m8ZFrmJj5Q3WNYLhWabvYcEbAYnzF2r2tbSV7BHA/D5QmXdn2oIHtwc=
+	t=1779204215; cv=none; b=Vrp8zWHcUNW/fSebOhs7BhmetKV7kXcaMNFYP0gJS2gLpGA7A8iDUYSgZwXFVso94uE4wbtsvnPEzs85LFeMjSipa1ztm53RHetFL/qR6IJ0V4Z3QVqtC7Kw15iv58U17JBoyMThrU36BbQ97qAWOAlPVAlGzLL+zmnr2z7fBEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779204187; c=relaxed/simple;
-	bh=BwzlO1jv0/xoa5/nDtcFzfIYRReMTjtaUSLG2NPq+pA=;
+	s=arc-20240116; t=1779204215; c=relaxed/simple;
+	bh=J5uRh40+OAR9qQbDxJScq8AjW1kvRbf58f8DL4MiXFE=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=h5zhVhfmXE86wSz2gMWKoeoy669fmEdCGqGx0WNHZnoBY6EDQ6SQMMPcKG5pB6TYw6KB83EwJIKX5ChuS0Dd2cDZMWNUt/LjJgwyTNEt6s9jVvBoQdRVyHM8PIjlD5MgByMvZOVqCdGR++qGzc7SFTdF6A7nUGhDqCtpl/Tq7eE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=jxIzF2JA; arc=none smtp.client-ip=148.251.105.195
+	 Content-Type:MIME-Version; b=kdeUs3mtvjYN1ywD6+pT3qIUlA2udYDreNQTBe8tJ80jsij+IBNcOt0azfwYCkF11jgv/6A3VWVoGVWI/H4btej258kzmnI3duejkVzBMxVfntTHmzoaCnmL1KPmgk3vtG28JnhRtElidxT969uE8TqbvIZaHoP+jlG1DqTKxXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=QygATNyP; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="jxIzF2JA"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="QygATNyP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1779204180;
-	bh=BwzlO1jv0/xoa5/nDtcFzfIYRReMTjtaUSLG2NPq+pA=;
+	s=mail; t=1779204212;
+	bh=J5uRh40+OAR9qQbDxJScq8AjW1kvRbf58f8DL4MiXFE=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=jxIzF2JARvKB9MMdsdYEdIFzITAzDfQ0zAb2TYEm3noqEGS+q8FnO3Rb2W3N0ZGoe
-	 A5cqNO9r5DQw7zM1B6//sf0AY9KrTqjDYR7mMNZORrWa08DZZ9FvDzBsLfhpc7yzeX
-	 sSxsCozglLsnvuZ4lrNOZZel0IrAMZgc415wQ2qm1ClX8Dl/2TzyMXFGXENq+/u4xN
-	 ub95GPHlGtk85j7HrKQmr4VOm5xeEDAeW7lr3AK2guhyAGd4GQkg1fiOYaVGaxFphx
-	 3cu9RN2tQI1EF96G8oFFxLgF6CZSh9dlwXlH71qxaHARdtEqyCK6WMAIvhs6mUIg5d
-	 l/tE8yJII349A==
+	b=QygATNyPPsqpMvJR860gbwUIpKYQ+jTNK7RjD5tnGN1u6C4Hz4dv5/oLJdNzFHWst
+	 VAFY77H9pBXFOv4IS0s4K7hd9g69jpPCYTQjs7MYY94BtEPBgUYdiqA+Ez7BwglvIl
+	 uEARESUO8XmLZgNSX5XjD7ozyDnq2zEjfIliKAkIDD7kSdonht1VeFsW6bM16oznx1
+	 GkMOKwwVettggpspCGAuRfVJvKZRMJhHuqLKyu51XY+do6B/RsDEr8xhHan9heU3of
+	 y3C30uhN9vrrTvhyMUzZobRvcvcKKVCKxMN1Pu/vx2FZ+WOXdCrVLrsRduMYtLCrC5
+	 Dc7c7RhK3JHKw==
 Received: from [100.64.0.214] (unknown [100.64.0.214])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 3579317E0234;
-	Tue, 19 May 2026 17:22:59 +0200 (CEST)
-Message-ID: <77a0553dc48c270768525a53854b3d32abcbf642.camel@collabora.com>
-Subject: Re: [PATCH 07/16] media: v4l2-common: Add NV12_16L16 pixel format
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9FFF117E0234;
+	Tue, 19 May 2026 17:23:30 +0200 (CEST)
+Message-ID: <3f3249a242678ddec55dfe99f2af7f0ef584c696.camel@collabora.com>
+Subject: Re: [PATCH 08/16] media: v4l2-common: Add NV12_32L32 pixel format
  to v4l2 format info
 From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 To: Paul Kocialkowski <paulk@sys-base.io>, linux-media@vger.kernel.org, 
@@ -45,10 +45,10 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Chen-Yu Tsai
  Holland <samuel@sholland.org>, Greg Kroah-Hartman	
  <gregkh@linuxfoundation.org>, Arash Golgol <arash.golgol@gmail.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Date: Tue, 19 May 2026 11:22:58 -0400
-In-Reply-To: <20260518102451.417971-8-paulk@sys-base.io>
+Date: Tue, 19 May 2026 11:23:29 -0400
+In-Reply-To: <20260518102451.417971-9-paulk@sys-base.io>
 References: <20260518102451.417971-1-paulk@sys-base.io>
-	 <20260518102451.417971-8-paulk@sys-base.io>
+	 <20260518102451.417971-9-paulk@sys-base.io>
 Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
  keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
  /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
@@ -64,7 +64,7 @@ Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
  bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
 Organization: Collabora Canada
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-3jaEoSmnM5AxWGabWN4z"
+	protocol="application/pgp-signature"; boundary="=-Io4WDaSkU1Y5jR/tsxne"
 User-Agent: Evolution 3.60.1 (3.60.1-1.fc44) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -74,14 +74,14 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 
 
---=-3jaEoSmnM5AxWGabWN4z
+--=-Io4WDaSkU1Y5jR/tsxne
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Le lundi 18 mai 2026 =C3=A0 12:24 +0200, Paul Kocialkowski a =C3=A9crit=C2=
 =A0:
-> Represent the NV12_16L16 pixel format in the v4l2 format info table.
-> This is a 16x16 tiled version of NV12.
+> Represent the NV12_32L32 pixel format in the v4l2 format info table.
+> This is a 32x32 tiled version of NV12.
 >=20
 > Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
 > ---
@@ -90,39 +90,28 @@ Le lundi 18 mai 2026 =C3=A0 12:24 +0200, Paul Kocialkowski a =C3=A9crit=C2=
 >=20
 > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-c=
 ore/v4l2-common.c
-> index e142d40c71b9..6194d6eb9c56 100644
+> index 6194d6eb9c56..fe7141883ec5 100644
 > --- a/drivers/media/v4l2-core/v4l2-common.c
 > +++ b/drivers/media/v4l2-core/v4l2-common.c
-> @@ -313,6 +313,8 @@ const struct v4l2_format_info *v4l2_format_info(u32 f=
+> @@ -315,6 +315,8 @@ const struct v4l2_format_info *v4l2_format_info(u32 f=
 ormat)
 > =C2=A0		=C2=A0 .block_w =3D { 4, 4, 0, 0 }, .block_h =3D { 4, 4, 0, 0 }},
-> =C2=A0		{ .format =3D V4L2_PIX_FMT_P010_4L4, .pixel_enc =3D V4L2_PIXEL_EN=
-C_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 2, 4, 0, 0 }, .bpp=
-_div =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2,
-> =C2=A0		=C2=A0 .block_w =3D { 4, 4, 0, 0 }, .block_h =3D { 4, 4, 0, 0 }},
-> +		{ .format =3D V4L2_PIX_FMT_NV12_16L16,	.pixel_enc =3D V4L2_PIXEL_ENC_Y=
+> =C2=A0		{ .format =3D V4L2_PIX_FMT_NV12_16L16,	.pixel_enc =3D V4L2_PIXEL_=
+ENC_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 1, 2, 0, 0 }, .b=
+pp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2,
+> =C2=A0		=C2=A0 .block_w =3D { 16, 16, 0, 0 }, .block_h =3D { 16, 16, 0, 0=
+ }},
+> +		{ .format =3D V4L2_PIX_FMT_NV12_32L32,	.pixel_enc =3D V4L2_PIXEL_ENC_Y=
 UV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 1, 2, 0, 0 }, .bpp_di=
 v =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2,
-> +		=C2=A0 .block_w =3D { 16, 16, 0, 0 }, .block_h =3D { 16, 16, 0, 0 }},
+> +		=C2=A0 .block_w =3D { 32, 32, 0, 0 }, .block_h =3D { 32, 32, 0, 0 }},
 
-I suspect this is:
+Same.
 
-+		{ .format =3D V4L2_PIX_FMT_NV12_16L16,	.pixel_enc =3D
-V4L2_PIXEL_ENC_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 1, 2,=
- 0, 0 },
-.bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2,
-+		  .block_w =3D { 16, 8, 0, 0 }, .block_h =3D { 16, 16, 0, 0 }},
-
-
-This was introduced for the Samsung MFC decoders on Exynos 5, has been matc=
-hed
-to V4L2_PIX_FMT_HM12, but I don't how it was tested though. But in this err=
-a,
-all the tiling was fixes dimensions in bytes, where your definition would m=
-ake
-the UV tiles twice the size of Y tiles.
-
-Nicolas
++		{ .format =3D V4L2_PIX_FMT_NV12_32L32,	.pixel_enc =3D V4L2_PIXEL_ENC_YUV=
+, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 1, 2, 0, 0 }, .bpp_div =
+=3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2,
++		  .block_w =3D { 32, 16, 0, 0 }, .block_h =3D { 32, 32, 0, 0 }},
 
 
 > =C2=A0
@@ -131,17 +120,17 @@ Nicolas
 _YUV, .mem_planes =3D 3, .comp_planes =3D 3, .bpp =3D { 1, 1, 1, 0 }, .bpp_=
 div =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2 },
 
---=-3jaEoSmnM5AxWGabWN4z
+--=-Io4WDaSkU1Y5jR/tsxne
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCagyAUgAKCRDZQZRRKWBy
-9IajAP9qTPEgo5Hv9psPbr8R5uHkMx1r0b+TgKSHeDmgfQrILwEAuZsp1gb44Xug
-Jx13TfSlNfWxumQomxxNJE9qwF6d2gI=
-=3jLk
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCagyAcQAKCRDZQZRRKWBy
+9ME7AP9hYNnKXQAbYgOlXayEewD55EyS7Vr63YPgeiTKCE3ThAD/Z373RZ23uW9v
+z3e/8hqLNyE/+nLnsApzH0j10KaRKwI=
+=Tttd
 -----END PGP SIGNATURE-----
 
---=-3jaEoSmnM5AxWGabWN4z--
+--=-Io4WDaSkU1Y5jR/tsxne--
