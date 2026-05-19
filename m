@@ -1,41 +1,41 @@
-Received: from m16.mail.126.com (m16.mail.126.com [220.197.31.8])
+Received: from m16.mail.126.com (m16.mail.126.com [117.135.210.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60B80405855
-	for <linux-staging@lists.linux.dev>; Tue, 19 May 2026 09:59:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BD263EFD34
+	for <linux-staging@lists.linux.dev>; Tue, 19 May 2026 09:59:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779184767; cv=none; b=gayeMrEOZiB9PoXKlSsU92v3ecefDr4krzsTSnVe1imo0sglbtOHiuO612erE53MpCnctTCT3UzHSAyCZKKzsnTLqscipyNWlz0RCbedaF9Z5GU01Ndy0IuJ7MQ+0+4EnZSzt/ATBBw38uPx+lMEXUZbR0MsuepVbgyWSJ1abUo=
+	t=1779184790; cv=none; b=M/Ykr+ZbCzVXIymYknORpmfhTZemZ7zGOnKtztWfoGCyvdsNTekt4Z+XeL0bc3QWfNM9kqFFAQA34aBLoRd3xqYTjC7cSjw3tQTXmpZU9RQvF3/uJMvkFXZr0Hw597zOGy4iCmqScGiviBLBEt8IJTvrehT/HT3S2/tXL+MRlTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779184767; c=relaxed/simple;
+	s=arc-20240116; t=1779184790; c=relaxed/simple;
 	bh=QJiF6iZhbyzHBuVyPrA+OpyF0CEWdRDy0P1nLmEDJQw=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=bcqJyCytPR/dzueIzkk2nHsDgI9HYnIIlTaM0h0Z79zK1ngi/gSV7sfAL8H9qEqNuFbxLUm4l1Wr6+yw0+AwbE1qlxwzt5XKPwVpKLxYWV0XWKUIAg29MupZJTAmMkJGpdNKqUFAzjuxF7HG2+Zls9LMCWwR/2g14GB7i9chpZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=126.com; spf=pass smtp.mailfrom=126.com; dkim=pass (1024-bit key) header.d=126.com header.i=@126.com header.b=ag1yoUVW; arc=none smtp.client-ip=220.197.31.8
+	 MIME-Version; b=H+l4OjFDxJvQ3oKSiQUnZys0pRDGLmzPrDLFUeXZs//hi4dRR0kzM50EnawQIxaINXAfbE1xdar/2jb34GLYZtChl+2wfiiRZW4hH9u+mfFfMA7CFAcgxkCAaQvhWBYjRwUZRCVq2N29hYar7f/rozOvh7JTtRG1CEB5m1FtBJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=126.com; spf=pass smtp.mailfrom=126.com; dkim=pass (1024-bit key) header.d=126.com header.i=@126.com header.b=Ohbj97K9; arc=none smtp.client-ip=117.135.210.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=126.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=126.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=126.com header.i=@126.com header.b="ag1yoUVW"
+	dkim=pass (1024-bit key) header.d=126.com header.i=@126.com header.b="Ohbj97K9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
 	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=l9
-	k+W0AxgFJNbOdJyKfOJptrgJevH3lC3CCu1cPvFfY=; b=ag1yoUVWAuN/lyM34n
-	pNohl5diyraSvCWxYO0pA483I/+YybrdhDABfnXaISfQLqnuRAVXQYfe5O/MW26U
-	3GowhTopUanQRR7nGcCv3XnuVqVvZJRk0RQbXyn8hPiuvit1WIOnryv3f/YPtbOJ
-	6PofCETpVjKfnCVULAbr7Rn4c=
+	k+W0AxgFJNbOdJyKfOJptrgJevH3lC3CCu1cPvFfY=; b=Ohbj97K9+DTi2ymam6
+	Fwtz2cD1XlKuzyrmcT5Mn4vty6oaUVPFubDoPstDwMpJrSUgD7ZssFnpM1BEc/P1
+	M2u0COPQmMhZswfEx7zLu+vQhIkH46caUL1OyS1Wj8waVRijki3uNUBezf8w5e1p
+	bCjLLuciIrTJpK2lb81lYV4Qg=
 Received: from DESKTOP-EQVOVNC.localdomain (unknown [])
-	by gzga-smtp-mtada-g1-4 (Coremail) with SMTP id _____wD3X_VwNAxqsKwRCQ--.41303S4;
-	Tue, 19 May 2026 17:59:12 +0800 (CST)
+	by gzga-smtp-mtada-g0-2 (Coremail) with SMTP id _____wD3v_X9Mwxqg0AXBw--.63806S4;
+	Tue, 19 May 2026 17:57:18 +0800 (CST)
 From: lixinyu <xinyuili@126.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 2/2] staging: rtl8723bs: add missing spaces around operators in rtl8723b_hal_init.c
-Date: Tue, 19 May 2026 17:59:11 +0800
-Message-Id: <20260519095911.880517-3-xinyuili@126.com>
+Subject: [PATCH v3 2/2] staging: rtl8723bs: add missing spaces around operators in rtl8723b_hal_init.c
+Date: Tue, 19 May 2026 17:57:17 +0800
+Message-Id: <20260519095717.878742-3-xinyuili@126.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260519095911.880517-1-xinyuili@126.com>
+In-Reply-To: <20260519095717.878742-1-xinyuili@126.com>
 References: <20260519090114.828918-1-xinyuili@126.com>
- <20260519095911.880517-1-xinyuili@126.com>
+ <20260519095717.878742-1-xinyuili@126.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -43,12 +43,12 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD3X_VwNAxqsKwRCQ--.41303S4
+X-CM-TRANSID:_____wD3v_X9Mwxqg0AXBw--.63806S4
 X-Coremail-Antispam: 1Uf129KBjvAXoW3CFW7tF4DJFWkCryrXF13Jwb_yoW8Gw4kWo
 	WSyFWjvr1fKas7ta18tr17XF15Zw4xu343Aa17XaykW3y3JF4UZrZaq34UAw4UXr95t3yv
 	yFW0qasIvwnayr4Dn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-	AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxUSrb1UUUUU
-X-CM-SenderInfo: 50lq53xlolqiyswou0bp/xtbBrhDGD2oMNHCU5gAA3n
+	AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxUsTKZUUUUU
+X-CM-SenderInfo: 50lq53xlolqiyswou0bp/xtbBrx6p8WoMM-6ThgAA3X
 
 Add missing spaces around binary operators (|, &, +, >>) to comply
 with kernel coding style. This includes spacing fixes for register
