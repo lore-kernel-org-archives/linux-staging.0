@@ -1,147 +1,140 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay5.mymailcheap.com (relay5.mymailcheap.com [159.100.241.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B04F428751B
-	for <linux-staging@lists.linux.dev>; Mon, 18 May 2026 19:11:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779131484; cv=pass; b=VE00aF6qIyeGyM9aUMdcG4YdxdY5cGHcL/eN9Lfr4lpmedqVXT7I2tL1rNWkiRYOr94ZmqRkMcuR/y+4mltVhGNVL2hHi4eUCeq/hfzOs/Awb4h+jsgU1Fih0QlfzWAo5bdz10TmPfC2YnzjcKAyKbzCI33FfFAB4t/t3szkxCU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779131484; c=relaxed/simple;
-	bh=6oJJE5UNhr2wpzWh838/Gl1WSmr1appOubA+1xPUAoQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ala8q1K1XMnyQBhWFtv7LjqZcvPqHfFT3t14pUX89hwGTMFl29oHrm+0HpTcH5uA0rtRpPe1f84dh9B+uTeSCfGUDINxAKell5qhO+qxOtBZR8bVQJ1xlwJxVOIhZCv3LBeddAGT8CXaMvwO2oePxAAMo8XNbl6uSV3oMErMVtQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HHG7t1dk; arc=pass smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C5E738A738
+	for <linux-staging@lists.linux.dev>; Tue, 19 May 2026 07:01:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.100.241.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779174110; cv=none; b=PkCwaFyL2VUOLAsgc0uKBHmYXBGjNYC1yWayIywBgz6kq+s1tTTPI4b8Mh7uqKaP5EuouvG1v/JmEg8nRBkfl8exjOyujgBzbsVPAhs3gVFbHA4ieJzpKF0mOjVYYf9zik+Pdvw3keMwNy9oqVbNNSFR6JZLRzJNpxsurpYvHUw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779174110; c=relaxed/simple;
+	bh=k6Ki30Rzi18Vq8hkjjl3DovGltUg9aV7/JMhX1kk+vs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=j1ExUeNugLdOi0lPFm7o3D2aQeCqHqJMZG2Ooa5esJS1FvJWzZEh5YN9HKIsLelB0rMm/UYOW7Ynsi+9mcMkPvMVL1H7vBOKuz7y7rWFVQr5z3nXoJIo/GoLstWEWqSzPVLQ96XvZDq6tHDgQ2tjrGdZUYZ1CA3SDacdDtFhBKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aosc.io; spf=pass smtp.mailfrom=aosc.io; dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b=rRoY8bMk; arc=none smtp.client-ip=159.100.241.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aosc.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aosc.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HHG7t1dk"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-67b6da5a618so4732203a12.2
-        for <linux-staging@lists.linux.dev>; Mon, 18 May 2026 12:11:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779131481; cv=none;
-        d=google.com; s=arc-20240605;
-        b=TQjHIoyOhzB6Pkcm44vEf7hCCA+300jElUvnpzG/w3T0NB8Qq6atoQ0MCnFm7QveZu
-         YaAdJHW54SkRRdDjPFk+pw5LVhgaZcQtJ9Oro2PG+vPdUk75INsqCg2pSy+5gUPXBJKG
-         erefFVBDJoZCmaFcDT+DqaV+r9UCJtBrGedWXr5zWlQ4MFesM12Zg4NJEOMwENVRubIg
-         fa8/H6DYb9kfYw5AzGd7wvEmWIaI9obbrOSxmKwcduf8qNG/39uK17Gcwq1HjNkdYe0q
-         fF16maMQ/k5cfsWLiZ+PbPflfkG4w0KocNM9N/FIEr0Y2x659Qpd4AXjjlzHXyrTg4Fj
-         RdXw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=PwOnXS36GK8924Samkl1Rsi9voNVKewHLksnWc1aYIg=;
-        fh=gLVAmYciNfmgxxvRrg21etp8Oez7RSGBGGa5UHMcDIA=;
-        b=bNBWqwhmAA5LHSCmw44DHxuop/wsjGHgPYlok1IS4q9MBjeVCZvtrt7X5XgKWh0ibo
-         q1PmLrcVN60Iqc8lM8l2Kn7zZs5GAgulDaJ/TI/bt5YC8X+fBlvVzimiA+d279knYWGJ
-         Aqdb80HUwh76k99/xNPkm+7uA+2SH5Svd7v8fTvtqMedD2qrc4K1BGoYlKjpfE2qlTcm
-         KPz6KeTxqsNkZE3FY1yZnGCZUMbE2nDIaqDBbNxCiEdkLpegxR2XGe6bJvABaWqhNim8
-         NoVyu+KibHcP0hlnpdXbd5twNuQ50S5A60amgda3OW4jal1n+MaIRiWFSts3yGnzmloc
-         YPmQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779131481; x=1779736281; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PwOnXS36GK8924Samkl1Rsi9voNVKewHLksnWc1aYIg=;
-        b=HHG7t1dkuxCezv4XgLK1XvC2wHRMhqewecHFTwAHq5La0ITLUE0E0xPBS7XTfdagel
-         eJPsvG1drRwW4Ht1jY0bXAbkA0lL+YyZe2rTB1Xsr2eycvb8o16pJvErl2SBAl2NyKTC
-         rXFRotSks2NAjfbSoXtsxs/5mFF8XVGqH5+vBld2y9qFStBRdvGXowyL0Em7RWvXDdaC
-         cMxmqp6ka/bGciegB7znAfe2bo10ZJ2dUJoJ0nZgwfqOO4UhE9Gg3m0IftAF1cYTNyS/
-         XjRrPwttUghlhKGGMs0z5iEW5gRHAkRwsWELB5H1JmDG8OK1HPIML76Z4sFcR0NYMrVY
-         cXdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779131481; x=1779736281;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=PwOnXS36GK8924Samkl1Rsi9voNVKewHLksnWc1aYIg=;
-        b=TmfkjBbQlpR4/rVlPmDEXgvvXFyRe0v4x0igVlDdvIGg7sWD2VncfSut3MwEbRWOBW
-         KRvUuYaCkfvC2udLtf/6eLWytPs5I2INeXVhquPGkV/xJYO06uwlBXefhHV0Odl33LUK
-         nTEet63iG3FKFTiNNUhMP5OljVqlN5DW1tRc4S7hl23a54ccoQYGZzqw8tXDq4OiCZAE
-         wRKpFdJWjtMIQjD+0aI/CdUbhL3O7mtLah5XhiJtHflS9GSGlo7Cch5ln6iWNyPbmCAW
-         V8fP5KaeKumjL9tnXnADbYGQmf4lQucrP3Pie5hvQMXdSHM259sh1wLvjJqkZNm3vMAF
-         fsxA==
-X-Gm-Message-State: AOJu0Yz1Ql+KEri38/g7tZtHY2lkSPKUmsfD2s5DUXr7nnk6uByti95c
-	y7ddto+S8/6ewNN15QqK84HVx8QTY84keaR35xaRPPhimgBKVT+RZRfJQoZSU07k7bgv/ftg9J0
-	dqnjHYEg5Z1Ztx10ph+A5Zo5+6pHG+7s=
-X-Gm-Gg: Acq92OGpbY9og3kDd6eLf1hFuQeJY3irIOZuNy1Y7R7TATdDwko+v5qoVqJDOBv4Lw1
-	fP2i7VnRSeLGhDypCWofmgY98VzNBbbLhIYXdU10PzJJqbMk4nmEIWtAs/W+Jy1LEoE7LW/nghp
-	V9wp1Sx70Iuufbnqwuj5r8N6pPqEKHpszdlmqgp+ijMQDMBP2tQuZHIz1khwzlHdqzMptttbKkJ
-	iVvmo75tqFRURtLxerlfVGOc4mH4MT+M4tRIe0iuiPKinsNvdHjdMcJkI2x1kujC4gxqTj5KrOF
-	vque6QAJ/4QWK713szHyisn85xVNsEuAPOqkKOGhP1ukklcMOnGZ7i+UIlGsh7s8mpLxk889pA=
-	=
-X-Received: by 2002:a05:6402:428e:b0:670:f319:ae77 with SMTP id
- 4fb4d7f45d1cf-683bc1b747fmr8399835a12.1.1779131480804; Mon, 18 May 2026
- 12:11:20 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b="rRoY8bMk"
+Received: from relay4.mymailcheap.com (relay4.mymailcheap.com [137.74.80.154])
+	by relay5.mymailcheap.com (Postfix) with ESMTPS id 977E92012C
+	for <linux-staging@lists.linux.dev>; Tue, 19 May 2026 07:01:40 +0000 (UTC)
+Received: from nf1.mymailcheap.com (nf1.mymailcheap.com [51.75.14.91])
+	by relay4.mymailcheap.com (Postfix) with ESMTPS id 566DB205FC;
+	Tue, 19 May 2026 07:01:33 +0000 (UTC)
+Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
+	by nf1.mymailcheap.com (Postfix) with ESMTPSA id 1DEAA40078;
+	Tue, 19 May 2026 07:01:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
+	t=1779174092; bh=k6Ki30Rzi18Vq8hkjjl3DovGltUg9aV7/JMhX1kk+vs=;
+	h=From:To:Cc:Subject:Date:From;
+	b=rRoY8bMksYYqdE93KMJz/Rduf1/XUWeVcCDrZQ5dYtpwuvh8oNekTMFLMKCgFB77e
+	 atF4qP0AGYu4ItGaIKcYl6VdMkZYNz0I5m2GQTlQDfwZukOoe7lUvOUAKOxpZceWA0
+	 d3XKw9DOxbjcI0osjry3jFNi3xcR+vAN4CX57jtk=
+Received: from avenger-XINGYAO-Series.tail8e8410.ts.net (unknown [39.144.78.187])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail20.mymailcheap.com (Postfix) with ESMTPSA id 12A8041318;
+	Tue, 19 May 2026 07:01:19 +0000 (UTC)
+From: WangYuli <wangyuli@aosc.io>
+To: stable@vger.kernel.org,
+	gregkh@linuxfoundation.org,
+	sashal@kernel.org
+Cc: error27@gmail.com,
+	ethantidmore06@gmail.com,
+	starpt.official@gmail.com,
+	straube.linux@gmail.com,
+	zxcv2569763104@gmail.com,
+	architanant5@gmail.com,
+	william.hansen.baird@gmail.com,
+	sameekshasankpal@gmail.com,
+	arthur.stupa@gmail.com,
+	nathan@kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	stable <stable@kernel.org>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	WangYuli <wangyl5933@chinaunicom.cn>
+Subject: [PATCH 5.10/5.15/6.1] staging: rtl8723bs: initialize le_tmp64 in rtw_BIP_verify()
+Date: Tue, 19 May 2026 15:00:59 +0800
+Message-ID: <20260519070059.589318-1-wangyuli@aosc.io>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260518180641.44421-1-mokshpanicker.7@gmail.com>
- <20260518180641.44421-2-mokshpanicker.7@gmail.com> <agtd5tvK58iY6ot1@stanley.mountain>
-In-Reply-To: <agtd5tvK58iY6ot1@stanley.mountain>
-From: Moksh Panicker <mokshpanicker.7@gmail.com>
-Date: Mon, 18 May 2026 19:11:08 +0000
-X-Gm-Features: AVHnY4LT0Wfi38KCcUrPbP8Xv1v5e4h35uPzyOikAnf239GE9coRlTZALZ7OCns
-Message-ID: <CAK0z5O=W-Rp7iuaLZ86Y15qCxkXNks94Sxn91zVOmAbEiRsmzg@mail.gmail.com>
-Subject: Re: [PATCH v5 1/3] staging: rtl8723bs: reformat rtw_efuse_read_1_byte()
- signature
-To: Dan Carpenter <error27@gmail.com>
-Cc: linux-staging@lists.linux.dev, gregkh@linuxfoundation.org, 
-	dan.carpenter@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 1DEAA40078
+X-Spamd-Result: default: False [2.70 / 10.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.10)[+mx];
+	R_DKIM_ALLOW(-0.10)[aosc.io:s=default];
+	MIME_GOOD(-0.10)[text/plain];
+	FREEMAIL_CC(0.00)[gmail.com,kernel.org,lists.linux.dev,vger.kernel.org,linaro.org,chinaunicom.cn];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_ONE(0.00)[1];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	TO_DN_SOME(0.00)[];
+	DMARC_POLICY_ALLOW(0.00)[aosc.io,quarantine];
+	ALIAS_RESOLVED(0.00)[];
+	DKIM_TRACE(0.00)[aosc.io:+];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	LOCAL_OUTBOUND(0.00)[];
+	RCVD_TLS_ALL(0.00)[]
+X-Rspamd-Action: no action
+X-Rspamd-Server: nf1.mymailcheap.com
 
-Thanks for the review. I=E2=80=99ll reproduce the build failure locally, fi=
-x
-the issue, and resend a revised version after proper compile testing.
+From: Lin YuChen <starpt.official@gmail.com>
 
-On Mon, May 18, 2026 at 6:43=E2=80=AFPM Dan Carpenter <error27@gmail.com> w=
-rote:
->
-> On Mon, May 18, 2026 at 06:06:39PM +0000, Moksh Panicker wrote:
-> > Reformat multi-line function signature to a single line to fix
-> > line length and coding style warnings from checkpatch.pl.
-> >
-> > Also fix the missing brace/comment spacing in rtw_efuse_read_1_byte().
-> >
-> > Signed-off-by: Moksh Panicker <mokshpanicker.7@gmail.com>
-> > ---
-> >  drivers/staging/rtl8723bs/core/rtw_efuse.c | 7 ++-----
-> >  1 file changed, 2 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c b/drivers/stagi=
-ng/rtl8723bs/core/rtw_efuse.c
-> > index 803a608b74fa..afece04c09cd 100644
-> > --- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
-> > +++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-> > @@ -41,10 +41,7 @@ rtw_efuse_calculate_word_counts(u8 word_en)
-> >   * 09/23/2008        MHC             Copy from WMAC.
-> >   *
-> >   */
-> > -u8
-> > -rtw_efuse_read_1_byte(
-> > -struct adapter *Adapter,
-> > -u16          Address)
-> > +u8 rtw_efuse_read_1_byte(struct adapter *Adapter, u16 Address)
-> >  {
-> >       u8 Bytetemp =3D {0x00};
-> >       u8 temp =3D {0x00};
-> > @@ -78,7 +75,7 @@ u16         Address)
-> >               return rtw_read8(Adapter, EFUSE_CTRL);
-> >       } else
-> >               return 0xFF;
-> > -
-> > +     }
->
-> No.  You're not compile testing your patches.  This is the fifth version
-> and you're still breaking the build.  Take a break and come back in a
-> few days or something.
->
-> regards,
-> dan carpenter
->
+commit 8c964b82a4e97ec7f25e17b803ee196009b38a57 upstream.
+
+Initialize le_tmp64 to zero in rtw_BIP_verify() to prevent using
+uninitialized data.
+
+Smatch warns that only 6 bytes are copied to this 8-byte (u64)
+variable, leaving the last two bytes uninitialized:
+
+drivers/staging/rtl8723bs/core/rtw_security.c:1308 rtw_BIP_verify()
+warn: not copying enough bytes for '&le_tmp64' (8 vs 6 bytes)
+
+Initializing the variable at the start of the function fixes this
+warning and ensures predictable behavior.
+
+Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
+Cc: stable <stable@kernel.org>
+Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+Closes: https://lore.kernel.org/linux-staging/abvwIQh0CHTp4wNJ@stanley.mountain/
+Signed-off-by: Lin YuChen <starpt.official@gmail.com>
+Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+Link: https://patch.msgid.link/20260320172502.167332-1-starpt.official@gmail.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: WangYuli <wangyl5933@chinaunicom.cn>
+---
+ drivers/staging/rtl8723bs/core/rtw_security.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
+index cc709e849f39..bf15902b3cef 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_security.c
++++ b/drivers/staging/rtl8723bs/core/rtw_security.c
+@@ -1889,7 +1889,7 @@ u32 rtw_BIP_verify(struct adapter *padapter, u8 *precvframe)
+ 	u8 mic[16];
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+ 	__le16 le_tmp;
+-	__le64 le_tmp64;
++	__le64 le_tmp64 = 0;
+ 
+ 	ori_len = pattrib->pkt_len-WLAN_HDR_A3_LEN+BIP_AAD_SIZE;
+ 	BIP_AAD = rtw_zmalloc(ori_len);
+-- 
+2.53.0
+
