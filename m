@@ -1,49 +1,73 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F369B3ED3BF;
-	Tue, 19 May 2026 14:00:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99D6A4028CD
+	for <linux-staging@lists.linux.dev>; Tue, 19 May 2026 14:06:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779199234; cv=none; b=YzbuqtlB0TNEHgNCcBhIcjDS3PKj4GMSlHHYvnc/WkQA5t2+Qg4fVNFQDnB+4DYC1AVr/VMjIiLGnohsyVViy6UDToVo18S3gtfska4MhPTyECN/hYC6gQOsI03QkZrwXM7E+GcbKPZr78618mWI+NgTxSd0nEeCaWs3w/DIb/I=
+	t=1779199570; cv=none; b=tKvtTjX32ZMhQ8meLanHUSL+LJc7uGdF6KIyS6HQCo7r5ZTJVIOUkzJS5ZXrpyVjy+UbEdX+FoqRhj1f2BtqDJ7sgHKe+ORbNMWMYwHgRrCB1yZwTR5UOmPdjGVUgbOwNba9u0539v9JIgi5qs60G4h0GdkhpoRLD6skbJUVgm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779199234; c=relaxed/simple;
-	bh=/8BWuvBDFztKFuX/SlpiEy/37TboyiBX8PxB33yS5Z8=;
+	s=arc-20240116; t=1779199570; c=relaxed/simple;
+	bh=o+Q+vmvCMJI2JaJKKyxQuVALSNyi1mjv8KkhERwNL30=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZB8evvQtgHC2XoIwQDAPNUJJZzWsa1gcrwIRdmp3RtYQ4B33K0/a1iWKSfW5ZWj5iczgzcz51+IGQdRy+GBSke1SEeXj7S9++mCZpQyXMiOQm1T8v3WOrZ++xyJGQRoNDo3ZVzwbm1YCmexqnX7tsaygzDE/SORmCSSpU4E86Tc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M+EbYHf7; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=bsT9/ejZZfx1z+cPolFM+tfVUqHTF1DAizbZSIId4ojlvr6lqLPV9BwfjjIxzZ8F3W+YtvYgWgpKXC49BcE2FtChnvtYeSFfGm7yFD6MKo8tKfqmQ0pW8xTV/ljesb81ZGK8vjqnhxPIRq8hpabUSGND8LLTL9ild+KHCDX6iOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AC5sf8v+; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M+EbYHf7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52FF3C2BCB3;
-	Tue, 19 May 2026 14:00:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779199233;
-	bh=/8BWuvBDFztKFuX/SlpiEy/37TboyiBX8PxB33yS5Z8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=M+EbYHf7BMsznMj3a5Xl5E7giYn7q7kUaN6ipT5y96pivphrWgDWhSDmJSL4DKAPn
-	 Bctqhg9ZGSIMPUx/GiOVOhLpLOm8iqGF7gQpt7zz86xFX9swArBRrEeqoZ+GOIXva8
-	 9s6cGz8cHaiey4UwgAm2Nvu+hHmh9LtRivg5X1viPxMGUZuKXR2TkqyOZjIcLjHeRg
-	 awc+ZZ6k7ccuqet3LPgJeXdzUfBLBFukgfXZtP+JqOwvY8R/Fl5+W8KiqhbBpisNKX
-	 kLWOSLOM1lVmFi2soJ6H7JHJR7P9WrYxNnAUK4j8h/+5fkwDrq+8mbdhefhhuIpg2f
-	 KnayKD8cfWDbA==
-Date: Tue, 19 May 2026 16:00:27 +0200
-From: Benjamin Tissoires <bentiss@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Lee Jones <lee@kernel.org>, Jiri Kosina <jikos@kernel.org>, 
-	Filipe =?utf-8?B?TGHDrW5z?= <lains@riseup.net>, Bastien Nocera <hadess@hadess.net>, 
-	Ping Cheng <ping.cheng@wacom.com>, Jason Gerecke <jason.gerecke@wacom.com>, 
-	Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, 
-	Icenowy Zheng <uwu@icenowy.me>, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, linux-usb@vger.kernel.org, 
-	stable@vger.kernel.org
-Subject: Re: [PATCH v3 0/4] HID: Proper fix for OOM in hid-core
-Message-ID: <agxswzzCNMcxRN1n@beelink>
-References: <20260504-wip-fix-core-v3-0-ce1f11f4968f@kernel.org>
- <20260506091606.GB305027@google.com>
- <20260512101723.GU305027@google.com>
- <20260519111723.GU305027@google.com>
- <agxbD6k60vQYrJ6T@beelink>
- <2026051937-hefty-registry-37b2@gregkh>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AC5sf8v+"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4891e5b9c1fso30911145e9.2
+        for <linux-staging@lists.linux.dev>; Tue, 19 May 2026 07:06:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779199565; x=1779804365; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=pGtrp0IAf6lashkErUO9lfdTdCzLqP0NgVEXHzjtG90=;
+        b=AC5sf8v+6oGN4QXWtHS+H7pXgQ5xW7sFiee/+fpjxQyGdeLRvmvHz5OLIL9yImLZQu
+         Q8J5zTVbVh7By/KvcP7/2xJwZxGkGQIIurDS2WRN3uOlsBFQTAsxKimm8LQFqwaLuzp9
+         iYmwK2LEnGQ/+0+yoMlindao+p8yL8dKG0Kd0AhApP05TB+q4DkpNGPev28ATxHvXH+B
+         fWO83gVXJKyPUy3L81zuG66rKJsj+VWX9H/p2hkRyAAGkYqyJxAsZ0qtTJpY323t6L+N
+         gSbOQTC45R3Z4kBAnUd7PSrhlQjhWgHaLONIIk/Tgvvbj4j021NnIegmVRviG3mvxKW8
+         bMgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779199565; x=1779804365;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pGtrp0IAf6lashkErUO9lfdTdCzLqP0NgVEXHzjtG90=;
+        b=DmtiR/yrow2F5wKJ/ks9gV1WhuPnHnv2/kJtgCk+z8Dhs1rFnSPdIkTUGEICt7vPhm
+         CPFZKhK1aLTYSSr8UHj/ZL4gHiwRZV+/kgVXv9M6QMMJxFUWPryZHgHLZoYoBiCvtN4p
+         68m+Qqy1MC31JBXhmQScQCMBaGdIG/CSfW5OUBZuDgZkAQbl7UQiy1p3b0Do8WECiQzM
+         P3vKp1s8/qtApgwX0Y/NO80Tizhi3hqwIh5AfV5tJAN6erP95VwIVT0FRKDRzHEizdUs
+         48yKDx4S7tA3QFv2Op05YIRB+y/iciicYQBHmZlr9YHSuih3PQE0t7A0G6qDMaiAvdns
+         yeqA==
+X-Forwarded-Encrypted: i=1; AFNElJ8h2BAnp82p+pJzV+FtQb2QhLQnbhp+M6DVHUgBcoWmStDYdAInAB7UT+bwc+68UX8cUl8nq44CUSqvvmXf@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz4QbqQ8RQL8EwiBzSex9suIAbGE4S+6rTInGIVPqZk35cvKq5s
+	/7Xl2TG7VHcCjbaZkUMvbCpNVtie5COWRq6pTwmdpaYrBV+rTm647P0K
+X-Gm-Gg: Acq92OG1nLl9Gson+4OJz9mmvl798ifa5kegQZH8k7bIPif7I94iB5SlnTgkH/sK2vo
+	VywS3Y91CcaFGgBZlX92GUlIF0kli2sZDwifS/+miT3xzixaOsjcWjauY3ml7o/faWl1SzezM1X
+	f52/S1A/naQYk+jmDV4Lt9/ZQcLPn+po9tT8ZhG6PwoGiItyHc2K80gMJVh+b7DuMiRBwI5SE/M
+	tRG2IO9tGwff32scaatNAfbQLF6L4Md6HMaGGNps1N/ZAWZunmbkQUYzz70rZBWazC11J2zoRwL
+	HaQCI3Af6ttSOAXVHbM5UYYLZc2jy/ney5dyr1xucvtVtQC6foIXIIhvI9RI9hNS34tTREDBJVv
+	MCv/xw6Q4zyY1v7iL94A2LWqQTjNWqLN31hgrOs1j5FzisWmtkP1nPOYNJBDCD9pf0uQUfSSjor
+	5MSyxDd+zyiQVnDC2M9/ISDPPf3tBRKlwEAA==
+X-Received: by 2002:a05:600c:4fcb:b0:488:a797:f0ac with SMTP id 5b1f17b1804b1-48fe6613ab3mr293317915e9.28.1779199564532;
+        Tue, 19 May 2026 07:06:04 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48febf81970sm153801075e9.8.2026.05.19.07.06.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 May 2026 07:06:03 -0700 (PDT)
+Date: Tue, 19 May 2026 17:06:00 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: lixinyu <xinyuili@126.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] staging: rtl8723bs: add missing spaces around
+ operators in rtl8723b_hal_init.c
+Message-ID: <agxuSN4ZIVKzF9zI@stanley.mountain>
+References: <20260519090114.828918-1-xinyuili@126.com>
+ <20260519094633.869233-1-xinyuili@126.com>
+ <20260519094633.869233-3-xinyuili@126.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -52,120 +76,21 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2026051937-hefty-registry-37b2@gregkh>
+In-Reply-To: <20260519094633.869233-3-xinyuili@126.com>
 
-On May 19 2026, Greg Kroah-Hartman wrote:
-> On Tue, May 19, 2026 at 02:46:13PM +0200, Benjamin Tissoires wrote:
-> > On May 19 2026, Lee Jones wrote:
-> > > On Tue, 12 May 2026, Lee Jones wrote:
-> > > 
-> > > > On Wed, 06 May 2026, Lee Jones wrote:
-> > > > 
-> > > > > On Mon, 04 May 2026, Benjamin Tissoires wrote:
-> > > > > 
-> > > > > > Commit 0a3fe972a7cb ("HID: core: Mitigate potential OOB by removing
-> > > > > > bogus memset()") enforced the provided data to be at least the size of
-> > > > > > the declared buffer in the report descriptor to prevent a buffer
-> > > > > > overflow.
-> > > > > > 
-> > > > > > We only had corner cases of malicious devices exposing the OOM because
-> > > > > > in most cases, the buffer provided by the transport layer needs to be
-> > > > > > allocated at probe time and is large enough to handle all the possible
-> > > > > > reports.
-> > > > > > 
-> > > > > > However, the patch from above, which enforces the spec a little bit more
-> > > > > > introduced both regressions for devices not following the spec (not
-> > > > > > necesserally malicious), but also a stream of errors for those devices.
-> > > > > > 
-> > > > > > Let's revert to the old behavior by giving more information to HID core
-> > > > > > to be able to decide whether it can or not memset the rest of the buffer
-> > > > > > to 0 and continue the processing.
-> > > > > > 
-> > > > > > Note that the first commit makes an API change, but the callers are
-> > > > > > relatively limited, so it should be fine on its own. The second patch
-> > > > > > can't really make the same kind of API change because we have too many
-> > > > > > callers in various subsystems. We can switch them one by one to the safe
-> > > > > > approach when needed.
-> > > > > > 
-> > > > > > The last 2 patches are small cleanups I initially put together with the
-> > > > > > 2 first patches, but they can be applied on their own and don't need to
-> > > > > > be pulled in stable like the first 2.
-> > > > > > 
-> > > > > > Cheers,
-> > > > > > Benjamin
-> > > > > > 
-> > > > > > Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
-> > > > > > ---
-> > > > > > Changes in v3:
-> > > > > > - fixed ghib -> ghid in greybus
-> > > > > > - fixed i386 size_t debug size reported by kernel-bot
-> > > > > > - Link to v2: https://lore.kernel.org/r/20260416-wip-fix-core-v2-0-be92570e5627@kernel.org
-> > > > > > 
-> > > > > > Changes in v2:
-> > > > > > - added a small blurb explaining the difference between the safe and the
-> > > > > >   non safe version of hid_safe_input_report
-> > > > > > - Link to v1: https://lore.kernel.org/r/20260415-wip-fix-core-v1-0-ed3c4c823175@kernel.org
-> > > > > > 
-> > > > > > ---
-> > > > > > Benjamin Tissoires (4):
-> > > > > >       HID: pass the buffer size to hid_report_raw_event
-> > > > > >       HID: core: introduce hid_safe_input_report()
-> > > > > >       HID: multitouch: use __free(kfree) to clean up temporary buffers
-> > > > > >       HID: wacom: use __free(kfree) to clean up temporary buffers
-> > > > > > 
-> > > > > >  drivers/hid/bpf/hid_bpf_dispatch.c |  6 ++--
-> > > > > >  drivers/hid/hid-core.c             | 67 ++++++++++++++++++++++++++++++--------
-> > > > > >  drivers/hid/hid-gfrm.c             |  4 +--
-> > > > > >  drivers/hid/hid-logitech-hidpp.c   |  2 +-
-> > > > > >  drivers/hid/hid-multitouch.c       | 18 ++++------
-> > > > > >  drivers/hid/hid-primax.c           |  2 +-
-> > > > > >  drivers/hid/hid-vivaldi-common.c   |  2 +-
-> > > > > >  drivers/hid/i2c-hid/i2c-hid-core.c |  7 ++--
-> > > > > >  drivers/hid/usbhid/hid-core.c      | 11 ++++---
-> > > > > >  drivers/hid/wacom_sys.c            | 46 +++++++++-----------------
-> > > > > >  drivers/staging/greybus/hid.c      |  2 +-
-> > > > > >  include/linux/hid.h                |  6 ++--
-> > > > > >  include/linux/hid_bpf.h            | 14 +++++---
-> > > > > >  13 files changed, 109 insertions(+), 78 deletions(-)
-> > > > > 
-> > > > > What's the plan for this set Benjamin? -rcs or -next?
-> > > > 
-> > > > Are there any updates on this set please?
-> > > > 
-> > > > FYI, this set is still important to us.
-> > > > 
-> > > > Ideally, if all is well, it would go into the -rcs for v7.1.
-> > > 
-> > > I'm still actively tracking these.
-> > > 
-> > > It looks like Mark has been reverting them from -next and I'm getting
-> > > complaints from the Stable folks that they are causing build errors.
-> > > 
-> > >   drivers/hid/hid-core.c: In function 'hid_safe_input_report':
-> > >   drivers/hid/hid-core.c:2195:16: error: too many arguments to function '__hid_input_report'
-> > >     2195 |         return __hid_input_report(hid, type, data, bufsize, size, interrupt, 0,
-> > > 
-> > > Are you folks still working on this set?
-> > 
-> > Well, everything is in Linus' tree:
-> > 
-> > not yet in a released rc (taken yesterday by Linus directly):
-> > 
-> > 4d3a2a466b8d HID: core: Fix size_t specifier in hid_report_raw_event()
-> > 
-> > Already in 7.1-rc4:
-> > 
-> > 206342541fc8 HID: core: introduce hid_safe_input_report()
-> > 2c85c61d1332 HID: pass the buffer size to hid_report_raw_event
-> > 
-> > Not sure why the patches don't apply to stable, but from an upstream
-> > subsystem point of view, everything is in order.
+On Tue, May 19, 2026 at 05:46:33PM +0800, lixinyu wrote:
+> Add missing spaces around binary operators (|, &, +, >>) to comply
+> with kernel coding style. This includes spacing fixes for register
+> offset patterns, bitwise operations on function arguments, array
+> index arithmetic, and bit shift operations.
 > 
-> We dropped them from stable because of the build breakage :(
-> 
+> Assisted-by: Claude:claude-4-opus
+> ---
 
-If that was just the i386 size_t issue, then it has been fixed in Linus'
-tree. Could you try retaking them? Please?
+Wait a day between resends.
 
-Cheers,
-Benjamin
+Read the email I sent earlier again.  Use checkpatch etc.
+
+regards,
+dan carpenter
+
