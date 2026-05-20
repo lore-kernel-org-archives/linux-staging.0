@@ -1,106 +1,88 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E84BB3CFF7E
-	for <linux-staging@lists.linux.dev>; Wed, 20 May 2026 10:21:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BD5A3A2E3F
+	for <linux-staging@lists.linux.dev>; Wed, 20 May 2026 12:21:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779272505; cv=none; b=A3rzKIRbd5tsgKgANRmmPsXvPPdFuCpw0w/N8355dC5rDS8C+q+HMlScKnMte87B5JucJe71oye//KU/tP0xIwFtqyHHEAPXPgk7ppmrLiQ6aBzekiUC14bjXEadgdsCyQY5HwzLciaAf8vLTrsY77OqTeucIbvHPoIP669BlTU=
+	t=1779279686; cv=none; b=U1mIbLNqaqesIb/q/2Q7SrT/7X8uiB4Avtw+ZqGuWiiWeRsNwkl8Ql42BzxXLxWjL6EmFNUlwNNflQSDwsI2M78/peGYYdzkk6iKoos0mLcXkuQQsScvY1zUOCoftaueLJ1APLeJcoOEg0DKD2XVUeBMHt03s4j8wZYlE0sjYd4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779272505; c=relaxed/simple;
-	bh=vyabT8EViaMWnvjmwdZyIRis+u+i5vxTbtzqVMhKkzw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IVY90HnP9jTIxIQAiy87DHf1wFVO72yBo9FDIkvJcLcnfsFwc6mfzRzaujx7Wnk5kEOdB5LJhGv57LM/7YRgfDfyyrKWAI4U0XxTJWPQCrBlekW0IKasFEjRJUWLfiwTEGwAovbNThWV6V4qH+BVkBecfWEhXYO70c/F+4jg4tc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C5xjhfNI; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1779279686; c=relaxed/simple;
+	bh=TAuvyYudARAkHTzjpNfFTMQwQ0je0Xwjq+y2av6CwfA=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=TET9R85SNPIrcoNIyEHevyaXWY54csIrRSPXaq1kiCFhd7lwrYzfohc+F625JlY92JD+jbZctDVMqmYrGbea0nGJsHtdgy+GdrEZRV3ftsXxvKNHgzrGRc8bNwVReXyx9aaeen/vA6Vr54dKC4anjxCtvfk+xqom03gok2rLXtw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jiMHFIVQ; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C5xjhfNI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779272503; x=1810808503;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vyabT8EViaMWnvjmwdZyIRis+u+i5vxTbtzqVMhKkzw=;
-  b=C5xjhfNIOmHqnRUiY/W5q6RQjSvLXBiWfm7GW5O7/+UCjvMp0Nqo0aPm
-   7rMKCTXgKOD2gu0lAwPuoepC7W9qWO0+HYsqGiHTo2/L3IvIWln/K9NRT
-   SI3oi/a/66roIA6E/J+xG19eRi4cs5BScs5lez5Phzu7Gpi0WaUs9khEh
-   PD8ku/1dk4hr/F/VmDqCUqNf4J4EfTJvxEVHiEuonzDmNsh+FmfJuvcwo
-   YAGlGP9bX5Gqb7BDXGNmpdD1bTsFLGsFOTflymoQ/uwCH8is/ZvtDMEun
-   NLxTuRd4qNGfJPXWzTYNmToeqWXJbNuUCzdMQYxHYRDvPX9AMgJxsa/tQ
-   w==;
-X-CSE-ConnectionGUID: bn70WBgwREu9dBvyew14Ww==
-X-CSE-MsgGUID: NqMRtJ2NQKuowe17weTabQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11791"; a="80147580"
-X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
-   d="scan'208";a="80147580"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 03:21:42 -0700
-X-CSE-ConnectionGUID: C8tM0U5VTJ2e6kGk+t8p0Q==
-X-CSE-MsgGUID: Cp5oplL8R5el6JfQmEgUUA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
-   d="scan'208";a="235689409"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.115])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 03:21:39 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 1942511F951;
-	Wed, 20 May 2026 13:21:36 +0300 (EEST)
-Date: Wed, 20 May 2026 13:21:36 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Arnd Bergmann <arnd@kernel.org>, Andy Shevchenko <andy@kernel.org>,
-	Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alan Cox <alan@linux.intel.com>, Arnd Bergmann <arnd@arndb.de>,
-	Kees Cook <kees@kernel.org>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging/atomisp: reduce load_primary_binaries() stack
- usage
-Message-ID: <ag2LMNtYhQmA-08H@kekkonen.localdomain>
-References: <20260325125948.1385064-1-arnd@kernel.org>
- <acUOKIf3avxEPglo@ashevche-desk.local>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jiMHFIVQ"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5a8e387baaaso401182e87.2
+        for <linux-staging@lists.linux.dev>; Wed, 20 May 2026 05:21:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779279682; x=1779884482; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TAuvyYudARAkHTzjpNfFTMQwQ0je0Xwjq+y2av6CwfA=;
+        b=jiMHFIVQvL7V47aufrr/7BWy/pRXhmWrS4umgJzLMczDsMioG+MdwVxjd1SwvuUdTj
+         /3iIDZvlCNZaTWmMB8r3FbFO1iLltftjZ7f50O8B+0s4HQg4NO1s7GMWRJXmnNnc1pip
+         fHre8Xp2TQ+kUNAUMU6iEeiAeQa2Ugdg/RDR3SgDjjiSLsXr8QbcNhlWpmwvXzuAS//6
+         SPW7pno3UCJ49h+ysNN4r3ED60um75x0v5Lb2tmvmiC1BGQfuwoY97uis22mRbH0Tq5G
+         c8rScz8ibOKFZGcHWSCaD2i/VYbUSG29esfAkE7lGOMdwdVGLqH7Zq7voFyLQZc7FA97
+         FQug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779279682; x=1779884482;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=TAuvyYudARAkHTzjpNfFTMQwQ0je0Xwjq+y2av6CwfA=;
+        b=nGYyMzL50gVc1+NVejBlT/OIh/KxO2oSDHzwK5gRSCNzwlyLmMDXLqdFvR9BVFtRvg
+         EY2Rw0YNPPnSrNlLGxB24t9aQ9BdQOBxEcSF5RvXqVMOdlRSwEkDvjQtwVVG/z9RCA5n
+         96F8Mw6ZH3U33R9424/JlTPjmBA5eD8ncKG3jZ8vPK8jp+s3RdBnEQWJVMdH+kKxAJ97
+         OPxdxn2tXJknMhdX3/pB0Tsr5PHwZLd6CAznJCICuJQ2EQTmFkLZTXPFMqWaf9W4yg3m
+         GCyUzyDVAjUSsR7hlb8+8O4FvBQsdCas9lbpH8c6IIE3GR/mDbIhtWw79PZok6T9Oe77
+         I+6Q==
+X-Forwarded-Encrypted: i=1; AFNElJ+nWl3H2TtNvSlE3oHr7XQUmQ3vv4GW9/KvfWcy+bo88CgFsf25NCKRsSTyFBE+6KPmZF9yz2Lueg9c8hF3@lists.linux.dev
+X-Gm-Message-State: AOJu0YyK8tY54si4DIXhqy8GzO5XQHKD+g0fru8YfrvSbJ994wYaOF9b
+	BBAuC932uHBBTyO7LE3R5sE5W+Mkwkzr896YH5EXEeeKsH5g/k0laYBy
+X-Gm-Gg: Acq92OEhIWoEJWI4Ny06wSN/fOK8GinvXql3jHglCf+LDGwy8hbJSOy/MrjoBz1398W
+	yLHk/RQs6T+uGE9MaZg9IE+K/EY1i/T9yYH3yd3RndJDh97oE1ztsgrIyYxCsBU6L2emclAL/Nv
+	ndV2M577hV3l/ahHcd9BxsvYjtdO8sjEqn0XyE2JGrb+NiKRK/kkc2+IyT/k9wCjie9bVY6c1jH
+	9WnNixEOeotpja4kq4lONfd2quTTswJe4AxeMepyONqi+2xCDBwoj+k6CpG9qr+f8VuY4TgZKwI
+	i+FKW/PB1ONFrKFTvAiQOjQj4wF8QcyQK/2rb8pS76fswZfKdRiU4YxqLE5vT7Me/9vp9rp+UAD
+	brwDWECcvXpN4O0ejNbsnoMDd0BFoYdmeBkKsghVLSP2PmnmUnOEfcHgJaBF3XT6b2bTp8IYwUY
+	tTwwvJtPkdqSdPDEbt4JrilRfFkP7cNPTik+O4s/i7y4qCC4i0VCjgjqV6Tw==
+X-Received: by 2002:a05:6512:2241:b0:5a8:6f8c:24b1 with SMTP id 2adb3069b0e04-5aa0e619d83mr3072457e87.1.1779279681780;
+        Wed, 20 May 2026 05:21:21 -0700 (PDT)
+Received: from localhost.localdomain ([213.230.116.218])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a91dfda34bsm4889977e87.81.2026.05.20.05.21.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 May 2026 05:21:21 -0700 (PDT)
+From: Stepan Ionichev <sozdayvek@gmail.com>
+To: u.kleine-koenig@baylibre.com
+Cc: jic23@kernel.org,
+	gregkh@linuxfoundation.org,
+	lars@metafoo.de,
+	Michael.Hennerich@analog.com,
+	dlechner@baylibre.com,
+	nuno.sa@analog.com,
+	andy@kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Stepan Ionichev <sozdayvek@gmail.com>
+Subject: Re: [PATCH v1] staging: iio: Use named initializers for struct i2c_device_id
+Date: Wed, 20 May 2026 17:21:05 +0500
+Message-Id: <20260520122105.15299-1-sozdayvek@gmail.com>
+X-Mailer: git-send-email 2.33.0.windows.2
+In-Reply-To: <20260519140624.1585534-2-u.kleine-koenig@baylibre.com>
+References: <20260519140624.1585534-2-u.kleine-koenig@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <acUOKIf3avxEPglo@ashevche-desk.local>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Mar 26, 2026 at 12:44:56PM +0200, Andy Shevchenko wrote:
-> On Wed, Mar 25, 2026 at 01:59:43PM +0100, Arnd Bergmann wrote:
-> 
-> > The load_primary_binaries() function is overly complex and has som large
-> 
-> some
-> 
-> > variables on the stack, which can cause warnings depending on CONFIG_FRAME_WARN
-> > setting:
-> > 
-> > drivers/staging/media/atomisp/pci/sh_css.c: In function 'load_primary_binaries':
-> > drivers/staging/media/atomisp/pci/sh_css.c:5260:1: error: the frame size of 1560 bytes is larger than 1536 bytes [-Werror=frame-larger-than=]
-> > 
-> > Half of the stack usage is for the prim_descr[] array, but only one
-> > member of the array is used at any given time.
-> > 
-> > Reduce the stack usage by turning the array into a single structure.
-> 
-> Makes sense,
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-> 
-> *I think the original idea was to construct some chains out of the firmware
-> blobs and provide run-time combinations of them, but IIRC that was never
-> implemented.
-
-Thanks.
-
-I'll add Cc: stable to make CI happy and this can't hurt in the stable
-trees anyway.
-
--- 
-Sakari Ailus
+Reviewed-by: Stepan Ionichev <sozdayvek@gmail.com>
