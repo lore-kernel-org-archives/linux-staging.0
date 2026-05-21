@@ -1,70 +1,70 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B101B27FB3A
-	for <linux-staging@lists.linux.dev>; Thu, 21 May 2026 13:03:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DAC53CA49C
+	for <linux-staging@lists.linux.dev>; Thu, 21 May 2026 13:04:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779368639; cv=none; b=rLTbiKy7y9xBAHKIjozvh0DyN5CGgL3D2QWqCf8215DADaB7LFAS0GwZm9JTcRujQNYLZKG47C7Yx8F6I+JJMmT0F6EmNs1iSKlhVJ6R45Dflr/ulUzIymvE36tAKL9aHTS9XpVZFmJGlXrgD8Vd9BhE7EXe8HZ1EnPj0PDnKiI=
+	t=1779368644; cv=none; b=jFNTrgVmwXXDqHinB3kLNSntVwpCcpz4JdvcuDdaROff21SKzur4t/yvcHzJmnz1pFy502isb/vkJmoHv/OclfqU9ErXiOO4o8ig1ZMpDGt/MlwA6R8qjeKlaR8J18OMWmbLhn8mI5C6GTFtxorzDthlKCTGhAFjdFEEHeew/PE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779368639; c=relaxed/simple;
-	bh=6LgPQvpg4uWi2+g0oRu5FfUq5FLkAdJRzagqIsJygBo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IJ096IhOeyaA0bjNv3evMYIt9/Rz0P4mJ4rb22jgFNEdRVng4ebU3Kke2mWZFQj88GbyblC5TrC3SplUKIUQ2N1i2XT51HxB1IjcKcR69ABcxo3AJdBMYeDK+ZUIRS2COitqp7UL04Jph5tj9s5yH0nosneuGaqFNrofimvCzM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FsVHTfU/; arc=none smtp.client-ip=209.85.218.44
+	s=arc-20240116; t=1779368644; c=relaxed/simple;
+	bh=guw/0M339lqf3q+Se3RbL4Yn7HqkvsKcNxnXScWLqUA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nf4gadG8q+3d/7ZCaTqZZb+uPtalIVbwR94kVeLpeoVvsZ0fLrNckB0IUPV1dWIipI1+qLG+Ua+KAu2XCQCS8WVBkoCyTanKKc0tD1hJR0tiQF+wI/BMkFsdGD8VcDtXiNHRR3LuQ8WUQ5OZQHT6xdYMv9SgmicHSXb2ksaiT5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=naPetfjh; arc=none smtp.client-ip=209.85.218.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FsVHTfU/"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-bd8f9725b30so558008866b.3
-        for <linux-staging@lists.linux.dev>; Thu, 21 May 2026 06:03:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="naPetfjh"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-bd22b2abaa4so1054003166b.0
+        for <linux-staging@lists.linux.dev>; Thu, 21 May 2026 06:04:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779368636; x=1779973436; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1779368641; x=1779973441; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QCJ+miUX9szQ9qxrJpRnPrac8eYUQHkd+CfCVdwfbkQ=;
-        b=FsVHTfU/UMljuoSWhAAbqKkJttUshUAUYrBwZdeHbw/aty7I2covKHrSDm4STn3JZV
-         DalM0fnR1sclyr9FcWADAMNLR5aBMmb9q/hUVfVqStXyfVWkJH8jQHQA4Xr/DB/4ROfa
-         vo0JQy5QAnmZJzd604IMTgUEmz5we4dV8/VFe3jH7iKdbXyKyw9FMsVqWqVa9NboPUoI
-         SozSUvQBATN48+K/dmIIFR38CgFv0cwz8xdThzfaBEsIRzS60U5no9hPixoCe13R55Xn
-         zRlexTNx0t8upLxxCSw1pF7X0xTyajWt2M20sb8YkHfOtzXAsbN/Vx51M2NMrLyeXFSz
-         ymhA==
+        bh=pksxliDhN1xPi4Ml9hgRHYNl3ynUr9XDXR+rSuwcP/8=;
+        b=naPetfjhw/O2RcbLFxSivVQkoD8CG8WJ1dPBxtwTGTCshG5kk8KR0a0pjZFiFlMMyP
+         /TmLbL4w9vOIOg3f509XyrTXjWT8PizvGKPzWQQrun91Eu1c0MulJPK7l+iqFCoxfnoF
+         +ecY200bB7I3/kjoRchLPx6HP9N8ISoF2mUJDrNDayl0S8Jpxo3Ti5bdZcFQMVIvBJBb
+         Q306d3PeCTnRrPBr9e0FvxOSYU+pnCuQtPcq4tkSWiQ8jOxAn1LJp0Kfv+ceZFCI68xl
+         H7jBdgrUNmV7RxusiCVKpsvvpzu0iyEAwkj2E0KHLxIlXr4apDfIay3oGpypWHbXouom
+         PDEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779368636; x=1779973436;
+        d=1e100.net; s=20251104; t=1779368641; x=1779973441;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QCJ+miUX9szQ9qxrJpRnPrac8eYUQHkd+CfCVdwfbkQ=;
-        b=LCH70zTvH+xSARzmYO4M06gb9JRqQTGRfLnF2E0koFeMbTB6Po00U3C1w7Nh3abDkD
-         DMCwUpMPh3uol9btNcRMIw0VxYNcWSnCEHQ9TgAGl/IkvBpeCroGr+S6NcQvjub2YqL7
-         ezSyZqXhg6NZ4ge97bIL37pZ8GMJ5tnw+8091Pin44NQUJoGSGQ0FHfja7QO/qfTUlGY
-         /l1qAminXq86PuHsfgIlgHvEEFC7jLlPGAMLPQDy6V53KrIWA/MkQQcdoxsQqKF5zKDu
-         FJ6kQarbxfDqEyZCv8s5zyInaBJq2MvSKQBPTCI52u2qmbAms3pqRoz8FbGMTnqG7pgP
-         2Ybg==
-X-Gm-Message-State: AOJu0YxoAy1CiNFpV+VJfBdcbdx2OzPBaxMGXJpB7vuB2qoJkRCaC+Nj
-	UO4LdACbfifa+xAZEIxaUB7pBP39F4RTeg1hnpkR7Bk9AAjuSc9gA4z8
-X-Gm-Gg: Acq92OFuAU2ArNBj+8qnmM/Wq9SvnzEfC4oS+Nmzm66SNCAMjJuAV3PG5g7Dx2RANe9
-	XSl2B/6R6DBKSspYDIBm7PsvGwrk3N0sZFJ63IxYB8W+a4QJja4O2BXP+h3l3MJwyLXhJUJ4nSt
-	n9hn3a5gdPJQbwmdINoXWnazep6uFC2+KUJvR81zh/PCJq9htDu+V8MW4pylxnmMsG/ibG0G7Th
-	oiq7kY3l+1kaC8zA+kk6F2V073xnjSt4T7a3rCFldaXyMldZuN7cZi0dd6/XNwctxJGa4dTZV6J
-	kgOG+MrVmoNE4KXytydcbX3gLJFsRmItYwWeKW4JXifbebzUcjL8zcOG8fCQAVSzcXw9RyQYV7A
-	oRr/eUiaHHaAuIgHU0Yd+SGwQSo6kh2Ln9xOgCRUz+kha9+zrLd788G9JLr8n/qBYWcK2ZEgMdr
-	rLuSso7Wj8CEXmQOAGW214SOQ+w4fWb70LtP51GbshSTGf/rcbWe8nXWhsqXWHgQ2G7vbKlHwbu
-	PCampt4uWRPHbQMYMDXg12peFlDeLwehf2duhlUlQsKm6BayNE1xXIfUjWGR+yjPy6BT4+7yLea
-	PoAnqeNI54LOqJb8xohey7e6X64E
-X-Received: by 2002:a17:907:d01:b0:bd8:26e5:d79b with SMTP id a640c23a62f3a-bdc188f291amr147500566b.43.1779368635329;
-        Thu, 21 May 2026 06:03:55 -0700 (PDT)
+        bh=pksxliDhN1xPi4Ml9hgRHYNl3ynUr9XDXR+rSuwcP/8=;
+        b=PhxWcYxgUUeP6sH/aFfs5M6ar/cyoDd0k0vlwTLLo1m2+J12EvkKmr1CbIeweTnsao
+         ZYS9CyIAjUsadQfAad7mjbHqkY8feTubb/qpGc9SpoPuq+0jkHUempk4/VO6gYrSndwH
+         1mbyFdDkK+U8MyPmdJvqXwcRkianmIZusJPBtxdxUt9W/wV8EEjZyPZ7p6dn4tmLCmmo
+         +L0kTF/TqSzuMpJVI9RqNc2fh2QhyPAAbC89uZe+fC04jWli68dtYA5RVU7qh1/V6eS5
+         anu2CoS35leA7CqaGy5jSW38BmQrJ1yqXnUIjdnIXLaHXla4+yHUQgVzmbrE+zOgW0Px
+         zJ3w==
+X-Gm-Message-State: AOJu0YwfF4FQ3NobR14AQ2f16muGLa3jynnq7m6/aLeM2zpDhTKigIJQ
+	qdzcDA1WKYzArQRVVO4iu6KyRLzLRx8kKlySsM2U4gJwhJKM6B6E7nfy
+X-Gm-Gg: Acq92OHrJELBc+LHpyKZLNfiMHRC6EshZgs4spjSmHZ7YIlso6mVbjp00QEOOhkV0RF
+	quAsXP2xZFbNlWwMbMP05UpBy+9+Vw3mqFPJ8/n6B8gbEnxhLgfOfBnFVD1JNR52cDBYNOSf9DF
+	ziC/HwQB48R5EkcKBjejcHH1JiQdMEafmyynOicLkUQ6BIrOg8rqKV3UEQC75+En7gw6V48MomF
+	lBMlyuyNN/6SussibcvYxypXdQ+z8OMAhQVrVSRvhE9FN7xEEKOiI2GmFyAvoO+SbkD2yZ/DDHb
+	JEGMdVvJSFWpTPeg/ZYrHH8ortNW9Kv9avMHDHuT4RoUbd1rb+YSpZqPBWOKdiuTXOnln8vwQv0
+	CdgwNoGyWcILfl0wMXUGJcPJIXFcWLO697vcJSpfC8+ZgBInAdIK9heFsIBsWrRCi2CFM0rt4Na
+	R3MxzYO4wXKOKhklz/uf4aHa1zacXXDOf6tlwAIM6Tc8XKDHToI3a5jM25guHPzjr4ETIg3s1Hq
+	JgqYxp1zM56YX6AvodU3DKkTjxDi5HOk9DI5RKoacuTUDHss8sAiXS3mrfiMERnMXT7PPdi35oa
+	hLdnDkmbeltxIPunFODYxASSqZ4JvV4cFaKJmtA=
+X-Received: by 2002:a17:906:f58e:b0:bda:d08:35ea with SMTP id a640c23a62f3a-bdc15a3910emr145283666b.48.1779368641190;
+        Thu, 21 May 2026 06:04:01 -0700 (PDT)
 Received: from ahossu.localdomain (ip-217-105-56-94.ip.prioritytelecom.net. [217.105.56.94])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bdc8aa05cffsm42042766b.50.2026.05.21.06.03.54
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bdc8a505905sm43766266b.37.2026.05.21.06.04.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 May 2026 06:03:54 -0700 (PDT)
+        Thu, 21 May 2026 06:04:00 -0700 (PDT)
 From: Alexandru Hossu <hossu.alexandru@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	stable@vger.kernel.org,
 	hossu.alexandru@gmail.com
-Subject: [PATCH v9] staging: rtl8723bs: fix WEP length underflow and OOB read in OnAuth()
-Date: Thu, 21 May 2026 15:03:24 +0200
-Message-ID: <20260521130324.754100-1-hossu.alexandru@gmail.com>
+Subject: [PATCH v6 0/7] staging: rtl8723bs: fix OOB reads and writes in IE/attribute parsing
+Date: Thu, 21 May 2026 15:03:23 +0200
+Message-ID: <20260521130330.754181-1-hossu.alexandru@gmail.com>
 X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -74,70 +74,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-OnAuth() has two bugs in the shared-key authentication path.
+Fix out-of-bounds memory accesses in several IE and attribute parsing
+paths of the rtl8723bs driver.  All affected functions iterate over
+attacker-controlled IE data from over-the-air frames without validating
+header or payload bounds before dereferencing.
 
-When the Privacy bit is set, rtw_wep_decrypt() is called without
-verifying that the frame is long enough to contain a valid WEP IV and
-ICV.  Inside rtw_wep_decrypt(), length is computed as:
+v6: add two patches addressing issues found during v5 review.
+    Patch 6 adds IE header bounds checks and payload length guards to
+    is_ap_in_tkip().  Patch 7 adds header and payload bounds checks to
+    rtw_get_sec_ie(), rtw_get_wapi_ie(), and rtw_get_wps_attr().
 
-    length = len - WLAN_HDR_A3_LEN - iv_len
+Alexandru Hossu (7):
+  staging: rtl8723bs: fix OOB read in update_beacon_info() IE loop
+  staging: rtl8723bs: fix OOB reads in IE loops in issue_assocreq() and
+    join_cmd_hdl()
+  staging: rtl8723bs: fix heap buffer overflow in
+    rtw_cfg80211_set_wpa_ie()
+  staging: rtl8723bs: fix OOB write in HT_caps_handler()
+  staging: rtl8723bs: fix OOB read in OnAssocRsp() IE loop
+  staging: rtl8723bs: fix OOB reads in is_ap_in_tkip() IE loop
+  staging: rtl8723bs: fix OOB reads in rtw_get_sec_ie(),
+    rtw_get_wapi_ie(), and rtw_get_wps_attr()
 
-and then passed as (length - 4) to crc32_le().  If len is less than
-WLAN_HDR_A3_LEN + iv_len + icv_len (32 bytes), length - 4 is negative
-and, after the implicit cast to size_t, causes crc32_le() to read far
-beyond the frame buffer.  Add a minimum length check before accessing
-the IV field and calling the decryption path.
+ .../staging/rtl8723bs/core/rtw_ieee80211.c    | 15 ++++++++++++
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 12 ++++++++++
+ .../staging/rtl8723bs/core/rtw_wlan_util.c    | 23 +++++++++++++++----
+ .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c |  8 +++++++
+ 4 files changed, 53 insertions(+), 5 deletions(-)
 
-When processing a seq=3 response, rtw_get_ie() stores the Challenge
-Text IE length in ie_len, but the subsequent memcmp() always reads 128
-bytes regardless of ie_len.  IEEE 802.11 mandates a challenge text of
-exactly 128 bytes; reject any IE whose length field differs, matching
-the check already applied to OnAuthClient().
-
-Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Alexandru Hossu <hossu.alexandru@gmail.com>
----
-v9: add WLAN_HDR_A3_LEN guard and WEP minimum length check before
-    iv[3] access and rtw_wep_decrypt(); tighten ie_len check from
-    <= 0 to != 128 to reject under-size challenge IEs
-
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index 68ce422305ed..8575b7bd6d84 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -687,6 +687,9 @@ unsigned int OnAuth(struct adapter *padapter, union recv_frame *precv_frame)
- 	if ((pmlmeinfo->state&0x03) != WIFI_FW_AP_STATE)
- 		return _FAIL;
- 
-+	if (len < WLAN_HDR_A3_LEN)
-+		return _FAIL;
-+
- 	sa = GetAddr2Ptr(pframe);
- 
- 	auth_mode = psecuritypriv->dot11AuthAlgrthm;
-@@ -698,6 +701,9 @@ unsigned int OnAuth(struct adapter *padapter, union recv_frame *precv_frame)
- 		prxattrib->hdrlen = WLAN_HDR_A3_LEN;
- 		prxattrib->encrypt = _WEP40_;
- 
-+		if (len < WLAN_HDR_A3_LEN + 8)
-+			return _FAIL;
-+
- 		iv = pframe+prxattrib->hdrlen;
- 		prxattrib->key_index = ((iv[3]>>6)&0x3);
- 
-@@ -802,7 +808,7 @@ unsigned int OnAuth(struct adapter *padapter, union recv_frame *precv_frame)
- 			p = rtw_get_ie(pframe + WLAN_HDR_A3_LEN + 4 + _AUTH_IE_OFFSET_, WLAN_EID_CHALLENGE, (int *)&ie_len,
- 					len - WLAN_HDR_A3_LEN - _AUTH_IE_OFFSET_ - 4);
- 
--			if (!p || ie_len <= 0) {
-+			if (!p || ie_len != 128) {
- 				status = WLAN_STATUS_CHALLENGE_FAIL;
- 				goto auth_fail;
- 			}
 -- 
 2.54.0
 
