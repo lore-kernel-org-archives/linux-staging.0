@@ -1,94 +1,81 @@
-Received: from sender-pp-o91.zoho.in (sender-pp-o91.zoho.in [103.117.158.91])
+Received: from forward500d.mail.yandex.net (forward500d.mail.yandex.net [178.154.239.208])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02632242D6A
-	for <linux-staging@lists.linux.dev>; Thu, 21 May 2026 05:27:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=103.117.158.91
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779341233; cv=pass; b=q2DGk4Hi6bCGcuYslQz0ehTPKnjIR/RbkM/crjfxgNrTN2dPrfvcAU4MufObI8nJ77d6UbchGp+sGZMvGI14qulQJqRMFis3pIHC9qOHANNUmSUwS/tjqu9LvhfasyWKlDnKMs7Vrgxppb4UT8C0MM85DVMCRdlFKgeiAQOpfBQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779341233; c=relaxed/simple;
-	bh=sDOrHME2WzK0WbnZKiDnD6MHd3koZSJyjnLRWLG8/I8=;
-	h=Date:From:To:Cc:Message-ID:Subject:MIME-Version:Content-Type; b=Mv5BfHfho29y86u3njoNU6qzmP9AN5dKWVQxJJ8poJQHsCuNRB9wDPLxA1hwsQMT+vhqoh3MCwMGX0cm3UJaGe5xhV0FrndYzSXQsXrQzoLvxotSfhKUvaqcLJco0nDHIebvRw8PSg+2A6hHgQiItzZrUPF6dJ1MKNHPGLZdF6g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in; spf=pass smtp.mailfrom=zohomail.in; dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b=CnzhGon7; arc=pass smtp.client-ip=103.117.158.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.in
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7272434E75C
+	for <linux-staging@lists.linux.dev>; Thu, 21 May 2026 05:45:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.208
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779342319; cv=none; b=oG0DeihTgJRIMKn2Dg1hExr16N2fMW808RWBUP3YqoY6AcVfyPFjSsRYfShdSdDnCfxMt5ndmw8P4ko44DrT3W6FIZW1zOO0sT/oIn7fsCmZpIxtXMYOUFB9lGRmQNOq98J2rbQlI6aLY2Gp8euk/57/KRh6HztlM5NQxwpcZ3E=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779342319; c=relaxed/simple;
+	bh=+miBJBX3jt1lkPQeUyjDtT2Tck1GLXjpFq7DFLF+QKk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BFEu0tENaKm9+zmNYyWTyreUF3YUTq/5b1dEhhz8sXuBJzLnJ1fyCyOh+oNEFSI4RtT3tzmwmtmZjMO32/r0othg55h+0IEzRX41XrSBaLfwVbOVg1U3g14Qim0OuZV5G/bvmgJvyvTYQLJy2SWZL0SHwx7ps372v8udZ9RvQzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net; spf=pass smtp.mailfrom=sezginduran.net; dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b=kja4Ny1a; arc=none smtp.client-ip=178.154.239.208
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sezginduran.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b="CnzhGon7"
-ARC-Seal: i=1; a=rsa-sha256; t=1779341214; cv=none; 
-	d=zohomail.in; s=zohoarc; 
-	b=VavG3RG0vlzqMoSvIwqruEAcZXwds/2T025hPKm5ifXgZ6PjZ6y6DIACO506mA8/P7Sn0aitZBALWkqi7pq4CjnV1C1p57xO4YtUhjeB6OZ8leNdQ0Nv9KJTTMoYX+f0JMUvb15ZmKsRlBM/WWrRL56m2TRgmATK/Qzy5M3BZa4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in; s=zohoarc; 
-	t=1779341214; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=mF4kMiD/cx+DUYSG83dpfQ+e31V36MRSnhlpl8Rms2A=; 
-	b=Kwn8grQwVHqnSO6dd3abmH1hGOjHc8dkiquEzubJbJ4WapSiJ31fX7AkzOEzN3gESYTYN4PDqubjcFzWsHl8VRPzHQ0JQUSW6yFrzvDS4HjjX/uhHkfm2JNZEZMsUn1mAFxQJQN621Kj8K/vAOizB+/w3i0S0OLJzyUHYC7vhoM=
-ARC-Authentication-Results: i=1; mx.zohomail.in;
-	dkim=pass  header.i=zohomail.in;
-	spf=pass  smtp.mailfrom=linuxuser509@zohomail.in;
-	dmarc=pass header.from=<linuxuser509@zohomail.in>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1779341214;
-	s=zoho; d=zohomail.in; i=linuxuser509@zohomail.in;
-	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=mF4kMiD/cx+DUYSG83dpfQ+e31V36MRSnhlpl8Rms2A=;
-	b=CnzhGon7fIgFUXKCj+vWvjUKv4+13mKlSzAhOlfubfnCoJXTGtQT21Idk/VinHEj
-	esaTsiP/4j7qb1CDiFlGfq9WcSdbb9Cabo/mwSYDjconGSWW2fB0ceSk3SEiprwhDVP
-	G32tKz4PP0xVmtrSrOWU6vvMCDhKTTFPchQ3AMpk=
-Received: from mail.zoho.in by mx.zoho.in
-	with SMTP id 1779341211867576.875824417363; Thu, 21 May 2026 10:56:51 +0530 (IST)
-Received: from  [27.59.63.162] by mail.zoho.in
-	with HTTP;Thu, 21 May 2026 10:56:51 +0530 (IST)
-Date: Thu, 21 May 2026 10:56:51 +0530
-From: Ashwin Gundarapu <linuxuser509@zohomail.in>
-To: "gregkh" <gregkh@linuxfoundation.org>
-Cc: "linux-kernel" <linux-kernel@vger.kernel.org>,
-	"linux-staging" <linux-staging@lists.linux.dev>
-Message-ID: <19e490038be.2220747069631.5983756933086873911@zohomail.in>
-Subject: [PATCH v10] staging: rtl8723bs: remove unnecessary braces in
- rtw_mlme.c
+	dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b="kja4Ny1a"
+Received: from mail-nwsmtp-smtp-production-main-95.klg.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-95.klg.yp-c.yandex.net [IPv6:2a02:6b8:c42:2a21:0:640:9c41:0])
+	by forward500d.mail.yandex.net (Yandex) with ESMTPS id A4C88827E3;
+	Thu, 21 May 2026 08:39:57 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-95.klg.yp-c.yandex.net (smtp) with ESMTPSA id rdLfVFGR2qM0-x6fGAYsV;
+	Thu, 21 May 2026 08:39:56 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sezginduran.net;
+	s=mail; t=1779341997;
+	bh=CxyHJwO4fAhJn5uepluxn8jHO48b5omtP5401VdIGeg=;
+	h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+	b=kja4Ny1apd5b41kiCSuEryyODmVGUUotDsY4RBw1u99EpZ6ksdwyhfX258J/ESCOG
+	 Qb7LtiV2D8cXMRy4/8sfwmNhieNcbbsFHTR32dT9RPnEmM5fhWRL4Dh2uvHe822aMF
+	 OGRhRcmKwKwOAELFHrc3iEMJAEArQtmV+Z6rtcSM=
+Authentication-Results: mail-nwsmtp-smtp-production-main-95.klg.yp-c.yandex.net; dkim=pass header.i=@sezginduran.net
+Message-ID: <7380c354-1281-4bd3-9305-9e828d4a2cad@sezginduran.net>
+Date: Thu, 21 May 2026 08:39:53 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10] staging: rtl8723bs: remove unnecessary braces in
+ rtw_mlme.c
+To: Ashwin Gundarapu <linuxuser509@zohomail.in>,
+ gregkh <gregkh@linuxfoundation.org>
+Cc: linux-kernel <linux-kernel@vger.kernel.org>,
+ linux-staging <linux-staging@lists.linux.dev>
+References: <19e490038be.2220747069631.5983756933086873911@zohomail.in>
+Content-Language: tr
+From: Ahmet Sezgin Duran <ahmet@sezginduran.net>
+In-Reply-To: <19e490038be.2220747069631.5983756933086873911@zohomail.in>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
 
-From: Ashwin Gundarapu <linuxuser509@zohomail.in>
-Date: Tue, 12 May 2026 17:54:37 +0530
-Subject: [PATCH] staging: rtl8723bs: remove unnecessary braces in rtw_mlme.c
+On 5/21/26 8:26 AM, Ashwin Gundarapu wrote:
+> From: Ashwin Gundarapu <linuxuser509@zohomail.in>
+> Date: Tue, 12 May 2026 17:54:37 +0530
+> Subject: [PATCH] staging: rtl8723bs: remove unnecessary braces in rtw_mlme.c
 
-Remove braces around single statement blocks. Also remove an extra
-blank line to maintain one blank line between statements.
+This part is not supposed to be in the email. Better to use `git 
+send-email` for sending patches.
 
-Found by checkpatch.pl --strict
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+> index 3d88a3a185d5..22776af126ca 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+> @@ -483,7 +483,6 @@ void rtw_update_scanned_network(struct adapter *adapter, struct wlan_bssid_ex *t
+>   			break;
+>   		}
+>   
+> -
+>   		if (rtw_roam_flags(adapter))
+>   			/* TODO: don't select network in the same ess as oldest if it's new enough*/
+>   
 
-Signed-off-by: Ashwin Gundarapu <linuxuser509@zohomail.in>
----
-v10: Removed extra blank line. Single blank line between statements only.
-v9: Removed git header from email body.
-v8: Fixed double blank lines as requested by Dan Carpenter.
-v7: Added version changelog below the --- line.
-v6: Rebased against staging-next to apply cleanly.
----
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 1 -
- 1 file changed, 1 deletion(-)
+Commit message is about removing braces, but actual commit is not. You 
+need to be consistent here.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index 3d88a3a185d5..22776af126ca 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -483,7 +483,6 @@ void rtw_update_scanned_network(struct adapter *adapter, struct wlan_bssid_ex *t
- 			break;
- 		}
- 
--
- 		if (rtw_roam_flags(adapter))
- 			/* TODO: don't select network in the same ess as oldest if it's new enough*/
- 
--- 
-2.43.0
-
+Regards,
+Ahmet Sezgin Duran
