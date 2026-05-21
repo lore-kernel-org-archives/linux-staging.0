@@ -1,100 +1,102 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3F573A1682
-	for <linux-staging@lists.linux.dev>; Thu, 21 May 2026 10:41:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC51F3A6F05;
+	Thu, 21 May 2026 10:42:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779360072; cv=none; b=BG1CUSZjMLMbRY6y/Z3E3wrHPiTHar9yuLw1yMDVkU4y63wrRJY1Wc4pzULk7NqUCBgoQ78NbrNuMaHdw6URyq3WnOvBMlvEzYs04HCGyePWqZMNWLiUWhqleg6OOs1iNrrBgB77MaBF/XGpxZT1LH+X1XM7L4WW8q1oJ18gwK8=
+	t=1779360127; cv=none; b=D+2ZV1jSmDEYRy7lqeSHmnqqvDUhuIqxdZxhyY2PwCDNugKVbgCs/VKseaSyGpRM4EucOT0DhQ3Ry4BnZznuUlNhgcQaPcKfoYsHibzssC5H/3L2Z6yl6/oizf7YYR7d1Lh8mWfYEOS7laotIa9qjpsRAMwU7rOQag8k7Eql3Ys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779360072; c=relaxed/simple;
-	bh=EUCH3fjZFrzBj2Y08qYtYPKHQFMg7jg2mialfg78jn4=;
+	s=arc-20240116; t=1779360127; c=relaxed/simple;
+	bh=uLngnlAsglHRzm9Wg1HQ4y/sg+EEynIi7vRNf1TSH1I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XdrwS9WeJp89ccwHnFzdRWVC2R2YtrDxai4r0B51FwoNQmFwtf1mOzBmDP6L3Rw9JKeTiHtOoATLZV/Z2qbbJWNkcRsxEcF35jYu0mktCFPWZZEfAPWSdmVH+Lj+Qxz8IGelMJEREy0PSQQLtzVQrj7sMlojQin7uuy+V3R5yf8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=jyc7+Dax; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=JpgCHS/u94hc224L+o+7ZE4NgfUxKSUCkRPCc5In/2aymU4WRTQLGL8/EIamubwuTC6X154YwBjaCeLXNCWXTXE/4xOVxIFOxb+q1v3D0O2EE6oEAjEBPDeiqmp2OAfwF/49/tYzi5vHCkYOfyjvOEyDh5+2sn9WSPoBqU2VFrI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=XLjnXaX1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="jyc7+Dax"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F02141F000E9;
-	Thu, 21 May 2026 10:41:10 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="XLjnXaX1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C4161F000E9;
+	Thu, 21 May 2026 10:42:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1779360071;
-	bh=kXXcI+EVMlblFCzRL4vbrQUH3Qf3LreO1BKchrakVD0=;
+	s=korg; t=1779360125;
+	bh=fMio8TauSQXf7NrQmSw8MAWyDD9SaOVWSIlDVzAHp0U=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=jyc7+DaxvcIoBneOwUdItPb0IBATmuVVOch+ZTGpKmWBgCXqv6ERCAvxBom1qyRQW
-	 FAb3J17C2GgpTxtiuDuAb++PmhUSlt4CCPJEi/nqddyMZKA5mHeEzBTV2hlxPVY3jC
-	 SV3720a6dnwIVot2+6sJZt9cVsGHpnV8z0Sd26/E=
-Date: Thu, 21 May 2026 12:41:14 +0200
+	b=XLjnXaX1rSo7J56iQIKoEXc4Ejd7B+o4UKLVfwSqqEm3JUSAtUz0+F2NPgbyj5bWE
+	 6oWA4lhxvq3vYZNyf5J0FOBz1JcW5FlqRB1BxJtEYKsH51ckJaBqGod4Fi89V1C117
+	 X0VXg9ZZC6t3aJEJ5c8MRcK/DB4Ji1NFhlh+Z6is=
+Date: Thu, 21 May 2026 12:42:08 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Diego Fernando Mancera =?iso-8859-1?Q?G=F3mez?= <diegomancera.dev@gmail.com>
-Cc: linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: rtl8723bs: remove redundant comparison with true
-Message-ID: <2026052157-drew-rocker-59c0@gregkh>
-References: <20260517043520.47423-1-diegomancera.dev@gmail.com>
+To: Praveen Jayaprakash Pattar <praveen.pattar2022@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: hal: Remove unnecessary blank lines
+ in hal_com.c
+Message-ID: <2026052155-bottom-synergy-e6fc@gregkh>
+References: <20260517171537.17787-1-praveen.pattar2022@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260517043520.47423-1-diegomancera.dev@gmail.com>
+In-Reply-To: <20260517171537.17787-1-praveen.pattar2022@gmail.com>
 
-On Sat, May 16, 2026 at 10:35:20PM -0600, Diego Fernando Mancera Gómez wrote:
-> Clean up the checkpatch.pl check: "Using comparison to true is
-> error prone". Evaluating the boolean variable directly is preferred
-> and more idiomatic in the Linux kernel.
+On Sun, May 17, 2026 at 10:45:37PM +0530, Praveen Jayaprakash Pattar wrote:
+> Remove multiple consecutive blank lines that violate kernel coding style.
+> Detected by checkpatch.pl with --strict flag.
 > 
-> Signed-off-by: Diego Fernando Mancera Gómez <diegomancera.dev@gmail.com>
+> Signed-off-by: Praveen Jayaprakash Pattar <praveen.pattar2022@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/core/rtw_sta_mgt.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/staging/rtl8723bs/hal/hal_com.c | 5 -----
+>  1 file changed, 5 deletions(-)
 > 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c b/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
-> index 07a6db1d2..349b27f91 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
-> @@ -531,7 +531,7 @@ u8 rtw_access_ctrl(struct adapter *padapter, u8 *mac_addr)
->  		paclnode = list_entry(plist, struct rtw_wlan_acl_node, list);
+> diff --git a/drivers/staging/rtl8723bs/hal/hal_com.c b/drivers/staging/rtl8723bs/hal/hal_com.c
+> index 728a2171f..de1fe8a98 100644
+> --- a/drivers/staging/rtl8723bs/hal/hal_com.c
+> +++ b/drivers/staging/rtl8723bs/hal/hal_com.c
+> @@ -30,7 +30,6 @@ void rtw_hal_data_deinit(struct adapter *padapter)
+>  	}
+>  }
 >  
->  		if (!memcmp(paclnode->addr, mac_addr, ETH_ALEN))
-> -			if (paclnode->valid == true) {
-> +			if (paclnode->valid) {
->  				match = true;
->  				break;
->  			}
+> -
+>  void dump_chip_info(struct hal_version	chip_version)
+>  {
+>  	char buf[128];
+> @@ -71,7 +70,6 @@ void dump_chip_info(struct hal_version	chip_version)
+>  	cnt += scnprintf(buf + cnt, sizeof(buf) - cnt, "RomVer(%d)\n", chip_version.ROMVer);
+>  }
+>  
+> -
+>  #define	EEPROM_CHANNEL_PLAN_BY_HW_MASK	0x80
+>  
+>  /*
+> @@ -378,7 +376,6 @@ static void _TwoOutPipeMapping(struct adapter *padapter, bool bWIFICfg)
+>  
+>  	} else { /* typical setting */
+>  
+> -
+>  		/* BK,	BE,	VI,	VO,	BCN,	CMD, MGT, HIGH, HCCA */
+>  		/*   1,		1,	0,	0,	0,	0,	0,	0,		0	}; */
+>  		/* 0:ep_0 num, 1:ep_1 num */
+> @@ -419,7 +416,6 @@ static void _ThreeOutPipeMapping(struct adapter *padapter, bool bWIFICfg)
+>  
+>  	} else { /* typical setting */
+>  
+> -
+>  		/* 	BK,	BE,	VI,	VO,	BCN,	CMD, MGT, HIGH, HCCA */
+>  		/*   2,		2,	1,	0,	0,	0,	0,	0,		0	}; */
+>  		/* 0:H, 1:N, 2:L */
+> @@ -751,7 +747,6 @@ void SetHalODMVar(
+>  	}
+>  }
+>  
+> -
+>  bool GetU1ByteIntegerFromStringInDecimal(char *Str, u8 *pInt)
+>  {
+>  	u16 i = 0;
 > -- 
-> 2.43.0
+> 2.54.0
 > 
-> 
+>
 
-Hi,
-
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- Your patch did not apply to any known trees that Greg is in control
-  of.  Possibly this is because you made it against Linus's tree, not
-  the linux-next tree, which is where all of the development for the
-  next version of the kernel is at.  Please refresh your patch against
-  the linux-next tree, or even better yet, the development tree
-  specified in the MAINTAINERS file for the subsystem you are submitting
-  a patch for, and resend it.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
+Someone else sent this same change right before you did, sorry.
