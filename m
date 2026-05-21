@@ -1,69 +1,47 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mta.al2klimov.de (mta.al2klimov.de [162.55.223.79])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FCBF3ABD95
-	for <linux-staging@lists.linux.dev>; Thu, 21 May 2026 14:42:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 495951F419A
+	for <linux-staging@lists.linux.dev>; Thu, 21 May 2026 18:24:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.55.223.79
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779374521; cv=none; b=Ky1OPYw4uTsSTl4lh+riWEl5uU6JMB65btWVYWsQ6G2zn87IH1C91tnWxPqlLehfrgBxwkQfQAGpiR6c/G6bVGKsfSf9CRXQwgn88+Dzc0SqkfgNZc6asOegPnSgpxfxyPNIycORPSYwPWy2qlmj7QsOoziK5ARcivo7G00mcDY=
+	t=1779387872; cv=none; b=h8cpYxsDkiWWAKuk8Q6kq0CCGCK2WTRpMbbwmmfKwwiAWgRyidd+bXlZlEibtcsggqg0znjx4vrjQLtpeHFH+3xfEG37kqZRwfPkywesVfJUoJi6+93mDUpT3lLrgShEU8F+NNSYqGAFHEEiRV5SP486G3kVe4JD5iRlUxz+NaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779374521; c=relaxed/simple;
-	bh=zG/c4HzkYSRbUyH2YM/WwDn1QY4tREXrHq7hz9jCybs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TyX/hb90j98+wOH+2jFIkUMoN78SaPJK3ffLnCJI5tLhib5l3qtlEbWiYjd4ubGe1giq3lG/ozTkbgOeHU3BQ5qKUMGXngzNDHXE9UsDAWkwowGnmK/tMWlKQ5CBJ8ELoGOhfz1AkRoizsyy51yqj3LMJRYLkmb8mPVylfPj3SI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BaTB5bk/; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779387872; c=relaxed/simple;
+	bh=+Nd6ZLTQcww3JB/AwzYyGZx3hmDFvcqbIMoVq4gakGM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FI/MoaQz6odveJGthKuFe2anJzwxobRbmxqB5OLwyx2tRC57uIPA2Q0d1zqkoEUqS3lZWMY1EXhKSEKKMqWr3LFjhqKCDbwNKLSnOMyReVzd26pqsHIj/T1UsUzH+fMvBvs2BwvXGfmH3rvrZgLVrBHDmVwI40Kkqhheuc8jq7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=al2klimov.de; spf=pass smtp.mailfrom=al2klimov.de; dkim=pass (2048-bit key) header.d=al2klimov.de header.i=@al2klimov.de header.b=fmjB48nD; arc=none smtp.client-ip=162.55.223.79
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=al2klimov.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=al2klimov.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BaTB5bk/"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2be1dd4af34so46308285ad.1
-        for <linux-staging@lists.linux.dev>; Thu, 21 May 2026 07:42:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779374520; x=1779979320; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=K+dFGn//E1YiYMvxbON0Rqvrd0yb0YTLfTiQcSGi7qQ=;
-        b=BaTB5bk/Wo4YTFVlP9k6ctjaenuLCNu7t8WOOCNnfQadwutMfu9tEpIAeITmvCe0y9
-         eAGPQShdiJEPfIzw4bU5afGWdEwFe50K1pwQNh1DAd+lsPIpnV4OEUHQop6fgwd4CUF7
-         vkI+haqx/blkhPSt/m0gka+eEH68y50g4avWayBAsKAaDIM695niVqRuHJJuytYCiaMj
-         IgYYGo6vw0xdCX/oN0aHq4AXlUzQx4tlgHqX1+KNQ6TT9XvJOKRbINBApjlGx0Z3mAE7
-         2vbGY/NaICutrsd4N/zuJPoIVg3QlQVNc5PpAAN8aX1PXPV4hgfhreDzm70uWIbi+kpw
-         JxKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779374520; x=1779979320;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=K+dFGn//E1YiYMvxbON0Rqvrd0yb0YTLfTiQcSGi7qQ=;
-        b=G2ECdZOy2iRw643hAbn/RToiMpq5217FhQT8cip1Vfllv/SxQTNuGX0izasbpARkzz
-         IIKkMaFqQ9a2YLvC+8Cgi0REDhgYo3B8DCJTWW3rMZQ07Ma1c1BLWNzWdzXZ2lEAwu+M
-         ZvbuZSCKHmAKg3GZ2z4lPL3lCTrA4AeiC5zblVHl7WAmgW08CPIOgQZPc6mpQIue09xp
-         M2MlkoJaTTz4QP74hmZtp2D8h5F+vYkQXddvOZX2hbbW/69qQTL0Z1cSmsjVZgLZ8Fqt
-         L5qmoseLLNL1ZUnRSwcuKPRUfq4f8kwJ1qftbVAX+1NbhdRV6vsZm4EgYz5HPwergFYn
-         DSnQ==
-X-Gm-Message-State: AOJu0YwtPtZdID5WTckvO3jzHVst9/WuFpEKEy9i8c65uuzgJGx3io2K
-	/oofjgPIJR/o+dLm7CWpyoIvjOa3t1J6KQ3yPhBMeWVbdAF7k8VHf9Nt
-X-Gm-Gg: Acq92OFFEgXBO1YYUG5CI/PWBGN0TenSKpR158tMnjveUMAsaGRka6/1dVA4B7hrGt2
-	Hv2x8N8gSMkPM1cf0ho+LsqDuonwEq1pnFPWFFFguPDhWDu8GYMK2twbKiyKl8U+Y6wZeWA54eX
-	Dy4J6pwN7q+sYsPwB9u+AVxz7GyK5Nh2BBZWHqUZTh4mm8WNq0q2mIfV9KU7ESYR2rNU2BhbjEb
-	CLuMRPf6b0++TsWXwma5bmHlU4/Ye6wvdkJ6941n+HcRbjFJ4th/DmVE+6nenVobtTAJ4gfvPHo
-	GDX2IxSGSIlNnTA+zixyTAQ0ms5/FFsLHgS4nRU1PMxKPDc1lBA7EvDI616HRsZAQa429UpVOWq
-	zfNV4MoOTyZX0/TSIWGsHyCcHRd+JbUrhXoul6y0Iig+M4f2trnB6ycLU4vKb0Yx6fFzuXTMz0P
-	W4iu3BNezM3DDxY5VXh8hDZDKdinXwVwOXy4mRTQ9CYHnT/Ycrmfkv+D2GpnfDYbBCZnI1UA==
-X-Received: by 2002:a17:903:240c:b0:2bd:907:2cf0 with SMTP id d9443c01a7336-2bea33a548dmr35923735ad.32.1779374519634;
-        Thu, 21 May 2026 07:41:59 -0700 (PDT)
-Received: from thinkpad (36-230-164-124.dynamic-ip.hinet.net. [36.230.164.124])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bea98ed8e1sm12851715ad.47.2026.05.21.07.41.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 May 2026 07:41:59 -0700 (PDT)
-From: Pang-Chun Liu <kevin95120@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Pang-Chun Liu <kevin95120@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: remove unused rtl8192c function declarations
-Date: Thu, 21 May 2026 22:41:12 +0800
-Message-ID: <20260521144113.28869-1-kevin95120@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=al2klimov.de header.i=@al2klimov.de header.b="fmjB48nD"
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; s=default; bh=+Nd6ZLTQcww3
+	JB/AwzYyGZx3hmDFvcqbIMoVq4gakGM=; h=date:subject:cc:to:from;
+	d=al2klimov.de; b=fmjB48nDOj5PmL6VO9Yzq+aUFENa+ffCkaC1faosTnLGDT4EbJBQ
+	d/YsbHchbi754U9o16hRiliIslJJrXWefF6K4uTdsyYUPydRqiiTYRO5srsjtIIt21Jmag
+	bcaZ6O+Cw8NGEFtplrzc5fVCSgaT+FFz4l4FmmlN4cOm3nW2Vc1Yy/smkhE97KaohnqrJh
+	SEw9hxlOEeFhtBO14YHFiU7Zzfs7v9zou52F/5RB6ARr3xZtFao5MfCk2wOU1944booL+s
+	lfgbzGhfzyqJXczxHGB+5R/DqTk7X5e5yp44yFw205bRyFdLeSwMbNvXEGCmoBnSSLxrk4
+	qjbuCkKPuQ==
+Received: from cachy-ak (2a02-2455-18e9-e011-4d8a-aad2-c25c-50e5.dyn6.pyur.net [2a02:2455:18e9:e011:4d8a:aad2:c25c:50e5])
+	by mta.al2klimov.de (OpenSMTPD) with ESMTPSA id 8b893f2b (TLSv1.3:TLS_CHACHA20_POLY1305_SHA256:256:NO);
+	Thu, 21 May 2026 18:24:22 +0000 (UTC)
+From: "Alexander A. Klimov" <grandmaster@al2klimov.de>
+To: Vaibhav Agarwal <vaibhav.sr@gmail.com>,
+	Mark Greer <mgreer@animalcreek.com>,
+	Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Pankaj Bharadiya <pankaj.bharadiya@gmail.com>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	greybus-dev@lists.linaro.org (moderated list:GREYBUS SUBSYSTEM),
+	linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM),
+	linux-kernel@vger.kernel.org (open list)
+Cc: "Alexander A. Klimov" <grandmaster@al2klimov.de>
+Subject: [PATCH v4] staging: greybus: audio: correct sscanf() return value check
+Date: Thu, 21 May 2026 20:23:30 +0200
+Message-ID: <20260521182331.22685-1-grandmaster@al2klimov.de>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -72,27 +50,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-rtl8192c_translate_rx_signal_stuff() and rtl8192c_query_rx_desc_status()
-are declared in rtl8192c_recv.h but neither has a definition anywhere
-in the driver, and there are no callers. Remove the dead declarations.
+manager_sysfs_add_store() passes 6 pointers to sscanf(),
+but required latter to return 7 which always failed the operation.
+I corrected it to 6.
 
-Signed-off-by: Pang-Chun Liu <kevin95120@gmail.com>
+Fixes: 49b9137a6002 ("staging: greybus: audio: remove redundant slot field")
+Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
 ---
- drivers/staging/rtl8723bs/include/rtl8192c_recv.h | 3 ---
- 1 file changed, 3 deletions(-)
+  v2: added "Fixes:" to commit message
+  v3: added all these v2/v3 lines here as requested by Greg KH
+  v3: while on it, replaced title
+  v4: switched my mail client, so that the diff should apply now (fucking Thunderbird fucking trims fucking whitespace from my fucking patches so I had to fucking switch to fucking git-send-email(1))
 
-diff --git a/drivers/staging/rtl8723bs/include/rtl8192c_recv.h b/drivers/staging/rtl8723bs/include/rtl8192c_recv.h
-index 1f86654f0403..b63625ab4e45 100644
---- a/drivers/staging/rtl8723bs/include/rtl8192c_recv.h
-+++ b/drivers/staging/rtl8723bs/include/rtl8192c_recv.h
-@@ -30,7 +30,4 @@ struct phy_stat {
- /*  Rx smooth factor */
- #define	Rx_Smooth_Factor (20)
+ drivers/staging/greybus/audio_manager_sysfs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/greybus/audio_manager_sysfs.c b/drivers/staging/greybus/audio_manager_sysfs.c
+index 581791d566e3..3358d0c34f57 100644
+--- a/drivers/staging/greybus/audio_manager_sysfs.c
++++ b/drivers/staging/greybus/audio_manager_sysfs.c
+@@ -23,7 +23,7 @@ static ssize_t manager_sysfs_add_store(struct kobject *kobj,
+ 			desc.name, &desc.vid, &desc.pid, &desc.intf_id,
+ 			&desc.ip_devices, &desc.op_devices);
  
--void rtl8192c_translate_rx_signal_stuff(union recv_frame *precvframe, struct phy_stat *pphy_status);
--void rtl8192c_query_rx_desc_status(union recv_frame *precvframe, struct recv_stat *pdesc);
--
- #endif
+-	if (num != 7)
++	if (num != 6)
+ 		return -EINVAL;
+ 
+ 	num = gb_audio_manager_add(&desc);
 -- 
-2.53.0
+2.54.0
 
