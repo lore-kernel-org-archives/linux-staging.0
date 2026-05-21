@@ -1,125 +1,312 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D930349CEE
-	for <linux-staging@lists.linux.dev>; Thu, 21 May 2026 21:09:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.181
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779397754; cv=pass; b=gx5k2Tb4J5j71u91tNERm7hMXozB4mwgYs7jQAqYFH38m739pTR+zS8bf9yvFTNW4bfxmZSYXDJJMvl0BM1QAKLCqD8gA77vOV4fH63Y75iH7CFt5C5DNJZcE0qoWzOJ0UHNar6rNYa4cpWbhLhrbmx6t6jFOg/RCWxb+thUnJo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779397754; c=relaxed/simple;
-	bh=K0t78CZtMYss2xYQK3R6dzfQhwWCKmHBSj4xZqVQMJY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lW3cLRccK61LDadNXbf4uRUWOQzgsBW4dopbzZhOfw3Kcc5zuLEGSvwfP05DcoujLdqo2OlrlJ5PfkUbc+q/nalRlg7p2AKmb/GSN9xA+1c0Eq6iwGK0+W6wGPxwlcYvlwaftTmsrmkJpAj4IitrKhOt7674XScswkYmGBWTtlw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D+LzBy8c; arc=pass smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DB401FC7C5
+	for <linux-staging@lists.linux.dev>; Thu, 21 May 2026 23:39:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779406747; cv=none; b=ovtU9a45F6dX4qopsUv0lb78FVOQDeSXBgl+j6t6kBbvgTY0umpUTJxxfFexGcnwf6re1Yn/tWAL7GyAIhuOmFNj/ZIoAAfIcz9SrWZtM0S6WQAcs8sU2gXkDeoW+REOVYVL3bbtepLFWA72e2vi07kJXgDK4aX8+Hmg9IBlQLU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779406747; c=relaxed/simple;
+	bh=VgM4P6VmmQDAtVUzLux6lDPATGngLORmv8sNqhiPQ48=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=GZGYBNMSwny7AtuRKocGrf3JI+37i63LVZfwaSGywRUEyaQZ/ThZuwKGLb0INYlZa+J23cdHxEmTj3YwtNdqBGkMX7c1RHWAgPsomfmtImVK0qwQSoeWpc4CWBYdWQsXFgp1e+jLYwp/tMY1OAaow8tQ2jQnWH12O583LOWEl3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UiR42DHS; arc=none smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D+LzBy8c"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-50e5bea4045so50092761cf.3
-        for <linux-staging@lists.linux.dev>; Thu, 21 May 2026 14:09:13 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779397752; cv=none;
-        d=google.com; s=arc-20240605;
-        b=cmVjQqjRzBZm6HSrvvRr9E1u3uXdJmPDiaRma5q0TS8tsU2WTa8nU7U11i+nFJmEYm
-         1UvNC3EsKPgwfVWP9I2ltUBN881asQ/KFgzvFDez6gWBId+6X5/0ZdKfP87FO8KTsb0h
-         +fRoG8AXuxp0YLdUD6hOPVKss9fxN0zToq7CjN2Y0yMzaxkj1QIwUlJeuvqcR3LDjqof
-         ezcr8AEaNux+E4A78ldHFsqyHUARpESNz89DpaMYi/K1qd94dOzNS9eVLwc9tw1a9KXh
-         VPLBd7W06Lwb3Z0CvNOfVTcy7NDGl87E/dJs+J/+XjjDWA0xYqyGMMtwyeM/GeMvA7si
-         bjAw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=nLY7a+6FR/cRTlTJLR67mUh09SFUfwlJHPCBLiMhr7I=;
-        fh=z0Lug7Yr/F14+w6IP+I4rRfbtSb6V43VWNI9D4xNbjk=;
-        b=MtQQZE8OiRQNI8naa9s3FGQJXN7ZbACLvOq1HzBhVCYHp+1S1rBldvCDq6U0B5Y+fa
-         HpFHO7w9OTOgC5BWCZ/I7DKjY2XLRA56jzrssDlQTyEtJQv5WI5169rQj5DncQWlN4/+
-         yNeTKuzWB3YyY01By4N2lwh1wUm/ShNucIUkhe63V+Kdql5SvqihHE7BBSmMg7IH7/Kt
-         9CRSespp4VpwWjoXNKk5D1WxqIjJHa/Z+drw/LbeEH0kNyO3H97pC2Vq0Qxsm0vGs6/o
-         JmnoEsoPVt0ynJGcBdaeHM+pkfY/3hQFW4iFNyuDq4rRERBijMS3N1owEOmveBpnGFhI
-         oJIQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UiR42DHS"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-43d75312379so5605351f8f.1
+        for <linux-staging@lists.linux.dev>; Thu, 21 May 2026 16:39:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779397752; x=1780002552; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nLY7a+6FR/cRTlTJLR67mUh09SFUfwlJHPCBLiMhr7I=;
-        b=D+LzBy8cl51EMCGMehYenUdXAvJtvJvlCfseCxG7eZYMMTY9lG+AbKaFl8a/NX+5BA
-         EHgmBDMAR2j9CEK4hmFwTD5dTUaveTg8E9XOaoF4t1uKV6l/LZ9U895m6dEWxP2pBQjR
-         3WpohhuDulkLzFncSWhn3DFlBF8XAfhtHIhuCAYoYD3Yjy650ScR+5GixBvhJmuyAOg9
-         /ka6pGwEeqfUzfqeQDQwZV2qQ11bewsJpTNNC1hBpoxMlHcwYuDYn7t3p+Rpxayy7WzD
-         i59wjX2PD2PhMOzgWRv1X/c4WCVFwSjp94vsFrbw14ZoH7aSWYKj25kci0Jp1C8EnXA3
-         8Hng==
+        d=gmail.com; s=20251104; t=1779406744; x=1780011544; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=t02izQ9e9TF/DbVEahlzgCAQs0LqsXIISEUmrJQz72U=;
+        b=UiR42DHS3SDH3SvdLVnA9Cd8lObHDJPuqmQ9QLX80nMet5a255PVIqM6y7NV3WT9nG
+         ivQAHny9Z7zo1zJap7+j8Ox7qt/pFdI3Dk4wllRrKWsJinHiKennFziY0mfPU9YmUG1p
+         lJjr1wzLxoC+LO/BZTg2z1hgQoTRTwfDFlDmP6wGXSDW7O1+ffLlLqMlBo7P+k2SEtCF
+         TPInoBV8H2KZwW0EMyJuVxL/gA3xQ/00SNmeja6jYlDr93AgRu498fNRmlJFVoJOMs+r
+         o8FVHtyL9twAqrbXCJ85cSNo7clxnh86LnqSJ9uJjDOD+I1fcYeqGda4QruI4ryhPCG6
+         Z27g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779397752; x=1780002552;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=nLY7a+6FR/cRTlTJLR67mUh09SFUfwlJHPCBLiMhr7I=;
-        b=klDZtqd3qU+hzN3Q8hv2tSGazHVqbdikVN/aRXXArE/uqqOt1ImdadogNmnPK9/S9t
-         Nw196MwTByQwBBV+GeWfMRca97fmURuWPdg5pEzWmjvPE6ASq/xBD5b7rVOVn0rQRwg7
-         87kF3KnTEXXy6Pgq0YZkoMBOBPD3CIDOnmBizK8RBENElKSeNDloSzSBow5Jay7XhizC
-         4UztY4O/JGYQDpTEwbCUByTS4+bQ4K7VlzZ15RcGeAIr5S7UZ1NjuwVYFFhd9Lu7vn+C
-         ha7rtOG+RUNlvnzPeUuTZECandQs6L111ZodESObF+Df4bBe58H19nqsdfpbx4LGqM8w
-         EkYg==
-X-Forwarded-Encrypted: i=1; AFNElJ/ihaZtyt5loccAKR62IT4z8Tuvqm15PWXwLsvW9XofjsY9Wv1JMRMGBhae9iwfdyjU1FhLaiiexQem/IMD@lists.linux.dev
-X-Gm-Message-State: AOJu0YyourQ6Z8RYk03ME7Bb3JiMMg2cGC/11hYkvnJCcxsUTeuyRq+C
-	Ivz+Ny8U1PpaF/XGdKcHiDKWqGrQWBHhO/wnsD580/Agz2kH/sJg4wnM1u6T/6RofukMzFgBIKp
-	y/N3njq/XZ5+1/12Dhf4sCOfJc97vEF8=
-X-Gm-Gg: Acq92OEukHPW7V89oiDo9+M43RskY+y21gpx1S+O8H0OH9+TiFn3xyIIw2pJe8El+Mp
-	qPu/WN3WYF279zbaw7apVqVP4zU+fEDr/sDpklm6Jmysyu8c0GksWyOeeieTbrojpPw5UpRFRvy
-	wVN111n6WLpxYnuAO92cDodOABihnS1psXio0JSk79t2izJRkA6QYq/KFUeOx1RwIzjKsdDP0HO
-	NRgMzf83mhagzWeUg0X8KbpjvZCzaSQfyLukDHeNMsoqb60MQ6dxajX7MlLpkPWrepBJK8xfXks
-	cR1y9AGE66I3XM7vERCjBQr5zPa2oIoqPe3V4U5YEBuYnWNltpU=
-X-Received: by 2002:a05:622a:1e08:b0:50f:ae44:515b with SMTP id
- d75a77b69052e-516d45924cbmr14289361cf.37.1779397751478; Thu, 21 May 2026
- 14:09:11 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1779406744; x=1780011544;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=t02izQ9e9TF/DbVEahlzgCAQs0LqsXIISEUmrJQz72U=;
+        b=soj4kI/dcr2asjgUCxIO6iiIed1h2cEI24J6JDVRebik8/r1PTxElZ4lJB/+3rnqjh
+         33VHTRmHzg5b+lOYbdlnkCCXNggPXSOdvwsQ0hOgeZoIq5FA1c3e/UNQMa2F4idoEuhJ
+         nj8Gk4/3FtwhPCkHFQjdvZ2Pwd9uyrZU+eGnrloGy1Cr1MUZqxEmTDyjmIHkyH33BAE+
+         JBapB/9DJJhFiZIkZdD5j5/JVoUMzYX46ws0nt6stIhRGt/TtbUeoDCgz0vrAo8UL9yl
+         OARaN5KhKKDcTXXTBqbspQkjX9pIWYsrWW5zDa2zEDNlpvXvwTGzXBz+E+dgklXOmlRO
+         coqA==
+X-Forwarded-Encrypted: i=1; AFNElJ+ltUQD4kxjAuYCC8D8M8vAT02oyMMnZtYwcizS8UYIlQ61oi9nJuCgZQQRY/1Av9TWZ1oCD/i4qCULotuC@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy0KJSYteGbhXJsRaeDLT1+RRWYu2KSUqAW+Nzkdz2iykeIYz1+
+	DIhNX9bC6AcjIth4VFWjACNUxBsn12+CBDD++0cuVjGVFBKPt8qC13L3
+X-Gm-Gg: Acq92OEl7pF0ZSPLsf5rZVvcwULezQr0RbupoOU3rCylFMHKpd33T9OpQgXSmgQAL6x
+	oB79zH+WF4Ymn6qg6LMpwoZdn218+YhCgToNnTd3FO3fhrdbeaZFum0nKQyN81tiJaN8QANSS/i
+	MaBDHV4s44bYHDXJkrBh98TcTkhSz89UdO1bPSKN4/B4M16y1bDWkyDASWggSh/a3M2ItiiTURp
+	0XXY7MP7kOk/eVLgaMdvLxQK40fFp1S5t5VcoeOb5ZCOY9qCnysbQEXaQicKflZVujl8Itudlc3
+	7XZUX/lWl/XQISIxglrb/hhaxe0gNZuVkKCopDImH1GGYoqg3uD/jMk62E4X8IYPk0qdgbsEArS
+	ePXPsX9Mh5rM3bikEWfI/GFiONvnBWxn5eDgA8bRRTfaLKVSsksoNCGXwJ96gJ/w9z5pRlz8ZnN
+	3ZFhfetnHpJtsGmWzPRx9Q4Mf6jp26GuA35vmazXWNP2LEd3DmqhxlOSPd/gRHVMS1lbIVlA==
+X-Received: by 2002:a05:6000:2283:b0:43e:a8d8:f3dc with SMTP id ffacd0b85a97d-45ea31626abmr7678753f8f.13.1779406743555;
+        Thu, 21 May 2026 16:39:03 -0700 (PDT)
+Received: from michalis-linux (adsl-75.176.58.251.tellas.gr. [176.58.251.75])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45eb496d451sm997903f8f.4.2026.05.21.16.39.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 May 2026 16:39:03 -0700 (PDT)
+Date: Fri, 22 May 2026 02:39:01 +0300
+From: Michail Tatas <michail.tatas@gmail.com>
+To: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
+	gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] Staging: sm750fb: Change camelCase to snake_case
+Message-ID: <ag-XlRifxjqXF-Zx@michalis-linux>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260521210523.133725-1-diegomancera.dev@gmail.com> <20260521210523.133725-2-diegomancera.dev@gmail.com>
-In-Reply-To: <20260521210523.133725-2-diegomancera.dev@gmail.com>
-From: Diego Fernando Mancera Gomez <diegomancera.dev@gmail.com>
-Date: Thu, 21 May 2026 15:09:00 -0600
-X-Gm-Features: AVHnY4LWnZAp_HAYR5mjkfAuCHvXFZRdiPIzEWDUjLwakceMiCVys4Wl8JfJUQU
-Message-ID: <CALruWrWoqtOiZdW9TJKH-utdMhAY7XF_b9PGhfC5OQVHS-ZWbw@mail.gmail.com>
-Subject: Re: [PATCH] staging: sm750fb: add const to g_fbmode array
-To: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev
-Cc: m.steinmoetzger@gmail.com, guojy.bj@gmail.com, straube.linux@gmail.com, 
-	error27@gmail.com, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Greg, please ignore this patch, as it was sent by mistake. I am
-retracting it due to compilation errors I found earlier.
+Change variable names from camelCase to snake_case
+as per the Linux Kernel standards.
 
-On Thu, May 21, 2026 at 3:06=E2=80=AFPM Diego Fernando Mancera G=C3=B3mez
-<diegomancera.dev@gmail.com> wrote:
->
-> Signed-off-by: Diego Fernando Mancera G=C3=B3mez <diegomancera.dev@gmail.=
-com>
-> ---
->  drivers/staging/sm750fb/sm750.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm=
-750.c
-> index 89c811e0806c..8f533f3b1b42 100644
-> --- a/drivers/staging/sm750fb/sm750.c
-> +++ b/drivers/staging/sm750fb/sm750.c
-> @@ -21,7 +21,7 @@
->  static int g_hwcursor =3D 1;
->  static int g_noaccel __ro_after_init;
->  static int g_nomtrr __ro_after_init;
-> -static const char *g_fbmode[] =3D {NULL, NULL};
-> +static const char * const g_fbmode[] =3D {NULL, NULL};
->  static const char *g_def_fbmode =3D "1024x768-32@60";
->  static char *g_settings;
->  static int g_dualview __ro_after_init;
-> --
-> 2.43.0
->
+These changes remove 9 CHECK messages from checkpatch.pl
+regarding sm750.c, sm750.h and sm750_hw.c
+
+Tested changes by building the module sm750fb/
+
+Signed-off-by: Michail Tatas <michail.tatas@gmail.com>
+---
+ drivers/staging/sm750fb/sm750.c    | 32 +++++++++++++++---------------
+ drivers/staging/sm750fb/sm750.h    | 14 ++++++-------
+ drivers/staging/sm750fb/sm750_hw.c | 20 +++++++++----------
+ 3 files changed, 33 insertions(+), 33 deletions(-)
+
+diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+index 9f3e3d37e82a..3124380beb81 100644
+--- a/drivers/staging/sm750fb/sm750.c
++++ b/drivers/staging/sm750fb/sm750.c
+@@ -622,26 +622,26 @@ static int sm750fb_set_drv(struct lynxfb_par *par)
+ 		output->paths = sm750_pnc;
+ 		crtc->channel = sm750_primary;
+ 		crtc->o_screen = 0;
+-		crtc->v_screen = sm750_dev->pvMem;
++		crtc->v_screen = sm750_dev->pv_mem;
+ 		break;
+ 	case sm750_simul_sec:
+ 		output->paths = sm750_pnc;
+ 		crtc->channel = sm750_secondary;
+ 		crtc->o_screen = 0;
+-		crtc->v_screen = sm750_dev->pvMem;
++		crtc->v_screen = sm750_dev->pv_mem;
+ 		break;
+ 	case sm750_dual_normal:
+ 		if (par->index == 0) {
+ 			output->paths = sm750_panel;
+ 			crtc->channel = sm750_primary;
+ 			crtc->o_screen = 0;
+-			crtc->v_screen = sm750_dev->pvMem;
++			crtc->v_screen = sm750_dev->pv_mem;
+ 		} else {
+ 			output->paths = sm750_crt;
+ 			crtc->channel = sm750_secondary;
+ 			/* not consider of padding stuffs for o_screen,need fix */
+ 			crtc->o_screen = sm750_dev->vidmem_size >> 1;
+-			crtc->v_screen = sm750_dev->pvMem + crtc->o_screen;
++			crtc->v_screen = sm750_dev->pv_mem + crtc->o_screen;
+ 		}
+ 		break;
+ 	case sm750_dual_swap:
+@@ -649,7 +649,7 @@ static int sm750fb_set_drv(struct lynxfb_par *par)
+ 			output->paths = sm750_panel;
+ 			crtc->channel = sm750_secondary;
+ 			crtc->o_screen = 0;
+-			crtc->v_screen = sm750_dev->pvMem;
++			crtc->v_screen = sm750_dev->pv_mem;
+ 		} else {
+ 			output->paths = sm750_crt;
+ 			crtc->channel = sm750_primary;
+@@ -657,7 +657,7 @@ static int sm750fb_set_drv(struct lynxfb_par *par)
+ 			 * need fix
+ 			 */
+ 			crtc->o_screen = sm750_dev->vidmem_size >> 1;
+-			crtc->v_screen = sm750_dev->pvMem + crtc->o_screen;
++			crtc->v_screen = sm750_dev->pv_mem + crtc->o_screen;
+ 		}
+ 		break;
+ 	default:
+@@ -755,13 +755,13 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
+ 	 * must be set after crtc member initialized
+ 	 */
+ 	crtc->cursor.offset = crtc->o_screen + crtc->vidmem_size - 1024;
+-	crtc->cursor.mmio = sm750_dev->pvReg +
++	crtc->cursor.mmio = sm750_dev->pv_reg +
+ 		0x800f0 + (int)crtc->channel * 0x140;
+ 
+ 	crtc->cursor.max_h = 64;
+ 	crtc->cursor.max_w = 64;
+ 	crtc->cursor.size = crtc->cursor.max_h * crtc->cursor.max_w * 2 / 8;
+-	crtc->cursor.vstart = sm750_dev->pvMem + crtc->cursor.offset;
++	crtc->cursor.vstart = sm750_dev->pv_mem + crtc->cursor.offset;
+ 
+ 	memset_io(crtc->cursor.vstart, 0, crtc->cursor.size);
+ 	if (!g_hwcursor)
+@@ -859,9 +859,9 @@ static void sm750fb_setup(struct sm750_dev *sm750_dev, char *src)
+ 	sm750_dev->init_parm.chip_clk = 0;
+ 	sm750_dev->init_parm.mem_clk = 0;
+ 	sm750_dev->init_parm.master_clk = 0;
+-	sm750_dev->init_parm.powerMode = 0;
+-	sm750_dev->init_parm.setAllEngOff = 0;
+-	sm750_dev->init_parm.resetMemory = 1;
++	sm750_dev->init_parm.power_mode = 0;
++	sm750_dev->init_parm.set_all_eng_off = 0;
++	sm750_dev->init_parm.reset_memory = 1;
+ 
+ 	/* defaultly turn g_hwcursor on for both view */
+ 	g_hwcursor = 3;
+@@ -880,9 +880,9 @@ static void sm750fb_setup(struct sm750_dev *sm750_dev, char *src)
+ 		} else if (!strncmp(opt, "nocrt", strlen("nocrt"))) {
+ 			sm750_dev->nocrt = 1;
+ 		} else if (!strncmp(opt, "36bit", strlen("36bit"))) {
+-			sm750_dev->pnltype = sm750_doubleTFT;
++			sm750_dev->pnltype = sm750_double_tft;
+ 		} else if (!strncmp(opt, "18bit", strlen("18bit"))) {
+-			sm750_dev->pnltype = sm750_dualTFT;
++			sm750_dev->pnltype = sm750_dual_tft;
+ 		} else if (!strncmp(opt, "24bit", strlen("24bit"))) {
+ 			sm750_dev->pnltype = sm750_24TFT;
+ 		} else if (!strncmp(opt, "nohwc0", strlen("nohwc0"))) {
+@@ -1028,7 +1028,7 @@ static int lynxfb_pci_probe(struct pci_dev *pdev,
+ 		sm750_dev->mtrr.vram = arch_phys_wc_add(sm750_dev->vidmem_start,
+ 							sm750_dev->vidmem_size);
+ 
+-	memset_io(sm750_dev->pvMem, 0, sm750_dev->vidmem_size);
++	memset_io(sm750_dev->pv_mem, 0, sm750_dev->vidmem_size);
+ 
+ 	pci_set_drvdata(pdev, sm750_dev);
+ 
+@@ -1059,8 +1059,8 @@ static void lynxfb_pci_remove(struct pci_dev *pdev)
+ 	sm750fb_framebuffer_release(sm750_dev);
+ 	arch_phys_wc_del(sm750_dev->mtrr.vram);
+ 
+-	iounmap(sm750_dev->pvReg);
+-	iounmap(sm750_dev->pvMem);
++	iounmap(sm750_dev->pv_reg);
++	iounmap(sm750_dev->pv_mem);
+ 	pci_release_region(pdev, 1);
+ 	kfree(g_settings);
+ }
+diff --git a/drivers/staging/sm750fb/sm750.h b/drivers/staging/sm750fb/sm750.h
+index 67b9bfa23f41..19dbb91201e3 100644
+--- a/drivers/staging/sm750fb/sm750.h
++++ b/drivers/staging/sm750fb/sm750.h
+@@ -14,8 +14,8 @@
+ 
+ enum sm750_pnltype {
+ 	sm750_24TFT = 0,	/* 24bit tft */
+-	sm750_dualTFT = 2,	/* dual 18 bit tft */
+-	sm750_doubleTFT = 1,	/* 36 bit double pixel tft */
++	sm750_dual_tft = 2,	/* dual 18 bit tft */
++	sm750_double_tft = 1,	/* 36 bit double pixel tft */
+ };
+ 
+ /* vga channel is not concerned  */
+@@ -39,13 +39,13 @@ enum sm750_path {
+ };
+ 
+ struct init_status {
+-	ushort powerMode;
++	ushort power_mode;
+ 	/* below three clocks are in unit of MHZ*/
+ 	ushort chip_clk;
+ 	ushort mem_clk;
+ 	ushort master_clk;
+-	ushort setAllEngOff;
+-	ushort resetMemory;
++	ushort set_all_eng_off;
++	ushort reset_memory;
+ };
+ 
+ struct lynx_accel {
+@@ -97,8 +97,8 @@ struct sm750_dev {
+ 	unsigned long vidreg_start;
+ 	__u32 vidmem_size;
+ 	__u32 vidreg_size;
+-	void __iomem *pvReg;
+-	unsigned char __iomem *pvMem;
++	void __iomem *pv_reg;
++	unsigned char __iomem *pv_mem;
+ 	/* locks*/
+ 	spinlock_t slock;
+ 
+diff --git a/drivers/staging/sm750fb/sm750_hw.c b/drivers/staging/sm750fb/sm750_hw.c
+index a2798d428663..238f3e97fa05 100644
+--- a/drivers/staging/sm750fb/sm750_hw.c
++++ b/drivers/staging/sm750fb/sm750_hw.c
+@@ -42,18 +42,18 @@ int hw_sm750_map(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
+ 	}
+ 
+ 	/* now map mmio and vidmem */
+-	sm750_dev->pvReg =
++	sm750_dev->pv_reg =
+ 		ioremap(sm750_dev->vidreg_start, sm750_dev->vidreg_size);
+-	if (!sm750_dev->pvReg) {
++	if (!sm750_dev->pv_reg) {
+ 		dev_err(&pdev->dev, "mmio failed\n");
+ 		ret = -EFAULT;
+ 		goto err_release_region;
+ 	}
+ 
+-	sm750_dev->accel.dpr_base = sm750_dev->pvReg + DE_BASE_ADDR_TYPE1;
+-	sm750_dev->accel.dp_port_base = sm750_dev->pvReg + DE_PORT_ADDR_TYPE1;
++	sm750_dev->accel.dpr_base = sm750_dev->pv_reg + DE_BASE_ADDR_TYPE1;
++	sm750_dev->accel.dp_port_base = sm750_dev->pv_reg + DE_PORT_ADDR_TYPE1;
+ 
+-	mmio750 = sm750_dev->pvReg;
++	mmio750 = sm750_dev->pv_reg;
+ 	sm750_set_chip_type(sm750_dev->devid, sm750_dev->revid);
+ 
+ 	sm750_dev->vidmem_start = pci_resource_start(pdev, 0);
+@@ -66,9 +66,9 @@ int hw_sm750_map(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
+ 	sm750_dev->vidmem_size = ddk750_get_vm_size();
+ 
+ 	/* reserve the vidmem space of smi adaptor */
+-	sm750_dev->pvMem =
++	sm750_dev->pv_mem =
+ 		ioremap_wc(sm750_dev->vidmem_start, sm750_dev->vidmem_size);
+-	if (!sm750_dev->pvMem) {
++	if (!sm750_dev->pv_mem) {
+ 		dev_err(&pdev->dev, "Map video memory failed\n");
+ 		ret = -EFAULT;
+ 		goto err_unmap_reg;
+@@ -77,7 +77,7 @@ int hw_sm750_map(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
+ 	return 0;
+ 
+ err_unmap_reg:
+-	iounmap(sm750_dev->pvReg);
++	iounmap(sm750_dev->pv_reg);
+ err_release_region:
+ 	pci_release_region(pdev, 1);
+ 	return ret;
+@@ -130,10 +130,10 @@ int hw_sm750_inithw(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
+ 		switch (sm750_dev->pnltype) {
+ 		case sm750_24TFT:
+ 			break;
+-		case sm750_doubleTFT:
++		case sm750_double_tft:
+ 			val |= PANEL_DISPLAY_CTRL_DOUBLE_PIXEL;
+ 			break;
+-		case sm750_dualTFT:
++		case sm750_dual_tft:
+ 			val |= PANEL_DISPLAY_CTRL_DUAL_DISPLAY;
+ 			break;
+ 		}
+-- 
+2.43.0
+
