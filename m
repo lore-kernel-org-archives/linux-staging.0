@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1FC235CBD7;
-	Thu, 21 May 2026 09:20:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A60DD283CB5;
+	Thu, 21 May 2026 09:21:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779355212; cv=none; b=fG0X3mkAxGq862PgbpXxTisKd0Hzk70+AdX3C+9DQ4ouLFsQG8SuXG/eHxxM1w+oVRBDnJC/yv5fZXxSByjBTHFB8wZBafVLgbV0y7yLCT2DB/SVzCYeOiNx9FqZCL1LXi3WoMKSCjd36RvLoBljKn+VLZYzBcsy5URSW0I4FJQ=
+	t=1779355301; cv=none; b=B8WpIf3xLvrm4lV63hWEpPpAVwYkFPXA3fEC+XeqHl06IGWfFckhbzMgxrxOH3bakQ9q1J+f/K3pDwwEOpRudwsqZymVUOrr6KVOz5ZZ0fK+kyQWT8RgZrjDYERtKrobfZ5Q0nyZTILlDLb1HJxHspbC+syI/c+tZeDKFEZB9dQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779355212; c=relaxed/simple;
-	bh=AhCI9D0hBGALA3OWxjm22J81EFEUo6bwCxglFUHdZ1o=;
+	s=arc-20240116; t=1779355301; c=relaxed/simple;
+	bh=UAutrWMEOxWuEVRXXj0LwlTfC/0MWGIbIyQgo4RGrAc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ctuw8W+fF/oIR+pLgDVCR5y2JdCR9nbMDcEiKOBSvQRMzY2C7hlYRV4/XVZVVLGcWJnVYc6MYXRUREYGSeIY2qCQyka/biR+J2bKrDFX6CuNSfQzjO5DOHalo77tIoXwSyTobx1XMJr/Qh48V+HjjcjOUz+yj1uPLygjlukHcfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=LAwcd+Ku; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=XLiNlAoVKdou9fxrjwXtVe1IgeP++lZLelK1DjlhvX6ptDkjRPt0LgMyQfeeLtzlcEYDK+HeHHxt6SWuIoAKTN9bedguUi9sIID2naiZcuw3BWxXOUkIg2AzQ9EI0gembhzjTBS3wDOHqbt5AZgTNYOIHzThR7Zdpzmp+nJVk2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=A1iMPxSv; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="LAwcd+Ku"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C28941F000E9;
-	Thu, 21 May 2026 09:20:10 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="A1iMPxSv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D13881F000E9;
+	Thu, 21 May 2026 09:21:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1779355211;
-	bh=E5QbwwCjtZT4N3eaYQHYnb9XTTN/tHFaCLYYIfmkklA=;
+	s=korg; t=1779355300;
+	bh=vDZhS9KxTXTBFlP0yv3OcToTik0YQVtL7Dp03X1sMjs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=LAwcd+Ku5khHUpJlGn+lr18/rRqd6xCIARbAAH/4NjgMBzG3reo3UfJ5vfPbPAG3y
-	 XiSrFakTHBnY6w7eE/VlLTzg5qgWNwW0gmOowyvLx8uiICdjLND6AxFyZram3R3Cdy
-	 Ipo6H7nzPs71cI2++u+Tj92jfy+CHnlZJ0m0Kj1A=
-Date: Thu, 21 May 2026 11:20:14 +0200
+	b=A1iMPxSvx3za6TdY3nta1OxAzHRa0AXsHgR1WJP7bDM4hMeyb2mpGyl/YDzVwiBL6
+	 2g2UotMgsysD/uMnRdg1U2tM4lvGOzdgXNDZcsCuU1KhwVgeyg7h3GOcZ9ejwl8Nzv
+	 mInMtLpbfHeVL22pmVN0XrV0/lguWjhqhpS9RuN4=
+Date: Thu, 21 May 2026 11:21:43 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Rion Kiguchi <kiguchi.r.sec@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] staging: vme_user: validate slave window size against
- buffer size
-Message-ID: <2026052104-venture-batboy-54d2@gregkh>
-References: <2026050947-easily-choosing-2f91@gregkh>
- <20260514034511.4244-1-kiguchi.r.sec@gmail.com>
+To: Pramod Maurya <pramod.nexgen@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	andriy.shevchenko@intel.com
+Subject: Re: [PATCH 1/1] staging: rtl8723bs: Fix line length in xmit_linux.c
+Message-ID: <2026052130-disregard-hatchery-ea8e@gregkh>
+References: <20260512185254.604090-1-pramod.nexgen@gmail.com>
+ <20260512185254.604090-2-pramod.nexgen@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,40 +40,82 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260514034511.4244-1-kiguchi.r.sec@gmail.com>
+In-Reply-To: <20260512185254.604090-2-pramod.nexgen@gmail.com>
 
-On Thu, May 14, 2026 at 12:45:10PM +0900, Rion Kiguchi wrote:
-> The VME_SET_SLAVE ioctl in drivers/staging/vme_user/vme_user.c accepts
-> a user-controlled slave.size and forwards it to vme_slave_set() without
-> comparing it against image[minor].size_buf. The slave-image kernel
-> buffer is allocated at probe time with a fixed size of PCI_BUF_SIZE
-> (0x20000 / 128 KiB), but the configured VME window size can be made
-> much larger via the ioctl.
+On Tue, May 12, 2026 at 02:52:54PM -0400, Pramod Maurya wrote:
+> Wrap long function signatures and a long expression to comply
+> with the 100 column line length limit reported by checkpatch.pl.
 > 
-> Additionally, a slave.size of 0 is permitted, which causes vme_get_size()
-> to return 0. In vme_user_read() and vme_user_write(), the boundary check
-> (*ppos > image_size - 1) suffers from an integer underflow because
-> image_size is size_t. This bypasses the bounds check entirely, allowing
-> offsets beyond the actual allocation.
-> 
-> Result: a local user with read/write access to /dev/bus/vme/s* can
-> trigger out-of-bounds read and write of the kernel slab adjacent to
-> the slave-image buffer.
-> 
-> Fix: reject slave.size == 0 and slave.size > size_buf in the VME_SET_SLAVE
-> handler. With this check in place, the existing bounds checks in
-> vme_user_read() / vme_user_write() against vme_get_size() are
-> sufficient to prevent OOB access.
-> 
-> Assisted-by: Claude:claude-opus-4-7
-> Signed-off-by: Rion Kiguchi <kiguchi.r.sec@gmail.com>
+> Signed-off-by: Pramod Maurya <pramod.nexgen@gmail.com>
 > ---
-> Changes in v4:
->  - Add check for slave.size == 0 to prevent integer underflow in bounds check.
->  - Remove trailing whitespaces inadvertently added in previous versions.
->  - Remove Fixes and Cc: stable tags to resolve checkpatch warnings based on maintainer feedback.
+>  drivers/staging/rtl8723bs/os_dep/xmit_linux.c | 11 ++++++++---
+>  1 file changed, 8 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
+> index dc0b77f38b1a..1c53b7bc00c5 100644
+> --- a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
+> +++ b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
+> @@ -46,20 +46,25 @@ signed int rtw_endofpktfile(struct pkt_file *pfile)
+>  	return false;
+>  }
+>  
+> -int rtw_os_xmit_resource_alloc(struct adapter *padapter, struct xmit_buf *pxmitbuf, u32 alloc_sz, u8 flag)
+> +int rtw_os_xmit_resource_alloc(struct adapter *padapter,
+> +			       struct xmit_buf *pxmitbuf,
+> +			       u32 alloc_sz, u8 flag)
+>  {
+>  	if (alloc_sz > 0) {
+>  		pxmitbuf->pallocated_buf = kzalloc(alloc_sz, GFP_KERNEL);
+>  		if (!pxmitbuf->pallocated_buf)
+>  			return _FAIL;
+>  
+> -		pxmitbuf->pbuf = (u8 *)N_BYTE_ALIGMENT((SIZE_PTR)(pxmitbuf->pallocated_buf), XMITBUF_ALIGN_SZ);
+> +		pxmitbuf->pbuf = (u8 *)N_BYTE_ALIGMENT((SIZE_PTR)pxmitbuf->pallocated_buf,
+> +							XMITBUF_ALIGN_SZ);
+>  	}
+>  
+>  	return _SUCCESS;
+>  }
+>  
+> -void rtw_os_xmit_resource_free(struct adapter *padapter, struct xmit_buf *pxmitbuf, u32 free_sz, u8 flag)
+> +void rtw_os_xmit_resource_free(struct adapter *padapter,
+> +			       struct xmit_buf *pxmitbuf,
+> +			       u32 free_sz, u8 flag)
+>  {
+>  	if (free_sz > 0)
+>  		kfree(pxmitbuf->pallocated_buf);
+> -- 
+> 2.52.0
+> 
+> 
 
-Please see the review comments:
-	https://sashiko.dev/#/patchset/20260514034511.4244-1-kiguchi.r.sec@gmail.com
+Hi,
+
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
+
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- Your patch did not apply to any known trees that Greg is in control
+  of.  Possibly this is because you made it against Linus's tree, not
+  the linux-next tree, which is where all of the development for the
+  next version of the kernel is at.  Please refresh your patch against
+  the linux-next tree, or even better yet, the development tree
+  specified in the MAINTAINERS file for the subsystem you are submitting
+  a patch for, and resend it.
 
 
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
