@@ -1,109 +1,125 @@
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D6E5346AD6
-	for <linux-staging@lists.linux.dev>; Thu, 21 May 2026 21:06:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.179
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779397602; cv=none; b=k+5c48mqz0x8vP5LN2F8FwIVRGibO7CdlGgl8p0MgrcV2iKHtir+uUEyt70Vw6anmtm7VYQhStIIdyD8c5JwrLR/lT0XXAVxj053920Uwcdb2mOcIVf4+OmNNUoxJmPYBIyRzEzknJ1ipTh8OuZfL1WNPeNcFc8FXSQ096/2UMs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779397602; c=relaxed/simple;
-	bh=hToMS9sT62YLOsJLPeCWfrOu7CnnmpmARoAblpDBEdQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gjVMZT3mwoEL5QyntYDSQNsvoppAaJ+IAvfPIw99okeyobz4xZi6N31TUjJ7CPyK5gxneLc1EzBe+9NnvM75d99IrWjGn5/VrVIQWyneGfAOACbnFEog6PENptV5kCH3NCyCVecfDDzoYWd0fXgYRE4YJau97jIF1U6ryZImeXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZNhRrMkc; arc=none smtp.client-ip=209.85.167.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D930349CEE
+	for <linux-staging@lists.linux.dev>; Thu, 21 May 2026 21:09:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.181
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779397754; cv=pass; b=gx5k2Tb4J5j71u91tNERm7hMXozB4mwgYs7jQAqYFH38m739pTR+zS8bf9yvFTNW4bfxmZSYXDJJMvl0BM1QAKLCqD8gA77vOV4fH63Y75iH7CFt5C5DNJZcE0qoWzOJ0UHNar6rNYa4cpWbhLhrbmx6t6jFOg/RCWxb+thUnJo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779397754; c=relaxed/simple;
+	bh=K0t78CZtMYss2xYQK3R6dzfQhwWCKmHBSj4xZqVQMJY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lW3cLRccK61LDadNXbf4uRUWOQzgsBW4dopbzZhOfw3Kcc5zuLEGSvwfP05DcoujLdqo2OlrlJ5PfkUbc+q/nalRlg7p2AKmb/GSN9xA+1c0Eq6iwGK0+W6wGPxwlcYvlwaftTmsrmkJpAj4IitrKhOt7674XScswkYmGBWTtlw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D+LzBy8c; arc=pass smtp.client-ip=209.85.160.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZNhRrMkc"
-Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-482de4ef03aso4698281b6e.1
-        for <linux-staging@lists.linux.dev>; Thu, 21 May 2026 14:06:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D+LzBy8c"
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-50e5bea4045so50092761cf.3
+        for <linux-staging@lists.linux.dev>; Thu, 21 May 2026 14:09:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779397752; cv=none;
+        d=google.com; s=arc-20240605;
+        b=cmVjQqjRzBZm6HSrvvRr9E1u3uXdJmPDiaRma5q0TS8tsU2WTa8nU7U11i+nFJmEYm
+         1UvNC3EsKPgwfVWP9I2ltUBN881asQ/KFgzvFDez6gWBId+6X5/0ZdKfP87FO8KTsb0h
+         +fRoG8AXuxp0YLdUD6hOPVKss9fxN0zToq7CjN2Y0yMzaxkj1QIwUlJeuvqcR3LDjqof
+         ezcr8AEaNux+E4A78ldHFsqyHUARpESNz89DpaMYi/K1qd94dOzNS9eVLwc9tw1a9KXh
+         VPLBd7W06Lwb3Z0CvNOfVTcy7NDGl87E/dJs+J/+XjjDWA0xYqyGMMtwyeM/GeMvA7si
+         bjAw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=nLY7a+6FR/cRTlTJLR67mUh09SFUfwlJHPCBLiMhr7I=;
+        fh=z0Lug7Yr/F14+w6IP+I4rRfbtSb6V43VWNI9D4xNbjk=;
+        b=MtQQZE8OiRQNI8naa9s3FGQJXN7ZbACLvOq1HzBhVCYHp+1S1rBldvCDq6U0B5Y+fa
+         HpFHO7w9OTOgC5BWCZ/I7DKjY2XLRA56jzrssDlQTyEtJQv5WI5169rQj5DncQWlN4/+
+         yNeTKuzWB3YyY01By4N2lwh1wUm/ShNucIUkhe63V+Kdql5SvqihHE7BBSmMg7IH7/Kt
+         9CRSespp4VpwWjoXNKk5D1WxqIjJHa/Z+drw/LbeEH0kNyO3H97pC2Vq0Qxsm0vGs6/o
+         JmnoEsoPVt0ynJGcBdaeHM+pkfY/3hQFW4iFNyuDq4rRERBijMS3N1owEOmveBpnGFhI
+         oJIQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779397600; x=1780002400; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1779397752; x=1780002552; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Caf4SzCyDP9b71JmHP5+3ea5FspDIbeu1gXvqelnfxA=;
-        b=ZNhRrMkcsRvoLyH2xL9RDDZ7ngW4+yviHVizXS2QZwCrE3/dScDM9oqEyauPJT6NpG
-         8C5zhMGrO/W9OtuSdsYncRY9CGedne2NjliNJJFLSzAJJvcrTEk9R2o9Fp3NdSmTqhgY
-         qSK4Wjj7nmqIAUHKVoImblXcfc9xH2YXC7ypPKCdlX8IM37NwwaTaGhu048ubmImE9lM
-         mvzVGZKZGZvQLjzIFMQ+Sz7E8WDBEky0gPa7+0Dve7jYOOEbvocJMsCGLjjVMt0UjOxG
-         lgYbgoRNzUImo9fujvQEBphhusI8ViBQ48ADREq5dy5iyTFsficDbTugc+bI6GFJMgPH
-         AEZA==
+        bh=nLY7a+6FR/cRTlTJLR67mUh09SFUfwlJHPCBLiMhr7I=;
+        b=D+LzBy8cl51EMCGMehYenUdXAvJtvJvlCfseCxG7eZYMMTY9lG+AbKaFl8a/NX+5BA
+         EHgmBDMAR2j9CEK4hmFwTD5dTUaveTg8E9XOaoF4t1uKV6l/LZ9U895m6dEWxP2pBQjR
+         3WpohhuDulkLzFncSWhn3DFlBF8XAfhtHIhuCAYoYD3Yjy650ScR+5GixBvhJmuyAOg9
+         /ka6pGwEeqfUzfqeQDQwZV2qQ11bewsJpTNNC1hBpoxMlHcwYuDYn7t3p+Rpxayy7WzD
+         i59wjX2PD2PhMOzgWRv1X/c4WCVFwSjp94vsFrbw14ZoH7aSWYKj25kci0Jp1C8EnXA3
+         8Hng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779397600; x=1780002400;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1779397752; x=1780002552;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Caf4SzCyDP9b71JmHP5+3ea5FspDIbeu1gXvqelnfxA=;
-        b=NLaMGEdsbAQrxjQ+pE2jTfqyjNGy9gRmj9lixVDUdZ5fVK64PtKacLPOZ7RKS1PAsu
-         XSwv2hPC02mRplPLrXzX7Mk+x2QonnG8N+xbMNlaqjvnm86kp1filYIM/s85l9at7gDf
-         Yhiqi8DnPyIjBZBn800pTsg2irS9XqUoXjeG18gvHjIW1Bj45BC2xhEQx5huH+HlA2eH
-         Q6zJA0JiYuun9QKZWdKDF0R071n48JG8fd+06TkO27wRITgHObzJuoZL/kGpn1b/d3e+
-         5zX7zV7hrw0zq4D3hgSf5s73ZykFXP03yFvvWOEQgNTW6j9nJU+A/rPY1niwPuWILE0o
-         4J/Q==
-X-Forwarded-Encrypted: i=1; AFNElJ+RheYWbzOnwY5sRjA+k6MbaTrzkpq+mN+z3LeQJKRxkOJeZ1ZCwBxKKbx7IhpKOnsnFswlCmf5PToPj+m5@lists.linux.dev
-X-Gm-Message-State: AOJu0YxpSZRmzEGIf731Nu4dP0Aqu9/djJ1Beb+VyuUoP3bWNfLuW6Dd
-	Ppqk2iFpVPm5t2iw70LtGRwmuIhEBCBAwnGE4XL25f1tJKKKkHOSenJT
-X-Gm-Gg: Acq92OHqy/TMYuTHyvIY7ZCBm4mmseXvVyC99+Iw+VBQqG/omhlkZjQtVAVKfdmCpCo
-	d39aYvgcV9Sil/bRPMcq/urG0jLszLWZkU/nwD6b5SfuL/KAwX1xsi6zcMOPSRSpxt4a81EbQuA
-	c9TFNCg52kTCVndm0uUWCE9vEuWquSRmXUJRC/MKIeF6SltVWDPoZj+vZMSLD53s/YuMPB919re
-	qI3ypQmH6wr/yJkt16VgCW06EZYMxs6Mide1n0S5WCQweSXwaRGfvejx8DlYFoJkLTV1vORPeRN
-	yeiJZ7OyDHc1ixHP6QWn4ZAAvQIOxjKH+4qFa3aVs7P/P4SsPby+UfjHutVk1NndrD+pXdtY6tx
-	ngjTFv0azjJcqAcRB7wz0yj16tL8fCKZqZdbonQcPeznI3sg4MABSo+AVaPjQkp6dLu9j6E9XNE
-	SAYXEr8c2V0qHp2AvAMhOiQNsunar6THs=
-X-Received: by 2002:a05:6808:6604:b0:485:50e:5899 with SMTP id 5614622812f47-4854aacde69mr304318b6e.2.1779397600703;
-        Thu, 21 May 2026 14:06:40 -0700 (PDT)
-Received: from pop-os.. ([2806:264:548c:885a:fb25:8a80:d99d:260b])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-485431776acsm954022b6e.13.2026.05.21.14.06.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 May 2026 14:06:39 -0700 (PDT)
-From: =?UTF-8?q?Diego=20Fernando=20Mancera=20G=C3=B3mez?= <diegomancera.dev@gmail.com>
-To: gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev
-Cc: m.steinmoetzger@gmail.com,
-	guojy.bj@gmail.com,
-	straube.linux@gmail.com,
-	error27@gmail.com,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Diego=20Fernando=20Mancera=20G=C3=B3mez?= <diegomancera.dev@gmail.com>
-Subject: [PATCH] x86/build: Add custom extraversion identifier to Makefile
-Date: Thu, 21 May 2026 15:05:23 -0600
-Message-ID: <20260521210523.133725-3-diegomancera.dev@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260521210523.133725-1-diegomancera.dev@gmail.com>
-References: <20260521210523.133725-1-diegomancera.dev@gmail.com>
+        bh=nLY7a+6FR/cRTlTJLR67mUh09SFUfwlJHPCBLiMhr7I=;
+        b=klDZtqd3qU+hzN3Q8hv2tSGazHVqbdikVN/aRXXArE/uqqOt1ImdadogNmnPK9/S9t
+         Nw196MwTByQwBBV+GeWfMRca97fmURuWPdg5pEzWmjvPE6ASq/xBD5b7rVOVn0rQRwg7
+         87kF3KnTEXXy6Pgq0YZkoMBOBPD3CIDOnmBizK8RBENElKSeNDloSzSBow5Jay7XhizC
+         4UztY4O/JGYQDpTEwbCUByTS4+bQ4K7VlzZ15RcGeAIr5S7UZ1NjuwVYFFhd9Lu7vn+C
+         ha7rtOG+RUNlvnzPeUuTZECandQs6L111ZodESObF+Df4bBe58H19nqsdfpbx4LGqM8w
+         EkYg==
+X-Forwarded-Encrypted: i=1; AFNElJ/ihaZtyt5loccAKR62IT4z8Tuvqm15PWXwLsvW9XofjsY9Wv1JMRMGBhae9iwfdyjU1FhLaiiexQem/IMD@lists.linux.dev
+X-Gm-Message-State: AOJu0YyourQ6Z8RYk03ME7Bb3JiMMg2cGC/11hYkvnJCcxsUTeuyRq+C
+	Ivz+Ny8U1PpaF/XGdKcHiDKWqGrQWBHhO/wnsD580/Agz2kH/sJg4wnM1u6T/6RofukMzFgBIKp
+	y/N3njq/XZ5+1/12Dhf4sCOfJc97vEF8=
+X-Gm-Gg: Acq92OEukHPW7V89oiDo9+M43RskY+y21gpx1S+O8H0OH9+TiFn3xyIIw2pJe8El+Mp
+	qPu/WN3WYF279zbaw7apVqVP4zU+fEDr/sDpklm6Jmysyu8c0GksWyOeeieTbrojpPw5UpRFRvy
+	wVN111n6WLpxYnuAO92cDodOABihnS1psXio0JSk79t2izJRkA6QYq/KFUeOx1RwIzjKsdDP0HO
+	NRgMzf83mhagzWeUg0X8KbpjvZCzaSQfyLukDHeNMsoqb60MQ6dxajX7MlLpkPWrepBJK8xfXks
+	cR1y9AGE66I3XM7vERCjBQr5zPa2oIoqPe3V4U5YEBuYnWNltpU=
+X-Received: by 2002:a05:622a:1e08:b0:50f:ae44:515b with SMTP id
+ d75a77b69052e-516d45924cbmr14289361cf.37.1779397751478; Thu, 21 May 2026
+ 14:09:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20260521210523.133725-1-diegomancera.dev@gmail.com> <20260521210523.133725-2-diegomancera.dev@gmail.com>
+In-Reply-To: <20260521210523.133725-2-diegomancera.dev@gmail.com>
+From: Diego Fernando Mancera Gomez <diegomancera.dev@gmail.com>
+Date: Thu, 21 May 2026 15:09:00 -0600
+X-Gm-Features: AVHnY4LWnZAp_HAYR5mjkfAuCHvXFZRdiPIzEWDUjLwakceMiCVys4Wl8JfJUQU
+Message-ID: <CALruWrWoqtOiZdW9TJKH-utdMhAY7XF_b9PGhfC5OQVHS-ZWbw@mail.gmail.com>
+Subject: Re: [PATCH] staging: sm750fb: add const to g_fbmode array
+To: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev
+Cc: m.steinmoetzger@gmail.com, guojy.bj@gmail.com, straube.linux@gmail.com, 
+	error27@gmail.com, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Modify the top-level Makefile EXTRAVERSION variable to append a unique
-user identifier '-capihw-v1'. This provides distinct verification
-for custom compiled mainline trees during development audits.
+Hi Greg, please ignore this patch, as it was sent by mistake. I am
+retracting it due to compilation errors I found earlier.
 
-Signed-off-by: Diego Fernando Mancera Gómez <diegomancera.dev@gmail.com>
----
- Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Makefile b/Makefile
-index b7b80e84e..d7f717d8a 100644
---- a/Makefile
-+++ b/Makefile
-@@ -2,7 +2,7 @@
- VERSION = 7
- PATCHLEVEL = 1
- SUBLEVEL = 0
--EXTRAVERSION = -rc3
-+EXTRAVERSION = -rc3-capihw-v1
- NAME = Baby Opossum Posse
- 
- # *DOCUMENTATION*
--- 
-2.43.0
-
+On Thu, May 21, 2026 at 3:06=E2=80=AFPM Diego Fernando Mancera G=C3=B3mez
+<diegomancera.dev@gmail.com> wrote:
+>
+> Signed-off-by: Diego Fernando Mancera G=C3=B3mez <diegomancera.dev@gmail.=
+com>
+> ---
+>  drivers/staging/sm750fb/sm750.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm=
+750.c
+> index 89c811e0806c..8f533f3b1b42 100644
+> --- a/drivers/staging/sm750fb/sm750.c
+> +++ b/drivers/staging/sm750fb/sm750.c
+> @@ -21,7 +21,7 @@
+>  static int g_hwcursor =3D 1;
+>  static int g_noaccel __ro_after_init;
+>  static int g_nomtrr __ro_after_init;
+> -static const char *g_fbmode[] =3D {NULL, NULL};
+> +static const char * const g_fbmode[] =3D {NULL, NULL};
+>  static const char *g_def_fbmode =3D "1024x768-32@60";
+>  static char *g_settings;
+>  static int g_dualview __ro_after_init;
+> --
+> 2.43.0
+>
