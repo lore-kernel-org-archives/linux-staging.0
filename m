@@ -1,201 +1,101 @@
-Received: from forward500b.mail.yandex.net (forward500b.mail.yandex.net [178.154.239.144])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEE253C3BE8
-	for <linux-staging@lists.linux.dev>; Thu, 21 May 2026 11:35:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD4261A238F
+	for <linux-staging@lists.linux.dev>; Thu, 21 May 2026 12:37:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779363354; cv=none; b=O+QKb1HwHMYKDA9fR4x0jxL94O3k/jdQ7X973jTNLY0tjNSDRRYCwDahkQx1uA/sQ46gUXAbfIDo+uM1EW9YwZHf2toEc7oxnUYig34N6mLpWOmb4ZT5cg0FC3uaqUThLYhdNPZsTQZ1NKhA1xmdcy5ccr4Z1f/j+Brg6/3gVwE=
+	t=1779367042; cv=none; b=paLUv4pmxx8u3ojeKg3VokurUCVw+qTi/pMBWRBcH91JKD2gK9jTMwCBzDgpJiwgstpedRXfXwY3+BkVXi1IPQ+sI2Pw7oFBrt64Wjx/mBb/d+7LDXzOmSNlwPCgKozZrP04p0ZHQLZdJ/fIDvBW3GUSrbUMTDSBe9O0Hji15b0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779363354; c=relaxed/simple;
-	bh=IfusTFgHV+ADsuryTpD4Q7uA8yj63ikIDnP9L4UJxko=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UjbK7oAL4jZWHgXo14c/17Mt6F8pBlZxh63CQCpuKO3fKCd2TXee5W2uRJoOwxRu25bW5ewBOwi7CJeOaOmepVuPGhG+8riGvJQGseluCkvU7nRnNG2NGVQ6y6ahKCRZlNKPhtOlZOyw4C1jfgU+Aur2avpOlFo4Y5qUkmyiTGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net; spf=pass smtp.mailfrom=sezginduran.net; dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b=lJruPlah; arc=none smtp.client-ip=178.154.239.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sezginduran.net
+	s=arc-20240116; t=1779367042; c=relaxed/simple;
+	bh=4ADfTGnQPzPw9uYjiUKJ76GqQkL3OcJYZUPppA4KL3k=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XaFLy8mF6g792ROxN2lcuCKJv2aaQ1ZKQ7bBXqmXKBGbXhHTxYXqO+VTiFas3aj2Gl7M4Vxde7yhYxPr4vSijXbnsQRdq5Z4qpshrvc8S1q4gxQtZ7ZLJFAP+pGWGjJMmkwgwWiy824ALTgIcCEtnvz0SEpZ74qCKPkgzxIhIW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZMl4kEpZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b="lJruPlah"
-Received: from mail-nwsmtp-smtp-production-main-87.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-87.sas.yp-c.yandex.net [IPv6:2a02:6b8:c11:1199:0:640:2d84:0])
-	by forward500b.mail.yandex.net (Yandex) with ESMTPS id C15E8C12D4;
-	Thu, 21 May 2026 14:28:12 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-87.sas.yp-c.yandex.net (smtp) with ESMTPSA id 9SRvsB1T7qM0-Lu0PumRs;
-	Thu, 21 May 2026 14:28:12 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sezginduran.net;
-	s=mail; t=1779362892;
-	bh=shqZnsVkp8hA1UHYSKr3VicqH1oIsvGjRrTg1KITTY8=;
-	h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
-	b=lJruPlahWeqv2tjjhuEcU8NN1+ru5cytIdRnKrdpFnONlXNkRIgb2arUkNUcB7Gct
-	 kj0S8p7m5fZhdqJfBmOza5h7tYOCKQcz0mO+Y1000BGCM4JeehE/+we8KrscOvPdlA
-	 tuIi6nZJyScwuBTge/q12JaQkmTd+aUZ6iEEwM5Q=
-Authentication-Results: mail-nwsmtp-smtp-production-main-87.sas.yp-c.yandex.net; dkim=pass header.i=@sezginduran.net
-Message-ID: <cc1b42a5-131b-40b1-ae80-eade779205f1@sezginduran.net>
-Date: Thu, 21 May 2026 14:28:09 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZMl4kEpZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FC741F00A3D
+	for <linux-staging@lists.linux.dev>; Thu, 21 May 2026 12:37:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779367038;
+	bh=3dAfBojcBjvH63IBG4+flCX7uLeePJ4fQH3Id5o7fqk=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=ZMl4kEpZ8KbsFfpBgzq/HfVK3SIYOmxFASvFg3Jo36oa/CsWilsVf03Niy20vZx/e
+	 7tTaX5ZM//qmDMeAuU2e/KPkt26ayl/iDJU/iSLt/Iua1h/ongGIxf044e0H7kKJPS
+	 QhOZ4VYmSpmhM8K6AaQ8CF2NfhqStaSQrt0qkUrdbpH68ngy9KQcNXeKN76EoEsuAZ
+	 DsCyabIWWSjf+X2fbwfxooJDQfiuiKLEQRWctWJ+oXWtmVQyUg2zARiR0Ltq+BLT6I
+	 +jgbdJJ9t1zPIng8vtfPrX+dRmjEteiuAS/4iDBv8cYXL6zyPEBUverjLIedn90g+t
+	 /lTa2DUxvfEyQ==
+Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-1353c2f35cfso18317493c88.1
+        for <linux-staging@lists.linux.dev>; Thu, 21 May 2026 05:37:18 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ92RKTK2JqqRb+m+H8hdJLkNERNbO6g65DCVN6jAcUtgBnRukDzwRffnwfa/EygUL+x1UbV7x9rRcGwP4II@lists.linux.dev
+X-Gm-Message-State: AOJu0YzM824DKdEne6OLnoSGWu+HqZETnk3XQuOzl9pDm3hjSDsJpqgG
+	MFaaHieyFca8odxkajW8+TEBrr50V1c43m00Wf7FqZZGKeBjwIAkjdq5pUuUODSx2Zx2qPLnlHN
+	LfyQVVspkv+fVyYtA8pKIb1vh7y2LmBS/i615l3MffA==
+X-Received: by 2002:a05:7022:384c:b0:134:df4a:2824 with SMTP id
+ a92af1059eb24-13632a03d9amr1511158c88.10.1779367037834; Thu, 21 May 2026
+ 05:37:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 3/4] staging: rtl8723bs: remove excessive whitespace in
- hal/sdio_halinit.c
-Content-Language: tr
-To: Artur Ugnivenko <artur.ugnivenko@gmx.de>, gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- error27@gmail.com
-References: <20260521112345.16604-1-artur.ugnivenko@gmx.de>
- <20260521112345.16604-4-artur.ugnivenko@gmx.de>
-From: Ahmet Sezgin Duran <ahmet@sezginduran.net>
-In-Reply-To: <20260521112345.16604-4-artur.ugnivenko@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20260506082211.5624-1-bartosz.golaszewski@oss.qualcomm.com>
+In-Reply-To: <20260506082211.5624-1-bartosz.golaszewski@oss.qualcomm.com>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Thu, 21 May 2026 14:37:03 +0200
+X-Gmail-Original-Message-ID: <CAMRc=MeD3rDyGqqYC36FChx=SgDikPAXTr1i7-zMWnOnaK+xyg@mail.gmail.com>
+X-Gm-Features: AVHnY4J-OlJBt2pglPwgLkcqcj6pFaaKzjNAVop3xKEam6mdnYcWxnhzJlyG9zE
+Message-ID: <CAMRc=MeD3rDyGqqYC36FChx=SgDikPAXTr1i7-zMWnOnaK+xyg@mail.gmail.com>
+Subject: Re: [PATCH v3] staging: media: max96712: drop unneeded dependency on OF_GPIO
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 5/21/26 2:23 PM, Artur Ugnivenko wrote:
-> Fix checkpatch warnings on excessive empty lines after closing brackets,
-> after opening brackets and multiple empty lines at once.
-> 
-> Signed-off-by: Artur Ugnivenko <artur.ugnivenko@gmx.de>
+On Wed, May 6, 2026 at 10:22=E2=80=AFAM Bartosz Golaszewski
+<bartosz.golaszewski@oss.qualcomm.com> wrote:
+>
+> OF_GPIO is selected automatically on all OF systems. Any symbols it
+> controls also provide stubs and are private to GPIOLIB anyway so there's
+> really no reason to select it explicitly.
+>
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 > ---
->   drivers/staging/rtl8723bs/hal/sdio_halinit.c | 17 -----------------
->   1 file changed, 17 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit.c b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-> index 3756b8e3d8e9..e6570fa2e8fd 100644
-> --- a/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-> +++ b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-> @@ -21,7 +21,6 @@ static u8 CardEnable(struct adapter *padapter)
->   	u8 bMacPwrCtrlOn;
->   	u8 ret = _FAIL;
->   
-> -
->   	rtw_hal_get_hwreg(padapter, HW_VAR_APFM_ON_MAC, &bMacPwrCtrlOn);
->   	if (!bMacPwrCtrlOn) {
->   		/*  RSV_CTRL 0x1C[7:0] = 0x00 */
-> @@ -235,7 +234,6 @@ static void _InitNormalChipOneOutEpPriority(struct adapter *Adapter)
->   	_InitNormalChipRegPriority(
->   		Adapter, value, value, value, value, value, value
->   	);
-> -
->   }
->   
->   static void _InitNormalChipTwoOutEpPriority(struct adapter *Adapter)
-> @@ -244,7 +242,6 @@ static void _InitNormalChipTwoOutEpPriority(struct adapter *Adapter)
->   	struct registry_priv *pregistrypriv = &Adapter->registrypriv;
->   	u16 beQ, bkQ, viQ, voQ, mgtQ, hiQ;
->   
-> -
->   	u16 valueHi = 0;
->   	u16 valueLow = 0;
->   
-> @@ -283,7 +280,6 @@ static void _InitNormalChipTwoOutEpPriority(struct adapter *Adapter)
->   	}
->   
->   	_InitNormalChipRegPriority(Adapter, beQ, bkQ, viQ, voQ, mgtQ, hiQ);
-> -
->   }
->   
->   static void _InitNormalChipThreeOutEpPriority(struct adapter *padapter)
-> @@ -328,8 +324,6 @@ static void _InitQueuePriority(struct adapter *Adapter)
->   	default:
->   		break;
->   	}
-> -
-> -
->   }
->   
->   static void _InitPageBoundary(struct adapter *padapter)
-> @@ -372,7 +366,6 @@ static void _InitWMACSetting(struct adapter *padapter)
->   	struct hal_com_data *pHalData;
->   	u16 value16;
->   
-> -
->   	pHalData = GET_HAL_DATA(padapter);
->   
->   	pHalData->ReceiveConfig = 0;
-> @@ -526,7 +519,6 @@ static void _InitOperationMode(struct adapter *padapter)
->   	}
->   
->   	rtw_write8(padapter, REG_BWOPMODE, regBwOpMode);
-> -
->   }
->   
->   static void _InitInterrupt(struct adapter *padapter)
-> @@ -569,7 +561,6 @@ static bool HalDetectPwrDownMode(struct adapter *Adapter)
->   	struct hal_com_data *pHalData = GET_HAL_DATA(Adapter);
->   	struct pwrctrl_priv *pwrctrlpriv = adapter_to_pwrctl(Adapter);
->   
-> -
->   	rtw_efuse_shadow_read(Adapter, 1, 0x7B/*EEPROM_RF_OPT3_92C*/, (u32 *)&tmpvalue);
->   
->   	/*  2010/08/25 MH INF priority > PDN Efuse value. */
-> @@ -613,7 +604,6 @@ u32 rtl8723bs_hal_init(struct adapter *padapter)
->   		/* do polling cpwm */
->   		start_time = jiffies;
->   		do {
-> -
->   			mdelay(1);
->   
->   			rtw_hal_get_hwreg(padapter, HW_VAR_CPWM, &cpwm_now);
-> @@ -744,7 +734,6 @@ u32 rtl8723bs_hal_init(struct adapter *padapter)
->   	/*  set 0x0 to 0xFF by tynli. Default enable HW SEQ NUM. */
->   	rtw_write8(padapter, REG_HWSEQ_CTRL, 0xFF);
->   
-> -
->   	/*  */
->   	/*  Configure SDIO TxRx Control to enable Rx DMA timer masking. */
->   	/*  2010.02.24. */
-> @@ -753,7 +742,6 @@ u32 rtl8723bs_hal_init(struct adapter *padapter)
->   
->   	_RfPowerSave(padapter);
->   
-> -
->   	rtl8723b_InitHalDm(padapter);
->   
->   	/*  */
-> @@ -916,7 +904,6 @@ u32 rtl8723bs_hal_deinit(struct adapter *padapter)
->   				}
->   
->   				adapter_to_pwrctl(padapter)->pre_ips_type = 0;
-> -
->   			} else {
->   				CardDisableRTL8723BSdio(padapter);
->   
-> @@ -935,7 +922,6 @@ void rtl8723bs_init_default_value(struct adapter *padapter)
->   {
->   	struct hal_com_data *pHalData;
->   
-> -
->   	pHalData = GET_HAL_DATA(padapter);
->   
->   	rtl8723b_init_default_value(padapter);
-> @@ -951,7 +937,6 @@ void rtl8723bs_interface_configure(struct adapter *padapter)
->   	struct registry_priv *pregistrypriv = &padapter->registrypriv;
->   	bool bWiFiConfig = pregistrypriv->wifi_spec;
->   
-> -
->   	pdvobjpriv->RtOutPipe[0] = WLAN_TX_HIQ_DEVICE_ID;
->   	pdvobjpriv->RtOutPipe[1] = WLAN_TX_MIQ_DEVICE_ID;
->   	pdvobjpriv->RtOutPipe[2] = WLAN_TX_LOQ_DEVICE_ID;
-> @@ -1003,7 +988,6 @@ static void _ReadRFType(struct adapter *Adapter)
->   	pHalData->rf_chip = RF_6052;
->   }
->   
-> -
->   static void Hal_EfuseParseMACAddr_8723BS(
->   	struct adapter *padapter, u8 *hwinfo, bool AutoLoadFail
->   )
-> @@ -1098,7 +1082,6 @@ static s32 _ReadAdapterInfo8723BS(struct adapter *padapter)
->   	if (!padapter->hw_init_completed)
->   		_InitPowerOn_8723BS(padapter);
->   
-> -
->   	val8 = rtw_read8(padapter, 0x4e);
->   	val8 |= BIT(6);
->   	rtw_write8(padapter, 0x4e, val8);
+> Changes in v3:
+> - Send the staging patch separately so that it can be picked up for v7.2
+> - Link to v2: https://patch.msgid.link/20260316-gpio-of-kconfig-v2-0-de2f=
+4b00a0e4@oss.qualcomm.com
+>
+> Changes in v2:
+> - Make gpio-watchdog depend on OF && GPIOLIB
+> - Drop picked up patches
+> - Link to v1: https://patch.msgid.link/20260304-gpio-of-kconfig-v1-0-d597=
+916e79e7@oss.qualcomm.com
+>
+>  drivers/staging/media/max96712/Kconfig | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/drivers/staging/media/max96712/Kconfig b/drivers/staging/med=
+ia/max96712/Kconfig
+> index 117fadf81bd0..93a2d583e90d 100644
+> --- a/drivers/staging/media/max96712/Kconfig
+> +++ b/drivers/staging/media/max96712/Kconfig
+> @@ -2,7 +2,6 @@
+>  config VIDEO_MAX96712
+>         tristate "Maxim MAX96712 Quad GMSL2 Deserializer support"
+>         depends on I2C
+> -       depends on OF_GPIO
+>         depends on VIDEO_DEV
+>         select V4L2_FWNODE
+>         select VIDEO_V4L2_SUBDEV_API
+> --
+> 2.47.3
+>
 
-Doesn't apply to the staging-testing branch.
+Gentle ping.
 
-Regards,
-Ahmet Sezgin Duran
+Bart
