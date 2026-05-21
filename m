@@ -1,88 +1,95 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0003F3DB62E
-	for <linux-staging@lists.linux.dev>; Thu, 21 May 2026 14:19:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5A933DB626
+	for <linux-staging@lists.linux.dev>; Thu, 21 May 2026 14:28:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779373142; cv=none; b=lfJsg8Nce4z+DQeq57fGMTCaDDCPPLyTPVhM3D03dlOUrcrwM92tLU58MxfB+fRNzGZI4EMsM8mV33BMGM3LM83gHdXZmbka5gjVxuDBxqHCUXqHToXehkyy9poeLwwKgB6tTPzSwLmJdXyavLyohK72ig1sU3aZPTCzqsJoJXk=
+	t=1779373708; cv=none; b=bCCzQ4gtMJ6rBV8eZU+RmxMQau/h88KuJiw8Mf1XM12+RspILrDmTo/oQI1S4WGtp8aB7HOP9c2cJgT+/XaFMglx7GKgGa8kCLMWFK9W6xytIZw6h2HkKxSggNtchUtoKxTl740DlEkOG3w6C9qH9h6t/JBWuhkarQ54TtebFrQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779373142; c=relaxed/simple;
-	bh=bmeraoj28RJVVEKy0iNs2TVJQGIwMWX6sf+UVtwTJ7c=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hoLnRCAwmyXgacZ4noTdtNpWusyue2oEKzWS8nEiPfMJ5xm+ax141ahkCAp8ZzjW5Qfkq8KSadbxIJZQgx/fu7+mmNKw1T13EOx1DMaJAVxZNj8ur3PCqO01AuAeuwQThyOF96RAzFLf/1XdVszpMcWZ8nQxVtwpf3OSKEXZUEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I9UsJoAD; arc=none smtp.client-ip=209.85.208.42
+	s=arc-20240116; t=1779373708; c=relaxed/simple;
+	bh=1uhEEK98nunvnkkFu5cl/S6f0C3ToIAbTXCG6iyCI+Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Ag6VgdXN0MZF654C68AfB9zXD+pmHRfJS4DGSDLt4vWmHcGKuQyal2ioNjeXlSxddzewyWtW/mC5+irveOucp1NoJ4bvzH5apSTHmJJUFAYQBGiC/bYAk8YpH6EZHemF5E8EnARTJKvQX8pVNM6iST4CzX0CuMRR/mNpVZS4hFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rJstowfw; arc=none smtp.client-ip=209.85.167.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I9UsJoAD"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-6804e24803bso13005201a12.1
-        for <linux-staging@lists.linux.dev>; Thu, 21 May 2026 07:19:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rJstowfw"
+Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-479ef2b7979so4952389b6e.3
+        for <linux-staging@lists.linux.dev>; Thu, 21 May 2026 07:28:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779373139; x=1779977939; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bmeraoj28RJVVEKy0iNs2TVJQGIwMWX6sf+UVtwTJ7c=;
-        b=I9UsJoADdxAPaIbvjlhNVeF+UqNZsWk4EgEtvAF3GKSqDQGPqzsQKV5d44YApE8mP0
-         jQO6AsmJqnmOI4y/xSoCQ0e3csOXwJy1m5flcifSbCRYNlT0D3GpqQKAp13a5Ns2+8oQ
-         KkFYJvHluXmygir8jOiE8zsqUjFTCdPEdtOh/GWjEQeesSD2qkC1tgdQtbg6qwE0hmL3
-         lWa0BMEmZJyvnQV3jqVJ26j8wR4sdMDesplZJSWUDAW47N/eYs14/q/v6Piv/6Qvc/eo
-         FuRNFPggP/NCqGgnSyvjS0fLmc3BH1X6EsZP/VA+booTCfRMQFgTycs3B9+fbLAXknfI
-         J+nA==
+        d=gmail.com; s=20251104; t=1779373706; x=1779978506; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=LupQ9aUXS/2zk9VeUz06e4gA4DsWebDm6OAqQ1TQUKc=;
+        b=rJstowfwA0Lgeq3xGSRrneP9nAqoMjxntTPyWcx5UK0L1eetL61PkqkQw0DkxjgcY1
+         r19YSdIRh9ss6jlRWRWm3+5Tk7B39e68y8xqugpcrtYCf14UCjou6DUCLmLKp9r6c1AC
+         zgiZxNU8eNtsleN5VTyh3qmnBdGSQ8/Ys2+3+KzC+Kk5JW/5zJ8GrGPfm94PpsrJ1YPN
+         VRMiOpu9maXu95NpqGSy9bonz2gTuF8DB6By5XzdmHeJ8OVvILoToLCfrklryLFKso7l
+         +HkM4/ILuuRlLasVluPBm4y+i498p39bN7nWUvXlpHxBVpVQe4LCJNk062Kl8WSnA27I
+         ITMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779373139; x=1779977939;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=bmeraoj28RJVVEKy0iNs2TVJQGIwMWX6sf+UVtwTJ7c=;
-        b=Vj8+XwY9cMP5G18tJH3x3sOCShjYnXIhAEI1icQhOkl3Ch+mES3k//e61ct2I22PmM
-         uzaPW0OiLBpkQ379QhaH07ujCNoBiBBQA2RyXANr8j9AUP9QuByc3SEPRZqJkQ72AVxm
-         iSR2T8jocMbP/cEucRPck1iTACi0v1w4OTVzRivPAcSuOFM16xim61whUcLh6rLYvBKQ
-         kfusll7ZKqjS1aAAxFq1p1C3mQpDtlIqq2KZGDgpWz70gaf2zNL01QqWoVFmRx7RMnlp
-         DaUW1FVC7vHSLhod3TU64/D+/uQir5OV8YqRd/nzCVVluWsTLX/PNtgdSzT1nQzqTG+u
-         LG5g==
-X-Gm-Message-State: AOJu0YwM1Es28QYzsTxdtfJG1w7by7L6j0Dh5eLyYhUF7LsfWlJEN2Ay
-	1SKgy0Jp3ZBa1VTPxcps7rgVw/K09oUMwv2QPvQjiPb9jHq284KMl6TR
-X-Gm-Gg: Acq92OEFjYHwB/LZ/Nn8wQPeoT6UfLr5rHmqhE1w9x1wFvQsR/yQyX8ePJFw7GVeGn7
-	IKRpyytw9NDGmOXT96rkYLV5+pPYE0RCuCd1BSVx6DEcj9wD+el26o2+AyWbroH+1l8o0x9L6x4
-	i53S0B0PobGUuqH7HHgEMoygm5yf/Qwu3U1FWLAYP6rdWPZmOuu2tOFf7r3hO3PHpCGoNuXNWtb
-	HYpdzrBdoe6ZP97LIyGDNpFuZCMOC+vuomMAjuznpGBhbpN1BsN5AETN8pgFMA/+7Ni4MGzgveq
-	PMalbPfNPxd+rB1LUM39NbRhVe/urvkI0k3rUsBKK+jW1Q0SPkixQktnfA9V5rBmQyqGzn+5Re6
-	BA1hpsSKWpeX64u287qi4s/v22ILB9UMRWjU+9bGXiN3MVA3tOstn9syUdZfawnlIobFL12L/uD
-	9jkE5tsprdrodENLsR3G5Ld7CYBrQJLaYVnqXJlo0dMW4alinnY08Vy4Pc7Rgfdlb5K0TSRRCBj
-	s/ClG99YStGwOsF5ii6r9nNzw4bZsM+ExnZ9XyXsWQHIDOXQeJMXABTYBKd00EmAr/ZeY/NTFM3
-	14Y0hpYtwWhvS0BjyMvBHpKR43b5
-X-Received: by 2002:a05:6402:501b:b0:687:50d3:d9e0 with SMTP id 4fb4d7f45d1cf-68836bca57emr1750276a12.20.1779373139016;
-        Thu, 21 May 2026 07:18:59 -0700 (PDT)
-Received: from ahossu.localdomain (ip-217-105-56-94.ip.prioritytelecom.net. [217.105.56.94])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6887e01f7b1sm225262a12.6.2026.05.21.07.18.58
+        d=1e100.net; s=20251104; t=1779373706; x=1779978506;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LupQ9aUXS/2zk9VeUz06e4gA4DsWebDm6OAqQ1TQUKc=;
+        b=bOcc1+tHfuYuCyfC5z7HV+v/EJjTDaHHwAZcQEltnTFg+vqyoMUsUY49N/uMFZp6XH
+         jGiuBv0X9bE9AznGSPV2G5lY6Bt57h0X12cTq2PH4kMgWQFmGxNMmT53Oi2p7TiHWGf0
+         Wk1NwumTYKFBLZRfN3ueDxK8IZ3ld9CSkDi9vE10J2iMFmGRJTlxXiKScWarRpPbvKM3
+         kctPYDrdajPGXsruDoDa5Qfr/+G/FuDNgwC0lMATsJXDoLNBMw9JZVKlJvFuJa0zga1U
+         exqwmG23OoYmHja0vj+6+Z3ECT/EdWcJqQk/49LwsjWmqH1faz6EYNT8dAXGQ+7QGoWi
+         awkg==
+X-Gm-Message-State: AOJu0YxDGyhZG3OpCYaonQjaMcWJ84RSF4ABo0O8Gdtj+22YJWwykR0Y
+	iUrAIszyF526Wa3bZLGP8ZlOUL+pJGT8WNVufOsYfMqC1dNKTZ4EM53k
+X-Gm-Gg: Acq92OHaD2QTTd+Z+rmSfp+dNR82hb7dtZzhMoamNO29yptLfKLAKqgt9eaOK8Qgil9
+	fsspsLoshjHJ6Rc7AGPYILsxQD+ca/RYydmne/AdXhhPryYKUGAaX7Td0y8RVoa91i4N/vrCWuG
+	mHx+kFXxnr2bXj88/KMoAM2PuTL353fzJVrKE4uXG9J3SmqcQZnVISbv8Oe5w9uEiKy9HJ/9MjS
+	omSJOh0MkWLQVreyZfIgV8UGzWNbWFEsokjLnhfAP/EKweylqdb3agWv6hUVaaiNfrN+G+Zhcsh
+	ubHDUbk5cgKgltOOhbDoQzv0+UV+JCzJEW4d+NWuRHx4oSd9pEGbNnvRtkGKKP4Pk0clmpg/8fc
+	MmKrIzUGJNxHW+s6vSRyAVztpQoHzKHAisP5TbbCtdn85C435yNpNEEKXCjHbqV60CKoyjo6wnG
+	4WU7VlX7FLnqARK0zEjRi1e7si52pguok=
+X-Received: by 2002:a05:6808:c29c:b0:47c:b38c:a19a with SMTP id 5614622812f47-4852ebcca42mr1788437b6e.14.1779373705726;
+        Thu, 21 May 2026 07:28:25 -0700 (PDT)
+Received: from pop-os.. ([2806:264:548c:885a:fb25:8a80:d99d:260b])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-485431776acsm297499b6e.13.2026.05.21.07.28.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 May 2026 07:18:58 -0700 (PDT)
-From: Alexandru Hossu <hossu.alexandru@gmail.com>
-To: gregkh@linuxfoundation.org
+        Thu, 21 May 2026 07:28:25 -0700 (PDT)
+From: =?UTF-8?q?Diego=20Fernando=20Mancera=20G=C3=B3mez?= <diegomancera.dev@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
-	stable@vger.kernel.org,
-	Alexandru Hossu <hossu.alexandru@gmail.com>
-Subject: Re: [PATCH v6 0/7] staging: rtl8723bs: fix OOB reads and writes in IE/attribute parsing
-Date: Thu, 21 May 2026 16:18:28 +0200
-Message-ID: <20260521141828.784161-1-hossu.alexandru@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <2026052158-mumps-margarita-afcd@gregkh>
-References: <20260521130330.754181-1-hossu.alexandru@gmail.com> <2026052158-mumps-margarita-afcd@gregkh>
+	=?UTF-8?q?Diego=20Fernando=20Mancera=20G=C3=B3mez?= <diegomancera.dev@gmail.com>
+Subject: [PATCH] staging: sm750fb: add const to g_fbmode array
+Date: Thu, 21 May 2026 08:26:55 -0600
+Message-ID: <20260521142655.24408-1-diegomancera.dev@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi Greg,
+Signed-off-by: Diego Fernando Mancera Gómez <diegomancera.dev@gmail.com>
+---
+ drivers/staging/sm750fb/sm750.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Sorry about that :( was very tired when I sent these. Will add the full
-version history for all previous versions and resend.
+diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+index 89c811e0806c..8f533f3b1b42 100644
+--- a/drivers/staging/sm750fb/sm750.c
++++ b/drivers/staging/sm750fb/sm750.c
+@@ -21,7 +21,7 @@
+ static int g_hwcursor = 1;
+ static int g_noaccel __ro_after_init;
+ static int g_nomtrr __ro_after_init;
+-static const char *g_fbmode[] = {NULL, NULL};
++static const char * const g_fbmode[] = {NULL, NULL};
+ static const char *g_def_fbmode = "1024x768-32@60";
+ static char *g_settings;
+ static int g_dualview __ro_after_init;
+-- 
+2.43.0
 
-Thanks,
-Alexandru
