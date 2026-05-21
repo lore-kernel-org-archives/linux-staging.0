@@ -1,102 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f194.google.com (mail-dy1-f194.google.com [74.125.82.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC51F3A6F05;
-	Thu, 21 May 2026 10:42:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C9DB3BB40
+	for <linux-staging@lists.linux.dev>; Thu, 21 May 2026 10:43:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779360127; cv=none; b=D+2ZV1jSmDEYRy7lqeSHmnqqvDUhuIqxdZxhyY2PwCDNugKVbgCs/VKseaSyGpRM4EucOT0DhQ3Ry4BnZznuUlNhgcQaPcKfoYsHibzssC5H/3L2Z6yl6/oizf7YYR7d1Lh8mWfYEOS7laotIa9qjpsRAMwU7rOQag8k7Eql3Ys=
+	t=1779360237; cv=none; b=RWuUf6otZu2KO61IPo+puTeh6hIN9wXw0y5gPBUBcmue7l3IGR+n3ETcn6rATPMxbtMcsJU9EpbuMy2S2u6KWbBzkpuX19/4h6SAb4RIrgwzKvjFSiQ0SujY8HLU/eh16XI3ibQKwNFjiasEbq/svOaxQ6ogdhNC+VsRYmyAgcM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779360127; c=relaxed/simple;
-	bh=uLngnlAsglHRzm9Wg1HQ4y/sg+EEynIi7vRNf1TSH1I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JpgCHS/u94hc224L+o+7ZE4NgfUxKSUCkRPCc5In/2aymU4WRTQLGL8/EIamubwuTC6X154YwBjaCeLXNCWXTXE/4xOVxIFOxb+q1v3D0O2EE6oEAjEBPDeiqmp2OAfwF/49/tYzi5vHCkYOfyjvOEyDh5+2sn9WSPoBqU2VFrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=XLjnXaX1; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779360237; c=relaxed/simple;
+	bh=Aa8N9sawpeP2yl7ZM207sHIUnQW5bw08zD8SP/lAn9M=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=tKrFO7EP9geMP4A+lPRlW1Mt/m4Mcx9nMN001doAqBm1mWLyB2IxFY8f2f+aIJaBkQSmiKDMXNhIyRoxKAn763bYbRjSrWFtN6mlrkSAd4IZ9bYXaR86byH1C+bJgichA1ib9xwRDZd70WfXTvbGZX31u79jb7JXdZ98liuQNik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dKA7WkhU; arc=none smtp.client-ip=74.125.82.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="XLjnXaX1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C4161F000E9;
-	Thu, 21 May 2026 10:42:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1779360125;
-	bh=fMio8TauSQXf7NrQmSw8MAWyDD9SaOVWSIlDVzAHp0U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=XLjnXaX1rSo7J56iQIKoEXc4Ejd7B+o4UKLVfwSqqEm3JUSAtUz0+F2NPgbyj5bWE
-	 6oWA4lhxvq3vYZNyf5J0FOBz1JcW5FlqRB1BxJtEYKsH51ckJaBqGod4Fi89V1C117
-	 X0VXg9ZZC6t3aJEJ5c8MRcK/DB4Ji1NFhlh+Z6is=
-Date: Thu, 21 May 2026 12:42:08 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Praveen Jayaprakash Pattar <praveen.pattar2022@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: hal: Remove unnecessary blank lines
- in hal_com.c
-Message-ID: <2026052155-bottom-synergy-e6fc@gregkh>
-References: <20260517171537.17787-1-praveen.pattar2022@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dKA7WkhU"
+Received: by mail-dy1-f194.google.com with SMTP id 5a478bee46e88-3042dffd80bso964303eec.0
+        for <linux-staging@lists.linux.dev>; Thu, 21 May 2026 03:43:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779360235; x=1779965035; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q1DIfBBxN1n/y3mP653V3AFT2cXl1biVHSC3Q08Z44s=;
+        b=dKA7WkhUKIv+AH2qXrKmPSj9BOhPlxiFk40KYN4XxPU9j+iypteju3P3r85RO/nR3L
+         Zj5n1mseqYokD1SsbqorIEYu/fH+EwTZm4+nb5gPdBlppOPnaTpyhs/oQT0jQaANLgtW
+         Ou/KDiR3ipDm8Pknc1SCPv/rS+j0Hm+lDxOuCtnlZkrVdmOuod01Zvy19Mtqy3fdtMBE
+         DFwjKk+HAo5iRgpf9HzHs7ov+oJaPqC5Slhken1lo0NtvDZN76mHqtsIx85GT2szA4b8
+         bS59sXe2B/eud4O82ToycS8DGmq+5+ZAc/gnhV/X4fawZiNB9QkAAVAJTjdLqcPCPJs1
+         pE7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779360235; x=1779965035;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Q1DIfBBxN1n/y3mP653V3AFT2cXl1biVHSC3Q08Z44s=;
+        b=fLBTU1z7D08EY4OVLDxDjxbgwiLnuqHymmXcpCA7/CQOuQXlTzikqvCJvNfZWwuYrj
+         n373VeDg+g//7/lXwaRNTNkzAy8/AXAm0cRGLYNJSAo5X7SlkJOrGJvTL3pl/Jyut3WK
+         2M3F/3ZSwF37VMjJqKLLAf8VtT43tbwm5qEbAtDqwBilB51IRKOfe7TGcijLktzN9WSr
+         T1l0MmAilc1pxhOTWgOU/ccHn0Hms3iR3QVIqqGSZ8Fw9FEA2Gnb8PC4AaLhkdyp5OoG
+         c52v8Hp4haCvh9Z8DIQh3Es167uZSkxr5RYZmDiFpDnrev5UTCGhYGHNJHG73Z8IH1qU
+         ZpHQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8yoWtDkFEc4eqkxkXL4zXDsQusUptkykCeLK+3E7SNOdhXi5NC8DR6XMBDTZcg09EfXCyE5v8t/MkxZloi@lists.linux.dev
+X-Gm-Message-State: AOJu0YyBfgNBBU+PbhFPgMmKJFcvgwKdPF0BwuD3yr5TymDSY2ek62gw
+	mOUWQO5krrnkph19YJBoXl7RcjedxLid1OtvBhKokAIl5iZ80n5eHaw8
+X-Gm-Gg: Acq92OGzDj/DSwWQwbfEYeVqNqSrUlQpO0NFrAxiB/4NesyawKfz2RvAkp8O/Q3GvE7
+	nyPjmcQVatyRgsfcasHP6mfYfiufN51aClzD+l44bIxkr0w3Js/Oa98qFmxRxDF5T5qjw9ORCeC
+	QO+PgJRUugn7gjAQWf0dgAgcDr8pBizJg2aRL9UidWO1TuAPg7xBTyRVt86W2br53Qp3Ghh/fLG
+	GCGq6G4Db9y89AJQNFRPPOKufQOVYJsnFdfjRQEbboyJ0WiUwEceJhFWKYHdpIexEYUoJPtAsjH
+	WBW7c1r3lKcXg+5k42hXKx1Mufu65fVD0J8oz9ZNZYICwVvTyCFO+QyzYjJ5HY2Xdt1Ef+nAv7U
+	yMFPZL2RQN+g8HP1pNNw40W9F+0e+YF2RcUL6e7jZHjNP+mEpgqziHqFNW8PduaBLyW6XtS/dlS
+	vXIOiLmuehf8GzZkE6z4sV4DV4w493hISvniw03B6GKjgcuDQBprLyjAU=
+X-Received: by 2002:a05:7301:9f0e:b0:2ea:b85c:153d with SMTP id 5a478bee46e88-3042f94ed81mr1343324eec.27.1779360235355;
+        Thu, 21 May 2026 03:43:55 -0700 (PDT)
+Received: from localhost.localdomain ([76.32.119.210])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30443578ab8sm167176eec.14.2026.05.21.03.43.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 May 2026 03:43:55 -0700 (PDT)
+From: Hungyu Lin <dennylin0707@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: dan.carpenter@linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Hungyu Lin <dennylin0707@gmail.com>
+Subject: [PATCH v2 0/2] staging: rtl8723bs: cleanup LPS_RF_ON_check
+Date: Thu, 21 May 2026 10:43:14 +0000
+Message-Id: <20260521104316.27739-1-dennylin0707@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260517171537.17787-1-praveen.pattar2022@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Sun, May 17, 2026 at 10:45:37PM +0530, Praveen Jayaprakash Pattar wrote:
-> Remove multiple consecutive blank lines that violate kernel coding style.
-> Detected by checkpatch.pl with --strict flag.
-> 
-> Signed-off-by: Praveen Jayaprakash Pattar <praveen.pattar2022@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/hal/hal_com.c | 5 -----
->  1 file changed, 5 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/hal/hal_com.c b/drivers/staging/rtl8723bs/hal/hal_com.c
-> index 728a2171f..de1fe8a98 100644
-> --- a/drivers/staging/rtl8723bs/hal/hal_com.c
-> +++ b/drivers/staging/rtl8723bs/hal/hal_com.c
-> @@ -30,7 +30,6 @@ void rtw_hal_data_deinit(struct adapter *padapter)
->  	}
->  }
->  
-> -
->  void dump_chip_info(struct hal_version	chip_version)
->  {
->  	char buf[128];
-> @@ -71,7 +70,6 @@ void dump_chip_info(struct hal_version	chip_version)
->  	cnt += scnprintf(buf + cnt, sizeof(buf) - cnt, "RomVer(%d)\n", chip_version.ROMVer);
->  }
->  
-> -
->  #define	EEPROM_CHANNEL_PLAN_BY_HW_MASK	0x80
->  
->  /*
-> @@ -378,7 +376,6 @@ static void _TwoOutPipeMapping(struct adapter *padapter, bool bWIFICfg)
->  
->  	} else { /* typical setting */
->  
-> -
->  		/* BK,	BE,	VI,	VO,	BCN,	CMD, MGT, HIGH, HCCA */
->  		/*   1,		1,	0,	0,	0,	0,	0,	0,		0	}; */
->  		/* 0:ep_0 num, 1:ep_1 num */
-> @@ -419,7 +416,6 @@ static void _ThreeOutPipeMapping(struct adapter *padapter, bool bWIFICfg)
->  
->  	} else { /* typical setting */
->  
-> -
->  		/* 	BK,	BE,	VI,	VO,	BCN,	CMD, MGT, HIGH, HCCA */
->  		/*   2,		2,	1,	0,	0,	0,	0,	0,		0	}; */
->  		/* 0:H, 1:N, 2:L */
-> @@ -751,7 +747,6 @@ void SetHalODMVar(
->  	}
->  }
->  
-> -
->  bool GetU1ByteIntegerFromStringInDecimal(char *Str, u8 *pInt)
->  {
->  	u16 i = 0;
-> -- 
-> 2.54.0
-> 
->
+This series cleans up LPS_RF_ON_check().
 
-Someone else sent this same change right before you did, sorry.
+Patch 1 simplifies the control flow by removing the err + break
+pattern and using direct returns.
+
+Patch 2 converts the function to use standard kernel error codes.
+
+No functional changes intended.
+
+v2:
+ - Drop unrelated comment formatting changes from patch 1
+
+Hungyu Lin (2):
+  staging: rtl8723bs: simplify LPS_RF_ON_check control flow
+  staging: rtl8723bs: convert LPS_RF_ON_check to errno
+
+ drivers/staging/rtl8723bs/core/rtw_pwrctrl.c  | 26 +++++++------------
+ .../staging/rtl8723bs/include/rtw_pwrctrl.h   |  2 +-
+ 2 files changed, 11 insertions(+), 17 deletions(-)
+
+-- 
+2.34.1
+
