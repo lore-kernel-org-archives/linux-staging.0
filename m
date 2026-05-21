@@ -1,47 +1,50 @@
 Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE6633AB47E
-	for <linux-staging@lists.linux.dev>; Thu, 21 May 2026 11:23:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A087D3BFE4D
+	for <linux-staging@lists.linux.dev>; Thu, 21 May 2026 11:24:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779362637; cv=none; b=JcFcyDarI8VOHHKipQ6aVTooo2poRlifiEibU3y7htdo1vvqHLN6kycaQabyj9q57kNHSv79SpTZAV7valJwCuykjmdvORNJK6t2SlFo9qX0KvF2U+mjRXJVjbdb9zAt+OSnrdpEEg3OKggvMTXqeUMI4I7iI3+LjZb3WexiibQ=
+	t=1779362644; cv=none; b=YaFuntXYFgNvsDS+OlFJZFhCpQ3mnK4nMYcGn6NnRvkB2o+KsE7Sly56F+iVy0b3ejSGLKNshsfkc/BmeMHz14RIj2rkIfvcqRe2mKTRESKthKjYwylpkfuDQ+p6YxW3S/eGGPvb8VZ4HfZW5HI7auy8ol/RLiTmpa0QuRM3gvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779362637; c=relaxed/simple;
-	bh=6hXCJcIDodPD8QR+tlQylJsNPFhgh73Wkn3tASX+lvY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=d+M8zgdHlmV9ZdRKEEQHVQyzXhEMLQt7tNfpLAyU6EBKtonYbXv03jCSIpBhDmo91hMbQNpReGjqgu+ijthGAqEpHEYWY5rygkjPNPx5hZTptGwk/zq23iNMe7EmC9fwd63EwZtnWpa8yvKkxMYMOuY3HaqHErzJWtXP37AELhc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=artur.ugnivenko@gmx.de header.b=Ws9LSEgc; arc=none smtp.client-ip=212.227.17.21
+	s=arc-20240116; t=1779362644; c=relaxed/simple;
+	bh=5WYWLVYEy1Sj+8iYNsYJvk9qDWKXor/lDcWCdCrsy9M=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ODbw/sz81do52Zgx3rXdq0B5HqpC1s4ZYEDl1XrXBBor0LAuCMhQFtI86pokxcR2zBLTNU0go0kZHNed0rQwms3PMW0JNhEpiQOMcOSCm/E3xKEzWZ6f4frDhmn64eZExa4ce6DKgT1q8ny3wnwWvfJn42Fpdb8Gj2K74EZRgyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=artur.ugnivenko@gmx.de header.b=nmIEhWB7; arc=none smtp.client-ip=212.227.17.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=artur.ugnivenko@gmx.de header.b="Ws9LSEgc"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=artur.ugnivenko@gmx.de header.b="nmIEhWB7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1779362627; x=1779967427; i=artur.ugnivenko@gmx.de;
-	bh=PWNMEk07sXqpvw9DCGvD4Lalu6qEdYPFVQ+Q7KL90pA=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:
-	 MIME-Version:Content-Transfer-Encoding:cc:
+	s=s31663417; t=1779362637; x=1779967437; i=artur.ugnivenko@gmx.de;
+	bh=PG3PBSvic4qIKT8PMMal7GvSrNsyOSplc4WDDbIlhWc=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:In-Reply-To:
+	 References:MIME-Version:Content-Transfer-Encoding:cc:
 	 content-transfer-encoding:content-type:date:from:message-id:
 	 mime-version:reply-to:subject:to;
-	b=Ws9LSEgc0MJXNCiFBT9gPSIsvD9mS5FAPA3mclUHLmfWXHjOuzv4G/xITTPeRXfy
-	 lSf0uUedX1XqOZJRtQ9CrXFh9J/3qUFS2B5tI+yVru3FzjYP+u7vn1ol1aygUpEqn
-	 2RRTjBZ6QvtU+5P6xIWRpnCY4BRSE63fVQv6BNFRhqJwu5jwO0MG4tZDUZTY+N3s4
-	 8RMgJyEuBaYfO+nI4+adlGVJBcfSCHAN4Pjncihl4Hnbyb6wTwkD/Tr9a30kDO5Fg
-	 V1oUGoY3bNlTKa/96EJM4oWQNXjWtJeLWLfP/vY8rmOUbim1gPBoFrj6gKsXaouWp
-	 Son3u8Z/FZ5nXfWg3Q==
+	b=nmIEhWB7agBrUqUHA0sw8mlCvlFu1KDevCg8gmQxZ8swctjU7c3XOwKSrQUQVJ/9
+	 0xSxkKQiQ5jM7iiB6oVJth6RCtOb2+OjWF/jKESrt8hYvzM67bYSfzHUhJw7cCcmd
+	 PKxfFRjl5D5/qtROlaAgGykLNI7ub3W1wXEJc6GoJFAG1He6muUDRTCzNEruqfj0k
+	 kdKqoX321VNtsMX6zvCi2XNfGzI1eiGEIsSols4BFFpE/DI1Bis6Mjr6x/w0uGfqN
+	 orT60yN07xmUUTUW6Bhj5TaafsP5vRqZfNQm8FAlCRyobmpkNiF3gvsTjqpImp3nJ
+	 mur4vz64K7MLL4SAWg==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from client.hidden.invalid by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MS3mt-1wnpcn07sx-00KuQo; Thu, 21
- May 2026 13:23:46 +0200
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MRmfi-1wnYdq3C9a-00LEKz; Thu, 21
+ May 2026 13:23:56 +0200
 From: Artur Ugnivenko <artur.ugnivenko@gmx.de>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	ahmet@sezginduran.net,
 	error27@gmail.com
-Subject: [PATCH v5 0/4] staging: rtl8723bs: fix several style issues in hal/sdio_halinit.c
-Date: Thu, 21 May 2026 13:23:41 +0200
-Message-ID: <20260521112345.16604-1-artur.ugnivenko@gmx.de>
+Subject: [PATCH v5 1/4] staging: rtl8723bs: shorten long lines in hal/sdio_halinit.c
+Date: Thu, 21 May 2026 13:23:42 +0200
+Message-ID: <20260521112345.16604-2-artur.ugnivenko@gmx.de>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260521112345.16604-1-artur.ugnivenko@gmx.de>
+References: <20260521112345.16604-1-artur.ugnivenko@gmx.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -49,112 +52,227 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:gKMOEMD0HNm4XRDnFLziGmpUKRsIrPutuykNA9PgWSg3zJudQKI
- nsSzglipuT9KoUL+MGIQs//Hbj0Y8UXk+b1Mh2wSK3hxBN7qcn2MenMh3lCPyyARA2kD8ia
- H4GVeD3wHCLRtiKQ7qPfyRKKnWP+5MbnvUrWPoXc11/BEiRguijLMtb+1FvHsPy8LYf6SxB
- BwnQLc6bx/Chfvt1o4AIg==
+X-Provags-ID: V03:K1:XkbYio1k24ctbFslUI2cHdLRHcPQdwj+ugBre3Z/y/MWa/kxSa6
+ UHZxkqKba/ZVe+8HIJKXb33zvtff9oz4e97e+zC4J+TfbqfT/6K4dRhpqKkUPtIkN5VAkFK
+ 7wHjWDfsjqIDKICu80xizsDFf1XP7JW4DIU5VmC22PisKu76vAwqvpjzbNNHWRxXun9u6+2
+ ET7nDaWgqEnne8uMSOXXA==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:g0SyX7Gn5gE=;5pvWl4vEdyW2HZYXNoPwvz1lfwx
- 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
+UI-OutboundReport: notjunk:1;M01:P0:+Tzz7gHYGas=;4mv5th8e6/d0ZnGyby1TJVitL7I
+ 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
+ FQzqICmLYt2noUYNrK5tTEroIDCjSWRUY2UUX1k
 
-Fix the following checkpatch warnings in hal/sdio_halinit.c:
-- lines longer than 100 chars
-- inconsistent brackets around else statements
-- excessive empty lines
-- lines ending in parentheses
+Fix checkpatch warnings on lines above 100 chars in length by splitting
+long function calls and long comments into multiple lines.
 
-Changes in v5: Add entire changelog to cover letter.
-Changes in v4: Fixed the long line checkpatch warning in patch 2.
-Changes in v3: Split the patch into multiple patches.
-Changes in v2: Make the patch apply to gregkh/staging-testing.
+Signed-off-by: Artur Ugnivenko <artur.ugnivenko@gmx.de>
+=2D--
+ drivers/staging/rtl8723bs/hal/sdio_halinit.c | 52 ++++++++++++++++----
+ 1 file changed, 42 insertions(+), 10 deletions(-)
 
-Artur Ugnivenko (4):
-  staging: rtl8723bs: shorten long lines in hal/sdio_halinit.c
-  staging: rtl8723bs: fix inconsistent braces in hal/sdio_halinit.c
-  staging: rtl8723bs: remove excessive whitespace in hal/sdio_halinit.c
-  staging: rtl8723bs: fix lines ending in parentheses in
-    hal/sdio_halinit.c
-
- drivers/staging/rtl8723bs/hal/sdio_halinit.c | 124 +++++++++++--------
- 1 file changed, 71 insertions(+), 53 deletions(-)
-
+diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit.c b/drivers/stagin=
+g/rtl8723bs/hal/sdio_halinit.c
+index 1e0498268aee..dd2736fb5c04 100644
+=2D-- a/drivers/staging/rtl8723bs/hal/sdio_halinit.c
++++ b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+@@ -28,7 +28,11 @@ static u8 CardEnable(struct adapter *padapter)
+ 		/*  unlock ISO/CLK/Power control register */
+ 		rtw_write8(padapter, REG_RSV_CTRL, 0x0);
+=20
+-		ret =3D HalPwrSeqCmdParsing(padapter, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK,=
+ PWR_INTF_SDIO_MSK, rtl8723B_card_enable_flow);
++		ret =3D HalPwrSeqCmdParsing(padapter,
++					  PWR_CUT_ALL_MSK,
++					  PWR_FAB_ALL_MSK,
++					  PWR_INTF_SDIO_MSK,
++					  rtl8723B_card_enable_flow);
+ 		if (ret =3D=3D _SUCCESS) {
+ 			bMacPwrCtrlOn =3D true;
+ 			rtw_hal_set_hwreg(padapter, HW_VAR_APFM_ON_MAC, &bMacPwrCtrlOn);
+@@ -105,7 +109,11 @@ u8 _InitPowerOn_8723BS(struct adapter *padapter)
+ }
+=20
+ /* Tx Page FIFO threshold */
+-static void _init_available_page_threshold(struct adapter *padapter, u8 n=
+umHQ, u8 numNQ, u8 numLQ, u8 numPubQ)
++static void _init_available_page_threshold(struct adapter *padapter,
++					   u8 numHQ,
++					   u8 numNQ,
++					   u8 numLQ,
++					   u8 numPubQ)
+ {
+ 	u16 HQ_threshold, NQ_threshold, LQ_threshold;
+=20
+@@ -794,7 +802,11 @@ u32 rtl8723bs_hal_init(struct adapter *padapter)
+=20
+ 			restore_iqk_rst =3D pwrpriv->bips_processing;
+ 			b2Ant =3D pHalData->EEPROMBluetoothAntNum =3D=3D Ant_x2;
+-			PHY_IQCalibrate_8723B(padapter, false, restore_iqk_rst, b2Ant, pHalDat=
+a->ant_path);
++			PHY_IQCalibrate_8723B(padapter,
++					      false,
++					      restore_iqk_rst,
++					      b2Ant,
++					      pHalData->ant_path);
+ 			pHalData->odmpriv.RFCalibrateInfo.bIQKInitialized =3D true;
+=20
+ 			hal_btcoex_IQKNotify(padapter, false);
+@@ -825,7 +837,11 @@ static void CardDisableRTL8723BSdio(struct adapter *p=
+adapter)
+ 	u8 bMacPwrCtrlOn;
+=20
+ 	/*  Run LPS WL RFOFF flow */
+-	HalPwrSeqCmdParsing(padapter, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF=
+_SDIO_MSK, rtl8723B_enter_lps_flow);
++	HalPwrSeqCmdParsing(padapter,
++			    PWR_CUT_ALL_MSK,
++			    PWR_FAB_ALL_MSK,
++			    PWR_INTF_SDIO_MSK,
++			    rtl8723B_enter_lps_flow);
+=20
+ 	/*	=3D=3D=3D=3D Reset digital sequence   =3D=3D=3D=3D=3D=3D */
+=20
+@@ -854,7 +870,11 @@ static void CardDisableRTL8723BSdio(struct adapter *p=
+adapter)
+=20
+ 	bMacPwrCtrlOn =3D false;	/*  Disable CMD53 R/W */
+ 	rtw_hal_set_hwreg(padapter, HW_VAR_APFM_ON_MAC, &bMacPwrCtrlOn);
+-	HalPwrSeqCmdParsing(padapter, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF=
+_SDIO_MSK, rtl8723B_card_disable_flow);
++	HalPwrSeqCmdParsing(padapter,
++			    PWR_CUT_ALL_MSK,
++			    PWR_FAB_ALL_MSK,
++			    PWR_INTF_SDIO_MSK,
++			    rtl8723B_card_disable_flow);
+ }
+=20
+ u32 rtl8723bs_hal_deinit(struct adapter *padapter)
+@@ -866,7 +886,10 @@ u32 rtl8723bs_hal_deinit(struct adapter *padapter)
+ 				u8 val8 =3D 0;
+=20
+ 				rtl8723b_set_FwPwrModeInIPS_cmd(padapter, 0x3);
+-				/* poll 0x1cc to make sure H2C command already finished by FW; MAC_0x=
+1cc =3D 0 means H2C done by FW. */
++				/*
++				 * poll 0x1cc to make sure H2C command already finished by FW;
++				 * MAC_0x1cc =3D 0 means H2C done by FW.
++				 */
+ 				do {
+ 					val8 =3D rtw_read8(padapter, REG_HMETFR);
+ 					cnt++;
+@@ -875,10 +898,13 @@ u32 rtl8723bs_hal_deinit(struct adapter *padapter)
+ 				/* H2C done, enter 32k */
+ 				if (val8 =3D=3D 0) {
+ 					/* set rpwm to enter 32k */
+-					val8 =3D rtw_read8(padapter, SDIO_LOCAL_BASE | SDIO_REG_HRPWM1);
++					val8 =3D rtw_read8(padapter,
++							 SDIO_LOCAL_BASE | SDIO_REG_HRPWM1);
+ 					val8 +=3D 0x80;
+ 					val8 |=3D BIT(0);
+-					rtw_write8(padapter, SDIO_LOCAL_BASE | SDIO_REG_HRPWM1, val8);
++					rtw_write8(padapter,
++						   SDIO_LOCAL_BASE | SDIO_REG_HRPWM1,
++						   val8);
+ 					adapter_to_pwrctl(padapter)->tog =3D (val8 + 0x80) & 0x80;
+ 					cnt =3D val8 =3D 0;
+ 					do {
+@@ -1080,8 +1106,14 @@ static s32 _ReadAdapterInfo8723BS(struct adapter *p=
+adapter)
+ 	_ReadPROMContent(padapter);
+=20
+ 	if (!padapter->hw_init_completed) {
+-		rtw_write8(padapter, 0x67, 0x00); /*  for BT, Switch Ant control to BT =
+*/
+-		CardDisableRTL8723BSdio(padapter);/* for the power consumption issue,  =
+wifi ko module is loaded during booting, but wifi GUI is off */
++		/*  for BT, Switch Ant control to BT */
++		rtw_write8(padapter, 0x67, 0x00);
++
++		/*
++		 * for the power consumption issue,  wifi ko module is loaded during bo=
+oting,
++		 * but wifi GUI is off
++		 */
++		CardDisableRTL8723BSdio(padapter);
+ 	}
+=20
+ 	return _SUCCESS;
 =2D-=20
 2.54.0
 
