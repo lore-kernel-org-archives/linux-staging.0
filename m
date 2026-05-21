@@ -1,95 +1,117 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E66772BE034
-	for <linux-staging@lists.linux.dev>; Thu, 21 May 2026 06:54:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EA2039901A
+	for <linux-staging@lists.linux.dev>; Thu, 21 May 2026 07:35:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779346455; cv=none; b=NcoZXEBCXbC2v7hIw2mx6B8tGrFGH8WVtrCnGy2bXN91c3ZNI4Yh+Bf2PZJfPkIxsCSKCDY0xLFkUXbtmt4S8CUjOsWoQyx7ud3pxu/G/SBRzbLPHpvBxQfJ9emCPRcF1UP6hoNjYIQGYqE0SnOHZv4mBWqBmBty1I+jxnE6Utk=
+	t=1779348903; cv=none; b=MkY/PBDJOq765IJdbKfJgKuZeTV9/veAnB/9cjV6N9wR4QmwfK/EHAoBL8+GRqt84qlzV1rOCnk0NAECCb0J3on7lJt2J/mvBbBsdfiRJXDU2vofbNctPO0jc4bc+xW8lu67rCcctfy6PxEa/hT3P7w2b4jGqv9a9zM/1Ioc1vA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779346455; c=relaxed/simple;
-	bh=ENZMN0F0S/q+7hBabwGP7IO9QU9nIDp5hjaqJyHNdrI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tkcuHlh2rP1rA4JZLHuXK653gtfglJ0/VmAFyI6n38YeRYc2e8j7IWCanXmVdhVkipAbliv9WC1LOpJst74sKn6XBeoROSaQMIE0TUFi6NDmopCfFNgAAxplGOLXyo4HDJmcfFZ8uOn1M59tdSM5nRh+37NxQR4xnGw4R3O3q3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HeZnFnZn; arc=none smtp.client-ip=209.85.128.53
+	s=arc-20240116; t=1779348903; c=relaxed/simple;
+	bh=H3A1ZqsEWXy+Y9IWbVTa6nORcA4uBPnBGNaZzs/OZWc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GPi6efNwAMi6HqxwxhoOXCc3jJmymhYauJ+CZ1Mgaqobw0XsV592TboHlCIHpIhniBleMQRE4doRUaCivpgrOdl02dYaJtzXq4YxW8Vs5cdS1NMpD+upWM4mRodlU3eNq90bn38LkVhNPj0GxdhmWsOywWZMjfDWlqva1CriANw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KAeroAlp; arc=none smtp.client-ip=209.85.216.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HeZnFnZn"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-490388fd0dbso1708895e9.0
-        for <linux-staging@lists.linux.dev>; Wed, 20 May 2026 23:54:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KAeroAlp"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-367c26471f5so3664309a91.1
+        for <linux-staging@lists.linux.dev>; Thu, 21 May 2026 00:35:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779346452; x=1779951252; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NSF1GUVlvZGTr4iqkhEsfoXjgVT0N+GUEtO1y/6GRKM=;
-        b=HeZnFnZnhyaunjMop2EBjjPdGCyNT5jnJmEzY8gBiyugqUtq4Lo/tdOJ5zgw+XPO7h
-         ZBzqrXUEQ+RCsaQJvaneRwGFMLWGBPkw/NyLTzyHx4JaREr44ss0SzbsoMjsXiCFQWPl
-         YF0kn7zigNurH8ru25tARInm9YVCe2/W4h9AvSvsMDmEuTNO1yvWcvvgXbthRYS7eYRP
-         +w5S0TxIaDfK5LfedASvCpMbLtvaqLhN0PuZa7nqLIodPC8mjlXK6OEMtg+6Oa1sUt8b
-         OCiBXhMScsgToTIPna1PV+KiDpjHAKncsI7eldd9ISkcLwVaTztTeDkr/ggZDBeTRFz0
-         3khA==
+        d=gmail.com; s=20251104; t=1779348901; x=1779953701; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2Nv3O98MdUPD4zHhAIH8Dw2e6iXe5AcQ+j+PSSnnErM=;
+        b=KAeroAlp1h95Fw3hK9BbsoKM/K7+YUqM7fbZRceA37dAmNB4gGhCLcaZtMB8xyrwBU
+         /IcyFwpfdF322nyNylQrQYNKO+fZfBGwkCLdK1cw1AtEJYkjHj96o/oxS39Pf0jX7gPO
+         2vwgkoaFJbfZWF8+Q1VCpht5dEVqvy/whsk8kANEI2v34M0p9srYR+ROgM6EvN7O3zsS
+         1LTcZse/ypM0GlfcAlCh+TqvfrIf6i+SpQIZojU5yNTznFmWYm9c9bBPm0Wn7FEh/FdR
+         SDknsfP1SQckm3UcatJ44N5uDnd8RS1R2pXvjhZbpPsRpKWNLaN7w9k/kSo65LYzJwzL
+         rCNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779346452; x=1779951252;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NSF1GUVlvZGTr4iqkhEsfoXjgVT0N+GUEtO1y/6GRKM=;
-        b=Pm5DKcKQVnwfthdlS6DC5rqUCyrJCgIKDcxwIAP2Dlu9d94J8kXOoxt8qCxrg2MJAj
-         HkPsn27Arw8tweeTChkATDNX9JZyip5PS4pXcNM1eEuSdfRjn17L3KrJfV9hUSgI5XAD
-         5iHndE0rR1JgBVlGfhmiRW7tZQ9Ae4i3NDweQdm2eCZmSxZf18tgu/U6NXRKOzCtGpX/
-         y850JRK52/hufZ4It2Xj7E8JQODmYauUoFbH5Z+cupXWLFxijxJcihtxo1qUn8rKN71q
-         6UyBjm572QAaD505CjPpLZXvCARwD7NCLxAd1NyK3TwTv5mssdYhNR+7arsZ3sBhNOLz
-         xbvQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8df2x0lN1xr4Y+00mkU/PTfg5iWr2MpqPSbk6ycjSg2k0o+5KeMIESIC40dbn8t9pb1mgQcZwJQElUs5DB@lists.linux.dev
-X-Gm-Message-State: AOJu0YyLEzy70NCmwRXZ8VH+XHT5gjC5Z7TXISyJKxgijkC7X8Ihuv/Y
-	bq1Q2FzQsIoAyrpmlK+esM1zLkDojCkK3drcGrKbFhOaItGVVX1DnRco
-X-Gm-Gg: Acq92OFfVlvGyVi8/aYZj0hVP1LQKWZ1qM5+iDRH3657flRm/IqakDzouE46p41w4za
-	jag8oNlpOvh9aqZceWFs69Voqpv1Tp5MDZGYwnffUn35uYa5YLw/M2Xq6FzuRObgqy+VdsOkNMY
-	975Z0kjE+tb2kXqv+DOiI2q2jKX8Rmc+AK96yM65lDiDRoRcgMAL7heTvMXhcm4umlsig9vRCIi
-	WYlSAgNX45uBxOOtHpq665nnHFwem+mQB1ZnZehzCGBuW4CC9y38ZKimws2UMuobjxAofC0ynFg
-	d/9RmdzBZvcNDXJFYhhXK40imJBSbat+TA37SLXfCWt447FNDuvt3DXOVWn8U3ZZ4S7Nu/RQIVf
-	g19S7UxhOErKJi1bV1BHwQNhntFQ/W5E4N1Uf9tYpQGJczVI+BoP0P5XLrO4D6S1KB3hvXtQwhn
-	C27VJJfIHsrAQ9yaDOLqYYiR6uj27svbElSw==
-X-Received: by 2002:a05:600c:3147:b0:487:2439:b7c8 with SMTP id 5b1f17b1804b1-49036033406mr18868075e9.1.1779346452217;
-        Wed, 20 May 2026 23:54:12 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49035eef87bsm9642805e9.34.2026.05.20.23.54.11
+        d=1e100.net; s=20251104; t=1779348901; x=1779953701;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2Nv3O98MdUPD4zHhAIH8Dw2e6iXe5AcQ+j+PSSnnErM=;
+        b=Cjgl0qlHYKLFKqMtD1ChrESg/NtP+ralXE1Drl9eZcbH++a+fhA0i0wjiBjjgTasUW
+         BACK9azFLoXi7MK8b/OTPBtEGE0v9AJfjfAUsJzWzfX6hQakLw9dDS7RaFexkWcDCt9C
+         dQRli5wsnU3mUWrEN7xI4E+b23niPHs82liecskz6wFZpjnvEQaotc9iKP2bqoeg+129
+         KX/Zv6vdq8CWoO1NbS7dd191hCtj8luYdtDjyRd73adOqafXGExb28ICCpNHHfHizNi2
+         mQdIHuFBu8XIU+p9xdSdD/sCpoa/QmLe0GFWJeKErJA8GR6uR7FcRP2XIQUesCvVzVMy
+         6LIA==
+X-Forwarded-Encrypted: i=1; AFNElJ/VrVpfgfbtRVbiJnFIrdOkGMlCjieUl1V8dbrMNj6Bx17l3F2JTzHJsSeQEQLTRt6oFmdr8K3EPPBaj3hE@lists.linux.dev
+X-Gm-Message-State: AOJu0YzOEiqUB1ZclWMJZVkqBJg6dnZ2ieDslqL3R1mQWHqveqdSpCWx
+	HLxkLUKB5vW10NgsrQ8sCdTsSVkiOYUDm73soFxjsmLZMAsR5Fk6fWQ+
+X-Gm-Gg: Acq92OGxCYZO2zJi+vA9/AbbnGGeCYfNveleYGG9pJrLwI8ZDHfWoxLuW/v9BCnCS2m
+	Z4EZvnOz76DbVi/ayL9VyWViZgxMlyC6YEpJwh4mptWVXKdYAqun7X1np3jcGKtCjzVcTkeuV1v
+	3XEYPpGB6E864RsEavCQgO9j4iVyWCNFF8gAFKvyS50l5NAPIutYSlIG0mlnaOvZ2tsRnFm6lOy
+	toMeTHKPLkyZrW24Jw9+chOBd+AwZNlghK25sGPBUD3k6rRYbOE953PZtt5M8hcysg3vHBVW0Gm
+	slgb3AzZ4Vr+AKB7DFXKMgVfwIiabFBJML139AIt4Pw2fg/VUdpXRDUbn1EwHjoBDQN58pWemh3
+	3tS45dYWlkaBGfCOukA/7DfrrwGs091o6ci4tevf2jHVaBBIpYox3EjuV6rzYCBCB0FrZnOepmW
+	nhh2gvFlkokUfFoN2BDmPV
+X-Received: by 2002:a17:90b:57ce:b0:368:a297:bd3d with SMTP id 98e67ed59e1d1-36a44f18393mr1788402a91.3.1779348901391;
+        Thu, 21 May 2026 00:35:01 -0700 (PDT)
+Received: from rockpi-5b ([45.112.0.230])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36a45c5decesm783833a91.1.2026.05.21.00.34.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 May 2026 23:54:11 -0700 (PDT)
-Date: Thu, 21 May 2026 09:54:08 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Ashwin Gundarapu <linuxuser509@zohomail.in>
-Cc: gregkh <gregkh@linuxfoundation.org>,
-	linux-kernel <linux-kernel@vger.kernel.org>,
-	linux-staging <linux-staging@lists.linux.dev>
-Subject: Re: [PATCH v11] staging: rtl8723bs: remove extra blank line in
- rtw_mlme.c
-Message-ID: <ag6sEGZtp0C9dKg5@stanley.mountain>
-References: <19e494a92e3.67a0e83072082.6269846394596840299@zohomail.in>
+        Thu, 21 May 2026 00:35:00 -0700 (PDT)
+From: Anand Moon <linux.amoon@gmail.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Maxime Jourdan <mjourdan@baylibre.com>,
+	linux-media@vger.kernel.org (open list:MESON VIDEO DECODER DRIVER FOR AMLOGIC SOCS),
+	linux-amlogic@lists.infradead.org (open list:MESON VIDEO DECODER DRIVER FOR AMLOGIC SOCS),
+	linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM),
+	linux-arm-kernel@lists.infradead.org (moderated list:ARM/Amlogic Meson SoC support),
+	linux-kernel@vger.kernel.org (open list)
+Cc: Anand Moon <linux.amoon@gmail.com>,
+	Sashiko <sashiko-bot@kernel.org>
+Subject: [PATCH v4 0/3] media: meson: Fix memory leak in error path in
+Date: Thu, 21 May 2026 13:04:10 +0530
+Message-ID: <20260521073449.10057-1-linux.amoon@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <19e494a92e3.67a0e83072082.6269846394596840299@zohomail.in>
+Content-Transfer-Encoding: 8bit
 
-On Thu, May 21, 2026 at 12:18:04PM +0530, Ashwin Gundarapu wrote:
-> 
-> Remove an extra blank line between statements to maintain consistent
-> spacing of one blank line between blocks.
-> 
-> Found by checkpatch.pl --strict
-> 
-> Signed-off-by: Ashwin Gundarapu <linuxuser509@zohomail.in>
-> ---
+Following chamges try to fix the memory leak reported by Sashiko 
 
-Please, wait a day between resends.  I don't think you're working against
-the correct tree because linux-next doesn't have a blank line here.
+Pre-existing issues:
+- [Critical] The `sess->esparser_queue_work` work item is not canceled
+   before freeing the session context, leading to a potential Use-After-Free 
+   vulnerability.
+- [High] The patch attempts to fix a memory leak reported by kmemleak,
+    but misdiagnoses the root cause and leaves the primary memory leak 
+    (the V4L2 control handler) unresolved.
+- [High] The driver does not verify if `kthread_run()` returns an `ERR_PTR`,
+     leading to a kernel panic when `kthread_stop()` is called.
 
-regards,
-dan carpenter
+Reported-by: Sashiko <sashiko-bot@kernel.org>
+Closes: https://lore.kernel.org/all/20260520045905.6ACBA1F000E9@smtp.kernel.org/#t
+
+Thanks
+-Anand
+
+Anand Moon (3):
+  media: meson: vdec: Fix memory leak in error path of vdec_open
+  media: meson: vdec: Add error handling for recycle thread creation
+  media: meson: vdec: Cancel esparser work in error and stop paths
+
+ drivers/staging/media/meson/vdec/vdec.c | 27 +++++++++++++++++++------
+ 1 file changed, 21 insertions(+), 6 deletions(-)
+
+
+base-commit: 8bc67e4db64aa72732c474b44ea8622062c903f0
+-- 
+2.50.1
 
