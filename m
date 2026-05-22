@@ -1,155 +1,124 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D94D299959;
-	Fri, 22 May 2026 05:05:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4232358381
+	for <linux-staging@lists.linux.dev>; Fri, 22 May 2026 05:05:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779426305; cv=none; b=U2jPQ002BpPIsTKlRDHfAxKBE+Dw/sqYu3DHhN1ZcrcozpmaqGZs/Ff2HZX2kjXJP9ng0fFZJdxbiZymaJNftB+zJbb0HMFWZk80I1vCbYswDGE+hKVC74jqbTU2hj1tbFWushtzGGlkf84/V9HZmbs2v8R4dfs0PPPEc5VGXpg=
+	t=1779426316; cv=none; b=HL1Rlp7MCXo1cKq9aH8O5xktq9X2jjlNbCPh0nhGFZICDD+dUnxMnnIW8YlMcxIUNB6nZVO/sc5yW5VxWbGProIRx0cqtamC7++Tk4Iv8rhphyZ3FL2PRg6E1t2fmxxle+ciSqDVOVUeVrVBNRW0jyhAR3XfT0aSammtkN6VuwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779426305; c=relaxed/simple;
-	bh=ynP3XPOZUghl/2T4x2+zpzMkua/KZ4Uk5oFm0AYiuw4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E5mUAgyvrzvrnP6yjPtJoI/fDmT/L4q8KiV63zc3xxV5kco7udLGi2gYbm53y+OEN5uJwyJxVRnnUX+EQlzDjArZc6BFObHrfHg7QUuXL34GMqOtjpN0YDE6XVAVGXQThiYAcfyudz/kxMbLhjgGc5ED0EqzHC0XkRJGeSPE+GI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=NeIKkA67; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779426316; c=relaxed/simple;
+	bh=5s/k2GoyVy5iLjBDOgRJdVyoABGbJO92gMkvvSpzjYQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=monCqZtsNyKznkCPX1K5eyOS8BOHUvpeUo2Bg2ntF/nEvwd3uq5QeNA/XrtYB5Y+ZR4mUprkQ7AQC313EwKoFKj+v/ed1tdnb9j3vVfS0eGoevIbrC8lV2Frmd2ZSr3uIxrf7p8d901O3azF0AVlq39Ocffkq1cFwuEL0tvHtBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m+mCiho7; arc=none smtp.client-ip=209.85.210.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="NeIKkA67"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D8811F000E9;
-	Fri, 22 May 2026 05:05:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1779426303;
-	bh=wAFBqh+8xo35HifCIWhB9I7osg1yWOcerTBpYytAX+0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=NeIKkA67DzgbImPtjc3dT3akjr4bWRi73IWHg2LfPjNIzZHgiIJE5BbZ435loMKWz
-	 9KtLQwwiW6lBFQu1N53Om/cpn5jPsjR7oGR5JPz11sgGhJmVZDMHCseo7K75jbl7Co
-	 AfbKTVHOzRgaBhpHcBDozCf8cOSnmCw6m/gKSIS0=
-Date: Fri, 22 May 2026 07:04:15 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Manuel Ebner <manuelebner@mailbox.org>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>,
-	Omer El Idrissi <omer.e.idrissi@gmail.com>,
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] staging: cleanup of sdio_intf.c
-Message-ID: <2026052258-carefully-guts-014b@gregkh>
-References: <20260521183931.176951-2-manuelebner@mailbox.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m+mCiho7"
+Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-7e5fd39cf11so590826a34.0
+        for <linux-staging@lists.linux.dev>; Thu, 21 May 2026 22:05:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779426314; x=1780031114; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=prw6iBa9/2APcJ/AhSOqxD+3wXLKh0w5SrJpj84gM3Y=;
+        b=m+mCiho75WSRffZv7XNeKL0Y6O7MN6abEHt+M8aQrrAQ5zHjCjgyqDeTSPBb0SBzWn
+         C3wiYzeWCVXrfvTK4rDp9DaPUi1jOyUzYKA7k7xos0W12epW1oT2CVUfyzYzYuyYvwOc
+         +xMpYS1th+PsgqNgoRkqNFR5uwxagwO1NukLxyPJo/bIDg0njONf3gsnVL72Vj3DaF5+
+         wDvIIPMMNtdnU/QaNPUtCzhlQKO81vLcDO4pjZtapBqnIWxEnP+tFGVvn3u6nOIymV9d
+         E9Johb1oEsvYSPhh9H3w+KbkxX8o9NUSHp+MNGk3Kbmk+3cqZwBHaKMtAYJ1IgIv1Cl0
+         bCNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779426314; x=1780031114;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=prw6iBa9/2APcJ/AhSOqxD+3wXLKh0w5SrJpj84gM3Y=;
+        b=Oy68C5uJHP/LtXBrtDCiT1WuGEOizY3AZIfUbMZim7EIkfbz1wGWZFDabe55+f5MKZ
+         XgEs1gXVXw5AIdaNG16NppJHZ3oFOSmjkpp2+94CXbgECPyCZ2vGxaS1RmEbaU1n7bVq
+         oo6PzqC8AT0Uw2pmusPEBGkB9EYUxEQOUfw+TbZPXXVzvQNtbJfM47hTsE833kfk2T1q
+         He9l8FtVq2GLA9ik2FXmB6+XwaaK3gKEs1YSdi7x03XWi9QwkmDaTY7wAKXRBo0bGEGy
+         kehcB1iqvV3x0WVNY/8r/4I4rX7CLMW02Ld8x4oRsCqKubLAJbeGANdfUTZc/s9sgcsB
+         cYOA==
+X-Forwarded-Encrypted: i=1; AFNElJ8hNe2TBdhKKI0zeGGTIHxaZkQ1jEN9VNV5Wuq3pliKBitCSJhM0Pr5yklF15f9JDaBeJ03bl8HXliYE2NF@lists.linux.dev
+X-Gm-Message-State: AOJu0YxWIgcQCmLTUrtEPtGr1hyhJVCdKKu5EzYHucfErG5h8Y437dLA
+	L5siKDK24Z9qNaCRJlA8ZalVXbQ79t3E9zdP1zBZXPSiTu8xiugFvIsn
+X-Gm-Gg: Acq92OEgy10qCSVb2cUYaNkMlPUsLu+aX0dEdxJrQrq/hW7OQNTfJ01fws5slfZAfqi
+	QG46s0HuvTj9kOcm6ACedahde7iHp+mb4/boE7Ggfd2Ls960TlerM4UWKAICRewNJH/SevFMGGz
+	+Q4pmgcXzvAcVshZ27wgWJBpRHtT/s9gndKMAMmK8lxHY2WPmeMcoA+xIF3maLn47XyI+7ugAiz
+	vtsaZ7UN7AjBmuUQ5sb2e+V4OKmuHoJsEa6ZaX2LCRGnxxmtha5e7Me7wAYVzp+uNExwkkn0hZw
+	l+RKHVzyu/XRD1B1ETOK2ZpoJpX0LcmjbMJDbcPjBHF4WHD3MbVJ5FNsvi4OrLOfenUVXd6nEm8
+	uu2CPZfg7xuMS0iD5qHhRJIeYcgNQA7WDshzIZMc62QlCfQHrElebBtkFwq/9yezqyriIHE+o8y
+	lkIb7o+mTEkkfjGT/USCCtvfPp61NBeLA=
+X-Received: by 2002:a05:6830:81ca:b0:7de:649d:f2ab with SMTP id 46e09a7af769-7e5fedd6094mr1424418a34.13.1779426313218;
+        Thu, 21 May 2026 22:05:13 -0700 (PDT)
+Received: from pop-os.. ([2806:264:548c:885a:fb25:8a80:d99d:260b])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e606641114sm299619a34.21.2026.05.21.22.05.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 May 2026 22:05:12 -0700 (PDT)
+From: =?UTF-8?q?Diego=20Fernando=20Mancera=20G=C3=B3mez?= <diegomancera.dev@gmail.com>
+To: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev
+Cc: m.steinmoetzger@gmail.com,
+	guojy.bj@gmail.com,
+	straube.linux@gmail.com,
+	error27@gmail.com,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?Diego=20Fernando=20Mancera=20G=C3=B3mez?= <diegomancera.dev@gmail.com>
+Subject: [PATCH v2] staging: rtl8723bs: clean up if-else logic in odm_HWConfig.c
+Date: Thu, 21 May 2026 23:04:29 -0600
+Message-ID: <20260522050429.161273-1-diegomancera.dev@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260521183931.176951-2-manuelebner@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, May 21, 2026 at 08:39:32PM +0200, Manuel Ebner wrote:
-> removed unused argument of rtw_sdio_if1_init()
-> removed empty lines, added linew where appropriate
-> 
-> Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
-> ---
->  drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 16 ++++++----------
->  1 file changed, 6 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-> index d0feb28b7043..32a0ee08f175 100644
-> --- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-> +++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-> @@ -47,7 +47,6 @@ static void sd_sync_int_hdl(struct sdio_func *func)
->  {
->  	struct dvobj_priv *psdpriv;
->  
-> -
->  	psdpriv = sdio_get_drvdata(func);
->  
->  	if (!psdpriv->if1)
-> @@ -144,13 +143,13 @@ static void sdio_deinit(struct dvobj_priv *dvobj)
->  		sdio_claim_host(func);
->  		sdio_disable_func(func);
->  
-> -		if (dvobj->irq_alloc) {
-> +		if (dvobj->irq_alloc)
->  			sdio_release_irq(func);
-> -		}
->  
->  		sdio_release_host(func);
->  	}
->  }
-> +
->  static struct dvobj_priv *sdio_dvobj_init(struct sdio_func *func)
->  {
->  	struct dvobj_priv *dvobj = NULL;
-> @@ -216,8 +215,7 @@ static void sd_intf_stop(struct adapter *padapter)
->  	rtw_hal_disable_interrupt(padapter);
->  }
->  
-> -
-> -static struct adapter *rtw_sdio_if1_init(struct dvobj_priv *dvobj, const struct sdio_device_id  *pdid)
-> +static struct adapter *rtw_sdio_if1_init(struct dvobj_priv *dvobj)
->  {
->  	int status = _FAIL;
->  	struct net_device *pnetdev;
-> @@ -250,7 +248,6 @@ static struct adapter *rtw_sdio_if1_init(struct dvobj_priv *dvobj, const struct
->  	/* 4 3.1 set hardware operation functions */
->  	rtw_set_hal_ops(padapter);
->  
-> -
->  	/* 3 5. initialize Chip version */
->  	padapter->intf_start = &sd_intf_start;
->  	padapter->intf_stop = &sd_intf_stop;
-> @@ -336,9 +333,8 @@ static void rtw_sdio_if1_deinit(struct adapter *if1)
->   * notes: drv_init() is called when the bus driver has located a card for us to support.
->   *        We accept the new device by returning 0.
->   */
-> -static int rtw_drv_init(
-> -	struct sdio_func *func,
-> -	const struct sdio_device_id *id)
-> +static int rtw_drv_init(struct sdio_func *func,
-> +			const struct sdio_device_id *id)
->  {
->  	int status = _FAIL;
->  	struct adapter *if1 = NULL;
-> @@ -348,7 +344,7 @@ static int rtw_drv_init(
->  	if (!dvobj)
->  		goto exit;
->  
-> -	if1 = rtw_sdio_if1_init(dvobj, id);
-> +	if1 = rtw_sdio_if1_init(dvobj);
->  	if (!if1)
->  		goto free_dvobj;
->  
-> -- 
-> 2.54.0
-> 
-> 
+Refactored redundant if-else blocks to a cleaner else-if structure in
+odm_HWConfig.c and fixed indentation to use tabs as required by the
+kernel coding style.
 
-Hi,
+Signed-off-by: Diego Fernando Mancera Gómez <diegomancera.dev@gmail.com>
+---
+ drivers/staging/rtl8723bs/hal/odm_HWConfig.c | 16 ++++------------
+ 1 file changed, 4 insertions(+), 12 deletions(-)
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+diff --git a/drivers/staging/rtl8723bs/hal/odm_HWConfig.c b/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
+index c88d669cb086..2e47734a0ae9 100644
+--- a/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
++++ b/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
+@@ -228,18 +228,11 @@ static void odm_rx_phy_status_parsing(struct dm_odm_t *dm_odm,
+ 		odm_parsing_cfo(dm_odm, pkt_info, phy_sta_rpt->path_cfotail);
+ 	}
+ 
+-	/*
+-	 * UI BSS List signal strength(in percentage), make it good
+-	 * looking, from 0~100.
+-	 * It is assigned to the BSS List in GetValueFromBeaconOrProbeRsp().
+-	 */
+-	if (is_cck_rate) {
++	if (is_cck_rate)
+ 		phy_info->signal_strength = (u8)(odm_signal_scale_mapping(dm_odm, pwdb_all));
+-	} else {
+-		if (rf_rx_num != 0) {
+-			phy_info->signal_strength = (u8)(odm_signal_scale_mapping(dm_odm, total_rssi /= rf_rx_num));
+-		}
+-	}
++	else if (rf_rx_num != 0)
++		phy_info->signal_strength = (u8)(odm_signal_scale_mapping(dm_odm, total_rssi /= rf_rx_num));
++
+ }
+ 
+ static void odm_Process_RSSIForDM(
+@@ -437,4 +430,3 @@ enum hal_status ODM_ConfigBBWithHeaderFile(
+ 
+ 	return HAL_STATUS_SUCCESS;
+ }
+-
+-- 
+2.43.0
 
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- Your patch did many different things all at once, making it difficult
-  to review.  All Linux kernel patches need to only do one thing at a
-  time.  If you need to do multiple things (such as clean up all coding
-  style issues in a file/driver), do it in a sequence of patches, each
-  one doing only one thing.  This will make it easier to review the
-  patches to ensure that they are correct, and to help alleviate any
-  merge issues that larger patches can cause.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
