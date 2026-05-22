@@ -1,178 +1,124 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C407A39DBF8
-	for <linux-staging@lists.linux.dev>; Fri, 22 May 2026 05:39:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35B401A6837
+	for <linux-staging@lists.linux.dev>; Fri, 22 May 2026 05:46:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779428349; cv=none; b=tXVwsDn4Fmsh+98/18wR2W4F4cLS/fyqFJ2BoGz0ryFYv4m0LTe/gWUf4CqOsL4SN+SIFZ2WMe5Byl3p/4kT2gjuTzWaHf3Rj7fwYVAUDEgJ54B0/rGqnA3In49KHebpZ5u3t2igcxI80Ra893jNQuDRJ4yl9k3d/K09X6KDuMw=
+	t=1779428797; cv=none; b=GqDTFQCo16kvTU3bq3X8Z6cjerWZslHP6Wys3GqK6KE3EKUKWm6uhn4c6Rq8Y5S4zHQHtRHHq13EuUpEom5MrHGn/3/6pQ0PIHadnH8Rw6skUHPyDvNM922LAFm83pVz14RXP3rfKmXXPsh9vLx8Gnh3jCMa88COOluV7w1j5uc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779428349; c=relaxed/simple;
-	bh=r+NxeLTUPH+PUFEgNwy/radad+9sM2mYzZjfIxj5aBc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JBPkJkKDfQEqE/UPWvplzS54OVFy/YvGcPlT7fNCQmY7sKhJRqHt0Gta+F9Rs1ustlMvO4VXESWfKp0zi17IfBDi0u3MeJcgBxyUCsk0ESoNr8IefMdUgRnA46hn2DZ1CwIpI4M7tM28fgFgWJheSjeu9EJ+b9kwq4E1yEXXTag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KiIU3/df; arc=none smtp.client-ip=209.85.215.177
+	s=arc-20240116; t=1779428797; c=relaxed/simple;
+	bh=8DkRkxnTl4bKzgh0KXYQOxy+1xeRzix6mvqx40kbUUY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Vt63JM4nCTgAWT+4v+bjn108CtawK+ZWp/0Ak1OMPNZujn3OUlxyme4MYrSS2rbTT8gP+XuEras1aSQHC8Dp50FqAMrb/hXLwTppKgj6FIcstO8LEk6OFCcI55Gm0oW8L0udGDnhZ8a9wz8Y88+p/HSEbsTNFzO2dlmS26I/qE8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kXdo3jA0; arc=none smtp.client-ip=209.85.161.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KiIU3/df"
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-c80227c9572so3251367a12.2
-        for <linux-staging@lists.linux.dev>; Thu, 21 May 2026 22:39:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kXdo3jA0"
+Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-69d60694c9bso1551108eaf.2
+        for <linux-staging@lists.linux.dev>; Thu, 21 May 2026 22:46:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779428347; x=1780033147; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1779428795; x=1780033595; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=65ILEf5RF3ixsOz4GvzeqTrsV6+FWGgtDAFtASNJyDY=;
-        b=KiIU3/dfp6FltRP1RCj4eZ3mYgOwTijDPXLEM9PkLhpGqXhVYl0rhZXrIn7oLTztTo
-         mDmxXsOAghlUX0BxJ8t6EHL33BZdDr2OZxhGBxoqYlcdlmPvR/0TVRVrpW1CAF/5R3Co
-         Rb9/hMWASdEHD6mhD5hC6frVl6qYvjpehmKE6+pSd3yxfL55eqldTHUcVBCu01agKsNW
-         GLVjWkjmEICxjRGw6zA99xpYWrKXs3McAF821aYJpHL94gPXBE5m0hNE6SrKTBZT/Qub
-         oFS4Phy9gqK0muC9XP1F1vozUkre5L6uQJYh0YTeUzyQm/RDKouBIyKpyFqwTuT9WAE5
-         Q7yQ==
+        bh=/MsxqMEhc4ULm6lRlk5Hoz5Xp/8tINWqbUvs1QE8ePQ=;
+        b=kXdo3jA0pvzoH2/LCxShRd35kb2JHccMXqn22A5wdtLBkUyIgSN+oG6CMfS6SFyTty
+         v53S4Xff+OlzTY9AaN3kHs/ZFVi9LZCf84oDWR/guwCF72tDs7MtvD/ti9OEO/MXYdXR
+         4CUl3yokx+zMUj20hZdHZezzwT1wnRhREdstWKfJY49JVX6PILtnnzJ0iiicFRbjANrb
+         5isQlEzpRTlBMw1lzkUsS7zLfjjNXcZs7HUy2HT1l96vIRpzL9fHQ4qF3s8O4QYxLVxt
+         hyMnoJOBGnJoLrJUuFo7UPnb0JHQSAFtsUkoaHTxqi1ZhaRxmHB5WTAOnvq0vb25EXkV
+         I/6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779428347; x=1780033147;
+        d=1e100.net; s=20251104; t=1779428795; x=1780033595;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=65ILEf5RF3ixsOz4GvzeqTrsV6+FWGgtDAFtASNJyDY=;
-        b=PxEY5M7mt+TbUOD8zdrNTvWUZJOhC6EPqOs2bnOa+n+v/bo1/8RXqZ/42R8manB589
-         ZbIrhvyz2/ul7/VQEQBQTp7g8kqvEH1ierdm8IIS0ZFEQguqT7/w/1vnLs/GGFwaKK/L
-         zzyw2ZGyHiYOqdyHco0zZi8pQzUUApdhEd4E7Y08+2SFJ6crbhsir4gEYol1AxiyNhOI
-         CtcY74D79nysTr2RVCv+IBtnvm1xNv91seJMO8IG8vQdm9FgScNrQkFqfODR0VoBwhlP
-         BZ5SBMc9LIFGvmLGIzwTbZfWuU4zCPUoNzzO3xn/DuhQhhrihHpDvr5hZ/93I/HtcPdM
-         uSEQ==
-X-Gm-Message-State: AOJu0YwT4YDZur74aZ357u9ALLgP8Ok13sULe8Gbd2znCntgA+vk6Prs
-	eRVjIIIj1HeEXTXDHyMnt/Xb+TOFuZryCWa1I9bVMOpw6PNuihInZZ4q
-X-Gm-Gg: Acq92OEaymxNAv1IBGFg+HRkKehb/YFkP5/s7PZPfO3c/woj2OzIJzDqwXuGWIBnbz2
-	9Jv3xfGvN9VAoJ13WV0q/DmgmHWAsWTOFxaHiqYwI+zQ4YTTrqCJeFBWZ7l3Mgz6CRgJgu31h6M
-	mShiTmaXqYkTzqcM+hlDQc/Iu5vpU4bxGlrxWIs74Q5O67CYxO7ok3oVHZ4WNDsx0GiImgwYpC2
-	hMq6xcciJIDWJ7DdbZT3jlVZqmHhLW0eTzSGRoyxnpMaOjYI8beeUD8OPqNKfa1lShHc2g/UYOo
-	yX5ijUMe7/mFycvOQGCUC9VU70Fn3x058jRaiAabCXxqUzyBiNSXGpFb7U+AJr2313nhgQrgfyi
-	JhKZ5JRlSyTJOpywiBr1Ja4LlbrrKdzSKH2Y09LC8IEya8AnTxCO1G44a5ypepev6xXCH2+MjaL
-	9D5qhAOv6UuxLVfE0ioIAX3Tflud7V9R48kaQp7kfTLVaglDeirLfNUxZpkWGKpSH9S46cL72Hz
-	IuHaYd2
-X-Received: by 2002:a05:6a20:d491:b0:3b2:8677:813e with SMTP id adf61e73a8af0-3b328ec5909mr2232393637.42.1779428346893;
-        Thu, 21 May 2026 22:39:06 -0700 (PDT)
-Received: from Kalki ([103.173.206.90])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c852057f9cdsm433533a12.32.2026.05.21.22.39.04
+        bh=/MsxqMEhc4ULm6lRlk5Hoz5Xp/8tINWqbUvs1QE8ePQ=;
+        b=fvyO1x8JBkfZ4+EH5W22F4fVb/rcnfAr0oiOxnwPU8tjMjEhRXb06PTHPUHoP5Bh7H
+         TQG1FyLccOSTCBbRn3QsW2r/7ToWlIpt7gbe5ZSBwlWSjjJL9QXUSJixDANTHN5cUo9a
+         zaTGy4mOw0tGwH6aoquCF1uOHIdPaXMmMb9piTFGXdj7ZCD55DyflAciJikQ7JtkkiT9
+         bIoYXJpXBTC4so4J0gx/TPFkpFPr8Bs1TrV/JGbf0wMJTrGU89Wg8ZULAO6hXOvT0vHM
+         2W1QZvOkFxiff3nHTtBJpVjbm+M0bHlOMbcsSbza+q9Eb8hPqLrEZBuaE3nviw10XezB
+         tfug==
+X-Forwarded-Encrypted: i=1; AFNElJ9f8gCsgFiTmRo//Epkt/G+KZeimS00m0dmYIR/Nwii/47xLpTEPwrwqu0tNUVLp76s8udWZ2thwWZllFpG@lists.linux.dev
+X-Gm-Message-State: AOJu0YwHHOHqbYLeOWtUjylvkMpqjtmqc7EbOgf7FXl8HvCXFwb4ritj
+	WEaRb898B5nXwWxxdITmzZIuV/eZLMdm2I55GkHE3+Aw3O221RlarJZh
+X-Gm-Gg: Acq92OFG+bEkyTVKygOXYuraafGsspNzn3pG1XB0uag6Rv56tDa3ifA0uflanHcLlBO
+	kmMxbrwk+J4sG8jFx99YlLnWPv5+dxVuzLG3wigiZuzHztzlRR43ou7dHJneCETtDjqZ7oslcdq
+	Kv8+wSoK5/2k0OB9nT6XAQvHmIbO7zgJyuvvjEI4OZaD+9sFbQv5AsTzJ0mUDZs8ECrRAI/DSOS
+	akD1JMp7KNL4iY3Y/f1wrb7gUcbFcXBszzY8Dwz2LP74XdwbDCV20qXl2OJyFs6TE1BsoEm0nMG
+	UayqJeYt0QsCgxsikKnEFLKLFhfrOUTCIGwi+/RrkRikiX5Tz5c8pHaWwcwGeo068sfB7OqUG4U
+	Pe59uYbr5B0dCs4EL9vX6J9paGV9Bw0NhTWqfRzfFK0/Y4ls/FJFF06A8SNVFIPW++dI1l7WEfH
+	KFxBmI2sAmIg2Z6Q/rldlXClpcy983GuQ=
+X-Received: by 2002:a05:6820:f02f:b0:69d:7eff:8c8c with SMTP id 006d021491bc7-69d7eff9672mr1082360eaf.19.1779428795310;
+        Thu, 21 May 2026 22:46:35 -0700 (PDT)
+Received: from pop-os.. ([2806:264:548c:885a:fb25:8a80:d99d:260b])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-43b635d26b5sm879683fac.6.2026.05.21.22.46.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 May 2026 22:39:06 -0700 (PDT)
-From: omkarbhor4011@gmail.com
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
+        Thu, 21 May 2026 22:46:34 -0700 (PDT)
+From: =?UTF-8?q?Diego=20Fernando=20Mancera=20G=C3=B3mez?= <diegomancera.dev@gmail.com>
+To: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev
+Cc: m.steinmoetzger@gmail.com,
+	guojy.bj@gmail.com,
+	straube.linux@gmail.com,
+	error27@gmail.com,
 	linux-kernel@vger.kernel.org,
-	Omkarbhor4011@gmail.com
-Subject: [PATCH] staging: rtl8723bs: fix operator spacing
-Date: Fri, 22 May 2026 11:08:54 +0530
-Message-ID: <20260522053854.188893-1-omkarbhor4011@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	=?UTF-8?q?Diego=20Fernando=20Mancera=20G=C3=B3mez?= <diegomancera.dev@gmail.com>
+Subject: [PATCH v3] staging: rtl8723bs: clean up if-else logic in odm_HWConfig.c
+Date: Thu, 21 May 2026 23:46:24 -0600
+Message-ID: <20260522054624.190256-1-diegomancera.dev@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Omkar Bhor <Omkarbhor4011@gmail.com>
+Refactored redundant if-else blocks to a cleaner else-if structure in
+odm_HWConfig.c and fixed indentation to use tabs as required by the
+kernel coding style.
 
-Clean up operator spacing to match kernel coding style.
-
-No functional change intended.
+Signed-off-by: Diego Fernando Mancera Gómez <diegomancera.dev@gmail.com>
 ---
- .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 26 +++++++++----------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+v3: Restored accidentally removed comments and blank line.
+v2: Added commit body description and Signed-off-by tag.
+v1: Initial cleanup of if-else logic.
 
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-index e794fe3ca..3bb1533e1 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-@@ -21,23 +21,23 @@ static void _FWDownloadEnable(struct adapter *padapter, bool enable)
- 		rtw_write8(padapter, REG_SYS_FUNC_EN + 1, tmp | 0x04);
+ drivers/staging/rtl8723bs/hal/odm_HWConfig.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/hal/odm_HWConfig.c b/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
+index c88d669cb086..abf3d96746b9 100644
+--- a/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
++++ b/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
+@@ -227,19 +227,16 @@ static void odm_rx_phy_status_parsing(struct dm_odm_t *dm_odm,
  
- 		tmp = rtw_read8(padapter, REG_MCUFWDL);
--		rtw_write8(padapter, REG_MCUFWDL, tmp|0x01);
-+		rtw_write8(padapter, REG_MCUFWDL, tmp | 0x01);
- 
- 		do {
- 			tmp = rtw_read8(padapter, REG_MCUFWDL);
- 			if (tmp & 0x01)
- 				break;
--			rtw_write8(padapter, REG_MCUFWDL, tmp|0x01);
-+			rtw_write8(padapter, REG_MCUFWDL, tmp | 0x01);
- 			msleep(1);
- 		} while (count++ < 100);
- 
- 		/*  8051 reset */
--		tmp = rtw_read8(padapter, REG_MCUFWDL+2);
--		rtw_write8(padapter, REG_MCUFWDL+2, tmp&0xf7);
-+		tmp = rtw_read8(padapter, REG_MCUFWDL + 2);
-+		rtw_write8(padapter, REG_MCUFWDL + 2, tmp & 0xf7);
- 	} else {
- 		/*  MCU firmware download disable. */
- 		tmp = rtw_read8(padapter, REG_MCUFWDL);
--		rtw_write8(padapter, REG_MCUFWDL, tmp&0xfe);
-+		rtw_write8(padapter, REG_MCUFWDL, tmp & 0xfe);
+ 		odm_parsing_cfo(dm_odm, pkt_info, phy_sta_rpt->path_cfotail);
  	}
+-
+ 	/*
+ 	 * UI BSS List signal strength(in percentage), make it good
+ 	 * looking, from 0~100.
+ 	 * It is assigned to the BSS List in GetValueFromBeaconOrProbeRsp().
+ 	 */
+-	if (is_cck_rate) {
++	if (is_cck_rate)
+ 		phy_info->signal_strength = (u8)(odm_signal_scale_mapping(dm_odm, pwdb_all));
+-	} else {
+-		if (rf_rx_num != 0) {
+-			phy_info->signal_strength = (u8)(odm_signal_scale_mapping(dm_odm, total_rssi /= rf_rx_num));
+-		}
+-	}
++	else if (rf_rx_num != 0)
++		phy_info->signal_strength = (u8)(odm_signal_scale_mapping(dm_odm, total_rssi /= rf_rx_num));
++
  }
  
-@@ -70,8 +70,8 @@ static int _BlockWrite(struct adapter *padapter, void *buffer, u32 buffSize)
- 	if (remainSize_p1) {
- 		offset = blockCount_p1 * blockSize_p1;
- 
--		blockCount_p2 = remainSize_p1/blockSize_p2;
--		remainSize_p2 = remainSize_p1%blockSize_p2;
-+		blockCount_p2 = remainSize_p1 / blockSize_p2;
-+		remainSize_p2 = remainSize_p1 % blockSize_p2;
- 	}
- 
- 	/* 3 Phase #3 */
-@@ -104,8 +104,8 @@ static int _PageWrite(
- 	u8 value8;
- 	u8 u8Page = (u8) (page & 0x07);
- 
--	value8 = (rtw_read8(padapter, REG_MCUFWDL+2) & 0xF8) | u8Page;
--	rtw_write8(padapter, REG_MCUFWDL+2, value8);
-+	value8 = (rtw_read8(padapter, REG_MCUFWDL + 2) & 0xF8) | u8Page;
-+	rtw_write8(padapter, REG_MCUFWDL + 2, value8);
- 
- 	return _BlockWrite(padapter, buffer, size);
- }
-@@ -124,7 +124,7 @@ static int _WriteFW(struct adapter *padapter, void *buffer, u32 size)
- 
- 	for (page = 0; page < pageNums; page++) {
- 		offset = page * MAX_DLFW_PAGE_SIZE;
--		ret = _PageWrite(padapter, page, bufferPtr+offset, MAX_DLFW_PAGE_SIZE);
-+		ret = _PageWrite(padapter, page, bufferPtr + offset, MAX_DLFW_PAGE_SIZE);
- 
- 		if (ret == _FAIL) {
- 			netdev_dbg(padapter->pnetdev, "page write failed at %s %d\n",
-@@ -136,7 +136,7 @@ static int _WriteFW(struct adapter *padapter, void *buffer, u32 size)
- 	if (remainSize) {
- 		offset = pageNums * MAX_DLFW_PAGE_SIZE;
- 		page = pageNums;
--		ret = _PageWrite(padapter, page, bufferPtr+offset, remainSize);
-+		ret = _PageWrite(padapter, page, bufferPtr + offset, remainSize);
- 
- 		if (ret == _FAIL) {
- 			netdev_dbg(padapter->pnetdev, "remaining page write failed at %s %d\n",
-@@ -195,7 +195,7 @@ static s32 polling_fwdl_chksum(
- 		if (value32 & FWDL_ChkSum_rpt || adapter->bSurpriseRemoved || adapter->bDriverStopped)
- 			break;
- 		yield();
--	} while (jiffies_to_msecs(jiffies-start) < timeout_ms || cnt < min_cnt);
-+	} while (jiffies_to_msecs(jiffies - start) < timeout_ms || cnt < min_cnt);
- 
- 	if (!(value32 & FWDL_ChkSum_rpt)) {
- 		goto exit;
-@@ -1888,7 +1888,7 @@ void rtl8723b_fill_fake_txdesc(
- 	if (IsPsPoll) {
- 		SET_TX_DESC_NAV_USE_HDR_8723B(pDesc, 1);
- 	} else {
--		SET_TX_DESC_HWSEQ_EN_8723B(pDesc, 1); /*  Hw set sequence number */
-+		SET_TX_DESC_HWSEQ_EN_8723B(pDesc, 1);
- 		SET_TX_DESC_HWSEQ_SEL_8723B(pDesc, 0);
- 	}
- 
+ static void odm_Process_RSSIForDM(
 -- 
-2.54.0
+2.43.0
 
