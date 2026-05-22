@@ -1,45 +1,45 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF4FA1F7916
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FEE734D385
 	for <linux-staging@lists.linux.dev>; Fri, 22 May 2026 19:03:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779476585; cv=none; b=h6idepDo9wQJuMPIBsDp9UPo3ISmPclxwNCyE0zZznmra51vD2hUuBGZ8cBifWwvVTHWrv3IDmJD2N9/jHe4weZulTMB/vgQmPDfHrvVC7721KOWc/y1oyg8odUyUwh3u016ld/q9/QQZpIqoflFoEhdKTdLZRMEamzTzGF10C4=
+	t=1779476585; cv=none; b=TLle+UnJlPqssf+jn8iTLCn1IaVBH6v3U/hAA5CCbpRFyUOMbkBTxRPUDx9RnFQdmwkegiIzL1x5XeYAl4gEE/udkWYm8ObL9/D5jWCuKJpMPt8BkumuLyI5YrD/iBmtiKSv/fIJJkln3vHxghILShQ+bzXJgwaUh8CxamO1nmU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1779476585; c=relaxed/simple;
-	bh=bHEP2/PBGQV/NK5I65QMqZAWCBFAasSgtXfJoyLQmIs=;
+	bh=v4NQxhT5NMzRMUtVp7qPUN9pJJ/siVD91UuJKEPKVkw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qTk8czZbJtjdtpN2TqULhqyjBlylVzfWqn/VB6n7ZYekaQqSPtPrmFNyFZMV0d3tqKi9K2UGTiTWiwhYromEsbtp0NC3ayeglRQjuIA3HpOATooaOVe5/E9gtJEAMsxRSXN3iGkkfL7wgXhPJIizHy+iEx8KRSgH/r7Zuhk4ALM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=WSK6kdde; arc=none smtp.client-ip=80.241.56.172
+	 MIME-Version; b=HXwdEbup0yYEpvhA6KtZScvC8TUJ0TEbY6HwOMSPW+iHv5ayu4N0IvovtNdN8saxpLb8yZoMFwffNwNq9efIC/y5fGdGiVzmBLLm73FCK8r6XExd2iSVVp+eT2inWY/dPhEVmnTbl2EqaB2r5c0QWiCNrw4zys5sgVaAYRleI6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=OuFx1gEr; arc=none smtp.client-ip=80.241.56.161
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="WSK6kdde"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="OuFx1gEr"
 Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4gMZRS4Fwpz9v7j;
-	Fri, 22 May 2026 21:03:00 +0200 (CEST)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4gMZRR5Jnnz9txs;
+	Fri, 22 May 2026 21:02:59 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1779476580;
+	t=1779476579;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=yl72NLqB+cSEfWwLSHGvky3QBgSyCukNK1sP1jhGtfo=;
-	b=WSK6kddeaxqC4vdEQoDZILHDsfWN+5Uf4e6gkFLNOE/Qa4wp8ifFaqt+RJwGhRQc3wttXy
-	+6sYa/mqwtTi5XoajbD1xr0E4M0wjPoHbrYDwOerxmaRRWsBIuy9huS2fqEx95rbw3TmJQ
-	BmsityhtOk5XuzLTlGjWd4d2qxS0ak+mgP7xFqkFS+6UbECaZkv10WNurkoATIPIP+6ZVP
-	ZcZIp8pAvnyG79ka03NFpRZuD6XAQJ4ZLlyGHpp5jHsLYNueIs7dzNieJvPHFc8mYmVLmE
-	yqfq1u7OPBDLvgLrAbQSmGxaM960rLUdaPMN6kBzqIXsO3qclOVW1bOohnx8eA==
+	bh=82UfFRENsEC95n1X0xB55Daok2D0pa358NkkqsMMIvI=;
+	b=OuFx1gEr9seCtC+xz00r7wspM/YpXSl6j21xyqpdMnJD/x+zGzrm3z1IKGO1ySVltm+yHy
+	GfjWnsMmooJ2KQCWUcJ0M2VKg8osjXxMwS5lzLo/1WUaFURHwc7+5/Dnq16vrDe5it5w7m
+	YdJ+XeS2h4B7vgcEBhOTY7FAKSFQzubSrb+H+la8jICiax6SCI5fjggKaWHvTLHtRZa2RL
+	qRBx8FCFs48ug+3v1/gswIhll+fe92qcUbTvUP+U6znUF0T4ACEayXMCWsvcL3wuxbKGFr
+	15dbs6aV1qQPHnTuMfsFNFCbbuEivKgxqLPmkdjXZvyexvAjREM/RrloraV0yA==
 From: Andrei Khomenkov <khomenkov@mailbox.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev
-Subject: [PATCH 2/2] staging: rtl8723bs: clean up wlanevents table in rtw_mlme_ext.c
-Date: Fri, 22 May 2026 22:02:56 +0300
-Message-ID: <20260522190256.49830-3-khomenkov@mailbox.org>
+Subject: [PATCH 1/2] staging: rtl8723bs: remove dead rtw_atimdone_event_callback()
+Date: Fri, 22 May 2026 22:02:55 +0300
+Message-ID: <20260522190256.49830-2-khomenkov@mailbox.org>
 In-Reply-To: <20260522190256.49830-1-khomenkov@mailbox.org>
 References: <20260522190256.49830-1-khomenkov@mailbox.org>
 Precedence: bulk
@@ -49,82 +49,61 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: xyhbd6psq1bx6uayj9f7gk7fn7hqcm9j
-X-MBO-RS-ID: fcfae528e03b4f09cf3
+X-MBO-RS-META: 1ebr3bne97ezrsuggm3iapzcanthzm8p
+X-MBO-RS-ID: a72aff1a47be1412a6c
 
-Clean up the wlanevents table by removing redundant
-ampersands, adding all index comments and aligning them.
+Remove the dead rtw_atimdone_event_callback() function since it is
+unused anywhere in the driver. In the wlanevents table, replace it
+with rtw_dummy_event_callback() to avoid an index shift.
 
 Signed-off-by: Andrei Khomenkov <khomenkov@mailbox.org>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 54 +++++++++----------
- 1 file changed, 26 insertions(+), 28 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_mlme.c     | 5 -----
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 2 +-
+ drivers/staging/rtl8723bs/include/rtw_mlme.h  | 1 -
+ 3 files changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index c56082cd5264..eaedff8ae2e2 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -5605,34 +5605,32 @@ u8 set_tx_beacon_cmd(struct adapter *padapter)
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+index 4fb74729180f..6d43948ffe40 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+@@ -624,11 +624,6 @@ static bool rtw_is_desired_network(struct adapter *adapter, struct wlan_network
+ 	return bselected;
  }
  
- static struct fwevent wlanevents[] = {
--	{0, rtw_dummy_event_callback},	/*0*/
--	{0, NULL},
--	{0, NULL},
--	{0, NULL},
--	{0, NULL},
--	{0, NULL},
--	{0, NULL},
--	{0, NULL},
--	{0, &rtw_survey_event_callback},		/*8*/
--	{sizeof(struct surveydone_event), &rtw_surveydone_event_callback},	/*9*/
+-/* TODO: Perry : For Power Management */
+-void rtw_atimdone_event_callback(struct adapter	*adapter, u8 *pbuf)
+-{
+-}
 -
--	{0, &rtw_joinbss_event_callback},		/*10*/
--	{sizeof(struct stassoc_event), &rtw_stassoc_event_callback},
--	{sizeof(struct stadel_event), &rtw_stadel_event_callback},
--	{0, rtw_dummy_event_callback},
--	{0, rtw_dummy_event_callback},
--	{0, NULL},	/*15*/
--	{0, NULL},
--	{0, NULL},
--	{0, NULL},
--	{0, rtw_fwdbg_event_callback},
--	{0, NULL},	 /*20*/
--	{0, NULL},
--	{0, NULL},
--	{0, &rtw_cpwm_event_callback},
--	{0, NULL},
--	{0, &rtw_wmm_event_callback},
--
-+	{0, rtw_dummy_event_callback},						/*  0 */
-+	{0, NULL},								/*  1 */
-+	{0, NULL},								/*  2 */
-+	{0, NULL},								/*  3 */
-+	{0, NULL},								/*  4 */
-+	{0, NULL},								/*  5 */
-+	{0, NULL},								/*  6 */
-+	{0, NULL},								/*  7 */
-+	{0, rtw_survey_event_callback},						/*  8 */
-+	{sizeof(struct surveydone_event), rtw_surveydone_event_callback},	/*  9 */
-+	{0, rtw_joinbss_event_callback},					/* 10 */
-+	{sizeof(struct stassoc_event), rtw_stassoc_event_callback},		/* 11 */
-+	{sizeof(struct stadel_event), rtw_stadel_event_callback},		/* 12 */
-+	{0, rtw_dummy_event_callback},						/* 13 */
-+	{0, rtw_dummy_event_callback},						/* 14 */
-+	{0, NULL},								/* 15 */
-+	{0, NULL},								/* 16 */
-+	{0, NULL},								/* 17 */
-+	{0, NULL},								/* 18 */
-+	{0, rtw_fwdbg_event_callback},						/* 19 */
-+	{0, NULL},								/* 20 */
-+	{0, NULL},								/* 21 */
-+	{0, NULL},								/* 22 */
-+	{0, rtw_cpwm_event_callback},						/* 23 */
-+	{0, NULL},								/* 24 */
-+	{0, rtw_wmm_event_callback},						/* 25 */
- };
+ void rtw_survey_event_callback(struct adapter	*adapter, u8 *pbuf)
+ {
+ 	u32 len;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index a86d6f97cf02..c56082cd5264 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -5619,7 +5619,7 @@ static struct fwevent wlanevents[] = {
+ 	{0, &rtw_joinbss_event_callback},		/*10*/
+ 	{sizeof(struct stassoc_event), &rtw_stassoc_event_callback},
+ 	{sizeof(struct stadel_event), &rtw_stadel_event_callback},
+-	{0, &rtw_atimdone_event_callback},
++	{0, rtw_dummy_event_callback},
+ 	{0, rtw_dummy_event_callback},
+ 	{0, NULL},	/*15*/
+ 	{0, NULL},
+diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme.h b/drivers/staging/rtl8723bs/include/rtw_mlme.h
+index 8cc96164e1cf..e2fd899d6579 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_mlme.h
++++ b/drivers/staging/rtl8723bs/include/rtw_mlme.h
+@@ -258,7 +258,6 @@ extern void rtw_surveydone_event_callback(struct adapter *adapter, u8 *pbuf);
+ extern void rtw_joinbss_event_callback(struct adapter *adapter, u8 *pbuf);
+ extern void rtw_stassoc_event_callback(struct adapter *adapter, u8 *pbuf);
+ extern void rtw_stadel_event_callback(struct adapter *adapter, u8 *pbuf);
+-extern void rtw_atimdone_event_callback(struct adapter *adapter, u8 *pbuf);
+ extern void rtw_cpwm_event_callback(struct adapter *adapter, u8 *pbuf);
+ extern void rtw_wmm_event_callback(struct adapter *padapter, u8 *pbuf);
  
- u8 mlme_evt_hdl(struct adapter *padapter, unsigned char *pbuf)
 -- 
 2.47.3
 
