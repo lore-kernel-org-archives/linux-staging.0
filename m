@@ -1,99 +1,155 @@
-Received: from forward500d.mail.yandex.net (forward500d.mail.yandex.net [178.154.239.208])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 941F125B0AB
-	for <linux-staging@lists.linux.dev>; Fri, 22 May 2026 04:47:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.208
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D94D299959;
+	Fri, 22 May 2026 05:05:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779425281; cv=none; b=mxra8UQdf4wmEaekJgrVeLMylZQA4VBtN5kYjV9eCn1e7qKb2FMBKUwxiVPBnaXkLzS2saWUIVPANxZLd57h0yvafHaSysp7ErX4VbMUbT+UiDmKNvxl9P1LzylTySWKbbgibuqr7ioBnWRt9VGtpUxSixHpojdkDuIWwJvRq5A=
+	t=1779426305; cv=none; b=U2jPQ002BpPIsTKlRDHfAxKBE+Dw/sqYu3DHhN1ZcrcozpmaqGZs/Ff2HZX2kjXJP9ng0fFZJdxbiZymaJNftB+zJbb0HMFWZk80I1vCbYswDGE+hKVC74jqbTU2hj1tbFWushtzGGlkf84/V9HZmbs2v8R4dfs0PPPEc5VGXpg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779425281; c=relaxed/simple;
-	bh=0QYMLecI5r6DweFOGBYu3tCeAYXHrgbv+LqF+Wz15fQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qhddoMWGPOEpMFwiLg2hqIIVi6qOpOIA8iiFZLku6Sb+BYgSMbqASD+ZZ7+iKZ1tMRLimdMx7/atWRP63USqvs4yJIY7QjOOEUFAfR8PePF8WgP7ukjFsKdYDZb0LiCPejW9kylymtkR+MnvW7FiT1dcLK7+D1Bnw9hS3UmIkKI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net; spf=pass smtp.mailfrom=sezginduran.net; dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b=d7yuc9y1; arc=none smtp.client-ip=178.154.239.208
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sezginduran.net
+	s=arc-20240116; t=1779426305; c=relaxed/simple;
+	bh=ynP3XPOZUghl/2T4x2+zpzMkua/KZ4Uk5oFm0AYiuw4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=E5mUAgyvrzvrnP6yjPtJoI/fDmT/L4q8KiV63zc3xxV5kco7udLGi2gYbm53y+OEN5uJwyJxVRnnUX+EQlzDjArZc6BFObHrfHg7QUuXL34GMqOtjpN0YDE6XVAVGXQThiYAcfyudz/kxMbLhjgGc5ED0EqzHC0XkRJGeSPE+GI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=NeIKkA67; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b="d7yuc9y1"
-Received: from mail-nwsmtp-smtp-production-main-73.iva.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-73.iva.yp-c.yandex.net [IPv6:2a02:6b8:c0c:bb8b:0:640:6ac7:0])
-	by forward500d.mail.yandex.net (Yandex) with ESMTPS id 5CDB98120A;
-	Fri, 22 May 2026 07:47:54 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-73.iva.yp-c.yandex.net (smtp) with ESMTPSA id olLCT15dNW20-iRV3Cf4A;
-	Fri, 22 May 2026 07:47:53 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sezginduran.net;
-	s=mail; t=1779425273;
-	bh=imwjUihfhKeml0YJLszYTBOHE0TdDhufFPkOb88d6bc=;
-	h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
-	b=d7yuc9y1oiGqnY6HqpaU/6oPYS/1K+Smkpkr7ySZqUr2797TUyk2z3EDW1ZQH7dg/
-	 B7S8wa62Lujx6pu2YcUBfDi38hk7dVAYm8UVKtbVg8MPscJYK0H3E3CHAroiwkOlHJ
-	 dCVkWvwdXqreM6Ii3tp9WJ+Ft650w6izhj5s5ceM=
-Authentication-Results: mail-nwsmtp-smtp-production-main-73.iva.yp-c.yandex.net; dkim=pass header.i=@sezginduran.net
-Message-ID: <dc2b1c4e-bcb6-4adb-93e4-9228af4eff2c@sezginduran.net>
-Date: Fri, 22 May 2026 07:47:49 +0300
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="NeIKkA67"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D8811F000E9;
+	Fri, 22 May 2026 05:05:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1779426303;
+	bh=wAFBqh+8xo35HifCIWhB9I7osg1yWOcerTBpYytAX+0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=NeIKkA67DzgbImPtjc3dT3akjr4bWRi73IWHg2LfPjNIzZHgiIJE5BbZ435loMKWz
+	 9KtLQwwiW6lBFQu1N53Om/cpn5jPsjR7oGR5JPz11sgGhJmVZDMHCseo7K75jbl7Co
+	 AfbKTVHOzRgaBhpHcBDozCf8cOSnmCw6m/gKSIS0=
+Date: Fri, 22 May 2026 07:04:15 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Manuel Ebner <manuelebner@mailbox.org>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>,
+	Omer El Idrissi <omer.e.idrissi@gmail.com>,
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] staging: cleanup of sdio_intf.c
+Message-ID: <2026052258-carefully-guts-014b@gregkh>
+References: <20260521183931.176951-2-manuelebner@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: rtl8723bs: clean up if-else logic in
- odm_HWConfig.c
-Content-Language: tr
-To: =?UTF-8?Q?Diego_Fernando_Mancera_G=C3=B3mez?=
- <diegomancera.dev@gmail.com>, gregkh@linuxfoundation.org,
- linux-staging@lists.linux.dev
-Cc: m.steinmoetzger@gmail.com, guojy.bj@gmail.com, straube.linux@gmail.com,
- error27@gmail.com, linux-kernel@vger.kernel.org
-References: <20260521210523.133725-1-diegomancera.dev@gmail.com>
-From: Ahmet Sezgin Duran <ahmet@sezginduran.net>
-In-Reply-To: <20260521210523.133725-1-diegomancera.dev@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260521183931.176951-2-manuelebner@mailbox.org>
 
-On 5/22/26 12:05 AM, Diego Fernando Mancera Gómez wrote:
-> ---
->   drivers/staging/rtl8723bs/hal/odm_HWConfig.c | 16 ++++------------
->   1 file changed, 4 insertions(+), 12 deletions(-)
+On Thu, May 21, 2026 at 08:39:32PM +0200, Manuel Ebner wrote:
+> removed unused argument of rtw_sdio_if1_init()
+> removed empty lines, added linew where appropriate
 > 
-> diff --git a/drivers/staging/rtl8723bs/hal/odm_HWConfig.c b/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
-> index c88d669cb086..2e47734a0ae9 100644
-> --- a/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
-> +++ b/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
-> @@ -228,18 +228,11 @@ static void odm_rx_phy_status_parsing(struct dm_odm_t *dm_odm,
->   		odm_parsing_cfo(dm_odm, pkt_info, phy_sta_rpt->path_cfotail);
->   	}
->   
-> -	/*
-> -	 * UI BSS List signal strength(in percentage), make it good
-> -	 * looking, from 0~100.
-> -	 * It is assigned to the BSS List in GetValueFromBeaconOrProbeRsp().
-> -	 */
-> -	if (is_cck_rate) {
-> +	if (is_cck_rate)
->   		phy_info->signal_strength = (u8)(odm_signal_scale_mapping(dm_odm, pwdb_all));
-> -	} else {
-> -		if (rf_rx_num != 0) {
-> -			phy_info->signal_strength = (u8)(odm_signal_scale_mapping(dm_odm, total_rssi /= rf_rx_num));
-> -		}
-> -	}
-> +	else if (rf_rx_num != 0)
-> +		phy_info->signal_strength = (u8)(odm_signal_scale_mapping(dm_odm, total_rssi /= rf_rx_num));
-> +
->   }
->   
->   static void odm_Process_RSSIForDM(
-> @@ -437,4 +430,3 @@ enum hal_status ODM_ConfigBBWithHeaderFile(
->   
->   	return HAL_STATUS_SUCCESS;
->   }
+> Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+> ---
+>  drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 16 ++++++----------
+>  1 file changed, 6 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+> index d0feb28b7043..32a0ee08f175 100644
+> --- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+> +++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+> @@ -47,7 +47,6 @@ static void sd_sync_int_hdl(struct sdio_func *func)
+>  {
+>  	struct dvobj_priv *psdpriv;
+>  
 > -
+>  	psdpriv = sdio_get_drvdata(func);
+>  
+>  	if (!psdpriv->if1)
+> @@ -144,13 +143,13 @@ static void sdio_deinit(struct dvobj_priv *dvobj)
+>  		sdio_claim_host(func);
+>  		sdio_disable_func(func);
+>  
+> -		if (dvobj->irq_alloc) {
+> +		if (dvobj->irq_alloc)
+>  			sdio_release_irq(func);
+> -		}
+>  
+>  		sdio_release_host(func);
+>  	}
+>  }
+> +
+>  static struct dvobj_priv *sdio_dvobj_init(struct sdio_func *func)
+>  {
+>  	struct dvobj_priv *dvobj = NULL;
+> @@ -216,8 +215,7 @@ static void sd_intf_stop(struct adapter *padapter)
+>  	rtw_hal_disable_interrupt(padapter);
+>  }
+>  
+> -
+> -static struct adapter *rtw_sdio_if1_init(struct dvobj_priv *dvobj, const struct sdio_device_id  *pdid)
+> +static struct adapter *rtw_sdio_if1_init(struct dvobj_priv *dvobj)
+>  {
+>  	int status = _FAIL;
+>  	struct net_device *pnetdev;
+> @@ -250,7 +248,6 @@ static struct adapter *rtw_sdio_if1_init(struct dvobj_priv *dvobj, const struct
+>  	/* 4 3.1 set hardware operation functions */
+>  	rtw_set_hal_ops(padapter);
+>  
+> -
+>  	/* 3 5. initialize Chip version */
+>  	padapter->intf_start = &sd_intf_start;
+>  	padapter->intf_stop = &sd_intf_stop;
+> @@ -336,9 +333,8 @@ static void rtw_sdio_if1_deinit(struct adapter *if1)
+>   * notes: drv_init() is called when the bus driver has located a card for us to support.
+>   *        We accept the new device by returning 0.
+>   */
+> -static int rtw_drv_init(
+> -	struct sdio_func *func,
+> -	const struct sdio_device_id *id)
+> +static int rtw_drv_init(struct sdio_func *func,
+> +			const struct sdio_device_id *id)
+>  {
+>  	int status = _FAIL;
+>  	struct adapter *if1 = NULL;
+> @@ -348,7 +344,7 @@ static int rtw_drv_init(
+>  	if (!dvobj)
+>  		goto exit;
+>  
+> -	if1 = rtw_sdio_if1_init(dvobj, id);
+> +	if1 = rtw_sdio_if1_init(dvobj);
+>  	if (!if1)
+>  		goto free_dvobj;
+>  
+> -- 
+> 2.54.0
+> 
+> 
 
-You need to add a commit body explaining the reasoning for this changes.
+Hi,
 
-It must also contain `Signed-off-by:`.
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-Regards,
-Ahmet Sezgin Duran
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- Your patch did many different things all at once, making it difficult
+  to review.  All Linux kernel patches need to only do one thing at a
+  time.  If you need to do multiple things (such as clean up all coding
+  style issues in a file/driver), do it in a sequence of patches, each
+  one doing only one thing.  This will make it easier to review the
+  patches to ensure that they are correct, and to help alleviate any
+  merge issues that larger patches can cause.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
