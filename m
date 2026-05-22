@@ -1,102 +1,65 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBBBA405840
-	for <linux-staging@lists.linux.dev>; Fri, 22 May 2026 16:53:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 095C62BFC60
+	for <linux-staging@lists.linux.dev>; Fri, 22 May 2026 19:03:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779468823; cv=none; b=SKRxxvdYQO+CjBmpRrEbMX0qAm3JyfNvG09yy9r0xQuOfTvvTwq12KJhOGMXYQD61z4pcB8S9yJmFXUhXzk5RflXAg7oVDmm6nIsbpA/T6J+Finnhkw9qq8J5epYaB/1ygHscEXa9tJfBEo8mndlZN3WXwr4Q6T1pMBBygGeZAs=
+	t=1779476584; cv=none; b=d4YlUrVQwbsEgdh3XJXSqDtiPsk4Ltqt6GqNV23a7oagJwDNt7s+VO+8MwUdHbIoR5RazEhOA1jhN8p7FvLRbI3WK6XMvB4dqhFv2x5fX8/TGJg/MY0IQwCiMUd68gZgzb1GcfMhop/g2/2aQJrZDJEXnbyqpkDDP41BagooJQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779468823; c=relaxed/simple;
-	bh=VWJ9Idadm4+jshuuUwRXM1Kg/HW/bmekNdMMFzCiI9s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g3REY3PzoLaz8K0EUT0qKcnmSrF+NCyBAnd/EqtH1hpDZpDBjQKheXSbEfnsttG9CXFM6u3ffo4xORKIO3g2bN+iJ1SgDIEFgRj+4Yp1o9E4E69fM6DyZKPql7ljgEif0/9PBKs2ysVEnhc16/WWXghnq08q9uq8DKSJg0xZU3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dt3rWbc1; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779476584; c=relaxed/simple;
+	bh=G0XjQmdkZgNrBC3fH6sfdmRHsf2v7Ho3vMSlx2Y/h4Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pmjdM16LtdtRQnwqggyolbJPEp/MUMZtc6eOXuGDgG4g6V7ZXxXFI4cjLxrd7E3Spc5KRDFDAzD7k9VCmAbHn7LscdrLV5uOb5SpBoCWonztY7hSytNQjH64mGDE0TAGivqNeYTfmdmTROwzJ6AqbAqEHyS9ax/QvDopQf5w8sk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=q4BccPme; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dt3rWbc1"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-48fe26a177cso57322625e9.1
-        for <linux-staging@lists.linux.dev>; Fri, 22 May 2026 09:53:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779468810; x=1780073610; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=vq+P3P3mi/H9G5spkcSx54yFdnNmNWNrYL54/tktC0Y=;
-        b=dt3rWbc1KA1522EzBPQP/1allv6igGRQHuHI2/VgD30/N3PgILZFiUrwEBEAgFpLYL
-         oowhEn0mJ2lJB7awJ3Z13+h5goKL4a8WpzLKjoSLlGnNFHL0J1PusVIU7fztk6Ilg6T3
-         s+ggIrmbZ/4+bWq/qP6M92sXQatdojEuVkHMLLsTC47RDR8dMNFFd25KlryLjlh3hch5
-         mXT6IJGVcBPtyTVGVs0ncdB36WL8v3znLPBzLc6w/4ph6Xq72uklYghUHVuvNvO8RdHo
-         IcvwZFcRHyE+M8ZoHTTq8gR2Z3xrHAR5SoXji14AqPMoaVT3+EOP30qLMp9umWF1qJOu
-         aMGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779468810; x=1780073610;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vq+P3P3mi/H9G5spkcSx54yFdnNmNWNrYL54/tktC0Y=;
-        b=f+D3OTrmepPG38CvGA6oufjapa3iHdT6uaMdu/GH/LtxW9YFmcl5Kft2J4S9s6drml
-         RAcYjLg76OYED3S7c3//Q9BLzJEhob4VRUr3XRp+HrgPAYJbXuQ5ZZajz+T75rES9mbi
-         zYja/h7Tt5BsAb0OSVAU5i2QyWRhezNE2+diso+ci17B1gUKf0QAtyJor3kvyWwlWimU
-         8jQUE0rzoJLWQjT9GDJJi0GsUqoU6S6b0Rf4dkAwadJz4oLKBaPcD5u7oA/LlVysEtjv
-         al6K75/QvI9AycPukeKEobVD8JwfnYjZPNUOUPhBwKgBwGWjkUTTf7PcVQlmAsI8AvOw
-         NGgg==
-X-Forwarded-Encrypted: i=1; AFNElJ9pjR1daJH+CdIMh36gOjGamV/wc+YNIq0uNsScRU8ijIMQEBBmSntMqLSoWCq52g8YTZMYU6qqu/1ca1vv@lists.linux.dev
-X-Gm-Message-State: AOJu0YwFQiOq9DCmiTUjh6eVn/mW6q6qNxzA2FqIUiZZ+C6YLWJ6tHqK
-	Nyk1TnBu9CX4Kawe41AtEKL1xtC+9jPZ4l7+1aZy2CscZZaUbpQzMTwh
-X-Gm-Gg: Acq92OERAFsIrOk/goDSYDkhxzIUO66w83Xp6hUTgZKP0v2CFHOGeMcZNC/5wxj58/E
-	x0FINNlojJMZLWgwto/bDJHKVcQi58manpoqMdmp4swzyd9wE2vSB0fyqRRR6tKAk674SJy6GF2
-	kIpCzlIuBm7/qkpvsRMV6+3Bj66rPeP/jwMo1fDGcHaMAOgEsogIJRI5gXQk39BKg/xPYft1dgC
-	Oj/xG/GqZbR5icR5LN5Zx6tdFCd7kJ+7iU3XkxN0VDrXgjcW2QfzRT59R2rlOG4TXNeFF4W0RCO
-	/dJ1hNAGmQmRf+CZ4LibLxzTlsv/mjLtjVN8F0RiJePQ2L1seQK9pSu8ggxodj3Pn2zqPGyAoCD
-	1vjRv1518Vqwfxlt1aovnRbVAhVdUIAdCCCsTzNcDGAHs4kGKAUlUAq+WthFnyk/ih0cmTs77fL
-	DS1Z1+gWohlhDxMJm24l+inLBQunaeMrJ9AA==
-X-Received: by 2002:a05:600c:3112:b0:490:40ee:d561 with SMTP id 5b1f17b1804b1-49042487e14mr62180405e9.7.1779468810200;
-        Fri, 22 May 2026 09:53:30 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490454db285sm46997875e9.5.2026.05.22.09.53.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 May 2026 09:53:29 -0700 (PDT)
-Date: Fri, 22 May 2026 19:53:26 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Manuel Ebner <manuelebner@mailbox.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Omer El Idrissi <omer.e.idrissi@gmail.com>,
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 0/3] staging: cleanup of sdio_intf.c
-Message-ID: <ahCKBve6EirfIW1s@stanley.mountain>
-References: <20260522114317.189368-4-manuelebner@mailbox.org>
- <ahBT3r8ob5Zbq_Fc@stanley.mountain>
- <9eafd3db22791e0bdba31c866a802a31e6f1a012.camel@mailbox.org>
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="q4BccPme"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4gMZRQ5Zfkz9v4m;
+	Fri, 22 May 2026 21:02:58 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1779476579;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=OBeaN7CZYxqjtWI5I/hTHlsQILXznNYTUCTBSg8R9nw=;
+	b=q4BccPmesUuMQBgeMksmijlwLaPt83dOl9y7IbmVYUNcvYGsAK5ZiPoa/qDjaPJ9w2h1Cl
+	OgD+2piOjpfh3VhHAKry9A+pmaXRTUirZnNXdevt/aogJwxY2JdbfMJWAiEGuoTHUaMcDb
+	PBdMw/HB8y+v69T1lfEHqAFlZ8VfufjlIReQL9uLf0116Kd/294ZxlL27Nshdz03ztxDOH
+	GeXHRvRE855SUkOxzkNE5NQySq1sbeHXqax7JYDwiKgXU4qehod4W+m/0WkOMeNaT4sdpD
+	d0bXeV/wYmh+01/HGctdyg31pjyWB2VFK4VY7fjKRbD3uzGu9X7vySIxX+Q+sw==
+From: Andrei Khomenkov <khomenkov@mailbox.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev
+Subject: [PATCH 0/2] staging: rtl8723bs: remove dead function and clean up table
+Date: Fri, 22 May 2026 22:02:54 +0300
+Message-ID: <20260522190256.49830-1-khomenkov@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <9eafd3db22791e0bdba31c866a802a31e6f1a012.camel@mailbox.org>
+X-MBO-RS-ID: 4b0de6b8391908c2f29
+X-MBO-RS-META: bbsarfdurtg117qfpuqnxden5qhzd8wp
 
-On Fri, May 22, 2026 at 05:33:53PM +0200, Manuel Ebner wrote:
-> On Fri, 2026-05-22 at 16:02 +0300, Dan Carpenter wrote:
-> > On Fri, May 22, 2026 at 01:43:20PM +0200, Manuel Ebner wrote:
-> > > did i overdo the split up?
-> > > 
-> > 
-> > The split is fine.  The subsystem prefix needs to be improved.
-> 
-> Is it wireless? If it isn't how can I find the subsystems for my patches.
-> 
+Remove the dead rtw_atimdone_event_callback() function since it is
+unused and clean up the wlanevents table.
 
-git log --oneline drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+Andrei Khomenkov (2):
+  staging: rtl8723bs: remove dead rtw_atimdone_event_callback()
+  staging: rtl8723bs: clean up wlanevents table in rtw_mlme_ext.c
 
-Use what everyone else uses:
-Subject: staging: rtl8723bs: cleanup of sdio_intf.c
+ drivers/staging/rtl8723bs/core/rtw_mlme.c     |  5 --
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 54 +++++++++----------
+ drivers/staging/rtl8723bs/include/rtw_mlme.h  |  1 -
+ 3 files changed, 26 insertions(+), 34 deletions(-)
 
-regards,
-dan carpenter
+-- 
+2.47.3
 
