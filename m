@@ -1,44 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42474368946;
-	Fri, 22 May 2026 05:08:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67AA7367282;
+	Fri, 22 May 2026 05:09:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779426483; cv=none; b=PPEE2szeko324NhlE4SWdSYZbMxgfPsxTmYo0XltOU9Hvdo5L36AK/h22wd4s/KveWBx7FyiLDujhHWuRx02KDnyA/A640JQUv3RCVwfyn3JYofoFvEjwk5Ik/VjpKxAsTFBJncluuFsNKf1LH5mhIaGSxcr30f0sd5z0/lNFB4=
+	t=1779426595; cv=none; b=UV9wp14uZ/7gjrgBtCgn2YYLagg1CYe1rREMrMi1W3i+/7ewvctcs96puhDeJ6hi2dEWbvB9vRPEtMno4nvhpYe6NPcm1Q8ZMFidow2MsXdN+2HAawv7O5GGe+Ptc9JR9wtbXR/qrdBvYwpDZMSk60xEtNCzskHlGTF0aN1RVgE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779426483; c=relaxed/simple;
-	bh=sjJU2QpHsfhqskQ4sbVH7eDyzK5+2S/nSxFPUJZotu4=;
+	s=arc-20240116; t=1779426595; c=relaxed/simple;
+	bh=BLfjYPg091X5iquILIGmqMFkXaW6h5sG9iE+aM6aQD0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rvCCW0SXXSdTgd5H5wZZIxjNxB9XCZBMXwLBvafhG2NC9NY/LJ4xMMSkb1QIRZlUP0F+GhUTQ6pREGL05lvueCtaBBH2PXs/cB9hYFfTtL/okZC3rJj7k/Lvk5vILPSORc7zL+5nN579gqbJrIOQojHx5jvrDWXIA3lfggB/56M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=TjMjszYn; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=KNCDYWraHAblJmc1VSeoAkaUmfJbmqwSsTnnHMBGPC1ao/WmEAb0xR91uN/ze7Luy5cE6wDPbhTNtRqxcgFPjOSJ7m7n/VtgPCmkO6uVU/BJwI+hk+bZAb86ZCDGC5IEIW3tdT+TWvcGBHYRBHutBRzzeWapPEvXdWSQyLHqt9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=voMbssy7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="TjMjszYn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 073921F000E9;
-	Fri, 22 May 2026 05:07:58 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="voMbssy7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF7B11F000E9;
+	Fri, 22 May 2026 05:09:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1779426479;
-	bh=+9T+MJetygSRoKxcfVda2WKPfjsua3gdfJ1IwORPY94=;
+	s=korg; t=1779426591;
+	bh=YXYFnHKeEi4YZ1tN88Yt91calVux3YI8QSyjJ4B1/FA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=TjMjszYnq3O1YYgH4/5iqmGqbYxgjAwsGmYWkHKGywsPvHh+zb35LyDeHSOcxjPnO
-	 7ddvspYGzgn0waT8YmwbO5OKE4dRKWDwBrYxLMuBoW+b6UuCVscBOxwAGCONGSo14F
-	 VQSx0hsTHGZdKAgP+4oTX7tdzQjHqPaRhs0KNl18=
-Date: Fri, 22 May 2026 07:07:10 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: "Alexander A. Klimov" <grandmaster@al2klimov.de>
-Cc: Vaibhav Agarwal <vaibhav.sr@gmail.com>,
-	Mark Greer <mgreer@animalcreek.com>,
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	Elise Lennion <elise.lennion@gmail.com>,
-	"moderated list:GREYBUS SUBSYSTEM" <greybus-dev@lists.linaro.org>,
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] staging: greybus: audio: expect 0 from kstrtoint(), not 1
-Message-ID: <2026052249-shrank-trophy-14ff@gregkh>
-References: <20260520180401.539215-1-grandmaster@al2klimov.de>
- <20260520180401.539215-3-grandmaster@al2klimov.de>
- <2026052158-willing-dreadful-857b@gregkh>
- <9caaf426-1912-43e0-949f-fb7bb6bbd1cc@al2klimov.de>
+	b=voMbssy7CCi0UtvUpnWTecSc7snAS7fcQpkG/z0KliOBfgD3kKyJpdQEf1oEy01sV
+	 pgUNGl0sroDbbFd2tY2wanTjBHs2ShCC3iZ15wu44q8voaOM3K/md9ZFczQCPGeV36
+	 O4mKrSmXakF3ntxAHLaoxU1jjis1+/1j4Zj73BjM=
+Date: Fri, 22 May 2026 07:09:03 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Artur Ugnivenko <artur.ugnivenko@gmx.de>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	ahmet@sezginduran.net, error27@gmail.com
+Subject: Re: [PATCH v5 4/4] staging: rtl8723bs: fix lines ending in
+ parentheses in hal/sdio_halinit.c
+Message-ID: <2026052200-leotard-overprice-bb1f@gregkh>
+References: <20260521112345.16604-1-artur.ugnivenko@gmx.de>
+ <20260521125604.4688-1-artur.ugnivenko@gmx.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,56 +41,88 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9caaf426-1912-43e0-949f-fb7bb6bbd1cc@al2klimov.de>
+In-Reply-To: <20260521125604.4688-1-artur.ugnivenko@gmx.de>
 
-On Thu, May 21, 2026 at 08:42:06PM +0200, Alexander A. Klimov wrote:
+On Thu, May 21, 2026 at 02:56:04PM +0200, Artur Ugnivenko wrote:
+> Fix checkpatch warnings on lines that end in patentheses in
+> hal/sdio_halinit.c.
 > 
+> Signed-off-by: Artur Ugnivenko <artur.ugnivenko@gmx.de>
+> ---
+>  drivers/staging/rtl8723bs/hal/sdio_halinit.c | 49 ++++++++++----------
+>  1 file changed, 25 insertions(+), 24 deletions(-)
 > 
-> On 5/21/26 10:38, Greg Kroah-Hartman wrote:
-> > On Wed, May 20, 2026 at 08:03:59PM +0200, Alexander A. Klimov wrote:
-> > > kstrtoint() returns "0 on success, -ERANGE on overflow
-> > > and -EINVAL on parsing error". In contrast,
-> > > manager_sysfs_remove_store() and manager_sysfs_dump_store()
-> > > checked for 1 which always failed the operation. I fixed this.
-> > > 
-> > > Fixes: f9a21a3f4919 ("staging: greybus: audio_manager_sysfs: Replace sscanf with kstrto* to single variable conversion.")
-> > > Signed-off-by: Alexander A. Klimov <grandmaster@al2klimov.de>
-> > > ---
-> > >   drivers/staging/greybus/audio_manager_sysfs.c | 4 ++--
-> > >   1 file changed, 2 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/drivers/staging/greybus/audio_manager_sysfs.c b/drivers/staging/greybus/audio_manager_sysfs.c
-> > > index fcd518f9540c..581791d566e3 100644
-> > > --- a/drivers/staging/greybus/audio_manager_sysfs.c
-> > > +++ b/drivers/staging/greybus/audio_manager_sysfs.c
-> > > @@ -44,7 +44,7 @@ static ssize_t manager_sysfs_remove_store(struct kobject *kobj,
-> > >   	int num = kstrtoint(buf, 10, &id);
-> > > -	if (num != 1)
-> > > +	if (num != 0)
-> > 
-> > Doesn't checkpatch now complain about this?
-> No.
-> 
-> $ curl -fsSL https://lkml.org/lkml/diff/2026/5/20/2139/1 | scripts/checkpatch.pl
+> diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit.c b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+> index e6570fa2e8fd..494fb74ad44f 100644
+> --- a/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+> +++ b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+> @@ -74,7 +74,7 @@ u8 _InitPowerOn_8723BS(struct adapter *padapter)
+>  	rtw_write8(padapter, REG_CR, 0x00);
+>  	/*  Enable MAC DMA/WMAC/SCHEDULE/SEC block */
+>  	value16 = rtw_read16(padapter, REG_CR);
+> -	value16 |= (
+> +	value16 |=
+>  		HCI_TXDMA_EN |
+>  		HCI_RXDMA_EN |
+>  		TXDMA_EN |
+> @@ -82,8 +82,7 @@ u8 _InitPowerOn_8723BS(struct adapter *padapter)
+>  		PROTOCOL_EN |
+>  		SCHEDULE_EN |
+>  		ENSEC |
+> -		CALTMR_EN
+> -	);
+> +		CALTMR_EN;
 
-Please use lore.kernel.org, not lkml.
+The original () is ok to keep.
 
-Also, when using b4 to apply this, it sucked in a bunch of other random
-patches for you, please make new threads for everything you send.
+>  	rtw_write16(padapter, REG_CR, value16);
+>  
+>  	hal_btcoex_PowerOnSetting(padapter);
+> @@ -188,15 +187,13 @@ static void _InitTxBufferBoundary(struct adapter *padapter)
+>  	rtw_write8(padapter, REG_TDECTRL + 1, txpktbuf_bndy);
+>  }
+>  
+> -static void _InitNormalChipRegPriority(
+> -	struct adapter *Adapter,
+> -	u16 beQ,
+> -	u16 bkQ,
+> -	u16 viQ,
+> -	u16 voQ,
+> -	u16 mgtQ,
+> -	u16 hiQ
+> -)
+> +static void _InitNormalChipRegPriority(struct adapter *Adapter,
+> +				       u16 beQ,
+> +				       u16 bkQ,
+> +				       u16 viQ,
+> +				       u16 voQ,
+> +				       u16 mgtQ,
+> +				       u16 hiQ)
 
-> ERROR: Missing Signed-off-by: line(s)
+You can do better than this :)
 
-Why is that showing up?
+try making it multiple variables per line.
 
-> total: 1 errors, 0 warnings, 0 checks, 16 lines checked
-> 
-> NOTE: For some of the reported defects, checkpatch may be able to
->       mechanically convert to the typical style using --fix or --fix-inplace.
 
-What about trying --strict?
+>  {
+>  	u16 value16 = (rtw_read16(Adapter, REG_TRXDMA_CTRL) & 0x7);
+>  
+> @@ -231,9 +228,13 @@ static void _InitNormalChipOneOutEpPriority(struct adapter *Adapter)
+>  		break;
+>  	}
+>  
+> -	_InitNormalChipRegPriority(
+> -		Adapter, value, value, value, value, value, value
+> -	);
+> +	_InitNormalChipRegPriority(Adapter,
+> +				   value,
+> +				   value,
+> +				   value,
+> +				   value,
+> +				   value,
+> +				   value);
 
-Anyway, think about rewriting the check for "== 0" now, that is not
-normal kernel style.
+That's crazy, perhaps the function should be changed?
 
 thanks,
 
