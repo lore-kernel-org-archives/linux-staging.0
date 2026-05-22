@@ -1,129 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from forward502d.mail.yandex.net (forward502d.mail.yandex.net [178.154.239.210])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67AA7367282;
-	Fri, 22 May 2026 05:09:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28D3C357CF3
+	for <linux-staging@lists.linux.dev>; Fri, 22 May 2026 05:30:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.210
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779426595; cv=none; b=UV9wp14uZ/7gjrgBtCgn2YYLagg1CYe1rREMrMi1W3i+/7ewvctcs96puhDeJ6hi2dEWbvB9vRPEtMno4nvhpYe6NPcm1Q8ZMFidow2MsXdN+2HAawv7O5GGe+Ptc9JR9wtbXR/qrdBvYwpDZMSk60xEtNCzskHlGTF0aN1RVgE=
+	t=1779427805; cv=none; b=l0qGHfUhUpBYkECtqdzuKruTLEmirjf3LvI4DwtOhBXG0CS/g61KXfLqUA90a6J7p6mhZld/RS+ndydPKAdmAGUhncoTf4XCeOKK93rD/3u/8yd2ICHSoyZ94oTnMhSpRqiuYjZyGRP2xGMPjPILAwqN/FXCJms6SY3aGBJKJV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779426595; c=relaxed/simple;
-	bh=BLfjYPg091X5iquILIGmqMFkXaW6h5sG9iE+aM6aQD0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KNCDYWraHAblJmc1VSeoAkaUmfJbmqwSsTnnHMBGPC1ao/WmEAb0xR91uN/ze7Luy5cE6wDPbhTNtRqxcgFPjOSJ7m7n/VtgPCmkO6uVU/BJwI+hk+bZAb86ZCDGC5IEIW3tdT+TWvcGBHYRBHutBRzzeWapPEvXdWSQyLHqt9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=voMbssy7; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779427805; c=relaxed/simple;
+	bh=i+5KdPKtqNGHu6YNHv33Crb9v+pW2BkLPgThqbnBg8Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kwsIrcx17GLGpslczebcfNXVw1xgou+FHCzmBF5l5GcVcPOLhFTIxDBDDX/PnOMpEsdNEhbX2YtfFx3hevb6HFTzQpLF5X40dXdDugX8XpnQZRjZPolFWsekd+q9CR1EficFtwPMVI0YruVXaBHZt7w4IYnaSmu4hcdqYvMHY1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net; spf=pass smtp.mailfrom=sezginduran.net; dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b=lx1TpI8R; arc=none smtp.client-ip=178.154.239.210
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sezginduran.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="voMbssy7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF7B11F000E9;
-	Fri, 22 May 2026 05:09:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1779426591;
-	bh=YXYFnHKeEi4YZ1tN88Yt91calVux3YI8QSyjJ4B1/FA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=voMbssy7CCi0UtvUpnWTecSc7snAS7fcQpkG/z0KliOBfgD3kKyJpdQEf1oEy01sV
-	 pgUNGl0sroDbbFd2tY2wanTjBHs2ShCC3iZ15wu44q8voaOM3K/md9ZFczQCPGeV36
-	 O4mKrSmXakF3ntxAHLaoxU1jjis1+/1j4Zj73BjM=
-Date: Fri, 22 May 2026 07:09:03 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Artur Ugnivenko <artur.ugnivenko@gmx.de>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	ahmet@sezginduran.net, error27@gmail.com
-Subject: Re: [PATCH v5 4/4] staging: rtl8723bs: fix lines ending in
- parentheses in hal/sdio_halinit.c
-Message-ID: <2026052200-leotard-overprice-bb1f@gregkh>
-References: <20260521112345.16604-1-artur.ugnivenko@gmx.de>
- <20260521125604.4688-1-artur.ugnivenko@gmx.de>
+	dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b="lx1TpI8R"
+Received: from mail-nwsmtp-smtp-production-main-73.iva.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-73.iva.yp-c.yandex.net [IPv6:2a02:6b8:c0c:bb8b:0:640:6ac7:0])
+	by forward502d.mail.yandex.net (Yandex) with ESMTPS id A2A49C0D31;
+	Fri, 22 May 2026 08:22:20 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-73.iva.yp-c.yandex.net (smtp) with ESMTPSA id HMMWuG5dUCg0-Uc0kfQKa;
+	Fri, 22 May 2026 08:22:19 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sezginduran.net;
+	s=mail; t=1779427340;
+	bh=Vu4dzvR4IQ9KYhSvWmiyqJfL5WicNO6/BraXPbgkmTQ=;
+	h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+	b=lx1TpI8RHBjfvwXLXSxKWWXPO3Dy/rcxqwJAM9q9HFgD2gu8VaiUHCp/VWH3C4ccO
+	 UoQkbz9eD0fK/M9lbbvcQK0w6bvkxMwMEEcespbSV7rNGTdkv02C3j8ZjiXH5zIrNS
+	 ifUjgwEF+hCJyBichGuc4+zSkxI261gaRomx6/rw=
+Authentication-Results: mail-nwsmtp-smtp-production-main-73.iva.yp-c.yandex.net; dkim=pass header.i=@sezginduran.net
+Message-ID: <b3d89e1b-8403-49ee-821e-122a770c6cfe@sezginduran.net>
+Date: Fri, 22 May 2026 08:22:17 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260521125604.4688-1-artur.ugnivenko@gmx.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] staging: rtl8723bs: clean up if-else logic in
+ odm_HWConfig.c
+Content-Language: tr
+To: =?UTF-8?Q?Diego_Fernando_Mancera_G=C3=B3mez?=
+ <diegomancera.dev@gmail.com>, gregkh@linuxfoundation.org,
+ linux-staging@lists.linux.dev
+Cc: m.steinmoetzger@gmail.com, guojy.bj@gmail.com, straube.linux@gmail.com,
+ error27@gmail.com, linux-kernel@vger.kernel.org
+References: <20260522050429.161273-1-diegomancera.dev@gmail.com>
+From: Ahmet Sezgin Duran <ahmet@sezginduran.net>
+In-Reply-To: <20260522050429.161273-1-diegomancera.dev@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, May 21, 2026 at 02:56:04PM +0200, Artur Ugnivenko wrote:
-> Fix checkpatch warnings on lines that end in patentheses in
-> hal/sdio_halinit.c.
+On 5/22/26 8:04 AM, Diego Fernando Mancera Gómez wrote:
+> Refactored redundant if-else blocks to a cleaner else-if structure in
+> odm_HWConfig.c and fixed indentation to use tabs as required by the
+> kernel coding style.
 > 
-> Signed-off-by: Artur Ugnivenko <artur.ugnivenko@gmx.de>
+> Signed-off-by: Diego Fernando Mancera Gómez <diegomancera.dev@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/hal/sdio_halinit.c | 49 ++++++++++----------
->  1 file changed, 25 insertions(+), 24 deletions(-)
+>   drivers/staging/rtl8723bs/hal/odm_HWConfig.c | 16 ++++------------
+>   1 file changed, 4 insertions(+), 12 deletions(-)
 > 
-> diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit.c b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-> index e6570fa2e8fd..494fb74ad44f 100644
-> --- a/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-> +++ b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-> @@ -74,7 +74,7 @@ u8 _InitPowerOn_8723BS(struct adapter *padapter)
->  	rtw_write8(padapter, REG_CR, 0x00);
->  	/*  Enable MAC DMA/WMAC/SCHEDULE/SEC block */
->  	value16 = rtw_read16(padapter, REG_CR);
-> -	value16 |= (
-> +	value16 |=
->  		HCI_TXDMA_EN |
->  		HCI_RXDMA_EN |
->  		TXDMA_EN |
-> @@ -82,8 +82,7 @@ u8 _InitPowerOn_8723BS(struct adapter *padapter)
->  		PROTOCOL_EN |
->  		SCHEDULE_EN |
->  		ENSEC |
-> -		CALTMR_EN
-> -	);
-> +		CALTMR_EN;
+> diff --git a/drivers/staging/rtl8723bs/hal/odm_HWConfig.c b/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
+> index c88d669cb086..2e47734a0ae9 100644
+> --- a/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
+> +++ b/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
+> @@ -228,18 +228,11 @@ static void odm_rx_phy_status_parsing(struct dm_odm_t *dm_odm,
+>   		odm_parsing_cfo(dm_odm, pkt_info, phy_sta_rpt->path_cfotail);
+>   	}
+>   
+> -	/*
+> -	 * UI BSS List signal strength(in percentage), make it good
+> -	 * looking, from 0~100.
+> -	 * It is assigned to the BSS List in GetValueFromBeaconOrProbeRsp().
+> -	 */
+> -	if (is_cck_rate) {
+> +	if (is_cck_rate)
+>   		phy_info->signal_strength = (u8)(odm_signal_scale_mapping(dm_odm, pwdb_all));
+> -	} else {
+> -		if (rf_rx_num != 0) {
+> -			phy_info->signal_strength = (u8)(odm_signal_scale_mapping(dm_odm, total_rssi /= rf_rx_num));
+> -		}
+> -	}
+> +	else if (rf_rx_num != 0)
+> +		phy_info->signal_strength = (u8)(odm_signal_scale_mapping(dm_odm, total_rssi /= rf_rx_num));
+> +
+>   }
+>   
+>   static void odm_Process_RSSIForDM(
+> @@ -437,4 +430,3 @@ enum hal_status ODM_ConfigBBWithHeaderFile(
+>   
+>   	return HAL_STATUS_SUCCESS;
+>   }
+> -
 
-The original () is ok to keep.
+You need to add list of changes in your commit, as it's V2 right now.
 
->  	rtw_write16(padapter, REG_CR, value16);
->  
->  	hal_btcoex_PowerOnSetting(padapter);
-> @@ -188,15 +187,13 @@ static void _InitTxBufferBoundary(struct adapter *padapter)
->  	rtw_write8(padapter, REG_TDECTRL + 1, txpktbuf_bndy);
->  }
->  
-> -static void _InitNormalChipRegPriority(
-> -	struct adapter *Adapter,
-> -	u16 beQ,
-> -	u16 bkQ,
-> -	u16 viQ,
-> -	u16 voQ,
-> -	u16 mgtQ,
-> -	u16 hiQ
-> -)
-> +static void _InitNormalChipRegPriority(struct adapter *Adapter,
-> +				       u16 beQ,
-> +				       u16 bkQ,
-> +				       u16 viQ,
-> +				       u16 voQ,
-> +				       u16 mgtQ,
-> +				       u16 hiQ)
+> -	/*
+> -	 * UI BSS List signal strength(in percentage), make it good
+> -	 * looking, from 0~100.
+> -	 * It is assigned to the BSS List in GetValueFromBeaconOrProbeRsp().
+> -	 */
+> -	if (is_cck_rate) {
 
-You can do better than this :)
+Why remove comments? Any reasoning?
+>   static void odm_Process_RSSIForDM(
+> @@ -437,4 +430,3 @@ enum hal_status ODM_ConfigBBWithHeaderFile(
+>   
+>   	return HAL_STATUS_SUCCESS;
+>   }
+> 
+You also removed a blank line, it's not related to your actual changes. 
+It's usually advised to do one type of change in a single commit.
 
-try making it multiple variables per line.
-
-
->  {
->  	u16 value16 = (rtw_read16(Adapter, REG_TRXDMA_CTRL) & 0x7);
->  
-> @@ -231,9 +228,13 @@ static void _InitNormalChipOneOutEpPriority(struct adapter *Adapter)
->  		break;
->  	}
->  
-> -	_InitNormalChipRegPriority(
-> -		Adapter, value, value, value, value, value, value
-> -	);
-> +	_InitNormalChipRegPriority(Adapter,
-> +				   value,
-> +				   value,
-> +				   value,
-> +				   value,
-> +				   value,
-> +				   value);
-
-That's crazy, perhaps the function should be changed?
-
-thanks,
-
-greg k-h
+Regards,
+Ahmet Sezgin Duran
