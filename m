@@ -1,148 +1,72 @@
-Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from forward502b.mail.yandex.net (forward502b.mail.yandex.net [178.154.239.146])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E7123A5E73
-	for <linux-staging@lists.linux.dev>; Sat, 23 May 2026 14:23:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06E072DF13E
+	for <linux-staging@lists.linux.dev>; Sat, 23 May 2026 15:07:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779546202; cv=none; b=U1oKXP11P2UBtXyzWuTZRSPxyaNUMEIMOuEkzwfpbc8yuVTvX3gy1PER0hcfq7XXkHpiB3+kivQZ/KLuIpNay6tZa/25enajKalFSBrK0ufrGthq73LRD0JBCBqCUjpWcauMPIBQU23qvAkeYSpaSQiX6b8VO4SadPvLSarGJVs=
+	t=1779548825; cv=none; b=EKmJD6HaEe/748lLlTb8e1IDvtjku3j+J1TjNeRyFi0NyAikhKZw2UrZg+yADX1CT0j0lubhOF/ST0VmR1Ri9hWF6qJ9dXm3pF4eE3xtJdXoesZNKCpT5xO6niPNFdLtAfU/+WYQiH9AMEXDSbXqFxNXpG/vdZUVlHb4f0wT/Jk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779546202; c=relaxed/simple;
-	bh=IA94beLlgFgNnR/mzwcV2gx/sJgJDQl4FswMOGNqdFs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aKlrmMs6mWpeppErlflnq0x5Cc7ngaCpGsTxPnL6+6tNIhMorBfWPl7++O3pwgYm7DN460hFpW4Xr6SO8Z/R58IDiDyCN8X+fLTATLDnchBwjR9DXYYvd2+l4JfauTF5y5pzy7jlnhlHT15YiASkyIFjUk+qMZcRN9OubuyQ2PU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=En1a05rg; arc=none smtp.client-ip=209.85.221.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779548825; c=relaxed/simple;
+	bh=j2IppVOpweqQVhe2dXtJ1OCa5Ga3/OrndaEyITUPZFk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Nyiqef8z5uwOrEKsn34preeS8dW3hwHitBEiKKH5fg/dnh1xD1jensEHr1VIZiLwsLpqTNKzAqBJa+RJ19Lc+QkmxSUENUUdtTMH/ZwagUKWaNW8r1pInSyh8Wh/tVZA0nHiBWqEL/+gIcFKSuW9hzj22sDcBENQuhN8qL3ZXdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net; spf=pass smtp.mailfrom=sezginduran.net; dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b=BU80NdUO; arc=none smtp.client-ip=178.154.239.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sezginduran.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="En1a05rg"
-Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-5752b279662so2971215e0c.2
-        for <linux-staging@lists.linux.dev>; Sat, 23 May 2026 07:23:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779546200; x=1780151000; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JlT2zSnX17vDDLfqokYYdNJkwNYXYU3J3hA/g1yO64s=;
-        b=En1a05rg51XUlBWEAXTJ49yO0j94AqzqFqd9gNG/JS7EFAcJdLKL1e3UAZQiqDR6xV
-         +6HDxkOEmWwWX0150QsHxdZmLdegq59DVC2T7kRPG2Ii8cBjXmBckfLnGiV1vrxaS2jh
-         XWeS/kQo6mKeatrfRy9JZR0q6bIoRUtm9aSgwAQRvAYzTOH0J39icmusSR3kbU25jLSy
-         posGEcc3wptbL3RjcESwLE7irTOpcjxWgqQzxJmSLOLe1wae4xp/c/95INPfxjpWt14m
-         AwiqB1HI9uPZte5KTgbGxXtEA+AK30ZhoIUJzh7qRty72l3bFzhT0mcOxhX1rhgP0oKu
-         XIhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779546200; x=1780151000;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JlT2zSnX17vDDLfqokYYdNJkwNYXYU3J3hA/g1yO64s=;
-        b=ZPi9T2vsv75XkOJD5moRWBBaiyYPNINATwnqQIkQ/FFxQlOcoqZKlFhUKhg2QmGFYW
-         CsczA5ZqSm5uEUuswwJRT7v0NxH4ByIqqJzKMAvOBJft0W6sP5YTAdlafAiFBC7BM8nN
-         WfZ8mAXBQrcnD5nfD0U3c2mWA2AuUoIqYbx2zeQs3ejEws16uGl9clLU07GAzplrmFsT
-         M6jzpNjq7+ASqWXla6vn9qSy+YX5J88419VA++0eLrmvAFd54yByUWgHXV8abarTDRwd
-         gKiEWJ9uUTEGsNCYlj4cCt3YWaN1vMCpel7u315kcesH4K3E749K340H/wkJbXa6bJuV
-         ypew==
-X-Forwarded-Encrypted: i=1; AFNElJ+l/Bp3+r769/rabEYa7XrRq/bFo6FA+ox8RYd3DTyk5kK+bk7APr3wdH3JUC0b2HOsyiFlwwwXQNDhILUC@lists.linux.dev
-X-Gm-Message-State: AOJu0YzByP3m9Hs34yUxGO35nd2F6k21kQ1NT2sWBju67z0U6urAfCVP
-	krZIdwk0hEEc2XEBBx+NVoUeP2FLAbNlQDc9MeotPTfKrUdMFTEpWT7r
-X-Gm-Gg: Acq92OFxB3X7erC66LM0pDOBu431Mv/mC9+6PXcybtaTfwfIDasGa2GMx/LGL85aS97
-	xQPNqxxlv7OznXzHBuE40JRzoCNurvEaZt0lBB/OwSM5qUV4obevssWqPouvKDVmRjiv2/HItz9
-	rdPd69sFBz+IegNYuev/c5IBtWFUym41XQpr9tipaI8nvZn1hUj7bZ+nk83okiAU/Qd7mUD10Vy
-	OBQtf5d7w0KCqhqiTOwBNPmWC02NxrTuiqFwtf/CsfbxCnUMgB0Yjn6EAPvfsxSiAYna3gg66ar
-	C7RKwkH2l8BsTcSyuZcwK6dS9QcJQ9obDSEM0hwTlqtjvk1D2rOKYS+s3HmUSoRcZeruwRu5F1z
-	fSzyzJ1X50ea60MhPBwwYcJZkDbkvFokp2TOqKi8FFatl0E8ls7bb/P8217D09HZe5W2F/BKPhE
-	b4GI12zl+CwnBjAGZFvLCD1xYRiHeruVxIyPX+OCgmUVvBA0LOLa7X6wpTi48VTca7Yhgloq0Pl
-	Ro9xQ==
-X-Received: by 2002:a05:6122:8d3:b0:575:24b5:88e7 with SMTP id 71dfb90a1353d-586628bc866mr4267961e0c.11.1779546199957;
-        Sat, 23 May 2026 07:23:19 -0700 (PDT)
-Received: from localhost.localdomain ([2804:14d:4c64:82a2:a6bd:e693:2cb9:1e78])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-588c129cba5sm3709183e0c.14.2026.05.23.07.23.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 May 2026 07:23:18 -0700 (PDT)
-From: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: ~lkcamp/patches@lists.sr.ht,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	a.nasrolahi01@gmail.com
-Subject: [PATCH v2] staging: rtl8723bs: fix unnamed parameters warning detected at checkpatch
-Date: Sat, 23 May 2026 11:18:43 -0300
-Message-ID: <20260523142312.9223-1-rodrigo.gobbi.7@gmail.com>
-X-Mailer: git-send-email 2.48.1
+	dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b="BU80NdUO"
+Received: from mail-nwsmtp-smtp-production-main-74.iva.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-74.iva.yp-c.yandex.net [IPv6:2a02:6b8:c0c:908f:0:640:1b72:0])
+	by forward502b.mail.yandex.net (Yandex) with ESMTPS id 61F95808D7;
+	Sat, 23 May 2026 18:06:53 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-74.iva.yp-c.yandex.net (smtp) with ESMTPSA id m6XJFJJoJOs0-SG1YRLjJ;
+	Sat, 23 May 2026 18:06:52 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sezginduran.net;
+	s=mail; t=1779548812;
+	bh=y6NdCGG3AsLnD4IYD4okWiiItYiNTRHeS+ON2X0uG4E=;
+	h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+	b=BU80NdUO35cZgJ8aqwP0q8N1BdzROx1gTAQHlLlQOQ1kXXmu+3WnsYOY0a+cNJIdh
+	 /ndvLlRaWWCdzLdUzcXz+yF3hnYl9Wti2xYH7jMYQMvRByIRYCo4OJu8e4IDYQMSsD
+	 yhFp+ve3GwvQMm93ckglnsR6l1YTCL3WvAZT4zb8=
+Authentication-Results: mail-nwsmtp-smtp-production-main-74.iva.yp-c.yandex.net; dkim=pass header.i=@sezginduran.net
+Message-ID: <bd5810a1-8451-4e1f-8b6c-aed630972736@sezginduran.net>
+Date: Sat, 23 May 2026 18:06:48 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/5] staging: sm750fb: use ARRAY_SIZE macro in
+ fb_find_mode loop
+Content-Language: tr
+To: Dan Carpenter <error27@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20260523051509.166152-1-ahmet@sezginduran.net>
+ <20260523051509.166152-5-ahmet@sezginduran.net>
+ <ahF8dacOkX0tdxGf@stanley.mountain>
+From: Ahmet Sezgin Duran <ahmet@sezginduran.net>
+In-Reply-To: <ahF8dacOkX0tdxGf@stanley.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Detected the following WARNING: function definition argument
-'struct adapter *' should also have an identifier name.
-Add explicit names on those definitions.
+On 5/23/26 1:07 PM, Dan Carpenter wrote:
 
-Signed-off-by: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
----
-Changelog:
-v2: use adapter instead of padapter
-v1: https://lore.kernel.org/all/20260407133416.13983-1-rodrigo.gobbi.7@gmail.com/
----
- drivers/staging/rtl8723bs/include/hal_intf.h    |  2 +-
- drivers/staging/rtl8723bs/include/rtw_btcoex.h  | 10 +++++-----
- drivers/staging/rtl8723bs/include/rtw_pwrctrl.h |  4 ++--
- 3 files changed, 8 insertions(+), 8 deletions(-)
+> I don't love this.  As you mentioned, there are two arrays and they
+> both have 3 elements.  Why prefer one over the other?  This patch
+> makes the code look simpler than it really is.  I would just leave
+> it as 3.
+> 
+> regards,
+> dan carpenter
+> 
 
-diff --git a/drivers/staging/rtl8723bs/include/hal_intf.h b/drivers/staging/rtl8723bs/include/hal_intf.h
-index b193854bfe6e..55c0010968a3 100644
---- a/drivers/staging/rtl8723bs/include/hal_intf.h
-+++ b/drivers/staging/rtl8723bs/include/hal_intf.h
-@@ -252,7 +252,7 @@ c2h_id_filter rtw_hal_c2h_id_filter_ccx(struct adapter *adapter);
- s32 rtw_hal_macid_sleep(struct adapter *padapter, u32 macid);
- s32 rtw_hal_macid_wakeup(struct adapter *padapter, u32 macid);
- 
--s32 rtw_hal_fill_h2c_cmd(struct adapter *, u8 ElementID, u32 CmdLen, u8 *pCmdBuffer);
-+s32 rtw_hal_fill_h2c_cmd(struct adapter *adapter, u8 ElementID, u32 CmdLen, u8 *pCmdBuffer);
- 
- void SetHwReg8723BS(struct adapter *padapter, u8 variable, u8 *val);
- void GetHwReg8723BS(struct adapter *padapter, u8 variable, u8 *val);
-diff --git a/drivers/staging/rtl8723bs/include/rtw_btcoex.h b/drivers/staging/rtl8723bs/include/rtw_btcoex.h
-index 19764c80b8ba..9fbb145c8d45 100644
---- a/drivers/staging/rtl8723bs/include/rtw_btcoex.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_btcoex.h
-@@ -15,14 +15,14 @@
- #define	PACKET_ARP				2
- #define	PACKET_EAPOL			3
- 
--void rtw_btcoex_MediaStatusNotify(struct adapter *, u8 mediaStatus);
--void rtw_btcoex_HaltNotify(struct adapter *);
-+void rtw_btcoex_MediaStatusNotify(struct adapter *adapter, u8 mediaStatus);
-+void rtw_btcoex_HaltNotify(struct adapter *adapter);
- 
- /*  ================================================== */
- /*  Below Functions are called by BT-Coex */
- /*  ================================================== */
--void rtw_btcoex_RejectApAggregatedPacket(struct adapter *, u8 enable);
--void rtw_btcoex_LPS_Enter(struct adapter *);
--void rtw_btcoex_LPS_Leave(struct adapter *);
-+void rtw_btcoex_RejectApAggregatedPacket(struct adapter *adapter, u8 enable);
-+void rtw_btcoex_LPS_Enter(struct adapter *adapter);
-+void rtw_btcoex_LPS_Leave(struct adapter *adapter);
- 
- #endif /*  __RTW_BTCOEX_H__ */
-diff --git a/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h b/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
-index c27d07861b8c..df5dbcceea06 100644
---- a/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
-@@ -215,8 +215,8 @@ struct pwrctrl_priv {
- extern void rtw_init_pwrctrl_priv(struct adapter *adapter);
- extern void rtw_free_pwrctrl_priv(struct adapter *adapter);
- 
--s32 rtw_register_task_alive(struct adapter *, u32 task);
--void rtw_unregister_task_alive(struct adapter *, u32 task);
-+s32 rtw_register_task_alive(struct adapter *adapter, u32 task);
-+void rtw_unregister_task_alive(struct adapter *adapter, u32 task);
- extern s32 rtw_register_tx_alive(struct adapter *padapter);
- extern void rtw_unregister_tx_alive(struct adapter *padapter);
- extern s32 rtw_register_cmd_alive(struct adapter *padapter);
--- 
-2.48.1
+Fair. Going to drop that and send v2.
 
+Thanks for the review.
+
+Regards,
+Ahmet Sezgin Duran
