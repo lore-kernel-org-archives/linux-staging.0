@@ -1,34 +1,37 @@
-Received: from forward103d.mail.yandex.net (forward103d.mail.yandex.net [178.154.239.214])
+Received: from forward203d.mail.yandex.net (forward203d.mail.yandex.net [178.154.239.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD5D032E692
-	for <linux-staging@lists.linux.dev>; Sat, 23 May 2026 05:15:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.214
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B18563321BD
+	for <linux-staging@lists.linux.dev>; Sat, 23 May 2026 05:15:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779513332; cv=none; b=OFhA6zz6Ezd0LvcPdir5xJUqs//f5bhq5ncfqZPCWfrNBJvE+AQ4xiYd5cJrOssh/AxZB0u/Qcf2h3fRrM0BPM1z+koHx6Mv5ZZD01ciqlDd73DLWHNNumObNvnMqSABnCBmnEK96XyzeS0qBjAOI4HWC0NrN7jC9T5o7hl/V/g=
+	t=1779513340; cv=none; b=AsDfiL/MS4pNCL+eO/exxxjatLFTAPIzI3UmwYWv3L3CE92ObE+1y9nG239s6wh1fTB1DIsSJ1hANT+H+T9OAjK/R3+rWFanLDKGO8L3fv9qJ5jzkSfUiX+oebsN/jLj0z5cZmLQD6LGEyISG5PPmiJiU7LPB6709S3SnPik9Os=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779513332; c=relaxed/simple;
-	bh=tm+9vvsTReF3573YCo1i3Q/KWcCGV/4bLS6dafRlr9A=;
+	s=arc-20240116; t=1779513340; c=relaxed/simple;
+	bh=jhAZhwYyH3z/UIhyB6X6iqPxCoGsOadQwL2r0JLKflQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tEZyNWgAn+PA/iplo+5T9qjIvw/w+u+rTDNlQy1+J4DsWufnXi7BhARGr0ehIKNl6XDgGZ90lad7pCDJFinYSuyqdB4qFK7xo+TGADV6eTszaH8ebxW9QJFPE3JzA5qMXqjcqrIFGo4Q76U0b4cvYpLKIFU0VFdvrc+ptVpgoLI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net; spf=pass smtp.mailfrom=sezginduran.net; dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b=VspJ2Tlm; arc=none smtp.client-ip=178.154.239.214
+	 MIME-Version; b=ofn929UckVUp8nY3VTpRf3CDH1UnNeHXjxjtUFIKZe9bYkg42LgvJMtqyGqqujrKQOqo4v7mGzIgBowYZ0/weai8v+89iF3FMGgwxFSDdj1E7afNHfbRBk/5r7yYjYQrU3UdHBE7TCPqObWovYDVAq2agwtAHh8pgXi5TpdV36A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net; spf=pass smtp.mailfrom=sezginduran.net; dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b=cLmbDDjY; arc=none smtp.client-ip=178.154.239.218
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sezginduran.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b="VspJ2Tlm"
+	dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b="cLmbDDjY"
+Received: from forward101d.mail.yandex.net (forward101d.mail.yandex.net [IPv6:2a02:6b8:c41:1300:1:45:d181:d101])
+	by forward203d.mail.yandex.net (Yandex) with ESMTPS id BF57782609
+	for <linux-staging@lists.linux.dev>; Sat, 23 May 2026 08:15:26 +0300 (MSK)
 Received: from mail-nwsmtp-smtp-production-main-72.klg.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-72.klg.yp-c.yandex.net [IPv6:2a02:6b8:c42:27a5:0:640:93ca:0])
-	by forward103d.mail.yandex.net (Yandex) with ESMTPS id E2682C006C;
-	Sat, 23 May 2026 08:15:22 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-72.klg.yp-c.yandex.net (smtp) with ESMTPSA id DFNL0fJe2Ko0-oobSE2Ow;
-	Sat, 23 May 2026 08:15:22 +0300
+	by forward101d.mail.yandex.net (Yandex) with ESMTPS id 08CA3C0040;
+	Sat, 23 May 2026 08:15:19 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-72.klg.yp-c.yandex.net (smtp) with ESMTPSA id DFNL0fJe2Ko0-PKEWkJ2t;
+	Sat, 23 May 2026 08:15:18 +0300
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sezginduran.net;
-	s=mail; t=1779513322;
-	bh=r+U23zr9A1yaCGijp+/mJG1U0f98IpdMdSvDaEN04Z0=;
+	s=mail; t=1779513318;
+	bh=fXeUhCQGKvbFptJcpXo4xTKVP8cMRRXUXFFOsgvWJ34=;
 	h=Message-ID:Date:In-Reply-To:Cc:Subject:References:To:From;
-	b=VspJ2TlmqHEjF6POqpguLrlCnsBg8Hb14BejmeIKmjQvOmeDKPoOHlNM10te0kLk+
-	 xMIsJrybf5WRUwpmHlj0/jRA6cuTAUdMHBP60UZPA9KhQJrGdP9IZXKyduLVDIgrCl
-	 kIAlpz5jdXz7ld3bcXN1wP9ORZ2M39Zilt+/2wNE=
+	b=cLmbDDjYqM0/s3FszkQA4FXuZZCutTFV9FhaWenSkoa+ZUNgkqjXYyPjh3/u7TjW5
+	 8RKhbnrkBchgpUHq2WpBWYreGQPLbpNQWy962O+0h206H/Xf+RRsD63KEB4dg4718N
+	 bTbyr9+6+IdwsWEmIjoPWFZRQSPwAT+JtJa1wVZQ=
 Authentication-Results: mail-nwsmtp-smtp-production-main-72.klg.yp-c.yandex.net; dkim=pass header.i=@sezginduran.net
 From: Ahmet Sezgin Duran <ahmet@sezginduran.net>
 To: gregkh@linuxfoundation.org
@@ -36,9 +39,9 @@ Cc: linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Ahmet Sezgin Duran <ahmet@sezginduran.net>
-Subject: [PATCH 4/5] staging: sm750fb: use ARRAY_SIZE macro in fb_find_mode loop
-Date: Sat, 23 May 2026 05:15:08 +0000
-Message-ID: <20260523051509.166152-5-ahmet@sezginduran.net>
+Subject: [PATCH 1/5] staging: sm750fb: remove commented-out forward declarations
+Date: Sat, 23 May 2026 05:15:05 +0000
+Message-ID: <20260523051509.166152-2-ahmet@sezginduran.net>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260523051509.166152-1-ahmet@sezginduran.net>
 References: <20260523051509.166152-1-ahmet@sezginduran.net>
@@ -50,29 +53,36 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The loop in lynxfb_set_fbinfo() iterates over pdb[] and cdb[] using
-a hardcoded bound of 3.
-
-Replace it with ARRAY_SIZE(pdb) so the bound tracks the array.
+The block at the top of sm750.c declares lynxfb_ops_write() and
+lynxfb_ops_read() inside a commented-out #ifdef __BIG_ENDIAN guard.
+Neither function is defined anywhere in the driver, so the block
+is dead. Remove it.
 
 Signed-off-by: Ahmet Sezgin Duran <ahmet@sezginduran.net>
 ---
- drivers/staging/sm750fb/sm750.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/sm750fb/sm750.c | 9 ---------
+ 1 file changed, 9 deletions(-)
 
 diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index fff9c35ee7b0..465615b528fd 100644
+index 89c811e0806c..02db1418476b 100644
 --- a/drivers/staging/sm750fb/sm750.c
 +++ b/drivers/staging/sm750fb/sm750.c
-@@ -764,7 +764,7 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
- 			g_fbmode[index] = g_fbmode[0];
- 	}
+@@ -8,15 +8,6 @@
+ #include "sm750_accel.h"
+ #include "sm750_cursor.h"
  
--	for (i = 0; i < 3; i++) {
-+	for (i = 0; i < ARRAY_SIZE(pdb); i++) {
- 		ret = fb_find_mode(var, info, g_fbmode[index],
- 				   pdb[i], cdb[i], NULL, 8);
- 
+-/*
+- * #ifdef __BIG_ENDIAN
+- * ssize_t lynxfb_ops_write(struct fb_info *info, const char __user *buf,
+- * size_t count, loff_t *ppos);
+- * ssize_t lynxfb_ops_read(struct fb_info *info, char __user *buf,
+- * size_t count, loff_t *ppos);
+- * #endif
+- */
+-
+ /* common var for all device */
+ static int g_hwcursor = 1;
+ static int g_noaccel __ro_after_init;
 -- 
 2.53.0
 
