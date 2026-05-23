@@ -1,94 +1,78 @@
-Received: from mout-y-111.mailbox.org (mout-y-111.mailbox.org [91.198.250.236])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F65739A05E
-	for <linux-staging@lists.linux.dev>; Sat, 23 May 2026 12:31:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.198.250.236
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 417713976A7
+	for <linux-staging@lists.linux.dev>; Sat, 23 May 2026 12:35:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779539476; cv=none; b=t4Q3z83lvSWItBISnJ84KPVW96Qs3dbqruP2N/j2ozLW/lj8AGaKTRIK/BN2/osDqjfWiD1dFsJ6xwpclWRnzKlUJax99sw0RvR/0n8dQZ+AVy2nw53Yt6LAxCO8265ooJmy7BMh6LVhocQfymd+qW0BlWmspG7dRlF1cW4uUEo=
+	t=1779539703; cv=none; b=qMe6evkSWL1mYXUYAExonnu8ASjsObnUpBa7tBSSZ4bLt3u8NgrkNtEJ4uuv7Z040GWpc0MzQ4F2K2YDEFPe+DCG9gmtAzPDIZ94NmRy0wWmcXv2WHb4CUQ8XSpW7Z9MBpBwBOUThmChse56+fAyHYF1XbacRZTOcgDr38Zmhas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779539476; c=relaxed/simple;
-	bh=QNPiWpEz2Z5XgqNBGTpZ6LMK9c4Y5+kbJVGyrKEgSwA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MzjFNs5Kwy9ut5c1L/ofW0jhtgyxqZUvL0f9R9Uv8U26cKzhfhSugZrTREQKUA4MLNmI6Wk7ZFQhoI8Zu20E0RIsnzG2dzfiOE3N5HBkRjJIv80LKjD5acLvDHng5nnoWWa7ieLPVM68a6h0zmx25LH74WupcnLB9A8BPscOEI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=ULPkJPF+; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=fOLY1dyl; arc=none smtp.client-ip=91.198.250.236
+	s=arc-20240116; t=1779539703; c=relaxed/simple;
+	bh=plWOHTlUk0LDx5IeLx07VIBKW3agy6fRsfPXxGGN9Ck=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uIjeWd2xv4Gd/VMubc7d/sZQ4qpIRkDNQAE4vAhw90CD2k9ccIBrsrRLOI6Qir3qJfEECXMPhbO6CVCOTwxofr5u5vRMyNlpQCkVK6rlo7DQf8HcsiH7mjMSJ8WnwzyObM9NDVwrkJcCmOL3TXwyE1sMxg1+Vwp2Hs5+8dVhk9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Ni4OWGFD; arc=none smtp.client-ip=80.241.56.161
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="ULPkJPF+";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="fOLY1dyl"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Ni4OWGFD"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-y-111.mailbox.org (Postfix) with ESMTPS id 4gN1hq6kDrzB0JX;
-	Sat, 23 May 2026 14:31:07 +0200 (CEST)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4gN1nF5lBvz9sdM;
+	Sat, 23 May 2026 14:34:57 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1779539468;
+	t=1779539698;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LLsLXfNBuUEcSb3i6hEXyM5yiB49Lqkxg5QGkTv49XE=;
-	b=ULPkJPF+zJ7/FtV0O8dDULMpKXI3w83pr5ZFJoObYx50lwh9VOeJXXnlmSGh/uUJdrgFn1
-	O9edCKjrcgKlGFHbcKucM6jGCSzRiFZaCz54HVgh3Z2XTZLKHvbzMvd/nh5FZIKumkiyZo
-	u6jCtMHEFAUkESU0qcG0k48uXPFfcaKkk8ddv9hQLFu+kPaNwYbeLo7bTlVzHCvUan0P/f
-	RUjiGR4BheX2n8frSZOKFNOaE3JwDg/RdQ37TH4tynk8ihSyUQAKitVxrKAd8vtAfbPCo8
-	iusPvQKW5C1ZcVzeqed6qy9nq+RLJF2FiNdUSnVEhNu3INB7xxJuPriVAowpEQ==
-From: Oliwier Iwan <oliwieriwan@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1779539466;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LLsLXfNBuUEcSb3i6hEXyM5yiB49Lqkxg5QGkTv49XE=;
-	b=fOLY1dyldSnaxes62qc3mf5xVieRRjx/8I6Pb/d5F5/fvoAaWtXg1EMZ+Qg7ZwjfXmta67
-	dbEF4E65Xk7X/jIbkKueb+iqALRhDLZCYXG5IVSQYEVk+cEK9NNHeclmJlAmGm1Mh3uUAt
-	0G/Vv4/nMXVAJ0ai/O3JZ7ZtIUz/ZL6v3fkSiJwg548CeKRTZ7LMPVXfBzmi/1gmaCSxLi
-	fRLV1dGE4kYppc19lI0HCD+TN78Dlnfov9dzkhfdxCpMn5zDu+HR0FcF7k3Bk194txD2Ha
-	LjiHwaLGD+iqH2wnNQobbcWGvjW7npzCz8qC+27ocYR+CbaarCLRMmyXGif2+Q==
-To: linux-staging@lists.linux.dev
-Cc: gregkh@linuxfoundation.org,
-	straube.linux@gmail.com,
-	linux-kernel@vger.kernel.org,
-	Oliwier Iwan <oliwieriwan@mailbox.org>
-Subject: [PATCH 4/4] staging: rtl8723bs: fix indentation of closing brace
-Date: Sat, 23 May 2026 13:30:43 +0100
-Message-ID: <20260523123043.22907-4-oliwieriwan@mailbox.org>
-In-Reply-To: <20260523123043.22907-1-oliwieriwan@mailbox.org>
-References: <20260523123043.22907-1-oliwieriwan@mailbox.org>
+	bh=KqJLF+81AJ4JSwa/bfSj4ODgiIzYPLKujip4XvZI7zI=;
+	b=Ni4OWGFDZzBVVqOlbu99TP+OpFKo+6Cc+6pm4ozTxqAc1sX7y8KUeYc/LEH2rToEC3kndu
+	Wbi48GipWkuTE32xx1sSrvQebO6x5O0XatWpY2Iw2Fud3+SIOOa0pqodKTP73xtDM3SUxQ
+	EEdM/Pk1oNsw3KwGXRAsE4lefevi4QFiZ5krCEhUYCaN/m9uGRYkTirHWlg6+XXnuY7U8R
+	KOVuws36r5t9C+kwO1EEXqxCzXiAM3p0PoJmyY9iV1zBxsDcC7Wwijmb+B/Oi3W8CGwHxI
+	YhBLbzcPkzE18opO472hx8h2RJ9BMTrKLlJj639gppaDrEfYzEgcEv2IlcYQ1g==
+Date: Sat, 23 May 2026 15:34:54 +0300
+From: Andrei Khomenkov <khomenkov@mailbox.org>
+To: Ashwin Gundarapu <linuxuser509@zohomail.in>
+Cc: gregkh <gregkh@linuxfoundation.org>,
+	linux-kernel <linux-kernel@vger.kernel.org>,
+	linux-staging <linux-staging@lists.linux.dev>
+Subject: Re: [PATCH v2] staging: rtl8723bs: remove unnecessary boolean
+ comparisons in rtw_recv.c
+Message-ID: <ahGe7kCRKJKIlNV7@debian>
+References: <19e546f7b7d.2192aa4a49317.2370843901367566351@zohomail.in>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: 6p9s1t8kcdkx76y3ekh3wubbjfcy4hgi
-X-MBO-RS-ID: 2a9e95e9b011f5896ff
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <19e546f7b7d.2192aa4a49317.2370843901367566351@zohomail.in>
+X-MBO-RS-META: ps9a61w16ph5o8o56gm5mj6r99zy167i
+X-MBO-RS-ID: 7c5192550313c8c9e7f
 
-Fix misaligned closing brace in SetHalODMVar to use
-tabs instead of spaces for correct indentation.
+On Sat, May 23, 2026 at 04:14:12PM +0530, Ashwin Gundarapu wrote:
+> Remove explicit comparisons to true and false. Replace '== false'
+> with the '!' operator and remove '== true' entirely.
+> 
+> Found by checkpatch.pl --strict
+> 
+> Signed-off-by: Ashwin Gundarapu <linuxuser509@zohomail.in>
+> ---
+> v2: Reverted unrelated else/break change as pointed out by Dan Carpenter.
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_recv.c | 56 +++++++++++------------
+>  1 file changed, 27 insertions(+), 29 deletions(-)
 
-Signed-off-by: Oliwier Iwan <oliwieriwan@mailbox.org>
----
- drivers/staging/rtl8723bs/hal/hal_com.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This patch doesn't apply to the staging-next tree. 
 
-diff --git a/drivers/staging/rtl8723bs/hal/hal_com.c b/drivers/staging/rtl8723bs/hal/hal_com.c
-index 665bfec5ffdd..4b4bfa80e37c 100644
---- a/drivers/staging/rtl8723bs/hal/hal_com.c
-+++ b/drivers/staging/rtl8723bs/hal/hal_com.c
-@@ -736,7 +736,7 @@ void SetHalODMVar(
- 				ODM_CmnInfoPtrArrayHook(podmpriv, ODM_CMNINFO_STA_STATUS, psta->mac_id, NULL);
- 
- 				/* spin_unlock_bh(&pHalData->odm_stainfo_lock); */
--		    }
-+			}
- 		}
- 		break;
- 	case HAL_ODM_P2P_STATE:
--- 
-2.54.0
+I have recently done a massive cleanup of this driver and removed
+these boolean comparisons. So please rebase your local tree and check
+if there is anything left that is worth your effort.
 
+Regards,
+Andrei
