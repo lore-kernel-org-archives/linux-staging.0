@@ -1,238 +1,293 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender-pp-o91.zoho.in (sender-pp-o91.zoho.in [103.117.158.91])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79F09335067
-	for <linux-staging@lists.linux.dev>; Sat, 23 May 2026 06:48:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779518906; cv=none; b=EIjW9hcvWsDnX4aeGC7RprtWzEEO/QmcTq83YNLNg6B/rV2XsCfkuic4J8hE+YX51J7LF++1BzwKeQ1PlKikxpy/UGO9FaB7/kd1+FUpCt8JKs1LydOrTFhOHpbyfPOYWhlc/9MkDqBh0UKkvJbIeX7gjI/Uh93KDDQrtLO+SSQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779518906; c=relaxed/simple;
-	bh=ruHWhs/NAmjUK/E6UKPL9THibS9Ul5SiTJSCwblcQ2k=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=F1BCVsO7v4QyggOm3zpCAUe6KE4qHmLrpvNBHgael3LiQm8M1D+auH4tAxTThh+HGhtzwCdH3zHkrIw4J2pS8m+cZdfrKpJEIrVSBiIOi4ucWjZ/xZcqAUKHikKWk70WsTUpL2LTo82Cus9mZISR6D1GXF5QwDXIrdEipuwvL0k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c4uQ3ER5; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D73922236FD
+	for <linux-staging@lists.linux.dev>; Sat, 23 May 2026 07:00:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=103.117.158.91
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779519641; cv=pass; b=d6sm+qGeTO/O0pVw2IdsirmJ6UGNG1huDOsf/UwAiFASkxvIJMh85vxno3PWNjv4FZB9t2URQT5r4I4rEuy2w1pZLT7G5DeP5Z+is9+H2p01EtOYNS8UkaIVnp05+IUf1eAGrJIzSLI4ZU5C96juElxHp63DP4fk8YNw7TgW47g=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779519641; c=relaxed/simple;
+	bh=NzGjdmXmB650qKL72and59meKOtDMY77L1Gq/vPiqQo=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:Subject:MIME-Version:
+	 Content-Type; b=fiUbfEmUtU5Fr1l+3ldvNc1P91rQdC/BCn8NHu14ANp4af0Mp5XFn7omPZp5UtJRg3XHMoei5WZSXOnnAzGtAr8rszBdv2HzWYF44KsXAuA1Zr+b29z+dClMzGoEL1VfPNHX719DWukACozDIHNqhY6mlLcrZ6y2/I2743CfDk8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in; spf=pass smtp.mailfrom=zohomail.in; dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b=b2lcopbh; arc=pass smtp.client-ip=103.117.158.91
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.in
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c4uQ3ER5"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-687e7edaafeso1578445a12.1
-        for <linux-staging@lists.linux.dev>; Fri, 22 May 2026 23:48:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779518902; x=1780123702; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uQNJLijS1LXC3DyCF2fRyHh6+k3ll0IPAv+Qb62GcJI=;
-        b=c4uQ3ER5uF9l/niTmnmzLc19We8+dpFID00vlElJr0PXa+nhcNEU9Dozi9k/5a7H3s
-         MT84prwgKPrFu8CLO1SJ6TTpS8BnNoq/iwh2Fpd1MlTMkem8++URch8uEtcGdg8+GqPu
-         KCgOFS2PwW2Ta95K6IYHW/E5wgVTpvZk0wI0VHSO7kPHqvQcH3OYzneRGoROSNOVhlvc
-         g4VgwwpUW7HrOsA8ciBCQqM8WA0JemMoVbtuhtBVDBZAq13rO5ajBXny6kL0r3NtKoTf
-         RXo2Eq3LXzOaHu9GFcP2WnT5XVLZl58BmfO2ZpvYGdeqI8ky6OgdjV7yCR3fwR1gLxD9
-         siIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779518902; x=1780123702;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=uQNJLijS1LXC3DyCF2fRyHh6+k3ll0IPAv+Qb62GcJI=;
-        b=dnlIJxeWngAFHA+2S4zS1BHgXb/CY4NCx39afymXby2N/OQy72cx8rRYjnZuSKncun
-         0ND+RWRzTs6bvvhvtT/MoZrFRTkRzNTRAKeu+yt72gGmPLWq3eph/9B2Nz14Pxj47Udc
-         MDxuFXnmODZUB2/GEA+76TnxyAFZGbMaG0EZ3Eu3Tqng6eRj836e++x1dqdKuMY6Tr57
-         guV9hpMonN3el7ohcZ2vJgTDxW+v1i7DX1N1xbB+YuUAqF++pNoKA6rBu155aZnkcCCb
-         hZIAE8Ya09FMOF9xsfjifNKrfWujWH/RVdN36B6zi97yiwOQ29cnYJT1dkxMXUV2Ncbc
-         UwfQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9mlcd4wIul4kXNg12HKdkyDDONjuImaeHIKP0C3dQ2h9bBGpE1+jFb62DWWEkioJrq2QAsQ3Hsr2FjWrBz@lists.linux.dev
-X-Gm-Message-State: AOJu0YycVYmb4GzrCUao7qkolZEvSAHynXH9uAJb1oCz8wyUUorQTdPK
-	FiBs9RmC30YEA9XBFQfX/J5oxDeGMxffvTtSS+EpMrMSWmK7mj2ee5tn
-X-Gm-Gg: Acq92OFG36uoKk6N5PMqqOPUP0f9725U1BlTnu0yWm3MNZehlQLsGdSGcAUlLGla313
-	MfxEsZK0etha7wK2OXkfuoo2djaR7niQTTYyelEhYA7qo36WnJ4c+zvuYMqOw8c7x4tq55i5xoV
-	n6iMPwEnjzeI4I7AkKLlIHiE+JUdWuLflWoDHGrHgRJJyAgigOogJE6EpNJCjilL4z4eYKggGin
-	6M6xtt3uvZwnyvZ/OdQzkkV9NM36JsMp92dChAHL82R4HfZjsBV5JenFpO9KcnmEJ+kpLA3bae8
-	Ap2Nhhd6bY5rtIUhL1qjQ3FVlzdVrZB/JAK2wB3YEnJOdfgYYbVkHpZ7pC92dEYggWXBiDasUNF
-	VyO/WI1yAkaJeMM2edcDANY/kjiSyNNxFoVJtl6XyWOQbFm1HLDwrkrP20XEmIf8r+mWcCqJwFD
-	OhUVDslWC3y6yN
-X-Received: by 2002:a05:6402:3896:b0:680:1e7:cfa4 with SMTP id 4fb4d7f45d1cf-6889cc78d76mr3740625a12.24.1779518902334;
-        Fri, 22 May 2026 23:48:22 -0700 (PDT)
-Received: from xeon ([188.163.112.61])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-688bb62b6dfsm1532272a12.30.2026.05.22.23.48.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 May 2026 23:48:20 -0700 (PDT)
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-To: Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: linux-media@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/1] staging: media: tegra-video: vi: Improve media graph building logic
-Date: Sat, 23 May 2026 09:47:50 +0300
-Message-ID: <20260523064750.35553-2-clamor95@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260523064750.35553-1-clamor95@gmail.com>
-References: <20260523064750.35553-1-clamor95@gmail.com>
+	dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b="b2lcopbh"
+ARC-Seal: i=1; a=rsa-sha256; t=1779519621; cv=none; 
+	d=zohomail.in; s=zohoarc; 
+	b=WwNDykNZx0fl3xC1JpEloBINSVjyGDGYIUSSw08iWRoiQakjn9keQVxIqzaz8ceV2tfmcDVMKIdtx1cbD6x/Wdb9OAoW4NiWkPioRNbNWO5aZCN+yOGapVBD2oKK6SynpAEA++MOekdIi8m9D0u88uo7kH0zGRan6ypkl+5dfAc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in; s=zohoarc; 
+	t=1779519621; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=1lAW2mBirdjQqvFIUiVzJki5ZZezTHsWf/WP8lMLB6E=; 
+	b=VrcMQNp4T2ObEhL0zrRCAfyesD4OEV7vGFPw2fd6lDGFZnbpCtl0XtzvBgzW44vjwNJwzCk6maD0wgF+KV00yAwXypthK98WaErMKAr2kpHdIRh73yWp/sMeEot60cgmM+048oK6UfVt9MK92x2Oz/yez9uRa1IqHJGkidHl8a8=
+ARC-Authentication-Results: i=1; mx.zohomail.in;
+	dkim=pass  header.i=zohomail.in;
+	spf=pass  smtp.mailfrom=linuxuser509@zohomail.in;
+	dmarc=pass header.from=<linuxuser509@zohomail.in>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1779519621;
+	s=zoho; d=zohomail.in; i=linuxuser509@zohomail.in;
+	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=1lAW2mBirdjQqvFIUiVzJki5ZZezTHsWf/WP8lMLB6E=;
+	b=b2lcopbh9RA1LrDpRhsUIsXLM+no8YsOJawGbKd6VD95sV2Wng9mMasW39qaiWkw
+	RdPHuda+N7O1fK4vLSiIrCIRvOqa6B6tCW0mmV38NDQnzZrVYlml9OKU5IGnDRmux33
+	YWlOoGXWZDTQ+Oj99Z+2HPi0hPAwymnTc/xFmzQs=
+Received: from mail.zoho.in by mx.zoho.in
+	with SMTP id 1779519620033754.5316399912602; Sat, 23 May 2026 12:30:20 +0530 (IST)
+Received: from  [106.219.3.73] by mail.zoho.in
+	with HTTP;Sat, 23 May 2026 12:30:20 +0530 (IST)
+Date: Sat, 23 May 2026 12:30:20 +0530
+From: Ashwin Gundarapu <linuxuser509@zohomail.in>
+To: "gregkh" <gregkh@linuxfoundation.org>
+Cc: "linux-staging" <linux-staging@lists.linux.dev>,
+	"linux-kernel" <linux-kernel@vger.kernel.org>
+Message-ID: <19e53a283b8.4f2498e045168.7106069608127124839@zohomail.in>
+In-Reply-To: 
+Subject: [PATCH] staging: rtl8723bs: remove unnecessary boolean comparisons
+ in rtw_recv.c
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
 
-The existing tegra_vi_graph_build function relies heavily on a one-to-one
-match between Device Tree nodes and media pad links. While this works for
-simpler configurations, it causes issues when Device Tree nodes do not
-match media pad link logic (e.g., mt9m114). Switch to the
-media_entity_get_fwnode_pad helper to verify and retrieve the correct pad
-linked to an endpoint, rather than assuming the endpoint ID matches the
-pad ID.
+From: Ashwin Gundarapu <linuxuser509@zohomail.in>
+Date: Sat, 23 May 2026 12:28:02 +0530
+Subject: [PATCH] staging: rtl8723bs: remove unnecessary boolean comparisons in
+ rtw_recv.c
 
-Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+Remove explicit comparisons to true and false. Replace '== false'
+with the '!' operator and remove '== true' entirely.
+
+Found by checkpatch.pl --strict
+
+Signed-off-by: Ashwin Gundarapu <linuxuser509@zohomail.in>
 ---
- drivers/staging/media/tegra-video/vi.c | 78 ++++++++++++--------------
- 1 file changed, 35 insertions(+), 43 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_recv.c | 59 +++++++++++------------
+ 1 file changed, 28 insertions(+), 31 deletions(-)
 
-diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-index f14cdc7b5211..24e4bd438678 100644
---- a/drivers/staging/media/tegra-video/vi.c
-+++ b/drivers/staging/media/tegra-video/vi.c
-@@ -1468,7 +1468,6 @@ static int tegra_vi_graph_build(struct tegra_vi_channel *chan,
- 	struct tegra_vi *vi = chan->vi;
- 	struct tegra_vi_graph_entity *ent;
- 	struct fwnode_handle *ep = NULL;
--	struct v4l2_fwnode_link link;
- 	struct media_entity *local = entity->entity;
- 	struct media_entity *remote;
- 	struct media_pad *local_pad;
-@@ -1478,70 +1477,64 @@ static int tegra_vi_graph_build(struct tegra_vi_channel *chan,
+diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
+index f78194d508df..3289a925bd5a 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_recv.c
++++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
+@@ -382,7 +382,7 @@ static signed int recvframe_chkmic(struct adapter *adapter,  union recv_frame *p
  
- 	dev_dbg(vi->dev, "creating links for entity %s\n", local->name);
+ 				/* psecuritypriv->dot118021XGrpKeyid, pmlmeinfo->key_index, rxdata_key_idx); */
+
+-				if (psecuritypriv->binstallGrpkey == false) {
++				if (!psecuritypriv->binstallGrpkey) {
+ 					res = _FAIL;
+ 					goto exit;
+ 				}
+@@ -406,10 +406,10 @@ static signed int recvframe_chkmic(struct adapter *adapter,  union recv_frame *p
+ 			}
  
--	while (1) {
--		ep = fwnode_graph_get_next_endpoint(entity->asd.match.fwnode,
--						    ep);
--		if (!ep)
--			break;
-+	fwnode_graph_for_each_endpoint(entity->asd.match.fwnode, ep) {
-+		struct fwnode_handle *remote_parent __free(fwnode_handle) = NULL;
-+		struct fwnode_handle *sink_ep __free(fwnode_handle) = NULL;
-+		int src_idx, sink_idx;
- 
--		ret = v4l2_fwnode_parse_link(ep, &link);
--		if (ret < 0) {
--			dev_err(vi->dev, "failed to parse link for %pOF: %d\n",
--				to_of_node(ep), ret);
-+		src_idx = media_entity_get_fwnode_pad(local, ep,
-+						      MEDIA_PAD_FL_SOURCE);
-+		if (src_idx < 0) {
-+			dev_dbg(vi->dev, "no source pad found for %pfw\n", ep);
- 			continue;
- 		}
- 
--		if (link.local_port >= local->num_pads) {
--			dev_err(vi->dev, "invalid port number %u on %pOF\n",
--				link.local_port, to_of_node(link.local_node));
--			v4l2_fwnode_put_link(&link);
--			ret = -EINVAL;
--			break;
-+		remote_parent = fwnode_graph_get_remote_port_parent(ep);
-+		if (!remote_parent) {
-+			dev_dbg(vi->dev, "no remote parent found for %pfw\n",
-+				ep);
-+			continue;
- 		}
- 
--		local_pad = &local->pads[link.local_port];
-+		local_pad = &local->pads[src_idx];
- 		/* Remote node is vi node. So use channel video entity and pad
- 		 * as remote/sink.
- 		 */
--		if (link.remote_node == of_fwnode_handle(vi->dev->of_node)) {
-+		if (remote_parent == of_fwnode_handle(vi->dev->of_node)) {
- 			remote = &chan->video.entity;
- 			remote_pad = &chan->pad;
- 			goto create_link;
- 		}
- 
--		/*
--		 * Skip sink ports, they will be processed from the other end
--		 * of the link.
--		 */
--		if (local_pad->flags & MEDIA_PAD_FL_SINK) {
--			dev_dbg(vi->dev, "skipping sink port %pOF:%u\n",
--				to_of_node(link.local_node), link.local_port);
--			v4l2_fwnode_put_link(&link);
--			continue;
--		}
--
- 		/* find the remote entity from notifier list */
- 		ent = tegra_vi_graph_find_entity(&chan->notifier.done_list,
--						 link.remote_node);
-+						 remote_parent);
- 		if (!ent) {
--			dev_err(vi->dev, "no entity found for %pOF\n",
--				to_of_node(link.remote_node));
--			v4l2_fwnode_put_link(&link);
-+			fwnode_handle_put(ep);
-+			dev_err(vi->dev, "no entity found for %pfw\n",
-+				remote_parent);
- 			ret = -ENODEV;
- 			break;
- 		}
- 
- 		remote = ent->entity;
--		if (link.remote_port >= remote->num_pads) {
--			dev_err(vi->dev, "invalid port number %u on %pOF\n",
--				link.remote_port,
--				to_of_node(link.remote_node));
--			v4l2_fwnode_put_link(&link);
--			ret = -EINVAL;
--			break;
-+
-+		sink_ep = fwnode_graph_get_remote_endpoint(ep);
-+		if (!sink_ep) {
-+			dev_dbg(vi->dev, "no sink ep found for %pfw\n",
-+				ep);
-+			continue;
-+		}
-+
-+		sink_idx = media_entity_get_fwnode_pad(remote, sink_ep,
-+						       MEDIA_PAD_FL_SINK);
-+		if (sink_idx < 0) {
-+			dev_dbg(vi->dev, "no sink pad found for %pfw\n",
-+				sink_ep);
-+			continue;
- 		}
- 
--		remote_pad = &remote->pads[link.remote_port];
-+		remote_pad = &remote->pads[sink_idx];
- 
- create_link:
- 		dev_dbg(vi->dev, "creating %s:%u -> %s:%u link\n",
-@@ -1551,8 +1544,8 @@ static int tegra_vi_graph_build(struct tegra_vi_channel *chan,
- 		ret = media_create_pad_link(local, local_pad->index,
- 					    remote, remote_pad->index,
- 					    link_flags);
--		v4l2_fwnode_put_link(&link);
- 		if (ret < 0) {
-+			fwnode_handle_put(ep);
- 			dev_err(vi->dev,
- 				"failed to create %s:%u -> %s:%u link: %d\n",
- 				local->name, local_pad->index,
-@@ -1561,7 +1554,6 @@ static int tegra_vi_graph_build(struct tegra_vi_channel *chan,
+
+-			if (bmic_err == true) {
++			if (bmic_err) {
+ 				/*  double check key_index for some timing issue , */
+ 				/*  cannot compare with psecuritypriv->dot118021XGrpKeyid also cause timing issue */
+-				if ((is_multicast_ether_addr(prxattrib->ra) == true)  && (prxattrib->key_index != pmlmeinfo->key_index))
++				if ((is_multicast_ether_addr(prxattrib->ra))  && (prxattrib->key_index != pmlmeinfo->key_index))
+ 					brpt_micerror = false;
+
+ 				if (prxattrib->bdecrypted && brpt_micerror)
+@@ -463,7 +463,7 @@ static union recv_frame *decryptor(struct adapter *padapter, union recv_frame *p
  		}
  	}
+
+-	if ((prxattrib->encrypt > 0) && ((prxattrib->bdecrypted == 0) || (psecuritypriv->sw_decrypt == true))) {
++	if ((prxattrib->encrypt > 0) && ((prxattrib->bdecrypted == 0) || (psecuritypriv->sw_decrypt))) {
+ 		psecuritypriv->hw_decrypted = false;
+
+ 		switch (prxattrib->encrypt) {
+@@ -713,8 +713,8 @@ static signed int sta2sta_data_frame(struct adapter *adapter, union recv_frame *
+ 	u8 *sta_addr = NULL;
+ 	signed int bmcast = is_multicast_ether_addr(pattrib->dst);
  
--	fwnode_handle_put(ep);
- 	return ret;
- }
+-	if ((check_fwstate(pmlmepriv, WIFI_ADHOC_STATE) == true) ||
+-		(check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) == true)) {
++	if ((check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)) ||
++		(check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE))) {
+
+ 		/*  filter packets that SA is myself or multicast or broadcast */
+ 		if (!memcmp(myhwaddr, pattrib->src, ETH_ALEN)) {
+@@ -736,7 +736,7 @@ static signed int sta2sta_data_frame(struct adapter *adapter, union recv_frame *
  
+ 		sta_addr = pattrib->src;
+ 
+-	} else if (check_fwstate(pmlmepriv, WIFI_STATION_STATE) == true) {
++	} else if (check_fwstate(pmlmepriv, WIFI_STATION_STATE)) {
+ 		/*  For Station mode, sa and bssid should always be BSSID, and DA is my mac-address */
+ 		if (memcmp(pattrib->bssid, pattrib->src, ETH_ALEN)) {
+ 			ret = _FAIL;
+@@ -744,7 +744,7 @@ static signed int sta2sta_data_frame(struct adapter *adapter, union recv_frame *
+ 		}
+ 
+ 		sta_addr = pattrib->bssid;
+-	} else if (check_fwstate(pmlmepriv, WIFI_AP_STATE) == true) {
++	} else if (check_fwstate(pmlmepriv, WIFI_AP_STATE)) {
+ 		if (bmcast) {
+ 			/*  For AP mode, if DA == MCAST, then BSSID should be also MCAST */
+ 			if (!is_multicast_ether_addr(pattrib->bssid)) {
+@@ -761,7 +761,7 @@ static signed int sta2sta_data_frame(struct adapter *adapter, union recv_frame *
+ 			sta_addr = pattrib->src;
+ 		}
+ 
+-	} else if (check_fwstate(pmlmepriv, WIFI_MP_STATE) == true) {
++	} else if (check_fwstate(pmlmepriv, WIFI_MP_STATE)) {
+ 		memcpy(pattrib->dst, GetAddr1Ptr(ptr), ETH_ALEN);
+ 		memcpy(pattrib->src, GetAddr2Ptr(ptr), ETH_ALEN);
+ 		memcpy(pattrib->bssid, GetAddr3Ptr(ptr), ETH_ALEN);
+@@ -800,9 +800,9 @@ static signed int ap2sta_data_frame(struct adapter *adapter, union recv_frame *p
+ 	u8 *myhwaddr = myid(&adapter->eeprompriv);
+ 	signed int bmcast = is_multicast_ether_addr(pattrib->dst);
+ 
+-	if ((check_fwstate(pmlmepriv, WIFI_STATION_STATE) == true) &&
+-	    (check_fwstate(pmlmepriv, _FW_LINKED) == true ||
+-	     check_fwstate(pmlmepriv, _FW_UNDER_LINKING) == true)
++	if ((check_fwstate(pmlmepriv, WIFI_STATION_STATE)) &&
++	    (check_fwstate(pmlmepriv, _FW_LINKED) ||
++	     check_fwstate(pmlmepriv, _FW_UNDER_LINKING))
+ 		) {
+ 
+ 		/*  filter packets that SA is myself or multicast or broadcast */
+@@ -847,8 +847,8 @@ static signed int ap2sta_data_frame(struct adapter *adapter, union recv_frame *p
+ 			goto exit;
+ 		}
+ 
+-	} else if ((check_fwstate(pmlmepriv, WIFI_MP_STATE) == true) &&
+-		     (check_fwstate(pmlmepriv, _FW_LINKED) == true)) {
++	} else if ((check_fwstate(pmlmepriv, WIFI_MP_STATE)) &&
++		     (check_fwstate(pmlmepriv, _FW_LINKED))) {
+ 		memcpy(pattrib->dst, GetAddr1Ptr(ptr), ETH_ALEN);
+ 		memcpy(pattrib->src, GetAddr2Ptr(ptr), ETH_ALEN);
+ 		memcpy(pattrib->bssid, GetAddr3Ptr(ptr), ETH_ALEN);
+@@ -866,7 +866,7 @@ static signed int ap2sta_data_frame(struct adapter *adapter, union recv_frame *p
+ 		}
+
+
+-	} else if (check_fwstate(pmlmepriv, WIFI_AP_STATE) == true) {
++	} else if (check_fwstate(pmlmepriv, WIFI_AP_STATE)) {
+ 		/* Special case */
+ 		ret = RTW_RX_HANDLED;
+ 		goto exit;
+@@ -903,7 +903,7 @@ static signed int sta2ap_data_frame(struct adapter *adapter, union recv_frame *p
+ 	unsigned char *mybssid  = get_bssid(pmlmepriv);
+ 	signed int ret = _SUCCESS;
+ 
+-	if (check_fwstate(pmlmepriv, WIFI_AP_STATE) == true) {
++	if (check_fwstate(pmlmepriv, WIFI_AP_STATE)) {
+ 		/* For AP mode, RA =BSSID, TX =STA(SRC_ADDR), A3 =DST_ADDR */
+ 		if (memcmp(pattrib->bssid, mybssid, ETH_ALEN)) {
+ 			ret = _FAIL;
+@@ -1597,7 +1597,7 @@ static signed int wlanhdr_to_ethhdr(union recv_frame *precvframe)
+ 	eth_type = ntohs(be_tmp); /* pattrib->ether_type */
+ 	pattrib->eth_type = eth_type;
+
+-	if ((check_fwstate(pmlmepriv, WIFI_MP_STATE) == true)) {
++	if ((check_fwstate(pmlmepriv, WIFI_MP_STATE))) {
+ 		ptr += rmv_len;
+ 		*ptr = 0x87;
+ 		*(ptr + 1) = 0x12;
+@@ -1841,8 +1841,7 @@ static int enqueue_reorder_recvframe(struct recv_reorder_ctrl *preorder_ctrl, un
+ 			/* Duplicate entry is found!! Do not insert current entry. */
+ 			/* spin_unlock_irqrestore(&ppending_recvframe_queue->lock, irql); */
+ 			return false;
+-		else
+-			break;
++		break;
+ 
+ 	}
+ 
+@@ -1950,8 +1949,8 @@ static int recv_indicatepkts_in_order(struct adapter *padapter, struct recv_reor
+ 
+ 			/* indicate this recv_frame */
+ 			if (!pattrib->amsdu) {
+-				if ((padapter->bDriverStopped == false) &&
+-				    (padapter->bSurpriseRemoved == false))
++				if (!padapter->bDriverStopped &&
++				    !padapter->bSurpriseRemoved)
+ 					rtw_recv_indicatepkt(padapter, prframe);/* indicate this recv_frame */
+ 
+ 			} else if (pattrib->amsdu == 1) {
+@@ -1991,8 +1990,7 @@ static int recv_indicatepkt_reorder(struct adapter *padapter, union recv_frame *
+ 		wlanhdr_to_ethhdr(prframe);
+ 
+ 		if (pattrib->qos != 1) {
+-			if ((padapter->bDriverStopped == false) &&
+-			    (padapter->bSurpriseRemoved == false)) {
++			if (!padapter->bDriverStopped && !padapter->bSurpriseRemoved) {
+ 				rtw_recv_indicatepkt(padapter, prframe);
+ 				return _SUCCESS;
+ 
+@@ -2002,7 +2000,7 @@ static int recv_indicatepkt_reorder(struct adapter *padapter, union recv_frame *
+ 
+ 		}
+ 
+-		if (preorder_ctrl->enable == false) {
++		if (!preorder_ctrl->enable) {
+ 			/* indicate this recv_frame */
+ 			preorder_ctrl->indicate_seq = pattrib->seq_num;
+ 
+@@ -2013,7 +2011,7 @@ static int recv_indicatepkt_reorder(struct adapter *padapter, union recv_frame *
+ 			return _SUCCESS;
+ 		}
+ 	} else if (pattrib->amsdu == 1) { /* temp filter -> means didn't support A-MSDUs in a A-MPDU */
+-		if (preorder_ctrl->enable == false) {
++		if (!preorder_ctrl->enable) {
+ 			preorder_ctrl->indicate_seq = pattrib->seq_num;
+ 
+ 			retval = amsdu_to_msdu(padapter, prframe);
+@@ -2099,8 +2097,7 @@ static int process_recv_indicatepkts(struct adapter *padapter, union recv_frame
+ 
+ 		if (recv_indicatepkt_reorder(padapter, prframe) != _SUCCESS) { /*  including perform A-MPDU Rx Ordering Buffer Control */
+ 
+-			if ((padapter->bDriverStopped == false) &&
+-			    (padapter->bSurpriseRemoved == false)) {
++			if (!padapter->bDriverStopped && !padapter->bSurpriseRemoved) {
+ 				retval = _FAIL;
+ 				return retval;
+ 			}
+@@ -2110,7 +2107,7 @@ static int process_recv_indicatepkts(struct adapter *padapter, union recv_frame
+ 		if (retval != _SUCCESS)
+ 			return retval;
+ 
+-		if ((padapter->bDriverStopped == false) && (padapter->bSurpriseRemoved == false)) {
++		if (!padapter->bDriverStopped && !padapter->bSurpriseRemoved) {
+ 			/* indicate this recv_frame */
+ 			rtw_recv_indicatepkt(padapter, prframe);
+ 		} else {
+@@ -2199,7 +2196,7 @@ static int recv_func(struct adapter *padapter, union recv_frame *rframe)
+ 		/* check if need to enqueue into uc_swdec_pending_queue*/
+ 		if (check_fwstate(mlmepriv, WIFI_STATION_STATE) &&
+ 			!is_multicast_ether_addr(prxattrib->ra) && prxattrib->encrypt > 0 &&
+-			(prxattrib->bdecrypted == 0 || psecuritypriv->sw_decrypt == true) &&
++			(!prxattrib->bdecrypted || psecuritypriv->sw_decrypt) &&
+ 			psecuritypriv->ndisauthtype == Ndis802_11AuthModeWPAPSK &&
+ 			!psecuritypriv->busetkipkey) {
+ 			rtw_enqueue_recvframe(rframe, &padapter->recvpriv.uc_swdec_pending_queue);
+@@ -2286,8 +2283,8 @@ static void rtw_signal_stat_timer_hdl(struct timer_list *t)
+ 			}
+ 		}
+
+-		if (check_fwstate(&adapter->mlmepriv, _FW_UNDER_SURVEY) == true ||
+-		    check_fwstate(&adapter->mlmepriv, _FW_LINKED) == false
++		if (check_fwstate(&adapter->mlmepriv, _FW_UNDER_SURVEY) ||
++		    !check_fwstate(&adapter->mlmepriv, _FW_LINKED)
+ 		) {
+ 			goto set_timer;
+ 		}
 -- 
-2.51.0
+2.43.0
+
+
 
