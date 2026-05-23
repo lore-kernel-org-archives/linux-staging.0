@@ -1,80 +1,72 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 805A05CDF1
-	for <linux-staging@lists.linux.dev>; Sat, 23 May 2026 09:50:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07F1C37DAA0
+	for <linux-staging@lists.linux.dev>; Sat, 23 May 2026 10:07:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779529854; cv=none; b=E92YhpIcXuuwDNrvps0gICfy91FYr2bIPq6HV3+HwoIHfdjIV3z5ZBppqGsYXpiXfkLqAHLYVGbcMNi5msxBSMPoRPohlD4xLAnGF7DM9iKw8Lrd6fCew9waauarYY100wy8KjkLeaF97N5KTZLuMeDWodKT7251U+M806KQCMA=
+	t=1779530876; cv=none; b=SlWa65/J/3v27gq6yLWDpu6kGY/fotA1gFGj3y2pczA2pKE/MJBHIH25858doeVULirwCQz1xBRlOpuh1Pwj7KL0wkUXH5h72aTd5mYjcIISd+OmmK78GuZBr8BmGrD+acaeSJzYa4//2cIPG1P/wDTMa3aNZbp7F1hvnIrOAtw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779529854; c=relaxed/simple;
-	bh=op/oYI9cujE4qxkGg0xcbWSC937583m70UoKSDY64DE=;
+	s=arc-20240116; t=1779530876; c=relaxed/simple;
+	bh=yUw57AUKGTJWPjso2A08rWzGSwCN5ccv4SOQJIMQU8s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BVnwC3f14/GTSfSf0msVa0gdAH1P8K7cWe7WRd/YDeEALsqo+VMvWnPKNnpywwTJJYWiJHD9DRKketcpmxv774tdJpBF5iNa+Ycn5t+RPN8g8D+UjZEKvtbDyBRzRACySuO3pzBr1z3ISQDVMh/ZrtDUCyqOoBEKx/a2XLyuXJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BA0Nguym; arc=none smtp.client-ip=209.85.128.48
+	 Content-Type:Content-Disposition:In-Reply-To; b=qO2253jh18/xJiobrhVJ+W7qlXCE3yEdNgZoULr2cG6BRrw7dsN05UPjLtJZp4kWdEzKQG4jkkneTqLFdge7kcqrw7Qix8K9DE80y0LwmkYw0qFNOyilxZAV2QpH5LsUtvZbcX8YBR6m4JUY5ArOPtt2i5tykf/Vi7S7iKdKsNE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CZj01HPj; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BA0Nguym"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-49042aeeb75so23329715e9.1
-        for <linux-staging@lists.linux.dev>; Sat, 23 May 2026 02:50:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CZj01HPj"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-49040362e4aso22939945e9.0
+        for <linux-staging@lists.linux.dev>; Sat, 23 May 2026 03:07:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779529851; x=1780134651; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1779530873; x=1780135673; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+8oNBuIRpmD0KT2DdPdxp+0VGy8FUnSVWpa8pcQ3jfU=;
-        b=BA0NguymPXdI7zdY/0zneJcPtFtpzJ0QqzTrBJbHGrvorh4N/42rKNE/C8wB1mWOji
-         mbFKNmLyV56L2gzqjgydjimt+vS+oIid9A4J7a86SKoQLhp9Sxi+HqmAmMvkTDH17XUg
-         m2XQJDCRn2Srts5jQReU0hvsj2dKsrCoeeYhyRgjg4EtPkEKJi9eFRVVzsddbc3ssbmp
-         fVT1YEv/Oa3d1KE+WqSLkg17oXJuLfVnV/oXQFrleezWGA6YuUE+e/vQ2EafYfWmb/Sg
-         s5+SIhIycQ6Zf4mHdRT+fCaPI81gPeUYxoWivV2eZJpTtJ+1l5ofdMLJrkcSw1QYracO
-         Rilw==
+        bh=rBbxljADjESEwUhSP3sGL1Ty2LtZCjUvSCp2wxLG23Q=;
+        b=CZj01HPj8LkIwkO/x+3aG8T34tbxNiAsMS3H0shHvHT+jjSGplr+BHShnooIB43US/
+         2mPiI2nk5IxXACBt1H0meaNxU5zBCCClsssYytZr/SM+t6NdUTYsAu6AGMxSZHVSlxkI
+         RzxpKje5Y5upI3H4Z6/jL62mv+oSoQdO752JN3quDXAZaXuI3yVUT1t+zFZTtW+eNiLT
+         XAnH4GUJXX1hp7aFhmjGH1zeP9NCpfHYhSliLWH8qIqDYH+w5XJZLn8+n+65V36Tp1Dm
+         HCW8G/LvYm326t5Jma4Tb4LyAv15stuKXl9/hDo6KFj75ZNnlSV1cxj38dd5yOmk8Kpg
+         nnPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779529851; x=1780134651;
+        d=1e100.net; s=20251104; t=1779530873; x=1780135673;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+8oNBuIRpmD0KT2DdPdxp+0VGy8FUnSVWpa8pcQ3jfU=;
-        b=CiJu/a3HV5qCL+755E+ogqXIVOLSjyn1z2TbZKeFLCs+9PeNiIKzrXuJCI+T6QkWVs
-         CiiqZo2aIdd8uAP7YAZynYf0af3O6LPG+QhM8fz42J48FUzNtjFxOL08pa2DfXjSFUZD
-         6mjZ/Lu/J+Wm2koOSk/gG64K08OxarRKZZeP2MjJ318hbfHmTjy90iA2XrfVETt4ju4j
-         z4VDjTHLD9bVt2GYmdB9YtAR5cTqV3LzVWhxhyZcQhthNHLS5i3pUnjyRJDDy5zXFDXu
-         tiblSs6q2DTjyD100xuVmOXfLAInUsS2VU10QrPpkSEzR49+CwqAldVT5sJVR7+a6fJJ
-         Vnzw==
-X-Forwarded-Encrypted: i=1; AFNElJ+y8jrDAHcQ6UvEGvvgfemveq+ndejRuBDWD6bW36dqVNeWNu3dRpQKrfMGBV39Q7Rul16ER445Xhgo6fIp@lists.linux.dev
-X-Gm-Message-State: AOJu0YxQGTd+ToOjfFjqAe1lcXUehfVixu0esze7ujKzN1nR+Ck8oGwE
-	cunBIa1FHpwIV3Ly04Xx+Xw4T0+LiikZHzg0cGv0gH73Nn5hqBtPX8Zd
-X-Gm-Gg: Acq92OEAn5nF8qHZH0XGKudl/TVjXedm44jOY6Wvesb5XKYM2rk1qsoptJkAUgjN/OS
-	rLpgzvI7K9X8KJj3+bq/M1accTWYlILJWbhxppZKwNs4FohWPcibqLQ5yjqUG2xlMTS4ffbPuLt
-	VMv4vBOQ+7vEjU4lxLY9Orh7RpRGRUTl2lJkJmoxIjPgRM9WQfWu7Od+1tkee9MOhPBfle3VKc7
-	FlX4EMm7Ho+hsuDhRnNWlmtsBDFluWitMv0FGcm9MOEMuoRODoDQB548fO95okr3zLeNUiGZIT7
-	2rKI4V4uYn0Psv8HnEFNZUnJok8g22siMM7nTL6F26oZkVdqD+/Z4hW7Ncw7L3lXMdqTEkRWcP8
-	yamzyAYGuIfiovQkSnMQhnTE6EVNSQR6RzT9SXsQyMwIsM6tjdVf3PTfbddQpzwaxPb8+JtO4Td
-	KQsLR70EuNL/MGM/qZZDEX2p8=
-X-Received: by 2002:a05:600c:4fd0:b0:490:3dc7:9778 with SMTP id 5b1f17b1804b1-490426d3f0dmr102086255e9.23.1779529851055;
-        Sat, 23 May 2026 02:50:51 -0700 (PDT)
+        bh=rBbxljADjESEwUhSP3sGL1Ty2LtZCjUvSCp2wxLG23Q=;
+        b=Wod2B956lH6ene2o00/f8eHGlaB/7cIy1hjPHtFmEVACmemudo5jiSWAwPYOR3Wppz
+         yaWAFMCsMAiXXJoNuNahN7blKMs37BWksrIUloMKzGSglr4EG3C9D+wTC3W5PvLxawM7
+         16mbGTgI6ryeOdEIuZcvNaiMAMMolfmGdDpODK7nffLXm63yoasRlv984Tvd94RhFgeG
+         dfcMlgaCo0/lb/Cfi2sH9xXowj6IKQgzTCHUK6fR9e7Aoyl32dIsrIohiQVJkOMSIoNK
+         M0fXPiEp3ihM+peKFJIvyWiQPGznEX2g9Ga7uvJd3RHHIwNbkngnW8nzVTF5ahwd1A7t
+         7e4A==
+X-Forwarded-Encrypted: i=1; AFNElJ/3zUS6mDlCYTQXu5kzVIbnh0LP9ZNfUKHl5uDOGLwE3vMEeZqGGXHPkKVmbBTLGv5SOrbKq0ejc887sCoJ@lists.linux.dev
+X-Gm-Message-State: AOJu0YzeMZ1HeEVH6umQNq6tUBOczlkmSP9ZV5AQFItrK0EnTAWtyEGe
+	ur/vAaZDypLzABJvMPrvfrgvunKug0EcKUC9AoGZXNAI21A4tivZIwHGufoc4w==
+X-Gm-Gg: Acq92OGG7pznMMZpJrOwHYZjZu1Tb7LvZ4DdEuH56yf12bujmYodlNhLAZxGldq/Br6
+	h5LW0tunbbFu9Dq4l6GlF6E03Tqx6HvZIp/XzrVAgZW3aUDOrxswBK+c7R7cXLZP0B5yvnbVxC1
+	pYEmKl4LBfe+0EbcLsnDaAvTlmpsog/C6H5Df+Vj9xEEeqJAj8iA9n+2ijy4jcfMuN6uiDP3MQy
+	3EEnqpyltYyk/5Qz0svMHj/mIBUgDfZfUaob1GBZe7Hk6iOz/tqSIfVs94PDlNRb5RIDQ1EnQuS
+	AZwlZx63Ie7m87QDITMTp/G0z6g8Ycx5JXvDMw8GcBVtEE7RScD1PDjjHdu/3kOnft24z48NXUE
+	365G8lY7SU3jL0lXRdYDyd52h8PAUMkRx4ouhWFItb2f0oyx1JnfbjVku0TGCWtixBRdaRN/7lb
+	kHSyNcUwg+khhO48/zu4Y9rM8=
+X-Received: by 2002:a05:600c:474d:b0:490:467e:a3d7 with SMTP id 5b1f17b1804b1-490467ea4a4mr87771075e9.30.1779530873274;
+        Sat, 23 May 2026 03:07:53 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490428d69a6sm42539355e9.15.2026.05.23.02.50.50
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490424aa561sm49634335e9.5.2026.05.23.03.07.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 May 2026 02:50:50 -0700 (PDT)
-Date: Sat, 23 May 2026 12:50:47 +0300
+        Sat, 23 May 2026 03:07:52 -0700 (PDT)
+Date: Sat, 23 May 2026 13:07:49 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "Alexander A. Klimov" <grandmaster@al2klimov.de>,
-	Vaibhav Agarwal <vaibhav.sr@gmail.com>,
-	Mark Greer <mgreer@animalcreek.com>,
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	Elise Lennion <elise.lennion@gmail.com>,
-	"moderated list:GREYBUS SUBSYSTEM" <greybus-dev@lists.linaro.org>,
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] staging: greybus: audio: expect 0 from kstrtoint(), not 1
-Message-ID: <ahF4d--18ikUNOdJ@stanley.mountain>
-References: <20260520180401.539215-1-grandmaster@al2klimov.de>
- <20260520180401.539215-3-grandmaster@al2klimov.de>
- <2026052158-willing-dreadful-857b@gregkh>
- <9caaf426-1912-43e0-949f-fb7bb6bbd1cc@al2klimov.de>
- <2026052249-shrank-trophy-14ff@gregkh>
+To: Ahmet Sezgin Duran <ahmet@sezginduran.net>
+Cc: gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/5] staging: sm750fb: use ARRAY_SIZE macro in
+ fb_find_mode loop
+Message-ID: <ahF8dacOkX0tdxGf@stanley.mountain>
+References: <20260523051509.166152-1-ahmet@sezginduran.net>
+ <20260523051509.166152-5-ahmet@sezginduran.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -83,27 +75,19 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2026052249-shrank-trophy-14ff@gregkh>
+In-Reply-To: <20260523051509.166152-5-ahmet@sezginduran.net>
 
-On Fri, May 22, 2026 at 07:07:10AM +0200, Greg Kroah-Hartman wrote:
-> > total: 1 errors, 0 warnings, 0 checks, 16 lines checked
-> > 
-> > NOTE: For some of the reported defects, checkpatch may be able to
-> >       mechanically convert to the typical style using --fix or --fix-inplace.
+On Sat, May 23, 2026 at 05:15:08AM +0000, Ahmet Sezgin Duran wrote:
+> The loop in lynxfb_set_fbinfo() iterates over pdb[] and cdb[] using
+> a hardcoded bound of 3.
 > 
-> What about trying --strict?
-> 
-> Anyway, think about rewriting the check for "== 0" now, that is not
-> normal kernel style.
+> Replace it with ARRAY_SIZE(pdb) so the bound tracks the array.
 
-The checkpatch rules is only for NULL.  You're, of course, right that
-== 0 is bad style here but there are be times where it is idiomatic to
-check for == 0 or != 0.
-
-I only bring this up to promote my blog.
-https://staticthinking.wordpress.com/2024/02/20/when-to-use-0/
-
-#SEO
+I don't love this.  As you mentioned, there are two arrays and they
+both have 3 elements.  Why prefer one over the other?  This patch
+makes the code look simpler than it really is.  I would just leave
+it as 3.
 
 regards,
 dan carpenter
+
