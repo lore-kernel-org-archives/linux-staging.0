@@ -1,102 +1,98 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2E9C3195FB
-	for <linux-staging@lists.linux.dev>; Sat, 23 May 2026 16:28:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A3401A6836
+	for <linux-staging@lists.linux.dev>; Sat, 23 May 2026 16:32:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779553727; cv=none; b=L6rCbbMAhNfaGyqWyX6d+ZAR37Fx5h076oJhMkOoAz61kGEbeqOhWFbHPlyyhew1zEZg2ltiodmT2kroYbpqfI340rPJ2PHAvzybP28bEcNm5Mo6DvJK8bYUMCKFC6ZEPwQRPQOi7bmjzGBMc7GOHdBeLyLUF+6uGTQERg5SluI=
+	t=1779553950; cv=none; b=XLwAVZmCFKLe8JlfsaVhdU0RSIRfyZBYgJjp+kt0E8DR96sv23wTqSR2BZ2A+MAnnk+Dlw5iBIu1vOJeEAq/0oCkTeWhYyTF+Y3Q8Ubb3t6ZOQfsEpbFcBc6PAgdPmX25CGiaAg0wfhK3QqtfYFhS5k+lVm+8YGNocFxut7cPaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779553727; c=relaxed/simple;
-	bh=Wq+fVBdvJhEilhE8iB0HzwZY4lIO/x38LxUEhg5dr8o=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=du6rIRs+ui4U8cmeqHYo7NicXHzwIfxJOGrA8wLzAyW1rcIPfglg12ZqVyAlOO+eckR+tnxfKTfxDVGd3bBQox78brBh6QtGaU5oIDP0rqNUCsL+zUDU9rT/CQsIYergcrAAGLuU8b5kLFRKySz5LiJlkwq5zhaINFKRxcdl9U0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fK0E6Xfa; arc=none smtp.client-ip=209.85.216.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779553950; c=relaxed/simple;
+	bh=Z/HVvTp6bqeMXElqfXJMQx4Qn8o/8xX7lEdmUSvDFMU=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=DxCjsszMix+WCWVr+7ur0uJoW3HbcbRd6ZgT19mURhD1jKKsIMFxW3cdhUCaUdwhKoEhL8+dqpMYeC9u89yQSJRM4hhiLMNG7vPkwTcY/XlsANo6byYpSSysz34t6Exbmmvr9bWaXD+0691RM5fpmWznYJ36OM9GhjDH11DL/rg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=C9AORopB; arc=none smtp.client-ip=91.218.175.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fK0E6Xfa"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-3698e34a567so7521564a91.2
-        for <linux-staging@lists.linux.dev>; Sat, 23 May 2026 09:28:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779553725; x=1780158525; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zKbFKHpbbO8EuxXK+9KCu2Vc5rjksu2tQauAesQqJ60=;
-        b=fK0E6XfaEKRLqXcTCJW51s7EZ3nkhWzDlZZuK7/rLEncsgp+L3wHy1G6U+DLF0ZrYX
-         qQtvtMLGlSRhsGA+XJwHq/GIeodGMtL09FjYdXiu+C2/j/1qsUDDGTlPBlIy/IGb95Vp
-         M8VtxWSV85BaIpIadL18gN5IWUcDqE9fH06EAYPyWY/YwfZdsAwQ++G0RRRSIgJ9ev6U
-         DMRaTVzQXoVvB2jIVNz3a09yVqDav9gXs05n05vPb5kTR2L/Pa0ilm3jCpxBu1OYrdBi
-         Gbv+pyFRXVbFP1JQNJWTZPKGAQNuREWRabbgTQolYJUr5D+K4m7kClwC7OmqS6IM+xHD
-         KgCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779553725; x=1780158525;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zKbFKHpbbO8EuxXK+9KCu2Vc5rjksu2tQauAesQqJ60=;
-        b=GbNFnbQIiSpZW+fjRtU0yX3T6FUTJu6U2rNtMdfN5u1wPfNVXMvOkLxhA8qppEOh9Z
-         MAtug5cECwUXdtOJCATV0CtwNBZuiiS/wCWl52Hlpg9nFLgGpOhYoFAjeNz96SfNneYu
-         oN7xvk12ZGRK/gCx/f60Wapw8y+fafiwv9BEk6IDgfUUg0hsjHHDPTZHEDLES/h+dYQn
-         uwnJ7D2m4ASZVA81wWCjFmEo3PGxhJ7mjq+M1DOiHGpmSiNqyy2p/AOnwxEaXPrzBO0P
-         ioDS/Tvj4HumDFNg8wdVj/pBUw+uPf4w6AfOmJE8Th18oPkm0qlggMWBgdXvVN6TqONs
-         eZ+A==
-X-Forwarded-Encrypted: i=1; AFNElJ82uxb8wi0iMk3tOrgv0nq9a2nYE96uc4Qee+EhcYd/rD3ghhS+hqy3VFS0S5hAFJBzFBGbw0hzkonig9eo@lists.linux.dev
-X-Gm-Message-State: AOJu0YyYWKRqsiH0dmOw2sC4yyGL7hBo+yK0ppu8XIF18e+xUeQ95TcN
-	rhTPnqpOl+0b+RsHWf9TOFhrcurCmi5GSPOkdlM96Hv6PLg/Jti2L4+z
-X-Gm-Gg: Acq92OGUawdFWu8TeZioYnmYTXAvMU0hTpTWuEmC5FLLzlEiCu2ewO6N9W3br7KDrdi
-	okFywcrZLZPVsdw3dcp3q6IOLdUlij6lvybUcjsr6wkaR83qKKqNE27SuTMTMrHbZswb35YN9mp
-	ByZ3ABIqbWvPXFkRIZDTJDs2tNM4/xMwC89H2cioh70xhtF29jFhUOy3Wiwuyd6bRN2rFGrd13J
-	hlGSQHXu/u9s6TnELRyr0IcKXinGl0ejnNjmzHJ2XZfSJYviU8+/VPZPvcl5p+n8o2/VpFiaxs+
-	CBTdq/v3AZADLEu+9JU74yPmMINbtFnmx3AUJXNWDjGsiQqQEvU0FLEyDumCRSOSqL/q+3q1o0d
-	oP0NR2fg4yYL/gF2FFvdkDEPZql3raToS5Xot2MLntM6xL2LnfZMU4efolgn+eYHa7nGHNYiQiH
-	lgmUGi2tcGPAl/UR3N9JpBf/Rp/1uaexbH55bYRFry
-X-Received: by 2002:a17:903:4405:b0:2b9:87e0:1f80 with SMTP id d9443c01a7336-2beb066c91emr85519815ad.24.1779553725083;
-        Sat, 23 May 2026 09:28:45 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:d008:80b:a00:27ff:feb6:42dd])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2beb56e090fsm55792545ad.34.2026.05.23.09.28.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 May 2026 09:28:44 -0700 (PDT)
-From: Pramod Maurya <pramod.nexgen@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="C9AORopB"
+Date: Sat, 23 May 2026 18:32:22 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1779553945;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=XPpBMNYf+uBqXA5a79fqc+GgHVjilTO/Qdq9uXK2cug=;
+	b=C9AORopBVxMs4VAZys4RbOh04zs1m0BSF6jeq1L+DOzbrvGg/0fiWO0srYIEecYSFBsVt9
+	jQJDYw7ZOuiYW7kQd0fbivFwX7v+hp4+x8iKNmsY3sPluaNI97zOPjxK+sMujQNqGWwjUx
+	qXUI48VyrrwkhaCRwjI0SMdh5Z63lLY=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Luka Gejak <luka.gejak@linux.dev>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Andy Shevchenko <andriy.shevchenko@intel.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Pramod Maurya <pramod.nexgen@gmail.com>
-Subject: [PATCH v2 1/1] staging: rtl8723bs: Fix line over 100 chars in xmit_linux.c
-Date: Sat, 23 May 2026 12:28:31 -0400
-Message-ID: <20260523162831.163704-1-pramod.nexgen@gmail.com>
-X-Mailer: git-send-email 2.52.0
+CC: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, luka.gejak@linux.dev
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v7=5D_staging=3A_rtl8723bs=3A_fix_r?=
+ =?US-ASCII?Q?emote_heap_info_disclosure_and_OOB_reads?=
+In-Reply-To: <2026052313-magnetism-platinum-7ee6@gregkh>
+References: <20260523131331.69768-1-luka.gejak@linux.dev> <2026052313-magnetism-platinum-7ee6@gregkh>
+Message-ID: <8973C298-B4EF-4DE0-97EB-A6F11BF565DC@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Migadu-Flow: FLOW_OUT
 
-Wrap the long function signature of rtw_os_xmit_resource_free to
-comply with the 100 column line length limit reported by checkpatch.pl.
+Hi Greg,
+On May 23, 2026 3:44:58 PM GMT+02:00, Greg Kroah-Hartman <gregkh@linuxfoun=
+dation=2Eorg> wrote:
+>On Sat, May 23, 2026 at 03:13:31PM +0200, luka=2Egejak@linux=2Edev wrote:
+>> From: Luka Gejak <luka=2Egejak@linux=2Edev>
 
-Signed-off-by: Pramod Maurya <pramod.nexgen@gmail.com>
----
- drivers/staging/rtl8723bs/os_dep/xmit_linux.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+=2E=2E=2E
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-index d5bb1c7932fc..cb053af6b893 100644
---- a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-+++ b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-@@ -46,7 +46,9 @@ signed int rtw_endofpktfile(struct pkt_file *pfile)
- 	return false;
- }
- 
--void rtw_os_xmit_resource_free(struct adapter *padapter, struct xmit_buf *pxmitbuf, u32 free_sz, u8 flag)
-+void rtw_os_xmit_resource_free(struct adapter *padapter,
-+			       struct xmit_buf *pxmitbuf,
-+			       u32 free_sz, u8 flag)
- {
- 	if (free_sz > 0)
- 		kfree(pxmitbuf->pallocated_buf);
--- 
-2.52.0
+>> Also fix three additional issues discovered during review:
+>> - Missing free of pmgntframe and its xmitbuf before jumping to exit
+>>   in the WLAN_EID_VENDOR_SPECIFIC lower-bound checks=2E
+>> - In is_ap_in_tkip(), add missing lower-bound checks for the RSN and
+>>   vendor-specific IE data accesses (pre-existing bug)=2E
+>> - Move rtw_buf_update() before dump_mgntframe() to avoid a potential
+>>   use-after-free of pwlanhdr, which points into the mgmt frame buffer
+>>   (pre-existing bug)=2E
+>
+>When you say "also" that implies you need to break this patch up into
+>smaller pieces, right?  Please do so=2E
+>
+
+Well, I just addressed sashiko comments on my patch, so I thought to=20
+keep it one patch as it was review of if=2E
+
+>>=20
+>> Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
+>> Cc: stable@vger=2Ekernel=2Eorg
+>> Signed-off-by: Luka Gejak <luka=2Egejak@linux=2Edev>
+>> ---
+>> Changes in v7:
+>>  - Address new sashiko comments=2E
+>>=20
+>
+>That does not say _what_ you did, only that you did _something_=2E  Pleas=
+e
+>be more specific=2E
+
+"Also" part is what was changed due to sashiko's request=2E Should I=20
+move it here, provide link to sashiko or write it here completely=2E
+
+>
+>thanks,
+>
+>greg k-h
+
+Best regards,
+Luka Gejak
 
