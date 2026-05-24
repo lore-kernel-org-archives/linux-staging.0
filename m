@@ -1,153 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41F84318ED7
-	for <linux-staging@lists.linux.dev>; Sun, 24 May 2026 20:46:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5665E3B3BF0
+	for <linux-staging@lists.linux.dev>; Sun, 24 May 2026 23:13:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779655580; cv=none; b=JChnW+fZhWrsr7q+qsVFOn2CLuOKKehXuZXBDR1jifoTFku2doPA7nFkCnyvB4VpZ6/OCYwdfPKrrzHDmAp8WsWuyPl/kcYmcfUUrsa3iB8t4D0nCJnjYl6y0pT3UltQrDO2QJWvy9l0hAXa/rmTQMJ4M1cpyas6n0WJHN4oPAY=
+	t=1779664393; cv=none; b=hnJwVe3lUrtHGQuYpK7VxutXbIFZ7f+F1DDH9m1Aph+McKpluFH31sxfYpQSij0rvO20m3iKxuMyXlDJJKyodJafAxDYndO7Pu+6rH0Dzqg4sEjuvEvwMmmXjSMzfuAcaQwuApufmZykh1CtQjqd7Md3sIU0GrgL27vWcfRDurs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779655580; c=relaxed/simple;
-	bh=z916saKk+Bibhk8li2KvcNhAv1Ate3JvIJh3qFvDy4o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KWEBMB9AStwbYySXie7DUQ24VxQREao1RkT1FPmo/PFr8wXRPIeXqW3ZO1Z++HI0gVbMN/PiG0q4hKdjRRwxzdXmvATvJYfMa7hG33uX0HkC63dNpWVQ2nVbZq3jVZBC/94YMGPcUDR1KhS/oJLDGTvLYECt12tfVai0F4Kk0I4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jmp3uHrJ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1779664393; c=relaxed/simple;
+	bh=ghtTJnS/NvCsA+vIBbl6m6PoiATZqfVB2noOWi3YZvE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KDw9VJcKMtu8/sg05Zpw92oINMN6N9FA0737M8u6RMZZLfB0vXp1osSvkuC82CvySVdm01381epU3JB3FkHvLaqOOu6HsmN2i/pnOXltpuC0E+wLNYVl0y13cN5y2o5QSh53KXQJKkcuxINAJR5BhQLHb4xsqhHgEoPVJd6XAdw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rF44MUAO; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jmp3uHrJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FF991F00A3A
-	for <linux-staging@lists.linux.dev>; Sun, 24 May 2026 20:46:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779655578;
-	bh=XdF14EN2gaQGUPUIlCL2/+2xdkR1iD92W761e0Tt4JU=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=Jmp3uHrJalMuK97geIL59g/5n7B65j4S+VeBKj4DmDnWAQAOqouhdvFbo252rKe1N
-	 EUpcyyD86pld7FFWuHYj2qi8ttslywQ2YFv76xk/LlUttVGuoD9e4xgAb2hVLHFodp
-	 u6Q1IXTDm6SolrO1KWjZicEZWW5RynXVu/f7bW8JdKQU1niaxHUcErr+5GtJ0J//7M
-	 tS3zfKpjQBSUnWPA00aobrjTTMyxvZ/TVTOv9zHAI180OLjHC+Dvj5SdsgPFJNu5mY
-	 JaZH7oDTDHlAfcxE3VboyLjNP0h0O1pur4E3J7GfrvSc94tGzLkq5ydvaUoftCMZrX
-	 zBlUfe1hiS8dg==
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-3937014be0cso28813311fa.0
-        for <linux-staging@lists.linux.dev>; Sun, 24 May 2026 13:46:17 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+BJxily+Xr28/Yqh/Q3pBOlsyG6Ae3TWamBs8NylMbY0aheEHZpcEdyjAMCUyJwGIQAbo0f005A3ORL1IJ@lists.linux.dev
-X-Gm-Message-State: AOJu0YzFXg4I7nuyi+Ip0Cfth15s8H3tZElo/geyI0+17TRCxDUISBWe
-	LdoQr6ewP2SYCWnxW9EKund3DoYiTEEZZqHQ08MuNhFq1VY3SEDxS2zMxPoZ8N+OKplSjgV7iQ4
-	DCokgb9vbWsQtUI4uiLBvXamj0IHhBiM=
-X-Received: by 2002:a05:651c:222c:b0:394:942:9bb6 with SMTP id
- 38308e7fff4ca-395d8c129fbmr37366311fa.6.1779655576527; Sun, 24 May 2026
- 13:46:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rF44MUAO"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-45e8a834cc2so4787285f8f.1
+        for <linux-staging@lists.linux.dev>; Sun, 24 May 2026 16:13:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779664391; x=1780269191; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=y/iNeZb6FKh5gV3yvVj4pfC+LDioS88XVB83Lk6lMMk=;
+        b=rF44MUAO8KEhY+cizRP3t7K+y1W4KyE4B/bEBU8qsdU0Cd4TfXq3hBvquTGH3PmTx1
+         Dd4QhwFulASMGgmiyHlcsLPkVsH/eiKyLIywoqSRtC5RfbZ2r8LzXbSlzfZav7x2BOqD
+         AEtm0N9wLdnBFTJkpc2d+JRrW8odhKWXsR5Vh4Ph+n+hTiPWms0kZybOztteG+XwPyn1
+         Kulb7Ja0LxzFdMSUet/m6XVVmj7vFMW/dHeZA/k/nunbG4UYZZRnTA7uhM8BSZxNsEHd
+         jDsjRrN91DgJPAL2a4ZWWYimpH16xTjfXPCJRKguzQdViALpTtuLcHVFuCoTOsLWPbSq
+         U7WQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779664391; x=1780269191;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=y/iNeZb6FKh5gV3yvVj4pfC+LDioS88XVB83Lk6lMMk=;
+        b=JMD9ssRnhai47v7i76SyA8Jtp0wKwcAHfzHbXreiCrgtw9Kl36we+YjD22CcFTdXx8
+         fZfxildIP3SjmwRfYPDoOgfe1BQqnYt3c/3BLpQAL3CKFQ4tU4TvDzbEW8wWEEwOktiR
+         mIDWwz+o7JF4jh9/2E4bDi91mPKtNgoTIU/VNWtMVv8eFNLSmkgSAYZ4f1oOG7+zGAN9
+         wgTJGg2WCQ0a9M9r+W2Cj2sOI2xsOf6UxiBl43I/WOHze4k1rHrsU17nTJdDXU2OEQZ8
+         f/n4/wJfAD2liYjYMcpFeoFzzkE0cc15VCVD+LKgMrYtm7bMzyR3bP8JjctJWlTl4bh0
+         trKQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/3BygkzkUWPVsFSolDe5QPYWdsC6qsKxZ26dfXZB3lZ9vhTMLRK9WD4E7JfVgjzGcG326sF0NZi8AHyG5z@lists.linux.dev
+X-Gm-Message-State: AOJu0YzsoWQvozC3cUEUTzldImpyaQDVU7A6DGmQ+K7030bjt806dQWS
+	gfU1hKO3I4ZqgP+SeXGbOKmPVMOkoPjWWKRVBxmDq2iX/R71pcxgCzds
+X-Gm-Gg: Acq92OE9kM+3Qoi0RyZtOlKFPQ+GJUU3FG72tKRn91LV0l4vaKLJifJ/xjzkc3cUBTq
+	BQgKP0BxkBdwCpyLogutbLzTHuBhG8eQEPjOlY/6P0fFTU+VDdczE7P1Ze58iu9h2QQNV4ePndq
+	AYIY09UMFp7okFko1HRhxiGc36i3PD/t7lZ+o+Qw7L74J3WxlyRSZEpaIUPw89DVCqcf6UFjQJj
+	ciliASCbEohNLDh5eYnibCcy87jj4JLKpWi0O0CTeNMWhXyL3sYOK30bP8FLk4fzy/fIFGkejE6
+	Uqv77U6UfkP/+NZBPd3bk/0rlaSIfrWBc92Bf0W+nboDkjKcru40qP9dsLOZHVCHcFbFaoNsp1f
+	i3CB6ntlCg203REEVxS0DR8GYh65J2mc1jJOULKlRrwmlXow304s24jtJjppINeEV3St4EHW7xR
+	8Z/LKx0Kyp5vQ555edaQCH8bZVeS6gK5S0tEnUsdaqvYZ73/zNCOsoKIMpz3D09NeD7uBGKw==
+X-Received: by 2002:a05:6000:480e:b0:45e:739b:3e3c with SMTP id ffacd0b85a97d-45eb36418d3mr18111822f8f.0.1779664390580;
+        Sun, 24 May 2026 16:13:10 -0700 (PDT)
+Received: from michalis-linux (adsl-75.176.58.251.tellas.gr. [176.58.251.75])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45eb6cce0a4sm21813310f8f.12.2026.05.24.16.13.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 24 May 2026 16:13:10 -0700 (PDT)
+Date: Mon, 25 May 2026 02:13:08 +0300
+From: Michail Tatas <michail.tatas@gmail.com>
+To: Dan Carpenter <error27@gmail.com>
+Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
+	gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Staging: sm750fb: Change camelCase to snake_case
+Message-ID: <ahOGBLV2g5HUZrr6@michalis-linux>
+References: <ag-XlRifxjqXF-Zx@michalis-linux>
+ <ag_ucCZEOnZuJOCz@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260505134812.408316-1-wens@kernel.org> <20260505134812.408316-6-wens@kernel.org>
- <afpUiupOgPhLksM8@shepard>
-In-Reply-To: <afpUiupOgPhLksM8@shepard>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Sun, 24 May 2026 23:46:04 +0300
-X-Gmail-Original-Message-ID: <CAGb2v64Ln=2RnOf_WKHJTGphofe-+iUddenu7H4FNFx03tJoOw@mail.gmail.com>
-X-Gm-Features: AVHnY4LzB_OhmZqGSHcQSdeKCJP6XONAvy9GHgQqfzYfXCQHIhPSMFyqiHhyTFc
-Message-ID: <CAGb2v64Ln=2RnOf_WKHJTGphofe-+iUddenu7H4FNFx03tJoOw@mail.gmail.com>
-Subject: Re: [PATCH 5/7] arm64: dts: allwinner: sun50i-h6: Add missing SRAM
- region for video engine
-To: Paul Kocialkowski <paulk@sys-base.io>
-Cc: Maxime Ripard <mripard@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, devicetree@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ag_ucCZEOnZuJOCz@stanley.mountain>
 
-On Tue, May 5, 2026 at 10:35=E2=80=AFPM Paul Kocialkowski <paulk@sys-base.i=
-o> wrote:
->
-> Hi Chen-Yu,
->
-> On Tue 05 May 26, 21:48, Chen-Yu Tsai wrote:
-> > The SRAM C region contains a partial alias to the VE SRAM already
-> > referenced by the video engine. To avoid access through this alias
-> > window, the region should also be claimed by the video engine.
-> >
-> > Add a reference to the SRAM C region to the video engine node.
->
-> It feels very weird to have a reference to the DE2 SRAM region in the
-> VE node. It seems unlikely that the same region would be used by both DE2=
- and
-> VE and I am pretty sure can have both running at the same time without
-> overstepping.
->
-> From what I can see we have so far assumed that the SRAM C and SRAM C1
-> are two different physical SRAM areas, but this is most likely not the ca=
-se.
-> My guess would be that SRAM C1 is actually a part of SRAM C and the DE2 i=
-s
+On Fri, May 22, 2026 at 08:49:36AM +0300, Dan Carpenter wrote:
+> On Fri, May 22, 2026 at 02:39:01AM +0300, Michail Tatas wrote:
+> > Change variable names from camelCase to snake_case
+> > as per the Linux Kernel standards.
+> > 
+> > These changes remove 9 CHECK messages from checkpatch.pl
+> > regarding sm750.c, sm750.h and sm750_hw.c
+> > 
+> > Tested changes by building the module sm750fb/
+> 
+> Don't put this kind of meta comment in the commit message.  Put it
+> under the --- cur off line.
+> 
+> Please wait a day between resends.
+> 
+> I don't think you're working against the correct staging-next
+> tree.
+> 
+> regards,
+> dan carpenter
+> 
 
-No. It's the opposite. 0x28000 maps to the same SRAM block at 0x1a00000.
-If you write to one, you see the results in both. However the alias at
-028000 can be disabled while retaining access to 0x1a00000. I don't
-remember how much of the alias points to VE SRAM (0x1a00000). Maybe it
-was the whole alias on the H6.
+Thanks a lot for the quick replies, much appreciated!
 
-Also, I can't remember if this was tested on the H6 or H616, but the
-VE indeed writes to VE SRAM (0x1a00000), so that part is indeed used
-by the video engine.
+Dan you are correct thanks for noticing, I was 
+working on the main branch.
 
-> using another part of it. The syscon block probably allows switching acce=
-ss
-> to these different parts of SRAM C.
-
-From what I've seen in the vendor BSP, both drivers toggle the switch.
-I believe the goal is to prevent the CPU from having access, rather than
-either peripheral claiming it as its own. And that is also what our SRAM
-driver does. It claims the SRAM from the CPU. That's all. The toggle bit
-pattern used by both drivers is the same.
-
-> Also the sram_c1 node implies it's 2 MiB, which sounds quite unlikely.
-
-That is what the memory map says. Calling it SRAM C1 is probably wrong.
-
-
-ChenYu
-
-> All the best,
->
-> Paul
->
-> >
-> > Fixes: b542570e5605 ("arm64: dts: allwinner: h6: Add Video Engine node"=
-)
-> > Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
-> > ---
-> >  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi b/arch/arm64/=
-boot/dts/allwinner/sun50i-h6.dtsi
-> > index 72ce1a75647b..88c6e3e105c0 100644
-> > --- a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-> > @@ -205,7 +205,7 @@ video-codec@1c0e000 {
-> >                       clock-names =3D "ahb", "mod", "ram";
-> >                       resets =3D <&ccu RST_BUS_VE>;
-> >                       interrupts =3D <GIC_SPI 89 IRQ_TYPE_LEVEL_HIGH>;
-> > -                     allwinner,sram =3D <&ve_sram 1>;
-> > +                     allwinner,sram =3D <&ve_sram 1>, <&de2_sram 1>;
-> >                       iommus =3D <&iommu 3>;
-> >               };
-> >
-> > --
-> > 2.47.3
-> >
->
-> --
-> Paul Kocialkowski,
->
-> Independent contractor - sys-base - https://www.sys-base.io/
-> Free software developer - https://www.paulk.fr/
->
-> Expert in multimedia, graphics and embedded hardware support with Linux.
+Some variables have not yet been converted, so
+I will send them on a separate patch series as a v2
