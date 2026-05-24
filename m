@@ -1,148 +1,153 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4821F3081A2
-	for <linux-staging@lists.linux.dev>; Sun, 24 May 2026 18:30:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41F84318ED7
+	for <linux-staging@lists.linux.dev>; Sun, 24 May 2026 20:46:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779647409; cv=none; b=E8Xc6qN0w1N8WpxO24usH6rLOJwGPAkbVWVp+DCmqVumj2N+atElP6GSWM3UeyU93TzNihiVXPlsLLbV0CcRTOeeUmxb1hMzEzFxfByqeKdfxKqJmO5WMlR0415FUvF39/+XHyVfi5TTwY8pgebX4okVn6cdAP/UHNyKz5FpSK0=
+	t=1779655580; cv=none; b=JChnW+fZhWrsr7q+qsVFOn2CLuOKKehXuZXBDR1jifoTFku2doPA7nFkCnyvB4VpZ6/OCYwdfPKrrzHDmAp8WsWuyPl/kcYmcfUUrsa3iB8t4D0nCJnjYl6y0pT3UltQrDO2QJWvy9l0hAXa/rmTQMJ4M1cpyas6n0WJHN4oPAY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779647409; c=relaxed/simple;
-	bh=p/8AOHBhq/TICjwqQxKfP5erT+mxulFxJXRiyVWlMl4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JqxPEbozcWe6TqUy+caKQK9CAV99y+7f6UL3dPjm3E7iv/43JaUjdqeeXLlDIV/EC38nOSsLDOg35VeaEKpxngb3LIFPkOm2bGf0MY1zRzsOsQWNEBUg/Ej2VAjeeCT5Lzku3tbXisFwicKM0jSiT0nSnm/Obet1V4Uc8kE7908=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kVR68MrV; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779655580; c=relaxed/simple;
+	bh=z916saKk+Bibhk8li2KvcNhAv1Ate3JvIJh3qFvDy4o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KWEBMB9AStwbYySXie7DUQ24VxQREao1RkT1FPmo/PFr8wXRPIeXqW3ZO1Z++HI0gVbMN/PiG0q4hKdjRRwxzdXmvATvJYfMa7hG33uX0HkC63dNpWVQ2nVbZq3jVZBC/94YMGPcUDR1KhS/oJLDGTvLYECt12tfVai0F4Kk0I4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jmp3uHrJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kVR68MrV"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4891e5b9c1fso76883955e9.2
-        for <linux-staging@lists.linux.dev>; Sun, 24 May 2026 11:30:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779647405; x=1780252205; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bPIXJAikdFwElV0lTaJirkt4kwhQPmCoEKgc7GdTY7s=;
-        b=kVR68MrVXMiloC7Dh3r5RMLrOkZQSacCRSv3I7HGUiZD31GHaHpPT188MYdnqRpwlP
-         whr3/xDA7lecSIT0LTQoqCe1A34nHSbRUNe2BmPjFlKL9TpXjawPzZBGX9ba+ojzKMfP
-         AHk+yOlpzLxrjD8Hja+HA9ePxfy1chYlxe1ZtT5iBv69OcrtKwlni2ZKXzx3yABlbdsZ
-         +ymtJjN3XZI8ug3iFVeJkybxjPSxTaE3o05bAcTAs7YalEG381XmnMJN8ntG0FevR1rQ
-         /Jt/s3VrquhgO15VEC34XHT5j5d+McIb8t0Hrbrjj7BHa3mymHBz6+EzieAVsjT94Umf
-         ZSKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779647405; x=1780252205;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bPIXJAikdFwElV0lTaJirkt4kwhQPmCoEKgc7GdTY7s=;
-        b=BvLF9pk28by0T2KYAZ9y8FTlGwykvgqH3wjnpHts4xCSrYiTa30kz65FYGWJp09fOw
-         XogzPvSDq7o++NWad6xU8/yGQH0vNWEGl0TwUITbTispcg7Hs+s5KVGmF0bFsszcLNGG
-         mrvb6vsGwVMy0TSp9DwMNrlsEXpmJgfkfsrhRJVMrUB7abJaRjXoFWKStxRQ7J95FZH/
-         oGsSlXH3XOC8BYS9wHkDnt+7Zbm+gyDDmYSAlW4dfWMCAZvFbl6lr/kJFvsXe8F49gkR
-         0NXPaSw1qT1g8CG8aaioGo9UMP9hz9hdRBxfM9ID/Xc+hO0MUgSk77v2amQkRfHlCkaN
-         HXIg==
-X-Forwarded-Encrypted: i=1; AFNElJ+4v0vXNKLBKAu5pg/IMRkSUPzmQflLW3CZVWUQCIRsIQfiq1Tom/+KrxfPvD36iAz5vUMw4MB6/nAcAklo@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy4nqHrjNHUbreDKcPmRJF1EmNf2fRn8DV7IMxmTv51W28HBH04
-	qQDWCBFrD53csW3uiRHD/krlOLYFyWfT15IMz/xka7f0Q4dcQmoQ7eLi
-X-Gm-Gg: Acq92OF+pFZ27XF8DB03ncj5200tgp3JL3Nv3oCHF9jU7FDXLyQsHV4u0qut1oW4PE+
-	QMoR8P3Wr4Xdri99Yz3PChy9YdP7Dt8n3a54a4fVEYhjLAa4GUAH6CbCJ5ezHXUkfxgQhigNnzd
-	myKJRFT2eL6B8be6nfXeV5kdQ5QaIcTWWM0XA6wm0MzwqOTqjy1XDVKS+5meIPYYuz8y/AQawBI
-	ihySZWUYurB+d/qFU1Uyisl+9s1fUVAYYjeUXPUjGdu75GhB8I14Qfqwe1oa+Lhw2Wln0Jok10B
-	YtlMCBkY13kkki+rWyjsxFfKH9Vo/zIf2wuoA0X3dNejAM6UIJl6aMtHoKxal9bHWFBr6yJcaDk
-	K7sjF7AH+PYzY/WRsGPYFaRX5cOYfLFJ8XpM3aWQAy9AJyF/PGFkJZTYB0amx9njbyowyxqfbF0
-	PYv9Kx6mHeZF/OMUBb/ntDe1Kdt5WfB7I0bKDMpHpVsw==
-X-Received: by 2002:a05:600c:8b84:b0:490:5466:8576 with SMTP id 5b1f17b1804b1-490546689a7mr115352745e9.1.1779647405405;
-        Sun, 24 May 2026 11:30:05 -0700 (PDT)
-Received: from [192.168.1.50] ([79.119.240.27])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4904561a160sm222864685e9.9.2026.05.24.11.30.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 24 May 2026 11:30:05 -0700 (PDT)
-Message-ID: <c6828c20-8f77-423e-a744-344d09c54488@gmail.com>
-Date: Sun, 24 May 2026 21:30:01 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jmp3uHrJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FF991F00A3A
+	for <linux-staging@lists.linux.dev>; Sun, 24 May 2026 20:46:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779655578;
+	bh=XdF14EN2gaQGUPUIlCL2/+2xdkR1iD92W761e0Tt4JU=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
+	b=Jmp3uHrJalMuK97geIL59g/5n7B65j4S+VeBKj4DmDnWAQAOqouhdvFbo252rKe1N
+	 EUpcyyD86pld7FFWuHYj2qi8ttslywQ2YFv76xk/LlUttVGuoD9e4xgAb2hVLHFodp
+	 u6Q1IXTDm6SolrO1KWjZicEZWW5RynXVu/f7bW8JdKQU1niaxHUcErr+5GtJ0J//7M
+	 tS3zfKpjQBSUnWPA00aobrjTTMyxvZ/TVTOv9zHAI180OLjHC+Dvj5SdsgPFJNu5mY
+	 JaZH7oDTDHlAfcxE3VboyLjNP0h0O1pur4E3J7GfrvSc94tGzLkq5ydvaUoftCMZrX
+	 zBlUfe1hiS8dg==
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-3937014be0cso28813311fa.0
+        for <linux-staging@lists.linux.dev>; Sun, 24 May 2026 13:46:17 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ+BJxily+Xr28/Yqh/Q3pBOlsyG6Ae3TWamBs8NylMbY0aheEHZpcEdyjAMCUyJwGIQAbo0f005A3ORL1IJ@lists.linux.dev
+X-Gm-Message-State: AOJu0YzFXg4I7nuyi+Ip0Cfth15s8H3tZElo/geyI0+17TRCxDUISBWe
+	LdoQr6ewP2SYCWnxW9EKund3DoYiTEEZZqHQ08MuNhFq1VY3SEDxS2zMxPoZ8N+OKplSjgV7iQ4
+	DCokgb9vbWsQtUI4uiLBvXamj0IHhBiM=
+X-Received: by 2002:a05:651c:222c:b0:394:942:9bb6 with SMTP id
+ 38308e7fff4ca-395d8c129fbmr37366311fa.6.1779655576527; Sun, 24 May 2026
+ 13:46:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 0/2] staging: rtl8723bs: Fix error handling in
- _rtw_pktfile_read()
-To: Minu Jin <s9430939@naver.com>, gregkh@linuxfoundation.org
-Cc: andriy.shevchenko@linux.intel.com, dan.carpenter@linaro.org,
- abrahamadekunle50@gmail.com, zxcv2569763104@gmail.com,
- milospuric856@gmail.com, karanja99erick@gmail.com, weibu@redadmin.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20260127153811.1592900-1-s9430939@naver.com>
-Content-Language: en-US
-From: Bitterblue Smith <rtl8821cerfe2@gmail.com>
-In-Reply-To: <20260127153811.1592900-1-s9430939@naver.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20260505134812.408316-1-wens@kernel.org> <20260505134812.408316-6-wens@kernel.org>
+ <afpUiupOgPhLksM8@shepard>
+In-Reply-To: <afpUiupOgPhLksM8@shepard>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Sun, 24 May 2026 23:46:04 +0300
+X-Gmail-Original-Message-ID: <CAGb2v64Ln=2RnOf_WKHJTGphofe-+iUddenu7H4FNFx03tJoOw@mail.gmail.com>
+X-Gm-Features: AVHnY4LzB_OhmZqGSHcQSdeKCJP6XONAvy9GHgQqfzYfXCQHIhPSMFyqiHhyTFc
+Message-ID: <CAGb2v64Ln=2RnOf_WKHJTGphofe-+iUddenu7H4FNFx03tJoOw@mail.gmail.com>
+Subject: Re: [PATCH 5/7] arm64: dts: allwinner: sun50i-h6: Add missing SRAM
+ region for video engine
+To: Paul Kocialkowski <paulk@sys-base.io>
+Cc: Maxime Ripard <mripard@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, devicetree@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 27/01/2026 17:38, Minu Jin wrote:
-> This series improves error handling in _rtw_pktfile_read() and cleans up
-> the code style to comply with kernel standards.
-> 
-> 1. The first patch combines the logic change and caller updates.
->    The function change and the caller updates must be in the same
->    patch. If they are separated, the code will not work correctly 
->    or will cause errors at that specific point in the history.
-> 
-> 2. The second patch focuses purely on code style cleanup (changing uint
->    to unsigned int) as requested by Andy Shevchenko.
-> 
-> Regarding the logic change in _rtw_pktfile_read():
-> 
->     The original code used a ternary operator to read whatever data was 
->     available, even if it was less than requested. This could lead to 
->     callers processing incomplete data without knowing it.
-> 
->     I have changed this to return -EINVAL when the remaining data is insufficient. 
->     This is safer because most callers expect the exact amount of data and 
->     should not proceed with a partial read.
-> 
-> Testing and Verification:
-> 
->     I do not have access to the physical RTL8723BS hardware. However, I have
->     performed a rigorous manual audit of the data path and verified the
->     changes using Smatch static analysis. The analysis confirmed that no
->     new warnings or logical regressions were introduced in the modified files.
-> 
+On Tue, May 5, 2026 at 10:35=E2=80=AFPM Paul Kocialkowski <paulk@sys-base.i=
+o> wrote:
+>
+> Hi Chen-Yu,
+>
+> On Tue 05 May 26, 21:48, Chen-Yu Tsai wrote:
+> > The SRAM C region contains a partial alias to the VE SRAM already
+> > referenced by the video engine. To avoid access through this alias
+> > window, the region should also be claimed by the video engine.
+> >
+> > Add a reference to the SRAM C region to the video engine node.
+>
+> It feels very weird to have a reference to the DE2 SRAM region in the
+> VE node. It seems unlikely that the same region would be used by both DE2=
+ and
+> VE and I am pretty sure can have both running at the same time without
+> overstepping.
+>
+> From what I can see we have so far assumed that the SRAM C and SRAM C1
+> are two different physical SRAM areas, but this is most likely not the ca=
+se.
+> My guess would be that SRAM C1 is actually a part of SRAM C and the DE2 i=
+s
 
-Hi!
+No. It's the opposite. 0x28000 maps to the same SRAM block at 0x1a00000.
+If you write to one, you see the results in both. However the alias at
+028000 can be disabled while retaining access to 0x1a00000. I don't
+remember how much of the alias points to VE SRAM (0x1a00000). Maybe it
+was the whole alias on the H6.
 
-I have some bad news:
+Also, I can't remember if this was tested on the H6 or H616, but the
+VE indeed writes to VE SRAM (0x1a00000), so that part is indeed used
+by the video engine.
 
-https://bbs.archlinux.org/viewtopic.php?id=313401
+> using another part of it. The syscon block probably allows switching acce=
+ss
+> to these different parts of SRAM C.
 
-[quote]
+From what I've seen in the vendor BSP, both drivers toggle the switch.
+I believe the goal is to prevent the CPU from having access, rather than
+either peripheral claiming it as its own. And that is also what our SRAM
+driver does. It claims the SRAM from the CPU. That's all. The toggle bit
+pattern used by both drivers is the same.
 
-Hey everyone,
+> Also the sram_c1 node implies it's 2 MiB, which sounds quite unlikely.
 
-I recently upgraded my system, and now I’m having a strange issue with my WiFi (Realtek RTL8723BS).
+That is what the memory map says. Calling it SRAM C1 is probably wrong.
 
-now I can no longer connect to any WiFi networks as a client. however, creating an Access Point (AP) still works fine, but whenever I try to connect to an existing network, the connection fails.
 
-dmesg logs:
-Every time I attempt a connection, dmesg gets spammed with this error:
+ChenYu
 
-    [ 1083.925640] rtl8723bs mmc0:0001:1 wlan0: xmit_xmitframes: coalesce failed with error -22
-    [ 1084.921217] rtl8723bs mmc0:0001:1 wlan0: xmit_xmitframes: coalesce failed with error -22
-    [ 1085.921434] rtl8723bs mmc0:0001:1 wlan0: xmit_xmitframes: coalesce failed with error -22
-    [ 1086.922320] rtl8723bs mmc0:0001:1 wlan0: xmit_xmitframes: coalesce failed with error -22
-    ....
-
-Has anyone encountered this specific "coalesce" error with the rtl8723bs driver? I'm looking for advice on whether this is a known bug in recent kernels or if there's a specific module parameter I should try to bypass this.
-
-System Info:
-
-    Chipset: RTL8723BS (SDIO)
-
-    Kernel version: 7.0.3-zen1-2-zen
-
-update: I fixed the issue after kernel downgrade
-
-[/quote]
+> All the best,
+>
+> Paul
+>
+> >
+> > Fixes: b542570e5605 ("arm64: dts: allwinner: h6: Add Video Engine node"=
+)
+> > Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
+> > ---
+> >  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi b/arch/arm64/=
+boot/dts/allwinner/sun50i-h6.dtsi
+> > index 72ce1a75647b..88c6e3e105c0 100644
+> > --- a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
+> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
+> > @@ -205,7 +205,7 @@ video-codec@1c0e000 {
+> >                       clock-names =3D "ahb", "mod", "ram";
+> >                       resets =3D <&ccu RST_BUS_VE>;
+> >                       interrupts =3D <GIC_SPI 89 IRQ_TYPE_LEVEL_HIGH>;
+> > -                     allwinner,sram =3D <&ve_sram 1>;
+> > +                     allwinner,sram =3D <&ve_sram 1>, <&de2_sram 1>;
+> >                       iommus =3D <&iommu 3>;
+> >               };
+> >
+> > --
+> > 2.47.3
+> >
+>
+> --
+> Paul Kocialkowski,
+>
+> Independent contractor - sys-base - https://www.sys-base.io/
+> Free software developer - https://www.paulk.fr/
+>
+> Expert in multimedia, graphics and embedded hardware support with Linux.
