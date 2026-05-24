@@ -1,68 +1,68 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38D092E6CC8
-	for <linux-staging@lists.linux.dev>; Sun, 24 May 2026 14:23:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E24A1DB95E
+	for <linux-staging@lists.linux.dev>; Sun, 24 May 2026 15:25:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779632623; cv=none; b=Lh20SlYsK87iBt5X0e06WxpojW6Jm3dCjQGHXP2DQRYnuXec61jcpvbU9KuJMzIgXC/oo4fDGRE8Qaxtvt7/y0OgG5Uq1PD6/MpznuOgoSTFvaoSweRvun75W6BquORUh5eEAmBwg4ldIO8284Z8AYjs2rH5srySNzSm/+6sCUY=
+	t=1779636317; cv=none; b=BdwizRlur3x/YpDas4VsPkOtE5bgYoo7o5N9HBjjjGz1rhDhYNe2dSwCn255Pxv5AHvWZT5Os3+OuJy54/82Ck5fonXwQ23KFqNS4yuaEKdmaSaKEuAklNhNwUPnmey60cvvXmIHVrU6P35CM/wMdKu4KWQNDRzD5Hr6cMMUHwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779632623; c=relaxed/simple;
-	bh=Ods/E3IYPVbZXtOinZg9MlcY7QUO6JuDhbUi2reXwrw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JAkYZDCwwtMsI+Ru6fInO/V9lHcLW1tvCpByYOemze0M6gyLxPmkyXxpybGJjyc0ia3rcIM872cxHepcnsHbFnc2XHadvE3CDO+2rim5LIsA7TFhvrQlJcT+klwmupvygAR/pF2ieafoRKQPXN4gOev3TEBF6px7eyyjIQZ0Kzk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ThFb503F; arc=none smtp.client-ip=209.85.214.181
+	s=arc-20240116; t=1779636317; c=relaxed/simple;
+	bh=IeNjHrCVryrK5Aik6KcR9HiGXwhU5r2mjrDQ0Pqjj3Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=N6tUDljDPen/AfJuIo7EWDsZQ3DV1SED63bh1vzODdm4Hg4YmGWuxtLiv5vxKH15JUMPY4/LnoIxCW3uHwTsSaPduVh2GpvTY3PuyeQeZlH13y2DmlK8g7NGqhRgEvPC46X1D2VF2NEGzTO4oKfr3+UZC29hvtI5qPKJ24b4ODg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bfmjGHBY; arc=none smtp.client-ip=209.85.216.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ThFb503F"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2bab82d75fdso43899465ad.2
-        for <linux-staging@lists.linux.dev>; Sun, 24 May 2026 07:23:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bfmjGHBY"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-367d88b9940so5838842a91.1
+        for <linux-staging@lists.linux.dev>; Sun, 24 May 2026 08:25:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779632621; x=1780237421; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1779636316; x=1780241116; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=aATl1PBfk9VOOTSSn92eYyNDuSPnM7YddHpNswQCo0Y=;
-        b=ThFb503FjqNyoqDyTaXdrs+BHKbw+/Ihwgld8l5b4hw+AyPBr/XyB7ezeRRM09h1j8
-         C5n1ny8VrrN0TsECy/qRV5EMpE7zxlmF21ad/dVjSOnkF4Oi9zRgSPiqwEOdW/Y1jC1V
-         MpyUVe26Buy1x0NamWjoCYBhhKLoSDPm9D2b/eaL/Jsdfj1Xw9YV7mZxs9NrWTsWCdHl
-         c/mmINZ8l3ZI2s1M/q7zc9WKLVTD64Ra24KGumYxXhXm1S0bbBiyxiMW7RzDLGZ811Uv
-         2i5Jct/p1vrRga8JSh6/p29BnGnsjccCFVm2PGrTqkUwAr9oYoD9+uMbp3h5IakkE0Gg
-         VVFw==
+        bh=wMWTLVErG+lwd2OmwsvEi2f0/+bd0gdnAxYfjdNv9oY=;
+        b=bfmjGHBYK2WHlnDe6Ae3gIhFS+CyMA36eIZ77omeG4v1RbHO5MvqaYF1CarM+EQb77
+         TfVDXyzR+DCEKnUQxz0mOVynJqFfX6ltFnYhAUAUmZRVlFUqhbiqmncTvS3kG92EK9Ti
+         fEQ+c96p+V+g3FKGZoQdAsQZLCvmxyj0yVIzqVqxAvkSgaVfRHJwreumMfvM3qnXdDeI
+         8oFB29gnVfiqsLkUGDFUmDXRbo7HC6l4zhH/hrApKHU+KCGJBNG5fjc3/4eLDTst4ZB+
+         g3Iin4zBiQofePLbAO8DyBRzX7h/kGOqtbFdclJb5zKjLAGfT1taOA2wfdSqZb3TblMY
+         PliA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779632621; x=1780237421;
+        d=1e100.net; s=20251104; t=1779636316; x=1780241116;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=aATl1PBfk9VOOTSSn92eYyNDuSPnM7YddHpNswQCo0Y=;
-        b=gzKaS92lfsFpTNETwVqVz27c+fJG9M701K48nbKIAb2Z1UHmxlTSI16fh48tAnPphc
-         oTjnXC+n9mkXwdL8MF0nbXt48Vfxp2koOMKACemEpUeJluqtrCFABhWNBbJBtYP/RiYt
-         Wc37GCwQuK+kkLW1eCtGrPacQI3NwiuaUO6fgqlogkPb3MMfq0AirdJcZ0tqhSS4ZHLr
-         dKfmab6nJ3wM4WFkzlIoNItij3EWuQbKehUA5MniAwHW8500jhq/ByHYnAbcPGwHd9yf
-         hT7HSbJ9DvNvhQeTu+mrhBGHOe0uWZKVo9Q44gz+J+X5whlfJtpUGoZYdf0OtzBfby7r
-         ZHug==
-X-Gm-Message-State: AOJu0YzKaa4sEisbiTC1QNnDgmbIw/f3tBA4mlhndESvJZLmNe0CaDGK
-	i1u7FvkyQnvpOJJGGKegX7sZ4ytg8fvZlpLV1LY8sOwTveP3yOrrVDRl
-X-Gm-Gg: Acq92OG2nnbgMxO6AqGhywe737wlhAHdwir5qqvi9Y5hfQUWPaxkiLNPcTc+0BUV8Ez
-	KoHgLpkINfuKF6NdRnt04DV3nS7nt9ow8XF4aCNzfn7gvsyTKCUG3ktM2fq0XlMERhbq15lT3Og
-	fOyMI0SuQQHCrX2O0sbhp2r4wbtd28hrhizqVVU/DXSW0AIUhcvotaJ+Zc6G0zUcbqhuXMKIPmH
-	VH2ORtu1toQGnhXdMf3JubMmfbwbmI1sJuVA6PHywugr0Xrd180yFWIbeoBzUPEmB3DUUr7zpVK
-	4kbtJQiC8W0TwROn1pvaSfxoztkXtRKZ6QCA/fQTvdu+CaHoaBF4LeOjnkZKtGgfFnXUiFZ4tFA
-	09Q6CDQXK52W4lNIqAKR1zEocGUBrzFoUj+q7MPoZUBi0xg8/Z4RN8s6Hl1yOmg3KJawVyl9hRw
-	jRNH0LKgWKEy+nGsiwKURSJXTM33A/
-X-Received: by 2002:a17:902:cf0e:b0:2bd:ba87:40a1 with SMTP id d9443c01a7336-2beb07ffc75mr121530695ad.29.1779632621400;
-        Sun, 24 May 2026 07:23:41 -0700 (PDT)
-Received: from grand ([2401:4900:1c6f:a535:c48a:f219:d7bf:1717])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2beb58d9fe9sm67133535ad.65.2026.05.24.07.23.39
+        bh=wMWTLVErG+lwd2OmwsvEi2f0/+bd0gdnAxYfjdNv9oY=;
+        b=lxblJfhPSZ0eUwFWNLRNvnJe0pXiIrQnBW+gra/9QfnpzggdgKad6ROJdQWeljInZN
+         IRIjyABn31Pgi0EBYSUSpacLYsnxJRsLdcpYl+Q9RZrxr0OoyUnrLe5uVxC/OvU/+11P
+         HAPVkwCBTLU0rzcKXEJMOs2acrHp1mISbaCyNRUDs58h6vBxng9z9vzhBwRng3NUqOYd
+         XFSMzkJdTZHFuLM3ck7e6jHQEq54T58DZkqjXQOk+mZQnrVJhiOlZscKdsmUWfiZJreD
+         qVHvgB9kT73R9VJFC8uQdWjazd/Nq+qSMrBQwrTIis+4VTMvB6IWl6QyDq8Wp1yNzz/s
+         cdUQ==
+X-Gm-Message-State: AOJu0YzdFsJ99ZJdlmHn1GsGF/8a3Q1DcQGGsiHtb9KDqN+di+ZxPPh6
+	v3QZe4CEneNmov//JJphLdr5rMNx7od4srC53IaQNuiRVYgParRZc0KqTKmMQBVh
+X-Gm-Gg: Acq92OFdyYXTnFyqFiKEPzHMc96d05vewxlnh/bI8YouydPUx1XiBZU91vlSR9AiaI+
+	0ePy07vLbHUTFrDipe0ziFCcy6ughhTatgOlFEYw8pGOSR3yKc8d/m1Kp9IM6tn1kapg6nd5OQF
+	EKfG8jXFN6L8eiSJ8V+isRuva8DvqgMo/z/D98TVyMC/zILmmLLro9xpoksrjhJ/Ff/eD+YpFMZ
+	aWFIXK8VApcv+vUbSd5lpaMrnigvjpmAQ+WHvlg4hD5Ah9inqwCrci9ZA7ecg9ywJQcui1mcdNk
+	PKGNwOH/gQQSVNUBmm5y8JD/1PjifZnR9SSOvv6fm0xHNV+/zVJi5E+29TNHiyPub/ylmFkpZDy
+	4xNkZYYUy0JBvw9AwB8xiVteM6mmip9fFu5Wd+8uDFXbCjzl5Zu8C2iAZVk0oIb85BN8ULdUyGs
+	/RJb6i+g5nIWAAyretssYtrPG+xFVib6gFHJfr5Q8=
+X-Received: by 2002:a17:90b:3887:b0:369:7433:2fe with SMTP id 98e67ed59e1d1-36a676f5e4cmr10671515a91.6.1779636315544;
+        Sun, 24 May 2026 08:25:15 -0700 (PDT)
+Received: from fedora ([49.37.171.99])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36a6c44a44asm4601229a91.2.2026.05.24.08.25.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 May 2026 07:23:40 -0700 (PDT)
-From: Anirban Bose <boses156@gmail.com>
+        Sun, 24 May 2026 08:25:14 -0700 (PDT)
+From: Praveen Jayaprakash Pattar <praveen.pattar2022@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Anirban Bose <boses156@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: rename camelcase variable bAllow
-Date: Sun, 24 May 2026 19:53:09 +0530
-Message-ID: <20260524142309.88007-1-boses156@gmail.com>
+	Praveen Jayaprakash Pattar <praveen.pattar2022@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: hal: Fix block comment style in HalPwrSeqCmd.c
+Date: Sun, 24 May 2026 20:55:06 +0530
+Message-ID: <20260524152506.5670-1-praveen.pattar2022@gmail.com>
 X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -72,33 +72,60 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename the local variable 'bAllow' to 'allow' in rtw_cmd_filter() to fix
- a checkpatch CamelCase warning.
+Fix non-standard block comment format. The comment was using '/*++'
+and '--*/' delimiters instead of the standard '/*' and '*/' used in
+kernel coding style. Also fix missing '*' prefix on subsequent lines
+and remove space before tab characters.
 
-Signed-off-by: Anirban Bose <boses156@gmail.com>
+Detected by checkpatch.pl with --strict flag.
+
+Signed-off-by: Praveen Jayaprakash Pattar <praveen.pattar2022@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_cmd.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/rtl8723bs/hal/HalPwrSeqCmd.c | 32 ++++++++++----------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-index b932670f5d63..aa4a810d8322 100644
---- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-@@ -299,12 +299,12 @@ void rtw_free_cmd_priv(struct	cmd_priv *pcmdpriv)
- int rtw_cmd_filter(struct cmd_priv *pcmdpriv, struct cmd_obj *cmd_obj);
- int rtw_cmd_filter(struct cmd_priv *pcmdpriv, struct cmd_obj *cmd_obj)
- {
--	u8 bAllow = false; /* set to true to allow enqueuing cmd when hw_init_completed is false */
-+	u8 allow = false; /* set to true to allow enqueuing cmd when hw_init_completed is false */
- 
- 	if (cmd_obj->cmdcode == GEN_CMD_CODE(_SetChannelPlan))
--		bAllow = true;
-+		allow = true;
- 
--	if ((!pcmdpriv->padapter->hw_init_completed && !bAllow) ||
-+	if ((!pcmdpriv->padapter->hw_init_completed && !allow) ||
- 	    !atomic_read(&pcmdpriv->cmdthd_running))	/* com_thread not running */
- 		return _FAIL;
+diff --git a/drivers/staging/rtl8723bs/hal/HalPwrSeqCmd.c b/drivers/staging/rtl8723bs/hal/HalPwrSeqCmd.c
+index a59505cc4a07..7527ff051865 100644
+--- a/drivers/staging/rtl8723bs/hal/HalPwrSeqCmd.c
++++ b/drivers/staging/rtl8723bs/hal/HalPwrSeqCmd.c
+@@ -4,22 +4,22 @@
+  * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
+  *
+  ******************************************************************************/
+-/*++
+-Copyright (c) Realtek Semiconductor Corp. All rights reserved.
+-
+-Module Name:
+-	HalPwrSeqCmd.c
+-
+-Abstract:
+-	Implement HW Power sequence configuration CMD handling routine for Realtek devices.
+-
+-Major Change History:
+-	When       Who               What
+-	---------- ---------------   -------------------------------
+-	2011-10-26 Lucas            Modify to be compatible with SD4-CE driver.
+-	2011-07-07 Roger            Create.
+-
+---*/
++/*
++ * Copyright (c) Realtek Semiconductor Corp. All rights reserved.
++ *
++ * Module Name:
++ *  HalPwrSeqCmd.c
++ *
++ * Abstract:
++ *  Implement HW Power sequence configuration CMD handling routine for Realtek devices.
++ *
++ * Major Change History:
++ *	When       Who               What
++ *	---------- ---------------   -------------------------------
++ *	2011-10-26 Lucas            Modify to be compatible with SD4-CE driver.
++ *	2011-07-07 Roger            Create.
++ *
++ */
+ #include <drv_types.h>
+ #include <HalPwrSeqCmd.h>
  
 -- 
 2.54.0
