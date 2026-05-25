@@ -1,153 +1,157 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E373C3D1711
-	for <linux-staging@lists.linux.dev>; Mon, 25 May 2026 07:46:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6658F33F8BE
+	for <linux-staging@lists.linux.dev>; Mon, 25 May 2026 08:01:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779695190; cv=none; b=uGaXxqtEvpR7HC9uxUkkbbMvmj2YTYZ8L5AbGCStIzCW2KMRyfik060djeFwl5tB/BhoZZfYy3cB0n926f3F4eYD85YdpKo1k0zomM4NJ+++TT5fpba6AIASm4TW4o1CUcgILvhS0Iignq2dVVprB+R8f2CsqY5aeWJ/lhswfwM=
+	t=1779696119; cv=none; b=StmR8T3fXTR2SCKjp9gs3dd2HmZ8sNsWO467iTqVdlrsUxJCeRRLc2hK8jEpJi7TNJEIowQa9ZZTgNVSFAm4a6EMV5V1Ea23hYwfGvlhx3fGt7gtNLOpKd7G+be5TS4z1SQa7UkfktOEpsK8W9PPCdZxmJAuzTmhifw8dAfeWJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779695190; c=relaxed/simple;
-	bh=0wj632bgYmSDdJInEMPNjyJSw9k4yqhecoxwuIZnlJ8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=m21JHWKYnV2i7k44VQkwAb3DyUzf6SzF7RZQNFwmoVgHeW+Z0gLrjaI4XKBOYYC1TOXSo/oTUc9L7uEZ/U0TWA0K87rTH2NIGElgdeOU3XHwjXSlWiEVE7hDxk0lIqzzebMsKLWouuLxra+xkW1CjLq1diJjKtd7XTGY96S0/Rw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lF55QWfd; arc=none smtp.client-ip=209.85.214.174
+	s=arc-20240116; t=1779696119; c=relaxed/simple;
+	bh=gxT0mGEGc0x6fTOQayF1sxxS6ki972VUL7prsGHTFzY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HxgR7Gi9W/qh6zPtqZldlW75uyPo1tTMgFuN3u6zKHmLV4mdFQ6rOs1JhLPAThmClxKRLWsj+I6VJ+VXUb1APtLxD6Aop6l134QEF3d7OAeP0PNwb4/vPlTe8jY6aaAMCwhpOsWZ9XLJ0ridmDoWXaYmYI5oYtkju/C5vUIMkj0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TKQytp+a; arc=none smtp.client-ip=209.85.221.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lF55QWfd"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2bcd3ac3307so54886785ad.0
-        for <linux-staging@lists.linux.dev>; Mon, 25 May 2026 00:46:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TKQytp+a"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-44e5624c053so5550442f8f.2
+        for <linux-staging@lists.linux.dev>; Mon, 25 May 2026 01:01:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779695188; x=1780299988; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=a7wMezn5P/7XEMTkbT5X0nl1FcmOTHwJPbubUWuSopQ=;
-        b=lF55QWfdHbwOEszjq2tJVy2zZoLRp+eyKpw4H/s6TLc5DTKz++uC7Gs5M75Q2gviGl
-         BeHThP9BSZZmhJRrBmOSQvqp9QB8bde1w8n2sXP0GAhUSw+qnhFNqefFri/vB2FpFCBh
-         zCgE94nnSF32wnw7BAKgmeKCnufPAImulMY9Hl1UKho44F2USf3xhYeL3dCntxC90uFz
-         rSvchH5OnpIG3LlMk6qxQAAtnxFYv5iBKfghdptSVnfe5ZohghIWeiILWo7VaYNRJ9Nz
-         c5vLy/irz8Hh6MP0+X3Dg/A07uJSI+IOEWiXN1CUwWjcAMz3vT2QRBQ4IOKRZkBV6kli
-         BpQw==
+        d=gmail.com; s=20251104; t=1779696117; x=1780300917; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=HALvVAGVZpW4SFGgUWC1AAMHEQ6arvLYXGA0/5eX59E=;
+        b=TKQytp+anbHu10qVliFKGmZKQl7rGoCsxyIEsuggQi8rz3OHgWrOVcizxdVT9gqscK
+         aXZIkomg0VzXi3cOTCXB1UzRyJjAs9+XpOhLSJE7YHMk6IajErJvGclnbKtpA3wxzhuw
+         RQAQU4WJwTxnzx3atHr7HwxiAZOQ1RAH9OaFGvLvTfIpnJ7AujTjmUYqodQr6B59wLxy
+         CajA8NndoD1UAM/aELa9Z2ULobl3Xmw547/m8FRqqkib/6hkiowPt290g8+S08LNARAv
+         +ZkxQPmBtSfWmasRKUCvkXkVRL38jKhuUdVwTF6XcnkksvW5oHtUfwRs2+PHFNp1ZRfk
+         2U4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779695188; x=1780299988;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=a7wMezn5P/7XEMTkbT5X0nl1FcmOTHwJPbubUWuSopQ=;
-        b=rkjsIs9X1+IwmA4PXV7gwGXK3LOACyO9zpidzupqmKCASF65AJwCpIGB5MPfMgUt1a
-         D5A0Z1pd+Bc2T6y3hg6AJsUh+p98LJ+WsiAMtWww4MnNwh/01Ok2S2WzOyouva7p5USm
-         CTaoZM4VzDRRHt1wD+5P6Ije5TmrjVh1NoJnj4TLonCE0A3C+lp8ezwEPHJhZiL4MH+Y
-         8RzFg0IFcgPAeubnBMqJAd1XenkEPc0mVfw4JDIy9oKP3PzMY40yrxyuqHLhJRKlpAEs
-         uowCofZZoT5jX0KNQ3zXtOS8BLvhLZSxLqS/j6+hhFFm8TwEYRUHMazAEKc4hbcYvW58
-         ROdw==
-X-Gm-Message-State: AOJu0Yyekg3VWWfi0dHk5AxfJtYPC0tk9a1XRfS26DZwdmqHBAR2bxiB
-	NayNYiaTLxCN4agTNQ7vdi5wc/pFLzIVapQ/7j24OiPVxlPPDrLkOZOt
-X-Gm-Gg: Acq92OF5pMcWxSGw1GKGejn+/1jCge8I7jCvrmwwXkbcORZTNrU/DRkmWg2eBeN2gr6
-	/DBKbZ3GIVejzdA95pj59HQ/V+rzBJkDn4Q3/lur11CYbtPcHj8lXEAsElf2dJke5eTRN1a8pLB
-	8NtOMR0UeUomEyk//xENaxrchLtyIOPqeiOBd3ZwwZuoZNkCHBZZzJHcVPKdlGvtMDl9JgdpRD9
-	8PN1Y/iAX8GBNE4ekj2UxKOm4doX+HTVIen4SDDO5Usj0UPJclFbrOeunJbL2ZC3cJAfw6VIBIO
-	LUCEjKyD3qqDtXqPToYVogKk6sm2hEi3mXhc4SDVw9hpZLDDp97Hh07unKR1MjtatqQHRbINNyq
-	+xYSmrD0bKSlbuwjZSxZIi0TeItPrQEEZs0swi0nFrdYNFwcc6Z9mBW/yK39GcOC4L53YEX6J4o
-	owQdrwFA1ULjixT/z0aj7/u1nrdcM3
-X-Received: by 2002:a17:902:f543:b0:2b2:57f3:8d07 with SMTP id d9443c01a7336-2beb069c06bmr137208105ad.7.1779695188115;
-        Mon, 25 May 2026 00:46:28 -0700 (PDT)
-Received: from grand ([2401:4900:1c2b:7e61:dbc5:96cc:845d:a2d7])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2beb58c69a0sm84916885ad.59.2026.05.25.00.46.25
+        d=1e100.net; s=20251104; t=1779696117; x=1780300917;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HALvVAGVZpW4SFGgUWC1AAMHEQ6arvLYXGA0/5eX59E=;
+        b=Ob1FkSIJ6s8sJ0jJml8mgpCzHpIUZWruNLPtji2YGP3IZd0EifXJ8eptNUFx2FECh/
+         B641CQexscyboCc66JcMKe8IQcCedBUTENQcCdkNOVTg4c1u2CArlQWaYZGXwE+3wDdK
+         nCIcyVVypDIeQjPI70KutTNPZGPxo6+EWhCO1iPSaC8PSZTJ1QewgqkQUFX3jSLhgvWZ
+         ncgkTdPmK3Y0RKw6uIZtDoWdEWZXm6yJSgoMVIQ0NBm+MwywOYyP0qgtBHW70RcHRdIn
+         i9PjDRg0Dh+UIwq2j2i2UNZyNkWnd1HGGyrg+K+HuDvliJ4r9l7BFXl2o+Bbh8UuxEgE
+         DnAw==
+X-Forwarded-Encrypted: i=1; AFNElJ8kOi1cBWGH83gdrsuP2Rc6qSYzDuN8EvR0uFZ2eudbyPysc7nAIq1MyZ9pp3IaWrjI4rnS45pFQ4daqzyF@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywg+fipFehA/wjmsGJYF79Pqz4IZ6TIJjhcotwk/PhkJY+ZDnOT
+	bCBioyjEJvEsqCD9dT/OEYq88GCQzybZEkuVMRZ3UYy3MXgytF6soSvk
+X-Gm-Gg: Acq92OFbO+TkiKcDWgYC83IIxZOLVvRZBWiDwiokAVU2p3PHighfRnKP8nhqyFxVMn/
+	rlI4hAmLbrxoB1sd8kwOC+AgHxU6K1qjr5bi6efstAnY3sgWOc/A2sfY2HulC87opy4q8FqQ93g
+	Q6wUGsb1Po5uQ1tyRB+xeYXMrIa7CdAYJzCcg6Qj0QsDfKM6w6QHRJw9zT8jaftZoAxJ61IYzdx
+	7qi2W4axy1MRb6ZEmYtnKxWFJj4VOI2cO2Ys1h8lM6h5j8lB8PqySGa1Kn6v6LeCb2DW4+h6iQG
+	vx0hlCurLLT7wwOGX7sECkFbRcc0IwqJ+eD3QGLL9K58ACfjMTb8uywBprkfFozLipP/AkfknYh
+	VuKVstrclQZ4U7aOq5leTqnjHT/1hmybrsRngnsItmbEyUuIGPqkrLyHK2nPDrYQMvm87OI+Vrf
+	s8sEINowyMKQ/AJ9CPl6/PBeo=
+X-Received: by 2002:a05:6000:388:b0:43e:a9ba:b194 with SMTP id ffacd0b85a97d-45eb38acbc6mr19616507f8f.34.1779696116400;
+        Mon, 25 May 2026 01:01:56 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45eb6c9b980sm23029778f8f.3.2026.05.25.01.01.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 May 2026 00:46:27 -0700 (PDT)
-From: Anirban Bose <boses156@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Anirban Bose <boses156@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: rename camelcase variable nSubframe_Length
-Date: Mon, 25 May 2026 13:14:19 +0530
-Message-ID: <20260525074419.144884-1-boses156@gmail.com>
-X-Mailer: git-send-email 2.54.0
+        Mon, 25 May 2026 01:01:55 -0700 (PDT)
+Date: Mon, 25 May 2026 11:01:52 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Ahmet Sezgin Duran <ahmet@sezginduran.net>
+Cc: gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 5/5] staging: sm750fb: deduplicate fbinfo loop in
+ suspend/resume
+Message-ID: <ahQB8C1gTr7LF0FO@stanley.mountain>
+References: <20260523051509.166152-1-ahmet@sezginduran.net>
+ <20260523051509.166152-6-ahmet@sezginduran.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260523051509.166152-6-ahmet@sezginduran.net>
 
-Rename the variable 'nSubframe_Length' to 'subframe_len' in
-amsdu_to_msdu() and rtw_alloc_msdu_pkt() to resolve a
-checkpatch.pl CamelCase warning.
+I was waiting to see if anyone had other comments bout this patchset
+to decide if I should mention these minor nits.  But then I was
+confused about v2 so I think there might end up being comments... :P
 
-Signed-off-by: Anirban Bose <boses156@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_recv.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+On Sat, May 23, 2026 at 05:15:09AM +0000, Ahmet Sezgin Duran wrote:
+> @@ -388,18 +388,18 @@ static int __maybe_unused lynxfb_suspend(struct device *dev)
+>  {
+>  	struct fb_info *info;
+>  	struct sm750_dev *sm750_dev;
+> +	int i;
+>  
+>  	sm750_dev = dev_get_drvdata(dev);
+>  
+>  	console_lock();
+> -	info = sm750_dev->fbinfo[0];
+> -	if (info)
+> -		/* 1 means do suspend */
+> -		fb_set_suspend(info, 1);
+> -	info = sm750_dev->fbinfo[1];
+> -	if (info)
+> -		/* 1 means do suspend */
+> -		fb_set_suspend(info, 1);
+> +
+> +	for (i = 0; i < sm750_dev->fb_count; i++) {
+> +		info = sm750_dev->fbinfo[i];
+> +		if (info)
+> +			/* 1 means do suspend */
+> +			fb_set_suspend(info, 1);
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
-index 86c5e2c4e7dd..ddede3ad0e15 100644
---- a/drivers/staging/rtl8723bs/core/rtw_recv.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
-@@ -1576,7 +1576,7 @@ static signed int wlanhdr_to_ethhdr(union recv_frame *precvframe)
- 	return _SUCCESS;
- }
- 
--static struct sk_buff *rtw_alloc_msdu_pkt(union recv_frame *prframe, u16 nSubframe_Length, u8 *pdata)
-+static struct sk_buff *rtw_alloc_msdu_pkt(union recv_frame *prframe, u16 subframe_len, u8 *pdata)
- {
- 	u16 eth_type;
- 	struct sk_buff *sub_skb;
-@@ -1584,12 +1584,12 @@ static struct sk_buff *rtw_alloc_msdu_pkt(union recv_frame *prframe, u16 nSubfra
- 
- 	pattrib = &prframe->u.hdr.attrib;
- 
--	sub_skb = __dev_alloc_skb(nSubframe_Length + 12, GFP_ATOMIC);
-+	sub_skb = __dev_alloc_skb(subframe_len + 12, GFP_ATOMIC);
- 	if (!sub_skb)
- 		return NULL;
- 
- 	skb_reserve(sub_skb, 12);
--	skb_put_data(sub_skb, (pdata + ETH_HLEN), nSubframe_Length);
-+	skb_put_data(sub_skb, (pdata + ETH_HLEN), subframe_len);
- 
- 	eth_type = get_unaligned_be16(&sub_skb->data[6]);
- 
-@@ -1666,7 +1666,7 @@ static void rtw_recv_indicate_pkt(struct adapter *padapter, struct sk_buff *pkt,
- static int amsdu_to_msdu(struct adapter *padapter, union recv_frame *prframe)
- {
- 	int	a_len, padding_len;
--	u16 nSubframe_Length;
-+	u16 subframe_len;
- 	u8 nr_subframes, i;
- 	u8 *pdata;
- 	struct sk_buff *sub_pkt, *subframes[MAX_SUBFRAME_COUNT];
-@@ -1686,12 +1686,12 @@ static int amsdu_to_msdu(struct adapter *padapter, union recv_frame *prframe)
- 
- 	while (a_len > ETH_HLEN) {
- 		/* Offset 12 denote 2 mac address */
--		nSubframe_Length = get_unaligned_be16(pdata + 12);
-+		subframe_len = get_unaligned_be16(pdata + 12);
- 
--		if (a_len < ETH_HLEN + nSubframe_Length)
-+		if (a_len < ETH_HLEN + subframe_len)
- 			break;
- 
--		sub_pkt = rtw_alloc_msdu_pkt(prframe, nSubframe_Length, pdata);
-+		sub_pkt = rtw_alloc_msdu_pkt(prframe, subframe_len, pdata);
- 		if (!sub_pkt)
- 			break;
- 
-@@ -1704,10 +1704,10 @@ static int amsdu_to_msdu(struct adapter *padapter, union recv_frame *prframe)
- 		if (nr_subframes >= MAX_SUBFRAME_COUNT)
- 			break;
- 
--		pdata += nSubframe_Length;
--		a_len -= nSubframe_Length;
-+		pdata += subframe_len;
-+		a_len -= subframe_len;
- 		if (a_len != 0) {
--			padding_len = 4 - ((nSubframe_Length + ETH_HLEN) & (4 - 1));
-+			padding_len = 4 - ((subframe_len + ETH_HLEN) & (4 - 1));
- 			if (padding_len == 4)
- 				padding_len = 0;
- 
--- 
-2.54.0
+You didn't introduce this, but the rule is the multi-line indents get
+curly braces for readabilitly even if they're not required.
+
+> +	}
+>  
+>  	console_unlock();
+>  	return 0;
+> @@ -414,6 +414,7 @@ static int __maybe_unused lynxfb_resume(struct device *dev)
+>  	struct lynxfb_par *par;
+>  	struct lynxfb_crtc *crtc;
+>  	struct lynx_cursor *cursor;
+> +	int i;
+>  
+>  	sm750_dev = pci_get_drvdata(pdev);
+>  
+> @@ -421,21 +422,12 @@ static int __maybe_unused lynxfb_resume(struct device *dev)
+>  
+>  	hw_sm750_inithw(sm750_dev, pdev);
+>  
+> -	info = sm750_dev->fbinfo[0];
+> -
+> -	if (info) {
+> -		par = info->par;
+> -		crtc = &par->crtc;
+> -		cursor = &crtc->cursor;
+> -		memset_io(cursor->vstart, 0x0, cursor->size);
+> -		memset_io(crtc->v_screen, 0x0, crtc->vidmem_size);
+> -		lynxfb_ops_set_par(info);
+> -		fb_set_suspend(info, 0);
+> -	}
+> +	for (i = 0; i < sm750_dev->fb_count; i++) {
+> +		info = sm750_dev->fbinfo[i];
+>  
+
+Better to delete this blank line so the NULL check is next to the
+assignment.
+
+regards,
+dan carpenter
+
+> -	info = sm750_dev->fbinfo[1];
+> +		if (!info)
+> +			continue;
+>  
+> -	if (info) {
+>  		par = info->par;
+>  		crtc = &par->crtc;
+>  		cursor = &crtc->cursor;
 
