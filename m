@@ -1,72 +1,72 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 056343815CB
-	for <linux-staging@lists.linux.dev>; Mon, 25 May 2026 12:10:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C3823812D3
+	for <linux-staging@lists.linux.dev>; Mon, 25 May 2026 12:10:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779711012; cv=none; b=SvU4OfCt937TAOh4jd63WUs+FEC/5zMWoCfE2puZz+IQ04+N7hUhU8X4esFBw1mie+dp6mfnk1bQiTxQ2D8yZaqlbWTItGFbWhDQKexUkM7E22Gt+CHyBRLfs4B1jXvuK3SWcE7yAcI1wFohtNZg8WuCQAjs38NYYlyqgGDVQO0=
+	t=1779711013; cv=none; b=dQAxa7cbs9oDzXPSNeh18ryxRI4y1n8zYYuQQS/I6QeUCkAOiJM4wfQ03kS6jKu1DJAucwdMtCZ3PbaZ2sOiQZTw4ga4GhJvYR+yEWsam4j+sa437IjeDvK075E2zP3VmIO5QbnM2njiM9upg5Bf5v4/L0BikkMhe6Qo5quuN90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779711012; c=relaxed/simple;
-	bh=oyOUsQBz1eoO/xPKinoKxfV6r36KLpnOShlIEalijEw=;
+	s=arc-20240116; t=1779711013; c=relaxed/simple;
+	bh=t9IKVxCheMKFK6oXwhkLHG2BuUeOlVWyhXBepszW6c8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=jAb5dxlxD/qNf/KUH4W1rST24O9pmmKRb00yJXXWvQSm8Gd+SdeiGHZaTDPVKkTkcgks32GJ0mjhI5Zb8vlHJILmJ+KqnTXhDSfaZ7aVPnFq3UpLk5vG2bzrFxHWfb63YPOMl50SYqY1Ll3CuJEsmfMfD7Qmzj9U9r8HULYDqV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sPLUDuge; arc=none smtp.client-ip=209.85.208.181
+	 MIME-Version; b=pxlAfi8MoOs3ldewCrkYX2Od6bz/8/mRwn+TyQYUgBcFHHv1XY2pTZguvXXcoqQQudktLoXamqTre1GeDj4qEsIE8Q7nKPwICMBHWVWx9LrkqDe6gMmG31Djb1hYw/fc1rMF6Yu/m+GpHh/TMuCRQVUeh0xhd6uOoh8HDXUKX/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qzaKzF3z; arc=none smtp.client-ip=209.85.208.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sPLUDuge"
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-39378db197aso98339371fa.3
-        for <linux-staging@lists.linux.dev>; Mon, 25 May 2026 05:10:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qzaKzF3z"
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-38e8292423fso64515311fa.0
+        for <linux-staging@lists.linux.dev>; Mon, 25 May 2026 05:10:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779711009; x=1780315809; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1779711011; x=1780315811; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4t4/1E6y9rzg9L43g6t305UAl+QiCiv9HJR64YEc08Y=;
-        b=sPLUDugegUIXBidkYG26uXFGKscR5M7u36EFqKF7WZxkbCCbn/VMEKie2asplMol0u
-         i54SmlMzv40cnqvLOhMkCR55jUaf89ako8n9b1jNfatWhIwDgEicjEWZuE+AGuBmqSua
-         3WAA52qC8hL05VMxHLcZKGTDkiI1at5ka4VrHWU57mx3AXJ4xJVW39ypfoLuhl7DWKCe
-         gAQRyi5HK4RI2wTpgsfCN4Jm1MeEUmVc9Am5FH5VAicCnU2yG1HMyF/COak7hAie90j4
-         rdKDxP0fCCwBSqUo14WdLI6P+/IXGWLG8B7G5QTillxpTBAdbR6k2HCW68zyphWlQG2R
-         N3dQ==
+        bh=5il3K3nJWUIVKcbEYy2cd/NmIAlc3phF0lY4mAeKiZ8=;
+        b=qzaKzF3zL3zHRvI6GFkTQ2D1yG5EJzC/sIrhGEEOFLz2MjX7HyO34XgqtWlpkvi8wJ
+         AHfi2/HBaiR3m96Bmks8I+BTUZWnsQaDAK8ui0busULlForKNPRMFE2RCxSM4U3w1D0J
+         Kh6LHUX5IFODAix2HwkWKBe7uIYf1knhxmpcgODr+f7eNfxAQ9jnI1swi3N5/WHUAx+G
+         cXUMT5ynyqcT5F5v9cC9KfXjw+0ocFZRBHvUej1AzxPhdLNOLIMfiHAarcGLkHwTmjgZ
+         weFcNWJWBRh2OwfnnFiHOY+Aj1EepEAhvPQ5Muuc5Crsg6W7hrJxP9d2dTXbkb1bqq8b
+         8Ybg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779711009; x=1780315809;
+        d=1e100.net; s=20251104; t=1779711011; x=1780315811;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=4t4/1E6y9rzg9L43g6t305UAl+QiCiv9HJR64YEc08Y=;
-        b=TXv4sLn53k/YbWV6424NI7QSvH63aJf8P8iC/nsX0jhl77fecHld2vf0QzBsXS4lD6
-         Qhu7ta26AL6CWFdJu3eNnpHStgPp5Qk5aaA1KURKF2X9F+YUw/pH2GVB5I/BR9IMkYVx
-         xqG3eC94g3GVMkYiBNkvQscPmVqJY5hbhGjxfvhRNojy3CVK139xxH+ZorM74hDgy9Dh
-         Ll/zqTIPWrKZIDMhqZa+1xX0nc2q5cQdlNO+/BAwFE4BkXXHunXePodMI/ancQ0Qar1Y
-         Cqx2TevxwAFe9KXVqMRkCEUpVGB+YhGHRepfnrgV4Ukjzi3Q5h5QN0K6Eh4sVe9d5gg2
-         r88g==
-X-Forwarded-Encrypted: i=1; AFNElJ/nT6/U2VaWtphv52O0EDPY1DhhZY9ozdPsxaQ8Ucq1qE+4j3WoTUOe2E9zcjD/snijnjq7N/6ZqKHGOJ+D@lists.linux.dev
-X-Gm-Message-State: AOJu0YzZpYytUD7nlogqTpr/shpvpdZZXaFF1kGniPCrRJu9oDJCuOSD
-	KAkxoMs4KqXNprSHHC5YVzkMWE02mTDHlpuPXP4Je8bDoFW+ITlh0XsQ
-X-Gm-Gg: Acq92OGJfdEp2+AY0ODCPUQfyiNWCH0ZlxCHlRnpiM7ND7f7XgGIBjxJvhmvSlPHS9P
-	zoYzKeZSESawnFqaGc/uFkGFpKpbBWgARCYvxKrlfRkFrct0qO8ybSZu/+uHKxRHt4ics2TkWSw
-	SchPdbh5JuNeFyjIPM4cpEjbumWiMZEmhmg06Leki4tH44GAzDrOpGVoVRn/dsWM7z+kLomfQsq
-	1yCPBRiPYdcijc5IbdB7vEzYCSjaLtkBM/oHHUirfw8mjwK/2peHWDITk3CMliMiLtVdSaNvvMN
-	ZahL8ilHjB/RCmdPDWb+uaxNDMBVzBDk4A8I5Muy2gXo87OISzPouyAFG1VG/T/nzgYh7FpVvZn
-	QOLBj/oxK1jEQKydy51J23lwSx3tI4VwcnY80PolAIeUFqO5uFT76+lBW/StPhej9SUfQTFsV2c
-	CutIuzHxYNTxUulsfVIc+mc9UyOGlUj4VQuhYyYxEuky8H0rpcBIEK
-X-Received: by 2002:a05:651c:1510:b0:38b:f0f0:e3a8 with SMTP id 38308e7fff4ca-395d8ba6d0dmr49996601fa.3.1779711008953;
-        Mon, 25 May 2026 05:10:08 -0700 (PDT)
+        bh=5il3K3nJWUIVKcbEYy2cd/NmIAlc3phF0lY4mAeKiZ8=;
+        b=e+HMOaJuIyd5itqzBsjex+WL7IhtU9anqPc2DbMMo2LzlmZ+FmrdpKoXtXcfAQcAGw
+         6K6cEGbQutb5Vox7Z6uQyVLOf9TF1fRvNL8HlKsHa50ulX7yEUAQCVpQp3tz/O4KkFvZ
+         JC0K641AU8IMaMt4TRXabAjKQ1a2MPt7haHka8o+piWqhCv6NeIpTIBh+tmXrfDN35TY
+         MQGl9PIZa5M3Ax1/YtX2IltIsH35pKyAfaC7CTF4NqOCHkaMnsddEsOURndifB740fLk
+         MKBelAqEAU7p+o8zUOtf1ZUkfTb78B7b+SgJ54bg6FMMeQg9e9PNmmGshEWIxWIVkNxg
+         ryGg==
+X-Forwarded-Encrypted: i=1; AFNElJ9oTk+6Hw4gTKIIWVFhGrh9mF0xCemhL5nw2IW5BDA1UPL5qSIaHnpUDwB9t61C+qm30GCoXVbLN29B5jWr@lists.linux.dev
+X-Gm-Message-State: AOJu0YzOzcDioPVsHItHztqtiXnnACBen4T1L3ucVuRf7C0E7egwuIBU
+	I33pzcjsR+FU4+0V79wUbqO6LhvaYlVEddFe4Fj3I8A2ljUyEt6wF330
+X-Gm-Gg: Acq92OEsijyiDngscx0jqaH/B1hedQpEtERIEocZw+ts4jGPUBwC72rYNY/+ERUG9Rg
+	jcfTvyLUWwXST5eZP6/J01F+gscxobO8By7VobqzwmK/ZQixOFwYYHSxRhQMGv+S7y0qYhmy/y2
+	WU9sdVbLvwYQ1PO3ok25b9NYqQW2pTM9i8ps7mwNGvMv+UICRdgv8oqmuhgcj/hyzQ+fy3Hqbjv
+	E6L2Ycpg405tG9PB3a5HgSiYKz/vZcX2pWwH6M0HjpoxenQ5rEnkzp7AVBCvMNUgP0HU5WAnlkE
+	LEg0ow1dhqeGz2wl/fb6kKY0mNDw7LmlVsCQPPZxmDxD243ULEncVAy8R7MnRKDFQGURyB0dl5U
+	1sUy4L/p5/I6gjXrkV+NbxH10gzHp0rVN1cICK7/fQ7wbSwxc8uEulAhgA5VpUqgGe+RFIvE5WH
+	wBU+vzEjFPUlv4KhLxSfAiQzFFLh94LDqyZDfxhOGB9/0VU0f4zwjb
+X-Received: by 2002:a05:651c:1ca:b0:38c:6b42:3d77 with SMTP id 38308e7fff4ca-395d8bd343bmr43270541fa.2.1779711010527;
+        Mon, 25 May 2026 05:10:10 -0700 (PDT)
 Received: from g.lan (95-25-158-125.broadband.corbina.ru. [95.25.158.125])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-395dcc09e45sm23408981fa.24.2026.05.25.05.10.08
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-395dcc09e45sm23408981fa.24.2026.05.25.05.10.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 May 2026 05:10:08 -0700 (PDT)
+        Mon, 25 May 2026 05:10:10 -0700 (PDT)
 From: Igor Putko <igorpetindev@gmail.com>
 To: Dan Carpenter <error27@gmail.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Igor Putko <igorpetindev@gmail.com>
-Subject: [PATCH 2/3] staging: rtl8723bs: fix coding style for PowerIndexOffset initialization
-Date: Mon, 25 May 2026 15:10:03 +0300
-Message-Id: <20260525121004.4989-2-igorpetindev@gmail.com>
+Subject: [PATCH 3/3] staging: rtl8723bs: fix coding style for TxPwrTrackSetPwr calls
+Date: Mon, 25 May 2026 15:10:04 +0300
+Message-Id: <20260525121004.4989-3-igorpetindev@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260525121004.4989-1-igorpetindev@gmail.com>
 References: <ahPw0yB7Ax3lfhKu@stanley.mountain>
@@ -79,30 +79,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove unnecessary braces around the single statement 'for' loop and
-fix indentation in ODM_TXPowerTrackingCallback_ThermalMeter to follow
-the Linux kernel coding style.
+Remove unnecessary braces and fix incorrect indentation for the loop 
+calling ODM_TxPwrTrackSetPwr in ODM_TXPowerTrackingCallback_ThermalMeter.
 
 Signed-off-by: Igor Putko <igorpetindev@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/HalPhyRf.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/rtl8723bs/hal/HalPhyRf.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/staging/rtl8723bs/hal/HalPhyRf.c b/drivers/staging/rtl8723bs/hal/HalPhyRf.c
-index f67b8d70b..3d45e5e44 100644
+index 3d45e5e44..c7f3ad38f 100644
 --- a/drivers/staging/rtl8723bs/hal/HalPhyRf.c
 +++ b/drivers/staging/rtl8723bs/hal/HalPhyRf.c
-@@ -230,8 +230,8 @@ void ODM_TXPowerTrackingCallback_ThermalMeter(struct adapter *Adapter)
- 		/* else if (pDM_Odm->RFCalibrateInfo.CCK_index < 0) */
- 			/* pDM_Odm->RFCalibrateInfo.CCK_index = 0; */
- 	} else {
--			for (p = RF_PATH_A; p < c.RfPathCount; p++)
--				pDM_Odm->RFCalibrateInfo.PowerIndexOffset[p] = 0;
-+		for (p = RF_PATH_A; p < c.RfPathCount; p++)
-+			pDM_Odm->RFCalibrateInfo.PowerIndexOffset[p] = 0;
- 	}
+@@ -250,7 +250,7 @@ void ODM_TXPowerTrackingCallback_ThermalMeter(struct adapter *Adapter)
  
- 	if (
+ 		if (ThermalValue > pHalData->EEPROMThermalMeter) {
+ 			for (p = RF_PATH_A; p < c.RfPathCount; p++)
+-					(*c.ODM_TxPwrTrackSetPwr)(pDM_Odm, MIX_MODE, p, 0);
++				(*c.ODM_TxPwrTrackSetPwr)(pDM_Odm, MIX_MODE, p, 0);
+ 		} else {
+ 			for (p = RF_PATH_A; p < c.RfPathCount; p++)
+ 				(*c.ODM_TxPwrTrackSetPwr)(pDM_Odm, MIX_MODE, p, Indexforchannel);
 -- 
 2.34.1
 
