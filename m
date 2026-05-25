@@ -1,38 +1,38 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCEF61A681E
-	for <linux-staging@lists.linux.dev>; Mon, 25 May 2026 16:39:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7488312815
+	for <linux-staging@lists.linux.dev>; Mon, 25 May 2026 17:36:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779727178; cv=none; b=PXH6IpmliwnqU5Dv0OJNN5LgUusLQKj4Q4VI+jF0HtJRCyNRnT4GRByBh3Ek73+OiVoKPHYfKreacLBVwcXdzjDeN5olgUO2inZkOmpaO1pUIOVZPDov0NmsjdglSB72D4WnP0bimfE153pg8fNA/htGHUIZAqc4s8Tvv2EzE84=
+	t=1779730589; cv=none; b=Z/E91v1yHMHcP+xwftZw0tuYcPotfjdvcJYLpJDaDO0YBtQOULC4y6Vup5pR+GptO6nMG9jwqZ3PyQHw9CAlRPVhyXZaLhwveZ2sCSU/rSHsVmun58H481xfQ9uasYhZIJaCpWd7A47p2pjq/pVFDaxd6gsf2+xcOduMwEE+iWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779727178; c=relaxed/simple;
-	bh=HMRhP5ggT+1hhcC9Z0Zt5C1cJ/nhIgPsBA3x+qDCJqk=;
+	s=arc-20240116; t=1779730589; c=relaxed/simple;
+	bh=QWzWJM8B1ow+zKf6LHvTRzu4lOXvT4vELeHRJrindYM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PQPJoeKHpSWPEgR5JH60D6Wqz0x/BzXtGwTAU883RUHVXwMnTXjjBLWsWSpFOmRkikbJ4eoU5uf5wBCD20+KIL1kytHmeHHE8fStRGnZoe3LGw79eCHQMXsF3/h+bcLeS0ASQ64fapp5BDufINAi/uNMdui6fHEIdzD8kSnK4Jg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=artur.ugnivenko@gmx.de header.b=KjJacrWq; arc=none smtp.client-ip=212.227.15.19
+	 MIME-Version; b=Jqgi4PC7YRVvCM7lITK3v+a/m8U9fpmmABDSJzK/FrcRDsTX0DFM/J52VgPdmkI/4o1bba2faiE1fOMhtmnnURi94WBjPcDpN3L3qVZMim+v8ktcvE0MPQdVg0X+MWhZD7WWHg3kbBwTivJ2b0cOc09kIYuN9r1+TbeUUo/UZDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=artur.ugnivenko@gmx.de header.b=FVw8Mi6k; arc=none smtp.client-ip=212.227.17.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=artur.ugnivenko@gmx.de header.b="KjJacrWq"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=artur.ugnivenko@gmx.de header.b="FVw8Mi6k"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1779727175; x=1780331975; i=artur.ugnivenko@gmx.de;
-	bh=539/pDJ3h/4NAqnGDggfJgutWVcpO28OMTRiXlb0/Tw=;
+	s=s31663417; t=1779730580; x=1780335380; i=artur.ugnivenko@gmx.de;
+	bh=W81HFblId8216k3Sg7DLrgKrN6PEh34yZ4GSWqdAXiY=;
 	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:In-Reply-To:
 	 References:MIME-Version:Content-Transfer-Encoding:cc:
 	 content-transfer-encoding:content-type:date:from:message-id:
 	 mime-version:reply-to:subject:to;
-	b=KjJacrWqxeegfjFWRuCQ005MHVGy6ysHR/4YP8iYPDdQmnG0LT6L5d++pWfxJ8ka
-	 vdpjVcR+wc7WV2v/PzpWKU0fptoQTO7oqhvn8Rw4NOa/sNl/kSpFMezVgqI4wbWKZ
-	 WwI5iNztOUOCTml5ZWylmZBhdF98GHFYemJBVts+1YfDEWIuoEy8uAVkR1hvS9d1B
-	 Tt199O0AQlLIpyOlBR8FSD5AcMvqrPGBTJHk0NXMduqy8rq2NbsP2uhAjHi5OjYZw
-	 5srNYdIi15PO4GVXP5BzDBTD0QavaQqXMmXxSDBHkjA8pfDZbDfLU3HoLSGznP1oH
-	 4vOUC0jWcDUBL1SSKw==
+	b=FVw8Mi6keXytDossOm5VoAW1Xraz75qA5fG2KVCqbgJzEtGAxhp1R7kCoL2F7RRo
+	 2wMnqzOd/U6teG5oBRgcv/yVhZHlDX51rEzF+rZzdJbJHNmVj9cyt1Dw772rLaDWY
+	 1g3inaMMztudjNNrGjj1onvgGtTnICHLDcFZKNyHWh1aAGOJjsBj3V37L8uZyWzGu
+	 FwhDri7J6S6zcoEcEdr4nmx/cqGuayY8S+c9RW7WZk1t7hvp9Jf9YyM4WFLo4c/tE
+	 /wcu5WZbEvj7tCl9CRdS8Zs5W4NH+/eZ3voEl9SEs1FiBFGHpnt/SqqJiolR3zHcT
+	 b7157+28ovSqE1hw/g==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from client.hidden.invalid by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mqb1W-1x5Eko3pGS-00dUQJ; Mon, 25
- May 2026 18:39:34 +0200
+Received: from client.hidden.invalid by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MPokN-1wfgG72pIx-00Vx2v; Mon, 25
+ May 2026 19:36:20 +0200
 From: artur.ugnivenko@gmx.de
 To: gregkh@linuxfoundation.org
 Cc: linux-kernel@vger.kernel.org,
@@ -40,12 +40,12 @@ Cc: linux-kernel@vger.kernel.org,
 	ahmet@sezginduran.net,
 	error27@gmail.com,
 	Artur Ugnivenko <artur.ugnivenko@gmx.de>
-Subject: [PATCH v8 2/3] staging: rtl8723bs: fix inconsistent braces in hal/sdio_halinit.c
-Date: Mon, 25 May 2026 18:35:31 +0200
-Message-ID: <20260525163532.20317-3-artur.ugnivenko@gmx.de>
+Subject: [PATCH v8 3/3] staging: rtl8723bs: refactor queue priority initialization
+Date: Mon, 25 May 2026 19:36:19 +0200
+Message-ID: <20260525173619.5012-1-artur.ugnivenko@gmx.de>
 X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260525163532.20317-1-artur.ugnivenko@gmx.de>
-References: <20260525163532.20317-1-artur.ugnivenko@gmx.de>
+In-Reply-To: <20260525163532.20317-3-artur.ugnivenko@gmx.de>
+References: <20260525163532.20317-3-artur.ugnivenko@gmx.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -53,137 +53,298 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Tws4YU7WbvHUNw2JGQOiOpaESydYa+K44dbMSQpC830bNtwoKmg
- TrgpVAD3UIdszQduFE1dYg5Fb+UfhXcXG9IH+SWNl74T42SY/S7qDm6TXuRVXj6F7aa60U5
- 4+qQSNzd6l0fmMpZwgBSN0xu+Rjb2HmrAHLcrAsiSdr4M7KXdppDHSyB8gvtLtdJtWJ2Xrr
- 342sWzaOmFouCrdt4wnUA==
+X-Provags-ID: V03:K1:y9dxUDIRgBCl7s5whRXyPRPruaEZ5SGsK3LgS23bbRA9Ii7ScYY
+ lerabVLap+veprD4CssKO3l4bcpEHARyrg6DSFHrShk3UKN7T7RbU2Yg/jxRSh1y2HfcgbI
+ ihFQ820jWEGR3A23nsL4ZI3Iq4MawpuZpgwS30chrvyHmliggZvFdFont/SjZSGAC7eYaKJ
+ gjhd2g4W5JFS0fyDjk2Lw==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:60pcD7uB4HY=;aSKPGQ8upWjsLVuDLQLH2s6x582
- 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
- 9GaLZG53N4S3qAcjlWwA4buf6Ok=
+UI-OutboundReport: notjunk:1;M01:P0:cTse6AVc194=;srOvdlHOq/YwPyNGxCuQRs9sLAp
+ 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
+ fnnMpD/bFf6SlWMMyY=
 
 From: Artur Ugnivenko <artur.ugnivenko@gmx.de>
 
-Fix checkpatch warnings on inconsistent braces around if/else statements
-in hal/sdio_halinit.c
+Pack individual priority values into an enum-indexed array
+to simplify the initialization code and prevent passing around
+six loose values as function parameters.
 
 Signed-off-by: Artur Ugnivenko <artur.ugnivenko@gmx.de>
 =2D--
-Changes in v8: No changes in this patch.
-Changes in v7: Add changelog.
+Changes in v8:
+- Remove the struct from v7, use an enum-indexed array instead
+- Remove other lines ending in parentheses fixes to keep the
+  commit small
+Changes in v7:
+- Add changelog.
+- Add transmit_queues struct in include/drv_types.h to improve
+  style of _InitNormalChipRegPriority
 Changes in v6: Make the patch apply to gregkh/staging-testing.
 Changes in v5: No changes in this patch.
-Changes in v4: Fix long line checkpatch warning.
+Changes in v4: No changes in this patch.
 Changes in v3: Split the patch into multiple patches.
 Changes in v2: Make patch apply to gregkh/staging-testing.
 
- drivers/staging/rtl8723bs/hal/sdio_halinit.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/staging/rtl8723bs/hal/sdio_halinit.c  | 108 +++++++++---------
+ drivers/staging/rtl8723bs/include/drv_types.h |  10 ++
+ 2 files changed, 65 insertions(+), 53 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit.c b/drivers/stagin=
 g/rtl8723bs/hal/sdio_halinit.c
-index 43f9c45967f4..6f2aea984b30 100644
+index 6f2aea984b30..01911188fd44 100644
 =2D-- a/drivers/staging/rtl8723bs/hal/sdio_halinit.c
 +++ b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-@@ -36,8 +36,9 @@ static u8 CardEnable(struct adapter *padapter)
- 			bMacPwrCtrlOn =3D true;
- 			rtw_hal_set_hwreg(padapter, HW_VAR_APFM_ON_MAC, &bMacPwrCtrlOn);
- 		}
--	} else
-+	} else {
- 		ret =3D _SUCCESS;
-+	}
-=20
- 	return ret;
- }
-@@ -1011,8 +1012,9 @@ static void Hal_EfuseParseBoardType_8723BS(
- 		pHalData->BoardType =3D (hwinfo[EEPROM_RF_BOARD_OPTION_8723B] & 0xE0) >=
-> 5;
- 		if (pHalData->BoardType =3D=3D 0xFF)
- 			pHalData->BoardType =3D (EEPROM_DEFAULT_BOARD_OPTION & 0xE0) >> 5;
--	} else
-+	} else {
- 		pHalData->BoardType =3D 0;
-+	}
+@@ -188,25 +188,18 @@ static void _InitTxBufferBoundary(struct adapter *pa=
+dapter)
+ 	rtw_write8(padapter, REG_TDECTRL + 1, txpktbuf_bndy);
  }
 =20
- static void _ReadEfuseInfo8723BS(struct adapter *padapter)
+-static void _InitNormalChipRegPriority(
+-	struct adapter *Adapter,
+-	u16 beQ,
+-	u16 bkQ,
+-	u16 viQ,
+-	u16 voQ,
+-	u16 mgtQ,
+-	u16 hiQ
+-)
++static void _InitNormalChipRegPriority(struct adapter *Adapter,
++				       u16 queues[TX_Q_MAX])
+ {
+ 	u16 value16 =3D (rtw_read16(Adapter, REG_TRXDMA_CTRL) & 0x7);
+=20
+ 	value16 |=3D
+-		_TXDMA_BEQ_MAP(beQ)  |
+-		_TXDMA_BKQ_MAP(bkQ)  |
+-		_TXDMA_VIQ_MAP(viQ)  |
+-		_TXDMA_VOQ_MAP(voQ)  |
+-		_TXDMA_MGQ_MAP(mgtQ) |
+-		_TXDMA_HIQ_MAP(hiQ);
++		_TXDMA_BEQ_MAP(queues[TX_Q_BE])  |
++		_TXDMA_BKQ_MAP(queues[TX_Q_BK])  |
++		_TXDMA_VIQ_MAP(queues[TX_Q_VI])  |
++		_TXDMA_VOQ_MAP(queues[TX_Q_VO])  |
++		_TXDMA_MGQ_MAP(queues[TX_Q_MGT]) |
++		_TXDMA_HIQ_MAP(queues[TX_Q_HI]);
+=20
+ 	rtw_write16(Adapter, REG_TRXDMA_CTRL, value16);
+ }
+@@ -231,17 +224,18 @@ static void _InitNormalChipOneOutEpPriority(struct a=
+dapter *Adapter)
+ 		break;
+ 	}
+=20
+-	_InitNormalChipRegPriority(
+-		Adapter, value, value, value, value, value, value
+-	);
++	u16 queues[TX_Q_MAX];
++
++	for (int i =3D 0; i < TX_Q_MAX; i++)
++		queues[i] =3D value;
+=20
++	_InitNormalChipRegPriority(Adapter, queues);
+ }
+=20
+ static void _InitNormalChipTwoOutEpPriority(struct adapter *Adapter)
+ {
+ 	struct hal_com_data *pHalData =3D GET_HAL_DATA(Adapter);
+ 	struct registry_priv *pregistrypriv =3D &Adapter->registrypriv;
+-	u16 beQ, bkQ, viQ, voQ, mgtQ, hiQ;
+=20
+ 	u16 valueHi =3D 0;
+ 	u16 valueLow =3D 0;
+@@ -263,50 +257,58 @@ static void _InitNormalChipTwoOutEpPriority(struct a=
+dapter *Adapter)
+ 		break;
+ 	}
+=20
++	u16 typical_queues[TX_Q_MAX] =3D {
++		[TX_Q_BE] =3D valueLow,
++		[TX_Q_BK] =3D valueLow,
++		[TX_Q_VI] =3D valueHi,
++		[TX_Q_VO] =3D valueHi,
++		[TX_Q_MGT] =3D valueHi,
++		[TX_Q_HI] =3D valueHi,
++	};
++
++	u16 wmm_queues[TX_Q_MAX] =3D {
++		[TX_Q_BE] =3D valueLow,
++		[TX_Q_BK] =3D valueHi,
++		[TX_Q_VI] =3D valueHi,
++		[TX_Q_VO] =3D valueLow,
++		[TX_Q_MGT] =3D valueHi,
++		[TX_Q_HI] =3D valueHi,
++	};
++
+ 	if (!pregistrypriv->wifi_spec) {
+-		beQ =3D valueLow;
+-		bkQ =3D valueLow;
+-		viQ =3D valueHi;
+-		voQ =3D valueHi;
+-		mgtQ =3D valueHi;
+-		hiQ =3D valueHi;
++		_InitNormalChipRegPriority(Adapter, typical_queues);
+ 	} else {
+ 		/* for WMM , CONFIG_OUT_EP_WIFI_MODE */
+-		beQ =3D valueLow;
+-		bkQ =3D valueHi;
+-		viQ =3D valueHi;
+-		voQ =3D valueLow;
+-		mgtQ =3D valueHi;
+-		hiQ =3D valueHi;
++		_InitNormalChipRegPriority(Adapter, wmm_queues);
+ 	}
+-
+-	_InitNormalChipRegPriority(Adapter, beQ, bkQ, viQ, voQ, mgtQ, hiQ);
+-
+ }
+=20
+ static void _InitNormalChipThreeOutEpPriority(struct adapter *padapter)
+ {
+ 	struct registry_priv *pregistrypriv =3D &padapter->registrypriv;
+-	u16 beQ, bkQ, viQ, voQ, mgtQ, hiQ;
+=20
+-	if (!pregistrypriv->wifi_spec) {
+-		/*  typical setting */
+-		beQ =3D QUEUE_LOW;
+-		bkQ =3D QUEUE_LOW;
+-		viQ =3D QUEUE_NORMAL;
+-		voQ =3D QUEUE_HIGH;
+-		mgtQ =3D QUEUE_HIGH;
+-		hiQ =3D QUEUE_HIGH;
+-	} else {
+-		/*  for WMM */
+-		beQ =3D QUEUE_LOW;
+-		bkQ =3D QUEUE_NORMAL;
+-		viQ =3D QUEUE_NORMAL;
+-		voQ =3D QUEUE_HIGH;
+-		mgtQ =3D QUEUE_HIGH;
+-		hiQ =3D QUEUE_HIGH;
+-	}
+-	_InitNormalChipRegPriority(padapter, beQ, bkQ, viQ, voQ, mgtQ, hiQ);
++	u16 typical_queues[TX_Q_MAX] =3D {
++		[TX_Q_BE] =3D QUEUE_LOW,
++		[TX_Q_BK] =3D QUEUE_LOW,
++		[TX_Q_VI] =3D QUEUE_NORMAL,
++		[TX_Q_VO] =3D QUEUE_HIGH,
++		[TX_Q_MGT] =3D QUEUE_HIGH,
++		[TX_Q_HI] =3D QUEUE_HIGH,
++	};
++
++	u16 wmm_queues[TX_Q_MAX] =3D {
++		[TX_Q_BE] =3D QUEUE_LOW,
++		[TX_Q_BK] =3D QUEUE_NORMAL,
++		[TX_Q_VI] =3D QUEUE_NORMAL,
++		[TX_Q_VO] =3D QUEUE_HIGH,
++		[TX_Q_MGT] =3D QUEUE_HIGH,
++		[TX_Q_HI] =3D QUEUE_HIGH,
++	};
++
++	if (!pregistrypriv->wifi_spec)
++		_InitNormalChipRegPriority(padapter, typical_queues);
++	else
++		_InitNormalChipRegPriority(padapter, wmm_queues);
+ }
+=20
+ static void _InitQueuePriority(struct adapter *Adapter)
+diff --git a/drivers/staging/rtl8723bs/include/drv_types.h b/drivers/stagi=
+ng/rtl8723bs/include/drv_types.h
+index 552d0c5fa47f..b2c43f53571a 100644
+=2D-- a/drivers/staging/rtl8723bs/include/drv_types.h
++++ b/drivers/staging/rtl8723bs/include/drv_types.h
+@@ -373,6 +373,16 @@ struct adapter {
+ 	unsigned char     in_cta_test;
+ };
+=20
++enum transmit_queues {
++	TX_Q_BE =3D 0,
++	TX_Q_BK,
++	TX_Q_VI,
++	TX_Q_VO,
++	TX_Q_MGT,
++	TX_Q_HI,
++	TX_Q_MAX,
++};
++
+ #define adapter_to_dvobj(adapter) (adapter->dvobj)
+ #define adapter_to_pwrctl(adapter) (dvobj_to_pwrctl(adapter->dvobj))
+ #define adapter_wdev_data(adapter) (&((adapter)->wdev_data))
 =2D-=20
 2.54.0
 
