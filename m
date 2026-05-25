@@ -1,96 +1,114 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender-pp-o91.zoho.in (sender-pp-o91.zoho.in [103.117.158.91])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9DA737DAA0
-	for <linux-staging@lists.linux.dev>; Mon, 25 May 2026 16:13:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779725634; cv=none; b=sWVHnn70bTl7qsPHVKqWE5ACrSAL3jHj5huHdVM83kp1JH/V872If7coeM92u7K+x1peTYY6aUKIfbVeONyd8fQB/bKzDiV0uJ2cT9Hwduv3mbh18Lp/NBJ/NS600s6+MqFk7m51MaqyKbhkZByX3tbDZLRjTj0+cuIloFMlHoY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779725634; c=relaxed/simple;
-	bh=JzjiaMqvE6FAwKJVfStKuwbHiv1l5iHnK2iRBi/Jtic=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=brQeIaBP3z4OA5sMxtqgrDL4JBYhW/oW4/jca6NqcAajLQ2VUxWWasxMaQOdua5s8PhLQvbrIyZd+8px2JEJlfcEWfl6hVVNDHal0a1dfaU9C1Dx2mmcHVUNNs8dAgxx4ils/UVqWa92Dte7luEMRgBKkoJp3Q7nhOL4Ga1zZrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cFXz2x4R; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 780EA2D592D
+	for <linux-staging@lists.linux.dev>; Mon, 25 May 2026 16:15:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=103.117.158.91
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779725720; cv=pass; b=un0A0gq5yVBjMc955Jmtke00pjtSO6vBQlvQkHRkXER2J9BauMVgEL7CZuvo0JNWn1XDDbo1fr8kfxbRl3PFZg/HQvWi3lqPImCEXUn1n0BWdp60Jiy/yM8ZSiNKYZ9pwM0uru0fycS2B7xX8yV0Acy0RIU2TBlFYLP2J5xjsas=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779725720; c=relaxed/simple;
+	bh=31lWgL7rRszME87e69h+HAvMDZ7Q4wYmWrJPYZF91vA=;
+	h=Date:From:To:Cc:Message-ID:Subject:MIME-Version:Content-Type; b=YqWhOQRWoqc8qQt/Xp2UYrMNhLPV4JSo0NtFWDp1k8aTDqJuX7ZVk7FWgn+QpV6aQi8nGhx6j35/l29Zb2t7yorMa3WW4P4IaBVDG78W2yEfmFdRehld85LsBYNXT2vUSMrw8qOIvUYOthSBAVeDqlBPuxg83JtBtEaGW4dnANw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in; spf=pass smtp.mailfrom=zohomail.in; dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b=WytNgwDj; arc=pass smtp.client-ip=103.117.158.91
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.in
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cFXz2x4R"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4891e5b9c1fso83520355e9.2
-        for <linux-staging@lists.linux.dev>; Mon, 25 May 2026 09:13:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779725631; x=1780330431; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gmb4w9ug6rV3MhwyPHJsQp6I0uLZIGzYTMG8YoeZqok=;
-        b=cFXz2x4RNEqxQWXz2wq0cF45V2pjvPvvKaUy3ZdHbo44vj7IXthEL6MQ/o7+MUVcP2
-         zCP/b73hUaOlfspxpWaIwXjmFRuE5brHThWXk5zWU/9xpzLj87uodxWMr6mo0pkOlvhx
-         4Yuy0zxTsKhuKk6JfHq7XgD23/WANnHiL6mk0a3MFO5oP7bcTnFPIknSUKAvI/+UP0MR
-         QpEgLMahHBwybxKs4vb/QO5zEY/PHQyrJ0dXfd5tpP3kJkc5UFzMmfyI2/gff0oBbGnn
-         750BjVH9ctWG8NeY6VCjjzlj3Co4KLCnD6jhIVzhGq4HtkWFsdgRdPJVQvQoAGGuK+0W
-         kPJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779725631; x=1780330431;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gmb4w9ug6rV3MhwyPHJsQp6I0uLZIGzYTMG8YoeZqok=;
-        b=eBpiet/THzqBRaEuh2O9/xplh/3lKRwXUYf29lvHJdyEBoSI11pQnFFljMu6BGgkVX
-         Jh4FxKsprQFZEtDCMXFq+WejV+qU+/ehKlCsuxiGaWZj29OoG4KN7derPyPnBce0KaTH
-         M+1LA0R7nQkqt/apaPIHW0ds9FWzkPQJHvkPSWs3k55ZItmxOKtJ4EdIC+JI8ifFDIFx
-         ayvK+uzZ2fqqAoSxX0Ugazne46aJ0z6ntqP3J0Eincr+6ymgxDmy1+r2UrWNwIwhnkQj
-         4NHqjSRaL3jZIuQclNh3VQpW0n0kduzj0zycnBe/JU6SQ14WnM9QnkLdvMkxDGWPodeU
-         gvlg==
-X-Forwarded-Encrypted: i=1; AFNElJ85zMROC1XaS2K422G/hmulbjj9Qh4eRljTxknUs27NynkpkUVtk4poQcH/V2rpzbKkoqPTblNKZmaBNcaa@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx5sMCFBDZ48L66MLrhVpZcGtRy9cBDRbJ2mnFKcbVazBUIerCH
-	JNgLfl76+kP57d+wgknafiIJobfAr0+FtSxTXWp1lfC5c39MBxpkPPBC
-X-Gm-Gg: Acq92OGL7l9UT0hJDls9I9QhfAu5bVlv5YBXhOrATNJyAnyowQWoi25Qt2nywDcs8Ov
-	Hygwo4+sheng6/64KIiL0TOFk/02lBZr/MQevvHdEQk5fOi5l3ZxnKMXcKCmz8dzGSUdC7PLbxR
-	86ThDuU37pYSUNnZDcEdurkBUhAhfCYtr6INkYjAoUs62DHKuVdSshyeZQqHuCYUSMqYTOPsCs+
-	Cf5pcssHIb1hFmnzUcbWGscuQNv7BnzPgBNmuOmYe7JeDp08IBULDS4C+K2OcncQKVWNn4rUkJi
-	qSZRpyZEaC+2NsTv+Rj8JxiWszAvy4OLHea6sNNz8Xo326Y+5u8zedoO5Q1N5Gad5+oAINonvmP
-	0e40I0ITSoXFHHVB/IVW2zgFnyrnOpOctaxhb6QZ3cUysaHrYZeos4SFGzKoyDZ7HlSYlTsLfh/
-	8VpSKvr7N6vzTUdkgec84nRd4=
-X-Received: by 2002:a05:600c:8b84:b0:490:5466:8576 with SMTP id 5b1f17b1804b1-490546689a7mr190155205e9.1.1779725631134;
-        Mon, 25 May 2026 09:13:51 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4904179c615sm90065985e9.4.2026.05.25.09.13.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 May 2026 09:13:50 -0700 (PDT)
-Date: Mon, 25 May 2026 19:13:47 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Ahmet Sezgin Duran <ahmet@sezginduran.net>
-Cc: gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/5] staging: sm750fb: deduplicate fbinfo loop in
- suspend/resume
-Message-ID: <ahR1O_dF9XyVEmPo@stanley.mountain>
-References: <20260523051509.166152-1-ahmet@sezginduran.net>
- <20260523051509.166152-6-ahmet@sezginduran.net>
- <ahQB8C1gTr7LF0FO@stanley.mountain>
- <86216e7d-7867-4041-892b-aafeb39781b8@sezginduran.net>
+	dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b="WytNgwDj"
+ARC-Seal: i=1; a=rsa-sha256; t=1779725707; cv=none; 
+	d=zohomail.in; s=zohoarc; 
+	b=H25KuHE6vAhOCynJ5x+qZ5OGe3TvROfKcZs/PD4Ycarm3C4XqqmvEp6VEoaMJXqzd/sf03pzo8G1ESs7sK8sbGe7m9rM/A2TFXDp8heW2Gyl/wOYOvpHiDWBFJQOTVGWE5Q79iwAO2cGlKpgRqRP6t0mA2+hKLlnMaRdcIQOb2Y=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in; s=zohoarc; 
+	t=1779725707; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=4/D3ZVk1g/KQX6fWV5B7LUKksuGO5srwLpNpriK86Bg=; 
+	b=LkYNNaQypFhCfBff4KVZD91R3KgVQeghBER9Z29ln/ipfb36g7cITNMjCWb7Soa19McREYRq9GbU9VouVuK5waMolPlc9Q+YCw/poc1nFBJ1hT1MWUErH5De0nhnedfZFi7jZIzdYZq9FGue+K/uxAnvZ5qYYdLUmObhb5Okz2E=
+ARC-Authentication-Results: i=1; mx.zohomail.in;
+	dkim=pass  header.i=zohomail.in;
+	spf=pass  smtp.mailfrom=linuxuser509@zohomail.in;
+	dmarc=pass header.from=<linuxuser509@zohomail.in>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1779725707;
+	s=zoho; d=zohomail.in; i=linuxuser509@zohomail.in;
+	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=4/D3ZVk1g/KQX6fWV5B7LUKksuGO5srwLpNpriK86Bg=;
+	b=WytNgwDj/WXRYSgXLQMXI6vst00r9vJwpU9LXUmrJ02Wptii+IBzkhmdOg6kK+l/
+	1/YuCIoVzwlbg6WxmgNacXCAFSaZ+GY4CcdsPYds8g2l5I47OnjSOToCnp/hf003Zwj
+	LBY6MzRWUZs42z7Dr+jl5Ue3Msp6cKk85ZPHI31s=
+Received: from mail.zoho.in by mx.zoho.in
+	with SMTP id 1779725705895713.3716859499349; Mon, 25 May 2026 21:45:05 +0530 (IST)
+Received: from  [117.99.195.86] by mail.zoho.in
+	with HTTP;Mon, 25 May 2026 21:45:05 +0530 (IST)
+Date: Mon, 25 May 2026 21:45:05 +0530
+From: Ashwin Gundarapu <linuxuser509@zohomail.in>
+To: "gregkh" <gregkh@linuxfoundation.org>
+Cc: "linux-kernel" <linux-kernel@vger.kernel.org>,
+	"linux-staging" <linux-staging@lists.linux.dev>,
+	"linux-media" <linux-media@vger.kernel.org>
+Message-ID: <19e5feb2286.b0d1beb80076.1209164292362410446@zohomail.in>
+Subject: [PATCH] staging: media: Remove deprecated Atmel ISC drivers
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <86216e7d-7867-4041-892b-aafeb39781b8@sezginduran.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
 
-On Mon, May 25, 2026 at 11:23:43AM +0300, Ahmet Sezgin Duran wrote:
-> On 5/25/26 11:01 AM, Dan Carpenter wrote:
-> > I was waiting to see if anyone had other comments bout this patchset
-> > to decide if I should mention these minor nits.  But then I was
-> > confused about v2 so I think there might end up being comments... :P
-> 
-> v2 was only about dropping another patch from series, no change for this
-> patch. (would be better to talk this in v2 mails, but I guess it's no big
-> deal.)
+The Atmel ISC and XISC drivers were deprecated and scheduled
+for removal by the beginning of 2026. The replacement drivers
+(VIDEO_MICROCHIP_ISC and VIDEO_MICROCHIP_XISC) are available
+in the main media subsystem.
 
-I thought you were going to to abandon the ARRAY_SIZE(cdb) in v2.
+Remove the Kconfig entries, Makefile rules, and the
+STAGING_MEDIA_DEPRECATED menuconfig since it is no longer
+needed.
 
-regards,
-dan carpenter
+Signed-off-by: Ashwin Gundarapu <linuxuser509@zohomail.in>
+---
+ drivers/staging/media/Kconfig  | 18 +-----------------
+ drivers/staging/media/Makefile |  1 -
+ 2 files changed, 1 insertion(+), 18 deletions(-)
+
+diff --git a/drivers/staging/media/Kconfig b/drivers/staging/media/Kconfig
+index 1aa31bddf970..52b4aab944f6 100644
+--- a/drivers/staging/media/Kconfig
++++ b/drivers/staging/media/Kconfig
+@@ -38,20 +38,4 @@ source "drivers/staging/media/sunxi/Kconfig"
+ 
+ source "drivers/staging/media/tegra-video/Kconfig"
+
+-menuconfig STAGING_MEDIA_DEPRECATED
+-	bool "Media staging drivers (DEPRECATED)"
+-	default n
+-	help
+-	  This option enables deprecated media drivers that are
+-	  scheduled for future removal from the kernel.
+-
+-	  If you wish to work on these drivers to prevent their removal,
+-	  then contact the linux-media@vger.kernel.org mailing list.
+-
+-	  If in doubt, say N here.
+-
+-if STAGING_MEDIA_DEPRECATED
+-source "drivers/staging/media/deprecated/atmel/Kconfig"
+-endif
+-
+-endif
++endif # STAGING_MEDIA
+diff --git a/drivers/staging/media/Makefile b/drivers/staging/media/Makefile
+index 6f78b0edde1e..6fd7179733d8 100644
+--- a/drivers/staging/media/Makefile
++++ b/drivers/staging/media/Makefile
+@@ -1,5 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0
+-obj-$(CONFIG_VIDEO_ATMEL_ISC_BASE)	+= deprecated/atmel/
+ obj-$(CONFIG_INTEL_ATOMISP)     += atomisp/
+ obj-$(CONFIG_VIDEO_IMX_MEDIA)	+= imx/
+ obj-$(CONFIG_VIDEO_MAX96712)	+= max96712/
+--
+2.43.0
+
 
