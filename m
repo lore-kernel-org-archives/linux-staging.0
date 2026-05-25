@@ -1,63 +1,63 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8233C3E5A31
-	for <linux-staging@lists.linux.dev>; Mon, 25 May 2026 09:53:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C588B3E3C79
+	for <linux-staging@lists.linux.dev>; Mon, 25 May 2026 09:53:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779702788; cv=none; b=P9ShFwsbCtFDf4wT/f0SoCi4/r97E6ntCaXjZ/eOD2y2hnqhmZW4WsRHbyq6RXs+hHrX71duUhSS4ouFRl3YH1kuZt5KgHVwaqzf2vrqvLTBIU6AglW2CoTcuZpxovBcNqI9Xw5bTqEzRFpt3fOCPaJqhNiCobKscZgzF/hRX+I=
+	t=1779702796; cv=none; b=YNd+NlKX46bzjO0UsvBttmuN88bteXOvAWf1ukPgXWYIPIYRp7BPT2KF/0zQlXyrm4gwk8YQ4eSiugT+7fwscq0qqZbtPMnsfPNqlF4i58dv9vkMBf7Ii2RwPMkhZwKQGn33tJT2LjuKCggIzk6r9YAnIi5QOS7jxivqxbE7ZmY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779702788; c=relaxed/simple;
-	bh=QRfnZAsf4fSDp5/JMDhDg9a0MSoVbrVjv3/Xv8G0CJQ=;
+	s=arc-20240116; t=1779702796; c=relaxed/simple;
+	bh=Mdlv4jporUZmlLf4lx7rproUzpgtFGaAxxp4Y+lMBaY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qXVeN3Uj8rOqNwtP4KJBqksp1/Zxn6wpOmJbdVj3H59rP6dXkRr1ooLV7o0YOellK6Qj+NnJhSt/nEP13NzfAP//SLhm1XhZlCN5kpzTx+HoOAfGy1Z7WaW3iDuXHqStwPDPfYyue5qvVXC1rhbf7rthnjWRVkcY5dzfdXAl8RY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bdPxsI5w; arc=none smtp.client-ip=209.85.214.172
+	 MIME-Version; b=RP/wrBwTbhNPCVxNUaDHR/6pdck+Rl4uWoQN145U9HK3TO9bHAY75u5VA4CeBz8CcddHy9wzzSvNXN6VrRKmgw4KrwPKFa0TQOMCDkwV6HQ9G6FH5o4LNseuD3bghXG28Gc96OCTS0ZuDIaSHWCVcmjNBCIk4XxD9XbBAJMdqJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jwKj9Glg; arc=none smtp.client-ip=209.85.216.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bdPxsI5w"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2bc85eda6b6so47427545ad.1
-        for <linux-staging@lists.linux.dev>; Mon, 25 May 2026 02:53:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jwKj9Glg"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-36a8ee1e28cso1999893a91.0
+        for <linux-staging@lists.linux.dev>; Mon, 25 May 2026 02:53:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779702786; x=1780307586; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1779702794; x=1780307594; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ib1oZbigCdwlVvPfRDEBvGe4OjSQvC3V53nI1f6TImU=;
-        b=bdPxsI5wghQcVR7BTz7spb8Ch/XH4dj8HT5t/6fqN/kNfCnYzYaeFuhX1GeBV9DFMF
-         Gu+7lg6mnQQiaryiTX/esv7Gw4QOBQozHOmjCA3YCkR70VxVNj/fd1HcqFRqdf/HlxTC
-         dNe+OR26ydPJD5Z86mJfoh/VG/D30CqKODC812GcuounymK5lJqCbUPy42aifEgKTQWQ
-         l9LpxLiKHzWristMQXqGPHU+4OrHUVmlPItnF/C7+muF2E1AC4yQ7kW5RcQKyDtW5yxE
-         26qJMcfwnhRMHaad6XU4vHUw4kmJNTioC//oPCaBSjQ0x5GYi8A7SV52n0tG+QaNsv6C
-         kD8Q==
+        bh=ez92gLCG1+yJIQjG46e8Hvs9v1kkCpJ4jicfjTVkky4=;
+        b=jwKj9Glgkr46vpB4t6L7ICd64DMeIZBo2NIjbsOQ6llkOUtJgVXRSsF7/e8uAosY+D
+         5sxc3RDKVuqH4Z2AUPA/jJNjwZ7UjBNaPZfgcAYBDKtiBgahmM7P2FzCXJYtZIEzsGpG
+         BKxe1TiIb5WoCmDy/f69ue6Jk75QdncA+xiXnL46IzrlDr7iDhliSQclyLkhSsNjyBWU
+         TsIO/do/HIzsLCRxdyjFMXxBJ0WIOcSjtKT/36GeKo4xnnlPJni34n0SHTtJMFLAvqmz
+         QpVQKp9D1nxQ6fSQavxDF3VOz0K8U+aNaxn2jsLUUnY9KmAgNpLzuuENHAb2kMQDkrqk
+         Dm2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779702786; x=1780307586;
+        d=1e100.net; s=20251104; t=1779702794; x=1780307594;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Ib1oZbigCdwlVvPfRDEBvGe4OjSQvC3V53nI1f6TImU=;
-        b=i0m1iSSgJFj603Fjiv1rQdz66fbqU/34WnXs/pKWU2wB4IdLmYbDk7P1IeDKPIM7wA
-         UKXiI4vjuJk4VUIA5Wu3EJtcANnKsLJe/FYFrUu62jLwXHpiBISqnjOubB5O8xOKuTSz
-         UUiXbW3FvLgRlph2pAlNO3Dnav1/NJ1/us34oVSJ5yLly19e2jYTaZeDlYNCHYm28ace
-         qc37S2gfVPwn1bHH3qNmeEym7FGnXNIyTw6wc/xwXGzsGFQo0Cuk2/NY55czUSeYuZ9x
-         ekvuD4XRRlBzdNikOEi6Bq3/n7zORaomedeUvWuMRfONM+L9bpI5SB9y6N1iJVqGWGlc
-         S4Rw==
-X-Forwarded-Encrypted: i=1; AFNElJ9SD+fmvaUH9ng5oGD+g9be0oHu47clfitTf3lCOFRIDe5KD0WKMj2frK3KNpuRXETJ48fAsAuvaztnX2RN@lists.linux.dev
-X-Gm-Message-State: AOJu0YyGaQ1GzH72cnoq/vnZ48mtQkCCPRRjidZ5UqsZOuH8cgvDTR6s
-	GkfLGD82QQZ2B0V+cZptHll9sbHtZnXJJtAwx1e2jhMpE4QmfHI4hYNH
-X-Gm-Gg: Acq92OEGMgsIVfRoj3vu1ch3pRiwp/0MDh1fISqB0PchBqDSEM7pT7d/yVxW6peVG0K
-	/iUpNjkf5Bc617Bn0IhOGU8SWGfaMs48Q94cZbcqEY1qlA/LTyYh3qKPXVOYZuQlqOACyYUhgEQ
-	Axfi3DXnvjFWN+g3pkzggys/5B4Tss31NHa1T7tXyb2LmX4FYuh7r1HrmsFfCO70gtzdQjLq+Yb
-	wcbUipDuNYe5lQtQkoFt5VjwcYzRXHdD/PnShG++0aiC7gmFvHY4hi7evWVgZLIKH4olI0fH7pK
-	y0YTY2wf3qSePRti07kfhQ8YhjpcLp2p1ZE2/g/j1LA/620ydB8kJSjIFa+VmDuR18VSX0/o7Cg
-	LrtiyjV4pSsMKQFZIjxDKX1jNzCXCzNVoPLU4Ba2y6+SyZ1EqKeixRqAIDtyBb75VajqT4IlsJ/
-	m0Cm7CV5Z1tigJzb2jednA
-X-Received: by 2002:a17:903:2f90:b0:2bd:ef15:9fce with SMTP id d9443c01a7336-2beb063227emr153939475ad.20.1779702785924;
-        Mon, 25 May 2026 02:53:05 -0700 (PDT)
+        bh=ez92gLCG1+yJIQjG46e8Hvs9v1kkCpJ4jicfjTVkky4=;
+        b=p7cntuyut8i8N8RbwSO0BBINShHjKVyH2CzXCf237tNrgEAltoLV6hdWTlKaS7Kg2s
+         /lW+GNa23/k1UeJ1vCmASelW3QQxIPEh07NFZ30tHPuFnI49/kzhE3SjQNJgztmZ1AXd
+         eJMFIO0fZGRLalTizm3h09rzHz7TY0ljBHiiPboQx/51yDVF4LmYfbN5mpdC6H/M/IGA
+         9oZS/IxD9z/sefNwLUr8cYO50QP63lrfHcPcqxM1CP8/Ca9TliNBxY6VHFiOXvVHLqbb
+         OFlg+lthkbuRyc0+70gjA/NMVtiT+w5194tI5qcp4zUpIoTr1RXuEsu9I5MMGRhoFLOv
+         IkUg==
+X-Forwarded-Encrypted: i=1; AFNElJ8+LanPApZRbC66rkaRo2E2EZu0XvWjU1hx990NIEA5gzLl2+x+hEgp0afxsEtCuJb5RIN8rzQ2hA/Isiti@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx1FAt6I812gEDJ9oDf9t7frSpaAnAbz2ZCBsBfv37mSyAEvqmt
+	Ni7NzHNQtevU3JAAuCLmFVd6oir+Qglu2ORFsfTlSIe888u4Df+u0zY1S7qSUw==
+X-Gm-Gg: Acq92OGYKmHifouwMPwyFAKhn9LBMor+3Hp75tUHE8A6zb2Sez2RFqwTp1JcwstTijf
+	yICpQhEG+7LhgBkDW1DnX0jzSaZPhX7Nojerm5V9V/WEklo2FLMEyYUCdkHrF3C1KhVVLbsj8BI
+	CCsLJ+c/OA48/boUX1mvOM0D1C/glCu09Kat4pLBZZTjaDERRg8cbhmiqDPz30SC4FNCKGxoGSN
+	5yrYaAlCn99seQRULie2jeze2MqVp1AQf6q+Co3QVRDhDyHezNsgDvPotyDAY8SpWJvuyhImgRI
+	K02LVSeiB9swZihYb4mxIFrKReirszGw3VLEicxB44ovNEm2dagGp9NmCrOHoB06UobqutBayot
+	Ij0yDippvPWLhrJUhQjkYqqAQxXGeGNV/upa3GV1kvVFnnzMfvzrLJZ7OV0AcJgWndvJAx9BV5A
+	1NsSHe8doTGJXE+WEb+8RbwzSXObcub38qPpKNeIOqmQ==
+X-Received: by 2002:a17:902:e548:b0:2ba:78a6:7dec with SMTP id d9443c01a7336-2beb05c07aemr160215525ad.13.1779702794227;
+        Mon, 25 May 2026 02:53:14 -0700 (PDT)
 Received: from rockpi-5b ([45.112.0.230])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2beb58b2cd6sm92533615ad.52.2026.05.25.02.53.00
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2beb58b2cd6sm92533615ad.52.2026.05.25.02.53.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 May 2026 02:53:05 -0700 (PDT)
+        Mon, 25 May 2026 02:53:13 -0700 (PDT)
 From: Anand Moon <linux.amoon@gmail.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -75,9 +75,9 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
 Cc: Anand Moon <linux.amoon@gmail.com>,
 	Nicolas Dufresne <nicolas@ndufresne.ca>,
 	Sashiko <sashiko-bot@kernel.org>
-Subject: [PATCH v5 4/6] media: meson: vdec: Handle kthread error and free codec private data
-Date: Mon, 25 May 2026 15:21:52 +0530
-Message-ID: <20260525095216.12078-5-linux.amoon@gmail.com>
+Subject: [PATCH v5 5/6] media: meson: vdec: Isolate error path buffer flush to the active queue
+Date: Mon, 25 May 2026 15:21:53 +0530
+Message-ID: <20260525095216.12078-6-linux.amoon@gmail.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260525095216.12078-1-linux.amoon@gmail.com>
 References: <20260525095216.12078-1-linux.amoon@gmail.com>
@@ -89,18 +89,13 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-vdec_start_streaming() launches a recycle thread when required by the
-codec. If kthread_run() fails, the previous error path only powered off
-the hardware, leaving sess->priv and codec state allocated. This caused
-a permanent leak of the codec context and associated DMA buffers.
+When vdec_start_streaming() fails, the error path clears buffers from both
+the source and destination queues unconditionally. If one queue was already
+streaming successfully from a prior invocation, flushing its buffers behind
+its back leaves videobuf2 deadlocked waiting for completions.
 
-Fix this by adding an err_cleanup path: if thread creation fails, call
-codec_ops->stop() to release the codec context and clear sess->priv,
-then power off the hardware. Also reset core->cur_sess and sess->status
-to avoid stale references.
-
-This change closes the memory leak on kthread_run() failure and ensures
-proper cleanup of codec resources.
+Fix this by only sweeping buffers from the specific queue type container
+that failed to initialize.
 
 Cc: Nicolas Dufresne <nicolas@ndufresne.ca>
 Reported-by: Sashiko <sashiko-bot@kernel.org>
@@ -108,45 +103,46 @@ Closes: https://lore.kernel.org/all/20260521090944.F35401F00A3D@smtp.kernel.org/
 Fixes: 3e7f51bd9607 ("media: meson: add v4l2 m2m video decoder driver")
 Signed-off-by: Anand Moon <linux.amoon@gmail.com>
 ---
-v5: The vdec_poweron() function invoked earlier allocates dynamic memory for
-the codec context and assigns it to sess->priv. When kthread_run() fails,
-this new error path calls vdec_poweroff() which stops the hardware but
-doesn't free sess->priv.
+v5:
+This is a pre-existing issue, but will returning buffers for both queues upon
+a single-queue failure orphan active queue buffers?
+
+If the CAPTURE queue was successfully started in a previous call, returning
+its buffers puts them back into the vb2 queued list while the driver
+discards its references. Because the CAPTURE queue remains active,
+userspace calling DQBUF will hang indefinitely waiting for frames that
+the driver will never process.
 ---
- drivers/staging/media/meson/vdec/vdec.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+ drivers/staging/media/meson/vdec/vdec.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
-index 52ace4de967c..b31bf08af88e 100644
+index b31bf08af88e..925537bd4d0b 100644
 --- a/drivers/staging/media/meson/vdec/vdec.c
 +++ b/drivers/staging/media/meson/vdec/vdec.c
-@@ -345,13 +345,25 @@ static int vdec_start_streaming(struct vb2_queue *q, unsigned int count)
- 
- 	sess->sequence_cap = 0;
- 	sess->sequence_out = 0;
--	if (vdec_codec_needs_recycle(sess))
-+	if (vdec_codec_needs_recycle(sess)) {
- 		sess->recycle_thread = kthread_run(vdec_recycle_thread, sess,
- 						   "vdec_recycle");
-+		if (IS_ERR(sess->recycle_thread)) {
-+			ret = PTR_ERR(sess->recycle_thread);
-+			sess->recycle_thread = NULL;
-+			goto err_cleanup;
-+		}
+@@ -372,15 +372,15 @@ static int vdec_start_streaming(struct vb2_queue *q, unsigned int count)
+ 	dma_free_coherent(sess->core->dev, sess->vififo_size,
+ 			  sess->vififo_vaddr, sess->vififo_paddr);
+ bufs_done:
+-	while ((buf = v4l2_m2m_src_buf_remove(sess->m2m_ctx)))
+-		v4l2_m2m_buf_done(buf, VB2_BUF_STATE_QUEUED);
+-	while ((buf = v4l2_m2m_dst_buf_remove(sess->m2m_ctx)))
+-		v4l2_m2m_buf_done(buf, VB2_BUF_STATE_QUEUED);
+-
+-	if (q->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
++	if (q->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
+ 		sess->streamon_out = 0;
+-	else
++		while ((buf = v4l2_m2m_src_buf_remove(sess->m2m_ctx)))
++			v4l2_m2m_buf_done(buf, VB2_BUF_STATE_QUEUED);
++	} else {
+ 		sess->streamon_cap = 0;
++		while ((buf = v4l2_m2m_dst_buf_remove(sess->m2m_ctx)))
++			v4l2_m2m_buf_done(buf, VB2_BUF_STATE_QUEUED);
 +	}
  
- 	schedule_work(&sess->esparser_queue_work);
- 	return 0;
- 
-+err_cleanup:
-+	if (codec_ops && codec_ops->stop && sess->priv) {
-+		codec_ops->stop(sess);
-+		sess->priv = NULL;
-+	}
-+	vdec_poweroff(sess);
- vififo_free:
- 	mutex_lock(&core->lock);
- 	core->cur_sess = NULL;
+ 	return ret;
+ }
 -- 
 2.50.1
 
