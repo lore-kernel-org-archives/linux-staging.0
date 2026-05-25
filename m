@@ -1,68 +1,68 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26C383A6B9A
-	for <linux-staging@lists.linux.dev>; Mon, 25 May 2026 07:00:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E373C3D1711
+	for <linux-staging@lists.linux.dev>; Mon, 25 May 2026 07:46:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779692446; cv=none; b=RZkQNmMM0kef6WS5Byyq9Tb1/5IEW0OX9ZXlqgHeZVDoXpcy/NzvbDgv/o/DGAkS3/qn2Q9bjekn0tzqMOLfKNhbz2kbiAkJYKO4p84HWXJOeNxGDQ6S5cwTfL/eUR90BjznhrqqqNeQoB5UhrEm9T9H4MBOTBI+TYnpSh8cvpg=
+	t=1779695190; cv=none; b=uGaXxqtEvpR7HC9uxUkkbbMvmj2YTYZ8L5AbGCStIzCW2KMRyfik060djeFwl5tB/BhoZZfYy3cB0n926f3F4eYD85YdpKo1k0zomM4NJ+++TT5fpba6AIASm4TW4o1CUcgILvhS0Iignq2dVVprB+R8f2CsqY5aeWJ/lhswfwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779692446; c=relaxed/simple;
-	bh=VXIjhjPckNErU7/AaNVZ2hvuoEuFMt8smC/jwDXTgtc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ql/HoDrj72JhRxi90WO1vIWzZvikYwOi64K4p2Gi8iNG6lbVtGuqLj487m3vnAhpIClx1GQMJNWO40uq72rZIr7x2kg7wX4xprxVCwM+i5UD/x8R+i/qPsH4z1qCOfqrVt6x10mD/l2afh62/Z2XyGFzHzyGLrv3YlC8XU+QRIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ROjfeSQD; arc=none smtp.client-ip=209.85.216.48
+	s=arc-20240116; t=1779695190; c=relaxed/simple;
+	bh=0wj632bgYmSDdJInEMPNjyJSw9k4yqhecoxwuIZnlJ8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=m21JHWKYnV2i7k44VQkwAb3DyUzf6SzF7RZQNFwmoVgHeW+Z0gLrjaI4XKBOYYC1TOXSo/oTUc9L7uEZ/U0TWA0K87rTH2NIGElgdeOU3XHwjXSlWiEVE7hDxk0lIqzzebMsKLWouuLxra+xkW1CjLq1diJjKtd7XTGY96S0/Rw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lF55QWfd; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ROjfeSQD"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-36900945df5so4625767a91.0
-        for <linux-staging@lists.linux.dev>; Mon, 25 May 2026 00:00:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lF55QWfd"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2bcd3ac3307so54886785ad.0
+        for <linux-staging@lists.linux.dev>; Mon, 25 May 2026 00:46:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779692441; x=1780297241; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1779695188; x=1780299988; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gWx+svYt/ODeSXxEOHpEfFlOryrSauWW8Ay+Nmv22Ds=;
-        b=ROjfeSQDFZPtrZPZegAl5UrBI/1vEsxtADBFb/Og7FbpwxONSOwzbAL9u0TVjL+rxj
-         6pr5/mT+GN2lW8tVwg4fWgMEBThG6PXyBWSuwYXc32tUpChDuITclz3H7qhh8xpiv/jY
-         OpAMlxAZ24OSuYuArrAocB0Y41khMY+AvMePcuTR8WtiWkOGRg1JXksWk6aCUCXHDh4Y
-         Tc3qWQNkqjgd99MFQq61ge+HWIuAXf6ZFnPZE2vIbn+kAb2VcERGSv5JTIxj1fiETgB7
-         bjyIANvXuN5URcsJoaSCEJHJHKbcIuUafH8zTW48EIIIWhrvKwK492a1JYfSjF8r6tFP
-         LkiQ==
+        bh=a7wMezn5P/7XEMTkbT5X0nl1FcmOTHwJPbubUWuSopQ=;
+        b=lF55QWfdHbwOEszjq2tJVy2zZoLRp+eyKpw4H/s6TLc5DTKz++uC7Gs5M75Q2gviGl
+         BeHThP9BSZZmhJRrBmOSQvqp9QB8bde1w8n2sXP0GAhUSw+qnhFNqefFri/vB2FpFCBh
+         zCgE94nnSF32wnw7BAKgmeKCnufPAImulMY9Hl1UKho44F2USf3xhYeL3dCntxC90uFz
+         rSvchH5OnpIG3LlMk6qxQAAtnxFYv5iBKfghdptSVnfe5ZohghIWeiILWo7VaYNRJ9Nz
+         c5vLy/irz8Hh6MP0+X3Dg/A07uJSI+IOEWiXN1CUwWjcAMz3vT2QRBQ4IOKRZkBV6kli
+         BpQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779692441; x=1780297241;
+        d=1e100.net; s=20251104; t=1779695188; x=1780299988;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gWx+svYt/ODeSXxEOHpEfFlOryrSauWW8Ay+Nmv22Ds=;
-        b=btftBf+8t3OM+FL2S3TZ2qL9p6UD9/cmK1Smf5k1nCsn0fh4qBQCVvkzBFy5ruU2uk
-         X0pUrWEmW3oYg+0GtK/xGF+dh5lAjxyHU8Po5ifJAcgvrdR0OJcD5pKKqw/Jtv6m8GZE
-         VHakab2BeBc5/CavfG+VvG7Um3n0GDjPDdnL4XsN2sESi/XmYgLWrnkXYXlsbBEM+nfT
-         nsuy0RmTlX8rCxiI0QWuRF5jJVFrE/cfbZOtKPiryDs32Tm+poLRJ+oywIugjoTrLvR7
-         b25IQGl1pNMuv02UrDcpkzXSzmOiwrNHBY6psdhmy2Yfd1+30FU6ypI47A2PqWwacV27
-         jFKA==
-X-Gm-Message-State: AOJu0Yx64pZUV7qTuMOluSOaLxZE/1MFe4tdgaQr/o8v0MPlVOOe1snm
-	7FJJOWs8cFG8U5EnhQOtTt6rnhR28eCGcQeiV8d9wwNklA1hIBDbFLtt
-X-Gm-Gg: Acq92OHCmek69A/SAEo3aNANjkuPVLubmlxv6z10Pmshe7D+wy8XxnM7SWd8U0iZiHf
-	qTm/exso3X1+BLFdP9exhdfM3Tf9U3nfpnVacULx8mjjYvjhU/jLqp5zF/8bDqbq3KpLZSpx9R7
-	b1JqSILbxItiBNeBK6yo2AhnfEYK17vY9bHihw48ONx9bj+buua8OSHsNyNhBDUbvmW+zl7bs8z
-	qHWOXv+C8DwzpO4WZES/641wqy4C7uFrSQG3S+6iW6LcwaKn1aN6FJ0leEdrnTN4tWXj2m/VfCd
-	iTHDIsOBH2kMSLMgSB9kuEnPlOqFCgCOgmx06DpCJEIy4Wh4WweLPM2j8cDbVlb3ff1P+sH21nE
-	51oC6t8rkjMnOn+9968iWuWnyAzfWW3C22PrOKifVT0KxZ0IjcIK9Wbvf0pKXYeP8/vWhkUm5Z2
-	fnXR2zC6UdEZbJKTUf4A==
-X-Received: by 2002:a17:902:da84:b0:2be:b09e:721f with SMTP id d9443c01a7336-2beb09e7439mr150048035ad.31.1779692440427;
-        Mon, 25 May 2026 00:00:40 -0700 (PDT)
+        bh=a7wMezn5P/7XEMTkbT5X0nl1FcmOTHwJPbubUWuSopQ=;
+        b=rkjsIs9X1+IwmA4PXV7gwGXK3LOACyO9zpidzupqmKCASF65AJwCpIGB5MPfMgUt1a
+         D5A0Z1pd+Bc2T6y3hg6AJsUh+p98LJ+WsiAMtWww4MnNwh/01Ok2S2WzOyouva7p5USm
+         CTaoZM4VzDRRHt1wD+5P6Ije5TmrjVh1NoJnj4TLonCE0A3C+lp8ezwEPHJhZiL4MH+Y
+         8RzFg0IFcgPAeubnBMqJAd1XenkEPc0mVfw4JDIy9oKP3PzMY40yrxyuqHLhJRKlpAEs
+         uowCofZZoT5jX0KNQ3zXtOS8BLvhLZSxLqS/j6+hhFFm8TwEYRUHMazAEKc4hbcYvW58
+         ROdw==
+X-Gm-Message-State: AOJu0Yyekg3VWWfi0dHk5AxfJtYPC0tk9a1XRfS26DZwdmqHBAR2bxiB
+	NayNYiaTLxCN4agTNQ7vdi5wc/pFLzIVapQ/7j24OiPVxlPPDrLkOZOt
+X-Gm-Gg: Acq92OF5pMcWxSGw1GKGejn+/1jCge8I7jCvrmwwXkbcORZTNrU/DRkmWg2eBeN2gr6
+	/DBKbZ3GIVejzdA95pj59HQ/V+rzBJkDn4Q3/lur11CYbtPcHj8lXEAsElf2dJke5eTRN1a8pLB
+	8NtOMR0UeUomEyk//xENaxrchLtyIOPqeiOBd3ZwwZuoZNkCHBZZzJHcVPKdlGvtMDl9JgdpRD9
+	8PN1Y/iAX8GBNE4ekj2UxKOm4doX+HTVIen4SDDO5Usj0UPJclFbrOeunJbL2ZC3cJAfw6VIBIO
+	LUCEjKyD3qqDtXqPToYVogKk6sm2hEi3mXhc4SDVw9hpZLDDp97Hh07unKR1MjtatqQHRbINNyq
+	+xYSmrD0bKSlbuwjZSxZIi0TeItPrQEEZs0swi0nFrdYNFwcc6Z9mBW/yK39GcOC4L53YEX6J4o
+	owQdrwFA1ULjixT/z0aj7/u1nrdcM3
+X-Received: by 2002:a17:902:f543:b0:2b2:57f3:8d07 with SMTP id d9443c01a7336-2beb069c06bmr137208105ad.7.1779695188115;
+        Mon, 25 May 2026 00:46:28 -0700 (PDT)
 Received: from grand ([2401:4900:1c2b:7e61:dbc5:96cc:845d:a2d7])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2beb58b387dsm87392435ad.50.2026.05.25.00.00.38
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2beb58c69a0sm84916885ad.59.2026.05.25.00.46.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 May 2026 00:00:39 -0700 (PDT)
+        Mon, 25 May 2026 00:46:27 -0700 (PDT)
 From: Anirban Bose <boses156@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Anirban Bose <boses156@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: rename camelcase variable bDumpRxPkt
-Date: Mon, 25 May 2026 12:29:35 +0530
-Message-ID: <20260525065935.130736-1-boses156@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: rename camelcase variable nSubframe_Length
+Date: Mon, 25 May 2026 13:14:19 +0530
+Message-ID: <20260525074419.144884-1-boses156@gmail.com>
 X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -72,36 +72,82 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename the local variable 'bDumpRxPkt' to 'dump_rx_pkt' in
-validate_recv_frame() to resolve a checkpatch.pl CamelCase warning.
+Rename the variable 'nSubframe_Length' to 'subframe_len' in
+amsdu_to_msdu() and rtw_alloc_msdu_pkt() to resolve a
+checkpatch.pl CamelCase warning.
 
 Signed-off-by: Anirban Bose <boses156@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_recv.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_recv.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
-index 86c5e2c4e7dd..808f67b61f77 100644
+index 86c5e2c4e7dd..ddede3ad0e15 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_recv.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
-@@ -1447,7 +1447,7 @@ static signed int validate_recv_frame(struct adapter *adapter, union recv_frame
- 	u8 type;
- 	u8 subtype;
- 	signed int retval = _SUCCESS;
--	u8 bDumpRxPkt;
-+	u8 dump_rx_pkt;
+@@ -1576,7 +1576,7 @@ static signed int wlanhdr_to_ethhdr(union recv_frame *precvframe)
+ 	return _SUCCESS;
+ }
  
- 	struct rx_pkt_attrib *pattrib = &precv_frame->u.hdr.attrib;
+-static struct sk_buff *rtw_alloc_msdu_pkt(union recv_frame *prframe, u16 nSubframe_Length, u8 *pdata)
++static struct sk_buff *rtw_alloc_msdu_pkt(union recv_frame *prframe, u16 subframe_len, u8 *pdata)
+ {
+ 	u16 eth_type;
+ 	struct sk_buff *sub_skb;
+@@ -1584,12 +1584,12 @@ static struct sk_buff *rtw_alloc_msdu_pkt(union recv_frame *prframe, u16 nSubfra
  
-@@ -1473,7 +1473,7 @@ static signed int validate_recv_frame(struct adapter *adapter, union recv_frame
- 	pattrib->mdata = GetMData(ptr);
- 	pattrib->privacy = GetPrivacy(ptr);
- 	pattrib->order = GetOrder(ptr);
--	rtw_hal_get_def_var(adapter, HAL_DEF_DBG_DUMP_RXPKT, &(bDumpRxPkt));
-+	rtw_hal_get_def_var(adapter, HAL_DEF_DBG_DUMP_RXPKT, &(dump_rx_pkt));
+ 	pattrib = &prframe->u.hdr.attrib;
  
- 	switch (type) {
- 	case WIFI_MGT_TYPE: /* mgnt */
+-	sub_skb = __dev_alloc_skb(nSubframe_Length + 12, GFP_ATOMIC);
++	sub_skb = __dev_alloc_skb(subframe_len + 12, GFP_ATOMIC);
+ 	if (!sub_skb)
+ 		return NULL;
+ 
+ 	skb_reserve(sub_skb, 12);
+-	skb_put_data(sub_skb, (pdata + ETH_HLEN), nSubframe_Length);
++	skb_put_data(sub_skb, (pdata + ETH_HLEN), subframe_len);
+ 
+ 	eth_type = get_unaligned_be16(&sub_skb->data[6]);
+ 
+@@ -1666,7 +1666,7 @@ static void rtw_recv_indicate_pkt(struct adapter *padapter, struct sk_buff *pkt,
+ static int amsdu_to_msdu(struct adapter *padapter, union recv_frame *prframe)
+ {
+ 	int	a_len, padding_len;
+-	u16 nSubframe_Length;
++	u16 subframe_len;
+ 	u8 nr_subframes, i;
+ 	u8 *pdata;
+ 	struct sk_buff *sub_pkt, *subframes[MAX_SUBFRAME_COUNT];
+@@ -1686,12 +1686,12 @@ static int amsdu_to_msdu(struct adapter *padapter, union recv_frame *prframe)
+ 
+ 	while (a_len > ETH_HLEN) {
+ 		/* Offset 12 denote 2 mac address */
+-		nSubframe_Length = get_unaligned_be16(pdata + 12);
++		subframe_len = get_unaligned_be16(pdata + 12);
+ 
+-		if (a_len < ETH_HLEN + nSubframe_Length)
++		if (a_len < ETH_HLEN + subframe_len)
+ 			break;
+ 
+-		sub_pkt = rtw_alloc_msdu_pkt(prframe, nSubframe_Length, pdata);
++		sub_pkt = rtw_alloc_msdu_pkt(prframe, subframe_len, pdata);
+ 		if (!sub_pkt)
+ 			break;
+ 
+@@ -1704,10 +1704,10 @@ static int amsdu_to_msdu(struct adapter *padapter, union recv_frame *prframe)
+ 		if (nr_subframes >= MAX_SUBFRAME_COUNT)
+ 			break;
+ 
+-		pdata += nSubframe_Length;
+-		a_len -= nSubframe_Length;
++		pdata += subframe_len;
++		a_len -= subframe_len;
+ 		if (a_len != 0) {
+-			padding_len = 4 - ((nSubframe_Length + ETH_HLEN) & (4 - 1));
++			padding_len = 4 - ((subframe_len + ETH_HLEN) & (4 - 1));
+ 			if (padding_len == 4)
+ 				padding_len = 0;
+ 
 -- 
 2.54.0
 
