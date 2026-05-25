@@ -1,76 +1,52 @@
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C3823812D3
-	for <linux-staging@lists.linux.dev>; Mon, 25 May 2026 12:10:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C78A53815FA;
+	Mon, 25 May 2026 12:52:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779711013; cv=none; b=dQAxa7cbs9oDzXPSNeh18ryxRI4y1n8zYYuQQS/I6QeUCkAOiJM4wfQ03kS6jKu1DJAucwdMtCZ3PbaZ2sOiQZTw4ga4GhJvYR+yEWsam4j+sa437IjeDvK075E2zP3VmIO5QbnM2njiM9upg5Bf5v4/L0BikkMhe6Qo5quuN90=
+	t=1779713545; cv=none; b=hMAyRtKXLVKbNG+OPjDmwZWE8EtVL5l65jq0SK2lzI5/ACBA14vdYZcPnWNIfTsg12Ua2PccbyQIpdJAOfb4RlMNHXn6xdpSfk05kQgaIhZ0quo0W0xkC9/cwE2X7ZoyIEBiNuVUhkgg7R/cPfrjGgkPBE1/O6Fr0ngv7iBUHjU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779711013; c=relaxed/simple;
-	bh=t9IKVxCheMKFK6oXwhkLHG2BuUeOlVWyhXBepszW6c8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=pxlAfi8MoOs3ldewCrkYX2Od6bz/8/mRwn+TyQYUgBcFHHv1XY2pTZguvXXcoqQQudktLoXamqTre1GeDj4qEsIE8Q7nKPwICMBHWVWx9LrkqDe6gMmG31Djb1hYw/fc1rMF6Yu/m+GpHh/TMuCRQVUeh0xhd6uOoh8HDXUKX/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qzaKzF3z; arc=none smtp.client-ip=209.85.208.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779713545; c=relaxed/simple;
+	bh=6ia9If4p5ELlMHzXcCL2ncMHZvn8D2QDM9egXntQjxk=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=eSQxk7Mqs40kDg475Cf19YTRFvRQBTGFjAQH6zP0rvvWpRODNaU8Ga5wSBEzkPASuZarJgdLheVK7P78mNU+b9pXmR/7kEptlJalgP0/uB0lE6rovvaLrSboEqvX75uiIFjSB1d9v3xHYg9+PiHGWTmfpgZoq4gmcbAvZNAV11o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realsil.com.cn; spf=pass smtp.mailfrom=realsil.com.cn; dkim=pass (2048-bit key) header.d=realsil.com.cn header.i=@realsil.com.cn header.b=pyht0Q78; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realsil.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realsil.com.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qzaKzF3z"
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-38e8292423fso64515311fa.0
-        for <linux-staging@lists.linux.dev>; Mon, 25 May 2026 05:10:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779711011; x=1780315811; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5il3K3nJWUIVKcbEYy2cd/NmIAlc3phF0lY4mAeKiZ8=;
-        b=qzaKzF3zL3zHRvI6GFkTQ2D1yG5EJzC/sIrhGEEOFLz2MjX7HyO34XgqtWlpkvi8wJ
-         AHfi2/HBaiR3m96Bmks8I+BTUZWnsQaDAK8ui0busULlForKNPRMFE2RCxSM4U3w1D0J
-         Kh6LHUX5IFODAix2HwkWKBe7uIYf1knhxmpcgODr+f7eNfxAQ9jnI1swi3N5/WHUAx+G
-         cXUMT5ynyqcT5F5v9cC9KfXjw+0ocFZRBHvUej1AzxPhdLNOLIMfiHAarcGLkHwTmjgZ
-         weFcNWJWBRh2OwfnnFiHOY+Aj1EepEAhvPQ5Muuc5Crsg6W7hrJxP9d2dTXbkb1bqq8b
-         8Ybg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779711011; x=1780315811;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=5il3K3nJWUIVKcbEYy2cd/NmIAlc3phF0lY4mAeKiZ8=;
-        b=e+HMOaJuIyd5itqzBsjex+WL7IhtU9anqPc2DbMMo2LzlmZ+FmrdpKoXtXcfAQcAGw
-         6K6cEGbQutb5Vox7Z6uQyVLOf9TF1fRvNL8HlKsHa50ulX7yEUAQCVpQp3tz/O4KkFvZ
-         JC0K641AU8IMaMt4TRXabAjKQ1a2MPt7haHka8o+piWqhCv6NeIpTIBh+tmXrfDN35TY
-         MQGl9PIZa5M3Ax1/YtX2IltIsH35pKyAfaC7CTF4NqOCHkaMnsddEsOURndifB740fLk
-         MKBelAqEAU7p+o8zUOtf1ZUkfTb78B7b+SgJ54bg6FMMeQg9e9PNmmGshEWIxWIVkNxg
-         ryGg==
-X-Forwarded-Encrypted: i=1; AFNElJ9oTk+6Hw4gTKIIWVFhGrh9mF0xCemhL5nw2IW5BDA1UPL5qSIaHnpUDwB9t61C+qm30GCoXVbLN29B5jWr@lists.linux.dev
-X-Gm-Message-State: AOJu0YzOzcDioPVsHItHztqtiXnnACBen4T1L3ucVuRf7C0E7egwuIBU
-	I33pzcjsR+FU4+0V79wUbqO6LhvaYlVEddFe4Fj3I8A2ljUyEt6wF330
-X-Gm-Gg: Acq92OEsijyiDngscx0jqaH/B1hedQpEtERIEocZw+ts4jGPUBwC72rYNY/+ERUG9Rg
-	jcfTvyLUWwXST5eZP6/J01F+gscxobO8By7VobqzwmK/ZQixOFwYYHSxRhQMGv+S7y0qYhmy/y2
-	WU9sdVbLvwYQ1PO3ok25b9NYqQW2pTM9i8ps7mwNGvMv+UICRdgv8oqmuhgcj/hyzQ+fy3Hqbjv
-	E6L2Ycpg405tG9PB3a5HgSiYKz/vZcX2pWwH6M0HjpoxenQ5rEnkzp7AVBCvMNUgP0HU5WAnlkE
-	LEg0ow1dhqeGz2wl/fb6kKY0mNDw7LmlVsCQPPZxmDxD243ULEncVAy8R7MnRKDFQGURyB0dl5U
-	1sUy4L/p5/I6gjXrkV+NbxH10gzHp0rVN1cICK7/fQ7wbSwxc8uEulAhgA5VpUqgGe+RFIvE5WH
-	wBU+vzEjFPUlv4KhLxSfAiQzFFLh94LDqyZDfxhOGB9/0VU0f4zwjb
-X-Received: by 2002:a05:651c:1ca:b0:38c:6b42:3d77 with SMTP id 38308e7fff4ca-395d8bd343bmr43270541fa.2.1779711010527;
-        Mon, 25 May 2026 05:10:10 -0700 (PDT)
-Received: from g.lan (95-25-158-125.broadband.corbina.ru. [95.25.158.125])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-395dcc09e45sm23408981fa.24.2026.05.25.05.10.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 May 2026 05:10:10 -0700 (PDT)
-From: Igor Putko <igorpetindev@gmail.com>
-To: Dan Carpenter <error27@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Igor Putko <igorpetindev@gmail.com>
-Subject: [PATCH 3/3] staging: rtl8723bs: fix coding style for TxPwrTrackSetPwr calls
-Date: Mon, 25 May 2026 15:10:04 +0300
-Message-Id: <20260525121004.4989-3-igorpetindev@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260525121004.4989-1-igorpetindev@gmail.com>
-References: <ahPw0yB7Ax3lfhKu@stanley.mountain>
- <20260525121004.4989-1-igorpetindev@gmail.com>
+	dkim=pass (2048-bit key) header.d=realsil.com.cn header.i=@realsil.com.cn header.b="pyht0Q78"
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 64PCpesuF1058787, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realsil.com.cn;
+	s=dkim; t=1779713501;
+	bh=HhuAfq0KrjWR2hOdUgLXv8apqAQKmXIb959Lev66uvE=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type;
+	b=pyht0Q78EiaIC6iJIjqw82xk6qOYzBBQYM1XQgHw4FnU3QBcLkHQGXM4hXj3Rx63s
+	 IINYyHVdMcJNimOgpi3to4fXBSum/VRH93zi9EtpnYNYJBF40jPMvbiweQ0rZ4Eo/w
+	 QBZfkrbY3wWeiflA+lM0Ers2RKoP7CJVFsykn+1uFZR9WRXd595i3k3lZo3SUbxGFU
+	 +KwzzS4eJBY6CjR3+V6cfLALLRribH1ZM1DkZL0QwGV8OCtlZz3fkONBqJ68dLjs1k
+	 o1HiD2Q/qcGxZSHcHLNOo7jjVUMXox/lDShLWF/EWPoCqGPRwAEJHAPXfgziUj0dui
+	 0ZcCgbLVRM9Ng==
+Received: from RS-EX-MBS2.realsil.com.cn ([172.29.17.102])
+	by rtits2.realtek.com.tw (8.15.2/3.28/5.94) with ESMTPS id 64PCpesuF1058787
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 25 May 2026 20:51:41 +0800
+Received: from A106071510.realsil.com.cn (172.29.42.211) by
+ RS-EX-MBS2.realsil.com.cn (172.29.17.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.17; Mon, 25 May 2026 20:51:40 +0800
+From: <zain_zhou@realsil.com.cn>
+To: <linux-staging@lists.linux.dev>, <linux-i3c@lists.infradead.org>,
+	<devicetree@vger.kernel.org>
+CC: <gregkh@linuxfoundation.org>, <alexandre.belloni@bootlin.com>,
+	<Frank.Li@nxp.com>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+	<conor+dt@kernel.org>, <linusw@kernel.org>, <brgl@kernel.org>,
+	<linux-gpio@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<wei_wang@realsil.com.cn>, Yin Zhou <zain_zhou@realsil.com.cn>
+Subject: [PATCH v2 1/2] dt-bindings: i3c: add Realtek RTS490x I3C HUB
+Date: Mon, 25 May 2026 20:51:27 +0800
+Message-ID: <20260525125128.297-1-zain_zhou@realsil.com.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -78,28 +54,306 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: RS-EX-MBS1.realsil.com.cn (172.29.17.101) To
+ RS-EX-MBS2.realsil.com.cn (172.29.17.102)
 
-Remove unnecessary braces and fix incorrect indentation for the loop 
-calling ODM_TxPwrTrackSetPwr in ODM_TXPowerTrackingCallback_ThermalMeter.
+From: Yin Zhou <zain_zhou@realsil.com.cn>
 
-Signed-off-by: Igor Putko <igorpetindev@gmail.com>
+Add DT binding schema for Realtek RTS490x series I3C HUB devices.
+
+The binding describes configuration properties for:
+  - LDO enable/disable and voltage level per port group
+  - Pull-up resistance per port group
+  - IO driver strength per port
+  - Per target-port mode (I3C/SMBus/GPIO/disabled), pull-up,
+    IO mode, SMBus clock frequency and polling interval
+  - Hub network always-I3C mode
+  - Hardware identification via CSEL pin (id) and CP1 pins (id-cp1)
+
+Signed-off-by: Yin Zhou <zain_zhou@realsil.com.cn>
+
+Changes in v2:
+- Rework binding per Krzysztof Kozlowski's review:
+  add realtek, vendor prefix to all custom properties; use boolean
+  for enable flags; use u32 with unit suffixes (-microvolt, -ohms)
+  for voltage/resistance; change to unevaluatedProperties: false;
+  fix title, maintainer name, description, $nodename pattern
+- Consolidate examples; add dt-bindings/i2c/i2c.h include
 ---
- drivers/staging/rtl8723bs/hal/HalPhyRf.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../bindings/i3c/realtek,rts490x-i3c-hub.yaml | 263 ++++++++++++++++++
+ 1 file changed, 263 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/i3c/realtek,rts490x-i3c-hub.yaml
 
-diff --git a/drivers/staging/rtl8723bs/hal/HalPhyRf.c b/drivers/staging/rtl8723bs/hal/HalPhyRf.c
-index 3d45e5e44..c7f3ad38f 100644
---- a/drivers/staging/rtl8723bs/hal/HalPhyRf.c
-+++ b/drivers/staging/rtl8723bs/hal/HalPhyRf.c
-@@ -250,7 +250,7 @@ void ODM_TXPowerTrackingCallback_ThermalMeter(struct adapter *Adapter)
- 
- 		if (ThermalValue > pHalData->EEPROMThermalMeter) {
- 			for (p = RF_PATH_A; p < c.RfPathCount; p++)
--					(*c.ODM_TxPwrTrackSetPwr)(pDM_Odm, MIX_MODE, p, 0);
-+				(*c.ODM_TxPwrTrackSetPwr)(pDM_Odm, MIX_MODE, p, 0);
- 		} else {
- 			for (p = RF_PATH_A; p < c.RfPathCount; p++)
- 				(*c.ODM_TxPwrTrackSetPwr)(pDM_Odm, MIX_MODE, p, Indexforchannel);
+diff --git a/Documentation/devicetree/bindings/i3c/realtek,rts490x-i3c-hub.yaml b/Documentation/devicetree/bindings/i3c/realtek,rts490x-i3c-hub.yaml
+new file mode 100644
+index 000000000000..851a433abcd3
+--- /dev/null
++++ b/Documentation/devicetree/bindings/i3c/realtek,rts490x-i3c-hub.yaml
+@@ -0,0 +1,263 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/i3c/realtek,rts490x-i3c-hub.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Realtek RTS490x I3C HUB
++
++maintainers:
++  - Yin Zhou <zain_zhou@realsil.com.cn>
++
++description:
++  The Realtek RTS490x is an I3C HUB device that provides voltage level
++  translation between I3C controller and target devices, bus capacitance
++  isolation, address conflict isolation, I3C port expansion (up to 8
++  target ports), simultaneous dual-controller port support, and per-port
++  mode selection (I3C, SMBus, GPIO, or disabled).
++
++properties:
++  $nodename:
++    pattern: "^hub@[0-9a-f]+(,[0-9a-f]+)*$"
++
++  compatible:
++    const: realtek,rts490x-i3c-hub
++
++  reg:
++    maxItems: 1
++    description:
++      Encodes the static I2C address, manufacturer ID, and part/instance ID
++      as defined by the I3C specification.
++
++  assigned-address:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 0x1
++    maximum: 0xff
++    description:
++      Dynamic I3C address to assign to this device.
++
++  dcr:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description:
++      Device Characteristic Register value of the hub.
++
++  "#address-cells":
++    const: 1
++
++  "#size-cells":
++    const: 0
++
++  realtek,cp0-ldo-enable:
++    type: boolean
++    description:
++      Enable the on-die LDO for Controller Port 0.
++
++  realtek,cp1-ldo-enable:
++    type: boolean
++    description:
++      Enable the on-die LDO for Controller Port 1.
++
++  realtek,tp0145-ldo-enable:
++    type: boolean
++    description:
++      Enable the on-die LDO for Target Ports 0/1/4/5.
++
++  realtek,tp2367-ldo-enable:
++    type: boolean
++    description:
++      Enable the on-die LDO for Target Ports 2/3/6/7.
++
++  realtek,cp0-ldo-microvolt:
++    enum: [1000000, 1100000, 1200000, 1800000]
++    description:
++      Output voltage of the Controller Port 0 on-die LDO, in microvolts.
++
++  realtek,cp1-ldo-microvolt:
++    enum: [1000000, 1100000, 1200000, 1800000]
++    description:
++      Output voltage of the Controller Port 1 on-die LDO, in microvolts.
++
++  realtek,tp0145-ldo-microvolt:
++    enum: [1000000, 1100000, 1200000, 1800000]
++    description:
++      Output voltage of the Target Ports 0/1/4/5 on-die LDO, in
++      microvolts.
++
++  realtek,tp2367-ldo-microvolt:
++    enum: [1000000, 1100000, 1200000, 1800000]
++    description:
++      Output voltage of the Target Ports 2/3/6/7 on-die LDO, in
++      microvolts.
++
++  realtek,tp0145-pullup-ohms:
++    enum: [0, 250, 500, 1000, 2000]
++    description:
++      Pull-up resistance for Target Ports 0/1/4/5, in ohms. 0 disables
++      the pull-up.
++
++  realtek,tp2367-pullup-ohms:
++    enum: [0, 250, 500, 1000, 2000]
++    description:
++      Pull-up resistance for Target Ports 2/3/6/7, in ohms. 0 disables
++      the pull-up.
++
++  realtek,cp0-io-strength-ohms:
++    enum: [20, 30, 40, 50]
++    description:
++      Output driver impedance for Controller Port 0, in ohms.
++
++  realtek,cp1-io-strength-ohms:
++    enum: [20, 30, 40, 50]
++    description:
++      Output driver impedance for Controller Port 1, in ohms.
++
++  realtek,tp0145-io-strength-ohms:
++    enum: [20, 30, 40, 50]
++    description:
++      Output driver impedance for Target Ports 0/1/4/5, in ohms.
++
++  realtek,tp2367-io-strength-ohms:
++    enum: [20, 30, 40, 50]
++    description:
++      Output driver impedance for Target Ports 2/3/6/7, in ohms.
++
++  realtek,id:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    enum: [0, 1, 3]
++    description: |
++      I3C HUB hardware ID based on CSEL pin state. Values:
++        0 - CP0 is selected as primary Controller Port
++        1 - Primary Controller Port selected by software
++        3 - CP1 is selected as primary Controller Port
++
++  realtek,id-cp1:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    enum: [0, 1, 2, 3]
++    description:
++      I3C HUB hardware ID based on CP1 SDA and SCL pin state probed
++      during power-on.
++
++patternProperties:
++  "^target-port@[0-9]+$":
++    type: object
++    description:
++      I3C HUB target port child node, named target-port@<id>.
++
++    properties:
++      compatible:
++        const: realtek,rts490x-i3c-hub-port
++
++      reg:
++        maxItems: 1
++        description:
++          Target port index (0-based).
++
++      "#address-cells":
++        const: 1
++
++      "#size-cells":
++        const: 0
++
++      realtek,mode:
++        enum: [disabled, i3c, smbus, gpio]
++        description:
++          Operating mode of this target port.
++
++      realtek,pullup-enable:
++        type: boolean
++        description:
++          When present, enables the pull-up for this target port.
++
++      realtek,always-enable:
++        type: boolean
++        description:
++          When present, the target port is always enabled. Otherwise
++          the port is enabled on demand and disabled after use.
++
++      realtek,polling-interval-ms:
++        minimum: 0
++        description:
++          SMBus polling interval in milliseconds. If absent or 0,
++          polling is disabled and IBI is used instead.
++
++      clock-frequency:
++        enum: [100000, 200000, 400000, 1000000]
++        description:
++          SMBus clock frequency in Hz. Applies only when mode is smbus.
++          Defaults to 400000 if absent.
++
++    additionalProperties: true
++
++required:
++  - compatible
++  - reg
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/i2c/i2c.h>
++    i3c-master@d040000 {
++      reg = <0xd040000 0x1000>;
++      #address-cells = <3>;
++      #size-cells = <0>;
++
++      hub@70,4ba00000000 {
++        compatible = "realtek,rts490x-i3c-hub";
++        reg = <0x70 0x4ba 0x00000000>;
++        assigned-address = <0x70>;
++        dcr = <0xc2>;
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        realtek,cp0-ldo-enable;
++        realtek,cp1-ldo-enable;
++        realtek,cp0-ldo-microvolt = <1000000>;
++        realtek,cp1-ldo-microvolt = <1100000>;
++        realtek,tp0145-ldo-enable;
++        realtek,tp0145-ldo-microvolt = <1200000>;
++        realtek,tp2367-ldo-microvolt = <1800000>;
++        realtek,tp0145-pullup-ohms = <2000>;
++        realtek,tp2367-pullup-ohms = <500>;
++        realtek,tp0145-io-strength-ohms = <50>;
++        realtek,tp2367-io-strength-ohms = <30>;
++        realtek,cp0-io-strength-ohms = <20>;
++        realtek,cp1-io-strength-ohms = <40>;
++
++        target-port@0 {
++          compatible = "realtek,rts490x-i3c-hub-port";
++          reg = <0>;
++          realtek,mode = "i3c";
++          realtek,pullup-enable;
++          realtek,always-enable;
++        };
++
++        target-port@1 {
++          compatible = "realtek,rts490x-i3c-hub-port";
++          reg = <1>;
++          #address-cells = <1>;
++          #size-cells = <0>;
++          realtek,mode = "smbus";
++          realtek,pullup-enable;
++          clock-frequency = <1000000>;
++          realtek,polling-interval-ms = <10>;
++
++          i2c@10 {
++            compatible = "i2c-slave-mqueue";
++            reg = <(0x10 | I2C_OWN_SLAVE_ADDRESS)>;
++          };
++        };
++
++        target-port@2 {
++          compatible = "realtek,rts490x-i3c-hub-port";
++          reg = <2>;
++          realtek,mode = "gpio";
++        };
++
++        target-port@3 {
++          compatible = "realtek,rts490x-i3c-hub-port";
++          reg = <3>;
++          realtek,mode = "disabled";
++        };
++      };
++    };
 -- 
 2.34.1
 
