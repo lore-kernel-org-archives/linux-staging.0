@@ -1,114 +1,80 @@
-Received: from sender-pp-o91.zoho.in (sender-pp-o91.zoho.in [103.117.158.91])
+Received: from forward500a.mail.yandex.net (forward500a.mail.yandex.net [178.154.239.80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 780EA2D592D
-	for <linux-staging@lists.linux.dev>; Mon, 25 May 2026 16:15:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=103.117.158.91
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779725720; cv=pass; b=un0A0gq5yVBjMc955Jmtke00pjtSO6vBQlvQkHRkXER2J9BauMVgEL7CZuvo0JNWn1XDDbo1fr8kfxbRl3PFZg/HQvWi3lqPImCEXUn1n0BWdp60Jiy/yM8ZSiNKYZ9pwM0uru0fycS2B7xX8yV0Acy0RIU2TBlFYLP2J5xjsas=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779725720; c=relaxed/simple;
-	bh=31lWgL7rRszME87e69h+HAvMDZ7Q4wYmWrJPYZF91vA=;
-	h=Date:From:To:Cc:Message-ID:Subject:MIME-Version:Content-Type; b=YqWhOQRWoqc8qQt/Xp2UYrMNhLPV4JSo0NtFWDp1k8aTDqJuX7ZVk7FWgn+QpV6aQi8nGhx6j35/l29Zb2t7yorMa3WW4P4IaBVDG78W2yEfmFdRehld85LsBYNXT2vUSMrw8qOIvUYOthSBAVeDqlBPuxg83JtBtEaGW4dnANw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in; spf=pass smtp.mailfrom=zohomail.in; dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b=WytNgwDj; arc=pass smtp.client-ip=103.117.158.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.in
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77BAF3195F0
+	for <linux-staging@lists.linux.dev>; Mon, 25 May 2026 16:31:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.80
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779726704; cv=none; b=EoKJ9kwp100NfwMTNRbzzlVW0TFXVqhCGlT5i9B6oFfw3+aydEGctq3xajgBQ//Xz6SumdUdOFXLMC+Qx70A8u6tC9N73QSoGa6yvFBtoaenPxndmLELu8gK+oDQCDoxFCi2CUIwGSMXFfp+9ae0srJOhljOUSNO0gcb9gVbSW8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779726704; c=relaxed/simple;
+	bh=wnsEwjm5GsMlqztQPUvK+HEVP+UnP1XXSMXszrvmKrY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ft7p76qJDKv9xicFaF/HjR0oTQGhOZQel725M/GUd/cTfWQpl8ejCRsNkWSW4myt4WHQDpkkBbM9SM1OeIWr9bYwgyzWdqzwrWe0T/ZFe/kqjbe/kWJy4SgLU3SYq82dyK3x8PU4yZfK31Lw1/KAUKroO19Trgx00IB+HHFOukU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net; spf=pass smtp.mailfrom=sezginduran.net; dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b=r1Wug4vQ; arc=none smtp.client-ip=178.154.239.80
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sezginduran.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b="WytNgwDj"
-ARC-Seal: i=1; a=rsa-sha256; t=1779725707; cv=none; 
-	d=zohomail.in; s=zohoarc; 
-	b=H25KuHE6vAhOCynJ5x+qZ5OGe3TvROfKcZs/PD4Ycarm3C4XqqmvEp6VEoaMJXqzd/sf03pzo8G1ESs7sK8sbGe7m9rM/A2TFXDp8heW2Gyl/wOYOvpHiDWBFJQOTVGWE5Q79iwAO2cGlKpgRqRP6t0mA2+hKLlnMaRdcIQOb2Y=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in; s=zohoarc; 
-	t=1779725707; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=4/D3ZVk1g/KQX6fWV5B7LUKksuGO5srwLpNpriK86Bg=; 
-	b=LkYNNaQypFhCfBff4KVZD91R3KgVQeghBER9Z29ln/ipfb36g7cITNMjCWb7Soa19McREYRq9GbU9VouVuK5waMolPlc9Q+YCw/poc1nFBJ1hT1MWUErH5De0nhnedfZFi7jZIzdYZq9FGue+K/uxAnvZ5qYYdLUmObhb5Okz2E=
-ARC-Authentication-Results: i=1; mx.zohomail.in;
-	dkim=pass  header.i=zohomail.in;
-	spf=pass  smtp.mailfrom=linuxuser509@zohomail.in;
-	dmarc=pass header.from=<linuxuser509@zohomail.in>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1779725707;
-	s=zoho; d=zohomail.in; i=linuxuser509@zohomail.in;
-	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=4/D3ZVk1g/KQX6fWV5B7LUKksuGO5srwLpNpriK86Bg=;
-	b=WytNgwDj/WXRYSgXLQMXI6vst00r9vJwpU9LXUmrJ02Wptii+IBzkhmdOg6kK+l/
-	1/YuCIoVzwlbg6WxmgNacXCAFSaZ+GY4CcdsPYds8g2l5I47OnjSOToCnp/hf003Zwj
-	LBY6MzRWUZs42z7Dr+jl5Ue3Msp6cKk85ZPHI31s=
-Received: from mail.zoho.in by mx.zoho.in
-	with SMTP id 1779725705895713.3716859499349; Mon, 25 May 2026 21:45:05 +0530 (IST)
-Received: from  [117.99.195.86] by mail.zoho.in
-	with HTTP;Mon, 25 May 2026 21:45:05 +0530 (IST)
-Date: Mon, 25 May 2026 21:45:05 +0530
-From: Ashwin Gundarapu <linuxuser509@zohomail.in>
-To: "gregkh" <gregkh@linuxfoundation.org>
-Cc: "linux-kernel" <linux-kernel@vger.kernel.org>,
-	"linux-staging" <linux-staging@lists.linux.dev>,
-	"linux-media" <linux-media@vger.kernel.org>
-Message-ID: <19e5feb2286.b0d1beb80076.1209164292362410446@zohomail.in>
-Subject: [PATCH] staging: media: Remove deprecated Atmel ISC drivers
+	dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b="r1Wug4vQ"
+Received: from mail-nwsmtp-smtp-production-main-67.vla.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-67.vla.yp-c.yandex.net [IPv6:2a02:6b8:c1f:1b8b:0:640:c627:0])
+	by forward500a.mail.yandex.net (Yandex) with ESMTPS id C764FC0BDD;
+	Mon, 25 May 2026 19:31:37 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-67.vla.yp-c.yandex.net (smtp) with ESMTPSA id XVaAUmmeASw0-coOAGt8s;
+	Mon, 25 May 2026 19:31:37 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sezginduran.net;
+	s=mail; t=1779726697;
+	bh=XkSMMn15UHdjvgMGEJ/Pfj8iSI49+TwQcXkUmk4OrRw=;
+	h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+	b=r1Wug4vQc2kZcthWxDspbmwgsMvcNBVMA+q3TVvhYJNQwgXMSuUQ+YNx2THmUuSef
+	 bH981ghPsb7Ef4NQ3aW0aJcWgBlU4hoEecSp2axWTHB/WcwVsvX0tstCdu+CC/t7Cd
+	 RzblSeL75uZySN+mGFDu5WOZFhWMNZoARsxb6WjI=
+Authentication-Results: mail-nwsmtp-smtp-production-main-67.vla.yp-c.yandex.net; dkim=pass header.i=@sezginduran.net
+Message-ID: <6a5de920-b246-4568-8c32-626a696c670a@sezginduran.net>
+Date: Mon, 25 May 2026 19:31:33 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/5] staging: sm750fb: deduplicate fbinfo loop in
+ suspend/resume
+Content-Language: tr
+To: Dan Carpenter <error27@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20260523051509.166152-1-ahmet@sezginduran.net>
+ <20260523051509.166152-6-ahmet@sezginduran.net>
+ <ahQB8C1gTr7LF0FO@stanley.mountain>
+ <86216e7d-7867-4041-892b-aafeb39781b8@sezginduran.net>
+ <ahR1O_dF9XyVEmPo@stanley.mountain>
+From: Ahmet Sezgin Duran <ahmet@sezginduran.net>
+In-Reply-To: <ahR1O_dF9XyVEmPo@stanley.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
 
-The Atmel ISC and XISC drivers were deprecated and scheduled
-for removal by the beginning of 2026. The replacement drivers
-(VIDEO_MICROCHIP_ISC and VIDEO_MICROCHIP_XISC) are available
-in the main media subsystem.
+On 5/25/26 7:13 PM, Dan Carpenter wrote:
 
-Remove the Kconfig entries, Makefile rules, and the
-STAGING_MEDIA_DEPRECATED menuconfig since it is no longer
-needed.
+> 
+> I thought you were going to to abandon the ARRAY_SIZE(cdb) in v2.
+> 
+> regards,
+> dan carpenter
+> 
 
-Signed-off-by: Ashwin Gundarapu <linuxuser509@zohomail.in>
----
- drivers/staging/media/Kconfig  | 18 +-----------------
- drivers/staging/media/Makefile |  1 -
- 2 files changed, 1 insertion(+), 18 deletions(-)
+Which, I did:
 
-diff --git a/drivers/staging/media/Kconfig b/drivers/staging/media/Kconfig
-index 1aa31bddf970..52b4aab944f6 100644
---- a/drivers/staging/media/Kconfig
-+++ b/drivers/staging/media/Kconfig
-@@ -38,20 +38,4 @@ source "drivers/staging/media/sunxi/Kconfig"
- 
- source "drivers/staging/media/tegra-video/Kconfig"
+(v2 link): 
+https://lore.kernel.org/linux-staging/20260523153459.177488-1-ahmet@sezginduran.net/
 
--menuconfig STAGING_MEDIA_DEPRECATED
--	bool "Media staging drivers (DEPRECATED)"
--	default n
--	help
--	  This option enables deprecated media drivers that are
--	  scheduled for future removal from the kernel.
--
--	  If you wish to work on these drivers to prevent their removal,
--	  then contact the linux-media@vger.kernel.org mailing list.
--
--	  If in doubt, say N here.
--
--if STAGING_MEDIA_DEPRECATED
--source "drivers/staging/media/deprecated/atmel/Kconfig"
--endif
--
--endif
-+endif # STAGING_MEDIA
-diff --git a/drivers/staging/media/Makefile b/drivers/staging/media/Makefile
-index 6f78b0edde1e..6fd7179733d8 100644
---- a/drivers/staging/media/Makefile
-+++ b/drivers/staging/media/Makefile
-@@ -1,5 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0
--obj-$(CONFIG_VIDEO_ATMEL_ISC_BASE)	+= deprecated/atmel/
- obj-$(CONFIG_INTEL_ATOMISP)     += atomisp/
- obj-$(CONFIG_VIDEO_IMX_MEDIA)	+= imx/
- obj-$(CONFIG_VIDEO_MAX96712)	+= max96712/
---
-2.43.0
+Then, per this review, I sent v3:
 
+(v3 link): 
+https://lore.kernel.org/linux-staging/20260525085808.171974-1-ahmet@sezginduran.net/
 
+Please let me know if I misunderstood anything or made a mistake.
+
+Regards,
+Ahmet Sezgin Duran
