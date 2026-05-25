@@ -1,62 +1,62 @@
 Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C4C633DEFE
-	for <linux-staging@lists.linux.dev>; Mon, 25 May 2026 09:06:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD48F35E1B4
+	for <linux-staging@lists.linux.dev>; Mon, 25 May 2026 09:08:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779699964; cv=none; b=WHEpf4XlhBRNe2J63T3jPA7DwsMzYvVb5cUv6WQSdS9Ea7Kl+6lPdrXH9woDqz5hn2/x0E+qQGFdRPWDyknes7zeidAdivgRzUJ1ih366CIgGJ9XnxKI2X6kB5YVh961Y5uE5Q4K+V3Mp3GNtlIeXcEKLp7+SJS1IrvBSBo3NoY=
+	t=1779700085; cv=none; b=pd2OEBv6xISgmNhx3eIJ7xMrchNtx8O5guItrjPVhVVn5gOmpi52yoS7qfBhSYYDGEK9XU1AGR2Z2t4Qua9x9SoZCOfJMEheYCp5s2TyZMggq0itHmTF7NNCvuYKDNZJprPYWQMz6u7ropob5hUWfuIVXyHRiMe6BdHmgZLy0aw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779699964; c=relaxed/simple;
-	bh=QJUg7FLbFnQUG2YzTqHy7BGeo6je8PcoF1Z3xw4s04E=;
+	s=arc-20240116; t=1779700085; c=relaxed/simple;
+	bh=IIk1jSbWatS+Z7jmi+dv7l6NN9oWCP52FaT8In5J2sY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HFEHnIe2MzFQt8xDg7LU0g5lhTgrUnrTz6v/pSSgDwj8DwTNFZ5i0OQ1E6CrHnn6VJAlRPOma8A03oiiCdFjKGmhlatzURXd63/Y1Xgc6998OFsfZYWOLlVv5vJNkcF0UhTgrKwv0KQOcVgXeL8UUL7OdngoxCw3fer0NEq9iog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Pmi3Jyys; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=efOm3w16; arc=none smtp.client-ip=80.241.56.161
+	 MIME-Version; b=RQCApAKbutCjTfswV8h5ufd0v6czWjaFqCPzwA/rXOa5AgFA/u+apdFJAQPavLiv7WggTyi8GTtUa2JO+qcaiSouJkO2f+oILZOrthnEbqzewicuLfUGKWMvsZW2nL0pIiPABBXkVbVEEKrzsLU2tOG5uD5Vh8FIDP8FxcyMAHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=MLz2xl1r; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=fG4zd3E9; arc=none smtp.client-ip=80.241.56.161
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Pmi3Jyys";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="efOm3w16"
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="MLz2xl1r";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="fG4zd3E9"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4gP9365C1rz9tGx;
-	Mon, 25 May 2026 11:05:54 +0200 (CEST)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4gP95Z3VTnz9tpl;
+	Mon, 25 May 2026 11:08:02 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1779699954;
+	t=1779700082;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=P3HbPco5MtraARviEzgvug4kKOI728hoNgd/++kThKA=;
-	b=Pmi3JyysljqCTIEFomEtamjDUEkcv7BCYYYyQxh9v3sfua55bguAjMXbbrHYo2gxGLKLfZ
-	5//W2Sz5ygrAKRfGXd+KxDNzeiiSOJSaUSdB545RQ8dNA6teumlZsqqVWdLalVKGHm12t1
-	GSsW1SG3KTBn+lT2ZVJUOnHL/gWbxY8UqGuI1AYf77hyhXvqERrp4aRr3De9aizDipywXr
-	avkUu2GXSD2PCSiybqCoeMOxl3ww6IZr1FJvvXk4Ybe3cgTqHpD84RATRUpiehqCvb+UCF
-	v5Iath06vIMRBZNcPeOpRjiEYt8vAGAY1tJ+raWXcAX8WOdeZ67UhCnWPBU96g==
+	bh=OhGEIPPnudhSXKNfgKW/ZM6MGfAWgTq7e/KUAzuejuw=;
+	b=MLz2xl1rtirdrsL+6oLN6g879bNi9AdufcyO6c5zYsGu0lCWT9fqKhSQpnWwsjLJoznCaT
+	0aECNS4w+jQ6vjtUdiPlvkaKKcsiiTP05ZxmyllTWWTXAqLcUhznwt4qovVaA4P+f6+y0K
+	2WN0gR4Q2yz4CCcTwO79G3WQqXyI8gcmj6IyBy1afCI2BlhST3XWXMLfjUvQb70D9bngyO
+	Vb901DjBLVqcEVAIXM3jqpCskw/Vl4ODz4rd2wOtor7oKNHQDBpSCQHH/lHR6z2EjjA8Zd
+	4MoRn/yHz/ewQJHWMkZkA99CgJN0G1sadGMGvM4OUmGYbs4XVRdCVu+QIj9RCQ==
 From: Manuel Ebner <manuelebner@mailbox.org>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1779699953;
+	t=1779700080;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=P3HbPco5MtraARviEzgvug4kKOI728hoNgd/++kThKA=;
-	b=efOm3w163OL4EQp+Stou2tZZ/LKg3phfttQd1d87IT+WQS1hhUJnVBPOGzuxyJ/q9yNLA3
-	lVRJVuCpP3QsELxkO3iIUAVrFyEaA9lGWnomGqL03r4cM733n+tuITtP4u/WtXrNv2+T6k
-	GqepyBl5KPE0XtniiH8m3UFK618v4+H7c0jFB9Rm5TRSDYJpEheTBCLKnDee+T2kfYhc1p
-	1O0WRDDvBvR5GXDnOegPKzQMTFPts0dF+sJ/7aBFEr9Q1Sd3GWp5ad6rgy+sGNAR+S2BKs
-	5Cwx/qpiyEli+w9ukv5gk4GdxdGfqjktLCOEpYzVoXxzyZLyeLXe4Rqm6NDSVg==
+	bh=OhGEIPPnudhSXKNfgKW/ZM6MGfAWgTq7e/KUAzuejuw=;
+	b=fG4zd3E9C3/IA2k6Ft4CybFt5FPoMRj+gsZ5l+yvxAthCiziM0T7/WgatMbroIyRy0j8rD
+	PKpGdFpdIOFsYfQnyLiZRWJOyfJ7ddSmM08wUOCaMnODvsKR8mmxbbxIbPknQiN7C6ewxM
+	z+Jhs3CB99taLIMt5XVWOcMH8oDQGmWY8l0wcLG0N0/Zn8TA7Oc/ANon2dYG5/dvffpTIy
+	cGsJ1Hfyx02bSV15A1eO/Dopd8n9UjHq/PMX2ILCEVPEGInfM4dmDVUJHn934kkzbkilxd
+	9OXZcXRk9bf8dE0JENDKGyiE5VSXPb4rD63e+yRFLSBLZGhrgF34STpB6deo2Q==
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Dan Carpenter <dan.carpenter@linaro.org>,
 	Omer El Idrissi <omer.e.idrissi@gmail.com>,
 	linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM),
 	linux-kernel@vger.kernel.org (open list)
 Cc: Manuel Ebner <manuelebner@mailbox.org>
-Subject: [PATCH v3 2/4] staging: rtl8723bs: cleanup whitespace of sdio_intf.c
-Date: Mon, 25 May 2026 11:05:42 +0200
-Message-ID: <20260525090542.216591-1-manuelebner@mailbox.org>
+Subject: [PATCH v3 4/4 staging: rtl8723bs: cleanup braces of sdio_intf.c
+Date: Mon, 25 May 2026 11:06:12 +0200
+Message-ID: <20260525090611.216670-2-manuelebner@mailbox.org>
 In-Reply-To: <20260525084956.215254-2-manuelebner@mailbox.org>
 References: <20260525084956.215254-2-manuelebner@mailbox.org>
 Precedence: bulk
@@ -66,52 +66,31 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-META: dzj96kzbsuds6mjqjtcqm5smrh7ge5hy
-X-MBO-RS-ID: 55e1daf2f9d7a662b20
+X-MBO-RS-META: dmkki184p14qradsy556do6nydzo3m45
+X-MBO-RS-ID: 507b0d55f2b8859bd68
 
-Add and remove empty lines where appropriate.
+Remove braces of one-line if arm.
 
 Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
 ---
- drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-index ff58923e43f1..63ec486f9a34 100644
+index fd805ee74a1b..32a0ee08f175 100644
 --- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
 +++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-@@ -47,7 +47,6 @@ static void sd_sync_int_hdl(struct sdio_func *func)
- {
- 	struct dvobj_priv *psdpriv;
+@@ -143,9 +143,8 @@ static void sdio_deinit(struct dvobj_priv *dvobj)
+ 		sdio_claim_host(func);
+ 		sdio_disable_func(func);
  
--
- 	psdpriv = sdio_get_drvdata(func);
+-		if (dvobj->irq_alloc) {
++		if (dvobj->irq_alloc)
+ 			sdio_release_irq(func);
+-		}
  
- 	if (!psdpriv->if1)
-@@ -151,6 +150,7 @@ static void sdio_deinit(struct dvobj_priv *dvobj)
  		sdio_release_host(func);
  	}
- }
-+
- static struct dvobj_priv *sdio_dvobj_init(struct sdio_func *func)
- {
- 	struct dvobj_priv *dvobj = NULL;
-@@ -216,7 +216,6 @@ static void sd_intf_stop(struct adapter *padapter)
- 	rtw_hal_disable_interrupt(padapter);
- }
- 
--
- static struct adapter *rtw_sdio_if1_init(struct dvobj_priv *dvobj)
- {
- 	int status = _FAIL;
-@@ -250,7 +249,6 @@ static struct adapter *rtw_sdio_if1_init(struct dvobj_priv *dvobj)
- 	/* 4 3.1 set hardware operation functions */
- 	rtw_set_hal_ops(padapter);
- 
--
- 	/* 3 5. initialize Chip version */
- 	padapter->intf_start = &sd_intf_start;
- 	padapter->intf_stop = &sd_intf_stop;
 -- 
 2.54.0
 
