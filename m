@@ -1,188 +1,109 @@
-Received: from sender-pp-o91.zoho.in (sender-pp-o91.zoho.in [103.117.158.91])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sonic303-20.consmr.mail.ir2.yahoo.com (sonic303-20.consmr.mail.ir2.yahoo.com [77.238.178.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 087CE1A9F96
-	for <linux-staging@lists.linux.dev>; Tue, 26 May 2026 04:44:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=103.117.158.91
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779770663; cv=pass; b=akBlm+HfXxGF2G4dzpJVlWkaZOEqkWzq4GpPwPDKZmeh649LEHzHrc/IzfoKmSrY8Vyg/RmFnWU2g/t75EWgnAea0Td3G2TuoTsVLxP6y06TftyPzfDAt+A4ahOVJ/lmQ8wbsGQ+SbEPayijWWQxqRRPbRmeXg+Z4uTjutrMGQY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779770663; c=relaxed/simple;
-	bh=wa+ssrnmgjKS6DGBNa0pU9dgdVK8TCUhhcqTQMPV5Rk=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:Subject:MIME-Version:
-	 Content-Type; b=iSkCYYeii9oIUhm8h4OuEO1Nf7piZiBP6x2j+WGcde1djfnx+QZQCkxrmQrbl2ayLqPSyIHvotBC80P19k6TE1dXqph239uj4ufbLyvpjjV7yKIyzE81yq0cDwS1WIcskufIoLsnHei/jJLc0CXyam7O1ZFEVj52X8CPd2txCd8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in; spf=pass smtp.mailfrom=zohomail.in; dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b=La3JuYTw; arc=pass smtp.client-ip=103.117.158.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.in
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EAC33DD851
+	for <linux-staging@lists.linux.dev>; Tue, 26 May 2026 10:34:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.238.178.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779791684; cv=none; b=n0givVD3GMb+DACP7e3TVFYARQmorO9Pd5mHvBMu2UN7i8qTTfES7v/fe+LNRqti7OOsmoCWRj+19olLQv2krADCpNKb/WOe16tb0eVPWSNjYlwZeQUImCBkrxHo4QaPrUPj6L6GE4dep/+Y2ZF2lXn3ZvgU2Wro2xkYphRPhKg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779791684; c=relaxed/simple;
+	bh=37MLDzTW4k5v7MfNqtdj+5ZF99GHK1CQjKS3ZcbVGpc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc:
+	 References; b=tA1N1g41eWu3xPkxHToZ/fZx8vcBWrs78OVFOe7oPBWGNxFOgEPDd8NXYW7GTj2zt3/dluCBWPZvtXaFqe1THoymWT4nRvCdRskWZnedLZs//mQ++wQD476svAYobMTrkUBxFecce85aTIrpoxr44Je5LXVxz3TkFbmD9jv+vV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=QDFUvZiV; arc=none smtp.client-ip=77.238.178.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b="La3JuYTw"
-ARC-Seal: i=1; a=rsa-sha256; t=1779770653; cv=none; 
-	d=zohomail.in; s=zohoarc; 
-	b=U0TECTrww+34B38VnOalrjWutPgMUlf2oWOcFXzT+7CrKHBFtWiHBPW8z9HSRHTGcwaVSsYAgE6ZtU61tWpndwN2+3GhFVdZtG5VXQ3BLXH/x5TaKhWvkJRYHPfGfQ8ciyHQuzIes+zRvHi9eHZa0wC8eZrnB0BUrqcUvnY/Jxo=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in; s=zohoarc; 
-	t=1779770653; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=PXeBvSEj10zdgyJ3uDy6QCh3WoezKa+4QwpzAChHyUM=; 
-	b=HtnvhPb8j/Oo9HnnXy/8fHLOz7vw8LX5v/jMJC7FoWF2/X2EhQYD1tBLYeCRnsUZBc9XYAz2Jfy4/xWuiIsznrEgaDyVmdjQkaSpQO6TJhj97q2TCGtaB7XuidA1RnuN5UvTD+y5h65aLn+EnYHXF0gioX53scM1oo0Lq2k7iys=
-ARC-Authentication-Results: i=1; mx.zohomail.in;
-	dkim=pass  header.i=zohomail.in;
-	spf=pass  smtp.mailfrom=linuxuser509@zohomail.in;
-	dmarc=pass header.from=<linuxuser509@zohomail.in>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1779770653;
-	s=zoho; d=zohomail.in; i=linuxuser509@zohomail.in;
-	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=PXeBvSEj10zdgyJ3uDy6QCh3WoezKa+4QwpzAChHyUM=;
-	b=La3JuYTwPYndQgYIKAvymDfMvwk50j1ng4h0Sio9bZdLtEcr7MpaDENaNFYm+/Sm
-	Yq18g7BKhI6vkRxzHrcQnKsy27HUus0o+1esbetAAZ+9LL2hufOFgDeLJk1aeZDGxNk
-	e7Xi1heKAQR7yGYTwqLNI+lvlH7ZvOb3+jo262G8=
-Received: from mail.zoho.in by mx.zoho.in
-	with SMTP id 1779770652392348.1380039290135; Tue, 26 May 2026 10:14:12 +0530 (IST)
-Received: from  [106.219.4.39] by mail.zoho.in
-	with HTTP;Tue, 26 May 2026 10:14:12 +0530 (IST)
-Date: Tue, 26 May 2026 10:14:12 +0530
-From: Ashwin Gundarapu <linuxuser509@zohomail.in>
-To: "gregkh" <gregkh@linuxfoundation.org>
-Cc: "linux-kernel" <linux-kernel@vger.kernel.org>,
-	"linux-staging" <linux-staging@lists.linux.dev>,
-	"linux-media" <linux-media@vger.kernel.org>
-Message-ID: <19e6298f6e0.5ac60f8c58890.6769560352523159305@zohomail.in>
-In-Reply-To: 
-Subject: [PATCH v2] staging: media: Remove deprecated Atmel ISC drivers
+	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="QDFUvZiV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1779791679; bh=d1lRaJyvXuJxvoHCSKS4YsHriT/mGv6KU4lN0zJtoKg=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=QDFUvZiVSzSTY99lsCzjAhiLK6PeoZIuNCrq3OtBZ/qIXQXByG2wLUvWxMbjwlpAzVLkfyBFnAFLxv2iaX+/Fd2u5eNMqY5E48u6+9kmnxE4qc/nFqt+lD7adRIIiGhO759xif6VkoqFLMx2aSL6n05r6s04XwRreMDjOlHBctTv/xd1tSRp0FkLw3HpG8e+KmG02cptPL8nWWwGeRVepBStSGmKxeO3HT4Ka4GvrWlwcdI802kj/payyPKj2ntu9vOxjHqh1XMai6ip18j5GiCNcYSh3Ij/prjIeimUcFkdQeSbx4U/MNPI8tc5Hl4ADJfBtpx8xz9oFtqMFQ1wlQ==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1779791679; bh=Ws89s4kOaK/vsPmzNoqTjcipeO9ULzJu+qx8flLJ5SY=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=lqCk1B+vSDt6ISL/LKNuqQI91ma2qAjn29LAfaX7AwDs7F9usVmSfgoat7nbpb8fQCxQ6blbX/dUHjTy3QQHvfof9gMmd4s26bocwGpXK1Cz1HkEdlVs/078MlIxuyNZ2bjUcAIkLvM3O6FQE06sR3WpP/+kBROkDQOJjF3bMtGX4zWzc7fOchn7ZT4FeApoiHaSv+yntj9r9ruo6qsct32pu1X8E4HDLzQ3FTmBg2+NwU81ZCFkVhHRlz5U+lSt8aJsxcGMyg3MPADPOyyndxPKb+df9EXYnbylKmem6aaQ7JjVGXE0ziWsbZE7ZMa/2a/jHc306LmiJV/x3cdUVQ==
+X-YMail-OSG: xJnGDncVM1n0RG4Qq2tYRRWyfsv4E2dBJ74YQOkHAsw6sXrnA6lvFHL4Xz8XqPN
+ PtQ7KpQ.rj5D7t0zUEK3YroDSHpZiiTABgqNtkD02jDjPZuOT8v93XqVvNzNHsF51rftJxs6gN3u
+ CB4zV0s5HIYoqTTtazB2qV5PVDulN6U2O8GK3p4SEAq9Ttq9L.MnBTEuKcR4_Jiy8vVpQ4qtskZ9
+ nmetTfZNc3BaJa89NQ8JrZKyk_QuLlve6zyxyIBeXYf8tPyJezpz50w1KcHvjRIPkRYEf_lQGSew
+ Y2MFdH2YTQ9TuPeg3qx.lZj2AWtLoSkHn.xDNrEErTPbKqMzsNQngvkrUJmvopfovHI8scujv2UQ
+ _0oB5CaswChlwDDPzMnOUbBmr50MU6u0YMiHS4d8vtYTsesq2E0V2jkYaYVn3mfkcORq3zynsPHD
+ GaJCzaEldwY5xcHHgSi9G4Y924RgS4SPAUum5efKt2oLCsh1zE6WKt6uxxBDvx4S9F7HUlg62F80
+ XCFfaeeKKQebn3SPtOsrcggkGmdHNY9YxMFwwhKmMeBnkg_TpOARs4kK0KN.jLMxtSjvFLArFKx0
+ mPZaniFqJZx5Kw4U8Tkj3b.XjG5P13mPH7TemeG1_wWw6E1pK64VE_kzMi48V6sMrrV87fJ64pza
+ oXbNSk1TTyT_.nADtikIQ_IVAg9YKUJdobhWEsBz8KZVLQLDfIyNovMr73tNrpICaU.5rVpUmw_N
+ 7G2krI8vtkGAPSJsXbygFevUNPqzK0jkSWuzrS3W5M_xuSr8g7WfAe.a30k_m0D2xjEsLKnsPO01
+ ytSFvip49NBPHnBz_ysVGUy01qvE7dnqRXqwAWImZcUgdoKheyFYXOC8_4qn_n5CuqQVaNpqQYjE
+ e3In851BVxgeC_Jk9UyDWS8heaaS7Lkv6tUVVSRw.IaoxZzjaJFcRxxl_zj09XNTmxTevY_TvhXw
+ lBXdWLxguuHbojEbBvSlWjMloLTmQO5YsnN4pr3fH3jQCvqjGm8aXjeS0vm6owNfOkaGvh0w3z9S
+ O3yFPhFMiDSuyYQvjEDTjLxEwbcO8D6ClTSfn9XuQcgdSpUWaj5iwjiear0TSzPwED6JKmcnGegX
+ AD3nxzhC.4Q5RIKhVyLd3Pp40NyaTJlVq6sjkEXqIJbABKS_aI62zcfRNQ6R.WJOafWdfbMWB8Px
+ iCMWDoxBCupQfbEqRE9MTlkpplmvvj7Ww1A_WSVONkc4m3vVjxifJMvAyW3CZJAPxoI1hZcaYO7e
+ _zZZmC4XFYx05tg_unyNuY059BtrhcAALoSRFZKLp044yJIUrrfDGWKVnqteeEcKiHvFjj2Q_T70
+ S8.00p2hrQ7kHU0r7CJ0ItMTTMQgq_9EIrMiurOgD_j3OsTVuLuSyOtIbC_bLkyR42HLyhRwGKCS
+ fnXkF5DP5lfbxpOqaWByt5CyVX7.tQ2QOQoJQFaU8A._kLyrCfY8HYkv0K18DVBxjXjfNAbcwSfq
+ a_XfbqLDvjE.5KDOyWdYmWSt_9MPyHKzyPLJcNj3bzMI6N2oSAu3SBo2dULWhJO7tm2ItLVsIUsC
+ ib2BPROzOHwLD8B1pGbTHeQNT1F65Uvbpuk7n5DgCHlraxQ5uNoUipB8trUfUaAp3TvH0degaBIq
+ 8F1NZOTOrg4ErL5.y9BvosVudK_2lZZGZOwQJArk.BdtcNDEZcA8DOQClq0U0U2pkGIosWPUqZSc
+ PCqfB_l8Zn_JE7WWPzDdX.hMu62jEEgoIQcuxy_HMnJjOTC4cGTXd9UWwlEMw7LkymNBhx_MIz1H
+ .Ou1DWam9nrFtlT5Qr.MvsQgUEo4IlJERQfKvRtkVkkHtz_f3oxZ198ynxOcVNwn64KdhWU3zGmD
+ wWn0.61u9XAmyS9BBbKOkRONhZ.5OxMsWQX_PHtc7UGdjBMFYVNKByE6Eu_JEU__8X7B1TX7VXL3
+ 5TcIk2Q1wF0rL63_oh4R3PSKy0ofzeppBdkxCKWaeoZCOEJOhZPtcijeSUjMIEmDbXvfDdcla18_
+ VYe4CjJTRx.QnIU5DGoHIFCV5bwtdmCb8hRmPZUEEO.SYEP7GgKI8VTA7RVC5dM8PSogDfHMpGo8
+ pyHwdIlHrgsgxR1SYIVqMjv04z2RF4dfrTbv_1yyIjqYOX4NLhK5ASdL2gtCROYDVnqbfANtS5YV
+ 80kfbEr2FOmpIqcyzIGyNV9HfaWZzzbELWNESf4SD5Dx6Qi9iVMsL.BKz37TZNNr_v3y9EOgTtC1
+ BBEZEwhX61Izh_7tlZFhPfkDnbzJ8SPa9DHxFsPtHSBIVs8NCe9sRuBXHRnDwAzXziByziiRxWjJ
+ 1zGjr_Mz7XueXE_2ehfG8nte2.NUt8ykjUX9qycrsvJOpg._nSaU0XoNkQw--
+X-Sonic-MF: <tomasz.unger@yahoo.pl>
+X-Sonic-ID: 617945a2-6d02-4f1f-9390-f5a78d3aadeb
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic303.consmr.mail.ir2.yahoo.com with HTTP; Tue, 26 May 2026 10:34:39 +0000
+Received: by hermes--production-ir2-89844b765-l4vp4 (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID f6c6a09eadbbd8c4837994bdd2f91111;
+          Tue, 26 May 2026 10:03:18 +0000 (UTC)
+From: Tomasz Unger <tomasz.unger@yahoo.pl>
+Date: Tue, 26 May 2026 12:04:23 +0200
+Subject: [PATCH] staging: rtl8723bs: fix spelling mistake found by
+ codespell
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
+Message-Id: <20260526-fix-typo-odm-dig-v1-1-4392b0c03e13@yahoo.pl>
+X-B4-Tracking: v=1; b=H4sIACZwFWoC/x2MQQqAIBAAvxJ7bsEWE+sr0UFysz2UoRFF9Pek4
+ 8DMPJA5CWfoqwcSn5IlbgWauoJpcVtgFF8YSJFRLRmc5cLj3iNGv6KXgGydJmO508pCyfbExfm
+ Xw/i+H5i9erhiAAAA
+X-Change-ID: 20260526-fix-typo-odm-dig-e8a4268e9408
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Tomasz Unger <tomasz.unger@yahoo.pl>
+X-Mailer: b4 0.15.2
+References: <20260526-fix-typo-odm-dig-v1-1-4392b0c03e13.ref@yahoo.pl>
 
-The Atmel ISC and XISC drivers were deprecated and scheduled
-for removal by the beginning of 2026. The replacement drivers
-(VIDEO_MICROCHIP_ISC and VIDEO_MICROCHIP_XISC) are available
-in the main media subsystem.
+Corrected typo: FASLE -> FALSE in comment
 
-Remove the Kconfig entries, Makefile rules, and the
-STAGING_MEDIA_DEPRECATED menuconfig since it is no longer
-needed. The source files remain on disk but are no longer
-compiled since the build infrastructure is removed.
-
-Signed-off-by: Ashwin Gundarapu <linuxuser509@zohomail.in>
+Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
 ---
- drivers/staging/media/Kconfig                 | 18 +------
- drivers/staging/media/Makefile                |  1 -
- .../staging/media/deprecated/atmel/Kconfig    | 47 -------------------
- .../staging/media/deprecated/atmel/Makefile   |  8 ----
- 4 files changed, 1 insertion(+), 73 deletions(-)
- delete mode 100644 drivers/staging/media/deprecated/atmel/Kconfig
- delete mode 100644 drivers/staging/media/deprecated/atmel/Makefile
+ drivers/staging/rtl8723bs/hal/odm_DIG.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/Kconfig b/drivers/staging/media/Kconfig
-index 1aa31bddf970..52b4aab944f6 100644
---- a/drivers/staging/media/Kconfig
-+++ b/drivers/staging/media/Kconfig
-@@ -38,20 +38,4 @@ source "drivers/staging/media/sunxi/Kconfig"
-
- source "drivers/staging/media/tegra-video/Kconfig"
+diff --git a/drivers/staging/rtl8723bs/hal/odm_DIG.c b/drivers/staging/rtl8723bs/hal/odm_DIG.c
+index 4e28b7742bfe..c862c86b7695 100644
+--- a/drivers/staging/rtl8723bs/hal/odm_DIG.c
++++ b/drivers/staging/rtl8723bs/hal/odm_DIG.c
+@@ -590,7 +590,7 @@ void odm_DIGbyRSSI_LPS(void *pDM_VOID)
+ }
  
--menuconfig STAGING_MEDIA_DEPRECATED
--	bool "Media staging drivers (DEPRECATED)"
--	default n
--	help
--	  This option enables deprecated media drivers that are
--	  scheduled for future removal from the kernel.
--
--	  If you wish to work on these drivers to prevent their removal,
--	  then contact the linux-media@vger.kernel.org mailing list.
--
--	  If in doubt, say N here.
--
--if STAGING_MEDIA_DEPRECATED
--source "drivers/staging/media/deprecated/atmel/Kconfig"
--endif
--
--endif
-+endif # STAGING_MEDIA
-diff --git a/drivers/staging/media/Makefile b/drivers/staging/media/Makefile
-index 6f78b0edde1e..6fd7179733d8 100644
---- a/drivers/staging/media/Makefile
-+++ b/drivers/staging/media/Makefile
-@@ -1,5 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0
--obj-$(CONFIG_VIDEO_ATMEL_ISC_BASE)	+= deprecated/atmel/
- obj-$(CONFIG_INTEL_ATOMISP)     += atomisp/
- obj-$(CONFIG_VIDEO_IMX_MEDIA)	+= imx/
- obj-$(CONFIG_VIDEO_MAX96712)	+= max96712/
-diff --git a/drivers/staging/media/deprecated/atmel/Kconfig b/drivers/staging/media/deprecated/atmel/Kconfig
-deleted file mode 100644
-index 418841ea5a0d..000000000000
---- a/drivers/staging/media/deprecated/atmel/Kconfig
-+++ /dev/null
-@@ -1,47 +0,0 @@
--# SPDX-License-Identifier: GPL-2.0-only
--
--comment "Atmel media platform drivers"
--
--config VIDEO_ATMEL_ISC
--	tristate "ATMEL Image Sensor Controller (ISC) support (DEPRECATED)"
--	depends on V4L_PLATFORM_DRIVERS
--	depends on VIDEO_DEV && COMMON_CLK
--	depends on ARCH_AT91 || COMPILE_TEST
--	depends on !VIDEO_MICROCHIP_ISC_BASE || COMPILE_TEST
--	select MEDIA_CONTROLLER
--	select VIDEO_V4L2_SUBDEV_API
--	select VIDEOBUF2_DMA_CONTIG
--	select REGMAP_MMIO
--	select V4L2_FWNODE
--	select VIDEO_ATMEL_ISC_BASE
--	help
--	   This module makes the ATMEL Image Sensor Controller available
--	   as a v4l2 device.
--
--	   This driver is deprecated and is scheduled for removal by
--	   the beginning of 2026. See the TODO file for more information.
--
--config VIDEO_ATMEL_XISC
--	tristate "ATMEL eXtended Image Sensor Controller (XISC) support (DEPRECATED)"
--	depends on V4L_PLATFORM_DRIVERS
--	depends on VIDEO_DEV && COMMON_CLK
--	depends on ARCH_AT91 || COMPILE_TEST
--	depends on !VIDEO_MICROCHIP_ISC_BASE || COMPILE_TEST
--	select VIDEOBUF2_DMA_CONTIG
--	select REGMAP_MMIO
--	select V4L2_FWNODE
--	select VIDEO_ATMEL_ISC_BASE
--	select MEDIA_CONTROLLER
--	select VIDEO_V4L2_SUBDEV_API
--	help
--	   This module makes the ATMEL eXtended Image Sensor Controller
--	   available as a v4l2 device.
--
--	   This driver is deprecated and is scheduled for removal by
--	   the beginning of 2026. See the TODO file for more information.
--
--config VIDEO_ATMEL_ISC_BASE
--	tristate
--	default n
--	help
--	  ATMEL ISC and XISC common code base.
-diff --git a/drivers/staging/media/deprecated/atmel/Makefile b/drivers/staging/media/deprecated/atmel/Makefile
-deleted file mode 100644
-index 34eaeeac5bba..000000000000
---- a/drivers/staging/media/deprecated/atmel/Makefile
-+++ /dev/null
-@@ -1,8 +0,0 @@
--# SPDX-License-Identifier: GPL-2.0-only
--atmel-isc-objs = atmel-sama5d2-isc.o
--atmel-xisc-objs = atmel-sama7g5-isc.o
--atmel-isc-common-objs = atmel-isc-base.o atmel-isc-clk.o
--
--obj-$(CONFIG_VIDEO_ATMEL_ISC_BASE) += atmel-isc-common.o
--obj-$(CONFIG_VIDEO_ATMEL_ISC) += atmel-isc.o
--obj-$(CONFIG_VIDEO_ATMEL_XISC) += atmel-xisc.o
--- 
-2.43.0
+ /* 3 ============================================================ */
+-/* 3 FASLE ALARM CHECK */
++/* 3 FALSE ALARM CHECK */
+ /* 3 ============================================================ */
+ 
+ void odm_FalseAlarmCounterStatistics(void *pDM_VOID)
 
+---
+base-commit: 7cb1c5b32a2bfde961fff8d5204526b609bcb30a
+change-id: 20260526-fix-typo-odm-dig-e8a4268e9408
+
+Best regards,
+--  
+Tomasz Unger <tomasz.unger@yahoo.pl>
 
