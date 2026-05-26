@@ -1,380 +1,203 @@
-Received: from fhigh-c2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
+Received: from sender-pp-o91.zoho.in (sender-pp-o91.zoho.in [103.117.158.91])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38A573DD85A
-	for <linux-staging@lists.linux.dev>; Tue, 26 May 2026 10:48:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.153
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779792512; cv=none; b=mMoQhoRlDkmei6VM0s4oxPNO8kw+c9UIfKC/60hmGOyqwn5MCb9c+FbLKGIL+xTfmLVFfTXeNUFnECHBTG3osoWifPVgoZAQUnUDMNXHE6WYPN0QNRFd4yR4UDQ/hZt0kbmRwLcX4kg/vF8g70oLaYJwEmXdMRH3tTKXkV110bw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779792512; c=relaxed/simple;
-	bh=i7Lhl7OlZHoKLfsw3sAvAf3zv6ipzq0DPddi72Jrcag=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JC1uxcwpwmj4YPY2mqMtAX9jcu/HhmY7rZrGEl+ec2V++EV+oZZFyUqUvoZbOAcrs6olsWO03+H0lAl2Aq4MmgxN7i65qNiGqvXcvV4fC4tt53DuxTEJG5LXhU0goe9lsiXc9ZNuEfP79z57UXbGa08Rcs2YzaGTlEPfqsbKb1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luaberry.com; spf=pass smtp.mailfrom=luaberry.com; dkim=pass (2048-bit key) header.d=luaberry.com header.i=@luaberry.com header.b=U/JjSTBg; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=nmK+J+mH; arc=none smtp.client-ip=202.12.124.153
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luaberry.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=luaberry.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCBDD395D8F
+	for <linux-staging@lists.linux.dev>; Tue, 26 May 2026 12:17:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=103.117.158.91
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779797838; cv=pass; b=ZQZOVOQSGqkN1Gbbf+bLB+OpGNVi41UkNvaiJs0Gzifh7PsM5ZfZu9XN1vtJGiZ/JOW78USSWhl/Qge2H9pUgkxDAKI1/Uw6f5JtMCwB06oVfZKaftkHOSXsgJdA9ldkf+HRK8wc9xGRsFiypv2RhhpafGMy7YSarRYL3XjezHk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779797838; c=relaxed/simple;
+	bh=qLJqGU149AFEK5NAq3HTdCtG16am9VLMU7zTyfXwD7s=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:Subject:MIME-Version:
+	 Content-Type; b=YfvnVeRTP2RhOVI14kHlp4stFT9hlT1fX4nFUenTH/koSEfD94R3ovINkhCtMX9GKCBebOimq3+7gDVtVDAQkbyeRCCWEBDns6Z8EZxttmp6+54DPrOB3z/KCDClkFoSKH6uwwMRKSeB4tEl6LOPnRPd4lOmgEH6TJssC7UmGbg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in; spf=pass smtp.mailfrom=zohomail.in; dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b=x7KgnH+/; arc=pass smtp.client-ip=103.117.158.91
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.in
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=luaberry.com header.i=@luaberry.com header.b="U/JjSTBg";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="nmK+J+mH"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 1A1217A01AA;
-	Tue, 26 May 2026 06:48:29 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Tue, 26 May 2026 06:48:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=luaberry.com; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to; s=fm2; t=1779792508; x=1779878908; bh=EFhzle0ktyjcNkkrAymk8
-	NC01kPOhQiOdfzOiKecAPE=; b=U/JjSTBg32Z2mtg6TtdV2SJTQIsY8sVH1bn/E
-	lLfqhF8nQr7k34GT9huXmYvARa93v2Wuz4eofeKLhJMxYc4c9yxyJZrTGYeqoHpC
-	kLO2gDuunzkTukH1F1tQtcQmN10AbuexbTJle2r+QlaZqB361lSWw+xt319FYPb1
-	Kjhrxg0V5+hRVema4baJvZpONN+dwCZYY+Oxsr8RutJWlpnqkhrdzZFjarHdttH4
-	ODKPaOgdnoHc5xUOyvaFca8ri+5QRO062vYgTTwECqW93CVrS0711diiu32VzAqw
-	29xnArmf1XtNcSgjONYnL3OZBM2IFshf/NU3WbIIImgiqWyYg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1779792508; x=1779878908; bh=EFhzle0ktyjcNkkrAymk8NC01kPOhQiOdfz
-	OiKecAPE=; b=nmK+J+mHQs1fQCymTafG3P1bLepYhfKuZf8Of6u2B2vAFLI/GkX
-	DuKg/EyFPbkLthBFhX4ljHqKyhuTvWhA4EN4Qfr7gxKhy4ojtzXat0eYFpdfbCok
-	M4S5PO6VrcLCxePFvVzlWX2yNgNhjAJGVPeA2wLu01LkGqJQtenj/90/1AsHR+cl
-	0pKKZdbaMhdlBj+A+j2oclvMYV0Qlt5GkwUTy2afTI+fYo8AiDg5PE0uQKpymocy
-	Y0HIJwFNlHZR4qO4+SwTKIWGplfcUqubWxRe96v1oGSUqGpBLR3907gLKYPHqra6
-	PBNoXlYqJ/82alYbLlqIoF636CZfLDFc8zg==
-X-ME-Sender: <xms:fHoVarfYF0cNbm1GfnQO0cIs75JV0benrq-EdSNBpZTwBkK91PFVng>
-    <xme:fHoVag5yCrYTNcaYxyyCMiaNzpqWyI_noyR4MNB7E4bzen3rIEYmoCF1F3DZYxFB1
-    irrvJ1Pu9ttLRGDybqJAWHknnBdwuuKJYS-m5ZSbf7cMrHr9FIU6pE>
-X-ME-Received: <xmr:fHoVagKqS5B4AyuOzG4jYhDkbeDxdlIBJ3tWWEU1pYL4fhQ6edWkez-D6A>
-X-ME-Proxy-Cause: dmFkZTFl2plj/3z0Am/GoCr3MwQYulNUg70/EyrykRDgCniArcqMdAJ8Xnmiv7ukiGvRWR
-    msrk29DZP1Z2D4UN9NpbW1PtK0gyzZjTISeh0j6sw2TqukhPFg44rCITagcYb1Lh82iqUp
-    DlNQQfsZmDT9EguOGOlllHLPqzMUmRIyxP+bipOZRXD8flmeQUHQ0Is0q9ofO/loSbiDqV
-    OoJFhcBlXS9S2g31bCdtXeTIPeksm5JHqVrVBYDFjXT//0JlIJmdd2hTx89JalLbsrimXw
-    cmmF1gUZHtSjWS391MfAJjfrZHuuTEmspHaO4v/ZSRSLeDlFGPVHsUqHtFdkrnw/EupAWO
-    xYwfv10meDcVSLLGN+g6Fm6ME47cdnQhqem3sbNYFRzbJ6bNIIFLlYm6Lj+wsrLqZ09CCA
-    0uxqa/Hm3tvVy2x2znAG20U57IDlwZvVINgBw40lXLxHFFGt/i2yeOir3p/l8Bi4/m0FDh
-    DYrMrQkAYz8tNQuvv4gtBTPItk0+JYqTUA/5SzXyIUpSQ8YQWi4EPI4rQSUfsG4FlpwNXj
-    3tV9UD0JY2RCBaBmX+o3+1xdsS897ffq2aCY52GRfKfcq3tQ31wxCtjCJX1IX3h5Wlu9o+
-    86FvWCkW+0JSBknq/0iPCO5JuMbOKiIwTh/dbLCvsJMODvGGlgAJf4ZnTVew
-X-ME-Proxy: <xmx:fHoVaoxyG9gGTTYr1Abva218rs2-dL-f06pTYGQOsQxNJX9RQ9H8Sg>
-    <xmx:fHoVaoJgjqTeq2DZAQHpYld33QHMQqLYwiXfTM7DgJNir66vvGMJcw>
-    <xmx:fHoVanX-9n4e8UalP2CRudvomJDPRP1SK219QKB5LmIHPyPpbyrn1Q>
-    <xmx:fHoVarbg1L4GxcZCONTQgnPSZ5mHjSVN0mMVkwEutp_Mih8mgigNgw>
-    <xmx:fHoVaqLBrTTcXWKuLcxalg5HKnEFin58bCd7saUQFIoVNfAOzOUTJjh->
-Feedback-ID: i372e487a:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 26 May 2026 06:48:25 -0400 (EDT)
-From: Jeongin Yeo <jeongin.yeo@luaberry.com>
-To: hansg@kernel.org,
-	mchehab@kernel.org
-Cc: sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org,
-	andy@kernel.org,
-	matt@mattwardle.net,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jeongin Yeo <jeongin.yeo@luaberry.com>
-Subject: [PATCH] media: atomisp: use __func__ in debug messages in binary.c
-Date: Tue, 26 May 2026 10:47:50 +0000
-Message-ID: <20260526104750.1284935-1-jeongin.yeo@luaberry.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b="x7KgnH+/"
+ARC-Seal: i=1; a=rsa-sha256; t=1779797817; cv=none; 
+	d=zohomail.in; s=zohoarc; 
+	b=XZrSsg7xjPkluKenruUMlqvU8ob6WnsTA5J8959sjqdBNVuqxzcT4bdNyNTe0QMnQgSRAXlmSndvOwodr2ZqrTuohwi1QyyKAYNNKqRkSoxLU4eBqCnwZY5Xvi8dVc0eamGrP1YCmDibO4eRH8XlRqDfn01Idm2SCXToGAIQ72g=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in; s=zohoarc; 
+	t=1779797817; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=fBl59d6BpzTCvjrU0Ys2J2ycHy/10G7PhZT1nzOVOzc=; 
+	b=PwxLLlgL1UicAKZEkmrbvRM9/RxxdCNhftwj/jZMO3+8qFBqf21fC7+LVnB2mWlq/zGBGQQ2wh3b+TkzL40IsKs1RuvY1RnGpoWDfUkB+rB0mW6z1PJCkJCnCVieyp1aWU9ZYxupeKAu4dwZM+UvWMeorgMNyo7DNePLBlrheBQ=
+ARC-Authentication-Results: i=1; mx.zohomail.in;
+	dkim=pass  header.i=zohomail.in;
+	spf=pass  smtp.mailfrom=linuxuser509@zohomail.in;
+	dmarc=pass header.from=<linuxuser509@zohomail.in>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1779797817;
+	s=zoho; d=zohomail.in; i=linuxuser509@zohomail.in;
+	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=fBl59d6BpzTCvjrU0Ys2J2ycHy/10G7PhZT1nzOVOzc=;
+	b=x7KgnH+/750qiDJ/c0QznrO5+KSiwZZblE7GH00kF1fZ7PVWedLc1ar8EHzj29eo
+	O74qTKEIhJb8c/d+byB3cSNGt/U/GcrSxWHcNtQLdLFi/CHM5XXZsL8tTrHrXwdFjNq
+	Z3l0DFHNnKfi74MC2OK9XSOO79oOGHKNxKiUFAa4=
+Received: from mail.zoho.in by mx.zoho.in
+	with SMTP id 1779797816842128.25528368276662; Tue, 26 May 2026 17:46:56 +0530 (IST)
+Received: from  [223.228.122.9] by mail.zoho.in
+	with HTTP;Tue, 26 May 2026 17:46:56 +0530 (IST)
+Date: Tue, 26 May 2026 17:46:56 +0530
+From: Ashwin Gundarapu <linuxuser509@zohomail.in>
+To: "gregkh" <gregkh@linuxfoundation.org>
+Cc: "linux-kernel" <linux-kernel@vger.kernel.org>,
+	"linux-media" <linux-media@vger.kernel.org>,
+	"linux-staging" <linux-staging@lists.linux.dev>
+Message-ID: <19e64377600.72fca248167943.7947263371163961978@zohomail.in>
+In-Reply-To: 
+Subject: [PATCH v3] staging: media: Remove deprecated Atmel ISC drivers
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
 
-Replace hardcoded function name strings with __func__ macro in
-dev_dbg() calls within ia_css_binary_find() as recommended by
-kernel coding style.
+The Atmel ISC and XISC drivers were deprecated and scheduled
+for removal by the beginning of 2026. The replacement drivers
+(VIDEO_MICROCHIP_ISC and VIDEO_MICROCHIP_XISC) are available
+in the main media subsystem.
 
-No functional changes.
+Remove the Kconfig entries, Makefile rules, MAINTAINERS entries,
+and the STAGING_MEDIA_DEPRECATED menuconfig since it is no longer
+needed. The source files remain on disk but are no longer compiled
+since the build infrastructure is removed.
 
-Signed-off-by: Jeongin Yeo <jeongin.yeo@luaberry.com>
+Signed-off-by: Ashwin Gundarapu <linuxuser509@zohomail.in>
 ---
- .../atomisp/pci/runtime/binary/src/binary.c   | 127 ++++++++++--------
- 1 file changed, 68 insertions(+), 59 deletions(-)
+ MAINTAINERS                                   |  2 -
+ drivers/staging/media/Kconfig                 | 18 +------
+ drivers/staging/media/Makefile                |  1 -
+ .../staging/media/deprecated/atmel/Kconfig    | 47 -------------------
+ .../staging/media/deprecated/atmel/Makefile   |  8 ----
+ 5 files changed, 1 insertion(+), 75 deletions(-)
+ delete mode 100644 drivers/staging/media/deprecated/atmel/Kconfig
+ delete mode 100644 drivers/staging/media/deprecated/atmel/Makefile
 
-diff --git a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
-index e9016d7775dc3..2355fdf357fcd 100644
---- a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
-@@ -925,8 +925,8 @@ int ia_css_binary_find(struct ia_css_binary_descr *descr, struct ia_css_binary *
- 	/* MW: used after an error check, may accept NULL, but doubtful */
- 	assert(binary);
- 
--	dev_dbg(atomisp_dev, "ia_css_binary_find() enter: descr=%p, (mode=%d), binary=%p\n",
--		descr, descr->mode, binary);
-+	dev_dbg(atomisp_dev, "%s() enter: descr=%p, (mode=%d), binary=%p\n",
-+		__func__, descr, descr->mode, binary);
- 
- 	mode = descr->mode;
- 	online = descr->online;
-@@ -992,8 +992,8 @@ int ia_css_binary_find(struct ia_css_binary_descr *descr, struct ia_css_binary *
- 		/* printf("sh_css_binary_find: evaluating candidate:
- 		 * %d\n",candidate->id); */
- 		dev_dbg(atomisp_dev,
--			"ia_css_binary_find() candidate = %p, mode = %d ID = %d\n",
--			candidate, candidate->pipeline.mode, candidate->id);
-+			"%s() candidate = %p, mode = %d ID = %d\n",
-+			__func__, candidate, candidate->pipeline.mode, candidate->id);
- 
- 		/*
- 		 * MW: Only a limited set of jointly configured binaries can
-@@ -1003,15 +1003,15 @@ int ia_css_binary_find(struct ia_css_binary_descr *descr, struct ia_css_binary *
- 		if (!candidate->enable.continuous &&
- 		    continuous && (mode != IA_CSS_BINARY_MODE_COPY)) {
- 			dev_dbg(atomisp_dev,
--				"ia_css_binary_find() [%d] continue: !%d && %d && (%d != %d)\n",
--				__LINE__, candidate->enable.continuous,
-+				"%s() [%d] continue: !%d && %d && (%d != %d)\n",
-+				__func__, __LINE__, candidate->enable.continuous,
- 				continuous, mode, IA_CSS_BINARY_MODE_COPY);
- 			continue;
- 		}
- 		if (striped && candidate->iterator.num_stripes == 1) {
- 			dev_dbg(atomisp_dev,
--				"ia_css_binary_find() [%d] continue: binary is not striped\n",
--				__LINE__);
-+				"%s() [%d] continue: binary is not striped\n",
-+				__func__, __LINE__);
- 			continue;
- 		}
- 
-@@ -1019,38 +1019,43 @@ int ia_css_binary_find(struct ia_css_binary_descr *descr, struct ia_css_binary *
- 		    (mode != IA_CSS_BINARY_MODE_COPY) &&
- 		    (mode != IA_CSS_BINARY_MODE_CAPTURE_PP) &&
- 		    (mode != IA_CSS_BINARY_MODE_VF_PP)) {
--			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: (%d != %d)\n",
--				__LINE__, candidate->pipeline.isp_pipe_version, isp_pipe_version);
-+			dev_dbg(atomisp_dev, "%s() [%d] continue: (%d != %d)\n",
-+				__func__, __LINE__, candidate->pipeline.isp_pipe_version,
-+				isp_pipe_version);
- 			continue;
- 		}
- 		if (!candidate->enable.reduced_pipe && enable_reduced_pipe) {
--			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: !%d && %d\n",
--				__LINE__, candidate->enable.reduced_pipe, enable_reduced_pipe);
-+			dev_dbg(atomisp_dev, "%s() [%d] continue: !%d && %d\n",
-+				__func__, __LINE__, candidate->enable.reduced_pipe,
-+				enable_reduced_pipe);
- 			continue;
- 		}
- 		if (!candidate->enable.dvs_6axis && enable_dvs_6axis) {
--			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: !%d && %d\n",
--				__LINE__, candidate->enable.dvs_6axis, enable_dvs_6axis);
-+			dev_dbg(atomisp_dev, "%s() [%d] continue: !%d && %d\n",
-+				__func__, __LINE__, candidate->enable.dvs_6axis, enable_dvs_6axis);
- 			continue;
- 		}
- 		if (candidate->enable.high_speed && !enable_high_speed) {
--			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: %d && !%d\n",
--				__LINE__, candidate->enable.high_speed, enable_high_speed);
-+			dev_dbg(atomisp_dev, "%s() [%d] continue: %d && !%d\n",
-+				__func__, __LINE__, candidate->enable.high_speed,
-+				enable_high_speed);
- 			continue;
- 		}
- 		if (!candidate->enable.xnr && need_xnr) {
--			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: %d && !%d\n",
--				__LINE__, candidate->enable.xnr, need_xnr);
-+			dev_dbg(atomisp_dev, "%s() [%d] continue: %d && !%d\n",
-+				__func__, __LINE__, candidate->enable.xnr, need_xnr);
- 			continue;
- 		}
- 		if (!(candidate->enable.ds & 2) && enable_yuv_ds) {
--			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: !%d && %d\n",
--				__LINE__, ((candidate->enable.ds & 2) != 0), enable_yuv_ds);
-+			dev_dbg(atomisp_dev, "%s() [%d] continue: !%d && %d\n",
-+				__func__, __LINE__, ((candidate->enable.ds & 2) != 0),
-+				enable_yuv_ds);
- 			continue;
- 		}
- 		if ((candidate->enable.ds & 2) && !enable_yuv_ds) {
--			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: %d && !%d\n",
--				__LINE__, ((candidate->enable.ds & 2) != 0), enable_yuv_ds);
-+			dev_dbg(atomisp_dev, "%s() [%d] continue: %d && !%d\n",
-+				__func__, __LINE__, ((candidate->enable.ds & 2) != 0),
-+				enable_yuv_ds);
- 			continue;
- 		}
- 
-@@ -1065,60 +1070,62 @@ int ia_css_binary_find(struct ia_css_binary_descr *descr, struct ia_css_binary *
- 				       /* or more than one output pin. */
- 				       xcandidate->num_output_pins > 1)) {
- 			dev_dbg(atomisp_dev,
--				"ia_css_binary_find() [%d] continue: (%p != NULL) && !(%d || %d || (%d >%d))\n",
--				__LINE__, req_vf_info, candidate->enable.vf_veceven,
-+				"%s() [%d] continue: (%p != NULL) && !(%d || %d || (%d >%d))\n",
-+				__func__, __LINE__, req_vf_info, candidate->enable.vf_veceven,
- 				candidate->vf_dec.is_variable, xcandidate->num_output_pins, 1);
- 			continue;
- 		}
- 		if (!candidate->enable.dvs_envelope && need_dvs) {
--			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: !%d && %d\n",
--				__LINE__, candidate->enable.dvs_envelope, (int)need_dvs);
-+			dev_dbg(atomisp_dev, "%s() [%d] continue: !%d && %d\n",
-+				__func__, __LINE__, candidate->enable.dvs_envelope, (int)need_dvs);
- 			continue;
- 		}
- 		/* internal_res check considers input, output, and dvs envelope sizes */
- 		ia_css_binary_internal_res(req_in_info, req_bds_out_info,
- 					   req_bin_out_info, &dvs_env, candidate, &internal_res);
- 		if (internal_res.width > candidate->internal.max_width) {
--			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: (%d > %d)\n",
--				__LINE__, internal_res.width, candidate->internal.max_width);
-+			dev_dbg(atomisp_dev, "%s() [%d] continue: (%d > %d)\n",
-+				__func__, __LINE__, internal_res.width,
-+				candidate->internal.max_width);
- 			continue;
- 		}
- 		if (internal_res.height > candidate->internal.max_height) {
--			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: (%d > %d)\n",
--				__LINE__, internal_res.height, candidate->internal.max_height);
-+			dev_dbg(atomisp_dev, "%s() [%d] continue: (%d > %d)\n",
-+				__func__, __LINE__, internal_res.height,
-+				candidate->internal.max_height);
- 			continue;
- 		}
- 		if (!candidate->enable.ds && need_ds && !(xcandidate->num_output_pins > 1)) {
--			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: !%d && %d\n",
--				__LINE__, candidate->enable.ds, (int)need_ds);
-+			dev_dbg(atomisp_dev, "%s() [%d] continue: !%d && %d\n",
-+				__func__, __LINE__, candidate->enable.ds, (int)need_ds);
- 			continue;
- 		}
- 		if (!candidate->enable.uds && !candidate->enable.dvs_6axis && need_dz) {
- 			dev_dbg(atomisp_dev,
--				"ia_css_binary_find() [%d] continue: !%d && !%d && %d\n",
--				__LINE__, candidate->enable.uds, candidate->enable.dvs_6axis,
--				(int)need_dz);
-+				"%s() [%d] continue: !%d && !%d && %d\n",
-+				__func__, __LINE__, candidate->enable.uds,
-+				candidate->enable.dvs_6axis, (int)need_dz);
- 			continue;
- 		}
- 		if (online && candidate->input.source == IA_CSS_BINARY_INPUT_MEMORY) {
- 			dev_dbg(atomisp_dev,
--				"ia_css_binary_find() [%d] continue: %d && (%d == %d)\n",
--				__LINE__, online, candidate->input.source,
-+				"%s() [%d] continue: %d && (%d == %d)\n",
-+				__func__, __LINE__, online, candidate->input.source,
- 				IA_CSS_BINARY_INPUT_MEMORY);
- 			continue;
- 		}
- 		if (!online && candidate->input.source == IA_CSS_BINARY_INPUT_SENSOR) {
- 			dev_dbg(atomisp_dev,
--				"ia_css_binary_find() [%d] continue: !%d && (%d == %d)\n",
--				__LINE__, online, candidate->input.source,
-+				"%s() [%d] continue: !%d && (%d == %d)\n",
-+				__func__, __LINE__, online, candidate->input.source,
- 				IA_CSS_BINARY_INPUT_SENSOR);
- 			continue;
- 		}
- 		if (req_bin_out_info->res.width < candidate->output.min_width ||
- 		    req_bin_out_info->res.width > candidate->output.max_width) {
- 			dev_dbg(atomisp_dev,
--				"ia_css_binary_find() [%d] continue: (%d > %d) || (%d < %d)\n",
--				__LINE__, req_bin_out_info->padded_width,
-+				"%s() [%d] continue: (%d > %d) || (%d < %d)\n",
-+				__func__, __LINE__, req_bin_out_info->padded_width,
- 				candidate->output.min_width, req_bin_out_info->padded_width,
- 				candidate->output.max_width);
- 			continue;
-@@ -1128,20 +1135,21 @@ int ia_css_binary_find(struct ia_css_binary_descr *descr, struct ia_css_binary *
- 		    req_vf_info) { /* and we need vf output. */
- 			if (req_vf_info->res.width > candidate->output.max_width) {
- 				dev_dbg(atomisp_dev,
--					"ia_css_binary_find() [%d] continue: (%d < %d)\n",
--					__LINE__, req_vf_info->res.width,
-+					"%s() [%d] continue: (%d < %d)\n",
-+					__func__, __LINE__, req_vf_info->res.width,
- 					candidate->output.max_width);
- 				continue;
- 			}
- 		}
- 		if (req_in_info->padded_width > candidate->input.max_width) {
--			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: (%d > %d)\n",
--				__LINE__, req_in_info->padded_width, candidate->input.max_width);
-+			dev_dbg(atomisp_dev, "%s() [%d] continue: (%d > %d)\n",
-+				__func__, __LINE__, req_in_info->padded_width,
-+				candidate->input.max_width);
- 			continue;
- 		}
- 		if (!binary_supports_output_format(xcandidate, req_bin_out_info->format)) {
--			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: !%d\n",
--				__LINE__, binary_supports_output_format(xcandidate,
-+			dev_dbg(atomisp_dev, "%s() [%d] continue: !%d\n",
-+				__func__, __LINE__, binary_supports_output_format(xcandidate,
- 									req_bin_out_info->format));
- 			continue;
- 		}
-@@ -1152,8 +1160,8 @@ int ia_css_binary_find(struct ia_css_binary_descr *descr, struct ia_css_binary *
- 		    is supported. */
- 		    !binary_supports_output_format(xcandidate, req_vf_info->format)) {
- 			dev_dbg(atomisp_dev,
--				"ia_css_binary_find() [%d] continue: (%d > %d) && (%p != NULL) && !%d\n",
--				__LINE__, xcandidate->num_output_pins, 1, req_vf_info,
-+				"%s() [%d] continue: (%d > %d) && (%p != NULL) && !%d\n",
-+				__func__, __LINE__, xcandidate->num_output_pins, 1, req_vf_info,
- 				binary_supports_output_format(xcandidate, req_vf_info->format));
- 			continue;
- 		}
-@@ -1163,8 +1171,8 @@ int ia_css_binary_find(struct ia_css_binary_descr *descr, struct ia_css_binary *
- 		    req_vf_info && candidate->enable.vf_veceven &&
- 		    !binary_supports_vf_format(xcandidate, req_vf_info->format)) {
- 			dev_dbg(atomisp_dev,
--				"ia_css_binary_find() [%d] continue: (%d == %d) && (%p != NULL) && %d && !%d\n",
--				__LINE__, xcandidate->num_output_pins, 1,
-+				"%s() [%d] continue: (%d == %d) && (%p != NULL) && %d && !%d\n",
-+				__func__, __LINE__, xcandidate->num_output_pins, 1,
- 				req_vf_info, candidate->enable.vf_veceven,
- 				binary_supports_vf_format(xcandidate, req_vf_info->format));
- 			continue;
-@@ -1175,8 +1183,8 @@ int ia_css_binary_find(struct ia_css_binary_descr *descr, struct ia_css_binary *
- 		    req_vf_info && candidate->enable.vf_veceven) { /* and we need vf output. */
- 			if (req_vf_info->res.width > candidate->output.max_width) {
- 				dev_dbg(atomisp_dev,
--					"ia_css_binary_find() [%d] continue: (%d < %d)\n",
--					__LINE__, req_vf_info->res.width,
-+					"%s() [%d] continue: (%d < %d)\n",
-+					__func__, __LINE__, req_vf_info->res.width,
- 					candidate->output.max_width);
- 				continue;
- 			}
-@@ -1184,21 +1192,22 @@ int ia_css_binary_find(struct ia_css_binary_descr *descr, struct ia_css_binary *
- 
- 		if (!supports_bds_factor(candidate->bds.supported_bds_factors,
- 					 descr->required_bds_factor)) {
--			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: 0x%x & 0x%x)\n",
--				__LINE__, candidate->bds.supported_bds_factors,
-+			dev_dbg(atomisp_dev, "%s() [%d] continue: 0x%x & 0x%x)\n",
-+				__func__, __LINE__, candidate->bds.supported_bds_factors,
- 				descr->required_bds_factor);
- 			continue;
- 		}
- 
- 		if (!candidate->enable.dpc && need_dpc) {
--			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: 0x%x & 0x%x)\n",
--				__LINE__, candidate->enable.dpc, descr->enable_dpc);
-+			dev_dbg(atomisp_dev, "%s() [%d] continue: 0x%x & 0x%x)\n",
-+				__func__, __LINE__, candidate->enable.dpc, descr->enable_dpc);
- 			continue;
- 		}
- 
- 		if (candidate->uds.use_bci && enable_capture_pp_bli) {
--			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: 0x%x & 0x%x)\n",
--				__LINE__, candidate->uds.use_bci, descr->enable_capture_pp_bli);
-+			dev_dbg(atomisp_dev, "%s() [%d] continue: 0x%x & 0x%x)\n",
-+				__func__, __LINE__, candidate->uds.use_bci,
-+				descr->enable_capture_pp_bli);
- 			continue;
- 		}
- 
--- 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 27a073f53cea..4290eae8838e 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -17364,8 +17364,6 @@ F:	Documentation/devicetree/bindings/media/atmel,isc.yaml
+ F:	Documentation/devicetree/bindings/media/microchip,xisc.yaml
+ F:	drivers/media/platform/microchip/microchip-isc*
+ F:	drivers/media/platform/microchip/microchip-sama*-isc*
+-F:	drivers/staging/media/deprecated/atmel/atmel-isc*
+-F:	drivers/staging/media/deprecated/atmel/atmel-sama*-isc*
+ F:	include/linux/atmel-isc-media.h
+
+ MICROCHIP ISI DRIVER
+diff --git a/drivers/staging/media/Kconfig b/drivers/staging/media/Kconfig
+index 1aa31bddf970..52b4aab944f6 100644
+--- a/drivers/staging/media/Kconfig
++++ b/drivers/staging/media/Kconfig
+@@ -38,20 +38,4 @@ source "drivers/staging/media/sunxi/Kconfig"
+
+ source "drivers/staging/media/tegra-video/Kconfig"
+
+-menuconfig STAGING_MEDIA_DEPRECATED
+-	bool "Media staging drivers (DEPRECATED)"
+-	default n
+-	help
+-	  This option enables deprecated media drivers that are
+-	  scheduled for future removal from the kernel.
+-
+-	  If you wish to work on these drivers to prevent their removal,
+-	  then contact the linux-media@vger.kernel.org mailing list.
+-
+-	  If in doubt, say N here.
+-
+-if STAGING_MEDIA_DEPRECATED
+-source "drivers/staging/media/deprecated/atmel/Kconfig"
+-endif
+-
+-endif
++endif # STAGING_MEDIA
+diff --git a/drivers/staging/media/Makefile b/drivers/staging/media/Makefile
+index 6f78b0edde1e..6fd7179733d8 100644
+--- a/drivers/staging/media/Makefile
++++ b/drivers/staging/media/Makefile
+@@ -1,5 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0
+-obj-$(CONFIG_VIDEO_ATMEL_ISC_BASE)	+= deprecated/atmel/
+ obj-$(CONFIG_INTEL_ATOMISP)     += atomisp/
+ obj-$(CONFIG_VIDEO_IMX_MEDIA)	+= imx/
+ obj-$(CONFIG_VIDEO_MAX96712)	+= max96712/
+diff --git a/drivers/staging/media/deprecated/atmel/Kconfig b/drivers/staging/media/deprecated/atmel/Kconfig
+deleted file mode 100644
+index 418841ea5a0d..000000000000
+--- a/drivers/staging/media/deprecated/atmel/Kconfig
++++ /dev/null
+@@ -1,47 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0-only
+-
+-comment "Atmel media platform drivers"
+-
+-config VIDEO_ATMEL_ISC
+-	tristate "ATMEL Image Sensor Controller (ISC) support (DEPRECATED)"
+-	depends on V4L_PLATFORM_DRIVERS
+-	depends on VIDEO_DEV && COMMON_CLK
+-	depends on ARCH_AT91 || COMPILE_TEST
+-	depends on !VIDEO_MICROCHIP_ISC_BASE || COMPILE_TEST
+-	select MEDIA_CONTROLLER
+-	select VIDEO_V4L2_SUBDEV_API
+-	select VIDEOBUF2_DMA_CONTIG
+-	select REGMAP_MMIO
+-	select V4L2_FWNODE
+-	select VIDEO_ATMEL_ISC_BASE
+-	help
+-	   This module makes the ATMEL Image Sensor Controller available
+-	   as a v4l2 device.
+-
+-	   This driver is deprecated and is scheduled for removal by
+-	   the beginning of 2026. See the TODO file for more information.
+-
+-config VIDEO_ATMEL_XISC
+-	tristate "ATMEL eXtended Image Sensor Controller (XISC) support (DEPRECATED)"
+-	depends on V4L_PLATFORM_DRIVERS
+-	depends on VIDEO_DEV && COMMON_CLK
+-	depends on ARCH_AT91 || COMPILE_TEST
+-	depends on !VIDEO_MICROCHIP_ISC_BASE || COMPILE_TEST
+-	select VIDEOBUF2_DMA_CONTIG
+-	select REGMAP_MMIO
+-	select V4L2_FWNODE
+-	select VIDEO_ATMEL_ISC_BASE
+-	select MEDIA_CONTROLLER
+-	select VIDEO_V4L2_SUBDEV_API
+-	help
+-	   This module makes the ATMEL eXtended Image Sensor Controller
+-	   available as a v4l2 device.
+-
+-	   This driver is deprecated and is scheduled for removal by
+-	   the beginning of 2026. See the TODO file for more information.
+-
+-config VIDEO_ATMEL_ISC_BASE
+-	tristate
+-	default n
+-	help
+-	  ATMEL ISC and XISC common code base.
+diff --git a/drivers/staging/media/deprecated/atmel/Makefile b/drivers/staging/media/deprecated/atmel/Makefile
+deleted file mode 100644
+index 34eaeeac5bba..000000000000
+--- a/drivers/staging/media/deprecated/atmel/Makefile
++++ /dev/null
+@@ -1,8 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0-only
+-atmel-isc-objs = atmel-sama5d2-isc.o
+-atmel-xisc-objs = atmel-sama7g5-isc.o
+-atmel-isc-common-objs = atmel-isc-base.o atmel-isc-clk.o
+-
+-obj-$(CONFIG_VIDEO_ATMEL_ISC_BASE) += atmel-isc-common.o
+-obj-$(CONFIG_VIDEO_ATMEL_ISC) += atmel-isc.o
+-obj-$(CONFIG_VIDEO_ATMEL_XISC) += atmel-xisc.o
+--
 2.43.0
+
+
 
