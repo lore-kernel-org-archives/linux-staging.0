@@ -1,83 +1,188 @@
-Received: from forward501a.mail.yandex.net (forward501a.mail.yandex.net [178.154.239.81])
+Received: from sender-pp-o91.zoho.in (sender-pp-o91.zoho.in [103.117.158.91])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD6743939BF
-	for <linux-staging@lists.linux.dev>; Mon, 25 May 2026 20:29:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.81
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779740947; cv=none; b=Hk8HcTLAClEe16e14NQcjilcRJUqJPX+P0NqCSLr4IJnBbFmN1pVPO7Zb0NQHjbJco7/z/pbAJDZAHZNulug3vQ6CPawez0nXggtV0zkIjhESY6eUfdTVH6frNHBoootGQP6rY7qJxe6mwHU5zqpK0k32VrI+FMFlFuZH1hgTcw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779740947; c=relaxed/simple;
-	bh=2AWxLFKXB5aN5ahu3T9KAb379aODjysVkRSBME+F/I8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PyphLQIZvEwM2I6hm9fR9e+SEsM+yGHk6tIzGCFYOTwqYd2unUwtHvCeDOJn9Xr8rHNMPW7WgFxhrujBgav/OVUWSKDhnz7IL3V0hf/Gs+SQedW+luUjS1t5K4Dk/fuk/C3MfycFPhYmJNLmGzyUSV/mIOCRMuvF1vo5THYWjSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net; spf=pass smtp.mailfrom=sezginduran.net; dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b=OtIHZkAn; arc=none smtp.client-ip=178.154.239.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sezginduran.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 087CE1A9F96
+	for <linux-staging@lists.linux.dev>; Tue, 26 May 2026 04:44:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=103.117.158.91
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779770663; cv=pass; b=akBlm+HfXxGF2G4dzpJVlWkaZOEqkWzq4GpPwPDKZmeh649LEHzHrc/IzfoKmSrY8Vyg/RmFnWU2g/t75EWgnAea0Td3G2TuoTsVLxP6y06TftyPzfDAt+A4ahOVJ/lmQ8wbsGQ+SbEPayijWWQxqRRPbRmeXg+Z4uTjutrMGQY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779770663; c=relaxed/simple;
+	bh=wa+ssrnmgjKS6DGBNa0pU9dgdVK8TCUhhcqTQMPV5Rk=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:Subject:MIME-Version:
+	 Content-Type; b=iSkCYYeii9oIUhm8h4OuEO1Nf7piZiBP6x2j+WGcde1djfnx+QZQCkxrmQrbl2ayLqPSyIHvotBC80P19k6TE1dXqph239uj4ufbLyvpjjV7yKIyzE81yq0cDwS1WIcskufIoLsnHei/jJLc0CXyam7O1ZFEVj52X8CPd2txCd8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in; spf=pass smtp.mailfrom=zohomail.in; dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b=La3JuYTw; arc=pass smtp.client-ip=103.117.158.91
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.in
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b="OtIHZkAn"
-Received: from mail-nwsmtp-smtp-production-main-74.iva.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-74.iva.yp-c.yandex.net [IPv6:2a02:6b8:c0c:908f:0:640:1b72:0])
-	by forward501a.mail.yandex.net (Yandex) with ESMTPS id 3A59280D7C;
-	Mon, 25 May 2026 23:23:59 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-74.iva.yp-c.yandex.net (smtp) with ESMTPSA id sNeQ4deoZOs0-VDvPQkN3;
-	Mon, 25 May 2026 23:23:58 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sezginduran.net;
-	s=mail; t=1779740638;
-	bh=TfbOwUXPQMDqyNDSM4WqzltmOY8e8E9wUTHNZDsYzc8=;
-	h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
-	b=OtIHZkAntCejZu0KPjI18BD827cHpAVi+rX7Z4nzompuf8tAa7YH4lQyb9O20zAJc
-	 BFNehOM350EraQtKlb/9MU/gbhDbA8dPd2+xr/KYPO4fEKtPBy9Qg0pMu7PpKLSNFK
-	 JmFRQfksg9C9hN2hSWJCN0ZpF++lhBCSkFK2KG6o=
-Authentication-Results: mail-nwsmtp-smtp-production-main-74.iva.yp-c.yandex.net; dkim=pass header.i=@sezginduran.net
-Message-ID: <cf625686-90f1-4643-b128-9bacb5e62138@sezginduran.net>
-Date: Mon, 25 May 2026 23:23:54 +0300
+	dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b="La3JuYTw"
+ARC-Seal: i=1; a=rsa-sha256; t=1779770653; cv=none; 
+	d=zohomail.in; s=zohoarc; 
+	b=U0TECTrww+34B38VnOalrjWutPgMUlf2oWOcFXzT+7CrKHBFtWiHBPW8z9HSRHTGcwaVSsYAgE6ZtU61tWpndwN2+3GhFVdZtG5VXQ3BLXH/x5TaKhWvkJRYHPfGfQ8ciyHQuzIes+zRvHi9eHZa0wC8eZrnB0BUrqcUvnY/Jxo=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in; s=zohoarc; 
+	t=1779770653; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=PXeBvSEj10zdgyJ3uDy6QCh3WoezKa+4QwpzAChHyUM=; 
+	b=HtnvhPb8j/Oo9HnnXy/8fHLOz7vw8LX5v/jMJC7FoWF2/X2EhQYD1tBLYeCRnsUZBc9XYAz2Jfy4/xWuiIsznrEgaDyVmdjQkaSpQO6TJhj97q2TCGtaB7XuidA1RnuN5UvTD+y5h65aLn+EnYHXF0gioX53scM1oo0Lq2k7iys=
+ARC-Authentication-Results: i=1; mx.zohomail.in;
+	dkim=pass  header.i=zohomail.in;
+	spf=pass  smtp.mailfrom=linuxuser509@zohomail.in;
+	dmarc=pass header.from=<linuxuser509@zohomail.in>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1779770653;
+	s=zoho; d=zohomail.in; i=linuxuser509@zohomail.in;
+	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=PXeBvSEj10zdgyJ3uDy6QCh3WoezKa+4QwpzAChHyUM=;
+	b=La3JuYTwPYndQgYIKAvymDfMvwk50j1ng4h0Sio9bZdLtEcr7MpaDENaNFYm+/Sm
+	Yq18g7BKhI6vkRxzHrcQnKsy27HUus0o+1esbetAAZ+9LL2hufOFgDeLJk1aeZDGxNk
+	e7Xi1heKAQR7yGYTwqLNI+lvlH7ZvOb3+jo262G8=
+Received: from mail.zoho.in by mx.zoho.in
+	with SMTP id 1779770652392348.1380039290135; Tue, 26 May 2026 10:14:12 +0530 (IST)
+Received: from  [106.219.4.39] by mail.zoho.in
+	with HTTP;Tue, 26 May 2026 10:14:12 +0530 (IST)
+Date: Tue, 26 May 2026 10:14:12 +0530
+From: Ashwin Gundarapu <linuxuser509@zohomail.in>
+To: "gregkh" <gregkh@linuxfoundation.org>
+Cc: "linux-kernel" <linux-kernel@vger.kernel.org>,
+	"linux-staging" <linux-staging@lists.linux.dev>,
+	"linux-media" <linux-media@vger.kernel.org>
+Message-ID: <19e6298f6e0.5ac60f8c58890.6769560352523159305@zohomail.in>
+In-Reply-To: 
+Subject: [PATCH v2] staging: media: Remove deprecated Atmel ISC drivers
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: rtl8723bs: fix coding style in rtw_cmd.c
-Content-Language: tr
-To: =?UTF-8?Q?Krzysztof_Wo=C5=9B?= <krzysztofina2022@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-staging@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org, khushalchitturi@gmail.com,
- architanant5@gmail.com, s9430939@naver.com, andriy.shevchenko@intel.com,
- kees@kernel.org
-References: <20260525201001.14852-1-krzysztofina2022@gmail.com>
-From: Ahmet Sezgin Duran <ahmet@sezginduran.net>
-In-Reply-To: <20260525201001.14852-1-krzysztofina2022@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
 
-On 5/25/26 11:10 PM, Krzysztof Woś wrote:
-> Fix spdx comment style and indentation in rtw_cmd.c to resolve
-> errors and warnings reported by checkpatch.pl.
-> 
-> Signed-off-by: Krzysztof Woś <krzysztofina2022@gmail.com>
-> ---
->   drivers/staging/rtl8723bs/core/rtw_cmd.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> index c1185c25ed36..dac7a615d158 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> @@ -184,7 +184,8 @@ int rtw_init_cmd_priv(struct	cmd_priv *pcmdpriv)
->   		return -ENOMEM;
->   	}
->   
-> -	pcmdpriv->rsp_buf = pcmdpriv->rsp_allocated_buf + 4 - ((SIZE_PTR)(pcmdpriv->rsp_allocated_buf) & 3);
-> +	pcmdpriv->rsp_buf = pcmdpriv->rsp_allocated_buf + 4 -
-> +		((SIZE_PTR)(pcmdpriv->rsp_allocated_buf) & 3);
->   
->   	pcmdpriv->cmd_issued_cnt = 0;
->   	pcmdpriv->cmd_done_cnt = 0;
+The Atmel ISC and XISC drivers were deprecated and scheduled
+for removal by the beginning of 2026. The replacement drivers
+(VIDEO_MICROCHIP_ISC and VIDEO_MICROCHIP_XISC) are available
+in the main media subsystem.
 
-Does not apply to staging-testing branch.
+Remove the Kconfig entries, Makefile rules, and the
+STAGING_MEDIA_DEPRECATED menuconfig since it is no longer
+needed. The source files remain on disk but are no longer
+compiled since the build infrastructure is removed.
 
-Regards,
-Ahmet Sezgin Duran
+Signed-off-by: Ashwin Gundarapu <linuxuser509@zohomail.in>
+---
+ drivers/staging/media/Kconfig                 | 18 +------
+ drivers/staging/media/Makefile                |  1 -
+ .../staging/media/deprecated/atmel/Kconfig    | 47 -------------------
+ .../staging/media/deprecated/atmel/Makefile   |  8 ----
+ 4 files changed, 1 insertion(+), 73 deletions(-)
+ delete mode 100644 drivers/staging/media/deprecated/atmel/Kconfig
+ delete mode 100644 drivers/staging/media/deprecated/atmel/Makefile
+
+diff --git a/drivers/staging/media/Kconfig b/drivers/staging/media/Kconfig
+index 1aa31bddf970..52b4aab944f6 100644
+--- a/drivers/staging/media/Kconfig
++++ b/drivers/staging/media/Kconfig
+@@ -38,20 +38,4 @@ source "drivers/staging/media/sunxi/Kconfig"
+
+ source "drivers/staging/media/tegra-video/Kconfig"
+ 
+-menuconfig STAGING_MEDIA_DEPRECATED
+-	bool "Media staging drivers (DEPRECATED)"
+-	default n
+-	help
+-	  This option enables deprecated media drivers that are
+-	  scheduled for future removal from the kernel.
+-
+-	  If you wish to work on these drivers to prevent their removal,
+-	  then contact the linux-media@vger.kernel.org mailing list.
+-
+-	  If in doubt, say N here.
+-
+-if STAGING_MEDIA_DEPRECATED
+-source "drivers/staging/media/deprecated/atmel/Kconfig"
+-endif
+-
+-endif
++endif # STAGING_MEDIA
+diff --git a/drivers/staging/media/Makefile b/drivers/staging/media/Makefile
+index 6f78b0edde1e..6fd7179733d8 100644
+--- a/drivers/staging/media/Makefile
++++ b/drivers/staging/media/Makefile
+@@ -1,5 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0
+-obj-$(CONFIG_VIDEO_ATMEL_ISC_BASE)	+= deprecated/atmel/
+ obj-$(CONFIG_INTEL_ATOMISP)     += atomisp/
+ obj-$(CONFIG_VIDEO_IMX_MEDIA)	+= imx/
+ obj-$(CONFIG_VIDEO_MAX96712)	+= max96712/
+diff --git a/drivers/staging/media/deprecated/atmel/Kconfig b/drivers/staging/media/deprecated/atmel/Kconfig
+deleted file mode 100644
+index 418841ea5a0d..000000000000
+--- a/drivers/staging/media/deprecated/atmel/Kconfig
++++ /dev/null
+@@ -1,47 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0-only
+-
+-comment "Atmel media platform drivers"
+-
+-config VIDEO_ATMEL_ISC
+-	tristate "ATMEL Image Sensor Controller (ISC) support (DEPRECATED)"
+-	depends on V4L_PLATFORM_DRIVERS
+-	depends on VIDEO_DEV && COMMON_CLK
+-	depends on ARCH_AT91 || COMPILE_TEST
+-	depends on !VIDEO_MICROCHIP_ISC_BASE || COMPILE_TEST
+-	select MEDIA_CONTROLLER
+-	select VIDEO_V4L2_SUBDEV_API
+-	select VIDEOBUF2_DMA_CONTIG
+-	select REGMAP_MMIO
+-	select V4L2_FWNODE
+-	select VIDEO_ATMEL_ISC_BASE
+-	help
+-	   This module makes the ATMEL Image Sensor Controller available
+-	   as a v4l2 device.
+-
+-	   This driver is deprecated and is scheduled for removal by
+-	   the beginning of 2026. See the TODO file for more information.
+-
+-config VIDEO_ATMEL_XISC
+-	tristate "ATMEL eXtended Image Sensor Controller (XISC) support (DEPRECATED)"
+-	depends on V4L_PLATFORM_DRIVERS
+-	depends on VIDEO_DEV && COMMON_CLK
+-	depends on ARCH_AT91 || COMPILE_TEST
+-	depends on !VIDEO_MICROCHIP_ISC_BASE || COMPILE_TEST
+-	select VIDEOBUF2_DMA_CONTIG
+-	select REGMAP_MMIO
+-	select V4L2_FWNODE
+-	select VIDEO_ATMEL_ISC_BASE
+-	select MEDIA_CONTROLLER
+-	select VIDEO_V4L2_SUBDEV_API
+-	help
+-	   This module makes the ATMEL eXtended Image Sensor Controller
+-	   available as a v4l2 device.
+-
+-	   This driver is deprecated and is scheduled for removal by
+-	   the beginning of 2026. See the TODO file for more information.
+-
+-config VIDEO_ATMEL_ISC_BASE
+-	tristate
+-	default n
+-	help
+-	  ATMEL ISC and XISC common code base.
+diff --git a/drivers/staging/media/deprecated/atmel/Makefile b/drivers/staging/media/deprecated/atmel/Makefile
+deleted file mode 100644
+index 34eaeeac5bba..000000000000
+--- a/drivers/staging/media/deprecated/atmel/Makefile
++++ /dev/null
+@@ -1,8 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0-only
+-atmel-isc-objs = atmel-sama5d2-isc.o
+-atmel-xisc-objs = atmel-sama7g5-isc.o
+-atmel-isc-common-objs = atmel-isc-base.o atmel-isc-clk.o
+-
+-obj-$(CONFIG_VIDEO_ATMEL_ISC_BASE) += atmel-isc-common.o
+-obj-$(CONFIG_VIDEO_ATMEL_ISC) += atmel-isc.o
+-obj-$(CONFIG_VIDEO_ATMEL_XISC) += atmel-xisc.o
+-- 
+2.43.0
+
+
