@@ -1,203 +1,159 @@
-Received: from sender-pp-o91.zoho.in (sender-pp-o91.zoho.in [103.117.158.91])
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCBDD395D8F
-	for <linux-staging@lists.linux.dev>; Tue, 26 May 2026 12:17:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=103.117.158.91
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779797838; cv=pass; b=ZQZOVOQSGqkN1Gbbf+bLB+OpGNVi41UkNvaiJs0Gzifh7PsM5ZfZu9XN1vtJGiZ/JOW78USSWhl/Qge2H9pUgkxDAKI1/Uw6f5JtMCwB06oVfZKaftkHOSXsgJdA9ldkf+HRK8wc9xGRsFiypv2RhhpafGMy7YSarRYL3XjezHk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779797838; c=relaxed/simple;
-	bh=qLJqGU149AFEK5NAq3HTdCtG16am9VLMU7zTyfXwD7s=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:Subject:MIME-Version:
-	 Content-Type; b=YfvnVeRTP2RhOVI14kHlp4stFT9hlT1fX4nFUenTH/koSEfD94R3ovINkhCtMX9GKCBebOimq3+7gDVtVDAQkbyeRCCWEBDns6Z8EZxttmp6+54DPrOB3z/KCDClkFoSKH6uwwMRKSeB4tEl6LOPnRPd4lOmgEH6TJssC7UmGbg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in; spf=pass smtp.mailfrom=zohomail.in; dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b=x7KgnH+/; arc=pass smtp.client-ip=103.117.158.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.in
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48F6D355F57
+	for <linux-staging@lists.linux.dev>; Tue, 26 May 2026 13:18:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.252.153.129
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779801491; cv=none; b=LX/eiXFOYIgPps8u1iu02R+POcslY/nvse/pEgWPeWGkBUhC81W56dacZtHntu/hSSTyHO9FvhkFlpXuwjrtYcPmVrJ88MbETEl+VURrx7stoQFR9xX0WDjOVl3BsY3M76uR9/9Gpb4oSdOIjMDuKDmoJFMydyPYFGq8uK++1QI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779801491; c=relaxed/simple;
+	bh=WOqPLVN7X4Oo+1a+nab4tkzFF5fHoRWbMCV4jSw1A4s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Cm5WIkcm9hVzot4NZQobX6TSWtDt18L340zaFY3kuqGt+Pc8qUsbIvFyA1tMWsEsEFAM/OoVHCbZNfKNCrS84g+T3YpUsCp+BPSnuLyv021HHatxWixOVi8vjjSgFfbhwovH75KD/tpngiPnrfSoknCspbNL29ouFVMIYAASkvk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net; spf=pass smtp.mailfrom=riseup.net; dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b=mrxLSmvj; arc=none smtp.client-ip=198.252.153.129
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riseup.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b="x7KgnH+/"
-ARC-Seal: i=1; a=rsa-sha256; t=1779797817; cv=none; 
-	d=zohomail.in; s=zohoarc; 
-	b=XZrSsg7xjPkluKenruUMlqvU8ob6WnsTA5J8959sjqdBNVuqxzcT4bdNyNTe0QMnQgSRAXlmSndvOwodr2ZqrTuohwi1QyyKAYNNKqRkSoxLU4eBqCnwZY5Xvi8dVc0eamGrP1YCmDibO4eRH8XlRqDfn01Idm2SCXToGAIQ72g=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in; s=zohoarc; 
-	t=1779797817; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=fBl59d6BpzTCvjrU0Ys2J2ycHy/10G7PhZT1nzOVOzc=; 
-	b=PwxLLlgL1UicAKZEkmrbvRM9/RxxdCNhftwj/jZMO3+8qFBqf21fC7+LVnB2mWlq/zGBGQQ2wh3b+TkzL40IsKs1RuvY1RnGpoWDfUkB+rB0mW6z1PJCkJCnCVieyp1aWU9ZYxupeKAu4dwZM+UvWMeorgMNyo7DNePLBlrheBQ=
-ARC-Authentication-Results: i=1; mx.zohomail.in;
-	dkim=pass  header.i=zohomail.in;
-	spf=pass  smtp.mailfrom=linuxuser509@zohomail.in;
-	dmarc=pass header.from=<linuxuser509@zohomail.in>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1779797817;
-	s=zoho; d=zohomail.in; i=linuxuser509@zohomail.in;
-	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=fBl59d6BpzTCvjrU0Ys2J2ycHy/10G7PhZT1nzOVOzc=;
-	b=x7KgnH+/750qiDJ/c0QznrO5+KSiwZZblE7GH00kF1fZ7PVWedLc1ar8EHzj29eo
-	O74qTKEIhJb8c/d+byB3cSNGt/U/GcrSxWHcNtQLdLFi/CHM5XXZsL8tTrHrXwdFjNq
-	Z3l0DFHNnKfi74MC2OK9XSOO79oOGHKNxKiUFAa4=
-Received: from mail.zoho.in by mx.zoho.in
-	with SMTP id 1779797816842128.25528368276662; Tue, 26 May 2026 17:46:56 +0530 (IST)
-Received: from  [223.228.122.9] by mail.zoho.in
-	with HTTP;Tue, 26 May 2026 17:46:56 +0530 (IST)
-Date: Tue, 26 May 2026 17:46:56 +0530
-From: Ashwin Gundarapu <linuxuser509@zohomail.in>
-To: "gregkh" <gregkh@linuxfoundation.org>
-Cc: "linux-kernel" <linux-kernel@vger.kernel.org>,
-	"linux-media" <linux-media@vger.kernel.org>,
-	"linux-staging" <linux-staging@lists.linux.dev>
-Message-ID: <19e64377600.72fca248167943.7947263371163961978@zohomail.in>
-In-Reply-To: 
-Subject: [PATCH v3] staging: media: Remove deprecated Atmel ISC drivers
+	dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b="mrxLSmvj"
+Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx1.riseup.net (Postfix) with ESMTPS id 4gPtbZ13fgzDqMW;
+	Tue, 26 May 2026 13:18:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=riseup.net; s=squak;
+	t=1779801482; bh=lnOoqjI214ZQ8PlbotMcBXTWTRo2UP+8mBP1lS2kcDw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=mrxLSmvjrIyVxLRNB5y95IMw2y7JvbXtGQ20DEeTyVKUKPGOhREWDOfNKASPPFbVX
+	 aH91IYBKGYfxTAPeupIISWjnliI8tzwq4feqrJCMcZaCEya8g3NZN/wQBIhkUpmdb/
+	 lWQOkXGWLVl7TZTv/WXC7hd89oN6pZOEJiPXRXak=
+X-Riseup-User-ID: ABD3F563F590011991F7C13206586327EBD1F9D74A031D10523104A80F0E1BEB
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	 by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4gPtbR2tWqz1xxY;
+	Tue, 26 May 2026 13:17:55 +0000 (UTC)
+From: Emmanuel Arias <eamanu@riseup.net>
+To: sudipm.mukherjee@gmail.com,
+	teddy.wang@siliconmotion.com,
+	gregkh@linuxfoundation.org
+Cc: linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Emmanuel Arias <eamanu@riseup.net>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH v2] staging: sm750fb: fix CamelCase variables name in sm750
+Date: Tue, 26 May 2026 10:16:31 -0300
+Message-ID: <20260526131631.1237672-1-eamanu@riseup.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
+Content-Transfer-Encoding: 8bit
 
-The Atmel ISC and XISC drivers were deprecated and scheduled
-for removal by the beginning of 2026. The replacement drivers
-(VIDEO_MICROCHIP_ISC and VIDEO_MICROCHIP_XISC) are available
-in the main media subsystem.
+Replace CamelCase variable name with snake_case:
+- pvReg -> pv_reg
+- setAllEngOff -> set_all_eng_off
 
-Remove the Kconfig entries, Makefile rules, MAINTAINERS entries,
-and the STAGING_MEDIA_DEPRECATED menuconfig since it is no longer
-needed. The source files remain on disk but are no longer compiled
-since the build infrastructure is removed.
-
-Signed-off-by: Ashwin Gundarapu <linuxuser509@zohomail.in>
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202605171049.KbaBnrJV-lkp@intel.com/
+Signed-off-by: Emmanuel Arias <eamanu@riseup.net>
 ---
- MAINTAINERS                                   |  2 -
- drivers/staging/media/Kconfig                 | 18 +------
- drivers/staging/media/Makefile                |  1 -
- .../staging/media/deprecated/atmel/Kconfig    | 47 -------------------
- .../staging/media/deprecated/atmel/Makefile   |  8 ----
- 5 files changed, 1 insertion(+), 75 deletions(-)
- delete mode 100644 drivers/staging/media/deprecated/atmel/Kconfig
- delete mode 100644 drivers/staging/media/deprecated/atmel/Makefile
+ drivers/staging/sm750fb/sm750.c    |  6 +++---
+ drivers/staging/sm750fb/sm750.h    |  4 ++--
+ drivers/staging/sm750fb/sm750_hw.c | 12 ++++++------
+ 3 files changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 27a073f53cea..4290eae8838e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17364,8 +17364,6 @@ F:	Documentation/devicetree/bindings/media/atmel,isc.yaml
- F:	Documentation/devicetree/bindings/media/microchip,xisc.yaml
- F:	drivers/media/platform/microchip/microchip-isc*
- F:	drivers/media/platform/microchip/microchip-sama*-isc*
--F:	drivers/staging/media/deprecated/atmel/atmel-isc*
--F:	drivers/staging/media/deprecated/atmel/atmel-sama*-isc*
- F:	include/linux/atmel-isc-media.h
-
- MICROCHIP ISI DRIVER
-diff --git a/drivers/staging/media/Kconfig b/drivers/staging/media/Kconfig
-index 1aa31bddf970..52b4aab944f6 100644
---- a/drivers/staging/media/Kconfig
-+++ b/drivers/staging/media/Kconfig
-@@ -38,20 +38,4 @@ source "drivers/staging/media/sunxi/Kconfig"
-
- source "drivers/staging/media/tegra-video/Kconfig"
-
--menuconfig STAGING_MEDIA_DEPRECATED
--	bool "Media staging drivers (DEPRECATED)"
--	default n
--	help
--	  This option enables deprecated media drivers that are
--	  scheduled for future removal from the kernel.
--
--	  If you wish to work on these drivers to prevent their removal,
--	  then contact the linux-media@vger.kernel.org mailing list.
--
--	  If in doubt, say N here.
--
--if STAGING_MEDIA_DEPRECATED
--source "drivers/staging/media/deprecated/atmel/Kconfig"
--endif
--
--endif
-+endif # STAGING_MEDIA
-diff --git a/drivers/staging/media/Makefile b/drivers/staging/media/Makefile
-index 6f78b0edde1e..6fd7179733d8 100644
---- a/drivers/staging/media/Makefile
-+++ b/drivers/staging/media/Makefile
-@@ -1,5 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0
--obj-$(CONFIG_VIDEO_ATMEL_ISC_BASE)	+= deprecated/atmel/
- obj-$(CONFIG_INTEL_ATOMISP)     += atomisp/
- obj-$(CONFIG_VIDEO_IMX_MEDIA)	+= imx/
- obj-$(CONFIG_VIDEO_MAX96712)	+= max96712/
-diff --git a/drivers/staging/media/deprecated/atmel/Kconfig b/drivers/staging/media/deprecated/atmel/Kconfig
-deleted file mode 100644
-index 418841ea5a0d..000000000000
---- a/drivers/staging/media/deprecated/atmel/Kconfig
-+++ /dev/null
-@@ -1,47 +0,0 @@
--# SPDX-License-Identifier: GPL-2.0-only
--
--comment "Atmel media platform drivers"
--
--config VIDEO_ATMEL_ISC
--	tristate "ATMEL Image Sensor Controller (ISC) support (DEPRECATED)"
--	depends on V4L_PLATFORM_DRIVERS
--	depends on VIDEO_DEV && COMMON_CLK
--	depends on ARCH_AT91 || COMPILE_TEST
--	depends on !VIDEO_MICROCHIP_ISC_BASE || COMPILE_TEST
--	select MEDIA_CONTROLLER
--	select VIDEO_V4L2_SUBDEV_API
--	select VIDEOBUF2_DMA_CONTIG
--	select REGMAP_MMIO
--	select V4L2_FWNODE
--	select VIDEO_ATMEL_ISC_BASE
--	help
--	   This module makes the ATMEL Image Sensor Controller available
--	   as a v4l2 device.
--
--	   This driver is deprecated and is scheduled for removal by
--	   the beginning of 2026. See the TODO file for more information.
--
--config VIDEO_ATMEL_XISC
--	tristate "ATMEL eXtended Image Sensor Controller (XISC) support (DEPRECATED)"
--	depends on V4L_PLATFORM_DRIVERS
--	depends on VIDEO_DEV && COMMON_CLK
--	depends on ARCH_AT91 || COMPILE_TEST
--	depends on !VIDEO_MICROCHIP_ISC_BASE || COMPILE_TEST
--	select VIDEOBUF2_DMA_CONTIG
--	select REGMAP_MMIO
--	select V4L2_FWNODE
--	select VIDEO_ATMEL_ISC_BASE
--	select MEDIA_CONTROLLER
--	select VIDEO_V4L2_SUBDEV_API
--	help
--	   This module makes the ATMEL eXtended Image Sensor Controller
--	   available as a v4l2 device.
--
--	   This driver is deprecated and is scheduled for removal by
--	   the beginning of 2026. See the TODO file for more information.
--
--config VIDEO_ATMEL_ISC_BASE
--	tristate
--	default n
--	help
--	  ATMEL ISC and XISC common code base.
-diff --git a/drivers/staging/media/deprecated/atmel/Makefile b/drivers/staging/media/deprecated/atmel/Makefile
-deleted file mode 100644
-index 34eaeeac5bba..000000000000
---- a/drivers/staging/media/deprecated/atmel/Makefile
-+++ /dev/null
-@@ -1,8 +0,0 @@
--# SPDX-License-Identifier: GPL-2.0-only
--atmel-isc-objs = atmel-sama5d2-isc.o
--atmel-xisc-objs = atmel-sama7g5-isc.o
--atmel-isc-common-objs = atmel-isc-base.o atmel-isc-clk.o
--
--obj-$(CONFIG_VIDEO_ATMEL_ISC_BASE) += atmel-isc-common.o
--obj-$(CONFIG_VIDEO_ATMEL_ISC) += atmel-isc.o
--obj-$(CONFIG_VIDEO_ATMEL_XISC) += atmel-xisc.o
---
-2.43.0
-
-
+diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+index 996a586a3727..9b30627a19d0 100644
+--- a/drivers/staging/sm750fb/sm750.c
++++ b/drivers/staging/sm750fb/sm750.c
+@@ -755,7 +755,7 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
+ 	 * must be set after crtc member initialized
+ 	 */
+ 	crtc->cursor.offset = crtc->o_screen + crtc->vidmem_size - 1024;
+-	crtc->cursor.mmio = sm750_dev->pvReg +
++	crtc->cursor.mmio = sm750_dev->pv_reg +
+ 		0x800f0 + (int)crtc->channel * 0x140;
+ 
+ 	crtc->cursor.max_h = 64;
+@@ -860,7 +860,7 @@ static void sm750fb_setup(struct sm750_dev *sm750_dev, char *src)
+ 	sm750_dev->init_parm.mem_clk = 0;
+ 	sm750_dev->init_parm.master_clk = 0;
+ 	sm750_dev->init_parm.power_mode = 0;
+-	sm750_dev->init_parm.setAllEngOff = 0;
++	sm750_dev->init_parm.set_all_eng_off = 0;
+ 	sm750_dev->init_parm.reset_memory = 1;
+ 
+ 	/* defaultly turn g_hwcursor on for both view */
+@@ -1059,7 +1059,7 @@ static void lynxfb_pci_remove(struct pci_dev *pdev)
+ 	sm750fb_framebuffer_release(sm750_dev);
+ 	arch_phys_wc_del(sm750_dev->mtrr.vram);
+ 
+-	iounmap(sm750_dev->pvReg);
++	iounmap(sm750_dev->pv_reg);
+ 	iounmap(sm750_dev->vmem);
+ 	pci_release_region(pdev, 1);
+ 	kfree(g_settings);
+diff --git a/drivers/staging/sm750fb/sm750.h b/drivers/staging/sm750fb/sm750.h
+index d2c522e67f26..e8885133da2e 100644
+--- a/drivers/staging/sm750fb/sm750.h
++++ b/drivers/staging/sm750fb/sm750.h
+@@ -44,7 +44,7 @@ struct init_status {
+ 	ushort chip_clk;
+ 	ushort mem_clk;
+ 	ushort master_clk;
+-	ushort setAllEngOff;
++	ushort set_all_eng_off;
+ 	ushort reset_memory;
+ };
+ 
+@@ -97,7 +97,7 @@ struct sm750_dev {
+ 	unsigned long vidreg_start;
+ 	__u32 vidmem_size;
+ 	__u32 vidreg_size;
+-	void __iomem *pvReg;
++	void __iomem *pv_reg;
+ 	unsigned char __iomem *vmem;
+ 	/* locks*/
+ 	spinlock_t slock;
+diff --git a/drivers/staging/sm750fb/sm750_hw.c b/drivers/staging/sm750fb/sm750_hw.c
+index 6f7c354a34a1..2e2c7cffddab 100644
+--- a/drivers/staging/sm750fb/sm750_hw.c
++++ b/drivers/staging/sm750fb/sm750_hw.c
+@@ -40,18 +40,18 @@ int hw_sm750_map(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
+ 	}
+ 
+ 	/* now map mmio and vidmem */
+-	sm750_dev->pvReg =
++	sm750_dev->pv_reg =
+ 		ioremap(sm750_dev->vidreg_start, sm750_dev->vidreg_size);
+-	if (!sm750_dev->pvReg) {
++	if (!sm750_dev->pv_reg) {
+ 		dev_err(&pdev->dev, "mmio failed\n");
+ 		ret = -EFAULT;
+ 		goto err_release_region;
+ 	}
+ 
+-	sm750_dev->accel.dpr_base = sm750_dev->pvReg + DE_BASE_ADDR_TYPE1;
+-	sm750_dev->accel.dp_port_base = sm750_dev->pvReg + DE_PORT_ADDR_TYPE1;
++	sm750_dev->accel.dpr_base = sm750_dev->pv_reg + DE_BASE_ADDR_TYPE1;
++	sm750_dev->accel.dp_port_base = sm750_dev->pv_reg + DE_PORT_ADDR_TYPE1;
+ 
+-	mmio750 = sm750_dev->pvReg;
++	mmio750 = sm750_dev->pv_reg;
+ 	sm750_set_chip_type(sm750_dev->devid, sm750_dev->revid);
+ 
+ 	sm750_dev->vidmem_start = pci_resource_start(pdev, 0);
+@@ -75,7 +75,7 @@ int hw_sm750_map(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
+ 	return 0;
+ 
+ err_unmap_reg:
+-	iounmap(sm750_dev->pvReg);
++	iounmap(sm750_dev->pv_reg);
+ err_release_region:
+ 	pci_release_region(pdev, 1);
+ 	return ret;
+-- 
+2.53.0
 
