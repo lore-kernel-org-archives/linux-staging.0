@@ -1,104 +1,393 @@
 Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5189390CB7
-	for <linux-staging@lists.linux.dev>; Wed, 27 May 2026 07:27:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C56613C65FF
+	for <linux-staging@lists.linux.dev>; Wed, 27 May 2026 07:37:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779866836; cv=none; b=VxZlNOfqyxhhivlEluFHrNrK6x6bvt3dW4O0lBUL84YZdL+Vp3iHtQwWeECRgh8L3bTDLC6qM+MLSR1flWmaXyh4tB4UWjWDhsR2rbu1IPIbdrgXw3wrGgdEo8Qh4N9kFHN0a2dqPpp6U7XOjA7fYa/Ft5DTSEnrtMT1NAFn374=
+	t=1779867444; cv=none; b=Bo36S209ZQ7SmF7HgBmNWVhq3x/WI/rX+Ry/4XQ6UKCS78omuRyQ+hSxRndXmBWZt10HdKjD1we0bSPzvMogNJ469MlylqzOqr5qAe45fgVjSmas/OMSIal3i3e3k+dQGEGP4uyiiSVwuVZs781HTfzDJlOH+VTnNDZkpG4gVQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779866836; c=relaxed/simple;
-	bh=FCWLmotGAUG7mivgvxcuXQftMysm4kmYO01ABN9aWvc=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=thvGlWQEWq5IkFB8b558yuwcbZg+Sj7aYGzjZNGMe3WrLmU3S0C3dGyVAs3wcd67olEuo9fMBX/8cwXGXtEifqtOjMkCorkoCo7juObRVSTWGtaZV2Dc/366KqzRf50ciHX+0tDK3f5O3/UVwi3channnm/0oMkwSTCA+NzKTRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luaberry.com; spf=pass smtp.mailfrom=luaberry.com; dkim=pass (2048-bit key) header.d=luaberry.com header.i=@luaberry.com header.b=e4cvL9sJ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=U2mTsvYH; arc=none smtp.client-ip=103.168.172.155
+	s=arc-20240116; t=1779867444; c=relaxed/simple;
+	bh=9peMDbQrmb540gBVVIfkqGBvNS3jiYkxpRc8g+Gms3g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=odx/Fuwq9aLms1gi1zgIdTFUW5mpgz5l5gIxG2zYfCEb3Pl3sqzhDq1GlXJ+nayYPg7qR7waOyTLfFRQ3FzTVg4SI05Ymy285h92gwVbdJMcPoqb62HwxVBxQPT/IhJETCsVrauIAodXAUQfCfuRFuIhB9mC3l5V61NW0nfGxLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luaberry.com; spf=pass smtp.mailfrom=luaberry.com; dkim=pass (2048-bit key) header.d=luaberry.com header.i=@luaberry.com header.b=doZqlcQQ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Y2sDJXMr; arc=none smtp.client-ip=103.168.172.155
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luaberry.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=luaberry.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=luaberry.com header.i=@luaberry.com header.b="e4cvL9sJ";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="U2mTsvYH"
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 14E3714000A4;
-	Wed, 27 May 2026 03:27:14 -0400 (EDT)
-Received: from phl-imap-17 ([10.202.2.105])
-  by phl-compute-03.internal (MEProxy); Wed, 27 May 2026 03:27:14 -0400
+	dkim=pass (2048-bit key) header.d=luaberry.com header.i=@luaberry.com header.b="doZqlcQQ";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Y2sDJXMr"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 28177140005F;
+	Wed, 27 May 2026 03:37:22 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Wed, 27 May 2026 03:37:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=luaberry.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1779866834;
-	 x=1779953234; bh=PfGLV7Ws0brqxMCOyba0XJH0DOzortoBXIBcAy+QCAk=; b=
-	e4cvL9sJzcdvdtsTBD91YzoR6jcX0wmApvhBE0CIiHADWR3N6cNJg3OMburQY92w
-	gug7i1g/rvSa6+njDg9SaHWkMkssYIBi3DwQQoIwIvX69ZcaC5Lai0HfxQLc6zci
-	LkXuhyMb4Pjf2Ai1thzJzgzobojP8QPhCc4to4wSk5rzhObS5kU87EktW4WXOatz
-	zcL6ZY1GPkUwyxozpLnaQSi3Rl1rnKGuXBenUlsGvL0gW3f2jQ1W6JlB6qnf9UQT
-	TTIZsmI+Emf7yWUz5bIffZf8s3HptxC86ug9CcL+61ZHLWlRuzI8o5cHB7UfDnkW
-	Hh3z5f8KFZQIekSqgVI/xQ==
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm2; t=1779867442; x=1779953842; bh=pftRh1hNKYuB0aVObT6yg
+	zb0FoctksUaJHC3LvnKA/Q=; b=doZqlcQQwEB9uvxlMqfzw2R1KVPl/f+N1/69f
+	DtH0uVl0Wl4L7m64vM7MQ88xKfKYHW3qv2ETR9R1pdOBdBpeCr7WuJMyPwGfINGF
+	qRKhbgQipDkU9DVrWsnV1GbCKmZHz8bkCC/3YVIToJpuwZzvqTgSGdjzDCArlegs
+	VOWCErmM79T+dW1opr01Bn7UFJvICaqwSWR/FO+L0i6rbQ5jvaeyPOAq7ghd6vET
+	3BmD3L9saY5XlBntY80vXHYdSiAKg9cEQVl2vKAV7+6SiCvjb42BXONv4qed1ckR
+	h8K25/HjKT3kUGnrHZHGjVfzqzyDPsaEDzzumQdUrlWNVsT6w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1779866834; x=
-	1779953234; bh=PfGLV7Ws0brqxMCOyba0XJH0DOzortoBXIBcAy+QCAk=; b=U
-	2mTsvYHwY32E2mLAjaPdySIAr0zagVR8NC9KVNmidbA8fY+ZGJj+koiIwhtT3ySL
-	Ge9et59ts3x0pW0Ec/bw7AT9g63Jhp669nFoWb6kTuH5Od9tkMN0SXpYNqi7/6cA
-	4o7zvk5eNxo+ob+wLbZ4AS8aAPChJFDlMHOQiUhpoKsgRNlFneKrOaqoAtxDN930
-	5DAJJa0Mz5FflcJ7BRqAKbPisl22f5whmR7qhVRaFaE8dLpo0ONTlBR0lDyVxIyM
-	OlZwXdhROt/+IhLf3DyEjUdA7xhKvjE6U+d1lcOOYnOEgVqM5Mw32HiZD5yIdpFO
-	L12DRZNM0sK+WnW5KdbXw==
-X-ME-Sender: <xms:0ZwWaitRIfoZ-gGqDrhIeQqdYgl91E7GNnzXpBpCEb8F9WKrN3sjlg>
-    <xme:0ZwWaiQFT2hSYNXelLbW5epTvKFj_HlvbtAAZIboXjBRjMNtAoZRrXgKBO7k597rS
-    Pwa_bC8P2L89GKEna1Qu_oAvDVZLZwKqIJivQFXtTCzYoOKYNJw4tTs>
-X-ME-Proxy-Cause: dmFkZTF1B4r9JBgrTHKMYG7llI+o5qEZ49NoDpiQhWOZKG5tLxz68CmNKYLaL510OjQh6r
-    gTc01El4LeYC6iJ6TcqZOkYWI1MX4tUlYFIxPKO0mkmcGCx9pqNNMFQV9E23IjqxWGKNOm
-    dvKP0vaRVs4wclSPh5KO/oOf9zwTA6WW2oiSDKOZANYiZSLmceMtFPUtlMAIpRWmAK9c3t
-    T5EHmP261zTo4xUFNfGDjB3bUxGqS9sQPAmApbqJsJc75J/qJg84ByogyA0OJDx5wTl7Af
-    MQrxMX4v/yFRDX51xgbCbIOYklmsHWzt0T4Gik7vgjj8jFkcJB2IYkdkOWW0tkxeV1chTt
-    FC8bsTET+eTbYAOWNzZkIrRXkvEfDptiU+7wX2VD84GaLFjBKMDdZnRt+LPyOwFbagz/Oj
-    2msWiJ/lXdyFGB6JCK+1cyh7T0fytcQMoeNCvlB10Zmjl7fdzMJfv7+tc+zIdnLp9CsZlW
-    lT4ono4AiE+wVX08sC8bOKrSHPX3DCO0UpYxmZ3mknUMmy6+2v+aHSiDzAlK9Ae+yaC2WE
-    WB9YOqIS/bmIxehwjSbtvNIpvyJX2a+kwfTrBoGgvbLo4LXNtEIpwa+L0c9lYZK0GvINk4
-    EFPhDUeAUcGxCNlKK1e6/Qm15MevSpUi0rKhw0WYqFq7IMg2pO7m5QiJ9a6w
-X-ME-Proxy: <xmx:0ZwWaiYZRMpjvc9UaiPo7HppoE8bJj6TEPEO1bydzsgV_svcpuFaCw>
-    <xmx:0ZwWajpfF9PMHFblYOtrbPlBQZKmQCkfH9BPkboS7h0WZYz2zGC2IQ>
-    <xmx:0ZwWamTrR-3TBXTtp37Gr0vM8QrVaagseEiws9mQHzQ_UJ-n6WIlow>
-    <xmx:0ZwWanrkL1RrY8TsUz-i6zB3sD6Yh9SVFqaeO5Nj7xsx8bPZv5vEoA>
-    <xmx:0pwWar0vuyA1pieOPpSGYrydbYIM50iDhzJCV7s7x6c7SPO5kIippKls>
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1779867442; x=1779953842; bh=pftRh1hNKYuB0aVObT6ygzb0FoctksUaJHC
+	3LvnKA/Q=; b=Y2sDJXMrrhz92vocm1V4vpHdzHk8J8kiQt4eCRtpBf3qTPSxQBp
+	4ANN8RntFJD8ALtKErU0hOrnth5tQnKThcm7j080qlWPfZCQsgqMZodflGki5HXF
+	Sik4bAR5lVCfxP0/+RTRupiNSYPgBAKPxNc0kBwJgCubzEFNr4PK8iJTRzfSZIjs
+	kxXtg+ZEKOHjczJHbfhLo7oD1dqgT+lxVRBJdtjr9uQoGJnomAbQIWj+E9mnYARr
+	p9Gam0KwHzqqzfPDdVZ4a6WplPBmesfiKHc8yfz3MhULZx+pWATkYLOPCz5wtY6b
+	gvzqZXOWV1ERev/Xl1FieEIfxofyunw2ixw==
+X-ME-Sender: <xms:MZ8WavKVwKjfcMofFQSOHwf1n3esQGlZ3DHPU58MJcmZnFEIyqsP2Q>
+    <xme:MZ8Wau-uALXIS5NHGEu3gsG-U6eUKQ-uekE1mOZJq8akTHGDtrXtbToPJW6GhTILl
+    t-jmZ6_bVIVmng-4v-ZYNTXfY8VsRN5w6BVQxDeA16DkaPwINO26oo>
+X-ME-Received: <xmr:MZ8WajFvGv2oJOzZVu4SzpX-XNqmKc065nLW1wXcqI-9UrWjdBeRltBHs5Ec-eAqqsHAiJu-wc_IpgI>
+X-ME-Proxy-Cause: dmFkZTFHpRPo9qHiSx7q9pUshMxyk4a5QDBhkpifbIFatRX5HcTPZp62E06/ES4zz6Dt1E
+    io0joxfStEL7eUVcegJdkPCQ3X9zQKVkgz1FARJLQRCM6eQXCouIZBGGKaYZvyh2vE66Jf
+    V0M0Odc0b4Xd6bzoEwGYQl2APCr17juXlmuSBbhni0xicxE/n1uKi+mTy+X0HEJ6z5ANaZ
+    Og8GRw6OJJHiR+3yNmvlh54N4cKBmo5PuAoCOqFKK5kMijpLiZVjcBlG91zT19Esu/YDIx
+    RhJn72PCpiaV3GKk5c9D6S8x1NWniptJPLRzI/b5hA+l96/4FEzkxuokjn3rm/Lvfrc7Xt
+    DCFBtXUTYJzxl6lzyNxtQStjRw2RuNZV+hajWqi/CV02kWB8yz/LkkzF4EpeVv9lmu4Io9
+    SxKoTO1wfGQkbxv/F0NStk0uSk/zEyKCA5IkYIvgsfIZ7D/92H5IAJT5tTY0PeQSZe0kkT
+    asyM+NnNFkxQP9/imot+9cJdVTRpJICBcClPcJs3fNaNrY8udJaTkbyzCNu3T4ogfAKYeG
+    mjeRrcIEL5D46ELlIqUc9s0/KzSr1J5i2m2r7X2rxiFnmt5gQ73uUZvsg0zG3Sw+YiAdIZ
+    C3RhanMjVjP/0mQP9EUYfyW5XAyTTK600MSjOr6zPhR2t57Mwri99A71ny3w
+X-ME-Proxy: <xmx:MZ8Wah6bAbbO0XhOqcBIYWaNd1VcGmVFAsMM6VF6kah6XEm-g0O2lQ>
+    <xmx:MZ8WakaWPjqJq0M-g2uamddME9M6a6ViQ3DUSnRR8LpnrvGQLmv36A>
+    <xmx:MZ8WanixL29Yx8bieb6y1RFiCJ9eYAnvUUmNKerRqUblJQInDa1SbQ>
+    <xmx:MZ8Waudt-aTCfd8hbE7ssD3ISJehxy1DYuUOWkiZHCtQL2HVkkjvBQ>
+    <xmx:Mp8WarrLOEAjHDpS3hsLoPgIC82Hw1kBGSTBYJ5AFKA-XUBI8RjnVTSN>
 Feedback-ID: i372e487a:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id B6D55C40071; Wed, 27 May 2026 03:27:13 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 27 May 2026 03:37:18 -0400 (EDT)
+From: Jeongin Yeo <jeongin.yeo@luaberry.com>
+To: hansg@kernel.org,
+	mchehab@kernel.org
+Cc: gregkh@linuxfoundation.org,
+	sakari.ailus@linux.intel.com,
+	andy.shevchenko@gmail.com,
+	andy@kernel.org,
+	matt@mattwardle.net,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jeongin Yeo <jeongin.yeo@luaberry.com>
+Subject: [PATCH v3] media: atomisp: remove redundant prefix from dev_dbg calls
+Date: Wed, 27 May 2026 07:37:05 +0000
+Message-ID: <20260527073705.1544479-1-jeongin.yeo@luaberry.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: AjrM_5o9WqUJ
-Date: Wed, 27 May 2026 16:26:53 +0900
-From: "Jeongin Yeo" <jeongin.yeo@luaberry.com>
-To: "Andy Shevchenko" <andy.shevchenko@gmail.com>
-Cc: hansg@kernel.org, mchehab@kernel.org,
- "Greg KH" <gregkh@linuxfoundation.org>, sakari.ailus@linux.intel.com,
- andy@kernel.org, matt@mattwardle.net, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Message-Id: <2b89e702-da24-4890-b0af-111dce7a7134@app.fastmail.com>
-In-Reply-To: 
- <CAHp75Ve5Kntx5+mpr2hZCcFWda7GDUgME_G6c=1kRJJsYGt7eA@mail.gmail.com>
-References: <20260526200222.330280-1-jeongin.yeo@luaberry.com>
- <CAHp75Ve5Kntx5+mpr2hZCcFWda7GDUgME_G6c=1kRJJsYGt7eA@mail.gmail.com>
-Subject: Re: [PATCH v2] media: atomisp: remove function name from dev_dbg calls
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Wed, May 27, 2026, at 2:26 PM, Andy Shevchenko wrote:
-> __LINE__ is also provided.
+Remove the hardcoded function name and line number prefix from
+dev_dbg() output strings within ia_css_binary_find(). dev_dbg()
+can already emit the function name and line number via dynamic_debug's
+'f' and 'l' flags, so embedding it in the format string is redundant.
 
-You're right, __LINE__ is also redundant in dev_dbg().
-I will send v3 shortly that removes both the function name and the line number.
+This resolves the EMBEDDED_FUNCTION_NAME checkpatch warnings without
+introducing __func__ to format strings.
 
-Thanks for the review.
+No functional changes.
 
+Signed-off-by: Jeongin Yeo <jeongin.yeo@luaberry.com>
+---
+Changes in v3:
+- Remove the __LINE__ argument and "[%d]" prefix from dev_dbg() calls.
+  Like __func__, line numbers are provided by dynamic_debug via the 'l' flag.
+- Link to v2: https://lore.kernel.org/r/20260526200222.330280-1-jeongin.yeo@luaberry.com
+
+Changes in v2:
+- Remove the function name strings entirely instead of converting
+  them to __func__, per feedback from Greg KH. dev_dbg() can already
+  emit function names via dynamic_debug's 'f' flag.
+- Link to v1: https://lore.kernel.org/r/20260526104750.1284935-1-jeongin.yeo@luaberry.com
+
+ .../atomisp/pci/runtime/binary/src/binary.c   | 133 ++++++++----------
+ 1 file changed, 58 insertions(+), 75 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
+index e9016d7775dc3..ef766a02b460b 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
++++ b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
+@@ -925,7 +925,7 @@ int ia_css_binary_find(struct ia_css_binary_descr *descr, struct ia_css_binary *
+ 	/* MW: used after an error check, may accept NULL, but doubtful */
+ 	assert(binary);
+ 
+-	dev_dbg(atomisp_dev, "ia_css_binary_find() enter: descr=%p, (mode=%d), binary=%p\n",
++	dev_dbg(atomisp_dev, "enter: descr=%p, (mode=%d), binary=%p\n",
+ 		descr, descr->mode, binary);
+ 
+ 	mode = descr->mode;
+@@ -991,8 +991,7 @@ int ia_css_binary_find(struct ia_css_binary_descr *descr, struct ia_css_binary *
+ 		struct ia_css_binary_info *candidate = &xcandidate->sp;
+ 		/* printf("sh_css_binary_find: evaluating candidate:
+ 		 * %d\n",candidate->id); */
+-		dev_dbg(atomisp_dev,
+-			"ia_css_binary_find() candidate = %p, mode = %d ID = %d\n",
++		dev_dbg(atomisp_dev, "candidate = %p, mode = %d ID = %d\n",
+ 			candidate, candidate->pipeline.mode, candidate->id);
+ 
+ 		/*
+@@ -1002,16 +1001,13 @@ int ia_css_binary_find(struct ia_css_binary_descr *descr, struct ia_css_binary *
+ 		*/
+ 		if (!candidate->enable.continuous &&
+ 		    continuous && (mode != IA_CSS_BINARY_MODE_COPY)) {
+-			dev_dbg(atomisp_dev,
+-				"ia_css_binary_find() [%d] continue: !%d && %d && (%d != %d)\n",
+-				__LINE__, candidate->enable.continuous,
+-				continuous, mode, IA_CSS_BINARY_MODE_COPY);
++			dev_dbg(atomisp_dev, "continue: !%d && %d && (%d != %d)\n",
++				candidate->enable.continuous, continuous,
++				mode, IA_CSS_BINARY_MODE_COPY);
+ 			continue;
+ 		}
+ 		if (striped && candidate->iterator.num_stripes == 1) {
+-			dev_dbg(atomisp_dev,
+-				"ia_css_binary_find() [%d] continue: binary is not striped\n",
+-				__LINE__);
++			dev_dbg(atomisp_dev, "continue: binary is not striped\n");
+ 			continue;
+ 		}
+ 
+@@ -1019,38 +1015,38 @@ int ia_css_binary_find(struct ia_css_binary_descr *descr, struct ia_css_binary *
+ 		    (mode != IA_CSS_BINARY_MODE_COPY) &&
+ 		    (mode != IA_CSS_BINARY_MODE_CAPTURE_PP) &&
+ 		    (mode != IA_CSS_BINARY_MODE_VF_PP)) {
+-			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: (%d != %d)\n",
+-				__LINE__, candidate->pipeline.isp_pipe_version, isp_pipe_version);
++			dev_dbg(atomisp_dev, "continue: (%d != %d)\n",
++				candidate->pipeline.isp_pipe_version, isp_pipe_version);
+ 			continue;
+ 		}
+ 		if (!candidate->enable.reduced_pipe && enable_reduced_pipe) {
+-			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: !%d && %d\n",
+-				__LINE__, candidate->enable.reduced_pipe, enable_reduced_pipe);
++			dev_dbg(atomisp_dev, "continue: !%d && %d\n",
++				candidate->enable.reduced_pipe, enable_reduced_pipe);
+ 			continue;
+ 		}
+ 		if (!candidate->enable.dvs_6axis && enable_dvs_6axis) {
+-			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: !%d && %d\n",
+-				__LINE__, candidate->enable.dvs_6axis, enable_dvs_6axis);
++			dev_dbg(atomisp_dev, "continue: !%d && %d\n",
++				candidate->enable.dvs_6axis, enable_dvs_6axis);
+ 			continue;
+ 		}
+ 		if (candidate->enable.high_speed && !enable_high_speed) {
+-			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: %d && !%d\n",
+-				__LINE__, candidate->enable.high_speed, enable_high_speed);
++			dev_dbg(atomisp_dev, "continue: %d && !%d\n",
++				candidate->enable.high_speed, enable_high_speed);
+ 			continue;
+ 		}
+ 		if (!candidate->enable.xnr && need_xnr) {
+-			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: %d && !%d\n",
+-				__LINE__, candidate->enable.xnr, need_xnr);
++			dev_dbg(atomisp_dev, "continue: %d && !%d\n",
++				candidate->enable.xnr, need_xnr);
+ 			continue;
+ 		}
+ 		if (!(candidate->enable.ds & 2) && enable_yuv_ds) {
+-			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: !%d && %d\n",
+-				__LINE__, ((candidate->enable.ds & 2) != 0), enable_yuv_ds);
++			dev_dbg(atomisp_dev, "continue: !%d && %d\n",
++				((candidate->enable.ds & 2) != 0), enable_yuv_ds);
+ 			continue;
+ 		}
+ 		if ((candidate->enable.ds & 2) && !enable_yuv_ds) {
+-			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: %d && !%d\n",
+-				__LINE__, ((candidate->enable.ds & 2) != 0), enable_yuv_ds);
++			dev_dbg(atomisp_dev, "continue: %d && !%d\n",
++				((candidate->enable.ds & 2) != 0), enable_yuv_ds);
+ 			continue;
+ 		}
+ 
+@@ -1064,85 +1060,77 @@ int ia_css_binary_find(struct ia_css_binary_descr *descr, struct ia_css_binary *
+ 				       candidate->vf_dec.is_variable ||
+ 				       /* or more than one output pin. */
+ 				       xcandidate->num_output_pins > 1)) {
+-			dev_dbg(atomisp_dev,
+-				"ia_css_binary_find() [%d] continue: (%p != NULL) && !(%d || %d || (%d >%d))\n",
+-				__LINE__, req_vf_info, candidate->enable.vf_veceven,
++			dev_dbg(atomisp_dev, "continue: (%p != NULL) && !(%d || %d || (%d >%d))\n",
++				req_vf_info, candidate->enable.vf_veceven,
+ 				candidate->vf_dec.is_variable, xcandidate->num_output_pins, 1);
+ 			continue;
+ 		}
+ 		if (!candidate->enable.dvs_envelope && need_dvs) {
+-			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: !%d && %d\n",
+-				__LINE__, candidate->enable.dvs_envelope, (int)need_dvs);
++			dev_dbg(atomisp_dev, "continue: !%d && %d\n",
++				candidate->enable.dvs_envelope, (int)need_dvs);
+ 			continue;
+ 		}
+ 		/* internal_res check considers input, output, and dvs envelope sizes */
+ 		ia_css_binary_internal_res(req_in_info, req_bds_out_info,
+ 					   req_bin_out_info, &dvs_env, candidate, &internal_res);
+ 		if (internal_res.width > candidate->internal.max_width) {
+-			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: (%d > %d)\n",
+-				__LINE__, internal_res.width, candidate->internal.max_width);
++			dev_dbg(atomisp_dev, "continue: (%d > %d)\n",
++				internal_res.width, candidate->internal.max_width);
+ 			continue;
+ 		}
+ 		if (internal_res.height > candidate->internal.max_height) {
+-			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: (%d > %d)\n",
+-				__LINE__, internal_res.height, candidate->internal.max_height);
++			dev_dbg(atomisp_dev, "continue: (%d > %d)\n",
++				internal_res.height, candidate->internal.max_height);
+ 			continue;
+ 		}
+ 		if (!candidate->enable.ds && need_ds && !(xcandidate->num_output_pins > 1)) {
+-			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: !%d && %d\n",
+-				__LINE__, candidate->enable.ds, (int)need_ds);
++			dev_dbg(atomisp_dev, "continue: !%d && %d\n",
++				candidate->enable.ds, (int)need_ds);
+ 			continue;
+ 		}
+ 		if (!candidate->enable.uds && !candidate->enable.dvs_6axis && need_dz) {
+-			dev_dbg(atomisp_dev,
+-				"ia_css_binary_find() [%d] continue: !%d && !%d && %d\n",
+-				__LINE__, candidate->enable.uds, candidate->enable.dvs_6axis,
++			dev_dbg(atomisp_dev, "continue: !%d && !%d && %d\n",
++				candidate->enable.uds, candidate->enable.dvs_6axis,
+ 				(int)need_dz);
+ 			continue;
+ 		}
+ 		if (online && candidate->input.source == IA_CSS_BINARY_INPUT_MEMORY) {
+-			dev_dbg(atomisp_dev,
+-				"ia_css_binary_find() [%d] continue: %d && (%d == %d)\n",
+-				__LINE__, online, candidate->input.source,
++			dev_dbg(atomisp_dev, "continue: %d && (%d == %d)\n",
++				online, candidate->input.source,
+ 				IA_CSS_BINARY_INPUT_MEMORY);
+ 			continue;
+ 		}
+ 		if (!online && candidate->input.source == IA_CSS_BINARY_INPUT_SENSOR) {
+-			dev_dbg(atomisp_dev,
+-				"ia_css_binary_find() [%d] continue: !%d && (%d == %d)\n",
+-				__LINE__, online, candidate->input.source,
++			dev_dbg(atomisp_dev, "continue: !%d && (%d == %d)\n",
++				online, candidate->input.source,
+ 				IA_CSS_BINARY_INPUT_SENSOR);
+ 			continue;
+ 		}
+ 		if (req_bin_out_info->res.width < candidate->output.min_width ||
+ 		    req_bin_out_info->res.width > candidate->output.max_width) {
+-			dev_dbg(atomisp_dev,
+-				"ia_css_binary_find() [%d] continue: (%d > %d) || (%d < %d)\n",
+-				__LINE__, req_bin_out_info->padded_width,
+-				candidate->output.min_width, req_bin_out_info->padded_width,
+-				candidate->output.max_width);
++			dev_dbg(atomisp_dev, "continue: (%d > %d) || (%d < %d)\n",
++				req_bin_out_info->padded_width, candidate->output.min_width,
++				req_bin_out_info->padded_width, candidate->output.max_width);
+ 			continue;
+ 		}
+ 		if (xcandidate->num_output_pins > 1 &&
+ 		    /* in case we have a second output pin, */
+ 		    req_vf_info) { /* and we need vf output. */
+ 			if (req_vf_info->res.width > candidate->output.max_width) {
+-				dev_dbg(atomisp_dev,
+-					"ia_css_binary_find() [%d] continue: (%d < %d)\n",
+-					__LINE__, req_vf_info->res.width,
+-					candidate->output.max_width);
++				dev_dbg(atomisp_dev, "continue: (%d < %d)\n",
++					req_vf_info->res.width, candidate->output.max_width);
+ 				continue;
+ 			}
+ 		}
+ 		if (req_in_info->padded_width > candidate->input.max_width) {
+-			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: (%d > %d)\n",
+-				__LINE__, req_in_info->padded_width, candidate->input.max_width);
++			dev_dbg(atomisp_dev, "continue: (%d > %d)\n",
++				req_in_info->padded_width, candidate->input.max_width);
+ 			continue;
+ 		}
+ 		if (!binary_supports_output_format(xcandidate, req_bin_out_info->format)) {
+-			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: !%d\n",
+-				__LINE__, binary_supports_output_format(xcandidate,
+-									req_bin_out_info->format));
++			dev_dbg(atomisp_dev, "continue: !%d\n",
++				binary_supports_output_format(xcandidate,
++							      req_bin_out_info->format));
+ 			continue;
+ 		}
+ 		if (xcandidate->num_output_pins > 1 &&
+@@ -1151,9 +1139,8 @@ int ia_css_binary_find(struct ia_css_binary_descr *descr, struct ia_css_binary *
+ 		    /* check if the required vf format
+ 		    is supported. */
+ 		    !binary_supports_output_format(xcandidate, req_vf_info->format)) {
+-			dev_dbg(atomisp_dev,
+-				"ia_css_binary_find() [%d] continue: (%d > %d) && (%p != NULL) && !%d\n",
+-				__LINE__, xcandidate->num_output_pins, 1, req_vf_info,
++			dev_dbg(atomisp_dev, "continue: (%d > %d) && (%p != NULL) && !%d\n",
++				xcandidate->num_output_pins, 1, req_vf_info,
+ 				binary_supports_output_format(xcandidate, req_vf_info->format));
+ 			continue;
+ 		}
+@@ -1162,9 +1149,8 @@ int ia_css_binary_find(struct ia_css_binary_descr *descr, struct ia_css_binary *
+ 		if (xcandidate->num_output_pins == 1 &&
+ 		    req_vf_info && candidate->enable.vf_veceven &&
+ 		    !binary_supports_vf_format(xcandidate, req_vf_info->format)) {
+-			dev_dbg(atomisp_dev,
+-				"ia_css_binary_find() [%d] continue: (%d == %d) && (%p != NULL) && %d && !%d\n",
+-				__LINE__, xcandidate->num_output_pins, 1,
++			dev_dbg(atomisp_dev, "continue: (%d == %d) && (%p != NULL) && %d && !%d\n",
++				xcandidate->num_output_pins, 1,
+ 				req_vf_info, candidate->enable.vf_veceven,
+ 				binary_supports_vf_format(xcandidate, req_vf_info->format));
+ 			continue;
+@@ -1174,31 +1160,28 @@ int ia_css_binary_find(struct ia_css_binary_descr *descr, struct ia_css_binary *
+ 		if (xcandidate->num_output_pins == 1 &&
+ 		    req_vf_info && candidate->enable.vf_veceven) { /* and we need vf output. */
+ 			if (req_vf_info->res.width > candidate->output.max_width) {
+-				dev_dbg(atomisp_dev,
+-					"ia_css_binary_find() [%d] continue: (%d < %d)\n",
+-					__LINE__, req_vf_info->res.width,
+-					candidate->output.max_width);
++				dev_dbg(atomisp_dev, "continue: (%d < %d)\n",
++					req_vf_info->res.width, candidate->output.max_width);
+ 				continue;
+ 			}
+ 		}
+ 
+ 		if (!supports_bds_factor(candidate->bds.supported_bds_factors,
+ 					 descr->required_bds_factor)) {
+-			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: 0x%x & 0x%x)\n",
+-				__LINE__, candidate->bds.supported_bds_factors,
+-				descr->required_bds_factor);
++			dev_dbg(atomisp_dev, "continue: 0x%x & 0x%x)\n",
++				candidate->bds.supported_bds_factors, descr->required_bds_factor);
+ 			continue;
+ 		}
+ 
+ 		if (!candidate->enable.dpc && need_dpc) {
+-			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: 0x%x & 0x%x)\n",
+-				__LINE__, candidate->enable.dpc, descr->enable_dpc);
++			dev_dbg(atomisp_dev, "continue: 0x%x & 0x%x)\n",
++				candidate->enable.dpc, descr->enable_dpc);
+ 			continue;
+ 		}
+ 
+ 		if (candidate->uds.use_bci && enable_capture_pp_bli) {
+-			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: 0x%x & 0x%x)\n",
+-				__LINE__, candidate->uds.use_bci, descr->enable_capture_pp_bli);
++			dev_dbg(atomisp_dev, "continue: 0x%x & 0x%x)\n",
++				candidate->uds.use_bci, descr->enable_capture_pp_bli);
+ 			continue;
+ 		}
+ 
 -- 
-Best regards,
-Jeongin Yeo
+2.43.0
+
