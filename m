@@ -1,205 +1,142 @@
-Received: from sender-pp-o91.zoho.in (sender-pp-o91.zoho.in [103.117.158.91])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from outbound.soverin.net (outbound.soverin.net [185.233.34.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AA0C30EF88
-	for <linux-staging@lists.linux.dev>; Wed, 27 May 2026 08:33:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=103.117.158.91
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779870812; cv=pass; b=hQ1DOZ5vOQ4xjxdccNQ8tl9c9Klks85G2ogDd2Rcq0/g8Gf0BBvBdFh5b1aBT7NMYVNdXhhDnfnIIE2M4N75FFwu8PAj6vh7iph+tMmNY8ze0nzJb6T16bm03m1Jo7li1wpGfvxh+nvJeTbxj2pSOovd+Mcw8Fpf49MdFbofpJc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779870812; c=relaxed/simple;
-	bh=ojvVE5uAbXwPUNUVoy8Awca3IEF6AGOojtymNv3e0UA=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:Subject:MIME-Version:
-	 Content-Type; b=Fz3vDOl9DFSzZw0MBn6kIsMImc4JH/vmdQKttFYzQc31LJcfgofme5gVoqKtOtoTIEr0Y1wrXOoB+37egaq3xrRpXU1ZK7kDjEMa/amZQDqGpH6oG/nPO9KCf1OQ1ldhWiSZ47oN3ZBBr1VRGSXt5g0P40k+guXPzD5Sb/330pI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in; spf=pass smtp.mailfrom=zohomail.in; dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b=aWqyzJpy; arc=pass smtp.client-ip=103.117.158.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.in
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67640372678;
+	Wed, 27 May 2026 09:13:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.34.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779873204; cv=none; b=Iw5+60VsvS/Htg0GwxSNKRoXtZVBxKf6H/eF8ckg42mPm3TgNxOLrVFXFey9AoJSn4PyQoBjLZbV9yjP7f9IZo67dCynXT/CUQy39QUnGf8Ris/zvvUC8I1iXimma4GKa64azUtsbFxulPk5w/35GZBBOPPQ9MEmJaDw+tzWEyY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779873204; c=relaxed/simple;
+	bh=MdfCAFoUBjK43tuM8ptdLXguK4v3FM8uYeH5PUsCbQg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jHZlWX7k+uDKmI1d/UQc8dfLuVQqdpVGyaP36u9PMcjhPWj50Imo8nAyk/w4wKyOCNDgSNyNrvnJTqDU+b2YaYeyzLDq+x27QUi0+1WH/bRBA8vGJUq+A9HLdn6nCGTzMaMVEyMVbEE7lWE5vfyBd8+9S+uPelYcagpf6PPYKMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl; spf=pass smtp.mailfrom=jjverkuil.nl; dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b=RX1xznAb; arc=none smtp.client-ip=185.233.34.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jjverkuil.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b="aWqyzJpy"
-ARC-Seal: i=1; a=rsa-sha256; t=1779870799; cv=none; 
-	d=zohomail.in; s=zohoarc; 
-	b=R6bQ2zIAg7tZvbb+v/NfLUoiKrYWU1wp89vlsHGYPrtZjJW8kf0JJmCsbKcIwa4A1iWaxPe6KZj6JcxmY+0QHg/QPCnZxYEruCGH4I8n+x3ZTMiIAvl6sLzizT2UbcEx3H8wqC4eZr8zVNrpVzjIc/txAnLn25xsLfo61Br/p/M=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in; s=zohoarc; 
-	t=1779870799; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=obRTr1Xbo8JP2VlhsrP+96R7FmmM/Xqkp9Ke94vfykY=; 
-	b=cByUFyLQFvDIR29klwgra29cyVa/XoW3fbr6rvdGLTLCCH4IurBmfbkX0NwCouOWVKxbNVVDH30lYuhg1mCEY2KSmDOE+tK0Ndzddk5EW8BOKHpiyPcRy5oj4H0PgKun/WHSB4ETLp8ZVfOkaM6HEnrrsai4hQzfqTeS4Ip9uJk=
-ARC-Authentication-Results: i=1; mx.zohomail.in;
-	dkim=pass  header.i=zohomail.in;
-	spf=pass  smtp.mailfrom=linuxuser509@zohomail.in;
-	dmarc=pass header.from=<linuxuser509@zohomail.in>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1779870799;
-	s=zoho; d=zohomail.in; i=linuxuser509@zohomail.in;
-	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=obRTr1Xbo8JP2VlhsrP+96R7FmmM/Xqkp9Ke94vfykY=;
-	b=aWqyzJpyMpH1p7170fDNfLhRtNx2ZRKlV0CqUWMN3KgRmFwWZOyUPItz/SFyqDnH
-	ElHzOgNImkt8vYKLgf9Y7ZEl6VJghZYXDHUg1KsyDuzG4HzzryB1e70v7UMRNzUe5qs
-	taNzcZQdu5IVocaGrOUPZ1K0RQJgEH6+OQ1fJ+aQ=
-Received: from mail.zoho.in by mx.zoho.in
-	with SMTP id 1779870798433789.8771906224354; Wed, 27 May 2026 14:03:18 +0530 (IST)
-Received: from  [157.48.160.125] by mail.zoho.in
-	with HTTP;Wed, 27 May 2026 14:03:18 +0530 (IST)
-Date: Wed, 27 May 2026 14:03:18 +0530
-From: Ashwin Gundarapu <linuxuser509@zohomail.in>
-To: "gregkh" <gregkh@linuxfoundation.org>
-Cc: "linux-kernel" <linux-kernel@vger.kernel.org>,
-	"linux-staging" <linux-staging@lists.linux.dev>,
-	"linux-media" <linux-media@vger.kernel.org>
-Message-ID: <19e68911259.638e56bd13233.647726868191191070@zohomail.in>
-In-Reply-To: 
-Subject: [PATCH v4] staging: media: Remove deprecated Atmel ISC drivers
+	dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b="RX1xznAb"
+Received: from smtp.freedom.nl (unknown [10.10.4.108])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by outbound.soverin.net (Postfix) with ESMTPS id 4gQP6b68gpz1NNH;
+	Wed, 27 May 2026 09:13:11 +0000 (UTC)
+Received: from smtp.freedom.nl (smtp.freedom.nl [10.10.4.108]) by freedom.nl (Postfix) with ESMTPSA id 4gQP6Z617bz2xLS;
+	Wed, 27 May 2026 09:13:10 +0000 (UTC)
+Authentication-Results: smtp.freedom.nl;
+	dkim=pass (2048-bit key; unprotected) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.a=rsa-sha256 header.s=soverin1 header.b=RX1xznAb;
+	dkim-atps=neutral
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jjverkuil.nl;
+	s=soverin1; t=1779873191;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=etfwjiPIcnyIi3OTeXprjKmDih1/Qt0l4v+9NlSouZ0=;
+	b=RX1xznAbimCP0LGxs4wx6uOEiugUNoFgEHJJIbZFQ/27gOBk3yxsLhSRXpxO5COoB0h08m
+	eMaMthvFMLYuN3nIb+s2piMWLaaY0A1GKV0Ede2M/Be8RHei+U6G4zvNBwazHpgE1fU5n4
+	SsJ5cR8F76S7NRN6elZfkWyZAIV+Le5Aj6AwXylVKOLcuurONysjMQtIQbSXka19HuMlhY
+	BShxElkY84Rgnd5lNsP3yWcNZc6ncejPO1YL1P08pPwVa4B0YX2xMdk3E2wOixzXaBlnBi
+	UbFUnaJ6s2b2ghJnwVMXvpzjEYOl2a1SCACex/X22LB64bA7kdKxEMJCXCmNyg==
+X-CM-Envelope: MS4xfHpRFkbO+JcS4iICG734fMU6AHzEPVOAMQtzc8vO/acBDXCdaM4gGjuaP1QcEnnn+N0qhI7bPFS2vxLItIQ/YREg1/BocdGuOppa+eA8/3UQG50rsuoK 3mcpKln45Xyl2vlnqysVIntZhZfIdV/nMvqpXLrDF+ZFj3C3RiTKoH8urK7xWKDJcNvUp1Hs4bbShpi3pmp2yChyRu72Ny+xulCjOBkuaEACvAD6EZco0613 nkODkRn0c+TDakZ8PtjS5aKB5+vdTI9vN+Hhe8uWquXnlnhoqGBNkfDNZ1QmpkgrB8EyJtPfQkuFq+RBjysoFwqEg37Rvhal7jcvWrQ/5MsVftul3vIsZphw N70lak5ALSYz8xNwWT1m8hP12l/Rk2cSl8d0WPsANQO6NzckJXkJGK9wthDn7RW2+9uLXnacHwlRxz6iylPEzgAvR/pDMWnDyBGskQZqtAY++Rtc+PM=
+X-Soverin-Id: 019e68b5-9458-7bd9-b8c6-f0959a4a33e1
+Message-ID: <59a90896-5e23-4afc-b437-a71bfc57a55d@jjverkuil.nl>
+Date: Wed, 27 May 2026 11:12:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH v3] staging: media: imx: fix parenthesis ending checks
+To: Mark Adamenko <marusik.adamenko@gmail.com>, linux-staging@lists.linux.dev
+Cc: slongerbeam@gmail.com, p.zabel@pengutronix.de,
+ gregkh@linuxfoundation.org, imx@lists.linux.dev,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260310002643.27465-1-marusik.adamenko@gmail.com>
+Content-Language: en-US
+From: Hans Verkuil <hans@jjverkuil.nl>
+In-Reply-To: <20260310002643.27465-1-marusik.adamenko@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
+X-Spampanel-Class: ham
 
-The Atmel ISC and XISC drivers were deprecated and scheduled
-for removal by the beginning of 2026. The replacement drivers
-(VIDEO_MICROCHIP_ISC and VIDEO_MICROCHIP_XISC) are available
-in the main media subsystem.
+Hi Mark,
 
-Remove the Kconfig entries, Makefile rules, MAINTAINERS entries,
-and the STAGING_MEDIA_DEPRECATED menuconfig since it is no longer
-needed. The source files remain on disk but are no longer compiled
-since the build infrastructure is removed.
+On 3/10/26 1:26 AM, Mark Adamenko wrote:
+> Remove 4 checks for ending with a parenthesis by removing unnecessary
+> line breaks, and forward declare a variable for a function call that
+> would otherwise remain over 80 columns.
 
-Signed-off-by: Ashwin Gundarapu <linuxuser509@zohomail.in>
----
-v3: Updated MAINTAINERS to remove staging/atmel references.
-v2: Removed Kconfig and Makefile to fix Media CI build issues.
----
- MAINTAINERS                                   |  2 -
- drivers/staging/media/Kconfig                 | 18 +------
- drivers/staging/media/Makefile                |  1 -
- .../staging/media/deprecated/atmel/Kconfig    | 47 -------------------
- .../staging/media/deprecated/atmel/Makefile   |  8 ----
- 5 files changed, 1 insertion(+), 75 deletions(-)
- delete mode 100644 drivers/staging/media/deprecated/atmel/Kconfig
- delete mode 100644 drivers/staging/media/deprecated/atmel/Makefile
+Sorry, but I'm rejecting this patch: it just swaps one 'problem' 
+(parenthesis ending check) with another problem: long lines.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 27a073f53cea..4290eae8838e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17364,8 +17364,6 @@ F:	Documentation/devicetree/bindings/media/atmel,isc.yaml
- F:	Documentation/devicetree/bindings/media/microchip,xisc.yaml
- F:	drivers/media/platform/microchip/microchip-isc*
- F:	drivers/media/platform/microchip/microchip-sama*-isc*
--F:	drivers/staging/media/deprecated/atmel/atmel-isc*
--F:	drivers/staging/media/deprecated/atmel/atmel-sama*-isc*
- F:	include/linux/atmel-isc-media.h
+In the end the current version is just more readable, so I'm just 
+dropping this patch.
 
- MICROCHIP ISI DRIVER
-diff --git a/drivers/staging/media/Kconfig b/drivers/staging/media/Kconfig
-index 1aa31bddf970..52b4aab944f6 100644
---- a/drivers/staging/media/Kconfig
-+++ b/drivers/staging/media/Kconfig
-@@ -38,20 +38,4 @@ source "drivers/staging/media/sunxi/Kconfig"
+Rejected-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 
- source "drivers/staging/media/tegra-video/Kconfig"
+Regards,
 
--menuconfig STAGING_MEDIA_DEPRECATED
--	bool "Media staging drivers (DEPRECATED)"
--	default n
--	help
--	  This option enables deprecated media drivers that are
--	  scheduled for future removal from the kernel.
--
--	  If you wish to work on these drivers to prevent their removal,
--	  then contact the linux-media@vger.kernel.org mailing list.
--
--	  If in doubt, say N here.
--
--if STAGING_MEDIA_DEPRECATED
--source "drivers/staging/media/deprecated/atmel/Kconfig"
--endif
--
--endif
-+endif # STAGING_MEDIA
-diff --git a/drivers/staging/media/Makefile b/drivers/staging/media/Makefile
-index 6f78b0edde1e..6fd7179733d8 100644
---- a/drivers/staging/media/Makefile
-+++ b/drivers/staging/media/Makefile
-@@ -1,5 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0
--obj-$(CONFIG_VIDEO_ATMEL_ISC_BASE)	+= deprecated/atmel/
- obj-$(CONFIG_INTEL_ATOMISP)     += atomisp/
- obj-$(CONFIG_VIDEO_IMX_MEDIA)	+= imx/
- obj-$(CONFIG_VIDEO_MAX96712)	+= max96712/
-diff --git a/drivers/staging/media/deprecated/atmel/Kconfig b/drivers/staging/media/deprecated/atmel/Kconfig
-deleted file mode 100644
-index 418841ea5a0d..000000000000
---- a/drivers/staging/media/deprecated/atmel/Kconfig
-+++ /dev/null
-@@ -1,47 +0,0 @@
--# SPDX-License-Identifier: GPL-2.0-only
--
--comment "Atmel media platform drivers"
--
--config VIDEO_ATMEL_ISC
--	tristate "ATMEL Image Sensor Controller (ISC) support (DEPRECATED)"
--	depends on V4L_PLATFORM_DRIVERS
--	depends on VIDEO_DEV && COMMON_CLK
--	depends on ARCH_AT91 || COMPILE_TEST
--	depends on !VIDEO_MICROCHIP_ISC_BASE || COMPILE_TEST
--	select MEDIA_CONTROLLER
--	select VIDEO_V4L2_SUBDEV_API
--	select VIDEOBUF2_DMA_CONTIG
--	select REGMAP_MMIO
--	select V4L2_FWNODE
--	select VIDEO_ATMEL_ISC_BASE
--	help
--	   This module makes the ATMEL Image Sensor Controller available
--	   as a v4l2 device.
--
--	   This driver is deprecated and is scheduled for removal by
--	   the beginning of 2026. See the TODO file for more information.
--
--config VIDEO_ATMEL_XISC
--	tristate "ATMEL eXtended Image Sensor Controller (XISC) support (DEPRECATED)"
--	depends on V4L_PLATFORM_DRIVERS
--	depends on VIDEO_DEV && COMMON_CLK
--	depends on ARCH_AT91 || COMPILE_TEST
--	depends on !VIDEO_MICROCHIP_ISC_BASE || COMPILE_TEST
--	select VIDEOBUF2_DMA_CONTIG
--	select REGMAP_MMIO
--	select V4L2_FWNODE
--	select VIDEO_ATMEL_ISC_BASE
--	select MEDIA_CONTROLLER
--	select VIDEO_V4L2_SUBDEV_API
--	help
--	   This module makes the ATMEL eXtended Image Sensor Controller
--	   available as a v4l2 device.
--
--	   This driver is deprecated and is scheduled for removal by
--	   the beginning of 2026. See the TODO file for more information.
--
--config VIDEO_ATMEL_ISC_BASE
--	tristate
--	default n
--	help
--	  ATMEL ISC and XISC common code base.
-diff --git a/drivers/staging/media/deprecated/atmel/Makefile b/drivers/staging/media/deprecated/atmel/Makefile
-deleted file mode 100644
-index 34eaeeac5bba..000000000000
---- a/drivers/staging/media/deprecated/atmel/Makefile
-+++ /dev/null
-@@ -1,8 +0,0 @@
--# SPDX-License-Identifier: GPL-2.0-only
--atmel-isc-objs = atmel-sama5d2-isc.o
--atmel-xisc-objs = atmel-sama7g5-isc.o
--atmel-isc-common-objs = atmel-isc-base.o atmel-isc-clk.o
--
--obj-$(CONFIG_VIDEO_ATMEL_ISC_BASE) += atmel-isc-common.o
--obj-$(CONFIG_VIDEO_ATMEL_ISC) += atmel-isc.o
--obj-$(CONFIG_VIDEO_ATMEL_XISC) += atmel-xisc.o
---
-2.43.0
+	Hans
 
+> 
+> Signed-off-by: Mark Adamenko <marusik.adamenko@gmail.com>
+> ---
+> v3: fix commit message
+> ---
+> ---
+>   drivers/staging/media/imx/imx-ic-prpencvf.c | 16 ++++++----------
+>   1 file changed, 6 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/staging/media/imx/imx-ic-prpencvf.c b/drivers/staging/media/imx/imx-ic-prpencvf.c
+> index 77360bfe081a..2339b59af7b0 100644
+> --- a/drivers/staging/media/imx/imx-ic-prpencvf.c
+> +++ b/drivers/staging/media/imx/imx-ic-prpencvf.c
+> @@ -315,8 +315,7 @@ static void prp_setup_vb2_buf(struct prp_priv *priv, dma_addr_t *phys)
+>   		buf = imx_media_capture_device_next_buf(vdev);
+>   		if (buf) {
+>   			priv->active_vb2_buf[i] = buf;
+> -			phys[i] = vb2_dma_contig_plane_dma_addr(
+> -				&buf->vbuf.vb2_buf, 0);
+> +			phys[i] = vb2_dma_contig_plane_dma_addr(&buf->vbuf.vb2_buf, 0);
+>   		} else {
+>   			priv->active_vb2_buf[i] = NULL;
+>   			phys[i] = priv->underrun_buf.phys;
+> @@ -704,11 +703,9 @@ static int prp_start(struct prp_priv *priv)
+>   	}
+>   
+>   	if (ipu_rot_mode_is_irt(priv->rot_mode))
+> -		priv->eof_irq = ipu_idmac_channel_irq(
+> -			ic_priv->ipu, priv->rot_out_ch, IPU_IRQ_EOF);
+> +		priv->eof_irq = ipu_idmac_channel_irq(ic_priv->ipu, priv->rot_out_ch, IPU_IRQ_EOF);
+>   	else
+> -		priv->eof_irq = ipu_idmac_channel_irq(
+> -			ic_priv->ipu, priv->out_ch, IPU_IRQ_EOF);
+> +		priv->eof_irq = ipu_idmac_channel_irq(ic_priv->ipu, priv->out_ch, IPU_IRQ_EOF);
+>   
+>   	ret = devm_request_irq(ic_priv->ipu_dev, priv->eof_irq,
+>   			       prp_eof_interrupt, 0,
+> @@ -750,7 +747,7 @@ static int prp_start(struct prp_priv *priv)
+>   static void prp_stop(struct prp_priv *priv)
+>   {
+>   	struct imx_ic_priv *ic_priv = priv->ic_priv;
+> -	unsigned long flags;
+> +	unsigned long flags, timeout_in_jiffies;
+>   	int ret;
+>   
+>   	/* mark next EOF interrupt as the last before stream off */
+> @@ -761,9 +758,8 @@ static void prp_stop(struct prp_priv *priv)
+>   	/*
+>   	 * and then wait for interrupt handler to mark completion.
+>   	 */
+> -	ret = wait_for_completion_timeout(
+> -		&priv->last_eof_comp,
+> -		msecs_to_jiffies(IMX_MEDIA_EOF_TIMEOUT));
+> +	timeout_in_jiffies = msecs_to_jiffies(IMX_MEDIA_EOF_TIMEOUT);
+> +	ret = wait_for_completion_timeout(&priv->last_eof_comp, timeout_in_jiffies);
+>   	if (ret == 0)
+>   		v4l2_warn(&ic_priv->sd, "wait last EOF timeout\n");
+>   
 
