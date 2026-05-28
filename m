@@ -1,175 +1,163 @@
-Received: from mail-106119.protonmail.ch (mail-106119.protonmail.ch [79.135.106.119])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com [209.85.208.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D590C4028D2
-	for <linux-staging@lists.linux.dev>; Thu, 28 May 2026 18:36:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.119
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73A1032694F
+	for <linux-staging@lists.linux.dev>; Thu, 28 May 2026 18:45:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779993416; cv=none; b=uevABBjZJecc81L0C8bMbuz9PF73/86RAOMrGePoCDSH/8l8N08x3wy7NubYNnI8vB2L4z9wfrn33vMOUy1nQMCPx7aNSbj2lvXwUov8X6UonJPp0C3B2vVzcmRa8weBGACedrj8JzzqXiNd0VkNxov5fJEigILbJyCuk1FFT/E=
+	t=1779993955; cv=none; b=UH3D9DdA0LZ+4MRTvebNkEWPJIKp7ceBQgmkfkhYUNebtq14mAopI7WZehlEV6Ai9RHSTGzjnbwvSLh/qfdi3AVl02Ax2EeJmx8PwC7zlRj+ZlwThUogiGHPd+k3QpRyhKprQv8DRy7NGovi2KXLDwReGy2iZrOLW9RTv84X7Ok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779993416; c=relaxed/simple;
-	bh=FtCHS5ApOptDXAaYgyUzMGHQY3mB60VC48bf5WynBXE=;
-	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=gey7r9rdIdPMjz5kZ3dfhpJFA+TagbKwZX/B3Gl09a2sWBUXLflRTdsUJv5rTC8wxUTcIYRjMGgqCMVjtHjtq3mgnq7Vj7AWhdYWYseScsjN1i3KewQ/OPZvZEQklMOF4QOzn7PW7ji2Mx+uCyskivy9LrVOrlYX7EjBwu8S1B0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=L4rgiWfN; arc=none smtp.client-ip=79.135.106.119
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+	s=arc-20240116; t=1779993955; c=relaxed/simple;
+	bh=arvKR0v4QyhXvVt/KKq1IftXhjHiNsE8HfU26R+H5ak=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XqIg24dAVIjiRk379XuALfUJXGsbO8HjUkxEMFtMENQ4Rr5tMiHazJMFHim9O486yjIm0bbD5gBUWynlLaF3lRA6azqfiqmEFEYwU4JDQm6qwWmSK01/eHRZNiOh86622Q42kbtsp3ZTKOITQ70O7KpJbW86zlPO3/vnxqOeus8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X531X/UT; arc=none smtp.client-ip=209.85.208.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="L4rgiWfN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=j4xjwnoogrghpd4lbo5tq72bce.protonmail; t=1779993410; x=1780252610;
-	bh=FtCHS5ApOptDXAaYgyUzMGHQY3mB60VC48bf5WynBXE=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=L4rgiWfNjH7WO5iGN53ZA5RoCDaPi11XGvsNqOgYRXR1redOCsuf5Rl93hYqDyMt9
-	 KfwC9pR9xjOE6kerDWTkoSMbryiV2iRha7DDmOWu2pmCSoibxQaw5d+17dIaBlYJp+
-	 DaYnitocYDc8gzgzAGeefuXz1YxorSbIWBmx0CQunmsC3i0C0La6K7iTzkRLKDYp9/
-	 Y+wrMq5rYVSBAg6u+E4r2EbhmZv4VpBMQ/b//oE8qysdyqlVYEcNJguwDBx1ZLQ417
-	 Scg8ewzlEMQCNCxwOC/juOhGeVNaQ6qyM166fM+9dE1w5nUoESscfo9g2fw0gi0BMW
-	 xMvQnO/ECqshQ==
-Date: Thu, 28 May 2026 18:36:45 +0000
-To: "sudipm.mukherjee@gmail.com" <sudipm.mukherjee@gmail.com>, "teddy.wang@siliconmotion.com" <teddy.wang@siliconmotion.com>, "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-From: Gabry <Gabry.256@proton.me>
-Cc: "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>, "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: [PATCH] staging: sm750fb: rename Bpp parameter to bpp
-Message-ID: <hpslpD7esY-xE37Tvrz0V8gD8YoZwdu6IlQ8LjUz5fY5mevEeDxM-dLC64t43G4mpVfHB_xCDUESoNFZ7ua9k7B_k2NrY2u-P6NYIJSuGt4=@proton.me>
-Feedback-ID: 103051392:user:proton
-X-Pm-Message-ID: b09bde1e8660b13c9c0cd7e31c3a17c4fa32c7a3
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X531X/UT"
+Received: by mail-ed1-f67.google.com with SMTP id 4fb4d7f45d1cf-687d82dd690so8224634a12.2
+        for <linux-staging@lists.linux.dev>; Thu, 28 May 2026 11:45:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779993952; x=1780598752; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=iCW+lnC0o11kzmUOHOKm8f5jkyEOjRNT7d2bsVeNRmE=;
+        b=X531X/UTmvA89KWTy3ucx6RL7xXvZtJwyfSWgitkMHutiukeIyH9ijeR7xBlB2QpjE
+         HU8zESFbcmw5YRj/PIJ96upWPWO2nOBrSIew0kcNwgL3rZg52Sx7pUMID1NQEkAxryaj
+         nFsMHXQ/PjSltwfRMQSjXkJIod8Kz91PMI20WZKKZxYc4TPDcb5G+10k7YeR7/QfBhBe
+         KQs9eEyYjBWsdF2iB4e0OjWRh0Xy5ud7TYIAmm5ABSsK+V0YhqcjK+YpmLMlpdze+hhP
+         1BxSc0TlPKdyEjoVmRBMw/wYVKp3aYEm/AxytlxCZCCgvVxikTiLkhA9Wi3QvrRxM5c6
+         vcbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779993952; x=1780598752;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iCW+lnC0o11kzmUOHOKm8f5jkyEOjRNT7d2bsVeNRmE=;
+        b=MlL5+T2PcHJ+skH3KzSYD5wu9G/Lj0Q/kIHKdSeL1Tgn8EbDkHITm36IpcOhKl0Lp8
+         lnbRQKD9OEzBaiiWCPYlgCMjbZicGJgzXAKg2Z8Rqv9PKvgNt5NO87j4vLIezyVUYIig
+         vtdVbyQL1NVNjmIqGW18jUIQI1OB8vJ+FXGlfXl1d7saigh7LM9/B0mXi39CoUVtyKWc
+         46YA2DBTc4wa1gKwVZ6negevUTxG8ynWfj8DJ7TzAyeNfbagdFBCQwQGJNFGseD72Zlr
+         ll3ZsnfdAmMAs2K3eHdRgbMQ5wf66Jawj7s4Tt+MjqggHmiS+yXhkpJIQS+DZtkwOWeN
+         hDEQ==
+X-Gm-Message-State: AOJu0Ywz12hEKw5ngEb433rU0kNjH5HiRc92PGyQ5KS5ql1FxfQF9aqu
+	HwObpMZuBMlBJiQK7OL7XVC0jVzwTPk3YwmG0jLgK6k2Yw4eXu+b7DM=
+X-Gm-Gg: Acq92OFe8CF+SN4YO2iXzOyXxM5HRC6DaFDBgrNvOKA+17D0OGBk0bM9BTPrb1cqXO2
+	hukG1gtzIO9vGLkZyQSi1RhJKRzMZ90FWBvtaD7bIVuqdai9jfxhds32SHnM4v0bxjFjrlfjzHR
+	q2rl/RGD7kPG0IUQoPpsy24a5do/5dC1J/5R4XchCQmx6Pk6lLWJP8iUpdKv8v13wd/ksladgIY
+	NaI5ujRNAKthasWoIRpxW+CQtfAwf9i2PDhHQFTLijOkw2uzWRfvy+5GioUQw9yi13avDxKdJc0
+	CCjAnB3K8DDRVLOX5WogWTU5vKf7tlayQKu8Wi0tZnYRrXjI3u85af7jo6ezFtZXiYezy4SsQCw
+	/hAChGzyTmCqdRkGV5/8t/NpqsUFfyrynoSkNIDVK6gIc6ygfGAPzOOIbwo6kMciUX84JchOd0y
+	mrvRPk/3bobKu4UeNDWGqkzdyOuFxW4BfwazXoaUl1vxsuAdKhfKfnZ8a0LHo=
+X-Received: by 2002:a05:6402:159a:b0:687:5157:1d4f with SMTP id 4fb4d7f45d1cf-6889cc7d497mr16289299a12.26.1779993951702;
+        Thu, 28 May 2026 11:45:51 -0700 (PDT)
+Received: from archlinux.itotolink.net ([217.196.163.117])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-68a6fac077csm2141318a12.9.2026.05.28.11.45.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 May 2026 11:45:51 -0700 (PDT)
+From: Vitaliy Slivinskiy <phant0m.mail2023@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Vitaliy Slivinskiy <phant0m.mail2023@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: clean up coding style in sdio_intf.c
+Date: Thu, 28 May 2026 21:44:15 +0300
+Message-ID: <20260528184415.63810-1-phant0m.mail2023@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-The Linux kernel coding style prefers snake_case over CamelCase foridentifi=
-er names.
+Fix checkpatch.pl warnings: remove unnecessary braces for single statement blocks, fix spacing around conditional operators, and remove multiple blank lines.
 
-Rename the 'Bpp' parameter (bytes per pixel) of sm750_hw_fillrect()
-and sm750_hw_copyarea() to 'bpp' to comply with this standard. Update
-the function prototypes in sm750_accel.h and the corresponding
-kernel-doc descriptions accordingly.
-
-This is a pure rename with no functional change, and addresses a
-checkpatch.pl warning:
-
-=C2=A0 CHECK: Avoid CamelCase: <Bpp>
-
-Signed-off-by: Gabriele Rizzo <gabry.256@proton.me>
+Signed-off-by: Vitaliy Slivinskiy <phant0m.mail2023@gmail.com>
 ---
-=C2=A0drivers/staging/sm750fb/sm750_accel.c | 22 +++++++++++-----------
-=C2=A0drivers/staging/sm750fb/sm750_accel.h | =C2=A06 +++---
-=C2=A02 files changed, 14 insertions(+), 14 deletions(-)
+ drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 18 ++++++------------
+ 1 file changed, 6 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/staging/sm750fb/sm750_accel.c b/drivers/staging/sm750f=
-b/sm750_accel.c
-index 0f94d859e91c..4beabe1053f9 100644
---- a/drivers/staging/sm750fb/sm750_accel.c
-+++ b/drivers/staging/sm750fb/sm750_accel.c
-@@ -85,7 +85,7 @@ void sm750_hw_set2dformat(struct lynx_accel *accel, int f=
-mt)
-=C2=A0}
+diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+index d0feb28b7..17829b982 100644
+--- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
++++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+@@ -19,7 +19,7 @@ static const struct sdio_device_id sdio_ids[] = {
+ 	{ SDIO_DEVICE(0x024c, 0x0626), },
+ 	{ SDIO_DEVICE(0x024c, 0x0627), },
+ 	{ SDIO_DEVICE(0x024c, 0xb723), },
+-	{ /* end: all zeroes */				},
++	{ /* end: all zeroes */		   },
+ };
+ MODULE_DEVICE_TABLE(sdio, sdio_ids);
+ 
+@@ -47,7 +47,6 @@ static void sd_sync_int_hdl(struct sdio_func *func)
+ {
+ 	struct dvobj_priv *psdpriv;
+ 
+-
+ 	psdpriv = sdio_get_drvdata(func);
+ 
+ 	if (!psdpriv->if1)
+@@ -77,7 +76,7 @@ static int sdio_alloc_irq(struct dvobj_priv *dvobj)
+ 
+ 	sdio_release_host(func);
+ 
+-	return err?_FAIL:_SUCCESS;
++	return err ? _FAIL : _SUCCESS;
+ }
+ 
+ static void sdio_free_irq(struct dvobj_priv *dvobj)
+@@ -144,13 +143,13 @@ static void sdio_deinit(struct dvobj_priv *dvobj)
+ 		sdio_claim_host(func);
+ 		sdio_disable_func(func);
+ 
+-		if (dvobj->irq_alloc) {
++		if (dvobj->irq_alloc)
+ 			sdio_release_irq(func);
+-		}
+ 
+ 		sdio_release_host(func);
+ 	}
+ }
++
+ static struct dvobj_priv *sdio_dvobj_init(struct sdio_func *func)
+ {
+ 	struct dvobj_priv *dvobj = NULL;
+@@ -216,8 +215,7 @@ static void sd_intf_stop(struct adapter *padapter)
+ 	rtw_hal_disable_interrupt(padapter);
+ }
+ 
+-
+-static struct adapter *rtw_sdio_if1_init(struct dvobj_priv *dvobj, const struct sdio_device_id  *pdid)
++static struct adapter *rtw_sdio_if1_init(struct dvobj_priv *dvobj, const struct sdio_device_id *pdid)
+ {
+ 	int status = _FAIL;
+ 	struct net_device *pnetdev;
+@@ -250,11 +248,9 @@ static struct adapter *rtw_sdio_if1_init(struct dvobj_priv *dvobj, const struct
+ 	/* 4 3.1 set hardware operation functions */
+ 	rtw_set_hal_ops(padapter);
+ 
+-
+ 	/* 3 5. initialize Chip version */
+ 	padapter->intf_start = &sd_intf_start;
+ 	padapter->intf_stop = &sd_intf_stop;
+-
+ 	padapter->intf_init = &sdio_init;
+ 	padapter->intf_deinit = &sdio_deinit;
+ 	padapter->intf_alloc_irq = &sdio_alloc_irq;
+@@ -336,9 +332,7 @@ static void rtw_sdio_if1_deinit(struct adapter *if1)
+  * notes: drv_init() is called when the bus driver has located a card for us to support.
+  *        We accept the new device by returning 0.
+  */
+-static int rtw_drv_init(
+-	struct sdio_func *func,
+-	const struct sdio_device_id *id)
++static int rtw_drv_init(struct sdio_func *func, const struct sdio_device_id *id)
+ {
+ 	int status = _FAIL;
+ 	struct adapter *if1 = NULL;
+-- 
+2.53.0
 
-=C2=A0int sm750_hw_fillrect(struct lynx_accel *accel,
-- =C2=A0 =C2=A0 u32 base, u32 pitch, u32 Bpp,
-+ =C2=A0 =C2=A0 u32 base, u32 pitch, u32 bpp,
-=C2=A0 =C2=A0 =C2=A0 u32 x, u32 y, u32 width, u32 height,
-=C2=A0 =C2=A0 =C2=A0 u32 color, u32 rop)
-=C2=A0{
-@@ -102,14 +102,14 @@ int sm750_hw_fillrect(struct lynx_accel *accel,
-
-=C2=A0 write_dpr(accel, DE_WINDOW_DESTINATION_BASE, base); /* dpr40 */
-=C2=A0 write_dpr(accel, DE_PITCH,
-- ((pitch / Bpp << DE_PITCH_DESTINATION_SHIFT) &
-+ ((pitch / bpp << DE_PITCH_DESTINATION_SHIFT) &
-=C2=A0 =C2=A0DE_PITCH_DESTINATION_MASK) |
-- (pitch / Bpp & DE_PITCH_SOURCE_MASK)); /* dpr10 */
-+ (pitch / bpp & DE_PITCH_SOURCE_MASK)); /* dpr10 */
-
-=C2=A0 write_dpr(accel, DE_WINDOW_WIDTH,
-- ((pitch / Bpp << DE_WINDOW_WIDTH_DST_SHIFT) &
-+ ((pitch / bpp << DE_WINDOW_WIDTH_DST_SHIFT) &
-=C2=A0 =C2=A0DE_WINDOW_WIDTH_DST_MASK) |
-- =C2=A0(pitch / Bpp & DE_WINDOW_WIDTH_SRC_MASK)); /* dpr44 */
-+ =C2=A0(pitch / bpp & DE_WINDOW_WIDTH_SRC_MASK)); /* dpr44 */
-
-=C2=A0 write_dpr(accel, DE_FOREGROUND, color); /* DPR14 */
-
-@@ -138,7 +138,7 @@ int sm750_hw_fillrect(struct lynx_accel *accel,
-=C2=A0 * @sy: Starting y coordinate of source surface
-=C2=A0 * @dest_base: Address of destination: offset in frame buffer
-=C2=A0 * @dest_pitch: Pitch value of destination surface in BYTE
-- * @Bpp: Color depth of destination surface
-+ * @bpp: Color depth of destination surface
-=C2=A0 * @dx: Starting x coordinate of destination surface
-=C2=A0 * @dy: Starting y coordinate of destination surface
-=C2=A0 * @width: width of rectangle in pixel value
-@@ -149,7 +149,7 @@ int sm750_hw_copyarea(struct lynx_accel *accel,
-=C2=A0 =C2=A0 =C2=A0 unsigned int source_base, unsigned int source_pitch,
-=C2=A0 =C2=A0 =C2=A0 unsigned int sx, unsigned int sy,
-=C2=A0 =C2=A0 =C2=A0 unsigned int dest_base, unsigned int dest_pitch,
-- =C2=A0 =C2=A0 unsigned int Bpp, unsigned int dx, unsigned int dy,
-+ =C2=A0 =C2=A0 unsigned int bpp, unsigned int dx, unsigned int dy,
-=C2=A0 =C2=A0 =C2=A0 unsigned int width, unsigned int height,
-=C2=A0 =C2=A0 =C2=A0 unsigned int rop2)
-=C2=A0{
-@@ -249,9 +249,9 @@ int sm750_hw_copyarea(struct lynx_accel *accel,
-=C2=A0 * pixel values. Need Byte to pixel conversion.
-=C2=A0 */
-=C2=A0 write_dpr(accel, DE_PITCH,
-- ((dest_pitch / Bpp << DE_PITCH_DESTINATION_SHIFT) &
-+ ((dest_pitch / bpp << DE_PITCH_DESTINATION_SHIFT) &
-=C2=A0 =C2=A0DE_PITCH_DESTINATION_MASK) |
-- (source_pitch / Bpp & DE_PITCH_SOURCE_MASK)); /* dpr10 */
-+ (source_pitch / bpp & DE_PITCH_SOURCE_MASK)); /* dpr10 */
-
-=C2=A0 /*
-=C2=A0 * Screen Window width in Pixels.
-@@ -259,9 +259,9 @@ int sm750_hw_copyarea(struct lynx_accel *accel,
-=C2=A0 * for a given point.
-=C2=A0 */
-=C2=A0 write_dpr(accel, DE_WINDOW_WIDTH,
-- ((dest_pitch / Bpp << DE_WINDOW_WIDTH_DST_SHIFT) &
-+ ((dest_pitch / bpp << DE_WINDOW_WIDTH_DST_SHIFT) &
-=C2=A0 =C2=A0DE_WINDOW_WIDTH_DST_MASK) |
-- (source_pitch / Bpp & DE_WINDOW_WIDTH_SRC_MASK)); /* dpr3c */
-+ (source_pitch / bpp & DE_WINDOW_WIDTH_SRC_MASK)); /* dpr3c */
-
-=C2=A0 if (accel->de_wait() !=3D 0)
-=C2=A0 return -1;
-diff --git a/drivers/staging/sm750fb/sm750_accel.h b/drivers/staging/sm750f=
-b/sm750_accel.h
-index 2c79cb730a0a..d15a40cacb84 100644
---- a/drivers/staging/sm750fb/sm750_accel.h
-+++ b/drivers/staging/sm750fb/sm750_accel.h
-@@ -190,7 +190,7 @@ void sm750_hw_set2dformat(struct lynx_accel *accel, int=
- fmt);
-=C2=A0void sm750_hw_de_init(struct lynx_accel *accel);
-
-=C2=A0int sm750_hw_fillrect(struct lynx_accel *accel,
-- =C2=A0 =C2=A0 u32 base, u32 pitch, u32 Bpp,
-+ =C2=A0 =C2=A0 u32 base, u32 pitch, u32 bpp,
-=C2=A0 =C2=A0 =C2=A0 u32 x, u32 y, u32 width, u32 height,
-=C2=A0 =C2=A0 =C2=A0 u32 color, u32 rop);
-
-@@ -202,7 +202,7 @@ int sm750_hw_fillrect(struct lynx_accel *accel,
-=C2=A0 * @sy: Starting y coordinate of source surface
-=C2=A0 * @dBase: Address of destination: offset in frame buffer
-=C2=A0 * @dPitch: Pitch value of destination surface in BYTE
-- * @Bpp: Color depth of destination surface
-+ * @bpp: Color depth of destination surface
-=C2=A0 * @dx: Starting x coordinate of destination surface
-=C2=A0 * @dy: Starting y coordinate of destination surface
-=C2=A0 * @width: width of rectangle in pixel value
-@@ -213,7 +213,7 @@ int sm750_hw_copyarea(struct lynx_accel *accel,
-=C2=A0 =C2=A0 =C2=A0 unsigned int sBase, unsigned int sPitch,
-=C2=A0 =C2=A0 =C2=A0 unsigned int sx, unsigned int sy,
-=C2=A0 =C2=A0 =C2=A0 unsigned int dBase, unsigned int dPitch,
-- =C2=A0 =C2=A0 unsigned int Bpp, unsigned int dx, unsigned int dy,
-+ =C2=A0 =C2=A0 unsigned int bpp, unsigned int dx, unsigned int dy,
-=C2=A0 =C2=A0 =C2=A0 unsigned int width, unsigned int height,
-=C2=A0 =C2=A0 =C2=A0 unsigned int rop2);
-
---
-2.54.0
