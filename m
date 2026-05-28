@@ -1,163 +1,114 @@
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com [209.85.208.67])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73A1032694F
-	for <linux-staging@lists.linux.dev>; Thu, 28 May 2026 18:45:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0468632B13D
+	for <linux-staging@lists.linux.dev>; Thu, 28 May 2026 19:06:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779993955; cv=none; b=UH3D9DdA0LZ+4MRTvebNkEWPJIKp7ceBQgmkfkhYUNebtq14mAopI7WZehlEV6Ai9RHSTGzjnbwvSLh/qfdi3AVl02Ax2EeJmx8PwC7zlRj+ZlwThUogiGHPd+k3QpRyhKprQv8DRy7NGovi2KXLDwReGy2iZrOLW9RTv84X7Ok=
+	t=1779995206; cv=none; b=HCKeihxmEWUel2jWHBpfI98Zd78AK8NFMNs+sDtog8kw3kCEZvrxoNHmrHVIeF/I7OxBG4oHN5yeu0T9VO64LWvkzZqc2KNoLljlS+0Vr+OVVG898MPhPFzXoDiY7jfP9AKvVnB9VC1GOWJoBmH0SUEAiBSQmkhftTC8HgHXvfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779993955; c=relaxed/simple;
-	bh=arvKR0v4QyhXvVt/KKq1IftXhjHiNsE8HfU26R+H5ak=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XqIg24dAVIjiRk379XuALfUJXGsbO8HjUkxEMFtMENQ4Rr5tMiHazJMFHim9O486yjIm0bbD5gBUWynlLaF3lRA6azqfiqmEFEYwU4JDQm6qwWmSK01/eHRZNiOh86622Q42kbtsp3ZTKOITQ70O7KpJbW86zlPO3/vnxqOeus8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X531X/UT; arc=none smtp.client-ip=209.85.208.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779995206; c=relaxed/simple;
+	bh=1PHZvUf8rUiNG1427am34Hzkk8b7N19w5O5YChuFLWc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=r9kweV0eXlLZbBczt3LLsQVNsam47mCCZt53QPC5AeRV7KYWwvSMiN1OldvfmqYzAZlsYj9fPbrs1yQ0625THWk47bfUe/KgyMUsu6ybSLdd5UFOwZ8thoU0tsME61sFgKxxfIrxJ0osoUY4CCRWWW3qC6vxhR2xjWlo6TKw4Aw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kKBPMUq8; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X531X/UT"
-Received: by mail-ed1-f67.google.com with SMTP id 4fb4d7f45d1cf-687d82dd690so8224634a12.2
-        for <linux-staging@lists.linux.dev>; Thu, 28 May 2026 11:45:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779993952; x=1780598752; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=iCW+lnC0o11kzmUOHOKm8f5jkyEOjRNT7d2bsVeNRmE=;
-        b=X531X/UTmvA89KWTy3ucx6RL7xXvZtJwyfSWgitkMHutiukeIyH9ijeR7xBlB2QpjE
-         HU8zESFbcmw5YRj/PIJ96upWPWO2nOBrSIew0kcNwgL3rZg52Sx7pUMID1NQEkAxryaj
-         nFsMHXQ/PjSltwfRMQSjXkJIod8Kz91PMI20WZKKZxYc4TPDcb5G+10k7YeR7/QfBhBe
-         KQs9eEyYjBWsdF2iB4e0OjWRh0Xy5ud7TYIAmm5ABSsK+V0YhqcjK+YpmLMlpdze+hhP
-         1BxSc0TlPKdyEjoVmRBMw/wYVKp3aYEm/AxytlxCZCCgvVxikTiLkhA9Wi3QvrRxM5c6
-         vcbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779993952; x=1780598752;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iCW+lnC0o11kzmUOHOKm8f5jkyEOjRNT7d2bsVeNRmE=;
-        b=MlL5+T2PcHJ+skH3KzSYD5wu9G/Lj0Q/kIHKdSeL1Tgn8EbDkHITm36IpcOhKl0Lp8
-         lnbRQKD9OEzBaiiWCPYlgCMjbZicGJgzXAKg2Z8Rqv9PKvgNt5NO87j4vLIezyVUYIig
-         vtdVbyQL1NVNjmIqGW18jUIQI1OB8vJ+FXGlfXl1d7saigh7LM9/B0mXi39CoUVtyKWc
-         46YA2DBTc4wa1gKwVZ6negevUTxG8ynWfj8DJ7TzAyeNfbagdFBCQwQGJNFGseD72Zlr
-         ll3ZsnfdAmMAs2K3eHdRgbMQ5wf66Jawj7s4Tt+MjqggHmiS+yXhkpJIQS+DZtkwOWeN
-         hDEQ==
-X-Gm-Message-State: AOJu0Ywz12hEKw5ngEb433rU0kNjH5HiRc92PGyQ5KS5ql1FxfQF9aqu
-	HwObpMZuBMlBJiQK7OL7XVC0jVzwTPk3YwmG0jLgK6k2Yw4eXu+b7DM=
-X-Gm-Gg: Acq92OFe8CF+SN4YO2iXzOyXxM5HRC6DaFDBgrNvOKA+17D0OGBk0bM9BTPrb1cqXO2
-	hukG1gtzIO9vGLkZyQSi1RhJKRzMZ90FWBvtaD7bIVuqdai9jfxhds32SHnM4v0bxjFjrlfjzHR
-	q2rl/RGD7kPG0IUQoPpsy24a5do/5dC1J/5R4XchCQmx6Pk6lLWJP8iUpdKv8v13wd/ksladgIY
-	NaI5ujRNAKthasWoIRpxW+CQtfAwf9i2PDhHQFTLijOkw2uzWRfvy+5GioUQw9yi13avDxKdJc0
-	CCjAnB3K8DDRVLOX5WogWTU5vKf7tlayQKu8Wi0tZnYRrXjI3u85af7jo6ezFtZXiYezy4SsQCw
-	/hAChGzyTmCqdRkGV5/8t/NpqsUFfyrynoSkNIDVK6gIc6ygfGAPzOOIbwo6kMciUX84JchOd0y
-	mrvRPk/3bobKu4UeNDWGqkzdyOuFxW4BfwazXoaUl1vxsuAdKhfKfnZ8a0LHo=
-X-Received: by 2002:a05:6402:159a:b0:687:5157:1d4f with SMTP id 4fb4d7f45d1cf-6889cc7d497mr16289299a12.26.1779993951702;
-        Thu, 28 May 2026 11:45:51 -0700 (PDT)
-Received: from archlinux.itotolink.net ([217.196.163.117])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-68a6fac077csm2141318a12.9.2026.05.28.11.45.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 May 2026 11:45:51 -0700 (PDT)
-From: Vitaliy Slivinskiy <phant0m.mail2023@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Vitaliy Slivinskiy <phant0m.mail2023@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: clean up coding style in sdio_intf.c
-Date: Thu, 28 May 2026 21:44:15 +0300
-Message-ID: <20260528184415.63810-1-phant0m.mail2023@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kKBPMUq8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779995205; x=1811531205;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1PHZvUf8rUiNG1427am34Hzkk8b7N19w5O5YChuFLWc=;
+  b=kKBPMUq8P8NIjteQM3UESA2wdBCdgYSqpW1TrQrkJd1ie4UK70Y5xvI7
+   o2V7tIxl2hm0JHvo34if0HHFdKseeaVlAJ/IqwEsF48w1dkZRS0xHCC5u
+   1qltE0jPPq7Gd4cEtwdZ7/aa73bcuD/guLNLqa7eJzbGwv7EcS6DyQ4fv
+   8h3vgronT0G2hl4HstNjVTpluDOh5xw8kIqBnUFcj+TWnRNYjbupfRzKT
+   5ZxTQBJeDc3ENuTKUWAG+LHma83cJ/80ZdOb33XeFkAxmTkUKu87uMYsW
+   taKv9ByMqA8FBcTIXi3OK+tSIx9TEk/+g4EqcXNca2VQBgzmVac8V5T3p
+   w==;
+X-CSE-ConnectionGUID: MtDFGhp0RlCejxO4salVsQ==
+X-CSE-MsgGUID: 2K+UWh3LSeShqhkXxoruEg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11800"; a="106299000"
+X-IronPort-AV: E=Sophos;i="6.24,174,1774335600"; 
+   d="scan'208";a="106299000"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 12:06:44 -0700
+X-CSE-ConnectionGUID: ser+wkGpRRqwVFuffzYjUA==
+X-CSE-MsgGUID: RDmyMl7MSa+MkOLJzjT2fg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,174,1774335600"; 
+   d="scan'208";a="247584499"
+Received: from amilburn-desk.amilburn-desk (HELO kekkonen.fi.intel.com) ([10.245.245.232])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 12:06:41 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 0B80911F984;
+	Thu, 28 May 2026 22:06:35 +0300 (EEST)
+Date: Thu, 28 May 2026 22:06:34 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Dave Hansen <dave.hansen@linux.intel.com>, linux-kernel@vger.kernel.org,
+	Yong Zhi <yong.zhi@intel.com>,
+	Dan Scally <dan.scally@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Lixu Zhang <lixu.zhang@intel.com>, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, David Heidelberg <david@ixit.cz>
+Subject: Re: [PATCH] MAINTAINERS: Remove bouncing Intel media maintainers
+Message-ID: <ahiSOvQ2zQuHDHWI@kekkonen.localdomain>
+References: <20260526214131.51118-1-dave.hansen@linux.intel.com>
+ <aham35tbJEbDc1Ee@kekkonen.localdomain>
+ <CAPY8ntBFG=FzJdWjU+jnjx9k5H=pSyb9AVGiYwH+Kqu2kLMLTw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAPY8ntBFG=FzJdWjU+jnjx9k5H=pSyb9AVGiYwH+Kqu2kLMLTw@mail.gmail.com>
 
-Fix checkpatch.pl warnings: remove unnecessary braces for single statement blocks, fix spacing around conditional operators, and remove multiple blank lines.
+Hi Dave,
 
-Signed-off-by: Vitaliy Slivinskiy <phant0m.mail2023@gmail.com>
----
- drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 18 ++++++------------
- 1 file changed, 6 insertions(+), 12 deletions(-)
+On Thu, May 28, 2026 at 11:21:47AM +0100, Dave Stevenson wrote:
+> Hi Sakari & Dave
+> 
+> On Wed, 27 May 2026 at 09:10, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+> >
+> > Hi Dave,
+> >
+> > On Tue, May 26, 2026 at 02:41:31PM -0700, Dave Hansen wrote:
+> > > Tianshu Qiu and Bingbu Cao are maintainers and reviewers of a bunch of
+> > > media drivers (7 and 9 respectively). Both of their emails are
+> > > bouncing.
+> > >
+> > > Remove the bouncing entries and update driver status in cases where
+> > > there are no M:'s left.
+> >
+> > I can pick at least some of these. I'll send v2.
+> 
+> If Intel have no/limited interest in IMX355 any more, then I'm happy
+> to step up as the maintainer as we have a customer looking to use it.
+> I was going to add that as an extra patch to v2 of my recent patchset
+> for it, but haven't sent it out yet.
+> 
+> Based on recent commits I had pinged David Heidelberg (added to cc)
+> and Richard Acayan too as other potential folk with an interest. David
+> has agreed to be a reviewer, but Richard hasn't the spare capacity at
+> present.
+> 
+> I don't mind if you add that to your V2 of this set, or I'll try and
+> get my v2 imx355 set out in the next week.
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-index d0feb28b7..17829b982 100644
---- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-+++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-@@ -19,7 +19,7 @@ static const struct sdio_device_id sdio_ids[] = {
- 	{ SDIO_DEVICE(0x024c, 0x0626), },
- 	{ SDIO_DEVICE(0x024c, 0x0627), },
- 	{ SDIO_DEVICE(0x024c, 0xb723), },
--	{ /* end: all zeroes */				},
-+	{ /* end: all zeroes */		   },
- };
- MODULE_DEVICE_TABLE(sdio, sdio_ids);
- 
-@@ -47,7 +47,6 @@ static void sd_sync_int_hdl(struct sdio_func *func)
- {
- 	struct dvobj_priv *psdpriv;
- 
--
- 	psdpriv = sdio_get_drvdata(func);
- 
- 	if (!psdpriv->if1)
-@@ -77,7 +76,7 @@ static int sdio_alloc_irq(struct dvobj_priv *dvobj)
- 
- 	sdio_release_host(func);
- 
--	return err?_FAIL:_SUCCESS;
-+	return err ? _FAIL : _SUCCESS;
- }
- 
- static void sdio_free_irq(struct dvobj_priv *dvobj)
-@@ -144,13 +143,13 @@ static void sdio_deinit(struct dvobj_priv *dvobj)
- 		sdio_claim_host(func);
- 		sdio_disable_func(func);
- 
--		if (dvobj->irq_alloc) {
-+		if (dvobj->irq_alloc)
- 			sdio_release_irq(func);
--		}
- 
- 		sdio_release_host(func);
- 	}
- }
-+
- static struct dvobj_priv *sdio_dvobj_init(struct sdio_func *func)
- {
- 	struct dvobj_priv *dvobj = NULL;
-@@ -216,8 +215,7 @@ static void sd_intf_stop(struct adapter *padapter)
- 	rtw_hal_disable_interrupt(padapter);
- }
- 
--
--static struct adapter *rtw_sdio_if1_init(struct dvobj_priv *dvobj, const struct sdio_device_id  *pdid)
-+static struct adapter *rtw_sdio_if1_init(struct dvobj_priv *dvobj, const struct sdio_device_id *pdid)
- {
- 	int status = _FAIL;
- 	struct net_device *pnetdev;
-@@ -250,11 +248,9 @@ static struct adapter *rtw_sdio_if1_init(struct dvobj_priv *dvobj, const struct
- 	/* 4 3.1 set hardware operation functions */
- 	rtw_set_hal_ops(padapter);
- 
--
- 	/* 3 5. initialize Chip version */
- 	padapter->intf_start = &sd_intf_start;
- 	padapter->intf_stop = &sd_intf_stop;
--
- 	padapter->intf_init = &sdio_init;
- 	padapter->intf_deinit = &sdio_deinit;
- 	padapter->intf_alloc_irq = &sdio_alloc_irq;
-@@ -336,9 +332,7 @@ static void rtw_sdio_if1_deinit(struct adapter *if1)
-  * notes: drv_init() is called when the bus driver has located a card for us to support.
-  *        We accept the new device by returning 0.
-  */
--static int rtw_drv_init(
--	struct sdio_func *func,
--	const struct sdio_device_id *id)
-+static int rtw_drv_init(struct sdio_func *func, const struct sdio_device_id *id)
- {
- 	int status = _FAIL;
- 	struct adapter *if1 = NULL;
+The sensor is present in a Chromebook and so I think there's some interest.
+
+I'll add us both as M: and David as R: in v2.
+
 -- 
-2.53.0
+Regards,
 
+Sakari Ailus
