@@ -1,295 +1,112 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from sonic310-57.consmr.mail.ir2.yahoo.com (sonic310-57.consmr.mail.ir2.yahoo.com [77.238.177.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2703E346781
-	for <linux-staging@lists.linux.dev>; Thu, 28 May 2026 07:42:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70195399349
+	for <linux-staging@lists.linux.dev>; Thu, 28 May 2026 09:01:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.238.177.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779954142; cv=none; b=WYXnqzoH6X5mAyRgFNkiiP81fJ31Ym6ThVo2lz/V6htNlSi+dApRyiGXgcXeK4oR95POVmW6k14A1YlIIObgLkDsGdWUwQ6yCmyUGzWCVh7qAKnWUfGbE9lXJi8zToylif/kymqTp/GWf8erBdTtQuJaGc3+u+Fw5BEWAPnxkNM=
+	t=1779958864; cv=none; b=MgNjiKue3bxgQZHQjrTgtzhRVGqG5No+LIX6X45LOpP+hQsqyS4xOcjH6LvXBWAlIs+PvG2W320MaQhyxH7R1GMFOgauCyMfLOrbeNxZLhcGjl2bX2QgwwX/0YPXW/Z48eBwe4L/rT/bv5ADiB1LrOmek+UPsO4UN7GJcX2kqIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779954142; c=relaxed/simple;
-	bh=L8Aju28SNnsa9X1jjSBrPb30i6ozHTGSebIJuIs7uOk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WMZNGjnEEURi52Oq01AiwvEusA8pc6TXHN8C+EL8XnKqdfRtfkTnUOA7hQnFsdEltqca0/qNVqiker5a8jR5HlOnk+tBw3SuN0EAn9Bokb3cLictxxr3BQNIWmN1M8tN8649tOKXEQ0abnxWR71LYGR30wYX7R5elG8E+iYrjDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oxGrrEHh; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779958864; c=relaxed/simple;
+	bh=YUaj0Euo7RFAUcilVXXHIqtP1EjJ+Eu9pZTyeH2MLPo=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc:
+	 References; b=iVzIdwYk3D3lmL930koHsu3sljnGgzfDYZkeXiBgbELtKpleCGIVog5s/yhtt7aiqJtXjR9KnEBDY1iHSHv51fjp9xYkrlxUNSTPsm+Sl2N0q3sHlqmyPp3PZF6PZYOM9bHc9DEv0GKuYJzm2MThU5C5Gu+tuTVgunCoOTWHQOc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=BBN2OtsP; arc=none smtp.client-ip=77.238.177.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oxGrrEHh"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-444826c16ffso10482916f8f.1
-        for <linux-staging@lists.linux.dev>; Thu, 28 May 2026 00:42:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779954139; x=1780558939; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=I1RWKBmOblRQ9JzyUAc3NqFYDPuEb8OvU279r5Zg/zQ=;
-        b=oxGrrEHh0wyhU0tGp/w5405QtaP9dnRMbObUe8WSmNsdWRhkhrzxwR6cMeMFLraD0L
-         3fl7xl/5E/NcJYuBElYVHRs5ze/rABIOZzM3djtupRG+MfSXDui2CS2HS292TAuR4WBp
-         VgI5pv5o6snK8DKXY9BJXE4AagMPBfwbWVzXBbSYSeX0r1AP+wstW1btnICowZsMN3RK
-         Rgs+YXJr296vhV+NDnZx6gkCzC8hPCx9YrZ9E8QaeYdRfQdrgGqGytrrQRICnLhkmEyp
-         MDEPCpKfpnxhapbc3E8o1Fb0zE21YCp2IdOxEwoglWfg+PeFZQC5MPnXFQTSHmqfgJXu
-         OJSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779954139; x=1780558939;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=I1RWKBmOblRQ9JzyUAc3NqFYDPuEb8OvU279r5Zg/zQ=;
-        b=jDMkfVwtRPkdW4pp2l/26ETFqoS/q8nTsPkzQWeK0coJh2mYfE0zmo0qWpjcQjtu6P
-         zQxqlRJX0mgzB+Qqh0N1CO5f0oFL/FqIUbrM4fW3z/53TcZLx6zRFyIz5poR6BmlgWaP
-         UsIOkHIgOX8mINZwn0yWPulsetYAtFI1xPrHFIqIwJNzO71SF2SRll7VQ3YCFlZaLgTl
-         lYAK8Kf7NTdtIrQecYStdN+5yL8D+K96MDz/1fu3AL05u9KBg+WDnkNIjJBDNlPHqssp
-         4nGjmnMl7+f7iFHKd5Wen7TZQIdD8efeCheB00wPfNef/EgtCg3U+6uA+Z5jStK/B/2S
-         wu6Q==
-X-Forwarded-Encrypted: i=1; AFNElJ8kO6LKWj7jP/K6l+hL9mI5If3KQWP5Qm5JYpT2ugcRbivnGkX3rPSIaL8eCofexLBmdSOuEqIgKkVyBz5O@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw6bhFGIfjT2f9TshJ33OqrjBnvM1pdmcyCHt0ZTWtjVoXhQRTG
-	bqoH7iAjTsNc4LyvLXudcy51LO2uTPo64N8i7RDEDI2xR5sn2xjdDCDG
-X-Gm-Gg: Acq92OEc9SIEZmEexpjZRwqxvNsuyoTcbDHQTXLIF37IgbK72WI6P/dthUMr53xwsya
-	suhmsgzz4C1knyXklpYduMxIe0//CvRjTQGJUTjGAa/AVDSivYWzEUl7QQYdh5+BPlAySZ1Ke9G
-	sgqybHC8XhI3OUrwr3AZ4yIJhl9sed/HuQX1WbxK3zF/ewrBhh5xdbTNbX+8dLsF26CcAceQTan
-	rJKyOxoM5vQFRTXBq6QEu8O6SHRys/OPc5tAveChbMSDKoy0q3VM9Ma/3EPhpNq56dfoSwAcLXc
-	uWH2549PRQJLwMaXAqMqzlTVBEyjs/mO8Zsyl+FV4ScAGcHY0CyDllEgrJG6DjXgx163AvUIovC
-	AKwSYL2w/oAA+8TUnzYZDUt/n7D+GlIK0+idZPBEMW4ScYODR+iSo3UQhNiHMYODQqHZQ42uGXZ
-	AHW8rHkPGkEXHWkiVfSG6ocvTRmEJpQXt5nA==
-X-Received: by 2002:a5d:6f01:0:b0:45e:e95c:8106 with SMTP id ffacd0b85a97d-45ee95c81f4mr1853395f8f.13.1779954139501;
-        Thu, 28 May 2026 00:42:19 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45edb5b19aasm12894837f8f.25.2026.05.28.00.42.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 May 2026 00:42:18 -0700 (PDT)
-Date: Thu, 28 May 2026 10:42:14 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: artur.ugnivenko@gmx.de
-Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev, ahmet@sezginduran.net
-Subject: Re: [PATCH v8 3/3] staging: rtl8723bs: refactor queue priority
- initialization
-Message-ID: <ahfx1lZoIlL4IeCs@stanley.mountain>
-References: <20260525163532.20317-3-artur.ugnivenko@gmx.de>
- <20260525173619.5012-1-artur.ugnivenko@gmx.de>
+	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="BBN2OtsP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1779958854; bh=Az3gzCkfjkDRlsIJE8Rt9q6fKbxdI7zwJMmynTHKUx4=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=BBN2OtsPS1bVliBBvknDE38Y+a1j2a1fzqcVOX3On2LW8xNaX226fA2Bd4ZnlJnKGJdDBGhZ5DNb13S1ubg9YQo1usY0bAgbbpWvdwlZzjXY5fVFns5K5tF7z+ZG15a+qFANjy/23rVL4UaFdwrqPKCGks2SsvoaUQs5ZdYeMd3HZcevRxpuATwi8d+X/l35LOJf7mV4aK3rB3fUs2Ap1HQ/FITzqk1Q7fXBGn4JKFLtVDGl0fbz1rsxHozBlezJUwhzTnw7kduJBQK1PBie+bZSxF76LLOEp1eohvZ07an+DohX+/o2iYiApWEdf/a7tayFNBTjJsh8beWKgbxfEA==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1779958854; bh=wso3c2il+EcAYJKaNd0Cr9vsNTu2bwyNVwH2wiMpUJI=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=bubYfKGs+gmBiYZAZUuI+8RVaof+QAE9poFxm7uAb/jn4uA7wH9eUajCUcA/kNouOYpq2Vn7Hq4cyeWvbwocn9E+bpDTZmEEeVXw2GJfUvW7D5+5Ewqu/0SfLPdbxDtmOsKDTrjr6kv4tTtDBZioCT8ThGH02X1vNUloznN8omXPHmCWskXEGoHdU7gvylD6AJBQy+gh7b5YIYZqn+Re41okp3cS3FM4jIRZTNGqLcbumDQhv34+m1QkoGEokHKs0K7elwpJeCbhxCLbB3s1YgvnGo7RT9DRsMyb5dvMyDMsEGTfIH59TwRmxWt2OCOUw0hamAYlXsTqmUNkZtmYhQ==
+X-YMail-OSG: SrA.zcAVM1nKxjPs4CBNe3QbWGZKlzzLUZWnUtB_ALOgDhCb_BHymUaoFyfc2Tp
+ XPtIwoljMGcFv52uH7OmSS_EPgYobIi1BeLUatpaH737Z3nueqUdvxOK1cAmRBOzbrBccjMn0yM6
+ wP6Ps77UfiOr.fHynCubZD7J3Vq6yxq3qqYIITHQFA4tuiAd3iH1yQaVsrHQdrjAOpZ9Y1ZjhFgR
+ d_N9ANJlrE4JQBrQNAX88DHU8Y21aH.AiLEmGonKWztgTwMJAE4pIn2aNXcidr5lNaWZhbnXxLmR
+ 793xvC5EQnQ6naq5JBIXGU_WTdoQoGD8cPo7in8HpZht3mg6DHwAjt5bSfsqiI2TNOJNsK3.9i38
+ cTYqyKdRSTp4xAsb3YtR3RtUSvnAoTJkmx9rVqIPAxvXc2uHNGWuLj5yV1fQOnRjPBCf26SbDjFu
+ x.SKwvIzgU0.XsQnkmlhcDsNfimYVYSQzVd_3gbSqwDDZGQTeeRHWAqoZKk32XmWJgz4OVKDsVFb
+ 4TdgNYQhIGP2WrV6Z0L30aFm95_hhQXCfjp.WeAwMzYWsUqHD5mApVBlm9ro6D_RGLmNy4bVYq5P
+ Zzs4BryRUqAowGTDkVXuycRDgWKw6qZhsNK4W3fykqsmtG0klIq9rFbIZ4t5Zj4y1H.FSBarE5km
+ mWFJ5xyca5xJafCcZ2nW97afQkOlD6khTKlunn03MJ200j8WpqOyXyNgm7y9X5LxAIBZZ_xocpev
+ rZelIB9fAW5CEyZc1v7IwOWQoxagB7A2B0oKvEteii5k2ROjAORjwHVPjHvyi2nonVBTUTANT7oV
+ mz5ue0Cq3g56m0KB7Nl7ckl.Xo4QJ7PeNXxbXspZBtIxq3P3.AUpk5xUD8_CRADh0otwhC27ywWl
+ .QyExf2cJl5dDt6GsaDBvXWzbamqKqNc.53N_EXYTzWsy81D792AkvQ3xTPvK6xUcUz9YRYxsQ9q
+ gDIt8EFLsyH73ZzXqx8h_ndDaITxYa38NmupDvqLOWgReJnC2H7O5qTzp81nr6wiPPxRPCW2KZ7A
+ RYWn.dupD5D7wCanKQCRLyrgEhEbU4YZ9yKI0sP27wTdJ5Yu3oPk0GsdWxTVG_7FXqmJDMqn56Lf
+ q7ngBbzdfgiv4zePBGHvcNF9eC0XShPvikqaSkAYdp.IFwFkZVJEKbp9OvuPaUuDZDlqcnDtS.Y8
+ _jDxvwKeXlbnLvlnSzRD5Ak3wjZV6LnOnWc13dixMycdRY3bhWXkMEjsj5NOzyU.ZnHK2Kb8xIIo
+ cBL70T0M..Fsvxu4StObAtbeHRkEavsFSqE8ccurKKFLxb5yeOCmK_bcuc8U3iHjag1IQficnleu
+ KlLitmYH.M1ap3Blwe2fihUIhR.plDsYlolzCVPwtPKh.nmQIQpaxZCOxLLmEGIz4j.5A2QNXSqD
+ uwQaEWYekPn0Ksd56.5XikdRbe_5wrfQLTgmrU_6eBMZsiez1GXHSUm230unJN_XIO7zeIPOD2Se
+ VRx.hHKXZM3BSLdu9bnN17vfpDCh.atkyJKFBfYpLvUDNaOzWLkWLBRHEPpEfn026CJTc00flaoT
+ omP6LvlEpJJSWPcRPDEtnFXTw2zK_4TOSuDkPOYZ5ZbqkVpHmu0CvaWVJIa3VB3sfzaEM1poruZ.
+ YoexGavwj8nCUB_iqAbtncjv7shMiOT6L85.ymYSmSRC79SJ4GSg75yngPx9Sh.U.WRG5bzinJnu
+ 3g45rQxsVfM5_huPzbo609KYNgO13jtuopy.fx8aysyFYxFe7KJBnWDzqtDVUJgRwbNNg9VslFXU
+ Ps8iq6aBAT1R5UzXjJmyLAYDV_PnhaSi5zDlCDCB3CGXInn3JN4ps3FzmTnXEhelxYZGM4M9AbXD
+ jG4_TWEj.8z9uZjJjqPB74BKL0oIZaLVHcytuuwfSITmPRYe6tQjZ.ZHsFmyOJpzTW.huyvylCj.
+ ULXFmEUD_dVGkTaHvlZpYwIaMfJReRAqQSrHE0v_2SKFZ0bQGFEh_vo8AhxTsy0wb8xTkuE7C5EH
+ tIf64G97FKzl9DrXpCjaL80qRolORT4b0W_Rq3gBWpPVnUyRrF9IzvB7t4wQ6gVCDMFZoebspzO6
+ XHuZ5Vfn.jdHTLBMUENChhzuc4Oqtn8s1KYA35znUTzZ47.2nGa885X30PkyMJ0Katx8IYjsXUVD
+ 05LScVNn.m2GQvqIPCTSWhi63BsXfTdH7hZqQGs1g7_Ws6wSVTsxfWe2_pWX2RgJBQVtdc_8GWwa
+ dsrUuPKh47DII3OpT8akNXlT6grbjm0Vli3SZwaux3QVFdTCOv0OrafZFpliWEekAw9pM30dCq6W
+ 1qn.zJ04cWUNk.UOODwbL6Bomh14dLIwXMYRgoSBD_1KUz3oh2qwLb4454dOorYCc3A--
+X-Sonic-MF: <tomasz.unger@yahoo.pl>
+X-Sonic-ID: c8918c96-bc88-4111-9fe3-caf820e92147
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic310.consmr.mail.ir2.yahoo.com with HTTP; Thu, 28 May 2026 09:00:54 +0000
+Received: by hermes--production-ir2-89844b765-v28ct (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID feb719bba49da831d4499f154d4a9db5;
+          Thu, 28 May 2026 09:00:49 +0000 (UTC)
+From: Tomasz Unger <tomasz.unger@yahoo.pl>
+Date: Thu, 28 May 2026 11:01:58 +0200
+Subject: [PATCH] staging: rtl8723bs: fix spelling mistake found by
+ codespell
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260525173619.5012-1-artur.ugnivenko@gmx.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260528-fix-typo-rtw-mlme-v1-1-2172d3227b00@yahoo.pl>
+X-B4-Tracking: v=1; b=H4sIAIUEGGoC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDUyML3bTMCt2SyoJ83aKSct3cnNxUXWPTpFRLQ3PL5BQTUyWgvoKiVKA
+ isJnRsRB+cWlSVmpyCcggpdpaAF5K0MF1AAAA
+X-Change-ID: 20260528-fix-typo-rtw-mlme-35be9179cd45
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Tomasz Unger <tomasz.unger@yahoo.pl>
+X-Mailer: b4 0.15.2
+References: <20260528-fix-typo-rtw-mlme-v1-1-2172d3227b00.ref@yahoo.pl>
 
-On Mon, May 25, 2026 at 07:36:19PM +0200, artur.ugnivenko@gmx.de wrote:
-> From: Artur Ugnivenko <artur.ugnivenko@gmx.de>
-> 
-> Pack individual priority values into an enum-indexed array
-> to simplify the initialization code and prevent passing around
-> six loose values as function parameters.
-> 
-> Signed-off-by: Artur Ugnivenko <artur.ugnivenko@gmx.de>
-> ---
-> Changes in v8:
-> - Remove the struct from v7, use an enum-indexed array instead
-> - Remove other lines ending in parentheses fixes to keep the
->   commit small
-> Changes in v7:
-> - Add changelog.
-> - Add transmit_queues struct in include/drv_types.h to improve
->   style of _InitNormalChipRegPriority
-> Changes in v6: Make the patch apply to gregkh/staging-testing.
-> Changes in v5: No changes in this patch.
-> Changes in v4: No changes in this patch.
-> Changes in v3: Split the patch into multiple patches.
-> Changes in v2: Make patch apply to gregkh/staging-testing.
-> 
->  drivers/staging/rtl8723bs/hal/sdio_halinit.c  | 108 +++++++++---------
->  drivers/staging/rtl8723bs/include/drv_types.h |  10 ++
->  2 files changed, 65 insertions(+), 53 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit.c b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-> index 6f2aea984b30..01911188fd44 100644
-> --- a/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-> +++ b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-> @@ -188,25 +188,18 @@ static void _InitTxBufferBoundary(struct adapter *padapter)
->  	rtw_write8(padapter, REG_TDECTRL + 1, txpktbuf_bndy);
->  }
->  
-> -static void _InitNormalChipRegPriority(
-> -	struct adapter *Adapter,
-> -	u16 beQ,
-> -	u16 bkQ,
-> -	u16 viQ,
-> -	u16 voQ,
-> -	u16 mgtQ,
-> -	u16 hiQ
-> -)
-> +static void _InitNormalChipRegPriority(struct adapter *Adapter,
-> +				       u16 queues[TX_Q_MAX])
->  {
->  	u16 value16 = (rtw_read16(Adapter, REG_TRXDMA_CTRL) & 0x7);
->  
->  	value16 |=
-> -		_TXDMA_BEQ_MAP(beQ)  |
-> -		_TXDMA_BKQ_MAP(bkQ)  |
-> -		_TXDMA_VIQ_MAP(viQ)  |
-> -		_TXDMA_VOQ_MAP(voQ)  |
-> -		_TXDMA_MGQ_MAP(mgtQ) |
-> -		_TXDMA_HIQ_MAP(hiQ);
-> +		_TXDMA_BEQ_MAP(queues[TX_Q_BE])  |
-> +		_TXDMA_BKQ_MAP(queues[TX_Q_BK])  |
-> +		_TXDMA_VIQ_MAP(queues[TX_Q_VI])  |
-> +		_TXDMA_VOQ_MAP(queues[TX_Q_VO])  |
-> +		_TXDMA_MGQ_MAP(queues[TX_Q_MGT]) |
-> +		_TXDMA_HIQ_MAP(queues[TX_Q_HI]);
->  
->  	rtw_write16(Adapter, REG_TRXDMA_CTRL, value16);
->  }
-> @@ -231,17 +224,18 @@ static void _InitNormalChipOneOutEpPriority(struct adapter *Adapter)
->  		break;
->  	}
->  
-> -	_InitNormalChipRegPriority(
-> -		Adapter, value, value, value, value, value, value
-> -	);
-> +	u16 queues[TX_Q_MAX];
+Corrected typo in comment:
+ - varable -> variable
 
-Don't declare a variable in the middle of a function.
+Found by codespell.
 
-> +
-> +	for (int i = 0; i < TX_Q_MAX; i++)
-> +		queues[i] = value;
->  
-> +	_InitNormalChipRegPriority(Adapter, queues);
->  }
->  
->  static void _InitNormalChipTwoOutEpPriority(struct adapter *Adapter)
->  {
->  	struct hal_com_data *pHalData = GET_HAL_DATA(Adapter);
->  	struct registry_priv *pregistrypriv = &Adapter->registrypriv;
-> -	u16 beQ, bkQ, viQ, voQ, mgtQ, hiQ;
->  
->  	u16 valueHi = 0;
->  	u16 valueLow = 0;
-> @@ -263,50 +257,58 @@ static void _InitNormalChipTwoOutEpPriority(struct adapter *Adapter)
->  		break;
->  	}
->  
-> +	u16 typical_queues[TX_Q_MAX] = {
-> +		[TX_Q_BE] = valueLow,
-> +		[TX_Q_BK] = valueLow,
-> +		[TX_Q_VI] = valueHi,
-> +		[TX_Q_VO] = valueHi,
-> +		[TX_Q_MGT] = valueHi,
-> +		[TX_Q_HI] = valueHi,
-> +	};
-> +
-> +	u16 wmm_queues[TX_Q_MAX] = {
-> +		[TX_Q_BE] = valueLow,
-> +		[TX_Q_BK] = valueHi,
-> +		[TX_Q_VI] = valueHi,
-> +		[TX_Q_VO] = valueLow,
-> +		[TX_Q_MGT] = valueHi,
-> +		[TX_Q_HI] = valueHi,
-> +	};
+Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
+---
+ drivers/staging/rtl8723bs/core/rtw_mlme.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Same.
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+index 4fb74729180f..43587a927d17 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+@@ -52,7 +52,7 @@ int	rtw_init_mlme_priv(struct adapter *padapter)
+ 	pmlmepriv->pscanned = NULL;
+ 	pmlmepriv->fw_state = WIFI_STATION_STATE; /*  Must sync with rtw_wdev_alloc() */
+ 	pmlmepriv->cur_network.network.infrastructure_mode = Ndis802_11AutoUnknown;
+-	pmlmepriv->scan_mode = SCAN_ACTIVE;/*  1: active, 0: passive. Maybe someday we should rename this varable to "active_mode" (Jeff) */
++	pmlmepriv->scan_mode = SCAN_ACTIVE;/*  1: active, 0: passive. Maybe someday we should rename this variable to "active_mode" (Jeff) */
+ 
+ 	spin_lock_init(&pmlmepriv->lock);
+ 	INIT_LIST_HEAD(&pmlmepriv->free_bss_pool.queue);
 
-> +
->  	if (!pregistrypriv->wifi_spec) {
-> -		beQ = valueLow;
-> -		bkQ = valueLow;
-> -		viQ = valueHi;
-> -		voQ = valueHi;
-> -		mgtQ = valueHi;
-> -		hiQ = valueHi;
-> +		_InitNormalChipRegPriority(Adapter, typical_queues);
->  	} else {
->  		/* for WMM , CONFIG_OUT_EP_WIFI_MODE */
-> -		beQ = valueLow;
-> -		bkQ = valueHi;
-> -		viQ = valueHi;
-> -		voQ = valueLow;
-> -		mgtQ = valueHi;
-> -		hiQ = valueHi;
-> +		_InitNormalChipRegPriority(Adapter, wmm_queues);
->  	}
-> -
-> -	_InitNormalChipRegPriority(Adapter, beQ, bkQ, viQ, voQ, mgtQ, hiQ);
-> -
->  }
->  
->  static void _InitNormalChipThreeOutEpPriority(struct adapter *padapter)
->  {
->  	struct registry_priv *pregistrypriv = &padapter->registrypriv;
-> -	u16 beQ, bkQ, viQ, voQ, mgtQ, hiQ;
->  
-> -	if (!pregistrypriv->wifi_spec) {
-> -		/*  typical setting */
-> -		beQ = QUEUE_LOW;
-> -		bkQ = QUEUE_LOW;
-> -		viQ = QUEUE_NORMAL;
-> -		voQ = QUEUE_HIGH;
-> -		mgtQ = QUEUE_HIGH;
-> -		hiQ = QUEUE_HIGH;
-> -	} else {
-> -		/*  for WMM */
-> -		beQ = QUEUE_LOW;
-> -		bkQ = QUEUE_NORMAL;
-> -		viQ = QUEUE_NORMAL;
-> -		voQ = QUEUE_HIGH;
-> -		mgtQ = QUEUE_HIGH;
-> -		hiQ = QUEUE_HIGH;
-> -	}
-> -	_InitNormalChipRegPriority(padapter, beQ, bkQ, viQ, voQ, mgtQ, hiQ);
-> +	u16 typical_queues[TX_Q_MAX] = {
-> +		[TX_Q_BE] = QUEUE_LOW,
-> +		[TX_Q_BK] = QUEUE_LOW,
-> +		[TX_Q_VI] = QUEUE_NORMAL,
-> +		[TX_Q_VO] = QUEUE_HIGH,
-> +		[TX_Q_MGT] = QUEUE_HIGH,
-> +		[TX_Q_HI] = QUEUE_HIGH,
-> +	};
-> +
+---
+base-commit: 7cb1c5b32a2bfde961fff8d5204526b609bcb30a
+change-id: 20260528-fix-typo-rtw-mlme-35be9179cd45
 
-No blank lines in the declaration block.
+Best regards,
+--  
+Tomasz Unger <tomasz.unger@yahoo.pl>
 
-regards,
-dan carpenter
-
-> +	u16 wmm_queues[TX_Q_MAX] = {
-> +		[TX_Q_BE] = QUEUE_LOW,
-> +		[TX_Q_BK] = QUEUE_NORMAL,
-> +		[TX_Q_VI] = QUEUE_NORMAL,
-> +		[TX_Q_VO] = QUEUE_HIGH,
-> +		[TX_Q_MGT] = QUEUE_HIGH,
-> +		[TX_Q_HI] = QUEUE_HIGH,
-> +	};
-> +
-> +	if (!pregistrypriv->wifi_spec)
-> +		_InitNormalChipRegPriority(padapter, typical_queues);
-> +	else
-> +		_InitNormalChipRegPriority(padapter, wmm_queues);
->  }
->  
->  static void _InitQueuePriority(struct adapter *Adapter)
-> diff --git a/drivers/staging/rtl8723bs/include/drv_types.h b/drivers/staging/rtl8723bs/include/drv_types.h
-> index 552d0c5fa47f..b2c43f53571a 100644
-> --- a/drivers/staging/rtl8723bs/include/drv_types.h
-> +++ b/drivers/staging/rtl8723bs/include/drv_types.h
-> @@ -373,6 +373,16 @@ struct adapter {
->  	unsigned char     in_cta_test;
->  };
->  
-> +enum transmit_queues {
-> +	TX_Q_BE = 0,
-> +	TX_Q_BK,
-> +	TX_Q_VI,
-> +	TX_Q_VO,
-> +	TX_Q_MGT,
-> +	TX_Q_HI,
-> +	TX_Q_MAX,
-> +};
-> +
->  #define adapter_to_dvobj(adapter) (adapter->dvobj)
->  #define adapter_to_pwrctl(adapter) (dvobj_to_pwrctl(adapter->dvobj))
->  #define adapter_wdev_data(adapter) (&((adapter)->wdev_data))
-> -- 
-> 2.54.0
