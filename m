@@ -1,93 +1,89 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from outbound.ms.icloud.com (ms-2003h-snip4-3.eps.apple.com [57.103.72.204])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D102C2F691F
-	for <linux-staging@lists.linux.dev>; Thu, 28 May 2026 07:03:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A91346ADA
+	for <linux-staging@lists.linux.dev>; Thu, 28 May 2026 07:06:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.72.204
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779951801; cv=none; b=VNOUD65se1vdlol2btHGksvzdalRorddqJ05uxyFyM647n6IvR8e1GCUFICF/EhrdqSFaqHuDTCEgWe/xEq1rTD9L0f8rucKCI2ggOe+mMbn1HBEqP5/cCjY3IAY//7Nf1/U0MnbIyHXIsTuXck1qNgg77BOvDW6FYscUx8h0PU=
+	t=1779951963; cv=none; b=ZFqJuSogCEF8XXIq+hQCyjbrUF3kl414NKqAOJIQIyfh+TahPOmm6JUOHlepr9dIHNulMU+70gkCPNkRjcRewb/hIg0Z8UvDHz7DEfPPsB7rZYtb88qJ3zP/ksmE8IhVeuos4JgnhR77b+Gxat4+yEx3ZiBvHo3uGcCBC9IdFKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779951801; c=relaxed/simple;
-	bh=5VNzfOEg6VGAdsyK/ZHVoomGoCKFoCKTmIynCeJnJEc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OGZtuOfJPc9F1CDhNbUoytWeh9/J1VY3Yk/n15hFX1ECwm7+DSHYaRQvKNBoAMWEUGXGcx2XVbgL6GiRzozjYXWtTHDNKs+Jdlm3bEd0a2FW5r21NSIhfIr3+wYmbIqr25UJcNWS1fPNnDWaPwDGhHCzfE+ystZsGa64hL0O6GY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DSApaT6n; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1779951963; c=relaxed/simple;
+	bh=PzSrbbjO3Nj698zgaa9i5Vx1J44ryNyr71HN4T2s39A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=e20cVngue7hpugx1lNCObxsASBf20nWqreP5igQWTk0Kk4eE9mVcG3Z8xBWxH0a0YaHBVeEHTteAe5znCf5aqpv545QFauYxoFVquTdHP7mfQ0LovsUa2mp3LN1y6+5HcS6mJqQxXtDt0hJfW0ALtK9+P27lD7sXyierDcKb+R4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=x7LBVdsf; arc=none smtp.client-ip=57.103.72.204
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DSApaT6n"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-44ccbd3290aso10797238f8f.2
-        for <linux-staging@lists.linux.dev>; Thu, 28 May 2026 00:03:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779951798; x=1780556598; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=EBZrKhk74LrTBZh0oPM3op03SUutQvWVzqnUjcR5+OM=;
-        b=DSApaT6nICDjlJ6CNuDmwgOMMfAofN1Nv7WMmL+WTPoRQ7HoSC/1gy05bMdNunR+iR
-         khhkwWOnyz7CxaCCL2yNLaSCPG0lwifhpoIs2pbsKJ34fa/vIa6mIQUKVTWvAnd/IweP
-         7EDFYOXZ75+sBuh/XYQeT0FHKuT154HWCSOvFKQSD9qpWlXTzgpRR33/2tQ83LVN2rM6
-         a6142rOcV6TRzMQ6wMk/RJeN/9Qt0UzP/5nNvphI7Ux4dKIcCoDuzbCqzr0QR+VFXdz2
-         DO3G/r2IwoXTb0D271FQr8WEqihuIqQ7FQ1zs9LpB0fpI6xiz7+CD5K92PkpRJSk3ryt
-         L1tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779951798; x=1780556598;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EBZrKhk74LrTBZh0oPM3op03SUutQvWVzqnUjcR5+OM=;
-        b=Fv+2blu+1h/7xs69pBM/iU7BVyZDAKRTDXvuTdxLfzdx43M7zK5tNwiHbLowrdsijq
-         PcwqRo7iUPE4kVuPKVr6W/YsIe/qHuZt4OW4TS+CdvBSD5Vm5QCc9+hOsAseoB48M1jy
-         4jme1tPcgpK5+8e2DOID3e4BvHrTkezCD8hNe0tGb1uEEzn2gRuM4mXwiCS0bIfSGhMJ
-         1E3/D6sEqZB3WxgD9iW0nsoUK+KK4Y9JjHR6yHQ+XEBUJVlqI5M4WdwWNEFfTfozPX2f
-         GWT2VFzPQDGWlcdJPXRJ6JQqPyZCHl0VbNBs9cRH1njQt5wN5MvlLY87QHklF0d2pBJ4
-         lbwg==
-X-Forwarded-Encrypted: i=1; AFNElJ/Rir3ePni/F1+5WCSOQJBi8hKpNbWHc7V/1jcvmKHGrQov7ZzLmrway9EUprDutOdC4H0hq8DZlOVkooON@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy7sQG+AcqXsWB0jyZkrxE5OfWHbLzHqNDIOP7p2QZa+IgM+N3i
-	Mr5i300r1oCcloK1YgGixFxHcNsz314i9hNm7kcEUnbwniYUZgYSjlJQ
-X-Gm-Gg: Acq92OG9RCPJ7Y/NFp0JGugu6mvwsUz/z43ksCFZEPQ50uJe8TfcuVqWQqE9tjdQ9wO
-	+guddCcI5MkjEVNTaHdqzYHKee5/pWqeKu2JeIaUm6hWRU3arG2ihyDCvAgm4g3VA52fz0gGiM6
-	rAO+hLqT3vAe0qqWiRdZZ/fwWxfy/obo6KjnSAZ++o1UB/cIpZxuuHmjIpHysZb2n3RDmo6akxr
-	MV6dZjw9O/4jywIgXDWArfg9xUivCD9KmQiUfF8LffV2THKWbBWf1V+Fu654msov5MMTwEoKNSK
-	e49eZZwP/HB1ye8ru7nHUxqVN0O9uP03YSzUevmDAUU3j/oH+j9XM6OJ5dm7SEWVgC/scgeKEKG
-	KweAHS9fGjeRnUD+TmItiJvKza5y7n7q6+ELx7Gkg8TIq03NDOPs+qi+Tf1h8tumboNfoo/rmUl
-	WgIn2BbD5Lbp9Rcw7A+BRgg2g2TPPMoVtewQ==
-X-Received: by 2002:a05:6000:41dd:b0:45e:ea68:523b with SMTP id ffacd0b85a97d-45eea6852a1mr1137165f8f.10.1779951798120;
-        Thu, 28 May 2026 00:03:18 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45ee5a84e92sm3060005f8f.35.2026.05.28.00.03.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 May 2026 00:03:16 -0700 (PDT)
-Date: Thu, 28 May 2026 10:03:12 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Bastien Cossette <bastiencossette29@icloud.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2] staging: rtl8723bs: remove unnecessary NULL check
- before vfree
-Message-ID: <ahfosFfVG6O7xB6E@stanley.mountain>
-References: <20260528070045.40135-1-bastiencossette29@icloud.com>
+	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="x7LBVdsf"
+Received: from outbound.ms.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-west-3a-100-percent-11 (Postfix) with ESMTPS id 84BB518000B4;
+	Thu, 28 May 2026 07:05:59 +0000 (UTC)
+X-ICL-Out-Info: HUtFAUMEWwJACUgBTUQeDx5WFlZNRAJCTQtMHV8HWxxDClYBXQ5LVxQEGlIeQwJXHloXQB5SH0YVC0FzBFQHXQVdVlACWktUFAQRUAFYHlZeWhdeTUUID0QZEFYBWFZdBU0aXBhZDxwdSlZaDlsERxQXG1wAFxtGAgQjAl8ARQJeCVYBMBcPVk1QG18CQg8cE1YVEwBeDw9MC0gBWwdeAEgJTwNYAl8cRAlLAlgaWh8SWAtHBFIFUR9KC1YZQw4ASXkRUAFYHlZeWhdeUxcfSwBcRVoOWwRHFA==
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1779951961; x=1782543961; bh=77W6e9ChAhisA1c7CykcZFicTCcJh1EbUpOJn0ib/Z8=; h=From:To:Subject:Date:Message-ID:MIME-Version:x-icloud-hme; b=x7LBVdsfiB5D+hqc/Q7Mbs7oe1I9859+OWRjPscCSOUJ3Oy7wVoiLeCCPNyW42N2TTMDae3BwW5+MLjqC/TFrdUiRwiPIHczkchoBOQhdzAbxRXwbC/oNxR2HYbesKBIDhPE5BEKFygSBPHB18znyWCWym2RF27w+Opq+p9UH05o3jmjKZUF/XSfQMAPSgU1HssXrHUNlRa/vJy4MKrYrTqoyDRDxLoAILhk6vkO5niRgjz7onlATjGl76kUZOJgg83hQryo4STPNv0nfSvNYXHdy4BmRlTg3FIpcBYSiZTcuG+cKlfWj5iNA02xUvgq+r3HigSKBInqDZ3m6Dr5VA==
+Received: from BastienPC.localdomain (unknown [17.57.154.37])
+	by p00-icloudmta-asmtp-us-west-3a-100-percent-11 (Postfix) with ESMTPSA id 8B53F1800104;
+	Thu, 28 May 2026 07:05:58 +0000 (UTC)
+From: Bastien Cossette <bastiencossette29@icloud.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Dan Carpenter <error27@gmail.com>,
+	linux-staging@lists.linux.dev,
+	Bastien Cossette <bastiencossette29@icloud.com>
+Subject: [PATCH v3] staging: rtl8723bs: remove unnecessary NULL check before vfree
+Date: Thu, 28 May 2026 03:05:54 -0400
+Message-ID: <20260528070554.40315-1-bastiencossette29@icloud.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260528070045.40135-1-bastiencossette29@icloud.com>
+Content-Transfer-Encoding: 8bit
+X-Authority-Info-Out: v=2.4 cv=FJQWBuos c=1 sm=1 tr=0 ts=6a17e957
+ cx=c_apl:c_pps:t_out a=qkKslKyYc0ctBTeLUVfTFg==:117 a=NGcC8JguVDcA:10
+ a=x7bEGLp0ZPQA:10 a=KAl3_diT9EkA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=v3ZZPjhaAAAA:8 a=plp6AU9oHt37rUNYP1cA:9
+X-Proofpoint-ORIG-GUID: LGraAl2e0UCOEnSduERnlqCXtIbLVZQt
+X-Proofpoint-GUID: LGraAl2e0UCOEnSduERnlqCXtIbLVZQt
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTI4MDA2OSBTYWx0ZWRfX1vLupWBSZzjB
+ rp5r/WIlOOlc35BvVbRfsKYqsp07HrVSVutnc3+qZ39PMdC42vy2D2OiENhilUwRbU3bANFfRCa
+ 59QTqqJ0Dt3MSCRZ717BhWfnB0is773Ed1JyVRcKiBXiY4HBbVcTeSA0tFJjrc1K469L4RbKGaS
+ kIh+Ss6xzxHTQ4gHswbH2pRNTdYdX/xwvtkw7FroRa6eY+pqYOtAACijO8ghz9/jhJOgs6ra0jD
+ AC3EFlt7o2mKGAB6KDPSl2yNUT/FubRKM+zGFgR99rBV6e/JmvQHUZIC6BTlMwRGsbFsgZSGQR8
+ sd1ByLFnipOynqIaC5CvsNSyCjfdWmzHrWdOHPDXSXgdSjoz2E9eK2sumVXLbY=
+X-Apple-Category-Label: MjI3NzMzNjI2Njg6JGNhdGVnb3J5JF9QZXJzb25hbCw=
 
-On Thu, May 28, 2026 at 03:00:45AM -0400, Bastien Cossette wrote:
-> The vfree() function handles NULL pointers natively. Cleaning up the
-> redundant if check simplifies the code and adheres to core kernel
-> coding styles.
-> 
-> Signed-off-by: Bastien Cossette <bastiencossette29@icloud.com>
-> ---
+The vfree() function handles NULL pointers natively. Cleaning up the
+redundant if check simplifies the code and adheres to core kernel
+coding styles.
 
-Please don't resend patches in the same day.  Also we need a note
-about what changed.
+Signed-off-by: Bastien Cossette <bastiencossette29@icloud.com>
+---
+ drivers/staging/rtl8723bs/hal/hal_com.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
+diff --git a/drivers/staging/rtl8723bs/hal/hal_com.c b/drivers/staging/rtl8723bs/hal/hal_com.c
+index 728a2171fbcb..00c511b38595 100644
+--- a/drivers/staging/rtl8723bs/hal/hal_com.c
++++ b/drivers/staging/rtl8723bs/hal/hal_com.c
+@@ -23,14 +23,11 @@ u8 rtw_hal_data_init(struct adapter *padapter)
+ 
+ void rtw_hal_data_deinit(struct adapter *padapter)
+ {
+-	if (padapter->HalData) {
+-		vfree(padapter->HalData);
+-		padapter->HalData = NULL;
+-		padapter->hal_data_sz = 0;
+-	}
++	vfree(padapter->HalData);
++	padapter->HalData = NULL;
++	padapter->hal_data_sz = 0;
+ }
+ 
+-
+ void dump_chip_info(struct hal_version	chip_version)
+ {
+ 	char buf[128];
+-- 
+2.53.0
 
-regards,
-dan carpenter
