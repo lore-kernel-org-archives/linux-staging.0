@@ -1,189 +1,295 @@
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 455A7339872
-	for <linux-staging@lists.linux.dev>; Thu, 28 May 2026 07:35:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779953750; cv=pass; b=Dg1Ojbx00XzMFBRuMc1LWsOJurojceebeN5z7kFNABP+z5kVRDl3icA8vjpXIPFazYyxGbH7ygQ0FcyI26db48bXh+MP8XyY3c37dJEjB9vWDg1b9Ak8vIovb3yl041m0K61y5hIyFdKcsh4BumFXb/TqO/cFVz3smX3SdBFhxE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779953750; c=relaxed/simple;
-	bh=8Nvv30A+3WElDIyVWIGJ6U51jBycEW5osp0TGNnbCqA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qInms+TNtORQtleIaX2rmWVTDVfLAvyBIqgCExkl3QFnMHL6VTrQPYdi/Df4vbVF68AsRc/PJCnE4CnaxyI55+LaJsmeOCKAf202FeO/YSSgb5TxBjIaSbr3KvcaI33GCt5lNIO7ysqlsuJ2l4Mu9grsUTM1csE4lHgjDYElEcI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TihDamj8; arc=pass smtp.client-ip=209.85.160.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2703E346781
+	for <linux-staging@lists.linux.dev>; Thu, 28 May 2026 07:42:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779954142; cv=none; b=WYXnqzoH6X5mAyRgFNkiiP81fJ31Ym6ThVo2lz/V6htNlSi+dApRyiGXgcXeK4oR95POVmW6k14A1YlIIObgLkDsGdWUwQ6yCmyUGzWCVh7qAKnWUfGbE9lXJi8zToylif/kymqTp/GWf8erBdTtQuJaGc3+u+Fw5BEWAPnxkNM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779954142; c=relaxed/simple;
+	bh=L8Aju28SNnsa9X1jjSBrPb30i6ozHTGSebIJuIs7uOk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WMZNGjnEEURi52Oq01AiwvEusA8pc6TXHN8C+EL8XnKqdfRtfkTnUOA7hQnFsdEltqca0/qNVqiker5a8jR5HlOnk+tBw3SuN0EAn9Bokb3cLictxxr3BQNIWmN1M8tN8649tOKXEQ0abnxWR71LYGR30wYX7R5elG8E+iYrjDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oxGrrEHh; arc=none smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TihDamj8"
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-43b53f048beso5146906fac.1
-        for <linux-staging@lists.linux.dev>; Thu, 28 May 2026 00:35:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779953748; cv=none;
-        d=google.com; s=arc-20240605;
-        b=YyZCBsr1zNaIaxsKAWadpAKWTaqulyW/tWnjG+x8pMul/tIvlMtPDbuqXtU9ZOQNhM
-         SZeWv3TUKsp6doe7vVwHNkOjhInL+wWbGRpOamI0965cYi6d4neVnckwFXgCY9qG/4yH
-         hYyTmjSsyKrDzO+uORShMj1TIM290NrJC/TLwRgxbTw4mPyyhszeK/3xNq+v+Qz6tjVW
-         uhpkk1F7/lCOIeA1R7KMDl7A5GAXbfLB9DW+tG/3IpvzWWkuoJfz7xVeKyFTRC78u/Lm
-         qby7wQNpM+DE/08E2fBlARvZ3FhBD8jGN5o+3C3lNITyw3t8QRsFIBi6WhLGtUJE9e2i
-         ed6w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=T20GWQ7AAxX56WT8tx5xeyPGgn/3xota+hYuh6TNyvE=;
-        fh=ANAsC/NtPpRC00Qufa88ausxXqzzZKEJDhDViGTkIps=;
-        b=C84wFseo/KyKuVMMcCGyvJVFE4OJBhzt9iaX+F44hmDAh9+W5rmFfTgzA1X3E6JXWS
-         W28yPWN7IJqNgOvR6Orgdv+4EoNC4ieOqpcDnbJp51X6Fkg7lF01yCVdbnS6wlLqHrKA
-         nUITwoYpC3uBbj4zRe0tvNKCtpYOw1LTkEJFiku/VqB0s7oqK6Vit2qcdZlS4kp3zBwQ
-         yUJoAfZWCrPYcCeEHmJgoZPwulbKdxlZEuCndXFvFTupSwpvleVsBzXxO8evwndbhKU0
-         lsFJYCHSMBRex7BPcqlYiAJ5j2J1Ha84m1w+JCwSJeTY4pXgk9Ibeuc2t7NeA8vAa4P/
-         zMlw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oxGrrEHh"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-444826c16ffso10482916f8f.1
+        for <linux-staging@lists.linux.dev>; Thu, 28 May 2026 00:42:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779953748; x=1780558548; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=T20GWQ7AAxX56WT8tx5xeyPGgn/3xota+hYuh6TNyvE=;
-        b=TihDamj8O5bng0V+D2K3gwCq1s2nh2YmGut3tqt0Bqi3RlT/SDszgMKpSbWspOXIOH
-         kEsI4SW9N6SkhzwzfLmqynm2ZELZkPAPz+RN6YtCIzTMfkXB/KqoMLCKyaxAc1uZo6nT
-         z/tUuse0FgQsvOkHf3h33zjZGzsuFu+QmWyzl1oSLE35s7vptH4AR74jrQbchHiWfJHN
-         TR+plRjO2jjY8jIIYX9R6iTKpjmXUQTMzoP4gwNYwNep5tgBdpEuPWk8kXKuItUQe84h
-         8Lds0TiVjzX9jOd/fLM2Uk8P/bmaQFQMpirBnMyYjBpM54hQYExvUmf4Pen56VdL5lCi
-         VT0Q==
+        d=gmail.com; s=20251104; t=1779954139; x=1780558939; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=I1RWKBmOblRQ9JzyUAc3NqFYDPuEb8OvU279r5Zg/zQ=;
+        b=oxGrrEHh0wyhU0tGp/w5405QtaP9dnRMbObUe8WSmNsdWRhkhrzxwR6cMeMFLraD0L
+         3fl7xl/5E/NcJYuBElYVHRs5ze/rABIOZzM3djtupRG+MfSXDui2CS2HS292TAuR4WBp
+         VgI5pv5o6snK8DKXY9BJXE4AagMPBfwbWVzXBbSYSeX0r1AP+wstW1btnICowZsMN3RK
+         Rgs+YXJr296vhV+NDnZx6gkCzC8hPCx9YrZ9E8QaeYdRfQdrgGqGytrrQRICnLhkmEyp
+         MDEPCpKfpnxhapbc3E8o1Fb0zE21YCp2IdOxEwoglWfg+PeFZQC5MPnXFQTSHmqfgJXu
+         OJSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779953748; x=1780558548;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=T20GWQ7AAxX56WT8tx5xeyPGgn/3xota+hYuh6TNyvE=;
-        b=d/R9vcqAtMVVO6o8pXlYsVdgNtjLjA7HtogwHbSwESpb1d+jyzWV7MR2rhtwci/3Ty
-         T5lN9b83Rg3yAjioOSwoGvQ05TFQFGnwV+qCr2c0ugEz6rJqX+silazYSr928rLBhbq7
-         UKpzxUzLJVSLiNQIVQWWTB0FF27RfckAgclHlW1QUR9ADieuUF17vztbt1ThrFV8vkpI
-         z4vkelB8ARp8zQAEPPvmSQx2jc8d1swYdVrm3lblEyN2rfY3sjHmxs3LkOon4TfF+Gjy
-         HY5tDLeC6mf5pxUc6/nM8C0t94Irr50CnpiUS8gK3eCXcN40xNqeY0E4OczXW7Rijz4V
-         hdVA==
-X-Forwarded-Encrypted: i=1; AFNElJ+c+sg9uZC1+QOz7WEaPMftBT2xZOx9TvB1Yd/BXOr8maIP9h7ZSh/Iy58kr7F57ojAYd0j13S5g+U4dzPP@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz6Zo6DdPjiuRKYmewaEHpGv5wYYwxLEbxVdRUNUZZWkdmlY5r8
-	PoMA3RPyF85ZED8nimLGx8VuoIRXpxiBxzJ9neoeP8dJOp7nH9SabkUvynYip0RIB3sg5QZVM+Q
-	3YysTUzpsQy4PF1679I7CG87h9iiL2CU=
-X-Gm-Gg: Acq92OHEmpTko293ZcERKjRqsqjtpUuSfp/VnSCBHTC+fqs9uhMp+H0zGTCJjmNjXRh
-	yXL2jmQSYBiHEDjnPmsAM2mLm55bO0VqpfBy/6K0/M0gr+Bxqmy1zf14ZqQtvhtT3SyaKXvh9EY
-	XkeQdibht/+i79ykbi4bh49dpzUHT22rAJaVF8XNzY7N9N+cVkEPwNTiLrjBLNHdsk4/8Ubzd/g
-	AwKLrhgs43dtclTWkExFpz1c6VM3hrpdB6ZTvcuX3q39kOOEbqvKH/QMJq7BZEUnZepsoBJm5vI
-	oJnXBXlUxogI+t6676S5l2P3KxsRjknVth1Yvn5qd3XkN4KfDH7/+t+Os5ptC9DtSbkbKNle1O9
-	4Dno/
-X-Received: by 2002:a05:6820:1f12:b0:696:72e9:f92e with SMTP id
- 006d021491bc7-69dfa6b3709mr148717eaf.10.1779953748060; Thu, 28 May 2026
- 00:35:48 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1779954139; x=1780558939;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=I1RWKBmOblRQ9JzyUAc3NqFYDPuEb8OvU279r5Zg/zQ=;
+        b=jDMkfVwtRPkdW4pp2l/26ETFqoS/q8nTsPkzQWeK0coJh2mYfE0zmo0qWpjcQjtu6P
+         zQxqlRJX0mgzB+Qqh0N1CO5f0oFL/FqIUbrM4fW3z/53TcZLx6zRFyIz5poR6BmlgWaP
+         UsIOkHIgOX8mINZwn0yWPulsetYAtFI1xPrHFIqIwJNzO71SF2SRll7VQ3YCFlZaLgTl
+         lYAK8Kf7NTdtIrQecYStdN+5yL8D+K96MDz/1fu3AL05u9KBg+WDnkNIjJBDNlPHqssp
+         4nGjmnMl7+f7iFHKd5Wen7TZQIdD8efeCheB00wPfNef/EgtCg3U+6uA+Z5jStK/B/2S
+         wu6Q==
+X-Forwarded-Encrypted: i=1; AFNElJ8kO6LKWj7jP/K6l+hL9mI5If3KQWP5Qm5JYpT2ugcRbivnGkX3rPSIaL8eCofexLBmdSOuEqIgKkVyBz5O@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw6bhFGIfjT2f9TshJ33OqrjBnvM1pdmcyCHt0ZTWtjVoXhQRTG
+	bqoH7iAjTsNc4LyvLXudcy51LO2uTPo64N8i7RDEDI2xR5sn2xjdDCDG
+X-Gm-Gg: Acq92OEc9SIEZmEexpjZRwqxvNsuyoTcbDHQTXLIF37IgbK72WI6P/dthUMr53xwsya
+	suhmsgzz4C1knyXklpYduMxIe0//CvRjTQGJUTjGAa/AVDSivYWzEUl7QQYdh5+BPlAySZ1Ke9G
+	sgqybHC8XhI3OUrwr3AZ4yIJhl9sed/HuQX1WbxK3zF/ewrBhh5xdbTNbX+8dLsF26CcAceQTan
+	rJKyOxoM5vQFRTXBq6QEu8O6SHRys/OPc5tAveChbMSDKoy0q3VM9Ma/3EPhpNq56dfoSwAcLXc
+	uWH2549PRQJLwMaXAqMqzlTVBEyjs/mO8Zsyl+FV4ScAGcHY0CyDllEgrJG6DjXgx163AvUIovC
+	AKwSYL2w/oAA+8TUnzYZDUt/n7D+GlIK0+idZPBEMW4ScYODR+iSo3UQhNiHMYODQqHZQ42uGXZ
+	AHW8rHkPGkEXHWkiVfSG6ocvTRmEJpQXt5nA==
+X-Received: by 2002:a5d:6f01:0:b0:45e:e95c:8106 with SMTP id ffacd0b85a97d-45ee95c81f4mr1853395f8f.13.1779954139501;
+        Thu, 28 May 2026 00:42:19 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45edb5b19aasm12894837f8f.25.2026.05.28.00.42.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 May 2026 00:42:18 -0700 (PDT)
+Date: Thu, 28 May 2026 10:42:14 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: artur.ugnivenko@gmx.de
+Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, ahmet@sezginduran.net
+Subject: Re: [PATCH v8 3/3] staging: rtl8723bs: refactor queue priority
+ initialization
+Message-ID: <ahfx1lZoIlL4IeCs@stanley.mountain>
+References: <20260525163532.20317-3-artur.ugnivenko@gmx.de>
+ <20260525173619.5012-1-artur.ugnivenko@gmx.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260518102451.417971-1-paulk@sys-base.io> <20260518102451.417971-16-paulk@sys-base.io>
-In-Reply-To: <20260518102451.417971-16-paulk@sys-base.io>
-From: arash golgol <arash.golgol@gmail.com>
-Date: Thu, 28 May 2026 11:05:17 +0330
-X-Gm-Features: AVHnY4IhmJJCXbj-tzl_ytWMhmyKPHjpmYamO2huuqsWLPnQ9-WnNbsuHTjiYbE
-Message-ID: <CAMxPZkjhxJQ3ST6HrcwudkMzqwtvtVizng-PkiZd=xU4rrSxeA@mail.gmail.com>
-Subject: Re: [PATCH 15/16] media: sun6i-isp: Add support for MC-centric format enumeration
-To: Paul Kocialkowski <paulk@sys-base.io>
-Cc: linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-staging@lists.linux.dev, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260525173619.5012-1-artur.ugnivenko@gmx.de>
 
-Hi Paul,
-
-On Mon, May 18, 2026 at 2:02=E2=80=AFPM Paul Kocialkowski <paulk@sys-base.i=
-o> wrote:
->
-> Just make sure the provided mbus code is supported and carry on with the
-> existing implementation since the pixelformat is independent from the
-> mbus code.
->
-> The params video node only supports a single format and does not care
-> about the mbus format, but we can still report MC-centric support.
->
-> Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
+On Mon, May 25, 2026 at 07:36:19PM +0200, artur.ugnivenko@gmx.de wrote:
+> From: Artur Ugnivenko <artur.ugnivenko@gmx.de>
+> 
+> Pack individual priority values into an enum-indexed array
+> to simplify the initialization code and prevent passing around
+> six loose values as function parameters.
+> 
+> Signed-off-by: Artur Ugnivenko <artur.ugnivenko@gmx.de>
 > ---
->  .../staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c    | 9 ++++++++-
->  drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c | 3 ++-
->  2 files changed, 10 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c b/=
-drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
-> index 24e731bcabe9..372b9331bd6d 100644
-> --- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
-> +++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
-> @@ -436,8 +436,14 @@ static int sun6i_isp_capture_querycap(struct file *f=
-ile, void *priv,
->  static int sun6i_isp_capture_enum_fmt(struct file *file, void *priv,
->                                       struct v4l2_fmtdesc *fmtdesc)
+> Changes in v8:
+> - Remove the struct from v7, use an enum-indexed array instead
+> - Remove other lines ending in parentheses fixes to keep the
+>   commit small
+> Changes in v7:
+> - Add changelog.
+> - Add transmit_queues struct in include/drv_types.h to improve
+>   style of _InitNormalChipRegPriority
+> Changes in v6: Make the patch apply to gregkh/staging-testing.
+> Changes in v5: No changes in this patch.
+> Changes in v4: No changes in this patch.
+> Changes in v3: Split the patch into multiple patches.
+> Changes in v2: Make patch apply to gregkh/staging-testing.
+> 
+>  drivers/staging/rtl8723bs/hal/sdio_halinit.c  | 108 +++++++++---------
+>  drivers/staging/rtl8723bs/include/drv_types.h |  10 ++
+>  2 files changed, 65 insertions(+), 53 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit.c b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+> index 6f2aea984b30..01911188fd44 100644
+> --- a/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+> +++ b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+> @@ -188,25 +188,18 @@ static void _InitTxBufferBoundary(struct adapter *padapter)
+>  	rtw_write8(padapter, REG_TDECTRL + 1, txpktbuf_bndy);
+>  }
+>  
+> -static void _InitNormalChipRegPriority(
+> -	struct adapter *Adapter,
+> -	u16 beQ,
+> -	u16 bkQ,
+> -	u16 viQ,
+> -	u16 voQ,
+> -	u16 mgtQ,
+> -	u16 hiQ
+> -)
+> +static void _InitNormalChipRegPriority(struct adapter *Adapter,
+> +				       u16 queues[TX_Q_MAX])
 >  {
-> +       u32 mbus_code =3D fmtdesc->mbus_code;
->         u32 index =3D fmtdesc->index;
->
-> +       if (mbus_code && !sun6i_isp_proc_format_find(mbus_code))
-> +               return -EINVAL;
+>  	u16 value16 = (rtw_read16(Adapter, REG_TRXDMA_CTRL) & 0x7);
+>  
+>  	value16 |=
+> -		_TXDMA_BEQ_MAP(beQ)  |
+> -		_TXDMA_BKQ_MAP(bkQ)  |
+> -		_TXDMA_VIQ_MAP(viQ)  |
+> -		_TXDMA_VOQ_MAP(voQ)  |
+> -		_TXDMA_MGQ_MAP(mgtQ) |
+> -		_TXDMA_HIQ_MAP(hiQ);
+> +		_TXDMA_BEQ_MAP(queues[TX_Q_BE])  |
+> +		_TXDMA_BKQ_MAP(queues[TX_Q_BK])  |
+> +		_TXDMA_VIQ_MAP(queues[TX_Q_VI])  |
+> +		_TXDMA_VOQ_MAP(queues[TX_Q_VO])  |
+> +		_TXDMA_MGQ_MAP(queues[TX_Q_MGT]) |
+> +		_TXDMA_HIQ_MAP(queues[TX_Q_HI]);
+>  
+>  	rtw_write16(Adapter, REG_TRXDMA_CTRL, value16);
+>  }
+> @@ -231,17 +224,18 @@ static void _InitNormalChipOneOutEpPriority(struct adapter *Adapter)
+>  		break;
+>  	}
+>  
+> -	_InitNormalChipRegPriority(
+> -		Adapter, value, value, value, value, value, value
+> -	);
+> +	u16 queues[TX_Q_MAX];
+
+Don't declare a variable in the middle of a function.
+
 > +
-> +       /* Capture format is independent from proc format. */
+> +	for (int i = 0; i < TX_Q_MAX; i++)
+> +		queues[i] = value;
+>  
+> +	_InitNormalChipRegPriority(Adapter, queues);
+>  }
+>  
+>  static void _InitNormalChipTwoOutEpPriority(struct adapter *Adapter)
+>  {
+>  	struct hal_com_data *pHalData = GET_HAL_DATA(Adapter);
+>  	struct registry_priv *pregistrypriv = &Adapter->registrypriv;
+> -	u16 beQ, bkQ, viQ, voQ, mgtQ, hiQ;
+>  
+>  	u16 valueHi = 0;
+>  	u16 valueLow = 0;
+> @@ -263,50 +257,58 @@ static void _InitNormalChipTwoOutEpPriority(struct adapter *Adapter)
+>  		break;
+>  	}
+>  
+> +	u16 typical_queues[TX_Q_MAX] = {
+> +		[TX_Q_BE] = valueLow,
+> +		[TX_Q_BK] = valueLow,
+> +		[TX_Q_VI] = valueHi,
+> +		[TX_Q_VO] = valueHi,
+> +		[TX_Q_MGT] = valueHi,
+> +		[TX_Q_HI] = valueHi,
+> +	};
 > +
->         if (index >=3D ARRAY_SIZE(sun6i_isp_capture_formats))
->                 return -EINVAL;
->
-> @@ -697,7 +703,8 @@ int sun6i_isp_capture_setup(struct sun6i_isp_device *=
-isp_dev)
->
->         strscpy(video_dev->name, SUN6I_ISP_CAPTURE_NAME,
->                 sizeof(video_dev->name));
-> -       video_dev->device_caps =3D V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STRE=
-AMING;
-> +       video_dev->device_caps =3D V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STRE=
-AMING |
-> +                                V4L2_CAP_IO_MC;
->         video_dev->vfl_dir =3D VFL_DIR_RX;
->         video_dev->release =3D video_device_release_empty;
->         video_dev->fops =3D &sun6i_isp_capture_fops;
-> diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c b/d=
-rivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
-> index 0cc48e2bc8c6..2622e5a07817 100644
-> --- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
-> +++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
-> @@ -531,7 +531,8 @@ int sun6i_isp_params_setup(struct sun6i_isp_device *i=
-sp_dev)
->
->         strscpy(video_dev->name, SUN6I_ISP_PARAMS_NAME,
->                 sizeof(video_dev->name));
-> -       video_dev->device_caps =3D V4L2_CAP_META_OUTPUT | V4L2_CAP_STREAM=
-ING;
-> +       video_dev->device_caps =3D V4L2_CAP_META_OUTPUT | V4L2_CAP_STREAM=
-ING |
-> +                                V4L2_CAP_IO_MC;
->         video_dev->vfl_dir =3D VFL_DIR_TX;
->         video_dev->release =3D video_device_release_empty;
->         video_dev->fops =3D &sun6i_isp_params_fops;
-> --
+> +	u16 wmm_queues[TX_Q_MAX] = {
+> +		[TX_Q_BE] = valueLow,
+> +		[TX_Q_BK] = valueHi,
+> +		[TX_Q_VI] = valueHi,
+> +		[TX_Q_VO] = valueLow,
+> +		[TX_Q_MGT] = valueHi,
+> +		[TX_Q_HI] = valueHi,
+> +	};
+
+Same.
+
+> +
+>  	if (!pregistrypriv->wifi_spec) {
+> -		beQ = valueLow;
+> -		bkQ = valueLow;
+> -		viQ = valueHi;
+> -		voQ = valueHi;
+> -		mgtQ = valueHi;
+> -		hiQ = valueHi;
+> +		_InitNormalChipRegPriority(Adapter, typical_queues);
+>  	} else {
+>  		/* for WMM , CONFIG_OUT_EP_WIFI_MODE */
+> -		beQ = valueLow;
+> -		bkQ = valueHi;
+> -		viQ = valueHi;
+> -		voQ = valueLow;
+> -		mgtQ = valueHi;
+> -		hiQ = valueHi;
+> +		_InitNormalChipRegPriority(Adapter, wmm_queues);
+>  	}
+> -
+> -	_InitNormalChipRegPriority(Adapter, beQ, bkQ, viQ, voQ, mgtQ, hiQ);
+> -
+>  }
+>  
+>  static void _InitNormalChipThreeOutEpPriority(struct adapter *padapter)
+>  {
+>  	struct registry_priv *pregistrypriv = &padapter->registrypriv;
+> -	u16 beQ, bkQ, viQ, voQ, mgtQ, hiQ;
+>  
+> -	if (!pregistrypriv->wifi_spec) {
+> -		/*  typical setting */
+> -		beQ = QUEUE_LOW;
+> -		bkQ = QUEUE_LOW;
+> -		viQ = QUEUE_NORMAL;
+> -		voQ = QUEUE_HIGH;
+> -		mgtQ = QUEUE_HIGH;
+> -		hiQ = QUEUE_HIGH;
+> -	} else {
+> -		/*  for WMM */
+> -		beQ = QUEUE_LOW;
+> -		bkQ = QUEUE_NORMAL;
+> -		viQ = QUEUE_NORMAL;
+> -		voQ = QUEUE_HIGH;
+> -		mgtQ = QUEUE_HIGH;
+> -		hiQ = QUEUE_HIGH;
+> -	}
+> -	_InitNormalChipRegPriority(padapter, beQ, bkQ, viQ, voQ, mgtQ, hiQ);
+> +	u16 typical_queues[TX_Q_MAX] = {
+> +		[TX_Q_BE] = QUEUE_LOW,
+> +		[TX_Q_BK] = QUEUE_LOW,
+> +		[TX_Q_VI] = QUEUE_NORMAL,
+> +		[TX_Q_VO] = QUEUE_HIGH,
+> +		[TX_Q_MGT] = QUEUE_HIGH,
+> +		[TX_Q_HI] = QUEUE_HIGH,
+> +	};
+> +
+
+No blank lines in the declaration block.
+
+regards,
+dan carpenter
+
+> +	u16 wmm_queues[TX_Q_MAX] = {
+> +		[TX_Q_BE] = QUEUE_LOW,
+> +		[TX_Q_BK] = QUEUE_NORMAL,
+> +		[TX_Q_VI] = QUEUE_NORMAL,
+> +		[TX_Q_VO] = QUEUE_HIGH,
+> +		[TX_Q_MGT] = QUEUE_HIGH,
+> +		[TX_Q_HI] = QUEUE_HIGH,
+> +	};
+> +
+> +	if (!pregistrypriv->wifi_spec)
+> +		_InitNormalChipRegPriority(padapter, typical_queues);
+> +	else
+> +		_InitNormalChipRegPriority(padapter, wmm_queues);
+>  }
+>  
+>  static void _InitQueuePriority(struct adapter *Adapter)
+> diff --git a/drivers/staging/rtl8723bs/include/drv_types.h b/drivers/staging/rtl8723bs/include/drv_types.h
+> index 552d0c5fa47f..b2c43f53571a 100644
+> --- a/drivers/staging/rtl8723bs/include/drv_types.h
+> +++ b/drivers/staging/rtl8723bs/include/drv_types.h
+> @@ -373,6 +373,16 @@ struct adapter {
+>  	unsigned char     in_cta_test;
+>  };
+>  
+> +enum transmit_queues {
+> +	TX_Q_BE = 0,
+> +	TX_Q_BK,
+> +	TX_Q_VI,
+> +	TX_Q_VO,
+> +	TX_Q_MGT,
+> +	TX_Q_HI,
+> +	TX_Q_MAX,
+> +};
+> +
+>  #define adapter_to_dvobj(adapter) (adapter->dvobj)
+>  #define adapter_to_pwrctl(adapter) (dvobj_to_pwrctl(adapter->dvobj))
+>  #define adapter_wdev_data(adapter) (&((adapter)->wdev_data))
+> -- 
 > 2.54.0
->
-
-Tested on a LicheePi Zero Dock (V3s) with the following pipeline:
-
-ov5647 -> sun6i-mipi-csi2 -> sun6i-csi-bridge -> sun6i-isp-proc ->
-sun6i-isp-capture
-
-I verified MC-centric format enumeration on the ISP capture node with
-multiple mbus codes supported by sun6i-isp-proc.
-
-Tested-by: Arash Golgol <arash.golgol@gmail.com>
-
---=20
-Regards,
-Arash Golgol
