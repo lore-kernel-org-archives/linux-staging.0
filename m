@@ -1,134 +1,109 @@
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DECE3AF656
-	for <linux-staging@lists.linux.dev>; Thu, 28 May 2026 10:22:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.173
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779963726; cv=pass; b=Etzpo+HWmMPz25zmQP3pOe0/xVlW8TKGpslJCmWqfBgDjDoCId6eomjkJAMr/pe+OkYc6ib6v4vy8O1hmQhZSUJAnR0hvuo50jLX8xkgSO2vGXE74PBDwJWLAu5i3nkq9s1UHXmNiYCUpVRvUZRuU8BtZCkOWCqb5atVaUZVbI8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779963726; c=relaxed/simple;
-	bh=MXe6/m1adBwYTlEORw/Q2sCRsFwWpRWFlxkD3XmtGUY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=diKqwSahmuIpd9BD/kYzUuVN7PCJwhkvGcgYwl/BxQPH+LoYjxbAHCbeFVn57id61/x9am6t7pNsWLEuEzlKRdX9x7kKqRfjFf2SDRjrtyo3OZLNB3NwNSjoodyIKJZmYtg8ubN3Rbss898gy7Az4cledJmwCngD5xtMtE5t41U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=gRkWS5Mv; arc=pass smtp.client-ip=209.85.128.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A95B13B2D39
+	for <linux-staging@lists.linux.dev>; Thu, 28 May 2026 10:24:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779963901; cv=none; b=nx1NfhcOzJ+G4ubjbM44HUzTpv/QaQGU5fd3RvD+5a9Bxvt9HY4rUMkKDRS6qkVSOOJyaKfOTbDFGK5+KOYHXNET6lGZeu8QhfaoRPfv4KyE7jP3SYKKj1swLwOKYt9H764A7wGucxH9LWHRvb+L/lZ4rZCiy6eDS3UUX8kUB4w=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779963901; c=relaxed/simple;
+	bh=Kh7QnjxuOhyWKhIYaYI4L3W85kEIW4x/T41nKxAulLc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gnf5wTvDGob8UdSpJRxowe0AJJ8hvvKlQ8kCUBh8SGCXqs0H0aXY99ZqSSZsbaC85ig6AL9ZpVG9PzCwERXRMbYj+LvFfg5gmXbZ4bERwibwpwJc5Trj3Pa2CAYWDvwLBvaLHZcwWzUXovPBbnzKILG6F8/f++P6r4JDIg+EJiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B5GI28Nv; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="gRkWS5Mv"
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-7cb343d343fso119342797b3.2
-        for <linux-staging@lists.linux.dev>; Thu, 28 May 2026 03:22:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779963723; cv=none;
-        d=google.com; s=arc-20240605;
-        b=jXLLuat0NRRXMPoJsYQdsNB5CBnfjw5jTFwmdzelgC/DDOhVSoDF7ReM9T3DbpuGZi
-         eZrES8WnHzmYXuwdX7f22bjNNMFQ6xKldP3B3WyVpkApcsAgEAeTev1+jqnL3vDp5KfV
-         IYA+9WclrhLdEJe5Q4Hj58Ia9DMqn+qElkw/y8FneR+Gs6E64lB07Crqm/Ppc6GSwHjm
-         4Cb25dBeWVderwRuqE7A27HhocY2wm7bxqaPiu//u5fdCsML1zu7z2YVntz9wcM9B2rJ
-         DI+pYKnzn4YhBMpEVgnwMNSHh3zTOYpE4h5L3i9LF7ykVwSMtjyPysbEjpjQAv1eMhyv
-         7t1A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=Wd/GrZ3dwCewj0fDH+YsTtXc7Etu1moxohRG7C189RI=;
-        fh=RT4JfCUc0FBxBYglaCLVkYtOeUcsZ4H/3Gsh/NdfXS4=;
-        b=U1NP/1NfJa9NZ4IRUevt8UyMat7/xhzPqbS2CyNE4iYmP5rSQsmwV6Wl/RUkANdGk/
-         jjUAPoBLzMYn3HI2bXcJutu6Qqx3vk3unwEegmrylQ9e3d5WtWOWHUxBmJjyYRsNMZmz
-         zg4HQBGy+tZVChm9N5l0ABsnPu2jCEb2MiPR194iIYqqMghhWNXLUKb24JKvn4aBFHSV
-         yA4XPy1prLm/BwSLkcTbRY+6mvQNyNGDgjLuGVFC5ZfBythy7PWAaN5vRYG0e7ED7c5r
-         GFdoa2QOr5D6+4cs4ymf1/KBwMjE5zaFl+G6wixqZTxdLNo9Dsym6kCorIWOVqIgFjgg
-         3hIQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B5GI28Nv"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4904c1ce4c1so64351535e9.3
+        for <linux-staging@lists.linux.dev>; Thu, 28 May 2026 03:24:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1779963723; x=1780568523; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Wd/GrZ3dwCewj0fDH+YsTtXc7Etu1moxohRG7C189RI=;
-        b=gRkWS5Mvo4VlNQrGj/9hjkYOGqpMj9zD2F32wCQHkulUTdYHA02kGM58P+h2aNOLLi
-         r+7HDT+7hbUjuWUz7BRirNkzPfr2v4rL5Xvv5y2hmkOyps2PFioGYtTIA1CdMnrawFOI
-         fh6us7AL4YJNC7AUSmF7e+enQHMsJAlJ3eNfZbenw20lP7xWWD4m6m1Taf4BaCsE3Bmo
-         M9FYoIvPBFesCUR+l7z8x5nawzvhqLhYLp3mO6IA/2H9EsYuB2eW3N/iRWjSe+3ba7rJ
-         QjbaO/0u4SRWKAvD8OIljiEk71dohk8kss2hEXaDb2CsDb2H05OvxUIlAD54Nt9uOeFs
-         uCUA==
+        d=gmail.com; s=20251104; t=1779963897; x=1780568697; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=UMiDf3p96guC+hrc6r+Sp0WDhCNRuzrhB23PfVLi2iU=;
+        b=B5GI28Nv3WicypHnCuklGRvH2bbgxDKfQPocaxNdrSRfN6ZKb7BhjbvUOL44cPo2nJ
+         yWqrqAg5UUSBxoBymLWytdhYIOu57YT7ZKZp6LR0SbswNuaLVR96CFiRhl972YiXX2zI
+         2OOKpVqIUlr+OT13Bw0auOjKryFhds/WMXMVgS+wkD3KWDaMuJ06Tyn6G+vNHZwvMnII
+         wlnbFkRcorA9dS+32rNwIr5ZHdWzwRCk3thJWZSk9NshpGXElfG/zZ3BjmfxQxuw1Qyk
+         d/bdK+OD+1RFqLveJli+HBMpDj4ZhOPtauuo9EGOqS6/+wrhFEsRPzmJcGBiQ3ZvmVxj
+         wn/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779963723; x=1780568523;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Wd/GrZ3dwCewj0fDH+YsTtXc7Etu1moxohRG7C189RI=;
-        b=eDosHaatbhPdnaSAbjbaA0/EuT9GCC2r3DujlnBC3z6ZmOXf1HCNJ2UZ535zENLtBS
-         wg27JG1Jrkaw8T99AARr3+Wg9pHbHhrVHu/GsHfa4CFS5lWSUNOfNg2E9nKmhawbjWqp
-         Cs2NiWkEeaNpKELamCQKZYGQFwQ9DoO4VLxdMah/xIANxG//1gVLcWoc24Em+w+vBaWz
-         g7ZaNnr3WR2KMdBIMVcZwMC7hqt5TOwnPJabGIWNa0yR9tIUuD/CXmUxybnjPes4PSl5
-         t5s8kz/ba/KXzrBKIm55P33e2agnbUc8UAw92QoVCVWLpZ3CHRdV39qRwrhCLJ1UqBbB
-         mCbA==
-X-Forwarded-Encrypted: i=1; AFNElJ+eF2Pb8PgJrqsnXZxZdoZN9jlHbVWECG1FfY9MJgh/2UaVd5yP7J9BTt5ko02f1lTOLXEluJves/bZV1Jf@lists.linux.dev
-X-Gm-Message-State: AOJu0YzfoMakw+Q2kP4wRbwKQU/EiaZvG7TaBfTpxt37Ilk1voaZP2CN
-	7bkHpOWltdARggmS7D7VwMFygGYamA2X/ps7Ye5nWDj29LUmCm4eEjzgbaG4OAuqInCcOe5fr9z
-	m/HbOhi6GwPZw62TH3moisY3hY3ccRUA0NpOJ3adcJw==
-X-Gm-Gg: Acq92OEFdYORLwSC1LZiQfsvjQl/bWMbOuPiPAv0aPqKJXoENwVL6SJ7GVyDt4GwDiV
-	VHkswsqoAq33iCcBiDVUOLYDhwM4VXfg7wm89k4NNVnmdbmuxrTPJ9R2024gMdz2WljUUWv890U
-	wT24IH2t490O/c4btgZx6UJPMiEldsUfrsSngzEjp7FIBJSzNzewXjfefzEv1Az+yVfVQkodifm
-	zS63YmPNWcelFBdXNA7Tkhf6WGDhAEVxKblENAk5F4aVVt+lHW4w2C60Vo9LMwpljRc4pOOsNmj
-	9J+BjMqS6vUkVZokMOeTY467fsR7/ag3rFxsKG8NgnygyvQqlCBYI8xFAGFHgPIdrc2lN+NHMVK
-	qs7CglmdgZxGGyzjRAab1teeirxcvr6jymWs=
-X-Received: by 2002:a05:690c:e04d:20b0:7d9:222a:d7ac with SMTP id
- 00721157ae682-7d9222ae1c3mr113086107b3.25.1779963723419; Thu, 28 May 2026
- 03:22:03 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1779963897; x=1780568697;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UMiDf3p96guC+hrc6r+Sp0WDhCNRuzrhB23PfVLi2iU=;
+        b=s9csXFYR+dlEg1ZBzJsThtTjm+10jTlRd6mdmfhe/L6P1b6wKryZGNGaMdwG1ub+Bl
+         +BevihklvQ4CzEwKsrI1Ph6KyVrv7PbGI7Ofko9w/Y3vYjxe7MXK9GMZ2z+4yniwR9uU
+         3IG6lhoJsCr6L2aH8bK6QBZPBisJPscz7LTxEiJy0Gn7icAOCdbbjMYrchi0pKrPuQYj
+         N0LZw85LfVfRIfSOnIH1YKzUU6qVxus20+RKFU1f1ZgBcEUuWuJdKthjt6NCtAxWvghX
+         dlMPHnjE++THfiBnr/DL3eV3Hs/jjr/OjUCnodIGMbAO5vqdrLFNnFKf9DCO91uyrLvv
+         EJPw==
+X-Forwarded-Encrypted: i=1; AFNElJ/wdBBQZ+K46AUn0EZu0F4MsRyRZomd3o1ZTHC8o9RRKrhXwSVxbNa9G77FQNv/tGeoJHhvDTzhi1Fof2R1@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz/m28g9dZtwPBXmEQQ1ChLmSMf5Ji1n01WeoEyGt93rFuluSrO
+	CztWS13jhVs/+fV1dXLsPj5VsONcb0mznwvdsYKjVS016c0Y0NxW+VjhCB43qA==
+X-Gm-Gg: Acq92OH6zXxCpHsWrvHhXamMZheuRsvuwRhW4ufCcynRqc4zTihTZgj4yaADyGtYa4b
+	Fe/y7/42Z5T+/z51DD55xpTBo8PujgJfkvdAOHEFGyXDqQRwjJs8qm7GWzyIv4SiP6IvtN/LDL2
+	myy5gk8hp0IaurxNT57h/o73T4tNco9jSMgXlBWQYUxatzlu0S+051UoH1TKXoHQGh46ybA4wYH
+	z+OxJhma/9Mnttgb5Hkhc6bXaPEsk+DQDf2IXHhorH6ovKYS4oIjNbj2usw0E6AMtt5twmrs38D
+	ulvea3mzGdkBtDRGve9/IuH4LiEDhFRgIGZWQUbKdG+B+/Ys4su1iq25myMzbgOqzgPSpJGjDNp
+	eyFFeWJZz80Oiw1JXPHSXLhx/YVaGqFRQQr2ZKz5cjVBuPhv7NENnu9NXLyj6b7TmxG/ibKtuo5
+	yIUS6EXhoHHdPAmthWd0OUtbwlpp3KJkwU2FUGk7/O+Mgf
+X-Received: by 2002:a05:600c:5288:b0:490:50e8:45c3 with SMTP id 5b1f17b1804b1-49050e846f9mr385148005e9.0.1779963897506;
+        Thu, 28 May 2026 03:24:57 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4908b5a30cfsm19631725e9.2.2026.05.28.03.24.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 May 2026 03:24:56 -0700 (PDT)
+Date: Thu, 28 May 2026 13:24:52 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Tomasz Unger <tomasz.unger@yahoo.pl>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: remove redundant else after return
+Message-ID: <ahgX9AUuNqpzwbDV@stanley.mountain>
+References: <20260528-fix-else-after-return-v1-1-f07ea0f010fb.ref@yahoo.pl>
+ <20260528-fix-else-after-return-v1-1-f07ea0f010fb@yahoo.pl>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260526214131.51118-1-dave.hansen@linux.intel.com> <aham35tbJEbDc1Ee@kekkonen.localdomain>
-In-Reply-To: <aham35tbJEbDc1Ee@kekkonen.localdomain>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Thu, 28 May 2026 11:21:47 +0100
-X-Gm-Features: AVHnY4K4usxCpRpBe2NVLGn_gRHFzwAbSJtJA5zV9bklOiMG0ROEVp_bFM-szT0
-Message-ID: <CAPY8ntBFG=FzJdWjU+jnjx9k5H=pSyb9AVGiYwH+Kqu2kLMLTw@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: Remove bouncing Intel media maintainers
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Dave Hansen <dave.hansen@linux.intel.com>, linux-kernel@vger.kernel.org, 
-	Yong Zhi <yong.zhi@intel.com>, Dan Scally <dan.scally@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Lixu Zhang <lixu.zhang@intel.com>, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, David Heidelberg <david@ixit.cz>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260528-fix-else-after-return-v1-1-f07ea0f010fb@yahoo.pl>
 
-Hi Sakari & Dave
+On Thu, May 28, 2026 at 11:55:42AM +0200, Tomasz Unger wrote:
+> In enqueue_reorder_recvframe(), the else branch after a return
+> statement is unnecessary. When a duplicate sequence number is found,
+> the function returns false immediately, making the else keyword
+> redundant. Remove else and fix the indentation of the break statement.
+> 
+> Reported by checkpatch.pl with no remaining warnings.
+> 
+> Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_recv.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
+> index 86c5e2c4e7dd..51536f155750 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_recv.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
+> @@ -1789,8 +1789,7 @@ static int enqueue_reorder_recvframe(struct recv_reorder_ctrl *preorder_ctrl, un
+>  			/* Duplicate entry is found!! Do not insert current entry. */
+>  			/* spin_unlock_irqrestore(&ppending_recvframe_queue->lock, irql); */
+>  			return false;
+> -		else
+> -			break;
+> +		break;
 
-On Wed, 27 May 2026 at 09:10, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
->
-> Hi Dave,
->
-> On Tue, May 26, 2026 at 02:41:31PM -0700, Dave Hansen wrote:
-> > Tianshu Qiu and Bingbu Cao are maintainers and reviewers of a bunch of
-> > media drivers (7 and 9 respectively). Both of their emails are
-> > bouncing.
-> >
-> > Remove the bouncing entries and update driver status in cases where
-> > there are no M:'s left.
->
-> I can pick at least some of these. I'll send v2.
+You have made the code buggy.  Don't follow checkpatch blindly.
 
-If Intel have no/limited interest in IMX355 any more, then I'm happy
-to step up as the maintainer as we have a customer looking to use it.
-I was going to add that as an extra patch to v2 of my recent patchset
-for it, but haven't sent it out yet.
+regards,
+dan carpenter
 
-Based on recent commits I had pinged David Heidelberg (added to cc)
-and Richard Acayan too as other potential folk with an interest. David
-has agreed to be a reviewer, but Richard hasn't the spare capacity at
-present.
 
-I don't mind if you add that to your V2 of this set, or I'll try and
-get my v2 imx355 set out in the next week.
-
-  Dave
-
-> --
-> Kind regards,
->
-> Sakari Ailus
->
