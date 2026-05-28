@@ -1,107 +1,120 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50200282F3B
-	for <linux-staging@lists.linux.dev>; Thu, 28 May 2026 13:52:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B75E384CFF
+	for <linux-staging@lists.linux.dev>; Thu, 28 May 2026 14:14:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779976367; cv=none; b=k7Q34h1pyOX9jARj6CEofSg9okU4iG4+v7sm+t1/12YFZnHrPe16rBFdf6LDEghSjC89JvBj+XJIYO+n///rXcd9dzMFeEGUf2hQhXlxZPi9TkHEkMVnnVsqkAYFM1wrKIY9lV+QK6KhpaxKGffLpEG3UKBg+Umf6mu+RGcFJSI=
+	t=1779977685; cv=none; b=Qz70vZJ8gkwi311kHRIxJqe6jVJ2JUl7w/R9pDZs9JIm3ZluCsjKxg8EuS45tvCa8XtmjBjeHVo01t41M8+P1sDjRsXqOcG7wtiLlgzTvG5AWe/NpFNo4PavzlBroefe9WxKBTwu2hAVq2AOiQOgXfXEiiFrWtRvK58CiwXF2PA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779976367; c=relaxed/simple;
-	bh=/lCjwMCwIUN6ufAh37kRzYX8caEh602jwuVmDhShp9U=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rGaoGpKuBjRPORCvjenDVyRbZt0aNAOB/omwYTRlFr1QsoMDQh2oA3uSQKJRMKDJEXCfo2fb1n/UusRhZwJcu/Vm8GPmBPYk7UoOLAUF6Z0hlS1QlCbwz9UnbjoV8T8X4B5JX/Okl/1uod98uRNxVvBOO/rBYq421X4CvxI1fkw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JsdilNmf; arc=none smtp.client-ip=209.85.214.178
+	s=arc-20240116; t=1779977685; c=relaxed/simple;
+	bh=rdPGG8pktzYfsd4W8n81NxemFwnNGSn28UK5dAbJa5c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wleh2FgqUhz6T2WHQc4M4ykiPllfULLHKKrlnAk4L/0GRv86ZdbXBmd36r4S6GSm/9E6A+tDft3Kogtb6bK8EVvu0wV0FLRLLAzf9rTE8R6iFqipCPa1jerZ/n+WxQXCcH1v99OO3vkZN7qAxckZdXGJ8HNA1EF754wwQCbKkls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FxWMm8Zu; arc=none smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JsdilNmf"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2bd80b3aa13so86206815ad.0
-        for <linux-staging@lists.linux.dev>; Thu, 28 May 2026 06:52:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FxWMm8Zu"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-45ee5cdbd28so492345f8f.1
+        for <linux-staging@lists.linux.dev>; Thu, 28 May 2026 07:14:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779976365; x=1780581165; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=A71OUHyyRe1M+VCs+XKSSgTKfIfoE57tMLNWnn+zSKk=;
-        b=JsdilNmfI+WC8/fFVMk1eSCIn/a4480mNEjChUfsu6wBQbbALXHGHmzzCyKJQ3eCpE
-         A7f8ENdjDSzXbeno85UNXLbI/kwZE3aEzNjyI9eagaCUSi+QRvEX9VukxMtxrqp4IXck
-         C7C6F6xuECBn7j3xr8dtkICbjhWzIdZ1SAtNzDbiqGChttEQbxAB91Z32EX3bbj4bbli
-         F1759Wjt8MKPk2YCQ1ouSzwYDV2+WXaP69eNwYUfeUeno4HsBRkyFDsMGLwOldGNoPKs
-         aRjmZ047sioWcfAJq0RnPjJQomCZFZT8w3J66jTVHdYFRQq8b7W3D0lvueyP4Iy8YSKv
-         qsbw==
+        d=gmail.com; s=20251104; t=1779977683; x=1780582483; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=t5ZWNU2/v1WVVM5yKXhZz4uBk/9oPZrNGdrmkhMBSCs=;
+        b=FxWMm8ZuFm0CKD+r+zSkAhER+Ba0nWaz60nQtC+/yh07KhGCxD0Br+BeC7qDuIxfZR
+         tSrV7dODzy9i1HgR29bHI9Nn4R9tWSlLx5VjqihY7gOiQelKszwMmDCLh23nxydcksVs
+         0EMQegRckid6MW7yAXo8rWeD+FPQI50fBG8nr7YdAsSjRwEs0cUuTg+hiZLYJvo0lISE
+         EnvSDBtH0E06TPX+yAcKBobmB+fj6WUTo2JKssFY8wWikF3OxYwGFeIJfNXbZRFjqRvz
+         MyliQpJNclKoCRx8Co56xt83EDCY7yGzwbiCu4+sM/z8C343w9VSY9uidQEIHgMRQpPB
+         R7Rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779976365; x=1780581165;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=A71OUHyyRe1M+VCs+XKSSgTKfIfoE57tMLNWnn+zSKk=;
-        b=i5WfMgC0OKZMU+d+WZq0jTZ2XWTTduRA3LASCnq2mlrZhr9MC93sb0v98dITt3OQFk
-         sPT9tifqqAiooxVuY63wgc7IXDDzLFQoAxtooBBwFkoBazz9oTN1v4Pc6jDlAxJ8Npnz
-         N80HqSP2sruc7GW5WhP67tPHSa1FItiHb8tMpcIagA4O34q+fZNtYMlXbiApgaFfyS6z
-         x+6Z2C8pvuamTnBBez1Uzd5vGsKicDa71DGBmyeoOSBtOVdyqg10CyQF1vzRAsdjPk/1
-         5VxOfvioTXx3YW3rla9Kxql6bi2M5umBBkuMAaaHo2oqNvljk5Hibcousl6F9UvBbPSv
-         YmJA==
-X-Forwarded-Encrypted: i=1; AFNElJ9QWyXbPQVmr/lPPZdlAtDDDTIHgpBvHI/3TSBPE8s4nyOrsYy8OPeKZAtY4IAGjW+e9/K5lxxX3h6NUafJ@lists.linux.dev
-X-Gm-Message-State: AOJu0YzYHjqGHv64zgiL8H7TLnnosQ0Cnrk8cV8PRHC62vZc8LVBlKVs
-	plQxCQVtz+kVYXMOg+1wS7HHV6l4vfpdd7UaK9s9HhreHvr7Y6ElUxjP
-X-Gm-Gg: Acq92OFxB1LQrDp6Z304fkBPbZCtox4sEvjinweLZk/9qyg5W8WkftrQWQGcj+PFBQK
-	kOVFWFBtiUHM9F74J/cIFIyUbFayneUooqDaxyUdRS5R+Y3+muZMSLuYsmNMMFE+FeTwe/DvJdC
-	qqQeMuNI8MofV2NKBF2QjarR05i3Uh0o8THgZW33sJFsyLyAWGUE1bYXTB0UiaHP61/pjzwrMlX
-	hnWED71zh5V3aYIspi4MBoeMOEXq1rq8JZEYN2nkGR6WFohw9gVewr5Mb817KIKYLlAFM+iCfwq
-	qwbHEAFMZkEQsxIWabOPXdtvh/gmE0TM9xmbffc4Cbypu34n7O2k2g39YxAgXkviURVF7/zxQ4Z
-	Qz4xR6lpTugatPT8bWHLCDHWP3Li35j/e90z287ogYm1PPWTRTQHyYbhyFYdvRmvaZzGj0UBtJW
-	6rXxvxQ46D0Jbt1RfghAqxhU9nP6WEKa1oBDydNSUVcVYl0U8nMSyh/tiRUS7pdXrlfwrOHsOeG
-	qk0OsEHMrHuX0V0AAc35zZvRXKNjudqgMhhPTVo7BLunIf8EITb
-X-Received: by 2002:a17:903:4405:b0:2b2:b117:1e1b with SMTP id d9443c01a7336-2beb0758814mr299325935ad.17.1779976365551;
-        Thu, 28 May 2026 06:52:45 -0700 (PDT)
-Received: from localhost ([1.39.75.74])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bed2061c59sm127792595ad.2.2026.05.28.06.52.44
+        d=1e100.net; s=20251104; t=1779977683; x=1780582483;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=t5ZWNU2/v1WVVM5yKXhZz4uBk/9oPZrNGdrmkhMBSCs=;
+        b=q8afWZjCQUa2FSwEAE44vbqOxxC3ul9oVXjPRKHN5kYpD8lpGFraBYrNHMt4VTRDVH
+         K48lE7n8+7yEwalvRc+/yN/p1EtlPSQMOY+gqFElGZVDE+aPRd9cVpj27qT7WJwF0y8D
+         nygTEynlkAZAxJiTvT0rinCntko4BExMI7qdgGWXlID7PFjxa3qLGwkTt/xVcnE12KIy
+         rgGpTrOEhfjkgQABX6VJLj4Eajm0MDdVBIQyohpOu0rge+sQg4qn/3hxqyVL8fXIiv7V
+         ZHFPTIzn2mJM/q4S8xC4T6RtD7R5srJG27UeKHlHV3N+AyP1RI+joMXNNmEFPp+bEFA/
+         bIvw==
+X-Forwarded-Encrypted: i=1; AFNElJ8V67MZW3PRFYmG1uVKESlbmAV/k3XTWw1CazL1IEOY4rF3ozgm4/xFuVZ4nVnMLPKF+0TemKuzZtydhEvE@lists.linux.dev
+X-Gm-Message-State: AOJu0YwM1S83YkP7PYhyCvYbzdxmOIy04MWBd+/vq3Xj1xuaNftyu9GY
+	n9SxdQm1E5A025XhJ32xw+/M0KxwTTl+J+883MwERzK/eT0DSMuD2c/9
+X-Gm-Gg: Acq92OGZyECSE5eiczKB+hBuhqLA6QJoug4bvVdlxsLsUcLcuIsRYAiBli5k6O+MgXY
+	IjGSkq+A4LYc385Jt6ZlIyZjA7U668wKX0GYTVPIdOsZaJmvwa6vr8vgcnTqHT+AaX2u20OoG4I
+	rtN0xkM3QAe3mHM5u1o1My8brja++BwZp1SK7gN1eVtSZAeT1CnObd5We6/A5gZ4RwSI8cJHr1z
+	jrjA8hOnmvuNHvuiKgyCQF/B94nf8AKCEyJmvrKZc9cLVUPbotZOEBbRzfp/Amx/Eyi/weq9AHA
+	+91C7QnUEZx1lVI9Xj/djKGglX+Mg6gPRtNTqaUrM7+dIgbmaeB7uPnlALP9pM9ZWj1y3sgUgNe
+	xzqm8aruZrE162BuqCxA2wmY6Rsz7nDdmz9XmlCXx5t4Ld2e9lTu+KKSQLZxOaOUWfbG97TgZgM
+	rxtFutrCiB/4eRiIQCgv87Jjc0YGF+/iB43g==
+X-Received: by 2002:a05:6000:29d7:b0:452:bc74:b129 with SMTP id ffacd0b85a97d-45eeceda8bcmr1325768f8f.16.1779977682661;
+        Thu, 28 May 2026 07:14:42 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45eeceb5b5dsm2333753f8f.28.2026.05.28.07.14.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 May 2026 06:52:45 -0700 (PDT)
-From: Alfie Varghese <alfievarghese22@gmail.com>
-To: Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Alfie Varghese <alfievarghese22@gmail.com>
-Subject: [PATCH] staging: greybus: vibrator: return device_create() errors
-Date: Thu, 28 May 2026 13:52:21 +0000
-Message-ID: <20260528135229.2816-1-alfievarghese22@gmail.com>
-X-Mailer: git-send-email 2.53.0
+        Thu, 28 May 2026 07:14:41 -0700 (PDT)
+Date: Thu, 28 May 2026 17:14:38 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Onish Sharma <neharora23587@gmail.com>
+Cc: sudipm.mukherjee@gmail.com, gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] staging: sm750fb: rename setAllEngOff
+Message-ID: <ahhNzvLUTIZ3qq6L@stanley.mountain>
+References: <20260528133627.10850-1-neharora23587@gmail.com>
+ <20260528133627.10850-2-neharora23587@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260528133627.10850-2-neharora23587@gmail.com>
 
-gb_vibrator_probe() maps any device_create() failure to -EINVAL. This
-loses the real errno returned by the driver core, such as -ENOMEM, and
-makes probe failures harder to diagnose correctly.
+On Thu, May 28, 2026 at 07:06:27PM +0530, Onish Sharma wrote:
+> Rename setAllEngOff to set_all_eng_off to comply with kernel coding style
+> and improve readability.
+> 
+> Signed-off-by: Onish Sharma <neharora23587@gmail.com>
+> ---
+>  drivers/staging/sm750fb/sm750.c | 2 +-
+>  drivers/staging/sm750fb/sm750.h | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+> index 8f01b3c63fe8..716a8935f58d 100644
+> --- a/drivers/staging/sm750fb/sm750.c
+> +++ b/drivers/staging/sm750fb/sm750.c
+> @@ -848,7 +848,7 @@ static void sm750fb_setup(struct sm750_dev *sm750_dev, char *src)
+>  	sm750_dev->init_parm.mem_clk = 0;
+>  	sm750_dev->init_parm.master_clk = 0;
+>  	sm750_dev->init_parm.power_mode = 0;
+> -	sm750_dev->init_parm.setAllEngOff = 0;
+> +	sm750_dev->init_parm.set_all_eng_off = 0;
+>  	sm750_dev->init_parm.reset_memory = 1;
+>  
+>  	/* defaultly turn g_hwcursor on for both view */
+> diff --git a/drivers/staging/sm750fb/sm750.h b/drivers/staging/sm750fb/sm750.h
+> index 0492b1afbb11..e8885133da2e 100644
+> --- a/drivers/staging/sm750fb/sm750.h
+> +++ b/drivers/staging/sm750fb/sm750.h
+> @@ -44,7 +44,7 @@ struct init_status {
+>  	ushort chip_clk;
+>  	ushort mem_clk;
+>  	ushort master_clk;
+> -	ushort setAllEngOff;
+> +	ushort set_all_eng_off;
+>  	ushort reset_memory;
+>  };
 
-Return PTR_ERR(dev) instead so callers receive the actual failure reason
-while preserving the existing cleanup path.
+There are no users?  Why not just delete it.
 
-Signed-off-by: Alfie Varghese <alfievarghese22@gmail.com>
----
- drivers/staging/greybus/vibrator.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/greybus/vibrator.c b/drivers/staging/greybus/vibrator.c
-index 0ec4d317c..763c234fb 100644
---- a/drivers/staging/greybus/vibrator.c
-+++ b/drivers/staging/greybus/vibrator.c
-@@ -161,7 +161,7 @@ static int gb_vibrator_probe(struct gb_bundle *bundle,
- 	dev = device_create(&vibrator_class, &bundle->dev,
- 			    MKDEV(0, 0), vib, "vibrator%d", vib->minor);
- 	if (IS_ERR(dev)) {
--		retval = -EINVAL;
-+		retval = PTR_ERR(dev);
- 		goto err_ida_remove;
- 	}
- 	vib->dev = dev;
--- 
-2.54.0.windows.1
+regards,
+dan carpenter
 
