@@ -1,64 +1,63 @@
-Received: from sonic310-57.consmr.mail.ir2.yahoo.com (sonic310-57.consmr.mail.ir2.yahoo.com [77.238.177.30])
+Received: from sonic307-53.consmr.mail.ir2.yahoo.com (sonic307-53.consmr.mail.ir2.yahoo.com [87.248.110.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70195399349
-	for <linux-staging@lists.linux.dev>; Thu, 28 May 2026 09:01:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.238.177.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A33C03B47EC
+	for <linux-staging@lists.linux.dev>; Thu, 28 May 2026 09:54:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=87.248.110.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779958864; cv=none; b=MgNjiKue3bxgQZHQjrTgtzhRVGqG5No+LIX6X45LOpP+hQsqyS4xOcjH6LvXBWAlIs+PvG2W320MaQhyxH7R1GMFOgauCyMfLOrbeNxZLhcGjl2bX2QgwwX/0YPXW/Z48eBwe4L/rT/bv5ADiB1LrOmek+UPsO4UN7GJcX2kqIo=
+	t=1779962089; cv=none; b=XO3bMpnT86rtPNEbbeeBd6REaFZ+I9tZiMQ43gD7/iLkAPqpgB0XV7ftp/GJaOQd1Tn6q/cS2kM5VJaL0CTU/pNcYTqIQ+DTwLa4N7xs70zYVF7+xNbjM7Q7rv361V5x24ZETSAqTE+hnTNDq0//keB+fl3/qRh0Xt7RoThlLZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779958864; c=relaxed/simple;
-	bh=YUaj0Euo7RFAUcilVXXHIqtP1EjJ+Eu9pZTyeH2MLPo=;
+	s=arc-20240116; t=1779962089; c=relaxed/simple;
+	bh=vh3LDoGFhmFesVfAmcwsG162N9hVep89oDm3LkqWxEg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc:
-	 References; b=iVzIdwYk3D3lmL930koHsu3sljnGgzfDYZkeXiBgbELtKpleCGIVog5s/yhtt7aiqJtXjR9KnEBDY1iHSHv51fjp9xYkrlxUNSTPsm+Sl2N0q3sHlqmyPp3PZF6PZYOM9bHc9DEv0GKuYJzm2MThU5C5Gu+tuTVgunCoOTWHQOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=BBN2OtsP; arc=none smtp.client-ip=77.238.177.30
+	 References; b=YTIV1WlGUnVpk5h/XkiCD7xjfmVeh92IacpObGOokRXLBKvdWnhHEyoANbMfDOa4fB5grJZ/0q1ibF/58sN58viJjdsFZwWFdusZ44QXInNNU2TI8qyKkIot1k5UFw8hBM57jFVU/px2fUHfF8qrxrbc5D0x0v+R5WceUZEDqds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=I1Uz5GiK; arc=none smtp.client-ip=87.248.110.30
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="BBN2OtsP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1779958854; bh=Az3gzCkfjkDRlsIJE8Rt9q6fKbxdI7zwJMmynTHKUx4=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=BBN2OtsPS1bVliBBvknDE38Y+a1j2a1fzqcVOX3On2LW8xNaX226fA2Bd4ZnlJnKGJdDBGhZ5DNb13S1ubg9YQo1usY0bAgbbpWvdwlZzjXY5fVFns5K5tF7z+ZG15a+qFANjy/23rVL4UaFdwrqPKCGks2SsvoaUQs5ZdYeMd3HZcevRxpuATwi8d+X/l35LOJf7mV4aK3rB3fUs2Ap1HQ/FITzqk1Q7fXBGn4JKFLtVDGl0fbz1rsxHozBlezJUwhzTnw7kduJBQK1PBie+bZSxF76LLOEp1eohvZ07an+DohX+/o2iYiApWEdf/a7tayFNBTjJsh8beWKgbxfEA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1779958854; bh=wso3c2il+EcAYJKaNd0Cr9vsNTu2bwyNVwH2wiMpUJI=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=bubYfKGs+gmBiYZAZUuI+8RVaof+QAE9poFxm7uAb/jn4uA7wH9eUajCUcA/kNouOYpq2Vn7Hq4cyeWvbwocn9E+bpDTZmEEeVXw2GJfUvW7D5+5Ewqu/0SfLPdbxDtmOsKDTrjr6kv4tTtDBZioCT8ThGH02X1vNUloznN8omXPHmCWskXEGoHdU7gvylD6AJBQy+gh7b5YIYZqn+Re41okp3cS3FM4jIRZTNGqLcbumDQhv34+m1QkoGEokHKs0K7elwpJeCbhxCLbB3s1YgvnGo7RT9DRsMyb5dvMyDMsEGTfIH59TwRmxWt2OCOUw0hamAYlXsTqmUNkZtmYhQ==
-X-YMail-OSG: SrA.zcAVM1nKxjPs4CBNe3QbWGZKlzzLUZWnUtB_ALOgDhCb_BHymUaoFyfc2Tp
- XPtIwoljMGcFv52uH7OmSS_EPgYobIi1BeLUatpaH737Z3nueqUdvxOK1cAmRBOzbrBccjMn0yM6
- wP6Ps77UfiOr.fHynCubZD7J3Vq6yxq3qqYIITHQFA4tuiAd3iH1yQaVsrHQdrjAOpZ9Y1ZjhFgR
- d_N9ANJlrE4JQBrQNAX88DHU8Y21aH.AiLEmGonKWztgTwMJAE4pIn2aNXcidr5lNaWZhbnXxLmR
- 793xvC5EQnQ6naq5JBIXGU_WTdoQoGD8cPo7in8HpZht3mg6DHwAjt5bSfsqiI2TNOJNsK3.9i38
- cTYqyKdRSTp4xAsb3YtR3RtUSvnAoTJkmx9rVqIPAxvXc2uHNGWuLj5yV1fQOnRjPBCf26SbDjFu
- x.SKwvIzgU0.XsQnkmlhcDsNfimYVYSQzVd_3gbSqwDDZGQTeeRHWAqoZKk32XmWJgz4OVKDsVFb
- 4TdgNYQhIGP2WrV6Z0L30aFm95_hhQXCfjp.WeAwMzYWsUqHD5mApVBlm9ro6D_RGLmNy4bVYq5P
- Zzs4BryRUqAowGTDkVXuycRDgWKw6qZhsNK4W3fykqsmtG0klIq9rFbIZ4t5Zj4y1H.FSBarE5km
- mWFJ5xyca5xJafCcZ2nW97afQkOlD6khTKlunn03MJ200j8WpqOyXyNgm7y9X5LxAIBZZ_xocpev
- rZelIB9fAW5CEyZc1v7IwOWQoxagB7A2B0oKvEteii5k2ROjAORjwHVPjHvyi2nonVBTUTANT7oV
- mz5ue0Cq3g56m0KB7Nl7ckl.Xo4QJ7PeNXxbXspZBtIxq3P3.AUpk5xUD8_CRADh0otwhC27ywWl
- .QyExf2cJl5dDt6GsaDBvXWzbamqKqNc.53N_EXYTzWsy81D792AkvQ3xTPvK6xUcUz9YRYxsQ9q
- gDIt8EFLsyH73ZzXqx8h_ndDaITxYa38NmupDvqLOWgReJnC2H7O5qTzp81nr6wiPPxRPCW2KZ7A
- RYWn.dupD5D7wCanKQCRLyrgEhEbU4YZ9yKI0sP27wTdJ5Yu3oPk0GsdWxTVG_7FXqmJDMqn56Lf
- q7ngBbzdfgiv4zePBGHvcNF9eC0XShPvikqaSkAYdp.IFwFkZVJEKbp9OvuPaUuDZDlqcnDtS.Y8
- _jDxvwKeXlbnLvlnSzRD5Ak3wjZV6LnOnWc13dixMycdRY3bhWXkMEjsj5NOzyU.ZnHK2Kb8xIIo
- cBL70T0M..Fsvxu4StObAtbeHRkEavsFSqE8ccurKKFLxb5yeOCmK_bcuc8U3iHjag1IQficnleu
- KlLitmYH.M1ap3Blwe2fihUIhR.plDsYlolzCVPwtPKh.nmQIQpaxZCOxLLmEGIz4j.5A2QNXSqD
- uwQaEWYekPn0Ksd56.5XikdRbe_5wrfQLTgmrU_6eBMZsiez1GXHSUm230unJN_XIO7zeIPOD2Se
- VRx.hHKXZM3BSLdu9bnN17vfpDCh.atkyJKFBfYpLvUDNaOzWLkWLBRHEPpEfn026CJTc00flaoT
- omP6LvlEpJJSWPcRPDEtnFXTw2zK_4TOSuDkPOYZ5ZbqkVpHmu0CvaWVJIa3VB3sfzaEM1poruZ.
- YoexGavwj8nCUB_iqAbtncjv7shMiOT6L85.ymYSmSRC79SJ4GSg75yngPx9Sh.U.WRG5bzinJnu
- 3g45rQxsVfM5_huPzbo609KYNgO13jtuopy.fx8aysyFYxFe7KJBnWDzqtDVUJgRwbNNg9VslFXU
- Ps8iq6aBAT1R5UzXjJmyLAYDV_PnhaSi5zDlCDCB3CGXInn3JN4ps3FzmTnXEhelxYZGM4M9AbXD
- jG4_TWEj.8z9uZjJjqPB74BKL0oIZaLVHcytuuwfSITmPRYe6tQjZ.ZHsFmyOJpzTW.huyvylCj.
- ULXFmEUD_dVGkTaHvlZpYwIaMfJReRAqQSrHE0v_2SKFZ0bQGFEh_vo8AhxTsy0wb8xTkuE7C5EH
- tIf64G97FKzl9DrXpCjaL80qRolORT4b0W_Rq3gBWpPVnUyRrF9IzvB7t4wQ6gVCDMFZoebspzO6
- XHuZ5Vfn.jdHTLBMUENChhzuc4Oqtn8s1KYA35znUTzZ47.2nGa885X30PkyMJ0Katx8IYjsXUVD
- 05LScVNn.m2GQvqIPCTSWhi63BsXfTdH7hZqQGs1g7_Ws6wSVTsxfWe2_pWX2RgJBQVtdc_8GWwa
- dsrUuPKh47DII3OpT8akNXlT6grbjm0Vli3SZwaux3QVFdTCOv0OrafZFpliWEekAw9pM30dCq6W
- 1qn.zJ04cWUNk.UOODwbL6Bomh14dLIwXMYRgoSBD_1KUz3oh2qwLb4454dOorYCc3A--
+	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="I1Uz5GiK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1779962080; bh=7zcF2m56ILRKXigLl03FQD/Goze4FHAcsfOPd8NXnMw=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=I1Uz5GiKTuqpwhzLXKCYMczTCI2JRNNnOZBC/lVT3Qiq7lHmlO0QYyD7Yy04Q0wWoz78OHygn6jqvorB10yuSxLUf8+kkyg36JnrxNX9ei8Dd0cV/7R7arYysxUafT6WStuQ5DHGxo+6BodXEqxajx87T6/syx8vpFzBqodLWQaWjrFnhlOqgJBE5zRfTQBkUOK+VhkeOa3GYP5oNonMwPylS6tJ0FrJfbxt8A9Vg015nhKSURZiQubuflxSf6cvGhy4ZMOChW7XKY7PSdZp4dNp/eo2QtxQPQMTaQ6dd85xwLL2P+n9iS8ickzwGCVNOOFII17OYPEWZs2IsJlXlg==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1779962080; bh=pEC1xMVKu+TYnzDPzqUuGCmFuaL/YE+8rA2ZEKSLyQh=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=Y6hEi9en66eXEilk+bLmVqXgWEX+TkwSd4eq1nh1z6Ey28TSbRw7Uugt809kXhfuA7QTw52cDA1g/2B7w0doO1VjpeBXl6fQobwKA3px73qdtJEDy/eAV1zOy5JiluE6O9kycISuyYTxljqP4xkMx+QBLvurhW2Fh0bjbNAwUu0TuAe/x2oFfr7kug8DFmEOY8wmRVFd7WVA80h7f4Kbhe9PCoJucXrQ66t1qYXYpBaHsS+5VRJRZg6I9V02TXjVppqIpOVT2mNV92IS2XTmQ3cxNXIUmiMqQf8jo5NKlumsADwKhAVKBzPM6a56OkmdP3swXSrPY2le7pX+BIqrkw==
+X-YMail-OSG: 2A3vWFoVM1kcRishIeYPL5ebnZ_0xviDtYjtRoyMsCARCTKu8qxVgwd1km0gQDi
+ oOye4PkItsOSK.ofa.__sgfpk9aEf_lv40hLJSSj.xAnLFBslinwxyA1IZhpCRjvEc2wQVdjGrp4
+ zCq7.R83THnLS.V1oam1N4BfOSNCYhSZ68rg.MO.5oPU8vqJPHDFdXFvRfW84kbQXzNfICeR_.nK
+ _DftE29i1MVUtlg0.FHmkRGEFxIqBrCSfSRXyRgaq8mTZGTfoHRgnfH1BWXTYnUVJ8G4T5xlvuwo
+ 5_dZnKDSaDKG9IAokq2x_iJnZLVgU7e9ZZLibBIXS5haBDmlmCj6KiETa6uoUSugp6ywQfutK2Mq
+ sHRy71xlpVJ2ziTq_IZgpJVR74w3KUoYC3N_4fypFAhVJPw99_d0DRBepa26n28vU.bJqrg5UIvA
+ 4kWYrP06FjFvdzlI.s532c2HkfPFO83NTh7EPRFAC.ad9jrWIiSTN4cKG175QBndGTb_Dp5KDmHI
+ oPIGXBshqh0xzqq55pilA9SBecqw_ZQhElvUppQs22o7HyBeqUSIH4afIAOnzaC0BILPQkgrfP5F
+ VvSgfbcdk.aJkQcowD1H4c3j3YcbT5qLn6gNtYdOcNsEAoG_2g9SoqbNQxHxLyZmDjuMBi7eNh5O
+ yg8_1yQYkC10TeELseDQ59sMVPFqAGjVgIws99UwlSbMAKhet7eLQWvVGNtvGNYERmTiUt6eFKBg
+ Wg93.vcJGIZ61zUsAQ__SF5dymo.mQndWDTymqmj.rqCTEaaObFCqHzTJpbbpf_Ena9LbqGdzFu9
+ oQ.yBzjOjYCALweg1C8h0t1xMXmch2qsZoWvIRX_4_GCllIWWQ7ozF74VBGDsT5o7qBnracWMT5_
+ RAMgnpFHvhHA__l0XihBoPed2LvgYQGBUN5.V79Hps6e43vZZw2cGWORNaiIoonU6HcREefemA3K
+ UJB10gcvZP2IdmvdY5IlPkFXcU4GRq3QMfHJeDN1tFbEHlTPJ1hrdMZVFuNsc2uQVL0yrgeQ2CH.
+ 9VEGA72zEh9Dvg0hn.Q9eDVKh04G.hY1mG2V8e_y_q9t_0yQbIxiwXEltoamnDyyGXme3pOXFfIT
+ SfSTgf86UeL9dmrAPREIvP.2VtdyDVhYYMPBLUVvWGXoE0EzecwH69pIJY3l0wSLFL.om4MhoIEH
+ BgfbJn4blR.nxKJSNuBv4W_sKgyYzRel4.YbC3wWtQugH8NFmiy67gwy0uR6veRLvZZbvEN8PEUe
+ KaZrkN162._bwEpuF1Ph7L5CL1YXcmvY2D3_6bhqAQo88sd6hZ5aLM5EnxGxWVSI0JfzffOiPd15
+ nFoy.7SFX0ynyH76bSCwgnhJXgQWw7JZwNNV8ba8wxeyAQmU86fuHyi581ADgmpr41ZgIU3hdNl6
+ lHuPRCCg05Jfqhr2mVDbraV4_VCocqwRKKMabInF.WdllOVcGRTLyObE8YH6T00VS.hVq5WFQ3t5
+ yFP8OgoOwBoZq4yX8PecJV5AvVbLWG98CuQFWHot6lse2MkidCTpg1igYxzmbHMgrP_weMlQ93Ba
+ Ss1Xw5cVPOPiVoqntYaTpboQWbae8rNpMaa85xp15k3i0It5AKLcWpER4bwZxO_oHKsM_FmZOwfz
+ 7g_s5elROo44bIQoDXXnA1q8mMm_IlBqPEhLsqEdstncgOmvIwhDIsY1bD9nHlxIPlV9mno8D.qq
+ 2omtvy2IxI0xPYwX0FjD_2laRB.pqGuMEFRJ5teekRDsvKTfpgPr4WEuCpfdnpUmHNz0T3vrARwy
+ h8NfVUs2gOHO8m51lY6MCXeDN7qLk9JTzwYFVm8X4TgUdHoE2OKVtDWEfwCtmKLafBTAL7U_ugHR
+ GBeJB4MgdiNyM4XvDx3UlPb18qSZffNd8voVNIDz_s39PreR5hM7d3zsN_MUtWG9CAYls5UuSXN0
+ h94eWcJYRSk89xJ9jTrYRfsUMc9HD7ZFd.O1w3SgP9fWhV9FmgjdDQKpDlTZrabbUOVRDUAvwBgp
+ ALstiBNeocG7.lpuzGNj0f.MmIv2iAP2wjEVtkBC_edYBdNvs_fuOCkl9oKXXLdL5nY5Q7Ft3721
+ HN4iUc4p2_H2IeHUIhdhIMhLf9pP5_6OHjxGdNlRc9QuSCNSBJdwmAxMcJ74yozUDw0fxjG8q5.I
+ eA9OZO7NoQsmslabYLHUxoHHFR6PM8c_1Yvp_Iy5Ql70KPdXu0eMDZB98nJfsop5ZG4vPxvEMTQH
+ 6zsoHC6DK_5iIqEMwJiuTvE1opneXnQKz8Jk6KgIyQf2ZZCe2oXAroHmxFkx92hd_5A7EHi9s6do
+ S9dM79HqwJ3nn0Jef12OYyp_x9GreDANliFdiLMwU1zj080dzRekBCJob3GGv.zoZ
 X-Sonic-MF: <tomasz.unger@yahoo.pl>
-X-Sonic-ID: c8918c96-bc88-4111-9fe3-caf820e92147
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic310.consmr.mail.ir2.yahoo.com with HTTP; Thu, 28 May 2026 09:00:54 +0000
-Received: by hermes--production-ir2-89844b765-v28ct (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID feb719bba49da831d4499f154d4a9db5;
-          Thu, 28 May 2026 09:00:49 +0000 (UTC)
+X-Sonic-ID: fa56defa-b9d2-495c-83f7-94b85c8f6bdc
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic307.consmr.mail.ir2.yahoo.com with HTTP; Thu, 28 May 2026 09:54:40 +0000
+Received: by hermes--production-ir2-89844b765-gkszj (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 8bb97838cb81fe5e40cb95c04c0f9a35;
+          Thu, 28 May 2026 09:54:36 +0000 (UTC)
 From: Tomasz Unger <tomasz.unger@yahoo.pl>
-Date: Thu, 28 May 2026 11:01:58 +0200
-Subject: [PATCH] staging: rtl8723bs: fix spelling mistake found by
- codespell
+Date: Thu, 28 May 2026 11:55:42 +0200
+Subject: [PATCH] staging: rtl8723bs: remove redundant else after return
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,44 +66,47 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260528-fix-typo-rtw-mlme-v1-1-2172d3227b00@yahoo.pl>
-X-B4-Tracking: v=1; b=H4sIAIUEGGoC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzMDUyML3bTMCt2SyoJ83aKSct3cnNxUXWPTpFRLQ3PL5BQTUyWgvoKiVKA
- isJnRsRB+cWlSVmpyCcggpdpaAF5K0MF1AAAA
-X-Change-ID: 20260528-fix-typo-rtw-mlme-35be9179cd45
+Message-Id: <20260528-fix-else-after-return-v1-1-f07ea0f010fb@yahoo.pl>
+X-B4-Tracking: v=1; b=H4sIAB4RGGoC/yXMUQrCMBCE4auUfXahXYiKVxEfYjrRFYmym0qh9
+ O6N+vjBzL+QwxROp24hw0ddX6Vh2HWU7rHcwDo2k/Sy74McOevMeDo45gpjQ52s8CAScjyMSCF
+ T+74Nbfjrni9/+3R9INVvjNZ1A19iqtt5AAAA
+X-Change-ID: 20260528-fix-else-after-return-1225fa7dec5f
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
  Tomasz Unger <tomasz.unger@yahoo.pl>
 X-Mailer: b4 0.15.2
-References: <20260528-fix-typo-rtw-mlme-v1-1-2172d3227b00.ref@yahoo.pl>
+References: <20260528-fix-else-after-return-v1-1-f07ea0f010fb.ref@yahoo.pl>
 
-Corrected typo in comment:
- - varable -> variable
+In enqueue_reorder_recvframe(), the else branch after a return
+statement is unnecessary. When a duplicate sequence number is found,
+the function returns false immediately, making the else keyword
+redundant. Remove else and fix the indentation of the break statement.
 
-Found by codespell.
+Reported by checkpatch.pl with no remaining warnings.
 
 Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/rtl8723bs/core/rtw_recv.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index 4fb74729180f..43587a927d17 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -52,7 +52,7 @@ int	rtw_init_mlme_priv(struct adapter *padapter)
- 	pmlmepriv->pscanned = NULL;
- 	pmlmepriv->fw_state = WIFI_STATION_STATE; /*  Must sync with rtw_wdev_alloc() */
- 	pmlmepriv->cur_network.network.infrastructure_mode = Ndis802_11AutoUnknown;
--	pmlmepriv->scan_mode = SCAN_ACTIVE;/*  1: active, 0: passive. Maybe someday we should rename this varable to "active_mode" (Jeff) */
-+	pmlmepriv->scan_mode = SCAN_ACTIVE;/*  1: active, 0: passive. Maybe someday we should rename this variable to "active_mode" (Jeff) */
+diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
+index 86c5e2c4e7dd..51536f155750 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_recv.c
++++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
+@@ -1789,8 +1789,7 @@ static int enqueue_reorder_recvframe(struct recv_reorder_ctrl *preorder_ctrl, un
+ 			/* Duplicate entry is found!! Do not insert current entry. */
+ 			/* spin_unlock_irqrestore(&ppending_recvframe_queue->lock, irql); */
+ 			return false;
+-		else
+-			break;
++		break;
+ 	}
  
- 	spin_lock_init(&pmlmepriv->lock);
- 	INIT_LIST_HEAD(&pmlmepriv->free_bss_pool.queue);
+ 	/* spin_lock_irqsave(&ppending_recvframe_queue->lock, irql); */
 
 ---
 base-commit: 7cb1c5b32a2bfde961fff8d5204526b609bcb30a
-change-id: 20260528-fix-typo-rtw-mlme-35be9179cd45
+change-id: 20260528-fix-else-after-return-1225fa7dec5f
 
 Best regards,
 --  
