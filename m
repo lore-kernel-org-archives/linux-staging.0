@@ -1,99 +1,134 @@
-Received: from mail-m155101.qiye.163.com (mail-m155101.qiye.163.com [101.71.155.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 594B93B6BFF
-	for <linux-staging@lists.linux.dev>; Thu, 28 May 2026 10:20:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.101
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779963659; cv=none; b=oIuFUb1t01nZcV8W1NLzz0mGOnYxBo94/2o4rL8Oz387bibr7XwDoUmQAJnTT9dV52+hAA6iCMigNvtb/3vOp59FeDXIpP8sCV4AhdnC6FdPEBvpgqAy4uB7ThJzSvLRaJmNlsFxnoYjMcJFtClQmxNm5bAZzIFS4iycrup516M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779963659; c=relaxed/simple;
-	bh=62qjLgq1oKM6QYwtvkJtRjfY+z8djIogWp3aL/Gpas0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=DKC1CiIsZUHnW7qYJxvMAsWEeCEvxBG4y8G6a7FX2wSV/ElN5OcJi6jCbCc2256/YDml2BKBkjudMpSh0le9g490pCEoT3I1lgts1zfgBQ9W1U5z5q3WvhmxmQmN0LshJSFJzKrV+SJSS73Z8pVS6l0s0knPqmt51ub2G9n0oS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=hf2UkpOi; arc=none smtp.client-ip=101.71.155.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DECE3AF656
+	for <linux-staging@lists.linux.dev>; Thu, 28 May 2026 10:22:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.173
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779963726; cv=pass; b=Etzpo+HWmMPz25zmQP3pOe0/xVlW8TKGpslJCmWqfBgDjDoCId6eomjkJAMr/pe+OkYc6ib6v4vy8O1hmQhZSUJAnR0hvuo50jLX8xkgSO2vGXE74PBDwJWLAu5i3nkq9s1UHXmNiYCUpVRvUZRuU8BtZCkOWCqb5atVaUZVbI8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779963726; c=relaxed/simple;
+	bh=MXe6/m1adBwYTlEORw/Q2sCRsFwWpRWFlxkD3XmtGUY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=diKqwSahmuIpd9BD/kYzUuVN7PCJwhkvGcgYwl/BxQPH+LoYjxbAHCbeFVn57id61/x9am6t7pNsWLEuEzlKRdX9x7kKqRfjFf2SDRjrtyo3OZLNB3NwNSjoodyIKJZmYtg8ubN3Rbss898gy7Az4cledJmwCngD5xtMtE5t41U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=gRkWS5Mv; arc=pass smtp.client-ip=209.85.128.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="hf2UkpOi"
-Received: from DESKTOP-SUEFNF9.taila7e912.ts.net (unknown [221.228.238.82])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 402d03124;
-	Thu, 28 May 2026 18:15:42 +0800 (GMT+08:00)
-From: Dawei Feng <dawei.feng@seu.edu.cn>
-To: error27@gmail.com
-Cc: gregkh@linuxfoundation.org,
-	omer.e.idrissi@gmail.com,
-	hansg@kernel.org,
-	hi@josie.lol,
-	straube.linux@gmail.com,
-	xela@viard.dev,
-	ethantidmore06@gmail.com,
-	liangjie@lixiang.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	jianhao.xu@seu.edu.cn,
-	stable@vger.kernel.org,
-	zilin@seu.edu.cn
-Subject: Re: [PATCH] staging: rtl8723bs: fix mismatched free of HalData in rtw_sdio_if1_init()
-Date: Thu, 28 May 2026 18:15:42 +0800
-Message-Id: <20260528101542.2395619-1-dawei.feng@seu.edu.cn>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <ahfvCpI6YOA9Gpyh@stanley.mountain>
-References: <ahfvCpI6YOA9Gpyh@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="gRkWS5Mv"
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-7cb343d343fso119342797b3.2
+        for <linux-staging@lists.linux.dev>; Thu, 28 May 2026 03:22:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779963723; cv=none;
+        d=google.com; s=arc-20240605;
+        b=jXLLuat0NRRXMPoJsYQdsNB5CBnfjw5jTFwmdzelgC/DDOhVSoDF7ReM9T3DbpuGZi
+         eZrES8WnHzmYXuwdX7f22bjNNMFQ6xKldP3B3WyVpkApcsAgEAeTev1+jqnL3vDp5KfV
+         IYA+9WclrhLdEJe5Q4Hj58Ia9DMqn+qElkw/y8FneR+Gs6E64lB07Crqm/Ppc6GSwHjm
+         4Cb25dBeWVderwRuqE7A27HhocY2wm7bxqaPiu//u5fdCsML1zu7z2YVntz9wcM9B2rJ
+         DI+pYKnzn4YhBMpEVgnwMNSHh3zTOYpE4h5L3i9LF7ykVwSMtjyPysbEjpjQAv1eMhyv
+         7t1A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=Wd/GrZ3dwCewj0fDH+YsTtXc7Etu1moxohRG7C189RI=;
+        fh=RT4JfCUc0FBxBYglaCLVkYtOeUcsZ4H/3Gsh/NdfXS4=;
+        b=U1NP/1NfJa9NZ4IRUevt8UyMat7/xhzPqbS2CyNE4iYmP5rSQsmwV6Wl/RUkANdGk/
+         jjUAPoBLzMYn3HI2bXcJutu6Qqx3vk3unwEegmrylQ9e3d5WtWOWHUxBmJjyYRsNMZmz
+         zg4HQBGy+tZVChm9N5l0ABsnPu2jCEb2MiPR194iIYqqMghhWNXLUKb24JKvn4aBFHSV
+         yA4XPy1prLm/BwSLkcTbRY+6mvQNyNGDgjLuGVFC5ZfBythy7PWAaN5vRYG0e7ED7c5r
+         GFdoa2QOr5D6+4cs4ymf1/KBwMjE5zaFl+G6wixqZTxdLNo9Dsym6kCorIWOVqIgFjgg
+         3hIQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1779963723; x=1780568523; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Wd/GrZ3dwCewj0fDH+YsTtXc7Etu1moxohRG7C189RI=;
+        b=gRkWS5Mvo4VlNQrGj/9hjkYOGqpMj9zD2F32wCQHkulUTdYHA02kGM58P+h2aNOLLi
+         r+7HDT+7hbUjuWUz7BRirNkzPfr2v4rL5Xvv5y2hmkOyps2PFioGYtTIA1CdMnrawFOI
+         fh6us7AL4YJNC7AUSmF7e+enQHMsJAlJ3eNfZbenw20lP7xWWD4m6m1Taf4BaCsE3Bmo
+         M9FYoIvPBFesCUR+l7z8x5nawzvhqLhYLp3mO6IA/2H9EsYuB2eW3N/iRWjSe+3ba7rJ
+         QjbaO/0u4SRWKAvD8OIljiEk71dohk8kss2hEXaDb2CsDb2H05OvxUIlAD54Nt9uOeFs
+         uCUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779963723; x=1780568523;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Wd/GrZ3dwCewj0fDH+YsTtXc7Etu1moxohRG7C189RI=;
+        b=eDosHaatbhPdnaSAbjbaA0/EuT9GCC2r3DujlnBC3z6ZmOXf1HCNJ2UZ535zENLtBS
+         wg27JG1Jrkaw8T99AARr3+Wg9pHbHhrVHu/GsHfa4CFS5lWSUNOfNg2E9nKmhawbjWqp
+         Cs2NiWkEeaNpKELamCQKZYGQFwQ9DoO4VLxdMah/xIANxG//1gVLcWoc24Em+w+vBaWz
+         g7ZaNnr3WR2KMdBIMVcZwMC7hqt5TOwnPJabGIWNa0yR9tIUuD/CXmUxybnjPes4PSl5
+         t5s8kz/ba/KXzrBKIm55P33e2agnbUc8UAw92QoVCVWLpZ3CHRdV39qRwrhCLJ1UqBbB
+         mCbA==
+X-Forwarded-Encrypted: i=1; AFNElJ+eF2Pb8PgJrqsnXZxZdoZN9jlHbVWECG1FfY9MJgh/2UaVd5yP7J9BTt5ko02f1lTOLXEluJves/bZV1Jf@lists.linux.dev
+X-Gm-Message-State: AOJu0YzfoMakw+Q2kP4wRbwKQU/EiaZvG7TaBfTpxt37Ilk1voaZP2CN
+	7bkHpOWltdARggmS7D7VwMFygGYamA2X/ps7Ye5nWDj29LUmCm4eEjzgbaG4OAuqInCcOe5fr9z
+	m/HbOhi6GwPZw62TH3moisY3hY3ccRUA0NpOJ3adcJw==
+X-Gm-Gg: Acq92OEFdYORLwSC1LZiQfsvjQl/bWMbOuPiPAv0aPqKJXoENwVL6SJ7GVyDt4GwDiV
+	VHkswsqoAq33iCcBiDVUOLYDhwM4VXfg7wm89k4NNVnmdbmuxrTPJ9R2024gMdz2WljUUWv890U
+	wT24IH2t490O/c4btgZx6UJPMiEldsUfrsSngzEjp7FIBJSzNzewXjfefzEv1Az+yVfVQkodifm
+	zS63YmPNWcelFBdXNA7Tkhf6WGDhAEVxKblENAk5F4aVVt+lHW4w2C60Vo9LMwpljRc4pOOsNmj
+	9J+BjMqS6vUkVZokMOeTY467fsR7/ag3rFxsKG8NgnygyvQqlCBYI8xFAGFHgPIdrc2lN+NHMVK
+	qs7CglmdgZxGGyzjRAab1teeirxcvr6jymWs=
+X-Received: by 2002:a05:690c:e04d:20b0:7d9:222a:d7ac with SMTP id
+ 00721157ae682-7d9222ae1c3mr113086107b3.25.1779963723419; Thu, 28 May 2026
+ 03:22:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9e6e152e5d03a2kunm1d63080577846
-X-HM-MType: 10
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlDQk0eVksfSkodSUNISxhIQ1YeHw
-	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUpVSUlDVUlIQ1VDSVlXWRYaDxIVHRRZQVlPS0hVSktJSE
-	5DQ1VKS0tVS1kG
-DKIM-Signature: a=rsa-sha256;
-	b=hf2UkpOi3frLhM5+YMBnuRHRvJnZtPyomka90RTF9EUef+4rGlKuBKkFKGmwNgs80lcLAOnCpX/wYcBSEkAOvNHzlndKrwefHORJBs2e9MMYhBNFgm9S0rBVUUdWUOZlkPggUCYdiiNijuFqp/sZlIRWVutTpk/dw1fYULrkyMU=; c=relaxed/relaxed; s=default; d=seu.edu.cn; v=1;
-	bh=cm1IXCghAruZxMXm5ndJwzdSK/e/RcJeQCV3orZya5o=;
-	h=date:mime-version:subject:message-id:from;
+References: <20260526214131.51118-1-dave.hansen@linux.intel.com> <aham35tbJEbDc1Ee@kekkonen.localdomain>
+In-Reply-To: <aham35tbJEbDc1Ee@kekkonen.localdomain>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Thu, 28 May 2026 11:21:47 +0100
+X-Gm-Features: AVHnY4K4usxCpRpBe2NVLGn_gRHFzwAbSJtJA5zV9bklOiMG0ROEVp_bFM-szT0
+Message-ID: <CAPY8ntBFG=FzJdWjU+jnjx9k5H=pSyb9AVGiYwH+Kqu2kLMLTw@mail.gmail.com>
+Subject: Re: [PATCH] MAINTAINERS: Remove bouncing Intel media maintainers
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Dave Hansen <dave.hansen@linux.intel.com>, linux-kernel@vger.kernel.org, 
+	Yong Zhi <yong.zhi@intel.com>, Dan Scally <dan.scally@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Lixu Zhang <lixu.zhang@intel.com>, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, David Heidelberg <david@ixit.cz>
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, May 28, 2026 at 15:30:18 Dan Carpenter wrote:
-> > Manual inspection
-> > confirms that the issue is still present in current mainline.
-> > 
-> > An x86_64 allyesconfig build showed no new warnings. As we do not have
-> > suitable RTL8723BS SDIO hardware to test with, no runtime testing was
-> > able to be performed.
+Hi Sakari & Dave
+
+On Wed, 27 May 2026 at 09:10, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
 >
-> to HERE should be put
+> Hi Dave,
 >
-> > 
-> > Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
-> > Signed-off-by: Zilin Guan <zilin@seu.edu.cn>
-> > Signed-off-by: Dawei Feng <dawei.feng@seu.edu.cn>
-> > ---
->   ^^^
-> Here under the --- cut off line.  We don't need this kind of meta
-> commentary about testing in the permanent git log.  Otherwise
-> the patch is correct.
+> On Tue, May 26, 2026 at 02:41:31PM -0700, Dave Hansen wrote:
+> > Tianshu Qiu and Bingbu Cao are maintainers and reviewers of a bunch of
+> > media drivers (7 and 9 respectively). Both of their emails are
+> > bouncing.
+> >
+> > Remove the bouncing entries and update driver status in cases where
+> > there are no M:'s left.
+>
+> I can pick at least some of these. I'll send v2.
 
-Hi Dan,
+If Intel have no/limited interest in IMX355 any more, then I'm happy
+to step up as the maintainer as we have a customer looking to use it.
+I was going to add that as an extra patch to v2 of my recent patchset
+for it, but haven't sent it out yet.
 
-Thank you for the review and for pointing this out. 
+Based on recent commits I had pinged David Heidelberg (added to cc)
+and Richard Acayan too as other potential folk with an interest. David
+has agreed to be a reviewer, but Richard hasn't the spare capacity at
+present.
 
-The reason the manual inspection and testing commentary was placed above
-the `---` line is that we were strictly following the example template
-provided in Documentation/process/researcher-guidelines.rst. 
+I don't mind if you add that to your V2 of this set, or I'll try and
+get my v2 imx355 set out in the next week.
 
-In the researcher-guidelines[1], the example explicitly places the build
-and hardware testing disclaimer before the Signed-off-by tags, which is
-why we included it directly in the commit message.
+  Dave
 
-Please let me know if you would like a v2 to adjust the position of the
-mentioned commit log details.
-
-[1] https://docs.kernel.org/process/researcher-guidelines.html
-
-Best regards,
-Dawei
+> --
+> Kind regards,
+>
+> Sakari Ailus
+>
