@@ -1,168 +1,153 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 694093D2FF4
-	for <linux-staging@lists.linux.dev>; Fri, 29 May 2026 11:19:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780053591; cv=none; b=NT/sLqsOklohKj7/zIGLstkro9QQvTuG53xbJMcbRabzXocdMqhaE7ZRWwEcOJbOo2/ooZduqP/+ftI0y48XAlvPGmS/q82hwnf3+IzQAZrEIvCLEVlfSpie3550CePFyCKvOpwLlArf384ekhpwF1CR4dAIbSYNxyYf5qRAVoM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780053591; c=relaxed/simple;
-	bh=OGcciJ6W6CeaavRf76dr+/31XpWcTllTwZpLV2apEtg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QPo+fY4HJ8SrHa9LBm8i+jCoK8aQqyfc0w2JIyGc7Ufm5MLoAkPPv1uqB4XU3qIR8piEBk/2k7CH1gZeq7wkP8NU58NlkXLDG5oMOP8+Qk5/Fec6LKhgkJHeorPbz0zzuaILb3aFHUsDzk2O9G45XuyKMNdT1IMAdZZ+8mRxEss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bXKkCMDf; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C494F3BED37
+	for <linux-staging@lists.linux.dev>; Fri, 29 May 2026 11:25:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780053952; cv=pass; b=OUSh/cQnVhksBhLzC/gw9DvzdcMYBbC0sGSoTAA4eaj3gcbTARn3VooLGdYk03JDRNg8n1o/Cx/oeOO7jweFKv5cCt9ahreTNM3JRYry8mDKXj/GTnYG9g13iRqEFK6jTgKup5mDtttbQ1v2NFGdceL2CN914SSiUKMwB9j2/88=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780053952; c=relaxed/simple;
+	bh=tyqn2TJnhheID9TGsq3UkYy69lM73UdL/LjKv+JJIrI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rUBHdQGVDrLtSXnNFVojYC7u+EmYehNaGZw2+WkdTWz3eOx5XHqDdjbqlOy+Cmt6AcKqtrriUagC+TGaJk+K1e+6BZ2nB75rPntLs73TyFuvggbM2X5nxmdUWhwIB4PMCr8bKkexEIGDH7TMRzIdR9rqaY19ZSZHZiIYN5ZyjaQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=damVx3WD; arc=pass smtp.client-ip=209.85.218.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bXKkCMDf"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-3698e34a567so12656769a91.2
-        for <linux-staging@lists.linux.dev>; Fri, 29 May 2026 04:19:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="damVx3WD"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-bdb3eb93e20so1407052466b.0
+        for <linux-staging@lists.linux.dev>; Fri, 29 May 2026 04:25:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780053949; cv=none;
+        d=google.com; s=arc-20240605;
+        b=DA21fKphtzDG8bHfraHqt+VSJQG46/9TA8xNlSSEh+Gjsgv9V3pJmMgNgXmS9fyc1T
+         K37ywVy9PZ3thoTaOTJGSIrZPy1rbpACwtwfsliDfBZdkqyU/Ey6CEtq2hc42+0bTSt2
+         Y3+l9DT9rX7Vs/uKaXhCBCAp4dKCvbxyydAXLH6/xYhcba4Y3EBRwscuvvujXwYvW+PK
+         ysTNZPf7RA0vwECwJKwCDPeVKNbWzvmDtGjksR9xoMMkYm2BuFpXVLBCHd39L7j332nX
+         TZmuPuRoedTgxmWLnxPvMHnmnYwrVoPQznktmr9UQXh5OOmzZJ5LMMv8HSbdbD5qqpFZ
+         gV8g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=cG6fNOfDYvWS7EdllG3W2X3vzmOug6Lzt00TaNQYnp0=;
+        fh=p6RgwdoPpEWUjseNPWuEH134MThhgInzAWaohncQCLI=;
+        b=IhyBb4ogbyTAAs9cHt6AC1tMuVwRgIDwkEL17RuJxKWyXJ0FCYjcXYBH9MYt3ugFcX
+         MGBMfCwpVY8sroNT+LnU19hnJf5+Ami3/PubaYOE9Z5Nw9Q2bggfdqOZ3rSSK68KNrWc
+         1HoQLviOlwtx321Ev8OAqFT6YRhv2T9zW4NjjjxJdx1JJxBKiL+F/IKI4EfUVX2rLJuS
+         xcv01K3aKjGk9mzkohqJdUpQw0gN3m6HtHTE1iav/nq2yZBSkME8gCbF/Bt/bN6aQ/Uf
+         FVWbuKsebxBTH9LE63nO5Z4hnYuzXPuVwRvw4/3dDE57nIVhLz4M/txwkfgN85VpU0Mq
+         j58g==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780053588; x=1780658388; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rWrnxSsae63bDDyuIeyXqVcedd+iF5iTIGjUSHH9BKM=;
-        b=bXKkCMDfVaKasWJ0RulkdNtgp1UECV4LzwrrwifbPbzqOOqPac+HiH3Hd0Vfjds+VY
-         FvYXnLfIAM5/GaF3qW/BamIa3tM+wF2o3Ovte3tR6t5pJEie2hphoaPfbZQ/Y2fWVxwQ
-         RsdtRUGkd3K6sxIkkgoJ0fCG+jtH9vQubGF1u8nBKtJljkZvlLuPAamY328DkD4EuT4Q
-         xhwUxg0KIo81NPh5Qaynb3vvUkP5t8qOPLAEcgwmtP9X9qeEXALNMIyE/fJu9+deOBI3
-         FD4yFsNItmVJ6sKC1GAwR/+h/s0+3tzWf+OvORNSk3H/pkiFIOa0WzkuvEziNIK5Fpke
-         15Ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780053588; x=1780658388;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1780053949; x=1780658749; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rWrnxSsae63bDDyuIeyXqVcedd+iF5iTIGjUSHH9BKM=;
-        b=XF5HAvnYKIJBYyxgRrnSkYLfIGgfVImwIvsF83ZcPp6fV65nh/0FNrN7IB4V7saRUJ
-         qAM3YN5YFOXgB5Y2gE2TC9s0atgQKuML2SaxWO6otO5LC7lStwe3tGm4pab1kwZM+p5A
-         MlrTImJth+DONQihv9v8yzMwbdPMk1taM2IxpZlDtxCB0lab0cILhzMYQwpY9mtWv+aZ
-         1nNPNErxb0VtAKid805f8M6whq4CPUTjkmH2KPM1tFZ7C9aM1us7qLNURSV5Uf5LfZmK
-         ZAqkhdlITvXJ71j9emjdzmoQNGZdaM5haMDq6iQCtt8Gq0SGZMvu1ps9LC3aXtWIOgHY
-         5qEA==
-X-Forwarded-Encrypted: i=1; AFNElJ9UurLcxxZd2GlB07uKqAzPv/rzvjeNbxH35Q4Tlprj6DFmBlMiL9NS7yMX96gFwPr35Ot8oN82zc3JkPL2@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx7JL7603JtfbFKi7Gm1e/++mz+Ey4d5wMklnlzZBjaYuuFvb2g
-	F1ULPn3qLHMVC4gwT66DZyvFOjrqHwvwLbrixP9JhGmw9ef5jkcwoDPn
-X-Gm-Gg: Acq92OE6myhygQ/r94piVdUTRnqxZqyIeSWhTritlkVuJKAR/9+0NCrfSGY+FWhKAfl
-	t1dOcJSo0hS4DtTEEJ/FOssp4i0aAfGavdNACyX2k1OGTw7ob5NUZqJFca+oHTsPasiFjuuBzJu
-	LU2rGdEhOCj7mpK4Bu/NLpVaenDAjzv4Qxpu3MSsi3ZMIKMW35RczlyOvtN2lVrs1fzm4zF/UlQ
-	YV69XtODLsloAlGM/GqM7pbjbkylP9RjtPVQHxuxabBbn5tGLAhxLvzB8TxkDDKMG/unR/qzjfk
-	hhbpLH0q2ODM2MquWVBnOcVLxKA3+vyd2uCUqRz+x5ARXiA7uybqojm3WrZXYBx+AdZg4uEZcOE
-	VP9LAFG5rB36rumQoJUfadiOEPSbardlfRSnSBBWCBTS05r1Br3VMU01Y43mKAMQnwQPDkpNXRI
-	H3OKuDSfKnH19ddVSbimkVYmSIHhg22kNh
-X-Received: by 2002:a17:90b:3c09:b0:368:f0d0:1ce8 with SMTP id 98e67ed59e1d1-36bbcd63077mr2994526a91.9.1780053587514;
-        Fri, 29 May 2026 04:19:47 -0700 (PDT)
-Received: from onish ([2404:7c80:75:55f3:d423:9757:6acf:6ef9])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36bc0c1ab21sm1826945a91.14.2026.05.29.04.19.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 May 2026 04:19:46 -0700 (PDT)
-From: Onish Sharma <neharora23587@gmail.com>
-To: sudipm.mukherjee@gmail.com,
-	teddy.wang@siliconmotion.com,
-	gregkh@linuxfoundation.org
-Cc: linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Onish Sharma <neharora23587@gmail.com>
-Subject: [PATCH v3] staging: sm750fb: rename pv_reg to io_base
-Date: Fri, 29 May 2026 16:49:27 +0530
-Message-ID: <20260529111927.14138-1-neharora23587@gmail.com>
-X-Mailer: git-send-email 2.54.0
+        bh=cG6fNOfDYvWS7EdllG3W2X3vzmOug6Lzt00TaNQYnp0=;
+        b=damVx3WD2X5JV5gXbUuUGns/06U6ipIuEHG2152FaR/cKzVW3IKf9wa5GQa5Nah1oF
+         JyWnoAlwSvEfUjZaePBnu4P+c6IrENygsPIZpRbCJOjvy8M8vZLE9PvC+s706WXQq63a
+         00gU9RX4kvZbPUtHuk5/v+q4Hggt/Lg3qOq7zv9hpJdOvmZnBUUVsCpnZ3UJZi4iXYf4
+         Jvfno3jN62JIrO82Et5TbPQvQI4PYpqzyRlT6PFi0/rELHRyi5nzg1L3edpk8WweXV0e
+         UctGnv2s0YcGUBIjU52oL2OHmfSvIQMTyiP7w9J9vSpnJoJ6hZVfK3SzYybNrSEd2mAM
+         A0ZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780053949; x=1780658749;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=cG6fNOfDYvWS7EdllG3W2X3vzmOug6Lzt00TaNQYnp0=;
+        b=O6zuE5CTl/nNXCWDhlN5s+PNtXfWD023RMbLy8cZysUbc9s0mfZUmDIvD21QGwPGxj
+         hKl44cXOzYJXA89eNBmsdJeJ/mrwq80FuY7ULh/FOyr3hTdUyOHzarkEXKWKA3ft73vt
+         o4WRUGNIA3tSBRv4ehJvJF+YA2QrwwlQRf069vHBeLYk5bwxUR29wUcq5uOSCywT+hut
+         I2qjelEgKVJqAPOMRQHr5PODRjAihwfdFveUQ1t2uIT7QB2tqwhA1VJT3xAqvosj5y9K
+         82DOtx7A9uMFdDXb7UN0fGpc1mpMJ5mDipFfIT87+UK7/OXyUAm2SXYAT3VpI2zDby8B
+         xK1A==
+X-Forwarded-Encrypted: i=1; AFNElJ+mL973uJE2QnOuSL7cQbz1kpa3HKnOzZY340n6SYQOP79tUXETjfNMxmUwgB6b4Jt2iYl5EgsBBSTb6sX5@lists.linux.dev
+X-Gm-Message-State: AOJu0Yym+UIOY0HRX48++SgpAzmD5/1R40wX3m5G19ijueS7H2N9hwE1
+	mMNoUJQGrv23hvNFXxAjRpJFf8274QPMfsNguWEoCrCBLL5QklfVD5ack6oSRx0LDTCT0Qxvkrx
+	b6h2lSxAw3vluaawByNzIMBeZYZ49g6A=
+X-Gm-Gg: Acq92OEp31TTwlaFpPQJrQgOX8mJzSrGW59wK8T3GMgxLudMi5WYRle6KKc0L4pr9Dj
+	YEiZmFoGrD+HtE4+a+S/uhvAoPDUiSQj8WEbZ1ae5srnbuDAlw+mOb9EyCzAOtf8Z9c+EvxsckF
+	uBNmbyc+9v0pDlJvd73v2lWMdXh/J2QKR6Y1IKiy1CQ6IrE9lIblQ/payhzYet3RUn96Jq3VEJ1
+	FHmOWKvXgDOlXq5zJ2ZpxkJV4VYQBo1sdbIh6lXgyOrE463Su9hwYkm7eikvROP2tFZlCrOsgkv
+	X2h/RevYMORVS6hnPNwiokjQR/drcf8cK8K39jW3i6Eu62QmXvTpljgKeln5
+X-Received: by 2002:a17:907:a0d3:b0:bdd:90b8:e39d with SMTP id
+ a640c23a62f3a-be9c8e629a9mr130627866b.8.1780053949072; Fri, 29 May 2026
+ 04:25:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <ahlXYIqzu4O5-u9J@stanley.mountain> <20260529101242.10189-1-neharora23587@gmail.com>
+ <ahlszyY6Nd9ANz-X@stanley.mountain>
+In-Reply-To: <ahlszyY6Nd9ANz-X@stanley.mountain>
+From: neha arora <neharora23587@gmail.com>
+Date: Fri, 29 May 2026 16:55:35 +0530
+X-Gm-Features: AVHnY4JAyhUqKSCPhpw74ET3c-2bMb-3AMQcUCC_hgyap9vwciL2wDwwedMwBIQ
+Message-ID: <CAOWJOpuS7poyE_cDB1xa_te_B_fT2+7zEJwv8hnM_UT1hH8fAw@mail.gmail.com>
+Subject: Re: [PATCH v2] staging: sm750fb: remove unused variable
+To: Dan Carpenter <error27@gmail.com>
+Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com, 
+	gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Rename pv_reg to io_base to follow kernel naming style and improve
-readability.
+Hi Dan,
 
-No functional changes intended.
+After looking into the structural dependencies and the cross-casting
+between init_status and initchip_param, I've decided that this
+refactoring is outside the scope of what I want to work on at this
+time.
+Please feel free to drop my previous patch. I'm going to shift my
+focus to other areas.
 
-Signed-off-by: Onish Sharma <neharora23587@gmail.com>
----
-Changes in v3:
-- Added mandatory Signed-off-by line.
-- Rename pv_reg to io_base to remove hungarian notation
+Regards,
+Onish
 
- drivers/staging/sm750fb/sm750.c    |  4 ++--
- drivers/staging/sm750fb/sm750.h    |  2 +-
- drivers/staging/sm750fb/sm750_hw.c | 12 ++++++------
- 3 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index 716a8935f58d..c2d2864f135b 100644
---- a/drivers/staging/sm750fb/sm750.c
-+++ b/drivers/staging/sm750fb/sm750.c
-@@ -743,7 +743,7 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
- 	 * must be set after crtc member initialized
- 	 */
- 	crtc->cursor.offset = crtc->o_screen + crtc->vidmem_size - 1024;
--	crtc->cursor.mmio = sm750_dev->pv_reg +
-+	crtc->cursor.mmio = sm750_dev->io_base +
- 		0x800f0 + (int)crtc->channel * 0x140;
- 
- 	crtc->cursor.max_h = 64;
-@@ -1047,7 +1047,7 @@ static void lynxfb_pci_remove(struct pci_dev *pdev)
- 	sm750fb_framebuffer_release(sm750_dev);
- 	arch_phys_wc_del(sm750_dev->mtrr.vram);
- 
--	iounmap(sm750_dev->pv_reg);
-+	iounmap(sm750_dev->io_base);
- 	iounmap(sm750_dev->vmem);
- 	pci_release_region(pdev, 1);
- 	kfree(g_settings);
-diff --git a/drivers/staging/sm750fb/sm750.h b/drivers/staging/sm750fb/sm750.h
-index e8885133da2e..c42800313c6a 100644
---- a/drivers/staging/sm750fb/sm750.h
-+++ b/drivers/staging/sm750fb/sm750.h
-@@ -97,7 +97,7 @@ struct sm750_dev {
- 	unsigned long vidreg_start;
- 	__u32 vidmem_size;
- 	__u32 vidreg_size;
--	void __iomem *pv_reg;
-+	void __iomem *io_base;
- 	unsigned char __iomem *vmem;
- 	/* locks*/
- 	spinlock_t slock;
-diff --git a/drivers/staging/sm750fb/sm750_hw.c b/drivers/staging/sm750fb/sm750_hw.c
-index 95f797e5776a..dc1118808b4f 100644
---- a/drivers/staging/sm750fb/sm750_hw.c
-+++ b/drivers/staging/sm750fb/sm750_hw.c
-@@ -23,18 +23,18 @@ int hw_sm750_map(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
- 	}
- 
- 	/* now map mmio and vidmem */
--	sm750_dev->pv_reg =
-+	sm750_dev->io_base =
- 		ioremap(sm750_dev->vidreg_start, sm750_dev->vidreg_size);
--	if (!sm750_dev->pv_reg) {
-+	if (!sm750_dev->io_base) {
- 		dev_err(&pdev->dev, "mmio failed\n");
- 		ret = -EFAULT;
- 		goto err_release_region;
- 	}
- 
--	sm750_dev->accel.dpr_base = sm750_dev->pv_reg + DE_BASE_ADDR_TYPE1;
--	sm750_dev->accel.dp_port_base = sm750_dev->pv_reg + DE_PORT_ADDR_TYPE1;
-+	sm750_dev->accel.dpr_base = sm750_dev->io_base + DE_BASE_ADDR_TYPE1;
-+	sm750_dev->accel.dp_port_base = sm750_dev->io_base + DE_PORT_ADDR_TYPE1;
- 
--	mmio750 = sm750_dev->pv_reg;
-+	mmio750 = sm750_dev->io_base;
- 	sm750_set_chip_type(sm750_dev->devid, sm750_dev->revid);
- 
- 	sm750_dev->vidmem_start = pci_resource_start(pdev, 0);
-@@ -58,7 +58,7 @@ int hw_sm750_map(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
- 	return 0;
- 
- err_unmap_reg:
--	iounmap(sm750_dev->pv_reg);
-+	iounmap(sm750_dev->io_base);
- err_release_region:
- 	pci_release_region(pdev, 1);
- 	return ret;
--- 
-2.54.0
+On Fri, May 29, 2026 at 4:09=E2=80=AFPM Dan Carpenter <error27@gmail.com> w=
+rote:
+>
+> On Fri, May 29, 2026 at 03:42:42PM +0530, Onish Sharma wrote:
+> > Remove the set_all_eng_off flag and its associated cleanup logic.
+> > The variable is redundant as the hardware should be initialized to a
+> > known state regardless of prior usage.
+> >
+> > Suggested-by: Dan Carpenter <error27@gmail.com>
+> > Signed-off-by: Onish Sharma <neharora23587@gmail.com>
+> > ---
+>
+> Sorry, miscommunication.  This breaks the driver.  This is also a bit
+> more involved than I thought...
+>
+> There are two structs:
+>
+> struct init_status {
+>         ushort power_mode;
+>         /* below three clocks are in unit of MHZ*/
+>         ushort chip_clk;
+>         ushort mem_clk;
+>         ushort master_clk;
+>         ushort setAllEngOff;
+>         ushort reset_memory;
+> };
+>
+> And struct initchip_param.  The initchip_param is exactly the same but
+> with all the struct members renamed and comments added.  They have to
+> match because we cast back and forth.
+>
+> Why do we have two different struct that have to be the same?  You might
+> think it is for API, but as near as I can see that is not the case.
+> Maybe it was at some point?  We should get rid of one struct.  Which
+> everyone is API is the one we should keep.  If neither is API then get
+> rid of init_status and keep initchip_param.
+>
+> After that we can talk about getting rid of setAllEngOff/set_all_eng_off.
+>
+> regards,
+> dan carpenter
+>
