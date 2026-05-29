@@ -1,67 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0468632B13D
-	for <linux-staging@lists.linux.dev>; Thu, 28 May 2026 19:06:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 729DB3B0AE1
+	for <linux-staging@lists.linux.dev>; Fri, 29 May 2026 07:41:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779995206; cv=none; b=HCKeihxmEWUel2jWHBpfI98Zd78AK8NFMNs+sDtog8kw3kCEZvrxoNHmrHVIeF/I7OxBG4oHN5yeu0T9VO64LWvkzZqc2KNoLljlS+0Vr+OVVG898MPhPFzXoDiY7jfP9AKvVnB9VC1GOWJoBmH0SUEAiBSQmkhftTC8HgHXvfM=
+	t=1780040468; cv=none; b=XoH3fPN8rqyi8F3/9qoVlwPH2taWL7POHbz9YhXNhPzCj6zsXqPlwZL88hvXn1Ab1W2PXd0Vxx69qnESB/CuVPzo8I/a5d7yYg/Qlr+B0t0vjkzp8cxqWPbSOkYYgr0hV7qSA8Oezom1t4xJwR+uGcNaxoawRFdZ2KIeF1ZoFNI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779995206; c=relaxed/simple;
-	bh=1PHZvUf8rUiNG1427am34Hzkk8b7N19w5O5YChuFLWc=;
+	s=arc-20240116; t=1780040468; c=relaxed/simple;
+	bh=PmQsecW3ppRLhE4NufL/6bCGuDUpdU+aofWqPDOKEAU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r9kweV0eXlLZbBczt3LLsQVNsam47mCCZt53QPC5AeRV7KYWwvSMiN1OldvfmqYzAZlsYj9fPbrs1yQ0625THWk47bfUe/KgyMUsu6ybSLdd5UFOwZ8thoU0tsME61sFgKxxfIrxJ0osoUY4CCRWWW3qC6vxhR2xjWlo6TKw4Aw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kKBPMUq8; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y4N3uqobOZv7ly/VApc3jY8L54LOrNoOPEJX/jZdXllL0J4KWRt01e+Tes543pxqjRycCZ26IQYrU3bBCSIoipAfPe0BWuzfNblHWuy9HjH03kFnBuXbYsDksaNOfLBJlA9hgx3w/wqG14AJ0oE+iI3CaJyrlWulGBJSr801TzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HqeVtwm6; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kKBPMUq8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779995205; x=1811531205;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1PHZvUf8rUiNG1427am34Hzkk8b7N19w5O5YChuFLWc=;
-  b=kKBPMUq8P8NIjteQM3UESA2wdBCdgYSqpW1TrQrkJd1ie4UK70Y5xvI7
-   o2V7tIxl2hm0JHvo34if0HHFdKseeaVlAJ/IqwEsF48w1dkZRS0xHCC5u
-   1qltE0jPPq7Gd4cEtwdZ7/aa73bcuD/guLNLqa7eJzbGwv7EcS6DyQ4fv
-   8h3vgronT0G2hl4HstNjVTpluDOh5xw8kIqBnUFcj+TWnRNYjbupfRzKT
-   5ZxTQBJeDc3ENuTKUWAG+LHma83cJ/80ZdOb33XeFkAxmTkUKu87uMYsW
-   taKv9ByMqA8FBcTIXi3OK+tSIx9TEk/+g4EqcXNca2VQBgzmVac8V5T3p
-   w==;
-X-CSE-ConnectionGUID: MtDFGhp0RlCejxO4salVsQ==
-X-CSE-MsgGUID: 2K+UWh3LSeShqhkXxoruEg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11800"; a="106299000"
-X-IronPort-AV: E=Sophos;i="6.24,174,1774335600"; 
-   d="scan'208";a="106299000"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 12:06:44 -0700
-X-CSE-ConnectionGUID: ser+wkGpRRqwVFuffzYjUA==
-X-CSE-MsgGUID: RDmyMl7MSa+MkOLJzjT2fg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,174,1774335600"; 
-   d="scan'208";a="247584499"
-Received: from amilburn-desk.amilburn-desk (HELO kekkonen.fi.intel.com) ([10.245.245.232])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 12:06:41 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 0B80911F984;
-	Thu, 28 May 2026 22:06:35 +0300 (EEST)
-Date: Thu, 28 May 2026 22:06:34 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Dave Hansen <dave.hansen@linux.intel.com>, linux-kernel@vger.kernel.org,
-	Yong Zhi <yong.zhi@intel.com>,
-	Dan Scally <dan.scally@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Lixu Zhang <lixu.zhang@intel.com>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, David Heidelberg <david@ixit.cz>
-Subject: Re: [PATCH] MAINTAINERS: Remove bouncing Intel media maintainers
-Message-ID: <ahiSOvQ2zQuHDHWI@kekkonen.localdomain>
-References: <20260526214131.51118-1-dave.hansen@linux.intel.com>
- <aham35tbJEbDc1Ee@kekkonen.localdomain>
- <CAPY8ntBFG=FzJdWjU+jnjx9k5H=pSyb9AVGiYwH+Kqu2kLMLTw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HqeVtwm6"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4891e5b9c1fso118050205e9.2
+        for <linux-staging@lists.linux.dev>; Fri, 29 May 2026 00:41:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780040464; x=1780645264; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=PmQsecW3ppRLhE4NufL/6bCGuDUpdU+aofWqPDOKEAU=;
+        b=HqeVtwm6kqz80v5FQxtPLfI2/x51xXS9/F8EVuXDHS87tahLyiCjtcBMV/6a1Rtp3C
+         w7vFwlShWU/6ebGRshKrJJ0mZyLLCutAj4yBMdwBPmVNdziNTTdeDriiAQ7QN/JTyJDd
+         nvmU0Ymehf7xNaT46we6i7zYNu/TqWFSiPsKdBZMro/YxWQjQACv+xU1gdfaEgas5nFa
+         +lW6BDWGr0IRJ26GOkX19vTC9veYcvPrVR5eTsqFx75/veGyHRZMGWE4TQCP7uuHhpc4
+         t/8U2eLjB0OC9bec7x+TjH9Sm1XgBQayDMckOHl1CBTIa+bbeLwJeqgx/cb5S4F/Lohj
+         wQOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780040464; x=1780645264;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PmQsecW3ppRLhE4NufL/6bCGuDUpdU+aofWqPDOKEAU=;
+        b=fccDLEGAzRqnYG49FOWdFTKPu9ejVFvjL2tha7heVmekr6rd480JbrdX12KfWs1kI0
+         bwUyoZZJwkHjBE/zr82RlmHQ0QJfz4NXiSzNtvPghnKUq8hgMJZIouPGEBM/Zmsy2KRX
+         riVKBzNy6J7gKBHjS6ZgYevrB2o7g9FBGD+AnLvFPS0GfQ2B1Jo8qkdUa5RsL9nj36GS
+         5YKIPIU99u9kr3ox7TdPPvZI0EPSSRum50cMT9tPwjtfSrppJvO1yirqnFHt4BeojKLk
+         lOlVAEza1GniheazFvTK4UzVOGGwv8EBi39iOFmWMQz7RjTSbf8ZCgSLPvOujrLjo5d9
+         GUnw==
+X-Forwarded-Encrypted: i=1; AFNElJ/Udl3J+Ra+4MxlbxJQVTI5R2P+Dma9B7hSkISeCrT0ftORILPqtVb1UIWraSRJwBTCnCZ1HJqbwJ8NADkb@lists.linux.dev
+X-Gm-Message-State: AOJu0YxZctB2Qtz/zXhFVED/QWgG5lVX7XGZm1HG3gE76jWQQN8JnQmC
+	/gmELQT/HYQXO9MMBQKQ0DnAqPTA0FqLob/AW5h46Wzjul/8g7YsFHyP
+X-Gm-Gg: Acq92OGwrN4l5UWwBNBHlvZOMbvjtIMyK06M9hLkCbUgGqqG+vsAr0+8o9y5wqRfVWa
+	4w3vbopVOapyk+uMhV8/DBUSipaXvU4Nh6q8YgUZMP1pih65UY7ssxaQ2E/xip0lDvIWyY1e7Lt
+	vsUoCtBFs3ikelk+0SjvcSiworW+jY4tuqyxo05uUg6521kMIM5eNa6wKvugOuQiVTioDLk4bk4
+	sxV66Mlzv0NFBJpYG9bjL7gnBb9jMbSKpCejR6uH00J2yO5b4hWYCYN/tXfC0TWNkuYYxcFAqOv
+	OyKB+rMW2YdTuLva/tk3qKagW6MWVVNDeluAfBw0VcaV82bshYhfpgZbywMC3g151k3dHvaRmym
+	ido0vuPV3DD0xS0DBJAA3L/DhyJvkq876dkmiT9oBDd07MN5UIbFRJ82d10e9tppcm3v7Ew7ALI
+	zcwj7Ez1jLT3tNKRE/nWtO+4q1/LNIFoaakQ==
+X-Received: by 2002:a05:600c:c0d2:10b0:48e:7854:1608 with SMTP id 5b1f17b1804b1-4909c0b34e3mr20904435e9.25.1780040463558;
+        Fri, 29 May 2026 00:41:03 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4909c0b896csm15747115e9.1.2026.05.29.00.41.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 May 2026 00:41:02 -0700 (PDT)
+Date: Fri, 29 May 2026 10:40:59 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: artur.ugnivenko@gmx.de
+Cc: gregkh@linuxfoundation.org, ahmet@sezginduran.net,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v9 0/3] staging: rtl8723bs: fix several style issues in
+ hal/sdio_halinit.c
+Message-ID: <ahlDC0WJ2f-o8KNt@stanley.mountain>
+References: <20260528170645.30861-1-artur.ugnivenko@gmx.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -70,45 +74,12 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAPY8ntBFG=FzJdWjU+jnjx9k5H=pSyb9AVGiYwH+Kqu2kLMLTw@mail.gmail.com>
+In-Reply-To: <20260528170645.30861-1-artur.ugnivenko@gmx.de>
 
-Hi Dave,
+Looks okay to me now.
 
-On Thu, May 28, 2026 at 11:21:47AM +0100, Dave Stevenson wrote:
-> Hi Sakari & Dave
-> 
-> On Wed, 27 May 2026 at 09:10, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
-> >
-> > Hi Dave,
-> >
-> > On Tue, May 26, 2026 at 02:41:31PM -0700, Dave Hansen wrote:
-> > > Tianshu Qiu and Bingbu Cao are maintainers and reviewers of a bunch of
-> > > media drivers (7 and 9 respectively). Both of their emails are
-> > > bouncing.
-> > >
-> > > Remove the bouncing entries and update driver status in cases where
-> > > there are no M:'s left.
-> >
-> > I can pick at least some of these. I'll send v2.
-> 
-> If Intel have no/limited interest in IMX355 any more, then I'm happy
-> to step up as the maintainer as we have a customer looking to use it.
-> I was going to add that as an extra patch to v2 of my recent patchset
-> for it, but haven't sent it out yet.
-> 
-> Based on recent commits I had pinged David Heidelberg (added to cc)
-> and Richard Acayan too as other potential folk with an interest. David
-> has agreed to be a reviewer, but Richard hasn't the spare capacity at
-> present.
-> 
-> I don't mind if you add that to your V2 of this set, or I'll try and
-> get my v2 imx355 set out in the next week.
+Reviewed-by: Dan Carpenter <error27@gmail.com>
 
-The sensor is present in a Chromebook and so I think there's some interest.
+regards,
+dan carpenter
 
-I'll add us both as M: and David as R: in v2.
-
--- 
-Regards,
-
-Sakari Ailus
