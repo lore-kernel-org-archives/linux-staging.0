@@ -1,180 +1,118 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 877F93403E3
-	for <linux-staging@lists.linux.dev>; Fri, 29 May 2026 10:12:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A69A0261B71
+	for <linux-staging@lists.linux.dev>; Fri, 29 May 2026 10:39:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780049575; cv=none; b=biTSqeqTTPGu5cHXxoKuXFI5cTwvqrkO32/C2aIRR3V6ItCRTSqsoLerspwsJvwBJblf2iccWRo0KktQyr2AtG/sfNG09uOpxA6NRjo1yI7CIaeCBdMK9B/dEFaeJq8arAroY9/km9b895/iJ0mVZNjnZScEIBp7S9pXFeorOKo=
+	t=1780051157; cv=none; b=Yqpfy8oPPRf6BFE1Sb3/7H4fC+YD0xKEpLJ5CGc7+vqLkVK6NbXGticdITgxkwvVYO/GJS7tIDSINWLrXIa75fId85FrW1OWIwRmc+K/wJLR1SbhGvaIbMJv2tTUnKuUDDSEYcpLXZuYAxbTkPQx1pP7VwkbQnt9LafT+h6rpvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780049575; c=relaxed/simple;
-	bh=Y7y3a2pvNmvIJb7ykkCSj5mWTjUFfguuQeIZTegq5fY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hGHLPNfaDk0cn0P9Fg32kHDzz9B0kRABRf9jsNg49nVcTwfjv+4sLjC2Bz5Zz2rVJj+V9CgDrEpyaHoyxlNPQXryLp14jfQ7Ii/hFwLQuo+FMbgvkeaR4MUMfitmkPoYcaaW1vp/paAp1/jOIVUiFZAUWAFzVdZp9uoMDZPTBCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Js7g773e; arc=none smtp.client-ip=209.85.214.179
+	s=arc-20240116; t=1780051157; c=relaxed/simple;
+	bh=rvgiEl9LQVqE5UrFPQ7CggVAH3MVjiWMkIFeKt9hmBg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=O4b1zduRVwxKyBdQSJrQCo+F3jpoGwqmcEkF0E3rMu2+QJnRe2IGbMG4BRetWn3grjhgz4h7qT4x2I2pr1caNx+0Sch5XkCTq8Ow8vlgwnfAtGdLSzPD4otSJnkIzOEd09vUOA40UFwlrzByYcEO3C3etbLQZX57e4ixn/Eqj5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c1UxDz1M; arc=none smtp.client-ip=209.85.221.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Js7g773e"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2bf125989f2so9394245ad.3
-        for <linux-staging@lists.linux.dev>; Fri, 29 May 2026 03:12:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c1UxDz1M"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-45eecb8bf67so1092950f8f.2
+        for <linux-staging@lists.linux.dev>; Fri, 29 May 2026 03:39:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780049574; x=1780654374; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vY7/46Ar+NHzbdLbEhYTxHefdN//zGNwIrFOy4QahJ0=;
-        b=Js7g773eYuJgoKvFJCBYAKYwf9qLn1sPVj53ynxJeXXcs9qhpA3HxStXYZVjPpYWAA
-         hFXUhlhFerGMNRRkyiYumNQDjWYegLVa4F8kjRCuyrHufAZq4tIfqnLZ0V9LD6cxjQAf
-         HLfyRfrigs6zmEPlS7inY1AiHYDdJFXmMfiKLGMs3fBg0/CgHQuI8SyMW/6wodL8xHNl
-         HcKNzcoYK9xJ6wfWUyttvyRYPsTwUpwJ4zt4w2UCC1jVp6hvj2/UDjtIrThjqoTqNZ5T
-         +BrvGbN4889eRLfaGw0YoNeieOPUtvJB0Dl9V+bdSShuPyazU90bgWy6WiRpyP3PxO4O
-         8XKA==
+        d=gmail.com; s=20251104; t=1780051155; x=1780655955; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=JRYr8moLEmjRWHLilv4FqgfxJEhbzr36lw1lU/Q2qfI=;
+        b=c1UxDz1MyQJRdU0n6GBSTITjfaKdmzxFVl6QH1Kdptl2XTix5tLOU7XHc3Ix8vjRO9
+         DSv/DKMjIhlbl6lZKVCp5v6iR+ILHQaqGwumQcRSvz+j3rzjYfid3DApgBjE5RMP1yQz
+         Dl8kGvP4l2gKUbcOd+NBExmsarCszxZzkWww3VnKLwS++V3b+ex5katdAdraf4yuaUMD
+         th2kUT8W07fogjz/GBPmxfafga6aqVhxOfXkGBjL1x+aCIl5L2HKvD8LasS9XJv8K9Vh
+         pExZJe3W1gn6LV7KdRZ2hTDCWfeoZsKRRz0FOCxvyrwAuqQHpvnvH3GPJ9uk1k/Cgrjy
+         Q8vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780049574; x=1780654374;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=vY7/46Ar+NHzbdLbEhYTxHefdN//zGNwIrFOy4QahJ0=;
-        b=LATJ/Q6jkeakAtywyd8YeNLr/AWI99h8ulU28bxgaTtpqiD5v9EIcdQudhU6o7+TS5
-         9LHrEKxaPmt7B917rKMjiuFQXy5HaSP3o9b6e3CHzGhf0hMFkJMyZ1pLngyjKfIie/Am
-         aZENcyTZzS+jWldkXpgvq8AMEeIjZWEjwRtJdfLXVsHr8+ZCf9VB4SN6RVxKAtqDzMez
-         2roL2HSIZ/ApJpEabWdeBas/XLKdydG8iZ6UvT0SKhPFXm847t7fKvoH6HeVj6L9jy9g
-         Ht/X5U+tH5MOXOzQTTsNRYYDki0nGm9c3sLclLrCJrruUPfEB1FxlgDwEaVfgPMmL+lF
-         xFNg==
-X-Forwarded-Encrypted: i=1; AFNElJ9kjhAScNEwJHgiQMo+Mv/yzzu83dCocrIv2vB9N7l5lklKfjfHljbbLe5OBNY5EdN9vz9vjDsm9BurqPHA@lists.linux.dev
-X-Gm-Message-State: AOJu0YwdHocf02UHSHHZBXheZKOz2i/Ohvh018FciQvS9KAqT66YPHWv
-	SFpVJ9NyVn/NkkfGNXsKlH9WSU6bfnQfX+RYC3/URgoEuMI8MK/ruG/+
-X-Gm-Gg: Acq92OEbB+WPjcdxlZ9Ma+55hr7KZLz+OrGUh97o4N4FLms1/ztWFuWNmLnuZELZ+MZ
-	Tw0JrpY6oMRL/kX3p6BMd31EWqcvH7V2QtQVoNk0rM6gkeXc0fE9P27jHdjSRM6P3D3yyqaAiL2
-	NW2T3zdNL/Ql8m9esTGyLDeIJS6QmjZb1+j0lJLxrkNNc1aOnE4F0WazHkNaEEoWFD/zjPtEnrs
-	wTPM0O+b4WaUPC9zBSSiz4AOYDSot2e/tCObXy9uUx6DwoP/Ticdu6AI2mvxc/zfeZ8da/Q9CDF
-	Ra28LWV6zwyOuX40fFP8FefazirCx1di57M0h7QSWOetOU9xyDioDdz+8Tt6BEJwsRaLObEC2vI
-	IEtO2aYNYhNfDqKCWVodeb1dS5ouoGvzYo8M+WfqAIdebdTGY2jiyc2UfNa7MwCq3rgy2eatDi7
-	lZz8MGXPC7+12sVdRi/cmdsyjfRYro6H/T
-X-Received: by 2002:a17:903:144f:b0:2b2:4fe3:7b89 with SMTP id d9443c01a7336-2bf20bc18d3mr30292425ad.38.1780049573649;
-        Fri, 29 May 2026 03:12:53 -0700 (PDT)
-Received: from onish ([2404:7c80:75:55f3:d423:9757:6acf:6ef9])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bf23c2381bsm15222155ad.62.2026.05.29.03.12.50
+        d=1e100.net; s=20251104; t=1780051155; x=1780655955;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JRYr8moLEmjRWHLilv4FqgfxJEhbzr36lw1lU/Q2qfI=;
+        b=LfUcLGQOLvfL5r2zLnqtXv3JCvw2/etQNGWV9+xYLqv2XzCO1kxXo/xG4VJIKKpy9f
+         Tv8z8JkL9uiMjydobkN9wqg4hBm/R8y87meUwz2ijrJeu3WSZ+PGXy/BB/55BRpCHPN0
+         FvemuJFY17ygX5s6EUTYBQwFz0R4oKDzA59I9KcQY7BuuZyYfFpbPbVuYIof/fN58cFu
+         3q6s5CaN2nhgkKZ1eTE2tqYXWXP8EnuxTFbtUsbdI2WDUEjUg3TNti5SB2fnxZzBY+/h
+         jJduCjvSUCRiDPQbxxibxGminNEsv3qj/K30Qt0anP3qjDsSxbI5rRZoalSyLW9tqu+9
+         ahZg==
+X-Forwarded-Encrypted: i=1; AFNElJ+xcbTfR7stvLGbT1jPN+2RR4iA23Q1As5GeH89rz9rbVMBD3gVlhBRObroWXcDpgg6sScSlMTxo/+chVMU@lists.linux.dev
+X-Gm-Message-State: AOJu0YwliwVhJRaCz8RqcppVlmDSbJ9rr36zfELlpmh3WJ0VA18JoQvx
+	uDQuKGkLJlpmqGt4yPw09glPH13yB5LJXHZFWObBrELOYWJGD4mEfJrv
+X-Gm-Gg: Acq92OHwcE/BcR6Cl/nNas4ts5BwA0cKNhL26jYdJ4j99Ziv0vWRcaPtyMzq03OeTW4
+	waNQq50V16kYa20lHk0yJkuibHrqLcJBmQ1oEkyeEhWto3v7WBSGbUSf+OI2Ilf884hJ+PCetNV
+	Oj54AL4EF55hKsnC96gsOPQ8wDTkWOC1J/ackjE7ziGZrZVgFM/hgQXA46IZAJQCgPJ4t7m/dh2
+	YI0YKmGiY7ymHmJdLg5RQsm2diAsTxm+ounZouWB3BUIJnoOqsqcMPasV7dOiMd+QPMwNDLEqlK
+	pXgJl0cArrpPW1mQ0akEElOpJM3QcMc3a/rALMhMojC0AnZJ8FLrsU/G36oWLt2p+ri29r3dvsz
+	2PCL8L7veNUdqi8byyFZlmmarJEDhAzQ/0a0/RKtYvNhuYQgGaCtysrp4/Zzsr7qlG4TWikeabA
+	2UlGCR0xxZd7P/pT9ZnYehnYJqU5Zp5z4SxIjQuZvRoDjY
+X-Received: by 2002:a05:6000:4697:b0:45e:b215:12e9 with SMTP id ffacd0b85a97d-45ef140238emr2957539f8f.6.1780051154817;
+        Fri, 29 May 2026 03:39:14 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45ef357635fsm2492792f8f.33.2026.05.29.03.39.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 May 2026 03:12:53 -0700 (PDT)
-From: Onish Sharma <neharora23587@gmail.com>
-To: sudipm.mukherjee@gmail.com
-Cc: teddy.wang@siliconmotion.com,
-	gregkh@linuxfoundation.org,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Onish Sharma <neharora23587@gmail.com>,
-	Dan Carpenter <error27@gmail.com>
-Subject: [PATCH v2] staging: sm750fb: remove unused variable
-Date: Fri, 29 May 2026 15:42:42 +0530
-Message-ID: <20260529101242.10189-1-neharora23587@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <ahlXYIqzu4O5-u9J@stanley.mountain>
+        Fri, 29 May 2026 03:39:14 -0700 (PDT)
+Date: Fri, 29 May 2026 13:39:11 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Onish Sharma <neharora23587@gmail.com>
+Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
+	gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: sm750fb: remove unused variable
+Message-ID: <ahlszyY6Nd9ANz-X@stanley.mountain>
 References: <ahlXYIqzu4O5-u9J@stanley.mountain>
+ <20260529101242.10189-1-neharora23587@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260529101242.10189-1-neharora23587@gmail.com>
 
-Remove the set_all_eng_off flag and its associated cleanup logic.
-The variable is redundant as the hardware should be initialized to a
-known state regardless of prior usage.
+On Fri, May 29, 2026 at 03:42:42PM +0530, Onish Sharma wrote:
+> Remove the set_all_eng_off flag and its associated cleanup logic.
+> The variable is redundant as the hardware should be initialized to a
+> known state regardless of prior usage.
+> 
+> Suggested-by: Dan Carpenter <error27@gmail.com>
+> Signed-off-by: Onish Sharma <neharora23587@gmail.com>
+> ---
 
-Suggested-by: Dan Carpenter <error27@gmail.com>
-Signed-off-by: Onish Sharma <neharora23587@gmail.com>
----
- drivers/staging/sm750fb/ddk750_chip.c | 28 ---------------------------
- drivers/staging/sm750fb/ddk750_chip.h |  7 -------
- drivers/staging/sm750fb/sm750.c       |  1 -
- drivers/staging/sm750fb/sm750.h       |  1 -
- 4 files changed, 37 deletions(-)
+Sorry, miscommunication.  This breaks the driver.  This is also a bit
+more involved than I thought...
 
-diff --git a/drivers/staging/sm750fb/ddk750_chip.c b/drivers/staging/sm750fb/ddk750_chip.c
-index 0bb56bbec43f..553654a77170 100644
---- a/drivers/staging/sm750fb/ddk750_chip.c
-+++ b/drivers/staging/sm750fb/ddk750_chip.c
-@@ -262,34 +262,6 @@ int ddk750_init_hw(struct initchip_param *p_init_param)
- 		reg |= MISC_CTRL_LOCALMEM_RESET;
- 		poke32(MISC_CTRL, reg);
- 	}
--
--	if (p_init_param->set_all_eng_off == 1) {
--		sm750_enable_2d_engine(0);
--
--		/* Disable Overlay, if a former application left it on */
--		reg = peek32(VIDEO_DISPLAY_CTRL);
--		reg &= ~DISPLAY_CTRL_PLANE;
--		poke32(VIDEO_DISPLAY_CTRL, reg);
--
--		/* Disable video alpha, if a former application left it on */
--		reg = peek32(VIDEO_ALPHA_DISPLAY_CTRL);
--		reg &= ~DISPLAY_CTRL_PLANE;
--		poke32(VIDEO_ALPHA_DISPLAY_CTRL, reg);
--
--		/* Disable alpha plane, if a former application left it on */
--		reg = peek32(ALPHA_DISPLAY_CTRL);
--		reg &= ~DISPLAY_CTRL_PLANE;
--		poke32(ALPHA_DISPLAY_CTRL, reg);
--
--		/* Disable DMA Channel, if a former application left it on */
--		reg = peek32(DMA_ABORT_INTERRUPT);
--		reg |= DMA_ABORT_INTERRUPT_ABORT_1;
--		poke32(DMA_ABORT_INTERRUPT, reg);
--
--		/* Disable DMA Power, if a former application left it on */
--		sm750_enable_dma(0);
--	}
--
- 	/* We can add more initialization as needed. */
- 
- 	return 0;
-diff --git a/drivers/staging/sm750fb/ddk750_chip.h b/drivers/staging/sm750fb/ddk750_chip.h
-index ee2e9d90f7dd..2a13debc179f 100644
---- a/drivers/staging/sm750fb/ddk750_chip.h
-+++ b/drivers/staging/sm750fb/ddk750_chip.h
-@@ -76,13 +76,6 @@ struct initchip_param {
- 	 */
- 	unsigned short master_clock;
- 
--	/*
--	 * 0 = leave all engine state untouched.
--	 * 1 = make sure they are off: 2D, Overlay,
--	 * video alpha, alpha, hardware cursors
--	 */
--	unsigned short set_all_eng_off;
--
- 	/*
- 	 * 0 = Do not reset the memory controller
- 	 * 1 = Reset the memory controller
-diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index c2d2864f135b..127db29883d2 100644
---- a/drivers/staging/sm750fb/sm750.c
-+++ b/drivers/staging/sm750fb/sm750.c
-@@ -848,7 +848,6 @@ static void sm750fb_setup(struct sm750_dev *sm750_dev, char *src)
- 	sm750_dev->init_parm.mem_clk = 0;
- 	sm750_dev->init_parm.master_clk = 0;
- 	sm750_dev->init_parm.power_mode = 0;
--	sm750_dev->init_parm.set_all_eng_off = 0;
- 	sm750_dev->init_parm.reset_memory = 1;
- 
- 	/* defaultly turn g_hwcursor on for both view */
-diff --git a/drivers/staging/sm750fb/sm750.h b/drivers/staging/sm750fb/sm750.h
-index c42800313c6a..7ab13da5d7cc 100644
---- a/drivers/staging/sm750fb/sm750.h
-+++ b/drivers/staging/sm750fb/sm750.h
-@@ -44,7 +44,6 @@ struct init_status {
- 	ushort chip_clk;
- 	ushort mem_clk;
- 	ushort master_clk;
--	ushort set_all_eng_off;
- 	ushort reset_memory;
- };
- 
--- 
-2.54.0
+There are two structs:
+
+struct init_status {
+        ushort power_mode;
+        /* below three clocks are in unit of MHZ*/
+        ushort chip_clk;
+        ushort mem_clk;
+        ushort master_clk;
+        ushort setAllEngOff;
+        ushort reset_memory;
+};
+
+And struct initchip_param.  The initchip_param is exactly the same but
+with all the struct members renamed and comments added.  They have to
+match because we cast back and forth.
+
+Why do we have two different struct that have to be the same?  You might
+think it is for API, but as near as I can see that is not the case.
+Maybe it was at some point?  We should get rid of one struct.  Which
+everyone is API is the one we should keep.  If neither is API then get
+rid of init_status and keep initchip_param.
+
+After that we can talk about getting rid of setAllEngOff/set_all_eng_off.
+
+regards,
+dan carpenter
 
