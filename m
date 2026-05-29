@@ -1,74 +1,78 @@
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAC5F3A8FE6
-	for <linux-staging@lists.linux.dev>; Fri, 29 May 2026 09:59:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 877F93403E3
+	for <linux-staging@lists.linux.dev>; Fri, 29 May 2026 10:12:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780048797; cv=none; b=oy+JHeZK8/c0ew6fAe0BoBjKVUftckRLYDhw09SLuyyllr7q1TM+sjnDpMfmFg9498EgZVlEW43zYnEB92bRgXkW+VBmYNMcg2YomcTzUZg2NYEJpWVZsQ3FAghJSyJlWYJeIgj/mDDAuHKqmTaQDHJzqtLsg02MN2VPW4JBWd8=
+	t=1780049575; cv=none; b=biTSqeqTTPGu5cHXxoKuXFI5cTwvqrkO32/C2aIRR3V6ItCRTSqsoLerspwsJvwBJblf2iccWRo0KktQyr2AtG/sfNG09uOpxA6NRjo1yI7CIaeCBdMK9B/dEFaeJq8arAroY9/km9b895/iJ0mVZNjnZScEIBp7S9pXFeorOKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780048797; c=relaxed/simple;
-	bh=2PYenwL8g65DOYD+noR4eYtjTtWCW7gKCJr3QW2FLpE=;
+	s=arc-20240116; t=1780049575; c=relaxed/simple;
+	bh=Y7y3a2pvNmvIJb7ykkCSj5mWTjUFfguuQeIZTegq5fY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=d9hvBAh37nK2P72692vf9FZTngyKZtG5mTNC5CmArejBbstpTEtxGLEw7GgYjfac5QhyoXGOWfPG56nT9MbCjR7gD+13DiQo6G0pnKiGDkBETzQUq4iWXUwHlP9p23N2pSDPkwVNyaQ+q2hGKLwE3sXR1aRy1Mv2DgdrkFdzW38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oOYzuaQz; arc=none smtp.client-ip=209.85.218.65
+	 MIME-Version; b=hGHLPNfaDk0cn0P9Fg32kHDzz9B0kRABRf9jsNg49nVcTwfjv+4sLjC2Bz5Zz2rVJj+V9CgDrEpyaHoyxlNPQXryLp14jfQ7Ii/hFwLQuo+FMbgvkeaR4MUMfitmkPoYcaaW1vp/paAp1/jOIVUiFZAUWAFzVdZp9uoMDZPTBCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Js7g773e; arc=none smtp.client-ip=209.85.214.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oOYzuaQz"
-Received: by mail-ej1-f65.google.com with SMTP id a640c23a62f3a-bd4f8260e4eso2406819266b.1
-        for <linux-staging@lists.linux.dev>; Fri, 29 May 2026 02:59:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Js7g773e"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2bf125989f2so9394245ad.3
+        for <linux-staging@lists.linux.dev>; Fri, 29 May 2026 03:12:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780048793; x=1780653593; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1780049574; x=1780654374; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lIqTQtpqXeuF8qRuB5nhDhgEQ11lbarGGqMRZu2XLaY=;
-        b=oOYzuaQzqsZQMoCNuylcpsQTb/85+0t3mkuam1UoiOZZ0ENDQbnd856Ei5l/qEBAx1
-         gWKou4NBfYqi7TXtgQ/Hm95EK9glZiFpNxDDfuRlQO/h1CEI/hnp+l8orgJOFl57OwSW
-         zB6nQcUQkzoX/axSAsN6y6vbFKLbPrB2RACBhqEw3s37HbbktMGGDWpRyHAkaq7jqm25
-         vperz/oOYlsqFA3LBfTmNivl3f5ezwDXq//kh5CVcZyI1FAi91E/e6vS02o9UNp+fVkx
-         O81CznCMCUHbImrRX03t8NkuCzKc1/TWpEBC/sB4V/vAwNMqI6qbHJUyUXd/DY1yRwyO
-         /u6Q==
+        bh=vY7/46Ar+NHzbdLbEhYTxHefdN//zGNwIrFOy4QahJ0=;
+        b=Js7g773eYuJgoKvFJCBYAKYwf9qLn1sPVj53ynxJeXXcs9qhpA3HxStXYZVjPpYWAA
+         hFXUhlhFerGMNRRkyiYumNQDjWYegLVa4F8kjRCuyrHufAZq4tIfqnLZ0V9LD6cxjQAf
+         HLfyRfrigs6zmEPlS7inY1AiHYDdJFXmMfiKLGMs3fBg0/CgHQuI8SyMW/6wodL8xHNl
+         HcKNzcoYK9xJ6wfWUyttvyRYPsTwUpwJ4zt4w2UCC1jVp6hvj2/UDjtIrThjqoTqNZ5T
+         +BrvGbN4889eRLfaGw0YoNeieOPUtvJB0Dl9V+bdSShuPyazU90bgWy6WiRpyP3PxO4O
+         8XKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780048793; x=1780653593;
+        d=1e100.net; s=20251104; t=1780049574; x=1780654374;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=lIqTQtpqXeuF8qRuB5nhDhgEQ11lbarGGqMRZu2XLaY=;
-        b=KDxe6ZgvSN+UcOjku8iB3l1WcH4aQbAaUAuxB81hkLV2AzS1yn+cORzZfcPq8Ht8K1
-         uTGYTKfra0hGqgkjdLTZTY8lk7V2e3opp/5wKob9myH7or1exE+hbtgMgcbNhmHACUJD
-         SNdf+wCQLDoVGaN8kE9s5YY3Xqfd2nD66g0cpIAFh6pBz7pCYx+9bIWZ+B3RarWIS6LP
-         IJauk+A2RmeTmrjIwLJRI7AVme2sPokXNI4ItwcZ1Ne8bL6ydwWqHb+eLZ8qG6v+qIrL
-         Btw8hU5iDRLxrKdT9if69JW7XozWNCH5WCpY5omoHTDYDeEv5K8yeRBBVEry4VeQsUYj
-         b9LA==
-X-Gm-Message-State: AOJu0YylcpV6nIcuzm0SEy7wzXq2T814dB4Dlamqd8A4qLBec1x6VfTN
-	Hte1ZskFMylDvprE6wnSppi+N4KkTvyGkKSBvnit7b5As92NR83c+uQ=
-X-Gm-Gg: Acq92OHZJN0TNVTDwIXxUZBRZ6WYMpAKHfQgh7GGweCciYBsY5WTwIGeU1nJXYocbPS
-	EQ2OsvDJbSVGcAonXYdxmZiW51O06tla8bVZpi9iPO//dwPPWsn3CpNXK3y+uH0aUidQmEi8gkc
-	PwMgrheWs/ODn2V2WjiFBwLVA/Vq5Yuhgbydbc5mqnjm9VHOYJHCmQbj6mTdipR2NyHtqsLvpD3
-	Y1R8reEFfW7l2uzkE7FbaOch4eqJGZ3CoZPkNz2xQxJRRQvVgmccfeWT3Iu7ryrA/TxFapgLF2O
-	BXr6NFd4uoPiMIxyFot1eJ3eTZH+W4CR4a7Hl+8smIjzkzgReoBXUVK0oq6jHjMhdty1dp2EV6q
-	UXF5NjMCwLlJ7Epozjb7cGm/e+uesSkvryFjwxHsxWuDPp178GTBs06gpeS50LUi5bQr+Sut7td
-	2VD7FNugFdpat7YY4LINp44PISHyXo91pnqBEIjKNe2Wd/WHR1yvlblWpU6Nw=
-X-Received: by 2002:a17:906:9c8d:b0:bd5:7c2:7621 with SMTP id a640c23a62f3a-be9ccd7c53emr114543366b.48.1780048792852;
-        Fri, 29 May 2026 02:59:52 -0700 (PDT)
-Received: from archlinux.itotolink.net ([217.196.163.117])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-be9d2de53dasm52479366b.14.2026.05.29.02.59.52
+        bh=vY7/46Ar+NHzbdLbEhYTxHefdN//zGNwIrFOy4QahJ0=;
+        b=LATJ/Q6jkeakAtywyd8YeNLr/AWI99h8ulU28bxgaTtpqiD5v9EIcdQudhU6o7+TS5
+         9LHrEKxaPmt7B917rKMjiuFQXy5HaSP3o9b6e3CHzGhf0hMFkJMyZ1pLngyjKfIie/Am
+         aZENcyTZzS+jWldkXpgvq8AMEeIjZWEjwRtJdfLXVsHr8+ZCf9VB4SN6RVxKAtqDzMez
+         2roL2HSIZ/ApJpEabWdeBas/XLKdydG8iZ6UvT0SKhPFXm847t7fKvoH6HeVj6L9jy9g
+         Ht/X5U+tH5MOXOzQTTsNRYYDki0nGm9c3sLclLrCJrruUPfEB1FxlgDwEaVfgPMmL+lF
+         xFNg==
+X-Forwarded-Encrypted: i=1; AFNElJ9kjhAScNEwJHgiQMo+Mv/yzzu83dCocrIv2vB9N7l5lklKfjfHljbbLe5OBNY5EdN9vz9vjDsm9BurqPHA@lists.linux.dev
+X-Gm-Message-State: AOJu0YwdHocf02UHSHHZBXheZKOz2i/Ohvh018FciQvS9KAqT66YPHWv
+	SFpVJ9NyVn/NkkfGNXsKlH9WSU6bfnQfX+RYC3/URgoEuMI8MK/ruG/+
+X-Gm-Gg: Acq92OEbB+WPjcdxlZ9Ma+55hr7KZLz+OrGUh97o4N4FLms1/ztWFuWNmLnuZELZ+MZ
+	Tw0JrpY6oMRL/kX3p6BMd31EWqcvH7V2QtQVoNk0rM6gkeXc0fE9P27jHdjSRM6P3D3yyqaAiL2
+	NW2T3zdNL/Ql8m9esTGyLDeIJS6QmjZb1+j0lJLxrkNNc1aOnE4F0WazHkNaEEoWFD/zjPtEnrs
+	wTPM0O+b4WaUPC9zBSSiz4AOYDSot2e/tCObXy9uUx6DwoP/Ticdu6AI2mvxc/zfeZ8da/Q9CDF
+	Ra28LWV6zwyOuX40fFP8FefazirCx1di57M0h7QSWOetOU9xyDioDdz+8Tt6BEJwsRaLObEC2vI
+	IEtO2aYNYhNfDqKCWVodeb1dS5ouoGvzYo8M+WfqAIdebdTGY2jiyc2UfNa7MwCq3rgy2eatDi7
+	lZz8MGXPC7+12sVdRi/cmdsyjfRYro6H/T
+X-Received: by 2002:a17:903:144f:b0:2b2:4fe3:7b89 with SMTP id d9443c01a7336-2bf20bc18d3mr30292425ad.38.1780049573649;
+        Fri, 29 May 2026 03:12:53 -0700 (PDT)
+Received: from onish ([2404:7c80:75:55f3:d423:9757:6acf:6ef9])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bf23c2381bsm15222155ad.62.2026.05.29.03.12.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 May 2026 02:59:52 -0700 (PDT)
-From: Vitaliy Slivinskiy <phant0m.mail2023@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
+        Fri, 29 May 2026 03:12:53 -0700 (PDT)
+From: Onish Sharma <neharora23587@gmail.com>
+To: sudipm.mukherjee@gmail.com
+Cc: teddy.wang@siliconmotion.com,
+	gregkh@linuxfoundation.org,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	dan.carpenter@linaro.org,
-	Vitaliy Slivinskiy <phant0m.mail2023@gmail.com>
-Subject: [PATCH v2 3/3] staging: rtl8723bs: clean up blank lines and function formatting
-Date: Fri, 29 May 2026 12:55:03 +0300
-Message-ID: <20260529095503.130909-4-phant0m.mail2023@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260529095503.130909-1-phant0m.mail2023@gmail.com>
-References: <20260529095503.130909-1-phant0m.mail2023@gmail.com>
+	Onish Sharma <neharora23587@gmail.com>,
+	Dan Carpenter <error27@gmail.com>
+Subject: [PATCH v2] staging: sm750fb: remove unused variable
+Date: Fri, 29 May 2026 15:42:42 +0530
+Message-ID: <20260529101242.10189-1-neharora23587@gmail.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <ahlXYIqzu4O5-u9J@stanley.mountain>
+References: <ahlXYIqzu4O5-u9J@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,62 +81,100 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix checkpatch.pl checks regarding multiple blank lines, missing blank lines after functions, and function declarations ending with an open parenthesis.
+Remove the set_all_eng_off flag and its associated cleanup logic.
+The variable is redundant as the hardware should be initialized to a
+known state regardless of prior usage.
 
-Signed-off-by: Vitaliy Slivinskiy <phant0m.mail2023@gmail.com>
+Suggested-by: Dan Carpenter <error27@gmail.com>
+Signed-off-by: Onish Sharma <neharora23587@gmail.com>
 ---
- drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+ drivers/staging/sm750fb/ddk750_chip.c | 28 ---------------------------
+ drivers/staging/sm750fb/ddk750_chip.h |  7 -------
+ drivers/staging/sm750fb/sm750.c       |  1 -
+ drivers/staging/sm750fb/sm750.h       |  1 -
+ 4 files changed, 37 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-index 9d936b834..06f1b2ff0 100644
---- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-+++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-@@ -48,7 +48,6 @@ static void sd_sync_int_hdl(struct sdio_func *func)
- {
- 	struct dvobj_priv *psdpriv;
- 
--
- 	psdpriv = sdio_get_drvdata(func);
- 
- 	if (!psdpriv->if1)
-@@ -151,6 +150,7 @@ static void sdio_deinit(struct dvobj_priv *dvobj)
- 		sdio_release_host(func);
+diff --git a/drivers/staging/sm750fb/ddk750_chip.c b/drivers/staging/sm750fb/ddk750_chip.c
+index 0bb56bbec43f..553654a77170 100644
+--- a/drivers/staging/sm750fb/ddk750_chip.c
++++ b/drivers/staging/sm750fb/ddk750_chip.c
+@@ -262,34 +262,6 @@ int ddk750_init_hw(struct initchip_param *p_init_param)
+ 		reg |= MISC_CTRL_LOCALMEM_RESET;
+ 		poke32(MISC_CTRL, reg);
  	}
- }
-+
- static struct dvobj_priv *sdio_dvobj_init(struct sdio_func *func)
- {
- 	struct dvobj_priv *dvobj = NULL;
-@@ -214,8 +214,7 @@ static void sd_intf_stop(struct adapter *padapter)
- 	rtw_sdio_disable_interrupt(padapter);
- }
- 
 -
--static struct adapter *rtw_sdio_if1_init(struct dvobj_priv *dvobj, const struct sdio_device_id  *pdid)
-+static struct adapter *rtw_sdio_if1_init(struct dvobj_priv *dvobj, const struct sdio_device_id *pdid)
- {
- 	int status = _FAIL;
- 	struct net_device *pnetdev;
-@@ -248,7 +247,6 @@ static struct adapter *rtw_sdio_if1_init(struct dvobj_priv *dvobj, const struct
- 	/* 4 3.1 set hardware operation functions */
- 	rtw_set_hal_ops(padapter);
- 
+-	if (p_init_param->set_all_eng_off == 1) {
+-		sm750_enable_2d_engine(0);
 -
- 	/* 3 5. initialize Chip version */
- 	padapter->intf_start = &sd_intf_start;
- 	padapter->intf_stop = &sd_intf_stop;
-@@ -334,9 +332,7 @@ static void rtw_sdio_if1_deinit(struct adapter *if1)
-  * notes: drv_init() is called when the bus driver has located a card for us to support.
-  *        We accept the new device by returning 0.
-  */
--static int rtw_drv_init(
--	struct sdio_func *func,
--	const struct sdio_device_id *id)
-+static int rtw_drv_init(struct sdio_func *func, const struct sdio_device_id *id)
- {
- 	int status = _FAIL;
- 	struct adapter *if1 = NULL;
+-		/* Disable Overlay, if a former application left it on */
+-		reg = peek32(VIDEO_DISPLAY_CTRL);
+-		reg &= ~DISPLAY_CTRL_PLANE;
+-		poke32(VIDEO_DISPLAY_CTRL, reg);
+-
+-		/* Disable video alpha, if a former application left it on */
+-		reg = peek32(VIDEO_ALPHA_DISPLAY_CTRL);
+-		reg &= ~DISPLAY_CTRL_PLANE;
+-		poke32(VIDEO_ALPHA_DISPLAY_CTRL, reg);
+-
+-		/* Disable alpha plane, if a former application left it on */
+-		reg = peek32(ALPHA_DISPLAY_CTRL);
+-		reg &= ~DISPLAY_CTRL_PLANE;
+-		poke32(ALPHA_DISPLAY_CTRL, reg);
+-
+-		/* Disable DMA Channel, if a former application left it on */
+-		reg = peek32(DMA_ABORT_INTERRUPT);
+-		reg |= DMA_ABORT_INTERRUPT_ABORT_1;
+-		poke32(DMA_ABORT_INTERRUPT, reg);
+-
+-		/* Disable DMA Power, if a former application left it on */
+-		sm750_enable_dma(0);
+-	}
+-
+ 	/* We can add more initialization as needed. */
+ 
+ 	return 0;
+diff --git a/drivers/staging/sm750fb/ddk750_chip.h b/drivers/staging/sm750fb/ddk750_chip.h
+index ee2e9d90f7dd..2a13debc179f 100644
+--- a/drivers/staging/sm750fb/ddk750_chip.h
++++ b/drivers/staging/sm750fb/ddk750_chip.h
+@@ -76,13 +76,6 @@ struct initchip_param {
+ 	 */
+ 	unsigned short master_clock;
+ 
+-	/*
+-	 * 0 = leave all engine state untouched.
+-	 * 1 = make sure they are off: 2D, Overlay,
+-	 * video alpha, alpha, hardware cursors
+-	 */
+-	unsigned short set_all_eng_off;
+-
+ 	/*
+ 	 * 0 = Do not reset the memory controller
+ 	 * 1 = Reset the memory controller
+diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+index c2d2864f135b..127db29883d2 100644
+--- a/drivers/staging/sm750fb/sm750.c
++++ b/drivers/staging/sm750fb/sm750.c
+@@ -848,7 +848,6 @@ static void sm750fb_setup(struct sm750_dev *sm750_dev, char *src)
+ 	sm750_dev->init_parm.mem_clk = 0;
+ 	sm750_dev->init_parm.master_clk = 0;
+ 	sm750_dev->init_parm.power_mode = 0;
+-	sm750_dev->init_parm.set_all_eng_off = 0;
+ 	sm750_dev->init_parm.reset_memory = 1;
+ 
+ 	/* defaultly turn g_hwcursor on for both view */
+diff --git a/drivers/staging/sm750fb/sm750.h b/drivers/staging/sm750fb/sm750.h
+index c42800313c6a..7ab13da5d7cc 100644
+--- a/drivers/staging/sm750fb/sm750.h
++++ b/drivers/staging/sm750fb/sm750.h
+@@ -44,7 +44,6 @@ struct init_status {
+ 	ushort chip_clk;
+ 	ushort mem_clk;
+ 	ushort master_clk;
+-	ushort set_all_eng_off;
+ 	ushort reset_memory;
+ };
+ 
 -- 
-2.53.0
+2.54.0
 
