@@ -1,205 +1,109 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9791348C5E
-	for <linux-staging@lists.linux.dev>; Sat, 30 May 2026 17:43:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC8A925B0A5
+	for <linux-staging@lists.linux.dev>; Sat, 30 May 2026 19:52:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780163034; cv=none; b=W0UfvHIShjoW+2Yv1OFqrLwSvsxkIisb8dA0iHRHeHC0pvc79WkbA1ExyYzLCfzxYRl+97G/fghSU/pbjwXesOSjf+dIbyoblLsaqzrdAOMuJGvBnBSBLqhxsLmhHBKm0lWfV8wFYeOQgk0X95cJG+mCS3rUxRx9n4HOeUsWaHc=
+	t=1780170738; cv=none; b=Re5cTOeu6J08cZuC79gdQu/TOZJzuCI2DWYjwEVl87S6jr9g/SdQcT8sSL/X1rr0Nqfkf70UfXSUb11oB/SAOmT+NxWrbmfjL1xGeDiuT5d4rMgWTIXgrIbs03rCIQxhG9qjLp/7c48d6TGV/KblziOMhPNx4ttxTXgrNrPthr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780163034; c=relaxed/simple;
-	bh=V183WnI5pnoKUBivwNX7yBT6eyXdkhaOPmmYa38jyaY=;
+	s=arc-20240116; t=1780170738; c=relaxed/simple;
+	bh=RylDaD5hhxsd6PNZhB2ePBepn0s10Zl2UMRJoHTMqq0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=di+My6OkNRpIEfYbWr74o6oDuWHWxAMdoyyuAF/kIjdMAj1AzPiT6nALCDFJgj37ChNZD1A+e9CDUIM4S5MIUQJcbwwTBInhjFnjc39RtGVd1IDNByMdAYXbjumYX90x+vYyECjd+e2fYFr4PmQxWnMPqVoOxpXOM1iSKurjQT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=T0BOehFy; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ak18vGl0wVBlWOLQ9RmmdpUoTBeybX9mOEJr+bfdki9Y9n/SMGSOTdUVM1tSyUpnJLIVEWDXuJRBmCeeQmAFzVLY4l2vVf1Dcrx5/KWso5zRhxaJD+oVxeL5fyC12v5f1AepzaxGylqBtvH+XGn2nbZ8t2gb6ew/4m1beBBDo54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e0JuT4oW; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="T0BOehFy"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2c0b1a48855so415ad.0
-        for <linux-staging@lists.linux.dev>; Sat, 30 May 2026 10:43:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e0JuT4oW"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-45ef56d9b67so1010045f8f.2
+        for <linux-staging@lists.linux.dev>; Sat, 30 May 2026 12:52:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1780163031; x=1780767831; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=QOyDHP4ZxCe5uNffp9qfUHpgLGSQaBL/VpuY0l97f+w=;
-        b=T0BOehFytZ8+3CEUSQWqfKHf3k1fgmjv5V4ceJAnFqrE+HeAA8YgP8QPDyGLyRTxHA
-         j2FOyPuIZGQp89rJD1bgGvLeQB7NG/j74I9B/g7grNROB3ZDbaddVdIpCCAURJbhIIB9
-         MYhYJmSgHzBamCICGufatyKWIiov172ad4/FZKQ2AiTIpZ+CHlZPsRBWO+rwHSqI43bk
-         3+geDIj1J8ODmz+CV1FwoWudUc9rhoKIn0ttc9qceycb0qZJYEBXczdCrJiqJk7Gw4vN
-         Eokjh8PLfOEXiwaQY9AQ6lajZEQG3IIfiMj+tn6E8umLbGQHCCpcukl9bLS9MOLvvujG
-         77Tw==
+        d=gmail.com; s=20251104; t=1780170735; x=1780775535; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=mG1r5W6r/pdjE2plwFQi75uU1JyttffvzikhmbVB9NI=;
+        b=e0JuT4oWduNeSwsWuYQhdDqem8ruCjoq87RhSnqp1HE3eFidvwycauCHYcWCbXOgjj
+         doAIAKoL0ys1D2Ox5ZzBODj+7EAQxf6xVKRenRITCb0O6bFnRMYv38daf9kMlf1aQ7gV
+         Hp8QeS5KtGoa7p2eyBjmZezzMH9Q3KwDWd16JmbKJX8qHoGmkHtRocsEGGaojHerkefr
+         tqCTU7XpR9o7A7RdQN2FmSVshndSyZPJncwVPiHktfUEJx4tw6asEgkg7958jQO+o1iU
+         M/yQks6IKxlpJOgbDG+eghLE0RJ5ZfedZ85xvuAvDGXdKxTs5cq2RlRT+PEfYpmqcYFa
+         VmjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780163031; x=1780767831;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QOyDHP4ZxCe5uNffp9qfUHpgLGSQaBL/VpuY0l97f+w=;
-        b=Fv4PIS7Zg6MNwQnRoNkyeryZJqtYd74oc1ikOHzBaStM45xEtPosys2lCR9N9M3MVf
-         wQ6AfXKtDPWKY9yYLvwHZdITUERyvVCH4GLH64tlE2gGnrm7jMhzj97q7HN29kYPI+DE
-         Dat7xGb5S21it/lAH8YEXt9FFG84c1NAJZ4m5E7cwKqKP4URyKOvQ8xi+ICnbH0F7ZHO
-         IRw0r0u06PUTr0H5/3kCHZnUpa8D+cSXdhvyh3MpMUcPKdllEfwjV/Mb8Ylk+FbfxOY3
-         LOynMb09wb/fy/y4cJd0hA2/+Wlx5QdBak9ICydVJsKwSw0MyDf/KT8eKoID18Z8qfac
-         d1Lg==
-X-Forwarded-Encrypted: i=1; AFNElJ+fKQPMXEPCloqNTz/uVJLMcw2wyDltblyEKQyAYdSWn49+uITvrHTBRF8S4L53wSR+PY3tHZElgGJQAgEn@lists.linux.dev
-X-Gm-Message-State: AOJu0YyEAn/vEqUKvNCfAd9+uCI3b+PYq4a7E/D+OMnA9vmdBlMV1h2j
-	gc8+FWS/lz60zCnBGPA0dup59Pilx+99VL3SwJs20aokUiXlKWLhuUnuSo8N9KvXTA==
-X-Gm-Gg: Acq92OGMQrkDm5qR3daP90fbza5w/UObCVTO6Rx3buCsQa3tbEwE0fKDFjpbXZqACYa
-	SJs47SM8k4fhWRMt9EECnxziAaDg4Gm8RRddMT50qAWx3bM5HDBZXVdCX7HYEfXDT1oXJnLAHm5
-	+W7fwdNTVxNTkFx95iBZ8OV0WtS//n3zeEcprPM6sm+8rCiXTdpyO8bPm2kaUtZODuFqIGW0vm9
-	qQZf9oHmUtvu+gtdF+QIXSIjjsr5Fc5nF84U4xm6FN1X9c8VG2J5G11FPVfMLbvjbluu6J/SMn+
-	Mm8WHb+1InNmy8kYnsGCQBNGvx872TnNGjyO37JNbhSB8NfMz2UucGK2cQQMDk94466HaQc/cr2
-	9KyPuNiHoBApvDgJ+C8KICOOeycPefTNKJLymWiPb8Zyu351tethwUu7GOwn+2DJlH/nm+n7kjb
-	hNXVZFDz28YCcFY49peO1/QQxJZQYDLH4ndxaeBPKa3vPA4+o3jsDBIK2hPaWNAVbN5ycozDjuU
-	b6CQTHrJYvVE7O5UPvmj3qjbyPLe7y0T0+V22MQVUep9492KTRx1N2o
-X-Received: by 2002:a17:902:ef44:b0:2b4:60e6:44bc with SMTP id d9443c01a7336-2c07cb2ec5bmr239755ad.13.1780163030509;
-        Sat, 30 May 2026 10:43:50 -0700 (PDT)
-Received: from google.com (112.174.16.34.bc.googleusercontent.com. [34.16.174.112])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c85a187eb12sm203716a12.6.2026.05.30.10.43.49
+        d=1e100.net; s=20251104; t=1780170735; x=1780775535;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mG1r5W6r/pdjE2plwFQi75uU1JyttffvzikhmbVB9NI=;
+        b=IYhE3MEM/DJ7ac0y/IEgn0KW3jUIKHS+Dh+PXDG2aLO8dFC5ey9AFaOcxujhI0RBkF
+         wW2nbrnXfei4pFN8UwCNutpEAkKU8PR8qKeBqoDP/XiFUYBHljdnLbaBMr7Rp7mvxQ9h
+         TRWHkkVv2VwsXhIvv+YiSWkJfrfhaQepyjIIGcoaSpo71rBuWGdceSVE1AJ45/4AoFl2
+         tNunkmG+O+7IFAOVS8sk9kMYPHYJdja03+wWYUP7WpCcUZuBxh7DAi8G96NI0WD51f/Z
+         kRLAU6jUM5hcHnYG/kEXMYbk4wJsdT80yn4zALCQ75282wn1h0/VlxoacsXT2s9lCwka
+         pQFw==
+X-Forwarded-Encrypted: i=1; AFNElJ8960FrNl6A6+ohCOoUc02Bhd918hZ2A65BxRuhH93zUybm18Ju1BO3O7bPLRWBs1suuN4QP7jafADPIpGV@lists.linux.dev
+X-Gm-Message-State: AOJu0YwlCdaaKjl3sWJno9EeLi/ZgeLScl0Ua7IS07SEI2w2JPkS+hqa
+	L8OrBzIeDm55zFZ3yqOOLJVeNzorBCRqQhB2c+FX02jI+Ao8PNWXE9bm
+X-Gm-Gg: Acq92OE8wWyZSHytiWNHQd5ZsNiWtbmECU0enK0XQcx+TPmDFxTaQfrWolXcgyoZeth
+	v/GM4z6bHJTcS5Byz1FEGD5NwiBBidIDDhBVoVNJy3KtZRQyMmzO/Dxl8ccBhM8YJRgNP1TBqZ7
+	2+QbBZ2NRXCXTOS1CPnANAWzrYoN8DRwXVnt6B6giW8LfqveuTO2JLA+9B5o1bTnx/1SncL4NLA
+	jaWBSs4aAhUKgpikHlPTqgFnx93kUM4+eN2aykHdcjE1tS4cfn1DSWE2LIhxp1+b0YKAS8y+ym5
+	HuW8zQe79q3ngQmGwKJrsM4ruGs22AA0uVG4p6+j9KhM7XEnBa2g8ZEcsmT6VpG7FJoTOHfAmXW
+	E6Axobq9/w/4GAOWoHycnDVqGFMvF6/10nxeU7opXGo0hFe0KQMYZ0KkX2vaNh1m4Qro1LDs5pO
+	DhkKPuabXNdu5tL3LAW9wqHS3+s1yqiky6HXkFPeZob0Os
+X-Received: by 2002:a05:600d:8654:20b0:488:9bf8:7f17 with SMTP id 5b1f17b1804b1-490a292111bmr65783815e9.14.1780170735382;
+        Sat, 30 May 2026 12:52:15 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4909c103baesm40806935e9.17.2026.05.30.12.52.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 May 2026 10:43:49 -0700 (PDT)
-Date: Sat, 30 May 2026 17:43:45 +0000
-From: Carlos Llamas <cmllamas@google.com>
-To: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-Cc: Bastien Nocera <hadess@hadess.net>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	Jiri Kosina <jikos@kernel.org>,
-	Filipe =?iso-8859-1?Q?La=EDns?= <lains@riseup.net>,
-	Ping Cheng <ping.cheng@wacom.com>,
-	Jason Gerecke <jason.gerecke@wacom.com>,
-	Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Lee Jones <lee@kernel.org>, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev, linux-usb@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH 2/4] HID: core: introduce hid_safe_input_report()
-Message-ID: <ahsh0UtTX6e0ZeHa@google.com>
-References: <20260415-wip-fix-core-v1-0-ed3c4c823175@kernel.org>
- <20260415-wip-fix-core-v1-2-ed3c4c823175@kernel.org>
- <8fedad8e9caecd379f2296562cd6abd37f7cee46.camel@hadess.net>
- <CAO-hwJ+EgC0pM6L6vGFEaRFt2Nwj5b-CCf_5e5VkvrXgdHrjNg@mail.gmail.com>
+        Sat, 30 May 2026 12:52:14 -0700 (PDT)
+Date: Sat, 30 May 2026 22:52:11 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: neha arora <neharora23587@gmail.com>
+Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
+	gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: sm750fb: remove unused variable
+Message-ID: <ahs_63SvPOK-pwTp@stanley.mountain>
+References: <ahlXYIqzu4O5-u9J@stanley.mountain>
+ <20260529101242.10189-1-neharora23587@gmail.com>
+ <ahlszyY6Nd9ANz-X@stanley.mountain>
+ <ahlt_3J9HQVz7Zby@stanley.mountain>
+ <CAOWJOpt1ywtQFiazSBO5F7npLj6M4_tk7R4E8o0DVkHE5sWSvQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAO-hwJ+EgC0pM6L6vGFEaRFt2Nwj5b-CCf_5e5VkvrXgdHrjNg@mail.gmail.com>
+In-Reply-To: <CAOWJOpt1ywtQFiazSBO5F7npLj6M4_tk7R4E8o0DVkHE5sWSvQ@mail.gmail.com>
 
-On Thu, Apr 16, 2026 at 04:46:28PM +0200, Benjamin Tissoires wrote:
-> On Thu, Apr 16, 2026 at 11:41 AM Bastien Nocera <hadess@hadess.net> wrote:
-> >
-> > On Wed, 2026-04-15 at 11:38 +0200, Benjamin Tissoires wrote:
-> > > hid_input_report() is used in too many places to have a commit that
-> > > doesn't cross subsystem borders. Instead of changing the API,
-> > > introduce
-> > > a new one when things matters in the transport layers:
-> > > - usbhid
-> > > - i2chid
-> > >
-> > > This effectively revert to the old behavior for those two transport
-> > > layers.
-> > >
-> > > Fixes: 0a3fe972a7cb ("HID: core: Mitigate potential OOB by removing
-> > > bogus memset()")
-> > > Cc: stable@vger.kernel.org
-> > > Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
-> > > ---
-> > >  drivers/hid/hid-core.c             | 21 +++++++++++++++++++++
-> > >  drivers/hid/i2c-hid/i2c-hid-core.c |  7 ++++---
-> > >  drivers/hid/usbhid/hid-core.c      | 11 ++++++-----
-> > >  include/linux/hid.h                |  2 ++
-> > >  4 files changed, 33 insertions(+), 8 deletions(-)
-> > >
-> > > diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-> > > index a806820df7e5..cb0ad99e7a0a 100644
-> > > --- a/drivers/hid/hid-core.c
-> > > +++ b/drivers/hid/hid-core.c
-> > > @@ -2191,6 +2191,27 @@ int hid_input_report(struct hid_device *hid,
-> > > enum hid_report_type type, u8 *data
-> > >  }
-> > >  EXPORT_SYMBOL_GPL(hid_input_report);
-> > >
-> > > +/**
-> > > + * hid_safe_input_report - report data from lower layer (usb, bt...)
-> > > + *
-> > > + * @hid: hid device
-> > > + * @type: HID report type (HID_*_REPORT)
-> > > + * @data: report contents
-> > > + * @bufsize: allocated size of the data buffer
-> > > + * @size: useful size of data parameter
-> > > + * @interrupt: distinguish between interrupt and control transfers
-> > > + *
-> > > + * This is data entry for lower layers.
-> >
-> > You probably want to explain why it should be used instead of
-> > hid_input_report() in this doc blurb, and modify the hid_input_report()
-> > docs to mention that this should be used.
+On Fri, May 29, 2026 at 04:24:49PM +0530, neha arora wrote:
+> Hi Dan,
 > 
-> Good point. Sending v2 ASAP.
+> After looking into the structural dependencies and the cross-casting
+> between init_status and initchip_param, I've decided that this refactoring
+> is outside the scope of what I want to work on at this time.
+> Please feel free to drop my previous patch. I'm going to shift my focus to
+> other areas.
 > 
-> >
-> > Maybe hid_input_report() should also be marked as deprecated somehow,
-> > to avoid new users?
-> 
-> Well, it's not entirely deprecated because, for instance, in uhid we
-> only have the buffer with the provided size around. So we can't be
-> less restrictive in that precise case, and then switching to _safe
-> will not change a bit.
-> 
-> Cheers,
-> Benjamin
 
-Hi Benjamin, our CI started failing with commit 0a3fe972a7cb ("HID:
-core: Mitigate potential OOB by removing bogus memset()"), so I was
-hoping your patchset would fix this.
+No stress.  I feel like we see this often where people sign up for
+one project and then it turns out way more different from what they
+imagined and it actually isn't fun for them at all...  It's fine to
+move on.
 
-However, I just realized our call path goes through uhid precisely,
-which still triggers the EINVAL error since uhid as not converted to
-hid_safe_input_report().
+Let's add this as a KTODO though, in case someone else wants to work on
+it.
 
-My vague understanding though, is that uhid_event uses a static buffer
-in ev->data[UHID_DATA_MAX], so maybe we can use that through
-uhid_dev_input{2}()?
+KTODO: remove the init_status or initchip_param struct.  (They are
+       duplicates).
 
-I ran the following path through our CI and it fixed our issue, so I
-wanted to get your thoughts on this.
+See this email for more details:
+https://lore.kernel.org/all/ahlszyY6Nd9ANz-X@stanley.mountain/
 
-Carlos Llamas
+regards,
+dan carpenter
 
----
- drivers/hid/uhid.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/hid/uhid.c b/drivers/hid/uhid.c
-index 524b53a3c87b..37b60c3aaf66 100644
---- a/drivers/hid/uhid.c
-+++ b/drivers/hid/uhid.c
-@@ -595,8 +595,8 @@ static int uhid_dev_input(struct uhid_device *uhid, struct uhid_event *ev)
- 	if (!READ_ONCE(uhid->running))
- 		return -EINVAL;
- 
--	hid_input_report(uhid->hid, HID_INPUT_REPORT, ev->u.input.data,
--			 min_t(size_t, ev->u.input.size, UHID_DATA_MAX), 0);
-+	hid_safe_input_report(uhid->hid, HID_INPUT_REPORT, ev->u.input.data, UHID_DATA_MAX,
-+			      min_t(size_t, ev->u.input.size, UHID_DATA_MAX), 0);
- 
- 	return 0;
- }
-@@ -606,8 +606,8 @@ static int uhid_dev_input2(struct uhid_device *uhid, struct uhid_event *ev)
- 	if (!READ_ONCE(uhid->running))
- 		return -EINVAL;
- 
--	hid_input_report(uhid->hid, HID_INPUT_REPORT, ev->u.input2.data,
--			 min_t(size_t, ev->u.input2.size, UHID_DATA_MAX), 0);
-+	hid_safe_input_report(uhid->hid, HID_INPUT_REPORT, ev->u.input2.data, UHID_DATA_MAX,
-+			      min_t(size_t, ev->u.input2.size, UHID_DATA_MAX), 0);
- 
- 	return 0;
- }
