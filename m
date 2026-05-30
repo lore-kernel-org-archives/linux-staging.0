@@ -1,126 +1,205 @@
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59BE834D38B
-	for <linux-staging@lists.linux.dev>; Sat, 30 May 2026 17:35:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9791348C5E
+	for <linux-staging@lists.linux.dev>; Sat, 30 May 2026 17:43:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780162525; cv=none; b=b7uArtYwZrdb5l83nTYGaMZTe1FOXxzsqfK0+fpr8noilboCUqZTU+zwk6pr+CVyLOg3dIyh+DyTPQydHzMiZp9xerFVgFgtl//y2t18lo4qlSrBJB1hVO2CDrmyCLoNfbPu2fZWdoo3dG6XNT8SUItuN29y/K3i69wmU49be4w=
+	t=1780163034; cv=none; b=W0UfvHIShjoW+2Yv1OFqrLwSvsxkIisb8dA0iHRHeHC0pvc79WkbA1ExyYzLCfzxYRl+97G/fghSU/pbjwXesOSjf+dIbyoblLsaqzrdAOMuJGvBnBSBLqhxsLmhHBKm0lWfV8wFYeOQgk0X95cJG+mCS3rUxRx9n4HOeUsWaHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780162525; c=relaxed/simple;
-	bh=xj2N+hvunO9H/qokpmL+Uj1ED+5NNhqPQcO+Sny1sow=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=E9WfgRUxuFfKdRS3l1e3UZ8lyek2NqtJNrw5bgvr41wmcrpPFeVfLTEt5m1h1dHGN63XmbA59YvAxOo+vEmZHnXdDTAERyG6UR4XUtI/Ng6aTMNF31uwPZPtISfX/phvWrVaVIZVSohnroHK7KagcBgAcb7ddplQ5zxZt/IBSL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R5LS7ai+; arc=none smtp.client-ip=209.85.208.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780163034; c=relaxed/simple;
+	bh=V183WnI5pnoKUBivwNX7yBT6eyXdkhaOPmmYa38jyaY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=di+My6OkNRpIEfYbWr74o6oDuWHWxAMdoyyuAF/kIjdMAj1AzPiT6nALCDFJgj37ChNZD1A+e9CDUIM4S5MIUQJcbwwTBInhjFnjc39RtGVd1IDNByMdAYXbjumYX90x+vYyECjd+e2fYFr4PmQxWnMPqVoOxpXOM1iSKurjQT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=T0BOehFy; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R5LS7ai+"
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-39666c7c910so1043091fa.2
-        for <linux-staging@lists.linux.dev>; Sat, 30 May 2026 10:35:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="T0BOehFy"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2c0b1a48855so415ad.0
+        for <linux-staging@lists.linux.dev>; Sat, 30 May 2026 10:43:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780162523; x=1780767323; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/CEDkzzLvL1DAe0lGDe9mPko0qZhdDrWYtsQ4KepKeg=;
-        b=R5LS7ai+vxChFHq6FFdoCEQv1H+ugOUSXnEO/Dx9/LHVYG5tZQtr2tE0XaSEx+BPz4
-         RpdBht4IAqAqXoh1qPjR/f9+Q3e5eroGQNPlhOiQ/x/Fsl2uR53wzkyikB+w8+Q71RC6
-         IjPk6kBB+KNc+OuDywvkENTOTzi2RSIXZvjbmyP2s3mMSVuJj4AURWnbmXuCsMfwNi3T
-         jcHX3Ic7LHJ3QjUVVSRuJLWnSpjzMijUetzzdzaU8cWgxMnrnFd2kF7ZmLQIQQqiMwLh
-         iRcytVAmPkHdoWg5G1lcb3OdSrQud156CtfjpvPjkHZvL+knel/GP0sD40kifBTypWs7
-         GiPQ==
+        d=google.com; s=20251104; t=1780163031; x=1780767831; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=QOyDHP4ZxCe5uNffp9qfUHpgLGSQaBL/VpuY0l97f+w=;
+        b=T0BOehFytZ8+3CEUSQWqfKHf3k1fgmjv5V4ceJAnFqrE+HeAA8YgP8QPDyGLyRTxHA
+         j2FOyPuIZGQp89rJD1bgGvLeQB7NG/j74I9B/g7grNROB3ZDbaddVdIpCCAURJbhIIB9
+         MYhYJmSgHzBamCICGufatyKWIiov172ad4/FZKQ2AiTIpZ+CHlZPsRBWO+rwHSqI43bk
+         3+geDIj1J8ODmz+CV1FwoWudUc9rhoKIn0ttc9qceycb0qZJYEBXczdCrJiqJk7Gw4vN
+         Eokjh8PLfOEXiwaQY9AQ6lajZEQG3IIfiMj+tn6E8umLbGQHCCpcukl9bLS9MOLvvujG
+         77Tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780162523; x=1780767323;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/CEDkzzLvL1DAe0lGDe9mPko0qZhdDrWYtsQ4KepKeg=;
-        b=lCbd5FoYyU00f38KcxksN0EhM1IlVG3pmd6XpvZNgxtg/EV7j2JmiIj5Cjuv/KfNfh
-         k1OLqwoSgzG3UIkPU07DAjuqStugS3MBOomscMYVA8LcjV0kY9N42gyccK6mpOe4KCTv
-         bovTFyUNhBPYyswpI6F4tvyY7gyBPDKJJNQ1wPkeh628vHiTCeT4YzLeLUx1I94Rnqg/
-         TY2YF6Ttfg/41s7dYZeuFCN6uLuT7MmKLo5c2lPH/3FPhJeTiDHHEBlZZt6sQlxoVVdo
-         0XrOHE7+uri4pASXj/XRagzunlAn6+qEBzz7Qby0AUOx6/KfJqBz6U2RMkWKkL3PBjLj
-         +aiA==
-X-Forwarded-Encrypted: i=1; AFNElJ8YUJwcY9GprJdj8MmKhOP+dT8/qDuwvNOwBu7cr8YJpR77r1ZmKdypJRNNpnAfSdpL/YVOEWbrz9/9OOYj@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzyf2G8f4syCld0LyraX2BwI2Gx1LZpOJUcVIFFCRfqRFMgXuWD
-	8nvqs0kbliwr6VfYHPxVeRWTgQhs5l1hyowtAvmzverBrgket8vuZTd1
-X-Gm-Gg: Acq92OEbCpIvOh9JcjIu8xlh/ME2zoZypfK0JOpg2hQOasFeT3RGlPjfM5HRzXnhx9P
-	iJaq5AJ47jT8JMHIID+aVhURVWdAfhtXJpMZvrORbP0kFP+zOmxtYzPwlT4ifRpcBzI4dVGuR2M
-	DRP+7xEYe1paQtStuJWQtzferjWiGw7EheK66u/zJZl5F4SgPbdyUdrhOZCgTxEovfbHSV9Ttq6
-	mmcxcEvOptkncYVc25RhOP4xhOBPd2CM1w7jrZxLa9mA0A9OqGyQmIjwrP0TlgvS/cOwrSpNi77
-	ZacRvo12NHXQ3LjxwpTV4svPH4FFzr3E3F8gzOwdZOJ8+QnX9wjcsMVE1AA6i3cyeljb9Lm1nRS
-	j9lnr44HgZKTlMyQDZjkeFcwlPovXyVpkc7N68lPDvLDmpDeIF/t3S7Z6Hss6Co/g94wl1R7H5D
-	8SJkmvAzJLFUsTFfWSnB1ISNUjxH8uL7IzzE74jbWlbF8f7A==
-X-Received: by 2002:a05:6512:3f10:b0:5aa:59e8:3313 with SMTP id 2adb3069b0e04-5aa60a35218mr649131e87.8.1780162522382;
-        Sat, 30 May 2026 10:35:22 -0700 (PDT)
-Received: from localhost ([5.124.164.24])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aa5b072066sm1128982e87.22.2026.05.30.10.35.21
+        d=1e100.net; s=20251104; t=1780163031; x=1780767831;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QOyDHP4ZxCe5uNffp9qfUHpgLGSQaBL/VpuY0l97f+w=;
+        b=Fv4PIS7Zg6MNwQnRoNkyeryZJqtYd74oc1ikOHzBaStM45xEtPosys2lCR9N9M3MVf
+         wQ6AfXKtDPWKY9yYLvwHZdITUERyvVCH4GLH64tlE2gGnrm7jMhzj97q7HN29kYPI+DE
+         Dat7xGb5S21it/lAH8YEXt9FFG84c1NAJZ4m5E7cwKqKP4URyKOvQ8xi+ICnbH0F7ZHO
+         IRw0r0u06PUTr0H5/3kCHZnUpa8D+cSXdhvyh3MpMUcPKdllEfwjV/Mb8Ylk+FbfxOY3
+         LOynMb09wb/fy/y4cJd0hA2/+Wlx5QdBak9ICydVJsKwSw0MyDf/KT8eKoID18Z8qfac
+         d1Lg==
+X-Forwarded-Encrypted: i=1; AFNElJ+fKQPMXEPCloqNTz/uVJLMcw2wyDltblyEKQyAYdSWn49+uITvrHTBRF8S4L53wSR+PY3tHZElgGJQAgEn@lists.linux.dev
+X-Gm-Message-State: AOJu0YyEAn/vEqUKvNCfAd9+uCI3b+PYq4a7E/D+OMnA9vmdBlMV1h2j
+	gc8+FWS/lz60zCnBGPA0dup59Pilx+99VL3SwJs20aokUiXlKWLhuUnuSo8N9KvXTA==
+X-Gm-Gg: Acq92OGMQrkDm5qR3daP90fbza5w/UObCVTO6Rx3buCsQa3tbEwE0fKDFjpbXZqACYa
+	SJs47SM8k4fhWRMt9EECnxziAaDg4Gm8RRddMT50qAWx3bM5HDBZXVdCX7HYEfXDT1oXJnLAHm5
+	+W7fwdNTVxNTkFx95iBZ8OV0WtS//n3zeEcprPM6sm+8rCiXTdpyO8bPm2kaUtZODuFqIGW0vm9
+	qQZf9oHmUtvu+gtdF+QIXSIjjsr5Fc5nF84U4xm6FN1X9c8VG2J5G11FPVfMLbvjbluu6J/SMn+
+	Mm8WHb+1InNmy8kYnsGCQBNGvx872TnNGjyO37JNbhSB8NfMz2UucGK2cQQMDk94466HaQc/cr2
+	9KyPuNiHoBApvDgJ+C8KICOOeycPefTNKJLymWiPb8Zyu351tethwUu7GOwn+2DJlH/nm+n7kjb
+	hNXVZFDz28YCcFY49peO1/QQxJZQYDLH4ndxaeBPKa3vPA4+o3jsDBIK2hPaWNAVbN5ycozDjuU
+	b6CQTHrJYvVE7O5UPvmj3qjbyPLe7y0T0+V22MQVUep9492KTRx1N2o
+X-Received: by 2002:a17:902:ef44:b0:2b4:60e6:44bc with SMTP id d9443c01a7336-2c07cb2ec5bmr239755ad.13.1780163030509;
+        Sat, 30 May 2026 10:43:50 -0700 (PDT)
+Received: from google.com (112.174.16.34.bc.googleusercontent.com. [34.16.174.112])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c85a187eb12sm203716a12.6.2026.05.30.10.43.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 May 2026 10:35:21 -0700 (PDT)
-From: Taha Narimani <tahanarimani3443@gmail.com>
-To: Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,
+        Sat, 30 May 2026 10:43:49 -0700 (PDT)
+Date: Sat, 30 May 2026 17:43:45 +0000
+From: Carlos Llamas <cmllamas@google.com>
+To: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+Cc: Bastien Nocera <hadess@hadess.net>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Jiri Kosina <jikos@kernel.org>,
+	Filipe =?iso-8859-1?Q?La=EDns?= <lains@riseup.net>,
+	Ping Cheng <ping.cheng@wacom.com>,
+	Jason Gerecke <jason.gerecke@wacom.com>,
+	Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-iio@vger.kernel.org (open list:STAGING - INDUSTRIAL IO),
-	linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM),
-	linux-kernel@vger.kernel.org (open list)
-Cc: Taha Narimani <tahanarimani3443@gmail.com>,
-	linux-iio@vger.kernel.org (open list:IIO SUBSYSTEM AND DRIVERS),
-	linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM),
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] staging: iio: adc: ad7816: drop busy pin requirement for ad7816
-Date: Sat, 30 May 2026 17:35:12 +0000
-Message-ID: <20260530173514.56640-1-tahanarimani3443@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	Lee Jones <lee@kernel.org>, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev, linux-usb@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH 2/4] HID: core: introduce hid_safe_input_report()
+Message-ID: <ahsh0UtTX6e0ZeHa@google.com>
+References: <20260415-wip-fix-core-v1-0-ed3c4c823175@kernel.org>
+ <20260415-wip-fix-core-v1-2-ed3c4c823175@kernel.org>
+ <8fedad8e9caecd379f2296562cd6abd37f7cee46.camel@hadess.net>
+ <CAO-hwJ+EgC0pM6L6vGFEaRFt2Nwj5b-CCf_5e5VkvrXgdHrjNg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAO-hwJ+EgC0pM6L6vGFEaRFt2Nwj5b-CCf_5e5VkvrXgdHrjNg@mail.gmail.com>
 
-According to the AD7816/7/8 datasheet, the AD7816 is an 8-pin device
-and does not possess a BUSY pin. The BUSY pin is exclusive to the
-16-pin AD7817.
+On Thu, Apr 16, 2026 at 04:46:28PM +0200, Benjamin Tissoires wrote:
+> On Thu, Apr 16, 2026 at 11:41 AM Bastien Nocera <hadess@hadess.net> wrote:
+> >
+> > On Wed, 2026-04-15 at 11:38 +0200, Benjamin Tissoires wrote:
+> > > hid_input_report() is used in too many places to have a commit that
+> > > doesn't cross subsystem borders. Instead of changing the API,
+> > > introduce
+> > > a new one when things matters in the transport layers:
+> > > - usbhid
+> > > - i2chid
+> > >
+> > > This effectively revert to the old behavior for those two transport
+> > > layers.
+> > >
+> > > Fixes: 0a3fe972a7cb ("HID: core: Mitigate potential OOB by removing
+> > > bogus memset()")
+> > > Cc: stable@vger.kernel.org
+> > > Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+> > > ---
+> > >  drivers/hid/hid-core.c             | 21 +++++++++++++++++++++
+> > >  drivers/hid/i2c-hid/i2c-hid-core.c |  7 ++++---
+> > >  drivers/hid/usbhid/hid-core.c      | 11 ++++++-----
+> > >  include/linux/hid.h                |  2 ++
+> > >  4 files changed, 33 insertions(+), 8 deletions(-)
+> > >
+> > > diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
+> > > index a806820df7e5..cb0ad99e7a0a 100644
+> > > --- a/drivers/hid/hid-core.c
+> > > +++ b/drivers/hid/hid-core.c
+> > > @@ -2191,6 +2191,27 @@ int hid_input_report(struct hid_device *hid,
+> > > enum hid_report_type type, u8 *data
+> > >  }
+> > >  EXPORT_SYMBOL_GPL(hid_input_report);
+> > >
+> > > +/**
+> > > + * hid_safe_input_report - report data from lower layer (usb, bt...)
+> > > + *
+> > > + * @hid: hid device
+> > > + * @type: HID report type (HID_*_REPORT)
+> > > + * @data: report contents
+> > > + * @bufsize: allocated size of the data buffer
+> > > + * @size: useful size of data parameter
+> > > + * @interrupt: distinguish between interrupt and control transfers
+> > > + *
+> > > + * This is data entry for lower layers.
+> >
+> > You probably want to explain why it should be used instead of
+> > hid_input_report() in this doc blurb, and modify the hid_input_report()
+> > docs to mention that this should be used.
+> 
+> Good point. Sending v2 ASAP.
+> 
+> >
+> > Maybe hid_input_report() should also be marked as deprecated somehow,
+> > to avoid new users?
+> 
+> Well, it's not entirely deprecated because, for instance, in uhid we
+> only have the buffer with the provided size around. So we can't be
+> less restrictive in that precise case, and then switching to _safe
+> will not change a bit.
+> 
+> Cheers,
+> Benjamin
 
-The driver previously requested a 'busy' GPIO unconditionally for both
-the AD7816 and AD7817. If a device tree correctly modeled the hardware
-by omitting the busy-gpios property for the AD7816, devm_gpiod_get()
-would return -ENOENT and cause the probe to fail.
+Hi Benjamin, our CI started failing with commit 0a3fe972a7cb ("HID:
+core: Mitigate potential OOB by removing bogus memset()"), so I was
+hoping your patchset would fix this.
 
-Fix this by restricting the busy GPIO request strictly to the AD7817.
+However, I just realized our call path goes through uhid precisely,
+which still triggers the EINVAL error since uhid as not converted to
+hid_safe_input_report().
 
-Signed-off-by: Taha Narimani <tahanarimani3443@gmail.com>
+My vague understanding though, is that uhid_event uses a static buffer
+in ev->data[UHID_DATA_MAX], so maybe we can use that through
+uhid_dev_input{2}()?
+
+I ran the following path through our CI and it fixed our issue, so I
+wanted to get your thoughts on this.
+
+Carlos Llamas
+
 ---
- drivers/staging/iio/adc/ad7816.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/hid/uhid.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/iio/adc/ad7816.c b/drivers/staging/iio/adc/ad7816.c
-index 988eee3..0eac484 100644
---- a/drivers/staging/iio/adc/ad7816.c
-+++ b/drivers/staging/iio/adc/ad7816.c
-@@ -84,7 +84,7 @@ static int ad7816_spi_read(struct ad7816_chip_info *chip, u16 *data)
- 		gpiod_set_value(chip->convert_pin, 1);
- 	}
+diff --git a/drivers/hid/uhid.c b/drivers/hid/uhid.c
+index 524b53a3c87b..37b60c3aaf66 100644
+--- a/drivers/hid/uhid.c
++++ b/drivers/hid/uhid.c
+@@ -595,8 +595,8 @@ static int uhid_dev_input(struct uhid_device *uhid, struct uhid_event *ev)
+ 	if (!READ_ONCE(uhid->running))
+ 		return -EINVAL;
  
--if (chip->id == ID_AD7816 || chip->id == ID_AD7817) {
-+	if (chip->id == ID_AD7817) {
- 		while (gpiod_get_value(chip->busy_pin))
- 			cpu_relax();
- 	}
-@@ -380,7 +380,7 @@ static int ad7816_probe(struct spi_device *spi_dev)
- 			ret);
- 		return ret;
- 	}
--	if (chip->id == ID_AD7816 || chip->id == ID_AD7817) {
-+	if (chip->id == ID_AD7817) {
- 		chip->busy_pin = devm_gpiod_get(&spi_dev->dev, "busy",
- 						GPIOD_IN);
- 		if (IS_ERR(chip->busy_pin)) {
--- 
-2.53.0
-
+-	hid_input_report(uhid->hid, HID_INPUT_REPORT, ev->u.input.data,
+-			 min_t(size_t, ev->u.input.size, UHID_DATA_MAX), 0);
++	hid_safe_input_report(uhid->hid, HID_INPUT_REPORT, ev->u.input.data, UHID_DATA_MAX,
++			      min_t(size_t, ev->u.input.size, UHID_DATA_MAX), 0);
+ 
+ 	return 0;
+ }
+@@ -606,8 +606,8 @@ static int uhid_dev_input2(struct uhid_device *uhid, struct uhid_event *ev)
+ 	if (!READ_ONCE(uhid->running))
+ 		return -EINVAL;
+ 
+-	hid_input_report(uhid->hid, HID_INPUT_REPORT, ev->u.input2.data,
+-			 min_t(size_t, ev->u.input2.size, UHID_DATA_MAX), 0);
++	hid_safe_input_report(uhid->hid, HID_INPUT_REPORT, ev->u.input2.data, UHID_DATA_MAX,
++			      min_t(size_t, ev->u.input2.size, UHID_DATA_MAX), 0);
+ 
+ 	return 0;
+ }
