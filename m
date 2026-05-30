@@ -1,133 +1,95 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4020639EB73
-	for <linux-staging@lists.linux.dev>; Sat, 30 May 2026 09:45:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5976348452
+	for <linux-staging@lists.linux.dev>; Sat, 30 May 2026 16:43:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780134329; cv=none; b=ukljiS6qR8YUxmjCFioT2zUZH2rwPpczg2/ZSJSNURHEBXjSwAyfBjer6EAUoUC09/xGkYXDuZ26CrajawD/8hNMW4IjUoWtZMqmvpVv3EPhwoSbloxrXKHW9spcxF5ZVGQ2ZzywXBoIuCoUPG6P2y74nuuh+W6sOnbyM374kr0=
+	t=1780159399; cv=none; b=oYFgfzNb9buG3vZK8JR4+FyF0V84zIObxz+b/JhSkdtvE0HMFvm2OLJATkqFaDTHDcROtEPnOOTPhYwmV9oBeYL6kdO3ac0oMyDJ2VIZTL3kJ+KmT9wku+cn/9IXYFBBT/LMMKexP9kojtq4t5V5hPjA659YTqCZ9UEnpB53ico=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780134329; c=relaxed/simple;
-	bh=LyUfGFZW+p2oW5KkXZ5y3kByeO4P0yiGXlBBXARqQcY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LV77GzB9WqYA9iwOp81zy1DcMBoVhGW1e1e85fJLFHRtEnMg2LgyynPIvIC5ppelqa3MrUDMJyeaGt1+/oLfdMWWVt1XU8Uc+RIZOAT0AvQzll2WCSczuDyubLNFAwDr/K8qb/J4Sr3X5YGHcgGVW0dGeeXOdz42VvFlfPpsnUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MJFmNcit; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780159399; c=relaxed/simple;
+	bh=wXrTrHg7jThfvHpbPuI4wb8lylFg+0R9kOLuU7injEI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=j1q0niWQwaJmpHXI1qA03dUXw4YA5w7da/6Jzf9D0x7JEAEuSiA57kxtZiguKAGOQYNKaEJYxdmP3nhFIh1Pw5dwglIZ4sNCf3FyJpQtL1Vca0smLkzCjygGSX82fMcblrVwRLbBHXNlcAEknEVUsKXR43moG0Bd7XyG9c4cz44=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qtjxk4cT; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MJFmNcit"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2bf1cda2b17so12737745ad.1
-        for <linux-staging@lists.linux.dev>; Sat, 30 May 2026 02:45:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780134326; x=1780739126; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aVc/26APRiTPbdxNs/jo+GGLcrXaHHIyPQYjeJMMqc0=;
-        b=MJFmNcitHVrOTbK6pViIqiw/KNgrmnXIUBO/iXp2v7nAUCl2PnUtdFwM10tlwx80Uc
-         K4kJOlg+0lCPGo2YQRAETqCLlxRV1sc9X35xaoshGe8y84kV/AO1UAfEnqgUCJWvM/IS
-         o/B5v3htl+mOHPWvsQu7ZJhOkEgPuxCpnfV8ltIatUBsjseIsNp0ssdmSTQA455thaMO
-         bmwpa5xhvThEmd95yruvzfkigftRgQCr4HIwf+BeLOsh8L0iwBVM1bm5wvNJGXDJR5Yl
-         09r4YbgCMmEzPH0r/C7YNeiPytwaxM1naA4OcSKQqshQJUPtzndoPAaLzZjkseQM4a76
-         vSoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780134326; x=1780739126;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=aVc/26APRiTPbdxNs/jo+GGLcrXaHHIyPQYjeJMMqc0=;
-        b=nAHTO4Ogwxmkgl21KCYl8OoPjrx4KkIcRFT8gurJ7B5XDRMDDLccWCTUrEyy+z/cxB
-         vKqgHk3ZMtuz+M0MoMLcXXsz7dNO/sJdKA0b3nx79AnynXWEnSlRV8Gb3tIki2hKRqZA
-         Rg+w6XMAXbHwESUNwMoWOae4EJw+y/AVTT1kK9YD3/AjDHjjS8qmKS7cLE/TE82jPEaH
-         o5NCv7IEZ9Zz10c+APsgS/t+q7WSbGEeleBXW760fBBA79oaWK2bFXzD3aykZ7sOYkmu
-         4FneBAhj52y7KT//XaoFzht5AHSNAOko51/Nwea0aso6tY18i08rdMZm4tCQgnPqjfut
-         P9zA==
-X-Forwarded-Encrypted: i=1; AFNElJ8OTgP7m58OI2N2m6CujEw0Cr1XNId30c8zCEuJVP86Ycz6mzcdseUp7LWzzJiIg1m3vKcXf+kdRM+khb1A@lists.linux.dev
-X-Gm-Message-State: AOJu0YwQW25dWSSWAaK4IUtr1XE1oOu+Jrb9ii2DgWA4pc0vVCAm0czW
-	W2xTapjw/LkSQ/D+S4VM8a+4Jw9LXghB6XrsX8spRsCxjqxfOa28sXxh
-X-Gm-Gg: Acq92OHMfzqUdT8KRt3TslvuloOvsY5fDSy1RVxMSoTU+LtvJRhf1WHCQxOwjSfz3ux
-	10NPJ+66x0JqGsJJ27tQ97FsuhhrdWXA8c5ycc7nIhT02CfvOYvmC2iHjPy8w1A8xK/GAFb4veR
-	FiiHpYAlODZIbPdhihP3hRI66P2TURQIYWysRc9cJlF9xTLYnSGg8aHSW833B2i8V1sQhp03WNF
-	Wyi7ha02a4ayH84KOZizPOhsRA6ihGY+LxpNaeEyq+FSURN+9Ct+RqRJoH1dJWPVjds6sGZ2DP7
-	gh5FuhXasaCtvPRHGGDu9VB/w+l/Q/QfdRiaYDRGn8my5v5imf1s2xPmmBSm/PgWTaMhH0o3avC
-	Lv7F1xuuARzVyCG7KLBdswnHJY90SDCevlGOyUaLjX4XnhoRIe1AZ9E4KZCQQZZTJRA1fMH+rpf
-	ek47OyYbdThpNBgQqDEqtH4qS+XDJuetQ=
-X-Received: by 2002:a17:902:c402:b0:2b0:6068:4c5f with SMTP id d9443c01a7336-2bf2048b983mr72327425ad.8.1780134326539;
-        Sat, 30 May 2026 02:45:26 -0700 (PDT)
-Received: from rockpi-5b ([45.112.0.191])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bf239e700csm61529945ad.10.2026.05.30.02.45.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 May 2026 02:45:25 -0700 (PDT)
-From: Anand Moon <linux.amoon@gmail.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Maxime Jourdan <mjourdan@baylibre.com>,
-	dri-devel@lists.freedesktop.org (open list:DRM DRIVERS FOR AMLOGIC SOCS),
-	linux-amlogic@lists.infradead.org (open list:DRM DRIVERS FOR AMLOGIC SOCS),
-	linux-arm-kernel@lists.infradead.org (moderated list:ARM/Amlogic Meson SoC support),
-	linux-kernel@vger.kernel.org (open list),
-	linux-media@vger.kernel.org (open list:MESON VIDEO DECODER DRIVER FOR AMLOGIC SOCS),
-	linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM)
-Cc: Anand Moon <linux.amoon@gmail.com>,
-	Nicolas Dufresne <nicolas@ndufresne.ca>
-Subject: [PATCH v6 8/8] gpu: drm: meson: Fix DMA max segment size for DMABUF imports
-Date: Sat, 30 May 2026 15:12:54 +0530
-Message-ID: <20260530094326.11892-9-linux.amoon@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260530094326.11892-1-linux.amoon@gmail.com>
-References: <20260530094326.11892-1-linux.amoon@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qtjxk4cT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6D341F008A4
+	for <linux-staging@lists.linux.dev>; Sat, 30 May 2026 16:43:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780159398;
+	bh=wXrTrHg7jThfvHpbPuI4wb8lylFg+0R9kOLuU7injEI=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
+	b=Qtjxk4cTmrxuyYwRg0Gn/54Zo7PflF3XoWSNhJqxxeEtgel+rF9QJydQjc/Gyy8/Y
+	 6UkFPGzspzkdMKLOBH/k1c0T5DyaW9JxWEkEeG7gUz2ctFS8oo2JwJJbEBMKl5n/pV
+	 JegRUzdxEElfST3kpdXdyi0/ZoPS3Zo1XmRmJBRoam1hX8ajz1BIiKKJA8SdSJ+PW0
+	 9rUUUvbLFl6l/hFnHSE7Ck5KMbsS5B9u94sAoU8T0dWR+CNGqovTthKJYdpbMNWO7O
+	 puSXtHwRa5FHLCUYaq7kj3TSIYssDZk1MBoo43FU6gCALFJPo5M5KFAX4Q4GLZvAqd
+	 /Ib1a1urHIM0w==
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-396775c2720so139091fa.2
+        for <linux-staging@lists.linux.dev>; Sat, 30 May 2026 09:43:18 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/kF6u+gxCzC/+4sHd3z9weTvydzPVEpXMDlNS3ENoXXWrBZ5/8PQjg5a2j+m6vNw8X46v93Z0VeNHST1s4@lists.linux.dev
+X-Gm-Message-State: AOJu0YyVdkC20RchgA0CvoTOXmMYreKc9z/GQ44q5plXYfz/mH3Z4f26
+	WeZot9UxlErSHY252a4otp8r37NElhmdUu8rO1HS2+jJ7OmFurBRTCXRxO7W7Xsnn7BwVZd5bNN
+	rpj7spKJyzTeYO+2GrziwCqf/OLzl/pc=
+X-Received: by 2002:a05:651c:20dc:20b0:396:5731:db22 with SMTP id
+ 38308e7fff4ca-39664edbde0mr9068591fa.23.1780159397154; Sat, 30 May 2026
+ 09:43:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20260505134812.408316-1-wens@kernel.org> <20260505134812.408316-5-wens@kernel.org>
+ <JyKk48uGRMGhs1Z-wzq5pA@gmail.com>
+In-Reply-To: <JyKk48uGRMGhs1Z-wzq5pA@gmail.com>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Sat, 30 May 2026 19:43:05 +0300
+X-Gmail-Original-Message-ID: <CAGb2v64wDvLMFn9DYs-kH1S2PpHJat-imxR5eJSQAUYjOp=Xdg@mail.gmail.com>
+X-Gm-Features: AVHnY4JPf-OCVxDr7xF6UmPyet8eqBpmFwZfdZsz7_1mZVTdUTpZyn83IUGk-ro
+Message-ID: <CAGb2v64wDvLMFn9DYs-kH1S2PpHJat-imxR5eJSQAUYjOp=Xdg@mail.gmail.com>
+Subject: Re: [PATCH 4/7] drivers: staging: media: sunxi: cedrus: add H616 variant
+To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Paul Kocialkowski <paulk@sys-base.io>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Jernej Skrabec <jernej@kernel.org>, 
+	Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, devicetree@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-When using hardware-accelerated video decoding via v4l2m2m-copy with mpv or
-similar players, the video decoder driver (`meson_vdec`) exports contiguous
-memory allocations as DMABUFs. When these buffers are subsequently imported
-by the display controller driver (`meson-drm`) for rendering via the GPU or
-compositor, the DMA API throws constraint validation warnings.
+On Tue, May 5, 2026 at 7:18=E2=80=AFPM Jernej =C5=A0krabec <jernej.skrabec@=
+gmail.com> wrote:
+>
+> Dne torek, 5. maj 2026 ob 15:48:08 Srednjeevropski poletni =C4=8Das je Ch=
+en-Yu Tsai napisal(a):
+> > The Allwinner H616 SoC has a video engine hardware block like the one
+> > found on previous generations such as the H6. In addition to the
+> > currently supported features of the H6, it is also supposed to include
+>
+> Remove "supposed".
 
-- Call dma_set_max_seg_size(dev, UINT_MAX) to allow large
-  scatter‑gather segments.
-- Ensures the DRM core and canvas allocations can handle
-  full sized buffers without hitting DMA‑API warnings.
+I can't actually verify that, so "supposed" is accurate from my point of
+view.
 
-This aligns the driver with common DMA setup practices and
-avoids failures on platforms with strict segment limits.
+ChenYu
 
-Cc: Nicolas Dufresne <nicolas@ndufresne.ca>
-Signed-off-by: Anand Moon <linux.amoon@gmail.com>
----
- drivers/gpu/drm/meson/meson_drv.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/gpu/drm/meson/meson_drv.c b/drivers/gpu/drm/meson/meson_drv.c
-index 49ff9f1f16d3..8570add8b831 100644
---- a/drivers/gpu/drm/meson/meson_drv.c
-+++ b/drivers/gpu/drm/meson/meson_drv.c
-@@ -247,6 +247,8 @@ static int meson_drv_bind_master(struct device *dev, bool has_components)
- 		goto free_drm;
- 	}
- 
-+	dma_set_max_seg_size(dev, UINT_MAX);
-+
- 	ret = meson_canvas_alloc(priv->canvas, &priv->canvas_id_osd1);
- 	if (ret)
- 		goto free_drm;
--- 
-2.50.1
-
+> > a VP9 decoder. However software support for this is currently missing
+> > and still needs to be reverse engineered from the vendor BSP.
+> >
+> > Add the compatible for the H616 variant, using the H6 variant data.
+> >
+> > Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
+>
+> With that:
+> Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+>
+> Best regards,
+> Jernej
+>
+>
