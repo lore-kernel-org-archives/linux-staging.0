@@ -1,142 +1,96 @@
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com [209.85.208.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74AA5306B1B
-	for <linux-staging@lists.linux.dev>; Sun, 31 May 2026 17:00:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79A2D21ADC7;
+	Sun, 31 May 2026 19:52:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780246832; cv=none; b=WPL0ZTFKJQHBIOTMXrZIURFGaqNR11F5BQCJf+Iz7AHjYFkB+JzR9oHS0sAIe7jmci+1/z7gxx8oVsMWREg0iVFEL6fqmSbWmD6n7nkh7qwz3FVxf3LT27XAxvv7DJ9vnGUYOJLpaTXSMn5fwh/Mslqv3nzcMXT9zT0iHFx0o0M=
+	t=1780257164; cv=none; b=usAvK0qzJAgk3bIz+oyjKSCBqxZiZEPVfECtVNIw7d2H8RwI35umwW0D3wiOlux3UgTkG4xsK6fg2eUk/Ei0ICL6ywm0K6vdwD1taH34IZxbZjfG8AjNmHpavi49k4SBAjjJ4xNfvKcqcnue7Y2dD2uA4zNkzuXl+CW03pmkYBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780246832; c=relaxed/simple;
-	bh=7oILcHy2OaYSqC//v30gxSWvYLcti5DYdhxLJK1ND/M=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sQ4iwE0gCYlXf6ZBOLtpWZPpIAu/1BDNB9MAT/bjRtXg2D50ajSTsD/abiKpCWX8SNui/UCMs4vDOK66ql1wSjRHgQkonmRtaZOyTfefTrJLX7wNdl5lE3BHXFj0c6uYhdHdD0JrAB9BBEOgI7/AGnWNkEHaRL+iyjGO4BP43GU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pq3orDN8; arc=none smtp.client-ip=209.85.208.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780257164; c=relaxed/simple;
+	bh=X3sWxmN+JBpebowhRIsiAvs2OAAhmtv4eqLpOL3rWHQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AkqwqJaIh2m88a9GA8zBpqan0tOpYHY8Cf4xalpBfwZTIKWIW3LNZHhvHrIt0eH4XVi4Vv9Uv5yhlHyrHnI7c+JmSrIDaAlWRfu8QoHRKECJvYpeL48xkKbOFvPSF9tDujRfWeaVufgC1JSo/zJYc+hMeiiFQMJPE1/iyjQz4lk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=nWz3USfi; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pq3orDN8"
-Received: by mail-ed1-f66.google.com with SMTP id 4fb4d7f45d1cf-68b73f1a8ebso5266220a12.1
-        for <linux-staging@lists.linux.dev>; Sun, 31 May 2026 10:00:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780246830; x=1780851630; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8l2ztJsz5ci2VqRTOG3WO8D5D9WBDRBiP4Iv9K0GHsU=;
-        b=Pq3orDN80X/aJhnxJeYj48dNcaLCNvwYeMIWk9d8g70kukUQvKOGio4jcw+/niTyPq
-         tBC1dhqtkQOEEXahfIHe9+w40cE92KWFH9NrPQLfVFbGf4cEfKotesA5gV8Bt0l1qtf7
-         jgk+jU2idBchY3stYFyykPpAllaXL2N0lFrnBr2OevmqDyirS11B+UPPN/w0B/BxkIqV
-         2btaDaC2ByoHAsGlW2ut3VlYnlNaULt+h31Xl/nZrJONiU8mFYucOj+DjFpNiYkYFHZC
-         L98Q8RKzYjTrKxZZ2htYTyZ/lX7D7oTNiBwIgwCDcjdjfzvi24bkP424FgwGbTFfiV4k
-         C8LA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780246830; x=1780851630;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=8l2ztJsz5ci2VqRTOG3WO8D5D9WBDRBiP4Iv9K0GHsU=;
-        b=L5ldyOxTrDV52c4isQ6O3WWSQ+z1DTA7b1qNHSuenLSTNsQf09WgakzVHLcppjZzfu
-         BByEbSh9s6KEPLVLAZOtdWYtld82jsnK6dh4QmNylQEhw6rWST96+FplIY0UNTkiR+Ec
-         8+fkLbWGIkYTfwWyfOxyClFytVEo/6SemboZ5xRApM7bkxjfPohZGY+o69TMipHrZU8D
-         0DPhm/iEtiKeAv5PZWDUdJtFKMXbReEgtl8lnWEW4Tfc/Rpjy0WgYr+i4zUaqUgNwI5L
-         /XWSqK7c6xEC0jdVgNSPmPvGMsfcJxHLbK2xBIoJyXrKCzCGxUEcSjfEe6gIn/AjMp6F
-         VBqw==
-X-Gm-Message-State: AOJu0Yzxc0hNFJ5uTm6xdo2H06Ln9LCLtNOj0Cp1rm6wspnfUhlpd0FZ
-	QR7hGEKKWtxp5bsRjgAz6t/vqZ6tHVpNEScROkNAeCS7RnX2OrxjeEk=
-X-Gm-Gg: Acq92OHXTh6dpa0SB2HJ8hwegI97ItF/IJKOtPpyT1mGZut1D/l/NLa/FW5qT6avrBI
-	DYpsTnjFAuVaoRsWstzOpVUA3IblbsfGWyoOvHGlPHi7qB56FaUx5Q8Yp4YeaMQGdyn17dAYw92
-	LzYJfATnaqkNmMUJQOZ7mXEqEV/P4vEzp1jD9y2Uv/yHaM4RKS8cyf9HiJKaHFdxe0hoei5PclH
-	VrZGRxI6lugPbLalp6ersaHz6TBd9Q1YM+5UEsdh4h2KJ8jNY0nqCf+4ary8w8zOlSzVoz07EEi
-	jUtO3MSAyc9ZVaJ/zaOF/QTUsxbSHjj3ZklgskyNy6tfvTzWc3GP/bmULRA1h+QV9klduYm6gkB
-	/LUyfOTg76Ga08YxJYZTmwEaS1YEbLIdUL5uQyYqa0S42yT0Ceu+3kzOI54GhhpRxE2I/puYCwX
-	qdCPyQEYMJUMgt50sKf3GU1b/tw8uXpiR5h/e2Iym2ARkJ8+aEw0+sRPxTL+w=
-X-Received: by 2002:a05:6402:c44:b0:68c:d4e:3a4a with SMTP id 4fb4d7f45d1cf-68c890169cemr3534519a12.7.1780246829837;
-        Sun, 31 May 2026 10:00:29 -0700 (PDT)
-Received: from archlinux.itotolink.net ([217.196.163.117])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-68ceb869dfdsm1184310a12.29.2026.05.31.10.00.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 May 2026 10:00:29 -0700 (PDT)
-From: Vitaliy Slivinskiy <phant0m.mail2023@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	dan.carpenter@linaro.org,
-	Vitaliy Slivinskiy <phant0m.mail2023@gmail.com>
-Subject: [PATCH v3 3/3] staging: rtl8723bs: clean up blank lines and function formatting
-Date: Sun, 31 May 2026 19:58:49 +0300
-Message-ID: <20260531165849.283264-4-phant0m.mail2023@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260531165849.283264-1-phant0m.mail2023@gmail.com>
-References: <20260531165849.283264-1-phant0m.mail2023@gmail.com>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="nWz3USfi"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
+	In-Reply-To:References; bh=usD25Mn+KtR/YRU4TNAHsdvTdHQnYeqEpZh1u/Q0X98=; b=nW
+	z3USfiBx3GvO1i1+RWdPGGt/FWdjUQZ23dST/1Y7m+DlxgFl5AMdbxsJrgcRjL0ZrP1S6qrF1XGBo
+	vddpOIjRFe9O8SZe0zd2iog2EIBzKS9WTfOIbtYX5eCQpDh45loIq6XVU3E3+2sbeThP/oILK/puc
+	nJDcjX0+MsbMNSY=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1wTmD6-005OXP-Cl; Sun, 31 May 2026 21:52:36 +0200
+Date: Sun, 31 May 2026 21:52:36 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Grewstad <dogestad24@gmail.com>
+Cc: gregkh@linuxfoundation.org, jic23@kernel.org, jacobsfeder@gmail.com,
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, hjk@hansjkoch.de, davem@davemloft.net,
+	netdev@vger.kernel.org
+Subject: Re: [RFC] drivers/staging/axis-fifo: TODO file and subsystem
+ direction
+Message-ID: <84d8f2a1-6562-47a9-93d7-2d7ff33c31c0@lunn.ch>
+References: <CAD03fjaBJGtNATBxaYO-PAxdKC=HxYgE+M7HQ_a0O+3Sp9Mruw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAD03fjaBJGtNATBxaYO-PAxdKC=HxYgE+M7HQ_a0O+3Sp9Mruw@mail.gmail.com>
 
-Fix checkpatch.pl checks regarding multiple blank lines, missing blank lines after functions, and function declarations ending with an open parenthesis.
+On Sun, May 31, 2026 at 08:20:35PM +0530, Grewstad wrote:
+> Dear Maintainers,
+> 
+> I am interested in contributing to the Xilinx AXI-Stream FIFO driver
+> located in drivers/staging/axis-fifo.
+> 
+> While reviewing the driver, I noticed that it does not currently
+> contain a TODO file describing the work required for graduation from
+> staging. I would like to create such a file, but before doing so I
+> would appreciate guidance on the expected long-term direction for the
+> driver.
+> 
+> The driver currently exposes a custom userspace ABI through a
+> miscdevice. While this provides a generic interface to the FIFO, it
+> does not integrate with existing kernel subsystem tooling. One possible
+> incremental improvement in this area could be a transition from
+> miscdevice to a proper character device (cdev) interface, to allow for
+> a more clearly defined and maintainable userspace ABI.
 
-Signed-off-by: Vitaliy Slivinskiy <phant0m.mail2023@gmail.com>
----
-Changes in v3:
-- Split changes into multiple patches.
-- Fixed sentinel entry formatting.
+In addition to what GregKH said, look at the vendor information:
 
- drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+https://docs.amd.com/r/en-US/pg080-axi-fifo-mm-s/Core-Overview
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-index 9d936b8349f0..06f1b2ff05f4 100644
---- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-+++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-@@ -48,7 +48,6 @@ static void sd_sync_int_hdl(struct sdio_func *func)
- {
- 	struct dvobj_priv *psdpriv;
- 
--
- 	psdpriv = sdio_get_drvdata(func);
- 
- 	if (!psdpriv->if1)
-@@ -151,6 +150,7 @@ static void sdio_deinit(struct dvobj_priv *dvobj)
- 		sdio_release_host(func);
- 	}
- }
-+
- static struct dvobj_priv *sdio_dvobj_init(struct sdio_func *func)
- {
- 	struct dvobj_priv *dvobj = NULL;
-@@ -214,8 +214,7 @@ static void sd_intf_stop(struct adapter *padapter)
- 	rtw_sdio_disable_interrupt(padapter);
- }
- 
--
--static struct adapter *rtw_sdio_if1_init(struct dvobj_priv *dvobj, const struct sdio_device_id  *pdid)
-+static struct adapter *rtw_sdio_if1_init(struct dvobj_priv *dvobj, const struct sdio_device_id *pdid)
- {
- 	int status = _FAIL;
- 	struct net_device *pnetdev;
-@@ -248,7 +247,6 @@ static struct adapter *rtw_sdio_if1_init(struct dvobj_priv *dvobj, const struct
- 	/* 4 3.1 set hardware operation functions */
- 	rtw_set_hal_ops(padapter);
- 
--
- 	/* 3 5. initialize Chip version */
- 	padapter->intf_start = &sd_intf_start;
- 	padapter->intf_stop = &sd_intf_stop;
-@@ -334,9 +332,7 @@ static void rtw_sdio_if1_deinit(struct adapter *if1)
-  * notes: drv_init() is called when the bus driver has located a card for us to support.
-  *        We accept the new device by returning 0.
-  */
--static int rtw_drv_init(
--	struct sdio_func *func,
--	const struct sdio_device_id *id)
-+static int rtw_drv_init(struct sdio_func *func, const struct sdio_device_id *id)
- {
- 	int status = _FAIL;
- 	struct adapter *if1 = NULL;
--- 
-2.53.0
+  The AXI4-Stream FIFO core was designed to provide memory-mapped
+  access to an AXI4-Stream interface connected to other IP (such as
+  the AXI Ethernet core). Systems must be built through the AMD
+  Vivado™ Design Suite to attach the AXI4-Stream FIFO core, AXI
+  Ethernet core ...
 
+when used for Ethernet, a uAPI is not needed. The FIFO driver would
+just expose an kernel internal API the Ethernet driver would use. Are
+there any Ethernet devices using it? Is there a driver for the AXI
+Ethernet core? Does drivers/net/ethernet/xilinx/* duplicate the same
+code? xilinx_axienet_main.c says:
+
+ * TODO:
+ *  - Add Axi Fifo support.
+
+which could be this.
+
+As GregKH said, find some hardware using these IP cores, or synthesise
+your own, and then work on the driver.
+
+	Andrew
