@@ -1,111 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com [209.85.208.68])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C19DB3546EB
-	for <linux-staging@lists.linux.dev>; Sun, 31 May 2026 16:51:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E99612DCC08
+	for <linux-staging@lists.linux.dev>; Sun, 31 May 2026 17:00:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780246268; cv=none; b=fT5Nd504aUQvlEsUcu+Y+yXlJyhHWrMTXAunzQpzDFogiiTEtJQvbk8nNaauKIdXS9SFZeVS/ax/STVaVHWRZTwmqdCdAO6n5Hng2qyIm8Wj5AOCXqGiOviLfxyvFTFZgc2zRCw8GP74tdafBbjlKGzZGYXc9R3HhOI6AbKkODE=
+	t=1780246819; cv=none; b=WGawP7DxODSi8Gm0Q6ME42oRaU1hvDkqwExtOUk4m0/ahe2ACO1JiJ1v1VNFikocZqR8EqjQljeusU7/TJdjgx57tB+Um1+b+UWwN/D+VzXPHN1WMpmZ3Z7L473fCMlEKCRT33xQlqqMKM6vmu0VTdSJk8KealI/NStfb+0hHsA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780246268; c=relaxed/simple;
-	bh=wyMPEHvT8e/M+GqCGNy1czl8whLL3CHaGifyoKChexM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NdnHOp3JLAYOz+z2DSKcg0ELwF4x0FgCxci6q7gLDx3hNmGS4imY+PeZT9mbwLhHD7FqNgsHidf/kEu70Lq0aWI8JwLGsduvArjhJ973AnhUjmNNeEWGL7KTZf46Dv5WiJTkH3GQ+wADuVC34BF+TX6ZFppYUth6Q8kBMaY1Fj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ShxKEe5i; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780246819; c=relaxed/simple;
+	bh=YP3m8PU9SApxd+2sh1RGj8CeDqI3NvgOsoWu7wYwbZk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bUJQlWzqopigS6QpwR/s8Ox+G7jCRTwUu4NOYpRFRFB5yryrUbFywo/cgWiwNwhLRWzcxZKUw7tp+SgZxdhH1BgGLM3zw/tLnvjWeH60epxmuUrvAy/dvUuFufLhfsbUAxqjGSofwKTWnNIzUPXqMPNCL3IJSPsQ2PUe+wDzn5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EqRa4UuQ; arc=none smtp.client-ip=209.85.208.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ShxKEe5i"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E0B41F0089C
-	for <linux-staging@lists.linux.dev>; Sun, 31 May 2026 16:51:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780246267;
-	bh=cle4Lm8eCkJyUbPSDsxDlvoL4NKCdhpSL1sM+5Y5rPQ=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=ShxKEe5iwi9zfwQ3lChI+4y2crM7X2Yqe1HwYaHucAsGRbKB5V0o29xDjISPMJ6DC
-	 yee6vdr65Gs5w9rxVojTWrWw0T+G92333THA5dtdxODMD6fGcV/UPKMZGeAB9r0d3q
-	 4X5PLlRsF70a7ecLFECR8dEvVVBV2sjH+PLeC6SMimMMWGeVkCWmLrvNhpweZe6Ox1
-	 c2IzR6dQbynnnFwm9DnDkxPO8D23aGZxGmrX0H/4Rsl2oUtkc1vndvmN1O8etPbL44
-	 8lx7xzvw0S7I87DAckJxGrNUS/mDs97EUOjoIC5gdcsuDNxKB9H8MinptQNEujtw8M
-	 GTMFdp0RrkNfA==
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-39661f81eacso16814251fa.0
-        for <linux-staging@lists.linux.dev>; Sun, 31 May 2026 09:51:07 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ87I98UNNdCkGXHkuN52YdWDbolm4qkd0klkyGcdty9+r6CUe9EazF1ldvK2Ru4m1A7CjLHWwg8fy93V1W1@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz8mmPvRZaNeRdOZz4hMj+Jt9zxoBh6MmDA8Q8IxOGfHbsq6Swy
-	zzEwUEzejJvoUueCDXfBhdPH7hot73zRNJ6ELUaBUZ3F+ZIWR8ymj0fBi3ll3njAsY3YKTo+p9b
-	sKNUgRRqmNfx5d0zL9M+dYVJHO/vxZDRvVOgrxX/X+A==
-X-Received: by 2002:a05:651c:2229:b0:393:9cf1:78a with SMTP id
- 38308e7fff4ca-39651e3ab64mr25663701fa.22.1780246266311; Sun, 31 May 2026
- 09:51:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EqRa4UuQ"
+Received: by mail-ed1-f68.google.com with SMTP id 4fb4d7f45d1cf-68c32f3c6d6so2539693a12.3
+        for <linux-staging@lists.linux.dev>; Sun, 31 May 2026 10:00:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780246816; x=1780851616; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=s8GQEECAMtg1yxY5F/vz66s4RPjes3uqRFsaqGsjjRY=;
+        b=EqRa4UuQXeWDiOGQSILv9tHNlfUFWbUPrBn2RLJuYaT2H5ZXB6Y6Sc/vmjSQlZHcAB
+         nP9vi9nF0fDV2AhVP5I1+Ak9NrDM+Hk7x5iZ2ExglCBP+3XDz0kfB1nmDyvJyrrFiJjD
+         ucUybEbjKZO7pZVqpoLJT1GwdYYYUZO59v7CEpWhxvjrfd0neWsgLS+17JCeqBiYWU8/
+         yYLT/z2pNqNbyzfpVz62zqmhLwJHwID13561y6+RIiUqp+WUWMP1A+We3vTO5/O/Sbwr
+         pVqq2RNV03qohAwlvvi8q/4OEbAuaigJNJ1wpE/VzAkPp6iDJ+39tkw7jLs+R+yfKaoG
+         bZGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780246816; x=1780851616;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=s8GQEECAMtg1yxY5F/vz66s4RPjes3uqRFsaqGsjjRY=;
+        b=dElqu4WB/P6tSQrrtV+2y2gn1k1Dwq6DanTWOHWny8Yb5xaloPCvrSE2DRsx16IhEr
+         676P+QwuXVQkWLu8Vk0XxeWpWHcQbLenNOVddLdCXjFUgS2HNFzjvh3YHwBlo8KSuqPw
+         U5s9eLPO4CWaSsiVtqcgRgnU9fJQ0bx4ZrKUhGgOb5N6Z7DQ+L80ReUmMgOPukjITaoB
+         89CTV/XDCqPsbpZmm7IPZEJusjh1RhWsAVG0gTJdT16CWmZX7p1phWs1x78LwjzAusdZ
+         TDYHiQsGSYuMQX7oHfhQFpYpxVpUv5ElWumAtE2nP8X283+34agC4GOOcqwJix4T+gp/
+         Bi4Q==
+X-Gm-Message-State: AOJu0YxyWD6s0mJGiqbxXZJJek3l5NSLrF70+GIr/Dv8ozJNwnGAfNi0
+	lWpWmKSHqbjyg24REdZG3Ht7/qrTqlSlApfy/3mbWq3Jv3EAWBUF614=
+X-Gm-Gg: Acq92OFM54IDyGv82Huqn/+2wP4GtEMiEBVR1AztNswusB6kOEvSP0Ik1OEFWO8yvJM
+	KdwT3G8idyg/dmrwoPuZtFdpllvLQLk0vs8EN4n0gWQx75ssQpCA5gES7Q+i0Qo1iFaGB5hN+P7
+	f9XvHAyAZSHhDpb3ONNzHZU54nsBzeW/CUrZkMIMDPfBcbkgib0jgHRbqLWmd484hHyqufsN2mh
+	6opg1Lbnvs9UxT8HtJac9KBN9G7DClbuJzAXxTK5j5wJmWazoatkMwGgh5RtuZIrOfJKW75hADT
+	2vTLzou4LfO16GTZ9ltURCCr1Zo+aPrSrQRG6SOeAdwaE76fxiopZbJ0/OyRVj0UxkZ7Hg4xuZp
+	OF317VhuyQePAmt5ySIgZpvAgLyfkQguELOLeZz8GKkQ5lgRIodrfqXp9UIORjLvkQxgaWP82md
+	W8iVGlDvgxcCM3ZZ6p0k6fXfe0rWsBDyrgs1Bmv2k9OOCKajcDZqVreuaHBR8=
+X-Received: by 2002:aa7:d053:0:b0:68b:d10a:a490 with SMTP id 4fb4d7f45d1cf-68c8c56008cmr2868274a12.13.1780246815987;
+        Sun, 31 May 2026 10:00:15 -0700 (PDT)
+Received: from archlinux.itotolink.net ([217.196.163.117])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-68ceb869dfdsm1184310a12.29.2026.05.31.10.00.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 31 May 2026 10:00:14 -0700 (PDT)
+From: Vitaliy Slivinskiy <phant0m.mail2023@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	dan.carpenter@linaro.org,
+	Vitaliy Slivinskiy <phant0m.mail2023@gmail.com>
+Subject: [PATCH v3 0/3] staging: rtl8723bs: clean up coding style in sdio_intf.c
+Date: Sun, 31 May 2026 19:58:46 +0300
+Message-ID: <20260531165849.283264-1-phant0m.mail2023@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260506082211.5624-1-bartosz.golaszewski@oss.qualcomm.com> <CAMRc=MeD3rDyGqqYC36FChx=SgDikPAXTr1i7-zMWnOnaK+xyg@mail.gmail.com>
-In-Reply-To: <CAMRc=MeD3rDyGqqYC36FChx=SgDikPAXTr1i7-zMWnOnaK+xyg@mail.gmail.com>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Sun, 31 May 2026 18:50:53 +0200
-X-Gmail-Original-Message-ID: <CAMRc=MeXfApCLxhEmDind9pPRuzuTD5GHrzU8Ks1yecfqam8XQ@mail.gmail.com>
-X-Gm-Features: AVHnY4L8gzJfm4s4B4U0pDKUyj1gzCXiRFuexEbrU1c5iA3KSgSCaLIWl7GnQJY
-Message-ID: <CAMRc=MeXfApCLxhEmDind9pPRuzuTD5GHrzU8Ks1yecfqam8XQ@mail.gmail.com>
-Subject: Re: [PATCH v3] staging: media: max96712: drop unneeded dependency on OF_GPIO
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, May 21, 2026 at 2:37=E2=80=AFPM Bartosz Golaszewski <brgl@kernel.or=
-g> wrote:
->
-> On Wed, May 6, 2026 at 10:22=E2=80=AFAM Bartosz Golaszewski
-> <bartosz.golaszewski@oss.qualcomm.com> wrote:
-> >
-> > OF_GPIO is selected automatically on all OF systems. Any symbols it
-> > controls also provide stubs and are private to GPIOLIB anyway so there'=
-s
-> > really no reason to select it explicitly.
-> >
-> > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.co=
-m>
-> > ---
-> > Changes in v3:
-> > - Send the staging patch separately so that it can be picked up for v7.=
-2
-> > - Link to v2: https://patch.msgid.link/20260316-gpio-of-kconfig-v2-0-de=
-2f4b00a0e4@oss.qualcomm.com
-> >
-> > Changes in v2:
-> > - Make gpio-watchdog depend on OF && GPIOLIB
-> > - Drop picked up patches
-> > - Link to v1: https://patch.msgid.link/20260304-gpio-of-kconfig-v1-0-d5=
-97916e79e7@oss.qualcomm.com
-> >
-> >  drivers/staging/media/max96712/Kconfig | 1 -
-> >  1 file changed, 1 deletion(-)
-> >
-> > diff --git a/drivers/staging/media/max96712/Kconfig b/drivers/staging/m=
-edia/max96712/Kconfig
-> > index 117fadf81bd0..93a2d583e90d 100644
-> > --- a/drivers/staging/media/max96712/Kconfig
-> > +++ b/drivers/staging/media/max96712/Kconfig
-> > @@ -2,7 +2,6 @@
-> >  config VIDEO_MAX96712
-> >         tristate "Maxim MAX96712 Quad GMSL2 Deserializer support"
-> >         depends on I2C
-> > -       depends on OF_GPIO
-> >         depends on VIDEO_DEV
-> >         select V4L2_FWNODE
-> >         select VIDEO_V4L2_SUBDEV_API
-> > --
-> > 2.47.3
-> >
->
-> Gentle ping.
->
-> Bart
+This patch series fixes several coding style issues in sdio_intf.c
+reported by checkpatch.pl, including unnecessary braces, spacing
+around conditional operators, and formatting of function declarations.
 
-Are there any objections to me queuing this through the GPIO tree for v7.2?
+Changes in v3:
+- Split the changes into three separate patches as requested.
+- Fixed the sentinel entry in the sdio_ids array.
 
-Bartosz
+Vitaliy Slivinskiy (3):
+  staging: rtl8723bs: remove unnecessary braces and comments
+  staging: rtl8723bs: fix spacing around conditional operators
+  staging: rtl8723bs: clean up blank lines and function formatting
+
+ drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 14 +++++---------
+ 1 file changed, 5 insertions(+), 9 deletions(-)
+
+-- 
+2.53.0
+
