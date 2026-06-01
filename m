@@ -1,116 +1,93 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28136367B67
-	for <linux-staging@lists.linux.dev>; Mon,  1 Jun 2026 11:37:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEA313769F2;
+	Mon,  1 Jun 2026 12:29:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780313842; cv=none; b=mHwrSRBZzO3/uuR0mJQjoIX8rAQiWh4aQQ1vXk18ZThzXc/TfWyR2Omq8MepUayRkBQdq7If9/PH+0esNSbH71+DoqWuaCh7HW+yA90hNQM7W5opCubzQDtkTbD7BVcY1VxG0Ls9hDygKgGJYVFPNleJUDvyKosDtGvK1Ichp0M=
+	t=1780316956; cv=none; b=QJhzFdRyo+1fg7kLVvx3Qlam7nBI9eeXXboe1m2Z37UVit8lGFoh6s8tTNK+CC00zT2DlvZN9+KInwBd72ByyxIKTiw4CVBGg1zgs1gVyoL4zja+TPU2ZtUWENnK3DhGbMr/nQqerZN/ATwKZdHFBQjw8LMnJPuhpmFv93qc06E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780313842; c=relaxed/simple;
-	bh=Zjof0WVULYCBSZ2Pq6gQ3NRucoS9NMNzybSAd/5mwGU=;
+	s=arc-20240116; t=1780316956; c=relaxed/simple;
+	bh=JPpYKXlBa4RFvW7actu/k5nlkmsuW6+Ne4hRxI8dc78=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Myfk9eUuVY5qQlqOTqz4+Pv+VUhguX0RxnYwMIa3UWufbapMAIs337pHuvep3qoX0lJt/ku36XC5k4OxwLoS65te4PHq7YiFYMYk0SPCAhz5xzYn6styDAdgeqkIsdYFMiGEAFk+3c0Z+jIf45w+oXziLMx41Wb+HpYFIH/Xw7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WisJW9Pu; arc=none smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=aijmv5IhknaXmB8EVmdH926u26D/y01lZoVekSrcwngETFijcg0TgiyfKRUAwSsu4Z+67nJbinruQAbvztt13Z3EBD7IpM9froV2XD8Q0nkrY2vM30fFaATlTeZdEUuUgoQY9rLYS/+OwBu6Dg+fvERmlVJ/XD8gd3jOJMfpE4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=T8Gpi6UG; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WisJW9Pu"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-68d23430690so2227030a12.3
-        for <linux-staging@lists.linux.dev>; Mon, 01 Jun 2026 04:37:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780313840; x=1780918640; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4Y5aiob/5xwmuKj1NkLrGEbiNwQs8EGYTAf6Wpc7voc=;
-        b=WisJW9Pu+CYazDrScP/Sd3FBwAvRNIzCB4e/MtLAS6nq5+syW8wWSdII5OuacWLmc/
-         qleEdnPbV2np9Lxymma917sEVMvXxn/NdeNORdQq7cGJZsYaA+eY2O8Y2czvd9jL+kFO
-         BF/TOaVuS0fquhYEQ8IE09KXabGXOGf/JrglJRoFlmAWYkE1lePl1NRJ0DUVxrW3lWS2
-         Kh3yXQgSs6Wuv1fOWS17VcZHLqe5XU1W74+CgdC15dRMJoP+fFAaeOHl7Q+bQGUTZcQs
-         Gq0HQP9BNQVHvuKvPMSyQu8JptKec5FA/Q6px01qfmbHg3IPeN1z9vUWH6vWLZ5onm7C
-         WCDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780313840; x=1780918640;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4Y5aiob/5xwmuKj1NkLrGEbiNwQs8EGYTAf6Wpc7voc=;
-        b=FgtmlpOaMyjzENP061yFLVQ+nAsRqzWpqUax1NxjWu0Y9yIIE1A53bpKI/BEa3aovm
-         o98IaaBNtzPUIv6tZlpxxhGorIK2fV0P1cylbjS52zC8EnY79UXcTNDa/0WFIoZ2lFvU
-         qc+XjspzYR2he6U3LMjet2fMdg84JM/xxYJ2v6oaqjGhX2EWzDqdqAvbqDyQCvkbQTS1
-         HtaIvpdKKMLQ937qLADHMB10Fjw2c28FXBdXkizwAJbrmZFKh8478dOEee7gDCdayBlh
-         +asZdN6gJkQAxZR0q4mPrUQIu7LA9ibFcbGzvU5OJFNsNUcCsSlUZzVehafgqXhIzYfe
-         l7oA==
-X-Forwarded-Encrypted: i=1; AFNElJ9HNKOQkUW18arPgdv6ToD5b36v4IWVcL5waOuNz9n12H82WhSXEG3b3ldd4kDME9XJrIL9tJhe8IvrocWZ@lists.linux.dev
-X-Gm-Message-State: AOJu0YxJFc1QiiIaJfiys5pTlPkceR8QkJIreqMLAV44DWJwXi7L7wHa
-	894hbNn6TyVoBopxPxBC2hpMzapDjji2J93cSBWzIFUCFXqbwQPx7DTM
-X-Gm-Gg: Acq92OEDjd898A3q6miNn6Fapms6n1YRWjUtUXZR8a8O7N1F6N+pGElynD06XQYBlIH
-	2HtiZwM/K3qpKS+mzPkJg8UHrD4hdFUZuxwSFySuwm/jQS18ZUflrSopQOkbMeJGrkmxJeH3Mvn
-	GNHWp0B/2XEw7fUrftba2a981EY3h3kknLa8vkBjVUc+qgq+xWgror5XZLkYgUND2q9iev24Wxf
-	ejnLlvw4z3MSWbZPnPmLsQ9WunQYYK/v3MI2FoM9F5us2iD5ryBfI23QxOAND8/UO57D9q70Ue1
-	0yKatRbQxucwT9GnXktOhFLfXYHxi5REXAyanBu/xUNzWx6EwsqUnN/HUKNLX0vmpNmlJNN0cxd
-	oPQGdfL5o91Sp0oNeiQjvY7RRD8pS9QsxQLpwHrnQoxcbbdwpwzMOVvIPs3r+q+A3J7Ne1wA7OD
-	R0CvLWxKj01jlN3mE8XtO+CvggIxwGf4GT4PgS80Gefoe+
-X-Received: by 2002:a17:906:c151:b0:bee:9d02:6e7c with SMTP id a640c23a62f3a-bee9d032e8amr30809366b.10.1780313839361;
-        Mon, 01 Jun 2026 04:37:19 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bee7bdf4438sm25754166b.55.2026.06.01.04.37.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jun 2026 04:37:18 -0700 (PDT)
-Date: Mon, 1 Jun 2026 14:37:14 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Taha Narimani <tahanarimani3443@gmail.com>,
-	Nishad Kamdar <nishadkamdar@gmail.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"open list:STAGING - INDUSTRIAL IO" <linux-iio@vger.kernel.org>,
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] staging: iio: adc: ad7816: drop busy pin requirement for
- ad7816
-Message-ID: <ah1u6r2NemqKd2k7@stanley.mountain>
-References: <20260530173514.56640-1-tahanarimani3443@gmail.com>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="T8Gpi6UG"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
+	In-Reply-To:References; bh=iUNcxP5vUlsQw11K7iw0C8/gbeiciIxg4PjeApBK+Jo=; b=T8
+	Gpi6UGVu9AekjAumqqzMy7OkcbToxxlkqLfNI+lDKx5ijWT96PNJ3sKmBJrssAm7nDzvsSobk2Y7b
+	0eF5hrE0Npnc63i4+vJSmgWtkOwMoUrKqhweKPtkoI1c4SszjTn43MelZI5LNcQ5+Olrtzv502npz
+	zhd2vutXPkvjPuk=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1wU1lP-005V96-1j; Mon, 01 Jun 2026 14:29:03 +0200
+Date: Mon, 1 Jun 2026 14:29:03 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Grewstad <dogestad24@gmail.com>
+Cc: gregkh@linuxfoundation.org, jic23@kernel.org, jacobsfeder@gmail.com,
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, hjk@hansjkoch.de, davem@davemloft.net,
+	netdev@vger.kernel.org
+Subject: Re: [RFC] drivers/staging/axis-fifo: TODO file and subsystem
+ direction
+Message-ID: <8f7eb9c7-6695-450c-81c4-fb96643adbc2@lunn.ch>
+References: <CAD03fjaBJGtNATBxaYO-PAxdKC=HxYgE+M7HQ_a0O+3Sp9Mruw@mail.gmail.com>
+ <84d8f2a1-6562-47a9-93d7-2d7ff33c31c0@lunn.ch>
+ <CAD03fjah2GMedDtauPQjP0++3USpy6tm3AUemgAjVHS=5Nirtg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260530173514.56640-1-tahanarimani3443@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAD03fjah2GMedDtauPQjP0++3USpy6tm3AUemgAjVHS=5Nirtg@mail.gmail.com>
 
-On Sat, May 30, 2026 at 05:35:12PM +0000, Taha Narimani wrote:
-> According to the AD7816/7/8 datasheet, the AD7816 is an 8-pin device
-> and does not possess a BUSY pin. The BUSY pin is exclusive to the
-> 16-pin AD7817.
+On Mon, Jun 01, 2026 at 11:35:14AM +0530, Grewstad wrote:
+> On Mon, Jun 1, 2026 at 1:22 AM Andrew Lunn <andrew@lunn.ch> wrote:
+> >
+> >
+> > In addition to what GregKH said, look at the vendor information:
+> >
+> > https://docs.amd.com/r/en-US/pg080-axi-fifo-mm-s/Core-Overview
+> >
+> >   The AXI4-Stream FIFO core was designed to provide memory-mapped
+> >   access to an AXI4-Stream interface connected to other IP (such as
+> >   the AXI Ethernet core). Systems must be built through the AMD
+> >   Vivado™ Design Suite to attach the AXI4-Stream FIFO core, AXI
+> >   Ethernet core ...
+> >
+> > when used for Ethernet, a uAPI is not needed. The FIFO driver would
+> > just expose an kernel internal API the Ethernet driver would use. Are
+> > there any Ethernet devices using it? Is there a driver for the AXI
+> > Ethernet core?
 > 
-> The driver previously requested a 'busy' GPIO unconditionally for both
-> the AD7816 and AD7817. If a device tree correctly modeled the hardware
-> by omitting the busy-gpios property for the AD7816, devm_gpiod_get()
-> would return -ENOENT and cause the probe to fail.
-> 
-> Fix this by restricting the busy GPIO request strictly to the AD7817.
-> 
-> Signed-off-by: Taha Narimani <tahanarimani3443@gmail.com>
+> As I said to Greg K-H, it's 'chameleon' hardware because we don't know
+> what it'll be used for. It could be SDR or Ethernet or whatever it is
+> programmed for. The main thing is that it is a streaming interface.
+> But we cannot assume the use case.
 
-The patch is corrupted.
+Flip that around. What is it actually used for today? Make sure it has
+the correct APIs needed for what it does now. New APIs can always be
+added latter, especially if they are in-kernel, code to glue it to an
+Ethernet driver for example. 
 
-Otherwise this seems reasonable enough.  (I haven't read the datasheet
-but I trust that you have).  Let's add Nishad to the CC list since he
-is the one who first limitted it to not check ID_AD7818.
+However, a grep for XIL_AXIS_FIFO suggests nothing in-kernel actually
+uses it.
 
-The other way to solve this would be to use devm_gpiod_get_optional()
-in the probe() function and test for NULL in ad7816_spi_read().  I
-think this would be a cleaner solution because then it works based
-on the device trees instead of having to hardcode which devices
-have it in the driver itself.
+Are there any real users from user space? You talk about SDR, does GNU
+Radio use it? Using what hardware?
 
-regards,
-dan carpenter
+If you have no idea how the code is used, you cannot say what the
+correct interface is....
 
+	Andrew
