@@ -1,129 +1,106 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF618369D47
-	for <linux-staging@lists.linux.dev>; Mon,  1 Jun 2026 18:29:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF3E93F0ABD
+	for <linux-staging@lists.linux.dev>; Mon,  1 Jun 2026 20:42:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780338593; cv=none; b=aCF9NxSu4+0dtVjU/pW0kLjdJFSnJJazYL9hMhw+1ojkpYgsAIFb9t+4pxwF/CvIDkHtU216ZcTXx9f0cWMRWnGNw3NjeNhtZ6a2D8Jd8t/Vd5qtIdlzotMwpb+Kfsk6PibisIGR/ce0PrJMFSPI1igQz20nT3PX8jOdOIieOj8=
+	t=1780346564; cv=none; b=UDZQaITRz9CUvzvnyZtsMPXvEN/YNzYz9QoqeLVjmDQY/JWj/M372ea1trBh+irxsV58fbqNzDOSJ1UxNnMzO87vPhSQArdVUlx28hbC9oA0zJntdkkAIEDSufvKWAfIElBoW75HYCU9ofnjiebi4y01y3MsSXHUJuHYVJzfCv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780338593; c=relaxed/simple;
-	bh=nadSAkhHHCb9f3c6rk4eM63toF0mz1MXe3So0Pi8lgw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sFKBdeqlUmtFl7GRvjyGhfnwQ00PBWzbvRVLOluhvxuiGc3R2fdCfLf61HdTwIlSUTPiXYPMJ5q3L5QN8WUX2OjIByuV4l+Wl3LTkUh0MhrmCn+GEpi5f/eZMv4DgHMHHfjcbiELtfWj7Q7jVdQJeVsgAahPN1R3FkuulkSSOZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QlPYq1SJ; arc=none smtp.client-ip=209.85.208.52
+	s=arc-20240116; t=1780346564; c=relaxed/simple;
+	bh=wJzJjq8VGiPHDMnd2bF16LA1BnBoE5aYaUBNbiWuFfY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lpefplxlpxkhZ0fDc6WpJ5R/y+itD4Jkucvh1QsF1HfjBx+pY0CD6UfyKkzrNqBS6yVlIQTw3x6dA5RUDGx5XQ8TMwgkMKt9OEpLNcatYsZVK24QrAg9zDpb49SfZs6Grd4NT4kLk4fu7My9dmxZtG5g8DfQ5g9JnD/RuIMuNvI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gjVNh4Yq; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QlPYq1SJ"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-68b90fc6a1dso7621398a12.1
-        for <linux-staging@lists.linux.dev>; Mon, 01 Jun 2026 11:29:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gjVNh4Yq"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-490a765d410so20146905e9.1
+        for <linux-staging@lists.linux.dev>; Mon, 01 Jun 2026 13:42:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780338590; x=1780943390; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZXHa4sPZRNZdOP8iF9391NRH2h78tUBVH5EmiEm/OR0=;
-        b=QlPYq1SJgYliapadf1aQ449kOPA3zAMM9N6q8eGojuDNbDtZs558VnoZtEHqEziHg4
-         rwT+puvOjwVSjd+FR8T9ZnKd0p5BbBLR4qs0BwrnryVPPVS6oQTCOanWLBt71c8+X9Oo
-         T576E2RSjfLd29/jfm2ehLfcr6d3fZdgSU62G1auDNDroYEsYpzVoY9jER65zh6uw6rQ
-         WBczbl8bj6fKhGxlBJKoc3bnM/XAOJIxoONXcK0cxUWcrRpsPxahNlPLMpdU7my5NgeK
-         IHMKTA0cgZF6CnfepS3yHmnyYtmcHM8t/i7cHaQDGEiDkm5Hz7b/v9yvzrhpgrfnJ7gA
-         UDbQ==
+        d=gmail.com; s=20251104; t=1780346560; x=1780951360; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=I0G7ki3DgUqS+HG9tvsaWLATArhSWddbLLLuSt8Su2U=;
+        b=gjVNh4YqBk8iYvXEMaUrixS80qoFFsTK6AIlPCzr+VkScjlc/Dr9/h8OcJrJ6+8gGv
+         eCH7njDindZf8rNTgPN4E4JabWLDJbq2vif4JQMZQYNrNVSQ82SKPWoK7ACqIsB1FPO+
+         h1otigAIdmRj3/+mgYJ5/YjwtTW+S8wox0HGTRGUFlDT7gcRyAUJDVrDO9ChdjTdwbGf
+         W78aC2XgDXgn7T+V2OUZQB3wEbYC8yR3FUaot5ij0qy+oKThg2RI1B6sUrQ+qY9D6qXq
+         9PTUkjaZrVRtIxA33nL9oQCSLcgt6+C7Xt0TsmjTBPv+wC3Ob/1ihhFNTSlsNiYqlzKt
+         fC0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780338590; x=1780943390;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZXHa4sPZRNZdOP8iF9391NRH2h78tUBVH5EmiEm/OR0=;
-        b=meRnHKFG1MKChJ/BLJOefvsDp7DCHlJ54Xr60O2p1ol+8WYZfgx09iZdEqNCzpsMTU
-         EcFTKELYfv1I7RlZgd7krd+62XPwpJFSJuXmIDQjNSPEwTksIblBBSwsAi4FAXsvDeZK
-         FMieeSybfeGqpA+73/XuBveHBkPlLb+Q6pfsT57WaGZG6NOTz1Wmwfw0mKG8KbmQGY/q
-         KRNtHnh59+20icQliCfruqak24RE24JNaObnXbOF+VBD60EAZV//VkbYMCXcSnq6viR3
-         0IcXSIwijXnOIpF7bCbJ7neOZSINw53Djfr3z5g5iFMwHefDZmj/0qn59TW4b/5zYbza
-         nfUg==
-X-Forwarded-Encrypted: i=1; AFNElJ8YC4JAYPVXcOveaUqX6Miu7ATPslNfMwO6lM9tx9Ep+6G03yqj9LnAFoKg9scVWpQAZe9y1uuL2hiTP5tI@lists.linux.dev
-X-Gm-Message-State: AOJu0YwEzeeBbbTLfkTsXpIJORIVR34YYqzOEUC0v2CjSgjVc7ZtsJKa
-	VtcXcpPW9NvTwnykafzgyKk/Db09kDSOTfR2cmx30XZBqeb6xkpwQH6l
-X-Gm-Gg: Acq92OFDRKXQHJrO/T3qNEG8g4DbTp1hAttw9XCZeZws+xvAu06srE1yfCfRDS0joNW
-	6q3nOOk2V3Mj90BewS6xl+5vEFvhnz3Fz5efDktR95qzDk69t6/RYWVsxHiJxbOZb7U7+urIcOL
-	WGZ3J/uFyi8fbeWOqaGZrWMORpc2zS/onOo6S7jVkWIv34zYc2onZ4IKrYv9cSfVbD/v9qrZUVF
-	end+5C34ZEDW6MlinK5Yg2jjqyQDzMSZUbQnORRss0a4mQ4ZOYlzA/uYODKEf9At6uKlY57sgwi
-	elued7H1cjDbaxfrizt8xpPfhVyDqcD4K9oTE8aaGT5+yQSio6d/AGuBHseXtEz7GdvgmYThL7g
-	I7R7xBCKmD5th3ZTFwHsBcZoRc7pyOKME1sw9RcvHstShXQSJI1tSedUL5qa2BdfBiX4xIj9qOw
-	99N42g7yTB89EXP7/STBp3khg7gWwvKA==
-X-Received: by 2002:a05:6402:3211:b0:68d:c45d:e64a with SMTP id 4fb4d7f45d1cf-68dd77193f1mr363586a12.4.1780338590013;
-        Mon, 01 Jun 2026 11:29:50 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-68ceb8523f1sm2274331a12.21.2026.06.01.11.29.48
+        d=1e100.net; s=20251104; t=1780346560; x=1780951360;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=I0G7ki3DgUqS+HG9tvsaWLATArhSWddbLLLuSt8Su2U=;
+        b=Kfya4qlTj/lt7BPc28q3nc68BiNtAdzKRqyON0hPv75rNl7+x+9ZERObqFWpa3i1/U
+         mgoBVqyunAs9z20o2Ce6/kd/AaMpzg7bNRsFUIY52blmCj2rti1SRACSV/YodLKFxKmI
+         ZB7odWfXRYUbfXvzgDOxis82RA0iMNYjTN8qXDDRd9lj5uzLwSFEHxkOODoA/vz47GPX
+         NoPbYsN0lPz/YpOSBJ7xggNqVuwotnj4ltmYFCmU3Od9acoRvK6gtQIcTDKhC4viL2iJ
+         p+8fM6qn8Lq/HF1qbLfxIYqDw0FjYGzrDCoGyPSuf6JrzV7LJ1HKp6pQ4wWBDhmJuH23
+         MoLQ==
+X-Gm-Message-State: AOJu0Yys0QKC1vUBsaY4s8s6U6Q1ftZt2zChq4/OZQvgtShd8gme/Ef0
+	LQlpjmEY870Ba4EgolML4WPVMSEeDIgN92l7iRosY+SsUVkUbw6GRo51
+X-Gm-Gg: Acq92OGDEnkFGK0lUIqBmjADAsKsSPBxPID9rOzwmxcrOiUFjc+SAgwzxn7jbSVC2Lc
+	axVGPIBWZo35a7aWiXt4MW1WCrcvu0Gk0fDSVpY4S3N8yoIhtBttEPDpLby260g11zSnaPzr2SX
+	cjCBNbF3CISMaxUnwpo4v7k8vKLNOpweC5xJCP87zxEjqcM6QqNni4qOWEsmgnhOHOqs4QpqIC5
+	4yII3S1CjrZj/jdpjOVbR7EDbk4mRo6TIOFibhTUvp4vDO3GFnjF1lqvqToXpqsaXvO6e2NWQ10
+	GibN7M9WHnk1lSIyLrxdgglaSlT0cUrT136BYatV6rTXmi77uGvLwl3acfQXogHFPMmvbm2XY4B
+	oXKbBMR1GKSvVn7I2WTGKO73L7ztlnrFOgnmNunnRNn50WcDYrb2WGI8X3qP5zWFXZNRqBSXyiH
+	lsLS7dsBogejyfr0vEDEmD2ZX5nBw4Seay6kcanNKGQZxyBPYsGJ8PpS2glez3bYUKuZH5BHqQ8
+	lUXoyFICznZtUf3uXszI0rdYts=
+X-Received: by 2002:a05:600c:c3ce:20b0:48f:e230:2a21 with SMTP id 5b1f17b1804b1-490a2975173mr175649525e9.32.1780346560317;
+        Mon, 01 Jun 2026 13:42:40 -0700 (PDT)
+Received: from koolguy.fritz.box (dslb-002-204-131-161.002.204.pools.vodafone-ip.de. [2.204.131.161])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490b0e19a06sm16988405e9.5.2026.06.01.13.42.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jun 2026 11:29:49 -0700 (PDT)
-Date: Mon, 1 Jun 2026 21:29:46 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Tomasz Unger <tomasz.unger@yahoo.pl>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: rtl8723bs: remove unnecessary parentheses
-Message-ID: <ah3PmjHQDwe-_orU@stanley.mountain>
-References: <20260601-staging-fix-1-v3-1-331ec58683c0.ref@yahoo.pl>
- <20260601-staging-fix-1-v3-1-331ec58683c0@yahoo.pl>
+        Mon, 01 Jun 2026 13:42:40 -0700 (PDT)
+From: fliegbert2@gmail.com
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Dalvin-Ehinoma Noah Aiguobas <fliegbert2@gmail.com>
+Subject: [PATCH 0/6] staging: rtl8723bs: Rename camelcase enum values dot11AuthAlgrthm_
+Date: Mon,  1 Jun 2026 20:39:52 +0000
+Message-ID: <cover.1780343502.git.fliegbert2@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260601-staging-fix-1-v3-1-331ec58683c0@yahoo.pl>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jun 01, 2026 at 08:11:59PM +0200, Tomasz Unger wrote:
-> Remove unnecessary parentheses to clear checkpatch.pl warnings
-> 
-> Example of fixed warnings:
-> CHECK: Unnecessary parentheses around dvobj->cam_cache[id]
-> CHECK: Unnecessary parentheses around 'val != 0xfe'
+From: Dalvin-Ehinoma Noah Aiguobas <fliegbert2@gmail.com>
 
-This changed in v3.
+This patch series mainly resolves the camelcase checkpatch issue for several
+values within an enum. It also resolves a checkpatch issue regarding the use of
+space instead of tab.
 
-Btw, how were you even seeing this warning?  I disabled it.  Were
-you working against an old tree?
+Dalvin-Ehinoma Noah Aiguobas (6):
+  staging: rtl8723bs: Rename camelcase variable dot11AuthAlgrthm_8021X
+  staging: rtl8723bs: Replace spaces for tab
+  staging: rtl8723bs: Rename camelcase variable dot11AuthAlgrthm_Open
+  staging: rtl8723bs: Rename camelcase variable dot11AuthAlgrthm_Auto
+  staging: rtl8723bs: Rename camelcase variable dot11AuthAlgrthm_Shared
+  staging: rtl8723bs: Rename camelcase variable dot11AuthAlgrthm_WAPI
+    and dot11AuthAlgrthm_MaxNum
 
-> 
-> Checkpatch warnings regarding line length above 100 columns on modified
-> lines were also fixed
+ drivers/staging/rtl8723bs/core/rtw_ap.c       |  8 ++---
+ .../staging/rtl8723bs/core/rtw_ioctl_set.c    |  2 +-
+ drivers/staging/rtl8723bs/core/rtw_mlme.c     | 10 +++---
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 18 +++++------
+ drivers/staging/rtl8723bs/core/rtw_pwrctrl.c  |  2 +-
+ drivers/staging/rtl8723bs/core/rtw_xmit.c     |  8 ++---
+ drivers/staging/rtl8723bs/hal/hal_com.c       |  2 +-
+ drivers/staging/rtl8723bs/include/rtw_mlme.h  | 16 +++++-----
+ .../staging/rtl8723bs/include/rtw_security.h  | 10 +++---
+ .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 32 +++++++++----------
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c   |  2 +-
+ 11 files changed, 55 insertions(+), 55 deletions(-)
 
-Please no, that's a separate fix.
-
-> 
-> V2->V3:
->   Reverted condition parentheses changes per Dan Carpenter's review:
->   staging rules deliberately silence this checkpatch warning
-> 
-> Changes in v3:
-> - Reverted condition parentheses changes per Dan Carpenter's review
-> - Link to v2: https://lore.kernel.org/all/20260531061022.573089-1-mavick4022@gmail.com/
-> 
-
-This stuff doesn't belong in the permanent git log.
-There are still some changes which should be removed from the commit.
-
-> Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
-> ---
-> Changes in v2:
-> - EDITME: describe what is new in this series revision.
-> - EDITME: use bulletpoints and terse descriptions.
-> - Link to v1: https://patch.msgid.link/20260527-staging-fix-1-v1-1-66ad880bcf76@yahoo.pl
-
-Those sorts of comments go here.
-
-> 
-> To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: linux-staging@lists.linux.dev
-> Cc: linux-kernel@vger.kernel.org
-
-This stuff is fine since it is just discarded but it's also unnecessary.
-
-regards,
-dan carpenter
-
+-- 
+2.54.0
 
