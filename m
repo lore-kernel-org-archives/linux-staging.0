@@ -1,70 +1,70 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51D5B3D88F7
-	for <linux-staging@lists.linux.dev>; Mon,  1 Jun 2026 15:03:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DD963D7D91
+	for <linux-staging@lists.linux.dev>; Mon,  1 Jun 2026 15:03:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780326185; cv=none; b=EOExTmgJAWN5xDemsNg9NPTpzTu29nbONScabbGRwFr6iB5KMQS4uHvtNd0dDNhDx6De/8Zm/N9xU8GCR1XXq+tjeIwKAjI24JkhVaczGs6q6bw6QggQU9f1r8JSU8dTikbLzUi8+EDRkJrl/tW0N2mumqIiOq9oB83iRKpWfHo=
+	t=1780326189; cv=none; b=iMSauZkdJHvLxcadYCq2H/hB+4JzRJKoRvCd+fMVBBUV48xP4UOC2uxEAuvX+Ln7203/r0+C171Zd/cpl71Ex5QfebB/Wga64W2EAaYu+/U/oCDL/gGsthUhu5xLDnKthaVve+hEb7Pov8Arwc9o6xmHX0vHRiG09AnvJxYfp7w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780326185; c=relaxed/simple;
-	bh=+adKIxAZwmZ6+hjn6pwKLlTrWbw/SQApQgu1grRm+Jc=;
+	s=arc-20240116; t=1780326189; c=relaxed/simple;
+	bh=y3nXG3eiOkUmg7AKLA6Dr3ur/NCCZUQyksbfrbKl3ao=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bNBlyjhmkb7qOAS66+eV/bCJABY6YqWbRkFn5VscACTMddeaoqd5yV/LG92JZNin7XuLT/NgJTje7kWSphEqGs2FoLNlIGCdhh8OG9qekCPPSKUQa5IjxOIascYAjEcCBSYRLsg9zKPSNjM8wzWnta2ngiQ+aFtR4vvUb4YH8tc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qx/giWWH; arc=none smtp.client-ip=209.85.218.41
+	 MIME-Version; b=jThOkvpnmgest36m3DVLv9Ml9ePjwCg9cPXpvypCwMC/zIcacn2aKxNOhjAJNZu3IwXxf4TG+7BBnEqdJj65YqB78bGr8CAqRl/Y+kxAZziTXwT2+YbrsL5qL1y1JG6uPRbhsXkaZo56TLwqy18ftuCxcYB2Q8fsVyVVjaSzNwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b/yyekts; arc=none smtp.client-ip=209.85.208.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qx/giWWH"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-beeba001887so35265166b.3
-        for <linux-staging@lists.linux.dev>; Mon, 01 Jun 2026 08:03:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b/yyekts"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-68c3421b009so4212971a12.1
+        for <linux-staging@lists.linux.dev>; Mon, 01 Jun 2026 08:03:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780326183; x=1780930983; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1780326187; x=1780930987; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Zik6Tl9LCLzqEXXgs3iwGTVTHmwW7Mj9rb7ltjfp1Wg=;
-        b=qx/giWWHcrPHhWK/v1IFRZOokC5XJgNyG3HN7jMwZrNMzJrLWhpavQQ8biwuxweHcK
-         mQUS9cHSh5Gj2RXa4UT8jqZXTHTJ8ZFQCHod9OYk6SmYX/H3zzgDjrwmoB0ye7HmUa3f
-         vLmEoqzXseGxQgFZNk9DXDLcEKAdud1Kugn05Wo22tT5EQVA3rW51GV1Gw+uraOJW+Ek
-         SgW8YBsGMAE678BhfOEYb6kE5ek1hjSTpi00QKBfOlx9HlnoElfrESdtJncAfB2NhLPE
-         mmnkVG8HNRepK/DnAJ1cdgMrPQFRWnWuAi6/OHty9SfHXvbhP1ov/Ul/91yxCGmvDUdY
-         nG4A==
+        bh=6XOxlvGrDIh/S+bXFC23w8Qd0o21aZIUvcPpkR2Pbl4=;
+        b=b/yyekts0ojf2RAd8vu4hHY3Dt9zG7+z7i3Ps/1LMTi+ukmTO+L/5qQTxWFWD05fQa
+         XqAEItyGhmAOf/Usz4ta/pLcELXZB7ZndhlxVfMNVollIdIOpWvBpsxP9oHTE9HP5lyw
+         YmIrak+ikulztMYsaWfXN1Ue/tDDM+bhbpjZsdwwjTlkG21rh2nmlW2h3KkgbcvPwByo
+         1HzEUd28+add5pWwIXSx5jix27MJ1D5T52tvqXPyYmxrMBmHQkB4su1eTmuplT+e1cI6
+         v/RN8Ap3UQJB7tOtIRFSrtkvWdVW280yxMIQPMOqjZ4cfRyrB8nYaEYC7xCPLVblqyjy
+         SU0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780326183; x=1780930983;
+        d=1e100.net; s=20251104; t=1780326187; x=1780930987;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Zik6Tl9LCLzqEXXgs3iwGTVTHmwW7Mj9rb7ltjfp1Wg=;
-        b=RFBljepXmG02qLeDRjYgHt+GoGM+zW2Qh+gPgJutKltUNnT/7UkYDy2NRjeyBNpTHm
-         cJaezosmyec5PPOn7P9pTRBKtDZqRm+DrLg6fjn5R5U8HxUJ2zDgw0CfN0+XHaakTCbJ
-         nK57qQ2Vf6rtwivN5eqVIDfFZEZwzkkyX4Lm29oC+dE3VwEqMXBZnDEdDO7yz+5laJwE
-         v75jsuKtZ2a04+lULhM6Fg+sYBWJdWZV5ZE8qjG4XpYjI9btRU5am03beOEXzercsYR3
-         mEeznZxGDwnBg7t5NfaWnPxoZxcpcTYAuxO+4PVIzWdvZnjnKClkuh+hPsquGogVCEOb
-         9eEA==
-X-Gm-Message-State: AOJu0YzW3qre+H+lxBj46VaDkgzrc5z3prpRn3BPDMBQJ1Sug2J4QmSR
-	HDC0Ig9WjE0KVk7mycKiGsCSLPevncAv7MDTtVCXuHDKFkkZ6ii9VVBu
-X-Gm-Gg: Acq92OG1Fg9/NBp3exneoVCk6wtGfA2fZ0zyRO2RkD0uepVDV9csZWiWkBb7b/ePbp/
-	/fLkE7fpDov1yh6JhtQZeZ25WISO69QAvSfgBRSkB0Z6kSL9i2m58BHCgQJaqQF+uvOUHRLYC1m
-	v6DeuT1EALgDrC+dkSV82vCerW3MkWVAxfjG8B+dr4JqTxR3a9i+esk44Ye8bg9DA1XhgXCujWz
-	f/XA7uuOdIyQSHjekO6Wh+Rs7RfOKHqmGfszSy8j8yKwAGuTJPLqWGe2Pz75WGh98v42LNeXYmx
-	yC9hmLv4EsZeZKSOmxBWTNY8sWWXPByJATvHvQNj4M7W9+lXuWZ1ZQwCGwgriIX9o75vIt9q+Nt
-	TIG2O2CFDdoMSxcYvv8sX+GAQZzYzfOFATLSx8wvZPJSnYpyNwm9C3EVqioAytNrjni/R4dzXZa
-	PUXvxFmByykkBuJYR7xh/P8UvS7ErsGNWelA==
-X-Received: by 2002:a17:907:9453:b0:bea:5cc7:95a4 with SMTP id a640c23a62f3a-beab03de8a1mr694214066b.0.1780326182532;
-        Mon, 01 Jun 2026 08:03:02 -0700 (PDT)
+        bh=6XOxlvGrDIh/S+bXFC23w8Qd0o21aZIUvcPpkR2Pbl4=;
+        b=En8tp16ClJKNVCTzGwLt6d2pfdd5wPWaSEFiIa0NW/s1w8TF4XYvgXqYKmbXPHSR4p
+         kr46OqwraqXcUKDLR4FLRPMI1f1CqItj3I2Os5H8RFu7FPbYEwwGnke2QVjje03NB9sR
+         e8Uwo6sFpaVNSZ88siQPl5Dj+8ekNvYeEfF6XZCL4HWPVzIDwfugiQctzklkNEgLLeNa
+         uXlkIiIZZTlRXOXwSZOYPlA8L3zVmVIiC+i1hjKc5gNi1tP/Jux0heSB29OBQINWNkA2
+         ZS7ettElZnmN503bK+KpKzZ7dSBOgXGrHewmWIO7Uz/N/QKt/Bqub2hbBMRmuyiWOyPu
+         8f9Q==
+X-Gm-Message-State: AOJu0YxX4V8suIQiyQMsR/y2yes09m3kqKVxHsVb4G7oxAS2aWbIZRvL
+	5REFBNiFT7kfRLqUf7WLJ22o6ZIPMS5tOnyzg1ZqjLo3zz8dIpdxiI0o
+X-Gm-Gg: Acq92OFyq7KUv4UqK5fcoS1xe1hfiqJkBf8zg7BTEm1RJymBJH/0A1QMSFfhsvr08cA
+	5DJPw0SgETgnqYr7wiNQKTHbfMGgL5i4jk+VEZGGbFKGCp1GRSECiRaZU34wirvIRRofokmzlgQ
+	Ro0dFhuksZjEs+UIBvofxWUu3XW4XfQ9OCvZUZpascaBPAx4Vh/FeSdHkjI2jAW3TOdq7BXBGaG
+	joY+H63Ba4HNu2cPxZWwOkcVeaZcEkdIAks9aYzYVkOnlk4x3ivJezLWAXd+r/UqTQPjEOP71AT
+	gt+bbgYJTTx/WH2NQyrF3EY/IGCG7JQE3W0mp9dia6jZhXHxkpdEEyWGPwiqYBRgYxb4lUt/ha0
+	HSwlB/aB2bEW6cT+3aLXTr0RepYyy+RR5HCa4CbB7FQgdi4A28m3c/1QJ4Rxh2XTGNPeSZmPEmY
+	7zzvKQRQ5zcLqszwXJMuwsdDFqnz/tZaEoXY+GAEhqI+lA
+X-Received: by 2002:a17:907:1ca0:b0:bee:7c9b:fbd1 with SMTP id a640c23a62f3a-bee7c9c0ff8mr90468966b.1.1780326186061;
+        Mon, 01 Jun 2026 08:03:06 -0700 (PDT)
 Received: from archlinux ([185.140.161.214])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bec1642a049sm189607466b.61.2026.06.01.08.03.01
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bec1642a049sm189607466b.61.2026.06.01.08.03.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jun 2026 08:03:02 -0700 (PDT)
+        Mon, 01 Jun 2026 08:03:05 -0700 (PDT)
 From: Nikolay Kulikov <nikolayof23@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Nikolay Kulikov <nikolayof23@gmail.com>
-Subject: [PATCH 1/2] staging: rtl8723bs: remove unused case from update_beacon()
-Date: Mon,  1 Jun 2026 18:01:23 +0300
-Message-ID: <20260601150253.69930-2-nikolayof23@gmail.com>
+Subject: [PATCH 2/2] staging: rtl8723bs: remove unused 'oui' parameter from update_beacon()
+Date: Mon,  1 Jun 2026 18:01:24 +0300
+Message-ID: <20260601150253.69930-3-nikolayof23@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260601150253.69930-1-nikolayof23@gmail.com>
 References: <20260601150253.69930-1-nikolayof23@gmail.com>
@@ -76,121 +76,240 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The update_beacon() function is never called with 'ie_id' equal to
-'WLAN_EID_VENDOR_SPECIFIC', meaning this case branch will never be
-called, so remove it and several related functions.
-
-Removing this case branch also fixes a possible null pointer
-dereference in update_bcn_vendor_spec() if 'oui' is NULL, since
-its value is not checked in any way.
+After deleting one of the switch-case branches, this parameter became
+unused, so remove it.
 
 Signed-off-by: Nikolay Kulikov <nikolayof23@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_ap.c | 84 -------------------------
- 1 file changed, 84 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_ap.c    | 32 +++++++++++-----------
+ drivers/staging/rtl8723bs/core/rtw_cmd.c   |  2 +-
+ drivers/staging/rtl8723bs/core/rtw_recv.c  |  4 +--
+ drivers/staging/rtl8723bs/core/rtw_xmit.c  |  8 +++---
+ drivers/staging/rtl8723bs/include/rtw_ap.h |  2 +-
+ 5 files changed, 24 insertions(+), 24 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
-index 065850a9e894..316f879923f5 100644
+index 316f879923f5..febeb66469f5 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_ap.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-@@ -1336,84 +1336,6 @@ static void update_bcn_rsn_ie(struct adapter *padapter)
+@@ -232,7 +232,7 @@ void expire_timeout_chk(struct adapter *padapter)
+ 
+ 					/* to update bcn with tim_bitmap for this station */
+ 					pstapriv->tim_bitmap |= BIT(psta->aid);
+-					update_beacon(padapter, WLAN_EID_TIM, NULL, true);
++					update_beacon(padapter, WLAN_EID_TIM, true);
+ 
+ 					if (!pmlmeext->active_keep_alive_check)
+ 						continue;
+@@ -739,7 +739,7 @@ void start_bss_network(struct adapter *padapter)
+ 		       rtw_get_capability((struct wlan_bssid_ex *)pnetwork));
+ 
+ 	if (pmlmeext->bstart_bss) {
+-		update_beacon(padapter, WLAN_EID_TIM, NULL, true);
++		update_beacon(padapter, WLAN_EID_TIM, true);
+ 
+ 		/* issue beacon frame */
+ 		send_beacon(padapter);
+@@ -1336,7 +1336,7 @@ static void update_bcn_rsn_ie(struct adapter *padapter)
  {
  }
  
--static void update_bcn_wpa_ie(struct adapter *padapter)
--{
--}
--
--static void update_bcn_wmm_ie(struct adapter *padapter)
--{
--}
--
--static void update_bcn_wps_ie(struct adapter *padapter)
--{
--	u8 *pwps_ie = NULL;
--	u8 *pwps_ie_src;
--	u8 *premainder_ie;
--	u8 *pbackup_remainder_ie = NULL;
--
--	unsigned int wps_ielen = 0, wps_offset, remainder_ielen;
--	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
--	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
--	struct wlan_bssid_ex *pnetwork = &pmlmeinfo->network;
--	unsigned char *ie = pnetwork->ies;
--	u32 ielen = pnetwork->ie_length;
--
--	pwps_ie = rtw_get_wps_ie(ie + _FIXED_IE_LENGTH_,
--				 ielen - _FIXED_IE_LENGTH_,
--				 NULL,
--				 &wps_ielen);
--
--	if (!pwps_ie || wps_ielen == 0)
--		return;
--
--	pwps_ie_src = pmlmepriv->wps_beacon_ie;
--	if (!pwps_ie_src)
--		return;
--
--	wps_offset = (unsigned int)(pwps_ie - ie);
--
--	premainder_ie = pwps_ie + wps_ielen;
--
--	remainder_ielen = ielen - wps_offset - wps_ielen;
--
--	if (remainder_ielen)
--		pbackup_remainder_ie = kmemdup(premainder_ie, remainder_ielen, GFP_ATOMIC);
--
--	wps_ielen = (unsigned int)pwps_ie_src[1];/* to get ie data len */
--	if ((wps_offset + wps_ielen + 2 + remainder_ielen) <= MAX_IE_SZ) {
--		memcpy(pwps_ie, pwps_ie_src, wps_ielen + 2);
--		pwps_ie += (wps_ielen + 2);
--
--		if (pbackup_remainder_ie)
--			memcpy(pwps_ie, pbackup_remainder_ie, remainder_ielen);
--
--		/* update ie_length */
--		pnetwork->ie_length = wps_offset + (wps_ielen + 2) + remainder_ielen;
--	}
--
--	kfree(pbackup_remainder_ie);
--}
--
--static void update_bcn_p2p_ie(struct adapter *padapter)
--{
--}
--
--static void update_bcn_vendor_spec_ie(struct adapter *padapter, u8 *oui)
--{
--	if (!memcmp(RTW_WPA_OUI, oui, 4))
--		update_bcn_wpa_ie(padapter);
--
--	else if (!memcmp(WMM_OUI, oui, 4))
--		update_bcn_wmm_ie(padapter);
--
--	else if (!memcmp(WPS_OUI, oui, 4))
--		update_bcn_wps_ie(padapter);
--
--	else if (!memcmp(P2P_OUI, oui, 4))
--		update_bcn_p2p_ie(padapter);
--}
--
- void update_beacon(struct adapter *padapter, u8 ie_id, u8 *oui, u8 tx)
+-void update_beacon(struct adapter *padapter, u8 ie_id, u8 *oui, u8 tx)
++void update_beacon(struct adapter *padapter, u8 ie_id, u8 tx)
  {
  	struct mlme_priv *pmlmepriv;
-@@ -1467,12 +1389,6 @@ void update_beacon(struct adapter *padapter, u8 ie_id, u8 *oui, u8 tx)
- 
- 		break;
- 
--	case WLAN_EID_VENDOR_SPECIFIC:
--
--		update_bcn_vendor_spec_ie(padapter, oui);
--
--		break;
--
- 	default:
- 		break;
+ 	struct mlme_ext_priv *pmlmeext;
+@@ -1513,7 +1513,7 @@ void bss_cap_update_on_sta_join(struct adapter *padapter, struct sta_info *psta)
+ 			if ((pmlmeext->cur_wireless_mode > WIRELESS_11B) &&
+ 			    (pmlmepriv->num_sta_no_short_preamble == 1)) {
+ 				beacon_updated = true;
+-				update_beacon(padapter, 0xFF, NULL, true);
++				update_beacon(padapter, 0xFF, true);
+ 			}
+ 		}
+ 	} else {
+@@ -1525,7 +1525,7 @@ void bss_cap_update_on_sta_join(struct adapter *padapter, struct sta_info *psta)
+ 			if ((pmlmeext->cur_wireless_mode > WIRELESS_11B) &&
+ 			    (pmlmepriv->num_sta_no_short_preamble == 0)) {
+ 				beacon_updated = true;
+-				update_beacon(padapter, 0xFF, NULL, true);
++				update_beacon(padapter, 0xFF, true);
+ 			}
+ 		}
  	}
+@@ -1538,7 +1538,7 @@ void bss_cap_update_on_sta_join(struct adapter *padapter, struct sta_info *psta)
+ 
+ 			if (pmlmepriv->num_sta_non_erp == 1) {
+ 				beacon_updated = true;
+-				update_beacon(padapter, WLAN_EID_ERP_INFO, NULL, true);
++				update_beacon(padapter, WLAN_EID_ERP_INFO, true);
+ 			}
+ 		}
+ 	} else {
+@@ -1549,7 +1549,7 @@ void bss_cap_update_on_sta_join(struct adapter *padapter, struct sta_info *psta)
+ 
+ 			if (pmlmepriv->num_sta_non_erp == 0) {
+ 				beacon_updated = true;
+-				update_beacon(padapter, WLAN_EID_ERP_INFO, NULL, true);
++				update_beacon(padapter, WLAN_EID_ERP_INFO, true);
+ 			}
+ 		}
+ 	}
+@@ -1563,7 +1563,7 @@ void bss_cap_update_on_sta_join(struct adapter *padapter, struct sta_info *psta)
+ 			if ((pmlmeext->cur_wireless_mode > WIRELESS_11B) &&
+ 			    (pmlmepriv->num_sta_no_short_slot_time == 1)) {
+ 				beacon_updated = true;
+-				update_beacon(padapter, 0xFF, NULL, true);
++				update_beacon(padapter, 0xFF, true);
+ 			}
+ 		}
+ 	} else {
+@@ -1575,7 +1575,7 @@ void bss_cap_update_on_sta_join(struct adapter *padapter, struct sta_info *psta)
+ 			if ((pmlmeext->cur_wireless_mode > WIRELESS_11B) &&
+ 			    (pmlmepriv->num_sta_no_short_slot_time == 0)) {
+ 				beacon_updated = true;
+-				update_beacon(padapter, 0xFF, NULL, true);
++				update_beacon(padapter, 0xFF, true);
+ 			}
+ 		}
+ 	}
+@@ -1610,8 +1610,8 @@ void bss_cap_update_on_sta_join(struct adapter *padapter, struct sta_info *psta)
+ 	}
+ 
+ 	if (rtw_ht_operation_update(padapter) > 0) {
+-		update_beacon(padapter, WLAN_EID_HT_CAPABILITY, NULL, false);
+-		update_beacon(padapter, WLAN_EID_HT_OPERATION, NULL, true);
++		update_beacon(padapter, WLAN_EID_HT_CAPABILITY, false);
++		update_beacon(padapter, WLAN_EID_HT_OPERATION, true);
+ 	}
+ 
+ 	/* update associated stations cap. */
+@@ -1633,7 +1633,7 @@ u8 bss_cap_update_on_sta_leave(struct adapter *padapter, struct sta_info *psta)
+ 		if (pmlmeext->cur_wireless_mode > WIRELESS_11B &&
+ 		    pmlmepriv->num_sta_no_short_preamble == 0){
+ 			beacon_updated = true;
+-			update_beacon(padapter, 0xFF, NULL, true);
++			update_beacon(padapter, 0xFF, true);
+ 		}
+ 	}
+ 
+@@ -1642,7 +1642,7 @@ u8 bss_cap_update_on_sta_leave(struct adapter *padapter, struct sta_info *psta)
+ 		pmlmepriv->num_sta_non_erp--;
+ 		if (pmlmepriv->num_sta_non_erp == 0) {
+ 			beacon_updated = true;
+-			update_beacon(padapter, WLAN_EID_ERP_INFO, NULL, true);
++			update_beacon(padapter, WLAN_EID_ERP_INFO, true);
+ 		}
+ 	}
+ 
+@@ -1652,7 +1652,7 @@ u8 bss_cap_update_on_sta_leave(struct adapter *padapter, struct sta_info *psta)
+ 		if (pmlmeext->cur_wireless_mode > WIRELESS_11B &&
+ 		    pmlmepriv->num_sta_no_short_slot_time == 0){
+ 			beacon_updated = true;
+-			update_beacon(padapter, 0xFF, NULL, true);
++			update_beacon(padapter, 0xFF, true);
+ 		}
+ 	}
+ 
+@@ -1672,8 +1672,8 @@ u8 bss_cap_update_on_sta_leave(struct adapter *padapter, struct sta_info *psta)
+ 	}
+ 
+ 	if (rtw_ht_operation_update(padapter) > 0) {
+-		update_beacon(padapter, WLAN_EID_HT_CAPABILITY, NULL, false);
+-		update_beacon(padapter, WLAN_EID_HT_OPERATION, NULL, true);
++		update_beacon(padapter, WLAN_EID_HT_CAPABILITY, false);
++		update_beacon(padapter, WLAN_EID_HT_OPERATION, true);
+ 	}
+ 
+ 	return beacon_updated;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+index b932670f5d63..f182b10b0f45 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
++++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+@@ -1526,7 +1526,7 @@ static void rtw_chk_hi_queue_hdl(struct adapter *padapter)
+ 			pstapriv->sta_dz_bitmap &= ~BIT(0);
+ 
+ 			if (update_tim)
+-				update_beacon(padapter, WLAN_EID_TIM, NULL, true);
++				update_beacon(padapter, WLAN_EID_TIM, true);
+ 		} else {/* re check again */
+ 			rtw_chk_hi_queue_cmd(padapter);
+ 		}
+diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
+index 86c5e2c4e7dd..a75231c55310 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_recv.c
++++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
+@@ -1009,7 +1009,7 @@ static signed int validate_recv_ctrl_frame(struct adapter *padapter, union recv_
+ 
+ 					/* update BCN for TIM IE */
+ 					/* update_BCNTIM(padapter); */
+-					update_beacon(padapter, WLAN_EID_TIM, NULL, true);
++					update_beacon(padapter, WLAN_EID_TIM, true);
+ 				}
+ 
+ 				/* spin_unlock_bh(&psta->sleep_q.lock); */
+@@ -1031,7 +1031,7 @@ static signed int validate_recv_ctrl_frame(struct adapter *padapter, union recv_
+ 
+ 					/* update BCN for TIM IE */
+ 					/* update_BCNTIM(padapter); */
+-					update_beacon(padapter, WLAN_EID_TIM, NULL, true);
++					update_beacon(padapter, WLAN_EID_TIM, true);
+ 				}
+ 			}
+ 		}
+diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+index 444966c0de7f..23136d985e7c 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
++++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+@@ -2083,7 +2083,7 @@ signed int xmitframe_enqueue_for_sleeping_sta(struct adapter *padapter, struct x
+ 			pstapriv->sta_dz_bitmap |= BIT(0);
+ 
+ 			if (update_tim)
+-				update_beacon(padapter, WLAN_EID_TIM, NULL, true);
++				update_beacon(padapter, WLAN_EID_TIM, true);
+ 			else
+ 				chk_bmc_sleepq_cmd(padapter);
+ 
+@@ -2138,7 +2138,7 @@ signed int xmitframe_enqueue_for_sleeping_sta(struct adapter *padapter, struct x
+ 
+ 				if (update_tim)
+ 					/* update BCN for TIM IE */
+-					update_beacon(padapter, WLAN_EID_TIM, NULL, true);
++					update_beacon(padapter, WLAN_EID_TIM, true);
+ 			}
+ 
+ 			ret = true;
+@@ -2333,7 +2333,7 @@ void wakeup_sta_to_xmit(struct adapter *padapter, struct sta_info *psta)
+ 	spin_unlock_bh(&pxmitpriv->lock);
+ 
+ 	if (update_mask)
+-		update_beacon(padapter, WLAN_EID_TIM, NULL, true);
++		update_beacon(padapter, WLAN_EID_TIM, true);
+ }
+ 
+ void xmit_delivery_enabled_frames(struct adapter *padapter, struct sta_info *psta)
+@@ -2393,7 +2393,7 @@ void xmit_delivery_enabled_frames(struct adapter *padapter, struct sta_info *pst
+ 		if ((psta->sleepq_ac_len == 0) && (!psta->has_legacy_ac) && (wmmps_ac)) {
+ 			pstapriv->tim_bitmap &= ~BIT(psta->aid);
+ 
+-			update_beacon(padapter, WLAN_EID_TIM, NULL, true);
++			update_beacon(padapter, WLAN_EID_TIM, true);
+ 		}
+ 	}
+ 
+diff --git a/drivers/staging/rtl8723bs/include/rtw_ap.h b/drivers/staging/rtl8723bs/include/rtw_ap.h
+index 83e835eb6513..866aa8386931 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_ap.h
++++ b/drivers/staging/rtl8723bs/include/rtw_ap.h
+@@ -10,7 +10,7 @@
+ void init_mlme_ap_info(struct adapter *padapter);
+ void free_mlme_ap_info(struct adapter *padapter);
+ /* void update_BCNTIM(struct adapter *padapter); */
+-void update_beacon(struct adapter *padapter, u8 ie_id, u8 *oui, u8 tx);
++void update_beacon(struct adapter *padapter, u8 ie_id, u8 tx);
+ void add_ratid(struct adapter *padapter, struct sta_info *psta, u8 rssi_level);
+ void expire_timeout_chk(struct adapter *padapter);
+ void update_sta_info_apmode(struct adapter *padapter, struct sta_info *psta);
 -- 
 2.54.0
 
