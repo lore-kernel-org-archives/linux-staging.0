@@ -1,111 +1,98 @@
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com [209.85.215.195])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48B0F38B12B
-	for <linux-staging@lists.linux.dev>; Mon,  1 Jun 2026 09:38:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABCE43BB40
+	for <linux-staging@lists.linux.dev>; Mon,  1 Jun 2026 11:09:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780306691; cv=none; b=u7lpZBXvd7ILzjPH0G+CUPvI6/SaMZGuc+ZrQgK+cGb8BdV9V0JWjSwmKXHXmMmIKcP/E+FFJxYODcacBLaHhmLIxV5atdiIJ2Ah4fo8TMH1zj4RAbauO8mYoO3hytnG3uaZxb0trKEVPAzNcftDpW45hc5EOUIgUovEUxIaTL4=
+	t=1780312156; cv=none; b=oHpv2owEfR/WaZC57pw3glGU/ltQqpNnddWH753vmclBcMuCSaKNBNCvNOCPtEb/802G0fg0u36gjqK8eBYJB7TvFrJWs976T6FEQvdDQ+Ynwc0hTf6XsSn7hs3Kub8/WebLVGN10As+MapOla7thGQXB34IXltO02qWzjnGbdE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780306691; c=relaxed/simple;
-	bh=5DahCWqmnPP0SQqk3lhu3ujsdR0eX6Ew+xi2aoFX+q0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WgtKdxxYSQMDTJ4r89cRUt2xWjEYCiNWO6FM6c5MEFs14i1BQd4Peh9xrdLXdNxWxDLreYS3yjL780md4dgSowZejF3YcHpTQLsJ3rOUZBnoiLM3Bd5Xbig/7ZbWknhdSQB+DoyJmEfailTBU1hve7d+1k265c7X0OUcTcIpiDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AyGY5G6Z; arc=none smtp.client-ip=209.85.215.195
+	s=arc-20240116; t=1780312156; c=relaxed/simple;
+	bh=QpnjQudDF58V1/FPsPcDplOMFvOALDVksNq/0qRLSds=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=alDlfLBZzf/1uAAu0AquaimvKuxM+yRJzxYM/OMFalbOjszCOaPy6IIh+mpeg9ZtDBSAHznrsD+wiHtFmqiQ/UbEAHuHGWvKCHV5C6g7TCFUIMBFX6y/FN1vxzR0PkyeSkhz59aQmRlQbZuAXeGbgvSqVuVeMTvB7D8y6xq3fA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bL7bcdqQ; arc=none smtp.client-ip=209.85.218.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AyGY5G6Z"
-Received: by mail-pg1-f195.google.com with SMTP id 41be03b00d2f7-c857fba35cfso911268a12.1
-        for <linux-staging@lists.linux.dev>; Mon, 01 Jun 2026 02:38:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bL7bcdqQ"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-becfa735b9aso138828966b.1
+        for <linux-staging@lists.linux.dev>; Mon, 01 Jun 2026 04:09:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780306687; x=1780911487; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=70n4u0thMMgy+9agvv7sD+znyfS3Vesvdwb/N0UaqbI=;
-        b=AyGY5G6ZS5pq3W4s3BajMQK01gdTK63LYskVSso0qGnZOZlTwWWhsHUC5LFZJYh4oz
-         ZprJTliKg1V9A9rhGoYxkzJDVvohC3mN94xfizi0Sn7Bx6rOnKXGwOIyTQWtbNrIIsWS
-         UglLbdGw5NVj20ksvIPhdcM2AxI9xwIJVzt4NEuSfS1Zc0djzvcI/Nh53NzufiHcW2qQ
-         8Ay+rgbamgyNdc+iuYqkcgJWPJ5r/vdCWEPKAe1TvQr3ss0ZVMSui+MJ4G3YPGEM15ut
-         7pB/bVTfdUK0gDzZwbhzOTDkzdM+Kmh7ZfINxNXs7FE7Co7QY102PoW42r8E+UDmmu59
-         XoXA==
+        d=gmail.com; s=20251104; t=1780312154; x=1780916954; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=nvWyF+YOv3aLEiatSz6/qAj4smg4GeRiDdaf9XLf71g=;
+        b=bL7bcdqQcnSOs78jr5oyhT5WYpbBewDHF7oK41FbUVNv/ZCy+9TG8OeUgxvUZbDohi
+         WkJL4nPv7214cGrLdYQboVAiu3+jf9b6Qz1XAco5Soz6L3+qAXM4dn/ujnuegf9ZhEso
+         gXLoR5U6MylsevPF7w0SimwFS6/EQ1s+ShoINXvLiLInah3W2XszjXCAkN78tGwl2tY3
+         BuyKGUyh+RCxNlPK3eu3FFsGxaE0W24cwopaPFtmTohPQEtLzT5tn+DYkN5q01422qfI
+         98ZwRwWMKJU474p45oicQCAGlQMm+OaFL2wQdxqwSxQw8zzBkAiWAyoZAjEYQBSxptdl
+         3d0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780306687; x=1780911487;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=70n4u0thMMgy+9agvv7sD+znyfS3Vesvdwb/N0UaqbI=;
-        b=at2kd+/X9jlaw0qQFX482pRit6nXpe5NCrcnpFJb3Bwut0z7mE9i2wSX/sGESvZkDa
-         O80e+ZIi4DQT7HW7ly+8aR4NejNiNKuKbWJf3dxV+M6/xgJt+gnW3E6Ux0Y31idrV5dG
-         S4yNhxEBmizkMmpazpQYi8Ygkq6TdHWJJTPgpt8yY5MHcGJ3dGOhD3bEsVV0LShKeACk
-         TInxO7qdWz7wEa3cNaiMkGTWHbnBqM+yJkAqavkYL+NglsJC58qcdVnKDz6yesjSGamy
-         FZ7AoyrCBrTzdy44a5rGZVk/ao3yFO2e1uGoleDgCfn0FFz8UxY8Z8IDleKLWzCRn4iN
-         YdEw==
-X-Forwarded-Encrypted: i=1; AFNElJ/gTlBXYEalb4oCSN5xQ2C8c0DUQeDaWVDMYnO8Pe97KBDVmatbua+v2v3L7jZEwCXcPpnWA4kAOqqo1J7q@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywc6vKaoqqL4M+iawnSLZ1mAjKAhGYKy1mb87Neriu1SxBvcutS
-	UYku7jOB4AKRZJimPHc8YV2g5kUV0nve3s/1+qkidfwobOeSlA9KcFFC
-X-Gm-Gg: Acq92OHeAUIPWZXC2CHsXXZuCF7jK/uqPMb0kCL5NFLCEnbZzPZPTjchEBbJN9UJDe6
-	TfyfEdnpKBMAGxRLTQLd9rgWvbONTqAJnJ5OvTRoMNTBe7jqebVMfSwlRCOSHK3OK7c2IAOd2if
-	ydRtmlv2MgqoT4URfdoEAHIgDEn9/TVGG6l+t4uAH1t1zQ6Pc28KpIqVFlqkYKl7cG6x0+odWw8
-	7op8sLMyWYq+TGnaxk6EhaCb5VHn9OHBeQ/TI2UFgai/2dQgbv4zvp5tZCoEEQbm5n7MsjZOTMh
-	r+36GYJoPwJk0dYdlj+3yoRAu770lekCU2viY1RGuKOZxZVZp6kwJ1eO7tgKWT8jLbKwbaZUcW/
-	Mok8fzuf2jacc4R3KzkVbjaW2rAGI1bXC4Spq4XzIRXf6OxbUL1UYqoshYDFfwHRy7hdawDAvH+
-	C6dA/RdNMwEfana/lSyZZawJSoBpu1rsJ8M1lhlx/FNXF++4JoPXKWUxTfxkb5
-X-Received: by 2002:a05:6a21:3511:b0:3a2:f75f:73ef with SMTP id adf61e73a8af0-3b427fac967mr11219593637.37.1780306687457;
-        Mon, 01 Jun 2026 02:38:07 -0700 (PDT)
-Received: from localhost (bb219-74-228-4.singnet.com.sg. [219.74.228.4])
-        by smtp.gmail.com with UTF8SMTPSA id 41be03b00d2f7-c8583333e80sm7129329a12.18.2026.06.01.02.38.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Jun 2026 02:38:07 -0700 (PDT)
-From: Eugene Mavick <mavick4022@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: hansg@kernel.org,
-	straube.linux@gmail.com,
-	nikolayof23@gmail.com,
-	mavick4022@gmail.com,
-	khomenkov@mailbox.org,
-	william.hansen.baird@gmail.com,
-	maxwell2119@163.com,
-	dikshakdevgan@gmail.com,
-	arthur.stupa@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] staging: rtl8723bs: fix alignment
-Date: Mon,  1 Jun 2026 17:37:57 +0800
-Message-ID: <20260601093757.612130-3-mavick4022@gmail.com>
-X-Mailer: git-send-email 2.51.2
-In-Reply-To: <20260601093757.612130-1-mavick4022@gmail.com>
-References: <20260601093757.612130-1-mavick4022@gmail.com>
+        d=1e100.net; s=20251104; t=1780312154; x=1780916954;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nvWyF+YOv3aLEiatSz6/qAj4smg4GeRiDdaf9XLf71g=;
+        b=ssNHXEVPnTKqKXoXTtysCiI6gCtjbgrK2O7cthyIjBKzoRztRGgJd1sxzx+1TN9rmM
+         qYkDflV0mqfBGtGXhB88Oevh39Uu+gk8BfO+53quSdiDe2Us2bkP7o6ZLOLwG4TZ3qAg
+         2PvTOvADtfcn6IjzYMW3Rt9gvOhv8lJCZIk2f65bBkdCdShCAwce3oY/VANAfvdrso6j
+         /vw5fEvJvMvJrZeEh+k4ocPl1r7mmOji78BegaSWrbWl+2RXJRj96FrpfXzKst3YO/Qb
+         yMmf1VfTloTwV7b1u+EXMnmE//pjuo4LoFWT7pyhu9AAMBtVGYyfBTmzG/pz+OEdqZx9
+         yjhA==
+X-Forwarded-Encrypted: i=1; AFNElJ8lS2uZLqJ9vlPhfZMujSayI47IAQm6wqdMXX3PV3IB/7wSD9N5TVklCcyOUoczck/qdcSjWEnwXcxhH34D@lists.linux.dev
+X-Gm-Message-State: AOJu0YyIDSY0q9Fa5dAEQWQyPHKbjdkY8YjTtc7YRd/OjSOEwlPG01Hk
+	/3mrPKXO/+mZZcQtk20AZLnPhbRFIvfhgz0OqkHGgs/HMogMsvjGgCp3
+X-Gm-Gg: Acq92OEcvaAbAdHZJt7C0hGaD3fCuoojVst4Z32jLg2gnm8aFs6epblLJ2xI/7cY/pe
+	l0egoateI46oWLVP50ZLJ+xyw+3Z63PG8Q9Zlhc0u11ARftudrCcv1Pq2NEV8M9KcHJd7LmiPLm
+	91xWb9IFXmTszo9tYaVIpnvra/YGa4LlTwB6+oQt5QPCAxNF8S8xc/Dn6jy0kOocZtE0HSfHs83
+	bzdZPsOO6vTN8gW+U5tJbwKIKyn2wTGjoHZE4lRlW1yuEdjHXY5Nh3545d9zF8VLFxr3vDN/rpy
+	xCrQ7/Ft4k5o2z9Cn7cBsFFXSWugvSD3iAduk1iX5wJfU1Li/ILFaF82QvdjAXXqLOftDetnZHg
+	0y3NhN623p7E4vrMc2PusqcmS1j1t4IUA0yqOFWb7wnbKpPKt0YtxHwdWkXpTfDBWLG/QkTglrV
+	Aa5YhrXtnpGTipIg5qCSJZLuFFU+Pnai8VQg==
+X-Received: by 2002:a17:907:2843:b0:bec:64d4:3872 with SMTP id a640c23a62f3a-bec64e37d56mr245047366b.24.1780312153930;
+        Mon, 01 Jun 2026 04:09:13 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bed94f9f82asm78921366b.20.2026.06.01.04.09.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Jun 2026 04:09:13 -0700 (PDT)
+Date: Mon, 1 Jun 2026 14:09:09 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Hungyu Lin <dennylin0707@gmail.com>
+Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
+	gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: sm750fb: remove duplicate init_status structure
+Message-ID: <ah1oVeRAQMeaLJN-@stanley.mountain>
+References: <20260530222432.4303-1-dennylin0707@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260530222432.4303-1-dennylin0707@gmail.com>
 
-Fix alignment to improve code readability and clear checkpatch warning:
-CHECK: Alignment should match open parenthesis
+On Sat, May 30, 2026 at 10:24:32PM +0000, Hungyu Lin wrote:
+> struct init_status duplicates struct initchip_param and is only used
+> within the sm750fb driver.
+> 
+> Replace the remaining users of struct init_status with
+> struct initchip_param, remove the duplicate structure and eliminate
+> the unnecessary cast in hw_sm750_inithw().
+> 
+> No functional change intended.
+> 
+> Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+> ---
 
-Signed-off-by: Eugene Mavick <mavick4022@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_sta_mgt.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Looks good to me.  :)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c b/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
-index 02f8564d32a7..e534045dd467 100644
---- a/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
-@@ -249,7 +249,7 @@ struct	sta_info *rtw_alloc_stainfo(struct	sta_priv *pstapriv, u8 *hwaddr)
- 
- 		/* init recv timer */
- 		timer_setup(&preorder_ctrl->reordering_ctrl_timer,
--				rtw_reordering_ctrl_timeout_handler, 0);
-+			    rtw_reordering_ctrl_timeout_handler, 0);
- 	}
- 
- 	/* init for DM */
--- 
-2.51.2
+Reviewed-by: Dan Carpenter <error27@gmail.com>
+
+regards,
+dan carpenter
 
