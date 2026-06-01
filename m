@@ -1,133 +1,150 @@
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 170E4298CC4
-	for <linux-staging@lists.linux.dev>; Mon,  1 Jun 2026 16:15:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 269B42FDC27
+	for <linux-staging@lists.linux.dev>; Mon,  1 Jun 2026 16:46:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.50
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780330509; cv=pass; b=PEvQ3mqNV854LaXteG0rMGdzF/hzRXydKjoaRAprl17JhB6UYEYp7+nPEzPrbYk0nnuI0syxHvqpejGZp0Po/rMPaEqSfjW2ag35+9qNrE14AsqsLyfdU/S4PAQD29pnLF6ihY5pUVN+VG1nwba1Mx11uzcdjM1sPB4nxvpv6G0=
+	t=1780332363; cv=pass; b=AiF2mbYVr7/uySXFkaI77hG8UyflqlNmPZCJ1dWUebRcqltTY+lY4dbORfsCDFHgMErZmbGa6GuEeTliqNVCRxIOhNK8Q5wC11YSI+hwywCIECIwUPpJS6yo+2G8sefzgAnTVb7pFkcbE82OiBOcZt3T0AyMWCAWn2/B3Izbn3c=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780330509; c=relaxed/simple;
-	bh=S7m4BngvTlTj0+tpvgLqh4QpR/6Euk3lgUzpTubScuE=;
+	s=arc-20240116; t=1780332363; c=relaxed/simple;
+	bh=nozntogzwu8XrYMaALgJ/9r5EMgDTBdhZKxzPsTSeOg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qVKO9fPJtBpUnZ0+lHdMV9MMDa7G52KMWClR1pngeMbFzolMiohyjMUnhnQAijaJi5TXRbTZbsD9X4OHAbwDm/FmyWwPkcWDHQUapZbMtMXPPHBZPTUQSZ0dVB5ggfXN7P4Gmg340lfLhXtF4XuHQKFSH9yKtetECpDmY0I1dI8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mn/1fjK7; arc=pass smtp.client-ip=209.85.128.180
+	 To:Cc:Content-Type; b=SqjScm1LBjvdOWQcD+WvAvG0+mAWjGmbMnfu1TolFnxFAmeWB6Y5gvN9WrOX5I0ILQA08S1zyIwEyi66Lxlmlv5esHgG3tqEIv3M+2MEyxymczRQVF9Yxe9eCSn6HAzh4ZKdFYhtVwBnZGpHYoJkk/JMVSptF2Fsgmw0dQShQX8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F4oX2149; arc=pass smtp.client-ip=209.85.216.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mn/1fjK7"
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-7dccb5f4b1cso44773717b3.3
-        for <linux-staging@lists.linux.dev>; Mon, 01 Jun 2026 09:15:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780330507; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F4oX2149"
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-36babe2c4bdso2033114a91.1
+        for <linux-staging@lists.linux.dev>; Mon, 01 Jun 2026 09:46:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780332361; cv=none;
         d=google.com; s=arc-20240605;
-        b=YrKkauR3urlp3wLR3B5NLatS376KQWzq0ucfyfr8+3eZvmvRMpbOTfA6OG8iR8P5DN
-         zkprvAnKiLq7t4MDqbqHOCkZaR53M3qz53v2+HNpxjnPn+56XpS2nVZh0UUuNovr/1i0
-         PDDAvTGbZOSWp2bD1I+wnET/FWWD30oA+hAlxiFdXJYPwCX8COh6NQc31MCFt/5RzB8k
-         Cdy/MhOr2BFax1FmEbSFDsyS2bLQMY76p89BYIqTTCVv/s0tqXslEmjcbDq64oQqgjnP
-         SH1fvoUHI61EANMqN9pt/SVMuOcBjyOgpBB8osv74RhP+n0o8TjNItXelJYM0utS9Ffy
-         cGmw==
+        b=D+7BY1uPOYYjpDDlb2zqZAakW3mUgGpTsX/K31a4GhVBR76YqLyZ3N+QJDUT05pDhn
+         N60XrT6L+YNU/xhM7LrSb0C1uTVoyRZ1iUCUBbqgB1fihkOO5Vio3Pe5JTTrytY1JHTV
+         AySbh6dJcd6+ivnkSQ4APg6HoUie4KuUOtN8tfwTVSXVhKB1cN+im+/lNCMYbUAagwT4
+         nPvAuihZsAyGgMa9pt5SpTcoyXdVHm2hNOyveDCs8L/Q9nlSiSQfZiSrDZME1+MBrOXS
+         BRWuETQLow0nnRx8CQQyYY0Ae5BPf0apAYGvDfIIPjzOwV3ZAfn985e9agsG7YGjAkei
+         bXTA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=8DD8IFm3wkiv/lO89U6JLGiihkXoPSFIGCSDSHMVdmg=;
-        fh=2CVTIkVPhg0KPB0MXJsQlUHJYqJp0iJnPh+zOrgPQrI=;
-        b=ALwa6oYvIt2OZtP2+fgek3HH38RAqpcFzRN0zOAHt9h2i466VSjWAfeHotx4YRp5Y5
-         8JWaEiWBmmSFLqTai9nnNv4ojG7YNboGjzXdEZH2sclk/NGBGO3lJPYjDqizUNmjwbN4
-         4mjFc/wd1qONoU7cWUpBrBuzRnk/uH6TT/WAQe0+90/G//lY6tt5LqX0j2WmLG6GsdBw
-         CFYKEfJAKrFHFOnrE5CXudZXdig/7B7k1uSiqI4Q5j+CCwEuUN9dGSu3a6BdL7cd6+Rc
-         GF+VNHrimOIo46o2mPIRd0//7d4f47tz//RktrpbT9aEKkE2YknzyTSffzKFuzJWkBa0
-         4Lhg==;
+        bh=6ANhlLkwHvRoelO6mK6br0cQySzE0loZY7WZgKnNoyg=;
+        fh=gzmTxBuTc9hcgccD8Fccv8y+gj2LD5m+4pOBOrHnB+s=;
+        b=V1XtvC5vASdEJRZbR0H5DgmIrJde3zJsLRKqLLVXx40jTus52CHe73cnzj9kO1F415
+         smwoX2cOcGvzUDcga5N7Qm0ZZhVQ5bxaFeyB4mkAYL9tB2YAfFKoZwlwr1IPwmIwUta3
+         ZMFT4MZY8eO10aNaFvOLtARZo/9k/jba8ybMivlFaIfnt/qtXthZ+PgG9q1j5/Msu/Y6
+         nCh/plyl5w7LzML1mxshMhg3GPSCUi2/ojbp8fSN371WVAJuV6WgpF6dnyDcXv5SKPEq
+         gmAYHKBYZVuhRac/5dBP3uMDiK4sxrwmwSkjGI7107iGtF5ST//wewc/vjF2w9SI0FwR
+         UtlQ==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780330507; x=1780935307; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1780332361; x=1780937161; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8DD8IFm3wkiv/lO89U6JLGiihkXoPSFIGCSDSHMVdmg=;
-        b=Mn/1fjK7KeG+xopDw9/l2FB2pujk7U4QWeGzIhgjiIKxDwpb7x2O2EAraqwYpKmMV2
-         eK7lcFo1Hy45HTUq2Fd9+v92Q2BYNuc2skSz6BUdu70eiQnWKEnWRQ59QBMIOZiQlZgn
-         VgNNP4G4YKnqzpPbbkW1nygR4sjc5MX5MJJTs4APZwHayOONABeAzXCKRWu+W2JIplYo
-         +qdvuuAnz5InWB7J5N6K5/Pa+ZrcXuUogU4TKi6RKWI5KVedoEYXtjhywdo94MsCGcbb
-         cizC3OXZoH4MZG3Ba/d/TaGtlM//vURdaZ0553qLnonTk5YpDhTfNUlCFfYDONJTRAjG
-         ZOjg==
+        bh=6ANhlLkwHvRoelO6mK6br0cQySzE0loZY7WZgKnNoyg=;
+        b=F4oX2149Ss2xO6k1PQZ+SPuLKFoUoGnRJslvdXztViLz8NDP83ElohX3FxmrgqMh8G
+         aSEx56dM9ko4pp0w4fOh+dwkqfd+fUKz/v8CowQZa8Kh3rmUF8quPJkQF8rpMcVsuOH2
+         /JTSDS3HeLll5gNgCAn3Q1eaSa30pd3OS7KUfTvMrwY8G+ukyGdDn/Ke4YN2o1CC7d/d
+         4PCCiEVIo4cE7aAUXi+bElvMGaGAiglydfZDtSvIdtYhxmb7aSLQXLLSkE25GkBx6X4e
+         4SYL6n4bCGgfB7mFMA5ET4gCBkJlL3dU9Ton6YC6U02ww1MlB+Yb09weNqE1bbrwQfkR
+         i8kA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780330507; x=1780935307;
+        d=1e100.net; s=20251104; t=1780332361; x=1780937161;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=8DD8IFm3wkiv/lO89U6JLGiihkXoPSFIGCSDSHMVdmg=;
-        b=R0H/EaaNXZ6YcNMngERtFIC0yfv3DojoqCdwXsFE92DEmKmHYuSpcisvQK8RV5sP8M
-         ssjgac9Mn7ZY5MFHLG+EkBuZEEeSMhDVAx8+BOx0UpfKPC6HfVuXPGplJpOWj3xEaSq6
-         WuoRdVE8QhOyghKr0/1pfbeVwJl/YvNYR7iHNoEA0bbFcG10wH/MohTqlWuoe1JJejDO
-         knRziA/gPvx4TK1pHd/uYnSfbQ8r6ZpvOipQpiQ71RTItK50X6DLCQeZBF2wYRaNc8fC
-         pjT/xPUaazbScIRV0ITfHxjlpmIjqNy4J4NFq/iI1FO3D27zL+U1jpP74ZwyX5kC8NLN
-         CR9w==
-X-Gm-Message-State: AOJu0YxA4kM6RcZ1Wnjvkz2xRGcs0PdyYts4NfPjUQDcyWe32TBcmHDR
-	VjodspZctPfRxd8dyi9mFLFHNSGZ1pLlb7nLtBTkBGoAANJ7JKM4Ml0vC3a2rcky+VgBL2sfSVv
-	Uy46xfU1MnTj4z2louUo12cej/Ls+CTM=
-X-Gm-Gg: Acq92OFMOvtoAFOgFgTs8PbAvbU4ERSKsZ1fDXb9CR8+z4WEalaq5jRg3t6l3MiOED9
-	tahV2A3V+lUeEpIOFX/u1vp4ugaUgNX7IEzX2zjAegH/RGGWBXQzmHoadZnpRU5Syf8+L+4rF5P
-	wXlQTOEReO8EQwx8pH+GCwg6uHgySjwvVzcRdJdNgpLdxfhxZpjLfUWd7gcQt7JEtgQ6BzKZMDg
-	bUXYhhqPg8Sl0+pt2sUe5NPmwiMXl8qH+wBvFzMmNXTA3dyzzQJMXSnc1+d6lia+YoKcA4QLOAc
-	N310ylaT8JrroKjPJw==
-X-Received: by 2002:a05:690c:7088:b0:7d2:6b8:6e6f with SMTP id
- 00721157ae682-7e058f23f25mr103464837b3.12.1780330506960; Mon, 01 Jun 2026
- 09:15:06 -0700 (PDT)
+        bh=6ANhlLkwHvRoelO6mK6br0cQySzE0loZY7WZgKnNoyg=;
+        b=jQpFJ8sEWDpsngWliTWIZmSTy6XrDnk/+I11o6H9kIID8LnHgaBFWrZWuBagHbHdqz
+         ATxesRPs0gzZWlJSPiI6xKE5kHxtv0MQefm/mpc4EsZrIBmHXcl+Pyb5tyg1bMt6wCy7
+         kFET9a9jR+1MN4m0CmsVy9F3AjUsJ4iZu6ddbbMMprajKtfVKPiULqNg0Z1BT2hGJvAo
+         +yyfTthjS7F9wlfss0emVkzcMbSiOzpsEkVlwSBvGa+9GCSZMbs8OpbGW7wLWh1lK42U
+         hWBPgfzvKRyf9hzI71J2OGKEnxTgDZ41h6fPSOQvb5l9rJ4tFjSSv1yuX3ffW5VdFCEr
+         bfGw==
+X-Forwarded-Encrypted: i=1; AFNElJ9H86Cx7GQD9+Hk7TE/NJrF8gq8p2grSRySUthCLkUiniqTvfJ3RailABBIigtaIzz+ROtulA8iXifTDhut@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw+//c59eXZ95WtMmA01QjDBXto2SAZ3TEgUy/JiH70qikSLoOy
+	qie93BnaCtIWChx88EztY3gswMkNOwSooPQKq3/pkKVqQAX/QGXtGcr2r5hT2yQ/G9uP7r7wfjK
+	9klWWRHGdxaXovEKkFomZTVk0LcvjJfc=
+X-Gm-Gg: Acq92OGIWLzB+WqtJNrFXbVRK23nPjQieb32Kvgu4qej7qAAMonogV3H5o8zUgEhTRk
+	MUZU0Z1IL7/T6iMc9voO+Y6ePxlic+fLk9z1mhRyXHxdupEsy4e25S3Cf1+JMg9mcjK23b5y0HG
+	E3Ft7WVxdUOG23fRo8P2Z+48eBXZ+jd8QxP24S9JFAKzoeG1NFJ+ENDhbROgK1lW12/EuEjvvV1
+	D4oKqUXIMKotEmDzFkIaUrvMKftXFjxqST2w0026oWy88INX0V9fYDq1eDtA242iPeejqfd7HHo
+	+FsZ0woBtHFiIb5xF20=
+X-Received: by 2002:a17:90b:3a4e:b0:36b:ba9b:7efb with SMTP id
+ 98e67ed59e1d1-36c4fef39c9mr11682696a91.5.1780332361350; Mon, 01 Jun 2026
+ 09:46:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260511134930.4086521-1-congnt264@gmail.com> <2026052117-snore-bladder-110d@gregkh>
-In-Reply-To: <2026052117-snore-bladder-110d@gregkh>
-From: =?UTF-8?B?Tmd1eeG7hW4gQ8O0bmc=?= <congnt264@gmail.com>
-Date: Mon, 1 Jun 2026 23:14:55 +0700
-X-Gm-Features: AVHnY4KmXb_m6xBa9qN2zepLtj2co-vg77I_6S4ASghp0cXm0uOL8ESVgORWsUQ
-Message-ID: <CAJpJ=GsgOP9Cc+YfiPJOh5Ot-rzAzDbe4ZtsjTV1LUwaED7wjg@mail.gmail.com>
-Subject: Re: [PATCH] staging: rtl8723bs: rename ndis_802_11_network_infrastructure
- enum values to uppercase
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <CAD03fjaBJGtNATBxaYO-PAxdKC=HxYgE+M7HQ_a0O+3Sp9Mruw@mail.gmail.com>
+ <84d8f2a1-6562-47a9-93d7-2d7ff33c31c0@lunn.ch> <CAD03fjah2GMedDtauPQjP0++3USpy6tm3AUemgAjVHS=5Nirtg@mail.gmail.com>
+ <8f7eb9c7-6695-450c-81c4-fb96643adbc2@lunn.ch>
+In-Reply-To: <8f7eb9c7-6695-450c-81c4-fb96643adbc2@lunn.ch>
+From: Grewstad <dogestad24@gmail.com>
+Date: Mon, 1 Jun 2026 22:15:49 +0530
+X-Gm-Features: AVHnY4KRCdi0h0Pqu6KDLr2ceAipTIZUEfDFKMo7TgmBS2phs0b3-uUhiqQc9gQ
+Message-ID: <CAD03fja5oG3-BrQoy4+LEmCWPYGW_JWDEkaPndjSVz=PbRj4wg@mail.gmail.com>
+Subject: Re: [RFC] drivers/staging/axis-fifo: TODO file and subsystem direction
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: gregkh@linuxfoundation.org, jic23@kernel.org, jacobsfeder@gmail.com, 
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, hjk@hansjkoch.de, davem@davemloft.net, 
+	netdev@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-You're right, the kernel already provides the enum nl80211_iftype.
-I've reworked the patch to use it directly and drop the translation
-layer.
+Thanks. My research shows that no user-space application depends on
+this driver. As you said, we cannot determine the subsystem without
+knowing the actual end users.
 
-v2: https://lore.kernel.org/linux-staging/20260601161051.1832080-1-congnt26=
-4@gmail.com/
+Thanks,
+Arihan Bhor
 
-
-On Thu, May 21, 2026 at 4:10=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org=
-> wrote:
+On Mon, Jun 1, 2026 at 5:59=E2=80=AFPM Andrew Lunn <andrew@lunn.ch> wrote:
 >
-> On Mon, May 11, 2026 at 08:49:30PM +0700, Cong Nguyen wrote:
-> > --- a/drivers/staging/rtl8723bs/include/wlan_bssdef.h
-> > +++ b/drivers/staging/rtl8723bs/include/wlan_bssdef.h
-> > @@ -43,11 +43,11 @@ struct ndis_802_11_conf {
-> >  };
+> On Mon, Jun 01, 2026 at 11:35:14AM +0530, Grewstad wrote:
+> > On Mon, Jun 1, 2026 at 1:22=E2=80=AFAM Andrew Lunn <andrew@lunn.ch> wro=
+te:
+> > >
+> > >
+> > > In addition to what GregKH said, look at the vendor information:
+> > >
+> > > https://docs.amd.com/r/en-US/pg080-axi-fifo-mm-s/Core-Overview
+> > >
+> > >   The AXI4-Stream FIFO core was designed to provide memory-mapped
+> > >   access to an AXI4-Stream interface connected to other IP (such as
+> > >   the AXI Ethernet core). Systems must be built through the AMD
+> > >   Vivado=E2=84=A2 Design Suite to attach the AXI4-Stream FIFO core, A=
+XI
+> > >   Ethernet core ...
+> > >
+> > > when used for Ethernet, a uAPI is not needed. The FIFO driver would
+> > > just expose an kernel internal API the Ethernet driver would use. Are
+> > > there any Ethernet devices using it? Is there a driver for the AXI
+> > > Ethernet core?
 > >
-> >  enum ndis_802_11_network_infrastructure {
-> > -     Ndis802_11IBSS,
-> > -     Ndis802_11Infrastructure,
-> > -     Ndis802_11AutoUnknown,
-> > -     Ndis802_11InfrastructureMax,     /*  Not a real value, defined as=
- upper bound */
-> > -     Ndis802_11APMode,
-> > +     NDIS_802_11_IBSS,
-> > +     NDIS_802_11_INFRASTRUCTURE,
-> > +     NDIS_802_11_AUTO_UNKNOWN,
-> > +     NDIS_802_11_INFRASTRUCTURE_MAX,     /*  Not a real value, defined=
- as upper bound */
-> > +     NDIS_802_11_AP_MODE,
-> >  };
+> > As I said to Greg K-H, it's 'chameleon' hardware because we don't know
+> > what it'll be used for. It could be SDR or Ethernet or whatever it is
+> > programmed for. The main thing is that it is a streaming interface.
+> > But we cannot assume the use case.
 >
-> Why aren't you just using the NDIS values that the kernel already
-> provides for these?  Don't re-invent the wheel.
+> Flip that around. What is it actually used for today? Make sure it has
+> the correct APIs needed for what it does now. New APIs can always be
+> added latter, especially if they are in-kernel, code to glue it to an
+> Ethernet driver for example.
 >
-> thanks,
+> However, a grep for XIL_AXIS_FIFO suggests nothing in-kernel actually
+> uses it.
 >
-> greg k-h
+> Are there any real users from user space? You talk about SDR, does GNU
+> Radio use it? Using what hardware?
+>
+> If you have no idea how the code is used, you cannot say what the
+> correct interface is....
+>
+>         Andrew
