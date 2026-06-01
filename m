@@ -1,125 +1,143 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57FEE33AD99
-	for <linux-staging@lists.linux.dev>; Mon,  1 Jun 2026 07:15:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.182
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780298151; cv=pass; b=hNBjlTZta/t1nkoyHF8P+73C79u26kgw4mkasS1wrxtjadFRKv+G2tWg9KRTSDq1cwPd+vPqMp4F1qEEuXdPtBv5cFDfF8EoXUYzZzvcyB6kKREURAuDKYWD5oyzdnXk7ZSI2oJ9DcjUiwck/JTGaQotmbxMSpwaeZqlc3KPQ2U=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780298151; c=relaxed/simple;
-	bh=d2D3DQjzyB/3EKzRVyHtuFjn/P2A4FEpG+JgwdiWCJ4=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=kfPq3RoURvr2mKtchE9gk36eIHAqposU13jURerD6jfWY3h+DvbekXmaDYyRmOlOA668ofBeCa7Hy7XJtLt0zMVGm8PrbUvAUzM2k3CScLjeU02RhF0xAI7lwExgPtKaI6oAn49g0dYi8WVCPFsqFkJsIP/ItIIItRTufGXTX08=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ioR/wGZm; arc=pass smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE98B38642C;
+	Mon,  1 Jun 2026 07:30:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780299012; cv=none; b=kUpP8mzbPd0in6ssnyTgVHjK0ihHqpKmbQdgezqMkHN+XbsY24nBUCnirXL68SjYbj4TvPhphkiAcTjFXDy2F+6kdsR4Ye3pIjTjOLHac3DWAqQzBDyCvm/a3Jr6hrC/AL473CCZtWLyWQRzWllOmc9w+OqRtHgDV4Zm2XHDh2s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780299012; c=relaxed/simple;
+	bh=quItyXVXLVGSC6o/bMwaJUmgthrEoXAqy3yY7DAoKgU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OwniZ61nStHEJHSdVMkb4U+QuwywlFh9DxQrKS0IEJu/WdJk3Qo5uOB7LKTH9szE7cwdyxfnp+2FgGCACrHpguAnWQ+uZ1EoBKu4bXjoi1m2B62d3062QI9g55pUVPruDzP0bjRj/8AbOUtZ7C6HXIbEq2OKK2TXO0bysZ7Gc0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KPtTOlbB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ioR/wGZm"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2be1dd4af34so144495565ad.1
-        for <linux-staging@lists.linux.dev>; Mon, 01 Jun 2026 00:15:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780298149; cv=none;
-        d=google.com; s=arc-20240605;
-        b=LbAv/M9nbvTS+H0bWTL8mwgsQMGQKxldViH+g2lftk0xfjE1kDrd/DS17mIOEj1WJV
-         Ljg8u320+41qIwWIYu3QfpA8IWMSkNVelEqme6YFeT8NUuGJbmsfNFA6LAkPQsUANGHm
-         OLlCVI0dVdR30qSR3SOLfs9zKOiss/Ec5LhPTRqF4ZmOoHHcdiJQR9FoN/v8ToYQDgdo
-         ycjnPL1kG3EeJxb9UVO/cmFdyr5cfndg8/KK+srEAUQL4N5sx0xP1D1AvvqvTmFV5/Hv
-         i4rNT0M7w6XFmhq56+orWOSGJWyKmo1wa8s4+porxRF3H1sJfgCgAseIgACgykZpT4tC
-         ayeA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :mime-version:dkim-signature;
-        bh=I/B3iWz2lj18m4P9RjExUmXdiUYhhvyFBGz6pNiCe5c=;
-        fh=i0uJAQGuCKeYlp2/MgYIbxHRsucJf0KBTyx2ORZM++w=;
-        b=DWsdML0blUzYwL34Zkzjn+dKdsnJwrmf0DgqkhWmGQk7kdFvggfXgzZ4XrgeYnu+w2
-         POCJb0wZbOjEDCWMU5MiApyvvh7rJbqDWfhxFlgP5DO2uCHRelOPN0Pabzsmkqu72Prl
-         1Sn2Bsbm9gUQvBORoyEH6IjaUHQ0la/GJkNjpXRuG6D3sXycUeuffzlA3gmqI3ri8Heu
-         OvLMsDXAvigLHWbIFqhU3ozM8Dsich8S2QmLE9xcgLUS4UubG0NhCyfqznfL6VPiUJNV
-         Wgy+X9knVKPwU4+tE+NH6JdtOsHQvue7iF6XkxyBRk7fSoSYCryNsnwAGtqiZ4TNe4Mb
-         8PHw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780298149; x=1780902949; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=I/B3iWz2lj18m4P9RjExUmXdiUYhhvyFBGz6pNiCe5c=;
-        b=ioR/wGZmbYa2CxWX92ABoWw6ZLX4ayxSLadeX46EJYcCS7SE40CV75HxRWB/WxsJV3
-         3FFntEDgkp03l7/O2nHzHzCAb/cE7LbO5RlWAckijz7AHVnrGyJObfeyhznhIsI6HXrZ
-         s6IrB6A6b7bPZNhNxzHHcOndHDYwvyiAVfSY69Vec9aOsbo4hNcuV+8zq1KCOX5tjMIE
-         Xr3plOdohIFZE+K9Cv+nT9j/RhmnhGQM0yqxak1moyK7gL4/hy6+uPO0t3KgagcsQofb
-         bMqCXeXY4kkEYPSzaHGGdaIZAEV5evfA327fxgslsvaFcuiV1S/qADv/B+4kkb8EoEVw
-         Uxkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780298149; x=1780902949;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I/B3iWz2lj18m4P9RjExUmXdiUYhhvyFBGz6pNiCe5c=;
-        b=jVU7Lc4W1ie0zCotsUYYCzSyrcfPF7jF7s0zQ5ErtPAqBLZOsyPITuCuHIUiz8J+6J
-         7b3kWjrhoI6fEGZlWIYS63IBwzTXrIvAScW3NHTY6QrcWoxALBg/sRCVMNt2grzOtVX8
-         HIhxp7hxlrxR38nagefp659OBprLa8mWp8d8zx+cpKLX8n/fKwIlZ60rf5nju31BKcRH
-         0N7RtSyCIai1OGXFC7bdmTN/QndGd8TL6C4JaLjwljQ1jueDtz2soohUWrtffGOxtTeD
-         nqeZNuGOTOq08sKsx83GTnjmwLIO05dUuD6Yv6CZFq/nvvsmWx21XZ50jZb4xHfkj7P7
-         v0hQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/FBJO7tznCLRLkjyRazVr7pxREVqndeKJK1ItaeA1a9/9cIN72n/tgtDXs8pHS6ypInLC6usrz/yB22xXx@lists.linux.dev
-X-Gm-Message-State: AOJu0YybDhoERho8T6TlrGOKStwhOlpjE5jCgRgmf+cDGtzYtCF5w2ud
-	BSwhyg5EYwx9pmHsIX3XKXvZqkZke7QmmwVqjQwgO0NuKM6aD48vh1G7aufCP9yxVsOHos6VwNC
-	AIhxbLD5vTAxzWgP/ktW/ermY+t/eQV4=
-X-Gm-Gg: Acq92OHFZBAlTpFAX/vwzrInLfDdFuKRtVHNp0X6o4ihD9HzpZnqoLAbbE08Pj/Enud
-	pGGbp85OPFpg3sKrfJGGxxbi8CjWEJhn9hZ9+Mz3zgjF/MDorNvuoqF1ADgQxRPOx7tsm+lDQAS
-	gg9iFDs39XDJqVrYugWgwjyQfH3sXMyyuEW0CSJybfIZTV6IiBLD2Rz6ThPoBYwxoPO+gRqQC1a
-	kaccOEYUsQn5SVRc4NpTVlu4YfFUyulLtP3FxBToR/cQo5o9GsWra+C9lIafDz0DJat+5xk+W1Y
-	trrVtegLgrPi79oQ8Z8=
-X-Received: by 2002:a17:902:d48b:b0:2bf:2114:ecbe with SMTP id
- d9443c01a7336-2bf36809f57mr119845635ad.23.1780298149509; Mon, 01 Jun 2026
- 00:15:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KPtTOlbB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 643151F00893;
+	Mon,  1 Jun 2026 07:30:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780299010;
+	bh=gzL2SkcPkY1ldzSUTPG15UAH/VU6zt02ppqwKAVNiNk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=KPtTOlbBxe1Yje7/O/XLhDQ1xUOBh7WMYZ0z1ajw90/Hy78HgnC0veSYnWX7n0i1Q
+	 EmmWADIPMpshoRg3Ya4GAsAgow/NXBOVd7MKyfeM8iMn+UGfrXi1BFhmmkxWnFcA8v
+	 Kv7buAIJvrNL+bra9gaS6oSrJcl8hH0nD8w7jyYIbEHvK3WUW0xe6oW6ynxnqM88or
+	 9ZDg8zZz+aMcN+QaQJwiDvEuNggHslQnH1FXnG+cwdhwPjIZ+YDWq7Mt4ZaRRWkpB8
+	 9vbeZeYJShgotMvQmg6jVXRkekg/TzHbfytrkS/NQKVXyYcbsB0nmW/OWojFhtWMKU
+	 VG126C8Kk8qqg==
+Date: Mon, 1 Jun 2026 09:30:04 +0200
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: Carlos Llamas <cmllamas@google.com>
+Cc: Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
+	Bastien Nocera <hadess@hadess.net>, Jiri Kosina <jikos@kernel.org>, 
+	Filipe =?utf-8?B?TGHDrW5z?= <lains@riseup.net>, Ping Cheng <ping.cheng@wacom.com>, 
+	Jason Gerecke <jason.gerecke@wacom.com>, Viresh Kumar <vireshk@kernel.org>, 
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Lee Jones <lee@kernel.org>, linux-input@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, 
+	linux-usb@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH 2/4] HID: core: introduce hid_safe_input_report()
+Message-ID: <ah00D_yttLtjlYA-@beelink>
+References: <20260415-wip-fix-core-v1-0-ed3c4c823175@kernel.org>
+ <20260415-wip-fix-core-v1-2-ed3c4c823175@kernel.org>
+ <8fedad8e9caecd379f2296562cd6abd37f7cee46.camel@hadess.net>
+ <CAO-hwJ+EgC0pM6L6vGFEaRFt2Nwj5b-CCf_5e5VkvrXgdHrjNg@mail.gmail.com>
+ <ahsh0UtTX6e0ZeHa@google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Grewstad <dogestad24@gmail.com>
-Date: Mon, 1 Jun 2026 12:45:38 +0530
-X-Gm-Features: AVHnY4JjQ3sDDnKw9Gxw2BXpaCJJzflQjNMzpqOep-jaxZKghv2hpZ4f9tPu0iw
-Message-ID: <CAD03fjb=_kW9=q9YV4qnQ5GD=HMB5Bx7pf3+AFcgDR2gVc1V6Q@mail.gmail.com>
-Subject: [RFC] drivers/staging/axis-fifo: Looking for users
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: michal.simek@amd.com, radhey.shyam.pandey@amd.com, 
-	Andrew Lunn <andrew@lunn.ch>, jic23@kernel.org, linux-staging@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	jacobsfeder@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ahsh0UtTX6e0ZeHa@google.com>
 
-Hi,
-The AXI Stream FIFO driver has been in staging since 2018. I was trying to
-understand whether there are real in-tree users of this hardware today, and
-what the expected direction for graduating the driver out of staging might =
-be.
+Hi Carlos,
 
-The only in tree reference to this driver that i found is
-drivers/ethernet/xilinx/xilinx_axienet_main.c, which states:
+On May 30 2026, Carlos Llamas wrote:
+> On Thu, Apr 16, 2026 at 04:46:28PM +0200, Benjamin Tissoires wrote:
+> > On Thu, Apr 16, 2026 at 11:41 AM Bastien Nocera <hadess@hadess.net> wrote:
+> > >
+> > > On Wed, 2026-04-15 at 11:38 +0200, Benjamin Tissoires wrote:
+> > > > hid_input_report() is used in too many places to have a commit that
+> > > > doesn't cross subsystem borders. Instead of changing the API,
+> > > > introduce
+> > > > a new one when things matters in the transport layers:
+> > > > - usbhid
+> > > > - i2chid
+> > > >
+> > > > This effectively revert to the old behavior for those two transport
+> > > > layers.
+> > > >
+> > > > Fixes: 0a3fe972a7cb ("HID: core: Mitigate potential OOB by removing
+> > > > bogus memset()")
+> > > > Cc: stable@vger.kernel.org
+> > > > Signed-off-by: Benjamin Tissoires <bentiss@kernel.org>
+> > > > ---
+[...]
+> 
+> Hi Benjamin, our CI started failing with commit 0a3fe972a7cb ("HID:
+> core: Mitigate potential OOB by removing bogus memset()"), so I was
+> hoping your patchset would fix this.
+> 
+> However, I just realized our call path goes through uhid precisely,
+> which still triggers the EINVAL error since uhid as not converted to
+> hid_safe_input_report().
+> 
+> My vague understanding though, is that uhid_event uses a static buffer
+> in ev->data[UHID_DATA_MAX], so maybe we can use that through
+> uhid_dev_input{2}()?
+> 
+> I ran the following path through our CI and it fixed our issue, so I
+> wanted to get your thoughts on this.
 
- * TODO:
- *  - Add Axi Fifo support.
+Oh, yes, you are correct. Sorry with all the back and forth on this
+paritcular topic, my brain assumed that uhid was only allocating the
+useful part of the payload and was not safe.
 
-From this, it appears AXI Stream FIFO support may be used for some AXI
-Ethernet hardware configurations. However, I=E2=80=99m not sure whether the=
-re are
-any other in-tree users of the AXI Stream FIFO IP besides Ethernet, or
-whether Ethernet is the primary intended consumer.
+For the future me: the problem with uhid was that we were emultaing
+devices that would trigger a bug elsewhere in the stack not in
+uhid_dev_input*().
 
-If there are no other in-tree users, it=E2=80=99s unclear whether this driv=
-er should
-remain a standalone staging driver or be integrated into a specific subsyst=
-em
-like networking.
+Patch looks good, please send it normally to the ML with your SoB :)
 
-Can you let me know if there are any known in-tree users for this driver,
-whether it has a large enough user base to justify its existence in
-the kernel tree,
-and what the hardware's real use cases are?
+Cheers,
+Benjamin
 
-Thanks,
-Arihan Bhor
+> 
+> Carlos Llamas
+> 
+> ---
+>  drivers/hid/uhid.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/hid/uhid.c b/drivers/hid/uhid.c
+> index 524b53a3c87b..37b60c3aaf66 100644
+> --- a/drivers/hid/uhid.c
+> +++ b/drivers/hid/uhid.c
+> @@ -595,8 +595,8 @@ static int uhid_dev_input(struct uhid_device *uhid, struct uhid_event *ev)
+>  	if (!READ_ONCE(uhid->running))
+>  		return -EINVAL;
+>  
+> -	hid_input_report(uhid->hid, HID_INPUT_REPORT, ev->u.input.data,
+> -			 min_t(size_t, ev->u.input.size, UHID_DATA_MAX), 0);
+> +	hid_safe_input_report(uhid->hid, HID_INPUT_REPORT, ev->u.input.data, UHID_DATA_MAX,
+> +			      min_t(size_t, ev->u.input.size, UHID_DATA_MAX), 0);
+>  
+>  	return 0;
+>  }
+> @@ -606,8 +606,8 @@ static int uhid_dev_input2(struct uhid_device *uhid, struct uhid_event *ev)
+>  	if (!READ_ONCE(uhid->running))
+>  		return -EINVAL;
+>  
+> -	hid_input_report(uhid->hid, HID_INPUT_REPORT, ev->u.input2.data,
+> -			 min_t(size_t, ev->u.input2.size, UHID_DATA_MAX), 0);
+> +	hid_safe_input_report(uhid->hid, HID_INPUT_REPORT, ev->u.input2.data, UHID_DATA_MAX,
+> +			      min_t(size_t, ev->u.input2.size, UHID_DATA_MAX), 0);
+>  
+>  	return 0;
+>  }
+> 
