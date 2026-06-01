@@ -1,96 +1,141 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79A2D21ADC7;
-	Sun, 31 May 2026 19:52:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780257164; cv=none; b=usAvK0qzJAgk3bIz+oyjKSCBqxZiZEPVfECtVNIw7d2H8RwI35umwW0D3wiOlux3UgTkG4xsK6fg2eUk/Ei0ICL6ywm0K6vdwD1taH34IZxbZjfG8AjNmHpavi49k4SBAjjJ4xNfvKcqcnue7Y2dD2uA4zNkzuXl+CW03pmkYBU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780257164; c=relaxed/simple;
-	bh=X3sWxmN+JBpebowhRIsiAvs2OAAhmtv4eqLpOL3rWHQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AkqwqJaIh2m88a9GA8zBpqan0tOpYHY8Cf4xalpBfwZTIKWIW3LNZHhvHrIt0eH4XVi4Vv9Uv5yhlHyrHnI7c+JmSrIDaAlWRfu8QoHRKECJvYpeL48xkKbOFvPSF9tDujRfWeaVufgC1JSo/zJYc+hMeiiFQMJPE1/iyjQz4lk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=nWz3USfi; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B5841465B4
+	for <linux-staging@lists.linux.dev>; Mon,  1 Jun 2026 00:44:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780274649; cv=pass; b=ZmTcJWrCqtx8NqypTnEpz81ohg/tt/9U5B3APk8+ewHrz+r50OXcBIxvwsCw4Xb0gkLCSLy4tnlrh1YNCE0Y7QClfN3ff/JqSuSMtW387X9tqQiZjXafVqmAr8SZH2wxLLXovWluFEVqLoIHXlvkQsvROJDSrp1pulhwzQHMDeQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780274649; c=relaxed/simple;
+	bh=6nxGQt97RD3cqY89Vnwl/bH8KNQoEZTs6S+OzTikdB0=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=BUSa10APd+/A5073nO5Ld12BClG93zorD5vkB0eXdpz9SR4ltPSxSUXdCdFvynzBP7SC3ehs9lNw/TX80JX6AkuVlqDZ3nhKdAs9s1zoHLJwkKTRx3LIGARIKfQ99NAnwp0ttBXYRgQfZ8ZmblbzvxVZlozROGIX0RlGlT1vC2Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q3QsQskd; arc=pass smtp.client-ip=74.125.82.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="nWz3USfi"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
-	In-Reply-To:References; bh=usD25Mn+KtR/YRU4TNAHsdvTdHQnYeqEpZh1u/Q0X98=; b=nW
-	z3USfiBx3GvO1i1+RWdPGGt/FWdjUQZ23dST/1Y7m+DlxgFl5AMdbxsJrgcRjL0ZrP1S6qrF1XGBo
-	vddpOIjRFe9O8SZe0zd2iog2EIBzKS9WTfOIbtYX5eCQpDh45loIq6XVU3E3+2sbeThP/oILK/puc
-	nJDcjX0+MsbMNSY=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1wTmD6-005OXP-Cl; Sun, 31 May 2026 21:52:36 +0200
-Date: Sun, 31 May 2026 21:52:36 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Grewstad <dogestad24@gmail.com>
-Cc: gregkh@linuxfoundation.org, jic23@kernel.org, jacobsfeder@gmail.com,
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, hjk@hansjkoch.de, davem@davemloft.net,
-	netdev@vger.kernel.org
-Subject: Re: [RFC] drivers/staging/axis-fifo: TODO file and subsystem
- direction
-Message-ID: <84d8f2a1-6562-47a9-93d7-2d7ff33c31c0@lunn.ch>
-References: <CAD03fjaBJGtNATBxaYO-PAxdKC=HxYgE+M7HQ_a0O+3Sp9Mruw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q3QsQskd"
+Received: by mail-dl1-f50.google.com with SMTP id a92af1059eb24-137d452574cso1794769c88.0
+        for <linux-staging@lists.linux.dev>; Sun, 31 May 2026 17:44:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780274647; cv=none;
+        d=google.com; s=arc-20240605;
+        b=FSKZkhrNbZuIotFcLZ/+bd2JTFsyqJsPCT0YffFJErrx726pTyBfYF0c1Y+Ub/qOvj
+         7kUMakKn5JMLK+SSfWCUkB8QekcXwnJq4xknCSbFC+0Qx1UpFYxsVmykNC/D0hY9yw7G
+         bPqrDR0OodemrzGHH7ADvX3ufAw/soBzASy/9d/SY7lNHyOtrUe+c2IUYFxZ3QH3f6hd
+         mSey9Ws/8l0vAsyc2cgMpRDbTYookYdM6ohdwZilIkQmrYuF/2YyR8OzQeT+SPLhkwnO
+         4L3yFFhhGiAWE+r8JrKUEfkMQvDMbw5S486j/owgToNbxGoVh+Kv5WQ2VqHpR4D+gIQy
+         cbeQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=St8SQ1gSdmWTKrF8sfCTlvEzF6I8dA72iftkS3Fg46I=;
+        fh=EK8P0/JcYwoyqU3aPSLNH8AD1rsgc35ZYv/NPskPcS8=;
+        b=XKJzpw7qGljBXWB72irXdIid3KwNrbGoEKv6iKvgqNXnb4T7m0gelqWeoLn8K9pkGE
+         xi/JXWRrbTGNsERCeNAf1dk7XmfYf9y4XXxlJMjQGatI6ci7ZYhMPs7ti5Ly9RJVz7mq
+         OVqdK6cK6GX2J4I30yw2Q/nhqYTtZVVYo0cPMbG8KHEE0SrJeCqsi+VFZB8qSf89Sbbf
+         zHNh0OvP2H/u8YJTYZX5+aqqHmxzSBD12eFc7Y9svnj6CCtbePf4pbogyeN5Sibl6mBR
+         iBhdzvSwr2W3fzVLzWWTngoRy9aFnqJ1aWq1HogBOSi8W4Uo3xwZZw8PFw8U1kLHdkg7
+         eOiQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780274647; x=1780879447; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=St8SQ1gSdmWTKrF8sfCTlvEzF6I8dA72iftkS3Fg46I=;
+        b=Q3QsQskdMIjIYfTrQpDxWQsDjVuUC1vaz52eAqB6VZlMFxvx1oXwXd0hTcRq6VtxvV
+         Z0tBmJl+XBirKzKauBjXBrAnulLWYhfNzQIpSVOb8IFM/cPBviqXQgvaNe7rw9F6kPni
+         4Mevpd/DrceMLwy8whTIW4B6p+T8TfJHAeaKT/DMd61Iacps8nkWYvmeccHVlJaWQx/W
+         Aps28w7s4v447IJdsnLUHOq1D9UD9i3GU7ES4dmA7d1Qj0gE1KMaQRBBGtHl6Y+Cuab7
+         zY2VkXY2rbPXHnrRq+/PH35KypPddEMDGquQGaPnqpCqRPEMb3QCRTbiCyCqKo9qGQ0w
+         j59A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780274647; x=1780879447;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=St8SQ1gSdmWTKrF8sfCTlvEzF6I8dA72iftkS3Fg46I=;
+        b=gJpc/JSjtXieiqRzYlY4FJLsttdDf0ov6OIE1Zx3phy5tMg6efwvQES5FOWdAxG4HA
+         mYnuGG8iI/IHaimD4PNgvj5X4QQx6+7pNvKHsfwZKZl5iUoFxfWH7ct8ojYnBIOxpymV
+         xzY6dSGhyU1OychFC6HnR5r3M5fTru8CSuo8iLFmg9tuVahnUB6GUzDtRN8o/nO9q/uI
+         R3GzYt9G4tWfbKf4uPyrdaWtMrmGm5dRIJiqVtFBCSZq2Nzc64C4cSqG7g3d/SQsBGkE
+         Y4XWLRgLR+XBVq6JcqAehjIBK2pu2nFfxHD6+9mcizLeiuCscWYtS+loBvUdpRWF/US9
+         9QJw==
+X-Gm-Message-State: AOJu0YxKGa30hch/cxaoUIEluyZrDO5ic0Me9jRNtehTM1/rfudkLkPD
+	1Yq55YVRm6595h3pzHv4jp44YMkr5rq38j2Sa/tfB7vVQaeGRkaGyacHJuZ/vmwQme7ENwSo+/Y
+	nfWdurOsJmxRaal38Kizhfwwvn0DlY9g=
+X-Gm-Gg: Acq92OEwPJuGGeTCWcCJWqcqsIbyXXdqu3tPi9uG/hUbZbn0AXQFClYXUOB9hlfIBUU
+	1VlVkj4LaOKV5GL9zZzQkjLo1gGnsf2tzGRG+vd9elPqUPbDLoxdXrK7v0ENOJTM1ge3xBoFYkH
+	gRpjHEiS9W32jo60zvJyc7Z7uQi5l8qJH6NpjPEH/wYt/f2Xv6kr5dKbD4WFgiuoRi6ZLgRdqj8
+	oT5vBlw0FOxni6RmLDW5wsGgJTVqp2p0G8CJ+Zk03UnrZF1LnXD3YCw5ru+UVxATFKcRIro4WsY
+	cMsNOW0Ng+5EzVcY/6prhWa2Vrgy
+X-Received: by 2002:a05:7300:6c84:b0:2d8:97d6:6abc with SMTP id
+ 5a478bee46e88-304fa67401amr4424101eec.22.1780274646888; Sun, 31 May 2026
+ 17:44:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAD03fjaBJGtNATBxaYO-PAxdKC=HxYgE+M7HQ_a0O+3Sp9Mruw@mail.gmail.com>
+From: Enchanted Hunter <enchantedredhunter@gmail.com>
+Date: Mon, 1 Jun 2026 03:43:55 +0300
+X-Gm-Features: AVHnY4KBQe9-bwOHL2irZGJ83_sz5c6ViVOpW031dRkTwC4Ae5gAftJCTsj2gxE
+Message-ID: <CAOSULec2OpwTGB3OUb_n3CdKO6H_DGJnxw=qsBswbd+JBjemKA@mail.gmail.com>
+Subject: [PATCH] staging: fbtft: replace sprintf with snprintf
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, andy@kernel.org, 
+	dri-devel@lists.freedesktop.org
+Content-Type: multipart/mixed; boundary="000000000000eeb4ee0653267d0a"
 
-On Sun, May 31, 2026 at 08:20:35PM +0530, Grewstad wrote:
-> Dear Maintainers,
-> 
-> I am interested in contributing to the Xilinx AXI-Stream FIFO driver
-> located in drivers/staging/axis-fifo.
-> 
-> While reviewing the driver, I noticed that it does not currently
-> contain a TODO file describing the work required for graduation from
-> staging. I would like to create such a file, but before doing so I
-> would appreciate guidance on the expected long-term direction for the
-> driver.
-> 
-> The driver currently exposes a custom userspace ABI through a
-> miscdevice. While this provides a generic interface to the FIFO, it
-> does not integrate with existing kernel subsystem tooling. One possible
-> incremental improvement in this area could be a transition from
-> miscdevice to a proper character device (cdev) interface, to allow for
-> a more clearly defined and maintainable userspace ABI.
+--000000000000eeb4ee0653267d0a
+Content-Type: multipart/alternative; boundary="000000000000eeb4ec0653267d08"
 
-In addition to what GregKH said, look at the vendor information:
+--000000000000eeb4ec0653267d08
+Content-Type: text/plain; charset="UTF-8"
 
-https://docs.amd.com/r/en-US/pg080-axi-fifo-mm-s/Core-Overview
+This patch replaces unsafe sprintf calls with snprintf
+infbtft_register_framebuffer() to prevent potential buffer
+overflow.Signed-off-by: rat1bor <enchantedredhunter@gmail.com>
 
-  The AXI4-Stream FIFO core was designed to provide memory-mapped
-  access to an AXI4-Stream interface connected to other IP (such as
-  the AXI Ethernet core). Systems must be built through the AMD
-  Vivado™ Design Suite to attach the AXI4-Stream FIFO core, AXI
-  Ethernet core ...
+--000000000000eeb4ec0653267d08
+Content-Type: text/html; charset="UTF-8"
 
-when used for Ethernet, a uAPI is not needed. The FIFO driver would
-just expose an kernel internal API the Ethernet driver would use. Are
-there any Ethernet devices using it? Is there a driver for the AXI
-Ethernet core? Does drivers/net/ethernet/xilinx/* duplicate the same
-code? xilinx_axienet_main.c says:
+<div dir="ltr"><pre><span>This patch replaces unsafe sprintf calls with snprintf in</span>
+<span>fbtft_register_framebuffer() to prevent potential buffer overflow.</span>
+<span></span>
+<span>Signed-off-by: rat1bor &lt;<a href="mailto:enchantedredhunter@gmail.com">enchantedredhunter@gmail.com</a>&gt;</span></pre></div>
 
- * TODO:
- *  - Add Axi Fifo support.
+--000000000000eeb4ec0653267d08--
+--000000000000eeb4ee0653267d0a
+Content-Type: text/x-patch; charset="US-ASCII"; 
+	name="0001-staging-fbtft-replace-sprintf-with-snprintf.patch"
+Content-Disposition: attachment; 
+	filename="0001-staging-fbtft-replace-sprintf-with-snprintf.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_mpuhh6ek0>
+X-Attachment-Id: f_mpuhh6ek0
 
-which could be this.
-
-As GregKH said, find some hardware using these IP cores, or synthesise
-your own, and then work on the driver.
-
-	Andrew
+RnJvbSBhNzljNjA5OGYyZThiYjJlZTllMjc2ZDMzOTcxMDUyMjE3NWRiOTc3IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiByYXQxYm9yIDxlbmNoYW50ZWRyZWRodW50ZXJAZ21haWwuY29t
+PgpEYXRlOiBNb24sIDEgSnVuIDIwMjYgMDM6MTg6NTkgKzAzMDAKU3ViamVjdDogW1BBVENIXSBz
+dGFnaW5nOiBmYnRmdDogcmVwbGFjZSBzcHJpbnRmIHdpdGggc25wcmludGYKClNpZ25lZC1vZmYt
+Ynk6IHJhdDFib3IgPGVuY2hhbnRlZHJlZGh1bnRlckBnbWFpbC5jb20+Ci0tLQogZHJpdmVycy9z
+dGFnaW5nL2ZidGZ0L2ZidGZ0LWNvcmUuYyB8IDcgKysrKy0tLQogMSBmaWxlIGNoYW5nZWQsIDQg
+aW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL3N0YWdp
+bmcvZmJ0ZnQvZmJ0ZnQtY29yZS5jIGIvZHJpdmVycy9zdGFnaW5nL2ZidGZ0L2ZidGZ0LWNvcmUu
+YwppbmRleCBjYTBjMzgyMjFjMTYuLjY2NTA5MzQ3MjU1YSAxMDA2NDQKLS0tIGEvZHJpdmVycy9z
+dGFnaW5nL2ZidGZ0L2ZidGZ0LWNvcmUuYworKysgYi9kcml2ZXJzL3N0YWdpbmcvZmJ0ZnQvZmJ0
+ZnQtY29yZS5jCkBAIC03ODQsMTAgKzc4NCwxMSBAQCBpbnQgZmJ0ZnRfcmVnaXN0ZXJfZnJhbWVi
+dWZmZXIoc3RydWN0IGZiX2luZm8gKmZiX2luZm8pCiAJZmJ0ZnRfc3lzZnNfaW5pdChwYXIpOwog
+CiAJaWYgKHBhci0+dHhidWYuYnVmICYmIHBhci0+dHhidWYubGVuID49IDEwMjQpCi0JCXNwcmlu
+dGYodGV4dDEsICIsICV6dSBLaUIgYnVmZmVyIG1lbW9yeSIsIHBhci0+dHhidWYubGVuID4+IDEw
+KTsKKwkJc25wcmludGYodGV4dDEsIHNpemVvZih0ZXh0MSksICIsICV6dSBLaUIgYnVmZmVyIG1l
+bW9yeSIsIHBhci0+dHhidWYubGVuID4+IDEwKTsKIAlpZiAoc3BpKQotCQlzcHJpbnRmKHRleHQy
+LCAiLCBzcGklZC4lZCBhdCAlZCBNSHoiLCBzcGktPmNvbnRyb2xsZXItPmJ1c19udW0sCi0JCQlz
+cGlfZ2V0X2NoaXBzZWxlY3Qoc3BpLCAwKSwgc3BpLT5tYXhfc3BlZWRfaHogLyAxMDAwMDAwKTsK
+KwkJc25wcmludGYodGV4dDIsIHNpemVvZih0ZXh0MiksICIsIHNwaSVkLiVkIGF0ICVkIE1IeiIs
+CisJCQkgc3BpLT5jb250cm9sbGVyLT5idXNfbnVtLCBzcGlfZ2V0X2NoaXBzZWxlY3Qoc3BpLCAw
+KSwKKwkJCSBzcGktPm1heF9zcGVlZF9oeiAvIDEwMDAwMDApOwogCWZiX2RiZyhmYl9pbmZvLAog
+CSAgICAgICAiJXMgZnJhbWUgYnVmZmVyLCAlZHglZCwgJWQgS2lCIHZpZGVvIG1lbW9yeSVzLCBm
+cHM9JWx1JXNcbiIsCiAJICAgICAgIGZiX2luZm8tPmZpeC5pZCwgZmJfaW5mby0+dmFyLnhyZXMs
+IGZiX2luZm8tPnZhci55cmVzLAotLSAKMi4zNC4xCgo=
+--000000000000eeb4ee0653267d0a--
