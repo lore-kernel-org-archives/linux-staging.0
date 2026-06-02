@@ -1,110 +1,274 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0133433A711
-	for <linux-staging@lists.linux.dev>; Tue,  2 Jun 2026 13:12:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1324F3612EE
+	for <linux-staging@lists.linux.dev>; Tue,  2 Jun 2026 13:26:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780405927; cv=none; b=P8//Qf7vAOOd/xj/mBBeQ8kBVNs+VHzM0smG53Ud2d6lrKtAq3nFZ2tNbjS/wn9+zUv5pYGkLhgi/sQXjJCG+nF0RSNFfMKCfzVjNWacIMNb9lrXKrHpUQ/o7C933jGURlNv/NAgUt24dT4Y9kqbw7kpjl60j/JC+r+eTF0t6nw=
+	t=1780406778; cv=none; b=SVq3peLs89OvzZZH2bAf7MWckY5hjqQZ6LvRodBUFje6mT2WFvQf/sxoUoJChjsI7YGOBp6Wbeja2DhUlWEmrgtvUC+XaWmUHYcLe2E7O+Pp5aR72seP/CkTfEDPBfzjHHKr3pL4eQ+4peaoP1TnQExMH8DhEdwa7FsMMJ8pB8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780405927; c=relaxed/simple;
-	bh=tswu6Kwzi6oqS/odqc+6Wa+Bgr12LF8wvaaPlR9dQyM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ajSMt3italSrq55b5G7lmwci03amw7HRFfmi68+HO5KIUHNNQXeLioF7vFsZFjVkoEnTQNvAORalY+0sIuKSNlW199gsqe+OGGNEsaAc6xyoGHh0xulXsdWg631J24kW35CAUpk8Xf52faLgW/Ws9jck9sLfVHPZqQj0x4Uc43Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MOiIWOIX; arc=none smtp.client-ip=209.85.208.54
+	s=arc-20240116; t=1780406778; c=relaxed/simple;
+	bh=r0E5CivM1/ZEcIXD1h7mg0sFWV73cnFrKq+QZeFEXyg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FojmApXeSrp8EDuu6hCID1nogamfCFKCkRNQYWo43y400UBnVZ19jokn4d496DY9DcotLIponRG/4IcAR95LFxDMDhBLtaJn1ws8yt3zfEC3Jp0+BHzmhZw9R+RxSsVPFh6qFL7WdVxPAFfsWsqB4iFvXRnw6CbsVk1iANxuJdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QPGMwmDz; arc=none smtp.client-ip=209.85.128.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MOiIWOIX"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-68b2229b48eso9151057a12.2
-        for <linux-staging@lists.linux.dev>; Tue, 02 Jun 2026 06:12:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QPGMwmDz"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-490b09e4cccso8494095e9.0
+        for <linux-staging@lists.linux.dev>; Tue, 02 Jun 2026 06:26:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780405924; x=1781010724; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ogCwjm1Yi2ZJZ+ANMdBMYZC9a4UiFfbpa0dXxOGwhBw=;
-        b=MOiIWOIXnvmA/Jtv0dUyO8gamqqzCEb4N2rjGRY5gNcRZd+WncQGoACiBF6wJOIKAg
-         3XFBd3bOB4ob7lE56eT5VxiKkxzyW3IvMDpKeAOnm4dFdr0rCfDOQrkJDBkCsBz4xB3X
-         BFsgtFy4P1BQRKWYbyJpoa7LbXbUIeX8Zr8KakSzs4KoG5iCEn2wAyMsOZnm2Z2eDgqn
-         rox+GKKnthqbgqLxo+vcxdRT4NwJdZSKkvVbhDvDdCHulsLkaYkZVL7cA7LCxFzr3d9a
-         6jaJfBxYdW8FIp1qLMWE8VOdgAjagy04R8JHiFPfX3Jj6m+09/+fMQ5BN1klU5irQ2NP
-         oHNQ==
+        d=gmail.com; s=20251104; t=1780406774; x=1781011574; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6PMTKUy6ENsicmAq/+c5qKf2rQ3PwGVi1nptZesNjVc=;
+        b=QPGMwmDzd3QM76TECFNFXX3O8f3ItVVPMiE0Pep+F6MuExx1Ur5Q79nmmndQ6JuH1d
+         BG34s8PxpjMZidxv/3q9pvSr7rxfpI/jTFw9wJ4Xrgi4ErpDPwaY6Sn2ZKLOvbG7yqSF
+         19ByQfAQ2el7Jyx3Tuq2tGc6Yoa3Wbvuvi09Y7earR+ziy/irwZGtQvVSPtulmWF7z1D
+         sWDwnpetjnKvsu0ln+keqhpLuMX4zvpgRyps0YhGXhUlS9tSolfpwtyFM7W0locOQI4P
+         hr9L3pMl0nElF+DhB6DRQ4F0SfYd0lOrIwXmNS1hTcd1gBpbgvpWZ9dL8cFmZ/L/KJeq
+         tRJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780405924; x=1781010724;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ogCwjm1Yi2ZJZ+ANMdBMYZC9a4UiFfbpa0dXxOGwhBw=;
-        b=T+MfXzXZ1QZ8qv7uI2MWnIrrc3mkM/sics39TY7r/bGbZHOsoeed5CZDC+/xlFoiHS
-         bluNEVXmXNm/NIQfiSPEHF7aSFrekgty4da/J/MNXbqKRJ5EXFoG7oHGbu6BZ2PLJOuk
-         HoiogENEZSLUplsQte4XcJwxWLdosNi4kcKiWQo85ZKp+NvZpnMVT/8RI2TkiDL0W0Ou
-         6XxSdo8Q9ST29zCGTLnh9TF7pIg9XWNxRYKSHUDiLZWW+RU/sSmnzKPa+8G9BhwD+7bj
-         FrIZEqSSudW3fvVmmUjNM8zdEZ136HTOeZuv7zspnq5AVA8tf8Pyfd8ITP4zz/gB4lSK
-         Yu2Q==
-X-Forwarded-Encrypted: i=1; AFNElJ/ZNNg+y33Ih1/7Yexa8YBhAbslG4ne1eawa77+7Mq1Y3487a8f9YsW/zKkgj6qQzZNHCp+VXDQ9Zl/nyZL@lists.linux.dev
-X-Gm-Message-State: AOJu0Yys99jV55dhsVrNmInsml5VDksNpFuYfJjmPkf5KR539FVAVq+T
-	8L/uVW0f6F8pvJXcYNIaiBZoHFNEDfgE3LBJpri5KbCtFKdU7kOfM7st
-X-Gm-Gg: Acq92OFPnH9aMCmzYBxlfGjpm0ppQzZJwBqJ7N+mwycUHneQIwTkOCfL4sNo08n2hn3
-	U0gx675n0gR9ISsYyhmSphre5OD+1sIFyTTiPwMhJ1eSs4LZVNjwcxQXxYcT1OWvwADrTVO3bdl
-	HvKBMXLn83PY0W+NuTnuideLAwrDIPvMwUKp/xtmAaAa1ljGOjVQkV2SVUKr1bAJNnj2rJNfw9x
-	KaT19rRfz3aeTLO/pkkUQzlR0JXn+aA2w5KDSxum77RB0AkTa+C5a+MHoxTx30CWpIewiR3dRKC
-	IbhAznEBxsFUnllR54oKq+DexLfiNA+hBVGpLvwkrX6djnESaWzMJbwglloh1KfdP/nad2CI0oJ
-	fAL3nuJIN+DZYwgpPg9gT0zRtsZK7fB2dGD3tHoB44VPKcnziI6d/zWYU+XnUuSf44l126Dk+Fu
-	SwF9FlGWs43u/Grhk1qoZdq8jMuk+RaA==
-X-Received: by 2002:a17:907:7284:b0:bec:7066:8439 with SMTP id a640c23a62f3a-bec70668badmr690192966b.18.1780405923622;
-        Tue, 02 Jun 2026 06:12:03 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-be9d2de53dasm493024466b.14.2026.06.02.06.12.02
+        d=1e100.net; s=20251104; t=1780406774; x=1781011574;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6PMTKUy6ENsicmAq/+c5qKf2rQ3PwGVi1nptZesNjVc=;
+        b=oAC52GRqXdYytBWE2zcJAnSvz2rg7JVkyrcBGJHGFmhjNYUlrg4fRnJPH+Ng9rcmNg
+         S2c2ncjZXihFauopb1rHLVYdoT8mWjdsCfghaduGt90gUHnZabK3Hse9PK8MF2y/Zw6F
+         bQpRAmpDK6hbTTkT1sYhT1BoCsRfITZVMXg7VsZq/ydzSCLVj3weUd9p+xwTwDRMOmbf
+         yX12H1ONQJxheZK969JW6InCQ4BYIoZw3Z2XB5++pbgjLHJzi23rYlWIc400Y4lqVX4h
+         I0iYiGzP8rKFhOTYPDTKs9CMwOGZDOWhSvl3Q5S6Zqf2AfsyUZ2OrLSHes+rHeC+kwSD
+         zjGw==
+X-Gm-Message-State: AOJu0YyzhOgV+pI0Nxx6wxyFUBWXaCbUwH+gqvtFUrdD4/XcqMQ0hB4t
+	mExwVJh2BFltxiO+piLVndH+2EZMOgmfMuInjNt/f1vsr36nLANCd77SKwFI2A==
+X-Gm-Gg: Acq92OF8DXu0n+8PnS6akx3SRAmA2itjHIu0H/IFQ8aHMzDMR3FZm42HDr/S+lYgCwN
+	RhgO6GaA9PNgrhOyx1+FZV9ac0SVlNqphwPNIBi5UnSX7Qh8L3EkPwxCVzuDpCGUmYkpwWF/zzD
+	WcY5C2qdUHCDPJMOLARSd393Xbw89fiT+B/gN4xDehw4IbWpT+ORxmryre5q1jNfPUzd9uTPbWi
+	cewczGN8NZF2mC1WNREUwsixpek3p0dYvGoB+5F025nxc0fZIT+qMGbKTCSKSniJ/4hOfwjL/XN
+	ZCVZozFjr6NBTZ7nDqcqLT6KqC5E2Nvlc8zqQ9YuBZCyMnT0xKZ3+ErxVj6U60V4bWpHKrbtzTd
+	jtbueTpshnKzr5vlpr3VvOA7gOI8zIKW4JwSl1vGkwDvNZq4vUbci/mqKbuWWlFhpubtqkTqdV3
+	Yeoy6RqvSMZlZKKk0K1ULuOhh56uPRdMrOXh5+wBjqPfuGf8pilgsTmJmvXYebsaafjenYhwdXs
+	ld0lAoF6kgZcLA=
+X-Received: by 2002:a05:600c:3587:b0:48a:75b9:b0bc with SMTP id 5b1f17b1804b1-490a2941425mr300222235e9.29.1780406774058;
+        Tue, 02 Jun 2026 06:26:14 -0700 (PDT)
+Received: from fedora ([102.78.143.189])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490b0e3431bsm63273725e9.12.2026.06.02.06.26.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jun 2026 06:12:03 -0700 (PDT)
-Date: Tue, 2 Jun 2026 16:11:59 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Grewstad <dogestad24@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Ovidiu Panait <ovidiu.panait.oss@gmail.com>,
-	Jacob Feder <jacobsfeder@gmail.com>
-Subject: Re: [PATCH] staging: axis-fifo: remove driver
-Message-ID: <ah7Wn3-meqmDLk_d@stanley.mountain>
-References: <20260602103208.15799-1-dogestad24@gmail.com>
- <ah7AYukZ5uzW1NVU@stanley.mountain>
- <CAD03fjZQwgvDbBdh6A=1FeGVn4Na29ww2DzG3anuk2sOd0-4EA@mail.gmail.com>
+        Tue, 02 Jun 2026 06:26:13 -0700 (PDT)
+From: Jad Keskes <inasj268@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: linux-iio@vger.kernel.org,
+	Jonathan Cameron <jic23@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jad Keskes <inasj268@gmail.com>
+Subject: [PATCH] staging: iio: addac: drop CamelCase from adt7316 symbol names
+Date: Tue,  2 Jun 2026 14:25:34 +0100
+Message-ID: <20260602132534.101554-1-inasj268@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAD03fjZQwgvDbBdh6A=1FeGVn4Na29ww2DzG3anuk2sOd0-4EA@mail.gmail.com>
 
-On Tue, Jun 02, 2026 at 06:31:27PM +0530, Grewstad wrote:
-> On Tue, Jun 2, 2026 at 5:07 PM Dan Carpenter <error27@gmail.com> wrote:
-> >
-> > On Tue, Jun 02, 2026 at 04:01:53PM +0530, Arihan Bhor wrote:
-> >
-> > I don't think we should delete this driver.  From reading the git
-> > log, Ovidiu Panait was obviously using this code last year.  Let's
-> > also add Jacob Feder, although he hasn't touched the code in 8 years,
-> > he still might know if there are other users.
-> 
-> I could not find any user-space applications that depend on this driver.
-> 
-> https://lore.kernel.org/lkml/CAD03fjb=_kW9=q9YV4qnQ5GD=HMB5Bx7pf3+AFcgDR2gVc1V6Q@mail.gmail.com/
-> I was looking for any users of this driver on the linux-kernel, linux-staging,
-> and linux-arm-kernel mailing lists as well as Jacob Feder, and received no
-> replies since I posted it 1 day ago. If someone is using it or maintaining a
-> proprietary app, they will complain and we can bring the driver back.
+checkpatch flagged several CamelCase names in this driver.
+Switch them to snake_case to stay consistent with kernel
+coding style.
 
-Here are people using it and running into issues in Jan 2025.
-https://adaptivesupport.amd.com/s/question/0D54U00008zRBdISAW/vitis-is-not-creating-a-driver-entry-for-axififomm-43?language=zh_CN
-Someone provides a work around:
-https://adaptivesupport.amd.com/s/question/0D54U00008sLBuMSAW/how-to-use-the-axi-stream-fifo-drivers-xllfifoh-xllfifogc-etc-in-the-project?language=en_US
-Then Ovidiu Panait fixed the bug in Sep by adding the correct
-compatible.
+Signed-off-by: Jad Keskes <inasj268@gmail.com>
+---
+ drivers/staging/iio/addac/adt7316.c | 64 ++++++++++++++---------------
+ 1 file changed, 32 insertions(+), 32 deletions(-)
 
-regards,
-dan carpenter
+diff --git a/drivers/staging/iio/addac/adt7316.c b/drivers/staging/iio/addac/adt7316.c
+index 8a9a8262c..124e416a6 100644
+--- a/drivers/staging/iio/addac/adt7316.c
++++ b/drivers/staging/iio/addac/adt7316.c
+@@ -663,7 +663,7 @@ static IIO_DEVICE_ATTR(da_high_resolution, 0644,
+ 		adt7316_store_da_high_resolution,
+ 		0);
+ 
+-static ssize_t adt7316_show_AIN_internal_Vref(struct device *dev,
++static ssize_t adt7316_show_ain_internal_vref(struct device *dev,
+ 					      struct device_attribute *attr,
+ 					      char *buf)
+ {
+@@ -677,7 +677,7 @@ static ssize_t adt7316_show_AIN_internal_Vref(struct device *dev,
+ 		!!(chip->config3 & ADT7516_AIN_IN_VREF));
+ }
+ 
+-static ssize_t adt7316_store_AIN_internal_Vref(struct device *dev,
++static ssize_t adt7316_store_ain_internal_vref(struct device *dev,
+ 					       struct device_attribute *attr,
+ 					       const char *buf,
+ 					       size_t len)
+@@ -704,9 +704,9 @@ static ssize_t adt7316_store_AIN_internal_Vref(struct device *dev,
+ 	return len;
+ }
+ 
+-static IIO_DEVICE_ATTR(AIN_internal_Vref, 0644,
+-		adt7316_show_AIN_internal_Vref,
+-		adt7316_store_AIN_internal_Vref,
++static IIO_DEVICE_ATTR(ain_internal_vref, 0644,
++		adt7316_show_ain_internal_vref,
++		adt7316_store_ain_internal_vref,
+ 		0);
+ 
+ static ssize_t adt7316_show_enable_prop_DACA(struct device *dev,
+@@ -787,7 +787,7 @@ static IIO_DEVICE_ATTR(enable_proportion_DACB, 0644,
+ 		       adt7316_store_enable_prop_DACB,
+ 		       0);
+ 
+-static ssize_t adt7316_show_DAC_2Vref_ch_mask(struct device *dev,
++static ssize_t adt7316_show_dac_2vref_ch_mask(struct device *dev,
+ 					      struct device_attribute *attr,
+ 					      char *buf)
+ {
+@@ -798,7 +798,7 @@ static ssize_t adt7316_show_DAC_2Vref_ch_mask(struct device *dev,
+ 		chip->dac_config & ADT7316_DA_2VREF_CH_MASK);
+ }
+ 
+-static ssize_t adt7316_store_DAC_2Vref_ch_mask(struct device *dev,
++static ssize_t adt7316_store_dac_2vref_ch_mask(struct device *dev,
+ 					       struct device_attribute *attr,
+ 					       const char *buf,
+ 					       size_t len)
+@@ -825,9 +825,9 @@ static ssize_t adt7316_store_DAC_2Vref_ch_mask(struct device *dev,
+ 	return len;
+ }
+ 
+-static IIO_DEVICE_ATTR(DAC_2Vref_channels_mask, 0644,
+-		       adt7316_show_DAC_2Vref_ch_mask,
+-		       adt7316_store_DAC_2Vref_ch_mask,
++static IIO_DEVICE_ATTR(dac_2vref_channels_mask, 0644,
++		       adt7316_show_dac_2vref_ch_mask,
++		       adt7316_store_dac_2vref_ch_mask,
+ 		       0);
+ 
+ static ssize_t adt7316_show_DAC_update_mode(struct device *dev,
+@@ -948,7 +948,7 @@ static IIO_DEVICE_ATTR(update_DAC, 0644,
+ 		       adt7316_store_update_DAC,
+ 		       0);
+ 
+-static ssize_t adt7316_show_DA_AB_Vref_bypass(struct device *dev,
++static ssize_t adt7316_show_dac_ab_vref_bypass(struct device *dev,
+ 					      struct device_attribute *attr,
+ 					      char *buf)
+ {
+@@ -959,7 +959,7 @@ static ssize_t adt7316_show_DA_AB_Vref_bypass(struct device *dev,
+ 		!!(chip->dac_config & ADT7316_VREF_BYPASS_DAC_AB));
+ }
+ 
+-static ssize_t adt7316_store_DA_AB_Vref_bypass(struct device *dev,
++static ssize_t adt7316_store_dac_ab_vref_bypass(struct device *dev,
+ 					       struct device_attribute *attr,
+ 					       const char *buf,
+ 					       size_t len)
+@@ -982,12 +982,12 @@ static ssize_t adt7316_store_DA_AB_Vref_bypass(struct device *dev,
+ 	return len;
+ }
+ 
+-static IIO_DEVICE_ATTR(DA_AB_Vref_bypass, 0644,
+-		       adt7316_show_DA_AB_Vref_bypass,
+-		       adt7316_store_DA_AB_Vref_bypass,
++static IIO_DEVICE_ATTR(dac_ab_vref_bypass, 0644,
++		       adt7316_show_dac_ab_vref_bypass,
++		       adt7316_store_dac_ab_vref_bypass,
+ 		       0);
+ 
+-static ssize_t adt7316_show_DA_CD_Vref_bypass(struct device *dev,
++static ssize_t adt7316_show_dac_cd_vref_bypass(struct device *dev,
+ 					      struct device_attribute *attr,
+ 					      char *buf)
+ {
+@@ -998,7 +998,7 @@ static ssize_t adt7316_show_DA_CD_Vref_bypass(struct device *dev,
+ 		!!(chip->dac_config & ADT7316_VREF_BYPASS_DAC_CD));
+ }
+ 
+-static ssize_t adt7316_store_DA_CD_Vref_bypass(struct device *dev,
++static ssize_t adt7316_store_dac_cd_vref_bypass(struct device *dev,
+ 					       struct device_attribute *attr,
+ 					       const char *buf,
+ 					       size_t len)
+@@ -1021,12 +1021,12 @@ static ssize_t adt7316_store_DA_CD_Vref_bypass(struct device *dev,
+ 	return len;
+ }
+ 
+-static IIO_DEVICE_ATTR(DA_CD_Vref_bypass, 0644,
+-		       adt7316_show_DA_CD_Vref_bypass,
+-		       adt7316_store_DA_CD_Vref_bypass,
++static IIO_DEVICE_ATTR(dac_cd_vref_bypass, 0644,
++		       adt7316_show_dac_cd_vref_bypass,
++		       adt7316_store_dac_cd_vref_bypass,
+ 		       0);
+ 
+-static ssize_t adt7316_show_DAC_internal_Vref(struct device *dev,
++static ssize_t adt7316_show_dac_internal_vref(struct device *dev,
+ 					      struct device_attribute *attr,
+ 					      char *buf)
+ {
+@@ -1041,7 +1041,7 @@ static ssize_t adt7316_show_DAC_internal_Vref(struct device *dev,
+ 		       !!(chip->ldac_config & ADT7316_DAC_IN_VREF));
+ }
+ 
+-static ssize_t adt7316_store_DAC_internal_Vref(struct device *dev,
++static ssize_t adt7316_store_dac_internal_vref(struct device *dev,
+ 					       struct device_attribute *attr,
+ 					       const char *buf,
+ 					       size_t len)
+@@ -1082,9 +1082,9 @@ static ssize_t adt7316_store_DAC_internal_Vref(struct device *dev,
+ 	return len;
+ }
+ 
+-static IIO_DEVICE_ATTR(DAC_internal_Vref, 0644,
+-		       adt7316_show_DAC_internal_Vref,
+-		       adt7316_store_DAC_internal_Vref,
++static IIO_DEVICE_ATTR(dac_internal_vref, 0644,
++		       adt7316_show_dac_internal_vref,
++		       adt7316_store_dac_internal_vref,
+ 		       0);
+ 
+ static ssize_t adt7316_show_ad(struct adt7316_chip_info *chip,
+@@ -1644,13 +1644,13 @@ static struct attribute *adt7316_attributes[] = {
+ 	&iio_dev_attr_da_high_resolution.dev_attr.attr,
+ 	&iio_dev_attr_enable_proportion_DACA.dev_attr.attr,
+ 	&iio_dev_attr_enable_proportion_DACB.dev_attr.attr,
+-	&iio_dev_attr_DAC_2Vref_channels_mask.dev_attr.attr,
++	&iio_dev_attr_dac_2vref_channels_mask.dev_attr.attr,
+ 	&iio_dev_attr_DAC_update_mode.dev_attr.attr,
+ 	&iio_dev_attr_all_DAC_update_modes.dev_attr.attr,
+ 	&iio_dev_attr_update_DAC.dev_attr.attr,
+-	&iio_dev_attr_DA_AB_Vref_bypass.dev_attr.attr,
+-	&iio_dev_attr_DA_CD_Vref_bypass.dev_attr.attr,
+-	&iio_dev_attr_DAC_internal_Vref.dev_attr.attr,
++	&iio_dev_attr_dac_ab_vref_bypass.dev_attr.attr,
++	&iio_dev_attr_dac_cd_vref_bypass.dev_attr.attr,
++	&iio_dev_attr_dac_internal_vref.dev_attr.attr,
+ 	&iio_dev_attr_VDD.dev_attr.attr,
+ 	&iio_dev_attr_in_temp.dev_attr.attr,
+ 	&iio_dev_attr_ex_temp.dev_attr.attr,
+@@ -1684,15 +1684,15 @@ static struct attribute *adt7516_attributes[] = {
+ 	&iio_dev_attr_enable_smbus_timeout.dev_attr.attr,
+ 	&iio_dev_attr_powerdown.dev_attr.attr,
+ 	&iio_dev_attr_fast_ad_clock.dev_attr.attr,
+-	&iio_dev_attr_AIN_internal_Vref.dev_attr.attr,
++	&iio_dev_attr_ain_internal_vref.dev_attr.attr,
+ 	&iio_dev_attr_da_high_resolution.dev_attr.attr,
+ 	&iio_dev_attr_enable_proportion_DACA.dev_attr.attr,
+ 	&iio_dev_attr_enable_proportion_DACB.dev_attr.attr,
+-	&iio_dev_attr_DAC_2Vref_channels_mask.dev_attr.attr,
++	&iio_dev_attr_dac_2vref_channels_mask.dev_attr.attr,
+ 	&iio_dev_attr_DAC_update_mode.dev_attr.attr,
+ 	&iio_dev_attr_all_DAC_update_modes.dev_attr.attr,
+ 	&iio_dev_attr_update_DAC.dev_attr.attr,
+-	&iio_dev_attr_DAC_internal_Vref.dev_attr.attr,
++	&iio_dev_attr_dac_internal_vref.dev_attr.attr,
+ 	&iio_dev_attr_VDD.dev_attr.attr,
+ 	&iio_dev_attr_in_temp.dev_attr.attr,
+ 	&iio_dev_attr_ex_temp_AIN1.dev_attr.attr,
+-- 
+2.54.0
+
