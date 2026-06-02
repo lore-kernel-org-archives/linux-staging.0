@@ -1,90 +1,132 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7831D3E0C69
-	for <linux-staging@lists.linux.dev>; Tue,  2 Jun 2026 13:39:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780407543; cv=none; b=hjrm8Z+HB2AIBECQrdE+AEMQrR/Pffu2rZkJNJkgzfgjFHiMSMLJCNzekVAdcdzT7C6YKt7BFesjxtpjN7cLJvDxAfWOq7+Xi5X3V898+EeIIm9063Di86zRScskSY665xMgoY/vtDXmzxqbdcHdqv9cfCoGkMBcG8tE3+X6dvc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780407543; c=relaxed/simple;
-	bh=ZlTbIgMZvarBl1ECbGtCjVCPTtmmar20hacxFRh6Wuc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mhluTWfRU2EkuVH19i1KMHAAy6UW6Zs82l9K+9zz5A7cRdCO/fmm6UfYgt+JiRg78u8hLYJf0Daj+BE065vASxkRKbWTziGDPqERQ5goN9pqPQ9Vnt4kzz2iQWg0zFdub+vV32iX3jnX+GtPJOmW5H6ElcIJxoopQpOnqt5tTSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zx5IvaCr; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B0A0396D0D
+	for <linux-staging@lists.linux.dev>; Tue,  2 Jun 2026 18:32:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780425156; cv=pass; b=VPwnex1j57zpo9Q81Yi2nC+16NLnYBG6Tof0zqw+hiTf9QNtxHNNRdls049/u07EQr2FNRicXo8AW8442aivT5oemu3oZGBpb6lsNNek/RZce2KOJ8bcHiyhxBvv1zMvrGX8ay9895SJPfl2BgeUEAm3ZukyNTfWwkvuhMRf4XU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780425156; c=relaxed/simple;
+	bh=Cu+PErPTR5Ukq3l0vklbPNxm0Ku3rQpUZSHJOUi+t5o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BKLzCD/Vhg4Gg0MOwru2mwscdzewU2c7/57A40mChZzxOSe1/65tSNfkZQJB4Jn6BXSTm5omWFamrmB5X1ScDD+ZaHIirPHkFLILNr7ELmCpECQ8vmAgSzT5B6Rjj3KcSqM02mI8TWM67xq7arc2/jQdE2LEBX6NJ2rTdCgetvo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ruYXWwn5; arc=pass smtp.client-ip=209.85.218.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zx5IvaCr"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-68b482888c3so7315724a12.0
-        for <linux-staging@lists.linux.dev>; Tue, 02 Jun 2026 06:39:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ruYXWwn5"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-bebbc325000so384865566b.0
+        for <linux-staging@lists.linux.dev>; Tue, 02 Jun 2026 11:32:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780425153; cv=none;
+        d=google.com; s=arc-20240605;
+        b=alR3tm6n0z1Q0af4hjHdCP+2RCMDwbZqyiP2vF/OIu/amjHKlHv8zbdFHVodIO6CaF
+         13n9hWso6XZtkzCfY6FzeJWR2QATgG6piEPS3JWQVzomRMOrDp6a2HytlaIy7AUxN9/R
+         uMo3uUbnsz8mVgp4QpnNuH+z83uqwQgPqbjvJLT4H+Jv6ql6B6j8Iwsodu6qdI3nK1vR
+         65s9oOyhmFwI6tcPWGS+qFkx17pJRreZn7EtKhNV189fpFFryg8ZsoBs7jMcEjv/SeXi
+         h52OPXSbYg3jOFvXgJvbDVrgnXejfT1Jmf8Ki8QJg076qilhKHWvCaof2P5S5+96obyD
+         /ZFw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Cu+PErPTR5Ukq3l0vklbPNxm0Ku3rQpUZSHJOUi+t5o=;
+        fh=z7ubwZKjhDKvDLwz3hoPuyAqbCnI8/mtWNw3Hcj5Vds=;
+        b=V4tzC2YujNdPoDUkIWB54BjcNgKs+n3TMT3PgHdwH3K98nVfOtqnOoGmycpy/kYuz7
+         9lTXAA9jnCNu70/iTSLq8m/4lwq/YUwOL09vTYQuEczZgE1WN2EqCY4q7AGsI+1l9FxD
+         voujWNKaqgi0LkUNwknfIKa/UmVnTZkDsGnvlpMT9a0IGLhm/8M0R8CglxtpqBDIGnQ9
+         dyPFYo+qMh/hhnB+ObPOKUI+9Y3wsi5iz/XmZezg76IoyUCcoM0C+Lnf7eGo2gADoUSY
+         Lic2BF4/kEL+Y9U32hv1bPN4ZOtOuZi5i3P2uNF6UDuibiRlE4Gm6Q3IItTjOUeQuAoa
+         ApJA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780407541; x=1781012341; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0cOztZqPoUk717ss8/D/BbRRexRjj5joOSNpYcM+a8A=;
-        b=Zx5IvaCrB03mArZiK9/8NwL3xE3Gl+2FhFvZxLKVFssBiGnHqoRBmsIf2JMByd9WUN
-         U6o2rwBqX1cWPPJfg3N5hcHs/7/d4fjFM3iIZpBxd4HAwZzc/vpavbmmgPzRO4ycLLm/
-         c07W0ThJDP2tjiJdS6KV4AzHXAcqeV6Nwz6xsjwRSNqogZR6h9mlsZ2+88XH6Baup31w
-         ASqnohe3arseY6Q3HpIFFSHL/UnwIN7zUgSGceEPakgRSuDJYcVh6jXs+bvKJjoHDaTx
-         Rgvs/vSWZcdL57WWthxf+1NZnlDg5kI90TADMm2Wb0/+tK+NMy7GBBJv4R1yvUG5Pk6S
-         99vA==
+        d=gmail.com; s=20251104; t=1780425153; x=1781029953; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Cu+PErPTR5Ukq3l0vklbPNxm0Ku3rQpUZSHJOUi+t5o=;
+        b=ruYXWwn5HOtjliT1doMC9zrWtB2AujgKyWRAn5f7JFghtQDQx3wsYgm/EDXFHdsZJD
+         z7qYEE1VxwuhXOwd4dfMyQ7BLuPYnBAtRvD68P3RJtj1AIc3RYU0gvLLfTuYmtWPuUHZ
+         zCfEt18nveKfIv71p6ean0uD9EwMeQf1k0T+ZBap137NRwkKp45SY98w9OpbmNmNk0aA
+         qj4Awc7dESV0lupXBc1H9kskh8FQj2AR6fnSvDbQAOcgpWG8NQ/oCFRpI1c9nEimZXWJ
+         FAxU8RKCeWi/XxjAEVBgDAm6pyBV4OBB3R39Wr7QG0PlwowJyaKFUoIFk92snt9XS3+/
+         2Erw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780407541; x=1781012341;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0cOztZqPoUk717ss8/D/BbRRexRjj5joOSNpYcM+a8A=;
-        b=pg6bbLImZyfUgblQwNf6116G/TPwnNB7vQl6BRrRVTclzfi38U/BQsku9O9JV2SdR1
-         pnJ6JHKNROgToS728yHXSq1+hhRVDGIbP2us+aU6vfkVi33Lw47qrb7fts4Jebawh3YW
-         YoCWICvYT/Zk2ushPPGaKTF/iC5A1X9bgfT9B+MfOVmaWj1DI0oBmK9Zvez9LML+pe64
-         aIaEmQOw0i8rDT2ZfKxSQKdKVCSb+BE1cSeqXwolCjuywfZC3bqEtn+52RUHVjp9pBkr
-         gwHLDBSjGhDCOaS7YF1qJut0YfexxZ8+YeTYHn6ZFJvZyRXKcl4aFCx3uGI6APG3gHPW
-         qUNw==
-X-Gm-Message-State: AOJu0YyXaEtqpSpZcyyfBcs65HUBPO66h+eS5z0zZNzG+kb2treNGlG4
-	yxjIlQMT9+c+poXEnXg0ZBExDcV+IYV8W01IviVcWGL09w4VOXiWGgUR
-X-Gm-Gg: Acq92OGkWTVfo1kPDdJ8UQofdeYeYyxVKx49l6ED0yffGg6LswnA8b53R/S3yL6hc/m
-	/rXQb0TKfcJbI/tDTSjZpfDAr7joQmOqDVZPvIcYyOyqmCYNkcXpOL36zj6n+RJK634xXlLqm2g
-	o+B0F5A9urn2bOqjFAuhf9L7RNQYH26reR4HYyuaoTH7h8HZg7a0QscQLPM8XMfD+mqRDlzFME3
-	vb5Aat0quM/ajy/50EjQXCBt02/SGr+WwvTlYwp7JktvXXBYLtWd2c6VWoX7T+fWtaqSO0vStEH
-	AFPnSh2OXVUF7kDvTFshflmsbDTDIRogWjZlq2apV1GcWP2P7Td9NP5z+GQc8ouBrCfSd09hvoz
-	rpmkbvs3cLvkxLI6erGimEmlhD7QXG5UYdqKSd5Jn0q9qmJRhUf8IIBtyUjqVeMQ8TsPrnrF7iO
-	3alAvLHzDJkN4Iv98Wwhb/0FLnkD4WRA==
-X-Received: by 2002:a17:907:a089:b0:bdc:f4ef:ac33 with SMTP id a640c23a62f3a-beefd0bf98emr258053966b.20.1780407540678;
-        Tue, 02 Jun 2026 06:39:00 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bee4092940asm208482866b.11.2026.06.02.06.38.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jun 2026 06:39:00 -0700 (PDT)
-Date: Tue, 2 Jun 2026 16:38:57 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Jad Keskes <inasj268@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-iio@vger.kernel.org,
-	Jonathan Cameron <jic23@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH] staging: iio: addac: drop CamelCase from adt7316 symbol
- names
-Message-ID: <ah7c8XZHmvWu5eI7@stanley.mountain>
-References: <20260602132534.101554-1-inasj268@gmail.com>
+        d=1e100.net; s=20251104; t=1780425153; x=1781029953;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Cu+PErPTR5Ukq3l0vklbPNxm0Ku3rQpUZSHJOUi+t5o=;
+        b=som29aQQuL3rgR9+BGGRwa8goEX5XjGpYMhGjVOXdM8lLYPNWyh5+V/BdA17u/KDLY
+         fDrQ53/LZyNzO7yzoV3nxXlhbTKUhxcsRNVtYyMvPPfyXP8ZWw09IqiaJ58Rj0hjDnKO
+         e3TZSbmzQ8nx47zK5yh3ZVrSMVckSXwe6Yxsg+vwEGxeJT1VwiFjtA2BqxRiDj8kl3r2
+         6aosURNg802A2VXqvD8eMiWhVlgNVn5dOk9MLyJioKPHtqX82+LdYtSnVsTQijBLJWEJ
+         5b6hrCRi0wW2tPh8p0mnqEvnQQLWmKz6ZH0jzmJO55bUiDSEgHYZhR0xRtxXULgnDcB2
+         S9QA==
+X-Forwarded-Encrypted: i=1; AFNElJ8QO9DBggaaGxcSCDrmxx4wKVrAbty+F+8i/o+py6L06IaPzW0806823lLLIlUWkTDRFHF92zXVGUQPQtUR@lists.linux.dev
+X-Gm-Message-State: AOJu0YxsnAOBygx7VD2N9PdksH9Qx0sixrXSMI2HFWpfdycjtG4iiuB/
+	TL+mi811LxzWQFUhpjzSfzL7jhxmwaCD8CHJV9LGXWu19565Em+U5RxmelysaKJIyp2C9teQw0v
+	l6vH66v3aeLXZJY6qdNT2CcisPQfL+qQ=
+X-Gm-Gg: Acq92OFZ7yJd8HHhG8THm7/P4Zb0NujRXlXQBUgXJxUU2B1rALXkVbqzSTkXL95ru5h
+	cUoqGIIfZq72wdCzvF9Cx123BH0fhRfkCkxVEtInuTW+YoxAzLvap4joVkyfFBTZ6DSOxg/EtgA
+	X4Hm9fzBk3rnowovW8rA7bHz5wsFNo/+lpFF0t17pWi4190VUiJ3IayZpQzqmF6A1je+4dYBzqO
+	+I8LSujrQMlt47CnuzNqp9aOlFGYHj6QFxcjOHxlkG+fa3OhJXyFKCesViVHp/aZP9FQlRtOgWM
+	e4ThzLj/E6I2lUslgmnsXAu/zE+KUavWg0QTWmuTDwbWuN5K7+u9sB/udkNSy+GnLkBcR3UjqpU
+	l3MwIWPVj8fy7x/NR5s2zs2hQA+G8vfVCVgE0/Liz9DeOlFC+esog27v2ISjt7+fQTl+VJPCzC3
+	hyXlQ=
+X-Received: by 2002:a17:907:c817:b0:bdd:45d9:8e15 with SMTP id
+ a640c23a62f3a-bf05eedf3a6mr49344966b.15.1780425153183; Tue, 02 Jun 2026
+ 11:32:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260602132534.101554-1-inasj268@gmail.com>
+References: <CAOSULec2OpwTGB3OUb_n3CdKO6H_DGJnxw=qsBswbd+JBjemKA@mail.gmail.com>
+ <CAHp75Vc15t7zmNGeuNG_fLHwCN=Ym9w5Cn92+eqbtsioGxFzCQ@mail.gmail.com> <CAOSULedF6GUK_e_3KRPB+D0Jxgtow38OjQu9B1=vG-XTfsdYOA@mail.gmail.com>
+In-Reply-To: <CAOSULedF6GUK_e_3KRPB+D0Jxgtow38OjQu9B1=vG-XTfsdYOA@mail.gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Tue, 2 Jun 2026 21:31:56 +0300
+X-Gm-Features: AVHnY4JNBGI7LPUW-G8axQLtxVQUn2E5aZHqEdkW01oHLe8JBx5hv2aDMiWM2BQ
+Message-ID: <CAHp75VdtOuLEkiuiUqxa3DT75y8Hd-1PtquodpN4qJ=rCFs_4Q@mail.gmail.com>
+Subject: Re: [PATCH] staging: fbtft: replace sprintf with snprintf
+To: Enchanted Hunter <enchantedredhunter@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, andy@kernel.org, 
+	dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The V in Vref stands for "Voltage".  It is supposed to be capitalized.
-In this case correctness is more important than checkpatch.  The others
-aren't checkpatch warnings or style issues so they're fine as-is as
-well.
+On Tue, Jun 2, 2026 at 8:13=E2=80=AFPM Enchanted Hunter
+<enchantedredhunter@gmail.com> wrote:
+>
+> Overall, it doesn't address any compiler warnings, but this is my first p=
+atch. I wanted to start with something concrete, and I saw an unsafe functi=
+on and tried to fix it. The fact that the compilation behavior won't change=
+ is true, but the code will become a bit more formal =E2=80=94 maybe that's=
+ a good thing.
 
-Also you renamed some "DA" things to "dac" and it's not clear why and
-it's not explained in the commit message.  Try to be more careful
-about that going forward.
+Not sure we need a churn on the working code.
 
-regards,
-dan carpenter
+A process hint: Do not top-post.
 
+> =D0=BF=D0=BD, 1 =D0=B8=D1=8E=D0=BD. 2026=E2=80=AF=D0=B3. =D0=B2 11:25, An=
+dy Shevchenko <andy.shevchenko@gmail.com>:
+>>
+>> On Mon, Jun 1, 2026 at 3:44=E2=80=AFAM Enchanted Hunter
+>> <enchantedredhunter@gmail.com> wrote:
+>> >
+>> > This patch replaces unsafe sprintf calls with snprintf in
+>> > fbtft_register_framebuffer() to prevent potential buffer overflow.
+>> >
+>> > Signed-off-by: rat1bor <enchantedredhunter@gmail.com>
+
+Another thing, use your real name and not an alias.
+
+>> Does this change address any compiler warning or something like that?
+>> At a glance I do not see any usefulness of this patch except an
+>> unneeded churn.
+
+--=20
+With Best Regards,
+Andy Shevchenko
