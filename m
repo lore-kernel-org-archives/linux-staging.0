@@ -1,134 +1,109 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A09BE3603DD
-	for <linux-staging@lists.linux.dev>; Tue,  2 Jun 2026 20:14:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFFE4392C32
+	for <linux-staging@lists.linux.dev>; Tue,  2 Jun 2026 20:51:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780431279; cv=none; b=Ij6ra2JAMY70m9DugIkOkZgdA54aF0T/iYWKVajnkG6dnITR3X6UVJJYBXkLMOpEQz9Pbmov6eZm2eNf01SwiQTgH+tzBb1kJb9JmbI5JgFZwZPRYvw/WB4g4DNxC1wduhdWOcI/Ri1hn79HaNFlaOm9xlPsLJLuTJVzcQx5zaQ=
+	t=1780433496; cv=none; b=aWS3FG1Apl0/VLVplNguLmgOcVrLWx/z0rUeef73a4EIQZDROwsgkbYt/9U5ewYhJMhhJZzFstedOW+dgu4y7OPAPs8AvcgsgMyTMHq9FwAouqhnhONMG+OlWk/LLw6bK1sUuAz8TVd8Prv9U3msJVRULw27OZjMpesWUFxeT1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780431279; c=relaxed/simple;
-	bh=TKcUV19ReBkomlOIaTwg1EwLtfYv/SXP8hjqtC98/NE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BjKspzSt6mR/UhnP6Owec83MXNWSgSH3WNovKH+mpR6+99bQsTNKaixmImUOOBqP76BibzOWZQijCn6Om7Rn9+FYpPq5VQajmQ2lqvFhkguFnMNCWFR6gNWHhuM3z+FpfcQvMN/Kqmz0pD0gAtTiAQrmdbSlHH0UNFDU9QnQToA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hD7fHjZ3; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1780433496; c=relaxed/simple;
+	bh=KRGTT4AQ+Oey7inw8PS07TanUxbhPBY4tf+cjHXWYBI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jHy4OQiSymgDljAggY+dbRGClqAPjNet3nRtuSEKp2Kq20VhfMyWtVaN3VO12uwlOR8bCOb+9DDIhp4+35DeV1mwPVAs/pJQ+a61GIKhdyrTq+9CMgrKJiR6/1mlSyv+SDhGtjN25SLL2dF6ftjziGbcujsOyoMghlFNre9hmms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WsQo944G; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hD7fHjZ3"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-490b43e2b95so5277815e9.0
-        for <linux-staging@lists.linux.dev>; Tue, 02 Jun 2026 13:14:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780431276; x=1781036076; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ULUwZVNwHMVsY07U5LlxchyI/5Ac8i6SfhG87PTbrus=;
-        b=hD7fHjZ34oMjc5sV2HwQbsIr4F1gWcYDJrcl9VifaH8ePk0zvbbkNHAZaHqo5k86ij
-         THFT51ygxZV5couwXytPpvy9f9s1EwrUbEwmw9K4XghkESNtFrZGS0HuX0CgfXLwAa0c
-         7wp3VAzsIigtH/7DpdLERUpQuNcP5lnQ0PMIDkNQNFsVKaa8RxtGzkLfJ28bH1/vpuoR
-         QrtEt0xmaQYlTkzz8TA+XgrN+04sXuxD49MrupvRMfWIYTa9wdSOZ50RVsBUHZSpeVD1
-         Afd6fujsQ0nuWM3lhmc5TWxA9ziF6CE/iImVtLyOnEJC0H/GyXDHG+FiS5BVxtKP6HZx
-         A2kg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780431276; x=1781036076;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ULUwZVNwHMVsY07U5LlxchyI/5Ac8i6SfhG87PTbrus=;
-        b=SAGU+Qdp/c9YghxgQJXyhG//KP5u6o+FHxbRk8fxmRShWa0dOk7YHFMxi21BjQxhxA
-         ZoGfR3zVbrjjhzDA4lzLxjTLBijOBlySCDs3qVFE1q+6q+R+iR+mYP9EGtGoWHUCmX4d
-         mI4n96GM6N+hUEAvFRP9QX1PZ+L2S2/XCW1/Rilxcm7z3CWxmbUjewGd1xXe1vZdODzk
-         hle1af4PbRQEH+gfKGflO5z3o/RXCcRVIUohNlnitZOqWkNJgJ236t57m0eZX1unejqI
-         XkDrXR4HJkPNjq1Z0PsTZHJhCgRuYnOrntgp6W4mEC+5MK40BLfnYPdpKkV2NvtRPqud
-         yeEA==
-X-Gm-Message-State: AOJu0YxUlXcrrYenVjwy+N7+HdmzeTSw+EbTn/VJeV4H1jv1GZOAsz20
-	n6dBeuiYf3OkyDANrT/WYhiliwCk2x1xTSmlZ5nMAyKOcohbsQ1viHkRkNL59A==
-X-Gm-Gg: Acq92OGwvAvt02GNwwfA6EUzLezyXY9tTEnTpSqcOPbrtPbCUArfdmiJkMlCSpdaSCF
-	xsJzbQSnStlxFXjgAbefugS2tCY9jXvZRbwji/LNXVmnmaqFEkif5JjG8sMI9pA3HR1epa6Ns6v
-	2FzpvTyplXpDJXASh/RDqoYMVSwKAM+E8cBZsogqhbEpTw6abHJoU4+sJipaz6j0++xkTSiRUjT
-	miFf6dX+Py6fA0uGccit29oyTwV21wzb9sIGwInK9pKcoJG39mdq9zOmqGegMsExWP/RKQNp+OS
-	MNPWpJZdiBpAWcDznaAE7kpzNzkuee0o6Gsm5Fgcao8ZzYyntoEasakqqYwrEbGi9+js6h0nlh7
-	wkhPxBv02XDIstREsXc+h0H73U5UIVRFSEkPi+wBkWMqwDJg4J4xU8mXb4atwQefEQ4xzvSJg5B
-	uv9R6Nj4PnhoZOHUVhX2S3YwVZhvGf13dNMypzPXkAxgABMNhPGfc+dGPKavQOMq87jIcE6ReDr
-	G7KG/MGyP4mTEE=
-X-Received: by 2002:a05:600c:4fc6:b0:490:53b0:9e53 with SMTP id 5b1f17b1804b1-490b5e94e48mr4943035e9.1.1780431275963;
-        Tue, 02 Jun 2026 13:14:35 -0700 (PDT)
-Received: from fedora ([105.190.243.46])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490b0e76153sm92599075e9.11.2026.06.02.13.14.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jun 2026 13:14:35 -0700 (PDT)
-From: Jad Keskes <inasj268@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: linux-iio@vger.kernel.org,
-	Jonathan Cameron <jic23@kernel.org>,
-	Jad Keskes <inasj268@gmail.com>
-Subject: [PATCH] staging: iio: impedance-analyzer: fix CamelCase in ad5933
-Date: Tue,  2 Jun 2026 21:14:28 +0100
-Message-ID: <20260602201428.213890-1-inasj268@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WsQo944G"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA43D1F00A17
+	for <linux-staging@lists.linux.dev>; Tue,  2 Jun 2026 20:51:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780433494;
+	bh=G6rZ7t6/DhXfpQVj0UlyYqS4gIMH66eg2Oc1gFXbhJ0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=WsQo944GDchg/wLfBxF995MDsIQlWR94qpNUGNWfmtj0cc9Cm6IAvLYK49Jz+sub+
+	 cCz9hX3qvk2i7XzqttjMLfpB2FTj81X0WI8T9GOEFst61x7uetTvHoQlZHBhkw3wj+
+	 pWEXAl35dtpSL5N9q+XzcWkaBdzolGpamWnG3Ut+8eiWiblT+djxuby3gRu3VBbNTW
+	 b5gX5xDdjGnEk3Uf3Rhjs7eEYv4grJDMr3ZOHMMp2kabifDBAot1ZDAITd3RH9n/oV
+	 ENGlOonCAxXOF1Zy8Nr8B/0OQsXqHHxsvHFgQOc4sUtBFr0j9jX5I0vS+C7g/hnM3X
+	 sTT2vS+XYtAaA==
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-7ddd3d67084so61135247b3.3
+        for <linux-staging@lists.linux.dev>; Tue, 02 Jun 2026 13:51:34 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/kF7oTP+J/H9433HVdp8HAs52orNFXH/7UVLDbS+BvybuGIHqM5fXOq7WGWqM6B+s1aPpqb1vpbk9jaXGe@lists.linux.dev
+X-Gm-Message-State: AOJu0YymWrTDd+W442g/VcYiNvMDXeMS1DepUXJk69aDKgQGlkaIAgyE
+	ngKNL0WFMKKyd7PxE7S5pRrrRJH6AFC3UUhL9acD8XpVmCy56BTr5rOoBjiETwtPgnMzG3CI1Jz
+	PAU06JY66E1lQa4eoZJDZ1KsFRtbsnOo=
+X-Received: by 2002:a05:690c:620f:b0:7b3:edc7:9b97 with SMTP id
+ 00721157ae682-7ea4400dc8fmr7795367b3.0.1780433493990; Tue, 02 Jun 2026
+ 13:51:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260304-gpio-of-kconfig-v1-0-d597916e79e7@oss.qualcomm.com> <20260304-gpio-of-kconfig-v1-7-d597916e79e7@oss.qualcomm.com>
+In-Reply-To: <20260304-gpio-of-kconfig-v1-7-d597916e79e7@oss.qualcomm.com>
+From: Timur Tabi <timur@kernel.org>
+Date: Tue, 2 Jun 2026 15:50:57 -0500
+X-Gmail-Original-Message-ID: <CAOZdJXXetr-FPZUSX_nzS5nZc+bbv5b1m78sCcZzrDJi7C05vw@mail.gmail.com>
+X-Gm-Features: AVHnY4IltjGxIj5Fh6-JK6uSKIHTP0yZBU085pIyp8WmlCvLfmlYl2sow6Y3Jn0
+Message-ID: <CAOZdJXXetr-FPZUSX_nzS5nZc+bbv5b1m78sCcZzrDJi7C05vw@mail.gmail.com>
+Subject: Re: [PATCH 07/14] pinctrl: Kconfig: drop unneeded dependencies on OF_GPIO
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Alexey Brodkin <abrodkin@synopsys.com>, Vineet Gupta <vgupta@kernel.org>, Scott Wood <oss@buserror.net>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
+	Nicholas Piggin <npiggin@gmail.com>, "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>, Andrew Lunn <andrew@lunn.ch>, 
+	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Linus Walleij <linusw@kernel.org>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Dvorkin Dmitry <dvorkin@tibbo.com>, 
+	Wells Lu <wellslutw@gmail.com>, Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Guenter Roeck <linux@roeck-us.net>, Wim Van Sebroeck <wim@linux-watchdog.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Sebastian Reichel <sre@kernel.org>, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org, 
+	linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-amlogic@lists.infradead.org, 
+	linux-leds@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+	linux-watchdog@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-pm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-checkpatch flagged mixed-case suffixes in #define names: _mVpp and _Hz.
-Rename to _MV_PP and _HZ to follow kernel UPPER_SNAKE_CASE convention.
+On Wed, Mar 4, 2026 at 3:07=E2=80=AFAM Bartosz Golaszewski
+<bartosz.golaszewski@oss.qualcomm.com> wrote:
+>
+> @@ -557,7 +549,6 @@ config PINCTRL_ST
+>  config PINCTRL_STMFX
+>         tristate "STMicroelectronics STMFX GPIO expander pinctrl driver"
+>         depends on I2C
+> -       depends on OF_GPIO
+>         depends on HAS_IOMEM
+>         select GENERIC_PINCONF
+>         select GPIOLIB_IRQCHIP
 
-Signed-off-by: Jad Keskes <inasj268@gmail.com>
----
- drivers/staging/iio/impedance-analyzer/ad5933.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+This change causes the following warning on builds:
 
-diff --git a/drivers/staging/iio/impedance-analyzer/ad5933.c b/drivers/staging/iio/impedance-analyzer/ad5933.c
-index 85a422329..62ed5e40e 100644
---- a/drivers/staging/iio/impedance-analyzer/ad5933.c
-+++ b/drivers/staging/iio/impedance-analyzer/ad5933.c
-@@ -43,10 +43,10 @@
- #define AD5933_CTRL_POWER_DOWN		(0xA << 4)
- #define AD5933_CTRL_STANDBY		(0xB << 4)
- 
--#define AD5933_CTRL_RANGE_2000mVpp	(0x0 << 1)
--#define AD5933_CTRL_RANGE_200mVpp	(0x1 << 1)
--#define AD5933_CTRL_RANGE_400mVpp	(0x2 << 1)
--#define AD5933_CTRL_RANGE_1000mVpp	(0x3 << 1)
-+#define AD5933_CTRL_RANGE_2000_MV_PP	(0x0 << 1)
-+#define AD5933_CTRL_RANGE_200_MV_PP	(0x1 << 1)
-+#define AD5933_CTRL_RANGE_400_MV_PP	(0x2 << 1)
-+#define AD5933_CTRL_RANGE_1000_MV_PP	(0x3 << 1)
- #define AD5933_CTRL_RANGE(x)		((x) << 1)
- 
- #define AD5933_CTRL_PGA_GAIN_1		(0x1 << 0)
-@@ -68,8 +68,8 @@
- #define AD5933_I2C_ADDR_POINTER		0xB0
- 
- /* Device Specs */
--#define AD5933_INT_OSC_FREQ_Hz		16776000
--#define AD5933_MAX_OUTPUT_FREQ_Hz	100000
-+#define AD5933_INT_OSC_FREQ_HZ		16776000
-+#define AD5933_MAX_OUTPUT_FREQ_HZ	100000
- #define AD5933_MAX_RETRIES		100
- 
- #define AD5933_OUT_RANGE		1
-@@ -303,7 +303,7 @@ static ssize_t ad5933_store_frequency(struct device *dev,
- 	if (ret)
- 		return ret;
- 
--	if (val > AD5933_MAX_OUTPUT_FREQ_Hz)
-+	if (val > AD5933_MAX_OUTPUT_FREQ_HZ)
- 		return -EINVAL;
- 
- 	if (!iio_device_claim_direct(indio_dev))
-@@ -699,7 +699,7 @@ static int ad5933_probe(struct i2c_client *client)
- 		st->mclk_hz = ext_clk_hz;
- 		st->ctrl_lb = AD5933_CTRL_EXT_SYSCLK;
- 	} else {
--		st->mclk_hz = AD5933_INT_OSC_FREQ_Hz;
-+		st->mclk_hz = AD5933_INT_OSC_FREQ_HZ;
- 		st->ctrl_lb = AD5933_CTRL_INT_SYSCLK;
- 	}
- 
--- 
-2.54.0
+WARNING: unmet direct dependencies detected for MFD_STMFX
+Depends on [n]: HAS_IOMEM [=3Dy] && I2C [=3Dy] && OF [=3Dn]
+Selected by [m]:
+- PINCTRL_STMFX [=3Dm] && PINCTRL [=3Dy] && I2C [=3Dy] && HAS_IOMEM [=3Dy]
 
+WARNING: unmet direct dependencies detected for MFD_STMFX
+Depends on [n]: HAS_IOMEM [=3Dy] && I2C [=3Dy] && OF [=3Dn]
+Selected by [m]:
+- PINCTRL_STMFX [=3Dm] && PINCTRL [=3Dy] && I2C [=3Dy] && HAS_IOMEM [=3Dy]
+
+I believe the proper fix is to have PINCTRL_STMFX depend on CONFIG_OF,
+since this driver actually does depend on CONFIG_OF.  The warning
+comes because if CONFIG_OF is disabled, PINCTRL_STMFX can still be
+enabled, but in doing so it selects MFD_STMFX which does depend on
+CONFIG_OF.
+
+Adding "depends on OF" to "config PINCTRL_STMFX" seems to fix the
+problem, but I'm not familiar with this driver so I'm not sure this is
+the right fix.  I'll post a patch.
