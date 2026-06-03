@@ -1,115 +1,125 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 873E337BE7D
-	for <linux-staging@lists.linux.dev>; Wed,  3 Jun 2026 09:13:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780478012; cv=pass; b=CCXk0Nk7T//o+O0es6oSx51WQ2Gl7qQ7fx62w4SRUspp+ZCqsiQvijFkIf/gn4YZlxQDcWoAQo2zWVh/nD5luKAfO8GQGT6abPQ++fnR+jZ0WYr2DyT4VZ+mlTb61Oc04qBNLL6svcBBzef8rw8pZRYsZCVmg5Hd0YOxSUn8yZI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780478012; c=relaxed/simple;
-	bh=IbYUgc+Z5RfVyiB1zaY52a59shitcbpmklnqcweRM5w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mhPQH91o4YZ6BSAasbD7P/xMfVtXL0CqhBzww7JoYsLdKumuNXiiluC1bJ6u/LMhTJevBzNto/TdC3of6mnd0J0QmmgOYISVRaOK2yZutxocs+W8YT10lc8Wqelxrak+MCnEzuDTxWXevw+xTUHQFxauUzta9qhm+so6r0Hm+1c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=giYhPYIg; arc=pass smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3459B382291
+	for <linux-staging@lists.linux.dev>; Wed,  3 Jun 2026 09:14:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780478088; cv=none; b=jkM+tKGRNRuUL0KOAtPRcE1xQ59eX1sAAGK+zgh5jtz25XDunDgRIYaGCFX+/pH8657Gzu8/yjTj2eWlRMlcZk2S6ow4FxzE+YE5hyiaHJfE5NonWdTjyrDo0Lrwh8nq0soFja9fIG1jQqOEpYhBknbxS2pDXbYQAYfE1cQGa+s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780478088; c=relaxed/simple;
+	bh=+uDq8VPscBmK3snFlyMDIqmZ5b8CUGVu/6VueXCt+5Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pYSrlIzZx0XxWo3xIZc5TwFAOkMdjdbLTmcvxUxWaDqoZ+uTzQe2EkxixSI2JZo0FiJwfkBQaG4zdAe/kmuDp51bR4hZcMPMEybcl8KteyDV14M7wcwCZg/El3w1wWAC9GugB5hg1oDeYGbHBfstgbY+1HT6nrK6JE9ZLdt5DFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R3HJm8D0; arc=none smtp.client-ip=209.85.216.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="giYhPYIg"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-45eee266c6cso4734140f8f.1
-        for <linux-staging@lists.linux.dev>; Wed, 03 Jun 2026 02:13:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780478010; cv=none;
-        d=google.com; s=arc-20240605;
-        b=DMig0KMLhKnOnYaTnYkUf2r5X8FKp47ARy4PwFUyWFXtwD8Nm/JQePemItAHOJx3YA
-         82r+EEip98kXaQ/i3dyVwB/TDwa09IZYidiTwg2gkKNSo58oYHg5JSRc1QTTix/mTIrL
-         kkZiFBh7PaRreZRFOSXhmU6z4YgVGIWRVeHyzIoC5/3QW7wou+r5nlnns29UGQmik1Vi
-         VPr83g3XxYnOsUKZRp4PQROx9KEMgZVAZxXCrfFNBNxK9tSGGV1eocm0oD1eoA8c9KDH
-         /SGFhP/fedABuxt4lTV2cPUlsHAn3NT/3bQrAxcv6XgCbixyOzcC9YlZtIBJUBvuWVxh
-         QaXQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=J/IB4F8wtmp6htqLg8CaoDs0oxjd0u4Dbg5g8165e2M=;
-        fh=A0xhDH5ghLVdtKcvQWXiRofwUEOwgif+E8zh6iWUQw8=;
-        b=QzldA7BUJbXIM3yrm39Z8nDPIrNPYi1OEodpLvnVOCn6Jc074XL/K+jn5tdzysPdmd
-         CDavJxZSdIgo7v8gHHzWzxvdxVVkvQr5aXvpm3p804sPRuwaPMrHv8UJf0KfV9xhHRem
-         ZDyeGOjQbEeZnZV6dkUicos45+iqArvmn8rhpSzmSy13RD6wJFDYY9RST1gmaITfWZft
-         kfEpjlY4RB0HqMJoaa7mLWGk+uWcEDy2jDSezpe5oa9eH8hdogJ4YX0SgrOYnGWEEzh0
-         AIe0PPTwtf9m7vRyXOO/GPcZdo6he4uzMAdc8pZUfk6EVVy9hmVh6H0GlQNMUsJq2kTs
-         jHSQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R3HJm8D0"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-36baec934b6so257738a91.0
+        for <linux-staging@lists.linux.dev>; Wed, 03 Jun 2026 02:14:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780478010; x=1781082810; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=J/IB4F8wtmp6htqLg8CaoDs0oxjd0u4Dbg5g8165e2M=;
-        b=giYhPYIgAhmYZOvw5pTAqGKPKrFvI3r4GmlU5+pZah/lCYL4mI5NmRUFto2B/5aW2n
-         w3esOdMMAu4gZF70XMg09fPEE6iiTYrVW5yD80Eb+quHlY9ObpyKszhl041adJmmlUwh
-         Nqlqk+5wL3bZE4LlhL3GZPlaVLl1tGrfZ37aIywk9OXEr8/BnmNhF6aYNMf8px15IaHx
-         rdRfkYi+ekqxu7HRyXfHt27ij3BCVcpA5BgZJpeJ4xxBn5FMsZDhUa42laY1XyGDcFj4
-         XINNxnBmF3Jsd4rnw9+W9mx8CoKh4hJGX/SMzhbdBtS2fWLZas0sKLEwuZaqBjYDhrmD
-         JHDg==
+        d=gmail.com; s=20251104; t=1780478084; x=1781082884; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QJbpoi9SSEU9zoK0PYzMvv95hRMB7OxFfHZ7WQQSo7U=;
+        b=R3HJm8D08IhxsTJ7CRys1n1bZsfg76I25ugMbZ/9EEznUHZwOwHcJQo7oLoddLbUCN
+         WYbcHGntmToEYmyRP7BRRXRvH5JK0X58Pqr0bWQYl4o0hhEhkVvf2BhzDsS/0aB6op5v
+         zqFT4rDPHGg46IV7clQ27WUJ+VQS+l/BVSQ+GIa69wIB3NG3f80WnAO8mO+aqhrcuzJo
+         I70PWezRytQxsilOOtUySKERC0NEViTMiOy7B4QsD7880jwph4YORQKg77JVxP9YC0US
+         puOVY1TXQo44Sn3OSwmym0/M5si32Zn5jgQgJg2apfUdpuUF+Zb/2mY/HOaEo4dPf6+J
+         RMQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780478010; x=1781082810;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1780478084; x=1781082884;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=J/IB4F8wtmp6htqLg8CaoDs0oxjd0u4Dbg5g8165e2M=;
-        b=FSuxJvvlxL0SNXlYBgKQcU6nWKAPYYMgdLKw5oisDVhGVdNdYsF3TaSCPAIyy3qi/v
-         H005HfInKpqKR3mYnneaRvwuq1riXjHRl6Wvpgx86B/5OIywNt6LUTFrv1PUqMghet4+
-         NruxF0q8X1AiSDW50pOfKm3PRkIWZcxvMKg6i1At4iOHW0zW/+1Y82OdGObpqZaYvtxT
-         C/xEvf+WjT3Qe5Fh+3LFqTe5rTHuDnv6R88mCcRyx3uy3x2VuttCHOEkcvPQuNeH8G2U
-         CdmFPfTBxweT6ePHXiugayzPX01Iehi544gChPEiQcLabRx+pdVrZnb1A3okWuwHtVof
-         FuSQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+oFss9ajBZnKHqBQ5p/4nkEhimd2IXyvd7Fal54xEztQf+/4IjzDDrh5HdCECYAGIqpBpt+/apAdhL+JaT@lists.linux.dev
-X-Gm-Message-State: AOJu0YylFoYI0W0QKzhZrcIChuAMVQM2be3s9EMYrhCylc9cOFRTU7gD
-	qEHL2qARrb8jYH+X983pzWOck2qkaJ91OmO3kchwTILH5M46QZxnIXUNAJyT6jIxv8H+21FIleb
-	36j9IxeL+gwSywoRBxm+xu/JNxJo5asY=
-X-Gm-Gg: Acq92OFP6tZiVknre+gQ2E9NSfB9dffpCjxHUfJ9zKFVFwrpKteeLaK4yY7oFTuFSMB
-	udfnFroLUxIz6rmIdMPFT+9e/7Hqfg8PxFFc9plhuHChOH1Ji8VKhy+ti9mOnHbbs734Ww8oce9
-	NyoIXrTwf5qT+XSpvchqk4d9Tih8uy9lgVvsQ8mxmMxhSh18Mgo9/+RILRxF0ZPEm4WV1bVMtDn
-	JTcssXf8JpnAUbXixz4Ny9fWPDu4RY4BzjiPOsJWHbK0ukDwetc4yfUjXSMx/Lo1jIFJNIdh5tW
-	CJbn953xm2vbBARQna9uRAUIIGp8a56XSbBzTPZ/a0Tdfl2wmuuouZvLdyYisCKaHuOhdcF7OJm
-	EZxeIt/HBf5FN59lnUHAWu64NmBymYsktmBJKumMDcl4le0jRW5tqh2vZ1xxJ0aJob4FywzVfW/
-	5diGtoKe5181IXIdqd
-X-Received: by 2002:a05:6000:43c5:20b0:45e:eec6:5023 with SMTP id
- ffacd0b85a97d-4602197e8f0mr2424451f8f.37.1780478009800; Wed, 03 Jun 2026
- 02:13:29 -0700 (PDT)
+        bh=QJbpoi9SSEU9zoK0PYzMvv95hRMB7OxFfHZ7WQQSo7U=;
+        b=LuCgUS22G7y1ElMPKDlWt+ptLPdOPPclMZPesse1RgqGO7zB8wNB5YhUFv2oEekeFL
+         JfOUvjY9gFYEpwYYT4+NoD7z6D6r5wO/Lt/C+MYpgSJ7YA/03rCMbFVd17H4M40SivTw
+         jWnl7RfHt6pHZzkhiTEdC/z2lI7ptMjuocA2cVr81Zq+5zdF3ccsnSznFUyYhKaHJL3x
+         9nHwhAeaBfSJn/9wfViuvTC+hguweDg5YIXlHrRlpv+7X9cKAVyAx6zpelddXuiDEBNR
+         PnhyJHFu//E9JWnXoMs1kcZlB64WVXzDiv16lyA8cDw5HvoKoMEVB4a9KHnmrT+1qoHK
+         nyqg==
+X-Gm-Message-State: AOJu0YwRvJCqaHoNrbpbPT/B12Cjv2ojK5VoDCS0GGki/vXw3WYy6K1W
+	j8qciQh6xVDWrGQEejmyEKWO9+UpdzejJJ6PtXCsomBbhdMa9O1/q8k3
+X-Gm-Gg: Acq92OF21Fci9BMGrCxw7DVWmj9hhQvCW8ZXKGenPMOVYmCXuae5SVOk/O8Hxpc3UlW
+	jaitiXR0JjzcUDDa90y2cd31dVaQXv7ERf0tI4Bp0W1Pf72p+aYLjXAZ7LgP/QLlbZV65IcmoTS
+	KEcNZY9kKggpJf3rAojAogmlkzBQJQtpRTPiP718LoX7ziK9qlukpfNknsWjrVZL7PxLw6W87aE
+	A0vveSD8lM0Hw3GrOmqZXOqqcLd05+S0yU0K/SMgmQjfXi6d7V/nGEeNmAAGVRaWZrTvl+RT8J+
+	+XEy1cjntyNy/PCFc0Rpmq+1E8MpwjLZ74V+94HMSTNvdoKV9vjQx5EFKzpVf8drvoyjISvmFQd
+	LmdFhYB52c1aeJl0CZKATu87u76fEQ+ppe7Agk6tIlhX7PYP3hp4dQ8NdPTnfOBrMFPj//2aLs2
+	OkGFBDd+shCVQyrLahWxQWqoJTVi/CH8xpR3smBgnsHg==
+X-Received: by 2002:a17:90b:48c1:b0:36b:877c:42e5 with SMTP id 98e67ed59e1d1-36e3b811af3mr2168642a91.17.1780478084211;
+        Wed, 03 Jun 2026 02:14:44 -0700 (PDT)
+Received: from jeevaanandh.. ([223.187.120.35])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36dd91820e6sm5651096a91.1.2026.06.03.02.14.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Jun 2026 02:14:43 -0700 (PDT)
+From: Jeeva Anandh <anandhjeeva215@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jeeva Anandh <anandhjeeva215@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: simplify NULL pointer checks in rtw_recv.h
+Date: Wed,  3 Jun 2026 09:14:11 +0000
+Message-ID: <20260603091411.21482-1-anandhjeeva215@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260603123333.5608-1-tahanarimani3443@gmail.com>
-In-Reply-To: <20260603123333.5608-1-tahanarimani3443@gmail.com>
-From: Joshua Crofts <joshua.crofts1@gmail.com>
-Date: Wed, 3 Jun 2026 11:13:17 +0200
-X-Gm-Features: AVHnY4JWFwCvcrQtv_7Lobpb98peeHbSW84YciMGGf4bVoc08SZfJqhxO7KDQF8
-Message-ID: <CALoEA-zvki0Gvzug6bueyf6p5011_rP94uEijrUKaJTGneo_cA@mail.gmail.com>
-Subject: Re: [PATCH v2] staging: iio: adc: ad7816: Use devm_gpiod_get_optional()
- for busy GPIO
-To: Taha Narimani <tahanarimani3443@gmail.com>
-Cc: jic23@kernel.org, lars@metafoo.de, Michael.Hennerich@analog.com, 
-	gregkh@linuxfoundation.org, dlechner@baylibre.com, nuno.sa@analog.com, 
-	andy@kernel.org, linux-iio@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, 3 Jun 2026 at 11:07, Taha Narimani <tahanarimani3443@gmail.com> wrote:
-> ---
-> +       chip->busy_pin = devm_gpiod_get_optional(&spi_dev->dev, "busy",
-> +                                                GPIOD_IN);
-> +       if (IS_ERR(chip->busy_pin)) {
-> +               ret = PTR_ERR(chip->busy_pin);
-> +               dev_err(&spi_dev->dev, "Failed to request busy GPIO: %d\n",
-> +                       ret);
+Replace explicit NULL pointer comparisons with idiomatic
+pointer checks to improve readability and follow kernel style.
 
-Looking at this, you could eventually move all of the dev_err() calls in the
-probe() function to use dev_err_probe(). (For another patch though).
+Signed-off-by: Jeeva Anandh <anandhjeeva215@gmail.com>
+---
+ drivers/staging/rtl8723bs/include/rtw_recv.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/staging/rtl8723bs/include/rtw_recv.h b/drivers/staging/rtl8723bs/include/rtw_recv.h
+index 8e45871f07f0..9c32d480a20a 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_recv.h
++++ b/drivers/staging/rtl8723bs/include/rtw_recv.h
+@@ -349,7 +349,7 @@ s32  rtw_recv_entry(union recv_frame *precv_frame);
+ static inline u8 *get_rxmem(union recv_frame *precvframe)
+ {
+ 	/* always return rx_head... */
+-	if (precvframe == NULL)
++	if (!precvframe)
+ 		return NULL;
+ 
+ 	return precvframe->u.hdr.rx_head;
+@@ -362,7 +362,7 @@ static inline u8 *recvframe_pull(union recv_frame *precvframe, signed int sz)
+ 	/* used for extract sz bytes from rx_data, update rx_data and return the updated rx_data to the caller */
+ 
+ 
+-	if (precvframe == NULL)
++	if (!precvframe)
+ 		return NULL;
+ 
+ 
+@@ -387,7 +387,7 @@ static inline u8 *recvframe_put(union recv_frame *precvframe, signed int sz)
+ 	/* after putting, rx_tail must be still larger than rx_end. */
+ 	unsigned char *prev_rx_tail;
+ 
+-	if (precvframe == NULL)
++	if (!precvframe)
+ 		return NULL;
+ 
+ 	prev_rx_tail = precvframe->u.hdr.rx_tail;
+@@ -414,7 +414,7 @@ static inline u8 *recvframe_pull_tail(union recv_frame *precvframe, signed int s
+ 	/* used for extract sz bytes from rx_end, update rx_end and return the updated rx_end to the caller */
+ 	/* after pulling, rx_end must be still larger than rx_data. */
+ 
+-	if (precvframe == NULL)
++	if (!precvframe)
+ 		return NULL;
+ 
+ 	precvframe->u.hdr.rx_tail -= sz;
 -- 
-Kind regards
+2.43.0
 
-CJD
