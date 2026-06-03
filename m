@@ -1,97 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f193.google.com (mail-yw1-f193.google.com [209.85.128.193])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87C63407592;
-	Wed,  3 Jun 2026 11:00:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D706330FC1B
+	for <linux-staging@lists.linux.dev>; Wed,  3 Jun 2026 11:25:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780484418; cv=none; b=BbZb3z+fYbTUZXG3zx2L8qs7N1sfmSxL4OI+SDTsHdhD0D1nSreR7m/fS1jfantWVtIHutho9LVSNEtHiPNY5wikO2h8GfcbTxsSiZVR45Hzx15Z6m+Gas68gmFma0UXgBjphHFMjXr1zNk/xZPkZsozCRAqc7BfqM53jSisLQQ=
+	t=1780485908; cv=none; b=I7yFSDElfuT8jTsSnfsFSmueWjVlnN1GyiPFWx790u69UDt4OnD+Hv8C8B+PaFjsheIeCsUhjY39kDLjds8BDQu58F9aE+Q9QZPWo9iidKbuX9W6KpQckFtPUuYgwPNa5P4DlDSOHRdl8NppUjVUcR97VYEe4MSQwMDVcJeJqP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780484418; c=relaxed/simple;
-	bh=CNKaYB54oesFqwBIzQmDKJ/yEIlcn80va8CAKp3e1sU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UeP0CZnoeRI8UGTZYN22tPgCGuacDagZIjVCoOXSiZy92HIr1ngm+arol4Qw7hNHkWb4QGImss//qduhB9Lv2pmOUiiMrg2Fc5tcM41ZQvTcPnnXK3fEmia5NO+QGF+PWzJyv5RV30Dt9W7yTz1kjWMx6kA2ZI7kNEF+KwWgQYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iq5uNue8; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780485908; c=relaxed/simple;
+	bh=Qt1z8DWdfxc0Fqk7WcK4T9qBiKtmLR8z4f+GsVxp0Jk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fOJrB0UZvmKHghS7dzhKbRPUKFcWt7jLFlicHTYqHa0NgTZyDUMw0Q0o8h+l99WSXoIZCM9Cipw9c4FQLkZ+heQexwXxzqQJCsV7lk2wI2yzVF4XS55Y9oInQwCkGi6GIeBd3RPKiWeyXvPjMh9r4v+mjoDRT2xF/a4Ai/JP4v0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R7ASLPiv; arc=none smtp.client-ip=209.85.128.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iq5uNue8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 435151F00893;
-	Wed,  3 Jun 2026 11:00:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780484417;
-	bh=1CgUjNlMw9S52nRCDvi21p+Qt+QcAgx6DMINQg+4PHo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=iq5uNue8uLn2kifGX1Pqf2UNIM8caqsqmvUD/8US+upGUD/k2XcU697qVf0WaAqYx
-	 Q7uEoSkobOaFyElfddC6jkngMUeOD5eXdba9j/ouXhVzXNxO5RZyxau5K0qUfBw5gG
-	 nU8DXr9uWKTaSSTQsQcCIUwec9w3JhGqsi2ZmpLpnvzG/cKAyXcQrF5DdNenFCwMHr
-	 N0zKCNs6oksnPxwxZiGloT/pRqmHjR70dGFDGgrtbfVPmj5rsOCnAf9jwebrbhjVDn
-	 m2RIcg4RtOPGZETb/RWSmJX6OBbUyPt07xGr+GwQbiVRzH4IGSujYyUX5s+AwGhpk5
-	 /XYQJhvRLsaQg==
-Date: Wed, 3 Jun 2026 12:00:13 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Dan Carpenter <error27@gmail.com>
-Cc: Jad Keskes <inasj268@gmail.com>, linux-staging@lists.linux.dev,
- linux-iio@vger.kernel.org
-Subject: Re: [PATCH v2] staging: iio: addac: fix CamelCase naming in adt7316
-Message-ID: <20260603115946.34055d3f@jic23-huawei>
-In-Reply-To: <ah_Kbff-c38NWV66@stanley.mountain>
-References: <20260602190308.158051-1-inasj268@gmail.com>
-	<ah_Kbff-c38NWV66@stanley.mountain>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R7ASLPiv"
+Received: by mail-yw1-f193.google.com with SMTP id 00721157ae682-7ea6923cc94so6384557b3.3
+        for <linux-staging@lists.linux.dev>; Wed, 03 Jun 2026 04:25:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780485906; x=1781090706; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=e9LboitBmJDeKZ4FzvkUznHW0mYwQyqZQKW0C0dXa98=;
+        b=R7ASLPivlhGVw+LGWhDb4BxxUVnurJOEBYwWuo8hPGbRBEa0ysSdBurLblM4gAQXbi
+         VTECrpXQyXaAfLZosqrTnT7VG5Vc4NHfI6ffCu7Ra9IxqWpNpAsu+jj8zK0ayXtN/vyX
+         lC6VKGvf2lxo2mjC7r5d02UZcZaNnUb+xP/rVNynzsqQFcE9xNLL+WAECJAFCeKEDDKD
+         bU/w4SDdLTksnwnHXFwGER7KX0fIh1rYFKUi3NFEVA+BZ25Bwyaa6M3hREPaFLMz1Gi/
+         3mnb8sLfRbGGWJERTaL6vn8v8nfDwMOU6tsNkVxJR7oBDxTGoGSGT5TmKPQMtRAWGPBZ
+         5lpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780485906; x=1781090706;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=e9LboitBmJDeKZ4FzvkUznHW0mYwQyqZQKW0C0dXa98=;
+        b=IEbGvzPWHRbozyzJj3SST34xmM8fCaqKsaplSTJiMBztzpazalFByiqCZ5rVDJmxz2
+         ysvr10FF1v17GtDT9Ssff4TLgoSK1Be+UGGUoAst19ZZnfVTIGyvVnls4iAgu9glscC6
+         URGiEzUboywvgPe4niuMU/W2h0uMTWoP06sqcKRGHAQ8UY6icFEeiFSwjVBnSDU260iH
+         6VqUS6rXN3XoDH/CU3p5vbwrEK0kRIaCtipxs+dU6x9P/FHWbxM7QXZnk3vR5iIU1gF4
+         lUc6+ElmshemnzK/sMB2neptxGzWWXmzFH8t3apExI9vAVdTHOxdUxQbzfLUGm41rgww
+         r4RQ==
+X-Forwarded-Encrypted: i=1; AFNElJ949tGXY3wLMYpLufCyhbqWBYp/ihsvBRPw3C0vBSZq6BeFS+0jjgVXY3vD4M/a72S/O1Xn5jeaeKYxN3eQ@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx+UtgbaFe1bcZ+Pe3IKrwU+nEBC3WsaLbcmJwQmowhXQBLMgB8
+	GG4pRrhVFJssf4A31jEYXepaYaSr41umRGrYiHECdz/FPLm8EHXnxcJx
+X-Gm-Gg: Acq92OGifwlpsa/XXigS8mUvZUy2lwU3X++EJvjMdiOVNDZ1IAz5TlZ35jTnBbR72lO
+	nvFZvkC8aPM85H6W56BcfAYioar0a+fnA8oy49VDtyFPdLNwXdypzdYDQtrXcepTGFWK0zIbO/M
+	8vOjTSMiushqepnZ9NhxtAvUzVouZlGqvPawtO8b0BN6o5B4oq3o7zMk7Cx7/tuZyvVmebLmI3P
+	XcV+glpQfkz7nyCf99TwPFe/jZM0qjiJig5fuXYTCMEf8jWeIruQ7OiMBQWzH9YpzcVSFSDbKS6
+	UhcWm7WuyP3e4F34OIb400zky9GNApklJm8qXb0J3qtCELiZF1yOcmc8uAiITEMR+RYX8XjTyGh
+	53i846d8KQGjZAgTGaVC+i90E+WvHqk2PhkgbMm75Va93mts5gsAxU99cSOPegDoSGo08ixNi0S
+	H8Exxv6OYEW7H7DYYNKW7+Z1c1HH0=
+X-Received: by 2002:a05:690c:660a:b0:7dc:c934:dbc0 with SMTP id 00721157ae682-7ea486cfb5emr27939267b3.20.1780485905964;
+        Wed, 03 Jun 2026 04:25:05 -0700 (PDT)
+Received: from hp ([2600:6c64:553f:f68a:e071:3df5:f6ba:868d])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7ea23a97729sm14199877b3.36.2026.06.03.04.25.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Jun 2026 04:25:05 -0700 (PDT)
+Date: Wed, 3 Jun 2026 07:25:03 -0400
+From: Marlon Trujillo <marl0rd1080@gmail.com>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: hansg@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
+	sakari.ailus@linux.intel.com, andy@kernel.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: media: atomisp: fix typo in rx.c
+Message-ID: <aiAPD4BakIF9ctYF@hp>
+References: <20260523111511.865-1-marl0rd1080@gmail.com>
+ <CAHp75Vc913Dgo_fzqBGZBaPB03De7V41dwd4uLpw9gvUe-+JDQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHp75Vc913Dgo_fzqBGZBaPB03De7V41dwd4uLpw9gvUe-+JDQ@mail.gmail.com>
 
-On Wed, 3 Jun 2026 09:32:13 +0300
-Dan Carpenter <error27@gmail.com> wrote:
+On Wed, May 27, 2026 at 07:32:30AM +0200, Andy Shevchenko wrote:
+> Is this the only one single typo in the whole driver?
 
-> On Tue, Jun 02, 2026 at 08:03:08PM +0100, Jad Keskes wrote:
-> > checkpatch flagged a few CamelCase names in this driver.
-> > AIN and DAC prefixes are lowercased as standard kernel style.  
-> 
-> The AIN things aren't an issue and checkpatch doesn't complain
-> about them.
-
-Also they are userspace ABI.  Admittedly this is in staging and that
-ABI is completely none compliant with IIO standards, but none the less
-you should be very very careful when making that sort of change.
-
-This driver needs a mass of work to drag it into the modern age.
-IIRC there have been a few partial attempts at that in the past.
-One key part of that is most of what you are touching in this
-patch is in code that will not exist after this is modernized.
-
-I'd be surprised if there is low hanging fruit like this that actually
-makes sense to do in the remaining staging/iio drivers. 
-Mostly much more radical surgery is required.
-
-Anyhow, with that all in mind I'm not planning to take this sort
-of change to this driver
-
-Jonathan
+No, I took a closer look and found multiple similar typos across
+the driver.
 
 > 
-> > Vref is kept capitalized since V stands for Voltage and is a
-> > proper technical abbreviation.
-> > 
-> > DA_AB and DA_CD are renamed to dac_ab and dac_cd to match the
-> > register constants ADT7316_VREF_BYPASS_DAC_AB and
-> > ADT7316_VREF_BYPASS_DAC_CD that they reference.  
-> 
-> This sort of change would need to be in its own commit.  (We're
-> dropping the rest of the commit anyway).  The difference
-> between DA and DAC is not totally clear to me...  The
-> adt7316_show_DAC_2Vref_ch_mask() function only seems to deal
-> with DA but the adt7316_store_DAC_2Vref_ch_mask() does stuff
-> with both.  So I'm not sure I understand the naming.  (I have
-> not investigated and this is my first time to look at this
-> code).
-> 
-> regards,
-> dan carpenter
-> 
+> But before doing that, invest your time into reading linux-media@
 
+Thanks, that was helpful. I checked the linux-media archives and
+noticed others have already been sending similar typo and comment
+style fixes as well.
+
+Given that, I can scan for additional typos and fix them together
+with their surrounding comment blocks.
+
+Would you prefer a v2 of this patch, or a separate cleanup patch
+(or small series) covering these fixes?
+
+Thanks,
+Marlon
