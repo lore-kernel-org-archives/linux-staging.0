@@ -1,120 +1,100 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 531B43D25AD
-	for <linux-staging@lists.linux.dev>; Wed,  3 Jun 2026 16:51:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47D783563E8
+	for <linux-staging@lists.linux.dev>; Wed,  3 Jun 2026 17:27:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780505497; cv=none; b=Gwy7YQ3mpC7zFGdk6by5vwPE7KGYd7ofTgW0GXJJ5vjCqOKM9UWIqUWllIP4eGqwo7HL8dQ8sM2IWNEbc6FfSdzDns5Du59H4uxe5a8nJI6YvzmdjQDr+Az211MXm2FaH6JBZuN1dW+HKJfImP0F1GD7HsdhM1k/0933Ib0ouoU=
+	t=1780507643; cv=none; b=ZZnRz0zsyoci/cliwQbHsUMGk65aFtxb+4DeXBvyoNL4qc6h8B8aRNr6MlUCzXDem7U+MFxJhlCQR5QCP6ODLNi7y+dFE6m/gqHpGM4/sAXv0DT4PPjBvGs8H3zIK/FZWe07FofQHgGMKuCTqjQifUSeZGfpsJSBFjAP3KMb2zQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780505497; c=relaxed/simple;
-	bh=9zex/oZNw62OdeQiIgl4XFXCFGp0nqo8+vP08DCK6Z0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Iyw3NMYyeckkZLAPS6+Q7e3HHfw80H85vhXfeIzfRP7u4Fgum87E0gFpHMwcPhCcX+WdELaE9SfGucxxuwrz/HoA/PbdKnKHzI+V/dWFWUmb95KLrA+Kdlyvgzg3890ZVXYa6lLcVG9G2R5GBmigFlmZvgiAObjTo8FroZuyvPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B4ZZaCsj; arc=none smtp.client-ip=209.85.208.44
+	s=arc-20240116; t=1780507643; c=relaxed/simple;
+	bh=GyBdjQf+KD7yqZ4PteBpVZ2I7sBrWX+tT3dPNPIxhHM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=uZmyLlUZB/97b80zSrAvs8V1TuN80+4tb5vSlqrvVAiLKYiKAXU2v2Z36dN9Dk7++GmzfcmOO1nVHaDVErbaVxFjS4C9kdJVlooHxWfXUXVzcYSXYTY+wtq48oHSh0jGp25elp9wG59SfyhwloQ8WNMlJRFnV+uvabgzdEC42T8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LTV9AFFx; arc=none smtp.client-ip=209.85.128.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B4ZZaCsj"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-68d23396ed3so7727462a12.1
-        for <linux-staging@lists.linux.dev>; Wed, 03 Jun 2026 09:51:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LTV9AFFx"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4908b92904fso76670195e9.0
+        for <linux-staging@lists.linux.dev>; Wed, 03 Jun 2026 10:27:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780505495; x=1781110295; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=tVUSNrgyJbcEG3S/mElelWcmLhgtsutmOseyskElsFw=;
-        b=B4ZZaCsj6M2mtJELy1HEDWj9jF7G8T+QdzcR68Er5XxoiwClhNWvxL61OUugZ50fIQ
-         2z2bc58RLCOBWugtx2q1NIxl6vpo9FGIQj9waMjuI6SyWCU6Dawm1VBKZWNs8sOi40t9
-         deViRT+5Ti1aiJvLBpaf2vG9KP1H6bX6kpTLlLqkXFWtRyrIloF/XRPqpCDrWW3RQwcu
-         i3lymnIBhEpFgDnI9OnUVN52XllkUb590zT8qDu7qbXPJA9vfm+dEgwDfci5TmV6mwU9
-         bIFJnMYU8qf0xvhO6M+llvC8ZJkr8zID3cqqgwDJzxrwlxEfCLSQiRT1Id7daqjYIJfg
-         1p+w==
+        d=gmail.com; s=20251104; t=1780507641; x=1781112441; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xPI/K42Dqqi8EI9/bqvRnWGrrrFYIj0w7WpadU0Mx7w=;
+        b=LTV9AFFx2s7TA6p2alPO+UedNBPWPfiOqgoXrcPH3gBbanodBnEjlIdye61ihCk+gg
+         O2/W7HOwQfw0q6D/OrGc9/SOjlwiYnhPl09bb2EZ9u3Wlpzsg6wIhODm80f2y/dRjgkA
+         mUAtL+8/Zs3qccLE3k1M13ni4Et861DeTix8RgDpbwCfamc3YsCzU7bD3ooPN0YBVLEy
+         lnNr7W+7oi481yZXE7xEuDiWZxZ/Vkmpogil8Y6v03qsylpZ1Enf8mtuUyzoG39MgfAY
+         eA8urk+fQDKVMQZOrygBZYkznDcDWDfltmhL6FRUNra5mB+lKuZtSH9tyiVJ0rRJE3cr
+         r12Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780505495; x=1781110295;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tVUSNrgyJbcEG3S/mElelWcmLhgtsutmOseyskElsFw=;
-        b=WE9fmCb9Fze1stR6x00LQ7pyESWMFjrCjna3ioEyMl9yyRS//EQjzncPBv+TBxIuPi
-         soyAJaXsbhe7HBoRqzuSW9jd1P/TQZkJ/Ulm/tzpj6a2uDz+Lh/slBSrmjM1ikdp/TEt
-         XBrOQdG3FpF36hAbAvQdXCDCFZUZrJmV5mEGVxRpWfJ+qdRNER1RYypZvQF88qikY5wk
-         7WIkPF9Mc+nXRJ+jMXDc1xKF7otBqYNRgc97p/zw2xZA3DnPlK0vgxFzskTpUEM2x+Ju
-         O68/+6W7f8f/pGXHMMZFZOo/KNIEZgxKoLfTsG3G6icK7mIjIL8SuYOZR0yTYpUrEWdn
-         iLdA==
-X-Forwarded-Encrypted: i=1; AFNElJ9kSfrGG1ic6gUMLgbmrJwUVhPvglZWFANKbgcdtmERHiUvGYneckef/MVyj0+JWY497yVCqb+7ZFGuOqhi@lists.linux.dev
-X-Gm-Message-State: AOJu0YwPIT5pHmCXPiRz7GiiQVuPMtNLCyYO29XDRX6P2lhAFks6XEKk
-	p9Nub0kKuBOmkJYl4BZOUHnD9LEnp5emUB+6KkzmD/MeiRxF2whLzLjg
-X-Gm-Gg: Acq92OErwhH0d+kyNgj/HQi119ztoAbZ6csjFi6q8ZGccThQKuhIiF4FSjom9Y1am5y
-	2UR7TmHkiAdUo565ZKxq1+F8HO8Fu8S9EtrxK1TVfocrhxY10TpIHbm75J+Cd4bJ+erfvJE8IA8
-	Hx4toftYQc85fA6wt54KDFDKkYxlj5mlwps8NySSi9/2/ziUM/VBDB4BJHBvSUA3auHfNTSzkqI
-	pComgjVYEMYdRIppxYh2v2YmPaW2w9v+nPpvlyHc58FgiKPufvsYZ4Wk0dyC0kihlCnsHdGTS0c
-	N6DDlyTOVCwwbIJg8VO2dW6iDULDoO6BUe315IFHwR6PlmohlzKaOzcDxZQpyw9Yo+suZsSp7Qq
-	tFEfhC2lYgPGkt4aZhmZhDEaWRH/s+ndD6uOaIjI3jh7GR21BzgYSjda3UJbQ9RBNMm5OHmAkyx
-	QSvkw8rN2k2Zog7n1Xq72kcVei5ttTrYprqsfl9ikw
-X-Received: by 2002:a05:6402:249e:b0:68b:e0de:1386 with SMTP id 4fb4d7f45d1cf-68e714da6bcmr2214247a12.13.1780505494626;
-        Wed, 03 Jun 2026 09:51:34 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-68e65027662sm1509422a12.11.2026.06.03.09.51.32
+        d=1e100.net; s=20251104; t=1780507641; x=1781112441;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xPI/K42Dqqi8EI9/bqvRnWGrrrFYIj0w7WpadU0Mx7w=;
+        b=CDyruwg+YPutMt8qsAWZsq7m/3bVjnUBXiC/D4zJ7D8WL5v2HSe3pofDLBP18AKkOD
+         J3/y6Yuw0bioAf2QVFxjvDXFJ9DOsOqYZ5Cb5HWrccX9B95BdGnbdgky9huPhigLkhMb
+         L2v5tZdMkvqMXUx2esNGfLN2W8CYK1N7nMvRg1ABKRgEZ7Wqew/z3DI7CUdOfaHD8zgy
+         217DRPuYxXDLBNSa0FnB6NcBOGQVj/xnvsvJWOf7u9qdlFKDAjSauMmYtaje1c0P4ANd
+         gSZ3sMJqjXJC6ap2I8+cs7q06N3n44cQFj+5WHk9g3AB7Nax7g2lkRM+dRD0kjGlgN2E
+         lrhQ==
+X-Gm-Message-State: AOJu0Yy+qK2tAy1PslFJ+tBROC3K9rZ9m6bgJvhcMd1TwKV5uizim16e
+	Q3SYtP49gf9Bj0u66zXa5oonJDCWPH2wsoF6RMMxrKwhvF9V+D8Snpy7
+X-Gm-Gg: Acq92OEQDRFtxafBlS6o32afHLcDxArBwa2xVAoKX/gsfYK24r3ceiWqVX8eD7frPwB
+	dT787sZLLwZ/MEFba03TcNC/Owfw3Ci7se41n3wnHEYo8pFR0sR5EcjuF1BXePW+7Xz/SIEQkUc
+	Diaafu/QmmOPQhtTBUNeCtm1WTT1MrViXqBFT6AX++jeCGf3kfXzu3htx0fvcvMRPX7nt0OtXd8
+	WtaZc09xljwoFf8tOqCiRrl9lijipCtmo6WfSrzBQ5eoaQeDVDC8lnL/hGFsR3xNF37zaglcOFa
+	OwGT/6d05qQ1FsXAGC1uE9qPERPRg3ah9hvWrEVBGVq6MPHFcm1gQkK8PNYUcvbpI8HhiDQCrwN
+	knWwEZ8VWumEayZdtK/y1XERyniQkNu6lceDc1xlnvRmk0Jz+1i5zlxrHbuF5ldvMpIMZdHN+gl
+	jTTu9NgU/g1SmH44yWwg3gkp4kwXrpl5v/gqyl8LNUwlHPJP3kU+p9tD8LQBePv056F4f8NRLxL
+	1/Z89d9PXQ=
+X-Received: by 2002:a05:600c:5288:b0:489:5022:39a4 with SMTP id 5b1f17b1804b1-490b5ec053amr71039725e9.9.1780507640498;
+        Wed, 03 Jun 2026 10:27:20 -0700 (PDT)
+Received: from MSI.lan (uch71-h01-176-129-204-49.dsl.sta.abo.bbox.fr. [176.129.204.49])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490bc3fd663sm6558395e9.10.2026.06.03.10.27.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jun 2026 09:51:33 -0700 (PDT)
-Date: Wed, 3 Jun 2026 19:51:30 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: =?utf-8?B?Vm9qdMSbY2ggS3LDoXRrw70=?= <vo.kratky@seznam.cz>
-Cc: gregkh@linuxfoundation.org, christian.gromm@microchip.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: most: video: Use min_t() macro for type safety
-Message-ID: <aiBbkqntNHqD1sct@stanley.mountain>
-References: <20260603131928.44274-1-vo.kratky@seznam.cz>
+        Wed, 03 Jun 2026 10:27:20 -0700 (PDT)
+From: Dorian Catric <dorian.catric@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	marvin24@gmx.de,
+	error27@gmail.com,
+	Dorian Catric <dorian.catric@gmail.com>
+Subject: [PATCH 1/2] staging: nvec: fix typo in copyright header URL
+Date: Wed,  3 Jun 2026 19:27:18 +0200
+Message-Id: <20260603172719.398-1-dorian.catric@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260603131928.44274-1-vo.kratky@seznam.cz>
 
-On Wed, Jun 03, 2026 at 03:19:28PM +0200, Vojtěch Krátký wrote:
-> Replace the open-coded ternary operator matching a minimum calculation
-> with the standard kernel min_t() macro. Because 'count' is a size_t
-> and 'rem' is a signed integer, comparing them directly introduces a
-> signed/unsigned comparison risk. Forcing both to size_t via min_t()
-> ensures safely typed comparison and fixes a build-time macro assertion.
-> 
-> Signed-off-by: Vojtěch Krátký <vo.kratky@seznam.cz>
-> ---
->  drivers/staging/most/video/video.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
-> index 04351f8ccccf..709f61ed0322 100644
-> --- a/drivers/staging/most/video/video.c
-> +++ b/drivers/staging/most/video/video.c
-> @@ -178,7 +178,7 @@ static ssize_t comp_vdev_read(struct file *filp, char __user *buf,
->  	while (count > 0 && data_ready(mdev)) {
->  		struct mbo *const mbo = get_top_mbo(mdev);
->  		int const rem = mbo->processed_length - fh->offs;
+Fix typo 'lauchpad.net' -> 'launchpad.net' in the copyright header.
+The correct spelling is already used in nvec.h.
 
-This feels like an AI static analysis inspired patch.  The concern here
-is that "mbo->processed_length - fh->offs" would result in a negative
-value.
+Signed-off-by: Dorian Catric <dorian.catric@gmail.com>
+---
+ drivers/staging/nvec/nvec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> -		int const cnt = rem < count ? rem : count;
-> +		int const cnt = min_t(size_t, rem, count);
->  
->  		if (copy_to_user(buf, mbo->virt_address + fh->offs, cnt)) {
-                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-But if "fh->offs" is a crazy value then we're still using it here so it
-doesn't make sense as a real solution.
-
-So do some more analysis and figure out if the change is required or
-not and if it is then try to find a complete solution.
-
-These days we would tend to use minu() instead of min_t(), btw.
-
-regards,
-dan carpenter
+diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
+index 952c5a849a563..66d9c3c162179 100644
+--- a/drivers/staging/nvec/nvec.c
++++ b/drivers/staging/nvec/nvec.c
+@@ -2,7 +2,7 @@
+ /*
+  * NVEC: NVIDIA compliant embedded controller interface
+  *
+- * Copyright (C) 2011 The AC100 Kernel Team <ac100@lists.lauchpad.net>
++ * Copyright (C) 2011 The AC100 Kernel Team <ac100@lists.launchpad.net>
+  *
+  * Authors:  Pierre-Hugues Husson <phhusson@free.fr>
+  *           Ilya Petrov <ilya.muromec@gmail.com>
+-- 
+2.34.1
 
