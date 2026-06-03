@@ -1,163 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B487D33DEC2
-	for <linux-staging@lists.linux.dev>; Wed,  3 Jun 2026 14:06:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26007335BB4
+	for <linux-staging@lists.linux.dev>; Wed,  3 Jun 2026 14:31:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780495570; cv=none; b=Vt3k7RnatV2ENVj0FSkKne/9t6MhuYcKNSuDAc85+Nxxm6vUhPN34F8QmxvEmViGSwSuMgdDiqceY2N5/wbanjsZ4j0w96xRF9vrLzEQMOejbfwFzjfayiqaGvq3tlhnVf0/ibBsZtgX1mMVseJyPaixS7P8/rjekCfFPXXcKy0=
+	t=1780497099; cv=none; b=bLF5Sc6oFMz2ru6gwbFZRfSu7ptvym3weQz9ndsCoAKRKTfpq422dINpP5sXXnyqEVwcAoQtl3pZrOoAE8qS9XcI3OfSKwhsnmUqPUAGd7TciwLwELQtrNP581/a/nbmGbXGsonaDrVxMyYkDsy7EjASVZPBtwgsg7XLAmdthKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780495570; c=relaxed/simple;
-	bh=v0vFwGiNntFWVi+lyEqrFllWgdeiP6z9Ek0SuP/Dy1I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O+/ItV7DaIjVLuOQfvVfiuAhrj9uKMKWTpvVZl4ifuzRJqlX4Ui2QBkVG1AMO7sgbxqO4tFxvkHJAFcKsBh0k3/JkVqHri+YHuuShIUvRbvXD2JSYJ+467D/Ln/GyYqbjZK1GYtm2CacOabJ48hBIUHVJBKTqMkYFWU5YYJQwQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K6MLL6C/; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1780497099; c=relaxed/simple;
+	bh=PJVJnAZf4a7XwOjdpZ7SCRkj5FZGXwgZPu7OvbbLN50=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tkDq7pp+jOUKtdAqYhvJT9qYfCHBIl3ORc/Ld3KxTBWDnWM3GYZtnSoMK9f7rnX/XMrHrt4jTyr/CaI3qmoevGaP7gcL8u5/s6jo0TZcia9ZvS5mcj0iCNGmEGnKrX/kDObLOfGQfbT88IROc4VqgMJnZ27dd4G/pbIN3ENV1Ns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=p72RJBNm; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K6MLL6C/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780495569; x=1812031569;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=v0vFwGiNntFWVi+lyEqrFllWgdeiP6z9Ek0SuP/Dy1I=;
-  b=K6MLL6C/dkAmcp8fUOsbCXPK0y/DWpWBysqdxm/Zz6bObx8yYGxHKLvr
-   hhFzGgSFnayOaExrblF5lvyQZRjSGCGKVxRjsIYOI/MCc5tm3lj3l0cbC
-   +CTX1sskEkhQVmJGPnYc/oEHT19iaEEaewW2dDMWMG3M+8uKaDXbuVZW6
-   eJxWZkHUGVG6Caphv6qGqjC8Pf8HE0UfYUdxTgM2lgsQKz40RGnk0iJ3g
-   ZGCevrQKWZK6Yhvn713P4+Xyc3WZmPm+8dIMMMomG4OLDk82JTiAeV79n
-   +15B+2YBUE7tWSzVBh6dK2s8yi3M1O9pJrj4hU6M09MbUbwL5zPfcuwRo
-   A==;
-X-CSE-ConnectionGUID: sUk1kHasSN6M5FPFj5NPeA==
-X-CSE-MsgGUID: 33N1TMAJRWq9o8VJL+5xWw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="92682295"
-X-IronPort-AV: E=Sophos;i="6.24,185,1774335600"; 
-   d="scan'208";a="92682295"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 07:06:09 -0700
-X-CSE-ConnectionGUID: ty+mtFvWQ76Ehp0Q/XTEqA==
-X-CSE-MsgGUID: b0tE32aJR/eIFF3JTwT0kQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,185,1774335600"; 
-   d="scan'208";a="241269136"
-Received: from slindbla-desk.ger.corp.intel.com (HELO localhost) ([10.245.244.250])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 07:06:06 -0700
-Date: Wed, 3 Jun 2026 17:06:04 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Bitterblue Smith <rtl8821cerfe2@gmail.com>
-Cc: Minu Jin <s9430939@naver.com>, gregkh@linuxfoundation.org,
-	dan.carpenter@linaro.org, abrahamadekunle50@gmail.com,
-	zxcv2569763104@gmail.com, milospuric856@gmail.com,
-	karanja99erick@gmail.com, weibu@redadmin.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 0/2] staging: rtl8723bs: Fix error handling in
- _rtw_pktfile_read()
-Message-ID: <aiA0zDHc494rnc55@ashevche-desk.local>
-References: <20260127153811.1592900-1-s9430939@naver.com>
- <c6828c20-8f77-423e-a744-344d09c54488@gmail.com>
- <ah955alcKpjMXYXy@ashevche-desk.local>
- <fa16641f-d6b2-47e8-b1a9-08d63387c733@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="p72RJBNm"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-45eec22fab7so3570276f8f.3
+        for <linux-staging@lists.linux.dev>; Wed, 03 Jun 2026 07:31:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780497095; x=1781101895; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q3tQtc8uJKCPmpmDRcr+GJZB85OACAvXLNmzr/e668c=;
+        b=p72RJBNmGyxp+W7ZUvINQPJVJ5zrXF2LPIsVRAV3vaMPmxzs5z+8uWjCeoZCXwQb5x
+         ue6y9uXmoigmHb1UTpa9g74IfubHPfxpKgbiUCGPo31jWtA1Km8Pel7+YUtBtMh/RVuN
+         JKQP4/x/JkySrFipOrDGxiCkzTaEBOsDzSAwMv1oBftFg6q1yaYgFk8ivSi0lSfQqjMR
+         HH6GF8qzFDsdiraGzjzasRXm2jfZaOAy/sglXZC1bD6+MSonDQr5OYUw/PtGhKEo3fba
+         U6QQdNovWovmnacBbPASnbNZh6uncSPRkzzKAd/Vv/31MAZ3jIusbuizy+Yyt2HLLgIO
+         5VgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780497095; x=1781101895;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Q3tQtc8uJKCPmpmDRcr+GJZB85OACAvXLNmzr/e668c=;
+        b=C4RRH9pqEW5AvDV8nZ+gfM0YoUVPCTwDbcRU3mLrQgEMIvcRkyUFPmslxbaLv/Mc8N
+         YrpZP8N7M8PXhGNLDMTX+XlnawVGMEigDlxHSdB4OVnxJBLFgAsCGxsAmitH2D8CIjiY
+         2CSDvFJ1oAu9tMk3rHV/zWgZ8fJ5oDUs5mSH31CKQgk7ykTracs/nKzqRXAR09GNUX9R
+         /lC9fBTX0+s5KBeW7PeEZlG8EXQinWLFUeFX5BVYncN6nDEURb3pvkPnFyaJtKajYrAR
+         eV2ubheVA4HHWz+bYBFEIMsaw/SjSkTKYeqXbo3LY9CzxQ58AqbHw9wpbWWqJHv4gdhU
+         H9Zw==
+X-Gm-Message-State: AOJu0YzsbSBr9GJ3a6sk1RzN/GYGPmtyhkv0UPKPxrc8Ug0fQuIvYf46
+	AS4+AyPY6HPF2jRz3ERyJ4hR4ACzrk5IOsiNodDxAR6jzwzR3sewrJoS7/cL+g==
+X-Gm-Gg: Acq92OEfGA3xQrCLjc9JO5FhkFfPvydnuhpZvoGntcvLTbMjhJ0EZPTHcCLmiLE/aAc
+	InQ1CbPZ2NUIevNtIw+KstnBFoiP6c8zJ271A9FsKczJejOefqB5Sf3BAnz7lTz6pVwX+ad40up
+	0lC2dHhc3GvoFgmKWMz0uGEGFmS1TxUQuwymfiktPjfvCzBUcq+plNGo4RX+Os6HIMkPhg1lS9e
+	aEctlosQ9SY+y7LsLOrqL9Q5zXk5gJ/Lg1QcXpISTg9OYVzIshRbFGEzBTs3ZXT98xk/6uX1Q6i
+	nJSXmBcbNbZA5WZao7qkj2tAEHKiYI6an9QUiShkgaAILQ/EGdtWRPz6KibH9ES/l/Z7HzhmorY
+	om0okF3Qzu8oeEHncHN5XzLmedu5c6cj1ezNHAIeJRVKF2yzLhJ0UTmlGrUywTYqEudar9ZKUav
+	9mHafsLs1LOv1EoCqKkisbw2DuKFziKM9vw5f/32jo7VrADEI0LERSRygj3DoQsrwQeWXkcLJtU
+	WepiFNup1wSQVfd
+X-Received: by 2002:a5d:5e0e:0:b0:460:e4d:bd46 with SMTP id ffacd0b85a97d-4602181f3b3mr4268953f8f.21.1780497095168;
+        Wed, 03 Jun 2026 07:31:35 -0700 (PDT)
+Received: from fedora ([105.156.125.135])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f35133csm7448183f8f.25.2026.06.03.07.31.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Jun 2026 07:31:34 -0700 (PDT)
+From: Jad Keskes <inasj268@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org,
+	Jad Keskes <inasj268@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: replace magic numbers with named constants
+Date: Wed,  3 Jun 2026 15:31:27 +0100
+Message-ID: <20260603143127.343103-1-inasj268@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <fa16641f-d6b2-47e8-b1a9-08d63387c733@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Wed, Jun 03, 2026 at 04:40:45PM +0300, Bitterblue Smith wrote:
-> On 03/06/2026 03:48, Andy Shevchenko wrote:
-> > On Sun, May 24, 2026 at 09:30:01PM +0300, Bitterblue Smith wrote:
-> >> On 27/01/2026 17:38, Minu Jin wrote:
-> >>> This series improves error handling in _rtw_pktfile_read() and cleans up
-> >>> the code style to comply with kernel standards.
-> >>>
-> >>> 1. The first patch combines the logic change and caller updates.
-> >>>    The function change and the caller updates must be in the same
-> >>>    patch. If they are separated, the code will not work correctly 
-> >>>    or will cause errors at that specific point in the history.
-> >>>
-> >>> 2. The second patch focuses purely on code style cleanup (changing uint
-> >>>    to unsigned int) as requested by Andy Shevchenko.
-> >>>
-> >>> Regarding the logic change in _rtw_pktfile_read():
-> >>>
-> >>>     The original code used a ternary operator to read whatever data was 
-> >>>     available, even if it was less than requested. This could lead to 
-> >>>     callers processing incomplete data without knowing it.
-> >>>
-> >>>     I have changed this to return -EINVAL when the remaining data is insufficient. 
-> >>>     This is safer because most callers expect the exact amount of data and 
-> >>>     should not proceed with a partial read.
-> >>>
-> >>> Testing and Verification:
-> >>>
-> >>>     I do not have access to the physical RTL8723BS hardware. However, I have
-> >>>     performed a rigorous manual audit of the data path and verified the
-> >>>     changes using Smatch static analysis. The analysis confirmed that no
-> >>>     new warnings or logical regressions were introduced in the modified files.
-> >>
-> >> I have some bad news:
-> >>
-> >> https://bbs.archlinux.org/viewtopic.php?id=313401
-> > 
-> > It's unclear that this patch made it happen. See below.
-> 
-> It looks pretty clear to me, but okay. I forwarded your request for bisection.
+Remove the magic numbers in rtl8723b_InitBeaconParameters() as requested
+by the outstanding TODO comment. Replace 0x6404 and 0x660F with named
+constants defined in rtl8723b_hal.h alongside the existing beacon timing
+constants.
 
-I don't know how it does. There is no information about from which kernel one
-upgrades to which. I assumed someone bumps from v7.0 to v7.0.3, but there no
-such patch. If we take v6.19..v7.0.3 range, there are dozens of patches.
+Signed-off-by: Jad Keskes <inasj268@gmail.com>
+---
+ drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 5 ++---
+ drivers/staging/rtl8723bs/include/rtl8723b_hal.h  | 2 ++
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
-I.o.w. it is semi-poorly written bug report: some of useful information and
-some crucial that is missing...
-
-> >> [quote]
-> >>
-> >> Hey everyone,
-> >>
-> >> I recently upgraded my system, and now I’m having a strange issue with my
-> >> WiFi (Realtek RTL8723BS).
-> >>
-> >> now I can no longer connect to any WiFi networks as a client. however,
-> >> creating an Access Point (AP) still works fine, but whenever I try to connect
-> >> to an existing network, the connection fails.
-> >>
-> >> dmesg logs:
-> >> Every time I attempt a connection, dmesg gets spammed with this error:
-> >>
-> >>     [ 1083.925640] rtl8723bs mmc0:0001:1 wlan0: xmit_xmitframes: coalesce failed with error -22
-> >>     [ 1084.921217] rtl8723bs mmc0:0001:1 wlan0: xmit_xmitframes: coalesce failed with error -22
-> >>     [ 1085.921434] rtl8723bs mmc0:0001:1 wlan0: xmit_xmitframes: coalesce failed with error -22
-> >>     [ 1086.922320] rtl8723bs mmc0:0001:1 wlan0: xmit_xmitframes: coalesce failed with error -22
-> >>     ....
-> >>
-> >> Has anyone encountered this specific "coalesce" error with the rtl8723bs
-> >> driver? I'm looking for advice on whether this is a known bug in recent
-> >> kernels or if there's a specific module parameter I should try to bypass
-> >> this.
-> >>
-> >> System Info:
-> >>
-> >>     Chipset: RTL8723BS (SDIO)
-> >>
-> >>     Kernel version: 7.0.3-zen1-2-zen
-> >>
-> >> update: I fixed the issue after kernel downgrade
-> >>
-> >> [/quote]
-> > 
-> > That guy should bisect and find the culprit. It will help a lot to understand
-> > what's going on.
-
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+index e794fe3ca..c5da5d0be 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+@@ -878,8 +878,7 @@ void rtl8723b_InitBeaconParameters(struct adapter *padapter)
+ 
+ 	rtw_write16(padapter, REG_BCN_CTRL, val16);
+ 
+-	/*  TODO: Remove these magic number */
+-	rtw_write16(padapter, REG_TBTT_PROHIBIT, 0x6404);/*  ms */
++	rtw_write16(padapter, REG_TBTT_PROHIBIT, TBTT_PROHIBIT_TIME_8723B);
+ 	/*  Firmware will control REG_DRVERLYINT when power saving is enable, */
+ 	/*  so don't set this register on STA mode. */
+ 	if (check_fwstate(&padapter->mlmepriv, WIFI_STATION_STATE) == false)
+@@ -888,7 +887,7 @@ void rtl8723b_InitBeaconParameters(struct adapter *padapter)
+ 
+ 	/*  Suggested by designer timchen. Change beacon AIFS to the largest number */
+ 	/*  because test chip does not contension before sending beacon. by tynli. 2009.11.03 */
+-	rtw_write16(padapter, REG_BCNTCFG, 0x660F);
++	rtw_write16(padapter, REG_BCNTCFG, BCN_AIFS_CFG_8723B);
+ 
+ 	pHalData->RegBcnCtrlVal = rtw_read8(padapter, REG_BCN_CTRL);
+ 	pHalData->RegTxPause = rtw_read8(padapter, REG_TXPAUSE);
+diff --git a/drivers/staging/rtl8723bs/include/rtl8723b_hal.h b/drivers/staging/rtl8723bs/include/rtl8723b_hal.h
+index ffd039278..311acfa0f 100644
+--- a/drivers/staging/rtl8723bs/include/rtl8723b_hal.h
++++ b/drivers/staging/rtl8723bs/include/rtl8723b_hal.h
+@@ -71,6 +71,8 @@ struct rt_firmware_hdr {
+ 
+ #define DRIVER_EARLY_INT_TIME_8723B  0x05
+ #define BCN_DMA_ATIME_INT_TIME_8723B 0x02
++#define TBTT_PROHIBIT_TIME_8723B     0x6404
++#define BCN_AIFS_CFG_8723B           0x660F
+ 
+ /* for 8723B */
+ /* TX 32K, RX 16K, Page size 128B for TX, 8B for RX */
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.54.0
 
