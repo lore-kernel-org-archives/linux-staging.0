@@ -1,360 +1,100 @@
-Received: from mout-y-209.mailbox.org (mout-y-209.mailbox.org [91.198.250.237])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 690D83CF049
-	for <linux-staging@lists.linux.dev>; Thu,  4 Jun 2026 07:49:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.198.250.237
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 319AF3947AB
+	for <linux-staging@lists.linux.dev>; Thu,  4 Jun 2026 07:54:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780559369; cv=none; b=CnNlk6ElFVmh+i1frmGBBphZVZM2dTkpYHSvWoIL5FdZeFtA2bZIjinNGQrIOOykilN6LiemjUFPAqDLmjCJ5n2CcMji5F4MYqniXrIISnORO/vm4Pp+gBMk+xq8ad+8K+y9cXlGhFU/ki91bCKI3rTboyfs1i2lkdLuNf1IiXs=
+	t=1780559679; cv=none; b=MrpNWnLSx8bNe3PJMfvcefUOUz2YJTfcWceikhKleSpzEJqmQQm1Ma6ibNuOItdt/RZH7kuiRNHr6/nR+oEz9RODwpqz9RU2dQ8fdxTC/PVw0pghrv1ZicW/M+0JJZUVnsi2jUQ1EZn7YATDQksqoBvnCNVqKbVQm999q+jwlCE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780559369; c=relaxed/simple;
-	bh=x11/8ROKOVT+pSsUAlEJ7HX40onVGOBzprK7ohmJPGE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kbueMbUcg8ukFD/iLvUzH0Uzw2MbPKeQpIHf/ii5yXx+3ooxZJPrI8CurF9NirHJB5DS6JkE24la5KXd3SR1uETeLardFaEp/66OKBn7vLBgFj7gCt5bpfuiSoymB/QD6PNXgu7Ljc1OsvS0xGGZOJSM64lAyyT/UWfYbRebcHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mavick.dev; spf=pass smtp.mailfrom=mavick.dev; arc=none smtp.client-ip=91.198.250.237
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mavick.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mavick.dev
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-y-209.mailbox.org (Postfix) with ESMTPS id 4gWGtF35KCzB0yY;
-	Thu,  4 Jun 2026 09:49:25 +0200 (CEST)
-Authentication-Results: outgoing_mbo_mout;
-	dkim=none;
-	spf=pass (outgoing_mbo_mout: domain of m@mavick.dev designates 2001:67c:2050:b231:465::202 as permitted sender) smtp.mailfrom=m@mavick.dev
-From: Eugene Mavick <m@mavick.dev>
-To: gregkh@linuxfoundation.org,
-	error27@gmail.com,
-	khomenkov@mailbox.org,
-	ethantidmore06@gmail.com,
-	m.steinmoetzger@gmail.com,
-	tomasz.unger@yahoo.pl,
-	arthur.stupa@gmail.com,
-	jannik@jrehkemper.de,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Eugene Mavick <m@mavick.dev>
-Subject: [PATCH v5] staging: rtl8723bs: remove unnecessary parentheses
-Date: Thu,  4 Jun 2026 15:49:23 +0800
-Message-ID: <20260604074923.841460-1-m@mavick.dev>
-In-Reply-To: <20260604045112.830216-1-m@mavick.dev>
+	s=arc-20240116; t=1780559679; c=relaxed/simple;
+	bh=PVxmen+bYmM7qoldOKUgzjpQJR5H2ZvpeASWrcYATc4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=X4M0T3cKtwTMz7OkA81gKs3NdjAg9M9qOOYCYpb1s6rzY7iVR2JG6CeI5ruYOsA6BSs3vGgXGORJi5GBmLh7bzZ90C0IlctMQjVIm1if2aXWVc/6pEaQlIt9LZNawSmX+kXgV6FAX4dBYJcSSqU+tgknu7A1hs3Fp1TPJXGPQSU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WETKGVnv; arc=none smtp.client-ip=209.85.160.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WETKGVnv"
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-516d0db9372so3342441cf.2
+        for <linux-staging@lists.linux.dev>; Thu, 04 Jun 2026 00:54:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780559677; x=1781164477; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=XOlcBZYHQX5Abwo0UCHHT+CLoF6eErYHJpQG/xW25CM=;
+        b=WETKGVnv+SkpO4UpnFCs1HwtCSE0mcCV22EHlGqnYzrODHZZyPJEuZvw0CcnG3WJHa
+         4duMRD8bwL0VmZcJzpyw52QZEHKNFyPXFo6eSfMWowo4b3PVk30D9xEqm0Tuw7dCUri6
+         znVangCst8SW+Yih9FmU9ionbdPxTTI2xZ5LEciiMZcK534Zw3924iOw9I9xH7QKm9sS
+         cMG2H0ctX8a0s2GF1Yfw+hd4pyVqXp4TBkNeCpD4rC4dm9Zq5RvGv8NHiWZ0sXA8mWGA
+         22dtsmIGeGwpT7oWKsV0lYhni13BBklZllOdKRdCbuZ9UbORcKPb2rAPsS9EcAcuYEcm
+         2ICA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780559677; x=1781164477;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=XOlcBZYHQX5Abwo0UCHHT+CLoF6eErYHJpQG/xW25CM=;
+        b=PT55T8TwHUxKxaMp2Wujv/PMO9RizuqQuRGfkHonniIaELN7xj3o4gTmeRGzY7IZHa
+         ZpwLEYX2h17RS4BlHmttBk1uNjvSEGWLpbM+CU8nGkYY3wwnpGHqhZiLHWDhHA6Hofg2
+         yC4gtYUrAm0x8uqlJcIzL3/df/Z7kxpajcvHtdV60rfG/+HPL5n9FgscV0lNtzlPECB2
+         8ATXAwr4pFAS7X3N7a51IYv9YmlI/he1R08QIUm7QnWKDWasr4ngyTcEbkBcj9mTxvh0
+         dceOoRR4J/KyjhgrPS1ORsKHHUfwi7AQD06E11q1FHROzQ3QAucfC+8De1JbZ3BkJuTp
+         zlpA==
+X-Forwarded-Encrypted: i=1; AFNElJ/5WdYEi+iBA9Qmkzm3Z59lLHND0I/IAZARpKZ6T04dEsh4R0DpaOuVt839uMSOgq7xtQD3Kb5H6JNSLIwv@lists.linux.dev
+X-Gm-Message-State: AOJu0YxeliaypDQf/hixf4IjTBcyfUTDlxKdkdZWZ0Mno4DVYsVp9vj7
+	MtbSZ1pBwLJOO3iFAP4o/q8+mer0mDbCDo6H3loAhr6NCdCf5MYq+kR3
+X-Gm-Gg: Acq92OG0lgD831sT2hCE1EvMEy4QerZFJ3rrXxWukld6nQtpUpC57kKyfW6+mtEKEJc
+	Musk6rhOQonXmVa3NU5xDhRDR56TvkUwXqn3Rr9GgpLkeRWP67T8tscg+GZtQDPsOWokENNepP1
+	RRbvpJcG64hXyNUndXwZJoOvnwktlGd/aCBvA1YWZGgFP6inEA74vbSzOxEovwWB8sUNiy4pPse
+	BCKwYR97aBD12XL8xUNtEMlbBmbN9QiYKOi1zjoWlcTiJqQXG1Gj7nn1c5MpKFUVxMdzGLuOYXX
+	S4JDt+m8ZtaofxZStWT5HLYlIFNc2GCL0q0QWk0eZVF8y7Big0gBUD/b3+gHz/rrfqtoWYLPdZr
+	+j3DPlbgjXpIELIyxe+OCzIEWKe6syGvMFS2ZO9WnEKT/XQB3tJkPaoA+OxRDOzZfZ1nSoXeL43
+	aZz5c4U/xhA5sa6lnZ7+f77f2IO8g=
+X-Received: by 2002:a05:622a:313:b0:516:508b:bf4d with SMTP id d75a77b69052e-51778789b11mr103486471cf.56.1780559677286;
+        Thu, 04 Jun 2026 00:54:37 -0700 (PDT)
+Received: from localhost ([149.40.50.195])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51775c07e91sm46401871cf.4.2026.06.04.00.54.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Jun 2026 00:54:35 -0700 (PDT)
+Date: Thu, 4 Jun 2026 10:54:30 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Eugene Mavick <m@mavick.dev>
+Cc: gregkh@linuxfoundation.org, khomenkov@mailbox.org,
+	ethantidmore06@gmail.com, m.steinmoetzger@gmail.com,
+	tomasz.unger@yahoo.pl, arthur.stupa@gmail.com, jannik@jrehkemper.de,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5] staging: rtl8723bs: remove unnecessary parentheses
+Message-ID: <aiEvNg3_j4xtiLSN@stanley.mountain>
 References: <20260604045112.830216-1-m@mavick.dev>
+ <20260604074923.841460-1-m@mavick.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 4gWGtF35KCzB0yY
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260604074923.841460-1-m@mavick.dev>
 
-Remove unnecessary parantheses around &(foo->bar) type statements to
-improve code readability
+On Thu, Jun 04, 2026 at 03:49:23PM +0800, Eugene Mavick wrote:
+> Remove unnecessary parantheses around &(foo->bar) type statements to
+> improve code readability
+> 
+> Signed-off-by: Eugene Mavick <m@mavick.dev>
+> ---
 
-Signed-off-by: Eugene Mavick <m@mavick.dev>
----
+From my perspective I'm seeing this patch twice in a day...  Just wait
+a bit...  Remove this part as well.
 
-V1->V2:
-Fixed following checkpatch warnings on modified lines:
-CHECK: Alignment should match open parenthesis(line 1114, 1249)
-CHECK: Logical continuations should be on the previous line(line 1251)
+        if ((pmlmepriv->timeBcnInfoChkStart != 0) && (jiffies_to_msecs(jiffies - pmlmepriv->timeBcnInfoChkStart) <= DISCONNECT_BY_CHK_BCN_FAIL_OBSERV_PERIOD_IN_MS)
+-               && (pmlmepriv->NumOfBcnInfoChkFail >= DISCONNECT_BY_CHK_BCN_FAIL_THRESHOLD)) {
++               && pmlmepriv->NumOfBcnInfoChkFail >= DISCONNECT_BY_CHK_BCN_FAIL_THRESHOLD) {
+                pmlmepriv->timeBcnInfoChkStart = 0;
+                pmlmepriv->NumOfBcnInfoChkFail = 0;
+                return _FAIL;
 
-V2->V3:
-Removed comparison-statement-parentheses-removals(CSPR) per Dan Carpenter's review:
-https://lore.kernel.org/all/ah1s_Eveaka0SHvQ@stanley.mountain/
-
-V3->V4:
-Removed overlooked CSPR;
-Removed misleading fixed-warning-example in commit message suggesting
-CSPR were still present
-
-V4-V5:
-Remove none &(foo->bar) type statement parantheses removal
-
-v1: https://lore.kernel.org/all/20260530031621.443015-1-mavick4022@gmail.com/
-v2: https://lore.kernel.org/all/20260531061022.573089-1-mavick4022@gmail.com/
-
- .../staging/rtl8723bs/core/rtw_wlan_util.c    | 70 +++++++++----------
- 1 file changed, 35 insertions(+), 35 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-index 1d37c2d5b10d..68b19a3a73bf 100644
---- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-@@ -351,7 +351,7 @@ int is_client_associated_to_ap(struct adapter *padapter)
- 		return _FAIL;
- 
- 	pmlmeext = &padapter->mlmeextpriv;
--	pmlmeinfo = &(pmlmeext->mlmext_info);
-+	pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	if ((pmlmeinfo->state & WIFI_FW_ASSOC_SUCCESS) && ((pmlmeinfo->state & 0x03) == WIFI_FW_STATION_STATE))
- 		return true;
-@@ -362,7 +362,7 @@ int is_client_associated_to_ap(struct adapter *padapter)
- int is_client_associated_to_ibss(struct adapter *padapter)
- {
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	if ((pmlmeinfo->state & WIFI_FW_ASSOC_SUCCESS) && ((pmlmeinfo->state & 0x03) == WIFI_FW_ADHOC_STATE))
- 		return true;
-@@ -374,7 +374,7 @@ int is_IBSS_empty(struct adapter *padapter)
- {
- 	unsigned int i;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	for (i = IBSS_START_MAC_ID; i < NUM_STA; i++) {
- 		if (pmlmeinfo->FW_sta_info[i].status == 1)
-@@ -477,7 +477,7 @@ void clear_cam_cache(struct adapter *adapter, u8 id)
- 
- 	spin_lock_bh(&cam_ctl->lock);
- 
--	memset(&(dvobj->cam_cache[id]), 0, sizeof(struct cam_entry_cache));
-+	memset(&dvobj->cam_cache[id], 0, sizeof(struct cam_entry_cache));
- 
- 	spin_unlock_bh(&cam_ctl->lock);
- }
-@@ -629,7 +629,7 @@ int allocate_fw_sta_entry(struct adapter *padapter)
- {
- 	unsigned int mac_id;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	for (mac_id = IBSS_START_MAC_ID; mac_id < NUM_STA; mac_id++) {
- 		if (pmlmeinfo->FW_sta_info[mac_id].status == 0) {
-@@ -645,7 +645,7 @@ int allocate_fw_sta_entry(struct adapter *padapter)
- void flush_all_cam_entry(struct adapter *padapter)
- {
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	invalidate_cam_all(padapter);
- 	/* clear default key related key search setting */
-@@ -657,19 +657,19 @@ void flush_all_cam_entry(struct adapter *padapter)
- int WMM_param_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE)
- {
- 	/* struct registry_priv *pregpriv = &padapter->registrypriv; */
--	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
-+	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	if (pmlmepriv->qospriv.qos_option == 0) {
- 		pmlmeinfo->WMM_enable = 0;
- 		return false;
- 	}
- 
--	if (!memcmp(&(pmlmeinfo->WMM_param), (pIE->data + 6), sizeof(struct WMM_para_element)))
-+	if (!memcmp(&pmlmeinfo->WMM_param, (pIE->data + 6), sizeof(struct WMM_para_element)))
- 		return false;
- 
--	memcpy(&(pmlmeinfo->WMM_param), (pIE->data + 6), sizeof(struct WMM_para_element));
-+	memcpy(&pmlmeinfo->WMM_param, (pIE->data + 6), sizeof(struct WMM_para_element));
- 
- 	pmlmeinfo->WMM_enable = 1;
- 	return true;
-@@ -709,7 +709,7 @@ void WMMOnAssocRsp(struct adapter *padapter)
- 	u32 acParm, i;
- 	u32 edca[4], inx[4];
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
- 	struct registry_priv *pregpriv = &padapter->registrypriv;
- 
-@@ -810,9 +810,9 @@ static void bwmode_update_check(struct adapter *padapter, struct ndis_80211_var_
- 	unsigned char  new_bwmode;
- 	unsigned char  new_ch_offset;
- 	struct HT_info_element	 *pHT_info;
--	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
-+	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 	struct registry_priv *pregistrypriv = &padapter->registrypriv;
- 	struct ht_priv *phtpriv = &pmlmepriv->htpriv;
- 	u8 cbw40_enable = 0;
-@@ -867,7 +867,7 @@ static void bwmode_update_check(struct adapter *padapter, struct ndis_80211_var_
- 
- 	if (true == pmlmeinfo->bwmode_updated) {
- 		struct sta_info *psta;
--		struct wlan_bssid_ex	*cur_network = &(pmlmeinfo->network);
-+		struct wlan_bssid_ex	*cur_network = &pmlmeinfo->network;
- 		struct sta_priv *pstapriv = &padapter->stapriv;
- 
- 		/* set_channel_bwmode(padapter, pmlmeext->cur_channel, pmlmeext->cur_ch_offset, pmlmeext->cur_bwmode); */
-@@ -897,7 +897,7 @@ void HT_caps_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE)
- 	u8 max_AMPDU_len, min_MPDU_spacing;
- 	u8 cur_ldpc_cap = 0, cur_stbc_cap = 0;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 	struct ht_priv *phtpriv = &pmlmepriv->htpriv;
- 
-@@ -960,7 +960,7 @@ void HT_caps_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE)
- void HT_info_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE)
- {
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 	struct ht_priv *phtpriv = &pmlmepriv->htpriv;
- 
-@@ -974,7 +974,7 @@ void HT_info_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE)
- 		return;
- 
- 	pmlmeinfo->HT_info_enable = 1;
--	memcpy(&(pmlmeinfo->HT_info), pIE->data, pIE->length);
-+	memcpy(&pmlmeinfo->HT_info, pIE->data, pIE->length);
- }
- 
- void HTOnAssocRsp(struct adapter *padapter)
-@@ -983,7 +983,7 @@ void HTOnAssocRsp(struct adapter *padapter)
- 	unsigned char min_MPDU_spacing;
- 	/* struct registry_priv  *pregpriv = &padapter->registrypriv; */
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	if ((pmlmeinfo->HT_info_enable) && (pmlmeinfo->HT_caps_enable)) {
- 		pmlmeinfo->HT_enable = 1;
-@@ -1010,20 +1010,20 @@ void HTOnAssocRsp(struct adapter *padapter)
- void ERP_IE_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE)
- {
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	if (pIE->length > 1)
- 		return;
- 
- 	pmlmeinfo->ERP_enable = 1;
--	memcpy(&(pmlmeinfo->ERP_IE), pIE->data, pIE->length);
-+	memcpy(&pmlmeinfo->ERP_IE, pIE->data, pIE->length);
- }
- 
- void VCS_update(struct adapter *padapter, struct sta_info *psta)
- {
- 	struct registry_priv  *pregpriv = &padapter->registrypriv;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	switch (pregpriv->vrtl_carrier_sense) {/* 0:off 1:on 2:auto */
- 	case 0: /* off */
-@@ -1078,7 +1078,7 @@ int rtw_check_bcn_info(struct adapter *Adapter, u8 *pframe, u32 packet_len)
- 	unsigned int len;
- 	unsigned char *p;
- 	unsigned short	val16, subtype;
--	struct wlan_network *cur_network = &(Adapter->mlmepriv.cur_network);
-+	struct wlan_network *cur_network = &Adapter->mlmepriv.cur_network;
- 	/* u8 wpa_ie[255], rsn_ie[255]; */
- 	u16 wpa_len = 0, rsn_len = 0;
- 	u8 encryp_protocol = 0;
-@@ -1244,7 +1244,7 @@ int rtw_check_bcn_info(struct adapter *Adapter, u8 *pframe, u32 packet_len)
- 	pmlmepriv->NumOfBcnInfoChkFail++;
- 
- 	if ((pmlmepriv->timeBcnInfoChkStart != 0) && (jiffies_to_msecs(jiffies - pmlmepriv->timeBcnInfoChkStart) <= DISCONNECT_BY_CHK_BCN_FAIL_OBSERV_PERIOD_IN_MS)
--		&& (pmlmepriv->NumOfBcnInfoChkFail >= DISCONNECT_BY_CHK_BCN_FAIL_THRESHOLD)) {
-+		&& pmlmepriv->NumOfBcnInfoChkFail >= DISCONNECT_BY_CHK_BCN_FAIL_THRESHOLD) {
- 		pmlmepriv->timeBcnInfoChkStart = 0;
- 		pmlmepriv->NumOfBcnInfoChkFail = 0;
- 		return _FAIL;
-@@ -1296,8 +1296,8 @@ unsigned int is_ap_in_tkip(struct adapter *padapter)
- 	u32 i;
- 	struct ndis_80211_var_ie *pIE;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
--	struct wlan_bssid_ex		*cur_network = &(pmlmeinfo->network);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
-+	struct wlan_bssid_ex		*cur_network = &pmlmeinfo->network;
- 
- 	if (rtw_get_capability((struct wlan_bssid_ex *)cur_network) & WLAN_CAPABILITY_PRIVACY) {
- 		for (i = sizeof(struct ndis_802_11_fix_ie); i < pmlmeinfo->network.ie_length;) {
-@@ -1332,7 +1332,7 @@ int support_short_GI(struct adapter *padapter, struct HT_caps_element *pHT_caps,
- {
- 	unsigned char bit_offset;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	if (!(pmlmeinfo->HT_enable))
- 		return _FAIL;
-@@ -1438,7 +1438,7 @@ unsigned char check_assoc_AP(u8 *pframe, uint len)
- void update_IOT_info(struct adapter *padapter)
- {
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	switch (pmlmeinfo->assoc_AP_vendor) {
- 	case HT_IOT_PEER_MARVELL:
-@@ -1468,7 +1468,7 @@ void update_IOT_info(struct adapter *padapter)
- void update_capinfo(struct adapter *Adapter, u16 updateCap)
- {
- 	struct mlme_ext_priv *pmlmeext = &Adapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 	bool		ShortPreamble;
- 
- 	/*  Check preamble mode, 2005.01.06, by rcnjko. */
-@@ -1520,8 +1520,8 @@ void update_wireless_mode(struct adapter *padapter)
- 	int network_type = 0;
- 	u32 SIFS_Timer;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
--	struct wlan_bssid_ex *cur_network = &(pmlmeinfo->network);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
-+	struct wlan_bssid_ex *cur_network = &pmlmeinfo->network;
- 	unsigned char *rate = cur_network->supported_rates;
- 
- 	if ((pmlmeinfo->HT_info_enable) && (pmlmeinfo->HT_caps_enable))
-@@ -1544,7 +1544,7 @@ void update_wireless_mode(struct adapter *padapter)
- 
- 	SetHwReg8723BS(padapter, HW_VAR_RESP_SIFS,  (u8 *)&SIFS_Timer);
- 
--	SetHwReg8723BS(padapter, HW_VAR_WIRELESS_MODE,  (u8 *)&(pmlmeext->cur_wireless_mode));
-+	SetHwReg8723BS(padapter, HW_VAR_WIRELESS_MODE,  (u8 *)&pmlmeext->cur_wireless_mode);
- 
- 	if (pmlmeext->cur_wireless_mode & WIRELESS_11B)
- 		update_mgnt_tx_rate(padapter, IEEE80211_CCK_RATE_1MB);
-@@ -1569,8 +1569,8 @@ int update_sta_support_rate(struct adapter *padapter, u8 *pvar_ie, uint var_ie_l
- 	unsigned int	ie_len;
- 	struct ndis_80211_var_ie *pIE;
- 	int	support_rate_num = 0;
--	struct mlme_ext_priv *pmlmeext = &(padapter->mlmeextpriv);
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	pIE = (struct ndis_80211_var_ie *)rtw_get_ie(pvar_ie, WLAN_EID_SUPP_RATES, &ie_len, var_ie_len);
- 	if (!pIE)
-@@ -1596,7 +1596,7 @@ void process_addba_req(struct adapter *padapter, u8 *paddba_req, u8 *addr)
- 	struct sta_priv *pstapriv = &padapter->stapriv;
- 	struct ADDBA_request *preq = (struct ADDBA_request *)paddba_req;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	psta = rtw_get_stainfo(pstapriv, addr);
- 
-@@ -1639,7 +1639,7 @@ void adaptive_early_32k(struct mlme_ext_priv *pmlmeext, u8 *pframe, uint len)
- 	__le32 *pbuf;
- 	u64 tsf = 0;
- 	u32 delay_ms;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	pmlmeext->bcn_cnt++;
- 
--- 
-2.51.2
+regards,
+dan carpenter
 
