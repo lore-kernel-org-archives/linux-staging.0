@@ -1,172 +1,91 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79861355F57
-	for <linux-staging@lists.linux.dev>; Thu,  4 Jun 2026 19:05:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9037B38BF9C
+	for <linux-staging@lists.linux.dev>; Thu,  4 Jun 2026 21:34:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780599942; cv=none; b=JYli+282gq2hJjJWGXjUK8aqxKhhiIzFASdJl65C4/vj2H0TcXQW2NvNxcNJuOE4jj2ueI6Gtcn4xM/rb+zu0kyMDDIPL6cI93j6aCUSIKN4/ODX9wUOodamqqOLYDX6ytuU2edA0nUHh8X3r3XzWS0ro7bbyNKn7akyktrWPrY=
+	t=1780608861; cv=none; b=iVNptFCpxkrnX3srnEwHZ6I74H46VZFV5ivtFV8SAI8sUFK9inI/uCJgvPBeknBq6HU6DpRHhaLpwRZY+Kcmw+H8QXF5iy9iP+Fy0yWKZFvtNdtByiWNHp054F4Kq/XEBjo6wZeQgwTyahnCaqMHNxs3yZNoMZzJHReN9SnAYxs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780599942; c=relaxed/simple;
-	bh=t7HTSXQedCZiYZaYzlpBFRKtS8iVv2rqPb54+tDX3TM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=C+pN/sOURy4m3wExf/YUdAbDa7mGxpMoJ/X5rE5Z5XaLRRd0cvpnEAhIlTGSms39RNv20JSO+0nqNX53pf3g9L9gyV1P+pAlAIy48kXnsY5ENyhLX8IwNNI8iu7ZJJKXeMFTYNhOaTOIOUOnVfdFKS85fVlRsB33ybBPqe/i948=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DhvpzCRl; arc=none smtp.client-ip=209.85.216.46
+	s=arc-20240116; t=1780608861; c=relaxed/simple;
+	bh=bIGgBCvFzcRF125FWD09XEERO9CROlwzV5QhSXqEt1E=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=qpsLQVVmUeFAFg+nfzP3rLe1EixPMA27MIFxeWIH+eV7foDtMqnnCDD84gTZ4ZXUrquBbrlcCh7KJReCMg49Cm7tpPT9kh1Akt2IBr/0Z0+U05E0iSwtzNEgEyEns5AClXvC3w95CwCF/L5HJfa5BkcE23NYpno+WPyemkeGWhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DWFBdYSy; arc=none smtp.client-ip=74.125.224.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DhvpzCRl"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-36d9794d82aso840581a91.0
-        for <linux-staging@lists.linux.dev>; Thu, 04 Jun 2026 12:05:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DWFBdYSy"
+Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-6603d8697d2so1348220d50.0
+        for <linux-staging@lists.linux.dev>; Thu, 04 Jun 2026 14:34:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780599941; x=1781204741; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/ffqDjSgGQ5QaASBEo3eqt9MQXd5NnLhzD6IscnM1OA=;
-        b=DhvpzCRlKIThfcVNtDziqZBhrM1JF//Ixv34PPmDmBVftZR7BMcnbS8NDnIbZwnUyn
-         x8E3xDjgGF4qr3dV5GUeJ3jJhONHC3+Wn/K98G3Bh5P9d9fE40mCHuLHIViZc7JruzO3
-         MwcCf0SS8K/uX6VKGJUkTLUtqJ4C0/bTVToogTDO4a4nsD24VeCaQiUlxDIinO1tG/KP
-         9M8Aep+nAjm91F4gc56FvWTQKD2/Z8pOocIK7iBL5Jj7MH9OedVDfofnAw8nlCwZFob1
-         nJoLGmec+cFMXJXs3YZYKq0rY2+Ec68L8rOL+Y7DcwrOMnlW/Dcx95V1IVUZ8LN+iWMK
-         oQIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780599941; x=1781204741;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1780608859; x=1781213659; darn=lists.linux.dev;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/ffqDjSgGQ5QaASBEo3eqt9MQXd5NnLhzD6IscnM1OA=;
-        b=MgQzjeOtFNqMMw0fKUmzzdTysAyDlW05JeB1oH5KhE5hJ2Cl8dQJrJR/pB4pELNXo0
-         HKGU/+Kc+NvEeiCtFN2vZ2rFNO75AAnnpV7w/U7gQer1W82+RSNC4qjcImszys+/oqXk
-         vPw/VGYaOequ4Ih+TlnmpzuHoJYX4rMwEXR6kvQ3lWp2nAqkmkAV+SXG+7kS2ms1FTSC
-         xAXy+Al69Hv4EZw/U5zbOulq8AA3ZT/hY9UTbfmqi3Y2EmEc4vz42E70zb5EKYCLJvOP
-         gzm+skW5QwgTK6JVrA9FQzUkYyFd3DsoB2MxZg1XSlpB78W8arvDZGd/Jnef8A/tAHxZ
-         JC5A==
-X-Forwarded-Encrypted: i=1; AFNElJ8Iaxb4eZGYwxuZulA7BGVU/RdJS7hwlXbQSK7JkS8KIpCfUPbeYZW+92eQninyNrDWdXXFSlV/T+KAfBCS@lists.linux.dev
-X-Gm-Message-State: AOJu0YwNhooofgX7O9OnmfeLJZx9bUkY1JsUW5ELUAvuhNYuI5A2Bowh
-	wLWoooHpe0xhv6U1MCBAomXDaoaQRYkS2pAAfELTopEbr0cyFbA70tVk
-X-Gm-Gg: Acq92OHfe3sSizHg9tatLVKSMNu990Z3BEUjaYlsamgBpuqunqAIgrrmWGtHlWOdcwn
-	92hRKNI9EFub2SnBa1rr54aP1pCsAeB4ut4fde+a12fPlMp3GWiQmg3Vnj+vRC0H9DrHwRx+Hsu
-	9o7iW5SaI5uTdiX+qZqNPpG7ak6arEaQ3FQQIDUGacKnPcErn1g+VxRnSjyXo9ena1LTPVce0KO
-	4eq54oaCXmhFwM7vByfS0E5WduBbTBpzsf9SZ4r5OmpEiKWuCxUhh87shJKPA5iV8q9p9Vy1Mjn
-	ju1Ucu50AtKgaDFqAY1sncE+RRDUBAnmMLp9CUEN/qIIovjV4vU1yD18kLiwuG278p3GB8FD5w+
-	ZJ98oodqW64kf2BF7YrQEHjXSvadPMIBF/Euw6X4oSzqpNf0IFXHuuX8wWWgllAJS/Bb3wcwfJm
-	rgLnkQhuZvv+WBxYILQvky1/LiKAkITjv8W/mL//Tedquyyi86TH8vVUIBl1FwqIlgC6G2mBuf
-X-Received: by 2002:a17:90b:57c4:b0:35f:b647:d98a with SMTP id 98e67ed59e1d1-370ee64373dmr263208a91.5.1780599940600;
-        Thu, 04 Jun 2026 12:05:40 -0700 (PDT)
-Received: from archslayer ([2607:fb90:7781:358:d68e:f592:7305:af5a])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c85df032df5sm5818299a12.6.2026.06.04.12.05.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jun 2026 12:05:40 -0700 (PDT)
-From: William Elder <williamxelder@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM),
-	linux-kernel@vger.kernel.org (open list)
-Cc: williamxelder@gmail.com
-Subject: [PATCH v3] staging: rtl8723bs: remove comparisons to boolean literals
-Date: Thu,  4 Jun 2026 13:05:07 -0600
-Message-ID: <20260604190508.404642-1-williamxelder@gmail.com>
-X-Mailer: git-send-email 2.54.0
+        bh=bIGgBCvFzcRF125FWD09XEERO9CROlwzV5QhSXqEt1E=;
+        b=DWFBdYSy8PJFQ0hhDtP6fpLb69ddPzTfzQInfqe4TSGM7ZY1zNSwkXb7PaUbsL/hN1
+         ndg6fRKghogVAz5Jy2C6Aeg84Dr55hCXXZdyzcbq+1jetlpKtv/grDNwH9ig+Mb5ZZoh
+         cL0yP0XJw5KbivdBpjKa2gVjj0XEtHe09+LiQIm7/5JaSg9ZXJvJHY2B6KMblPMFjWPp
+         V1PyHnOMYmHr14wrRvyAHOD4p7KdSVwjHFhSX3iX1jIXxSkiKNl36xV3NFMGlwSCFfyE
+         Rm2dSD8NZQXjHA3l+26VZ2QPeZJefRatlT7an7fwj4GWqDcGy5WCWtluJc6u0HgeeSAy
+         V5tQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780608859; x=1781213659;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bIGgBCvFzcRF125FWD09XEERO9CROlwzV5QhSXqEt1E=;
+        b=ggMcYXp12bb4nJowoY6RJaFDCk3EsfdepGDKmmcBK7kqrrl3EBm5fUA4zy5biCy+ev
+         FebIBjBqgpE/Sx4Qz7KJGQbbTP3WDcqZaND+qrd8EwaCGeG2n88LpXOPnfOytoCQ5eJT
+         762ZD5uwPSd+MkX9kWZ48wI1jMYC22ygIyj6wrXdahCLtaqMV7UpEp/Z5dyWT7Y8DVac
+         cmNFu8W+ynKCHM4rF9R3QA/b2+7VD+wuI35gMNm3NK9aDaYp2Ajf2cfqEZbJwl0fzU2O
+         ELX+b/aaKXxwr3vz5sfvfiDRnZ/1NrttNXaeeRH1VnMMCW64mnqns51zWfjUENOTGNfU
+         HtEQ==
+X-Gm-Message-State: AOJu0YyfLpbnAko+Io4WktXgz/pt6+QapFEcW4pQBZLL29CRuHCX4Y8n
+	3vI9iBYUiqC30NwcRwHt0GufZx2HhcYmKVqqBUumfEn/50PS41S3tuxv
+X-Gm-Gg: Acq92OFKpIYzuxF1VbTzXuCyX0j5OEWJO3mV3Ka5exKMROCSgpV9PCHQntM8r7l0uZF
+	96frRBVkVBKYEF7IXGIQjKxz7zYM3KBG2uctbKTZ3k8JBj8jdveLGLP5sKsuIdaSGH5H1xBUrD4
+	/bkOrvF1YANjd3VjoJ2LUMfufJ06I8PiJI4rUhzJ2pSx1Ag6U3mUOQpWy59nnV+jbnRlqhDC8om
+	0+wqxJv2b5ZPvUdpv46ueNXxSr96tUnS9XxbixtgZT57CD21/0ypu+ZKBfhIEPToZskVMHRoTJE
+	1wdE9htepp5vNR8BI6HPYL2/ENT3z3eAYWXBP4P8cJvpMyJlTAYHV1JJ5ekhkS3ZlkWzAWrxAHN
+	uZsK3bPX37yh4H5hvo62fGdXcecJbZ1eBph/M0WgzpzlpCT/9mfhv3Axl7KDvYrQH5UxszkH7ue
+	zqV2b+F+JgZ7UzuVsQob18P07nTIBPehPmQZwtuvS8ebjj2qGWGwU86wHT8Roig2rQ5xi/QoqjT
+	w1jw/dOlyR51JWCpjNI4AZOufSqVNcfXpopsag9y8J7I6wd99EvXtrLRP4Ty+CAkYUSamds
+X-Received: by 2002:a05:690e:c49:b0:660:2f29:9d9c with SMTP id 956f58d0204a3-6610708168dmr570064d50.57.1780608859562;
+        Thu, 04 Jun 2026 14:34:19 -0700 (PDT)
+Received: from localhost ([2601:7c0:c37e:2360:d412:6d5d:4bc3:48b2])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-660d644f056sm4550733d50.16.2026.06.04.14.34.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Jun 2026 14:34:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 04 Jun 2026 16:34:08 -0500
+Message-Id: <DJ0L5OCEY7FQ.3LHBEJBW5JJ9J@gmail.com>
+Cc: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] staging: rtl8723bs: add braces to resolve checkpatch
+From: "Ethan Tidmore" <ethantidmore06@gmail.com>
+To: "Dalvin-Ehinoma Noah Aiguobas" <fliegbert2@gmail.com>,
+ <gregkh@linuxfoundation.org>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <aiG4aDh2czwJ2-bf@koolguy>
+In-Reply-To: <aiG4aDh2czwJ2-bf@koolguy>
 
-Remove comparisons to true and false as they are error prone.
-Use the idiomatic C forms instead
+On Thu Jun 4, 2026 at 12:39 PM CDT, Dalvin-Ehinoma Noah Aiguobas wrote:
+> Resolved checkpatch finding by adding braces as shown in styleguide.
+>
+> Signed-off-by: Dalvin-Ehinoma Noah Aiguobas <fliegbert2@gmail.com>
+> ---
 
-v3: Fix inverted logic for ht_option checks
+The patch notes should describe what the patch does, not the tool used
+to find the issue.
 
-Signed-off-by: William Elder <williamxelder@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_wlan_util.c | 17 ++++++++---------
- 1 file changed, 8 insertions(+), 9 deletions(-)
+Thanks,
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-index 6a7c09db4cd9..1f7f24dc8f7c 100644
---- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-@@ -236,7 +236,7 @@ void Restore_DM_Func_Flag(struct adapter *padapter)
- 
- void Switch_DM_Func(struct adapter *padapter, u32 mode, u8 enable)
- {
--	if (enable == true)
-+	if (enable)
- 		rtw_hal_set_hwreg(padapter, HW_VAR_DM_FUNC_SET, (u8 *)(&mode));
- 	else
- 		rtw_hal_set_hwreg(padapter, HW_VAR_DM_FUNC_CLR, (u8 *)(&mode));
-@@ -340,7 +340,6 @@ void set_channel_bwmode(struct adapter *padapter, unsigned char channel, unsigne
- 
- 	center_ch = rtw_get_center_ch(channel, bwmode, channel_offset);
- 
--
- 	/* set Channel */
- 	if (mutex_lock_interruptible(&(adapter_to_dvobj(padapter)->setch_mutex)))
- 		return;
-@@ -847,7 +846,7 @@ static void bwmode_update_check(struct adapter *padapter, struct ndis_80211_var_
- 	if (!pIE)
- 		return;
- 
--	if (phtpriv->ht_option == false)
-+	if (!phtpriv->ht_option)
- 		return;
- 
- 	if (pIE->length > sizeof(struct HT_info_element))
-@@ -892,7 +891,7 @@ static void bwmode_update_check(struct adapter *padapter, struct ndis_80211_var_
- 		pmlmeinfo->bwmode_updated = false;
- 	}
- 
--	if (true == pmlmeinfo->bwmode_updated) {
-+	if (pmlmeinfo->bwmode_updated) {
- 		struct sta_info *psta;
- 		struct wlan_bssid_ex	*cur_network = &(pmlmeinfo->network);
- 		struct sta_priv *pstapriv = &padapter->stapriv;
-@@ -931,7 +930,7 @@ void HT_caps_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE)
- 	if (!pIE)
- 		return;
- 
--	if (phtpriv->ht_option == false)
-+	if (!phtpriv->ht_option)
- 		return;
- 
- 	pmlmeinfo->HT_caps_enable = 1;
-@@ -994,7 +993,7 @@ void HT_info_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE)
- 	if (!pIE)
- 		return;
- 
--	if (phtpriv->ht_option == false)
-+	if (!phtpriv->ht_option)
- 		return;
- 
- 	if (pIE->length > sizeof(struct HT_info_element))
-@@ -1689,7 +1688,7 @@ void adaptive_early_32k(struct mlme_ext_priv *pmlmeext, u8 *pframe, uint len)
- 		pmlmeext->bcn_delay_cnt[delay_ms]++;
- 		/* pmlmeext->bcn_delay_ratio[delay_ms] = (pmlmeext->bcn_delay_cnt[delay_ms] * 100) /pmlmeext->bcn_cnt; */
- 	/* dump for  adaptive_early_32k */
--	if (pmlmeext->bcn_cnt > 100 && (pmlmeext->adaptive_tsf_done == true)) {
-+	if (pmlmeext->bcn_cnt > 100 && (pmlmeext->adaptive_tsf_done)) {
- 		u8 ratio_20_delay, ratio_80_delay;
- 		u8 DrvBcnEarly, DrvBcnTimeOut;
- 
-@@ -1737,7 +1736,7 @@ void rtw_alloc_macid(struct adapter *padapter, struct sta_info *psta)
- 
- 	spin_lock_bh(&pdvobj->lock);
- 	for (i = 0; i < NUM_STA; i++) {
--		if (pdvobj->macid[i] == false) {
-+		if (!pdvobj->macid[i]) {
- 			pdvobj->macid[i]  = true;
- 			break;
- 		}
-@@ -1762,7 +1761,7 @@ void rtw_release_macid(struct adapter *padapter, struct sta_info *psta)
- 
- 	spin_lock_bh(&pdvobj->lock);
- 	if (psta->mac_id < NUM_STA && psta->mac_id != 1) {
--		if (pdvobj->macid[psta->mac_id] == true) {
-+		if (pdvobj->macid[psta->mac_id]) {
- 			pdvobj->macid[psta->mac_id] = false;
- 			psta->mac_id = NUM_STA;
- 		}
--- 
-2.54.0
-
+ET
