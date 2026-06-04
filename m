@@ -1,91 +1,181 @@
-Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9037B38BF9C
-	for <linux-staging@lists.linux.dev>; Thu,  4 Jun 2026 21:34:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B313A239E7F
+	for <linux-staging@lists.linux.dev>; Thu,  4 Jun 2026 21:48:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780608861; cv=none; b=iVNptFCpxkrnX3srnEwHZ6I74H46VZFV5ivtFV8SAI8sUFK9inI/uCJgvPBeknBq6HU6DpRHhaLpwRZY+Kcmw+H8QXF5iy9iP+Fy0yWKZFvtNdtByiWNHp054F4Kq/XEBjo6wZeQgwTyahnCaqMHNxs3yZNoMZzJHReN9SnAYxs=
+	t=1780609685; cv=none; b=Rq/dK6BV11W7/FssqvSPTuyOd1WEGGGTT4T7DV8BTphChgnHTMdp1VZaap5Lo+Sl0yzsZ2lGZHhlnibx8UZPs5IfEC3WSxK/vlK3IF6iQ9Kv2UPTYKJMBC0o3Gxg6adSGq7NbopsrTtxV9g2aJuKtubFbS+GmCCe5UjFuUxwx7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780608861; c=relaxed/simple;
-	bh=bIGgBCvFzcRF125FWD09XEERO9CROlwzV5QhSXqEt1E=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=qpsLQVVmUeFAFg+nfzP3rLe1EixPMA27MIFxeWIH+eV7foDtMqnnCDD84gTZ4ZXUrquBbrlcCh7KJReCMg49Cm7tpPT9kh1Akt2IBr/0Z0+U05E0iSwtzNEgEyEns5AClXvC3w95CwCF/L5HJfa5BkcE23NYpno+WPyemkeGWhY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DWFBdYSy; arc=none smtp.client-ip=74.125.224.53
+	s=arc-20240116; t=1780609685; c=relaxed/simple;
+	bh=RQw/MMIy0Y7JQXfYWayiWbJj3Y63IJWetlLoqy7cEiE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mlUw/uy06Dqnw0gcCMYGSHXKi+Sm3n8Ny3wyHKqPoBEAmeRk/3NLHCYfhYv/S5TL1McsC0wk4EPzAj1QOPEwJ4gFVT2/1CwpCQqaUGL/vsghCYFBsvJkt45zDRX4DMqLSYUQ1rwIC9PgaGGqZ/EFbC5gLR9AzrI2JMCOBEmxhZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=crVvvtCF; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DWFBdYSy"
-Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-6603d8697d2so1348220d50.0
-        for <linux-staging@lists.linux.dev>; Thu, 04 Jun 2026 14:34:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="crVvvtCF"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4903d730b1fso13000275e9.2
+        for <linux-staging@lists.linux.dev>; Thu, 04 Jun 2026 14:48:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780608859; x=1781213659; darn=lists.linux.dev;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bIGgBCvFzcRF125FWD09XEERO9CROlwzV5QhSXqEt1E=;
-        b=DWFBdYSy8PJFQ0hhDtP6fpLb69ddPzTfzQInfqe4TSGM7ZY1zNSwkXb7PaUbsL/hN1
-         ndg6fRKghogVAz5Jy2C6Aeg84Dr55hCXXZdyzcbq+1jetlpKtv/grDNwH9ig+Mb5ZZoh
-         cL0yP0XJw5KbivdBpjKa2gVjj0XEtHe09+LiQIm7/5JaSg9ZXJvJHY2B6KMblPMFjWPp
-         V1PyHnOMYmHr14wrRvyAHOD4p7KdSVwjHFhSX3iX1jIXxSkiKNl36xV3NFMGlwSCFfyE
-         Rm2dSD8NZQXjHA3l+26VZ2QPeZJefRatlT7an7fwj4GWqDcGy5WCWtluJc6u0HgeeSAy
-         V5tQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780608859; x=1781213659;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+        d=gmail.com; s=20251104; t=1780609682; x=1781214482; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=bIGgBCvFzcRF125FWD09XEERO9CROlwzV5QhSXqEt1E=;
-        b=ggMcYXp12bb4nJowoY6RJaFDCk3EsfdepGDKmmcBK7kqrrl3EBm5fUA4zy5biCy+ev
-         FebIBjBqgpE/Sx4Qz7KJGQbbTP3WDcqZaND+qrd8EwaCGeG2n88LpXOPnfOytoCQ5eJT
-         762ZD5uwPSd+MkX9kWZ48wI1jMYC22ygIyj6wrXdahCLtaqMV7UpEp/Z5dyWT7Y8DVac
-         cmNFu8W+ynKCHM4rF9R3QA/b2+7VD+wuI35gMNm3NK9aDaYp2Ajf2cfqEZbJwl0fzU2O
-         ELX+b/aaKXxwr3vz5sfvfiDRnZ/1NrttNXaeeRH1VnMMCW64mnqns51zWfjUENOTGNfU
-         HtEQ==
-X-Gm-Message-State: AOJu0YyfLpbnAko+Io4WktXgz/pt6+QapFEcW4pQBZLL29CRuHCX4Y8n
-	3vI9iBYUiqC30NwcRwHt0GufZx2HhcYmKVqqBUumfEn/50PS41S3tuxv
-X-Gm-Gg: Acq92OFKpIYzuxF1VbTzXuCyX0j5OEWJO3mV3Ka5exKMROCSgpV9PCHQntM8r7l0uZF
-	96frRBVkVBKYEF7IXGIQjKxz7zYM3KBG2uctbKTZ3k8JBj8jdveLGLP5sKsuIdaSGH5H1xBUrD4
-	/bkOrvF1YANjd3VjoJ2LUMfufJ06I8PiJI4rUhzJ2pSx1Ag6U3mUOQpWy59nnV+jbnRlqhDC8om
-	0+wqxJv2b5ZPvUdpv46ueNXxSr96tUnS9XxbixtgZT57CD21/0ypu+ZKBfhIEPToZskVMHRoTJE
-	1wdE9htepp5vNR8BI6HPYL2/ENT3z3eAYWXBP4P8cJvpMyJlTAYHV1JJ5ekhkS3ZlkWzAWrxAHN
-	uZsK3bPX37yh4H5hvo62fGdXcecJbZ1eBph/M0WgzpzlpCT/9mfhv3Axl7KDvYrQH5UxszkH7ue
-	zqV2b+F+JgZ7UzuVsQob18P07nTIBPehPmQZwtuvS8ebjj2qGWGwU86wHT8Roig2rQ5xi/QoqjT
-	w1jw/dOlyR51JWCpjNI4AZOufSqVNcfXpopsag9y8J7I6wd99EvXtrLRP4Ty+CAkYUSamds
-X-Received: by 2002:a05:690e:c49:b0:660:2f29:9d9c with SMTP id 956f58d0204a3-6610708168dmr570064d50.57.1780608859562;
-        Thu, 04 Jun 2026 14:34:19 -0700 (PDT)
-Received: from localhost ([2601:7c0:c37e:2360:d412:6d5d:4bc3:48b2])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-660d644f056sm4550733d50.16.2026.06.04.14.34.18
+        bh=nnLMdS9dXm1Xt3xZ1tL3GqGxgdcxj0AkHPljnYKRHGw=;
+        b=crVvvtCFb5/y934OYKIZaNFm0cCd87PAtI7e2FofBnk8llLSpWIARgajUXlyyg+uRB
+         LpM68ED3w7IfHG8pkMJAuQA7jfJAkaZglrbySWlED6NrlhI9RZ7GjpKh7/vMqzOGNxIM
+         /RWoLbS2wxUN7/IQzedAQP+P2rezLvVx5PwWqoKL+pmEqduBRELJhZuJTd8+60aGyomt
+         sblosR0fZ7/s/qhpB3Ig5NH3hbJvNp7nmDOTjq9KgBOVBAjss8nsB7/jZM9G/wCQrwfe
+         vbhkbfNX50CmWWWRDoYaY38sntaRmYEdM1Ek5uh/nXPt7Nr7pEBU1zyEk7OHuU1DzQ+w
+         lZCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780609682; x=1781214482;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nnLMdS9dXm1Xt3xZ1tL3GqGxgdcxj0AkHPljnYKRHGw=;
+        b=fZlEwokOJ/AiI9XtLPGD0+WRmk7JgnAqwMcxKFIv2sA0tAKsIpeYCTzkV29EPPIwEe
+         suIm2UO4MxUki6IhsDugTSMqXmYFmZLbmYqmvCrVeA5YKT72bzIYbfH8FhNp9D8rtmU7
+         Fk5GKAI/pMgyYsrlaCb1r+eY7SlV2+fRrxA2NM/OHYCpcsEOYX2TRavr7a1ojSd6+4uQ
+         x4XtQvYPGX4jCnFQXzujDHIxyAHqx8+vscw5IVjvhjwp1wXnNOrXjt2kgatHeZ+OTDzT
+         qiBFk89lV+DtbsCa79sCcMDez6ZDqwXBYjroWBZ2W2DHtnovclGoBwR15XY9KIQMzs/W
+         4H3Q==
+X-Forwarded-Encrypted: i=1; AFNElJ9zuCb4uU5lO6IsqNEOpck7NMjOUBdssJKsaC9OjEBfiouy7KuhVXc4ntMXeg1MAnIEp9NArI3ccdJQHMgL@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw9mFz5YRM/r6PpR+B8m2la2Nx+X6toRUqZv/DCvQE/wvYqh5W4
+	PYDEUMoet3iCsFFAulhxy4m23Q1qUpvvZQyS3TKqVojI7tRlZ6q/t1RC
+X-Gm-Gg: Acq92OHWRsxwa916low/yQilW0IsOopvOWlVYz7Aupynh5G8Iz8fIKS0c4HhV7K+Hq2
+	KCQR9unWs3rS0cZNnq3yrbAZOScJwSvoG/Ssoga4TQcFU4E5YJnT7XRPpVbB80bPTpz+dBQg5kT
+	qHdu7TnQAtBU80AHWouvD/lYaGk83PGYJeEKWB8ZuIbH7aRgdzJt46uManlfev+mTHCH7nyNMw9
+	zO40o5DpNIt/prSEDhrB76jg5dWs8csOj8OhpI7IycdF9sK/HPlHrrh1RLw0NJgCdbbiwGFtgX7
+	/EYFvWcB4UpCKXlaDVJx3HtdL7KkPuDduz/s4qfvm4zSt+IR1muofYQGNX+NGID60TnV0jazqJI
+	tGxzYKAtF+BqJqQbP42gNu5lLWyKHxXy/qK6Oht2FYUrJG3S/pzc/0o3h5+Mk/6Im9ShnX8FV7k
+	EeXJEJu59GaaNdRzRw+7axAugpZj7vyrE5nHEgfCbEJw==
+X-Received: by 2002:a05:600c:45c4:b0:490:4ee0:82ff with SMTP id 5b1f17b1804b1-490c25fcfafmr5160015e9.27.1780609682054;
+        Thu, 04 Jun 2026 14:48:02 -0700 (PDT)
+Received: from [192.168.1.50] ([81.196.40.241])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490bc39eb04sm103707765e9.6.2026.06.04.14.47.59
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Jun 2026 14:34:19 -0700 (PDT)
+        Thu, 04 Jun 2026 14:48:01 -0700 (PDT)
+Message-ID: <853404cd-cd0d-4562-82bf-2272240df785@gmail.com>
+Date: Fri, 5 Jun 2026 00:47:59 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 0/2] staging: rtl8723bs: Fix error handling in
+ _rtw_pktfile_read()
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Minu Jin <s9430939@naver.com>, gregkh@linuxfoundation.org,
+ dan.carpenter@linaro.org, abrahamadekunle50@gmail.com,
+ zxcv2569763104@gmail.com, milospuric856@gmail.com, karanja99erick@gmail.com,
+ weibu@redadmin.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20260127153811.1592900-1-s9430939@naver.com>
+ <c6828c20-8f77-423e-a744-344d09c54488@gmail.com>
+ <ah955alcKpjMXYXy@ashevche-desk.local>
+ <fa16641f-d6b2-47e8-b1a9-08d63387c733@gmail.com>
+ <aiA0zDHc494rnc55@ashevche-desk.local>
+Content-Language: en-US
+From: Bitterblue Smith <rtl8821cerfe2@gmail.com>
+In-Reply-To: <aiA0zDHc494rnc55@ashevche-desk.local>
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 04 Jun 2026 16:34:08 -0500
-Message-Id: <DJ0L5OCEY7FQ.3LHBEJBW5JJ9J@gmail.com>
-Cc: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] staging: rtl8723bs: add braces to resolve checkpatch
-From: "Ethan Tidmore" <ethantidmore06@gmail.com>
-To: "Dalvin-Ehinoma Noah Aiguobas" <fliegbert2@gmail.com>,
- <gregkh@linuxfoundation.org>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <aiG4aDh2czwJ2-bf@koolguy>
-In-Reply-To: <aiG4aDh2czwJ2-bf@koolguy>
+Content-Transfer-Encoding: 8bit
 
-On Thu Jun 4, 2026 at 12:39 PM CDT, Dalvin-Ehinoma Noah Aiguobas wrote:
-> Resolved checkpatch finding by adding braces as shown in styleguide.
->
-> Signed-off-by: Dalvin-Ehinoma Noah Aiguobas <fliegbert2@gmail.com>
-> ---
+On 03/06/2026 17:06, Andy Shevchenko wrote:
+> On Wed, Jun 03, 2026 at 04:40:45PM +0300, Bitterblue Smith wrote:
+>> On 03/06/2026 03:48, Andy Shevchenko wrote:
+>>> On Sun, May 24, 2026 at 09:30:01PM +0300, Bitterblue Smith wrote:
+>>>> On 27/01/2026 17:38, Minu Jin wrote:
+>>>>> This series improves error handling in _rtw_pktfile_read() and cleans up
+>>>>> the code style to comply with kernel standards.
+>>>>>
+>>>>> 1. The first patch combines the logic change and caller updates.
+>>>>>    The function change and the caller updates must be in the same
+>>>>>    patch. If they are separated, the code will not work correctly 
+>>>>>    or will cause errors at that specific point in the history.
+>>>>>
+>>>>> 2. The second patch focuses purely on code style cleanup (changing uint
+>>>>>    to unsigned int) as requested by Andy Shevchenko.
+>>>>>
+>>>>> Regarding the logic change in _rtw_pktfile_read():
+>>>>>
+>>>>>     The original code used a ternary operator to read whatever data was 
+>>>>>     available, even if it was less than requested. This could lead to 
+>>>>>     callers processing incomplete data without knowing it.
+>>>>>
+>>>>>     I have changed this to return -EINVAL when the remaining data is insufficient. 
+>>>>>     This is safer because most callers expect the exact amount of data and 
+>>>>>     should not proceed with a partial read.
+>>>>>
+>>>>> Testing and Verification:
+>>>>>
+>>>>>     I do not have access to the physical RTL8723BS hardware. However, I have
+>>>>>     performed a rigorous manual audit of the data path and verified the
+>>>>>     changes using Smatch static analysis. The analysis confirmed that no
+>>>>>     new warnings or logical regressions were introduced in the modified files.
+>>>>
+>>>> I have some bad news:
+>>>>
+>>>> https://bbs.archlinux.org/viewtopic.php?id=313401
+>>>
+>>> It's unclear that this patch made it happen. See below.
+>>
+>> It looks pretty clear to me, but okay. I forwarded your request for bisection.
+> 
+> I don't know how it does. There is no information about from which kernel one
+> upgrades to which. I assumed someone bumps from v7.0 to v7.0.3, but there no
+> such patch. If we take v6.19..v7.0.3 range, there are dozens of patches.
+> 
+> I.o.w. it is semi-poorly written bug report: some of useful information and
+> some crucial that is missing...
+> 
 
-The patch notes should describe what the patch does, not the tool used
-to find the issue.
+The new message "coalesce failed with error -22" is printed when
+rtw_xmitframe_coalesce() returns -EINVAL. This is the only recent patch
+which touched rtw_xmitframe_coalesce().
 
-Thanks,
+>>>> [quote]
+>>>>
+>>>> Hey everyone,
+>>>>
+>>>> I recently upgraded my system, and now I’m having a strange issue with my
+>>>> WiFi (Realtek RTL8723BS).
+>>>>
+>>>> now I can no longer connect to any WiFi networks as a client. however,
+>>>> creating an Access Point (AP) still works fine, but whenever I try to connect
+>>>> to an existing network, the connection fails.
+>>>>
+>>>> dmesg logs:
+>>>> Every time I attempt a connection, dmesg gets spammed with this error:
+>>>>
+>>>>     [ 1083.925640] rtl8723bs mmc0:0001:1 wlan0: xmit_xmitframes: coalesce failed with error -22
+>>>>     [ 1084.921217] rtl8723bs mmc0:0001:1 wlan0: xmit_xmitframes: coalesce failed with error -22
+>>>>     [ 1085.921434] rtl8723bs mmc0:0001:1 wlan0: xmit_xmitframes: coalesce failed with error -22
+>>>>     [ 1086.922320] rtl8723bs mmc0:0001:1 wlan0: xmit_xmitframes: coalesce failed with error -22
+>>>>     ....
+>>>>
+>>>> Has anyone encountered this specific "coalesce" error with the rtl8723bs
+>>>> driver? I'm looking for advice on whether this is a known bug in recent
+>>>> kernels or if there's a specific module parameter I should try to bypass
+>>>> this.
+>>>>
+>>>> System Info:
+>>>>
+>>>>     Chipset: RTL8723BS (SDIO)
+>>>>
+>>>>     Kernel version: 7.0.3-zen1-2-zen
+>>>>
+>>>> update: I fixed the issue after kernel downgrade
+>>>>
+>>>> [/quote]
+>>>
+>>> That guy should bisect and find the culprit. It will help a lot to understand
+>>> what's going on.
+> 
 
-ET
