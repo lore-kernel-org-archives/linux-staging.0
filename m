@@ -1,123 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC9D23FD159;
-	Thu,  4 Jun 2026 09:27:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780565237; cv=none; b=AR2w3+s1WmvVJErTTgeRWV9uwYMcAGLglbjVxrQ7TJeC4D2d8EIY774N7zxifoAu9Y4Bkq0Bj6cYy8M9k3eRGdxvrLQ8ursZzm1KMnvPW56XKzRKF2KJ1rvKsznbLmAFr7TgM2rRj2Ow2X/oFBGh6c6HE2tNCrrOr0ZpMFC7dOc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780565237; c=relaxed/simple;
-	bh=SjM/U004WGDu9lfGjIked+BXK+dA1fpvoD+6Cieo/iI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ngpZ2UnX1/zFoyjvfr71WpycxAMQVNhzqF+eKlmAOneVSEJd1NmTfimCQAHySNU85y2AvulEauHY7LEXG86tWtQ76/ALer46qrynptOInfTDwjPa00hq9XnQGR8i4Q+//l3omqFO6vl7uJOsGyq8KRG5koGxUtJ3x9NekYD+v9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m6fdk5Q2; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6034036BCDD
+	for <linux-staging@lists.linux.dev>; Thu,  4 Jun 2026 09:52:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.177
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780566734; cv=pass; b=bnWxJzJfxXLqBMJ8MOlmFHy17ItXD2kIU19Dccn0qqINl+qPelO/MuKHq19HMik3P/aeJQ2V3tDIyFCqwpq98IbhdNerv3EEKQUfNEkFT3eIz6o2F5G2GJnTSMzAQczUwpWCNoFbkZtejNdxM4vXldszxN8s+YssyT5zskKRyOw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780566734; c=relaxed/simple;
+	bh=5OJCMJ+HcTg2MlMj6RL63HqLG8V3a4GLeDXOtuwojQU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FXrIRpUQm/wu4oKfsejYLAVDjuXbF2Zy0kUmO05IF22DNGOQl6n5HOkGFjk2GS/S3uGFzzgy5+d55TJroe02lnuvqWE2bdprIA+5XYFtu6sFn5/kuaRhMB1VUtDYl4o+Zjn7zdt1SghAPcECrlvQZWZDENTNY1BNoTxDHFE8Azg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JmJFkVG6; arc=pass smtp.client-ip=209.85.210.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m6fdk5Q2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 012211F00893;
-	Thu,  4 Jun 2026 09:27:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780565236;
-	bh=Y/ISGDFhn+Nt3MpYi8Wixou+ghY4kt+aKNp5hNGAjcs=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=m6fdk5Q2fE7svINVgrt1IItTH3rpvPN93kkLp6tn+82SRM59esIdUqdfq/Zye6Kdk
-	 CjzcM7GJAeEwf+m4sEkFY0HvklFW/CQEUrQk0ETa7Vodw8aypm6upLa6d/d1KdRLbT
-	 ixC2HpYhySo3jcak8Fm47Vr8tX4q9BAyx9tvTHgqfb4bgOpDyF+8ogYPkWooSepT2P
-	 36QEfwfY3KZeQjyOFBWmt13+sPyURzkR77po5tHIrODb/dEAzRH23GjeIgdNfRBhLx
-	 aE9/yIMPrO7ESo38mGlXKH2cvziIQJ17tu6ENsntvb6CfKTIAiZUg5U8HJCX7VO1GP
-	 O8qBsgDZ60wlw==
-From: Lee Jones <lee@kernel.org>
-To: lee@kernel.org,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	Viresh Kumar <vireshk@kernel.org>,
-	Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev
-Cc: stable@vger.kernel.org,
-	Nathan Chancellor <nathan@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Sasha Levin <sashal@kernel.org>
-Subject: [linux-5.15.y 3/3] HID: core: Fix size_t specifier in hid_report_raw_event()
-Date: Thu,  4 Jun 2026 10:26:52 +0100
-Message-ID: <20260604092659.3953067-3-lee@kernel.org>
-X-Mailer: git-send-email 2.54.0.1032.g2f8565e1d1-goog
-In-Reply-To: <20260604092659.3953067-1-lee@kernel.org>
-References: <20260604092659.3953067-1-lee@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JmJFkVG6"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-8422f395a4aso307488b3a.0
+        for <linux-staging@lists.linux.dev>; Thu, 04 Jun 2026 02:52:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780566732; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ItrYpz7VefsmbtHJRGTmoFlryv+2riTbChyUyjUjaLE4wxr10LPJbdpTeX1OpyB/F8
+         ICMqpb7yQ0RnFM7J848/hkHZJ1EIXiTkPeSUvxgiRvvzYHYD6mFiRqNHhVHJ2e+EMt0m
+         vIh332ZOUwnBVapZkAOD/kWiE6N6MicyWsRYvp+V4wdBx+KNBCAyExN4wU8RlLIOehfh
+         QPAfV3s7NNcH1Xz/lwrNUXeGW45aF85otvTUJNmiidoHRIJ+9zyuPzqVSMcaL0EhO4Kr
+         l+zCkQJSmCWgI6tv6YywydD407T9G+UHusfr8Gv4Mr+/2OnhTa3Ww6hwtBA6tm2neLNp
+         L0LQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=5OJCMJ+HcTg2MlMj6RL63HqLG8V3a4GLeDXOtuwojQU=;
+        fh=X05rUgnOtrV29ZohCNUycGaPsgXN11YPP0euZg8J+G0=;
+        b=f/Dq5Gyg209cc4xfAgC3HfjPTBrpTWi6KKPgEEJY4h/qIMt0gm3snCLXW3MCpUtlcJ
+         qZn9eX6wf6WrLEv3f3YPFPT6DlE3cM6vg5cm1zxf12RgJsbQ5cSuSyp6DF+xWqFH5MTd
+         IOAr8yeoys/K1bu1mQ9HawIIH/+aFTS2sdBOhuVbAkcF6fff7qpPpqcpTqrOdGsvOOGO
+         bvl7BkXEv6N0BMXqf1UO73WQhjzQTfdohG5ZXfKNitMy5Yb4SHXJF+cNeZATjVBRjOSJ
+         0YJjUKfmLygTXbQToIzOGNMQ1wRyL5xI/cwuxxGAZJj20xCPjzBR26rgLSy0u4+q6S2d
+         +ETg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780566732; x=1781171532; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5OJCMJ+HcTg2MlMj6RL63HqLG8V3a4GLeDXOtuwojQU=;
+        b=JmJFkVG6yJ+26AAdzMcqPitJtV8n74JzsAR71sYbWvF2eXJtCn+9J007KAvyf5PspA
+         AF/cbQZIzCER5hOVmTCaLytesqHrGBYdy8DU5tG4ntvMRzqO8BdayOd9UCsFrxhIwnnR
+         d1YlqDM0e7IqnWGLOd6ZXkr7JsKFdQa+AjapNXIko+fmbYq2ef2flLLIiWbUuN8bNFrT
+         xYpz5teEWfiprEVUPYIOKIft3wklH+nK9jHKtzWGA5Cwn1BHcghpkaZmm6nbGJi5kkwc
+         bd2NXCw+A63WKmqHfj63A444zb6UtKB2j9zMhNvC2qn5U568ODp2cwnh+wJKYQ8btmlP
+         l7sA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780566732; x=1781171532;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=5OJCMJ+HcTg2MlMj6RL63HqLG8V3a4GLeDXOtuwojQU=;
+        b=nbeZCgRAaba1gI0DZCr5l5+F7APR8mdf6c/MJactbPgfRw/ZUmIEzc90E5e0dv8yBO
+         FQ06DEoFGWAKoEQGINXnkOCa/kxJVmxGqo96SDZT9CMvs7920Bfog9HWN6CWyGGikQhb
+         YNMM41+N4i/zlz3hw+IRb93sfQfBSFGlCZasNVCi5ObEqXq8QQQCneJMXwBtqnrtuK0Z
+         uMJx+We+25oxGd+kTXhXlZZMprBqQ6swI0+r8oZCLIEc4bUGs+Y3QcEegnCnXbAxJluM
+         lep02/zfGoJ9UEKJ45fZvpICTBfHabMVAHZeaPd4WBeoi8Dieg3yMtzXTnY5zxJqXjSl
+         L2WA==
+X-Gm-Message-State: AOJu0YxEhHSekXOckymjf9uzHzMmA/ra57sH5DOPxhB/rWoEUd9nNTqS
+	Sq/tDcRRGeEEcpCX84fRizTbslnJICnygF6oE7f/EKQSi1V4vwE0I5iH2QYMSuU5X+gMyrTUwn7
+	+l/IbtLW0CTRY1TRDDJEXplZ79AF8kDo=
+X-Gm-Gg: Acq92OEprgvlErN4tDiTinoND9ntl8glUG0ucYj8T5xT0ZwvAGDh9/mjvE7eN6ROrJy
+	FuAUFTDAv8tY+Nhq49O3bxAV9ATQ3Mo3P7NVVG6a58F3ceSz5JNjc/pEh+GVQSz9u4gW1D/7xqo
+	Qq0QASlJA4Gky49aj0HtDckZ81xiwa/HjM9LtFx8/33bAyNAndhaT0DJcnQuvwHOlX6rmQ73uOu
+	SJTOFHGO7ur2BQLrnojnr3n0C7hrTuWVhhxc+VU22dBdLYQ3GGZDpvpViflVmINvgOpM9Ko3boU
+	dqIETbMgBlgHH8BoXg==
+X-Received: by 2002:a05:6a00:10d5:b0:82f:53f1:1937 with SMTP id
+ d2e1a72fcca58-8429b7254bcmr2457636b3a.27.1780566732530; Thu, 04 Jun 2026
+ 02:52:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAGEkeHfdQcZ4tfayL0=pbN7roXrO7VBqdWNu_sq6yLjEk=G3Dw@mail.gmail.com>
+In-Reply-To: <CAGEkeHfdQcZ4tfayL0=pbN7roXrO7VBqdWNu_sq6yLjEk=G3Dw@mail.gmail.com>
+From: Grewstad <dogestad24@gmail.com>
+Date: Thu, 4 Jun 2026 15:22:01 +0530
+X-Gm-Features: AVHnY4J0FwGCAqLHTL932eHC4rKN7g1_okzgbq1ywZ412q5kr8-A-dgUcOxIxl0
+Message-ID: <CAD03fjZ=QQ_riJtUd3pvjioPRD8_DZi7p93+FBSxBAYRV+S7wg@mail.gmail.com>
+Subject: Re: [PATCH] staging: axis-fifo: remove driver
+To: Denny Lin <dennylin0707@gmail.com>
+Cc: linux-staging@lists.linux.dev, Dan Carpenter <error27@gmail.com>, 
+	ovidiu.panait.oss@gmail.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	jacobsfeder@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Nathan Chancellor <nathan@kernel.org>
+Thank you. i think now that we have found some users and
+applications using this driver, we will not remove it.
 
-[ Upstream commit 4d3a2a466b8d68d852a1f3bbf11204b718428dc4 ]
+Thanks,
+Arihan Bhor
 
-When building for 32-bit platforms, for which 'size_t' is
-'unsigned int', there are warnings around using the incorrect format
-specifier to print bsize in hid_report_raw_event():
-
-  drivers/hid/hid-core.c:2054:29: error: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Werror,-Wformat]
-   2053 |                 hid_warn_ratelimited(hid, "Event data for report %d is incorrect (%d vs %ld)\n",
-        |                                                                                         ~~~
-        |                                                                                         %zu
-   2054 |                                      report->id, csize, bsize);
-        |                                                         ^~~~~
-  drivers/hid/hid-core.c:2076:29: error: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Werror,-Wformat]
-   2075 |                 hid_warn_ratelimited(hid, "Event data for report %d was too short (%d vs %ld)\n",
-        |                                                                                          ~~~
-        |                                                                                          %zu
-   2076 |                                      report->id, rsize, bsize);
-        |                                                         ^~~~~
-
-Use the proper 'size_t' format specifier, '%zu', to clear up the
-warnings.
-
-Cc: stable@vger.kernel.org
-Fixes: 2c85c61d1332 ("HID: pass the buffer size to hid_report_raw_event")
-Reported-by: Miguel Ojeda <ojeda@kernel.org>
-Closes: https://lore.kernel.org/20260516020430.110135-1-ojeda@kernel.org/
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
-(cherry picked from commit 3ab135238832446399614e7a4bb796d620717806)
-Signed-off-by: Lee Jones <lee@kernel.org>
-(cherry picked from commit 0f77a993b5426cca1b046c9ab4b2f8355a4d45dc)
-Signed-off-by: Lee Jones <lee@kernel.org>
----
- drivers/hid/hid-core.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-index a8d4673c7b8e..e106b59b55da 100644
---- a/drivers/hid/hid-core.c
-+++ b/drivers/hid/hid-core.c
-@@ -1793,7 +1793,7 @@ int hid_report_raw_event(struct hid_device *hid, int type, u8 *data,
- 		return 0;
- 
- 	if (unlikely(bsize < csize)) {
--		hid_warn_ratelimited(hid, "Event data for report %d is incorrect (%d vs %ld)\n",
-+		hid_warn_ratelimited(hid, "Event data for report %d is incorrect (%d vs %zu)\n",
- 				     report->id, csize, bsize);
- 		return -EINVAL;
- 	}
-@@ -1815,7 +1815,7 @@ int hid_report_raw_event(struct hid_device *hid, int type, u8 *data,
- 		rsize = max_buffer_size;
- 
- 	if (bsize < rsize) {
--		hid_warn_ratelimited(hid, "Event data for report %d was too short (%d vs %ld)\n",
-+		hid_warn_ratelimited(hid, "Event data for report %d was too short (%d vs %zu)\n",
- 				     report->id, rsize, bsize);
- 		return -EINVAL;
- 	}
--- 
-2.54.0.1032.g2f8565e1d1-goog
-
+On Wed, Jun 3, 2026 at 7:18=E2=80=AFPM Denny Lin <dennylin0707@gmail.com> w=
+rote:
+>
+> > I could not find any user-space applications that depend on this driver=
+.
+>
+> While searching GitHub for userspace applications, I found a couple
+> of public projects that appear to use /dev/axis_fifo_* devices:
+>
+> - strijar/brass_gui
+> - ppoolad/uoft_lidar_test_system
+>
+> Thanks,
+> Hungyu Lin
