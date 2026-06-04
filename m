@@ -1,127 +1,392 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-y-111.mailbox.org (mout-y-111.mailbox.org [91.198.250.236])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A78639EF33
-	for <linux-staging@lists.linux.dev>; Wed,  3 Jun 2026 20:33:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.178
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780518790; cv=pass; b=nNhXeFu942MLks/mGi5/0fsFZ1/ZZ8LGvK+oz4LrG3TxOlGgAnNRyROV1ZdDsjsNgKG7Hj1ciYwthdywGUOCAsRdJlHwCWGmb4dmUzXgDrf05Zo3/z9Iy4PiXjx4AvLdttSoTuqrmgEhfLrw2HshzKN0auTQ1WkteBDoLCKWwDo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780518790; c=relaxed/simple;
-	bh=cfklGxv+xr/9wIU1WjqaTibJt980qjKF68ybQarMsy0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hJ0KOsUwc7SPhBKpIyH8x2FLU8S4znNhWXOFF0oF0O2jK1MxwTVBo8VdgcVre9MPvcBlwKpRytrwUIO+aPA05/vyExuqp0p3s3We1h3iuIUaPhTy6EZcztSabm5x6NxKDH+XuZIzRNBEd1aNJFeDlFr4a2y7U4obWbyypHitdOI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EiFaWylp; arc=pass smtp.client-ip=209.85.160.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EiFaWylp"
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-517583cb07aso36454611cf.2
-        for <linux-staging@lists.linux.dev>; Wed, 03 Jun 2026 13:33:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780518788; cv=none;
-        d=google.com; s=arc-20240605;
-        b=lnPqry0Yyk33Xju/v96vzBQsCU3kffCFfc43M8/mFRhGi9UdGLeXf3ttTwpDCOI2iP
-         IEc1UQ9nvK38ffskU8nUoaWPcCvjUdzRmwwwV1rvZk+v2tumvTokOoqzUT7+9maYTqu4
-         hvu2RWKZvMgTCy2DPJB/AGXIzXxDxS7P+FJbCCyGE9oliVlWK//AY0yfGYwJMyUE2uf3
-         f/gtewhz2+LhbP7ORfYfzzpllu7VbiIw4eIagpt0WZkv5Ory1X1oQy6+yiGkFys4H7vC
-         Z9+kKdCjuIdBhz/p5//hSonfECRIUxfkdelaqMrWvdZyaAwVA5MF4iJLiBKtKK9URRHT
-         Oszg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=iWDKvC2KBDKKn67tTc7DvnDMEhdHE8FXwlVZDxzGBW8=;
-        fh=r44HrKjNK48gx/wjk67xY6nsf6oUfzWcOlW24DR9zIM=;
-        b=WXesP+EZc+Ydibp1g1D5IbHGFXY6AjmiRjn5UwfWPUBNm4B+uDoHGQglAKu1/iUgsW
-         n5CV42S/2aBqBvSd54zqHwM7lzIUEv1JGCxHzxKrdKCuKr7yACDIXvadUOPpalc9i2gH
-         z6+bDEhJxc3DZCKZDh9Eb9rvTlOgiFjw2kRI78tgRXRlqsMrggz9gaJmspjZ8SZL+g4v
-         0GN9bipZJDg0lt2y9Hrx6T4kMI7cTHh6QJw4+XlHQYBnc5rDGtZQp8Ny0MO/k+X/x3+N
-         ilTMP3PfPWJnCLd6CtZpaUiVI1NuznUL9t4IwOx5R+wZlZSY9ZzOeFyl9sJN4VYDm7Cy
-         APxA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780518788; x=1781123588; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iWDKvC2KBDKKn67tTc7DvnDMEhdHE8FXwlVZDxzGBW8=;
-        b=EiFaWylpqeMCLNqmRMBt+c9OYo6NZXhPsCG+p7FDU2/1OgOSpBm3+yo9rJRWjh1E4u
-         qQQGc/6kbdDkiN4ST0PNLrjVBhMQ2DhqOtDftg6dIIqMZTcQMWduosALO3jQhojUhrv6
-         7ioy6nJWqo0FbVdcW36/d+GFfFpkyMCDRuZYyG4IdfRvclcGFbiYjM3zRLKh3n1wcfqi
-         PCa7eKBN45KzwhF+YBkPusrGRBhkfOhGehRWQ3LoFOZSW1xDD62G6ZCQcMl1C0nP5e4p
-         Vd5/yySUbCnVJdqAugJRgMrgo24CUWrE1ZxCICSgi1/dODTvsD3PEpIWS1wN+rgMqwTR
-         dOCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780518788; x=1781123588;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=iWDKvC2KBDKKn67tTc7DvnDMEhdHE8FXwlVZDxzGBW8=;
-        b=g8W5q+lpVZkmzhhWmKnK397vG7GCblq0n3Z5yMJfacmPbhTM+r4G2TWRwGuFpfhvgC
-         UbiULHcnTWB1hkgKQpa9/uFxhY2seBPpJM0SYXCf6iiOljOMe3orgapOwH7yUPDzs6cl
-         tMEZcXJGLcCvU8dn/2EJ1o1JpvwUkaIk5HqNHPJJyGJXfEaUxtNFJAzSvD6T9E/7cOt5
-         hpFYeAqRTsMOKVGqZ9baVnss5aQ0nljK8dxka3Cm2k8KGhRH6o496nAgWqzMDnG56gFB
-         q5kSGxTOpg9psQfnUQ4FHneu+L/m2ieelcC41QeFLjUUNceb5sI01008Y2/yi88DTefU
-         88fw==
-X-Forwarded-Encrypted: i=1; AFNElJ+sfffb8FTH3aoEDhGGtAEidbJcnuze7Ei0By7hnobbMJduO76kG/u6k5d/SttwBS9U8/1P+33ptSTM4wuK@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyrd7wVWgBk6G1RL1NLlxLa3/avRqHieNsnfGNEQh8tUAB7ZL+X
-	/37gxBAVw5slS4YaK2s54WiXSLAELlkBfanSZILguUkBQ2NV9ZKt09kmxazi8mdiIiCGavGN+Nq
-	7qjbnv/5KaYUxrD3moiNonod25TFuCPNuY6Vs5DQ=
-X-Gm-Gg: Acq92OFuePx/BfhfzaKHMPlgN9Md+WV33Iwxr03jc6RUhsbpXmhg3SPzau+E08Xnq6I
-	xjmSOPC5YuQvyq6CZIjg9uL8ntZP34Mn+pxDCfCcI8EtNKfYSsd1J6/HHxOzJpL0uzpp46pYFcz
-	nA5JpYX5T1XTq6ag5Pk6nnZ2mtf2MlAxSxS535+hH1nFq6LJzRWL+7Lm6uD3ebm6ws3Xx3mvNJD
-	vxOoXsLc85/7F0mC1q1/nunzv4idx4+qcZfOtn8aOdh+lh2GEk/JJPn9wDQ5/FzXRadLSvm1Nlf
-	j1etP0gy+vo5zBCt5cXFLBNU9vwZs+XUS1xmyjOPk0mQC582XS3OmwWlpsDAQY/ANUtOaNhg/xR
-	uOqB6jTE=
-X-Received: by 2002:a05:622a:178e:b0:516:e249:e30f with SMTP id
- d75a77b69052e-51778784622mr76184571cf.42.1780518788589; Wed, 03 Jun 2026
- 13:33:08 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A87D53438BF
+	for <linux-staging@lists.linux.dev>; Thu,  4 Jun 2026 04:51:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.198.250.236
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780548690; cv=none; b=UicYTODJ07v3juf/+fYZ0HPS9wvYttIv9aeVofQI6hNmKJA2TPpyc66hLdrv+9kCI4uEO4FOjdino877PlHkCamYWwskgfKII6OdHwPZUsP7PyICrgHEdPd8FzTiYKXyqx1dDrsdbBMGT3s6A4rcYcMTRPtI59IU7O7g5szSN1w=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780548690; c=relaxed/simple;
+	bh=PKX8Yo0XCcGOAoC2ewM9iznMXNtKnY6o6m4CIsvpEa4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=H5CryTeXRJLmz1et5qqm+KGM59VyT2jGF/50+1uEkwen9yrjqhItw0z8PUOBrfvoqXH4se9VN+7vtYMEn0R55ko7kU/J24FTAS6M/sODAn1/FoQ+86QeOwte7Th+ma/JV/vgN478na+ggCIsoJEgXMpEyudGfHvEeIu7DBfBSKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mavick.dev; spf=pass smtp.mailfrom=mavick.dev; arc=none smtp.client-ip=91.198.250.236
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mavick.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mavick.dev
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-y-111.mailbox.org (Postfix) with ESMTPS id 4gWBwl2RRTz9ykq;
+	Thu,  4 Jun 2026 06:51:19 +0200 (CEST)
+From: Eugene Mavick <m@mavick.dev>
+To: gregkh@linuxfoundation.org,
+	error27@gmail.com,
+	khomenkov@mailbox.org,
+	ethantidmore06@gmail.com,
+	m.steinmoetzger@gmail.com,
+	tomasz.unger@yahoo.pl,
+	arthur.stupa@gmail.com,
+	jannik@jrehkemper.de,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Eugene Mavick <m@mavick.dev>
+Subject: [PATCH v4] staging: rtl8723bs: remove unnecessary parentheses
+Date: Thu,  4 Jun 2026 12:51:12 +0800
+Message-ID: <20260604045112.830216-1-m@mavick.dev>
+In-Reply-To: <DIZB2839PXFV.3A5L73XAO2X67@mavick.dev>
+References: <DIZB2839PXFV.3A5L73XAO2X67@mavick.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260603195239.200775-1-williamxelder@gmail.com> <4abc61e2-e5f3-4c92-a751-c8397c1ec8df@sezginduran.net>
-In-Reply-To: <4abc61e2-e5f3-4c92-a751-c8397c1ec8df@sezginduran.net>
-From: William Elder <williamxelder@gmail.com>
-Date: Wed, 3 Jun 2026 14:32:57 -0600
-X-Gm-Features: AVHnY4JWkEWPccG6ApQwqoeRSCFUChzMnzn_cZ7XrpZEcXaSloUhFP2Ja8dzfNI
-Message-ID: <CAPoYzh+o_FqrcyitBcLSV1RY=-ySHGPL30HCxg+EuFxn6sLuuQ@mail.gmail.com>
-Subject: Re: [PATCH v2] staging: rtl8723bs: remove comparisons to boolean literals
-To: Ahmet Sezgin Duran <ahmet@sezginduran.net>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-> Still same buggy code, V2 didn't change anything.
-> Please work on it properly and wait a day to send a new revision, not
-right away.
-> Also, send your replies using `Reply All`.
+Remove unnecessary parentheses to clear checkpatch.pl warnings
 
-Apologies, I fixed the code, I'll wait until tomorrow to send the new revis=
-ion.
+Example of fixed warnings:
+CHECK: Unnecessary parentheses around dvobj->cam_cache[id]
 
-Best,
-William Elder
+Signed-off-by: Eugene Mavick <m@mavick.dev>
+---
 
+V1->V2:
+Fixed following checkpatch warnings on modified lines:
+CHECK: Alignment should match open parenthesis(line 1114, 1249)
+CHECK: Logical continuations should be on the previous line(line 1251)
 
-On Wed, Jun 3, 2026 at 2:07=E2=80=AFPM Ahmet Sezgin Duran <ahmet@sezgindura=
-n.net> wrote:
->
-> On 6/3/26 10:52 PM, William Elder wrote:
->
-> > -     if (phtpriv->ht_option =3D=3D false)
-> > +     if (phtpriv->ht_option)
-> >               return;
->
-> Still same buggy code, V2 didn't change anything.
->
-> Please work on it properly and wait a day to send a new revision, not
-> right away.
->
-> Also, send your replies using `Reply All`.
->
-> Regards,
-> Ahmet Sezgin Duran
+V2->V3:
+Removed comparison-statement-parentheses-removals(CSPR) per Dan Carpenter's review:
+https://lore.kernel.org/all/ah1s_Eveaka0SHvQ@stanley.mountain/
+
+V3->V4:
+Removed overlooked CSPR;
+Removed misleading fixed-warning-example in commit message suggesting
+CSPR were still present
+
+v1: https://lore.kernel.org/all/20260530031621.443015-1-mavick4022@gmail.com/
+v2: https://lore.kernel.org/all/20260531061022.573089-1-mavick4022@gmail.com/
+
+ .../staging/rtl8723bs/core/rtw_wlan_util.c    | 85 ++++++++++---------
+ 1 file changed, 44 insertions(+), 41 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+index 1d37c2d5b10d..be67c8692f60 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
++++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+@@ -351,7 +351,7 @@ int is_client_associated_to_ap(struct adapter *padapter)
+ 		return _FAIL;
+ 
+ 	pmlmeext = &padapter->mlmeextpriv;
+-	pmlmeinfo = &(pmlmeext->mlmext_info);
++	pmlmeinfo = &pmlmeext->mlmext_info;
+ 
+ 	if ((pmlmeinfo->state & WIFI_FW_ASSOC_SUCCESS) && ((pmlmeinfo->state & 0x03) == WIFI_FW_STATION_STATE))
+ 		return true;
+@@ -362,7 +362,7 @@ int is_client_associated_to_ap(struct adapter *padapter)
+ int is_client_associated_to_ibss(struct adapter *padapter)
+ {
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+-	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
++	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
+ 
+ 	if ((pmlmeinfo->state & WIFI_FW_ASSOC_SUCCESS) && ((pmlmeinfo->state & 0x03) == WIFI_FW_ADHOC_STATE))
+ 		return true;
+@@ -374,7 +374,7 @@ int is_IBSS_empty(struct adapter *padapter)
+ {
+ 	unsigned int i;
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+-	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
++	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
+ 
+ 	for (i = IBSS_START_MAC_ID; i < NUM_STA; i++) {
+ 		if (pmlmeinfo->FW_sta_info[i].status == 1)
+@@ -477,7 +477,7 @@ void clear_cam_cache(struct adapter *adapter, u8 id)
+ 
+ 	spin_lock_bh(&cam_ctl->lock);
+ 
+-	memset(&(dvobj->cam_cache[id]), 0, sizeof(struct cam_entry_cache));
++	memset(&dvobj->cam_cache[id], 0, sizeof(struct cam_entry_cache));
+ 
+ 	spin_unlock_bh(&cam_ctl->lock);
+ }
+@@ -629,7 +629,7 @@ int allocate_fw_sta_entry(struct adapter *padapter)
+ {
+ 	unsigned int mac_id;
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+-	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
++	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
+ 
+ 	for (mac_id = IBSS_START_MAC_ID; mac_id < NUM_STA; mac_id++) {
+ 		if (pmlmeinfo->FW_sta_info[mac_id].status == 0) {
+@@ -645,7 +645,7 @@ int allocate_fw_sta_entry(struct adapter *padapter)
+ void flush_all_cam_entry(struct adapter *padapter)
+ {
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+-	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
++	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
+ 
+ 	invalidate_cam_all(padapter);
+ 	/* clear default key related key search setting */
+@@ -657,19 +657,19 @@ void flush_all_cam_entry(struct adapter *padapter)
+ int WMM_param_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE)
+ {
+ 	/* struct registry_priv *pregpriv = &padapter->registrypriv; */
+-	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
++	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+-	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
++	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
+ 
+ 	if (pmlmepriv->qospriv.qos_option == 0) {
+ 		pmlmeinfo->WMM_enable = 0;
+ 		return false;
+ 	}
+ 
+-	if (!memcmp(&(pmlmeinfo->WMM_param), (pIE->data + 6), sizeof(struct WMM_para_element)))
++	if (!memcmp(&pmlmeinfo->WMM_param, (pIE->data + 6), sizeof(struct WMM_para_element)))
+ 		return false;
+ 
+-	memcpy(&(pmlmeinfo->WMM_param), (pIE->data + 6), sizeof(struct WMM_para_element));
++	memcpy(&pmlmeinfo->WMM_param, (pIE->data + 6), sizeof(struct WMM_para_element));
+ 
+ 	pmlmeinfo->WMM_enable = 1;
+ 	return true;
+@@ -709,7 +709,7 @@ void WMMOnAssocRsp(struct adapter *padapter)
+ 	u32 acParm, i;
+ 	u32 edca[4], inx[4];
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+-	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
++	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
+ 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
+ 	struct registry_priv *pregpriv = &padapter->registrypriv;
+ 
+@@ -810,9 +810,9 @@ static void bwmode_update_check(struct adapter *padapter, struct ndis_80211_var_
+ 	unsigned char  new_bwmode;
+ 	unsigned char  new_ch_offset;
+ 	struct HT_info_element	 *pHT_info;
+-	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
++	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+-	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
++	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
+ 	struct registry_priv *pregistrypriv = &padapter->registrypriv;
+ 	struct ht_priv *phtpriv = &pmlmepriv->htpriv;
+ 	u8 cbw40_enable = 0;
+@@ -867,7 +867,7 @@ static void bwmode_update_check(struct adapter *padapter, struct ndis_80211_var_
+ 
+ 	if (true == pmlmeinfo->bwmode_updated) {
+ 		struct sta_info *psta;
+-		struct wlan_bssid_ex	*cur_network = &(pmlmeinfo->network);
++		struct wlan_bssid_ex	*cur_network = &pmlmeinfo->network;
+ 		struct sta_priv *pstapriv = &padapter->stapriv;
+ 
+ 		/* set_channel_bwmode(padapter, pmlmeext->cur_channel, pmlmeext->cur_ch_offset, pmlmeext->cur_bwmode); */
+@@ -897,7 +897,7 @@ void HT_caps_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE)
+ 	u8 max_AMPDU_len, min_MPDU_spacing;
+ 	u8 cur_ldpc_cap = 0, cur_stbc_cap = 0;
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+-	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
++	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
+ 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 	struct ht_priv *phtpriv = &pmlmepriv->htpriv;
+ 
+@@ -960,7 +960,7 @@ void HT_caps_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE)
+ void HT_info_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE)
+ {
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+-	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
++	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
+ 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 	struct ht_priv *phtpriv = &pmlmepriv->htpriv;
+ 
+@@ -974,7 +974,7 @@ void HT_info_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE)
+ 		return;
+ 
+ 	pmlmeinfo->HT_info_enable = 1;
+-	memcpy(&(pmlmeinfo->HT_info), pIE->data, pIE->length);
++	memcpy(&pmlmeinfo->HT_info, pIE->data, pIE->length);
+ }
+ 
+ void HTOnAssocRsp(struct adapter *padapter)
+@@ -983,9 +983,9 @@ void HTOnAssocRsp(struct adapter *padapter)
+ 	unsigned char min_MPDU_spacing;
+ 	/* struct registry_priv  *pregpriv = &padapter->registrypriv; */
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+-	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
++	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
+ 
+-	if ((pmlmeinfo->HT_info_enable) && (pmlmeinfo->HT_caps_enable)) {
++	if (pmlmeinfo->HT_info_enable && pmlmeinfo->HT_caps_enable) {
+ 		pmlmeinfo->HT_enable = 1;
+ 	} else {
+ 		pmlmeinfo->HT_enable = 0;
+@@ -1010,20 +1010,20 @@ void HTOnAssocRsp(struct adapter *padapter)
+ void ERP_IE_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE)
+ {
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+-	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
++	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
+ 
+ 	if (pIE->length > 1)
+ 		return;
+ 
+ 	pmlmeinfo->ERP_enable = 1;
+-	memcpy(&(pmlmeinfo->ERP_IE), pIE->data, pIE->length);
++	memcpy(&pmlmeinfo->ERP_IE, pIE->data, pIE->length);
+ }
+ 
+ void VCS_update(struct adapter *padapter, struct sta_info *psta)
+ {
+ 	struct registry_priv  *pregpriv = &padapter->registrypriv;
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+-	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
++	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
+ 
+ 	switch (pregpriv->vrtl_carrier_sense) {/* 0:off 1:on 2:auto */
+ 	case 0: /* off */
+@@ -1043,7 +1043,7 @@ void VCS_update(struct adapter *padapter, struct sta_info *psta)
+ 
+ 	case 2: /* auto */
+ 	default:
+-		if ((pmlmeinfo->ERP_enable) && (pmlmeinfo->ERP_IE & BIT(1))) {
++		if (pmlmeinfo->ERP_enable && (pmlmeinfo->ERP_IE & BIT(1))) {
+ 			if (pregpriv->vcs_type == 1) {
+ 				psta->rtsen = 1;
+ 				psta->cts2self = 0;
+@@ -1078,7 +1078,7 @@ int rtw_check_bcn_info(struct adapter *Adapter, u8 *pframe, u32 packet_len)
+ 	unsigned int len;
+ 	unsigned char *p;
+ 	unsigned short	val16, subtype;
+-	struct wlan_network *cur_network = &(Adapter->mlmepriv.cur_network);
++	struct wlan_network *cur_network = &Adapter->mlmepriv.cur_network;
+ 	/* u8 wpa_ie[255], rsn_ie[255]; */
+ 	u16 wpa_len = 0, rsn_len = 0;
+ 	u8 encryp_protocol = 0;
+@@ -1213,13 +1213,13 @@ int rtw_check_bcn_info(struct adapter *Adapter, u8 *pframe, u32 packet_len)
+ 
+ 	if (encryp_protocol == ENCRYP_PROTOCOL_WPA || encryp_protocol == ENCRYP_PROTOCOL_WPA2) {
+ 		pbuf = rtw_get_wpa_ie(&bssid->ies[12], &wpa_ielen, bssid->ie_length - 12);
+-		if (pbuf && (wpa_ielen > 0)) {
++		if (pbuf && wpa_ielen > 0) {
+ 			rtw_parse_wpa_ie(pbuf, wpa_ielen + 2, &group_cipher,
+ 					 &pairwise_cipher, &is_8021x);
+ 		} else {
+ 			pbuf = rtw_get_wpa2_ie(&bssid->ies[12], &wpa_ielen, bssid->ie_length - 12);
+ 
+-			if (pbuf && (wpa_ielen > 0))
++			if (pbuf && wpa_ielen > 0)
+ 				rtw_parse_wpa2_ie(pbuf, wpa_ielen + 2, &group_cipher,
+ 						  &pairwise_cipher, &is_8021x);
+ 		}
+@@ -1243,8 +1243,11 @@ int rtw_check_bcn_info(struct adapter *Adapter, u8 *pframe, u32 packet_len)
+ 
+ 	pmlmepriv->NumOfBcnInfoChkFail++;
+ 
+-	if ((pmlmepriv->timeBcnInfoChkStart != 0) && (jiffies_to_msecs(jiffies - pmlmepriv->timeBcnInfoChkStart) <= DISCONNECT_BY_CHK_BCN_FAIL_OBSERV_PERIOD_IN_MS)
+-		&& (pmlmepriv->NumOfBcnInfoChkFail >= DISCONNECT_BY_CHK_BCN_FAIL_THRESHOLD)) {
++	if ((pmlmepriv->timeBcnInfoChkStart != 0) &&
++	    (jiffies_to_msecs(jiffies - pmlmepriv->timeBcnInfoChkStart) <=
++			DISCONNECT_BY_CHK_BCN_FAIL_OBSERV_PERIOD_IN_MS) &&
++				pmlmepriv->NumOfBcnInfoChkFail >=
++					DISCONNECT_BY_CHK_BCN_FAIL_THRESHOLD) {
+ 		pmlmepriv->timeBcnInfoChkStart = 0;
+ 		pmlmepriv->NumOfBcnInfoChkFail = 0;
+ 		return _FAIL;
+@@ -1296,8 +1299,8 @@ unsigned int is_ap_in_tkip(struct adapter *padapter)
+ 	u32 i;
+ 	struct ndis_80211_var_ie *pIE;
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+-	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
+-	struct wlan_bssid_ex		*cur_network = &(pmlmeinfo->network);
++	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
++	struct wlan_bssid_ex		*cur_network = &pmlmeinfo->network;
+ 
+ 	if (rtw_get_capability((struct wlan_bssid_ex *)cur_network) & WLAN_CAPABILITY_PRIVACY) {
+ 		for (i = sizeof(struct ndis_802_11_fix_ie); i < pmlmeinfo->network.ie_length;) {
+@@ -1332,7 +1335,7 @@ int support_short_GI(struct adapter *padapter, struct HT_caps_element *pHT_caps,
+ {
+ 	unsigned char bit_offset;
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+-	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
++	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
+ 
+ 	if (!(pmlmeinfo->HT_enable))
+ 		return _FAIL;
+@@ -1438,7 +1441,7 @@ unsigned char check_assoc_AP(u8 *pframe, uint len)
+ void update_IOT_info(struct adapter *padapter)
+ {
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+-	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
++	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
+ 
+ 	switch (pmlmeinfo->assoc_AP_vendor) {
+ 	case HT_IOT_PEER_MARVELL:
+@@ -1468,7 +1471,7 @@ void update_IOT_info(struct adapter *padapter)
+ void update_capinfo(struct adapter *Adapter, u16 updateCap)
+ {
+ 	struct mlme_ext_priv *pmlmeext = &Adapter->mlmeextpriv;
+-	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
++	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
+ 	bool		ShortPreamble;
+ 
+ 	/*  Check preamble mode, 2005.01.06, by rcnjko. */
+@@ -1520,11 +1523,11 @@ void update_wireless_mode(struct adapter *padapter)
+ 	int network_type = 0;
+ 	u32 SIFS_Timer;
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+-	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
+-	struct wlan_bssid_ex *cur_network = &(pmlmeinfo->network);
++	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
++	struct wlan_bssid_ex *cur_network = &pmlmeinfo->network;
+ 	unsigned char *rate = cur_network->supported_rates;
+ 
+-	if ((pmlmeinfo->HT_info_enable) && (pmlmeinfo->HT_caps_enable))
++	if (pmlmeinfo->HT_info_enable && pmlmeinfo->HT_caps_enable)
+ 		pmlmeinfo->HT_enable = 1;
+ 
+ 	if (pmlmeinfo->HT_enable)
+@@ -1544,7 +1547,7 @@ void update_wireless_mode(struct adapter *padapter)
+ 
+ 	SetHwReg8723BS(padapter, HW_VAR_RESP_SIFS,  (u8 *)&SIFS_Timer);
+ 
+-	SetHwReg8723BS(padapter, HW_VAR_WIRELESS_MODE,  (u8 *)&(pmlmeext->cur_wireless_mode));
++	SetHwReg8723BS(padapter, HW_VAR_WIRELESS_MODE,  (u8 *)&pmlmeext->cur_wireless_mode);
+ 
+ 	if (pmlmeext->cur_wireless_mode & WIRELESS_11B)
+ 		update_mgnt_tx_rate(padapter, IEEE80211_CCK_RATE_1MB);
+@@ -1569,8 +1572,8 @@ int update_sta_support_rate(struct adapter *padapter, u8 *pvar_ie, uint var_ie_l
+ 	unsigned int	ie_len;
+ 	struct ndis_80211_var_ie *pIE;
+ 	int	support_rate_num = 0;
+-	struct mlme_ext_priv *pmlmeext = &(padapter->mlmeextpriv);
+-	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
++	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
++	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
+ 
+ 	pIE = (struct ndis_80211_var_ie *)rtw_get_ie(pvar_ie, WLAN_EID_SUPP_RATES, &ie_len, var_ie_len);
+ 	if (!pIE)
+@@ -1596,7 +1599,7 @@ void process_addba_req(struct adapter *padapter, u8 *paddba_req, u8 *addr)
+ 	struct sta_priv *pstapriv = &padapter->stapriv;
+ 	struct ADDBA_request *preq = (struct ADDBA_request *)paddba_req;
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+-	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
++	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
+ 
+ 	psta = rtw_get_stainfo(pstapriv, addr);
+ 
+@@ -1639,7 +1642,7 @@ void adaptive_early_32k(struct mlme_ext_priv *pmlmeext, u8 *pframe, uint len)
+ 	__le32 *pbuf;
+ 	u64 tsf = 0;
+ 	u32 delay_ms;
+-	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
++	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
+ 
+ 	pmlmeext->bcn_cnt++;
+ 
+-- 
+2.51.2
+
