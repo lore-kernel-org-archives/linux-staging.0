@@ -1,73 +1,71 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 319AF3947AB
-	for <linux-staging@lists.linux.dev>; Thu,  4 Jun 2026 07:54:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7F063845CB
+	for <linux-staging@lists.linux.dev>; Thu,  4 Jun 2026 07:58:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780559679; cv=none; b=MrpNWnLSx8bNe3PJMfvcefUOUz2YJTfcWceikhKleSpzEJqmQQm1Ma6ibNuOItdt/RZH7kuiRNHr6/nR+oEz9RODwpqz9RU2dQ8fdxTC/PVw0pghrv1ZicW/M+0JJZUVnsi2jUQ1EZn7YATDQksqoBvnCNVqKbVQm999q+jwlCE=
+	t=1780559909; cv=none; b=ZkIdUNacfYdhRxBCDvTROD+X6rwXk6Pd/qfgVxdHfbD8TQDZ4PGZGKBMctaOkWvpfCGFrZZvrt9BB53bkPDu/3xpM4slrygC5ID293ClVRnGHecSWlEfhDP+bXPbQHMdkFEz1Exx6qljwElXtseAcZmkReZnLr3CvPWLeNeTkQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780559679; c=relaxed/simple;
-	bh=PVxmen+bYmM7qoldOKUgzjpQJR5H2ZvpeASWrcYATc4=;
+	s=arc-20240116; t=1780559909; c=relaxed/simple;
+	bh=UuFyfnBxLDJQby/SNgkcPJjeKlBwDfw9ymISOLmhuIQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X4M0T3cKtwTMz7OkA81gKs3NdjAg9M9qOOYCYpb1s6rzY7iVR2JG6CeI5ruYOsA6BSs3vGgXGORJi5GBmLh7bzZ90C0IlctMQjVIm1if2aXWVc/6pEaQlIt9LZNawSmX+kXgV6FAX4dBYJcSSqU+tgknu7A1hs3Fp1TPJXGPQSU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WETKGVnv; arc=none smtp.client-ip=209.85.160.178
+	 Content-Type:Content-Disposition:In-Reply-To; b=UyHOudTNdcqftSDWhU9sJRPpzBtGPSmzyxW6imfGJ2Fg5xQnrilZT2OmpGXgL8VJ3cbBeNA3NqGT4+NhhvtmWoY5wO9YQVxaOuRXgjsc7tMgMODmbW2NYOwo9IzomXlmfYONeByrtvLRmxfG+U/yjF5btUB7ty0K/0TrnV21MMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JhsJatwn; arc=none smtp.client-ip=209.85.222.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WETKGVnv"
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-516d0db9372so3342441cf.2
-        for <linux-staging@lists.linux.dev>; Thu, 04 Jun 2026 00:54:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JhsJatwn"
+Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-91578122305so80713785a.0
+        for <linux-staging@lists.linux.dev>; Thu, 04 Jun 2026 00:58:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780559677; x=1781164477; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1780559907; x=1781164707; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XOlcBZYHQX5Abwo0UCHHT+CLoF6eErYHJpQG/xW25CM=;
-        b=WETKGVnv+SkpO4UpnFCs1HwtCSE0mcCV22EHlGqnYzrODHZZyPJEuZvw0CcnG3WJHa
-         4duMRD8bwL0VmZcJzpyw52QZEHKNFyPXFo6eSfMWowo4b3PVk30D9xEqm0Tuw7dCUri6
-         znVangCst8SW+Yih9FmU9ionbdPxTTI2xZ5LEciiMZcK534Zw3924iOw9I9xH7QKm9sS
-         cMG2H0ctX8a0s2GF1Yfw+hd4pyVqXp4TBkNeCpD4rC4dm9Zq5RvGv8NHiWZ0sXA8mWGA
-         22dtsmIGeGwpT7oWKsV0lYhni13BBklZllOdKRdCbuZ9UbORcKPb2rAPsS9EcAcuYEcm
-         2ICA==
+        bh=lut5XuTSnmwiBdSG4109L0bbC3YpWSUfYyKpQA0USYo=;
+        b=JhsJatwn6hwp3KaWBtrmyxVUu4nJ5EaK8zh1zdkm+DZvRhjBTkd957J7MqaUBcKvgy
+         dMeI24ikXwaT4oEm75/xzxbHFbyi8G0EsgXctJyUiwE17s97hoR9LKAABosfRabXwwqF
+         Qk/ey86eLDIZCIsmg05QFtjsZpL151V+U236pvSK/+rSlbrIIdpKZ994P8UhugD+CTBs
+         6NtHYmCfzlslUSqe5KoAdS7mZh5HMRxJgaU5Mx3bKTQEV2zaRv3iRfqot2TtEEQXqrv3
+         SJvzIDfh2+dFPFKepHgwHyIv4BtpoToZuW948ARugvW7yhKCYDsgMca4e612ODnpMS8G
+         xL2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780559677; x=1781164477;
+        d=1e100.net; s=20251104; t=1780559907; x=1781164707;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=XOlcBZYHQX5Abwo0UCHHT+CLoF6eErYHJpQG/xW25CM=;
-        b=PT55T8TwHUxKxaMp2Wujv/PMO9RizuqQuRGfkHonniIaELN7xj3o4gTmeRGzY7IZHa
-         ZpwLEYX2h17RS4BlHmttBk1uNjvSEGWLpbM+CU8nGkYY3wwnpGHqhZiLHWDhHA6Hofg2
-         yC4gtYUrAm0x8uqlJcIzL3/df/Z7kxpajcvHtdV60rfG/+HPL5n9FgscV0lNtzlPECB2
-         8ATXAwr4pFAS7X3N7a51IYv9YmlI/he1R08QIUm7QnWKDWasr4ngyTcEbkBcj9mTxvh0
-         dceOoRR4J/KyjhgrPS1ORsKHHUfwi7AQD06E11q1FHROzQ3QAucfC+8De1JbZ3BkJuTp
-         zlpA==
-X-Forwarded-Encrypted: i=1; AFNElJ/5WdYEi+iBA9Qmkzm3Z59lLHND0I/IAZARpKZ6T04dEsh4R0DpaOuVt839uMSOgq7xtQD3Kb5H6JNSLIwv@lists.linux.dev
-X-Gm-Message-State: AOJu0YxeliaypDQf/hixf4IjTBcyfUTDlxKdkdZWZ0Mno4DVYsVp9vj7
-	MtbSZ1pBwLJOO3iFAP4o/q8+mer0mDbCDo6H3loAhr6NCdCf5MYq+kR3
-X-Gm-Gg: Acq92OG0lgD831sT2hCE1EvMEy4QerZFJ3rrXxWukld6nQtpUpC57kKyfW6+mtEKEJc
-	Musk6rhOQonXmVa3NU5xDhRDR56TvkUwXqn3Rr9GgpLkeRWP67T8tscg+GZtQDPsOWokENNepP1
-	RRbvpJcG64hXyNUndXwZJoOvnwktlGd/aCBvA1YWZGgFP6inEA74vbSzOxEovwWB8sUNiy4pPse
-	BCKwYR97aBD12XL8xUNtEMlbBmbN9QiYKOi1zjoWlcTiJqQXG1Gj7nn1c5MpKFUVxMdzGLuOYXX
-	S4JDt+m8ZtaofxZStWT5HLYlIFNc2GCL0q0QWk0eZVF8y7Big0gBUD/b3+gHz/rrfqtoWYLPdZr
-	+j3DPlbgjXpIELIyxe+OCzIEWKe6syGvMFS2ZO9WnEKT/XQB3tJkPaoA+OxRDOzZfZ1nSoXeL43
-	aZz5c4U/xhA5sa6lnZ7+f77f2IO8g=
-X-Received: by 2002:a05:622a:313:b0:516:508b:bf4d with SMTP id d75a77b69052e-51778789b11mr103486471cf.56.1780559677286;
-        Thu, 04 Jun 2026 00:54:37 -0700 (PDT)
+        bh=lut5XuTSnmwiBdSG4109L0bbC3YpWSUfYyKpQA0USYo=;
+        b=XFPB5LGvBkq8GCRp1ftd3kwNxmtkEYaVl+JjpxtVbbdice46zLzjq1AR8Uoa87vc1K
+         Oqlk0nRQJjHflEbvjosvwMMumHEPqrt6jwUsyw2q0azzWNMt6chPDkXGOJuVIFCozFpV
+         NmWMYxtBUUYOn3oF3DPYVzQ9rS+80FkA8YoSTqzBjWAl5xvLlsQ5tZ4NRftuv1kCAOBA
+         dBYBIDNimVYfLZiodk+qTRVmMIHnM/F4hYP0hjUahARW8o8mZpW5TV4On9e2a4srlRCZ
+         HOx6gx15ocDsKuMNNLpzYFo8CBBfeATT8COPTlMBi2zsbIS4Oi7k8cHuOw/pqTv3qOnY
+         LtTw==
+X-Forwarded-Encrypted: i=1; AFNElJ+dbCLbCyf77nB/oFlCFiAo+w6/9/eJhZLLThJRMbq31Xv6HkI/lgoxNhZtPQVa+bTB/zs/wUZ1TYJ5xkRI@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxv6Myo6jKssuDtUvVE5PbuS2C976Yg23coLpKgA/d/bfHsCvu7
+	ZVU41XK/Z//97bgAXhVEW2EBiFPM7gnItLMFFIhMwpzs46sRUi84IcJq
+X-Gm-Gg: Acq92OFrwv6pK/Po7FBne593advPpsuckQHWbKToXlkUnytID7IsI9XXgIoj166SFIN
+	5emShr4MHD8MTuJN98Tmc+eJaCWxlGJfRvsSIi7wmUO0wnS/k74Tqq9j//cnX6Lw8g5awuXdA9K
+	v82b9qEFvbbIqweKHTpvL3owiWZm7MQyuCtPbGHCUkztiaAarqKWaNshItApbHus0Ux1qk79W1O
+	nfLhV8WXP0l1riO81uHOK99q4WwtOzfyPzTfsSthPz8JKdAqB9T9lG4hy3T9j3ogFdYiIsKLB93
+	erpZDVVHL8Mp1A+Pqb42eMOdSlztXG/SezjlMFF9PvTTtfA81qzwMGeBkP15/t5JxBsNRKU30cN
+	EKv+GKW/HCgG5E80sNBWuDw+5L2Uj1LjMHz3E3hDxkGD17uT+WGxxA+fZOURTSfsJHqXeKOof5v
+	1k5oD+f3gaOiEv2Bz5pNNU91iIDks=
+X-Received: by 2002:a05:620a:1d0b:b0:915:8f76:8001 with SMTP id af79cd13be357-9158f768409mr982190385a.48.1780559906917;
+        Thu, 04 Jun 2026 00:58:26 -0700 (PDT)
 Received: from localhost ([149.40.50.195])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51775c07e91sm46401871cf.4.2026.06.04.00.54.34
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9158a3d7280sm508837785a.41.2026.06.04.00.58.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jun 2026 00:54:35 -0700 (PDT)
-Date: Thu, 4 Jun 2026 10:54:30 +0300
+        Thu, 04 Jun 2026 00:58:26 -0700 (PDT)
+Date: Thu, 4 Jun 2026 10:58:20 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: Eugene Mavick <m@mavick.dev>
-Cc: gregkh@linuxfoundation.org, khomenkov@mailbox.org,
-	ethantidmore06@gmail.com, m.steinmoetzger@gmail.com,
-	tomasz.unger@yahoo.pl, arthur.stupa@gmail.com, jannik@jrehkemper.de,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5] staging: rtl8723bs: remove unnecessary parentheses
-Message-ID: <aiEvNg3_j4xtiLSN@stanley.mountain>
-References: <20260604045112.830216-1-m@mavick.dev>
- <20260604074923.841460-1-m@mavick.dev>
+To: William Elder <williamxelder@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: remove comparisons to boolean
+ literals
+Message-ID: <aiEwHCO8mwv1nYOB@stanley.mountain>
+References: <20260603193753.195640-1-williamxelder@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -76,24 +74,17 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260604074923.841460-1-m@mavick.dev>
+In-Reply-To: <20260603193753.195640-1-williamxelder@gmail.com>
 
-On Thu, Jun 04, 2026 at 03:49:23PM +0800, Eugene Mavick wrote:
-> Remove unnecessary parantheses around &(foo->bar) type statements to
-> improve code readability
-> 
-> Signed-off-by: Eugene Mavick <m@mavick.dev>
-> ---
+On Wed, Jun 03, 2026 at 01:37:53PM -0600, William Elder wrote:
+> @@ -847,7 +846,7 @@ static void bwmode_update_check(struct adapter *padapter, struct ndis_80211_var_
+>  	if (!pIE)
+>  		return;
+>  
+> -	if (phtpriv->ht_option == false)
+> +	if (phtpriv->ht_option)
 
-From my perspective I'm seeing this patch twice in a day...  Just wait
-a bit...  Remove this part as well.
-
-        if ((pmlmepriv->timeBcnInfoChkStart != 0) && (jiffies_to_msecs(jiffies - pmlmepriv->timeBcnInfoChkStart) <= DISCONNECT_BY_CHK_BCN_FAIL_OBSERV_PERIOD_IN_MS)
--               && (pmlmepriv->NumOfBcnInfoChkFail >= DISCONNECT_BY_CHK_BCN_FAIL_THRESHOLD)) {
-+               && pmlmepriv->NumOfBcnInfoChkFail >= DISCONNECT_BY_CHK_BCN_FAIL_THRESHOLD) {
-                pmlmepriv->timeBcnInfoChkStart = 0;
-                pmlmepriv->NumOfBcnInfoChkFail = 0;
-                return _FAIL;
+This patch introduces multiple bugs where true/false are reversed.
 
 regards,
 dan carpenter
