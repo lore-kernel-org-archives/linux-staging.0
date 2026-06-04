@@ -1,45 +1,70 @@
-Received: from mout-y-111.mailbox.org (mout-y-111.mailbox.org [91.198.250.236])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9256D31985D
-	for <linux-staging@lists.linux.dev>; Thu,  4 Jun 2026 09:56:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.198.250.236
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D12C449EA9
+	for <linux-staging@lists.linux.dev>; Thu,  4 Jun 2026 13:33:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780566985; cv=none; b=kg+NhV7NHjGCSYfZkcXK4G8WdTs0h5rVErAs9FCUOZxWDJVMfCWyHVXBOTxoSVnbawBDt2lRKt/+4L8M3UHnKdbeJmEg6Orupi+t8NgGEpmWyRc9Q60xZYYcZyDiwOEwWjxL71xKEkDldPf42tUwFQ7F+Z8AaA2Jf8Cc33wcetk=
+	t=1780580030; cv=none; b=T2yRpGSp4NoCMbm5htof4rPJnY9fx1RJf4WJHzhPjrv4SnmjI24V/ZzO4JsCTb7PxoSz2daYh7mEmpgkSR+VFzaljrGQriZEpyRXBWk9NqKdyVmngdu+WbvXYHQ1CylDNheyb+pebQHlVMo0ZuVFbtNSUSKHXeeenxvA5uWetI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780566985; c=relaxed/simple;
-	bh=Ubl6o5J9OUfG19shIuDTFW3W+CzGjQXgzcWZc5jXRc0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aSPjvn5zY2/RzZeFJ507HT2gkJIfNQyaiI6jd4KkklwRVq2bNJbGLzFKYutSElDvHaaHXZEAjxTz6PaEJmSwhriksxIIvOF83LVLK7WN4RTWw9w7TEIxw4CR9dWmKdtgc379GdNr5hfrYj/midPwESQf43PNzBMkRPV6pfG/HpU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mavick.dev; spf=pass smtp.mailfrom=mavick.dev; arc=none smtp.client-ip=91.198.250.236
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mavick.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mavick.dev
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-y-111.mailbox.org (Postfix) with ESMTPS id 4gWKhh3RCJz9yYS;
-	Thu,  4 Jun 2026 11:56:20 +0200 (CEST)
-Authentication-Results: outgoing_mbo_mout;
-	dkim=none;
-	spf=pass (outgoing_mbo_mout: domain of m@mavick.dev designates 2001:67c:2050:b231:465::1 as permitted sender) smtp.mailfrom=m@mavick.dev
-From: Eugene Mavick <m@mavick.dev>
-To: gregkh@linuxfoundation.org,
-	error27@gmail.com,
-	khomenkov@mailbox.org,
-	ethantidmore06@gmail.com,
-	m.steinmoetzger@gmail.com,
-	tomasz.unger@yahoo.pl,
-	arthur.stupa@gmail.com,
-	jannik@jrehkemper.de,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Eugene Mavick <m@mavick.dev>
-Subject: [PATCH v6] staging: rtl8723bs: remove unnecessary parentheses
-Date: Thu,  4 Jun 2026 17:56:17 +0800
-Message-ID: <20260604095617.852425-1-m@mavick.dev>
-In-Reply-To: <20260604074923.841460-1-m@mavick.dev>
-References: <20260604074923.841460-1-m@mavick.dev>
+	s=arc-20240116; t=1780580030; c=relaxed/simple;
+	bh=Ey/g0s8kBxT+ZD6jEWAOa5+ynCnh2fBSkjF6Jxdb5+Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OfRbbIH7IxmVz4TGPVxB9Bzgibg598TtfDYF1mWGDfQEHcIrse/Dfg0g/0OMMGD+1cdPVE/9JABVPPrVlzri33CdFMSMYi+dId8z8XATUjMa+05HCyYLYwIM9mSKW7ZCXukRNp62UCUuUquePzjBH+YDvNAsJxAZ/2ZYxQoyQ3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cn3YxoNV; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cn3YxoNV"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-45ef189aa1cso556771f8f.0
+        for <linux-staging@lists.linux.dev>; Thu, 04 Jun 2026 06:33:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780580026; x=1781184826; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=W0N9w0NcpoevzC5VyLVmVPGnT4XvGQAjwzUN/WuPFpE=;
+        b=Cn3YxoNVIripbPIQHKdmWal2Uyxy1RlLQwXSbA8UGnMe5ivzGOsWkcyDEUCA3dlm55
+         +yYTR1solZ6yASMxyzTA0HjeYf4yKVpUfixG8YcFFPgi/8cOjZFr6GfGMHiq0KtlvT9z
+         gl/9q1Ftt1aBa1jig5gPz8yvsWtPo1Xhe7RKjqqjO/IiybOhiSy2wozcUJeXa7LfjXxt
+         i5+iPPWrFibCvlVX6PYW5oK5s8niKORJGHSZcS94E75A+4B1kHN08E2jnLMK+QbdOqpr
+         Zp7GwxOQBGBz084nxWbBw8s4lNFIPVv9GYqi2R/F8R0QHLfN1lYvTBUhJDDeFEpfOnOh
+         CxUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780580026; x=1781184826;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=W0N9w0NcpoevzC5VyLVmVPGnT4XvGQAjwzUN/WuPFpE=;
+        b=rZ0inUgNINYIGHiZMfIVSS/m1ZT3WS7Fu6uigU/izyD1w5tJtk60JzAEAN6EilRQew
+         CWEXJjSWmf0R1jdAf12D5fEju/tI8Iv+OpkQBiqjEGPFy+0g8GNFdyX8Eg7kFGyF9vFr
+         xkTkPizFrCMUIPgGYypHpgV+WNvdVGAG4G0f/6guJrQcTR/LxyijOAOK9VW5pQwkJ0/X
+         rs/plq5DTyuNrEarZIyeXUyly2dwf2HDdWocSHMLU50cz1rOKHwtvNONd61QXiriwU3v
+         hL+BYeivXcSJRgtf99+/OsJmSRLb/wVEXtMWn/aeCVE9QbdOZfC8U5eMSUyM8lzVd3VY
+         vXmw==
+X-Gm-Message-State: AOJu0YxJ39o6+vjKZN94u6VCf2BWH0lJviMQnt7Ua4qbiWMV87O91laK
+	d3bdTRozxH/ZqrQHo+NxSRzgaDATcPUoKjzYaxHoKcB+WAZSuDWFVBRD
+X-Gm-Gg: Acq92OEZSQgctumMlWjU5ZWFvSBsPwM20e004kHuMDR2j2MjJwgYJhPUuYDuTah6vQJ
+	GfbPfK7FyLaTiJvZRQ9BJ8bidhnr6PWk8gHWLPMQOP2iQ8zjdukKqmXpeES8gC/ub+dmEzU1CxI
+	7nIFFGz4TZxwAGj4++zZpYoppeWlYKV1jLyw2QKtWfCkNZ/Y3iEDwecj0EFbVj/1brAdvOl8lTO
+	GHiGtuDnNoWelqH/KJnDnyLF3NNaUMyY1ZMCKc1qHMt4ccVLKYDurZ8Dlx1kO5EOVjVYygaG6mO
+	C1ZkAtdNewa7U8ceLH9vEYgr1pLQ66AiwPlyvrRuHGPJ1nCqf0DjYtwvhutwEaiELxpaVzHN+tA
+	jEw+e5wCqwa47oGRONPCns4LSXpDd2l4cj6m3/SE26aArk/ImA/8UIM9j2zXfeIi/pcKdfe2jtz
+	jzwFDloIaZK+26bLl/P7u/9LLt7WU1KydVKJTxCKrHjr120qEhUDe9BRmt6tA3xNtG/+fTrOquI
+	SpvTD5ivFrdn8M=
+X-Received: by 2002:a05:6000:4029:b0:45d:77f4:1ac2 with SMTP id ffacd0b85a97d-460215f27cfmr14353881f8f.0.1780580026307;
+        Thu, 04 Jun 2026 06:33:46 -0700 (PDT)
+Received: from fedora ([102.78.131.247])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f2e4004sm16424770f8f.9.2026.06.04.06.33.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Jun 2026 06:33:45 -0700 (PDT)
+From: Jad Keskes <inasj268@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jad Keskes <inasj268@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: call scan/join timeout handlers directly
+Date: Thu,  4 Jun 2026 14:33:15 +0100
+Message-ID: <20260604133315.188125-1-inasj268@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,308 +72,53 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 4gWKhh3RCJz9yYS
 
-Remove unnecessary parantheses around &(foo->bar) type statements to
-improve code readability
+The survey and join command callbacks defer to the scan_to_timer and
+assoc_timer at 1 jiffy when the command fails, instead of calling
+the timeout handler directly. The TODO comments in the original
+code explicitly note this should be done.
 
-Signed-off-by: Eugene Mavick <m@mavick.dev>
+Replace the _set_timer(..., 1) deferral with a direct function call
+to rtw_scan_timeout_handler() and _rtw_join_timeout_handler().
+Cancel the pending timer first with timer_delete_sync() to prevent
+the original timeout from firing later and invoking the handler a
+second time on already-cleaned-up state.
+
+Both handlers use timer_container_of() to recover the adapter
+pointer from the timer field, which resolves correctly whether
+called from the timer subsystem or directly.
+
+Signed-off-by: Jad Keskes <inasj268@gmail.com>
 ---
+ drivers/staging/rtl8723bs/core/rtw_cmd.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-V1->V2:
-Fixed following checkpatch warnings on modified lines:
-CHECK: Alignment should match open parenthesis(line 1114, 1249)
-CHECK: Logical continuations should be on the previous line(line 1251)
-
-V2->V3:
-Removed comparison-statement-parentheses-removals(CSPR) per Dan Carpenter's review:
-https://lore.kernel.org/all/ah1s_Eveaka0SHvQ@stanley.mountain/
-
-V3->V4:
-Removed overlooked CSPR;
-Removed misleading fixed-warning-example in commit message suggesting
-CSPR were still present
-
-V4->V5:
-Remove none &(foo->bar) type statement parantheses removal
-
-V5->V6:
-Remove overlooked none &(foo->bar) type statement parantheses removal 
-
-v1: https://lore.kernel.org/all/20260530031621.443015-1-mavick4022@gmail.com/
-v2: https://lore.kernel.org/all/20260531061022.573089-1-mavick4022@gmail.com/
-
- .../staging/rtl8723bs/core/rtw_wlan_util.c    | 68 +++++++++----------
- 1 file changed, 34 insertions(+), 34 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-index 1d37c2d5b10d..604cc991c713 100644
---- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-@@ -351,7 +351,7 @@ int is_client_associated_to_ap(struct adapter *padapter)
- 		return _FAIL;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+index c1185c25e..cf0a67aff 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
++++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+@@ -1793,8 +1793,8 @@ void rtw_survey_cmd_callback(struct adapter *padapter,  struct cmd_obj *pcmd)
+ 	struct	mlme_priv *pmlmepriv = &padapter->mlmepriv;
  
- 	pmlmeext = &padapter->mlmeextpriv;
--	pmlmeinfo = &(pmlmeext->mlmext_info);
-+	pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	if ((pmlmeinfo->state & WIFI_FW_ASSOC_SUCCESS) && ((pmlmeinfo->state & 0x03) == WIFI_FW_STATION_STATE))
- 		return true;
-@@ -362,7 +362,7 @@ int is_client_associated_to_ap(struct adapter *padapter)
- int is_client_associated_to_ibss(struct adapter *padapter)
- {
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	if ((pmlmeinfo->state & WIFI_FW_ASSOC_SUCCESS) && ((pmlmeinfo->state & 0x03) == WIFI_FW_ADHOC_STATE))
- 		return true;
-@@ -374,7 +374,7 @@ int is_IBSS_empty(struct adapter *padapter)
- {
- 	unsigned int i;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	for (i = IBSS_START_MAC_ID; i < NUM_STA; i++) {
- 		if (pmlmeinfo->FW_sta_info[i].status == 1)
-@@ -477,7 +477,7 @@ void clear_cam_cache(struct adapter *adapter, u8 id)
- 
- 	spin_lock_bh(&cam_ctl->lock);
- 
--	memset(&(dvobj->cam_cache[id]), 0, sizeof(struct cam_entry_cache));
-+	memset(&dvobj->cam_cache[id], 0, sizeof(struct cam_entry_cache));
- 
- 	spin_unlock_bh(&cam_ctl->lock);
- }
-@@ -629,7 +629,7 @@ int allocate_fw_sta_entry(struct adapter *padapter)
- {
- 	unsigned int mac_id;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	for (mac_id = IBSS_START_MAC_ID; mac_id < NUM_STA; mac_id++) {
- 		if (pmlmeinfo->FW_sta_info[mac_id].status == 0) {
-@@ -645,7 +645,7 @@ int allocate_fw_sta_entry(struct adapter *padapter)
- void flush_all_cam_entry(struct adapter *padapter)
- {
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	invalidate_cam_all(padapter);
- 	/* clear default key related key search setting */
-@@ -657,19 +657,19 @@ void flush_all_cam_entry(struct adapter *padapter)
- int WMM_param_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE)
- {
- 	/* struct registry_priv *pregpriv = &padapter->registrypriv; */
--	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
-+	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	if (pmlmepriv->qospriv.qos_option == 0) {
- 		pmlmeinfo->WMM_enable = 0;
- 		return false;
+ 	if (pcmd->res != H2C_SUCCESS) {
+-		/* TODO: cancel timer and do timeout handler directly... */
+-		_set_timer(&pmlmepriv->scan_to_timer, 1);
++		timer_delete_sync(&pmlmepriv->scan_to_timer);
++		rtw_scan_timeout_handler(&pmlmepriv->scan_to_timer);
  	}
  
--	if (!memcmp(&(pmlmeinfo->WMM_param), (pIE->data + 6), sizeof(struct WMM_para_element)))
-+	if (!memcmp(&pmlmeinfo->WMM_param, (pIE->data + 6), sizeof(struct WMM_para_element)))
- 		return false;
+ 	/*  free cmd */
+@@ -1821,8 +1821,8 @@ void rtw_joinbss_cmd_callback(struct adapter *padapter,  struct cmd_obj *pcmd)
+ 	struct	mlme_priv *pmlmepriv = &padapter->mlmepriv;
  
--	memcpy(&(pmlmeinfo->WMM_param), (pIE->data + 6), sizeof(struct WMM_para_element));
-+	memcpy(&pmlmeinfo->WMM_param, (pIE->data + 6), sizeof(struct WMM_para_element));
+ 	if (pcmd->res != H2C_SUCCESS) {
+-		/* TODO: cancel timer and do timeout handler directly... */
+-		_set_timer(&pmlmepriv->assoc_timer, 1);
++		timer_delete_sync(&pmlmepriv->assoc_timer);
++		_rtw_join_timeout_handler(&pmlmepriv->assoc_timer);
+ 	}
  
- 	pmlmeinfo->WMM_enable = 1;
- 	return true;
-@@ -709,7 +709,7 @@ void WMMOnAssocRsp(struct adapter *padapter)
- 	u32 acParm, i;
- 	u32 edca[4], inx[4];
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
- 	struct registry_priv *pregpriv = &padapter->registrypriv;
- 
-@@ -810,9 +810,9 @@ static void bwmode_update_check(struct adapter *padapter, struct ndis_80211_var_
- 	unsigned char  new_bwmode;
- 	unsigned char  new_ch_offset;
- 	struct HT_info_element	 *pHT_info;
--	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
-+	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 	struct registry_priv *pregistrypriv = &padapter->registrypriv;
- 	struct ht_priv *phtpriv = &pmlmepriv->htpriv;
- 	u8 cbw40_enable = 0;
-@@ -867,7 +867,7 @@ static void bwmode_update_check(struct adapter *padapter, struct ndis_80211_var_
- 
- 	if (true == pmlmeinfo->bwmode_updated) {
- 		struct sta_info *psta;
--		struct wlan_bssid_ex	*cur_network = &(pmlmeinfo->network);
-+		struct wlan_bssid_ex	*cur_network = &pmlmeinfo->network;
- 		struct sta_priv *pstapriv = &padapter->stapriv;
- 
- 		/* set_channel_bwmode(padapter, pmlmeext->cur_channel, pmlmeext->cur_ch_offset, pmlmeext->cur_bwmode); */
-@@ -897,7 +897,7 @@ void HT_caps_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE)
- 	u8 max_AMPDU_len, min_MPDU_spacing;
- 	u8 cur_ldpc_cap = 0, cur_stbc_cap = 0;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 	struct ht_priv *phtpriv = &pmlmepriv->htpriv;
- 
-@@ -960,7 +960,7 @@ void HT_caps_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE)
- void HT_info_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE)
- {
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 	struct ht_priv *phtpriv = &pmlmepriv->htpriv;
- 
-@@ -974,7 +974,7 @@ void HT_info_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE)
- 		return;
- 
- 	pmlmeinfo->HT_info_enable = 1;
--	memcpy(&(pmlmeinfo->HT_info), pIE->data, pIE->length);
-+	memcpy(&pmlmeinfo->HT_info, pIE->data, pIE->length);
- }
- 
- void HTOnAssocRsp(struct adapter *padapter)
-@@ -983,7 +983,7 @@ void HTOnAssocRsp(struct adapter *padapter)
- 	unsigned char min_MPDU_spacing;
- 	/* struct registry_priv  *pregpriv = &padapter->registrypriv; */
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	if ((pmlmeinfo->HT_info_enable) && (pmlmeinfo->HT_caps_enable)) {
- 		pmlmeinfo->HT_enable = 1;
-@@ -1010,20 +1010,20 @@ void HTOnAssocRsp(struct adapter *padapter)
- void ERP_IE_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE)
- {
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	if (pIE->length > 1)
- 		return;
- 
- 	pmlmeinfo->ERP_enable = 1;
--	memcpy(&(pmlmeinfo->ERP_IE), pIE->data, pIE->length);
-+	memcpy(&pmlmeinfo->ERP_IE, pIE->data, pIE->length);
- }
- 
- void VCS_update(struct adapter *padapter, struct sta_info *psta)
- {
- 	struct registry_priv  *pregpriv = &padapter->registrypriv;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	switch (pregpriv->vrtl_carrier_sense) {/* 0:off 1:on 2:auto */
- 	case 0: /* off */
-@@ -1078,7 +1078,7 @@ int rtw_check_bcn_info(struct adapter *Adapter, u8 *pframe, u32 packet_len)
- 	unsigned int len;
- 	unsigned char *p;
- 	unsigned short	val16, subtype;
--	struct wlan_network *cur_network = &(Adapter->mlmepriv.cur_network);
-+	struct wlan_network *cur_network = &Adapter->mlmepriv.cur_network;
- 	/* u8 wpa_ie[255], rsn_ie[255]; */
- 	u16 wpa_len = 0, rsn_len = 0;
- 	u8 encryp_protocol = 0;
-@@ -1296,8 +1296,8 @@ unsigned int is_ap_in_tkip(struct adapter *padapter)
- 	u32 i;
- 	struct ndis_80211_var_ie *pIE;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
--	struct wlan_bssid_ex		*cur_network = &(pmlmeinfo->network);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
-+	struct wlan_bssid_ex		*cur_network = &pmlmeinfo->network;
- 
- 	if (rtw_get_capability((struct wlan_bssid_ex *)cur_network) & WLAN_CAPABILITY_PRIVACY) {
- 		for (i = sizeof(struct ndis_802_11_fix_ie); i < pmlmeinfo->network.ie_length;) {
-@@ -1332,7 +1332,7 @@ int support_short_GI(struct adapter *padapter, struct HT_caps_element *pHT_caps,
- {
- 	unsigned char bit_offset;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	if (!(pmlmeinfo->HT_enable))
- 		return _FAIL;
-@@ -1438,7 +1438,7 @@ unsigned char check_assoc_AP(u8 *pframe, uint len)
- void update_IOT_info(struct adapter *padapter)
- {
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	switch (pmlmeinfo->assoc_AP_vendor) {
- 	case HT_IOT_PEER_MARVELL:
-@@ -1468,7 +1468,7 @@ void update_IOT_info(struct adapter *padapter)
- void update_capinfo(struct adapter *Adapter, u16 updateCap)
- {
- 	struct mlme_ext_priv *pmlmeext = &Adapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 	bool		ShortPreamble;
- 
- 	/*  Check preamble mode, 2005.01.06, by rcnjko. */
-@@ -1520,8 +1520,8 @@ void update_wireless_mode(struct adapter *padapter)
- 	int network_type = 0;
- 	u32 SIFS_Timer;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
--	struct wlan_bssid_ex *cur_network = &(pmlmeinfo->network);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
-+	struct wlan_bssid_ex *cur_network = &pmlmeinfo->network;
- 	unsigned char *rate = cur_network->supported_rates;
- 
- 	if ((pmlmeinfo->HT_info_enable) && (pmlmeinfo->HT_caps_enable))
-@@ -1544,7 +1544,7 @@ void update_wireless_mode(struct adapter *padapter)
- 
- 	SetHwReg8723BS(padapter, HW_VAR_RESP_SIFS,  (u8 *)&SIFS_Timer);
- 
--	SetHwReg8723BS(padapter, HW_VAR_WIRELESS_MODE,  (u8 *)&(pmlmeext->cur_wireless_mode));
-+	SetHwReg8723BS(padapter, HW_VAR_WIRELESS_MODE,  (u8 *)&pmlmeext->cur_wireless_mode);
- 
- 	if (pmlmeext->cur_wireless_mode & WIRELESS_11B)
- 		update_mgnt_tx_rate(padapter, IEEE80211_CCK_RATE_1MB);
-@@ -1569,8 +1569,8 @@ int update_sta_support_rate(struct adapter *padapter, u8 *pvar_ie, uint var_ie_l
- 	unsigned int	ie_len;
- 	struct ndis_80211_var_ie *pIE;
- 	int	support_rate_num = 0;
--	struct mlme_ext_priv *pmlmeext = &(padapter->mlmeextpriv);
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	pIE = (struct ndis_80211_var_ie *)rtw_get_ie(pvar_ie, WLAN_EID_SUPP_RATES, &ie_len, var_ie_len);
- 	if (!pIE)
-@@ -1596,7 +1596,7 @@ void process_addba_req(struct adapter *padapter, u8 *paddba_req, u8 *addr)
- 	struct sta_priv *pstapriv = &padapter->stapriv;
- 	struct ADDBA_request *preq = (struct ADDBA_request *)paddba_req;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	psta = rtw_get_stainfo(pstapriv, addr);
- 
-@@ -1639,7 +1639,7 @@ void adaptive_early_32k(struct mlme_ext_priv *pmlmeext, u8 *pframe, uint len)
- 	__le32 *pbuf;
- 	u64 tsf = 0;
- 	u32 delay_ms;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	pmlmeext->bcn_cnt++;
- 
+ 	rtw_free_cmd_obj(pcmd);
 -- 
-2.51.2
+2.54.0
 
