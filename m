@@ -1,184 +1,218 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08FA13D47C5
-	for <linux-staging@lists.linux.dev>; Fri,  5 Jun 2026 05:53:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DC9147DF9B
+	for <linux-staging@lists.linux.dev>; Fri,  5 Jun 2026 07:49:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780638792; cv=none; b=KOTesni+8tKPTgT1EuGEoeunhBX7QtarZnzBq6n5fl2QBgKspQ9XiLgzXjeY6o4/EtyDwuIC1UVGc0+/Vt8vIbq4nnLrxcnpoV5Pu9Lt3mamomXaNbDUWmJ7BNwkvcfLTyty4oyfThD92APSssGD3N94hZJ5IXCftlhauNlCS2Q=
+	t=1780645796; cv=none; b=ivFk3CW4qIrvm06ljgW7e/z7GV7FMG87kn63FbAH4ZB+6PuDXgL0gISUFH5ZO9Dtnx3qP9e28guVedoSYocYK3zkn5GYBCJ95zVzHgJt0E573FpP0nkn9N1kes2O2puNp/9w/i5lUGG73Qrjy535HDgKFA7mcMmQ/uo7iksLjoQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780638792; c=relaxed/simple;
-	bh=oM5tbTUmqZhOv7RleMhmgKJFWIU/VH2CRz6vFmk4EdE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qvE05PYb/CuBrqGy0dFfAaxedQ8wQUx/LsCedZWe5+V7V7u+UYt7JoyCDiW3FBxeRbv+21j+DwbesYQEtuATT38Umc1wrvPUSg3i8EAHl4Ds9s3jm1ZC3rY+DgyFimKNlHHr5G0ZzbK28b4EjPj/Hpb407Dv2BqB0I6voQb1Z6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OtMVVztP; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1780645796; c=relaxed/simple;
+	bh=DGH4qjhdcd3GcR/Sw8vHJjva5svTd96eyApebNsNzJI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=S+2YJ8dilkTsN9luirTJrdzplz1/cIwo9recsOGDIrtksp7DxxrXqTM7xYphnZkWQWdw6HwOwd3QquB1uIwtmNxQ9M7bC2yiE63aI4+LmebE4fK8iHjr+MsE7NLNa/sC3UE0y9unR8h8k9PNt7L9LuQWCOiJeCr0uo2TdkBpHl0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y+diVJ2Q; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OtMVVztP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y+diVJ2Q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780638791; x=1812174791;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=oM5tbTUmqZhOv7RleMhmgKJFWIU/VH2CRz6vFmk4EdE=;
-  b=OtMVVztPmhytJIzS5SXBevqbFX4mLsh/plJ2/E1BAtvmZKHlDMYdKTeo
-   8UdGLxMDAAsIzF7MHmS7rqBP6FIhTHAj6BT4dS/rAYfe2LDkdYKIrdoI5
-   krqAdP5+dmW2j4Giczt56Bmuqaz40v7QiMtH5BDvW6mOI58d/jVkqMCsh
-   uxBbkU6no49I12Rjlhys5ouVY03NBMYZiHgItZi5c+LPeoPgv8QLQPPIh
-   ytvfQHePPeGxKWUcaqAlx5QySw4BBEIqnLEUkuXIn54KYe22ITzK4yYks
-   MYBDJgwt0TMP45gtFOii/H2CcQQqTIU5Bd4SSF8fnDsnng7nl0Lsok01r
-   A==;
-X-CSE-ConnectionGUID: 6cOr05eoTAmkIG+AzHy/4g==
-X-CSE-MsgGUID: G5Bfzj5fTNu4vauyX7pYtw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11807"; a="80608263"
+  t=1780645793; x=1812181793;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=DGH4qjhdcd3GcR/Sw8vHJjva5svTd96eyApebNsNzJI=;
+  b=Y+diVJ2QynGt0Q3juwfu72f1L5hdfwnNnb377F0DqGa0PwrLORlPMdtS
+   LN3XMlfvG9bVR3SB1kxKLJwHhy5PkYT/t4DjXNxriSZhk+/ENE9LyDyNP
+   nmjKy0OS/hJoiU+hOyPV6npQDO9S06ijxNBbS2PRJG3LzSQ7Rv3rR9bHz
+   QQrqKq+Fi5DZvtTUyMPFT2nSbx9bYaf4rZMoUQDy7URMUX56cwA3iMvwM
+   nN01jK4tsXsHUUuDS98nDn7a9gAuaSgDjXKEVp+GQipB4KLdXMPCFMuwP
+   M1tj6xV5mimoq0f+BDXRD46diEHXLNp/z2YP0iTPoq08rk0qW2Q4pB3a+
+   Q==;
+X-CSE-ConnectionGUID: LIfbCDLETMGu6ULlPiKwVg==
+X-CSE-MsgGUID: U8sa9vyMSYmqsnLL5YZQnA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11807"; a="81386368"
 X-IronPort-AV: E=Sophos;i="6.24,188,1774335600"; 
-   d="scan'208";a="80608263"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2026 22:53:10 -0700
-X-CSE-ConnectionGUID: KCriVMHfTj2OHm9MHPFcAg==
-X-CSE-MsgGUID: p06IA1HjTlCLau18uhzRHQ==
+   d="scan'208";a="81386368"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2026 00:49:52 -0700
+X-CSE-ConnectionGUID: xcKzr1ukRoiqVfWBjeJSSw==
+X-CSE-MsgGUID: tEu80rAORkmR+OfQz2gcOg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,188,1774335600"; 
-   d="scan'208";a="240569851"
-Received: from ettammin-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.245.178])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2026 22:53:07 -0700
-Date: Fri, 5 Jun 2026 08:53:05 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Bitterblue Smith <rtl8821cerfe2@gmail.com>
-Cc: Minu Jin <s9430939@naver.com>, gregkh@linuxfoundation.org,
-	dan.carpenter@linaro.org, abrahamadekunle50@gmail.com,
-	zxcv2569763104@gmail.com, milospuric856@gmail.com,
-	karanja99erick@gmail.com, weibu@redadmin.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 0/2] staging: rtl8723bs: Fix error handling in
- _rtw_pktfile_read()
-Message-ID: <aiJkQabiy90QBLUt@ashevche-desk.local>
-References: <20260127153811.1592900-1-s9430939@naver.com>
- <c6828c20-8f77-423e-a744-344d09c54488@gmail.com>
- <ah955alcKpjMXYXy@ashevche-desk.local>
- <fa16641f-d6b2-47e8-b1a9-08d63387c733@gmail.com>
- <aiA0zDHc494rnc55@ashevche-desk.local>
- <853404cd-cd0d-4562-82bf-2272240df785@gmail.com>
+   d="scan'208";a="243691314"
+Received: from abityuts-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.207])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2026 00:49:49 -0700
+Received: from punajuuri.localdomain (unknown [192.168.240.130])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id D856F1206D5;
+	Fri, 05 Jun 2026 10:49:47 +0300 (EEST)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
+	(envelope-from <sakari.ailus@linux.intel.com>)
+	id 1wVPJI-00000002nQg-1LUk;
+	Fri, 05 Jun 2026 10:49:44 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: linux-media@vger.kernel.org
+Cc: Yong Zhi <yong.zhi@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Lixu Zhang <lixu.zhang@intel.com>,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Bingbu Cao <bingbu.cao@amd.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	David Heidelberg <david@ixit.cz>,
+	Richard Acayan <mailingradian@gmail.com>
+Subject: [PATCH v2 1/1] MAINTAINERS: Camera sensor and Intel IPU driver changes
+Date: Fri,  5 Jun 2026 10:49:44 +0300
+Message-ID: <20260605074944.666654-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <853404cd-cd0d-4562-82bf-2272240df785@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Fri, Jun 05, 2026 at 12:47:59AM +0300, Bitterblue Smith wrote:
-> On 03/06/2026 17:06, Andy Shevchenko wrote:
-> > On Wed, Jun 03, 2026 at 04:40:45PM +0300, Bitterblue Smith wrote:
-> >> On 03/06/2026 03:48, Andy Shevchenko wrote:
-> >>> On Sun, May 24, 2026 at 09:30:01PM +0300, Bitterblue Smith wrote:
-> >>>> On 27/01/2026 17:38, Minu Jin wrote:
-> >>>>> This series improves error handling in _rtw_pktfile_read() and cleans up
-> >>>>> the code style to comply with kernel standards.
-> >>>>>
-> >>>>> 1. The first patch combines the logic change and caller updates.
-> >>>>>    The function change and the caller updates must be in the same
-> >>>>>    patch. If they are separated, the code will not work correctly 
-> >>>>>    or will cause errors at that specific point in the history.
-> >>>>>
-> >>>>> 2. The second patch focuses purely on code style cleanup (changing uint
-> >>>>>    to unsigned int) as requested by Andy Shevchenko.
-> >>>>>
-> >>>>> Regarding the logic change in _rtw_pktfile_read():
-> >>>>>
-> >>>>>     The original code used a ternary operator to read whatever data was 
-> >>>>>     available, even if it was less than requested. This could lead to 
-> >>>>>     callers processing incomplete data without knowing it.
-> >>>>>
-> >>>>>     I have changed this to return -EINVAL when the remaining data is insufficient. 
-> >>>>>     This is safer because most callers expect the exact amount of data and 
-> >>>>>     should not proceed with a partial read.
-> >>>>>
-> >>>>> Testing and Verification:
-> >>>>>
-> >>>>>     I do not have access to the physical RTL8723BS hardware. However, I have
-> >>>>>     performed a rigorous manual audit of the data path and verified the
-> >>>>>     changes using Smatch static analysis. The analysis confirmed that no
-> >>>>>     new warnings or logical regressions were introduced in the modified files.
-> >>>>
-> >>>> I have some bad news:
-> >>>>
-> >>>> https://bbs.archlinux.org/viewtopic.php?id=313401
-> >>>
-> >>> It's unclear that this patch made it happen. See below.
-> >>
-> >> It looks pretty clear to me, but okay. I forwarded your request for bisection.
-> > 
-> > I don't know how it does. There is no information about from which kernel one
-> > upgrades to which. I assumed someone bumps from v7.0 to v7.0.3, but there no
-> > such patch. If we take v6.19..v7.0.3 range, there are dozens of patches.
-> > 
-> > I.o.w. it is semi-poorly written bug report: some of useful information and
-> > some crucial that is missing...
-> > 
-> 
-> The new message "coalesce failed with error -22" is printed when
-> rtw_xmitframe_coalesce() returns -EINVAL. This is the only recent patch
-> which touched rtw_xmitframe_coalesce().
+From: Dave Hansen <dave.hansen@linux.intel.com>
 
-Fair enough.
-The quick fix is to replace
+Tian Shu Qiu and Bingbu Cao are maintainers and reviewers of a bunch of
+media drivers (7 and 9 respectively). Bingbu's e-mail address has changed
+and Tian Shu's is bouncing.
 
-		return -EINVAL;
+Update Bingbu's e-mail address, remove Bingbu as a maintainer from Intel
+specific drivers and and remove Tian Shu as maintainer. Also add Dave
+Stevenson as a maintainer and David Heidelberg as a reviewer for the
+imx355 driver.
 
-with
+Signed-off-by: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: Yong Zhi <yong.zhi@intel.com>
+Cc: Dan Scally <dan.scally@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Lixu Zhang <lixu.zhang@intel.com>
+Cc: linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-staging@lists.linux.dev
+Co-developed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+ MAINTAINERS | 29 ++++++++++++-----------------
+ 1 file changed, 12 insertions(+), 17 deletions(-)
 
-		rlen = rtw_remainder_len(pfile);
-
-in drivers/staging/rtl8723bs/os_dep/xmit_linux.c::_rtw_pktfile_read().
-
-There might be a better fix to understand why the requested length in that case
-is bigger than remainder in the device.
-
-> >>>> [quote]
-> >>>>
-> >>>> I recently upgraded my system, and now I’m having a strange issue with my
-> >>>> WiFi (Realtek RTL8723BS).
-> >>>>
-> >>>> now I can no longer connect to any WiFi networks as a client. however,
-> >>>> creating an Access Point (AP) still works fine, but whenever I try to connect
-> >>>> to an existing network, the connection fails.
-> >>>>
-> >>>> dmesg logs:
-> >>>> Every time I attempt a connection, dmesg gets spammed with this error:
-> >>>>
-> >>>>     [ 1083.925640] rtl8723bs mmc0:0001:1 wlan0: xmit_xmitframes: coalesce failed with error -22
-> >>>>     [ 1084.921217] rtl8723bs mmc0:0001:1 wlan0: xmit_xmitframes: coalesce failed with error -22
-> >>>>     [ 1085.921434] rtl8723bs mmc0:0001:1 wlan0: xmit_xmitframes: coalesce failed with error -22
-> >>>>     [ 1086.922320] rtl8723bs mmc0:0001:1 wlan0: xmit_xmitframes: coalesce failed with error -22
-> >>>>     ....
-> >>>>
-> >>>> Has anyone encountered this specific "coalesce" error with the rtl8723bs
-> >>>> driver? I'm looking for advice on whether this is a known bug in recent
-> >>>> kernels or if there's a specific module parameter I should try to bypass
-> >>>> this.
-> >>>>
-> >>>> System Info:
-> >>>>
-> >>>>     Chipset: RTL8723BS (SDIO)
-> >>>>
-> >>>>     Kernel version: 7.0.3-zen1-2-zen
-> >>>>
-> >>>> update: I fixed the issue after kernel downgrade
-> >>>>
-> >>>> [/quote]
-> >>>
-> >>> That guy should bisect and find the culprit. It will help a lot to understand
-> >>> what's going on.
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index efbf808063e5..64478875cd78 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3882,8 +3882,8 @@ F:	Documentation/devicetree/bindings/leds/ams,as3668.yaml
+ F:	drivers/leds/leds-as3668.c
+ 
+ ASAHI KASEI AK7375 LENS VOICE COIL DRIVER
+-M:	Tianshu Qiu <tian.shu.qiu@intel.com>
+ L:	linux-media@vger.kernel.org
++M:	Sakari Ailus <sakari.ailus@linux.intel.com>
+ S:	Maintained
+ T:	git git://linuxtv.org/media.git
+ F:	Documentation/devicetree/bindings/media/i2c/asahi-kasei,ak7375.yaml
+@@ -13042,9 +13042,7 @@ F:	drivers/iommu/intel/
+ INTEL IPU3 CSI-2 CIO2 DRIVER
+ M:	Yong Zhi <yong.zhi@intel.com>
+ M:	Sakari Ailus <sakari.ailus@linux.intel.com>
+-M:	Bingbu Cao <bingbu.cao@intel.com>
+ M:	Dan Scally <dan.scally@ideasonboard.com>
+-R:	Tianshu Qiu <tian.shu.qiu@intel.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media.git
+@@ -13053,8 +13051,6 @@ F:	drivers/media/pci/intel/ipu3/
+ 
+ INTEL IPU3 CSI-2 IMGU DRIVER
+ M:	Sakari Ailus <sakari.ailus@linux.intel.com>
+-R:	Bingbu Cao <bingbu.cao@intel.com>
+-R:	Tianshu Qiu <tian.shu.qiu@intel.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/admin-guide/media/ipu3.rst
+@@ -13064,8 +13060,6 @@ F:	drivers/staging/media/ipu3/
+ 
+ INTEL IPU6 INPUT SYSTEM DRIVER
+ M:	Sakari Ailus <sakari.ailus@linux.intel.com>
+-M:	Bingbu Cao <bingbu.cao@intel.com>
+-R:	Tianshu Qiu <tian.shu.qiu@intel.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media.git
+@@ -13074,7 +13068,6 @@ F:	drivers/media/pci/intel/ipu6/
+ 
+ INTEL IPU7 INPUT SYSTEM DRIVER
+ M:	Sakari Ailus <sakari.ailus@linux.intel.com>
+-R:	Bingbu Cao <bingbu.cao@intel.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media.git
+@@ -13376,7 +13369,6 @@ F:	drivers/net/wireless/intel/iwlwifi/
+ 
+ INTEL VISION SENSING CONTROLLER DRIVER
+ M:	Sakari Ailus <sakari.ailus@linux.intel.com>
+-R:	Bingbu Cao <bingbu.cao@intel.com>
+ R:	Lixu Zhang <lixu.zhang@intel.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+@@ -19657,7 +19649,8 @@ F:	Documentation/devicetree/bindings/media/i2c/ovti,os05b10.yaml
+ F:	drivers/media/i2c/os05b10.c
+ 
+ OMNIVISION OV01A10 SENSOR DRIVER
+-M:	Bingbu Cao <bingbu.cao@intel.com>
++M:	Bingbu Cao <bingbu.cao@amd.com>
++M:	Sakari Ailus <sakari.ailus@linux.intel.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media.git
+@@ -19750,9 +19743,8 @@ F:	Documentation/devicetree/bindings/media/i2c/ovti,ov2735.yaml
+ F:	drivers/media/i2c/ov2735.c
+ 
+ OMNIVISION OV2740 SENSOR DRIVER
+-M:	Tianshu Qiu <tian.shu.qiu@intel.com>
+-R:	Sakari Ailus <sakari.ailus@linux.intel.com>
+-R:	Bingbu Cao <bingbu.cao@intel.com>
++M:	Sakari Ailus <sakari.ailus@linux.intel.com>
++R:	Bingbu Cao <bingbu.cao@amd.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media.git
+@@ -19894,9 +19886,9 @@ F:	Documentation/devicetree/bindings/media/i2c/ovti,ov9650.txt
+ F:	drivers/media/i2c/ov9650.c
+ 
+ OMNIVISION OV9734 SENSOR DRIVER
+-M:	Tianshu Qiu <tian.shu.qiu@intel.com>
+-R:	Bingbu Cao <bingbu.cao@intel.com>
+ L:	linux-media@vger.kernel.org
++M:	Sakari Ailus <sakari.ailus@linux.intel.com>
++R:	Bingbu Cao <bingbu.cao@amd.com>
+ S:	Maintained
+ T:	git git://linuxtv.org/media.git
+ F:	drivers/media/i2c/ov9734.c
+@@ -24912,7 +24904,8 @@ F:	Documentation/devicetree/bindings/media/i2c/sony,imx296.yaml
+ F:	drivers/media/i2c/imx296.c
+ 
+ SONY IMX319 SENSOR DRIVER
+-M:	Bingbu Cao <bingbu.cao@intel.com>
++M:	Bingbu Cao <bingbu.cao@amd.com>
++M:	Sakari Ailus <sakari.ailus@linux.intel.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media.git
+@@ -24934,7 +24927,9 @@ F:	Documentation/devicetree/bindings/media/i2c/sony,imx335.yaml
+ F:	drivers/media/i2c/imx335.c
+ 
+ SONY IMX355 SENSOR DRIVER
+-M:	Tianshu Qiu <tian.shu.qiu@intel.com>
++M:	Sakari Ailus <sakari.ailus@linux.intel.com>
++M:	Dave Stevenson <dave.stevenson@raspberrypi.com>
++R:	David Heidelberg <david@ixit.cz>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media.git
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.47.3
 
