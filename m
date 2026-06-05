@@ -1,84 +1,87 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 733813A6B6D
-	for <linux-staging@lists.linux.dev>; Fri,  5 Jun 2026 08:29:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 050B8378D9C;
+	Fri,  5 Jun 2026 10:05:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780648170; cv=none; b=PkTTgHK1UwJcOJwKO6nGW3ctfMQLTi5VCMnjExRlKfVlPz/CJimtVLcfawL8rw9sw5z4XX0WGGzvVfntzqB4/XqJaLq7dJF4WPUEreFXW56NZL8qQxW/XLGPEfI3Ay5RZ9PmbEV6LoRomrVhWQpUXxVnXsRsG6jb9CECLhEwN90=
+	t=1780653956; cv=none; b=VuY3+e+RLctYhipmt8QE3mia5dzwxlqK09SfwmVYCK8ry6fb6ISqKa8LBkWKyYREyTvNA5rspcpQjhIn89IIYutzgKSaDWsH5MQPuCdO/2wI2kM6Yoc3LCKhGUBT77RCxEm1wyjFHsTX5CtoOC7w74VEJJJiOclY22hn4VBiy5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780648170; c=relaxed/simple;
-	bh=MV+PjOx58Vq7EmMRcMcCm3SFzpnWKrn66vShyqWj3rs=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:Subject:Cc:To:
-	 References:In-Reply-To; b=cnCsyyodtkQ0NSE39JVhpee6vPTAbrhdCooM73V5DHVBfUYYn76PwIKasRfaGsscM2MaMV65RWNATcdgjU1icsBoc+FvoEgBE8s7Lmhs8wTOeCQ/9suStfl+D6F/DPwcYRZR1d4i9QkfHpXMsWILwyavpye6JDKyWqW18MPhn9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=PXb+GPt8; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1780653956; c=relaxed/simple;
+	bh=FQ6GGz3nhA/S2r2Og6uOR+zEaUKOYt9HGGvDk52BZ38=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=bSi/myMLrqGayk0kBCKrKx56f7bJPwBL/9Um+IwmTTKRB+/ZRMszNU4ERYA5IpoexLm9O8ZBSfJ7WZ3R22ey9W/JGbfo107SSP9BcUeg/filShXecdTDqpbrOw4pepvGClOVkersxqGjwN6h01g+OWq4ECi+tGH4pR2na7dymcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J2kNPUUu; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="PXb+GPt8"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 53FDDC58471;
-	Fri,  5 Jun 2026 08:29:25 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id B48A35FED1;
-	Fri,  5 Jun 2026 08:29:25 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id A6254106A16CE;
-	Fri,  5 Jun 2026 10:29:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1780648164; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=MV+PjOx58Vq7EmMRcMcCm3SFzpnWKrn66vShyqWj3rs=;
-	b=PXb+GPt8T2483LQBm5RhlGucJ2Rnf/U6vVgxKqL2jVRRGsR20ad9A8LOfIwZBmxmA1RKIp
-	/f/hDj8BaZk2rhUkU0ImBnA0ucsZ1suq2FLYvgWL7CjEW1wRsu2bMDuJKBa1KL2qr3VgGF
-	jk1cKlir0cO/43KgLFO704EWXx0WvvJ12y+mxrSXWlKkgqxi0j39CTBxR/Yy0gq2dOYYSE
-	seEwWdm+7nRpjnPqQlWiv4+sIWzJSbFTWxQfpETHZo2+tuuGgEkTMtJ8/78uIOG9lXTmWw
-	QGEXfcdlpsROCM1eecFAXKM5T2w7/4/C0907xoQpuce1zEak+GSMe2Ib4BGk5Q==
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J2kNPUUu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F4D11F00893;
+	Fri,  5 Jun 2026 10:05:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780653954;
+	bh=8tCAMEOJ2W0DgEOa63G9q49he5wAWVdyoSgRI6pyvy8=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=J2kNPUUuUQCXgpxKc3kpE3IvsCEgKjNoJ3eeX24TGZrAHnSpVpWIDuFg/2DFIwiX3
+	 +NzEG0Ys64yOjSYOSjKRpndtpVvyl9iSwnDXW6Zco0y//fWCPjdYbFlEGTYcVeYIi4
+	 S5cliMDufqi7mUnWjn8eUk25FqBhT/GvBATei6Daqff8/inS//Hc+aSfdlTiJNpcQs
+	 buVW0u+yx2l4GGIzexTpVSu+bX3+GNi45yQ6JxkRm5hddtR2lLhNAIyxcfHa0TNYJC
+	 /MOtXqTESe5ZQdo/Y/cFRR/4Zi8PaIFeMA/aQsc7O4krNjD07MaaUrtSmW4cu584qi
+	 5Aj2BFsbNYosA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 56B0C3930B03;
+	Fri,  5 Jun 2026 10:05:56 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 05 Jun 2026 10:29:21 +0200
-Message-Id: <DJ0Z3CCLRGGD.1OA7X9AZX5P03@bootlin.com>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v2 1/1] staging: media: tegra-video: vi: Improve media
- graph building logic
-Cc: <linux-media@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
- <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-To: "Svyatoslav Ryhel" <clamor95@gmail.com>, "Thierry Reding"
- <thierry.reding@kernel.org>, "Jonathan Hunter" <jonathanh@nvidia.com>,
- "Sowjanya Komatineni" <skomatineni@nvidia.com>, "Luca Ceresoli"
- <luca.ceresoli@bootlin.com>, "Mauro Carvalho Chehab" <mchehab@kernel.org>,
- "Hans Verkuil" <hverkuil+cisco@kernel.org>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>
-X-Mailer: aerc 0.21.0
-References: <20260523064750.35553-1-clamor95@gmail.com>
- <20260523064750.35553-2-clamor95@gmail.com>
-In-Reply-To: <20260523064750.35553-2-clamor95@gmail.com>
-X-Last-TLS-Session-Version: TLSv1.3
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Re: [linux-6.6.y 1/3] HID: core: Add printk_ratelimited variants to
+ hid_warn() etc
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <178065395515.3231246.12606425356233054925.git-patchwork-notify@kernel.org>
+Date: Fri, 05 Jun 2026 10:05:55 +0000
+References: <20260603133140.3069226-1-lee@kernel.org>
+In-Reply-To: <20260603133140.3069226-1-lee@kernel.org>
+To: Lee Jones <lee@kernel.org>
+Cc: jikos@kernel.org, benjamin.tissoires@redhat.com, lains@riseup.net,
+ hadess@hadess.net, ping.cheng@wacom.com, jason.gerecke@wacom.com,
+ vireshk@kernel.org, johan@kernel.org, elder@kernel.org,
+ gregkh@linuxfoundation.org, sashal@kernel.org, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, greybus-dev@lists.linaro.org,
+ linux-staging@lists.linux.dev, bpf@vger.kernel.org, stable@vger.kernel.org,
+ vi@endrift.com, jkosina@suse.com
 
-On Sat May 23, 2026 at 8:47 AM CEST, Svyatoslav Ryhel wrote:
-> The existing tegra_vi_graph_build function relies heavily on a one-to-one
-> match between Device Tree nodes and media pad links. While this works for
-> simpler configurations, it causes issues when Device Tree nodes do not
-> match media pad link logic (e.g., mt9m114). Switch to the
-> media_entity_get_fwnode_pad helper to verify and retrieve the correct pad
-> linked to an endpoint, rather than assuming the endpoint ID matches the
-> pad ID.
->
-> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+Hello:
 
-I still haven't looked at the code, but:
+This series was applied to bpf/bpf-next.git (net)
+by Linus Torvalds <torvalds@linux-foundation.org>:
 
-Tested-by: Luca Ceresoli <luca.ceresoli@bootlin.com> # tegra20, parallel ca=
-mera
+On Wed,  3 Jun 2026 14:31:25 +0100 you wrote:
+> From: Vicki Pfau <vi@endrift.com>
+> 
+> hid_warn_ratelimited() is needed. Add the others as part of the block.
+> 
+> Signed-off-by: Vicki Pfau <vi@endrift.com>
+> Signed-off-by: Jiri Kosina <jkosina@suse.com>
+> (cherry picked from commit 1d64624243af8329b4b219d8c39e28ea448f9929)
+> Signed-off-by: Lee Jones <lee@kernel.org>
+> 
+> [...]
 
-Luca
+Here is the summary with links:
+  - [linux-6.6.y,1/3] HID: core: Add printk_ratelimited variants to hid_warn() etc
+    (no matching commit)
+  - [linux-6.6.y,2/3] HID: pass the buffer size to hid_report_raw_event
+    (no matching commit)
+  - [linux-6.6.y,3/3] HID: core: Fix size_t specifier in hid_report_raw_event()
+    https://git.kernel.org/bpf/bpf-next/c/4d3a2a466b8d
 
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
