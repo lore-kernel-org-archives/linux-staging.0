@@ -1,85 +1,95 @@
-Received: from outbound.st.icloud.com (p-east2-cluster1-host7-snip4-8.eps.apple.com [57.103.76.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7C4F30F803
-	for <linux-staging@lists.linux.dev>; Sat,  6 Jun 2026 23:44:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.76.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E2D5B672
+	for <linux-staging@lists.linux.dev>; Sun,  7 Jun 2026 00:25:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780789501; cv=none; b=ICSrmIVTSlf3UoIOWcvJjiZXqkVd3CLkHLHrSSI3QYq665NUEvdV/ObKA0iizTpG0CpiqPJOFZzvFih8C39snIfIBbSozxyoS+aYByWM88Z6+pX37TY1wv3EGvkLRfuhQJmwg5bhHw/oqUbSKpM7Nu3toR8LYAqrIiXJdkmS6Ms=
+	t=1780791956; cv=none; b=SB2DtkZC+sgIP25/3EqboX3/v4gZvnEK45serq/9PhtGEwk4DH3EN1tBmhLRzs0n51u26X0UPQG99Qxnk+dxTuwxzdgs68R5LumzyhSeF9R5AQCDF4G2Kudk94g3PiXVZ5VFar7HvpYNqvcFDnPNQlPV0XPgQmrRXJ8z6vI1aUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780789501; c=relaxed/simple;
-	bh=f25YXMh3jw6eY1n4wR9IpEbBJgwzmFwEbXaDXDu5f/0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fDgQ1wFnyQpRpqHEz9J+7D5+F81occLkA0+2Dg9xWtDB8khy9wfTN2fSeL2vtGuB04zmo6InNqdEhwfjlYNrQCZzcu4jZ8rbbKdTWQ507eAowxNIpBt9jLVau2ZHwllDV0YOMiNyrhlInAQoUqnI576xTWwqeL1v+aRwuTZPBuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=notrealandy.dev; spf=pass smtp.mailfrom=notrealandy.dev; dkim=pass (2048-bit key) header.d=notrealandy.dev header.i=@notrealandy.dev header.b=EQTE/ibJ; arc=none smtp.client-ip=57.103.76.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=notrealandy.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=notrealandy.dev
+	s=arc-20240116; t=1780791956; c=relaxed/simple;
+	bh=/0MRKkXG97YvNH6uGWojAsZlKq2NUX9Pre0pYNOKhcA=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
+	 References:In-Reply-To; b=V2n9fzLppyjno1fi6qkuqCQ8CK0nPMdEwjYYdPjuJcYD9gaddBVQlSw6U23Vapsiz3YFKnjyKiq/Xj3q6qeDj07Cml6d8MXsi3fAZVnuK6pC2GmFBulDEAKNxuy1lgdSLcyZE4lxA+Yi0CYsVqx3CLkJfoojkx61C5Z88A0CD04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qMErykn7; arc=none smtp.client-ip=209.85.128.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=notrealandy.dev header.i=@notrealandy.dev header.b="EQTE/ibJ"
-Received: from outbound.st.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-east-1a-60-percent-0 (Postfix) with ESMTPS id 3D7CD1800883;
-	Sat, 06 Jun 2026 23:44:55 +0000 (UTC)
-X-ICL-Out-Info: HUtFAUMHWwJACUgBTUQeDx5WFlZNRAJCTQFNHVwOWBxAF0kGTVIPDxxQFkYVdwVdBEsdUgFWBVYJFxxWGxcNVk1XF0cfUgpeEVccSkNTDkRQSxsOVBcDVxxWRVwYQwldBVccHR5DRVsTVRdGCRkIXR0ZCEcfCjADQg5WA0MHRQAtGRxXUFkERgJcGV8MWQ9LXl0dRU1aAlZNBUoDXwFbBEAPSgBZA1kFXgBBA18aWh8cUBZGFXcFXQRLHVIBVgVWCRccVhsJS0YJSR0ODkIYRh9UJ1cCWgpbHg==
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=notrealandy.dev; s=sig1; t=1780789497; x=1783381497; bh=D1StYL6U9gU2+jj+JbZhPSY5gf8iUhPFr30wac770RQ=; h=From:To:Subject:Date:Message-ID:MIME-Version:x-icloud-hme; b=EQTE/ibJYw/oyasmViiRoGKEnzn7KZ578dnmal8QX5tyO8UGnx1PI6VWalqyp05A8FL86uTZBkZVmGPumnGBqW8GO9u84i7nDYh3f+DyYs+PtVOHc295PaVcmDFWfM3fviY1Bkkf51ffUu3kqBvsMomIUldkB9OLDXphvXj+Wm7v3dHhqmRNwuXNVYPv9XE93YTk64FJ6uJpqrqF1zJhmysEL84SQP+v3XgxsE/sBJHy7IBhFVGRxOzHL6ZxIpM6D2vt89Gyn0p+ugpm8N2ywnWUXwvljJWVym+liX8jwpHGUmf6AANvZpBm4zF20xCa2CQa+cBLtMR+coY//Cy5Ig==
-mail-alias-created-date: 1780788294906
-Received: from 68c3084b1005 (unknown [17.42.251.67])
-	by p00-icloudmta-asmtp-us-east-1a-60-percent-0 (Postfix) with ESMTPSA id 3F5F1180088D;
-	Sat, 06 Jun 2026 23:44:53 +0000 (UTC)
-From: Andrew Soto <linux@notrealandy.dev>
-To: hansg@kernel.org,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: andy@kernel.org,
-	sakari.ailus@linux.intel.com,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Andrew Soto <linux@notrealandy.dev>
-Subject: [PATCH] staging: media: atomisp: prefer kcalloc over kzalloc with multiply
-Date: Sat,  6 Jun 2026 23:44:27 +0000
-Message-ID: <20260606234427.9902-1-linux@notrealandy.dev>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qMErykn7"
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-7e87602f26aso35447027b3.1
+        for <linux-staging@lists.linux.dev>; Sat, 06 Jun 2026 17:25:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780791954; x=1781396754; darn=lists.linux.dev;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/0MRKkXG97YvNH6uGWojAsZlKq2NUX9Pre0pYNOKhcA=;
+        b=qMErykn7kMnj2D6TR7PMFWvuf//3IFFE5cXXwC6Xg3EXlZL+sS9Zfoj3+GH1Szfjew
+         p+TXjfFL2SqaSVyUVaukaWhjeWQR9RK0MNu1hi7f83HsQUQg7YJv53xB59MlnJM1h5G+
+         45VA/PsGlna9uvCHfdRQTy0wLwAUfLZt+EJL/+z9X3ukeKrNJMwQUSYrsr9J2pVpzqgX
+         qoKKGJ9S8L1CMPOYKVAiOlyLXHPZuX6roqhNh+juYZG57ho8v36b9Rlj8PAw1rAyosMl
+         XLjSjpt+RD0fjzsZIX7YVewbPHlj4QGtKtZiYbzwS43z2+5k7MdznwkBG8SRprmKGZH9
+         Tj8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780791954; x=1781396754;
+        h=in-reply-to:references:from:subject:cc:to:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/0MRKkXG97YvNH6uGWojAsZlKq2NUX9Pre0pYNOKhcA=;
+        b=WnGQMtDXI8f/xZjo41AHcaaJxkkDZ6vzXjQkiCAGwdDyt6kbjRNiF9FU8+RujXX8JZ
+         x6R3NJZEy6r5vbR98m2t0nHruLn2Pplu3AE3wqaA8eDN1YFgmOn6Fg7NACpn5TF05uad
+         pL0HUOKwyL0YZVtrbas+l1+kOFkbxuM42vnhvk1rj9qPDTEDk0F1IYBuVUpLcBKyUsq5
+         GKXuDPeCRDs8zg18xT2lsKna74vk9mK1V5AFBSnsMHTSRcUGPExs25+pVtWs9PZP2to0
+         ek1zgBmbMhv4hj93YZ6tHJO/RV0i1I5DgMWiPXpl7AvRjfQEJ3wuhfWIBjgiXawvNxrr
+         Z/6A==
+X-Gm-Message-State: AOJu0Yyqe3n8mI+RdriOhiPa7WJU52aXUXflvevhdTMkk3+t9nNJbyVA
+	iPb00SjFCac/0j2XGraZH2Lpe5LtB7t2VrtAwoMO1NbtdQRHPB9lFsjM
+X-Gm-Gg: Acq92OFsKj8eNq+FZhBo5OHKhVg01iCE+6bjbrnxy8YV3ns4ldUEbKMhJmsxmKP+DeW
+	Y6fQsMeEd3wrULKwy6Z6/AQqvUKL0PsJWNc4EUi1UXdr4bD2DgerfR2hOJzlaLXjI2yHF+/tOmF
+	oU747L3szIqqEse+ztHm02PGXejL+uwNH+SsjQn/KdixkYWBAL/sIkBcQp7+6ET8YNRCRsV8Xhe
+	4hd/sONFufAiLsCRrSbvJ6EgwoVz7fp8oZ54o9+mzph8VAPiYrFJ7SBKszPY2YF3GZiW3g/mlCd
+	Uqn8iIFsQhzY1pLHGJPgqeMpSfzajv2zGd8I1co1muk+bG1H2B+3qMTqpAdVQ+zRJBge3XLJBUS
+	WUSoe5arYQHBb7+Y4mX+zKDHd7RATM+TiGzoHwmU+/cfMLdTTKN5W80Kw2BLx9DoTBpbYSTOR7K
+	bPKpDv65556C0CeIsLDlgYYfXKfisQbeK99nziC14SS869p7NMSkNXSzlAx5sF9xmhlgZkKdNw0
+	mKYe6Lc45fqoaaRgiBPvCF8xeE/4Y9+28Jbkut0Xqen9lLwrmZd7KiNKrgpq/XoWiHThJiT
+X-Received: by 2002:a05:690c:7204:b0:7de:8229:e86e with SMTP id 00721157ae682-7ed526f00f5mr64247387b3.21.1780791954527;
+        Sat, 06 Jun 2026 17:25:54 -0700 (PDT)
+Received: from localhost ([2601:7c0:c37e:2360:d412:6d5d:4bc3:48b2])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7ea20ea986bsm67635007b3.9.2026.06.06.17.25.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 06 Jun 2026 17:25:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Authority-Info-Out: v=2.4 cv=PJ0COPqC c=1 sm=1 tr=0 ts=6a24b0f7
- cx=c_apl:c_pps:t_out a=YrL12D//S6tul8v/L+6tKg==:117
- a=YrL12D//S6tul8v/L+6tKg==:17 a=FelO9ux0wxsA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=pDUkijPYcnCcty---KEA:9
-X-Proofpoint-GUID: oE_mK9xeJBWVOZBbE9luOc4P5Dxo5xvS
-X-Proofpoint-ORIG-GUID: oE_mK9xeJBWVOZBbE9luOc4P5Dxo5xvS
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA2MDI0NCBTYWx0ZWRfX99RJ7y57oxFR
- W6H8oEEslXafKXJXFqf1g6SBkf0UTdWJuWkCOudJBmkvszAVPZowSxfR29RBWMdNV9ECn255Vas
- bnInCWGHvPnqVdmFzyQ4nwMUgcHSda3P6T0CEB93vPtftFABJcmcd76FJHH2W9Cne3A9MXkwdvX
- 4sbyBw1H+ASMpUq67g2jEMC001SLHFavgAMStRiwwRmIk3ys+IkLGEZi24LFvDaNy/5k9SybxC9
- tWOpfrDR2VqZMX/RdkhY9ff5qSPXpb9lsBcO8pIUx2493V1i6DRcn/hpjqXj/UtgBJ7eRfEPUoH
- SImPqw/gf6XQnOVm5von56z+JfW8N7aj/THkWCyWECj3ozvs63LYOiNehuiqwY=
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 06 Jun 2026 19:25:41 -0500
+Message-Id: <DJ2E24A0GO6T.3DOXKXL1HL968@gmail.com>
+To: "Andrea Frasson" <andreafrasson1995@gmail.com>,
+ <gregkh@linuxfoundation.org>
+Cc: <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] staging: rtl8723: remove multiple blank lines in
+ rtw_security.c
+From: "Ethan Tidmore" <ethantidmore06@gmail.com>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <aiRL4dekV140SPGw@frassi>
+In-Reply-To: <aiRL4dekV140SPGw@frassi>
 
-Optimize memory allocation layout in sh_css_params.c by replacing the raw multiplication inside kzalloc() with a type-safe kcalloc() array allocation wrapper.
+On Sat Jun 6, 2026 at 11:33 AM CDT, Andrea Frasson wrote:
+> Remove unnecessary multiple blank lines.
+>
+> Fix 5 checkpatch.pl checks in rtw_security.c of the type:
+> - CHECK: Please don't use multiple blank lines
+>
+> Signed-off-by: Andrea Frasson <andreafrasson1995@gmail.com>
+> ---
 
-This prevents potential integer overflow vulnerabilities by validating the array size calculations before interacting with the kernel heap allocator, aligning the driver with modern kernel memory allocation standards.
+LGTM.
 
-Signed-off-by: Andrew Soto <linux@notrealandy.dev>
----
- drivers/staging/media/atomisp/pci/sh_css_params.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Reviewed-by: Ethan Tidmore <ethantidmore06@gmail.com>
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
-index fcebace11..9147ca047 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_params.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
-@@ -3716,7 +3716,7 @@ ia_css_ptr sh_css_store_sp_group_to_ddr(void)
- 
- 	IA_CSS_ENTER_LEAVE_PRIVATE("void");
- 
--	write_buf = kzalloc(sizeof(u8) * 8192, GFP_KERNEL);
-+	write_buf = kcalloc(8192, sizeof(u8), GFP_KERNEL);
- 	if (!write_buf)
- 		return 0;
- 
--- 
-2.53.0
-
+Thanks,
+ET
