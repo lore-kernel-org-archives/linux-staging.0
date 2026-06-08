@@ -1,76 +1,76 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52B0632ED3A
-	for <linux-staging@lists.linux.dev>; Mon,  8 Jun 2026 15:16:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 089633DD506
+	for <linux-staging@lists.linux.dev>; Mon,  8 Jun 2026 19:08:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780931801; cv=none; b=S9tNWxSZd6f+JzfQff/8SW32mlAU38VR68NwpxNUJSteZ+JznynOfv32SSCkOZFhnmTGp6bc9JcLkzUfGAEi7RbPS9GcRUV0Farlrklv0SYyoLuvHDKnJGN2hcsPp6sLqFQJzfq9Wp0ICBZAAuqKwTOk4TfP4BiwjTmglf90CUI=
+	t=1780945691; cv=none; b=atneKewIENZhUpmsXoiql2rsqVqP9LHCTgEPv9FAWQ/LW4IwwDcVmhAfgYy+5hNl82Dk213XqZkgEfAJhDlGPT4ljV4RFsPZBOM9FGOHJxxOI7EeHJ/0sMWDvz3hDsEf55hnvmL2XUa2rtIGXgn0heOLrE8VATrGecdpDQqvaw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780931801; c=relaxed/simple;
-	bh=+Adic+T2znQgdxxRgMuzaFBipB4oYX5M3eDjZE8lqw0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QDskI+Hazo4qfQIBM9qxGJZMAzREPQr76s0vFf1R7ADcDbOG4rnrHXwYVDmj/MwR37EV5cM4/7gJMKXAlmmZaOirrx7q+pnuo96QwyL3514uiMX5seu9JOQY/osoIpJNQTT82Zmj89SqO+1WjZKgQNYjVN3dXlmaQbugjyVQGrM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tumelty.co.uk; spf=none smtp.mailfrom=tumelty.co.uk; dkim=pass (2048-bit key) header.d=tumelty-co-uk.20251104.gappssmtp.com header.i=@tumelty-co-uk.20251104.gappssmtp.com header.b=Z/Bu6ZB4; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tumelty.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=tumelty.co.uk
+	s=arc-20240116; t=1780945691; c=relaxed/simple;
+	bh=mrlN8oTK1xCKFazv7gxjN+JMJKdR9jAYfIEr3zLtFSc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hHO22ck4qNhyezCgVGibnwMhlP8OoXBNsZQXnjilgVmj5kL2uu1e7TAcLDyxAYUjX4iprunaBZZtjJeFCdx/7CaBqRMp1gb2ph14FYxgR9AmmYUIN39kTM3LbtCC9i2WDq9guLHwwq1c+okKmCNLlpcc7ezK+r9pPXNzex86rPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y3XEMAIk; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tumelty-co-uk.20251104.gappssmtp.com header.i=@tumelty-co-uk.20251104.gappssmtp.com header.b="Z/Bu6ZB4"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-490d1e54b3bso6755925e9.1
-        for <linux-staging@lists.linux.dev>; Mon, 08 Jun 2026 08:16:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y3XEMAIk"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4905529b933so50991845e9.0
+        for <linux-staging@lists.linux.dev>; Mon, 08 Jun 2026 12:08:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tumelty-co-uk.20251104.gappssmtp.com; s=20251104; t=1780931799; x=1781536599; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1780945688; x=1781550488; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=eVHQVd8Cibi1FnHd10mOaHGzwUNox/elwnpPYgAowKg=;
-        b=Z/Bu6ZB4X3yblnqRtq+xPmH6pi/HJwQ4KdDj/seA8km/BhTPksO8igge37JvXNe382
-         qv12Q69tOKGVVVPcavfE+wCfI/t7ajok/kdfNMk/H6XBLvvPiG53fZzSrGPEvgszEuLV
-         woVRe8CuTm6whGWt4jkds2eYEHLRJMGQ0x1+q/aMPkEU6RmX7R7EtW937l7pl5BsI70b
-         nORTAcBmBhzBWOHW+PGsy01McCfCzROf1zqJZnr6lcp+sCwksRZ3c5As1YoqBkNkDGwS
-         /lbYxdY3GH3qlN81rr0ejEDC5PPsixPeUZEWkwLWVR8cbuBN/bOsODehgdBBYkWgoFPZ
-         ckSQ==
+        bh=zIpRmwEDvt5u/zq21xSApuv1AvoqyPfLmSADHW3zJO0=;
+        b=Y3XEMAIkFOW3ZR0KwikFvZ0yql4b1Fw83PPN3mhnYAuL2AB3UxMcOzWTtBMIEvOP98
+         B8Uo3RpoIEjPsdU00f1Hn5OKfiDQAk/BGal6SkBa5IVasqQK6MOW3edfJip6SQIcWn3/
+         V66UyiOupRyKzvUGigMArGAuHCQkSAa9xyU5UoBDiSVaT/g5l+dnMi1hvvxIaupIk180
+         BXBsraaaSXrsd2S2WWH5+M5zHDnrd6wZvXC9raAZT8LIsvK+FR+4EwQBUK4oTV7+j8ll
+         sCVPkVr+kWBrNRYVBEe/jprVn3aqg8zl8mxDXjP3qapwI+yxUvq9V40qovkV0LidOWfl
+         AyOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780931799; x=1781536599;
+        d=1e100.net; s=20251104; t=1780945688; x=1781550488;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=eVHQVd8Cibi1FnHd10mOaHGzwUNox/elwnpPYgAowKg=;
-        b=D/cfw+FFClhDpp8Gc08IUgjZiIsnDPWS0zmyvxuL1K38uuPSCeUptT7NMLG1GpalCG
-         1dQbi4UL1Kf3L8Zr7IvkUcm7iUBiZdlL/WxiX4DaGc3W6KUq8tCK0FLvkghG2r1/BtK/
-         UHQIOYMufmZf3skYEc3g0UDFD5dJoFp5pHGPZBsutfLIybcYm84rawt8+eQVRIHYUvWA
-         l+WQZhgZFkNKmZvcmtB2OkC1POdgT7U+6wR3DchCwIq1rIdMsBi56G/KaQiv/qM0GrOq
-         K8XfAMcceZrl08XZcXRNZTNRECA1UMVPDa3EEGS4sRRoIgPP7XXCcp6QNpvUhHc3Q5mj
-         gG4g==
-X-Forwarded-Encrypted: i=1; AFNElJ+b5bRX98G1OSccFnnaUVlBfe8V67SIhw4+5cZFrjBlKDy9IdpV62UY0FZWKMJLR+myjfp61iQK2A5B8S1A@lists.linux.dev
-X-Gm-Message-State: AOJu0YzMksA95Lxqb32/9D8dBrrMIYhAd0jWYHWqkY9fgzrXQV/U65pv
-	4oN/2jMbPY+gCpZRevZQ/LrYIMmHPuStdaLYaH1O3cydQJOQomLJ+WNJScrej4koU34Mx7PAvPu
-	zEz2RErJu+A==
-X-Gm-Gg: Acq92OHR+DPqBdOy8eGgwZXBz1VswH94yXHKch4peDY7k7A6PtEIEQpavmEB/l+D/iK
-	kCWIFXPuxHDo/KPBJLCOak7VAgoYuRNg3bxDFpsnPAbZRhP6FOpzfSW4Svzi9SLzacy9rU4Ke/5
-	nqnjlYBVueKoeNDrKAjto1rA3vz4mfp6tZ+j5mrq5mspz12AkV1AdMZxoOO2EOrooWbLcd2gWn6
-	4B9y7yqG6IxxCqeGFYxZX6/FGcOwH+tP7xFsCopDBkjvChT2W3llrAa8DVXhy5bJ2CEDG23epip
-	Aukp9QvrxOEFeZjj/d7FoRjxGkhGHDZzlBKZiVZeYdqRYTjlzKjl6AREz+oI00Hw1owoDItYMkI
-	amqJAwk8k+0lzk2PRxO8yiLF9lYBhW9H0NWUw21AssuECm2wONJPAIeTzILQNEm11YjAdcPkvi2
-	+LMVZ7fvpiqamE+Rruu2TTxuE=
-X-Received: by 2002:a05:600c:a302:b0:490:c2a3:1781 with SMTP id 5b1f17b1804b1-490c2a317c3mr208748495e9.34.1780931798525;
-        Mon, 08 Jun 2026 08:16:38 -0700 (PDT)
-Received: from nixos ([83.217.168.175])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f35fd33sm58630734f8f.35.2026.06.08.08.16.37
+        bh=zIpRmwEDvt5u/zq21xSApuv1AvoqyPfLmSADHW3zJO0=;
+        b=O4521jQbuDt5Um7tNh8x/8hmeoZbLDDsBrcmAB+YXWD7DGf5T4LAZuJxzZC+cKYm0q
+         iWTbbU6/sWH2MYtNjQjwKvr32ORRyJPEgjTPi3niKPI3YmS+ct+hN+TYEebgHJgH1yzZ
+         UaFfUksABKQ7zJa1WRICjJT75WMt6O2nF8VHgrPPheyVcMP34xdNxVQe65QZVY+FYevq
+         Wb0lsETjsmmtS6I44sj2cgLyscGQXV9psPOsZpahL7ppa2c31/SLGz0DR/+kItbKL53W
+         hw8wFMePmfWpv1b0a1YkE2jiLreAtr3yVjD930pAknHsJ13ARAMs247MgbjkXUQFX29u
+         +PJQ==
+X-Forwarded-Encrypted: i=1; AFNElJ88QudVFj4vYBlJlTgKXH0/bXzUBB5cq35dZjbx8aK3ZuWpDLf6oS762daw737XnotOQvQ9gIbMrGYCBnpT@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx7baDKTFgbZdDeku5s/nOs38x8ssz9GxQREXx0lBCtPa4XtrjC
+	IsLBTwoOrpWrZAnVTVS8OXL5Bd7HmJqL6kOga6vYV3EZuhSpGmJfpRAPXUOtycYAGXc=
+X-Gm-Gg: Acq92OHQXkdUk9WX4l5sc4w19hjrP0FrGv8Emuwt9FYTXLwN0t3SdO3SS6z4emklMnn
+	zK0sR+YTqtKmMiBmD2Y5PWWmn6y3tLRklseL3C0UiXXVXp9gMRe2kKKwX3bYB2mLHwn0QxF1B3T
+	B/npvtWaXinypH5+OG8b4LfdB9XWEpmCw+NgdWYtfWMLyaX1nR7IlR5U167okvAWpfugFVPwgZH
+	KB3L4ZTCiBRYdW7VOl7QFuOyt3zgc86tCVxSDTyxpAZW46BbKHlAy3DnXgdQ5VqEyYYeBalwptZ
+	aZwmdbj08vnBVu9ePfnBdXIgHOvvL6kPvITK71Qbvf5RaWw7PB4FdXIr4b222W3ou9pC5DXeJ74
+	laR7nt2y9vhdwJKI0WchnDh49drwANoVwaKnjFaZtqRWw6cpU7F73zCcjIH10dv/jL7p7TS8W4Q
+	HIy3gf0pTOgDjpbOOOnVe6RW/GsZ1bEOO9
+X-Received: by 2002:a05:600c:4e43:b0:490:3d62:f5df with SMTP id 5b1f17b1804b1-490c25d24f4mr273799625e9.30.1780945688319;
+        Mon, 08 Jun 2026 12:08:08 -0700 (PDT)
+Received: from omarchy ([212.58.120.181])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f2dc412sm56878622f8f.4.2026.06.08.12.08.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jun 2026 08:16:38 -0700 (PDT)
-From: Rhys Tumelty <rhys@tumelty.co.uk>
-To: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Andy Shevchenko <andy@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	linux-media@vger.kernel.org,
+        Mon, 08 Jun 2026 12:08:07 -0700 (PDT)
+From: Nikoloz Bakuradze <nbakuradze28@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Khushal Chitturi <khushalchitturi@gmail.com>,
+	Archit Anant <architanant5@gmail.com>,
+	Minu Jin <s9430939@naver.com>,
+	Andy Shevchenko <andriy.shevchenko@intel.com>,
+	Kees Cook <kees@kernel.org>,
+	Hans de Goede <hansg@kernel.org>,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Rhys Tumelty <rhys@tumelty.co.uk>
-Subject: [PATCH] staging: media: atomisp: fix variable shadowing warnings
-Date: Mon,  8 Jun 2026 16:16:17 +0100
-Message-ID: <20260608151617.3393471-1-rhys@tumelty.co.uk>
+	linux-kernel@vger.kernel.org
+Cc: Nikoloz Bakuradze <nbakuradze28@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] staging: rtl8723bs: core: avoid NULL pointer dereference in c2h_wk_callback
+Date: Mon,  8 Jun 2026 23:06:58 +0400
+Message-ID: <20260608190700.85755-1-nbakuradze28@gmail.com>
 X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -80,75 +80,45 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix local variable shadowing warnings, flagged by a W=2
-kernel build, due to -Werror=shadow.
+c2h_wk_callback() allocates a 16-byte buffer with kmalloc(GFP_ATOMIC)
+when the c2h event needs to be read by the host. The existing guard
+only wraps the read step, so on allocation failure the loop body falls
+through with a NULL c2h_evt and dereferences it in rtw_hal_c2h_valid()
+(via c2h_evt_valid() which reads buf->id).
 
-In atomisp_css_stop(), an inner loop 'i' index shadows
-an outer unsigned int i. Rename the inner loop index to 'k'
+Restructure the check into an early continue so the rest of the loop
+iteration cannot be reached with a NULL pointer.
 
-In ia_css_stream_create(), the block-local 'effective_res'
-struct shadows an outer local declaration. Rename the
-block scoped instance in the loop over pipes to
-'pipe_effective_res' to clearly show context.
-
-Signed-off-by: Rhys Tumelty <rhys@tumelty.co.uk>
+Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Nikoloz Bakuradze <nbakuradze28@gmail.com>
 ---
- .../media/atomisp/pci/atomisp_compat_css20.c       |  6 +++---
- drivers/staging/media/atomisp/pci/sh_css.c         | 14 +++++++-------
- 2 files changed, 10 insertions(+), 10 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_cmd.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-index be5f37f4a6fd..da945fddb5ea 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-@@ -1775,10 +1775,10 @@ void atomisp_css_stop(struct atomisp_sub_device *asd, bool in_reset)
- 
- 	if (!in_reset) {
- 		struct atomisp_stream_env *stream_env;
--		int i, j;
-+		int k, j;
- 
--		for (i = 0; i < ATOMISP_INPUT_STREAM_NUM; i++) {
--			stream_env = &asd->stream_env[i];
-+		for (k = 0; k < ATOMISP_INPUT_STREAM_NUM; k++) {
-+			stream_env = &asd->stream_env[k];
- 			for (j = 0; j < IA_CSS_PIPE_ID_NUM; j++) {
- 				ia_css_pipe_config_defaults(
- 				    &stream_env->pipe_configs[j]);
-diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-index cd1be313c758..44c77179abb8 100644
---- a/drivers/staging/media/atomisp/pci/sh_css.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css.c
-@@ -7971,22 +7971,22 @@ ia_css_stream_create(const struct ia_css_stream_config *stream_config,
- 	}
- 
- 	for (i = 0; i < num_pipes; i++) {
--		struct ia_css_resolution effective_res;
-+		struct ia_css_resolution pipe_effective_res;
- 
- 		curr_pipe = pipes[i];
- 		/* set current stream */
- 		curr_pipe->stream = curr_stream;
- 		/* take over effective info */
- 
--		effective_res = curr_pipe->config.input_effective_res;
--		if (effective_res.height == 0 || effective_res.width == 0) {
--			effective_res = curr_pipe->stream->config.input_config.effective_res;
-+		pipe_effective_res = curr_pipe->config.input_effective_res;
-+		if (pipe_effective_res.height == 0 || pipe_effective_res.width == 0) {
-+			pipe_effective_res = curr_pipe->stream->config.input_config.effective_res;
- 
--			curr_pipe->config.input_effective_res = effective_res;
-+			curr_pipe->config.input_effective_res = pipe_effective_res;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+index c1185c25ed369..874970116f920 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
++++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+@@ -1702,12 +1702,12 @@ static void c2h_wk_callback(struct work_struct *work)
+ 			c2h_evt_clear(adapter);
+ 		} else {
+ 			c2h_evt = kmalloc(16, GFP_ATOMIC);
+-			if (c2h_evt) {
+-				/* This C2H event is not read, read & clear now */
+-				if (c2h_evt_read_88xx(adapter, c2h_evt) != _SUCCESS) {
+-					kfree(c2h_evt);
+-					continue;
+-				}
++			if (!c2h_evt)
++				continue;
++			/* This C2H event is not read, read & clear now */
++			if (c2h_evt_read_88xx(adapter, c2h_evt) != _SUCCESS) {
++				kfree(c2h_evt);
++				continue;
+ 			}
  		}
- 		IA_CSS_LOG("effective_res=%dx%d",
--			   effective_res.width,
--			   effective_res.height);
-+			   pipe_effective_res.width,
-+			   pipe_effective_res.height);
- 	}
  
- 	err = ia_css_stream_isp_parameters_init(curr_stream);
 -- 
 2.54.0
 
