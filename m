@@ -1,54 +1,44 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail-m49197.qiye.163.com (mail-m49197.qiye.163.com [45.254.49.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0B03CF96B;
-	Mon,  8 Jun 2026 10:02:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11A983C5837
+	for <linux-staging@lists.linux.dev>; Mon,  8 Jun 2026 14:10:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780912977; cv=none; b=Tjy1SrJjZp9D8r+H1EtV3UWAfG7MEC/LT9WHWfgaDrAuVhCd8/en7em/0NOOjrbMBMwYzjJmhfnPL14r9iyGq47MX8F9UqieoquhTD+F+x+9nH6QYd+izVcM/pGsQYdOPNPY7D7c8SZ08P8+i2Nn/LbwYttHtAguvSwrTOJR+2Y=
+	t=1780927853; cv=none; b=BHA1ahL5BG18VpsQvxv0xq1AC+2N8gB1mbnv5i7drzOKecFy5AZ/Uut8YgM/U9DpLrkiZ+DKem/6yXOXi27+YTxhoBZANBZc0VIIuY6v9WydE89p7ZUFhxieWsMdHCas+/Pn0JRbfTAt3fWz0fXv6DlkIaA/IfM2z3hx6AeZ5zc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780912977; c=relaxed/simple;
-	bh=YxtLRgwLaHrh2NKtEkwKJFIIFMvFZNT6m7aIjkRuOIQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fVF77OKhS82w5ma02q+vCNwZedf4IumbuBjcT/M5u6g3U/ayX9uscL4w/rwJ+1aLq89bmHgM2K1umoQeUtMMXDVkyOGLFKdPFA8Y1MJufr5VFmxtQw47a2L7AFa6XW5mKqzSBneRkfd9rXooa1JUjV50xAznK7QDJenp87e98UI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CRuzUw5E; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1780927853; c=relaxed/simple;
+	bh=j7XbVsDgIrZJQKAukPtnQ9tKrn8RPWGeRFOLIqQ201A=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=o/h26oZuC70hfpvjT7pt1kVFPEURhvgI+t0t0u8GUmZS2/AuW+jgIHsQUeF37qewuS35RdqyU9nwGVZ51FMFdsOgTc/y4Xu8GG2f17kuLKy8iRgqdt0ltKa3OoeDdWRCJ8VKBNba0ODkyONdrQ8a2pvVNnkmlEBw8HDZigevqqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=nkZ9vGae; arc=none smtp.client-ip=45.254.49.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CRuzUw5E"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A95031F00898;
-	Mon,  8 Jun 2026 10:02:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780912976;
-	bh=/QXrcAW+83usX+8UQmHsCIedtLj7Ml5HD0UO3OewzHE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=CRuzUw5E5kK23gYjHONHF/5fKIKdNq6KyWHV3OpH9LCJWys9GBkVft7AmvNxr+xKv
-	 Qmizj8ZGZ8pBU01R31KT1lyNIHv0gRXgVQ0mTVUiTP0FDQCOZn+Y2GIe3VYg8NFIVC
-	 jGJ4UdI0eFD9x+JBliqYuHsvO8ROfPueB1zMCYVXxJ7YDAxXSkIEMp4n3rchQL5l3e
-	 hujUkPbuYhHoa5huvU4ndfr0AWEtYwpbqsIF/vqh4imYy1y3SURGrz4XMSsknObCDU
-	 dMopxT0yntsoAWsxOjMmEksRZvC9VnpYjZfsSn70xshA3pZfzjKqQGOBp5JCsNh/o7
-	 Hn0zxH8sc22jw==
-From: Lee Jones <lee@kernel.org>
-To: lee@kernel.org,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	Viresh Kumar <vireshk@kernel.org>,
-	Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-input@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="nkZ9vGae"
+Received: from DESKTOP-SUEFNF9.taila7e912.ts.net (unknown [223.112.146.162])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 41880eb98;
+	Mon, 8 Jun 2026 22:05:39 +0800 (GMT+08:00)
+From: Dawei Feng <dawei.feng@seu.edu.cn>
+To: error27@gmail.com
+Cc: abdelrahmanfekry375@gmail.com,
+	andy@kernel.org,
+	dawei.feng@seu.edu.cn,
+	gregkh@linuxfoundation.org,
+	hansg@kernel.org,
+	jianhao.xu@seu.edu.cn,
 	linux-kernel@vger.kernel.org,
-	greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev
-Cc: stable@vger.kernel.org,
-	Nathan Chancellor <nathan@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Sasha Levin <sashal@kernel.org>
-Subject: [linux-5.10.y 3/3] HID: core: Fix size_t specifier in hid_report_raw_event()
-Date: Mon,  8 Jun 2026 11:02:25 +0100
-Message-ID: <20260608100236.2781796-3-lee@kernel.org>
-X-Mailer: git-send-email 2.54.0.1032.g2f8565e1d1-goog
-In-Reply-To: <20260608100236.2781796-1-lee@kernel.org>
-References: <20260608100236.2781796-1-lee@kernel.org>
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	zilin@seu.edu.cn
+Subject: Re: [PATCH] media: atomisp: Fix resource leak in atomisp_pci_probe()
+Date: Mon,  8 Jun 2026 22:05:40 +0800
+Message-Id: <20260608140540.3421356-1-dawei.feng@seu.edu.cn>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <aiaCoV1DQKBx4ph6@stanley.mountain>
+References: <aiaCoV1DQKBx4ph6@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,70 +46,35 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9ea78da8dd03a2kunmefd9f784f5cbe
+X-HM-MType: 10
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlDSRhOVkIaSxoaQk0eQ0tLSVYeHw
+	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUhVSkpJVUpPTVVKTUlZV1kWGg8SFR0UWUFZT0tIVUpLSE
+	pPSExVSktLVUpCS0tZBg++
+DKIM-Signature: a=rsa-sha256;
+	b=nkZ9vGae4v9MCJyiqGJ12XxQ2ZdTSalZ5Ic3EBfWYCCKhRcYbAGsJ+kdqHofEe1L6rm7oYjy3brO0swSrMxzbYj4HgeF49Krsy39ehpShzvq5oUMMoMl2zV0+pQuJsPYoaWAsCWxY6NDDkIov5JfL6G/WXeGRZhxmHJSf1/1MZw=; c=relaxed/relaxed; s=default; d=seu.edu.cn; v=1;
+	bh=Z3g2cl3TMpovuwvwFtB/vkeHmGjMWbYYVXHcg9LD9WE=;
+	h=date:mime-version:subject:message-id:from;
 
-From: Nathan Chancellor <nathan@kernel.org>
+Hi Dan,
 
-[ Upstream commit 4d3a2a466b8d68d852a1f3bbf11204b718428dc4 ]
+On Mon, Jun 08, 2026 at 11:51:45 +0300, Dan Carpenter wrote:
+> The code is buggy, but this isn't the right fix.
+> 
+> Here is generally the standard way to do error handling.
+> https://staticthinking.wordpress.com/2022/04/28/free-the-last-thing-style/
+> 
+> 1. An allocation should clean up it's own partial allocations.  That
+> should not be handled in the caller.  2.  Every allocation function should
+> have a mirror cleanup function.
+> 
+> The atomisp_uninitialize_modules() function is just a dummy and was never
+> actually implemented.  The correct thing is to implement it.
 
-When building for 32-bit platforms, for which 'size_t' is
-'unsigned int', there are warnings around using the incorrect format
-specifier to print bsize in hid_report_raw_event():
+Thanks for the review and the link to the error handling guidelines. 
 
-  drivers/hid/hid-core.c:2054:29: error: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Werror,-Wformat]
-   2053 |                 hid_warn_ratelimited(hid, "Event data for report %d is incorrect (%d vs %ld)\n",
-        |                                                                                         ~~~
-        |                                                                                         %zu
-   2054 |                                      report->id, csize, bsize);
-        |                                                         ^~~~~
-  drivers/hid/hid-core.c:2076:29: error: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Werror,-Wformat]
-   2075 |                 hid_warn_ratelimited(hid, "Event data for report %d was too short (%d vs %ld)\n",
-        |                                                                                          ~~~
-        |                                                                                          %zu
-   2076 |                                      report->id, rsize, bsize);
-        |                                                         ^~~~~
+Thanks for the pointer. I'll update it in v2.
 
-Use the proper 'size_t' format specifier, '%zu', to clear up the
-warnings.
-
-Cc: stable@vger.kernel.org
-Fixes: 2c85c61d1332 ("HID: pass the buffer size to hid_report_raw_event")
-Reported-by: Miguel Ojeda <ojeda@kernel.org>
-Closes: https://lore.kernel.org/20260516020430.110135-1-ojeda@kernel.org/
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
-(cherry picked from commit 3ab135238832446399614e7a4bb796d620717806)
-Signed-off-by: Lee Jones <lee@kernel.org>
-(cherry picked from commit 0f77a993b5426cca1b046c9ab4b2f8355a4d45dc)
-Signed-off-by: Lee Jones <lee@kernel.org>
-(cherry picked from commit 70333a8f866aad8cbd6956e2ec4ace159fa4243b)
-Signed-off-by: Lee Jones <lee@kernel.org>
----
- drivers/hid/hid-core.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/hid/hid-core.c b/drivers/hid/hid-core.c
-index c73f4ac16fdf..918c66d5bc93 100644
---- a/drivers/hid/hid-core.c
-+++ b/drivers/hid/hid-core.c
-@@ -1793,7 +1793,7 @@ int hid_report_raw_event(struct hid_device *hid, int type, u8 *data,
- 		return 0;
- 
- 	if (unlikely(bsize < csize)) {
--		hid_warn_ratelimited(hid, "Event data for report %d is incorrect (%d vs %ld)\n",
-+		hid_warn_ratelimited(hid, "Event data for report %d is incorrect (%d vs %zu)\n",
- 				     report->id, csize, bsize);
- 		return -EINVAL;
- 	}
-@@ -1815,7 +1815,7 @@ int hid_report_raw_event(struct hid_device *hid, int type, u8 *data,
- 		rsize = max_buffer_size;
- 
- 	if (bsize < rsize) {
--		hid_warn_ratelimited(hid, "Event data for report %d was too short (%d vs %ld)\n",
-+		hid_warn_ratelimited(hid, "Event data for report %d was too short (%d vs %zu)\n",
- 				     report->id, rsize, bsize);
- 		return -EINVAL;
- 	}
--- 
-2.54.0.1032.g2f8565e1d1-goog
-
+Thanks,
+Dawei
