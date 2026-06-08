@@ -1,93 +1,93 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69E863AFB09
-	for <linux-staging@lists.linux.dev>; Mon,  8 Jun 2026 09:42:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A33A63B5319;
+	Mon,  8 Jun 2026 10:02:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780911731; cv=none; b=Sli6c+baQXunS8+j1pzu4FiXCmz3lxlY23MOwJjfEiPQewQgiWgF8Q29EYdZ0+gT+4HkGotCJGihsITITk7jGvLppa7knGro3rkT08Q7mebwgDEIhUdmI0jXMmAsvTImDyvZdnnM3e4hkBSweS5qSk1rwGz6rE/8E/8U0KkSXNQ=
+	t=1780912967; cv=none; b=Cp0MQNn52mflGiIBhgqFqdE24zMewVmkyZ0WvGQBF/0s/qqfPHIk3jSfGtclyAhQGwz2ZubWSbg+sc7T8Q0XIKV0Jj5/D5FoSTsjsPpmQAv4rM3T9yF8PLYm3gbtrHMl0DAhLPFO2+STuxnMf6kk3gRX0y2aZFLvk3OGyVim3dY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780911731; c=relaxed/simple;
-	bh=ldOnsl5F3ax8w/TkW/PCiwokYR6H6h8KIyl0418IMUY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d5jnXpq9nbPL6Wc1ZzUgC/9sG1SsQOAGz7QUhMMkSWgqijMV1vGOpLKaMT9u7DYLDlWdwlEXQZMaYH4XwW/j7tL4SfyDfA/Nusm37euinpG92UegTbyXQJbWHCWFxyXIjNHiwsmPWQM8nrW/NEZlrz1LByYBJxgkp0llNpIw5C0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vg+moecv; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1780912967; c=relaxed/simple;
+	bh=UWTKtBUlaXLwci7Sz6k7hDD72PBDrHTcVnmgcofUg10=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VAn+8xTsYm4K3/d2C6j5PGcNOLQR3/2pZ//yLlJLWYhnbc3UEua/S1nrwsT+hIDbyVDIHp6mSNhM3kMoCHj93OIAo+afpNO5tWgITSyioAZYDoh2tV3Qbf+1IWkFPXFELvkXOwLPGDVKhJ0LW+QkOCueVYmC/EHunB8kpauxmNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YWFSDCSu; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vg+moecv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780911730; x=1812447730;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ldOnsl5F3ax8w/TkW/PCiwokYR6H6h8KIyl0418IMUY=;
-  b=Vg+moecvtREJ+5nGrsiaBcUQpa+p6fd/VPaOx/V1Cmetbmf1PGPjhpPL
-   mdFbRz10kMVJ6Bu1WULBEIuQ76H8H8QnfnzJRSeUf2DNqrU8QgMjjoPvG
-   BFkmYWNlgBTjYhrNjlDZddkhqWoGGqB2wpQCkbbUHbuQElamz9EnwisaE
-   nUtmolPUVnXNHJdkZVry5uGMe+s8T8AIUpIVp0c8aaQptOWZfkGavwy/9
-   KDQQXT+4ZbbJ05jyVZhKd5n457gLHp6KkN12w3Rb4uffKFs3Rw9MGui0j
-   gf62IjTCHc3ARW7mPTqQn0/lpDEWGbhtG3EL0++JFLDBOXJ6b/58ZyflA
-   Q==;
-X-CSE-ConnectionGUID: a39R7YfBRMGsr+UaYkYo5Q==
-X-CSE-MsgGUID: bPlJ2P/FTKWY30qBp+HHow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11810"; a="93033464"
-X-IronPort-AV: E=Sophos;i="6.24,194,1774335600"; 
-   d="scan'208";a="93033464"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2026 02:42:09 -0700
-X-CSE-ConnectionGUID: GqS50Ob9Q4KKiKVgJFVomw==
-X-CSE-MsgGUID: Hui5CjryTMCiAZGFt3QOiQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,194,1774335600"; 
-   d="scan'208";a="245596346"
-Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.110])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2026 02:42:01 -0700
-Date: Mon, 8 Jun 2026 12:41:58 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Andrei Khomenkov <khomenkov@mailbox.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Andy Shevchenko <andy@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Kees Cook <kees@kernel.org>, linux-staging@lists.linux.dev,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH RESEND] media: atomisp: replace kmalloc() with
- kmalloc_array() in sh_css.c
-Message-ID: <aiaOZrwQjHufwiLE@ashevche-desk.local>
-References: <20260606095410.13968-1-khomenkov@mailbox.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YWFSDCSu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59CB31F00893;
+	Mon,  8 Jun 2026 10:02:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780912966;
+	bh=J37sDvgpmbosqkolf839VAuePRwjLxBje0wr+XSg1PQ=;
+	h=From:To:Cc:Subject:Date;
+	b=YWFSDCSufTqkrUf7Es0mXu45fJdSoQk8Xxk9GeS+u/sd8sih4NfJp7JLfpS2oCekA
+	 z21fmzp4etH//7rgSUW5QM89Wg6vSEjxLyRyGfCAUWQkbODbzG0AU4HKwAu6fEknkh
+	 fu/g/30HZcu+Ee3pJ8sbLwAwcRroZiaWUCKUGYR5y54y0hTqkTEzAfoY5xMY/SmJtE
+	 Dpv3eMnZBgHNH6OZRIKrPWG2zHKZu1VPxBIP51Xt6KplBnFbcWnUtZpgWvUnjDoUGc
+	 krz+Svr1fWGzNTr7zTfVBQikdi7YH9rJzN3U2OQnpbsGiHBk+YIfYij7vj5LR/H4bj
+	 GTdA1ck1UsOPg==
+From: Lee Jones <lee@kernel.org>
+To: lee@kernel.org,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	Viresh Kumar <vireshk@kernel.org>,
+	Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev
+Cc: stable@vger.kernel.org,
+	Vicki Pfau <vi@endrift.com>,
+	Jiri Kosina <jkosina@suse.com>
+Subject: [linux-5.10.y 1/3] HID: core: Add printk_ratelimited variants to hid_warn() etc
+Date: Mon,  8 Jun 2026 11:02:23 +0100
+Message-ID: <20260608100236.2781796-1-lee@kernel.org>
+X-Mailer: git-send-email 2.54.0.1032.g2f8565e1d1-goog
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260606095410.13968-1-khomenkov@mailbox.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Sat, Jun 06, 2026 at 12:54:10PM +0300, Andrei Khomenkov wrote:
-> Replace arithmetic in the kmalloc() function with the kmalloc_array()
-> function, as this calculation method is unsafe.
+From: Vicki Pfau <vi@endrift.com>
 
-...
+hid_warn_ratelimited() is needed. Add the others as part of the block.
 
-> -	descr->in_info = kmalloc(descr->num_stage *
-> -				 sizeof(struct ia_css_frame_info),
-> -				 GFP_KERNEL);
-> +	descr->in_info = kmalloc_array(descr->num_stage, sizeof(struct ia_css_frame_info),
+Signed-off-by: Vicki Pfau <vi@endrift.com>
+Signed-off-by: Jiri Kosina <jkosina@suse.com>
+(cherry picked from commit 1d64624243af8329b4b219d8c39e28ea448f9929)
+Signed-off-by: Lee Jones <lee@kernel.org>
+(cherry picked from commit 3dc96d0b81eae69bf71e129e3f331c982c5c70fd)
+Signed-off-by: Lee Jones <lee@kernel.org>
+(cherry picked from commit 023f03a90d4fcc809ffbfc70e6927ce9889b2578)
+Signed-off-by: Lee Jones <lee@kernel.org>
+---
+ include/linux/hid.h | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-Why not sizeof(*descr->in_info) ?
-
-...
-
-Same Q to the rest.
-
+diff --git a/include/linux/hid.h b/include/linux/hid.h
+index 03627c96d814..ab56fffb74a2 100644
+--- a/include/linux/hid.h
++++ b/include/linux/hid.h
+@@ -1217,4 +1217,15 @@ do {									\
+ #define hid_dbg_once(hid, fmt, ...)			\
+ 	dev_dbg_once(&(hid)->dev, fmt, ##__VA_ARGS__)
+ 
++#define hid_err_ratelimited(hid, fmt, ...)			\
++	dev_err_ratelimited(&(hid)->dev, fmt, ##__VA_ARGS__)
++#define hid_notice_ratelimited(hid, fmt, ...)			\
++	dev_notice_ratelimited(&(hid)->dev, fmt, ##__VA_ARGS__)
++#define hid_warn_ratelimited(hid, fmt, ...)			\
++	dev_warn_ratelimited(&(hid)->dev, fmt, ##__VA_ARGS__)
++#define hid_info_ratelimited(hid, fmt, ...)			\
++	dev_info_ratelimited(&(hid)->dev, fmt, ##__VA_ARGS__)
++#define hid_dbg_ratelimited(hid, fmt, ...)			\
++	dev_dbg_ratelimited(&(hid)->dev, fmt, ##__VA_ARGS__)
++
+ #endif
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.54.0.1032.g2f8565e1d1-goog
 
