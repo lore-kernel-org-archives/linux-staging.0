@@ -1,73 +1,74 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28A9838A73C
-	for <linux-staging@lists.linux.dev>; Mon,  8 Jun 2026 07:09:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88C53352024
+	for <linux-staging@lists.linux.dev>; Mon,  8 Jun 2026 07:12:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780902545; cv=none; b=D3J/zbGw8Ka30J4eD0jicFOdBvA95CFnFmH2Jk5+TvyWGnetwXFK2DcO6+hbJMcM7UQtOPZf6q7lUng0nmuCYtRGVQSC9J5oK//alp0y0za/sO69LOQe5WyxlDenr2smGp/dTHQqxrwzWnBps8le+eIbMkybvVr2ngvxMmORz2s=
+	t=1780902734; cv=none; b=Lh7dMns8pV6562Nq0px3pp77WNf/zDpNmbgxaFcmR5FkQv+C3lYoHlujgiA88lb87763eoyElqTaOF3rgBhb2zEzOsAYStWRvZFSNPE2vqU+87FlLu95buHSDKx385rHTVQFDWz+6fykgKwqC2r4spq7Qk5hb5UaihetzuJZNg0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780902545; c=relaxed/simple;
-	bh=x4YGxnUH6nSF5/ZhKRoPbEMOQVVMlItMWOWI/c6CpGk=;
+	s=arc-20240116; t=1780902734; c=relaxed/simple;
+	bh=iQaxjTszkEjiEZiSiUlMn1vD781sN7kupsAHg0qLIh8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lAPe2MCGtg2bjdS0NdF8HgRIAR7fpiP17DmQ4pUJZXn9zkKuaohiHxnGeJ9r/QXhHr3d56tf83V6AW4q2P09Z2IwLmNSbxz4QspXOpVt3Zo/1b75jtA/KtnmTBNKE2sR7KVEhnZT7xCvKJzwvt38KXnaQSdxdRWHQEM/Vcfu+h4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gucimBa3; arc=none smtp.client-ip=209.85.128.41
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z++AS1HmqFZCfF2fhyMVFq57UQqNKSmpcYHiz+pkiA8N1L41nhF36SulvnTP2sUv+PK0LGhtALXceZh+Nj5KvUGcpEx4bVF+5nwyI1PMMocmHRwvW2y6bzFzSrVtS64IBNx4iCfY1r4vv3y/bt6KhK9sZ163Jl7UTEPw8h82wgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k8bEp9IU; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gucimBa3"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-490bc6a7958so34447915e9.1
-        for <linux-staging@lists.linux.dev>; Mon, 08 Jun 2026 00:09:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k8bEp9IU"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-490bc6a7958so34482865e9.1
+        for <linux-staging@lists.linux.dev>; Mon, 08 Jun 2026 00:12:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780902541; x=1781507341; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1780902732; x=1781507532; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=otSzr2Y0wGW3RXTk64Kspnpz7/ygAtHA4NuNzYHMC48=;
-        b=gucimBa3RGEH9szHORUyyMyGc2MjgiL+mJe27g/n1Tx08q7cB9dLLJ54xcVRbbL10x
-         HiJ+MyKeMtQf5wA90zL8twC6sXW4VdodKoziAbkdVmeaK0nTf8v1+nRCuZ+CIBn+doRg
-         rEmpnFG/qOr9qj/7ES7FUN4kXOrWQ6Mf8WDDdiT0ZrtxJpJJQRtp01XmN8axikxkhzH7
-         NLxvXNjJSbeMNTkgvbPv9YJ1a6mQHiyzt4RLJufgG9mDAb8dpnubL8pHXN5JAFO1M5ph
-         50kOnP3/HPbBlmKKpoOj1I2dpaErhWOzxR3CEAKRzoWY3xfLIkPap8z7cpHLunorE6Of
-         9vAw==
+        bh=F5DCeU5OediV57bcWcfJYqqGuezNisQJlQN4Qb2qUp8=;
+        b=k8bEp9IUqHwE5c+y0zVdzKdNLMzTUmr/AB5uvzBP6P9wXZfK0bfMYYbWUVlkISUX03
+         Gfh2LumR5lqnDFayYZJLL0Zq0DhOJPkT1Eos8JKzO1KvvHPKA366iO46URAXheQAOQht
+         JHWAzFBw6G7qXxr25uJwCH4s7LPqCm/D2niTyVaDVuZ9Ev1+eIDz1Sz7DmKBMJelD3ZA
+         IMyd5QZT9rktGvw/mPJfropn4NY0SvtNeC3kA2XVGx4UkJ41a2RwH5e8gJQDathL+5dD
+         Nii0TffPBGOL7M1Thjb64bzkTcUhhaK7eBOsBH1Lr6gu0hoqc16xxN8++5JCw0RimYRo
+         bhcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780902541; x=1781507341;
+        d=1e100.net; s=20251104; t=1780902732; x=1781507532;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=otSzr2Y0wGW3RXTk64Kspnpz7/ygAtHA4NuNzYHMC48=;
-        b=Q+j9iNyHjLx7NUMXAnoG3V1/tYEtgmZTCm1278UnRhrgSQzl4KyC2YIn8yRNB0VzZL
-         l+n6drL0bx/ad08qCzu+gLuEXcKU7w/v4ZlxNhN89aFNmjPRyeIOPrPYlVIT39zztu0A
-         ILziLInAHATLBz/ypN1hv0qE49GrnVzHB8wb8UlVy7oUqn3snRcrTZuCTqAYO0Zj4CJu
-         +c1ROZ8t1dcpAtKL+ZOoFX7Qrx9vzhJTiNoE038g3k+pPhzUBjDp+xuVza65JPGIKwK8
-         WKst8/ADfltZLFlB+JmDnVMUx5VpTq1vs3hwi/tAEgiXTWDHz+RX6AvgIzZYGAV48POl
-         /Skg==
-X-Forwarded-Encrypted: i=1; AFNElJ/JKUuO4DVjHOBKeSrhzhED6Cbt3PTdxaA30YrIwtFIDZDcEseL0vH9V3y7hIDdtQkO14B9gDS4u+eBWe80@lists.linux.dev
-X-Gm-Message-State: AOJu0YysPQ/0CPNX4i4/Iq9Dl/ClcsFg4H+gaSAt9Y8H5aTdoUFBAGHT
-	2/NT4vUfYIVZir0xIY3xHdMqckpwvO+WG4uYqqJrh95M67BsbBV+dQRb
-X-Gm-Gg: Acq92OFsTmPtH6MYGjk3OOZlBHPGJ8C5GTX8FRBk4QMh7kNu/qwbkRFS+9Fm02tzK+s
-	Elf7KOVebCBz/6RWLvuml2xDRyI/QvmeOVF3HbNQqJ5sUtqcr16yX76FN6/IdCbo4brF72EGpg1
-	0Gz+mETKTjjVAbuHAiLHY6QgBK5XF9NOWh0FCvrezyUzFRhyRVuMGnbAQHuir0N6moznw/lv1pz
-	1mQ/vuCaPs5+KVP10QUl2kSsYhg9Of1+kXSF04xB2qS9BM2ZErSKyZexlEQKGhc0T0hjzP1Bu6y
-	NF3f6lPstfRK804kYvuKgJy1T/sYpjG/sYu27fQCGM1YydpNQdyKH5TRLWz0RsuhXv7ZVCmFKkj
-	3N7BlIbEokyO/t2ReVQwMEU3BSVRMeFVrxIb1IizicxOz7UDML6gq+c4KsQpS6G1ioc1eiQBISK
-	vqqY2NP/vZATz68XfooMc6TsDXKc65B0VrmOvfaz4b
-X-Received: by 2002:a05:600c:8208:b0:490:ad1e:1846 with SMTP id 5b1f17b1804b1-490c2cf6718mr175596575e9.9.1780902541391;
-        Mon, 08 Jun 2026 00:09:01 -0700 (PDT)
+        bh=F5DCeU5OediV57bcWcfJYqqGuezNisQJlQN4Qb2qUp8=;
+        b=hWLvYXWGu83YtMXWZFKHvh4Hc1gQTR+fze7xry3jIiW4OXsaQ+Iy9P1iYawdbfJXXr
+         hyrtDHb8QqvFbr5fAaRm+3vFeB8N7lG3zKF7QIgI7/jPCbA3oTsgGl/wZxU7bR0ui6u8
+         uQlazZwaIDdp0m8nNKPyiwffYrKRB4jKF2BgzmNW4Cth6JzKybkbhk25WMJxXNvBRtsD
+         Lg9SeNzocURH4qXCvJD/D/9ZG0TdEVKhoXnwhH94JkTwfFcuFZ1gB5CV09qJvXaZEad6
+         2tvbKOfkwnccRbiXuimEeCY8C+BzlTsOEwNaGtK6kI2mIrmqp71U+vlzlJV2O0v+QJG+
+         P4+A==
+X-Forwarded-Encrypted: i=1; AFNElJ/IYT8J+TnQPchHApgOBnlxNZa/E11xQngBtSZEu0aXJC8aHIAji2Tmmfj/qe3+d/CJVppgEX625Z8s8dd4@lists.linux.dev
+X-Gm-Message-State: AOJu0YxkYaQLqNsF1Bws7tNFJQyHkHcTR205PQFDquUaPpH0WgKxE51h
+	U1xEsehqvubo+PNl8tA1zqb/G4LlaI7+B+hjXe8q7RVFKYINblWNzIiw
+X-Gm-Gg: Acq92OGvrYAGZJmyYZAhtjXSkW5JoOQdKt1ty9BS2xETxn11VRZRKAYwfsyAsfjfTfy
+	pg4qLRNS24wrxbUbO6c23ah5ruMCrQd64IN2C2cK1/zXPoTHextpNnlPlGoP70FuhY7mENh5Um8
+	E3Z04ZWUznSNoYGSFClwVDwEiOMGRgFY5/P1KzQi0kS4C43xhzichyLMmfCnYkZ1NFkNz+YvYSw
+	45LydyRsIt8NolfrxwX/U4eQTdICRoun2rjf+zww/EPiwvsKWTmUFl/axpV6BGYWH0QDab8ST16
+	T8/NEuP3SR6xIJThoz7tlVEHzpmT7Yr+FXjDacf+nNjoqKY+qKjTwqs7h9hGh2HfNvPGBz708VD
+	vzw4zXTD7Mb4qskoiJqgIXWo4lBOwirgtDqaKSYRur+pky5y4hjVNlpeyiqbc1DQ/kwzdW9A5vw
+	4AlSpFdOJXQtagnhgC9yb2DmBgnEqoHBK9+iBuCGJa
+X-Received: by 2002:a05:600c:6096:b0:490:c1cb:48f4 with SMTP id 5b1f17b1804b1-490c2d038e8mr179174005e9.12.1780902731900;
+        Mon, 08 Jun 2026 00:12:11 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490c2d37edbsm276118055e9.2.2026.06.08.00.09.00
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490bda4fd52sm353491175e9.0.2026.06.08.00.12.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jun 2026 00:09:00 -0700 (PDT)
-Date: Mon, 8 Jun 2026 10:08:57 +0300
+        Mon, 08 Jun 2026 00:12:11 -0700 (PDT)
+Date: Mon, 8 Jun 2026 10:12:08 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: Andrew Soto <linux@notrealandy.dev>
-Cc: hansg@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
-	andy@kernel.org, sakari.ailus@linux.intel.com,
+To: Rhys Tumelty <rhys@tumelty.co.uk>
+Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: media: atomisp: prefer kcalloc over kzalloc
- with multiply
-Message-ID: <aiZqiXR5Z3Mt-CFk@stanley.mountain>
-References: <20260606234427.9902-1-linux@notrealandy.dev>
+Subject: Re: [PATCH v2] staging: media: atomisp: remove unused macros
+Message-ID: <aiZrSA_R2NxIN2Y9@stanley.mountain>
+References: <20260607094130.3208513-1-rhys@tumelty.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -76,44 +77,18 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260606234427.9902-1-linux@notrealandy.dev>
+In-Reply-To: <20260607094130.3208513-1-rhys@tumelty.co.uk>
 
-On Sat, Jun 06, 2026 at 11:44:27PM +0000, Andrew Soto wrote:
-> Optimize memory allocation layout
-
-This part of the commit message is techno-bable.  It's just
-words that don't mean anything.  I suppose teally they do
-mean something, but it's not what the patch does...
-
-> in sh_css_params.c by replacing the raw multiplication inside kzalloc() with a type-safe kcalloc() array allocation wrapper.
+On Sun, Jun 07, 2026 at 10:41:30AM +0100, Rhys Tumelty wrote:
+> Remove unused macros across the atomisp driver that are defined
+> in .c files but never used. This was flagged as an error in a
+> W=2 build due to -Werror=unused-macros.
 > 
-> This prevents potential integer overflow vulnerabilities by validating the array size calculations before interacting with the kernel heap allocator, aligning the driver with modern kernel memory allocation standards.
-> 
-
-There is no risk of integer overflow when we multiply by 1.
-
-> Signed-off-by: Andrew Soto <linux@notrealandy.dev>
+> Signed-off-by: Rhys Tumelty <rhys@tumelty.co.uk>
 > ---
->  drivers/staging/media/atomisp/pci/sh_css_params.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
-> index fcebace11..9147ca047 100644
-> --- a/drivers/staging/media/atomisp/pci/sh_css_params.c
-> +++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
-> @@ -3716,7 +3716,7 @@ ia_css_ptr sh_css_store_sp_group_to_ddr(void)
->  
->  	IA_CSS_ENTER_LEAVE_PRIVATE("void");
->  
-> -	write_buf = kzalloc(sizeof(u8) * 8192, GFP_KERNEL);
-> +	write_buf = kcalloc(8192, sizeof(u8), GFP_KERNEL);
+> v2: Removed some macros that are used, or should be kept for documentation, with feedback from Dan Carpenter
 
-This should just be:
-
-	write_buf = kzalloc(8192, GFP_KERNEL);
-
-If we weren't allocating a text buffer then the new way to write this
-would be using kzalloc_objs().
+Thanks.  Looks okay to me now.
 
 regards,
 dan carpenter
