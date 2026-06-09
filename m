@@ -1,77 +1,72 @@
-Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
+Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com [209.85.222.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25848411663
-	for <linux-staging@lists.linux.dev>; Tue,  9 Jun 2026 21:51:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA05F35203D
+	for <linux-staging@lists.linux.dev>; Tue,  9 Jun 2026 22:12:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781041878; cv=none; b=ej5WY0ZmwaQRaMv/DzdrKK8PYNxUkwbSYZHix6pKuvJjDYKvh9639bb+900YmAzbKCqxodFYMUuFYBQ8oHTdzK7COYZ+aLjU9vlzlXI33qSD1td/AG1mCcsBuBwpAZFs/FCDVN+y1kqN1pTx2deqwCNj7gwM6o0ke2RH2SuMAnA=
+	t=1781043129; cv=none; b=iSn4zvEllSDOWs7P9vqPsiWcOQY0mkWHAOiEndX3/KiB2IFs8DbOziJmrLVfERCxJ61Ol/PvjpcRAsNekE9PSe+xTE1Zs3ZhBZdidEx4wTretZDHPoOEW3AtOeAwUZa2g+VbY06ST1dVaHCoFcVJnTLC1I/rqUmzKf7zREPNRG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781041878; c=relaxed/simple;
-	bh=p36HzU3EV5swZvzF5zBhSQ0fqA1uncigLkCmH+53DG0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CireMIfEouRlnIM0Rmi7PvFsgw/MuTDrp8+lak+crcO7s7fvy4BOF3UAgSHCzC6QXjkwg+SfLdHH3RtTcG8EuT7QfrkNVqp6wV49R1ch4IztrZst8RnhvLfGntMVgKyXt4/w8jFxQCfFPbH0/Eb0suxBV9nT8uxb2Y7Kl3JSQUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CmaSgt3t; arc=none smtp.client-ip=74.125.82.177
+	s=arc-20240116; t=1781043129; c=relaxed/simple;
+	bh=2zHJGczMgPTnPHetrKgAokSYc6u9xAry7V6kAueCMEc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=n2cxHi7d6N4Ptiwr113QXh34AV2IgCDJRylc7r0rt6W+G6ZqRrU6TcVkgzC8ChZ7uwKsceWSuecOE+v+JLvB4udGZJBn5S10PECFn6xwi+TaJCfxzkntKR6S/rv1EUoX7qzSBKlpRPEa5OwWRuNptbc4ZXZan4nal8MoeClA5MI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KeAV50o0; arc=none smtp.client-ip=209.85.222.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CmaSgt3t"
-Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-307d0405e07so1840402eec.1
-        for <linux-staging@lists.linux.dev>; Tue, 09 Jun 2026 14:51:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KeAV50o0"
+Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-963b09d5b91so4889102241.0
+        for <linux-staging@lists.linux.dev>; Tue, 09 Jun 2026 15:12:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781041876; x=1781646676; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1781043127; x=1781647927; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Z3QatkkKnRVkIu7a4iw4icQQ1TQtBwhBS/0N8pK2Zwc=;
-        b=CmaSgt3tKUO8ptqwVE9jN+8ZmqZ9KW/gMbJ85YYp1fJG7j8yphODU5r/GhPEliVuSF
-         TgsJmE92BxcwZzGuzgavPHGrl74nUPok1hqgyGCn2DBinujkShYz0SCsM+UL1faFwR5t
-         T64tcOb53zKKUaM/zMPXenE2Du2Gofp605BoMWveEpczg4nuSkKrOU8RMvSUC1/mYkrE
-         lkbvbHWEpZx8F3ThRUKYnhJhgXxpS16fupCPlL50G0Cy+wkjDrQK5PgH1srMCvv01Emr
-         iGY2erIrcc7cjKm9/vROAEJCetN2eQ3gt9xUYOkR46p9xPo3EIyFmd6lGoOAkESAYu9K
-         Uahg==
+        bh=SRFLeAm+ZIb8Ah+Gyq2iccaCBid+13JpRL0PKWMiPUg=;
+        b=KeAV50o05ZevzKowX8Hq7lW+Ibhdjn+PfFt3zRnwq00vvGuhqVNRDJ9uAgdd1kuIE2
+         PM7gnAdjdME8c7TiYUEzy/tgIRchTQMUVAAlUidYeMB37HaxMHwDsfkCOA/Q9hn6Gbt5
+         vRs/QFgwXuCZJrpie/twEzA0okjkYw8b9R1hIWt+JnLasQsz2KZsjwsOUB04kWyOrYpi
+         kzkyXuL7vuHuUtptz7C9z0ETxDR3dyxuTWs4Lh1mQCabFKgB6tZFjc8U2wnIVxsXTLkU
+         rS3Aq5YyzVksimvxIMUNVn2X0miQLQ/VJ5sH4z56SEwkhtJ7jIwJN7bsH3wzxeBkGC3C
+         i62w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781041876; x=1781646676;
+        d=1e100.net; s=20251104; t=1781043127; x=1781647927;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Z3QatkkKnRVkIu7a4iw4icQQ1TQtBwhBS/0N8pK2Zwc=;
-        b=iadNQTIkr92JpCnVRxnNArPeBCQTZFFsFisIuOFU37AFbfIVRk0y1PDgpLWdVp2AE4
-         WR4myxs5kduw/TsQSkIGc64JIitK6/nAWy8M6tFEdWdStfgYedioShANuyjJA5HsQL1c
-         LkIP9fQl1sVNtRLA8vrt1uP671nkh4mHSQdOkmXoMMNd2EkSvZbXcCewWMk6dfhIWCAq
-         6qv00eFXheCEfom+im7dq20cup3O7d+ZHvVyPVWjA+k8AJ82PATbu66iSjdggnU5REed
-         ot+39QtDv/qZd8gwTx2WDCBpEMFNyKUY2xx6HQAx4J09eXrIN5z6uzI97fn3JQL5wsom
-         4ttA==
-X-Forwarded-Encrypted: i=1; AFNElJ93MAvmla85shBnGtnHFp19I4dsqE/JY36SwvIM0iDS67l0ODpoPUkgBFV/Qa2jV31ZeLW4oZbIUWozQlhv@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx3maQuLOhCy9XqRmqb77pd0jEX2GIF1vYGUVrn6ev/bw+0nzVN
-	g+3EPmBABGsrLD71VMhLvUbamCwkk+Oqen0qZT/7pwm1OwvycrJYI10Ifh8JaMiC
-X-Gm-Gg: Acq92OFH5YsEG/ZZjwAQMLWfpJkEUeWcpfi4N3cXyKqYyPJ+9XenU1qr3zVj6WGOFmX
-	0E4JCLTdtRBtQd70N9zLtxnWMqU57zaRJCK616amimPZDwemTMTOdFwQdHkWXSUQtCPxToF17an
-	sGUgMeDhw6PfcwdYFDHY2I8moWY6DhgN0yjWDCyyxKraOFuBYq336UZPfVKTDMShpIYIGpQemua
-	eB7qqVrrmU1RTZOIUfSao+8nUHf3lxDZMB4XPGTr8jDNRWtHdIu/ffDCflZXcTaUj86EIKXkYmt
-	w1/gawl8DMZWm08vNrb/tXZ+zbM7Lur9vpx1UJ4KGEUPdJ2G80Me/fzuM3deqwKXlUVvhhY0Gnv
-	mJc+2nFhvRs2dFAprkym93OqrAt4X9wJcoogIL3PlVrIy4ee9JiyoLvCbWMfTg1716HwBM+JXnY
-	wzvLSEHIT5RsNOcEjmue5NQGknzlLE7ctwtRoG3fMDCAuMJ8j8D2nLRm99t6P0fMtg+dD5fW+cZ
-	85HUExt4r6BuWtR
-X-Received: by 2002:a05:7300:ca4:b0:304:885f:2db0 with SMTP id 5a478bee46e88-3077b22a7demr14331120eec.20.1781041876135;
-        Tue, 09 Jun 2026 14:51:16 -0700 (PDT)
+        bh=SRFLeAm+ZIb8Ah+Gyq2iccaCBid+13JpRL0PKWMiPUg=;
+        b=rAjpnv8l+DcnZItQyn6Re+xKwKOrKvXCWzk1vA4lyW80Z6pWISUImD7nQb8ebsSR1M
+         GhILZ3Wb3TG/4fNhl1ujfYB7xN0O8WNlJkgTd/y2rj0SCh7tvQ9ro5NDl35Om8xuQKvA
+         eT43tlmr/Wkf2foTRtkgR/JTGn7P5xBAa4A0BI2XY5KY9WZVtz69MbT+RiiFbqvZ8nJm
+         reFzGyD86sNrbfSU9mRc7tyPRhbPKB9va7qrFqmqAwQqLaxQcODNiYa6gMsZ5sqXrl2P
+         FZIJfyIN0ngoY+LnEGwwg8+unpeOas2DYYMRkXXX5iGo/8jCelzTxj09LKEjfTKp8TBU
+         4fCw==
+X-Forwarded-Encrypted: i=1; AFNElJ+PApSfTCmeD9Xgqeldg/SmBF+8NtqveHYw/OXVFf4RGbwW2U5bnNYY8ZbrxIb/jzV79ETAP3NDSzjCF0cC@lists.linux.dev
+X-Gm-Message-State: AOJu0YwiHbcazO1YIAhGcbf4DgwWIojmhJqlBksdlTxQyw0l/ZH8GYZi
+	GqMhTlJOLTx7q+4IUEiJtDYYKJi4FJKhe/XCPqM5uXM8HglQB/0r2XJ9
+X-Gm-Gg: Acq92OHY/wZ8/bwU3hron/FRta7xV1wTLypL2fFkoph9ge8Yl+cn9u9sObYc3hFiIV8
+	0tCIQiciRhvkdDRT2yDdn+Nrj3Rv1cPbtUBF6u/BNrU2sPvr680L8nQ/ExUwOKuN32rx5gMShDu
+	L5cOSIHOb5mFK07pfBKzT+s2HoAoS3UOoMM/K20pmaEH2sDr2GVtD6jiTKzTmrs2hzwEj1S9Abo
+	F2d4MSCAdSsydHY7pXYp0ZnosQnOGMnf2AaTatOqvuU7vfO1jNK7vvPAW8e1MLmJAK/9FE5qxE8
+	1yvpeHiBXuZbxgR7QNmViZyPuahaZ4aU8Gooflz+d1VDB5odRdVrfCtIDq+oMLq6rebBX+JWj7p
+	h060/qCC/0zCahGx3hlzjp8pVP2zj/hV5U/hv5L6MFkUBktYDaa+xeILqlzPgjYfV0h0FqU+U93
+	2L84aJptmQjiR0xcHwWnUNlLhMRoz81/Y+5ogyD91DdmzN60ZUU5OBUCN0OG4BwHRG7BzJVmtSj
+	192MeWE4RcSrpYI
+X-Received: by 2002:a67:fb92:0:b0:6d2:1633:1803 with SMTP id ada2fe7eead31-700392f5baemr6130775137.19.1781043126899;
+        Tue, 09 Jun 2026 15:12:06 -0700 (PDT)
 Received: from localhost.localdomain ([2804:14d:4c64:82a2:f671:db74:6740:62ca])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3074df48671sm23293005eec.24.2026.06.09.14.51.12
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-96413fcc8fdsm17224269241.7.2026.06.09.15.12.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jun 2026 14:51:15 -0700 (PDT)
+        Tue, 09 Jun 2026 15:12:06 -0700 (PDT)
 From: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
-To: andy@kernel.org,
-	hansg@kernel.org,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org,
-	feng@innora.ai
+To: gregkh@linuxfoundation.org
 Cc: ~lkcamp/patches@lists.sr.ht,
 	linux-kernel-mentees@lists.linux.dev,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH] staging: media: atomisp: use kvmalloc_objs() in make_histogram()
-Date: Tue,  9 Jun 2026 18:46:31 -0300
-Message-ID: <20260609215110.118860-1-rodrigo.gobbi.7@gmail.com>
+	a.nasrolahi01@gmail.com
+Subject: [PATCH v3] staging: rtl8723bs: fix unnamed parameters warning detected at checkpatch
+Date: Tue,  9 Jun 2026 19:07:03 -0300
+Message-ID: <20260609221200.123422-1-rodrigo.gobbi.7@gmail.com>
 X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -81,46 +76,54 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace kvmalloc() with multiply with kvmalloc_objs(), which handles
-the size multiplication internally with overflow checking, silenting
-checkpatch warn.
+Detected the following WARNING: function definition argument
+'struct adapter *' should also have an identifier name.
+Add explicit names on those definitions.
 
 Signed-off-by: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
 ---
-Hi, all,
-There is a ongoing effort like this for other files from atomisp
-at [1], yet, it is not covering the same file.
+Hi,
+
+v2 was not applying anymore after a rebase, sending v3.
 Tks and regards.
 
-[1] https://lore.kernel.org/all/20260413112904.98864-1-feng@innora.ai/
+Changelog:
+v3: rebase; the rtl8723bs/include/rtw_btcoex.h from v2 is not needed anymore.
+v2: https://lore.kernel.org/all/20260523142312.9223-1-rodrigo.gobbi.7@gmail.com/
+v1: https://lore.kernel.org/all/20260407133416.13983-1-rodrigo.gobbi.7@gmail.com/
 ---
- drivers/staging/media/atomisp/pci/sh_css_metrics.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ drivers/staging/rtl8723bs/include/hal_intf.h    | 2 +-
+ drivers/staging/rtl8723bs/include/rtw_pwrctrl.h | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_metrics.c b/drivers/staging/media/atomisp/pci/sh_css_metrics.c
-index edf473dd86ca..d3ae737f1764 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_metrics.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_metrics.c
-@@ -59,16 +59,13 @@ make_histogram(struct sh_css_pc_histogram *histogram, unsigned int length)
- 		return;
- 	if (histogram->run)
- 		return;
--	histogram->run = kvmalloc(length * sizeof(*histogram->run),
--				  GFP_KERNEL);
-+	histogram->run = kvmalloc_objs(*histogram->run, length);
- 	if (!histogram->run)
- 		return;
--	histogram->stall = kvmalloc(length * sizeof(*histogram->stall),
--				    GFP_KERNEL);
-+	histogram->stall = kvmalloc_objs(*histogram->stall, length);
- 	if (!histogram->stall)
- 		return;
--	histogram->msink = kvmalloc(length * sizeof(*histogram->msink),
--				    GFP_KERNEL);
-+	histogram->msink = kvmalloc_objs(*histogram->msink, length);
- 	if (!histogram->msink)
- 		return;
+diff --git a/drivers/staging/rtl8723bs/include/hal_intf.h b/drivers/staging/rtl8723bs/include/hal_intf.h
+index ee8ad26325b5..8a85e8419e47 100644
+--- a/drivers/staging/rtl8723bs/include/hal_intf.h
++++ b/drivers/staging/rtl8723bs/include/hal_intf.h
+@@ -239,7 +239,7 @@ c2h_id_filter rtw_hal_c2h_id_filter_ccx(struct adapter *adapter);
+ s32 rtw_hal_macid_sleep(struct adapter *padapter, u32 macid);
+ s32 rtw_hal_macid_wakeup(struct adapter *padapter, u32 macid);
  
+-s32 rtw_hal_fill_h2c_cmd(struct adapter *, u8 ElementID, u32 CmdLen, u8 *pCmdBuffer);
++s32 rtw_hal_fill_h2c_cmd(struct adapter *adapter, u8 ElementID, u32 CmdLen, u8 *pCmdBuffer);
+ 
+ void SetHwReg8723BS(struct adapter *padapter, u8 variable, u8 *val);
+ void GetHwReg8723BS(struct adapter *padapter, u8 variable, u8 *val);
+diff --git a/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h b/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
+index 6977892a5742..c8592c4753c2 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
++++ b/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
+@@ -215,8 +215,8 @@ struct pwrctrl_priv {
+ extern void rtw_init_pwrctrl_priv(struct adapter *adapter);
+ extern void rtw_free_pwrctrl_priv(struct adapter *adapter);
+ 
+-s32 rtw_register_task_alive(struct adapter *, u32 task);
+-void rtw_unregister_task_alive(struct adapter *, u32 task);
++s32 rtw_register_task_alive(struct adapter *adapter, u32 task);
++void rtw_unregister_task_alive(struct adapter *adapter, u32 task);
+ extern s32 rtw_register_tx_alive(struct adapter *padapter);
+ extern void rtw_unregister_tx_alive(struct adapter *padapter);
+ extern s32 rtw_register_cmd_alive(struct adapter *padapter);
 -- 
 2.48.1
 
