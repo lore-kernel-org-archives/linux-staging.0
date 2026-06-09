@@ -1,115 +1,121 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55B85330B3F
-	for <linux-staging@lists.linux.dev>; Tue,  9 Jun 2026 07:14:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780989300; cv=none; b=tGOSSO99wPTpDofk/PMt/1we5h2IGdB/qr8A+Ee/VsY7EkFv4KosmvpPvabfH49mq9lj0b1d89R+pPzkvDj95Q+x7RkOfZFnowIqaYIwKeeWveP1BjtNsZOy8ROSNsNVJuBqcGPyDicBVCVkgELrDtyJfVdJ3gkQtKxp9O6uiLk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780989300; c=relaxed/simple;
-	bh=2qu81oasOVE9oPvab2zZBXtjwJyxu88n0NTYxYVTBeI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NH96JoRoYEDZP4CPfANucq2cZr8DxhqJ4LYK4KDk6S6YR2UcB+wwsnUL/xdhSufdNyGZRqsI6hunCRbyOoLGcnpnN4hm/SYRTHMFLZSnvfocxuD0gcAsykmzsT3PBa0w2bN7M+i/k5AzQXJpBtrE9ZqGot3inXDkAd58jZyOYkI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WFpakDu1; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF60D2C15BB
+	for <linux-staging@lists.linux.dev>; Tue,  9 Jun 2026 10:42:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781001766; cv=pass; b=CXDH5x+zXChHUXEHeYSMUFHu2c0eltdm4th6ykut8AKbMwwXrjb3ZYhhPDPdTAgqU19v5rlIeMJGkcREpBG8r+Tqhvkqw1craXWzs9QONSDXJa0PTPQrXPoAiH8/TTNQyw3apf5juS2QpZzCTEFGBStT6y7haAfmGFS0PhgnG28=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781001766; c=relaxed/simple;
+	bh=8Npnda7vylBuqhopj0ud5BgSPx1uHH6U/z/Q1ikLsAw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Jjs2OU4S26c4eHUWz2x+tWSyGazMlolPHDescxjQUxHn5tmi4l6mnOYv3SRNsB9BJt7xs0MR3y2ZM7xa5zgOhG09mzBbwz8wTPAxJEcC4FWLUWuZIx39V37zRqGDkpZVL1B2BhmsAzGreBQx8Y+svAHiQNjNECv0as7sKhM6GJI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JO7yLTyf; arc=pass smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WFpakDu1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780989299; x=1812525299;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2qu81oasOVE9oPvab2zZBXtjwJyxu88n0NTYxYVTBeI=;
-  b=WFpakDu1q7hza3mtAX0qR4r+kEi9gp0inCMFG1jb1WNcSPnMTcEOjPLr
-   +VM7rtcgiUWHWf7Xwgb5TMt0U4p/7xVOPaQMQ277jqRzqiJgIs3d8Z8ih
-   SZqEg+OQvDjMuDRgr5RWw1EdMf2sa+/KVdR9KyZjK8qsLgjmMmBEuLH18
-   XXWzuEulsds4Su1PPJqHC95DbOSzKo6n/l7oDMXUuVLLn/PfJtS22CDYg
-   siyjlQN5K1wqMYZvzIhyuI6q30Yxfz8reTeSYN3wJ0YIDxSvvNryHrlfA
-   TVvJ8vOUkgcyocNNR1fj9E6IPKUYCLHquVGIx0R/7EhwyU6aXNSmx7ctw
-   A==;
-X-CSE-ConnectionGUID: qBCnqRICRwKV7g+V4k+W6Q==
-X-CSE-MsgGUID: gIiwcaX5TNS2v2HxsDKasw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11811"; a="85365653"
-X-IronPort-AV: E=Sophos;i="6.24,195,1774335600"; 
-   d="scan'208";a="85365653"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2026 00:14:58 -0700
-X-CSE-ConnectionGUID: bYIz3a1aQoqRuhWtVUyaig==
-X-CSE-MsgGUID: NjQINNlqT06cCOW38m5ijw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,195,1774335600"; 
-   d="scan'208";a="243343826"
-Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost) ([10.245.245.39])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2026 00:14:56 -0700
-Date: Tue, 9 Jun 2026 10:14:54 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Nikoloz Bakuradze <nbakuradze28@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Khushal Chitturi <khushalchitturi@gmail.com>,
-	Archit Anant <architanant5@gmail.com>,
-	Minu Jin <s9430939@naver.com>, Kees Cook <kees@kernel.org>,
-	Hans de Goede <hansg@kernel.org>, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: core: avoid NULL pointer dereference
- in c2h_wk_callback
-Message-ID: <aie9bqpiNDJ_IU0M@ashevche-desk.local>
-References: <20260608190700.85755-1-nbakuradze28@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JO7yLTyf"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-6924a68e3f3so531188a12.1
+        for <linux-staging@lists.linux.dev>; Tue, 09 Jun 2026 03:42:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781001763; cv=none;
+        d=google.com; s=arc-20240605;
+        b=B26mFBSUNd1ooeEgzG7ksWJGiNuoI1Le79IbscGAipPsoN9kVaBKjvJ8uW82hE2mW+
+         DQUYPbULWQB66Z3mul4jysHlUPIE3Rq9mHwEwhRlHBVIe4IBoqThPRk+bL08QQbA5NPC
+         Yc1A+pnPaHcV08fTo9mMovSyN7O96qVCgviZkq3JIBxrfJcwDChxAVKc2hunHCLzCq3a
+         OFi2K4bfSYFprkcZf7gE+wyHbJJRueQDIamz/RxEPHazL/WTX6dI1/IxUE9dR2V+E91y
+         b8bIte7sYTea9xp22XciDtszu0pzPd63SqvA9E8/XsSyaH7gbks7GKndilyDFis2oknm
+         jzZQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=8Npnda7vylBuqhopj0ud5BgSPx1uHH6U/z/Q1ikLsAw=;
+        fh=u0vmZIGLtLzRI61wa42y+DyNbilS/dYy868Z/mnCe1E=;
+        b=EYQr6x6YHKETT4Nn4pyxDAgDRK/yu61dgOTgX4qpwrLBC9xZzhVUpQ1C8VewYqHHF7
+         tgHdlBOKOtcMaWEXkKoYbq0RfsIx5WH3Ybs5s/xM6dCG9xHHm7IES+j9qXAFuJKcR89e
+         Rj/XLNTmlh0wZ6i+L9w/ySPCSM4pTR7R59C4bZeyhFeQUKO2pnfmCkxIAWfnzfZ1sev6
+         NchtXp/cj85ZdNIa2t0rXbM+5NcEWP0J0KXtEEFDXrHDbcfvqC0KEr8hRvWFdAgKe7bH
+         VyTbL5BtsSLkViWCA017ApanLWiyJzZYftBadhWNZ0pOdz9hP2MR+5kMOEsuNXA/Z5RA
+         cVGg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781001763; x=1781606563; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8Npnda7vylBuqhopj0ud5BgSPx1uHH6U/z/Q1ikLsAw=;
+        b=JO7yLTyfttl2/SxXMQYrTVqTzFgzhSV9yC+ufGFqLyDAfoAQI/vLJb8xlATEV62idM
+         MuvWoV5nrwKPg402crqXuCtDYVWoNpVRJgKJFK+20I89uaNpANTfhlN7+26JD4Xj6esn
+         uvrjmuEyBBBhnjUwtZdl45XXiiHctOsrdQ155R6kWXOw2uPrUj//S2ilIo1ve2x/mA3v
+         0i8ZClMmgY0rZAsq797xfXAdk3Er2153dTTkURNSir4YstdaLK26uzyXk/XEvXmJhTcV
+         aaRmU99yHPNgBoFdWGBwp3Y2fSdj0WjBWdnhMF+xcJEiOau+Qvvu1+DIoepvjR7M5LJH
+         j1xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781001763; x=1781606563;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=8Npnda7vylBuqhopj0ud5BgSPx1uHH6U/z/Q1ikLsAw=;
+        b=j4tfzU+O1gOblUuVeFGWthoCGB1EMMM4JIpuqykPNWQ7Z3meM6rRGi4LaBErCXcdx+
+         qPsazNRnQ3DURJ6w//swhaEvDMwEG0djdhq3mtaUqNfF77jO2QItb5W32REQH/Uuwpxu
+         SHwlbTjjxktdkMlKe/XZhOqezzsOxJqsKdcrEnidECeAvaKSvSVFttVSmWKSKJ/zU4te
+         fAusu9AfdaKnkMPfhPuF8r/u4a97g39OMdK9Sj+DgSDoqVMdnOZFNBc+1X1C3PXLP+T4
+         dMga1E8hfzuCbfvGJ3GaffJKKXF6TKwtBE/2hOqbfabYGNGpJ9oWyRVSastLMq+Net2z
+         WF6Q==
+X-Forwarded-Encrypted: i=1; AFNElJ+lPVnCNAWi8jmBwCEn+Q7NsPDMhE+ONbSzzXVC9ciAduIqrgbMAJAUYec4DhaaEB2vUsRsIaJm0fK0RX2/@lists.linux.dev
+X-Gm-Message-State: AOJu0YyQokt3XBc1b8mNacqNlcarM3O23GYt1eAoIdR7bmLawmwXQmqP
+	ZAFfdUNMcDo1rnijBPjbK96wtZzDfwprGv8DoLdqMBzapxfqgBhquAFXgwUXP6bI8ebNmsY/0W8
+	92dq6Ixugp3PRjwf+Iqcg20Lcqcv6dw0=
+X-Gm-Gg: Acq92OFuzUOApp/fmkoYzhbcyf3QMXbIONp5vysAb+j61FsqwqCul3ykB4RzC9RvDKe
+	aV5xMlbcr0EcCOfhoG8MolXiVst8eN3Z7gjUMnbpXsAr6W+lqlx3LfJHgmRsK+anBgXQkh3PPmp
+	OtxCBLUSiz5TxTJXlirRkcZmULQBfuF/+yGV7WPFOvWdylc8iStlJUk0GMxpSmNvIlUHq5v1uOn
+	s/IBklxDv8T0Sibv5FcdRGyawa+MI04VFKmEpYfKEbXgHoZFz45uT5BZfDBANB/4J5jbKA1OQSk
+	hGABoSnR/J2j80UNpGSn2APrXVstJ/TUjYa517J27/eEAgOSdapSfWWFGbfmUoZ1vO5Dp8PWVVy
+	vS0oyyQKojg+23SSMW48npihgVFPq7CU7bPkjzfj0DNQDxlp7XIhemimXr1EE5LEIp3MJQ1FBjU
+	+42FM=
+X-Received: by 2002:a17:907:7425:b0:bf5:dfd2:4ea8 with SMTP id
+ a640c23a62f3a-bf5dfd259d0mr413829966b.41.1781001763037; Tue, 09 Jun 2026
+ 03:42:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260608190700.85755-1-nbakuradze28@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+References: <20260608151617.3393471-1-rhys@tumelty.co.uk>
+In-Reply-To: <20260608151617.3393471-1-rhys@tumelty.co.uk>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Tue, 9 Jun 2026 13:42:06 +0300
+X-Gm-Features: AVVi8Ce0UHL4o4s3y2b5093fUndEoCXTxSIRIaaI1mp2XkTHwCZNcHoAQhmWuBM
+Message-ID: <CAHp75Ve3Cs95e4CLHDfO0_T=gSDa2tDBS+eZTAJoHxWd_zWMAA@mail.gmail.com>
+Subject: Re: [PATCH] staging: media: atomisp: fix variable shadowing warnings
+To: Rhys Tumelty <rhys@tumelty.co.uk>
+Cc: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andy Shevchenko <andy@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Dan Carpenter <dan.carpenter@linaro.org>, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 08, 2026 at 11:06:58PM +0400, Nikoloz Bakuradze wrote:
-> c2h_wk_callback() allocates a 16-byte buffer with kmalloc(GFP_ATOMIC)
-> when the c2h event needs to be read by the host. The existing guard
-> only wraps the read step, so on allocation failure the loop body falls
-> through with a NULL c2h_evt and dereferences it in rtw_hal_c2h_valid()
-> (via c2h_evt_valid() which reads buf->id).
-> 
-> Restructure the check into an early continue so the rest of the loop
-> iteration cannot be reached with a NULL pointer.
+On Mon, Jun 8, 2026 at 6:16=E2=80=AFPM Rhys Tumelty <rhys@tumelty.co.uk> wr=
+ote:
+>
+> Fix local variable shadowing warnings, flagged by a W=3D2
+> kernel build, due to -Werror=3Dshadow.
+>
+> In atomisp_css_stop(), an inner loop 'i' index shadows
+> an outer unsigned int i. Rename the inner loop index to 'k'
+>
+> In ia_css_stream_create(), the block-local 'effective_res'
+> struct shadows an outer local declaration. Rename the
+> block scoped instance in the loop over pipes to
+> 'pipe_effective_res' to clearly show context.
 
+Before even looking towards (some of) the W=3D2 warnings, please pay
+attention to the real issues the driver has.
 
-Not sure if we need any Fixes tag. kmalloc(16) won't ever fail (otherwise
-the system is already in the state when nothing can help).
-
-...
-
->  			c2h_evt = kmalloc(16, GFP_ATOMIC);
-> -			if (c2h_evt) {
-> -				/* This C2H event is not read, read & clear now */
-> -				if (c2h_evt_read_88xx(adapter, c2h_evt) != _SUCCESS) {
-> -					kfree(c2h_evt);
-> -					continue;
-> -				}
-
-> +			if (!c2h_evt)
-> +				continue;
-> +			/* This C2H event is not read, read & clear now */
-> +			if (c2h_evt_read_88xx(adapter, c2h_evt) != _SUCCESS) {
-> +				kfree(c2h_evt);
-> +				continue;
-
-It's too verbose way of saying
-
-			} else
-				continue;
-
-here.
-
->  			}
-
--- 
+--=20
 With Best Regards,
 Andy Shevchenko
-
-
