@@ -1,83 +1,115 @@
-Received: from forward501d.mail.yandex.net (forward501d.mail.yandex.net [178.154.239.209])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59D2B3D45C3;
-	Tue,  9 Jun 2026 06:18:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.209
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55B85330B3F
+	for <linux-staging@lists.linux.dev>; Tue,  9 Jun 2026 07:14:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780985899; cv=none; b=PLawaAYiDy3FFedwuD0I9UYQfImyLJ/oXbFJb8dOVRfzx3REUigipCq4DH8k5WNnjqaWF9bvxxkLBHzek1bK4vO+a9iqDr/pR7WiHFQYUDbULWQgY7DY3QcklxWVSJAXJdso0Fhr4zlyZGP81cWtV1RVGyGcdmxqtk9TQ9MR39U=
+	t=1780989300; cv=none; b=tGOSSO99wPTpDofk/PMt/1we5h2IGdB/qr8A+Ee/VsY7EkFv4KosmvpPvabfH49mq9lj0b1d89R+pPzkvDj95Q+x7RkOfZFnowIqaYIwKeeWveP1BjtNsZOy8ROSNsNVJuBqcGPyDicBVCVkgELrDtyJfVdJ3gkQtKxp9O6uiLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780985899; c=relaxed/simple;
-	bh=W9iANnASxu5epzdwEbAbG81T5EqEFeRsaZ2wQcgU2nA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=B/PzbhtKGPP1Zbt0WZYmeqAP2/st44y3Pq3LYU4+nlJaqSg7PZ3OX18Ezh3lZGtl/V39VF2nn8E3CVFXyZlRBj5bA/S0WZI+FekAA0IWT21feWbwg0yQA9Zeif8uqgKaZwzLuzMtH+4RoLxXgqJ4JVMNbUrmNqd5zkFsMYtcQqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net; spf=pass smtp.mailfrom=sezginduran.net; dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b=JvGLMXZz; arc=none smtp.client-ip=178.154.239.209
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sezginduran.net
+	s=arc-20240116; t=1780989300; c=relaxed/simple;
+	bh=2qu81oasOVE9oPvab2zZBXtjwJyxu88n0NTYxYVTBeI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NH96JoRoYEDZP4CPfANucq2cZr8DxhqJ4LYK4KDk6S6YR2UcB+wwsnUL/xdhSufdNyGZRqsI6hunCRbyOoLGcnpnN4hm/SYRTHMFLZSnvfocxuD0gcAsykmzsT3PBa0w2bN7M+i/k5AzQXJpBtrE9ZqGot3inXDkAd58jZyOYkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WFpakDu1; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b="JvGLMXZz"
-Received: from mail-nwsmtp-smtp-production-main-78.klg.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-78.klg.yp-c.yandex.net [IPv6:2a02:6b8:c42:83a9:0:640:50fd:0])
-	by forward501d.mail.yandex.net (Yandex) with ESMTPS id 2425E81C93;
-	Tue, 09 Jun 2026 09:12:35 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-78.klg.yp-c.yandex.net (smtp) with ESMTPSA id TCCKNV5f3iE0-frI18scF;
-	Tue, 09 Jun 2026 09:12:34 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sezginduran.net;
-	s=mail; t=1780985554;
-	bh=1sgyk1K/ydvf0SyTNuuqeJvbfhlb/LHfb2YU3RO5j6s=;
-	h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
-	b=JvGLMXZzO2DZWfkTNFE/YP62Ne8qv3iD2sGsOsaZn2h9MqS04QnBZj9WkXQnN3E9I
-	 p8dG8FfZuW7V5VQOawUepr4dCE3AOA/m9AzKcu6WhiEo8oc2CDk2HN69SVpk8gsYjL
-	 1k0M8FGAHRSs0+Jmoo0g+OXFLlZ14982mpIjGQqE=
-Authentication-Results: mail-nwsmtp-smtp-production-main-78.klg.yp-c.yandex.net; dkim=pass header.i=@sezginduran.net
-Message-ID: <0d8d9f38-3cce-4da2-9ba8-f8e99f7b4dee@sezginduran.net>
-Date: Tue, 9 Jun 2026 09:12:29 +0300
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WFpakDu1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1780989299; x=1812525299;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2qu81oasOVE9oPvab2zZBXtjwJyxu88n0NTYxYVTBeI=;
+  b=WFpakDu1q7hza3mtAX0qR4r+kEi9gp0inCMFG1jb1WNcSPnMTcEOjPLr
+   +VM7rtcgiUWHWf7Xwgb5TMt0U4p/7xVOPaQMQ277jqRzqiJgIs3d8Z8ih
+   SZqEg+OQvDjMuDRgr5RWw1EdMf2sa+/KVdR9KyZjK8qsLgjmMmBEuLH18
+   XXWzuEulsds4Su1PPJqHC95DbOSzKo6n/l7oDMXUuVLLn/PfJtS22CDYg
+   siyjlQN5K1wqMYZvzIhyuI6q30Yxfz8reTeSYN3wJ0YIDxSvvNryHrlfA
+   TVvJ8vOUkgcyocNNR1fj9E6IPKUYCLHquVGIx0R/7EhwyU6aXNSmx7ctw
+   A==;
+X-CSE-ConnectionGUID: qBCnqRICRwKV7g+V4k+W6Q==
+X-CSE-MsgGUID: gIiwcaX5TNS2v2HxsDKasw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11811"; a="85365653"
+X-IronPort-AV: E=Sophos;i="6.24,195,1774335600"; 
+   d="scan'208";a="85365653"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2026 00:14:58 -0700
+X-CSE-ConnectionGUID: bYIz3a1aQoqRuhWtVUyaig==
+X-CSE-MsgGUID: NjQINNlqT06cCOW38m5ijw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,195,1774335600"; 
+   d="scan'208";a="243343826"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost) ([10.245.245.39])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2026 00:14:56 -0700
+Date: Tue, 9 Jun 2026 10:14:54 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Nikoloz Bakuradze <nbakuradze28@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Khushal Chitturi <khushalchitturi@gmail.com>,
+	Archit Anant <architanant5@gmail.com>,
+	Minu Jin <s9430939@naver.com>, Kees Cook <kees@kernel.org>,
+	Hans de Goede <hansg@kernel.org>, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: core: avoid NULL pointer dereference
+ in c2h_wk_callback
+Message-ID: <aie9bqpiNDJ_IU0M@ashevche-desk.local>
+References: <20260608190700.85755-1-nbakuradze28@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: sm750fb: make g_fbmode array const
-Content-Language: tr
-To: Brock Haftner <brockhaftner@gmail.com>,
- Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
- Teddy Wang <teddy.wang@siliconmotion.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, outreachy@lists.linux.dev
-Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20260609011736.17401-1-brockhaftner@gmail.com>
-From: Ahmet Sezgin Duran <ahmet@sezginduran.net>
-In-Reply-To: <20260609011736.17401-1-brockhaftner@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260608190700.85755-1-nbakuradze28@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On 6/9/26 4:17 AM, Brock Haftner wrote:
-> The g_fbmode array is a static array of constant strings, but the pointer
-> array itself is not marked as const. Fix the checkpatch.pl warning by
-> adding the const modifier to the array declaration.
+On Mon, Jun 08, 2026 at 11:06:58PM +0400, Nikoloz Bakuradze wrote:
+> c2h_wk_callback() allocates a 16-byte buffer with kmalloc(GFP_ATOMIC)
+> when the c2h event needs to be read by the host. The existing guard
+> only wraps the read step, so on allocation failure the loop body falls
+> through with a NULL c2h_evt and dereferences it in rtw_hal_c2h_valid()
+> (via c2h_evt_valid() which reads buf->id).
 > 
-> Signed-off-by: Brock Haftner <brockhaftner@gmail.com>
-> ---
->   drivers/staging/sm750fb/sm750.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-> index 89c811e0806c..8f533f3b1b42 100644
-> --- a/drivers/staging/sm750fb/sm750.c
-> +++ b/drivers/staging/sm750fb/sm750.c
-> @@ -21,7 +21,7 @@
->   static int g_hwcursor = 1;
->   static int g_noaccel __ro_after_init;
->   static int g_nomtrr __ro_after_init;
-> -static const char *g_fbmode[] = {NULL, NULL};
-> +static const char * const g_fbmode[] = {NULL, NULL};
->   static const char *g_def_fbmode = "1024x768-32@60";
->   static char *g_settings;
->   static int g_dualview __ro_after_init;
+> Restructure the check into an early continue so the rest of the loop
+> iteration cannot be reached with a NULL pointer.
 
-Did you compile this patch while enabling sm750fb driver in the config?
 
-Regards,
-Ahmet Sezgin Duran
+Not sure if we need any Fixes tag. kmalloc(16) won't ever fail (otherwise
+the system is already in the state when nothing can help).
+
+...
+
+>  			c2h_evt = kmalloc(16, GFP_ATOMIC);
+> -			if (c2h_evt) {
+> -				/* This C2H event is not read, read & clear now */
+> -				if (c2h_evt_read_88xx(adapter, c2h_evt) != _SUCCESS) {
+> -					kfree(c2h_evt);
+> -					continue;
+> -				}
+
+> +			if (!c2h_evt)
+> +				continue;
+> +			/* This C2H event is not read, read & clear now */
+> +			if (c2h_evt_read_88xx(adapter, c2h_evt) != _SUCCESS) {
+> +				kfree(c2h_evt);
+> +				continue;
+
+It's too verbose way of saying
+
+			} else
+				continue;
+
+here.
+
+>  			}
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
