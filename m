@@ -1,105 +1,124 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-qv1-f68.google.com (mail-qv1-f68.google.com [209.85.219.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C18821257E
-	for <linux-staging@lists.linux.dev>; Wed, 10 Jun 2026 00:58:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F23A238C1A
+	for <linux-staging@lists.linux.dev>; Wed, 10 Jun 2026 01:14:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.68
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781053110; cv=pass; b=iieSV7c3D6U8k2UXodxYpdo1Fjzm4HVYKhZA+1YYv1IuLAxGrr6xvLv+hd2kfaLBI6iGoR1CnPii57VBgoUnIssnVdsGztgNGwTo6Txs/I/Nt6+LX4MEt5AWb7iFxNgzCyI5EsUxt9bQ8HKIUOF4nV6+J5uLvKRC3KvHydgpjQE=
+	t=1781054094; cv=pass; b=c5DhqJupYI80w+2/eGDawFVGQSoTE8vGRMApxd9w8gGtubYi4iYky6td3ua0h/gZCYnEfNuuj8wZeawsx2WZu/5WXNRPWrCzrBNT5TjFlW81+bxffmVptJUi71ENI1WiYEeNJfNkb39a+ADeqYvqanDSSwqR830+WIK/YihWR70=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781053110; c=relaxed/simple;
-	bh=Tpl6l8U6i2ihTMI8RqZ3xiY20L9OW4IKGRcDKrG5+6Q=;
+	s=arc-20240116; t=1781054094; c=relaxed/simple;
+	bh=eoBqyrwozyfPizN1M53W2PmMDQWOFIP6NCv4LN/rCuU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mN/cGuDI76YLNE24ECiYay+yGr7TSRWhx2LVNmjyD4bkItCfU5kpZC78qHbTt8fn0Ikn77aYFDMHNwE5rzNIjXgcxHzXzZigYEFy7Mz13+Iw57BquzIL+gI4CI8tBFrjiiilE07wX9eVbMrzLeZjsbMTxPZZpOfJWsgqllse1a4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xsw9HcVy; arc=pass smtp.client-ip=209.85.218.49
+	 To:Cc:Content-Type; b=jCctDIpBtbSc+CKy0mzvi5KG8s/5WjnX5FMUvJs9SHrKDDSZ51mC//vuqcxscfcfKTzlV2R6Tn74S0ovEpNSuess5I9EzgHjFv0ok3gYaPE8cw4gKrIHxwm+6Vc+oXoM+x5TcW7mC+mruPSsujZn8nYf6pxDgN353tgr7sox1J0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jmnOFJRX; arc=pass smtp.client-ip=209.85.219.68
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xsw9HcVy"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-bf1141c26ecso771744266b.0
-        for <linux-staging@lists.linux.dev>; Tue, 09 Jun 2026 17:58:28 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781053107; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jmnOFJRX"
+Received: by mail-qv1-f68.google.com with SMTP id 6a1803df08f44-8cd45d4b7e2so70651236d6.2
+        for <linux-staging@lists.linux.dev>; Tue, 09 Jun 2026 18:14:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781054092; cv=none;
         d=google.com; s=arc-20240605;
-        b=OoE/Akt5Jdg6dijEzmdU9kdhfVgsgP75vFe9l0YO3bijFJ++Ezsw34amEHZgUX8LPI
-         tKLHaZu8MqA0TpnP1dhBTHUrT48prRzuJ/KdSNu2juizNHVYcBg9sWr9Dg+9qMIEPTdh
-         NmSg8Z6dxOBfYn523BiLfIBvfwy3LPuoRTq6xbJCejCgLoox/scRR+GDji9Pf+nGGj81
-         55UmHKRFUFU73QA2FRnKYuAKIeUIsPAaT6uJXAVVLkal4TVl6oZkHBlS7ISWCC3Inda6
-         LWSvfbihKI6JqlYkZk7rVtDVRwMMX694x8vTVdcYXD5aS/AO7qXT+ghU5b1Kwd82vh9W
-         Mt1Q==
+        b=e3yatu/MnxzCrI4Sg9JoE45ZiWk5ZlcRWu5NSGS+eQ3uFVPyJQqDjDaNlmfbVOxjsB
+         j/G73npT4brM4eR9yw0rZnrWPvqa5j7mTOV+yqS7RHisecDZRiXKiFtJk81FyozSGxwV
+         4LUrMq5wkVSuWf6QC5CW6QELzLvdrTiDDFi9fN8VfDbFmQpiAiJTA6g3tKNRn3NU2/V+
+         fFs/qtorBU0BLBTNnF3MxbCc2r5x1zrh0oJdlRTw2bz7T5MmbjX7SySukf2u3i2Vbq7G
+         lwycHT+7E5QbhdPi10SsAWfIVQq+/XXM361XNGzGX27WlFH3gN1ErOklOHEplVyrF7DY
+         4tmw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=Tpl6l8U6i2ihTMI8RqZ3xiY20L9OW4IKGRcDKrG5+6Q=;
-        fh=xSsqTReSAAVhrnEZvQEoCpUsXaFY3Vs/pHMozOHWwlM=;
-        b=SenRDYQupqj4rVZo7Bi583kagaMeKnEHEAYRkMs4y0USUG/a6DYaMzlkDK8rRQyRUR
-         OqyhvG0ta3BNfAKUlksFtHgOydJI4oufa/naUNebPgxcbkfrSXrPhvt+9qK0DWoFFkev
-         U73f79R0ipGRj/G+zNoKpq+kPsM1923qCvYIicgdAArH3HYwsKtQrbqwTkzMx5RmoiGm
-         ZtKTCtL+lE4ErQq9GNSVD+SHV7xAFfgKNqPTDSWWN4onGK/p+TNP2pgWfh9ta4nQw594
-         bF9+3gyE+EU0YGsk+hLNtP79SBGAk5q+orbDYXpoqiEp5LdXmgrIvRP6Ges95weKHMEa
-         Vo8Q==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ChYnJlEHoZXI5v6H3MMgohIBDxc31asjLW8UfDy9l7s=;
+        fh=grM9N4CbHEp7cAV2RX2OSOg360Fm/ZHU5F+G4WtV1K4=;
+        b=FTZSJ4enFdnaFKA2sF5cEC6n8nxiiat/gJInLI8IYhUnKLP1gRR3SidLvPdw/4uIGO
+         B71Tbc26kKvGkw4ZARJRyTevJtrUhk1t+jZUPCRKxcyrjqxGpR13E4+zDOBO2r3woCgT
+         /slb949pIIhxkUqvP7votyTgOQBK5zE9TbLKPSrpj5m7oyk8hsK4HTz9IW/C7GcenkYT
+         tbLiyAxiIeY5JsvPJT21itC2YlyYz6QT5TgJa45dH09/Upup5aR0azrPI0lPY3hwQ1aU
+         3zfIA049ad5sbofDG53d40W9KJRmBxPRZYdpl+lXgsrgjJIDjdIBLI+IIFmhYiNBaBIv
+         tyAw==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781053107; x=1781657907; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Tpl6l8U6i2ihTMI8RqZ3xiY20L9OW4IKGRcDKrG5+6Q=;
-        b=Xsw9HcVyNg7j1i0ox9g2a0nYhlQipxWJO6F1dqWS5so7uvF0LMZwDK4kRX8GUUDvlx
-         btJHaFKaLpQC8SQcH1HWmbAFKv/OeeRla67rUtq3GpUNANskYG2vEa9DRfAqF8pM5lZJ
-         B4ob7wQ2jOmoE65VARAvLTzkL+qrVH7LA5yyHYbEm92S+WOSK2ESaqmqZudDeY4QZwJo
-         gxCbtl0t5Jx9MAvgijyXpUO8hoAbqkLFDn3KWMw2/GbzeERw3nmRjidzuW5F4vmXM6Rq
-         rEEnI31s1Uu2ZhWkT48ab1Nj7m+1Ca41L7zFHWgvA8MPiLhxqrR7GboO4r1dP30Uvnsu
-         KyIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781053107; x=1781657907;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1781054092; x=1781658892; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Tpl6l8U6i2ihTMI8RqZ3xiY20L9OW4IKGRcDKrG5+6Q=;
-        b=Wb22K5WhIqDnL1HH8isT07YSluremVSmg/2qb6b4RhOuBPt7t/c5GJMFkgCxzn31zr
-         FYN2bznaPo0/VFkUdJEDicNYU/feahapTppUVzlgg36ncJdxsIy6ZXBF4zxpvjuW3QH9
-         964in+cc37CD6ryG+0LENvEAg2odDrezKA3hNrT0KEjT4fIgu/WxvTugW1kh6A2D672m
-         4V3P02GAbrPnMrdyLZDNpgAAH2ror2Yeq3zx+RXJRnReiFTt9Bf3C5Gf8ff40ZZt2iEH
-         xD98guYrK00/59CUaW0NRhLN4vGE/w8TFhSfJ1be/VtE+wv6/kER+/m5D0Fu+3BmPZb6
-         KgBA==
-X-Forwarded-Encrypted: i=1; AFNElJ+4K2hY4CT7s3pY2Y9rX+Zbzzk6lf+526uZ08H8WjkLWPUn70NUy3gZep/PuqkOaISorBEL8t9+eEihVlAu@lists.linux.dev
-X-Gm-Message-State: AOJu0YwOqEMhYkTYPj6O26DUyr6BvFVCmCraX6+wlD0ylEIgqGLqGV7g
-	xJvaysAerJeWMty+dICnQsBfx1yr4ZeeFhK6TMcIQvgEKOzEiWqEdHJPaozw8uP31KIaO+iLXPk
-	yOkOOS0mI2QuS0z9kwxt4rO7ZbYpEaDQ=
-X-Gm-Gg: Acq92OGZpx8Db/j96Lo6YgJnusdhYeyaf012r51E6XSz/CuBCRuGiBFhrSSWvxGYdhg
-	63kI5R10TO+oyTyU9TcQ8gFQVc7jWmOCJvpGdVH0zMjB8ij/HUUkLMHIvaTZjFa8qzDPWI77eAe
-	rvuwaVYi74qIrYMylFCTno21Nogl4lzlUmkewUPojxHYb/BaCaE8wBHsBPay/qzxiEezORo9TWX
-	RV1cEvrkbSvE/QMY4dsCfm8UUH8txeN8AqJPSMv1vbf+3JgeyYtkJtWMOkJLrUl324dxXWhktke
-	oLuPFNXZCP3ePVPttVxrj18l6jG8mWCJMw==
-X-Received: by 2002:a17:906:8a76:b0:bec:da5b:5a6 with SMTP id
- a640c23a62f3a-bf370e6215fmr809390966b.21.1781053107289; Tue, 09 Jun 2026
- 17:58:27 -0700 (PDT)
+        bh=ChYnJlEHoZXI5v6H3MMgohIBDxc31asjLW8UfDy9l7s=;
+        b=jmnOFJRXnaT2OAEXqyryT5erf6yT6zicyqcaam15DPN5KAqAe5Vuh8uWszIarUwigG
+         ToO037Unw9I8K3v6LBHYN0UbLTvzEFovWvn+MYtNZtlWef2fLAbyah3I6TJI+8WnOpaw
+         NByUsm/kKARx+kij5D5sGcPkk/fKcAd99/Yl6rkbw6vxBXkgDtJbhiMbqe2zL5/GYoFS
+         Qi3CTO060sLOJJO91PSuVY4TtUzWZlf44OvJqxRH9t/eSR5Qxmvx1sH65pgVa0qY+Dtd
+         7zrjSzOyRWjc04/bLiaFBORrhiFBKASx6p/+4KakX5Svg4mN87bz+s0qcKJl7fMJebS7
+         9blg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781054092; x=1781658892;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ChYnJlEHoZXI5v6H3MMgohIBDxc31asjLW8UfDy9l7s=;
+        b=ITDLbN39k/NcTnFYnWnTl26hk/p9HDB1s6OfjQHMM5cHmrpM38TBnXd+JjFt7uR6XZ
+         Rys3rPzI+EiI11fd4GGUXvhu0uisuu7XF+n9tz+hhPfra+a2pA2ik66qLvoTR33bA4VV
+         QNmhrZUqkM7ghUSzUJZiurmE0hXdyLkSyo5LPp4eIDANUY4ksYCdpmmy0ZDxPLyivMhU
+         TumDt9lCM5kZQ2vntVaPJ/YjREHC5soA174G1OzZj7LEX/QAd5ZU6LKqeBZIxaD8X8/f
+         JhiGX7hy4ZSf9dR6U65sapyNoSC4aWPbCHDWPonH3HQRFrLUQ4KoNAgfMuwQgUhWJaXY
+         E1Gg==
+X-Forwarded-Encrypted: i=1; AFNElJ96cs8YErPYSbbqfAnBQHvLpt41qV3AlofCa99aD/SBslc4EEzOFs660IAcKOZscSjXS1X0LdOwjMU5xPN6@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy+yUeeX1I290cZYFlL3nmfRddulLdz80Uuqdfx0pNptS8enH01
+	rU/8E+KOv+cM59AR+GXgExH7BLCBnmIUXVG/N8prQ7fVTB/DhpZB09jNPbIlQUp32FPvEYkErJb
+	ussACqAnzwSco3yLMj+Jyxu2lLd8vmRo=
+X-Gm-Gg: Acq92OGUR04zoapK1L7EAYqQZ8oDTv6NdVavP7fB4DdoHAzipWxnbVOrN0XjkBfYLy8
+	Cihd5DzUHepm1thrr/F3tIbIBH0k1hYZteuG9ezP8Qo6cyWyRaIChrEOkvQSQLdHkUjuP2WM/0+
+	WjNvkIe8nNSGSqjRd2evNTp8KGJivKm23zDEjF8abS55FrQ/Qo4Xkw4E8JToASdjNy/AdZeLgtq
+	h0npqyvcw1HgjnkQ6ZpU8TvIP6VHbubBbbRaY7VvavuKN0vBegk9H2FGCVrKzTm1sJ06z+rXCZF
+	FTXRA/SGaXzEjcbBAq64kGYFwiYs0C99G1BDpdwkZeofoxBzrARAJlAWlfrQYaYRIZCyiFH6zaS
+	8eqTd1nmt1YFGuQ==
+X-Received: by 2002:a05:6214:29e3:b0:8ca:117c:e503 with SMTP id
+ 6a1803df08f44-8cee62655d1mr335055816d6.26.1781054092226; Tue, 09 Jun 2026
+ 18:14:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260609011736.17401-1-brockhaftner@gmail.com> <0d8d9f38-3cce-4da2-9ba8-f8e99f7b4dee@sezginduran.net>
-In-Reply-To: <0d8d9f38-3cce-4da2-9ba8-f8e99f7b4dee@sezginduran.net>
-From: Brock Haftner <brockhaftner@gmail.com>
-Date: Tue, 9 Jun 2026 17:58:15 -0700
-X-Gm-Features: AVVi8CeMcVJS6rxYbZttj4-L01-KcgRMD-E04JG978tAB95OThDR-UKWQ5st8N4
-Message-ID: <CAAYiRaNgyHvtd34H1hR8wQk_5NYRB92QsnOWe9810mNYiZ6+8g@mail.gmail.com>
-Subject: Re: [PATCH] staging: sm750fb: make g_fbmode array const
-To: Ahmet Sezgin Duran <ahmet@sezginduran.net>
-Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>, Teddy Wang <teddy.wang@siliconmotion.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, outreachy@lists.linux.dev, 
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
+References: <20260609202705.183875-1-enelsonmoore@gmail.com> <guidaiFoSi.541328.2026169aiie51mhcpgO149o_23655_LINUXKERNEL_AGATHA_@links.agatha.dev>
+In-Reply-To: <guidaiFoSi.541328.2026169aiie51mhcpgO149o_23655_LINUXKERNEL_AGATHA_@links.agatha.dev>
+From: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+Date: Tue, 9 Jun 2026 18:14:41 -0700
+X-Gm-Features: AVVi8CejiAX4BPC3WkqimUAQOP3_qmC0-30J1KdBshcdRuBOy7A00Cqo0sNyjrI
+Message-ID: <CADkSEUjVYOCYDRkr+WYD34_LH=gYGRyvHfwWH6q5jPLZBtXeTA@mail.gmail.com>
+Subject: Re: [PATCH] staging: greybus: remove driver depending on nonexistent
+ config option
+To: Agatha Isabelle Moreira <code@agatha.dev>
+Cc: greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>, 
+	Alex Elder <elder@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Jakub Kicinski <kuba@kernel.org>, Namjae Jeon <linkinjeon@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 6/8/26, Ahmet Sezgin Duran wrote:
-> Did you compile this patch while enabling sm750fb driver in the config?
+Hi, Agatha,
 
-No, I did not. I apologize for the mistake.
-I ran make drivers/staging/sm750fb/ prior to submitting, however I
-failed to realize the driver was not enabled in my .config.
+On Tue, Jun 9, 2026 at 4:56=E2=80=AFPM Agatha Isabelle Moreira <code@agatha=
+.dev> wrote:
+> On Tue, Jun 09, 2026 at 01:26:58PM -0700, Ethan Nelson-Moore wrote:
+> > The Greybus Arche Platform driver depends on the config option
+> > USB_HSIC_USB3613, which has never existed in mainline Linux. Therefore,
+>
+> Actually it dosn't. The `depends on` line says:
+>
+>      depends on USB_HSIC_USB3613 || COMPILE_TEST
+>
+> That's a logical OR operation, it depends on USB_HSIC_USB3613 OR
+> COMPILE_TEST.
 
-Cheers,
-Brock
+The function of COMPILE_TEST is to allow drivers to be compiled in
+environments where they do not work, to enable better code coverage
+and easier testing of tree-wide changes without cross compilers. It
+should never be enabled for production use cases. So yes, technically,
+it does depend on either option, but only on one "real" option.
+Therefore, I don't think there is anything wrong with the commit
+message.
+
+Ethan
