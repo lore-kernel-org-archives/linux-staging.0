@@ -1,70 +1,94 @@
-Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B396334C05
-	for <linux-staging@lists.linux.dev>; Wed, 10 Jun 2026 01:43:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40DF4409625;
+	Wed, 10 Jun 2026 13:36:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781055807; cv=none; b=OyYD8w8zHyevPU15aQN9eufqoVWcJNoNnh2BRaLxs5Pszr5nJtdzxHEEuoCGbmm0iYyrkmoDvOUoMSLUTRg72SuqwN4RswNnQv7T2wswnIe/mBPmwCvtkMGsRghfsnK51g+XJzha+IPP0sBH4JNn1P8RkGkMWXvMnnxMmnJ7Qto=
+	t=1781098589; cv=none; b=rfCmVusk1wzoxxO1puHgQlcp29cL1oMdkWDj2pb3xHGKJBe+3U1tfvZSivYkdeh8kJ2GsYtQzcrRRuE1V6Vd8LPbMSHHJf2IgOsQC4SYXv1qodUuoS8vGol1zEP5SIhGFC5FBEtOI5pfwoXSty21ctwdFDroHhysGqEwM5mAElQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781055807; c=relaxed/simple;
-	bh=74NrG9/jmyPeFDj3AdkEY/WptLfd808TosNVx+6Y7U0=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=cA7KxAxQV62VgzG9g4ZkMYZynqJLVdjPlY6MdTATnktgrd7bEfe/mkGyZTJVEC6f+jZWnU04uXfb1NIKxz+gnjn2FUUpovM/z6A8ZgkoJHv5PsOuf6J8q1cz9O0mLSWjxnCA+nhNwwoGTVM8N7WLERzG/GiLZCEHheb1Ml2AFIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com; spf=pass smtp.mailfrom=linux.aimannajjar.com; arc=none smtp.client-ip=91.218.175.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.aimannajjar.com
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Aiman Najjar <aiman@linux.com>
-Subject: [PATCH 0/2] staging: rtl8723bs: enum labels naming, coding style
-Date: Tue, 09 Jun 2026 21:42:54 -0400
-Message-Id: <20260609-rtl8723bs-code-style-v1-0-daa0e85359a6@linux.com>
+	s=arc-20240116; t=1781098589; c=relaxed/simple;
+	bh=l2JZP7zzFaDa2y3gL9xNyiYHIWkp0WBUocN6D/6f+J0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qhefgXha/Bp2ekx822N8vixwR/p+B8qvk5MHx+5fMDI0VDMYy7RYdSpBxgkZLfn8k8BmLzVr6I0yHaW7xO2+SPgD8VhaVypOLOzOU4RU4qxiy4mmSrXEssTC2bKlSyObjjj4Ug2+w70EU9wQgyKB/DKyk7VsC0KG180CkFDdZ80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DrOQZOmF; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DrOQZOmF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781098585; x=1812634585;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=l2JZP7zzFaDa2y3gL9xNyiYHIWkp0WBUocN6D/6f+J0=;
+  b=DrOQZOmFtc436O2pdK3CoPxCZ/Oe0UVkPyu9ka/hgxZd3Q291G68t8cO
+   FzwquHXwB3EHzSZjQIAiIhI/y0tfJn/xBR+l3L4BsqYD9uwPmh59jR064
+   yOCGuUPo8hV3yFqOlw9Y5epMBxZZKAr3S6W+Ebf3Nqix1qHUY7po0SJ7C
+   IuDvFew4YpM60bLXFtgiEvDLKruxvU9WwvdVzQb/IYBQpMqW19r4V0X6P
+   RZrsoVBZt3zrPGkvG0HDLDy+T+je/tE9+YxHYbYAGujipBPEd8i8E0cQ5
+   wvgVwjCJfKAwjXwIPaxwGIXoZKj25blkyJL9eYi/DTFX7H8/vj7vUero5
+   A==;
+X-CSE-ConnectionGUID: hVbaTQg4Q1G/ZsmWRrhqFw==
+X-CSE-MsgGUID: stDWQXJDQdOFc8+sdjrfOg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11812"; a="81868625"
+X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
+   d="scan'208";a="81868625"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2026 06:36:24 -0700
+X-CSE-ConnectionGUID: IqWG2RouTdi7xF0imV58dQ==
+X-CSE-MsgGUID: vEg/9p1mSVirOQOcH0Buug==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
+   d="scan'208";a="246027947"
+Received: from hrotuna-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.244.38])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2026 06:36:21 -0700
+Date: Wed, 10 Jun 2026 16:36:19 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
+Cc: andy@kernel.org, hansg@kernel.org, mchehab@kernel.org,
+	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
+	feng@innora.ai, ~lkcamp/patches@lists.sr.ht,
+	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: media: atomisp: use kvmalloc_objs() in
+ make_histogram()
+Message-ID: <ailoU33VyQJtpEcA@ashevche-desk.local>
+References: <20260609215110.118860-1-rodrigo.gobbi.7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAB7BKGoC/yXMTQ6CMBBA4auQWTvJUJP+eBXjwpYBhhAwnWI0h
- Ltbdfkt3ttBOQsrXJodMj9FZV0q2lMDabwvA6N01WDIWLIUMJfZO3OOimntGLW8Z0byro2eonU
- hQE0fmXt5/bbX29+6xYlT+b7gOD6r3lH2eAAAAA==
-X-Change-ID: 20260609-rtl8723bs-code-style-0871b80b6799
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: kernel-janitors@vger.kernel.org, linux-staging@lists.linux.dev, 
- linux-kernel@vger.kernel.org, Aiman Najjar <aiman@linux.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1781055789; l=1079;
- i=aiman@linux.com; s=20260606; h=from:subject:message-id;
- bh=74NrG9/jmyPeFDj3AdkEY/WptLfd808TosNVx+6Y7U0=;
- b=P7hCeWskkj9TR/cW9VXKW7Zr2wTI0+SDAL/9nEKJqWUPDL28njJDhrE4F0F2I2Xy4BtZ7mtKw
- XO9CYzUZkjAB3XBjbJ3g+4lCSuHRJIg0nIfQeQ8qmWi+MerP8W0MfJc
-X-Developer-Key: i=aiman@linux.com; a=ed25519;
- pk=iKg5UkqF2CmKvQwe+Jp8Cf4JOcIHoyvApdVll0sJHu8=
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260609215110.118860-1-rodrigo.gobbi.7@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Enum labels generated by token-pasting macros adopt camel case. This
-patch removes the use of macro to generate the enum label names and
-adopts new captialized names.
+On Tue, Jun 09, 2026 at 06:46:31PM -0300, Rodrigo Gobbi wrote:
+> Replace kvmalloc() with multiply with kvmalloc_objs(), which handles
+> the size multiplication internally with overflow checking, silenting
+> checkpatch warn.
+> 
+> Signed-off-by: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
+> ---
+> Hi, all,
+> There is a ongoing effort like this for other files from atomisp
+> at [1], yet, it is not covering the same file.
+> Tks and regards.
+> 
+> [1] https://lore.kernel.org/all/20260413112904.98864-1-feng@innora.ai/
 
-Signed-off-by: Aiman Najjar <aiman@linux.com>
----
-Aiman Najjar (2):
-      staging: rtl8723bs: drop GEN_CMD_CODE macro and capitalize labels
-      staging: rtl8723bs: drop GEN_EVT_CODE macro and capitalize labels
+Yeah, the problem is that the activity seems stale. Can you pickup all
+the patches from the mailing list that have not been yet applied (regarding
+k*alloc() uses) and combine them into series or so and update regarding to
+Sakari's comments?
 
- drivers/staging/rtl8723bs/core/rtw_ap.c          |   4 +-
- drivers/staging/rtl8723bs/core/rtw_cmd.c         | 190 +++++++++++------------
- drivers/staging/rtl8723bs/core/rtw_mlme.c        |   4 +-
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c    |  30 ++--
- drivers/staging/rtl8723bs/include/rtw_cmd.h      | 154 +++++++++---------
- drivers/staging/rtl8723bs/include/rtw_event.h    |   4 -
- drivers/staging/rtl8723bs/include/rtw_mlme_ext.h |  54 +++----
- 7 files changed, 214 insertions(+), 226 deletions(-)
----
-base-commit: ad4605d69bab07941460db0a0cba88ac5c3302cf
-change-id: 20260609-rtl8723bs-code-style-0871b80b6799
 
-Best regards,
---  
-Aiman Najjar <aiman@linux.com>
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
