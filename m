@@ -1,99 +1,105 @@
-Received: from relay0-h.mailbaby.net (relay0-h.mailbaby.net [64.20.38.28])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9128640D56C
-	for <linux-staging@lists.linux.dev>; Wed, 10 Jun 2026 00:01:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=64.20.38.28
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781049711; cv=none; b=JjudEeie1RBV29t6pKmFHswcBDzHkiY96wkx2VT2Do0lNvPHx1sx5NoADdP8i97hF4bu0b1Xyual9ChC6OE2KLUzIvLN2i+git47RZtb98Gn/LuMeHF9N7D8N8pLfOZYKZgKZp17WrvK404Y9VIJlTgBE0rHuocbD5tKwxf2oAA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781049711; c=relaxed/simple;
-	bh=5DpArjNZSrPynDzKbc6AqHEVcKeOag6lvCOazAPsjMA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IlNywFgG5nIwbizmCCh/v6OjAOYS6VafKNEUBKdJQ+0DCeYQbrn9wSunhb+PQk36HUnnQDHM+cbw4eYN40iYRnm8+NXVXO57RzqJ+4BtP+pYgWHRaTFV1RMxX2juOX8hObv7bg0CwQY+7lxm822C5kzWhMQjUuv9y75rA47pWOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=agatha.dev; spf=pass smtp.mailfrom=agatha.dev; dkim=pass (1024-bit key) header.d=mailbaby.net header.i=@mailbaby.net header.b=giIt52MI; dkim=pass (2048-bit key) header.d=agatha.dev header.i=@agatha.dev header.b=XGI63wGs; arc=none smtp.client-ip=64.20.38.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=agatha.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=agatha.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C18821257E
+	for <linux-staging@lists.linux.dev>; Wed, 10 Jun 2026 00:58:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781053110; cv=pass; b=iieSV7c3D6U8k2UXodxYpdo1Fjzm4HVYKhZA+1YYv1IuLAxGrr6xvLv+hd2kfaLBI6iGoR1CnPii57VBgoUnIssnVdsGztgNGwTo6Txs/I/Nt6+LX4MEt5AWb7iFxNgzCyI5EsUxt9bQ8HKIUOF4nV6+J5uLvKRC3KvHydgpjQE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781053110; c=relaxed/simple;
+	bh=Tpl6l8U6i2ihTMI8RqZ3xiY20L9OW4IKGRcDKrG5+6Q=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mN/cGuDI76YLNE24ECiYay+yGr7TSRWhx2LVNmjyD4bkItCfU5kpZC78qHbTt8fn0Ikn77aYFDMHNwE5rzNIjXgcxHzXzZigYEFy7Mz13+Iw57BquzIL+gI4CI8tBFrjiiilE07wX9eVbMrzLeZjsbMTxPZZpOfJWsgqllse1a4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xsw9HcVy; arc=pass smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mailbaby.net header.i=@mailbaby.net header.b="giIt52MI";
-	dkim=pass (2048-bit key) header.d=agatha.dev header.i=@agatha.dev header.b="XGI63wGs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbaby.net;
- q=dns/txt; s=bambino; bh=5LIQMjvbIMriZrS9y1PR+p05Fl4snqtGEGssl/hGNBQ=;
- h=from:subject:date:message-id:to:cc:mime-version:content-type:in-reply-to:references:feedback-id;
- b=giIt52MIbH//nKjKixJJPvlpzbIngRFnTX6isicJBztAd7E2k/XYWV23m2bMvmKFArm2FjcMV
- +4g2P68pY24XoOF8yqO0ShoZRT+4f3VffbHO/sgfJOmMU1ZSkOYEP1NIFRPQzranh1SACV9RXP2
- 74QCyyczZICFclCCz+an/3I=
-Received: from mb-nj-kvm1.internal (mb-nj-kvm1.internal [10.10.2.10])
- (Authenticated sender: mb6724)
- by relay0-h.mailbaby.net (MailBabyMTA) with ESMTPSA id 19eaed1018000029f0.001
- for <linux-staging@lists.linux.dev>
- (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
- Tue, 09 Jun 2026 23:56:33 +0000
-X-Zone-Loop: 900d8a3c119a0300fefd70741d8ebabe393ce6d2a0b5
-X-MB-ID: mb6724|me@agatha.dev
-X-SPF: pass
-Feedback-ID: mb6724:19eaed:507c5a5c5e5d585f7d5a5951:mbaby
-X-MAILBABY-ORIGIN: PASS
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=agatha.dev;
-	s=default; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=5LIQMjvbIMriZrS9y1PR+p05Fl4snqtGEGssl/hGNBQ=; b=XGI63wGsfXZIMI6wGAFwIoCYka
-	iuaaCiCHrdWDeIbFxnfIPtMre6yM+CcYFPaxk4eDw3j557mN9HFxcVi45+zd7db0jpx+DS6q5Yuh7
-	c3gbIxz6FvQy50e9deMBqdMi4aQE5UgQShX746b5j0Eik9yzPU5e/8jM5/qTnta5FiYHQREe5m5vX
-	ifPiC/C4vXlYccUqLM1/Ue75sWt2sdjENtm9gkA28WDEUliwr8+OAJSucTBzG/0mR9PKaBQ0GXE/T
-	3PWOyxQaeNG4jmTWMPmLCzNhj8+cfd3WFDF3u3NEvprx47z456xMjP5Pw2zlzg6WDdfuGxNe7VGdE
-	wsJHhC0A==;
-Received: from [170.254.153.168] (port=39062 helo=guidai)
-	by nyc3000-r.dnsiaas.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.99.4)
-	(envelope-from <code@agatha.dev>)
-	id 1wX6J6-00000006Nq6-46zx;
-	Tue, 09 Jun 2026 19:56:32 -0400
-Date: Tue, 9 Jun 2026 20:56:26 -0300
-From: Agatha Isabelle Moreira <code@agatha.dev>
-To: Ethan Nelson-Moore <enelsonmoore@gmail.com>
-Cc: greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jakub Kicinski <kuba@kernel.org>, 
-	Namjae Jeon <linkinjeon@kernel.org>
-Subject: Re: [PATCH] staging: greybus: remove driver depending on nonexistent
- config option
-Message-ID: <guidaiFoSi.541328.2026169aiie51mhcpgO149o_23655_LINUXKERNEL_AGATHA_@links.agatha.dev>
-References: <20260609202705.183875-1-enelsonmoore@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xsw9HcVy"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-bf1141c26ecso771744266b.0
+        for <linux-staging@lists.linux.dev>; Tue, 09 Jun 2026 17:58:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781053107; cv=none;
+        d=google.com; s=arc-20240605;
+        b=OoE/Akt5Jdg6dijEzmdU9kdhfVgsgP75vFe9l0YO3bijFJ++Ezsw34amEHZgUX8LPI
+         tKLHaZu8MqA0TpnP1dhBTHUrT48prRzuJ/KdSNu2juizNHVYcBg9sWr9Dg+9qMIEPTdh
+         NmSg8Z6dxOBfYn523BiLfIBvfwy3LPuoRTq6xbJCejCgLoox/scRR+GDji9Pf+nGGj81
+         55UmHKRFUFU73QA2FRnKYuAKIeUIsPAaT6uJXAVVLkal4TVl6oZkHBlS7ISWCC3Inda6
+         LWSvfbihKI6JqlYkZk7rVtDVRwMMX694x8vTVdcYXD5aS/AO7qXT+ghU5b1Kwd82vh9W
+         Mt1Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=Tpl6l8U6i2ihTMI8RqZ3xiY20L9OW4IKGRcDKrG5+6Q=;
+        fh=xSsqTReSAAVhrnEZvQEoCpUsXaFY3Vs/pHMozOHWwlM=;
+        b=SenRDYQupqj4rVZo7Bi583kagaMeKnEHEAYRkMs4y0USUG/a6DYaMzlkDK8rRQyRUR
+         OqyhvG0ta3BNfAKUlksFtHgOydJI4oufa/naUNebPgxcbkfrSXrPhvt+9qK0DWoFFkev
+         U73f79R0ipGRj/G+zNoKpq+kPsM1923qCvYIicgdAArH3HYwsKtQrbqwTkzMx5RmoiGm
+         ZtKTCtL+lE4ErQq9GNSVD+SHV7xAFfgKNqPTDSWWN4onGK/p+TNP2pgWfh9ta4nQw594
+         bF9+3gyE+EU0YGsk+hLNtP79SBGAk5q+orbDYXpoqiEp5LdXmgrIvRP6Ges95weKHMEa
+         Vo8Q==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781053107; x=1781657907; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Tpl6l8U6i2ihTMI8RqZ3xiY20L9OW4IKGRcDKrG5+6Q=;
+        b=Xsw9HcVyNg7j1i0ox9g2a0nYhlQipxWJO6F1dqWS5so7uvF0LMZwDK4kRX8GUUDvlx
+         btJHaFKaLpQC8SQcH1HWmbAFKv/OeeRla67rUtq3GpUNANskYG2vEa9DRfAqF8pM5lZJ
+         B4ob7wQ2jOmoE65VARAvLTzkL+qrVH7LA5yyHYbEm92S+WOSK2ESaqmqZudDeY4QZwJo
+         gxCbtl0t5Jx9MAvgijyXpUO8hoAbqkLFDn3KWMw2/GbzeERw3nmRjidzuW5F4vmXM6Rq
+         rEEnI31s1Uu2ZhWkT48ab1Nj7m+1Ca41L7zFHWgvA8MPiLhxqrR7GboO4r1dP30Uvnsu
+         KyIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781053107; x=1781657907;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Tpl6l8U6i2ihTMI8RqZ3xiY20L9OW4IKGRcDKrG5+6Q=;
+        b=Wb22K5WhIqDnL1HH8isT07YSluremVSmg/2qb6b4RhOuBPt7t/c5GJMFkgCxzn31zr
+         FYN2bznaPo0/VFkUdJEDicNYU/feahapTppUVzlgg36ncJdxsIy6ZXBF4zxpvjuW3QH9
+         964in+cc37CD6ryG+0LENvEAg2odDrezKA3hNrT0KEjT4fIgu/WxvTugW1kh6A2D672m
+         4V3P02GAbrPnMrdyLZDNpgAAH2ror2Yeq3zx+RXJRnReiFTt9Bf3C5Gf8ff40ZZt2iEH
+         xD98guYrK00/59CUaW0NRhLN4vGE/w8TFhSfJ1be/VtE+wv6/kER+/m5D0Fu+3BmPZb6
+         KgBA==
+X-Forwarded-Encrypted: i=1; AFNElJ+4K2hY4CT7s3pY2Y9rX+Zbzzk6lf+526uZ08H8WjkLWPUn70NUy3gZep/PuqkOaISorBEL8t9+eEihVlAu@lists.linux.dev
+X-Gm-Message-State: AOJu0YwOqEMhYkTYPj6O26DUyr6BvFVCmCraX6+wlD0ylEIgqGLqGV7g
+	xJvaysAerJeWMty+dICnQsBfx1yr4ZeeFhK6TMcIQvgEKOzEiWqEdHJPaozw8uP31KIaO+iLXPk
+	yOkOOS0mI2QuS0z9kwxt4rO7ZbYpEaDQ=
+X-Gm-Gg: Acq92OGZpx8Db/j96Lo6YgJnusdhYeyaf012r51E6XSz/CuBCRuGiBFhrSSWvxGYdhg
+	63kI5R10TO+oyTyU9TcQ8gFQVc7jWmOCJvpGdVH0zMjB8ij/HUUkLMHIvaTZjFa8qzDPWI77eAe
+	rvuwaVYi74qIrYMylFCTno21Nogl4lzlUmkewUPojxHYb/BaCaE8wBHsBPay/qzxiEezORo9TWX
+	RV1cEvrkbSvE/QMY4dsCfm8UUH8txeN8AqJPSMv1vbf+3JgeyYtkJtWMOkJLrUl324dxXWhktke
+	oLuPFNXZCP3ePVPttVxrj18l6jG8mWCJMw==
+X-Received: by 2002:a17:906:8a76:b0:bec:da5b:5a6 with SMTP id
+ a640c23a62f3a-bf370e6215fmr809390966b.21.1781053107289; Tue, 09 Jun 2026
+ 17:58:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260609202705.183875-1-enelsonmoore@gmail.com>
-X-AuthUser: me@agatha.dev
+References: <20260609011736.17401-1-brockhaftner@gmail.com> <0d8d9f38-3cce-4da2-9ba8-f8e99f7b4dee@sezginduran.net>
+In-Reply-To: <0d8d9f38-3cce-4da2-9ba8-f8e99f7b4dee@sezginduran.net>
+From: Brock Haftner <brockhaftner@gmail.com>
+Date: Tue, 9 Jun 2026 17:58:15 -0700
+X-Gm-Features: AVVi8CeMcVJS6rxYbZttj4-L01-KcgRMD-E04JG978tAB95OThDR-UKWQ5st8N4
+Message-ID: <CAAYiRaNgyHvtd34H1hR8wQk_5NYRB92QsnOWe9810mNYiZ6+8g@mail.gmail.com>
+Subject: Re: [PATCH] staging: sm750fb: make g_fbmode array const
+To: Ahmet Sezgin Duran <ahmet@sezginduran.net>
+Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>, Teddy Wang <teddy.wang@siliconmotion.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, outreachy@lists.linux.dev, 
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Jun 09, 2026 at 01:26:58PM -0700, Ethan Nelson-Moore wrote:
-> The Greybus Arche Platform driver depends on the config option
-> USB_HSIC_USB3613, which has never existed in mainline Linux. Therefore,
+On 6/8/26, Ahmet Sezgin Duran wrote:
+> Did you compile this patch while enabling sm750fb driver in the config?
 
-Actually it dosn't. The `depends on` line says:
+No, I did not. I apologize for the mistake.
+I ran make drivers/staging/sm750fb/ prior to submitting, however I
+failed to realize the driver was not enabled in my .config.
 
-     depends on USB_HSIC_USB3613 || COMPILE_TEST
-
-That's a logical OR operation, it depends on USB_HSIC_USB3613 OR
-COMPILE_TEST.
-
-> it is impossible for anyone to be using it with unmodified mainline
-> kernels. Remove it and move the former maintainer to the CREDITS file.
-
-Indeed, the impossible for anyone to be using holds true, as mentioned
-in:
-https://lore.kernel.org/all/aVuPidYUPZxCOdRp@stanley.mountain/
-
-I think this should be removed, but I think the commit message could be
-worked.
-
-Sincerely,
-Agatha Isabelle Moreira
+Cheers,
+Brock
