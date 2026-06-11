@@ -1,75 +1,96 @@
-Received: from forward500d.mail.yandex.net (forward500d.mail.yandex.net [178.154.239.208])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A3423D16E7
-	for <linux-staging@lists.linux.dev>; Thu, 11 Jun 2026 11:01:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.208
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99DFB3546E5
+	for <linux-staging@lists.linux.dev>; Thu, 11 Jun 2026 11:43:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781175701; cv=none; b=bWTFy5bvh2G3opR+3TAptd8pO+qmX4MiXZLa/pWTO8GgiEhQzB7aP2djhyzJnCFf8I7Ymx8a6uHNsSDGHJ1P02z59lSU7/HCRiQOqxmbtaq5SjhDUA5GBlKhKfs9HuPhmPIizMoDpUNo8Z5UWil3CDK43UqLRQSiOkg8A6bQEyE=
+	t=1781178241; cv=none; b=VOcb8aWEVxLzbW4v4mX0nVDqtkWFHfklhoPdioEtDsNQoOBeL9f6bjLA7RUCpN/3af/IO3JwfWVqWCfQUyRBNUpqPZu/oGXpYghWdEp4k+9RfmI0riu0gjSAfthKmaNYEcwEyPVEy+JTW3N1UZrWaavE25tsr1204Xx7bTq8JCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781175701; c=relaxed/simple;
-	bh=f3jlDTqMc9/XTH0pW1eOWwt418rx3H2zyJ3QouK0fUg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ucmx9FNUA3kXZqRZ8qLPr+L4BarAft0b/3ODRhEDsUbEeWfPVkKSPJIpbpLXVTTTyCFANE6RRBJ+oYwgAPgUIYORUmUxul/pqqG6rxe9ERtCla3n7U93SS6UWOJQBo6R5nnbhUWAwZAKssMb03xwwX4fn285Udb7XYHok38VEUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net; spf=pass smtp.mailfrom=sezginduran.net; dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b=EqYyNd7N; arc=none smtp.client-ip=178.154.239.208
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sezginduran.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b="EqYyNd7N"
-Received: from mail-nwsmtp-smtp-production-main-99.klg.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-99.klg.yp-c.yandex.net [IPv6:2a02:6b8:c43:da5:0:640:db94:0])
-	by forward500d.mail.yandex.net (Yandex) with ESMTPS id 2CDE382986;
-	Thu, 11 Jun 2026 13:54:13 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-99.klg.yp-c.yandex.net (smtp) with ESMTPSA id 6sIkTfWexeA0-fvKFWMIj;
-	Thu, 11 Jun 2026 13:54:12 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sezginduran.net;
-	s=mail; t=1781175252;
-	bh=qHOOIIAYhwyTT5Ntr56ODre0IVClRIQC86Y9VHWTS3A=;
-	h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
-	b=EqYyNd7NmwigGcD5MkNCnABayBIyip7rEfM/0ooKOLgNGeCAm9NMqcyFExSGBMRIE
-	 VQXpHz1yd+oEvUdSeh5qZJpRXOa/CwlAHVlPR1PsEEW+9nhyxx1tICBeZoXQ0ODD9a
-	 YffAf87yXGwrefIab0QhcSmVBwGR9gCPiUQYR8Tc=
-Authentication-Results: mail-nwsmtp-smtp-production-main-99.klg.yp-c.yandex.net; dkim=pass header.i=@sezginduran.net
-Message-ID: <52292e15-0f8d-4b71-bbc8-c4e5040a39fc@sezginduran.net>
-Date: Thu, 11 Jun 2026 13:54:06 +0300
+	s=arc-20240116; t=1781178241; c=relaxed/simple;
+	bh=/YXxyHXTqHsqvEX56BgGHLdQeyr8pfFezDRaGSt+e4I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CAZo3YEYx1oRZ8VU9U2wlXbyE3mziPlrM/GAkQyGx44jd7VqN4DvUS8g//4cWhU0mYzvS7o0RaGsmn2lD6Je7trZu5hfrwx9A4rc3U0nh1VuKMcBRwGoTeAL9lT02bGjMEs2suGlcPiwKPJpXFSrz1f6qyM9oOxiwj7+1fjVnOo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost.localdomain (unknown [117.182.75.76])
+	by APP-03 (Coremail) with SMTP id rQCowADH5dx2nypqC0heFA--.468S2;
+	Thu, 11 Jun 2026 19:43:52 +0800 (CST)
+From: WenTao Liang <vulab@iscas.ac.cn>
+To: parthiban.veerasooran@microchip.com,
+	christian.gromm@microchip.com,
+	gregkh@linuxfoundation.org
+Cc: hverkuil+cisco@kernel.org,
+	laurent.pinchart+renesas@ideasonboard.com,
+	s9430939@naver.com,
+	error27@gmail.com,
+	vulab@iscas.ac.cn,
+	kees@kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH] staging: most: video: fix refcount leak in comp_probe_channel()
+Date: Thu, 11 Jun 2026 19:43:35 +0800
+Message-ID: <20260611114335.77216-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: sm750fb: fix CamelCase variable name Bpp to bpp
-Content-Language: tr
-To: Siddhesh Sable <ixebec777@gmail.com>, sudipm.mukherjee@gmail.com,
- teddy.wang@siliconmotion.com, gregkh@linuxfoundation.org
-Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20260611103748.29584-1-ixebec777@gmail.com>
-From: Ahmet Sezgin Duran <ahmet@sezginduran.net>
-In-Reply-To: <20260611103748.29584-1-ixebec777@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:rQCowADH5dx2nypqC0heFA--.468S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7tFWxAw4DKr1xAw4DXFyDGFg_yoW8GFW7pa
+	y5Kay5tryYga1j9a9rWF1UXFyrCwnFy34fCFy0kw1S9ryfGFyfZr4vq34UKr4xX3yxAr4Y
+	qa47Jw4rZa15ZF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9j14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+	jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxa
+	n2IY04v7MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4
+	AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
+	17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
+	IF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4l
+	IxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvf
+	C2KfnxnUUI43ZEXa7VUbGQ6JUUUUU==
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBwwPA2oqhtFJ6wAAsy
 
-On 6/11/26 1:37 PM, Siddhesh Sable wrote:
-> CamelCase variable names violate the kernel coding style guidelines.
-> Rename all occurrences of 'Bpp' to 'bpp' to fix checkpatch warnings.
-> 
-> Signed-off-by: Siddhesh Sable <ixebec777@gmail.com>
-> ---
->   drivers/staging/sm750fb/sm750_accel.c | 22 +++++++++++-----------
->   1 file changed, 11 insertions(+), 11 deletions(-)
+If v4l2_device_register() fails in comp_probe_channel(), the
+function frees the allocated mdev with kfree() without releasing the
+reference count held by the embedded v4l2_device.  Because
+v4l2_device_register() initializes a kref in the v4l2_device, the
+reference count is already 1 on failure.  Dropping the last reference
+must be done with v4l2_device_put() so that the release callback can
+unregister the v4l2_device and free mdev.
 
-Still not okay. You need to:
+Replace the kfree(mdev) with v4l2_device_put(&mdev->v4l2_dev).  The
+error path for comp_register_videodev() failure already does this
+correctly.
 
-* Send a new revision as V2,V3,V4,etc for changes and describe them.
-* Wait at least a day to send a new revision.
-* Make sure that your patch actually applies. Currently it doesn't apply 
-to Greg's latest staging-testing branch.
+Cc: stable@vger.kernel.org
+Fixes: 3d31c0cb6c12 ("Staging: most: add MOST driver's aim-v4l2 module")
+Signed-off-by: WenTao Liang <vulab@iscas.ac.cn>
+---
+ drivers/staging/most/video/video.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Even better, have a look at Dan Carpenter's blog post about this:
+diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
+index 04351f8ccccf..aa846959b217 100644
+--- a/drivers/staging/most/video/video.c
++++ b/drivers/staging/most/video/video.c
+@@ -491,7 +491,7 @@ static int comp_probe_channel(struct most_interface *iface, int channel_idx,
+ 	ret = v4l2_device_register(NULL, &mdev->v4l2_dev);
+ 	if (ret) {
+ 		pr_err("v4l2_device_register() failed\n");
+-		kfree(mdev);
++		v4l2_device_put(&mdev->v4l2_dev);
+ 		return ret;
+ 	}
+ 
+-- 
+2.50.1 (Apple Git-155)
 
-https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
-
-Regards,
-Ahmet Sezgin Duran
