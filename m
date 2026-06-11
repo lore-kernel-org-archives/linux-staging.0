@@ -1,187 +1,108 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B485D3F88BB
-	for <linux-staging@lists.linux.dev>; Thu, 11 Jun 2026 12:48:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51F6340BCCD
+	for <linux-staging@lists.linux.dev>; Thu, 11 Jun 2026 14:24:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781182100; cv=none; b=Un7w6vdWpD+6KSyRJHm+K9Z5u3G/CRm/1uE+6GDZGZiXpKOoNjUDi0h1Q92pjFDAqVKPjbe6PmSc4MddLvDYgMiU0z6j1fA4CUqhuRy81zisTgZbWPZVgdg2GcgPfsIaGapZPg1MqlE2UnbnhSXxm2B3g6UVaYXdnLH5LGCDhJE=
+	t=1781187897; cv=none; b=VoLiP0mJ6ZCk5TYk+ZUGycMW+gkHjafhWD3g5VZPmLQwiYxwHOYJ9YT3BoJbP9cGwEUVAgG1F9QsI2cwCwiBWPAEABEqMLJIcKKRkTxRlbEa4N3jNkZ3O9U3IFHsm62db9LPStEjygWHrNkujwGPQ9X7UX0SAj7sHeJGCoM52dU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781182100; c=relaxed/simple;
-	bh=jswscyQO7qxXCvv4Y1PfbCoSNO4Ch1dNjHJqtmcgpNQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DXo10BdElA6uv5awnlYhkyEhFbwit6n2jjA+q+iCz647pqaKBBZcfQQv79IDwcfhb9vqJE9AJqWVj317qhr86VI8v/Un+ki4Uvi2B7r6JJBHwdfjK3ZocvVEJs2IfSz2HCWLU6N+cdKJBf5w3T3zE/ZwBARBHFX34KHU8LMlr+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y4TFUL/u; arc=none smtp.client-ip=209.85.222.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781187897; c=relaxed/simple;
+	bh=2+bJLEv2Ef2Y4040lUSeXkt72wzgn2e/xt7xB6DbBsM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ttT2QTKCEmXNrXhVUIujQYcCKE/DaG4EQ0sOCot56dahuuyxKlv8YCWPZZHSgAItHxMtQqxf0PiKa74V63DjCH74CX30hjwJZgw1VolqyggUwQlj3n5jeS6PzoRCsVOVEL8tIBhTva7zodULYmdIm9sMHh9WholuTmINmj/yHEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ieee.org; spf=pass smtp.mailfrom=ieee.org; dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b=QzAVIORP; arc=none smtp.client-ip=209.85.210.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ieee.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y4TFUL/u"
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-9157b949fc7so847754285a.3
-        for <linux-staging@lists.linux.dev>; Thu, 11 Jun 2026 05:48:18 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b="QzAVIORP"
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-7e6cee520ccso700954a34.1
+        for <linux-staging@lists.linux.dev>; Thu, 11 Jun 2026 07:24:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781182098; x=1781786898; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=T+pTu6sknGcI/PaeXRmshhqG/nGTT+PmPs7yDZdMNV8=;
-        b=Y4TFUL/uDNwN9jQfUp0+Q6RG+TK+ujLxgD5H0LLXCHdzq/YQ7yEeFIHmSI0pwpOLu6
-         98lSYCOt38Dudx4O5E7iYK6b972uVp0drYqnEyWunce1c3ZQVbryrGi58yCGFfXa0SFI
-         Ln2fOEaqNQhTMYHIIOoIr7Ej0M4wMFg7xZeYxToWol5z/QQ7ITJuGI2PL9RC5WDz8ilA
-         WTZB7Gq5hYUA7ou8PpCU5+dAKZiCp7/7uvEZdXcNWnyROkBbOdkJbVAd96IK7UZOv5zJ
-         9umqGNC8fO6xpsIZHKTRFPNs2kjMAScY6SmPW6CP6nfvUL0LYF0gJzMxiad7pmt7vTFy
-         cxmw==
+        d=ieee.org; s=google; t=1781187895; x=1781792695; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=N0Caby6kbsKCRleFf2h8DzUz3LzcAnpcjf6XzhnJ/Kc=;
+        b=QzAVIORPQFrb7ODSzRrCXfh80gyE4Kl8nCji15w6DM+ckuOGftEyh+s3nbaQombUSU
+         JD5gM4GeAemdotwnshOMdoA7BWVdejnQ9ysiTiZhLaF3yI3zIREzHVC5a5yXJ26PyhsV
+         n7zl/rg6gWPoUXiCqn+zi9AZRl6R6zWVSP8oo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781182098; x=1781786898;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=T+pTu6sknGcI/PaeXRmshhqG/nGTT+PmPs7yDZdMNV8=;
-        b=XK6U1fI2MXgP8m6PUobW6kRuH7gHiLYIR5fPWUlX6up4FZn9mclCDoFf1pW4HiZTl/
-         UZxMgOZ72yYmZxAM+GjujG4f4TcwIJnZWrEbmH3UcfRqfgXBaGt4frT7OK+xeIVObHqK
-         yyUHHzKMvyCdN/cCoGoP34vQ9ryWwxZdyr6e50M7VBz3gF/miaz7R+38Iu9xmTaCfloB
-         7kuWW4y3fYdz4KOVikgUK70Te3n9HHYCo++1tOVq0lvUX+b1OUas6lMqhtO09NHBgkQ3
-         YpEqsuUM+0AjHBJs2/vxMnAb83Dy0zIVkTqvitxQiui+gLA269GUjiul0f4KoBBBaIn0
-         n6fQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9YTRn1qukGDkZe/J8MxH0mREt47U7tRpHSOQ2mpBTgUxjLNvsv3+FJaoPFIuEUAnFMMVlLIQxeDr0PUege@lists.linux.dev
-X-Gm-Message-State: AOJu0YwIAtQTLmeRyQWjUOuJ/yW9St9SEn8gPt0wwIfZlk6nohvat5A0
-	ZoHvq3KcYtOjn3MMtLfOlKKyswKzxPILL9i8XgLIs2sROkIhTJJ8RDI8
-X-Gm-Gg: Acq92OF/me+M0NG50GRE7DhKVFuWDOJhSDfd+T2CtRSsebgdk3Pmk0ws7cRB4uv61Fr
-	C7/eq8146sJ+jVJ9egxW3BGGbdr/CYTJcf1o7L3XvzPJnJr7i1iBhBh4cB9KhN22fOw1M6eW+fa
-	9MrRY2usS0hioABjlO8nhU3tFz/bAlM7zf+8Ew8ghsduYGLm12SX+hrA3iQrQzgeSVT8DUbPkuq
-	9b+J1dB3GDJ8m6EmQonrVpEcucGNx566MEAYuzaa7htvsiMfCqpwjeIkCKNHOv+AjsE1rNTEeBD
-	s+4GOrGXnASTUdt6CkG2b/cNFRONDFtd7aELUmL0xex2ZDPbQ+s0Mk1DMN5q8k05aOwOiodDIK4
-	lmcTZTsOXLrlvBZ1FP3/EKGONTUQDi6FcU3JIc3CB/OH9llVkohxTCgNvO7+kIGOrjrlHoWmDO+
-	FG7hGx0SEq3lpGy3YzxhprAIWclYS4coe75zGsqw==
-X-Received: by 2002:a05:620a:19a6:b0:915:8c48:4975 with SMTP id af79cd13be357-9160ad9784fmr371779485a.34.1781182097698;
-        Thu, 11 Jun 2026 05:48:17 -0700 (PDT)
-Received: from localhost ([149.40.50.215])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9160adf5118sm180036285a.24.2026.06.11.05.48.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jun 2026 05:48:16 -0700 (PDT)
-Date: Thu, 11 Jun 2026 15:48:11 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: WenTao Liang <vulab@iscas.ac.cn>
-Cc: parthiban.veerasooran@microchip.com, christian.gromm@microchip.com,
-	gregkh@linuxfoundation.org, hverkuil+cisco@kernel.org,
-	laurent.pinchart+renesas@ideasonboard.com, s9430939@naver.com,
-	kees@kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] staging: most: video: fix refcount leak in
- comp_probe_channel()
-Message-ID: <aiquiwEtXTmSpyJf@stanley.mountain>
-References: <20260611114335.77216-1-vulab@iscas.ac.cn>
+        d=1e100.net; s=20251104; t=1781187895; x=1781792695;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=N0Caby6kbsKCRleFf2h8DzUz3LzcAnpcjf6XzhnJ/Kc=;
+        b=FDOkYRNuKvbd9Sw0OYCU63WI66h9zF7DCW4VtGkd+JN1mLKQaXMFQo65Zc/TH07gEL
+         ZbFAi8Hc7vR0GIHMkLDrjtUKFbqNmSi7+mrPimAKOeQoDTZr9q3skoY4UDK32iuLv1Fk
+         XXxOK494/4ztGpjXaQmczLrMipvU0Zj3FhPPvFP+sWfl4BE/gxZRavUuVrhEw4n0fCIX
+         1RrfWU1hxQzNJk0OnW7vIEFM7kVV7CBFHvMR+YNXM/6VlT5jECXpQQ/zjkuBEzM2231o
+         emvE1ELmPwpAwU8+eAKwYCWNLPSqgZmuwRURtCxNK6A92w0kfkjUOdZO6Sf/VtVAZeGj
+         0SLg==
+X-Forwarded-Encrypted: i=1; AFNElJ8uwFD0/w7QMeC83vxnanX6R7u46q+eqW/Iym34eCfypSLqALi/xcPAW+zwCGW3PA6M9BgtDRIoxMc00rfR@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx9+phqXpiB9HS3fZWU4uQEuEBMcudZQXx6gA8yH1Lwd+p5EITY
+	iZe7AhvfcQncQTjmCQPBniYLSdi9VCtBRg+X38moAocOSeiFNQVEr/zG9g/oh0KhBQ==
+X-Gm-Gg: Acq92OFmtjlAYJQCPCWcZ/NGIgqyatm8vnQN3j/bOVSbgMbHQZzcWWgkc/7YGFKfZcj
+	UebtV+MSdkAqqbXHke6a+9Dum3PLBGpzUtwIou/U5tSEWs0+xXh7duzk9M5645VgFo9bLiWH1KQ
+	XpHXZLJ/w7uJ28xXnULcFW4mi51PEO344eGD+w3DcU9eqbReVJPmWQHDZw5cGJX15LIDzz4pvm/
+	eQL3Bei7GgB1Z89+g9f5sGu/bkUM0guiWvmQk36cVxmiZ7+00G8VnvLYVxn9tsgIfFTCRo5k92N
+	4RrPEIwpQ6HR9sR8DL6F8Em6KaGXoAXj5PhJMa7Teg48VG44xToZfkFy6fz4/SWlVBKWWFcO4Pj
+	nggf5vdzwxn5WErKBeU0BWozlvKUJE0PRJ40fEkyrVKygxo9pjfyHC0cdxuKz4Hc0vv0ZFib+Lu
+	Tj4xFK6T4pYHRQ2z6Fow3g96lwyjpm
+X-Received: by 2002:a05:6830:4c16:b0:7e6:d7b3:76f4 with SMTP id 46e09a7af769-7e773c80bffmr1836830a34.0.1781187895242;
+        Thu, 11 Jun 2026 07:24:55 -0700 (PDT)
+Received: from [172.22.22.28] ([73.62.185.64])
+        by smtp.googlemail.com with ESMTPSA id 46e09a7af769-7e774ceef97sm1340773a34.23.2026.06.11.07.24.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 Jun 2026 07:24:54 -0700 (PDT)
+Message-ID: <ff3cfa53-b385-4c3b-aab0-6402ecc23249@ieee.org>
+Date: Thu, 11 Jun 2026 09:24:53 -0500
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260611114335.77216-1-vulab@iscas.ac.cn>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: greybus: remove unused macro CAP_TIMEOUT_MS
+To: Rhys Tumelty <rhys@tumelty.co.uk>, Viresh Kumar <vireshk@kernel.org>,
+ Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20260610173026.1105803-1-rhys@tumelty.co.uk>
+Content-Language: en-US
+From: Alex Elder <elder@ieee.org>
+In-Reply-To: <20260610173026.1105803-1-rhys@tumelty.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jun 11, 2026 at 07:43:35PM +0800, WenTao Liang wrote:
-> If v4l2_device_register() fails in comp_probe_channel(), the
-> function frees the allocated mdev with kfree() without releasing the
-> reference count held by the embedded v4l2_device.  Because
-> v4l2_device_register() initializes a kref in the v4l2_device, the
-> reference count is already 1 on failure.  Dropping the last reference
-> must be done with v4l2_device_put() so that the release callback can
-> unregister the v4l2_device and free mdev.
-
-What are you talking about here?
-
-	kref_init(&v4l2_dev->ref);
-
-This is just a "refcount = 1" assignment.  There is no allocation or
-need to free anything.
-
+On 6/10/26 12:30 PM, Rhys Tumelty wrote:
+> The macro CAP_TIMEOUT_MS is defined but never used anywhere
+> in the kernel tree. Remove it to clean up code.
 > 
-> Replace the kfree(mdev) with v4l2_device_put(&mdev->v4l2_dev).  The
-> error path for comp_register_videodev() failure already does this
-> correctly.
+> Signed-off-by: Rhys Tumelty <rhys@tumelty.co.uk>
 
-This is a weird and confusing to say.  In comp_register_videodev()
-we call video_device_release() which is a wrapper around kfree() and
-here the original code calls kfree() directly...  The original code
-is more similar to comp_register_videodev() than the new code.
+Looks good.
 
-> 
-> Cc: stable@vger.kernel.org
-
-CCing stable isn't necessary since v4l2_device_register() can't actually
-fail here in real life.
-
-drivers/media/v4l2-core/v4l2-device.c
-    17  int v4l2_device_register(struct device *dev, struct v4l2_device *v4l2_dev)
-    18  {
-    19          if (v4l2_dev == NULL)
-
-v4l2_dev is non-NULL.
-
-    20                  return -EINVAL;
-    21  
-    22          INIT_LIST_HEAD(&v4l2_dev->subdevs);
-    23          spin_lock_init(&v4l2_dev->lock);
-    24          v4l2_prio_init(&v4l2_dev->prio);
-    25          kref_init(&v4l2_dev->ref);
-    26          get_device(dev);
-    27          v4l2_dev->dev = dev;
-    28          if (dev == NULL) {
-
-dev is NULL
-
-    29                  /* If dev == NULL, then name must be filled in by the caller */
-    30                  if (WARN_ON(!v4l2_dev->name[0]))
-
-The name is filled in.
-
-    31                          return -EINVAL;
-    32                  return 0;
-                        ^^^^^^^^
-We return success.
-
-    33          }
-
-> Fixes: 3d31c0cb6c12 ("Staging: most: add MOST driver's aim-v4l2 module")
-> Signed-off-by: WenTao Liang <vulab@iscas.ac.cn>
-
-Please put in the commit message if this that this was discovered via AI
-and not tested or whatever...
+Reviewed-by: Alex Elder <elder@riscstar.com>
 
 > ---
->  drivers/staging/most/video/video.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/staging/greybus/authentication.c | 2 --
+>   1 file changed, 2 deletions(-)
 > 
-> diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
-> index 04351f8ccccf..aa846959b217 100644
-> --- a/drivers/staging/most/video/video.c
-> +++ b/drivers/staging/most/video/video.c
-> @@ -491,7 +491,7 @@ static int comp_probe_channel(struct most_interface *iface, int channel_idx,
->  	ret = v4l2_device_register(NULL, &mdev->v4l2_dev);
->  	if (ret) {
->  		pr_err("v4l2_device_register() failed\n");
-> -		kfree(mdev);
-> +		v4l2_device_put(&mdev->v4l2_dev);
+> diff --git a/drivers/staging/greybus/authentication.c b/drivers/staging/greybus/authentication.c
+> index 97b9937bbdc1..d8f2cd43201f 100644
+> --- a/drivers/staging/greybus/authentication.c
+> +++ b/drivers/staging/greybus/authentication.c
+> @@ -15,8 +15,6 @@
+>   #include "greybus_authentication.h"
+>   #include "firmware.h"
+>   
+> -#define CAP_TIMEOUT_MS		1000
+> -
+>   /*
+>    * Number of minor devices this driver supports.
+>    * There will be exactly one required per Interface.
 
-v4l2_device_put() will call comp_v4l2_dev_release() which is calls:
-
-	v4l2_device_unregister(v4l2_dev);
-	kfree(mdev);
-
-The call to v4l2_device_unregister() is a no-op since the register
-failed (pretending that were possible) so at runtime this is the exact
-same as calling kfree(mdev);
-
-So this is not a bug.  The original code is fine.  We could argue
-about readability, but I feel like the original code is in some ways
-more readable.  I don't like calling unregister() when the device
-is not registered.
-
-regards,
-dan carpenter
-
->  		return ret;
->  	}
->  
-> -- 
-> 2.50.1 (Apple Git-155)
