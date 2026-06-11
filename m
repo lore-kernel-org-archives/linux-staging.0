@@ -1,37 +1,37 @@
-Received: from forward502b.mail.yandex.net (forward502b.mail.yandex.net [178.154.239.146])
+Received: from forward500d.mail.yandex.net (forward500d.mail.yandex.net [178.154.239.208])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48E233CAE66
-	for <linux-staging@lists.linux.dev>; Thu, 11 Jun 2026 10:38:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A3423D16E7
+	for <linux-staging@lists.linux.dev>; Thu, 11 Jun 2026 11:01:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.208
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781174304; cv=none; b=a0XGncH3+LMGwhwlHoYeTNuzvuPEUhsN3uL4gUgbhjb80GWuoaQxdTkwczhAYmWgYdp+u+Lhbd5nTr0v5S7r885NnKAn5qveiGlOxriQ3mYwLEBCSqegLGmZtiLQTCHHptCrNuig/CTl8Rj4oJUUdTPPREP0trYxAXhtVAbcA7U=
+	t=1781175701; cv=none; b=bWTFy5bvh2G3opR+3TAptd8pO+qmX4MiXZLa/pWTO8GgiEhQzB7aP2djhyzJnCFf8I7Ymx8a6uHNsSDGHJ1P02z59lSU7/HCRiQOqxmbtaq5SjhDUA5GBlKhKfs9HuPhmPIizMoDpUNo8Z5UWil3CDK43UqLRQSiOkg8A6bQEyE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781174304; c=relaxed/simple;
-	bh=PrUEcu8IZi1yM9J1a1qqizLO+dia8kRZEkhnxeBOv1I=;
+	s=arc-20240116; t=1781175701; c=relaxed/simple;
+	bh=f3jlDTqMc9/XTH0pW1eOWwt418rx3H2zyJ3QouK0fUg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JuJJXI5PczYwq4/dWfFfAYQWGFyB79AdX/wSCccqtkdRtUFAmyvsmdTPIJWZYBjVioBv/EVnwZ5l1U3uOn9Hz83TLfzKT9oIQt5FXkid/g98sA05zTb3l+HpIAKfrvrXqJJqBcbb2jWgzIzSKYHUkfbcXh4/OL72sPBdGi7kki8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net; spf=pass smtp.mailfrom=sezginduran.net; dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b=acNQZIrd; arc=none smtp.client-ip=178.154.239.146
+	 In-Reply-To:Content-Type; b=Ucmx9FNUA3kXZqRZ8qLPr+L4BarAft0b/3ODRhEDsUbEeWfPVkKSPJIpbpLXVTTTyCFANE6RRBJ+oYwgAPgUIYORUmUxul/pqqG6rxe9ERtCla3n7U93SS6UWOJQBo6R5nnbhUWAwZAKssMb03xwwX4fn285Udb7XYHok38VEUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net; spf=pass smtp.mailfrom=sezginduran.net; dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b=EqYyNd7N; arc=none smtp.client-ip=178.154.239.208
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sezginduran.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b="acNQZIrd"
-Received: from mail-nwsmtp-smtp-production-main-71.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-71.sas.yp-c.yandex.net [IPv6:2a02:6b8:c24:2310:0:640:2452:0])
-	by forward502b.mail.yandex.net (Yandex) with ESMTPS id 32426819D1;
-	Thu, 11 Jun 2026 13:31:23 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-71.sas.yp-c.yandex.net (smtp) with ESMTPSA id HVIQvZXcXOs0-ThDHC39I;
-	Thu, 11 Jun 2026 13:31:22 +0300
+	dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b="EqYyNd7N"
+Received: from mail-nwsmtp-smtp-production-main-99.klg.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-99.klg.yp-c.yandex.net [IPv6:2a02:6b8:c43:da5:0:640:db94:0])
+	by forward500d.mail.yandex.net (Yandex) with ESMTPS id 2CDE382986;
+	Thu, 11 Jun 2026 13:54:13 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-99.klg.yp-c.yandex.net (smtp) with ESMTPSA id 6sIkTfWexeA0-fvKFWMIj;
+	Thu, 11 Jun 2026 13:54:12 +0300
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sezginduran.net;
-	s=mail; t=1781173882;
-	bh=Hx/cAgimb1DUiWGR0srCfHZqWnXNBC1sS6Ab6UAz7vI=;
+	s=mail; t=1781175252;
+	bh=qHOOIIAYhwyTT5Ntr56ODre0IVClRIQC86Y9VHWTS3A=;
 	h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
-	b=acNQZIrdnQSsje/3iQ0qq0oKV25Hwp628vWW4HuHCs2IwjS/Uig5hI7X7jkTs9K8Y
-	 j+zP25qGNJ2tt3iGGjEp6+LRe49KA3MDJ68EAjQTiV6H0VoXJi5n081KCBk7LVLzxZ
-	 9r11TzIkM/tS3k7+Xu2kIotp0IIiCK7OWrQoh25I=
-Authentication-Results: mail-nwsmtp-smtp-production-main-71.sas.yp-c.yandex.net; dkim=pass header.i=@sezginduran.net
-Message-ID: <9e704c86-57d8-4bea-be11-464dbe3ab78c@sezginduran.net>
-Date: Thu, 11 Jun 2026 13:31:17 +0300
+	b=EqYyNd7NmwigGcD5MkNCnABayBIyip7rEfM/0ooKOLgNGeCAm9NMqcyFExSGBMRIE
+	 VQXpHz1yd+oEvUdSeh5qZJpRXOa/CwlAHVlPR1PsEEW+9nhyxx1tICBeZoXQ0ODD9a
+	 YffAf87yXGwrefIab0QhcSmVBwGR9gCPiUQYR8Tc=
+Authentication-Results: mail-nwsmtp-smtp-production-main-99.klg.yp-c.yandex.net; dkim=pass header.i=@sezginduran.net
+Message-ID: <52292e15-0f8d-4b71-bbc8-c4e5040a39fc@sezginduran.net>
+Date: Thu, 11 Jun 2026 13:54:06 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -41,27 +41,35 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] staging: sm750fb: fix CamelCase variable name Bpp to bpp
 Content-Language: tr
-To: Xebec77 <ixebec777@gmail.com>, sudipm.mukherjee@gmail.com,
+To: Siddhesh Sable <ixebec777@gmail.com>, sudipm.mukherjee@gmail.com,
  teddy.wang@siliconmotion.com, gregkh@linuxfoundation.org
 Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
  linux-kernel@vger.kernel.org
-References: <20260611102027.28137-1-ixebec777@gmail.com>
+References: <20260611103748.29584-1-ixebec777@gmail.com>
 From: Ahmet Sezgin Duran <ahmet@sezginduran.net>
-In-Reply-To: <20260611102027.28137-1-ixebec777@gmail.com>
+In-Reply-To: <20260611103748.29584-1-ixebec777@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 6/11/26 1:20 PM, Xebec77 wrote:
-> Signed-off-by: Xebec77 <ixebec777@gmail.com>
+On 6/11/26 1:37 PM, Siddhesh Sable wrote:
+> CamelCase variable names violate the kernel coding style guidelines.
+> Rename all occurrences of 'Bpp' to 'bpp' to fix checkpatch warnings.
+> 
+> Signed-off-by: Siddhesh Sable <ixebec777@gmail.com>
 > ---
 >   drivers/staging/sm750fb/sm750_accel.c | 22 +++++++++++-----------
 >   1 file changed, 11 insertions(+), 11 deletions(-)
-> 
-You need to:
 
-* Use a real name for Signed-off-by part.
-* Add a commit body describing the changes. Commit title itself is not 
-enough.
+Still not okay. You need to:
+
+* Send a new revision as V2,V3,V4,etc for changes and describe them.
+* Wait at least a day to send a new revision.
+* Make sure that your patch actually applies. Currently it doesn't apply 
+to Greg's latest staging-testing branch.
+
+Even better, have a look at Dan Carpenter's blog post about this:
+
+https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
 
 Regards,
 Ahmet Sezgin Duran
