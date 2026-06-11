@@ -1,72 +1,70 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9325E4B8DC0
-	for <linux-staging@lists.linux.dev>; Thu, 11 Jun 2026 16:22:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED469220F49
+	for <linux-staging@lists.linux.dev>; Thu, 11 Jun 2026 16:53:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781194966; cv=none; b=okXFHPmU+7W8xRx7y60IvmNPJbFRB8pGnoS+SC9fkgRc4AzIdbZzxxe4pNI9JF1S00ZtsvV1BDOs2znMYlzjs7IlXkg4Q1MSSCP35RoZCtxujsOoG7jkdB8lxqqth26aIPC+A+r39kaz2ufftIaFqDoFaTkQyhrwe/9ibGdy0ks=
+	t=1781196794; cv=none; b=k2yXeoqNzVLis/SQ/BQdO7+F2V5z4vqDcW3l7UsfmPfodI5/x704rAsRSB5hEjOZNQvgjZFG4s5CGInPkZZAsFtHgyTZDLD96CQxgcJt20IeQqsd+e2o5IDNFVZVtOmrRfhUlS66qdvJdzs7p5j81/e3TIVUyV8QzZezC9bHNak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781194966; c=relaxed/simple;
-	bh=4IvbjU2deD5sMdr0fliZ9USA7R3ML1CLXeZTOLVGgq0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CBmOMd9vBOVRBgQb95fem7RzGNX0RmZ+5ReutZ5BG4qoTCUSsKVvmFs9/I11TZ67o9UGqR/8/7j/2vtXssuXCgvJ9RBHCsc39sFGQOlKpP6s1NdMZiRzXHL/kORrKDQ9/t51S+n7lF7zDysYhFyhsIR2MQ3ehcaj8g2rPuEPdy4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eoJUuAXJ; arc=none smtp.client-ip=209.85.128.54
+	s=arc-20240116; t=1781196794; c=relaxed/simple;
+	bh=8wci7/N0u4Xc2RuzyL1qx5gOM4EnwUbAhd22ltgIVC8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z/Bo1ZARlQf/TRpAnZJEd2NaipftrBpaBhYA+5ZRuKg3bL4VSWLr3bl6Z8WWERFmdwDQv7v7tj5kpfTccSqqrf2KV4BL3CR90aR/oTVObed5TZZ3UOt50LTOAIKYnDlZL+HuwmhA1pq1gzeV52hPErOWU6oU+uoCoVmxL5jHYAI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=czArVIWG; arc=none smtp.client-ip=209.85.219.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eoJUuAXJ"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-490a76757e5so55037285e9.2
-        for <linux-staging@lists.linux.dev>; Thu, 11 Jun 2026 09:22:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="czArVIWG"
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-8ce9d444173so1503036d6.2
+        for <linux-staging@lists.linux.dev>; Thu, 11 Jun 2026 09:53:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781194964; x=1781799764; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=khO/rqQW4LRHcQjkEoaFynbxIqCeifC6TGBEsN1E6nM=;
-        b=eoJUuAXJr3cp2YXB+eOlLd0iMnprGq+PyjTQQXdKOhjjrpGDfUdyY1mkj4KIYHgoEv
-         auOonVEFevVxoI67v3elPmMz/VvQv33y+n86ucuZCAMkzMN8RLSWKDnttgSUqBclu56F
-         7IDysORDgN7waANeLf8G87dV3zITEEkfFiFTrcfvkSlQPyJmFy4OwkLR0KOGHNZRXC9v
-         iNVuVc3aqKgAXhcNCxCGCbdnz5GSjAnszcYLEDrc7qy+mCb5qeyOPSLtzqjLV5D+ftls
-         yw4hpPVwYGV3l2IlNWV8z80ycpaplAsCvlAr6lLflYjErohOzkSKxeKPsgP1CpCxSVAV
-         rbCQ==
+        d=gmail.com; s=20251104; t=1781196792; x=1781801592; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=28mlQzzZjFPgv3HHXqHdnWz6DsvURsJWGT1srbf9ScU=;
+        b=czArVIWGyRjPXZx9NzI7fZ8dY752Kf9v94ZKHezb8w5iwWl1pbsUZlAUH/Za/eHRqU
+         JtKyOJ7fuM8AolNbIYV1i24E25KaVhdLdHzuWEJYDWguah2KYG/6okUXT22G+EnKB66y
+         4PstEXnNIQ5wsauQfHr5RDTkBMUgQmVUqFW+qpX5dinSO5QRB2lAkDTtZjClD+bOKaac
+         2G8/f7p4ClVNxtZfSdalzsirHxy4Z8CuUQHtgtWUQG3DLh3WZAA/+FnXa2HAOsW/aZcB
+         GSD80Qu98HvdRkbquP6mANH0kiWXgUB+kGAVbfdjAFhIskzJoPGU9S1al+qbvLm/4cg9
+         l5Gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781194964; x=1781799764;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=khO/rqQW4LRHcQjkEoaFynbxIqCeifC6TGBEsN1E6nM=;
-        b=Skrj2nbtdVzrfbSEKdqj/vnLE6NtcNQVCDKcBxYCmVQ2gkzOO+djGVwaGY+HXxUyE5
-         NvhMZYs4IGXnwKROt6h8rT/EVJt6FmOz/fIw50bcH7D7Dms8lZ/wbddlbuUL6XjpP5jR
-         s93Y95Zl6eunMMpEHmQR9R2R8GLFYU/LRXFMNWDyPl183DPi0c8j5qdOPnRSGXEw4wwv
-         rsOp+12EnqxoPYqtlxaVGqa4DEPG826YO8D5JVb8TUe2OOc5hdU+tUzxtau/ogOtfTuy
-         4hz39tuO0pLQzmvwAMGnGbAdmx4BGBio2IFzQINmUTrBhx+WfoQ8CKvYxGD1NL0l9ATj
-         xImg==
-X-Gm-Message-State: AOJu0YzrgNkEkWfWtoMwG3aRCUxWDwvPZ2nxWNe9+NqbH8VzO4yTMv1L
-	6mbdzTgTrgRzQyDFJx9nXTLnjcIpk+yqDe4va6QaNv++2vdJFMzyiU9B
-X-Gm-Gg: Acq92OFQQtg3O9jhV2x0hxSSZyQY6Px4G743pPwumEvnqNNyQm1M7MlniWAWEGkvLyB
-	ZFF71S8nS9on8AJXrlX6CaKQNuXeT8mLphV4+ItGglYGJk6ov69bfnf0PaoCRYVx66M6vw2qO0O
-	XzAfA+BQ+PefMK+0YFU1SHin4E3RyheoXNArwcuESds9yrqctgblb5sFGcutUN2WgLWMoFnOaPB
-	t9UBVRNoEBYjmdnBSYYfzRS4RUianl/G/3t2DCUVKXAj08pOyVaUPXX6LY5wIUAHfs5zMPrvWH4
-	iu5mxaxN+ga+T/KkUo+wp14TkZVcIAnWwJB2NEOO8u23Oe80SuspWsuVO4Cob8ii3KJSNZylSF+
-	a97mogEod+ajGILdmmWR/huELhhz3BUu6SpeDcV6rSfex563V5t7a2LLUY7bisHDYz9HXI4Vdii
-	u/6FVjxDSSScWcTXjCbpAp4h0yTA==
-X-Received: by 2002:a05:600c:c054:b0:490:4b89:5362 with SMTP id 5b1f17b1804b1-490e56146admr34017085e9.24.1781194963856;
-        Thu, 11 Jun 2026 09:22:43 -0700 (PDT)
-Received: from home.powerhub ([2a0a:ef40:30:7801:ac27:e02b:2f26:8695])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490e46a75c8sm70344585e9.2.2026.06.11.09.22.43
+        d=1e100.net; s=20251104; t=1781196792; x=1781801592;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=28mlQzzZjFPgv3HHXqHdnWz6DsvURsJWGT1srbf9ScU=;
+        b=d86SfFFqFbqx14M7GqXCCJe66PEo8JUUwVVsEerD581NQSwSbpkmsz7reCRT18mrxE
+         ok/aMOHgk4DdXkwaB7cQ1ZZOgt/mRbgyLnwFPzIYivEEaRnGJEq9lX/LCcxiRd60uXfB
+         oLaYKKleZ6MbSatgIcQ67QW2lJxGK41K+ggkh28IQqxZmivxt28P8UtrWpX1eIzYAdtP
+         G0pzWZfS8PpJYcSH0ccZ+Wq1og4GQwljhqljkx5jU3OhtUsgsM0I8mIOI4Ne8A/VXk7e
+         2lECaBa9BtEWoNGEqokUa50ms0w2QvVq5zabvzQDlBj/P5a5f6xdXtxgTTpCOnL9ohpQ
+         kT+g==
+X-Forwarded-Encrypted: i=1; AFNElJ8TKgHDaxcFtFxUFeQ2F98QYm/1LnQZZQH5MsI4Hvl4Zqj6ThJI+xVzDKwX7xUJwIKYSh09KFMr3Ez70xeJ@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx1QC7MVtQCNtXlaLpHiIp2CfvEmoSDcBpCmxzF4PVKG4DCUA2s
+	mZSeayTZEfDvZJPY25oq1kMIoVcviooZFIZ/+R9N/K8eEUkfJIPT9Su5
+X-Gm-Gg: Acq92OGR5MalGC0z51/VbrZcPyxfTfNf1tAMX+FuSx6MU/1SKimWqq+m3vI2cBCuHI6
+	fF3o/VuN9Zub348Un4PIYANnyX+SY2EGtC+zXyY1i3kvlydRt8qQZw3dpRGpSuBSDtJF3RgJGq3
+	oD+bdyiQhjm6dXfQftSYh2fJLvppaE8Ei3MNcp1Xnh8AmSju7tKbE1crBEZ0gY5x7hOPPgZF4eM
+	TaQxRMCJ+3GJtYnGNWniXpgP5Miow49q+eDI+Eb2VTzc5q8mRIdVw0ypTjG9nmEfqpHSxMibVPz
+	u7ZJFd7HG2jObP3jxmVjRAVT7seXtDn14+/eJVmeQSgM1/dNW1HfjIkY4Sju9vQLJU8wHEsbJXm
+	1+9oEKoBNGmibm/hCaom/88Ygj8ot/q+YgfsqfwDaa6pef0hewiZ9VzAazrANvYbSd9SzxXIvpk
+	41gnvBvPMR1ziR6gZwQlp1WaxxGFc=
+X-Received: by 2002:a05:6214:20a5:b0:8ce:ba1c:eb74 with SMTP id 6a1803df08f44-8d1d8726e2emr53692056d6.14.1781196791837;
+        Thu, 11 Jun 2026 09:53:11 -0700 (PDT)
+Received: from localhost ([149.40.50.215])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8d1ea7bff06sm22722736d6.32.2026.06.11.09.53.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jun 2026 09:22:43 -0700 (PDT)
-From: Quentin Strydom <qstrydom0@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	qstrydom0@gmail.com
-Subject: [PATCH 9/9] staging: rtl8723bs: hal: fix whitespace in rtl8723bs_recv.c
-Date: Thu, 11 Jun 2026 17:21:28 +0100
-Message-ID: <20260611162128.57870-9-qstrydom0@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260611162128.57870-1-qstrydom0@gmail.com>
+        Thu, 11 Jun 2026 09:53:11 -0700 (PDT)
+Date: Thu, 11 Jun 2026 19:53:06 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Quentin Strydom <qstrydom0@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/9] staging: rtl8723bs: hal: fix whitespace in
+ sdio_halinit.c
+Message-ID: <airn8qdTbAYFWLuz@stanley.mountain>
 References: <20260611162128.57870-1-qstrydom0@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -74,43 +72,33 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260611162128.57870-1-qstrydom0@gmail.com>
 
-Remove spaces before tabs in comments to match kernel coding style.
+On Thu, Jun 11, 2026 at 05:21:20PM +0100, Quentin Strydom wrote:
+> Remove spaces before tabs in comments to match kernel coding style.
+> 
+> Signed-off-by: Quentin Strydom <qstrydom0@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/hal/sdio_halinit.c | 54 ++++++++++----------
+>  1 file changed, 27 insertions(+), 27 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit.c b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+> index f2f73c65a636..694cd4eca970 100644
+> --- a/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+> +++ b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+> @@ -46,7 +46,7 @@ u8 _InitPowerOn_8723BS(struct adapter *padapter)
+>  	u16 value16;
+>  	u32 value32;
+>  	u8 ret;
+> -/* 	u8 bMacPwrCtrlOn; */
+> +/*	u8 bMacPwrCtrlOn; */
 
-Signed-off-by: Quentin Strydom <qstrydom0@gmail.com>
----
- drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+You're not working against current code.  Use linux-next or staging-next.
 
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c
-index cab4707091e2..69f09bcfeeb5 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c
-@@ -268,9 +268,9 @@ static void rtl8723bs_recv_tasklet(struct tasklet_struct *t)
- 				rtw_free_recvframe(precvframe,
- 						   &precvpriv->free_recv_queue);
- 			} else {
--				/* 	Modified by Albert 20101213 */
--				/* 	For 8 bytes IP header alignment. */
--				if (pattrib->qos)	/* 	Qos data, wireless lan header length is 26 */
-+				/*	Modified by Albert 20101213 */
-+				/*	For 8 bytes IP header alignment. */
-+				if (pattrib->qos)	/*	Qos data, wireless lan header length is 26 */
- 					shift_sz = 6;
- 				else
- 					shift_sz = 0;
-@@ -286,8 +286,8 @@ static void rtl8723bs_recv_tasklet(struct tasklet_struct *t)
- 						alloc_sz = skb_len + 14;
- 				} else {
- 					alloc_sz = skb_len;
--					/* 	6 is for IP header 8 bytes alignment in QoS packet case. */
--					/* 	8 is for skb->data 4 bytes alignment. */
-+					/*	6 is for IP header 8 bytes alignment in QoS packet case. */
-+					/*	8 is for skb->data 4 bytes alignment. */
- 					alloc_sz += 14;
- 				}
- 
--- 
-2.43.0
+We don't reformat commented out code, we just delete it.
+
+regards,
+dan carpenter
 
