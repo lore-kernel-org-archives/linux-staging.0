@@ -1,96 +1,91 @@
-Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99DFB3546E5
-	for <linux-staging@lists.linux.dev>; Thu, 11 Jun 2026 11:43:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D17C3EF653
+	for <linux-staging@lists.linux.dev>; Thu, 11 Jun 2026 12:22:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781178241; cv=none; b=VOcb8aWEVxLzbW4v4mX0nVDqtkWFHfklhoPdioEtDsNQoOBeL9f6bjLA7RUCpN/3af/IO3JwfWVqWCfQUyRBNUpqPZu/oGXpYghWdEp4k+9RfmI0riu0gjSAfthKmaNYEcwEyPVEy+JTW3N1UZrWaavE25tsr1204Xx7bTq8JCI=
+	t=1781180535; cv=none; b=p2ELGurGUtiYp33wTPIGG7zBJ/8WVIv1AfoTsgr0CtjbmGcIsjBLZayUQ1xi5peHK58UaCTZU3GvsAqeZR4iCBI1VM++Ghh0tVy+LX1e5Mfvk9wRoXuObh2OzdoxqjZV+9GWSubW6QiYvwkbuARxdHx/Wfi1Qlbar0A4QIJCSfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781178241; c=relaxed/simple;
-	bh=/YXxyHXTqHsqvEX56BgGHLdQeyr8pfFezDRaGSt+e4I=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CAZo3YEYx1oRZ8VU9U2wlXbyE3mziPlrM/GAkQyGx44jd7VqN4DvUS8g//4cWhU0mYzvS7o0RaGsmn2lD6Je7trZu5hfrwx9A4rc3U0nh1VuKMcBRwGoTeAL9lT02bGjMEs2suGlcPiwKPJpXFSrz1f6qyM9oOxiwj7+1fjVnOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost.localdomain (unknown [117.182.75.76])
-	by APP-03 (Coremail) with SMTP id rQCowADH5dx2nypqC0heFA--.468S2;
-	Thu, 11 Jun 2026 19:43:52 +0800 (CST)
-From: WenTao Liang <vulab@iscas.ac.cn>
-To: parthiban.veerasooran@microchip.com,
-	christian.gromm@microchip.com,
-	gregkh@linuxfoundation.org
-Cc: hverkuil+cisco@kernel.org,
-	laurent.pinchart+renesas@ideasonboard.com,
-	s9430939@naver.com,
-	error27@gmail.com,
-	vulab@iscas.ac.cn,
-	kees@kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH] staging: most: video: fix refcount leak in comp_probe_channel()
-Date: Thu, 11 Jun 2026 19:43:35 +0800
-Message-ID: <20260611114335.77216-1-vulab@iscas.ac.cn>
-X-Mailer: git-send-email 2.50.1
+	s=arc-20240116; t=1781180535; c=relaxed/simple;
+	bh=6+fL2BPGQeOG72B1oxvEVeT/7UrpbAqXAUb99d70qpQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bhRcCEdgx1yHGqN453uHcrMjUDawps8S5XEkrgj9Uoc15sr9qTONDNa8TcX3kMA+9ANLbckB/10e8QPxeuuYm4KAeqfHR9fC33zK/8SU5bU6fDPXkyrx9cOnpgpZ6kvdkG7LcppBsnuNSmv0ZMrjU49vP1u5fltAhfiAPLSpS70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dloDrCVt; arc=none smtp.client-ip=209.85.219.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dloDrCVt"
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-8ccce57762cso79984956d6.3
+        for <linux-staging@lists.linux.dev>; Thu, 11 Jun 2026 05:22:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781180533; x=1781785333; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=OetJ/hLRU1JZtsBJPzrmV8acCOAe8IH+hKBZOGdqGTI=;
+        b=dloDrCVtTTljhU7iYesv+Bbv+CjKGQxQQvV7bmyPGi7+f8QP0WZUZpNb/BRhn0GcQM
+         55/5zsNg98vNHCN41NUdamTUoxu9tUY5I3oDHEou+GlFub/nkWcLf8sgvoxyggbr2zwh
+         n1sVqV+tSQPcVgLkHpW+UjuER+ABxi40su86StzLPrlERf93euF9Gpm0EtU6zJFIK+/Q
+         GrvGfy/dOfhv26vVig/lKSrcmTUwANOgkSkPjSkoZi6iCBZKgM5gi4lJAzd4pzRMhpgq
+         3jCIybNxyiksR2CrvqExmNkCU7X4dRYj7I0ozmQijLUQrJAYUblqD4IQqwsEMWUsCZD9
+         iZBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781180533; x=1781785333;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OetJ/hLRU1JZtsBJPzrmV8acCOAe8IH+hKBZOGdqGTI=;
+        b=eMbUULeM7enRC4oiyv3vuWOx0gos8MyltuArenKBHcQu3Qhji8oCj/yl4HfZ2la+Vl
+         y4V9iM/z7czep1FI2woheOkHWJX2Xw27hJBLrzOBPvTTwcAo1/goz8H68nRZW7ESrzYt
+         E7kjdhZAHrgISfz1lAZbIBdWmGwzgTXTQ2t/m3A+hOn0B8Ol8r9rrB5XQdiNziY6k+Eu
+         PWYooijZ784tgoCZqOy0MwRjanB+OZwZRX1vppAqeYvJdcXBBsefPXW9gH/rPDQFm9du
+         ii60CQhlSCiV1jCDwaFhXlc8QQF0f0SK40+viPqALBc2NnDGxy0Wp/lPJd0WnOJRDfH1
+         Yx1g==
+X-Forwarded-Encrypted: i=1; AFNElJ810C8VVepr7A7Te53e3za9GUvjaHwrwE+nS3goFtsXMZGS2rYAyeQIN+os8X4TykGMdgkoXjMJBi/+W1m/@lists.linux.dev
+X-Gm-Message-State: AOJu0YwBKWPgHUkfjS01KcTqe1+Zy1T02fONk2HjcsiQTOciC0qphYbE
+	YtOoFSSWVzjMYCfUcepz/nBG/bYVKPx1flFQ8VE14fICAPghd8b+u7/1
+X-Gm-Gg: Acq92OE71v4pqe629oQcakFONeD5jsp7M4M+DKlzcNKoYC2L4QDGF6XWdaQ/uMTBKq7
+	iRxRUEvbk+j1cAUq5COrqN0YpUJqrJo85OcB6nl5WQCNJaYhPXgXd6uOmoWez06BET5wkPKjZHK
+	sL26+Oi7PMdD54Hb0g/N3i6xzkZuLErNvFqtCzYc2tbrKv95Wr1CtVNo1Cw3mD/YBe/VPr9t/4y
+	8QtfcH1ZYgUzoF8z4J18+rtVHSL3QxahKc8GaOCB69jWxn5mDzPcUC0PW/xQJLXaA8w+zFu5eUR
+	tspvipI0XUgSwLpxnlWWbhMfTamnEevBKKlh9KMo5ZXXm/7SuYaXs0gdpoqsreOUwIW4/1UZz7j
+	6ft+Dx3sv4p0Kz49RC1alxsaIQM6UAuhKWJLSuHnWSzJzjXBy5JuS7qKEPyyiNeT/Il61ErNWLi
+	ZPz/gGqhthmrXrh7fGwGsJKipRMgA=
+X-Received: by 2002:a05:6214:5a0a:b0:8ce:b018:89ff with SMTP id 6a1803df08f44-8d1dc1a5122mr43035196d6.36.1781180533295;
+        Thu, 11 Jun 2026 05:22:13 -0700 (PDT)
+Received: from localhost ([149.40.50.215])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8d1eaf99e53sm16296606d6.41.2026.06.11.05.22.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Jun 2026 05:22:12 -0700 (PDT)
+Date: Thu, 11 Jun 2026 15:22:07 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Siddhesh Sable <ixebec777@gmail.com>
+Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
+	gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: sm750fb: fix CamelCase variable name Bpp to bpp
+Message-ID: <aiqob86eyiauQz2M@stanley.mountain>
+References: <20260611103748.29584-1-ixebec777@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:rQCowADH5dx2nypqC0heFA--.468S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7tFWxAw4DKr1xAw4DXFyDGFg_yoW8GFW7pa
-	y5Kay5tryYga1j9a9rWF1UXFyrCwnFy34fCFy0kw1S9ryfGFyfZr4vq34UKr4xX3yxAr4Y
-	qa47Jw4rZa15ZF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9j14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
-	6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
-	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
-	jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
-	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxa
-	n2IY04v7MxkF7I0En4kS14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4
-	AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
-	17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
-	IF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4l
-	IxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvf
-	C2KfnxnUUI43ZEXa7VUbGQ6JUUUUU==
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBwwPA2oqhtFJ6wAAsy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260611103748.29584-1-ixebec777@gmail.com>
 
-If v4l2_device_register() fails in comp_probe_channel(), the
-function frees the allocated mdev with kfree() without releasing the
-reference count held by the embedded v4l2_device.  Because
-v4l2_device_register() initializes a kref in the v4l2_device, the
-reference count is already 1 on failure.  Dropping the last reference
-must be done with v4l2_device_put() so that the release callback can
-unregister the v4l2_device and free mdev.
+On Thu, Jun 11, 2026 at 04:07:48PM +0530, Siddhesh Sable wrote:
+> CamelCase variable names violate the kernel coding style guidelines.
+> Rename all occurrences of 'Bpp' to 'bpp' to fix checkpatch warnings.
+> 
+> Signed-off-by: Siddhesh Sable <ixebec777@gmail.com>
+> ---
 
-Replace the kfree(mdev) with v4l2_device_put(&mdev->v4l2_dev).  The
-error path for comp_register_videodev() failure already does this
-correctly.
+You're working against an old tree.  Work against linux-next or
+staging-next.
 
-Cc: stable@vger.kernel.org
-Fixes: 3d31c0cb6c12 ("Staging: most: add MOST driver's aim-v4l2 module")
-Signed-off-by: WenTao Liang <vulab@iscas.ac.cn>
----
- drivers/staging/most/video/video.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
-index 04351f8ccccf..aa846959b217 100644
---- a/drivers/staging/most/video/video.c
-+++ b/drivers/staging/most/video/video.c
-@@ -491,7 +491,7 @@ static int comp_probe_channel(struct most_interface *iface, int channel_idx,
- 	ret = v4l2_device_register(NULL, &mdev->v4l2_dev);
- 	if (ret) {
- 		pr_err("v4l2_device_register() failed\n");
--		kfree(mdev);
-+		v4l2_device_put(&mdev->v4l2_dev);
- 		return ret;
- 	}
- 
--- 
-2.50.1 (Apple Git-155)
+regards,
+dan carpenter
 
