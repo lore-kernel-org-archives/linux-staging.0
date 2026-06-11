@@ -1,135 +1,96 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1A8D1A3029
-	for <linux-staging@lists.linux.dev>; Thu, 11 Jun 2026 07:29:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6979367F4D
+	for <linux-staging@lists.linux.dev>; Thu, 11 Jun 2026 07:38:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781162964; cv=none; b=quODTiobPh4AEStjAgCXYJB2FV+1fgsPhM79hLtDj6a+QUZ75haqR7lvFvwxuT3/hQNZWjboq1yr59zBzcpOrGSAFxGoU4iHbFtYi10yuCBoEcYfjcrMfGpF6hWcn3nuUx2vhx+LLCtNoWhkrp9Uf6X6+ScoSZybKoSAxIfUSpU=
+	t=1781163505; cv=none; b=tzey1TBMHAYxIs3BlxVDl6gchUgYrC3vem75oPVV9bTX8wAATllXN5eZ0XmeQAJo0pjlvdCjg+iczj0zJCOsj8kLsk27sP/wGPzIi3ab/Bx40jyjGXe2mOfCl5YQ3y4tE9LjjX1lVuUSUSyzChAEsEQ/nOb3pKr/+Re5BDGavLU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781162964; c=relaxed/simple;
-	bh=zTZ9Os93AQKT7+0fhNo6c0IbMZasjMPF3/fzgYRsXzs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bojOlcjOzDJrU2mbaLTAB+qpUebP9NAmU6QG5uYsiSos/ZnGjVmTHdhNL3iya/duNgC4Qu0CJyADHIgSxrkBTje4lAgmBuK3UpU4nnN3/EXta5+xfvN1w7S9h1qy5GFy2Q4GFGDpn8PC6EFBvjopjZ+F0zPYuOgyMOpcz5kUpwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Aub1Uj5h; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781163505; c=relaxed/simple;
+	bh=12ELDSpkGN0c9Vw+xiPWSuC+hqNsmpdnzTyHPHobxmw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dPuntDQhwXLBXtPB0/1ufIX1woHs6JBpGRxDsBjJy4Z9KJiJMjZMNkrtbYi2YbR17Stdr0bI66kHeTr74EF6AYn27ipjnuO1DNLY3YBPWfuFHIpqdkFf9echYOL+P+qjel1yp/56WjB/b3KOcot0yEWN/Hfm3ZR3cdafmWiMmfQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CZUeb0la; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Aub1Uj5h"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-490ac357c55so79657115e9.1
-        for <linux-staging@lists.linux.dev>; Thu, 11 Jun 2026 00:29:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781162960; x=1781767760; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kLWj6In0UlvucvwDBHBjq5i6uLvtSDMxHxfyE/vi404=;
-        b=Aub1Uj5hz7VJYH85t1ThBDm6f4ei82VmOZ2g9Pxx2GqhE4+ajwGp77yZZ9aeN7r+Ui
-         uKJ48HhzmlxgB1NTVeCu49fPfspUILe82JRANCOQXFqXODCB088HLAm2d0k3RnaAXnuC
-         cm1gm/644WB1g1PE19KZ5Pg0ps3cHE3qxORyAfoKEy1A51kQ9zoiHi34g2GtXfcMyMtM
-         fvd6xMosVc4mHfbxpCMnO9D0UDAI846+O0K90R6njV2WccPIRPizTL6NDV2nSwx7QDzD
-         veIXRYdFBH4BMMmZ17hRf0fL6jTfMR5uYZEmg5YoOeCJxL27+bAHelEsRDft/hz9p0BQ
-         R0jA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781162960; x=1781767760;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kLWj6In0UlvucvwDBHBjq5i6uLvtSDMxHxfyE/vi404=;
-        b=TflRGOo5qfh1SvBHIf0Dclo2AwNHYms88ktj7WxgK2NspuGxqzL5QQtztIi+erYlQE
-         jWMjQ8GF3F8uDZlF6F+YxxXPY3Rdzhio+CD1wJytSNlOVrd7A+vMO3E7BOWGF/WpPg5N
-         auq5M2X25+xdefryYW4e4azL/MONDc+/KVRoausj5+lQLxtVI/BAgIn/Pc3dKGaLSlSA
-         8CNtA3LMZqzlEd078Jt/yaxwR8HeGLCr1XfV0lv0pNFqg2GLGXEJ98TV4ixENqKzCtNr
-         oBC56RUCOS/Mr4aH5ncjl+EEWtNtS4EuLYupoqRwwmB/T99UXk7byCMRYz1eKrFdQNQb
-         HUVg==
-X-Forwarded-Encrypted: i=1; AFNElJ87ZNNm5RAGWWYKwK+O+DLsnRYaGtyJmDoGB0KSVpM90BG3V3J16ND/Dr1V7dktVf0hZSmKc8fHYMbasH99@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx/NxqfT9b3Mqpo8q39jZ59W25oqKiyfjw9WSr2Twdg87L1x+NA
-	cCmFdEv4TxNNFDfrt7kFCP0rTH/AirKUeYxuWwZmEYpbGl54LZaEl03b
-X-Gm-Gg: Acq92OEARIv+Z7v/hyUvYhGR38afv6Qe6YN4q7CpQzf67ATqTHKxL/0vAGBcwMMzxQ/
-	KXSECjbmS/KGG84BoTTti1HsPpZkYkNoNDJGAEMGs5Z5KCngln27tWIyADwTwWxLgWBXEYGVi9k
-	hlVYW7fi58Dy0g47fHjWqqNdMIAt1VnBxYLqJd0cGyE4FmVv2LgIG4QMPESYxs9jVugUdDhy0oQ
-	O9HLK837n4s+ckGvCjTldlIsDTrDkdiUDBRVXo+ktjaTq/XgKxZby1Sbh84oFmnXFLH23qFrGXa
-	/yYwb9KYE77NdNI88DBXqyVR/l15Y0FLifRg5Dako+xSdrCK4ma2K4bGY7Wqb48dq5g21tEOCHn
-	ybknGbRGQfA54DKjri1Y++pyMp5tPfAsiVriezaH3X9/8CQpRHLm22R61ULUSpJd8/0uP22gc0F
-	LdWSpK/Js6a/5e5iWBkxm9N4I2C4rOOhbsiyArmxp5iUmdmicgLcJ+U4nX0SblsAj8WLQKehUQ0
-	KiAGLMM0NNbH8wGViCYLoafyjKrckPBAINmaoyH
-X-Received: by 2002:a05:600c:570b:b0:490:e19b:bd99 with SMTP id 5b1f17b1804b1-490e5628910mr12983235e9.30.1781162960308;
-        Thu, 11 Jun 2026 00:29:20 -0700 (PDT)
-Received: from workstation.speedport.ip (p200300d507395eb363324778b2a2e5aa.dip0.t-ipconnect.de. [2003:d5:739:5eb3:6332:4778:b2a2:e5aa])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490e5314dedsm30487825e9.9.2026.06.11.00.29.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jun 2026 00:29:19 -0700 (PDT)
-From: Mert Seftali <mertsftl@gmail.com>
-To: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Andy Shevchenko <andriy.shevchenko@intel.com>,
-	Kees Cook <kees@kernel.org>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CZUeb0la"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781163504; x=1812699504;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=12ELDSpkGN0c9Vw+xiPWSuC+hqNsmpdnzTyHPHobxmw=;
+  b=CZUeb0laADXQeCTBgzU8PYD/fkYQtq9KVtu/9+yX94KMkVc24wxPh8lz
+   +EPSSr5r/beplLeu/W/BteydKtMhQ+wRk+bERJJurWQGqwQXpbV9dBNoz
+   0jRAEtCHVDG7wsO/47yXhLZa7SLxWLffh5MUi9JbphWumnBulWRG87Boh
+   0Wf52yyYnt9wIiJI/tdHZJqvbXVABMW9zEgnd90k1/mJ0l8/LQqB4DFpe
+   dKu8rCYnYmviY0SiTe6zFKMGq8aONnJENx3AJ/De1Ya1Ft3DEYDBvyTSO
+   B88LCtlXnRlMWIs1QJw4x19Fy8wy9L3x3K/Hg8lsysR5jJDgYQhtYboBW
+   Q==;
+X-CSE-ConnectionGUID: 6QJDOWkpQ6mymbq46movYw==
+X-CSE-MsgGUID: 3APqHQc3TSuUJ0l3fYeqBQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="81104134"
+X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
+   d="scan'208";a="81104134"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 00:38:23 -0700
+X-CSE-ConnectionGUID: RKZwnkDdQVe4UY2m+kEB/A==
+X-CSE-MsgGUID: dNEGkc+lQMyyFYYDxGOhNA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
+   d="scan'208";a="243957461"
+Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.123])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 00:38:21 -0700
+Date: Thu, 11 Jun 2026 10:38:19 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Mert S <mertsftl@gmail.com>
+Cc: Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Mert Seftali <mertsftl@gmail.com>
-Subject: [PATCH v3] media: atomisp: gmin: Use str_on_off() helper
-Date: Thu, 11 Jun 2026 09:28:52 +0200
-Message-ID: <20260611072852.20777-1-mertsftl@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	Kees Cook <kees@kernel.org>, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] media: atomisp: gmin: Use str_on_off() helper
+Message-ID: <aipl6zqwTggWZ2zw@ashevche-desk.local>
+References: <aipI6J4kDWESZgtA@ashevche-desk.local>
+ <20260611061417.11747-1-mertsftl@gmail.com>
+ <aipbDeEFbXam1WPN@ashevche-desk.local>
+ <CAA3Noor=rsoCR9NoWy9KEZSrK66p0WN1i4C0aDwn8AzuN3p0hw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAA3Noor=rsoCR9NoWy9KEZSrK66p0WN1i4C0aDwn8AzuN3p0hw@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Replace the open-coded "on" : "off" ternary with the standard
-str_on_off() helper from <linux/string_choices.h>. This improves
-readability and reuses the kernel's existing string helper instead of
-duplicating the literals.
+On Thu, Jun 11, 2026 at 09:09:23AM +0200, Mert S wrote:
+> Andy Shevchenko wrote:
+> > First of all, do not chain a new version to the email thread with the
+> > old one.
+> 
+> Sorry about that. I'm pretty new to all this and still finding my way
+> around the process, so I appreciate you pointing it out. I'll send the
+> next revision as its own separate thread.
 
-No functional change intended.
+Also note, the new version of the patch should be sent not earlier than 24+h
+after the previous one.
 
-Signed-off-by: Mert Seftali <mertsftl@gmail.com>
-Reviewed-by: Kees Cook <kees@kernel.org>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
----
-Changes in v3:
-- Collect Reviewed-by tag from Kees Cook.
-- No code changes since v2.
+> > Second, you forgot tag from Kees. Why did you not take it?
+> 
+> That ones just my mistake, I overlooked Kees' tag when I put v2
+> together. I'll make sure to take it in v3.
 
- drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+`b4` tool is your friend. Become familiar with it and it helps you a lot.
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-index 4026e98c5845..cb60cb3fab48 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-@@ -13,6 +13,8 @@
- #include <linux/gpio/consumer.h>
- #include <linux/gpio.h>
- #include <linux/platform_device.h>
-+#include <linux/string_choices.h>
-+
- #include "../../include/linux/atomisp_platform.h"
- #include "../../include/linux/atomisp_gmin_platform.h"
- 
-@@ -916,8 +918,7 @@ static int gmin_acpi_pm_ctrl(struct v4l2_subdev *subdev, int on)
- 	if (gs->clock_on == on)
- 		return 0;
- 
--	dev_dbg(subdev->dev, "Setting power state to %s\n",
--		on ? "on" : "off");
-+	dev_dbg(subdev->dev, "Setting power state to %s\n", str_on_off(on));
- 
- 	if (on)
- 		ret = acpi_device_set_power(adev,
-@@ -930,7 +931,7 @@ static int gmin_acpi_pm_ctrl(struct v4l2_subdev *subdev, int on)
- 		gs->clock_on = on;
- 	else
- 		dev_err(subdev->dev, "Couldn't set power state to %s\n",
--			on ? "on" : "off");
-+			str_on_off(on));
- 
- 	return ret;
- }
 -- 
-2.54.0
+With Best Regards,
+Andy Shevchenko
+
 
