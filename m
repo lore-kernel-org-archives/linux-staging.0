@@ -1,105 +1,115 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from sonic.asd.mail.yahoo.com (sonic-euwe1-0017.asd.mail.yahoo.com [34.2.82.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B219F36DA1B
-	for <linux-staging@lists.linux.dev>; Thu, 11 Jun 2026 07:46:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE78A36DA1B
+	for <linux-staging@lists.linux.dev>; Thu, 11 Jun 2026 07:52:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.2.82.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781163986; cv=none; b=AwWfUKzz7+NxUs2rp/IvG6i9Y8FUMQ0wQijCKcETZkRRw58FnNFGPAUKqX08HvPoeCVqtqNvicpKfbt3U56dHJYkaVbXkNh/x8bPY1cxF5nMblPGIlkx70SkKGcHYQJOgbyPwvvVP4PfsPX7wgixg68ohzVq0/9rR2Opi32BsS0=
+	t=1781164331; cv=none; b=E+62Pmxo2ZXdMGVYI3732dIZeNlhXimHlUcR9vhVfkP8q5Hs8w0h0Ycv+JgHO3S67Dvi+yUYeFe4ToewR5V3RFQ2QYFD2aOcn+2Ya48icJz8EYGfeDaFZ69bTKErwxQeqnRqLWyR5n0fh88//pKQOYAlLduISfWEWYQxOX814SQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781163986; c=relaxed/simple;
-	bh=5lwxE1eiQ8BdMzV1W3JSnu+vT9WqfqvAXh+SRR0c6ns=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=smxBgm7Q8/Kjlkrw4munjC6hoeslEruuZ2XGuxxEs3aNSAjy7s+EIgI2MKyCD9MRhEKDRxLcs3hmlKcxhMpqHuJ+lYtptJHUgXSESiYB28E/NIsUo2J3RDyqUs0X1BB0O6R4y9zSHlp6yb/6mIznMp+PdOwIpwBGrk3RnHsHpMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PEhv5wJU; arc=none smtp.client-ip=209.85.210.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781164331; c=relaxed/simple;
+	bh=UbHzhBK5ueIVwUpYA1gmOCE4iKkRQO9gwwiEYBEwhF0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc:
+	 References; b=l26yfNH8+6hgkNKFVCabY0PsPIIBFoAsU41VFAb31FJjWKYp8l0XPHAIUK5bB8cBVQt4h18xmJ/FZZ39jkfqedMTxK128CxL/UnwhwJLSg/PB803SaewIbwcNG84obJYX1/G9B14iZTcQ3xiVyAOwE8lf2h1xLJLTd1iSFvbvx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=TFULjtqb; arc=none smtp.client-ip=34.2.82.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PEhv5wJU"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-84237a0fd84so265740b3a.2
-        for <linux-staging@lists.linux.dev>; Thu, 11 Jun 2026 00:46:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781163983; x=1781768783; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Lc700vchgjw3eA+L9PLOMFS3yoggGFBOrwECyM3kaKw=;
-        b=PEhv5wJU5AYfrelIw+Lk4GuP1GIboRZzVgAMRG7FR17wKD8rsxbpp60mqQzjYENGCh
-         yl31S6aviLbaQ2q7wwKdjzsZBXhOTp/zGINWlGpEM+uSCjo5O0bWKz4j//0MIfs4RXzI
-         iZ1H3H70vVVzTobM8DEdFoOSsORXnJUBJpN91LozQp+kUHGjJcrXeO/L+Klh8df09WI2
-         pBPXgLkEH4GCJrpdof7UjM2W+tyKwTQDT8yG/9C7YJ4lxvnc7TI+EKMqMl3wgW68SH1G
-         rcF8si6xNS7uoVUOAxb3+Wkz/fZ2RvjVR4Olth4u8sR8IRO5LHQWi6dT5PEoTzoUyGc4
-         5S3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781163983; x=1781768783;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Lc700vchgjw3eA+L9PLOMFS3yoggGFBOrwECyM3kaKw=;
-        b=mUIfi8S2z6GAgzq3QOl8B6V4uDcI0THu02C0Aoz1Dt79aR9xgCs9hB4+FhnEU0y4fi
-         V/0ES3j7J0wwDgaf26NmCGBsBYHoWseSC8WfBsDV1dvdsP1TMggeAtmuozuVeM5KG+Jt
-         /EO7AftQNfpANsa3pJ96/mr7q7oBXRSOakqC9OlwRZKyiYHuCPP4LUlayUaNOSbDELfS
-         ovw7BExuQS9BRkqSDMCYjdwRNApMCKKNc0r+G/pjoVUMgfnWrisCqhVSccWrFAYGqdWX
-         ZjSJ4h6B8nOLEUHqZWI2sPxcslss4FtBCzdG2O6I9jWFUhXM7+YByPsYsGdkpLL0R75C
-         IpUQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+9dRazc8k36uU4RAP4Aljl7daJwDawP5xew8K2WJI471L77D/c4PyXjZfHBHrK7z0hKZw1HuDciqY3HBVw@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy+3Gillnmznzd6QLBKmPpTkx6+Uu6PaICfSyoM4MiN7s7GzUsk
-	KM5MlnH76yZ3nkOTQmbMq3Vy/dtB2fgGaFB6xiRzhH4rk+5GrhoTm+Yg
-X-Gm-Gg: Acq92OHvf+DkM+TIxAxMKfdUwXrUQidWeebuVhTbeELe1wmJHKSN/Yfbj1waDZT7zIn
-	WeNDYrMcf+/QnrZ9a9GTPXAn4aNgW10kE0ssdAiXz+pHV5MZ7+/FsiyQKnL7vMA0cO5Xgh51L/h
-	3KpR5nuF2/eo3LDGgmMI6ESSQCSbTApKCArZytz1Txxc4gOjgMdX2VEl+AtwDpDwf3g6eTSU10x
-	G8Umh05fBS1hJkcsSpIf3cFwCiN7vR1PVYRWmgz2Vd2poV+1bmso1sP4v+eXsxre08O/D4UCl+L
-	RjjaZSyTnTY2ozU5UkvKrwKpkj2nIDBGYFlxGFj9oSoZ4bfGFB8tBXzASbFWtsJjDaJ8mx7KwYm
-	a3nM698z49X8+oYp3tuV2/gjGSyZNOZJcY+Q0VgkA9AhtjStNcJPGZKjQShmxf7NmP5blpwKhsf
-	nNFCp+fCm6z8qO6DWL9MtovOCVG/qVE0qO5qfclg==
-X-Received: by 2002:a05:6a00:12c5:b0:82f:99c5:868d with SMTP id d2e1a72fcca58-84336a51af2mr1013368b3a.4.1781163983093;
-        Thu, 11 Jun 2026 00:46:23 -0700 (PDT)
-Received: from chenyou.. ([140.116.226.142])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84337b916cesm1318446b3a.8.2026.06.11.00.46.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jun 2026 00:46:22 -0700 (PDT)
-From: Chen-Yu Yeh <chenyou910331@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Andrei Khomenkov <khomenkov@mailbox.org>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Chen-Yu Yeh <chenyou910331@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: remove unused netdev format/arg macros
-Date: Thu, 11 Jun 2026 15:46:13 +0800
-Message-ID: <20260611074613.1550984-1-chenyou910331@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="TFULjtqb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1781164328; bh=td4MoN7K9s24ukzJBlhdtmKhHco6aekAK2zFbF5/+fw=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=TFULjtqbZH0RGcCnbEmifhQs7k0BiYdORaRYUTXe/mPCOQ+e0n/B+9znBBQYlQOfA/UvZfFfx9z27U6qc/puZsUJmi2K9PEphWTIWjVSduuugzi1uaUTa2jy/veslp7eNfnPv/sS5+2zhpeF9McklaxnXwGX1KJ+w1tGPtQXgZd73Litv4Xgnz7dlVMo91J1pAhAvvQ2o10SKNBSuUIWn9KmrviqghLtvi2NR1+/LgvyQcRDjHNT7u1+t+CN/fLuZx24j+74Jtjb/K9/GnvpgALoWKXsiRgGYd3+8J1G2o/yBd4eLb2utpKXn0oAOcYDnE9A2dXkoUX1UZ2+IDsAmA==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1781164328; bh=w4nbHAniWsPpZw3LTJfkzAqbqul4CyBdUhwuiMpbcJZ=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=bTpuW2bfHTRybMZLljNOmkBDWkndrnNPm87gpLqUX3v04j7nyGfwiCfzGVB9+E6dw+VhN+eeTEbEoZ31FJBobY6ndNHCBWcLVwb572571OzWOA9SKu+PD57SzeoHxaB3ZTMIeC4mWOuS8pGgVdeWqST4sSsHweenECzhSxHZm0jnjScDgookv836A+ME2swyYep+f6uEoam2kx8A3UBfX8Ud96QjyglnHs98ylFsA12f+5JQNYRS5HF1DbWzFQsg/v7LJ0tWv6L7fnvg4hwM9gqsfXEzWRzBU2jciOye0o5EG4+WGf6tK5bp6Ue2PTP91v+tTFakDr+4Cl4t2cN+7g==
+X-YMail-OSG: NQ25FvoVM1kus0RK0Sbd.m02M9JBeOVn0mkRwdvjJebtoet14qwW3rAK99g7z.R
+ LODd48Z3v4y_RgKl6AzItN.Zhpj_eRe.GGotwDTfJQkbpWSsFsJnRAK_gNft6X.3Pji5RNsn5tNX
+ 33XhFrrxrHuvhZ62g_AEUDkiOuBrfl_rILwVBjiuoh2nFjzN4sMkukASc6FJdKzkHvV_FLk5rcc3
+ r0LscfUBGDV4WTENpLSVd4TMqgBRbm545iSi43QtECHds9ZoXL2WhoDAjfbrKfCld0mwPWMJo0pD
+ KfhCMNMZM3gvAoKo3ekN1RS.dZ.GKNWUeOdmy4mfRpRuBBbuzLMdPHuf.80eKUpaKQL43g0IeUae
+ hJCmlo8o2ZvQO7TAvrwLu0ABMWWA1o_sY8NW05OMlAu.7LvDgjGOfsuAEMWoGJApErEG6JN7ycwj
+ 9TM.GA8zC3bwIQQdm2AZYxEb2kRTvDsbCtJDtYWRZHa0joi2362EFD5GVkkuGyEweJu.HHULV3bD
+ g7CpymfLuLqoxZDY_X6qdDEx0MP5PtPdgFnUmwuKEvBwICgJdOkSpsZA99pURp9cTMlNXbWEyJcj
+ Kt0jMF8b__2_qr.U.Zc76IUn7yKkJMsvDeYVlLXI2kPofGjX8jcTsBuHRZilqqwWwa_zr5spxUBY
+ FHmULrUNVUZci9EiuVxIEYqZ9ufAvGAkcHCimPim9Tl2TzgOPf5M8hyGwHv3yYOHkWUKfl7CXZu.
+ Tr0E9VRp9NVMjL8t1wdd3a3QjbUiqoA6It698htPbdeqB3J3WOVdlh4qvKW2vtps7ZHpYJcKvXSD
+ KJeVvNW1ShvWZgOxnadDOiIqBFNncnOl.e61WSYo4SXHUPSR1CzST7wBRDMGffzBXU9tpLqziEiG
+ VAP1qFhhbKNJxX_wuGHxFwQstxryXgxJJIMOkyGvOjX0qX8EdH9B5.NeD0iaVZKrqsLqZk3X4NCO
+ svxN4AGzruP37hzrdZmEZ.wb5DUfbF3jcAfhwl_2zp6pOv.k5AXUwZim4G2OQFyezMTYgT0MVmQh
+ Lz7DedyjM..a8GVs8DPfSTsporOtQ8n2EL0pyL0bN4l0BTmuWexGgyTj2d7Dj64FmuF_PVZO1cwl
+ 9L2bf9CeuEhhEEVeFlP5c8WUF9kysftcoJqgHORJlA0XmWs1bdJvXjYuCBkCKZ.ClKfyHkt_DeiY
+ LXB4jzpAohCBk3JtQOhWbf6pNvW7_DydDWpfN4r.u4KIDdoVMhyRtfJKoXUTXYd54Rfe2Tv5YuNE
+ DMegChmt6RFG.4tRqtcA3EpGWLj8vYHWU6QBtzOHut_2QFn5UMCo4JEvXhkWUto5gdQhb4yTq0Yf
+ UL0zXkHxppVn15BOOTm.hFSxoVy6.MqTudBcFR7EcGj2t7zbBuxM0b2Mew2f_1FrJ.8ob1oOnOuQ
+ k.mH8zzw5x9lb9Ww9ehHIcor1zE0ntBjnf9N9ln3yU8AiNCQVqtQtybMPwH3ldHS8j1SteLftgJo
+ N3hTUZuqMlU2Dr4iGCuKxleIPWKp3XEeruGfDaVrf9xBsKSlwGCR0wd9GhqWDrwjZMba4I8h_Z6d
+ Ff9EE8TUYU4dwmv4XaXWTJqGEfO2kV9tkdG8snp6StQAwhaH6m4d18En28yb6AL.rH8juK82rKS7
+ bkIYXfeSSBOe3ggLhtaYqHz0kPHKFgtaqq.JkCqEjctJJOolxwCvXkrG53XG9ayrJO9C_Gu8Pu3.
+ saUJbiljjYK8kkc_e.Ie5yyZv5fHyfGmKFAdXaX8cTNkxPHQ6buyKCdI8Sb5bBQTwtfzGjgrUhFk
+ _4ihdbfznmTFJrONa0OUx2MpPGLxILdjSEO5YJZGMOXXGeK1QZbRFxFlz_um6a1N6LzmLzYncf2Q
+ Y74NPP6WhD38RZZRIYe9XqMcW8tYfJoIFNa3mngfcQG0rMLOpeAgXpw0fC.n42x_KQlp5VXzQgvx
+ bP3Tqgz0JhbrbWCk57oM0JW2ZxGNgkDTtd9C4VGsgILmXN_GqkE7ypMenSMcsL6sc0dsh8j7I3YQ
+ d.vtqiR29k62CCOIhtpCXiDIVW1eOR0NDsb9xilCZuiht.USdWFVgAQdwTrSoMl7tVtrFk0hus8I
+ AwKUqIC7QLWSsFGQ-
+X-Sonic-MF: <tomasz.unger@yahoo.pl>
+X-Sonic-ID: d49a8197-82d0-45d2-b752-f7036781b8dc
+Received: from sonic.gate.mail.ne1.yahoo.com by mail-asdoutdeli-p-cin-euwe1-prod-sonicconsumer-svc-101 with HTTP; Thu, 11 Jun 2026 07:52:08 +0000
+Received: from dip97.lsn.ir2.yahoo.com ([87.248.99.106])
+          by hello (SMTP) with SMTP ID a80727083dd622cc70cfbd829a387288;
+          Thu, 11 Jun 2026 07:52:02 +0000 (UTC)
+From: Tomasz Unger <tomasz.unger@yahoo.pl>
+Date: Thu, 11 Jun 2026 09:53:40 +0200
+Subject: [PATCH] staging: fbtft: fix typo in comment in fb_upd161704.c
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260611-upd161704-typo-v1-1-2e51387c3b28@yahoo.pl>
+X-B4-Tracking: v=1; b=H4sIAINpKmoC/yXMwQ5EMBCA4VeROWsyY2mz+yriQA3GgaZFbMS7K
+ 47f4f8PCOyFA/ySAzxvEmSeIihNwA711LOSNhoyzDRqIrW6ljQZzNXyd7MyWHQfY1F/8wZi5Dx
+ 3sj/Dsnod1mZku9wXOM8LtD+0x3IAAAA=
+X-Change-ID: 20260611-upd161704-typo-705f37c0694b
+To: Andy Shevchenko <andy@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Tomasz Unger <tomasz.unger@yahoo.pl>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1781164428; l=1088;
+ i=tomasz.unger@yahoo.pl; s=20260611; h=from:subject:message-id;
+ bh=UbHzhBK5ueIVwUpYA1gmOCE4iKkRQO9gwwiEYBEwhF0=;
+ b=5NupvzPIJeYUQ1C5aeVNom+5T+wmKugKxc+uWGkSC4iwFuoigxDT4hvQkRj1gJDqI8qo9K35j
+ lS4i5MF2LqKA5ALnSITMr+XAwYQE5Vu3WRpldOcmVpRWwDq8ZDJskC5
+X-Developer-Key: i=tomasz.unger@yahoo.pl; a=ed25519;
+ pk=elW+gk1cZhyVAkPUfX4QaVHbxERM6w8ByGYxz0Rijl0=
+References: <20260611-upd161704-typo-v1-1-2e51387c3b28.ref@yahoo.pl>
 
-NDEV_ARG, FUNC_NDEV_FMT and FUNC_NDEV_ARG are defined but never
-used anywhere in the driver. Remove them.
+Fix spelling mistake found by codespell: "cencter" -> "center".
 
-This also fixes a checkpatch error:
-ERROR: Macros with complex values should be enclosed in parentheses
-
-Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
+Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
 ---
- drivers/staging/rtl8723bs/include/osdep_service_linux.h | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/staging/fbtft/fb_upd161704.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/osdep_service_linux.h b/drivers/staging/rtl8723bs/include/osdep_service_linux.h
-index 2ec54f9e1..c8274da94 100644
---- a/drivers/staging/rtl8723bs/include/osdep_service_linux.h
-+++ b/drivers/staging/rtl8723bs/include/osdep_service_linux.h
-@@ -98,10 +98,7 @@ static inline void rtw_netif_stop_queue(struct net_device *pnetdev)
+diff --git a/drivers/staging/fbtft/fb_upd161704.c b/drivers/staging/fbtft/fb_upd161704.c
+index c680160d6380..7288140e7c3e 100644
+--- a/drivers/staging/fbtft/fb_upd161704.c
++++ b/drivers/staging/fbtft/fb_upd161704.c
+@@ -67,7 +67,7 @@ static int init_display(struct fbtft_par *par)
+ 	write_reg(par, 0x001D, 0x0000);	/* Regulator current setting */
+ 	write_reg(par, 0x001E, 0x0009);	/* VCOM output setting */
+ 	write_reg(par, 0x001F, 0x0035);	/* VCOM amplitude setting */
+-	write_reg(par, 0x0020, 0x0015);	/* VCOMM cencter setting */
++	write_reg(par, 0x0020, 0x0015);	/* VCOMM center setting */
+ 	write_reg(par, 0x0018, 0x1E7B);	/* DC/DC operation setting */
  
- #define rtw_signal_process(pid, sig) kill_pid(find_vpid((pid)), (sig), 1)
- 
--#define NDEV_ARG(ndev) ndev->name
- #define ADPT_ARG(adapter) adapter->pnetdev->name
--#define FUNC_NDEV_FMT "%s(%s)"
--#define FUNC_NDEV_ARG(ndev) __func__, ndev->name
- #define FUNC_ADPT_FMT "%s(%s)"
- #define FUNC_ADPT_ARG(adapter) __func__, adapter->pnetdev->name
- 
--- 
-2.43.0
+ 	/* windows setting */
+
+---
+base-commit: 7cb1c5b32a2bfde961fff8d5204526b609bcb30a
+change-id: 20260611-upd161704-typo-705f37c0694b
+
+Best regards,
+--  
+Tomasz Unger <tomasz.unger@yahoo.pl>
 
