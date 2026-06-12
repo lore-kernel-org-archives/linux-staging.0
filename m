@@ -1,72 +1,63 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61B67392823;
-	Fri, 12 Jun 2026 10:32:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32B17405C49;
+	Fri, 12 Jun 2026 17:36:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781260357; cv=none; b=rEim+8iPvEzOPkYnHP3SRdE8MGAO68Ag/wODoce8UK9MwIV3q3QAMgQa8hi53SpxHI+6Qdlg7z/Tf+QDRL50Sao5B9N9f8fMYIFbqVJ0sXPS+cBHdKctVy0LB+P/vapn2yrq37DTCQitrZEJu/V8ZFLSapy87GM2HOL10tqt/d0=
+	t=1781285810; cv=none; b=PkH37G3HwbxlGGXadY4wxfkGMqd/J76V7sPkrbbQXbsIjpRMrIaEIe58FC4I8KsEI3QJ+lY/XFqYqz35uYSNZHnFZXNYUk/Wqxtmp0EJFhwvK3J3PITg4Y4DjKXCpp2KLmic03qsswQ/QuW0nszLwovv7Ty2gUTggkthG2UYB7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781260357; c=relaxed/simple;
-	bh=LajSKXqmtUElE0abaIQ3GY2Ux9Jzqn5ID/7CrH/wcRc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nA3920aVTSf4aPNXTSHLNGNiI5zm+vRkmTv59OlDI1MG1Z2VMUeUGOMSr3MZnZj6USro/qwZoybz3W5ZM+XQZU/2nXUqlAFqYZDootIYJGdP8MXxeMs2Lhc+Ox7SasAn8bTscNJ3sUF6HAnI5QLGmlHjKFwztaNj7aWHqpazgqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=UZ+DUFRo; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1781285810; c=relaxed/simple;
+	bh=BrgtXfkxQLSNZt77gRsyqr0LXeZ/R0Y2nwyBLyr/p2E=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=uqVcqtU2ndg+YHqGL2/FvrPK6PMqZDrp/FrfEWi9cdMvlGBa8YE3RIPp0DWdVygvuPe/v2KS3+82sVlqQO3NateROHT8NfdgMqVeajgagW9cC54lK4soxjjHJ5LVbDJqMURsQmCV23bUurpRPiq/anFkHephcW6LDrSyR6DBQ6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iGlB/C+y; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="UZ+DUFRo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EC2C1F000E9;
-	Fri, 12 Jun 2026 10:32:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1781260355;
-	bh=DllTiXMzKTcczGIE024Wmklpfvw3ggE38qKWycpgobo=;
-	h=Date:From:To:Cc:Subject;
-	b=UZ+DUFRolDv4G1piAbP/7mL5NiZQUxloOD78gBtAH2VAVrh2WSNbJUhMHJSRcvi1l
-	 jEzprIdcm9+6p4ssDFM6vmqzG8NxhsajEZvalyVYrmoo//DVNGHfgKYggc1lljTzp/
-	 3I/QrZ6ixUp9a2+2Cfl8K9f1cjmTUB2qAH/ndAVc=
-Date: Fri, 12 Jun 2026 12:31:34 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [GIT PULL] Staging driver fixes for 7.1-final
-Message-ID: <aivgBoLrgsWEiytO@kroah.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iGlB/C+y"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B0561F000E9;
+	Fri, 12 Jun 2026 17:36:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781285809;
+	bh=MWI8xID9Aihjk8Y/1Kb1qR2KdRTrfa14QhGts5r4NRQ=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc;
+	b=iGlB/C+yyD+QYQ+dAcREFKc7q2VOQEz1Y1O+J4Kwgf9axEM4pDvSwG0Cl3LY+rs3x
+	 4YTp5+Nl40Dxvv09HaFsII6xz2gUI/5nz2X9bkJOn9qxddYI4wsK8YWgZxNhozYiY3
+	 RyEOqMZ0GcRAH2+E91wyCYoxr3YWpcg8SnzdYv+INFGverC+V4xvr2Fpz0VsfS6hNL
+	 Pk/oC/nPhdRX6DvCQpp4Y0bpjVVwOYBp/NNy6Gf4cpvjKPi9b86TnhvlnmLyCPheQI
+	 Z660JKLsRVV91CQCjWxUl2j+9/vDHRvcVEKozhXFd61SMwvZQR+zmRUAf+HpZlh4lq
+	 h4tEpZBkRjxwQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 197CF39D1D32;
+	Fri, 12 Jun 2026 17:36:47 +0000 (UTC)
+Subject: Re: [GIT PULL] Staging driver fixes for 7.1-final
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <aivgBoLrgsWEiytO@kroah.com>
+References: <aivgBoLrgsWEiytO@kroah.com>
+X-PR-Tracked-List-Id: <linux-staging.lists.linux.dev>
+X-PR-Tracked-Message-Id: <aivgBoLrgsWEiytO@kroah.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-7.1-final
+X-PR-Tracked-Commit-Id: 88e994c57a79f62d5338231d8d37ee8dd98baffe
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: c133f0433ad78ef51b5b4d3d26ed1940236d71a2
+Message-Id: <178128580571.765808.9130742470996208836.pr-tracker-bot@kernel.org>
+Date: Fri, 12 Jun 2026 17:36:45 +0000
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-The following changes since commit 5d6919055dec134de3c40167a490f33c74c12581:
+The pull request you sent on Fri, 12 Jun 2026 12:31:34 +0200:
 
-  Linux 7.1-rc3 (2026-05-10 14:08:09 -0700)
+> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-7.1-final
 
-are available in the Git repository at:
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/c133f0433ad78ef51b5b4d3d26ed1940236d71a2
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-7.1-final
+Thank you!
 
-for you to fetch changes up to 88e994c57a79f62d5338231d8d37ee8dd98baffe:
-
-  staging: rtl8723bs: rtw_mlme: add bounds checks before ie_length subtraction (2026-05-21 12:43:22 +0200)
-
-----------------------------------------------------------------
-Staging driver fixes for 7.1-final
-
-Here are two small bugfixes for a staging driver to fix a
-much-reported issue.  The fixes are for the rtl8723bs driver and it's
-something that many scanning tools keep tripping over in convoluted ways
-(and seems to be able to be triggered by network traffic.)  These fixes
-have been in linux-next for many weeks with no reported issues, sorry
-for the delay in getting them to you.
-
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
-----------------------------------------------------------------
-Salman Alghamdi (2):
-      staging: rtl8723bs: fix buffer over-read in rtw_update_protection
-      staging: rtl8723bs: rtw_mlme: add bounds checks before ie_length subtraction
-
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 24 ++++++++++++++++++------
- 1 file changed, 18 insertions(+), 6 deletions(-)
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
