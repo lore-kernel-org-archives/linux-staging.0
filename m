@@ -1,120 +1,72 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84915377ED4
-	for <linux-staging@lists.linux.dev>; Fri, 12 Jun 2026 10:28:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61B67392823;
+	Fri, 12 Jun 2026 10:32:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781260134; cv=none; b=Y6zoL7n5mOtMDkbOgTC/m0vJQbE4LoL1vPVCyK3Qq5r1OrFbOrJr8DG0eZTRw3HKiPl/4wE3RLlqcyKg4aftdwvJW/ri1Ksq433cx3oaovhf5iyeB9kBN9TAoMgNqsSSqbGJazhi1JPCOptlqC5lfXqM66YZTBNt5/PzOMGrULw=
+	t=1781260357; cv=none; b=rEim+8iPvEzOPkYnHP3SRdE8MGAO68Ag/wODoce8UK9MwIV3q3QAMgQa8hi53SpxHI+6Qdlg7z/Tf+QDRL50Sao5B9N9f8fMYIFbqVJ0sXPS+cBHdKctVy0LB+P/vapn2yrq37DTCQitrZEJu/V8ZFLSapy87GM2HOL10tqt/d0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781260134; c=relaxed/simple;
-	bh=z9Jut3m/rYtCUjaUNxYmg9lKQg4PYgr8eraRy0BoJo8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SxYGmAflpi1bO2ktuMJvEFSB7Q2JIT7MhRPJ65PeDldTICHLW5O6J6l0qeIx/fR3TnfQlxMjfEHFvCgnW+NxjcGxRTNwtY1QTGSdgV1ZtvRldUUcknrq7l4wetNB75hTXyLUOEH2HjyINX+/r/o6kcYSVvVd1xknM0ufTjDydv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O6SKpM7g; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781260357; c=relaxed/simple;
+	bh=LajSKXqmtUElE0abaIQ3GY2Ux9Jzqn5ID/7CrH/wcRc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=nA3920aVTSf4aPNXTSHLNGNiI5zm+vRkmTv59OlDI1MG1Z2VMUeUGOMSr3MZnZj6USro/qwZoybz3W5ZM+XQZU/2nXUqlAFqYZDootIYJGdP8MXxeMs2Lhc+Ox7SasAn8bTscNJ3sUF6HAnI5QLGmlHjKFwztaNj7aWHqpazgqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=UZ+DUFRo; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O6SKpM7g"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-460662fcb4eso530096f8f.0
-        for <linux-staging@lists.linux.dev>; Fri, 12 Jun 2026 03:28:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781260132; x=1781864932; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=paFRyFcna5nwug9Jw0CJHTQ8tqucSs8QXW3t1V1ZnIg=;
-        b=O6SKpM7gOVB9jvWdxLq7fP1YED+K3VjagLZSKjn/n+26fDT9/EINZwNYqsTmC6prv7
-         j2cTcl+wFwKsnxEWcm9PpVadmRiWkIUn3FTgU8EkVfyn2ljXFRXF0xPuoJF1q0pTrDOa
-         RlTPIAKGxB2y4hTRDfZQ6iHpOhDA+SYoe3sRbLaCq1nJ3XooiCjKiiuYp9qmpkgiJe7G
-         GnX6qbIYDzvi7YfWnWJRB9CmVsL4LhKSHn9cQbVr24P21mblMm1ZqV7xDfIYcwL4OTDE
-         i982sEOKJsC2DseUnxPV9+Ei+jFaVfOSQnkyIpNazMBHNrSsTBCcrfupQ5rBX9gqUH/f
-         HBiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781260132; x=1781864932;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=paFRyFcna5nwug9Jw0CJHTQ8tqucSs8QXW3t1V1ZnIg=;
-        b=IShavWarUqJ1LlCFvpqa2wJzf7psQSTgekLJECTOydHL0YfrBb++TclXbbiBu9AnyA
-         3yh3AY7MsN48epqm5j61LVdGeRmU72H3ewg3HM4xNvweHOjBNZSNISfEu+3g3G4qUeWK
-         DIEBwHYQH2z+9CrHcvNuRXxTHVtjAbThrxf+YQehp/ZRX9jD1Pr2Cxkf7x5SCtHtBoST
-         43auL6keLV9PYZ0auf6HB7/kHy1yM3pyvQvaye18A2QPIZm7oEw+fFz8198oLu65BWdf
-         S9wrgQohFJAHuTWuG2n269rkdkiuHC4uRsABmLN5EoC0bgWBHne+yquChdJNBDkNyI/r
-         mrWg==
-X-Gm-Message-State: AOJu0YyUQNNdAVKgeVmKIOYkue9reBU8dNkJVxyQcry+xaqqFo81M/zw
-	MO8rwZEbZrpNnwc6Dym5t7Z0kATK1Ljq8GfdFJUu49WhdXl/Fya6mwkq
-X-Gm-Gg: Acq92OGDbgY7v36OI9wzxP0+63Gt7y/OIMMdzfse9ye0QRq2osAZxmUFAeFMnYMdKxi
-	v5zW7W+Ya3j801wDgeWX//XEYmF/h5YwQP8Rg7LVqnBh4ohWuB+D9c8IRwWdMr3bLmoKgqzvO5A
-	FSW4YP8WNoCqfqH/VQlRKCU9egcuhxC4KSYlWe8FD1M6bHcqlqKluyt2Stisop4w9X0s95j2RJW
-	afcF5idtGx8n7JVRNUBlJ+v8rw1wNJ8fJ3A37XMpdhSXxF4uUH4J0SuHKDDtOoKHfWp7hDJlddd
-	vl+CmnLwelhrEpbZdZujiGiq6W612rhbwifQlL0o63LmiMvqIUNO8YjRHB7NNBTOH3ukw9v/I+w
-	Xhjdrr2B+IsNd3/8YN1k7LQgQxUpJWQKxjwqyL/9vYWiKWIxzWW1ZjyTujS1PWOHZ239PsAEr4S
-	IV/uttx+OCf4BJYrdkSj/HhPZXVQ==
-X-Received: by 2002:a05:6000:2087:b0:45f:f142:d569 with SMTP id ffacd0b85a97d-4606db8dd7fmr2991148f8f.15.1781260131863;
-        Fri, 12 Jun 2026 03:28:51 -0700 (PDT)
-Received: from home.powerhub ([2a0a:ef40:30:7801:2655:7809:9974:b326])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f2637ccsm4358881f8f.6.2026.06.12.03.28.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jun 2026 03:28:51 -0700 (PDT)
-From: Quentin Strydom <qstrydom0@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	qstrydom0@gmail.com
-Subject: [PATCH v2 7/7] staging: rtl8723bs: hal: fix space-before-tab warnings in rtl8723bs_recv.c
-Date: Fri, 12 Jun 2026 11:28:34 +0100
-Message-ID: <20260612102834.39935-7-qstrydom0@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260612102834.39935-1-qstrydom0@gmail.com>
-References: <20260611162128.57870-1-qstrydom0@gmail.com>
- <20260612102834.39935-1-qstrydom0@gmail.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="UZ+DUFRo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EC2C1F000E9;
+	Fri, 12 Jun 2026 10:32:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1781260355;
+	bh=DllTiXMzKTcczGIE024Wmklpfvw3ggE38qKWycpgobo=;
+	h=Date:From:To:Cc:Subject;
+	b=UZ+DUFRolDv4G1piAbP/7mL5NiZQUxloOD78gBtAH2VAVrh2WSNbJUhMHJSRcvi1l
+	 jEzprIdcm9+6p4ssDFM6vmqzG8NxhsajEZvalyVYrmoo//DVNGHfgKYggc1lljTzp/
+	 3I/QrZ6ixUp9a2+2Cfl8K9f1cjmTUB2qAH/ndAVc=
+Date: Fri, 12 Jun 2026 12:31:34 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: [GIT PULL] Staging driver fixes for 7.1-final
+Message-ID: <aivgBoLrgsWEiytO@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Remove spaces before tabs in comments to match kernel coding style.
+The following changes since commit 5d6919055dec134de3c40167a490f33c74c12581:
 
-Signed-off-by: Quentin Strydom <qstrydom0@gmail.com>
----
-v2:
- - Rebased onto staging-next as requested
+  Linux 7.1-rc3 (2026-05-10 14:08:09 -0700)
 
- drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+are available in the Git repository at:
 
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c
-index 97dce28fd0a3..e943c304950e 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c
-@@ -267,9 +267,9 @@ static void rtl8723bs_recv_tasklet(struct tasklet_struct *t)
- 				rtw_free_recvframe(precvframe,
- 						   &precvpriv->free_recv_queue);
- 			} else {
--				/* 	Modified by Albert 20101213 */
--				/* 	For 8 bytes IP header alignment. */
--				if (pattrib->qos)	/* 	Qos data, wireless lan header length is 26 */
-+				/*	Modified by Albert 20101213 */
-+				/*	For 8 bytes IP header alignment. */
-+				if (pattrib->qos)	/*	Qos data, wireless lan header length is 26 */
- 					shift_sz = 6;
- 				else
- 					shift_sz = 0;
-@@ -285,8 +285,8 @@ static void rtl8723bs_recv_tasklet(struct tasklet_struct *t)
- 						alloc_sz = skb_len + 14;
- 				} else {
- 					alloc_sz = skb_len;
--					/* 	6 is for IP header 8 bytes alignment in QoS packet case. */
--					/* 	8 is for skb->data 4 bytes alignment. */
-+					/*	6 is for IP header 8 bytes alignment in QoS packet case. */
-+					/*	8 is for skb->data 4 bytes alignment. */
- 					alloc_sz += 14;
- 				}
- 
--- 
-2.43.0
+  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-7.1-final
 
+for you to fetch changes up to 88e994c57a79f62d5338231d8d37ee8dd98baffe:
+
+  staging: rtl8723bs: rtw_mlme: add bounds checks before ie_length subtraction (2026-05-21 12:43:22 +0200)
+
+----------------------------------------------------------------
+Staging driver fixes for 7.1-final
+
+Here are two small bugfixes for a staging driver to fix a
+much-reported issue.  The fixes are for the rtl8723bs driver and it's
+something that many scanning tools keep tripping over in convoluted ways
+(and seems to be able to be triggered by network traffic.)  These fixes
+have been in linux-next for many weeks with no reported issues, sorry
+for the delay in getting them to you.
+
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+----------------------------------------------------------------
+Salman Alghamdi (2):
+      staging: rtl8723bs: fix buffer over-read in rtw_update_protection
+      staging: rtl8723bs: rtw_mlme: add bounds checks before ie_length subtraction
+
+ drivers/staging/rtl8723bs/core/rtw_mlme.c | 24 ++++++++++++++++++------
+ 1 file changed, 18 insertions(+), 6 deletions(-)
