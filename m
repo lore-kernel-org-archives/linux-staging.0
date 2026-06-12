@@ -1,70 +1,70 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46E0D3B1002
-	for <linux-staging@lists.linux.dev>; Fri, 12 Jun 2026 10:28:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84915377ED4
+	for <linux-staging@lists.linux.dev>; Fri, 12 Jun 2026 10:28:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781260133; cv=none; b=b6XozgLhjxEXs8ju3Vyq+/eZSp6IuOGC/+vPc2+GSKOKYNHGNxURRcRmAjxo1pj9RXF287pYESAb9grkeRqaIxrGkuMTxqBWOOtiX3z/eIiQEp/qZ1VuUTuSOYT6Ba1nu4KySfLlx2ao7o8fIOowEnOXDN1FgTlAXg3/Zowq8pg=
+	t=1781260134; cv=none; b=Y6zoL7n5mOtMDkbOgTC/m0vJQbE4LoL1vPVCyK3Qq5r1OrFbOrJr8DG0eZTRw3HKiPl/4wE3RLlqcyKg4aftdwvJW/ri1Ksq433cx3oaovhf5iyeB9kBN9TAoMgNqsSSqbGJazhi1JPCOptlqC5lfXqM66YZTBNt5/PzOMGrULw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781260133; c=relaxed/simple;
-	bh=Yw/YUvA12OO6VgsUOBveji1XvSY+TJjyKNA0wWqXmuw=;
+	s=arc-20240116; t=1781260134; c=relaxed/simple;
+	bh=z9Jut3m/rYtCUjaUNxYmg9lKQg4PYgr8eraRy0BoJo8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WUTb2yQkW4mL5J5xBwRrIrRapkvxU5ofTNlNGwqkUQ6roqtbFls+B/g2rEAiI45K9NnifqUSsOqfMrP7bd9UD5fFG+K2rQA0OhLNhXmnG/xJWYbGC/s+XrFNpxu9dUkaB3pXeMipVUopRPguAOBmLYhsJPSQg/Ri4jYHMChmXjA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h6+rRSb7; arc=none smtp.client-ip=209.85.128.50
+	 MIME-Version; b=SxYGmAflpi1bO2ktuMJvEFSB7Q2JIT7MhRPJ65PeDldTICHLW5O6J6l0qeIx/fR3TnfQlxMjfEHFvCgnW+NxjcGxRTNwtY1QTGSdgV1ZtvRldUUcknrq7l4wetNB75hTXyLUOEH2HjyINX+/r/o6kcYSVvVd1xknM0ufTjDydv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O6SKpM7g; arc=none smtp.client-ip=209.85.221.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h6+rRSb7"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-490b2b037d2so6778985e9.3
-        for <linux-staging@lists.linux.dev>; Fri, 12 Jun 2026 03:28:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O6SKpM7g"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-460662fcb4eso530096f8f.0
+        for <linux-staging@lists.linux.dev>; Fri, 12 Jun 2026 03:28:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781260131; x=1781864931; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1781260132; x=1781864932; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=NPwrd8AEEJpLpPiii7ZXmqLDlDGZgWRUjRrU+6a2tH0=;
-        b=h6+rRSb7L/k743DuScPbVhUTnrpDWA8UJnk4yjfEUyawlXf3KPnsrbCMl4SCwv8TRX
-         coFgoteZXxDShC/QZUa3EjOotxUQxL5N9ZLmxM77D4jgefJmRM/nkNjsJHusoHzLfCrP
-         fEq6TiwTpTOFCKoYn+CLAHLfGVc0Fl7uSq2y/4sR1TRHK6slTvfNJAJRl8ynkOozvvUj
-         Nbjsi48wsp3c9JqoTJ+larwbY3cZb+mrID7qZ6x30A463IkQxbiuADrVbbgWG0kAuAbV
-         IwnDAlhCJizr/Q97+d8UaO53IvNsqH9xkUz0ZFUXe8AMlXlVk9CnxThZA7HfUvQef1Xf
-         ja8Q==
+        bh=paFRyFcna5nwug9Jw0CJHTQ8tqucSs8QXW3t1V1ZnIg=;
+        b=O6SKpM7gOVB9jvWdxLq7fP1YED+K3VjagLZSKjn/n+26fDT9/EINZwNYqsTmC6prv7
+         j2cTcl+wFwKsnxEWcm9PpVadmRiWkIUn3FTgU8EkVfyn2ljXFRXF0xPuoJF1q0pTrDOa
+         RlTPIAKGxB2y4hTRDfZQ6iHpOhDA+SYoe3sRbLaCq1nJ3XooiCjKiiuYp9qmpkgiJe7G
+         GnX6qbIYDzvi7YfWnWJRB9CmVsL4LhKSHn9cQbVr24P21mblMm1ZqV7xDfIYcwL4OTDE
+         i982sEOKJsC2DseUnxPV9+Ei+jFaVfOSQnkyIpNazMBHNrSsTBCcrfupQ5rBX9gqUH/f
+         HBiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781260131; x=1781864931;
+        d=1e100.net; s=20251104; t=1781260132; x=1781864932;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=NPwrd8AEEJpLpPiii7ZXmqLDlDGZgWRUjRrU+6a2tH0=;
-        b=U75n26Va/ci6s7ZMGtdnqnlNNjh4rWzkeqrFV+D7E8RWVVM8Lc+ovIIyCUOcHiaKO1
-         0FIXMDiEbVFr9ecOwFAGfoJ/4vANL1gBQullQjSES3+941f7rXSS0k0a4tW7MVJSis28
-         bcoPoUZOA4egS8k/602i7biprHTVg+zbaJPeATyr4VSjRmMu3RJhAoIQp1W1oAuixVqn
-         NIHcjGZq10j4VOawnLzsvP4UYLRVD92FoIWdT90Zb/B7cHING6V72oieKH/udwHjpuXq
-         4CWilvaOIiLoqMR/PNCoFx5P3yCmrJ7QtFnf0wove9FmUYDOdpwCBGaSfRoQ91T6c6E2
-         4DMw==
-X-Gm-Message-State: AOJu0YzKUYoFK7PFU+aMjp9iKi18yBuvB7k5XDNJazdGpBJHgCIxbR0u
-	k6lvM7BW/AABRRPPW+siM86kUGGuqRquoy5k9O181iXW760BvOycRORD
-X-Gm-Gg: Acq92OHD0j64MbtYqgJqdHMvIKXOs7rZBlpL1HGuyBBLgLtN9gYwPJ1a69rUNh0XM1v
-	geqKZXL9nNx5LI5RQKt4N9HhcKjCyLXPGwBNOMpMxRHGdVHHYD7wjomc6TQHIwuAKx1Q0Q/aP2v
-	+RO+U4YlSOdDF5Ktwz9oEYlcPYmslsXnKPpbklAb3rPiaf8occg/u/2tyuS4gvhQrug0UofsPLr
-	Bz/ax/y8wnAN5uYZOQhrdpLBoOjVvvxKmx0Vrab205n61tgHE+80Nigg8z1chDERurK6DYlgJV9
-	iOIK+E09MJaEFVW/UKUijwoM+Pcaa0KiT5gfc3ghVwv0H1pDRdQzEm5NkgaC/6hmBjrcvugq1Qm
-	r031WG7Skjll9SFpyyifUEj735Vpn7pMmqvDOkLiqtFh/91Oi0Y0zKnT0h/8SoR78hf1CdWEBaB
-	7PX0VY8rS7wBX2c8CBtaTixtiLbDudKw7oBYM4
-X-Received: by 2002:a05:600d:8497:10b0:490:b8c0:d46a with SMTP id 5b1f17b1804b1-490ec5031dbmr18854455e9.22.1781260130738;
-        Fri, 12 Jun 2026 03:28:50 -0700 (PDT)
+        bh=paFRyFcna5nwug9Jw0CJHTQ8tqucSs8QXW3t1V1ZnIg=;
+        b=IShavWarUqJ1LlCFvpqa2wJzf7psQSTgekLJECTOydHL0YfrBb++TclXbbiBu9AnyA
+         3yh3AY7MsN48epqm5j61LVdGeRmU72H3ewg3HM4xNvweHOjBNZSNISfEu+3g3G4qUeWK
+         DIEBwHYQH2z+9CrHcvNuRXxTHVtjAbThrxf+YQehp/ZRX9jD1Pr2Cxkf7x5SCtHtBoST
+         43auL6keLV9PYZ0auf6HB7/kHy1yM3pyvQvaye18A2QPIZm7oEw+fFz8198oLu65BWdf
+         S9wrgQohFJAHuTWuG2n269rkdkiuHC4uRsABmLN5EoC0bgWBHne+yquChdJNBDkNyI/r
+         mrWg==
+X-Gm-Message-State: AOJu0YyUQNNdAVKgeVmKIOYkue9reBU8dNkJVxyQcry+xaqqFo81M/zw
+	MO8rwZEbZrpNnwc6Dym5t7Z0kATK1Ljq8GfdFJUu49WhdXl/Fya6mwkq
+X-Gm-Gg: Acq92OGDbgY7v36OI9wzxP0+63Gt7y/OIMMdzfse9ye0QRq2osAZxmUFAeFMnYMdKxi
+	v5zW7W+Ya3j801wDgeWX//XEYmF/h5YwQP8Rg7LVqnBh4ohWuB+D9c8IRwWdMr3bLmoKgqzvO5A
+	FSW4YP8WNoCqfqH/VQlRKCU9egcuhxC4KSYlWe8FD1M6bHcqlqKluyt2Stisop4w9X0s95j2RJW
+	afcF5idtGx8n7JVRNUBlJ+v8rw1wNJ8fJ3A37XMpdhSXxF4uUH4J0SuHKDDtOoKHfWp7hDJlddd
+	vl+CmnLwelhrEpbZdZujiGiq6W612rhbwifQlL0o63LmiMvqIUNO8YjRHB7NNBTOH3ukw9v/I+w
+	Xhjdrr2B+IsNd3/8YN1k7LQgQxUpJWQKxjwqyL/9vYWiKWIxzWW1ZjyTujS1PWOHZ239PsAEr4S
+	IV/uttx+OCf4BJYrdkSj/HhPZXVQ==
+X-Received: by 2002:a05:6000:2087:b0:45f:f142:d569 with SMTP id ffacd0b85a97d-4606db8dd7fmr2991148f8f.15.1781260131863;
+        Fri, 12 Jun 2026 03:28:51 -0700 (PDT)
 Received: from home.powerhub ([2a0a:ef40:30:7801:2655:7809:9974:b326])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f2637ccsm4358881f8f.6.2026.06.12.03.28.50
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f2637ccsm4358881f8f.6.2026.06.12.03.28.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jun 2026 03:28:50 -0700 (PDT)
+        Fri, 12 Jun 2026 03:28:51 -0700 (PDT)
 From: Quentin Strydom <qstrydom0@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	qstrydom0@gmail.com
-Subject: [PATCH v2 6/7] staging: rtl8723bs: hal: fix space-before-tab warnings in rtl8723b_hal_init.c
-Date: Fri, 12 Jun 2026 11:28:33 +0100
-Message-ID: <20260612102834.39935-6-qstrydom0@gmail.com>
+Subject: [PATCH v2 7/7] staging: rtl8723bs: hal: fix space-before-tab warnings in rtl8723bs_recv.c
+Date: Fri, 12 Jun 2026 11:28:34 +0100
+Message-ID: <20260612102834.39935-7-qstrydom0@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260612102834.39935-1-qstrydom0@gmail.com>
 References: <20260611162128.57870-1-qstrydom0@gmail.com>
@@ -84,62 +84,37 @@ Signed-off-by: Quentin Strydom <qstrydom0@gmail.com>
 v2:
  - Rebased onto staging-next as requested
 
- drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-index bcaf63b2893c..a71d44484905 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-@@ -283,8 +283,8 @@ void rtl8723b_FirmwareSelfReset(struct adapter *padapter)
- }
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c
+index 97dce28fd0a3..e943c304950e 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c
+@@ -267,9 +267,9 @@ static void rtl8723bs_recv_tasklet(struct tasklet_struct *t)
+ 				rtw_free_recvframe(precvframe,
+ 						   &precvpriv->free_recv_queue);
+ 			} else {
+-				/* 	Modified by Albert 20101213 */
+-				/* 	For 8 bytes IP header alignment. */
+-				if (pattrib->qos)	/* 	Qos data, wireless lan header length is 26 */
++				/*	Modified by Albert 20101213 */
++				/*	For 8 bytes IP header alignment. */
++				if (pattrib->qos)	/*	Qos data, wireless lan header length is 26 */
+ 					shift_sz = 6;
+ 				else
+ 					shift_sz = 0;
+@@ -285,8 +285,8 @@ static void rtl8723bs_recv_tasklet(struct tasklet_struct *t)
+ 						alloc_sz = skb_len + 14;
+ 				} else {
+ 					alloc_sz = skb_len;
+-					/* 	6 is for IP header 8 bytes alignment in QoS packet case. */
+-					/* 	8 is for skb->data 4 bytes alignment. */
++					/*	6 is for IP header 8 bytes alignment in QoS packet case. */
++					/*	8 is for skb->data 4 bytes alignment. */
+ 					alloc_sz += 14;
+ 				}
  
- /*  */
--/* 	Description: */
--/* 		Download 8192C firmware code. */
-+/*	Description: */
-+/*		Download 8192C firmware code. */
- /*  */
- /*  */
- s32 rtl8723b_FirmwareDownload(struct adapter *padapter, bool  bUsedWoWLANFw)
-@@ -437,7 +437,7 @@ void rtl8723b_InitializeFirmwareVars(struct adapter *padapter)
- }
- 
- /*  */
--/* 				Efuse related code */
-+/*				Efuse related code */
- /*  */
- static u8 hal_EfuseSwitchToBank(
- 	struct adapter *padapter, u8 bank
-@@ -1310,7 +1310,7 @@ void Hal_EfuseParseTxPowerInfo_8723B(
- {
- 	struct hal_com_data	*pHalData = GET_HAL_DATA(padapter);
- 	struct TxPowerInfo24G	pwrInfo24G;
--	u8 	rfPath, ch, TxCount = 1;
-+	u8	rfPath, ch, TxCount = 1;
- 
- 	Hal_ReadPowerValueFromPROM_8723B(padapter, &pwrInfo24G, PROMContent, AutoLoadFail);
- 	for (rfPath = 0 ; rfPath < MAX_RF_PATH ; rfPath++) {
-@@ -1834,8 +1834,8 @@ void rtl8723b_update_txdesc(struct xmit_frame *pxmitframe, u8 *pbuf)
- 
- /*  */
- /*  Description: In normal chip, we should send some packet to Hw which will be used by Fw */
--/* 			in FW LPS mode. The function is to fill the Tx descriptor of this packets, then */
--/* 			Fw can tell Hw to send these packet derectly. */
-+/*			in FW LPS mode. The function is to fill the Tx descriptor of this packets, then */
-+/*			Fw can tell Hw to send these packet derectly. */
- /*  Added by tynli. 2009.10.15. */
- /*  */
- /* type1:pspoll, type2:null */
-@@ -2246,7 +2246,7 @@ s32 c2h_handler_8723b(struct adapter *padapter, u8 *buf)
- 
- 	/*  Clear event to notify FW we have read the command. */
- 	/*  Note: */
--	/* 	If this field isn't clear, the FW won't update the next command message. */
-+	/*	If this field isn't clear, the FW won't update the next command message. */
- /* 	rtw_write8(padapter, REG_C2HEVT_CLEAR, C2H_EVT_HOST_CLOSE); */
- exit:
- 	return ret;
 -- 
 2.43.0
 
