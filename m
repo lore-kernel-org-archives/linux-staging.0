@@ -1,154 +1,147 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FC293126D7
-	for <linux-staging@lists.linux.dev>; Sat, 13 Jun 2026 01:50:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45804352036;
+	Sat, 13 Jun 2026 03:23:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781315405; cv=none; b=RI9wjbl9qiPhyJZA8OxfILley+5b1kvlE4GxGYSiAbfgkod4IcSNjptzn6dDwLB6H/RTcjHLEXV7VC8iq3EjfqGOyLWiafqSbRj7/RAJyRg1MCBEqzG8PnyIESBlLLvH8qZlhLcsEYOrUE+FfbqA4OOHXVMqotKgGE7OVe1Cj6s=
+	t=1781320999; cv=none; b=TnuFDD+Bss77wH+6hrbHGEx0/5A9mHn8j+RoHeiDcsyeeqtxxQ5ItAdKyjClv/xriryakEGHYo+F046jywJ0QZLkLYgcmoA82Tymu7PmS5d1yUM3JHDnoBm9KLKIL6WtCMqt03DwoJ+Pk/3gSMYecjjTaZq73H8jnGIhYMRxV8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781315405; c=relaxed/simple;
-	bh=2Woh6FChjTfvhDIM77iBJMo9iKET98W88YfAX52Le1k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VtDEVDzk8rmoGgtxT/KPznxJ77vijm0yt9+iDPsqO4zIejnluiSGIeYugF3aT2vtWBipsAyh+Irf/U9i6kI7awQ3SkYnocl1n8MAWIM2WEAISBUrKRsZmuQM6fe6iYAaGMp0nVtu/cV0crHeV5cp/YBOU34kwh1MjRRM/3zwCYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pznrxNqt; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781320999; c=relaxed/simple;
+	bh=VIeCqJULNXjQC0PwezokR1+7ONIXNJgl/fmXqrs+RTg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=c3bzAX9fezzSNK1ezqrIYaLvxIdKrU3hwm7eAa/eXN/PlikGKHlyKxA3aTi0UWsMzbRFbc/AKXcpT/sQa/OGNwtQstkHCEq6sLF7cwCekuWUtpx2UUPqFYiKFpoLlRtE/jpV52H8e6HwQ5Hkl4Xp9WYA7lT/EIlJ+rn7chLtWiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OdGLYqee; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pznrxNqt"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-842848fd613so1561800b3a.3
-        for <linux-staging@lists.linux.dev>; Fri, 12 Jun 2026 18:50:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781315403; x=1781920203; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=t37aJaEtFHDIlL04HCphJkfdvq0+XVtQ1GXGJFYW14U=;
-        b=pznrxNqtH+a7ZZ2NS2OWn+wWj2e0XoaP17+nolTNfy3wEyWLYUE/W3FhZSwv7EH3aI
-         H1Wlerk/30A8N8NkmJmT7yBp7tx4JJqCmjeCerZkK5vsfYO3SuhJQXKjKslMHwvEv6kw
-         YoyeN9c48PrcuSuFDsfOw0wA6mSAF1/yayFgqvFlHMvHVAzH46O2GAnrwPYy7Dggo9oo
-         iOEDuFUlezHBfeJs8jeAo8fFz8PYG8S73L92BwkJr5Ck3b6Y1oddLsy5nvNppCQPDgkE
-         i/ZSk43E8WGjN4Q1x6dKhsynybULcez5eUOCbhFYtYxwZNsF/nAGcNz3z8Wwsg70xnOL
-         af8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781315403; x=1781920203;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=t37aJaEtFHDIlL04HCphJkfdvq0+XVtQ1GXGJFYW14U=;
-        b=ZssYsuFuGg6FQhiRvRzVUs+z8DQD4NPl6/Frejf91E3uRTIQie34aLB5VF44SDnBFt
-         Q7a7IfP1tIGxr6wZTExILiK6ju7LjwMOzDcC7SRTeTv5bS53Pboq/Ln10szLRZFRE8+k
-         IV0pu50La4fWwfr9wqDa06urxCbG5XPwUgTAnFJW5kxrALA+D2zs9gx1Qse7pzErFY91
-         Xavh6ccr9Zai2xeHa71sY6xceg24hYrpl0ulxreONqalcaU8PJYSMPbIA/H2eEQFLzGE
-         LyzkOKNrzbdLoO51ePOuSrVTc4fJv32yD3boP2DOwd7HK0SsJh/iKKsrw+F71X40/67t
-         rK1w==
-X-Forwarded-Encrypted: i=1; AFNElJ8m/LLqCCYI3xnD7wLpN6hZjNJoWVF5HCp259AnAv9vTxom8uljV40izFTqx6ZkyQpeHQgSc72WYMmUlDwD@lists.linux.dev
-X-Gm-Message-State: AOJu0YzQ+2FMm5qY+wG2QG+gzkRSLn08MzlYZb7v02v3cVT0DOu+M1J+
-	VQ3Gz41+BeXMh76fjaMF4XZ6MOd/S0+5n1D7JdpJLVM+0z2cp9g4GPIW
-X-Gm-Gg: Acq92OHcsSGEIRlnMLWyz0FSFnTgrWxBb6PNPbqDDVl0aAvq8KCCN3NCKYoSdvVZdwd
-	KdGmMtsCbdHQIFFIK7Vm8yNqqVKFYNsGW3bE+Ey5Qta/23HtSmtX0zsZU2Oc0fr0lKmlktCMank
-	4buMiqITrnePRc0VBlvb2AixkiY2fsaicT9UOyOASJDauniPeiPEyl+TfNwVi0KlNKOFo66Np08
-	Qy6N+G+vZ8bmzLBuMxIhd/zaDfaKWhnIhZTyBAjRp7Eu7/fmTFfs4YndQijar0hdxWlzWfSlLUV
-	B4mh7kLLxuyTFBtiN7ow+/edK3QaWoLkgurHYOMXpwHG7cu1O+dVi2CoIwTrbK1D+YWe1bM+h0t
-	LXvZvVKROlXQKLOsU3W5nLbWPp8+LGRuEe/XfK9Ta4/9E3tybDcOzoPFAaCq9sHLO5OAsrT1ETl
-	W8BLgHyw+HF1ygIn9EctjPus/Txg==
-X-Received: by 2002:a05:6a00:39a9:b0:836:3f6a:3e7a with SMTP id d2e1a72fcca58-8434d07b973mr5705482b3a.26.1781315403315;
-        Fri, 12 Jun 2026 18:50:03 -0700 (PDT)
-Received: from localhost.localdomain ([2604:3d08:2474:4800::857b])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8434acf23a7sm3336210b3a.22.2026.06.12.18.50.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jun 2026 18:50:02 -0700 (PDT)
-From: Brock Haftner <brockhaftner@gmail.com>
-To: Vaibhav Agarwal <vaibhav.sr@gmail.com>,
-	Mark Greer <mgreer@animalcreek.com>,
-	Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	outreachy@lists.linux.dev
-Cc: greybus-dev@lists.linaro.org,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OdGLYqee"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781320998; x=1812856998;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=VIeCqJULNXjQC0PwezokR1+7ONIXNJgl/fmXqrs+RTg=;
+  b=OdGLYqeeAyElMXG68iqpRP6zRXXntlBan1XCUyKD2uHdoOpc6IsqfRHE
+   JDL8dNscRvdhtlaUDHUJXr4V9iFqfzKfITCsU+67EGcMynAdavK3ZkF1x
+   /zUppQGqklt0wNn+e8zc5Vpc5gfCDSd15XCDNfuzF3hMV5cV4Q61fpReE
+   DfpA15U5qUYxZW2bl5Op2fFecxeUx/wiHwXAARvvUQ/Koeb35Pk66cDgp
+   m+wVlJBlwiWEHXcMl4G8OAUNuxV9aUoUASnq0cn0tNsEAft9+p2LNBHeW
+   ETpZ2t59gfcpYFqDJ0kKEFgkoZwm+c4ffSg0Uakix5EtM2VrQiev2Zvx5
+   g==;
+X-CSE-ConnectionGUID: bUu/bINDS8mrSr6Sw5s/TQ==
+X-CSE-MsgGUID: 8tNmTSYvRVaeEhXj1pBbBg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11815"; a="85786899"
+X-IronPort-AV: E=Sophos;i="6.24,201,1774335600"; 
+   d="scan'208";a="85786899"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2026 20:23:18 -0700
+X-CSE-ConnectionGUID: xoJYbXBNRFKJWFaWBnxHOA==
+X-CSE-MsgGUID: mjsf5w3CQ2mWiOM7nR7lGA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,201,1774335600"; 
+   d="scan'208";a="270651185"
+Received: from igk-lkp-server01.igk.intel.com (HELO 892db79562d4) ([10.211.93.152])
+  by fmviesa002.fm.intel.com with ESMTP; 12 Jun 2026 20:23:16 -0700
+Received: from kbuild by 892db79562d4 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wYExm-000000004Pt-07dF;
+	Sat, 13 Jun 2026 03:23:14 +0000
+Date: Sat, 13 Jun 2026 05:22:18 +0200
+From: kernel test robot <lkp@intel.com>
+To: Gabriel Ramos Barbosa Mota <maguraa53@gmail.com>,
+	gregkh@linuxfoundation.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Brock Haftner <brockhaftner@gmail.com>
-Subject: [PATCH] staging: greybus: audio: add missing newline to sysfs_emit formats
-Date: Fri, 12 Jun 2026 18:49:05 -0700
-Message-ID: <20260613014905.48458-1-brockhaftner@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	Gabriel Ramos Barbosa Mota <maguraa53@gmail.com>
+Subject: Re: [PATCH] staging: vme_user: remove obsolete VMEbus driver
+Message-ID: <202606130547.TsvyPMvB-lkp@intel.com>
+References: <20260612193729.579790-1-maguraa53@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260612193729.579790-1-maguraa53@gmail.com>
 
-The sysfs_emit() function is used to format strings that are returned
-to userspace. According to the sysfs documentation, these outputs
-should include a newline character for visual clarity.
+Hi Gabriel,
 
-Fix the checkpatch.pl warnings by adding the missing '\n' to the
-sysfs_emit() format strings inside several functions.
+kernel test robot noticed the following build errors:
 
-Signed-off-by: Brock Haftner <brockhaftner@gmail.com>
----
- drivers/staging/greybus/audio_manager_module.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+[auto build test ERROR on char-misc/char-misc-testing]
+[also build test ERROR on char-misc/char-misc-next char-misc/char-misc-linus staging/staging-linus linus/master v7.1-rc7]
+[cannot apply to staging/staging-testing staging/staging-next next-20260612]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/drivers/staging/greybus/audio_manager_module.c b/drivers/staging/greybus/audio_manager_module.c
-index dc90cc2d2308..5737f2a32f5a 100644
---- a/drivers/staging/greybus/audio_manager_module.c
-+++ b/drivers/staging/greybus/audio_manager_module.c
-@@ -75,7 +75,7 @@ static void gb_audio_module_release(struct kobject *kobj)
- static ssize_t gb_audio_module_name_show(struct gb_audio_manager_module *module,
- 					 struct gb_audio_manager_module_attribute *attr, char *buf)
- {
--	return sysfs_emit(buf, "%s", module->desc.name);
-+	return sysfs_emit(buf, "%s\n", module->desc.name);
- }
- 
- static struct gb_audio_manager_module_attribute gb_audio_module_name_attribute =
-@@ -84,7 +84,7 @@ static struct gb_audio_manager_module_attribute gb_audio_module_name_attribute =
- static ssize_t gb_audio_module_vid_show(struct gb_audio_manager_module *module,
- 					struct gb_audio_manager_module_attribute *attr, char *buf)
- {
--	return sysfs_emit(buf, "%d", module->desc.vid);
-+	return sysfs_emit(buf, "%d\n", module->desc.vid);
- }
- 
- static struct gb_audio_manager_module_attribute gb_audio_module_vid_attribute =
-@@ -93,7 +93,7 @@ static struct gb_audio_manager_module_attribute gb_audio_module_vid_attribute =
- static ssize_t gb_audio_module_pid_show(struct gb_audio_manager_module *module,
- 					struct gb_audio_manager_module_attribute *attr, char *buf)
- {
--	return sysfs_emit(buf, "%d", module->desc.pid);
-+	return sysfs_emit(buf, "%d\n", module->desc.pid);
- }
- 
- static struct gb_audio_manager_module_attribute gb_audio_module_pid_attribute =
-@@ -103,7 +103,7 @@ static ssize_t gb_audio_module_intf_id_show(struct gb_audio_manager_module *modu
- 					    struct gb_audio_manager_module_attribute *attr,
- 					    char *buf)
- {
--	return sysfs_emit(buf, "%d", module->desc.intf_id);
-+	return sysfs_emit(buf, "%d\n", module->desc.intf_id);
- }
- 
- static struct gb_audio_manager_module_attribute
-@@ -114,7 +114,7 @@ static ssize_t gb_audio_module_ip_devices_show(struct gb_audio_manager_module *m
- 					       struct gb_audio_manager_module_attribute *attr,
- 					       char *buf)
- {
--	return sysfs_emit(buf, "0x%X", module->desc.ip_devices);
-+	return sysfs_emit(buf, "0x%X\n", module->desc.ip_devices);
- }
- 
- static struct gb_audio_manager_module_attribute
-@@ -125,7 +125,7 @@ static ssize_t gb_audio_module_op_devices_show(struct gb_audio_manager_module *m
- 					       struct gb_audio_manager_module_attribute *attr,
- 					       char *buf)
- {
--	return sysfs_emit(buf, "0x%X", module->desc.op_devices);
-+	return sysfs_emit(buf, "0x%X\n", module->desc.op_devices);
- }
- 
- static struct gb_audio_manager_module_attribute
--- 
-2.54.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Gabriel-Ramos-Barbosa-Mota/staging-vme_user-remove-obsolete-VMEbus-driver/20260613-034236
+base:   char-misc/char-misc-testing
+patch link:    https://lore.kernel.org/r/20260612193729.579790-1-maguraa53%40gmail.com
+patch subject: [PATCH] staging: vme_user: remove obsolete VMEbus driver
+config: x86_64-rhel-9.4-rust (attached as .config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project f43d6834093b19baf79beda8c0337ab020ac5f17)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260613/202606130547.TsvyPMvB-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606130547.TsvyPMvB-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   WARN /zdci/src/lkp/lib/log.sh:131:in `log_warn': /opt/cross/rustc-1.96.0-bindgen-0.72.1 doesn't exist
+     from /zdci/src/kernel-tests/lib/debug.sh:164: kbuild_log_warn
+     from /zdci/src/kernel-tests/lib/kbuild.sh:3371: export_rust_path
+     from /zdci/src/kernel-tests/lib/kbuild.sh:3361: export_compiler_path
+     from /zdci/src/kernel-tests/lib/kbuild.sh:3840: invoke_make
+     from /zdci/src/kernel-tests/lib/kbuild.sh:4022: make
+     from /zdci/src/kernel-tests/lib/kbuild.sh:5519: make_config_allyes
+     from /zdci/src/kernel-tests/common.sh:202: redirect_error_to_screen
+     from /zdci/src/kernel-tests/common.sh:210: redirect_command_errors
+     from /zdci/src/kernel-tests/lib/kbuild.sh:5526: make_config
+     from /zdci/src/kernel-tests/lib/kbuild.sh:6385: compile_one_config
+     from /zdci/src/kernel-tests/lib/builder/base.sh:88: builder_compile
+     from /zdci/src/kernel-tests/bisect-test-build-error.sh:102: main
+>> drivers/staging/Kconfig:49: can't open file "drivers/staging/vme_user/Kconfig"
+   make[3]: *** [scripts/kconfig/Makefile:85: oldconfig] Error 1
+   make[2]: *** [Makefile:757: oldconfig] Error 2
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'oldconfig' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'oldconfig' not remade because of errors.
+--
+   WARN /zdci/src/lkp/lib/log.sh:131:in `log_warn': /opt/cross/rustc-1.96.0-bindgen-0.72.1 doesn't exist
+     from /zdci/src/kernel-tests/lib/debug.sh:164: kbuild_log_warn
+     from /zdci/src/kernel-tests/lib/kbuild.sh:3371: export_rust_path
+     from /zdci/src/kernel-tests/lib/kbuild.sh:3361: export_compiler_path
+     from /zdci/src/kernel-tests/lib/kbuild.sh:3840: invoke_make
+     from /zdci/src/kernel-tests/lib/kbuild.sh:4022: make
+     from /zdci/src/kernel-tests/lib/kbuild.sh:5519: make_config_allyes
+     from /zdci/src/kernel-tests/common.sh:202: redirect_error_to_screen
+     from /zdci/src/kernel-tests/common.sh:210: redirect_command_errors
+     from /zdci/src/kernel-tests/lib/kbuild.sh:5526: make_config
+     from /zdci/src/kernel-tests/lib/kbuild.sh:6381: compile_one_config
+     from /zdci/src/kernel-tests/lib/builder/base.sh:88: builder_compile
+     from /zdci/src/kernel-tests/bisect-test-build-error.sh:102: main
+>> drivers/staging/Kconfig:49: can't open file "drivers/staging/vme_user/Kconfig"
+   make[3]: *** [scripts/kconfig/Makefile:85: olddefconfig] Error 1
+   make[2]: *** [Makefile:757: olddefconfig] Error 2
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'olddefconfig' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'olddefconfig' not remade because of errors.
+
+
+vim +49 drivers/staging/Kconfig
+
+4a965c5f89decd Jacob Feder          2018-07-22  48  
+e36c9c00188458 Bruno Moreira-Guedes 2022-04-21 @49  source "drivers/staging/vme_user/Kconfig"
+adebf457179f18 Bruno Moreira-Guedes 2022-04-21  50  
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
