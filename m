@@ -1,224 +1,158 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCA881A6817
-	for <linux-staging@lists.linux.dev>; Sat, 13 Jun 2026 19:15:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781378121; cv=pass; b=Uka7whruiinVAeDbJJ5MNNgEuCvIkklVTBFIKcXs4c7RcH9urnDTGCeLsxNNZVnEhBVrXhXKukYSDbuMjGpIv21I0/A0NfBNgLOdvIeasAkZhZ5GUbVreNnN/5EKcQ0+wm/3IA7Od6TjfihqMKkn3lTWIVo/vCizPLujMacOFp8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781378121; c=relaxed/simple;
-	bh=KM5Qf8IcukoP9exOeIUkV1KLefZ/AF3fZN4wnS0EUeY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TyFmZbn/+SR90wy/JV/vtu6L+ZSKzWtsnq8ycK1zwJJLkz2VTbmt27DwTnUNroxT2QJMR4/yK8g4MlwAat6mXrP6RjABGk8ZUrZG61dvKmwE/n7GsowuJu3hWT9e3WQ8LBXd1Hk70mtO3HfWYFiqkdL69sI3ofg4kCZvPWKakng=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XpNfaKyU; arc=pass smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED0B9375F62;
+	Sat, 13 Jun 2026 19:42:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781379740; cv=none; b=O/Jw6xXo3xeI7Fj9AT+iCVDtRAJwSTOqjVsfcF46CAB+rT2RMcSEZpzRmvj1s9Em+ev0vzdpbpThE1DK2veFJDOggZNE4se0ixVjMblJCh5JSqvRcZbExTUGFNDnWVG8J7MySbZggPncqJr6/iqpNpdkLOZn7nEXRf0Cq5HyZ/U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781379740; c=relaxed/simple;
+	bh=KrXDKI2Z1ZAekyTSIijqlcIvJo1iF4fQszU3QpRyi30=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TShp1hqg5PVNGnupRp58V/9vbx2NEV/T4Vzk5wp8K0IEYZu6ypsfi3iOjczpc7h9bGuJH3xqcNOZOu+BMaSUhXD9o1WFTk671b8uD5lKJx+NCBNqPi9sVAPsvFgMQupZtonwL9oa36UWW5/4VzciRa3XPmt3gUeNggIl4A2PVic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ESAZ1/Nn; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XpNfaKyU"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-bec429c2bb1so293703366b.1
-        for <linux-staging@lists.linux.dev>; Sat, 13 Jun 2026 12:15:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781378118; cv=none;
-        d=google.com; s=arc-20240605;
-        b=AvJfbhotfIBlpNTnIQkiBrIfU3rmAhjARUSOSdOIwCAsTmZrcxuJvs0nccMkEyLHin
-         2wCXqfC7Gb45/YGMaD8qbzWqNTyYuusnP8xw3RkHtlcx1j93FesJZajBDCSPs6blnXxv
-         /qJKeiZw3t4Ti3EQYITaJH3Iuos710nLsq4RgzWarh7eOL9fedpFm+e8UU1/OtoPLOM2
-         /ftLfbgJ2eYXQFoy7LeAy/jcs0fS+Rdq3GWaDKciHWAyIlx4ECd7U6wdCOqtYRQ5j8tv
-         WsIRCuK7K472V5muSJSzdltcB6ltEaaPIc+SksxCdapGfTlKVeqnLUwkLU6qWZv14zzz
-         VEVw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=gRrXmp1TB9x8FhYANwmYNqe1NtmxJ8SE9yU4lYafYsA=;
-        fh=1MwDfc3C1GnPJPYrYRCsQTVbnC4dGhGgcEQpAvCF5Ys=;
-        b=Hb/H+TCpYsYu8Lzej9O1meaeRY/KuuCMejGU8nuTFcoF8YFoqaFF8Q7ZREpVKmbSLT
-         7qugNVCMot7khMbAI5lvTH++qw9DsRuDl3LlCllwmuglPR9G08jwNJrb9orWNa0iXPRs
-         BikYUusczpO3wGY6UX7rEGiYXxvrPczR8ppg4O3hljghrqmxWGM2VC8o6cHoVYNar44V
-         Zga9H3PwtrO7feqvDMSoy3yhkF9UT+JVumT/KkidxmH6oiobSpG/bLpkkKR9JoOg6FVF
-         fH9JV69PpzTGdteGVLTYZ4fPnvjS6kSW/eK5OSswyeTSfiLDpmjL3N4NDIHYEdWLXjIF
-         GcUw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781378118; x=1781982918; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gRrXmp1TB9x8FhYANwmYNqe1NtmxJ8SE9yU4lYafYsA=;
-        b=XpNfaKyUOvFIL8C6h5dNWB6kbqT9+EYe7QQDp789sA6Z950LmV56ccTGZZ4PziVfan
-         AgS/iaythBNl0LkJvGr0Jw4B6PeO4We6aiEMrfGwn0nhB6kGYI5Ei3hxoqsc6CpZ2f/y
-         Qx1xe3wmrSt9oZnj+lichx/n1GFIsIkou6zEfW0QsQM2OqMT93WvHKgphXNxIrzEhmBy
-         TaCju1ULiE8VJmNyqWthjH0haJ6o54rxWhXD2p4kqcuepJVOTFTRGezlQmNDoOXI2rdW
-         /Mp3BJK4TEgtwNqgNDdy8XMfwGT92TDgzAow8ePZP6Jg8dbCKbk+6kYMN5tS1dPbvO54
-         2toA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781378118; x=1781982918;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=gRrXmp1TB9x8FhYANwmYNqe1NtmxJ8SE9yU4lYafYsA=;
-        b=cO3DTIYZDmC+Ca5sHI7TfS4reW+fIxi92j/xpqyuzvoFjAjIHNpcWgzizI6dkugRSB
-         /thmha7Ei8P1rjohczOqYNJnze4/w5t+2taFWkq+F7aAkUYCKl8Omr50AVEBh6sNTRN+
-         /zAGUwJq4eDXcPLUl28j5cOGej3p+mhSXc/9shEiVLyV36iUe1QZsuf0hHI/ZsiqY0K/
-         zDa0Yf4T06CgMEZLoxO6FCkpk3p6LIGcAUygKBNwICVoyg11WoacEaldqCW8nC1twvFP
-         vwqs17dH2I0G/Qe3VfsY3kF6vEKUv+bHU549ZtZVvy+sQvH3r4Whtap/jTTGVMgQ92dO
-         /OfQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/xxesTKjDRSBrqUy+ehSN7knpxB3yXAem/C5HZtdLFC/Av7NSqRH+ItkOwVNycREHRm+5JDgB6ZARlWcFY@lists.linux.dev
-X-Gm-Message-State: AOJu0YxqNueGPjiljj8Ne/O2tAWMrsS9O5GFriBpJ0QVCjD7VbFYpwZo
-	l9XPHeYeI1JqUEnNw+9VrD9LWseN+Yci8r3I8Y8fYSP+FglF2FqErZS8ZqGLkNTAa3UIjOuHa0q
-	MMG4U65mlGUc5VVSewQlL4vnI3e09M+M=
-X-Gm-Gg: Acq92OEe8xzz/JTYGSmsyJqRTPlVM4lXV5c5EadvAecE0ojLim6qP5ze2h3geZcmDcT
-	y7q5gtT2Smi+8OZiRM4Y/+gXac5vS+IXHannywg92VI/qKcY0X5PLbEYpbJ3RGU4lNssRpu6kOe
-	/wskGdTmrytnXCXH3Z5y1pkvs+Y12c7JaN12ya1PhUjBiru4f8n8KzqIiF9robfLlo8JnmauWXZ
-	5U5M+BmnJy4/TfeIYffz484P4fLMjRyjvNB+LG1Mljbq8HQAMHdh2qnrntf3V8pLJJtBYOIPIGz
-	ak4+rZtBkIRbR4sx7InPfwoMaXXMzCFcJtNEww==
-X-Received: by 2002:a17:907:7ba2:b0:bee:9809:3ccd with SMTP id
- a640c23a62f3a-bff499220e7mr230874866b.4.1781378117955; Sat, 13 Jun 2026
- 12:15:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ESAZ1/Nn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781379738; x=1812915738;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KrXDKI2Z1ZAekyTSIijqlcIvJo1iF4fQszU3QpRyi30=;
+  b=ESAZ1/NnZ4wz2GpcFLRID6RTRALNSBtI3N/d4GwxDfswuYwNzfjc444S
+   BNdDvtO6zONI4tE4I6JSCm+CpIRlk+C1mGYkM7Cmfrd4oCH7KlgMvJ34m
+   wufNzsAPgcqHcKLCcivpc+cEEtqMwG8zIf0a3VxOdaLeLVxqwobmrA9nk
+   xJ4VPZh4cKgm2pH2Swbe2KzZFb1/fxtWWoM2wQPaYPxN+/JCug8+y0Dlt
+   YNdbW5nQSvKvmdzoYjd9hagYIkELy8P0nqWjQc0SlB0Vsggxa2UuLJ2ca
+   5EF9qi6GsRS9P3d2iURzGA5nWB/fIeaYhktQ5K7U86YeWnHS1CmKwuTxn
+   A==;
+X-CSE-ConnectionGUID: MfCB+tebQiOq5C1jo2/6fw==
+X-CSE-MsgGUID: Y2LF4W7uRgmCkNATPFRSDg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11816"; a="99598045"
+X-IronPort-AV: E=Sophos;i="6.24,203,1774335600"; 
+   d="scan'208";a="99598045"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2026 12:42:18 -0700
+X-CSE-ConnectionGUID: 6dMMNkzaT+uppDzt62QZDw==
+X-CSE-MsgGUID: Mju455R5QFKXlL75EHQw7g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,203,1774335600"; 
+   d="scan'208";a="252041611"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 13 Jun 2026 12:42:15 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wYUF9-00000000QDu-3V4p;
+	Sat, 13 Jun 2026 19:42:11 +0000
+Date: Sun, 14 Jun 2026 03:41:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: abdelnasser hussein <abdelnasserhussein11@gmail.com>,
+	Vaibhav Agarwal <vaibhav.sr@gmail.com>,
+	Mark Greer <mgreer@animalcreek.com>,
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	abdelnasser hussein <abdelnasserhussein11@gmail.com>
+Subject: Re: [PATCH] staging: greybus: audio: evaluate sscanf() return value
+ directly
+Message-ID: <202606140347.gGVWDnbi-lkp@intel.com>
+References: <20260613110748.13497-1-abdelnasserhussein11@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260529111927.14138-1-neharora23587@gmail.com> <CAOWJOptv1JcOGcEt39HVy7LkpAsvzbw9yj64kJG+X5J=VbWrMA@mail.gmail.com>
-In-Reply-To: <CAOWJOptv1JcOGcEt39HVy7LkpAsvzbw9yj64kJG+X5J=VbWrMA@mail.gmail.com>
-From: neha arora <neharora23587@gmail.com>
-Date: Sun, 14 Jun 2026 00:45:05 +0530
-X-Gm-Features: AVVi8CdZ2hBYy2R3pen1MThHg0ehnRxeApw9ackzpdndzMPMAZnrBSG0y53Dj9g
-Message-ID: <CAOWJOps9RBNAGsPFsBCbzFkEUN1=75YvwmqJX6RdQBbt1C6W-Q@mail.gmail.com>
-Subject: Re: [PATCH v3] staging: sm750fb: rename pv_reg to io_base
-To: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com, 
-	gregkh@linuxfoundation.org
-Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260613110748.13497-1-abdelnasserhussein11@gmail.com>
 
-Hi everyone,
+Hi abdelnasser,
 
-Just following up on this patch to ensure it didn't get lost in the queue.
-Please let me know if any changes or a V4 are needed.
+kernel test robot noticed the following build warnings:
 
-Thanks,
-Onish
+[auto build test WARNING on staging/staging-testing]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/abdelnasser-hussein/staging-greybus-audio-evaluate-sscanf-return-value-directly/20260613-191253
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20260613110748.13497-1-abdelnasserhussein11%40gmail.com
+patch subject: [PATCH] staging: greybus: audio: evaluate sscanf() return value directly
+config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20260614/202606140347.gGVWDnbi-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 305faf498a4e0b52b40742c927af63ab2082e1a9)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260614/202606140347.gGVWDnbi-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606140347.gGVWDnbi-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/staging/greybus/audio_codec.c:325:13: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+     325 |         } else if (w->id == snd_soc_dapm_aif_out) {
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/greybus/audio_codec.c:334:9: note: uninitialized use occurs here
+     334 |         return ret;
+         |                ^~~
+   drivers/staging/greybus/audio_codec.c:325:9: note: remove the 'if' if its condition is always true
+     325 |         } else if (w->id == snd_soc_dapm_aif_out) {
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/greybus/audio_codec.c:302:17: note: initialize the variable 'ret' to silence this warning
+     302 |         int dai_id, ret;
+         |                        ^
+         |                         = 0
+   1 warning generated.
 
 
-On Sat, Jun 13, 2026 at 11:29=E2=80=AFAM neha arora <neharora23587@gmail.co=
-m> wrote:
->
-> Hi everyone,
->
-> Just following up on this patch to ensure it didn't get lost in the queue=
-.
-> Please let me know if any changes or a V4 are needed.
->
-> Thanks,
-> Onish
->
-> On Fri, May 29, 2026, 4:49=E2=80=AFPM Onish Sharma <neharora23587@gmail.c=
-om> wrote:
->>
->> Rename pv_reg to io_base to follow kernel naming style and improve
->> readability.
->>
->> No functional changes intended.
->>
->> Signed-off-by: Onish Sharma <neharora23587@gmail.com>
->> ---
->> Changes in v3:
->> - Added mandatory Signed-off-by line.
->> - Rename pv_reg to io_base to remove hungarian notation
->>
->>  drivers/staging/sm750fb/sm750.c    |  4 ++--
->>  drivers/staging/sm750fb/sm750.h    |  2 +-
->>  drivers/staging/sm750fb/sm750_hw.c | 12 ++++++------
->>  3 files changed, 9 insertions(+), 9 deletions(-)
->>
->> diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/s=
-m750.c
->> index 716a8935f58d..c2d2864f135b 100644
->> --- a/drivers/staging/sm750fb/sm750.c
->> +++ b/drivers/staging/sm750fb/sm750.c
->> @@ -743,7 +743,7 @@ static int lynxfb_set_fbinfo(struct fb_info *info, i=
-nt index)
->>          * must be set after crtc member initialized
->>          */
->>         crtc->cursor.offset =3D crtc->o_screen + crtc->vidmem_size - 102=
-4;
->> -       crtc->cursor.mmio =3D sm750_dev->pv_reg +
->> +       crtc->cursor.mmio =3D sm750_dev->io_base +
->>                 0x800f0 + (int)crtc->channel * 0x140;
->>
->>         crtc->cursor.max_h =3D 64;
->> @@ -1047,7 +1047,7 @@ static void lynxfb_pci_remove(struct pci_dev *pdev=
-)
->>         sm750fb_framebuffer_release(sm750_dev);
->>         arch_phys_wc_del(sm750_dev->mtrr.vram);
->>
->> -       iounmap(sm750_dev->pv_reg);
->> +       iounmap(sm750_dev->io_base);
->>         iounmap(sm750_dev->vmem);
->>         pci_release_region(pdev, 1);
->>         kfree(g_settings);
->> diff --git a/drivers/staging/sm750fb/sm750.h b/drivers/staging/sm750fb/s=
-m750.h
->> index e8885133da2e..c42800313c6a 100644
->> --- a/drivers/staging/sm750fb/sm750.h
->> +++ b/drivers/staging/sm750fb/sm750.h
->> @@ -97,7 +97,7 @@ struct sm750_dev {
->>         unsigned long vidreg_start;
->>         __u32 vidmem_size;
->>         __u32 vidreg_size;
->> -       void __iomem *pv_reg;
->> +       void __iomem *io_base;
->>         unsigned char __iomem *vmem;
->>         /* locks*/
->>         spinlock_t slock;
->> diff --git a/drivers/staging/sm750fb/sm750_hw.c b/drivers/staging/sm750f=
-b/sm750_hw.c
->> index 95f797e5776a..dc1118808b4f 100644
->> --- a/drivers/staging/sm750fb/sm750_hw.c
->> +++ b/drivers/staging/sm750fb/sm750_hw.c
->> @@ -23,18 +23,18 @@ int hw_sm750_map(struct sm750_dev *sm750_dev, struct=
- pci_dev *pdev)
->>         }
->>
->>         /* now map mmio and vidmem */
->> -       sm750_dev->pv_reg =3D
->> +       sm750_dev->io_base =3D
->>                 ioremap(sm750_dev->vidreg_start, sm750_dev->vidreg_size)=
-;
->> -       if (!sm750_dev->pv_reg) {
->> +       if (!sm750_dev->io_base) {
->>                 dev_err(&pdev->dev, "mmio failed\n");
->>                 ret =3D -EFAULT;
->>                 goto err_release_region;
->>         }
->>
->> -       sm750_dev->accel.dpr_base =3D sm750_dev->pv_reg + DE_BASE_ADDR_T=
-YPE1;
->> -       sm750_dev->accel.dp_port_base =3D sm750_dev->pv_reg + DE_PORT_AD=
-DR_TYPE1;
->> +       sm750_dev->accel.dpr_base =3D sm750_dev->io_base + DE_BASE_ADDR_=
-TYPE1;
->> +       sm750_dev->accel.dp_port_base =3D sm750_dev->io_base + DE_PORT_A=
-DDR_TYPE1;
->>
->> -       mmio750 =3D sm750_dev->pv_reg;
->> +       mmio750 =3D sm750_dev->io_base;
->>         sm750_set_chip_type(sm750_dev->devid, sm750_dev->revid);
->>
->>         sm750_dev->vidmem_start =3D pci_resource_start(pdev, 0);
->> @@ -58,7 +58,7 @@ int hw_sm750_map(struct sm750_dev *sm750_dev, struct p=
-ci_dev *pdev)
->>         return 0;
->>
->>  err_unmap_reg:
->> -       iounmap(sm750_dev->pv_reg);
->> +       iounmap(sm750_dev->io_base);
->>  err_release_region:
->>         pci_release_region(pdev, 1);
->>         return ret;
->> --
->> 2.54.0
+vim +325 drivers/staging/greybus/audio_codec.c
+
+6dd67645f22cfe Vaibhav Agarwal     2016-03-29  297  
+6dd67645f22cfe Vaibhav Agarwal     2016-03-29  298  int gbaudio_module_update(struct gbaudio_codec_info *codec,
+4ffca62a051c3e Vaibhav Agarwal     2016-08-04  299  			  struct snd_soc_dapm_widget *w,
+6dd67645f22cfe Vaibhav Agarwal     2016-03-29  300  			  struct gbaudio_module_info *module, int enable)
+6dd67645f22cfe Vaibhav Agarwal     2016-03-29  301  {
+60e7327d54b270 Vaibhav Agarwal     2016-08-04  302  	int dai_id, ret;
+60e7327d54b270 Vaibhav Agarwal     2016-08-04  303  	char intf_name[NAME_SIZE], dir[NAME_SIZE];
+6dd67645f22cfe Vaibhav Agarwal     2016-03-29  304  
+60e7327d54b270 Vaibhav Agarwal     2016-08-04  305  	dev_dbg(module->dev, "%s:Module update %s sequence\n", w->name,
+6dd67645f22cfe Vaibhav Agarwal     2016-03-29  306  		enable ? "Enable" : "Disable");
+6dd67645f22cfe Vaibhav Agarwal     2016-03-29  307  
+487dcbd6ba4654 Vaibhav Agarwal     2016-08-04  308  	if ((w->id != snd_soc_dapm_aif_in) && (w->id != snd_soc_dapm_aif_out)) {
+60e7327d54b270 Vaibhav Agarwal     2016-08-04  309  		dev_dbg(codec->dev, "No action required for %s\n", w->name);
+6dd67645f22cfe Vaibhav Agarwal     2016-03-29  310  		return 0;
+6dd67645f22cfe Vaibhav Agarwal     2016-03-29  311  	}
+6dd67645f22cfe Vaibhav Agarwal     2016-03-29  312  
+60e7327d54b270 Vaibhav Agarwal     2016-08-04  313  	/* parse dai_id from AIF widget's stream_name */
+034351c29c6494 abdelnasser hussein 2026-06-13  314  	if (sscanf(w->sname, "%s %d %s", intf_name, &dai_id, dir) != 3) {
+620d28440c10b8 Deepak R Varma      2020-10-22  315  		dev_err(codec->dev, "Error while parsing dai_id for %s\n", w->name);
+60e7327d54b270 Vaibhav Agarwal     2016-08-04  316  		return -EINVAL;
+60e7327d54b270 Vaibhav Agarwal     2016-08-04  317  	}
+60e7327d54b270 Vaibhav Agarwal     2016-08-04  318  
+aaef32a6cc552d Vaibhav Agarwal     2016-08-04  319  	mutex_lock(&codec->lock);
+487dcbd6ba4654 Vaibhav Agarwal     2016-08-04  320  	if (w->id == snd_soc_dapm_aif_in) {
+6dd67645f22cfe Vaibhav Agarwal     2016-03-29  321  		if (enable)
+60e7327d54b270 Vaibhav Agarwal     2016-08-04  322  			ret = gbaudio_module_enable_tx(codec, module, dai_id);
+6dd67645f22cfe Vaibhav Agarwal     2016-03-29  323  		else
+60e7327d54b270 Vaibhav Agarwal     2016-08-04  324  			ret = gbaudio_module_disable_tx(module, dai_id);
+487dcbd6ba4654 Vaibhav Agarwal     2016-08-04 @325  	} else if (w->id == snd_soc_dapm_aif_out) {
+094c4302c11889 Vaibhav Agarwal     2016-03-29  326  		if (enable)
+60e7327d54b270 Vaibhav Agarwal     2016-08-04  327  			ret = gbaudio_module_enable_rx(codec, module, dai_id);
+094c4302c11889 Vaibhav Agarwal     2016-03-29  328  		else
+60e7327d54b270 Vaibhav Agarwal     2016-08-04  329  			ret = gbaudio_module_disable_rx(module, dai_id);
+094c4302c11889 Vaibhav Agarwal     2016-03-29  330  	}
+487dcbd6ba4654 Vaibhav Agarwal     2016-08-04  331  
+aaef32a6cc552d Vaibhav Agarwal     2016-08-04  332  	mutex_unlock(&codec->lock);
+6dd67645f22cfe Vaibhav Agarwal     2016-03-29  333  
+6dd67645f22cfe Vaibhav Agarwal     2016-03-29  334  	return ret;
+6dd67645f22cfe Vaibhav Agarwal     2016-03-29  335  }
+6dd67645f22cfe Vaibhav Agarwal     2016-03-29  336  EXPORT_SYMBOL(gbaudio_module_update);
+6dd67645f22cfe Vaibhav Agarwal     2016-03-29  337  
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
