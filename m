@@ -1,133 +1,152 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55DEF2C0274
-	for <linux-staging@lists.linux.dev>; Sat, 13 Jun 2026 14:34:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781361259; cv=none; b=Zpx4/8eWhSPsBD15lJAmHQvIwMOFn2RPVFOA6aoDfliysa0iej1EAz98pxX4ImTkpaS6H3YoeD7pl1EvIVKo55JL5GfbaQIBKXiT1e2RHiby+DcGB7OVxG4bwlk1ql9pcoPVl6idI/FXe62PogoTXlAmyyVcwHANTcpjx/NFh7c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781361259; c=relaxed/simple;
-	bh=DQB9eZVmUwCxk+upUfXxnkxbckxPsu3JLjqIaY/Ievk=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE6BF3F65EE
+	for <linux-staging@lists.linux.dev>; Sat, 13 Jun 2026 15:38:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781365120; cv=pass; b=YbvWD9bhogBeD2zqMxB9QWDBDJf8sZc19O8PihgnXKnVVk1hsH9vTC0ycgxNBnW8LeO2w06kQOOAjEbEiByILcxfS/nPKTuC4unfRypHALhXwLwN6B7jDcDyQ54ExV4LQf+cAvcQqjHpmv43gV6JQXfoFqL202uvhmx/Jw4SAUU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781365120; c=relaxed/simple;
+	bh=VaQzUiho6R6X5BFdJKnwhM2JaGoPaixUC9YOjsiaI/o=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Y3AS9JZfk61i5sLJ9qRzvyy/yoNQTXgJ15q6IzwZEZRjwRkKGlgutCPresyX+GXOuFgcsVFGdEiT1Q1A77UPfd5Let6UbAogAtO9OylswvntynYY6TzV8msaQuGey7L7VTtPe6gqMhCEvtXzM9tHhvXG9scFmYpK16Db5LF0a+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SBHqpKC7; arc=none smtp.client-ip=100.103.45.18
+	 To:Cc:Content-Type; b=NgEwLolDpZRvuVpzP+d3V8JZD3fV2cXaFC7slfj6dE42LLo6h5ooiWRrivOpeDzf0dS0MPClJWnmVvVrn+QwPxxbGO1vxAFTmCxcnBeNm+Ag2o8rjERAFUOQji77U73U8mFn+yn+bOyjDZEKX5SeZ+NzXa0yoyRZat2XJgfi9k8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VKKF9+Xj; arc=pass smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SBHqpKC7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DA261F00ACF
-	for <linux-staging@lists.linux.dev>; Sat, 13 Jun 2026 14:34:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781361257;
-	bh=DQB9eZVmUwCxk+upUfXxnkxbckxPsu3JLjqIaY/Ievk=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
-	b=SBHqpKC7BREORrxBTVx7sACccSGVw8i23QX7+RIK5eckd2TmCZktg+BuSCQ9ZJ3yJ
-	 Kue7h6YyzWJ6cBULg+8t0egR8uzypz9mbNx5wzL4NFxcbQ8UVzR/0I3il5ZaLbmAgA
-	 6XI+B9N7r6a/A7QQlC/qWONiroFFhzFCSsIQAAJdjirZrH2xEDS3kjMXfmnYg1liH5
-	 WiQuomqBJ91IEiWZgyk7qRvIWJFqHdY7UpLHDvFAt7AjIty+cv7LjeO+94kXT0JuyM
-	 nlGvFoZeBf2873j+tyl+fdW1buWoPl5nc6cNVqXfr8kp/8pTAbGJRyfaYH2DP1VGd5
-	 pql7mT6lEAkeg==
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5aa612bf6efso1676445e87.3
-        for <linux-staging@lists.linux.dev>; Sat, 13 Jun 2026 07:34:17 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ86kSPWYeUs0IE3AqUhkcGeva0/Yn8OYbgL5NHMid9iYnfR52iTVUhaOQN21jyAjaZFSBjfaMrzoJ175cXx@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz34a1WWZw0pJsAOCuo6CkAkhU5fI3wxiNfl8FhZLijYusGGF9k
-	yUqe9FXgQlXf70UZHjkgN/Xj8MZ7dAfg71uKevnbzV8ePJURJI+lncbADzRWedo6TyKMJ4UyEYr
-	JJljQXTj8lDstJajGDYe33PI9hUwVnko=
-X-Received: by 2002:a05:6512:1596:b0:5aa:6842:7a6a with SMTP id
- 2adb3069b0e04-5ad30d703e4mr921898e87.0.1781361255568; Sat, 13 Jun 2026
- 07:34:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VKKF9+Xj"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-bec429c2bb1so281036866b.1
+        for <linux-staging@lists.linux.dev>; Sat, 13 Jun 2026 08:38:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781365116; cv=none;
+        d=google.com; s=arc-20240605;
+        b=V1tInj+s7TSNG65WC/Y2ZLk4UWh/27bdIRrQebzIc+DykVIpGofj59HIBQ/m7uECqI
+         f6Gq59dLxFvcEUyndrkuG1xYGPgaKGFuHtoqlLfq3vjDz9R+pc71m7MFHLLEu7uyKoai
+         PrBovYKl+eHU1jaj3dgIsbJFZh5bPlQ0/pH9pK+lEGyE122q7B7JoDSYhDIeWcQ1I3Wk
+         xRHJV2RE+0DoH75kKq3IRSyoKWTtuc2mVSXiQhOCWfDxuOX8oVv1Jw4/SsYKdd0dYpEc
+         9OEy7EZ3kFs31Hz7UfXLCHkbzWC8yip7/AWeik0Nx5HFGxALRUSVW8oThTx1ziKpBJ51
+         p/XQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=uOWDGizk9369FTjRLh6NLGNPGfs8z28wb9Xl2vEAMls=;
+        fh=n4OaXloWr8JAT+F9FmYiM1Oo1LSRjW3srYBDUv0mXho=;
+        b=OoGew8IikzvpZsPPhrwpu7pgTh1CecOMZH+K1rNToGi1xo3bgGdhoNWlWIDw9l0D3x
+         8BzS2D70a+HzFc7o4HZb/npRFCWrXaOsMDEi6dTbkPrEJFerRWAg2IWReuctb2Zrvj2C
+         /cScSeTTZ28CSXr1Gqv4aTjFz3551c7qtirYAqGXRhz2FeT05e6ULOi8AP8C4tIm4Yez
+         VBiUuKRxQS5WU0zLKZqwFhB8HIPVDuCyQ8sBYKaKDG4pybJngwZLyw4N79vCrDagbZAE
+         lipHPOF1qpb9A7kDUwWURIlOTDPCZ84IR5azh0PxqGnnKHj7vDHAplM9oktI4jgBy9lx
+         IkUQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781365116; x=1781969916; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uOWDGizk9369FTjRLh6NLGNPGfs8z28wb9Xl2vEAMls=;
+        b=VKKF9+Xj+VzDGdjWBhCsjiHMvCQGMSZEPSXNazkGNlTcgZDpe36Rig2EvZrMmY+KUv
+         EocepDXfa8Q9asmG9gf4J2OUncODKWJJ4gHTKbGeSAXC5j0M6XYTR7QwZq1aFJmWsKwz
+         L/ivheNvuEU+r1KlJ+JjuHKrIBhjJbKD5XhWRDMkHg6uaWaNiNn+03ric+xDoi+XrNKN
+         hhKXV7ts4FCI1X5qUQ546lh7sVqDaZwV57w7jHEYCFQjzdZNavf0GK4IM95K2R3JUusR
+         BpdAExxLEQufmllrmlfncqOR7LFcnKahy9lqpCWgspOT3S5T0eg1arNAMcyD1/Jpasu4
+         RfVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781365116; x=1781969916;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=uOWDGizk9369FTjRLh6NLGNPGfs8z28wb9Xl2vEAMls=;
+        b=Xgm3knvacJ6FAfvdb9UGc3I/RwJE+PJYRBO/EpSeXTFI7D53gnH4rAWtsCevO4G3ER
+         64e3QwxhiqtTIU7C09scy7mI9r68hNiUEWAIuLUZgucBvQcya5A/wPKHi8DCteNEM+ov
+         SXViUd/V9K2JEn3/d9l1Pd3k+M5qwYVKUq+/31J+VZGeFDQYRZWBKHGEw0grwkIPbD8J
+         WXaZ3WjfdjJH2/KrWhmxep6VsTzQL1qDcY8sk5xEXZYtUSbwAGaT1jG5DbW0GLg0M1fB
+         ZLTeU8Vb5FsbsgnGNCIxd1+eG8U3ZGhZYakZpuGRZTbgkmJkzAYtEXSf20MaiaiPyxNO
+         mL4Q==
+X-Forwarded-Encrypted: i=1; AFNElJ+k+BvS2DOsBN0a03bc81oSnKlGscwk0VjyqA8OnfISq6EOcR7CkkV0Pbl4cWYWMMnEkVqNgw5i/KwJtGJu@lists.linux.dev
+X-Gm-Message-State: AOJu0YzZfMJIUpPcDQsK7mJuuikLYaekqAAWc5IXzbS01qRq6+K1647O
+	r4ytzvVenXHA4wP0yp38APrHQreAOclX8FJ1oCJb8Gfup5S4AFZxO/t5u+cxdWA1T2MrdOPUD/3
+	E84Te4FpnLN58CGLWV/ZgtWGKYU4dQuo=
+X-Gm-Gg: Acq92OFSqU6ngVnO+ufXFz9mXyAeR0LhECS5UWj63Sljqzk0jXZIyw1JFpRRLDNFFhx
+	JDyuH/Z4bcQA0rDuBzE6wSqaq2yCUNjoeyREt9gc6y9bazvTLEVdUJfnEBXW2Ln4YF4gHXnr87W
+	HBHuSQZggPF4ntlIV3TE3lT8837ONH9qthK5Nu7hEeJSvqtcHU5XHO0anuItoFJUNCLV37h0cZh
+	LJb1tv/vviUnKoSptDf1SkUCZuPIUAwTLPi42l8ja3ufaQckfOeh5XURtnKjJxxcrD6CG/N8lxZ
+	zqaDgmJkU4IYTvVBl6JEla0=
+X-Received: by 2002:a17:907:e895:b0:bed:d329:1ed9 with SMTP id
+ a640c23a62f3a-bff4bdfcba1mr152037266b.33.1781365115721; Sat, 13 Jun 2026
+ 08:38:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260505134812.408316-1-wens@kernel.org> <JyKk48uGRMGhs1Z-wzq5pA@gmail.com>
- <CAGb2v64wDvLMFn9DYs-kH1S2PpHJat-imxR5eJSQAUYjOp=Xdg@mail.gmail.com> <L1ZJMTqKQbak6NcKbwFkDg@gmail.com>
-In-Reply-To: <L1ZJMTqKQbak6NcKbwFkDg@gmail.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Sat, 13 Jun 2026 23:34:00 +0900
-X-Gmail-Original-Message-ID: <CAGb2v677Pi9s3eWC7aXh8j=+eJh7AV5Mucr7SDXMN9Lo8yA2nA@mail.gmail.com>
-X-Gm-Features: AVVi8CdvXAQ1C_gR9wE2a9xH-URFH8zH5uSNUhPubBOtyL4bNWe140GF1Ea1p7c
-Message-ID: <CAGb2v677Pi9s3eWC7aXh8j=+eJh7AV5Mucr7SDXMN9Lo8yA2nA@mail.gmail.com>
-Subject: Re: [PATCH 4/7] drivers: staging: media: sunxi: cedrus: add H616 variant
-To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Paul Kocialkowski <paulk@sys-base.io>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Jernej Skrabec <jernej@kernel.org>, 
-	Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, devicetree@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+References: <20260613014905.48458-1-brockhaftner@gmail.com>
+ <aiz1bMmAN-gQnm9x@stanley.mountain> <aiz14CLCduz7996E@stanley.mountain>
+In-Reply-To: <aiz14CLCduz7996E@stanley.mountain>
+From: Brock Haftner <brockhaftner@gmail.com>
+Date: Sat, 13 Jun 2026 08:38:24 -0700
+X-Gm-Features: AVVi8Cd5UbthRNShg8YEncP0KBxT_NGxx0mp2GrBPMxb4eVX4ZgEGIFccYFnCgs
+Message-ID: <CAAYiRaP0ahm9NsmPBdEy1A_TiCPCfGt-nBC_xf1-tN_RiuvmSA@mail.gmail.com>
+Subject: Re: [PATCH] staging: greybus: audio: add missing newline to
+ sysfs_emit formats
+To: Dan Carpenter <error27@gmail.com>
+Cc: Vaibhav Agarwal <vaibhav.sr@gmail.com>, Mark Greer <mgreer@animalcreek.com>, 
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, outreachy@lists.linux.dev, 
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, 
 	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jun 13, 2026 at 6:33=E2=80=AFPM Jernej =C5=A0krabec <jernej.skrabec=
-@gmail.com> wrote:
->
-> Dne sobota, 30. maj 2026 ob 18:43:05 Srednjeevropski poletni =C4=8Das je =
-Chen-Yu Tsai napisal(a):
-> > On Tue, May 5, 2026 at 7:18=E2=80=AFPM Jernej =C5=A0krabec <jernej.skra=
-bec@gmail.com> wrote:
+On Sat, Jun 13, 2026 at 09:17:08AM +0300, Dan Carpenter wrote:
+> On Sat, Jun 13, 2026 at 09:15:08AM +0300, Dan Carpenter wrote:
+> > On Fri, Jun 12, 2026 at 06:49:05PM -0700, Brock Haftner wrote:
+> > > The sysfs_emit() function is used to format strings that are returned
+> > > to userspace. According to the sysfs documentation, these outputs
+> > > should include a newline character for visual clarity.
 > > >
-> > > Dne torek, 5. maj 2026 ob 15:48:08 Srednjeevropski poletni =C4=8Das j=
-e Chen-Yu Tsai napisal(a):
-> > > > The Allwinner H616 SoC has a video engine hardware block like the o=
-ne
-> > > > found on previous generations such as the H6. In addition to the
-> > > > currently supported features of the H6, it is also supposed to incl=
-ude
+> > > Fix the checkpatch.pl warnings by adding the missing '\n' to the
+> > > sysfs_emit() format strings inside several functions.
 > > >
-> > > Remove "supposed".
+> > > Signed-off-by: Brock Haftner <brockhaftner@gmail.com>
 > >
-> > I can't actually verify that, so "supposed" is accurate from my point o=
-f
-> > view.
+> > Please don't do this for existing code, only for new code.  There
+> > is a risck that user space relies on the old behavior.
 >
-> Isn't info from manual good enough?
+> We should delete this checkpatch warning really.  It could be a
+> sashiko rule which only applies for patches which introduce new
+> functions or something.
 
-The manual says the SoC supports it. Same was said for the H6. Then
-we discovered that the VP9 decoder was a separate Hantro block.
+Thank you for the explanation, apologies for the mistake. I did not
+consider user-space implications for adding the newline characters.
+I will drop this patch, thank you for the reply.
 
-So again, *I* cannot claim in the commit message that the hardware
-block supports VP9 decoding, because I have not verified it.
-
-> In the interest of unblocking this, I would be fine with "supposed" too,
-> but manual and all my experiments show VP9 is supported.
-
-Please give an ack or reviewed-by with a comment at the end stating
-VP9 verified.
+Cheers,
+Brock
 
 
-Thanks
-ChenYu
-
-
-> Best regards,
-> Jernej
+On Fri, Jun 12, 2026 at 11:17=E2=80=AFPM Dan Carpenter <error27@gmail.com> =
+wrote:
 >
+> On Sat, Jun 13, 2026 at 09:15:08AM +0300, Dan Carpenter wrote:
+> > On Fri, Jun 12, 2026 at 06:49:05PM -0700, Brock Haftner wrote:
+> > > The sysfs_emit() function is used to format strings that are returned
+> > > to userspace. According to the sysfs documentation, these outputs
+> > > should include a newline character for visual clarity.
+> > >
+> > > Fix the checkpatch.pl warnings by adding the missing '\n' to the
+> > > sysfs_emit() format strings inside several functions.
+> > >
+> > > Signed-off-by: Brock Haftner <brockhaftner@gmail.com>
 > >
-> > ChenYu
-> >
-> > > > a VP9 decoder. However software support for this is currently missi=
-ng
-> > > > and still needs to be reverse engineered from the vendor BSP.
-> > > >
-> > > > Add the compatible for the H616 variant, using the H6 variant data.
-> > > >
-> > > > Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
-> > >
-> > > With that:
-> > > Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> > >
-> > > Best regards,
-> > > Jernej
-> > >
-> > >
-> >
+> > Please don't do this for existing code, only for new code.  There
+> > is a risck that user space relies on the old behavior.
 >
+> We should delete this checkpatch warning really.  It could be a
+> sashiko rule which only applies for patches which introduce new
+> functions or something.
 >
->
->
+> regards,
+> dan carpenter
 >
