@@ -1,108 +1,80 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from forward502d.mail.yandex.net (forward502d.mail.yandex.net [178.154.239.210])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58C11331EA5
-	for <linux-staging@lists.linux.dev>; Sat, 13 Jun 2026 15:58:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5C0F21FF2E
+	for <linux-staging@lists.linux.dev>; Sat, 13 Jun 2026 17:45:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.210
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781366303; cv=none; b=P9NuFX27s73xpI25jivau0mrI58oli1MU9//Lovp7Wm9YXuo5QF1E5Y0TlWuAlhGWSHG6iGWzGQHhbhOWi1aeyl31d4lC5xSqNprkAApRkgC5aPCeZmji3TI9PVDOl3nNS21y1sW1q9NaXglBwwzvSDBex3FotpkJtmXS/OmorU=
+	t=1781372740; cv=none; b=EUzOZui/N2bKS6GbkAhXJO42J2rOYwdjIp3uvA+9eImnveBvhap+UO0AsrmNoGBDhqqRn1B0MsnVGr2cKgDZfbZ5uN65SJBXqoF1iX11G7bJPbqgbEH+fIJk94oK3H8JbgFYMkU1PF5owAD3saBcLpaugA2R9759aTMUO6gQsD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781366303; c=relaxed/simple;
-	bh=9+Ou08ya/EIgsRHxThJiDirDItH2ZegTIojPtclO47E=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Y422+jIeZB0KZEzGMdQrESsQEtQulQsTQce8bDahuxmfbz1SqBX1ZJf5VwLA57lgZFsk5mHKAtoTPODe1WDyAplsm+Y7xvocoyWbsgW/vXlQdCtNt9ug2YbGx72WprZk2z3eBZdDamCwteHBlaBQmJNmFHC77CFLJgXoXHOqK5A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sWDxIFBb; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781372740; c=relaxed/simple;
+	bh=TvnnW06JGcrF1SfQEvkStW2pliDn8/LYo+PgJjhxbP0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mLEqrT1EqgJ1nyAtJrFEZxLN+oEWDRFmw0yNraVWqTuFpggei6dL+KL/tMcPyQxUXr0eL/A/qt9lVt+cvn3gQW/Tv5NJfkZIjcscyOZH8T8tOzN/ybjKppjTPOWb/YrVa2XaTrdnvJa4qSfV7NN+g/lXS2NlzJfTERXRkR5LugU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net; spf=pass smtp.mailfrom=sezginduran.net; dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b=pxwvqvHO; arc=none smtp.client-ip=178.154.239.210
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sezginduran.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sWDxIFBb"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2bf125989f2so14784785ad.3
-        for <linux-staging@lists.linux.dev>; Sat, 13 Jun 2026 08:58:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781366299; x=1781971099; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=mKipWgHUtmHSGe9NlsV5we6jYGi0UF3OsZVbkNb4DI8=;
-        b=sWDxIFBbRTb/N4EWcI9XsTUdQ+LIxIUs03Syql3qBbRQZbcTIJZ7m2ERGSvy41Bzcb
-         qbaW3xY+VKbkg9wyVYfky4/cE9pYysKo2Of4ZqjSL6VpQ/bfSiplrFKgUnXafc8veJvF
-         LBJXEX3n0Ry8epWns6e1Suq2iQti8Hlq8Rxtw8KMfx/6d1IWPQLmGc2kEtnxnINwsqY3
-         VXKHmFZifAbNRoMOwMv72uWtfhzEqTqLMbqaXQvtQRC8qd70SksnLK2KnfzWBIeq+ahE
-         axiLosLVfxCysCv6uDM2YUCQx+DK/GQ3O+yy6hgqJ5Kh55iNLN014aBMkn6s7hi52bA7
-         AaKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781366299; x=1781971099;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mKipWgHUtmHSGe9NlsV5we6jYGi0UF3OsZVbkNb4DI8=;
-        b=eocUbmwTwiMmIdlVNm18fGoFBbmteXZTLavx3NdEtlxRj69R2DLFMsdLXT1pMjIabz
-         e5Q87J4JlTBBZ61rOo3Mubi3AXfV+0qZ6Bily9hqmrZVO69QVO8hepj4n7Acq8gJAhzM
-         SlRkiQFjaL35jyXkSaJ1RyJFn2o+jmjJ8S+nDUozdCEE0WUObqGBLyKknC49rUktXIXO
-         y28hC0Fmua9kYWE1F9f68s8gSIigWB1Dshp9UUsfkV8o5vKI/gcPgP/DxEM2X3Tm8vxa
-         yrtPjkxR6WUqYdplS9A+IQPZcApEV6IVfP/K5Ei3NM6V5z3206fOEwTaq3IW48cjeQLn
-         T8Cg==
-X-Gm-Message-State: AOJu0YypXdlWkpX469HhRhmzZjOgcYCOobLRPVf8aKH9Q1K1nhRgG7uf
-	+qb3HU7AMrTpdjUW77XVRnNUHYsZhpJjVKXXSoOXzyYbg4cXIK6ImtPD
-X-Gm-Gg: Acq92OHqrbe7nxiOtV/nFMocc4i9wlpZDyHwLcb9jRdC9yAQu4YMbyHGIPBlBNGDerS
-	iwrv1MetPB/8qZWpj4MaIecm+8vBDDBfA5sZnd7dPSZunuVU1pp0UWq6V8+jJehfsCd/QopDjHe
-	S7Kf3GoXQvMUT+61Eo0dNyihCPdE5P5+RqhQQDucyisSyFxBbVkDCo8oYvMhN+uOorKgMDTuYwq
-	qEKeUO5+btbZCf63J1sz1bKcge4VaV/TZ0+bcT/WKtVF2zX78JVpXvpyYYInTyqzqdUXWsDWuUb
-	zPEOCRs8DkNIWEQl09N4mbIlwqAi4HheJDAx1BepZxxwVKtSa5WPR3k+KvyiQJE4wchrA7FrzvE
-	jHiTTAIQ9drORWVJFqcNn1Wa5obvxCrkiP4ZmOzMLOPuJGN7JXTm24bpOWewJTzNsJlgTvFOdnj
-	T+igDxCXA0ye2/WGbEgOC32BuV+g==
-X-Received: by 2002:a17:903:acf:b0:2bf:195d:21d2 with SMTP id d9443c01a7336-2c41206ffc7mr86878745ad.16.1781366299493;
-        Sat, 13 Jun 2026 08:58:19 -0700 (PDT)
-Received: from localhost.localdomain ([2604:3d08:2474:4800::857b])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c42fbb4134sm47154115ad.30.2026.06.13.08.58.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Jun 2026 08:58:18 -0700 (PDT)
-From: Brock Haftner <brockhaftner@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	outreachy@lists.linux.dev
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Brock Haftner <brockhaftner@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: fix spelling mistake in rtw_recv.c
-Date: Sat, 13 Jun 2026 08:58:07 -0700
-Message-ID: <20260613155807.18623-1-brockhaftner@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b="pxwvqvHO"
+Received: from mail-nwsmtp-smtp-production-main-52.klg.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-52.klg.yp-c.yandex.net [IPv6:2a02:6b8:c42:ea2:0:640:ef77:0])
+	by forward502d.mail.yandex.net (Yandex) with ESMTPS id 6B030C0AC8;
+	Sat, 13 Jun 2026 20:38:20 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-52.klg.yp-c.yandex.net (smtp) with ESMTPSA id DcRO1N1gAGk0-7bm0DuO2;
+	Sat, 13 Jun 2026 20:38:19 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sezginduran.net;
+	s=mail; t=1781372299;
+	bh=lOYfOjCx6O24LbWWPmXI0HRXGZ7a4GPCTAirV6MR0LQ=;
+	h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+	b=pxwvqvHOgUIxqgMwl0i8Sm7Uu9d1BwNb2KLrWD666m7bmGwf+kIunq6gL0J2Clacf
+	 tJBcvgSEMxQTyM+nJl2bims6An6Av1HCR9K1FdO3D8lpqZRpuCtLV2PotAgRyrhMf1
+	 F8qAu69qGgHHxOcwMEJFSgCfjaY/kPlKClSRDY9M=
+Authentication-Results: mail-nwsmtp-smtp-production-main-52.klg.yp-c.yandex.net; dkim=pass header.i=@sezginduran.net
+Message-ID: <d3b705ca-9eb2-4464-8dea-d9cdbe8f050d@sezginduran.net>
+Date: Sat, 13 Jun 2026 20:38:13 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: sm750fb: fix const pointer array declaration
+To: Jack Lee <skunkolee@gmail.com>, sudipm.mukherjee@gmail.com,
+ teddy.wang@siliconmotion.com
+Cc: gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20260612220646.61461-1-skunkolee@gmail.com>
+Content-Language: tr
+From: Ahmet Sezgin Duran <ahmet@sezginduran.net>
+In-Reply-To: <20260612220646.61461-1-skunkolee@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Correct the spelling of the word "temporily" to "temporarily"
-in the comments within rtw_recv.c to improve code readability.
+On 6/13/26 1:06 AM, Jack Lee wrote:
+> g_fbmode should be declared as static const char * const to prevent
+> modification of the array pointer itself.
+> 
+> Signed-off-by: Jack Lee <skunkolee@gmail.com>
+> ---
+>   drivers/staging/sm750fb/sm750.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+> index 9f3e3d37e82a..19c3da654a43 100644
+> --- a/drivers/staging/sm750fb/sm750.c
+> +++ b/drivers/staging/sm750fb/sm750.c
+> @@ -33,7 +33,7 @@
+>   static int g_hwcursor = 1;
+>   static int g_noaccel;
+>   static int g_nomtrr;
+> -static const char *g_fbmode[] = {NULL, NULL};
+> +static const char * const g_fbmode[] = {NULL, NULL};
+>   static const char *g_def_fbmode = "1024x768-32@60";
+>   static char *g_settings;
+>   static int g_dualview;
 
-Signed-off-by: Brock Haftner <brockhaftner@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_recv.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Did you compile this patch while sm750fb driver is enabled?
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
-index 86c5e2c4e7dd..0ffa69c38bca 100644
---- a/drivers/staging/rtl8723bs/core/rtw_recv.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
-@@ -815,7 +815,7 @@ static signed int ap2sta_data_frame(struct adapter *adapter, union recv_frame *p
- 		}
- 
- 		if (GetFrameSubType(ptr) & BIT(6)) {
--			/* No data, will not indicate to upper layer, temporily count it here */
-+			/* No data, will not indicate to upper layer, temporarily count it here */
- 			count_rx_stats(adapter, precv_frame, *psta);
- 			ret = RTW_RX_HANDLED;
- 			goto exit;
-@@ -895,7 +895,7 @@ static signed int sta2ap_data_frame(struct adapter *adapter, union recv_frame *p
- 			process_wmmps_data(adapter, precv_frame);
- 
- 		if (GetFrameSubType(ptr) & BIT(6)) {
--			/* No data, will not indicate to upper layer, temporily count it here */
-+			/* No data, will not indicate to upper layer, temporarily count it here */
- 			count_rx_stats(adapter, precv_frame, *psta);
- 			ret = RTW_RX_HANDLED;
- 			goto exit;
--- 
-2.54.0
-
+Regards,
+Ahmet Sezgin Duran
