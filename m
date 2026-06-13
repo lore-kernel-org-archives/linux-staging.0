@@ -1,158 +1,112 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f68.google.com (mail-dl1-f68.google.com [74.125.82.68])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED0B9375F62;
-	Sat, 13 Jun 2026 19:42:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A5A93C06
+	for <linux-staging@lists.linux.dev>; Sat, 13 Jun 2026 23:15:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781379740; cv=none; b=O/Jw6xXo3xeI7Fj9AT+iCVDtRAJwSTOqjVsfcF46CAB+rT2RMcSEZpzRmvj1s9Em+ev0vzdpbpThE1DK2veFJDOggZNE4se0ixVjMblJCh5JSqvRcZbExTUGFNDnWVG8J7MySbZggPncqJr6/iqpNpdkLOZn7nEXRf0Cq5HyZ/U=
+	t=1781392526; cv=none; b=ahrWAgUG+OeqwaigSItGR7yly/nfDQZXsAbSKAPF37KQAs213+A+aI6OcoPekczJ0g7WBDyygyRG6P47xiAaLrXx/bIJbB1wKCSQG3co3hTHODoT7s7e9yFz+ILO65hgdeq6Vb4vDpDHpuLTJCB2dGFze+3vcGPfKH9ou0Jiuy0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781379740; c=relaxed/simple;
-	bh=KrXDKI2Z1ZAekyTSIijqlcIvJo1iF4fQszU3QpRyi30=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TShp1hqg5PVNGnupRp58V/9vbx2NEV/T4Vzk5wp8K0IEYZu6ypsfi3iOjczpc7h9bGuJH3xqcNOZOu+BMaSUhXD9o1WFTk671b8uD5lKJx+NCBNqPi9sVAPsvFgMQupZtonwL9oa36UWW5/4VzciRa3XPmt3gUeNggIl4A2PVic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ESAZ1/Nn; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1781392526; c=relaxed/simple;
+	bh=FyZjH1MyX7/pa7VvxK2LkaI1RS0Bx3bRlFfg03nh0LM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=meladUDs+V59hQ6/Bf9/jiFoJjG5QIgs0++eYW4kDRhzmJZ4ZwgmsnwiwodEMVCRd2bjfAIYXlyNi72tuFW6kVIV6i9osbXLW9RVpDa9gsmYiYlOj9QND1X9ehbujfYPbD1X8/8Y9BDLOHXVcpfiHGfS4tOxLNc7wlhLKycnUac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AXifqLhO; arc=none smtp.client-ip=74.125.82.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ESAZ1/Nn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781379738; x=1812915738;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KrXDKI2Z1ZAekyTSIijqlcIvJo1iF4fQszU3QpRyi30=;
-  b=ESAZ1/NnZ4wz2GpcFLRID6RTRALNSBtI3N/d4GwxDfswuYwNzfjc444S
-   BNdDvtO6zONI4tE4I6JSCm+CpIRlk+C1mGYkM7Cmfrd4oCH7KlgMvJ34m
-   wufNzsAPgcqHcKLCcivpc+cEEtqMwG8zIf0a3VxOdaLeLVxqwobmrA9nk
-   xJ4VPZh4cKgm2pH2Swbe2KzZFb1/fxtWWoM2wQPaYPxN+/JCug8+y0Dlt
-   YNdbW5nQSvKvmdzoYjd9hagYIkELy8P0nqWjQc0SlB0Vsggxa2UuLJ2ca
-   5EF9qi6GsRS9P3d2iURzGA5nWB/fIeaYhktQ5K7U86YeWnHS1CmKwuTxn
-   A==;
-X-CSE-ConnectionGUID: MfCB+tebQiOq5C1jo2/6fw==
-X-CSE-MsgGUID: Y2LF4W7uRgmCkNATPFRSDg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11816"; a="99598045"
-X-IronPort-AV: E=Sophos;i="6.24,203,1774335600"; 
-   d="scan'208";a="99598045"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2026 12:42:18 -0700
-X-CSE-ConnectionGUID: 6dMMNkzaT+uppDzt62QZDw==
-X-CSE-MsgGUID: Mju455R5QFKXlL75EHQw7g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,203,1774335600"; 
-   d="scan'208";a="252041611"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 13 Jun 2026 12:42:15 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wYUF9-00000000QDu-3V4p;
-	Sat, 13 Jun 2026 19:42:11 +0000
-Date: Sun, 14 Jun 2026 03:41:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: abdelnasser hussein <abdelnasserhussein11@gmail.com>,
-	Vaibhav Agarwal <vaibhav.sr@gmail.com>,
-	Mark Greer <mgreer@animalcreek.com>,
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	abdelnasser hussein <abdelnasserhussein11@gmail.com>
-Subject: Re: [PATCH] staging: greybus: audio: evaluate sscanf() return value
- directly
-Message-ID: <202606140347.gGVWDnbi-lkp@intel.com>
-References: <20260613110748.13497-1-abdelnasserhussein11@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AXifqLhO"
+Received: by mail-dl1-f68.google.com with SMTP id a92af1059eb24-13810b63a1aso5116815c88.1
+        for <linux-staging@lists.linux.dev>; Sat, 13 Jun 2026 16:15:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781392524; x=1781997324; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BO5MV7SLIIdHIh4Mq17EEekHONi1DPWlEOnVFa9ugME=;
+        b=AXifqLhOt253p85MkNmosw7lFT0NnefKI6yMBX9wL4oKVer2e9N1DNP3sPkrTV59Yk
+         cwD5odf1aumt6XVJ/dayH+B8J7OFo3PA+HoC2GI18W+ViYRrYnlXr5nF/Mvp5xfNRrvK
+         WRzfTm9XSXpinRw/SaGq79ZdDvy8OQ0Fbx4WOPlZfnzCBoUCyCMnXKstNaUN4euKOjkj
+         U8x22Gqa/RobA2XsZUaJV/z0ANjadIR9PlY5pJRCF6xefodqh/qGHfubg8UvQk+uPh49
+         posVdR8clqD6KpoUMjrlAkcejcSl2MVvh8NW4MjabNBGawAvPca3eS6yErN6xL31OPEC
+         8RIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781392524; x=1781997324;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BO5MV7SLIIdHIh4Mq17EEekHONi1DPWlEOnVFa9ugME=;
+        b=SaLFYuJ70Hz7F4Ttsq2Kebl/W7Xa1OndmNaGJ+czuG59UJdrDW8n29paZ87YOOblFS
+         Jg61qqQlVFQSQct69jUmbu35myeNFwX1qQB/iFvyBOjCCXJYO09LY4u6dzmB242u10H7
+         pinxwEAeWPGfFVUq7R/5Ay/OI+gP0eDCmL3u+M4Xn/2s68XdAHETqo6pFMeDge3dLfIq
+         5/LpihUxs6mDbOCpdm6D2NmAIUojsFzcir3TyYjeWPvFGxBMDEYdfoiGJUj4iwSM3OVG
+         X8Bs20/WGwgQORyv4Euw0onM1uuLxR4lB3DonfLFJt/psj3Zy8k2i0I5aiCoWD94OBRW
+         awNw==
+X-Forwarded-Encrypted: i=1; AFNElJ/frMEScg1w/Qo/UtLngKtaE07s5cSDmP27ypwM0R8F7vaLBVkgKrtjjev3b4IzS+Px7RoO21bjslZGgkLG@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx3OGBdQh3Vgvc74fTrQknI38ThiVNpC6Gl2Ygd510XODmn/D2o
+	29tPjpO6oxPwBsk6LU6rzzK+BsdKHLXtaKcQTdW/f6lM4/4w+e6PR24J
+X-Gm-Gg: Acq92OFHhIHDhu7mY/kcNlv92q6jPg6a47EJAp/0+8JpYFzJgSeHo0O4+rER1rXBt5a
+	d7mDqf3Vxn9aTa5+Str4DJZx7ps6wFsUe2A9bMB/P1Nc2JGwx2hx0rarkDH511nzphKqVH9s1fM
+	UGXXGwdxG2vY3J5tRLxRg5aEUoHyRhRhsNWwTbw5FlOMddFJT+dgxjnu2Eye4DpxRpB3q6f2xXN
+	48r+2tNsPuHGBh57uR6wb18f/1O5x18rZXErfV0HRRmoFdxPSv5wdbRorEO+o0POQY4f/9sKl5d
+	D/Y5EQviNXEp2T9dlvUk3obiaMpPrxT1o+C6PGsN/wi3YBfcDPi4cLOuoUvGm8rOLFloflUoOae
+	amwVaC9rkBEuk22FCrff+bbQofMvuPEEXWrRBiJ2xhbFJEDhtq/qWYPW1QGvfV7Rn5DMX5yzv26
+	DhEp7VdFH1/Kr18Ne+u5cQjvivZbyN1j+Vro5THteFO8CESJdwZS9HMfkASkaZ8Y7bNwIFDTVqL
+	L4zA87AsDOof44qA/NCduWWY70a2GANo5JcvV0i5QRtoc2HdnCdNo5JM4qZ5H+k3HW0o2uqdjwL
+	OzXnvY3JTS7j4aehGQ==
+X-Received: by 2002:a05:7022:621:b0:138:4fb:f284 with SMTP id a92af1059eb24-1384bb38d6fmr3673518c88.15.1781392524164;
+        Sat, 13 Jun 2026 16:15:24 -0700 (PDT)
+Received: from ethan-latitude5420.. (host-127-24.cafrjco.fresno.ca.us.clients.pavlovmedia.net. [68.180.127.24])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1384b91a4c7sm6220508c88.8.2026.06.13.16.15.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 13 Jun 2026 16:15:23 -0700 (PDT)
+From: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Khushal Chitturi <khushalchitturi@gmail.com>,
+	Nikolay Kulikov <nikolayof23@gmail.com>,
+	linux-staging@lists.linux.dev
+Cc: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: remove references to nonexistent CONFIG_IOCTL_CFG80211 option
+Date: Sat, 13 Jun 2026 16:15:10 -0700
+Message-ID: <20260613231514.145336-1-enelsonmoore@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260613110748.13497-1-abdelnasserhussein11@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi abdelnasser,
+Comments in the rtl8723bs driver contain references to
+CONFIG_IOCTL_CFG80211, which does not exist in the kernel. Remove these
+references.
 
-kernel test robot noticed the following build warnings:
+Discovered while searching for CONFIG_* symbols referenced in code but
+not defined in any Kconfig file.
 
-[auto build test WARNING on staging/staging-testing]
+Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+---
+ drivers/staging/rtl8723bs/include/rtw_mlme.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/abdelnasser-hussein/staging-greybus-audio-evaluate-sscanf-return-value-directly/20260613-191253
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20260613110748.13497-1-abdelnasserhussein11%40gmail.com
-patch subject: [PATCH] staging: greybus: audio: evaluate sscanf() return value directly
-config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20260614/202606140347.gGVWDnbi-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 305faf498a4e0b52b40742c927af63ab2082e1a9)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260614/202606140347.gGVWDnbi-lkp@intel.com/reproduce)
+diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme.h b/drivers/staging/rtl8723bs/include/rtw_mlme.h
+index ac3ba746b64c..d45258e4dea3 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_mlme.h
++++ b/drivers/staging/rtl8723bs/include/rtw_mlme.h
+@@ -217,12 +217,12 @@ struct mlme_priv {
+ 	u8 *wps_beacon_ie;
+ 	/* u8 *wps_probe_req_ie; */
+ 	u8 *wps_probe_resp_ie;
+-	u8 *wps_assoc_resp_ie; /*  for CONFIG_IOCTL_CFG80211, this IE could include p2p ie / wfd ie */
++	u8 *wps_assoc_resp_ie; /* this IE could include p2p ie / wfd ie */
+ 
+ 	u32 wps_beacon_ie_len;
+ 	/* u32 wps_probe_req_ie_len; */
+ 	u32 wps_probe_resp_ie_len;
+-	u32 wps_assoc_resp_ie_len; /*  for CONFIG_IOCTL_CFG80211, this IE len could include p2p ie / wfd ie */
++	u32 wps_assoc_resp_ie_len; /* this IE len could include p2p ie / wfd ie */
+ 
+ 	u8 *p2p_beacon_ie;
+ 	u8 *p2p_probe_req_ie;
+-- 
+2.43.0
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606140347.gGVWDnbi-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/staging/greybus/audio_codec.c:325:13: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-     325 |         } else if (w->id == snd_soc_dapm_aif_out) {
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/greybus/audio_codec.c:334:9: note: uninitialized use occurs here
-     334 |         return ret;
-         |                ^~~
-   drivers/staging/greybus/audio_codec.c:325:9: note: remove the 'if' if its condition is always true
-     325 |         } else if (w->id == snd_soc_dapm_aif_out) {
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/greybus/audio_codec.c:302:17: note: initialize the variable 'ret' to silence this warning
-     302 |         int dai_id, ret;
-         |                        ^
-         |                         = 0
-   1 warning generated.
-
-
-vim +325 drivers/staging/greybus/audio_codec.c
-
-6dd67645f22cfe Vaibhav Agarwal     2016-03-29  297  
-6dd67645f22cfe Vaibhav Agarwal     2016-03-29  298  int gbaudio_module_update(struct gbaudio_codec_info *codec,
-4ffca62a051c3e Vaibhav Agarwal     2016-08-04  299  			  struct snd_soc_dapm_widget *w,
-6dd67645f22cfe Vaibhav Agarwal     2016-03-29  300  			  struct gbaudio_module_info *module, int enable)
-6dd67645f22cfe Vaibhav Agarwal     2016-03-29  301  {
-60e7327d54b270 Vaibhav Agarwal     2016-08-04  302  	int dai_id, ret;
-60e7327d54b270 Vaibhav Agarwal     2016-08-04  303  	char intf_name[NAME_SIZE], dir[NAME_SIZE];
-6dd67645f22cfe Vaibhav Agarwal     2016-03-29  304  
-60e7327d54b270 Vaibhav Agarwal     2016-08-04  305  	dev_dbg(module->dev, "%s:Module update %s sequence\n", w->name,
-6dd67645f22cfe Vaibhav Agarwal     2016-03-29  306  		enable ? "Enable" : "Disable");
-6dd67645f22cfe Vaibhav Agarwal     2016-03-29  307  
-487dcbd6ba4654 Vaibhav Agarwal     2016-08-04  308  	if ((w->id != snd_soc_dapm_aif_in) && (w->id != snd_soc_dapm_aif_out)) {
-60e7327d54b270 Vaibhav Agarwal     2016-08-04  309  		dev_dbg(codec->dev, "No action required for %s\n", w->name);
-6dd67645f22cfe Vaibhav Agarwal     2016-03-29  310  		return 0;
-6dd67645f22cfe Vaibhav Agarwal     2016-03-29  311  	}
-6dd67645f22cfe Vaibhav Agarwal     2016-03-29  312  
-60e7327d54b270 Vaibhav Agarwal     2016-08-04  313  	/* parse dai_id from AIF widget's stream_name */
-034351c29c6494 abdelnasser hussein 2026-06-13  314  	if (sscanf(w->sname, "%s %d %s", intf_name, &dai_id, dir) != 3) {
-620d28440c10b8 Deepak R Varma      2020-10-22  315  		dev_err(codec->dev, "Error while parsing dai_id for %s\n", w->name);
-60e7327d54b270 Vaibhav Agarwal     2016-08-04  316  		return -EINVAL;
-60e7327d54b270 Vaibhav Agarwal     2016-08-04  317  	}
-60e7327d54b270 Vaibhav Agarwal     2016-08-04  318  
-aaef32a6cc552d Vaibhav Agarwal     2016-08-04  319  	mutex_lock(&codec->lock);
-487dcbd6ba4654 Vaibhav Agarwal     2016-08-04  320  	if (w->id == snd_soc_dapm_aif_in) {
-6dd67645f22cfe Vaibhav Agarwal     2016-03-29  321  		if (enable)
-60e7327d54b270 Vaibhav Agarwal     2016-08-04  322  			ret = gbaudio_module_enable_tx(codec, module, dai_id);
-6dd67645f22cfe Vaibhav Agarwal     2016-03-29  323  		else
-60e7327d54b270 Vaibhav Agarwal     2016-08-04  324  			ret = gbaudio_module_disable_tx(module, dai_id);
-487dcbd6ba4654 Vaibhav Agarwal     2016-08-04 @325  	} else if (w->id == snd_soc_dapm_aif_out) {
-094c4302c11889 Vaibhav Agarwal     2016-03-29  326  		if (enable)
-60e7327d54b270 Vaibhav Agarwal     2016-08-04  327  			ret = gbaudio_module_enable_rx(codec, module, dai_id);
-094c4302c11889 Vaibhav Agarwal     2016-03-29  328  		else
-60e7327d54b270 Vaibhav Agarwal     2016-08-04  329  			ret = gbaudio_module_disable_rx(module, dai_id);
-094c4302c11889 Vaibhav Agarwal     2016-03-29  330  	}
-487dcbd6ba4654 Vaibhav Agarwal     2016-08-04  331  
-aaef32a6cc552d Vaibhav Agarwal     2016-08-04  332  	mutex_unlock(&codec->lock);
-6dd67645f22cfe Vaibhav Agarwal     2016-03-29  333  
-6dd67645f22cfe Vaibhav Agarwal     2016-03-29  334  	return ret;
-6dd67645f22cfe Vaibhav Agarwal     2016-03-29  335  }
-6dd67645f22cfe Vaibhav Agarwal     2016-03-29  336  EXPORT_SYMBOL(gbaudio_module_update);
-6dd67645f22cfe Vaibhav Agarwal     2016-03-29  337  
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
