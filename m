@@ -1,75 +1,78 @@
-Received: from mail-dl1-f66.google.com (mail-dl1-f66.google.com [74.125.82.66])
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7EA53C5536
-	for <linux-staging@lists.linux.dev>; Sun, 14 Jun 2026 18:23:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74D822848BA
+	for <linux-staging@lists.linux.dev>; Sun, 14 Jun 2026 20:08:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781461408; cv=none; b=EE77qZ9AG+LH98xoiyfooP2o+pg/GEIxPL5m1HisM6bhpQ0ZQZ3lhLhZ35nBE4sT0Wiv7eGb2bSWplJjj0DnkmjP7O4tHYpb2yz+p0mDq0xytC+7NlvHD9dm/aXKOGJz50Ttk0C9OM+KciYVgOavRq/2hrVbJyMmICiY6OXc2gs=
+	t=1781467723; cv=none; b=QHYyTBhmGJ5I/l5tf+sL/HvUX4vtPVXsWO6gkUgovg1ue3xMSANGT/6wp/Pi3rW45PHxXKIShWQFXfZPTGtDQsmfcSkhiJG1yujo8wYpcDMgNHaIsk/8GJkCdTxZYXy0+NBDdzo/1/8s4CPVhkb0yOnIX+ZncKk1kGcILKFfhzo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781461408; c=relaxed/simple;
-	bh=UCLz7dINh1lgMYFDoeDTmd+Nq3hyT974aet2XBucKj8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=BFToi84qQnw7p4+RSZ2lzqpWG47Exql8wYwsCkHwQUQcCMuqAeGUpT0SsTW4SfFEzMt82tsdizO1MvE/i4OOQiMRB9etmoNG/ttqdH4o5iQxVbQoZEFRXIC8yOtU+FmGe5EStJTfb913X+jmyiHXLRb9TzI4EHgw9rBZorxHAQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QuYQl9A9; arc=none smtp.client-ip=74.125.82.66
+	s=arc-20240116; t=1781467723; c=relaxed/simple;
+	bh=t9hJB0O2AbpQy0bG9J3Vr3qulzMoJf9YIfoqR60+/aA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=A/YIk7Gg5iyGPO74LaNXZsgxFqHFQF87mlDPWXwA7l0MAgUgRr2ohTnvDkSAgY3KUpf0WiJhecakHxNpfECBChQ61SXAX0dMPwZQQItwVtJ9FBbwQ8dfZoZ7YT56dDMUNx5biEcFRV9SLRMVhDEi2H6lGr1Dkc0PGYu51k9mlS8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=adFaSFby; arc=none smtp.client-ip=209.85.219.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QuYQl9A9"
-Received: by mail-dl1-f66.google.com with SMTP id a92af1059eb24-137eb0d76beso2418978c88.0
-        for <linux-staging@lists.linux.dev>; Sun, 14 Jun 2026 11:23:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="adFaSFby"
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-8ccda0ac4fcso29975646d6.2
+        for <linux-staging@lists.linux.dev>; Sun, 14 Jun 2026 13:08:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781461406; x=1782066206; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ufi8jS0Gv9HR4sYoAY6vKqLESkvd7ZmAPRv56V3pxB8=;
-        b=QuYQl9A9TECh6ZlMSL30rnZcF4X2OddPJ+CrbnOlWfeIR6vs0QfTPWira5FKMJWc/c
-         dWCQ+vOIg8LDbhwCRGx93Tn0XxGLX8JUlVEagnzCu/Y1HcXbOM9qC6bxrR/ynq3vtzhH
-         rMjkUCb8ZTiyCddDjvRwCRg7aiPRB2LDjaRF0Zy/8N/M/3U24G655n0zpvzzry1L+98E
-         St/0Twl5RU6ivGKpKXNsdLZnqjUS8J4PT6BBblkpoilSmyBg958/RXzfGaaxRQRboiQm
-         I18j3G6vKrni1fnBympLkhD4uL2ufqhSjqX5/HQHPdzUfMQpPnel+/eDzwYkvdPEthqG
-         d/5w==
+        d=gmail.com; s=20251104; t=1781467721; x=1782072521; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6Qu5+bIQSk8l7rGQCe26ymBQKDA4my8QPuaUxaRTH6o=;
+        b=adFaSFbyZGhBr9VkbhV4GmVWfKRMb0miOIZi/laol+hzgy+BzJKMcPEx8UwZDPaLEZ
+         aQUtcVqmpCypfw9V3j0/Ic2evretlpQSsHjU9DOKC+SD5+MjH1bRrbAVF/QpuZgYypzo
+         cjTyi7kWi5hneoPs2KHWw44H2wKE5klJJ5CqLDxGIQ91u7AKBr6ShM4ty79zzwlobw1M
+         4Kp0+SGiR4OwchWl2L4+gsNtoG8WZsHCaFF5dNYQCzR9RUHzugkJ0SJS+g8MQ6RBoYVL
+         WNGPlCJYi6N4eyMeVoMvzpCXd7sE65RGTsnTYHJTF3+ha+cIWXPmO3elb1SmjIax9ZvQ
+         Dq5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781461406; x=1782066206;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ufi8jS0Gv9HR4sYoAY6vKqLESkvd7ZmAPRv56V3pxB8=;
-        b=UZWe0Q3tdxTGfBbCOa0o/7O+5y/vgY0OkWxElKEGp8stFPAHIJpTMOoB1eOZg3fJin
-         3DkbNEjCG79q1gHGlLjsVK6vY7qu9wdgnS/uNkKCE4gWG5Tff+EuXbXF+YEr/j7InvPP
-         QCIuGCX6KKVTk56IRwG6kAXhP1pzQGJzPHPdttVkd+hbJLVD1Hzs7qle6MCcVWR7k526
-         8S30DGyh1yIUoYzPt9ePC47AiBAHGvctkLv3NfzEOIvt2o5d87Vd7hS2CrMwRZGPavN+
-         sNPdPJmbc7K6UUVMDkAFUzUGsJ7Juvyuvn8rXI8utC+0lr4gQoNM4QuvYRpiWZSWnUPf
-         ZZ3g==
-X-Forwarded-Encrypted: i=1; AFNElJ/b6gGvDvIgNGLSixkNNjeDc3fZkOFdBzdyMyaSS+KEn/Fctx7xQFaysxlDLWuaeuBiQLLhar9XK0edYLUX@lists.linux.dev
-X-Gm-Message-State: AOJu0YzgqZvbnbmv1GXxoG3fObS99cwtijEa9qtwrLDe2iQ/DYygYCQD
-	3OuCtmCrhuU3SKMA4xkL+tt+a4B/Oz7b0F7L15AsL2wsjcqgC4EQVHozL3IrUPZ8g50=
-X-Gm-Gg: Acq92OGPqI/Dpl6BiEfUb6LdeHA4OkRIL0Zw2JNUzagJd1qG+yMG5w7VXMLkgWG7F1T
-	OzARTobTTQG6DJrzdscUAKwZBna/oFci/ODgBxwBpLcjZgO1A8S7sCD3kAu0y8aR1qBfneVHP9F
-	NkN02SpHSPg3I2mbFI0w5xkLrvHeUTSngMYx1FtjlFBX/rDAq2CXyktJ8wwmHgPpw2WRakQwy1V
-	WZegR/eVRqC4JAnd8hZPVngoNW63DIdkfbRfc0vbynYE4/LB7iM4gDpXtA0K3xm5wy/zfJqCVKD
-	6YWxHJTTMKzYgx3Z71FttzOYjJUZW0OiMxGL6RXFNGxTUTWbxE1ZgS0R/N3udMMs2xUzebihAs8
-	3QoXTi09PadTPJmdhK7XXaeDCZkW12kDrP42N+FxvbNE/7hRmZh4WSaWQtgWlxhIlaY7rFq/SGd
-	2fI8RKP4hwMR3iukqHVGibBACjhkBSvqNwiyjQbWiTgaYRV4LlScIOIVGYMuHOvY0+EA==
-X-Received: by 2002:a05:7022:f309:b0:133:39b9:9720 with SMTP id a92af1059eb24-1384c14cd8dmr2097495c88.16.1781461405456;
-        Sun, 14 Jun 2026 11:23:25 -0700 (PDT)
-Received: from localhost.localdomain ([76.32.119.210])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1384b975e55sm8435022c88.13.2026.06.14.11.23.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Jun 2026 11:23:24 -0700 (PDT)
-From: Hungyu Lin <dennylin0707@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: error27@gmail.com,
+        d=1e100.net; s=20251104; t=1781467721; x=1782072521;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6Qu5+bIQSk8l7rGQCe26ymBQKDA4my8QPuaUxaRTH6o=;
+        b=gMdSdZbRGvyqFbCC3kHYCfodxv+MPbeWj8kTZpw3BKrry3cTNSKRoN13dlfnul+wwQ
+         FNjdX2WxXQnOid87dmfs+lBf/rkmuHz0cuBye1l647nCAAfMIrist+upqFcc0NUAzvHV
+         FytWvHTrBAv5JlU8bpyMly1+FPsQ7oOV9vRwDpOzUpR+bueK8uVt+yil+kwFs03eZWZm
+         A0kcRs1tesbf29jvcicZMcZaOKvnBPFP79AfGbryPOMTLsu8a6Hg7WoOPUdhoD1zttHe
+         01gr4pbAZf6I6Iots6ChMa5rxR0ct4bWU5atytcc1XCacx/zyXuRUWk/kx/iuUiap9SP
+         3Zkw==
+X-Forwarded-Encrypted: i=1; AFNElJ/vwTVJRaNdCgXev9BSWs8R4dDyoYMZr/vSfgsvE0DAheEFOvaXYYvEFmrJQ2QNhYTA2CPL36L4qiuJ4x7S@lists.linux.dev
+X-Gm-Message-State: AOJu0YwqkjTciqSmGy8IburpoT9BY+bLGOa6nKYW+TmhBqfUWoFAMTTW
+	bvj+fhcBFPEUhLYLD8g7kYWeb9m2XujXS0Ln0eNC2PmcvG2xDWfir6Jd
+X-Gm-Gg: Acq92OH8yJiRdPjEO3VWLrxAixArh7+wK879AoEMDWbeCFb+n+IOe7AeMvfwyuf+iYn
+	pZWvBEC+kg5bTN3O3E0hpir8R17NxATw+5nK0Lk7qYVW0gW+YcuHo8fcfw3sntx87TgX7BnZFjS
+	Ajrfz7WUF3M0zogXobMpKOglRQ2aqhXTkgJlkVsepvRsQe6FJq+CYJcl/IANhEcA689guN7f1u5
+	tlBVQ0Z4ai3wIz1bioPJpD2mb5KdQrd8ADeXVhw6Xcm9L+QLqRn5JL8j4hde3kivRAoYedbl49F
+	Z6LYEczDemYb4Fa7ols+vl7rqm6roubmMOyzHlrJhewXxAQYhjVjzvduk1AFCUdiwcqODKSb048
+	kY61kMGBUAhkDZhOeu6qhC6pnrK6zcan8VOh62mKEycVW9QUoIcqfpjpfBJNEBI1sHkNE3gVHsT
+	r+vZs8HJzQEk4XH7Z8HXANh5DkQ+mU2sFuOPZwzw8ZqXxqSvNSXI9KxEc=
+X-Received: by 2002:a05:6214:3189:b0:8ce:cc38:e496 with SMTP id 6a1803df08f44-8d32e30f3f0mr196398416d6.22.1781467721402;
+        Sun, 14 Jun 2026 13:08:41 -0700 (PDT)
+Received: from localhost.localdomain ([38.174.6.30])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8d300f6af40sm90192986d6.8.2026.06.14.13.08.39
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sun, 14 Jun 2026 13:08:40 -0700 (PDT)
+From: Keefe Reeves <reeveskeefe@gmail.com>
+To: andy@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: abdun.nihaal@gmail.com,
+	error27@gmail.com,
+	chintanlike@gmail.com,
+	namcao@linutronix.de,
+	niejianglei2021@163.com,
+	dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Hungyu Lin <dennylin0707@gmail.com>
-Subject: [PATCH 4/4] staging: rtl8723bs: convert update_attrib to return errno
-Date: Sun, 14 Jun 2026 18:23:09 +0000
-Message-Id: <20260614182309.96110-5-dennylin0707@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260614182309.96110-1-dennylin0707@gmail.com>
-References: <20260614182309.96110-1-dennylin0707@gmail.com>
+	Keefe Reeves <229415268+reeveskeefe@users.noreply.github.com>
+Subject: [PATCH] staging: fbtft: use %pe for backlight errors
+Date: Sun, 14 Jun 2026 17:08:37 -0300
+Message-ID: <20260614200837.17908-1-reeveskeefe@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -78,73 +81,50 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert update_attrib() to return 0 on success and a
-negative errno on failure. Update rtw_xmit() to handle
-the returned error code.
+From: Keefe Reeves <229415268+reeveskeefe@users.noreply.github.com>
 
-No functional change intended.
+Coccinelle found two places where backlight registration errors are
+printed by passing PTR_ERR() to dev_err().
 
-Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+Use %pe instead so the error pointer can be printed directly. This keeps
+the behavior the same and just makes the error printing cleaner.
+
+Signed-off-by: Keefe Reeves <229415268+reeveskeefe@users.noreply.github.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_xmit.c | 17 ++++++++---------
- 1 file changed, 8 insertions(+), 9 deletions(-)
+ drivers/staging/fbtft/fb_ssd1351.c | 4 ++--
+ drivers/staging/fbtft/fbtft-core.c | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-index b6d9332958f5..fb2fd3f5de77 100644
---- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-@@ -741,17 +741,17 @@ static s32 update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct p
- 	} else {
- 		psta = rtw_get_stainfo(pstapriv, pattrib->ra);
- 		if (!psta)	/*  if we cannot get psta => drop the pkt */
--			return _FAIL;
-+			return -EINVAL;
- 		else if (check_fwstate(pmlmepriv, WIFI_AP_STATE) && !(psta->state & _FW_LINKED))
--			return _FAIL;
-+			return -EINVAL;
+diff --git a/drivers/staging/fbtft/fb_ssd1351.c b/drivers/staging/fbtft/fb_ssd1351.c
+index 6736b09b2f45..b6cb60f20b11 100644
+--- a/drivers/staging/fbtft/fb_ssd1351.c
++++ b/drivers/staging/fbtft/fb_ssd1351.c
+@@ -218,8 +218,8 @@ static void register_onboard_backlight(struct fbtft_par *par)
+ 				       &bl_props);
+ 	if (IS_ERR(bd)) {
+ 		dev_err(par->info->device,
+-			"cannot register backlight device (%ld)\n",
+-			PTR_ERR(bd));
++			"cannot register backlight device (%pe)\n",
++			bd);
+ 		return;
  	}
- 
- 	if (!psta)
- 		/*  if we cannot get psta => drop the pkt */
--		return _FAIL;
-+		return -EINVAL;
- 
- 	if (!(psta->state & _FW_LINKED))
--		return _FAIL;
-+		return -EINVAL;
- 
- 	spin_lock_bh(&psta->lock);
- 	ret = update_attrib_sec_info(padapter, pattrib, psta);
-@@ -793,7 +793,7 @@ static s32 update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct p
+ 	par->info->bl_dev = bd;
+diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
+index 3da42c8ca6e3..b6a846ada3e0 100644
+--- a/drivers/staging/fbtft/fbtft-core.c
++++ b/drivers/staging/fbtft/fbtft-core.c
+@@ -187,8 +187,8 @@ void fbtft_register_backlight(struct fbtft_par *par)
+ 				       &fbtft_bl_ops, &bl_props);
+ 	if (IS_ERR(bd)) {
+ 		dev_err(par->info->device,
+-			"cannot register backlight device (%ld)\n",
+-			PTR_ERR(bd));
++			"cannot register backlight device (%pe)\n",
++			bd);
+ 		return;
  	}
- 
- 	/* pattrib->priority = 5; force to used VI queue, for testing */
--	return _SUCCESS;
-+	return 0;
- }
- 
- static s32 xmitframe_addmic(struct adapter *padapter, struct xmit_frame *pxmitframe)
-@@ -1954,7 +1954,7 @@ s32 rtw_xmit(struct adapter *padapter, struct sk_buff **ppkt)
- 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
- 	struct xmit_frame *pxmitframe = NULL;
- 
--	s32 res;
-+	int ret;
- 
- 	if (start == 0)
- 		start = jiffies;
-@@ -1967,9 +1967,8 @@ s32 rtw_xmit(struct adapter *padapter, struct sk_buff **ppkt)
- 	if (!pxmitframe)
- 		return -1;
- 
--	res = update_attrib(padapter, *ppkt, &pxmitframe->attrib);
--
--	if (res != _SUCCESS) {
-+	ret = update_attrib(padapter, *ppkt, &pxmitframe->attrib);
-+	if (ret) {
- 		rtw_free_xmitframe(pxmitpriv, pxmitframe);
- 		return -1;
- 	}
+ 	par->info->bl_dev = bd;
 -- 
-2.34.1
+2.54.0
 
