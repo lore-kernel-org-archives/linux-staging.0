@@ -1,72 +1,72 @@
 Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42962175A8D
-	for <linux-staging@lists.linux.dev>; Sun, 14 Jun 2026 12:22:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDCBE30E859
+	for <linux-staging@lists.linux.dev>; Sun, 14 Jun 2026 12:22:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781439754; cv=none; b=RT/tQkxFgbgqMnpRjkJ6K7wlusrRXQhKHVoG1DsWsThkfeBxVQhGLwcKMjn4KXB2xrX07BTJx7eXD3mNNrFUGP0f7wBMEMknebQGg9QTB2QI4C7wZzFh/jbuqRBS7pQqoenFQMRr0jFKxScRQOwmYgEPEtLH8qLbZXXstJGGPQc=
+	t=1781439759; cv=none; b=D/nwvXZaIKppp/dXOdtrGsuJqm01GrYig5F2+FAN1Js5s3UJS3fSCFE0DN0C9rm8W2SIVZkrabN5u1rbgNPuYcP/UDnGMLP/4SUB4H0jP9m0sda/IsIPJH5JMQwAJ5zWV65aAJ7hYzyuVJV+N+jXO/ML9b30EGQdlTrAjif7fjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781439754; c=relaxed/simple;
-	bh=MELML2XPy6qTWzJOp4vMn/VRRRx1GOhqC9FIu/Tnskk=;
+	s=arc-20240116; t=1781439759; c=relaxed/simple;
+	bh=cXRY7/RWKXbQcEGfLG7Hs3wRRDPw7xOzfqxkTl1A5jo=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Y3Vxf0+M78RhmmsE81dOn8cuCs2p5TDjm1j1aJ3nQIM+48+JBvEoZouu5jwcRm0RYBdygjcWrITRw2SGPRRYHWcFgPadk9SQsnMvEaSqk7XY6fhjHMiqAWF5NdxqOgq+/vDTH9zZrD3bF7fNAp+ooiGJ2S+4Go2aty6R7dVlbLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Iwvet+kF; arc=none smtp.client-ip=209.85.214.182
+	 MIME-Version; b=PxR7aZ4XSpCzoqg16VksDcgYmGFDHJfkgaOwCkmaLETMcb/deFjVwqdpE3/YbYskkehfsJbnA7nRUpwxNDNpVyK3BODK+VUdfMcZJgM4SlJwTVJwHxS4hW/BY5hELxJPOCkf4AQn3qnZt9yj+kNd06z/esXcp6HDgPbt8OAwpsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I49lPcfz; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Iwvet+kF"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2bf30d530bdso24868565ad.3
-        for <linux-staging@lists.linux.dev>; Sun, 14 Jun 2026 05:22:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I49lPcfz"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2c0c1e0d00bso22113955ad.0
+        for <linux-staging@lists.linux.dev>; Sun, 14 Jun 2026 05:22:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781439753; x=1782044553; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1781439758; x=1782044558; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=PEvCGVGl2V6rer+gl7iIq0ltW3OZS1IqmgFM+NAYU5I=;
-        b=Iwvet+kFCiEPnjN+uU5S9SIX7//pQi2tbt1zzkDDYC4HYZvwaav2ZoxnrhpAgcPZpx
-         rHivXfKngMPHOQuG/JRK/zqQwBARLqA4ONXKf1gaRTFfv9S0/Lttx/yqvI3nBHCTjZY0
-         oLyz5TkK6Xgcgq3VnvXF92KZ+lvqiUBgItARVE2FZT+roIzRT5dxwA6lJ3AUwIDYnXNk
-         VkMXRw/WxywdxlIob2vMw8Yo076zX2CWP9cl2HuMY3/syf6AgoDnij4NgLHR76h5PhXS
-         g2ZnkQQD3lQyKdOxIeXdIZFDZXTe2qcy9x+OT6bsi7sKsfmEswOQNjxuUL1XS2QOyCdM
-         ZpsQ==
+        bh=3dXmITzDKlPj5CAJiELCwoKY0GFc0LF7VxcnDR8sG0M=;
+        b=I49lPcfzyGzs7o67DhcvAdZLxzNq3ikBYZbTy33KgOstgx0joimsooUt39VAgnLYpe
+         JPG2NBEL2qgA8owIhTHDvk7VACafAdooR705nzefMZ+xEOC5iku7tEpBrp8sIdEsNjso
+         zxvgeNGU9CVLHoFNMdDxy0xEg/HONE9GQ2IyN/RDr/z4uJ82eKr03+lVDlK/PT19dBH8
+         0fMTA6f749HB8hYD4cDPPvaWgIXoW3McGPbSh/DZkBSwSAJThea6S6jyQ6ico5CfoWsC
+         B2CDi79b7BUB0n5cjFVGIp5RfHSAz3UqtWkb4/8S7qlhKrastn6Ysvqe0L2oCvYoG1ex
+         0QpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781439753; x=1782044553;
+        d=1e100.net; s=20251104; t=1781439758; x=1782044558;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=PEvCGVGl2V6rer+gl7iIq0ltW3OZS1IqmgFM+NAYU5I=;
-        b=XWCIX1vNSO8kvnY8q3H2+wNleBz9nA/leYBfNtRrpp6/VYRnq7rfPpjFiRiDtdvAti
-         bmzAPpsr2r6/lbFy2ZKccfPCZ0J552/2V0pCrJszlNw1UXmSO5ealXj7N47TvgKLZxC5
-         nZ6VqX6rSVzr5elJiTLD31kaVRiXxKGlQW/6V6x2qHiRsLGhWOcXE5OhUb89TVd9TYx0
-         0ooAeKDtGFODMhS/VOS3CZpL24QB3x7RTapodZ/UYZZV+4YcdjCsjxjAFr4ryY4IhMn4
-         StTL3BQdtnrJJeBaSSeR/aCuLetq7yDKNU/a3lU21tsj96jsNAyB/unVJe3sem4kZWrz
-         Ybww==
-X-Gm-Message-State: AOJu0YyE4w2UmIsmKTUowqMcvjEBYoLrSsmcfv1vnYJJfiE2uv9jAtos
-	ynnDdDR7Zqe9tuGN86MkzukHDQwYKY0a0jvvAtUU1E9ZWg7FYW0GdjncOh3GEA==
-X-Gm-Gg: Acq92OEXAxczJM7RjgukLBWGLETkDGdX7S6HjnsZuqkzLdFvQPQD3sbjyqLW/t/+VG2
-	L/+Yic5lv8RGPQOgwlG1GmCj/zMekwIc2FoNwWgyoOJttMzn//hnQwcKx0Dnof8o4RA7ahERiQA
-	PXjarrEGxvp+a5allop7bJUXfIZIX52eurvB5liT/ckxkMY7OfDnsv7tX4AETcOBR8cg9t/LxW1
-	XgkotxdI+SgqqvHKZEdFHFR7ImUuFJZHb1VdGF3Ozq+aO279SS25ZoLgn6PhuBD/dAWg3ErD/3C
-	JYtRVWrvqf2l9ebt1ziLTPoAUM3n5WV21BMZmHpEWkotDPZqGidhHJXmatvLZDcl8XQH+0Oks29
-	12Q2YLKkdUvfbqEslqTxRtVntidu2WbKluy8a7DJM5J6vI5wRaqePG2WHKO2mPuBfGW/H/mng4L
-	LV6XfwCx5hOp/ql+jD5zZ1O2P/wjz6c863ysWDtrWVWwDYc3uoH7CL6OqkifAqseIRb8sZJjKCk
-	22C
-X-Received: by 2002:a17:903:b46:b0:2c1:11b8:3c80 with SMTP id d9443c01a7336-2c66428e93bmr75552265ad.30.1781439752567;
-        Sun, 14 Jun 2026 05:22:32 -0700 (PDT)
+        bh=3dXmITzDKlPj5CAJiELCwoKY0GFc0LF7VxcnDR8sG0M=;
+        b=VhBH8MTMPLSp6Og5RkLL3mDajTLwn4GJzZGpriwZZ7pRKYFHPgWyYbMcvamTt/MD6m
+         u19H10dKXdUBVTtuTlqIYTqmYXsUE3+TXkmwT8V+wkKrRXtIgI7WvrEKeM21gQoE4fa4
+         Pahx4mFpIIq2h2QZf/zAmAYRVzrspcAT8jeu5f6D00aJj3H4WSDyzDdA0qGU0v6XY4Xj
+         In6tQM5CzfH2EMfw/4IyZhJ0qdY3MMBooog0RrDB1b8pGGD7/L5rW82NAbdNxQtFCRCm
+         siUdzoPYjaOvu+cUTapm7K5+0+2DlJ0x9GBKrU666gil/Ow+q8CQapXAGwSfLfoA5Ufp
+         WYFQ==
+X-Gm-Message-State: AOJu0Yy+5LGqEYp5u4LOxyXxg5IxW6bE7oC6mXm5p6mI6Uoe0/+2tr49
+	k6ILahSmDA6SpOoLaz0IPM3mYstj2l3UXCWQNlG9/+0YAKUsgCnqXgEGw0PTwg==
+X-Gm-Gg: Acq92OE4ONo4rwBlDtT4PTfnnfWGMmFqCf/oRDa22dWWi6Ji/usx0AWu21uiojrgSx/
+	CZWAAmHjtmf3MYw/nkl63yXqTGnAaZHz+ps6m9S/iWdPCCdh26na2RbLH54CmDeJhiN8p8YlnmV
+	45pzBUAA9NnhrHT6iBXDSZuWxtdswY7pPtQlrYDgxna69cqA/Wcnaf5t6h0/CdUNLF3d5wiURrE
+	Cryw6Ezfzsh7p6TwevBtj6MP6B3JNMaeJdwsh/NqZs9CTHW0b0vudpk6nRU0iYIs/OSiq8FzUA1
+	rDmnss1NVYdRTU99h13AApYxXsLi43/CRiRMrdYd7RJPOP1hv9lNdw7mVXx2WYMc77RZBULw3ju
+	c9taDrZUfFqMS6DEWDtOevYwgChXTx2gcLGl8whue1phK7zyZNQrIoohAXnhS9MYs4J8s8Plter
+	o/sfTGerlADPyaIOUXX9sl1GlTINwg3KumWBgyOKOmtMh4NBmBiD8Nm4cnVor4onxwb1yyEInvq
+	Y9/
+X-Received: by 2002:a17:902:e811:b0:2c2:33a4:aaa2 with SMTP id d9443c01a7336-2c412c2e277mr118998535ad.35.1781439758304;
+        Sun, 14 Jun 2026 05:22:38 -0700 (PDT)
 Received: from moksh-Nitro-ANV15-51.. ([103.58.154.196])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c43326b085sm69157995ad.70.2026.06.14.05.22.30
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c43326b085sm69157995ad.70.2026.06.14.05.22.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Jun 2026 05:22:32 -0700 (PDT)
+        Sun, 14 Jun 2026 05:22:37 -0700 (PDT)
 From: Moksh Panicker <mokshpanicker.7@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	skhan@linuxfoundation.org,
 	Moksh Panicker <mokshpanicker.7@gmail.com>
-Subject: [PATCH v1 1/4] staging: rtl8723bs: Fix missing space around '+' operator in hal_sdio.c
-Date: Sun, 14 Jun 2026 12:21:52 +0000
-Message-Id: <20260614122155.20034-2-mokshpanicker.7@gmail.com>
+Subject: [PATCH v1 2/4] staging: rtl8723bs: Fix missing space around '-' operator in hal_com_phycfg.c
+Date: Sun, 14 Jun 2026 12:21:53 +0000
+Message-Id: <20260614122155.20034-3-mokshpanicker.7@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260614122155.20034-1-mokshpanicker.7@gmail.com>
 References: <20260614122155.20034-1-mokshpanicker.7@gmail.com>
@@ -78,28 +78,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add missing space around the '+' operator in HalQueryTxBufferStatus().
+Add missing space around the '-' operator in channel index calculation.
 This fixes the following checkpatch.pl warning:
 
-CHECK: spaces preferred around that '+' (ctx:VxV)
+CHECK: spaces preferred around that '-' (ctx:VxV)
 Signed-off-by: Moksh Panicker <mokshpanicker.7@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/hal_sdio.c | 2 +-
+ drivers/staging/rtl8723bs/hal/hal_com_phycfg.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/hal_sdio.c b/drivers/staging/rtl8723bs/hal/hal_sdio.c
-index 665c85ecc..1d29245da 100644
---- a/drivers/staging/rtl8723bs/hal/hal_sdio.c
-+++ b/drivers/staging/rtl8723bs/hal/hal_sdio.c
-@@ -24,7 +24,7 @@ u8 rtw_hal_sdio_query_tx_freepage(
+diff --git a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
+index bdd595a99..5e2f4131c 100644
+--- a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
++++ b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
+@@ -459,7 +459,7 @@ u8 PHY_GetTxPowerIndexBase(
  {
- 	struct hal_com_data	*pHalData = GET_HAL_DATA(padapter);
+ 	struct hal_com_data *pHalData = GET_HAL_DATA(padapter);
+ 	u8 txPower = 0;
+-	u8 chnlIdx = (Channel-1);
++	u8 chnlIdx = (Channel - 1);
  
--	if ((pHalData->SdioTxFIFOFreePage[PageIdx]+pHalData->SdioTxFIFOFreePage[PUBLIC_QUEUE_IDX]) >= (RequiredPageNum))
-+	if ((pHalData->SdioTxFIFOFreePage[PageIdx] + pHalData->SdioTxFIFOFreePage[PUBLIC_QUEUE_IDX]) >= (RequiredPageNum))
- 		return true;
- 	else
- 		return false;
+ 	if (HAL_IsLegalChannel(padapter, Channel) == false)
+ 		chnlIdx = 0;
 -- 
 2.34.1
 
