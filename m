@@ -1,61 +1,63 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 408F133AD88
-	for <linux-staging@lists.linux.dev>; Sun, 14 Jun 2026 15:44:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDD8D21FF23
+	for <linux-staging@lists.linux.dev>; Sun, 14 Jun 2026 15:45:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781451848; cv=none; b=HGTZuOFQCQy++X7bCBRLjMmb+4K2YhnIXAg9Jw++u4Nfneyb1Raq6DK/joExIPBHmvuldAGFAMOOW9SJW5id+QKhqbrZJ8ier4QsWDGcPjRgdRoQdDQgB7tWgLtt131spcMnph6nHMrtYTIUWBL0Xb/lQO/fPAvLstGw9nXFgGw=
+	t=1781451931; cv=none; b=jENNXs5+jXbpehstqltJfz4bl62mHppMUlWu4vBRui78P9R+TysUPgRA4D9Mhdc4tTBdWyBawgEI15epcfc1TWgoiZnyLfZoOaH+vMyoMFDlSLlwGD7ewdVctmZW2Kzp6sm9QxpOS1cNhmuXBu7xCT+5UDne3uZ89Z/UPFEa9tg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781451848; c=relaxed/simple;
-	bh=POB/rKYWyZzKP0KeLtvAIpH+LmAkanTpgXC4K8iHeuo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fqBTrDvU30+rO969HSHNipzoVpNTy+Od8y4Oe70KHjsoyQlSbvZajPH3MPXy81B2m0ru7rUsFKWzgR0ft8bEaTt0sE0ePAVIbgk0wmSPB+faFJaUUlLAZoelSsakliAR5aQvE5176gYBY+dZRKsZifn0bMz5ymjo4LHxfgSqBq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LTdsL5FK; arc=none smtp.client-ip=209.85.128.52
+	s=arc-20240116; t=1781451931; c=relaxed/simple;
+	bh=a4fUsm0sri2CJp9Xa6+EfCy3v837PLIvJct/CxDUWxw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=EB+FAb/5NBuL9oc0e/QbybnDk38D2eLkJ7K1+TG9/15Hg8v9HIFPfkUlXZKCpcVf1FgYXu3FoeeER79GJlmgo9olrCRB1r4UQB5sFKd92MMxKtxRyNHhhZfzD2hxoqnd3x4ReDBo8Zq4ShUbklBHl/+/PLrbjtIg/A/nnrxDk5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LWFOEqJX; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LTdsL5FK"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-490ac10e337so16666895e9.3
-        for <linux-staging@lists.linux.dev>; Sun, 14 Jun 2026 08:44:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LWFOEqJX"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4922244f7c7so9640785e9.0
+        for <linux-staging@lists.linux.dev>; Sun, 14 Jun 2026 08:45:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781451845; x=1782056645; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8Oz6PIFZNPBpek1l1gIJRIoH1qb80MU2GHgEXhoPMto=;
-        b=LTdsL5FKo35MgHmikE322JAV4SkQuEAWhpwfZvVjtykAAoDDaAAitKuJ+fNraEZMQC
-         dtN5vZ4XdG+g6emkAOE1CbJvZI1zW4uFuPHGZ9O3Bs0aX2HUosJwUj4gNMkmHyc8ma9Q
-         fvh0T642QaxeDZ3Xzf+rN7yKz9wCoOUu811V8iIgB0HBeanWOEPVoGRFxQlxjqBKCLtc
-         V/OFaJrbM9mEMIeDYuisMAINmVYjTrkIZptv4Gnfw5H85zSL+IbuWlyKMSwu6Dju6Iv0
-         wi6F/Y2NM48bIaM7UBtyAx9s9U8kUb0ygiRNxpPahKZALzkYENG3Wzxz4SSuxIIpfniV
-         iNJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781451845; x=1782056645;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1781451928; x=1782056728; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8Oz6PIFZNPBpek1l1gIJRIoH1qb80MU2GHgEXhoPMto=;
-        b=IrlUrCaYEgA5RpKzVnRIyaP100kmPzdQ7cN3c+hPH25ko9C/JgJy6CAPExryahqa8g
-         TE6aeLAaCF5bL5FEAsipGSaWnsVMT5ZBXvaLGMaI4swJCXEseCwflC1ZvNFisj+azIbU
-         LHhZjVdq+8d5//QZ45Kc56ndqhaqeQn7Do3qex61+rTAtN8oleYTgV58M0yW7Me70+8L
-         +9yLlo4S8Y8uEyBgywL+GRwIu7XYbBlwYvi2v0HeBgVuHqpy9fiQ3BI92KpwmokT6FEa
-         7HZlMPibtaBBRuaS95+cpICh/KNRw+AEA3X5RY4ya6OR2UYtywTE6TVJb4PkSqAbew+U
-         9EfA==
-X-Forwarded-Encrypted: i=1; AFNElJ9GNKHNoPQg7lPU+MIvFu3xONZO3BICKLUhQCOsBnY0TIx1jfG5nF3qIcz2Eq12p3W15PtdTjd6B617dhMN@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyvq7kZoWvgse08BOtp/b/oVpdGX6CGtLr7xdGULmbp0Ysf5H9b
-	iQFRbd5erSd4cFUVYSuqwX9S41y67anBmnbyk4yZw3SOruUZA3I2gB/m
-X-Gm-Gg: Acq92OFg9bH9Z2yWjDMJqt+VPMxzB+3IJ840Ce9WxbhkOA6sWZUX+ehxm6Bs0zL+Lpp
-	kcEdhOfr+zDOZYwVHZ4/RW4bQwLFCaRPXFe+6tH6a7YFFsTjGqyvcX0pv1eOclcV4qWaC1KOcrb
-	uk44D8CItHJbVBzgA+1Yo0K8GNWl7iMH6nae75PHCUNubauQK6tSymuLSiavarpM+zgHZdLO0WQ
-	yAKZnJR81DTQpJoOSr/+6xytICGBIl7a69vyEJUn2Tpa+4DkbE/zvm9u92wJ5bxgT08fDZe5WMc
-	gtB8YU33nNnfp9cSAOe8miv7hrJAKuZNoO6TEoWspqiCpI76xs6NqGs3ImekV101NQ9lJlP/xPH
-	dDGBgpB63Yb+pyqLUHi5L8Vxvel9RYgbq35jSPYr8Mp39foiAZkU/0IGtBmNuEDm+fssXmc7OON
-	Ikf6+BR2yusD1G5mOS2bsEv0orXZZ+5t6OUOg01/9OhZH+A+YAhm22dyfV
-X-Received: by 2002:a7b:c385:0:b0:491:89c2:bf3e with SMTP id 5b1f17b1804b1-492200e8734mr65930635e9.30.1781451845454;
-        Sun, 14 Jun 2026 08:44:05 -0700 (PDT)
+        bh=5Ovn4XB3GgCDHVcufiauy/1mVBNPpRS6FI6cibDiq4A=;
+        b=LWFOEqJXFJdyPJk97WxXAexFGiNPLk8P3W5SYmLOfhmWnrwnNiu9seTITsTv7w5slZ
+         m2DYzqBZc4+LEPteMN11Y6KLLzrJYpB9Dkx9j37NAF+Hlwjwt+9CLxGlvDJgJj3AFaZX
+         7b+1olc7dj1p5S8DhnkpNrv9yALEwbz1wypNT+ofrySC5jMphU3+L7mf7f7lqT3kFrq9
+         kKMXFzuMpOWRca3VCFx32OYmFqs51ZUg1rup3+4hPNRRa3F7tth9TcSZBIG/BfTWXP9D
+         LFbFN60oWnyZDP7bCD5GIOwbr1YhTB07KDjmBNklLA4Wq1Avo+qaGW/PGpivb/eey6vj
+         ofIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781451928; x=1782056728;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=5Ovn4XB3GgCDHVcufiauy/1mVBNPpRS6FI6cibDiq4A=;
+        b=DjTjBjE2oADxS+ou9UN7d53JyvETf/uV//NDEwtBIr5LZYOQeCXpfhraEykB8iP9L/
+         5RzjcsHo/BthdXJtVDTZSnt5P5xf7HoFeMFG7Fwck8Lv9SKaiRD2gllorsGMLMHcH6U1
+         UxRaS+muWq4DxyLel/qyCnmxMGcPLtc8dgVlMAjFymx0O9FShMSAOzWxLQrLbo65+VUl
+         QYeGJ1U/S1DmFOjbckFAowUIQcTW3V9vtNiSsVKv6Vi3WEoI85a8ATjNQu2snGzXXtbD
+         vIH0RwJcUfHWYoUtzTipaH3he19y2OFDqoFHF7K2S5bYjg0FZDDU7heLU/2g4jAjvPDO
+         WbMg==
+X-Forwarded-Encrypted: i=1; AFNElJ/reL9t211cNKOn67tQPGogRxBktMWwqc9aaCQzcoe+JeybEjDxPqQkydkFuI8E6YQMIBsHWtsaKqIGhokB@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx6QWixq0wk4IFmamMYIIXaV6247zrVfOwpsnaXaW9SBaGNozCv
+	obsuXabG9YeeQxeRZJ0FHm0P8iKHtBV2U1xXS0FuvlpRfxWNZO8oJcAwMS8XqO1e
+X-Gm-Gg: Acq92OHbJtsqRaoA2TfjYRMFgLwke4tyMLghJW+FsEq/nv1J6wgaU7P+5uQcrRDzYUc
+	iUhevVYfwfXgRV/ZYrAZEVEaGm9GxooFk0FQvKwne/YpY67EYsJvaO9V8CClx0DPc/eB0sMRCIh
+	AXDF8xrHN06qz+KJxqy6+YELOqsbbhSSTO6FnLv90SJdZfiLeO+aupIe7ND8NHc5Lu5A1P6GZL8
+	l3BmZrKr8G4Gbb9ZqWqpOjAkmwaTPQFDchJsljPC64KsMLLq5uzrz50p9yEBWEPYxHtVEUmNa9o
+	UCdU8TPGvBToomJK1bs1cwIfN8It1XbxR8Z1aRzB63ByGLn9x5uEvbFTNVpuGKmHVwZ/tAgLNRS
+	jAig+6RURdxnLD9GS240QwmS7vb61KTyxpPGJP2aAKraJ4KoaVKryVvV127SIQA5dvjMyAPdGC1
+	q7OJZ55W8f/gfH+cu92hHwcuBVj6REfhZC8GZvjXKlV1OaPg==
+X-Received: by 2002:a05:600c:3512:b0:491:9969:739d with SMTP id 5b1f17b1804b1-4922011393fmr92175955e9.29.1781451928107;
+        Sun, 14 Jun 2026 08:45:28 -0700 (PDT)
 Received: from fedora ([154.182.122.228])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4922031b7d2sm184237135e9.5.2026.06.14.08.44.03
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4922031b7d2sm184237135e9.5.2026.06.14.08.45.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Jun 2026 08:44:05 -0700 (PDT)
+        Sun, 14 Jun 2026 08:45:27 -0700 (PDT)
 From: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: vaibhav.sr@gmail.com,
@@ -65,11 +67,14 @@ Cc: vaibhav.sr@gmail.com,
 	greybus-dev@lists.linaro.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
-Subject: [PATCH v3 0/2] staging: greybus: audio: cleanups for gbaudio_module_update
-Date: Sun, 14 Jun 2026 18:43:27 +0300
-Message-ID: <20260614154329.5176-1-abdelnasserhussein11@gmail.com>
+	Abdelnasser Hussein <abdelnasserhussein11@gmail.com>,
+	Dan Carpenter <dan.carpenter@oracle.com>
+Subject: [PATCH v3 1/2] staging: greybus: audio_codec: fix sscanf return value check
+Date: Sun, 14 Jun 2026 18:43:28 +0300
+Message-ID: <20260614154329.5176-2-abdelnasserhussein11@gmail.com>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260614154329.5176-1-abdelnasserhussein11@gmail.com>
+References: <20260614154329.5176-1-abdelnasserhussein11@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -78,27 +83,42 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch series addresses two separate issues in gbaudio_module_update()
-that were previously combined in v2:
+Smatch static checker warns:
+drivers/staging/greybus/audio_codec.c:335 gbaudio_module_update()
+warn: sscanf doesn't return error codes
 
-1. Fixes an improper check of the sscanf() return value (smatch warning).
-2. Removes a redundant else-if check that could lead to an uninitialized
-   variable warning for 'ret' (reported by kernel test robot).
+The sscanf() function returns the number of successfully matched input
+items, not a negative error code. Compare the return value directly
+with the expected number of conversions (3) instead of storing it in
+'ret' and returning it as an error code, which leads to returning
+a positive value on failure.
 
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Closes: https://lore.kernel.org/all/YoOLnDkHgVltyXK7@kili/
+
+Signed-off-by: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
+---
 Changes in v3:
-- Split the changes into a 2-patch series based on feedback from
-Greg Kroah-Hartman.
-- Assigned correct Reported-by and Closes tags to both patches. 
+- Split from the previous v2 patch into a separate patch.
+- Updated tags to properly credit Dan Carpenter for the smatch warning.
 
+ drivers/staging/greybus/audio_codec.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-
-abdelnasser hussein (2):
-  staging: greybus: audio_codec: fix sscanf return value check
-  staging: greybus: audio_codec: remove redundant else-if check
-
- drivers/staging/greybus/audio_codec.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
-
+diff --git a/drivers/staging/greybus/audio_codec.c b/drivers/staging/greybus/audio_codec.c
+index 720aa752e17e..295222ec0f1a 100644
+--- a/drivers/staging/greybus/audio_codec.c
++++ b/drivers/staging/greybus/audio_codec.c
+@@ -311,8 +311,7 @@ int gbaudio_module_update(struct gbaudio_codec_info *codec,
+ 	}
+ 
+ 	/* parse dai_id from AIF widget's stream_name */
+-	ret = sscanf(w->sname, "%s %d %s", intf_name, &dai_id, dir);
+-	if (ret < 3) {
++	if (sscanf(w->sname, "%s %d %s", intf_name, &dai_id, dir) != 3) {
+ 		dev_err(codec->dev, "Error while parsing dai_id for %s\n", w->name);
+ 		return -EINVAL;
+ 	}
 -- 
 2.54.0
 
