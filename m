@@ -1,162 +1,104 @@
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C35C132B111
-	for <linux-staging@lists.linux.dev>; Sun, 14 Jun 2026 08:43:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781426588; cv=pass; b=VjTjmersGsw7jsl5UC56XcX5jQrDChvcIUANlNRqO2FIV8kY/91SRu66JAJwtY7DAvvDFKdkaNkgTNoAdzR2v/rg8F3Y/gt3d4wCjGGAolwLkx5kECQgW/lUjIT18Soo9CcpH41LHtAVVst1b58o/vJKQXo/jr0XGc1Y7/P+GkI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781426588; c=relaxed/simple;
-	bh=b/JTjxKKJpzqGDvlvtouDIsi38hBlVlzK+Qu5z64Vbo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ktsTzyA6Suv4hOPQ2j/jbIgNPW/ilu7UJJsOdgOF+QEXzkGOGwcPzHmZf0isdvFO0RbtWpOhxBBSbbpBGZ++S806BeIKQl/N2bGzgQxW1jPnupGvPacAesR8AeS4AFYY5kbmkkmpRAwWZ8eTYS7TJ6LZ7UhlTMNfeC4aQDo2zZ8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jLRCYhWf; arc=pass smtp.client-ip=209.85.210.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E9EB285C8B
+	for <linux-staging@lists.linux.dev>; Sun, 14 Jun 2026 11:48:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781437739; cv=none; b=cFK3EUBrVAmrqQoF54N5KyRjyMWR/lZzs6p+VxHyZImV5LsIEjv69/G7The1yQrrI/mJkPaYIq6IbJxx/EBsEpGG5DkyxvuQGRVOJ1Y0NTsLQnmuHgmkpmLYryDqSJ2M60JXGjTfsAaS9FVBUcTQJojuGrq9QPo6UHjGPrcQ2Ug=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781437739; c=relaxed/simple;
+	bh=ll40Wdsw5Beb5SEWvKZ7o8ZFRW5ZvL3rqlsZ87zKu/U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iDRbmA1PGnFD4TgVj/LQhS/JBRgISRCV04krKyDNQcoWDIYaZOLs/yasGEWnZn564TalxBV52jHkOBh1t2fO4JYpCHuyJOcye8xH8qxU0cIQJfUXI6iGRfsQFb8VC8tJY63sIQKkf+VRPnhtfmAh7LlId+pSzYPd5jUgnD/N8Fo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nPXyUsnV; arc=none smtp.client-ip=209.85.216.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jLRCYhWf"
-Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-7e6deacafa8so2129632a34.0
-        for <linux-staging@lists.linux.dev>; Sun, 14 Jun 2026 01:43:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781426586; cv=none;
-        d=google.com; s=arc-20240605;
-        b=CmvZIAgmHXFxauU0POmF31nA3yTDmEvw526NNg8XnqT19AoPNiXBLq5hR70dw9BgxO
-         /fV4ytbkc+nb1uzZlgfpo9oPfPKOgmS641u76eXZ6mMV2sizib5kMTOhk8ng922W8qdl
-         uMurGCjb+KWYhI075ik/+CWb6waf/6Ri3N9CewkZmGp1juQkppdMv08soxTFr7qERgk2
-         dha6XmwrPu3IxztgAOD3xxkzzB/NpZZ8KFMFIYpNyohb3Q5L4Jk2+KmuhplEGpOnN1xR
-         oxtnGcTeihp6S/3ReMvmm23gBNRO9nRvC8b4YV/qSnHLhkLOLeQWjIKoMaKc9YC2MMhl
-         stmA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=t2FPNTZ0LBeauhe2IRB3wKbW8uCrpmddfDCYByrAJvs=;
-        fh=Y2GDEpbVdMaZwdxz6efcFZOSqy0BElhin2fAVCQWF4M=;
-        b=cwrYshi1970yl67eUiaOdHfjgn4zHXzelYRcBpJ0aiOToQLZ79zxPj45yelFyrPDlc
-         AIs9pGVaOPsARG9q/hl1M8kMQ18d0ipfDQPWOXPKDYFAN80cjPzZjJY2tqkyrd41sr7C
-         5WyEvQIrq0d5gIpAUYZTV08065fIWgLwH6w1bHihtkoQAXw4bEoy2Qf0inJDPO/d2UeR
-         whAGbztEbnlLzZlnvIarYXvnFND+N7SZhjbWHdXKiy3C32j7f5X9RkUujQgcUKUPNeHR
-         9abcsCM3nOLPmaKbhOOoURWZYsPZsd8eeONncCbq0S9/9pi743fMrKz8LVAocpU2/hp0
-         bS2Q==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nPXyUsnV"
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-36ff2543359so342587a91.2
+        for <linux-staging@lists.linux.dev>; Sun, 14 Jun 2026 04:48:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781426585; x=1782031385; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=t2FPNTZ0LBeauhe2IRB3wKbW8uCrpmddfDCYByrAJvs=;
-        b=jLRCYhWfM1JHvYe/Ht4jfpVTWwlayKc5IrAm7Vzv7wCVr6sk1HAZ6T+kltsYdXktRt
-         Z6Utdu8wgOha/8CgrfA83K4StIFoxml+gjHOoiS7ndM3SaQoQRVlq4BRkhw7ihnKCHTF
-         yOvtKPU4bsegVojq/I1qKKGZndfPPzBQYBwxELWC0AY2BhMJIQKt0e54CNZYv6SXMgdB
-         ObvB9G7okM6tH5aOkK5JactqHHhmuXftNytyR4lYNhoPsX+3Pq6fBfDJOuO+XyVgjCxV
-         jwXGMmqJKp3W5UET7/e7iNMBmAhqk18aNeT6sPoejyLvV02C77z5a8hHfqZdCnbgAqRn
-         RlZg==
+        d=gmail.com; s=20251104; t=1781437738; x=1782042538; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mE+74dY5/0xayTn2/a4ziQg7s4J1BN3ftMLZ3hA9Rvw=;
+        b=nPXyUsnV+79KSzrVIMJ+mS8K6mBkCNKws16xT6dPQ2KrCYiSAhOa8sbO7Jwo/DcdJU
+         7NO9hBgw/gE0CQXRSBvLgF0z1HDwyWs/5i3V2npkkLcxP/ddRVpfxVN4K5dpHQwAo8QI
+         Tc2xp7Kh23pW7hr9Cax1qlSn6KpVgno9NbTCdeNKmluC2gR6LH8rf8iI2/ZqIw6BXZJm
+         sY9HumCptzf5C7kjQxg+7ovUzzaUXP05Zrce2PCQlavqYdG1CHuvRbGFHfWSOculAXm5
+         K12F+3Jj1F860CGH1Vcev2RZDjjXURe1AjhQKzZ+EZDDVR+Ta+fcxn2KcWRjMqZA/X6w
+         puiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781426586; x=1782031386;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=t2FPNTZ0LBeauhe2IRB3wKbW8uCrpmddfDCYByrAJvs=;
-        b=QZitWtMOPqmBh9mJIlpSdNa4fKOZCRABGsdgh5iw0Lr943gKqqnq+00IU2YXlvi3N3
-         IQGthFCq6r+jOMt/KGwbonspzwoxNAGKlrgPCFWOqBeEm5OhMP78zVwpKB4C51GLTDqs
-         5yIKFchTmvXnHwQpvQgYWsCutoz2CaF05P1UOL/3f6/2MYTudITDd3HNJOWoCX+J/XS6
-         a6EPCdGa+ROho8MAC8Rbinj2y6W5/5Mqlt8LgPtoFkG8W+lPi1by71vGDP+12thBdI33
-         AvzpyYy+qL+pu1W41ASRoUJeFtG0GNR9KH29tRC5TakvxhgXGLYX3i8LlWtl5mMSSd97
-         /rZQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+R4FYpa8CVUF99CjUEvAdrZqOHRe72nFIyzBuIZZtu2xaATbjCpLpo3L0caeL+3SH7AEXLPet7WS6dNhYE@lists.linux.dev
-X-Gm-Message-State: AOJu0YzgmQR66rLyI/leLtm3rbOOOLRBVRklWYCG45WXikybPG+OX2mT
-	hHaKsAkrp6HK9NOcn19tnhD2OrXhDk/BK0LtUa5DZvo82+yTGcrYV3I/z5P4Kpl3bihjbES6AHt
-	t6nmRBGQavnfkbIK4nASDkYxeX4IXI30=
-X-Gm-Gg: Acq92OHLFLSIh9f4Q1axJgyIhlNDObQBWX1/JITzaVxASUFv+5ZwXiNi1mat+s5P8wV
-	oBh7Zu/5sqq4tyCjhwO+j3geXvYgvya7bXHoM9B6fXxTNTxkPHEyQiwFPZB/55efKOWYLB4dP1j
-	52D9hYkvS7/SJgnBI+oiBPOWSJRsRUlKp9u4oupAP+vIN90afFUQG6EukE39L3Z2p3VEcEYs6VT
-	tsNwrwBw/p0ffXg1xciBgyfyqJmF6+K0eEGfN398IDnFmOnqYzk/jEP0LiU2dojxxC1y3aIBeZK
-	5h28sjQW2w==
-X-Received: by 2002:a05:6808:c40c:b0:486:5306:dd91 with SMTP id
- 5614622812f47-4872dd9f493mr6250582b6e.7.1781426585618; Sun, 14 Jun 2026
- 01:43:05 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1781437738; x=1782042538;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mE+74dY5/0xayTn2/a4ziQg7s4J1BN3ftMLZ3hA9Rvw=;
+        b=UQ5NC5f8p4bWS+k70hKQhvwaRxw3S9P8Y6WPn53ObH5tD0Ht+bALfELoVSo5PVvYMt
+         Ho6mEA+d675vFifUOnQBQXJ9ghuViAizZH+Kbr1umS8w1lR9KJ3kY9dY1BcFIij9gFUL
+         fsNVGotjdIlfXaEIrpgZ8TxSARBFcX6rO/+cwSBjyAaO3jYIVMd3bMH2ulSCVNY7IPZ5
+         7Ee9nWX5B1gbQIuYyJKNzdudSbYouHLS+XmkecrMUq8Gc64dr8y8Mfs/AY/2rMfq4Y1Q
+         nnsBPmuemeDJt2LNKSEhxTeHOSkIcyR6JT2f9gZ61/P1boXT3MY75EagAVxiriAVT6jj
+         KAIA==
+X-Gm-Message-State: AOJu0YwTTxgM4MEOPzLUkqkjog/0CygtXq2fa4b0cWk9oYr+hzWbKSUP
+	i0WSYOpq/aCe0np65CH1KwZRbQDjsHPPpiftkLGND3zFkMEG2Qyitven
+X-Gm-Gg: Acq92OHBS8A427I9YQ5VzhuENv9RNIG66gRbeRUakqO22Hxb/+1wDvo36/j0Z7WGfCX
+	RyDMsywoCvYl/n8LSoHadDVxFPRR7ymOk7qrv7rX9E5btE5AiX73fsJSituxCDeM4uPWqqVD5Z+
+	teOcW0KaP/peU5R8DbwLPySxuSJ6/crG4lyZzsHeZbzCwTm8b/TxlNSgAcYvUrVS4GDtGDrK15Q
+	FGJLOGsUrLl9+cbyJXUF72/U/q9AD7ThG+tzvMEWFd94U9OClCCniXK4j6gXeLiM2TqDkCHAWKi
+	gg0syiX4PajB0yEn/NrgldsGaLC+294wtQJr5CIJYBaCEFZHwxrX8Q6Z60FT344STREj99hCMLJ
+	4l9DnbZyLuldqtsU4ojjAJV0yshZux+hhpCLNRKTMqsAbSGVyZzdq5ekvD/+dNPg1DAFDRg6XaW
+	jjOkdCeDq8d0f4Iu90/fYqqK+VTtNqymmKLuGsTL3JsYPiTJVqOpR7/gwmv+a4DFWKZ/oLt8/S9
+	Vvfi+/MIoWGG6QZ
+X-Received: by 2002:a17:90b:3901:b0:36d:de94:f31 with SMTP id 98e67ed59e1d1-37a03fb813fmr5350117a91.7.1781437737852;
+        Sun, 14 Jun 2026 04:48:57 -0700 (PDT)
+Received: from fedora ([2401:4900:79eb:8cfe:b4fc:6fb1:4b23:8420])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37a2179d743sm7388808a91.17.2026.06.14.04.48.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 14 Jun 2026 04:48:57 -0700 (PDT)
+From: Ayush Mukkanwar <ayushmukkanwar@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	skhan@linuxfoundation.org,
+	Ayush Mukkanwar <ayushmukkanwar@gmail.com>
+Subject: [PATCH 1/2] staging: octeon: add missing tasklet_kill in cvm_oct_tx_shutdown
+Date: Sun, 14 Jun 2026 17:17:38 +0530
+Message-ID: <20260614114739.87061-1-ayushmukkanwar@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260614060857.15366-1-abdelnasserhussein11@gmail.com> <2026061419-bunkmate-cinch-b506@gregkh>
-In-Reply-To: <2026061419-bunkmate-cinch-b506@gregkh>
-From: nasser <abdelnasserhussein11@gmail.com>
-Date: Sun, 14 Jun 2026 11:42:54 +0300
-X-Gm-Features: AVVi8CdUp7QjVsdE2N5IiYG6QwUSvi_854TvUVAKenslfGhwaHj6rgkG34WHdVE
-Message-ID: <CANpqX3bBFfSFteX+_9snU1KjYQK0cZT9KnNa9XpsSOk-254gHw@mail.gmail.com>
-Subject: Re: [PATCH v2] staging: greybus: audio: check sscanf() result directly
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Vaibhav Agarwal <vaibhav.sr@gmail.com>, Mark Greer <mgreer@animalcreek.com>, 
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, greybus-dev@lists.linaro.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	kernel test robot <lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Greg,
+The TX cleanup tasklet can be scheduled by the watchdog IRQ handler
+to execute cvm_oct_tx_do_cleanup. There can be a pending tasklet in
+the queue which might run after the cvm_oct_remove() frees net_device
+structures, causing a use-after-free in cvm_oct_tx_do_cleanup() as it
+iterates cvm_oct_device[] which is an array of netdevice pointers.
+Add tasklet_kill() after free_irq() to ensure the tasklet is no longer
+scheduled or running before teardown proceeds.
 
-Thanks for the review and the feedback.
+Signed-off-by: Ayush Mukkanwar <ayushmukkanwar@gmail.com>
+---
+ drivers/staging/octeon/ethernet-tx.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-On Sun, Jun 14, 2026 at 06:15:00AM +0000, Greg Kroah-Hartman wrote:
-> When you say "also" that implies it should be a separate patch.
+diff --git a/drivers/staging/octeon/ethernet-tx.c b/drivers/staging/octeon/ethernet-tx.c
+index 14d10659bce7..785c6492f170 100644
+--- a/drivers/staging/octeon/ethernet-tx.c
++++ b/drivers/staging/octeon/ethernet-tx.c
+@@ -668,4 +668,6 @@ void cvm_oct_tx_shutdown(void)
+ {
+ 	/* Free the interrupt handler */
+ 	free_irq(OCTEON_IRQ_TIMER1, cvm_oct_device);
++
++	tasklet_kill(&cvm_oct_tx_cleanup_tasklet);
+ }
+-- 
+2.54.0
 
-Understood. I will split these changes into a two-patch series in v3.
-
-> lkp didn't report the smatch warning :(
-
-My mistake. I will fix the Reported-by and Closes tags in the next
-version to correctly reflect the source of the warning.
-
-> No list of what changed from previous versions?
-
-I apologize for missing that. I will make sure to include a proper
-changelog below the '---' line for v3.
-
-I will send the v3 patch series shortly.
-
-Thanks,
-Abdelnasser
-
-
-On Sun, Jun 14, 2026 at 9:17=E2=80=AFAM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
->
-> On Sun, Jun 14, 2026 at 09:08:57AM +0300, abdelnasser hussein wrote:
-> > Smatch warns:
-> >
-> >   drivers/staging/greybus/audio_codec.c:335 gbaudio_module_update()
-> >   warn: sscanf doesn't return error codes
-> >
-> > sscanf() returns the number of successfully matched input items, not a
-> > negative error code. Compare the return value directly with the expecte=
-d
-> > number of conversions instead of storing it in ret as an error code.
-> >
-> > Also remove the redundant else-if check for snd_soc_dapm_aif_out. The
-> > widget id is validated earlier in the function, so the remaining branch
-> > can only handle snd_soc_dapm_aif_out. This avoids a compiler warning
-> > about a potentially uninitialized variable.
->
-> When you say "also" that implies it should be a separate patch.
->
-> >
-> > Reported-by: kernel test robot <lkp@intel.com>
->
-> lkp didn't report the smatch warning :(
->
-> > Closes: https://lore.kernel.org/oe-kbuild-all/202606140347.gGVWDnbi-lkp=
-@intel.com/
-> >
-> > Signed-off-by: abdelnasser hussein <abdelnasserhussein11@gmail.com>
-> > ---
-> >  drivers/staging/greybus/audio_codec.c | 5 ++---
-> >  1 file changed, 2 insertions(+), 3 deletions(-)
->
-> No list of what changed from previous versions?
->
-> thanks,
->
-> greg k-h
