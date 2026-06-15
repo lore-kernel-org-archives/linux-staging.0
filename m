@@ -1,116 +1,154 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEC493BB117
-	for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 07:12:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781507554; cv=pass; b=IM//dcqOlIhvTZhJ17dA8upyCEHZAPURrGOauCNxo6sqRvuXgUgKw6zkp76uMqEGEHkmmg7ORzoZH20M7Ambpp9GwlsXjRCHvxqP5PmtWJtcntISm26EeaWdZZCDG8uHZ5F+Ua9abNYZ27Jg6q5mQK3WWi7ZnNsfcCZoE41CKpQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781507554; c=relaxed/simple;
-	bh=FzhraAC351YoE/9WyaNWJaPNFlY7jKFOVa/EdskiQPI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WNDueaZlTitlfu9UfV44E9xN6H+p4OkpDiEYCz9YySx7ij0+3DpZBDow8x9SM9nDPpP8ShAK5ZxWp6GG/NFa0Bfs4/rrLj17L08GysM1xJg35yxRurZHRUhND5J2p3TiJd/1eYcR+/QUQsnh4Nou/1OMrlmCx80AbYdRZ6n3IJo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P4H9M/23; arc=pass smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D691A285CB3
+	for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 07:21:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781508088; cv=none; b=kBbQwAM9yrESz2vn7Q3z/mJ+FjD0TxOyTci4h9F7MiQEcWBKtu0/7/eT6VtHvoIy73CEPQUYzTR5PnKxDGcXckRGLI8jXsVXQPTM09pOuqtLf1Q3QcOtykRG4LWavnBV4kG6BMDmQDp+b9eLCtDD+PKbyRYHc/pVgKQkG3qSCXk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781508088; c=relaxed/simple;
+	bh=nn7+2DPi0Vk6/84iHpl+6OO1INGJcUWpTlvIFVjD/qY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=m2De7DAemnvcDyZumJq8e7NQIZJSRx0Qh4AjVm+LCw1TR/YZfvzYSx9mJYOakULTz0uiaJb8rL75jSxX8Sp3fA9b+9ZC24L0hwIVrPFfIMBSQGqUg2dKQFdZEv9sTyhi07nJ+PrQy5P8GWZUj+h1lcNohaZI9FuwU7+XgmrI1TI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fDPPQctC; arc=none smtp.client-ip=209.85.219.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P4H9M/23"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-bf1cdcfd6deso331055766b.3
-        for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 00:12:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781507551; cv=none;
-        d=google.com; s=arc-20240605;
-        b=iPQqi1dSKpIKgh73qdxtpIfwCOjztwLBHo7nCpcxG1XiDMq4IrdGX+djgfvx603e98
-         I1ns2SGUEo+eO1mK6K3AMLqM4gQgzDieKD71v4WNwf8MvYX+eG2ADZjarLIyv0pxzxn2
-         b5qlRtvVFIg3Hu3HUg6lAPKgVJUcyJe3BFBkvR/pCPfzrN8iu+ZBYaTV6QEJOyg1LhWj
-         b0Ai347JBgX+C/q+FhmQiw4y53DieGjN5Juo+v8f8jczlRES1/Z9vA8daWTybbuOoSqW
-         knFIb1EwayN8tLP10s5vaZEyG9PbjSN/skQq/XlPu1ipO9Kb7f4W3FsGXesbVcnF6fml
-         bokQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=FzhraAC351YoE/9WyaNWJaPNFlY7jKFOVa/EdskiQPI=;
-        fh=WxgVumbD35Vi2S5ImWZSKtmcH4ik3KXATs4L1QWze64=;
-        b=Sy+UP/e9YPErKU3Pqv+/YxekZ83Nw++fL+x4KS9ZeEr6H2TweGkNJsmTv83kkEC9O9
-         ypFw+U/zELVOXIAnhzoHADJ0j7YClYnsOL/T4HGVAJznu03fC8f0nwEIIG1n55njYhIK
-         0xrmwL/BcOj0J4kskXWwo46TFdLExKCIumf+UuZXjMwyZdBmGI+XwoQSUR1IXrFlezQz
-         Zpbxf9P/g3W2s8O5niKSVC8sHGMDGnEwBatQ6koTESHc+F/T8eKLVsUkTFTT0f/r6Y3a
-         ghWWJ713NdqTzALDItVQT0hPNUkV4IO9NG74cLZQdLyYi/MW6pioaZ4uA7CgxomjlYB3
-         epZA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fDPPQctC"
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-8ccdf8d4ac5so37534376d6.1
+        for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 00:21:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781507551; x=1782112351; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FzhraAC351YoE/9WyaNWJaPNFlY7jKFOVa/EdskiQPI=;
-        b=P4H9M/23LW+EhYf9o6S2qUkEJ+6GoGVMSadQ9iWb98hufB7QTzqT435o5kmOA1WR2z
-         71C5YAY0LDT5pl6LyyK18bwosomUFjUa/FNxeQ5g1WNFr4Fsk8HaXfJ/7Q2imMR5eR1l
-         /xwp9GapNO2bObN5hCRhzMdSUl4q8cpC5CfBvKO8zghjQi4f17/9U1FP5khbnZ48XWhD
-         PUPC1+2NAbpQmUCfweXlRB/WmswJ62tUxaAgBBwb9jH8oLOCe1C3VsMFxTspQ27B7KSB
-         ai3Ka5ES3/XsHf3j4E91169pDekeu6h9aSTKSAijiJoCn3wkEhmND08f/O3JYIv93jjD
-         sHhQ==
+        d=gmail.com; s=20251104; t=1781508086; x=1782112886; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=HfIJ8NJLS2iVdVFuYqB5vEsChL28xPZok5XYeoWnpW0=;
+        b=fDPPQctCnicrchQKsxlToUgUSOgjl1WnzSB9d1F639cQQUph1OZBEo8ZqDzOMKfBlT
+         ax3H72VSAROwT0gc8mIVkn6A3z1TIWdbDPNUK3AAZqg3kQQBFbg5DBa5apFtVc1H0Krh
+         rqd8LclTK5xHJQF5LW9GzkgPYd8EgjF2opMZOA1OWdLH8Uj746UWXfVhPuJc39Mg10ML
+         DCy3AR4faelM/DakRmpq8DTDVjOSteOJxHsllq0Sas0/Nq9G+eBkcxhaLjW35H4++T5w
+         WfhdU+k43rb5ot4GZkpWUHdrvIelPZHFBkprnmnMUFRlpH+8YC284adXWGksXRLJ1NVH
+         Acag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781507551; x=1782112351;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=FzhraAC351YoE/9WyaNWJaPNFlY7jKFOVa/EdskiQPI=;
-        b=G2VN0i+iez6e1LwFwhCGJpG+tIS170yMhFY8raUIkdJFMxBeFAxRdgv7zZNCwTQKK+
-         RgysDD5gk0eDfrKFazjz0X4DCRDGCTRw/wi2uaL1xn2uOxwmJlwoRGYn6OkDr7NzNm8T
-         1VckqbIbBQIpf8H4uBPncc8s7l2Ao6vSaG/1y41+XLirPWujXZ+/FhTfYvEZMv9JW5CZ
-         GJnnq3LcmrP0s7fSxjg0uD9/1tW+GIrWYUyG1jxNJVpKeeA0YFC3k31y3VtWdvP9DbVh
-         ZY7wjYXzjJ6jZhLmNrPlyDPpaE1baJuIr6PRjK+8Fy/U+hP5t9F2+WqpNJicR89+HDjB
-         88bg==
-X-Forwarded-Encrypted: i=1; AFNElJ86qA5peYE0FQXgYI41x+SRZmhaishlGtRVj2tpnKaGdDFvUvBkthHY21Q3r5ywRWjmM4t9apwkekawttoW@lists.linux.dev
-X-Gm-Message-State: AOJu0YyVe7asS+MWHaHzBJ9Cig+foH8KIoELDJT32W9albU7pOipRHPz
-	aPTXwA4UjbkWzMs3w6PJf2xKnAnR5n18pi27g0+PjNPfSgMOS84+VaRW3PnBLS17B0Sowrxhmu/
-	8HoRx+gXP1LjcynweAGnzxemtsJGPa70=
-X-Gm-Gg: Acq92OGhqi9q6PZzSI6XC3McGRHMcUKa8SHfzzfD/4k/L35MQcYRss4Ewci15BsA7+X
-	WFdgXIicHYndHv2i2pnEJ0H+4gxyKmNACJckxpB1VZ5NgTAw/Qq6330b5WUiE7UhFib4NO95UYJ
-	7+EprfoQ8BsKU1Zf6wToYkiTrq7uHRcKWKWaaFhaw2b4zoH2aH5xaNXFAH/TtFaEaGaj0X2tJAi
-	q6bLHsc7yujgtDHQa0q8IVrmLip5jq0N/duseNDC6uk4AcHYIltUkup/4YOftWCd4hbRH9SdQ2v
-	xefcvkNI1Qn5FYBxxjGIbknbhFo+VcwBEw6eDrg+ImMnz84O5QEOYOCQV8RzwHKRdCMGsKbeDoF
-	TSa5F0jw1PR7kw3+UI0rtOPFNTDRhXzIYS8SGHqVBkY2Dde0F1NEg3kaes8hvANUP+Dhf
-X-Received: by 2002:a17:907:1c9f:b0:bee:426:87ec with SMTP id
- a640c23a62f3a-bfe2a21eb9dmr597482466b.23.1781507550955; Mon, 15 Jun 2026
- 00:12:30 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1781508086; x=1782112886;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HfIJ8NJLS2iVdVFuYqB5vEsChL28xPZok5XYeoWnpW0=;
+        b=M76gSdyRf9PhAVECQUVxaLu6+LpjIVYo2v1WWb4hK6YSf0DURMbYiUBXXknAchFskT
+         w2rW3Bv986aczfJTZywkgJQ7t2Ojz1C25Klt6lys9Ggj+z+/81Iyhr2DTr/4T3BKOVc9
+         DS82eHvjsCHzq0j6oUGkgvVo/kj9SLCF1xV/bNrQG+gm5zOY6uJtqr9IuuCzCf50NoZ6
+         87Y4vFtrwl3fPxnn3sZn8q8o5A5Pfg1y4ULjbhp2BAfX8MHn9ahC8o8Uggr06q3bkcAz
+         mK9vFop5ZtbwpEzLh2JDOFl71LJoVsZTSM8kPs4+yQFuZ0Ne+bt7hu2dnaNvbepDaqvM
+         LPhw==
+X-Forwarded-Encrypted: i=1; AFNElJ+BC1qn1hcabSRds4x8kFd4A/khoiqwwGtAXGyLHGbXMdfX07kwS6aGWNuT6kQBrujvUqqnxXftdkpgoebG@lists.linux.dev
+X-Gm-Message-State: AOJu0YwR1qqepyzhu9Gr5/Cki4IpHZKHYi223es39VTX0FpJclwUBz9T
+	6XMC2YW8Dw6uztTW9CBQttBMEXgRCGwUMr1GuRK2jH0Bppjv1GhovoKk
+X-Gm-Gg: Acq92OGpZCZn4kbX2IjrTL8J1SRaVRZNuUba+BqVz2IoGn7kE3/3R/uhJjCpIfluc2p
+	3+UEBN8kxbQ2Q6b6mcEvCMOYAANJBUUwnWDRaA4c5/zfay2wcXfFQtIqzHKPoNoaYuNya4XLB7Q
+	s6znipytppxH06DQ9S9E/SXDkKFn+z7JAhot36X4yjzYETacFj9w0egr6MdjVcsV/3IN9COXi+R
+	ptyPmIKaCbRVo/dLE27wZK43JMiOQrVxVaXSuerBE835FxbGbytYQm72v6i8omIj/+BOP1rNh7d
+	F+CfJbEj3QNMU0Jxjm/DcU5CFvcMBJ8gYWUyYWEZTorf0e8nv/pGoAAGNQ5oOzdG6k5zQdw/6lk
+	cPjgt6ZAwSgleez3Frn4Y9tGBaTCG1YbmCUBa7Kmve9FSVFfoWGWIE0H/ajuuHLhauy1f3lOEFs
+	GRBCkRwkR6pecg+s3A
+X-Received: by 2002:a0c:f403:0:b0:8ce:c4cd:90b5 with SMTP id 6a1803df08f44-8d32e30db3fmr247247706d6.35.1781508085747;
+        Mon, 15 Jun 2026 00:21:25 -0700 (PDT)
+Received: from localhost ([43.225.189.75])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8d304578816sm103457206d6.23.2026.06.15.00.21.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Jun 2026 00:21:25 -0700 (PDT)
+Date: Mon, 15 Jun 2026 10:21:18 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: abdelnasser hussein <abdelnasserhussein11@gmail.com>
+Cc: Vaibhav Agarwal <vaibhav.sr@gmail.com>,
+	Mark Greer <mgreer@animalcreek.com>,
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v2] staging: greybus: audio: check sscanf() result
+ directly
+Message-ID: <ai-n7jNPT862Wscj@stanley.mountain>
+References: <20260614060857.15366-1-abdelnasserhussein11@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260614201551.20542-1-reeveskeefe@gmail.com>
-In-Reply-To: <20260614201551.20542-1-reeveskeefe@gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Mon, 15 Jun 2026 10:11:54 +0300
-X-Gm-Features: AVVi8CeSC29eIc4U_npHh4CvhBaUd3ShetIXEBLYi-0z2YrMYKXv9Qbr5BF-IPM
-Message-ID: <CAHp75VfkVQ0JJd4+ceniNnij8t-PXsrNOfof4c6NDWf3KW2s=A@mail.gmail.com>
-Subject: Re: [PATCH v2] staging: fbtft: use %pe for backlight errors
-To: Keefe Reeves <reeveskeefe@gmail.com>
-Cc: andy@kernel.org, gregkh@linuxfoundation.org, abdun.nihaal@gmail.com, 
-	error27@gmail.com, chintanlike@gmail.com, namcao@linutronix.de, 
-	niejianglei2021@163.com, dri-devel@lists.freedesktop.org, 
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260614060857.15366-1-abdelnasserhussein11@gmail.com>
 
-On Sun, Jun 14, 2026 at 11:16=E2=80=AFPM Keefe Reeves <reeveskeefe@gmail.co=
-m> wrote:
->
-> Coccinelle found two places where backlight registration errors are
-> printed by passing PTR_ERR() to dev_err().
->
-> Use %pe instead so the error pointer can be printed directly. This keeps
-> the behavior the same and just makes the error printing cleaner.
+On Sun, Jun 14, 2026 at 09:08:57AM +0300, abdelnasser hussein wrote:
+> Smatch warns:
+> 
+>   drivers/staging/greybus/audio_codec.c:335 gbaudio_module_update()
+>   warn: sscanf doesn't return error codes
+> 
+> sscanf() returns the number of successfully matched input items, not a
+> negative error code. Compare the return value directly with the expected
+> number of conversions instead of storing it in ret as an error code.
+> 
+> Also remove the redundant else-if check for snd_soc_dapm_aif_out. The
+> widget id is validated earlier in the function, so the remaining branch
+> can only handle snd_soc_dapm_aif_out. This avoids a compiler warning
+> about a potentially uninitialized variable.
+> 
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202606140347.gGVWDnbi-lkp@intel.com/
+> 
+> Signed-off-by: abdelnasser hussein <abdelnasserhussein11@gmail.com>
+> ---
 
-Oh, nice! Now
-Reviewed-by: Andy Shevchenko <andy@kernel.org>
-(for curious ones: you can also see my comment against v1 of this patch).
+This static checker warning is triggered when we propagate the return
+from sscanf().
 
---=20
-With Best Regards,
-Andy Shevchenko
+>  drivers/staging/greybus/audio_codec.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/staging/greybus/audio_codec.c b/drivers/staging/greybus/audio_codec.c
+> index 720aa752e17e..6daa4e706792 100644
+> --- a/drivers/staging/greybus/audio_codec.c
+> +++ b/drivers/staging/greybus/audio_codec.c
+> @@ -311,8 +311,7 @@ int gbaudio_module_update(struct gbaudio_codec_info *codec,
+>  	}
+>  
+>  	/* parse dai_id from AIF widget's stream_name */
+> -	ret = sscanf(w->sname, "%s %d %s", intf_name, &dai_id, dir);
+> -	if (ret < 3) {
+> +	if (sscanf(w->sname, "%s %d %s", intf_name, &dai_id, dir) != 3) {
+>  		dev_err(codec->dev, "Error while parsing dai_id for %s\n", w->name);
+>  		return -EINVAL;
+
+So this code is fine as-is since it's returning -EINVAL.
+
+>  	}
+> @@ -323,7 +322,7 @@ int gbaudio_module_update(struct gbaudio_codec_info *codec,
+>  			ret = gbaudio_module_enable_tx(codec, module, dai_id);
+>  		else
+>  			ret = gbaudio_module_disable_tx(module, dai_id);
+> -	} else if (w->id == snd_soc_dapm_aif_out) {
+> +	} else {
+
+Yes, this is what the static checker is complaining about.  It thinks
+that the if statement might be false.  But to a human reader, the
+else if or the plain else are equivalent.  It's just a style choice
+which way to write it.
+
+I would just leave this as-is since the original code is fine.  To be
+honest, most old static checker warnings are stuff that someone
+already decided to leave as is.
+
+It's better to write new checks.  Just look for simple fixes in git
+log and then you can vibe code a check.  Better to work against the
+devel branch of smatch.
+
+regards,
+dan carpenter
+
+>  		if (enable)
+>  			ret = gbaudio_module_enable_rx(codec, module, dai_id);
+>  		else
+
+
