@@ -1,78 +1,45 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28E1E416D0A
-	for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 17:29:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25AF82D6E44
+	for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 19:46:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781544590; cv=none; b=eBmowctKZXvDhKSANvwpsu6tSgIUshM/ousDXNGSDAEm5RnJgysHstggn0dg4TUbcGbbi7AUhXPb5jXfpK8A1DLXKoWZT8OeAi6yhP+kaB+bOUY3DNi0Ky/YRMBpMHW22uWos9E7ozxzJ8P9/xRDCBKqcTAqRwhbljWGfqSCodU=
+	t=1781552783; cv=none; b=joamkw2yGQYEqR6tZKXZrvntkvwV6AAGZ7BEhHjpNQwJuV9uW/v4+BWI0Kf9cToefEHK9XezijRe4d/QrfJC4QtFYiNhcu9gc50SUlCjcQ0EG4AhYY5kupy4eu8mfw0Um0FTL4YR+8Au3Kl6VpOI5b4DVVDGmXbrQCowbTRTSho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781544590; c=relaxed/simple;
-	bh=UBpkXLYHfGfP21sRIvOuvWMqtu6js0FvM4qTTeQS82w=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Qsf/1A5iFMgA36fT8TMSj/CZa0vDxVbYAwPiPsDv685ymk5M0ttCiiALRmmw3C++rQncvtKu4qrjKIcoOnuQwPXZK1Fa5Qc+KercmRzVTrcl9R5E3ZJvZ3s754CnFDj5fjcvpULKluEXxMSOQH/2HUiKXzI8paWVVRidFHBQIMg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fn8DyQEo; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781552783; c=relaxed/simple;
+	bh=F8//HOzop0wZqkW/+yb7DeIyN49eYkCf+tfjSwgBSAc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FEHnMNspRL2oA3m0WRnfa3+of56mLQWiXsTFtYkZU/m7RnrCWuuvgjxKQjFuOaE1WtVlAG/v0bRPgUo0sqcSDKy0PT6NvGkyvI328L6gzuJ0zDA34O0DQDAwwZBe4EwDyvyTcLzyHzixcRqKqCfS7DtWbOP4tkfA8L55T+NkuWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=f7eV5/hQ; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fn8DyQEo"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2bf13f17da8so2381245ad.3
-        for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 10:29:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781544587; x=1782149387; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=blqmb+amG4DpJECopbRIs77Qpd+XdY0Z9iQpAl7/TEM=;
-        b=fn8DyQEoZTTS2lubWHX5FVpOC0EHgKS4v8BADwvvkZSgyZSR9hAP2VnjK60i2PdhMv
-         mjqwf0YxUIec9gnve9OyhCCfT2yENH6J+v9FMh9dKKgZZLZhEbBF0jlqbX8YKnc3D5LL
-         QzP/DdGzz8rl3q6uSp6++JKPb50Gb3hYOi0rhKwztgiGn8o+O2mHMDkrf06JgY3NNaq9
-         /u8bEYyh9CP/wg2QLniMO90XERbj2oCkMK1iUJFosquyeIy6YQWeaHKhvTu64zlS7gHE
-         tgpAGowghQAx3Fa41RoLT+G05AzcLn5KxUbIrPb4u1x+w2ISH809a5TxXGE2Nzm2xljA
-         HpJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781544587; x=1782149387;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=blqmb+amG4DpJECopbRIs77Qpd+XdY0Z9iQpAl7/TEM=;
-        b=lMHQCuiMrXDCkLAmSYI8O9bpIi6ZeFngNZGo1EH1JBDKu+w3AzIDPSSeWpZlc+FB1q
-         sFkIPJaEcVI3mbbJ+S1Z6Ln9XTxrmYYn6GercGvLMOOlDHobWlpd8Y96eqkn4J4+4FHl
-         MmP+56KelCvUgEWr3jjTV+fJmOOt5v1oXy8hQq6xuhw1Qvg59BD+M3gcXKp6boRFLfHd
-         nTSc7bcDIvNICAJ0F4PLZYnlc0aS0TbCUpjh8skOYUt85c9wqf3YB+sXMZWGjsS4gPH2
-         Sn9z72uCrGQw/ccKujQzFUy53WXNvbkw8buRuzh2uugxfxszHoNaZ+44xhWN9FHnQjbb
-         7HLQ==
-X-Gm-Message-State: AOJu0Yynp/OR1DIy4ojvfHW5S7kFI5pDdGgXvRs96yNApt2xLr78VuOj
-	puXWTFKGxtOKpa6ktpqiua2IrAX4IVYWu+dA9Sr8WfDOTym5thGX7tl9
-X-Gm-Gg: Acq92OETJnrTHcZ9CCwarYywWrsz6fB414ylFxUEvipvAzodAIFY6m8q/KYqkkgQaUF
-	XOnxn30vu/AZ9fTjmY/YvRjY98rhu2ik8GCjH7o6yNXYhqImljV8bCyqLBFMkipSSnxJGke2MMR
-	dyRt2+yRPAWETicflTXY2ZfuWDboyl0nj6S9Zpzm1G5+MbVuJmROANRFh/re5mYVWV1ecA2EMeH
-	sb9nVcugLc5hEpos84UV0WycvGQThewZ1Y/JV6xIuU21A41I4fVSV4yH0LO1LYipfINnhpHJ+jL
-	/W1xURYKa+bUqvc69a+5B3nimqAfAp7fykgahgQHD7Lv8RUrXQUUSM6ZPOcyNnUTZuymhJLqzPA
-	DQjf8MP7ZETLugmHr4bHVGpGV+YFswdF001a5LifBo0cNRU2nw8DwJ/s4P+pvGdFIMcnbobhmWs
-	YMB63qEHnLB0ClQJ7ZudVpzm+gXs/pOsFz1EN/TGe5XdJoSH7tbTxKyC2yHfY/0JNzbkgE3pzM9
-	xDJQxEIgdiZgvb05YUr15YjSUs=
-X-Received: by 2002:a17:902:e88f:b0:2c0:b359:99c1 with SMTP id d9443c01a7336-2c41050946cmr83596165ad.2.1781544587495;
-        Mon, 15 Jun 2026 10:29:47 -0700 (PDT)
-Received: from fedora ([2401:4900:7c8e:5373:4159:c5ca:b737:78a0])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c42fbb5411sm105001775ad.32.2026.06.15.10.29.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jun 2026 10:29:47 -0700 (PDT)
-From: Ayush Mukkanwar <ayushmukkanwar@gmail.com>
-To: gregkh@linuxfoundation.org
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="f7eV5/hQ"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4gfLGJ0P1vz9twp;
+	Mon, 15 Jun 2026 21:46:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1781552776;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=jjACC5qVmQdhDivw9+MwXW4hAT6BcvtyY3lMI/q4T9k=;
+	b=f7eV5/hQ5M2hXepRuXTZ9xMoVhA4zkfddYd/mdhL7BI+Azz91j4tzJKahxlk1dT8iZ0eg8
+	sbK8edTrSRUoxzPr1ra9QU7mvzvzJcEvTgWRka13ACYlJEuLeJRNz8dA7AKDUznkOBYmFc
+	SW6q+G4hGC8bLaCxNULfa1LSPdE23INP8eAZeUVXgKSE2qld+f8rMHs6GEm+qoTgSae4OB
+	5R9D8ytn/yt9e0+rGMWkh/EtIwm4U/YrOxPaNOcnB5Os7I9eUq1Z9FZfpZaboeL2dXLPzk
+	Jn8I1CHieVTHqx3OErrWivQ9ckdqvsbUPehuwsoCDq3nH4FMXLaAOIEhhBaucA==
+From: Andrei Khomenkov <khomenkov@mailbox.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andy Shevchenko <andriy.shevchenko@intel.com>
 Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	skhan@linuxfoundation.org,
-	dan.carpenter@linaro.org,
-	Ayush Mukkanwar <ayushmukkanwar@gmail.com>,
-	Sashiko <sashiko-bot@kernel.org>
-Subject: [PATCH v2 2/2] staging: octeon: add missing napi_disable in cvm_oct_rx_shutdown
-Date: Mon, 15 Jun 2026 22:57:34 +0530
-Message-ID: <20260615172734.42038-2-ayushmukkanwar@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260615172734.42038-1-ayushmukkanwar@gmail.com>
-References: <20260615172734.42038-1-ayushmukkanwar@gmail.com>
+	linux-media@vger.kernel.org
+Subject: [PATCH v3] media: atomisp: replace kmalloc() with kmalloc_objs() in sh_css.c
+Date: Mon, 15 Jun 2026 22:45:48 +0300
+Message-ID: <20260615194548.20963-1-khomenkov@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -80,43 +47,104 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 14346f74dab98064f4f
+X-MBO-RS-META: io5uppiifitymjmgcjt1eqyqiib9iih3
 
-cvm_oct_rx_shutdown calls free_irq and netif_napi_del without
-disabling the napi instance first. As the free_irq only waits
-for completion of hard interrupt handlers, the napi poll
-function could still be active. If cvm_oct_remove proceeds to
-free the plat structure (which holds the NAPI instances), the
-active poll function will access freed memory, resulting in a
-use-after-free crash.
+Replace arithmetic in the kmalloc() function with the kmalloc_objs()
+macro, as this calculation method is unsafe.
 
-Fixes: 3368c784bcf7 ("Staging: Octeon Ethernet: Convert to NAPI.")
-Reported-by: Sashiko <sashiko-bot@kernel.org>
-Closes: https://sashiko.dev/#/patchset/20260511150931.93382-1-ayushmukkanwar%40gmail.com
-Signed-off-by: Ayush Mukkanwar <ayushmukkanwar@gmail.com>
+Suggested-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+Signed-off-by: Andrei Khomenkov <khomenkov@mailbox.org>
 ---
-Changes since v1:
-  - Added Fixes, Reported-by and Closes tags 
-  - Added compile-tested-only note
-
-Note: This patch has only been compile tested. No runtime testing
-was performed as I do not have access to Octeon hardware.
-
- drivers/staging/octeon/ethernet-rx.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/staging/octeon/ethernet-rx.c b/drivers/staging/octeon/ethernet-rx.c
-index cd36b5ba6f6c..3e9d58d32156 100644
---- a/drivers/staging/octeon/ethernet-rx.c
-+++ b/drivers/staging/octeon/ethernet-rx.c
-@@ -535,6 +535,8 @@ void cvm_oct_rx_shutdown(struct platform_device *pdev)
- 		else
- 			cvmx_write_csr(CVMX_POW_WQ_INT_THRX(i), 0);
+v3:
+ - use 'kmalloc_objs()' macro instead of 'kmalloc_array()' function
+ - drop unused 'GFP_KERNEL' arguments since they are default
+v2:
+ - use 'sizeof(*ptr)' instead of explicit type
  
-+		napi_disable(&plat->rx_group[i].napi);
-+
- 		/* Free the interrupt handler */
- 		free_irq(plat->rx_group[i].irq, &plat->rx_group[i].napi);
- 
--- 
-2.54.0
+v2: https://lore.kernel.org/linux-staging/20260613110712.71436-1-khomenkov@mailbox.org/
+v1: https://lore.kernel.org/linux-staging/20260606095410.13968-1-khomenkov@mailbox.org/
 
+ drivers/staging/media/atomisp/pci/sh_css.c | 34 ++++++----------------
+ 1 file changed, 9 insertions(+), 25 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
+index 6cda5925fa45..0733d33101b2 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css.c
++++ b/drivers/staging/media/atomisp/pci/sh_css.c
+@@ -5819,36 +5819,27 @@ static int ia_css_pipe_create_cas_scaler_desc_single_output(
+ 		i *= max_scale_factor_per_stage;
+ 	}
+ 
+-	descr->in_info = kmalloc(descr->num_stage *
+-				 sizeof(struct ia_css_frame_info),
+-				 GFP_KERNEL);
++	kmalloc_objs(descr->in_info, descr->num_stage);
+ 	if (!descr->in_info) {
+ 		err = -ENOMEM;
+ 		goto ERR;
+ 	}
+-	descr->internal_out_info = kmalloc(descr->num_stage *
+-					   sizeof(struct ia_css_frame_info),
+-					   GFP_KERNEL);
++	kmalloc_objs(descr->internal_out_info, descr->num_stage);
+ 	if (!descr->internal_out_info) {
+ 		err = -ENOMEM;
+ 		goto ERR;
+ 	}
+-	descr->out_info = kmalloc(descr->num_stage *
+-				  sizeof(struct ia_css_frame_info),
+-				  GFP_KERNEL);
++	kmalloc_objs(descr->out_info, descr->num_stage);
+ 	if (!descr->out_info) {
+ 		err = -ENOMEM;
+ 		goto ERR;
+ 	}
+-	descr->vf_info = kmalloc(descr->num_stage *
+-				 sizeof(struct ia_css_frame_info),
+-				 GFP_KERNEL);
++	kmalloc_objs(descr->vf_info, descr->num_stage);
+ 	if (!descr->vf_info) {
+ 		err = -ENOMEM;
+ 		goto ERR;
+ 	}
+-	descr->is_output_stage = kmalloc(descr->num_stage * sizeof(bool),
+-					 GFP_KERNEL);
++	kmalloc_objs(descr->is_output_stage, descr->num_stage);
+ 	if (!descr->is_output_stage) {
+ 		err = -ENOMEM;
+ 		goto ERR;
+@@ -5974,29 +5965,22 @@ ia_css_pipe_create_cas_scaler_desc(struct ia_css_pipe *pipe,
+ 		err = -ENOMEM;
+ 		goto ERR;
+ 	}
+-	descr->internal_out_info = kmalloc(descr->num_stage *
+-					   sizeof(struct ia_css_frame_info),
+-					   GFP_KERNEL);
++	kmalloc_objs(descr->internal_out_info, descr->num_stage);
+ 	if (!descr->internal_out_info) {
+ 		err = -ENOMEM;
+ 		goto ERR;
+ 	}
+-	descr->out_info = kmalloc(descr->num_stage *
+-				  sizeof(struct ia_css_frame_info),
+-				  GFP_KERNEL);
++	kmalloc_objs(descr->out_info, descr->num_stage);
+ 	if (!descr->out_info) {
+ 		err = -ENOMEM;
+ 		goto ERR;
+ 	}
+-	descr->vf_info = kmalloc(descr->num_stage *
+-				 sizeof(struct ia_css_frame_info),
+-				 GFP_KERNEL);
++	kmalloc_objs(descr->vf_info, descr->num_stage);
+ 	if (!descr->vf_info) {
+ 		err = -ENOMEM;
+ 		goto ERR;
+ 	}
+-	descr->is_output_stage = kmalloc(descr->num_stage * sizeof(bool),
+-					 GFP_KERNEL);
++	kmalloc_objs(descr->is_output_stage, descr->num_stage);
+ 	if (!descr->is_output_stage) {
+ 		err = -ENOMEM;
+ 		goto ERR;
