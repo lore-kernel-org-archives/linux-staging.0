@@ -1,98 +1,120 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7B8034214A
-	for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 12:18:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2C1F3E2750
+	for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 12:19:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781525935; cv=none; b=ixbjsA/0DP5U8OFvm+xAaWdU1+GEJvOoR2PzBCYtY+jMZroqD4MSyGpo2glftZhXdRoUAZVemXr9CYUN0LBrWGVxsjJAooTRk5R0IKWbBe+VevpA+QLZdol8BlR5UiT0smIiUDFIpCAAZR7K2PZSIfWTmQn94wA+EtwDqTOUnG4=
+	t=1781525968; cv=none; b=GFhrNlp6/boFW14CHmKxHi4xYtZGhP9eTv5Y7Vr9j805tnMxzSWxYMmMmNySCJ09sSfj0IoLVNAmnmnpTwwiH/aqfrXsC572UHzivxH20votSXfHLMwWOaHUdHTRTK6EzhB4YgMJSb7HvEeRtWtW512Lx84LtL217UwpYDyznew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781525935; c=relaxed/simple;
-	bh=BmWK2a+I80nUyWO3nz3vQqKUb8ODz3gXv4ZkC6nsj2s=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bW27H5ASKObbd4qE0D8MbTZY6FPbUHn7MoctZ0uIRHYE5tBkmIgr8sLBhP1egeO1Wu2uZliJWV4VOPAYL4hl8FzHwLqUZ2POlhFdgTU/TC6F4ZBHAyJZy+f1HDQLMORVTCprW1pgmTPsJ2MXeVugErkoj6O+UYsabXNLzT0BMyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P6W+P0D5; arc=none smtp.client-ip=209.85.215.172
+	s=arc-20240116; t=1781525968; c=relaxed/simple;
+	bh=fBO2hJf4+rPrkOp74SVXocT1M+hIBpxOon9pkP770BM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Bgas9IF4D0P48j99Bo7Ype59TLAOVNjSiEiuVPwpg8m/eeO1CwCAv9PVvQePjJnXhoZmD7wn35pdt1OK5nuOidmDcqArAXKan4Li6SqG//FekLDmM316yVIIQS1eJBDBel7UMlrCF7MB1r2ZaSxEh4TiYh+26GhOWshjd7MOWl8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T0yA/mgZ; arc=none smtp.client-ip=209.85.160.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P6W+P0D5"
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-c858b5de728so2052743a12.0
-        for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 05:18:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T0yA/mgZ"
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-517907feed0so43734851cf.1
+        for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 05:19:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781525933; x=1782130733; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=JbDsrHiVlos6LOW2SoeVcldxygFzAZXb00C8wGvdaNM=;
-        b=P6W+P0D5pgvLtAUucabPvOXC1pdrbm9Md1yxtnfA9ZL/5TLpaVnJTNFqPBGkXJpG5S
-         Iq6xB/fCCQlhJ3hb7llhNxld77z0Ms5E4FRRHWgGnC29nrFwc65bpsMC1GwrlRL+LQci
-         1rMD+Gig5i/m5tDyzTWb4LcYn5hHacxw5QtOBn2n4R8vXw337MLTRaOdhAmkskoPFNdX
-         jbMcJxGm3W+TkEifaP8SEfvbG6INWzP2BiF9f9al1mL9PL4GEJPUR9Zk/YR2/kFkHlbF
-         YrJFcn5VumXEY0i7NrI/nNEu9pqHZ85nomEk2J/jbShfqwUEJmcc2zTDCaCqnawkcUKN
-         PoKQ==
+        d=gmail.com; s=20251104; t=1781525966; x=1782130766; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=4ZBzvTGg5RXWxT981zetPvdIqY02XPOz3n0/R5VS1+w=;
+        b=T0yA/mgZk6WpLIIbfHGYTrIEzR5zdWz7pr8geLYvBajVkTM6wEiJm9FR+a31QKZlzn
+         YrYJ0hSNmpGf/N6XpYzolRdJYU6KyGzRCEYJ9zPH/7tB/jMw2cbG2E1pCD7hvSn5U1wQ
+         t8UAAhzL6vT+yIhzgUWpE2JF7kfOhP1NmRWXIpfBr63fhC9uKGb0ucN4UUmR94XQfwMc
+         Awejs4aCp7eiwSY3zrZ9Tq3oMCE5XkkctOjYkKeuKrYGOOGZb+wb4DMtHQeyWqaCL39T
+         SOixA69rNIGsOLuDdqTKl2X10hSGgyDnC97xuIWJAuNxve0vPX2dWVrhDBLm++Dvlg0X
+         lokg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781525933; x=1782130733;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JbDsrHiVlos6LOW2SoeVcldxygFzAZXb00C8wGvdaNM=;
-        b=WYJehz+A91YnokaBw3TUVjKsBO7qJU9as/H8SZiWmFu9WvPdOcCkSdbi9aVap68IDo
-         /CizNcXckkswYO/yZUyBwQXX7aCPtMjDOL1SihA4S/wV/R1cJGQQvoJc6YlINTOv2tri
-         /+BouULS1W/hcxRNfWfkapuJCkY4WMmU1XgIFY7KPCXA2rIDY074eB2T9109hruYljbN
-         BvOeuZrgUadtfg9T5x29C4VwdQ8COynOQZUfRek5/1GT7XGnZXcIZec0r/krcG/PreWD
-         PrpGi/drsMd6AOIRqqhtHQvVajonucPhuogwVVckfVqkBBWBXdgMtpS/EEpBy4PUXEhj
-         Gw6w==
-X-Gm-Message-State: AOJu0YwGt5R7TA2eNALFvsnpTeghWPNbYV5XsJ9F0+6t6izdBUwy/8LO
-	LxqhdZ9pgNMWh9vzrV5aXQ+7jAQh6olcTdJCRbR4D5wN/t0FxL0BVdc4
-X-Gm-Gg: Acq92OE3Wh0ksfEowffSW3aFICb5bGgGzDA/JURKNqUHFXLXmzC6t62Fr9XRtVnzf1J
-	SmKw5R3KIFhN8yPMZhMzHVdBQfgBd6D814Gvc+nG37GUezu5CtIK6Vx3X0zr4QG1fRZ0qJIpWbq
-	RFpE5K3LTT9Zm8PPGf7mkL1aAg/fTLVdPJD2aNjAJHdA6ShoDOuwIOXLXAvniqXyCCJGagZt6kO
-	54MpYjlXWVK3ipytULqARNOtyO2iXU7fvNIbqJ1V9bA3edHDU+Yo9pE+nVkT1rF3rPVQ5uuLYKd
-	8jAY8lPEughYQ922FVLIc6OQjZqMW/wGFFl1fcoXR8wbgMKhkgIUiRfv9YSp6fd69Mj8jTudpag
-	8NWm8pwlDvnkso6PFpkjywC6xHqoeKk7YdhzWwRghtxGXI4VUwVT0q/IhXu96chIhug23/ftdGF
-	iu/03o6bgsIVoX7l8f7GHeholkiUfynNHyEqhyvrYlA8cg3f+g0xvRx/AljosKvQ==
-X-Received: by 2002:a05:6a20:748a:b0:3b4:7aae:1ee8 with SMTP id adf61e73a8af0-3b79624cb18mr11910389637.14.1781525933156;
-        Mon, 15 Jun 2026 05:18:53 -0700 (PDT)
-Received: from localhost.localdomain ([103.87.58.178])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c8661b5e509sm8893318a12.3.2026.06.15.05.18.50
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 15 Jun 2026 05:18:52 -0700 (PDT)
-From: Devansh Soni <devanshsoni874@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Devansh Soni <devanshsoni874@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: fix line length checkpatch warning
-Date: Mon, 15 Jun 2026 17:48:38 +0530
-Message-ID: <20260615121838.30825-1-devanshsoni874@gmail.com>
-X-Mailer: git-send-email 2.54.0
+        d=1e100.net; s=20251104; t=1781525966; x=1782130766;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4ZBzvTGg5RXWxT981zetPvdIqY02XPOz3n0/R5VS1+w=;
+        b=lZxs2wzLc9FYHP6Qr2LoT8Jm+fjrPVYeMnAZBRQMto/8d6J20ejhNGaEykpHGccT7f
+         Qr0cQ1nuLpLoG9+DFs34QvvwekjV/45FIrXJb1si4nIz0orBzzGItsIA4JwvNb+oAR0I
+         zvs4wCrmmrfj21F4i7PAcYMMpEVZlMoml6R3Yy/71f5Qqesx9eTAVeQpGc2ICXC7BCQv
+         rMoGEVYZOaaZ4OufK9odjdY5XdzFET2ZEo28AcGngAt0VeXYgNb5MsgBub/QiGSrZCy2
+         AGwsZ5JMMiIDkEat3F5K4C65ZPn9659Py92jRx/kIBQ/P6UYP3CqMaykL5/w2BFFvHB+
+         7m9A==
+X-Forwarded-Encrypted: i=1; AFNElJ/FhlWtW+pxBZ3E00Ri49necWWn2vW1Wvu/UzzC1TIdwfJUkAtAbvDAC0TjRoj93Ih++iPljw92Y65xErlP@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxpfgmvuj540m1k+OfCsLMZ36Ah2IgSHcDKtew1zdVE9/XJ5BXj
+	qZEHNcZy0Cyhvm9HS4CY68ojCRW47EYDuxL81XLrwD1B8pNAVEoPd6eU
+X-Gm-Gg: Acq92OFRDoUtGlRoJJ1RaaslKf7X4yhbl5SFpF1w9zUuCf9V6nOZ+sK6CMLSKzkCCAi
+	LbQA94Sjfsb7hpqUOwlVxHE1TSMgM4AQYLTM8/a2n360X1VDa9pS3YoMHO0uhYXystNjfl+YjxW
+	faAOn9yg03f19IktgRj16+k8Gwx0FZ0yKgyrcb0E5pKtpxSeJaJKwL1QivgNJUXsZCYjkNmnO6S
+	yaMZ7JFFx5L9wsXg3e81848cFmJPyME3l14Vlu83ambnulJRa6RZMcuWYRfVMRwlWwON+/RkvYG
+	D2cTzIyKv3lrh8gG89wRny4Zh9t2U+jNkxbJXP/WbTvEH8RS9xhRGaAdh6U3shKAAxDmkWHVkeI
+	5e2x74KOiO4T8053CBgLHz8vSS1Es8LjkjUXXey9sPs7s+CnrWPEcm0vTQ7mGHrwomV34D1t8S4
+	IeNJvpAJAcG4ACSA4NtCEUXFS5KvM=
+X-Received: by 2002:a05:622a:1819:b0:517:5bc6:b575 with SMTP id d75a77b69052e-517fbc898cfmr190512591cf.4.1781525965791;
+        Mon, 15 Jun 2026 05:19:25 -0700 (PDT)
+Received: from localhost ([43.225.189.75])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-517fb7a3c4asm106505581cf.14.2026.06.15.05.19.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Jun 2026 05:19:24 -0700 (PDT)
+Date: Mon, 15 Jun 2026 15:19:18 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>
+Cc: dumitru.ceclan@analog.com,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Julien Massot <julien.massot@collabora.com>,
+	Rob Herring <robh@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	mitrutzceclan@gmail.com, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-gpio@vger.kernel.org,
+	Martin Hecht <Martin.Hecht@avnet.eu>,
+	Cosmin Tanislav <demonsingur@gmail.com>,
+	Cory Keitz <ckeitz@amazon.com>
+Subject: Re: [PATCH v13 17/22] media: i2c: maxim-serdes: add MAX96724 driver
+Message-ID: <ai_txjwLPHsSKsJI@stanley.mountain>
+References: <20260604-gmsl2-3_serdes-v13-0-9d8a4919983b@analog.com>
+ <20260604-gmsl2-3_serdes-v13-17-9d8a4919983b@analog.com>
+ <20260610144242.GF2948@ragnatech.se>
+ <ail9bHXL_NV2DZK5@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <ail9bHXL_NV2DZK5@stanley.mountain>
 
-Wrap a long pointer arithmetic line to resolve a checkpatch.pl line length warning.
+On Wed, Jun 10, 2026 at 06:06:20PM +0300, Dan Carpenter wrote:
+> On Wed, Jun 10, 2026 at 04:42:42PM +0200, Niklas Söderlund wrote:
+> > Hi,
+> > 
+> > Thanks for your work.
+> > 
+> > This patch gives me new compiler warnings, can they be avoided?
+> > 
+> >   .../max96724.c:402 max96724_log_phy_status() warn: subtract is higher precedence than shift
+> >   .../max96724.c:409 max96724_log_phy_status() warn: subtract is higher precedence than shift
+> >   .../max96724.c:588 max96724_init_phy() warn: subtract is higher precedence than shift
+> >   .../max96724.c:756 max96724_set_pipe_remap() warn: subtract is higher precedence than shift
+> >   .../max96724.c:796 max96724_set_pipe_phy() warn: subtract is higher precedence than shift
+> >   .../max96724.c:818 max96724_set_pipe_stream_id() warn: subtract is higher precedence than shift
+> >   .../max96724.c:830 max96724_set_pipe_link() warn: subtract is higher precedence than shift
+> >   .../max96724.c:942 max96724_set_link_version() warn: subtract is higher precedence than shift
+> > 
+> 
+> These are Smatch warnings.  I appologize for them.  I know about them
+> but I haven't looked at them.  I'll fix them by the end of the week.
 
-Signed-off-by: Devansh Soni <devanshsoni874@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_cmd.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+I've pushed a fix for these to the devel branch of Smatch.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-index c1185c25e..d727a00f2 100644
---- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-@@ -184,7 +184,8 @@ int rtw_init_cmd_priv(struct	cmd_priv *pcmdpriv)
- 		return -ENOMEM;
- 	}
- 
--	pcmdpriv->rsp_buf = pcmdpriv->rsp_allocated_buf + 4 - ((SIZE_PTR)(pcmdpriv->rsp_allocated_buf) & 3);
-+	pcmdpriv->rsp_buf = pcmdpriv->rsp_allocated_buf + 4 -
-+			    ((SIZE_PTR)(pcmdpriv->rsp_allocated_buf) & 3);
- 
- 	pcmdpriv->cmd_issued_cnt = 0;
- 	pcmdpriv->cmd_done_cnt = 0;
--- 
-2.54.0
+regards,
+dan carpenter
 
