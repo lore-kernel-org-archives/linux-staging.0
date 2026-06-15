@@ -1,245 +1,120 @@
-Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com [74.125.224.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BACD0331EC0
-	for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 10:19:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781518776; cv=pass; b=tAoIxzTO7HEso1fUQ14WaIXfhro7UrUmk1D+bMi+SpkZuxrgqQXcSTCOulKa/ohBJPaTkhg4+f7GsYk2oX8Ol8O/cwmD6mQSS8v1m8/X2qhvgreGnrF9PaSP3G0kX4qZ5zl43tRhIaFAUg1RGS3ZsZGRJSpVthxRfLeiPfpeQVU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781518776; c=relaxed/simple;
-	bh=5p5y0u0+RhuWJIfLWQKgNya+WX5HjUfyMDbDnrM2yUM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iUhAcTccEMFGVYlBFhGg9W3nJLcNnjjbEf6L1ThBtuu/qPtDY7Ucl6kXwkjJjNKH1TCkG5iT5YseHpoZDIAlnakqqQ38A/bFg6BbiW6iTyNBXCOFYJX9voYw4zUyaziFquaFxFOwe4nMyLR87dibTBq2hRn5qVYuFH9hf1vTSsY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=Dhlb+tIX; arc=pass smtp.client-ip=74.125.224.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D47953B389A
+	for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 11:11:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781521880; cv=none; b=jqzqwwcdoZBemhjbumBDJYKCyxLAGfjUCQC5ed8q4mBiiQuq/yct+U5rwVQBqeHXFb2lV0VyZheKk3M2g03RUVMf3wymkks3BpeGuBAMOHYJnl52TigUfRVgJDqOzgnM/uNeaKBGuWxHGxREVPJ8CVTacWNkIE+Hd9E4tay0i6I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781521880; c=relaxed/simple;
+	bh=oGkEbOWKIP4/QgBtFSIaAB4DFWaeZvXeFAjNwaH8by8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NWakUBd4NBCN/b8S1AnjIxXvXYWRfl+D0uMRzXsBm0nb1noEi4p+0S6H1kRhxcppc04Wy25OjWYqRv19aQ94Vs4yBntWKxRx46BhvJLwrpFNUMH5jxu662YYJmyDqQm7ju7MbTnCikIlF263G+P/re9ETLXzlIVqv0wI9o4MDzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Os8DnVe5; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="Dhlb+tIX"
-Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-6603246b66dso3211340d50.1
-        for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 03:19:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781518773; cv=none;
-        d=google.com; s=arc-20240605;
-        b=TM21WoRpfbHisN6hhLLdYrRyplLUixzmEz60aPJRb+IGOVhPbpH6hvB8ZVNyGGxl5a
-         IHwKGgxaGPTqs3OhcgJW7yHEQz29Hh08/uBjpdOWfr0JRXtDISE5ImV+kUyZV6qmm5iw
-         E6ZDtvsRtRlAyk/oNBZE1mqs9yZ6pbKJFbjxAYnqwvGc3r69WDdTy6ehEHOnlUtCicDB
-         D1ZE060uEmNNZAIlBqP5jk6hRod9RXND4wIHGZ5KKtoqcxzrqKgifFggQ6H1JRw0IJlm
-         +tScmIkhUXyPS+sLtXCfoe2BqmY+LUq0+Z7X9FqkNCJh17bfaircOfqNiYiLZ2CZl/IO
-         iM0w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=2d6EV/iVbdH06m+t9/NqN6KnbaQ59FzktQ3dFfEKRzU=;
-        fh=CTHNWwn2QbzlaUOH00NDTpOIM+z5kzoWnMGpGBGpHGs=;
-        b=CtOQmcEsVqVYidI6S1kBOT+rg/MPVlykDe+Hcug7jpO+1suyiSp1tmpti+zfPSRdBu
-         L1CBVgxwNyyumn7mvG+O9S82R65Ujc880xaYJMNdPi3xdJSyx0s/shz9v7Lj+PZRyhIe
-         jR0W2BgD2a6hIoXgTGLP3oiH/rzl6hAYgwOqeqCs2pygB1Ar73yzr9gBZXuBvR6ggQc4
-         gNiw16hnHlC/k8B5nTWOH8OnZHfS9m1DUVh4HauJVDcxffEPN3Vvjcwp9uL3JxCno8uy
-         va0J1hJa/bry80jxJU0VxW8AY92jA7t0ApyWKToKHBwpf3jX10FLPhCfT12dkFSiLyh7
-         LnHw==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1781518773; x=1782123573; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=2d6EV/iVbdH06m+t9/NqN6KnbaQ59FzktQ3dFfEKRzU=;
-        b=Dhlb+tIXVS9izvVOLfDmt0+C9MPb3mjp/USZa3hX5NdrTb2T4PBjd+t1Yv4GEDXXn2
-         kPw1qZFaHn1Lk9e1fEL1qrtNlGcVz9zrq+fxMHjENcRQHWluMsScvxub5foIkgcO+SGX
-         /CRj0QjDpa1RKsVKjL9A28HJgjrlFyDhZZucH0YTaWLhDToSg2EDeEYkgKg45vQcQYqE
-         yUcobX0MU9Zqnf+NrWA28p7Cmgh/cY7oe65joAVOBPNlxHsSHmVQeB9WNYZi2fAKpDRm
-         kuud67MOL6bROmYSQ4ubNQg4+4S08Q3KYsSF3bvBMkFBPBpt0ha/KEnSpDrQ8xPvq6o4
-         n20Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781518773; x=1782123573;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2d6EV/iVbdH06m+t9/NqN6KnbaQ59FzktQ3dFfEKRzU=;
-        b=Q4zeZQEokCU/skXYA4QAF866BcGs35z5CUX8K9ve2QMwIJ4UNhYuQ8ndNZFetKTsi0
-         IkrRhh8nQ5/jqOaRQ0QlX+FJa3zjTraREnKX72cVm0SApU8vPPaxuRqvo0YosSmBgc7K
-         mZ1zGzLomI3nf2tm5LN7RvOD4J4W/yqSjYRswOfr+nSpHREd6oDUIDIexXIFUXSocy3X
-         kFlyFLWwnn+QwTdAvC2nycmW0PkqqcOu7kYOzy4tGBTBVl1uGV/XMvIZXfugJrIJHU9K
-         wvkGP7ggN/rt4jNlABJBJinJEFHpi5PeVpEa5byfBbPueTJXthIPrgx2WYue7QK+lQmw
-         5k3g==
-X-Forwarded-Encrypted: i=1; AFNElJ8wZfoSvApKHlX80UinmsLp82kqn3L/uCmFFXYeRtkzag5WPa/e0Z8TyVgWTeEHLC0yMnuVUd2byhqocXpa@lists.linux.dev
-X-Gm-Message-State: AOJu0YxL6sFiGjA5t00BIAO/olmrieRTLFBahhkpgmh046ebkuR+ckhs
-	XttSn6d7uN6psC4F2SQE5HKKaT+X4ymfws8zzRSKjC+FUEln3WcjCu877iBStBzEzYiNHos6Xln
-	loL6CsaJcIJT4wV1pMKJpMWCthPC7VxV2xf0fcz7RGA==
-X-Gm-Gg: Acq92OEoFOw+oN3k6dB7KmmMlp4qndA+cT1F0+XrNxYPOCUY2i2wBjKeAVpUtvoJHf+
-	WzGCnzZcAuM3OMudKnqyd/dMoM691d0TSfMVa4o6vi6NkWrZFx51BFRrmdX90HFIQOXNI/oTcN2
-	0RZjHoEka9Pp/J4bKavitHp4ivtdjS+IiDBrYDM0D5tIzLOXJ3tWzvfv7WlRQfD17IR7Ao3ZD86
-	pTERC1c0zTplIpFjJo9zmKIn7cPwdqMehEiB6pPI7jvkXJQ3ffig8ELErvckTVc5vnc3FCi0sZU
-	bE7OSxjIjuUiKoPAISq+8opdu/671RL8R7aduah2WRpbPj08/GXnB0xwD1vEFv7V6GTecjjjJeV
-	uabL7WoPBUoW3kjhy+63v+S0A
-X-Received: by 2002:a05:690e:c47:b0:660:4538:232f with SMTP id
- 956f58d0204a3-662783aa254mr13745133d50.62.1781518772753; Mon, 15 Jun 2026
- 03:19:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Os8DnVe5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781521878; x=1813057878;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oGkEbOWKIP4/QgBtFSIaAB4DFWaeZvXeFAjNwaH8by8=;
+  b=Os8DnVe5WDIV0v4JjT86Zzuzf2MwPAT2ksqnXAPNd941XuyUJFIb/8Zk
+   PpGhhPzUN0fPBJKn44QCf3sj9lUpX99JrzikqyglHkV62OGtM5XECqmr9
+   +ESuiHrSfGgdrX5LDAG9GGe7158/64iyLy/JuKnGi56Ec1Xfhkptz35dq
+   CyEE3caBGkuC9VMHq6sLcEgnWyEPw6x4mZAudIl7h5hgrZdgP0RnWrRKg
+   UBwFjEs/dRlNFt/EC3TpKARA476Rmal83MGjdLWimpWjgHzqJrD9/uycz
+   ktZsTvr3RdDimy7A3i4AB6Y4P8kQfBhvsDN9Ix+eNzM1a/FWHFKQMUl0W
+   Q==;
+X-CSE-ConnectionGUID: JC9Mkx4hQPaQGKGWlIMBwg==
+X-CSE-MsgGUID: KTl2A7u2QyGZDTcshtkNcg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11817"; a="92816730"
+X-IronPort-AV: E=Sophos;i="6.24,206,1774335600"; 
+   d="scan'208";a="92816730"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2026 04:11:17 -0700
+X-CSE-ConnectionGUID: ULp5p7pwQUGlrTAGsgc1Qw==
+X-CSE-MsgGUID: sF1ZahKLQm2GbyaZWqio4Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,206,1774335600"; 
+   d="scan'208";a="271139934"
+Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.235])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2026 04:11:14 -0700
+Date: Mon, 15 Jun 2026 14:11:12 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Dawei Feng <dawei.feng@seu.edu.cn>
+Cc: andy@kernel.org, error27@gmail.com, hansg@kernel.org,
+	mchehab@kernel.org, sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org, abdelrahmanfekry375@gmail.com,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, jianhao.xu@seu.edu.cn,
+	Zilin Guan <zilin@seu.edu.cn>
+Subject: Re: [PATCH v2 1/2] media: atomisp: fix memory leak in
+ atomisp_pci_probe()
+Message-ID: <ai_d0B8YOZAwnqu_@ashevche-desk.local>
+References: <20260615072841.3113700-1-dawei.feng@seu.edu.cn>
+ <20260615072841.3113700-2-dawei.feng@seu.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260605074944.666654-1-sakari.ailus@linux.intel.com>
-In-Reply-To: <20260605074944.666654-1-sakari.ailus@linux.intel.com>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Mon, 15 Jun 2026 11:19:16 +0100
-X-Gm-Features: AVVi8Cftq6ajCcdbL3MMw9RgGJHb8u04VBtntzAGnwe90W4udPRxBnryN7Y-_QM
-Message-ID: <CAPY8ntAg8O_D9CG66u3Nw1F=3UiagdMGMapJo94mHok9ymbcpw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] MAINTAINERS: Camera sensor and Intel IPU driver changes
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, Yong Zhi <yong.zhi@intel.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Lixu Zhang <lixu.zhang@intel.com>, linux-kernel@vger.kernel.org, 
-	linux-staging@lists.linux.dev, Bingbu Cao <bingbu.cao@amd.com>, 
-	David Heidelberg <david@ixit.cz>, Richard Acayan <mailingradian@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260615072841.3113700-2-dawei.feng@seu.edu.cn>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Fri, 5 Jun 2026 at 08:49, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
->
-> From: Dave Hansen <dave.hansen@linux.intel.com>
->
-> Tian Shu Qiu and Bingbu Cao are maintainers and reviewers of a bunch of
-> media drivers (7 and 9 respectively). Bingbu's e-mail address has changed
-> and Tian Shu's is bouncing.
->
-> Update Bingbu's e-mail address, remove Bingbu as a maintainer from Intel
-> specific drivers and and remove Tian Shu as maintainer. Also add Dave
-> Stevenson as a maintainer and David Heidelberg as a reviewer for the
-> imx355 driver.
->
-> Signed-off-by: Dave Hansen <dave.hansen@linux.intel.com>
-> Cc: Yong Zhi <yong.zhi@intel.com>
-> Cc: Dan Scally <dan.scally@ideasonboard.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Lixu Zhang <lixu.zhang@intel.com>
-> Cc: linux-media@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-staging@lists.linux.dev
-> Co-developed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+On Mon, Jun 15, 2026 at 03:28:40PM +0800, Dawei Feng wrote:
+> atomisp_initialize_modules() creates CSI2 and ISP subdev media entities
+> before atomisp_pci_probe() registers them. Its counterpart,
+> atomisp_uninitialize_modules(), only releases part of that module-owned
+> state and leaves some media entity cleanup to the entity unregister path.
+> 
+> That ownership split is incomplete for probe error paths. If
+> atomisp_pci_probe() fails after module initialization but before all
+> entities are registered, the unwind path cannot rely on unregister
+> helpers to release media entity state whose lifetime started in module
+> initialization. The CSI2 and ISP subdev media entities can therefore be
+> left allocated.
+> 
+> Refactor the cleanup boundary so module cleanup releases media entities
+> created by module initialization, while unregister helpers only undo
+> registered V4L2 and media device state. Move CSI2 and ISP subdev media
+> entity cleanup into atomisp_mipi_csi2_cleanup() and the new
+> atomisp_subdev_cleanup(), and run media_device_cleanup() after module
+> cleanup in the probe unwind and remove paths.
+> 
+> If atomisp_mipi_csi2_init() itself fails, it has already unwound its
+> partial setup, so return the error directly. Only the later
+> atomisp_subdev_init() failure path needs to clean up CSI2 from the
+> caller.
 
-Acked-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> The bug was first flagged by an experimental analysis tool we are
+> developing for kernel memory-management bugs while analyzing
+> v6.13-rc1. The tool is still under development and is not yet publicly
+> available. Manual inspection confirms that the bug is still present in
+> v7.1-rc7.
+> 
+> An x86_64 allyesconfig build showed no new warnings. As we do not have
+> an Intel Atom ISP platform with the required camera sensor hardware to
+> test with, no runtime testing was able to be performed.
 
-> ---
->  MAINTAINERS | 29 ++++++++++++-----------------
->  1 file changed, 12 insertions(+), 17 deletions(-)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index efbf808063e5..64478875cd78 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -3882,8 +3882,8 @@ F:        Documentation/devicetree/bindings/leds/ams,as3668.yaml
->  F:     drivers/leds/leds-as3668.c
->
->  ASAHI KASEI AK7375 LENS VOICE COIL DRIVER
-> -M:     Tianshu Qiu <tian.shu.qiu@intel.com>
->  L:     linux-media@vger.kernel.org
-> +M:     Sakari Ailus <sakari.ailus@linux.intel.com>
->  S:     Maintained
->  T:     git git://linuxtv.org/media.git
->  F:     Documentation/devicetree/bindings/media/i2c/asahi-kasei,ak7375.yaml
-> @@ -13042,9 +13042,7 @@ F:      drivers/iommu/intel/
->  INTEL IPU3 CSI-2 CIO2 DRIVER
->  M:     Yong Zhi <yong.zhi@intel.com>
->  M:     Sakari Ailus <sakari.ailus@linux.intel.com>
-> -M:     Bingbu Cao <bingbu.cao@intel.com>
->  M:     Dan Scally <dan.scally@ideasonboard.com>
-> -R:     Tianshu Qiu <tian.shu.qiu@intel.com>
->  L:     linux-media@vger.kernel.org
->  S:     Maintained
->  T:     git git://linuxtv.org/media.git
-> @@ -13053,8 +13051,6 @@ F:      drivers/media/pci/intel/ipu3/
->
->  INTEL IPU3 CSI-2 IMGU DRIVER
->  M:     Sakari Ailus <sakari.ailus@linux.intel.com>
-> -R:     Bingbu Cao <bingbu.cao@intel.com>
-> -R:     Tianshu Qiu <tian.shu.qiu@intel.com>
->  L:     linux-media@vger.kernel.org
->  S:     Maintained
->  F:     Documentation/admin-guide/media/ipu3.rst
-> @@ -13064,8 +13060,6 @@ F:      drivers/staging/media/ipu3/
->
->  INTEL IPU6 INPUT SYSTEM DRIVER
->  M:     Sakari Ailus <sakari.ailus@linux.intel.com>
-> -M:     Bingbu Cao <bingbu.cao@intel.com>
-> -R:     Tianshu Qiu <tian.shu.qiu@intel.com>
->  L:     linux-media@vger.kernel.org
->  S:     Maintained
->  T:     git git://linuxtv.org/media.git
-> @@ -13074,7 +13068,6 @@ F:      drivers/media/pci/intel/ipu6/
->
->  INTEL IPU7 INPUT SYSTEM DRIVER
->  M:     Sakari Ailus <sakari.ailus@linux.intel.com>
-> -R:     Bingbu Cao <bingbu.cao@intel.com>
->  L:     linux-media@vger.kernel.org
->  S:     Maintained
->  T:     git git://linuxtv.org/media.git
-> @@ -13376,7 +13369,6 @@ F:      drivers/net/wireless/intel/iwlwifi/
->
->  INTEL VISION SENSING CONTROLLER DRIVER
->  M:     Sakari Ailus <sakari.ailus@linux.intel.com>
-> -R:     Bingbu Cao <bingbu.cao@intel.com>
->  R:     Lixu Zhang <lixu.zhang@intel.com>
->  L:     linux-media@vger.kernel.org
->  S:     Maintained
-> @@ -19657,7 +19649,8 @@ F:      Documentation/devicetree/bindings/media/i2c/ovti,os05b10.yaml
->  F:     drivers/media/i2c/os05b10.c
->
->  OMNIVISION OV01A10 SENSOR DRIVER
-> -M:     Bingbu Cao <bingbu.cao@intel.com>
-> +M:     Bingbu Cao <bingbu.cao@amd.com>
-> +M:     Sakari Ailus <sakari.ailus@linux.intel.com>
->  L:     linux-media@vger.kernel.org
->  S:     Maintained
->  T:     git git://linuxtv.org/media.git
-> @@ -19750,9 +19743,8 @@ F:      Documentation/devicetree/bindings/media/i2c/ovti,ov2735.yaml
->  F:     drivers/media/i2c/ov2735.c
->
->  OMNIVISION OV2740 SENSOR DRIVER
-> -M:     Tianshu Qiu <tian.shu.qiu@intel.com>
-> -R:     Sakari Ailus <sakari.ailus@linux.intel.com>
-> -R:     Bingbu Cao <bingbu.cao@intel.com>
-> +M:     Sakari Ailus <sakari.ailus@linux.intel.com>
-> +R:     Bingbu Cao <bingbu.cao@amd.com>
->  L:     linux-media@vger.kernel.org
->  S:     Maintained
->  T:     git git://linuxtv.org/media.git
-> @@ -19894,9 +19886,9 @@ F:      Documentation/devicetree/bindings/media/i2c/ovti,ov9650.txt
->  F:     drivers/media/i2c/ov9650.c
->
->  OMNIVISION OV9734 SENSOR DRIVER
-> -M:     Tianshu Qiu <tian.shu.qiu@intel.com>
-> -R:     Bingbu Cao <bingbu.cao@intel.com>
->  L:     linux-media@vger.kernel.org
-> +M:     Sakari Ailus <sakari.ailus@linux.intel.com>
-> +R:     Bingbu Cao <bingbu.cao@amd.com>
->  S:     Maintained
->  T:     git git://linuxtv.org/media.git
->  F:     drivers/media/i2c/ov9734.c
-> @@ -24912,7 +24904,8 @@ F:      Documentation/devicetree/bindings/media/i2c/sony,imx296.yaml
->  F:     drivers/media/i2c/imx296.c
->
->  SONY IMX319 SENSOR DRIVER
-> -M:     Bingbu Cao <bingbu.cao@intel.com>
-> +M:     Bingbu Cao <bingbu.cao@amd.com>
-> +M:     Sakari Ailus <sakari.ailus@linux.intel.com>
->  L:     linux-media@vger.kernel.org
->  S:     Maintained
->  T:     git git://linuxtv.org/media.git
-> @@ -24934,7 +24927,9 @@ F:      Documentation/devicetree/bindings/media/i2c/sony,imx335.yaml
->  F:     drivers/media/i2c/imx335.c
->
->  SONY IMX355 SENSOR DRIVER
-> -M:     Tianshu Qiu <tian.shu.qiu@intel.com>
-> +M:     Sakari Ailus <sakari.ailus@linux.intel.com>
-> +M:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-> +R:     David Heidelberg <david@ixit.cz>
->  L:     linux-media@vger.kernel.org
->  S:     Maintained
->  T:     git git://linuxtv.org/media.git
-> --
-> 2.47.3
->
+These last two paragraphs do not suit the commit message. Please, drop them
+here and better to describe all this in the cover letter (if not yet).
+
+> Fixes: 9d4fa1a16b28 ("media: atomisp: cleanup directory hierarchy")
+> Signed-off-by: Zilin Guan <zilin@seu.edu.cn>
+> Signed-off-by: Dawei Feng <dawei.feng@seu.edu.cn>
+
+This SoB chain is wrong. Who is Zilin and why is he here?
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
