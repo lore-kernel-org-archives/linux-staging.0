@@ -1,120 +1,133 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ixit.cz (ixit.cz [185.100.197.86])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2C1F3E2750
-	for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 12:19:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D77C73E9588
+	for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 12:20:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781525968; cv=none; b=GFhrNlp6/boFW14CHmKxHi4xYtZGhP9eTv5Y7Vr9j805tnMxzSWxYMmMmNySCJ09sSfj0IoLVNAmnmnpTwwiH/aqfrXsC572UHzivxH20votSXfHLMwWOaHUdHTRTK6EzhB4YgMJSb7HvEeRtWtW512Lx84LtL217UwpYDyznew=
+	t=1781526011; cv=none; b=EkKbuYk+eBPNnKLfhnXklOwxdycTmzo5kdyOGhcdkbV2z4ELiJCRZynefaH4cG0EN0hsHOVSWKKOfB59pxJu6dRP+3QvPBh42riP2JRNgXRIQLqb/q706LR72qgdc6GsoRyFL36evXdUQDpcf7YDNrVsDof9cqFajc1tnCTP88A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781525968; c=relaxed/simple;
-	bh=fBO2hJf4+rPrkOp74SVXocT1M+hIBpxOon9pkP770BM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Bgas9IF4D0P48j99Bo7Ype59TLAOVNjSiEiuVPwpg8m/eeO1CwCAv9PVvQePjJnXhoZmD7wn35pdt1OK5nuOidmDcqArAXKan4Li6SqG//FekLDmM316yVIIQS1eJBDBel7UMlrCF7MB1r2ZaSxEh4TiYh+26GhOWshjd7MOWl8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T0yA/mgZ; arc=none smtp.client-ip=209.85.160.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781526011; c=relaxed/simple;
+	bh=0fWXguNb5uyvdXJYObsGXpuE+167s/7oZZAWaX/3NHg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lXGdiBIdU947DVsF3u8BDMW9TKXzNXUzWHOOu/tHMFR6jJNIEqGIy/ATkHBog0awsQtDVGPDdfGOnfIOf1TyRSTpK7ovCIOohigyEAWpWxDOR6VyrcIbWEaJpr59R1n4mziT4x2J3hDI3YPIaeVEuiYveY20lZSOE0WncRYH8jY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=VTpWAL/Z; arc=none smtp.client-ip=185.100.197.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T0yA/mgZ"
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-517907feed0so43734851cf.1
-        for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 05:19:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781525966; x=1782130766; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=4ZBzvTGg5RXWxT981zetPvdIqY02XPOz3n0/R5VS1+w=;
-        b=T0yA/mgZk6WpLIIbfHGYTrIEzR5zdWz7pr8geLYvBajVkTM6wEiJm9FR+a31QKZlzn
-         YrYJ0hSNmpGf/N6XpYzolRdJYU6KyGzRCEYJ9zPH/7tB/jMw2cbG2E1pCD7hvSn5U1wQ
-         t8UAAhzL6vT+yIhzgUWpE2JF7kfOhP1NmRWXIpfBr63fhC9uKGb0ucN4UUmR94XQfwMc
-         Awejs4aCp7eiwSY3zrZ9Tq3oMCE5XkkctOjYkKeuKrYGOOGZb+wb4DMtHQeyWqaCL39T
-         SOixA69rNIGsOLuDdqTKl2X10hSGgyDnC97xuIWJAuNxve0vPX2dWVrhDBLm++Dvlg0X
-         lokg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781525966; x=1782130766;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4ZBzvTGg5RXWxT981zetPvdIqY02XPOz3n0/R5VS1+w=;
-        b=lZxs2wzLc9FYHP6Qr2LoT8Jm+fjrPVYeMnAZBRQMto/8d6J20ejhNGaEykpHGccT7f
-         Qr0cQ1nuLpLoG9+DFs34QvvwekjV/45FIrXJb1si4nIz0orBzzGItsIA4JwvNb+oAR0I
-         zvs4wCrmmrfj21F4i7PAcYMMpEVZlMoml6R3Yy/71f5Qqesx9eTAVeQpGc2ICXC7BCQv
-         rMoGEVYZOaaZ4OufK9odjdY5XdzFET2ZEo28AcGngAt0VeXYgNb5MsgBub/QiGSrZCy2
-         AGwsZ5JMMiIDkEat3F5K4C65ZPn9659Py92jRx/kIBQ/P6UYP3CqMaykL5/w2BFFvHB+
-         7m9A==
-X-Forwarded-Encrypted: i=1; AFNElJ/FhlWtW+pxBZ3E00Ri49necWWn2vW1Wvu/UzzC1TIdwfJUkAtAbvDAC0TjRoj93Ih++iPljw92Y65xErlP@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxpfgmvuj540m1k+OfCsLMZ36Ah2IgSHcDKtew1zdVE9/XJ5BXj
-	qZEHNcZy0Cyhvm9HS4CY68ojCRW47EYDuxL81XLrwD1B8pNAVEoPd6eU
-X-Gm-Gg: Acq92OFRDoUtGlRoJJ1RaaslKf7X4yhbl5SFpF1w9zUuCf9V6nOZ+sK6CMLSKzkCCAi
-	LbQA94Sjfsb7hpqUOwlVxHE1TSMgM4AQYLTM8/a2n360X1VDa9pS3YoMHO0uhYXystNjfl+YjxW
-	faAOn9yg03f19IktgRj16+k8Gwx0FZ0yKgyrcb0E5pKtpxSeJaJKwL1QivgNJUXsZCYjkNmnO6S
-	yaMZ7JFFx5L9wsXg3e81848cFmJPyME3l14Vlu83ambnulJRa6RZMcuWYRfVMRwlWwON+/RkvYG
-	D2cTzIyKv3lrh8gG89wRny4Zh9t2U+jNkxbJXP/WbTvEH8RS9xhRGaAdh6U3shKAAxDmkWHVkeI
-	5e2x74KOiO4T8053CBgLHz8vSS1Es8LjkjUXXey9sPs7s+CnrWPEcm0vTQ7mGHrwomV34D1t8S4
-	IeNJvpAJAcG4ACSA4NtCEUXFS5KvM=
-X-Received: by 2002:a05:622a:1819:b0:517:5bc6:b575 with SMTP id d75a77b69052e-517fbc898cfmr190512591cf.4.1781525965791;
-        Mon, 15 Jun 2026 05:19:25 -0700 (PDT)
-Received: from localhost ([43.225.189.75])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-517fb7a3c4asm106505581cf.14.2026.06.15.05.19.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jun 2026 05:19:24 -0700 (PDT)
-Date: Mon, 15 Jun 2026 15:19:18 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>
-Cc: dumitru.ceclan@analog.com,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Julien Massot <julien.massot@collabora.com>,
-	Rob Herring <robh@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	mitrutzceclan@gmail.com, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-gpio@vger.kernel.org,
-	Martin Hecht <Martin.Hecht@avnet.eu>,
-	Cosmin Tanislav <demonsingur@gmail.com>,
-	Cory Keitz <ckeitz@amazon.com>
-Subject: Re: [PATCH v13 17/22] media: i2c: maxim-serdes: add MAX96724 driver
-Message-ID: <ai_txjwLPHsSKsJI@stanley.mountain>
-References: <20260604-gmsl2-3_serdes-v13-0-9d8a4919983b@analog.com>
- <20260604-gmsl2-3_serdes-v13-17-9d8a4919983b@analog.com>
- <20260610144242.GF2948@ragnatech.se>
- <ail9bHXL_NV2DZK5@stanley.mountain>
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="VTpWAL/Z"
+Received: from [172.17.76.17] (82-99-132-161.static.bluetone.cz [82.99.132.161])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ixit.cz (Postfix) with ESMTPSA id A37B5534102F;
+	Mon, 15 Jun 2026 14:19:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+	t=1781525989;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=ac+2bp6WJ9bpI/3A4OWiD6Lvw/zzDEiCpYqguXWdNQE=;
+	b=VTpWAL/Z1jTV/UojeANhQfUT1N+o2OUstcRkdG+Qu+Y9F/tSVyKhSWbHeMTMESGYj3h5Vc
+	iOs0A8Fcu2ZNcPI//rP2flSH4HZQMBG5HiufZ5Vr/FCreJ+o5AEfmnEUFBEpgouaz7iOsh
+	+PGewkdSilPyfevueZWYYqlXYvTQltY=
+Message-ID: <5c61be5e-4355-4c30-b24c-108e0a9fd26b@ixit.cz>
+Date: Mon, 15 Jun 2026 14:19:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ail9bHXL_NV2DZK5@stanley.mountain>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/1] MAINTAINERS: Camera sensor and Intel IPU driver
+ changes
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
+Cc: Yong Zhi <yong.zhi@intel.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Lixu Zhang <lixu.zhang@intel.com>, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev, Bingbu Cao <bingbu.cao@amd.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Richard Acayan <mailingradian@gmail.com>
+References: <20260605074944.666654-1-sakari.ailus@linux.intel.com>
+Content-Language: en-US
+From: David Heidelberg <david@ixit.cz>
+Autocrypt: addr=david@ixit.cz; keydata=
+ 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
+In-Reply-To: <20260605074944.666654-1-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jun 10, 2026 at 06:06:20PM +0300, Dan Carpenter wrote:
-> On Wed, Jun 10, 2026 at 04:42:42PM +0200, Niklas Söderlund wrote:
-> > Hi,
-> > 
-> > Thanks for your work.
-> > 
-> > This patch gives me new compiler warnings, can they be avoided?
-> > 
-> >   .../max96724.c:402 max96724_log_phy_status() warn: subtract is higher precedence than shift
-> >   .../max96724.c:409 max96724_log_phy_status() warn: subtract is higher precedence than shift
-> >   .../max96724.c:588 max96724_init_phy() warn: subtract is higher precedence than shift
-> >   .../max96724.c:756 max96724_set_pipe_remap() warn: subtract is higher precedence than shift
-> >   .../max96724.c:796 max96724_set_pipe_phy() warn: subtract is higher precedence than shift
-> >   .../max96724.c:818 max96724_set_pipe_stream_id() warn: subtract is higher precedence than shift
-> >   .../max96724.c:830 max96724_set_pipe_link() warn: subtract is higher precedence than shift
-> >   .../max96724.c:942 max96724_set_link_version() warn: subtract is higher precedence than shift
-> > 
+
+
+On 05/06/2026 09:49, Sakari Ailus wrote:
+> From: Dave Hansen <dave.hansen@linux.intel.com>
 > 
-> These are Smatch warnings.  I appologize for them.  I know about them
-> but I haven't looked at them.  I'll fix them by the end of the week.
+> Tian Shu Qiu and Bingbu Cao are maintainers and reviewers of a bunch of
+> media drivers (7 and 9 respectively). Bingbu's e-mail address has changed
+> and Tian Shu's is bouncing.
+> 
+> Update Bingbu's e-mail address, remove Bingbu as a maintainer from Intel
+> specific drivers and and remove Tian Shu as maintainer. Also add Dave
+> Stevenson as a maintainer and David Heidelberg as a reviewer for the
+> imx355 driver.
+> 
+> Signed-off-by: Dave Hansen <dave.hansen@linux.intel.com>
+> Cc: Yong Zhi <yong.zhi@intel.com>
+> Cc: Dan Scally <dan.scally@ideasonboard.com>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Lixu Zhang <lixu.zhang@intel.com>
+> Cc: linux-media@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-staging@lists.linux.dev
+> Co-developed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>   MAINTAINERS | 29 ++++++++++++-----------------
+>   1 file changed, 12 insertions(+), 17 deletions(-)
+> 
 
-I've pushed a fix for these to the devel branch of Smatch.
-
-regards,
-dan carpenter
-
+Acked-by: David Heidelberg <david@ixit.cz>
