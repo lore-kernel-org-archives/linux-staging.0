@@ -1,61 +1,63 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E59E44183B5
-	for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 17:29:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28E1E416D0A
+	for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 17:29:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781544584; cv=none; b=saK5tseNa9BL0js7w5HKTjzAqWr9b7CZKLcbNUr+eT2vOLquIh5zPACqnzQKCE7uyZ1/WOCiXw1rST8f7ZRsxPFZqrQpWUhSf76q2E4QAyOIpmKGFHRzQ8NH4EbXxaVu5/CetQreVROjfeG/fdVPLfSl47PI4Kfb7dRd8CQbyMY=
+	t=1781544590; cv=none; b=eBmowctKZXvDhKSANvwpsu6tSgIUshM/ousDXNGSDAEm5RnJgysHstggn0dg4TUbcGbbi7AUhXPb5jXfpK8A1DLXKoWZT8OeAi6yhP+kaB+bOUY3DNi0Ky/YRMBpMHW22uWos9E7ozxzJ8P9/xRDCBKqcTAqRwhbljWGfqSCodU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781544584; c=relaxed/simple;
-	bh=zjJaFdjvPiCMQQinHXGS/Lj0fAMMTQSVc9jvt4DzchI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=m9YxFq1DZPn6cI/vS0sFH9siJp2hs42MubC7sW/rgbvU+AXPJnPSW7+3/9li8leg10aQMRL5yCp9peDHuUBKQZqNwoC/0Gu5rvk9wWIWtul090IX6dcM9Tvv/CwoR0dc1/jbqcgXSe5ghdG5OVDXq/UUMUUWQr6r3QBGxanJspU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JUdMMMx+; arc=none smtp.client-ip=209.85.214.175
+	s=arc-20240116; t=1781544590; c=relaxed/simple;
+	bh=UBpkXLYHfGfP21sRIvOuvWMqtu6js0FvM4qTTeQS82w=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Qsf/1A5iFMgA36fT8TMSj/CZa0vDxVbYAwPiPsDv685ymk5M0ttCiiALRmmw3C++rQncvtKu4qrjKIcoOnuQwPXZK1Fa5Qc+KercmRzVTrcl9R5E3ZJvZ3s754CnFDj5fjcvpULKluEXxMSOQH/2HUiKXzI8paWVVRidFHBQIMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fn8DyQEo; arc=none smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JUdMMMx+"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2c6770f12e4so1319695ad.0
-        for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 10:29:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fn8DyQEo"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2bf13f17da8so2381245ad.3
+        for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 10:29:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781544582; x=1782149382; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SvlWKrsshSGlU2CfP5kimPXzzn2s1m0s/Uam/zRnJWE=;
-        b=JUdMMMx+nvLiLfZ0xi+bkfXqQ03Zycm+jPNUxmyC+oHFV53ijFo9OBEYkwc8diVqP/
-         aaAIyllL2WZh7hMYbXBQ3CFSJZSO+ZoJLv7HqBm3NRrsiK1jPaG6AaacXkRxFOsPkjej
-         yZHa6QeasEBf2h3LC2PqiFg0LKMMz2p2nsWDB/IuoEiVZEmakrm9zSLS9pq1yrbXK3c4
-         FlQVUxUfjy06OG0ZSa+BD+ufGZ5xrTv9JINteA51myHJoEfQO/xDgpiWF9eNjqeQOMSE
-         WrK5o1ZZ84NGg+YoJNNULeYNZMESrAMsozLFevke7+2wxViOXozNKojWfey16gdfM2VE
-         tAKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781544582; x=1782149382;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1781544587; x=1782149387; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=SvlWKrsshSGlU2CfP5kimPXzzn2s1m0s/Uam/zRnJWE=;
-        b=jQmhU90TH6ugriGYDsuqYnp7cLH17aVgz5W+khMbX3sZJvJXBuY/YHaE9PsXWtoOXe
-         bD2ZWHo4TLJSdQVyzRQQKBIvsXkSIP+di6sxj5rbquVHz+XHkGaIU7KjZx4poA3FHCFq
-         CMe92i+nqasgunfRdUNUVD1yWTjfJj4iorzoB7ahbztiJMhPQKCtf4hdlj+UbZKxdXrC
-         tOFsbR/XLswRAzu1rqLPKjevm2kaVy+tlKJHLG+KAar79L17sNozSYTmRz9oDE0FJdnM
-         I7BvahqBpV1SKOgQxkj4ybFllRZXMiwUWcJx4DBuY4PN+yyC0AXmmQnJAeC+1+VnqGG4
-         E6zA==
-X-Gm-Message-State: AOJu0YydbY6G8GI02eZ0jptOswDpmCoVlqCM7gR8syfr7TyC0qhrA8nR
-	q2sftYxfALKU3KaEggiR+7zS9axX3y29PZBms1zYX3vcXAVkDVH+GU8f
-X-Gm-Gg: Acq92OE7bf46xUmA2QQKhhYmEdZO0mnTsCS71pRYqr/noCOewbf/H3723ZM764LdZvG
-	N6kCxCq22UFXJXNGHb8jMgQPi2vE8aoiPoOI1ordLnmYyw/FeqFKLXR9G5vf7ZvsGp6v481v9vV
-	/M3DsgJvYmE2sYjqKSaBSa/TtlZ2kP+N3tkA3qF+oFola8LyskFjhl+UHkq5ObC9s8Pi0qtGsze
-	5Q3kL7wD7E+/ceqS8e/xIKA6EkQbPvSuUpqOsuoMbCSPyWmpTB0NfwLbyZmur10Mnmvjdedj8Hz
-	8bRWzeArB3RFO9m4rptyln6XzVIHcOYT3MJdsxQfvcmYvMQaMA7LrxAcRy/uljrzGf51Mfv2Hvn
-	qQrZQRGdEu8FMuZX0aqW24Vw7nu7PWtmckoSa7kihWkhWC68yugNNJ4r9oUG3gtI3nA8IAUU2Lz
-	e1Q8OOJHor90TItXjUoQoBJ92FlNA3COOJlBmZY55rqTaGAu+gPU0jnrWNMOGryKT9vrpG/pZrW
-	b6Fyu8Ana4/7FlN/N2M7l4QS3w=
-X-Received: by 2002:a17:902:ce03:b0:2bf:32a5:dbdd with SMTP id d9443c01a7336-2c41245866cmr82743195ad.5.1781544582270;
-        Mon, 15 Jun 2026 10:29:42 -0700 (PDT)
+        bh=blqmb+amG4DpJECopbRIs77Qpd+XdY0Z9iQpAl7/TEM=;
+        b=fn8DyQEoZTTS2lubWHX5FVpOC0EHgKS4v8BADwvvkZSgyZSR9hAP2VnjK60i2PdhMv
+         mjqwf0YxUIec9gnve9OyhCCfT2yENH6J+v9FMh9dKKgZZLZhEbBF0jlqbX8YKnc3D5LL
+         QzP/DdGzz8rl3q6uSp6++JKPb50Gb3hYOi0rhKwztgiGn8o+O2mHMDkrf06JgY3NNaq9
+         /u8bEYyh9CP/wg2QLniMO90XERbj2oCkMK1iUJFosquyeIy6YQWeaHKhvTu64zlS7gHE
+         tgpAGowghQAx3Fa41RoLT+G05AzcLn5KxUbIrPb4u1x+w2ISH809a5TxXGE2Nzm2xljA
+         HpJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781544587; x=1782149387;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=blqmb+amG4DpJECopbRIs77Qpd+XdY0Z9iQpAl7/TEM=;
+        b=lMHQCuiMrXDCkLAmSYI8O9bpIi6ZeFngNZGo1EH1JBDKu+w3AzIDPSSeWpZlc+FB1q
+         sFkIPJaEcVI3mbbJ+S1Z6Ln9XTxrmYYn6GercGvLMOOlDHobWlpd8Y96eqkn4J4+4FHl
+         MmP+56KelCvUgEWr3jjTV+fJmOOt5v1oXy8hQq6xuhw1Qvg59BD+M3gcXKp6boRFLfHd
+         nTSc7bcDIvNICAJ0F4PLZYnlc0aS0TbCUpjh8skOYUt85c9wqf3YB+sXMZWGjsS4gPH2
+         Sn9z72uCrGQw/ccKujQzFUy53WXNvbkw8buRuzh2uugxfxszHoNaZ+44xhWN9FHnQjbb
+         7HLQ==
+X-Gm-Message-State: AOJu0Yynp/OR1DIy4ojvfHW5S7kFI5pDdGgXvRs96yNApt2xLr78VuOj
+	puXWTFKGxtOKpa6ktpqiua2IrAX4IVYWu+dA9Sr8WfDOTym5thGX7tl9
+X-Gm-Gg: Acq92OETJnrTHcZ9CCwarYywWrsz6fB414ylFxUEvipvAzodAIFY6m8q/KYqkkgQaUF
+	XOnxn30vu/AZ9fTjmY/YvRjY98rhu2ik8GCjH7o6yNXYhqImljV8bCyqLBFMkipSSnxJGke2MMR
+	dyRt2+yRPAWETicflTXY2ZfuWDboyl0nj6S9Zpzm1G5+MbVuJmROANRFh/re5mYVWV1ecA2EMeH
+	sb9nVcugLc5hEpos84UV0WycvGQThewZ1Y/JV6xIuU21A41I4fVSV4yH0LO1LYipfINnhpHJ+jL
+	/W1xURYKa+bUqvc69a+5B3nimqAfAp7fykgahgQHD7Lv8RUrXQUUSM6ZPOcyNnUTZuymhJLqzPA
+	DQjf8MP7ZETLugmHr4bHVGpGV+YFswdF001a5LifBo0cNRU2nw8DwJ/s4P+pvGdFIMcnbobhmWs
+	YMB63qEHnLB0ClQJ7ZudVpzm+gXs/pOsFz1EN/TGe5XdJoSH7tbTxKyC2yHfY/0JNzbkgE3pzM9
+	xDJQxEIgdiZgvb05YUr15YjSUs=
+X-Received: by 2002:a17:902:e88f:b0:2c0:b359:99c1 with SMTP id d9443c01a7336-2c41050946cmr83596165ad.2.1781544587495;
+        Mon, 15 Jun 2026 10:29:47 -0700 (PDT)
 Received: from fedora ([2401:4900:7c8e:5373:4159:c5ca:b737:78a0])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c42fbb5411sm105001775ad.32.2026.06.15.10.29.37
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c42fbb5411sm105001775ad.32.2026.06.15.10.29.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jun 2026 10:29:41 -0700 (PDT)
+        Mon, 15 Jun 2026 10:29:47 -0700 (PDT)
 From: Ayush Mukkanwar <ayushmukkanwar@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
@@ -65,10 +67,12 @@ Cc: linux-staging@lists.linux.dev,
 	dan.carpenter@linaro.org,
 	Ayush Mukkanwar <ayushmukkanwar@gmail.com>,
 	Sashiko <sashiko-bot@kernel.org>
-Subject: [PATCH v2 1/2] staging: octeon: add missing tasklet_kill in cvm_oct_tx_shutdown
-Date: Mon, 15 Jun 2026 22:57:33 +0530
-Message-ID: <20260615172734.42038-1-ayushmukkanwar@gmail.com>
+Subject: [PATCH v2 2/2] staging: octeon: add missing napi_disable in cvm_oct_rx_shutdown
+Date: Mon, 15 Jun 2026 22:57:34 +0530
+Message-ID: <20260615172734.42038-2-ayushmukkanwar@gmail.com>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260615172734.42038-1-ayushmukkanwar@gmail.com>
+References: <20260615172734.42038-1-ayushmukkanwar@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,15 +81,15 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The TX cleanup tasklet can be scheduled by the watchdog IRQ handler
-to execute cvm_oct_tx_do_cleanup. There can be a pending tasklet in
-the queue which might run after the cvm_oct_remove() frees net_device
-structures, causing a use-after-free in cvm_oct_tx_do_cleanup() as it
-iterates cvm_oct_device[] which is an array of netdevice pointers.
-Add tasklet_kill() after free_irq() to ensure the tasklet is no longer
-scheduled or running before teardown proceeds.
+cvm_oct_rx_shutdown calls free_irq and netif_napi_del without
+disabling the napi instance first. As the free_irq only waits
+for completion of hard interrupt handlers, the napi poll
+function could still be active. If cvm_oct_remove proceeds to
+free the plat structure (which holds the NAPI instances), the
+active poll function will access freed memory, resulting in a
+use-after-free crash.
 
-Fixes: 4898c560103f ("Staging: Octeon:  Free transmit SKBs in a timely manner")
+Fixes: 3368c784bcf7 ("Staging: Octeon Ethernet: Convert to NAPI.")
 Reported-by: Sashiko <sashiko-bot@kernel.org>
 Closes: https://sashiko.dev/#/patchset/20260511150931.93382-1-ayushmukkanwar%40gmail.com
 Signed-off-by: Ayush Mukkanwar <ayushmukkanwar@gmail.com>
@@ -94,30 +98,25 @@ Changes since v1:
   - Added Fixes, Reported-by and Closes tags 
   - Added compile-tested-only note
 
-Note: This patch has only been compile tested. No runtime testing was
-performed as I do not have access to Octeon hardware.
+Note: This patch has only been compile tested. No runtime testing
+was performed as I do not have access to Octeon hardware.
 
-Sashiko also reviewed the v1 of this patch and found that cvm_oct_xmit
-can still schedule a tasklet even after tasklet_kill is called. I was
-planning to reorder the tear down so that the net devs are unregistered
-before the tasklet_kill is called in a follow up patch.
-link to that report:
-https://sashiko.dev/#/patchset/20260614114739.87061-1-ayushmukkanwar%40gmail.com
-
- drivers/staging/octeon/ethernet-tx.c | 2 ++
+ drivers/staging/octeon/ethernet-rx.c | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/drivers/staging/octeon/ethernet-tx.c b/drivers/staging/octeon/ethernet-tx.c
-index 14d10659bce7..785c6492f170 100644
---- a/drivers/staging/octeon/ethernet-tx.c
-+++ b/drivers/staging/octeon/ethernet-tx.c
-@@ -668,4 +668,6 @@ void cvm_oct_tx_shutdown(void)
- {
- 	/* Free the interrupt handler */
- 	free_irq(OCTEON_IRQ_TIMER1, cvm_oct_device);
+diff --git a/drivers/staging/octeon/ethernet-rx.c b/drivers/staging/octeon/ethernet-rx.c
+index cd36b5ba6f6c..3e9d58d32156 100644
+--- a/drivers/staging/octeon/ethernet-rx.c
++++ b/drivers/staging/octeon/ethernet-rx.c
+@@ -535,6 +535,8 @@ void cvm_oct_rx_shutdown(struct platform_device *pdev)
+ 		else
+ 			cvmx_write_csr(CVMX_POW_WQ_INT_THRX(i), 0);
+ 
++		napi_disable(&plat->rx_group[i].napi);
 +
-+	tasklet_kill(&cvm_oct_tx_cleanup_tasklet);
- }
+ 		/* Free the interrupt handler */
+ 		free_irq(plat->rx_group[i].irq, &plat->rx_group[i].napi);
+ 
 -- 
 2.54.0
 
