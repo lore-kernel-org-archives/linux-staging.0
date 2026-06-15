@@ -1,93 +1,128 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E991E3BBFBD
-	for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 07:04:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781507074; cv=none; b=OM3pl4no/L5gHMjV9WdceKrAK4MHDMBlUiH+Yva/+50jq7e3R9+11yaz0d59gISBWyP/2g53B0xlKfnxrhxpKoITiSY88e9uZEDLNchzDzSmpj+6pZXbiLztg0W/OAMZhyiKLylS2NZPjKH+/oOw8k12VD1rQQDkIuBcmCqlVOM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781507074; c=relaxed/simple;
-	bh=BS+zjw4eLL+0rpZ4fo0H95h1h9szhgSOmNArPS1Fd2U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QUQ6e/R9geuwYnITdlN17Fze1QHmT6dUj9PlLmibM2UUBEiwlhmYS8PAM1FyLQE1kzNrrkLknddGhlLOExbV0MhhvPsudowafm1qbcRrl10tZbyAg246UgCwVkGMSb4GHDPN8PGpBds4ODWg2hTIg3kSk4F8BQ9bExXD1Eb+yWU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ruSw8DNL; arc=none smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0D9913AA2D
+	for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 07:10:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781507441; cv=pass; b=ZLkmkKJ2OxIttwYdMv8Th86jN8auK5SUHYXPtdDQaxrqCJnwlVaOqIw/X4axxFd/2uquP/Nmgfn91W1Wwf9d/KsgR0LT4jhfENyWQvQADnIQtoNOsAPY0QZkwmDQk9mQwB0bsUiQKT+xDRNI2UCZoo32Mxl9KHNcj1XuGmFDCcY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781507441; c=relaxed/simple;
+	bh=Ox3fjy9suyScmRrcmhaltE9MsZADpI1WVron/xvMJL0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YEgJ2gOk9983CSBCuPvmpRei9InTmpEEIoOlexUyKbGSQfl7dp1itYhtWYMYaHus2QarQkwr3BhD2blU2R4ttt/kClc1dNl9TPzdYBZhzwqdtBBwsn4JrR5LFlGjlZZaTnL6tqOqzwUknw61II3rFceCueCLjGpESAE3U6DdEQE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pxykJhAX; arc=pass smtp.client-ip=209.85.218.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ruSw8DNL"
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-5176fc0cc72so32864581cf.1
-        for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 00:04:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pxykJhAX"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-bec449cf976so371387466b.2
+        for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 00:10:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781507438; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Z2bqPyLqx21scWIuG3YN7zuWcnP8KfPdK7GkdslUkhs5gLwgn9oAJBbpu2EIHWs86S
+         HU5MwPdP0Odu/w4A0vfXEksnRj+AFc2yitx43BFIzAnZnwwuOqtC/JBIPXmW45FsBZW9
+         FZq+/PTt7FV2i3tzw5AaABt2AAIpECT3J/pHPQGO68JarPSoYLl1Ghf4f+I6rs/kvrEa
+         OeLgj8SecRTTLf3B4HV//mvpA0YojnlYlzojC1yY2vnHmPgWB619FYX8tXle+YV5Bx26
+         5Ja+d3VNRHhBZDxXsSte59EJxkbNRg6Sujw9Vy4n5knuCXI/SswQx+s+GHMrsQLIAiER
+         Ik4g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Ox3fjy9suyScmRrcmhaltE9MsZADpI1WVron/xvMJL0=;
+        fh=CX0fGzZ4SNzzfZJTBIEWUhFTUozvfr9GG1VUubkQfi4=;
+        b=GmvrENiqjdPadAjqFOjvENtHhwaM4v7tRmqePGBaX/ZAIYPDJuBAesciGbkIenprTY
+         GDM5qPV2sXE1PvYN9xmXvokcddPtsZTIH66CA1eUoiEGnZE6ERWfXyiVsqn6VEcl6OvT
+         ol1Lmox+ZXzEbgTEj2q0/0zFsV8Ew7GBrXOrCJ5Ovlc20n35RvWqjXJm7VNO0Uvm5PNr
+         aLS0oqp5wmEGnZRB2aHXUmiU1OAicWinFe9hbPpqOQ/9MIH/v+7PFmeIwV3nvmd72dok
+         vE74eu9p/Ha14C3s2k1yQZMlfT9+yA1ROSMfkjXXkz6QsrRXqDwUn9f5xn6HxbO3GqTn
+         kSeg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781507071; x=1782111871; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+RENlgkMWjL7wUhEcHLmNILGCKgCfCzFao/ekYQxfiE=;
-        b=ruSw8DNLbfU2Y5zU7pQlkKEWE4e1xG0UaNiYIqpUSlukOUbG62LeUExiwqyOf3wfVw
-         xvJ6H3XT6vx+uUbTCdBX0vayOC3ypeZ663DcjTJ1IS7UdGWhXt78RWNRnhxMcixNwPOr
-         cGNdfUMIhhHuIYQpFdd92I5pRgnj93bM3aa2ck+MW+3/puL3KOhqjNdBhxNtoO8QvQAx
-         zHDCGXq0nuyKqP+JMhFQvfMmAeDeTMOeSgl8FTq2R7KW0YGA15gId64GPpAG5IX38xIh
-         HjBG3g6LjtjJ5e3HEODr2UHR/m9AUQrH6KNhLDtG7Nu9qUYNq42BuGYeS/+iDC67aBzq
-         OY9w==
+        d=gmail.com; s=20251104; t=1781507438; x=1782112238; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ox3fjy9suyScmRrcmhaltE9MsZADpI1WVron/xvMJL0=;
+        b=pxykJhAXtmpaqIIyFCFh4QV38NNTCWKO/q+JddeAHLRGSVmETOzf9PdnB+SV3laR+G
+         KMNEVtbXFGdd50JVw4WSW/jMXA4DOg5NNqjCGmLRsscWpcZitknOpzeO9dwXc/CcW6eG
+         EzBgjLTehee4wBbMBcw8hdAjSskxqwP0dJjnIiwatERJ3lZW8+tv2w6RP0IREzMTmDrE
+         QI0LbBQHJ5OxTnHTaC/AQ1l1E3SN7HTmu8ZDkeSeHvRQmJBn5y9VG+Gy4v71nzDH0Yr5
+         A65cyVxSawdSUNGPI2LWC0JSBz4Px/9y9/Z4IEweAzSQH8um0Kl2YzpCCUmg6asjzK9n
+         VraA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781507071; x=1782111871;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+RENlgkMWjL7wUhEcHLmNILGCKgCfCzFao/ekYQxfiE=;
-        b=XNTQKBgdEmCWCiPzqAYAN4wXbzOGrW5dpbYh94ZYReaKEGNS3NwoUGRTN7LJw2ZZV8
-         /LSBMVGwDZbyPvxlPWQTkgS0uzV9arpEBjacNcFPwvgCjQMmn2XPUOJym2tpKuSJx9wt
-         ltGcWPr0gWA867BAkMNZDGAJhYea7Y8bHLA2/EyghrZaZABdBcsWCwEvyKd7N+ZmkZkJ
-         tbwwxavIn7ngcwNFq2zouWVODmqpRSFRJ9uBSnp2iciZnctKeYJ2LCuBZ+WrtY0BQVUL
-         nF/ZYT4YOTxohdxilDwEdTOFF6TZtq3dNbwaZjloHUk/hWSYSfNJbOP2oRoz352xrycr
-         7hEw==
-X-Forwarded-Encrypted: i=1; AFNElJ/UrCcZav2FM+MlLu8wxHDRFiWnlFvjWBXNED+MSDeF+6k609cBYZUlmpKgLfbBaB0jDFjgAwV9QGIrVdBs@lists.linux.dev
-X-Gm-Message-State: AOJu0YyqyZscVJguSeF07Qe+GXnK3t/IXftgJYYaDYEPm81H85tOc4+C
-	qPy5i0XnLHwVEeOxSRt+La9axJgbKAiHxcjX6xmdytT4c1/BtFUsPmYw
-X-Gm-Gg: Acq92OE5eRc1MTV4QIVE9J0/eJkSzMTh4Tokvv96wjYmHrA7Ply3FKfR+UAQM+k+l5k
-	c/Bb9wul9/lXy9GvVdAJxnI+DnUQaNKNWXygTSTlGoxiPcMSRGrTofLs6hioPQXY1lN5Lc1psC7
-	0c1o2I+MjS0sOO8/PKM7YQdZ8J8EE2XvRWIrtYg6KE4IRBmvQD2BAMgFj7CtyQvo7tSpSBCfk1z
-	GVEpnkFjxWahupoYbYmxoHkbkvjPHurenq318T6yJNbel4y4AgxtLSKHYBJBh0D+JpuJk4UvFvX
-	wgArzvdYusBosgzjFs2lD2Bz2pbSJXsM4CaUq1hXRw5r6cZj8krh5+nM3d/GA0mzLVL196ZFxHj
-	9yf3g/79UmVgqLOB2D2OnTSmZyrjKk6tokNquXmotK081BiJ4uajZn0DAVLRv1AGf9h79FdEG5P
-	0fZukbF4fReTgUPplPRZcyZ5+HcJc=
-X-Received: by 2002:ac8:7d55:0:b0:517:6350:ed4b with SMTP id d75a77b69052e-519535366bemr150581661cf.36.1781507070757;
-        Mon, 15 Jun 2026 00:04:30 -0700 (PDT)
-Received: from localhost ([43.225.189.75])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-517fb61eaf4sm99229171cf.4.2026.06.15.00.04.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jun 2026 00:04:29 -0700 (PDT)
-Date: Mon, 15 Jun 2026 10:04:23 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: neha arora <neharora23587@gmail.com>
-Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
-	gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: sm750fb: rename pv_reg to io_base
-Message-ID: <ai-j96dVwtPMERVM@stanley.mountain>
-References: <20260529111927.14138-1-neharora23587@gmail.com>
- <CAOWJOptv1JcOGcEt39HVy7LkpAsvzbw9yj64kJG+X5J=VbWrMA@mail.gmail.com>
- <CAOWJOps9RBNAGsPFsBCbzFkEUN1=75YvwmqJX6RdQBbt1C6W-Q@mail.gmail.com>
+        d=1e100.net; s=20251104; t=1781507438; x=1782112238;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Ox3fjy9suyScmRrcmhaltE9MsZADpI1WVron/xvMJL0=;
+        b=ZYsgEnjEE2azZvbVgXysabda2K4zvZmDHNfxVE5xUIKVMEkq9Zeno6haNvrfppV3Hj
+         onL5fdbBW1NsOGG54Oz+F39cm16hkPS2c9MfQ0awqwZbNqvfHXXaHpn5TTe42qlMrzHs
+         qdflUWUdmfI4kRoN5ei4Qf9g36bjkelhif2+MsGLVl5Q31JCY7nR+naByqudVTZ4XKoF
+         s+r09crc4qpTBuMhfI7dHRjQNZqsAUS9v+jMJke46XU5sNgtyEwHByn02rzmhhIbhRLt
+         raHNEFHYIjBC8utMEEjLISixDTSJSMS+Qz1z0QKXPBXeQVqb5QTx/GS84zKSn7yj6LJN
+         6X2w==
+X-Forwarded-Encrypted: i=1; AFNElJ8qMH974xnRWFX/r5Ftt1RlVEMwl3bf7kNwB1sz6zTXsPkYkYeioJpeeM3W6g/v97lLcnepU9LTaIC/yJ/g@lists.linux.dev
+X-Gm-Message-State: AOJu0YxynX+u4lAxwUVS29uoHaLzH+g+Gwyk3wH7Ra36j0wOcqJDgAYS
+	2lbQ3YGhtgirLQalmgX3PEubAU6h8hjcW9w77m6l4lun+b/J+JJaGQYqV7fVF4LYV/4OS75rmEu
+	EIw/4d5w8DG2Y2mpLajQhAIHpTxf9DNs=
+X-Gm-Gg: Acq92OHfqiCJTKsqbL5paRNm64rmbptEpyASlsI8JYMDE++PdxaEruGZBY5eMXglbFt
+	kXtWj6ODYy+vEjuNJQnfB4deVZ8azUPRIr2tA+ywdRqnYYi5QRinUhCEgpAPiWQrw31ZeXT60Os
+	lnE1QFhMLk55smRaZ7JQypenger51kYkrmsg4ibub2VLqyKCpVkKyfK8AbTB2UkJi4Y3JFxpiHf
+	a4YUXpF4zGnFQ8OIpxnGD98CV/dRGif9Sbnev/UIjGtfwIee5NmbEo2ggnb5siF6Puje9peMu9b
+	oOy8Ek8RfvqS+ZBB00xionLXVrIm3/L0MPqKMoqgvF/WEetxCy2gXwVUzPP+z2xxLuixha5tcL7
+	pVLr7wrGvjr9Qj2Vbk2Hj0OoZddkw7X2ZR4fqQfupED7AWyg8UcTLs+oG6n463rbz0hq1
+X-Received: by 2002:a17:906:cc4e:b0:bd4:6da5:d5b2 with SMTP id
+ a640c23a62f3a-bfe278302c0mr422985266b.1.1781507437663; Mon, 15 Jun 2026
+ 00:10:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAOWJOps9RBNAGsPFsBCbzFkEUN1=75YvwmqJX6RdQBbt1C6W-Q@mail.gmail.com>
+References: <20260614200837.17908-1-reeveskeefe@gmail.com>
+In-Reply-To: <20260614200837.17908-1-reeveskeefe@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Mon, 15 Jun 2026 10:10:00 +0300
+X-Gm-Features: AVVi8Ccqd-I4uOPWzClztukgUI3AAdEG0bLZD1O4-8fQaU-229tIeoSg2FTznI8
+Message-ID: <CAHp75VfSUfjo6rxUdwMghZb7V9s2_AgYCDex5uDX3cCWZOenyg@mail.gmail.com>
+Subject: Re: [PATCH] staging: fbtft: use %pe for backlight errors
+To: Keefe Reeves <reeveskeefe@gmail.com>
+Cc: andy@kernel.org, gregkh@linuxfoundation.org, abdun.nihaal@gmail.com, 
+	error27@gmail.com, chintanlike@gmail.com, namcao@linutronix.de, 
+	niejianglei2021@163.com, dri-devel@lists.freedesktop.org, 
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, 
+	Keefe Reeves <229415268+reeveskeefe@users.noreply.github.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jun 14, 2026 at 12:45:05AM +0530, neha arora wrote:
-> Hi everyone,
-> 
-> Just following up on this patch to ensure it didn't get lost in the queue.
-> Please let me know if any changes or a V4 are needed.
-> 
+On Sun, Jun 14, 2026 at 11:08=E2=80=AFPM Keefe Reeves <reeveskeefe@gmail.co=
+m> wrote:
+>
+> From: Keefe Reeves <229415268+reeveskeefe@users.noreply.github.com>
+>
+> Coccinelle found two places where backlight registration errors are
+> printed by passing PTR_ERR() to dev_err().
+>
+> Use %pe instead so the error pointer can be printed directly. This keeps
+> the behavior the same and just makes the error printing cleaner.
+>
+> Signed-off-by: Keefe Reeves <229415268+reeveskeefe@users.noreply.github.c=
+om>
 
-It doesn't apply to linux-next.  Did you work against the lastest
-devel-next tree?
+I see a subtle problem with this email address. In case something
+happened with your contribution (exempli gratia a regression found)
+there will be no possibility to contact you without digging into
+mailing list archives to get your Gmail address. I would prefer to see
+the From: and SoB to acce-pt responses.
 
-regards,
-dan carpenter
+For the change itself, I have no objections. If one considers this
+useful (probably to stop flood of the similar patches in the future)
+Reviewed-by: Andy Shevchenko <andy@kernel.org>
 
+--=20
+With Best Regards,
+Andy Shevchenko
