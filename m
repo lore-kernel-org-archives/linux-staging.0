@@ -1,70 +1,65 @@
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43D123EFD34
-	for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 12:54:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D770282F12
+	for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 13:49:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781528064; cv=none; b=AdMLJrI85FrBFbJXydTYEOpuIrpM3fmM9VtoTePfY4q7Wl78YTTpI5VxaJpeWebHl+44N7QGXQs/h5U5s2Yly8fyU+VDB6340rq9PKzVWk66YdKjrWY4mACGpipNxszjbFtsQD/u1zQA6D6ueMHppuSy0HqkRQCiFAX+tVnTVzo=
+	t=1781531376; cv=none; b=vFd9MRwBdYLny6gF978IOQN/cAzUNxw8vU75+ddyTfX74rVc33yuD47leSozWmMgplthznffQw3zU5uL2v1WrypmgflrI59pN0m0dhvMoLKl6q5rJmg+HnHYUyCbak4/7YXN0RwdURXG/2LfI3KZ8DTC3FhYzsKPzedKTNubhFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781528064; c=relaxed/simple;
-	bh=ygWh7XPPeN2IhJW13xjw/ayHmo1XbiUx1EBBvIUWe1w=;
+	s=arc-20240116; t=1781531376; c=relaxed/simple;
+	bh=k++5s6H7LP2FFKO/y3x5gTxmu8AjlTXP5feboQ5QR34=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JEO0JvB37xSgOEAweNUc1pp6tK+wyVtPDgeNCKEUx/C0rlXSQS1EDf3Ob6tueouAmfUuBi8XeKoXZB/iYftZ0gk8dTOaz5sJn0xNZvWAmuBoDhQzvk8kjM9uU/5yMW/eN6voUrMwgC6qk3QuEngzYBNsDtpMlF1dCQg01k0CElU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jIad7OwA; arc=none smtp.client-ip=209.85.222.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=EHTg5qVvbLoRF3Y2UOvQ9cHfdVRK600d3VjTfB6RlCdiRskMoDcPD4162jE+m5R6sHMDBtGv3IqPq8iToqXHkM4TtTNImq96dgbod7nAFERqdN/udyXilmo6lrQIr3/yYuEtiHYXyk2JXJyB7f3rIV9AA/bVDt/aNvyrHPfbyl0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DbpRiaFd; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jIad7OwA"
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-915d64fead9so439683785a.0
-        for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 05:54:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781528062; x=1782132862; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Dmd48Hggmv542DQUj/7sD0NrDzOrMbip1lNCqoHIvs4=;
-        b=jIad7OwA+/fTe6dXu3U1jkIgvJGWvy9MaGonrniOiCRh51Q19uZe2U6xmwErBlZX/W
-         l4jwBMazGGQhKjj4GlX22TTH5CfmjimZievE1WaxYK6VEI7LpZiBp63n4E9JKDFDcXbz
-         LQL16N/Ljw3scnatkgYaZRT4HueCKoK1nwAAv7XoT6nlR4Jrp76QZI/iC3XqiYVWkOyX
-         29pPEkc+lIQT3XXx9JLKmbbyPsE2HeqshcobmsxTWoPlnYYBRIP2mLK8ksxUARj3Yrs8
-         lHwy5UwRvAntTIknf4Vhhdm0YorkrMlCCl9zjlt47qEBJbyzXvHXKTrGuSFLHQcB1Igh
-         McbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781528062; x=1782132862;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Dmd48Hggmv542DQUj/7sD0NrDzOrMbip1lNCqoHIvs4=;
-        b=XKuA+xQxM61gNoWVF6FQJpAxOKZJIc6NqbeTXBrT8poo5ZNJA1r+eZ6yBN/LhxnoEz
-         ael7VKVraMipJM2KCynBQha205fmKGuvArrqThqkBKO0TeuJK4NBk9oOaV9Wo1vKvAao
-         z3+LQGZn5z2/1IQMaHRuZmOib1Iwa5Y7FSO2okCxgSv3xwtJcxZWazfsmkFiX/WZl9Yy
-         LmBMmR4Tf9T32GSSVNuBLWx4fmht6Wy+AZ0FdDXiGy48sDsW/h5lg0aiHfMZPntl98V0
-         voxxV0X5XRDsyK8hWKTpTdpENwO6M8FZDk82oXk57iaPej5dxxLRBrxgEOK10oUastJz
-         SiDw==
-X-Forwarded-Encrypted: i=1; AFNElJ+Usq33TCu864n8KK0xEELEQ/aHK+FZiBa8SXx2vSPjNzOXz5hWUbo0UB0PzElxI3yl8O027LneuOOV7IKu@lists.linux.dev
-X-Gm-Message-State: AOJu0YyxXxIrVv+mHMKbOIkfCgncoaxfaTcAzB6a+MQvPbHE2C4xccZ2
-	fGGucsWbRl1q246vDvg5Meg6hjZr7c9yo6Ap196TeH9JDzAm2KISh0Bh
-X-Gm-Gg: Acq92OGw024BGra8AXDZ3ZqL/HXs9zhhVdkjP+kp58mf25QKEzskCkK+w0ukITeFLLL
-	b1rNX8Y3X7FVFnIwriRkllHJQkbaEIEQ/zUz9Uy+szaT+qwylJFbWdeQjFEsq6h2HHaNR4qpHpF
-	qsrxdH+7CYDnxuVLhrlGc8TqZsfxr0wcTMM1g4grypumT7MpG9f+AJlDzxTPsB5Hy1fIMf+QANf
-	Tzsl2HvC3ckadG3wsZ0XOHtrqL0wdxBEfpolpGslqU0jnLc0LTiZIRMuHK/BvExXTDfjfOy6LBR
-	31xGhYcIUgrf5tW2T/kondDK7gKEayQVgA3se/Yw9hziG8qKOwOECy4OQ0t6sXahj+lpXeXtE75
-	sONm3h9Q797bfva2w+q7cZPtfp6NdXvEceDJ8TRuEsGQBUkID7q1YmLJtOmsAjYCmsnmk5Nt7y3
-	PG0fi/6YjI45vnou2D
-X-Received: by 2002:a05:620a:2681:b0:910:c1ba:91d3 with SMTP id af79cd13be357-91619f7d7b3mr1822650185a.45.1781528062312;
-        Mon, 15 Jun 2026 05:54:22 -0700 (PDT)
-Received: from localhost ([43.225.189.75])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-91619ed7215sm1064856085a.7.2026.06.15.05.54.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jun 2026 05:54:21 -0700 (PDT)
-Date: Mon, 15 Jun 2026 15:54:15 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Devansh Soni <devanshsoni874@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: rtl8723bs: wrap long pointer arithmetic line
-Message-ID: <ai_199LQK4cGqXYu@stanley.mountain>
-References: <20260615122822.31103-1-devanshsoni874@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DbpRiaFd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781531375; x=1813067375;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=k++5s6H7LP2FFKO/y3x5gTxmu8AjlTXP5feboQ5QR34=;
+  b=DbpRiaFdKrrvMovLdO3T7J60MlAjYD7CVJ/oIDV/AUtJrMU9YbR/sJii
+   ckXfvyIG8ix0S4vE8iDT2R7B5QmskPHDz1tybH1K54UCSJQXgPNZd4SI9
+   3pl55USSFSdK4HyJe/vmh33eeywVy3Si3u30qlBTk0z/QMvKN0XsdEyML
+   trjHNEcukL6ic9TJCvYvJlA1DU9GlLh2k2i6piYx567A+WVGFCuXrY2QQ
+   YQbHXO7/vOnRMkY3DIVelwwa0x2Olm2uq62d9F9VUxVnlPuWBtsMZF0i1
+   B+0TrKPOEBn7GdYL2nvnRl9C1qcietswNb/3x11cSAqIY36gr0wb4R/cN
+   A==;
+X-CSE-ConnectionGUID: kJLTo6ZkRZ2UAhCg1jeWIg==
+X-CSE-MsgGUID: 6ZFSK8OITq2FfR9qR/k7mA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11818"; a="82009970"
+X-IronPort-AV: E=Sophos;i="6.24,206,1774335600"; 
+   d="scan'208";a="82009970"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2026 06:49:35 -0700
+X-CSE-ConnectionGUID: Pth0CHSJTs2hBLA6+YSDJg==
+X-CSE-MsgGUID: 3Vf0x/xLSbyquNjEzhLtsg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,206,1774335600"; 
+   d="scan'208";a="249363221"
+Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.235])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2026 06:49:31 -0700
+Date: Mon, 15 Jun 2026 16:49:28 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Dan Carpenter <error27@gmail.com>
+Cc: Dawei Feng <dawei.feng@seu.edu.cn>, andy@kernel.org, hansg@kernel.org,
+	mchehab@kernel.org, sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org, abdelrahmanfekry375@gmail.com,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, jianhao.xu@seu.edu.cn,
+	Zilin Guan <zilin@seu.edu.cn>, Kees Cook <keescook@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v2 1/2] media: atomisp: fix memory leak in
+ atomisp_pci_probe()
+Message-ID: <ajAC6E3Pc0edjySZ@ashevche-desk.local>
+References: <20260615072841.3113700-1-dawei.feng@seu.edu.cn>
+ <20260615072841.3113700-2-dawei.feng@seu.edu.cn>
+ <ai_d0B8YOZAwnqu_@ashevche-desk.local>
+ <ai_kfgkuDYcFd0bG@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -73,20 +68,40 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260615122822.31103-1-devanshsoni874@gmail.com>
+In-Reply-To: <ai_kfgkuDYcFd0bG@stanley.mountain>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Mon, Jun 15, 2026 at 05:58:22PM +0530, Devansh Soni wrote:
-> Wrap a long pointer arithmetic line to resolve a checkpatch.pl
-> line length warning.
+On Mon, Jun 15, 2026 at 02:39:42PM +0300, Dan Carpenter wrote:
+> On Mon, Jun 15, 2026 at 02:11:12PM +0300, Andy Shevchenko wrote:
+
+...
+
+> > > The bug was first flagged by an experimental analysis tool we are
+> > > developing for kernel memory-management bugs while analyzing
+> > > v6.13-rc1. The tool is still under development and is not yet publicly
+> > > available. Manual inspection confirms that the bug is still present in
+> > > v7.1-rc7.
+> > > 
+> > > An x86_64 allyesconfig build showed no new warnings. As we do not have
+> > > an Intel Atom ISP platform with the required camera sensor hardware to
+> > > test with, no runtime testing was able to be performed.
+> > 
+> > These last two paragraphs do not suit the commit message. Please, drop them
+> > here and better to describe all this in the cover letter (if not yet).
 > 
-> Signed-off-by: Devansh Soni <devanshsoni874@gmail.com>
-> ---
+> This is how the documentation says to write commit messages.
+> 
+> https://lore.kernel.org/all/ahgaOigklcDCYvRp@stanley.mountain/
 
-Please wait a day between resends.  Follow all the other v2 rules
-etc.
+Isn't it enough to have in the cover letter?
 
-https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
+Thanks for commenting there, but I would insist to move these two paragraphs
+from the commit message here. Maybe Kees is okay with that, I'm thinking that
+this is too much (since we have lore archives).
 
-regards,
-dan carpenter
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
