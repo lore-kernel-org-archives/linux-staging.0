@@ -1,110 +1,231 @@
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-m49197.qiye.163.com (mail-m49197.qiye.163.com [45.254.49.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89A2B3002DC
-	for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 07:28:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E10E43BE146
+	for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 07:28:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781508503; cv=none; b=Daj8GznAzJZ732GrB4zYjgDWDE8CzLS0YbejqP2hn7KrnlqikzmehyUV8C053y7GpXQyLmj0D865DMMjKPfXZD3nK9Cm1HdcGaZj0YnCeJhVklC588N2jRZpdCzfJJaiF3D3crj8tIgxtaU0PF/wz4rqm5Jma1vhnJFv8U04Qgs=
+	t=1781508538; cv=none; b=eTPrSu2vf0Yi6cGxGfOMxF+Wu4QyuHbKno2F57miPoIuJ8VU/IEvCkMaGXfUZ7beRU4jsWQzCpnTr7NrfQ1AQjncsm00aTI+kxXSVcIG3IwqwjWQmZp7lReiyHSu+3Xmd9Dn+KVZbYewyPdTO3u4EZppCuNo5+ZfrfpFob+S6xE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781508503; c=relaxed/simple;
-	bh=8rYtEBTfK8IfEJt82Xp6z03QDuWaNhLL7UGx0DtG/zI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dFISuTjWiVMH/cD1XwO3rVvtu66POL/kWZJIohiZsV8KTCIOVWH3tgd8dCCBs6ab08EUJ1Qm+ZzAodD73DuOK79sIDtMWAuUeHnSym3/EL3dVvuW8tMutNIjpWirht6g5V9NxOPuIq2iogxFiaDl5XyHWY4RX+D94VvTqDBRYGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JOIWLBOk; arc=none smtp.client-ip=209.85.222.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781508538; c=relaxed/simple;
+	bh=AvOb/AJgMnCt8iojg/YZ9DqYn4SDUTeW1hngjw7C/U4=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=Y6rDuSPqTkOBZs0NsH9U6W0BU7DAxv0BaxSb1JPNSaABgqJfFs9KKI4WX0rv2nHbRqdu2b7eLGb+htwk5d91MOnFzMfUKVvYTP3Pcx/eP9OnGouqTdGwwxoWkBM/u+XUOelZuIxbXBlmDrPhyH8Ah/eT7UdtnnJIrcBvNO76eaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=TX4Xz4RU; arc=none smtp.client-ip=45.254.49.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JOIWLBOk"
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-915e1354934so323113385a.1
-        for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 00:28:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781508500; x=1782113300; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=wPVkcX3iZ0QCbbNNiMLGuyb0koxQNh+zefG34kFGMHI=;
-        b=JOIWLBOkbDfh4qxxJT12eGMbalDxOhOIGFZn+1e++T6PrsGh4/w1wZngEvqiwWZ5FY
-         KzlWWIafGwdcDup0+YPpXcO7nxLfmGu2BxR9/bMzoMO0vpLOc5pUQYhQX+G13Ae2nqe0
-         zJflJo7eIuK60E37mZmaAU+Zo739i9yotBIWFNdlOXo1G77Od10uVHyZvXHf80Ja6SnE
-         zTB+Q7PLOHnQWmFg55okpfJzYWX/5nRzVmXsc+cbi7GxnX5pkd9J239g5PNcTVYiqItZ
-         /TCSYIBvpuflaMKbF/1t96+2t9HpItCWfV/WlGSohO1OJlxJ0SgsNSNwOKm/s0IMfDeA
-         vAeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781508500; x=1782113300;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wPVkcX3iZ0QCbbNNiMLGuyb0koxQNh+zefG34kFGMHI=;
-        b=if6Eayo8YUcC6gJujRftJ5C9avxX4kvkMN9Fnasltf7z0uRt2Jytz/322TJHdcDdiU
-         c4vyDuYcha8Rec12a6jyv/vUf1VCP9TGxlcs2coAOr/40TwUlpzv9FUgObAztgKN4leW
-         6MqHmKxAvLRSXfsWs4nKle0vyKCeQTngcf0esFVX82gYrxAVOcF3EgI4IiWay9tOyEkH
-         n4TpgM4Za7NZUpgH4KQ/ZnlA78L3Cekkv2a38dHapkUhYGCH6cgPajZagMd3Y1vncdQM
-         9aYXst5v2/aRj763A5xXgomFSDo+ogPCH0FqG9+RerwA44ybMEcS9ZXR38PQdQQlCA9Z
-         wWcg==
-X-Forwarded-Encrypted: i=1; AFNElJ/v6WWFTrz0HlEkEYxuiyBbZoH0Jdkv+9CwUAbF4wL8pOMzADvbp4dbVeWEISdaiV5xiYwE+z3oK1ZHouGN@lists.linux.dev
-X-Gm-Message-State: AOJu0YyvnSdpB37BIShdRM3qsdfFyCYQ6d+DFrhfL6UpA2e4zgS1pdHW
-	vdzibEZLS4HzUTWQvfbnq86TdPdJbup+I5DBBrAQz08elxkbmtao451/
-X-Gm-Gg: Acq92OH3phDYky+z1r+hDZMR0PyEvQPkqbE08o6DBSSJnlpvNS03mMSIPHMEi73Bas8
-	9WYMLxsDJwtnlhmTIqBUboj77Hgz8k3TBWSDLj1PZzBra3CRNXrJi0twZholUmU18tVP9ohf4Vu
-	5m1lO3xQ6OusNAPs5WJHkaTOWCplvO656NDlZylhzzz1h7yZ+d4dNscZAQwaYJ95+aa+br5p3Pv
-	k364/RhnN+vgxaMOqTt376qgt8AUYd0rv1ecWzluADF0b/tNH78PvGFEFQuLNlffFS4uDXKUrf0
-	yZtQBeFNPQ3zMTpeyJxTuJiPWVmqU4PQskItLOJog0bNMkgTb0gYp0Sv4DEIUqXqfc2eUFXEpCc
-	VzAhczhpwCcY0G1vLk9BzHLkdUJIlEuk7/jJhWER2Z+DAFH2QglVcQcxXv4w9H0kIViLPAEbXfL
-	BMWdXdi6SaE7NbD0oR91s0baVOJY4=
-X-Received: by 2002:a05:620a:2a15:b0:915:e932:9f2c with SMTP id af79cd13be357-917f1a5c959mr1550702885a.52.1781508500323;
-        Mon, 15 Jun 2026 00:28:20 -0700 (PDT)
-Received: from localhost ([43.225.189.75])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-91619ed7540sm1038564585a.9.2026.06.15.00.28.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jun 2026 00:28:19 -0700 (PDT)
-Date: Mon, 15 Jun 2026 10:28:13 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Moksh Panicker <mokshpanicker.7@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org
-Subject: Re: [PATCH v1 0/4] staging: rtl8723bs: Fix missing spaces around
- operators
-Message-ID: <ai-pjZQbgUiqMAgt@stanley.mountain>
-References: <20260614122155.20034-1-mokshpanicker.7@gmail.com>
+	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="TX4Xz4RU"
+Received: from DESKTOP-SUEFNF9.taila7e912.ts.net (unknown [221.228.238.82])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 426442c8e;
+	Mon, 15 Jun 2026 15:28:45 +0800 (GMT+08:00)
+From: Dawei Feng <dawei.feng@seu.edu.cn>
+To: andy@kernel.org
+Cc: error27@gmail.com,
+	hansg@kernel.org,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org,
+	abdelrahmanfekry375@gmail.com,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	jianhao.xu@seu.edu.cn,
+	Dawei Feng <dawei.feng@seu.edu.cn>,
+	Zilin Guan <zilin@seu.edu.cn>
+Subject: [PATCH v2 1/2] media: atomisp: fix memory leak in atomisp_pci_probe()
+Date: Mon, 15 Jun 2026 15:28:40 +0800
+Message-Id: <20260615072841.3113700-2-dawei.feng@seu.edu.cn>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260615072841.3113700-1-dawei.feng@seu.edu.cn>
+References: <20260615072841.3113700-1-dawei.feng@seu.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260614122155.20034-1-mokshpanicker.7@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9eca2ecd1a03a2kunme2f225d529d483
+X-HM-MType: 10
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlCSk8fVhhLH0gZTxpMQk5LTFYeHw
+	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUpVSUlDVUlIQ1VDSVlXWRYaDxIVHRRZQVlPS0hVSktISk
+	9ITFVKS0tVSkJLS1kG
+DKIM-Signature: a=rsa-sha256;
+	b=TX4Xz4RUx8SboJLeCtQ8O9Mp3TYwvlM0hifeZe4wd/p4Rvqz0icSoxcJSYsk7eKifT7n/oNEJMfAvPLVJqny39R95frthZN5CWaDwB9jORWl+fHzCLNvh8R43k01CCJYlTulaiIIlIfM81n+sNxofhiQnKPjU0a9DSANUsakuf0=; c=relaxed/relaxed; s=default; d=seu.edu.cn; v=1;
+	bh=UkYC9aT9mj4vlSxTmhJCyUBtwEIY/u8jtjAv/YLeOy4=;
+	h=date:mime-version:subject:message-id:from;
 
-On Sun, Jun 14, 2026 at 12:21:51PM +0000, Moksh Panicker wrote:
-> This patch series fixes missing spaces around arithmetic and bitwise
-> operators ('+',' -', '&') in the rtl8723bs staging driver. These were
-> flagged by checkpatch.pl with:
-> 
-> CHECK: spaces preferred around that 'X' (ctx:VxV)
-> 
-> Each patch addresses one file independently.
-> 
-> Signed-off-by: Moksh Panicker <mokshpanicker.7@gmail.com>
-> 
-> Moksh Panicker (4):
->   staging: rtl8723bs: Fix missing space around '+' operator in
->     hal_sdio.c
->   staging: rtl8723bs: Fix missing space around '-' operator in
->     hal_com_phycfg.c
->   staging: rtl8723bs: Fix missing spaces around operators in
->     HalPwrSeqCmd.c
->   staging: rtl8723bs: Fix missing spaces around '-' operator in
->     HalPhyRf.c
-> 
->  drivers/staging/rtl8723bs/hal/HalPhyRf.c       | 8 ++++----
->  drivers/staging/rtl8723bs/hal/HalPwrSeqCmd.c   | 6 +++---
->  drivers/staging/rtl8723bs/hal/hal_com_phycfg.c | 2 +-
->  drivers/staging/rtl8723bs/hal/hal_sdio.c       | 2 +-
->  4 files changed, 9 insertions(+), 9 deletions(-)
+atomisp_initialize_modules() creates CSI2 and ISP subdev media entities
+before atomisp_pci_probe() registers them. Its counterpart,
+atomisp_uninitialize_modules(), only releases part of that module-owned
+state and leaves some media entity cleanup to the entity unregister path.
 
-Just combine all 4 patches into one patch.
+That ownership split is incomplete for probe error paths. If
+atomisp_pci_probe() fails after module initialization but before all
+entities are registered, the unwind path cannot rely on unregister
+helpers to release media entity state whose lifetime started in module
+initialization. The CSI2 and ISP subdev media entities can therefore be
+left allocated.
 
-regards,
-dan carpenter
+Refactor the cleanup boundary so module cleanup releases media entities
+created by module initialization, while unregister helpers only undo
+registered V4L2 and media device state. Move CSI2 and ISP subdev media
+entity cleanup into atomisp_mipi_csi2_cleanup() and the new
+atomisp_subdev_cleanup(), and run media_device_cleanup() after module
+cleanup in the probe unwind and remove paths.
+
+If atomisp_mipi_csi2_init() itself fails, it has already unwound its
+partial setup, so return the error directly. Only the later
+atomisp_subdev_init() failure path needs to clean up CSI2 from the
+caller.
+
+The bug was first flagged by an experimental analysis tool we are
+developing for kernel memory-management bugs while analyzing
+v6.13-rc1. The tool is still under development and is not yet publicly
+available. Manual inspection confirms that the bug is still present in
+v7.1-rc7.
+
+An x86_64 allyesconfig build showed no new warnings. As we do not have
+an Intel Atom ISP platform with the required camera sensor hardware to
+test with, no runtime testing was able to be performed.
+
+Fixes: 9d4fa1a16b28 ("media: atomisp: cleanup directory hierarchy")
+Signed-off-by: Zilin Guan <zilin@seu.edu.cn>
+Signed-off-by: Dawei Feng <dawei.feng@seu.edu.cn>
+---
+ drivers/staging/media/atomisp/pci/atomisp_csi2.c   |  5 ++++-
+ drivers/staging/media/atomisp/pci/atomisp_subdev.c |  9 +++++++--
+ drivers/staging/media/atomisp/pci/atomisp_v4l2.c   | 12 +++++-------
+ 3 files changed, 16 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_csi2.c b/drivers/staging/media/atomisp/pci/atomisp_csi2.c
+index 95b9113d75e9..2a85d04ade81 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_csi2.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_csi2.c
+@@ -185,7 +185,6 @@ static int mipi_csi2_init_entities(struct atomisp_mipi_csi2_device *csi2,
+ void
+ atomisp_mipi_csi2_unregister_entities(struct atomisp_mipi_csi2_device *csi2)
+ {
+-	media_entity_cleanup(&csi2->subdev.entity);
+ 	v4l2_device_unregister_subdev(&csi2->subdev);
+ }
+ 
+@@ -331,6 +330,10 @@ void atomisp_csi2_configure(struct atomisp_sub_device *asd)
+  */
+ void atomisp_mipi_csi2_cleanup(struct atomisp_device *isp)
+ {
++	unsigned int i;
++
++	for (i = 0; i < ATOMISP_CAMERA_NR_PORTS; i++)
++		media_entity_cleanup(&isp->csi2_port[i].subdev.entity);
+ }
+ 
+ int atomisp_mipi_csi2_init(struct atomisp_device *isp)
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.c b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
+index 3d56ca83ecb7..11d7e04d3ec5 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_subdev.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
+@@ -886,11 +886,16 @@ void atomisp_subdev_cleanup_pending_events(struct atomisp_sub_device *asd)
+ 
+ void atomisp_subdev_unregister_entities(struct atomisp_sub_device *asd)
+ {
+-	atomisp_subdev_cleanup_entities(asd);
+ 	v4l2_device_unregister_subdev(&asd->subdev);
+ 	atomisp_video_unregister(&asd->video_out);
+ }
+ 
++void atomisp_subdev_cleanup(struct atomisp_device *isp)
++{
++	atomisp_subdev_cleanup_entities(&isp->asd);
++	media_entity_cleanup(&isp->asd.video_out.vdev.entity);
++}
++
+ int atomisp_subdev_register_subdev(struct atomisp_sub_device *asd,
+ 				   struct v4l2_device *vdev)
+ {
+@@ -913,7 +918,7 @@ int atomisp_subdev_init(struct atomisp_device *isp)
+ 	isp_subdev_init_params(&isp->asd);
+ 	ret = isp_subdev_init_entities(&isp->asd);
+ 	if (ret < 0)
+-		atomisp_subdev_cleanup_entities(&isp->asd);
++		atomisp_subdev_cleanup(isp);
+ 
+ 	return ret;
+ }
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+index 900a67552d6a..5ba9584b81d7 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+@@ -334,10 +334,8 @@ int atomisp_video_init(struct atomisp_video_pipe *video)
+ 
+ void atomisp_video_unregister(struct atomisp_video_pipe *video)
+ {
+-	if (video_is_registered(&video->vdev)) {
+-		media_entity_cleanup(&video->vdev.entity);
++	if (video_is_registered(&video->vdev))
+ 		video_unregister_device(&video->vdev);
+-	}
+ }
+ 
+ static int atomisp_save_iunit_reg(struct atomisp_device *isp)
+@@ -814,7 +812,6 @@ static void atomisp_unregister_entities(struct atomisp_device *isp)
+ 
+ 	v4l2_device_unregister(&isp->v4l2_dev);
+ 	media_device_unregister(&isp->media_dev);
+-	media_device_cleanup(&isp->media_dev);
+ 
+ 	for (i = 0; i < isp->input_cnt; i++)
+ 		__v4l2_subdev_state_free(isp->inputs[i].try_sd_state);
+@@ -875,7 +872,6 @@ static int atomisp_register_entities(struct atomisp_device *isp)
+ 	v4l2_device_unregister(&isp->v4l2_dev);
+ v4l2_device_failed:
+ 	media_device_unregister(&isp->media_dev);
+-	media_device_cleanup(&isp->media_dev);
+ 	return ret;
+ }
+ 
+@@ -1086,7 +1082,7 @@ static int atomisp_initialize_modules(struct atomisp_device *isp)
+ 	ret = atomisp_mipi_csi2_init(isp);
+ 	if (ret < 0) {
+ 		dev_err(isp->dev, "mipi csi2 initialization failed\n");
+-		goto error_mipi_csi2;
++		return ret;
+ 	}
+ 
+ 	ret = atomisp_subdev_init(isp);
+@@ -1098,13 +1094,13 @@ static int atomisp_initialize_modules(struct atomisp_device *isp)
+ 	return 0;
+ 
+ error_isp_subdev:
+-error_mipi_csi2:
+ 	atomisp_mipi_csi2_cleanup(isp);
+ 	return ret;
+ }
+ 
+ static void atomisp_uninitialize_modules(struct atomisp_device *isp)
+ {
++	atomisp_subdev_cleanup(isp);
+ 	atomisp_mipi_csi2_cleanup(isp);
+ }
+ 
+@@ -1451,6 +1447,7 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
+ 	atomisp_unregister_entities(isp);
+ error_uninitialize_modules:
+ 	atomisp_uninitialize_modules(isp);
++	media_device_cleanup(&isp->media_dev);
+ error_irq_uninit:
+ 	atomisp_msi_irq_uninit(isp);
+ 	pci_free_irq_vectors(pdev);
+@@ -1476,6 +1473,7 @@ static void atomisp_pci_remove(struct pci_dev *pdev)
+ 
+ 	atomisp_unregister_entities(isp);
+ 	atomisp_uninitialize_modules(isp);
++	media_device_cleanup(&isp->media_dev);
+ 	atomisp_msi_irq_uninit(isp);
+ 	pci_free_irq_vectors(pdev);
+ }
+-- 
+2.34.1
 
