@@ -1,90 +1,105 @@
-Received: from mail-m10141.netease.com (mail-m10141.netease.com [154.81.10.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B94C83E63A1
-	for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 12:35:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=154.81.10.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31C7B3F1AD5
+	for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 12:53:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781526933; cv=none; b=ggxcEkvkrDO4gdmx7qcJAw72tBVK+bDUL8FA/fkrvvsuxvoFUoM06Vt1bXYS5f0tYJZxzTXsIGZOeR0dfZC9tF3Ld8GewhKV/69ozecbBVgqKYji9RHl5VzyQba1Ysjk2gAIUo0ji+6+yXcjHFDEr8fTTsb/U3oOmEGFYs2FOw0=
+	t=1781527985; cv=none; b=kq9W0c/cocit+d2PkpZmJa6T0omBdmkZ1o+244bTE9D7nWgUTjou0xN1q7QB+3ds8qmw5PKMo4rj+ElUo9xeibdzMJS3yzYp+SuOr76YYWqdXXj6VzlhtmwCQVkzMRfQYj1smDTtzah8F6fv2Nm5/asc6YChy7ZnBF83ri3agRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781526933; c=relaxed/simple;
-	bh=gjaFQJT2kAif7CkimHx3x7Hps77szfPhwpa5ykLK03Y=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=q8cTzhYiYZLbMj3FkTIVpr8VKF/EZWoGXoMH6ICjtuCYAlWvye6yFYorr7LmjvO2ifHvrVFzBi/R7Hc4HAuMHJKixJrcf63s8L4yrpe+tDfm3rG/sSQKa1PKQddIdKhWSumqdP3pRe+cI9UKupdG+j9TKyVPIFFVkE7B1hv3Uzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=P61Hs7oM; arc=none smtp.client-ip=154.81.10.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
+	s=arc-20240116; t=1781527985; c=relaxed/simple;
+	bh=KjVjeBmrJVKuyjmRMYFWhqezrlsqJFk38c5b0afCLUk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oZg+THRdUr3NMtY3OYYlokIaVl06E0vtTJwD0kSrf0c4zsOeNJHrEarcI2CfESoVbjqaJhzET291+Rq1lcbwMd8Lu9CrVVb074S+U1wjSocJ44chXBOOYEsI4xqMX0M8VwVPjdsZ7sfU63XXLN6mG84h72JKH+ozjeotpuumxDc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B133wXOl; arc=none smtp.client-ip=209.85.222.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="P61Hs7oM"
-Received: from DESKTOP-SUEFNF9.taila7e912.ts.net (unknown [221.228.238.82])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 426fffac5;
-	Mon, 15 Jun 2026 20:35:15 +0800 (GMT+08:00)
-From: Dawei Feng <dawei.feng@seu.edu.cn>
-To: andriy.shevchenko@intel.com
-Cc: abdelrahmanfekry375@gmail.com,
-	error27@gmail.com,
-	andy@kernel.org,
-	corbet@lwn.net,
-	dawei.feng@seu.edu.cn,
-	gregkh@linuxfoundation.org,
-	hansg@kernel.org,
-	jianhao.xu@seu.edu.cn,
-	keescook@chromium.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	zilin@seu.edu.cn
-Subject: Re: [PATCH v2 1/2] media: atomisp: fix memory leak in atomisp_pci_probe()
-Date: Mon, 15 Jun 2026 20:35:15 +0800
-Message-Id: <20260615123515.3289855-1-dawei.feng@seu.edu.cn>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <ai_kfgkuDYcFd0bG@stanley.mountain>
-References: <ai_kfgkuDYcFd0bG@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B133wXOl"
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-9158643e538so309188585a.1
+        for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 05:53:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781527983; x=1782132783; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=rp+3cLG/IkZra8uWUBB1v0uK+PmlhsRsCaz+zT6XZRw=;
+        b=B133wXOlx+CU8rGAdMEYNkZRtvr9U1tBderPvRgy59OnhdBJiJXZlS1l0w3ME9izh7
+         b4iI1N+5zMTO/EwXBEBDsKRpTBY71L8gmtQb4JFtmtYAmjKAFk0yJEG2H07MO0MMDSbP
+         dh6Xwz19ufdbSzm1t+MdTiCpxI4FazfUOhJCYEyPJhibAll6vFq+PBIj0E0VBeQJyct4
+         gr1zndEk0lZ+q43wFWlZuWNOXQWoZ6guV/A2mPBsORwwgl/eH6+vsyHNZPNAAIMxqfVT
+         gm7/JbdBIEz04DGEvDg3U29FRdH7woT7TToipmDt638Gwva+OibGOTMP4F3GvNeO/+N5
+         U1kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781527983; x=1782132783;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rp+3cLG/IkZra8uWUBB1v0uK+PmlhsRsCaz+zT6XZRw=;
+        b=SogUZ6ZPgXC2Ue35YCOjWGhz0LKxIdqcFtvMW0J2uNW2kbgSZKCKodMb6bLcjJ/koS
+         iaIOM0nZzV6yQeoLvSdMsl9jOweOnBrHPGdxlHYgDgnpsO8tMipB09gHnTuITmKGRcij
+         tMkgcl3f8PRL19U8euEnCEeXYsOv5tEY/T7hzZtWRPmdwZT/gYkhZ8kEnGdi5AqfxIKA
+         53arKXW3OlWEGuqDx9AHy+PuqpG7LuqanfBKaSelc1SXfnAcFGl7KaZ9WcQKty8d/7yz
+         pa/0qp4e+q5p/TJJruz4hL8zbb4tRypfdybnjZ3GyGBlHujT6hDXH+dZn38KHA3V9pPv
+         yoeg==
+X-Forwarded-Encrypted: i=1; AFNElJ/h0dMXuauQeTGdnXQRRvFuS6HqeoPrsqOLosFLCdZN5nJQS4VultydBtQGCjwYAnqahg+hwEbM2SLO9yo8@lists.linux.dev
+X-Gm-Message-State: AOJu0YxSbG8+wGif2aELuhYu/2dlnvDX7BxVjKNkuDdCSyoDULTrPuyk
+	+NV/WYsaKmQ0nSVY1A7Dm/GYOEDmtWGI86ZVo9Su1LpGuZ+6dJj5EpnL
+X-Gm-Gg: Acq92OH2a0Y4ZcucQkByjsoOyLWRfmdWdNWF62A5toh3XPdXWYutui6LOZ+WmhATHy/
+	/+sdgE5jC7cg0/ThmtZpOj6WFOLgXWeFz3CMIcEHQ1tqCT0juoS0NAUzmGvMwka9BWJ1/5A43i7
+	qDq9hMOR4uRa1MDg/PavqiTNzhFpg8Mo0Z9e/GxYmn9+AGrVacupkEbCYHk8KHQgmHa5ROXq2s8
+	XTG41cHrLFwz6HUULse+8xf331lBxuxkKk7mGatYP//68CdD4K0RE7OHjVGSEPqUJKKkgGupOHO
+	IATkKhvAe8Y+5BqTMNXLVX2flbxrNqIZI00dk70pPnGDbIifQZC4DJsObu4M4P+2dKw0eN87BTu
+	jKGFUIMY+2cx2x/k6aX0kFteOY6eEOiBFuNkdidIPWXZy0h2EBPTElWQk+QMthZ5mbJ2otLGBqe
+	9ATnf2QkGc8WWpaMY8
+X-Received: by 2002:a05:620a:448f:b0:915:e2a7:bea5 with SMTP id af79cd13be357-9161bf9f59bmr2020356785a.50.1781527982986;
+        Mon, 15 Jun 2026 05:53:02 -0700 (PDT)
+Received: from localhost ([43.225.189.75])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-91619ed7862sm1104760885a.10.2026.06.15.05.53.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Jun 2026 05:53:02 -0700 (PDT)
+Date: Mon, 15 Jun 2026 15:52:56 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Devansh Soni <devanshsoni874@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: fix line length checkpatch warning
+Message-ID: <ai_1qCYJYVKO43Sy@stanley.mountain>
+References: <20260615121838.30825-1-devanshsoni874@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9ecb476afe03a2kunm1210e9d519b2
-X-HM-MType: 10
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlDHUkfVkgfQx1PHx9DTE5MH1YeHw
-	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUpVSUlDVUlIQ1VDSVlXWRYaDxIVHRRZQVlPS0hVSktISk
-	9ITFVKS0tVSkJLS1kG
-DKIM-Signature: a=rsa-sha256;
-	b=P61Hs7oMyuaM7iyI1iro5WMKkuPk5RSAPqrGnktgg3SrDynw3ORjAlJoYi6YhF/PmYgJMeFq+ffJvy6ZTjwKgJSJWOiU9AxiLiN3IImJ1hM2HoITV5EplIeUMrxi1Co63s9rk/WT3uogQxecXAFnhmt3dtB+l1887n8OCeWe4a8=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
-	bh=bN1w/C+P47zTBSfglB2f6ou4NJife5gpnW4y55LxdtQ=;
-	h=date:mime-version:subject:message-id:from;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260615121838.30825-1-devanshsoni874@gmail.com>
 
-Hi Andy,
+On Mon, Jun 15, 2026 at 05:48:38PM +0530, Devansh Soni wrote:
+> Wrap a long pointer arithmetic line to resolve a checkpatch.pl line length warning.
+> 
+> Signed-off-by: Devansh Soni <devanshsoni874@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_cmd.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> index c1185c25e..d727a00f2 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> @@ -184,7 +184,8 @@ int rtw_init_cmd_priv(struct	cmd_priv *pcmdpriv)
+>  		return -ENOMEM;
+>  	}
+>  
+> -	pcmdpriv->rsp_buf = pcmdpriv->rsp_allocated_buf + 4 - ((SIZE_PTR)(pcmdpriv->rsp_allocated_buf) & 3);
+> +	pcmdpriv->rsp_buf = pcmdpriv->rsp_allocated_buf + 4 -
+> +			    ((SIZE_PTR)(pcmdpriv->rsp_allocated_buf) & 3);
 
-Thanks for the review.
+This code is ALIGN() the pointer to the 4 byte boundary.  We have a macro
+for that.  But also I bet that the pointer is already aligned to start
+with.  Also check that we allocated enough space to align it.  (I have
+not looked at this code outside of what I can see in this email).
 
-On Mon, Jun 15, 2026 at 02:11:12PM +0300, Andy Shevchenko wrote:
->> Fixes: 9d4fa1a16b28 ("media: atomisp: cleanup directory hierarchy")
->> Signed-off-by: Zilin Guan <zilin@seu.edu.cn>
->> Signed-off-by: Dawei Feng <dawei.feng@seu.edu.cn>
->
->This SoB chain is wrong. Who is Zilin and why is he here?
+regards,
+dan carpenter
 
-Zilin is the discoverer of this bug. We are in the same research group,
-and he actively participated in reviewing this patch. 
-
-To better align with the kernel submission guidelines, I will add a
-"Co-developed-by:" tag in the v3 patch for Zilin to properly reflect his
-contributions. Would this be acceptable?
-
->These last two paragraphs do not suit the commit message. Please, drop them
->here and better to describe all this in the cover letter (if not yet).
-
-As Dan mentioned, I included those paragraphs following the exapmle in
-researcher-guidelines[1].
-
-[1] https://docs.kernel.org/process/researcher-guidelines.html
-
-Best regards,
-Dawei Feng
