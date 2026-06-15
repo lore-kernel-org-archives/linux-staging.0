@@ -1,133 +1,52 @@
-Received: from ixit.cz (ixit.cz [185.100.197.86])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D77C73E9588
-	for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 12:20:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21FAD3E9287;
+	Mon, 15 Jun 2026 12:24:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781526011; cv=none; b=EkKbuYk+eBPNnKLfhnXklOwxdycTmzo5kdyOGhcdkbV2z4ELiJCRZynefaH4cG0EN0hsHOVSWKKOfB59pxJu6dRP+3QvPBh42riP2JRNgXRIQLqb/q706LR72qgdc6GsoRyFL36evXdUQDpcf7YDNrVsDof9cqFajc1tnCTP88A=
+	t=1781526260; cv=none; b=HCnceAEM8H9ap31kJ1ZLfvX7IXhS/uiwH8QbmafjM04OuWZDYD1R93TXIY5YYny+Ed8PQuS7w90uy+s+YITTYo6MghEF+UkjpkgGnYpw3sScVjyfMupOyCraK9PfVwtt8nRAyowTlmKjOZgwDWbBP1/9iNIUmIL++5yXUgFJ2hA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781526011; c=relaxed/simple;
-	bh=0fWXguNb5uyvdXJYObsGXpuE+167s/7oZZAWaX/3NHg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lXGdiBIdU947DVsF3u8BDMW9TKXzNXUzWHOOu/tHMFR6jJNIEqGIy/ATkHBog0awsQtDVGPDdfGOnfIOf1TyRSTpK7ovCIOohigyEAWpWxDOR6VyrcIbWEaJpr59R1n4mziT4x2J3hDI3YPIaeVEuiYveY20lZSOE0WncRYH8jY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=VTpWAL/Z; arc=none smtp.client-ip=185.100.197.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+	s=arc-20240116; t=1781526260; c=relaxed/simple;
+	bh=xw8flhbLz+yP7xIeEQhJBR6bY7sCnvAMktlMSUSdZao=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KhipbYA4fo3I8+XhhNinrvgRc8Nc79QLKf1U2WqUx3yRM36Etlpg/Kia9qISHWT+XMT+lMC/jnw0RoELEaJCCMU/dXdBH5ybf51RJ45/DuKW9gScjxOzBI59FXJn4f7//GdE7szkNnav6hkw86r9cC4+bMH5EJEudddZt9gZulY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=A/aIjmdz; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="VTpWAL/Z"
-Received: from [172.17.76.17] (82-99-132-161.static.bluetone.cz [82.99.132.161])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id A37B5534102F;
-	Mon, 15 Jun 2026 14:19:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1781525989;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=ac+2bp6WJ9bpI/3A4OWiD6Lvw/zzDEiCpYqguXWdNQE=;
-	b=VTpWAL/Z1jTV/UojeANhQfUT1N+o2OUstcRkdG+Qu+Y9F/tSVyKhSWbHeMTMESGYj3h5Vc
-	iOs0A8Fcu2ZNcPI//rP2flSH4HZQMBG5HiufZ5Vr/FCreJ+o5AEfmnEUFBEpgouaz7iOsh
-	+PGewkdSilPyfevueZWYYqlXYvTQltY=
-Message-ID: <5c61be5e-4355-4c30-b24c-108e0a9fd26b@ixit.cz>
-Date: Mon, 15 Jun 2026 14:19:47 +0200
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="A/aIjmdz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7BD41F000E9;
+	Mon, 15 Jun 2026 12:24:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1781526258;
+	bh=xw8flhbLz+yP7xIeEQhJBR6bY7sCnvAMktlMSUSdZao=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=A/aIjmdzbUo81qkbOUSW7K57JiGXMEfrfSAoW2Ym/A+WOVB2+whHNy2R3tgHgNhcQ
+	 FvqDAe9El0mYuqodFE1DNUNPH+S4r8kVFu9kyPgkUwq8T5U5rk/00C9dhLIkqt3ZZe
+	 j6FMeSl52LsaxqZpG26V0W0xZ1qhCnEicEFKWiXo=
+Date: Mon, 15 Jun 2026 14:23:12 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Devansh Soni <devanshsoni874@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: fix line length checkpatch warning
+Message-ID: <2026061507-cryptic-regalia-d63f@gregkh>
+References: <20260615121838.30825-1-devanshsoni874@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/1] MAINTAINERS: Camera sensor and Intel IPU driver
- changes
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
-Cc: Yong Zhi <yong.zhi@intel.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Lixu Zhang <lixu.zhang@intel.com>, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, Bingbu Cao <bingbu.cao@amd.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Richard Acayan <mailingradian@gmail.com>
-References: <20260605074944.666654-1-sakari.ailus@linux.intel.com>
-Content-Language: en-US
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-In-Reply-To: <20260605074944.666654-1-sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260615121838.30825-1-devanshsoni874@gmail.com>
 
+On Mon, Jun 15, 2026 at 05:48:38PM +0530, Devansh Soni wrote:
+> Wrap a long pointer arithmetic line to resolve a checkpatch.pl line length warning.
 
+Ironically, this text is too wide :(
 
-On 05/06/2026 09:49, Sakari Ailus wrote:
-> From: Dave Hansen <dave.hansen@linux.intel.com>
-> 
-> Tian Shu Qiu and Bingbu Cao are maintainers and reviewers of a bunch of
-> media drivers (7 and 9 respectively). Bingbu's e-mail address has changed
-> and Tian Shu's is bouncing.
-> 
-> Update Bingbu's e-mail address, remove Bingbu as a maintainer from Intel
-> specific drivers and and remove Tian Shu as maintainer. Also add Dave
-> Stevenson as a maintainer and David Heidelberg as a reviewer for the
-> imx355 driver.
-> 
-> Signed-off-by: Dave Hansen <dave.hansen@linux.intel.com>
-> Cc: Yong Zhi <yong.zhi@intel.com>
-> Cc: Dan Scally <dan.scally@ideasonboard.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Lixu Zhang <lixu.zhang@intel.com>
-> Cc: linux-media@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-staging@lists.linux.dev
-> Co-developed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->   MAINTAINERS | 29 ++++++++++++-----------------
->   1 file changed, 12 insertions(+), 17 deletions(-)
-> 
+Didn't checkpatch complain about that?
 
-Acked-by: David Heidelberg <david@ixit.cz>
+thanks,
+
+greg k-h
