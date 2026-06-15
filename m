@@ -1,77 +1,72 @@
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+Received: from mail-yx1-f51.google.com (mail-yx1-f51.google.com [74.125.224.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87CAE29E10F
-	for <linux-staging@lists.linux.dev>; Sun, 14 Jun 2026 20:16:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95A7121A447
+	for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 01:29:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781468174; cv=none; b=Pbi4z6VcWCvnrXcnWoaU0ncf7Afcr9lzY1k8hqD/eqYMnq4rhqpk+N0w7IpO/5t3H5Dx0p/gNWZy/JLCqdXQvPNcRUzkeGi+nT4S6oovdV0p0NSO+NnGNDArNcKhBMcSr1NgkY3sGgp67lYE2u+ZkiD97gZMZfLTPb08lSK60Tk=
+	t=1781486952; cv=none; b=CAm8vXosUumQbUaJgjO2VoXzVmsSgqA0R2DTwxEw6w9QGFe1S4ApTNDfCSQCfFSyF1ZUvLr7jv08oiDuhrZ4zjFVg+FO2GPo8ugAPm8XSDiHC2zFL0F6uGpnpyxkQ8vIub9z1SXsfcwfx3oBX0nYa2fNvvOSWwl5jNXWwBIvbHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781468174; c=relaxed/simple;
-	bh=odnJMk2Iur9EW+NLveIiI2DGWoiKIbQQn3/cwmGFwWk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FEaiU2MvWOrG7MuK8L3wYpeRxVhcGzDW+oOdbLB600pLSThuIo1uzmVS1Naw7lJta/dSjfzp+wBXvZDhdWw+tqJgQAoyu/ci/PFdggOg08vJgr4n+5cAVV00SQ7iNeQuxN6yovLZY9trZ6ZXHPGJu+MG5ZkXKmaWBOkCAFR6xsQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EQGR46hf; arc=none smtp.client-ip=209.85.219.42
+	s=arc-20240116; t=1781486952; c=relaxed/simple;
+	bh=VoiN+qLBR9B3HeLbsY+CTDz4NWYDpxjoXZy0bpB7eNY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TMwNCQpQ0zT68VJlVCeQK7vSZTa7jxNQ4b7+mB6DcO4Z21mqlcSofY/hQoehbu+OPhge0Cc5FnE4Q82UuTDAV1YYXM8wUYYV9t+QmB7E7VeTnAX6mVUn5uucZvrMMzmxy5UiQWoasIjpR1AY7gLA0bYt2pM4NYyTUkEBqOnniIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X4traOPY; arc=none smtp.client-ip=74.125.224.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EQGR46hf"
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-8cceaacd07bso33814626d6.3
-        for <linux-staging@lists.linux.dev>; Sun, 14 Jun 2026 13:16:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X4traOPY"
+Received: by mail-yx1-f51.google.com with SMTP id 956f58d0204a3-66049669d78so2625168d50.0
+        for <linux-staging@lists.linux.dev>; Sun, 14 Jun 2026 18:29:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781468171; x=1782072971; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1781486950; x=1782091750; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7MKHApoD4FmbO7LLQOWnCTjAAZ+14mTiiY6a3gJWdwY=;
-        b=EQGR46hfdQLL053SbXZTllyWsmg++raHF8MS8njBsMO122S/5oGGehAiPdpiUD8Maj
-         pVWK6+bBlnCdAPtq0EWVcj3ldDrUwnQLv2EGkuFxQ9vKXRpUcVtzlKs+ivpk3dyRBZwy
-         pSnjBlSGu+t3AOcYVp6irpUIBq71zWoJ0r13ordPurLd4PLuHS3fVJ2FGDIG0rIKiieS
-         Jbx+OABUZh2sbvSisMi9D5FXqE1SnJ13juoGx7TCiQN1GQ8viU1sL8YEmw9rxWTg6ru0
-         V1ExGy1gvA/j6qn6Na6iMar0oosYMjAfeibYlNZu148YlIgQ9QzGoWgvGjYlbyMCBE/F
-         AmFQ==
+        bh=xTjeij5sLwgES0f9hCPJ9GbQnA+7+YUnwk7xWCwfQo0=;
+        b=X4traOPYkMD4olGie7zp6R+ZJY2hyNcq97+e2xpfKPM9CLfgy6D+o/Tu2AjFT488HK
+         2N99rGonkgwIE9YhLpop/TKLD4nLk3vF7K6D15KfJ5Kgcpd5gapjaPqh2l195a/6EwGh
+         HjKBxDsQszUgGO46HzsT1C2IhqTRQ4dCDy20h/LFh3SzV7Ja+zFFGl17TURFXWMoYjZY
+         hEKbnnUjTAYZ30craqBbJ+LR3xYgml0YaLGbeoxU+P9lIB/BEUg3ZjXfyDfdzqFATgID
+         dvJhL9RaUti7KP4S6GY2QE72wn//R3LV/QnDigavXroZ5WSzyriXXjwVoAgm+LEuXpsz
+         0pQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781468171; x=1782072971;
+        d=1e100.net; s=20251104; t=1781486950; x=1782091750;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7MKHApoD4FmbO7LLQOWnCTjAAZ+14mTiiY6a3gJWdwY=;
-        b=duD4am7WRJ/caFk0V+uN1OD5OqMHUeiOBakiU6g3rB16Qpi2etqgiHoExOJ1fwtBs7
-         58pQtnsIPabcOe2iqoQwkzeTV+2lThSJ4nVEBcNgEFpuHkh3eB3Ien3ZFb3fUPe35DTz
-         PxoRDssQuvy9f/V672Oc7ncE8+LKsKbxz1Le1EyuwhD1eMCrPyYvs3moavQvX0BbsktX
-         /2d7W0RpKP1X+mioWue8f2gKSgzCC7OKxrqS5JNj2AA+dJMm70PLPcuRNjc39F8imyWD
-         v4KhDI6qgtIaa3WaIcCw+1ljpCAvuHxz43MMvgzMfwMVwaSJ8+k/hJ9mWRQf86pk4Iy3
-         yY1w==
-X-Forwarded-Encrypted: i=1; AFNElJ86KQOFCE1U9den85VIpX5IFHe5+p4JoXlFaTNtxvjl/sWWCa3JMSTc4XvENbUdGdYY3nf2QLg/gaL6LCKY@lists.linux.dev
-X-Gm-Message-State: AOJu0YxDYYl9E6fuT/fS+48ReC46MLsZ+PRHLGvI0gy6b+9JjuPSrS3a
-	SuYaezf+k+xR9JjY1DycGnmNhANOa3x9IlbK180BFtMkEAXYm5atqrOH
-X-Gm-Gg: Acq92OGpVuh5QJuXNbli6M7KCjxaJakU6t4vXrgWh9/qJKIyRfD0SPxBB1T7u0p3S48
-	bTkyGjay9wpTkp2VMhsNEhLoLTorNZVayWoM06bqSJf5mYS0OTeJvYSqfFZVOsXTKQq3ztOv7/J
-	ooZ/0Hd34IyvCukawomBI2tXqLI/AeTlnr0WEAuO75AvfZI4FVfXxC9mUgAY9qL2AjaJGZwlXly
-	tv44PD9IRufjOxVnlLY8tDwqmcXuPMaea38MlUFI9GJ08ClltUtgTrl00UpJ8QhsFYWzcP5q5/w
-	kN4jei/QHtnccLQKLj9VMp7prL55mC+Z6nb4h/7PDZ/gB6vC/9BlY9uHtOioWmHkEPuqjG2Jvy8
-	WVYFJxpJ5tzxIlOJXZyNth8inXhPLYX9eZ2tYsTvyDDir5nM3K7+RME+D6PfQg7mejYVyShL5n/
-	NCtg5QiR6TwKZvZ5ZzXHXRIiBcnzN9PduugRm4cQwSqsjG
-X-Received: by 2002:ad4:5bc6:0:b0:8ce:abea:4723 with SMTP id 6a1803df08f44-8d32f599636mr195018916d6.40.1781468171377;
-        Sun, 14 Jun 2026 13:16:11 -0700 (PDT)
-Received: from localhost.localdomain ([38.174.6.30])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8d304f3e55fsm90190706d6.39.2026.06.14.13.16.09
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 14 Jun 2026 13:16:10 -0700 (PDT)
-From: Keefe Reeves <reeveskeefe@gmail.com>
-To: andy@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: abdun.nihaal@gmail.com,
-	error27@gmail.com,
-	chintanlike@gmail.com,
-	namcao@linutronix.de,
-	niejianglei2021@163.com,
-	dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Keefe Reeves <reeveskeefe@gmail.com>
-Subject: [PATCH v2] staging: fbtft: use %pe for backlight errors
-Date: Sun, 14 Jun 2026 17:15:51 -0300
-Message-ID: <20260614201551.20542-1-reeveskeefe@gmail.com>
+        bh=xTjeij5sLwgES0f9hCPJ9GbQnA+7+YUnwk7xWCwfQo0=;
+        b=l0t0VhNP13nYy5i/qwyE2kB4Lwkggp6i4f6fZJjTYOwbKEcAn4qE6wGk0/z0/ZRY7F
+         LgdQhUh+ULF9jdl7/XfQwU4SDkyoLXnSMdxebPLJcnWWBzUbLEPuohWZ2a/g8Etz2pbE
+         A6TWIN0+fXb24MDmJLzI52M75Gt8DzMLaVN1LA7B6mS4G5Z05UkVJMr7ahqx2IvGQWpf
+         glGl3VBuozicySqBxr0x9uy+e1NMwuVI9raKbzgfuNMyHtg5S6sV7e2B1+4DaxsBKZVk
+         b+7bKUV5swplQkAy1t9E47BbiFOybzwN9nqCRHm5JTvHLMEWuNbUoJTkVGOJKlDocrpG
+         iAKw==
+X-Forwarded-Encrypted: i=1; AFNElJ83qpMBRj8onboRSIb8o8xWcMTqy0jb7rJs9qCgiesr6/aX/69qD3/a8s4mcUd59JuZIMgrd+gQDtrOAX0n@lists.linux.dev
+X-Gm-Message-State: AOJu0YwvPnla8WtF25wJCdEarDEfR/9x8+QslAY5QXOr5b86l8t2fAoK
+	lOJZIVjVsqn16WP7VgAr3U/LKrvkf8opHc4FFTzliGOayeO2tNvZoisc
+X-Gm-Gg: Acq92OHfVCEdzZfP7j/+BkR2HLh5YtapWhcnLtJbM5LZEFet/ECxr79MIjRVlEOAMDA
+	Rkh+6yk4xD+d0SaIYRxL03yr24uCxmt/uFz/ML3zmKW/lioZr5SqjYqHVfkt0fnYt/tWL5hVFdQ
+	rRlWoKPe2eUnubDFaFp5wt6KN1Mkllgyq27l2p7MaplCvS/ILcTkHZkfUf+9ifGM4e1umAqcMMk
+	2nSu6YmuvoNiSXZ6hShAtaXq4FAhPKAiA+LLmquJqn1pXu7yKYAm9F3+gC5quP+T4wEVaB66BN0
+	KXCldTeRWMry3wGW+sJSu19SITaadFxhIyj12s8LPs53+Km5+UKFPYXsEbPVlDp5w5xiG7gWHPC
+	p2h8PEJBAGW87CR3M4+/n69liM+KzWfRgkS35XZD68v5kxbbUbPoFMm+6IjIXTdndpYcp0gvqwu
+	KYD1iaclQ6EVQMHlZOqL0/kw==
+X-Received: by 2002:a05:690e:4805:b0:660:7b4d:1ac9 with SMTP id 956f58d0204a3-662782e2880mr7271458d50.38.1781486950556;
+        Sun, 14 Jun 2026 18:29:10 -0700 (PDT)
+Received: from localhost ([69.237.12.115])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-66274ae1ce4sm4227521d50.0.2026.06.14.18.29.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 14 Jun 2026 18:29:08 -0700 (PDT)
+From: Noah Adkins <noahcadkins@gmail.com>
+To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-fbdev@vger.kernel.org (open list:STAGING - SILICON MOTION SM750 FRAME BUFFER DRIVER),
+	linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM),
+	linux-kernel@vger.kernel.org (open list)
+Cc: Noah Adkins <noahcadkins@gmail.com>
+Subject: [PATCH] staging: sm750fb: convert camelCase parameters to snake_case
+Date: Sun, 14 Jun 2026 21:28:38 -0400
+Message-ID: <20260615012837.90113-2-noahcadkins@gmail.com>
 X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -81,51 +76,91 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Coccinelle found two places where backlight registration errors are
-printed by passing PTR_ERR() to dev_err().
+Convert the camelCase parameters in the 2D acceleration helper
+prototypes to snake_case to conform to the kernel coding style
+and to make them consistent with the parameter names in the
+corresponding implementations.
 
-Use %pe instead so the error pointer can be printed directly. This keeps
-the behavior the same and just makes the error printing cleaner.
+Issue found by checkpatch.
 
-Signed-off-by: Keefe Reeves <reeveskeefe@gmail.com>
+No functional change.
+
+Signed-off-by: Noah Adkins <noahcadkins@gmail.com>
 ---
-Changes in v2:
-- Use reachable Gmail address for author and Signed-off-by.
+ drivers/staging/sm750fb/sm750_accel.h | 37 ++++++++++++++-------------
+ 1 file changed, 19 insertions(+), 18 deletions(-)
 
- drivers/staging/fbtft/fb_ssd1351.c | 4 ++--
- drivers/staging/fbtft/fbtft-core.c | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/staging/fbtft/fb_ssd1351.c b/drivers/staging/fbtft/fb_ssd1351.c
-index 6736b09b2f45..b6cb60f20b11 100644
---- a/drivers/staging/fbtft/fb_ssd1351.c
-+++ b/drivers/staging/fbtft/fb_ssd1351.c
-@@ -218,8 +218,8 @@ static void register_onboard_backlight(struct fbtft_par *par)
- 				       &bl_props);
- 	if (IS_ERR(bd)) {
- 		dev_err(par->info->device,
--			"cannot register backlight device (%ld)\n",
--			PTR_ERR(bd));
-+			"cannot register backlight device (%pe)\n",
-+			bd);
- 		return;
- 	}
- 	par->info->bl_dev = bd;
-diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-index 3da42c8ca6e3..b6a846ada3e0 100644
---- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -187,8 +187,8 @@ void fbtft_register_backlight(struct fbtft_par *par)
- 				       &fbtft_bl_ops, &bl_props);
- 	if (IS_ERR(bd)) {
- 		dev_err(par->info->device,
--			"cannot register backlight device (%ld)\n",
--			PTR_ERR(bd));
-+			"cannot register backlight device (%pe)\n",
-+			bd);
- 		return;
- 	}
- 	par->info->bl_dev = bd;
+diff --git a/drivers/staging/sm750fb/sm750_accel.h b/drivers/staging/sm750fb/sm750_accel.h
+index d15a40cacb84..0efb7cc00050 100644
+--- a/drivers/staging/sm750fb/sm750_accel.h
++++ b/drivers/staging/sm750fb/sm750_accel.h
+@@ -196,12 +196,12 @@ int sm750_hw_fillrect(struct lynx_accel *accel,
+ 
+ /**
+  * sm750_hm_copyarea
+- * @sBase: Address of source: offset in frame buffer
+- * @sPitch: Pitch value of source surface in BYTE
++ * @source_base: Address of source: offset in frame buffer
++ * @source_pitch: Pitch value of source surface in BYTE
+  * @sx: Starting x coordinate of source surface
+  * @sy: Starting y coordinate of source surface
+- * @dBase: Address of destination: offset in frame buffer
+- * @dPitch: Pitch value of destination surface in BYTE
++ * @dest_base: Address of destination: offset in frame buffer
++ * @dest_pitch: Pitch value of destination surface in BYTE
+  * @bpp: Color depth of destination surface
+  * @dx: Starting x coordinate of destination surface
+  * @dy: Starting y coordinate of destination surface
+@@ -210,34 +210,35 @@ int sm750_hw_fillrect(struct lynx_accel *accel,
+  * @rop2: ROP value
+  */
+ int sm750_hw_copyarea(struct lynx_accel *accel,
+-		      unsigned int sBase, unsigned int sPitch,
++		      unsigned int source_base, unsigned int source_pitch,
+ 		      unsigned int sx, unsigned int sy,
+-		      unsigned int dBase, unsigned int dPitch,
++		      unsigned int d_base, unsigned int d_pitch,
+ 		      unsigned int bpp, unsigned int dx, unsigned int dy,
+ 		      unsigned int width, unsigned int height,
+ 		      unsigned int rop2);
+ 
+ /**
+  * sm750_hw_imageblit
+- * @pSrcbuf: pointer to start of source buffer in system memory
+- * @srcDelta: Pitch value (in bytes) of the source buffer, +ive means top down
++ * @src_buf: pointer to start of source buffer in system memory
++ * @src_delta: Pitch value (in bytes) of the source buffer, +ive means top down
+  *>-----      and -ive mean button up
+- * @startBit: Mono data can start at any bit in a byte, this value should be
++ * @start_bit: Mono data can start at any bit in a byte, this value should be
+  *>-----      0 to 7
+- * @dBase: Address of destination: offset in frame buffer
+- * @dPitch: Pitch value of destination surface in BYTE
+- * @bytePerPixel: Color depth of destination surface
++ * @dest_base: Address of destination: offset in frame buffer
++ * @dest_pitch: Pitch value of destination surface in BYTE
++ * @byte_per_pixel: Color depth of destination surface
+  * @dx: Starting x coordinate of destination surface
+  * @dy: Starting y coordinate of destination surface
+  * @width: width of rectangle in pixel value
+  * @height: height of rectangle in pixel value
+- * @fColor: Foreground color (corresponding to a 1 in the monochrome data
+- * @bColor: Background color (corresponding to a 0 in the monochrome data
++ * @fg_color: Foreground color (corresponding to a 1 in the monochrome data
++ * @bg_color: Background color (corresponding to a 0 in the monochrome data
+  * @rop2: ROP value
+  */
+-int sm750_hw_imageblit(struct lynx_accel *accel, const char *pSrcbuf,
+-		       u32 srcDelta, u32 startBit, u32 dBase, u32 dPitch,
+-		       u32 bytePerPixel, u32 dx, u32 dy, u32 width,
+-		       u32 height, u32 fColor, u32 bColor, u32 rop2);
++int sm750_hw_imageblit(struct lynx_accel *accel,
++		       const char *src_buf, u32 src_delta, u32 start_bit,
++		       u32 dest_base, u32 dest_pitch, u32 byte_per_pixel,
++		       u32 dx, u32 dy, u32 width, u32 height,
++		       u32 fg_color, u32 bg_color, u32 rop2);
+ 
+ #endif
 -- 
 2.54.0
 
