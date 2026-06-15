@@ -1,122 +1,151 @@
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6A931990C7
-	for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 13:53:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F34213F660B
+	for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 14:05:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781531607; cv=none; b=TBRm6fiV4SyD3P2bUkKe6w+5/L/3UgNdlCx3OYs72UaXLppxbCD10hHXLePvuEVK5pPEG/YfW8WrJBbqySE2BUjsBA6o/Pf96KOswlOIgUjenE7z8hCRu/WkvfW/hXIT6njp8OqBFDhPaGvgxbOg1xo3EXqh/FEiZeZvB/yB3q8=
+	t=1781532335; cv=none; b=nlURVmzLDRgDi6zPvh2iI3WmPmvl35w4LV/BvU8PweMdv17W66VjcLaYrpyPtSSJqm19DdOA/EINYFmbRaF1SxJCMHombAhYpWVFMPT5ZEKuL3QxQvd6N16gUhRJB2Ubaf3FKVAL4LpspljrE7wj4cPh4uXgPq24mwJj0RPhIk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781531607; c=relaxed/simple;
-	bh=v2XMI6rt6Wcagz/ONLCx/bmlovqImrX7MjP59W4xvL0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q9R700N4IU3yyI1zphwndEsTLLAeSyA3IWsePEuihiqev7Yg2i3FPaug4AgHt9l9lnBf7R0tESUhCKHOkX8v+Chkm33qw2jLOHOr91s2GvbKPpNOj9vg075jsJ0WNwKBLR/A5nsgxT/zoIMQiT3HgnLovoIWcNUKdbzEMST2u4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i+wHoXPw; arc=none smtp.client-ip=209.85.219.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781532335; c=relaxed/simple;
+	bh=wNlRLgc+VfgMCDRAIjUgYi0AoA49S8oofmEjD+i/wcM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BU3xjU8YHmcHn7BnvMiVXqvZTgXenJrXFcNE/kKFsIPvWHy4XgKpayeX1/bpvR3zmAzvwf8rppm154Efjz9ueO3TqW25QlcRNb+/444qbrE+6TDVu/VcsFEYGdjB+8o/0o3r8jnymyQTuAlsW4eGV83rKeE12RIqkT46SvTdcl0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai; spf=pass smtp.mailfrom=0sec.ai; dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b=qQymgEsx; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=0sec.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i+wHoXPw"
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-8ccce57762cso40783096d6.3
-        for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 06:53:25 -0700 (PDT)
+	dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b="qQymgEsx"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-4602e2a0372so2606011f8f.3
+        for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 07:05:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781531605; x=1782136405; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gTkflnFzBxrBA+AhdgmOSHDMHBNlmdvBwLVRtYBoOe0=;
-        b=i+wHoXPwF8nF05e+68djUKBdjvz5zkIu2+jcaGtNGj/qOMDxfnLjtNC7NpIIz9O4gD
-         QwBIAN868+p43mqezX+elDGQMP8i/UGdiM2aGXyyEsobXle9pLBR9NWT+0ZhpqjMENlx
-         ZBwg3OtxU7d7g7ok7GThEpm/qqKJs7D8mU96cNkCCakQlWhUVcHy4xsnB9o22FMgm/ku
-         n4oDixTX/PEuGHs7aeGEgpGGCFl6y50ILLSM8jt/jrfM00x3GF1+xdLAB6xeOrADAkdS
-         1mplIPz4VX7/jJEgbLFVR3C+mCQKOaYd5Ut8s5+SdmKTa4Cu2L5qyCnK+BzGLf2edfZj
-         pmQg==
+        d=0sec.ai; s=google; t=1781532332; x=1782137132; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6MN3j+7e1dFG2jfIP/6dw1N/4Etu3I0/uUny4h6HJVI=;
+        b=qQymgEsx7zN15eIfbtp/Ho9qXGe7ULHkcO0TLCkSqBjiUQDRkDiqMXSh/bCGttD5zj
+         YjWw71Xnvh8eBR96HJ9e5S69ymlvFwfWpLeGZQG0q2n4lsmXpgkgVq8v2+osQMvdhvpx
+         9If2h7U46jqlw8sktWK2TV6AP1dD1tyBhtSpE4YOoYDB3QT/4pK+Jy1k4a3V/7yeSJUN
+         zAOTUx3Qn4Vm+/q6h8KiUKAqlrzmYZBZHA00Xjl4iBEVVUD11d9kDNPERnXHKKEa5+Ao
+         l3rI/aItX0RePoN/PYA32xghGJGkzQQY6TPGYRZwnNJHujqyEfTM/407qNWeqDYt+T1k
+         EI/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781531605; x=1782136405;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gTkflnFzBxrBA+AhdgmOSHDMHBNlmdvBwLVRtYBoOe0=;
-        b=NrFaxRYrcqDaGj8etIZzEBSbAr6xM3Lo2jlNsAVChEAhLtN0moDmbPHfuaSUOHcxHF
-         vsN5F29TAZ9+hzBX6tuueHEpc3mGDYy/xxA2woQ61CV7s5APnQclXt3BGZQLpzQ6Y5Z8
-         71EPw5+EQ7Q03/I5cqqaYbuOCkV3KXm3Q/iyyJsrq3q1NoJyZOZy261VPjWwkpl7V2C1
-         oVreZTH4mNt6wpjpNpZRFqr8NKbrHX7xW6jnUj8U9PzEvfK/a3/rMhMnjbqL1K74EO3d
-         kxY59+AfoBT/P0eZO40EV/cRiUU2ukiEMhOXVhdb0vPfYF9As0g8gVh13j5xgtbVtr61
-         fomg==
-X-Forwarded-Encrypted: i=1; AFNElJ8IpXa7S4inZf9tXit0lgW4H/baI/4PSmzlI4ATJxFS7i2WzIO3rxIHMxyW39WcOJV2YkkD2QkDEDFzpXWm@lists.linux.dev
-X-Gm-Message-State: AOJu0YypvFWuOiBlYwsEe1p61426UpYZ3WoJXikCG8amQbjJoai0tBIY
-	yOK3M406R9y9Q3/cL0glxf3kXqF3huKhit26VD0NQcIqhsNvEBt3xJPN
-X-Gm-Gg: Acq92OH5wkIEAuAC13Qj9urpYfLOQboL3koIXPeR7qDgmYciudP3gpbc8RcL0epkuX3
-	MDLJ4RzcECJDyGzPVh5O3x+lxhTCZU8VxKgNhvbF9soyZhcWpCMmlRD1t7y7FP4V7b33oRfxq3Y
-	B6aXEGaYGnW4WCJSVweTQix+BnYMmQFENtx6A2gDaV7tQBPI3kO/aH5ZXhVbE+goB3kERTuGSnH
-	vjJwRix0FSawqzlhrHuLTG2Y42Z5RKM7oV45B4oq3RjwTzKu50jFpzTvVsRidTqRYy8DYtUlt0U
-	3eYL4xIvA+cSPOlzJj40JTZMp7oqyuP5LerVa2P4K7xp4tEjnMHrqdb5+SpSstJ+5MLcnwvzOaw
-	irHbBb17xtfHXIpxc2UKhR7w84MfBjjaofoUCpcjJjmfgL/S4tcR1CYAk6obExl5Nnhw3js6n/9
-	VF5kzSR9H6MsCge3+T
-X-Received: by 2002:a05:6214:4382:b0:8cb:e81b:576f with SMTP id 6a1803df08f44-8d44c6a62f5mr191044646d6.5.1781531604652;
-        Mon, 15 Jun 2026 06:53:24 -0700 (PDT)
-Received: from localhost ([43.225.189.75])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8d304b5df2fsm114856286d6.34.2026.06.15.06.53.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jun 2026 06:53:24 -0700 (PDT)
-Date: Mon, 15 Jun 2026 16:53:17 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Dawei Feng <dawei.feng@seu.edu.cn>, andy@kernel.org, hansg@kernel.org,
-	mchehab@kernel.org, sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org, abdelrahmanfekry375@gmail.com,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, jianhao.xu@seu.edu.cn,
-	Zilin Guan <zilin@seu.edu.cn>, Kees Cook <keescook@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v2 1/2] media: atomisp: fix memory leak in
- atomisp_pci_probe()
-Message-ID: <ajADzfIcMxTecOsv@stanley.mountain>
-References: <20260615072841.3113700-1-dawei.feng@seu.edu.cn>
- <20260615072841.3113700-2-dawei.feng@seu.edu.cn>
- <ai_d0B8YOZAwnqu_@ashevche-desk.local>
- <ai_kfgkuDYcFd0bG@stanley.mountain>
- <ajAC6E3Pc0edjySZ@ashevche-desk.local>
+        d=1e100.net; s=20251104; t=1781532332; x=1782137132;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6MN3j+7e1dFG2jfIP/6dw1N/4Etu3I0/uUny4h6HJVI=;
+        b=N4ZA7jhTY2DnKv1VmN8VGQOjtntGoXVc/84u8dKaHxDNbkr3UwLfJ4jI6XnB4fxfrJ
+         BwZyN0M/HiFqFx/f5WJOBZ4Xnqe42Tz3Nxc9eZzTzaHEAqvwTuDst7zcefSNsrggkPk9
+         NytXpbibdu5r3/b/AtGaZiZrwKcCpSnhiQ1oTgjYqsP0cGjO/I7e0IiT/1PbfGtVeZBi
+         udessqrvw8ocm1JRNWm5l8VwtQSNVCaaO4nUfH8Ynd5Z10fndVsTCXl1O8cfYhk6Zuc4
+         5CWGq1VPPGXhi1VYfTKcrdtCAEA0IhSz0q95o4I2c9TaVRo3ig9wVKrwRMGLJT3f0IC8
+         SO9A==
+X-Forwarded-Encrypted: i=1; AFNElJ8XrV6BPnPIOUcTxhUA8jlG4v2fK6tvb8pYNn+RMSMvC6LHh76ZFYAkVVDJbqGKULAGs9pRq/nJqMeWd0PU@lists.linux.dev
+X-Gm-Message-State: AOJu0YzWjDCzwofEJneVQozj9efVsqFpwOLHA13VboMbK0cBw2Ifshon
+	C64l2KKnMqq4nKhcl5xDvQTw9xuwP6KSKRjLJztmIEQycD/23utbePAI1sas7W5yEtKs
+X-Gm-Gg: Acq92OGglDTgzw/ydd+lqsuQEKpkNGBzReFJV4yavq8KiXXpM0AH03wj3vHxnyNqa1z
+	zcLQ2UhqypdJJrgcV2lQKeEjYuiZeFSLAKVcjquBU7AqifteZFA7a0TGpm+0sTqwG5LfZgmTKq2
+	A6PO1DEY5fRzTO1FXRLJRqZnePheiqZHEbzxdSI+tH9fma0PDio+InHCqGza/+pglFuQTZDPchL
+	G39Jlam18fzNqIsLExdLbFaHAfLTVs8u9vHghHjB41XSGIhN42IAH/z0ccFmkU9YWNjBUIOl+8V
+	BByqXK4IK35vOqFYgc4grfVGlyc6YM+EenJAJP9QpVSeaHurzP75v1GF7g823dKSy6K3kG/b3PF
+	vLsU7T4H4EYsqU36Ch4/DPeFx3aYoV61QNnbIIzptlNu8pLtAjU6mCU0Fe0XD9rQYUY6z0M9mFX
+	FZlxfe2uRPvNPCpUxeoXQQzL+oy+6Jg/spSjMFiJ76DjsqO9YsGxVmkyuzuHvDDc05Hgya/2hmV
+	1rY7ag7MGhpAghUUbqK5QpWbUZKblq/krpAcZtSM9pFng==
+X-Received: by 2002:a05:6000:1844:b0:439:c18f:5aaf with SMTP id ffacd0b85a97d-4606dbf15f5mr21550537f8f.34.1781532332022;
+        Mon, 15 Jun 2026 07:05:32 -0700 (PDT)
+Received: from PeakBook-Mini.tail8e484.ts.net ([178.197.218.209])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f26f3basm33177359f8f.12.2026.06.15.07.05.30
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Mon, 15 Jun 2026 07:05:31 -0700 (PDT)
+From: Doruk Tan Ozturk <doruk@0sec.ai>
+To: neil.armstrong@linaro.org,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	khilman@baylibre.com
+Cc: jbrunet@baylibre.com,
+	martin.blumenstingl@googlemail.com,
+	mjourdan@baylibre.com,
+	hverkuil@kernel.org,
+	linux-media@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Doruk Tan Ozturk <doruk@0sec.ai>,
+	stable@vger.kernel.org
+Subject: [PATCH] media: meson: vdec: fix use-after-free of decode work in stop/close path
+Date: Mon, 15 Jun 2026 16:05:29 +0200
+Message-ID: <20260615140529.52653-1-doruk@0sec.ai>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ajAC6E3Pc0edjySZ@ashevche-desk.local>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jun 15, 2026 at 04:49:28PM +0300, Andy Shevchenko wrote:
-> On Mon, Jun 15, 2026 at 02:39:42PM +0300, Dan Carpenter wrote:
-> > On Mon, Jun 15, 2026 at 02:11:12PM +0300, Andy Shevchenko wrote:
-> 
-> ...
-> 
-> > > > The bug was first flagged by an experimental analysis tool we are
-> > > > developing for kernel memory-management bugs while analyzing
-> > > > v6.13-rc1. The tool is still under development and is not yet publicly
-> > > > available. Manual inspection confirms that the bug is still present in
-> > > > v7.1-rc7.
-> > > > 
-> > > > An x86_64 allyesconfig build showed no new warnings. As we do not have
-> > > > an Intel Atom ISP platform with the required camera sensor hardware to
-> > > > test with, no runtime testing was able to be performed.
-> > > 
-> > > These last two paragraphs do not suit the commit message. Please, drop them
-> > > here and better to describe all this in the cover letter (if not yet).
-> > 
-> > This is how the documentation says to write commit messages.
-> > 
-> > https://lore.kernel.org/all/ahgaOigklcDCYvRp@stanley.mountain/
-> 
-> Isn't it enough to have in the cover letter?
-> 
-> Thanks for commenting there, but I would insist to move these two paragraphs
-> from the commit message here. Maybe Kees is okay with that, I'm thinking that
-> this is too much (since we have lore archives).
+vdec_close() calls v4l2_m2m_ctx_release() and then kfree(sess) without
+ever cancelling sess->esparser_queue_work. The worker
+esparser_queue_all_src() takes sess->lock and walks the source buffers
+of sess->m2m_ctx, so if it is still pending or running when the session
+is torn down it dereferences freed memory.
 
-To me the "An x86_64 allyesconfig build showed no new warnings" information
-adds no value at all.  It is assumed and if you didn't do that then a lot
-of people are going to know and complain.
+The work is (re-)armed from several places, including amvdec_buf_done(),
+which runs from the decode-completion/IRQ path. That makes the obvious
+fixes insufficient:
 
-regards,
-dan carpenter
+  - v4l2_m2m_ctx_release() frees m2m_ctx (and runs stop_streaming via
+    vb2_queue_release()), but never cancels the work. Cancelling in
+    vdec_close() after v4l2_m2m_ctx_release() would wait on a worker that
+    may already be dereferencing the now-freed m2m_ctx.
+
+  - Cancelling in vdec_close() before v4l2_m2m_ctx_release() keeps
+    m2m_ctx valid, but the hardware is still live, so amvdec_buf_done()
+    can re-arm the work right after the cancel, reintroducing the UAF.
+
+Cancel the work in vdec_stop_streaming() instead, right after
+vdec_poweroff() has quiesced the hardware (so its IRQ can no longer
+re-arm the work) and while sess->m2m_ctx is still valid. Because
+v4l2_m2m_ctx_release() always tears the queues down through
+vb2_queue_release() -> __vb2_queue_cancel() -> stop_streaming, this
+single cancel covers both the STREAMOFF and the close paths.
+
+This does not deadlock: the queue lock (sess->lock, shared by both vb2
+queues) is taken by the worker, but neither the STREAMOFF path
+(video_ioctl2 serialises on vdev->lock == core->lock, and
+v4l2_m2m_streamoff() calls the lockless vb2_streamoff()) nor the close
+path (vb2_queue_release()) holds sess->lock when stop_streaming runs, so
+cancel_work_sync() can safely wait for the worker.
+
+Fixes: 3e7f51bd9607 ("media: meson: add v4l2 m2m video decoder driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Doruk Tan Ozturk <doruk@0sec.ai>
+---
+ drivers/staging/media/meson/vdec/vdec.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
+index 4b77ec1af5a7..42822064cf8d 100644
+--- a/drivers/staging/media/meson/vdec/vdec.c
++++ b/drivers/staging/media/meson/vdec/vdec.c
+@@ -419,6 +419,16 @@ static void vdec_stop_streaming(struct vb2_queue *q)
+ 		sess->status = STATUS_STOPPED;
+ 	}
+ 
++	/*
++	 * The esparser_queue_work worker dereferences sess->m2m_ctx and
++	 * sess->lock. The hardware (and its IRQ, which re-arms the work via
++	 * amvdec_buf_done()) has been quiesced by vdec_poweroff() above, so
++	 * no new work can be scheduled past this point. m2m_ctx is still
++	 * valid here. Wait for any in-flight worker to finish before the
++	 * buffers and (on the close path) m2m_ctx are torn down.
++	 */
++	cancel_work_sync(&sess->esparser_queue_work);
++
+ 	if (q->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
+ 		while ((buf = v4l2_m2m_src_buf_remove(sess->m2m_ctx)))
+ 			v4l2_m2m_buf_done(buf, VB2_BUF_STATE_ERROR);
+-- 
+2.43.0
+
