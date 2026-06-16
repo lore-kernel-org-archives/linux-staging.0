@@ -1,113 +1,97 @@
-Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-m155101.qiye.163.com (mail-m155101.qiye.163.com [101.71.155.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4772436C592
-	for <linux-staging@lists.linux.dev>; Tue, 16 Jun 2026 13:02:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 573982E7376
+	for <linux-staging@lists.linux.dev>; Tue, 16 Jun 2026 13:48:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781614951; cv=none; b=teG48jYbcwrUVcdfQ5V0NI5LpyJunAgDQoiJax4ul76zeRSQQyRihey7ydboGD+k0T/8sM0RncKAPoWfRvrWH2Ctwz91AJFSQZvfLUhX4QT9zd/EMJXlTKyKq5an6X7W0e6ThjjgM9E6F3wPScQZe8nYbb2kEvo8ERDYawwOwVY=
+	t=1781617722; cv=none; b=mh0XJFChcyhpp41tdWS6OImapw102ypqqLLLq0PE7EFpnMqHYlcpR/asvjxo2yUKjzB7nCDt4fg7oQ+54vpzfWLtR+RWbZAX8TnjLwKTQHyzPwT91sfd1e+zPcd785vXd/rGDB3AIanAAANxixaD5XIfumUKyApm7ov9izEypk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781614951; c=relaxed/simple;
-	bh=G9IYxVbhS90PbppHtqR9ZPMvaec9dZlnjA9KDhHrQlU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oM5lkK/BI2AJdXFTZ1zkwqMA4uw2ubxCM0w7acpq6BNTuWCkz/faMeQ6AHY0ghFXSPc1l1YSP7MDB3SuZpjYMYNx4OdaizyW9GKicm5hfy4duira8vVDteon/TVrgK/bz6kNOFjj6AUqD2kbSMTfFe8iLsAGiVCA6iKbr6ZPOMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Mu3m59mC; arc=none smtp.client-ip=74.125.224.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781617722; c=relaxed/simple;
+	bh=ZLf3JWyRJ4ZMlPlaKgsDjHJZ1+zely5V+Cx9SYvUC6E=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=BN3cRbfxjhuI6YjOIu8C0vBY4WA+hO7N57gEGpttVmIGOo0mBJaTp8w+GYVImcafZ58OUXniOarmWTE7zuFVJOqp3cks4EoWEOa0TIrbTERe9dVrA+ND+3nJcZ7d5F9g81vf3bSA2vuWf6tUQBiisEQO5/62JyAo+NazD+dfvlE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=UyixYJAT; arc=none smtp.client-ip=101.71.155.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mu3m59mC"
-Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-660ea43107fso4590366d50.0
-        for <linux-staging@lists.linux.dev>; Tue, 16 Jun 2026 06:02:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781614949; x=1782219749; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gVYs2KiHNm83KW8rmWg85Qa2n9FB+VB3eFAyuTTAhHs=;
-        b=Mu3m59mCz+FwnfjUiRghUTV4URQGx+QzxBWxjCcxCWVnldc0CUhLiEkdhY/hJXQSdj
-         dqaUC+8OsvvJp7FqzB8GNq+MCjvmjDRPI8Ypf6LKaYmDbwuvsLBcTrwNM+yCymj+gAKV
-         Y+TfnInWj3XpiiQ8eZDl9kIkxDXqXNS4KxopOwlDuiI7B9m+GW+VyZ9w1hn7AlbuVClx
-         KvSPA5JZPMvXHS18XPCncennQmYkU/tDpCWJwPAwdalqxHJlt9El2Zj+Z16Cw3KLMV8+
-         ZCdA9xCecZpAldsdDgSeMyWTtUOCvsCSXrt7vOsQVWY/G3ms16GiAzy4J6J8gNAKkmLJ
-         VizQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781614949; x=1782219749;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gVYs2KiHNm83KW8rmWg85Qa2n9FB+VB3eFAyuTTAhHs=;
-        b=W+AnlYzUk62HyJgvebrIpaerLGbUADz4b3hKJ1CCYqHjtuBcVRpDsFekpNXyjDPL3U
-         qOxCcH4fzwSQftrrIUtUW0NFJ/OJG9+7KQRd0k7qrUKcDvO0ga9k7MZB8sYODmrAg8Ls
-         kgOzbzeBQQrUeLLie4M5wMR5NgGPPJAlIXLUVlhm3AialbOSuvqL8vFi68kxcyD/mJ3h
-         7pPEA9iJWyj1wMP58geZUsAwwR7Q6/KdQtsWK4xmAKSmf209tEyeVPT0f23mYQDlnCtm
-         ARZ4RDY+j+tCqjyTFgSjR1v0Q5Xpkzm0xxLNkxw/DoTcXNlpXSwS1dQi8L5wupXRuEVm
-         JxAQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9Y7Q6FLTHCwKNNBbojMpBd8+QMapUViuCtKY3D7jad78uuiqLmpSRGPgI7fwa/JnCF69cP0Sbi2OPFBmMt@lists.linux.dev
-X-Gm-Message-State: AOJu0YyZg0JTrb+CP0IIRHX6Te1UZ0mJyAKOpRqblw68ZSGLJXYEdNEa
-	i0bVGOhbNYDAI0uASuNRAByVgJ1zKAPYX0z1WrwnhBd2oCf3wauhYh5M
-X-Gm-Gg: AfdE7ckC7LArKVgS914qofwS15tBtPvcmmIWGzrn5vuwt+vSVjMrKrgTrW/8NGdf+Ln
-	c58yfYo34bqOHp/OpUpoKNKJZlNNUgvLuNpJh5WxBWF6AwYT7bJFNQ3ZCzuixoivvRLGNhB9z6y
-	PDDRTBlCX/wlrFb9d5V5ScEpiLCBluXhjY1blsXmTwC3Suo0zk6t1km2oCr0qV0ySHHG02u8c1F
-	UBUDXia1EiLLbZNPmipARaRP/YjYi295P0SKB6M+SUSl4SX3VOUa43m3X6w/QH1UQbgG0fdqxAU
-	W4Gb4bSx07z58jMSvxeclAuTOrEhm0L0i1RrT6qypWG6BI5KVI88Kb8nqFJrVvYRiYCBTAQYdxk
-	FcEzuy5xDfeRDs+59T7+afgS85kzdLltqDfiTX4HDmhlejTR+TAgNeuQCOMIgO35J27oTLKxcyb
-	60GZTmY5utsJvx0So9
-X-Received: by 2002:a05:690e:d44:b0:65c:1011:8a8 with SMTP id 956f58d0204a3-662b6138ccamr2493409d50.34.1781614948972;
-        Tue, 16 Jun 2026 06:02:28 -0700 (PDT)
-Received: from localhost ([43.225.189.75])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-662bc1b0d9dsm927500d50.7.2026.06.16.06.02.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jun 2026 06:02:25 -0700 (PDT)
-Date: Tue, 16 Jun 2026 16:02:18 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Devansh Soni <devanshsoni874@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, dan.carpenter@linaro.org
-Subject: Re: [PATCH v3] staging: rtl8723bs: use PTR_ALIGN() for rsp_buf
-Message-ID: <ajFJWhuEDnPgQjcs@stanley.mountain>
-References: <20260616123528.44278-1-devanshsoni874@gmail.com>
+	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="UyixYJAT"
+Received: from DESKTOP-SUEFNF9.taila7e912.ts.net (unknown [221.228.238.82])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 429ab32a7;
+	Tue, 16 Jun 2026 21:43:21 +0800 (GMT+08:00)
+From: Dawei Feng <dawei.feng@seu.edu.cn>
+To: andriy.shevchenko@intel.com
+Cc: andy@kernel.org,
+	error27@gmail.com,
+	hansg@kernel.org,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org,
+	abdelrahmanfekry375@gmail.com,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	jianhao.xu@seu.edu.cn,
+	Dawei Feng <dawei.feng@seu.edu.cn>
+Subject: [PATCH v3 0/2] media: atomisp: fix probe memory leaks
+Date: Tue, 16 Jun 2026 21:43:17 +0800
+Message-Id: <20260616134319.3969928-1-dawei.feng@seu.edu.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260616123528.44278-1-devanshsoni874@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9ed0ac1f2603a2kunmea38caa144bbe
+X-HM-MType: 10
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlDH0tMVhlKSBpPSUpKGhgeT1YeHw
+	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUpVSUlDVUlIQ1VDSVlXWRYaDxIVHRRZQVlPS0hVSktISk
+	9ITFVKS0tVSkJLS1kG
+DKIM-Signature: a=rsa-sha256;
+	b=UyixYJATlchTC72LjI68aMEjO/yUWElXsPUiHFginsLZq5pmpfC5SptEtlg4OUKR8KtSbgCYjeWLKJd1AbRPStaBB4Rs9LXJkE7P4XaAxJWz7XDk4/3gKRf+exsPFj7z1BmxxCrPUAnQoaD4JX5xxEZ0143AiHbz1sCautLIjy0=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
+	bh=ffCh9oL1e0EAcHuPsDW71SlmsWGjbc+hxVo6fDlA5d8=;
+	h=date:mime-version:subject:message-id:from;
 
-On Tue, Jun 16, 2026 at 06:05:28PM +0530, Devansh Soni wrote:
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> index c1185c25e..38ce3156c 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> @@ -184,7 +184,7 @@ int rtw_init_cmd_priv(struct	cmd_priv *pcmdpriv)
->  		return -ENOMEM;
->  	}
->  
-> -	pcmdpriv->rsp_buf = pcmdpriv->rsp_allocated_buf + 4 - ((SIZE_PTR)(pcmdpriv->rsp_allocated_buf) & 3);
-> +	pcmdpriv->rsp_buf = PTR_ALIGN(pcmdpriv->rsp_allocated_buf, 4);
+This series fixes two memory leaks in the atomisp PCI probe and adjusts
+cleanup paths.
 
-You're working against an old version of the kernel.  You should be
-working against linux-next or devel-next.
+Patch 1 fixes the cleanup boundary for media entities created during
+module initialization. atomisp_uninitialize_modules() did not release all
+module-owned state and instead left some media entity cleanup to unregister
+helpers. That split is incomplete for probe failures that happen after
+module initialization but before all entities are registered, so the
+module cleanup path now owns the corresponding media entity cleanup.
 
-The commit message mentions 8-byte aligned memory, but the code is still
-doing PTR_ALIGN().  The kmalloc() alignment is determined by
-ARCH_KMALLOC_MINALIGN and it's always at least 8 but it can be higher.
-Here the code is trying to ensure that it is 4 byte aligned, and 8 is
-already a multiple of 4.  You could just delete the PTR_ALIGN() along
-with the related code.
+Patch 2 adds cleanup for the V4L2 async notifier state initialized by
+atomisp_csi2_bridge_parse_firmware(), including notifier connection
+cleanup on probe failures and notifier unregister on remove.
 
-1. It allocates 4 extra bytes.  "MAX_RSPSZ + 4" bytes.  It could instead
-   just allocate MAX_RSPSZ bytes.
-2. This pcmdpriv->rsp_buf = PTR_ALIGN() can be removed.
-3. The pcmdpriv->rsp_allocated_buf pointer only exists to store the
-   unaligned pointer.  Just get rid of it.
+The bug was first flagged by an experimental analysis tool we are
+developing for kernel memory-management bugs while analyzing
+v6.13-rc1. The tool is still under development and is not yet publicly
+available. Manual inspection confirms that the bug is still present in
+v7.1-rc7.
 
-The early part of function which does CMDBUFF_ALIGN_SZ is more complicated
-because that is 512 bytes.  It's trying to ensure that the pointers are
-aligned enough for DMA.  The proper alignment in that case is probably
-ARCH_DMA_MINALIGN but I'm less familiar with how that works.
+An x86_64 allyesconfig build showed no new warnings. As we do not have
+an Intel Atom ISP platform with the required camera sensor hardware to
+test with, no runtime testing was able to be performed.
 
-regards,
-dan carpenter
+Changes in v3:
+- Moved the research background and static analysis explanation to the
+  cover letter.
+- Changed Zilin's Signed-off-by to Reported-by.
 
+Dawei Feng (2):
+  media: atomisp: fix memory leak in atomisp_pci_probe()
+  media: atomisp: fix memory leak in
+    atomisp_csi2_bridge_parse_firmware()
+
+ .../staging/media/atomisp/pci/atomisp_csi2.c  |  5 +++-
+ .../media/atomisp/pci/atomisp_subdev.c        |  9 +++++--
+ .../staging/media/atomisp/pci/atomisp_v4l2.c  | 26 ++++++++++++++-----
+ 3 files changed, 30 insertions(+), 10 deletions(-)
+
+-- 
+2.34.1
