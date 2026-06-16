@@ -1,57 +1,36 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 460F83624B3
-	for <linux-staging@lists.linux.dev>; Tue, 16 Jun 2026 11:01:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73561369965;
+	Tue, 16 Jun 2026 12:10:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781607717; cv=none; b=ce5PbLeNDVnYLGulNfzOs6Vf4m9bC8hL1yqYlS2MBRuYQbRoMO5z6kiZBGHamRlFCURx+t4kpM+50B24HRVaiTVO0qWSKOsK50/xeD2lAhZM9kRKXH7gP8580KJQi9F2LfUyxF/VE7OW9jnZVm3jimnTTKXQWfe9NGrsaP8UhDo=
+	t=1781611832; cv=none; b=HKp93kwGqLEHIa/zt96PxQgyruZzc2v7soWiHsQKsUlmyhVPNKAsuPZ2XZXPO49Qnuax8qsk1ykCKRpdDUAwfabqd/ILQCz8x5d9f4LwJiy8BOUdf+kB9TM3PBcVnz4u+ce2aukbuwHso36s13IYwPRJFllntJzKigcjpgUonVU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781607717; c=relaxed/simple;
-	bh=p4d1amCcedwI1v3xqzug5CnPQ8gUoAn3v47/+9BBe5w=;
+	s=arc-20240116; t=1781611832; c=relaxed/simple;
+	bh=BY8YQoRAsKvL4XFSfR/6kYIobtg+m7o8K1fApWqzMZg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lFYucYOVq4m4So0W52do13cNUnkA5voWzuLZAWB2UEDa6Nb+yiDe+BXA0TrPGUHtPDr1ChJ5Ntjxs7tVcs9Ra+mM5U5YJGLz7MaURNV6QjJNBe7EmlB8d7Qctl+cbd7ov7cjmIm0K/NL5o9UhQn8U4aToaXDQioNwGt9dmaH6aY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BDwd3upS; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=H81p6jmiiQqh1rs/1kkYLpBOMqzwJLdAFQ/+Iuq7TfnlPUIz8HcQeUCLeZvDSmRwrwxivP1sg/PSFgXjiPN6tYmQ5usJFr89I+VRII0s90cx7v9QUf/hySbRZ8OC3dlvVXrP73lSR0V5FB1Kl4JG/M9YexSNaZuEjA06WvULVMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=akeyiK4e; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BDwd3upS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781607715; x=1813143715;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=p4d1amCcedwI1v3xqzug5CnPQ8gUoAn3v47/+9BBe5w=;
-  b=BDwd3upSm0k1FiRHYsTZh67VnlIfd7wGIom2VYMmyfQukikZ8OiObNdy
-   bx0fvCNwaqBodf9BG2hh09s9gQ4BtdM1nzqSTraGpHgRd1JGZH9tBDcX2
-   dryDWLQUa77nJbOo4R5lOFKhgX3vksAEH+3mcvTKxnb8dc6BfvY4985Jr
-   P8kUPufT0KeNYxJ5qH11PWTN5/eN7BP188lvKXtZas1oFqw5uV4tOqIra
-   gXUn9jb3RRFWI+9inbXx2HTarNixBu7iqpdkLc52Y5Q8aFfKSHrDUUt8i
-   14r1O94mDW4CSQRmLpQJdGdE2X0qK7ZwvDTC4tDOtT78gWMFCX3P21bbL
-   A==;
-X-CSE-ConnectionGUID: kO85Vp/URUafDlklmfJZJQ==
-X-CSE-MsgGUID: Sw1C7Pd/SfK3EXTd6gq2JQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11818"; a="81377612"
-X-IronPort-AV: E=Sophos;i="6.24,208,1774335600"; 
-   d="scan'208";a="81377612"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 04:01:54 -0700
-X-CSE-ConnectionGUID: SnTGqHIjQVC2mTdyxS1hAQ==
-X-CSE-MsgGUID: 9i6vCf4+SSq80ut0e54RHQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,208,1774335600"; 
-   d="scan'208";a="285852468"
-Received: from amilburn-desk.amilburn-desk (HELO localhost) ([10.245.244.153])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 04:01:53 -0700
-Date: Tue, 16 Jun 2026 14:01:49 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Andrei Khomenkov <khomenkov@mailbox.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-media@vger.kernel.org
-Subject: Re: [PATCH v3] media: atomisp: replace kmalloc() with kmalloc_objs()
- in sh_css.c
-Message-ID: <ajEtHT5PXYZYXUX8@ashevche-desk.local>
-References: <20260615194548.20963-1-khomenkov@mailbox.org>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="akeyiK4e"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDC9C1F000E9;
+	Tue, 16 Jun 2026 12:10:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1781611831;
+	bh=mT3liRWva+7/CzNTzJUYvvuKvZJTvcr+tG0YoLIzsm4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=akeyiK4eovIapV1QAgE7oVsvul/8LxOABdAzVmzL8JkGC9ypTzh5MskU2WjggXEJn
+	 2KUA0rzZP2X929fwN4hR5/pCpOnGbnIe5tTyWCVX9jHDmayZ71yyhgQKAYFx01XtVA
+	 aCCTQjhGgyCK5eufG4iaIy/vbzY+D+S6d9eTjJ4c=
+Date: Tue, 16 Jun 2026 17:39:02 +0530
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Subhrojyoti Bala <subhrojyoti0609@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/5] staging: rtl8723bs: Fix coding style issues in
+ header files
+Message-ID: <2026061651-talisman-pogo-a0ff@gregkh>
+References: <20260616110048.45541-1-subhrojyoti0609@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -60,34 +39,60 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260615194548.20963-1-khomenkov@mailbox.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20260616110048.45541-1-subhrojyoti0609@gmail.com>
 
-On Mon, Jun 15, 2026 at 10:45:48PM +0300, Andrei Khomenkov wrote:
-> Replace arithmetic in the kmalloc() function with the kmalloc_objs()
-> macro, as this calculation method is unsafe.
+On Tue, Jun 16, 2026 at 04:30:43PM +0530, Subhrojyoti Bala wrote:
+> This patch series fixes various coding style issues in the
+> rtl8723bs staging driver header files, as reported by
+> checkpatch.pl:
+> 
+> - Fix multi-line comment style in wlan_bssdef.h
+> - Fix enum indentation in rtw_mlme.h
+> - Fix block comment style in rtw_mlme.h
+> - Fix multi-line comment style in rtw_mlme.h
+> - Fix whitespace in comments in rtw_mlme.h
+> 
+> Subhrojyoti Bala (5):
+>   staging: rtl8723bs: Fix multi-line comment style in wlan_bssdef.h
+>   staging: rtl8723bs: Fix indentation in enum in rtw_mlme.h
+>   staging: rtl8723bs: Fix block comment style in rtw_mlme.h
+>   staging: rtl8723bs: Fix multi-line comment style in rtw_mlme.h
+>   staging: rtl8723bs: Fix whitespace in comments in rtw_mlme.h
+> 
+>  drivers/staging/rtl8723bs/include/rtw_mlme.h  | 55 ++++++++++---------
+>  .../staging/rtl8723bs/include/wlan_bssdef.h   | 14 ++---
+>  2 files changed, 35 insertions(+), 34 deletions(-)
+> 
+> Signed-off-by: Subhrojyoti Bala <subhrojyoti0609@gmail.com>
+> -- 
+> 2.54.0
+> 
+> 
 
-...
+Hi,
 
-> Suggested-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-Nope, I haven't suggested the initial idea.
+You are receiving this message because of the following common error(s)
+as indicated below:
 
-...
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/process/submitting-patches.rst for what
+  needs to be done here to properly describe this.
 
-What about patches that were sent against this driver for the past year?
-There were at least two patches of the similar changes. Please, check on
-the prior work and if needed rebased, updated, upstreamed.
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
 
-(If you haven't taken that, it has to be explained why.)
+thanks,
 
-https://lore.kernel.org will help you and
-https://lore.kernel.org/linux-media/?q=s%3Aatomisp+b%3Akmalloc
-as a rough first step.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+greg k-h's patch email bot
