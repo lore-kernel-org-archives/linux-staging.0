@@ -1,68 +1,68 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8DAD42314A
-	for <linux-staging@lists.linux.dev>; Tue, 16 Jun 2026 09:56:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6835E41C31C
+	for <linux-staging@lists.linux.dev>; Tue, 16 Jun 2026 10:04:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781603768; cv=none; b=ieB96fXDmxHWkv4nI+v5wW6tGM+5gK/uC68ctN3M1dDdGBMjPbX6VSJbCs40+KCXfHfeiHMS4iDKOGTb4Qv0GNE4qfsjVC8G9oXuEfere+9oA8KTVnoMkoSR4/5+9tQNf37XyFNonfBWGTtKa8FKq1sSQwLybYnuEJbPC6N7bOE=
+	t=1781604265; cv=none; b=AIONQ8evOsUjFDy0qgX80rDJ2Vq8jmfu6cH1UNmX2bqaxqokiVE/JtiSQBfKYyq78nbxO3OB3tXejlBB1ZsuWrNLLI76+v82dWjDqP9Gq/09ACxR9HsVGX5b6RXE1wtegKK+Q97wa4cy+SS+IdSNjMR+pDS6NLqe7u6OePzQN9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781603768; c=relaxed/simple;
-	bh=UOj9UP0NvYgtZilSFNsWCMK4ZDA6u7oSOsHGVGZXCIA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GB4JQTk3wCOTM7c18836/aGlT9h2XTsJnUzgvWz/6p9PhppoBin9j+8gpIKeITWx52Pif+SpGpBYHOUDZtn3b2R+2EiVbOfotRXuQ2wDynwi2POOd3/1Qsw9GNTU/wY6+pU7OXkppGnTM2BkDog7Lxj3vNGx8CZJN/gwbCHg0Wg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KrkCgsr+; arc=none smtp.client-ip=209.85.210.169
+	s=arc-20240116; t=1781604265; c=relaxed/simple;
+	bh=50F751gF+rXlNIyRBoGhHlcoVou6MOxU7OCNopSBl7E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IqJtb4pHyLu0XPQpNDbf7ojXPU2x2WDwRj0fS9XySiLwwkrbFn9JF3W4EhlpQ7Oh3saK8Tn9nLmF7MvwTvJlA8m6gYILnrU8fxk5GNBfzEZoUpIvhotLZO90MKlEoaX+yBFpr/syrcVSnlnJImk/czqoKp7KykIoCGaUxvY6zbc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CieueQkD; arc=none smtp.client-ip=209.85.210.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KrkCgsr+"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-8422871b42dso2668131b3a.3
-        for <linux-staging@lists.linux.dev>; Tue, 16 Jun 2026 02:56:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CieueQkD"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-8423efd76c8so3094064b3a.0
+        for <linux-staging@lists.linux.dev>; Tue, 16 Jun 2026 03:04:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781603767; x=1782208567; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1781604264; x=1782209064; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=hNCLiq2R1A64amHMahQM+GwV30l7MB1tNUS7iWCGm34=;
-        b=KrkCgsr+L6gS5RuZl5rDQMgbDp8dPDxfIDk+QULjl8IkdbbW2XTBMXwrR5tUuUdZYf
-         TN3+LVFx5hI7RIrbbFj+9rZfTxnN/x8xSbngE0nab9NsibYboePsvvMmsZWVqd7/BP5v
-         z8cJUwvIjCeaMGooKlMogJTNkCUiAG3ITJSX16DRlRk8d2N5QLJ/swD9QWlgpbgVaRad
-         zCakCB2LtesFErj568/8aEN++rk4rhNhEvEJ8IgagYlv+us6iBQYiGn+IMWPqf1rBgLd
-         A3TGRXcKA+BlICV66i1zwb4P+AEDTYThW9szygovBnD2RsoH0RXbcaFAA3MDdjsR5sXw
-         EL5w==
+        bh=7WqqUitEfH9e229osynsO1JlKCUb6fQkndIHrjVVsHs=;
+        b=CieueQkD2WKR7LPmRzibrTEJIBrKfrSetIXcH2Rc3+lHBEeIviStQofnKGDij7uqsN
+         0ur3f2NE8aE+m9CxzK6bt5UAOOA7nkNpjEt3tcaqqgfrybA0+ddFiF7NOt3USQ+jm++q
+         dhWz+FIcM9yW9Dog4DuKEOmsfRCeX8HwG5mKDmjjsJay0JC7qo/pixoA5FaxdJwGYPhm
+         9PbwlhhXhvc19B2vPhcV7TSklXmi59fVu3OfYPgLGcCvQTuVEfOf67Yzukwwm70JE16h
+         C/2gFwN4G18MfjCKzQ5i2zBPLpufXvcD5YsiGONy8TNPh0cL8kmlCbHJIrBVFNjEn6U4
+         +F8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781603767; x=1782208567;
+        d=1e100.net; s=20251104; t=1781604264; x=1782209064;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hNCLiq2R1A64amHMahQM+GwV30l7MB1tNUS7iWCGm34=;
-        b=dPEYIHU25luMB9xqHhz6vIdt9SQ4Vf9LbsvKg7bpji5N7+d/ioHF0vbaStq5t8njKz
-         J4kT8aUuDywVNKqhO78Ff6BKs3kLAO3fUO75uDC377uHX7zN4XovJe8T3TPZgIbxWxZA
-         G7LZ4lHE/EJ98SluL7tpND72yWlG298i88IrQhVQtAsHx5TkgTnqXp6but6xGqK5YGuR
-         D+NvOnV6/xOwcQlenPi6J+33dtDRULF9QM5sDYsO8Nx4SM+UIVW/mJD8obsfjzSF+e5/
-         MpfcGWymbJKPZDHwmRpzSWr72CCKqm5vMZS6KpIqu3VIEK1mZB2gc7kMOa/W/4HX4z+a
-         /J1A==
-X-Gm-Message-State: AOJu0YwngTqTwzn9DbqFplsIQWig6TdUVAOrrVMf1mXeyOcxVjaUhhlt
-	MY+ASC7rk6u737lCWfVJwN3qMSDTJ+Fv87v9u75kCD3xEWcf0cabK07M78BOFo52gfs=
-X-Gm-Gg: Acq92OFwIu66Z4g8low0Fdj1BkpgSWSe4LYBLo27YOyAfNA7TCoNuPX2r9XRf9mGXOj
-	RTsswNJzn39XkJVKBsN7HkAxEAxOid7LRISZ92TQhrwW/Bvj+CRa4+i7yOfQiSwO4IYMdGNRuo1
-	ifMyGjBjE2d96hmTcyGKI1Aulu2ZUxcwAwdpfPLUj2JyPiyu1cvuPq8R9iOQe4NBe20f3/ejjPe
-	iufHciBEMHiN4izVEhWYBLGv7mpDPITMEDmJ6zDBR1av+hC/Ih5Hxjo5SjMHgrk0YG6AOjxPdbP
-	i4D2H5/aEf30WYtwBh/SSXaYHefDxHBUX4vNY5QgKnIFZ6vfcw3Kd2+ftghV32BX6kIuNgFVIjB
-	To8yRNlUiCJ9eLQQocfY/R5L+r0doPFQy1b/71qE22JUncAM5eGYOkcU2nCLcGpR5NsONFgvJ2D
-	1Xn5xc0g7MCic5hstT5TqCZq0=
-X-Received: by 2002:a05:6a00:a211:b0:82c:d7c9:5479 with SMTP id d2e1a72fcca58-8434ce92392mr19681296b3a.32.1781603767083;
-        Tue, 16 Jun 2026 02:56:07 -0700 (PDT)
+        bh=7WqqUitEfH9e229osynsO1JlKCUb6fQkndIHrjVVsHs=;
+        b=JbVUBGWwMAyHQYLVrGGK1StfLJ8aqgKgBWjVQ788rQl2smF5d8IBbW0gCclX5pNIMv
+         e302C9V90U4vPj7Vkor1tXMdvhL+diQDq0iG1RDne2yCjBvY+Ziy94YZDBsgx0yi92Ro
+         6aZgbhQ29O6imGVt6aooVHsY/8OpBr1Dd3IdFj9qigLvluJ8ZnDQu/LWl9aS8PqD1KS+
+         bof6lvhRT+hwidaXd/vw8waGZff+hDmO3fd4GbkakkmqI7XiuJBOu7rjwI4NqJ/q03Jb
+         Eca4VUlM/Jnq5jlc+JP9T4onG17GJSpU3gI9LlYvXqV4+dtv2wcAuW1ZGZva48iS2aaf
+         OXig==
+X-Gm-Message-State: AOJu0Yyy4CunE1Xkd89w2SO72FrDUmdMAVugNePrSQJKpBnhLvTs6A/h
+	vlbuxPelYYvUqFAKIiqG3Wh6fqvnezenZww0Mmp39jw3u+NLMCnhz8uw
+X-Gm-Gg: Acq92OH9V4l3L1e8Q1Sr86mdqgP9V28jm1JGdxo7PFBUE3QMeYz6iE7x3fqHFi4KxFg
+	WtJv9cBjapJvVIeBeRUfPUCwm1xUukXWG9hFzEyqpT0+og1qTR+wRGma2oYGFkE3o8m3feqSbdW
+	UeM03wdlGfdxQId6DnNngJwyDn7AX1QXFsLf8A5q5AiwD/NmMm83Q6/OG8nnM5BC09U/dFfJ95c
+	RCfZtYqGfHay2LzYpPYcbH0IZrBBfM/OHKF4PCd9PB92rALWXah8IQOUVUDz2v2eSzr9CBTXfVY
+	vCCox6tY9xB1ly7OrW6eq/b6bQA9J5IPI9R7xvinNpT8Ckv0SvwhLQ4TYFZ4bmCwjR8YF83VWdn
+	w6f3NkvjRxThDvtkUC2fglxQoLmx/uinixTZeKKKxd/m1nUZwUQD5gzRwhjfzbWO8uMJcp06vbk
+	83Ml26mBS+NsX4VeurtjFbvr8=
+X-Received: by 2002:a05:6a00:178b:b0:842:6c02:2fa3 with SMTP id d2e1a72fcca58-8434cd4b6c1mr19659359b3a.15.1781604263819;
+        Tue, 16 Jun 2026 03:04:23 -0700 (PDT)
 Received: from fedora ([103.51.149.90])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8434acca7ecsm12896034b3a.13.2026.06.16.02.56.04
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8434ac9c4c0sm11438860b3a.3.2026.06.16.03.04.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jun 2026 02:56:06 -0700 (PDT)
+        Tue, 16 Jun 2026 03:04:23 -0700 (PDT)
 From: Subhrojyoti Bala <subhrojyoti0609@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Subhrojyoti Bala <subhrojyoti0609@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: Fix block comment style in rtw_mlme.h
-Date: Tue, 16 Jun 2026 15:24:53 +0530
-Message-ID: <20260616095453.36666-1-subhrojyoti0609@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: Fix multi-line comment style in rtw_mlme.h
+Date: Tue, 16 Jun 2026 15:33:37 +0530
+Message-ID: <20260616100337.38230-1-subhrojyoti0609@gmail.com>
 X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -72,33 +72,61 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Block comment was not using a trailing */ on a separate line.
-Fix it to comply with kernel coding style.
+Block comment was not using * on subsequent lines and had blank
+lines inside the comment body. Fix it to comply with kernel
+coding style.
 
 No functional change.
 
 Signed-off-by: Subhrojyoti Bala <subhrojyoti0609@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/rtw_mlme.h | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/staging/rtl8723bs/include/rtw_mlme.h | 33 ++++++++++----------
+ 1 file changed, 16 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme.h b/drivers/staging/rtl8723bs/include/rtw_mlme.h
-index 403c097b46ef..dbb523c8a58b 100644
+index dbb523c8a58b..59b12d9daa71 100644
 --- a/drivers/staging/rtl8723bs/include/rtw_mlme.h
 +++ b/drivers/staging/rtl8723bs/include/rtw_mlme.h
-@@ -183,8 +183,10 @@ struct mlme_priv {
- 	u8 *wps_probe_req_ie;
- 	u32 wps_probe_req_ie_len;
+@@ -67,23 +67,22 @@ enum {
+ };
  
--	/* Number of associated Non-ERP stations (i.e., stations using 802.11b
--	 * in 802.11g BSS) */
-+	/*
-+	 * Number of associated Non-ERP stations (i.e., stations using 802.11b
-+	 * in 802.11g BSS)
-+	 */
- 	int num_sta_non_erp;
+ /*
+-
+-there are several "locks" in mlme_priv,
+-since mlme_priv is a shared resource between many threads,
+-like ISR/Call-Back functions, the OID handlers, and even timer functions.
+-
+-Each struct __queue has its own locks, already.
+-Other items in mlme_priv are protected by mlme_priv.lock, while items in
+-xmit_priv are protected by xmit_priv.lock.
+-
+-To avoid possible dead lock, any thread trying to modifying mlme_priv
+-SHALL not lock up more than one locks at a time!
+-
+-The only exception is that queue functions which take the __queue.lock
+-may be called with the xmit_priv.lock held. In this case the order
+-MUST always be first lock xmit_priv.lock and then call any queue functions
+-which take __queue.lock.
+-*/
++ * There are several "locks" in mlme_priv,
++ * since mlme_priv is a shared resource between many threads,
++ * like ISR/Call-Back functions, the OID handlers, and even timer functions.
++ *
++ * Each struct __queue has its own locks, already.
++ * Other items in mlme_priv are protected by mlme_priv.lock, while items in
++ * xmit_priv are protected by xmit_priv.lock.
++ *
++ * To avoid possible dead lock, any thread trying to modifying mlme_priv
++ * SHALL not lock up more than one locks at a time!
++ *
++ * The only exception is that queue functions which take the __queue.lock
++ * may be called with the xmit_priv.lock held. In this case the order
++ * MUST always be first lock xmit_priv.lock and then call any queue functions
++ * which take __queue.lock.
++ */
  
- 	/* Number of associated stations that do not support Short Slot Time */
+ struct sitesurvey_ctrl {
+ 	u64	last_tx_pkts;
 -- 
 2.54.0
 
