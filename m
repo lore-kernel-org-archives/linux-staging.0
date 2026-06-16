@@ -1,114 +1,130 @@
-Received: from mail-244105.protonmail.ch (mail-244105.protonmail.ch [109.224.244.105])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A9BA3B47DD
-	for <linux-staging@lists.linux.dev>; Tue, 16 Jun 2026 08:17:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.105
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB17B41B37D
+	for <linux-staging@lists.linux.dev>; Tue, 16 Jun 2026 09:12:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781597825; cv=none; b=QF60eVxJV74Vw+OkhvetjGmlZp1vIphF2i80EWgrEX9T+8+gOHgi2bz2mFN+cPLuYac2pEJx4HhWMKsrIEOqaVY8mcGsIJCv4H4qOL9hOvEPdMvQjpSbatOR8vOKaR9jIi3SrH+/P+N3fKw/EazjSBHEia8Y0W+EoJuY70Z/RCc=
+	t=1781601179; cv=none; b=OxrE+Dn0S1j4Iye4xK7wHspVBNEu9qDsjphMd4GZn8TtOfe2ybERL7juogFZQ1EH4gLcOuZdZtU5wEa+Sko9nrTZk9AmUj9CCLG1wkZsTmW64NiHLuQBMaWBpM6TEtsHY4bwWkmBz0qQwB+/mhuFunC7jlfaERrBFyVRiI6GYTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781597825; c=relaxed/simple;
-	bh=qF4lbq48coGeLxO66I1Vw1XLaBAmpIRnv7yjWcLCKmM=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LFGaaybQxkzG5wSIHFCdagP7+GgzigCix9EHIlPHEjRIeaeYXoLlA2PQPkqkU2tAbfelJ9aK6KfjjPla+3iL6K5shQ3Efs4EXgHh8rSuGDeer4PFdV7NzLKAeDPGpa9PKCGwn8ZS0BsR2DgQ7JKRa59FH11zZVy9BfXQpxYFU+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=aefJsPGo; arc=none smtp.client-ip=109.224.244.105
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+	s=arc-20240116; t=1781601179; c=relaxed/simple;
+	bh=uhbsH8mL9+WFqNTiDxoFCj8ylZnEhwXgTD0JGTHSXvA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=h02c9lEFBa/+IVt+FUmHuRBWmwRuP54+7F1s59DAXU+cA/OyE//WInqw6uLPml0BBVXc5WyuhNIF/GE/6umrJXBPVUPKw9rG64oTeuY/TaAgUFX88lkFFuqrKzmyLGZXQBzH5DMJdRjU9iCVs48PYVjJcsBC1d/ZuQjV0tDx+KM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oqwbK5rQ; arc=none smtp.client-ip=209.85.215.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="aefJsPGo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1781597804; x=1781857004;
-	bh=58Uh4BmTYBSHk+XlpcizYHlof13uI2OQMFFLUYMY02s=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=aefJsPGosdUrk/8b7SEsNnsTkFYymeQaGMz+PV28zYbZIDZg5oTRiMR02FkH72b1t
-	 4pffG42Fjr3jllCENEw0nRZpzrCrdLYGTTgD4jkIY/y9vch7UXevcMTZXdQxgD/ySv
-	 yEXrY1fSz4AJl/JQ8jgK3e5Tk3+zwtBmwt8d41mmkkaLg9LjHynjlTS8nwQmpuzpyT
-	 rg4tXby+nBjkwfPVvx3hfJpMIWgXKBOSdyrK/9iOpnoNFrC746vEAYwUhfVE5Qq5bW
-	 xdjfuC77leAMOmIvQBTTGdJqKFTA5zgrdksPxrZjkq51qOtGxXVPS2/mZuFNR8y3Nu
-	 TLcjWQ3+x3dsw==
-Date: Tue, 16 Jun 2026 08:16:39 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oqwbK5rQ"
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-c86214eead7so1803170a12.0
+        for <linux-staging@lists.linux.dev>; Tue, 16 Jun 2026 02:12:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781601178; x=1782205978; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=q7t7XocSD1QNoHXuiPcPUy9o04LgSr4zZaoadg/cyoA=;
+        b=oqwbK5rQiqQ/BAE751ItygK5xOr195kA5h1cCtDGW7IdoP6zieUIW0ZzrRqBJlNVO3
+         iLijFWH0AyTXrQmBrUZMAyGctVfxVcMT7zKPTxhQTWELKF8hEMwThqrgqiKzEKL9L+Qn
+         Jlj0rfO71BC0u4+jF6wdB0C8bEAvAcrrrryet+9+lfr6qd9RbK3EtLxcl8a0w99ffCdP
+         XEfHkP3bSGeWpobJpy9TpCD3cIMG9rbqe2Oe8N57LgwV8Eh4FkEaj4EUiHYcf2ioKK93
+         +tuychym4rqCI9PRRhUdbij3JPwj0JXzcKLpqTo1WHgFNwDRb7etdotrZUWeYq/Ccm27
+         7zVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781601178; x=1782205978;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=q7t7XocSD1QNoHXuiPcPUy9o04LgSr4zZaoadg/cyoA=;
+        b=agT3x2nDXGh+0nyWkhw58mOMIWKimyUK1LJtpPmOxGG1gGSAlI/jmZKA/GSFF5Llxg
+         IazJGWRhiAqH6VWdjmIhdjRpeNeNmBQqpkF6BnEPXht8wzJafE3x7tGquo/ecDp3uPHL
+         Mui1qIenfQSZAI+UItzArZ4C79h09H3UulgYIVK+m8elmOfC4MSHxK4L0r4tIK0ITEXD
+         rNA3cjBi8IUMhZ30IxnyH1pvWwz/x3713g33pmCw6vDGN8Dx2jhSfjyuYWEyzXoSqYBO
+         3iAz7LMyG9wAnwENolmEx41NJEtbrtiHRPQmsG757KLaINHnTWxpSdd3Z9tFsvL2Ur3g
+         3tWA==
+X-Gm-Message-State: AOJu0YwlWEYwyg4ojTihSUrqWnsfqUKgzN9ljahqVQL0xJmetH1k/6u0
+	6m1gDCKO4vCF/8aKD98w0y1nB6AiQ+8RBIo1SaVkVW25jVY/ahri5Wh4Y7lqBH2dugg=
+X-Gm-Gg: Acq92OF99jR0Wi5c9ddSUkCNwQ/9VrsRCYYvh4qNidFCVC14w54cg2ufdUcBRDV6lse
+	IMsPgVHV9+QGk1hwkG56ZP9pNhEj6sxe0rBFVOQUEusgA7VgY661HrIddHMxTyIGnyIvcxzfue3
+	GClIGNu+CM0s7jce9wl0c/gEnXEKFcAKhxnT1J8NGyYbOp9XeaPgMPsFZLA8GUamtXMOCzExmX8
+	qdtsDGLet+z7nRWqfguanLbM0r6P9dC3c8kWzViVw8FdTijMcLaeETcS9Z4B3ZDJHVski1WKEi6
+	c+tCnTXsmn/uGz62SS1nzj7hgI6imG3qUD0cnxh29NbioCtjvy5S9LQfHBEWEM5Lm23lJVsTsy9
+	BG+drsTxl0HTh0/F7W/1p5NFzrNjtrFrr/ZQlqMUWnYv0diMgKVsuHAJcm7Gl70w90nEPh0QVjY
+	DBSbbRZ/x4vI+1mf5dHq7z8J0=
+X-Received: by 2002:a05:6a20:d492:b0:3b4:6f45:d8ed with SMTP id adf61e73a8af0-3b7e249580emr2748520637.21.1781601178150;
+        Tue, 16 Jun 2026 02:12:58 -0700 (PDT)
+Received: from fedora ([103.51.149.90])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c8661b5ccafsm11189617a12.2.2026.06.16.02.12.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Jun 2026 02:12:57 -0700 (PDT)
+From: Subhrojyoti Bala <subhrojyoti0609@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-From: Bryam Vargas <hexlabsecurity@proton.me>
-Cc: Dan Carpenter <error27@gmail.com>, Mark Greer <mgreer@animalcreek.com>, Vaibhav Agarwal <vaibhav.sr@gmail.com>, Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, greybus-dev@lists.linaro.org, stable@vger.kernel.org
-Subject: Re: [PATCH] greybus: audio: bound the topology section sizes against the fetched size
-Message-ID: <20260616081635.169787-1-hexlabsecurity@proton.me>
-In-Reply-To: <2026061643-crowbar-handgrip-620d@gregkh>
-References: <20260616-b4-disp-4352e8b0-v1-1-3e09f62e0ad5@proton.me> <2026061643-crowbar-handgrip-620d@gregkh>
-Feedback-ID: 199661219:user:proton
-X-Pm-Message-ID: 084c8e8cd8c7820c2ed1ef584462455b8b1e9988
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Subhrojyoti Bala <subhrojyoti0609@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: Fix multi-line comment style in wlan_bssdef.h
+Date: Tue, 16 Jun 2026 14:42:00 +0530
+Message-ID: <20260616091200.29282-1-subhrojyoti0609@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Greg, and thanks Dan,
+Fix block comments that were not following the kernel's multi-line
+comment style. Comments should use the following format:
 
->> Are you sure these checks will not overflow?
-> Yep.  The cast to u64 ensures that.
+/*
+ * text
+ */
 
-Right, and to close the other side of the comparison too: `size` is a u16 a=
-nd
-the function already does `if (size < sizeof(*topo)) return -ENODATA;` abov=
-e
-this point, so `size - sizeof(*topo)` cannot underflow either. The left sid=
-e is
-the (u64) sum of four u32s (max ~2^34), so neither side wraps. The form
-`sizeof(*topo) + sum > size` is exactly equivalent if it reads more clearly=
-.
+No functional change.
 
-> But we trust the hardware to send us proper data, right?  If we don't tru=
-st
-> modules, then there are lots of other places stuff like this needs to be
-> fixed, how many data paths did you audit?
+Signed-off-by: Subhrojyoti Bala <subhrojyoti0609@gmail.com>
+---
+ drivers/staging/rtl8723bs/include/wlan_bssdef.h | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-I audited the four size_* fields that gbaudio_tplg_parse_data() turns into
-section offsets -- those are the only module-supplied values that feed dire=
-ctly
-into unchecked pointer arithmetic (control/widget/route_offset are dai_offs=
-et
-plus those le32s, then dereferenced as structs). I am not claiming a broade=
-r
-greybus or topology-parser audit; that is welcome but separate.
-
-It is less "modules are malicious" than "a malformed or buggy module respon=
-se
-should not walk the parser off a slab object" -- the same
-untrusted-length-to-offset shape already hardened for USB/HID/BT descriptor=
-s.
-If you would rather treat module data as trusted and drop the stable tag, t=
-hat
-is your call; I would keep the bound regardless, since it is one branch and=
- the
-offsets are otherwise completely unchecked.
-
-> How did you find/fix this?  You need to list what tools helped you...
-
-I do not have real greybus audio hardware, so I simulated the module side a=
-nd
-drove the negative case directly: a topology whose fetched `size` is small =
-but
-whose size_* fields are large -- exactly the invariant this patch enforces.
-With that I reproduced the read two ways:
-
-  - in-kernel under KASAN (7.1.0-rc5): slab-out-of-bounds 4 bytes past a
-    kmalloc-64 object; the patched arm (-EINVAL) and an in-bounds arm are c=
-lean;
-  - a userspace AddressSanitizer model of the process_header() offset walk,
-    both -m32 and -m64.
-
-Tools: a static read of the audio_gb.c -> audio_topology.c data flow, a lit=
-mus
-greybus module under KASAN in a VM, and the userspace ASan harness. The
-verifiable artifact is the KASAN splat (trimmed under the --- in the origin=
-al
-posting; full log on request).
-
-Thanks,
-Bryam
+diff --git a/drivers/staging/rtl8723bs/include/wlan_bssdef.h b/drivers/staging/rtl8723bs/include/wlan_bssdef.h
+index 812a68394268..25ac996e73e3 100644
+--- a/drivers/staging/rtl8723bs/include/wlan_bssdef.h
++++ b/drivers/staging/rtl8723bs/include/wlan_bssdef.h
+@@ -31,10 +31,9 @@ enum ndis_802_11_network_type {
+ 	Ndis802_11NetworkTypeMax    /*  not a real type, defined as an upper bound */
+ };
+ 
+-/*
+-	FW will only save the channel number in DSConfig.
+-	ODI Handler will convert the channel number to freq. number.
+-*/
++/* FW will only save the channel number in DSConfig. */
++/* ODI Handler will convert the channel number to freq. number. */
++
+ struct ndis_802_11_conf {
+ 	u32 length;             /*  Length of structure */
+ 	u32 beacon_period;       /*  units are Kusec */
+@@ -138,7 +137,8 @@ struct wlan_phy_info {
+ 
+ struct wlan_bcn_info {
+ 	/* these infor get from rtw_get_encrypt_info when
+-	 * * translate scan to UI */
++	 * translate scan to UI
++	 */
+ 	u8 encryp_protocol;/* ENCRYP_PROTOCOL_E: OPEN/WEP/WPA/WPA2/WAPI */
+ 	int group_cipher; /* WPA/WPA2 group cipher */
+ 	int pairwise_cipher;/* WPA/WPA2/WEP pairwise cipher */
+@@ -150,8 +150,8 @@ struct wlan_bcn_info {
+ };
+ 
+ /* temporally add #pragma pack for structure alignment issue of
+-*   struct wlan_bssid_ex and get_wlan_bssid_ex_sz()
+-*/
++ * struct wlan_bssid_ex and get_wlan_bssid_ex_sz()
++ */
+ struct wlan_bssid_ex {
+ 	u32  length;
+ 	u8 mac_address[ETH_ALEN];
+-- 
+2.54.0
 
