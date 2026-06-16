@@ -1,72 +1,72 @@
 Received: from mail-dy1-f194.google.com (mail-dy1-f194.google.com [74.125.82.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C807421D596
-	for <linux-staging@lists.linux.dev>; Tue, 16 Jun 2026 23:53:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B52E948BD4B
+	for <linux-staging@lists.linux.dev>; Tue, 16 Jun 2026 23:53:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781653982; cv=none; b=hV01lSE22htCagMeW4gOfHfenkJysXZ6zoioo5BSqO4QWDtuiAWQjM2BXIvpy6FbVr7gpHIzruYcUheQ2vIOKJ2yCNxZiy3InjUtTjwbVuXZvH090lGBl5RB9pspb1U10/B31i8Sfr+bRrza82cM7JSFoMNtDlgYyk8cAPvZ/64=
+	t=1781653982; cv=none; b=q7R0TzITfWwIv/3F7PmhNc4+6xzomgbi2fOc9/lhTIb0lAk1C+OlEwKAvbJgppYz4bxLfgVipFR6rYjtrTUqoPNmDVAmTwGPXz6mLIwFUErfL0FZJSud0hFKAtFhZrWEZSk8BeOJetI8Nu13ObJTUJoNHjMg9Ayyhige0Dm9EZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1781653982; c=relaxed/simple;
-	bh=ZdPlkL2fyLTXzJe6AczWhp6+4Uqn+Byg/9vH9FfYgIY=;
+	bh=+2ZAsq+xEDTtQWxNiEgUsg8vHStQmbMMnyhTm0Hh1R8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=a2UHQuTqtf/QLZKNjgrsJMQbrMJKxim9SDCu7WNfrpwdOuoKHW7f8OXBz4xDkOac/zo+tOeEOeMIHy+HWgeSkAwh9+KGkwTau+fyoqT1svHMqJmWFkEmuJD+d+zD/XXsITwzTKV8gDQb2u/rqrCDPbSdk3b0ELIGIpeTtYF46IA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bNjGQD1W; arc=none smtp.client-ip=74.125.82.194
+	 MIME-Version; b=s3I4WVpUCdDNt572iKER+p9v4RbdLB4Nh0PreKJ6bUUIJxX8cZYV+zdxTpopX9ouLBhmMCcMRRLii0WUi7kqvokJ6v6V9sRQBfSXLgWgofmTHuDCT8Tg3Cs1A3JT68W2TSNl0kUNNc+XNeZFDzVc9CFi+VJJRqtgXsry0tUGMr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mTx7sca5; arc=none smtp.client-ip=74.125.82.194
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bNjGQD1W"
-Received: by mail-dy1-f194.google.com with SMTP id 5a478bee46e88-30b6dad2382so5568211eec.0
-        for <linux-staging@lists.linux.dev>; Tue, 16 Jun 2026 16:53:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mTx7sca5"
+Received: by mail-dy1-f194.google.com with SMTP id 5a478bee46e88-307d0405e07so7929477eec.1
+        for <linux-staging@lists.linux.dev>; Tue, 16 Jun 2026 16:53:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781653980; x=1782258780; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1781653981; x=1782258781; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=x//OojVdvKsF1B5rqWRkEUus6sx/pFFpIK+ZoZjUJyQ=;
-        b=bNjGQD1WH25xvnvqrl97+R2lxiSdrVOWpaGACOkoOI7ybCt+E68f8LjyoQ3EGbVDmv
-         uPk6mONO6LozYZX1O4jX3FslWmHudelokWIv7/4kY3TlGVvvYuW9l/GlakZLEfMjyx5D
-         KYL8ynNmGYBQdE8zNLWgPnTloAGb/ypMfSTg20yi3zuJbyTCXqWBUjkINgIo0lF3KGVZ
-         P7VlZNfU+q1zr+9skt+HNxyWcISANjh4Ay8Unln5Jj26ESHf96GzcshQskiRBut2DzhX
-         ifbq2bmTL+i3ArqU/MMJQ2l0KGf0bGPQWA1P3E1qF7L0HngKb0TK6FiMs+5ROhwkwasY
-         PLdg==
+        bh=3aMuC1VCOyhVkCqSO+h6+ZxFuqfGmZeukjOGA+GlgDo=;
+        b=mTx7sca5FIpTksiABkccZ+9HxrFUDRnjYsMGL/J6zOu8a10LTNqd+9op85iURQlpnj
+         OjlhritBF21KG0Gg7j3M295ggQP0CF7Le50LaK2fHVZCtb9Tt5O7MMqTISLlNXAQycqO
+         V61UHO8RI0FDAyf52WheJ6e1rP0vyTJ8cJ7iGJeOfj0Xfl1YG6cKsDL4V2xC+uQcL2++
+         V6Hhkgih2rphKKtyOJO7QXK1jjXj2ywcOlpko+t4+y6c9aq3NTAa1cHHAlmNGFveWq61
+         ZsVEn0+m2PFMbYFc7mKHL6GW1wib6wXcLL/k7mJvdfDYfP4ThboWqP2OCKXDuEU3hxE8
+         dWvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781653980; x=1782258780;
+        d=1e100.net; s=20251104; t=1781653981; x=1782258781;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=x//OojVdvKsF1B5rqWRkEUus6sx/pFFpIK+ZoZjUJyQ=;
-        b=OFbllh2cvyyQz7dAaWPdvmst8B5gz0wwK13xZVk88GQh0Fwv+sDkFQUid1iYPEXALB
-         fSvP8BoU/AvdzjMlKVP9h2xmIXjJ7OuylhAaPNZgE3PC5jwQnybK9N8SZAW4zZ7/Z6Uv
-         4xECU+F0uknQGOjPjT6QgKjWS+fIaS9IpNqxz2D58dORxecEsuxzhjpwjq/AemzLaLQX
-         0oqkgMBUj/mo/QBky2w/QuxfosZFIefi+QYGB/b3Q7DsFhmtshDe6nhGMSeg9BVs2GTg
-         3g75b8oQ7kOLdjY5CNsGjnjIksg5S+ZKdQ0iQtZNuNQDf8B0Hn+z6IowkhOsSW+TQ7Ku
-         Pxsg==
-X-Forwarded-Encrypted: i=1; AFNElJ9TUK1BqJgOZGQO7bzfeuR3yXxO8BSfHXIlk8P/hfIlH7EbShKcAoRMj8uUzrYsGSMpn3c3JGJvW+6x034j@lists.linux.dev
-X-Gm-Message-State: AOJu0YwhZYSdTZWqnvY7BZ98GCILpC1V4hDz55lUUFVqhInAm+hW5FlR
-	TJL4sD9Hq+AMt8c5iiQNYPx/F1EtNSmOhjNBt3T+qClcEOeK7jAr1Lnj
-X-Gm-Gg: AfdE7cnr/nVvZ4NlrOrZsvuVqs9sJl20ftA3jFlv+R78U7MyoB7El55//EvkVJvIJiX
-	uSOPlMMWmy6XAgNoXVCI8YAHiD1m8A6HX78dwAZgOuenMNPX68NnOTUkOSYmpvp3S0AMCG/3SjD
-	wI9BFtQK9H/5q35AJtIX6Ek7Id7f8QZbFCGgWfZ4dd4DG1oNp/VcSR70buJQl0qQKgyWnSyEZ9D
-	vI8azIfHHwnrYRg2stBvI7rJTJ5dTk793+reVGMaQjbGq3TZnWpMM+M927RrBQDqXM6VX3hHNUM
-	tGensFvQCdpeC67NvnCJbkr4HGnuEeOOOJ6NMDUPTiyudOzhmk4FwgTMmQN3FT3x2QAsTZFqy8E
-	rXcuqwy3l45IzFZqucg9jzAhfxDcU4x+JF7bH22aNqUnO/44OEpS8FlJxpsSP4yMFX1SE8RQx+s
-	U7TRfRF/m7asQzok/hbaef+ZBlPK8mPVmeyDyh1xn1IzDDCKnbMLearxI=
-X-Received: by 2002:a05:7301:6742:b0:304:e6f8:7cc9 with SMTP id 5a478bee46e88-30bcae0434fmr839165eec.20.1781653980083;
+        bh=3aMuC1VCOyhVkCqSO+h6+ZxFuqfGmZeukjOGA+GlgDo=;
+        b=j4vMmB3N4yMpZyCIgaNQIsbuPaKExgSZZaizlsW+lVB2BiIIT35A0ZHALIapCDWaX/
+         bRZfG6lIwiNIHRuJdx9NE/ytBdtEFkIiiDifFNR3S2N8CrkIjgI9DuQnb1dFkfSyHNye
+         ZReJsKCOpOfVpc4pJxyx88AU4FVxsoAqQ97UyKoui8BNNHRM8kgTm3M/d7Lgh1zG4ZrU
+         Z6fg6gYtWWfWPo0FniCtc9Sbrobeo7dd6RkCiMmu/QWwowDa1XLsxuYBcxVQFb+D0kkG
+         k+A/JWYTGHBvaIgz71h/1bgKVwlEDgahunJvIW7fpspnz6r0cPs6aLwHLMROte2gun0X
+         xTQg==
+X-Forwarded-Encrypted: i=1; AFNElJ/KJcBookBtb68mnZUrwjkQEcmYExxtxSPXS1iGGREj9DjbaNTN75QWxCxs8pvEC9u7HI6MLvdCuEvL1nKp@lists.linux.dev
+X-Gm-Message-State: AOJu0YwlaqKit4le5+Zsjf1Bk/NvbYZu1eb9tbuV4Z51h3WDqqlGZYJ4
+	N/12KBLOFatNtuBeW/B/3f09rW7L8Ca9a/U8VKTsHtZqMb7NvmlNidy0
+X-Gm-Gg: AfdE7cm78avGd7DQTa9e5EnXYeoc2GHDtpYq95MKGlGtUZDTDaAyJxm0o+CNmYtj2Tv
+	mMNRP/NMEtfCfGA7i7oIhaK8uFp9vpNfhnpvqMGf4ID7L8Hs3mCILInaf8sVL556Umm9copjJKj
+	wMwQnkM6D/v7WEQfRzKNemAdmgsOXLZYzpH+c+IaYoycQAxENyMfkWKZzMpd8Z1/bW5HFARpSi7
+	/0yBb5sU1S87rQ5UiilVmkooKEAdJ9CHkiP4O8BYkfj7+QnrH74E0GbXquOWUNCYdX5x1rX25XZ
+	Z08pOUMcd75M36uC3IcH8mEi9uPNL3n7Ncsf0w77w1+hRTtf44BTbT3de0CzQdx8xlu4JRxPlZD
+	N4SoNakTEtCNlGpDIYkweB0r7yvVr0Z3xFzF0VeYFXjCJYzT1OjZdRltkTKDfbqJ5ot1hT/W3rO
+	WahSLnclA4tkRLi0mBUydS3Hje+ulSE+HXsGso0jleJXj+/nxstb8lewrAJ7l+Aie63Q==
+X-Received: by 2002:a05:7301:7c0e:b0:304:9b48:53d8 with SMTP id 5a478bee46e88-30bc9df7446mr796485eec.10.1781653980896;
         Tue, 16 Jun 2026 16:53:00 -0700 (PDT)
 Received: from localhost.localdomain ([76.32.119.210])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e5d3f20sm20208153eec.9.2026.06.16.16.52.59
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e5d3f20sm20208153eec.9.2026.06.16.16.53.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jun 2026 16:52:59 -0700 (PDT)
+        Tue, 16 Jun 2026 16:53:00 -0700 (PDT)
 From: Hungyu Lin <dennylin0707@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: error27@gmail.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Hungyu Lin <dennylin0707@gmail.com>
-Subject: [PATCH v3 2/4] staging: rtl8723bs: simplify update_attrib control flow
-Date: Tue, 16 Jun 2026 23:52:39 +0000
-Message-Id: <20260616235241.99076-3-dennylin0707@gmail.com>
+Subject: [PATCH v3 3/4] staging: rtl8723bs: convert update_attrib_sec_info to return errno
+Date: Tue, 16 Jun 2026 23:52:40 +0000
+Message-Id: <20260616235241.99076-4-dennylin0707@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260616235241.99076-1-dennylin0707@gmail.com>
 References: <20260616235241.99076-1-dennylin0707@gmail.com>
@@ -78,74 +78,66 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace goto-based error handling with direct returns and
-remove the temporary res variable.
+Convert update_attrib_sec_info() to return 0 on success and
+a negative errno on failure.
 
-No functional change.
+No functional change intended.
 
 Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_xmit.c | 22 +++++++---------------
- 1 file changed, 7 insertions(+), 15 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_xmit.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-index 6ab91de472b0..69b6d3a2554a 100644
+index 69b6d3a2554a..066f6e974e4e 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-@@ -664,7 +664,6 @@ static s32 update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct p
- 	struct sta_priv *pstapriv = &padapter->stapriv;
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 	struct qos_priv *pqospriv = &pmlmepriv->qospriv;
--	signed int res = _SUCCESS;
- 	int ret;
- 
- 	_rtw_open_pktfile(pkt, &pktfile);
-@@ -741,19 +740,15 @@ static s32 update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct p
- 		psta = rtw_get_bcmc_stainfo(padapter);
- 	} else {
- 		psta = rtw_get_stainfo(pstapriv, pattrib->ra);
--		if (!psta)	{ /*  if we cannot get psta => drop the pkt */
--			res = _FAIL;
--			goto exit;
--		} else if (check_fwstate(pmlmepriv, WIFI_AP_STATE) && !(psta->state & _FW_LINKED)) {
--			res = _FAIL;
--			goto exit;
--		}
-+		if (!psta)	/*  if we cannot get psta => drop the pkt */
-+			return _FAIL;
-+		else if (check_fwstate(pmlmepriv, WIFI_AP_STATE) && !(psta->state & _FW_LINKED))
-+			return _FAIL;
- 	}
- 
- 	if (!psta) {
- 		/*  if we cannot get psta => drop the pkt */
--		res = _FAIL;
--		goto exit;
-+		return _FAIL;
- 	}
- 
- 	if (!(psta->state & _FW_LINKED))
-@@ -762,8 +757,7 @@ static s32 update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct p
- 	spin_lock_bh(&psta->lock);
- 	if (update_attrib_sec_info(padapter, pattrib, psta) == _FAIL) {
- 		spin_unlock_bh(&psta->lock);
--		res = _FAIL;
--		goto exit;
-+		return _FAIL;
- 	}
- 
- 	update_attrib_phy_info(padapter, pattrib, psta);
-@@ -799,9 +793,7 @@ static s32 update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct p
- 	}
- 
- 	/* pattrib->priority = 5; force to used VI queue, for testing */
--
--exit:
--	return res;
-+	return _SUCCESS;
+@@ -505,7 +505,7 @@ static void update_attrib_phy_info(struct adapter *padapter, struct pkt_attrib *
+ 	pattrib->retry_ctrl = false;
  }
  
- static s32 xmitframe_addmic(struct adapter *padapter, struct xmit_frame *pxmitframe)
+-static s32 update_attrib_sec_info(struct adapter *padapter, struct pkt_attrib *pattrib, struct sta_info *psta)
++static int update_attrib_sec_info(struct adapter *padapter, struct pkt_attrib *pattrib, struct sta_info *psta)
+ {
+ 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 	struct security_priv *psecuritypriv = &padapter->securitypriv;
+@@ -519,7 +519,7 @@ static s32 update_attrib_sec_info(struct adapter *padapter, struct pkt_attrib *p
+ 		pattrib->encrypt = 0;
+ 
+ 		if ((pattrib->ether_type != 0x888e) && !check_fwstate(pmlmepriv, WIFI_MP_STATE))
+-			return _FAIL;
++			return -EINVAL;
+ 	} else {
+ 		GET_ENCRY_ALGO(psecuritypriv, psta, pattrib->encrypt, bmcast);
+ 
+@@ -558,7 +558,7 @@ static s32 update_attrib_sec_info(struct adapter *padapter, struct pkt_attrib *p
+ 		pattrib->icv_len = 4;
+ 
+ 		if (psecuritypriv->busetkipkey == _FAIL)
+-			return _FAIL;
++			return -EINVAL;
+ 
+ 		if (bmcast)
+ 			TKIP_IV(pattrib->iv, psta->dot11txpn, pattrib->key_idx);
+@@ -596,7 +596,7 @@ static s32 update_attrib_sec_info(struct adapter *padapter, struct pkt_attrib *p
+ 	else
+ 		pattrib->bswenc = false;
+ 
+-	return _SUCCESS;
++	return 0;
+ }
+ 
+ u8 qos_acm(u8 acm_mask, u8 priority)
+@@ -755,7 +755,8 @@ static s32 update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct p
+ 		return _FAIL;
+ 
+ 	spin_lock_bh(&psta->lock);
+-	if (update_attrib_sec_info(padapter, pattrib, psta) == _FAIL) {
++	ret = update_attrib_sec_info(padapter, pattrib, psta);
++	if (ret) {
+ 		spin_unlock_bh(&psta->lock);
+ 		return _FAIL;
+ 	}
 -- 
 2.34.1
 
