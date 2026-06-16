@@ -1,168 +1,147 @@
-Received: from mail-dy1-f194.google.com (mail-dy1-f194.google.com [74.125.82.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13B2934D4DE
-	for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 23:44:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 710923DA7C0;
+	Tue, 16 Jun 2026 06:06:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781567044; cv=none; b=TsVHutWbimceMYqX2341cXF6Q8LTQJhNvN3ZQcQY3NmfetzCwrSPEjOpUw0zrrPta6wUD/pQR7NZbkmgN9gYAaXI9aTwHSPEzRQF9u1tJxnpeDIjTR5o2bM8kPwn8wkrEUJ1gEtFOce/X77E2U1eAquR/AT0YEGVLpUM8o2EnL0=
+	t=1781589973; cv=none; b=WYxQT6eHpEfhIpbsuJqFuuiTwlfkwNRRBvLPHLSaBe/iAhKw7qk50qtWgsHrTzYQTgK2l6T+LkqdrMLl930LQHBodve2ridmk6M77w9voSDFYOOu6teGUTSo6+gp+wdCk4hJRXegy6d1WzLIFN9o3gSIH+ZgmLjhI5ecrQ+aX5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781567044; c=relaxed/simple;
-	bh=lpCGztzB0M+oV02K6JezYWz2x0x5KRqyFcOocnIlTgU=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=PjhuN+hQ+qbQ7UPwm+cbPN8UJ1qrHDXmO2s50SclftJ1+9Rj/BrbSuESx7puQRPhhlRZGh0PRd8Pyegrt+1MGaMzDBEAxbIkBFN9vwIOCe10tNSx+Du3l9bjNXZUSg/qQYWLR2AgUbsAgGlcGgbheB5u+IbgiNcP902JdckED4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jIVL12i8; arc=none smtp.client-ip=74.125.82.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781589973; c=relaxed/simple;
+	bh=JNCFzqk3xEM/IcqcOJC7ptkFyxpfdBNO+vFuZnuEpjc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=I2Dmu2jPi20WNlGMGxbElOPBE/xut7dYSFBhpDmBl7nBXyitf+4uaAE4ByachOpRUZdg78jTf+cSWqhxK9KZrfPlj4dosUVrMxlYt3clbH0aSSdUmILju3DXUvYyLYpIDDwW3crqJ8TXPluNvFfPkxEpoqT51LdjCdM55KOOqKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WmPShMF+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jIVL12i8"
-Received: by mail-dy1-f194.google.com with SMTP id 5a478bee46e88-30759632453so5762522eec.1
-        for <linux-staging@lists.linux.dev>; Mon, 15 Jun 2026 16:44:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781567042; x=1782171842; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=e4SHLN/exFnBg1lCGc0xPmy1xjyK1non5IlHXkrwXcY=;
-        b=jIVL12i8YuktjqCOM49ysrItwy0Ck1hfeqaxHL5yVRfWyH/tUyFxvu8KGEChemOG0V
-         DReacI4BXphJYNNi6C7jGUebm6kMe38J3oF4E76pnlos9kKCn7gd69cn/g5+O3uAfwtS
-         eHTDcYl6qaaUfhBwUkcsNWrt3NNVoQpql/73wkESlRqy0lRQvvyGURf6TjuXkhFjMiKI
-         ClXMk+T+Gr4APs52q5oR7FoUI08RWPlQF9m4mezLrFI88190IcxaFb7sBbynej8qQ8Hj
-         FEQwTDGDTvQNSczOmegK1iZjRfJPUA2N2gwoOwoadBdNiVxkUf10CeGW2k13w7k+W3AO
-         LjvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781567042; x=1782171842;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=e4SHLN/exFnBg1lCGc0xPmy1xjyK1non5IlHXkrwXcY=;
-        b=rjWkI3qIBcddsWNdv+3PC2QctIMKwctnLVoOEAEVWCqPiYfhUvDMASHQ3pop4CoxjG
-         4AtaQyy0zu4fVec6rGRLxiFiFx/aEBV9IOCHafM8SBrjuC7D/1dmAT6+24VvJBPiD3sR
-         jLeCriQASmL52o3d3pzbfdaoJNlXZRtQ5JHHwPBQtxsQTbCXZEdGTs7CuKidu8h2LNna
-         Y2aWJFRXGerP/zUZx4mcEUwt1uivCggFb4jbmV+zrzQzS2x5ubbQM2hp3Z4ugYcpQ8la
-         hOioKdPqK0lZZemZVNbrNrcqCtJS7O8Bq94c7bnWrnhkeJDfvi3Z6M9zHnuWuc5e0Uau
-         SoRA==
-X-Forwarded-Encrypted: i=1; AFNElJ8QVg6oO+p2U7w7l4VwcVQ6xxTmtEdXrhWxYEKTAsfqSpRpT1wAehdnEnrr8Yf3zIdeXvY90elfGoYBWiDY@lists.linux.dev
-X-Gm-Message-State: AOJu0YyP9kGk0fmQEFGpjNOiSMBzsjtZnJtfGJEAdtvOTQc4NjxPZ5dM
-	sp7xASYEpsLTmLYskTnuJCGz8xm45vJ+4Xxpobyn5XTNYPMmBLplisfd
-X-Gm-Gg: Acq92OGk+yppCmjFygRJfFIt6djiNSMz4AtEBEO39P9t8pgJYGst8XdPafBn56o032o
-	GK1AyQP7vPp8Z2vym5KsengoxlLfZKUeDMVwOJAgNE6KphaECI9JVV8ixGNym7vdOqS4oS2veMU
-	fuO8ydO5vnB1oHjzQ1EcGneY3ygJk29K56pvCHzWTttth+HY8KlMI17plgHrDCMuzeydyOMTwUn
-	zA0teMjTKkh9DXW+z7R9No0gseJ66tpXWBbVfb1kJlKltsMMBZilScEEewQIR9RJYk/o45S4I25
-	CsDNnF75kAiaya42tD9fLnCtfRmPLVsV7XRDJg9uNsM0bRcVpDh9ayy6yPEBiGP4oIt0O6eJDSt
-	fOHhjRw/Uym5qKyV4u4GWT6ajnEFbMpBr2RnM9e4lP+bg6cuwxZWbX5yjHkAAzXhS9ad3MHKo/n
-	wku1uCP7ZHpDmn83hDTGg/ZkLwkNnZJi/KrxpFh1jaWMkfBL69dPBQVDuYXBHO0h45RQ==
-X-Received: by 2002:a05:7300:6417:b0:2e2:3381:2fba with SMTP id 5a478bee46e88-3081ff64166mr10133350eec.3.1781567042346;
-        Mon, 15 Jun 2026 16:44:02 -0700 (PDT)
-Received: from localhost.localdomain ([76.32.119.210])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e92096esm16988335eec.15.2026.06.15.16.44.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jun 2026 16:44:02 -0700 (PDT)
-From: Hungyu Lin <dennylin0707@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: error27@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Hungyu Lin <dennylin0707@gmail.com>
-Subject: [PATCH v2 4/4] staging: rtl8723bs: convert update_attrib to return errno
-Date: Mon, 15 Jun 2026 23:43:40 +0000
-Message-Id: <20260615234340.97299-5-dennylin0707@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260615234340.97299-1-dennylin0707@gmail.com>
-References: <20260615234340.97299-1-dennylin0707@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WmPShMF+"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id F382DC2BCB8;
+	Tue, 16 Jun 2026 06:06:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1781589973;
+	bh=JNCFzqk3xEM/IcqcOJC7ptkFyxpfdBNO+vFuZnuEpjc=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=WmPShMF+lXfgJIrxH0JbFcSh3t1gVwqK6Z8z6QUUK6imwWZFeD1woe7QDtZ3aVbVN
+	 fxV6rdXy8AuiUDXAyc+JacZ/Sd8sfLPMTsE6xlIb4RbMnEjCqgRJuBlY2DrnAWPyv7
+	 e/5/7M65v9KKl9/0Y94vltziBpXdQbpUa2DZXKhI0mocO3FpB2gl4jdtSq2SDcUis6
+	 Vd33qFZFx1XVRixSQCOpjqiPFp80ZsBcppayxfmIUil4JV2Epdw6rSM8qN8a/+w/Wh
+	 ERIsOjhdxwDSP5XMTStigZ3DJEHyIh9wpAiHzEgw8506+sskcKGMpk1Gti1hMpGwYP
+	 9w3Fmh8DPmizQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9D93CD98DA;
+	Tue, 16 Jun 2026 06:06:12 +0000 (UTC)
+From: Bryam Vargas via B4 Relay <devnull+hexlabsecurity.proton.me@kernel.org>
+Date: Tue, 16 Jun 2026 01:06:12 -0500
+Subject: [PATCH] greybus: audio: bound the topology section sizes against
+ the fetched size
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260616-b4-disp-4352e8b0-v1-1-3e09f62e0ad5@proton.me>
+X-B4-Tracking: v=1; b=H4sIANPnMGoC/x3MTQqAIBBA4avErBtQ0yG7SrToZ6rZmChEIN09a
+ fkt3iuQOQlnGJoCiW/JcoUK3TawnnM4GGWrBqMMKdKEi8VNckTbOcP9otA67omc944YahYT7/L
+ 8y3F63w/cNqTYYgAAAA==
+To: Mark Greer <mgreer@animalcreek.com>, 
+ Vaibhav Agarwal <vaibhav.sr@gmail.com>
+Cc: Johan Hovold <johan@kernel.org>, linux-kernel@vger.kernel.org, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ linux-staging@lists.linux.dev, greybus-dev@lists.linaro.org, 
+ Alex Elder <elder@kernel.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1781589971; l=3388;
+ i=hexlabsecurity@proton.me; s=proton; h=from:subject:message-id;
+ bh=7Nd691qGBfOJSIBEQHMHLFIBuWUkCigjnPpH2+uLF24=;
+ b=J3dq6yVkfTUOaBX3BnpxsFzk0FIOTk1QZZ/si4FwAg2Dme5nV6K71bOhhu3NQ+r+xEyr+5JtO
+ b+Bzx6mJM9kADaYBHURg5Xd7qlL3cYRRSbop7Uvvo73TuzLG9WCkOlT
+X-Developer-Key: i=hexlabsecurity@proton.me; a=ed25519;
+ pk=dmppBMZNLLoPzxHi9l8tZDzEZUunPbgsYqIZYXeUrL0=
+X-Endpoint-Received: by B4 Relay for hexlabsecurity@proton.me/proton with
+ auth_id=814
+X-Original-From: Bryam Vargas <hexlabsecurity@proton.me>
+Reply-To: hexlabsecurity@proton.me
 
-Convert update_attrib() to return 0 on success and a
-negative errno on failure. Update rtw_xmit() to handle
-the returned error code.
+From: Bryam Vargas <hexlabsecurity@proton.me>
 
-No functional change intended.
+gb_audio_gb_get_topology() fetches a topology blob of a module-supplied
+size, and gbaudio_tplg_parse_data() then walks it by adding the
+module-supplied size_dais, size_controls and size_widgets fields to
+form the control, widget and route section offsets. Those le32 sizes
+are never checked against the fetched blob, so a module reporting a
+small topology size but large section sizes makes the offsets point
+past the allocation, and parsing reads out of bounds.
 
-Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+Reject a topology whose section sizes do not fit within the fetched
+size before it is parsed.
+
+Fixes: 184992e305f1 ("greybus: audio: Add Greybus Audio Device Class Protocol helper routines")
+Cc: stable@vger.kernel.org
+Signed-off-by: Bryam Vargas <hexlabsecurity@proton.me>
 ---
- drivers/staging/rtl8723bs/core/rtw_xmit.c | 24 +++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+I reproduced the out-of-bounds read both in-kernel under KASAN and with
+a userspace AddressSanitizer model of the gbaudio_tplg_process_header()
+offset walk. The topology blob is kzalloc(size) where size is
+module-supplied (a u16), and process_header() forms control_offset =
+&data + size_dais, widget_offset = control_offset + size_controls, etc.;
+the consumers then read structs at those offsets.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-index 0fd2415e7bb7..4d886a35f4c8 100644
---- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-@@ -654,7 +654,7 @@ static int set_qos(struct pkt_file *ppktfile, struct pkt_attrib *pattrib)
+  - In-kernel (7.1.0-rc5 + KASAN): a 64-byte blob (header 24, so 40 bytes
+    available) with size_dais = 44 makes control_offset point 4 bytes
+    past the allocation, and reading the first control byte there trips:
+
+      BUG: KASAN: slab-out-of-bounds in ...parse_topology...
+      Read of size 1 at addr ...
+      ... which belongs to the cache kmalloc-64 of size 64
+      The buggy address is located 4 bytes to the right of
+       allocated 64-byte region
+
+    The patched arm (sections rejected, -EINVAL) and an in-bounds control
+    arm (size_dais = 8) read cleanly with no KASAN report.
+  - ASan model (-m32 and -m64): size_dais = 4096 makes control_offset
+    point ~4 KB past the 64-byte blob - heap-buffer-overflow READ located
+    4056 bytes after the region, both ABIs; patched and in-bounds clean.
+
+The source is a greybus audio module trust boundary (an attacker-supplied
+or compromised module reporting a malformed topology); the access is a
+read, and a large size_dais sends the offset far enough to fault. The
+reproducer (kernel module + ASan model) is available on request.
+---
+ drivers/staging/greybus/audio_gb.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/drivers/staging/greybus/audio_gb.c b/drivers/staging/greybus/audio_gb.c
+index 9d8994fdb41a..144591f1a512 100644
+--- a/drivers/staging/greybus/audio_gb.c
++++ b/drivers/staging/greybus/audio_gb.c
+@@ -37,6 +37,19 @@ int gb_audio_gb_get_topology(struct gb_connection *connection,
+ 		return ret;
+ 	}
+ 
++	/*
++	 * The size_* fields are supplied by the module and are used by
++	 * gbaudio_tplg_parse_data() to compute offsets into the blob; make
++	 * sure the sections fit within the fetched topology, so walking it
++	 * cannot read out of bounds.
++	 */
++	if ((u64)le32_to_cpu(topo->size_dais) + le32_to_cpu(topo->size_controls) +
++	    le32_to_cpu(topo->size_widgets) + le32_to_cpu(topo->size_routes) >
++	    size - sizeof(*topo)) {
++		kfree(topo);
++		return -EINVAL;
++	}
++
+ 	*topology = topo;
+ 
  	return 0;
- }
- 
--static s32 update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct pkt_attrib *pattrib)
-+static int update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct pkt_attrib *pattrib)
- {
- 	struct pkt_file pktfile;
- 	struct sta_info *psta = NULL;
-@@ -741,23 +741,24 @@ static s32 update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct p
- 	} else {
- 		psta = rtw_get_stainfo(pstapriv, pattrib->ra);
- 		if (!psta)	/*  if we cannot get psta => drop the pkt */
--			return _FAIL;
-+			return -EINVAL;
- 		else if (check_fwstate(pmlmepriv, WIFI_AP_STATE) && !(psta->state & _FW_LINKED))
--			return _FAIL;
-+			return -EINVAL;
- 	}
- 
- 	if (!psta) {
- 		/*  if we cannot get psta => drop the pkt */
--		return _FAIL;
-+		return -EINVAL;
- 	}
- 
- 	if (!(psta->state & _FW_LINKED))
--		return _FAIL;
-+		return -EINVAL;
- 
- 	spin_lock_bh(&psta->lock);
--	if (update_attrib_sec_info(padapter, pattrib, psta) == _FAIL) {
-+	ret = update_attrib_sec_info(padapter, pattrib, psta);
-+	if (ret) {
- 		spin_unlock_bh(&psta->lock);
--		return _FAIL;
-+		return ret;
- 	}
- 
- 	update_attrib_phy_info(padapter, pattrib, psta);
-@@ -793,7 +794,7 @@ static s32 update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct p
- 	}
- 
- 	/* pattrib->priority = 5; force to used VI queue, for testing */
--	return _SUCCESS;
-+	return 0;
- }
- 
- static s32 xmitframe_addmic(struct adapter *padapter, struct xmit_frame *pxmitframe)
-@@ -1954,7 +1955,7 @@ s32 rtw_xmit(struct adapter *padapter, struct sk_buff **ppkt)
- 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
- 	struct xmit_frame *pxmitframe = NULL;
- 
--	s32 res;
-+	int ret;
- 
- 	if (start == 0)
- 		start = jiffies;
-@@ -1967,9 +1968,8 @@ s32 rtw_xmit(struct adapter *padapter, struct sk_buff **ppkt)
- 	if (!pxmitframe)
- 		return -1;
- 
--	res = update_attrib(padapter, *ppkt, &pxmitframe->attrib);
--
--	if (res != _SUCCESS) {
-+	ret = update_attrib(padapter, *ppkt, &pxmitframe->attrib);
-+	if (ret) {
- 		rtw_free_xmitframe(pxmitpriv, pxmitframe);
- 		return -1;
- 	}
+
+---
+base-commit: 8e65320d91cdc3b241d4b94855c88459b91abf66
+change-id: 20260616-b4-disp-4352e8b0-45e86659956e
+
+Best regards,
 -- 
-2.34.1
+Bryam Vargas <hexlabsecurity@proton.me>
+
 
