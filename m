@@ -1,71 +1,71 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-dy1-f195.google.com (mail-dy1-f195.google.com [74.125.82.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37A893655E0
-	for <linux-staging@lists.linux.dev>; Tue, 16 Jun 2026 19:31:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82EB421D596
+	for <linux-staging@lists.linux.dev>; Tue, 16 Jun 2026 23:52:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781638311; cv=none; b=PncsVNJHmO4sNAE1Ni2rf+fhOF56ttCgEaF9WLF5ncdoXyaGbZ7GGibsU9UqxZzq0Ddzt0h8lwrVz6LCaXsZutDwHGM11c8WE3DCQqdF+OgGrco1r0klhNmkmV/uTh09wUOWFlPTMjsIMzy/GUb/0kHsd/ofzsEux4uvkhVBPwE=
+	t=1781653980; cv=none; b=EUmHhGs7D1iLoJog5gDnq2gkVzwi4uOXvX8BCLTbGDRrx0Hwu7PI0zPQUW3AaUvCi6UT3yqVpNz0c4O1hKyb9MJTuoV6saxP/apc5a5uZkMqMxl+p45XsqkzDV0aeSKmttqVzZmOX/yxZcNnwMYyMsejjQ5Imhx48fvg8X2rQGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781638311; c=relaxed/simple;
-	bh=3UyPmpWrfd3SVU+nu87UtjbJtvKWhfn4ZqGTaQw8w5w=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZPZPJwLQAm9iprBHFyqmkNcc4ZkZNkGBPPbolk3y7i99MOSegwzxrgvWCDU7CLBC1Zd0oUdQ/jZCpr8sGmH68swvuJWioMgMeXsBBlH1zQnZfxAzhDDnB/ovILZKDw3eAEVS/ogB/AwlJBmlX/dBCTPUTU/V1M6a6KpewqRpTp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tLQiH0yy; arc=none smtp.client-ip=209.85.221.54
+	s=arc-20240116; t=1781653980; c=relaxed/simple;
+	bh=gTyXTQUpEpMt5+p7hTxckW9t05N383tWwh+e1isccFY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=FE9e6X7PaVGj1CHfOAk1ZwbQvZflhYo4KGisIg0LLNpLb0FBZ8K66zAvUb1ERz69GITg3smoDu3MoHjjsBN4vrUweIBZDKSafigpH+n9MDWqxF0zgFFkXN4SOEx6JaCxT9RfiFMxee4GmZ5ptbE74F8qGHCvQ8djx5HhThoGNCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XrTQYCoq; arc=none smtp.client-ip=74.125.82.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tLQiH0yy"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-45ef4223be7so2882967f8f.2
-        for <linux-staging@lists.linux.dev>; Tue, 16 Jun 2026 12:31:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XrTQYCoq"
+Received: by mail-dy1-f195.google.com with SMTP id 5a478bee46e88-30bcdf8232fso675719eec.0
+        for <linux-staging@lists.linux.dev>; Tue, 16 Jun 2026 16:52:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781638308; x=1782243108; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1781653979; x=1782258779; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ADHJ10MyAqhpiS/kGZ4gk+6ZPai50g4kBn6d1lBhZCM=;
-        b=tLQiH0yyc2qUgNWKxejA3RMtBheq8Cc2vnqYL7Ax79YgIyfYhw1hd0CfeYHXzaUeHC
-         5x7q6oqprhy26ENgPqvdPJnsSMQObuBnCf9tldeTa7gqD+1CXt7iK9OI65w2hMPH6D0H
-         F8cXyJK7gmi3fZnMzrowxhPI/NcOo3cTssho5JfNHd7kbzI791bo91E559SOCpYi4uAg
-         bC4295MvoyDXoZ7K6IYOsOLgKyIR6j4HTUzi/tjbG4zE8ifoIE+30TM6iw5kW9fymxMi
-         eTeLku85igr4+wlLAIfgkEjwtBVljvXruwFRpRegEZ6H7Ta8c/nERVpePBPZbOG4GLZL
-         Jaog==
+        bh=U2Y5hFlg1Q63UkOtbBytvGSnD7oYUmWUhqg29Zc9dSg=;
+        b=XrTQYCoqjXLSSc8MKxTI2Y1Tm6BZYVlots0dUIhD+yraQhWRPwZcUP7Ez1tsZz1j6u
+         8czDqxKzrSKEjB6qhpjvRCBekcqbmRq3oxXKoEVxVsv7cQ2jqHQaKz73AKh0xF6riECf
+         IzW/KeFOiu0xoyka/1KSQJrWlSLCcGOqtVlM7Lu8E/4kTelkmr1+pspOiBg8NCQCNVpo
+         FarHq8hNEAYg3t7GwNyTJMuk/uM3t/fU6j3I/YhuFKwfZxG+H9FL8nUZmNI6hmiwHiFz
+         bi0tHDgU7sb+nULfvdX+8ZI5cpZPaPETR2k4TfGghLiAn/PriXYcswvSoTwocbMA9b/P
+         rIOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781638308; x=1782243108;
+        d=1e100.net; s=20251104; t=1781653979; x=1782258779;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ADHJ10MyAqhpiS/kGZ4gk+6ZPai50g4kBn6d1lBhZCM=;
-        b=qWtG5DwJPPoQWr0a4nANvSyQ1iQDdUG9NnJ4q4FuJDXyOn0R4D8oVqdwlHKmK/2lkf
-         YhVCYD+ttvvVRHjRNskXZFfFEHhPDVB+pHItDw+rSypACPdv7MQ4WTvurxJepaJT8q9g
-         YMzaMSRQkF4QNztJ6hKcy/txBWPNDFl+q1Ek6TaUT7RTtSlpAVpmey25Ylc+SDPbJhmh
-         VOqyrQ8xxWwl3aSD4pcfksA0JCmAZWUQlnrp0Xz+nIuefvEs16gJoDqmF8VO5BNSDsWL
-         8C3LCH6BIQgmBIlcT4RIa4tcW0iO2/EgcXVexwgqH6dz6ak4B8q6PY2OybVjRfRcF6Cv
-         wP0Q==
-X-Forwarded-Encrypted: i=1; AFNElJ+gnrias9FxqolQb6tEL2tsE4l8zcwEygLDgCqhLxoJtMBMBnXGA4hhAKAlMkse1zbRkljawOmR7iIjwbZH@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx4z0yOnKyiOqGcBiAU6nOMVdFyy1wddNgaWgdXsXCgWx8dZcDD
-	gfRFiSwj57UPRIex3q2QAFZQPQAT60708YOXG5Kzc6GE5kz0hE6WKA5Z
-X-Gm-Gg: Acq92OGGaVoBIIauYyin0KaMg0/681zoiIdn4YOFa+WAeH19mjbvYT66ZX1LOUYi3ZB
-	JC0a5YaannZy9Yb4CQ7aCLVTxw0v/EM6nBiR5rKr1U+TNeQM9yuInoVKKijQaw9twA3SVGWW2D5
-	cDn79a2g2UEgEDpntHOhkMR/f1oPwJ2pkBswId9IutYMz8QxCcsbHKR4zscBTNj/Vv7CK7CsQ+Q
-	Hqh99cbhv6G/WtyscuKVmlvOER1Ig2n32uXFXrQWnPgT6a04Jyri43zDb/uEUObNrE0dagDFhmw
-	YBq7wjR9pwsVqldW1ZYTcaQVgVNpvOzksY5XvZByDGncABacB+Hp55L5PXDuUuPLp8TBQMmnrNF
-	c2BmNrEHMhpTLszHSNnO31q+r1R+XRrNmSb8fieY6zoATitcbh33jxDF7pVdA+1zRvf60nNGFrw
-	nTZyVi2k+Mxcwjht85yvSGHWP9PT8yqnmmnW37kyKUO+HPlOF/V1H36Eb/Nji2oQ8p2tj4JHm+/
-	Q==
-X-Received: by 2002:a05:6000:4006:b0:45e:f631:2c73 with SMTP id ffacd0b85a97d-46235cae48dmr1492516f8f.9.1781638308321;
-        Tue, 16 Jun 2026 12:31:48 -0700 (PDT)
-Received: from fedora ([196.77.26.11])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f26f726sm44346365f8f.15.2026.06.16.12.31.47
+        bh=U2Y5hFlg1Q63UkOtbBytvGSnD7oYUmWUhqg29Zc9dSg=;
+        b=e9KMAFTg0mgD3y+tzC7jfjtbLvL9jYy9e4JQLjTJdwaM6At39Gp3P6UvdygD8yf3ty
+         hlGByI4gtjaMvG0EmlzW6yEMs6gEDMA50WzVpYYfTIo23FxKtoKpvzyYfFjCHTzlMv+X
+         L9IvatVdJ1yVDQJarlu1gnsvxkWiWu36YYhpHvuHP0jczDAgh3d6IfxtqKdk9XmXmlth
+         v8jYuP3tOe0sMCNOiaGo8bgvsWU/SNWbgZHqKfONGSme4rgho4ZCE7LkJeYgSDbh3XNL
+         EWckuNIc7HpdEZUIPApBo/NpEBIobkAFuMZIOM2vDg+8tmyVARLduXMD7g6w7o4jaDF+
+         n3Sg==
+X-Forwarded-Encrypted: i=1; AFNElJ8DIiMTHYo+8Y7RtJy5FHmdV0DRRfsjYJGXLkPeyzhWm8WASobRimNe71mV7UQ0g3J0u8ao9o8l+Zkk8G3O@lists.linux.dev
+X-Gm-Message-State: AOJu0YwBXrGKV01FbeSN9aIwcuk8xLsE6kaXIZtZRLXxOWL18sqArWFP
+	OOETueF3pqE7ePVLW2j/4kruGUpzthYhbbLIRixb/oRN4F0xIjTaKH4f
+X-Gm-Gg: AfdE7clRKETIb2m+Fujhq9mwaQLhst4SJoR3UsXsRtZRuT6rl+dGIar8lbvDosagKVv
+	FM08RSMJAJMFk5lKRkS3MzKhD9HXG1erfat/aja5bJMuP2Jcfszpdz1/mNYzc2CNf8c0SHWlyrN
+	gl0SP7KA9IuEh79DfK2/Tno2PMUrZj3bVIcAEy6a/fVumEJqu1vwmXrCxRK5VPpesWi5FfqFZS2
+	CUX3pCVrVhnAVrltIiFK/PW1gB6Iu9lCReafNQaQI6ZE2ambvAsRtxVXfPJVVdg0vOoWGuPvnQv
+	lZtwBAxc1pXLYeEMtfKlpK1MYP9qMBl1nX6cEdDGe/Y2deV0vpora0Mg1yS4AeXduVbUVoZSCY8
+	X7a5ldB6gAeV7VE/GNFiu8eJ11zvorjhmPJzLKajQ3c9v4mrylQLbYqe18JllRnZaJw11uBy8oo
+	bK9E8qRQoitzvBihks/wblNX6lfFA4DLjwKx6D8Jve2oelKe9VfIkmnHc=
+X-Received: by 2002:a05:7300:2211:b0:30a:e52f:9bcf with SMTP id 5a478bee46e88-30bc9ab2f4bmr876673eec.10.1781653978508;
+        Tue, 16 Jun 2026 16:52:58 -0700 (PDT)
+Received: from localhost.localdomain ([76.32.119.210])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e5d3f20sm20208153eec.9.2026.06.16.16.52.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jun 2026 12:31:47 -0700 (PDT)
-From: Jad Keskes <inasj268@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>,
+        Tue, 16 Jun 2026 16:52:58 -0700 (PDT)
+From: Hungyu Lin <dennylin0707@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: error27@gmail.com,
 	linux-staging@lists.linux.dev,
-	Jad Keskes <inasj268@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: replace beacon timing magic numbers
-Date: Tue, 16 Jun 2026 20:31:34 +0100
-Message-ID: <20260616193134.1759947-1-inasj268@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	linux-kernel@vger.kernel.org,
+	Hungyu Lin <dennylin0707@gmail.com>
+Subject: [PATCH v3 0/4] staging: rtl8723bs: convert update_attrib path to errno
+Date: Tue, 16 Jun 2026 23:52:37 +0000
+Message-Id: <20260616235241.99076-1-dennylin0707@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -74,75 +74,31 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Break down the 0x6404 and 0x660F in
-rtl8723b_InitBeaconParameters() so people don't need the out-of-tree
-driver open to know what these do.
+This series first simplifies control flow in update_attrib_sec_info()
+and update_attrib() by replacing goto-based error handling with
+direct returns. It then converts both functions to return errno
+values and propagates the returned error codes through the caller
+chain.
 
-REG_TBTT_PROHIBIT (0x0540): 0x6404 = hold (0x64) and setup (0x04), both
-in 32us ticks.  Same layout as rtw88.
+Changes in v3:
+ - Split update_attrib_sec_info() errno conversion from caller changes
+ - Keep update_attrib() using _FAIL in the intermediate step
+ - Convert update_attrib() and rtw_xmit() to propagate errno
 
-REG_BCNTCFG (0x0510): 0x660F is an EDCA-like register.  Lower byte is
-AIFS (0x0F = no contention before beacon), next nibble is CWmin (0x06),
-top nibble is CWmax (0x06).  Matches rtl8192cu which writes 0x66FF
-(test chips) and 0x660F (production).
+Changes in v2:
+ - Keep braces around the multi-line if statement in update_attrib()
+ - Split errno conversion and propagation as suggested by Dan Carpenter
+ - Change update_attrib_sec_info() and update_attrib() return types to int
 
-Drop the TODO since this was the last thing it referenced.
+Hungyu Lin (4):
+  staging: rtl8723bs: simplify update_attrib_sec_info control flow
+  staging: rtl8723bs: simplify update_attrib control flow
+  staging: rtl8723bs: convert update_attrib_sec_info to return errno
+  staging: rtl8723bs: convert update_attrib to return errno
 
-Signed-off-by: Jad Keskes <inasj268@gmail.com>
+ drivers/staging/rtl8723bs/core/rtw_xmit.c | 55 +++++++++--------------
+ 1 file changed, 20 insertions(+), 35 deletions(-)
 
-Link: https://lore.kernel.org/all/aiGMXBNQ0TbIGbpP@stanley.mountain/
----
- drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c |  5 ++---
- drivers/staging/rtl8723bs/include/rtl8723b_hal.h  | 13 +++++++++++++
- 2 files changed, 15 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-index bcaf63b2893c..2cf1cd9d19de 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-@@ -861,8 +861,7 @@ void rtl8723b_InitBeaconParameters(struct adapter *padapter)
- 
- 	rtw_write16(padapter, REG_BCN_CTRL, val16);
- 
--	/*  TODO: Remove these magic number */
--	rtw_write16(padapter, REG_TBTT_PROHIBIT, 0x6404);/*  ms */
-+	rtw_write16(padapter, REG_TBTT_PROHIBIT, TBTT_PROHIBIT_TIME_8723B);
- 	/*  Firmware will control REG_DRVERLYINT when power saving is enable, */
- 	/*  so don't set this register on STA mode. */
- 	if (!check_fwstate(&padapter->mlmepriv, WIFI_STATION_STATE))
-@@ -871,7 +870,7 @@ void rtl8723b_InitBeaconParameters(struct adapter *padapter)
- 
- 	/*  Suggested by designer timchen. Change beacon AIFS to the largest number */
- 	/*  because test chip does not contension before sending beacon. by tynli. 2009.11.03 */
--	rtw_write16(padapter, REG_BCNTCFG, 0x660F);
-+	rtw_write16(padapter, REG_BCNTCFG, BCNTCFG_8723B);
- 
- 	pHalData->RegBcnCtrlVal = rtw_read8(padapter, REG_BCN_CTRL);
- 	pHalData->RegTxPause = rtw_read8(padapter, REG_TXPAUSE);
-diff --git a/drivers/staging/rtl8723bs/include/rtl8723b_hal.h b/drivers/staging/rtl8723bs/include/rtl8723b_hal.h
-index b6006110ad6b..aa7676828371 100644
---- a/drivers/staging/rtl8723bs/include/rtl8723b_hal.h
-+++ b/drivers/staging/rtl8723bs/include/rtl8723b_hal.h
-@@ -72,6 +72,19 @@ struct rt_firmware_hdr {
- #define DRIVER_EARLY_INT_TIME_8723B  0x05
- #define BCN_DMA_ATIME_INT_TIME_8723B 0x02
- 
-+/* REG_TBTT_PROHIBIT (0x0540) - TBTT prohibit hold/setup in 32us units */
-+#define TBTT_PROHIBIT_SETUP_8723B 0x04
-+#define TBTT_PROHIBIT_HOLD_8723B  0x64
-+#define TBTT_PROHIBIT_TIME_8723B \
-+	((TBTT_PROHIBIT_HOLD_8723B << 8) | TBTT_PROHIBIT_SETUP_8723B)
-+
-+/* REG_BCNTCFG (0x0510) - beacon AIFS, CWmin, CWmax (EDCA-like layout) */
-+#define BCN_AIFS_8723B   0x0F
-+#define BCN_CW_MIN_8723B 0x06
-+#define BCN_CW_MAX_8723B 0x06
-+#define BCNTCFG_8723B \
-+	((BCN_CW_MAX_8723B << 12) | (BCN_CW_MIN_8723B << 8) | BCN_AIFS_8723B)
-+
- /* for 8723B */
- /* TX 32K, RX 16K, Page size 128B for TX, 8B for RX */
- #define PAGE_SIZE_TX_8723B 128
 -- 
-2.54.0
+2.34.1
 
