@@ -1,130 +1,78 @@
-Received: from mail-m49197.qiye.163.com (mail-m49197.qiye.163.com [45.254.49.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 050C834C130
-	for <linux-staging@lists.linux.dev>; Tue, 16 Jun 2026 13:48:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A32654508F2
+	for <linux-staging@lists.linux.dev>; Tue, 16 Jun 2026 16:29:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781617726; cv=none; b=LbCKcvIQfHmuk7W65TZUytcxkyFs9nzffDHXYUaZQV4RD2coTyShUQeQFyzRrUH1F+glNnvK09AmkxhXHILDxcj78jvSqDJxuLXgONoGxEczh+1X717UCfrzB5EItxRWDztmG7p9sueiH1TOkhVXIo3BB2PF9ol09fc/TbZXlB4=
+	t=1781627348; cv=none; b=nhFoh/nTDGm5sXji1dQVujnfApHuShkMmwV4Bn/dEpfGNzYYtF6GGvliXvIeyxPnbh3shPId6E0lppngH1bGl0IlLyQHawCAatOQX0apLGiIOUwGPjbHwAIbUsWVkD7u8BxyzD2BN7w3h/+QjUev6Nbv5Zr6HzcntwG4iLFzgu4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781617726; c=relaxed/simple;
-	bh=6vKKZfWhkpOcahNkN6fPgTtNvN16Fz+lZVSa/A/XPZI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=svcy/MlSCepgiBZ9qvIB0iCmvo9Ko3rTgDE3XdNE8EwZoXZJdux953gjeDzqkD6MsMf/nmAPqGGYtcypGjP+SUknHCUPrVwKOUxaiF04pwIR/Y9oQKBmOT1GEJF8iIyGKFi75LXTvms97KGhe/+jLg62g4ljAIvgZSaP92ioWOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=mkK1FQZ+; arc=none smtp.client-ip=45.254.49.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
+	s=arc-20240116; t=1781627348; c=relaxed/simple;
+	bh=eIMO6SgDQy8k6Y9Wc+abuZ28DjMg1dh69GWsH055cVQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=CrDrG41Hieb8dxGenXmb9S+vtjnPc4GL6WSVZAMDfn5KJrd+NSXOFN13QPeyzx+BAsVk9Er6S/mKsBah9pq/6W5m1+q5s+PbjTjKNLbcAdBDbiDlAigbVTksm42TqVp1bHGCn8Sb01T1yMI74DUQSaQegEcR0NgmCP/pKjOQ+wk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=onws8BVE; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="mkK1FQZ+"
-Received: from DESKTOP-SUEFNF9.taila7e912.ts.net (unknown [221.228.238.82])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 429ab32aa;
-	Tue, 16 Jun 2026 21:43:25 +0800 (GMT+08:00)
-From: Dawei Feng <dawei.feng@seu.edu.cn>
-To: andriy.shevchenko@intel.com
-Cc: andy@kernel.org,
-	error27@gmail.com,
-	hansg@kernel.org,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org,
-	abdelrahmanfekry375@gmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	jianhao.xu@seu.edu.cn,
-	Dawei Feng <dawei.feng@seu.edu.cn>,
-	Zilin Guan <zilin@seu.edu.cn>
-Subject: [PATCH v3 2/2] media: atomisp: fix memory leak in atomisp_csi2_bridge_parse_firmware()
-Date: Tue, 16 Jun 2026 21:43:19 +0800
-Message-Id: <20260616134319.3969928-3-dawei.feng@seu.edu.cn>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260616134319.3969928-1-dawei.feng@seu.edu.cn>
-References: <20260616134319.3969928-1-dawei.feng@seu.edu.cn>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="onws8BVE"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-45eeba68948so3538668f8f.1
+        for <linux-staging@lists.linux.dev>; Tue, 16 Jun 2026 09:29:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781627346; x=1782232146; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=eIMO6SgDQy8k6Y9Wc+abuZ28DjMg1dh69GWsH055cVQ=;
+        b=onws8BVE4NGIj60w/9uYM3MN2PnWdmE6mZH+dSjTRosF/wsI7ekXv+ZUPI7zhTuguO
+         bAOk1wNz0lKG302lXHdq7ARX9pYZa9/B2DyS0np/+AK3U6WPelA9ncsMVLLtQvAiSLhA
+         0EZVQcFFYtMVboVBxcFmSFJ3oj9oQGKxeyexktaqXShP7MPCWL5WGYQiklSv8pZDB4NI
+         lSp6ltT5jDc9NI2MHBx05RIA88uz3D36Bu+WqnA1GihMV+wTpwIBQvfF0fxCWpI+ojIy
+         QSOZCO59nKCSUKm0d/Vwp8Ga/f26UHnyE6R7lKgNFsjcujVFOGfyKvMlABIWHzFVunv+
+         cavg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781627346; x=1782232146;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eIMO6SgDQy8k6Y9Wc+abuZ28DjMg1dh69GWsH055cVQ=;
+        b=o910cz45lHFKvkV0KLOpOAXPZbC+9n9T6zZWI3Vl6WhyWA4jDQML+RNf4IVwJMh7Wk
+         i/282WERv0M+kqE+d04Gu5xbMIkED8glYzY4neLgJciQq5wgQivQi5hDITlYcH1Z40of
+         jt75TiTFb7L2fTztVO7MFKgcGq5IQOpnX5J+5FHYWReIcDZj7AL6zrp8bKh7xbN3PQTk
+         vMVfULUdAWN7DaMCHwfPpJN6Gi5U6knst8mAjWQm032G51Sd6Hk+9I3VVTdUvIzmP0Ql
+         KVRmU7LB0XE1Hc6KA9erHerutbBCKxHSNKcqbyo3bowJLgSRvjjQmTmZxYOBp8lJmtF1
+         YQzg==
+X-Forwarded-Encrypted: i=1; AFNElJ8du/B69/3x+tjL9ncN5hNVIkoqosdFbKmUB9M1s9iEqQfJyLoWrJqyZ4N+GKbRkSqJTwCCDG4Z77MwOVZP@lists.linux.dev
+X-Gm-Message-State: AOJu0YwROPGFKTbC+IM5JNXmkFqIs7DYZm8jDfrf8tHSe52uWLG6KxDV
+	nkMp8+1m04TMGKe5wOvHZx+QI+wgs4orafIVQzXyMtE8YKfJF1HJ0LwT
+X-Gm-Gg: Acq92OHdVatKygoseCCRYNnseFx1WZkiXB9jTVYM6RkhkJlbgcIa9PI1qzDHznlOBGA
+	XwqHj8Q1Bm/kAI2PVQioV7+daTbhfEskgPrj1P0+iAvkvlJynmcLTWd/cjqPHTL6KYroMyB2XBh
+	L5IKjEODSJsQvBGZSqoS6N2jkiWBF1g+zSimqCdGXMEi+XwN7pO6HDc8ylY9ZM/932QHLWYC34H
+	rBes7fdNmDpomUKU0qvRq8tq3QnS3A5h6k/IZJXxv+dOMBBBlQt0RKEOFRME1P7/cI5s8NUZUVx
+	jLZfXrCYdBpT8ewZci2Isz++OHokAK7/FbS27MxFX9FQGofPg1ltGCoylRrV/f11rCKrmlkOUqb
+	JS+raG/Pqmj8YXg89A/ev3bB7PhYGyiQccQyZoWSFEZiLnaAy/2HFoJ+konhZfFR2iaAQZOtzTJ
+	DTdOHSX1k0N2CLNjlM4nqpNe+YNdL3XaHntGqdCIjGaqW4dTBdE/r1Td6z2CrY+nrOutp5BcldU
+	Q==
+X-Received: by 2002:a05:6000:b8b:b0:45e:742c:f195 with SMTP id ffacd0b85a97d-4623692f5eemr315539f8f.12.1781627345990;
+        Tue, 16 Jun 2026 09:29:05 -0700 (PDT)
+Received: from fedora ([196.77.26.11])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f26f3dcsm43180505f8f.13.2026.06.16.09.29.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Jun 2026 09:29:05 -0700 (PDT)
+Date: Tue, 16 Jun 2026 17:29:04 +0100
+From: Jad Keskes <inasj268@gmail.com>
+To: inasj268@gmail.com
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Dan Carpenter <dan.carpenter@linaro.org>, linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: rtl8723bs: replace beacon timing magic numbers
+ with named constants
+Message-ID: <ajF50N_RW88mhF48@fedora>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9ed0ac2fb603a2kunmea38caa144bd4
-X-HM-MType: 10
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZSE9PVhlDGh5OTB1LTx9JH1YeHw
-	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUpVSUlDVUlIQ1VDSVlXWRYaDxIVHRRZQVlPS0hVSktISk
-	9ITFVKS0tVSkJLS1kG
-DKIM-Signature: a=rsa-sha256;
-	b=mkK1FQZ+aRZhAGzDTk9EfY7y1U0S3bTSppOOcrcP7RRW6DuN1YnmL+1PUsTS/EShtIFyGx41ODIxUbz5xXp7aPEKGKjVjjVxXjk3ufdjeW4MPuEQzZ1MotC5WukZoUIFus6Z4V4SGxZr5W//L9c76SlKtt5Wvsu+sM3fF5wuBpM=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
-	bh=fUnovNl8RSsNGJ1VN9ZTCzfu9exJp/BqQnWeD7RuiJg=;
-	h=date:mime-version:subject:message-id:from;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-atomisp_csi2_bridge_parse_firmware() initializes isp->notifier and may
-allocate async notifier connections via v4l2_async_nf_add_fwnode_remote().
-However, these resources are currently leaked if a subsequent entity
-registration or probe step fails, or when the driver is removed.
-
-Fix this by introducing dedicated helpers to clean up and unregister the
-async notifier state. Call atomisp_notifier_cleanup() to release the
-allocated connections in both the entity registration failure path and the
-overall probe unwind path.
-
-Additionally, invoke atomisp_notifier_unregister() during the device
-remove path to ensure the notifier is properly unregistered from the V4L2
-core before its underlying resources are freed.
-
-Fixes: 8d28ec7e9145 ("media: atomisp: Add support for v4l2-async sensor registration")
-Reported-by: Zilin Guan <zilin@seu.edu.cn>
-Signed-off-by: Dawei Feng <dawei.feng@seu.edu.cn>
----
- drivers/staging/media/atomisp/pci/atomisp_v4l2.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
-
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-index 5ba9584b81d7..1073d9e5eafb 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-@@ -798,6 +798,17 @@ static int atomisp_subdev_probe(struct atomisp_device *isp)
- 	return atomisp_csi_lane_config(isp);
- }
- 
-+static void atomisp_notifier_cleanup(struct atomisp_device *isp)
-+{
-+	v4l2_async_nf_cleanup(&isp->notifier);
-+}
-+
-+static void atomisp_notifier_unregister(struct atomisp_device *isp)
-+{
-+	v4l2_async_nf_unregister(&isp->notifier);
-+	atomisp_notifier_cleanup(isp);
-+}
-+
- static void atomisp_unregister_entities(struct atomisp_device *isp)
- {
- 	unsigned int i;
-@@ -869,6 +880,7 @@ static int atomisp_register_entities(struct atomisp_device *isp)
- 	for (i = 0; i < ATOMISP_CAMERA_NR_PORTS; i++)
- 		atomisp_mipi_csi2_unregister_entities(&isp->csi2_port[i]);
- csi_and_subdev_probe_failed:
-+	atomisp_notifier_cleanup(isp);
- 	v4l2_device_unregister(&isp->v4l2_dev);
- v4l2_device_failed:
- 	media_device_unregister(&isp->media_dev);
-@@ -1444,6 +1456,7 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
- 	devm_free_irq(&pdev->dev, pdev->irq, isp);
- error_unregister_entities:
- 	hmm_cleanup();
-+	atomisp_notifier_cleanup(isp);
- 	atomisp_unregister_entities(isp);
- error_uninitialize_modules:
- 	atomisp_uninitialize_modules(isp);
-@@ -1471,6 +1484,7 @@ static void atomisp_pci_remove(struct pci_dev *pdev)
- 	devm_free_irq(&pdev->dev, pdev->irq, isp);
- 	hmm_cleanup();
- 
-+	atomisp_notifier_unregister(isp);
- 	atomisp_unregister_entities(isp);
- 	atomisp_uninitialize_modules(isp);
- 	media_device_cleanup(&isp->media_dev);
--- 
-2.34.1
-
+Ping. Any chance this can be picked up?
