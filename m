@@ -1,68 +1,68 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB17B41B37D
-	for <linux-staging@lists.linux.dev>; Tue, 16 Jun 2026 09:12:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20E963D8138
+	for <linux-staging@lists.linux.dev>; Tue, 16 Jun 2026 09:37:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781601179; cv=none; b=OxrE+Dn0S1j4Iye4xK7wHspVBNEu9qDsjphMd4GZn8TtOfe2ybERL7juogFZQ1EH4gLcOuZdZtU5wEa+Sko9nrTZk9AmUj9CCLG1wkZsTmW64NiHLuQBMaWBpM6TEtsHY4bwWkmBz0qQwB+/mhuFunC7jlfaERrBFyVRiI6GYTY=
+	t=1781602660; cv=none; b=UgnoFRnl2UIOGMmOou+hHY87Xl4/EK5NW/jDpKXgJeupcOTV54jKTl/p7Tx5HeSN2s0BayclMzSZulSQUqIEkCaTzAEsHO5+aZ48G1YqL9u9ZtH1yzbIFZEyvcAXCGvTzkVmglCFzUyrcNK64KbsuhJUO+DJkc/4Q54xznzTBvs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781601179; c=relaxed/simple;
-	bh=uhbsH8mL9+WFqNTiDxoFCj8ylZnEhwXgTD0JGTHSXvA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=h02c9lEFBa/+IVt+FUmHuRBWmwRuP54+7F1s59DAXU+cA/OyE//WInqw6uLPml0BBVXc5WyuhNIF/GE/6umrJXBPVUPKw9rG64oTeuY/TaAgUFX88lkFFuqrKzmyLGZXQBzH5DMJdRjU9iCVs48PYVjJcsBC1d/ZuQjV0tDx+KM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oqwbK5rQ; arc=none smtp.client-ip=209.85.215.182
+	s=arc-20240116; t=1781602660; c=relaxed/simple;
+	bh=IjLioQZ6REOdw5Pf3NMhv9xhs0fyRU6T0P1vBD0rgY8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BrErBH2CwrJZ/cAxwjegSF3obkanHIacZOpgcNccEHKL8QptrHpuM2Iydz6HzgUfT5jbO5mii3UGTgPikei1BM+fCZyHZtr9Tlc/t/9N7USJiMbKnDvQGQzT6lT6fwn5Mnffj7E/S3Ugn5enyfXptDP/R7ABRphnqiUVu9rvGds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HRAP/0y+; arc=none smtp.client-ip=209.85.210.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oqwbK5rQ"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-c86214eead7so1803170a12.0
-        for <linux-staging@lists.linux.dev>; Tue, 16 Jun 2026 02:12:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HRAP/0y+"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-8423f236418so2322465b3a.1
+        for <linux-staging@lists.linux.dev>; Tue, 16 Jun 2026 02:37:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781601178; x=1782205978; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1781602658; x=1782207458; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=q7t7XocSD1QNoHXuiPcPUy9o04LgSr4zZaoadg/cyoA=;
-        b=oqwbK5rQiqQ/BAE751ItygK5xOr195kA5h1cCtDGW7IdoP6zieUIW0ZzrRqBJlNVO3
-         iLijFWH0AyTXrQmBrUZMAyGctVfxVcMT7zKPTxhQTWELKF8hEMwThqrgqiKzEKL9L+Qn
-         Jlj0rfO71BC0u4+jF6wdB0C8bEAvAcrrrryet+9+lfr6qd9RbK3EtLxcl8a0w99ffCdP
-         XEfHkP3bSGeWpobJpy9TpCD3cIMG9rbqe2Oe8N57LgwV8Eh4FkEaj4EUiHYcf2ioKK93
-         +tuychym4rqCI9PRRhUdbij3JPwj0JXzcKLpqTo1WHgFNwDRb7etdotrZUWeYq/Ccm27
-         7zVw==
+        bh=q8B7+OYWzmeaiE6+txOrPbNbByamKxj/fZ7gCf9iwIs=;
+        b=HRAP/0y+/TEhlsoT5WuVHYE8RKyWuErSb5ZGdOq4coB2L/Uz5ahR0jbH8xJZEbSI5S
+         3G0Koe81akRdOAiirtNNPCk226lYPCY8yb7Z8JJDp0C6UZ85Qj96FEx+Vk41PM2DkTXT
+         EuPwk3MMxUjl3R2OLWZrH32qQnnVF+cbW1bQR3jaraWj24ecE8UzCijdkaFeI/PPJID2
+         gl3zG8nsEWJXbIJIWfFIHcI1QgeYd/T7g2nXujGNiry3xcjobNSYQ4HOmg16cQe7O6cz
+         u+eUWF2pUP33A96+UGtaFp9m17rZ77mRDE3DHWpnXItZtVVsCEnYc2ygZ0ibKuc6YELG
+         yDLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781601178; x=1782205978;
+        d=1e100.net; s=20251104; t=1781602658; x=1782207458;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=q7t7XocSD1QNoHXuiPcPUy9o04LgSr4zZaoadg/cyoA=;
-        b=agT3x2nDXGh+0nyWkhw58mOMIWKimyUK1LJtpPmOxGG1gGSAlI/jmZKA/GSFF5Llxg
-         IazJGWRhiAqH6VWdjmIhdjRpeNeNmBQqpkF6BnEPXht8wzJafE3x7tGquo/ecDp3uPHL
-         Mui1qIenfQSZAI+UItzArZ4C79h09H3UulgYIVK+m8elmOfC4MSHxK4L0r4tIK0ITEXD
-         rNA3cjBi8IUMhZ30IxnyH1pvWwz/x3713g33pmCw6vDGN8Dx2jhSfjyuYWEyzXoSqYBO
-         3iAz7LMyG9wAnwENolmEx41NJEtbrtiHRPQmsG757KLaINHnTWxpSdd3Z9tFsvL2Ur3g
-         3tWA==
-X-Gm-Message-State: AOJu0YwlWEYwyg4ojTihSUrqWnsfqUKgzN9ljahqVQL0xJmetH1k/6u0
-	6m1gDCKO4vCF/8aKD98w0y1nB6AiQ+8RBIo1SaVkVW25jVY/ahri5Wh4Y7lqBH2dugg=
-X-Gm-Gg: Acq92OF99jR0Wi5c9ddSUkCNwQ/9VrsRCYYvh4qNidFCVC14w54cg2ufdUcBRDV6lse
-	IMsPgVHV9+QGk1hwkG56ZP9pNhEj6sxe0rBFVOQUEusgA7VgY661HrIddHMxTyIGnyIvcxzfue3
-	GClIGNu+CM0s7jce9wl0c/gEnXEKFcAKhxnT1J8NGyYbOp9XeaPgMPsFZLA8GUamtXMOCzExmX8
-	qdtsDGLet+z7nRWqfguanLbM0r6P9dC3c8kWzViVw8FdTijMcLaeETcS9Z4B3ZDJHVski1WKEi6
-	c+tCnTXsmn/uGz62SS1nzj7hgI6imG3qUD0cnxh29NbioCtjvy5S9LQfHBEWEM5Lm23lJVsTsy9
-	BG+drsTxl0HTh0/F7W/1p5NFzrNjtrFrr/ZQlqMUWnYv0diMgKVsuHAJcm7Gl70w90nEPh0QVjY
-	DBSbbRZ/x4vI+1mf5dHq7z8J0=
-X-Received: by 2002:a05:6a20:d492:b0:3b4:6f45:d8ed with SMTP id adf61e73a8af0-3b7e249580emr2748520637.21.1781601178150;
-        Tue, 16 Jun 2026 02:12:58 -0700 (PDT)
+        bh=q8B7+OYWzmeaiE6+txOrPbNbByamKxj/fZ7gCf9iwIs=;
+        b=SkoZDTuiwWst0BjhUjw2OZXBO91pTda316WnN+8clwGeqaYUdLZkBLSG1ardBQXTEe
+         B0M3iajyHAJE3Qy3BV9Lb/lovNqma8w4drpdDuubDafYHKkR0CmwKB0D8b6pQpMqaoai
+         R2/iXCB9116ag+q7DAGjvtcXMjFag5vUkZ6+hgcQ9Lq+uJFNmTP9py9T7rNFCyDnONsQ
+         GRrfYlCQ03qQR//9C4QVz9wA6RQIBi5lmufKs9nFmzJjO1wrcXtSLiFD/PqGRbWIAFfR
+         ICPfgNl1jWEveVA6fP5fo4friYNgvLhZU2UKfAgXb/hyc4quqPrEqm/A7twMEOXTy6I3
+         K8Pg==
+X-Gm-Message-State: AOJu0YwC7JdWCNTZxAYxdZOaIPVI/EBUwG9s+BANt99KxCRAc4vcP1yF
+	RILsH49uq0gNWQMGHtA43vqNoC8DQSxha7/tgSKSG58jKtrqC7MhFXzXAOf/BCvu5ao=
+X-Gm-Gg: Acq92OHotzSfY9m7W8JzTw1YYCN9p+d6x0XuPbngFym8jkNQItloTO4cN1c+LCAjy3X
+	tcnJhIPhS2fm0RbMN2qEEu1I3uOTNzLXaS6N14zWda2k+nt1gJTFEICMeISyCulo6TyMfJ5vqix
+	nmsLlMjbCosfZjT7N4jdGs/Dw+z20f/vmAqXbUzS4hV1GaXHQw0CoxFb3CCe0uK0iL1qDLfoCm+
+	a0JEo55u8VcIj+WOLJ/f7T6ImSRbL+yu4SSj4tiaWRqINOrAFuWZsH9iSTDmnGcrUBTmyxebBZu
+	rYN0b2xtKEZeBvHf+ObY62sFheMZlKBUdBq44OwRhHyLeMCxK+OnxQd6Y0JapkrLKFY2I1NECI7
+	Fsd7e9Pia+chQ1+eMm0MIGYDmf+j4RoZzOiRUPRS5rVKbnIQ1s/5o3uXIoBN+GZtLzixpOxrmlp
+	Oa6Y4Arr3oPFuk6mnzCX69hFH0xGsD/tZy3w==
+X-Received: by 2002:a05:6a00:2e8f:b0:842:21f0:5113 with SMTP id d2e1a72fcca58-845154f5efemr2843021b3a.24.1781602658432;
+        Tue, 16 Jun 2026 02:37:38 -0700 (PDT)
 Received: from fedora ([103.51.149.90])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c8661b5ccafsm11189617a12.2.2026.06.16.02.12.55
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8434afc8fc7sm13637098b3a.37.2026.06.16.02.37.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jun 2026 02:12:57 -0700 (PDT)
+        Tue, 16 Jun 2026 02:37:38 -0700 (PDT)
 From: Subhrojyoti Bala <subhrojyoti0609@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Subhrojyoti Bala <subhrojyoti0609@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: Fix multi-line comment style in wlan_bssdef.h
-Date: Tue, 16 Jun 2026 14:42:00 +0530
-Message-ID: <20260616091200.29282-1-subhrojyoti0609@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: Fix indentation in enum in rtw_mlme.h
+Date: Tue, 16 Jun 2026 15:07:01 +0530
+Message-ID: <20260616093701.33645-1-subhrojyoti0609@gmail.com>
 X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -72,59 +72,39 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix block comments that were not following the kernel's multi-line
-comment style. Comments should use the following format:
-
-/*
- * text
- */
+Enum members were missing tab indentation. Add proper tab
+indent to align with kernel coding style.
 
 No functional change.
 
 Signed-off-by: Subhrojyoti Bala <subhrojyoti0609@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/wlan_bssdef.h | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ drivers/staging/rtl8723bs/include/rtw_mlme.h | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/wlan_bssdef.h b/drivers/staging/rtl8723bs/include/wlan_bssdef.h
-index 812a68394268..25ac996e73e3 100644
---- a/drivers/staging/rtl8723bs/include/wlan_bssdef.h
-+++ b/drivers/staging/rtl8723bs/include/wlan_bssdef.h
-@@ -31,10 +31,9 @@ enum ndis_802_11_network_type {
- 	Ndis802_11NetworkTypeMax    /*  not a real type, defined as an upper bound */
+diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme.h b/drivers/staging/rtl8723bs/include/rtw_mlme.h
+index ac3ba746b64c..403c097b46ef 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_mlme.h
++++ b/drivers/staging/rtl8723bs/include/rtw_mlme.h
+@@ -44,12 +44,12 @@
+ 
+ 
+ enum {
+- dot11AuthAlgrthm_Open = 0,
+- dot11AuthAlgrthm_Shared,
+- dot11AuthAlgrthm_8021X,
+- dot11AuthAlgrthm_Auto,
+- dot11AuthAlgrthm_WAPI,
+- dot11AuthAlgrthm_MaxNum
++	dot11AuthAlgrthm_Open = 0,
++	dot11AuthAlgrthm_Shared,
++	dot11AuthAlgrthm_8021X,
++	dot11AuthAlgrthm_Auto,
++	dot11AuthAlgrthm_WAPI,
++	dot11AuthAlgrthm_MaxNum
  };
  
--/*
--	FW will only save the channel number in DSConfig.
--	ODI Handler will convert the channel number to freq. number.
--*/
-+/* FW will only save the channel number in DSConfig. */
-+/* ODI Handler will convert the channel number to freq. number. */
-+
- struct ndis_802_11_conf {
- 	u32 length;             /*  Length of structure */
- 	u32 beacon_period;       /*  units are Kusec */
-@@ -138,7 +137,8 @@ struct wlan_phy_info {
- 
- struct wlan_bcn_info {
- 	/* these infor get from rtw_get_encrypt_info when
--	 * * translate scan to UI */
-+	 * translate scan to UI
-+	 */
- 	u8 encryp_protocol;/* ENCRYP_PROTOCOL_E: OPEN/WEP/WPA/WPA2/WAPI */
- 	int group_cipher; /* WPA/WPA2 group cipher */
- 	int pairwise_cipher;/* WPA/WPA2/WEP pairwise cipher */
-@@ -150,8 +150,8 @@ struct wlan_bcn_info {
- };
- 
- /* temporally add #pragma pack for structure alignment issue of
--*   struct wlan_bssid_ex and get_wlan_bssid_ex_sz()
--*/
-+ * struct wlan_bssid_ex and get_wlan_bssid_ex_sz()
-+ */
- struct wlan_bssid_ex {
- 	u32  length;
- 	u8 mac_address[ETH_ALEN];
+ /*  Scan type including active and passive scan. */
 -- 
 2.54.0
 
