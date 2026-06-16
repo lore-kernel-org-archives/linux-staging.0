@@ -1,106 +1,93 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D8BE42EEC7
-	for <linux-staging@lists.linux.dev>; Tue, 16 Jun 2026 11:01:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 460F83624B3
+	for <linux-staging@lists.linux.dev>; Tue, 16 Jun 2026 11:01:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781607692; cv=none; b=K0c15p/Yf7DmN5Qvnjx3OkyflquP8S/tfNXrzTKcZiqsq8/BcRRPRweJfIo6Lr0nZpfzJNLn4g3A5Bas/czeAn+EzL4pYD/arRBySMEQX5ojlQacBQjTaFaJpWcTrCckDfa3kgWvZaBK0ZuCOT3UuOptrjnpvjs8OcJAd8ZPSgQ=
+	t=1781607717; cv=none; b=ce5PbLeNDVnYLGulNfzOs6Vf4m9bC8hL1yqYlS2MBRuYQbRoMO5z6kiZBGHamRlFCURx+t4kpM+50B24HRVaiTVO0qWSKOsK50/xeD2lAhZM9kRKXH7gP8580KJQi9F2LfUyxF/VE7OW9jnZVm3jimnTTKXQWfe9NGrsaP8UhDo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781607692; c=relaxed/simple;
-	bh=oMSc/HyuwSyaSBImWkmaV6pIEYGoISjzQ2xzLyOo5pI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jGovwzbIapuJGIgx9JG9iV4zWuRXviL50yZgtXPN1C22WBnagW6Qu4DjaG+1FiWvg18ewJSwtiPxadCHphBEgqUHYou5MzvFitO3Y23v8Sve+cmLKVGvfbd3jx5ZDXcufugIjocBQmQP0f8FP9eC4T0qqfDvGkBq6WrVzkXxvz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=s7T6mU0D; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781607717; c=relaxed/simple;
+	bh=p4d1amCcedwI1v3xqzug5CnPQ8gUoAn3v47/+9BBe5w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lFYucYOVq4m4So0W52do13cNUnkA5voWzuLZAWB2UEDa6Nb+yiDe+BXA0TrPGUHtPDr1ChJ5Ntjxs7tVcs9Ra+mM5U5YJGLz7MaURNV6QjJNBe7EmlB8d7Qctl+cbd7ov7cjmIm0K/NL5o9UhQn8U4aToaXDQioNwGt9dmaH6aY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BDwd3upS; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="s7T6mU0D"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2c31212104cso18135655ad.2
-        for <linux-staging@lists.linux.dev>; Tue, 16 Jun 2026 04:01:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781607690; x=1782212490; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=23OiMMB4pQKDKr8GR49qhu2OtHIc+/lyNM5A33KYx4w=;
-        b=s7T6mU0DSza6nUJ/77B9tBsTtmskgwtg0mXpQjVBtLwRaPAVJMsI2DKD+JvX2IeD/w
-         bwE+B5dzR6h0K8jyQ2Wncc4brnAe7jg1eXDKR4ygo7/fKpwZsOzIb91YSqb5fH1vd989
-         MaE3BUW9E4VbERg/07VpNlpVncdiMXAJPn2g2qWrl1yIuu8z2b69QOzms12WW1Oe+Lwl
-         eIPxw5PiOjnWQoOv8EZUsO3J9JYsdZhrTgnfoAy4NOu9YioWE4EKNo6YnGGcQY3cwtnl
-         Y1jsp7f6GQGNvoCz6TmFbKW9b+ZpgNSohcfPFPQ77q84oYAF+X6D726XvNcZwTzwbjtd
-         3wCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781607690; x=1782212490;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=23OiMMB4pQKDKr8GR49qhu2OtHIc+/lyNM5A33KYx4w=;
-        b=SfgASZx4OexGi7/KKbPMnniSrAWPNguq/KjrvHJ1R14bUf6e1nqb9TrMaUCWYNlWjI
-         5O0Zn1GXcrXtH9+KAwUTqoEJ8ZJmo/B6TQCyItXj3w5Y61eh8zeOLYHVhvpMelb4a8Zn
-         PAfKKFx56dDfJPwcSl0EVomJmdh/8uj6vg958PitL9A2WUvlxiUoeX9Xo5mii81zsB92
-         gM+LEesiam2dUu0FGfVtvqbBwU2mfRXna24l5ekhF7urLaJbIrzxYICCmlCatBvnpQ83
-         QRhw3BMbDWEV8ote3+PpxIm/InzfeDmmnxpE80D+35E8K/rIxOkjLuxH16t9E2FxbkHc
-         Uo0A==
-X-Gm-Message-State: AOJu0YwJBXvnkhFZP9HW/FQLrWQFN0zppI8eDuo4gLZdwrPHaoR9n0d8
-	eShUgKzeGNPeMkQFthXhlvQNgbRBRvIW36CMYVNeohtg4ppkQX9VUqdL
-X-Gm-Gg: Acq92OGqBnHLWZHClBKDZziyVj4yvGg+7SlNZf/pn5xL9LTgf4263l1M7Y3g78LqlgM
-	4SJvi/ktMa48t2Vv84bHfEiqt1lZVfyAlfbeSSEi19CgrWyShS8CY72C4B5+2Q7Itw0NauJtFC8
-	/jhHJSPPDPF/0J+21VGm7eIvArteWeWxwzp1kyoC5DU4fzqClv6HQuPIA3qa5o/njjk2xPsWUle
-	R/cadyl4oDijvDiMGjRAOopzym9v6/8sGostlaQw3RpOIFAyPNmWAFVdTFtQE1CfHicn2E21xnM
-	OIJz4arY+GrdiH74zfJ6I3S4+LKJQv140zhjyAk9pk8FBb3MgTq9ZhpwoEi0CWdSNb1/LxX6RLO
-	NStR+6BBIUFmAqXyOp554Wk4RIyu1JvPzb34mzOZO9MbulrWzQqmfPr1SL/H3/tCSxsD6zaeI7u
-	ZUT+BkRCY4ZSn1hGIaTPeuA2o=
-X-Received: by 2002:a17:902:ea06:b0:2c0:e5ee:f56c with SMTP id d9443c01a7336-2c664271b0amr159943595ad.20.1781607690373;
-        Tue, 16 Jun 2026 04:01:30 -0700 (PDT)
-Received: from fedora ([103.51.149.90])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c42f2e52a9sm132561995ad.11.2026.06.16.04.01.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jun 2026 04:01:29 -0700 (PDT)
-From: Subhrojyoti Bala <subhrojyoti0609@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Subhrojyoti Bala <subhrojyoti0609@gmail.com>
-Subject: [PATCH 5/5] staging: rtl8723bs: Fix whitespace in comments in rtw_mlme.h
-Date: Tue, 16 Jun 2026 16:30:48 +0530
-Message-ID: <20260616110048.45541-6-subhrojyoti0609@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260616110048.45541-1-subhrojyoti0609@gmail.com>
-References: <20260616110048.45541-1-subhrojyoti0609@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BDwd3upS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781607715; x=1813143715;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=p4d1amCcedwI1v3xqzug5CnPQ8gUoAn3v47/+9BBe5w=;
+  b=BDwd3upSm0k1FiRHYsTZh67VnlIfd7wGIom2VYMmyfQukikZ8OiObNdy
+   bx0fvCNwaqBodf9BG2hh09s9gQ4BtdM1nzqSTraGpHgRd1JGZH9tBDcX2
+   dryDWLQUa77nJbOo4R5lOFKhgX3vksAEH+3mcvTKxnb8dc6BfvY4985Jr
+   P8kUPufT0KeNYxJ5qH11PWTN5/eN7BP188lvKXtZas1oFqw5uV4tOqIra
+   gXUn9jb3RRFWI+9inbXx2HTarNixBu7iqpdkLc52Y5Q8aFfKSHrDUUt8i
+   14r1O94mDW4CSQRmLpQJdGdE2X0qK7ZwvDTC4tDOtT78gWMFCX3P21bbL
+   A==;
+X-CSE-ConnectionGUID: kO85Vp/URUafDlklmfJZJQ==
+X-CSE-MsgGUID: Sw1C7Pd/SfK3EXTd6gq2JQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11818"; a="81377612"
+X-IronPort-AV: E=Sophos;i="6.24,208,1774335600"; 
+   d="scan'208";a="81377612"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 04:01:54 -0700
+X-CSE-ConnectionGUID: SnTGqHIjQVC2mTdyxS1hAQ==
+X-CSE-MsgGUID: 9i6vCf4+SSq80ut0e54RHQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,208,1774335600"; 
+   d="scan'208";a="285852468"
+Received: from amilburn-desk.amilburn-desk (HELO localhost) ([10.245.244.153])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 04:01:53 -0700
+Date: Tue, 16 Jun 2026 14:01:49 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Andrei Khomenkov <khomenkov@mailbox.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-media@vger.kernel.org
+Subject: Re: [PATCH v3] media: atomisp: replace kmalloc() with kmalloc_objs()
+ in sh_css.c
+Message-ID: <ajEtHT5PXYZYXUX8@ashevche-desk.local>
+References: <20260615194548.20963-1-khomenkov@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260615194548.20963-1-khomenkov@mailbox.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Remove extra spaces after /* in single-line comments to comply
-with kernel coding style.
+On Mon, Jun 15, 2026 at 10:45:48PM +0300, Andrei Khomenkov wrote:
+> Replace arithmetic in the kmalloc() function with the kmalloc_objs()
+> macro, as this calculation method is unsafe.
 
-No functional change.
+...
 
-Signed-off-by: Subhrojyoti Bala <subhrojyoti0609@gmail.com>
----
- drivers/staging/rtl8723bs/include/rtw_mlme.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> Suggested-by: Andy Shevchenko <andriy.shevchenko@intel.com>
 
-diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme.h b/drivers/staging/rtl8723bs/include/rtw_mlme.h
-index 59b12d9daa71..1b862ec24d36 100644
---- a/drivers/staging/rtl8723bs/include/rtw_mlme.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_mlme.h
-@@ -13,8 +13,8 @@
- /* define   MAX_JOIN_TIMEOUT	2500 */
- #define   MAX_JOIN_TIMEOUT	6500
- 
--/* 	Commented by Albert 20101105 */
--/* 	Increase the scanning timeout because of increasing the SURVEY_TO value. */
-+/* Commented by Albert 20101105 */
-+/* Increase the scanning timeout because of increasing the SURVEY_TO value. */
- 
- #define		SCANNING_TIMEOUT	8000
- 
+Nope, I haven't suggested the initial idea.
+
+...
+
+What about patches that were sent against this driver for the past year?
+There were at least two patches of the similar changes. Please, check on
+the prior work and if needed rebased, updated, upstreamed.
+
+(If you haven't taken that, it has to be explained why.)
+
+https://lore.kernel.org will help you and
+https://lore.kernel.org/linux-media/?q=s%3Aatomisp+b%3Akmalloc
+as a rough first step.
+
 -- 
-2.54.0
+With Best Regards,
+Andy Shevchenko
+
 
