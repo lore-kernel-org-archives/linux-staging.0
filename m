@@ -1,223 +1,142 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 593A33B583A
-	for <linux-staging@lists.linux.dev>; Wed, 17 Jun 2026 06:43:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD0483BB670
+	for <linux-staging@lists.linux.dev>; Wed, 17 Jun 2026 07:23:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781678586; cv=none; b=kjE1v0CNUlopaPc+t3tm+kVoY+pYtmM/diY8tM0BE3LKYugQFxsyodGfF5Yzi0Yp7YnkLVLe9cFfXh1wBjyv2UcsbQjm597Dpw89RJAdtmfM79cW/tb1zL+bAQyCDUq76M8IX25u+PauQTolaWXe86qtZ4LT8ueBxqy81RCBQtA=
+	t=1781680984; cv=none; b=N9Hn9kQZz0NIcNkaj/nlesPufqCqvgUPVo+GEJI4pfF3PR1GchXnepfttoosE/V9dtK2A0T5R9SVB5qQjqFw0F0WCoeZWMWS/XWnXaivr1mKZs46P1hAiJ0zC5B1oXNeiEgCMlSbXUFzz/Hal1+8CXQlzf4bKHasAF+UGKfNZQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781678586; c=relaxed/simple;
-	bh=vvDwO2bDCySlMPvDLNBWcqqr1m7dAUbx9wxY2Rzs2VM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fdfv9rYH5DgCUPDF7cbhYrZJwkvIpFcVusGOWLtpQQm65fW6OPJ4cbSglYRb61q8KhOZtF7ZrnMLUsMejcDDKORweMRiU+L8Ri6OGQY57JQXlhN7W+8lk4pIQEjQzxJUzzRw+9Hvz4GNb8owzIqUtb8yGNgdWcTk2+QROLANvBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lO1MF2y/; arc=none smtp.client-ip=209.85.215.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1781680984; c=relaxed/simple;
+	bh=r8xBKlipwM2cVdr5+5sYdSIIXr1ecXhF0buFVvm84nk=;
+	h=From:Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:
+	 References:In-Reply-To; b=fWbFWjENk2esaJb2dk1mWP9BioZAFvgDu5vJsaW7qZUhjeEB3l9h+6xxU5jwctk5s9Aro+XtEPj3aFY4Ow5aZbxzRDm5GapY23ihrND5f+LRH3Ii2B1osWdk3EIsj9iY4mOGLU30KFW0uqCBnM7j7v5sY3tYIELjEnM3AgYDgBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KhXCzTtU; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lO1MF2y/"
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-c8588ec1b44so3757058a12.1
-        for <linux-staging@lists.linux.dev>; Tue, 16 Jun 2026 23:43:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KhXCzTtU"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4903d730b1fso68190695e9.2
+        for <linux-staging@lists.linux.dev>; Wed, 17 Jun 2026 00:23:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781678585; x=1782283385; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=linaro.org; s=google; t=1781680981; x=1782285781; darn=lists.linux.dev;
+        h=in-reply-to:references:subject:cc:to:message-id:date
+         :content-transfer-encoding:mime-version:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FqWyG36ay5LrncKhXJx65qkxjWOz+jvOne9pjPptPCk=;
-        b=lO1MF2y/44msJ2UATGreqZ/G5/1doYQmJ7Sqhodn5Hi/UOqbqFTWrBjG2C2yHdOpUq
-         BlFmlvb4Gl4iiS8/UqtrKGE6GWO0utSTu4/0MVQKeApY7V/9Rq8ojh+Dal6mnqQIJxYy
-         uBSt16RBMCc6G3/RWYx+GpGjmPJksdX2VCt5UMbaGuLPRBsTQBTxbDMA3gRD4GsYmDt2
-         yloOzopdZPfyygfxhC3Q8sJmH3oFj1MX+5uBFRPb/M+977pDGEcYaShL3o4raSD6mP72
-         C+0HDiwQWdthkdV+MprIlcfd1aFOs272ExwlUa1SxYbZMsGYhtMcOdvz/fkZOhFoQ9gv
-         RDLw==
+        bh=ghmwQhSHkDAwTSRuYuaKDBBMN6CrvQZmZ4OsEVLYBP4=;
+        b=KhXCzTtUIxCJe5YKOy9ynt9by+W9Sxb4igBZhHYph/s/nNwRF00G0sNkhSggUcsqgf
+         Nuqfj8JfgQJ3BZnMqf98mezCKq1o6B5ipBLk+PTwmJonX/OG3VgiNQWzakbINE8Op3iS
+         R101NZDa3qDrC2j1Vc0ltilIBOtjsdW2Rdz03VPDetecV9ypE4wPAt2FQ+yzPNgQo3NI
+         xvRCA4aVuAkxHQH+BJ/mk+lD+C+kiFP1yvU5AL8D3jzm2rOYtzsh0V/RWSQVImXFV2V0
+         3aeSwmhqW6fh6h6e8Pd4+4ZB60UVAZnxmI3QnGGhWFb8WlHqjajAFkDbaX6HXyOK5IZr
+         I5HQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781678585; x=1782283385;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=FqWyG36ay5LrncKhXJx65qkxjWOz+jvOne9pjPptPCk=;
-        b=IAInwnOZhk6gMrZzt6gRmwffdC0+4uyvbUdpWdHb2FUFmqaYUDRTuUYySDmt3oCWuX
-         f+j05NoubWRumjrR+J2YbxYcmDAWwoC7h+LN5f+nYhFhRjRke0rOJqnCJ8N7V3PJHxQ9
-         1N45bGb3vwLrAP3phD8TIT8cz5He0ZUoy/IKjHVnu+sNIdbgPCj4blm73iSb04cMs8wH
-         gPhxOhwE39H9ufyE1YqlXK5Ezt2RH2DIbVMHw1Hr5tA7tm/tYjNnlkfHdLhMHEHLov8f
-         Ydpbp6PRblERXTvXHysInKokt30uRfy/QSHGKRrPQLZp+OvATfrqjhvIhrlaqhQz6XYT
-         bFwg==
-X-Forwarded-Encrypted: i=1; AFNElJ++67uahZYnBFjI7QEixkOrQgzF/hXm/3pe3SoME39Z0N4px5//TFaTKVsj3rASlgovrYQFRy3Eb9YZxVTr@lists.linux.dev
-X-Gm-Message-State: AOJu0YxTWqjA0UfSoKvYZ8zjhtHlSqfyYO43AyYfjESaPkDIzeDQyTzn
-	FYi4NMPGbrkBn3F1SRPSnV22BHl6dk8+mbSbF5H8KCJIZfMcmaCUrA5u
-X-Gm-Gg: Acq92OG82T3dUFyZTik1SPsHoSxbAn39Z1icxK0jGCXIRYA7pX1oDw92tWxAPGum6uV
-	U7PYGkPKDNyPAtN3esrIdRVmSPnOzbNYe0JnJInA+qUCFtBtadE6yGc7YKcU7wdBq+o/9eT/XKF
-	lzewecNVAh9q/TFkaAKK2K5ei962nGV0AyCPxJEdeGeQ98EFx7+lKuCOwiqY4vfRkuEuckH0OGY
-	ai7oJkBWd1k4wSPGMdYsN4ozNjqNtCd9aJgPvwD0DPIDkNp2j+9FcOkWkvcGHVQQGGrJ1Ua6arc
-	TeMoP0PTW0KkMZzNNgTqCZiNVG8RYLOCVXCrQvklN8axB6c+mxIYW6VhLyAhLo3OpQTc86jxQJg
-	vBT44DEEzavwSSWiA85/f6L6gJkbxewCtStzdWuJmlJS0q2yvqi0anYbg9FS/ZsHU7EFW2XNLfZ
-	gyX0Pbg4kQBA0iPVCGoprI4Y8NUjKilwHnhrEoN1zZOaxS8WJtG3aUUw08lkowR9JL80G2uAnF7
-	w==
-X-Received: by 2002:a05:6a21:8cc2:b0:3a2:d838:bfc6 with SMTP id adf61e73a8af0-3b8be9afe66mr2720398637.29.1781678584724;
-        Tue, 16 Jun 2026 23:43:04 -0700 (PDT)
-Received: from fedora ([103.51.149.90])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c866325d156sm13738985a12.13.2026.06.16.23.43.01
+        d=1e100.net; s=20251104; t=1781680981; x=1782285781;
+        h=in-reply-to:references:subject:cc:to:message-id:date
+         :content-transfer-encoding:mime-version:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ghmwQhSHkDAwTSRuYuaKDBBMN6CrvQZmZ4OsEVLYBP4=;
+        b=QHt98PbceHDPsk4hll0T3Jvhg6znRnr5C0WJBwq5CG1WN/vLg6Bf7JnoGeLf22Jzsq
+         mc91ZlnMtGiIbfaLo83MvUYJSatcDdjl9VVLzaTr1RicSHG5cNjXOSmkKTAaRpv8sD12
+         6EN1EDoNt7JPODnJZO8X1Cc9X4fQ4AQpYhWVXnvUFHfFiWMdQU5ehlD+LhGHZzZeoO+n
+         1agbSca0yMOLXaXbc6IndjXIivO5kUJNlJIUFWcOUhWaJ4Q0oI9OsNorBeD/A0m0aEto
+         ZTRG+gSc/PT5rs9bvPybXw/UkGdxfWiLdf0bXKUOnSPQ6ShywVexwTd5mQjYQxD/UBEU
+         W6xA==
+X-Forwarded-Encrypted: i=1; AFNElJ8wDlqtiZtu1PA0cs0xL9zT4IBRdbNUKk2tqaGOeyRmbVKx9m6a4xXO5sLbzm+p7KTdV95kWN30Q3EtQjUz@lists.linux.dev
+X-Gm-Message-State: AOJu0YxjH80fRT4s9rICzX9K/M5qfsoy8yc9MKZYje3p84E1H285iAJD
+	naW6vmyL7VlYIr/J6eHrem3Tg4I0IGE+2AOfmRF9390ucKyPvSiKIQjsJXE639zEx4o=
+X-Gm-Gg: Acq92OFkib7sYomfx6Gj9we+dAUMu7XAr7bP9LtyJ1no3PFoQxvhtQUv3iIurVh8igk
+	yMBLhN4PK8xmB8ErAn6Kyomt7bPupcGRZTmNeFfszsJOKdCPYDq4K7d6wL1f+r8kINeQzMs9RHB
+	3jZjdErGv5z0bxzVeNyQyGQrulCZ6VfIsTIPACKYecovUI0omKzSBHTHifPDsTtH09uOw3tcel0
+	QB5E1t1hD8gmosI1ozxIlaWmAJO8yTJysATpnyHUupOiGTVEy0qU4uAjiG+nbuzX0hKI7ZJtJWb
+	YSBM2ceh+s3ieDBqIGxoICSuTNndW4Gw9pOaQkx/hy+jRz0aZE0zq/a9jKBZuom4S9L1TbniObx
+	s5ulHqFKmkMzxo6qt9tl7pusFdVhDuyCqq6f1J5repVq0n3AVXhtPWrLrWD7k12gdVF8CJffcpq
+	P5nN3qoCaTerG9
+X-Received: by 2002:a05:600c:c08b:b0:490:5057:f5f7 with SMTP id 5b1f17b1804b1-492333aa58cmr32166525e9.11.1781680981087;
+        Wed, 17 Jun 2026 00:23:01 -0700 (PDT)
+Received: from localhost ([2a01:11:8f11:bb70:dddc:c199:bb35:7cb0])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49230a0e9e4sm122794975e9.0.2026.06.17.00.23.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jun 2026 23:43:04 -0700 (PDT)
-From: Subhrojyoti Bala <subhrojyoti0609@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Dan Carpenter <error27@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Subhrojyoti Bala <subhrojyoti0609@gmail.com>
-Subject: [PATCH v2 2/2] staging: rtl8723bs: Fix comment style issues in header files
-Date: Wed, 17 Jun 2026 12:11:50 +0530
-Message-ID: <20260617064150.16078-3-subhrojyoti0609@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260617064150.16078-1-subhrojyoti0609@gmail.com>
-References: <20260617064150.16078-1-subhrojyoti0609@gmail.com>
+        Wed, 17 Jun 2026 00:23:00 -0700 (PDT)
+From: Rui Miguel Silva <rui.silva@linaro.org>
+X-Google-Original-From: "Rui Miguel Silva" <rui.silva@linaro.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 17 Jun 2026 08:22:59 +0100
+Message-Id: <DJB572MYSBEV.137UP2YPA88PI@linaro.com>
+To: "Tomasz Unger" <tomasz.unger@yahoo.pl>, "Rui Miguel Silva"
+ <rmfrfs@gmail.com>, "Johan Hovold" <johan@kernel.org>, "Alex Elder"
+ <elder@kernel.org>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc: <greybus-dev@lists.linaro.org>, <linux-staging@lists.linux.dev>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] staging: greybus: power_supply: remove unnecessary
+ parentheses in return
+References: <20260615-greybus-power-supply-return-parens-v1-1-dcad9dabfe79.ref@yahoo.pl> <20260615-greybus-power-supply-return-parens-v1-1-dcad9dabfe79@yahoo.pl>
+In-Reply-To: <20260615-greybus-power-supply-return-parens-v1-1-dcad9dabfe79@yahoo.pl>
 
-Fix various comment style issues in wlan_bssdef.h and rtw_mlme.h
-to comply with kernel coding style:
+Hi Tomasz,
+Thanks for the patch.
 
-- Use proper multi-line comment format with trailing */ on its
-  own line
-- Remove extra spaces after /* in single-line comments
+On Mon Jun 15, 2026 at 1:13 PM WEST, Tomasz Unger wrote:
 
-No functional change.
+> return is not a function, so the parentheses around the returned
+> expressions are not needed. Remove them to follow kernel coding
+> style and silence checkpatch.pl RETURN_PARENTHESES warnings.
+>
+> Verified with checkpatch.pl - no errors or warnings.
+> Compiled the power_supply object successfully.
+>
+> Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
 
-Signed-off-by: Subhrojyoti Bala <subhrojyoti0609@gmail.com>
----
-v2: Combined four separate comment style patches from v1 into
-    this single patch per Dan Carpenter's feedback.
+LGTM,
+Acked-by: Rui Miguel Silva <rui.silva@linaro.org>
 
- drivers/staging/rtl8723bs/include/rtw_mlme.h  | 44 +++++++++----------
- .../staging/rtl8723bs/include/wlan_bssdef.h   | 13 +++---
- 2 files changed, 29 insertions(+), 28 deletions(-)
+Cheers,
+    Rui
 
-diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme.h b/drivers/staging/rtl8723bs/include/rtw_mlme.h
-index 403c097b46ef..950761d4740c 100644
---- a/drivers/staging/rtl8723bs/include/rtw_mlme.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_mlme.h
-@@ -13,8 +13,8 @@
- /* define   MAX_JOIN_TIMEOUT	2500 */
- #define   MAX_JOIN_TIMEOUT	6500
- 
--/* 	Commented by Albert 20101105 */
--/* 	Increase the scanning timeout because of increasing the SURVEY_TO value. */
-+/* Commented by Albert 20101105 */
-+/* Increase the scanning timeout because of increasing the SURVEY_TO value. */
- 
- #define		SCANNING_TIMEOUT	8000
- 
-@@ -52,7 +52,7 @@ enum {
- 	dot11AuthAlgrthm_MaxNum
- };
- 
--/*  Scan type including active and passive scan. */
-+/* Scan type including active and passive scan. */
- enum rt_scan_type {
- 	SCAN_PASSIVE,
- 	SCAN_ACTIVE,
-@@ -67,23 +67,22 @@ enum {
- };
- 
- /*
--
--there are several "locks" in mlme_priv,
--since mlme_priv is a shared resource between many threads,
--like ISR/Call-Back functions, the OID handlers, and even timer functions.
--
--Each struct __queue has its own locks, already.
--Other items in mlme_priv are protected by mlme_priv.lock, while items in
--xmit_priv are protected by xmit_priv.lock.
--
--To avoid possible dead lock, any thread trying to modifying mlme_priv
--SHALL not lock up more than one locks at a time!
--
--The only exception is that queue functions which take the __queue.lock
--may be called with the xmit_priv.lock held. In this case the order
--MUST always be first lock xmit_priv.lock and then call any queue functions
--which take __queue.lock.
--*/
-+ * There are several "locks" in mlme_priv,
-+ * since mlme_priv is a shared resource between many threads,
-+ * like ISR/Call-Back functions, the OID handlers, and even timer functions.
-+ *
-+ * Each struct __queue has its own locks, already.
-+ * Other items in mlme_priv are protected by mlme_priv.lock, while items in
-+ * xmit_priv are protected by xmit_priv.lock.
-+ *
-+ * To avoid possible dead lock, any thread trying to modifying mlme_priv
-+ * SHALL not lock up more than one locks at a time!
-+ *
-+ * The only exception is that queue functions which take the __queue.lock
-+ * may be called with the xmit_priv.lock held. In this case the order
-+ * MUST always be first lock xmit_priv.lock and then call any queue functions
-+ * which take __queue.lock.
-+ */
- 
- struct sitesurvey_ctrl {
- 	u64	last_tx_pkts;
-@@ -184,7 +183,8 @@ struct mlme_priv {
- 	u32 wps_probe_req_ie_len;
- 
- 	/* Number of associated Non-ERP stations (i.e., stations using 802.11b
--	 * in 802.11g BSS) */
-+	 * in 802.11g BSS)
-+	 */
- 	int num_sta_non_erp;
- 
- 	/* Number of associated stations that do not support Short Slot Time */
-@@ -279,7 +279,7 @@ extern signed int rtw_set_auth(struct adapter *adapter, struct security_priv *ps
- 
- static inline u8 *get_bssid(struct mlme_priv *pmlmepriv)
- {	/* if sta_mode:pmlmepriv->cur_network.network.mac_address => bssid */
--	/*  if adhoc_mode:pmlmepriv->cur_network.network.mac_address => ibss mac address */
-+	/* if adhoc_mode:pmlmepriv->cur_network.network.mac_address => ibss mac address */
- 	return pmlmepriv->cur_network.network.mac_address;
- }
- 
-diff --git a/drivers/staging/rtl8723bs/include/wlan_bssdef.h b/drivers/staging/rtl8723bs/include/wlan_bssdef.h
-index 812a68394268..26d166f087df 100644
---- a/drivers/staging/rtl8723bs/include/wlan_bssdef.h
-+++ b/drivers/staging/rtl8723bs/include/wlan_bssdef.h
-@@ -32,9 +32,9 @@ enum ndis_802_11_network_type {
- };
- 
- /*
--	FW will only save the channel number in DSConfig.
--	ODI Handler will convert the channel number to freq. number.
--*/
-+ * FW will only save the channel number in DSConfig.
-+ * ODI Handler will convert the channel number to freq. number.
-+ */
- struct ndis_802_11_conf {
- 	u32 length;             /*  Length of structure */
- 	u32 beacon_period;       /*  units are Kusec */
-@@ -138,7 +138,8 @@ struct wlan_phy_info {
- 
- struct wlan_bcn_info {
- 	/* these infor get from rtw_get_encrypt_info when
--	 * * translate scan to UI */
-+	 * translate scan to UI
-+	 */
- 	u8 encryp_protocol;/* ENCRYP_PROTOCOL_E: OPEN/WEP/WPA/WPA2/WAPI */
- 	int group_cipher; /* WPA/WPA2 group cipher */
- 	int pairwise_cipher;/* WPA/WPA2/WEP pairwise cipher */
-@@ -150,8 +151,8 @@ struct wlan_bcn_info {
- };
- 
- /* temporally add #pragma pack for structure alignment issue of
--*   struct wlan_bssid_ex and get_wlan_bssid_ex_sz()
--*/
-+ * struct wlan_bssid_ex and get_wlan_bssid_ex_sz()
-+ */
- struct wlan_bssid_ex {
- 	u32  length;
- 	u8 mac_address[ETH_ALEN];
--- 
-2.54.0
+> ---
+>  drivers/staging/greybus/power_supply.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/staging/greybus/power_supply.c b/drivers/staging/gre=
+ybus/power_supply.c
+> index 33b7a63979d6..44bd8a72fa50 100644
+> --- a/drivers/staging/greybus/power_supply.c
+> +++ b/drivers/staging/greybus/power_supply.c
+> @@ -336,7 +336,7 @@ static int is_psy_prop_writeable(struct gb_power_supp=
+ly *gbpsy,
+> =20
+>  static int is_prop_valint(enum power_supply_property psp)
+>  {
+> -	return ((psp < POWER_SUPPLY_PROP_MODEL_NAME) ? 1 : 0);
+> +	return (psp < POWER_SUPPLY_PROP_MODEL_NAME) ? 1 : 0;
+>  }
+> =20
+>  static void next_interval(struct gb_power_supply *gbpsy)
+> @@ -423,7 +423,7 @@ static void check_changed(struct gb_power_supply *gbp=
+sy,
+>  static int total_props(struct gb_power_supply *gbpsy)
+>  {
+>  	/* this return the intval plus the strval properties */
+> -	return (gbpsy->properties_count + gbpsy->properties_count_str);
+> +	return gbpsy->properties_count + gbpsy->properties_count_str;
+>  }
+> =20
+>  static void prop_append(struct gb_power_supply *gbpsy,
+>
+> ---
+> base-commit: 7cb1c5b32a2bfde961fff8d5204526b609bcb30a
+> change-id: 20260615-greybus-power-supply-return-parens-b3dd9f4a87c7
+>
+> Best regards,
+> -- =20
+> Tomasz Unger <tomasz.unger@yahoo.pl>
+
+
 
