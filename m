@@ -1,101 +1,107 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com [209.85.167.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1422F3EA955
-	for <linux-staging@lists.linux.dev>; Wed, 17 Jun 2026 11:54:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781697279; cv=none; b=aVf8JH2tK88nZW3N7fdeqH7o0hmDKvDCmNiO3zGUVD1WdpDW3fctVDwRsL6lDQzSiWdDjOg3m8M/bJvrY2ZsGPoXznth9jBGc4QW/s/JjnOGqRFGQOh4c/iZ+3AiZrpFyITPqcoULN6W1nHTCuLZgAVVKMQihxlKupq/BKtTsj8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781697279; c=relaxed/simple;
-	bh=e5vrnpOUrcBaorigMkTnmlPhHtvREVwycOP17OdKxLo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=elbr1lGDx5sz1IY71r5eHp7XzRVB2vEuIJvlHC1RGYoFK2vYwbyCnDJUDls13Xjy6TSpSUKss+8d08c9hvC4HNwlFIWqU2FMA7qT4Hf6BBvFjutAyRsvQI4ayF9dGgcTdDdnRbJ0kOG4WsH1m/zKawVYmROfZJCi5wEwa+Tw/RU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FfX0Y0VC; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8759F392C34
+	for <linux-staging@lists.linux.dev>; Wed, 17 Jun 2026 12:09:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.194
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781698185; cv=pass; b=FcLdwDJkZXBNrzKqojAxR/LjZDnctQNFvTeq6i3HyCm65Qqpur+Th9clhuM6WCCozzT+Lgn+VhcM0e3oR/f9fI4T5OTPKHHEM/OqvZRylZAs7MoiREIdHIiRsambof+8/GxcInCPnH93s5O+fvQwchEl4WdoN7uZccoQrRpFBqk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781698185; c=relaxed/simple;
+	bh=3o5q/WxvQ/o9NQRy+CLSrbzMjEPPQ6IQEZTuPtYi264=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=E49pQn93WOOAYuPRXzOq77VMG1OTZnvbIZRyUdI11hAL6Q5UU+v16AK7LrW23pvaG1/LtNEG6m3Ms8IzTGX4nGnAbP4QMhlTaVV74+PdAlaf2Ji8mGcYBeKENGrrgawDW519byeHk/CEciEZnYCMvA0sb6UaS9LkOPNhaXKikUI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JpM/xeuD; arc=pass smtp.client-ip=209.85.167.194
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FfX0Y0VC"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-490acbb0f89so36840275e9.0
-        for <linux-staging@lists.linux.dev>; Wed, 17 Jun 2026 04:54:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JpM/xeuD"
+Received: by mail-oi1-f194.google.com with SMTP id 5614622812f47-4863cd278d7so3397019b6e.1
+        for <linux-staging@lists.linux.dev>; Wed, 17 Jun 2026 05:09:44 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781698183; cv=none;
+        d=google.com; s=arc-20240605;
+        b=AO5TOoe7Hm9OSK3tIPX8MVISJaPLk8DDwbkJzjOLD9LmHvASNVMu69xjP23dIdtKWB
+         4CxB+eaBvwmLKHxMyj3zfhzTkcokXqcwqnFqtETUhGojL6/U5GNTzTMVNzmgKYxn7vYk
+         sKhOZYb06h8+zhJ71iVLqpENJwNp0lVpjEODGToncuDa1y440LxVwBy3fbbOqMPJvFBy
+         GhBMuBwT9lWz7S1YPsF4VBBXupBUVqFXlR0gHy3BXGTeRYxKxjbeM7HUf8HrgEqZ3g9f
+         904GyaL4wFbVsMFQ2PV4MGdT16oKZUPHunnW/8AXBz+X22Pk6B7A5h/vVTvDVI/PMTQ/
+         zB6A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=oQoEugMsRh68xiP2KCQsFj1TbsIsl8X/WcN0bf03otE=;
+        fh=rRev5Y7u4HDjvkJUYXseQDUrnjQ9gtanDLDdkVX5rZw=;
+        b=VPqeEBPWsHQw3TX/tNom10zkSc89bMGUR4sTYhasJGE+qeyoYpTga4bCcIg+6XpDSf
+         3DM4KdKUxgLhbwCx4bk5436MYhosdzZQ9adcZlaGwfgYETo+D1bpffROHZIFJT5L8Rii
+         1esTBmxQb44KN/fsVLjD/76oX0gtj30e942Ye0ABxdefTxMWczX5najKZavDeBMgqF3X
+         ebR7z1tmWjpZ2vVgh1qPvs8dAYYt9SlBUPUj1LtaGc91180SqAcANfnX2tazAtUyPtV0
+         10NcWvYNb+EALqMeX7288g/I+1mWcIFdmEhf01jxuJitBF1A6h7wvj51lcXnWLz0uhUT
+         dbww==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781697276; x=1782302076; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=IYonsZZT3eMJ6eMwo9f2K9/Y+jgTVJ/DbNOOZxYP/Bw=;
-        b=FfX0Y0VCa3SHTSUfxE6eOrVjCXZfIfXy2sw0OlScpP9gZ1kuWnBKayBsDTSPCSuE58
-         M0dBmgU28i/HV5xTQ00ux7eeoTjOZFXVG2o8fJVjpJxBWn6z5nRUpZLasw2qLLjD0eLW
-         AFbMU88DnUydiYE57S2IotCYi+k41GaYnoizrRiNVRXU8jbmlbrVDhcI+snQfGWMWTrv
-         S60GbwHMIkREPOjNRbvirmySgNdvK+2n2GuHsq2x55VCIa3x9MLK7G1hTA8GFaTBe48L
-         yGWAq+dNtwfDMbIbmW39ASqJOfifxdm3tLozflf4wTlpv5zexKWQy2cLQY5b1TuNEHQl
-         wJdQ==
+        d=gmail.com; s=20251104; t=1781698183; x=1782302983; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oQoEugMsRh68xiP2KCQsFj1TbsIsl8X/WcN0bf03otE=;
+        b=JpM/xeuD+Lad20mzNwhBveurv2WtEBS8lpXKQJ/7B4GUssvc7ZJkrqo54zquEphzxe
+         7r8DufZcT5pVImLV4xkaP+TA0/qIsO+40k0NmuWG3IlyTTdNfWl/m0aJ6XtqFM48yIgX
+         DEIJFabmBi3qee+6E3dhCvZfvTK0gnxFbo9zLQaivcOvldt4gYAodZCM0mLtO7fRq+1a
+         RD+T9mrlph8RRegkPgo6jnDVxQk7UEVx2Ff/2JDMSLnfMuDDapplG5P7YsllUHdolsVu
+         fMCmfADchF6ivVkhR2rsIxa8u80OJdVCU9bz1XInENclU4fwev+0ETSEJDBPlX4Fxxix
+         BtAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781697276; x=1782302076;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IYonsZZT3eMJ6eMwo9f2K9/Y+jgTVJ/DbNOOZxYP/Bw=;
-        b=T6uQr+60O5FYWqhYfWfb0rCdoN+2ZpQyJ611qA8gry8NaaXj3APFzqEhnVslAntD/Q
-         Cl3IOh95VP1Aq58glgeKMDlQ80Ptjy3QtEcCoL3UjRFGdHxFj5Wn9QJcXIOl7rxjOpjK
-         xyzf926GgZD0ADM++DrH6uDvaV/K5WNttXwHGmS/TkVzZ5hJNq3moz0J5NxDVIEpkOWV
-         7ib01XjuTZlFPA6pzKdbAn29ZYydpz0T2ybkukEa7zQKo5EGL17oMAGmWSkAX0QZFVAm
-         W/n6E3NAyzdhdBicp6/RIRMi6o3j94mDTYpk+U+7tgyrYgnWyRTRBwWfrCjzRMyL6be3
-         ze4w==
-X-Forwarded-Encrypted: i=1; AFNElJ/Fhju+pci276afUvGMEMzIfwR12W1IhirtEAgJ2uaxcjUS4S1kSrsOdhd6fmh0AHMhXILXx6oXgxh/3UbR@lists.linux.dev
-X-Gm-Message-State: AOJu0YwaL735pGa1adsUqzm5RWt7YsRUjph1A7Xgk8UCwSokqexce5hJ
-	eW2Hdk/SlD52viOfWlvSWbDoinFuJsbezfqCkyA0OE9VIF7u/j9vp6fy
-X-Gm-Gg: Acq92OG40EEj3i/tXcY7MCNO/HbDYGaoPiD5zvGXC/En3epfSGqaD9fhB79FRcB7kTh
-	/VVhLby4up8Udlsm6IRdrsVx4Uatfxg98qWspvp/TVVo3FLrLMAmtaM2Z0/R3IX13KAxQxCOb8J
-	57Nd45MS0LVjIHvabBzOypjsSqkJ1H1T7WO2wFW8ur8NUJiKPwhRXaa7Oa3shHhUhSmX/nic14O
-	vT7M94L/SpZaUYZS0jbahAYpxeGcnSpWMxWnuKXJ/op3MjcZ/hY6+XdbE4OpJS1Dl0pDqRZuqnm
-	lBTnlzY+p0l08Oej5rR7SsUUKLOkx9yJF2IPPdzFIQRXX22Q/2D7Oo6iC5Ibj0c6NVPoYhe46De
-	2Lx1XCFzl1dZDKLnV/i5BRIZ40C5CKA8CLVSsMmfavM7oO13nE0Qguc7OJF6fWpABBH3QvngTx9
-	rmZWcaTYoZXbo0uLkCBkk=
-X-Received: by 2002:a05:600c:4e15:b0:490:9d1b:f086 with SMTP id 5b1f17b1804b1-492333a90d9mr66724385e9.14.1781697276205;
-        Wed, 17 Jun 2026 04:54:36 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49230a96d14sm140042075e9.12.2026.06.17.04.54.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2026 04:54:35 -0700 (PDT)
-Date: Wed, 17 Jun 2026 14:54:32 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Subhrojyoti Bala <subhrojyoti0609@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] staging: rtl8723bs: Fix comment style issues in
- header files
-Message-ID: <ajKK-FQbcYw-wNLU@stanley.mountain>
-References: <20260617064150.16078-1-subhrojyoti0609@gmail.com>
- <20260617064150.16078-3-subhrojyoti0609@gmail.com>
+        d=1e100.net; s=20251104; t=1781698183; x=1782302983;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=oQoEugMsRh68xiP2KCQsFj1TbsIsl8X/WcN0bf03otE=;
+        b=YeQuMvkSOnwtOl6IAMU/Tje9z4dUWolxBqwQAFpGDmYEMz77sw8z6vbsWVwF5Jrdby
+         pFEjdqYc3ZDq5fRtXyJ0OkmFEAN6vefoQq2FNO5R7EAuT8Fq3GMRoe6H7Qhd5QAb1XPh
+         077yOO3JKp2Mg/tk+/1u1AXS+HcqPQG6sOUh7DAKs2v2a7gZxar9pLHqRp8Govhr/gno
+         Wk8ua2a3qtZv89PS2Sn1RnGPQpT4z2kNse/JoyGTGcRWq7PWAFziemK/psrr6D6aBx1J
+         E9LivfVf9Ez2UTC2aRwZynAoYzNXnhK8eTKRuKg8o/DlB/ICSi6Qa/q9UU+NZaE7slK2
+         OZ/Q==
+X-Forwarded-Encrypted: i=1; AFNElJ/lpxo8kXeo1X6RyD1wqu75cq6jT6hDT8wi7R/mrDRC/+OTUKTDoPD0AQzPRDqJjeclYar0bSxMVFEvdT/C@lists.linux.dev
+X-Gm-Message-State: AOJu0YybPzOf56Ub0g4SVApMr5+o+SSzX8YUNV3aW/tR+d3mWD2fhHlg
+	sL56/X+IpTFBcOzasdM/8f3Iu291Tp4Ot80G/GkIAOqrSoBwZJkg3crF+zcWECtDObJ0KbLrcjS
+	ViFdZdvXy0sCi72V9Vt0cCHTuw04nR4c=
+X-Gm-Gg: Acq92OFbX+mG7Abj46ZX6h7QspY70TUoi8hZjFufAgUvzeTetDRNg0HchelC+nCAEmU
+	DNyZEZzRYgzUZM36D+iA8AbvPFdIeuSvJugiFeDpLkRhNM5P3N+WVwlU9XK79hncPDRn+UWui8u
+	maAGLtElrxjTTWLv8J8r7Ajp/eP/ren2UsYxXZEiCXXDZRvvnDLPlB3RV7ngKE6k5G3sJZrUKes
+	ttEYm9X+8l128iW0V09g1OC9Z8eZUtrS4lU/gLYnH4fircaQwMwouWlMZuKzhCnukP/hLWrqj0i
+	Lj+H0Gnuhw7iKoNB8vmHs8HJ1YAIzyw=
+X-Received: by 2002:a05:6808:2210:b0:489:5000:5d32 with SMTP id
+ 5614622812f47-48950005de2mr555002b6e.18.1781698183432; Wed, 17 Jun 2026
+ 05:09:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260617064150.16078-3-subhrojyoti0609@gmail.com>
+References: <20260616235241.99076-1-dennylin0707@gmail.com> <ajKKynn13sv-_UZl@stanley.mountain>
+In-Reply-To: <ajKKynn13sv-_UZl@stanley.mountain>
+From: Hungyu Lin <dennylin0707@gmail.com>
+Date: Wed, 17 Jun 2026 05:09:31 -0700
+X-Gm-Features: AVVi8CczKtSFifNm3DbJJ_idTYp239MPDyEgp8lK8CiOFIWaXGEzZl5S_wmfjMI
+Message-ID: <CAGEkeHc+gxyu0htaJCOxTLYcps35UpM-giXfS4R2LV2a8p+10g@mail.gmail.com>
+Subject: Re: [PATCH v3 0/4] staging: rtl8723bs: convert update_attrib path to errno
+To: Dan Carpenter <error27@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 17, 2026 at 12:11:50PM +0530, Subhrojyoti Bala wrote:
-> Fix various comment style issues in wlan_bssdef.h and rtw_mlme.h
-> to comply with kernel coding style:
-> 
-> - Use proper multi-line comment format with trailing */ on its
->   own line
-> - Remove extra spaces after /* in single-line comments
-> 
-> No functional change.
-> 
-> Signed-off-by: Subhrojyoti Bala <subhrojyoti0609@gmail.com>
-> ---
-> v2: Combined four separate comment style patches from v1 into
->     this single patch per Dan Carpenter's feedback.
+On Wed, Jun 17, 2026 at 4:53=E2=80=AFAM Dan Carpenter <error27@gmail.com> w=
+rote:
+>
+> The first three patches are fine.  Where is patch 4?
 
-LGTM.
+Looks like patch 4/4 was blocked by Gmail and never made it through.
 
-Reviewed-by: Dan Carpenter <error27@gmail.com>
+I'll resend it separately.
 
-regards,
-dan carpenter
-
+Thanks,
+Hungyu
