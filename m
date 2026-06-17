@@ -1,62 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F112B3B7751
-	for <linux-staging@lists.linux.dev>; Wed, 17 Jun 2026 09:40:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AFA5368D42
+	for <linux-staging@lists.linux.dev>; Wed, 17 Jun 2026 11:52:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781689228; cv=none; b=awazaKAK2r+lm4zWX02SfxSi8lw+Gm4XTjm2AC9vjs+4cYgdzmY04f2Qa/AEBDRRcj4qHA5yBdjVPEjGXdTLLzoGq9BkJ4eNpV8TBnawEUZac5Ps1sfH5DY+4q4KPEDyCEyYmVS+sSt/5MMxarAPBP12TniiyZSLcqsYY9BWqds=
+	t=1781697148; cv=none; b=ockeg8jgEng8T/iFaM0+/C0w25xO8v8oROyJPO0rIvK15U08AD2FuZ8FYkdzWyJDlQeKnl7kn3gyVaVQzon2UBh9U8xSh8kZWVTUajeCb5Mqyx5erPAO0cedpGDvKpT+WKfcwRtFvobr/dXi0cgFXRIVauUVF9GqNPrdzYzuVwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781689228; c=relaxed/simple;
-	bh=j+ldJkw8refaL1OUAouw/yOdplUz8ecb4jKayH2Uqck=;
+	s=arc-20240116; t=1781697148; c=relaxed/simple;
+	bh=yIPtgMs9deL/TlQQ4tA3NwYA0h1cXIkV4aX8S7j7w3Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YIuBK9lOTp/AF3W0hxbcJOzHLhVF3iCRZOfpcNSrb5lk7O/ObFlFr5CZejNoEGZ5bkgJ2FoLGF8bbRvSrFkgbnejQgD+QW6whskM8bsawMmJM3l7nqjM3xBKZiDmGJvCVwSuUlNlrTmFqwFNrDKyJ8ghXUy6kBSOoGhT9J3Fi4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KXuSyCVw; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=up+H0MMEUGrlMEq0G1ROqOx2+vpEJ04NpzcL5+nJpmDdwREh83Ik1Pc7zuibi/0FOCG4DqzEw9p+BJX6pqNxlGOBYApaoWfzwYXtZe4RKU+fFBeo7UqkAOnB6lbeyAsLLUxkTEz8gCLSwyhSf3Iehfl3sc3zpq15XaWrigbiBvU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rCSfy3/7; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KXuSyCVw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781689227; x=1813225227;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=j+ldJkw8refaL1OUAouw/yOdplUz8ecb4jKayH2Uqck=;
-  b=KXuSyCVwV++GgFzDyGwWelat8/LssG+ybC0fW3qSQmXhWK103KPdum5Y
-   d3MY6aIiXlZ/WuvgB7BIrdyi94Y6WPjMpTBA7SkQRgGB99S15DxwEaDfk
-   LbLrCKUsTNWP5nAyL0WsDFBMnB9lb/TSOFyTyCddHd8hz7j78V9LfJXdw
-   tX71hh5lPkTgahIx/OPxt9grkj1ep7uS0PE8yWAhRGQ7Rb6Wa+DvFmkjI
-   /v78Gt172n/JCQWLG1jIWpfbtOWVPDzdl9JVHUPTheRJte+JcPkqWim6H
-   pP976V7D64CP0FsQJJPYuof9iHXcfDO/UrNnZzNXaSnvdCifSIZLi0tRB
-   g==;
-X-CSE-ConnectionGUID: XbXYGkzmSMqwZljAysJRjA==
-X-CSE-MsgGUID: t5mIgUhkTFW6m5df0iltAA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11819"; a="82533999"
-X-IronPort-AV: E=Sophos;i="6.24,209,1774335600"; 
-   d="scan'208";a="82533999"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2026 02:40:26 -0700
-X-CSE-ConnectionGUID: InnwzJJjQhK8nW1aZAQbZw==
-X-CSE-MsgGUID: eWvv0gDSSLCHsC5E79HWhA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,209,1774335600"; 
-   d="scan'208";a="252322044"
-Received: from fpallare-mobl4.ger.corp.intel.com (HELO localhost) ([10.245.245.69])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2026 02:40:24 -0700
-Date: Wed, 17 Jun 2026 12:40:20 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Dawei Feng <dawei.feng@seu.edu.cn>
-Cc: andy@kernel.org, error27@gmail.com, hansg@kernel.org,
-	mchehab@kernel.org, sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org, abdelrahmanfekry375@gmail.com,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, jianhao.xu@seu.edu.cn,
-	Zilin Guan <zilin@seu.edu.cn>
-Subject: Re: [PATCH v3 1/2] media: atomisp: fix memory leak in
- atomisp_pci_probe()
-Message-ID: <ajJrhE3cjwKPom5a@ashevche-desk.local>
-References: <20260616134319.3969928-1-dawei.feng@seu.edu.cn>
- <20260616134319.3969928-2-dawei.feng@seu.edu.cn>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rCSfy3/7"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-491609cdd8fso30299805e9.2
+        for <linux-staging@lists.linux.dev>; Wed, 17 Jun 2026 04:52:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781697145; x=1782301945; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=SnZLmQEebgYysl1Vbsxbo2Xi49elzgMMGKSOqliugSg=;
+        b=rCSfy3/7AGBoFYWVH26EySfxrVal20ca+KXQjYw8kgDzD2ghA1fRpWkkuHIMZJyri2
+         RcSTqkO5osv11Q0JagLYPgRrPl5THOe4mmZUnqElNOIoJ8CcpLpeVYQGbPCyg17U5pQi
+         OYPe7LYq0+z7tHzjbsVIozrmDSjGdauFdll4I3ph0uzLCETzjDAykR3sY7M98zZhaeg/
+         SLyqtviLOMejzmwVlt4XVRIvw63fvx4EQ0TWIdK0NgDbbytRHIJjLOAmBuR3Av/QH1CL
+         4GqKAPpfoEaR7Sc6T5mFqRmocFZg60pFPrHxxnXUWaFlyfNtnngYgStkELhpyjV4MTkB
+         NW5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781697145; x=1782301945;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SnZLmQEebgYysl1Vbsxbo2Xi49elzgMMGKSOqliugSg=;
+        b=YJZKiq6wZeh3vPN4hFCl0kR+VoZ76maE1811Cx53X6+OUripUuEspzJPzrvIB+cfy+
+         gm93uJa0rWtPWTh3G2nsS6rQPiuzw6E8vFIAJDDIvZ8TJ/YvWozTWyYQMp12Rw6r+vcg
+         ywLjJwbyWiSZg8tvvyCbvF7FvSUBVpt1hk1Gd7Aj92/wEVf9/kNbtcC+PSfexyhr2TIr
+         a3bzcgi+IvgibopFuzFni1exZAeGF0OjS8rrERIbA12Ylku0fWlQuYkDfoT55ClM//N8
+         S4LmkisDnXssYcN6sQij7/SyRGnyUg8H7ozGgp1u5YsVKF/3GCJ8kv/aD3iSpHUvijej
+         AM/w==
+X-Forwarded-Encrypted: i=1; AFNElJ/fzgaaV9ITXwOkLJnVtDqlSFKs5fBGGWuxSo21qn3C0CJGTyEa8uMKHGvKhoLWKmy2xrCEkP/+/aLjwMvH@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxc/z87UIOAp+xpy9AFklljn4UI9Y0a0uwwVgXghrGtKpxTicl1
+	TeTvF6FXIsIpaI1HsMg2xL4Ex3jr3taSN1N17A3SAHTEMLWFxi01itUENiFObqD6
+X-Gm-Gg: Acq92OGacfu8/x5L5eWE3qPCm0sToOxQPlzgfMqZjyw6Xq6VnvUyfIsqjbgefgjnXWN
+	2JJEv2xCEtttZTdiAuaMi+ZHWVQcifi+qvbBJuqrxlXc4gz9t5Wg0ABwfeewmp3PI2t5jTLuCW/
+	fVM0B09PgUg/yr/VEC+zHtgc8jFb55GoSgOqNd+2t3whdcJr1BOAOlPIMBd5YYS/FvElrOM+RmF
+	lPTdvbCjhTC9hOutebXPzf+t3u7XQPIRLukmD6OS3ZYpkj6eE9W5pBjnjtG+/8ZfHeGV/0oGeFM
+	EUYoSIis1ifROlLvLu72mh5RrodqiOrg6Cv/lNeEVN3vkV4fCI0qg+8mGrATWiC1aG7gOFDEZYY
+	4WlrpwPUO0U5Iv0yPUnkGhBxrZg7hdvHvMhoscyY5jKIB/S5wnfawiEruUaAl/GB5U3L1skp4S/
+	/O/4faMYJN
+X-Received: by 2002:a05:600c:4f83:b0:490:adb6:793d with SMTP id 5b1f17b1804b1-492335b1d1cmr58108705e9.26.1781697145258;
+        Wed, 17 Jun 2026 04:52:25 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49230a96b47sm128294405e9.13.2026.06.17.04.52.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Jun 2026 04:52:23 -0700 (PDT)
+Date: Wed, 17 Jun 2026 14:52:20 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Jad Keskes <inasj268@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: rtl8723bs: replace beacon timing magic numbers
+Message-ID: <ajKKdPWMAaiN5D2c@stanley.mountain>
+References: <20260616193134.1759947-1-inasj268@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -65,54 +74,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260616134319.3969928-2-dawei.feng@seu.edu.cn>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20260616193134.1759947-1-inasj268@gmail.com>
 
-On Tue, Jun 16, 2026 at 09:43:18PM +0800, Dawei Feng wrote:
-> atomisp_initialize_modules() creates CSI2 and ISP subdev media entities
-> before atomisp_pci_probe() registers them. Its counterpart,
-> atomisp_uninitialize_modules(), only releases part of that module-owned
-> state and leaves some media entity cleanup to the entity unregister path.
+On Tue, Jun 16, 2026 at 08:31:34PM +0100, Jad Keskes wrote:
+> Break down the 0x6404 and 0x660F in
+> rtl8723b_InitBeaconParameters() so people don't need the out-of-tree
+> driver open to know what these do.
 > 
-> That ownership split is incomplete for probe error paths. If
-> atomisp_pci_probe() fails after module initialization but before all
-> entities are registered, the unwind path cannot rely on unregister
-> helpers to release media entity state whose lifetime started in module
-> initialization. The CSI2 and ISP subdev media entities can therefore be
-> left allocated.
+> REG_TBTT_PROHIBIT (0x0540): 0x6404 = hold (0x64) and setup (0x04), both
+> in 32us ticks.  Same layout as rtw88.
 > 
-> Refactor the cleanup boundary so module cleanup releases media entities
-> created by module initialization, while unregister helpers only undo
-> registered V4L2 and media device state. Move CSI2 and ISP subdev media
-> entity cleanup into atomisp_mipi_csi2_cleanup() and the new
-> atomisp_subdev_cleanup(), and run media_device_cleanup() after module
-> cleanup in the probe unwind and remove paths.
+> REG_BCNTCFG (0x0510): 0x660F is an EDCA-like register.  Lower byte is
+> AIFS (0x0F = no contention before beacon), next nibble is CWmin (0x06),
+> top nibble is CWmax (0x06).  Matches rtl8192cu which writes 0x66FF
+> (test chips) and 0x660F (production).
 > 
-> If atomisp_mipi_csi2_init() itself fails, it has already unwound its
-> partial setup, so return the error directly. Only the later
-> atomisp_subdev_init() failure path needs to clean up CSI2 from the
-> caller.
+> Drop the TODO since this was the last thing it referenced.
+> 
+> Signed-off-by: Jad Keskes <inasj268@gmail.com>
+> 
+> Link: https://lore.kernel.org/all/aiGMXBNQ0TbIGbpP@stanley.mountain/
+> ---
 
-...
+Seems reasonable.
 
->  void atomisp_mipi_csi2_cleanup(struct atomisp_device *isp)
->  {
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < ATOMISP_CAMERA_NR_PORTS; i++)
+Reviewed-by: Dan Carpenter <error27@gmail.com>
 
-In case you need a new version
-
-	for (unsigned int i = 0; i < ATOMISP_CAMERA_NR_PORTS; i++)
-
-> +		media_entity_cleanup(&isp->csi2_port[i].subdev.entity);
->  }
-
-Or maybe Sakari can tweak this whilst applying.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+regards,
+dan carpenter
 
