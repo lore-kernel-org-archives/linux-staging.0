@@ -1,81 +1,72 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B5283F4851
-	for <linux-staging@lists.linux.dev>; Thu, 18 Jun 2026 15:13:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E085298CB2
+	for <linux-staging@lists.linux.dev>; Thu, 18 Jun 2026 19:49:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781795589; cv=none; b=LdbB5gdM8TovfoJWYDxI6XnhUdhMBbgB8scn2rraWWUESzhX8GtngqzSU+++S+aKa61SvTTSEl6yPJ4XC+JSc3Tel1a5hJesNQecEcwSQKcthccie3j00e5aS/H+3vqAkqcASZvCUaLI7DoVpUmUdpkiGTmsz4vPN/kUAATq/6g=
+	t=1781812175; cv=none; b=i/VcYfPFZ+9CrNCyzHAkWw3ahtduRLgQDgMiaongCzM1H1cUNhEwb18JRaZFlzfho8C0OHvP2sUisFPzN06r5nJotr9G64xZrZBB8twYypiuQ9EJcJMhoUQ1FX31XzgI9H7gtMxrZNsLmcXv0KH0KXObsOSYecKXT0wlbyLNEbo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781795589; c=relaxed/simple;
-	bh=t3LaCYvGa1J0W8y9SDLscTANfvqgNL6GUOc3eE8EHDE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=VNIWy98wpo4FVVKm3jZycmdkfahwRw748AY1brasluMsdn20w4DmCCnDxMpiEHhwZs2FXY/KPy75LwsPxxzbOSxBsCtcFpM2hqWbpW/BOptljjYcYS6FpjYkcu53p3pPEFRI4MeCx0jVm5ZCKz1o4UcUs24bRVehay/mOIsOaDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h3BVyG/z; arc=none smtp.client-ip=209.85.208.180
+	s=arc-20240116; t=1781812175; c=relaxed/simple;
+	bh=1YLdQ/msyd0W121tLsFiehlIe+lkIMz1cTQ0oAyZowE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JO63JL8TIxLCDYC10bKdH37OnsNwKEPMqrfmzYt0P3b4MhN6sUsFRgC7b3MDzWmoelEhIUFgEsUIM5pBEmTqdo81dQiFJJ3Bl8NF3W1+ASW6hgXxmYpDQ89wvOK8Q7dldrJybuw7GDuj72utHaZQgqKHsf25Ks9KOlCxmlIbYCE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=o7YzyLNM; arc=none smtp.client-ip=209.85.128.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h3BVyG/z"
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-396779b9a7fso10525491fa.3
-        for <linux-staging@lists.linux.dev>; Thu, 18 Jun 2026 08:13:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="o7YzyLNM"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4921eed3fa2so10580835e9.0
+        for <linux-staging@lists.linux.dev>; Thu, 18 Jun 2026 12:49:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781795587; x=1782400387; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wE63r6EER7alhbSLAaD+Ak+nUquf6xxaUXbDMVJJIMc=;
-        b=h3BVyG/zhoHMMZuCBUAk2M58Nn6c8EuXkPGhH0T0t2yb1Iz6oOVZhSDwfD8ltnZZIT
-         HttvvcSaBtyLxtr6u5TPvV9ulKwbCcQqEMy/o0uoBb7pzV49lubM4syL1EiRor3Kfw56
-         C1cHZ8Z4PrxTfsZxHcZNRWdZNfxVuAz7iQnvjbQwXj+e8CtKbX/lY0IB+lLTMLV2robz
-         UlWdJWVr+yV/zfJXC4+Zp/pjfO5nSMR3N3WqbvFBO9Tx8p8swmlR6SlS8Odvxom2NPqz
-         IbR3HMLfYWrYtj8a3B19iaVRU+d5KsN/ngE8IIL28jXmJJ0UxWQ5VSe5ut1t9kYsEYu8
-         WwRQ==
+        d=gmail.com; s=20251104; t=1781812172; x=1782416972; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YpwL670KpkXw/0Z8Fkpct/A1nyX8uS033EDlJlU/IBI=;
+        b=o7YzyLNMs1K3swFp4p4uZ37cBlEoHWDKRggZpKDDRXTd2iKJS8ZJ5RvSzJ3T+Wyfa1
+         GfX9TihZzla5oFZ+4qZp+aORRrI0vG9sQf3+6VnIDOCEB73MVy5sHKogfif0pSw4J3eY
+         JkRq6V7HCbF5yLO7r70rK01KESYhBPeeGwn7DYcD1Lk9hySJxQ+SOvAavEwfUjlUfJEO
+         kzCWVC2eEu8WRSo4fNZAiPnBJRL1/ugQR8D/ANKCEd/XWbGt+3WqmuYBLxUgRGB2FvLo
+         mTXQAUTMLz5Oyy7Q8OVCa5solgcDUz92TtgXSkgSDrJGglX6y7VrKPtuKaO6DqEiQdK0
+         eObw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781795587; x=1782400387;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=wE63r6EER7alhbSLAaD+Ak+nUquf6xxaUXbDMVJJIMc=;
-        b=spRY/qny6EvbJCs95nkxbltrZFgEpf6OY4llVMMYIeGzo2zUj37ncVFDCY6v3CfC0+
-         cus4bvhIyUNaIGL2okXfZufqWeCNDyXy6ulk2SoNqX2bEhj9MJrLPefEzKgUdVqSTD1F
-         qybQjanN95CvDdawWvzN411n2PZI9AuINNX2LhDJDrJVewcXtHUetEqbtBSdnYe0mpzw
-         FD3BMZtL+/q3bYXvehY9qaCOjzjTP3VNShfAIx+bx4Xe2BN/moToWux+c8SvTxGROKoq
-         EQQXz5rnzpZTrZ6z3P54gnk3Aji7Vw23rtXdPFC8VCu8d5HW2fK6r71ajmQ2tlRaUCPA
-         jRtw==
-X-Forwarded-Encrypted: i=1; AFNElJ+Fi2WxOe/3vf1NyYM7p40U6OEsuDSP+YdeA8H1Tc0tm5sI4LQAtIChdeWMU8kiAffvui1tR5mT7HETn+cF@lists.linux.dev
-X-Gm-Message-State: AOJu0YzTbRfrivheL8ra0sjLpNC9TWncInpnzvBdgkZczE0SsBx/TE2e
-	8crHe/lOOCEA+WpBaY+XpkEdXcQt4A8FcWgZXHi8Uv7FAXG+dZNrHydh
-X-Gm-Gg: AfdE7cn9S7Cz2YJMud5PeZV8GcUntqQ9P/vv7My5qu0WOW4fh+BgMb+eCjYXlaW4F61
-	SUohzYYCuuyPhOC+UHwWnhX/NpxKrCrmz5AJT9kwoQ2pGXvISZ4Od/wDugTjL28/tnBVfbdq7hv
-	fI5KPCSxuQ9NEyjrSInOzEZW3cHxe6yaoh7YBTTE3MORCvG8Tp9QRJAbO16WHYQ3wKY8xcJ5Wmd
-	zZseLE/RfZ6/jEjCFr9CZcQfqdhAVo62VsXr3IY+wwLNjUI0eNLMd5V6HxrlQjqKAos4I8I0rVi
-	/df4NjKZuaKe73u7+R4uTYrweLuuSG+zbRinnwwqv2x25GmEmusGODY9aVlOLuJqowl5JG/jhva
-	vcst9RLDHIE8R5TZlahE8FSFPWz+tKViU6pbIogojKX/yZaT7Q8GK+hGRFMAjGsw2FLVDtaaB8M
-	ICI7Avw4YZEiYBz1p/+F1zrHuHFCuvxc3HSCUVUu+lcUWz8OWbiEe2pn22vCQyekYD3oky4PT4z
-	tgXl7CKuPs=
-X-Received: by 2002:a2e:be14:0:b0:394:378:b53c with SMTP id 38308e7fff4ca-3997783eb06mr12943281fa.29.1781795586492;
-        Thu, 18 Jun 2026 08:13:06 -0700 (PDT)
-Received: from g.localdomain (95-25-158-125.broadband.corbina.ru. [95.25.158.125])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3995c19a9f5sm24226171fa.32.2026.06.18.08.13.05
+        d=1e100.net; s=20251104; t=1781812172; x=1782416972;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YpwL670KpkXw/0Z8Fkpct/A1nyX8uS033EDlJlU/IBI=;
+        b=VcUhco7sX2OY/p4FFmL9tz61d+8oQfeHNKODlptefRmuxroNR7vOhc7qma49GEyR91
+         ZMeDj80FhgacPMvwK1EBF9K3Na2cn3kvBpaoH+Nm3CYkxtQ4LRPP68AGPayolw5C+nze
+         ZsuATmHxZdcNAU5MHcIAxeroW0KX1QF+m56nih4MEnWDN789+t2LLEB2lnBHO6ezDMdf
+         N4zefi9a2ZmAwCjog4naqNr8thG23VWiB0ADTp+lSBB2MFRpD0Jj8OAA1dsXNSyfr+gT
+         Z5iMiP+azzpQJqnPT01zHvMnPL51/pYkx0XV3mpIzW3selNy3qLwReTdLQpZNTTpJN1S
+         rIFg==
+X-Forwarded-Encrypted: i=1; AFNElJ8khXjg/TRQXmB+KUo+AzglfGWfLRu/LhineeF7E4oEbds+oV0pRqa99y2yLovAO0rBSIyd21aauDBXKRCw@lists.linux.dev
+X-Gm-Message-State: AOJu0YyIG5xGfq9dWtN+TT2nUylDoJ6uDJZs4LPbB3EvAWRXc+G1fZGl
+	NDC4lG4uiSvSHxuQlxBDZhnHPWrYwUaJrYj1BMTJy1c4DB09Jy2u1fu6jOJS9cvW
+X-Gm-Gg: AfdE7cliS8+kPXlprpjQR1HAY8rwXM9qFQDtzYh8AKRoHNPmOk85jxFSryaYza96aej
+	cIQ+I+yjAJFv/Xe1ldufQKhZeZ9o7FaK/yoOPls+6MSnTZh1M+AEJJOvqsI8qnNFOoXOedDjjsm
+	Juj7ndcZFi92tRueX6y0adC3vNEI/EE7SO+QBnBbogdwpC+I9Z+wAj3vJ8Pzt/Ebh1KQycVBEK9
+	IeBQQEbtOId6IWMc4zGi0mQnhlHYkumPapo0E3dqLmr9aAYZlKCIE43/9xZKQa2PJZoetgNhRNt
+	qgcfH1zGT0B9wvtgydPnyDwWpOAmv7hhb/geJOICi5BdtnlpNO7ZgeRzQNrtJnc3v9E+Dq7c/zG
+	HFH0SVacm8EStrVJycnYq51JSAZxWOMZQxTUiW0X2LQ2w37J4o9bwO4to8lyRyfP0HiY6dhkHw8
+	Xt70tEFnbbh/I+rmtZxS9BpZdDPw==
+X-Received: by 2002:a05:600c:6089:b0:490:b8c0:d46a with SMTP id 5b1f17b1804b1-4923f579721mr17437325e9.22.1781812171449;
+        Thu, 18 Jun 2026 12:49:31 -0700 (PDT)
+Received: from localhost.localdomain ([115.187.36.107])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49240ee9bc2sm3073735e9.1.2026.06.18.12.49.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2026 08:13:06 -0700 (PDT)
-From: Igor Putko <igorpetindev@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>,
-	Hans de Goede <hansg@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org,
+        Thu, 18 Jun 2026 12:49:31 -0700 (PDT)
+From: Joyeta Modak <joyetamdk@gmail.com>
+To: mchehab@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Igor Putko <igorpetindev@gmail.com>
-Subject: [PATCH v2 3/3] staging: media: atomisp: remove dead platform_support.h header file
-Date: Thu, 18 Jun 2026 18:12:46 +0300
-Message-Id: <20260618151246.6678-4-igorpetindev@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260618151246.6678-1-igorpetindev@gmail.com>
-References: <20260618120951.42956-1-igorpetindev@gmail.com>
- <20260618151246.6678-1-igorpetindev@gmail.com>
+	Joyeta Modak <joyetamdk@gmail.com>
+Subject: [PATCH] staging: media: av7110: remove commented out macro
+Date: Fri, 19 Jun 2026 01:19:00 +0530
+Message-ID: <20260618194900.8771-1-joyetamdk@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -84,47 +75,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove the platform_support.h header file completely as it is no longer
-used anywhere in the driver and its contents are obsolete.
+av7110_ir.c contains MODULE_AUTHOR() and MODULE_LICENSE() commented
+out. This file is compiled into dvb-ttpci.ko (dvb-ttpci-objs +=
+av7110_ir.o in Makefile), and the MODULE_LICENSE(), MODULE_AUTHOR()
+and MODULE_DESCRIPTION() are declared in av7110.c.
 
-Suggested-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-Signed-off-by: Igor Putko <igorpetindev@gmail.com>
+These commented out lines are unchanged since before kernel moved to git
+which was checked using git log. Removing them will clean up the file.
+
+Signed-off-by: Joyeta Modak <joyetamdk@gmail.com>
 ---
- .../hive_isp_css_include/platform_support.h   | 25 -------------------
- 1 file changed, 25 deletions(-)
- delete mode 100644 drivers/staging/media/atomisp/pci/hive_isp_css_include/platform_support.h
+ drivers/staging/media/av7110/av7110_ir.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_include/platform_support.h b/drivers/staging/media/atomisp/pci/hive_isp_css_include/platform_support.h
-deleted file mode 100644
-index 473d8d4fb9ba..000000000000
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_include/platform_support.h
-+++ /dev/null
-@@ -1,25 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--/*
-- * Support for Intel Camera Imaging ISP subsystem.
-- * Copyright (c) 2015, Intel Corporation.
-- */
--
--#ifndef __PLATFORM_SUPPORT_H_INCLUDED__
--#define __PLATFORM_SUPPORT_H_INCLUDED__
--
--/**
--* @file
--* Platform specific includes and functionality.
--*/
--
--#include <linux/delay.h>
--#include <linux/kernel.h>
--#include <linux/string.h>
--
--#define UINT16_MAX USHRT_MAX
--#define UINT32_MAX UINT_MAX
--#define UCHAR_MAX  (255)
--
--#define CSS_ALIGN(d, a) d __attribute__((aligned(a)))
--
--#endif /* __PLATFORM_SUPPORT_H_INCLUDED__ */
+diff --git a/drivers/staging/media/av7110/av7110_ir.c b/drivers/staging/media/av7110/av7110_ir.c
+index fdae467fd..e84f9353b 100644
+--- a/drivers/staging/media/av7110/av7110_ir.c
++++ b/drivers/staging/media/av7110/av7110_ir.c
+@@ -154,5 +154,3 @@ void av7110_ir_exit(struct av7110 *av7110)
+ 	rc_free_device(av7110->ir.rcdev);
+ }
+ 
+-//MODULE_AUTHOR("Holger Waechtler <holger@convergence.de>, Oliver Endriss <o.endriss@gmx.de>");
+-//MODULE_LICENSE("GPL");
 -- 
-2.34.1
+2.53.0
 
