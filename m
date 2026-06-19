@@ -1,73 +1,70 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61981363C63
-	for <linux-staging@lists.linux.dev>; Fri, 19 Jun 2026 08:37:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C858A34E763
+	for <linux-staging@lists.linux.dev>; Fri, 19 Jun 2026 09:13:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781858273; cv=none; b=O2FS2TvwKL/MENneoFupZasJVXQBoZ+FBXAE2JV+A8MwUI3dN83crjdmKhB1Sfwaly7/+/gAqQQYJBMNbKuMNoVxUTAhWBSTK6Xz1dOtfqMsA5uPP9JqeFXwjJFTOXrq97BYBwBVPzEjdS3fjqlVGAIeDw4nKleD3BV0bxN/xRk=
+	t=1781860428; cv=none; b=pLd8WgnmtFRpXbNKPFOxShf3rGOG0xUxWB/+pX0Ar3p1b1F6Q5TcmtpyRXYoWQYWqUQQm7cMRn3xv40jlrcGSu8tMyjMyrqQc/VclhwaFUSexU7Md6b6za/ld0E290EcbD2919fVqQp7OGvsY/dB2YqmaVuJk7RYLChMQxUTSME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781858273; c=relaxed/simple;
-	bh=JwhLd6C4EL1pG+loXWaLrH7iFNpn8Mc0zdKHboVUUa0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=X0zaz/2SIihWg/zeVawhAW9tl1nFaDPfo3rs1fr8NSp1z7a/t427UiPXpIAlt7aQx+SOlJAhebvALT5QisR4L7dpLzvistpG981GN5ym0f7smTNa8KWSr6ZGfSIOIVu3RdZ62iPZnqa9+OEOsFHrwafWp/KFQiBJjxWeXrBj8Cw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sXvn8JSG; arc=none smtp.client-ip=209.85.128.47
+	s=arc-20240116; t=1781860428; c=relaxed/simple;
+	bh=A4R9hM3zphKIlQy7fSKobMGGuksvhH2HVxuiJVlmIPE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YKy/W34cSFRvpFJduIib9VrxoVrJeR8OEY5eYSS2S0VdaDbpvtCvnLNbjOcb/JvY2Zfv76tPrULV0UZdYySrzYP1xKJhuWdn0MZQ5T4EOxe7hHwDQ+XPgnptsAOZ8M+CRC4MK6GYK24HjoioTsG+xVA4t0LaMW0Cl2n+JuO5frI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L+Hrto1e; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sXvn8JSG"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-490aaeabdb4so10763025e9.1
-        for <linux-staging@lists.linux.dev>; Fri, 19 Jun 2026 01:37:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L+Hrto1e"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-490cf322ed0so13736575e9.1
+        for <linux-staging@lists.linux.dev>; Fri, 19 Jun 2026 02:13:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781858271; x=1782463071; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4wDCvt7N8qVw/dKZW38W7SdYwCOXAuglkyb9SwufuZM=;
-        b=sXvn8JSGWBcDZ7M6hqZ1duT9l36xmEPS/fq1dyg0++8H8suit47SWua0sguUepwqj6
-         6GfDKGGJe7onLktZym3FW2/saiNkZ+nCYrVV+y/CkVw0QXmYHcgNRCHmUPzzljLQeLDQ
-         6g6t/6+3fATZfAKorqmbYkyE6rrn+p/ghCMC6t/JNSjaaJsT0dC4goYiJXu40vNpty6m
-         pYiJoNW8dAWTmVANurTBcI71k5UDdqAuQqOe/66+wluPFFT5m2HqUH2aYRtIt//eAtTN
-         PeQ254xa2JIcopvj5mzFNNMwonzfLxYpHrGUo6fKQraBMn/8flS5rHb9e6mxdq4AGazb
-         zJxA==
+        d=gmail.com; s=20251104; t=1781860425; x=1782465225; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=IAQ5csjl8oxIj8s6D8Km4LqE5SyKx2h6r4DVyh0qIFA=;
+        b=L+Hrto1et+Cbp2JroFwjUSuA9Pdcx/6ia5S8Kqh5pRH3e3sW+yhjNh8HEp90vLkejR
+         4gkYpdHxpNTN6t5pzI8wIDIx2w056+HlVj036cv3rZFeWcOvoci9CFti++pIL1jXAFP/
+         flQMVXUdr3iqjmwqOZSuoVa3vK4lI/X8VKwiWiNisaeSbeUAlPDzFvwmCwlCO9igWY34
+         dOG0RThxW22CG8m0RkpePn1cFStVVHO+eAn/zU7fHGSDHGXBlrbYzIzAhtK3KglE/EV1
+         VeE6h/31JuX76ejqcp6vEArwgJb4d6wrHkBk3kNRCovP/nyiOih2CunFRZPnqTRE+dNu
+         12UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781858271; x=1782463071;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=4wDCvt7N8qVw/dKZW38W7SdYwCOXAuglkyb9SwufuZM=;
-        b=Kf4w4HZrvxYM3VJzebnmQWFTwmJVuTICctsgvy6HbForV+3NOFIT6QXrJlW1bZZS6W
-         LJSVnTKLam5d6DwVIzKEht8vygNQ742Yu8PNFElYoNhdAkfRJkj+HjSpXT9B8ULssctJ
-         9NtZgGXo54GmRZCydTeU98PbNgT/HzbTgSrVGG/o80r3ntbnmx+3VRgxONluIWbah92g
-         fTspTT+iuEGy0CGRm8T3kX8OhIMMfQZz01T0gpKq5ryexs99fIPVhxIVmTLoWkFwchEi
-         FZOy2hKB4hA4J1v0xLHS4D6SNoPjNsPyNSoXYsymwckf59H//8dWTOnloxcRrhsihY0W
-         htGQ==
-X-Gm-Message-State: AOJu0YxB/8Pn4vh5jDwPSpDcHTH/1VrUSbA30XT9RTFIImOqoJFFCj9V
-	X7+fqdnZP1w4Gy1wM8sOU0Rhn0/8UuagvzIGOAkjYbWo0Gjf6ktWZD/j
-X-Gm-Gg: AfdE7clnMp+2S2ht1wFxSP4PssYmvXhWUSJlOkQxe4eSvYaX7x1NyFO7k0NuQAmxxK1
-	SHeai7dkp3+MwEcmWQpA/CMeKD3JCsetW5cYyuhOudvTEXwGpXzP2Avs+avgI9jSFrCagXDe6UV
-	bt6F5wPOoP8M2M9MYOuFsVNXSRUayBdv4N+GxXuEI6kKDgGigpXyPTu2LQFoRKRxLNhsEkLimA5
-	JdWycFUglt/zUBsVNZd0ZJ+jl3DVHWVF4onVLkoYh5WqZrCAeTAF2YCR9ZYoOXGJ0dS1KNrFugj
-	OWaRUsZuqf6htGzB1DY+7sonKdcGyuAVm9sniRlcLd/4TGP5pssjZtewkgOEAtwQgnYu2Sfx3ia
-	N84i1ilmNftYdly9EV1QVDrg2VoaB5vUzQuXS7YYs4jjMdaAzcBd4zqZV3UYcMqqpZOFbye7iaq
-	6xuOhcTUuny3I64Hi3ec0uACshu8xlnAjc/gRGvoCFsaobiahpw4CU7UIYliKRdAVHZ3I=
-X-Received: by 2002:a05:600c:c178:b0:48f:d1b8:9ab1 with SMTP id 5b1f17b1804b1-4923ef5b803mr54946255e9.9.1781858270850;
-        Fri, 19 Jun 2026 01:37:50 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1781860425; x=1782465225;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IAQ5csjl8oxIj8s6D8Km4LqE5SyKx2h6r4DVyh0qIFA=;
+        b=nbyDg2okB4x0gp2agkuMYN7EMzy849fa2dBdI/9u2VZBBL3vabeE5Ngw2/zWOL4voC
+         v+NpVJjK+/t5XcXY6hIUKrXYp/mVqGcvvasAS1MRmboI/YJdGCs07km4WuPgt6EiSJ4E
+         kBh08/7bAY/hOw2gl9yUgPAx1mkfM9+pY81vAXZE+FwEzTfXjjBoEOLZ/l981SjGee9I
+         1DwJP7JEo8QxkLglB/M1FpWj3vjWniVCTAON2tk0KfqulRp0Vlgco0DK1XU6ebh19hiQ
+         bFa2W2vbxPyELKaQ1IRQyQEQJXJXDgUQP9cq5fo1793V6Vl5xNybZlA0JFtdIsOlNiiJ
+         Ll2g==
+X-Gm-Message-State: AOJu0Yylf/YHWpJxEfG6+7TTOgbeq7nq8G1xTZIX/8xZkQFGmr2SiU3n
+	c3mf0VpoJjwj+DJoVcR17sQOfkcoVruLi7YWQZMTgjLHF+Fd8e0DTexD
+X-Gm-Gg: AfdE7ckpMiTW/BrV7GmR2GCgQXYtcIdEtQKPj4L7W4zN2unX4stN6YOP8muy+BTJ+S9
+	c93wLlvXjJh67zGq+rW9AN7TET5szZxe0hUV5yGCZVI7AoDtv0mrKembdMQsFJnxXwUYnEfRtv6
+	5KPjIRl8zttfsJprDM0sUW4wTKzAUT+2oVwle42ncgwjhaBMr1urubMUkzxbn/V+qmMpY4EKgV+
+	fUc+E863NP8GfWrp4vKIFYl1dJ4DNhghgwEna70aR9KzF3ZlkvQ/7Fg6eK/WvDxRyELlnQLSA4P
+	3QDPkVYdPs9/nSQWoZtdsLd9kr8qCcEIwZjCkao9SWcZwjnoQEj/zIgEXmEWEWhIghbxaQocnz6
+	gpjt8DeVWk62mm+04B8u0vXAw35acQiq3K7sySGWzCsvdtWiYbTEnFvH5AY2KnHv0SOE3gXTsbT
+	G1r4W7zJBX77EvyVpoX6FatJkUssp4UYwJdp/LznPhMw4l95GPtMAYdrC0o6hRuBhCLK5E8jM6i
+	AaMrA==
+X-Received: by 2002:a05:600c:8489:b0:490:d354:bd0a with SMTP id 5b1f17b1804b1-4923f582d5bmr49182045e9.31.1781860425104;
+        Fri, 19 Jun 2026 02:13:45 -0700 (PDT)
 Received: from fedora ([196.112.134.221])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4650c115fd8sm6062477f8f.35.2026.06.19.01.37.49
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4650b67a3f3sm7077826f8f.20.2026.06.19.02.13.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Jun 2026 01:37:50 -0700 (PDT)
+        Fri, 19 Jun 2026 02:13:44 -0700 (PDT)
 From: Jad Keskes <inasj268@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Jad Keskes <inasj268@gmail.com>
-Subject: [PATCH 3/3] staging: rtl8723bs: remove unused RF_PATH_MAX_90_8812 define
-Date: Fri, 19 Jun 2026 09:37:36 +0100
-Message-ID: <20260619083736.577096-3-inasj268@gmail.com>
+Subject: [PATCH] staging: sm750fb: rename pvReg to mmio
+Date: Fri, 19 Jun 2026 10:13:32 +0100
+Message-ID: <20260619091332.622116-1-inasj268@gmail.com>
 X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260619083736.577096-1-inasj268@gmail.com>
-References: <20260619083736.577096-1-inasj268@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -76,26 +73,91 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove RF_PATH_MAX_90_8812 which is a leftover from RTL8812
-chip support and is not referenced anywhere in this driver.
+Rename the Hungarian-notation pvReg field to mmio, which describes
+what it is (memory-mapped I/O) rather than what type it is (pointer
+to void).
+
+This is a purely mechanical change with no functional difference.
 
 Signed-off-by: Jad Keskes <inasj268@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/hal_phy.h | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/staging/sm750fb/sm750.c    |  4 ++--
+ drivers/staging/sm750fb/sm750.h    |  2 +-
+ drivers/staging/sm750fb/sm750_hw.c | 12 ++++++------
+ 3 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/hal_phy.h b/drivers/staging/rtl8723bs/include/hal_phy.h
-index abc0f27fdaa4..f7dfed0614d7 100644
---- a/drivers/staging/rtl8723bs/include/hal_phy.h
-+++ b/drivers/staging/rtl8723bs/include/hal_phy.h
-@@ -39,7 +39,6 @@ enum rf_path {
- #define	TX_4S			3
+diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+index 89c811e0806c..2d6b4bdbbdd8 100644
+--- a/drivers/staging/sm750fb/sm750.c
++++ b/drivers/staging/sm750fb/sm750.c
+@@ -743,7 +743,7 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
+ 	 * must be set after crtc member initialized
+ 	 */
+ 	crtc->cursor.offset = crtc->o_screen + crtc->vidmem_size - 1024;
+-	crtc->cursor.mmio = sm750_dev->pvReg +
++	crtc->cursor.mmio = sm750_dev->mmio +
+ 		0x800f0 + (int)crtc->channel * 0x140;
  
- #define	RF_PATH_MAX_92C_88E		2
--#define	RF_PATH_MAX_90_8812		4	/* Max RF number 90 support */
+ 	crtc->cursor.max_h = 64;
+@@ -1047,7 +1047,7 @@ static void lynxfb_pci_remove(struct pci_dev *pdev)
+ 	sm750fb_framebuffer_release(sm750_dev);
+ 	arch_phys_wc_del(sm750_dev->mtrr.vram);
  
- enum wireless_mode {
- 	WIRELESS_MODE_UNKNOWN = 0x00,
+-	iounmap(sm750_dev->pvReg);
++	iounmap(sm750_dev->mmio);
+ 	iounmap(sm750_dev->vmem);
+ 	pci_release_region(pdev, 1);
+ 	kfree(g_settings);
+diff --git a/drivers/staging/sm750fb/sm750.h b/drivers/staging/sm750fb/sm750.h
+index d2c522e67f26..f4dbe161bc56 100644
+--- a/drivers/staging/sm750fb/sm750.h
++++ b/drivers/staging/sm750fb/sm750.h
+@@ -97,7 +97,7 @@ struct sm750_dev {
+ 	unsigned long vidreg_start;
+ 	__u32 vidmem_size;
+ 	__u32 vidreg_size;
+-	void __iomem *pvReg;
++	void __iomem *mmio;
+ 	unsigned char __iomem *vmem;
+ 	/* locks*/
+ 	spinlock_t slock;
+diff --git a/drivers/staging/sm750fb/sm750_hw.c b/drivers/staging/sm750fb/sm750_hw.c
+index 34a837fb4b64..bebbd50db7ac 100644
+--- a/drivers/staging/sm750fb/sm750_hw.c
++++ b/drivers/staging/sm750fb/sm750_hw.c
+@@ -23,18 +23,18 @@ int hw_sm750_map(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
+ 	}
+ 
+ 	/* now map mmio and vidmem */
+-	sm750_dev->pvReg =
++	sm750_dev->mmio =
+ 		ioremap(sm750_dev->vidreg_start, sm750_dev->vidreg_size);
+-	if (!sm750_dev->pvReg) {
++	if (!sm750_dev->mmio) {
+ 		dev_err(&pdev->dev, "mmio failed\n");
+ 		ret = -EFAULT;
+ 		goto err_release_region;
+ 	}
+ 
+-	sm750_dev->accel.dpr_base = sm750_dev->pvReg + DE_BASE_ADDR_TYPE1;
+-	sm750_dev->accel.dp_port_base = sm750_dev->pvReg + DE_PORT_ADDR_TYPE1;
++	sm750_dev->accel.dpr_base = sm750_dev->mmio + DE_BASE_ADDR_TYPE1;
++	sm750_dev->accel.dp_port_base = sm750_dev->mmio + DE_PORT_ADDR_TYPE1;
+ 
+-	mmio750 = sm750_dev->pvReg;
++	mmio750 = sm750_dev->mmio;
+ 	sm750_set_chip_type(sm750_dev->devid, sm750_dev->revid);
+ 
+ 	sm750_dev->vidmem_start = pci_resource_start(pdev, 0);
+@@ -58,7 +58,7 @@ int hw_sm750_map(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
+ 	return 0;
+ 
+ err_unmap_reg:
+-	iounmap(sm750_dev->pvReg);
++	iounmap(sm750_dev->mmio);
+ err_release_region:
+ 	pci_release_region(pdev, 1);
+ 	return ret;
 -- 
 2.54.0
 
