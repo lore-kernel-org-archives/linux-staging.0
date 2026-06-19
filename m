@@ -1,146 +1,87 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29B073B52FB
-	for <linux-staging@lists.linux.dev>; Fri, 19 Jun 2026 15:55:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3310B31F99E
+	for <linux-staging@lists.linux.dev>; Fri, 19 Jun 2026 19:10:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.252.153.129
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781884551; cv=none; b=YGyqCHePycYOQkz1iMJJs8e+ytEgDyeDvMrHEL7Hn98ZrQxakrbDHlgdtJJXpKAy2yoMaOXsQJGjLJUy4ZvAKxjn1wm/AZ5ws6SnfSNwadPPeJg2nBU04mAZfrqTz7s2uoyFYkbVv1hxZKujNgKgQJ6v4+4l4l6hc9FxawQoDmI=
+	t=1781896243; cv=none; b=BV9KZTKnLP1y6UZIQPdQjFWHf7C41Sm2/c+kl1ji46fMrVkp4b8Wj62Q4EPX04cTx/cgDAY/FdMOoUIL6lmOiIXO3jHeqoYOluJioU6CswzBO609fE+IYYp0L10zZjIqgalaKep8S7J85qnJDfGyfzYgqVRP/QgxDdpBTuAVzgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781884551; c=relaxed/simple;
-	bh=zTuxP9n0Z4lR5wzI18Se22YKGhVtliH9wswUfnB9Pt8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZiIIdOy+COmZnne+6IsdzprFR6YZLUKrfwTfUcw6CafVO08YIfDm57rz5KKuN0bxMXPqdkUbJ5riCNTAGH4nwHaO++72np127Uc71axObZu/INDYAFDkEbcvAgF4yJj/XM1K/BuppUAk1Mm/H0wre8clpxBZou1Ojgsg8CXl2S4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=ZX0L0X26; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1781896243; c=relaxed/simple;
+	bh=rT0ggn8m79w1eWlgwJ/1T1+coUXaub7kyxK2zJ3MK1E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CQ2P0/QiKASHBkWhc4TKr2RC9mseHwU13V1SSVmmAwyaLPZHtCAce8jdiXyJT2LDDGtMspf3lS0M9KnTKKaYs2t8nbV5a3wKeEbiuLbEybU7eyrpUSfbb3Bu7m0GPyzbftv38U6zI+wry6wRquH+Bav6o2tx3wd0qwDrOpvw20o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net; spf=pass smtp.mailfrom=riseup.net; dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b=n33Vxt+L; arc=none smtp.client-ip=198.252.153.129
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riseup.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="ZX0L0X26"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-461edb387ddso2235815f8f.3
-        for <linux-staging@lists.linux.dev>; Fri, 19 Jun 2026 08:55:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1781884540; x=1782489340; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=E38KgysEUlpO0tvgqlXmMywYoQA4g5F5guU/qtHiKCI=;
-        b=ZX0L0X26AUdr0E8ZNdhEC2IovqXg8Ufc9XVDXSMHsBsa8UmT6FdYKrmeGyjxRdyIrm
-         JBRXeM92kz84rRlLamCisG5QYFDW6UEyrNiGODIFtQCFvijbzPzMkHjLkg3kD/YguBTz
-         ezu535q3PenTxwGpKvt4cngwztk94vvEsGN1of6G9uoxNNrIbRGFV5VH3bXnrfAtlTXv
-         MjbMDc2bKIwJfkOn11D9q/2rNVHw0Ah20/Luo9dPjuRw2FIYXGtfuRLXlaaDHgX9tLCj
-         qxFWuH7EgZRXjE+MHneClFc8CxrNwsFKNl49psG/TOWGdQ1iL++EtpyLP+aQIdUNtY+K
-         9PGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781884540; x=1782489340;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=E38KgysEUlpO0tvgqlXmMywYoQA4g5F5guU/qtHiKCI=;
-        b=Sk1nLLNxBHUj85//VSVF0Ns7DRHdW/HY0Kai7YAS5mHcGhIgCeo7lYsV/WENIoHigA
-         x7ewtUXegC2HM+aU5ka19OaZAWtFgjhKN1VIExS+SNqonWJ5QECmlnwkdmapvz3LLAsk
-         FZA2J53SOmDDHMdOikMIaLZPcccgRDcyCPl2pj+a1ofn7AeXvD28vF05h+jNcEo/qN32
-         ZTAj4yYNi5IRZ25HnUvl5Ea5ZTy68JUfvqwYvvwXdpjYAmG/v0Q5FBXSDp57MoIV9U9j
-         331i2Q1dlhmpTZAS/NgciSxkff3FXc8muQ4HKQnc2KVFx3butdSRGdp840qwHbP7NjXU
-         x58w==
-X-Forwarded-Encrypted: i=1; AFNElJ9Rv0+68plLzS3Yvagj0UI+zhrvBwsRS2QwDQM41qaJhkvuANm/89V691x0MykAXsDFZA4Xrhots5qluC/A@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy/lsFHR9FHHcyIYPdmP/eL1QPOEPzLVE0AOR4issbgHdZwKZ64
-	81Tpvc4u0LU+2N8tyymOMo/cLw4Ok2zzTYou/5tz5+GcpW1kcYVicH3JPBKDMCUTAnQ=
-X-Gm-Gg: AfdE7cnewBvZhbFXq7Do0kOcD19p7MLm84JaGjAF4tvj272IieA+s/wB2lVL7wtJrDR
-	g311wtVUF6VVtp7NxYvkh7bdSaa6LG6y0bWt+2NGRUjF2dJnaWdgdMUJGKh2PmOU6YJav4yiNTo
-	gCjItP+VJb3jv3dIOun/cRbsToFhPLiq6ViuaSsiY0Gu/UwDcFssvnxtYCeMgvAuKLqjn3EDwVu
-	azfsakIx+FV7im2jxDIXZ74Q8Naj11TAmfrKLnfgJ2wt7WRwNIzm8LHcZiqYzc8UwHcBr/SbFk9
-	pCqZHBcAqbbEM9nclS4D7q9Apuf04ECUY9qUGAppK5OzTGrTbGk9ufs+liW+BjcmHHXj/sSsqLT
-	TXpVI+KrkCR2CeZFTBZ0fQP7kh0LlvDo9OcjAuB00TeAIVpS5ciLEDL/w8A8MHuH3OrtqOfx4/X
-	R/qFKLj2ntaDXwcMCHF4a5AnOnP0O4YgSve0wlBSIypzuzwzL+Lli9rhfOx6xP/cpiVIxepkwLt
-	gA=
-X-Received: by 2002:a5d:6206:0:b0:460:71e6:e11 with SMTP id ffacd0b85a97d-46508bef711mr6121458f8f.24.1781884540258;
-        Fri, 19 Jun 2026 08:55:40 -0700 (PDT)
-Received: from localhost (p200300f65f47db04359fc0e70763236f.dip0.t-ipconnect.de. [2003:f6:5f47:db04:359f:c0e7:763:236f])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-466667881b4sm2481f8f.24.2026.06.19.08.55.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Jun 2026 08:55:39 -0700 (PDT)
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux@analog.com,
-	linux-iio@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b="n33Vxt+L"
+Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx1.riseup.net (Postfix) with ESMTPS id 4ghnHP4wnKzDsVd;
+	Fri, 19 Jun 2026 19:10:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=riseup.net; s=squak;
+	t=1781896241; bh=wOdBU+YmIYMDHasG0KNpyhf7X67DIx8P4D/25t4mIDU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=n33Vxt+LUh6Os1ovFbpGrSVky6SQXhp2Aa5dsrKOVUF8USFH1ieXk9bJuVppe0KJb
+	 xoOASzuyUdxWoBh4lG+JGF2J85wA7F0F/JxLs/qKadVW0lAFXek+Tf2zbJY2c6v/NI
+	 roYdHkmWmA3fMMu8rDy0VywabuB3CiBdEhzrsAVk=
+X-Riseup-User-ID: 3CC90C8FCF5178F51D57A0E171BA39BD226FD0C9F220EE9E3137C36D79379BDB
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	 by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4ghnHP07Ylz1ylX;
+	Fri, 19 Jun 2026 19:10:40 +0000 (UTC)
+From: Alonso Garrigues <agarrigues@riseup.net>
+To: gregkh@linuxfoundation.org
+Cc: straube.linux@gmail.com,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v1 13/13] staging: iio: Initialize spi_device_id arrays using member names
-Date: Fri, 19 Jun 2026 17:54:41 +0200
-Message-ID:  <cac7a68e6a6adb1b58207640ab045e59eec86f53.1781883685.git.u.kleine-koenig@baylibre.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <cover.1781883685.git.u.kleine-koenig@baylibre.com>
-References: <cover.1781883685.git.u.kleine-koenig@baylibre.com>
+	linux-kernel@vger.kernel.org,
+	Alonso Garrigues <agarrigues@riseup.net>
+Subject: [PATCH] staging: rtl8723bs: remove unnecessary braces in hal_intf.c
+Date: Fri, 19 Jun 2026 20:10:21 +0100
+Message-ID: <20260619191021.2205395-1-agarrigues@riseup.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2158; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=zTuxP9n0Z4lR5wzI18Se22YKGhVtliH9wswUfnB9Pt8=; b=owGbwMvMwMXY3/A7olbonx/jabUkhizTtLAEzs2nHzUIupk020Y9+ZllefxCX+HVwJ1JMkvDV Ra3uxd0MhqzMDByMciKKbLYN67JtKqSi+xc++8yzCBWJpApDFycAjCROh0Ohum/kjeyidQw+ssa Mxhd153N2d3mxHL/bMSabyenWOlN+9Ey8eTTL0y6jC1l75bYvA5bl7S19Em5yZEjVUeXbxZeWRq 0O0ch7mpExD7xh/0yJ1P+lx05Gq5w0OnDtbYO/ht+yRH3jzXPMbvzYJ3Vg1OBYR1/mE+2S6etac 0X2ieU8TlU+vr0es0S71lTnbIXrPwgr8L97JRKuU6xzeKza5472vGYXZDgCCx8uEayTMWgR7/p9 WWNr+39ytu5dhnOPbv1bEhbScQ6g/wvc1yCTwlMzIi51fmF4VVhkWjo6cY7zHGu9/ITfoZ4cDFW C9jVT3z0INJvS0Fe3FsD9odtv7VYjX8sOTmt2+dSwbI8AA==
-X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 
-While being less compact, using named initializers allows to more easily
-see which members of the structs are assigned which value without having
-to lookup the declaration of the struct. And it's also more robust
-against changes to the struct definition.
+Single statement blocks do not need braces
+if and else blocks should have consistent bracing
 
-The mentioned robustness is relevant for a planned change to struct
-spi_device_id that replaces .driver_data by an anonymous union.
-
-This patch doesn't modify the compiled arrays, only their representation
-in source form benefits. The former was confirmed with x86 and arm64
-builds.
-
-Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
+Signed-off-by: Alonso Garrigues <agarrigues@riseup.net>
 ---
- drivers/staging/iio/adc/ad7816.c       | 6 +++---
- drivers/staging/iio/frequency/ad9834.c | 8 ++++----
- 2 files changed, 7 insertions(+), 7 deletions(-)
+ drivers/staging/rtl8723bs/hal/hal_intf.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/iio/adc/ad7816.c b/drivers/staging/iio/adc/ad7816.c
-index 0e32a2295990..30644d2d7c54 100644
---- a/drivers/staging/iio/adc/ad7816.c
-+++ b/drivers/staging/iio/adc/ad7816.c
-@@ -426,9 +426,9 @@ static const struct of_device_id ad7816_of_match[] = {
- MODULE_DEVICE_TABLE(of, ad7816_of_match);
+diff --git a/drivers/staging/rtl8723bs/hal/hal_intf.c b/drivers/staging/rtl8723bs/hal/hal_intf.c
+index 9a3ebad35efc..f990df92b96e 100644
+--- a/drivers/staging/rtl8723bs/hal/hal_intf.c
++++ b/drivers/staging/rtl8723bs/hal/hal_intf.c
+@@ -170,9 +170,8 @@ void rtw_hal_update_ra_mask(struct sta_info *psta, u8 rssi_level)
  
- static const struct spi_device_id ad7816_id[] = {
--	{ "ad7816", ID_AD7816 },
--	{ "ad7817", ID_AD7817 },
--	{ "ad7818", ID_AD7818 },
-+	{ .name = "ad7816", .driver_data = ID_AD7816 },
-+	{ .name = "ad7817", .driver_data = ID_AD7817 },
-+	{ .name = "ad7818", .driver_data = ID_AD7818 },
- 	{ }
- };
- 
-diff --git a/drivers/staging/iio/frequency/ad9834.c b/drivers/staging/iio/frequency/ad9834.c
-index 4359b358e0e5..f95c5365cd03 100644
---- a/drivers/staging/iio/frequency/ad9834.c
-+++ b/drivers/staging/iio/frequency/ad9834.c
-@@ -465,10 +465,10 @@ static int ad9834_probe(struct spi_device *spi)
+ 	if (check_fwstate(pmlmepriv, WIFI_AP_STATE))
+ 		add_ratid(padapter, psta, rssi_level);
+-	else {
++	else
+ 		UpdateHalRAMask8723B(padapter, psta->mac_id, rssi_level);
+-	}
  }
  
- static const struct spi_device_id ad9834_id[] = {
--	{"ad9833", ID_AD9833},
--	{"ad9834", ID_AD9834},
--	{"ad9837", ID_AD9837},
--	{"ad9838", ID_AD9838},
-+	{ .name = "ad9833", .driver_data = ID_AD9833 },
-+	{ .name = "ad9834", .driver_data = ID_AD9834 },
-+	{ .name = "ad9837", .driver_data = ID_AD9837 },
-+	{ .name = "ad9838", .driver_data = ID_AD9838 },
- 	{ }
- };
- MODULE_DEVICE_TABLE(spi, ad9834_id);
+ void rtw_hal_add_ra_tid(struct adapter *padapter, u32 bitmap, u8 *arg, u8 rssi_level)
+@@ -216,9 +215,8 @@ void rtw_hal_dm_watchdog(struct adapter *padapter)
+ 
+ void rtw_hal_dm_watchdog_in_lps(struct adapter *padapter)
+ {
+-	if (adapter_to_pwrctl(padapter)->fw_current_in_ps_mode) {
++	if (adapter_to_pwrctl(padapter)->fw_current_in_ps_mode)
+ 		rtl8723b_HalDmWatchDog_in_LPS(padapter); /* this function caller is in interrupt context */
+-	}
+ }
+ 
+ void beacon_timing_control(struct adapter *padapter)
 -- 
-2.47.3
+2.54.0
 
