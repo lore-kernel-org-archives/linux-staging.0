@@ -1,102 +1,130 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D36F31E107
-	for <linux-staging@lists.linux.dev>; Fri, 19 Jun 2026 02:31:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 442582DB788
+	for <linux-staging@lists.linux.dev>; Fri, 19 Jun 2026 02:36:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781836301; cv=none; b=nyCjxYgami18KNpUMNvE6v3fhzqilLZUo5zrnYlYaJZCUpCX6ade9p8P/K3MQPIowPSZT8cKJDRwHy+8Qttm+Ta07Ouda1tyB2lXYkSgBcYOmsvgmFPX9l0oBwDMiSMBLoz9iK71PTaJzG1iU5Q9reJjXRRH/6BsG1VrE4Aqa9Q=
+	t=1781836576; cv=none; b=T6aBH4y+rWzNmInT53axKUPrvOZwt0r7FXW09izbfPkuooH7GlmJWDaX5eHzipkOuJv+vjy4lN411P/UiK6g8Rn4rDM0FuHQpRYkBoevZL2SCkhYn2E2479X1wOTz6qw4ORSwle2nBS0Oy+CpF5S3FLiJgvE9VYRA62JMLhdxV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781836301; c=relaxed/simple;
-	bh=XTRiVofuuvURnPJizagKNJPpNDhEXFZPMrC8i1La1bY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LNPS/5i8uQtFP5zlrZQPMt0aQR/alLN6PMtb5xNue/zmKkG5icb5NW4AbpV+lHmi6cbN+kAHlnBUSltuGocUAWZvzb0YircLhBdvCAaF3WYcSIYt4TrUNQ6ZUfNyqtZIrZpYTk1FVG41D0/VjqkJm4kq4JGi3NLsSSJX4/aYXcQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zo/clJEA; arc=none smtp.client-ip=209.85.128.45
+	s=arc-20240116; t=1781836576; c=relaxed/simple;
+	bh=uLJXlYx7wcOWsPeFy9gNmfIk9XvzdJeo7mJlUDmtkdA=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=Q8nMI5No0tUWrFHDQvxShmmTK3jFOZpWo5VbFd/D72qM73gr5jTvAjK1ox+YWgNIYbAjiDdTYqDJqM8vek0Tqv9UbweMTrAKFatbztuMdPmnKf4N+JTZpQvH/e55UeHPOPLo1o1ePBp70YL+wIlT8kjbMuSpcvVG0z3VER6UBkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bS1lQC8q; arc=none smtp.client-ip=209.85.210.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zo/clJEA"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4922244f7c7so12944455e9.0
-        for <linux-staging@lists.linux.dev>; Thu, 18 Jun 2026 19:31:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bS1lQC8q"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-8454160043aso1177074b3a.3
+        for <linux-staging@lists.linux.dev>; Thu, 18 Jun 2026 19:36:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781836298; x=1782441098; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+        d=gmail.com; s=20251104; t=1781836574; x=1782441374; darn=lists.linux.dev;
+        h=mime-version:content-transfer-encoding:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lAiZnN0PO6pqTF6376JT7WwOecYF/RxS/5CZpEWZeKY=;
-        b=Zo/clJEApVAx5Y0qSFNfxZONhglJaJCPiv3I73x9zmXvL/UwBFyB07msPPEzP1kRJw
-         ItjWqq0RD7hAiyTlWE7BuULsXTz+jCR1I1Cm6AVar9qNkDktHn6W31w555je/KYEZi1/
-         /wLC/uhSv0pRinP0aci1/Zu9NM+JWZf9ypqkZsEksGke0vx1jJ7mDdzvrC9LUp2SGZmV
-         8o9q5hEJTgYIoE3mAtikE++z5FFseuACIEtIvHxt3rsch/nc+ZoaE8h1dgTAYJc/Huly
-         vs+tDLUzfvNexKOokDGhsDwRtrt/HdwkMxbdpkc/2rhmyFZp1gKPfdmQju7GF3dU+jpu
-         9Pyw==
+        bh=XHqEORpslI1FT63Z8ElNeWMRAg3ec3xTp1z9QP8/uho=;
+        b=bS1lQC8q2pBQbhHlYwS+1psdCXJoxRPO28mqNyvgugZge9Bh4/JhEk6tTXncoUWxcZ
+         njc2Ff+AVwAlx3HUJNxQpj3G3tXxTNns/t6wzYZJoznMWrBwIe8gRZpqsG9HzWkdqSb7
+         KGwsGdZN1jz6CBYGwWB3Cb892Q7UJuB7y5tJo1mc8DJtOwT59Kk/3zd/pvOjO3Iygg5D
+         /a8PcAWbFonzfkvFiJypIhCmrTHwF2Ay6+u2wqcKq+yr3gqBiZ6oXnKCUHRdPkFo9/sn
+         nCyX3IHMSytcydU5JqEHHdIaCfSuQj8HCeqHl9P7weuxxFXrMFqzc/LxTB8P1zSyFB5T
+         IGng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781836298; x=1782441098;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+        d=1e100.net; s=20251104; t=1781836574; x=1782441374;
+        h=mime-version:content-transfer-encoding:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lAiZnN0PO6pqTF6376JT7WwOecYF/RxS/5CZpEWZeKY=;
-        b=ArIOlP/tNQmSjE33Nh2wJCZkRCMsF30gTqmMqR5OG5hgq0k4W067WW/k3TZLF2V99F
-         VHA0JO53znj05rfSM5WXeMYjf8H8MNfsii3NJjQgBgya2Bp3wpn+h7UxUXm55Ui5kghU
-         jPWPpIdUIogK6/EYLDQ9fOXhZuUTy/bPT0uVafNt6LxdXGhe554gSt2NUbOT48kmYsnM
-         VgAuxg6ldtQSIn7gQ5aOFZvirygLVBD01bIwHPd7ecAyJLAHpTBNxdJgVMd0jnROHYBm
-         E+8TV6qXeTq3jVTGDqoxdd9oBMx6J0+99nz0m1pXXStvFmj5SWY+45kUhhHvM/wxYCPf
-         MbTQ==
-X-Gm-Message-State: AOJu0YxYUNFtuBK/vx/pIAtRyvCcR+lANWBGp+XN2Flqb2R1sZntpEFt
-	SQMHtPdq3pnrnYGgIbSfitTe0o4h70A4xTAqSXe4Wpqqv1A2QZKbuNIj
-X-Gm-Gg: AfdE7clNI+0qew/0tDP/nhJEyIV0h4KwFG4HV416WEYk730LVxurgnNyNSSta6a6ewf
-	wXyRPpoTsI9JWFoO8e2ybSZTqmG6/aNUVl2MbpV9hf7ROlVrksUgPWQoitgQzi/oR8LqeQhMTWQ
-	qqaRPB/l9ZkLIqhr6pZgkrPig2rKcem59C6EVuAW10qksGL4Ldinem6mHQ8tuHixiQYHK54dN7b
-	Pl2JHBjLrMp3N2fwpFooXml3OBJij3P7NiaXAqJ2uUPuw9dH1mnCE3EVZJSDl2ZjlfbvTcnYVEf
-	J2FoXjn9hYoSuYJ2Y3XmqA0cRT/4x3lEApQsOnOIaMggyiHor61PKrJ8e3OoOLya0KtWTHRZZNX
-	X/5WWnWu4wt66GjeDcQe8qi0GQvFegePJptZhrfzMqKChyp8uHLfuPlQoOPNnrzuP3afb5OlYTQ
-	gmZIJ8QiCx
-X-Received: by 2002:a05:600c:34ce:b0:492:4335:4d4c with SMTP id 5b1f17b1804b1-49243354dd2mr4346835e9.30.1781836297675;
-        Thu, 18 Jun 2026 19:31:37 -0700 (PDT)
-Received: from adr.. ([185.252.220.117])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4650bc41d01sm3558121f8f.25.2026.06.18.19.31.34
+        bh=XHqEORpslI1FT63Z8ElNeWMRAg3ec3xTp1z9QP8/uho=;
+        b=LdkHuXYppw7iRWm3JLV+qvN6HENNT1QgO64S9GNtub6CsVyq8C1XuIB+aEs9/IxdLV
+         ENcNFJv2sprnpfjfO5WDiwyIgUZsSzZ03G6KlKWXbtqyDywCIzPRHCAxwzMxA1AftjR2
+         oaKukWvkq+9ho5x7KY6qZYS7AE6LEWnuIvJmVfi0XkhFXsNe8K7EeXTU+Ou0DiHfetGv
+         ZO3rnTn1y+Yp3/vOsjxHPuW7sAVst0qWWNS8lyM/EOwdX4lUMruMer3Th8zFrnYT5Oft
+         gY7FkaS5i86peD6Ak+A+j8wBcke0yjXliFLI60nBaA5Bhb2dr4z2s+LBwyGcTyqU2wfC
+         AZ5A==
+X-Forwarded-Encrypted: i=1; AFNElJ/M3RkH5orIoJ8CYGTagmuJd3m0rVS+DtdCB3vptZ6l4ywClrQVsZvSvfRmSdok04MBEHYFoyehHarwEuao@lists.linux.dev
+X-Gm-Message-State: AOJu0YzXmpM3uqNFQL4I5kIspJHdQUUxM3cT82u7NgOoQh3h6h2knfQX
+	GzTlCtRvbWqgupqrGGILw0sLycjG/2tkT0MSeZKOpurtwb41q4yA6po0
+X-Gm-Gg: AfdE7cmLVdCKQ7DgDvcX7Y5GDGaJC1erTDMcbC1i0Kqd/7Rd9lqIFEaxE76/v8ZnHJf
+	bVQ04wj6nFFqb6jP63XMcioRCJ3PtG4i0B0chjlvA2Z/Kzpe4/TdAKtWrbzyVc+lwo6KKrPxSf7
+	xuCPJVqdGECzmyux1TxWosQxwmTja0L4WfMmJEliBf6+fgJjEMm6YSFnFXUsrAE6glGfUG5JqDP
+	U0JnTc1FBTFctg3NnZtbuzQhV/bv6ku537u4QVSxQZ23eRc3UfZ2jCj6r4euEY1sjEMEY8rkGsV
+	TA+vAM1xGWHAGAWhf8P9joytyiG7WSlSRZV/Kk12MR0YpDiql0pB1qNwRxJNJidjITJ30FuAglK
+	G89oW8xZOLlnnZzHBLVNXHg8mhqoMX5HBDQSE6F5M231jTUC0VZp77QkZWoiaBYxFGx6SdU2DeC
+	HXqR1h0jAtFG8W5eispfgqTGSwV5KW/R0oLMku3w==
+X-Received: by 2002:a05:6a00:4f96:b0:842:77ab:35df with SMTP id d2e1a72fcca58-8455079fd98mr1677838b3a.11.1781836574505;
+        Thu, 18 Jun 2026 19:36:14 -0700 (PDT)
+Received: from csl-conti-dell7858.ntu.edu.sg ([155.69.195.57])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-845537fa674sm530464b3a.33.2026.06.18.19.36.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2026 19:31:36 -0700 (PDT)
-From: Andrezinrc <andrem.33333@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Andrezinrc <andrem.33333@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: remove redundant kfree check in rtw_xmit.c
-Date: Thu, 18 Jun 2026 23:29:38 -0300
-Message-ID: <20260619022938.15691-1-andrem.33333@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Thu, 18 Jun 2026 19:36:13 -0700 (PDT)
+From: Maoyi Xie <maoyixie.tju@gmail.com>
+To:
+ Vaibhav Agarwal <vaibhav.sr@gmail.com>, Mark Greer <mgreer@animalcreek.com>
+Cc: Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, greybus-dev@lists.linaro.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject:
+ staging: greybus: audio: possible out of bounds read in the topology parser
+Date: Fri, 19 Jun 2026 10:36:10 +0800
+Message-ID: <178183657058.3862365.12892304946786698397@maoyixie.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Remove the redundant null check before calling kfree. ccheckpatch
-reminds us that kfree(NULL) is safe and this check is not required.
+Hi all,
 
-Signed-off-by: Andrezinrc <andrem.33333@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_xmit.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+I think the Greybus audio topology parser in
+drivers/staging/greybus/audio_topology.c can read past the topology blob
+when a module reports inconsistent counts. I would appreciate it if you
+could take a look.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-index 7bce0343d..92e818705 100644
---- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-@@ -1736,10 +1736,9 @@ s32 rtw_free_xmitframe(struct xmit_priv *pxmitpriv, struct xmit_frame *pxmitfram
- 		pxmitframe->pkt = NULL;
- 	}
- 
--	if (pxmitframe->alloc_addr) {
--		kfree(pxmitframe->alloc_addr);
-+	kfree(pxmitframe->alloc_addr);
-+	if (pxmitframe->alloc_addr)
- 		goto check_pkt_complete;
--	}
- 
- 	if (pxmitframe->ext_tag == 0)
- 		queue = &pxmitpriv->free_xmit_queue;
--- 
-2.43.0
+gb_audio_gb_get_topology() allocates the blob to a device-reported u16 size
+and only checks that it is at least sizeof(struct gb_audio_topology).
 
+	size = le16_to_cpu(size_resp.size);
+	if (size < sizeof(*topo))
+		return -ENODATA;
+	topo = kzalloc(size, GFP_KERNEL);
+
+After that the parser trusts the interior fields. gb_generate_enum_strings()
+walks one C string per item with no end pointer.
+
+	items = le32_to_cpu(gbenum->items);
+	for (i = 0; i < items; i++) {
+		strings[i] = data;
+		while (*data != '\0')
+			data++;
+		data++;
+	}
+
+items is a device le32 and there is no guarantee the blob holds that many
+NUL terminated strings, so the while loop runs off the end of the
+allocation. The same pattern is in gbaudio_tplg_process_header(), which
+derives the control, widget and route offsets by adding device le32 block
+sizes with no check against the end of the blob, and in the csize cursor
+advance in gbaudio_tplg_process_kcontrols() and gbaudio_tplg_create_widget().
+
+The whole blob is device data parsed on the probe path with no privilege
+needed. The attacker here is a malicious or faulty Greybus audio module on
+the interface.
+
+I reproduced the enum string walk under KASAN on 7.1-rc7. A blob with one
+NUL per item stays inside the allocation. A blob with missing terminators
+makes KASAN report a slab out of bounds read past the buffer.
+
+I have a partial fix that passes the buffer end into the enum walk and stops
+on overrun. A complete fix also needs to bound the header offsets and the
+csize advances against the allocation size, so I wanted to ask before
+sending a series.
+
+Does this look like a real bug to you? If it does I am happy to send a
+proper patch. The parser was added in c8e6336bb3f8 ("greybus: audio: Add
+topology parser for GB codec"), which I think is the right Fixes tag.
+
+Thanks,
+Maoyi
+https://maoyixie.com/
