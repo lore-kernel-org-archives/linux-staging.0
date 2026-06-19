@@ -1,74 +1,69 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 847B027727
-	for <linux-staging@lists.linux.dev>; Fri, 19 Jun 2026 02:23:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D36F31E107
+	for <linux-staging@lists.linux.dev>; Fri, 19 Jun 2026 02:31:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781835789; cv=none; b=kiJxFRWR+Uvwmqb10YGdAG8fRRpvUKnjoYjUehBW+S8q7gi/HlfesGuowQooYnz4Zi/7JAkO21PrShw1ZazZC6UbdC3hYt9c25EcTVFflfcdd+3mjPjSCCxojovh8vtj7mSVywHJ6djIP0RsDOcdpztkzGfDlm277fCjdM21dbE=
+	t=1781836301; cv=none; b=nyCjxYgami18KNpUMNvE6v3fhzqilLZUo5zrnYlYaJZCUpCX6ade9p8P/K3MQPIowPSZT8cKJDRwHy+8Qttm+Ta07Ouda1tyB2lXYkSgBcYOmsvgmFPX9l0oBwDMiSMBLoz9iK71PTaJzG1iU5Q9reJjXRRH/6BsG1VrE4Aqa9Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781835789; c=relaxed/simple;
-	bh=WlFyrUoPly4po1Npw/DcQb5m4Nzzry8Hd4sYo+0bJKQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=C7GS4mQ6w8B8Uv0+qReyq1iBWBuPsIH3He0c4tpys17lH9XrADPGEx3XjG6Fx6AUSusMvHuCHE5BCUVoMeRl/wx5wwVt4zmtOFrdy+H6qg/YaYji4CH0GptiwOnngiROybctLqE8CvhL+YopzmyziqAJESks35GX0KNCP8O7ZmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cDFuYVNJ; arc=none smtp.client-ip=209.85.216.49
+	s=arc-20240116; t=1781836301; c=relaxed/simple;
+	bh=XTRiVofuuvURnPJizagKNJPpNDhEXFZPMrC8i1La1bY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LNPS/5i8uQtFP5zlrZQPMt0aQR/alLN6PMtb5xNue/zmKkG5icb5NW4AbpV+lHmi6cbN+kAHlnBUSltuGocUAWZvzb0YircLhBdvCAaF3WYcSIYt4TrUNQ6ZUfNyqtZIrZpYTk1FVG41D0/VjqkJm4kq4JGi3NLsSSJX4/aYXcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zo/clJEA; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cDFuYVNJ"
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-36dac5d5da0so724705a91.2
-        for <linux-staging@lists.linux.dev>; Thu, 18 Jun 2026 19:23:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zo/clJEA"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4922244f7c7so12944455e9.0
+        for <linux-staging@lists.linux.dev>; Thu, 18 Jun 2026 19:31:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781835788; x=1782440588; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=885ZheLC3ilm/H/MdoKXpWbM++l5bgQeNVRWdR2KltQ=;
-        b=cDFuYVNJ4hCI9nEuP+q0n0F/dyGiqwoDVQFBfVCIGF/Q6WQx2JSK9yp/alIyxZq9uJ
-         wMOzKa8rm12R25u+Pa+kbX5ImiEbRq4GAOS2tC2PE/8ERBeWv4Cr9eRKC6bxB30b4DfF
-         qL9LJpShx/3CARwckAifziwQDNw5tPuEUHQk3Y2wknZgyHiFpAG5gqoeY7bOsAYVuVdv
-         gADwneNlw9igGASxunx0OYwLo1xQJDQ3mwBSUDZMJi3y0+0w87tgfcWaSnfA+9tP2H+D
-         6NcK9wSjbgTNBhGh5NtzRKEjJ58+tIP2eIrnXGDZQzpfuIivctuzUOpf3FcY27JSDdgX
-         6VlQ==
+        d=gmail.com; s=20251104; t=1781836298; x=1782441098; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lAiZnN0PO6pqTF6376JT7WwOecYF/RxS/5CZpEWZeKY=;
+        b=Zo/clJEApVAx5Y0qSFNfxZONhglJaJCPiv3I73x9zmXvL/UwBFyB07msPPEzP1kRJw
+         ItjWqq0RD7hAiyTlWE7BuULsXTz+jCR1I1Cm6AVar9qNkDktHn6W31w555je/KYEZi1/
+         /wLC/uhSv0pRinP0aci1/Zu9NM+JWZf9ypqkZsEksGke0vx1jJ7mDdzvrC9LUp2SGZmV
+         8o9q5hEJTgYIoE3mAtikE++z5FFseuACIEtIvHxt3rsch/nc+ZoaE8h1dgTAYJc/Huly
+         vs+tDLUzfvNexKOokDGhsDwRtrt/HdwkMxbdpkc/2rhmyFZp1gKPfdmQju7GF3dU+jpu
+         9Pyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781835788; x=1782440588;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=885ZheLC3ilm/H/MdoKXpWbM++l5bgQeNVRWdR2KltQ=;
-        b=WXPvOd8FPDvwmWwK7UuHDfW2D42rsZAfhElIc5M4deoiBX/SSVKxwKxaisqmB5GJWH
-         WicAsxaNAGD5cftCjo8/zeKeXiyWp9hhbKiFxc6qXa5oJOos96+D1rELSxcTs/YYEHpI
-         QJpNyfOHJaEnAXgJNcas5l+KkgV3wgpICaWFOsxtVqpnQzQI+UAQCjmtxuV9WNWWO2Ae
-         fwK/B5CwLHfZ3HhZ3b6ZeBHZeTHyHkyVE4OmydXMOht1ZR7hBNAKl3hrd5p35HrK+00h
-         /C0V8ZHoF2kfbvSXlHCy0DwTUSTz8lTrGbRusbePyWRI7htDvr/scqij5DNnZIN4nf/I
-         cIfQ==
-X-Gm-Message-State: AOJu0Yz86kkNHOwGzhuRpQBA+6F9wayhclj2ag/1HGTnPMRFHsfKyE+j
-	B6w9CEySfG2IOPMTolK8VkUBb9ZTNMYQZ6ivQHWr8FPVjAmOmcyQzNta
-X-Gm-Gg: AfdE7cnl9JGGjZ+b3FoQtRj8EBgeX+0rthQyDQaZJ9NoioCsqgDoFptVUfGCIir5nsh
-	xDF2rTihr4jdSOoRV4gH7I9dyvBivf3rr227ZLFRAVdCC8AhjcLtsDyDoBiige2IzYZBOAqxXAx
-	gTTQAcH0mpkKOOUCK6StLgaEpgHZXpe0IZ+AL/WnBKQvEOHSUu9VRnnkJ3u+03XvCe6tdUuOaWh
-	z4xVwzDYFv32wC4wnBtI7D1gpF7sZfGHdkO4NUNEzUL1Rhzz9W7NlzYAqAlFNwNQAdimF2J+/gu
-	/WBkVaCu/4ZaEdgbhla8gQ9Tibe7C3mqhtD58G9w3C5IHFHwMrTcIsYrttKRF/ZwMbTeq55XjCC
-	72NZh/QpH/qwkezK7JZUm7ayf4HTGZDqLDDlDkxmh1JJycSKP3kEytafi0rNhnvU9PUtV5hP4iD
-	fGCNYgJ9zyUeQyk3wqSVYZbKvvB2osScXcf2icz1VMrpNbgoCfD5AZxuU5NbnN8/cbEe26
-X-Received: by 2002:a17:90b:568d:b0:36b:71e6:3de3 with SMTP id 98e67ed59e1d1-37d160bd31cmr1842339a91.3.1781835787755;
-        Thu, 18 Jun 2026 19:23:07 -0700 (PDT)
-Received: from moksh-Nitro-ANV15-51.. ([2401:4900:c0b0:86df:f75a:8ee6:3dae:31fa])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c8a888e219fsm768539a12.21.2026.06.18.19.23.05
+        d=1e100.net; s=20251104; t=1781836298; x=1782441098;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lAiZnN0PO6pqTF6376JT7WwOecYF/RxS/5CZpEWZeKY=;
+        b=ArIOlP/tNQmSjE33Nh2wJCZkRCMsF30gTqmMqR5OG5hgq0k4W067WW/k3TZLF2V99F
+         VHA0JO53znj05rfSM5WXeMYjf8H8MNfsii3NJjQgBgya2Bp3wpn+h7UxUXm55Ui5kghU
+         jPWPpIdUIogK6/EYLDQ9fOXhZuUTy/bPT0uVafNt6LxdXGhe554gSt2NUbOT48kmYsnM
+         VgAuxg6ldtQSIn7gQ5aOFZvirygLVBD01bIwHPd7ecAyJLAHpTBNxdJgVMd0jnROHYBm
+         E+8TV6qXeTq3jVTGDqoxdd9oBMx6J0+99nz0m1pXXStvFmj5SWY+45kUhhHvM/wxYCPf
+         MbTQ==
+X-Gm-Message-State: AOJu0YxYUNFtuBK/vx/pIAtRyvCcR+lANWBGp+XN2Flqb2R1sZntpEFt
+	SQMHtPdq3pnrnYGgIbSfitTe0o4h70A4xTAqSXe4Wpqqv1A2QZKbuNIj
+X-Gm-Gg: AfdE7clNI+0qew/0tDP/nhJEyIV0h4KwFG4HV416WEYk730LVxurgnNyNSSta6a6ewf
+	wXyRPpoTsI9JWFoO8e2ybSZTqmG6/aNUVl2MbpV9hf7ROlVrksUgPWQoitgQzi/oR8LqeQhMTWQ
+	qqaRPB/l9ZkLIqhr6pZgkrPig2rKcem59C6EVuAW10qksGL4Ldinem6mHQ8tuHixiQYHK54dN7b
+	Pl2JHBjLrMp3N2fwpFooXml3OBJij3P7NiaXAqJ2uUPuw9dH1mnCE3EVZJSDl2ZjlfbvTcnYVEf
+	J2FoXjn9hYoSuYJ2Y3XmqA0cRT/4x3lEApQsOnOIaMggyiHor61PKrJ8e3OoOLya0KtWTHRZZNX
+	X/5WWnWu4wt66GjeDcQe8qi0GQvFegePJptZhrfzMqKChyp8uHLfuPlQoOPNnrzuP3afb5OlYTQ
+	gmZIJ8QiCx
+X-Received: by 2002:a05:600c:34ce:b0:492:4335:4d4c with SMTP id 5b1f17b1804b1-49243354dd2mr4346835e9.30.1781836297675;
+        Thu, 18 Jun 2026 19:31:37 -0700 (PDT)
+Received: from adr.. ([185.252.220.117])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4650bc41d01sm3558121f8f.25.2026.06.18.19.31.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2026 19:23:07 -0700 (PDT)
-From: Moksh Panicker <mokshpanicker.7@gmail.com>
-To: gregkh@linuxfoundation.org
+        Thu, 18 Jun 2026 19:31:36 -0700 (PDT)
+From: Andrezinrc <andrem.33333@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	Moksh Panicker <mokshpanicker.7@gmail.com>
-Subject: [PATCH 3/3] staging: rtl8723bs: Replace bare 'uint' with 'unsigned int' in rtw_ap.c
-Date: Fri, 19 Jun 2026 02:22:10 +0000
-Message-Id: <20260619022210.143940-4-mokshpanicker.7@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260619022210.143940-1-mokshpanicker.7@gmail.com>
-References: <20260619022210.143940-1-mokshpanicker.7@gmail.com>
+	Andrezinrc <andrem.33333@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: remove redundant kfree check in rtw_xmit.c
+Date: Thu, 18 Jun 2026 23:29:38 -0300
+Message-ID: <20260619022938.15691-1-andrem.33333@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,73 +72,31 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace bare use of 'uint' with 'unsigned int' in multiple functions
-in rtw_ap.c. This fixes the following checkpatch.pl warning:
+Remove the redundant null check before calling kfree. ccheckpatch
+reminds us that kfree(NULL) is safe and this check is not required.
 
-WARNING: Prefer 'unsigned int' to bare use of 'unsigned'
-Signed-off-by: Moksh Panicker <mokshpanicker.7@gmail.com>
+Signed-off-by: Andrezinrc <andrem.33333@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_ap.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_xmit.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
-index 4b4012411..d4aca0c0c 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ap.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-@@ -60,7 +60,7 @@ static void update_BCNTIM(struct adapter *padapter)
- 	/* update TIM IE */
- 	u8 *p, *dst_ie, *premainder_ie = NULL, *pbackup_remainder_ie = NULL;
- 	__le16 tim_bitmap_le;
--	uint offset, tmp_len, tim_ielen, tim_ie_offset, remainder_ielen;
-+	unsigned int offset, tmp_len, tim_ielen, tim_ie_offset, remainder_ielen;
- 
- 	tim_bitmap_le = cpu_to_le16(pstapriv->tim_bitmap);
- 
-@@ -156,7 +156,7 @@ static void update_BCNTIM(struct adapter *padapter)
- 		kfree(pbackup_remainder_ie);
+diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+index 7bce0343d..92e818705 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
++++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+@@ -1736,10 +1736,9 @@ s32 rtw_free_xmitframe(struct xmit_priv *pxmitpriv, struct xmit_frame *pxmitfram
+ 		pxmitframe->pkt = NULL;
  	}
  
--	offset =  (uint)(dst_ie - pie);
-+	offset =  (unsigned int)(dst_ie - pie);
- 	pnetwork_mlmeext->ie_length = offset + remainder_ielen;
- }
+-	if (pxmitframe->alloc_addr) {
+-		kfree(pxmitframe->alloc_addr);
++	kfree(pxmitframe->alloc_addr);
++	if (pxmitframe->alloc_addr)
+ 		goto check_pkt_complete;
+-	}
  
-@@ -801,7 +801,7 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
- 	u8 *pHT_info_ie = NULL;
- 	struct sta_info *psta = NULL;
- 	u16 cap, ht_cap = false;
--	uint ie_len = 0;
-+	unsigned int ie_len = 0;
- 	int group_cipher, pairwise_cipher;
- 	u8 channel, network_type, support_rate[NDIS_802_11_LENGTH_RATES_EX];
- 	int support_rate_num = 0;
-@@ -1408,7 +1408,7 @@ static void update_bcn_wps_ie(struct adapter *padapter)
- 	u8 *premainder_ie;
- 	u8 *pbackup_remainder_ie = NULL;
- 
--	uint wps_ielen = 0, wps_offset, remainder_ielen;
-+	unsigned int wps_ielen = 0, wps_offset, remainder_ielen;
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
- 	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
-@@ -1428,7 +1428,7 @@ static void update_bcn_wps_ie(struct adapter *padapter)
- 	if (!pwps_ie_src)
- 		return;
- 
--	wps_offset = (uint)(pwps_ie - ie);
-+	wps_offset = (unsigned int)(pwps_ie - ie);
- 
- 	premainder_ie = pwps_ie + wps_ielen;
- 
-@@ -1437,7 +1437,7 @@ static void update_bcn_wps_ie(struct adapter *padapter)
- 	if (remainder_ielen)
- 		pbackup_remainder_ie = kmemdup(premainder_ie, remainder_ielen, GFP_ATOMIC);
- 
--	wps_ielen = (uint)pwps_ie_src[1];/* to get ie data len */
-+	wps_ielen = (unsigned int)pwps_ie_src[1];/* to get ie data len */
- 	if ((wps_offset + wps_ielen + 2 + remainder_ielen) <= MAX_IE_SZ) {
- 		memcpy(pwps_ie, pwps_ie_src, wps_ielen + 2);
- 		pwps_ie += (wps_ielen + 2);
+ 	if (pxmitframe->ext_tag == 0)
+ 		queue = &pxmitpriv->free_xmit_queue;
 -- 
-2.34.1
+2.43.0
 
