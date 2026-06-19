@@ -1,45 +1,47 @@
-Received: from mx0.riseup.net (mx0.riseup.net [198.252.153.6])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.mohammad-abbasi.me (smtp.mohammad-abbasi.me [94.101.181.100])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A642137475B
-	for <linux-staging@lists.linux.dev>; Fri, 19 Jun 2026 10:54:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.252.153.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09725378D87
+	for <linux-staging@lists.linux.dev>; Fri, 19 Jun 2026 11:39:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.101.181.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781866486; cv=none; b=sLfp/ApKxrFXNIB8lsPAyasm53nGDg4zIbzsD079clemyam2mHjhMwEBRlccSh9LQhPjT+fJ1+QJuVTb5o3rIzw9g6cIkJ1ZfpSb+mM/mVhKSkIIz97pVd++nP179lWppEAGV/OwXyNxJplDz3Q7epNxq2ZsHCWEB/CAUl5BQY4=
+	t=1781869168; cv=none; b=nMHMwW0caLjiNqeGxY9+ARRO8ebRRH2bBG57r51RRTDuddln6f5mnDTirIOzvopRLTuQS+DyQSHNnKHT1+b1XDg0tlxLSXE2p5yO6bi4y4s9vB2rxYG3GiuLTbaIg9wmTOyQmvwp8ttwwSkD3NKrqEcbctvSpmDxKkxBoBLDzuo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781866486; c=relaxed/simple;
-	bh=v8L8wInTChqahGEXVkOA2vsFJAo9FZGH0RiPJ6+cN/c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rMqEnPKQKTE56ZkR/5esrMhI7cxruE2zgClUScCg81uR3N5ABKbpUqZC3gOlISqEXkXEfN4N5Z5dQNHgQiA7oUwRLpKqQc10O9G75pF5k+7DevwaWSnR2bmcXCfdQsnexyw48k2O3l0d4GRIJKAboePdNPZBjCLg3XwUE73mZo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net; spf=pass smtp.mailfrom=riseup.net; dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b=nHbIZ42T; arc=none smtp.client-ip=198.252.153.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riseup.net
+	s=arc-20240116; t=1781869168; c=relaxed/simple;
+	bh=SD9pDIGWybQweBTpEcCVt/d09bjpeY4ScX8V1qoppeU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ru+HGKbd5ovT/FsmTesZzaiNZawTVlYKIQyccFWoVh95oAOqE5qK7Xrs1Z8ySo93CcJOJxf1SC0veXICCHdtUI0CAoaTNG6uDZxmiPoLqqF8R39p+22Egcb6I7MKICOG20l7Qky3fNWftW2fPVvu7qTEEL0tQjR0ExB0fR+6tL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mohammad-abbasi.me; spf=pass smtp.mailfrom=mohammad-abbasi.me; dkim=pass (2048-bit key) header.d=mohammad-abbasi.me header.i=@mohammad-abbasi.me header.b=PqOpgzeQ; arc=none smtp.client-ip=94.101.181.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mohammad-abbasi.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mohammad-abbasi.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b="nHbIZ42T"
-Received: from fews04-sea.riseup.net (fews04-sea-pn.riseup.net [10.0.1.154])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx0.riseup.net (Postfix) with ESMTPS id 4ghZH90z0bz9sF1;
-	Fri, 19 Jun 2026 10:54:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=riseup.net; s=squak;
-	t=1781866485; bh=A1y2SYLo6h8pa/wSNIf39x6uCEw3JC9uLVLq0i9fV4M=;
-	h=From:To:Cc:Subject:Date:From;
-	b=nHbIZ42T8bBCjiucmnU3LWrJUda4BOl2e3rN//HtQxUOL8pJ17kJq+iH7SjtSrpMF
-	 AxSmTd6fashfWDipd7pMtdX+MpQcRDAVY0AdMgLa7HQk0Lb3heu61uCmlHrbh2GwEw
-	 wyCoVEHRsPj9ny+mpvM08oUFj1sHd2S5MG7LkVC4=
-X-Riseup-User-ID: 743869109D5EDD7BA6743DBD6B78853AF288BCD119DF5601B3D31B18DD6935F7
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	 by fews04-sea.riseup.net (Postfix) with ESMTPSA id 4ghZH836KGz5wM9;
-	Fri, 19 Jun 2026 10:54:44 +0000 (UTC)
-From: Alonso Garrigues <agarrigues@riseup.net>
-To: gregkh@linuxfoundation.org
-Cc: error27@gmail.com,
-	linux-staging@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=mohammad-abbasi.me header.i=@mohammad-abbasi.me header.b="PqOpgzeQ"
+DKIM-Signature: a=rsa-sha256; bh=pt9ddXZcHlvNA0OerH4tSgmf+ADKkR9Q/WNTXAP10Cw=;
+ c=relaxed/relaxed; d=mohammad-abbasi.me;
+ h=Subject:Subject:Sender:To:To:Cc:Cc:From:From:Date:Date:MIME-Version:MIME-Version:Content-Type:Content-Transfer-Encoding:Content-Transfer-Encoding:Reply-To:In-Reply-To:Message-Id:Message-Id:References:Autocrypt:Openpgp;
+ i=@mohammad-abbasi.me; s=default; t=1781867956; v=1; x=1782299956;
+ b=PqOpgzeQRamZeNosEs9sfOdCZ+kvm8qJD8Ked3KgVOOJxvX80SeOJHJ6qk3tBGP6IWiHDIMg
+ vhp0Q/qffcEZEYCpDDbgDd0nxSqkIgWKwxxeD3GQoyeNJniLL8lROrn+yteiZ7WElLgfkl6HYDa
+ cK1x0R2w1YB2okrqShiLR7hvybVlp0iOkczHLcNK+GHKzldd58dCUA/EBn5jnkIwQ7CeKzBZlxA
+ H2Pv3eONj45VihVsEPKg42jt/LUekApWom927z+zvH89Be4VMKJudxB9z/Vh9aCfmlSNk98nAvQ
+ yzXxSs5lDoTAq6IDnf8wxNjaOXiofFus1TyVOFF4peGOQ==
+Received: by smtp.mohammad-abbasi.me (envelope-sender
+ <mail@mohammad-abbasi.me>) with ESMTPS id c8da53ec; Fri, 19 Jun 2026
+ 14:49:16 +0330
+From: Mohammad Abbasi <mail@mohammad-abbasi.me>
+To: hansg@kernel.org,
+	mchehab@kernel.org,
+	andy@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: sakari.ailus@linux.intel.com,
+	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Alonso Garrigues <agarrigues@riseup.net>
-Subject: [PATCH] staging: rtl8723bs: remove unnecessary braces in rtw_set_oper_ch
-Date: Fri, 19 Jun 2026 11:53:27 +0100
-Message-ID: <20260619105327.1877129-1-agarrigues@riseup.net>
+	linux-staging@lists.linux.dev,
+	Mohammad Abbasi <mail@mohammad-abbasi.me>,
+	Mohammad Abbasi <mohammad.v184@gmail.com>
+Subject: [PATCH] staging: media: atomisp: constify pmic_name array
+Date: Fri, 19 Jun 2026 14:49:07 +0330
+Message-ID: <20260619111907.242382-1-mail@mohammad-abbasi.me>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -48,28 +50,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Single statement if block does not need braces.
+Fix the following checkpatch warning:
 
-Signed-off-by: Alonso Garrigues <agarrigues@riseup.net>
+WARNING: static const char * array should probably be static const char * const
+Signed-off-by: Mohammad Abbasi <mohammad.v184@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_wlan_util.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-index 1d37c2d5b10d..cc05decd4c76 100644
---- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-@@ -256,9 +256,8 @@ inline void rtw_set_oper_ch(struct adapter *adapter, u8 ch)
- {
- 	struct dvobj_priv *dvobj = adapter_to_dvobj(adapter);
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+index a1d3a1692..d628fe4dc 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+@@ -109,7 +109,7 @@ static enum {
+ 	PMIC_CRYSTALCOVE
+ } pmic_id;
  
--	if (dvobj->oper_channel != ch) {
-+	if (dvobj->oper_channel != ch)
- 		dvobj->on_oper_ch_time = jiffies;
--	}
- 
- 	dvobj->oper_channel = ch;
- }
+-static const char *pmic_name[] = {
++static const char * const pmic_name[] = {
+ 	[PMIC_UNSET]		= "ACPI device PM",
+ 	[PMIC_REGULATOR]	= "regulator driver",
+ 	[PMIC_AXP]		= "XPower AXP288 PMIC",
 -- 
 2.54.0
 
