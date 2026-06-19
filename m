@@ -1,64 +1,64 @@
 Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E07033C98B9
-	for <linux-staging@lists.linux.dev>; Fri, 19 Jun 2026 15:55:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29B073B52FB
+	for <linux-staging@lists.linux.dev>; Fri, 19 Jun 2026 15:55:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781884550; cv=none; b=gXI66OaxnWZWkVJpe8lmyQXAKahvYAWi2/Oq3W9KKaegPrNvvqX/C+XQM3To4GnHjgNKzhgqW8i41S5jtNHOKdfLDXsYd6Kop8cHEd91Lh4guxaok1OQrEBqT1mL2rBIYEgzVlt9kpsMm/h5f1jwt76jgQHpdXZ8Pj+C30JXUaY=
+	t=1781884551; cv=none; b=YGyqCHePycYOQkz1iMJJs8e+ytEgDyeDvMrHEL7Hn98ZrQxakrbDHlgdtJJXpKAy2yoMaOXsQJGjLJUy4ZvAKxjn1wm/AZ5ws6SnfSNwadPPeJg2nBU04mAZfrqTz7s2uoyFYkbVv1hxZKujNgKgQJ6v4+4l4l6hc9FxawQoDmI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781884550; c=relaxed/simple;
-	bh=wPM5GGcsQFVTIBDPZ70NRcd8C2Qs0IrujwLvCiOl59g=;
+	s=arc-20240116; t=1781884551; c=relaxed/simple;
+	bh=zTuxP9n0Z4lR5wzI18Se22YKGhVtliH9wswUfnB9Pt8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=D8ifQmHJRDrH8vFfEEc9vyrr9LcsCprEsCSx+38nwPlVpxBIwz6HK7r722lzXm2awAS3Sjs0A+QeEqLjWY+dm0tfC9pIh/DnEV7Ovjw4rD71po87WyBtLVM/6i6hT33KBhvX27zPdnwqAb5ZaN/4wrqHs70t6d5EbOMBVhBcsqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=OzYSFzKX; arc=none smtp.client-ip=209.85.221.41
+	 MIME-Version:Content-Type; b=ZiIIdOy+COmZnne+6IsdzprFR6YZLUKrfwTfUcw6CafVO08YIfDm57rz5KKuN0bxMXPqdkUbJ5riCNTAGH4nwHaO++72np127Uc71axObZu/INDYAFDkEbcvAgF4yJj/XM1K/BuppUAk1Mm/H0wre8clpxBZou1Ojgsg8CXl2S4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=ZX0L0X26; arc=none smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="OzYSFzKX"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-462cdb88d01so1569887f8f.0
-        for <linux-staging@lists.linux.dev>; Fri, 19 Jun 2026 08:55:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="ZX0L0X26"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-461edb387ddso2235815f8f.3
+        for <linux-staging@lists.linux.dev>; Fri, 19 Jun 2026 08:55:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1781884538; x=1782489338; darn=lists.linux.dev;
+        d=baylibre.com; s=google; t=1781884540; x=1782489340; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bffnwId5AI6KcDIEhgyLtJOygYgr4I3ga9axIgTnSVc=;
-        b=OzYSFzKXOipCBd3jDvwZjsSdD3cXU51kg9MgAfWOGPewjJDbKTyBY5MAPWEJwZWWwd
-         QByNU5XoJdHwOy9InN5jZaUzn1Lfx5Hb1b6YyLQ3nUTUxUPGmGm8He7PwVZbP8lYkhBE
-         w4T39S6xtXGuJ3KwRxYpYbvehKHZhESGSs0tMTcLUKJqdYCQanIMNKAvvnWJX9NZ3x09
-         +WDVxe1Ut5P5whLg4u3/p2XrrjrKAjEckF8bwv1QS2GD314dCcj/zLNorF1HtJvr3REv
-         B3FQxd9jMcyzx62JJJ2yY4KY10RAM6nAL+T9Y5bEdPRSlnbv9mvNdyII32ewLGNb9p9r
-         6c9Q==
+        bh=E38KgysEUlpO0tvgqlXmMywYoQA4g5F5guU/qtHiKCI=;
+        b=ZX0L0X26AUdr0E8ZNdhEC2IovqXg8Ufc9XVDXSMHsBsa8UmT6FdYKrmeGyjxRdyIrm
+         JBRXeM92kz84rRlLamCisG5QYFDW6UEyrNiGODIFtQCFvijbzPzMkHjLkg3kD/YguBTz
+         ezu535q3PenTxwGpKvt4cngwztk94vvEsGN1of6G9uoxNNrIbRGFV5VH3bXnrfAtlTXv
+         MjbMDc2bKIwJfkOn11D9q/2rNVHw0Ah20/Luo9dPjuRw2FIYXGtfuRLXlaaDHgX9tLCj
+         qxFWuH7EgZRXjE+MHneClFc8CxrNwsFKNl49psG/TOWGdQ1iL++EtpyLP+aQIdUNtY+K
+         9PGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781884538; x=1782489338;
+        d=1e100.net; s=20251104; t=1781884540; x=1782489340;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=bffnwId5AI6KcDIEhgyLtJOygYgr4I3ga9axIgTnSVc=;
-        b=AP9b96z0b3Sab8iR/EeX1X+6fc7RvbKV/Wo/Exh579AQ6/WkxxjxkFPcQ/AnM2/sgA
-         ICWWAHeD1YcDxELguue+dRXjFzPlN+L1DcniQIRMNFuzUetR+LZbAEJ1Bw/JnNW1R8BH
-         9IfU3FGsdrXIK3Y2rlWWn9QavhbZQS0+B9VuZXOaIXIEw2OeTL2Vlm4HywAbDsfV5Ulg
-         Nsr9e2ZvZH7rSv+mX7p6rEadIj1ALdOLTxepqKNqcavBk+88Y2EL0quZ8ej7e13jjIRu
-         lgtnS6Mz+dM23eEFI0eMkV2qzl+MSmqAz+ft87l9AU1YnEEiBbM6kKaIzAMnhr1aJXU+
-         QVLw==
-X-Forwarded-Encrypted: i=1; AFNElJ9EDwrEYgiAUB9RGcMy1AnZgeS3MRYUqDzTPkzv4CVBu8KVUAhbwnW4c2R8slX1aoqPcQ0XjJYlAo4ID/IJ@lists.linux.dev
-X-Gm-Message-State: AOJu0YzYTY4MoEwnMly8Iv9oz+1xdkJwaRDIT7REQYL/or3vVmZhUInT
-	32sl9ppfgwczwB1p8J0QXicKm7OnLFD4e1U26KiPbbwCaSa7DmL5e0/BllfqK1WcD9Q=
-X-Gm-Gg: AfdE7cmti5uFMUfikb5im3+qVv1x/p59PJ/ChLN0zETBNbqlzssAdElhlfl2bgfRdPF
-	3KdZuRJKGsrEUNvBGByPbN3f8fqvMlt2kgHBzYDwZyJXB39944O1RQLKIcdx9gjj15X+V4yxlJr
-	8E8Kpu4okkecZqtn6J8y5SZDnvQB651vyzJOHwqcwCHnHzH8pdvfE/Q/yYpzJFPIfCuN4sNsEWk
-	k13SjmaxzJG/2Lq20RcGR5fgCx25LEfe7yul40guYYf4aZUEBV7fdBvbl8hO6AjCUnqegToiawK
-	YjtXG4tDP2oBnDSz1MYUPwpX2mco9/q2cNKmyIJyTOegsllXRqTkkbGOmd4ny+nuvV3AGLBj9+m
-	oHaq2Iyd/nUDHpklhB6UsvyFG3YrDpFgC9uHXPA74K4KDXefnkH0hkVhzoKgm5mTkTVVBJRViYN
-	miUqDOI+c6UpSt5S4Q7VvQvJJ1VYBoqfRztPBbEYo7mGSJwKnBbfrz/5rpoBhedargd0kVXDgk7
-	Lc=
-X-Received: by 2002:a05:6000:1787:b0:460:1c31:7cc8 with SMTP id ffacd0b85a97d-4651df0992fmr6429059f8f.14.1781884538281;
-        Fri, 19 Jun 2026 08:55:38 -0700 (PDT)
+        bh=E38KgysEUlpO0tvgqlXmMywYoQA4g5F5guU/qtHiKCI=;
+        b=Sk1nLLNxBHUj85//VSVF0Ns7DRHdW/HY0Kai7YAS5mHcGhIgCeo7lYsV/WENIoHigA
+         x7ewtUXegC2HM+aU5ka19OaZAWtFgjhKN1VIExS+SNqonWJ5QECmlnwkdmapvz3LLAsk
+         FZA2J53SOmDDHMdOikMIaLZPcccgRDcyCPl2pj+a1ofn7AeXvD28vF05h+jNcEo/qN32
+         ZTAj4yYNi5IRZ25HnUvl5Ea5ZTy68JUfvqwYvvwXdpjYAmG/v0Q5FBXSDp57MoIV9U9j
+         331i2Q1dlhmpTZAS/NgciSxkff3FXc8muQ4HKQnc2KVFx3butdSRGdp840qwHbP7NjXU
+         x58w==
+X-Forwarded-Encrypted: i=1; AFNElJ9Rv0+68plLzS3Yvagj0UI+zhrvBwsRS2QwDQM41qaJhkvuANm/89V691x0MykAXsDFZA4Xrhots5qluC/A@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy/lsFHR9FHHcyIYPdmP/eL1QPOEPzLVE0AOR4issbgHdZwKZ64
+	81Tpvc4u0LU+2N8tyymOMo/cLw4Ok2zzTYou/5tz5+GcpW1kcYVicH3JPBKDMCUTAnQ=
+X-Gm-Gg: AfdE7cnewBvZhbFXq7Do0kOcD19p7MLm84JaGjAF4tvj272IieA+s/wB2lVL7wtJrDR
+	g311wtVUF6VVtp7NxYvkh7bdSaa6LG6y0bWt+2NGRUjF2dJnaWdgdMUJGKh2PmOU6YJav4yiNTo
+	gCjItP+VJb3jv3dIOun/cRbsToFhPLiq6ViuaSsiY0Gu/UwDcFssvnxtYCeMgvAuKLqjn3EDwVu
+	azfsakIx+FV7im2jxDIXZ74Q8Naj11TAmfrKLnfgJ2wt7WRwNIzm8LHcZiqYzc8UwHcBr/SbFk9
+	pCqZHBcAqbbEM9nclS4D7q9Apuf04ECUY9qUGAppK5OzTGrTbGk9ufs+liW+BjcmHHXj/sSsqLT
+	TXpVI+KrkCR2CeZFTBZ0fQP7kh0LlvDo9OcjAuB00TeAIVpS5ciLEDL/w8A8MHuH3OrtqOfx4/X
+	R/qFKLj2ntaDXwcMCHF4a5AnOnP0O4YgSve0wlBSIypzuzwzL+Lli9rhfOx6xP/cpiVIxepkwLt
+	gA=
+X-Received: by 2002:a5d:6206:0:b0:460:71e6:e11 with SMTP id ffacd0b85a97d-46508bef711mr6121458f8f.24.1781884540258;
+        Fri, 19 Jun 2026 08:55:40 -0700 (PDT)
 Received: from localhost (p200300f65f47db04359fc0e70763236f.dip0.t-ipconnect.de. [2003:f6:5f47:db04:359f:c0e7:763:236f])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-466648c698dsm48872f8f.16.2026.06.19.08.55.37
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-466667881b4sm2481f8f.24.2026.06.19.08.55.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Jun 2026 08:55:37 -0700 (PDT)
+        Fri, 19 Jun 2026 08:55:39 -0700 (PDT)
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>
 To: Jonathan Cameron <jic23@kernel.org>
 Cc: =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
@@ -70,9 +70,9 @@ Cc: =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
 	linux-iio@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v1 12/13] staging: iio: Drop unused assignment of spi_device_id driver data
-Date: Fri, 19 Jun 2026 17:54:40 +0200
-Message-ID:  <0322f4b8c30f04c0e2243f3a9da7382c68e588e5.1781883685.git.u.kleine-koenig@baylibre.com>
+Subject: [PATCH v1 13/13] staging: iio: Initialize spi_device_id arrays using member names
+Date: Fri, 19 Jun 2026 17:54:41 +0200
+Message-ID:  <cac7a68e6a6adb1b58207640ab045e59eec86f53.1781883685.git.u.kleine-koenig@baylibre.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1781883685.git.u.kleine-koenig@baylibre.com>
 References: <cover.1781883685.git.u.kleine-koenig@baylibre.com>
@@ -83,15 +83,17 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1957; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=wPM5GGcsQFVTIBDPZ70NRcd8C2Qs0IrujwLvCiOl59g=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqNWZT6X9RNULTT8/UvEBxnTQtPbDJuko2y1EkI FjLVjN3GsuJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCajVmUwAKCRCPgPtYfRL+ Tq46B/93oycLDS4pk5NUVWw0JPXR2r3r/RLX8y3hmgjc6h0ooPOoBd19v7/bQM2pkLspXRH+ZfK FtvJjOu9gXyc8fIXDvR9jeFRGOVuCWCtn11hG1FDMkrvybEULEzglr7qjGNeFbPNWV+qiMJD7Ic qDErge6VUqiX0m2YXHeqqkg1W5TueGzLPYRSBJgGZCbTNCCbJ0/fDZ6WuQGXyvfvQQp3V6nYAx0 hQAuHHzW9O8/ba84UcBHVJ4e4EyPO+tq2LGeLYHTWOjsI4capIZTf45x3mcow0ZCYOlLPI0exyv lcNq+dKKIB4etam/0p6Bq6y0AHI4JiaWdLEHr7ZbCHSSgAaf
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2158; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=zTuxP9n0Z4lR5wzI18Se22YKGhVtliH9wswUfnB9Pt8=; b=owGbwMvMwMXY3/A7olbonx/jabUkhizTtLAEzs2nHzUIupk020Y9+ZllefxCX+HVwJ1JMkvDV Ra3uxd0MhqzMDByMciKKbLYN67JtKqSi+xc++8yzCBWJpApDFycAjCROh0Ohum/kjeyidQw+ssa Mxhd153N2d3mxHL/bMSabyenWOlN+9Ey8eTTL0y6jC1l75bYvA5bl7S19Em5yZEjVUeXbxZeWRq 0O0ch7mpExD7xh/0yJ1P+lx05Gq5w0OnDtbYO/ht+yRH3jzXPMbvzYJ3Vg1OBYR1/mE+2S6etac 0X2ieU8TlU+vr0es0S71lTnbIXrPwgr8L97JRKuU6xzeKza5472vGYXZDgCCx8uEayTMWgR7/p9 WWNr+39ytu5dhnOPbv1bEhbScQ6g/wvc1yCTwlMzIi51fmF4VVhkWjo6cY7zHGu9/ITfoZ4cDFW C9jVT3z0INJvS0Fe3FsD9odtv7VYjX8sOTmt2+dSwbI8AA==
 X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 
-The drivers explicitly set the .driver_data member of struct
-spi_device_id to zero without relying on that value. Drop these unused
-assignments.
+While being less compact, using named initializers allows to more easily
+see which members of the structs are assigned which value without having
+to lookup the declaration of the struct. And it's also more robust
+against changes to the struct definition.
 
-While touching these arrays use named initializers for .name.
+The mentioned robustness is relevant for a planned change to struct
+spi_device_id that replaces .driver_data by an anonymous union.
 
 This patch doesn't modify the compiled arrays, only their representation
 in source form benefits. The former was confirmed with x86 and arm64
@@ -99,51 +101,46 @@ builds.
 
 Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
 ---
- drivers/staging/iio/addac/adt7316-spi.c | 13 ++++++-------
- drivers/staging/iio/frequency/ad9832.c  |  4 ++--
- 2 files changed, 8 insertions(+), 9 deletions(-)
+ drivers/staging/iio/adc/ad7816.c       | 6 +++---
+ drivers/staging/iio/frequency/ad9834.c | 8 ++++----
+ 2 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/staging/iio/addac/adt7316-spi.c b/drivers/staging/iio/addac/adt7316-spi.c
-index 1debcc36c1af..459dd7416b1d 100644
---- a/drivers/staging/iio/addac/adt7316-spi.c
-+++ b/drivers/staging/iio/addac/adt7316-spi.c
-@@ -126,15 +126,14 @@ static int adt7316_spi_probe(struct spi_device *spi_dev)
+diff --git a/drivers/staging/iio/adc/ad7816.c b/drivers/staging/iio/adc/ad7816.c
+index 0e32a2295990..30644d2d7c54 100644
+--- a/drivers/staging/iio/adc/ad7816.c
++++ b/drivers/staging/iio/adc/ad7816.c
+@@ -426,9 +426,9 @@ static const struct of_device_id ad7816_of_match[] = {
+ MODULE_DEVICE_TABLE(of, ad7816_of_match);
+ 
+ static const struct spi_device_id ad7816_id[] = {
+-	{ "ad7816", ID_AD7816 },
+-	{ "ad7817", ID_AD7817 },
+-	{ "ad7818", ID_AD7818 },
++	{ .name = "ad7816", .driver_data = ID_AD7816 },
++	{ .name = "ad7817", .driver_data = ID_AD7817 },
++	{ .name = "ad7818", .driver_data = ID_AD7818 },
+ 	{ }
+ };
+ 
+diff --git a/drivers/staging/iio/frequency/ad9834.c b/drivers/staging/iio/frequency/ad9834.c
+index 4359b358e0e5..f95c5365cd03 100644
+--- a/drivers/staging/iio/frequency/ad9834.c
++++ b/drivers/staging/iio/frequency/ad9834.c
+@@ -465,10 +465,10 @@ static int ad9834_probe(struct spi_device *spi)
  }
  
- static const struct spi_device_id adt7316_spi_id[] = {
--	{ "adt7316", 0 },
--	{ "adt7317", 0 },
--	{ "adt7318", 0 },
--	{ "adt7516", 0 },
--	{ "adt7517", 0 },
--	{ "adt7519", 0 },
-+	{ .name = "adt7316" },
-+	{ .name = "adt7317" },
-+	{ .name = "adt7318" },
-+	{ .name = "adt7516" },
-+	{ .name = "adt7517" },
-+	{ .name = "adt7519" },
+ static const struct spi_device_id ad9834_id[] = {
+-	{"ad9833", ID_AD9833},
+-	{"ad9834", ID_AD9834},
+-	{"ad9837", ID_AD9837},
+-	{"ad9838", ID_AD9838},
++	{ .name = "ad9833", .driver_data = ID_AD9833 },
++	{ .name = "ad9834", .driver_data = ID_AD9834 },
++	{ .name = "ad9837", .driver_data = ID_AD9837 },
++	{ .name = "ad9838", .driver_data = ID_AD9838 },
  	{ }
  };
--
- MODULE_DEVICE_TABLE(spi, adt7316_spi_id);
- 
- static const struct of_device_id adt7316_of_spi_match[] = {
-diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/iio/frequency/ad9832.c
-index 659821a1e2cb..1a6666c1948e 100644
---- a/drivers/staging/iio/frequency/ad9832.c
-+++ b/drivers/staging/iio/frequency/ad9832.c
-@@ -381,8 +381,8 @@ static const struct of_device_id ad9832_of_match[] = {
- MODULE_DEVICE_TABLE(of, ad9832_of_match);
- 
- static const struct spi_device_id ad9832_id[] = {
--	{"ad9832", 0},
--	{"ad9835", 0},
-+	{ .name = "ad9832" },
-+	{ .name = "ad9835" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(spi, ad9832_id);
+ MODULE_DEVICE_TABLE(spi, ad9834_id);
 -- 
 2.47.3
 
