@@ -1,72 +1,44 @@
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+Received: from v57.v51e342bd.use4.send.mailgun.net (v57.v51e342bd.use4.send.mailgun.net [69.72.42.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B70B2233A
-	for <linux-staging@lists.linux.dev>; Fri, 19 Jun 2026 19:15:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD5363BE645
+	for <linux-staging@lists.linux.dev>; Fri, 19 Jun 2026 20:16:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=69.72.42.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781896518; cv=none; b=qqrRoWUDpa/nWRv56QXxgLBFy4WtAFQpaHZHQ15rnlKuD/1DqDga8X3XMUjHBXK8E4nrOZ6oj64RO3KK5+8Oi8nmcZLQt+pj14okYxfSo/7+m6VVNzv81p0cajP7Tp2mL+a/75avSKyn8Rd0+qxYxQ7WCm4GbW0ZUeulelrApv8=
+	t=1781900199; cv=none; b=YTcFUA9yFMt56V1d5ZOsf5Cw26656OblSS/+vx3gV8UzsxFKPtSKlGcHzvgaPQEpU1mIEqxB4yznhI3uLv92RwC2wR3Ia5TWVlJJKYraBjoWc1KhMlO0ViV8RyoHweW/Y9mnD67RStpo9noS89PUFk/cjpA6Z6C+T++0Z91WSMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781896518; c=relaxed/simple;
-	bh=fvSqkxxprQMrTOpMLxZt/z0GwqfIf7SI3KtJLVG93n0=;
+	s=arc-20240116; t=1781900199; c=relaxed/simple;
+	bh=yZ34Clu1gPuvFtThFDxA5Y2yOVyPqeiqBm+g9a39c9o=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gNXS18rsrDTVmDpq6C1aDIA43QYTQLkb22ob2PrkKg3abIrjfS9RstML2w5w1NKNkYjMoeISdQIhNlIby5mnGlPJSTyj8ykIML5XnYzhaBEWifcr0FeqRgFXWaJkCSKenVwKZNtwdYPyYzfCWDsk+5SiH+LQZ30Y09+1iAP3OmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZYzBEcGZ; arc=none smtp.client-ip=209.85.128.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 MIME-Version; b=aWB5xZ/ujRx289A3QDUU5mTxTbUbz8FMOX9Aux50jkF9vRNtqe31YS7k9mkpeKhCZe/1Hvl6AKMfTeocioW3XBXuA5+ABzboigpoIej5mH8DtvbUnLdQ9lHe68onBvIobjOMwuENCme/JQ8iQnrQx/wzSf+pQPSD3GF9EdE1eGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kylejin.com; spf=pass smtp.mailfrom=kylejin.com; dkim=pass (1024-bit key) header.d=kylejin.com header.i=@kylejin.com header.b=mTMGiqTU; arc=none smtp.client-ip=69.72.42.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kylejin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylejin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZYzBEcGZ"
-Received: by mail-wm1-f68.google.com with SMTP id 5b1f17b1804b1-490b613a17bso19364115e9.3
-        for <linux-staging@lists.linux.dev>; Fri, 19 Jun 2026 12:15:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781896515; x=1782501315; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=waGPckFghLqiW6DdlxbVrpHRiV1SlAdaWjaMF78OucA=;
-        b=ZYzBEcGZgZ+DjnHDP8rFDDhgv7cf/7kDIGc4xh92Rnm4zh3wrpWL+945EmKEQ6Eu/Y
-         BaomuR84Q9pmCgFIgtFRpS6LrkKYXfFiplJEoa+8FegkEUq9YwYpSflAtuD0vkTwf7M/
-         e/z9gzWtjGr5uZzMZXFRm4hElpzRVYJEaHb9pNjlkuL+77OXHwXhM9LelFUjbZa2t7os
-         zIssYYG/6YerSpt0RmRIYRBcP0/A/4qySjFLskaq1EGh6VI9b9P/EgZz63waJ2Yf+NtX
-         yiM/RdVQpySmIZJidRNMSW9nXfY0BoOqObqYH9+f6PB6Q0pJA0Hy7ltsk3hvHeZ5eSvJ
-         n1oQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781896515; x=1782501315;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=waGPckFghLqiW6DdlxbVrpHRiV1SlAdaWjaMF78OucA=;
-        b=QW6dIZRvr9khSodBzW0JTHXzU0ZRODfU//2RWbHw5aq53QfV/XrQhKubxmXowwOyyz
-         QBHuK4MJdANVA5M8h8YcG2TfA8eWfdwUvO7CwZ0p3uK3IOibCbSrn9Cs4r9Oa9YDSTgr
-         vG+TptYf9o/rDcncWVUlIuDyIkX2ZxltzyhpWkS14ucdcT6642ijDmGVhAshHXzWfMNa
-         EdloUxWFRtfrDunVheQRcXJdkINJmWQlKmu6YeJkahsLJwD289JWUhtiTAoCMnPp8whm
-         FHAD5bs6Kd118NJVSFGIc4+sZKFU+SE5glsleQTot4AKqeo8DqlCGlLxZuhrTFFzMfce
-         gtCg==
-X-Gm-Message-State: AOJu0Yyh8KDMG1di1Yc9ZRVLWy/G/NaKihYt8v24sXdvzI7SYEpbTtB9
-	S8JsobpMsxFi1vMoh3EmggU+HtnniCSsYHwfHHX/G4I+nlEdi8xxleGZ
-X-Gm-Gg: AfdE7clqTdOWdmr621Q/WyXJRQ5D1MHJADcaH3PMrlKo7WuiCEuaJbh6RV1godIVSw5
-	1OcTTDQvqd4DMU33ULLO/TeObijtDfiYB+5w6u+qp5SbmBOvCTTyNa3NUfII3SydKDtf47Lr3Lc
-	fQxbznf8lPOwUFWX13lNl7bQp14ugv2apLssIR2b0gJifthPevVLVcHkfwVp4SCuciBQQzxGF3X
-	tFUXVL/rf3M2qRSI99fZ2U94pImk+9YJcEYhC1nbc1NN1/vJCVij1qk8ZJ+KNuRBtlMsrv6prAE
-	ilrwvgvhzLXpwjKOUHbn86Efpv9k9aAaVv8ZsOW2jWC8IsKZ90rIZ3izJufUvlAvtQ7Xtfw/sd5
-	P9bKbsRU1ZsvSMT+jYBqCneE8B9z2Ip0ws3W4LnOe8Jlolt90ORPo+EMU8eoXo5zwKzk+npE=
-X-Received: by 2002:a05:600c:4694:b0:492:4717:59fb with SMTP id 5b1f17b1804b1-492490a77a4mr8219515e9.17.1781896515022;
-        Fri, 19 Jun 2026 12:15:15 -0700 (PDT)
-Received: from fedora ([212.253.214.17])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46666c57a0esm1109034f8f.27.2026.06.19.12.15.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Jun 2026 12:15:14 -0700 (PDT)
-From: Serhat Kumral <serhatkumral1@gmail.com>
+	dkim=pass (1024-bit key) header.d=kylejin.com header.i=@kylejin.com header.b="mTMGiqTU"
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=kylejin.com; q=dns/txt; s=pic; t=1781900194; x=1781907394;
+ h=Content-Transfer-Encoding: MIME-Version: References: In-Reply-To: Message-ID: Date: Subject: Subject: Cc: To: To: From: From: Sender: Sender;
+ bh=Hciroa42oaoHKMBgBhwRzJXt9+6Y5u1eed/7vMr9NWo=;
+ b=mTMGiqTU7GbvjeKUHxRK2CJTkjbQSCgXXT/K9skCbarEk1h+K8EghCdWtpFU6XZj1UhI/TP1yIYcz1DYKh1vyzXcf+jnvfLs3tFEpgmP/5MjOkelLndJ9IDnEgcOEz+e1LfSsGmf2gTD49OLyNewv/7Y3+6gtlavlIoGi36Vv8k=
+X-Mailgun-Sid: WyIzZGNmMCIsImxpbnV4LXN0YWdpbmdAbGlzdHMubGludXguZGV2IiwiZmYyZGE4ZSJd
+Received: from ampere-a1.vcn05022301.oraclevcn.com (unknown [147.224.12.124]) by
+ e3d870b472b01418d57d40ffe2a2b89346762891e9115f87a6bcaf4a979c433f with SMTP id
+ 6a35a3a2c1220a70ba8bc2e9 (version=TLS1.3, cipher=TLS_AES_128_GCM_SHA256);
+ Fri, 19 Jun 2026 20:16:34 GMT
+X-Mailgun-Sending-Ip: 69.72.42.7
+Sender: kj@kylejin.com
+From: Kai Cheng Jin <kj@kylejin.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Serhat Kumral <serhatkumral1@gmail.com>
-Subject: [PATCH 2/2] staging: rtl8723bs: rename ScanType to scan_type
-Date: Tue, 16 Jun 2026 03:01:17 +0300
-Message-ID: <20260616000117.126504-2-serhatkumral1@gmail.com>
+	error27@gmail.com,
+	Kai Cheng Jin <kj@kylejin.com>
+Subject: [PATCH v2 1/3] staging: rtl8723bs: add spaces around operators in rtl8723b_cmd.c
+Date: Fri, 19 Jun 2026 13:15:58 -0700
+Message-ID: <20260619201600.973619-1-kj@kylejin.com>
 X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260616000117.126504-1-serhatkumral1@gmail.com>
-References: <20260616000117.126504-1-serhatkumral1@gmail.com>
+In-Reply-To: <ajT4n4p7CKiApCPF@stanley.mountain>
+References: <ajT4n4p7CKiApCPF@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -75,179 +47,318 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename the CamelCase field ScanType of struct rt_channel_info, as
-well as the relevant local variables, to scan_type to conform to
-the Linux kernel coding style guidelines.
-This also fixes several checkpatch.pl warnings:
-CHECK: Avoid CamelCase: <ScanType>
+Add missing spaces around arithmetic and bitwise operators to
+follow kernel coding style, as reported by checkpatch.pl.
 
-Signed-off-by: Serhat Kumral <serhatkumral1@gmail.com>
+Signed-off-by: Kai Cheng Jin <kj@kylejin.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 37 ++++++++++---------
- .../staging/rtl8723bs/include/rtw_mlme_ext.h  |  2 +-
- drivers/staging/rtl8723bs/os_dep/wifi_regd.c  |  2 +-
- 3 files changed, 21 insertions(+), 20 deletions(-)
+ drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c | 88 ++++++++++----------
+ 1 file changed, 44 insertions(+), 44 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index 0dcac7638..655e1e72b 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -346,18 +346,18 @@ static u8 init_channel_set(struct adapter *padapter, u8 ChannelPlan, struct rt_c
- 				(ChannelPlan == RT_CHANNEL_DOMAIN_GLOBAL_NULL)) {
- 				if (channel_set[chanset_size].channel_num >= 1 &&
- 				    channel_set[chanset_size].channel_num <= 11)
--					channel_set[chanset_size].ScanType = SCAN_ACTIVE;
-+					channel_set[chanset_size].scan_type = SCAN_ACTIVE;
- 				else if (channel_set[chanset_size].channel_num  >= 12 &&
- 					 channel_set[chanset_size].channel_num  <= 14)
--					channel_set[chanset_size].ScanType  = SCAN_PASSIVE;
-+					channel_set[chanset_size].scan_type  = SCAN_PASSIVE;
- 			} else if (ChannelPlan == RT_CHANNEL_DOMAIN_WORLD_WIDE_13 ||
- 				 Index2G == RT_CHANNEL_DOMAIN_2G_WORLD) { /*  channel 12~13, passive scan */
- 				if (channel_set[chanset_size].channel_num <= 11)
--					channel_set[chanset_size].ScanType = SCAN_ACTIVE;
-+					channel_set[chanset_size].scan_type = SCAN_ACTIVE;
- 				else
--					channel_set[chanset_size].ScanType = SCAN_PASSIVE;
-+					channel_set[chanset_size].scan_type = SCAN_PASSIVE;
- 			} else
--				channel_set[chanset_size].ScanType = SCAN_ACTIVE;
-+				channel_set[chanset_size].scan_type = SCAN_ACTIVE;
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
+index c35c7f1c38ef..d92dde57b720 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
+@@ -70,23 +70,23 @@ s32 FillH2CCmd8723B(struct adapter *padapter, u8 ElementID, u32 CmdLen, u8 *pCmd
+ 			goto exit;
  
- 			chanset_size++;
+ 		if (CmdLen <= 3)
+-			memcpy((u8 *)(&h2c_cmd)+1, pCmdBuffer, CmdLen);
++			memcpy((u8 *)(&h2c_cmd) + 1, pCmdBuffer, CmdLen);
+ 		else {
+-			memcpy((u8 *)(&h2c_cmd)+1, pCmdBuffer, 3);
+-			memcpy((u8 *)(&h2c_cmd_ex), pCmdBuffer+3, CmdLen-3);
+-/* 			*(u8 *)(&h2c_cmd) |= BIT(7); */
++			memcpy((u8 *)(&h2c_cmd) + 1, pCmdBuffer, 3);
++			memcpy((u8 *)(&h2c_cmd_ex), pCmdBuffer + 3, CmdLen - 3);
++/*			*(u8 *)(&h2c_cmd) |= BIT(7); */
  		}
-@@ -3689,7 +3689,7 @@ unsigned int send_beacon(struct adapter *padapter)
- void site_survey(struct adapter *padapter)
+ 
+ 		*(u8 *)(&h2c_cmd) |= ElementID;
+ 
+ 		if (CmdLen > 3) {
+-			msgbox_ex_addr = REG_HMEBOX_EXT0_8723B + (h2c_box_num*RTL8723B_EX_MESSAGE_BOX_SIZE);
++			msgbox_ex_addr = REG_HMEBOX_EXT0_8723B + (h2c_box_num * RTL8723B_EX_MESSAGE_BOX_SIZE);
+ 			rtw_write32(padapter, msgbox_ex_addr, h2c_cmd_ex);
+ 		}
+-		msgbox_addr = REG_HMEBOX_0 + (h2c_box_num*MESSAGE_BOX_SIZE);
++		msgbox_addr = REG_HMEBOX_0 + (h2c_box_num * MESSAGE_BOX_SIZE);
+ 		rtw_write32(padapter, msgbox_addr, h2c_cmd);
+ 
+-		pHalData->LastHMEBoxNum = (h2c_box_num+1) % MAX_H2C_BOX_NUMS;
++		pHalData->LastHMEBoxNum = (h2c_box_num + 1) % MAX_H2C_BOX_NUMS;
+ 
+ 	} while (0);
+ 
+@@ -139,9 +139,9 @@ static void ConstructBeacon(struct adapter *padapter, u8 *pframe, u32 *pLength)
+ 	pframe += 2;
+ 	pktlen += 2;
+ 
+-	if ((pmlmeinfo->state&0x03) == WIFI_FW_AP_STATE) {
++	if ((pmlmeinfo->state & 0x03) == WIFI_FW_AP_STATE) {
+ 		pktlen += cur_network->ie_length - sizeof(struct ndis_802_11_fix_ie);
+-		memcpy(pframe, cur_network->ies+sizeof(struct ndis_802_11_fix_ie), pktlen);
++		memcpy(pframe, cur_network->ies + sizeof(struct ndis_802_11_fix_ie), pktlen);
+ 
+ 		goto _ConstructBeacon;
+ 	}
+@@ -158,7 +158,7 @@ static void ConstructBeacon(struct adapter *padapter, u8 *pframe, u32 *pLength)
+ 	/*  DS parameter set */
+ 	pframe = rtw_set_ie(pframe, WLAN_EID_DS_PARAMS, 1, (unsigned char *)&(cur_network->configuration.ds_config), &pktlen);
+ 
+-	if ((pmlmeinfo->state&0x03) == WIFI_FW_ADHOC_STATE) {
++	if ((pmlmeinfo->state & 0x03) == WIFI_FW_ADHOC_STATE) {
+ 		u32 ATIMWindow;
+ 		/*  IBSS Parameter Set... */
+ 		/* ATIMWindow = cur->configuration.ATIMWindow; */
+@@ -324,7 +324,7 @@ void rtl8723b_set_rssi_cmd(struct adapter *padapter, u8 *param)
  {
- 	unsigned char survey_channel = 0, val8;
--	enum rt_scan_type	ScanType = SCAN_PASSIVE;
-+	enum rt_scan_type	scan_type = SCAN_PASSIVE;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
- 	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 	u32 initialgain = 0;
-@@ -3701,7 +3701,8 @@ void site_survey(struct adapter *padapter)
- 		if (pmlmeext->sitesurvey_res.channel_idx < pmlmeext->sitesurvey_res.ch_num) {
- 			ch = &pmlmeext->sitesurvey_res.ch[pmlmeext->sitesurvey_res.channel_idx];
- 			survey_channel = ch->hw_value;
--			ScanType = (ch->flags & RTW_IEEE80211_CHAN_PASSIVE_SCAN) ? SCAN_PASSIVE : SCAN_ACTIVE;
-+			scan_type = (ch->flags & RTW_IEEE80211_CHAN_PASSIVE_SCAN) ?
-+				SCAN_PASSIVE : SCAN_ACTIVE;
+ 	u8 u1H2CRssiSettingParm[H2C_RSSI_SETTING_LEN] = {0};
+ 	u8 mac_id = *param;
+-	u8 rssi = *(param+2);
++	u8 rssi = *(param + 2);
+ 	u8 uldl_state = 0;
+ 
+ 	SET_8723B_H2CCMD_RSSI_SETTING_MACID(u1H2CRssiSettingParm, mac_id);
+@@ -343,7 +343,7 @@ void rtl8723b_set_FwPwrMode_cmd(struct adapter *padapter, u8 psmode)
+ 	u8 PowerState = 0, awake_intvl = 1, byte5 = 0, rlbm = 0;
+ 
+ 	if (pwrpriv->dtim > 0 && pwrpriv->dtim < 16)
+-		awake_intvl = pwrpriv->dtim+1;/* DTIM = (awake_intvl - 1) */
++		awake_intvl = pwrpriv->dtim + 1;/* DTIM = (awake_intvl - 1) */
+ 	else
+ 		awake_intvl = 3;/* DTIM =2 */
+ 
+@@ -394,7 +394,7 @@ void rtl8723b_set_FwPwrMode_cmd(struct adapter *padapter, u8 psmode)
+ 			pmlmeext->DrvBcnTimeOut = 0xff;
+ 
+ 			for (i = 0; i < 9; i++) {
+-				pmlmeext->bcn_delay_ratio[i] = (pmlmeext->bcn_delay_cnt[i]*100)/pmlmeext->bcn_cnt;
++				pmlmeext->bcn_delay_ratio[i] = (pmlmeext->bcn_delay_cnt[i] * 100) / pmlmeext->bcn_cnt;
+ 
+ 				ratio_20_delay += pmlmeext->bcn_delay_ratio[i];
+ 				ratio_80_delay += pmlmeext->bcn_delay_ratio[i];
+@@ -493,7 +493,7 @@ static void rtl8723b_set_FwRsvdPagePkt(
+ 	pmlmeinfo = &pmlmeext->mlmext_info;
+ 
+ 	RsvdPageNum = BCNQ_PAGE_NUM_8723B + WOWLAN_PAGE_NUM_8723B;
+-	MaxRsvdPageBufSize = RsvdPageNum*PageSize;
++	MaxRsvdPageBufSize = RsvdPageNum * PageSize;
+ 
+ 	pcmdframe = rtw_alloc_cmdxmitframe(pxmitpriv);
+ 	if (!pcmdframe)
+@@ -515,18 +515,18 @@ static void rtl8723b_set_FwRsvdPagePkt(
+ 
+ 	TotalPageNum += CurtPktPageNum;
+ 
+-	BufIndex += (CurtPktPageNum*PageSize);
++	BufIndex += (CurtPktPageNum * PageSize);
+ 
+ 	/* 3 (2) ps-poll */
+ 	RsvdPageLoc.LocPsPoll = TotalPageNum;
+ 	ConstructPSPoll(padapter, &ReservedPagePacket[BufIndex], &PSPollLength);
+-	rtl8723b_fill_fake_txdesc(padapter, &ReservedPagePacket[BufIndex-TxDescLen], PSPollLength, true, false, false);
++	rtl8723b_fill_fake_txdesc(padapter, &ReservedPagePacket[BufIndex - TxDescLen], PSPollLength, true, false, false);
+ 
+ 	CurtPktPageNum = (u8)PageNum_128(TxDescLen + PSPollLength);
+ 
+ 	TotalPageNum += CurtPktPageNum;
+ 
+-	BufIndex += (CurtPktPageNum*PageSize);
++	BufIndex += (CurtPktPageNum * PageSize);
+ 
+ 	/* 3 (3) null data */
+ 	RsvdPageLoc.LocNullData = TotalPageNum;
+@@ -537,13 +537,13 @@ static void rtl8723b_set_FwRsvdPagePkt(
+ 		get_my_bssid(&pmlmeinfo->network),
+ 		false, 0, 0, false
+ 	);
+-	rtl8723b_fill_fake_txdesc(padapter, &ReservedPagePacket[BufIndex-TxDescLen], NullDataLength, false, false, false);
++	rtl8723b_fill_fake_txdesc(padapter, &ReservedPagePacket[BufIndex - TxDescLen], NullDataLength, false, false, false);
+ 
+ 	CurtPktPageNum = (u8)PageNum_128(TxDescLen + NullDataLength);
+ 
+ 	TotalPageNum += CurtPktPageNum;
+ 
+-	BufIndex += (CurtPktPageNum*PageSize);
++	BufIndex += (CurtPktPageNum * PageSize);
+ 
+ 	/* 3 (5) Qos null data */
+ 	RsvdPageLoc.LocQosNull = TotalPageNum;
+@@ -554,13 +554,13 @@ static void rtl8723b_set_FwRsvdPagePkt(
+ 		get_my_bssid(&pmlmeinfo->network),
+ 		true, 0, 0, false
+ 	);
+-	rtl8723b_fill_fake_txdesc(padapter, &ReservedPagePacket[BufIndex-TxDescLen], QosNullLength, false, false, false);
++	rtl8723b_fill_fake_txdesc(padapter, &ReservedPagePacket[BufIndex - TxDescLen], QosNullLength, false, false, false);
+ 
+ 	CurtPktPageNum = (u8)PageNum_128(TxDescLen + QosNullLength);
+ 
+ 	TotalPageNum += CurtPktPageNum;
+ 
+-	BufIndex += (CurtPktPageNum*PageSize);
++	BufIndex += (CurtPktPageNum * PageSize);
+ 
+ 	/* 3 (6) BT Qos null data */
+ 	RsvdPageLoc.LocBTQosNull = TotalPageNum;
+@@ -571,13 +571,13 @@ static void rtl8723b_set_FwRsvdPagePkt(
+ 		get_my_bssid(&pmlmeinfo->network),
+ 		true, 0, 0, false
+ 	);
+-	rtl8723b_fill_fake_txdesc(padapter, &ReservedPagePacket[BufIndex-TxDescLen], BTQosNullLength, false, true, false);
++	rtl8723b_fill_fake_txdesc(padapter, &ReservedPagePacket[BufIndex - TxDescLen], BTQosNullLength, false, true, false);
+ 
+ 	CurtPktPageNum = (u8)PageNum_128(TxDescLen + BTQosNullLength);
+ 
+ 	TotalPageNum += CurtPktPageNum;
+ 
+-	BufIndex += (CurtPktPageNum*PageSize);
++	BufIndex += (CurtPktPageNum * PageSize);
+ 
+ 	TotalPacketLen = BufIndex + BTQosNullLength;
+ 
+@@ -618,12 +618,12 @@ void rtl8723b_download_rsvd_page(struct adapter *padapter, u8 mstatus)
+ 
+ 		/*  We should set AID, correct TSF, HW seq enable before set JoinBssReport to Fw in 88/92C. */
+ 		/*  Suggested by filen. Added by tynli. */
+-		rtw_write16(padapter, REG_BCN_PSR_RPT, (0xC000|pmlmeinfo->aid));
++		rtw_write16(padapter, REG_BCN_PSR_RPT, (0xC000 | pmlmeinfo->aid));
+ 
+ 		/*  set REG_CR bit 8 */
+-		v8 = rtw_read8(padapter, REG_CR+1);
++		v8 = rtw_read8(padapter, REG_CR + 1);
+ 		v8 |= BIT(0); /*  ENSWBCN */
+-		rtw_write8(padapter, REG_CR+1, v8);
++		rtw_write8(padapter, REG_CR + 1, v8);
+ 
+ 		/*  Disable Hw protection for a time which revserd for Hw sending beacon. */
+ 		/*  Fix download reserved page packet fail that access collision with the protection time. */
+@@ -638,7 +638,7 @@ void rtl8723b_download_rsvd_page(struct adapter *padapter, u8 mstatus)
+ 			bRecover = true;
+ 
+ 		/*  To tell Hw the packet is not a real beacon frame. */
+-		rtw_write8(padapter, REG_FWHW_TXQ_CTRL+2, pHalData->RegFwHwTxQCtrl & ~BIT(6));
++		rtw_write8(padapter, REG_FWHW_TXQ_CTRL + 2, pHalData->RegFwHwTxQCtrl & ~BIT(6));
+ 		pHalData->RegFwHwTxQCtrl &= ~BIT(6);
+ 
+ 		/*  Clear beacon valid check bit. */
+@@ -657,7 +657,7 @@ void rtl8723b_download_rsvd_page(struct adapter *padapter, u8 mstatus)
+ 				/*  check rsvd page download OK. */
+ 				rtw_hal_get_hwreg(padapter, HW_VAR_BCN_VALID, (u8 *)(&bcn_valid));
+ 				poll++;
+-			} while (!bcn_valid && (poll%10) != 0 && !padapter->bSurpriseRemoved && !padapter->bDriverStopped);
++			} while (!bcn_valid && (poll % 10) != 0 && !padapter->bSurpriseRemoved && !padapter->bDriverStopped);
+ 
+ 		} while (!bcn_valid && DLBcnCount <= 100 && !padapter->bSurpriseRemoved && !padapter->bDriverStopped);
+ 
+@@ -680,14 +680,14 @@ void rtl8723b_download_rsvd_page(struct adapter *padapter, u8 mstatus)
+ 		/*  the beacon cannot be sent by HW. */
+ 		/*  2010.06.23. Added by tynli. */
+ 		if (bRecover) {
+-			rtw_write8(padapter, REG_FWHW_TXQ_CTRL+2, pHalData->RegFwHwTxQCtrl | BIT(6));
++			rtw_write8(padapter, REG_FWHW_TXQ_CTRL + 2, pHalData->RegFwHwTxQCtrl | BIT(6));
+ 			pHalData->RegFwHwTxQCtrl |= BIT(6);
  		}
+ 
+ 		/*  Clear CR[8] or beacon packet will not be send to TxBuf anymore. */
+-		v8 = rtw_read8(padapter, REG_CR+1);
++		v8 = rtw_read8(padapter, REG_CR + 1);
+ 		v8 &= ~BIT(0); /*  ~ENSWBCN */
+-		rtw_write8(padapter, REG_CR+1, v8);
++		rtw_write8(padapter, REG_CR + 1, v8);
+ 	}
+ }
+ 
+@@ -716,7 +716,7 @@ void rtl8723b_Add_RateATid(
+ 	u8 raid = arg[1];
+ 	u8 shortGI = arg[2];
+ 	u8 bw;
+-	u32 mask = bitmap&0x0FFFFFFF;
++	u32 mask = bitmap & 0x0FFFFFFF;
+ 
+ 	psta = pmlmeinfo->FW_sta_info[mac_id].psta;
+ 	if (!psta)
+@@ -805,7 +805,7 @@ static void SetFwRsvdPagePkt_BTCoex(struct adapter *padapter)
+ 	PageSize = PAGE_SIZE_TX_8723B;
+ 
+ 	RsvdPageNum = BCNQ_PAGE_NUM_8723B;
+-	MaxRsvdPageBufSize = RsvdPageNum*PageSize;
++	MaxRsvdPageBufSize = RsvdPageNum * PageSize;
+ 
+ 	pcmdframe = rtw_alloc_cmdxmitframe(pxmitpriv);
+ 	if (!pcmdframe)
+@@ -826,7 +826,7 @@ static void SetFwRsvdPagePkt_BTCoex(struct adapter *padapter)
+ 		CurtPktPageNum += 1;
+ 	TotalPageNum += CurtPktPageNum;
+ 
+-	BufIndex += (CurtPktPageNum*PageSize);
++	BufIndex += (CurtPktPageNum * PageSize);
+ 
+ 	/*  Jump to lastest page */
+ 	if (BufIndex < (MaxRsvdPageBufSize - PageSize)) {
+@@ -843,7 +843,7 @@ static void SetFwRsvdPagePkt_BTCoex(struct adapter *padapter)
+ 		NULL,
+ 		true, 0, 0, false
+ 	);
+-	rtl8723b_fill_fake_txdesc(padapter, &ReservedPagePacket[BufIndex-TxDescLen], BTQosNullLength, false, true, false);
++	rtl8723b_fill_fake_txdesc(padapter, &ReservedPagePacket[BufIndex - TxDescLen], BTQosNullLength, false, true, false);
+ 
+ 	CurtPktPageNum = (u8)PageNum_128(TxDescLen + BTQosNullLength);
+ 
+@@ -885,12 +885,12 @@ void rtl8723b_download_BTCoex_AP_mode_rsvd_page(struct adapter *padapter)
+ 
+ 	/*  We should set AID, correct TSF, HW seq enable before set JoinBssReport to Fw in 88/92C. */
+ 	/*  Suggested by filen. Added by tynli. */
+-	rtw_write16(padapter, REG_BCN_PSR_RPT, (0xC000|pmlmeinfo->aid));
++	rtw_write16(padapter, REG_BCN_PSR_RPT, (0xC000 | pmlmeinfo->aid));
+ 
+ 	/*  set REG_CR bit 8 */
+-	val8 = rtw_read8(padapter, REG_CR+1);
++	val8 = rtw_read8(padapter, REG_CR + 1);
+ 	val8 |= BIT(0); /*  ENSWBCN */
+-	rtw_write8(padapter,  REG_CR+1, val8);
++	rtw_write8(padapter,  REG_CR + 1, val8);
+ 
+ 	/*  Disable Hw protection for a time which revserd for Hw sending beacon. */
+ 	/*  Fix download reserved page packet fail that access collision with the protection time. */
+@@ -906,7 +906,7 @@ void rtl8723b_download_BTCoex_AP_mode_rsvd_page(struct adapter *padapter)
+ 
+ 	/*  To tell Hw the packet is not a real beacon frame. */
+ 	pHalData->RegFwHwTxQCtrl &= ~BIT(6);
+-	rtw_write8(padapter, REG_FWHW_TXQ_CTRL+2, pHalData->RegFwHwTxQCtrl);
++	rtw_write8(padapter, REG_FWHW_TXQ_CTRL + 2, pHalData->RegFwHwTxQCtrl);
+ 
+ 	/*  Clear beacon valid check bit. */
+ 	rtw_hal_set_hwreg(padapter, HW_VAR_BCN_VALID, NULL);
+@@ -919,11 +919,11 @@ void rtl8723b_download_BTCoex_AP_mode_rsvd_page(struct adapter *padapter)
+ 		DLBcnCount++;
+ 		do {
+ 			yield();
+-/* 			mdelay(10); */
++/*			mdelay(10); */
+ 			/*  check rsvd page download OK. */
+ 			rtw_hal_get_hwreg(padapter, HW_VAR_BCN_VALID, &bcn_valid);
+ 			poll++;
+-		} while (!bcn_valid && (poll%10) != 0 && !padapter->bSurpriseRemoved && !padapter->bDriverStopped);
++		} while (!bcn_valid && (poll % 10) != 0 && !padapter->bSurpriseRemoved && !padapter->bDriverStopped);
+ 	} while (!bcn_valid && (DLBcnCount <= 100) && !padapter->bSurpriseRemoved && !padapter->bDriverStopped);
+ 
+ 	if (bcn_valid) {
+@@ -945,11 +945,11 @@ void rtl8723b_download_BTCoex_AP_mode_rsvd_page(struct adapter *padapter)
+ 	/*  2010.06.23. Added by tynli. */
+ 	if (bRecover) {
+ 		pHalData->RegFwHwTxQCtrl |= BIT(6);
+-		rtw_write8(padapter, REG_FWHW_TXQ_CTRL+2, pHalData->RegFwHwTxQCtrl);
++		rtw_write8(padapter, REG_FWHW_TXQ_CTRL + 2, pHalData->RegFwHwTxQCtrl);
  	}
  
-@@ -3712,7 +3713,7 @@ void site_survey(struct adapter *padapter)
- 		else
- 			r8723bs_select_channel(padapter, survey_channel);
- 
--		if (ScanType == SCAN_ACTIVE) { /* obey the channel plan setting... */
-+		if (scan_type == SCAN_ACTIVE) { /* obey the channel plan setting... */
- 			{
- 				int i;
- 
-@@ -4185,18 +4186,18 @@ static void process_80211d(struct adapter *padapter, struct wlan_bssid_ex *bssid
- 
- 				if (chplan_sta[i].channel_num == chplan_ap.Channel[j]) {
- 					chplan_new[k].channel_num = chplan_ap.Channel[j];
--					chplan_new[k].ScanType = SCAN_ACTIVE;
-+					chplan_new[k].scan_type = SCAN_ACTIVE;
- 					i++;
- 					j++;
- 					k++;
- 				} else if (chplan_sta[i].channel_num < chplan_ap.Channel[j]) {
- 					chplan_new[k].channel_num = chplan_sta[i].channel_num;
--					chplan_new[k].ScanType = SCAN_PASSIVE;
-+					chplan_new[k].scan_type = SCAN_PASSIVE;
- 					i++;
- 					k++;
- 				} else if (chplan_sta[i].channel_num > chplan_ap.Channel[j]) {
- 					chplan_new[k].channel_num = chplan_ap.Channel[j];
--					chplan_new[k].ScanType = SCAN_ACTIVE;
-+					chplan_new[k].scan_type = SCAN_ACTIVE;
- 					j++;
- 					k++;
- 				}
-@@ -4207,7 +4208,7 @@ static void process_80211d(struct adapter *padapter, struct wlan_bssid_ex *bssid
- 				(chplan_sta[i].channel_num != 0) &&
- 				(chplan_sta[i].channel_num <= 14)) {
- 				chplan_new[k].channel_num = chplan_sta[i].channel_num;
--				chplan_new[k].ScanType = SCAN_PASSIVE;
-+				chplan_new[k].scan_type = SCAN_PASSIVE;
- 				i++;
- 				k++;
- 			}
-@@ -4215,7 +4216,7 @@ static void process_80211d(struct adapter *padapter, struct wlan_bssid_ex *bssid
- 			/*  add channel AP supported */
- 			while ((j < chplan_ap.Len) && (chplan_ap.Channel[j] <= 14)) {
- 				chplan_new[k].channel_num = chplan_ap.Channel[j];
--				chplan_new[k].ScanType = SCAN_ACTIVE;
-+				chplan_new[k].scan_type = SCAN_ACTIVE;
- 				j++;
- 				k++;
- 			}
-@@ -4225,7 +4226,7 @@ static void process_80211d(struct adapter *padapter, struct wlan_bssid_ex *bssid
- 				(chplan_sta[i].channel_num != 0) &&
- 				(chplan_sta[i].channel_num <= 14)) {
- 				chplan_new[k].channel_num = chplan_sta[i].channel_num;
--				chplan_new[k].ScanType = chplan_sta[i].ScanType;
-+				chplan_new[k].scan_type = chplan_sta[i].scan_type;
- 				i++;
- 				k++;
- 			}
-@@ -4244,8 +4245,8 @@ static void process_80211d(struct adapter *padapter, struct wlan_bssid_ex *bssid
- 	i = 0;
- 	while ((i < MAX_CHANNEL_NUM) && (chplan_new[i].channel_num != 0)) {
- 		if (chplan_new[i].channel_num == channel) {
--			if (chplan_new[i].ScanType == SCAN_PASSIVE)
--				chplan_new[i].ScanType = SCAN_ACTIVE;
-+			if (chplan_new[i].scan_type == SCAN_PASSIVE)
-+				chplan_new[i].scan_type = SCAN_ACTIVE;
- 			break;
- 		}
- 		i++;
-@@ -5315,7 +5316,7 @@ static int rtw_scan_ch_decision(struct adapter *padapter, struct rtw_ieee80211_c
- 
- 			memcpy(&out[j], &in[i], sizeof(struct rtw_ieee80211_channel));
- 
--			if (pmlmeext->channel_set[set_idx].ScanType == SCAN_PASSIVE)
-+			if (pmlmeext->channel_set[set_idx].scan_type == SCAN_PASSIVE)
- 				out[j].flags |= RTW_IEEE80211_CHAN_PASSIVE_SCAN;
- 
- 			j++;
-@@ -5337,7 +5338,7 @@ static int rtw_scan_ch_decision(struct adapter *padapter, struct rtw_ieee80211_c
- 
- 			out[j].hw_value = pmlmeext->channel_set[i].channel_num;
- 
--			if (pmlmeext->channel_set[i].ScanType == SCAN_PASSIVE)
-+			if (pmlmeext->channel_set[i].scan_type == SCAN_PASSIVE)
- 				out[j].flags |= RTW_IEEE80211_CHAN_PASSIVE_SCAN;
- 
- 			j++;
-diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-index a2e0596ae..786dc8055 100644
---- a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-@@ -323,7 +323,7 @@ struct mlme_ext_info {
- /*  The channel information about this channel including joining, scanning, and power constraints. */
- struct rt_channel_info {
- 	u8 channel_num;		/*  The channel number. */
--	enum rt_scan_type	ScanType;		/*  Scan type such as passive or active scan. */
-+	enum rt_scan_type scan_type;		/*  Scan type such as passive or active scan. */
- };
- 
- int rtw_ch_set_search_ch(struct rt_channel_info *ch_set, const u32 ch);
-diff --git a/drivers/staging/rtl8723bs/os_dep/wifi_regd.c b/drivers/staging/rtl8723bs/os_dep/wifi_regd.c
-index ff2072eb3..d201a18d7 100644
---- a/drivers/staging/rtl8723bs/os_dep/wifi_regd.c
-+++ b/drivers/staging/rtl8723bs/os_dep/wifi_regd.c
-@@ -74,7 +74,7 @@ static void _rtw_reg_apply_flags(struct wiphy *wiphy)
- 		freq = rtw_ieee80211_channel_to_frequency(channel);
- 		ch = ieee80211_get_channel(wiphy, freq);
- 		if (ch) {
--			if (channel_set[i].ScanType == SCAN_PASSIVE)
-+			if (channel_set[i].scan_type == SCAN_PASSIVE)
- 				ch->flags = IEEE80211_CHAN_NO_IR;
- 			else
- 				ch->flags = 0;
+ 	/*  Clear CR[8] or beacon packet will not be send to TxBuf anymore. */
+-	val8 = rtw_read8(padapter, REG_CR+1);
++	val8 = rtw_read8(padapter, REG_CR + 1);
+ 	val8 &= ~BIT(0); /*  ~ENSWBCN */
+-	rtw_write8(padapter, REG_CR+1, val8);
++	rtw_write8(padapter, REG_CR + 1, val8);
+ }
 -- 
 2.54.0
 
