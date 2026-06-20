@@ -1,147 +1,152 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0718B640
-	for <linux-staging@lists.linux.dev>; Sat, 20 Jun 2026 05:48:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781934494; cv=none; b=QMMqubsGaPQU1E3DKSbWjibqVZezGSc/2G8UoqvOdijsr79Ku+qyaq4AKJqXa+FwM2ldGE8mGxzIK5u05c00r+kfw/VKSrUaGhdpoWAFuCT/mzTUdjNCqkYohFuHAl20OFqV8O+dJ/s+zDJss8jupaFQvpMy5GGdKNxv3yefIO0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781934494; c=relaxed/simple;
-	bh=XjyJT5W1WsG2MyfZ7fnuUwzGcUGg4Y6+iUVCy+1ozYY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=l70HOdYuC5C2HJDSjH5B/5oase5G1o3/1qoVTAkI7RdVq/AA6+WPItIJAKCaaJ0XwLRbB1SXxNUQqRpNISouSYS8eh5EEXHRaG+aqM2rN9XrEDb+nfpxnhlwmpHwo8FYLI81yOGYsfSqyFvcJyKNfInW613LceD0NIGhGHPiJv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qKctEmgI; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB1A42222C5
+	for <linux-staging@lists.linux.dev>; Sat, 20 Jun 2026 07:43:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781941427; cv=pass; b=WNcTZNJO09pTIfaiXRjc4cy6vTEUE33UX1h0KrAYuiSE1uGK6gUrveh9+maqOnainBFB1FrqFsQC7pjqatSmhkt+G5PqH6vioC8/sT3gX6EPTJp4hD4kZVERWFnx6Kig+Fd7dBzUhgID4YwDHrAXhR56sXKHKaQSltQEG+5iMKs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781941427; c=relaxed/simple;
+	bh=DzV/Bz091e8nL5SyiOpv/VkEA+1Mi8KwLdzoRNONtSw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oFp6jvKyK1IvynPqCD3Elm5EgTizsFdsQCO9T0X65dBTkNKEeMcgmJWf7hQO5I5BotrHf91OzM62pl2SCo610UaxskJ25VyL1QkhcCx8Gau1P9WSximAoNXaT2DP0Hvry8bvLY0ds4/ZP8sPTyj8/4aZDve+RiKNkVc9DWQFVkI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bj1IhRoY; arc=pass smtp.client-ip=209.85.218.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qKctEmgI"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-6974a6e54dbso2468427a12.2
-        for <linux-staging@lists.linux.dev>; Fri, 19 Jun 2026 22:48:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bj1IhRoY"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-c0840dc2859so233778866b.1
+        for <linux-staging@lists.linux.dev>; Sat, 20 Jun 2026 00:43:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781941425; cv=none;
+        d=google.com; s=arc-20240605;
+        b=cSz4pQPcIBJjvP6rXSba65R9qytm5jffpb7iahRj0cSmvkNXRNMRay8ryhH4yKW9Sw
+         Wtyf1yUpfuDRGwi6orFyHgnTKpGlEffokpVnZH6xRIVZgmp+HvBzol17ozLPIb7tbTie
+         aU0R0MaBvqbei8jbQlqjHUiPFYBLGrFRKngQmsmBTDJIiylA6u53oQ7bAVcyc1GEoWHv
+         Q5eiALiOz7Qbymr81W7SK7B2SQb6hJ6gBF47I2vsg7/dgtL/EGNuuaU2D7Q38JeHzepw
+         Iet2+RzdL7gUnxsnTpPrUF8AaJsH9/k2fkNBB/W2WstgIK03M02hcjCgYrLTCMB2KI3W
+         RqsA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=RwJUzJkFOp4tAmfXA6KJ4MrErpiHytjtZyfzG3vrPY0=;
+        fh=4IPZeTrKlg3WocGdCx0tj3qbmNGLBTEmVTWTCONb1Ow=;
+        b=XLuCPoqyHZncm4VmJZybkVVeMGqo8R8yXexBOffkhoHHqoTfz4NW685//jzcwKwviG
+         E42HFs7PrjsuLjYbWp9WRt2eQmYfFyzXvZTMRb9HZtJ6OUkcWI5sjGsimK4P6tOhu0Oy
+         SalufuwUJoj75cT8c/2c6DYOexihOVPdYtODHOudNKpvm0N80Oj6SCCgkNgD/k+NgBaS
+         H7bU+/pshUFp1gr6KvQyFfILJ8koeV2zWAhx380N+9w5Rc8KeXDKxBnPJKUlSpif2+/Q
+         iOhDWvxECo3ntDK776jVM1UhVC/zMgavB4PF55Js+oGanQ0k1+O4FsIdLHE3J5ZEcZig
+         Blwg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781934491; x=1782539291; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ed3t8ZxAhZ1D0n+cEn1P+22l2LNZt23J9pURBwnxtfY=;
-        b=qKctEmgIO+txxdPvTfQAUh54NwxOLF6agn69shWtECfwLz6+VjZw4Kt6fMd2bj42zr
-         k+1kogAGELyg962H/tt3ETxE2MqjoFu0VycbVaKR27zqv5eMnLG29sU5ofkJux2oDWCi
-         pQT3PzEGoR1wtDCh2dmF3Pqpj3MWj9CA3NXLD8FZtekrC9DfpLotelZBDrEuu+LbLlVe
-         D70UTRsNWrJy7LrdMlYf2HOblb+jwP6yxWTgo0X/yR+NiNNfbcLG/c949iASEO/e0afb
-         VVWj5NhkkcBorqChlxAp3cK+rgiP72Hxw5MR88j8zIGXkgwyw5WjhJ6nNUQyoHp3BZA5
-         rX7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781934491; x=1782539291;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1781941425; x=1782546225; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ed3t8ZxAhZ1D0n+cEn1P+22l2LNZt23J9pURBwnxtfY=;
-        b=VrMhIbpyglRZV/OXtZRzj2WltTp8EKy7poOLdDn3/AHCknGBOkBui/iha7r7lf344R
-         U6w/kA2YxFOsabiGn+9241ybcJUm1/JXniBiBM6AYB8GrRAhayYG4zNuMhQhZlS7mRZT
-         RRLP4Y+s3OobgXAe3O/nbxb5pA41HDxjxILNH1RbzY1gjwwCAE3yRCtEjbHQOeG5p3Ca
-         pKUNEydqAiLEUNevRGl45fDLwOLGslpcUKcZB6jkYN9ki0Hi4E2O44jFey6I7wPuWZfJ
-         Uqz2upMtUv2dFPGYxC4l2cMiu5NKUqM3h8uFM207lexPu1wp4GIASi2vNLwBcWEFsFGb
-         E6dQ==
-X-Forwarded-Encrypted: i=1; AFNElJ912nrasm/99qgXeUW1rB+RpXPECoNAXIfJ/vmRxTe1evN2tl9tHrcRXn1+VNs8bJs524SF7W7m7yhtrPzM@lists.linux.dev
-X-Gm-Message-State: AOJu0YyYXdMvkp9IEu3Fdmyng5YRM0H22GT5FdftwGAE3TcReV3Kn9xW
-	ldNS7ceUMD7rAVwaDFLpubwdL3CwvGqXrL74jARsEp3+kokh891/pvL3
-X-Gm-Gg: AfdE7cmif/hvHQJ1IbB8Dj9Pokgt5i5sM7rsDL6MpPqKEeYnRn7OUl56BXckl4Dd1nR
-	PUANiWOn1lCXBqslmribIcCWjVvIHdi1boxHn5y60003ID8mHkXn+eMoN/oSAhVzhbhrS4VowWE
-	jwGgVly05iBk0JOtgFrju5LXaBGQynjByfYjwSo0dF3qSo/XBKZdcHX5EyCaenPWiTKnHUxt3PM
-	0446T4ZFJVpObghGaZWhTeHInvikb8UVVu/EbnRBVk2OsYxnIJKmV96OPFovu84Ecs+MauxTbKf
-	O7DwytxelbxZGPs3Pww6E4xOgufJDYj4zcfbSooMaxIqPtecpnYeh+NYpH6t2Bab/ODaHRABkiQ
-	a45kT/k4IEJ75puMkLM2fDi9P5dHqXAH2nuzIeNipaPcYERyRiJ4p3NxE6oyU
-X-Received: by 2002:a05:6402:5243:b0:697:64ba:bb9b with SMTP id 4fb4d7f45d1cf-69764babcf3mr2494576a12.17.1781934491202;
-        Fri, 19 Jun 2026 22:48:11 -0700 (PDT)
-Received: from adr.. ([2a00:7c80:0:3a8::14])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6977be498e4sm353440a12.20.2026.06.19.22.48.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Jun 2026 22:48:10 -0700 (PDT)
-From: =?UTF-8?q?Andr=C3=A9=20Moreira?= <andrem.33333@gmail.com>
-To: mchehab@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Andr=C3=A9=20Moreira?= <andrem.33333@gmail.com>
-Subject: [PATCH] media: av7110: refactor deeply nested PTS loops
-Date: Sat, 20 Jun 2026 02:46:54 -0300
-Message-ID: <20260620054654.122464-1-andrem.33333@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=RwJUzJkFOp4tAmfXA6KJ4MrErpiHytjtZyfzG3vrPY0=;
+        b=bj1IhRoYZoCPNGH7Kj6HIVzIYl0Hd4zkdjRZOglcx6zXvACk8AckK71Oo5YWJgbdFQ
+         sZ212kjkCTk4iInMIx3Jm2Ryy9zQEUsIcgM2DgzjXd1Ni6orHImymQzNM0hHChdQaf2E
+         UczIsh4GVtC1/HD+N+LOcnsiqkG5ZFA9el8H0OOyiW0Brd9sozEdtofXzAektjUDqCHq
+         35EIW3FALnR/Tsg0+hHzWxYXaxnxdsTgCyGrG1OI+L6z5d4q1AmnlLOIDqb/VGo1mH5Z
+         wXVqbNSFJKTqJ9kt5h6Xw5AdR9zzy6A/XLYzLxc0oQdeUfXQRIkogrhnNMqCBN3kLyHT
+         1c1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781941425; x=1782546225;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=RwJUzJkFOp4tAmfXA6KJ4MrErpiHytjtZyfzG3vrPY0=;
+        b=Fsz5b11xZeOjA3dy/YCM/kMhd95/Qw7rdSrKJU+I2gp/GL6t/1TnRu4s106vi4OALh
+         /Q2pgsWZmRvEme21yGOCOiYrFNbb52msfJbD8ACrEh8cUbqZ0+pYHec+77Z7iad4tjDD
+         x0m/8RE5WcmsFUcDzlKjbEtD1a90bApWvnlZDPQeCOx4bTuz0AK4HcbOvD7p3go78d3m
+         FQ2vAAqVRdFXY7p90afs+cEGDPlxpNN8mcEDoAVDhVb/3JjftjoIC+uif4J1kCndX0sF
+         P2XlONHQh9CdhWyNMJzUpdci3p5nA9/rxw+jFuwEDwTiV5R2Ek9QUPNNBzX47EqLNq1e
+         tgww==
+X-Forwarded-Encrypted: i=1; AFNElJ89gomDF5V2Td/xn1oJeqD+jaPuIbRa3QDs3GGR8+STzYoMpVHACocJ0vHb5gO+Nv6EQuyG8hFZ1qBNmmn9@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzo8PLM1Yc2iruQaDA9LuSSN3WZUUf4GcUJlvXWAKjka2VuWlxA
+	HaO6itQNenyG39pgO1LZ0Q0emGpD2C5wRAlE/IoVv5deT9jk4+UaRWeeTQjGTuCxVRTpX8/QQ5L
+	ogr71thzZcmRjf5patWLqGKJrnZWzqv8=
+X-Gm-Gg: AfdE7cm8i3FpLqB9LWq0olR8Ir/s/xLANuc+ubR3WD489xQO6uP9/thWnkLj9X2yj5K
+	qXnT+esdPEpDfB8cZmJ+Cy0Zfs97SlCIPqyLNDMy3xKrIW9upbEeprsnelzwzKJQE9wQp0Oc4m0
+	PcXnHPjNe1jeJdIQAUljKhYZhW3IwoRZQBe7lISIHguOfoVYyWd+lvmDg+LywoLW/ZiNiSYllcd
+	R0AeOfaqka1qBJcccFsi74XI744/+kUbC+b+9/lG18eR7GkrZWHofsXBcgd3ruytE3+2X4vuQ==
+X-Received: by 2002:a17:907:1c84:b0:c08:695:8819 with SMTP id
+ a640c23a62f3a-c094ab06232mr347376166b.0.1781941424883; Sat, 20 Jun 2026
+ 00:43:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20260529111927.14138-1-neharora23587@gmail.com>
+ <CAOWJOptv1JcOGcEt39HVy7LkpAsvzbw9yj64kJG+X5J=VbWrMA@mail.gmail.com>
+ <CAOWJOps9RBNAGsPFsBCbzFkEUN1=75YvwmqJX6RdQBbt1C6W-Q@mail.gmail.com>
+ <ai-j96dVwtPMERVM@stanley.mountain> <CAOWJOpt2CW=-zybOrPr2pwfPVQFcd+j3YoNP+rMyAar_2kJtbw@mail.gmail.com>
+In-Reply-To: <CAOWJOpt2CW=-zybOrPr2pwfPVQFcd+j3YoNP+rMyAar_2kJtbw@mail.gmail.com>
+From: neha arora <neharora23587@gmail.com>
+Date: Sat, 20 Jun 2026 13:13:33 +0530
+X-Gm-Features: AVVi8CcREoyjcHXowOc7Bxi7M8cmts4kYSlT8u6k6tHdF-PG1aMmVvHCxP8n4jA
+Message-ID: <CAOWJOpuObcnFMW_abhZVjLbkUSyiGMbgQwB6FPekgSU5Bn6eFA@mail.gmail.com>
+Subject: Re: [PATCH v3] staging: sm750fb: rename pv_reg to io_base
+To: Dan Carpenter <error27@gmail.com>
+Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com, 
+	gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Extract the deeply nested loops handling PTS flags in the MPEG-1
-block into a separate helper function `av7110_ipack_m1_pts()`.
+Hi everyone,
 
-This fixes a checkpatch warning regarding too many leading tabs and
-improves code readability without changing the underlying parser logic.
+After further investigation, and feedback from maintainers, I have
+concluded that porting DRM to the SM750, will cause a huge performance
+regression as DRM has no interface for 2D acceleration, making the CPU
+do graphics, which is slow, the only way to expose 2D acceleration is
+custom IOCTLs, which is not preferable.
 
-Signed-off-by: André Moreira <andrem.33333@gmail.com>
----
- drivers/staging/media/av7110/av7110_ipack.c | 35 +++++++++++----------
- 1 file changed, 18 insertions(+), 17 deletions(-)
+So, it is best to keep using the fbdev stack for the SM750.
 
-diff --git a/drivers/staging/media/av7110/av7110_ipack.c b/drivers/staging/media/av7110/av7110_ipack.c
-index 4be6e225f08e8..a3e69a737e97d 100644
---- a/drivers/staging/media/av7110/av7110_ipack.c
-+++ b/drivers/staging/media/av7110/av7110_ipack.c
-@@ -136,6 +136,22 @@ static void write_ipack(struct ipack *p, const u8 *data, int count)
- 	}
- }
- 
-+static int av7110_ipack_m1_pts(struct ipack *p, const u8 *buf,
-+			       int c, int count, int max_which)
-+{
-+	while (c < count && p->which < max_which) {
-+		if (p->which < 7)
-+			p->pts[p->which - 2] = buf[c];
-+
-+		write_ipack(p, buf + c, 1);
-+		c++;
-+		p->found++;
-+		p->which++;
-+		p->hlength++;
-+	}
-+	return c;
-+}
-+
- int av7110_ipack_instant_repack(const u8 *buf, int count, struct ipack *p)
- {
- 	int l;
-@@ -335,26 +351,11 @@ int av7110_ipack_instant_repack(const u8 *buf, int count, struct ipack *p)
- 				return count;
- 			if (p->which > 2) {
- 				if ((p->flag2 & PTS_DTS_FLAGS) == PTS_ONLY) {
--					while (c < count && p->which < 7) {
--						p->pts[p->which - 2] = buf[c];
--						write_ipack(p, buf + c, 1);
--						c++;
--						p->found++;
--						p->which++;
--						p->hlength++;
--					}
-+					c = av7110_ipack_m1_pts(p, buf, c, count, 7);
- 					if (c == count)
- 						return count;
- 				} else if ((p->flag2 & PTS_DTS_FLAGS) == PTS_DTS) {
--					while (c < count && p->which < 12) {
--						if (p->which < 7)
--							p->pts[p->which - 2] = buf[c];
--						write_ipack(p, buf + c, 1);
--						c++;
--						p->found++;
--						p->which++;
--						p->hlength++;
--					}
-+					c = av7110_ipack_m1_pts(p, buf, c, count, 12);
- 					if (c == count)
- 						return count;
- 				}
--- 
-2.43.0
+Regards,
+Onish
 
+On Wed, Jun 17, 2026 at 8:30=E2=80=AFAM neha arora <neharora23587@gmail.com=
+> wrote:
+>
+> Hi Dan,
+>
+> Please disregard my previous patch submission.
+>
+> I am currently working on a complete rewrite of the sm750fb staging
+> driver into a modern, KMS-based DRM driver (sm750drm). Because this
+> is a complete architectural overhaul, I am building it outside the
+> staging tree structure.
+>
+> Once the sm750drm driver framework is stable and ready for a RFC
+> (Request for Comments), I will submit the entire new subsystem patch seri=
+es
+> directly to the dri-devel mailing list and CC you.
+>
+> Thank you for your review and your time!
+>
+> Regards,
+> Onish
+>
+>
+> On Mon, Jun 15, 2026 at 12:34=E2=80=AFPM Dan Carpenter <error27@gmail.com=
+> wrote:
+> >
+> > On Sun, Jun 14, 2026 at 12:45:05AM +0530, neha arora wrote:
+> > > Hi everyone,
+> > >
+> > > Just following up on this patch to ensure it didn't get lost in the q=
+ueue.
+> > > Please let me know if any changes or a V4 are needed.
+> > >
+> >
+> > It doesn't apply to linux-next.  Did you work against the lastest
+> > devel-next tree?
+> >
+> > regards,
+> > dan carpenter
+> >
