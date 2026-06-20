@@ -1,152 +1,245 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B13B92FFF89
-	for <linux-staging@lists.linux.dev>; Sat, 20 Jun 2026 17:43:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781977394; cv=none; b=hopellMwhx+vZK12UmfIIv/g0E5XuLtQpxAzNoE5UoBaDS76AqZltPzS5F1Tn3bX2QldiJtu4LRIBiTruhtw9ie0C96iRTlt2zsYb/snIr3mKbc6sYLdmMWW0zBomCTt6o5fCi2DVWgzBRAths6x2E9CNg+jFkM5HCvfwKM4U1A=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781977394; c=relaxed/simple;
-	bh=qXIspo1TANR4ShgA5E1XOV89aIBGVJb2hpTmY05IzgQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=U2hROK6kRfH7W9GZOsuDyVsRWRcQEY8ZM+wtqi74e0pYTPwRTVB/30EnsOf7sdAdy/zBSRBfNfnIUY+9t/cl+S6fvgp96mSyunLYN+JzVKPJaKBW5atsR+wadxotYisWZkvDgnVwu5AhL38M87ASlsgXwKjwBIAbrZLPOJ75whQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XqBgubV5; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AD003446BC
+	for <linux-staging@lists.linux.dev>; Sat, 20 Jun 2026 23:41:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781998885; cv=pass; b=VfBwK/JR0kXcVE2KHGf3Dv3R7iS0RaCkiRhiXtxqnbg6dXD5lgEnzXyrGwwBeIdKCAanGH89TXNLm+neGbnC81GtO9d1vr0v9VkIVheXJQXfqV0/oIETNP7EMlbFGsir0RLfJ5NabzjStvhExKDh2NPQpbxYFuvqIECGZfIHax8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781998885; c=relaxed/simple;
+	bh=82Kf3JgIJQ0G8lBaGmDY/EraGV4DeuRCaTvGeRY/6PM=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=Aw3F2lmeK8hNRtUtMbQXZ46RDR+2ypPawnbotlvTF6+FY17gU5o9lzARJh+px3vLNiL2hDnPMSIoP24T1Hyp4zpKhl/rWpc8Ar3xCHncoZr0Hmzb4v4hEj9USkokJGu2puflBnLai7aOe1CChV4INTRX+lmMbKyN4C3O937GZVc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sevf7olF; arc=pass smtp.client-ip=209.85.208.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XqBgubV5"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-49230a567a9so14637905e9.0
-        for <linux-staging@lists.linux.dev>; Sat, 20 Jun 2026 10:43:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sevf7olF"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6978f1eebb2so232733a12.3
+        for <linux-staging@lists.linux.dev>; Sat, 20 Jun 2026 16:41:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781998881; cv=none;
+        d=google.com; s=arc-20240605;
+        b=LMdAFc54K4ioIf71bR9SQ75jyu5A906oYu7Fy7xcpE7nLDph9YHq6ZYyVXvi2IW/qb
+         vnEzUSwCjHMEcPsfx77gs/mpNvs4witoXgaMAmF77eeVhj8AhIjWjLr5g6tIYs1BQVcJ
+         dZ13jPqiOhaIYQTe22nB/Wloye4DZqAynjqQzf5FpBbjVaMCHTi+NEpy2ohQN92GeFrO
+         LZ0C+KG8u+TPz1YntE85dUGzViyFJvNiCJzJqkR7m7WAxZN9J9kgpGa1K2lEafktjXEU
+         Qc6vuXAikKU85ppEyZnbWwLgzbOQYtSKDxsQCGU6XAUKnP80rowGyW5GsW6nqkfgpyGp
+         TxPg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :mime-version:dkim-signature;
+        bh=YUxhTabwX8U7GIbEqGU5o33Gedfu7E6KTuPA7JrKzlM=;
+        fh=bpAJ5YsbjdJ/l8BcgsSmWhASFMT310mtt1pJeEDcPEs=;
+        b=ErF0Dwn56qE+8kOqlN4dl2P0HLnWstfkcC4TZIajR4ACswkOzbH5bL0b1asjj4+/Yu
+         +s3rpnZrZ1gqKQlB5GlBi4WMJmva3qRHyeQ+ItOp4Zyo+7+CTSsIwpDQjKizvEno17iP
+         5jpGrq3sw7RXCHNwiyxmwADlube4SUbVNcmLAZLaJ42jGHwo/N3/EcsR0qFmq8KtHOHS
+         Zcw3ukkLnTK1eWTBRSoqqZ2974ruSaVCIcE9wIhWSDPG56OW1cbrOSDIIraff9GmmMva
+         vTEgoCsxTa8XPiL5tIlO8IPl5FHySnx6h3eCTfLj+Et+/oCi7ip0+K1UvGHTw5qx0nfx
+         +G6g==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781977391; x=1782582191; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=u38JOwl8ityepdhbMymTpLk1T1Oq2KdZBkK/GsnaiYM=;
-        b=XqBgubV5YT6iBOQXBNw0fry/aE75Ac6o18cpVx1XYLbn/NBtOrWD/Cmy6P/WfkuXGe
-         sjEHUehYAYVisJFLpsSSa8sBSSb/0HbPiqadbozDOUKHrSBYZhVAHP7FMnqhP6Th3e+V
-         usv06BSRnVYqQq7tNvwRJjEHWGWJ9itawjuv/0iq3efcl3Meegzet0m6dtgCWY/xgkwj
-         FNl4PeSmUIQk/DMqCHSliK/hNWiJUYMJkN+q2WotPh2rUrOEtP6spsdgOmEYIariMvx2
-         5qojYQGpFvxSAIqnflue5YxNY+WKcdJl+42UEeypv8WGXGhN8xOpCb1kElWuJ5adIRke
-         gx0A==
+        d=gmail.com; s=20251104; t=1781998881; x=1782603681; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=YUxhTabwX8U7GIbEqGU5o33Gedfu7E6KTuPA7JrKzlM=;
+        b=sevf7olFRfBnkqdV9a6QuTvoKRCbrmDDxNaQlfCPujArkhcPGs7lxOtHjP3QHY3pnI
+         DBtJOoXJvebcgmFhO7Pxf1YPDBu9x7aKMI6F8IiFlbgFEqFOXReW9/WI1EptrbTO0iWX
+         iaRRPnRNtqeC/JgO4qR0jBL1HGs/Yj4Ed5vy3/unSpJUk0iywuqKU4jJ+zOZucwDw4hK
+         38ZqfzeLtVR+kFFcmC3OOzP+fUQXCe1kTT0B8idVlvYBpBuiR3XdDCZ+h2LoWm2VpeLp
+         LtjrNGr54YFmVJuZvYv37AJpk+SwJbKmbYmi/b5GKq9/bxSiTOZJznCTO+jWDs5ViHdO
+         3Z4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781977391; x=1782582191;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=u38JOwl8ityepdhbMymTpLk1T1Oq2KdZBkK/GsnaiYM=;
-        b=gt5xWOMZOemLb2YwCb0yjCjk9qW8/YNWT3Ez2EnTKE/1mo/qWfwBpBF7opV8LPyG/m
-         uoIxcp+AsA2yGU/kZEl8VwgE1dgzlbCnJ6Utt0rfGIhgZ+cRt9Yngsa+Q1zAyqFUXKSe
-         o5/pRvnxQSt+awRmpMlTBHTWcLQBTAccaRER6xXMUBZVU4vWbRll5RqyBO4IDwlXCAIi
-         9qASjQUX7mUZQgn8GnzfvveamRKtMLNqEOwUKFEusQUbyOrrfEph7pPD8FwZe4a5QmYE
-         tBSrVj0Li43yHPgVgoyJLOgvKOM1wkHZbZ425hYCIzXQF69KCFJEqqBbR3//1BsAVbUl
-         bMEQ==
-X-Gm-Message-State: AOJu0Yx5PfU4YZCbac2HHIDkRk0oYAFtpHJ8Gs4HWx8GMpg7VN1/wa8p
-	Mo3rhXgzwhq0Tu6mbiOjyIJOXu9EtwWJOIII1cy3c0ZJOxcbQd5Dxzaj
-X-Gm-Gg: AfdE7cmIttr/XaJOhFEW3N7XEQypla/Go/ys2v6Y0uf+xdq7HlnO2w4WN9cVOzXHmSz
-	dI2XotaNQpZuyJxB9amv5K/ZOsUD+XEelrJN8IBX/fJxAEJ55Rai0xS3TS6CPFH3dTWrSu4d/tW
-	tszy4SpMddKRQbPCaRB7XQKJBn1ZE4yfveUxYnUNwHTcPVbe4sDW7cBKnFwJOBLKvsB7iC7fkzA
-	H+H0NfhB18+EB3Ptbrv/hKnHCsMCtSUUMrYpnkix9GLfHilGVSjL5OT/HeWYvMPCgzYehtKg6Pw
-	WJEyZevm5u5u0SbOzTGSayhnGrUIj3Z701ROjBYEnObHBPk+XakO49BA8hdgzZOkMgcXlpEUSLb
-	92tBs4CLw6IZvduHvu+E6huI3wacPW0DHpByGWypReOMVU3mPRcuqIE3QjgRE9vg3AcrVS34DQR
-	zLGMhcJ4liWq0Nm2rCsYAPQR+K8uxS8MJF0u9Y0RxLdaxb8tkSjHrgX4y9M46xaZvib666VOjtM
-	y9eaw==
-X-Received: by 2002:a05:600d:6402:20b0:492:1e36:1fe9 with SMTP id 5b1f17b1804b1-49240eb56b9mr99864455e9.37.1781977390943;
-        Sat, 20 Jun 2026 10:43:10 -0700 (PDT)
-Received: from localhost (dslb-002-204-131-161.002.204.pools.vodafone-ip.de. [2.204.131.161])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4923fd15470sm180672645e9.2.2026.06.20.10.43.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Jun 2026 10:43:10 -0700 (PDT)
-Date: Sat, 20 Jun 2026 17:41:54 +0000
-From: Dalvin-Ehinoma Noah Aiguobas <fliegbert2@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8723bs: fix Alignment should match open
- parenthesis in rtw_mlme.c
-Message-ID: <ajbQ4m5HAaL2yflQ@koolguy>
+        d=1e100.net; s=20251104; t=1781998881; x=1782603681;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YUxhTabwX8U7GIbEqGU5o33Gedfu7E6KTuPA7JrKzlM=;
+        b=cynWkeYqi+JylqA8nN2/mFmpR6mpyo5Xoeg2nS9b5XzVklDBeqdehDIrD3FQsTLLmO
+         VbTNWwtDrfVf3uRd5zBc6fsov5XXiOzVuA9Hh2tHzRrE8f7NZ5wj6ZPtoGSTqRiMhgTe
+         tz5Mh2KY3tlqdJkdMlGRN+8mEjmKaOTk5jCTjzB5AXUF2xubyPY2RRGENWQZzOlUzNM8
+         mx0xG8VMKRXWTxW2tbvm6h8pLWRTa8FgFjqmI+G6m6P3XXt1SvEX7GpN70yd5FoZYlKN
+         iGKwJZfV7JcULUPXdsap7EbQ0w2HFKdEPj/WXYfleOB3/bU6VmEwC7NT7/Wq77Q4Q7Z6
+         Rfnw==
+X-Forwarded-Encrypted: i=1; AFNElJ9XZdFLmWFoPbJGQVNHRRuI4ftQlcXgcu1OkP8tZeyPlTuEjja7BhW2oJKU9UuwI+/j+Qy0uOOTKQL1H0TN@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywi6Ba7K+13AOBTl2OJDy7WA1KeZuDmLWXzlLdYsHc5dhljfXYV
+	vX0svzFg8uD1BicWwU21Ve+N7eVLPpcPsje1qARqbPBkusfRjSb7+oNFfuqPIlcwYaE6EU3g5Ia
+	WzrsQBF9f9mankAimSH4tFf0K4bFZJY4=
+X-Gm-Gg: AfdE7cn/xp7E5bORVyx6hUp55/a2SFux+rxqmprupRfGD8z/pW+AZ3n2eScHnq6WpBb
+	IHPFHjSkjvRr/wuNTZqee/5BrndGcBrfXLQiNPw4PxgKV/MWHiWD4L4FgyBw1DakBcbGT+jGuXk
+	OVTwCq/VTuDGeGPxDbfNxZe4uPWJQiTA7Ji0rzEpaSwqP/uaQW/HTslP3LJXFgyAky7iArYCc7a
+	GELpKf4AFbxo3Dct3mjXeSp4cenMJgTtneNryA8gdc8arE3ohWd8cGlsF9ZzgkvkA7ES9oaLrpz
+	hUm8uSZWL0xs63r1I4YbO1ohA3nV
+X-Received: by 2002:a17:906:fe4c:b0:beb:7b50:3a7b with SMTP id
+ a640c23a62f3a-c097ae2c6c0mr430469166b.6.1781998880640; Sat, 20 Jun 2026
+ 16:41:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+From: Saulo Henrique <saulohsdoroteio@gmail.com>
+Date: Sat, 20 Jun 2026 20:41:12 -0300
+X-Gm-Features: AVVi8Cc7s44tAXt6tJdrucDNkLBSUorns6oGdAqZiN9un9e1DZ8lpmD_Nbv02SA
+Message-ID: <CAM09=pU-wLaqvizTt-pu595nSx2PRw8W60rraArTWRo8VFemRg@mail.gmail.com>
+Subject: [PATCH] staging: rtl8723bs: fix checkpatch style issues
+To: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Align continuation lines which weren't properly aligned.
+From 66175877cefddce1a2ea5ee2cffec427c05b21d2 Mon Sep 17 00:00:00 2001
+From: =3D?UTF-8?q?Saulo=3D20Henrique=3D20Santos=3D20Dorot=3DC3=3DA9io?=3D
+ <doroteios@outlook.com>
+Date: Sat, 20 Jun 2026 19:29:24 -0300
+Subject: [PATCH] staging: rtl8723bs: fix checkpatch style issues
+MIME-Version: 1.0
+Content-Type: text/plain; charset=3DUTF-8
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Dalvin-Ehinoma Noah Aiguobas <fliegbert2@gmail.com>
+Fix multiple coding styles issues reported by checkpatch.pl, including
+line wrapping and whitespace cleanup.
+
+Signed-off-by: Saulo Henrique Santos Dorot=C3=A9io <doroteios@outlook.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_btcoex.c | 5 ++---
+ drivers/staging/rtl8723bs/core/rtw_efuse.c | 4 ++--
+ drivers/staging/rtl8723bs/core/rtw_ioctl_set.c | 14 +++++++-------
+ drivers/staging/rtl8723bs/core/rtw_mlme.c | 4 ++--
+ 4 files changed, 13 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index 4fb74729180f..3f66fc36d2fc 100644
+diff --git a/drivers/staging/rtl8723bs/core/rtw_btcoex.c
+b/drivers/staging/rtl8723bs/core/rtw_btcoex.c
+index 0191a943f..055ca95ff 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_btcoex.c
++++ b/drivers/staging/rtl8723bs/core/rtw_btcoex.c
+@@ -10,8 +10,8 @@
+
+ void rtw_btcoex_MediaStatusNotify(struct adapter *padapter, u8 media_statu=
+s)
+ {
+- if ((media_status =3D=3D RT_MEDIA_CONNECT)
+- && (check_fwstate(&padapter->mlmepriv, WIFI_AP_STATE) =3D=3D true)) {
++ if ((media_status =3D=3D RT_MEDIA_CONNECT) &&
++ (check_fwstate(&padapter->mlmepriv, WIFI_AP_STATE) =3D=3D true)) {
+   rtw_hal_set_hwreg(padapter, HW_VAR_DL_RSVD_PAGE, NULL);
+  }
+
+@@ -65,7 +65,6 @@ void rtw_btcoex_LPS_Leave(struct adapter *padapter)
+ {
+  struct pwrctrl_priv *pwrpriv;
+
+-
+  pwrpriv =3D adapter_to_pwrctl(padapter);
+
+  if (pwrpriv->pwr_mode !=3D PS_MODE_ACTIVE) {
+diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c
+b/drivers/staging/rtl8723bs/core/rtw_efuse.c
+index 099320e4e..fb3905cfd 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
++++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
+@@ -76,8 +76,9 @@ u16 Address)
+     break;
+   }
+   return rtw_read8(Adapter, EFUSE_CTRL);
+- } else
++ } else {
+   return 0xFF;
++ }
+
+ } /* EFUSE_Read1Byte */
+
+@@ -232,7 +233,6 @@ void EFUSE_ShadowMapUpdate(struct adapter
+*padapter, u8 efuseType)
+  /* void *)&pHalData->EfuseMap[EFUSE_INIT_MAP][0], mapLen); */
+ } /* EFUSE_ShadowMapUpdate */
+
+-
+ /*------------------------------------------------------------------------=
+-----
+  * Function: EFUSE_ShadowRead
+  *
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
+b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
+index c70541f95..fa79c1928 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
+@@ -36,11 +36,11 @@ u8 rtw_do_join(struct adapter *padapter)
+ {
+  struct list_head *plist, *phead;
+  u8 *pibss =3D NULL;
+- struct mlme_priv *pmlmepriv =3D &(padapter->mlmepriv);
+- struct __queue *queue =3D &(pmlmepriv->scanned_queue);
++ struct mlme_priv *pmlmepriv =3D &padapter->mlmepriv;
++ struct __queue *queue =3D &pmlmepriv->scanned_queue;
+  u8 ret =3D _SUCCESS;
+
+- spin_lock_bh(&(pmlmepriv->scanned_queue.lock));
++ spin_lock_bh(&pmlmepriv->scanned_queue.lock);
+  phead =3D get_list_head(queue);
+  plist =3D get_next(phead);
+
+@@ -53,7 +53,7 @@ u8 rtw_do_join(struct adapter *padapter)
+  pmlmepriv->to_join =3D true;
+
+  if (list_empty(&queue->queue)) {
+- spin_unlock_bh(&(pmlmepriv->scanned_queue.lock));
++ spin_unlock_bh(&pmlmepriv->scanned_queue.lock);
+   _clr_fwstate_(pmlmepriv, _FW_UNDER_LINKING);
+
+   /* when set_ssid/set_bssid for rtw_do_join(), but scanning queue is empt=
+y */
+@@ -74,7 +74,7 @@ u8 rtw_do_join(struct adapter *padapter)
+  } else {
+   int select_ret;
+
+- spin_unlock_bh(&(pmlmepriv->scanned_queue.lock));
++ spin_unlock_bh(&pmlmepriv->scanned_queue.lock);
+   select_ret =3D rtw_select_and_join_from_scanned_queue(pmlmepriv);
+   if (select_ret =3D=3D _SUCCESS) {
+    pmlmepriv->to_join =3D false;
+@@ -84,7 +84,7 @@ u8 rtw_do_join(struct adapter *padapter)
+     /* submit createbss_cmd to change to a ADHOC_MASTER */
+
+     /* pmlmepriv->lock has been acquired by caller... */
+- struct wlan_bssid_ex *pdev_network =3D &(padapter->registrypriv.dev_netwo=
+rk);
++ struct wlan_bssid_ex *pdev_network =3D &padapter->registrypriv.dev_networ=
+k;
+
+     pmlmepriv->fw_state =3D WIFI_ADHOC_MASTER_STATE;
+
+@@ -151,7 +151,7 @@ u8 rtw_set_802_11_ssid(struct adapter *padapter,
+struct ndis_802_11_ssid *ssid)
+  else if (check_fwstate(pmlmepriv, _FW_UNDER_LINKING) =3D=3D true)
+   goto release_mlme_lock;
+
+- if (check_fwstate(pmlmepriv, _FW_LINKED|WIFI_ADHOC_MASTER_STATE) =3D=3D t=
+rue) {
++ if (check_fwstate(pmlmepriv, _FW_LINKED | WIFI_ADHOC_MASTER_STATE) =3D=3D=
+ true) {
+   if ((pmlmepriv->assoc_ssid.ssid_length =3D=3D ssid->ssid_length) &&
+       (!memcmp(&pmlmepriv->assoc_ssid.ssid, ssid->ssid, ssid->ssid_length)=
+)) {
+    if (check_fwstate(pmlmepriv, WIFI_STATION_STATE) =3D=3D false) {
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c
+b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+index 9f21a2226..84314b7f6 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -265,7 +265,7 @@ void rtw_free_network_queue(struct adapter *padapter, u8 isfreeall)
- bool rtw_if_up(struct adapter *padapter)
- {
- 	if (padapter->bDriverStopped || padapter->bSurpriseRemoved ||
--		!check_fwstate(&padapter->mlmepriv, _FW_LINKED))
-+	    !check_fwstate(&padapter->mlmepriv, _FW_LINKED))
- 		return false;
- 
- 	return true;
-@@ -331,7 +331,7 @@ bool rtw_is_same_ibss(struct adapter *adapter, struct wlan_network *pnetwork)
- 	struct security_priv *psecuritypriv = &adapter->securitypriv;
- 
- 	if ((psecuritypriv->dot11PrivacyAlgrthm != _NO_PRIVACY_) &&
--		    (pnetwork->network.privacy == 0))
-+	    (pnetwork->network.privacy == 0))
- 		return false;
- 	else if ((psecuritypriv->dot11PrivacyAlgrthm == _NO_PRIVACY_) &&
- 		 (pnetwork->network.privacy == 1))
-@@ -406,7 +406,7 @@ struct	wlan_network	*rtw_get_oldest_wlan_network(struct __queue *scanned_queue)
- }
- 
- void update_network(struct wlan_bssid_ex *dst, struct wlan_bssid_ex *src,
--	struct adapter *padapter, bool update_ie)
-+		    struct adapter *padapter, bool update_ie)
- {
- 	long rssi_ori = dst->rssi;
- 
-@@ -457,7 +457,7 @@ static void update_current_network(struct adapter *adapter, struct wlan_bssid_ex
- 	if (check_fwstate(pmlmepriv, _FW_LINKED) && (is_same_network(&pmlmepriv->cur_network.network, pnetwork, 0))) {
- 		update_network(&pmlmepriv->cur_network.network, pnetwork, adapter, true);
- 		rtw_update_protection(adapter, (pmlmepriv->cur_network.network.ies) + sizeof(struct ndis_802_11_fix_ie),
--								pmlmepriv->cur_network.network.ie_length);
-+				      pmlmepriv->cur_network.network.ie_length);
- 	}
- }
- 
-@@ -1064,7 +1064,7 @@ static void rtw_joinbss_update_network(struct adapter *padapter, struct wlan_net
- 	}
- 
- 	rtw_update_protection(padapter, (cur_network->network.ies) + sizeof(struct ndis_802_11_fix_ie),
--									(cur_network->network.ie_length));
-+			      (cur_network->network.ie_length));
- 
- 	rtw_update_ht_cap(padapter, cur_network->network.ies, cur_network->network.ie_length, (u8) cur_network->network.configuration.ds_config);
- }
-@@ -1432,7 +1432,7 @@ void rtw_stadel_event_callback(struct adapter *adapter, u8 *pbuf)
- 	}
- 
- 	if (check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) ||
--	      check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)) {
-+	    check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)) {
- 		rtw_free_stainfo(adapter,  psta);
- 
- 		if (adapter->stapriv.asoc_sta_count == 1) {/* a sta + bc/mc_stainfo (not Ibss_stainfo) */
-@@ -1991,7 +1991,7 @@ static int SecIsInPMKIDList(struct adapter *Adapter, u8 *bssid)
- 
- 	for (i = 0; i < NUM_PMKID_CACHE; i++)
- 		if ((p->PMKIDList[i].bUsed) &&
--				(!memcmp(p->PMKIDList[i].Bssid, bssid, ETH_ALEN)))
-+		    (!memcmp(p->PMKIDList[i].Bssid, bssid, ETH_ALEN)))
- 			return i;
- 	return -1;
- }
--- 
-2.54.0
+@@ -342,8 +342,8 @@ bool rtw_is_same_ibss(struct adapter *adapter,
+struct wlan_network *pnetwork)
 
+ inline int is_same_ess(struct wlan_bssid_ex *a, struct wlan_bssid_ex *b)
+ {
+- return (a->ssid.ssid_length =3D=3D b->ssid.ssid_length)
+- && !memcmp(a->ssid.ssid, b->ssid.ssid, a->ssid.ssid_length);
++ return (a->ssid.ssid_length =3D=3D b->ssid.ssid_length) &&
++ !memcmp(a->ssid.ssid, b->ssid.ssid, a->ssid.ssid_length);
+ }
+
+ int is_same_network(struct wlan_bssid_ex *src, struct wlan_bssid_ex
+*dst, u8 feature)
+--=20
+2.47.3
