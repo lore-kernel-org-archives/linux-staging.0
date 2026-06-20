@@ -1,151 +1,147 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 432D8145FE0
-	for <linux-staging@lists.linux.dev>; Sat, 20 Jun 2026 01:39:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0718B640
+	for <linux-staging@lists.linux.dev>; Sat, 20 Jun 2026 05:48:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781919575; cv=none; b=eCKbEW7HueTIzKkEecrSm8HathkajrrOK0HwldOzOj5jb0uCjLqGKiV+08AfKR2k/YHfgkHA3nVHdZFXIh4bmXdtrUbjOepSN0qFlgwqSJ4AUgWajX6OpJ07qtzIfUewyhMYJT4Gp3TG70DeojLH1DojJXsXdo5g/GbtCdFXz3A=
+	t=1781934494; cv=none; b=QMMqubsGaPQU1E3DKSbWjibqVZezGSc/2G8UoqvOdijsr79Ku+qyaq4AKJqXa+FwM2ldGE8mGxzIK5u05c00r+kfw/VKSrUaGhdpoWAFuCT/mzTUdjNCqkYohFuHAl20OFqV8O+dJ/s+zDJss8jupaFQvpMy5GGdKNxv3yefIO0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781919575; c=relaxed/simple;
-	bh=rDuOoxdcgI0KszSBN3TWAKf4cpLef362S2a5BVx5o1w=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KkCBMjKfv6xg2v1KzV8Z0unDNPJzT0ZEXVEmF93hcEt44vwQfoI0fwkC4StFIcbKdlVdXBqCIkKEuck1WYkvTCS9TOpnbb6H/M9GLIvSrkcNUlT1JEWpk7yRxY0EwSZ+LkQluPWTZGAAnad5N5wI/rQupplUsYdfuXt7Aa7ZA1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TRrCskCL; arc=none smtp.client-ip=209.85.128.45
+	s=arc-20240116; t=1781934494; c=relaxed/simple;
+	bh=XjyJT5W1WsG2MyfZ7fnuUwzGcUGg4Y6+iUVCy+1ozYY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=l70HOdYuC5C2HJDSjH5B/5oase5G1o3/1qoVTAkI7RdVq/AA6+WPItIJAKCaaJ0XwLRbB1SXxNUQqRpNISouSYS8eh5EEXHRaG+aqM2rN9XrEDb+nfpxnhlwmpHwo8FYLI81yOGYsfSqyFvcJyKNfInW613LceD0NIGhGHPiJv8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qKctEmgI; arc=none smtp.client-ip=209.85.208.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TRrCskCL"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-490ace40f4bso26227325e9.3
-        for <linux-staging@lists.linux.dev>; Fri, 19 Jun 2026 18:39:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qKctEmgI"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-6974a6e54dbso2468427a12.2
+        for <linux-staging@lists.linux.dev>; Fri, 19 Jun 2026 22:48:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781919571; x=1782524371; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1781934491; x=1782539291; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lQml/dQoNRoOrtzXJcX3X8rhBdmWU63cHcWrMzfMNtE=;
-        b=TRrCskCLweTeMv4vof3LVyVIgPjxzpQR+4FCMIjtsQvG3CCfDdrZW52DgM/X/+XbY3
-         FAG0c2bkbsx1HJI9UHgwsMMwxBXvuN2mCe/lrnFJbz7P6ev7duakcHgfvKbtU1LqpJ8v
-         cQBjvalrR+4uGZ91vx71nX9duJn2UZayRTFANOm0KBhbxmt+yZ+9GP7DRnrkPwWAlfGX
-         MNBwt3WwQwSxyCJFFFZHWvfQWQqhBAD0sARp4dGN2gLOc3GhY0cGmK2beK9sGNa95uhU
-         2/DD0wKtCLxpCh8v0gAQIHdUlMn9s0WCNq2sPKifsx+lHVd1CGd8e+BwHQZ5dPfDEfIq
-         BuQQ==
+        bh=Ed3t8ZxAhZ1D0n+cEn1P+22l2LNZt23J9pURBwnxtfY=;
+        b=qKctEmgIO+txxdPvTfQAUh54NwxOLF6agn69shWtECfwLz6+VjZw4Kt6fMd2bj42zr
+         k+1kogAGELyg962H/tt3ETxE2MqjoFu0VycbVaKR27zqv5eMnLG29sU5ofkJux2oDWCi
+         pQT3PzEGoR1wtDCh2dmF3Pqpj3MWj9CA3NXLD8FZtekrC9DfpLotelZBDrEuu+LbLlVe
+         D70UTRsNWrJy7LrdMlYf2HOblb+jwP6yxWTgo0X/yR+NiNNfbcLG/c949iASEO/e0afb
+         VVWj5NhkkcBorqChlxAp3cK+rgiP72Hxw5MR88j8zIGXkgwyw5WjhJ6nNUQyoHp3BZA5
+         rX7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781919571; x=1782524371;
+        d=1e100.net; s=20251104; t=1781934491; x=1782539291;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lQml/dQoNRoOrtzXJcX3X8rhBdmWU63cHcWrMzfMNtE=;
-        b=g/CeLmFW/feKxZQveB+epoLwVDEiqpGp3qVYJ1CUd12Wuy+qdez1HvPFdxG7/yeidy
-         EUOABwKE6KrC7nixQfNa+5OBiKG8kd6BGM4cgp9mmLdo5xwRLJwkv7va5d5vmPnM859a
-         dw16PSxTC1lNmGjvO1J78gU+tKInQKQRTCaDcGOiuovtN0+SImHiYv+Gk3Na0Xtdxk56
-         3SG3Xpb8yHGKW627GawBFR4WY1fsZsGdLG5+pTI9fXiemZIXmjvqxuGC5Y8dCmVV/W5M
-         dN+IB65ngdf5PeWMw0tcTHrgZt8nBYAZS73Eu1d5kvQIGpzjJa1j+NaA8GajDX98ZLN7
-         NoSw==
-X-Forwarded-Encrypted: i=1; AFNElJ+AzVpIMvzfmTHrfOBMEfgCE51PpwSa/ErIW93KupvbIGpnn4VUn6S8+uLevL0yR0J+OuP6HhIh16oulpHT@lists.linux.dev
-X-Gm-Message-State: AOJu0YwfsRRsuEjy8srh0M1t3r3OQNIGkDJMyB2op7M1fYYqDdtWxV0D
-	JJeL3U6qWzrJ8zi/fUKYcl8nQX5TTYG0+XhCuCZi4rSAiycelI6d4/ox
-X-Gm-Gg: AfdE7cnHgblW2NBZtJToubH2mqCW+1ZDItoL+WOU1BzFogZ1I1Bg2UwBRfIQHBRma3b
-	286iw9ZRdYRqjyECZXEl8AKZTFIHVL6IsUMDuNr9G/KnFNajo/kkQf4LSjyhbM8o+xbSEmYNj73
-	ATx9eP4jTlgU5QkQ5E7lzK5UMkc2I+DcoGHEQOewc/U6/eFM8FTAGxgWfGwhckZkjb/M6at3s32
-	yFbOseKfgEi+9k8fXBcORmMv6417rlYgVcdMebhZyIjZKGxHn9tY0wCx9m2qaXUeLL1jWkoYloU
-	E9IGa0jx1xB+o5dpDPkgARVhEWVSsB6dPoymuXF6FOMCs33pv/Mp0IGK4W4etsDdtGiFR757LUI
-	g/Hr/I2cgGxvqo/z7Q/szQ++jxRyY6SVO5WFdpuzUy+2wYKXJrWqJffOyeWQ/vQRgBYsiqJOh13
-	RajtubaD91fxZbnUWq/j4ICOKu9RqPB3BIT1TF/OfG
-X-Received: by 2002:a05:600c:1f94:b0:490:d354:bcef with SMTP id 5b1f17b1804b1-4923f59cd4amr106655995e9.33.1781919570536;
-        Fri, 19 Jun 2026 18:39:30 -0700 (PDT)
-Received: from localhost.localdomain ([2a00:23c7:f906:cb01:1464:e869:8c77:e722])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4923fc47720sm166454045e9.0.2026.06.19.18.39.28
+        bh=Ed3t8ZxAhZ1D0n+cEn1P+22l2LNZt23J9pURBwnxtfY=;
+        b=VrMhIbpyglRZV/OXtZRzj2WltTp8EKy7poOLdDn3/AHCknGBOkBui/iha7r7lf344R
+         U6w/kA2YxFOsabiGn+9241ybcJUm1/JXniBiBM6AYB8GrRAhayYG4zNuMhQhZlS7mRZT
+         RRLP4Y+s3OobgXAe3O/nbxb5pA41HDxjxILNH1RbzY1gjwwCAE3yRCtEjbHQOeG5p3Ca
+         pKUNEydqAiLEUNevRGl45fDLwOLGslpcUKcZB6jkYN9ki0Hi4E2O44jFey6I7wPuWZfJ
+         Uqz2upMtUv2dFPGYxC4l2cMiu5NKUqM3h8uFM207lexPu1wp4GIASi2vNLwBcWEFsFGb
+         E6dQ==
+X-Forwarded-Encrypted: i=1; AFNElJ912nrasm/99qgXeUW1rB+RpXPECoNAXIfJ/vmRxTe1evN2tl9tHrcRXn1+VNs8bJs524SF7W7m7yhtrPzM@lists.linux.dev
+X-Gm-Message-State: AOJu0YyYXdMvkp9IEu3Fdmyng5YRM0H22GT5FdftwGAE3TcReV3Kn9xW
+	ldNS7ceUMD7rAVwaDFLpubwdL3CwvGqXrL74jARsEp3+kokh891/pvL3
+X-Gm-Gg: AfdE7cmif/hvHQJ1IbB8Dj9Pokgt5i5sM7rsDL6MpPqKEeYnRn7OUl56BXckl4Dd1nR
+	PUANiWOn1lCXBqslmribIcCWjVvIHdi1boxHn5y60003ID8mHkXn+eMoN/oSAhVzhbhrS4VowWE
+	jwGgVly05iBk0JOtgFrju5LXaBGQynjByfYjwSo0dF3qSo/XBKZdcHX5EyCaenPWiTKnHUxt3PM
+	0446T4ZFJVpObghGaZWhTeHInvikb8UVVu/EbnRBVk2OsYxnIJKmV96OPFovu84Ecs+MauxTbKf
+	O7DwytxelbxZGPs3Pww6E4xOgufJDYj4zcfbSooMaxIqPtecpnYeh+NYpH6t2Bab/ODaHRABkiQ
+	a45kT/k4IEJ75puMkLM2fDi9P5dHqXAH2nuzIeNipaPcYERyRiJ4p3NxE6oyU
+X-Received: by 2002:a05:6402:5243:b0:697:64ba:bb9b with SMTP id 4fb4d7f45d1cf-69764babcf3mr2494576a12.17.1781934491202;
+        Fri, 19 Jun 2026 22:48:11 -0700 (PDT)
+Received: from adr.. ([2a00:7c80:0:3a8::14])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6977be498e4sm353440a12.20.2026.06.19.22.48.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Jun 2026 18:39:29 -0700 (PDT)
-From: Christopher Mackle <christophermackle01@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Minu Jin <s9430939@naver.com>,
+        Fri, 19 Jun 2026 22:48:10 -0700 (PDT)
+From: =?UTF-8?q?Andr=C3=A9=20Moreira?= <andrem.33333@gmail.com>
+To: mchehab@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8723bs: don't drop short TX frames in _rtw_pktfile_read()
-Date: Sat, 20 Jun 2026 01:39:16 +0000
-Message-ID: <20260620013916.7148-1-christophermackle01@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?Andr=C3=A9=20Moreira?= <andrem.33333@gmail.com>
+Subject: [PATCH] media: av7110: refactor deeply nested PTS loops
+Date: Sat, 20 Jun 2026 02:46:54 -0300
+Message-ID: <20260620054654.122464-1-andrem.33333@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Commit bc4df274dca6 ("staging: rtl8723bs: update _rtw_pktfile_read() to
-return error codes") changed _rtw_pktfile_read() to fail when the caller
-asks for more bytes than remain in the packet:
+Extract the deeply nested loops handling PTS flags in the MPEG-1
+block into a separate helper function `av7110_ipack_m1_pts()`.
 
-	if (rtw_remainder_len(pfile) < rlen)
-		return -EINVAL;
+This fixes a checkpatch warning regarding too many leading tabs and
+improves code readability without changing the underlying parser logic.
 
-That breaks the assumption made by the data TX path.  In
-rtw_xmitframe_coalesce() (core/rtw_xmit.c) the per-fragment copy is
-issued with the full fragment length, mpdu_len, which is derived from
-pxmitpriv->frag_len (~2300 bytes), and the code relies on the historical
-behaviour of copying only what is left and returning the number of bytes
-actually copied:
-
-	mem_sz = _rtw_pktfile_read(&pktfile, pframe, mpdu_len);
-	if (mem_sz < 0)
-		return mem_sz;
-
-So for every outbound packet smaller than the fragmentation threshold -
-i.e. essentially all normal traffic, including the EAPOL frames of the
-WPA 4-way handshake and DHCP - rlen is larger than the bytes remaining,
-_rtw_pktfile_read() returns -EINVAL, rtw_xmitframe_coalesce() aborts, and
-the frame is dropped before it is queued to the hardware.  The driver
-floods the log with:
-
-	rtl8723bs ...: xmit_xmitframes: coalesce failed with error -22
-
-Management frames (authentication/association) use a different path and
-still go out, so the interface scans and associates, but no data frame is
-ever transmitted.  The 4-way handshake therefore never completes and
-wpa_supplicant misreports it as:
-
-	WPA: 4-Way Handshake failed - pre-shared key may be incorrect
-
-AP mode is unaffected.  The net effect is that the chip is unusable in
-station mode on any kernel carrying the offending commit.
-
-This was confirmed with a wpa_supplicant -dd trace on an RTL8723BS SDIO
-adapter (Bay Trail): message 1/4 is received and the PTK is derived, but
-each "Sending EAPOL-Key 2/4" coincides 1:1 with a "coalesce failed with
-error -22", so message 2/4 never reaches the AP, which keeps retrying
-message 1/4 until the handshake times out.
-
-Restore the original semantics: clamp the requested length to the bytes
-remaining in the packet and return that length.  The skb_copy_bits()
-error path is kept, so genuine copy failures are still propagated.
-
-Fixes: bc4df274dca6 ("staging: rtl8723bs: update _rtw_pktfile_read() to return error codes")
-Cc: stable@vger.kernel.org
-Tested-by: Christopher Mackle <christophermackle01@gmail.com>
-Signed-off-by: Christopher Mackle <christophermackle01@gmail.com>
+Signed-off-by: André Moreira <andrem.33333@gmail.com>
 ---
- drivers/staging/rtl8723bs/os_dep/xmit_linux.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/staging/media/av7110/av7110_ipack.c | 35 +++++++++++----------
+ 1 file changed, 18 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-index dc0b77f38..9bdb67a8a 100644
---- a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-+++ b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-@@ -24,9 +24,11 @@ void _rtw_open_pktfile(struct sk_buff *pktptr, struct pkt_file *pfile)
- int _rtw_pktfile_read(struct pkt_file *pfile, u8 *rmem, unsigned int rlen)
+diff --git a/drivers/staging/media/av7110/av7110_ipack.c b/drivers/staging/media/av7110/av7110_ipack.c
+index 4be6e225f08e8..a3e69a737e97d 100644
+--- a/drivers/staging/media/av7110/av7110_ipack.c
++++ b/drivers/staging/media/av7110/av7110_ipack.c
+@@ -136,6 +136,22 @@ static void write_ipack(struct ipack *p, const u8 *data, int count)
+ 	}
+ }
+ 
++static int av7110_ipack_m1_pts(struct ipack *p, const u8 *buf,
++			       int c, int count, int max_which)
++{
++	while (c < count && p->which < max_which) {
++		if (p->which < 7)
++			p->pts[p->which - 2] = buf[c];
++
++		write_ipack(p, buf + c, 1);
++		c++;
++		p->found++;
++		p->which++;
++		p->hlength++;
++	}
++	return c;
++}
++
+ int av7110_ipack_instant_repack(const u8 *buf, int count, struct ipack *p)
  {
- 	int ret;
-+	unsigned int remain = rtw_remainder_len(pfile);
- 
--	if (rtw_remainder_len(pfile) < rlen)
--		return -EINVAL;
-+	/* clamp to bytes remaining; the coalesce loop relies on short reads */
-+	if (rlen > remain)
-+		rlen = remain;
- 
- 	if (rmem) {
- 		ret = skb_copy_bits(pfile->pkt, pfile->buf_len - pfile->pkt_len, rmem, rlen);
+ 	int l;
+@@ -335,26 +351,11 @@ int av7110_ipack_instant_repack(const u8 *buf, int count, struct ipack *p)
+ 				return count;
+ 			if (p->which > 2) {
+ 				if ((p->flag2 & PTS_DTS_FLAGS) == PTS_ONLY) {
+-					while (c < count && p->which < 7) {
+-						p->pts[p->which - 2] = buf[c];
+-						write_ipack(p, buf + c, 1);
+-						c++;
+-						p->found++;
+-						p->which++;
+-						p->hlength++;
+-					}
++					c = av7110_ipack_m1_pts(p, buf, c, count, 7);
+ 					if (c == count)
+ 						return count;
+ 				} else if ((p->flag2 & PTS_DTS_FLAGS) == PTS_DTS) {
+-					while (c < count && p->which < 12) {
+-						if (p->which < 7)
+-							p->pts[p->which - 2] = buf[c];
+-						write_ipack(p, buf + c, 1);
+-						c++;
+-						p->found++;
+-						p->which++;
+-						p->hlength++;
+-					}
++					c = av7110_ipack_m1_pts(p, buf, c, count, 12);
+ 					if (c == count)
+ 						return count;
+ 				}
 -- 
-2.53.0
+2.43.0
 
