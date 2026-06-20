@@ -1,126 +1,151 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7587360EF0
-	for <linux-staging@lists.linux.dev>; Fri, 19 Jun 2026 22:19:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 432D8145FE0
+	for <linux-staging@lists.linux.dev>; Sat, 20 Jun 2026 01:39:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781907553; cv=none; b=VAi5S7g68UHmDXtiyW4oLR1zcb27D6KuiwI5wdMtCuTuWn5Jz2SCVTde43R4xWJHzLdT27JiJjNYaku2cKBQhgWe2Bh4OUQV2Wb2knNPjqv3lvJPVhxSRGEsNdfNrj1hLjlgW/1kLSiCUZg6+4Vw94k2nbAhcUw7EPs98/jGrMk=
+	t=1781919575; cv=none; b=eCKbEW7HueTIzKkEecrSm8HathkajrrOK0HwldOzOj5jb0uCjLqGKiV+08AfKR2k/YHfgkHA3nVHdZFXIh4bmXdtrUbjOepSN0qFlgwqSJ4AUgWajX6OpJ07qtzIfUewyhMYJT4Gp3TG70DeojLH1DojJXsXdo5g/GbtCdFXz3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781907553; c=relaxed/simple;
-	bh=DdEzNGXBbAJlLKvgKj8MWaMVC+JVtLzMufbPuNq+nrI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dwkeYKW+ecErqszTLtUpX9jiEXNi2TFEPQxwHdRLiN2ept3/JjXhGEElJVj06oKKwlTkKN5Z76WR6gCFZ3aIDIjGTz7IOYEiMmjUcAtve3oQ7vvAJCgiwuF9A3MAtFdR24sznC0NDYIun7VtLQ2sJzsc3EdnXwrnM/ZPC2ve6Q4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DEd3E5qB; arc=none smtp.client-ip=209.85.208.54
+	s=arc-20240116; t=1781919575; c=relaxed/simple;
+	bh=rDuOoxdcgI0KszSBN3TWAKf4cpLef362S2a5BVx5o1w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KkCBMjKfv6xg2v1KzV8Z0unDNPJzT0ZEXVEmF93hcEt44vwQfoI0fwkC4StFIcbKdlVdXBqCIkKEuck1WYkvTCS9TOpnbb6H/M9GLIvSrkcNUlT1JEWpk7yRxY0EwSZ+LkQluPWTZGAAnad5N5wI/rQupplUsYdfuXt7Aa7ZA1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TRrCskCL; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DEd3E5qB"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-69690062350so1727405a12.0
-        for <linux-staging@lists.linux.dev>; Fri, 19 Jun 2026 15:19:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TRrCskCL"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-490ace40f4bso26227325e9.3
+        for <linux-staging@lists.linux.dev>; Fri, 19 Jun 2026 18:39:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781907550; x=1782512350; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QNj5JOnCEdVFcw3tVgjzQE7ie9IkNhVYMnie8GeBSUc=;
-        b=DEd3E5qBKW6OGZPiPYcYiECcoJ+Wih0bSlOi+a0ckhCXfhycGyPmCADF2MaqCe5la6
-         hqN8eV99e/tC6iZUrD3DYdj3aNKPrlej78J0zab1ytHVAH3J7jmixrA/54r6eqeLi3cN
-         rVEfaVFtfQdBt9TDIg3/NxIHHgpCTk1zPDbzd9Hp150Wuq2c58lG3ulo8PWHjetVO2zC
-         ZCFYf6BbEB3CAfscumja8VBxr6qrUDeX71DdTxUTLFyY0vXsu4lP0MyslP0th5L+LNCF
-         PML7pGm787ogSe9SI97Wv8ljYfssL6HuspOYT8EcC1pQ8btSrRTWWEvqheJeJ2BZXGx0
-         3WOQ==
+        d=gmail.com; s=20251104; t=1781919571; x=1782524371; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lQml/dQoNRoOrtzXJcX3X8rhBdmWU63cHcWrMzfMNtE=;
+        b=TRrCskCLweTeMv4vof3LVyVIgPjxzpQR+4FCMIjtsQvG3CCfDdrZW52DgM/X/+XbY3
+         FAG0c2bkbsx1HJI9UHgwsMMwxBXvuN2mCe/lrnFJbz7P6ev7duakcHgfvKbtU1LqpJ8v
+         cQBjvalrR+4uGZ91vx71nX9duJn2UZayRTFANOm0KBhbxmt+yZ+9GP7DRnrkPwWAlfGX
+         MNBwt3WwQwSxyCJFFFZHWvfQWQqhBAD0sARp4dGN2gLOc3GhY0cGmK2beK9sGNa95uhU
+         2/DD0wKtCLxpCh8v0gAQIHdUlMn9s0WCNq2sPKifsx+lHVd1CGd8e+BwHQZ5dPfDEfIq
+         BuQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781907550; x=1782512350;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=QNj5JOnCEdVFcw3tVgjzQE7ie9IkNhVYMnie8GeBSUc=;
-        b=LcmU3bcaNKFH94XRSyTFRkl0KjSeKFEFtU+atGqoi5vc32gezs+UcGETs1w1IzwuJ2
-         34KGcYBdgexV2aI5zBzTtXa2he0XhWw9Px/5vdQ3yB8isWA2PfDp+9zOMCYTQIIg+syj
-         6y0CshkY1wZVZf1fuMLSh7PWTdEK7hr4Sn8zmIcLJW//9Pq0JHVScfE45FRBBhHbex5V
-         4JMjS/uyXw+9+GJEX6MRXzP2CVF5PtBU5X0pLVurh9+aDnSfSF1mfySd8Qp8wu7omy2i
-         DmY/YsN8qp0s1eks78Vfxbw3f3UUxu4JwnyedtAdhFS9OWGlT946irzYVbyCgt64/KCC
-         v6lg==
-X-Forwarded-Encrypted: i=1; AFNElJ8nBLOqbA086EDw83032vz1FDQ/QhP93+0IeV3P1lQn6iZVYA5SdI24pI3W/Zm/Ms9JCMq2lOJG2WiElzy6@lists.linux.dev
-X-Gm-Message-State: AOJu0YyZhKAwXPVCO6wk8KW3LDCDMpze4PolzOPLkJbe8GXSGfsS3P2K
-	GgeHeZ5f7iZowvdd+Q1Fv0dWyNtLvRzNt70SD0qgDby6Qh1aKJpBGDtDiv0zL9+LYUjFDkVX
-X-Gm-Gg: AfdE7cnX1MomiZ2PdYoMoJeuwARHGkHq89+AZWn784te76vHz4JDX+QA9krdHJV8iGp
-	secyrIZgyTAFZ5oEKK7CKp80QA1f9z6tGYF/ckC90QT3ZW8SczkpDzclsAaHg4j0dos03zIZ7Hn
-	LBAAOwpl0IWze49OYOq2coQHacmVQKhO45l32vpEq/AvfL0eeLNrUhG4iZKj+w6fj7AEvZWR9P1
-	h5aaXORW5Q2jmxRB6LVBq3ux43LGv+WRMsAZXuDW1PU+HHIayi8J23h7yRcx64D3D17geDGwf97
-	bBlKXwcsqLkW7e8SCNNKvhuYvhuScwNhKB77bM9AI1nowlotyDHLcmFtxypQRes8XfsH4kPXoKr
-	wI6hE/3fPuaH/IGC5nhDtB/jBeqZy0ADqhA2L3XrjmmXQR9Ul9wgs0677L2OdrNya8N++QOX1yR
-	iY64gk1Vd2DY0JsatV0Sahhn2Ailm0nZW4iC1/l3SRMekMaW8=
-X-Received: by 2002:a17:907:934d:b0:bfe:ed06:5a15 with SMTP id a640c23a62f3a-c098bd62af7mr321921166b.51.1781907549959;
-        Fri, 19 Jun 2026 15:19:09 -0700 (PDT)
-Received: from adr.. (212-8-253-73.hosted-by-worldstream.net. [212.8.253.73])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c0c5e49b77bsm28513066b.2.2026.06.19.15.19.05
+        d=1e100.net; s=20251104; t=1781919571; x=1782524371;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lQml/dQoNRoOrtzXJcX3X8rhBdmWU63cHcWrMzfMNtE=;
+        b=g/CeLmFW/feKxZQveB+epoLwVDEiqpGp3qVYJ1CUd12Wuy+qdez1HvPFdxG7/yeidy
+         EUOABwKE6KrC7nixQfNa+5OBiKG8kd6BGM4cgp9mmLdo5xwRLJwkv7va5d5vmPnM859a
+         dw16PSxTC1lNmGjvO1J78gU+tKInQKQRTCaDcGOiuovtN0+SImHiYv+Gk3Na0Xtdxk56
+         3SG3Xpb8yHGKW627GawBFR4WY1fsZsGdLG5+pTI9fXiemZIXmjvqxuGC5Y8dCmVV/W5M
+         dN+IB65ngdf5PeWMw0tcTHrgZt8nBYAZS73Eu1d5kvQIGpzjJa1j+NaA8GajDX98ZLN7
+         NoSw==
+X-Forwarded-Encrypted: i=1; AFNElJ+AzVpIMvzfmTHrfOBMEfgCE51PpwSa/ErIW93KupvbIGpnn4VUn6S8+uLevL0yR0J+OuP6HhIh16oulpHT@lists.linux.dev
+X-Gm-Message-State: AOJu0YwfsRRsuEjy8srh0M1t3r3OQNIGkDJMyB2op7M1fYYqDdtWxV0D
+	JJeL3U6qWzrJ8zi/fUKYcl8nQX5TTYG0+XhCuCZi4rSAiycelI6d4/ox
+X-Gm-Gg: AfdE7cnHgblW2NBZtJToubH2mqCW+1ZDItoL+WOU1BzFogZ1I1Bg2UwBRfIQHBRma3b
+	286iw9ZRdYRqjyECZXEl8AKZTFIHVL6IsUMDuNr9G/KnFNajo/kkQf4LSjyhbM8o+xbSEmYNj73
+	ATx9eP4jTlgU5QkQ5E7lzK5UMkc2I+DcoGHEQOewc/U6/eFM8FTAGxgWfGwhckZkjb/M6at3s32
+	yFbOseKfgEi+9k8fXBcORmMv6417rlYgVcdMebhZyIjZKGxHn9tY0wCx9m2qaXUeLL1jWkoYloU
+	E9IGa0jx1xB+o5dpDPkgARVhEWVSsB6dPoymuXF6FOMCs33pv/Mp0IGK4W4etsDdtGiFR757LUI
+	g/Hr/I2cgGxvqo/z7Q/szQ++jxRyY6SVO5WFdpuzUy+2wYKXJrWqJffOyeWQ/vQRgBYsiqJOh13
+	RajtubaD91fxZbnUWq/j4ICOKu9RqPB3BIT1TF/OfG
+X-Received: by 2002:a05:600c:1f94:b0:490:d354:bcef with SMTP id 5b1f17b1804b1-4923f59cd4amr106655995e9.33.1781919570536;
+        Fri, 19 Jun 2026 18:39:30 -0700 (PDT)
+Received: from localhost.localdomain ([2a00:23c7:f906:cb01:1464:e869:8c77:e722])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4923fc47720sm166454045e9.0.2026.06.19.18.39.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Jun 2026 15:19:09 -0700 (PDT)
-From: =?UTF-8?q?Andr=C3=A9=20Moreira?= <andrem.33333@gmail.com>
-To: mchehab@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: linux-media@vger.kernel.org,
+        Fri, 19 Jun 2026 18:39:29 -0700 (PDT)
+From: Christopher Mackle <christophermackle01@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Minu Jin <s9430939@naver.com>,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Andr=C3=A9=20Moreira?= <andrem.33333@gmail.com>
-Subject: [PATCH 2/2] staging: media: av7110: refactor av7110_start_feed to reduce indentation
-Date: Fri, 19 Jun 2026 19:15:24 -0300
-Message-ID: <20260619221524.51814-2-andrem.33333@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260619221524.51814-1-andrem.33333@gmail.com>
-References: <20260619221524.51814-1-andrem.33333@gmail.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rtl8723bs: don't drop short TX frames in _rtw_pktfile_read()
+Date: Sat, 20 Jun 2026 01:39:16 +0000
+Message-ID: <20260620013916.7148-1-christophermackle01@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The av7110_start_feed function contains heavily nested if-statements,
-causing excessive indentation and violating code style guidelines.
-Refactor the logic inside the DMX_MEMORY_FE case by inverting the
-conditional check to break early, reducing the indentation level.
+Commit bc4df274dca6 ("staging: rtl8723bs: update _rtw_pktfile_read() to
+return error codes") changed _rtw_pktfile_read() to fail when the caller
+asks for more bytes than remain in the packet:
 
-Signed-off-by: André Moreira <andrem.33333@gmail.com>
+	if (rtw_remainder_len(pfile) < rlen)
+		return -EINVAL;
+
+That breaks the assumption made by the data TX path.  In
+rtw_xmitframe_coalesce() (core/rtw_xmit.c) the per-fragment copy is
+issued with the full fragment length, mpdu_len, which is derived from
+pxmitpriv->frag_len (~2300 bytes), and the code relies on the historical
+behaviour of copying only what is left and returning the number of bytes
+actually copied:
+
+	mem_sz = _rtw_pktfile_read(&pktfile, pframe, mpdu_len);
+	if (mem_sz < 0)
+		return mem_sz;
+
+So for every outbound packet smaller than the fragmentation threshold -
+i.e. essentially all normal traffic, including the EAPOL frames of the
+WPA 4-way handshake and DHCP - rlen is larger than the bytes remaining,
+_rtw_pktfile_read() returns -EINVAL, rtw_xmitframe_coalesce() aborts, and
+the frame is dropped before it is queued to the hardware.  The driver
+floods the log with:
+
+	rtl8723bs ...: xmit_xmitframes: coalesce failed with error -22
+
+Management frames (authentication/association) use a different path and
+still go out, so the interface scans and associates, but no data frame is
+ever transmitted.  The 4-way handshake therefore never completes and
+wpa_supplicant misreports it as:
+
+	WPA: 4-Way Handshake failed - pre-shared key may be incorrect
+
+AP mode is unaffected.  The net effect is that the chip is unusable in
+station mode on any kernel carrying the offending commit.
+
+This was confirmed with a wpa_supplicant -dd trace on an RTL8723BS SDIO
+adapter (Bay Trail): message 1/4 is received and the PTK is derived, but
+each "Sending EAPOL-Key 2/4" coincides 1:1 with a "coalesce failed with
+error -22", so message 2/4 never reaches the AP, which keeps retrying
+message 1/4 until the handshake times out.
+
+Restore the original semantics: clamp the requested length to the bytes
+remaining in the packet and return that length.  The skb_copy_bits()
+error path is kept, so genuine copy failures are still propagated.
+
+Fixes: bc4df274dca6 ("staging: rtl8723bs: update _rtw_pktfile_read() to return error codes")
+Cc: stable@vger.kernel.org
+Tested-by: Christopher Mackle <christophermackle01@gmail.com>
+Signed-off-by: Christopher Mackle <christophermackle01@gmail.com>
 ---
- drivers/staging/media/av7110/av7110.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ drivers/staging/rtl8723bs/os_dep/xmit_linux.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/media/av7110/av7110.c b/drivers/staging/media/av7110/av7110.c
-index e77be16f442c..2e32acf897ff 100644
---- a/drivers/staging/media/av7110/av7110.c
-+++ b/drivers/staging/media/av7110/av7110.c
-@@ -942,16 +942,16 @@ static int av7110_start_feed(struct dvb_demux_feed *feed)
- 		    (feed->pes_type <= DMX_PES_PCR)) {
- 			switch (demux->dmx.frontend->source) {
- 			case DMX_MEMORY_FE:
--				if (feed->ts_type & TS_DECODER)
--					if (feed->pes_type < 2 &&
--					    !(demux->pids[0] & 0x8000) &&
--					    !(demux->pids[1] & 0x8000)) {
--						dvb_ringbuffer_flush_spinlock_wakeup(&av7110->avout);
--						dvb_ringbuffer_flush_spinlock_wakeup(&av7110->aout);
--						ret = av7110_av_start_play(av7110, RP_AV);
--						if (!ret)
--							demux->playing = 1;
--					}
-+				if (feed->pes_type >= 2 ||
-+				    (demux->pids[0] & 0x8000) ||
-+				    (demux->pids[1] & 0x8000))
-+					break;
-+
-+				dvb_ringbuffer_flush_spinlock_wakeup(&av7110->avout);
-+				dvb_ringbuffer_flush_spinlock_wakeup(&av7110->aout);
-+				ret = av7110_av_start_play(av7110, RP_AV);
-+				if (!ret)
-+					demux->playing = 1;
- 				break;
- 			default:
- 				ret = dvb_feed_start_pid(feed);
+diff --git a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
+index dc0b77f38..9bdb67a8a 100644
+--- a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
++++ b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
+@@ -24,9 +24,11 @@ void _rtw_open_pktfile(struct sk_buff *pktptr, struct pkt_file *pfile)
+ int _rtw_pktfile_read(struct pkt_file *pfile, u8 *rmem, unsigned int rlen)
+ {
+ 	int ret;
++	unsigned int remain = rtw_remainder_len(pfile);
+ 
+-	if (rtw_remainder_len(pfile) < rlen)
+-		return -EINVAL;
++	/* clamp to bytes remaining; the coalesce loop relies on short reads */
++	if (rlen > remain)
++		rlen = remain;
+ 
+ 	if (rmem) {
+ 		ret = skb_copy_bits(pfile->pkt, pfile->buf_len - pfile->pkt_len, rmem, rlen);
 -- 
-2.43.0
+2.53.0
 
