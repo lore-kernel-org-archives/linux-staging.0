@@ -1,245 +1,109 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AD003446BC
-	for <linux-staging@lists.linux.dev>; Sat, 20 Jun 2026 23:41:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781998885; cv=pass; b=VfBwK/JR0kXcVE2KHGf3Dv3R7iS0RaCkiRhiXtxqnbg6dXD5lgEnzXyrGwwBeIdKCAanGH89TXNLm+neGbnC81GtO9d1vr0v9VkIVheXJQXfqV0/oIETNP7EMlbFGsir0RLfJ5NabzjStvhExKDh2NPQpbxYFuvqIECGZfIHax8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781998885; c=relaxed/simple;
-	bh=82Kf3JgIJQ0G8lBaGmDY/EraGV4DeuRCaTvGeRY/6PM=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=Aw3F2lmeK8hNRtUtMbQXZ46RDR+2ypPawnbotlvTF6+FY17gU5o9lzARJh+px3vLNiL2hDnPMSIoP24T1Hyp4zpKhl/rWpc8Ar3xCHncoZr0Hmzb4v4hEj9USkokJGu2puflBnLai7aOe1CChV4INTRX+lmMbKyN4C3O937GZVc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sevf7olF; arc=pass smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F156124336D
+	for <linux-staging@lists.linux.dev>; Sun, 21 Jun 2026 04:44:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782017061; cv=none; b=Shg2SKW/MEtfyRCFntgSw6SVDULftHiketwdit9ZuFUhav5vig2Kjbiqa9TC8ALWfPebrdEkUg+mbhWOHZfT1SgyiR7Dj5naRcHoxOSwYD/lQ6vUqtfMrg2RPs37mVKfpZaGRzARYjwYkOrUaIXskUj09q6TjEP9hJOKeNrcfKs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782017061; c=relaxed/simple;
+	bh=7nGutUcq2VrKigcc39HyZQ+8PAOqGMQFi4USpUy1Gyk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cGjGck4NYvWy+emsgEVKmuO/KKq8MSFY69KhoybAgc9AjgbHtEcofbdb2+zJHBk+lzE0jJjrVJDDeTRO3k9lNgnUkgFhaId7eLRIEXW6H3IMjajhK6bR1m0NGMemC9O17KfXhXtkb5q28+Kw6LJ3K2zJ3eQjXRMqf/I2HU27KSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a0G4+lkf; arc=none smtp.client-ip=209.85.210.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sevf7olF"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6978f1eebb2so232733a12.3
-        for <linux-staging@lists.linux.dev>; Sat, 20 Jun 2026 16:41:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781998881; cv=none;
-        d=google.com; s=arc-20240605;
-        b=LMdAFc54K4ioIf71bR9SQ75jyu5A906oYu7Fy7xcpE7nLDph9YHq6ZYyVXvi2IW/qb
-         vnEzUSwCjHMEcPsfx77gs/mpNvs4witoXgaMAmF77eeVhj8AhIjWjLr5g6tIYs1BQVcJ
-         dZ13jPqiOhaIYQTe22nB/Wloye4DZqAynjqQzf5FpBbjVaMCHTi+NEpy2ohQN92GeFrO
-         LZ0C+KG8u+TPz1YntE85dUGzViyFJvNiCJzJqkR7m7WAxZN9J9kgpGa1K2lEafktjXEU
-         Qc6vuXAikKU85ppEyZnbWwLgzbOQYtSKDxsQCGU6XAUKnP80rowGyW5GsW6nqkfgpyGp
-         TxPg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :mime-version:dkim-signature;
-        bh=YUxhTabwX8U7GIbEqGU5o33Gedfu7E6KTuPA7JrKzlM=;
-        fh=bpAJ5YsbjdJ/l8BcgsSmWhASFMT310mtt1pJeEDcPEs=;
-        b=ErF0Dwn56qE+8kOqlN4dl2P0HLnWstfkcC4TZIajR4ACswkOzbH5bL0b1asjj4+/Yu
-         +s3rpnZrZ1gqKQlB5GlBi4WMJmva3qRHyeQ+ItOp4Zyo+7+CTSsIwpDQjKizvEno17iP
-         5jpGrq3sw7RXCHNwiyxmwADlube4SUbVNcmLAZLaJ42jGHwo/N3/EcsR0qFmq8KtHOHS
-         Zcw3ukkLnTK1eWTBRSoqqZ2974ruSaVCIcE9wIhWSDPG56OW1cbrOSDIIraff9GmmMva
-         vTEgoCsxTa8XPiL5tIlO8IPl5FHySnx6h3eCTfLj+Et+/oCi7ip0+K1UvGHTw5qx0nfx
-         +G6g==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a0G4+lkf"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-8423f236418so1648810b3a.1
+        for <linux-staging@lists.linux.dev>; Sat, 20 Jun 2026 21:44:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781998881; x=1782603681; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=YUxhTabwX8U7GIbEqGU5o33Gedfu7E6KTuPA7JrKzlM=;
-        b=sevf7olFRfBnkqdV9a6QuTvoKRCbrmDDxNaQlfCPujArkhcPGs7lxOtHjP3QHY3pnI
-         DBtJOoXJvebcgmFhO7Pxf1YPDBu9x7aKMI6F8IiFlbgFEqFOXReW9/WI1EptrbTO0iWX
-         iaRRPnRNtqeC/JgO4qR0jBL1HGs/Yj4Ed5vy3/unSpJUk0iywuqKU4jJ+zOZucwDw4hK
-         38ZqfzeLtVR+kFFcmC3OOzP+fUQXCe1kTT0B8idVlvYBpBuiR3XdDCZ+h2LoWm2VpeLp
-         LtjrNGr54YFmVJuZvYv37AJpk+SwJbKmbYmi/b5GKq9/bxSiTOZJznCTO+jWDs5ViHdO
-         3Z4w==
+        d=gmail.com; s=20251104; t=1782017059; x=1782621859; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JfmyrTP4wLvqMTAPFh7dYzDX+Rx+a8MkxKB88LU4IMY=;
+        b=a0G4+lkf6hociiVSsZnZQsF5jX/yod/jRHZ/N11pCOxs0w2joXd7wrZfZ3OA4Ak406
+         9/FVa3XJSTF6FBA2avZRb0yXwvt3WXR/osALU+Wlo527OWxYeEjjO1SbxJG+k7/hwxOg
+         hRio9En3TwPhC/Uy1SKsarn9OyjYsuyl0RYk2kbMQQKAvl4sPiOfCQe9AupoFsTOPTMy
+         WX515GwI5q3rPOk2i2NS8Z3JZcTenI5bch3OMT7jNdojOeAB0Dy3X4+q2U6GHtjiqYRV
+         qs1drNKsIH3H46yquU7CZSIt385KMsLKADs5LyFMWeGlQ0gaxKx5Glo5AT1WK3NZ5oMz
+         cWBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781998881; x=1782603681;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1782017059; x=1782621859;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YUxhTabwX8U7GIbEqGU5o33Gedfu7E6KTuPA7JrKzlM=;
-        b=cynWkeYqi+JylqA8nN2/mFmpR6mpyo5Xoeg2nS9b5XzVklDBeqdehDIrD3FQsTLLmO
-         VbTNWwtDrfVf3uRd5zBc6fsov5XXiOzVuA9Hh2tHzRrE8f7NZ5wj6ZPtoGSTqRiMhgTe
-         tz5Mh2KY3tlqdJkdMlGRN+8mEjmKaOTk5jCTjzB5AXUF2xubyPY2RRGENWQZzOlUzNM8
-         mx0xG8VMKRXWTxW2tbvm6h8pLWRTa8FgFjqmI+G6m6P3XXt1SvEX7GpN70yd5FoZYlKN
-         iGKwJZfV7JcULUPXdsap7EbQ0w2HFKdEPj/WXYfleOB3/bU6VmEwC7NT7/Wq77Q4Q7Z6
-         Rfnw==
-X-Forwarded-Encrypted: i=1; AFNElJ9XZdFLmWFoPbJGQVNHRRuI4ftQlcXgcu1OkP8tZeyPlTuEjja7BhW2oJKU9UuwI+/j+Qy0uOOTKQL1H0TN@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywi6Ba7K+13AOBTl2OJDy7WA1KeZuDmLWXzlLdYsHc5dhljfXYV
-	vX0svzFg8uD1BicWwU21Ve+N7eVLPpcPsje1qARqbPBkusfRjSb7+oNFfuqPIlcwYaE6EU3g5Ia
-	WzrsQBF9f9mankAimSH4tFf0K4bFZJY4=
-X-Gm-Gg: AfdE7cn/xp7E5bORVyx6hUp55/a2SFux+rxqmprupRfGD8z/pW+AZ3n2eScHnq6WpBb
-	IHPFHjSkjvRr/wuNTZqee/5BrndGcBrfXLQiNPw4PxgKV/MWHiWD4L4FgyBw1DakBcbGT+jGuXk
-	OVTwCq/VTuDGeGPxDbfNxZe4uPWJQiTA7Ji0rzEpaSwqP/uaQW/HTslP3LJXFgyAky7iArYCc7a
-	GELpKf4AFbxo3Dct3mjXeSp4cenMJgTtneNryA8gdc8arE3ohWd8cGlsF9ZzgkvkA7ES9oaLrpz
-	hUm8uSZWL0xs63r1I4YbO1ohA3nV
-X-Received: by 2002:a17:906:fe4c:b0:beb:7b50:3a7b with SMTP id
- a640c23a62f3a-c097ae2c6c0mr430469166b.6.1781998880640; Sat, 20 Jun 2026
- 16:41:20 -0700 (PDT)
+        bh=JfmyrTP4wLvqMTAPFh7dYzDX+Rx+a8MkxKB88LU4IMY=;
+        b=k+6QBwXN+6rtwAHCIypy+zrtwK1wVqmg023T04NkBLRo5okOMaBTgnzRszxOFY0tFp
+         PnEfu1w/nR8qs2A/JGokcQMCcsT3T1fgdAYYiEFxsdxad68OI7e4w3yrsgdSysZ2q59P
+         qIJKG+yQ9PZC0n7SEMWowVa+Rj++FeVinhuYT/OmxtFjDcz+JwHYm8YQp8u+E3skqbLF
+         nwB90skJELmqbo4vdlR42gPLcR95FN1pdtAKA1z4iZPrOPeqE7c1J/5nTVHdRFpIX9sM
+         4BRxKCpL/0HComvF0hxOuG6Ym+HR/rSfcAwhMzYuddy+g0GnMpOz9V9sgwyt2JLA3nIw
+         SbuA==
+X-Forwarded-Encrypted: i=1; AFNElJ8mF9dxCiyj2pQYEe3nIgmX5tFOJZRj6hVEPBM5n+9qqd5D8mCJFsEDOpC8nN28pcFLOkbZtD+ComSMlUxV@lists.linux.dev
+X-Gm-Message-State: AOJu0YzkwI8T6y05t/i1y6y0Fgq4DD1GG+vhmwKNcvwsIBjqilbjx4t/
+	OoZ9jxj1X5clb4HzvgWVQn9rQQGGLBBpskUWnmBWSn1SHMXzpWNXiQvS
+X-Gm-Gg: AfdE7cknPnLOhaJXWd5QbEIwItIL4BigMBGfK1N79foNrXzp84F9HHd+QbvXUAaIBVf
+	sQRpY0A0elRfDmwkvH5P5fKXitB1sdocM3HS2nH9w1MrQAfyXEZ9QXq3odTcugchcObjQMu6j3p
+	xws1sC0a2mWxfjs4aHVjsNJQqp4pJdYFnK70hBnaz4H+X2Ru79zxY/SZPG/U7MR9l8g7fg8k4Xv
+	xuBFqMyhxhkJq+LiQI3JEh4tGPCHhdLfNxIoQhLh7qlUch++icDUTr95kh0qLmFuu7jUcER8tWo
+	ZrU4ddkb1cxyjs8IMsNR8bZI2OycgHLo4RBNjABpxV/Fpfk4/vT+zrTDVrO1Rrgl6BkitlOtBhH
+	WI1TYJKRlyFPodIpA74kVqGyiv8bCYh4FWIcjtemm5dQL0g00YSe+cPk3TvhxXDrqC3qUAR4UBL
+	gCMcN6wGybp6OHM9lNp1FJVtvXiileH5jR5SjR/uJsPvI473zqhsvLO/51/ampFFG/revMWbv0L
+	DZZinlxgv9ZL5suFdKvOEebdwLi+kj+/cuvcUn2HeERM83/jN6wADM3tw==
+X-Received: by 2002:a05:6a21:e098:b0:3b5:489c:7bb5 with SMTP id adf61e73a8af0-3bb34456674mr10131242637.28.1782017059185;
+        Sat, 20 Jun 2026 21:44:19 -0700 (PDT)
+Received: from kapoor.mahindrauniversity.edu.in ([122.184.65.229])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c8bc3172827sm3545116a12.9.2026.06.20.21.44.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 20 Jun 2026 21:44:18 -0700 (PDT)
+From: Arnav Kapoor <kapoorarnav43@gmail.com>
+To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-fbdev@vger.kernel.org (open list:STAGING - SILICON MOTION SM750 FRAME BUFFER DRIVER),
+	linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM),
+	linux-kernel@vger.kernel.org (open list)
+Cc: Arnav Kapoor <kapoorarnav43@gmail.com>,
+	linux-fbdev@vger.kernel.org (open list:STAGING - SILICON MOTION SM750 FRAME BUFFER DRIVER),
+	linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM),
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] staging: sm750fb: make g_fbmode array const
+Date: Sun, 21 Jun 2026 10:14:09 +0530
+Message-ID: <20260621044410.57823-1-kapoorarnav43@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Saulo Henrique <saulohsdoroteio@gmail.com>
-Date: Sat, 20 Jun 2026 20:41:12 -0300
-X-Gm-Features: AVVi8Cc7s44tAXt6tJdrucDNkLBSUorns6oGdAqZiN9un9e1DZ8lpmD_Nbv02SA
-Message-ID: <CAM09=pU-wLaqvizTt-pu595nSx2PRw8W60rraArTWRo8VFemRg@mail.gmail.com>
-Subject: [PATCH] staging: rtl8723bs: fix checkpatch style issues
-To: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-From 66175877cefddce1a2ea5ee2cffec427c05b21d2 Mon Sep 17 00:00:00 2001
-From: =3D?UTF-8?q?Saulo=3D20Henrique=3D20Santos=3D20Dorot=3DC3=3DA9io?=3D
- <doroteios@outlook.com>
-Date: Sat, 20 Jun 2026 19:29:24 -0300
-Subject: [PATCH] staging: rtl8723bs: fix checkpatch style issues
-MIME-Version: 1.0
-Content-Type: text/plain; charset=3DUTF-8
 Content-Transfer-Encoding: 8bit
 
-Fix multiple coding styles issues reported by checkpatch.pl, including
-line wrapping and whitespace cleanup.
+From: arnavk23 <kapoorarnav43@gmail.com>
 
-Signed-off-by: Saulo Henrique Santos Dorot=C3=A9io <doroteios@outlook.com>
+checkpatch complains that a static const char * array should
+probably be static const char * const.
+
+Signed-off-by: Arnav Kapoor <kapoorarnav43@gmail.com>
+Signed-off-by: arnavk23 <kapoorarnav43@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_btcoex.c | 5 ++---
- drivers/staging/rtl8723bs/core/rtw_efuse.c | 4 ++--
- drivers/staging/rtl8723bs/core/rtw_ioctl_set.c | 14 +++++++-------
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 4 ++--
- 4 files changed, 13 insertions(+), 14 deletions(-)
+ drivers/staging/sm750fb/sm750.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_btcoex.c
-b/drivers/staging/rtl8723bs/core/rtw_btcoex.c
-index 0191a943f..055ca95ff 100644
---- a/drivers/staging/rtl8723bs/core/rtw_btcoex.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_btcoex.c
-@@ -10,8 +10,8 @@
+diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+index 9f3e3d37e..19c3da654 100644
+--- a/drivers/staging/sm750fb/sm750.c
++++ b/drivers/staging/sm750fb/sm750.c
+@@ -33,7 +33,7 @@
+ static int g_hwcursor = 1;
+ static int g_noaccel;
+ static int g_nomtrr;
+-static const char *g_fbmode[] = {NULL, NULL};
++static const char * const g_fbmode[] = {NULL, NULL};
+ static const char *g_def_fbmode = "1024x768-32@60";
+ static char *g_settings;
+ static int g_dualview;
+-- 
+2.53.0
 
- void rtw_btcoex_MediaStatusNotify(struct adapter *padapter, u8 media_statu=
-s)
- {
-- if ((media_status =3D=3D RT_MEDIA_CONNECT)
-- && (check_fwstate(&padapter->mlmepriv, WIFI_AP_STATE) =3D=3D true)) {
-+ if ((media_status =3D=3D RT_MEDIA_CONNECT) &&
-+ (check_fwstate(&padapter->mlmepriv, WIFI_AP_STATE) =3D=3D true)) {
-   rtw_hal_set_hwreg(padapter, HW_VAR_DL_RSVD_PAGE, NULL);
-  }
-
-@@ -65,7 +65,6 @@ void rtw_btcoex_LPS_Leave(struct adapter *padapter)
- {
-  struct pwrctrl_priv *pwrpriv;
-
--
-  pwrpriv =3D adapter_to_pwrctl(padapter);
-
-  if (pwrpriv->pwr_mode !=3D PS_MODE_ACTIVE) {
-diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c
-b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-index 099320e4e..fb3905cfd 100644
---- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-@@ -76,8 +76,9 @@ u16 Address)
-     break;
-   }
-   return rtw_read8(Adapter, EFUSE_CTRL);
-- } else
-+ } else {
-   return 0xFF;
-+ }
-
- } /* EFUSE_Read1Byte */
-
-@@ -232,7 +233,6 @@ void EFUSE_ShadowMapUpdate(struct adapter
-*padapter, u8 efuseType)
-  /* void *)&pHalData->EfuseMap[EFUSE_INIT_MAP][0], mapLen); */
- } /* EFUSE_ShadowMapUpdate */
-
--
- /*------------------------------------------------------------------------=
------
-  * Function: EFUSE_ShadowRead
-  *
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-index c70541f95..fa79c1928 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
-@@ -36,11 +36,11 @@ u8 rtw_do_join(struct adapter *padapter)
- {
-  struct list_head *plist, *phead;
-  u8 *pibss =3D NULL;
-- struct mlme_priv *pmlmepriv =3D &(padapter->mlmepriv);
-- struct __queue *queue =3D &(pmlmepriv->scanned_queue);
-+ struct mlme_priv *pmlmepriv =3D &padapter->mlmepriv;
-+ struct __queue *queue =3D &pmlmepriv->scanned_queue;
-  u8 ret =3D _SUCCESS;
-
-- spin_lock_bh(&(pmlmepriv->scanned_queue.lock));
-+ spin_lock_bh(&pmlmepriv->scanned_queue.lock);
-  phead =3D get_list_head(queue);
-  plist =3D get_next(phead);
-
-@@ -53,7 +53,7 @@ u8 rtw_do_join(struct adapter *padapter)
-  pmlmepriv->to_join =3D true;
-
-  if (list_empty(&queue->queue)) {
-- spin_unlock_bh(&(pmlmepriv->scanned_queue.lock));
-+ spin_unlock_bh(&pmlmepriv->scanned_queue.lock);
-   _clr_fwstate_(pmlmepriv, _FW_UNDER_LINKING);
-
-   /* when set_ssid/set_bssid for rtw_do_join(), but scanning queue is empt=
-y */
-@@ -74,7 +74,7 @@ u8 rtw_do_join(struct adapter *padapter)
-  } else {
-   int select_ret;
-
-- spin_unlock_bh(&(pmlmepriv->scanned_queue.lock));
-+ spin_unlock_bh(&pmlmepriv->scanned_queue.lock);
-   select_ret =3D rtw_select_and_join_from_scanned_queue(pmlmepriv);
-   if (select_ret =3D=3D _SUCCESS) {
-    pmlmepriv->to_join =3D false;
-@@ -84,7 +84,7 @@ u8 rtw_do_join(struct adapter *padapter)
-     /* submit createbss_cmd to change to a ADHOC_MASTER */
-
-     /* pmlmepriv->lock has been acquired by caller... */
-- struct wlan_bssid_ex *pdev_network =3D &(padapter->registrypriv.dev_netwo=
-rk);
-+ struct wlan_bssid_ex *pdev_network =3D &padapter->registrypriv.dev_networ=
-k;
-
-     pmlmepriv->fw_state =3D WIFI_ADHOC_MASTER_STATE;
-
-@@ -151,7 +151,7 @@ u8 rtw_set_802_11_ssid(struct adapter *padapter,
-struct ndis_802_11_ssid *ssid)
-  else if (check_fwstate(pmlmepriv, _FW_UNDER_LINKING) =3D=3D true)
-   goto release_mlme_lock;
-
-- if (check_fwstate(pmlmepriv, _FW_LINKED|WIFI_ADHOC_MASTER_STATE) =3D=3D t=
-rue) {
-+ if (check_fwstate(pmlmepriv, _FW_LINKED | WIFI_ADHOC_MASTER_STATE) =3D=3D=
- true) {
-   if ((pmlmepriv->assoc_ssid.ssid_length =3D=3D ssid->ssid_length) &&
-       (!memcmp(&pmlmepriv->assoc_ssid.ssid, ssid->ssid, ssid->ssid_length)=
-)) {
-    if (check_fwstate(pmlmepriv, WIFI_STATION_STATE) =3D=3D false) {
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index 9f21a2226..84314b7f6 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -342,8 +342,8 @@ bool rtw_is_same_ibss(struct adapter *adapter,
-struct wlan_network *pnetwork)
-
- inline int is_same_ess(struct wlan_bssid_ex *a, struct wlan_bssid_ex *b)
- {
-- return (a->ssid.ssid_length =3D=3D b->ssid.ssid_length)
-- && !memcmp(a->ssid.ssid, b->ssid.ssid, a->ssid.ssid_length);
-+ return (a->ssid.ssid_length =3D=3D b->ssid.ssid_length) &&
-+ !memcmp(a->ssid.ssid, b->ssid.ssid, a->ssid.ssid_length);
- }
-
- int is_same_network(struct wlan_bssid_ex *src, struct wlan_bssid_ex
-*dst, u8 feature)
---=20
-2.47.3
