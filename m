@@ -1,151 +1,141 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E893264617
-	for <linux-staging@lists.linux.dev>; Sun, 21 Jun 2026 16:16:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37E3531F9A3;
+	Sun, 21 Jun 2026 18:33:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782058588; cv=none; b=Mo0RAmC0nfk2OOIFJqOSFiorwc8Yy2fbrV0lqdn+IfND3tgn6DDByP1FhPpC6e4tRxSrZdPX8iH9b2DIoBqLqRx2vswQu+g5LEs4luLYiyOMRxCDz02Lbcdj9hjWXyLHfSfdPWsTnRXPn55tScUZwNf2/+slf6mG9+uqCPi2HMM=
+	t=1782066812; cv=none; b=s0gRSYFRlhrDi8ne5n4nskoSUWB6jJGiSZO9KAeas17mZDvu/qZiML/0M3jXSJ6+fQZj/wuk0pjHcEGPWnpcWsYTQz6CfcFlYeFbhQ/TjHnRAWeuRgZytpEFjhc+RETUJ0t5cEI4uFjvrp/4S6A3bAwX9c7lao5GuChdKnq46eM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782058588; c=relaxed/simple;
-	bh=/4SSpP73HPz2Sc+Adb/AN0uZYmI8ikerAA+16nD7ZlQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Kn6+X9+2fmkTVALe2jhUeSeILdSXEf6lsxlixHl3gDkVUtR+ij9zh9hGYmAPuKEg7RHRXHI8IJbCWzJ5MnqBfpdLlMxlFvZGeTnkvR8+wiaSC1Qe0yGJoSWiQodPnePFOd8xUAc3NxnQz6IuwXAOy02ker0Hu9CNNValdJkCJrU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c4TAqCih; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782066812; c=relaxed/simple;
+	bh=3FugsXkxEslbtweI2XJxKNsiL6MsryNim+h6qdfIGMs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SHvkVtUv/ECdz7dR6H21ZOUYKGXUhZpiSfmxwVuLv6djwnlaiDzpOEitoALOvtxhstCwsGGURfNhwJMJfPQYbMH8LKjyywX2DoySkmnBYzIWcpr03JH7A/hfFh5NakLv/lyy58l8m5df5/4mGn5AtpY8TWsjEIbC2/UoJiucWWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WAWOZ2iY; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c4TAqCih"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-c08922c23ebso382436266b.0
-        for <linux-staging@lists.linux.dev>; Sun, 21 Jun 2026 09:16:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782058586; x=1782663386; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pxetDXm71yI4E+IBjAnFo+Cxmw346KS6bcA4FMjZpJU=;
-        b=c4TAqCih2/ojHkLPfPcOqJjkhmIbJd2vJejc5rjEko6uBMJ7/BgSC5yY2VlU+//sxv
-         FinVRoKpqMf2DNggbEaRZdpVn0+vHHWKJREnL7e21k3+VwkRUNHHd8cCflxSvhNmSM2B
-         4Db74PiIgP0o3Oml54FYVctzb4XMuygoVm257sT3ihPFcdT4CxRXTDMDXiQHPuubgDFo
-         3JjNMKuDeQj/5hp44TIPijoN73Y6KjFRT5A5ysM+II0ij/hyCCZ7EbWNFWXZGjG/NiJL
-         j+d3h+qczM7p8/8Qc1RKN5ltQ7Y0taWP8TSeSV/L557A8rXRWEiW8QPvri7Nd+RwY+j3
-         s6fQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782058586; x=1782663386;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=pxetDXm71yI4E+IBjAnFo+Cxmw346KS6bcA4FMjZpJU=;
-        b=LTUKk6OcqQboOr/Ojl6BxxN1XEXhe1IY7DK9VTvZ12ZlVJa/XCzrGjZXbwCao1U/2S
-         vF6ArGogVhCvVMBTNJPHuI/6RhASesQwDDrqlDL3K91OKD6I/6exhJU+vhtGm9fN/n+w
-         8UKhhMLjjqURoRAlJKsW5EZVxr/KxSJZ3ukCLaEHSYLX7Ig5P2u1n1gWdrIqMHr6af2D
-         8PmdGWSj0d5eCBe0i3NsQAZ3OzRnPQHh34mEKSGz2HEqo56YKk7yq0kBHgt2kJ0g1ARi
-         SLIHZ7ulKC52VxzoxyopkOmzao0xMhB3opisFfilDB1Omsp4S7zKSUipDWd/ymrPQ/m5
-         IorA==
-X-Gm-Message-State: AOJu0YwrvgistSwZC0dX7smGLc4FtCt0Cec1Ue9t8K5gN8TF12uhz5sv
-	1xZu2ZdYfpIesZXNkhLWpqf9ddqSkdHr9ev2EDUcowqYWjIr8apVmbRF+2NsvQ==
-X-Gm-Gg: AfdE7clqueJRlLAe91ZnTzJdPfPfBykA9po/mV7FV9MqyXI4N61fHdCUJUXFp1oazR9
-	qnfwcBsMYe6P64TWGs5Nd9QMuNpQKdFo1hc7LrmITmlRnpIUckbsFpPnckLXlbRerJoViiJtIvD
-	QTkiEjxgVP594sEx1Og6x4+o/wwAvAGv14/eLSIEocjuvUfXZSTw4t1V0EAJtnzZibpeO0ub0uU
-	50S3R2i1SRyPdj3v1ZkFaT+x8QkfYhBVb33PSbcgr6bc2P7RKen5cE8ihup7OkyT06BLXljphT5
-	zV+2An8r+scSLkDwnUompSpIhjGYc6EmOsuLFYfQol2VmALgEH9YQ2OojyWWblC79/9OCp92lf2
-	i8f2W+ZFz9n61ZjxRDFJWg80csMbqFP5U7j7vkJjYm13t9TvACpGNzrvZlE05+khj4RSOJjP2y7
-	IPWW2jjc67
-X-Received: by 2002:a17:907:e84a:b0:be2:208a:a8ae with SMTP id a640c23a62f3a-c0b60602f38mr500387866b.22.1782058585543;
-        Sun, 21 Jun 2026 09:16:25 -0700 (PDT)
-Received: from archlinux ([93.186.96.10])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c0c60ac92d1sm212968666b.32.2026.06.21.09.16.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Jun 2026 09:16:25 -0700 (PDT)
-From: Nikolay Kulikov <nikolayof23@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev,
-	Nikolay Kulikov <nikolayof23@gmail.com>
-Subject: [PATCH 2/2] staging: rtl8723bs: remove local variable 'eRFPath'
-Date: Sun, 21 Jun 2026 19:12:29 +0300
-Message-ID: <20260621161611.111461-3-nikolayof23@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260621161611.111461-1-nikolayof23@gmail.com>
-References: <20260621161611.111461-1-nikolayof23@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WAWOZ2iY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EABF1F000E9;
+	Sun, 21 Jun 2026 18:33:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782066811;
+	bh=EziEv/DvN6WVCSXgedIQuPY+cjYXhacg2mPWuk99tzY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=WAWOZ2iYaCLwTpez3sDCr33gh6sgidGybvDYhcEDJ9Ljbc9RJvvnD61teEzfdr7Lw
+	 DtqqLoW0X8Uv1lqAVvGOXuyWbpIp9VVv+zeJ9a93OXrAIvz5YIY+CdD0BYuMEXbgFb
+	 t1KlYXo4RXEhsofiMOFVSXDmQmfxOBczLw3RvvXU2cvxIH4lSSgRGPliA0cyeAgFg/
+	 g2dfNGLWyqbx9tU6lRe3zjZKzTkInerl0cZ36bjVxewUAdxwVq2OmJOvr9rU3vd5G1
+	 3DunpTl5PnUO6bSJm5gO/COUO5RCCBH9ZGyxxj6SY8wNMaMrzmnGWZMwxtSrHbgdit
+	 C6J0v9+zx/oCQ==
+Message-ID: <548d66ce-d01e-4c6a-a77e-7d61378a1c74@kernel.org>
+Date: Sun, 21 Jun 2026 20:33:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] dt-bindings: misc: add binding for Xilinx AXI-Stream
+ FIFO
+To: Aditya Chari <adi25charis@gmail.com>, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, gregkh@linuxfoundation.org
+Cc: jacobsfeder@gmail.com, devicetree@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20260621085209.52651-1-adi25charis@gmail.com>
+ <20260621094312.53655-1-adi25charis@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <20260621094312.53655-1-adi25charis@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-After removing the loop from the phy_RF6052_Config_ParaFile() function,
-the value of this variable can no longer be changed, allowing all
-switch-case statements to be known in advance, since it stores the value
-0 (which is 'RF_PATH_A', defined in enum rf_path).
+On 21/06/2026 11:43, Aditya Chari wrote:
+> The axis-fifo driver's compatible strings were undocumented, flagged
+> by checkpatch.pl as UNDOCUMENTED_DT_STRING. Add a YAML devicetree
+> binding document for drivers/staging/axis-fifo, converted from and
+> replacing the existing free-form text binding (axis-fifo.txt), which
+> this patch removes.
+> 
+> Constrain xlnx,tx-fifo-depth to a minimum of 4, since the driver
+> subtracts 4 from this value in its transmit bounds check and a
+> smaller value would underflow that check.
+> 
+> Signed-off-by: Aditya Chari <adi25charis@gmail.com>
+> ---
+> 
+> Changes since v2:
+> - Added $ref: /schemas/types.yaml#/definitions/string to the three
+>   AXI-Stream protocol enum properties (xlnx,axi-str-rxd-protocol,
+>   xlnx,axi-str-txd-protocol, xlnx,axi-str-txc-protocol) for explicit
+>   type consistency with the rest of the schema.
+> - Added minimum: 4 to xlnx,tx-fifo-depth, since the driver subtracts
+>   4 from this value in its transmit bounds check
+>   (axis_fifo_write()) and a smaller configured value would underflow
+>   that unsigned check, bypassing the oversized-packet guard.
+> 
+> Changes since v1:
+> - Fixed xlnx,rx/tx-fifo-depth: depth is in 32-bit words, not bytes,
+>   matching the driver's overflow check in axis_fifo_write() and the
+>   wording of the original text binding.
+> - Restored the full set of hardware-generated properties (interrupt-
+>   names, AXI-Stream protocol/width properties, has-axis-t* feature
+>   flags, fifo threshold properties, etc.) so that additionalProperties:
+>   false does not reject valid device trees generated for real hardware.
+> - Removed the now-superseded axis-fifo.txt text binding.
 
-Therefore, remove it and the associated dead code and access 'RF_PATH_A'
-directly.
+Please slow down. Three versions within 1 hour! Why sending something
+and immediately sending fixes to it?
 
-Signed-off-by: Nikolay Kulikov <nikolayof23@gmail.com>
----
- .../staging/rtl8723bs/hal/rtl8723b_rf6052.c   | 29 +++----------------
- 1 file changed, 4 insertions(+), 25 deletions(-)
+> 
+>  .../bindings/misc/xlnx,axi-fifo-mm-s.yaml     | 227 ++++++++++++++++++
+>  drivers/staging/axis-fifo/axis-fifo.txt       |  96 --------
 
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_rf6052.c b/drivers/staging/rtl8723bs/hal/rtl8723b_rf6052.c
-index 86759516838b..fac1270853de 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_rf6052.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_rf6052.c
-@@ -81,7 +81,6 @@ void PHY_RF6052SetBandwidth8723B(
- static int phy_RF6052_Config_ParaFile(struct adapter *Adapter)
- {
- 	u32 u4RegValue = 0;
--	u8 eRFPath = 0;
- 	struct bb_register_def *pPhyReg;
- 	struct hal_com_data *pHalData = GET_HAL_DATA(Adapter);
- 
-@@ -89,17 +88,10 @@ static int phy_RF6052_Config_ParaFile(struct adapter *Adapter)
- 	/* 3 <2> Initialize RF */
- 	/* 3----------------------------------------------------------------- */
- 
--	pPhyReg = &pHalData->PHYRegDef[eRFPath];
-+	pPhyReg = &pHalData->PHYRegDef[RF_PATH_A];
- 
- 	/*----Store original RFENV control type----*/
--	switch (eRFPath) {
--	case RF_PATH_A:
--		u4RegValue = PHY_QueryBBReg(Adapter, pPhyReg->rfintfs, bRFSI_RFENV);
--		break;
--	case RF_PATH_B:
--		u4RegValue = PHY_QueryBBReg(Adapter, pPhyReg->rfintfs, bRFSI_RFENV << 16);
--		break;
--	}
-+	u4RegValue = PHY_QueryBBReg(Adapter, pPhyReg->rfintfs, bRFSI_RFENV);
- 
- 	/*----Set RF_ENV enable----*/
- 	PHY_SetBBReg(Adapter, pPhyReg->rfintfe, bRFSI_RFENV << 16, 0x1);
-@@ -117,23 +109,10 @@ static int phy_RF6052_Config_ParaFile(struct adapter *Adapter)
- 	udelay(1);/* PlatformStallExecution(1); */
- 
- 	/*----Initialize RF fom connfiguration file----*/
--	switch (eRFPath) {
--	case RF_PATH_A:
--	case RF_PATH_B:
--		ODM_ConfigRFWithHeaderFile(&pHalData->odmpriv,
--					   CONFIG_RF_RADIO, eRFPath);
--		break;
--	}
-+	ODM_ConfigRFWithHeaderFile(&pHalData->odmpriv, CONFIG_RF_RADIO, RF_PATH_A);
- 
- 	/*----Restore RFENV control type----*/
--	switch (eRFPath) {
--	case RF_PATH_A:
--		PHY_SetBBReg(Adapter, pPhyReg->rfintfs, bRFSI_RFENV, u4RegValue);
--		break;
--	case RF_PATH_B:
--		PHY_SetBBReg(Adapter, pPhyReg->rfintfs, bRFSI_RFENV << 16, u4RegValue);
--		break;
--	}
-+	PHY_SetBBReg(Adapter, pPhyReg->rfintfs, bRFSI_RFENV, u4RegValue);
- 
- 	/* 3 ----------------------------------------------------------------- */
- 	/* 3 Configuration of Tx Power Tracking */
--- 
-2.54.0
+Why are you touching staging binding?
 
+https://lore.kernel.org/all/?q=dfn%3Aaxis-fifo.txt
+
+Best regards,
+Krzysztof
