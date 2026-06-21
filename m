@@ -1,68 +1,75 @@
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7F85201113
-	for <linux-staging@lists.linux.dev>; Sun, 21 Jun 2026 13:33:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CAEF201113
+	for <linux-staging@lists.linux.dev>; Sun, 21 Jun 2026 13:35:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782048836; cv=none; b=gfxnwKw85zQYGNhvNS1Nf1DK242ghgJg8PM3hjTYq//oZ+eneJMi9/rsMr9ttsCnI4bY2T1NkAN6XhTNqiXVgsfuIz7nlIDW+TjHIb+3fufsuTTjnfnJlZJ0OMxKQAN2K4aB1mRKUVnVSw8z5qxRLHppi1Am3FosMJkZa3FgHjg=
+	t=1782048923; cv=none; b=NhPLqr7TEwx0p0XCL3+LHDZ0qaxtF2HdTriAV4wbumu3sjVSFsE4n4npofHwL3+56cZupRg9VI5R+P0UKBSWJIOlwBPgwaIJTRIuXzMAHZhbYhIsWOm0llJbcOma26+Jrm87BrKK3dZ4TCxWtaFLYvXZYTRkBHtF1vYwANTQL2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782048836; c=relaxed/simple;
-	bh=DtegwQ/lcIT7sDNklzF6t2vZq6M5y1/DsszHICIfGt0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gxQ8z0kNoHzJQhG3XpzTuEnocmttPjQ0fyXGm99UH2plBTRH5a11ATlNaufAS/7QnpxsxcrbOa2PTwyPAX696Y3vjMFKZp4Szx5jl1bF6lIEOhAcqD6aqZS4cYALx5bJ3qQ9KakSjRKqjZWhycf8iN/xRZtgZwuwJLQB5ajUbm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Np1o5x84; arc=none smtp.client-ip=209.85.128.65
+	s=arc-20240116; t=1782048923; c=relaxed/simple;
+	bh=7JCnVAFhFlMcb0l+PNAP37agEA9T5pW/doTDbUhu+Mg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=D0URcC1QlpfzhhqPMmdf488dfTjX/QTf4+BluEzBd3CZooU6Km9+0zutlcT5THXpuJXSpxa9NORBlPhf+kTD2Q1HXON4jwWYyx7WKRuYKvVpLNhgQqLGQAtcEEajVzHZ+ZqkEMh29juV89MU8qjDcP9VyyCSs4MKMBTR97YHHxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S8sgOgg0; arc=none smtp.client-ip=209.85.210.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Np1o5x84"
-Received: by mail-wm1-f65.google.com with SMTP id 5b1f17b1804b1-490ac357c55so38323455e9.1
-        for <linux-staging@lists.linux.dev>; Sun, 21 Jun 2026 06:33:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S8sgOgg0"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-8424b00710aso2419512b3a.0
+        for <linux-staging@lists.linux.dev>; Sun, 21 Jun 2026 06:35:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782048833; x=1782653633; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1782048921; x=1782653721; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VBZqzqsvffj6NeLXb19hVFi5fifS6sZJ8/eNWZ3Rw5M=;
-        b=Np1o5x847jwcqjGeszdIP6rTOHEC6tLW35/4/kpoM1PH60UN9D6N9oU7PLHBmpwrAh
-         JGifJAqXK30skmtuTx3ZIFCO0ikU0L5jgswCXjEEe3uGyyEgzTOyWHzOknD6ZTqIx5nd
-         3HYspQ5yO0GoQzC51P2QfVPwNMOJbHPXfUYrKRabL4ECCUbNMMSX4fEZtTwDE+H/zTsd
-         d+Ic6ks/d3qToWUdGRCd+T6CdAJ8n5p8HkM28lh1VG3Sxri7NljPMW2bGYhz3X3FKM0u
-         htYMZrIfLvpMeZLjTQxtj29fV57P14JCchVy6roUVGMhHlE3pa+YmWlA4eQrHVLTWbgZ
-         ofHQ==
+        bh=B2yda05V6cTcWFnExOApx6SpU7sKiC7KgPbiEUoNzwo=;
+        b=S8sgOgg0vT9BuTbkcWBwOfXuY+cags8siv82scNyUICwQhDto8fBuieWgIDdQxeJDa
+         MhJVYcKtdeA9WfkJQP7SB27v5iCedqIUGTuUHAjy/nQNBPO4akPQyxllu3RBdaMCJPGu
+         ZQEEIQEpe5yje418wF22TdoqqEDfJGra+ILmFtVlcIBJRqpeA5Hf15eKqyEoUCSApKwr
+         XETRiVqEk1yv2/j2GMxK4PbbAyF0UeDhyQjyy/EqTYTtscTp4sN8DWES3RSYOCxfxbYy
+         MFn56tPRLw8MqPoTe2XAhTlVHV3x+vubIBia5Nwx+eDAvBLa0U9Li0uzePe73OZCepk7
+         D34Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782048833; x=1782653633;
+        d=1e100.net; s=20251104; t=1782048921; x=1782653721;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VBZqzqsvffj6NeLXb19hVFi5fifS6sZJ8/eNWZ3Rw5M=;
-        b=PhJ7DgnbhLueaDUvQxxSkbV+6J1hKh8JAAI//CFYZyAThQMlqOUnFJAD0SDhJiTftC
-         JABTIG6kq1NT15Qq+HfOfWIYWPnEKRZ7N3ITFNlJxXEhO5eyz+4LnARKb4q6ym+nN3eY
-         U7kvXIFmeGUW+THQc4bPN1AE01RHGNFEyI0YzzowoF/SXhSaRjEO2g4/G7y1MHSJHEwi
-         +VA68XSFmaLmteV7y31FXKaAFg5WjplVp9q8Yhv1PZGaF9vdKTgAus0y8V3Xu8ImAhNl
-         xJw2awg5/v0xgWb06mVJYPDY2Hz08LE8AawswUo3fZlq0736BquE94R/g4hzC1GNVSa6
-         NjDg==
-X-Gm-Message-State: AOJu0YwRIE/SJZk3C5z+/ygiX3qx4rH/sAVV6qh5mvbViq6faMpk0asF
-	obkIY0Jw6SmJcKDWvZ/J596KDMfbQ8Gwdv3IiXGf3CfgIEVIL1QzXV/8
-X-Gm-Gg: AfdE7clfRSQ1hX6wcpHjWRf4MFvnAPnr1fPYeMw5jxbyYDtcwjgszcA4ezzY8lGQ/rh
-	VKkOEYctHQpHKrcBskNWPRiadcjwKQt39YDoa2VRBi0w0kfqqnG0pab4oicuOUi4/ckhVFq4XAA
-	TPjXeyZq3vZoRc/5k/El2rG4Ovyrw0Yc/FQ/n4pNcHL31SDxzdLilFXWNYFXpfIBn2F8OSQ42L+
-	Jk5/EvRH20U+ZIX+lQRxx4IfULZfnQ9to3FaUJyF8tQeJGFiljZDPD5vxIjUqnHPC7f/kJ6cfpI
-	0rl1/ykvpNvfF9DUObd1YVJY26QREffXkJKUoIbiozcIABc55HfCk7T2SMUujGhme8XkyZUY1qi
-	itqjAN36SWGHhTyKpBkvlGlMNZQt8Uom0+F9+16rbPNydjuf/f3Psbn/eoocU2fLvUQ5HX5Q=
-X-Received: by 2002:a05:600c:1550:b0:490:e913:656a with SMTP id 5b1f17b1804b1-49240e6c72dmr173100305e9.27.1782048833106;
-        Sun, 21 Jun 2026 06:33:53 -0700 (PDT)
-Received: from fedora ([212.253.214.17])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49240f054e3sm216544855e9.2.2026.06.21.06.33.50
+        bh=B2yda05V6cTcWFnExOApx6SpU7sKiC7KgPbiEUoNzwo=;
+        b=BZ5y6lVHkbBVlS//Cwh7c1bS2oQRV66lTVNHbW42ViZ15P0TV1qyaNpIcpOo//QF9s
+         9jRn10dYXaU6n7N4srIbicVIaI9BqU5B9dh68WtbTrE9ErBIZG8Bj7fcV7z400SC/Rlj
+         thru6VuX3KcPc9BpH/p2wL1d0wQaQwcI+fmrjfwyfotx0jyQAHaJmpKATp9Cdkmjkx/H
+         rM2d+2Xj1jRQ+/QYPTIu/t24RP1NmhVit+IqVyCIGfxH9lvuLE7MAKgYAfuQxVgLrC0F
+         6NJSc0yUFU/qDpyILa8jElGf5N1t4LTsLm7mVg1YqLyJFjgValGhz5GhJFtrx9ezhKoi
+         R7tA==
+X-Forwarded-Encrypted: i=1; AFNElJ+oUyJwritACAqtHDrMteeZUPJd7tGLi1wQ6+VkD1t/GqLXEQi94C26ZTSyeAgaiPunnMxOH0Xdd4qyF1hW@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz8RbrBKeBQZWQkxF8Vv9Pnt19+vKKjZLAA6twH+9IrI9Mb7haI
+	V7b08w16vXPfmb1LjlD9vAxEv4S8MvQnaAYC358+IV4DyK5YNdBXACiR
+X-Gm-Gg: AfdE7clImhw8xJWkuERMbhjUBdYEchkcg09wfvhyNBXbPs1pP6nNlthj2fh2KmCo5Yz
+	+Iat1Uo1IgnV8FfCFx2RFhOIuydMggd6u/YnvTgRW5HFpz/A8lkHwnQM/HZJ59xSrn2ARZjqndu
+	rZRUB5egzKsU6Cztt/WDir3USA0katpk/pBEdJrt/n9qFkdoCZlbJxpeQ/xl9p7ZQiOYoYc0oIw
+	j8PNEQq5vItv5usQylzla5RPx/LWDJOhD+8u/2XZorFddXrnrIRngcFTs7l8aTegzklYoaKoUHK
+	i0yD1uhwAczHia7FEsiQ0xOnRSpHpDxL368uQEJKZhc2UTfFgLBzIGlrrsdbaLMujdPcjAHEuEx
+	426uWI8w6BWahNOYZn+b2ge3rpB7yYqwGb9HOsozwYwbELDyvbsIabbnIuO78Fyhg96wx9sITRA
+	oEzJC61md4/KCqCh7qwByIe9O/EnG4mi6hl/Fct3JyGg==
+X-Received: by 2002:a05:6a00:2789:b0:842:6fec:1297 with SMTP id d2e1a72fcca58-8455078a336mr11186859b3a.9.1782048921205;
+        Sun, 21 Jun 2026 06:35:21 -0700 (PDT)
+Received: from kernel-dev ([49.36.101.14])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84564d6c5dbsm4502601b3a.12.2026.06.21.06.35.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Jun 2026 06:33:51 -0700 (PDT)
-From: Serhat Kumral <serhatkumral1@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
+        Sun, 21 Jun 2026 06:35:20 -0700 (PDT)
+From: Aditya Chari <adi25charis@gmail.com>
+To: robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: jacobsfeder@gmail.com,
+	devicetree@vger.kernel.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Serhat Kumral <serhatkumral1@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: avoid duplicate size computation in rtw_spt_band_alloc
-Date: Sun, 21 Jun 2026 16:33:01 +0300
-Message-ID: <20260621133301.13855-1-serhatkumral1@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	Aditya Chari <adi25charis@gmail.com>
+Subject: [PATCH] dt-bindings: misc: add binding for Xilinx AXI-Stream FIFO
+Date: Sun, 21 Jun 2026 14:22:09 +0530
+Message-ID: <20260621085209.52651-1-adi25charis@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -71,50 +78,120 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Introduce a local variable to store the channel array size and reuse it
-for both the allocation and the bitrates pointer offset, replacing a
-redundant open-coded multiplication with the same array_size() result.
+The axis-fifo driver's compatible strings were undocumented, flagged
+by checkpatch.pl as UNDOCUMENTED_DT_STRING. Add a devicetree
+binding document describing the required properties
+for drivers/staging/axis-fifo, derived from the properties
+the driver reads via of_property_read_u32()
+in axis_fifo_parse_dt().
 
-Resolves the Coccinelle warning:
-WARNING: array_size is already used (line 124) to compute the same size
-
-Signed-off-by: Serhat Kumral <serhatkumral1@gmail.com>
+Signed-off-by: Aditya Chari <adi25charis@gmail.com>
 ---
- drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ .../bindings/misc/xlnx,axi-fifo-mm-s.yaml     | 95 +++++++++++++++++++
+ 1 file changed, 95 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s.yaml
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index 1484336d7..2e65788ee 100644
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -111,7 +111,7 @@ static struct ieee80211_supported_band *rtw_spt_band_alloc(
- {
- 	struct ieee80211_supported_band *spt_band = NULL;
- 	int n_channels, n_bitrates;
--	size_t alloc_sz;
-+	size_t alloc_sz, channels_sz;
- 
- 	if (band == NL80211_BAND_2GHZ) {
- 		n_channels = RTW_2G_CHANNELS_NUM;
-@@ -120,15 +120,16 @@ static struct ieee80211_supported_band *rtw_spt_band_alloc(
- 		goto exit;
- 	}
- 
-+	channels_sz = array_size(n_channels, sizeof(struct ieee80211_channel));
- 	alloc_sz = sizeof(*spt_band);
--	alloc_sz = size_add(alloc_sz, array_size(n_channels, sizeof(struct ieee80211_channel)));
-+	alloc_sz = size_add(alloc_sz, channels_sz);
- 	alloc_sz = size_add(alloc_sz, array_size(n_bitrates, sizeof(struct ieee80211_rate)));
- 	spt_band = kzalloc(alloc_sz, GFP_KERNEL);
- 	if (!spt_band)
- 		goto exit;
- 
- 	spt_band->channels = (struct ieee80211_channel *)(((u8 *)spt_band) + sizeof(struct ieee80211_supported_band));
--	spt_band->bitrates = (struct ieee80211_rate *)(((u8 *)spt_band->channels) + sizeof(struct ieee80211_channel) * n_channels);
-+	spt_band->bitrates = (struct ieee80211_rate *)(((u8 *)spt_band->channels) + channels_sz);
- 	spt_band->band = band;
- 	spt_band->n_channels = n_channels;
- 	spt_band->n_bitrates = n_bitrates;
+diff --git a/Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s.yaml b/Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s.yaml
+new file mode 100644
+index 000000000..8ef0adde3
+--- /dev/null
++++ b/Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s.yaml
+@@ -0,0 +1,95 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/misc/xlnx,axi-fifo-mm-s.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Xilinx AXI-Stream FIFO (axis-fifo)
++
++maintainers:
++  - Jacob Feder <jacobsfeder@gmail.com>
++
++description:
++  The AXI-Stream FIFO (AXIS-FIFO) IP core provides a memory-mapped AXI4-Lite
++  interface for sending and receiving data over an AXI4-Stream interface
++  using FIFO buffers. See Xilinx PG080 for IP details.
++
++properties:
++  compatible:
++    enum:
++      - xlnx,axi-fifo-mm-s-4.1
++      - xlnx,axi-fifo-mm-s-4.2
++      - xlnx,axi-fifo-mm-s-4.3
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  xlnx,axi-str-rxd-tdata-width:
++    description:
++      Width in bits of the AXI4-Stream receive data interface. Only a
++      width of 32 is currently supported by the driver.
++    $ref: /schemas/types.yaml#/definitions/uint32
++    const: 32
++
++  xlnx,axi-str-txd-tdata-width:
++    description:
++      Width in bits of the AXI4-Stream transmit data interface. Only a
++      width of 32 is currently supported by the driver.
++    $ref: /schemas/types.yaml#/definitions/uint32
++    const: 32
++
++  xlnx,rx-fifo-depth:
++    description:
++      Depth in bytes of the receive FIFO, as configured in the IP core.
++    $ref: /schemas/types.yaml#/definitions/uint32
++
++  xlnx,tx-fifo-depth:
++    description:
++      Depth in bytes of the transmit FIFO, as configured in the IP core.
++    $ref: /schemas/types.yaml#/definitions/uint32
++
++  xlnx,use-rx-data:
++    description:
++      Indicates whether the receive data path is present, as configured
++      in the IP core. A value of 1 enables the receive path, 0 disables it.
++    $ref: /schemas/types.yaml#/definitions/uint32
++    enum: [ 0, 1 ]
++
++  xlnx,use-tx-data:
++    description:
++      Indicates whether the transmit data path is present, as configured
++      in the IP core. A value of 1 enables the transmit path, 0 disables it.
++    $ref: /schemas/types.yaml#/definitions/uint32
++    enum: [ 0, 1 ]
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - xlnx,axi-str-rxd-tdata-width
++  - xlnx,axi-str-txd-tdata-width
++  - xlnx,rx-fifo-depth
++  - xlnx,tx-fifo-depth
++  - xlnx,use-rx-data
++  - xlnx,use-tx-data
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    axi_fifo_mm_s_0: axi-fifo-mm-s@40000000 {
++        compatible = "xlnx,axi-fifo-mm-s-4.1";
++        reg = <0x40000000 0x10000>;
++        interrupts = <0 29 IRQ_TYPE_LEVEL_HIGH>;
++        xlnx,axi-str-rxd-tdata-width = <32>;
++        xlnx,axi-str-txd-tdata-width = <32>;
++        xlnx,rx-fifo-depth = <2048>;
++        xlnx,tx-fifo-depth = <2048>;
++        xlnx,use-rx-data = <1>;
++        xlnx,use-tx-data = <1>;
++    };
 -- 
-2.54.0
+2.53.0
 
