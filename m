@@ -1,63 +1,63 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB61324886A
-	for <linux-staging@lists.linux.dev>; Sun, 21 Jun 2026 15:24:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3D821E7C2E
+	for <linux-staging@lists.linux.dev>; Sun, 21 Jun 2026 15:45:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782055469; cv=none; b=hBGJpavpZkN2ht2+yYm2kS6rjdxx6Lm/WLsPEfUk1q9Q8aWOGg48FhdeQWu3dQ7yUPWqXig9xXxB9WyPOY4u6NL36+rq3sqg5aS5JOL4J1XbSaaUodEh+7xJLm0vCYrDLkuTophG2x6NRfcYbCcAxL8BzACT4LQTZvabGfSUNbk=
+	t=1782056749; cv=none; b=pmj4q99OGFNOrvu8gm+lUbld1PveoLRoHqLfKkAFmh+QalxnHjc+fACDxmxw58/GrRv/nyM/fVeX1UWJ9D31duHf0OrLc6AdTB6ekPFtQsxcUNZbD2qsZoyIN4p672EPCVzv4z+Gf6u4JdiklZko0PYae9EazeustsC1N53ficQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782055469; c=relaxed/simple;
-	bh=S6iMoD5mIVGD5N0Aczx+kmg62+jsu4Dmf1ROr3bsP+s=;
+	s=arc-20240116; t=1782056749; c=relaxed/simple;
+	bh=/gZfcSYO5I5loQX3u0LwqbrBQyMEw4vh91vd11x3l9U=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bhDp2ayH3Lx9mXpTyZihoRcUOxJLScBxJ3AuWevOh9p8CxfIdNTwxXUE0hj0094pwq3hsQeN0hhDfYjJ6DDqZg/ekQ3i3JiGFnou3G+OWqKaJm9+wd0Be9ZfhOYho/RPxrQwt9A5YN5VL/67tqf4JFOn9xybWe2HO1M5sVDr+RY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jIQyGW4j; arc=none smtp.client-ip=209.85.215.178
+	 MIME-Version; b=B7/FCac8PeJSIToxlps/BWYv1CyIhCho0DCs4jmwbv/lsunsQIKL0lFik/QCIlMUEigxBo4iuoPEM/bfGSpO7VsDjkDh085At/kV9ndYfVoYHEfqquS/nx8CB+v5MVyatqPkiTe5kwl78ASgijb3x+oOLw7Vg/tYVFMeLs12UPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=higzXzgf; arc=none smtp.client-ip=209.85.216.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jIQyGW4j"
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-c88b7c92577so1506253a12.3
-        for <linux-staging@lists.linux.dev>; Sun, 21 Jun 2026 08:24:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="higzXzgf"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-37cb36ca63bso1769621a91.0
+        for <linux-staging@lists.linux.dev>; Sun, 21 Jun 2026 08:45:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782055466; x=1782660266; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1782056747; x=1782661547; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YvEQ7rH1GQaXLoA200lLxhYP67p8h3i3QuzT03ZUuQQ=;
-        b=jIQyGW4jGPP2pVx30iZKjHQxeg0L68Yx9Oc8QWzlobexJMYba6mzENn4lYvuphJVu/
-         2qpfO8dJqLsO2XVdRl7e5Wd3eyvt0XOmW7rcHLx18ekxnjJxVWXViYKmVoPsJQmaC4D2
-         65fa8oLuFcI1LVxc27n3IvdkshQ/ZORoUrrfQ/sMF98cdgqh0GOqJ0DdLgjpk0Ujow+Y
-         uq2WZNJlKhe+zwtXRinEfCAQB7h2xgVg26b0K/XAtm3NOLMKEVNtRSRkxrk4UFwQFX6s
-         1j+Y0vvVqqcr82r8M9U3yesl4zzceoIYFZGWGFLpqgRE/iVfkb6JDeGYgc5CqfyQ2e22
-         JZmA==
+        bh=tCFISPejpA4KN+GVlYKxBYlhkGQr78rc8f+aUEsLn44=;
+        b=higzXzgfuvmbNzMw9ByzJb5hsqPE1PifTKuHJx5jObNYAvmNmZUcLaY6RYCQeKs9qe
+         epod0ayMVLEFVtq/l9iNU4VYh2YLIlpX4xVH5LfpxxVLXzvD3RHlAw3o3lCVAdW1jfjo
+         9in0emFsWVhAFLvJe0Xzz3DnNgo9hx1m4gishgzyyIuLpuRv4mIJNaWZChahpqxJXDQd
+         +Uos+6iABcj/2ZLw1bJO3FslDIv8M6Lnnz/I4zXHSkmzkwpXWVSvY1PXnh6Ddex4Aa8X
+         tmzNK11LGIL3y86QqNDO+TTuYQkT+GLeHvHlPOUZoXpDVTlvNMzqxxXRe+iLinbWxwet
+         uTLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782055466; x=1782660266;
+        d=1e100.net; s=20251104; t=1782056747; x=1782661547;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=YvEQ7rH1GQaXLoA200lLxhYP67p8h3i3QuzT03ZUuQQ=;
-        b=WTNAh1DC+WmVIHw/782StWTv0TH8Mn84T9Z/CfkQMJwR+HLE1dePLM8WRXNlixGw6l
-         zTc0FwR6nE0BKakL5ZLB6hbFmXUemjFb7ou/qsv6Fg/RQGhfUfsmIQ9GFQj0EmDWxIJs
-         JznLeusmlkpmNQatLa2wlsw3kh/KognYeqFrgPLliJt+lmu3DGrCxsRfUQW3EYWcrqjO
-         qoqmgEeLEq2/vRub6hyfbxxzsTkZAjVI120NmqXx8yLmjVh8cWlUdDstliL8LaxD7pGM
-         PXw/Llt9FH9nW7+Kzl0lYuGuZxV1brWpqwFv2CsZzysPR0ePq7DT9Hp2KepxWW30UKNH
-         S4Og==
-X-Forwarded-Encrypted: i=1; AFNElJ+lLQAy2luxa4aikpytAv4i++OHOdRD10ojKqqm75ZVlvDdBFX6WmoMGgyEv4YF62T5+d4GUBEaqMO674Z9@lists.linux.dev
-X-Gm-Message-State: AOJu0YxpkBtQgxtIcSvtXK//1CMrk4tSdt2/laN1uxrmfMKBgVKq9YGB
-	ySOQdA2aO2BjXmT47Og62RKaam24FVynzhYVje1Q3AWhinzrrK1aiIx6
-X-Gm-Gg: AfdE7ckkdgi168YaiG2M3ib9Ey6iCiUvlMX8CCrdlOzBjX45X8KjFfHE4BRYyct5ahz
-	31nRQOeO38BuExRpsuqW8HjuK5swIcyABwLxKVE/8cc4YsVH43Oc+Cx0xrQxCd7DgH46s0B7NZb
-	6cuegvsMt2GCekUMi1n68v9BrmGRk+JkzCXfuPbksuhDYMVS6JcD2B4gRPYBiIA5bEu/9sZxxHL
-	6/VwEsWKyeCCTgZt5xNrW0fkqsqO4XhjtB9xYlpVX/j53GF/2TAuVLwiTn39XTYXDP3yBuSmiBp
-	lTRlms7lmQpMqJqvKlvJ+ghbMGq4rmkbUene7QCno9rR7QaSPFsL5O8Db/ZUJiMN/e36E4IQ2eG
-	QOrgHXvHTxTK1R5gFHCHW2k+U1BijrLvLVy35YZYHV8FmUzuVr52ynTfk0BdtMbcRVJcOooBX1P
-	GJD4xT7M3Un7yqpXcIT4cerQRSElW04nxvhFnr8vjNrA==
-X-Received: by 2002:a05:6a21:4598:b0:3b4:60e3:a1d5 with SMTP id adf61e73a8af0-3bb3210a569mr13348674637.13.1782055465771;
-        Sun, 21 Jun 2026 08:24:25 -0700 (PDT)
+        bh=tCFISPejpA4KN+GVlYKxBYlhkGQr78rc8f+aUEsLn44=;
+        b=LqjGYNS37PgZ+jeBZRS46lOu6gZLAEdoPvL7XIUqqFafWplww8ErdE7l0Qg7icaJrj
+         cez+AeI7xZgMzXaZodnttrnyVOlCPylhYgadWwefVzIyswlYa1VdjWahZKuok4IoTRBJ
+         hjgEScG+FIfrQsR+QfcnZvIYxIIiV4qaTmtJsUZBEdK1X6HGsSImy33KEyMaHcIFWWnP
+         m5K39uiDzjkZ32a+sMHdbICGRbyOjBhzluWuzqFV1ptnbdjzrhMdWoIyqWOeSLvAE4J+
+         uueWi66jZ9dnS2qaZcnlnp4Wj2taKLgjpK4IfjimXQrvv+u61VGHcgXVMPnm4sg/6iEY
+         COnQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpWVLMqFqmRpSbLRSpbVbGc9Cwlnv8ur2Tt9Keo8X/BsHC/9wjoqLqjUgmPKEuft8b44vNNMCxrs7uSp3Ka@lists.linux.dev
+X-Gm-Message-State: AOJu0YxQXogGwu9rqJ0mwusyss4HsuQ8rPOvUKeOy90n9waqgIIoboo+
+	SOL993jbQXV39CJaCB8o7MTaPjnvBVcbdPdInzz9jn6tmBpuSr2Qk9sD
+X-Gm-Gg: AfdE7cmClJpwXsmkMxAEXvRYp5YJ1sUcEmjAleFu7ldDCi9BtnVGzGpnAcoWj2JP6K+
+	c2u3fVA1dChr9IKV/xP5eSoCkkDSaGFs5s2dQuYbKnd412KgZ2mBpVJjsIzkgsU0hMC3TA2ytBi
+	EBhr1CCh2QuCoTdeAuf7kT0BNbb9K7+bMXULh61KURYQl2C1/WfUQ6reS3tjwepLn2isnLeOwsJ
+	uMIkxVnuKIxUTOPmeIcjB2REyMzAurTOwkiB1S90XX+C3tf2huBR3XiSp2BQb8rH+4k8M951ZRs
+	ZfXVKcSI+enmpKtbonqy52xAUQOcQGrH5pdTxTdNwoGEAOSXIqNIJosnVHKZapPnXh/bvBqS8sd
+	x4mgZRMSbmBKmOEN8veY/lXSPOHPwZF8GnZU6I8tYcuHguzB7TvveoZTg0PvD2kADKjHgs7Ll/K
+	4EFyStbzy7i+2xiTViJnfNKNpbWXphODjV+Y9s7RmwiA==
+X-Received: by 2002:a17:90b:5824:b0:36b:e8b9:46a4 with SMTP id 98e67ed59e1d1-37d15de2859mr10666648a91.14.1782056746751;
+        Sun, 21 Jun 2026 08:45:46 -0700 (PDT)
 Received: from kernel-dev ([49.36.101.14])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c8bc374375csm4846868a12.13.2026.06.21.08.24.21
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37d15df7424sm7727194a91.14.2026.06.21.08.45.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Jun 2026 08:24:25 -0700 (PDT)
+        Sun, 21 Jun 2026 08:45:45 -0700 (PDT)
 From: Aditya Chari <adi25charis@gmail.com>
 To: robh@kernel.org,
 	krzk+dt@kernel.org,
@@ -68,9 +68,9 @@ Cc: jacobsfeder@gmail.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Aditya Chari <adi25charis@gmail.com>
-Subject: [PATCH v2] dt-bindings: misc: add binding for Xilinx AXI-Stream FIFO
-Date: Sun, 21 Jun 2026 14:49:53 +0530
-Message-ID: <20260621091953.53281-1-adi25charis@gmail.com>
+Subject: [PATCH v3] dt-bindings: misc: add binding for Xilinx AXI-Stream FIFO
+Date: Sun, 21 Jun 2026 15:13:12 +0530
+Message-ID: <20260621094312.53655-1-adi25charis@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260621085209.52651-1-adi25charis@gmail.com>
 References: <20260621085209.52651-1-adi25charis@gmail.com>
@@ -88,8 +88,22 @@ binding document for drivers/staging/axis-fifo, converted from and
 replacing the existing free-form text binding (axis-fifo.txt), which
 this patch removes.
 
+Constrain xlnx,tx-fifo-depth to a minimum of 4, since the driver
+subtracts 4 from this value in its transmit bounds check and a
+smaller value would underflow that check.
+
 Signed-off-by: Aditya Chari <adi25charis@gmail.com>
 ---
+
+Changes since v2:
+- Added $ref: /schemas/types.yaml#/definitions/string to the three
+  AXI-Stream protocol enum properties (xlnx,axi-str-rxd-protocol,
+  xlnx,axi-str-txd-protocol, xlnx,axi-str-txc-protocol) for explicit
+  type consistency with the rest of the schema.
+- Added minimum: 4 to xlnx,tx-fifo-depth, since the driver subtracts
+  4 from this value in its transmit bounds check
+  (axis_fifo_write()) and a smaller configured value would underflow
+  that unsigned check, bypassing the oversized-packet guard.
 
 Changes since v1:
 - Fixed xlnx,rx/tx-fifo-depth: depth is in 32-bit words, not bytes,
@@ -101,18 +115,19 @@ Changes since v1:
   false does not reject valid device trees generated for real hardware.
 - Removed the now-superseded axis-fifo.txt text binding.
 
- .../bindings/misc/xlnx,axi-fifo-mm-s.yaml     | 221 ++++++++++++++++++
+
+ .../bindings/misc/xlnx,axi-fifo-mm-s.yaml     | 227 ++++++++++++++++++
  drivers/staging/axis-fifo/axis-fifo.txt       |  96 --------
- 2 files changed, 221 insertions(+), 96 deletions(-)
+ 2 files changed, 227 insertions(+), 96 deletions(-)
  create mode 100644 Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s.yaml
  delete mode 100644 drivers/staging/axis-fifo/axis-fifo.txt
 
 diff --git a/Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s.yaml b/Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s.yaml
 new file mode 100644
-index 000000000..f4606b13c
+index 000000000..53bf52524
 --- /dev/null
 +++ b/Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s.yaml
-@@ -0,0 +1,221 @@
+@@ -0,0 +1,227 @@
 +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
 +%YAML 1.2
 +---
@@ -170,14 +185,17 @@ index 000000000..f4606b13c
 +
 +  xlnx,axi-str-rxd-protocol:
 +    description: AXI-Stream receive data protocol. Ignored by the driver.
++    $ref: /schemas/types.yaml#/definitions/string
 +    enum: [ XIL_AXI_STREAM_ETH_DATA ]
 +
 +  xlnx,axi-str-txd-protocol:
 +    description: AXI-Stream transmit data protocol. Ignored by the driver.
++    $ref: /schemas/types.yaml#/definitions/string
 +    enum: [ XIL_AXI_STREAM_ETH_DATA ]
 +
 +  xlnx,axi-str-txc-protocol:
 +    description: AXI-Stream transmit control protocol. Ignored by the driver.
++    $ref: /schemas/types.yaml#/definitions/string
 +    enum: [ XIL_AXI_STREAM_ETH_CTRL ]
 +
 +  xlnx,axis-tdest-width:
@@ -260,8 +278,11 @@ index 000000000..f4606b13c
 +  xlnx,tx-fifo-depth:
 +    description:
 +      Depth in 32-bit words of the transmit FIFO, as configured in the
-+      IP core.
++      IP core. Must be at least 4; the driver subtracts 4 from this
++      value when bounds-checking transmit writes, and a smaller value
++      underflows that check.
 +    $ref: /schemas/types.yaml#/definitions/uint32
++    minimum: 4
 +
 +  xlnx,tx-fifo-pe-threshold:
 +    description: TX programmable empty interrupt threshold. Ignored by the driver.
