@@ -1,72 +1,71 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 951BF364E9A
-	for <linux-staging@lists.linux.dev>; Mon, 22 Jun 2026 09:07:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DFD53A2549
+	for <linux-staging@lists.linux.dev>; Mon, 22 Jun 2026 09:20:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782119263; cv=none; b=PCG2227XIb9uHkh9TryRV42IvG2kKRw3y66rrBLTuAoPPsE+6OqkKChnmJX0CeGblaB8vZzQ98zh0NzlioVECOOjjmdEzWymxyD1iVfHP8ITw584VxEQbxELVa78XiNegleemit6kdi5nLSAJYb0r4BWVnGdLr7uIX56smHGZOs=
+	t=1782120047; cv=none; b=KTxz9HaXx0HK55yKUN9cxMJEXWFbxNgF+UzFnRlsbRWO5nxQrabBrHU5VOpUG2Lp9tq1iwplan9LVsxqluW/Ef7NVhWM9YWHK8irh7KFLbBo4pV0jb/NI3YYyU2snqhzHc+1qiDJ9QBfOBfB1zJixgILKdcsjYwPaIYjdCZGwdI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782119263; c=relaxed/simple;
-	bh=j83wHl1vgswEJj6jURdFdB1HRy2jCHOk2WmWIh52g8A=;
+	s=arc-20240116; t=1782120047; c=relaxed/simple;
+	bh=Wx9f8iOA6FJPHFR2QcjjZ5qqLADcQhk0Ao2uL+Gl7vo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eWMp3kyLKZRSK7kdYBjVClSaKZnwkDOmxLDeyljnGaoISTvotahL8G5MfQnthCu2s4ZtUxpw9HALTxac/q6IJq85Bzs9CmiUGeXvCBlYmJKaLQXNatRwetjVpTMDHoYguRWe3ml+YQrVgCLVd6tQl0BhE1AkQEtVfl705PMe7vQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AhvB6Tac; arc=none smtp.client-ip=209.85.208.45
+	 Content-Type:Content-Disposition:In-Reply-To; b=jucCIpxU0QWN8XOly9fKRoqhq44B4hP2fyr4rk2rGgEZeBg5G+APFyn30t1L5fbarCwFe4r0lAq3XZoNFHRipKb323wnqwhf8jBIwvQlzSqs8lHGTBz5OnTAe6UpYHQiN9hWiG8CI7K8BD8/N/gkw4MNklxbG95sLnBtye4CTNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c6EuvJuO; arc=none smtp.client-ip=209.85.208.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AhvB6Tac"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-6974f511dd3so3797940a12.1
-        for <linux-staging@lists.linux.dev>; Mon, 22 Jun 2026 02:07:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c6EuvJuO"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-69531108f25so7612684a12.2
+        for <linux-staging@lists.linux.dev>; Mon, 22 Jun 2026 02:20:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782119259; x=1782724059; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1782120040; x=1782724840; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RDAFwnUnM/TDiKNBHO8fQu7Y5AzSk6/sx2Rrw7B/zJc=;
-        b=AhvB6TacI8JJ9+qNzJJRBG/BcbC1TE/VOX9Qxd58bV31ODlCrlaDE1G84Lv23E9zz5
-         Spie47RDGGEbLyb7hysGlXUligLDOtAR0ocGmoVvsOMFPySq5VRjF7y9Vc4lm7MpxjJM
-         J+v1MM20CuloOrJRj8+PWutwELBYmPUUXNDdbp9Z7n+P9Ofg9z9HgYEtqMoNfmqlmNWf
-         ElHxpv0Bt0t/s+Pa3HkQV0oKp9vLuMj424Nn4E14qUw2cgr4hEElwGTgHZaQw2+Y/u+O
-         W1JeouCkVn5QFK5KRvuW8NyFNffqQ3OsMgvumQ9J4Dhv1+p4wuvu/Q3apVyly2QLAkDI
-         XkRg==
+        bh=C1qxJTCBnKFJDEPnrv8MjfbwGEomhkttMVcfr8ENwSY=;
+        b=c6EuvJuOvMTDibMb9bjoGaDbK0cAyZn+z3wX7ZHvH2MXkV5udJ7EUi/zgMFeZ0hc99
+         v2/n2j4Y1vZeJHo1xJ3Nqx64UVQgpK2HZGh+Os6420YRve6f5qsgHtj55Q0CwEBTUhO9
+         L3KJKdEm/WuTN1Jw+u0vZmtfJs9YhEVSEX2J0XKHs/gPYK6q9bnq/zxEutplJauwi07D
+         CfgeWbL8mZxzBMDgcdZMbEL7qGU8/enToOki6HFSkZGpRWaKC9KVnsJJf5QFwPQW/pGc
+         WWhFQgA0VoDa1qFVCSnNU1zFC+4hD6aPVNYaBJGiMMflalnO7UF8KJIIzzuK3/VZ/G19
+         5hMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782119259; x=1782724059;
+        d=1e100.net; s=20251104; t=1782120040; x=1782724840;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=RDAFwnUnM/TDiKNBHO8fQu7Y5AzSk6/sx2Rrw7B/zJc=;
-        b=aVhpXUvmcNJNNpS1dhj1/AUj08/3WDoSI1SOp2hRH5hUC0oQsWHbVFC7UT+uCOU+lv
-         SrIAkuBQnUCcfUd5CIiSJ2eS8jxHJh+b/mbBJcoYg7ll/q0tI3SZXnVO4DaW/EpI9lfs
-         Ur5VAeF1WH/cOg18gmU2Iy/U9N41QeBxOLtvMXui+lP0EGFTgvS4WrCm+Wwafb/qFudc
-         afs99dImwZz+9ytcSYciMs9SSFPdVbzzlL8FGgBFooTWo4DEw7ki/JNIYfuGTB2dIUQr
-         +fy7fIW68UWePotYCrAAYw8Oyiual6cb+Jl9cNzEwwojMoKkLFNV3LlmPEx3kJ0Mt4J9
-         g/lg==
-X-Forwarded-Encrypted: i=1; AFNElJ/RjWGZJB+tcVAtuBAQl6vYY8OmbjbCaiCwFNfW2wlStIKP9wtTWAtmvjBNAlCLJR7gGuoi2dE/SFcSQixX@lists.linux.dev
-X-Gm-Message-State: AOJu0YypPOdUryg7gjEF+W1rloYfsqZ1IsB1sUZKJEIlHb4E/EBFao0j
-	mMBB07xUZQ1CrqlE5CJ6dQ/mQakl7QlcGsnayQx/fF21JGBIJy0C1XHS
-X-Gm-Gg: AfdE7cnLBo6WtFQwnz57XVnyA6EAroAnWLAIJGXhv+ZjC0lmVB0fLI1tQLrhYqJckGD
-	MO9Skemug7Yh9hs5bqXYlJWIRc5aE8xCYoo5JV7DZWo1zvvRkjfAWyQ5s4bqgDyRF8UpDU0CiiO
-	I/hJIM7d3SOXUn7J0EQML1jXG/iB2UzRlTnGsiqNvmnb9UMXqaJaLIENIi/zDIWrCFrkkKJAOxC
-	ufzWh7kIpYbFHuaYOZ/f5Szw53uGpr/MokOmFrAHPHX/3Mm8FWm3thZFCAKPM9H/b6ZpDR79U8u
-	E+FmNobIWf5imbusgxn48HqdBIQWZk9vEvDht/mCWSro2FoOeLa9FJlxThHH4lPBEPHeEyiHri0
-	1dlsklZM1HUxmOvQroo/R653UHLXojhdsV5tMkz6Y1P2BDCYdZpKLznA4vLozltfvCzYYVIzo3d
-	e2slpn33GU
-X-Received: by 2002:a17:907:25c3:b0:bcb:66df:819a with SMTP id a640c23a62f3a-c097cccd477mr720797366b.40.1782119258537;
-        Mon, 22 Jun 2026 02:07:38 -0700 (PDT)
+        bh=C1qxJTCBnKFJDEPnrv8MjfbwGEomhkttMVcfr8ENwSY=;
+        b=LsiPhHAoAuBuiarF5eFDUiIAKUMEiqdZI9vRxoVc0keRwqL0YrGSVLBKuIAhTa5wws
+         yz8I3M7hWS5mkUfOk84PAvvDC+YgObKvRsuztfaoMzyRQkaVC3Mrr184i5XqZKFbFcPf
+         aeU4vDNd9JhELUuMaB60XMQD/Ewz0d63BxQRQa5NEc0yPq32YEPydtHvCMmwfWw7M/Am
+         1HES3FQqoIVH6yoa4c2oYCCJs09IBx6UYYyZqKy8+6gnm0nNNztijfxCmtpMo+fpwC/a
+         ZnaIQ1FGZhkpyn9EE7txAfCE4CDdMUzJcvgoiTtNPQn0D8/Qc4fPyBLUxiQdFQE++e3b
+         32KA==
+X-Forwarded-Encrypted: i=1; AFNElJ8dTLx6wGr7A7wRG2nLmMIwP9MADwcU8bmX6hf7S9dF2T5hvoSqmJKdshhENUd9JWV++AsUMeZzlzYXBclM@lists.linux.dev
+X-Gm-Message-State: AOJu0YyGXkikgOIgnJGYRtCNpW0PV3DW4p58lu6H0S8GION5Ha1Q2xNf
+	/ysgVFpbsiIBSPLq+N782xCNK4ZOjQ8EtP8+SgdPFbONBxbxhtfbboAK
+X-Gm-Gg: AfdE7cl7RtTLBZIdOVUD/vgTzAeFp87vCSft+vzIdd0yp9wDnqtIbvN4l1YtZ66FDfY
+	E5OrAP066IHXalrsnZaKlXAAcUG7AKGiCBbZ7jv3Bz+FnTTBXNUoqqp0k+l7MBXvIDJuAd1IryN
+	y4EzTxoe+gAiKJ1/aXSgSa3Y6Kpu1X6a4QjaGdiprxwtV0eVmFxR3lNBf8rcyVDz2Zx1iomciVx
+	7P5nlnuJK+IDFZ0AK+t3LRB0TkJNAKv7hdoc3/aw+2hAfA+6jI+pFnPPN/39WepPtqhkdTfXwU3
+	BRQznpGmmX2qLFQTEz5IlIiMNartVMHichKW7gBXg/UYCC6LVgIZ1k5HCGmq3cKDQYxPyaGR1IS
+	iO1yUH+nZrEVL461tqmXCwm47BHU8nbW/iWTYyyBzXrDe6mV/edm3o2lIWAKnWV0SzktY0noYDc
+	8X5v4v7Iaf
+X-Received: by 2002:a17:907:3f1f:b0:c0d:ab45:a070 with SMTP id a640c23a62f3a-c0dab45a33cmr261113466b.35.1782120040372;
+        Mon, 22 Jun 2026 02:20:40 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c0c610e4c76sm320651066b.46.2026.06.22.02.07.36
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6977b82fa67sm3040433a12.4.2026.06.22.02.20.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jun 2026 02:07:37 -0700 (PDT)
-Date: Mon, 22 Jun 2026 12:07:33 +0300
+        Mon, 22 Jun 2026 02:20:38 -0700 (PDT)
+Date: Mon, 22 Jun 2026 12:20:34 +0300
 From: Dan Carpenter <error27@gmail.com>
 To: Serhat Kumral <serhatkumral1@gmail.com>
 Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] staging: rtl8723bs: use usleep_range instead of
- msleep for short delays
-Message-ID: <ajj7VWARSs8bO0Zd@stanley.mountain>
-References: <20260621104058.7408-1-serhatkumral1@gmail.com>
- <20260621104058.7408-3-serhatkumral1@gmail.com>
+Subject: Re: [PATCH] staging: rtl8723bs: avoid duplicate size computation in
+ rtw_spt_band_alloc
+Message-ID: <ajj-YnZtw9mYALcv@stanley.mountain>
+References: <20260621133301.13855-1-serhatkumral1@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -75,34 +74,60 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260621104058.7408-3-serhatkumral1@gmail.com>
+In-Reply-To: <20260621133301.13855-1-serhatkumral1@gmail.com>
 
-On Sun, Jun 21, 2026 at 01:40:58PM +0300, Serhat Kumral wrote:
-> Replace msleep(10) and msleep(1) with usleep_range(10000, 20000) and
-> usleep_range(1000, 2000) respectively in os_intfs.c, because msleep is
-> imprecise and discouraged for short delays under 20ms.
-> This fixes the checkpatch.pl warnings:
-> WARNING: msleep < 20ms can sleep for up to 20ms; see function description of msleep().
+On Sun, Jun 21, 2026 at 04:33:01PM +0300, Serhat Kumral wrote:
+> Introduce a local variable to store the channel array size and reuse it
+> for both the allocation and the bitrates pointer offset, replacing a
+> redundant open-coded multiplication with the same array_size() result.
+> 
+> Resolves the Coccinelle warning:
+> WARNING: array_size is already used (line 124) to compute the same size
 > 
 > Signed-off-by: Serhat Kumral <serhatkumral1@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/os_dep/os_intfs.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-> index 89e41c26e..5e41f518a 100644
-> --- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-> +++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-> @@ -986,7 +986,7 @@ void rtw_dev_unload(struct adapter *padapter)
->  			if (cnt > 5)
->  				break;
->  			cnt++;
-> -			msleep(10);
-> +			usleep_range(10000, 20000);
+> diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+> index 1484336d7..2e65788ee 100644
+> --- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+> +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+> @@ -111,7 +111,7 @@ static struct ieee80211_supported_band *rtw_spt_band_alloc(
+>  {
+>  	struct ieee80211_supported_band *spt_band = NULL;
+>  	int n_channels, n_bitrates;
+> -	size_t alloc_sz;
+> +	size_t alloc_sz, channels_sz;
+>  
+>  	if (band == NL80211_BAND_2GHZ) {
+>  		n_channels = RTW_2G_CHANNELS_NUM;
+> @@ -120,15 +120,16 @@ static struct ieee80211_supported_band *rtw_spt_band_alloc(
+>  		goto exit;
+>  	}
+>  
+> +	channels_sz = array_size(n_channels, sizeof(struct ieee80211_channel));
+>  	alloc_sz = sizeof(*spt_band);
+> -	alloc_sz = size_add(alloc_sz, array_size(n_channels, sizeof(struct ieee80211_channel)));
+> +	alloc_sz = size_add(alloc_sz, channels_sz);
+>  	alloc_sz = size_add(alloc_sz, array_size(n_bitrates, sizeof(struct ieee80211_rate)));
+>  	spt_band = kzalloc(alloc_sz, GFP_KERNEL);
 
-The first two are fine but this isn't.  Do a search on lore for
-the reasons.
+This is still a mess.  First of all these size values are constant so
+the layers of indirection are unnecessary.  Pretending they are variable
+makes code auditors have to check for integer overflows so it wastes
+valuable time and makes the whole kernel less secure.
+
+	channels_sz = array_size(RTW_2G_CHANNELS_NUM, sizeof(struct ieee80211_channel));
+	bitrate_size = array_size(RTW_G_RATES_NUM, sizeof(struct ieee80211_rate));
+
+	spt_band = kzalloc(sizeof(*spt_band) + channels_sz + bitrate_size, GFP_KERNEL);
+
+	spt_band->channels = (void *)spt_band + sizeof(*spt_band);
+	spt_band->bitrates = (void *)spt_band + sizeof(*spt_band) + channels_sz;
 
 regards,
 dan carpenter
+
+
 
