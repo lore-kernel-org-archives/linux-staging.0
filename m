@@ -1,135 +1,103 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD6E835B645
-	for <linux-staging@lists.linux.dev>; Mon, 22 Jun 2026 06:22:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782109345; cv=pass; b=QK4RdQkh54vRndgW13x0Tbal8n7jaBLsWJK423xe+ARjBa6pMurdMxJNg50T6iBF/eziGXZQwJEt2JB4UeWVbqPROYCP0odOMD7fqjbA5YZ2l81cpC14nllGi4ELb8FCqk+7JAuviNqTTM/Xe7mvTYn014KirffHIVbLNCrJ5bY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782109345; c=relaxed/simple;
-	bh=zFtLe7bHlDNyqiN9o7mOWwbiL0VxRTwL1H2qBgvovpU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DA0c8VVFCh5u2hrVVJMsV5jYFWKe4tQ6uW4wavLv2Y0zhvvkd55laGSmmP6m/DnmIy9NJX1ijkOlEnsHJ7KRmUxqcOr2ucagg2yFiEU7fNM+iID6Nkh24QsdUhxxI6D47BkF9DtJYVdBkOKb1+IjPn4pYPpcbNjxiHH5zG7Bcso=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JSXdTl/q; arc=pass smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC3A535E93C
+	for <linux-staging@lists.linux.dev>; Mon, 22 Jun 2026 06:41:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782110500; cv=none; b=devTDdFGiFljlKu6Li1es1VCjH1Z8OiRj0dDeKs3t7LThZBj+s1j5WyvBplhsd+KW3HoWjZ6sgp43JcvvZWtXRc2KSQR4jov76E+J5zCSnPfPXsU1keDeXSj+t94+d9M3i3U0lrye5W7yAxYoyZfEtsZdeDeHd7KcN05Suk9O5U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782110500; c=relaxed/simple;
+	bh=L3FK/g1QRfSVW/YnlQxWhu3/99/xxtCfEcoNJ8UIkDs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=u3pkqeVcflFnJV2cugwAm2NeABlylI1DrI3YyqdYO+crQSQajBxwApftVbPleaJLz8He/PwYwsilCzQe963lNg4petpgA1Uuzd+jJaVomYXA8FVZXOp9f4O48sPUFbipPhthcC12nTQ/e2S+XNjJ/YOwTyTAjO4nMHE/vF4L6ko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lAWP/BH9; arc=none smtp.client-ip=209.85.214.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JSXdTl/q"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-69764612e55so3847140a12.3
-        for <linux-staging@lists.linux.dev>; Sun, 21 Jun 2026 23:22:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782109342; cv=none;
-        d=google.com; s=arc-20240605;
-        b=K7WmT/fM6EdtGfpgHIJwR9P8Ob0XE2PNfooZZzBzPN/ISRQEefYykDtPh7HHV1mZKJ
-         ayGXa3cK0/hAOvWcZwpKsMcvZDKAJvdsOkfUiZqXe6LnBqOFMWrUhqwBzjaFrXE7IWth
-         x0WUYh2tl8RRJaSxnBHJG5Sa6AB5c4Or640j8xuCA8Z9RGnrmnU58PihDIgo572y37cJ
-         3cB7k+S5TVele9/tlsPapwu23AuG/PtmemcQt25wFDmYJA6MwgGKF7CJcxWY6jKtCiU/
-         m42R4xFbNXqRYuo40ca2qdkStzYEzGWwJOEx6UnUUtriO7qkhR1QxFG/lHK4wLrYuADI
-         cbaw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=zFtLe7bHlDNyqiN9o7mOWwbiL0VxRTwL1H2qBgvovpU=;
-        fh=2qCocYxbmxy8aS5wBSHMAPjcpGScTI2gjQEamp09Z7Y=;
-        b=W+PFgCz8dUvZnDJuH3CFr/9PFywoxkfH9cWAqJX6vCzTX4K1D/dcI5ovb0kj251a6c
-         kbpKdKEGxgkUl3kehCJpWyTrLZUG6D+28oW/LcGLgg95G1LW1mWeBpdKP8qMGg29je9o
-         21oO2Cltr2iKV5Hi5MglK4I3xfaDBCoIPzzpKtkPudqq2I/HYiuKO+VWtqNHD1uRHZmY
-         ev24IR/d4YPjSibNo5jKOa0ZRR7MG2VZkCtsJ0aumXhFRxp7VOtS7tfV3iWfk+tPlJP4
-         jGRZEyI9uYtANE3xE4jfx2IhW1K/puHiwx85nTXE1HnNzIeUKOWFugg/9p/zutoaFO8W
-         QHYQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lAWP/BH9"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2c6ab886da6so23623005ad.0
+        for <linux-staging@lists.linux.dev>; Sun, 21 Jun 2026 23:41:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782109342; x=1782714142; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zFtLe7bHlDNyqiN9o7mOWwbiL0VxRTwL1H2qBgvovpU=;
-        b=JSXdTl/quaWRsFUrJfK5xrY/PCKOJUucGUuvGpqvbWObR1H+kUn5YNgXBlHz222nUm
-         nLrFBt8gdrKIlJ//U2OfQdJSeu408R/vUxp91lvnpNSE6TvMUirbhYAKuXckbho4ddbt
-         jGHBb0CpSpldRci6q5j5ziMSvxV7qpkxNIK4G2nSl5IDWBcXBmfMZs4ESRN1oERsbMje
-         wbHlq10681ns0UqKlZ3f1CKsXZzvA64B8V+VQJW0dHnxW5F2KGz3j8UFJeNAvUHXE9sR
-         69F956IVhTVGPVpFIC8OhVBeKM2x8TIqmaLj1XvNJtqe2D+1Z//sMUWUrVcT9Quj3x+i
-         79Zg==
+        d=gmail.com; s=20251104; t=1782110498; x=1782715298; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=oeAUUiGbJ3n860yht7IUw7ZzshulQ0h1wfQX8R2AOWw=;
+        b=lAWP/BH91mRC+f25NienuB/IMioRo9nfz5Ui3S5PnuDMAaciaSf2tdr4lt+6YHDOJ4
+         2+EEPDYY8oesQQxMqiH4WJa1wbhY8P8PwxtIbiuNJZCbwW9apnkCTIpxRKdKN0oog8yJ
+         ncFiOEbhoWEEA0hhRErOVdJTonAA785xXBThTlDxnHASj9xCjlqZ3rNFj7KDfg+B5l/I
+         9xnlO57hHGSIFYLAafVu8XumXdoM79gObKlnJM+UwzeRur2O+u9A3UsWRxa+p+kipaaf
+         0LBcwE790lIl2Wm73dfMS/4mZh1SOxwGLvW3MIOsC2/34r5GKUF5K2JNdJ4hyOMnYBnc
+         lKPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782109342; x=1782714142;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=zFtLe7bHlDNyqiN9o7mOWwbiL0VxRTwL1H2qBgvovpU=;
-        b=dZawGjMqch6TyN8uskuMcZ2ljmGPQyTSiF5yMNjG68iU2FtXtVnPkx+9XDRf9lf0kX
-         fFcKVDnAJ9Hv/5ZtoyTwnZocGblzoGKCOi3XAqw+MsAyVF86WEqNhS7+cXUxSnAqa92t
-         Sz/ZASQCNcuEycLCk4yxVMS+a1t+PykdDOtGev2jAN79YR5C8mtiVl7O8xUmJcw3b0Lm
-         Mo/P45+7/waB8nRwmGm1AYBRi3BkDPFnAmw/7Mao71gZsIYXgkPJ2rNq7SzUEbyUezFG
-         Hyr3jZopMa8R/TqiUkrts1beg3OQSGxIV/YC8+UXC2HsfJkQgz101lMunZx76sc6OSHe
-         zyug==
-X-Forwarded-Encrypted: i=1; AFNElJ8UuDbzaryh5nvy3ftjQekmQp+BkXQ9Xhv94yK9ySVCXywTxJf17xq6Fjc3CYqc7lNHrKhQqaBjRmGLSbGv@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywq7WF0pP6I/tXa92QgoWi9t4aktxaf2l/L4DNbvbyY8f4rXCSl
-	Id5mB3ogHg8q2oKTie9Z7XCJFqxG1VMHCqt2fcVjN6yzZ0h6iYfjrIu0RJXMld9UflqIIbkA+mr
-	A/idcNFmO7kcYbVBT0cP0ccdM00JdZD4iPPrAGxU=
-X-Gm-Gg: AfdE7cmbRlXthCXE5+XN5I1gyYc4muB8ZBAVwniV4Kx9VAGYfC0GQtpZJD664AgWUpC
-	1Q9olBi+pQ8hbM5g8I8eIW5NHrrwjCfiW54ygc8Hx/oCINCvHCMTtwsf0vx+xOLM//eh3/O002y
-	0bQr7ulVjzeM0EwnTnb8DhRofsqhI7eFyYufqnINv00R7c7Kesm+Wu4O/Q4k4+0xpMrDjcX/UnH
-	7cGrShumilelXr6TZopTGMMN3CeXvROoWAyLuboEQ3ZUaPETrmqysxXJd+w+i46rOjsYShGKhkf
-	trt5PcoIWXvZ1ULix6awbi5bdqU8CDfqWU0p0g==
-X-Received: by 2002:a17:906:ef0a:b0:bfe:ed35:e85d with SMTP id
- a640c23a62f3a-c098f33f303mr589087666b.53.1782109342002; Sun, 21 Jun 2026
- 23:22:22 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1782110498; x=1782715298;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oeAUUiGbJ3n860yht7IUw7ZzshulQ0h1wfQX8R2AOWw=;
+        b=HjHfnfGRqqGr1K9e7TskPg2f2atfeyKkMy/eTBu9VrQYdWDkMZgbQJJqc6zrfA+/jY
+         Pq5/m5gV8wQ1+4yPSDw+5C8PIWudI0h4eYPxdsWQkos2mHu13CP9DOhfcLQZ9DNdjztC
+         w7clU3bIrPrlnXElKYj8JgkbilsQv7TFvnZPcfqYn4t18nLFj4J94SOFRPpZWcm+5Pvk
+         Lm/jD1Lvq1X02LHMw3aRqVa2oruWKpolWoGPm0or0ZmSWavb3Du9/igXM9Qn5OsH9Klb
+         AVIKeGpLMvdFARJ9kxdK1CeKI/nRTdKJckpTcAiOI/XhtJCb+pZRr8U8dXOKCcD02jyl
+         LguQ==
+X-Gm-Message-State: AOJu0YwehZ4v1yUhe48rksMdN2qBAj2PjE9Ma6cu0fDvG35bwn7Y5lLz
+	Kdrs7dK60oU7PhVQhpvEft3GcuxFo6p5fO5eS5DbwAzdcZA8/8wfeb81
+X-Gm-Gg: AfdE7cnldU7AN8fVNNVB8dmGgXwjxs2YGcqiApHtwvcO5Jjt1KRKtWZ6TPTeMZuvlhG
+	tS/T2AJrvM2/t167r/QXDP1hERViTppggZMbDr2Bh2S7NUWUTIeg+EWs9mHxuRFzIQJ1OWPGZpH
+	l9RBBch3DBnrAWycxhiDOcRhzCQAw4luy03sBhwR1rWNNzyBVeKeT0F7hfU+O5vhIXWeB9R6KJQ
+	0mXdJStbFOCQBgvN2dahrl4OapMPiWBKtI39EkXxcLZFZx14ngVi6OKejGsX6eW1lUTXKhULu0J
+	nkE5suZPhYoXhXmooCSGSMyzNZoQdp9pAbGO/3kJ/3+GLT4Mmzhc8DeKogu8VmU4DJEmuhq1zqj
+	mASH4eFxrF3LmHyKo5qqTdu18li8mkqUaw4R0zuedftbDAtIe1qCz9u+4z2ojT4a/5o8rWZHurO
+	VI/WtOdVJdgnJ3ReeCVcN3BCJKnSiQI4EZEUaoPLE2HT/BXLAY18FduV6jqWl3xCE=
+X-Received: by 2002:a17:902:eccf:b0:2c7:a981:93a4 with SMTP id d9443c01a7336-2c7a9819587mr14472055ad.11.1782110497971;
+        Sun, 21 Jun 2026 23:41:37 -0700 (PDT)
+Received: from moksh-Nitro-ANV15-51.. ([36.255.89.36])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c799749cb3sm21123865ad.72.2026.06.21.23.41.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 21 Jun 2026 23:41:37 -0700 (PDT)
+From: Moksh Panicker <mokshpanicker.7@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	Moksh Panicker <mokshpanicker.7@gmail.com>
+Subject: [PATCH 0/3] staging: rtl8723bs: Replace bare 'uint' with 'unsigned int' in os_dep
+Date: Mon, 22 Jun 2026 06:41:26 +0000
+Message-Id: <20260622064129.10261-1-mokshpanicker.7@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260621085209.52651-1-adi25charis@gmail.com> <20260621094312.53655-1-adi25charis@gmail.com>
- <548d66ce-d01e-4c6a-a77e-7d61378a1c74@kernel.org> <CAKt_FXsiXv7dai+F7cT=GNvETa5_42su9G1ev8+_fph0Bg5EbA@mail.gmail.com>
- <37006444-95a7-41f1-a5a3-58d116c10c14@kernel.org>
-In-Reply-To: <37006444-95a7-41f1-a5a3-58d116c10c14@kernel.org>
-From: Aditya Chari S <adi25charis@gmail.com>
-Date: Mon, 22 Jun 2026 11:52:10 +0530
-X-Gm-Features: AVVi8CdDWH2N71lg_P-oMu90jHTjmjLYatrFS5MA4jG1EpXkKA4hwiirjhgvaE0
-Message-ID: <CAKt_FXvjHshej+BG+CQQbdQ68+RE3pKns8Xq5dKCZKH0uioK3w@mail.gmail.com>
-Subject: Re: [PATCH v3] dt-bindings: misc: add binding for Xilinx AXI-Stream FIFO
-To: Krzysztof Kozlowski <krzk@kernel.org>, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, gregkh@linuxfoundation.org
-Cc: jacobsfeder@gmail.com, devicetree@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	michal.simek@amd.com, lucas.fariamo08@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Jun 22, 2026, Krzysztof Kozlowski wrote:
-> The main point is that driver is in staging, so we don't take bindings
-> for it.
+This series replaces bare uses of 'uint' with 'unsigned int' in the
+os_dep directory of the rtl8723bs staging driver. This covers the
+remaining files not addressed by previous patches, as part of cleaning
+up unusual variable types listed in the driver's TODO file.
 
-Understood, thanks for clarifying.
+Note: os_intfs.c lines using 'uint' as module_param type specifier
+are intentionally left unchanged as that is a kernel API requirement.
 
-Regards,
-Aditya
+Each patch addresses one file independently.
 
+Moksh Panicker (3):
+  staging: rtl8723bs: Replace bare 'uint' with 'unsigned int' in
+    ioctl_cfg80211.c
+  staging: rtl8723bs: Replace bare 'uint' with 'unsigned int' in
+    xmit_linux.c
+  staging: rtl8723bs: Replace bare 'uint' with 'unsigned int' in
+    os_intfs.c
 
-On Mon, Jun 22, 2026 at 10:48=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.o=
-rg> wrote:
->
-> On 22/06/2026 06:21, Aditya Chari S wrote:
-> > Sorry about the pace - jumped from automated lint feedback straight to
-> > a new version without waiting for an actual reviewer. Won't happen
-> > again.
-> >
-> > On the staging binding question - I found the driver-removal thread
-> > from June 2 and read through it. Michal Simek's reply makes clear this
-> > driver isn't going anywhere (their networking team has plans that
-> > depend on it), and that there's already an in-flight binding
-> > conversion from Lucas Faria Mendes that he's actively tracking. I
-> > wasn't aware of that series when I started this.
-> >
-> > Given that, I'll withdraw mine rather than duplicate work that's
-> > already further along and already has the relevant maintainer's eyes
-> > on it.
-> >
->
-> The main point is that driver is in staging, so we don't take bindings
-> for it.
->
-> Best regards,
-> Krzysztof
+ drivers/staging/rtl8723bs/include/ioctl_cfg80211.h |  4 ++--
+ drivers/staging/rtl8723bs/include/xmit_osdep.h     |  2 +-
+ drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c  | 12 ++++++------
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c        |  2 +-
+ drivers/staging/rtl8723bs/os_dep/xmit_linux.c      |  2 +-
+ 5 files changed, 11 insertions(+), 11 deletions(-)
+
+-- 
+2.34.1
+
