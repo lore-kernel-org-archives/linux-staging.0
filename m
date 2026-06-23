@@ -1,70 +1,59 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71D513546D8
-	for <linux-staging@lists.linux.dev>; Tue, 23 Jun 2026 09:21:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB6763655E9
+	for <linux-staging@lists.linux.dev>; Tue, 23 Jun 2026 09:26:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782206486; cv=none; b=bJA+OkcdjpAd4xen/T4Yp72ubn2l2zRrvcmhu+zH8gOTm98L6uvwWF4nG/hZrhhH4Mnzr7LT9ifoK0svPJIxiAqQsZh6nX8j0F/sLpGCJ8A/JkHPUdv7k/YsQtmm77jHfWn+76KY22ZL5KSKiGSkokfSWY3/ZvYCWlHFBhNQ28Q=
+	t=1782206772; cv=none; b=Jm+J57myBf74CDsmmpZlgWGmP1qEVIdiZE95Uy79fifgYHGdLILEzowHo+XaBfm0Rpx81FmiHOjfnBVlbLsp7Tg10EltGUGMde7pl/tQrKS3jstjNpOLT8mGyDZUalkpkxUVTUFnEgHxj5lzhThEnBroYLk2IWW50ciyA7+J3AU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782206486; c=relaxed/simple;
-	bh=osE3qagr5FcKZE2toUUtmmnk5ATpXhdGUezurwCAjo8=;
+	s=arc-20240116; t=1782206772; c=relaxed/simple;
+	bh=4cB5K1MyOwAljSIAB5h7y5ycwAo3C4xLQVfz3v4GAzM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k4Dk6iPfODUuF0Kmb+RW2vDtkMtmdKDQ0ac8pSPAeYFW74sNF/tDMDcmo4/xe4m+jRkIPy6u358gdZjM/BlOBGbEkQiblwXtjnjMsHSPuIQCb0F8ea/3JsD3Q8DDeROuSxkXfH44E2upfr5Emc1WPaTUTiNwGyUznktFka38Oro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HCavWTna; arc=none smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=X1P9/kBe+n3V05PzeLtfBrULHddCjvZeqeSL5jfrmfZ7kcBmCgB/NHq6Zyt4sd5AxBBLDWzXn4Fxl3aSFIwIdPKiTstX5kggbBzDMm02dUjixnKM6tVPnaqOFgxmdEn7ie+6JJB+71DPyAoxYa5uZ7iAzAMYt3lXGQUiUgB+3os=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a8uod8sM; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HCavWTna"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-693c51a8a19so8331111a12.3
-        for <linux-staging@lists.linux.dev>; Tue, 23 Jun 2026 02:21:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782206484; x=1782811284; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=bJF7qadIwvpKkc3LLQI82JwFytXwXZHhNGR40Z94OnI=;
-        b=HCavWTnauRZUeVi0plC9WNvjSCsNXgYPzQAkRCr25D8wz6SVDRbG/Qn5pdEWklmpzL
-         1NHDzgv4eyYCHpxQC6T5kk8Idxra+Qiv5Kkxq/bqNNFLywmAWSYSmEND5JTDzarMMnKi
-         E5qJmSY+trkSFSUI6/TpdXCDk53rAdl7dDFwFyHinaaqvxy/rmCX6y7LbOMTZlg5e7WF
-         H0LD/l5sjxRv2k9qeI8M8qZvH7dcBvaDYkfFFA45A7j/KQ1B4BYtWjhwdSUyW4uqRTYV
-         0VuSo/v2oo9DGLTAXqkFTbIVJ1oVze40MO6msw8b3Ku87c2ZjTxi/ZQxk/dT77luD5N7
-         tXxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782206484; x=1782811284;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bJF7qadIwvpKkc3LLQI82JwFytXwXZHhNGR40Z94OnI=;
-        b=lRUJ/h9FflBxIox0MfcVKjuB27YS10cz0l6kKa4u8VSn87w5fDVp1msJayvFvfpTGr
-         ZyOI0Pb8vIiZODbGkO23ocliDi6O70BmSx198RqAOUZtl7DosLYYAxqIo1SN7usdU6IN
-         EfBRhUtG/wIvNYQMbAG0xVrl0mF6ivPaU89z6YffchiLtILn8EZFJtYvy7P3fPC/DlvA
-         CXvnyDEXsT4samHlCBDDegvb/ArZAvuytEzU0BAYfiZ2gKTab99CrGTGLsA/bhOElh47
-         X736ekXjNJdkNoUSxeZjTZOu7vTpmCOc+HZDO9iO88wKes5rXuORFqpaXGlqBy9wInj7
-         sOzA==
-X-Forwarded-Encrypted: i=1; AFNElJ+YHPvw3wTj/dlDxzdPGiNVW+2mGb0s+67DFM17IQOi1SbPPTXa5MN1EsPj8m/G+VlaffMIRl7OAQEZeg6u@lists.linux.dev
-X-Gm-Message-State: AOJu0YxMMx0XjEQFavNjD895W99jLfypMx7ZzzTtX85NnV6pYwQy+XVd
-	BdY4J/9cZMblopqY85EfU2OpSo9/Rnj/2dHVO3WfmF8i5yjmgwIkESD9
-X-Gm-Gg: AfdE7clVrKsiWlJa8uwbAuUkxWKBo4RjNsG2U8S/FPGlXoOxzJylbK7L50bpbYXbZxE
-	G3uSUc7Bp3OSxEq34AXpGP+k9WES1Cu1AouBIH0aXksmaGjuXc+zee5v1rL0g4oMvLx8gNjncMB
-	rqR/UNdtKl09+9ROK6oSQ9vy5KACzZcHvzPGWEd9JlavD/bEU6PS8taWo7uWZZ6Ek0tOvExIApp
-	mmfJ4QYEPSO1cYmf9NKjj2rPzAuH7YYeN2DW67E9CUrlu9KMUhCxtT8aDFCjYDydhIzIb0mDqiG
-	qE4NMyCKHRlqOD0vc6uLv/69OvfL1sQYc6Fih9IjWFEnCLuwLDA/GqcDa5oJtgxAbcrW3T9AvwY
-	n0myFVbhRk0cRtuaoHxqggb/Btfpd1Ch5DziooZv8PUmhXFtdLxiRuw1Xv8Habkjgi/ihffQVyW
-	2zbrNoo1gjcq8o0zmrUQg=
-X-Received: by 2002:a17:907:9348:b0:beb:f79a:bc20 with SMTP id a640c23a62f3a-c107c729fcemr105988866b.11.1782206483724;
-        Tue, 23 Jun 2026 02:21:23 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c0c5e4a14d4sm482784366b.7.2026.06.23.02.21.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jun 2026 02:21:22 -0700 (PDT)
-Date: Tue, 23 Jun 2026 12:21:19 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Bruce Ou <oubruce1234@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: fix CamelCase warnings in rtw_efuse.c
-Message-ID: <ajpQD7LyfKNopii6@stanley.mountain>
-References: <20260623075507.6157-1-oubruce1234@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a8uod8sM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782206770; x=1813742770;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4cB5K1MyOwAljSIAB5h7y5ycwAo3C4xLQVfz3v4GAzM=;
+  b=a8uod8sMauYbWfesq+1ySRcR04CV29R3Jy9LwTFWY43XQJFkljT4Lk3G
+   FFryj9f+3EwhOci+F1Ub4K6zWNLUkToQeu1NRC3F5wVWCG6mrvLE7T26P
+   tT6ci/3Tr0W7ReAGl3E3J9epiGjHc71cXjQZ/3PlejWGCpWjDuDJo7Ys+
+   Xu8hxsovbzbSYMLX8LMRylzigLvq8mZda44Uu+q58xQc66ox6/YbgQ9N1
+   bmf6umEBf0qoyAwuL7pv+M5IYMrqIegu375g/jgAY1Pz5OJAnGNSOA19/
+   8ohlLi/YiiiJXjTrpNQQvYTUD/WvNjGNG+SEG/9chvxH0YUHw9FfLobah
+   w==;
+X-CSE-ConnectionGUID: +YwJzEDUTLKbLTGQMkh6dA==
+X-CSE-MsgGUID: Vi53qc87R7uL4s4C1dwuvQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11825"; a="82714272"
+X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
+   d="scan'208";a="82714272"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 02:26:09 -0700
+X-CSE-ConnectionGUID: zEZVrUorT9qnndCarBVKHQ==
+X-CSE-MsgGUID: tmp9o37zSa+KBzMYh1pQVw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
+   d="scan'208";a="249593710"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.7])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 02:26:07 -0700
+Date: Tue, 23 Jun 2026 12:26:04 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Mani Bharadwaj <manibharadwajcr@gmail.com>
+Cc: hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com,
+	andy@kernel.org, gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH v3] staging: media: atomisp: anr: move trailing statement
+ to its own line
+Message-ID: <ajpRLLxE3iBt5ZGL@ashevche-desk.local>
+References: <20260622184100.33490-1-manibharadwajcr@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -73,18 +62,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260623075507.6157-1-oubruce1234@gmail.com>
+In-Reply-To: <20260622184100.33490-1-manibharadwajcr@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Tue, Jun 23, 2026 at 03:55:07PM +0800, Bruce Ou wrote:
-> Signed-off-by: Bruce Ou <oubruce1234@gmail.com>
-> ---
+On Tue, Jun 23, 2026 at 12:11:00AM +0530, Mani Bharadwaj wrote:
+> Move the return statement in ia_css_anr_dump() to its own line
+> to fix the following checkpatch error:
+> 
+>   ERROR: trailing statements should be on next line
+> 
+> No functional change.
+> 
+> Changes in v3:
+> - Fix subject prefix: add missing 'media:' subsystem tag
+>   per Media CI bot feedback.
 
-No commit message.  You're working against an old tree as well.  You
-need to work against linux-next or devel-next.
+No. Take your time and read the linux-media mailing list archive for last a few
+months in regard to this driver. Only _after_ think about contribution (what to
+contribute and how).
 
-Please, don't send a patch at a time, one by one throughout the day.
-Send them as a patchset.
+...
 
-regards,
-dan carpenter
+Also read the process documentation. Do your homework before, please.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
