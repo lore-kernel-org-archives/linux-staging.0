@@ -1,126 +1,95 @@
-Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com [209.85.208.194])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A6643D3CE3
-	for <linux-staging@lists.linux.dev>; Tue, 23 Jun 2026 11:26:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.194
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782213970; cv=pass; b=Qmhvd4yh/amDeTrILQZtZEc23bivZT3bivhprS08Q+HWkySd2Z2jvcIbLicFkgCY5h053V21jXQ39DIDjyajqcMQogphXSkwzRmVYliXmsrBc7cnXTSaplEniNj1rkKYkrzRiwSjVVJu8B6KOD/SO2j8dd7CwUHUj86GTdn5PFE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782213970; c=relaxed/simple;
-	bh=wo8PJL3FIJMicX117V+MfQNstnozHaTXf1TFnwbrBsA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=m34K7O+ZaEhKZlqxt3BOY6Myid+gftrW5UgRtNf4Vf9tge8AWM6UU65JtBGmmL6X4LI1W+WbavZOYicXIlnOtk0D4QzybRjIRHw5GYFFaxsZsnxm/BNthfHcusa20t9+PJllOvHoNoJBr9DluByVcgNNHBPqOTKGCt8B3l//ers=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S88TlqeG; arc=pass smtp.client-ip=209.85.208.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B2C13A7F45
+	for <linux-staging@lists.linux.dev>; Tue, 23 Jun 2026 11:28:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782214128; cv=none; b=T/1x4QUpd81/MQSUs/lBWA2hcxet/jhaxfd3m41RxTrjX9A+I+YeJeUhBb5C6yR5P0IHeKBd9AVwWzDacJQsLphqKW24CHAhH1TayhvqRZJbROEkqXN86dPfel+8SBtQLOQRmhmkVBGZjIvYbUUOMKWMAEpUOt4F4LQYO/6NIK0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782214128; c=relaxed/simple;
+	bh=QF5kDQltvHnelyFQ2XXSpwWvYjyUK+bwS8EzLEwr7kY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gySmqL8NL8F7+actyK3LrRYZg/A6GTRGSMG8L6w2U5yVxfTubISXNRIbo9RC+9bN2I0L4TfGEp2CRRN1GnzIg+2RLtEEHqsKTjwx7lB+2YyvYuyGoxGPNhc1pJghWZ+o7IOUGEZwPSNXoFD4jvG9+HRk8rvldc8k0zE8sS5QdiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=s7LGXmnj; arc=none smtp.client-ip=209.85.208.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S88TlqeG"
-Received: by mail-lj1-f194.google.com with SMTP id 38308e7fff4ca-3998c6e6921so38939671fa.3
-        for <linux-staging@lists.linux.dev>; Tue, 23 Jun 2026 04:26:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782213967; cv=none;
-        d=google.com; s=arc-20240605;
-        b=QcjVhZ0S2BUMYa7YR7Otz3ldja4zyHavdC8Lho7+a9Hz6t/U7vGzHCmlzzULEnuJwj
-         PAugG45ecx2FCIxPzmdHMTpq9xXWmfbua3dP3SNiBdCikQXspZXuiLAFUUPNIXgkVsQi
-         D5j3JtzDNpB/Qyu3dJqDZrwoshroZUykro+g7SPZWINDPsrDXY1STS7VvyBrLtzSAwv6
-         VaplgagTE/9UFLZFZVoMWqxizBzaRLV73Gr2k8ypPWzZnxYJ0IuoXr1ycmDbK/9gnqZp
-         Bj7M5ItjemhZmfNvgwo+CfsPz7qrhBBmzvdhOjDPsbIE703xoVM//UNRleNitsoHEomi
-         i7nQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=4K52NjK8e+irKnNfEBWlTK753sYCWr3+tYjc++YExig=;
-        fh=HOytGBl8IqZ0zGBwFQZZ1LqMYBMAVcEw2SCrf1735ls=;
-        b=EIP3LPihNSpNuBXyQsf9o2xeiLytJf3GUAV3gNm0bfAfs4vJvNu8SHiIpIPT2FMRzP
-         eXn6aCB8uPHGXFymt5wTcw1pxaNG1xAKdRdAyWvlbzOThFk6xn1dsEnZTewNkex5oRAC
-         xmhyL07wxJvoFyJgnNBKj55P+Du6yniKcNSyk+lYArte9fClg6tdOoaaeFy+heXVA1mp
-         YqXnWN6AMSedIcMIBw/5ojnQtunvOjqTZfYuHTxflfNxe0bGKQiKudD5XIz6W0tZG1FG
-         T/23Hw42YkPwCUJdL3OwuFSVBaOtMTBv7IM8KCUgM02C5UZCbJABEFVUPAtN9E/tK0+N
-         j13g==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="s7LGXmnj"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-695f539fc8cso1439598a12.0
+        for <linux-staging@lists.linux.dev>; Tue, 23 Jun 2026 04:28:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782213967; x=1782818767; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4K52NjK8e+irKnNfEBWlTK753sYCWr3+tYjc++YExig=;
-        b=S88TlqeGS+TQUJ2eqf60EtIgM4aIkZOKoX6NObTTSjOERvmHn8gpqyLpDK8VqYY8HI
-         Sih7nnEdKDSNrwPLc3aBXwGz/nIv+3OuPfxKJMPUZEcpVwxSKmoiJ2oVGj+4W+/pU/EI
-         t6ean1Gg/5Ur43tN7qtrpeHfty/9ifHkJdflapQLbzXmo+/UukRBQ3Jioudhu1EwxdJY
-         ZRooK6ZTlO32ov6ydxtGJzNyh6qhh8BHitkUyPUXA0o36zz7ymDYt9L9wl9JEjWcSgAo
-         6mHKlDv68b3KO2VE0dMPGMY53M3iXJ0b3Qzs4LhF5rkR6Br3/OL+Opxxg7akrTiMpKIf
-         ZDUw==
+        d=gmail.com; s=20251104; t=1782214125; x=1782818925; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=OmVTQzEC4BC7sY4y7IjkRDzK1xYASE5o0hI3FVU0Vo8=;
+        b=s7LGXmnjErreK7ggeZ7HKJM0nkkdU6kA7sFuW4JtCezOyNyJoK9C7lBY8muHjuqrB/
+         Sl+BtzWrggChgFAdEA7wI80Fs6tMYlPIx+gb0j3+WeyZkNns68iMNJawFiaAHZWRAIeE
+         1vDQMufUC/XAxs7xYfhOup0ykwYvCTX3xg/u+N/K/LGLxWgkXpXRcdaOwOTJ83lXVjSd
+         i08BZuow3OX2fsU0CeEQpnTXbDFZ+wR39xha1j2LEhST8wTOFR3vXy0XY/6E/QpXxJx/
+         OlRXTR1+WRUpsw6oQfgEcnv0tY3gx3CcMJJ0skmpEVps/hVDNudLTXLgGDQJNJj7h1X2
+         kocQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782213967; x=1782818767;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=4K52NjK8e+irKnNfEBWlTK753sYCWr3+tYjc++YExig=;
-        b=ah/vt4FlUfzniFy2M+wPDn4O9kDmBLyNYEqSGkOlyGiRrDG8IGMIPT81EXs5dKX4JX
-         V3ZXoxgAzrH6vIIG5nVXkMHzye5r/nJ202+82tiw/JmhgK0jlnDM4tjkUVV075xwMjgM
-         LR2rb19OhlsTwN9t07AZxjBZL+bCF9SPBVl5WylHM1vbRhn5uY7U3jMrOYTWYaWCMVFy
-         Io79U7pXHd8zWYGAB3mMIteOLcS76LPAZY/jIt/aKZj+N4r9zl8/a/LPVCruCMITEmHY
-         DoBSgnvm+bSuSEL/remcnk2Ze4XGL1tHv+nLNB9muKZjd3HO6OKf6x2+S6l+LAI5ntx0
-         LpBg==
-X-Forwarded-Encrypted: i=1; AFNElJ8RxUpuXaHHGUfzvom+sYthGuaIqexsizzgoolsAGtZoh22PH6xqyZ4KVfRrrBTz3APHpHL2OnU2XzQpRNG@lists.linux.dev
-X-Gm-Message-State: AOJu0YwF7mh5LbuqMKtyBCOHLIh5cG9s0HaJFSfCCC6P/H+2c4UU97UC
-	+FdN7ly9niX8UyRt/VH8jSatkWFJDtrPV4zXJuji7HmeRdE2bhdXKkorU4Zv91kU5MfHizfb3Rt
-	Tr/h4OQy+Ax/YtPdHzWgWU/02WkuK5aA=
-X-Gm-Gg: AfdE7cmfd3xivZIIhjFzpNkDDCUZDm0hu1mJn+FPC1NtB/mGcybKFaQ+jEetYrjGAqn
-	2PN+ZSnGysnOOEga1GUFVFBEkVpCuQd8C6eCURPDdbQu21L+S5+fdQ5lkITgYj5HrkOFNv1X/PM
-	olDbz0Oe50A2n4q/8X4q08OkPYGv4qnotJRVHCeo6n8HMqn4UnicHr4SoRFraf1cm1WfUkNAGge
-	hwwPfBmuLVUpgKixcKrflpjbwAIIPlMPlWXZNLpuJbrPMoTt+0xSQ4TW1FF/OZ7fHaaHoQ4EcmI
-	z4w64mjnOPcthdFrt8qxYXyhpOLcRROLHz/MGZDL
-X-Received: by 2002:a2e:a586:0:b0:396:9043:bb97 with SMTP id
- 38308e7fff4ca-3998bc6d102mr49650771fa.8.1782213966997; Tue, 23 Jun 2026
- 04:26:06 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1782214125; x=1782818925;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OmVTQzEC4BC7sY4y7IjkRDzK1xYASE5o0hI3FVU0Vo8=;
+        b=FnH+/Rb5HEWvNo8JssQzTmE3P60a863BL+HO1zaiynhEjNNZfIxWDlt2lsC7Tvfk6r
+         2tcBiIr0Sz5Xsd6Je3FdxNSdmDFztZgi44TT2hh8dgirkaweSCri6u69mImHSxpZwbnn
+         Zwwt4Fnj1JGZEJxMydVnyTUIlX/i9wIsx5XrRvapVXOt257oM8wzpkSbeY+MfFpd8pnu
+         sB1adVQE4CQ5FoakbhGXuzO8i/ABkuC6KC8+Cp3Ff+AdDikA/bnusNHCypqrWM/+Cxyp
+         CloIcSiBZjzwAn33O5DXyhu2PLuxoiCsMqwn2WCLiJ4oR9Nm2KpQROJtbvT0Xag0jIPc
+         vuzw==
+X-Forwarded-Encrypted: i=1; AFNElJ/nskuz4qT2waJr9KJcwzZiEcRPapM8NlWzvY6EcETmhOJN5RM4tX9RvInK2tHrmBwmSDF/fp7WzCIWkNt4@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy1qDh7Z5Yy6IUSm9xMpgVpL3lkjoYN03DSIzR08OTw2fjRtXo6
+	Vv5vYflDcpxtlVcmS+jpqro6IjJzf7V+ZGDMsv1Vgrko9IMCzYpRgHUm
+X-Gm-Gg: AfdE7ckX9yA4RmTsRnZ1pJ5jW4RVHlrkNi11aPDUum9rYY4YbuMm3HF3JeWWPeQOWjI
+	ieHzhaJi8Bvx3AlWMP7hBk4CmiPWeYW8QsaANGDdm227IkT+8b2LQDDYgpHfH4DZBp7oaKBGKKZ
+	6oGFBqIiYY3Ic4G0cJqNHlURjQuTGeC4WsN7773m5gOawGNkTzWhL3GpNMmULin36qs5s8BBJLD
+	i3Sz635Y7QoBluPYfBT0aT241GFI8AwSj5VHr7H57UbTHXPcI7lyoua1PfBVJaCWQqipeVLdb/f
+	Vvk9DSvYDFvHgDdjUI/QSKjKVrN2GPRxx0NTV7MpyqW/mRxdu32sxnlvdUTzSV81u89gLIAp8J9
+	YtgVBcGM/0AxUIBLUExD5FKZTrcY3/EwnGnisJNqIKOwrDFnX4HEnaeXdEs6mlnoyNo8728k4/Y
+	QEMuwbpmtz
+X-Received: by 2002:a17:907:bd81:b0:c08:33ca:4cc with SMTP id a640c23a62f3a-c103158cfcfmr161786166b.30.1782214125196;
+        Tue, 23 Jun 2026 04:28:45 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c0c5e49b77bsm494300266b.2.2026.06.23.04.28.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Jun 2026 04:28:44 -0700 (PDT)
+Date: Tue, 23 Jun 2026 14:28:36 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: bruce ou <oubruce1234@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: fix CamelCase warnings in rtw_efuse.c
+Message-ID: <ajpt5G71ap5Vzk5T@stanley.mountain>
+References: <20260623075507.6157-1-oubruce1234@gmail.com>
+ <ajpQD7LyfKNopii6@stanley.mountain>
+ <CA+h2PQjd8D7yiF8N8R-FwtTFfT7gJH-z9jMOA84esykGP4J+bw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260623075507.6157-1-oubruce1234@gmail.com> <ajpQD7LyfKNopii6@stanley.mountain>
-In-Reply-To: <ajpQD7LyfKNopii6@stanley.mountain>
-From: bruce ou <oubruce1234@gmail.com>
-Date: Tue, 23 Jun 2026 19:25:55 +0800
-X-Gm-Features: AVVi8CcbOg3qwJ5ij9iddh7QJainIPNfJW99spkDHX6HtNr845T1lD5uigygMLU
-Message-ID: <CA+h2PQjd8D7yiF8N8R-FwtTFfT7gJH-z9jMOA84esykGP4J+bw@mail.gmail.com>
-Subject: Re: [PATCH] staging: rtl8723bs: fix CamelCase warnings in rtw_efuse.c
-To: Dan Carpenter <error27@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+h2PQjd8D7yiF8N8R-FwtTFfT7gJH-z9jMOA84esykGP4J+bw@mail.gmail.com>
 
-Hi Dan,
+On Tue, Jun 23, 2026 at 07:25:55PM +0800, bruce ou wrote:
+> Hi Dan,
+> 
+> Thank you for your review and guidance!
+> 
+> I have switched my local tree to the latest staging/staging-next branch
+> and squashed all the CamelCase local variable cleanups in rtw_efuse.c
+> into a single, comprehensive patch with a proper commit message.
+> 
+> I will send the new patch shortly.
 
-Thank you for your review and guidance!
+Not as one patch, but as a collection of patches in a patchset.
 
-I have switched my local tree to the latest staging/staging-next branch
-and squashed all the CamelCase local variable cleanups in rtw_efuse.c
-into a single, comprehensive patch with a proper commit message.
+regards,
+dan carpenter
 
-I will send the new patch shortly.
-
-Regards,
-Bruce Ou
-
-
-Dan Carpenter <error27@gmail.com> =E4=BA=8E2026=E5=B9=B46=E6=9C=8823=E6=97=
-=A5=E5=91=A8=E4=BA=8C 17:21=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Tue, Jun 23, 2026 at 03:55:07PM +0800, Bruce Ou wrote:
-> > Signed-off-by: Bruce Ou <oubruce1234@gmail.com>
-> > ---
->
-> No commit message.  You're working against an old tree as well.  You
-> need to work against linux-next or devel-next.
->
-> Please, don't send a patch at a time, one by one throughout the day.
-> Send them as a patchset.
->
-> regards,
-> dan carpenter
->
