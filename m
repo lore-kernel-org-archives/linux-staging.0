@@ -1,136 +1,119 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AA6330BF4E
-	for <linux-staging@lists.linux.dev>; Tue, 23 Jun 2026 19:52:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30A5139E9CF
+	for <linux-staging@lists.linux.dev>; Tue, 23 Jun 2026 20:28:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782244366; cv=none; b=sTJq2cK7wKxdK2nPm/z4bCQU8GUd3c8IOqE6MLORwkPkliW0QbS0e62BFT/5ur0mBTVDYQ+j15w/AR33kFgzJFh/xUnMAPl8Ev+/Jk7l6/8x49w2FrRCCdvGKljyN5yiDZgPXfzhpgpt8HsfnhbFs59dbzP92mXfB2UXvniQ9Os=
+	t=1782246529; cv=none; b=r2H+u61s22i+snuxtgHJ45wrACZe1gVny2FF8+kozCbeqkCmUsK3Z8KMLDXs3AVtIUXjKPBWwCXFNI6AHDLdbYPyU/onI6v+LjP0/J51yrRpotdvAsY2xGWbFSsRG/ofb6J4XhMdT67ceJnq0sXn5kVcEdSUbyKfizWvHm7CH/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782244366; c=relaxed/simple;
-	bh=tmjhUBB1u98dLDU3QdbVkFNmoR5xov/zk3dBLRdPpd8=;
-	h=Message-ID:From:Date:Subject:To:Cc:In-Reply-To:References; b=szNjsbQwlOwNhh+1NDrI6TXls14iexXtQ+VT4lAfcFs32ccabTmDRM6YSy8uJDfeIx2KxzGAtq7pft8ES8FBwNFrt58LpDY+FN1rC4mVdONNaQlNNkZaSuPK5/wqHb/ittt+a5h0RR+zMuOpegSsFqMwzTMewKYPb5ZVKXxJQvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JVg0o50+; arc=none smtp.client-ip=209.85.128.45
+	s=arc-20240116; t=1782246529; c=relaxed/simple;
+	bh=t8xcItmxlUvZa4FfZZJt06O8z78xeEb1VcfkqELMyB0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=sg9rBJBfcloF/uSaTHeyAXsNmFc7jCkPDWcEk+3amp6klMWgLzAWgM3AbjIL9V9IcNeqtg4aXzGnp3qglUJBBRpioRCoV8dFSxOhTZ5+/N+o1+26tyt1wgFSbJ9LiEnVGcVyoQbQqHw6cQEGFRrhrF++otbP0VmWFfvphCiQOBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ovzd7xfi; arc=none smtp.client-ip=209.85.128.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JVg0o50+"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4921eed3fa2so2149145e9.0
-        for <linux-staging@lists.linux.dev>; Tue, 23 Jun 2026 12:52:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ovzd7xfi"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4908b92904fso3431135e9.0
+        for <linux-staging@lists.linux.dev>; Tue, 23 Jun 2026 13:28:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782244362; x=1782849162; darn=lists.linux.dev;
-        h=references:in-reply-to:cc:to:subject:date:from:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=RwG/sU5n5vL9aQ5QUZES8N6P98eJf2PlCWhWLXHFgog=;
-        b=JVg0o50+ftlNUaYyDtew3RH9lUYIDbEQa5oZ9W5dwrcaMNzeGQ8kCtv4aUxPc0jSxm
-         gDJrk146Drd6wkvEt7vETYmUv6Dxvp/zvOJyC81XeysZlQnr9pN/eW1SZ6Qh186JFioJ
-         0ObGCFywc7cvL9D1gYuqrR2GAgQ16nFRAEhIoIwCgwsr6XMXNNbKXt9p3dETuUIarDvS
-         5Hf8WIDrwpqF6pF6DaQ7ZchOEk+g0xbVQIN4qlrFv5PAW4K67oBcVOM0ED3b8nwQH5U5
-         UgrNZgu4eGyZoypI2x8lmb4Jb1Ehysv0Llf9sjT39W05/s0waGw0ShhbM+6UhaBaSvtZ
-         /xKw==
+        d=gmail.com; s=20251104; t=1782246527; x=1782851327; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HUvOpAp1AnoH/UC2gSkhKh0euuT0oHxArLADJwiZt64=;
+        b=ovzd7xfi1dyKqWEZ9j2BjSynoHVEfeEiRKqdK6Q9+0+6dzkQm2nuXYqPiYcCoQCn4p
+         8VNxchedMpPe4AWGkhvcARWMYGlhIsar1h2Lj2TSJw6mjYHl2JYzdSVl0Hj+NS53wtUk
+         dkENT0NrNf06HBpJLKYp+eTeu0l3RfCOJWaKh+YqVM2Hr/R4Ca5hbQH+rBJTos78AS68
+         6PktDvPRASyAMmlt0ruJ64OY8CuLVmOrKxJYiLjhO73m6fcM/CtlYfAtww9BV9kZOAGS
+         BsT5PinYv0FlJ11fnaxmlSmLVm+3EDgeQx7fFS+WcwU4PC8AsYSwiR4AnCVp5ZchgEWe
+         FgAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782244362; x=1782849162;
-        h=references:in-reply-to:cc:to:subject:date:from:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RwG/sU5n5vL9aQ5QUZES8N6P98eJf2PlCWhWLXHFgog=;
-        b=B9X8iyVuXOFHHD1dvjr/fpQgmU8EjIl6kWjx6U4/o9y3j+uZVvFUQRJ0GfY3nJcymM
-         sLEMWuwE44Y0x1EBhx4jk9scWDecNLkJdcOptr92IcpqC1jUWzawcKRdRgDXf1h4szb5
-         9id8E02S5w+0fhlhsgfdS7jgfvfGQt0Gvtexf3M1NCJZcD1inLtARVRW7DCUss0EyKnz
-         XSBihkVGcxmkB5cNqh5KBfgfX8K35BU0zFxaduC0bMoWDaUpkMxPlW7RPQfBYod9gO3o
-         c89vgagPpNCCpU5DPEkIdhHHQQr/dhPzDb/iySmELwGtBeU7SgP3GyY3E+f4RjS+fMPq
-         OzTQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9/oF6zCyOKk9EZotpyJ+Js6NRErIEaMroXy8eXVQhDsfHD8ckun8qQu5uBVxZPNypBqtOUmx3fOCBWQojE@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz3PoH5pKlnylPKwhmX1Jv4MY5Cp5pNktQQKikylmFSdKGOagwq
-	Sy8jFWwG6E8B9aNB690ELUfMwYaVgJVob1stdLnbZo3f27bfeqAR3AGE
-X-Gm-Gg: AfdE7cmQMpd2Fu3RQtKUqJwSzG0K3gtx1OOnaN8ZDXkBC9lEn2NY1MIaLrsuNzFG77J
-	qquQMxSbSp+++SqRJVVnL6MD6YuB2WroJld1C33Y2bwqqJO8WwTLVG212HJA7ygojdXCipFTpKe
-	rlgF1DGiVfX4YuFgK0w52YMfA2MK/96m3yexL33T0/Rmv+XmWULHNvCDb0AT5N+1I59bw4hdccq
-	au2lnNDvFef2CznaZp2CO+ul6KnyQrEDiz1tA4RtGpT9P5jqtzNp3iDnYozQmhFpGUoFI53F+/t
-	tc+py5pJ8jIwzVQeNsQDaez1phdjTjXpXXahISuLwWe2MU+EIIc8BE7o81noO0WG3WSZwZSSfdq
-	n1aA/fiCOzwajxvf98gEGHxFTo11/FZOKr7scre6dJv6dAwUDFtknLxznUM+Y5PRMDs9VVGSPAg
-	cRjci9oYnldYJ2kSctFlQxQmt63VmOnEM+LV0OUrFMRJa73FgiN4Vyv0c=
-X-Received: by 2002:a05:600c:698d:b0:490:e190:3b50 with SMTP id 5b1f17b1804b1-4925b359a37mr59883015e9.9.1782244362383;
-        Tue, 23 Jun 2026 12:52:42 -0700 (PDT)
-Received: from legion.localdomain ([92.44.171.31])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4926064ea35sm6182885e9.1.2026.06.23.12.52.41
+        d=1e100.net; s=20251104; t=1782246527; x=1782851327;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=HUvOpAp1AnoH/UC2gSkhKh0euuT0oHxArLADJwiZt64=;
+        b=rP1qcw2g8688wy+VTr2EmCjijaJPgFc3wQa80+yXJKW4tzOkY64G6C+iwdVZgJJALK
+         cn/EcWsABWHn/thNjdJtiXNDOwsivLZ4HV9MSyZxGsZFvqQDhBzVOriR/+UOa8U2S5wH
+         VX/lPDtBl3Tiu7eGJr5zI3e71jC5NwEkJrYTTllNoxWuFOo/cTRmWYN7H85HN/wEHyG3
+         PfQ9Nn92Q1qqSbIaJQVkpzmgEKjFFmGmp6PK2IXtID2nexjf45IEC5jBVZomM9DLMHOG
+         9XfRrcv1U+H2q8SyhV7DGdcJSYKvoZaiv9J9LRgwTmxXpPdtbDr1jMI89jQP6/ygcrB5
+         Yczw==
+X-Forwarded-Encrypted: i=1; AFNElJ/dX7n26GZ+9LTNr2EYSulXW5gGQ0SYlTmiqViUoFNgVYCEHLxnsliGoiqKYEUp3ITbNyrhro9F8UcnoSWZ@lists.linux.dev
+X-Gm-Message-State: AOJu0YxJ9rFUvxROwVJjTljOr9SbSBu1L2pwbwlqDIoUlATB2wk2jW2O
+	giTyXAd0qXQNo8e7Itzxrqjfk51P6EFiWoFaIxKc1NDrmTHciAZ41JmP
+X-Gm-Gg: AfdE7clrpKJtPaqnvCHjjxPQeBKFkbBUytlP6kYN0yNVLVTatFz7RfpDk/cUN5e7diR
+	f85FGOVS/D5cEH5zvZ+g0i82d4q0jX0pnJv/O7gumTwDWhOTOGI/no4blRL6lfs/q1knT4LBe1L
+	m0PY/GzBPvy+TUHugqTjb2aXERxjhhG2dswoUAHIG09PYTSGs8mr3e1WVhRMs47tG+OMhQR9COZ
+	7/Ywf8UT+daOYuDQKpWpr1A+DCFI/VqbXhDtT7C18ntYch6tSNxmGifYz1cthNs/1NrzI0YBwjp
+	yjxL+9HXVnvO6AzJjtq9qsMFsKK9L+ttYr1MSzALCJAp2Y+PPC4E3q7yCCvDxgd+Xo2FmlZ7Xtn
+	bp+T5xBtKsbOVdaG+XH6sQdQd3bR+vnzSyv6GF8cvGCpbk4ps2HuNb5iapEc+M94+ZNPlpw11IU
+	BBNCCvK4hZaVHzPmbRIGks0e3ngSNJGsOH8+SzzQ==
+X-Received: by 2002:a05:600c:6308:b0:490:b8c0:d470 with SMTP id 5b1f17b1804b1-4925b37eb4emr62966205e9.19.1782246526525;
+        Tue, 23 Jun 2026 13:28:46 -0700 (PDT)
+Received: from anthony.local ([2a06:c701:49b2:4c00:12ff:e0ff:fea5:3d2e])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49249207dabsm570397635e9.0.2026.06.23.13.28.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jun 2026 12:52:42 -0700 (PDT)
-Message-ID: <6a3ae40a.3dabba3e.2527ef.7783@mx.google.com>
-From: Batu Ada Tutkun <batuadatutkun@gmail.com>
-Date: Tue, 23 Jun 2026 15:35:08 +0300
-Subject: [PATCH v2] staging: most: dim2: use dev_err_probe() for clock errors
- in rcar enable functions
-To: parthiban.veerasooran@microchip.com, christian.gromm@microchip.com
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, error27@gmail.com
-In-Reply-To: <20260623124243.1245-1-batuadatutkun@gmail.com>
-References: <20260623124243.1245-1-batuadatutkun@gmail.com>
+        Tue, 23 Jun 2026 13:28:45 -0700 (PDT)
+From: Amit Barzilai <amit.barzilai22@gmail.com>
+To: javierm@redhat.com,
+	andriy.shevchenko@intel.com,
+	mripard@kernel.org
+Cc: airlied@gmail.com,
+	andy@kernel.org,
+	azuddinadam@gmail.com,
+	chintanlike@gmail.com,
+	conor+dt@kernel.org,
+	deller@gmx.de,
+	devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	gregkh@linuxfoundation.org,
+	krzk+dt@kernel.org,
+	linux-fbdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	maarten.lankhorst@linux.intel.com,
+	robh@kernel.org,
+	simona@ffwll.ch,
+	tzimmermann@suse.de
+Subject: Re: [PATCH v2 4/4] staging: fbtft: remove fb_ssd1351 driver
+Date: Tue, 23 Jun 2026 23:28:11 +0300
+Message-ID: <20260623202811.16262-1-amit.barzilai22@gmail.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <87ik79iqsz.fsf@ocarina.mail-host-address-is-not-set>
+References: <87ik79iqsz.fsf@ocarina.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-rcar_gen2_enable() and rcar_gen3_enable() use the old pattern of
-dev_err() followed by return PTR_ERR() when devm_clk_get() fails.
-fsl_mx6_enable() in the same file was already converted to use
-dev_err_probe() by a previous cleanup series.
+Javier Martinez Canillas <javierm@redhat.com> writes:
 
-Convert the remaining two functions for consistency. devm_clk_get()
-calls clk_get() which can return -EPROBE_DEFER if the clock provider
-has not yet registered. Using dev_err_probe() suppresses the log at
-error level in that case, avoiding misleading "cannot get clock" output
-during a normal deferred probe.
+> Andy Shevchenko <andriy.shevchenko@intel.com> writes:
+>
+>> On Mon, Jun 22, 2026 at 06:25:06PM +0300, Amit Barzilai wrote:
+>>> The SSD1351 support was added to the ssd130x DRM driver. To avoid
+>>> confusion and irrelevant updates, the staging fb_ssd1351 driver is
+>>> removed.
+>>
+>> NAK, the fbtft has two drivers in one (SPI + parallel), plus as Maxime said,
+>> it has its own binding.
+>>
+>
+> Yes, I agree that we don't want to delete the fbtft driver.
 
-clk_prepare_enable() cannot return -EPROBE_DEFER since the clock handle
-is already acquired at that point, so those error paths are left as
-dev_err().
+I will remove this patch from the next version.
 
-Signed-off-by: Batu Ada Tutkun <batuadatutkun@gmail.com>
+Thank you Javier, Andy and Maxime for the feedback and explanations.
 
----
-Compile tested only. No R-Car hardware available. This is a correctness
-fix for the deferred probe path, not a response to a reported
-user visible issue.
-
-Changes in v2:
-- Mention clk_get() explicitly in commit message
-- Add testing note under --- cut off line
-
- drivers/staging/most/dim2/dim2.c | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
-index 7953d4626..56f856d6d 100644
---- a/drivers/staging/most/dim2/dim2.c
-+++ b/drivers/staging/most/dim2/dim2.c
-@@ -974,10 +974,9 @@ static int rcar_gen2_enable(struct platform_device *pdev)
- 	int ret;
- 
- 	dev->clk = devm_clk_get(&pdev->dev, NULL);
--	if (IS_ERR(dev->clk)) {
--		dev_err(&pdev->dev, "cannot get clock\n");
--		return PTR_ERR(dev->clk);
--	}
-+	if (IS_ERR(dev->clk))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(dev->clk),
-+				     "cannot get clock\n");
- 
- 	ret = clk_prepare_enable(dev->clk);
- 	if (ret) {
-@@ -1019,10 +1018,9 @@ static int rcar_gen3_enable(struct platform_device *pdev)
- 	int ret;
- 
- 	dev->clk = devm_clk_get(&pdev->dev, NULL);
--	if (IS_ERR(dev->clk)) {
--		dev_err(&pdev->dev, "cannot get clock\n");
--		return PTR_ERR(dev->clk);
--	}
-+	if (IS_ERR(dev->clk))
-+		return dev_err_probe(&pdev->dev, PTR_ERR(dev->clk),
-+				     "cannot get clock\n");
- 
- 	ret = clk_prepare_enable(dev->clk);
- 	if (ret) {
 -- 
-2.53.0
+Thanks,
+
+Amit
 
