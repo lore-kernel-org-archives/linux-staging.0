@@ -1,71 +1,61 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC1CA36E498
-	for <linux-staging@lists.linux.dev>; Tue, 23 Jun 2026 10:10:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A6BE377544;
+	Tue, 23 Jun 2026 10:23:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782209411; cv=none; b=OPmM/SdNg80rBhcWMHjShc45wmi0lO0IzbnyTb6CRZyDQPpdWGuWdZtX0e1rR6ajpY26PU5UnAClANXa7qF9tQxNBTdiscpofb4EMRlXc+m9P9qkYy/kx8ZU0MATNyC7nyjwjQu1K0u7OXV5UJ4dA6EwsPcYdVSpfxFLBIUGgVw=
+	t=1782210184; cv=none; b=TJ8Z34jg9KivSq/5x6ZqaWWxmVorcccO4Mn9k3ZuNqKJvy29WFYRrxiYUvKXRZO04Z2NyCl2M4+zO1v9/6t9nSuXjsYi6JDipZl+vC8KGx9sLeD4bGP9CzVheMh1TB4v/UOVTbDO34ick9Jv07RAFSinBEgZT+yZrz8stRQTkfs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782209411; c=relaxed/simple;
-	bh=IZa2b/bKIUVbQEsIFNcqFepsS9HbTHwv+lNxwvHjug0=;
+	s=arc-20240116; t=1782210184; c=relaxed/simple;
+	bh=VcLFiuENyyd3m/b4a3E+So1QsoqXa7Lc8NGW4N5fCW4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ihDer+ahWfBNJ+bhPs6kl9bY7D0A0SzIDtogoa2+cSR04VfkVmG0Mihrc2GrgJaqbJaQhi0wKocu1PjdJm+K2G5JTofZ4UIll7QsNe7nC05cDL0XYub+rpLGta8Kr9iShOQ2h3yjHvwV/U4TS0zmCiYbdLWGMNpevrblUPwTHYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LfvqZUh3; arc=none smtp.client-ip=209.85.218.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Tz06Lo7lU1q5RfWsGSpMujaIGLKJqaUHtjvfEsCayEZbYYH+7QhoVOVLdH24idAb96DQQrHFBzIDOMUGGreTJb6yCORQzPyXuotNIFEFg1Y4y5hKI/fBvoD+wapsmxv0K6ELZVaGwbHgbfAPvpMwJbqoYUKgxluiBEl6LtZGRmk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S+oZS+CS; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LfvqZUh3"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-c07ea058c0cso907032866b.2
-        for <linux-staging@lists.linux.dev>; Tue, 23 Jun 2026 03:10:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782209408; x=1782814208; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=S+hdGl6cvLkiqtELF0AM3JFW/5duEk4eBhpz7MLeghc=;
-        b=LfvqZUh3WNsO8Z8T4MgQPo6Ax2Oe9S+LZi8dWCLTvMQzvoZO2MSH5QSLofhaXD9wYC
-         EIaXxHeuD9a3t546KvSmBQd/Q30Cj9vhbgO02lB4Gl7JZ0eiO6C+Hk20RfK4pw5Xrq3S
-         k87sEphyi8hEtVEFdUlxyp/+j1gk7UFFUna/VhRJNppyhmxWeFVTCXVrjm+68I1kjfWK
-         7rOnl5XDkA2ydWRW30lfrYw8pbPd85lER1rspqAC+/exB4xnZQKausCv7yr/PcKR2vOL
-         Qein2gt5zuFL1CDK4roZKba32WDNbqwjKy7lIxIpvFdovrdn1sNg/HFn1NIUmttSBisr
-         4gaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782209408; x=1782814208;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=S+hdGl6cvLkiqtELF0AM3JFW/5duEk4eBhpz7MLeghc=;
-        b=J1jIRmKFPuKYTSetKrsi0IUfPHeocazausBtp5JhjkJY1jlrQa//5EwAXDKRA3n1qv
-         4OLJ4+Bzh/AGPt6eDZtUhI47qxh24rlJLns+nE3jnCkZDrKnLWXqkgtXok35VDV281fu
-         fzvJdQxlaukGDGCUqEJBsYRgOQKq97d1f4oKwOCMWJ4zpiPlcN361GPnju8mwKp/obPS
-         jIBoesx/4pO/yqNvnBrI55gQ3mdEtNdpJkeRb77OgVk2cO/TXV8fTsgoblWScU0ktIa2
-         PFxe9qn/1mzYHvxuoW2eiWtio/XMxqmovIxaIxymINObeQyd2RGDKE7+JG0ts5/cqL4N
-         MYAg==
-X-Gm-Message-State: AOJu0YwOGwmnnQrEJVdns4fSxUUUbMdVupeIR6CUqP9rd+wvNszjAuz9
-	rwKq4uquLcvZ4zAfxYAcZN60iEr84DEQKWpHWtdrWmC/XXENHlOU0O/IjNT23w==
-X-Gm-Gg: AfdE7ckBuJ2djV8sXu5Ot3vPqm52py20csbocH+PCEYfSv8K2bDAT5RR38kJf/70Yna
-	AFrWmgk5R0okV8DT4qYKirGF1uCXXOX9GPNmnReUzr8xQw8uX8BjF4M2Qc6cWGFIy/6d2BrJUTw
-	IQJv9PHDBBq9ztxb1024bW99QESQNeI9rMs5Se3R8pwvzkpczwqSjJFf8g7/nzwfiIcPEQi0rIx
-	/4tLkhoQ8uP//X4jBZIC4sGD+8GQOoP2U1sgu2XYnXUysEMQKiijK034wTAy+xvN1blr5kWEiqG
-	Gwg2mW8qGphgwShrT58Neq/SUVTftFpPkYNWJaQsxMrDQWzgE0poGVmbfD6pS6q2GcJX9pNPrc+
-	XNMm5jWdp0tWIHSDs3wbuV5P7rxqdxwkMNTtyU7Nf1nYSRbn6AgxluN0HSmkORRTTy/uePhM5rf
-	M106XNv6N1
-X-Received: by 2002:a17:907:da2:b0:bfb:b43a:b06b with SMTP id a640c23a62f3a-c107f8af750mr103934966b.34.1782209408146;
-        Tue, 23 Jun 2026 03:10:08 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c0c60bbf2b3sm486957266b.39.2026.06.23.03.10.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jun 2026 03:10:06 -0700 (PDT)
-Date: Tue, 23 Jun 2026 13:10:02 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Serhat Kumral <serhatkumral1@gmail.com>
-Cc: linux-staging@lists.linux.dev, gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, lgs201920130244@gmail.com
-Subject: Re: [PATCH v2 2/2] staging: rtl8723bs: put logical continuation on
- previous line
-Message-ID: <ajpbemasSine9w3i@stanley.mountain>
-References: <20260623100535.5752-1-serhatkumral1@gmail.com>
- <20260623100535.5752-2-serhatkumral1@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S+oZS+CS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782210183; x=1813746183;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=VcLFiuENyyd3m/b4a3E+So1QsoqXa7Lc8NGW4N5fCW4=;
+  b=S+oZS+CSAhU6Y98vuVz1BVBIsWiz9wkV6SCn1ak0OHayEkp+/THtt1ti
+   DHBjyQKhvUl6grcwjWec41Fw9Hl4DWrcK2E/YlPYsPS3yi/KvTfGylb79
+   MesUep+ksYzdKDluHtD4RXgCGxxXCYf8CUxUXzytngQ27TfCC99Jcop4C
+   EspA9ulq+mCBGanJYaHn514G6InDWFHYrvmf1uIK92bDgZCr3wXXb62P2
+   HgqGdPqUHaRX2RMpcsxc0O2h40C4fGLPOw01SjjfOvE/tY8NbnSBKuIy4
+   vrH1bgWBMyuNeYzem4yIpjjhZqnbEhYqplE+fgZCnBOqoMCsusrLCz08A
+   w==;
+X-CSE-ConnectionGUID: PyRkm3RoTrqCc915hY0ePQ==
+X-CSE-MsgGUID: ifHJmdsASMyT0a79xfvz5w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11825"; a="86856121"
+X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
+   d="scan'208";a="86856121"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 03:23:02 -0700
+X-CSE-ConnectionGUID: EuFLw/PpT8mMtaz73qmLHA==
+X-CSE-MsgGUID: 8j8e1yFVTDSG/5DLJv65KA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
+   d="scan'208";a="279659047"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.7])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 03:23:00 -0700
+Date: Tue, 23 Jun 2026 13:22:57 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
+Cc: andy@kernel.org, hansg@kernel.org, mchehab@kernel.org,
+	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
+	~lkcamp/patches@lists.sr.ht, linux-kernel-mentees@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2 2/3] staging: media: atomisp: use kvmalloc_objs() for
+ overflow-safe allocation
+Message-ID: <ajpegTS1vfclimCQ@ashevche-desk.local>
+References: <20260622224402.34001-1-rodrigo.gobbi.7@gmail.com>
+ <20260622224402.34001-3-rodrigo.gobbi.7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -74,24 +64,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260623100535.5752-2-serhatkumral1@gmail.com>
+In-Reply-To: <20260622224402.34001-3-rodrigo.gobbi.7@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Tue, Jun 23, 2026 at 01:05:35PM +0300, Serhat Kumral wrote:
-> Move the logical operator '&&' to the previous line in os_intfs.c
-> to conform to the Linux kernel coding style guidelines.
-> This fixes the checkpatch.pl warning:
-> CHECK: Logical continuations should be on the previous line
+On Mon, Jun 22, 2026 at 07:42:43PM -0300, Rodrigo Gobbi wrote:
+> Several allocations in sh_css_params.c still size their buffers with
+> open-coded multiplication (e.g. width * height * sizeof(*p)), which can
+> silently overflow and under-allocate.
 > 
-> Signed-off-by: Serhat Kumral <serhatkumral1@gmail.com>
-> ---
-> Changes in v2:
->   - Dropped the third patch of the v1 series (msleep to usleep_range conversion) 
->     based on feedback from Dan Carpenter.
+> Convert them to kvmalloc_objs() with array_size(), which saturate to
+> SIZE_MAX on overflow so kvmalloc() returns NULL instead of allocating
+> too few bytes.
 
-Thanks!
+...
 
-Reviewed-by: Dan Carpenter <error27@gmail.com>
+> +	me->hor_coefs = kvmalloc_objs(*me->hor_coefs,
+> +				      array_size(grid->num_hor_coefs,
+> +						 IA_CSS_DVS_NUM_COEF_TYPES));
 
-regards,
-dan carpenter
+Here and elsewhere with long line, do like you have done in one case
+with a temporary variable cnt. It makes same number of lines of code,
+but readability is better.
+
+>  	if (!me->hor_coefs)
+>  		goto err;
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
