@@ -1,72 +1,72 @@
 Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com [209.85.216.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E184E3D564B
-	for <linux-staging@lists.linux.dev>; Tue, 23 Jun 2026 12:14:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 155313D5674
+	for <linux-staging@lists.linux.dev>; Tue, 23 Jun 2026 12:14:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782216844; cv=none; b=rWN14wKzIgIHPcwwFP7B2HcfiQVkOX7bQIaE7uRD1WVZ81z0Xd2uvVgr8+2s/zo+8bVAlXq2ggV3NMX/u3g4TvmSmpwhlNefv40t5mjJld0sSVp9pS9Wstw4sUL+zIcOTOaUz23XLXm0zEvqERxFqlx5JvRVdLbtiTcWrR68xME=
+	t=1782216847; cv=none; b=ojoxE7J8L0IoHqwJKtSjaXxLWAhQWFUzER5Hw3c/6cvz/oLnDZWoMQiQDJiUhbeQwBNqm/p7poKfD4uH4NP1kvRIDDNiwxVElenm/2OS3VX3g+oEW0+SaaAck9qO8wWaNgY3B3ZZh3Yr5rYr2qXxSA0uV0Dy6iW846lH0lGmN34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782216844; c=relaxed/simple;
-	bh=vlSwt/GCtMyW7VfGX7ZEHKZ0l+9CYhk80t48aL8VK8Q=;
+	s=arc-20240116; t=1782216847; c=relaxed/simple;
+	bh=CUB++f9XjhntXvc7MViwGfS4/rQIMkusJ/XMrm1V3V0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Wfzu8xPajRHR7cz3z+4JTIR8FzXkObegEs2rbx/T5zSWbFaeEe61drRtWBgYK8wzkLae4duYiGg0Qdu498nGp6nuYe2M5y44UT1a4LBp3Oc8LNfx4cawce0543NG+xjY5BBvTDxlvCbgJd4JUwzQ7nTYjRhm49npHYNe/OmcH6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JbkVCuhC; arc=none smtp.client-ip=209.85.216.68
+	 MIME-Version; b=tBEpsb1c2///HjLO5WokVIBsMmTjCRxhY/v0aSvbeaUKQ4ZeOoisGBS1X/L7ntC0gGOqypFnmcPbNvAQR6cIt0v5QzAAO60tNFOmGkQZFDo1Lbga1HtX2XBPidP9uKMGTvfEX9HZzXFBgEBSxcYtFKUWa4/uxl8A35uqkdgajCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N8KjyFfH; arc=none smtp.client-ip=209.85.216.68
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JbkVCuhC"
-Received: by mail-pj1-f68.google.com with SMTP id 98e67ed59e1d1-37d70036426so1525819a91.3
-        for <linux-staging@lists.linux.dev>; Tue, 23 Jun 2026 05:14:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N8KjyFfH"
+Received: by mail-pj1-f68.google.com with SMTP id 98e67ed59e1d1-37cb36ca63bso2858281a91.0
+        for <linux-staging@lists.linux.dev>; Tue, 23 Jun 2026 05:14:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782216842; x=1782821642; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1782216845; x=1782821645; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=cvl1Ajpj1PEROVNmJxvUMRqb3WsGoSKhMFeCo8sY6cQ=;
-        b=JbkVCuhCOjAtxzv0Mpxr75+fUd6VRTnmbVazljgi2qL0WIeep4ImBLkNg+9FtZrNDH
-         uZSTyU5gD0yCpwHOE1l/zd1j1IXugX4YPcuX4V4XaEw83hWEwCYdNlryQ5y1X+c90ysu
-         E17ce2CMUPCOOseFEmuX+sIlOMjxMzdlsXkkzbjxQEO3YqNHlHd1cYIka4KpfbnZih4K
-         V1pHn0vO1gF9trWtQl7jpmcFhzoczgJaZekMUe19X/VRdRRfjzohimqenDykwAiXpWXN
-         J5rZpk6cX0+G5zGG4AC5z+CPRR0RdWsNAqX8lrwER7DcgzBKNKo9rEXulVoM6YFZtA6t
-         tVeg==
+        bh=V7Nkrwlxlnsqrd19xIf30RwveNhFArO/IgBaWF9HmKI=;
+        b=N8KjyFfHSWVGOZ2vs6zaUnVcmWaUu/XAQ72tGWsHeEwcZWcUslV75eAJVc5FS8WskI
+         rehvkJ1O1XkiJxPbG9VT8okSNH8sQybm8M5uOUhOhwCvVO1NbdWbFEJsh8x8JDIA84jj
+         +y3zgAoHHBpH1JUO+q3WrWXIh6u2yKD/GCY473cmBBpSsAxLuXlb2rPXotkmQo4CjBBB
+         HKAUYGKIdakds8+bPSVoQOq+0Fh7rqOOeXGUafbySLV1Q5NR+QPtIhC0K6bweHBf1eeb
+         ImFlxLek42Mmyz50v1OfdilwcsjsCKzh8jSlN7WwiWYKN6pVv8jnqlcDFKgTLn1rUNKq
+         qyMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782216842; x=1782821642;
+        d=1e100.net; s=20251104; t=1782216845; x=1782821645;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=cvl1Ajpj1PEROVNmJxvUMRqb3WsGoSKhMFeCo8sY6cQ=;
-        b=Bx/kN/PElrW1OiRXeo179jtTXRCHAVnDpt0xD4nepr6KqmViYrDmZItuuTl9i6NHO6
-         thFE6u+mCGs1uRM/tUkPOeFyWWntHPBjcfoC+P4ZRW9rvZlq6jxQyy/5bGw2pM7se269
-         ltMrwxdLmVPGjcaVBFoWRCnNdPPTs9cYSrvUF8ZM8Qsq2C6I9jtBrSe4dC/0JOb7gyFf
-         HL9NtXB2mJrI6FDuC9slyJDMlgh3YzIOr32KRYhQKdCGysjIj08TpeU5x9VjQgfBjn9P
-         wYb+RgjZ8V68hm+jW8YVH2ELILwh6eA5dqv+zJeLp01iFtPag8pTmCE7QaSxDbd/HmLa
-         YV6Q==
-X-Forwarded-Encrypted: i=1; AHgh+RoWF62diObYt7p0OasbUKM65223k/q0wvWr2t5/tLa9ryW5N+NaQarbp3UdJEmYhg63DkP1iE8h+L334gYR@lists.linux.dev
-X-Gm-Message-State: AOJu0YyKcWwBr1RMmORcnaH0kmR4jSrTqcvODZKX0O0YDwsElBFwP23G
-	FTrX5qVoYJLlkS5VtrJaQAXIyKdV7e78Gb19sr/RXV+n/OiJJn9A934MMAF0k/22dnw=
-X-Gm-Gg: AfdE7cnumDBYyQAT9Rgkh9fz7LtNkCX9K23L5esYl0ZHxBqOwlNLXUpg1ezdyfwHUmp
-	SkhxUopkQDDlUTf/PZbJXZgWFPxKFUSr7CixBCHz3kOlyWKRLzpqIIJso2tVYBa1ZB6QSrRbbQ/
-	AjMiXkEE3HosbrTFzJuPfQfZN2r84nzJ0cCbwqI0zVfEKOfS1ciGBHPeYW468znMkpOAY7HeRzY
-	9lo+aea0ktTpLn0kTi7akNwpRQjvL76PKs7QxnZBzUWlufk2HCSuUWaVrCyTQPA7Rg71+xSmhHJ
-	LFLOspya10RTbjLP5c7gE2FvmEALh/SUlElgewB05y4JYwp2khXZYb44ImJ3yTn4QmMoY7PIjG+
-	9v9i9CiZbZ1QLoo/23x0b+baJ1Xa8r8G1ghqaKECxIEF7ZmOBIluf4pkxuFqpBLZ/JGcrk9y3Dt
-	8SRWRdP1bRXQ6JvoMk6Z6zzvhVp/Mzj1Rf7sQpKPAVRSyfgB7eQHSn64FXC5srV/g=
-X-Received: by 2002:a17:90a:ec83:b0:36d:9ea4:d0b with SMTP id 98e67ed59e1d1-37d160f5dc0mr18952275a91.24.1782216842116;
-        Tue, 23 Jun 2026 05:14:02 -0700 (PDT)
+        bh=V7Nkrwlxlnsqrd19xIf30RwveNhFArO/IgBaWF9HmKI=;
+        b=JNuG6/0Isvq7yXjbzFA6br4NoZ6Uk4dFrdfKvrrUreJAHmWryw6RxrM41w4QajMRLv
+         abbuSPtiLrVH0Oh7slswmXXyiO2tydJqUbr9kfZbrKsCQGNzUvx1fz9Q37EmW13pFneQ
+         XWdNfR31mLi7AOKSWe5FwZc428bz6MnehLU1EfkKl1bs5u7QdjRSsG0lyEazCFneA66N
+         vgwsucitKXHjUm2QdX17+oBe0dHGgQOcdEh3CD6quQiTbovxs0xr08syjxRX6UHIYEhx
+         2fN6j+LPkbe7tVYiwXlRo6bK3mwcsT+BpoIdLz9o78gHgbP7aoIJk5Fqo+2edbVOIPTJ
+         RV3A==
+X-Forwarded-Encrypted: i=1; AHgh+Rrjl7Zse8R+LIaOR9e2MIaFiDReADRNXMfLGH1Iw27POdLB8Strii8q7kMZvP10sPEnWS2V5JSzhgdKYrnr@lists.linux.dev
+X-Gm-Message-State: AOJu0YzqkZLELvNfzHPKF0K5kchWKLret0o3gXcO+yue+YPZGZrlzkE0
+	wI4cA/jFGDsOuP113+z5Zms+BPyXDpmmnmbGrlS1CXxT8MX68MOFHo9a
+X-Gm-Gg: AfdE7cmlcSj20+DmGuBt2MhMQdvGkIMR9eQMC9OWhc9bg/MPUkMgeRaO8KxraORdCYA
+	kLOcmK1bnhCUdhIgcVkh2opkSixe2uhLMEDLVca4q4OLlQmIDZ82IsDKdZX+c+9Wredwp/jiKS6
+	MaX8mgwCfIH0QbUtwfqptD7V7fOOFOY1GBOk8JV4kmfsA9npZtcOwcBAnaq6Ns4Sxhrnh+E1eqb
+	tiXn7dBvww8Y2RkaiQbA6vEVE9Gfabl10k3beRwrQsO1sb9dkZpBNTKMPQUdflMJeiEufeQxN5L
+	ks/4SZg7e7JgqaNOKG7ReNDs5G+7QJdkrGctlX3D/BCPGEVPASYmf9NeNQpUmbPKKFma9HNbvk3
+	mJXLdpMVHNC88RB9WJ4slQC0H34oc5Kd9/2fpZYpzH7DqIXkzu6y5Ic8djwQwIUhH6UHMzh5eGx
+	5ZdCsx78NRfbaA8Bsj7XEuq1V4/z39TUu7JYP9hcn6RgqsNFMU03c2ZiLE7YEYR4c=
+X-Received: by 2002:a17:90b:4d84:b0:36b:b06c:30a1 with SMTP id 98e67ed59e1d1-37dd16c2673mr2498589a91.1.1782216845067;
+        Tue, 23 Jun 2026 05:14:05 -0700 (PDT)
 Received: from localhost.localdomain ([2408:8362:1ec6:4980:1a3c:b7ff:fef1:8b0f])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37d4eede3f9sm9705032a91.3.2026.06.23.05.13.59
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37d4eede3f9sm9705032a91.3.2026.06.23.05.14.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jun 2026 05:14:01 -0700 (PDT)
+        Tue, 23 Jun 2026 05:14:04 -0700 (PDT)
 From: Bruce Ou <oubruce1234@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Dan Carpenter <error27@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Bruce Ou <oubruce1234@gmail.com>
-Subject: [PATCH v2 1/3] staging: rtl8723bs: fix CamelCase warning for bResult
-Date: Tue, 23 Jun 2026 20:08:13 +0800
-Message-ID: <20260623120815.14737-2-oubruce1234@gmail.com>
+Subject: [PATCH v2 2/3] staging: rtl8723bs: fix CamelCase warning for Address
+Date: Tue, 23 Jun 2026 20:08:14 +0800
+Message-ID: <20260623120815.14737-3-oubruce1234@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260623120815.14737-1-oubruce1234@gmail.com>
 References: <20260623120815.14737-1-oubruce1234@gmail.com>
@@ -79,7 +79,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Fix the coding style warning reported by checkpatch.pl regarding
-the CamelCase local variable bResult by renaming it to result.
+the CamelCase local variable Address by renaming it to address.
 
 No functional changes are introduced.
 
@@ -92,35 +92,35 @@ Changes in v2:
  1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-index a40d6eab7249..4bf205e078e7 100644
+index 4bf205e078e7..6767c6bbaa1b 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-@@ -89,7 +89,7 @@ u16	addr,
- u8	*data)
+@@ -44,7 +44,7 @@ rtw_efuse_calculate_word_counts(u8 word_en)
+ u8
+ rtw_efuse_read_1_byte(
+ struct adapter *Adapter,
+-u16		Address)
++u16		address)
  {
- 	u32 tmpidx = 0;
--	u8 bResult;
-+	u8 result;
- 	u8 readbyte;
+ 	u8 Bytetemp = {0x00};
+ 	u8 temp = {0x00};
+@@ -53,13 +53,13 @@ u16		Address)
  
- 	/*  <20130121, Kordan> For SMIC EFUSE specificatoin. */
-@@ -114,13 +114,13 @@ u8	*data)
- 	}
- 	if (tmpidx < 100) {
- 		*data = rtw_read8(padapter, EFUSE_CTRL);
--		bResult = true;
-+		result = true;
- 	} else {
- 		*data = 0xff;
--		bResult = false;
-+		result = false;
- 	}
+ 	Hal_GetEfuseDefinition(Adapter, EFUSE_WIFI, TYPE_EFUSE_REAL_CONTENT_LEN, &contentLen);
  
--	return bResult;
-+	return result;
- }
+-	if (Address < contentLen) {/* E-fuse 512Byte */
++	if (address < contentLen) {/* E-fuse 512Byte */
+ 		/* Write E-fuse Register address bit0~7 */
+-		temp = Address & 0xFF;
++		temp = address & 0xFF;
+ 		rtw_write8(Adapter, EFUSE_CTRL + 1, temp);
+ 		Bytetemp = rtw_read8(Adapter, EFUSE_CTRL + 2);
+ 		/* Write E-fuse Register address bit8~9 */
+-		temp = ((Address >> 8) & 0x03) | (Bytetemp & 0xFC);
++		temp = ((address >> 8) & 0x03) | (Bytetemp & 0xFC);
+ 		rtw_write8(Adapter, EFUSE_CTRL + 2, temp);
  
- /*-----------------------------------------------------------------------------
+ 		/* Write 0x30[31]= 0 */
 -- 
 2.43.0
 
