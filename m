@@ -1,113 +1,131 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 905923CF208
-	for <linux-staging@lists.linux.dev>; Tue, 23 Jun 2026 08:50:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67D253CF20E
+	for <linux-staging@lists.linux.dev>; Tue, 23 Jun 2026 08:58:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782204629; cv=none; b=Rs1QUKioCqpbxiRBN/HpIIduko6KBGU/HRrHH8pmK6yRdI2FddxD3Fbw63x+mr4cAX/W+HcvBLRWhPvKGmY6d1BMxMehGKFtbtbgE49bdawabetVYNzpwt3VAAsUDfcVfo+vJYUyM9pVvDcoSSs2FuRpOriENxaKnsCiIFuaBXo=
+	t=1782205110; cv=none; b=bCsapRhQuEYHWZqDr8CMvakNPZg4eH1WvX4qli9bqUfQYv95wgJ64ZqRfcmsVzVVTk4Yxc6JugPtKnrPBMecmlf8O59cqsKKgRMHQjerkTk5L5kZEVks5nq8YGdWPkbrNKOrWZrtahKh/fRixofeJI/TJcUCRHVKx2y5+mid+eQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782204629; c=relaxed/simple;
-	bh=TZ0+5146xwe6OT/CbQdW0d6uHCZxJf8UjdEd5HflsKE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=AKKVfUhG6zwF4xY7jeb3Zg6ZWlpMt/pS+u13Ti1IHm6DxCaplPc+WcQhqCXCqV93kYtae2Cp2MxbagIvPcrt+tnHCzMIQ8J8aRllZx5Dfr99CGULpAl1CJqI9YXyiYynkXNsB1BBi9c+p/Pmv6Rj/rs7oiu17Lp48IEuIX6zYiE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VLXev5I+; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1782205110; c=relaxed/simple;
+	bh=3YsDPKu+XZDNyWY/ZP2WF+FnCDXrXanHsbULdeIbMGc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ibShY8alZkjUY7FBEfrCn6KfLBOOtlM9CxqNWoD4drf7fGiG9Ib+dUW42/dnlRl8IdIviv94VYA5XqHTi7BChdA/Jxvcn9jDhBEgDdleYhIzlUrvjKuJBoP8IDfJIWFveNuWnbnxHdQeKgIm30Fb0KS15LPM8asoxLZfrlpGoF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iYotojSC; arc=none smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VLXev5I+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1782204627;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BuoRitIZndRdwR/IA+zUZeOYUkqVtr5e2wU2WIH4U+g=;
-	b=VLXev5I+12N7JJpCUFSYLSN5nUOMRsfJZb3gisX9+MkjRneGKOduMliETLXXGtUJFpUyFT
-	0uXkwxr8ttszHoYSD8NyZ3eVZ1XNTW8HSIcvfSlJuLXTXwNE4CML4v5LJSic35AKN6RzTf
-	W0TfaO0Q+2+bWMXLVS+n+eGYFSbviSI=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-696-3-ikv5j1Pey01yByr7cfDA-1; Tue, 23 Jun 2026 04:50:24 -0400
-X-MC-Unique: 3-ikv5j1Pey01yByr7cfDA-1
-X-Mimecast-MFC-AGG-ID: 3-ikv5j1Pey01yByr7cfDA_1782204623
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-490b0682d2fso39935415e9.0
-        for <linux-staging@lists.linux.dev>; Tue, 23 Jun 2026 01:50:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iYotojSC"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-6976b0b2c79so3558581a12.2
+        for <linux-staging@lists.linux.dev>; Tue, 23 Jun 2026 01:58:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782205106; x=1782809906; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=FkA3hclgYIc87NYcXuz2G0H2QcH8Gc07wQOaw+kXDzE=;
+        b=iYotojSCeFzA8dOwpfUmHZdGkC+VEBYfHtgpRvRLUldmwR0kHr02rmBjOIiCyk3CCZ
+         +o5d6uPQCxV1ynCtLqjKAsWm5MPW0w+o9Xq7mLBrJSla/8MUIVdp1VPIkfIBP1UptXN3
+         SsK1rbdjfvzgXhg2dF6tRLMj8kCdusX2/DGCxvGgVZz+H8nu478RwGM4NM+6oxhgwAOX
+         HfyjkGFwf5jcfEzRsFncyUCvFfipPBcsasYzmabE0ifwCF9UEuc6L04G0rUMuiAjMnEl
+         bH9JwRP4dDKrNUv8Z1BLsyufTembEATTxu+6QACoE2ozw/WLgJL8LsG8N76z+6oYivop
+         DQAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782204623; x=1782809423;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BuoRitIZndRdwR/IA+zUZeOYUkqVtr5e2wU2WIH4U+g=;
-        b=nj3WET/HY4BKgwWznKmNHoO8pHeJ4iFW+OuRQyNJh5ozBA+tb+MRKDKA5M7LJEVCLn
-         eUfSGt7jwgiQza7hkvXTu7+GZgdwggw1XORk5hYo51p8+lto7/JBmSbCfOokD7V5T0Bo
-         Yiv0cDfqc8G+nr8QNEyhaje+FY3ZRbGVMxjSDVtmABhpA4nhDn1po72kMmjKx/dhKRFr
-         RFzPjazz+MIQfC34CWrH7J3AxeVtMOEU9wUdh0C+qxnnYpIEM+gNMykBffaOv8a7A7WE
-         yffst/JRIRZYh7YW9PYS/pfhSZYtFLue2YS5Iuq9/X5wTPj5WtMO2Clj9a+poEhZ98de
-         zVUg==
-X-Forwarded-Encrypted: i=1; AFNElJ9ja8NiUn2VlF932lPbuJZNEq7Rqzn3EmP+J4pzDMxSAuVFb8axpAbFqjSj7riH5V6iAokspl3RzzJUJA0z@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw5IGIYXMRsZo9Zo8fDp/5OAlf61PvDxY9svqVoYcekzRf1Z+LN
-	GzFxh0uwpZTw1Jh0Wt7MpKnmqsvLhSlVlvOpSnw/zWD6swgPbQphDxmYvUXMPKrUdOMjAt8+UT5
-	iAqesEu4VxVm3pSOWiadm641yvo6QoudGW6dz0o3lhJKzKStt0GVpksJqqBCNG0gEoDY=
-X-Gm-Gg: AfdE7cltyTgaxqw5r/5KFC1INJ1aiL9+eIrrJn7w9hFkz87hlmcVn2efuZD4Wafh7TB
-	A7GfteCRv8jTEnbMcc5X1xUfym7Lv1QKbRCjws/0tVdogwOdMfX+a0HoFL6Xoqz39qOjkty1J5/
-	bNjM8qRICG0M0d2PHDXw8H+IN1eIYhigDKhJ7Heh+oWw3szJDguMxJGUwekJrnyUxXfkr8azPyN
-	PFtDA7RzzuH2dFJk85eiQilwpDy9A+l3Id+3FuCE0WpN//O+RvkoWZL5MwglWDxn8suFHnJa1o7
-	5Vuualq41MsAJrbqGsjggIvat2tkD9us3M1ftOg1QY+PguoyODsDwTjnRwx11q8i9CDWEnV7Lan
-	w+CoP/I4/v0gBFizY2F+RcF6wO9tALKjYhyJWBeSHIvhw5kcC86BTjtAVocg1jtg1DJNSqQ==
-X-Received: by 2002:a05:600c:4503:b0:490:50c5:8153 with SMTP id 5b1f17b1804b1-4925b3896ffmr24629435e9.2.1782204623022;
-        Tue, 23 Jun 2026 01:50:23 -0700 (PDT)
-X-Received: by 2002:a05:600c:4503:b0:490:50c5:8153 with SMTP id 5b1f17b1804b1-4925b3896ffmr24628745e9.2.1782204622485;
-        Tue, 23 Jun 2026 01:50:22 -0700 (PDT)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4923ff8a9e3sm389322615e9.14.2026.06.23.01.50.21
+        d=1e100.net; s=20251104; t=1782205106; x=1782809906;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FkA3hclgYIc87NYcXuz2G0H2QcH8Gc07wQOaw+kXDzE=;
+        b=dBdtRu7oRlG8sRGPWUNJoJynNixV9r6LQprxzkpH/BoMzc8hdGMGE7Ef1OP0TNRFNW
+         M2ONC80B8nwLUvLbmzv6J39JJot1PxW0Zcq/74IP+ZwM6lwCSrZ4v8IugrOAx8ht6sIC
+         yIYCQnzfHYzlpvD4RV6JjzEnXLOjyaRpZSP24+FhMWzJq95j+lLJUfMeG2YXliRcJf+Q
+         ylRCaYv3I2Q5viCFxRfbYocqXUl+aQQBJH1yEd0i19qj7gXvixSGY4u3aWUNYtEMCEpB
+         t/Z2ShvFzShQqsALn4BuYwfH662z2pxiZFWjdydqa5xH9yTLkSNjd9FBQ1273PP56Zwf
+         8hNA==
+X-Forwarded-Encrypted: i=1; AFNElJ/1EbC1cBygMZ64jluS7CFuIzXjs/02ahwxUYN2VJXprKyMC5LhyfpxnNyzLyjN4IFaIKRrJCJTEjmgwUje@lists.linux.dev
+X-Gm-Message-State: AOJu0YztnluLKX4mrJuACWVFlk3yZirysGanDtRbRfQwq/lo1l/NF/LS
+	o2o8V9M5RG2CTYks1TC+2CuliwmZ3V1SS0Ngm9kHIpRnvpo+FNG+VKOe
+X-Gm-Gg: AfdE7cmo061HAsOEKtoqcmo4fgmdm0UC7+fYIABMhy5aBKGTaY5gT0j9oLFiQ+OA6hi
+	53e+o/kWXN2TQmoqz6WjzJz7yt+MwPNqL0OOyurPsUMOS6ryeeVx1FHEVHFfszQzp8jJkCbmjxt
+	XcbVHwTwrJLhI/eeNXvh94evzi79XvPFPBZNLrLRWblc4qZxdsBo8/bt1u1QU+tN96Udned8SKs
+	ApBMef6ZqhRx6VYPASCMcnhZkuJlfRC+IQFCghqCzXgZQC9gatM6zZIdNWMXMO9Ye7DiiVGVz+m
+	myEz8aBgvp7iRTu/bVXYvLNmgONaLJobJW9lwTg6ViJfdCKr3elSRsWlEM3WgH+P7eGKwPPyJuu
+	Ef8nIDGzem5S7VGwe4c4D7LZlcaF9lLz18cgvkfWjLzLi0EWzVJGArb5SAEjxdsvjG50oIXfH9C
+	vvFCGXnrUzdkFcmWoOj0g=
+X-Received: by 2002:a17:906:bf49:b0:c08:484e:d943 with SMTP id a640c23a62f3a-c107c72a56bmr88141566b.3.1782205105661;
+        Tue, 23 Jun 2026 01:58:25 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c0c60ac9406sm479425366b.38.2026.06.23.01.58.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jun 2026 01:50:21 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>, Amit Barzilai
- <amit.barzilai22@gmail.com>
-Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, andy@kernel.org,
- gregkh@linuxfoundation.org, deller@gmx.de, azuddinadam@gmail.com,
- chintanlike@gmail.com, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 4/4] staging: fbtft: remove fb_ssd1351 driver
-In-Reply-To: <ajpGy7K4eM8oJIfD@ashevche-desk.local>
-References: <20260622152506.78627-1-amit.barzilai22@gmail.com>
- <20260622152506.78627-5-amit.barzilai22@gmail.com>
- <ajpGy7K4eM8oJIfD@ashevche-desk.local>
-Date: Tue, 23 Jun 2026 10:50:20 +0200
-Message-ID: <87ik79iqsz.fsf@ocarina.mail-host-address-is-not-set>
+        Tue, 23 Jun 2026 01:58:25 -0700 (PDT)
+Date: Tue, 23 Jun 2026 11:58:21 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Ganesh Harshan <ganeshredcobra@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, khushalchitturi@gmail.com,
+	dennylin0707@gmail.com
+Subject: Re: [PATCH] staging: rtl8723bs: fix timer rescheduling in rtw_cmd
+ callbacks
+Message-ID: <ajpKrWRzWdNoayhT@stanley.mountain>
+References: <20260622230448.4138-1-ganeshredcobra@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: u0oIWW9AtxxGXVEhO9q126bAUft1ft5U08CnybnVb9o_1782204623
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260622230448.4138-1-ganeshredcobra@gmail.com>
 
-Andy Shevchenko <andriy.shevchenko@intel.com> writes:
+On Mon, Jun 22, 2026 at 07:04:48PM -0400, Ganesh Harshan wrote:
+> Ensure scan and association timers are deleted before being
+> rescheduled when command execution fails.
+> 
+> Without deleting the existing timer, multiple timer instances
+> may be active simultaneously, potentially leading to duplicate
+> timeout handling or unexpected behavior.
+> 
+> Use timer_delete_sync() to safely stop active timers before
+> rescheduling.
+> 
+> Signed-off-by: Ganesh Harshan <ganeshredcobra@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_cmd.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> index b932670f5d63..967c3258e0b8 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+> @@ -1801,7 +1801,9 @@ void rtw_survey_cmd_callback(struct adapter *padapter,  struct cmd_obj *pcmd)
+>  	struct	mlme_priv *pmlmepriv = &padapter->mlmepriv;
+>  
+>  	if (pcmd->res != H2C_SUCCESS) {
+> -		/* TODO: cancel timer and do timeout handler directly... */
+> +		/* Ensure timer is safely rescheduled */
+> +		if (timer_pending(&pmlmepriv->scan_to_timer))
+> +			timer_delete_sync(&pmlmepriv->scan_to_timer);
+>  		_set_timer(&pmlmepriv->scan_to_timer, 1);
 
-> On Mon, Jun 22, 2026 at 06:25:06PM +0300, Amit Barzilai wrote:
->> The SSD1351 support was added to the ssd130x DRM driver. To avoid
->> confusion and irrelevant updates, the staging fb_ssd1351 driver is
->> removed.
->
-> NAK, the fbtft has two drivers in one (SPI + parallel), plus as Maxime said,
-> it has its own binding.
->
+Sorry, but this seems like a pointless change.
 
-Yes, I agree that we don't want to delete the fbtft driver.
+The _set_timer(&pmlmepriv->scan_to_timer, 1) means we want the timer to
+trigger in 1 ms.  In the current code if it's already running, it will
+run again in 1ms.
 
--- 
-Best regards,
+In your code, we test if it's running and if it is then we wait for it
+to stop and then delete the timer so nothing else can run, and then we
+run it again in 1ms.
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+The result is 100% the same either way.  Either way we call the
+rtw_scan_timeout_handler() function twice.  And that's fine so far as
+I can see.
+
+You have misunderstood the comment.  They wanted to disable the timer
+and call rtw_scan_timeout_handler() right away instead of with a 1ms
+delay.  I don't know how much weight I would put in this comment.  We
+won't be able accept a change like that unless you are able to test it.
+
+regards,
+dan carpenter
 
