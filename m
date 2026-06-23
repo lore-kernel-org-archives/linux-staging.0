@@ -1,183 +1,123 @@
-Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
+Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 510433C1961
-	for <linux-staging@lists.linux.dev>; Tue, 23 Jun 2026 22:08:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90B363C1F45
+	for <linux-staging@lists.linux.dev>; Tue, 23 Jun 2026 22:10:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782252487; cv=none; b=pA36LQzANeICwXfbM27R0/B52tWyymBlVJY6m9DhXB2oz5j1oJfEmcSNrbW/xivBepOecYPrp7P7ZRCmJf8QLdj3hokZuUJWzc+XKiuFXRzn/Wd2rgOSKKPrpeJvRg0TiQuY9J6inv0QV6XZfjwGI3aeNs8pPrlFYk1ZcORqZkI=
+	t=1782252639; cv=none; b=puX8gBEuFbeXGrfPZjPofBUkLx9HaojG+8UD8hMdVBTc3iht9OUVsr1Pu09mAHlD+KBKgZImpOvKpmDDysYZMHoLAdismkHcdwNBBS9+tT4F5ovK8tDz3UiypcGGjJwRjtVXAUIHFbS8vkEWhNH17/cMGG0S003NWaJu8Zk5sGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782252487; c=relaxed/simple;
-	bh=lNXn1c7ul1Qw9cqjrQBp7PVBWt6LnOI3GgUPNKi5+4k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=WQRbvd5z3emJ5IgbyivuIAFLNReCh0hiMmua3Zk+/pDqhsoBUMS6uWa5RM7o7XJ0Jlx05E9HO57zjWmmusVse0oyMFpnQd+xk1OblXoUJ15FYEWPZL6jUjIE3EDKIdKcDlTggoi012RH+2e6mBttjo6r1/+/qwaQ4nwPtc1714M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q4GKDRxd; arc=none smtp.client-ip=74.125.82.50
+	s=arc-20240116; t=1782252639; c=relaxed/simple;
+	bh=2ZmnH69X9i6LOFCWhM4qK/TDF+q7CGkCI6G71ROtLpI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NNM38pxvVylRIwWUb4jIVMVgfm9czvydHDgCkmXs52pJQu7HmcYFSiCTD23guyu3Ii62iCMmcC+OLLxpgFE7LWn2zoa40+HBGC51B4d9KeiHm97VlgwlV9ZH0fpjE8gWhYbqqB6YjAI5X5CmJ/bAHvlJDbQ/WQusCWVxOall/Wo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iFRxpD8D; arc=none smtp.client-ip=74.125.82.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q4GKDRxd"
-Received: by mail-dl1-f50.google.com with SMTP id a92af1059eb24-13981833e13so431166c88.1
-        for <linux-staging@lists.linux.dev>; Tue, 23 Jun 2026 15:08:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iFRxpD8D"
+Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-30b9e755555so731990eec.1
+        for <linux-staging@lists.linux.dev>; Tue, 23 Jun 2026 15:10:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782252484; x=1782857284; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1782252637; x=1782857437; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=YOL8VtWrnRwJt4crP4/M+gcAvtEL34NsfOvVl0X3Szg=;
-        b=Q4GKDRxdKDNVncArDm51DVMU4gtvL49nUTH3uFxUo90pIYq7x6KC64KZ2m0h3YN+AK
-         5rrLbit24H9wrPwhCzfUkPtdwFxog0Nhqi+p1YjpUqBfW+3p/YZ3UId+mope8GqzC6PO
-         UlNooM78dVVTZTkfZbLNxtxNjq4WRLiy4RxJfbd2A3uge21h3OSDXlY42suwcQfVcFET
-         Zr3Xvo0bJUz5a/YdzaIo75DRhs4MbfLJDtlGz5fIJqMfwV2qhEPmG5gaxrOAKaxSVShy
-         DNyBG7ZqoLpklVMKyKUpcSwToIF5fgRciGfy4/cP1dW2V03qqBK2qZe2ZBbrbZb3oqgq
-         UdRw==
+        bh=zef6035xk0sI/Vr1UN1WS9r7Ogg1PRDClgF390fpwy0=;
+        b=iFRxpD8Df2yPnkHtfvcImwN+8vupZ4cIVArfxytdyjLtnmJHzh/UqO8U4CmGu6EZx7
+         cAk3DAOXZl42zMxyjrmFXfn5YmAC+MFJn0pBn2E76FFaXqDKAk/BoVbU42Iv5omhJVxu
+         NdgDQ/NwRE1+B5ntQK6ECATFB3OKUAjDxv/YmMDbgGQsc63AFbWxRfuh84Ira3P+GiG/
+         MOue7bRTeH2b27Nzs9RLdx+oYBnmk7oRkv3PNWxPZOBgDhzgO4g7A2oPbK7dTUKPk77g
+         omXLFNBwkt9aZL8dyoF4Ht3Dum4rBawcroo64Y+sTFmtTSeZYqAbIeoTDOP6HgeNYe2F
+         abeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782252484; x=1782857284;
+        d=1e100.net; s=20251104; t=1782252637; x=1782857437;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YOL8VtWrnRwJt4crP4/M+gcAvtEL34NsfOvVl0X3Szg=;
-        b=fG2Rz20xVGLB4iJNkwD2dGkVmC304bkFqqdKbZVMgUNiYpUeZEZ7qBTko0NprMnYLC
-         p2YIhXmkIjw0CwP894wuxuWGv+TM06fMyK37snR6sPSadeJrUS0xWLtTH3hxbnxP3bbi
-         NtBgkIyTRmjp5pgFH2m9AorXX7Q9exQHU0w1VaYp1NLg3he2+G62l5Ygebze71KFHUY3
-         3mPk+EkJDjXYQr7ryVKCAkSxnuFQ+900hhDWKyHMQu3HrCYEDnPNd1QX/6rpKyLbWYVm
-         A9/9qQu4QBur6z3EU5B+COMYN286PK4QRIhQokRz3XLpMouE83lvf5uFCRI2tCaOGvjQ
-         xrBw==
-X-Forwarded-Encrypted: i=1; AFNElJ+4pqLd/JIRNFinPXgLTi6CnT1EoO+FOQsjQgjmEv72a6jc0PimFabl6TaqUlf/UQ6MRBmhfe6QyrNI4l4U@lists.linux.dev
-X-Gm-Message-State: AOJu0YzxMUC+5F4OVKazhr2LOO4Hcz/tCAHebA3EvZByQsXID9o+w/kj
-	2rz7kd9SM9mRPXDONBv1RtJcDNtMhnVG7Eudpm2k0Ia/Y8+QEy08yukcJQJ+K7Ff7LaFnGB7xNQ
-	=
-X-Gm-Gg: AfdE7cl3KdFqTfe0Z2zJkro5DdrmoNQq8cgF5EfWzxdPOPPqyUQEALLxpVmyGymM94/
-	OEQk0AH40H6ncD+8LoZt68UVHN+WPIkfWaouhI9nD3pMsRKzvXMBZ1JzX8ldaa1kn/KW5B5R6QA
-	A0SLorxLk+NOVP3HrvrecGe1vG2mboeVdVGRUbwMiqt+oNXgUoCQqX9sFRAhB+DR2Vhb6AC8jH8
-	Qg9E4s7V38jfYJemIz0GpDVURFkq17bDe1W7y9l4S0FbZGcEwrEwjOOk5UFmNrx8cCJcl3SKXM4
-	i+lKoHPF62GX7CKQ+sAPcqCl/iHmbrn+ig43zzBbYgXRBupFrOC2M0pyqtavOHeO1qdYpNEVYak
-	xnb0hJ0HiE2i7cVTnNIuDAkRiZ6tm72si/ScufSsBw7K8P8b+CsmHj0bquq8ijZlo/TApMGFGoc
-	JPGCpFJ74X
-X-Received: by 2002:a05:7022:2606:b0:139:9e79:43fa with SMTP id a92af1059eb24-139c5cfe482mr3602277c88.9.1782252484284;
-        Tue, 23 Jun 2026 15:08:04 -0700 (PDT)
-Received: from adr.. ([103.216.221.115])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-139c2f622d1sm8699410c88.7.2026.06.23.15.07.58
+        bh=zef6035xk0sI/Vr1UN1WS9r7Ogg1PRDClgF390fpwy0=;
+        b=bu0l7KU9xnBbUlC+S+4iUsAEc/v4N6RpXDl4kjUbffjY07cts0iQCfj1QNghqRzscc
+         ylyJxOX9g+UEsxZcYjFhZSFSUBHz4qOPj5wk01/7LNoh75O11TYMW2kTkb5IXIFpEII6
+         hphx6VCho1I/YKLlpVxYC0E/ILssKejnTtsKeQZWdI7Ubs69xP05lw6U/s3eQxlNB6ye
+         WpTgEBfV8pN39L3dn/EbTvP6+cGX6NY8JFKwjAI9buQSfdwmSDcvOOn2rcEyF7oLj6b2
+         ZLO4MVlW1absjs3mPDdlDPCzjpL4g0NinNrnwlRCkFGbtIM9RGOrtNqYObssAa6kWuQT
+         /Gew==
+X-Forwarded-Encrypted: i=1; AHgh+RrXqNSF7BaXeo1Dmd6idk7IEuaoqs3CfbvrH3fib1nldUEv1TdI6aa6ITn7WKKfi76sNijrCGo4oWoE0MLw@lists.linux.dev
+X-Gm-Message-State: AOJu0YxwwAXf9HXT1aQq41H8B338p5cez3bpEjcLsy2xeEXkiAivxDUK
+	0/aZYtLCeqMFE8mqdrG2mTz9eUPLPbS8wWGdE2He5drq9q3/hKMur45r
+X-Gm-Gg: AfdE7ckqv7v09tfoeQMs043n8VvHbZutHRXugfE+kCgIUCta8wAcymfVB79UPLNzdm6
+	B0/7iOJTffd2MnsWQQfRHFlckK0erd5y0Ku4X3kkVJGmTfkCn8/6HDy5nn1vbGb8oCpkXBNbXP2
+	zjygFSq3U4WCV+HFLbcyIsWBdNl0JOxtKm6b8MliaQ7X4bkpFX+inauSBl1Ktxi2jlvK9C5DgbB
+	9HZmtGQLpnmj7cbCFI0WlFbRSKXTvuZEPLSC3Q0HbpWe4cpu16p/Q5w31TsbSb3toeDSoVSQhMA
+	0tP20AZXc8pe9hvHFHDqo/qvttxly01TFntqSY2JlwQtzkGh1vqV1LlEQwrEsuFUB8poCSo3Ti2
+	7o/jgahoDoCgOVfxpHWmHU+gdsG2whHrD5F+o+l+YSjJiqU08swl3rI+nmlB9q/dCQJUSj6Rlb/
+	8Tb6LrCUxRtzUp1GFzWEyIBElS9EiT3CdtX+m/7zePdaJ+YqNEaxc9ixz2Oovd8KY/6fI=
+X-Received: by 2002:a05:7300:b918:b0:304:de8e:17b with SMTP id 5a478bee46e88-30c68c4219amr1110911eec.5.1782252636568;
+        Tue, 23 Jun 2026 15:10:36 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14d:4c64:82a2:c10d:2699:12a0:58d6])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30c5178a68dsm9059903eec.22.2026.06.23.15.10.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jun 2026 15:08:03 -0700 (PDT)
-From: =?UTF-8?q?Andr=C3=A9=20Moreira?= <andrem.33333@gmail.com>
-To: sudipm.mukherjee@gmail.com,
-	teddy.wang@siliconmotion.com,
-	gregkh@linuxfoundation.org
-Cc: linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
+        Tue, 23 Jun 2026 15:10:36 -0700 (PDT)
+From: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
+To: andy@kernel.org,
+	hansg@kernel.org,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org,
+	feng@innora.ai
+Cc: ~lkcamp/patches@lists.sr.ht,
+	linux-kernel-mentees@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Andr=C3=A9=20Moreira?= <andrem.33333@gmail.com>
-Subject: [PATCH] staging: sm750fb: rename variables to avoid CamelCase
-Date: Tue, 23 Jun 2026 19:06:14 -0300
-Message-ID: <20260623220614.29682-1-andrem.33333@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH v3 0/3] staging: media: atomisp: use kvmalloc_objs() and drop redundant OOM messages
+Date: Tue, 23 Jun 2026 19:09:25 -0300
+Message-ID: <20260623221028.40238-1-rodrigo.gobbi.7@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Rename 'pvReg' to 'pv_reg' and 'setAllEngOff' to 'set_all_eng_off'
-throughout the driver to comply with the Linux kernel coding style.
+Several allocations in the atomisp driver still size their buffers with
+open-coded multiplication, e.g. width * height * sizeof(*p). When the
+dimensions are large the product can silently wrap, causing kvmalloc()
+to allocate an undersized buffer.
 
-Signed-off-by: André Moreira <andrem.33333@gmail.com>
+Convert the remaining sites to kvmalloc_objs() with array_size(), which
+saturate to SIZE_MAX on overflow so kvmalloc() returns NULL instead of
+allocating too few bytes.
+
+This continues the work started in commit [2], and picks up the stalled
+sites from [1], unifying with [3].
+
+While here, drop the redundant IA_CSS_ERROR("out of memory") messages on
+the touched allocation paths: the memory management core already emits a
+far more detailed warning on allocation failure as raised at [1].
+
+[1] https://lore.kernel.org/all/20260413112904.98864-1-feng@innora.ai/
+[2] https://github.com/torvalds/linux/commit/d178c7ca8fefc28115d35b94c3b1f4d653e34182
+[3] https://lore.kernel.org/all/20260609215110.118860-1-rodrigo.gobbi.7@gmail.com/
 ---
- drivers/staging/sm750fb/sm750.c    |  6 +++---
- drivers/staging/sm750fb/sm750.h    |  4 ++--
- drivers/staging/sm750fb/sm750_hw.c | 12 ++++++------
- 3 files changed, 11 insertions(+), 11 deletions(-)
+Changelog:
+v3: keep original author chain/tags at v2 and v3; minor cnt usage at v2 for readability;
+v2: https://lore.kernel.org/all/20260622224402.34001-1-rodrigo.gobbi.7@gmail.com/
+v1: https://lore.kernel.org/all/20260609215110.118860-1-rodrigo.gobbi.7@gmail.com/
+---
+Feng Ning (1):
+  staging: media: atomisp: use kvmalloc_objs() for overflow-safe
+    allocation
 
-diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index 89c811e0806c4..716a8935f58d1 100644
---- a/drivers/staging/sm750fb/sm750.c
-+++ b/drivers/staging/sm750fb/sm750.c
-@@ -743,7 +743,7 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
- 	 * must be set after crtc member initialized
- 	 */
- 	crtc->cursor.offset = crtc->o_screen + crtc->vidmem_size - 1024;
--	crtc->cursor.mmio = sm750_dev->pvReg +
-+	crtc->cursor.mmio = sm750_dev->pv_reg +
- 		0x800f0 + (int)crtc->channel * 0x140;
- 
- 	crtc->cursor.max_h = 64;
-@@ -848,7 +848,7 @@ static void sm750fb_setup(struct sm750_dev *sm750_dev, char *src)
- 	sm750_dev->init_parm.mem_clk = 0;
- 	sm750_dev->init_parm.master_clk = 0;
- 	sm750_dev->init_parm.power_mode = 0;
--	sm750_dev->init_parm.setAllEngOff = 0;
-+	sm750_dev->init_parm.set_all_eng_off = 0;
- 	sm750_dev->init_parm.reset_memory = 1;
- 
- 	/* defaultly turn g_hwcursor on for both view */
-@@ -1047,7 +1047,7 @@ static void lynxfb_pci_remove(struct pci_dev *pdev)
- 	sm750fb_framebuffer_release(sm750_dev);
- 	arch_phys_wc_del(sm750_dev->mtrr.vram);
- 
--	iounmap(sm750_dev->pvReg);
-+	iounmap(sm750_dev->pv_reg);
- 	iounmap(sm750_dev->vmem);
- 	pci_release_region(pdev, 1);
- 	kfree(g_settings);
-diff --git a/drivers/staging/sm750fb/sm750.h b/drivers/staging/sm750fb/sm750.h
-index d2c522e67f26a..e8885133da2e1 100644
---- a/drivers/staging/sm750fb/sm750.h
-+++ b/drivers/staging/sm750fb/sm750.h
-@@ -44,7 +44,7 @@ struct init_status {
- 	ushort chip_clk;
- 	ushort mem_clk;
- 	ushort master_clk;
--	ushort setAllEngOff;
-+	ushort set_all_eng_off;
- 	ushort reset_memory;
- };
- 
-@@ -97,7 +97,7 @@ struct sm750_dev {
- 	unsigned long vidreg_start;
- 	__u32 vidmem_size;
- 	__u32 vidreg_size;
--	void __iomem *pvReg;
-+	void __iomem *pv_reg;
- 	unsigned char __iomem *vmem;
- 	/* locks*/
- 	spinlock_t slock;
-diff --git a/drivers/staging/sm750fb/sm750_hw.c b/drivers/staging/sm750fb/sm750_hw.c
-index 34a837fb4b649..95f797e5776a2 100644
---- a/drivers/staging/sm750fb/sm750_hw.c
-+++ b/drivers/staging/sm750fb/sm750_hw.c
-@@ -23,18 +23,18 @@ int hw_sm750_map(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
- 	}
- 
- 	/* now map mmio and vidmem */
--	sm750_dev->pvReg =
-+	sm750_dev->pv_reg =
- 		ioremap(sm750_dev->vidreg_start, sm750_dev->vidreg_size);
--	if (!sm750_dev->pvReg) {
-+	if (!sm750_dev->pv_reg) {
- 		dev_err(&pdev->dev, "mmio failed\n");
- 		ret = -EFAULT;
- 		goto err_release_region;
- 	}
- 
--	sm750_dev->accel.dpr_base = sm750_dev->pvReg + DE_BASE_ADDR_TYPE1;
--	sm750_dev->accel.dp_port_base = sm750_dev->pvReg + DE_PORT_ADDR_TYPE1;
-+	sm750_dev->accel.dpr_base = sm750_dev->pv_reg + DE_BASE_ADDR_TYPE1;
-+	sm750_dev->accel.dp_port_base = sm750_dev->pv_reg + DE_PORT_ADDR_TYPE1;
- 
--	mmio750 = sm750_dev->pvReg;
-+	mmio750 = sm750_dev->pv_reg;
- 	sm750_set_chip_type(sm750_dev->devid, sm750_dev->revid);
- 
- 	sm750_dev->vidmem_start = pci_resource_start(pdev, 0);
-@@ -58,7 +58,7 @@ int hw_sm750_map(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
- 	return 0;
- 
- err_unmap_reg:
--	iounmap(sm750_dev->pvReg);
-+	iounmap(sm750_dev->pv_reg);
- err_release_region:
- 	pci_release_region(pdev, 1);
- 	return ret;
+Rodrigo Gobbi (2):
+  staging: media: atomisp: use kvmalloc_objs() in make_histogram()
+  staging: media: atomisp: drop redundant out-of-memory messages
+
+ .../media/atomisp/pci/sh_css_metrics.c        |  11 +-
+ .../media/atomisp/pci/sh_css_param_dvs.c      |   5 -
+ .../staging/media/atomisp/pci/sh_css_params.c | 101 +++++++-----------
+ 3 files changed, 41 insertions(+), 76 deletions(-)
+
 -- 
-2.43.0
+2.48.1
 
