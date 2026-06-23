@@ -1,64 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F11239EB73
-	for <linux-staging@lists.linux.dev>; Tue, 23 Jun 2026 09:37:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAF04367F25
+	for <linux-staging@lists.linux.dev>; Tue, 23 Jun 2026 09:52:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782207459; cv=none; b=iU0Obesz3HibO7pVz3Yp3gWchbpsgcjOPykQJDBVhv4sYduJF5l2Djg5NrqI16OpxVtb5puk5WNczqd9+5vyfooQs2RRFoOT3hI7+XlUX+UE497qxX35M2RnyWBMHqXy6UcnuEOWecMkoe21GFu4gJZkwT49hO6gSnfdn0lNLb0=
+	t=1782208344; cv=none; b=u8vBbLYCaln6ZJNLdzDWkVVardyIDD+9kflp2IVE69WCzHE/j6Cla9wdxzlSX+XDn1udT+Et+v1uVQ+9TCgfOVvrRM1FIxGxp9cEP2ZUmpzXCMM3wYHb34e3WZGQjyKhcnin2Ljsa+Ug7BqTW3uLxqFdmKIOF9YfQ1BohFEFzhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782207459; c=relaxed/simple;
-	bh=JksADWb34Msa6pz390S5qh5F2TMVd8PTqSrktgyXJvQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mZA7ClkJGczfvQowG9ec0c+UoZ+Sv6uPouMj/Use0AjuVKyqdWXKDAWPwOm39oS5JKBRxXX5/ErcAxadRGmS0vCytLwHUpsJG7NeAnolBDKVj+JkErwSZZZRxqlIJBD8dJ3Uiq2UgIR/fcP/yQ/zEEsu9myoxZV+zY2Ne7nkc/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fWbK/2Se; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1782208344; c=relaxed/simple;
+	bh=hgqCcq1PQRKQCWjcrZ/QjPKv99CFJ1qZGfzflF/vPgg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=sTCwElN7QagOH5va+ex39w/S7wSnN8t3wIxs1yFNfz8nRYrj1KeFawpwelRk7gFOuOCixe7gYHCs4cnRwCHuo8AhFecCNEmW5lLDkAGI73JOhlI9UbvFC+1g+qlxfpeetG88cXGEUz+tOVHrt/h53HILT0hx3ED1Ps+Sb8+UOzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qbgmeSOH; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fWbK/2Se"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782207458; x=1813743458;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JksADWb34Msa6pz390S5qh5F2TMVd8PTqSrktgyXJvQ=;
-  b=fWbK/2SenuwJCpmAHaKcLOdObaZdQM47lDvELZEBvP2aIpD5lfklnOE9
-   3J+d9FyKs+kEKeSKMKTTDL72s1iCjEqkWBUK/837xDBPruaFym97wzoBd
-   NWn8Y/fyvU09WbxUdVhZnWWroQgMMLLp/8GOYDctqG8DZdU/RDOG+JLsa
-   hHnBs3fFwBtU68N8XPjtc7vt9yVTcXWyeHboTm9cOJQ7jEP/VZ2QSql5x
-   7bFY2FlkdA4NhLT1CFEO1R0THYhdSNsGCoD/uJAKaI3cpXnHwt5JhHszL
-   qeog7LMjT6JVbr2VkDDyoBS9aSKhqGe04WLP1n6xLyEIO/PcIFhWuRa+5
-   w==;
-X-CSE-ConnectionGUID: f7VW8+XbS/S6o2AceV7rhw==
-X-CSE-MsgGUID: EB4y5byVTWqLXb7pdje7yw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11825"; a="93601375"
-X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
-   d="scan'208";a="93601375"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 02:37:38 -0700
-X-CSE-ConnectionGUID: NYS6AyGOQLat9wdWX+4nDg==
-X-CSE-MsgGUID: 4Ud/jYYTQ4KM1DK9TFbu3A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
-   d="scan'208";a="251405333"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.7])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 02:37:33 -0700
-Date: Tue, 23 Jun 2026 12:37:31 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Amit Barzilai <amit.barzilai22@gmail.com>
-Cc: javierm@redhat.com, maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
-	simona@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, andy@kernel.org, gregkh@linuxfoundation.org,
-	deller@gmx.de, azuddinadam@gmail.com, chintanlike@gmail.com,
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 3/4] drm/ssd130x: Add SSD135X_FAMILY and SSD1351
- support
-Message-ID: <ajpT24VIdrZdEzel@ashevche-desk.local>
-References: <20260622152506.78627-1-amit.barzilai22@gmail.com>
- <20260622152506.78627-4-amit.barzilai22@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qbgmeSOH"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-45ee5cdbd28so372463f8f.1
+        for <linux-staging@lists.linux.dev>; Tue, 23 Jun 2026 02:52:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782208340; x=1782813140; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Rm+s6mk9ZAlc4wD5sMvSipKxCyMqx6sDtIEaiWJ9ULI=;
+        b=qbgmeSOHvq6GV9MdVev6YrAJ29mRiehUj9hhFHPOYjNJY7TKRQVC8zcFfoG/e0S/tz
+         5IK4bMJ8jfhXmKxSLPCxkeGo7QxHOw71cTKIcHrVrW2D5d9s4qe0oDHD9LXFHFmmZXNv
+         H7tYHtsO91cXXjR0nJW18/KpzCgeP3bRhwd84QM2Vj47XPThqnfa2iDr3eGM+OFPS7qE
+         FcbeQP9u0gGQ8Q0245T9CRC4eOoWweeefLPPkzOQtHKXO6HLFNI/BJzZwnVVvUEsKKue
+         Jw0yHKnqFIFnI+k7vn3rUQwAiZXhIt4LFbslW/aLMRX3iE5U9m4w8CuCAMJXPPhIuN/d
+         AL+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782208340; x=1782813140;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Rm+s6mk9ZAlc4wD5sMvSipKxCyMqx6sDtIEaiWJ9ULI=;
+        b=Jfr22ImPePPUHT2QhiP4HyYXJfsDArmk3rzbk14Bdxr680tNpy1/UP02ObpTmkJ2hY
+         quTWhdw1WHws24a21DIAw9BGwmmZLs+yyUPMT4Eq/bZJ0PfCZWXiEEmIANId/tzkfHfF
+         5cVni21F+gqu5WVAVQEeHB3PClbGezZ/GEPJyx1rUhn+7UATqPpWUP0tBuegxep0KEd+
+         mq/J19rj65RaLLwhqAlVOFKUHEJfxqSJZo7cO3CINaZQaBcbA7Cn4+mrAqTgnE0uSOD6
+         lgm6jq2M367W3FvsbdUu5DJBmlAbkiyA4r0+0047CBT0m796p2aTrgG90mqSLXQlPjjc
+         gS/w==
+X-Gm-Message-State: AOJu0YzZa364EZkonqVr2thSvQiFzDLO7xuegJ9Pgp0d4NVpd0rtc/ZM
+	mIgG+QeCIYUnRx75fuLRtRMlbSeQ8LTNfOu7mRC4HougAdJs1w+zC01K
+X-Gm-Gg: AfdE7clhv+t3CADU7+lJTJg8mT1+EXwdfp91kswz44wLE+EnV2gSDtc/VP8MedVbqu4
+	bPcCQoV1waOvjVgtu3L98wCGZ7ZHvdRZULvGP8GVpk4ILe5U3HWg8wuWwucnBDhGaQjB58Cy6T8
+	Ep+zM4eGwoqdypnxZHpqHN9CSeB1QPpDSJ/KLcDg1efkhxCoUwCIAr20mkrxJYRJjDhUXJ20NG6
+	nqUCdXYLA1QMyTOLmv/OpX8ORt4j/XCD0uvx338xvp4HSSV//uNf3q/V0cp0HrbeyQXi4ztaWZn
+	DGAPnPJEswTcb8onAcOmBHiGlWAWtZKjTjrFYdLZgc1AKhQK9nTe5d+BAQn063oYY/ELxkfEV/d
+	8tG1qaxqyrQVvphuoGlNf0Bo1ld2df010Ud6T74AqiBaZX6zD6jesO/WPocnGdNldVkYTRanygE
+	xa1CEQ0kPKIXzDcEvzUe2de/EOYM/8N0tvky6Sk0A6CaTsddK/75gYH1jAnqjraKuTgbw=
+X-Received: by 2002:a05:6000:250a:b0:463:3184:6310 with SMTP id ffacd0b85a97d-46a80f5c67amr4835644f8f.28.1782208340051;
+        Tue, 23 Jun 2026 02:52:20 -0700 (PDT)
+Received: from localhost (dslb-002-204-131-161.002.204.pools.vodafone-ip.de. [2.204.131.161])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-466643f4e93sm36842772f8f.7.2026.06.23.02.52.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Jun 2026 02:52:19 -0700 (PDT)
+Date: Tue, 23 Jun 2026 09:51:00 +0000
+From: Dalvin-Ehinoma Noah Aiguobas <fliegbert2@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rtl8723bs: fix CamelCase warning for OnAssoc
+Message-ID: <ajpXBI0GxOGkmTUF@koolguy>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,284 +70,235 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260622152506.78627-4-amit.barzilai22@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Mon, Jun 22, 2026 at 06:25:05PM +0300, Amit Barzilai wrote:
-> The Solomon SSD1351 is a 128x128 RGB color OLED controller. It shares
-> the SSD133X data path: a column/row addressing window followed by a bulk
-> RGB565 pixel write. Add it as a new SSD135X_FAMILY rather than a separate
-> driver, reusing the SSD133X plane, CRTC and blit/clear helpers.
-> 
-> The only data-path difference is that the SSD1351 requires an explicit
-> Write RAM command (0x5c) after the address window is programmed, before
-> pixel data is accepted, whereas the SSD133X enters data mode implicitly.
-> This is emitted from a shared ssd133x_write_pixels() helper so both the
-> damage-update and clear-screen paths cover it.
-> 
-> The SSD1351 also needs its own init sequence (ssd135x_init), dispatched
-> via ssd135x_encoder_atomic_enable, and a longer post-reset settle delay.
-> The re-map byte is fixed at 0 degrees, 65k color, COM split, BGR
-> sub-pixel order; rotation is not supported.
-> 
-> The SSD1351 is SPI-only, so only the SPI transport match tables gain an
-> entry; no new config symbol is needed.
+Rename OnAssoc values from CamelCase to snake_case to conform to
+linux kernel coding style:
+OnAssocReq	  -> on_assoc_req
+OnAssocRsp	  -> on_assoc_rsp
+WMMOnAssocRsp     -> WMM_on_assoc_rsp
+HTOnAssocRsp	  -> HT_on_assoc_rsp
+OnAssocReqFail	  -> on_assoc_req_fail
 
-...
+Signed-off-by: Dalvin-Ehinoma Noah Aiguobas <fliegbert2@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_mlme.c     |  2 +-
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 38 +++++++++----------
+ .../staging/rtl8723bs/core/rtw_wlan_util.c    |  4 +-
+ .../staging/rtl8723bs/include/rtw_mlme_ext.h  |  8 ++--
+ 4 files changed, 26 insertions(+), 26 deletions(-)
 
-> const struct ssd130x_deviceinfo ssd130x_variants[] = {
-
->  		.default_height = 64,
->  		.format_rgb565 = 1,
->  		.family_id = SSD133X_FAMILY,
-> +	},
-> +	/* ssd135x family */
-> +	[SSD1351_ID] = {
-> +		.default_width = 128,
-> +		.default_height = 128,
-> +		.format_rgb565 = 1,
-> +		.family_id = SSD135X_FAMILY,
->  	}
-
-While it's not a problem _in this case_, the rule of thumb is always to have a
-trailing comma for non-terminator entry.
-
-...
-
->  /*
->   * Helper to write data (SSD13XX_DATA) to the device.
->   */
-> -static int ssd130x_write_data(struct ssd130x_device *ssd130x, u8 *values, int count)
-> +static int ssd130x_write_data(struct ssd130x_device *ssd130x, const u8 *values, int count)
->  {
->  	return regmap_bulk_write(ssd130x->regmap, SSD13XX_DATA, values, count);
->  }
-
-Stray change. If needed, either explain in the commit message or create
-a separate patch (depending on the dependencies).
-
-...
-
->  	unsigned int i;
->  	int ret;
->  
-> +	/*
-> +	 * The SSD135X family latches command parameters with D/C# HIGH (i.e.
-> +	 * clocked in as data), unlike the other families where the opcode and
-> +	 * all of its parameters are sent as commands (D/C# LOW). Send the
-> +	 * opcode as a command and any following parameter bytes as data.
-> +	 */
-> +	if (ssd130x->device_info->family_id == SSD135X_FAMILY) {
-> +		if (len == 0)
-> +			return 0;
-> +		ret = regmap_write(ssd130x->regmap, SSD13XX_COMMAND, cmd[0]);
-> +		if (ret || len == 1)
-> +			return ret;
-> +
-> +		return ssd130x_write_data(ssd130x, cmd + 1, len - 1);
-> +	}
-
->  	for (i = 0; i < len; i++) {
-
-This loop seems for the len, so it will be the same for both devices as far as
-I can see the context. I can't find this piece in the original driver, perhaps
-it's some dependency?
-
->  		ret = regmap_write(ssd130x->regmap, SSD13XX_COMMAND, cmd[i]);
->  		if (ret)
-
-...
-
-> +/*
-> + * Variadic wrapper around ssd130x_write_cmds(). The first variadic argument is
-> + * the command opcode and the following ones are its options/parameters.
-> + */
-> +static int ssd130x_write_cmd(struct ssd130x_device *ssd130x, int count,
-> +			     /* u8 cmd, u8 option, ... */...)
-> +{
-> +	u8 buf[8];
-> +	va_list ap;
-> +	int i;
-> +
-> +	if (count > ARRAY_SIZE(buf))
-> +		return -EINVAL;
-> +
-> +	va_start(ap, count);
-
-> +	for (i = 0; i < count; i++)
-
-Can be
-
-	for (int i = 0; i < count; i++)
-
-> +		buf[i] = va_arg(ap, int);
-> +	va_end(ap);
-> +
-> +	return ssd130x_write_cmds(ssd130x, buf, count);
-> +}
-
-...
-
-> +static int ssd135x_init(struct ssd130x_device *ssd130x)
-> +{
-> +	/*
-> +	 * Horizontal address increment, COM split, reversed COM scan direction,
-> +	 * BGR sub-pixel order and 65k (RGB565) color depth. Rotation is not
-> +	 * supported, so the remap byte is fixed.
-> +	 */
-> +	u8 remap = SSD135X_SET_REMAP_65K | SSD135X_SET_REMAP_COM_SPLIT |
-> +		   SSD135X_SET_REMAP_COLOR_BGR | SSD135X_SET_REMAP_COM_SCAN;
-
-> +	const u8 cmds[] = {
-
-Why not static?
-
-> +		2, SSD135X_SET_COMMAND_LOCK, 0x12,
-> +		2, SSD135X_SET_COMMAND_LOCK, 0xb1,
-> +		1, SSD13XX_DISPLAY_OFF,
-> +		2, SSD135X_SET_CLOCK_FREQ, 0xf1,
-> +		2, SSD135X_SET_MUX_RATIO, ssd130x->height - 1,
-> +		3, SSD135X_SET_COL_RANGE, 0x00, ssd130x->width - 1,
-> +		3, SSD135X_SET_ROW_RANGE, 0x00, ssd130x->height - 1,
-> +		2, SSD135X_SET_DISPLAY_START, 0x00,
-> +		2, SSD135X_SET_DISPLAY_OFFSET, 0x00,
-> +		2, SSD135X_SET_GPIO, 0x00,
-> +		2, SSD135X_SET_FUNCTION, 0x01,
-> +		2, SSD135X_SET_PHASE_LENGTH, 0x32,
-> +		4, SSD135X_SET_VSL, 0xa0, 0xb5, 0x55,
-> +		2, SSD135X_SET_PRECHARGE, 0x17,
-> +		2, SSD135X_SET_VCOMH_VOLTAGE, 0x05,
-> +		4, SSD135X_SET_CONTRAST, 0xc8, 0x80, 0xc8,
-> +		2, SSD135X_SET_CONTRAST_MASTER, 0x0f,
-> +		2, SSD135X_SET_PRECHARGE2, 0x01,
-> +		1, SSD135X_SET_DISPLAY_NORMAL,
-> +		2, SSD13XX_SET_SEG_REMAP, remap,
-
-> +		0,
-
-No trailing comma for the terminator entry.
-
-> +	};
-> +
-> +	/*
-> +	 * ssd130x_power_on() issues a short reset pulse, but the SSD1351 is not
-> +	 * ready to accept commands immediately afterwards. Give the controller
-> +	 * time to settle before sending the init sequence.
-> +	 */
-
-Any reference to the datasheet?
-
-> +	msleep(120);
-> +
-> +	return ssd130x_run_cmd_seq(ssd130x, cmds);
-> +}
-
-...
-
-> +/*
-> + * Write a run of pixel data to the controller's display RAM. The SSD135X
-> + * family requires an explicit Write RAM command once the address window has
-> + * been set, before any pixel data is accepted; the SSD133X family enters data
-> + * mode implicitly after the column/row range is programmed.
-> + */
-> +static int ssd133x_write_pixels(struct ssd130x_device *ssd130x,
-> +				u8 *data_array, unsigned int count)
-> +{
-> +	if (ssd130x->device_info->family_id == SSD135X_FAMILY) {
-
-> +		int ret = ssd130x_write_cmd(ssd130x, 1, SSD135X_WRITE_RAM);
-> +
-> +		if (ret < 0)
-> +			return ret;
-
-This style is discouraged as it's harder to maintain. Better to split
-assignment and definition
-
-		int ret;
-
-		ret = ssd130x_write_cmd(ssd130x, 1, SSD135X_WRITE_RAM);
-		if (ret < 0)
-			return ret;
-
-> +	}
-> +
-> +	return ssd130x_write_data(ssd130x, data_array, count);
-> +}
-
-...
-
-> static const struct drm_plane_helper_funcs ssd130x_primary_plane_helper_funcs[]
-
->  		.atomic_check = ssd133x_primary_plane_atomic_check,
->  		.atomic_update = ssd133x_primary_plane_atomic_update,
->  		.atomic_disable = ssd133x_primary_plane_atomic_disable,
-> +	},
-> +	[SSD135X_FAMILY] = {
-> +		DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
-> +		.atomic_check = ssd133x_primary_plane_atomic_check,
-> +		.atomic_update = ssd133x_primary_plane_atomic_update,
-> +		.atomic_disable = ssd133x_primary_plane_atomic_disable,
->  	}
-
-As per another similar case.
-
->  };
-
-...
-
-> static const struct drm_encoder_helper_funcs ssd130x_encoder_helper_funcs[] = {
-
->  	[SSD133X_FAMILY] = {
->  		.atomic_enable = ssd133x_encoder_atomic_enable,
->  		.atomic_disable = ssd130x_encoder_atomic_disable,
-> +	},
-> +	[SSD135X_FAMILY] = {
-> +		.atomic_enable = ssd135x_encoder_atomic_enable,
-> +		.atomic_disable = ssd130x_encoder_atomic_disable,
->  	}
->  };
-
-Ditto.
-
-...
-
-
-> diff --git a/drivers/gpu/drm/solomon/ssd130x.h b/drivers/gpu/drm/solomon/ssd130x.h
-> index b0b487c06e04..da89d4455270 100644
-> --- a/drivers/gpu/drm/solomon/ssd130x.h
-> +++ b/drivers/gpu/drm/solomon/ssd130x.h
-> @@ -26,7 +26,8 @@
->  enum ssd130x_family_ids {
->  	SSD130X_FAMILY,
->  	SSD132X_FAMILY,
-> -	SSD133X_FAMILY
-> +	SSD133X_FAMILY,
-> +	SSD135X_FAMILY
-
-Ditto, and this is exactly the whole point why non-terminator entries should
-have a trailing comma.
-
->  };
-
-...
-
->  enum ssd130x_variants {
-
->  	SSD1327_ID,
->  	/* ssd133x family */
->  	SSD1331_ID,
-> +	/* ssd135x family */
-> +	SSD1351_ID,
->  	NR_SSD130X_VARIANTS
-
-See the difference? Here is terminator, which is clear. The above cases are
-not.
-
->  };
-
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+index 1196ec011455..f7662c918473 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+@@ -1496,7 +1496,7 @@ void rtw_cpwm_event_callback(struct adapter *padapter, u8 *pbuf)
+ 
+ void rtw_wmm_event_callback(struct adapter *padapter, u8 *pbuf)
+ {
+-	WMMOnAssocRsp(padapter);
++	WMM_on_assoc_rsp(padapter);
+ }
+ 
+ /*
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index a86d6f97cf02..b32e1e7ac4ba 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -12,10 +12,10 @@
+ #include <linux/unaligned.h>
+ 
+ static struct mlme_handler mlme_sta_tbl[] = {
+-	{WIFI_ASSOCREQ,		"OnAssocReq",	&OnAssocReq},
+-	{WIFI_ASSOCRSP,		"OnAssocRsp",	&OnAssocRsp},
+-	{WIFI_REASSOCREQ,	"OnReAssocReq",	&OnAssocReq},
+-	{WIFI_REASSOCRSP,	"OnReAssocRsp",	&OnAssocRsp},
++	{WIFI_ASSOCREQ,		"on_assoc_req",	&on_assoc_req},
++	{WIFI_ASSOCRSP,		"on_assoc_rsp",	&on_assoc_rsp},
++	{WIFI_REASSOCREQ,	"OnReAssocReq",	&on_assoc_req},
++	{WIFI_REASSOCRSP,	"OnReAssocRsp",	&on_assoc_rsp},
+ 	{WIFI_PROBEREQ,		"OnProbeReq",	&OnProbeReq},
+ 	{WIFI_PROBERSP,		"OnProbeRsp",		&OnProbeRsp},
+ 
+@@ -908,7 +908,7 @@ unsigned int OnAuthClient(struct adapter *padapter, union recv_frame *precv_fram
+ 	return _FAIL;
+ }
+ 
+-unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
++unsigned int on_assoc_req(struct adapter *padapter, union recv_frame *precv_frame)
+ {
+ 	u16 capab_info;
+ 	struct rtw_ieee802_11_elems elems;
+@@ -974,7 +974,7 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
+ 	if (rtw_ieee802_11_parse_elems(pos, left, &elems, 1) == PARSE_FAILED ||
+ 	    !elems.ssid) {
+ 		status = WLAN_STATUS_CHALLENGE_FAIL;
+-		goto OnAssocReqFail;
++		goto on_assoc_req_fail;
+ 	}
+ 
+ 	/*  now we should check all the fields... */
+@@ -985,7 +985,7 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
+ 	if (!p || ie_len == 0) {
+ 		/*  broadcast ssid, however it is not allowed in assocreq */
+ 		status = WLAN_STATUS_CHALLENGE_FAIL;
+-		goto OnAssocReqFail;
++		goto on_assoc_req_fail;
+ 	} else {
+ 		/*  check if ssid match */
+ 		if (memcmp(p+2, cur->ssid.ssid, cur->ssid.ssid_length))
+@@ -996,7 +996,7 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
+ 	}
+ 
+ 	if (status != WLAN_STATUS_SUCCESS)
+-		goto OnAssocReqFail;
++		goto on_assoc_req_fail;
+ 
+ 	/*  check if the supported rate is ok */
+ 	p = rtw_get_ie(pframe + WLAN_HDR_A3_LEN + ie_offset, WLAN_EID_SUPP_RATES, &ie_len, pkt_len - WLAN_HDR_A3_LEN - ie_offset);
+@@ -1006,7 +1006,7 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
+ 		/* support_rate_num = AP_BSSRATE_LEN; */
+ 
+ 		status = WLAN_STATUS_CHALLENGE_FAIL;
+-		goto OnAssocReqFail;
++		goto on_assoc_req_fail;
+ 	} else {
+ 		if (ie_len > sizeof(supportRate))
+ 			ie_len = sizeof(supportRate);
+@@ -1091,7 +1091,7 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
+ 	}
+ 
+ 	if (status != WLAN_STATUS_SUCCESS)
+-		goto OnAssocReqFail;
++		goto on_assoc_req_fail;
+ 
+ 	pstat->flags &= ~(WLAN_STA_WPS | WLAN_STA_MAYBE_WPS);
+ 	if (!wpa_ie) {
+@@ -1112,7 +1112,7 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
+ 				if (!selected_registrar) {
+ 					status = WLAN_STATUS_AP_UNABLE_TO_HANDLE_NEW_STA;
+ 
+-					goto OnAssocReqFail;
++					goto on_assoc_req_fail;
+ 				}
+ 			}
+ 		}
+@@ -1123,7 +1123,7 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
+ 		if (psecuritypriv->wpa_psk == 0) {
+ 			status = WLAN_STATUS_INVALID_IE;
+ 
+-			goto OnAssocReqFail;
++			goto on_assoc_req_fail;
+ 		}
+ 
+ 		if (elems.wps_ie) {
+@@ -1210,14 +1210,14 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
+ 
+ 	if (!pmlmepriv->htpriv.ht_option && (pstat->flags&WLAN_STA_HT)) {
+ 		status = WLAN_STATUS_CHALLENGE_FAIL;
+-		goto OnAssocReqFail;
++		goto on_assoc_req_fail;
+ 	}
+ 
+ 	if ((pstat->flags & WLAN_STA_HT) &&
+ 		    ((pstat->wpa2_pairwise_cipher&WPA_CIPHER_TKIP) ||
+ 		      (pstat->wpa_pairwise_cipher&WPA_CIPHER_TKIP))) {
+ 		/* status = WLAN_STATUS_CIPHER_SUITE_REJECTED; */
+-		/* goto OnAssocReqFail; */
++		/* goto on_assoc_req_fail; */
+ 	}
+ 	pstat->flags |= WLAN_STA_NONERP;
+ 	for (i = 0; i < pstat->bssratelen; i++) {
+@@ -1250,7 +1250,7 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
+ 
+ 			status = WLAN_STATUS_AP_UNABLE_TO_HANDLE_NEW_STA;
+ 
+-			goto OnAssocReqFail;
++			goto on_assoc_req_fail;
+ 
+ 		} else {
+ 			pstapriv->sta_aid[pstat->aid - 1] = pstat;
+@@ -1308,7 +1308,7 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
+ 
+ 	return _FAIL;
+ 
+-OnAssocReqFail:
++on_assoc_req_fail:
+ 
+ 	pstat->aid = 0;
+ 	if (frame_type == WIFI_ASSOCREQ)
+@@ -1319,7 +1319,7 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
+ 	return _FAIL;
+ }
+ 
+-unsigned int OnAssocRsp(struct adapter *padapter, union recv_frame *precv_frame)
++unsigned int on_assoc_rsp(struct adapter *padapter, union recv_frame *precv_frame)
+ {
+ 	uint i;
+ 	int res;
+@@ -4672,10 +4672,10 @@ void mlmeext_joinbss_event_callback(struct adapter *padapter, int join_res)
+ 	update_capinfo(padapter, pmlmeinfo->capability);
+ 
+ 	/* WMM, Update EDCA param */
+-	WMMOnAssocRsp(padapter);
++	WMM_on_assoc_rsp(padapter);
+ 
+ 	/* HT */
+-	HTOnAssocRsp(padapter);
++	HT_on_assoc_rsp(padapter);
+ 
+ 	/* Set cur_channel&cur_bwmode&cur_ch_offset */
+ 	set_channel_bwmode(padapter, pmlmeext->cur_channel, pmlmeext->cur_ch_offset, pmlmeext->cur_bwmode);
+diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+index 1d37c2d5b10d..68801977d54f 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
++++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+@@ -701,7 +701,7 @@ static void sort_wmm_ac_params(u32 *inx, u32 *edca)
+ 	}
+ }
+ 
+-void WMMOnAssocRsp(struct adapter *padapter)
++void WMM_on_assoc_rsp(struct adapter *padapter)
+ {
+ 	u8 ACI, ACM, AIFS, ECWMin, ECWMax, aSifsTime;
+ 	u8 acm_mask;
+@@ -977,7 +977,7 @@ void HT_info_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE)
+ 	memcpy(&(pmlmeinfo->HT_info), pIE->data, pIE->length);
+ }
+ 
+-void HTOnAssocRsp(struct adapter *padapter)
++void HT_on_assoc_rsp(struct adapter *padapter)
+ {
+ 	unsigned char max_AMPDU_len;
+ 	unsigned char min_MPDU_spacing;
+diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
+index cb23c6939bfc..1395a82a33e1 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
++++ b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
+@@ -483,11 +483,11 @@ int is_IBSS_empty(struct adapter *padapter);
+ unsigned char check_assoc_AP(u8 *pframe, uint len);
+ 
+ int WMM_param_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE);
+-void WMMOnAssocRsp(struct adapter *padapter);
++void WMM_on_assoc_rsp(struct adapter *padapter);
+ 
+ void HT_caps_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE);
+ void HT_info_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE);
+-void HTOnAssocRsp(struct adapter *padapter);
++void HT_on_assoc_rsp(struct adapter *padapter);
+ 
+ void ERP_IE_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE);
+ void VCS_update(struct adapter *padapter, struct sta_info *psta);
+@@ -558,8 +558,8 @@ void start_clnt_auth(struct adapter *padapter);
+ void start_clnt_join(struct adapter *padapter);
+ void start_create_ibss(struct adapter *padapter);
+ 
+-unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame);
+-unsigned int OnAssocRsp(struct adapter *padapter, union recv_frame *precv_frame);
++unsigned int on_assoc_req(struct adapter *padapter, union recv_frame *precv_frame);
++unsigned int on_assoc_rsp(struct adapter *padapter, union recv_frame *precv_frame);
+ unsigned int OnProbeReq(struct adapter *padapter, union recv_frame *precv_frame);
+ unsigned int OnProbeRsp(struct adapter *padapter, union recv_frame *precv_frame);
+ unsigned int DoReserved(struct adapter *padapter, union recv_frame *precv_frame);
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.54.0
 
