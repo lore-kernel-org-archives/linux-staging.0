@@ -1,109 +1,124 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D45833890E4
-	for <linux-staging@lists.linux.dev>; Tue, 23 Jun 2026 18:35:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC45661FFE
+	for <linux-staging@lists.linux.dev>; Tue, 23 Jun 2026 19:48:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782239752; cv=none; b=nXuQPfRgEe8+EKAfaZ5IhpinLALzCr4XjZ0yoQ0zITsSZL0INWv1j9kIMMR9ExuJJTpp8KGrG02tiJ2tD5skuJwwjtrZQaBG8ShRw19byNV8eE7RCFwMNySQ1vIGQ5xD+6trW9WXQIG+dkDvNEl+ZnATB5eCrOr8k8VHb947zbQ=
+	t=1782244092; cv=none; b=MBxHRvNGWCNwrdZqeVhDqquUJDUhOWQ+QsSoRQF4mIQQuO2tN342Tb1RKpQlOgruh9cfT6MTSLZ108IVlweE4cDcfgR2MxftvuQpt1kT+RKa/S6VrWfHZ0Mz79kvvkkSZBl8ez/ghUukliOSQ81sqNCVdWytZHVfUPR43bMYS5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782239752; c=relaxed/simple;
-	bh=v++oZ4B3WlclRkJwQJtJCPPJjgqaPLOsZeiw5l6CEA8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KMGChX0knGzpWG/5p56e1GO5WF0Aigj82DIM0a8Kpt2TmjLGcxqKqaTkm9sheQqUJNCcRwi0QZw3JyIgy9tm0yPj1OQc0C++kjV9LFxmtX2WWwwEkQO5g3yML52lGO4HRg1SQQ8nYPiKXyckLxBOGAkfxfQhUiSR2NMpJSKw9YI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N+lVTD5g; arc=none smtp.client-ip=209.85.218.54
+	s=arc-20240116; t=1782244092; c=relaxed/simple;
+	bh=KC18oQKSAWs9kywE6iKwkxctk8zawGZhsNw/Y9wib9w=;
+	h=Message-ID:From:Date:Subject:To:Cc:In-Reply-To:References; b=kBmCkOU+oU2L3tSgMBtTenvtAKDmKWM6Cdc9QsMcFbGxn99N0VEhy+teClgdZORAZZ9fOd4lSQhLpcRZbPIZ6CUvDc1g332mZuinJoe0XtqNTa6yxGtYzmvpzsAbE0wCm2zGmO1/YvV0ZWfDmSZ2jBOfPDgybIhsDOoReBAPgGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SVjtHBos; arc=none smtp.client-ip=209.85.221.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N+lVTD5g"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c07ea058c1aso24008966b.2
-        for <linux-staging@lists.linux.dev>; Tue, 23 Jun 2026 11:35:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SVjtHBos"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-45ef41adbc1so218850f8f.0
+        for <linux-staging@lists.linux.dev>; Tue, 23 Jun 2026 12:48:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782239749; x=1782844549; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=b7PleyFPA3Oi4OpJNJXnDqrQg/YFHemzbxXqY0lIvYc=;
-        b=N+lVTD5gZqP9mRSoYboJ15TA4+PEcRO0d+ijRCwk+FpTQUZcKMr8ExS7VuEKQGBbBc
-         zIeyNMVFU57mKsNcO1DRINIGBPuhsb/p3Zam2clo2f07IHZ6fWCDNmdi+4FqQEfvWp27
-         chHBLx4ZxLDKn+GUSD3fZpAJQ3zFOmuFg4/U+HA+iWwi/1oMPIZP/5jYdK0kb5/XUgf2
-         f3TZQdSMFJyUrUae9+h9c2sHuVKKWQz3a7IZ0jU6Yu2+i+eZP1Xk+LDW+ftat9SAbrDT
-         wj/SeU1N684O1RReweTaX9R2aHq3yj6dhw69rRLQDSKDSEb24ULPdrzdVDNxl01QBpse
-         VAlw==
+        d=gmail.com; s=20251104; t=1782244089; x=1782848889; darn=lists.linux.dev;
+        h=references:in-reply-to:cc:to:subject:date:from:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=TTX5JvYWXCfnby0ctQo6oD6WutWtaxCrVrgoYMRZzBY=;
+        b=SVjtHBosNoPEq28OPtqs317pD+ey7CxYooYRj4SvJhNqDeXS8NxbOGrS9IbaRJ+pzP
+         gN7WnAOtxAfJDH/rXwxkKa00N5Rt9lG/DnmDSmTUGLQ593rWMj1YoVrGyKf8sCP6cVmR
+         xJ9UdZpgIW/NQ2vnDoe2l7wkvYD2hg5atbHp3m2PxLkaGp7ePtJGLecf0IZjF1DTH1uF
+         NeunVmR27AnUoFPIcw0+iIQFc/YVlumIzVSuSgMqVIdZpVvzER16Is1LvEp7dgDNRWcP
+         Z50S4O91Efu4npZzx23eE1dMe5Q1jU7hnGuLQEzeCWojocLZfa13w6Ml1opod66bcXKa
+         PK6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782239749; x=1782844549;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=b7PleyFPA3Oi4OpJNJXnDqrQg/YFHemzbxXqY0lIvYc=;
-        b=SicFRqayZp9iZd8dkRV4Zb84O56YHiE2GIxViVrjLkNRLoZeCwsIUGTUvXk/DrDRrR
-         kOBPPgtu3XZUxpYxoy+enoXM5rtaAw+vYxzCp61YqhlsmajHnku0SNUYroAUXgOeTxhh
-         5IJ6/tTy5w3xde6/zFJ8L4QlY2S9Evip4CmAzUvc9FdtyNKon7eNmVoJChgMFpLwRmcr
-         r6WFiNUAnUxLwfMqhOG2b4PYk+qKs/sELHNcllDmJDSrPTza7ayO1zK8JccXJY3PtXVo
-         BqDD7DQSDJMPSfLAnIOmaw7p2lrVJrNqT73/HsN9SZ9ADeUaQ3IIt8dwUlil/RlFoFEr
-         xYUA==
-X-Forwarded-Encrypted: i=1; AFNElJ+i7+4Nn75PVNmuPdD7aT0fwIHtY6K86n4AS4ZzyXZe7+mKImNwsjYahTrsQqlD5sxbLH1Qev0KrGUaeNix@lists.linux.dev
-X-Gm-Message-State: AOJu0YxpSjOk+WVh6hpmvvB56WBF/a8Z/RqW9Y3idv7SlHeRYMBITqaY
-	5la0jsV8dki5piCZrKN88Ctz2axviCwn4nerjOqtBaLpOShnsh9QuNlF
-X-Gm-Gg: AfdE7cmnckoqwgrYKXUl1ad2SN4ri5oikvKvVkPY9HDvD526w5ij7wwOY3dFFJenvJ3
-	pz+jMj+soOmwbBfSPGbUE7tJasaLJDeTlSGz0dZEFsKdjRxZCqRkCZSsPTnaW0teGggrnf5vjAP
-	PXlCC0LG2FDTterO/M4qmpO+DDR11lkNJP7WYy8kjCLGNZK90ycUlkNstBqpEqmhRocv3E8bvBS
-	KJpQzPgW3nvWaf0tfj/vTHdciSQ3mRPQg4ILOROCq8DcGReyzPmsXhB+BLwGjuLvF7Jr9uPDFB0
-	UkVGQOD8EGNdQUQcdA2qDvuttf9QxHeyviiwDHYRnSFgZ3jZQaTqR6KRmCb34XmG1FEeHLkt1PQ
-	WJEYv5L1OovUxrVeLV9fGZjDr5XFLrnk7HHDnfM7ONs5wQlkVHYN7bcChf6pNh2zmROSCbQTiGt
-	EhNUKZGxH0
-X-Received: by 2002:a17:907:c087:b0:be2:d66:eb4d with SMTP id a640c23a62f3a-c108f9f8225mr256511966b.44.1782239749164;
-        Tue, 23 Jun 2026 11:35:49 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c0c60ac97aesm552253466b.30.2026.06.23.11.35.47
+        d=1e100.net; s=20251104; t=1782244089; x=1782848889;
+        h=references:in-reply-to:cc:to:subject:date:from:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TTX5JvYWXCfnby0ctQo6oD6WutWtaxCrVrgoYMRZzBY=;
+        b=IuxspNiJYOG0b1VvPqHR8F8zPMGvkYSo+3HRJEXVgs6/xwZpArFArZ/o1RL+tg6oqt
+         8vmdCSYsgqVVOgxUMvNDebW8qfd3vRI1fdndLlA7iECwmYYl2IlhZzXDSXD8Y4JGP5li
+         OhBAmEvqYUm6UkNN9BLedKj1O26Ub5C6c/wUP/uKuA7Vh9AkZJsFPlPrGgeOduiL1N+S
+         CP5oIJ17yY0HA5X6vXD+pYb3eHm/hiRQHHRvfAMO+ScBB/scWgMJMxhOIgKjPP2HV+rL
+         LfWb+DafIW96QxpODYOVNK3yO1p8a4E+uVkqIdpYbHc/lvNvmSvDoHWuNY7TwOp2CLJX
+         WgxA==
+X-Forwarded-Encrypted: i=1; AHgh+RoLtgscVZK8HUGO6VA3EgQ6SEnc/HdZqaFlW7wW3KbxE8HktotPWwO4f+wfeGiLbaIulbSkugtuZvR3wfRO@lists.linux.dev
+X-Gm-Message-State: AOJu0YyfzrFGoXuNVoz1L6NvWagktNWPKboNILQnHx/91N/DnwzNDUxz
+	p1j2yjq7RCAeA5U9uH+hZcnhuCKnGxVUR3CvIdvTh4SqH9KuA1yKU3ur
+X-Gm-Gg: AfdE7cn88poOoYCxDex/L3Qs0cmpY18qhZud/6TvwHrs0B7xzs1Vj56UiyyBLPeTceg
+	skZLqr2iTOgxKyZrj2EVfOOAItkBfk1F0F9TWiihO5cUNTHnOvuDtWWkwlEQPJ0CNLYQB6lhdjs
+	BaBA3UKW+VZn8/3EwRqjvwRFu6H4GbAEdd+yj6igLgNUS4Kp2g1PREZX2NykiNErEYll/HIbgdU
+	BN15KXsmutqCJIjx2cSQkJsEVERcEaC7wvchyTkKbcob+PY4cLAvYHrF9I0tZJRG7KC6cKmSJtx
+	FTFtt5zNjOEHimS2gBm23Pc8s3wuyKcQi421VHLU1lG7Hv1KTkHCjWsXA15GHRLTLygKlazWj1j
+	emNYU+6KOCabIqT956AgeZSOBSzslOHkhXH3zyAL5ZxA6tyrnSIY4qzhiE6mCWYwMgpnCSsj4wZ
+	Kp7lyrgk3Hm8YryIBQVEMKoKxiKsrjOxuEj+ompTggDfhJloRIklV+tNzdjIMeKGYheQ==
+X-Received: by 2002:a05:6000:4202:b0:465:d0f9:95e3 with SMTP id ffacd0b85a97d-46c0951d9d9mr431562f8f.19.1782244089034;
+        Tue, 23 Jun 2026 12:48:09 -0700 (PDT)
+Received: from legion.localdomain ([92.44.171.31])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-466667881bfsm40346658f8f.22.2026.06.23.12.48.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jun 2026 11:35:48 -0700 (PDT)
-Date: Tue, 23 Jun 2026 21:35:44 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Batu Ada Tutkun <batuadatutkun@gmail.com>
-Cc: parthiban.veerasooran@microchip.com, christian.gromm@microchip.com,
-	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: most: dim2: use dev_err_probe() for clock
- errors in rcar enable functions
-Message-ID: <ajrSAIQUjTgAtuey@stanley.mountain>
+        Tue, 23 Jun 2026 12:48:08 -0700 (PDT)
+Message-ID: <6a3ae2f8.cf2df9a4.132dbf.1a50@mx.google.com>
+From: Batu Ada Tutkun <batuadatutkun@gmail.com>
+Date: Tue, 23 Jun 2026 22:46:07 +0300
+Subject: [PATCH v2] staging: most: dim2: use dev_err_probe() for clock errors
+ in rcar enable functions
+To: parthiban.veerasooran@microchip.com, christian.gromm@microchip.com
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, error27@gmail.com
+In-Reply-To: <20260623124243.1245-1-batuadatutkun@gmail.com>
 References: <20260623124243.1245-1-batuadatutkun@gmail.com>
- <ajqHS-i9zNeYq-Ll@stanley.mountain>
- <6a3ac564.561280e1.325e99.1bee@mx.google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6a3ac564.561280e1.325e99.1bee@mx.google.com>
 
-On Tue, Jun 23, 2026 at 10:41:56AM -0700, Batu Ada Tutkun wrote:
-> Yes, this was drafted with AI assistance. Thank you for pointing it out.
-> 
-> You are right that the error code was not broken here. rcar_gen2 and gen3 already return PTR_ERR(dev->clk), so unlike the fsl_mx6 case there is no -EFAULT bug to fix. This is just a consistency cleanup, plus devm_clk_get() can return -EPROBE_DEFER when the clock provider has not registered yet so dev_err_probe() suppresses the misleading "cannot get clock" message during a normal deferred probe.
+rcar_gen2_enable() and rcar_gen3_enable() use the old pattern of
+dev_err() followed by return PTR_ERR() when devm_clk_get() fails.
+fsl_mx6_enable() in the same file was already converted to use
+dev_err_probe() by a previous cleanup series.
 
-I checked this and sure enough, clk_get() returns -EPROBE_DEFER.  Please
-specifically mention clk_get() in the commit message in case someone wants
-to check the code...
+Convert the remaining two functions for consistency. devm_clk_get()
+calls clk_get() which can return -EPROBE_DEFER if the clock provider
+has not yet registered. Using dev_err_probe() suppresses the log at
+error level in that case, avoiding misleading "cannot get clock" output
+during a normal deferred probe.
 
-Useless: grep "when the clock provider has not registered yet"
- Useful: vim -t clk_get
+clk_prepare_enable() cannot return -EPROBE_DEFER since the clock handle
+is already acquired at that point, so those error paths are left as
+dev_err().
 
-> 
-> clk_prepare_enable() can't return -EPROBE_DEFER. By the time it is called the clock handle is already acquired and deferral only happens at acquisition. Because of that I deliberately left that path as dev_err().
-> 
-> Compile tested only. I do not have R-Car hardware.
+Signed-off-by: Batu Ada Tutkun <batuadatutkun@gmail.com>
+---
+Compile tested only. No R-Car hardware available. This is a correctness
+fix for the deferred probe path, not a response to a reported
+user visible issue.
 
-This is good information and it needs to be in the commit message under
-the --- cut off line.  Obviously, I know that changing dev_err() to
-dev_err_probe() does not cause a problem, but I also want to know if this
-is something which is already affecting users in real life or if it's
-just a correctness thing.
+Changes in v2:
+- Mention clk_get() explicitly in commit message
+- Add testing note under --- cut off line
 
-So the patch is fine, but the commit message needs to be re-written.
+ drivers/staging/most/video/video.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-regards,
-dan carpenter
+diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
+index 04351f8cc..1e1ff3c52 100644
+--- a/drivers/staging/most/video/video.c
++++ b/drivers/staging/most/video/video.c
+@@ -33,14 +33,14 @@ struct most_video_dev {
+ 	bool mute;
+ 
+ 	struct list_head pending_mbos;
+-	spinlock_t list_lock;
++	spinlock_t list_lock;	/* protects pending_mbos and mute */
+ 
+ 	struct v4l2_device v4l2_dev;
+ 	atomic_t access_ref;
+ 	struct video_device *vdev;
+ 	unsigned int ctrl_input;
+ 
+-	struct mutex lock;
++	struct mutex lock;		/* serializes V4L2 ioctls */
+ 
+ 	wait_queue_head_t wait_data;
+ };
+-- 
+2.53.0
 
