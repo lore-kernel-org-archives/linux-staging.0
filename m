@@ -1,107 +1,137 @@
-Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0C7944998C
-	for <linux-staging@lists.linux.dev>; Thu,  9 Jul 2026 18:50:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DFFA4499B9
+	for <linux-staging@lists.linux.dev>; Thu,  9 Jul 2026 19:34:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783623050; cv=none; b=Zb2obsb5pB9jdLaY7unXO2+Y5A46QbnC01rGme3WRYvuSB1MC1QkkyI1qKekoiv2wJAUioYNnmKZL7Xufe4G3hfQyHIMXJ6YPKLRR+GvlSnW8vfjzGqCHs211PB0+aT+qLlrVLLk8A1WnAGfrdKJ0Ub+PC/RRNfVG7+dsYedp/E=
+	t=1783625648; cv=none; b=kU3JKQ/laPTtXCJRAeFpmkRl/uyUqvw19KQSGlRALq4/fJSNoOTv2biuS12Q2v5vkO+x3y+igka4d1e7BY700+mEF/ZUvsN24DJ+/8M4QBkGRBQtRY14AUGwbqA6rKIaqiwOTJURiko5N5hjilyqWcezjd1D2gA4bOr9JTUPAF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783623050; c=relaxed/simple;
-	bh=1bAtBPGgK8NHVISEj+GO0iePzHotuB8GIB2HKxOWIDY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QE39N/bCxwf12+Z4WbxzdwAo8KI4iN6TLPk9sAE7tdooSMgXJkwIcP47AyGZkhliwc8DCkJMjYaoU7BGw+Y+d4px68Zv/0SYcCb16J7IdJHrSJ+vp75cUuvLMjhXG5lLv/HI8ptQelSZl/qZkqMFmm7fXgb45dskx0Ha7h4Na9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jBl1ne3d; arc=none smtp.client-ip=209.85.161.45
+	s=arc-20240116; t=1783625648; c=relaxed/simple;
+	bh=JGAI6q9kLL1tKj/cfaA7h5qYsJKerfZ6CUiwwiwN760=;
+	h=Message-ID:From:Date:Subject:To:Cc; b=c6LOAJy0h6e0t9ff3rhAFXQEDJnRu/jWkQqGRdPsIIDZiB2GTRj0DWSL67m7O6n94U0MbZTXJ7KJQl11vmYnBWqMP9X8LPk8oC3MONaHcy43nujiwvQ/bXNiG8cL+RvG4gEgYbW9NZoDAjCsY/DWC8NFowcB4/nAHWAlQW1IJHQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VT8T+QJn; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jBl1ne3d"
-Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-6a37b2643e2so149922eaf.0
-        for <linux-staging@lists.linux.dev>; Thu, 09 Jul 2026 11:50:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VT8T+QJn"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-493bf73ec2aso1022225e9.2
+        for <linux-staging@lists.linux.dev>; Thu, 09 Jul 2026 12:34:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783623048; x=1784227848; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ZRHeCwFsmKFBk4M/1QJH4iLci+OyPvksYnhoTo8Soao=;
-        b=jBl1ne3d4v7gcpk5IEKH7KwM1EN1eAoVilBoY7x2IfyDAuk1rXYxfMv2UbOefsZ1Ud
-         1PUS5rOBNgKDB+w4h98UfuN4nUxK92NBX+rxHvpIxoe0xqnNfRDyyf9GEL+wxKrwW5+d
-         jOSsbj05vLTZEZ3axbpDmDB2G3ITvILW0/6Eudsag/mMURNzYvHKbH3BTnrvLECzI77F
-         wF4q46p8bfmrmMni+ogEEqByIJ4xQMi8P/GouSK9xzJCM4LFLC8m4J/B62Xq4j2UP6jM
-         u3C9ywil2gm/mfdklKmhaQsaBWFltX7YAGtZ7EbHjOxn9e3iQhN4+kw0lUH3wTmUd4p/
-         4QJA==
+        d=gmail.com; s=20251104; t=1783625645; x=1784230445; darn=lists.linux.dev;
+        h=cc:to:subject:date:from:message-id:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=6CQ6zJLDn5aN6cZk8Pts4DCUGUZw96d49DXcY2VMoDc=;
+        b=VT8T+QJnXAPX/Z+uGSeUD1Kfr2NJR93cGhv9PqGBnOo56EjpLRzal3yYOQ4bwCSM0b
+         3f+g72SxS41iTotRySyQ5xnAELqtE58ccKBsvKnW6FzXCPrEuq8dV/egG6KFsDXRw2fo
+         +Rhn8Heu85n96nq6m1X0RC8RRpnV5HxAn9jEdKFFt276MvzsOvURL82gcQ+osnmlPnWl
+         7THoFGjjHYLYtSP/qe+SomsgLVLAdBkVW/uuSWQINICmp1KWb3hhFSBg93GDRf+wxRMP
+         dsJ1R5cpqfi5EOv0NkC3ciqfFfREHEO+SlQhoW+8IDnMxJ7MLPNu3jQ7DwU+i2KupfBB
+         b2Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783623048; x=1784227848;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ZRHeCwFsmKFBk4M/1QJH4iLci+OyPvksYnhoTo8Soao=;
-        b=rlJW5lZXWxZVpgASXFsqV2b+jolayGWTN1+vFzBqBmb+q0fAV989D25TvDDgoAT1hd
-         91CqIjdrsvIWmsga0p0BSQjBFPRn3NSncuNLbA23uBy4B7Sqgym3scfhYZw7D0Y9IIDY
-         7Bugz+XArA5a/YlgCtF1gNty35oA2ej5qP8C0oxFZsNgnuV7msmokF/xiUDfQiqDiBEz
-         d9b4UV98fVu7++HD9DlpUhnYLPBcICIYfwMqJmI8+kfOyAsFUBpZinAflQcU4/Cl2uXW
-         pcyYVET74OYv35AjwIPYeXAj/mB0l8pT3dTf/M/TxCWD6gWsnavkWnA9TsPk64GoS0a2
-         xmoA==
-X-Forwarded-Encrypted: i=1; AFNElJ/EX+Befz50rZvLKXDJzFTyj61nf4SeRRkyxz7d69DrbVqq3RbvfyQ4qCN1Z6koyI9wE2M0ed8TCxjs0dHa@lists.linux.dev
-X-Gm-Message-State: AOJu0YzyicJNAZqh/52BDW+m8GW/lWow6dB6VXighFTuxdvfbre3u/5J
-	DT/UDbNE9ANEWUaefOeJx4aO4wAw1pg/NwhlHI/G202GoLxYB4Bxc85g
-X-Gm-Gg: AfdE7cln+ISd6h+3lNpcsB4NyEgS3HO/Eszq475ro/ePXzEvCDWvo/CHXZ63YFgZc+l
-	muEj6hlb7os4V/WjXlofK4SdIckT9yXk3JLU9mCEn9YO0+dmL4ZnoCclb+rwh3btjXLGopuScYt
-	jbCuonP1ehV6kEwFF1FcKBNjFSHC0cUD/IQmviDLXMfqV4YHwfYdIS7FbAqo62I5XPgDLD0NrAE
-	M/CH4A1taYD26P9EFITinWP+z/UCo6lPgsoOXprypzPyYcS4OAHis7lgx3WnXutAOEQIZVhX+r1
-	+cV7Xe/SDdc7vE+t8BW0dr2EJxtFbZ5Gj+O6jf+jzi3UK4nQ0Dv+rgW5ucfprz6laW0sSO5Gqwy
-	8FUzddQmXex9Y1nAnVvfGxXFw4Aqs32HjSaEzp1KMFYnlyZblb4TbTkWQ3jxjcIeOc0BFwEbagD
-	6XmDDquqk=
-X-Received: by 2002:a05:6820:82c:b0:6a3:8023:f344 with SMTP id 006d021491bc7-6a38023f40bmr2648403eaf.2.1783623048208;
-        Thu, 09 Jul 2026 11:50:48 -0700 (PDT)
-Received: from localhost ([45.136.154.250])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6a377bd9cb1sm2973603eaf.15.2026.07.09.11.50.46
+        d=1e100.net; s=20251104; t=1783625645; x=1784230445;
+        h=cc:to:subject:date:from:message-id:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=6CQ6zJLDn5aN6cZk8Pts4DCUGUZw96d49DXcY2VMoDc=;
+        b=ZwLps4zTizWVc7O8XVS2yV0PPERYF6/u3yvoN8FIYtLOy8ku/aUrjjxF1xDhSA7+OD
+         92Q0MGTgIPKegk6wluue05HQ4xHvveqDV0uDAb4RnH9fRu/rxDxS7Oe4J19h/S9pnpfl
+         uaKW1w+sEPUzx0t0ZgVAdS20Yl+a3pdH5kDeSLaMprtyMn0Ey8FKQ2TSkyskKZja8L1u
+         Oh6pE1Isbxi++zL8T8fnkgdt0IJECLYwkxrmh83PCfA8TiWVlyox+RXrr7YS3jKhYMoO
+         cIj2YNIPIo996KdWDim739I6xWThaLlTCwVTAdGVZ+plXYxVM3RLQfb5MQbN2CnOPm59
+         Bk5Q==
+X-Forwarded-Encrypted: i=1; AHgh+RpozG1hxz0rwPKxCt9zYU2Nn1R0FtF3fFB+OmgFRnaTyu6g2vJdMxvKkiFJdwYyMUeisdj8gE7sDQLqw271@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyb99HULHL/RgcVXR9xjl4O66BvxGSao7f1Rkui5UQA6bg0QnCl
+	6CD8GiOjg6xgAcEpXIh0bGftHiVYZjZB17KlGGXyF4hI8YEqikKJgbju
+X-Gm-Gg: AfdE7cmSMz1BszdV8jKf4HpHFkDEgrnLulkU6xGA8tFobRXksPonLREY0A69WokPYSe
+	Bem/z81RSj7QYInfAGX6FyOV3YK1Idk66FNUjSQJovtLYHH08wGUgJWFmSuZd892KOQf0Y8TCQC
+	9tk0RHhuBMhhf2crziGVL3yJJ732PWQhJxxDgsR9CWcpaSXXv/QdsGViJzyZUIw1OXlDu9xjUBl
+	GA7QM8vsuutBDzqZosGfLG8V+ScLH1masUkWzS6HGSRwd2m+SWC7vX4d8qK/slk9GpNVlHFjI6h
+	ZJzXl7ZPPl4Nm8Y2yPDoPHSyUkbBwTKfTuTizPSkWF0blvQvgmfxM3y9xkYllm6YCUdSj8cSrN2
+	gLNbJ1snkwBMFU4QeBUPKrKmrGEVMfCkS8O65NcZ7T7uBBkLA2uNAlIwj/S5kQCp+vxwRSbKFN3
+	q8xEIxB5Bv/E0xRpihtDn9zGMzMbDNMM7Nhked2crAuSF13LV91mA6g/I=
+X-Received: by 2002:a05:600c:46c8:b0:493:b499:3ef2 with SMTP id 5b1f17b1804b1-493e68da50amr86703625e9.37.1783625644621;
+        Thu, 09 Jul 2026 12:34:04 -0700 (PDT)
+Received: from legion.localdomain ([92.44.171.31])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493eb742a49sm80116905e9.12.2026.07.09.12.34.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jul 2026 11:50:47 -0700 (PDT)
-Date: Thu, 9 Jul 2026 21:50:40 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Hao-Qun Huang <alvinhuang0603@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>, greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: greybus: hid: fix SET_REPORT return value
-Message-ID: <ak_tgJC8-d1HPKuV@stanley.mountain>
-References: <20260704081613.434445-1-alvinhuang0603@gmail.com>
- <ak99bENMWC8saJL4@stanley.mountain>
- <20260710020644.6728.alvinhuang0603@gmail.com>
+        Thu, 09 Jul 2026 12:34:04 -0700 (PDT)
+Message-ID: <6a4ff7ac.cef1946f.13cfe2.dd63@mx.google.com>
+From: Batu Ada Tutkun <batuadatutkun@gmail.com>
+Date: Tue, 23 Jun 2026 15:35:08 +0300
+Subject: [PATCH v3] staging: most: dim2: use dev_err_probe() for clock errors
+ in rcar enable functions
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: parthiban.veerasooran@microchip.com, christian.gromm@microchip.com, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, error27@gmail.com
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260710020644.6728.alvinhuang0603@gmail.com>
 
-On Fri, Jul 10, 2026 at 02:06:44AM +0800, Hao-Qun Huang wrote:
-> On Jul 9, 2026 at 6:52 PM, Dan Carpenter <error27@gmail.com> wrote:
-> > These kinds of changes require testing.  How have you tested this
-> > change?
-> 
-> I compile-tested it (W=1, building gb-hid, greybus and hid together) and
-> traced the return path by hand.  I don't have Greybus HID hardware and
-> couldn't find a working emulator (gbsim has been dead since Ara), so I
-> haven't run it on a live device.
-> 
-> The bug is that gb_hid_set_report() returns -errno on failure and len on
-> success, and __gb_hid_output_raw_report() computes that into ret (even
-> adding one back for the report ID byte) and then returns 0, discarding
-> it.  So a successful hidraw write reports 0 bytes written and a failed
-> SET_REPORT looks like success.  The GET path next to it already returns
-> the count, as do usbhid, i2c-hid and uhid, so callers already handle a
-> positive return and greybus HID was the only one returning 0.
+rcar_gen2_enable() and rcar_gen3_enable() use the old pattern of
+dev_err() followed by return PTR_ERR() when devm_clk_get() fails.
+fsl_mx6_enable() in the same file was already converted to use
+dev_err_probe() by a previous cleanup series.
 
-The bug is not hard to understand, the issue is that this changes the
-function completely...  Was nothing checking the return before?
+Convert the remaining two functions for consistency. devm_clk_get()
+calls clk_get() which can return -EPROBE_DEFER if the clock provider
+has not yet registered. Using dev_err_probe() suppresses the log at
+error level in that case, avoiding misleading "cannot get clock" output
+during a normal deferred probe.
 
-regards,
-dan carpenter
+clk_prepare_enable() cannot return -EPROBE_DEFER since the clock handle
+is already acquired at that point, so those error paths are left as
+dev_err().
+
+Assisted-by: Claude:claude-sonnet-4-6
+Signed-off-by: Batu Ada Tutkun <batuadatutkun@gmail.com>
+---
+Compile tested only. No R-Car hardware available. This is a correctness
+fix for the deferred probe path, not a response to a reported
+user visible issue.
+
+Changes in v3:
+- Add Assisted-by tag per Documentation/process/coding-assistants.rst
+
+Changes in v2:
+- Mention clk_get() explicitly in commit message
+- Add testing note under --- cut off line
+
+ drivers/staging/most/dim2/dim2.c | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
+index 7953d4626..56f856d6d 100644
+--- a/drivers/staging/most/dim2/dim2.c
++++ b/drivers/staging/most/dim2/dim2.c
+@@ -974,10 +974,9 @@ static int rcar_gen2_enable(struct platform_device *pdev)
+ 	int ret;
+ 
+ 	dev->clk = devm_clk_get(&pdev->dev, NULL);
+-	if (IS_ERR(dev->clk)) {
+-		dev_err(&pdev->dev, "cannot get clock\n");
+-		return PTR_ERR(dev->clk);
+-	}
++	if (IS_ERR(dev->clk))
++		return dev_err_probe(&pdev->dev, PTR_ERR(dev->clk),
++				     "cannot get clock\n");
+ 
+ 	ret = clk_prepare_enable(dev->clk);
+ 	if (ret) {
+@@ -1019,10 +1018,9 @@ static int rcar_gen3_enable(struct platform_device *pdev)
+ 	int ret;
+ 
+ 	dev->clk = devm_clk_get(&pdev->dev, NULL);
+-	if (IS_ERR(dev->clk)) {
+-		dev_err(&pdev->dev, "cannot get clock\n");
+-		return PTR_ERR(dev->clk);
+-	}
++	if (IS_ERR(dev->clk))
++		return dev_err_probe(&pdev->dev, PTR_ERR(dev->clk),
++				     "cannot get clock\n");
+ 
+ 	ret = clk_prepare_enable(dev->clk);
+ 	if (ret) {
+-- 
+2.53.0
 
