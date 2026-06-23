@@ -1,120 +1,105 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D96529DB86
-	for <linux-staging@lists.linux.dev>; Mon, 22 Jun 2026 23:04:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E35A3A7F57
+	for <linux-staging@lists.linux.dev>; Tue, 23 Jun 2026 05:21:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782169495; cv=none; b=S3jrfygn0v5avsUwJD+ETtkWdCWsdCeCyo6sc2lg+UhKW40cxa90VCytPOw79fXTvY7x+3lBN4W8h3Mp08ad26xPXSPK8pey7z0ly3IEEho6Nx7UbdV0QGyCr6C6fNwKx4JOGcy9VRrQl90MiFHeNgzt6vT7E4/NVXiXawnwqTo=
+	t=1782192080; cv=none; b=Q5uL5ivyfxU5OZywluGiQo2My8JLLqwpoSvUHBMdc6f8fk+H1fL0qaS39eVbvOcENptYxy6fgY62WfX4OVAuSY/ng8YPV0OdhUlkxgvhj5P914AfOCfjbo5iZawwODDnAwaZb5bW4mLbOo60HMYtZvE+CyCeYK+r27Co7VMBED4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782169495; c=relaxed/simple;
-	bh=e6XqK9MU2LKJCD85rEqfteDcgC0Xnpj4etmsMR6CffU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ODpFt5ksuXzgKmfXgprNfk0fjuoPD70G9AMvtMyTDAF9dzjloF5iynEkhK8bmdmsD0zgTLFknhNeTZ/eJ5q4hFW2Z4SFM6SxqgEOVSD4hj5DCbIh6gGtzehiMvT+3i1u0qT/+vaqJVFiDd3swbQhu1S8AOH11ef4kYuMYXeGhpI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NAMpvOoM; arc=none smtp.client-ip=209.85.128.46
+	s=arc-20240116; t=1782192080; c=relaxed/simple;
+	bh=ST1JHEQ7mFAx4gDIq208KWCavqyeViWHnZbIAGD/r4E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EHMzdoz8LdCS3SkgHx0gXx7Osz7Nx+UsElvdv5RrmKYlGVYb1wQ7qzN4Bem8wscPPFXcKTzM6rcm1RiP826grYJKS2v8n/xswKOR/BHlPpw/yZYMM9lb4fr7+Z/T2kXVTqfsrF/YZFqeISiueKlWWxpqskmBN5MdgE0rf8JgNXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CtwVUPLS; arc=none smtp.client-ip=209.85.218.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NAMpvOoM"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-49222fb062bso52040095e9.1
-        for <linux-staging@lists.linux.dev>; Mon, 22 Jun 2026 16:04:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CtwVUPLS"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-befee9e5ef7so631377266b.0
+        for <linux-staging@lists.linux.dev>; Mon, 22 Jun 2026 22:21:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782169493; x=1782774293; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0C8B5CywjgF9ZPTIkHDu8dM/V21pGTSKDvMIJT0sdEA=;
-        b=NAMpvOoMS0dJRoyXC0PxSmDGzDIVp8tu4NkO8OX8oyGEyZc/QONr0J7t+q/xdUoyTA
-         C7ObfdxnDeIceLfDrY/4ZC1/NVgsGdxxz9qlVMcxXlFYpzsMYKQQpaNe2TX8AI2Q/X5R
-         Tt+oNRDXGmxGBl/3VZRzOz/5MjgRuJwrh8SxTso6XtKv+2K2WzvrTsOe9/uB8vXtXVtp
-         QGXzq+aeUoW8e2arLJr7ioKGxNMs2zYxwmXTQrs9a37Po5Rm6M8IXZ/wc/DplEy1gUSC
-         +iWKuVfrOu6EjcLHOQBLMIfnt5dpW6inmH+q2bIbrrSn4m6ARqSe1iWZcbuoxfWhr6S4
-         7W/A==
+        d=gmail.com; s=20251104; t=1782192078; x=1782796878; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=yClUGsY1ysuyzjoW+pFwgJOCs93oAn9+JbUKr7O/i6I=;
+        b=CtwVUPLS2981tzYuAlMyzdP/WCCESSl5ug9Smc3vc86VwTtOSBOfvj5v6YzvcMBnc6
+         ZUgdPpNhu8E/+Ez2HQWBhWP8qOzVcwGYF6HSztLqz+6/lknzA+IqIkz7TkABnDUc5uuM
+         nJk558ijK70KBIfNsE1DHxae599MNew84EaSIE6+9MiUOcEf/xBYIUw3zCrnwAcN7g9l
+         voh+9QMD4P8/DJ7/e3kpLTAeFkbhcxnyhYtGxr6b7hraZ7FnTPXaQ1glKYwVwzEkHobR
+         J4vmZ67U70NfFHYfZ8qzAJ9Rzyp+e7sgatFs+ry6bWS09HF/1Q5ifwxwplmQJESaS6qi
+         DaOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782169493; x=1782774293;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0C8B5CywjgF9ZPTIkHDu8dM/V21pGTSKDvMIJT0sdEA=;
-        b=OowKwsfAMR+dYnIVfVXMais+/lgstHuX3r97LwJjdhBp7dLW+IsqMm8MR36VBZtlqH
-         1j5xtz57sE6IVTknNewYiPnkxBZ5NbBGDCbsuIxOnlvem9FKwxfX8cXLXc6X5Wgo+sIN
-         PLrOi44JS183lBFvYVwtCIKFSDgFMeqcdzCf7GxSAjCm3m+26fXGRaL+HGRCTkq0VOVQ
-         Czt9xDdTiymxn4mujwzVf7DsNLBexy6NlnFmQlv+LL8twY5YSmg9pTOouA/KbtJ4s9Im
-         sL9pFEnLeH5gAmCicnV3taawMz0ualT1ep3CyleVXwhbeytjXrJZQ2GlO6Bfs9XrOUcz
-         6UVw==
-X-Gm-Message-State: AOJu0Yxu2QwH2DWLdw4GWQHjZ24IpkuwhYn0XYbB7IL9n9ypb5QKn1ga
-	av69/h3eRX7+r6rCYinjr1D2Cg/WfRBwZMlSWtFH94mJ+eAaHW5PUarc
-X-Gm-Gg: AfdE7ckCv/Hnn+D6tldUWR7UvKnXMHLE3CRuqNvAzZQHfNpg3wpHLTLgXi3eF+fsVZh
-	HfIouZWOritYdFoACG0lJxwGICjGiNuhrb95hDFhYbY/dThpMmcQar/pbYVH/nI9xQj7kIBls9U
-	GaLwML5dIYH1iM1rUT49XdBHEkILU3IcXFAn+vYEP1v6Zz8gqZtDhoe76jx/tlov81A8ahb/8E3
-	1dzqriIIqNnAeD3i1jMtryXRy2vl9C/BGLjt/QwTnjoxjH3PSz7JosJrOEEQd+LHBAPoN0XVeEt
-	JPG2hKx5LMEBorJ9u0dxjIpraOSdPdQ6eCaKGG03FXi4Jkx4WMoeCFU31+2Kx9vA9RUayFKzt6A
-	PBE1kbPvteByElgA6px4I328MVj4V/S0KEk5Uf5WkYDQvsYbrzSVEfUp2gUWfiQWiWY1KOkYIBF
-	7FTo6k+L443OXbSVJL9Yy8fZZkyX4=
-X-Received: by 2002:a05:600c:8b2e:b0:490:e5c1:b8bd with SMTP id 5b1f17b1804b1-49240dab540mr299031845e9.0.1782169492671;
-        Mon, 22 Jun 2026 16:04:52 -0700 (PDT)
-Received: from localhost.localdomain ([86.2.40.231])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4924923914fsm256832275e9.6.2026.06.22.16.04.51
+        d=1e100.net; s=20251104; t=1782192078; x=1782796878;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yClUGsY1ysuyzjoW+pFwgJOCs93oAn9+JbUKr7O/i6I=;
+        b=DKIv8/qTzFj8uhABuH35TwQ8G1f9b5dQzS2jCM+YYa1raILfAxDxTCXl2XNT6ap2B5
+         GUgOG5rgulK1QhlxT/jRWukFXBlzRhnMtvl6XiRXLCpbwdu+milSeo1MLYp1v+Mcv/Pd
+         OkWXbI3oH+iDoIKEXVaQsARSWQa8wsYTjW6cjyqlrvSAwltIXfrr8SEmI43mtHdJaEid
+         AhMuu8w1b4jXWAnPL6OGMIoCk3POfnBTCdjzELQay7oMb2Jls/T/ZgR4hVNCtNBg25WW
+         GuHaJNPzrA74uOVlZcRxzrtLy0Bx1Kwa1A71E4+tITmnsVlhdRwfSluXtv22JSuiYp3F
+         Oq6g==
+X-Gm-Message-State: AOJu0Yyztw/E4YnSqN8NCfaTt42618oClPxCc+JitE/VxUw3hMWY8f6Q
+	uArW6PX5HUnhbZqKUFnqctqa1EB7zH3xFtHa9xNXAJgZEXnomFPRQp4/
+X-Gm-Gg: AfdE7ckl5chISWH04GTJ65JqrTgw78DLI2wNSRTjWt5whIgDKrEE/B0nrL0KdG22x4i
+	5k+OGHwutJTS19sOR5JRzDsyCDvPNcD4qRkqk/AuGAIXmqli9R3+GOWrzJUMyFXqwz/lfd9KrbU
+	7PgX0JZQjAhyE24/j3Fcv4W1c5v4X1V9tq3UahYwiK3VHxI5uQTYhR2X691RTGlG4gMgfqN1vDo
+	CRukxQHirBvOueLD3Tcpy+sqilprENuEQmqn7BjYu1z/hmCB29ecFYE7yqZEizhLzhW+6RdBmM8
+	LeYKy/sYqx3rezEV0OEET7A0qgZ27bshnAl/Z6W5dImp0mY2MJUGEkmpw7vRL2B8eM7vgDCoEeW
+	0gaxpJg8tmS711M4BQ2Xa8tExJv/jhFjSd6QNz6x1Dldr4iKpTvY7L9MdRq+Ut7EKZrgH9pIm01
+	RrhoTti3tz
+X-Received: by 2002:a17:907:1c04:b0:c0f:cc39:48c1 with SMTP id a640c23a62f3a-c0fcc394a26mr256035266b.14.1782192077615;
+        Mon, 22 Jun 2026 22:21:17 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6977be63fc0sm4336894a12.27.2026.06.22.22.21.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jun 2026 16:04:52 -0700 (PDT)
-From: Ganesh Harshan <ganeshredcobra@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	khushalchitturi@gmail.com,
-	dennylin0707@gmail.com,
-	Ganesh Harshan <ganeshredcobra@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: fix timer rescheduling in rtw_cmd callbacks
-Date: Mon, 22 Jun 2026 19:04:48 -0400
-Message-ID: <20260622230448.4138-1-ganeshredcobra@gmail.com>
-X-Mailer: git-send-email 2.47.3
+        Mon, 22 Jun 2026 22:21:16 -0700 (PDT)
+Date: Tue, 23 Jun 2026 08:21:12 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Serhat Kumral <serhatkumral1@gmail.com>
+Cc: linux-staging@lists.linux.dev, gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org, lgs201920130244@gmail.com,
+	Dan Carpenter <dan.carpenter@linaro.org>
+Subject: Re: [PATCH v2] staging: rtl8723bs: simplify rtw_spt_band_alloc
+Message-ID: <ajoXyBs3CvAzea0r@stanley.mountain>
+References: <20260622160947.7970-1-serhatkumral1@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260622160947.7970-1-serhatkumral1@gmail.com>
 
-Ensure scan and association timers are deleted before being
-rescheduled when command execution fails.
+On Mon, Jun 22, 2026 at 07:09:47PM +0300, Serhat Kumral wrote:
+> The function only supports NL80211_BAND_2GHZ and falls through to
+> exit for any other band. Replace the n_channels and n_bitrates local
+> variables with the compile-time constants RTW_2G_CHANNELS_NUM and
+> RTW_G_RATES_NUM directly.
+> 
+> Use simple addition in kzalloc() instead of chained size_add() calls,
+> since the sizes are derived from compile-time constants and cannot
+> overflow. Replace the intermediate alloc_sz variable accordingly.
+> 
+> Remove the redundant second band check before the init calls, as
+> the early exit at the top of the function guarantees that only the
+> 2GHz case can reach that point.
+> 
+> No functional change intended.
+> 
+> Suggested-by: Dan Carpenter <dan.carpenter@linaro.org>
+> 
+> Signed-off-by: Serhat Kumral <serhatkumral1@gmail.com>
+> ---
 
-Without deleting the existing timer, multiple timer instances
-may be active simultaneously, potentially leading to duplicate
-timeout handling or unexpected behavior.
+Thanks!
 
-Use timer_delete_sync() to safely stop active timers before
-rescheduling.
+Reviewed-by: Dan Carpenter <error27@gmail.com>
 
-Signed-off-by: Ganesh Harshan <ganeshredcobra@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_cmd.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-index b932670f5d63..967c3258e0b8 100644
---- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-@@ -1801,7 +1801,9 @@ void rtw_survey_cmd_callback(struct adapter *padapter,  struct cmd_obj *pcmd)
- 	struct	mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 
- 	if (pcmd->res != H2C_SUCCESS) {
--		/* TODO: cancel timer and do timeout handler directly... */
-+		/* Ensure timer is safely rescheduled */
-+		if (timer_pending(&pmlmepriv->scan_to_timer))
-+			timer_delete_sync(&pmlmepriv->scan_to_timer);
- 		_set_timer(&pmlmepriv->scan_to_timer, 1);
- 	}
- 
-@@ -1829,7 +1831,9 @@ void rtw_joinbss_cmd_callback(struct adapter *padapter,  struct cmd_obj *pcmd)
- 	struct	mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 
- 	if (pcmd->res != H2C_SUCCESS) {
--		/* TODO: cancel timer and do timeout handler directly... */
-+		/* Ensure timer is safely rescheduled */
-+		if (timer_pending(&pmlmepriv->assoc_timer))
-+			timer_delete_sync(&pmlmepriv->assoc_timer);
- 		_set_timer(&pmlmepriv->assoc_timer, 1);
- 	}
- 
--- 
-2.47.3
+regards,
+dan carpenter
 
