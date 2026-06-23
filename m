@@ -1,71 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2BAE3CEB8D;
-	Tue, 23 Jun 2026 08:43:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 905923CF208
+	for <linux-staging@lists.linux.dev>; Tue, 23 Jun 2026 08:50:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782204234; cv=none; b=Uol4adDtVNxGs6XH7LDx/J26fcpT4b6hXNQ+IDfilx4umZQob2GKB/nxYgraqkZJP88puujxBvsVIoKiNJi8iAVD5beJDxr+xqUdRLbFNmwTgh7sQRW9T/wbHJZRtWWuiDJnFlikwFTlGwLlCC3LU+PMsyHzh5KrQ8heDYJcVLw=
+	t=1782204629; cv=none; b=Rs1QUKioCqpbxiRBN/HpIIduko6KBGU/HRrHH8pmK6yRdI2FddxD3Fbw63x+mr4cAX/W+HcvBLRWhPvKGmY6d1BMxMehGKFtbtbgE49bdawabetVYNzpwt3VAAsUDfcVfo+vJYUyM9pVvDcoSSs2FuRpOriENxaKnsCiIFuaBXo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782204234; c=relaxed/simple;
-	bh=BtyTOmTB6jsKnLzsaKNVwFFXbcizT+Rax8+sy9JZ5rE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kLBAZyrAWY4tLXhjGg7kcFoCufkh3vT7cf1OImM1+CzmWQVzrkUn6vNP6KM56p29MlezGaqUrOfJpBJTQGRLwpGF0+9CpvPm8jo2PW1EygUuGrtdWq/BEm0ihGW0sLwAZ8M6ojNuQcnKDwaieGvrHNn1+U3YwxW+KIr9R5c+qcw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R0u4f0vm; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782204629; c=relaxed/simple;
+	bh=TZ0+5146xwe6OT/CbQdW0d6uHCZxJf8UjdEd5HflsKE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=AKKVfUhG6zwF4xY7jeb3Zg6ZWlpMt/pS+u13Ti1IHm6DxCaplPc+WcQhqCXCqV93kYtae2Cp2MxbagIvPcrt+tnHCzMIQ8J8aRllZx5Dfr99CGULpAl1CJqI9YXyiYynkXNsB1BBi9c+p/Pmv6Rj/rs7oiu17Lp48IEuIX6zYiE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VLXev5I+; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R0u4f0vm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93FB51F000E9;
-	Tue, 23 Jun 2026 08:43:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782204233;
-	bh=9N7Z/t3yS/fJOyNmuIzO1Bt4wNfsxzy25SOgFyC2mdQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=R0u4f0vm++dpzVcMtZGMaEUor0mZo4RbD9F8Ws0y+OR8CSmusOJvIV/yg6VpnpPOH
-	 UTxSf9Er79H2Mi+/K0PWjVCg5j0xMoLeY0VLb64CfaJ4AAZay+kbNA31urbSW9YpHL
-	 8pVsyxHG41J5ee9VZjRYYV4UNR48aKO7by0P3ubMouhfz/4nYvTPZqEUMiVHDg4ftC
-	 T+nwBesuiiBsScOqLCmsQlbX9Obzq6GVBayK/KB1CGKD7zFXZJ3wXPtl0x8ysWEzQg
-	 8mZihPskb4J5pDTWA7SOQuIbjobbsQr/2aWrMa+nw6DgE0FxDIhEMmXAeasNDKx9Si
-	 bnsQ02SRcuJfA==
-Date: Tue, 23 Jun 2026 10:43:48 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Amit Barzilai <amit.barzilai22@gmail.com>
-Cc: javierm@redhat.com, maarten.lankhorst@linux.intel.com, 
-	mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, 
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, andy@kernel.org, 
-	gregkh@linuxfoundation.org, deller@gmx.de, azuddinadam@gmail.com, chintanlike@gmail.com, 
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 1/4] dt-bindings: display: Add Solomon SSD1351 OLED
- controller
-Message-ID: <20260623-debonair-wonderful-bug-e8abb3@quoll>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VLXev5I+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1782204627;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BuoRitIZndRdwR/IA+zUZeOYUkqVtr5e2wU2WIH4U+g=;
+	b=VLXev5I+12N7JJpCUFSYLSN5nUOMRsfJZb3gisX9+MkjRneGKOduMliETLXXGtUJFpUyFT
+	0uXkwxr8ttszHoYSD8NyZ3eVZ1XNTW8HSIcvfSlJuLXTXwNE4CML4v5LJSic35AKN6RzTf
+	W0TfaO0Q+2+bWMXLVS+n+eGYFSbviSI=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-696-3-ikv5j1Pey01yByr7cfDA-1; Tue, 23 Jun 2026 04:50:24 -0400
+X-MC-Unique: 3-ikv5j1Pey01yByr7cfDA-1
+X-Mimecast-MFC-AGG-ID: 3-ikv5j1Pey01yByr7cfDA_1782204623
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-490b0682d2fso39935415e9.0
+        for <linux-staging@lists.linux.dev>; Tue, 23 Jun 2026 01:50:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782204623; x=1782809423;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BuoRitIZndRdwR/IA+zUZeOYUkqVtr5e2wU2WIH4U+g=;
+        b=nj3WET/HY4BKgwWznKmNHoO8pHeJ4iFW+OuRQyNJh5ozBA+tb+MRKDKA5M7LJEVCLn
+         eUfSGt7jwgiQza7hkvXTu7+GZgdwggw1XORk5hYo51p8+lto7/JBmSbCfOokD7V5T0Bo
+         Yiv0cDfqc8G+nr8QNEyhaje+FY3ZRbGVMxjSDVtmABhpA4nhDn1po72kMmjKx/dhKRFr
+         RFzPjazz+MIQfC34CWrH7J3AxeVtMOEU9wUdh0C+qxnnYpIEM+gNMykBffaOv8a7A7WE
+         yffst/JRIRZYh7YW9PYS/pfhSZYtFLue2YS5Iuq9/X5wTPj5WtMO2Clj9a+poEhZ98de
+         zVUg==
+X-Forwarded-Encrypted: i=1; AFNElJ9ja8NiUn2VlF932lPbuJZNEq7Rqzn3EmP+J4pzDMxSAuVFb8axpAbFqjSj7riH5V6iAokspl3RzzJUJA0z@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw5IGIYXMRsZo9Zo8fDp/5OAlf61PvDxY9svqVoYcekzRf1Z+LN
+	GzFxh0uwpZTw1Jh0Wt7MpKnmqsvLhSlVlvOpSnw/zWD6swgPbQphDxmYvUXMPKrUdOMjAt8+UT5
+	iAqesEu4VxVm3pSOWiadm641yvo6QoudGW6dz0o3lhJKzKStt0GVpksJqqBCNG0gEoDY=
+X-Gm-Gg: AfdE7cltyTgaxqw5r/5KFC1INJ1aiL9+eIrrJn7w9hFkz87hlmcVn2efuZD4Wafh7TB
+	A7GfteCRv8jTEnbMcc5X1xUfym7Lv1QKbRCjws/0tVdogwOdMfX+a0HoFL6Xoqz39qOjkty1J5/
+	bNjM8qRICG0M0d2PHDXw8H+IN1eIYhigDKhJ7Heh+oWw3szJDguMxJGUwekJrnyUxXfkr8azPyN
+	PFtDA7RzzuH2dFJk85eiQilwpDy9A+l3Id+3FuCE0WpN//O+RvkoWZL5MwglWDxn8suFHnJa1o7
+	5Vuualq41MsAJrbqGsjggIvat2tkD9us3M1ftOg1QY+PguoyODsDwTjnRwx11q8i9CDWEnV7Lan
+	w+CoP/I4/v0gBFizY2F+RcF6wO9tALKjYhyJWBeSHIvhw5kcC86BTjtAVocg1jtg1DJNSqQ==
+X-Received: by 2002:a05:600c:4503:b0:490:50c5:8153 with SMTP id 5b1f17b1804b1-4925b3896ffmr24629435e9.2.1782204623022;
+        Tue, 23 Jun 2026 01:50:23 -0700 (PDT)
+X-Received: by 2002:a05:600c:4503:b0:490:50c5:8153 with SMTP id 5b1f17b1804b1-4925b3896ffmr24628745e9.2.1782204622485;
+        Tue, 23 Jun 2026 01:50:22 -0700 (PDT)
+Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4923ff8a9e3sm389322615e9.14.2026.06.23.01.50.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Jun 2026 01:50:21 -0700 (PDT)
+From: Javier Martinez Canillas <javierm@redhat.com>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>, Amit Barzilai
+ <amit.barzilai22@gmail.com>
+Cc: maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, andy@kernel.org,
+ gregkh@linuxfoundation.org, deller@gmx.de, azuddinadam@gmail.com,
+ chintanlike@gmail.com, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2 4/4] staging: fbtft: remove fb_ssd1351 driver
+In-Reply-To: <ajpGy7K4eM8oJIfD@ashevche-desk.local>
 References: <20260622152506.78627-1-amit.barzilai22@gmail.com>
- <20260622152506.78627-2-amit.barzilai22@gmail.com>
+ <20260622152506.78627-5-amit.barzilai22@gmail.com>
+ <ajpGy7K4eM8oJIfD@ashevche-desk.local>
+Date: Tue, 23 Jun 2026 10:50:20 +0200
+Message-ID: <87ik79iqsz.fsf@ocarina.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260622152506.78627-2-amit.barzilai22@gmail.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: u0oIWW9AtxxGXVEhO9q126bAUft1ft5U08CnybnVb9o_1782204623
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
 
-On Mon, Jun 22, 2026 at 06:25:03PM +0300, Amit Barzilai wrote:
-> Add a device tree binding for the Solomon SSD1351, a 128x128 65k-color
-> RGB OLED display controller driven over a 4-wire SPI bus. The binding
-> builds on the shared solomon,ssd-common.yaml properties already used by
-> the other Solomon display controllers.
-> 
-> Assisted-by: Claude:claude-opus-4-8
-> Signed-off-by: Amit Barzilai <amit.barzilai22@gmail.com>
-> Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-> ---
->  .../bindings/display/solomon,ssd1351.yaml     | 42 +++++++++++++++++++
->  1 file changed, 42 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/solomon,ssd1351.yaml
+Andy Shevchenko <andriy.shevchenko@intel.com> writes:
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> On Mon, Jun 22, 2026 at 06:25:06PM +0300, Amit Barzilai wrote:
+>> The SSD1351 support was added to the ssd130x DRM driver. To avoid
+>> confusion and irrelevant updates, the staging fb_ssd1351 driver is
+>> removed.
+>
+> NAK, the fbtft has two drivers in one (SPI + parallel), plus as Maxime said,
+> it has its own binding.
+>
 
+Yes, I agree that we don't want to delete the fbtft driver.
+
+-- 
 Best regards,
-Krzysztof
+
+Javier Martinez Canillas
+Core Platforms
+Red Hat
 
