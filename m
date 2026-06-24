@@ -1,104 +1,89 @@
-Received: from mail-m155101.qiye.163.com (mail-m155101.qiye.163.com [101.71.155.101])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 171EB39AD2A;
-	Wed, 24 Jun 2026 08:59:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C30D19ABC6
+	for <linux-staging@lists.linux.dev>; Wed, 24 Jun 2026 11:31:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782291567; cv=none; b=GNsp1eDHePfXyC/H6i6vFR+90mZgnSJczyFvLwCZ9ial4a12ptfsAy8hyp5LCvFLPvxyRz8Vc0Smu/NjPAG6s8YrQXmuCj3GqzedJ5jmNeNhN1NnU9LVbKDICQXCbTTC/0eMBAirfWltCT7pNFRYO77g+F9q5NlZlodAm09DrmI=
+	t=1782300702; cv=none; b=CtS5jQLlOyhToF9sd+lzfeqPWZNK+vmztnea8A4HCdkX1U18YMhH421x+oCd1VOpvzpJlHzIrXFzfArGsQDGRQuJDiVkous1VAG6NJhOKzL0OpOWxq/afXHtYfu8W2FjaKXv9RHvmagjX1JrVVGN3BW+tPKkTu4ZAk9gaLMR1mM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782291567; c=relaxed/simple;
-	bh=fC6w5B2nTnKPRsothCtVZ+qn5I3g0FjCgVdQ7JVzBlo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=fCIEauxWao6IQ1nRuormU04jaqOOVbIPym9T/vJ/HYrUkb4Hdpwz1KLA7cKcEUPfaiigv3picLHo4ETyp7LKiZbxgZ+0ykfDecceVQTcQh7lqyKvP6B2orFNSfsabcF7Q17FrP5JBM7muhhhAOfzvNCSWgmMFR6aU3qgH3FVXJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=erdZEh2o; arc=none smtp.client-ip=101.71.155.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
+	s=arc-20240116; t=1782300702; c=relaxed/simple;
+	bh=d5HyWw/v+MgocWmiFJGhqAbm8vl8c80N0u9O+M8mTY4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RfBAu3FBrSiy/Cps/LTOxtWtjyNdkuARxTEZ9zkM3gw8wgdy7GwmATptMnGtrGaKy33VEd5VkJNxGJnJzmn8QISDbykTFs38q5q4da7SdCWm00WZk9lMgUHRrZjzxzW5Ri3M3CHME9Y7bPR/9as1OzMs0osGggLterOpQeUgALc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l38ZyQB2; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="erdZEh2o"
-Received: from DESKTOP-SUEFNF9.taila7e912.ts.net (unknown [58.241.16.34])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 439346cd7;
-	Wed, 24 Jun 2026 16:59:19 +0800 (GMT+08:00)
-From: Dawei Feng <dawei.feng@seu.edu.cn>
-To: mripard@kernel.org
-Cc: paulk@sys-base.io,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	wens@kernel.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	hverkuil@kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	jianhao.xu@seu.edu.cn,
-	zilin@seu.edu.cn,
-	Dawei Feng <dawei.feng@seu.edu.cn>,
-	stable@vger.kernel.org
-Subject: [PATCH] media: cedrus: fix memory leak in cedrus_init_ctrls()
-Date: Wed, 24 Jun 2026 16:59:20 +0800
-Message-Id: <20260624085920.578446-1-dawei.feng@seu.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l38ZyQB2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782300702; x=1813836702;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=d5HyWw/v+MgocWmiFJGhqAbm8vl8c80N0u9O+M8mTY4=;
+  b=l38ZyQB25nom/AKrlcWWaFZxC1cqTUnqBezR2J5gQtgQ2ZlymsL8UNif
+   EqVPHJkcPxF2fpY6K6MkDqEjVE7jwMvkAFmgmbXW2c9ucy2ma9unvyjTh
+   0qPujSLK3Fh5N7S9vx1KNWW7iD+oDEhXDzq07oClPI+omgRe8ySzLileY
+   KWD+nRsnH4bKqRvxNAj10tHRgECsZJ+U0W3Qch/+eLctAu19tqMA/BTnO
+   k2+VSBeY1OV/PDs1Iq2cz0Fk0VtHdXcetnosAPyIPnra7fUjr7JbSBLUV
+   lF31qn5j3TCJYaHJzbvNu0sO3Qj1GAjUDB0z1p+xAn6bMr9rl3y8WCZYg
+   w==;
+X-CSE-ConnectionGUID: +JNwIJxuQo2OSQrzojmfMw==
+X-CSE-MsgGUID: NiPHaBgETr+I/KH+0Pe6lQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11826"; a="94454224"
+X-IronPort-AV: E=Sophos;i="6.24,222,1774335600"; 
+   d="scan'208";a="94454224"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2026 04:31:41 -0700
+X-CSE-ConnectionGUID: OFM21aTwQy+Fi8Ylpx5HTw==
+X-CSE-MsgGUID: GLjjPo9NSSS9kKrITL0FQQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,222,1774335600"; 
+   d="scan'208";a="254791087"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.156])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2026 04:31:39 -0700
+Date: Wed, 24 Jun 2026 14:31:36 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Joyeta Modak <joyetamdk@gmail.com>
+Cc: andy@kernel.org, gregkh@linuxfoundation.org,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: fbtft: use ARRAY_SIZE() in NUMARGS macro
+Message-ID: <ajvAGK-0kCfkThcs@ashevche-desk.local>
+References: <20260624073804.4391-1-joyetamdk@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9ef8daf33f03a2kunmb50e020236f68
-X-HM-MType: 10
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlDHRpLVkhOTx1LGR8fTkIaTlYeHw
-	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlOQ1VJT0pVSk1VSE9ZV1kWGg8SFR0UWUFZT0tIVUpLSEpPSE
-	xVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=erdZEh2o+CuenN77cKHcsJJ1qdCHhHw85+ajbj6voIkvWHuPMI/l8WEyNmbHW+2oU/Z3oJcbTNeRdMPI3imx4Pw8pDeGvZO2CNXVCkcWIGktPUH/jyjplOoWdLREfWyp6j98Qb0ccJd6yNNEqA2w3CWrJYZaezLpnyzUFClFKb0=; c=relaxed/relaxed; s=default; d=seu.edu.cn; v=1;
-	bh=nQ64irTn5cB91B6G4LunXFGhvflcWlZllUKpo3Q4WA0=;
-	h=date:mime-version:subject:message-id:from;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260624073804.4391-1-joyetamdk@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-In cedrus_init_ctrls(), the V4L2 control handler is initialized before
-allocating memory for ctx->ctrls. If this allocation fails, the function
-returns -ENOMEM without freeing the previously allocated handler
-resources, leading to a memory leak.
+On Wed, Jun 24, 2026 at 01:08:04PM +0530, Joyeta Modak wrote:
+> NUMARGS() computes the number of arguments by dividing the size of a
+> temporary int array by sizeof(int). Using the standard ARRAY_SIZE()
+> macro is the correct way to count array elements in the kernel, and
+> ARRAY_SIZE() also provides a __must_be_array() compile time check. There
+> are no functional changes.
 
-Fix this by calling v4l2_ctrl_handler_free() on the ctx->ctrls allocation
-failure path.
+...
 
-The bug was first flagged by an experimental analysis tool we are
-developing for kernel memory-management bugs while analyzing
-v6.13-rc1. The tool is still under development and is not yet publicly
-available. Manual inspection confirms that the bug is still
-present in v7.1.1.
+> -#define NUMARGS(...)  (sizeof((int[]){__VA_ARGS__}) / sizeof(int))
+> +#define NUMARGS(...)  ARRAY_SIZE(((int[]){__VA_ARGS__}))
+>  
+>  #define write_reg(par, ...)                                            \
+>  	((par)->fbtftops.write_register(par, NUMARGS(__VA_ARGS__), __VA_ARGS__))
 
-An x86_64 allyesconfig build showed no new warnings. As we do not have an
-Allwinner SoC or board with a Cedrus VPU available to test with, no
-runtime testing was able to be performed.
+What is the maximum parameters .write_register() takes in practice in the
+fbtft drivers? If it's less than or equal to 15, we may use args.h instead.
 
-Fixes: 50e761516f2b ("media: platform: Add Cedrus VPU decoder driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Dawei Feng <dawei.feng@seu.edu.cn>
----
- drivers/staging/media/sunxi/cedrus/cedrus.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
-index bbd186b8035b..96acd52e380c 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-@@ -285,8 +285,10 @@ static int cedrus_init_ctrls(struct cedrus_dev *dev, struct cedrus_ctx *ctx)
- 	ctrl_size = sizeof(ctrl) * CEDRUS_CONTROLS_COUNT + 1;
- 
- 	ctx->ctrls = kzalloc(ctrl_size, GFP_KERNEL);
--	if (!ctx->ctrls)
-+	if (!ctx->ctrls) {
-+		v4l2_ctrl_handler_free(hdl);
- 		return -ENOMEM;
-+	}
- 
- 	j = 0;
- 	for (i = 0; i < CEDRUS_CONTROLS_COUNT; i++) {
 -- 
-2.34.1
+With Best Regards,
+Andy Shevchenko
+
 
