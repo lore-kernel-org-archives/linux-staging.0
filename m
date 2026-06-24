@@ -1,246 +1,207 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB33227587D
-	for <linux-staging@lists.linux.dev>; Wed, 24 Jun 2026 02:16:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9707A2701BB;
+	Wed, 24 Jun 2026 03:27:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782267394; cv=none; b=QJ0g+ojD6UzkcRwLqc+VbLkz+WKUhIYpS7R4H7Th7bZvyLrLKq4Hw7F/LNiir1lDsPQfBsytYn1+icPA9WqcEY3pMfuLZrBF9boB/Unzc6AhNUxczi/XNq8liDKMn2VBy12iKdxu88QgBUBMKiXaMpS0DASXGGmPey4pwtScIsY=
+	t=1782271645; cv=none; b=KYkO8T7W7x+pV/8/j/9YScK+ohoWma0hPhluAvYOSF+S5DJQfnzxjP86Og4lv5uWZ864+9KLD2P+z+/ryO8JV+wecpzqo4zCOBEnrSH/jjKsSVlxdLp5car0CHf9JJiAKWrflMm2KQNJYCHu5ZNqNPebBemXTOmO/Ur/FQ08Znk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782267394; c=relaxed/simple;
-	bh=r3Rgck32IaxExe3w1xrWOfBDcmRWz3RJFduOOH3eYF4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=r5vFOEz+kt9BjXbev2NxKYwJPDAtOtrtseENciB1Jr/xv4XSDf2Pn+cLk86YLMLb2/bMpaC3HyrC2CqXgCX4Zfbjoo3ePJK3b5Qor1RvBNnc4Av4VBpJz1xhKFwycX0IdVyW7UywjsappiQJyF4QHgZ6dEvUIwOlm1MlNb3/lAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=ohE+wJPT; arc=none smtp.client-ip=220.197.31.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1782271645; c=relaxed/simple;
+	bh=2SS3ol4ylJdY7CvZq08xhkuj5RZgxQvy20V6aDvoQac=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=X6nAYGCZC+2zRsKP8cFgTPvpOkKTK4eSCMLrH+fQVdj2r45mHcAdomncEQJGRgBhU9XlgsuyWZ2iooFoRyXsW3o/Qc7Kila3I7rreP6sY9n8h2Xh9lFRoTN2DLEsIFnM8XJfgEpXR9G+8cwFs2u9DfvjJKRi7LDd+/JsbrSLWfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MXeVr+8R; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="ohE+wJPT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=ih
-	ZX/jCBy52pDyWMe+hAlovUDY+K/FWWneiAoRBDgRs=; b=ohE+wJPTXGfGX5O/bT
-	JGlctVGKdA+3iqJbhnvmHI06d4h5uiIJggz+oWXiAhgb2CkY5NmXlkwHe8QT76YG
-	iuFP+7OuTxjcLhpNWBsxWeKsLG/ZcQ1NLojKnspYfygU+m4vmHFNa1PggNvL9uNl
-	/QJJZf1KbzObdCXh4RqWr3Y1I=
-Received: from Ubuntu.. (unknown [])
-	by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id _____wC3Q1vtPTtqprHPFQ--.18191S2;
-	Wed, 24 Jun 2026 10:16:14 +0800 (CST)
-From: Xiaofeng Yuan <xiaofengmian@163.com>
-To: gregkh@linuxfoundation.org
-Cc: jic23@kernel.org,
-	linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Xiaofeng Yuan <xiaofengmian@163.com>
-Subject: [PATCH] staging: iio: frequency: reorder dds.h macro parameters to match IIO convention
-Date: Wed, 24 Jun 2026 02:16:12 +0000
-Message-ID: <20260624021612.23808-1-xiaofengmian@163.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MXeVr+8R"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782271645; x=1813807645;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2SS3ol4ylJdY7CvZq08xhkuj5RZgxQvy20V6aDvoQac=;
+  b=MXeVr+8RHOxParSdSqlvFLGxnkRYhs8IEkwSbxMeYWUkXiC0VfcPBXL5
+   1bglD95ONhgawTT/EuFVCsl6C/qSUb9Yyr295LwohAW5F+3R9APpQp/bM
+   C7oTg+mNmutkOWcKGZ96fnbW3kyq0OTXvFOCzt0eJ6ZMzv5e1ng0Mj/p9
+   0d6RKEdAaeFxfHf9tvkevzQd01S2TL9dgMrfu5l8hUJgjx8IhpKH48T+t
+   1cWkIthip2VuBLsXuumh3YW/2jwC38AnAt3OaT3eWL+UWg7G4nNUBsCem
+   maQ4TSusGFlIlqKqBfJB/vt8rm4ljS870SQx7/ECE7dGhIDoIoBtvUu0f
+   A==;
+X-CSE-ConnectionGUID: HSBqdLSXQz+Giex/H3UtZw==
+X-CSE-MsgGUID: 8NzW8uXQQhOK3ecfRluXSQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11826"; a="85578763"
+X-IronPort-AV: E=Sophos;i="6.24,221,1774335600"; 
+   d="scan'208";a="85578763"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 20:27:24 -0700
+X-CSE-ConnectionGUID: QJ9MHrLBQLuEAJi7Ow/kyg==
+X-CSE-MsgGUID: G5PvuoVCQSKsJM4vqRFECQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,221,1774335600"; 
+   d="scan'208";a="248803287"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by orviesa010.jf.intel.com with ESMTP; 23 Jun 2026 20:27:22 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wcEGl-0000000035x-18lo;
+	Wed, 24 Jun 2026 03:27:19 +0000
+Date: Wed, 24 Jun 2026 11:26:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Arnav Kapoor <kapoorarnav43@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-staging@lists.linux.dev,
+	linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Arnav Kapoor <kapoorarnav43@gmail.com>
+Subject: Re: [staging] staging: sm750fb: fix remaining CamelCase issues
+Message-ID: <202606241142.LlZq0AN1-lkp@intel.com>
+References: <20260621045340.65872-1-kapoorarnav43@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wC3Q1vtPTtqprHPFQ--.18191S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW3Jw48Xw1DCr4UZw4kGr1ftFb_yoWftrWrpa
-	4IgFZ0vr1UJFs5tFykAF1UWr98ZwnF9Fn8WFyv9w4rXa17trn2kr10va48tF1kJaykX3yx
-	JFn7Gr97uFWkKr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pinqXkUUUUU=
-X-CM-SenderInfo: p0ld0w5hqjzxldq6il2tof0z/xtbC5g7z9mo7Pe6jGQAA3V
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260621045340.65872-1-kapoorarnav43@gmail.com>
 
-The IIO subsystem convention requires that the file permission
-(_mode) parameter be the first argument of IIO_DEV_ATTR_* macros.
-The dds.h macros had _mode after _channel, causing checkpatch to
-misinterpret the channel number as a permission value.
+Hi Arnav,
 
-Reorder the parameters so _mode is first, matching the convention
-established by IIO_DEV_ATTR_SAMP_FREQ in include/linux/iio/sysfs.h.
+kernel test robot noticed the following build errors:
 
-Update all callers in ad9834.c and ad9832.c accordingly.
+[auto build test ERROR on staging/staging-linus]
+[also build test ERROR on v7.1]
+[cannot apply to staging/staging-testing staging/staging-next linus/master next-20260623]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Compile tested.
+url:    https://github.com/intel-lab-lkp/linux/commits/Arnav-Kapoor/staging-sm750fb-fix-remaining-CamelCase-issues/20260622-235207
+base:   staging/staging-linus
+patch link:    https://lore.kernel.org/r/20260621045340.65872-1-kapoorarnav43%40gmail.com
+patch subject: [staging] staging: sm750fb: fix remaining CamelCase issues
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20260624/202606241142.LlZq0AN1-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260624/202606241142.LlZq0AN1-lkp@intel.com/reproduce)
 
-Signed-off-by: Xiaofeng Yuan <xiaofengmian@163.com>
----
- drivers/staging/iio/frequency/ad9832.c | 20 ++++++++++----------
- drivers/staging/iio/frequency/ad9834.c | 22 +++++++++++-----------
- drivers/staging/iio/frequency/dds.h    | 24 ++++++++++++------------
- 3 files changed, 33 insertions(+), 33 deletions(-)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606241142.LlZq0AN1-lkp@intel.com/
 
-diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/iio/frequency/ad9832.c
-index 659821a1e..2dfdd0d28 100644
---- a/drivers/staging/iio/frequency/ad9832.c
-+++ b/drivers/staging/iio/frequency/ad9832.c
-@@ -253,22 +253,22 @@ static ssize_t ad9832_write(struct device *dev, struct device_attribute *attr,
-  * see dds.h for further information
-  */
- 
--static IIO_DEV_ATTR_FREQ(0, 0, 0200, NULL, ad9832_write, AD9832_FREQ0HM);
--static IIO_DEV_ATTR_FREQ(0, 1, 0200, NULL, ad9832_write, AD9832_FREQ1HM);
--static IIO_DEV_ATTR_FREQSYMBOL(0, 0200, NULL, ad9832_write, AD9832_FREQ_SYM);
-+static IIO_DEV_ATTR_FREQ(0200, 0, 0, NULL, ad9832_write, AD9832_FREQ0HM);
-+static IIO_DEV_ATTR_FREQ(0200, 0, 1, NULL, ad9832_write, AD9832_FREQ1HM);
-+static IIO_DEV_ATTR_FREQSYMBOL(0200, 0, NULL, ad9832_write, AD9832_FREQ_SYM);
- static IIO_CONST_ATTR_FREQ_SCALE(0, "1"); /* 1Hz */
- 
--static IIO_DEV_ATTR_PHASE(0, 0, 0200, NULL, ad9832_write, AD9832_PHASE0H);
--static IIO_DEV_ATTR_PHASE(0, 1, 0200, NULL, ad9832_write, AD9832_PHASE1H);
--static IIO_DEV_ATTR_PHASE(0, 2, 0200, NULL, ad9832_write, AD9832_PHASE2H);
--static IIO_DEV_ATTR_PHASE(0, 3, 0200, NULL, ad9832_write, AD9832_PHASE3H);
--static IIO_DEV_ATTR_PHASESYMBOL(0, 0200, NULL,
-+static IIO_DEV_ATTR_PHASE(0200, 0, 0, NULL, ad9832_write, AD9832_PHASE0H);
-+static IIO_DEV_ATTR_PHASE(0200, 0, 1, NULL, ad9832_write, AD9832_PHASE1H);
-+static IIO_DEV_ATTR_PHASE(0200, 0, 2, NULL, ad9832_write, AD9832_PHASE2H);
-+static IIO_DEV_ATTR_PHASE(0200, 0, 3, NULL, ad9832_write, AD9832_PHASE3H);
-+static IIO_DEV_ATTR_PHASESYMBOL(0200, 0, NULL,
- 				ad9832_write, AD9832_PHASE_SYM);
- static IIO_CONST_ATTR_PHASE_SCALE(0, "0.0015339808"); /* 2PI/2^12 rad*/
- 
--static IIO_DEV_ATTR_PINCONTROL_EN(0, 0200, NULL,
-+static IIO_DEV_ATTR_PINCONTROL_EN(0200, 0, NULL,
- 				ad9832_write, AD9832_PINCTRL_EN);
--static IIO_DEV_ATTR_OUT_ENABLE(0, 0200, NULL,
-+static IIO_DEV_ATTR_OUT_ENABLE(0200, 0, NULL,
- 				ad9832_write, AD9832_OUTPUT_EN);
- 
- static struct attribute *ad9832_attributes[] = {
-diff --git a/drivers/staging/iio/frequency/ad9834.c b/drivers/staging/iio/frequency/ad9834.c
-index 4359b358e..b232cb4a7 100644
---- a/drivers/staging/iio/frequency/ad9834.c
-+++ b/drivers/staging/iio/frequency/ad9834.c
-@@ -315,21 +315,21 @@ static IIO_DEVICE_ATTR(out_altvoltage0_out1_wavetype_available, 0444,
-  * see dds.h for further information
-  */
- 
--static IIO_DEV_ATTR_FREQ(0, 0, 0200, NULL, ad9834_write, AD9834_REG_FREQ0);
--static IIO_DEV_ATTR_FREQ(0, 1, 0200, NULL, ad9834_write, AD9834_REG_FREQ1);
--static IIO_DEV_ATTR_FREQSYMBOL(0, 0200, NULL, ad9834_write, AD9834_FSEL);
-+static IIO_DEV_ATTR_FREQ(0200, 0, 0, NULL, ad9834_write, AD9834_REG_FREQ0);
-+static IIO_DEV_ATTR_FREQ(0200, 0, 1, NULL, ad9834_write, AD9834_REG_FREQ1);
-+static IIO_DEV_ATTR_FREQSYMBOL(0200, 0, NULL, ad9834_write, AD9834_FSEL);
- static IIO_CONST_ATTR_FREQ_SCALE(0, "1"); /* 1Hz */
- 
--static IIO_DEV_ATTR_PHASE(0, 0, 0200, NULL, ad9834_write, AD9834_REG_PHASE0);
--static IIO_DEV_ATTR_PHASE(0, 1, 0200, NULL, ad9834_write, AD9834_REG_PHASE1);
--static IIO_DEV_ATTR_PHASESYMBOL(0, 0200, NULL, ad9834_write, AD9834_PSEL);
-+static IIO_DEV_ATTR_PHASE(0200, 0, 0, NULL, ad9834_write, AD9834_REG_PHASE0);
-+static IIO_DEV_ATTR_PHASE(0200, 0, 1, NULL, ad9834_write, AD9834_REG_PHASE1);
-+static IIO_DEV_ATTR_PHASESYMBOL(0200, 0, NULL, ad9834_write, AD9834_PSEL);
- static IIO_CONST_ATTR_PHASE_SCALE(0, "0.0015339808"); /* 2PI/2^12 rad*/
- 
--static IIO_DEV_ATTR_PINCONTROL_EN(0, 0200, NULL, ad9834_write, AD9834_PIN_SW);
--static IIO_DEV_ATTR_OUT_ENABLE(0, 0200, NULL, ad9834_write, AD9834_RESET);
--static IIO_DEV_ATTR_OUTY_ENABLE(0, 1, 0200, NULL, ad9834_write, AD9834_OPBITEN);
--static IIO_DEV_ATTR_OUT_WAVETYPE(0, 0, ad9834_store_wavetype, 0);
--static IIO_DEV_ATTR_OUT_WAVETYPE(0, 1, ad9834_store_wavetype, 1);
-+static IIO_DEV_ATTR_PINCONTROL_EN(0200, 0, NULL, ad9834_write, AD9834_PIN_SW);
-+static IIO_DEV_ATTR_OUT_ENABLE(0200, 0, NULL, ad9834_write, AD9834_RESET);
-+static IIO_DEV_ATTR_OUTY_ENABLE(0200, 0, 1, NULL, ad9834_write, AD9834_OPBITEN);
-+static IIO_DEV_ATTR_OUT_WAVETYPE(0200, 0, 0, ad9834_store_wavetype, 0);
-+static IIO_DEV_ATTR_OUT_WAVETYPE(0200, 0, 1, ad9834_store_wavetype, 1);
- 
- static struct attribute *ad9834_attributes[] = {
- 	&iio_dev_attr_out_altvoltage0_frequency0.dev_attr.attr,
-diff --git a/drivers/staging/iio/frequency/dds.h b/drivers/staging/iio/frequency/dds.h
-index 2ebe68eb7..b2ca8bb97 100644
---- a/drivers/staging/iio/frequency/dds.h
-+++ b/drivers/staging/iio/frequency/dds.h
-@@ -11,7 +11,7 @@
-  * /sys/bus/iio/devices/.../out_altvoltageX_frequencyY
-  */
- 
--#define IIO_DEV_ATTR_FREQ(_channel, _num, _mode, _show, _store, _addr)	\
-+#define IIO_DEV_ATTR_FREQ(_mode, _channel, _num, _show, _store, _addr)	\
- 	IIO_DEVICE_ATTR(out_altvoltage##_channel##_frequency##_num,	\
- 			_mode, _show, _store, _addr)
- 
-@@ -26,7 +26,7 @@
-  * /sys/bus/iio/devices/.../out_altvoltageX_frequencysymbol
-  */
- 
--#define IIO_DEV_ATTR_FREQSYMBOL(_channel, _mode, _show, _store, _addr)	\
-+#define IIO_DEV_ATTR_FREQSYMBOL(_mode, _channel, _show, _store, _addr)	\
- 	IIO_DEVICE_ATTR(out_altvoltage##_channel##_frequencysymbol,	\
- 			_mode, _show, _store, _addr)
- 
-@@ -34,7 +34,7 @@
-  * /sys/bus/iio/devices/.../out_altvoltageX_phaseY
-  */
- 
--#define IIO_DEV_ATTR_PHASE(_channel, _num, _mode, _show, _store, _addr)	\
-+#define IIO_DEV_ATTR_PHASE(_mode, _channel, _num, _show, _store, _addr)	\
- 	IIO_DEVICE_ATTR(out_altvoltage##_channel##_phase##_num,		\
- 			_mode, _show, _store, _addr)
- 
-@@ -49,7 +49,7 @@
-  * /sys/bus/iio/devices/.../out_altvoltageX_phasesymbol
-  */
- 
--#define IIO_DEV_ATTR_PHASESYMBOL(_channel, _mode, _show, _store, _addr)	\
-+#define IIO_DEV_ATTR_PHASESYMBOL(_mode, _channel, _show, _store, _addr)	\
- 	IIO_DEVICE_ATTR(out_altvoltage##_channel##_phasesymbol,		\
- 			_mode, _show, _store, _addr)
- 
-@@ -57,7 +57,7 @@
-  * /sys/bus/iio/devices/.../out_altvoltageX_pincontrol_en
-  */
- 
--#define IIO_DEV_ATTR_PINCONTROL_EN(_channel, _mode, _show, _store, _addr)\
-+#define IIO_DEV_ATTR_PINCONTROL_EN(_mode, _channel, _show, _store, _addr)\
- 	IIO_DEVICE_ATTR(out_altvoltage##_channel##_pincontrol_en,	\
- 			_mode, _show, _store, _addr)
- 
-@@ -65,7 +65,7 @@
-  * /sys/bus/iio/devices/.../out_altvoltageX_pincontrol_frequency_en
-  */
- 
--#define IIO_DEV_ATTR_PINCONTROL_FREQ_EN(_channel, _mode, _show, _store, _addr)\
-+#define IIO_DEV_ATTR_PINCONTROL_FREQ_EN(_mode, _channel, _show, _store, _addr)\
- 	IIO_DEVICE_ATTR(out_altvoltage##_channel##_pincontrol_frequency_en,\
- 			_mode, _show, _store, _addr)
- 
-@@ -73,7 +73,7 @@
-  * /sys/bus/iio/devices/.../out_altvoltageX_pincontrol_phase_en
-  */
- 
--#define IIO_DEV_ATTR_PINCONTROL_PHASE_EN(_channel, _mode, _show, _store, _addr)\
-+#define IIO_DEV_ATTR_PINCONTROL_PHASE_EN(_mode, _channel, _show, _store, _addr)\
- 	IIO_DEVICE_ATTR(out_altvoltage##_channel##_pincontrol_phase_en,	\
- 			_mode, _show, _store, _addr)
- 
-@@ -81,7 +81,7 @@
-  * /sys/bus/iio/devices/.../out_altvoltageX_out_enable
-  */
- 
--#define IIO_DEV_ATTR_OUT_ENABLE(_channel, _mode, _show, _store, _addr)	\
-+#define IIO_DEV_ATTR_OUT_ENABLE(_mode, _channel, _show, _store, _addr)	\
- 	IIO_DEVICE_ATTR(out_altvoltage##_channel##_out_enable,		\
- 			_mode, _show, _store, _addr)
- 
-@@ -89,8 +89,8 @@
-  * /sys/bus/iio/devices/.../out_altvoltageX_outY_enable
-  */
- 
--#define IIO_DEV_ATTR_OUTY_ENABLE(_channel, _output,			\
--			_mode, _show, _store, _addr)			\
-+#define IIO_DEV_ATTR_OUTY_ENABLE(_mode, _channel, _output,		\
-+			_show, _store, _addr)				\
- 	IIO_DEVICE_ATTR(out_altvoltage##_channel##_out##_output##_enable,\
- 			_mode, _show, _store, _addr)
- 
-@@ -98,9 +98,9 @@
-  * /sys/bus/iio/devices/.../out_altvoltageX_outY_wavetype
-  */
- 
--#define IIO_DEV_ATTR_OUT_WAVETYPE(_channel, _output, _store, _addr)	\
-+#define IIO_DEV_ATTR_OUT_WAVETYPE(_mode, _channel, _output, _store, _addr)\
- 	IIO_DEVICE_ATTR(out_altvoltage##_channel##_out##_output##_wavetype,\
--			0200, NULL, _store, _addr)
-+			_mode, NULL, _store, _addr)
- 
- /**
-  * /sys/bus/iio/devices/.../out_altvoltageX_outY_wavetype_available
--- 
-2.43.0
+All errors (new ones prefixed by >>):
 
+   drivers/staging/sm750fb/sm750.c: In function 'sm750fb_setup':
+>> drivers/staging/sm750fb/sm750.c:862:30: error: 'struct init_status' has no member named 'power_mode'; did you mean 'powerMode'?
+     862 |         sm750_dev->init_parm.power_mode = 0;
+         |                              ^~~~~~~~~~
+         |                              powerMode
+>> drivers/staging/sm750fb/sm750.c:863:30: error: 'struct init_status' has no member named 'set_all_eng_off'; did you mean 'setAllEngOff'?
+     863 |         sm750_dev->init_parm.set_all_eng_off = 0;
+         |                              ^~~~~~~~~~~~~~~
+         |                              setAllEngOff
+>> drivers/staging/sm750fb/sm750.c:864:30: error: 'struct init_status' has no member named 'reset_memory'; did you mean 'resetMemory'?
+     864 |         sm750_dev->init_parm.reset_memory = 1;
+         |                              ^~~~~~~~~~~~
+         |                              resetMemory
+>> drivers/staging/sm750fb/sm750.c:883:46: error: 'SM750_DOUBLE_TFT' undeclared (first use in this function); did you mean 'sm750_doubleTFT'?
+     883 |                         sm750_dev->pnltype = SM750_DOUBLE_TFT;
+         |                                              ^~~~~~~~~~~~~~~~
+         |                                              sm750_doubleTFT
+   drivers/staging/sm750fb/sm750.c:883:46: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/staging/sm750fb/sm750.c:885:46: error: 'SM750_DUAL_TFT' undeclared (first use in this function); did you mean 'sm750_dualTFT'?
+     885 |                         sm750_dev->pnltype = SM750_DUAL_TFT;
+         |                                              ^~~~~~~~~~~~~~
+         |                                              sm750_dualTFT
+
+
+vim +862 drivers/staging/sm750fb/sm750.c
+
+   850	
+   851	/*	chip specific g_option configuration routine */
+   852	static void sm750fb_setup(struct sm750_dev *sm750_dev, char *src)
+   853	{
+   854		char *opt;
+   855		int swap;
+   856	
+   857		swap = 0;
+   858	
+   859		sm750_dev->init_parm.chip_clk = 0;
+   860		sm750_dev->init_parm.mem_clk = 0;
+   861		sm750_dev->init_parm.master_clk = 0;
+ > 862		sm750_dev->init_parm.power_mode = 0;
+ > 863		sm750_dev->init_parm.set_all_eng_off = 0;
+ > 864		sm750_dev->init_parm.reset_memory = 1;
+   865	
+   866		/* defaultly turn g_hwcursor on for both view */
+   867		g_hwcursor = 3;
+   868	
+   869		if (!src || !*src) {
+   870			dev_warn(&sm750_dev->pdev->dev, "no specific g_option.\n");
+   871			goto NO_PARAM;
+   872		}
+   873	
+   874		while ((opt = strsep(&src, ":")) != NULL && *opt != 0) {
+   875			dev_info(&sm750_dev->pdev->dev, "opt=%s\n", opt);
+   876			dev_info(&sm750_dev->pdev->dev, "src=%s\n", src);
+   877	
+   878			if (!strncmp(opt, "swap", strlen("swap"))) {
+   879				swap = 1;
+   880			} else if (!strncmp(opt, "nocrt", strlen("nocrt"))) {
+   881				sm750_dev->nocrt = 1;
+   882			} else if (!strncmp(opt, "36bit", strlen("36bit"))) {
+ > 883				sm750_dev->pnltype = SM750_DOUBLE_TFT;
+   884			} else if (!strncmp(opt, "18bit", strlen("18bit"))) {
+ > 885				sm750_dev->pnltype = SM750_DUAL_TFT;
+   886			} else if (!strncmp(opt, "24bit", strlen("24bit"))) {
+   887				sm750_dev->pnltype = sm750_24TFT;
+   888			} else if (!strncmp(opt, "nohwc0", strlen("nohwc0"))) {
+   889				g_hwcursor &= ~0x1;
+   890			} else if (!strncmp(opt, "nohwc1", strlen("nohwc1"))) {
+   891				g_hwcursor &= ~0x2;
+   892			} else if (!strncmp(opt, "nohwc", strlen("nohwc"))) {
+   893				g_hwcursor = 0;
+   894			} else {
+   895				if (!g_fbmode[0]) {
+   896					g_fbmode[0] = opt;
+   897					dev_info(&sm750_dev->pdev->dev,
+   898						 "find fbmode0 : %s\n", g_fbmode[0]);
+   899				} else if (!g_fbmode[1]) {
+   900					g_fbmode[1] = opt;
+   901					dev_info(&sm750_dev->pdev->dev,
+   902						 "find fbmode1 : %s\n", g_fbmode[1]);
+   903				} else {
+   904					dev_warn(&sm750_dev->pdev->dev, "How many view you wann set?\n");
+   905				}
+   906			}
+   907		}
+   908	
+   909	NO_PARAM:
+   910		if (sm750_dev->revid != SM750LE_REVISION_ID) {
+   911			if (sm750_dev->fb_count > 1) {
+   912				if (swap)
+   913					sm750_dev->dataflow = sm750_dual_swap;
+   914				else
+   915					sm750_dev->dataflow = sm750_dual_normal;
+   916			} else {
+   917				if (swap)
+   918					sm750_dev->dataflow = sm750_simul_sec;
+   919				else
+   920					sm750_dev->dataflow = sm750_simul_pri;
+   921			}
+   922		} else {
+   923			/* SM750LE only have one crt channel */
+   924			sm750_dev->dataflow = sm750_simul_sec;
+   925			/* sm750le do not have complex attributes */
+   926			sm750_dev->nocrt = 0;
+   927		}
+   928	}
+   929	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
