@@ -1,186 +1,146 @@
-Received: from mout.web.de (mout.web.de [212.227.17.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE9BA388363
-	for <linux-staging@lists.linux.dev>; Wed, 24 Jun 2026 06:27:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B98043876CC
+	for <linux-staging@lists.linux.dev>; Wed, 24 Jun 2026 06:27:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782282457; cv=none; b=pOgcDVBR7ct8mEPv+2qj674c4kdNh6Q5ARX93uuHRL+jlQHIzoL6HrHITImZ78FONORJ85HxTvDx025dL5ww6pPBzZUg2P17IRGFIkc4rnoqdcCkg4/dLZPalCGT9+bV7ZERa/7yE96Y+4u9AGmwANhQvBCAWO2SKv4zjE+8wsw=
+	t=1782282479; cv=none; b=Dc8XYsylnlwQgCmsu0+bd/xVmQYDFe66wfYBFxtap+fiETsqkZOvgWPD4NiQya/Tx5F5AhLUKzMXa7iKHvHW+Mo2i4pDbg0wKgjSmVkdonelv4OBY4ew7VruS/ybg7+3SACXculG5njViCawKJ3kj4kuaRV9c1FaVyjOTF6kROE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782282457; c=relaxed/simple;
-	bh=WUZy6Ph7CUZX2NYOR3i5hc7ReisbEfq/xzPC28bY1/8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VA+ooxuCeMX8GvIYwcJqwX/BMSCEh8VQ3l88Gm/vhuarYH0GlgXxnRSvDIOJWuCOIm7Sd3wtWGA9/GvETa5jzM6fahcRDFszDMc6m6MEGceyME/Lk8NADi4WAyvjP6wG8W0i8kk7XZlT2RYSqBy0YXmXmNKgkol/3aEk5vWa0XA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=CAYQE8+6; arc=none smtp.client-ip=212.227.17.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	s=arc-20240116; t=1782282479; c=relaxed/simple;
+	bh=0gpqxp5C6vAUbbM4GloT8ABlUjYyQs/QpypwSJxnHNM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s9LJxtWUiqQAyYZ23DHG9qMZWXZy1x3Q/1lUSHff60NZjJI3qlDN6LaNQDR/sPi/3Cs7gfX8gHRlAP2pLUtw6S1GgIvErGSvCqBYifeK+yf01KqHsFcm9YmluuNy9g29ajKRrCqDzjOS00CpZo5sF64zpI9DBvnZLWSi3eBQ16U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pi/C0/4J; arc=none smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="CAYQE8+6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1782282439; x=1782887239; i=markus.elfring@web.de;
-	bh=Yqq4XWp+p3kifceGORFd2jQBDj3RjzcTWpq6JZ3BTW4=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=CAYQE8+6wUYX3qfivZLzLC/FgzmzG4xYYJAFr/xuQ4FnFbtpTE2Plaf+GpSnlk/R
-	 cj0v2AMJv0mgUy7jBcBUcDo6bC4UM7KJdn4WE36gSEHBIloGtugCh26mG6+bX07ni
-	 6WuR2W4il7f8d6UFu8gtDwKd+6Fnpwx+RXiZNrfxAwyq+YYXmby1NpNPesgRHtxbf
-	 2489g9QGQDMj0j3O1lt239OCrT60mYVpTe4C72Q9kQwW/uKwn3yM0DedQherE/jLV
-	 fOFqGOg15QAdRMO6BiXWS8hH+vGMd90aANM+cl+PzOmDl+0IsebrPvSon5TaWgKwg
-	 04XKBNWUFYYMgnjLtQ==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from client.hidden.invalid by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MZB4F-1wgHPq1I93-00Wnzw; Wed, 24
- Jun 2026 08:27:19 +0200
-Message-ID: <6194fe38-1f49-4190-a508-87d7b379e59e@web.de>
-Date: Wed, 24 Jun 2026 08:27:04 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pi/C0/4J"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-697f3af8749so590251a12.2
+        for <linux-staging@lists.linux.dev>; Tue, 23 Jun 2026 23:27:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782282476; x=1782887276; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+KFnQ6m1BXNtV5S++x12ycDzT21xW8CUK7qPR+O7rI4=;
+        b=Pi/C0/4J8DmRB4/NuTVVR5KfeIUIq23fzZxJEET+LeBFKBdaCEhuT61ZmRm96Jwh+s
+         +Lk9/O8OVzRoQV+s+Pmfaa/58gRGJJguciMp9pcDgm7SDg+hAPT9aATBDhVz4nQoWFnu
+         aMIyJ78o6/NGl+fM63HhZ3QNn61fxua6kfL2mRbMNu1ZffTauZATkNSv+8iS/MF6bXWZ
+         5K9VYfnrC9tmtAaPm0UNuhQhza3Y8R/1f+hUbgX3QVErufZPrrp7RskxhAn9uiUCkQLt
+         knFcZiWTBeJKX6zgWQD682Ayw8ag5xW+ylE9uZoJSv7nKMmB1WgrXV88zqf53vBT2RCP
+         Ur9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782282476; x=1782887276;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+KFnQ6m1BXNtV5S++x12ycDzT21xW8CUK7qPR+O7rI4=;
+        b=F/cFtCpXLay4//NiOMlAqkq7liBbjMR9Q0b/MeHzkiLu+HLWtTGikq07ofE3qZNTik
+         /innPqJwI8NYWHD3Kk/0WJP9/E9UX/8UkZZUooNU8DkFWlHj4ZgT2U0tl/V2khdzMo5E
+         yQoy34dBIm2a4zdtmSifilq/2K+Kq/DoENnqyMoRNAUKpk/+5kF1CNfROAVPCC/dj+BY
+         RWB0illinsNqyuJwQLEMQfrCsNNh6ZsdVk9yVsrQ3uyoiEf/8WBacIejl1rXBnehMEsc
+         tuv+Rhp9FkNfisIsJbUROFuqAAwJBaYxLHAnoknK76gPK94pyCy+fFyzNShz8up1O8Fn
+         GXYw==
+X-Forwarded-Encrypted: i=1; AFNElJ9jjiTexKXHMWEVazwIjQqnUccDIcmpU9pZeIdfCQ40/HJ3e3pQBhBIgtKf8gQfRYHHqmGQkdto4Xg+FZh7@lists.linux.dev
+X-Gm-Message-State: AOJu0YwUM0GUpRHKBD3VIrx3wtYosEjn9G0TzUSkdix5E9pTj/nu3DcT
+	SE00mi1Gn6zPRVgRKDAxtuSiXTNnuhNsiOv9Wtq0/LQ6y4MEKtjd0X4e
+X-Gm-Gg: AfdE7cmXw69JWO4/EWtIKKLS2WSHA9oLL/WKT+1CBhPb+ctqDMQmG14F71i1G/06GGR
+	WVucutrrW7DKsLbrjin/qI/m9P+rmh2elwEx5Qc3RUeFzsLJrA7CLWimL20vZaQwNr3dT/eqxzc
+	Kbl7T16dngiqc9Sz3TeaqTbMCV8Zp2xOubvHa3XqGIiKgqn1hPNKBYeJ4AdV7gX3aVHYHkDyZgm
+	PfBbPQ3VrDgOkAY3JQPQz0B5fXfw+CzO0kDrCXZEcDk7ZeWC15PzEsD421rXxD7+0Mq1df/8um1
+	SAGwh654sCamAqbQA7aW/gwU32UfhI6+sU0MPAR3VPm1mB7eDP83TN3iwfnwc1YSYlYVh19w4NG
+	J2fN5Tgc+MHD247Cs24KwGhpt6fGppfIWv7EsuXZ/WeGGbFc+40Ul59jkssMv53Fk25nKhfVPTm
+	SSy7fW42gN
+X-Received: by 2002:a05:6402:4502:b0:697:ef08:e18b with SMTP id 4fb4d7f45d1cf-697f377880dmr742293a12.1.1782282476021;
+        Tue, 23 Jun 2026 23:27:56 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-697f49d73fdsm529866a12.22.2026.06.23.23.27.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Jun 2026 23:27:55 -0700 (PDT)
+Date: Wed, 24 Jun 2026 09:27:51 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Batu Ada Tutkun <batuadatutkun@gmail.com>
+Cc: parthiban.veerasooran@microchip.com, christian.gromm@microchip.com,
+	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: most: dim2: use dev_err_probe() for clock
+ errors in rcar enable functions
+Message-ID: <ajt4563Z0OcyenaU@stanley.mountain>
+References: <20260623124243.1245-1-batuadatutkun@gmail.com>
+ <6a3ae2f8.cf2df9a4.132dbf.1a50@mx.google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/4] drm/ssd130x: Add SSD135X_FAMILY and SSD1351
- support
-To: Amit Barzilai <amit.barzilai22@gmail.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
-Cc: LKML <linux-kernel@vger.kernel.org>, Adam Azuddin
- <azuddinadam@gmail.com>, Andy Shevchenko <andy@kernel.org>,
- Chintan Patel <chintanlike@gmail.com>, Conor Dooley <conor+dt@kernel.org>,
- David Airlie <airlied@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Helge Deller
- <deller@gmx.de>, Javier Martinez Canillas <javierm@redhat.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Rob Herring <robh@kernel.org>,
- Simona Vetter <simona@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>
-References: <16a86f3d-caf0-46d0-97a4-c9585bdaa06c@web.de>
- <20260623213447.30196-1-amit.barzilai22@gmail.com>
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20260623213447.30196-1-amit.barzilai22@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:FPSVt/JoKekDlA+VAEpC/+JR8z9XsVR+MLZFN+TWShm+AMKT8aN
- uaOkEvu5GNDyaszfkxmccPbrS0LmH7cTQ2Fuxn12cuMuF3Fn+SwxACrSyiq6bQmgBpjARGG
- QfQOCwg5AgDfJDlzgP765P/WVFF8dyD/YmBt0k6O717tQIbnoVG0AO36XXdyaKFcBoXa8vq
- 60B7MtFDI7C/DTNjicbhQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:ZjnPpbG9fCw=;66QYnYZSLekJbUJa0TYcJn7Ofik
- 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
- oNB9Z2yin1IOvrRdaU=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6a3ae2f8.cf2df9a4.132dbf.1a50@mx.google.com>
 
->>> +++ b/drivers/gpu/drm/solomon/ssd130x.c
->>> @@ -146,6 +146,33 @@
->>>  #define SSD133X_COLOR_DEPTH_256			0x0
->>>  #define SSD133X_COLOR_DEPTH_65K			0x1
->>> =20
->>> +/* ssd135x commands */
->>> +#define SSD135X_SET_COL_RANGE			0x15
->>> +#define SSD135X_WRITE_RAM			0x5c
->>> +#define SSD135X_SET_ROW_RANGE			0x75
->> [...]
->>
->> How do you think about to use an enumeration for such data?
->> https://en.wikipedia.org/wiki/Enumerated_type#C_and_syntactically_simil=
-ar_languages
->=20
-> Thank you for the suggestion.
->=20
-> I used #define to stay consistent with the rest of ssd130x.c, where the
-> command constants for the other families are all defined the same way.
+On Tue, Jun 23, 2026 at 10:46:07PM +0300, Batu Ada Tutkun wrote:
+> rcar_gen2_enable() and rcar_gen3_enable() use the old pattern of
+> dev_err() followed by return PTR_ERR() when devm_clk_get() fails.
+> fsl_mx6_enable() in the same file was already converted to use
+> dev_err_probe() by a previous cleanup series.
+> 
+> Convert the remaining two functions for consistency. devm_clk_get()
+> calls clk_get() which can return -EPROBE_DEFER if the clock provider
+> has not yet registered. Using dev_err_probe() suppresses the log at
+> error level in that case, avoiding misleading "cannot get clock" output
+> during a normal deferred probe.
+> 
+> clk_prepare_enable() cannot return -EPROBE_DEFER since the clock handle
+> is already acquired at that point, so those error paths are left as
+> dev_err().
+> 
+> Signed-off-by: Batu Ada Tutkun <batuadatutkun@gmail.com>
+> ---
+> Compile tested only. No R-Car hardware available. This is a correctness
+> fix for the deferred probe path, not a response to a reported
+> user visible issue.
+> 
+> Changes in v2:
+> - Mention clk_get() explicitly in commit message
+> - Add testing note under --- cut off line
+> 
 
-Will any further adjustments become more interesting?
+Wrong patch for the commit message.
 
+>  drivers/staging/most/video/video.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
+> index 04351f8cc..1e1ff3c52 100644
+> --- a/drivers/staging/most/video/video.c
+> +++ b/drivers/staging/most/video/video.c
+> @@ -33,14 +33,14 @@ struct most_video_dev {
+>  	bool mute;
+>  
+>  	struct list_head pending_mbos;
+> -	spinlock_t list_lock;
+> +	spinlock_t list_lock;	/* protects pending_mbos and mute */
 
-> In my opinion an enum could be a readable solution for these values,
+It doesn't protect mute, really.  Only half heartedly.  And
+protecting mute is unnecessary.
 
-This is nice.
+>  
+>  	struct v4l2_device v4l2_dev;
+>  	atomic_t access_ref;
+>  	struct video_device *vdev;
+>  	unsigned int ctrl_input;
+>  
+> -	struct mutex lock;
+> +	struct mutex lock;		/* serializes V4L2 ioctls */
 
+I kind of hate this checkpatch warning...  It's really hard to judge
+if this comment is accurate or useful.
 
-> but I don't think the switch should be included in this series.
-What does hinder you to take another design option better into account?
+regards,
+dan carpenter
 
-Regards,
-Markus
+>  
+>  	wait_queue_head_t wait_data;
+>  };
+> -- 
+> 2.53.0
