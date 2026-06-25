@@ -1,73 +1,72 @@
-Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1BF32749DC
-	for <linux-staging@lists.linux.dev>; Thu, 25 Jun 2026 10:27:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D22A42F290B
+	for <linux-staging@lists.linux.dev>; Thu, 25 Jun 2026 10:28:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782383257; cv=none; b=RdvRVErFvirtruPN+p0c4B9EhlT1AhiZ0yG3eWNXZ5/+byyx2sqqvaGabg8WUHt+/O4VdNPRF2S4p49SLFY1HwKG4YE7lQGgy+F89g07uNFSEX2+BZogWpyBp3JoIxTN2V9/mGD/EjY0uSq50RDtBPoHQoSf3ZZQx1eEhz1/Bnw=
+	t=1782383306; cv=none; b=PIGp/xZdj2yNG3rWbUN38UY8AIdUID8pxk5+76WVHRvnm3Qiq5euMmXTo+S/ZOVUA9ftdGjGaEEGYCMQAzIcgWd1el1qHI1mnZILH78bUnf+nqJMAo5xq+NtkrNXCUnKhkeK1mp/w520WfKZMxAwxdK1pi7Ldy+vfisjU1E37Ps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782383257; c=relaxed/simple;
-	bh=LaLtrw2hiYTx2V5KhilSrdVHwS6HOu2ow4N5oqdXWXY=;
+	s=arc-20240116; t=1782383306; c=relaxed/simple;
+	bh=HYgZXJzpaPo1lhmxJlKVYQ6TqGUOOhocJO1WrPJL9a4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HT0Si60AUGf+6xhG6xLFgbr3ImBFUNMlQEp8weG8JxfLKugKsyLSk2qEqHDNigLRd8YqwNTN7Zu/HWXibTGE6u0xIsphfJZKfUwMZEwPUBbDJsWNjLkTayiAMfgJT10tHGaJ7wFF0uR70Tdtb26OgAXzi8Yipi6dzwNONQOSZEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lHOq67Gv; arc=none smtp.client-ip=209.85.161.49
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZWoLDVL++zH0yL8iBETpD+QtUaTWD0jo9ZG1hermURHMIl3QHBAKaCvZf6mbC2ntsLS0Gm3SeNvZRUVx30qu0WFl5dUf1YH9u9lx8SpBSOf5qabZ2cyOm4xwteK7HDqhbm2JXzs4fCVQrwqxCvishJlKAKwFYqMBbabtyahSBf0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S35dvl47; arc=none smtp.client-ip=209.85.167.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lHOq67Gv"
-Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-69de16f5e80so1178502eaf.0
-        for <linux-staging@lists.linux.dev>; Thu, 25 Jun 2026 03:27:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S35dvl47"
+Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-48633190849so845424b6e.3
+        for <linux-staging@lists.linux.dev>; Thu, 25 Jun 2026 03:28:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782383256; x=1782988056; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1782383305; x=1782988105; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/WKFN+bw8sY7v3WiWOtoFku5fUwcwrZGxnyX6mydsFI=;
-        b=lHOq67GvSyCez6JpdUWemzUDjcnaox7ZduN0er/gfY0LNfYvCTCQ3h/oeSPDx9YDB9
-         TwWGHCOlVlzJsMVyTDX3JR948UmxZmhsNmyrFxGrRW8G9dcI2cIcuaOC1cSn16asYia2
-         L88/cmADtVIyUoXLP4Amkfyt04HaRANkNLH03qQ+4oEBojT2KNKN2MSAsppUlzv6spv8
-         6dPZGRQtprzxPe0zpyX35LbR+NDiEcKkX/r9ZPAL6ZqyiTRNBbO8dlgrc7Syw5K9rcJp
-         stFke8Wy0BUruBYRzyy/jB5mP0scxoMRenHY6+rAQvnqleNVtFZk+MJ8ToUfKsTSRVbk
-         665Q==
+        bh=otpXdjNkhvgaZ3XJWWSziZvKCi33swAVBBkTmAhDpkc=;
+        b=S35dvl4730q2Rmcn10FDKcGO+D+SvuDKUa/FxVmrnKTkm7fJY9eC/fTu1KhtRRiTXS
+         rxfKTagEyCo7FEZz3OpHev/R6S9fz7UHtrORo/IaNjklyWytBMvlJRtNbg7Ilwpqf6Tl
+         Has1PHQ9KAR1Fimh/dKjFg9BESqiMlBLbYIQIct7kx0SFbpbt7XqGhrNCfljR/q6xscr
+         Z7WbovKwQcJZeFMncz3B6JmIwaO8IQlsPVhunIzVVoaVTu7eV3oSDgLrtdSgAgOH/B6o
+         0lMLbkYkZdCx4zpl/ceWrOGFrUDb4cN2U1iU3iWn+x/+bmtrhT1W3t3uPYMKVomtObSI
+         dVRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782383256; x=1782988056;
+        d=1e100.net; s=20251104; t=1782383305; x=1782988105;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/WKFN+bw8sY7v3WiWOtoFku5fUwcwrZGxnyX6mydsFI=;
-        b=Do2U/1YpJoRbc5QFfwg/gIhRBMUgHvyU+noLWzror4mfdpvnkeSGYA2MUJLMUmSvsx
-         a51sfD3v8RpsJ3vwCT+Y10tZP/63EqwFuH0ryczuxbBBxjL6akzjBPwqhVvVZXrJAp1G
-         ET+egUg2Xrxu6YYWl1/v3Ofrsc4WlCbB6/C46lq74BH9qQ19LJmyl6CC5stQioMQ0BH9
-         seWcaHNuTSjZxykKUH9C10mVoYy6f0S7MOS1KIriHXMs7cwYRsfgzVOD3OWV8DfQdwQQ
-         /HIHBs2fbjwnRj0YTlV2NIv5zTQSiuqVfPy9tQLDb4oLPSb5Gs6LQnZWDyxGEk1f8Kgo
-         a9rA==
-X-Forwarded-Encrypted: i=1; AFNElJ8ruCWoYdejPy6Z0ZnVztsqVdaz4U+jW0VLmLzQ2wN4sLIHkZchUf9IX7+yBAli/WmocMnbqFNym6QYuwYt@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx9gqRxvWSHIdFKKZospsHM4IZeq/bGZENhh9nr3VPFZDbF0iqZ
-	CUX6pjjxkKRLQUCPxpHibZjRF5gb7da/wfa9V9RQqHSOP6DNvz2+1IMD
-X-Gm-Gg: AfdE7clOFW+83NfLzYNpOcYG1EdBhl+Gs1sIWGuWkqReOrDQxUSvWPBnYKxCfXCzcI9
-	wtdNOzlbmUuBr5Y+VZqbxQNQszzKIp0EZxXYmgPPpppadomTOacpm+iAjMPAQxevmkcNRKozlO3
-	B/J+kYnMCaHiLL4ot6hLfBZZ98wIWp8JKGO25oiKTJnvn4Rcc8vmkzY9pPBodDgzrViuoLNGLqi
-	9LRn8RUeL86oY0T3v6jagaLOV7+2q5KODXm0fZVPvEIFRG6+TNwbQrpsnc/A9hOGNriMNh9+KhU
-	+wyMqpQVi0Diwgh7Raufse6KLE37dYYyhWva3p4qtntyRXG0tOgQCI6IDGgeigOCNCCWQLehQ4K
-	k21Zmn9sP9qrEdSGzaScgXQLbW3r3cQtznEYMG9RKib1o0gB2MUopoGbVTOccs3xT/mAHjURfzm
-	hsJD7n
-X-Received: by 2002:a4a:e917:0:b0:69d:4f94:cf2a with SMTP id 006d021491bc7-6a135266f27mr1216037eaf.56.1782383255823;
-        Thu, 25 Jun 2026 03:27:35 -0700 (PDT)
+        bh=otpXdjNkhvgaZ3XJWWSziZvKCi33swAVBBkTmAhDpkc=;
+        b=HtZXv39Gxd68DDAbj92rkkD24RjXFo8w3zmRgtL7HZoJ7a8fKJYhz+Q66ZaQFncOYZ
+         wLXwo3rw2QE/QICbxNU1T3AByBhHGlJP1vdK9hTAt5Fnqx5hWo89cJ9h2cp1VwiEwf7t
+         ZrRhIFmjml3SMPYLTqwubCsNbzTwR70rS2s8ikGp2MrAkRa7JLs6SKAnXkwsEFaxYm/v
+         DRdYZajKTPu/V23cbFGA8b0Gkk+q2ivDFYJj3Oc0Q/FTkY8CtmWgc9edIdOO0IT9HyJm
+         aKAKnRbUVCsJy0Lvix+ecx3mqCOwmMVAaFxFsF9wr1xM4UyXp0xFTtjgJqPw6nhHN3W5
+         Okvw==
+X-Forwarded-Encrypted: i=1; AFNElJ8QEvk60GSGHNo19LSsFYB+B5FKKLpAJKMbf4CGHtniVUvbWU3hJy7k6h1qsETIn46A0YwPNHpJwpNG3XvR@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx08RJ/AEH5HmDf9F0URwrTYbLV0RtTLlA28lbgnwt2vpMtI8RM
+	Ggaaqus6lp9Woub15HTEGBh7ivfgT/bkWskcQP7290KSHmjBZgIGaVJM
+X-Gm-Gg: AfdE7cl+nqcIJaWLSYcV4wq3TXqs8qeCd/xZ68wA8wSrqlhWNZxK067V0+QPMxJ3D5g
+	5+mMJlHThuCUGJft5gmjqbGuyggFLWjD5npHAl8DZSWioyv4ZtRB+u//QCZiw895q4Jjww+38Ok
+	sTvtJGMkMsJ/0A92yZkDq6FLgDsIdODJvJaZpf8eaZ5EU/7ibmKQLKnJVx/2zcgvwDZKAOZMOlS
+	r4meeSvr8ZdDToGPIlvJHh2xpkKrX6dpgsFTTh6NQ3fnSvOX7JSKRRo6dh5DWKRwT7kAhivZEhD
+	f2sN7/CHtQD6C2G2a9xT4vows6ImWioBNjxuxGtYE6vH8XXghlv26wVVBLDDggA8nF0Rprm2Cp3
+	BFFKoGj2DUZVhza4TUZnjAhT0UpLkbv6ectGEab3YjKqT+mTOuNusHxtT8FFA5dEJ5LnaOCEG+0
+	j1OEVK
+X-Received: by 2002:a05:6808:6718:b0:490:b586:1459 with SMTP id 5614622812f47-4921573deccmr1924568b6e.2.1782383304720;
+        Thu, 25 Jun 2026 03:28:24 -0700 (PDT)
 Received: from localhost ([74.80.182.98])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6a0ea102694sm10136790eaf.13.2026.06.25.03.27.32
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-48aebb9f1e4sm10496756b6e.1.2026.06.25.03.28.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jun 2026 03:27:34 -0700 (PDT)
-Date: Thu, 25 Jun 2026 13:27:27 +0300
+        Thu, 25 Jun 2026 03:28:22 -0700 (PDT)
+Date: Thu, 25 Jun 2026 13:28:15 +0300
 From: Dan Carpenter <error27@gmail.com>
 To: suryasaimadhu <suryasaimadhu369@gmail.com>
-Cc: vaibhav.sr@gmail.com, mgreer@animalcreek.com, johan@kernel.org,
-	elder@kernel.org, gregkh@linuxfoundation.org,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: greybus: add missing newlines in sysfs_emit
- calls
-Message-ID: <aj0CjyGElhXxS3eK@stanley.mountain>
-References: <20260625091416.230920-1-suryasaimadhu369@gmail.com>
+Cc: andy@kernel.org, gregkh@linuxfoundation.org,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: fbtft: replace empty modifier argument with
+ no-op macro
+Message-ID: <aj0Cv0Wzb3rieNqW@stanley.mountain>
+References: <20260625092721.238366-1-suryasaimadhu369@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -76,17 +75,18 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260625091416.230920-1-suryasaimadhu369@gmail.com>
+In-Reply-To: <20260625092721.238366-1-suryasaimadhu369@gmail.com>
 
-On Thu, Jun 25, 2026 at 05:14:16PM +0800, suryasaimadhu wrote:
-> Add missing terminating newlines to sysfs_emit format strings
-> in audio_manager_module.c as required by sysfs ABI.
+On Thu, Jun 25, 2026 at 05:27:21PM +0800, suryasaimadhu wrote:
+> Define fbtft_write_reg_no_modifier() as an identity function and
+> use it in place of empty modifier arguments in define_fbtft_write_reg()
+> calls to fix checkpatch errors.
 > 
 > Signed-off-by: suryasaimadhu <suryasaimadhu369@gmail.com>
 > ---
 
-This changes the user space API so it's a bit risky.  Only make this
-sort of change for new code.
+I don't hate this patch, but I think we've decided to leave this
+as-is.
 
 regards,
 dan carpenter
