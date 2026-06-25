@@ -1,93 +1,129 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07B7F2EEE65
-	for <linux-staging@lists.linux.dev>; Thu, 25 Jun 2026 14:09:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36D5A3242AB
+	for <linux-staging@lists.linux.dev>; Thu, 25 Jun 2026 15:17:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782396595; cv=none; b=OHndsl1W5C8D5exbNQOWJvrnujvb5sl67S0srlD9YOhqRiEmrFBUN6wOneuyZaweZ3EL2DD6gO3SReXIKNJGWt8ArjEKD3HCd6AgZxc2Nm4kX6MdLkqkH56xBUERnRAPbFRHyEFvjbZSqj5JIEDAz/vuPE8iYDcDnIiGvPO36Zo=
+	t=1782400662; cv=none; b=eghftnpETWOn1AgOQ2tUoFt943cg/jHO2IwQlOKyfbLdh2BG/7thkpm4IcqSd86SMeJVeqRDaBGKDFF/w3VCxEdoTd47xkdEML0bO0XR6GHDbyXeoO0VX1h1470ugXgVIu4ziQhDThgV+AFFPdsNDlecC7QeOXnOLyzO6/JurFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782396595; c=relaxed/simple;
-	bh=c0Bmn6hGAyuAnYk1EnLNUGmPoh3wiWyFQ1JCR1xdNDM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y/VM9ewSXl86Y+WPlXSmlaK2sxm0cZm/djQzWU3L9Q/eN3TIZ7as3W4zU5oQFUa/t3IrZrErURNSn71iB4f9pTQObNv+eWjh/8CBN1UVw9EcLhW6vfTz8u9UQln447qv8VFjDSYxbS+chpohYuzf8q5XTjT3DONAH/fAliRjabo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TNeglqTd; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1782400662; c=relaxed/simple;
+	bh=1iRIHwUsnk97XWO86W96de0R7EA3QOESCBX6qXIYMZY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YIX4pg/K7alWw8+mmxnAGDSiYhMMvGBuyfpQxwHDgAfwJHjRqwHXSgJjxlRXbBR2Tfz7HlUSrqDKU2MhpA01tW86neCfFko3uWXY0lLiO7LfGrXKXOZe2/3Lv/qwXBK4MwL1HEX3Fs0eRJpyv+DNSFM8nJQ3k9geOiO2eRrBfdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DhQtkvhB; arc=none smtp.client-ip=74.125.224.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TNeglqTd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782396595; x=1813932595;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=c0Bmn6hGAyuAnYk1EnLNUGmPoh3wiWyFQ1JCR1xdNDM=;
-  b=TNeglqTdTJbbhXlleiqx0UCu7VPf2DhTyRxjkpgcK8GgjRxlE+8WOBgZ
-   UlAOX+ERFa0gkJ+ljgEv+HUOZIGpnqp6JKKag4j3G/vrkZDMWjdmsa6Lu
-   Sz5DqzYCDrp5BQltjGEWOA25SKVwcOnxKEVsqT3lzVMDH/LSaMhxLWKhI
-   pcTEutiDE5TIK13Br6cmWI+aOLFaVCswSuIqUKHS9z87Bi9RQBGwgh/0Q
-   1mXwdb9jLVWWDf69FA7MHHUXjw6R/XNpcww/93Hf5m0QK4mSn0QXUH8+r
-   KbOCm653RwN48NEq/1eSCPDpbpGSYZSZcckEr11O9HYnj4eHV5N/t971C
-   g==;
-X-CSE-ConnectionGUID: 3AEX+RF+QuWqMubKsn1WVA==
-X-CSE-MsgGUID: I/s0pw9qR3KvAqEUNCg2TA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11827"; a="100597979"
-X-IronPort-AV: E=Sophos;i="6.24,224,1774335600"; 
-   d="scan'208";a="100597979"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2026 07:09:54 -0700
-X-CSE-ConnectionGUID: fJBYsruzT7O3YosKUuaS6w==
-X-CSE-MsgGUID: DDU2IQeoRC2DL9WI0rmhJw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,224,1774335600"; 
-   d="scan'208";a="255652309"
-Received: from rvuia-mobl.ger.corp.intel.com (HELO localhost) ([10.245.245.93])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2026 07:09:52 -0700
-Date: Thu, 25 Jun 2026 17:09:49 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Sai Madhu <suryasaimadhu369@gmail.com>
-Cc: Dan Carpenter <error27@gmail.com>, andy@kernel.org,
-	gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: fbtft: replace empty modifier argument with
- no-op macro
-Message-ID: <aj02rT4eRKRPhrNe@ashevche-desk.local>
-References: <20260625092721.238366-1-suryasaimadhu369@gmail.com>
- <aj0Cv0Wzb3rieNqW@stanley.mountain>
- <CAB0uMAeMOV4Xhq2cNVjxne89yqF8vdubM8-OpPYGK4f4yBLMNw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DhQtkvhB"
+Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-662dc3879acso2310961d50.0
+        for <linux-staging@lists.linux.dev>; Thu, 25 Jun 2026 08:17:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782400660; x=1783005460; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0Ek1TqCtpygntPp/6sPMz/HLCA4fUH5zyvh/pd7+KhE=;
+        b=DhQtkvhBd3rhjTfR5CN9qGsomMyoMio8pGWvLtb2N76Cjr6k5+92j3+Ihtu3ahC+fr
+         qq/N1LY1vRq7IF6Ax8O8KHKE7QKXVC8EJD35UiR5qBt7GuQJslObbQLRW2WSHrDv842m
+         Audl4lH9PQtOcnJSnwRTP+Sy1UVEY3JXC8zEUhRYsdCTOxpl4taPKWg0cPsmVDypx/vu
+         gc+3fJIGgbBaHlisHtzq9Hc6/BUDAASfJJKgZAN7I8BA4X0Bz31a8Hqwk8+3QYw6UQ4+
+         s/4NZmQ1UYT79VLEmPQfH5B8im5crmlkfDw8WzDH/3GrqCJ6RkIZ/7A/gKlM1RaSYcgP
+         kcKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782400660; x=1783005460;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0Ek1TqCtpygntPp/6sPMz/HLCA4fUH5zyvh/pd7+KhE=;
+        b=bH5SnY814+CAb9VyyPJwM5KCtuqEWsW6w51nYDldB4Mb+2Esx/fj88W7uUBoFmYHtE
+         zqBSx52vKYWAVmKreyWkg8owQ3UIZQLx2aeItEk9QyJmhmhmSuwLNLN88Bj0jwJZWYOX
+         FBF3xpj0/tU39cgIwSe1+fl3Fc5bYnKpC0U59tzWEiDgPnGdnT1A4KYtNF+JNpAo9Np6
+         u6peVf/Imzf1mCzzX/+rDSd1ZXXUfPbdPVrXmlW0ntlG9G/coSFazbFIkPI4GXJhuAdv
+         3YAaqO+79HXLVACw0ESn+TjEiA+hde7qkhL6BqLp5DuhxnODJd9cBIJDWCXjOZSZJPPT
+         qOWg==
+X-Forwarded-Encrypted: i=1; AHgh+Rp+KxQCFZ4lDOCN6t1Bj6KAXmap6VW/J43Q9x7N0YEV2Q/sCqjBrAYSCfIGBjQVzg1fHR0Mf5/GpziFYytZ@lists.linux.dev
+X-Gm-Message-State: AOJu0YzAFvmy+X5fu8j17X/vB0GO4cbut6QZbj24rReZamAdsgz2fySq
+	WOBjzlh2sTtBzYjYQp2vMVsm7ZvTdLYcgRFSdbSioOTwXBIVaS0AfJUG
+X-Gm-Gg: AfdE7clwzctUEPhIEMMV79LCYHYgehJdJWMuEkpZLeTrv4gs1s9ba6DvO2eWMoN2XmW
+	F1GLA0lss/qo2MDyiBztlE/1AG367VCjED90g8IgOhTLCfwzqusi6ByuaKiDk4iyk8ZvufGKMVK
+	ktHZwU5L4zcfKWVwc6VbMW+ftXZ+EBuKR1oKJbVLEyGYyhL/K3FDG4HRnzl/Qm5qy174W0R8fbF
+	bNrkM91c6muGtl7arWbru4vSOgsYtZ6Q5Iou7rfn/n8wofSVtbSKlo+OF0eKLx6466DFR2LHbLT
+	khaCCk8IWWor+X8Ffsu/+9ncCawdS4UHOC8ZRuGZR36CXh8atKAuu9pQZzqhYsHh5wS6AItRqom
+	XK9XaC6V4MN+AMVOZEyoGelbsccLjZBMhe0lSG30jR5F9Z14rH2Pbbr9Rw1gqoe6zne5qoph8ag
+	qy4hh/JA81sSh+HOZIjjggiMj/loqAbk9IpCDznHxwiRk=
+X-Received: by 2002:a05:690e:d47:b0:662:ec09:a1e3 with SMTP id 956f58d0204a3-66487fefef2mr2257565d50.47.1782400660287;
+        Thu, 25 Jun 2026 08:17:40 -0700 (PDT)
+Received: from fedora (c-69-141-67-19.hsd1.nj.comcast.net. [69.141.67.19])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51a51a9b10esm71509831cf.15.2026.06.25.08.17.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Jun 2026 08:17:39 -0700 (PDT)
+From: Aditya Tipre <tipreaditya@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Ethan Tidmore <ethantidmore06@gmail.com>,
+	Rohan Tripathi <trohan2000@gmail.com>,
+	Nikolay Kulikov <nikolayof23@gmail.com>,
+	Dan Carpenter <error27@gmail.com>,
+	Minu Jin <s9430939@naver.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Aditya Tipre <tipreaditya@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: rename shadowed variable
+Date: Thu, 25 Jun 2026 11:16:06 -0400
+Message-ID: <20260625151606.96229-1-tipreaditya@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAB0uMAeMOV4Xhq2cNVjxne89yqF8vdubM8-OpPYGK4f4yBLMNw@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jun 25, 2026 at 04:00:24PM +0530, Sai Madhu wrote:
+The inner variable ie in update_bcn_erpinfo_ie() shadows an outer local
+variable of the same name. This triggers a -Wshadow warning.
 
-First of all, do not top-post!
+Rename the inner variable to erp_ie to remove the warning
+and make the code less ambiguous.
 
-> Thank you for the feedback. I understand and will drop this patch.
-> 
-> I have also noticed two pre-existing bugs in the same file
-> (unaligned access and buffer size calculation when startbyte is used)
-> and have sent a separate patch to fix those.
+No functional change.
 
-> On Thu, 25 Jun 2026 at 15:58, Dan Carpenter <error27@gmail.com> wrote:
-> > On Thu, Jun 25, 2026 at 05:27:21PM +0800, suryasaimadhu wrote:
+Signed-off-by: Aditya Tipre <tipreaditya@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_ap.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-> > I don't hate this patch, but I think we've decided to leave this
-> > as-is.
-
-Yep. as Dan said,
-
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
+index 065850a9e894..a86685922913 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ap.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+@@ -1307,20 +1307,21 @@ static void update_bcn_erpinfo_ie(struct adapter *padapter)
+ 		       &len,
+ 		       (pnetwork->ie_length - _BEACON_IE_OFFSET_));
+ 	if (p && len > 0) {
+-		struct ndis_80211_var_ie *ie = (struct ndis_80211_var_ie *)p;
++		struct ndis_80211_var_ie *erp_ie = (struct ndis_80211_var_ie *)p;
+ 
+ 		if (pmlmepriv->num_sta_non_erp == 1)
+-			ie->data[0] |= RTW_ERP_INFO_NON_ERP_PRESENT | RTW_ERP_INFO_USE_PROTECTION;
++			erp_ie->data[0] |= RTW_ERP_INFO_NON_ERP_PRESENT |
++					    RTW_ERP_INFO_USE_PROTECTION;
+ 		else
+-			ie->data[0] &= ~(RTW_ERP_INFO_NON_ERP_PRESENT |
+-					  RTW_ERP_INFO_USE_PROTECTION);
++			erp_ie->data[0] &= ~(RTW_ERP_INFO_NON_ERP_PRESENT |
++					      RTW_ERP_INFO_USE_PROTECTION);
+ 
+ 		if (pmlmepriv->num_sta_no_short_preamble > 0)
+-			ie->data[0] |= RTW_ERP_INFO_BARKER_PREAMBLE_MODE;
++			erp_ie->data[0] |= RTW_ERP_INFO_BARKER_PREAMBLE_MODE;
+ 		else
+-			ie->data[0] &= ~(RTW_ERP_INFO_BARKER_PREAMBLE_MODE);
++			erp_ie->data[0] &= ~(RTW_ERP_INFO_BARKER_PREAMBLE_MODE);
+ 
+-		ERP_IE_handler(padapter, ie);
++		ERP_IE_handler(padapter, erp_ie);
+ 	}
+ }
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.54.0
 
