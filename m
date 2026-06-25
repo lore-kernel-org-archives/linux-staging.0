@@ -1,62 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50A6231AAAA;
-	Thu, 25 Jun 2026 13:21:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ED13347BA9;
+	Thu, 25 Jun 2026 13:53:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782393717; cv=none; b=UPRcJcG+FRnCZZbncm/+wf6+PxcqYmb8ukPtfKeCl9gN8cD2VB9Mn+B0vsjJr7A1ILmN+2sQvIMFWUM006m5up2D+swhw9AjRho1OLG6s0l8D1X3CLgVJOW50K+3n9ZGi3ioWv1r4N/s52ASeBqRB2cugM07U8M1NYiWQmqxc7I=
+	t=1782395639; cv=none; b=eH7V1ZRNIFxLIeaxWuXBItEe1GfHYriv3bo3Y4ZhzP2yzGJRGvMoyhmkPNiwfxiiwdecdZHyagsjyTVxyj62DwWEMaKOVlfCE1wFrZaasSEhfBmnbyJSR342XJrHDKbjPY6uHMbgJFbNBvIaQAAMr6uZgwj8OloFqWicvKk1GuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782393717; c=relaxed/simple;
-	bh=/clckuDznykys0MUCbzF0O2r6zO6B0BkqHBx4uqj4Ms=;
+	s=arc-20240116; t=1782395639; c=relaxed/simple;
+	bh=3gWE6pRjmf5/L6XWnC/tL1qHBu5WeuMP/6/gGEEEuw8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cwtoc4Srzrz+2gF9l0siqsRWy1+4IO/t7pcsDRWgBo4gl4JLM3D4Z7oUWefy0r7CrCps6seSaF9uBDtiuo9ur4cqK7IYpyLujJitNyuPnoLuYK0ZjI8NKhL5Yj/LJh49C7lNQh26kAdjF97bbsLoh6AOusDACfv7Iv/+qHtLfW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lOPPXudh; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=h53+ba9L3mvdNma44J7Mmf2eYatl7IOclHw2ENZV7rZ4UvuotbdduoJuTQtZZfZ80njb4BjMLX+z86/D0zAWLoULZDMgDl+g3f909Rw3PE8p4z5QDz10BtlFz14IbV2v8EhImd5Cg2VvBBIpj0ItLc9NOdozcX7PRwNQwmyB8a0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OhDUqHq3; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lOPPXudh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OhDUqHq3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782393715; x=1813929715;
+  t=1782395638; x=1813931638;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=/clckuDznykys0MUCbzF0O2r6zO6B0BkqHBx4uqj4Ms=;
-  b=lOPPXudh9G1ayRHPc8jyjtzo1sV93Mw1msolKhLqs7bfmETtt0p+4nIA
-   So56R9H0+5CnYB0rvAEL+9fuYaD/wIF/Ndz1Wi+mrmFGAWPTXNaJs2RfO
-   5p0SHQQqx5J5DJd3xo05ncm66W4zaowFa6EfKqkeNIjttGZAudAr54thr
-   rJaXnJLmIyJRnRK6EWBNHmStECpO/GI2ganiXNXAoppdb1CnQDZIqKGVq
-   m6s9HwnXg4l9U3TzrHzzEUy4Thm8yPRNdDrgywkNl64UzZynQiTJwWrcD
-   AeIdZ8c14nlZNH7adn15SmXqRZ04uPlsthp9uEf2wiRIwXXcl/RrXE6QO
-   g==;
-X-CSE-ConnectionGUID: Q+hkaNEVTPO2ijKwHSOiUg==
-X-CSE-MsgGUID: KJ4fq3h1TVyMNTOL0qBQlg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11827"; a="94661085"
+  bh=3gWE6pRjmf5/L6XWnC/tL1qHBu5WeuMP/6/gGEEEuw8=;
+  b=OhDUqHq3+qusAloHf3Swz7Cbkjnfztyv3dvzWBLpgLkGgtMs+i9J/jz/
+   IwvhEx+5GSTdVlBkxSI8o3iW3VGxWffEgPJAqunLz3HfPNhtXLC9bScy6
+   0l8QwUiLY3aL8KIBiPcw+hj6Bfe7FgwPg3Il10Yc5FO4/Bf4AeiEpen1X
+   a84+eFtnp1kqSaANmkHfbTnIIT97naJar7OL1/ayO1EVO1PO01b+0ydoL
+   5XaK4Qbl1GSBfnWK2dJYxmdnIePCbUiBY8U06rKpqXeGfql3bWvzrbckc
+   3KiURHRHKk1buPcofnhvC2nB4azBBF51mlytFYjch5IflE1Ybpfp6HVcl
+   A==;
+X-CSE-ConnectionGUID: DWOMjkh1RPOwrU4PdPAamA==
+X-CSE-MsgGUID: 0iNZ1xhYTEqRrdItzvFRcA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11827"; a="83055819"
 X-IronPort-AV: E=Sophos;i="6.24,224,1774335600"; 
-   d="scan'208";a="94661085"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2026 06:21:55 -0700
-X-CSE-ConnectionGUID: tETcVABsRg2gG+V9oRv3DA==
-X-CSE-MsgGUID: YBB0oqC7Q3GdMyglW6aueg==
+   d="scan'208";a="83055819"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2026 06:53:56 -0700
+X-CSE-ConnectionGUID: KXNGTLFPTSmmQt5eKAQ+dA==
+X-CSE-MsgGUID: 1RD6EuwfTpGnvlK/Rk39WQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,224,1774335600"; 
-   d="scan'208";a="252652467"
+   d="scan'208";a="248158427"
 Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 25 Jun 2026 06:21:53 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 25 Jun 2026 06:53:53 -0700
 Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
 	(envelope-from <lkp@intel.com>)
-	id 1wck1e-0000000049Z-0mAG;
-	Thu, 25 Jun 2026 13:21:50 +0000
-Date: Thu, 25 Jun 2026 21:20:56 +0800
+	id 1wckWd-000000004AL-0Nhy;
+	Thu, 25 Jun 2026 13:53:51 +0000
+Date: Thu, 25 Jun 2026 21:53:26 +0800
 From: kernel test robot <lkp@intel.com>
 To: suryasaimadhu <suryasaimadhu369@gmail.com>, andy@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, gregkh@linuxfoundation.org,
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
 	suryasaimadhu <suryasaimadhu369@gmail.com>
 Subject: Re: [PATCH] staging: fbtft: fix unaligned vmem writes when txbuf is
  byte-offset
-Message-ID: <202606252119.rClVa8On-lkp@intel.com>
+Message-ID: <202606252144.F56jkpaD-lkp@intel.com>
 References: <20260625110237.304435-1-suryasaimadhu369@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -78,21 +79,21 @@ url:    https://github.com/intel-lab-lkp/linux/commits/suryasaimadhu/staging-fbt
 base:   staging/staging-testing
 patch link:    https://lore.kernel.org/r/20260625110237.304435-1-suryasaimadhu369%40gmail.com
 patch subject: [PATCH] staging: fbtft: fix unaligned vmem writes when txbuf is byte-offset
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260625/202606252119.rClVa8On-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260625/202606252119.rClVa8On-lkp@intel.com/reproduce)
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260625/202606252144.F56jkpaD-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 6cc609bb250b21b47fc7d394b4019101e9983597)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260625/202606252144.F56jkpaD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606252119.rClVa8On-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606252144.F56jkpaD-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/staging/fbtft/fbtft-bus.c: In function 'fbtft_write_vmem16_bus8':
->> drivers/staging/fbtft/fbtft-bus.c:157:25: error: implicit declaration of function 'put_unaligned' [-Wimplicit-function-declaration]
+>> drivers/staging/fbtft/fbtft-bus.c:157:4: error: call to undeclared function 'put_unaligned'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      157 |                         put_unaligned(cpu_to_be16(vmem16[i]), &txbuf16[i]);
-         |                         ^~~~~~~~~~~~~
+         |                         ^
+   1 error generated.
 
 
 vim +/put_unaligned +157 drivers/staging/fbtft/fbtft-bus.c
