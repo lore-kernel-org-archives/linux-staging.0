@@ -1,119 +1,139 @@
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92A873DD85C
-	for <linux-staging@lists.linux.dev>; Thu, 25 Jun 2026 12:00:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 311CE3A7F6D
+	for <linux-staging@lists.linux.dev>; Thu, 25 Jun 2026 12:05:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782388859; cv=none; b=csWSjn/Cxd/5ALIUVKOZ9tHdgYEgIHAiF6XOBgliGRlJfcX3l9oKSKths7nIKGagJ9YUroTSo/OL1ZlPeD7zSCmvE9VjtqZ70kR22DUTi5AyYDA5RAR0aMNUv/Twfh2UqVpdyLHLW3cCrjeNYcWvzqZJzO20RHWpMfxdQdo0048=
+	t=1782389103; cv=none; b=B6HIoVibhDJ5mHKlfsZorrqYq+LdKAeSnpwLK/TT0TYNDSxk9QRTiYvVsFOpQ2hMvPvL5I4KzhqhGfj0Dv6UnV3vsmq4AhB2ERO34D0fmuLjG9sxYOjIcc/XEPUz9FMzNkO20ciX9LcKhaKArdlJ/WAAlv9B3Ispk/Us7QkY76E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782388859; c=relaxed/simple;
-	bh=0A+XA5sZigyJDUsHUd5Oo1tLE772EOJuScegvrWm3jY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EMP/HXVsvzQdJWh4lvboN9qmyLew+nhlB3ERCeDqtQ/jz4/k/GILM1BvNXOeQuM2+7cy5RcHnWx7EbD7rUST7G5Icw51N8r0vNXzqaWzkLLG3sYv1lmEJuHAHifoyATKvp+9YpYqESxrcD8NadnC2KI572TpZutBxDpf8mN9b/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hjHHY3Rl; arc=none smtp.client-ip=209.85.160.48
+	s=arc-20240116; t=1782389103; c=relaxed/simple;
+	bh=KX4j5dfZ4TIbacLcQ0pYkg286VcTDip2XjdZMyDtwTE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KU43TlQF10asr0xQSHpbi4pM4JHAJw/fCeQXMHTM2fH2cLdhGMtg5b1tdXHtmnW3NB9XHybH/Ahg9+2esu5zns4csKIjreGj9qGflu7MHlWkuJU1SOJkNl85aGikg+AJl8vszUPgX24nSBGtCucTQsCb7n5E23rpcndD2uODb8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=n8HlVYs2; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hjHHY3Rl"
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-43f5e285111so1416716fac.1
-        for <linux-staging@lists.linux.dev>; Thu, 25 Jun 2026 05:00:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="n8HlVYs2"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-46db3c9a9e0so452497f8f.0
+        for <linux-staging@lists.linux.dev>; Thu, 25 Jun 2026 05:05:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782388857; x=1782993657; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=cxsefe/wUailqJDNAQGtmAmRQTu3ij9uN6odmHme2Dc=;
-        b=hjHHY3Rlr/uAi1GzzphPQ7dQtL6kr1gKr/MA7E4U4F9fyVFIBeZTWHzqSqJPJNNd7g
-         77z5moHZrqE+iptXoAK32SpJmUSFVDdUMWD+oZ0xN180c2AHD8rdke6nOlC6fhWHE2FL
-         /pE/wZyP78clqTrauyRHiWKsha7KTEnSj8R6V75/k4kW3R918Ki0h2Fl1t7Kp5WuJ9sg
-         DoYQlH+I4s4iGOVjzKNYVDYIyFu1BmDg3gC3Do37hhk1QePLn08LrFfcEwq7XsWEPuxH
-         jCax1EIJyniYtTSbtPTHSHx/RvsbMWlpLB05Z6SU60Jvns2upJp9nYRNqlAzDiwgGOCm
-         F8Vw==
+        d=gmail.com; s=20251104; t=1782389100; x=1782993900; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hys8RmE1l7PhUa99M9ZeaA23kXdy/j07bAQ7G83FKzg=;
+        b=n8HlVYs230Gwu6Q+7nsV7YeWnI1TV/fn+HwZjc6B5qVt9+i8LkfdP89WrX1mahnGFJ
+         NcPntI/A4yfkUvgXUAQvt0LXQaNE9rYngebByxaaK8CIdMx8TSfIbvFB0OfNclP3EjSE
+         hx+RWho+gHux/Op3scbu/fvMORgKUTn8nFTTav3XKnCkktQByLXZuLC4sYQ/QLHVXxvp
+         S7hCMvg+vGtzEBMfgx8MgyH9Nsg0ElNkMYuaboKKERijnc5yWlG+Y/jN9IOHY53zFNdN
+         MxB8icltY8EXvROwqUMSe1jvANRkrrSEPumVFqyMdstzvMX/og9+UNsx0xO/e+bhbZkd
+         1y+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782388857; x=1782993657;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cxsefe/wUailqJDNAQGtmAmRQTu3ij9uN6odmHme2Dc=;
-        b=qLrT8RLbKflE3SxbbZmYUYJyp5jZezszzH/0Wrzo6dn9efVYYBzhj7WO+QWntnLF6V
-         Ky3YfForLOdbBpxL3vZLAr91D6S9wb0AqzfbAePy7aqedKVr6g7q/E8EgpW+27j4hhpF
-         g/ePWGJww1XLpMl+GGCR07eXbxfPa7doYcCEiYD5s4e0J5qIyMaFw/ef2rcyc1AJmcAx
-         tX8EDxxOkWKYR+J/ri+IkzN+wyOHkY6+Rq8dYWTgSdMIKS91MWToEBtNODIcUdHXewTv
-         tZWpQr0q1qWgzo/nmlcsiYkV+EBZg2luUYixJlfNO4GiJ34QaeLbXbHObL90T3M6Pt80
-         pnCg==
-X-Forwarded-Encrypted: i=1; AFNElJ/eTEDyvJI0Qt+rZqLVamYPcI0HA3U9X547ce28VbYmpP+YrORalQMtvaSxSIwrMutvHAlRGXKJDNgsugg3@lists.linux.dev
-X-Gm-Message-State: AOJu0YwC+LmpuF5evG8siTFkDAjLbRwjlaySNs6NqwzNpNz7J0UVjl46
-	WhA015LcSBhbwKhFP4+/0LetDgd6UjrK9nXJfXia4mZYGfqiZGsH6i6K
-X-Gm-Gg: AfdE7ckWBS3PB1E9akF32ji55bcB9eOWV0Q2GtiZ0GChFtie8VTBreJaRF3wX4tomC2
-	MYNHJVz+AdcgkmfY4DToxqN/X2Wq6y/qBQstj5a+ipbJmuA2hfvib0AZY2vbKfv22/Wdtr1B1fB
-	RlqWIRHQ2DKjpEYhwMwJOZhV7Bn5YhxefM/snKZ7VrLXa3EPJi1vMTJcG1j6J4mDev9XyYNeErk
-	okBf5i/9SMt3aiYnLgxgolEZgpMSCVp9c/4rpGD+AnNzLeiTNCif/rp75AMnlKX4SGrYRfSTCAi
-	zn6hxe+RklGjlwJzUjo67T61S1CnedsPByzXpt1pDSIWENgkLjH36nXx0k+3aYe9J7JFFzQCQTF
-	F0R0pVb2/33rNAaWH/ukYfM4NBHrBpWBhtwOZs2FgsAb0q0Z5mCmZfQTUOAh6Jzq2pbkM9z839n
-	ABu1S4
-X-Received: by 2002:a05:6820:82c:b0:6a0:e2d3:8659 with SMTP id 006d021491bc7-6a1351969f5mr1724499eaf.15.1782388857443;
-        Thu, 25 Jun 2026 05:00:57 -0700 (PDT)
-Received: from localhost ([74.80.182.98])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4472e79af8fsm11115403fac.0.2026.06.25.05.00.52
+        d=1e100.net; s=20251104; t=1782389100; x=1782993900;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hys8RmE1l7PhUa99M9ZeaA23kXdy/j07bAQ7G83FKzg=;
+        b=E5wsdPDSwZVAVz4B7Klde03LZEfLwWOR+yUCeiNnG/DNwyASm+X0xsZERlUYt8eFDF
+         dLYFPPI+BLgmJ4skSF7Gt7Y84eGi26gOjA2viA26bUu7Ulmqq/7jbHyM3laGEzbMZjZp
+         OF7tHbU7HSbgQKpLAi5GYcuUHSVdHYCepQSYDt6K/USYMvpS5KsnJmFMS+zqO9r+RtMM
+         aMNkZkTwA7SkzmMSdJV4B3teXbDtn4ck7aZahLCd/V/G3fbNtGow3EwBODW86XZxxXPB
+         rKFhX+zLu8Hw/sFRmk4vUajyxg6iRVtCceZ6edkT8BjRkyLw0GYvbTkyif/tXFVKy3bt
+         9O3Q==
+X-Forwarded-Encrypted: i=1; AFNElJ8AuGQJBXdF1fpLmHScIBuXPze+zB7JVAaELxpIiStbqYfNgHJxr0B/dQzyfBfxgwurzENJQctzGW2k4QCi@lists.linux.dev
+X-Gm-Message-State: AOJu0YyLl0fj6VoifGQALViTTEYcRmwTStb/xwy62fVu/JFCQk4TRrGC
+	4qLhpYyqU+21SG8ShF/S6R+hWRCtDpcKvBIM5xCORolDBRZ5uH+aWy0k
+X-Gm-Gg: AfdE7clNI3UJ36rQJh9E70hQJXe+03GOpd+ITKBExiPwI4Apg4c+p6MW16KzXB9U1Af
+	2EW2oCDhH1G8mY2VHUvlebV83/aZ4NzKYqib+sQI3+0dH7aOiHyCL/8Qpgdi7xz7DkI0qu9kidK
+	y6+s4u8nB8Qsr8j2G0co6jVR8QjtF363hk49lSN0KZz1KRXi60vSjznPhONRezPbjtYi1mBFpso
+	5UJdOfT4mcIVFks2ucoelwnOiERsO6qjs/YLzeKvdEiAKeqPsO8VujbzEExUE0M3JkDoTcXypJW
+	tEkPCGsgIE+TbrstInlRd7AB3lkRcJLnp5IHTB5xnNYM6S2bGoXsLwe/YPcrMPUwD7stLwECaA/
+	o1m7fyUVEoxa0kFAXTRypUsvvlM/o3jC8WEo9mySz84VQ+YwZkS/4zq76oWR+hKh+Z0YUybSty6
+	FPUFzL9vrAq6jlYVU5pThiCjACO2j0dSsu/g0Sh5nApo34D5lluFNEt8i0
+X-Received: by 2002:a05:600c:1d0d:b0:492:1e36:85dd with SMTP id 5b1f17b1804b1-4926689f6d5mr32803555e9.37.1782389099369;
+        Thu, 25 Jun 2026 05:04:59 -0700 (PDT)
+Received: from legion.localdomain ([31.223.63.222])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49265fa8004sm49941925e9.10.2026.06.25.05.04.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jun 2026 05:00:54 -0700 (PDT)
-Date: Thu, 25 Jun 2026 15:00:47 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: suryasaimadhu <suryasaimadhu369@gmail.com>
-Cc: andy@kernel.org, gregkh@linuxfoundation.org,
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: fbtft: fix unaligned access and txbuf safety
- issues
-Message-ID: <aj0YbygQwhlga4Om@stanley.mountain>
-References: <20260625111602.438761F000E9@smtp.kernel.org>
- <20260625114215.325973-1-suryasaimadhu369@gmail.com>
+        Thu, 25 Jun 2026 05:04:58 -0700 (PDT)
+From: Batu Ada Tutkun <batuadatutkun@gmail.com>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: David Lechner <dlechner@baylibre.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Batu Ada Tutkun <batuadatutkun@gmail.com>
+Subject: [PATCH] staging: iio: frequency: ad9834: use guard() for mutex locking
+Date: Thu, 25 Jun 2026 15:04:55 +0300
+Message-ID: <20260625120456.1267-1-batuadatutkun@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260625114215.325973-1-suryasaimadhu369@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jun 25, 2026 at 07:42:15PM +0800, suryasaimadhu wrote:
-> This patch addresses several pre-existing issues in the fbtft driver:
-> 
-> 1. define_fbtft_write_reg(): when par->startbyte is set, buf is
->    advanced by one byte creating a misaligned pointer for 16-bit types.
->    Use put_unaligned() for register writes and fix the SPI transfer
->    size from len * (sizeof(data_type) + offset) to
->    len * sizeof(data_type) + offset.
-> 
-> 2. fbtft_write_vmem16_bus8() and fb_ra8875 write_vmem16_bus8(): same
->    unaligned 16-bit stores when txbuf is byte-offset for a start
->    prefix. Use put_unaligned() for pixel data copies.
-> 
-> 3. tx_array_size underflow: both vmem helpers subtract 2 from
->    tx_array_size when a startbyte prefix is used. A small txbuflen
->    device property causes unsigned underflow and out-of-bounds heap
->    writes. Fall back to the non-buffered write path when the buffer
->    is too small.
-> 
-> 4. fb_ra8875 write_vmem16_bus8(): missing NULL check for
->    par->txbuf.buf, which remains NULL on big-endian when txbuflen is
->    0 because the PAGE_SIZE fallback is little-endian only. Fall back
->    to direct write when the buffer is missing.
-> 
-> Also replace empty modifier arguments in define_fbtft_write_reg() with
-> a no-op macro to fix checkpatch warnings.
-> 
-> Signed-off-by: suryasaimadhu <suryasaimadhu369@gmail.com>
+Replace manual mutex_lock()/mutex_unlock() pairs with guard(mutex) in
+ad9834_write() and ad9834_store_wavetype(). The mutex is now released
+automatically when each function returns, removing the need for
+explicit unlock calls.
 
-Is this how you would sign a legal document?
+Signed-off-by: Batu Ada Tutkun <batuadatutkun@gmail.com>
+---
+ drivers/staging/iio/frequency/ad9834.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-This patch does too many things at once.  Split it up.  Also please
-a delay between sending us patches.  Otherwise it's overwhelming to
-deal with.  Bunch them together in a patchset instead of sending them
-one by one.
-
-regards,
-dan carpenter
+diff --git a/drivers/staging/iio/frequency/ad9834.c b/drivers/staging/iio/frequency/ad9834.c
+index bdb2580e2..f15819eaf 100644
+--- a/drivers/staging/iio/frequency/ad9834.c
++++ b/drivers/staging/iio/frequency/ad9834.c
+@@ -17,6 +17,7 @@
+ #include <linux/regulator/consumer.h>
+ #include <linux/err.h>
+ #include <linux/module.h>
++#include <linux/mutex.h>
+ #include <asm/div64.h>
+ 
+ #include <linux/iio/iio.h>
+@@ -152,7 +153,7 @@ static ssize_t ad9834_write(struct device *dev,
+ 	if (ret)
+ 		return ret;
+ 
+-	mutex_lock(&st->lock);
++	guard(mutex)(&st->lock);
+ 	switch ((u32)this_attr->address) {
+ 	case AD9834_REG_FREQ0:
+ 	case AD9834_REG_FREQ1:
+@@ -210,7 +211,6 @@ static ssize_t ad9834_write(struct device *dev,
+ 	default:
+ 		ret = -ENODEV;
+ 	}
+-	mutex_unlock(&st->lock);
+ 
+ 	return ret ? ret : len;
+ }
+@@ -226,7 +226,7 @@ static ssize_t ad9834_store_wavetype(struct device *dev,
+ 	int ret = 0;
+ 	bool is_ad9833_7 = (st->devid == ID_AD9833) || (st->devid == ID_AD9837);
+ 
+-	mutex_lock(&st->lock);
++	guard(mutex)(&st->lock);
+ 
+ 	switch ((u32)this_attr->address) {
+ 	case 0:
+@@ -269,7 +269,6 @@ static ssize_t ad9834_store_wavetype(struct device *dev,
+ 		st->data = cpu_to_be16(AD9834_REG_CMD | st->control);
+ 		ret = spi_sync(st->spi, &st->msg);
+ 	}
+-	mutex_unlock(&st->lock);
+ 
+ 	return ret ? ret : len;
+ }
+-- 
+2.53.0
 
