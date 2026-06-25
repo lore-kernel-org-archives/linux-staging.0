@@ -1,102 +1,80 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from forward501b.mail.yandex.net (forward501b.mail.yandex.net [178.154.239.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C38AA2DAFA9;
-	Thu, 25 Jun 2026 07:15:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CC6A37AA97
+	for <linux-staging@lists.linux.dev>; Thu, 25 Jun 2026 07:33:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782371702; cv=none; b=Rbd9cKaHQBTLj6FOHeji9gWG6twhVHjSsd8e+k9jItdAb9JuZ6RCvFASzLJgo9cUVsgnZHPZTwB6DiflNBpL9qdWIO52DEClNeUTZVH3azWyOeFXACzbz2C5hHTwpDaT8/7xD/e1gW7F1MGg8p75bwRl5sxD4Y/MPNSlZ2+MM7o=
+	t=1782372809; cv=none; b=Vsr4KvyTMNSCaiERlHndSN4mrAK22eo+rfd9ygPsGPECCd4h80MKn9y5DoWPEomi90ukpbgiXi/mtiPeIAgIsI/Gnz+/maTvvw3MoAyFrXmjzH1nYU5TCV79AeEVw8Ao8wOH1d04XThhY2ivJJn/yvac7GN9lTIPC/7t8oCd6zo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782371702; c=relaxed/simple;
-	bh=VVmG+vOAHLGFXSjawZLGI9QilozJF/132VfqwXu/DYs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tVOrSDbpRLxO8XspkOzDtEqsDzgVSe1kTOuumu/WosNALKHloXTe9nORakavN2AuefJvfoh7bvC3YoYuOJ2rQceT/YZDTfEbxI8vr5qs3urjDiCtq7ApbSKH2NCGKhrYjC5le6JIn/k9tD2kfJHaSpxZmixLOdiH+gAawxuo62A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hi7psdeW; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1782372809; c=relaxed/simple;
+	bh=7IgP7fc0V3lY8nZieNuPz5s4BL2J6d7Wwjo3NAKVCuc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Jzz+E7KmBrWqiQtBsFx4NIy3ZtQvIgbNp4FVV4NVVsGyZOf4XIqFoB1cDgAhuflLSeuKN74dDQUE0EDJOPRJ8Zq3aJApL9kLOdPvr8xbMRA0Px2bnKq/oesDCEUQKQ8300HTLMoh8wDKv+C3OlhQMHwWOHqgiPHiVnEaCYgdwdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net; spf=pass smtp.mailfrom=sezginduran.net; dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b=E3Fc+ueP; arc=none smtp.client-ip=178.154.239.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sezginduran.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hi7psdeW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782371701; x=1813907701;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VVmG+vOAHLGFXSjawZLGI9QilozJF/132VfqwXu/DYs=;
-  b=hi7psdeWNRALeJiaMN5bv+lrQsjR4rPA7TUAm8zxQmqXhYxppxv1TFr2
-   1nIZEypb8LHn7PtuDRzyfp4Yx9xtIFmCjpzGeq+hacWSZpCeU+8/Bu9fQ
-   q7IsVZJdEQ3v9Ex1N8nLl3286v06EXQSrYGrvwdWcLyZRtTkXWaB50uao
-   pc1maVevePqp4FvZsloFr6P+Ga/XDn/PXGVyXwOfPeANbHc4clpcjqzHC
-   7+wrUM2sK6354efZg8wdrfyOBpkirC3N2aQ7K8nOnhlAR7sbaRD62CunH
-   kMQIyOlSRgbwBFL08eOtrx+tpN4ZehcegT1AozkacBQP6QihVWfhlE+X6
-   Q==;
-X-CSE-ConnectionGUID: MdNMRwUHRoKvvkFWqHfibg==
-X-CSE-MsgGUID: YXBlZXKUQ+SoruE13ZoGzw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11827"; a="82127789"
-X-IronPort-AV: E=Sophos;i="6.24,224,1774335600"; 
-   d="scan'208";a="82127789"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2026 00:15:00 -0700
-X-CSE-ConnectionGUID: 3MdLDEXSSpmw9bf2v0zlAw==
-X-CSE-MsgGUID: ujAvk6ggRC+z5aqmHNeH0A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,224,1774335600"; 
-   d="scan'208";a="247304209"
-Received: from rvuia-mobl.ger.corp.intel.com (HELO localhost) ([10.245.245.93])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2026 00:14:57 -0700
-Date: Thu, 25 Jun 2026 10:14:55 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
-Cc: andy@kernel.org, hansg@kernel.org, mchehab@kernel.org,
-	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
-	feng@innora.ai, ~lkcamp/patches@lists.sr.ht,
-	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v3 0/3] staging: media: atomisp: use kvmalloc_objs() and
- drop redundant OOM messages
-Message-ID: <ajzVb3DIghSrgvjs@ashevche-desk.local>
-References: <20260623221028.40238-1-rodrigo.gobbi.7@gmail.com>
+	dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b="E3Fc+ueP"
+Received: from mail-nwsmtp-smtp-production-main-98.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-98.sas.yp-c.yandex.net [IPv6:2a02:6b8:c24:b47:0:640:7767:0])
+	by forward501b.mail.yandex.net (Yandex) with ESMTPS id D183B8134D;
+	Thu, 25 Jun 2026 10:28:04 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-98.sas.yp-c.yandex.net (smtp) with ESMTPSA id xRTKoOEc8W20-dO1PEhxt;
+	Thu, 25 Jun 2026 10:28:04 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sezginduran.net;
+	s=mail; t=1782372484;
+	bh=MQMLxer7QaV+BZHIhaopGIzLs/HygD8v8hGoIgk99tA=;
+	h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+	b=E3Fc+uePnMMASiY73AkEUVRBGVs1wC01N1LtlJFsi1abr+pUyZBn8DE3eCwZcrZFH
+	 vYAJg8x8lLWYJR7ybssLSaFxnIiD2Dr7eiwFYTgOMEw37sHE0/TDd6AQkQ3UwtJba/
+	 5LRpNJiFqZEVoK+VkrrsQUuZWu31I2+ey216U+SQ=
+Authentication-Results: mail-nwsmtp-smtp-production-main-98.sas.yp-c.yandex.net; dkim=pass header.i=@sezginduran.net
+Message-ID: <f5be5a78-a649-447c-8145-b32a530194c2@sezginduran.net>
+Date: Thu, 25 Jun 2026 10:27:59 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260623221028.40238-1-rodrigo.gobbi.7@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: sm750fb: fix const pointer declaration
+To: suryasaimadhu <suryasaimadhu369@gmail.com>, sudipm.mukherjee@gmail.com,
+ teddy.wang@siliconmotion.com
+Cc: gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20260625071348.132880-1-suryasaimadhu369@gmail.com>
+Content-Language: tr
+From: Ahmet Sezgin Duran <ahmet@sezginduran.net>
+In-Reply-To: <20260625071348.132880-1-suryasaimadhu369@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jun 23, 2026 at 07:09:25PM -0300, Rodrigo Gobbi wrote:
-> Several allocations in the atomisp driver still size their buffers with
-> open-coded multiplication, e.g. width * height * sizeof(*p). When the
-> dimensions are large the product can silently wrap, causing kvmalloc()
-> to allocate an undersized buffer.
+On 6/25/26 10:13 AM, suryasaimadhu wrote:
+> Make g_fbmode a constant pointer array by adding const qualifier
+> after the asterisk, as recommended by checkpatch.
 > 
-> Convert the remaining sites to kvmalloc_objs() with array_size(), which
-> saturate to SIZE_MAX on overflow so kvmalloc() returns NULL instead of
-> allocating too few bytes.
+> Signed-off-by: suryasaimadhu <suryasaimadhu369@gmail.com>
+> ---
+>   drivers/staging/sm750fb/sm750.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> This continues the work started in commit [2], and picks up the stalled
-> sites from [1], unifying with [3].
-> 
-> While here, drop the redundant IA_CSS_ERROR("out of memory") messages on
-> the touched allocation paths: the memory management core already emits a
-> far more detailed warning on allocation failure as raised at [1].
-> 
-> [1] https://lore.kernel.org/all/20260413112904.98864-1-feng@innora.ai/
-> [2] https://github.com/torvalds/linux/commit/d178c7ca8fefc28115d35b94c3b1f4d653e34182
+> diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+> index 89c811e08..8f533f3b1 100644
+> --- a/drivers/staging/sm750fb/sm750.c
+> +++ b/drivers/staging/sm750fb/sm750.c
+> @@ -21,7 +21,7 @@
+>   static int g_hwcursor = 1;
+>   static int g_noaccel __ro_after_init;
+>   static int g_nomtrr __ro_after_init;
+> -static const char *g_fbmode[] = {NULL, NULL};
+> +static const char * const g_fbmode[] = {NULL, NULL};
+>   static const char *g_def_fbmode = "1024x768-32@60";
+>   static char *g_settings;
+>   static int g_dualview __ro_after_init;
 
-FWIW, since it's in tree, you can refer to it in usual way:
-d178c7ca8fef ("staging: media: atomisp: use array3_size() for overflow-safe allocation")
+Did you compile this patch while sm750fb module is enabled?
 
-> [3] https://lore.kernel.org/all/20260609215110.118860-1-rodrigo.gobbi.7@gmail.com/
-
-Anyways, the whole series is good, thanks!
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Regards,
+Ahmet Sezgin Duran
