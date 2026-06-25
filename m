@@ -1,61 +1,63 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA110367F31
-	for <linux-staging@lists.linux.dev>; Thu, 25 Jun 2026 08:33:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACE3B381AFB
+	for <linux-staging@lists.linux.dev>; Thu, 25 Jun 2026 08:33:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782376400; cv=none; b=RdTUN2Ydt/0lCHpd3Q28cROQDZ91sZn2Ll10+fHkEY+91KporPNuv7a73I1T0ixwMkxn/s9QiRxbemoCfGL2P44+2G9N9QXPjzSzJPSjqT6Wuh+ECrD5l8fgvyeoKCQ66GHozlvqyONHafwnYJnf96WepRtPH+xHM+lTybawkYg=
+	t=1782376404; cv=none; b=nHmwG+W1BL1HI9NhYPlzf6+vFaTggOA5/0/njW4WnJg7Nvs6oHV4T9wRJUKSpJD/Ane/hkD37R+z24ypugPRbOzI3PBMCN+RyienvVPOy1D0sVaRnxAWAmwcQnLh6O83Io75+KCymzTVwTNPisQ9fJ2Al80ItpUTqm9DK5WV12s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782376400; c=relaxed/simple;
-	bh=OhJBIZtPSl37iTCor/8pHea1pmiMgmwQ3W0MWlsm5UI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BDsipWV4MjSCydHcCgTkZv3cntGV/Iu7MFuMKSOCoaxBpBM8Yr0XbxdNGNGxVnSrlukBYg60t7A9jECHGwxd1/HJFMyCTOJqCFq4dXQc42pKreuyxQ6U33jxyiIbdk9IHk0fJzhb67t1Z5dCMaXc9Z0r+UuRw0ddaKrmDnawVVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Hj8MkWWu; arc=none smtp.client-ip=209.85.208.180
+	s=arc-20240116; t=1782376404; c=relaxed/simple;
+	bh=yzYq+YMs911nsc8Zsrb4v2SKDXhPnDYQn7AH6jg5xj4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=EfZXNLrCTwUv205arwYaiBwYDLT5iU8butoC8kSTw55SAbmHY3kBOZl3VQMF3dVzdG6fAct2a5B3DayzZNC+IohcI71KH667RhGfToYeQ4mtb97eA3EtXBmEmXEVnRjGa0MykYXesgc6zoCVHbw8NMOEV7PqX1pnpl7ntQ+QbsM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gk1D1uHl; arc=none smtp.client-ip=209.85.167.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hj8MkWWu"
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-39669bcaadfso17630571fa.0
-        for <linux-staging@lists.linux.dev>; Thu, 25 Jun 2026 01:33:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gk1D1uHl"
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5aa61e3d3f3so1941361e87.0
+        for <linux-staging@lists.linux.dev>; Thu, 25 Jun 2026 01:33:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782376397; x=1782981197; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cvbKAQfeepNA8bbLBATd/Y6PlNgiV7+B2hbMPq8f+ok=;
-        b=Hj8MkWWuVJNZqjoRi2n0a54Prwt/cIByDgAt5745amWa/FTC2xI3XDgAg6/pf4yebl
-         FUAlOBJWCc4gWeUVkbmDtnAvPqVIeDmSKKQCaLA3Q+2v89U0+jxMwZQcXJC5+Fxf3eiA
-         b72UMxekNA4fRMoeAkBnYEYAnz0XktflIHfFWU7cEVsx7AzfQB8gfUk7e7gEPrgb98/i
-         1d76BUMkMSH8dx/IV8dQrgD3bRHa7tUZ5B9NAuykxkML16RccaRr8kVPZreirMG5JSWO
-         I2NBL//MSPagYm64EkvSP+IlLKxe6mYxC+6Tj3Qt3ZXCbgoKFc2dxdGxh/ixJWXrGLC7
-         m67g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782376397; x=1782981197;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1782376401; x=1782981201; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=cvbKAQfeepNA8bbLBATd/Y6PlNgiV7+B2hbMPq8f+ok=;
-        b=rySMMI+cGJZbcXeOI/QamFmSylJ3PTdDNP5xzDj9+uHMfa3bup0scth20+0LJzi6UE
-         Yd9oBNwgAEm35ksH9ZAqZkAY10EmdvKjW00VCw/llud0STL+ApBs4m72aiH42RJ1vfp7
-         xMDyu7omyNPYW3S4gvKRfWCXqctul3SQUffHBESe6H7f1Z0sbXKh7oLwxcoUJ4tPcQla
-         4hUfqi9ROjnUAzd0rHEbxVGIg9eMyy/53Pf0AwAYAgdwMoBo2B30spVA9a3LdcVV7f8i
-         YFWsLOKrGy7gSAUEAXS91Pv/KUMw4uT4mzYC47ezeLEHbqWJblWNyE40fqo4S/Bz3fcv
-         KmQg==
-X-Forwarded-Encrypted: i=1; AHgh+RpfMDl6/wC13hVghxkvIvGrfv9sDGRVJqLOZoPSEzN3DQRzGrikKENI5Q6szMqjgaw792sl4qWlsDxoet4/@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy2WLx7RIHAOPeZs1Ezdce+buXrpFMUcfjWQ09vh9eExLwB/zQH
-	VlF/9z1C0b7rWukcshmMBgUMFX/kSnB08ay9ODheVnZx7mOWah7MQX+m
-X-Gm-Gg: AfdE7cl1zo2HPdgQL3y8H89JMtMAZ/EmJb8aMCAo3U//51j1uv1+G6LncKUDPsE/s3I
-	szC8N6nnTWFRwEqB2yp1lY9c1vPmhFCW/ChZ0vT2txg0ytO6ML5IQPJAXRSFfKs+5g0PONni1W4
-	M9ShQIUlm33FyaaF2M+TZYFAfgL3p17owkWlrpVdUKe0uheFKZpvhIqHPhurfSpYbIobQILJ8If
-	vw73dXVOpsBoClJWIYyTBXZNP6eSP0w+YTz2SC+Hf/VOObpqRhiy6itnUbJi1cDzOf9uvnjkdc4
-	iUYXtOAwE/WNUSJrV7oihmRfVpZqQ0DdGa4thJOX13XXMxfnQ4sbVJYA+TXAV6PrzS6QA3OgRsW
-	YsJ/cqRYSeN9+jNqs5JDlbl3lcOPxhSln1Vx2heSlA7ZVabm+Rf2TtqwD71o+n0cnYbFvev4b+S
-	RlnObGFtqmPd2AbQXK9jdwas9s7x65nDZkIg==
-X-Received: by 2002:a05:651c:893:b0:399:83a4:4f2c with SMTP id 38308e7fff4ca-39acb635f41mr4003281fa.18.1782376397041;
-        Thu, 25 Jun 2026 01:33:17 -0700 (PDT)
+        bh=+WUf+KF1R3dM0sjHR8vgf5CzVTyISRVGxCaO2Dn7tME=;
+        b=Gk1D1uHlnhx3HkKMc2NRYD0GSrmAEZXREypPAp0MpQYOoosMBujRXuTiYWvfYAjSEO
+         ijBnmcokOqu9YfaCR/5kl4nlCH0N89PIXiCxMrxWXN3LEYLb4z4QvWp9Gx1o5qk1ErV3
+         jNjJtRnWGuWNNLvaJCLmIKYpqXDMnbSLIy8NO1xmkE/lQ3lW0aRSCJpAzIh9GA4pBVBP
+         gCv5rSG0kVgCIFJs6J/vXna6fG95PpqcJeFVO9W73/TQtyztea4WA/SdnDPfgvI4bmaF
+         g3HRImzH4AWd5HufBmHhGDJEIEGYHZWbXangE6jQ63j2P+Rkoj5i8SbKprPGFc7SImH+
+         Ep3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782376401; x=1782981201;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=+WUf+KF1R3dM0sjHR8vgf5CzVTyISRVGxCaO2Dn7tME=;
+        b=fk0CoM4WC4H9YEXvbZuZt77cSixZ5XkLx14/p+0jDKXmDIUzRjfAAehwtXrl4UVeZi
+         0BZYWgg8hoP6Bissdx5fNRSbVMKCWEgu7jfr4h1549cqIG4eNvhRs4lPqTVwo2fU5k/v
+         qgWPbwIuqCs1xwzZKE5ZSZ+qL+bREdsBgxy6/y6lw98EFBy/rrlUWq6BPFb+0KA4CNqi
+         hd3gYl0k6UMWSlc/tz3q5IGYY87IRCy208D8Pcq8kJrd2P3Cq2oLpJzYPhu76ENLgeNg
+         5jjpKs11/4eTQm3VBJ0+Ej0TGhXYSl4vELDtHmnZydcDsuzJ+YDU6+Yk88YgojQbotjM
+         AAzQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqFdaBjsQF3NvMDWW0/n/VSqRnIehyVTiPUH+4uTE7+T9+F24XcgbXTVmO58pDfU8+s/K8qVFHxZP+LZX/I@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy2vv5uPqJxrtB0A/vB3Gao2ZyOKWZJukCLNTmXGSMBNcFTnx7Z
+	ZMrk0qBq/f/ON4m3n42QaG5P99Yocj+bmkVqAynpQZtS/iBSHJNAoaMd
+X-Gm-Gg: AfdE7cny6RJjxy5wToM+TKjYK11fDpfxx49LMM6rUU5HTs1uw7kVb7Vk65zGdaEqSlj
+	/QM4x7X4WOilRJgSY0WYfuzFdP8Brf0XVWpiEoxHsXJGiUBVqzQHRMLzEO01xbhGmM0nIb/xULx
+	HywW0/ev3XzWu8Wh30h06LSLBl/dYvpTOHcweAiVTipCIUICg43ei9IvpO1gSdLRXDXuMzjPNHM
+	BofxKhy+ALBg152Q3BDPBb2RzJJX/kxjhGDDiHumbJgNEkQs8Ioo4Doja4uSwT/4SQaixKfMOcC
+	TP+rdkRUQYxkaWRz7wJxXs+VLQ4NE5M0pyGfmwNGr4ShKY5Tr2oPG0LGc+xSbhRNKQ3FZsaoYnh
+	iNjovKFOAOCs4cuLjPtexvnebpTDa/fKXkmb2HVTK+r+ezEEMTjrZJgshCMEFfid8VzxUVPj7p0
+	7jemlq7auWj/fVXRdbpUZ5+pa8dt5YNZKTNA==
+X-Received: by 2002:a05:6512:61d9:20b0:5ad:518a:61dd with SMTP id 2adb3069b0e04-5aea2062e28mr305266e87.46.1782376400784;
+        Thu, 25 Jun 2026 01:33:20 -0700 (PDT)
 Received: from xeon ([188.163.112.61])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3999b1b143fsm40327521fa.39.2026.06.25.01.33.14
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3999b1b143fsm40327521fa.39.2026.06.25.01.33.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jun 2026 01:33:16 -0700 (PDT)
+        Thu, 25 Jun 2026 01:33:19 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Thierry Reding <thierry.reding@kernel.org>,
 	Jonathan Hunter <jonathanh@nvidia.com>,
@@ -69,10 +71,12 @@ Cc: linux-media@vger.kernel.org,
 	linux-tegra@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/1 RESEND] staging: media: tegra-video: vi: improve VI graph building logic
-Date: Thu, 25 Jun 2026 11:33:01 +0300
-Message-ID: <20260625083302.71651-1-clamor95@gmail.com>
+Subject: [PATCH v2 1/1 RESEND] staging: media: tegra-video: vi: Improve media graph building logic
+Date: Thu, 25 Jun 2026 11:33:02 +0300
+Message-ID: <20260625083302.71651-2-clamor95@gmail.com>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260625083302.71651-1-clamor95@gmail.com>
+References: <20260625083302.71651-1-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -89,17 +93,147 @@ media_entity_get_fwnode_pad helper to verify and retrieve the correct pad
 linked to an endpoint, rather than assuming the endpoint ID matches the
 pad ID.
 
+Tested-by: Luca Ceresoli <luca.ceresoli@bootlin.com> # tegra20, parallel camera
+Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 ---
-Changes in v2:
-- fixed use of NULL fw pointers in debug prints
----
-
-Svyatoslav Ryhel (1):
-  staging: media: tegra-video: vi: Improve media graph building logic
-
  drivers/staging/media/tegra-video/vi.c | 78 ++++++++++++--------------
  1 file changed, 35 insertions(+), 43 deletions(-)
 
+diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+index f14cdc7b5211..24e4bd438678 100644
+--- a/drivers/staging/media/tegra-video/vi.c
++++ b/drivers/staging/media/tegra-video/vi.c
+@@ -1468,7 +1468,6 @@ static int tegra_vi_graph_build(struct tegra_vi_channel *chan,
+ 	struct tegra_vi *vi = chan->vi;
+ 	struct tegra_vi_graph_entity *ent;
+ 	struct fwnode_handle *ep = NULL;
+-	struct v4l2_fwnode_link link;
+ 	struct media_entity *local = entity->entity;
+ 	struct media_entity *remote;
+ 	struct media_pad *local_pad;
+@@ -1478,70 +1477,64 @@ static int tegra_vi_graph_build(struct tegra_vi_channel *chan,
+ 
+ 	dev_dbg(vi->dev, "creating links for entity %s\n", local->name);
+ 
+-	while (1) {
+-		ep = fwnode_graph_get_next_endpoint(entity->asd.match.fwnode,
+-						    ep);
+-		if (!ep)
+-			break;
++	fwnode_graph_for_each_endpoint(entity->asd.match.fwnode, ep) {
++		struct fwnode_handle *remote_parent __free(fwnode_handle) = NULL;
++		struct fwnode_handle *sink_ep __free(fwnode_handle) = NULL;
++		int src_idx, sink_idx;
+ 
+-		ret = v4l2_fwnode_parse_link(ep, &link);
+-		if (ret < 0) {
+-			dev_err(vi->dev, "failed to parse link for %pOF: %d\n",
+-				to_of_node(ep), ret);
++		src_idx = media_entity_get_fwnode_pad(local, ep,
++						      MEDIA_PAD_FL_SOURCE);
++		if (src_idx < 0) {
++			dev_dbg(vi->dev, "no source pad found for %pfw\n", ep);
+ 			continue;
+ 		}
+ 
+-		if (link.local_port >= local->num_pads) {
+-			dev_err(vi->dev, "invalid port number %u on %pOF\n",
+-				link.local_port, to_of_node(link.local_node));
+-			v4l2_fwnode_put_link(&link);
+-			ret = -EINVAL;
+-			break;
++		remote_parent = fwnode_graph_get_remote_port_parent(ep);
++		if (!remote_parent) {
++			dev_dbg(vi->dev, "no remote parent found for %pfw\n",
++				ep);
++			continue;
+ 		}
+ 
+-		local_pad = &local->pads[link.local_port];
++		local_pad = &local->pads[src_idx];
+ 		/* Remote node is vi node. So use channel video entity and pad
+ 		 * as remote/sink.
+ 		 */
+-		if (link.remote_node == of_fwnode_handle(vi->dev->of_node)) {
++		if (remote_parent == of_fwnode_handle(vi->dev->of_node)) {
+ 			remote = &chan->video.entity;
+ 			remote_pad = &chan->pad;
+ 			goto create_link;
+ 		}
+ 
+-		/*
+-		 * Skip sink ports, they will be processed from the other end
+-		 * of the link.
+-		 */
+-		if (local_pad->flags & MEDIA_PAD_FL_SINK) {
+-			dev_dbg(vi->dev, "skipping sink port %pOF:%u\n",
+-				to_of_node(link.local_node), link.local_port);
+-			v4l2_fwnode_put_link(&link);
+-			continue;
+-		}
+-
+ 		/* find the remote entity from notifier list */
+ 		ent = tegra_vi_graph_find_entity(&chan->notifier.done_list,
+-						 link.remote_node);
++						 remote_parent);
+ 		if (!ent) {
+-			dev_err(vi->dev, "no entity found for %pOF\n",
+-				to_of_node(link.remote_node));
+-			v4l2_fwnode_put_link(&link);
++			fwnode_handle_put(ep);
++			dev_err(vi->dev, "no entity found for %pfw\n",
++				remote_parent);
+ 			ret = -ENODEV;
+ 			break;
+ 		}
+ 
+ 		remote = ent->entity;
+-		if (link.remote_port >= remote->num_pads) {
+-			dev_err(vi->dev, "invalid port number %u on %pOF\n",
+-				link.remote_port,
+-				to_of_node(link.remote_node));
+-			v4l2_fwnode_put_link(&link);
+-			ret = -EINVAL;
+-			break;
++
++		sink_ep = fwnode_graph_get_remote_endpoint(ep);
++		if (!sink_ep) {
++			dev_dbg(vi->dev, "no sink ep found for %pfw\n",
++				ep);
++			continue;
++		}
++
++		sink_idx = media_entity_get_fwnode_pad(remote, sink_ep,
++						       MEDIA_PAD_FL_SINK);
++		if (sink_idx < 0) {
++			dev_dbg(vi->dev, "no sink pad found for %pfw\n",
++				sink_ep);
++			continue;
+ 		}
+ 
+-		remote_pad = &remote->pads[link.remote_port];
++		remote_pad = &remote->pads[sink_idx];
+ 
+ create_link:
+ 		dev_dbg(vi->dev, "creating %s:%u -> %s:%u link\n",
+@@ -1551,8 +1544,8 @@ static int tegra_vi_graph_build(struct tegra_vi_channel *chan,
+ 		ret = media_create_pad_link(local, local_pad->index,
+ 					    remote, remote_pad->index,
+ 					    link_flags);
+-		v4l2_fwnode_put_link(&link);
+ 		if (ret < 0) {
++			fwnode_handle_put(ep);
+ 			dev_err(vi->dev,
+ 				"failed to create %s:%u -> %s:%u link: %d\n",
+ 				local->name, local_pad->index,
+@@ -1561,7 +1554,6 @@ static int tegra_vi_graph_build(struct tegra_vi_channel *chan,
+ 		}
+ 	}
+ 
+-	fwnode_handle_put(ep);
+ 	return ret;
+ }
+ 
 -- 
 2.51.0
 
