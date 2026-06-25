@@ -1,90 +1,102 @@
-Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C03A3BD643
-	for <linux-staging@lists.linux.dev>; Thu, 25 Jun 2026 06:12:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C242C027C;
+	Thu, 25 Jun 2026 07:14:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782367937; cv=none; b=HqddM1ADltSJjHUZmzC90QiKGmYZVNhVQSmLz1AzcfU1mReDKUPTv0jHmM6KIZfMXqyc2K4UWBlE4/xuIqhpdJ62nI51hlmh2yWbgK78EWJ60IR5n9nA+wsQJh8IuCr2DyoO9DltYImETbdJ5PbubC9KdoXAqLhKerfIQh5NWPQ=
+	t=1782371651; cv=none; b=dQm5YGcBK0/KeXbHwnZ/6lsE9R5ewglAkxtmlvFOueNOWUCDP0OnmNjIc/vN9eFmYfQVR37NywXYOKzu07MPelDQWcTur01Ob5RqF9IQ2m4aY/k9gxPU+E7T2POv6eRs9dXc8Lzb1RvkbfZ4Mttu0X+cOKyjTmrZbct+2YUPa3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782367937; c=relaxed/simple;
-	bh=P3wSdOs9y+eKDNUGHdyX0nMcBBXpo7BwtGlIiU6XckA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dCSm/nrvCD95G8vicifflLgwyivw7WRUBvPofsPwQ4Y4Z9x75GAtM9tg0jiGjtMy48KoqnaXL4WefuDtx/5J/tXH+LFHYdVCC9OTMb9hQlIXEA233b51M33H8NBWWODB5SbWxZfEBR699SAREVL412oYbSyZKaJDo6R3AykxiwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost.localdomain (unknown [111.196.245.140])
-	by APP-05 (Coremail) with SMTP id zQCowABXrtG6xjxqe6woFQ--.9004S2;
-	Thu, 25 Jun 2026 14:12:10 +0800 (CST)
-From: Pengpeng Hou <pengpeng@iscas.ac.cn>
-To: Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
-	Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Pengpeng Hou <pengpeng@iscas.ac.cn>
-Subject: [RFC] staging: greybus: arche still depends on missing USB3613 provider
-Date: Thu, 25 Jun 2026 14:12:08 +0800
-Message-ID: <20260625061208.30279-1-pengpeng@iscas.ac.cn>
-X-Mailer: git-send-email 2.50.1
+	s=arc-20240116; t=1782371651; c=relaxed/simple;
+	bh=Tguj9rM7L+Pr1kybxB6ItHT3wFbHPbjQ1nRrVHjccX0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=etAI0nXoEQkEW7afPSBnzEBmiOqpv6xnLZa0TJZw6jnWz3GqbBtFS70xb5NGsGLt/iQSvHWQ8LVdP8Y2t18w7hQgdaQlZs4lPOgMIW+YnyG1krDoDAPFnUMrZfCmx3IrHQSipx7eXsjF/VfX1B7rbvufDAXPIexxWkssLCDQ8Pw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XTR4vvgW; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XTR4vvgW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782371650; x=1813907650;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Tguj9rM7L+Pr1kybxB6ItHT3wFbHPbjQ1nRrVHjccX0=;
+  b=XTR4vvgWBnlUzu4jMnpa09iAqaBJMphjwJp3qQC4KxHqHWtcQ4Wr7PC6
+   ubOk/mjnnRUN7fT7CUYP7ntYHtWNzppsXUJ09+gcccgMWuwKK395OSgpa
+   KQbuhnhcJMKg4mSJ0GMIAMyhIXeNv6itLCaInCzMhjzM/2INFIoIUslPJ
+   mOgFxlYKvmw9UXk92xTNMYWeXLMshBVfN0AZZtaqNS75h7CCHznL3i+YF
+   d/J3laqaPDneGxcWgFBsFR1uNX5HtkdxVJ/xkYaLTGmCRQZaEg9ioIQR3
+   rrZE1rjCiLlYlh+/kkrraP3QLsuk6v04af9nU54j8TLoFp/asPs9ZEEVv
+   Q==;
+X-CSE-ConnectionGUID: WLPNwd+OS1GSqpoySDZgIQ==
+X-CSE-MsgGUID: 4etE74eMR3afHyNU15FLcQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11827"; a="82127748"
+X-IronPort-AV: E=Sophos;i="6.24,224,1774335600"; 
+   d="scan'208";a="82127748"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2026 00:14:10 -0700
+X-CSE-ConnectionGUID: hNasxWafSTOy4fs6HUaMwA==
+X-CSE-MsgGUID: AtoV4Dk+RVOBM+88SJmmTw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,224,1774335600"; 
+   d="scan'208";a="247303780"
+Received: from rvuia-mobl.ger.corp.intel.com (HELO localhost) ([10.245.245.93])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2026 00:14:06 -0700
+Date: Thu, 25 Jun 2026 10:14:04 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
+Cc: andy@kernel.org, hansg@kernel.org, mchehab@kernel.org,
+	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
+	feng@innora.ai, ~lkcamp/patches@lists.sr.ht,
+	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v3 2/3] staging: media: atomisp: use kvmalloc_objs() for
+ overflow-safe allocation
+Message-ID: <ajzVPHie23a90TA3@ashevche-desk.local>
+References: <20260623221028.40238-1-rodrigo.gobbi.7@gmail.com>
+ <20260623221028.40238-3-rodrigo.gobbi.7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowABXrtG6xjxqe6woFQ--.9004S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrtw4rXrW5GF1UXryDKr1fCrg_yoWktwc_Kw
-	40qa48G3yjvrWqy3W2gFsxA3s8Wayqvr4rZry0v3y2k34fZFZxGF4q9FyfArZ7Ga45XFn5
-	Wrs3Z347C343CjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUb4xFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
-	Gr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
-	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
-	jxv20xvE14v26r126r1DMcIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr
-	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v26r12
-	6r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
-	0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y
-	0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
-	W8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1l
-	IxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUSLvNUUU
-	UU=
-X-CM-SenderInfo: pshqw1xhqjqxpvfd2hldfou0/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260623221028.40238-3-rodrigo.gobbi.7@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Hi,
+On Tue, Jun 23, 2026 at 07:09:27PM -0300, Rodrigo Gobbi wrote:
 
-while auditing conditional provider/header contracts, I noticed that Greybus
-Arche still appears to describe a USB3613 provider world that is absent from
-current mainline.
+> Replace open-coded width * height * sizeof() multiplications with
+> kvmalloc_objs() and array_size() to prevent integer overflow in buffer
+> allocations.
+> 
+> The atomisp driver computes DVS and statistics buffer sizes using
+> unchecked arithmetic.  When dimensions are large, the product can
+> silently wrap, causing kvmalloc() to allocate an undersized buffer.
+> 
+> kvmalloc_objs() uses size_mul() internally, which saturates to SIZE_MAX
+> on overflow, so kvmalloc() returns NULL instead of succeeding with too
+> few bytes.  array_size() provides the same overflow protection for the
+> two-factor dimension products.
+> 
+> Suggested-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+> Signed-off-by: Feng Ning <feng@innora.ai>
 
-drivers/staging/greybus/Kconfig still has:
+> [rodrigo: rebased; convert only the sites left open-coded after
+>    commit d178c7ca8fef]
 
-depends on USB_HSIC_USB3613 || COMPILE_TEST
+Thanks, you can keep this on a single line
 
-and drivers/staging/greybus/arche-platform.c still conditionally includes
-the USB3613 header and calls usb3613_hub_mode_ctrl() when
-CONFIG_USB_HSIC_USB3613 is enabled.  However, the current tree does not appear
-to provide include/linux/usb/usb3613.h or a Kconfig provider for
-USB_HSIC_USB3613.
+[rodrigo: rebased; convert only the sites left open-coded after commit d178c7ca8fef]
 
-I am not sending a patch yet because this is staging/hardware policy sensitive.
-The possible directions seem to be:
+> Signed-off-by: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
 
-1. restore or move the USB3613 provider/header if the hardware path is still
-   intended;
-2. remove the stale USB3613 integration path and rely on the local stub;
-3. change the Kconfig dependency to describe only current supported worlds; or
-4. keep the contract if an out-of-tree provider is intentionally expected.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Could you advise which direction is expected for Arche?
-
-This is static source/Kconfig/header analysis only.  I have not tested Arche
-hardware.
-
-Thanks,
-Pengpeng
 
