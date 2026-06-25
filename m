@@ -1,122 +1,105 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E5BA276050
-	for <linux-staging@lists.linux.dev>; Thu, 25 Jun 2026 08:02:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA110367F31
+	for <linux-staging@lists.linux.dev>; Thu, 25 Jun 2026 08:33:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782374534; cv=none; b=B56e41Cczb9AbDnX1IgY9aro6h7rZIH8zU/+dvURzFHKz4qzBKEL3UN+oq22Dgc1a2bx8cQCF0+EDiqk/j0WWZptGMQb2jTbJGgYJtqjZaEn6uSa0ndCR911MddMJ888SluHXkRSqpylEpc+RHr55nuACTxffR1yvRT7x0wMaHQ=
+	t=1782376400; cv=none; b=RdTUN2Ydt/0lCHpd3Q28cROQDZ91sZn2Ll10+fHkEY+91KporPNuv7a73I1T0ixwMkxn/s9QiRxbemoCfGL2P44+2G9N9QXPjzSzJPSjqT6Wuh+ECrD5l8fgvyeoKCQ66GHozlvqyONHafwnYJnf96WepRtPH+xHM+lTybawkYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782374534; c=relaxed/simple;
-	bh=NzGApPLn0XWASq7NMCYlstgaj/tn3z76cxJiKDD1tbc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j5M6oP9uo7qD/GD3/0qSEyN8KhpmBnRVldqpsYV6yx82qQ9E2UxJ/3M5i2RVqyRU67DZLR14umUKNRjVN6Xdwe50vCmJzTKL+IBMICHrRP/pE3oW9p/gdi1sbxxC36psnrwEXbjGyLNK6KFxSKvACkSzRzgv6ZYF6ubA4YM5sWA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SGOZWX54; arc=none smtp.client-ip=209.85.218.47
+	s=arc-20240116; t=1782376400; c=relaxed/simple;
+	bh=OhJBIZtPSl37iTCor/8pHea1pmiMgmwQ3W0MWlsm5UI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BDsipWV4MjSCydHcCgTkZv3cntGV/Iu7MFuMKSOCoaxBpBM8Yr0XbxdNGNGxVnSrlukBYg60t7A9jECHGwxd1/HJFMyCTOJqCFq4dXQc42pKreuyxQ6U33jxyiIbdk9IHk0fJzhb67t1Z5dCMaXc9Z0r+UuRw0ddaKrmDnawVVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Hj8MkWWu; arc=none smtp.client-ip=209.85.208.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SGOZWX54"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c08922c23ebso331674866b.0
-        for <linux-staging@lists.linux.dev>; Thu, 25 Jun 2026 01:02:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hj8MkWWu"
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-39669bcaadfso17630571fa.0
+        for <linux-staging@lists.linux.dev>; Thu, 25 Jun 2026 01:33:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782374532; x=1782979332; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=omLf3ggMDcQZK2Foazv5b4EuBOwA9+oLGdI8mG7aYPk=;
-        b=SGOZWX54fpiBUI0Zo+R0bO1T9+XFNFrT0siuTKV1IEHAethCn+tSpE3czuyhaBCf06
-         RqIklK8RB6/W4K3BXedtPIFmYeSrJJlWZ0AJ2DIUZ48+boM8/rGXF1tIx4UoCiLKGw9y
-         mJdaKLK2yKyhdBjiVJg3eCbXueb1CyhZ+IMN1fQKfBvr6qVvmliNSAybmCR+Igj45W/w
-         n/TIirIf6fV+A5pq0aVyzp0+Pr3o7cqgHOh7oFA6QLMw3Sgh0yCtjWpG1RBsnYDysbiL
-         LZrblnJMrCc8DEQj0OfBtd2VGqHKXQWdCIkt0IPXPKpI+nanZNWEGuP6UxiHGRlDFWF/
-         49hw==
+        d=gmail.com; s=20251104; t=1782376397; x=1782981197; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cvbKAQfeepNA8bbLBATd/Y6PlNgiV7+B2hbMPq8f+ok=;
+        b=Hj8MkWWuVJNZqjoRi2n0a54Prwt/cIByDgAt5745amWa/FTC2xI3XDgAg6/pf4yebl
+         FUAlOBJWCc4gWeUVkbmDtnAvPqVIeDmSKKQCaLA3Q+2v89U0+jxMwZQcXJC5+Fxf3eiA
+         b72UMxekNA4fRMoeAkBnYEYAnz0XktflIHfFWU7cEVsx7AzfQB8gfUk7e7gEPrgb98/i
+         1d76BUMkMSH8dx/IV8dQrgD3bRHa7tUZ5B9NAuykxkML16RccaRr8kVPZreirMG5JSWO
+         I2NBL//MSPagYm64EkvSP+IlLKxe6mYxC+6Tj3Qt3ZXCbgoKFc2dxdGxh/ixJWXrGLC7
+         m67g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782374532; x=1782979332;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=omLf3ggMDcQZK2Foazv5b4EuBOwA9+oLGdI8mG7aYPk=;
-        b=X5odaL0ReKPiYQm8PLrHKc/mV/YMyr7mcpKHcQ7l1u4tPjKbkcvfQ4VGchlrKCGJ3r
-         UzP9RXy7LUa1+nYTVz8pax5LzVVino3pNpMk3ykPobU/d6lrHVCzwbbkywB17ItLfkyZ
-         hpAbA4KAnBnO/2lTmPztND5uEZRVeERVRyrxSwC1DOhKzJTZzS801UAbYz4Cp1jR+8k3
-         ZK05na4sf063EG8BYbXZf3w0kHTmBhj1Mji2xpAvIllKLYlPvxIY0qIn+1TqKvDzJURr
-         oe36/eDZA08m9c1kms3kSvz592immfAQ+TfXrzdqjlwuBltSiBy27vIUsOt/YzYAHXed
-         jQ5Q==
-X-Forwarded-Encrypted: i=1; AHgh+Rq6iAen6Um4VU66od8C/zo8rExRCmcfZvCyEZTqQa8psSPPsKJ2hgr2KbnorATbaEAmSFZDf/ezbWKbVC1y@lists.linux.dev
-X-Gm-Message-State: AOJu0YzsHNTzZDcWfVtHPQnDY/H0xmcbGiv2HWIfaPJVDB6O/mHom5Rz
-	4HDHUTgv+cPeo9lTfRC3k4yz0kie3sHkB6bfbVfUjXoRchvuPcCZOFZu
-X-Gm-Gg: AfdE7cmTNx5ewxgD0zKPbmSwf3CeYfLa5Kd5QH+ubdrvs6aYu2ePEfCvvvpQwtaDp+l
-	MUzk0QO5iRKDwMUIBHT2GBy/eJIP9ZyZ1W6NOUSNzxlaO0A5DhyJ9+16fQ9SBkQgCzP+OT4HLfL
-	nnb96lQeN9rNgwhLoIPeTHiyu6gTLE43MZk4+LHhhlAu0lGsYr/xKWzxG5ZPSHCpg7kj+FBOMaz
-	qb4+CgOQo7hz51w5c1QA0wn1cqFRbj4VuCB471PVqRq3fMkontKrPCXAkIufDQGet3HOyd1BbDI
-	X8up6GGWniG4mSEuWw38nsc0MI3W6S9XsTsuk+r+Q1M/GMdeOQao3EnSVkY6FG9yFnpvOFTqVZY
-	dz78Q5JcbjfAGzaJLVN42gnKt6/BZ7VZvTfur7blTdgn43Fnfvg4bQ393/YLPJdhHLb3Bl7GyAS
-	i5gHqx04dHINgtiwAQYto=
-X-Received: by 2002:a17:907:bb49:b0:bee:959e:9ac8 with SMTP id a640c23a62f3a-c1205d642c7mr76966966b.4.1782374530660;
-        Thu, 25 Jun 2026 01:02:10 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c11fbe5e53bsm118365966b.46.2026.06.25.01.02.08
+        d=1e100.net; s=20251104; t=1782376397; x=1782981197;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cvbKAQfeepNA8bbLBATd/Y6PlNgiV7+B2hbMPq8f+ok=;
+        b=rySMMI+cGJZbcXeOI/QamFmSylJ3PTdDNP5xzDj9+uHMfa3bup0scth20+0LJzi6UE
+         Yd9oBNwgAEm35ksH9ZAqZkAY10EmdvKjW00VCw/llud0STL+ApBs4m72aiH42RJ1vfp7
+         xMDyu7omyNPYW3S4gvKRfWCXqctul3SQUffHBESe6H7f1Z0sbXKh7oLwxcoUJ4tPcQla
+         4hUfqi9ROjnUAzd0rHEbxVGIg9eMyy/53Pf0AwAYAgdwMoBo2B30spVA9a3LdcVV7f8i
+         YFWsLOKrGy7gSAUEAXS91Pv/KUMw4uT4mzYC47ezeLEHbqWJblWNyE40fqo4S/Bz3fcv
+         KmQg==
+X-Forwarded-Encrypted: i=1; AHgh+RpfMDl6/wC13hVghxkvIvGrfv9sDGRVJqLOZoPSEzN3DQRzGrikKENI5Q6szMqjgaw792sl4qWlsDxoet4/@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy2WLx7RIHAOPeZs1Ezdce+buXrpFMUcfjWQ09vh9eExLwB/zQH
+	VlF/9z1C0b7rWukcshmMBgUMFX/kSnB08ay9ODheVnZx7mOWah7MQX+m
+X-Gm-Gg: AfdE7cl1zo2HPdgQL3y8H89JMtMAZ/EmJb8aMCAo3U//51j1uv1+G6LncKUDPsE/s3I
+	szC8N6nnTWFRwEqB2yp1lY9c1vPmhFCW/ChZ0vT2txg0ytO6ML5IQPJAXRSFfKs+5g0PONni1W4
+	M9ShQIUlm33FyaaF2M+TZYFAfgL3p17owkWlrpVdUKe0uheFKZpvhIqHPhurfSpYbIobQILJ8If
+	vw73dXVOpsBoClJWIYyTBXZNP6eSP0w+YTz2SC+Hf/VOObpqRhiy6itnUbJi1cDzOf9uvnjkdc4
+	iUYXtOAwE/WNUSJrV7oihmRfVpZqQ0DdGa4thJOX13XXMxfnQ4sbVJYA+TXAV6PrzS6QA3OgRsW
+	YsJ/cqRYSeN9+jNqs5JDlbl3lcOPxhSln1Vx2heSlA7ZVabm+Rf2TtqwD71o+n0cnYbFvev4b+S
+	RlnObGFtqmPd2AbQXK9jdwas9s7x65nDZkIg==
+X-Received: by 2002:a05:651c:893:b0:399:83a4:4f2c with SMTP id 38308e7fff4ca-39acb635f41mr4003281fa.18.1782376397041;
+        Thu, 25 Jun 2026 01:33:17 -0700 (PDT)
+Received: from xeon ([188.163.112.61])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3999b1b143fsm40327521fa.39.2026.06.25.01.33.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jun 2026 01:02:09 -0700 (PDT)
-Date: Thu, 25 Jun 2026 11:02:05 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Alonso Garrigues <agarrigues@riseup.net>
-Cc: gregkh@linuxfoundation.org, guojy.bj@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: clean up style issues in
- rtl8723b_cmd.c
-Message-ID: <ajzgfS0SAFkV7MDR@stanley.mountain>
-References: <20260624193110.1426826-1-agarrigues@riseup.net>
+        Thu, 25 Jun 2026 01:33:16 -0700 (PDT)
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+To: Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: linux-media@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/1 RESEND] staging: media: tegra-video: vi: improve VI graph building logic
+Date: Thu, 25 Jun 2026 11:33:01 +0300
+Message-ID: <20260625083302.71651-1-clamor95@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260624193110.1426826-1-agarrigues@riseup.net>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jun 24, 2026 at 08:31:10PM +0100, Alonso Garrigues wrote:
-> Split long do-while conditions across multiple lines and add spaces
-> around binary operators. Fix indentation of misaligned comments.
-> 
+The existing tegra_vi_graph_build function relies heavily on a one-to-one
+match between Device Tree nodes and media pad links. While this works for
+simpler configurations, it causes issues when Device Tree nodes do not
+match media pad link logic (e.g., mt9m114). Switch to the
+media_entity_get_fwnode_pad helper to verify and retrieve the correct pad
+linked to an endpoint, rather than assuming the endpoint ID matches the
+pad ID.
 
-Fix one type of warning per patch and send it as a patchset.
+---
+Changes in v2:
+- fixed use of NULL fw pointers in debug prints
+---
 
-> Signed-off-by: Alonso Garrigues <agarrigues@riseup.net>
-> ---
->  drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c | 39 +++++++++++++-------
->  1 file changed, 26 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
-> index c35c7f1c38ef..d31d8e445dcc 100644
-> --- a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
-> +++ b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
-> @@ -74,7 +74,7 @@ s32 FillH2CCmd8723B(struct adapter *padapter, u8 ElementID, u32 CmdLen, u8 *pCmd
->  		else {
->  			memcpy((u8 *)(&h2c_cmd)+1, pCmdBuffer, 3);
->  			memcpy((u8 *)(&h2c_cmd_ex), pCmdBuffer+3, CmdLen-3);
-> -/* 			*(u8 *)(&h2c_cmd) |= BIT(7); */
-> +			/* *(u8 *)(&h2c_cmd) |= BIT(7); */
+Svyatoslav Ryhel (1):
+  staging: media: tegra-video: vi: Improve media graph building logic
 
-Just delete this dead code.
+ drivers/staging/media/tegra-video/vi.c | 78 ++++++++++++--------------
+ 1 file changed, 35 insertions(+), 43 deletions(-)
 
->  		}
->  
->  		*(u8 *)(&h2c_cmd) |= ElementID;
-> @@ -416,13 +416,14 @@ void rtl8723b_set_FwPwrMode_cmd(struct adapter *padapter, u8 psmode)
->  
->  		}
->  
-> -/* offload to FW if fw version > v15.10
-> -		pmlmeext->DrvBcnEarly = 0;
-> -		pmlmeext->DrvBcnTimeOut =7;
-> +		/* offload to FW if fw version > v15.10 */
-> +		/* pmlmeext->DrvBcnEarly = 0; */
-> +		/* pmlmeext->DrvBcnTimeOut =7; */
-
-Dead code.  Delete.  Some other places as well.
-
-regards,
-dan carpenter
+-- 
+2.51.0
 
