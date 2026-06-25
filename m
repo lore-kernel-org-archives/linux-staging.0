@@ -1,162 +1,133 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ED13347BA9;
-	Thu, 25 Jun 2026 13:53:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782395639; cv=none; b=eH7V1ZRNIFxLIeaxWuXBItEe1GfHYriv3bo3Y4ZhzP2yzGJRGvMoyhmkPNiwfxiiwdecdZHyagsjyTVxyj62DwWEMaKOVlfCE1wFrZaasSEhfBmnbyJSR342XJrHDKbjPY6uHMbgJFbNBvIaQAAMr6uZgwj8OloFqWicvKk1GuU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782395639; c=relaxed/simple;
-	bh=3gWE6pRjmf5/L6XWnC/tL1qHBu5WeuMP/6/gGEEEuw8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h53+ba9L3mvdNma44J7Mmf2eYatl7IOclHw2ENZV7rZ4UvuotbdduoJuTQtZZfZ80njb4BjMLX+z86/D0zAWLoULZDMgDl+g3f909Rw3PE8p4z5QDz10BtlFz14IbV2v8EhImd5Cg2VvBBIpj0ItLc9NOdozcX7PRwNQwmyB8a0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OhDUqHq3; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F343E2571B8
+	for <linux-staging@lists.linux.dev>; Thu, 25 Jun 2026 13:54:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.180
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782395664; cv=pass; b=SAu9XAgi0a89Kxk4Z5YjkWqxrnKMrGGOgYi99ZPKCDWsXFaVJIBsBHCRNmItxXkZAnVzpt8yvmYvYWq48KEwD5FJsK57r+BeA5tSo7i70Vf3GvhEweKU6lxR61mk6xr4WDm67Ta7jI1AezoalVdHCaPY6WKlVxENjhvp0dp9U3o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782395664; c=relaxed/simple;
+	bh=exgUaAZQnv+sDAe/1ZIE03rG7GIBXwWQE7aAfcKYEdI=;
+	h=In-Reply-To:References:MIME-Version:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=humggbv6KS9ofjalZl5Cf2kOwpAiohM7vD5MxMf1K1zm12B6s5jNzM6ehn2m5UcbE7OWsmHNXjwyWfdR0nfRhxvBZBF1Eg/Wlq7FR72ta3rdZevsaFbNOP03oC5j6RYo9i215Vn/Ydj8SgVm+j07oIKXpSgWbwEWOB515OHLnXA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qqjgMkiG; arc=pass smtp.client-ip=209.85.128.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OhDUqHq3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782395638; x=1813931638;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3gWE6pRjmf5/L6XWnC/tL1qHBu5WeuMP/6/gGEEEuw8=;
-  b=OhDUqHq3+qusAloHf3Swz7Cbkjnfztyv3dvzWBLpgLkGgtMs+i9J/jz/
-   IwvhEx+5GSTdVlBkxSI8o3iW3VGxWffEgPJAqunLz3HfPNhtXLC9bScy6
-   0l8QwUiLY3aL8KIBiPcw+hj6Bfe7FgwPg3Il10Yc5FO4/Bf4AeiEpen1X
-   a84+eFtnp1kqSaANmkHfbTnIIT97naJar7OL1/ayO1EVO1PO01b+0ydoL
-   5XaK4Qbl1GSBfnWK2dJYxmdnIePCbUiBY8U06rKpqXeGfql3bWvzrbckc
-   3KiURHRHKk1buPcofnhvC2nB4azBBF51mlytFYjch5IflE1Ybpfp6HVcl
-   A==;
-X-CSE-ConnectionGUID: DWOMjkh1RPOwrU4PdPAamA==
-X-CSE-MsgGUID: 0iNZ1xhYTEqRrdItzvFRcA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11827"; a="83055819"
-X-IronPort-AV: E=Sophos;i="6.24,224,1774335600"; 
-   d="scan'208";a="83055819"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2026 06:53:56 -0700
-X-CSE-ConnectionGUID: KXNGTLFPTSmmQt5eKAQ+dA==
-X-CSE-MsgGUID: 1RD6EuwfTpGnvlK/Rk39WQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,224,1774335600"; 
-   d="scan'208";a="248158427"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 25 Jun 2026 06:53:53 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wckWd-000000004AL-0Nhy;
-	Thu, 25 Jun 2026 13:53:51 +0000
-Date: Thu, 25 Jun 2026 21:53:26 +0800
-From: kernel test robot <lkp@intel.com>
-To: suryasaimadhu <suryasaimadhu369@gmail.com>, andy@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	suryasaimadhu <suryasaimadhu369@gmail.com>
-Subject: Re: [PATCH] staging: fbtft: fix unaligned vmem writes when txbuf is
- byte-offset
-Message-ID: <202606252144.F56jkpaD-lkp@intel.com>
-References: <20260625110237.304435-1-suryasaimadhu369@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qqjgMkiG"
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-80b0cd40dafso2261707b3.0
+        for <linux-staging@lists.linux.dev>; Thu, 25 Jun 2026 06:54:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782395662; cv=none;
+        d=google.com; s=arc-20260327;
+        b=SIz6BU84ZIkrJhLopg6mD6MhUIdyc11bpxbdSJhieqri4I0U0uc4qkzZY8Uorhjq6x
+         /772RExWBli5ha0yU0cTrgdfUOSkf6Nd4gQ7Hk3ULlinVWAhB2HPmKmHTScLCYMY4O7Z
+         EGh94c/LjStjoTR/DkamoisyMFLd0GmtufuDTUT6UTH8d0DmljXzDBysVYnoKnHJyqqm
+         nnmzaLMoguNSvl8YCC84ztpYoWXz12HxLAdvIplo0yipJs4EsitBZ2lI0MxtH/ZgEDzO
+         c0pT4aKlohsvewfSkuUvNVlbWArwrD0fAZ/xww+dnDRv+iZFAp7B4QUhmWOGkuFYLB0y
+         nUPw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:references
+         :in-reply-to:dkim-signature;
+        bh=exgUaAZQnv+sDAe/1ZIE03rG7GIBXwWQE7aAfcKYEdI=;
+        fh=1tlw2kSxhpV8lNAZUxfCn7wt2bmEPwTOyqcLP+XGUP0=;
+        b=GTdFLKsz8dVe49tLiXwEMSCxHh1/Q/VAIgSqcilouklM4cuFNAIuiRU/BNqGVGHn/p
+         g1lRC8Thou1CeRJ3M3Gg/9JaFbNXFImGstAadcRfV1jrNpzE1AArdEJljHTYJ5iHHL7E
+         XYqWF8yNq76NF9Ncm5tHIUj9jIjRgs3YMmj3oM4bAQMy6kOHIUthXAHlgJhUIJYBymww
+         Z5uHgpwT0zZTMBoQ5TdLkOhY/neyxigtzmkEsdLFumtam2DkOScli8xVu8y/gNctgw07
+         OatJw5VgBckDo3qQDl7caxOXiUhtY2R/OO5gFEmhJfwQiL2RfzHQK7zPY88CP2+Ixibp
+         Oybw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782395662; x=1783000462; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:mime-version:references
+         :in-reply-to:from:to:cc:subject:date:message-id:reply-to;
+        bh=exgUaAZQnv+sDAe/1ZIE03rG7GIBXwWQE7aAfcKYEdI=;
+        b=qqjgMkiG+6z48NvspdkKxUFkuOuCp4/M6WUFKYbHDAZa6WmsiqFpS5wnmSZuoTx8+8
+         ToDby0IVGqVOO3/rogdqCKbnKVFLcZtFFEANL9+E3prGyWuANYks33okeVXFOxrW+cf7
+         TSEPkDEWZWBhi3MYxouVGj3UDk7qVIiX+xlv4B6TKZsdDYEnU404FpIFs2ZdVO20yxJ4
+         nVvlF2wlrqkP54iwVSDjOYuzC2BDQF02DNDtuYZJB7BZysg7UXTxbcdte2O4QMdjjrwc
+         WbuHvGer0Z9pfdEiMHvTBnD854UAVDJ8na2RKkYW5NQYaYdSA2DrPSNbvHmNrvsQsWOM
+         WxdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782395662; x=1783000462;
+        h=cc:to:subject:message-id:date:from:mime-version:references
+         :in-reply-to:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=exgUaAZQnv+sDAe/1ZIE03rG7GIBXwWQE7aAfcKYEdI=;
+        b=k4hK7uLu+IBSvABtIAIy6F/NIXxZWtgi5Rad8zeJlYZFxGEJs5zEZW7WPIQq8C8XnY
+         nzzfMzU9OHDLrj+1ElCY1KpDKuEdi1VsB7Wrxx2YZTcmZTWZ9RAPcufMw+K48ap9oxv+
+         cvkSY98tFKqLUCMevnD2rJblD582QKTomyEcodSwc93/wdGo9jAdD6X0i8LZXPvTgQ++
+         E/8L9wQY5rBpfRpvefzCci5glZwjPTz1RIQ0kRmtkd5SHsps+cfWDjvASVQ1Gs9fhmIf
+         k2YFyqD7+oWCHbafVr9HwWjiTfydYKi4/gC7gJ+/9itBKtQgNbAjjWmQmUPTpHVjTTOS
+         jKKg==
+X-Gm-Message-State: AOJu0YxV4aQ0f5N5PzDm2b9csP8HsJg407WqiLtdTZbr4UaUCFQ/0HvU
+	XhXLdREAlWgJvOl+vi8j/6dEz7ztOy47DxX+5UUEMm5ZX41rSnDnDy0tj+6+0usi5U9Wemp8G88
+	KGac/qXN+CZOqCxZJi2XR/jWdvqd2HJE=
+X-Gm-Gg: AfdE7cl4hIqhaEyAP3WgKsBP66nLee38swi2pGupqWVsq2ekAWEMiS5lmU8AxLAUc1t
+	S/iCV5+M4LDC2ilPtEwOuezR7wwpU1TtB32T+OBz26NKA6FgRvlSqKhY4hD+PZYJUzdGYcuYrE0
+	uud/iYcXyNU442ENFBgq3Wv07H1dTveYo+IwfPwKMiYOPbFBG7z8iKZGMdAlKJDgX6QRQKSNH/3
+	Ce99JuyhM5jbDiljJH1G3gqHLXKoiJ42qn+uYK7FhOBqwmHyXVA0UWqIzQUmUV+1s7+6a3D6Q==
+X-Received: by 2002:a05:690c:112:b0:7ea:3cda:4246 with SMTP id
+ 00721157ae682-80670e4828dmr106738537b3.3.1782395662030; Thu, 25 Jun 2026
+ 06:54:22 -0700 (PDT)
+Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
+ Thu, 25 Jun 2026 06:54:21 -0700
+Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
+ Thu, 25 Jun 2026 06:54:21 -0700
+In-Reply-To: <aj0X1ltvBoJDEbES@stanley.mountain>
+References: <20260625093137.6589-1-alhouseenyousef@gmail.com>
+ <aj0WWwiOzjLGbY5z@stanley.mountain> <aj0X1ltvBoJDEbES@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260625110237.304435-1-suryasaimadhu369@gmail.com>
+From: Yousef Alhouseen <alhouseenyousef@gmail.com>
+Date: Thu, 25 Jun 2026 06:54:21 -0700
+X-Gm-Features: AVVi8CcwJezX9sRXDHZ-0zSVAKUEJwIWpnmaaKb4Bt2-UPr55a63XrSYc28Lezs
+Message-ID: <CAMuQ4bVXuOpXqiiHsxbqVdX8kb_bj7-JqpQ__R6OAzRDWNnHfA@mail.gmail.com>
+Subject: Re: [PATCH] staging: vme_user: bound slave windows to DMA buffers
+To: Dan Carpenter <error27@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi suryasaimadhu,
+Hi Dan, Greg,
 
-kernel test robot noticed the following build errors:
+Thanks for going through it. Agreed, this version mixes separate fixes
+and the helper is the wrong shape. Please drop it.
 
-[auto build test ERROR on staging/staging-testing]
+I found it while reading the vme_user ioctl and read/write paths.
+Testing was only git diff --check and checkpatch; I don't have VME
+hardware.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/suryasaimadhu/staging-fbtft-fix-unaligned-vmem-writes-when-txbuf-is-byte-offset/20260625-190423
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20260625110237.304435-1-suryasaimadhu369%40gmail.com
-patch subject: [PATCH] staging: fbtft: fix unaligned vmem writes when txbuf is byte-offset
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260625/202606252144.F56jkpaD-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 6cc609bb250b21b47fc7d394b4019101e9983597)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260625/202606252144.F56jkpaD-lkp@intel.com/reproduce)
+I'll rework from the core/bridge side and split out anything that
+still holds up.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606252144.F56jkpaD-lkp@intel.com/
+Thanks,
+Yousef
 
-All errors (new ones prefixed by >>):
-
->> drivers/staging/fbtft/fbtft-bus.c:157:4: error: call to undeclared function 'put_unaligned'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     157 |                         put_unaligned(cpu_to_be16(vmem16[i]), &txbuf16[i]);
-         |                         ^
-   1 error generated.
-
-
-vim +/put_unaligned +157 drivers/staging/fbtft/fbtft-bus.c
-
-   113	
-   114	/*****************************************************************************
-   115	 *
-   116	 *   int (*write_vmem)(struct fbtft_par *par);
-   117	 *
-   118	 *****************************************************************************/
-   119	
-   120	/* 16 bit pixel over 8-bit databus */
-   121	int fbtft_write_vmem16_bus8(struct fbtft_par *par, size_t offset, size_t len)
-   122	{
-   123		u16 *vmem16;
-   124		__be16 *txbuf16 = par->txbuf.buf;
-   125		size_t remain;
-   126		size_t to_copy;
-   127		size_t tx_array_size;
-   128		int i;
-   129		int ret = 0;
-   130		size_t startbyte_size = 0;
-   131	
-   132		remain = len / 2;
-   133		vmem16 = (u16 *)(par->info->screen_buffer + offset);
-   134	
-   135		gpiod_set_value(par->gpio.dc, 1);
-   136	
-   137		/* non buffered write */
-   138		if (!par->txbuf.buf)
-   139			return par->fbtftops.write(par, vmem16, len);
-   140	
-   141		/* buffered write */
-   142		tx_array_size = par->txbuf.len / 2;
-   143	
-   144		if (par->startbyte) {
-   145			txbuf16 = par->txbuf.buf + 1;
-   146			tx_array_size -= 2;
-   147			*(u8 *)(par->txbuf.buf) = par->startbyte | 0x2;
-   148			startbyte_size = 1;
-   149		}
-   150	
-   151		while (remain) {
-   152			to_copy = min(tx_array_size, remain);
-   153			dev_dbg(par->info->device, "to_copy=%zu, remain=%zu\n",
-   154				to_copy, remain - to_copy);
-   155	
-   156			for (i = 0; i < to_copy; i++)
- > 157				put_unaligned(cpu_to_be16(vmem16[i]), &txbuf16[i]);
-   158	
-   159			vmem16 = vmem16 + to_copy;
-   160			ret = par->fbtftops.write(par, par->txbuf.buf,
-   161							startbyte_size + to_copy * 2);
-   162			if (ret < 0)
-   163				return ret;
-   164			remain -= to_copy;
-   165		}
-   166	
-   167		return ret;
-   168	}
-   169	EXPORT_SYMBOL(fbtft_write_vmem16_bus8);
-   170	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On Thu, 25 Jun 2026 14:58:14 +0300, Dan Carpenter <error27@gmail.com> wrote:
+> On Thu, Jun 25, 2026 at 02:51:55PM +0300, Dan Carpenter wrote:
+> > There are two bug fixes in this patch:
+> >
+> > 1) The driver allows you to set any value for size.
+> > 2) The vme_get_size() function returns zero on error but nothing
+> > checks for error.
+> >
+> > There is a third bug as well which is not addressed.
+> >
+> > 3) The slave.vme_addr is not checked and it allows you to read/write
+> > to any memory.
+> >
+> > It sort of looks like bugs 1 and 2 only affect
+> > drivers/staging/vme_user/vme_fake.c.
+>
+> Actually, no. The bugs seem to affect drivers/staging/vme_user/vme_tsi148.c
+> but the variables are stored to registers instead of variables so it
+> was a little more convoluted.
+>
+> regards,
+> dan carpenter
