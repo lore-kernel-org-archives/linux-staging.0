@@ -1,73 +1,80 @@
-Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
+Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB0A23CF02E
-	for <linux-staging@lists.linux.dev>; Thu, 25 Jun 2026 10:31:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D03030F816
+	for <linux-staging@lists.linux.dev>; Thu, 25 Jun 2026 10:46:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782383466; cv=none; b=P8AkXb9EvxQL6+nyOTmKbdxAA1toQpcc6TaPpVbBEeNGHPfVimgixTkNUeuzYGytwTvGDm3MsgrlQPBZxDop/1+aEb4TWKLJgJCQJ9FsHnEqMbgwgUHbJ5eKea+avWw2Kk3rnBEJ7pqla8C7nEvy6iwiE4bXL1eYwGRgSYCjT0g=
+	t=1782384363; cv=none; b=SD7OO9EsCWhFmtYBl7rLDlGRXXbclGsCn0j/fEJMBf2u8r7fHrbs/Pq16d5rufO1Nack0tlHkcr2gBE+6G0R+ag7HV8P6vRTFajvilvwBxhra4YIUaocjO+ofSU2MjSapvCaDU/g6Hah923im8k/qD2U69HX8T76YeznlJnZlu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782383466; c=relaxed/simple;
-	bh=MC81b1n8cWE023+2RKmMuPWPjQOWGqTfXMyWCkJ8a/k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KWRdwU+BPejbjdXHNbccCwNaH1speXH2cycaiHWhtf1oFVpvfWcuyCQAS2JL/TG+wNJF7w23vjnpnNlRmjFzSw//ZQzgW19M6xQmR4PImhu+Usghg+EVrqDrCXV7fJuUGGlouD4Ml/pyt7m68BIBJasUnl5VSrtqU8nambyVPO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=r923K3o3; arc=none smtp.client-ip=74.125.82.179
+	s=arc-20240116; t=1782384363; c=relaxed/simple;
+	bh=QYbm7Kq0P+lDQ4OXGzb+yWcVuThB7esv0y2SaqAHAjo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=CRcxQYqDQr8Lf7yuCcvw5+f4npDA/egproYtFjo6gdPsjQNa/ObZV594toiKMSWBnzUqA2g6k86gTUKCv0CklVQoHsT5BxWGHt0RrWNEJMpizleOhJBxaMlmhksDlLulOHWYChL0H9VeonkoyfGHTFK8ntygXK502TCbeyO0IPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WE/AzKc7; arc=none smtp.client-ip=74.125.82.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="r923K3o3"
-Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-30c09f29b64so627864eec.0
-        for <linux-staging@lists.linux.dev>; Thu, 25 Jun 2026 03:31:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WE/AzKc7"
+Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-30c591fb1cbso3087167eec.1
+        for <linux-staging@lists.linux.dev>; Thu, 25 Jun 2026 03:46:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782383465; x=1782988265; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=TKJsVWDIVCaWALiuCSmxIi+GmrzYP0RWrh9s3UMN5KM=;
-        b=r923K3o3KJcvrHaHevn1Gnz18Y+D5NZ/zlIZWahkuFDH9r2aoub3mUA2+eZAr8uiI7
-         NdqmVA+wFc/TaqoD91d+YX0UfjhsOvXHY8C/pai2/y5rZp4SczMmnz6Gyyn5exoMDZGY
-         pF20NSpCfx+QUL0Px1cG4iZeaZHk/3B1bQ/Dt12mUub8qqmsoV30ytJGlZN6RVbgnNyZ
-         Gb8F91GpQBm/BIA3r65RWNsH2DubHdbIGSHqSjwHtwI58bBUySIDfUxo6G65fzXs85WZ
-         Z2dTD4mxg99isxvgbou/9nS/4wnqou2OmLjb5Q6CzBihwUgrXbahMr1SxRo5d/IdURMs
-         FwGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782383465; x=1782988265;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1782384362; x=1782989162; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TKJsVWDIVCaWALiuCSmxIi+GmrzYP0RWrh9s3UMN5KM=;
-        b=XaOliV2t/zArhIyh/PZLlrxFtviMH9Oz5TgeijYa2UbryxKXeEd2aIhiAKBv7vPzMP
-         ZhRbYBo1ZPtLq65EkRa15kRYqe9cYyFa4OQwyGBffbZ/acZz7BjlqTvxF4/8S+iEtdH3
-         g/6FKL4seYHDxMi/C2dUcnvtoGhKmUg2JLWp50hGseGVaiNQdH/tjfwdNWCK5lveEs+i
-         yvmzORuFH5Bhfu5aNZzHV5I894+Iq3k5c8cZ7dhWv1Dr2zy4HmaGlEHtm3V5wO/Rqd+6
-         kFuGpHYHDWG5CQszjhurgeJnj79iEBtTxG7NPxWJ7L3k/YP8drASBJNPIKeLFpb0qMYw
-         dK0Q==
-X-Forwarded-Encrypted: i=1; AHgh+RpNIKClVdEsYw68fqDb7DsrQmzpY2WMZPPP+jSTUQKEzNA60iHJzBulwfWRYoZA2xowNiAi3+5Oq8GeMr/3@lists.linux.dev
-X-Gm-Message-State: AOJu0YzhGLGPzBnVZ1JxkngthEtS1a7yLBo9j7yJNbOUxnmNvNl4zGBN
-	DVXpJUxkLJv6NqYiaNe5bsHBSd7vICbUxu9AShbx2vSJnpTlSe+noLap
-X-Gm-Gg: AfdE7ckzTvCrahRZxV4FL2tg+jQTdfnYuN1x5rgH7sucCDvdeLU+j5BVd9SPPv8smrj
-	GLMSQ9PQddQebWIrZpOYGcxD9SHl0UTVxhNV4nM662ZxkAVVRtFiR7muY4ibHA+xUy/iXHpTGJE
-	EX0JQ5u40VgRYo4WJRIlhcsIpwhwSlgP7sDMD5TlE/eLmZV61i4jnVVm9kwQ2v6vcD8LJ7s9Rfv
-	Dlso6XzEW6u2pHA0rK/qZlWIOtKlxdxsN1DDDTUYgu0c6T+3LnDGveLr3afq6TgrInRDp2edg+z
-	UgtRP6sK/SMKuBZevl8cNjf35CRZhIATRspnj/JYJAdi1njkBKsvceMZulhZ1VyhwNIsjDeSKE2
-	Xemtfy41Ua2YJCWVQ/k0/emXsTLyVbzBuSd1/pawiNxcR+4LkhUbbpgSQA+y8mEBIkf8UFPWn7l
-	6XGuGiojzOz1kDWUqFcrxiVIIMTFvM+01/mA==
-X-Received: by 2002:a05:7300:a485:b0:30b:8878:9c8e with SMTP id 5a478bee46e88-30c85468412mr1914301eec.2.1782383464754;
-        Thu, 25 Jun 2026 03:31:04 -0700 (PDT)
+        bh=UCM013gVUsehWEh08mLTPsFaPHwwdbfEWMEh5CAkbII=;
+        b=WE/AzKc7vbKOVpWQfb2GFroXbHvP1lWG3EbUUhKNulpWvgvNtaPXsLAGazYOspLN5W
+         9EsdrnsDMn6GrNeFKU3kTuUONemietLonVio7bMenTL5Fzb/VVxe1lHTrzb3ZUa5oKxp
+         Vi6yc3gIn88+pjkboq2CWrp28Ipy8ivNBySj1Rjqof9RUwIVf5GGi0zB3W4Cg2F22LiW
+         i47fkoQ+cgqEaEGH0FEVdp9ircOWn7bBSTdeFDfNa0flkcE4D09UUAjntpZ2Kvn6VLrK
+         DRAuzBbF7zgS0Hw/Om3ZRdXGZEeAJoC7YAwA4KC8DR67omdnNlU+tL1dVGS4huLUy5sM
+         FqAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782384362; x=1782989162;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=UCM013gVUsehWEh08mLTPsFaPHwwdbfEWMEh5CAkbII=;
+        b=fNscjjCL2ef+cOjAhzTXCtoePm7qqKTRoW4xuKLSfjfw/JfVCBvHcqz8co1r+SBCBR
+         fU9eJfBWiFnPxVop0o3r+/t+whEFACmdawFmCG2Ul2+x/czL16ZRI3DykW2jyFAataUR
+         xUc3uIbL7VK4PeSuL01E3mV36Ap1mTx4sufluQnBXdVDU7pK0sYz20vH5GFtWS8J8caa
+         Ij9pirK4kJyYcuPiM9MU24yYrnsXnRjPBUTvgXPvbYltl22nhOnogm3tVuFsjt85YOvR
+         W9zmHxX3K7fOMH/AiONvwwCnZC5PwHK9LyFUiCl5ebU927z4BD49BMRMlvIjPdiJo4Zu
+         HT0Q==
+X-Forwarded-Encrypted: i=1; AHgh+Roual7vWWLXqlxMz/HP89PI8enk/JyQ8FNiIXuDY3ad+9KVsZGsF52YV3CIYTWXjzGwdGfVwV4UW80WkWo1@lists.linux.dev
+X-Gm-Message-State: AOJu0YzOWACqLVO256oqx21dEcl6eUBJs9xrQmsTwHuDeSZTj3cRLEU3
+	yIHW91H9dGCI4LlAglEg7tfDNW9Ecwb+rhD5FbNq8wQT4zMyHCUMYACE
+X-Gm-Gg: AfdE7ckunwkGN0zm/3ioJWdrdjV32x9iXEdYsqFCJbOu97okB8zIadi3vNwWrYU8RGx
+	VqxgNP0VJpaZ8YpHAlFQZPRqvGlheBwggj2pDKXHHEVM51LVPjgPL5i1BEjlrv4ERLvYxgHJnjY
+	WqEw5DcL+e6G0fB4HAnVmdzCq9PeLVsR6lGBvwq5uYhzbUcZK8dJkaV+hx1s7b+coJnZPWsSDtD
+	GE9HrKZJ5nUyjYdt+vObM9WgAzt39UC08umPxGodb3FV0l53C6csVjU5lAw7e7kVQHWaaYdvWqx
+	3QsuInpE6rpuaVjJLAOjmnuYy/snafqb23YhLzLZrS2hrqORvVFzEkddxzQYLNMccrwasjp1g1b
+	0A6Ii9iUwo0nOxLULt43rHIR7RH3XcY6PM4o2s54fmhHI785DUCwzO1uNQst7cLvIVtvzW7Qn6o
+	iGXVaCN+riYj+U/aBokZH6OSDjSBxynhWHdA==
+X-Received: by 2002:a05:7300:e410:b0:30c:25fb:d28f with SMTP id 5a478bee46e88-30c84d81ba5mr2150281eec.25.1782384361612;
+        Thu, 25 Jun 2026 03:46:01 -0700 (PDT)
 Received: from 10-86-27-11.ban-spse ([165.204.217.251])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30c7ca5e601sm7458658eec.25.2026.06.25.03.31.02
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30c8c02a2a2sm4116511eec.2.2026.06.25.03.45.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jun 2026 03:31:04 -0700 (PDT)
+        Thu, 25 Jun 2026 03:46:01 -0700 (PDT)
 From: suryasaimadhu <suryasaimadhu369@gmail.com>
-To: andy@kernel.org
-Cc: gregkh@linuxfoundation.org,
-	dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
+To: error27@gmail.com
+Cc: vaibhav.sr@gmail.com,
+	mgreer@animalcreek.com,
+	johan@kernel.org,
+	elder@kernel.org,
+	gregkh@linuxfoundation.org,
+	greybus-dev@lists.linaro.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	suryasaimadhu <suryasaimadhu369@gmail.com>
-Subject: [PATCH] staging: fbtft: fix unaligned access and buffer size when startbyte is used
-Date: Thu, 25 Jun 2026 18:30:41 +0800
-Message-ID: <20260625103041.281190-1-suryasaimadhu369@gmail.com>
+Subject: [PATCH v2] staging: greybus: add comments to mutex declarations
+Date: Thu, 25 Jun 2026 18:45:20 +0800
+Message-ID: <20260625104520.288129-1-suryasaimadhu369@gmail.com>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <aj0CZOUlYlJydfPd@stanley.mountain>
+References: <aj0CZOUlYlJydfPd@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -76,62 +83,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When par->startbyte is non-zero, buf is advanced by one byte creating
-an unaligned pointer for 16-bit types (u16, __be16). Dereferencing this
-unaligned pointer can cause a kernel panic on strict-alignment
-architectures.
-
-Fix by using put_unaligned() instead of direct pointer dereference.
-
-Also fix incorrect buffer size calculation in fbtft_write_buf_dc() call:
-  len * (sizeof(data_type) + offset)  /* wrong: multiplies offset by len */
-  len * sizeof(data_type) + offset    /* correct: one startbyte +
-                                         len items */
+Add comments to mutex members in gbaudio_codec_info struct
+to describe what each mutex protects, as recommended by checkpatch.
 
 Signed-off-by: suryasaimadhu <suryasaimadhu369@gmail.com>
 ---
- drivers/staging/fbtft/fbtft-bus.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+ drivers/staging/greybus/audio_codec.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/fbtft/fbtft-bus.c b/drivers/staging/fbtft/fbtft-bus.c
-index 2169f8d1d..cfcf4d7e7 100644
---- a/drivers/staging/fbtft/fbtft-bus.c
-+++ b/drivers/staging/fbtft/fbtft-bus.c
-@@ -4,6 +4,7 @@
- #include <linux/gpio/consumer.h>
- #include <linux/spi/spi.h>
- #include "fbtft.h"
-+#include <linux/unaligned.h>
+diff --git a/drivers/staging/greybus/audio_codec.h b/drivers/staging/greybus/audio_codec.h
+index f3f7a7ec6..326770b99 100644
+--- a/drivers/staging/greybus/audio_codec.h
++++ b/drivers/staging/greybus/audio_codec.h
+@@ -70,8 +70,8 @@ struct gbaudio_codec_info {
+ 	struct list_head module_list;
+ 	/* to maintain runtime stream params for each DAI */
+ 	struct list_head dai_list;
+-	struct mutex lock;
+-	struct mutex register_mutex;
++	struct mutex lock; /* protects module_list and dai_list */
++	struct mutex register_mutex; /* protects module registration */
+ };
  
- /*****************************************************************************
-  *
-@@ -40,7 +41,7 @@ void func(struct fbtft_par *par, int len, ...)                                \
- 		offset = 1;                                                   \
- 	}                                                                     \
- 									      \
--	*buf = modifier((data_type)va_arg(args, unsigned int));               \
-+	put_unaligned(modifier((data_type)va_arg(args, unsigned int)), buf);  \
- 	ret = fbtft_write_buf_dc(par, par->buf, sizeof(data_type) + offset,   \
- 				 0);                                          \
- 	if (ret < 0)							      \
-@@ -52,11 +53,13 @@ void func(struct fbtft_par *par, int len, ...)                                \
- 									      \
- 	if (len) {                                                            \
- 		i = len;                                                      \
--		while (i--)						      \
--			*buf++ = modifier((data_type)va_arg(args,             \
--							    unsigned int));   \
-+		while (i--) {                                                 \
-+			put_unaligned(modifier((data_type)va_arg(args,        \
-+					       unsigned int)), buf);          \
-+			buf++;                                                \
-+		}                                                             \
- 		fbtft_write_buf_dc(par, par->buf,			      \
--				   len * (sizeof(data_type) + offset), 1);    \
-+				   len * sizeof(data_type) + offset, 1);      \
- 	}                                                                     \
- out:									      \
- 	va_end(args);                                                         \
+ struct gbaudio_widget {
 -- 
 2.47.3
 
