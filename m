@@ -1,140 +1,130 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2AC23FD139
-	for <linux-staging@lists.linux.dev>; Fri, 26 Jun 2026 16:40:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C9863E2AD1
+	for <linux-staging@lists.linux.dev>; Fri, 26 Jun 2026 17:12:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782492050; cv=none; b=gurh4zObG5iifXuD06TSiHr52I9dg21Ucc42cwukoQXapa/fx0sb68L27G14OOr+gLaYdPeLOZypRHumpnvIdJQHuWTL2xpWEWwRfAPUsBhx6VKKCkb8XRCsdoJ6taBSaRfaUgwNbVPPYMAt2Dgrt0ouvlutcQp1vTDl/Dul870=
+	t=1782493960; cv=none; b=ttdNY4rHK6E52P+/UrkUw3rs/E5mORuXT6W63mx3k+Upm9jnVmLxGoNhKNHNa3p6/q/wchiyCfdcCrXXiWpkEStu2TbvF+vHPdL4TMlLbc1hlOHJhT1TXi1dCEgpXShDPZnF2yQAQAcv0nJ20RqeU0mtD/DpUPRzm3GGsT3lDS0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782492050; c=relaxed/simple;
-	bh=UwXDGYiHTT+NP61sZf6/dV8Eae6ADHs8ZXHzIDrEooY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VVaONYwfS+UhJzU/XT1lxJNcnvMIHyyYPFtNXPRyth2MsrdCWsl0qJXroDJg3n2sTrxhXCEw9aor0cji1MJGvVyLJbiMf9syrsKKsXaqwdasjQZ8QweUKpMITLQ3FA/Erv7CXmAQ1dD+BsMfyx/W7rCNEl0vnWnD6q478WnNc00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai; spf=pass smtp.mailfrom=0sec.ai; dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b=VEGTwlsy; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=0sec.ai
+	s=arc-20240116; t=1782493960; c=relaxed/simple;
+	bh=FN5fyt6J8xEgwwujClfrh/tyeEwNavCdAR/kun6PwSk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=M40rjSdOYMKSeSjoCXMQFqN1byleqW7cxPgcfD/bTIWkywP26T7GJfEuwwJb4jm9EJpIPDtHWc+4SJdU6usz5g4iVIdht0PoiywLG3WofG1S0cj/kFkjCPDy0reB6wQdRLBFIqnZi6rPIjYUOi4tmXce1ei2PxIWgUdrTFguRik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PfXQ4T0d; arc=none smtp.client-ip=209.85.210.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b="VEGTwlsy"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-46066e640easo663424f8f.1
-        for <linux-staging@lists.linux.dev>; Fri, 26 Jun 2026 09:40:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PfXQ4T0d"
+Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-7e9565cc13aso403808a34.3
+        for <linux-staging@lists.linux.dev>; Fri, 26 Jun 2026 10:12:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=0sec.ai; s=google; t=1782492047; x=1783096847; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BkKeguPCV6xh6Jx7E/CjDaoTlE84LE6Cz+7INAskaJY=;
-        b=VEGTwlsyiLcGSjNSB8IAgehHPcYG+hfPb4jezo3tS5tz0gUJt42hTiLa7SOEmuauFi
-         p3rNZ6jfKm1JrEBHxJ8DUdiE8MA2JdHvxzaO7G74YqwknaDPLNQhHlhCDDiKEZpNzLKz
-         zEl9qvoaHPxYanItDdoeN2xuToF/FWrXlFggyU2hZ7yrA1asBc8jrgHYtwYIURbthqy5
-         f3ZZpTqdC46x2h6AfAAT691uP9iNq+xubLP+sQbq3bc9Bnt8nKREv4vhl9e5HkauxH94
-         XUgijdGNTBGHueVWCFftGMeUl8/lkz0Fhu8F17QOAr+jaaQFmRKlWmIuKXz9UrZd010U
-         EgPw==
+        d=gmail.com; s=20251104; t=1782493958; x=1783098758; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=1YVsyic9DZic8R7y5tzhJj17BJhHNYupyP+EXVgbeVE=;
+        b=PfXQ4T0dA+FYwi7Y51+8S+bAq88yhCB7sqB/9ij32/43S+ZF0ihTUk+L5Ga4d8ahQs
+         k1eXVFn8KDBQc8C+4t5fIvkC2eBIXPVTt9qR6Pix1OElaF+difv0hQPJtYBz6qXjhTrg
+         ShgKJ/m79eygcbQJ46PdplidspyyubjJGLqmJdhBljdkrFriYWKnu/fyNPcChQP0Zh05
+         DPDxOvYpH44as2dOBxadDbprq/mpZcHUDVtRNXjhiC8xMDAPIfjZ7Gj85D4Wud2f5uAq
+         aILxBxsFTZpnWrdF6oa9dSGNGrJ9SCnYHztLM2x3V+oXerwNzOD66j6m315kXk3HU6bf
+         6mwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782492047; x=1783096847;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=BkKeguPCV6xh6Jx7E/CjDaoTlE84LE6Cz+7INAskaJY=;
-        b=THDkMFC7xcS+c8tIfmLxP5AChayyddB4UGyQC5VTtJlmRZhPrH3cvTzK14NG3Y9/8m
-         uv2+srPqjBLUBdffTmJMb4abiubxeF7iP75sp2oBEPivfvzv0VqFfMbJuUL8PtgMrKZ+
-         2EiS94FHcYVmXVcefNaVDZjJdUeHrCeTqhd27ufIa2E6Z4OsbnNVBgNNI84xjBTnFojW
-         wJQtmprUQG1diql/eaSOnevrdPKLEAX0hwyFsf6XJfJinch00/PfAyBLfFtEO2VTNJIN
-         eGcVE+9pMfjB56B1wfFRDfhyAALCIjQhhDSUGouSgXA2MDTmTudjREtDfzp01gPRkC8q
-         yK+A==
-X-Forwarded-Encrypted: i=1; AFNElJ9UupObUeifGX3JSEL+t8DH0YCJ1xAmbcbwUfFCbv2iK28f2azJvAisvXL9loe0xuYoJN0kxLx+v3J81sJW@lists.linux.dev
-X-Gm-Message-State: AOJu0YwGNMtJCxUqt9hOBMP8OvG/Wyv295JV3z7oVtCrjTwkKw2vrdgi
-	zSJ/eUb1otRCST7CzPlstBhLRcZhWHqHir9K5wTs5le+U+6yVGpqYkY7E1PmccVopl4H
-X-Gm-Gg: AfdE7cnkQ8bLV5GhUCdPBgsjpAljEePmO6SUdsfNyPAzOwCIp0cCraf3xZptCTzSI3W
-	DIAGHSwBEzu6IJBsYYScBQjgzybt3IB5IAjz4c4HMeCAbTSpM1LV6FrjfwEJZIp1VWoBY1hIgTM
-	4RUc8U4Y1Iokw/ylnTHVRPNzsxTcie90B3rXz5OeiJLQe6vaMBRP+ekDS1MKJXrHl5+WvALjBcr
-	ZEWJiD0OhD3utPOoXFkAOFiGxHss4/owL7GVC33lI03EHV9Vmq3f7LNeXrLcXghI12n7VeKICGs
-	rwUFH4no66qByaREK3sd37G/ZRpKsu+lXrM1Q2UWPzYngLm75vJ8UEyefhjhKZLhSQnxEuwEnet
-	OwNGjgFeGHdZPDsN8cML6nGlwqdRMqg7kx4UypvpKeKJAR1XUT8fVRg9+JynfyqgvEicqrXZIzG
-	iY7kCnPofR8hpGDhUYDc45QDLepnmOYE8VslKnTjEZgHH5SQv7tiAOVNvr8l+nJfYOrX+tkyW00
-	f8v3s13LlHE93GBUVYoMlUl5o9Cyh9bB04=
-X-Received: by 2002:a05:600c:3513:b0:492:564f:5603 with SMTP id 5b1f17b1804b1-49266850086mr113445575e9.14.1782492046745;
-        Fri, 26 Jun 2026 09:40:46 -0700 (PDT)
-Received: from PeakBook-Mini.tail8e484.ts.net ([178.197.218.209])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46c221d998esm25393443f8f.24.2026.06.26.09.40.45
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 26 Jun 2026 09:40:46 -0700 (PDT)
-From: Doruk Tan Ozturk <doruk@0sec.ai>
-To: Hans de Goede <hansg@kernel.org>,
-	Andy Shevchenko <andy@kernel.org>,
+        d=1e100.net; s=20251104; t=1782493958; x=1783098758;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1YVsyic9DZic8R7y5tzhJj17BJhHNYupyP+EXVgbeVE=;
+        b=EhX9gZ/feAel65DkwQ0mo03G0BJBOkXt+Gw3ByWA9S5mIOtm0gAo5o0TBRSOPuOxnx
+         AzCc4iswVRVEhWor54Y0Acvbk2Z716TGk5OsTTFtr7AcJIHCBNjb20/X4SPJ/uuNdKkV
+         +nXkvPJOeU/oF2OLfu+XK5rcz1ozIb3tu1Gfi/8b+0I9yDzVJ5V+3XorFWdALgS50RAD
+         1K4IQSXWIdyD9GXjSzi0nPkdXNA4NBBmiJUZPBkXRtZhlTrmtRcO0WL23TpdwpHRTadd
+         7Mri5ZIUvb0WQJ7JlJmAx59Cj9T6+18Q8giVARcdMVPSLcoiLEFlPU9ez7ufJNZSWinM
+         qffA==
+X-Forwarded-Encrypted: i=1; AFNElJ9cNRVbgHGiV5oSO1TZ9n03Hn6heAomnSA6ejUYzLhG0sledscClpcSiUcjuIJlW9Px5cdQHecSdNfwtnJG@lists.linux.dev
+X-Gm-Message-State: AOJu0YyQ/Iv8gvSDxgGgA4CoeH83kkq2m3C3EYlAxVx45gCYKL0cthZC
+	XNDkwjKWpeErXySFY4ype4mVCJTW+gLkRWIzVIahenw5DawSPG2hn5zh
+X-Gm-Gg: AfdE7cnPYI5v5Im+ULWSG14Xr//SZ5rpFq1GwHNwEd7sqVa5aiOI6/VOcmUu1E74ota
+	s4X/ROhYrfE6EQ27iTM+41gD2U6XbkudA0T1UGiGc9NAoQdNbvz+uKUtsNUs4Xjr/YMEl4PZRQY
+	oF9e4+UXzV2xudM+7iPw30QvCrfG1DbiN0WUb8Dtrs82XuxEQZmgxOwV9r/nmoTLYqerH612wwG
+	J8mmKOVWVOM7OCT6ZsTqcWbsO4fC6LjKFr7gvbMo4+n8BudciOC5XNj4/8X/udVpC13T/bUrJiV
+	uMygztKS0IyKCJQho7eeanRw9H/Gie4xP71CKPWELTGja9/CD9u+7B0f8OUIcFChUW43kTjKgRG
+	L2n6d6TkhTJBASY5JPNK8GAkZG8hGX9jTS0MrZ8D75tjToQOVQatFFI3OL3GvFYPGtooNvAh1Au
+	cvWm3k
+X-Received: by 2002:a05:6830:6af3:b0:7e5:b3f6:c6ad with SMTP id 46e09a7af769-7e99bf39192mr6725995a34.4.1782493958242;
+        Fri, 26 Jun 2026 10:12:38 -0700 (PDT)
+Received: from localhost ([74.80.182.98])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e9aa5d3554sm2112298a34.9.2026.06.26.10.12.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Jun 2026 10:12:37 -0700 (PDT)
+Date: Fri, 26 Jun 2026 20:12:31 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Doruk Tan Ozturk <doruk@0sec.ai>
+Cc: Hans de Goede <hansg@kernel.org>, Andy Shevchenko <andy@kernel.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Doruk Tan Ozturk <doruk@0sec.ai>
-Subject: [PATCH 2/2] media: atomisp: bound DVS 6-axis table dimensions to the allocated config
-Date: Fri, 26 Jun 2026 18:40:42 +0200
-Message-ID: <eac817f13eb90ee3b34b4afa9b1739d67ad48f7c.1782484857.git.doruk@0sec.ai>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <cover.1782484857.git.doruk@0sec.ai>
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] media: atomisp: validate sizeimage against the
+ allocated frame in framebuffer-to-CSS
+Message-ID: <aj6y_yXmQnDculLh@stanley.mountain>
 References: <cover.1782484857.git.doruk@0sec.ai>
+ <023f2124beb3d2fe9ab0ab6bd31717f0a6c9ff81.1782484857.git.doruk@0sec.ai>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <023f2124beb3d2fe9ab0ab6bd31717f0a6c9ff81.1782484857.git.doruk@0sec.ai>
 
-atomisp_cp_dvs_6axis_config() copies the DVS 6-axis coordinate tables with
-the user-supplied width/height (t_6axis_config / source_6axis_config) as
-the copy_from_compatible() length, while the destination is allocated by
-ia_css_dvs2_6axis_config_allocate() from the stream grid dimensions. User
-dimensions larger than the allocated grid overflow the xcoords/ycoords
-buffers. Reject user dimensions that exceed the allocated config in both
-the ISP2401 and ISP2400 paths before the copies.
+On Fri, Jun 26, 2026 at 06:40:41PM +0200, Doruk Tan Ozturk wrote:
+> atomisp_v4l2_framebuffer_to_css_frame() allocates the CSS frame
+> (res->data) from arg->fmt.{width,height,format} but then
+> hmm_store()s arg->fmt.sizeimage bytes into it. sizeimage is an
+> independent user-controlled v4l2_pix_format field with no cross-check, so
+> a sizeimage larger than the allocated frame overflows res->data (ISP/hmm
+> memory). Reject sizeimage > res->data_bytes before the store.
+> 
+> Found by static analysis; not yet runtime-reproduced (Intel Atom ISP
+> hardware required).
+> 
+> Found by 0sec's autonomous vulnerability analysis (https://0sec.ai).
+> 
+> Signed-off-by: Doruk Tan Ozturk <doruk@0sec.ai>
 
-Found by static analysis; not yet runtime-reproduced (Intel Atom ISP
-hardware required).
+We need a Fixes tag for all three of these patches.
 
-Found by 0sec's autonomous vulnerability analysis (https://0sec.ai).
+> ---
+>  drivers/staging/media/atomisp/pci/atomisp_cmd.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+> index 6cd500d9f..966b84402 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+> @@ -3331,6 +3331,16 @@ atomisp_v4l2_framebuffer_to_css_frame(const struct v4l2_framebuffer *arg,
+>  		goto err;
+>  	}
+>  
+> +	/*
+> +	 * sizeimage is a separate user-controlled v4l2_pix_format field; the
+> +	 * frame above was sized from width/height/format. Reject a sizeimage
+> +	 * that would overflow the allocated frame in the hmm_store() below.
+> +	 */
+> +	if (arg->fmt.sizeimage > res->data_bytes) {
+> +		ret = -EINVAL;
+> +		goto err;
+> +	}
 
-Signed-off-by: Doruk Tan Ozturk <doruk@0sec.ai>
----
- drivers/staging/media/atomisp/pci/atomisp_cmd.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+The math to calculate the size from width/height in
+frame_init_raw_single_plane() and similar functions looks like it
+has integer overflow bugs as well.
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 966b84402..b04d3f3ca 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -2632,6 +2632,14 @@ int atomisp_cp_dvs_6axis_config(struct atomisp_sub_device *asd,
- 
- 		dvs_6axis_config->exp_id = t_6axis_config.exp_id;
- 
-+		if (t_6axis_config.width_y > dvs_6axis_config->width_y ||
-+		    t_6axis_config.height_y > dvs_6axis_config->height_y ||
-+		    t_6axis_config.width_uv > dvs_6axis_config->width_uv ||
-+		    t_6axis_config.height_uv > dvs_6axis_config->height_uv) {
-+			ret = -EINVAL;
-+			goto error;
-+		}
-+
- 		if (copy_from_compatible(dvs_6axis_config->xcoords_y,
- 					t_6axis_config.xcoords_y,
- 					t_6axis_config.width_y *
-@@ -2684,6 +2692,14 @@ int atomisp_cp_dvs_6axis_config(struct atomisp_sub_device *asd,
- 
- 		dvs_6axis_config->exp_id = source_6axis_config->exp_id;
- 
-+		if (source_6axis_config->width_y > dvs_6axis_config->width_y ||
-+		    source_6axis_config->height_y > dvs_6axis_config->height_y ||
-+		    source_6axis_config->width_uv > dvs_6axis_config->width_uv ||
-+		    source_6axis_config->height_uv > dvs_6axis_config->height_uv) {
-+			ret = -EINVAL;
-+			goto error;
-+		}
-+
- 		if (copy_from_compatible(dvs_6axis_config->xcoords_y,
- 					source_6axis_config->xcoords_y,
- 					source_6axis_config->width_y *
--- 
-2.43.0
+regards,
+dan carpenter
+
 
