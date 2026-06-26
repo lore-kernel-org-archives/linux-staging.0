@@ -1,79 +1,75 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ACB1481B1
-	for <linux-staging@lists.linux.dev>; Fri, 26 Jun 2026 16:40:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 251B03815F0
+	for <linux-staging@lists.linux.dev>; Fri, 26 Jun 2026 16:40:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782492032; cv=none; b=eznE5ilJIQ6z/WyjYkYUiTdKmmhJSlgS0z60ZNblEPV7+mhelovvF/m2IfxqPpHudD58EoW37d8AcXezJAlbL++iZQ2cKagzKS+rBmsO8lUYleIoyFaOffJGJn2fik4gmP7AOv0epDtvQNbwy7ax8AEaqNiVAIIMNeO57WvFG34=
+	t=1782492047; cv=none; b=AgYS34C2hwUsADStp5JOsaReRMWirYVLRua/NXGbQiIvUcxWArmVWrs2H1oidzAl49nFqUs2MZaUt95jMUnUnPzTr2abSVgQIwSGgQCNHALLBvo9E0XewDyhZuAoKVhBZXgOTusXGywmKJzCr3Hv/v3rMF2ZGLCeMqQp9eJfwnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782492032; c=relaxed/simple;
-	bh=TGDLvvCVGmvqtdxVLR+8MsqId329e6OscgKxGUUUdFE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=H4ZhWBJ9SpRUDSyMrjjZVBero2ESujzxE7IP2cg2rgBsoQCyFhGnYiCB+oS/fovH7LPn2vbz4tO54ohlZwf1eRR/bGLYyk7gusQEEDS4PO41i/edvHA/PG8DPW46IJzX1QCTs5tK8oWLG+knvpT2n9ZlaJ9ev5DXmEuzGCs8XKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai; spf=pass smtp.mailfrom=0sec.ai; dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b=L3lVkbi4; arc=none smtp.client-ip=209.85.128.51
+	s=arc-20240116; t=1782492047; c=relaxed/simple;
+	bh=Yt/kSWKYgEmn3lnGsotfzUJ++VUPu11YeZ/lRw5fMDA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YetgIhq1Dj1QpizMZqZB8qJYqxZ+lbYKMJYPXwrddHk+jUtpP8VEOivx8urR2QsZtdRiJWZQrpIOMOLxUK0+TXhobFcI56HPaQ7zNxtg3f2TEAbquB9DcelTcRhDd8tX5fv1vGyuILxz3ua7q40A5f+MzF+M1aa7UeRPi040K4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai; spf=pass smtp.mailfrom=0sec.ai; dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b=WvPoGw9t; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=0sec.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b="L3lVkbi4"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-490aaeabdb4so8207845e9.1
-        for <linux-staging@lists.linux.dev>; Fri, 26 Jun 2026 09:40:30 -0700 (PDT)
+	dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b="WvPoGw9t"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4926f8e02e8so3768965e9.0
+        for <linux-staging@lists.linux.dev>; Fri, 26 Jun 2026 09:40:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=0sec.ai; s=google; t=1782492029; x=1783096829; darn=lists.linux.dev;
+        d=0sec.ai; s=google; t=1782492044; x=1783096844; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XFdrr1aj+JZ4LS4KDt4mRxZWjc/rOk51r42pgK7BZ1Y=;
-        b=L3lVkbi4TXFbZp2DlMPeKOClnkgqMmtbtU2mdfeCVVycio7S1pxXRWbEHDeS+E5Fpi
-         D973EXriLhsdjoa3BPhQjwHgAmlgB6AJ8hujRrBdJX5+NhtGF1s/yo3kunkJh9M6fx0h
-         gm68RxeFaOSdeoGZ7LKb1WM4xIeQNz+PVlgMK8Rf6j1lhQiErt3ZXlrg0yh3mkGYpIzY
-         +kBc31f4O5LmoBgcxJDFFLtshIsOTJhsXTe/armCS7V4ftj2XBbK3WVxXsQUjrjsw06P
-         UWzOFjuwN1snt5f6NIeR+Xujs+CAkgmd9gAhpaZVInH8Gh3y2BqXhYjIg4bR0jErNqBR
-         Awxg==
+        bh=OowDwQZb1xEXc+FvtEIGezBjSxjwm6qvuwW8y1ht2HM=;
+        b=WvPoGw9tNQeuXCyJ2zSqLR9pjbe0oMkwduGUFzTlxH2M2TwXVaqJedGVRCoQuDkUt3
+         KjnqsJZQHxy/QY1MkpD1p/tOyWdQMVPeXrTje3ArXBAFND7mBrxNWq6MSYD0QHX9rR0d
+         s8yPOZkhcWdl5GrFsvOAkT/JAFWWHne/bZWkPRJQK3Whlza48ygGalqfftyIu4MhqvB7
+         DlKyY7aeYM8/VnzFkSL/btoYSemu3X7uuMXeokvbRHKOpp6K71oiprtFlPozrg3Kq4De
+         0ENVF+xBs1hCl/0/yJAKb38YjTYuS+Ix8uIxtQVEl5dOq6HjVgCvP+PyoHsCoEdRfZg0
+         TMpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782492029; x=1783096829;
+        d=1e100.net; s=20251104; t=1782492044; x=1783096844;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XFdrr1aj+JZ4LS4KDt4mRxZWjc/rOk51r42pgK7BZ1Y=;
-        b=pAwpU4eIez1DDE4s61vru4M8D6NO2N0DLyqOMQNIqYLl1dAP6+qrHIHrxhZadKaZ7W
-         qKKpcVcos2V4JwIYSmWzlpxemo66pUkU2KSX1tC726culs+Sz9FWVTG5DzJmcbWQ9e/u
-         BRHu4sjPX8/464E54Rfpvjl/5cPlmgpEJSKkOPicVWf5lZ5avvuwh4OeJaOo6W3GM2sp
-         5l0kin3kmNFmDErWet2Jt+Wewkd36hQEw6JPHq8WsFRqMGeHIXAt2j8vGLJ0uM2KaKVK
-         VkPbko6h/jJIDYHQwI6qRCcoG3Fm2d7u4fIks13oSURW/In6uatcJuXiry+o1hdcLSev
-         uKog==
-X-Forwarded-Encrypted: i=1; AFNElJ+ZzjwHWNyiln/navRhzQyLJVQhaXbYto6px3QHKgnvZaUKbYSycTZc+ookr4UufxmaLDWTkIPgemoR4Tl7@lists.linux.dev
-X-Gm-Message-State: AOJu0YxnCdoaTHGHK8I1JVDZ+5vGumsHFT613X/Rpvfy45VuA0sjOD5c
-	Kvu/m42Xi1PZOzomqIOuV9JgVpsj7xaNqYW15hF/B9jB/bg9ueR9KA8t9H2TDSB+HX/L
-X-Gm-Gg: AfdE7cmpn4m34DRbeM0qpiNBgx+wIP/AJcgFq3mf+5zpA6Kn39rZ8xC/ubBFpGxA0rA
-	hbY/neow1OdyNL6h/TSx3AJp5356W3DrU8oAPxIKegXLE2pYNtRCzAtgT4xJVUHzJWjOcUOm5k+
-	9lvtVTAPXr0Ej1XVYuRP7zgyPnw7VG1WMPFK60YC3TkCV4/a6ZCFYAjO8pNsx1tsm3MzJUBDsVQ
-	iJJfEX5F2pMfc7HY7vFOi7CJhjL3HWaIynZyCdEvoxh8LiKarlV+YOvEx8n0vsy1xHshjlEXpR0
-	ROlvtRkIcC87b2VUzoBnf6dkQVADl9zswzr7d9Fx7XK3Bu6lTUBMj/qkud6CK7s5yNahYXsnwUl
-	OUoPGoxDb4aaOnFBkFJANYF5+9zW+0hAQpIW2I66bC+pPBrO1OpG+4b+ucGGR8TOvSziXxxDAES
-	pSZals6QKCaDdlT+lSnrYYSZrHYuKgBhaPINMaxAZIZokHr8kRMHTsFoTcUUQX6RoB1i1b/dG4w
-	pTrCpPXaCmbYZWWhdkjNTTU20z2Zeh347w=
-X-Received: by 2002:a05:600c:8109:b0:490:bad9:de43 with SMTP id 5b1f17b1804b1-492667ca5fbmr116117235e9.0.1782492028118;
-        Fri, 26 Jun 2026 09:40:28 -0700 (PDT)
+        bh=OowDwQZb1xEXc+FvtEIGezBjSxjwm6qvuwW8y1ht2HM=;
+        b=dtM07rAOFYmXYtFNnnpT5c0c8PlKw669rPPOZfGtsCrEVQoHLiHrhjTuTZLgHZCtc9
+         VbPp21sLBP+q2W6lgVZMu59tuwv4Sa+kMTPzREyNEKgCUUVtkxYwAtAQxh0veJxxRAnS
+         QJJfvDOKrYJQFNipid/SUjQWJ4QQDjbt6WPZVFzMjhYIYO23COU4bcjmRRIkxcIWuYRZ
+         awqUE+qfj0Vo6UogVENO376Z0XZkCDh+/PuLane5sXEAmPNKU7Y5Mep8GLpLuMZfuXEO
+         AV/AonhsT7hEYtl9mxaO7+BfVZaYH8I0SJypokQjegWq+bNvS1sVh3j7e02J6kT5bvOh
+         ZUsA==
+X-Forwarded-Encrypted: i=1; AFNElJ+HrYhCVoxwMvR7EzdNAyfCZDE30w7XgzSYLBHirfNXR0ImdtDD7LR/NvQ7chAADtT+cEqtcrMZzsikjX9D@lists.linux.dev
+X-Gm-Message-State: AOJu0YwWU1mKbSM7Fq8sMxjPsw+4TjwDsk+aVGDCJ2Dfg7HorocD4ESf
+	Wf/bLRGZpJomxQ1eFhBfNpyn8zvXFhbcVnVLRaq0iL0y8bzkVb9puWVIVe7Hjt1Bya7x
+X-Gm-Gg: AfdE7cmj4I7SLLmlibsuTaHmDa6LZGXtozf3ePturyA04mfu/WiIVd3faqoqeOfMBs2
+	sLOINjR+D9uMQeY+ylPGfNhyd6zFdIOYpRhntzA5tJ91s6/T5BRJS0mj+UN8Y/AQSp0Zp/awYN+
+	rCB4aiQwaekZmAhi+x/6Ejab0h78zQfHeJSZM5C6rH9pONa8FpYu7CcC+2USoq/FzlWplwtiJxf
+	un7uIJZeltcBK0Uh3xz1a+TOdWl/oS46a24t34wHM9SFBS3qTs5MttDSSOxjgwkm7E4rZy8/cHx
+	uYjiBHP5bUVjUWn05VCubQffSOdGkL0OOvfugox/x7VWE413v5F7Sg6w6rcYtmvYUcPS0xVcy0+
+	P79BVEJlfvJbBHvT927tNdify9n0hJxJa531w/w9pAXg2oMBwUgBD8fd9RPbuh0ZDqxOrmfdsN3
+	BZ0+EgcA4q0+lP+wsPSjsQSAEoOxvXdnK/2ipCbxig5C1vEDEKBQFt8TixXRd8p76NGPZt1a07g
+	+H0dp/kGYd+04sSbpjJ5n9pgHwiXfHuyHw=
+X-Received: by 2002:a05:600c:8286:b0:492:68f5:6b30 with SMTP id 5b1f17b1804b1-49268f56bc1mr75194685e9.17.1782492044437;
+        Fri, 26 Jun 2026 09:40:44 -0700 (PDT)
 Received: from PeakBook-Mini.tail8e484.ts.net ([178.197.218.209])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4926f94f213sm30866825e9.12.2026.06.26.09.40.26
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46c221d998esm25393443f8f.24.2026.06.26.09.40.43
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 26 Jun 2026 09:40:27 -0700 (PDT)
+        Fri, 26 Jun 2026 09:40:44 -0700 (PDT)
 From: Doruk Tan Ozturk <doruk@0sec.ai>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
+To: Hans de Goede <hansg@kernel.org>,
+	Andy Shevchenko <andy@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	linux-media@vger.kernel.org,
-	linux-amlogic@lists.infradead.org,
 	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	Doruk Tan Ozturk <doruk@0sec.ai>
-Subject: [PATCH] media: meson: vdec: fix use-after-free of prev_frame in codec_vp9_rm_noshow_frame()
-Date: Fri, 26 Jun 2026 18:40:25 +0200
-Message-ID: <20260626164025.52694-1-doruk@0sec.ai>
+Subject: [PATCH 0/2] media: atomisp: validate user-supplied buffer sizes in two ioctl paths
+Date: Fri, 26 Jun 2026 18:40:40 +0200
+Message-ID: <cover.1782484857.git.doruk@0sec.ai>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -83,51 +79,31 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-codec_vp9_rm_noshow_frame() frees the first non-shown reference frame on
-ref_frames_list without excluding vp9->prev_frame. When the previously
-decoded frame was a non-show (alt-ref) frame and the current frame is a
-non-show inter frame, the freed object is the one vp9->prev_frame still
-points to; codec_vp9_set_mpred_mv() then dereferences the stale pointer
-(use_prev_frame_mvs and codec_vp9_get_frame_mv_paddr()), a use-after-free.
+Two ioctls in the AtomISP staging driver size a kernel buffer from one
+user-supplied field but use a *different* user-supplied field as the
+copy/store length, with no cross-check, allowing a kernel heap/ISP-memory
+out-of-bounds write:
 
-The sibling cleanup codec_vp9_show_frame() already guards this pointer
-(tmp == vp9->prev_frame); rm_noshow_frame() simply omits the same check.
-Add it.
+  1) atomisp_v4l2_framebuffer_to_css_frame(): frame allocated from
+     width/height/format, but hmm_store() uses arg->fmt.sizeimage.
+  2) atomisp_cp_dvs_6axis_config(): DVS 6-axis table allocated from the
+     stream grid, but copy_from_compatible() uses the user width/height
+     (both ISP2401 and ISP2400 paths).
 
-The fields that drive this path (show_frame, frame_type, intra_only) are
-parsed from the VP9 bitstream, so a crafted stream fed to the stateless
-decoder can trigger the free-then-use.
+Both add a bound check before the copy. Found by 0sec's autonomous
+vulnerability analysis (https://0sec.ai); identified by static analysis,
+not yet runtime-reproduced (Intel Atom ISP hardware required).
 
-Found by static analysis; not yet runtime-reproduced (Amlogic Meson
-hardware required).
 
-Found by 0sec's autonomous vulnerability analysis (https://0sec.ai).
+Doruk Tan Ozturk (2):
+  media: atomisp: validate sizeimage against the allocated frame in
+    framebuffer-to-CSS
+  media: atomisp: bound DVS 6-axis table dimensions to the allocated
+    config
 
-Signed-off-by: Doruk Tan Ozturk <doruk@0sec.ai>
----
- drivers/staging/media/meson/vdec/codec_vp9.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ .../staging/media/atomisp/pci/atomisp_cmd.c   | 26 +++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/drivers/staging/media/meson/vdec/codec_vp9.c b/drivers/staging/media/meson/vdec/codec_vp9.c
-index 8e80ecf84..572f418c9 100644
---- a/drivers/staging/media/meson/vdec/codec_vp9.c
-+++ b/drivers/staging/media/meson/vdec/codec_vp9.c
-@@ -1247,6 +1247,15 @@ static void codec_vp9_rm_noshow_frame(struct amvdec_session *sess)
- 		if (tmp->show)
- 			continue;
- 
-+		/*
-+		 * prev_frame is still referenced by the MV predictor in
-+		 * codec_vp9_set_mpred_mv(); the sibling codec_vp9_show_frame()
-+		 * already excludes it before freeing. Do the same here to avoid
-+		 * a use-after-free of vp9->prev_frame.
-+		 */
-+		if (tmp == vp9->prev_frame)
-+			continue;
-+
- 		pr_debug("rm noshow: %u\n", tmp->index);
- 		v4l2_m2m_buf_queue(sess->m2m_ctx, tmp->vbuf);
- 		list_del(&tmp->list);
 -- 
 2.43.0
 
