@@ -1,53 +1,123 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFC961F5EA;
-	Fri, 26 Jun 2026 09:52:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55D2A3F39C1
+	for <linux-staging@lists.linux.dev>; Fri, 26 Jun 2026 12:23:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782467533; cv=none; b=Z5BlPUNh4bISk8nlfgL4H5q88zXuxODi5XTCf7JIW3bx70vV7NhEJRA4ydWkHpgnkgLXE64ltvKKCrhIAWsT2fGnvRwY87j0vxq6p7X0nS++qx7PXskdb+/McG+SCEhym2p88GJ78h7ljBp68IV0hCl5i5s1WSVT0OugyFOqqTo=
+	t=1782476630; cv=none; b=ZzClOAxOz2RngyjhOBb+ZMY14/2vIlzt4WpY2ZBGCVNgE6TdN0sDHwTOFeqeBXbmiIqLhWN1ansMlcxX8w3punUfdqEiXc0LI2YtkCILQD4gukTd6fYf1pe8bO3JcUJp6zvMRm6DIi+0vaGCN1inF/TsGJpq5umi9bau3319wcE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782467533; c=relaxed/simple;
-	bh=Djs7YZFRnbwttIWWR9W3TEjWAdD7pv/a3qqAkLyiEQY=;
+	s=arc-20240116; t=1782476630; c=relaxed/simple;
+	bh=wCsEapXgJ6j0IzYX0QqS6bCUf4OhIkDzGupdQn6gFNo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i3iz0cehAvzSNIECm2XJHm2S742KVLBezTbQYGxZKtAyjkQqQWu8N/glNjep1Ih14ClMsTBeuN4d59wapRFcjagc14pB1RL5jDZcx7VGtw83B6BGKh5Ubn8WXYWCvtO0JGw2fWp8IhrXtX5RmddhWubEBDLtfiVkLWGutm2rU38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=B4S5XiHC; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=G2kKd+A8Fxv+pt6uWfjDtewl2OnKYX0F/32mlr2Is7TL9a0AeuPOLit9gqrZHeRggaRb+wD+Xv6MoLMjBF+Cr7/wu11KGb2370JFbCTzUBnwqRTdU3p3QSzwOwZ3V1dJ1uiQCzS7PmMtvXMLULPkTDWoxIjZVj29hdZEDj9dR6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SK4q9IfR; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="B4S5XiHC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC9051F000E9;
-	Fri, 26 Jun 2026 09:52:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1782467532;
-	bh=Djs7YZFRnbwttIWWR9W3TEjWAdD7pv/a3qqAkLyiEQY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=B4S5XiHCzR9cU03qdJ6VX1O/KfPzd6WL5h6n66WzzlsDcnCIt3QYTUW1lhV/oo9KO
-	 wqieHqIePmz8+pNltSIMlsU6tnVTGnW1kfGMniquo6nmJxzHHXOjgNJzUR5AtHBaDw
-	 psBRQeMTzpziG6VoDU1kCCtyOJuISfg/fAIPdQAk=
-Date: Fri, 26 Jun 2026 10:50:59 +0100
-From: gregkh <gregkh@linuxfoundation.org>
-To: Ashwin Gundarapu <linuxuser509@zohomail.in>
-Cc: linux-staging <linux-staging@lists.linux.dev>,
-	linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] staging: greybus: camera: remove broken camera driver
-Message-ID: <2026062649-reroute-obsession-e3e2@gregkh>
-References: <19f0349dd14.1bc6649d56096.1569442698771761840@zohomail.in>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SK4q9IfR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782476629; x=1814012629;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=wCsEapXgJ6j0IzYX0QqS6bCUf4OhIkDzGupdQn6gFNo=;
+  b=SK4q9IfRi2rMA8+qDpnKAthRY5IIuZc32Xao2cmaGWZXXFKRksn9Dnok
+   1EH6CnfbqndUJtAt2Lt55P/c6IhhyfimyFajNgfneJtVWZBu0UKhUGihO
+   KNXneJ3ZNHVqWPIXhyAivUcxzN6v4iL71RJeKQcuP3uoNnzFFykw6dukO
+   xh9opVmEWc1JFRUP4k45fH2Z9BRoAiBXX1ZEr/cYkB7nZaFdWulyjrzJu
+   wKt1hmWwJAhGajmoZeANrDE9z3cN9dsbNtMjDuNp/eMPrni8YFEydHCqA
+   i5xS5shnPh/xQog0iLCc3l4LQa7vcRffpRGknj8X7dG2UGjOjJWQhNwfr
+   A==;
+X-CSE-ConnectionGUID: s3bGWilJSTCKHuVLLxERBg==
+X-CSE-MsgGUID: 2nmMIs2iQR+zsGC8Xn9llg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11828"; a="86947525"
+X-IronPort-AV: E=Sophos;i="6.24,226,1774335600"; 
+   d="scan'208";a="86947525"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2026 05:23:49 -0700
+X-CSE-ConnectionGUID: Hr5DbzKkTJeEnXxrPVaphg==
+X-CSE-MsgGUID: NNTVQMAERh+nuRJq6IBnRQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,226,1774335600"; 
+   d="scan'208";a="253227496"
+Received: from conormcd-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.244.1])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2026 05:23:47 -0700
+Date: Fri, 26 Jun 2026 15:23:44 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Joyeta Modak <joyetamdk@gmail.com>
+Cc: andy@kernel.org, gregkh@linuxfoundation.org,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: fbtft: use ARRAY_SIZE() in NUMARGS macro
+Message-ID: <aj5vUDuzh67hkJjp@ashevche-desk.local>
+References: <20260624073804.4391-1-joyetamdk@gmail.com>
+ <ajvAGK-0kCfkThcs@ashevche-desk.local>
+ <CAN3JnUCem3Mw17e5D9b-aX58_ZaAvC6GZ-sBPEQfTTTP=o-WHA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <19f0349dd14.1bc6649d56096.1569442698771761840@zohomail.in>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAN3JnUCem3Mw17e5D9b-aX58_ZaAvC6GZ-sBPEQfTTTP=o-WHA@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Fri, Jun 26, 2026 at 03:06:40PM +0530, Ashwin Gundarapu wrote:
-> >From 7ca271ef0862b0ca24fb50fb1823699fd67ef318 Mon Sep 17 00:00:00 2001
-> From: Ashwin Gundarapu <linuxuser509@outlook.com>
-> Date: Fri, 26 Jun 2026 15:03:18 +0530
-> Subject: [PATCH] staging: greybus: camera: remove broken camera driver
-> MIME-Version: 1.0
-> Content-Type: text/plain; charset=UTF-8
-> Content-Transfer-Encoding: 8bit
+On Fri, Jun 26, 2026 at 02:27:25PM +0530, Joyeta Modak wrote:
 
-Something went very wrong with your email system :(
+Please, do not top-post!
+
+> Thank you for the feedback and the question.
+> 
+> I checked every write_reg() across all fbtft drivers and found that
+> the largest number of arguments is 129 in write_reg(par,
+> MIPI_DCS_WRITE_LUT,...)
+> As COUNT_ARGS() in args.h only supports up to 15, it is not a safe fit here.
+> 
+> However, the kernel test robot reported a problem with my
+> implementation as the __must_be_array() check in ARRAY_SIZE() requires
+> the array to be a compile time constant expression and thus breaks the
+> call at several places.(example par->bgr)
+> 
+> I tried to reproduce this locally on my system using both GCC and
+> Clang with ARCH=um on x86_64 but could not reproduce the build
+> failure.
+
+How "um" is anyhow related to the real world cases? Try to compile your stuff
+with real ARCH settings, like x86_64.
+
+> Since the original sizeof() based approach had no such errors flagged,
+> I am thinking of dropping the ARRAY_SIZE() approach.
+> 
+> Any other feedback is appreciated. Thanks again.
+
+> On Wed, Jun 24, 2026 at 5:01 PM Andy Shevchenko
+> <andriy.shevchenko@intel.com> wrote:
+> >
+> > On Wed, Jun 24, 2026 at 01:08:04PM +0530, Joyeta Modak wrote:
+> > > NUMARGS() computes the number of arguments by dividing the size of a
+> > > temporary int array by sizeof(int). Using the standard ARRAY_SIZE()
+> > > macro is the correct way to count array elements in the kernel, and
+> > > ARRAY_SIZE() also provides a __must_be_array() compile time check. There
+> > > are no functional changes.
+
+...
+
+> > > -#define NUMARGS(...)  (sizeof((int[]){__VA_ARGS__}) / sizeof(int))
+> > > +#define NUMARGS(...)  ARRAY_SIZE(((int[]){__VA_ARGS__}))
+> > >
+> > >  #define write_reg(par, ...)                                            \
+> > >       ((par)->fbtftops.write_register(par, NUMARGS(__VA_ARGS__), __VA_ARGS__))
+> >
+> > What is the maximum parameters .write_register() takes in practice in the
+> > fbtft drivers? If it's less than or equal to 15, we may use args.h instead.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
