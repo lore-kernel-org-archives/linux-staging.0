@@ -1,156 +1,133 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9F203F789B
-	for <linux-staging@lists.linux.dev>; Fri, 26 Jun 2026 13:41:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ACB1481B1
+	for <linux-staging@lists.linux.dev>; Fri, 26 Jun 2026 16:40:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782481296; cv=none; b=FmWcgqS+57feGvUEvqKZavMoReLXAwQHr8URxI7+tSIfUTCRvSPnX9Orty4xHmdKiv6j9MDis9lVyFpm5NrKyqNhj2QpnbkYJEYVw+EWQmRkin73+YflSpcxtOBDTSMCKX4gxPnGSaKL+Uz+gRdCWpPJDiQhVZxNZH9HOjYcKXw=
+	t=1782492032; cv=none; b=eznE5ilJIQ6z/WyjYkYUiTdKmmhJSlgS0z60ZNblEPV7+mhelovvF/m2IfxqPpHudD58EoW37d8AcXezJAlbL++iZQ2cKagzKS+rBmsO8lUYleIoyFaOffJGJn2fik4gmP7AOv0epDtvQNbwy7ax8AEaqNiVAIIMNeO57WvFG34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782481296; c=relaxed/simple;
-	bh=YXrVrVYcp68EEcS0zryKhbW8e+jMsX4pF+5qgEERs3Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gymVSEgwTfQTqOHsUO7mqPHLXhPgi/dBW0CVuz8paBOd3T9BtPy+SvHI6NgJHaY2/fW6KIJN81ByBNXLhlOt00ImviNzJEFkWrjiUmvk1WT2RM+5Tiz0penLBmZJm28f8/dzgqHM8vPgpgqWmrccfkeXP1/6GjpfaBEv8HotKf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IYOqIuCZ; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782492032; c=relaxed/simple;
+	bh=TGDLvvCVGmvqtdxVLR+8MsqId329e6OscgKxGUUUdFE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=H4ZhWBJ9SpRUDSyMrjjZVBero2ESujzxE7IP2cg2rgBsoQCyFhGnYiCB+oS/fovH7LPn2vbz4tO54ohlZwf1eRR/bGLYyk7gusQEEDS4PO41i/edvHA/PG8DPW46IJzX1QCTs5tK8oWLG+knvpT2n9ZlaJ9ev5DXmEuzGCs8XKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai; spf=pass smtp.mailfrom=0sec.ai; dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b=L3lVkbi4; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=0sec.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IYOqIuCZ"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-490bc6a7958so15289175e9.1
-        for <linux-staging@lists.linux.dev>; Fri, 26 Jun 2026 06:41:33 -0700 (PDT)
+	dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b="L3lVkbi4"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-490aaeabdb4so8207845e9.1
+        for <linux-staging@lists.linux.dev>; Fri, 26 Jun 2026 09:40:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782481292; x=1783086092; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=inH5gHgw2GQJ8Jf/udrV2wKYoIHtRnRBi3E4+pGgxJ8=;
-        b=IYOqIuCZIpFRgSWg+lqxrm/dm78cRzGnyGs+H33UhYTQgWC2DvrS5pw5NbapJ4bUjW
-         8n3ShoD1BoWDCjhMtx1lAK3Idg4U8gXwAU5kFqoSGd1mrexIOHiwlGXoJjcT/vmd78qz
-         dJ2ms4G6nDyt6fTuTJp+yiYthWGvaHFJXzRau0ygpWsxqpS6ZsIcAY84kA8YKXFuYsJj
-         ArIh1aBCXMvkBqYcOXH0cfJ3pn0d8TvDMgesz1djD2VSARNuMoTiAFzie67SJzvy3NdB
-         bouQKtCLbxQygRjiDAn7OHLHCbtmA9TDCiUSQ9U2NVAmQyj5XMPga5gEP5FTR7PPigNj
-         wHBQ==
+        d=0sec.ai; s=google; t=1782492029; x=1783096829; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XFdrr1aj+JZ4LS4KDt4mRxZWjc/rOk51r42pgK7BZ1Y=;
+        b=L3lVkbi4TXFbZp2DlMPeKOClnkgqMmtbtU2mdfeCVVycio7S1pxXRWbEHDeS+E5Fpi
+         D973EXriLhsdjoa3BPhQjwHgAmlgB6AJ8hujRrBdJX5+NhtGF1s/yo3kunkJh9M6fx0h
+         gm68RxeFaOSdeoGZ7LKb1WM4xIeQNz+PVlgMK8Rf6j1lhQiErt3ZXlrg0yh3mkGYpIzY
+         +kBc31f4O5LmoBgcxJDFFLtshIsOTJhsXTe/armCS7V4ftj2XBbK3WVxXsQUjrjsw06P
+         UWzOFjuwN1snt5f6NIeR+Xujs+CAkgmd9gAhpaZVInH8Gh3y2BqXhYjIg4bR0jErNqBR
+         Awxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782481292; x=1783086092;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=inH5gHgw2GQJ8Jf/udrV2wKYoIHtRnRBi3E4+pGgxJ8=;
-        b=JhoJSMTDyeAhb5hKv4eUg5NmOlUqxuCwGU/K5D5q63yMoCFfzGeRsYrjDweOP4d5Oi
-         q4i4MuQyW0JSVmBTUNK1EAEMFco4/VbLt914cXhR0qF2+wY4K40DY+3aHeny3JbSDXHp
-         1W63sMH8Z72ih1C2nZhi4sVFSMIIX8p7/dLzlpMntQfg47BnthKAg6fydnDTVVdpG6v0
-         F09Hv5e0WSADT5vz8ZLk+Pu8BIGfRa6adijop3CpOi6GiWOsm7ff635jsV7Zyz13fWbu
-         QvQ9a5HPfpkpFXvC2mE1XOH9B/K26GVz5a4WwL7W4qD1Up3lXELQYoBx246fvyOx4i/u
-         o6rg==
-X-Forwarded-Encrypted: i=1; AFNElJ9FPcMzlscFS1m8jpRtT87WUlqZ8+xVveOXDaadEJ6KiRZkn5EnqY1m2ErKAzebfpSNtgm9biht8zgQfN5U@lists.linux.dev
-X-Gm-Message-State: AOJu0YxhwPogxs18649E//Ffji+xOKQtEsMypxwNnH9DDlaPC7BoFixV
-	dG+vdGO36F1ocqmbQhG6CWKAHDct/5uuc63v3Ws9WBd8HrH0hjBvzauB
-X-Gm-Gg: AfdE7cmPmlDHNh0oqbmEL8DDqfWBhS7uFwTThg4zBLrinNbER3C2dtBUf5LDMoMBfsY
-	2Hhbi/VBHFngesYNIYa/BLEBwUNPg5fdayNGSgzl++hIU8MWgSPK6RWBoMSKuR6lmEQHbPvp3za
-	zsiIwXlaHqSQIk37stNU4pO9xFeksYoBQ+btqKltmw85Y8143Z1XPW1JjLSCKHCUNoVY5Zy0vil
-	I61KwOUWUG66+k3irfz2q8CGqKmjO+S4pEY3sMU3mz+jiySCXLtu9T/yU4CrTOwtDorAF7/GLPY
-	6yLcIsWHcaF/KJyU3Fm+YXHEvDZ7lhQeZ5cfHw+uZLPsqBvOAuNp16wKudp1+Kbjczga4fDLrGe
-	vDYpwp9opNFQXthkwSEwIVN+JyNB4KzOcaeBGQQzuNLzTdOqx4LsSFUlhYXyrq/2XAXco5qRg22
-	X9lbGrChuHs4fP5y6ANLlvcwcceDAmILJFLJRMTzYkxsBysGVPnw==
-X-Received: by 2002:a05:600c:8519:b0:492:4889:3d18 with SMTP id 5b1f17b1804b1-4926641a911mr83146765e9.9.1782481291771;
-        Fri, 26 Jun 2026 06:41:31 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49268f7670bsm79114415e9.0.2026.06.26.06.41.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jun 2026 06:41:31 -0700 (PDT)
-Date: Fri, 26 Jun 2026 14:41:30 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Joyeta Modak <joyetamdk@gmail.com>
-Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, andy@kernel.org,
- gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: fbtft: use ARRAY_SIZE() in NUMARGS macro
-Message-ID: <20260626144130.6e3c924e@pumpkin>
-In-Reply-To: <CAN3JnUCem3Mw17e5D9b-aX58_ZaAvC6GZ-sBPEQfTTTP=o-WHA@mail.gmail.com>
-References: <20260624073804.4391-1-joyetamdk@gmail.com>
-	<ajvAGK-0kCfkThcs@ashevche-desk.local>
-	<CAN3JnUCem3Mw17e5D9b-aX58_ZaAvC6GZ-sBPEQfTTTP=o-WHA@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+        d=1e100.net; s=20251104; t=1782492029; x=1783096829;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XFdrr1aj+JZ4LS4KDt4mRxZWjc/rOk51r42pgK7BZ1Y=;
+        b=pAwpU4eIez1DDE4s61vru4M8D6NO2N0DLyqOMQNIqYLl1dAP6+qrHIHrxhZadKaZ7W
+         qKKpcVcos2V4JwIYSmWzlpxemo66pUkU2KSX1tC726culs+Sz9FWVTG5DzJmcbWQ9e/u
+         BRHu4sjPX8/464E54Rfpvjl/5cPlmgpEJSKkOPicVWf5lZ5avvuwh4OeJaOo6W3GM2sp
+         5l0kin3kmNFmDErWet2Jt+Wewkd36hQEw6JPHq8WsFRqMGeHIXAt2j8vGLJ0uM2KaKVK
+         VkPbko6h/jJIDYHQwI6qRCcoG3Fm2d7u4fIks13oSURW/In6uatcJuXiry+o1hdcLSev
+         uKog==
+X-Forwarded-Encrypted: i=1; AFNElJ+ZzjwHWNyiln/navRhzQyLJVQhaXbYto6px3QHKgnvZaUKbYSycTZc+ookr4UufxmaLDWTkIPgemoR4Tl7@lists.linux.dev
+X-Gm-Message-State: AOJu0YxnCdoaTHGHK8I1JVDZ+5vGumsHFT613X/Rpvfy45VuA0sjOD5c
+	Kvu/m42Xi1PZOzomqIOuV9JgVpsj7xaNqYW15hF/B9jB/bg9ueR9KA8t9H2TDSB+HX/L
+X-Gm-Gg: AfdE7cmpn4m34DRbeM0qpiNBgx+wIP/AJcgFq3mf+5zpA6Kn39rZ8xC/ubBFpGxA0rA
+	hbY/neow1OdyNL6h/TSx3AJp5356W3DrU8oAPxIKegXLE2pYNtRCzAtgT4xJVUHzJWjOcUOm5k+
+	9lvtVTAPXr0Ej1XVYuRP7zgyPnw7VG1WMPFK60YC3TkCV4/a6ZCFYAjO8pNsx1tsm3MzJUBDsVQ
+	iJJfEX5F2pMfc7HY7vFOi7CJhjL3HWaIynZyCdEvoxh8LiKarlV+YOvEx8n0vsy1xHshjlEXpR0
+	ROlvtRkIcC87b2VUzoBnf6dkQVADl9zswzr7d9Fx7XK3Bu6lTUBMj/qkud6CK7s5yNahYXsnwUl
+	OUoPGoxDb4aaOnFBkFJANYF5+9zW+0hAQpIW2I66bC+pPBrO1OpG+4b+ucGGR8TOvSziXxxDAES
+	pSZals6QKCaDdlT+lSnrYYSZrHYuKgBhaPINMaxAZIZokHr8kRMHTsFoTcUUQX6RoB1i1b/dG4w
+	pTrCpPXaCmbYZWWhdkjNTTU20z2Zeh347w=
+X-Received: by 2002:a05:600c:8109:b0:490:bad9:de43 with SMTP id 5b1f17b1804b1-492667ca5fbmr116117235e9.0.1782492028118;
+        Fri, 26 Jun 2026 09:40:28 -0700 (PDT)
+Received: from PeakBook-Mini.tail8e484.ts.net ([178.197.218.209])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4926f94f213sm30866825e9.12.2026.06.26.09.40.26
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Fri, 26 Jun 2026 09:40:27 -0700 (PDT)
+From: Doruk Tan Ozturk <doruk@0sec.ai>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	linux-media@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Doruk Tan Ozturk <doruk@0sec.ai>
+Subject: [PATCH] media: meson: vdec: fix use-after-free of prev_frame in codec_vp9_rm_noshow_frame()
+Date: Fri, 26 Jun 2026 18:40:25 +0200
+Message-ID: <20260626164025.52694-1-doruk@0sec.ai>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, 26 Jun 2026 14:27:25 +0530
-Joyeta Modak <joyetamdk@gmail.com> wrote:
+codec_vp9_rm_noshow_frame() frees the first non-shown reference frame on
+ref_frames_list without excluding vp9->prev_frame. When the previously
+decoded frame was a non-show (alt-ref) frame and the current frame is a
+non-show inter frame, the freed object is the one vp9->prev_frame still
+points to; codec_vp9_set_mpred_mv() then dereferences the stale pointer
+(use_prev_frame_mvs and codec_vp9_get_frame_mv_paddr()), a use-after-free.
 
-> Thank you for the feedback and the question.
->=20
-> I checked every write_reg() across all fbtft drivers and found that
-> the largest number of arguments is 129 in write_reg(par,
-> MIPI_DCS_WRITE_LUT,...)
-> As COUNT_ARGS() in args.h only supports up to 15, it is not a safe fit he=
-re.
+The sibling cleanup codec_vp9_show_frame() already guards this pointer
+(tmp == vp9->prev_frame); rm_noshow_frame() simply omits the same check.
+Add it.
 
-That is also a pretty horrid way to write that message out.
-The function call itself uses well over 512 bytes of stack.
-Then there is all the code to push the arguments.
+The fields that drive this path (show_frame, frame_type, intra_only) are
+parsed from the VP9 bitstream, so a crafted stream fed to the stateless
+decoder can trigger the free-then-use.
 
-It really shouldn't be too hard to pass the address of a const u8[]
-all the way through to the code that copies the data to the hardware.
+Found by static analysis; not yet runtime-reproduced (Amlogic Meson
+hardware required).
 
-I tried to follow the code earlier. The 'common functions' that pretty
-much just call back through per-driver functions with names the 'write'
-really don't make it easy.
+Found by 0sec's autonomous vulnerability analysis (https://0sec.ai).
 
-	David
+Signed-off-by: Doruk Tan Ozturk <doruk@0sec.ai>
+---
+ drivers/staging/media/meson/vdec/codec_vp9.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
->=20
-> However, the kernel test robot reported a problem with my
-> implementation as the __must_be_array() check in ARRAY_SIZE() requires
-> the array to be a compile time constant expression and thus breaks the
-> call at several places.(example par->bgr)
->=20
-> I tried to reproduce this locally on my system using both GCC and
-> Clang with ARCH=3Dum on x86_64 but could not reproduce the build
-> failure.
->=20
-> Since the original sizeof() based approach had no such errors flagged,
-> I am thinking of dropping the ARRAY_SIZE() approach.
->=20
-> Any other feedback is appreciated. Thanks again.
->=20
-> On Wed, Jun 24, 2026 at 5:01=E2=80=AFPM Andy Shevchenko
-> <andriy.shevchenko@intel.com> wrote:
-> >
-> > On Wed, Jun 24, 2026 at 01:08:04PM +0530, Joyeta Modak wrote: =20
-> > > NUMARGS() computes the number of arguments by dividing the size of a
-> > > temporary int array by sizeof(int). Using the standard ARRAY_SIZE()
-> > > macro is the correct way to count array elements in the kernel, and
-> > > ARRAY_SIZE() also provides a __must_be_array() compile time check. Th=
-ere
-> > > are no functional changes. =20
-> >
-> > ...
-> > =20
-> > > -#define NUMARGS(...)  (sizeof((int[]){__VA_ARGS__}) / sizeof(int))
-> > > +#define NUMARGS(...)  ARRAY_SIZE(((int[]){__VA_ARGS__}))
-> > >
-> > >  #define write_reg(par, ...)                                         =
-   \
-> > >       ((par)->fbtftops.write_register(par, NUMARGS(__VA_ARGS__), __VA=
-_ARGS__)) =20
-> >
-> > What is the maximum parameters .write_register() takes in practice in t=
-he
-> > fbtft drivers? If it's less than or equal to 15, we may use args.h inst=
-ead.
-> >
-> > --
-> > With Best Regards,
-> > Andy Shevchenko
-> >
-> > =20
->=20
->=20
+diff --git a/drivers/staging/media/meson/vdec/codec_vp9.c b/drivers/staging/media/meson/vdec/codec_vp9.c
+index 8e80ecf84..572f418c9 100644
+--- a/drivers/staging/media/meson/vdec/codec_vp9.c
++++ b/drivers/staging/media/meson/vdec/codec_vp9.c
+@@ -1247,6 +1247,15 @@ static void codec_vp9_rm_noshow_frame(struct amvdec_session *sess)
+ 		if (tmp->show)
+ 			continue;
+ 
++		/*
++		 * prev_frame is still referenced by the MV predictor in
++		 * codec_vp9_set_mpred_mv(); the sibling codec_vp9_show_frame()
++		 * already excludes it before freeing. Do the same here to avoid
++		 * a use-after-free of vp9->prev_frame.
++		 */
++		if (tmp == vp9->prev_frame)
++			continue;
++
+ 		pr_debug("rm noshow: %u\n", tmp->index);
+ 		v4l2_m2m_buf_queue(sess->m2m_ctx, tmp->vbuf);
+ 		list_del(&tmp->list);
+-- 
+2.43.0
 
