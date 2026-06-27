@@ -1,85 +1,77 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D603538D3E4
-	for <linux-staging@lists.linux.dev>; Sat, 27 Jun 2026 06:55:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE66737C103
+	for <linux-staging@lists.linux.dev>; Sat, 27 Jun 2026 06:55:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782543342; cv=none; b=b5cvImlpMj/ILScpgbUw1GIFV3tpPX7XnuaNkL/Rk+OQbY6ELcIRfG2iCSsNCzVeyDRhSQqbgcK6VGgpJqNJOxs8VI4MVtoq89UpTJ+/gSDUrhd3b658adlixIR4+Se5lkQFwqvfoPptq4aizyQVshmz5eXJqqU2n9PedK9FhGU=
+	t=1782543361; cv=none; b=rRmYXCQLyMZLElbMAUJ/ahs3YsfXjuCuwk0EXuBk8blFvLyLtaIr3CRtBQAzVY2bBXfxsAiyl5E9akQuh8uGUsLdpChK5dDzcVtnun0hXjealQ0xzBZ4wU7DThCDdzx3Yo6ED3NElzOfO7VSWOSHOI/I38odC6sew8o/zkudUco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782543342; c=relaxed/simple;
-	bh=9MtYuRi0f8vvz9OlNCUO2lRqNo4uQ41E0m6ZuTR4ysM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=npf6oVx0wpHzinOHNIwxwMzZK3tfmFJ3qmspMI8K92ZofwFCvCqe/HlLpVRk0Xksj8oALZjxCSRLQ4W1gN6de9hFqY4D0xsnxMFFvxSkDgvAyd0RCuMkDMv1oWuWFm67Se/CymBTotkX13gSFQFWYgll5VUAMiBE81EEverouW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai; spf=pass smtp.mailfrom=0sec.ai; dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b=QaRd0CB5; arc=none smtp.client-ip=209.85.221.42
+	s=arc-20240116; t=1782543361; c=relaxed/simple;
+	bh=D9Cv781oiSTqV4iuqMvHiWA9WXdvdRNj6Mhji/kLCaM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FFATI0lVTqf1GVBWzP1ENRkBAT6yAb5aQz6o9eRXObK+uGpSlGpbuSW75xWKoWMqHJN+zsi0Rk841+6qJlPK0enmhtx7OYQCpAFSQwqu75ooK6Zf43GK73qYH51L1NYM2+tJh1mgYk/VzwiBEscI2wqGVlXpu8zbsELrlriOoVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai; spf=pass smtp.mailfrom=0sec.ai; dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b=pirQ/bgR; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=0sec.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b="QaRd0CB5"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-46f34d8f888so1359931f8f.2
-        for <linux-staging@lists.linux.dev>; Fri, 26 Jun 2026 23:55:40 -0700 (PDT)
+	dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b="pirQ/bgR"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-490b7866869so14234975e9.2
+        for <linux-staging@lists.linux.dev>; Fri, 26 Jun 2026 23:55:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=0sec.ai; s=google; t=1782543339; x=1783148139; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CI0+mugrNh7ILt3xdXuUk2twFjJ58HUZZs7uu1IE4s8=;
-        b=QaRd0CB5jZNXdFIAzjLbQEPy4zFtkxO7FSnlgXBjUQYtmQ7ZZDLAUCKRtnaz8KWRfi
-         WShgakI7sPo6pqQc0t0VwSWYUJolfpN+h8fh0MlUbtiwTA+Sxygd9iJq//+/va8VBPdC
-         6WQ2eYsaNkzxwMXi+59w2Kc+KAH3/w2ZGNX0ugDIbXyUOFzWfLPT5/UOUmbUYQzjrdbg
-         L8lF/svw6QkbQXaFP20Z5C86TXIJzIvN0Ay+Kjlp1T0OWTAwIcWpGRrc6kZfB9KCuV7v
-         HUNtgMpRcyHELyzd+Q7fQ5aLfCLIxmfWplunp3zwh8pxX1FlUHI34ulKJadTFooC+Kao
-         df2w==
+        d=0sec.ai; s=google; t=1782543358; x=1783148158; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FMEWzYEbT1T1SfjfQGAsJMVAlI7tTUIW0mDhbwFaH88=;
+        b=pirQ/bgRst0jBQtko06t/5rPjSMfs3lSd7PiuYHjYtyU9zHtCKLANvEFFowqlcinsi
+         x307q2mOeCAP9yQD7Cts8M1gQ58uD3b+E6b0j0s6bwy4Pu/IWQ4TOK56QTjUxwcJyZaT
+         EzjM10RfzuR3NTB82a2eE+tTkW6/1qxMP90fBuD76nHAqT6iAbzMTfavO5OLNt4d3FZA
+         MmyvmL/reLHGc0/Or1ZApNi44Pb4uRopI8O4eF56K4yjcgxksZYOkkjpPFhw5M7hzG+8
+         jPpPt3HiNqGkCsU2AD0tzcLyA/739tC9H/VlsQfdPgKrqhypgWesNaxMvDIr+xYnw40X
+         JizA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782543339; x=1783148139;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=CI0+mugrNh7ILt3xdXuUk2twFjJ58HUZZs7uu1IE4s8=;
-        b=Sc56PPqq9pgdx5E5D6Oy1UP3R1hnw65ZJ5ycFGpsxAa4AxIeHxJWFerwqr/JzIb6IJ
-         Bm2Ghl6N2d1AlHF1887x5CA9yj+4Nue55Bt2LrymVIkJolxpnd9a98XCFNi6WiurOBeR
-         UmBTaZ4qNx15EmDtzX5EY4U9hsAWelRhkHrsAGdNRlBdCfg0Bmkx9gNZtuzdS5qLB8l9
-         +oKdjuvViESxW5XQjLuK+UeDxOV6q5Y9sg987H2lrg+dpoupNe4GCiaDSb9VNR7y8IyI
-         fs4F0cIOtaHhX8Ww+QlzQOwlJpKYqfpOlYazqCHtuelduVc1+yRSX6kWkrX9uJfquE/C
-         8vfw==
-X-Forwarded-Encrypted: i=1; AHgh+RoH2I5snoAgc06Js9eCyzfE3xKkpVd7+Y03Q+EvI5uS+lfyhXcK7w1vfaPzW/dgPKMBeeAqCpAVBwK5faV2@lists.linux.dev
-X-Gm-Message-State: AOJu0YzfbMZM0fdxFv2IUo/bOQNozOiQNOBrXIkt0hL8H2RtmHnxpKt4
-	R5Xsbw18BQsq4NWOesOb/qlcG943/85EfJpUAJjv2u0U90ab24kxNGu8SI2+JPjajlTc
-X-Gm-Gg: AfdE7ckM81dRY5fxztSPuvt6X24RFyYpjIM247iWvNObr4WmToS218e6YeXEDKCItqR
-	QbTeFx46ajeZReWxMrcEP3N4Rc7krtdeBLXeqphTsZo6rWyphRJ3TZbR2pwToI3zEtkHs4A5f7b
-	12nekgPuapIX8Cax0iQKRgwRPsLN4iOJnn4wQFLOEQVRdP4+fIwQgThcJwGa1vxnoNWc8CQcAtZ
-	CBm/YT7m9cfRiGlX5T8WXTevybmaXrnzYQWtzt6wrpfL3bzE4DcrmGy8IC8WBsDWfclAtQ20JQw
-	EqQNt3P8m4NKv5G8iePBv8dRCoWn518QGWYLv75op24IOnhRuBtCJ5MaQYD2ZTiALLI8TLqYTuU
-	QpeU7s/Bmjt/bBoZVm52vrtK9TISmqjS2TM+cknA9BJOvjNxixwXVcPiqUcXWYgxxM3FWZo3Zhz
-	wv8FIqAgyhLNl85Y8+A+rVzVl8ff8kSqrRyUCcUJU+YoJq++xcKuqi/vbEl9tGqNajNP2F7C89P
-	/40TJPtAaq86PEgj9Ml+aozdp4RgQHE0IM=
-X-Received: by 2002:a05:6000:2501:b0:470:c049:b444 with SMTP id ffacd0b85a97d-470c049b6a1mr1348264f8f.0.1782543339444;
-        Fri, 26 Jun 2026 23:55:39 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1782543358; x=1783148158;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FMEWzYEbT1T1SfjfQGAsJMVAlI7tTUIW0mDhbwFaH88=;
+        b=g2JhQQ8zlIi5jy0SUGXp135J3TEFceigmk6SHzDzmUnJjQhi0YC5W0fE0mgtEy55dC
+         E2ly9v3vJqY2ZidcixZrZseBk9ZfhjpwlGSdua3Rxt5nfcxotrj2zmazqMtnM/Tt1QO6
+         n7PFnsXWujY/rt6rkwl5IGfGsZvtvvBy5B4Nna6X453GQRCfaMSRA3t5vKLNH2IOMh8+
+         EvC9xF6j/NQeoIxB1gCBMEVY8v7ruyHzJrSIUh4KhKLfJ0zA38gtn08TF9RLRQaaDOX1
+         RL3+eZ1sUZPFnoJcRq7pLsRvFYK6lajulmz39HolUYhdPVZ0FsFVEIQ6njhqDdeXSNEP
+         o9VQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/El7/8SzrQtpbKlCgpPSrwdNJllIgkg2TkyNYLFR625grn9vmkjiUmX+7fPcNm+s5S4kl0kbCWGXm6wUwk@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy/LNDJYbmeCS7LzU6gzd9/AN3akBRkqFl9DL/yvUjg9zbx0bpi
+	lwT2ja/LcKJDQZQKDprwS6ZbJGpTV/ZJZtGug8ApeedkF6bk143vnV3C9ShJUqtVlrS7
+X-Gm-Gg: AfdE7cl9CL8GKmQlklQ0kWOyKyvEwHy/gNJROVc25ZieFwW32bh+WUx+SbOYL9Z+06/
+	YTZOV2pjxdYLNQVoivnI0fAHSF/p3UYsIt6HxcEt7DkHSrtniAScXhsz2BATCbhyGnMqnWhb09Z
+	7OBfT/0VKIh47TEgzl8R+KmGIQp6/PuOcNWPN7TgDxu+XFrfVG65it/gXsx8VOl3mzCkfrfKr3c
+	wcn2OrFA/D7WAS5LV3nHmx2BeuqLi6pIqoVbvukdVGb9X2bRfi21Y3gkyE4egA1oI+AhfS7IORP
+	phL7d+fUASVmQP1JJ0umvJofX96aLFb1TvrQqK+9UXZkMzF00xttoBqoVvaHdu9xjgC2kyRB+xW
+	DS5jhH8dETS73W5J0nsKjXJMHexxm8z4kkTRkO1pUD+0Wk3NiSDo8t3rBEEt9FMQfVxQeHY/VJ3
+	Z4NQb6zZyQ7TKC65vyexvDFo/tzvuUOczRjZrcRVNWoKDs2alqsKH+MdDO44cgOr1BSxzLnoXZ7
+	uEFeA9GG+3q664WHULJAh7+LC5T4a4hvxnXmkIQaeuGpg==
+X-Received: by 2002:a05:600c:4f8f:b0:492:432b:d78b with SMTP id 5b1f17b1804b1-492668710e2mr151805515e9.15.1782543358284;
+        Fri, 26 Jun 2026 23:55:58 -0700 (PDT)
 Received: from PeakBook-Mini.tail8e484.ts.net ([178.197.218.209])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46c1ee0189esm32691380f8f.9.2026.06.26.23.55.38
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-492690a1a85sm235875035e9.15.2026.06.26.23.55.57
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 26 Jun 2026 23:55:39 -0700 (PDT)
+        Fri, 26 Jun 2026 23:55:57 -0700 (PDT)
 From: Doruk Tan Ozturk <doruk@0sec.ai>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
+To: Hans de Goede <hansg@kernel.org>,
+	Andy Shevchenko <andy@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Dan Carpenter <error27@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	linux-media@vger.kernel.org,
-	linux-amlogic@lists.infradead.org,
 	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	Doruk Tan Ozturk <doruk@0sec.ai>
-Subject: [PATCH 2/2] media: meson: vdec: guard against NULL prev_frame in codec_vp9_set_mpred_mv()
-Date: Sat, 27 Jun 2026 08:55:34 +0200
-Message-ID: <20260627065534.88527-3-doruk@0sec.ai>
+Subject: [PATCH] media: atomisp: reject frame dimensions that overflow the size calculation
+Date: Sat, 27 Jun 2026 08:55:56 +0200
+Message-ID: <20260627065556.88673-1-doruk@0sec.ai>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260627065534.88527-1-doruk@0sec.ai>
-References: <20260627065534.88527-1-doruk@0sec.ai>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -88,81 +80,85 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-codec_vp9_set_mpred_mv() dereferences vp9->prev_frame unconditionally,
-both when computing use_prev_frame_mvs (prev_frame->width, ->height,
-->intra_only, ->show, ->type) and when programming the previous-frame
-MV read registers via codec_vp9_get_frame_mv_paddr(vp9, vp9->prev_frame)
-(HEVC_MPRED_MV_RD_START_ADDR, HEVC_MPRED_MV_RPTR and the RD_END_ADDR
-computation).
+ia_css_frame_allocate() computes the allocation size for a frame in the
+frame_init_*_planes() helpers as width/padded_width * height *
+bytes-per-pixel * plane-count. frame->data_bytes is a u32 and the
+helpers use plain unsigned arithmetic with no overflow check; the
+result is then passed to hmm_alloc().
 
-vp9->prev_frame is only assigned (= vp9->cur_frame) after a frame has
-been processed, and is NULL after allocation and after a flush. The
-caller, codec_vp9_process_frame(), reaches codec_vp9_set_mpred_mv()
-whenever the frame is a non-key, non-intra-only frame, without checking
-that a previous frame exists. A stream whose first decoded frame is an
-inter frame (malformed/adversarial input, or the first frame after a
-drain) therefore triggers a NULL pointer dereference.
+width, height and padded_width are user-controlled: the
+v4l2_framebuffer ioctl path reaches this via
+atomisp_v4l2_framebuffer_to_css_frame(), which forwards arg->fmt.width
+and arg->fmt.height straight into ia_css_frame_allocate() and then
+copies arg->fmt.sizeimage bytes into the resulting buffer with
+hmm_store(). A sufficiently large width/height makes the size
+calculation wrap, so hmm_alloc() returns an undersized buffer that the
+following copy overflows.
 
-Disable previous-frame MV use (clear HEVC_MPRED_CTRL4 BIT(6), which the
-function already does up front) and return early when prev_frame is
-NULL, before any dereference. There are no previous-frame motion
-vectors to consume in that case, so this is the correct behaviour as
-well as the safe one.
+This is a memory-safety bug confined to the ISP-private hmm buffer
+object (a separate bo allocator), not the kmalloc slab; it corrupts
+ISP device memory rather than granting a kmalloc-heap primitive.
+
+Reject up front, in ia_css_frame_allocate() (which already returns
+-EINVAL for bad arguments), any dimensions whose worst-case byte count
+cannot be represented in the u32 data_bytes field. The factor 16
+conservatively bounds the largest per-pixel multiplier across all
+supported formats (up to 6 planes, or 3x RGB planes with up to 4 bytes
+per element).
 
 Found by 0sec's autonomous vulnerability analysis (https://0sec.ai).
-Found by static analysis; not yet runtime-reproduced (Amlogic Meson
+Found by static analysis; not yet runtime-reproduced (Intel atomisp
 hardware required).
 
-Fixes: 00c43088aa68 ("media: meson: vdec: add VP9 decoder support")
+Fixes: a49d25364dfb ("staging/atomisp: Add support for the Intel IPU v2")
 Signed-off-by: Doruk Tan Ozturk <doruk@0sec.ai>
 ---
- drivers/staging/media/meson/vdec/codec_vp9.c | 27 +++++++++++++++-----
- 1 file changed, 20 insertions(+), 7 deletions(-)
+ .../atomisp/pci/runtime/frame/src/frame.c     | 21 +++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-diff --git a/drivers/staging/media/meson/vdec/codec_vp9.c b/drivers/staging/media/meson/vdec/codec_vp9.c
-index 5ca27930239f..1df641202687 100644
---- a/drivers/staging/media/meson/vdec/codec_vp9.c
-+++ b/drivers/staging/media/meson/vdec/codec_vp9.c
-@@ -993,19 +993,32 @@ static void codec_vp9_set_mpred_mv(struct amvdec_core *core,
- 				   struct codec_vp9 *vp9)
+diff --git a/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c b/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
+index 8614efc28b19..dea7b11ccc90 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
++++ b/drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c
+@@ -6,6 +6,7 @@
+ 
+ #include <linux/bitops.h>
+ #include <linux/math.h>
++#include <linux/overflow.h>
+ 
+ #include "assert_support.h"
+ #include "atomisp_internal.h"
+@@ -106,10 +107,30 @@ int ia_css_frame_allocate(struct ia_css_frame **frame,
+ 				      unsigned int raw_bit_depth)
  {
- 	int mpred_mv_rd_end_addr;
--	int use_prev_frame_mvs = vp9->prev_frame->width ==
--					vp9->cur_frame->width &&
--				 vp9->prev_frame->height ==
--					vp9->cur_frame->height &&
--				 !vp9->prev_frame->intra_only &&
--				 vp9->prev_frame->show &&
--				 vp9->prev_frame->type != KEY_FRAME;
-+	int use_prev_frame_mvs;
+ 	int err = 0;
++	u32 bytes;
  
- 	amvdec_write_dos(core, HEVC_MPRED_CTRL3, 0x24122412);
- 	amvdec_write_dos(core, HEVC_MPRED_ABV_START_ADDR,
- 			 vp9->workspace_paddr + MPRED_ABV_OFFSET);
+ 	if (!frame || width == 0 || height == 0)
+ 		return -EINVAL;
  
- 	amvdec_clear_dos_bits(core, HEVC_MPRED_CTRL4, BIT(6));
-+
 +	/*
-+	 * prev_frame is NULL when an inter frame is the first frame decoded
-+	 * (e.g. a stream starting on a non-key frame, or the first frame
-+	 * after a flush). There are no previous-frame motion vectors to use
-+	 * and every read below would dereference a NULL pointer, so leave
-+	 * prev-MV use disabled (BIT(6) already cleared) and bail out.
++	 * The frame_init_*_planes() helpers compute frame->data_bytes (a u32)
++	 * as width/padded_width * height * bytes-per-pixel * plane-count using
++	 * unmodulated unsigned arithmetic, with no overflow check, and the
++	 * result is then handed to hmm_alloc(). width, height and padded_width
++	 * are user-controlled (e.g. via the v4l2_framebuffer ioctl path in
++	 * atomisp_v4l2_framebuffer_to_css_frame()). A large width/height pair
++	 * makes the size calculation wrap, producing an undersized hmm buffer
++	 * that a subsequent copy then overflows.
++	 *
++	 * Reject up front any dimensions whose worst-case byte count cannot be
++	 * represented in the u32 data_bytes field. The factor 16 conservatively
++	 * bounds the largest per-pixel multiplier across all supported formats
++	 * (up to 6 planes / 3x RGB planes with up to 4 bytes per element).
 +	 */
-+	if (!vp9->prev_frame)
-+		return;
++	if (check_mul_overflow(max(width, padded_width), height, &bytes) ||
++	    check_mul_overflow(bytes, 16u, &bytes))
++		return -EINVAL;
 +
-+	use_prev_frame_mvs = vp9->prev_frame->width ==
-+				vp9->cur_frame->width &&
-+			     vp9->prev_frame->height ==
-+				vp9->cur_frame->height &&
-+			     !vp9->prev_frame->intra_only &&
-+			     vp9->prev_frame->show &&
-+			     vp9->prev_frame->type != KEY_FRAME;
-+
- 	if (use_prev_frame_mvs)
- 		amvdec_write_dos_bits(core, HEVC_MPRED_CTRL4, BIT(6));
- 
+ 	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,
+ 			    "ia_css_frame_allocate() enter: width=%d, height=%d, format=%d, padded_width=%d, raw_bit_depth=%d\n",
+ 			    width, height, format, padded_width, raw_bit_depth);
 -- 
 2.53.0
 
