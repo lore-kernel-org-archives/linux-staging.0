@@ -1,181 +1,112 @@
-Received: from mail-m155101.qiye.163.com (mail-m155101.qiye.163.com [101.71.155.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74B6B1ACED5
-	for <linux-staging@lists.linux.dev>; Sat, 27 Jun 2026 06:07:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85D3334750A
+	for <linux-staging@lists.linux.dev>; Sat, 27 Jun 2026 06:38:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782540432; cv=none; b=K9U7m4sjjjxfNoBuss8e/Uw0hAAUiJIpGyx0aypXd/U8ekQzGVqZxzXuCxg062VEZzvxTH1qLDFRMYVLoemc3QFuCDCJv24vMcWVtqsN2hrXmtuZfmyF3vapnMFoltEtEd4vdiM3q6d499+mbVS6VabBvJ6/JclAda3Rv7hI8Hw=
+	t=1782542334; cv=none; b=C9717Wcj9MtbTJVG5HlbxJUOy2shW4+mH8htHlNr+N51GqbgigQU8sVlkom/HiX2aorS5hvjteUlN8DqkXEAgiEGJwqhDPUMiMsYqFsTpllJTqwDRINPaLCxUY4AXcLK8SIVXSRKgSRo+ITZp0guucj5SHS3QdMGK80bIZrs/uE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782540432; c=relaxed/simple;
-	bh=4LREPqg2WfTyqdb1L+xhLnGFM+/vi5VZ+yfBkau9XsA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=TR7vvlc7KaBy2ziT+nRa/VnDUwsckX3y4m0LYcwVg5cQCDK6EfeAlnYAAUn5G/9XSvVKQNyY9mpjhHHn6Hpcm1ipLzdQ9YwiihxBKwYWFTaD1o2PEF3fRbzO4Bo8EL5TRUIbNnyNMzDoBQS663O3UTj9y9Q8v4D3M2tjix4rsuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=Ad23KUMs; arc=none smtp.client-ip=101.71.155.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
+	s=arc-20240116; t=1782542334; c=relaxed/simple;
+	bh=ParnwBExfgSuCvGNbbNh3YhRq5Zw4wfCqZvmdKMow3E=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=K2s2cQDyewT3i6MpsFZCwGIrwa+u7T871yk1wlDJCru/gPV/i5xVrd193ISNJeJsRUNk8vbdrDH69fK5UGh0Uek3JDogv6fZ6ZIDHKslHuT+v6Z1sm1J0PgSUM9qhXRVsizB9Igsq4btaqElHhpLJdU+QU1aTLUtCjD0IsRVdcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i+1UbL7A; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="Ad23KUMs"
-Received: from DESKTOP-SUEFNF9.taila7e912.ts.net (unknown [221.228.238.82])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 43fb57346;
-	Sat, 27 Jun 2026 14:01:51 +0800 (GMT+08:00)
-From: Dawei Feng <dawei.feng@seu.edu.cn>
-To: hansg@kernel.org
-Cc: mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	andy@kernel.org,
-	gregkh@linuxfoundation.org,
-	azpijr@gmail.com,
-	error27@gmail.com,
-	kees@kernel.org,
-	arnd@arndb.de,
-	pontescpedro@gmail.com,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	jianhao.xu@seu.edu.cn,
-	zilin@seu.edu.cn,
-	Dawei Feng <dawei.feng@seu.edu.cn>
-Subject: [PATCH] media: atomisp: fix CAS scaler descriptor leaks
-Date: Sat, 27 Jun 2026 14:01:51 +0800
-Message-Id: <20260627060151.2543613-1-dawei.feng@seu.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i+1UbL7A"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-49241dbf9c1so14534275e9.2
+        for <linux-staging@lists.linux.dev>; Fri, 26 Jun 2026 23:38:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782542332; x=1783147132; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ParnwBExfgSuCvGNbbNh3YhRq5Zw4wfCqZvmdKMow3E=;
+        b=i+1UbL7AIrMVtfTBobUQDaHwGnwl1RNtCJXu0/CnhvaHCXrbacYjgHLqW1xe2NuZC7
+         2vOzWd2RqtmHK+zWgXLCLcvEB5Mqreicm6EaFFDdfCS5j/f52jUZxHu3f8wDP8PJICLX
+         KZzVfKEqQrchFoMmWGP6cYLZDJ9bIkVIjw6FtIKBYxe381NTADttxyLf8+aRbP76su+F
+         V0TpnL30zTugXATEmZrX4vnxXDB8nGQPARJtX7SK4Ld1dQyUAAPR598aewFbbOnpbBg6
+         jOg/2+lQr5w1lXwYCHP5iE6ZrHmJUds90gwOcarBin9tmhyrxlIhvdaPmPwP3Dsf1fpT
+         VaBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782542332; x=1783147132;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ParnwBExfgSuCvGNbbNh3YhRq5Zw4wfCqZvmdKMow3E=;
+        b=dnzI19Y8cyZ9p3D8XSJP+AF8gCjn4QcEXq719ZM0Ge2xN9TpD50+UX2ZoO3JAKaW23
+         f11IOcW7OxqmhGu1kSkz6Y8ZRNEHPZ1tk5GdEGUdue8P9ANWnSkI428bmEWTNr6tek4b
+         k0sVRm7yXjjlFrrx4XZTV1bfBxLBp66yg3wiVXRonYzm+qupUHqeguyoBsvbJOP2U9WY
+         vwtwZ0NeKlYpekhjI14io4bBqisZhFhCCLQXa9EfegN38qFxgiouddRGMpZp4VE+1hht
+         mDw0OaCgCyZPO3Lqv3ny5gzt1K85dhjehexRdP+kuCDpsPOb1B3z5awg0Ia2M+kMma4X
+         Qoig==
+X-Forwarded-Encrypted: i=1; AFNElJ/Vh6mq8GpncdeE7MXw0Yu7EU+/CU+jj7jWyRoE3q1+AcP9VEuVrM2ympbFE363rFJj3xF4PqFrM4ljC4CQ@lists.linux.dev
+X-Gm-Message-State: AOJu0YyQbxpHEEwO3GS70i0Bis0wFxw2ZywuvmYCM2LIMGSuBfuHJJjC
+	Gv0e6thfWE35+X+lGT8C0x1zBADgU35osjKnMhdqdX8j60BhCIRlRutc
+X-Gm-Gg: AfdE7cnSgSlHmM6gGI2ehRxyTmuuAnjrCAwkG2EYHbPs467DFpzOPguzytZYVC0O+q1
+	D8F+T90m6v1ofQ9AoPlLIfWVzkFAraCNBUZe9InqM4jCPpZ6i2GtzhHhlqq9tOFnxhJnTugdxh2
+	R2oHBMsHKCb/8gjH+/rZ2/MxYQRm6rOoeLPbyfC2EucTEfvFKeBNWUS7L+AFCG67QRN6D+TNna1
+	D+nySGiFkASSO/wcv414G2vYmsS5/LLDofGoRrcsbMorSJUiMP06N3kgp/9r/GQas2kyoSmY+zj
+	za7Qb93yNcGmy1OsLrVNH/PeyMAIWqWqXO1pMWds9G3QkBEu4VGGepY52kB/dIchViUlU67lTlk
+	nTwXKS66kSD3b3RnxTHiZdGmyG2NZphl3c5GV2HESoL6NoQFE7KNclYP1isMFJBNJraa7pIdhVd
+	GYU/iVarRMFqXtoM31hbTtRRtmc1BPTO2AgOXBOv1KdFqk1dQVOayiBBRTl0HF/D7mGA==
+X-Received: by 2002:a05:600d:8499:10b0:490:e196:6574 with SMTP id 5b1f17b1804b1-49266864b4cmr108469495e9.13.1782542331948;
+        Fri, 26 Jun 2026 23:38:51 -0700 (PDT)
+Received: from jernej-laptop.localnet ([188.159.248.16])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4927038578bsm67964385e9.4.2026.06.26.23.38.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Jun 2026 23:38:50 -0700 (PDT)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: mripard@kernel.org, Dawei Feng <dawei.feng@seu.edu.cn>
+Cc: paulk@sys-base.io, mchehab@kernel.org, gregkh@linuxfoundation.org,
+ wens@kernel.org, samuel@sholland.org, hverkuil@kernel.org,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, jianhao.xu@seu.edu.cn, zilin@seu.edu.cn,
+ Dawei Feng <dawei.feng@seu.edu.cn>, stable@vger.kernel.org
+Subject: Re: [PATCH] media: cedrus: fix memory leak in cedrus_init_ctrls()
+Date: Sat, 27 Jun 2026 08:38:49 +0200
+Message-ID: <3HodGaD_QKy_OLZfdyJ49A@gmail.com>
+In-Reply-To: <20260624085920.578446-1-dawei.feng@seu.edu.cn>
+References: <20260624085920.578446-1-dawei.feng@seu.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9f07ab8f6303a2kunm41fcde97ebed4
-X-HM-MType: 10
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlCGBodVhlNTBkfHUsfTRhCHVYeHw
-	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUpVSUlDVUlIQ1VDSVlXWRYaDxIVHRRZQVlPS0hVSktISk
-	9ITFVKS0tVSkJLS1kG
-DKIM-Signature: a=rsa-sha256;
-	b=Ad23KUMs7gHGe1npr+wDHSUhSJIxq1qB2DB0Tzy3/8tLPknoJr9mFHxhrdaiuFooDD5QjgpM7oHYMeEiUPKilSekDVsUcEApZYA7VDEsbpIplvp1nREFmCMtC/etOuxIzKNy0YawR8l+dDDLLKmpcM99sM8Rbef/v8awfFxjeB8=; c=relaxed/relaxed; s=default; d=seu.edu.cn; v=1;
-	bh=aiY8q6Mky3ednHnggxN7XrcwHP5//qKfIBb41Y+ZrCM=;
-	h=date:mime-version:subject:message-id:from;
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-load_video_binaries() and load_primary_binaries() create a CAS scaler
-descriptor before allocating and looking up the YUV scaler binaries.
-Several failure paths after descriptor creation return without destroying
-the descriptor, leaking the frame-info arrays owned by it.
+Dne sreda, 24. junij 2026 ob 10:59:20 Srednjeevropski poletni =C4=8Das je D=
+awei Feng napisal(a):
+> In cedrus_init_ctrls(), the V4L2 control handler is initialized before
+> allocating memory for ctx->ctrls. If this allocation fails, the function
+> returns -ENOMEM without freeing the previously allocated handler
+> resources, leading to a memory leak.
+>=20
+> Fix this by calling v4l2_ctrl_handler_free() on the ctx->ctrls allocation
+> failure path.
+>=20
+> The bug was first flagged by an experimental analysis tool we are
+> developing for kernel memory-management bugs while analyzing
+> v6.13-rc1. The tool is still under development and is not yet publicly
+> available. Manual inspection confirms that the bug is still
+> present in v7.1.1.
+>=20
+> An x86_64 allyesconfig build showed no new warnings. As we do not have an
+> Allwinner SoC or board with a Cedrus VPU available to test with, no
+> runtime testing was able to be performed.
+>=20
+> Fixes: 50e761516f2b ("media: platform: Add Cedrus VPU decoder driver")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Dawei Feng <dawei.feng@seu.edu.cn>
 
-Route those exits through a descriptor cleanup label while keeping the
-existing pipe_settings ownership model. Also clear num_yuv_scaler when
-capture scaler binary allocation fails, so the existing failure unwind does
-not iterate a NULL scaler array.
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-The bug was first flagged by an experimental analysis tool we are
-developing for kernel memory-management bugs while analyzing
-v6.13-rc1. The tool is still under development and is not yet publicly
-available. Manual inspection confirms that the bug is still
-present in v7.1.1.
+Best regards,
+Jernej
 
-An x86_64 allyesconfig build showed no new warnings. As we do not have
-an Intel Atom ISP camera platform with matching sensor firmware and ACPI
-camera graph to test with, no runtime testing was able to be performed.
-
-Fixes: ad85094b293e ("Revert "media: staging: atomisp: Remove driver"")
-Signed-off-by: Dawei Feng <dawei.feng@seu.edu.cn>
----
- drivers/staging/media/atomisp/pci/sh_css.c | 35 ++++++++++++----------
- 1 file changed, 19 insertions(+), 16 deletions(-)
-
-diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-index 00082276f1db..d0ff16ba890f 100644
---- a/drivers/staging/media/atomisp/pci/sh_css.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css.c
-@@ -4528,20 +4528,20 @@ static int load_video_binaries(struct ia_css_pipe *pipe)
- 			  NULL,
- 			  &cas_scaler_descr);
- 		if (err)
--			return err;
-+			goto destroy_cas_scaler_desc;
- 		mycs->num_yuv_scaler = cas_scaler_descr.num_stage;
- 		mycs->yuv_scaler_binary = kzalloc_objs(struct ia_css_binary,
- 						       cas_scaler_descr.num_stage);
- 		if (!mycs->yuv_scaler_binary) {
- 			mycs->num_yuv_scaler = 0;
- 			err = -ENOMEM;
--			return err;
-+			goto destroy_cas_scaler_desc;
- 		}
- 		mycs->is_output_stage = kzalloc_objs(bool,
- 						     cas_scaler_descr.num_stage);
- 		if (!mycs->is_output_stage) {
- 			err = -ENOMEM;
--			return err;
-+			goto destroy_cas_scaler_desc;
- 		}
- 		for (i = 0; i < cas_scaler_descr.num_stage; i++) {
- 			struct ia_css_binary_descr yuv_scaler_descr;
-@@ -4557,10 +4557,13 @@ static int load_video_binaries(struct ia_css_pipe *pipe)
- 			if (err) {
- 				kfree(mycs->is_output_stage);
- 				mycs->is_output_stage = NULL;
--				return err;
-+				goto destroy_cas_scaler_desc;
- 			}
- 		}
-+destroy_cas_scaler_desc:
- 		ia_css_pipe_destroy_cas_scaler_desc(&cas_scaler_descr);
-+		if (err)
-+			return err;
- 	}
- 
- 	{
-@@ -5103,24 +5106,21 @@ static int load_primary_binaries(
- 			  pipe_out_info,
- 			  NULL,
- 			  &cas_scaler_descr);
--		if (err) {
--			IA_CSS_LEAVE_ERR_PRIVATE(err);
--			return err;
--		}
-+		if (err)
-+			goto destroy_cas_scaler_desc;
- 		mycs->num_yuv_scaler = cas_scaler_descr.num_stage;
- 		mycs->yuv_scaler_binary = kzalloc_objs(struct ia_css_binary,
- 						       cas_scaler_descr.num_stage);
- 		if (!mycs->yuv_scaler_binary) {
-+			mycs->num_yuv_scaler = 0;
- 			err = -ENOMEM;
--			IA_CSS_LEAVE_ERR_PRIVATE(err);
--			return err;
-+			goto destroy_cas_scaler_desc;
- 		}
- 		mycs->is_output_stage = kzalloc_objs(bool,
- 						     cas_scaler_descr.num_stage);
- 		if (!mycs->is_output_stage) {
- 			err = -ENOMEM;
--			IA_CSS_LEAVE_ERR_PRIVATE(err);
--			return err;
-+			goto destroy_cas_scaler_desc;
- 		}
- 		for (i = 0; i < cas_scaler_descr.num_stage; i++) {
- 			struct ia_css_binary_descr yuv_scaler_descr;
-@@ -5133,12 +5133,15 @@ static int load_primary_binaries(
- 							     &cas_scaler_descr.vf_info[i]);
- 			err = ia_css_binary_find(&yuv_scaler_descr,
- 						 &mycs->yuv_scaler_binary[i]);
--			if (err) {
--				IA_CSS_LEAVE_ERR_PRIVATE(err);
--				return err;
--			}
-+			if (err)
-+				goto destroy_cas_scaler_desc;
- 		}
-+destroy_cas_scaler_desc:
- 		ia_css_pipe_destroy_cas_scaler_desc(&cas_scaler_descr);
-+		if (err) {
-+			IA_CSS_LEAVE_ERR_PRIVATE(err);
-+			return err;
-+		}
- 
- 	} else {
- 		capt_pp_out_info = pipe->output_info[0];
--- 
-2.34.1
 
