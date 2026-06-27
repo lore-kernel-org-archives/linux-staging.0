@@ -1,64 +1,64 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C98838F938
-	for <linux-staging@lists.linux.dev>; Sat, 27 Jun 2026 06:39:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50F22390C95
+	for <linux-staging@lists.linux.dev>; Sat, 27 Jun 2026 06:39:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782542371; cv=none; b=CRqB6139PQHbvjjT7/lK2JizDhFkTe3PGIPHFZzEF6AR7FWvSNLd8kuBJRMDUrYG+xl3QuoUkPBuo7pJhLrur78jtXMjR+t8S8qPNGV9BirxfQHNKLzlO4EMYx7lMVejFKE1vSuJl0xXOnc7wYEbbsmCHa6/98iJb+Jjdhfq+UU=
+	t=1782542372; cv=none; b=IQs1X+lI3hgFZXBWbG+A/X0UU5+Hae/Z1a+zfu1ujBFPrSWMwnEDDlNLP7UXVS1s7QpjD3yZhYoHx/jozDcI2Gb50u55AKtUWt5zRNH2U0Y7Z2dOW68kbuLYphRXH6XwHuVmL+NurwUEbY56TTqUhSx3mjWEjlMv8L5YfmZH1V4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782542371; c=relaxed/simple;
-	bh=nSlLGYfTXHiil+e5l+ZK86hJckYlS/qWdYrNzrVBQZM=;
+	s=arc-20240116; t=1782542372; c=relaxed/simple;
+	bh=zqrtoIgxqlPm1yGRfDaaOKs8e4n9g6P9Nhu6aDp1pAE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fNcvWc8Pw7BeO8SiKaVdtufgjvu8nLUgJGFKrN4ED7HbNwwOdwNNXJ7LQVjcUtjGLKrkMA5UCHN1D1lsNdOqOYm6PlJ7NlmCyiVtXrlw4kq8z5u6MzHyOEKferUu1m/5qBTdEY+KcCQmk49necwtH30vKZxlEvGNXcr8vl/TTfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai; spf=pass smtp.mailfrom=0sec.ai; dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b=Tzi/qA2c; arc=none smtp.client-ip=209.85.128.45
+	 MIME-Version; b=mYeH5Om5lpQAmwhgu7nzPZg0pC3+sc9S2rFUHRY7lmszC7I5ZaMgaBsPT7B7c6x+ib1wKJZxLi+aOu2N2RvXnwvRWE4pmufnUmvJrFVraBzZfT9HlH3+a2D4unkkOAWBCMmWssgumw1Hl9srhGD+m+Jfo/QI4zCz/FtY6o281eQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai; spf=pass smtp.mailfrom=0sec.ai; dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b=dHl7ypvI; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=0sec.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b="Tzi/qA2c"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-49263703c6eso15754425e9.0
-        for <linux-staging@lists.linux.dev>; Fri, 26 Jun 2026 23:39:30 -0700 (PDT)
+	dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b="dHl7ypvI"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4924f8db066so8100375e9.2
+        for <linux-staging@lists.linux.dev>; Fri, 26 Jun 2026 23:39:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=0sec.ai; s=google; t=1782542369; x=1783147169; darn=lists.linux.dev;
+        d=0sec.ai; s=google; t=1782542370; x=1783147170; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gmQtpoRxRoFft31BE3DslHpMhlaHT+PPi7N5MeuH6Pw=;
-        b=Tzi/qA2ckfPV2RMkO0cefdlNgYE8sfJNVpyc4P+IMHF12L6YXftRenmKttFqNX6sqF
-         sWu/+aTrZVqcn9/+0pclwE+0LY4GbNdLah+2v6Wzw3NIpHXj6mMjiafCd0LN7cOLdcZy
-         kNdM8ZqjtQfubyxe0DNWUqFQDzyGBTl7kR90xF+ik2+plwYdXOYupZ7kEejNTKidIzfH
-         2B0UvYmfnUW3QsEplXBMwkRPo6+YbHVqGiVFcbXtdVgLLEJ5R1aK99TX2acjVwMC7b6Z
-         qecCONQQa3+xEC6+LuXJmtl/iQM0b1U+mk4zntNOoxxqMX7HYrQ/hBAkDZM07OLukn/k
-         Nl+A==
+        bh=v3B6M5EhMpzjG7Zmkrc3EdtRy3lRAN9WZO0zjTSLhxM=;
+        b=dHl7ypvIX+s/5cE8FwuVGkkJZ5ExJ4p5mFKKNocWpJKZbpvaataSyTKnytopohyS4+
+         NKjdhMp24HVcYdZ359/3S45d6zh1KDzvLSV03KL1iCoA9IiWbLAkNd8NRyeR6n8XC+5o
+         xZ0y01JnwXZnlWTXy3q9bv3mbq5P2uWuPBT0hjAY3MADM+ufLV+us1e0WY3AwbSmUf9x
+         qK3uGbgDyLSJJth1H/WIOpQJu4eBvnyGbHvMSjV33zkp4SLNZ1EYBitGL982HWpA+87G
+         9NjTBfaU3Xq6TgCCBbbzM7KRpWbZtNZVD3cRfwXneluJbfZXJywgc2rd9jMrvJeyIroj
+         Xz1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782542369; x=1783147169;
+        d=1e100.net; s=20251104; t=1782542370; x=1783147170;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=gmQtpoRxRoFft31BE3DslHpMhlaHT+PPi7N5MeuH6Pw=;
-        b=JV/JZhXCGMg2U3QO8hnM1+WcvFedctcVAq8nTxL4+mf+mIBRBesJSKaIuKnjyPmgpp
-         H9IyEoWkRoxkX9b1CwzuMuefspJM3zrY+epp/FfvIlud5gb+D2im85N4FEWq3KpXVilN
-         IrY7xp3sLawlZwHhaDN2wHgiufoCcUrEp5NCU/g0kqAQtJx1brjlkpXUSck51+RWCBre
-         2RTEVe6ciQ4m6lqvSqLblKV8lCUVPJolLHJ0kz1MJR81fkSGpBzKpNbqDIBdgdZnJbek
-         b8A4jIKmvyeWIx+yNWyzse1ch+PnPidM92Y3qXyD/WtnvHrd6AilrhvpRmHlC3BHtoJk
-         c8Uw==
-X-Forwarded-Encrypted: i=1; AFNElJ/XrWX6mYjnHEFJhoSuinqBPkvrQKTQCnFRqi4hAIX9u5dWq86EBHF4jQ5gq248xhmQryU4VlpmwmAYsUfP@lists.linux.dev
-X-Gm-Message-State: AOJu0YwNrsoaNHEtHcyB+OXrSAY3/h5VgJdzSoKjkOW2FhS0k9kyKOIV
-	l9LWq9r8V+rWaQndh1fabKRrGQuSSMHaircxOKr4pnxEJ9uoNlBgbOjlb/OoqVRMX9qk
-X-Gm-Gg: AfdE7cmirmr7MKRp0QXMISxar9cQOtRAaR2u4gKcsOTKy3ocfInVRfeyoqPHcv0oljh
-	KY0vkyaPmTRmVPtViLbwubSoBKaovwkHTC0Kjkl01ZHIIqVowq31JSbYhJDRR+XL1PzjtDWsZ0Z
-	78a9OJApvNjDdJicIgquBvtZZ2ZHQlB+LSqMnq6+eGsu9BZkSEDEQA2STct1029rDge52vEoQZV
-	JMQHzhKu4SvHkKNDmDyiFb4FY2j/ZMwUud4VpqnQSJil2JYbCrZmQ+nKrniaxGPwC48YsF73cNm
-	6cg8Ed/8NLyTxvu0p+ne56yu7NaE90fd0VgLykcrPhtmefknpp/F+rk5DKDvFy6wzzXvTy9q7i0
-	70HQ9BdFYfQjcVPKsQD6YdF6XO3kvh5qzdUH1oS1hRuSePhLWaYvFjXF8Ab3X91viHxZmsHkEv7
-	Dj+Crq+dAaWJMbL6h1lhdzcWqdKsLrtddobcxruaLbcHf8GiiRNB3I+dFjGoa47YQaQAxcaR6Jl
-	b1p37RgTqjLLwmEYcwJTjtyXUPnpMQBY2o=
-X-Received: by 2002:a05:600c:1551:b0:492:686f:372 with SMTP id 5b1f17b1804b1-4926918e379mr103522875e9.12.1782542368624;
-        Fri, 26 Jun 2026 23:39:28 -0700 (PDT)
+        bh=v3B6M5EhMpzjG7Zmkrc3EdtRy3lRAN9WZO0zjTSLhxM=;
+        b=cWMVkapHZ2hfST8Rj7b5cyOlZA/lcJ7wVx1558Ln+O7eWH3/gXQuv29yQe1/afXCco
+         nnQRZtcOyYzRdxsVRD6uwrM5X2CrNvl+NvnNvt+CnuLRWgtB4adHoGpnikxPFo24dswP
+         BKufOIy5PBsBbAxfAU0r+WaA2s8hMMjBn+BmF/5viXYfhRURQjaRTspxjd0XU2UqJ2AN
+         oPma22oVPyqXtpfr2vHF2dkT62b1LJxatVnVvMlWi1h5JIsVxAyUR7GILgj8nKOj9Cdr
+         /JwvFepqOq2px9YaZ8IWbEfL8vdqKdXCR3dZmJ8ZAFiufm7SR/xNnOyR4gJeeXoWizov
+         ofmA==
+X-Forwarded-Encrypted: i=1; AFNElJ+j61hJEw8x/AN41SnOxQ7iRfVz+xQBJDvVkQ2fl7BT/kQawx4m4kX5ZiEBT0TRgy55pDnqzyPRxitRLG1K@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz0ZKFxjeVHgMjpeFnQt8cVFRufaA3udJK+qu0tsddxWAWlZCz2
+	XJcgpCVj9mTkzV2hWNqXs0J41NyOMvI1t5fi3PAB/t1c0GL/JAKDK8gyOm3X8jnKWv9q
+X-Gm-Gg: AfdE7cmKTPwei+CDcV/gRZO6pYc70QSopKWvoTUCtlqTkjbfMB0z+F1fRwAfyGmkk7o
+	yYsETcnQaZE9b1JQbgGByDrBrulIg0/GDe+CbXVa/4bwQ2KOruqKAQuvkHCckeHY84MZDtph3Kt
+	EGREtlBcrHq1svP50A74wpnfpc9WyrK3df5rTVq06UaY06W+jRF7sA9T1a4nnXUywO7wSWomod+
+	qTuxUGmyUjOJJR7HcvOVSlD8IQbDND1wQHxcEW+ye9rBi2+2xFBxG9s1BI01trHe/VhgM7faPWk
+	jFWIDYShcrAhmwotzwsXEJcvQPIC8VXscRTZlDPtD7mO3MSSVrU+LkTrevnV3u+/cCGZsCSyDOw
+	HXOBhZxBs5XZhMb2cV6VjCbjj2AELUAeaPpj311Z46kruP9J7hXAD5NDdtSTERiZ0tIvm4alTXy
+	ERyMtmX8nMyHInG7iWlNXSOYu/VLsMPis2dQSO6mScqz678fRwE64Px5vd4jioOxUbXr4oqDl+u
+	Rk8d0fOi+P5FDZfcgAxviYbqO04XIFyJIU=
+X-Received: by 2002:a05:600c:3f0c:b0:490:bcf6:469f with SMTP id 5b1f17b1804b1-492667e9b5dmr131450645e9.0.1782542369935;
+        Fri, 26 Jun 2026 23:39:29 -0700 (PDT)
 Received: from PeakBook-Mini.tail8e484.ts.net ([178.197.218.209])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4926c285fc1sm79198785e9.1.2026.06.26.23.39.27
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4926c285fc1sm79198785e9.1.2026.06.26.23.39.28
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 26 Jun 2026 23:39:28 -0700 (PDT)
+        Fri, 26 Jun 2026 23:39:29 -0700 (PDT)
 From: Doruk Tan Ozturk <doruk@0sec.ai>
 To: Hans de Goede <hansg@kernel.org>,
 	Andy Shevchenko <andy@kernel.org>,
@@ -70,9 +70,9 @@ Cc: Dan Carpenter <error27@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Doruk Tan Ozturk <doruk@0sec.ai>
-Subject: [PATCH v2 1/2] media: atomisp: validate sizeimage against the allocated frame in framebuffer-to-CSS
-Date: Sat, 27 Jun 2026 08:39:22 +0200
-Message-ID: <20260627063924.79491-2-doruk@0sec.ai>
+Subject: [PATCH v2 2/2] media: atomisp: bound DVS 6-axis table dimensions to the allocated config
+Date: Sat, 27 Jun 2026 08:39:23 +0200
+Message-ID: <20260627063924.79491-3-doruk@0sec.ai>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260627063924.79491-1-doruk@0sec.ai>
 References: <20260627063924.79491-1-doruk@0sec.ai>
@@ -84,15 +84,19 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-atomisp_v4l2_framebuffer_to_css_frame() allocates the CSS frame from
-arg->fmt.{width,height,pixelformat}, but then copies and stores
-arg->fmt.sizeimage bytes into it. sizeimage is an independent,
-user-controlled v4l2_pix_format field, and nothing checks it against the
-allocated frame, so a sizeimage larger than width*height*bpp overflows
-res->data in hmm_store().
+atomisp_cp_dvs_6axis_config() allocates the DVS 6-axis coordinate arrays
+from the stream grid via ia_css_dvs2_6axis_config_allocate(), but then
+uses the user-supplied width_y/height_y/width_uv/height_uv as the
+copy_from_compatible() length. The reallocate-on-mismatch path also
+re-allocates from the stream grid, so the destination is always
+stream-sized while the copy length is user-sized. User dimensions larger
+than the allocated grid produce a heap out-of-bounds write with
+attacker-controlled length and contents, reachable from
+ATOMISP_IOC_S_DIS_VECTOR.
 
-Reject a sizeimage that exceeds the allocated frame (res->data_bytes)
-before the copy/store.
+Reject user dimensions that exceed the allocated config in both the
+ISP2401 (t_6axis_config) and ISP2400/else (source_6axis_config) branches
+before the first copy.
 
 Found by 0sec's autonomous vulnerability analysis (https://0sec.ai).
 Found by static analysis; not yet runtime-reproduced (Intel
@@ -101,31 +105,55 @@ Baytrail/Cherrytrail ISP hardware required).
 Fixes: a49d25364dfb ("staging/atomisp: Add support for the Intel IPU v2")
 Signed-off-by: Doruk Tan Ozturk <doruk@0sec.ai>
 ---
- drivers/staging/media/atomisp/pci/atomisp_cmd.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ .../staging/media/atomisp/pci/atomisp_cmd.c   | 28 +++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index fec369575d88..5046a0ec8bba 100644
+index 5046a0ec8bba..9338aa009923 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
 +++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -3323,6 +3323,17 @@ atomisp_v4l2_framebuffer_to_css_frame(const struct v4l2_framebuffer *arg,
- 		goto err;
- 	}
+@@ -2630,6 +2630,20 @@ int atomisp_cp_dvs_6axis_config(struct atomisp_sub_device *asd,
  
-+	/*
-+	 * sizeimage is a separate user-controlled v4l2_pix_format field; the
-+	 * CSS frame above is sized from width/height/format. Reject a store
-+	 * length that exceeds the allocated frame to avoid a heap overflow of
-+	 * res->data in hmm_store() below.
-+	 */
-+	if (arg->fmt.sizeimage > res->data_bytes) {
-+		ret = -EINVAL;
-+		goto err;
-+	}
+ 		dvs_6axis_config->exp_id = t_6axis_config.exp_id;
+ 
++		/*
++		 * The destination coordinate arrays are sized from the stream
++		 * grid by ia_css_dvs2_6axis_config_allocate(); the copy length
++		 * below uses the user-supplied dimensions. Reject user dims that
++		 * exceed the allocation to avoid a heap out-of-bounds write.
++		 */
++		if (t_6axis_config.width_y > dvs_6axis_config->width_y ||
++		    t_6axis_config.height_y > dvs_6axis_config->height_y ||
++		    t_6axis_config.width_uv > dvs_6axis_config->width_uv ||
++		    t_6axis_config.height_uv > dvs_6axis_config->height_uv) {
++			ret = -EINVAL;
++			goto error;
++		}
 +
- 	tmp_buf = vmalloc(arg->fmt.sizeimage);
- 	if (!tmp_buf) {
- 		ret = -ENOMEM;
+ 		if (copy_from_compatible(dvs_6axis_config->xcoords_y,
+ 					t_6axis_config.xcoords_y,
+ 					t_6axis_config.width_y *
+@@ -2682,6 +2696,20 @@ int atomisp_cp_dvs_6axis_config(struct atomisp_sub_device *asd,
+ 
+ 		dvs_6axis_config->exp_id = source_6axis_config->exp_id;
+ 
++		/*
++		 * The destination coordinate arrays are sized from the stream
++		 * grid by ia_css_dvs2_6axis_config_allocate(); the copy length
++		 * below uses the user-supplied dimensions. Reject user dims that
++		 * exceed the allocation to avoid a heap out-of-bounds write.
++		 */
++		if (source_6axis_config->width_y > dvs_6axis_config->width_y ||
++		    source_6axis_config->height_y > dvs_6axis_config->height_y ||
++		    source_6axis_config->width_uv > dvs_6axis_config->width_uv ||
++		    source_6axis_config->height_uv > dvs_6axis_config->height_uv) {
++			ret = -EINVAL;
++			goto error;
++		}
++
+ 		if (copy_from_compatible(dvs_6axis_config->xcoords_y,
+ 					source_6axis_config->xcoords_y,
+ 					source_6axis_config->width_y *
 -- 
 2.53.0
 
