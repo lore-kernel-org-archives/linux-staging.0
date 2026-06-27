@@ -1,136 +1,181 @@
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-m155101.qiye.163.com (mail-m155101.qiye.163.com [101.71.155.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F02A63EFFC5
-	for <linux-staging@lists.linux.dev>; Fri, 26 Jun 2026 17:29:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74B6B1ACED5
+	for <linux-staging@lists.linux.dev>; Sat, 27 Jun 2026 06:07:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782494951; cv=none; b=G0SEdvNn02BO/tgLCA1bH5SLtLmiaAN47tXgUXvOjPdAeJJujJmy9x0EO5XM0MXCAurVp4RK0MRmQwyfuOOMD60nrpozFSXcG7fWw3GV8aEohHRzdiZzmhXMO5nA0/4tgriGBJDK12gYgCcQr/1/7u+DbGYeWpW8Lf1ocQshkDY=
+	t=1782540432; cv=none; b=K9U7m4sjjjxfNoBuss8e/Uw0hAAUiJIpGyx0aypXd/U8ekQzGVqZxzXuCxg062VEZzvxTH1qLDFRMYVLoemc3QFuCDCJv24vMcWVtqsN2hrXmtuZfmyF3vapnMFoltEtEd4vdiM3q6d499+mbVS6VabBvJ6/JclAda3Rv7hI8Hw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782494951; c=relaxed/simple;
-	bh=bmnqIteIrsdazyLdwoN0OJVJpD3EaqY64A0zc/yqpkE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ENkuMh99CotjDnG1zKScTgZiNH8GRqbmvV15y9knKYl/6TGQs22F5if1SlqvaB6DSBBoILZGGh6/5gb+RYyiLoNnNnj2aspY41RjZY22PpaSOmDi6EO5YqEq86xQlEdGk/PWvMsEuT3OFh2Xk5cCNVYQO86T05+4pEQJ/n7e+sM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BQ/4pSSa; arc=none smtp.client-ip=209.85.210.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782540432; c=relaxed/simple;
+	bh=4LREPqg2WfTyqdb1L+xhLnGFM+/vi5VZ+yfBkau9XsA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=TR7vvlc7KaBy2ziT+nRa/VnDUwsckX3y4m0LYcwVg5cQCDK6EfeAlnYAAUn5G/9XSvVKQNyY9mpjhHHn6Hpcm1ipLzdQ9YwiihxBKwYWFTaD1o2PEF3fRbzO4Bo8EL5TRUIbNnyNMzDoBQS663O3UTj9y9Q8v4D3M2tjix4rsuw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=Ad23KUMs; arc=none smtp.client-ip=101.71.155.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BQ/4pSSa"
-Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-7e943356247so949801a34.2
-        for <linux-staging@lists.linux.dev>; Fri, 26 Jun 2026 10:29:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782494949; x=1783099749; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=S/VSPjiBxVWzwoGtJrzRhtH5hK8hWcYXUpH5mPgMo2s=;
-        b=BQ/4pSSa+bQrBAesMtScGOe8SIpqrRpXSZMFWx4tPRxbukxeD+F2AlnR6FBndEDozO
-         tCdb3JRr0DDlumDIW6JF8WVh7S+et8C6PDo70HuaQ4N8EmzyX/MEZZjQx06lv8ZZ4ys5
-         fS3st0ZemLD5vcgGWUuhnp/SpzuzSQLtwrrYqgsn/ilQh1QLTdawIkmwWl6YR93MIWb+
-         hEJe/Lzf7+zFYUhtYxYlsuKyjcwJFmYEsOjWvypS8rV4RxJKhDeLMDYgasyNy+dPqWVY
-         h/3waislIXjHCdJ+Z0wmH3UgZYmhvWJ8BzebSvespoooTu3dl0ocNXJvOTNkvLur+LaD
-         VDsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782494949; x=1783099749;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=S/VSPjiBxVWzwoGtJrzRhtH5hK8hWcYXUpH5mPgMo2s=;
-        b=MvCIoYlu9gsx7u8Cgkxzq/i9AVKP7q91ijC1ztOG9v1Za+gCbmEn4SX0P2t+qYsTMe
-         9qi4c7qsueRmpSUMTCilFVEwhJbv4bP0ZD7q+XcutYFa/1cw7KMi71cI58/TufrgSl/k
-         XdPtPMx/a5KxjpshC0A+74uvGEmog+29KKvZ04BGN19hDM/x358mFKZSiEqWpy7QnjEO
-         2jQiScG+SOGS37ys19bhNnqNpN8r3q6zJf8iAaxEljlbqHFLCzdCOpSOLE1taCQFlqTl
-         sZJpvsxfSx+dmJJHajx72H9jS8UhQ08Meh6QUsRQXJFW2lIIYV/rppEk3q57rX8vKQ+7
-         njwg==
-X-Forwarded-Encrypted: i=1; AFNElJ9ArajlEqqBi9iNxx+xmdgwYw4+ONTZHf+tuEIvUGxhE5/O+f2CeLrEMe3feNIRjXDtC1Y6Tf8zqz0SG6vI@lists.linux.dev
-X-Gm-Message-State: AOJu0YwTCAKeLsaGkxuNn/oAxGDv9uJotX3KZ8HZsXgZ+iAl6e2MgHDM
-	EUZ6efg9ZWN57+/df9oFLC9Q3rsVOS8xcf+5eIyrtuRmAAAmXO5x+yrjKi0UfhQt
-X-Gm-Gg: AfdE7cnTk3NE8Ut7WPhHHsQVr/Ptsl044geXDrkVtS2tffOawvOoHoTB0QzUjOt2XKq
-	3ThDfwA6JlKaqIz2H8rP8LPn2U3Tes3wkxIUOfEZKzu6v2GDlr/wLSJhIFI/fG7iWXDGU+7tIl/
-	Q0ZF5oqj4EEuaBAiWIKmvzhrJdMEI19Zc48BXirgHPU4BiDJl8Xr0x9+XEnMfzr5aKI3QPl4KHr
-	Zv6oVuvpaCNq9BSg3OszqkpQUVE7NSgsDE+Wr8SmvWiVqMvyo2tUmlpin+CquwhG60PySZfyRWU
-	FuBXmmU4+WnESyLLfrT8a86GLsn5f+otAXTSN04u/YrWAiP4WF9ZXxgeKYL+jBqoqxNJ3G5BGCI
-	HPlBPwDJlFaZ/mZcet3E1sVrfBOzizw+W8JHfHhQ/8ggkBtZlEEwc3oxNmBUrK+RoOW75crA1Ln
-	12p1rX
-X-Received: by 2002:a05:6830:8291:b0:7e6:ed97:ce5a with SMTP id 46e09a7af769-7e99c2ec47cmr6930978a34.4.1782494948915;
-        Fri, 26 Jun 2026 10:29:08 -0700 (PDT)
-Received: from localhost ([74.80.182.98])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e9aa78751fsm2063757a34.13.2026.06.26.10.29.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jun 2026 10:29:08 -0700 (PDT)
-Date: Fri, 26 Jun 2026 20:29:01 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Doruk Tan Ozturk <doruk@0sec.ai>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: meson: vdec: fix use-after-free of prev_frame in
- codec_vp9_rm_noshow_frame()
-Message-ID: <aj623aQRkNiVdrnM@stanley.mountain>
-References: <20260626164025.52694-1-doruk@0sec.ai>
+	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="Ad23KUMs"
+Received: from DESKTOP-SUEFNF9.taila7e912.ts.net (unknown [221.228.238.82])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 43fb57346;
+	Sat, 27 Jun 2026 14:01:51 +0800 (GMT+08:00)
+From: Dawei Feng <dawei.feng@seu.edu.cn>
+To: hansg@kernel.org
+Cc: mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	andy@kernel.org,
+	gregkh@linuxfoundation.org,
+	azpijr@gmail.com,
+	error27@gmail.com,
+	kees@kernel.org,
+	arnd@arndb.de,
+	pontescpedro@gmail.com,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	jianhao.xu@seu.edu.cn,
+	zilin@seu.edu.cn,
+	Dawei Feng <dawei.feng@seu.edu.cn>
+Subject: [PATCH] media: atomisp: fix CAS scaler descriptor leaks
+Date: Sat, 27 Jun 2026 14:01:51 +0800
+Message-Id: <20260627060151.2543613-1-dawei.feng@seu.edu.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260626164025.52694-1-doruk@0sec.ai>
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9f07ab8f6303a2kunm41fcde97ebed4
+X-HM-MType: 10
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlCGBodVhlNTBkfHUsfTRhCHVYeHw
+	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUpVSUlDVUlIQ1VDSVlXWRYaDxIVHRRZQVlPS0hVSktISk
+	9ITFVKS0tVSkJLS1kG
+DKIM-Signature: a=rsa-sha256;
+	b=Ad23KUMs7gHGe1npr+wDHSUhSJIxq1qB2DB0Tzy3/8tLPknoJr9mFHxhrdaiuFooDD5QjgpM7oHYMeEiUPKilSekDVsUcEApZYA7VDEsbpIplvp1nREFmCMtC/etOuxIzKNy0YawR8l+dDDLLKmpcM99sM8Rbef/v8awfFxjeB8=; c=relaxed/relaxed; s=default; d=seu.edu.cn; v=1;
+	bh=aiY8q6Mky3ednHnggxN7XrcwHP5//qKfIBb41Y+ZrCM=;
+	h=date:mime-version:subject:message-id:from;
 
-On Fri, Jun 26, 2026 at 06:40:25PM +0200, Doruk Tan Ozturk wrote:
-> codec_vp9_rm_noshow_frame() frees the first non-shown reference frame on
-> ref_frames_list without excluding vp9->prev_frame. When the previously
-> decoded frame was a non-show (alt-ref) frame and the current frame is a
-> non-show inter frame, the freed object is the one vp9->prev_frame still
-> points to; codec_vp9_set_mpred_mv() then dereferences the stale pointer
-> (use_prev_frame_mvs and codec_vp9_get_frame_mv_paddr()), a use-after-free.
-> 
-> The sibling cleanup codec_vp9_show_frame() already guards this pointer
-> (tmp == vp9->prev_frame); rm_noshow_frame() simply omits the same check.
-> Add it.
-> 
-> The fields that drive this path (show_frame, frame_type, intra_only) are
-> parsed from the VP9 bitstream, so a crafted stream fed to the stateless
-> decoder can trigger the free-then-use.
-> 
-> Found by static analysis; not yet runtime-reproduced (Amlogic Meson
-> hardware required).
-> 
-> Found by 0sec's autonomous vulnerability analysis (https://0sec.ai).
-> 
-> Signed-off-by: Doruk Tan Ozturk <doruk@0sec.ai>
-> ---
->  drivers/staging/media/meson/vdec/codec_vp9.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/drivers/staging/media/meson/vdec/codec_vp9.c b/drivers/staging/media/meson/vdec/codec_vp9.c
-> index 8e80ecf84..572f418c9 100644
-> --- a/drivers/staging/media/meson/vdec/codec_vp9.c
-> +++ b/drivers/staging/media/meson/vdec/codec_vp9.c
-> @@ -1247,6 +1247,15 @@ static void codec_vp9_rm_noshow_frame(struct amvdec_session *sess)
->  		if (tmp->show)
->  			continue;
->  
-> +		/*
-> +		 * prev_frame is still referenced by the MV predictor in
-> +		 * codec_vp9_set_mpred_mv(); the sibling codec_vp9_show_frame()
-> +		 * already excludes it before freeing. Do the same here to avoid
-> +		 * a use-after-free of vp9->prev_frame.
-> +		 */
-> +		if (tmp == vp9->prev_frame)
-> +			continue;
+load_video_binaries() and load_primary_binaries() create a CAS scaler
+descriptor before allocating and looking up the YUV scaler binaries.
+Several failure paths after descriptor creation return without destroying
+the descriptor, leaking the frame-info arrays owned by it.
 
-I have not looked at this code before so I'm speaking from a position
-of ignorance but codec_vp9_show_frame() checks vp9->cur_frame as well.
-Shouldn't we check that here as well?
+Route those exits through a descriptor cleanup label while keeping the
+existing pipe_settings ownership model. Also clear num_yuv_scaler when
+capture scaler binary allocation fails, so the existing failure unwind does
+not iterate a NULL scaler array.
 
-regards,
-dan carpenter
+The bug was first flagged by an experimental analysis tool we are
+developing for kernel memory-management bugs while analyzing
+v6.13-rc1. The tool is still under development and is not yet publicly
+available. Manual inspection confirms that the bug is still
+present in v7.1.1.
+
+An x86_64 allyesconfig build showed no new warnings. As we do not have
+an Intel Atom ISP camera platform with matching sensor firmware and ACPI
+camera graph to test with, no runtime testing was able to be performed.
+
+Fixes: ad85094b293e ("Revert "media: staging: atomisp: Remove driver"")
+Signed-off-by: Dawei Feng <dawei.feng@seu.edu.cn>
+---
+ drivers/staging/media/atomisp/pci/sh_css.c | 35 ++++++++++++----------
+ 1 file changed, 19 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
+index 00082276f1db..d0ff16ba890f 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css.c
++++ b/drivers/staging/media/atomisp/pci/sh_css.c
+@@ -4528,20 +4528,20 @@ static int load_video_binaries(struct ia_css_pipe *pipe)
+ 			  NULL,
+ 			  &cas_scaler_descr);
+ 		if (err)
+-			return err;
++			goto destroy_cas_scaler_desc;
+ 		mycs->num_yuv_scaler = cas_scaler_descr.num_stage;
+ 		mycs->yuv_scaler_binary = kzalloc_objs(struct ia_css_binary,
+ 						       cas_scaler_descr.num_stage);
+ 		if (!mycs->yuv_scaler_binary) {
+ 			mycs->num_yuv_scaler = 0;
+ 			err = -ENOMEM;
+-			return err;
++			goto destroy_cas_scaler_desc;
+ 		}
+ 		mycs->is_output_stage = kzalloc_objs(bool,
+ 						     cas_scaler_descr.num_stage);
+ 		if (!mycs->is_output_stage) {
+ 			err = -ENOMEM;
+-			return err;
++			goto destroy_cas_scaler_desc;
+ 		}
+ 		for (i = 0; i < cas_scaler_descr.num_stage; i++) {
+ 			struct ia_css_binary_descr yuv_scaler_descr;
+@@ -4557,10 +4557,13 @@ static int load_video_binaries(struct ia_css_pipe *pipe)
+ 			if (err) {
+ 				kfree(mycs->is_output_stage);
+ 				mycs->is_output_stage = NULL;
+-				return err;
++				goto destroy_cas_scaler_desc;
+ 			}
+ 		}
++destroy_cas_scaler_desc:
+ 		ia_css_pipe_destroy_cas_scaler_desc(&cas_scaler_descr);
++		if (err)
++			return err;
+ 	}
+ 
+ 	{
+@@ -5103,24 +5106,21 @@ static int load_primary_binaries(
+ 			  pipe_out_info,
+ 			  NULL,
+ 			  &cas_scaler_descr);
+-		if (err) {
+-			IA_CSS_LEAVE_ERR_PRIVATE(err);
+-			return err;
+-		}
++		if (err)
++			goto destroy_cas_scaler_desc;
+ 		mycs->num_yuv_scaler = cas_scaler_descr.num_stage;
+ 		mycs->yuv_scaler_binary = kzalloc_objs(struct ia_css_binary,
+ 						       cas_scaler_descr.num_stage);
+ 		if (!mycs->yuv_scaler_binary) {
++			mycs->num_yuv_scaler = 0;
+ 			err = -ENOMEM;
+-			IA_CSS_LEAVE_ERR_PRIVATE(err);
+-			return err;
++			goto destroy_cas_scaler_desc;
+ 		}
+ 		mycs->is_output_stage = kzalloc_objs(bool,
+ 						     cas_scaler_descr.num_stage);
+ 		if (!mycs->is_output_stage) {
+ 			err = -ENOMEM;
+-			IA_CSS_LEAVE_ERR_PRIVATE(err);
+-			return err;
++			goto destroy_cas_scaler_desc;
+ 		}
+ 		for (i = 0; i < cas_scaler_descr.num_stage; i++) {
+ 			struct ia_css_binary_descr yuv_scaler_descr;
+@@ -5133,12 +5133,15 @@ static int load_primary_binaries(
+ 							     &cas_scaler_descr.vf_info[i]);
+ 			err = ia_css_binary_find(&yuv_scaler_descr,
+ 						 &mycs->yuv_scaler_binary[i]);
+-			if (err) {
+-				IA_CSS_LEAVE_ERR_PRIVATE(err);
+-				return err;
+-			}
++			if (err)
++				goto destroy_cas_scaler_desc;
+ 		}
++destroy_cas_scaler_desc:
+ 		ia_css_pipe_destroy_cas_scaler_desc(&cas_scaler_descr);
++		if (err) {
++			IA_CSS_LEAVE_ERR_PRIVATE(err);
++			return err;
++		}
+ 
+ 	} else {
+ 		capt_pp_out_info = pipe->output_info[0];
+-- 
+2.34.1
 
