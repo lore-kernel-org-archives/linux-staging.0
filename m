@@ -1,178 +1,253 @@
-Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F03B92F0C74
-	for <linux-staging@lists.linux.dev>; Sun, 28 Jun 2026 07:01:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C4DC355F41
+	for <linux-staging@lists.linux.dev>; Sun, 28 Jun 2026 15:43:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782630118; cv=none; b=ozImQZ2zJqUIrGK6ttgQC793YJNS0uYttEEIvUacMISbocIsTveUaF9CrpHggqRGY1J28eVKtyNRmGgKCpUNYrv33YrPANUAHN3t6JbkXn+WMjyww2443seTPRxrcEj6g+CMyk/lBMm3/uxRjV4l2Po0RrleeYaW5W3XyTl0zkE=
+	t=1782661431; cv=none; b=SrzuaDwKxfPfh/eedZoUK/CElHsyebPAbNudKTw/YGliD0PRLAP7/GRpDksvGtGazsduEXqK9AP+ZUOY4m2Fev32B6O6qRrvjDwEgO9x+R0JaOfK6D20rjp1lQOZVuXE2CKrFrHcIfoTEapRFbV+KfFx48flF9BvQt36de0scbY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782630118; c=relaxed/simple;
-	bh=0Cj6wOJdILUOWABnwvYdl2Gz4eV0vxkMFlX+pQrPy/8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=mY1G5ZeHEEelbsPZk0D9FlGHldXxF56MKT0PrM/GkQ2EcCoC48/sFNtPFRz33P4fAV9vxwiHlXxXplzyokCTqGhzbwz7ZOR49db2g67JA8UZZc1Ep2hVQJc+zdOpxm0VywWoKvshc2FLzgxmcYTzK3bxNjJXkTngInD/Rx8x6cs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HxDgSxuV; arc=none smtp.client-ip=74.125.82.169
+	s=arc-20240116; t=1782661431; c=relaxed/simple;
+	bh=40arCt8NqhJaNl0q9UQATGJjGRq/MsPHGOmI0715nXg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=CiO08o5+/d4ZylSFgHBV995b1bxqh9dNecmKN9YsK0pmNaIITABhFyyzeBfKC4wNvKzsvdmn/2ritiZnjoHV+ujRKstTOqrWG3q1Gi6TEBFHSHP/3cLf3gBkehJyBBrmppnEG17kWjyFctf5E1GzLADLMRrKt0B1FqvVZ1x4UvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WoXPa1PZ; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HxDgSxuV"
-Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-30eac9abd79so776319eec.1
-        for <linux-staging@lists.linux.dev>; Sun, 28 Jun 2026 00:01:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WoXPa1PZ"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4903d730b1fso32815445e9.2
+        for <linux-staging@lists.linux.dev>; Sun, 28 Jun 2026 08:43:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782630116; x=1783234916; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ebr54NXoj/alJszP2J+8XnUT0XJSuCiSbPSA/7MjZ7E=;
-        b=HxDgSxuVfgkYxTQiSVCc+AcPkoSDVC0MiD3hsimlh/Q3ati51v1ROReaavRUi9ZuIU
-         DnWyvLxy/pNzaeFF3g6pVaSmvhrChUUiqBN+pwUwRZywvmCd2r2FiVu3CIkRwWRb2Nu5
-         rboFonO4sn6cRuec+hjyOlVTEID/7KmPHc8f0HPzcBUMKIcGtvTrsyBKeX8KaVUpzmHt
-         0g/t5G1bG2XmlcqlIe9BnYQmB4nOWNiTvukMaLoNxdp2z8SgDXwlpC9gBRq2NGmiVeEc
-         pWbhY0IdwwVXCSuv+MbocNR8nRTednRjuq1YpywpovelRoynKy4BxUWsOxx2Rv9vZ+kP
-         GjmA==
+        d=gmail.com; s=20251104; t=1782661429; x=1783266229; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=D+OMJP0P0VJX23QejDNAiRcdNcoGaSYxL+867MSgbJA=;
+        b=WoXPa1PZUlS/TyNvQknNVVFU5L6y/oLjt+BnZccay08xx0d2QjPTR77gUTKWMT6Bs3
+         01aIP/2Mmkb742hEXrlUGey9wvDRfczZgiyksWVye+qTsAoRxmvV9kVLzbD8uak5P713
+         NXrXlkffAg++sKfwWS0gCHL2YiX+t1dhr5SCG04A7r9cKHBeZB9ILsJummKO1a6b0lFg
+         Xk12DvUM5kQJZ+PW5n+byAdU8gnokcOIOlJ/RHoSDFUrs87X312WORzsW7+Id4r9IPoF
+         N4MJzao7BZvVbqn1OHXEwcbnUsJfE6SrnAf5UvfRAhAg61tmk0uJ+5YdtZvh3veeldzl
+         nvJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782630116; x=1783234916;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=ebr54NXoj/alJszP2J+8XnUT0XJSuCiSbPSA/7MjZ7E=;
-        b=MHFfMTc9lcoY4/VgFVmaozBZTskTqVhMmKki7ELnaSfV39CXPh5+4LxHxaZuij74ze
-         RTigOlhbbHrSDCK2qGtjEXS0Sfw3drJ3GRdeENnldVFPT29Deqi/evgTGjjpFEbX6vic
-         WIfNN26boZjQ85W98N97oaYstGBKqNvx4vyREYZVg/ZBRLMR7+4jcq8Ff4bIO+f57wFp
-         LL6JzLupvjRr/l1MkN8bybrL8PpCX4+1cLjSSPBwooeo9Q7/Eb03vWvFh7zB8lvznX5l
-         +TM9MmfTOcDVmaXZ7PymQJZkOo8sxtp0xGaOndnKz7po7i8dd6K/R2u14QVo1LdlERJc
-         aOcA==
-X-Forwarded-Encrypted: i=1; AHgh+RolZVIFqx0deZ9FqoIgWABMmEwoVjDDqD13ALgQOWkuWYiuac9wppqVgVEd3ePROyukO2yGsp6LdjlvpXTW@lists.linux.dev
-X-Gm-Message-State: AOJu0YyF8iUry09Ho6+TGxrV+Z/92i+Eteax4qEg7OpFzdEAX5jdx6cn
-	KEHSnuJgzLYROHlvvfR7cV1d/nokd+UfQDp6q/Aak0NKJqsuXc9/KvX9VE2IwJJX
-X-Gm-Gg: AfdE7cl9OdFQB+5cLaHYf29a3kk0m9tSHT25m0iZwZ9YNC8Axe75GXeM9ET4WXRsHBl
-	WZLRLOMj48Q+SeJzONiuPare3CQOsBpLi6JCTjsM9FNUpREkhqVV40iiZJz6kO0uNHCGeHaZKKV
-	59TyHrPXp44YSw9ew1DvcOC2cjXoFBNLA/KzOm4AhHiLMiyLQOxhLUtnI5tnch7kxB6IdQf2mU6
-	9O78GyAPZQ0xeEY/vVUmMCbFVgLtulnTaKgNvPv7wfnUGkxRlnQOwtI2XHO4jQJRigfauT32puN
-	vxJ4/yA5rt51Qx/bMHyrI35+JsNqzd7JQ0KzUlqEnFkeBSXSoh7HV0UkmMtFoBvVPvR4ZsckQv4
-	NridheFnz7wRmAeoszC26nvTnoZzZIokhgdO0uR3lI7Qqq9NgE/dzFCPEwFzYb0b88dErFNg4xQ
-	8D4RvC12vft4JyXexQ0fzJqEIWSUT6qPQ1Uw30Hb+u0IdggOpGiTYONno703JzTJWdI6JfgpPJu
-	puCjd1OVZc=
-X-Received: by 2002:a05:7300:8bab:b0:30c:6ac0:5d8c with SMTP id 5a478bee46e88-30caae2e94dmr6895784eec.7.1782630115956;
-        Sun, 28 Jun 2026 00:01:55 -0700 (PDT)
-Received: from [192.168.1.45] ([45.64.226.42])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30c7c8b1ae5sm39878489eec.16.2026.06.28.00.01.53
+        d=1e100.net; s=20251104; t=1782661429; x=1783266229;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=D+OMJP0P0VJX23QejDNAiRcdNcoGaSYxL+867MSgbJA=;
+        b=kOMmFmt8t7QhQjOMe9bzNUPgslCjfIjvxnFlZpjdjQGEsBUoUAadLJev/ekXVU8KmM
+         Gbdu5niquL/ezkDzzU54HSs1mWwVPuy8tYvMdi1A7J3IK+uYkYKTYYtmvjoCvSVYi+cq
+         /Owx6mXO7Tl4D7sqANdKmBy+TPINaoNMUp6jqz6MbwpoCExrFUwJBIpowlgXv/Uckn3j
+         j4JpQxdncObJntwNVcp/x7+nCByUOR1HfouHrxnE5K8VboGs6bc+1G63Qs38V8xmLjdO
+         ivS6ABL5I+1bR2DdBO2WyCJ2pXlcvbXcABzIx7xX03OBRqHblXhOX1WVv9aMFc5m1QKw
+         5yqw==
+X-Forwarded-Encrypted: i=1; AFNElJ+xo4Xl2dOYlidONxNf+r3tM1e0U5/cro6CbaWhqB3IiDfXh77CGo6FWFc/zCUbOuyqGG19JdPRXZxzOJ+H@lists.linux.dev
+X-Gm-Message-State: AOJu0YzixiXcPP1g7ZljX4Ox2MDjd1G88F27xYdklLNzHXVknVcCv/7J
+	tSl4o8mbuxrRdHzhcamCjJW6XLX64NOyewMJDWtIsQSBXssLxgwtjMTw
+X-Gm-Gg: AfdE7cmhQhVbnWfg5ysvY+V+dR/NlpfZzrHihnk/CnPX1zjvK6F3c+AOlmDlKCD2EHG
+	PKu7SqeesXBs8HhVxfJ7kSOdcWs5dYt2e9ZFTmL4Vx9S0+3pUqokk1H5blRDSHQPBuMQKXaLF5E
+	T/H/aX2vZ9L3sGA86CGSqJeYmloo9O8kjb9JMupl+5C27w/fjoxjomvFLL51ESEM5yfmplpFqpP
+	waqsJ7SGFsztkiPUVJ+Lian/brlkKMflyKX9zox8eeser4/sHdSdUQBqYswkI0OCK3vDENJHt2d
+	Q5ALOOcTNOOOLeqMvtt70AtvJQ+OXV9gCMpdYcMM7XBgHBlUy++lrzx8IvBa98U+Z4gykc5IWti
+	WEqnpEMuDj0W0owSwH8K9j08ANlozQtqvDLHWX8z3lb04/kXFvJi1rBtcnBlQgLpqWYh1XZp3Uy
+	KBqoSJ5anAvFyMQW/0J414P28ixDc=
+X-Received: by 2002:a05:600c:3e19:b0:492:4c5d:4db3 with SMTP id 5b1f17b1804b1-492668322camr202514645e9.5.1782661428588;
+        Sun, 28 Jun 2026 08:43:48 -0700 (PDT)
+Received: from anthony.local ([2a06:c701:49b2:4c00:12ff:e0ff:fea5:3d2e])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46f8d6f10absm32384608f8f.5.2026.06.28.08.43.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Jun 2026 00:01:55 -0700 (PDT)
-From: Prashant Rahul <prashantrahul23@gmail.com>
-Date: Sun, 28 Jun 2026 12:31:27 +0530
-Subject: [PATCH 4/4] staging: octeon: handle rx/tx initialization failures
- in probe
+        Sun, 28 Jun 2026 08:43:48 -0700 (PDT)
+From: Amit Barzilai <amit.barzilai22@gmail.com>
+To: andriy.shevchenko@intel.com
+Cc: airlied@gmail.com,
+	amit.barzilai22@gmail.com,
+	andy@kernel.org,
+	azuddinadam@gmail.com,
+	chintanlike@gmail.com,
+	conor+dt@kernel.org,
+	deller@gmx.de,
+	devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	gregkh@linuxfoundation.org,
+	javierm@redhat.com,
+	krzk+dt@kernel.org,
+	linux-fbdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	robh@kernel.org,
+	simona@ffwll.ch,
+	tzimmermann@suse.de
+Subject: Re: [PATCH v2 3/4] drm/ssd130x: Add SSD135X_FAMILY and SSD1351 support
+Date: Sun, 28 Jun 2026 18:43:12 +0300
+Message-ID: <20260628154312.46185-1-amit.barzilai22@gmail.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <ajpLyronl7a-yxh-@ashevche-desk.local>
+References: <ajpLyronl7a-yxh-@ashevche-desk.local>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260628-staging-driver-octeon-panic-v1-4-fe8c34989254@gmail.com>
-References: <20260628-staging-driver-octeon-panic-v1-0-fe8c34989254@gmail.com>
-In-Reply-To: <20260628-staging-driver-octeon-panic-v1-0-fe8c34989254@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Shuah Khan <shuah@kernel.org>, linux-staging@lists.linux.dev, 
- linux-kernel@vger.kernel.org, Prashant Rahul <prashantrahul23@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2167;
- i=prashantrahul23@gmail.com; h=from:subject:message-id;
- bh=0Cj6wOJdILUOWABnwvYdl2Gz4eV0vxkMFlX+pQrPy/8=;
- b=owEBbQKS/ZANAwAKAWw+kajX8DhtAcsmYgBqQMbUxUQ0uxWyQMSfX9OH4k7IDVFHc9fztqBWg
- MvZN2+WSSqJAjMEAAEKAB0WIQRS5esR6MP3hQs0SsxsPpGo1/A4bQUCakDG1AAKCRBsPpGo1/A4
- bYW7EACmz037MkLPiNiuDDjXnEZTDgv0CPAohwVxVKKDCM6WVaK1lfLUsHlI7RneDzdd7lwYD+B
- OpDDBH7hskj6FgD9D91Vx+xdFZ5Y0qde7MCPUXOm2iTdIQb4O9pd0s2mKAAAiQvyp21CXjKy6ND
- FoCj2L5iN4iKVuL9/cGnLYZU1EsMGm2HbRna9vs6iaY1qvjEt7DFisQoN2Tmrf3y8zp8NXpduH5
- J09TSrwmPSI6uEe2mKkNu7q/xe0OOymBeeXcvFLi+2P6F2HxpGHRhsAcs4o67iwa0shXKVXOJ4+
- x+8HNdZF9iEQ+X3frGYOrTkhxKBEoBbrCIJYnGLB6uMp/khffjnQChblXf1LJoVj7GKRcu9VdrE
- wtprL3OH8jbmPYoqhW0HVJFZwDLzrYC2kLgfAl5ywD/Wvi962f3HNth51CDlt1CYAk/e06u/q52
- WkaU5syPWIYNj8EetxptOU/y67qXe0hFNuuXyfKsyijgDbZz/ABPcVRPa1okhSy6wozfUkuOIDs
- D/yYmGy78AKasPI58jtc39NPFhQ19DgmQAbrm7B7mCokf+3XgQrZBUEf0T7GG381CwlhFLvWqCZ
- PdV5WyZM803QgEr9/pcN2UE957bcN8vPTvk2N2ZZ5SPRh1kJoKV/935zdawyqnq1GPdyCFfcfc4
- LwfdZqVp5z2SWUA==
-X-Developer-Key: i=prashantrahul23@gmail.com; a=openpgp;
- fpr=52E5EB11E8C3F7850B344ACC6C3E91A8D7F0386D
+Content-Transfer-Encoding: 8bit
 
-Check return value of rx/tx initialization functions and abort probing
-if either one fails.
+Firstly, I'd like to thank you for the review.
 
-Add error handling labels to deallocate resources before returning the
-error.
+On Tue, 23 Jun 2026 12:37:31 +0300, Andy Shevchenko wrote:
+> While it's not a problem _in this case_, the rule of thumb is always to have a
+> trailing comma for non-terminator entry.
 
-Signed-off-by: Prashant Rahul <prashantrahul23@gmail.com>
----
- drivers/staging/octeon/ethernet.c | 38 ++++++++++++++++++++++++++++++++++++--
- 1 file changed, 36 insertions(+), 2 deletions(-)
+This was a repeating comment in the review of this patch.
+I will be sending a v3 for this series, I will fix this point in
+each location you mentioned in your reviews. This also covers the plane-helper
+and encoder-helper arrays and the SSD133X_FAMILY enum entry. The terminator
+entries (NR_SSD130X_VARIANTS and the trailing 0 in the command arrays) will be
+left without a trailing comma.
 
-diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
-index 1d3bf3c79598d..41be73b2ded91 100644
---- a/drivers/staging/octeon/ethernet.c
-+++ b/drivers/staging/octeon/ethernet.c
-@@ -688,6 +688,7 @@ static int cvm_oct_probe(struct platform_device *pdev)
- {
- 	int num_interfaces;
- 	int interface;
-+	int ret = 0;
- 	int fau = FAU_NUM_PACKET_BUFFERS_TO_FREE;
- 	int qos;
- 	struct device_node *pip;
-@@ -934,17 +935,50 @@ static int cvm_oct_probe(struct platform_device *pdev)
- 		}
- 	}
- 
--	cvm_oct_tx_initialize(pdev);
--	cvm_oct_rx_initialize(pdev);
-+	ret = cvm_oct_tx_initialize(pdev);
-+	if (ret)
-+		goto err_tx;
-+
-+	ret = cvm_oct_rx_initialize(pdev);
-+	if (ret)
-+		goto err_rx;
- 
- 	/*
- 	 * 150 uS: about 10 1500-byte packets at 1GE.
- 	 */
- 	cvm_oct_tx_poll_interval = 150 * (octeon_get_clock_rate() / 1000000);
- 
- 	schedule_delayed_work(&plat->rx_refill_work, HZ);
- 
- 	return 0;
-+
-+err_rx:
-+	cvm_oct_tx_shutdown();
-+err_tx:
-+	cvmx_ipd_disable();
-+
-+	atomic_inc_return(&cvm_oct_poll_queue_stopping);
-+
-+	cvmx_pko_disable();
-+
-+	/* Free the ethernet devices */
-+	for (int port = 0; port < TOTAL_NUMBER_OF_PORTS; port++)
-+		cvm_oct_remove_device(port);
-+
-+	cvmx_pko_shutdown();
-+
-+	cvmx_ipd_free_ptr();
-+
-+	/* Free the HW pools */
-+	cvm_oct_mem_empty_fpa(pdev, CVMX_FPA_PACKET_POOL, CVMX_FPA_PACKET_POOL_SIZE,
-+			      num_packet_buffers);
-+	cvm_oct_mem_empty_fpa(pdev, CVMX_FPA_WQE_POOL, CVMX_FPA_WQE_POOL_SIZE,
-+			      num_packet_buffers);
-+	if (CVMX_FPA_OUTPUT_BUFFER_POOL != CVMX_FPA_PACKET_POOL)
-+		cvm_oct_mem_empty_fpa(pdev, CVMX_FPA_OUTPUT_BUFFER_POOL,
-+				      CVMX_FPA_OUTPUT_BUFFER_POOL_SIZE, 128);
-+
-+	return ret;
- }
- 
- static void cvm_oct_remove(struct platform_device *pdev)
+>>  /*
+>>   * Helper to write data (SSD13XX_DATA) to the device.
+>>   */
+>> -static int ssd130x_write_data(struct ssd130x_device *ssd130x, u8 *values, int count)
+>> +static int ssd130x_write_data(struct ssd130x_device *ssd130x, const u8 *values, int count)
+>>  {
+>>  	return regmap_bulk_write(ssd130x->regmap, SSD13XX_DATA, values, count);
+>>  }
+>
+> Stray change. If needed, either explain in the commit message or create
+> a separate patch (depending on the dependencies).
+
+The SSD135X branch I add in ssd130x_write_cmds() passes its const u8 *cmd buffer
+to ssd130x_write_data(), which took a non-const u8 *. Rather than cast away const
+at the call site, I propagated it into ssd130x_write_data(). I will explain this
+in the commit message in v3.
+
+>>  	unsigned int i;
+>>  	int ret;
+>>  
+>> +	/*
+>> +	 * The SSD135X family latches command parameters with D/C# HIGH (i.e.
+>> +	 * clocked in as data), unlike the other families where the opcode and
+>> +	 * all of its parameters are sent as commands (D/C# LOW). Send the
+>> +	 * opcode as a command and any following parameter bytes as data.
+>> +	 */
+>> +	if (ssd130x->device_info->family_id == SSD135X_FAMILY) {
+>> +		if (len == 0)
+>> +			return 0;
+>> +		ret = regmap_write(ssd130x->regmap, SSD13XX_COMMAND, cmd[0]);
+>> +		if (ret || len == 1)
+>> +			return ret;
+>> +
+>> +		return ssd130x_write_data(ssd130x, cmd + 1, len - 1);
+>> +	}
+>
+>>  	for (i = 0; i < len; i++) {
+>
+> This loop seems for the len, so it will be the same for both devices as far as
+> I can see the context. I can't find this piece in the original driver, perhaps
+> it's some dependency?
+
+Correct, it's a dependency. The for loop is unchanged context, not added by this
+patch. ssd130x_write_cmds() was introduced in commit 208211646fb3 ("drm/solomon: add
+ssd130x_run_cmd_seq() for batch command execution"). It is in drm-misc-next,
+but not yet in the mainline.
+That loop is the existing command path used by every family except SSD135X:
+it clocks each byte out as a command (D/C# LOW). This patch only adds the SSD135X
+branch above it, which returns early, so for SSD135X the loop is never reached.
+
+The v3 cover letter will explicitly state that this series is based on drm-misc-next,
+hopefully avoiding any future confusion.
+
+>> +/*
+>> + * Variadic wrapper around ssd130x_write_cmds(). The first variadic argument is
+>> + * the command opcode and the following ones are its options/parameters.
+>> + */
+>> +static int ssd130x_write_cmd(struct ssd130x_device *ssd130x, int count,
+>> +			     /* u8 cmd, u8 option, ... */...)
+>> +{
+>> +	u8 buf[8];
+>> +	va_list ap;
+>> +	int i;
+>> +
+>> +	if (count > ARRAY_SIZE(buf))
+>> +		return -EINVAL;
+>> +
+>> +	va_start(ap, count);
+>
+>> +	for (i = 0; i < count; i++)
+>
+> Can be
+> 
+> 	for (int i = 0; i < count; i++)
+
+Fixed in v3.
+
+
+>> +	const u8 cmds[] = {
+>
+> Why not static?
+
+This array can't be made static. It is initialised with runtime values
+(ssd130x->width - 1 and ssd130x->height - 1), so it is not a compile-time
+constant and a static/file-scope definition wouldn't compile.
+The other ssd13xx_init() functions are non-static for exactly the same
+reason.
+
+>> +		4, SSD135X_SET_CONTRAST, 0xc8, 0x80, 0xc8,
+>> +		2, SSD135X_SET_CONTRAST_MASTER, 0x0f,
+>> +		2, SSD135X_SET_PRECHARGE2, 0x01,
+>> +		1, SSD135X_SET_DISPLAY_NORMAL,
+>> +		2, SSD13XX_SET_SEG_REMAP, remap,
+>
+>> +		0,
+>
+> No trailing comma for the terminator entry.
+
+Removing it in v3. The other init arrays in drm-misc-next still carry the
+terminator comma, but that's pre-existing code outside this series -- I've left
+it alone to avoid unrelated churn. Happy to send a separate cleanup if you'd
+prefer.
+
+>> +	};
+>> +
+>> +	/*
+>> +	 * ssd130x_power_on() issues a short reset pulse, but the SSD1351 is not
+>> +	 * ready to accept commands immediately afterwards. Give the controller
+>> +	 * time to settle before sending the init sequence.
+>> +	 */
+>
+> Any reference to the datasheet?
+
+It's not a datasheet figure. fb_ssd1351 doesn't do it in init_display() either;
+it inherits it from the shared fbtft_reset() helper, which deasserts reset and
+then does msleep(120) before any command is sent. The 120 ms is a generic fbtft
+blanket value, not an SSD1351 number -- the SSD1351 datasheet's reset timing is
+microsecond-scale.
+
+I removed the msleep() and retested this on the hardware. The panel still 
+initialises reliably.
+I'll drop the msleep() in v3.
+
+>> +		int ret = ssd130x_write_cmd(ssd130x, 1, SSD135X_WRITE_RAM);
+>> +
+>> +		if (ret < 0)
+>> +			return ret;
+>
+> This style is discouraged as it's harder to maintain. Better to split
+> assignment and definition
+> 
+> 		int ret;
+> 
+> 		ret = ssd130x_write_cmd(ssd130x, 1, SSD135X_WRITE_RAM);
+> 		if (ret < 0)
+> 			return ret;
+
+Noted. Will fix for v3.
+
+
 
 -- 
-2.54.0
-
+Thanks,
+Amit
