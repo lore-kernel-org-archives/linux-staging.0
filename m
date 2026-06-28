@@ -1,68 +1,67 @@
-Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
+Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF5EF32C923
-	for <linux-staging@lists.linux.dev>; Sun, 28 Jun 2026 07:01:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9654227EA4
+	for <linux-staging@lists.linux.dev>; Sun, 28 Jun 2026 07:01:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782630109; cv=none; b=lZeaNxRIleZ+l7lTbIIpV5OakYzd+gKeIFqNi/Wi5W39ziLW3BmZrQIZNzR5I2I+6fCsJUqyYd0JKEz81eHnUZwyYAbmS3SY2M7zcZ5rP9Fo0z8ZUpbIOhg27c1tJOOFvRKUzCgg4YL+EURSbOrg3/TvtEHwajR6TiJaZr9ttK4=
+	t=1782630112; cv=none; b=tm32Dwh3mcrMK4xEagWpXRymLbYbqdgOSfT7etrr3d9lWrzBYdxvRXY1jgjeNVQHfEu+6Jk5GBfeGAueCxxLGsp63d1VS7fABT5m793QlD6864xx7u4X2Kwb78PP4W31P1Y8oVVDx43qkz3MRhkaLHvIut/gMpIk82vOOH6bPzU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782630109; c=relaxed/simple;
-	bh=qmJ1u5i7dUxtk1Om5Jtki/OJy4eDe0UdEmPjGhr7Ji8=;
+	s=arc-20240116; t=1782630112; c=relaxed/simple;
+	bh=S3WGUr8EbUDnzRnDQdiXuU7JQ5VvK/xEqOqJ6Y6XO6c=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=gyplk5QLhIjQ3znMya5ELIL4yhb2+S+Z7FNcD/kXlfvQXtNOcXQx5tlN4tqZaBBGhEokI3m2cex9mB1jIYpPi5cG2lmFCvCzaoG8tfiAnA7jO9u8ta5F29m7gS//v92R8Z6jUnxgwAd/kECpWwt0g2fu4kpmsu6ReP0w2x3aFBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M0GhVOFV; arc=none smtp.client-ip=74.125.82.171
+	 In-Reply-To:To:Cc; b=eTcnwA+uDojqtpnwT+c3HwdkbSo8IYi4laLORWhzxAC2c+9zdXAjo7HtMkeBsyPfJDdeLMMzzLH5rKGrcx+O93CUjdBUGwNgYZopFH0xvoxhH0uwQDQvKoOZZQq+T82uFvN+WituSyGKfIKdQ8m1sCXlOEymnW9POiqWQ1qiJNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=q8D5HHpB; arc=none smtp.client-ip=74.125.82.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M0GhVOFV"
-Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-30bbe98c3f0so5954413eec.0
-        for <linux-staging@lists.linux.dev>; Sun, 28 Jun 2026 00:01:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="q8D5HHpB"
+Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-3078e0dcd67so3968515eec.0
+        for <linux-staging@lists.linux.dev>; Sun, 28 Jun 2026 00:01:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782630107; x=1783234907; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1782630110; x=1783234910; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=QYfs/uXnRVPNQ7LHpddf5rjRf2cS7Tft/Nd/ILvU5x8=;
-        b=M0GhVOFVFXaWBGcVbUp28aDwHjegEn5xHSP3x3a4gkJgj/IQi5A9QQ+90Y0D57/hoG
-         0bggne8B3Hy2+SdMYsCg9Yuo+R6Gxe2YgTCWh8KsPW/tdHazVrwJ70JzGkGjD4fNXxrK
-         YybwGjkTDZ/gqCtu5MBeVWiPrqbcB/Qkg0umMog74DIpflWtxSAfZMUtDcUAYPyVGpzw
-         /gW8Z/LT752cxDfAVxMCJj8G1dczWZVRC06nPjCncqwprTpd6q0TxqtynzuRrbISPN4S
-         ShQmmfhKFDPKgcc22wGUBGRvcqgMq6TDPZkya4wJQuPMNFClsHu/VpvR4dME8I9l6qZb
-         FWRw==
+        bh=TXokKAA+ArLkoRHycPsFI7+9fMpYzVXji7Up+eouGtM=;
+        b=q8D5HHpB8y3PNchwc3eOnXkIdJXX88XXCckTORAO4fE7GqFr1U+9K3Lusy+t0S+ufY
+         1s0lPlFWR3ysx541HGiJ8JVF0fKegVTAcNs4fsDgJvgsUE5lJjDa0HOvEo5gWlxCdzmW
+         a32OEu6JhXp+hv0VeQL4rEOVMurvKUubjpakp2VVAyIgbkdY2pxUB7MfOlKnPqmwdkbT
+         /gmcczIYfOD1ZjQOuwgwsZSNVqdJ7eYKGh9a1d5ZW7DX4ae6VkIAWr/YSM6nIOTQ+TDZ
+         fegkuSUm+wbc40ODdNhgPu85AUmPNsMNxRqFnKDM+tMGlqc80ufi1exJ5FJQ2iuxZGzN
+         M/pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782630107; x=1783234907;
+        d=1e100.net; s=20251104; t=1782630110; x=1783234910;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=QYfs/uXnRVPNQ7LHpddf5rjRf2cS7Tft/Nd/ILvU5x8=;
-        b=r0Cd6Kj1FZmc6IOeN7gGWKWwQmhPlXOt2iJ6GfTIWCLuV1AIZTHZR1AnFrQKfjOcKz
-         KIboDv3XQggtXJ1COL+q2qeEoKccY8jMFciwKKeZ++wWq2U3TU4jbFirQq6s5SxW97n/
-         U39jD4MK6CVdq8zRt4iTCz8u0jUtbtJaQALWPRS/QRWHQ9oU/7bOoi9gq1LBmm1AHW4X
-         K+P8cb2PWbobVWm3/iHA5TSFsF38GcwXfRpmTwBoY+LgaA/bq3RKZT7YgzGSK6fsIwTO
-         fk5NOCs9DjAcSLw8Et71Gu7YBw33fcSIkFUxQlu9IkVHJy9J04ZgckRLMvtT8GuKGMso
-         55Sw==
-X-Forwarded-Encrypted: i=1; AHgh+Rq8jS5jIAV2U7yUCaKywyBLMhxTOxcB7it6XrHMKHyGX+LEfXPZGUueiTQDgSw9RjzjjPxYiqtnhODBPB2y@lists.linux.dev
-X-Gm-Message-State: AOJu0YyRfWChj9XJ0sD5ttg0y/RmbSXjfbEQ4qaWjP0lKXcD6qwerRVg
-	xQeYALbSEX0wWSz1ZgznKGtvmlbSZu3qePige5XOOVvtyNnzm1dj3bTK
-X-Gm-Gg: AfdE7ck4p5wRUwGEiE9mfyAXmvH95Tgiu4GUiClrPFmbGMRCCoYdChikh1no3dozWbJ
-	8PD9lwZXwC/Rf6c1upqoVIE/eBGCdcFcf7YwHeGFq1t37+iCxk3WNYQk8uszruxiz911EjO05ZL
-	4zwgZpkGUW7WYZXK8RECqnE4uoM0i3TPM3wNUQhUh0N3H8EVTfuXp/VLU8NHrCI4Gvfp+KzDuY9
-	v1OOJOdLAVPgXiFCVOtwBJaoydCNZIcdYPTwJHktL/uYX1GVPbfo6OKGTN42hp2EW5sUAtf9jpr
-	kSvsFTAnlREVX8gdwx/dp7YwNRaO0I9Z3AU5Ou71t09d1i+nxtZiox2n+pW8jFCjtSVeAg0ALdy
-	BvvbutfuNxvgxjhIC588T3+bwC9/3jI0lYaU38kH9mYJvv1xyC9rTO7HNMCUxD9Gj86ckZWheFA
-	r5uiYSnAy1lEvRMiCEzgtVI6Zbfrp6o8Hr50Ywhv0OX8LVgKqSPjpKGuHW3dbPcJrHpVEgoi95F
-	DesJHkZRMI=
-X-Received: by 2002:a05:7300:2146:b0:2f2:8857:17f6 with SMTP id 5a478bee46e88-30c84b6cffdmr13075690eec.4.1782630106728;
-        Sun, 28 Jun 2026 00:01:46 -0700 (PDT)
+        bh=TXokKAA+ArLkoRHycPsFI7+9fMpYzVXji7Up+eouGtM=;
+        b=Khnw7bEZbjotlBD9okuvCA/pJWzccD4gBoKOGb3DVC1bgRiy3G8kkdquLjTlVWtqVF
+         uFjiLmRq4CCc4OZHM0+s4/i6Ti3SCM9s7Nc5jPIIXRXrHJPZKN068c7X/Kju1tpSZd7l
+         GdeHYO9L4WYMqK1CmHGwZrinM68hZorfkt7bset7FihXrj7DSvFfXWk2Q9oJNIkUNk6j
+         vF2TRjDGTWg55+uLi/N77nCj/NAQBVOdnu/DT2+sjSWIWUFbxdoGPUpVw/slqY6sAFvV
+         B/0U9p2EobIdZ6sVErNQeK4ePNZ4ROoa+KX0DyUMxKdTQRtBgt0gecgPZ/+sle6TSkbE
+         0Upw==
+X-Forwarded-Encrypted: i=1; AHgh+RprsOUz0qGglufKSOF4Dlq67aUQ61CdxM6jvqAFAPB+2kMW7i0+h7VP3h3ByHbiTUG01ec1ZcS8o8KF/ZO4@lists.linux.dev
+X-Gm-Message-State: AOJu0YxoNkIIl9QV+zPgYYNt6iuZ6Tcbizaz0XaSfa7lTWvXBoo+CFi6
+	QEPTlFMEd+vYQzPBciO/z9797dchy1xCc81Sts524TN2xB4kPlg1kopE
+X-Gm-Gg: AfdE7cm6VXBphEDPO8d3GAJzuWVEFpo24P5YOkQvgXuv7pFEdvnE4Z/g3Hsj91/Gws9
+	OHYrvSENHytLbmzH6VB8MZjgJxLMCNSbqCPTETWFENAHA0TQpJbo7E8u5/Fek2f0RQe8kfmhGdP
+	K34HbUwTlmx2w2rw35v2YBZPQS3wqF/a36JQ5RoUyeffQnzZOW9Xmk2P1BiZ5ixGkWvj+/lyhaD
+	JQf27qOA0d4kJDefE0g/jyCk/O79XqM2Bv6B2tppKygTsVWgSPaqfrMdLDGCFkDVYn4crxnGUWg
+	p7H1txbCWomKhJ5wxeuvhECGWUKWs1JiTbNG1uEiiMEM2iCrOg9dnE9MDrT9Vzw9+8QwCUk9EEw
+	NNxnZsVfNhtoa5JyZrdl5OrKYzKLLwLiFx7FgMYREU16D4g1pNf9skZGE/I98MonX+CTvsx045c
+	4TaoypFugq2pDr+qHg+A+KAVCrsHCswBdzz0ArAKKMmRp6WcKR1L6wXwoun26prDkWQRzApkjl5
+	62xydSg7Yw=
+X-Received: by 2002:a05:7300:4312:b0:304:df8b:71ee with SMTP id 5a478bee46e88-30c84b1dbbcmr11880558eec.7.1782630109767;
+        Sun, 28 Jun 2026 00:01:49 -0700 (PDT)
 Received: from [192.168.1.45] ([45.64.226.42])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30c7c8b1ae5sm39878489eec.16.2026.06.28.00.01.44
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30c7c8b1ae5sm39878489eec.16.2026.06.28.00.01.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Jun 2026 00:01:46 -0700 (PDT)
+        Sun, 28 Jun 2026 00:01:49 -0700 (PDT)
 From: Prashant Rahul <prashantrahul23@gmail.com>
-Date: Sun, 28 Jun 2026 12:31:24 +0530
-Subject: [PATCH 1/4] staging: octeon: factor out device removal into a
- helper
+Date: Sun, 28 Jun 2026 12:31:25 +0530
+Subject: [PATCH 2/4] staging: octeon: Propagate rx initialization failures
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -71,84 +70,116 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260628-staging-driver-octeon-panic-v1-1-fe8c34989254@gmail.com>
+Message-Id: <20260628-staging-driver-octeon-panic-v1-2-fe8c34989254@gmail.com>
 References: <20260628-staging-driver-octeon-panic-v1-0-fe8c34989254@gmail.com>
 In-Reply-To: <20260628-staging-driver-octeon-panic-v1-0-fe8c34989254@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Shuah Khan <shuah@kernel.org>, linux-staging@lists.linux.dev, 
  linux-kernel@vger.kernel.org, Prashant Rahul <prashantrahul23@gmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1736;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2879;
  i=prashantrahul23@gmail.com; h=from:subject:message-id;
- bh=qmJ1u5i7dUxtk1Om5Jtki/OJy4eDe0UdEmPjGhr7Ji8=;
- b=owEBbQKS/ZANAwAKAWw+kajX8DhtAcsmYgBqQMbUQGyiBhy/O7DvPhZ7aQqEeWGa2K4A93X0G
- aueYubFhUKJAjMEAAEKAB0WIQRS5esR6MP3hQs0SsxsPpGo1/A4bQUCakDG1AAKCRBsPpGo1/A4
- bZKaEACm2/iBd89hxkJvqctf3TX5ZndR41qPKfUOkGwYXuORQiyblG5XsivjfH9gYq1OheymdyC
- wYzbuJZRQzzOqweKhvwquL+wpB+QGBxruVNyqMN5NxpCQVhosFnm/1ynTV4wnnY6rvMhi8VMKZr
- q+zJQs6cIlu8rKHkPg5Fst6gnAEfb2/5zYK73U/twb9yhy4HwIpQZjqgkA3bBbCa0SfmYkVrAX8
- ujn1Z115R2fYhXpGhd6/jgxlJHxw2hwHReaTNhQEVLoKEb1tG4VMWj2EE7O4Xe2yzCn1sK0QJJ7
- IvSeloBN6K1uO50l5TS4ZVeYNmqu8evRkc2w3rfIDmFkEjnILolnX+PptwQ6eMQydNzm2RY1XR/
- +zE9++rkpPVQSOuNcV6V4TCtjd5c6hxGpCXNZxDM+PZgRuenolmaQ/FMAM2Sf89yJemwUk2OYf5
- ITRU8xy+POsu1u+Txd+m2VHKCXxnzBSWhmf9gWpHn/dNom7cwiWb6lH/pTqiXqWRwih3spHhhFW
- iL6+TRxExrL9LvKggsXpuZlHiL3nZmQsjhBF5oe7mjcUNaR+OEEPGAkpwCWqfrWW0NcI4TZnR/m
- PRUx0TT7Mx4JJuyi76DMlo/3AUp3hXTJH1QieYa7ZDqxgUDWp85ySsR3e5HjeiLr8HAFA6vUde+
- Pon1MXExXD4UDIA==
+ bh=S3WGUr8EbUDnzRnDQdiXuU7JQ5VvK/xEqOqJ6Y6XO6c=;
+ b=owEBbQKS/ZANAwAKAWw+kajX8DhtAcsmYgBqQMbUFWyMMeHTyQti/HR7f2/My+Sb9hfniUkla
+ yAys0Kg37iJAjMEAAEKAB0WIQRS5esR6MP3hQs0SsxsPpGo1/A4bQUCakDG1AAKCRBsPpGo1/A4
+ bZMYEACtuG8gzTuNLu4emvtvWLCssaiMlTqJBaXUj8w8NsLY+5GloxZxDYMY1o23bFuco74vQbH
+ 5eRV2IWaHRLwM+ONkJ0b01zJL87p85bkNRYGJUaVoYrDIBbOXhH5BU/h6ZZ7qZ61Q1yWkeAamvo
+ B6S4nJO+iPDlo2G++o4c7V8RZDvJTL+BcEvk1qnEC7PFdPYGiu0jDJ1nyXrC3zKjuM6pv96erAX
+ 5bU5SrwAjy2QK6rxwBAV94q2RZa+fdjeVMaHLpaxw4WSsES4CXMpPskRics+TytZUTdHDzYNQWt
+ BTXn2zzyAlz99bVaBUd0sAdzNwn/58KYtAzn1Bdunx/xwuVJC33fTlHRSMu+o5Gf2OrxMEDbQuP
+ C87620IToNRVRRX3NRs+Wkgz/mMMJwgIHkSXJG1sZ3RyDJlO5MRoOfqLFIKUgVpvoVXUs+YJcic
+ 7vz4SrQOtuGcWSlV2uHiIC5faf/jMXvsVGJL4g5PAGWI8M9D24AZQ512+YE6r5LahYqyO8N/dvj
+ awQJ5k4WOQWV0AzK8Hi3HPplb+P3+RzbRoNAzFBBIN2JQ10sg4BpbBCqdgjAwsbp9M8GtGTaBfy
+ HOstIyWVPARlaQRcI6F2GELWHm/QM6NGfcKFTam0vFvHLFcNmAQreICXdzwsU+qEkaXAm/PYQgi
+ voRp8DNIXko+kgg==
 X-Developer-Key: i=prashantrahul23@gmail.com; a=openpgp;
  fpr=52E5EB11E8C3F7850B344ACC6C3E91A8D7F0386D
 
-Factor out the common device removal sequence into a helper in
-preparation for adding cleanup to the probe error path.
+Instead of calling panic(), log and propagate the error upwards for
+better error handling.
 
 Signed-off-by: Prashant Rahul <prashantrahul23@gmail.com>
 ---
- drivers/staging/octeon/ethernet.c | 27 ++++++++++++++++-----------
- 1 file changed, 16 insertions(+), 11 deletions(-)
+ drivers/staging/octeon/ethernet-rx.c | 18 ++++++++++++------
+ drivers/staging/octeon/ethernet-rx.h |  2 +-
+ 2 files changed, 13 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
-index f3fa221f452e2..e07c6911b8252 100644
---- a/drivers/staging/octeon/ethernet.c
-+++ b/drivers/staging/octeon/ethernet.c
-@@ -104,6 +104,21 @@ struct net_device *cvm_oct_device[TOTAL_NUMBER_OF_PORTS];
+diff --git a/drivers/staging/octeon/ethernet-rx.c b/drivers/staging/octeon/ethernet-rx.c
+index cd36b5ba6f6c2..66e7253d484de 100644
+--- a/drivers/staging/octeon/ethernet-rx.c
++++ b/drivers/staging/octeon/ethernet-rx.c
+@@ -5,6 +5,8 @@
+  * Copyright (c) 2003-2010 Cavium Networks
+  */
  
- u64 cvm_oct_tx_poll_interval;
++#include <asm-generic/errno-base.h>
++#include <linux/dev_printk.h>
+ #include <linux/platform_device.h>
+ #include <linux/module.h>
+ #include <linux/kernel.h>
+@@ -445,22 +447,24 @@ void cvm_oct_poll_controller(struct net_device *dev)
+ }
+ #endif
  
-+static inline void cvm_oct_remove_device(int port)
-+{
-+	if (cvm_oct_device[port]) {
-+		struct net_device *dev = cvm_oct_device[port];
-+		struct octeon_ethernet *priv = netdev_priv(dev);
-+
-+		cancel_delayed_work_sync(&priv->port_periodic_work);
-+
-+		cvm_oct_tx_shutdown_dev(dev);
-+		unregister_netdev(dev);
-+		free_netdev(dev);
-+		cvm_oct_device[port] = NULL;
-+	}
-+}
-+
- static void cvm_oct_rx_refill_worker(struct work_struct *work)
+-void cvm_oct_rx_initialize(struct platform_device *pdev)
++int cvm_oct_rx_initialize(struct platform_device *pdev)
  {
- 	struct octeon_ethernet_platform *plat = container_of(work,
-@@ -949,17 +964,7 @@ static void cvm_oct_remove(struct platform_device *pdev)
+ 	int i;
+ 	struct net_device *dev_for_napi = NULL;
+ 	struct octeon_ethernet_platform *plat = platform_get_drvdata(pdev);
+ 	struct oct_rx_group *rx_group = plat->rx_group;
  
- 	/* Free the ethernet devices */
- 	for (port = 0; port < TOTAL_NUMBER_OF_PORTS; port++) {
--		if (cvm_oct_device[port]) {
--			struct net_device *dev = cvm_oct_device[port];
--			struct octeon_ethernet *priv = netdev_priv(dev);
--
--			cancel_delayed_work_sync(&priv->port_periodic_work);
--
--			cvm_oct_tx_shutdown_dev(dev);
--			unregister_netdev(dev);
--			free_netdev(dev);
--			cvm_oct_device[port] = NULL;
--		}
-+		cvm_oct_remove_device(port);
+ 	for (i = 0; i < TOTAL_NUMBER_OF_PORTS; i++) {
+ 		if (cvm_oct_device[i]) {
+ 			dev_for_napi = cvm_oct_device[i];
+ 			break;
+ 		}
  	}
  
- 	cvmx_pko_shutdown();
+-	if (!dev_for_napi)
+-		panic("No net_devices were allocated.");
++	if (!dev_for_napi) {
++		dev_err(&pdev->dev, "No net_devices were allocated.");
++		return -ENODEV;
++	}
+ 
+ 	for (i = 0; i < ARRAY_SIZE(plat->rx_group); i++) {
+ 		int ret;
+@@ -479,9 +483,10 @@ void cvm_oct_rx_initialize(struct platform_device *pdev)
+ 		/* Register an IRQ handler to receive POW interrupts */
+ 		ret = request_irq(rx_group[i].irq, cvm_oct_do_interrupt, 0,
+ 				  "Ethernet", &rx_group[i].napi);
+-		if (ret)
+-			panic("Could not acquire Ethernet IRQ %d\n",
+-			      rx_group[i].irq);
++		if (ret) {
++			dev_err(&pdev->dev, "Could not acquire Ethernet IRQ %d\n", rx_group[i].irq);
++			return ret;
++		}
+ 
+ 		disable_irq_nosync(rx_group[i].irq);
+ 
+@@ -518,6 +523,7 @@ void cvm_oct_rx_initialize(struct platform_device *pdev)
+ 		napi_schedule(&rx_group[i].napi);
+ 	}
+ 	atomic_inc(&oct_rx_ready);
++	return 0;
+ }
+ 
+ void cvm_oct_rx_shutdown(struct platform_device *pdev)
+diff --git a/drivers/staging/octeon/ethernet-rx.h b/drivers/staging/octeon/ethernet-rx.h
+index 6093694326cb6..ff3ed3d784a4b 100644
+--- a/drivers/staging/octeon/ethernet-rx.h
++++ b/drivers/staging/octeon/ethernet-rx.h
+@@ -8,7 +8,7 @@
+ struct platform_device;
+ 
+ void cvm_oct_poll_controller(struct net_device *dev);
+-void cvm_oct_rx_initialize(struct platform_device *pdev);
++int cvm_oct_rx_initialize(struct platform_device *pdev);
+ void cvm_oct_rx_shutdown(struct platform_device *pdev);
+ 
+ static inline void cvm_oct_rx_refill_pool(struct platform_device *pdev,
 
 -- 
 2.54.0
