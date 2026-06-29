@@ -1,75 +1,71 @@
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 241AC38AC91
-	for <linux-staging@lists.linux.dev>; Mon, 29 Jun 2026 19:40:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17FFC37D133
+	for <linux-staging@lists.linux.dev>; Mon, 29 Jun 2026 20:20:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782762044; cv=none; b=gbDkl1HPW0e23ovhMWnw1kxI7nnh9Yse/lxWukNSE/JlTbCl1CfvEUEzT1ylD63XzQEyh8ZmpAUgboX/yZDbvlEplHtZZKNYstt+GhVJ4GX5xBDwz0nhfO3yJNWrSA4H+M3Ji9WfR7FYCQ4I44x8tRMInplH3ZS8JQeu03NTGBg=
+	t=1782764444; cv=none; b=e1W8xI8tQbcLHGrjoHBLnbBmtGqhUhLchTNFLTIb7+jIYGZyED+LcmSCSAQPF2CH2BUK5+YpojpmuNjzNVDN39I2PjXZ4KWSiY24mciNyd4iCzGHFXtbsziFG7YMflMdKpN+BS3HEBAISd+XQDPDbJ/EUhAD/YprproPbXyxFdo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782762044; c=relaxed/simple;
-	bh=hnTiiRzl9G7eePzzIwjE22PBDOl75cM40NKb+PgReeY=;
+	s=arc-20240116; t=1782764444; c=relaxed/simple;
+	bh=eJGfCIZ983cy+KSCiM99vghVGJPNc4oj7iqaDLIJHnQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XP75+W7FY3+4tNcG0Obv6cjWYuJMzoMrIBgq2C6z81VLq2Hwii70/V4bneuEZF+KLf1XKqnyhgZfxE8T0eqRa2x/Np5aFDrAgwNT2gPUXblOTTI6xexWbmZYjEQCMLbL6JsftISSuWXbtqZ8hCoxpSJiFRAoWZNM9SNsdprTKV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sboECAFl; arc=none smtp.client-ip=209.85.210.52
+	 Content-Type:Content-Disposition:In-Reply-To; b=cdvYhwNnePN+2wlecvOu2dbkz4CRbKBh+C77gO0iDiwcksQ+ybXxBJo+EbIzHCUiDkQy8QGxkKoCJJ8kbCkfk8TYC2wqRQ0HSygznLS7G8JglC10anuJQHqUd7wqXVc77OZp5y7966njZIFiNtKSFEy/xX8uARIm9CxYVtgcimw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rGnD7IkE; arc=none smtp.client-ip=209.85.167.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sboECAFl"
-Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-7e9cd40e582so619078a34.2
-        for <linux-staging@lists.linux.dev>; Mon, 29 Jun 2026 12:40:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rGnD7IkE"
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5aeb2b17167so1333621e87.0
+        for <linux-staging@lists.linux.dev>; Mon, 29 Jun 2026 13:20:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782762042; x=1783366842; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1782764441; x=1783369241; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=B5WmMKvjmzvyuGXbzKRG6hqivUgSDTWGVP+syryStGI=;
-        b=sboECAFlM2D9dMgK0Dyi4E45GL2Vs8933f118qpTz99lmSKik7gj1hBZoksSxY/YbU
-         zq4/+DOh8TW8fyxEE0rGqp3rHffUP4hnJSnSleOtn67jkD1sf5AalhIyREa21vCxmlqw
-         0cVx9d2aRZvKPFkxpY1xF+CULK7ptsD6009p+rP+xtkUFhkHOhqVBV/JjF74rJ2b8059
-         B9CDM+oFV1AEpxSUPi/aBjFPst9EOfSnJKXBF5pD4QVcLNO92hOizhtLSqkucj7Jg6wh
-         51Vz2JL6/LMYjbWI4t74jW2C3qmNyANgeiRUgUhGoy4LGTEjyke6CxRIuaGZbJaQWBuV
-         0M9g==
+        bh=s3Hmv6n+TVIHEbLLaun6gkP5EAn7oCMsJ1Ka6zfxwKU=;
+        b=rGnD7IkEk4UepA82dNmZgiLGgSyFNtyUg+14Dc0oMv/FMepsBJ4/HfkUo1fBmXSPOX
+         Y3+yFb9mu2LVXUm4d99jIrihtDjEVxD3UFx32TlOhDWRYFgHfFpypdnKBLiDQOZP7yh/
+         oLRgmoUhdu7/IFgxYz8fBlK8XH/QFEvufEd664i2AtvhfdpH3eTUfZcFRqql5qTXvLzb
+         bPRFEVwIPfhty1EeSlvqzUGc3k6kesl9hROJ1pnJPrS2gnJChCO/C6Wr5Vv1wiErKFqp
+         mRD8+E9UsU0KyciD2Y6/KCZ4RYmyH9vgh8jsAO55b9S+EIYSuqWUoHbYOEr+/TGkj9C7
+         hsPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782762042; x=1783366842;
+        d=1e100.net; s=20251104; t=1782764441; x=1783369241;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=B5WmMKvjmzvyuGXbzKRG6hqivUgSDTWGVP+syryStGI=;
-        b=eejNWt4SHy2WAM0hTL3ELw6a75WhsPDRu0YMLu7C89ucMrslwqagqMoAmn/A5Np4Rk
-         TwbhrSiRTiOiITb20SOhGwmLy+MO4uhl4WezO/0mh0YBkYGPZqL2rRcmVKtwn2m8LXEE
-         bY2j5inncQ0gyQ8ve++DmlY17rUf+gx89kMqtretsIQQnKk/8OYpi1iP13kilmIA50LD
-         v6Svmtz9y2Fa73UgLdzVGJj5JSLElbZNG8F+5IMHlXlMb6fjsvhB1+gMx2RahqN/qYZ6
-         XdZFUjWIaA0pLEzQQ/jKkqBhWSS9YPXu3/UDUHtAgqNLMf5Z4PMxw11jPj8YGJRlclNM
-         QZww==
-X-Forwarded-Encrypted: i=1; AFNElJ/iX1aUCcMyq9bwELSzz8uiMiNqe1aR4HkeQXQBLoVTsBsnNrT9ffzIyHMiiVX+m5XrCdE75H5oBsuPiZOE@lists.linux.dev
-X-Gm-Message-State: AOJu0YxUJItmvRRA1CElOZ5Wz7inEj1WqTTkAaDaKHvaDIxpxPj5mYai
-	Ss5QiYZiVOOO8y2WOrZq9z7Fu4fyvM2gvQhPA/Sd641IE9a477qQA28y
-X-Gm-Gg: AfdE7cn4d6iYTR77CjrvYO1h/Gw9hzApGyQZT6IpFg0W9WEDz0euPmFCtYmQBpb+wAj
-	xnpcH3aYafOrqnLtTEPlB0dz7eaXWCgC7tlGzb7uKdTrtNyyaedNlfgqdB+ONFiqkEYdUUgGjMm
-	BUVGvOYF8VOJpUAeyDo9yNRiopS5ug9AMiklzqmjYkqatix9dvgFDFs+SDDkczunZmaIDAquZ5U
-	Ttz7IRCx9rqYe6GCfvuTA8KCQLc28XXnqqbQzDTxPsD5Ft40QyzoVVwPwAnXhhjPIiER2EnAd10
-	gzOFfpsSiyq+M87x0VsuOaO08wCsnNRRmyMK9x+YxAN06psi8NOI+Go/jg+V2q0xJEuWW03IrrM
-	cYF9ruNOg+9Cb20fzr+m7dYbN9gZBDmoMD/EUOKHi01YFqAlmCs6bB6MvltaoCpfbqv0ZvYxIO8
-	uLpb59DTg=
-X-Received: by 2002:a05:6830:6e21:b0:7e9:ef39:1caf with SMTP id 46e09a7af769-7e9ef3925bcmr57606a34.16.1782762042018;
-        Mon, 29 Jun 2026 12:40:42 -0700 (PDT)
-Received: from localhost ([45.136.154.250])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e9ec2b8f03sm524966a34.13.2026.06.29.12.40.38
+        bh=s3Hmv6n+TVIHEbLLaun6gkP5EAn7oCMsJ1Ka6zfxwKU=;
+        b=Ddc21aZI9vRBdLYAMWNz05H2cRq3vuolWSVguIzotyqR9gen4WnIJslRjYlI+HTGhX
+         +U0PX61e3pZxPdPRNBalSkF0gPiy20Fcc8c8qniopvDQ9flh75DLuwEdU8Vg+qD2DZw3
+         mugWFjqnvaVX4YJHAiTjirEwoo0UYZTiNE5MHkudiymDmEVIWe5uoqIEUOwbTGOnZvWv
+         E6TxMdlhzrYdMfLsnpjvSPmasDiQRHJfUte31ctyn8ba9ZCf6pMltBbYAR9pEFFdyfiS
+         tkBmaxEVUzM0Ilw5qyTUr1OoCLzBH3MQVwkPs+ceiyyFScJskQL1aX6aUsO1wihao60I
+         I3xQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rruk3apGdulN3JN2t8zRCsisMTLcTDJ3ESVsXGPM/jdAj632GdeGvPES9tXv5Npa7hFwy8nUqxDfSmvyMds@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyg9/WQrw/NGnMysI0hI8NAKmB4SRmuZ1VEPNiFUJwbznrSLe5p
+	UmKk+AVCi7TlEO8dbXBiAZsB+IS8suYGPahXU+C1RppcxPm9NFvkNeMU
+X-Gm-Gg: AfdE7ck2/3Lk5PSyQPhPhWnTevkHEYrBvFaj0CWbAEhxqPT4ZxRvJgDDxbQV+m5sKjn
+	QH8QWlmKfqRvj+Kiq04VHp5xUBWzhIyiezOn3FEW2Zf5Y0KJTBs1Dmw4XQEaBpZsKKyNOfqkO95
+	A6TaC6G5uhsZt3Z7CC9enzCf3mLkY0u14Vf3bmzZJOyI2jZU2tIcNKpfKTznqrQnJPEwmrlkF/m
+	D5K3qcFlQt5IxzUf9HqScAsKbPfzki3pOuMy3L7oqigBhPBZ22ptAejay4X6xdCKXHvd2FGRiI/
+	TpSadVoxp/Hpc5BeSYstKyWWafek+4mb2TWY2C3DTCutYHtMXuBdLoFmeWmccMA/lrEEmwsDv0a
+	miuLX16CujNIOJUZyiH68EWrJ+yMHu417+l+HOCxXiQgkxXDIFZeaAlpCwc7juINmFjSCfjFcxE
+	49ogci1YZa2vUtf2Sdfj6iIcbARpw=
+X-Received: by 2002:a05:6512:b93:b0:5ae:bb1d:ce35 with SMTP id 2adb3069b0e04-5aebdb579e2mr152172e87.3.1782764440981;
+        Mon, 29 Jun 2026 13:20:40 -0700 (PDT)
+Received: from localhost (soda.int.kasm.eu. [2001:678:a5c:1202:7b92:9ac1:b9ef:5287])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aebe4a9e61sm61835e87.72.2026.06.29.13.20.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2026 12:40:40 -0700 (PDT)
-Date: Mon, 29 Jun 2026 22:40:33 +0300
-From: Dan Carpenter <error27@gmail.com>
+        Mon, 29 Jun 2026 13:20:40 -0700 (PDT)
+Date: Mon, 29 Jun 2026 22:20:39 +0200
+From: Klara Modin <klarasmodin@gmail.com>
 To: Prashant Rahul <prashantrahul23@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shuah Khan <shuah@kernel.org>, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/4] staging: octeon: handle rx/tx initialization
- failures in probe
-Message-ID: <akLKMaudIMA8Wj0M@stanley.mountain>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/4] staging: octeon: Improve initialization error
+ handling
+Message-ID: <akLQajauW7N5rCjx@soda.int.kasm.eu>
 References: <20260628-staging-driver-octeon-panic-v1-0-fe8c34989254@gmail.com>
- <20260628-staging-driver-octeon-panic-v1-4-fe8c34989254@gmail.com>
- <akIiVWOOfjbdM_G-@stanley.mountain>
- <DJLO4N0H5YYF.1GOPQDJ9QVG4A@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -78,35 +74,37 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <DJLO4N0H5YYF.1GOPQDJ9QVG4A@gmail.com>
+In-Reply-To: <20260628-staging-driver-octeon-panic-v1-0-fe8c34989254@gmail.com>
 
-On Mon, Jun 29, 2026 at 09:49:49PM +0530, Prashant Rahul wrote:
-> On Mon Jun 29, 2026 at 1:14 PM IST, Dan Carpenter wrote:
-> > cvmx_pko_shutdown() has a built in call to
-> > cvmx_pko_disable() so why are we calling that separately?
+Hi,
+
+On 2026-06-28 12:31:23 +0530, Prashant Rahul wrote:
+> Hi all,
 > 
-> Didn't realize cvmx_pko_shutdown did that. Will remove that. Also, Should
-> I remove the cvmx_pko_disable() call in the remove function in this patch
-> series? Or should I do that in a new patch?
+> The TX and RX initialization paths currently call panic() on some
+> initialization failures. Instead, these failures should be reported back
+> to the probe function so that it can unwind any resources acquired during
+> initialization and fail gracefully.
 > 
-> > Also I feel like probe() should fail if alloc_netdev() fails
-> > or register_netdev(), but that's not introduced by this patch
-> > either.
+> This series replaces those panic() calls with proper error logging, propagates
+> the errors to the probe function, and adds the necessary cleanup to avoid
+> leaving the driver in a partially initialized state.
 > 
-> My main goal with the patch series was to get rid of panic() calls in
-> some of the initialization error paths. I will look into properly handling
-> alloc_etherdev and register_netdev errors but in new patch(es).
+> This is my first time working with drivers, so please let me know if I
+> have made any mistakes.
+> 
+> Thank you! :3
 
-To be honest, I would keep your patch as-is instead of being more
-ambitious.  If you get much more ambitious then we'd need to test
-it.  Right now, we're only affecting paths which would have caused
-a panic in the original code, but if we added error checking for
-register_netdev() then there is a chance of breaking something.
+I happen to have an Edgerouter 6P which uses this driver. This builds,
+boots and seems to work, so
 
-I was just saying that this might not be 100% correct, but it
-doesn't break anything that wasn't broken in the original so
-it's fine.
+Tested-by: Klara Modin <klarasmodin@gmail.com>
 
-regards,
-dan carpenter
+> 
+> Best regards,
+> -- 
+> Prashant Rahul <prashantrahul23@gmail.com>
+> 
 
+Regards,
+Klara Modin
