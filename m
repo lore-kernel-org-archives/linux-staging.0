@@ -1,83 +1,101 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f41.google.com (mail-dl1-f41.google.com [74.125.82.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD55F426D13
-	for <linux-staging@lists.linux.dev>; Mon, 29 Jun 2026 15:15:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61C042D3A7C
+	for <linux-staging@lists.linux.dev>; Mon, 29 Jun 2026 16:19:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782746131; cv=none; b=kHbo4Cm2P4HV6O/Hi8qyfkMJefNWesa7ppxMxMXnFVkHkOOO9inlsiroiauuuGLevqQEPJmR1rGNZMHRoz5m/BfBcPv2lqektsF0/Rbw4bC8smhHN8+vy/LhD24h6wRUs1VgdYokqD5Zc3kc5oA8Av8VPdTaf5Z4rSzJE+RU7Xk=
+	t=1782749997; cv=none; b=o7Fn7Y3p/Nn13aVZp3XO/VkLbb/eTvF2fQO0BoyMIvSe7rJ6wfNqZ20U1au1KUAmZhXXpKe39xvvYPU2wy8GZ/LXHoAb8IChiOP+FwDqSIm+i9l5YpfbRbtkOqtlPhlWw/I9Fw8AouHlDFkBXqZ7Di5ay1eg65Oz/pSnxGzLGsY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782746131; c=relaxed/simple;
-	bh=wdzGryGJXKi/hHuPN7L/AmS0QCPPOlS6W1rJcjiYE1s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h2/nD3FUGN9U1UNMXdyQDGFiHxxuAD9t4cXXsfnam13JZhVMesBvtfO8NexpQiQ394Fz6KIgQVtFHM7OMy1lC3rNV/UHsnjvPxaWZlPu8+X8M5tzeipyYJ3SNwLjhRPFHaBneeVxTDuPGGXfcEy449YVgLhXETmEav+gLD9g+n8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hNdmlNR8; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1782749997; c=relaxed/simple;
+	bh=8kJlmWX0DcPls/y5kYXSMMtb2vwTKbR1/3EaOhL0E2M=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
+	 References:In-Reply-To; b=pQYLpottop4ChglYihpk+maADJYBihX3Nz3CgDN8UnI4hR9ZJnlqDpadXqhPGuQU9fhrfRk5RmgF4dNtxi/4N8HuJwHOaOasBUTCrpLEGfr+iLsDLBXwsS5OCmttkFB6cZHp1v15Ee/kbJfcudY129FVv431JZbu21crylPGERY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h3YFCVJs; arc=none smtp.client-ip=74.125.82.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hNdmlNR8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782746130; x=1814282130;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wdzGryGJXKi/hHuPN7L/AmS0QCPPOlS6W1rJcjiYE1s=;
-  b=hNdmlNR8c7b9Kv9TXarLmFD/hmZRR7sjwLVDUiA+s3DaFfXHBVx81oCg
-   w+yxRZpv0sQy3RxRAGO+rcc3WqcpoXhDD9IRodx01N7xk3uCT24JnSAk3
-   222NHcLDx7ECBBTl3CwMIxkRcPzybOCJbhdIXuyrvy0eK0yxfflXNi88Q
-   kBGXZB3vYp/xD6k7LV3vNSs4/au+0zS8OzHHH4+pOn+s6/BMBtMHZ5cD7
-   2cSWx23xjvdCOp809cUB2lgeMMIip8L2RzLOrBk8nuJz+rWw85SJKmseq
-   cO9L2uWf3q8G1qig7WI+I4bX3FKtHrXL0H8pFWT65DOs6U2lkBXEsLH+9
-   Q==;
-X-CSE-ConnectionGUID: kaHz3Vx2ReuoHqxVf/9yfA==
-X-CSE-MsgGUID: JIe0v5ZnR7C6r+P10tciBA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="94591444"
-X-IronPort-AV: E=Sophos;i="6.24,232,1774335600"; 
-   d="scan'208";a="94591444"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 08:14:26 -0700
-X-CSE-ConnectionGUID: CaeBuvTsRguVFv1TMfb2nQ==
-X-CSE-MsgGUID: R72cGVW/T7KMySNl1UQU8Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,232,1774335600"; 
-   d="scan'208";a="282055689"
-Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.207])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 08:14:24 -0700
-Date: Mon, 29 Jun 2026 18:14:22 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 2/2] media: atomisp: Demote all kernel-doc comments
-Message-ID: <akKLzsMmyIrSSxdl@ashevche-desk.local>
-References: <20260629-atomisp-kerneldoc-simple-v1-0-8ae282b85c5c@chromium.org>
- <20260629-atomisp-kerneldoc-simple-v1-2-8ae282b85c5c@chromium.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h3YFCVJs"
+Received: by mail-dl1-f41.google.com with SMTP id a92af1059eb24-13810b63a1aso7910036c88.1
+        for <linux-staging@lists.linux.dev>; Mon, 29 Jun 2026 09:19:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782749995; x=1783354795; darn=lists.linux.dev;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8kJlmWX0DcPls/y5kYXSMMtb2vwTKbR1/3EaOhL0E2M=;
+        b=h3YFCVJslIc0nIawRHZur73LG4CLoYpZRcYXO0KqigyshQLDwhpCjHh0skGon0mPIh
+         4yvYoE5oqFKTFdXhqPK2WZ13aPZGwuT9ggL/eLSGWT+bbY9es4b5Q0+H2iu8Wl22qqll
+         NpWW7uCqMYLoH/0tPXIpHV0Th8p2aMhdeV9akTXRxJ4LSsISw6GLRPAfgSIcgsuSbM/2
+         P7t+P1itu1OvLXOdYThdxV93xWtzwG5p5r6TxqaHHoYjdFDy6CPMdaY7/3EgG8xGNUhD
+         zdS9al+uV4YZI7jGmOSxJWwAAo5JIZmPnMqooAGjzwoZiV4LxV/SVzRv2fSHFjJDbNJc
+         idrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782749995; x=1783354795;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8kJlmWX0DcPls/y5kYXSMMtb2vwTKbR1/3EaOhL0E2M=;
+        b=Reec7SEpJ5tWrMi7au3B/S1c0Pekq/p9nA2RKGSUpKC71D1PrhMern5ntW82Nt1a6e
+         s5UKxaL16Xn8hr9NSdwZ1PuPj30pPTvJFY09Y4Nr1q5VVOljtFd+RvGHvU4qlKe0WGnY
+         UZbK/zrhggJ8x66l+dE8arr6vmoSvbss6/Qm1mil8QXAXLh9+3/Sjn+vE6kSHpAZuj4v
+         wULyNm2vY2K3/Ut947o3yKv1pbgFUbeXSSjaJFxUogzdGQ8EIAQUaKvBoclq/KT2LX5t
+         qnuHaPYJomCce6x/G3okxX4bMUydAGUpIUFVdGW7gGmIi5JRWr+/Wsk0zsWDIXmqkzsV
+         f7Ug==
+X-Forwarded-Encrypted: i=1; AFNElJ9eNrnIyBfhU9S7FanAOrslCDP+4zfZx2CuVYynxvmbG7IfJstiS0JA+xmqwvLFBjRiwns7u+9z3FMAyXJv@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy1ASc4IQNRLPLplKBFptNq+LmWggr9n/sVQ1UgPwSjCi+YzZL0
+	KrNIVBuc0AMl3OdKJsbHEZt78tyD333Zha4RgebePnWsVacxU55WSKvz
+X-Gm-Gg: AfdE7ckAGYDE6R2QacLKv4zoF5QPcpaWnXrdrY0D2Dg3fExV0a+NTShziUlPbBWhpjs
+	bHANrec88NvMP/LRME+vNGhAIZjnIBM6D4ZUhx/z/xfmRJtwIOfTbBtXcx4VkVOliuX0giAi5SU
+	ub6dFBwne+lAB1P5/OSLi8PZcJqTjlOD8Hu2dXsrs6Dil8+igBXs5XPJxLXQ1H0psUQnmfJfyJu
+	yRzVRox/2UbvzO1hzUtBnludaUX26m2wJEXFBn8Cu5DMh9tnda2m2Yu0T9G9r5DnhJBUCYnvDT8
+	ydClKehsr47hQCy/gedQsSK1ifIU92klQcbpT5zFE3mnU8XqdMK1VuueZ739f5+01jXn80FQ6Eh
+	eXhsQJuZQv+Pay0mUPcEJftJE9uV3enXkvF6A3OTdYwWeMRISno/Ccqq+mOgTVpCuN5i3+Cy4L9
+	GipK4u0qitIlxli6/BnNOgfnbbQZIrH/c7BLhw2WDfKqXdagdw0VAVo8dk9rJ0mziG8pItl7JOq
+	v4b
+X-Received: by 2002:a05:7022:41a4:b0:139:819b:f5b7 with SMTP id a92af1059eb24-13b2a1ac2bfmr68831c88.29.1782749995408;
+        Mon, 29 Jun 2026 09:19:55 -0700 (PDT)
+Received: from localhost ([45.64.226.42])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13a00324b3dsm9730982c88.1.2026.06.29.09.19.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Jun 2026 09:19:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260629-atomisp-kerneldoc-simple-v1-2-8ae282b85c5c@chromium.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 29 Jun 2026 21:49:49 +0530
+Message-Id: <DJLO4N0H5YYF.1GOPQDJ9QVG4A@gmail.com>
+From: "Prashant Rahul" <prashantrahul23@gmail.com>
+To: "Dan Carpenter" <error27@gmail.com>, "Prashant Rahul"
+ <prashantrahul23@gmail.com>
+Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Shuah Khan"
+ <shuah@kernel.org>, <linux-staging@lists.linux.dev>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 4/4] staging: octeon: handle rx/tx initialization
+ failures in probe
+X-Mailer: aerc 0.21.0
+References: <20260628-staging-driver-octeon-panic-v1-0-fe8c34989254@gmail.com> <20260628-staging-driver-octeon-panic-v1-4-fe8c34989254@gmail.com> <akIiVWOOfjbdM_G-@stanley.mountain>
+In-Reply-To: <akIiVWOOfjbdM_G-@stanley.mountain>
 
-On Mon, Jun 29, 2026 at 11:48:29AM +0000, Ricardo Ribalda wrote:
-> Despite the fact that kernel-doc does not emit warning for these
-> comments, it is much more consistent if we keep the marker /**
-> exclusively for kernel-doc.
+On Mon Jun 29, 2026 at 1:14 PM IST, Dan Carpenter wrote:
+> cvmx_pko_shutdown() has a built in call to
+> cvmx_pko_disable() so why are we calling that separately?
 
-I see valid kernel doc in many places, please reconsider touching only
-controversial cases.
+Didn't realize cvmx_pko_shutdown did that. Will remove that. Also, Should
+I remove the cvmx_pko_disable() call in the remove function in this patch
+series? Or should I do that in a new patch?
 
--- 
-With Best Regards,
-Andy Shevchenko
+> Also I feel like probe() should fail if alloc_netdev() fails
+> or register_netdev(), but that's not introduced by this patch
+> either.
 
+My main goal with the patch series was to get rid of panic() calls in
+some of the initialization error paths. I will look into properly handling
+alloc_etherdev and register_netdev errors but in new patch(es).
 
+regards,
+Prashant Rahul
