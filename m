@@ -1,101 +1,101 @@
-Received: from mail-dl1-f41.google.com (mail-dl1-f41.google.com [74.125.82.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61C042D3A7C
-	for <linux-staging@lists.linux.dev>; Mon, 29 Jun 2026 16:19:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 108FA43C078
+	for <linux-staging@lists.linux.dev>; Mon, 29 Jun 2026 16:24:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782749997; cv=none; b=o7Fn7Y3p/Nn13aVZp3XO/VkLbb/eTvF2fQO0BoyMIvSe7rJ6wfNqZ20U1au1KUAmZhXXpKe39xvvYPU2wy8GZ/LXHoAb8IChiOP+FwDqSIm+i9l5YpfbRbtkOqtlPhlWw/I9Fw8AouHlDFkBXqZ7Di5ay1eg65Oz/pSnxGzLGsY=
+	t=1782750300; cv=none; b=oyg7crJvtNYZg8cde1eJHRRQaGapUlSKJCA7MR/Dp+X30i85POY8TQ40GPp6II6y2WcbfBC6kjh09Q0zEfqL5L529ADvr6qePH5xb695ZTSQqFyIu+JFipHH8BHE0xTKXZGUFEmPa0/nmpG8k5VHs1THq+5w093ToIbExpBGURI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782749997; c=relaxed/simple;
-	bh=8kJlmWX0DcPls/y5kYXSMMtb2vwTKbR1/3EaOhL0E2M=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
-	 References:In-Reply-To; b=pQYLpottop4ChglYihpk+maADJYBihX3Nz3CgDN8UnI4hR9ZJnlqDpadXqhPGuQU9fhrfRk5RmgF4dNtxi/4N8HuJwHOaOasBUTCrpLEGfr+iLsDLBXwsS5OCmttkFB6cZHp1v15Ee/kbJfcudY129FVv431JZbu21crylPGERY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h3YFCVJs; arc=none smtp.client-ip=74.125.82.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782750300; c=relaxed/simple;
+	bh=o5t4J99Ft/B/ByL7TptJC3aZCmUArFeilGEd4v9Czsk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VQL5VLKHZq1AeDdA/5suZXtp4Gqtd7/itHYaCJx8SZa8dEx6LAKniimWxfmLtE/M8zLHHGbIa3v8LFKC/ksbZzmAetfRE9Np1mYCJU1gnHx2ClT6WNP+/hnuUIp1w8xPd6ED45nXyjUKk1YDgKIMkjg64UOkP+TLDXq1RgkM1dE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TCBC+FNT; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h3YFCVJs"
-Received: by mail-dl1-f41.google.com with SMTP id a92af1059eb24-13810b63a1aso7910036c88.1
-        for <linux-staging@lists.linux.dev>; Mon, 29 Jun 2026 09:19:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782749995; x=1783354795; darn=lists.linux.dev;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8kJlmWX0DcPls/y5kYXSMMtb2vwTKbR1/3EaOhL0E2M=;
-        b=h3YFCVJslIc0nIawRHZur73LG4CLoYpZRcYXO0KqigyshQLDwhpCjHh0skGon0mPIh
-         4yvYoE5oqFKTFdXhqPK2WZ13aPZGwuT9ggL/eLSGWT+bbY9es4b5Q0+H2iu8Wl22qqll
-         NpWW7uCqMYLoH/0tPXIpHV0Th8p2aMhdeV9akTXRxJ4LSsISw6GLRPAfgSIcgsuSbM/2
-         P7t+P1itu1OvLXOdYThdxV93xWtzwG5p5r6TxqaHHoYjdFDy6CPMdaY7/3EgG8xGNUhD
-         zdS9al+uV4YZI7jGmOSxJWwAAo5JIZmPnMqooAGjzwoZiV4LxV/SVzRv2fSHFjJDbNJc
-         idrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782749995; x=1783354795;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8kJlmWX0DcPls/y5kYXSMMtb2vwTKbR1/3EaOhL0E2M=;
-        b=Reec7SEpJ5tWrMi7au3B/S1c0Pekq/p9nA2RKGSUpKC71D1PrhMern5ntW82Nt1a6e
-         s5UKxaL16Xn8hr9NSdwZ1PuPj30pPTvJFY09Y4Nr1q5VVOljtFd+RvGHvU4qlKe0WGnY
-         UZbK/zrhggJ8x66l+dE8arr6vmoSvbss6/Qm1mil8QXAXLh9+3/Sjn+vE6kSHpAZuj4v
-         wULyNm2vY2K3/Ut947o3yKv1pbgFUbeXSSjaJFxUogzdGQ8EIAQUaKvBoclq/KT2LX5t
-         qnuHaPYJomCce6x/G3okxX4bMUydAGUpIUFVdGW7gGmIi5JRWr+/Wsk0zsWDIXmqkzsV
-         f7Ug==
-X-Forwarded-Encrypted: i=1; AFNElJ9eNrnIyBfhU9S7FanAOrslCDP+4zfZx2CuVYynxvmbG7IfJstiS0JA+xmqwvLFBjRiwns7u+9z3FMAyXJv@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy1ASc4IQNRLPLplKBFptNq+LmWggr9n/sVQ1UgPwSjCi+YzZL0
-	KrNIVBuc0AMl3OdKJsbHEZt78tyD333Zha4RgebePnWsVacxU55WSKvz
-X-Gm-Gg: AfdE7ckAGYDE6R2QacLKv4zoF5QPcpaWnXrdrY0D2Dg3fExV0a+NTShziUlPbBWhpjs
-	bHANrec88NvMP/LRME+vNGhAIZjnIBM6D4ZUhx/z/xfmRJtwIOfTbBtXcx4VkVOliuX0giAi5SU
-	ub6dFBwne+lAB1P5/OSLi8PZcJqTjlOD8Hu2dXsrs6Dil8+igBXs5XPJxLXQ1H0psUQnmfJfyJu
-	yRzVRox/2UbvzO1hzUtBnludaUX26m2wJEXFBn8Cu5DMh9tnda2m2Yu0T9G9r5DnhJBUCYnvDT8
-	ydClKehsr47hQCy/gedQsSK1ifIU92klQcbpT5zFE3mnU8XqdMK1VuueZ739f5+01jXn80FQ6Eh
-	eXhsQJuZQv+Pay0mUPcEJftJE9uV3enXkvF6A3OTdYwWeMRISno/Ccqq+mOgTVpCuN5i3+Cy4L9
-	GipK4u0qitIlxli6/BnNOgfnbbQZIrH/c7BLhw2WDfKqXdagdw0VAVo8dk9rJ0mziG8pItl7JOq
-	v4b
-X-Received: by 2002:a05:7022:41a4:b0:139:819b:f5b7 with SMTP id a92af1059eb24-13b2a1ac2bfmr68831c88.29.1782749995408;
-        Mon, 29 Jun 2026 09:19:55 -0700 (PDT)
-Received: from localhost ([45.64.226.42])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13a00324b3dsm9730982c88.1.2026.06.29.09.19.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 29 Jun 2026 09:19:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TCBC+FNT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782750299; x=1814286299;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=o5t4J99Ft/B/ByL7TptJC3aZCmUArFeilGEd4v9Czsk=;
+  b=TCBC+FNTA5zNbT9lqAWn3aRgHFjJ8zjxrPGq+L29zjrYbZtM1czSTNOB
+   RZZ2/vtIG4GQ58lwwoWzYQYUL2OaMVDhwZAWkJdLiZG/qExbfHMtIatiW
+   H0IAUHfOvFXdwad5bDd+e0BYFFtKgfbggiIvt7cCNoBVzjZYOLHMsHSqo
+   ih8xoFBhCZDHksb2JJnMCnLLM/b1i8vUYIC3ppA2jd5MJhMUMF0ABj59G
+   D0/aBMKBN5EeHvGx5BJEh7XMNKNogzcbScxv1U/F/VJ50W+Rv/p0F2INe
+   xEot1Yr56ElEjqIJ0/EusAEwU3tcP2pJOIDS8bYLFRaiUSuLcpf/BmPHt
+   w==;
+X-CSE-ConnectionGUID: AjrtglWqTpCZfYkk7aSkdA==
+X-CSE-MsgGUID: oI0qxqKsS5ijgMGjYherWA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="94037119"
+X-IronPort-AV: E=Sophos;i="6.24,232,1774335600"; 
+   d="scan'208";a="94037119"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 09:24:58 -0700
+X-CSE-ConnectionGUID: HwLbCL2STuaekElzD4r5Fg==
+X-CSE-MsgGUID: hSueI52aQAik0VNE7/UIuQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,232,1774335600"; 
+   d="scan'208";a="276272790"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.207])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 09:24:56 -0700
+Date: Mon, 29 Jun 2026 19:24:54 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Doruk Tan Ozturk <doruk@0sec.ai>
+Cc: hansg@kernel.org, andy@kernel.org, mchehab@kernel.org,
+	gregkh@linuxfoundation.org, error27@gmail.com,
+	sakari.ailus@linux.intel.com, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] media: atomisp: validate sizeimage against the
+ allocated frame in framebuffer-to-CSS
+Message-ID: <akKcVudM8hj5Germ@ashevche-desk.local>
+References: <20260627100119.97650-1-doruk@0sec.ai>
+ <20260627100119.97650-2-doruk@0sec.ai>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 29 Jun 2026 21:49:49 +0530
-Message-Id: <DJLO4N0H5YYF.1GOPQDJ9QVG4A@gmail.com>
-From: "Prashant Rahul" <prashantrahul23@gmail.com>
-To: "Dan Carpenter" <error27@gmail.com>, "Prashant Rahul"
- <prashantrahul23@gmail.com>
-Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Shuah Khan"
- <shuah@kernel.org>, <linux-staging@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 4/4] staging: octeon: handle rx/tx initialization
- failures in probe
-X-Mailer: aerc 0.21.0
-References: <20260628-staging-driver-octeon-panic-v1-0-fe8c34989254@gmail.com> <20260628-staging-driver-octeon-panic-v1-4-fe8c34989254@gmail.com> <akIiVWOOfjbdM_G-@stanley.mountain>
-In-Reply-To: <akIiVWOOfjbdM_G-@stanley.mountain>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260627100119.97650-2-doruk@0sec.ai>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Mon Jun 29, 2026 at 1:14 PM IST, Dan Carpenter wrote:
-> cvmx_pko_shutdown() has a built in call to
-> cvmx_pko_disable() so why are we calling that separately?
+On Sat, Jun 27, 2026 at 12:01:18PM +0200, Doruk Tan Ozturk wrote:
+> atomisp_v4l2_framebuffer_to_css_frame() allocates the CSS frame from
+> arg->fmt.{width,height,pixelformat}, but then copies and stores
+> arg->fmt.sizeimage bytes into it. sizeimage is an independent,
+> user-controlled v4l2_pix_format field, and nothing checks it against the
+> allocated frame, so a sizeimage larger than width*height*bpp overflows
+> res->data in hmm_store().
+> 
+> Reject a sizeimage that exceeds the allocated frame (res->data_bytes)
+> before the copy/store.
+> 
+> Note this ioctl path (S_ISP_FPN_TABLE) is currently gated off by
+> 2b7eb2c5dc72 ("staging: media: atomisp: Disallow all private IOCTLs"),
+> so it is not reachable from userspace today; this hardens the
+> disabled-but-revivable path.
 
-Didn't realize cvmx_pko_shutdown did that. Will remove that. Also, Should
-I remove the cvmx_pko_disable() call in the remove function in this patch
-series? Or should I do that in a new patch?
+> Found by 0sec's autonomous vulnerability analysis (https://0sec.ai).
+> Found by static analysis; not yet runtime-reproduced (Intel
+> Baytrail/Cherrytrail ISP hardware required).
 
-> Also I feel like probe() should fail if alloc_netdev() fails
-> or register_netdev(), but that's not introduced by this patch
-> either.
+This can go to the comment block. Otherwise you have a tag below already.
+Same for other patches in the series.
 
-My main goal with the patch series was to get rid of panic() calls in
-some of the initialization error paths. I will look into properly handling
-alloc_etherdev and register_netdev errors but in new patch(es).
+> Fixes: a49d25364dfb ("staging/atomisp: Add support for the Intel IPU v2")
+> Assisted-by: 0sec:claude-opus-4.8
+> Signed-off-by: Doruk Tan Ozturk <doruk@0sec.ai>
 
-regards,
-Prashant Rahul
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
