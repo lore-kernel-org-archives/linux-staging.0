@@ -1,96 +1,176 @@
-Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 772283B27CA
-	for <linux-staging@lists.linux.dev>; Mon, 29 Jun 2026 08:25:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D7773F5BD6
+	for <linux-staging@lists.linux.dev>; Mon, 29 Jun 2026 08:30:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782721554; cv=none; b=D/mMgtrY9V75BMOP9uifKl3I8aFGrwXpGWRKI1m1tJ7qM4fF2q/8Ikzpi3dVq9hvOAdbHzHiHgTw5PBOO4Pvl+f9j+Bwg1b1xfoMGkMSn7XTyC1EivJVYK0oHtKiPHCom0Y5UkasShfZTKdNyfOJs4nPgBrL6fF2btMwJF7CIMY=
+	t=1782721848; cv=none; b=RqGyfqM11F8fnHHM/pvQOPc3jPHmcffX88cjHbh2uy4UAJ6TDEpff0DRYmGSFcM5lBlb8t78ln9Rpgg5NmlIEmqRgFJK9ZXV9WgKqzyvrE6A140V6DUZJ3kichwHKD9a5efYc/lyt9G69FRXJ7+J+5mNB9jhTC+vg2GWOjdE1fo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782721554; c=relaxed/simple;
-	bh=Jvfy8BvYo0ZTKyrFa2+wvFpfCXois0NgDhBvaQTZoPw=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=H+A0a5dMjqmsKViTR8FiuggGh7dq0AH04RTSVdNVX/bvvAEJf48RKiGCafSMQqkmyn8PDbVFtUIVRBLv0OWVv0pWpLOL03HzhSVEgEIeI0EWy61v00kAwEjMpewVkxH2J1eLYHkgIeH4LJXclJ6WPsVhw1WI0gMihaQkWRd9Cnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q/HpS44l; arc=none smtp.client-ip=74.125.82.177
+	s=arc-20240116; t=1782721848; c=relaxed/simple;
+	bh=abts/1MRf4sGQNrs+Qra6uETICHxnjs03xjp5k5HK2Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q9WOLtdP/aq69YEZAadpE9rRr/skCrLc3VN9QEg05Gpvr2xzGViUPggX/yWy6bs/Zs+rU8nzfPvqF7L3+YaWcnEjFiq82PkcUyLWcz6Ho6W+hXbBYfB8sWdzRMDz+oLNPWKn8QK7ESAKBXCaTg4bG+6pseUwxu6sZzv3ui2zAxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d5M8h4Qs; arc=none smtp.client-ip=209.85.208.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q/HpS44l"
-Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-3078e0dcd67so5285278eec.0
-        for <linux-staging@lists.linux.dev>; Mon, 29 Jun 2026 01:25:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d5M8h4Qs"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-698439b6e8aso3440988a12.3
+        for <linux-staging@lists.linux.dev>; Mon, 29 Jun 2026 01:30:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782721552; x=1783326352; darn=lists.linux.dev;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JWA59cSsBZjr2kKlyg3H/1yhWMTPEUomql+G1AWhPuQ=;
-        b=Q/HpS44lsByQeflA1t+lqZ7uckYFQ8klf1+yRN55sxijR1E32+Wink2KmmHyU43yiC
-         vuNYpcG/WQh1opCgC/SGNh1l/OsVaTldLCbDkJcnI/AlJshksyBpmZomg2XBKfZQl82C
-         X64SPEt+uWaiWaDsBoOf+Bz+7xcirTNruwMyqvMXMXQsjI6H7j5mxvTzWWZplhbJfgfT
-         aNdpochz2gpgCpoKc4SHOzfQ7W9KArJxT2/3Wl+MeldygWQcpVPCCAb8wbfiyGZkARtH
-         qsD0vj1LjvBlUn0Vaq+TcH8ygAh+Bzpaer+n9zUlUYnavP/gl48XMpI6i+vHwO5BhSuS
-         /uuQ==
+        d=gmail.com; s=20251104; t=1782721845; x=1783326645; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=fq4MrGKf+YRbreREYMtKaIO+6uUYvLSEbh1uxDtYk3E=;
+        b=d5M8h4QsC16RAoGsRY+mE1i8gyyplSz+42k2A2KGHL3U+x+qaLCjAqgABCsy9H4fVc
+         MrY2PGBKtLjI+fk8B/8STS8V+yVpq3xIg+2GRoavtnEXfytumr60yY0J94BmsefL1TVb
+         +St/S9T9Q07EK8PThcd2g96ayiPtIVdWxiQyWtWQsPghcLZUug6TnfjCTz22AxeBDMqO
+         bDRAjZ2QmiD2IDYrlIVl4IdMH7fs1nVsUrkFRkZVjnv2OlpkMhMoXsdHHlTVR7aYL4cC
+         8KMCI7KlzRwVyBmHoCZleE/gd5e5crX/7J0rq+011TrZzvT9lf6gGaV1C9s3qGd3I/ns
+         Sibw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782721552; x=1783326352;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JWA59cSsBZjr2kKlyg3H/1yhWMTPEUomql+G1AWhPuQ=;
-        b=DFQ7AMRR31/SalI9kHAx/4rivGrrLZpYQyrNd2uVMB1OO9Ytc9xUjIdB4m079EmEEA
-         x9B+EXViHAjtmqVZ+Cr3dKsbut9c7/mWVHKkoEy8ydoOOTCl1TQAnsvdwwaIZoifW22G
-         Zc5awpefF+skgRNlFKcWzIEhEeRr3yFqPOvLTtn5FB/zkYJsE+AAM2PdUX9VccofkVSC
-         VJN8tGPgMpoJ/kUZUn4jIg0CFZtKTYYKO/9CMtYrYrDm3R/SyLmVXqZHGt3Q+AEA8dYJ
-         AyFjBOX70LUb54ixtDBWDmYiz1fyINbbIarpUqFAeymYSO38w+DDRR7KHZ4XwRrUIBAK
-         X1sw==
-X-Forwarded-Encrypted: i=1; AHgh+RqiCXqGJBOfxfVJANbH7CPQjr343E1uW3ICnv1Bcuc0Mm/qqAy/U1aLn4QyrANXnKSqLXnoKxkoA6Ir1n8U@lists.linux.dev
-X-Gm-Message-State: AOJu0YzAlYR97qxQEXfQkjSlIA9IE1i0M2MNJ9IdOdmkup2OR/j2rj5N
-	ml9iG7kGNjwNxRm6BT7yyxbH0UvhAYEFDTda8tmsZUJKA30SAAV+8ZJn
-X-Gm-Gg: AfdE7cmlwOD1M/rjnrqPePFrsrhS9PeloLkty5A3OMYKaEsOCXUZvLqrXCUlERi/OVI
-	KA0J3GB1/FSkjkzFfJAoA4wFzBdGtuY1Luqsnne17fZ+G8kt2k3zGlKXxpVSb1L43mBP/Z4N+zE
-	UL9sjy28eMCYtVaq6PEgPz+u6ZrePBUieiB/RhlzbPwVFtRkFDzvHnkcDcjznyfspEhId7pCsAR
-	SlheWp4EEnMJUqte8elIlwjGAEFZj2M+7PZh4DyAkOnO8ywVV5TzEW73hV2nnwRL4r8MgFmpTZN
-	J/o24+lwAIYcvbsP+LKMJ6fOgL91qlGUvhvM30nMJcmDamMcFe8Jpg2rdrcJ4cKVSBBmKxs1TTM
-	De8URF8cVtJyGAecv8LzLUaeAC8Fg0pGDBTi03YqlYsgByaq8Oob7kMdrHmHZZUdkWlXQqbexGM
-	Ih2bdPKJmCneXzMazZKLEz22JXMpVfLh0wVXjF4VhSFSRERd71uFnke9GRGTcoKxNXmYs1R25Xx
-	LjB
-X-Received: by 2002:a05:7300:fb8d:b0:304:b14:ec53 with SMTP id 5a478bee46e88-30c84dab521mr14139857eec.27.1782721552452;
-        Mon, 29 Jun 2026 01:25:52 -0700 (PDT)
-Received: from localhost ([45.64.226.42])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30edaa20508sm1271381eec.14.2026.06.29.01.25.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 29 Jun 2026 01:25:51 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1782721845; x=1783326645;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fq4MrGKf+YRbreREYMtKaIO+6uUYvLSEbh1uxDtYk3E=;
+        b=ipJs98jVBFaO17RG4k+8Vl7W9BFgeDBu+B00D8JrDkvn9XdVj4af9Ej+LcVOTzT+OQ
+         82cWEa49BhbYHWGk4v6ztOqRpbWcVuj09XJUFqHMTqktXwi+ExywkUc+pb0tm+UQNxGB
+         pzVEWo82ZYHSzpz3Fi0RFtAvLidXRPPftLqy09HYazVUUXOTFxPjSGRmu608CZM/J8pM
+         l0Ibpbn9mMEVLzAp0iHsf2YesJo6UhMnzVvR2hnk3SXYNz67NUGjBBEMhOOxTwqslUJb
+         ulqbBX9V+NfdxRmw/jV8m70/251QQ1Ev8ABmQX/eGQKyBz179WnbSG8TAgEkt3BYuNjg
+         LoJw==
+X-Forwarded-Encrypted: i=1; AHgh+RrdRSxVyixA8Goth9jK9BqqV6uuOntmhAg3iwFL3aUamtslNT4+JkYOc2HGAjPtwftUSm+ENEDAZkOC8TVl@lists.linux.dev
+X-Gm-Message-State: AOJu0YzefLeCX1jBC7caTQAZYXOBq3tWLpxqaQXL1eSlVJn4QmbYM13a
+	yV/9gh/Hf0q2NO3vmMK59yO/6oVlIUTvsayt2/+7UfXnhhDmi71UeiC5
+X-Gm-Gg: AfdE7clpgcAdsaTlktdtHauz8fpbIMffp4P4KZdE8J+CJnUjRyhNotacyFEcNTmvKJO
+	p8Un88iO4p5XQpRmLRC+msQEYS99VwtvXABG2vFgRJU/wt6MGkh8qqL36xlAJYnEqO/qorYgTBO
+	b8eHjAk1Mw1pkkLOg5H/aG9+ndqkbwxqXdP2ZLKKfhUIebpamgY6XzIo3ytST7a//o6fb4HC5MZ
+	RFbCyFq8m25VRhBgkIZ/iy5Oj6gaMdG48MTeLl9OVgBLTaz7iFPK2Zd1ke5mFv4Ljfq17Zex4ps
+	DYujlDBlK4SPiI/TDAOmGj56jVMaPwDQ0/mDQshSJMmU+6w3nkSP3RLcwdEUl2AYWwMhhQfPThC
+	H0eqtGuK+UdFEwxfDo5PW7ghMpKpbkM24uiVXMjqMzn9sFGnRI8leJEA/3/4uLhyRWrrngzciRJ
+	hTsXg9yox6sw==
+X-Received: by 2002:a17:906:6206:b0:bed:87c:b24e with SMTP id a640c23a62f3a-c1205eef62emr702909766b.29.1782721845095;
+        Mon, 29 Jun 2026 01:30:45 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:9cf4:43df:e612:817b])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1276ec6c96sm39712166b.43.2026.06.29.01.30.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jun 2026 01:30:44 -0700 (PDT)
+Date: Mon, 29 Jun 2026 11:30:40 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Dawei Feng <dawei.feng@seu.edu.cn>
+Cc: hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com,
+	andy@kernel.org, gregkh@linuxfoundation.org, azpijr@gmail.com,
+	kees@kernel.org, arnd@arndb.de, pontescpedro@gmail.com,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, jianhao.xu@seu.edu.cn,
+	zilin@seu.edu.cn
+Subject: Re: [PATCH] media: atomisp: fix CAS scaler descriptor leaks
+Message-ID: <akItMNqgKTDBCGV0@stanley.mountain>
+References: <20260627060151.2543613-1-dawei.feng@seu.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 29 Jun 2026 13:55:46 +0530
-Message-Id: <DJLE1OGDMMV0.1TSDJRDW4Z547@gmail.com>
-Cc: "Prashant Rahul" <prashantrahul23@gmail.com>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, "Shuah Khan" <shuah@kernel.org>,
- <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 0/4] staging: octeon: Improve initialization error
- handling
-From: "Prashant Rahul" <prashantrahul23@gmail.com>
-To: "Dan Carpenter" <error27@gmail.com>
-X-Mailer: aerc 0.21.0
-References: <20260628-staging-driver-octeon-panic-v1-0-fe8c34989254@gmail.com> <akIdyUhcH6O-Iczx@stanley.mountain>
-In-Reply-To: <akIdyUhcH6O-Iczx@stanley.mountain>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260627060151.2543613-1-dawei.feng@seu.edu.cn>
 
-On Mon Jun 29, 2026 at 12:54 PM IST, Dan Carpenter wrote:
+On Sat, Jun 27, 2026 at 02:01:51PM +0800, Dawei Feng wrote:
+> load_video_binaries() and load_primary_binaries() create a CAS scaler
+> descriptor before allocating and looking up the YUV scaler binaries.
+> Several failure paths after descriptor creation return without destroying
+> the descriptor, leaking the frame-info arrays owned by it.
+> 
+> Route those exits through a descriptor cleanup label while keeping the
+> existing pipe_settings ownership model. Also clear num_yuv_scaler when
+> capture scaler binary allocation fails, so the existing failure unwind does
+> not iterate a NULL scaler array.
+> 
+> The bug was first flagged by an experimental analysis tool we are
+> developing for kernel memory-management bugs while analyzing
+> v6.13-rc1. The tool is still under development and is not yet publicly
+> available. Manual inspection confirms that the bug is still
+> present in v7.1.1.
+> 
+> An x86_64 allyesconfig build showed no new warnings. As we do not have
+> an Intel Atom ISP camera platform with matching sensor firmware and ACPI
+> camera graph to test with, no runtime testing was able to be performed.
+> 
+> Fixes: ad85094b293e ("Revert "media: staging: atomisp: Remove driver"")
+> Signed-off-by: Dawei Feng <dawei.feng@seu.edu.cn>
+> ---
+>  drivers/staging/media/atomisp/pci/sh_css.c | 35 ++++++++++++----------
+>  1 file changed, 19 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
+> index 00082276f1db..d0ff16ba890f 100644
+> --- a/drivers/staging/media/atomisp/pci/sh_css.c
+> +++ b/drivers/staging/media/atomisp/pci/sh_css.c
+> @@ -4528,20 +4528,20 @@ static int load_video_binaries(struct ia_css_pipe *pipe)
+>  			  NULL,
+>  			  &cas_scaler_descr);
+>  		if (err)
+> -			return err;
+> +			goto destroy_cas_scaler_desc;
+>  		mycs->num_yuv_scaler = cas_scaler_descr.num_stage;
+>  		mycs->yuv_scaler_binary = kzalloc_objs(struct ia_css_binary,
+>  						       cas_scaler_descr.num_stage);
+>  		if (!mycs->yuv_scaler_binary) {
+>  			mycs->num_yuv_scaler = 0;
+>  			err = -ENOMEM;
+> -			return err;
+> +			goto destroy_cas_scaler_desc;
+>  		}
+>  		mycs->is_output_stage = kzalloc_objs(bool,
+>  						     cas_scaler_descr.num_stage);
+>  		if (!mycs->is_output_stage) {
+>  			err = -ENOMEM;
+> -			return err;
+> +			goto destroy_cas_scaler_desc;
+>  		}
+>  		for (i = 0; i < cas_scaler_descr.num_stage; i++) {
+>  			struct ia_css_binary_descr yuv_scaler_descr;
+> @@ -4557,10 +4557,13 @@ static int load_video_binaries(struct ia_css_pipe *pipe)
+>  			if (err) {
+>  				kfree(mycs->is_output_stage);
+>  				mycs->is_output_stage = NULL;
+> -				return err;
+> +				goto destroy_cas_scaler_desc;
 
-> You need to say when you haven't tested your code.
+What about freeing mycs->yuv_scaler_binary?  There are a bunch of
+other leaks...  I would prefer a more complete fix.
 
-will do, thank you!
+https://staticthinking.wordpress.com/2022/04/28/free-the-last-thing-style/
 
-> You need to say when you're using AI to write patches.  There is
-> a format for it.
-> Documentation/process/coding-assistants.rst
+I would probably just do the free before the goto since this is not
+part of the cleanup function.
 
-Thank you for pointing it out, however I have not used any AI assistant
-for this patch series. I used Harper, an offline grammar checker, to
-help me write the emails, do I need to specify that? Other than that I used
-basic tools like an editor, make, git etc.
+		if (err) {
+			ia_css_pipe_destroy_cas_scaler_desc(&cas_scaler_descr);
+			goto free_output_stage;
+		}
+
+...
+
+	return 0;
+
+free_output_stage:
+	if (need_scalar) {
+		kfree(mycs->is_output_stage);
+		mycs->is_output_stage = NULL;
+	}
+free_scalar_binary:
+	if (need_scalar) {
+		kfree(mycs->yuv_scaler_binary);
+		mycs->yuv_scaler_binary = NULL;
+	}
+
+etc.
+
+regards,
+dan carpenter
+
