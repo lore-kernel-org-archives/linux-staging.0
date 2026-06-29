@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28A923B2FF1
-	for <linux-staging@lists.linux.dev>; Mon, 29 Jun 2026 14:53:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B950B3DCD8B
+	for <linux-staging@lists.linux.dev>; Mon, 29 Jun 2026 15:12:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782744808; cv=none; b=gQzwsc25+FnS8lpcx+GElu/vBSc/e/nS4FdpTmbjkmXIDHbG6RUfuISJJv9HztkvTuAN+kdFeEm6JHX2BW09ugdkA4i50z4MPTm4eRbaTj5UjegFTUpmF19nQFMb+bzBNTPyFoC090+ni3XdRQ9xKtyNLRop8/bBvdPsKodnSL4=
+	t=1782745946; cv=none; b=exCTCfBRsmJNgg9zYEftNOED92nzsW0j3aXVd9bRN+e9bXX+txQSypw09ZqcuNHc7GyfzjLVNRn9eolEZM15ng7XT6QDzJiyCLrT7SrviJkicPOXeDLRJYl/GTBsIN7VGyksN64TVeel1sw30z+Vym2JmjYI5cYVSm2GQGqrjRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782744808; c=relaxed/simple;
-	bh=QAASA7vVoa8vgutUpkxXK1xcnbnmSWAfDbZBZURSbII=;
+	s=arc-20240116; t=1782745946; c=relaxed/simple;
+	bh=s0LduPkBHrB8/uCMsIDByziFpDHzfQMiG0Lrk+XuWzo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GrZhosFduPo+xW1qvk/5fWUOJ2RdwzP9tmKWU0LULhYBu+XTkZRG9tB7dbeWBP8Uodu/N32MVVCWpjBJdnAaOAdMZP4VTPIz5Hla1HBAiWYZzRD+HWO8XNeN9LhpBdGxpVCfa+Dbpbf5M03jqeEbz7LTBJzcqYHy2B0ouStDbeA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XYwp3oSb; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=C6Z0nNafA/WMB3r3rtuO2ROsHQRHW8WWTanvKS6o2E7B9Mdr6b9EgzfBAUKpacz6ZfxjAEzfAXwSFljmJBRdGuUF3wcXpXsj78gv+D0diiVBn+sGEhmnyB22WaZ8WsAIABHn6qR6PEi6Na8y0ZFA6T0LWqMTqKeiQ/6fj7gdFdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jF8OeHg6; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XYwp3oSb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jF8OeHg6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782744807; x=1814280807;
+  t=1782745945; x=1814281945;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=QAASA7vVoa8vgutUpkxXK1xcnbnmSWAfDbZBZURSbII=;
-  b=XYwp3oSbX6DRTIxYb7FAeEq/rkj61irvcxKn/FrusKd/+IQJ3N6qcOYH
-   ypT7xw27Ly3Fcur/sIZYpZeHKBMTDBtW0mXqLCGeTJFzgXO6ql6lNdf6t
-   2dGwHaYuEI5rZwoX3KXUl2Bo8ZUZ1MbY5NGFufrWXMJo5fSkWYfjiiHqT
-   iC+tc2/BZwTw0Dy1NKgU7aq1Wyo9p8i2NjCOaJMDsZa8uqE47+B8QgiPC
-   Jxi9wl5MVm7F7+ZjRZeF9bAfU5TCFHpqTUAK/u+NCjU2yTSO4xlOGXdBq
-   mL3nvCWjE7vyQRHOkI+baDl6poZ+ZsyGx0swwGrhLfaMDnG21/K5lu+QU
+  bh=s0LduPkBHrB8/uCMsIDByziFpDHzfQMiG0Lrk+XuWzo=;
+  b=jF8OeHg6dYaG+eHcYXSMtgn+XPqcJMKy1VsC5aSlX+IWBypOgqjKOcto
+   3vDdpcxDbL3wKbBYMmydHy+lA/i2raXdlyFkC0E0mWDMPgkeL39jre5xM
+   IeCump6Uslo5cs10r2V+v7CfKU3IOHv7lqQ5ggP+JsWv9Vzv6/dRR9mv6
+   FW6j0N3AH3yT3kdU9o+0aJHICoZQ3l65JpJncyvMZ4p6bf3LlOItD/9Ah
+   3kNqOohyqP34l1VzDNwNNBTcisy0Jy6x4Er2h5BuvC5ilMoI4tGNpqhIP
+   Eb0ljvzau6wVmJg3/84qE3kejPuhz3xL8xvtpMK8K/XdLjSKIKW94O5Yf
    w==;
-X-CSE-ConnectionGUID: SmTCpebiTMyUP0KmnV5Fbg==
-X-CSE-MsgGUID: PcgvIBglSreTFjUa3M1F7g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="106229754"
+X-CSE-ConnectionGUID: fCxfdEivS4yFK534+Ebgxw==
+X-CSE-MsgGUID: VdEr1Af7StmG000DSKqY4A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11832"; a="83637329"
 X-IronPort-AV: E=Sophos;i="6.24,232,1774335600"; 
-   d="scan'208";a="106229754"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 07:53:27 -0700
-X-CSE-ConnectionGUID: OIC/MQN+QTG6WUsFabEpEw==
-X-CSE-MsgGUID: brbamaLqTdaCoPYw+y8KCg==
+   d="scan'208";a="83637329"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 08:12:25 -0700
+X-CSE-ConnectionGUID: YgE0NmjQS4ObXpy1kaj+Sw==
+X-CSE-MsgGUID: m/CHLSzITTaCxwxWQvfSWQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,232,1774335600"; 
-   d="scan'208";a="250286574"
+   d="scan'208";a="255928492"
 Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.207])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 07:53:25 -0700
-Date: Mon, 29 Jun 2026 17:53:01 +0300
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 08:12:23 -0700
+Date: Mon, 29 Jun 2026 18:12:20 +0300
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Doruk Tan Ozturk <doruk@0sec.ai>
-Cc: hansg@kernel.org, andy@kernel.org, mchehab@kernel.org,
-	gregkh@linuxfoundation.org, error27@gmail.com,
-	sakari.ailus@linux.intel.com, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] media: atomisp: reject frame dimensions that overflow
- the size calculation
-Message-ID: <akKGzfWUgBxnmQ0t@ashevche-desk.local>
-References: <20260627110355.27167-1-doruk@0sec.ai>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH 1/2] media: atomisp: Demote all broken kernel-doc comments
+Message-ID: <akKLVFOSV9fdg6Wq@ashevche-desk.local>
+References: <20260629-atomisp-kerneldoc-simple-v1-0-8ae282b85c5c@chromium.org>
+ <20260629-atomisp-kerneldoc-simple-v1-1-8ae282b85c5c@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -62,77 +64,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260627110355.27167-1-doruk@0sec.ai>
+In-Reply-To: <20260629-atomisp-kerneldoc-simple-v1-1-8ae282b85c5c@chromium.org>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Sat, Jun 27, 2026 at 01:03:55PM +0200, Doruk Tan Ozturk wrote:
-> ia_css_frame_allocate() computes frame->data_bytes (a u32) in the
-> frame_init_*_planes() helpers as width/padded_width * height *
-> bytes-per-pixel * plane-count, using plain unsigned arithmetic with no
-> overflow check, and then hands the result to hmm_alloc().
-
-Translate this from programmer's mess to plain English.
-
-> A large
-> width/height pair wraps the u32, so hmm_alloc() returns an undersized
-
-Same, u32 --> 32-bit value
-
-> buffer that a subsequent copy can overflow.
+On Mon, Jun 29, 2026 at 11:48:28AM +0000, Ricardo Ribalda wrote:
+> The atomisp code has been very heavily annotated in doxygen format.
 > 
-> Reject up front, in ia_css_frame_allocate() (which already returns
-> -EINVAL for bad arguments), any dimensions whose worst-case byte count
-> cannot be represented in the u32 data_bytes field. The factor 16
-
-Same here, 32-bit field (no need to even mention data_bytes, it gives just
-a noise to the reader).
-
-> conservatively bounds the largest per-pixel multiplier across all
-> supported formats (up to 6 planes, or 3x RGB planes with up to 4 bytes
-> per element).
+> Unfortunately, both doxygen and kernel-doc use the same mark for signify
+> the beginning of a comment (/**).
 > 
-> The most directly user-influenced caller,
-> atomisp_v4l2_framebuffer_to_css_frame() (S_ISP_FPN_TABLE), is currently
-> gated off by 2b7eb2c5dc72 ("staging: media: atomisp: Disallow all
-> private IOCTLs"), and other callers pass driver-derived dimensions, so
-> this is defense-in-depth on the shared allocator rather than a live
-> userspace overflow.
+> As a result of this, kernel-doc gets confused when it parses atomisp and
+> throws tons of warnings, which made us completely disable atomisp
+> kernel-doc checks in Media-CI.
+> 
+> Demote all the broken comments so we can have 100% coverage.
+> 
+> Future patches can convert the doxygen annotations to kernel-doc if this
+> is deemed useful.
 
-> Found by 0sec's autonomous vulnerability analysis (https://0sec.ai).
-> Found by static analysis; not yet runtime-reproduced (Intel atomisp
-> hardware required).
+I haven't checked carefully, but assuming this is just mechanical change of
+/** to /* I am fine with it.
 
-This paragraph is not anymore required and considered a noise in the commit
-message. Comment block is perfectly fine for this...
-
-> Fixes: a49d25364dfb ("staging/atomisp: Add support for the Intel IPU v2")
-> Assisted-by: 0sec:claude-opus-4.8
-> Signed-off-by: Doruk Tan Ozturk <doruk@0sec.ai>
-> ---
-
-...somewhere here.
-
->  drivers/staging/media/atomisp/pci/runtime/frame/src/frame.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-
-...
-
->  	if (!frame || width == 0 || height == 0)
->  		return -EINVAL;
->  
-> +	if (check_mul_overflow(max(width, padded_width), height, &bytes) ||
-> +	    check_mul_overflow(bytes, 16u, &bytes))
-
-What does 'u' give us here?
-
-> +		return -EINVAL;
-> +
->  	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE,
->  			    "ia_css_frame_allocate() enter: width=%d, height=%d, format=%d, padded_width=%d, raw_bit_depth=%d\n",
->  			    width, height, format, padded_width, raw_bit_depth);
-
-Shouldn't we dtrace still the error cases? Wouldn't be helpful in debugging?
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
 
 -- 
 With Best Regards,
