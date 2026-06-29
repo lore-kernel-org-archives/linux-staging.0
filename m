@@ -1,148 +1,94 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 330BA3B7756
-	for <linux-staging@lists.linux.dev>; Mon, 29 Jun 2026 10:13:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F44936DA04
+	for <linux-staging@lists.linux.dev>; Mon, 29 Jun 2026 11:16:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782728012; cv=none; b=VFd3TgMjp0HutekbyBWMvB+umw4Yb4w01kskovQfvOpipnWgFGVVatnTb7uqj2sosci5ME7jDxbu2K/WWJP+IVZlx0hXGkuKov3XPoh0LqhWzr0Q3wq/e0GfHWHM0ZiVxKlqaY5b3PMMu/afFNbtGX/wXSgYkopJpBnvZK9AlW4=
+	t=1782731788; cv=none; b=WPSgSVvbTpA3Ndy+fznAgbtTJWt0oF0J8qIOPsVRsN7CT/0yo0MBt9OdTt/kh5b/AHzQCXmzNboh5XNUXcLuzDeeD56bfTSyryar+AzcY/Ol/MSvwD3cyWW9DnF4XRdt08bYQzmOMEvGuqB5mOTyjCHPBztAe1dyX1VvTqP7uLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782728012; c=relaxed/simple;
-	bh=q5jIXaSxCjuxSv6Etj3isb1WoEQFQTRoZE/y/N6SYms=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ISHkSvKGe3cYl4+VAkppO4d7jS/vg31dFgX3BUoxAT98C6Db+I2FvLTfFgCA0zD+ipAAUO5px/gKnPtB9n5feleSiHON/4K7s7+S1UAMnwPzLYn6Nipho5/8H7+zWIMW7wiXFMN22Cvxs059nJOz/6Uc40voEwjegMdVuAsNXtg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=D/drcOTe; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1782731788; c=relaxed/simple;
+	bh=huqplC5tXzrHDNH78d4acpzt6EpbIyJkwstEQsjeJqU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eYTLagzNua/MeDWQbzl5GleMC/lgrKsvZqNhJdPWpnRtg/gdA84zJvvJhyKwcyvTiO5ZlhJA+IBT+VwHaq4orYBeWbfx5MPYthr9OsRqRTIHcRdClOOIeyLBVB6AzGMv/cZypFA4vSm6Se6mLc0Jg3rYd31W/6ZL9QFXIwc2R3k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f+tfWaMh; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="D/drcOTe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1782728009;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xm3lnF8OGUYYjPMf1XDMCVfIs1+U/YDcq+T0Pc20cjo=;
-	b=D/drcOTeMth0uxGeaihuQGZll0SbVNu1KnCSULdUvTTXQsOTWRwmd5jy4pze52WFojNaxt
-	Pj1NhNsxLvrktmTumR+743cBkwIR9k8WTDAvY4S3tQsuZIm8OjugToUnH/41CsOv7WzE2B
-	ClfntYZcTybKiZWqJQXkJngRp60KFm8=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-672-l9XEON-bOymLjj1PETMjag-1; Mon, 29 Jun 2026 06:13:27 -0400
-X-MC-Unique: l9XEON-bOymLjj1PETMjag-1
-X-Mimecast-MFC-AGG-ID: l9XEON-bOymLjj1PETMjag_1782728007
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-490bae3a39bso23000775e9.1
-        for <linux-staging@lists.linux.dev>; Mon, 29 Jun 2026 03:13:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782728006; x=1783332806;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xm3lnF8OGUYYjPMf1XDMCVfIs1+U/YDcq+T0Pc20cjo=;
-        b=Xljt0WjTn2jdd/+wt6nGHGrL+javaHB/Wq6/jFfyI0vP1nSe5CFMWD2LE45wFmq+sc
-         0QPNxNnStpydbRttWr9LGE+A6VOrhXGRtCxNe0xPvfLrUmuY5aP3ElM5YpaE+SM2Ozam
-         HbjP13Uh2rkkO/9Ce+jOzh8Mk1YkJnmJkkXHt3Jwfyb71Yub2DGvTjWJmaDHg2b2kWkv
-         EehJyHExqX6RskfMB6Mh3QUboefYHJbA5YY6Ev7fNtp0AG3fEhHrE80nDXkjYEC6zGRo
-         eUcxjiX5+GxIKVx3GiZvlQAa+kttXw3TzdtxF5U/ZupjyjPDu3LKwa7WQ733jnJB7uce
-         FsAA==
-X-Forwarded-Encrypted: i=1; AFNElJ81RbN8Jk7ekjfbCNL0zoHYN4GVRzSzZls+7CPdXINRiI27//TK8SYzTGITzrMe0j8trmpLZUpm291a3MC+@lists.linux.dev
-X-Gm-Message-State: AOJu0YyzXcBLtbOXtEOCgrjVS7k7bIQrakTOHJs9RGok8qqOwixabItU
-	iUV7dehs6lmRdIcqiF8vQeooS1MSg7FkExTkk9l1cIgPEnAEFt691e9n5U1awzxLS9CwnWZkaLC
-	JRU8/s0HypQDylmSLmCGeUZPELI3n2v9LLZvSLZrGHcqeOcKBeyBxnulYo11TqDmTm+B5ead0Wi
-	k=
-X-Gm-Gg: AfdE7clUcqlKqaIpmR7cXhFQSdad2KEpwtUchdB486l+yDg3+zJlGeg+KqSsPFkwWs+
-	VM7aDywKk2mn6ZMk34buYjFgoiTsPwHE3glhamutJvg1plj1FfDbqYGbYp8WTVlTUPb/5QOcvEl
-	juLrk7Uks2wiscqMBkenFeSM1TDrmox1+NSuXrWjNzwdvEAKO+UGPg8kVgWkT0BGQUY7fSpOBar
-	k+iJtbsA6ypbKUwWRU/7V/nmiAO/2CUgrtRrJXUClJWH0oMlh0DJnWXW+a4OkfGtpadaz8mN1n9
-	Xz0IBVm8mlCT72rE8ZD8TVopkPQEo3bIasi4/6kHqELRkLC9DO5+xD+RAV9+zYiMlJx/ku32PF0
-	p151rbeZ0JiapBi1TVvc4iL+hrmdqcfz5ElPG2j9iZRg3qP3iwRqJSJyi9e0RRUoFcPDzbg==
-X-Received: by 2002:a05:600c:6218:b0:492:700b:deea with SMTP id 5b1f17b1804b1-493b71a21c5mr1717765e9.13.1782728006551;
-        Mon, 29 Jun 2026 03:13:26 -0700 (PDT)
-X-Received: by 2002:a05:600c:6218:b0:492:700b:deea with SMTP id 5b1f17b1804b1-493b71a21c5mr1717385e9.13.1782728006067;
-        Mon, 29 Jun 2026 03:13:26 -0700 (PDT)
-Received: from localhost (62-151-111-63.jazzfree.ya.com. [62.151.111.63])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4734df60acesm11346521f8f.25.2026.06.29.03.13.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2026 03:13:25 -0700 (PDT)
-From: Javier Martinez Canillas <javierm@redhat.com>
-To: Amit Barzilai <amit.barzilai22@gmail.com>,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, andy@kernel.org,
- gregkh@linuxfoundation.org, deller@gmx.de
-Cc: azuddinadam@gmail.com, chintanlike@gmail.com,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, Amit Barzilai <amit.barzilai22@gmail.com>
-Subject: Re: [PATCH v2 2/4] drm/ssd130x: Add RGB565 support to SSD133X family
-In-Reply-To: <20260622152506.78627-3-amit.barzilai22@gmail.com>
-References: <20260622152506.78627-1-amit.barzilai22@gmail.com>
- <20260622152506.78627-3-amit.barzilai22@gmail.com>
-Date: Mon, 29 Jun 2026 12:13:24 +0200
-Message-ID: <87jyrhd58b.fsf@ocarina.mail-host-address-is-not-set>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f+tfWaMh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782731787; x=1814267787;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=huqplC5tXzrHDNH78d4acpzt6EpbIyJkwstEQsjeJqU=;
+  b=f+tfWaMh3eDUzzGGGsGsFHzr79UlIDfNCC+B+9kenNHupdDShe9ZLo6T
+   osmQpwM4gWWacNRmMe5lr9/W5BUnVZWAo3cGt3ZNCAmihanSNKOM6uG6S
+   tmrY4suGHUMYhA17wyh405rXcfV+Z2htBRy+0zxCo3MGLxJv6Gka+01T/
+   ed1n/gaHYTtq/KqrdIgJ5Xq19r7rrS0EpnH3hX5/srOJ93UWV9YK5lcV9
+   lDa5ygXlUP0KDpWRdW+hQpz1w8FfKBVnPQ9IwNirS5HqUriGtJNFj4mQO
+   WT7wJijkCJN+0/+7O3WtoNLxI35XNSELUyJSlVbeNjxG3e1Fdwtis83y/
+   Q==;
+X-CSE-ConnectionGUID: H7hdrozCTLugaO0QOZt5yQ==
+X-CSE-MsgGUID: YNN2L9CbQTqDV1W+YCovCw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11831"; a="83554400"
+X-IronPort-AV: E=Sophos;i="6.24,231,1774335600"; 
+   d="scan'208";a="83554400"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 04:16:26 -0700
+X-CSE-ConnectionGUID: w8E+t1XXTnySPc9VDI0rdA==
+X-CSE-MsgGUID: bPf8VgK/SXmncBqwQ7MJCQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,231,1774335600"; 
+   d="scan'208";a="247950336"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.207])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 04:16:23 -0700
+Date: Mon, 29 Jun 2026 14:16:21 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Dan Carpenter <error27@gmail.com>
+Cc: Dawei Feng <dawei.feng@seu.edu.cn>, hansg@kernel.org,
+	mchehab@kernel.org, sakari.ailus@linux.intel.com, andy@kernel.org,
+	gregkh@linuxfoundation.org, azpijr@gmail.com, kees@kernel.org,
+	arnd@arndb.de, pontescpedro@gmail.com, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	jianhao.xu@seu.edu.cn, zilin@seu.edu.cn
+Subject: Re: [PATCH] media: atomisp: fix CAS scaler descriptor leaks
+Message-ID: <akJUBYUpjIX0dvx7@ashevche-desk.local>
+References: <20260627060151.2543613-1-dawei.feng@seu.edu.cn>
+ <akItMNqgKTDBCGV0@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: xco1eJ_42G8vNiLqx-CKB-nwCuNEHrdJohUA4ggGjho_1782728007
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <akItMNqgKTDBCGV0@stanley.mountain>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Amit Barzilai <amit.barzilai22@gmail.com> writes:
+On Mon, Jun 29, 2026 at 11:30:40AM +0300, Dan Carpenter wrote:
+> On Sat, Jun 27, 2026 at 02:01:51PM +0800, Dawei Feng wrote:
 
-Hello Amit,
+...
 
-Thanks for doing a re-spin and adding the SSD1351 support to the
-ssd130x driver. This is much closer to what I had in mind than v1.
+> free_output_stage:
+> 	if (need_scalar) {
+> 		kfree(mycs->is_output_stage);
+> 		mycs->is_output_stage = NULL;
+> 	}
+> free_scalar_binary:
+> 	if (need_scalar) {
+> 		kfree(mycs->yuv_scaler_binary);
+> 		mycs->yuv_scaler_binary = NULL;
+> 	}
 
-[...]
-
->  
->  const struct ssd130x_deviceinfo ssd130x_variants[] = {
-> @@ -206,6 +212,7 @@ const struct ssd130x_deviceinfo ssd130x_variants[] = {
->  	[SSD1331_ID] = {
->  		.default_width = 96,
->  		.default_height = 64,
-> +		.format_rgb565 = 1,
->  		.family_id = SSD133X_FAMILY,
->  	}
-
-[...]
-
->  
->  	iosys_map_set_vaddr(&dst, data_array);
-> -	drm_fb_xrgb8888_to_rgb332(&dst, &dst_pitch, vmap, fb, rect, fmtcnv_state);
-> +	if (ssd130x->device_info->format_rgb565)
-> +		drm_fb_xrgb8888_to_rgb565be(&dst, &dst_pitch, vmap, fb, rect, fmtcnv_state);
-> +	else
-> +		drm_fb_xrgb8888_to_rgb332(&dst, &dst_pitch, vmap, fb, rect, fmtcnv_state);
->
-
-Since you are changing the SSD1331_ID to use .format_rgb565, what's the
-value of keeping the RGB323 support ? It's not used by any other Solomon
-family supported by the driver.
-
-Ideally, we would like the driver to expose native formats besides the
-virtualized XRGB8888. Geert posted some patches for SSD1301 some time ago:
-
-https://lists.freedesktop.org/archives/dri-devel/2023-August/419937.html
-
-but that never landed.
-
-If that was the case, then SSD130X could expose DRM_FORMAT_XRGB8888 and
-DRM_FORMAT_R1; SSD132X would expose DRM_FORMAT_XRGB8888 and DRM_FORMAT_R4 and
-SSD133X expose DRM_FORMAT_XRGB8888, DRM_FORMAT_RGB332 and DRM_FORMAT_RGB565.
-
-Given that we don't have that, I suppose that we could just get rid of the
-DRM_FORMAT_RGB332 support for SSD133X and just default to DRM_FORMAT_RGB565.
+If we go this way, double check that the checks are needed as we have kfree()
+to be NULL-aware.
 
 -- 
-Best regards,
+With Best Regards,
+Andy Shevchenko
 
-Javier Martinez Canillas
-Core Platforms
-Red Hat
 
