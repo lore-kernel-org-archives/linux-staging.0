@@ -1,74 +1,51 @@
-Received: from mail-lr2-f2.google.com (mail-lr2-f2.google.com [74.125.230.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx1.riseup.net (mx1.riseup.net [198.252.153.129])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80DC844B663
-	for <linux-staging@lists.linux.dev>; Tue, 30 Jun 2026 16:06:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0E5C37C0F3
+	for <linux-staging@lists.linux.dev>; Tue, 30 Jun 2026 16:33:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.252.153.129
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782835567; cv=none; b=M3jozblk/6dG8L6AX7qxEsECT3qLoyEFa+wNmMNlBcEuYvlYM8nqUKEixcFII8dgdDbJCzd23ejhLSF9YveI6jFyHU66aLYL4twlEydy7YWje7791kE5FL/AnpwgOI6Z/N/Y5Ejs8yvw0SpPhY88RvuUoKQBMUtn5I6kORka26E=
+	t=1782837214; cv=none; b=ISq7aqakUIOBxx/BD5380EK2kvFfOkXtV12JC4RWSr3R1RLWtLmlu6FiPY8YtGtF54ieGfIkRqJqk+Icj3FTwyyP6CUUNBuErOEhLu964JorSDDOirIZkIoNsDpw8sXGdK3GHItPE9H4axA91e1+CTyJlBX7va7r/oapvEETayo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782835567; c=relaxed/simple;
-	bh=m3vAsK5slw0dcrp5GIzrlVJVX/5gpHWYHdhD9DgaINk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IkDDGol6+x+/8CPSnL/vHbZ8zyq2OKWplIrPjzqlmgTNNeT1SQtkmFJBB9HMj5zLN7fHK974FG/M8aOWMhr93PBYmNeaM4BVJbzxtkPuwteGnRLIYeKm27+H/RCJxwhUT/nfyZJZ1SeCai61EaKauGQlSPp5Y0LfSZRp7LvubmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LjNtsrGL; arc=none smtp.client-ip=74.125.230.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1782837214; c=relaxed/simple;
+	bh=ZAbwiQHi+iE8yUSF8CiWH5HY29xfqCf1dJqHsWWir9Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OGCv7t3ZConNlTfn3k16ZwP9+XIVJZDQ72mgW4KH3eW3tuLkPXcEvlC9NzEvB6bDEjvzj5m7chJU2SXjmUNsUufy40UQxW21fNK+re6BojlVvdF6ImwHvsrK626BEJ5RFfq0HyNwgmKPsqXBIthSAvMx4M/7hxxIdvFd0f7UTQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net; spf=pass smtp.mailfrom=riseup.net; dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b=Hj8TaIjf; arc=none smtp.client-ip=198.252.153.129
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=riseup.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riseup.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LjNtsrGL"
-Received: by mail-lr2-f2.google.com with SMTP id 38308e7fff4ca-39ac6d46512so2010661fa.1
-        for <linux-staging@lists.linux.dev>; Tue, 30 Jun 2026 09:06:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782835564; x=1783440364; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=GdkkU1grf9UGW9t3296G0fSDCaf7b9DnqBxsaoQmFhc=;
-        b=LjNtsrGLS58xsEMKFOQ3MuwcPyzjy6V9mjL94Zrpkekkl1vvdpgK3ZMXk96TovjSnl
-         dBYNXR/WE7KhSjSOt5lm+Wh8KGuCiBqnLPH6Zl9yX/pDU2PEP8Y6f9TbfR2MDjfKGEJ7
-         y1jY5N2WUb7FMo7CBPJ8YZa0kA8CBrYu9qknKGsll+/uTBSdWH2gwdIOfWMjdTKF641U
-         s1aB7ki2XXEsq06QoBhFcsNR3ZzF42dSJwAsxiEYXBqgRshPxzER46dpBgNv4oyHO98S
-         9ib3mI6WACEC4jZQ6d+Cp61sjai1X366ghlLgtqkRjRC7X6ht9w7IekKc3he9gKXpVKU
-         segw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782835564; x=1783440364;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GdkkU1grf9UGW9t3296G0fSDCaf7b9DnqBxsaoQmFhc=;
-        b=Z2Iy33X9AELxr+M2ySazh1DfRRpGvDIpCSxXtYwigwE+JTjUShAGujVDR+sWenC8Ga
-         Bu0m7KcGz66g5EGURTjJkLdV4iM10YiMCElyf5lfTGm+uXBzOto6GO8hgtBXg0MRc+Rb
-         DV4IytnyT05gtbDxU2hOXz49ze6Fy7C/2FoNhUwAoiL4Vir6CKFFBpoHL2o6Vf5JfeLG
-         RpBg7gvIzqYB9apKIN/Wp84N9uEJn6+DBGUkLgTqAp6N7+lhMyEx6ukBPzpRt1aqShtU
-         XFe8oRf8k1mKbpOYXK9k9BKEh3IKstyDIukYKryFIn+9oR505ATKGQ2WNCA0zP7VYw3T
-         nLGQ==
-X-Forwarded-Encrypted: i=1; AHgh+RpllzZOnB5clXif+Q4Pp2ozrEdgvq/70K3RA+sp2MAHkGc5FJZdIBFuQ/Q8Pz7RT+dY8Hzfnw1Idk06WSYX@lists.linux.dev
-X-Gm-Message-State: AOJu0YwfQyNg46DmWztjRHk3r//erkkDJXdu2QGfRofNj3yN0x9MDX/f
-	O1u5bMyCW8qy/JC7CeuZiLcFzHGP82GL/symqq5Y4jAQYkKvpYVZ4DfR
-X-Gm-Gg: AfdE7ckZou6c34hAt4mQzwfC1118BszVCUXiTwWGAw6y9sW2hE38tA6d24I+T9zVq1j
-	fvFRhM/aGjOIQi5ECtH8tC9UX81wZ/Q5YkLvzQANK9QEnOUweRdqoG+zKGMaOKvdXdxznPv3P65
-	213omWGwHjjf7ZpB+3eV9pfawgen7+vFvmu3ylKUQVlf/+Et+JRlHgFWIx0lEMB6t8oxJIRafcS
-	TcceDSBqND+7siWf6wIT1tVbQmJX3eifBOqcYCkfp6B4abUAM2JuymJyKgIcog7AwanKZJlKOcH
-	6uxAdp2orpMqDpBRIz9MzAfMKDgwKfMqyBuFnJrC5ld6sc0RcI5G9EAOMGA04loQBl/ne2TZZri
-	16qaOmszEGMnPoqtX43Pd9+JmTVEakhLkiywHuWAUjxVJIpMtEJgR7DYi/Y6hct+latlOww==
-X-Received: by 2002:a05:6512:61d1:20b0:5ae:bf21:22bc with SMTP id 2adb3069b0e04-5aec10c070bmr311853e87.30.1782835563310;
-        Tue, 30 Jun 2026 09:06:03 -0700 (PDT)
-Received: from arch ([93.177.236.219])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aebe498645sm673045e87.39.2026.06.30.09.06.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jun 2026 09:06:02 -0700 (PDT)
-From: "Bohdan D. Marcus" <bohdandmarcus@gmail.com>
-To: hansg@kernel.org,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: andy@kernel.org,
-	sakari.ailus@linux.intel.com,
-	linux-media@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=riseup.net header.i=@riseup.net header.b="Hj8TaIjf"
+Received: from mx0.riseup.net (mx0-pn.riseup.net [10.0.1.42])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx1.riseup.net (Postfix) with ESMTPS id 4gqTGt2NPzzDqSl
+	for <linux-staging@lists.linux.dev>; Tue, 30 Jun 2026 16:33:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=riseup.net; s=squak;
+	t=1782837206; bh=50HnRUI+A+3GORVq3GhGuza5shFoWikYoKOHo/zrCwU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Hj8TaIjflD/H7wNB1bXe67sFRC3rfVXTjkpksocY+2hPmSm0H1Xog8xowI32KUXpO
+	 xGjTLKX4o4Y8HWjkn8oAPRYEh+a6BTSHaCWzQZF49HV5tNra2Ut2fW1qG5h0FW1dwY
+	 zO/BhcYW5T9rPir6dQ6EbyspkmFL4ZK5/A7iqcYw=
+Received: from fews01-sea.riseup.net (fews01-sea-pn.riseup.net [10.0.1.109])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx0.riseup.net (Postfix) with ESMTPS id 4gqTGm0QZ5z9sVd;
+	Tue, 30 Jun 2026 16:33:20 +0000 (UTC)
+X-Riseup-User-ID: 6698835F2DE288BF4F6A8EA919D6F0DFB875FE5FBCDBFD7C82C5DEE30D17AC5D
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	 by fews01-sea.riseup.net (Postfix) with ESMTPSA id 4gqTGl2rQCz1yhr;
+	Tue, 30 Jun 2026 16:33:19 +0000 (UTC)
+From: Alonso Garrigues <agarrigues@riseup.net>
+To: gregkh@linuxfoundation.org
+Cc: guojy.bj@gmail.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	"Bohdan D. Marcus" <bohdandmarcus@gmail.com>
-Subject: [PATCH v3] media: atomisp: fix block comment formatting style
-Date: Tue, 30 Jun 2026 19:04:35 +0300
-Message-ID: <20260630160435.3293-1-bohdandmarcus@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	Alonso Garrigues <agarrigues@riseup.net>
+Subject: [PATCH 0/6] staging: rtl8723bs: style fixes for rtl8723bs_cmd.c
+Date: Tue, 30 Jun 2026 17:33:10 +0100
+Message-ID: <20260630163316.1128319-1-agarrigues@riseup.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,35 +54,20 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix a block comment formatting warning reported by
-checkpatch.pl in atomisp_cmd.c to conform to the
-Linux kernel coding style.
+This series cleans multiple style errors flagged by checkpatch.pl
+script. None of it changes functionality.
 
-Signed-off-by: Bohdan D. Marcus <bohdandmarcus@gmail.com>
----
- drivers/staging/media/atomisp/pci/atomisp_cmd.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+Alonso Garrigues (6):
+  staging: rtl8723bs: remove dead code block in rtl8723bs_cmd.c
+  staging: rtl8723bs: correct binary operator style in rtl8723bs_cmd.c
+  staging: rtl8723bs: fix lines ending in '(' in rtl8723b_cmd.c
+  staging: rtl8723bs: remove dead code in rtl8723b_cmd.c
+  staging: rtl8723bs: remove unnecessary parentheses in rtl8723b_cmd.c
+  staging: rtl8723bs: Add braces to if statement in rtl8723bs_cmd.c
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 6cd500d9fd26..20abc2c0de80 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -2520,9 +2520,12 @@ int atomisp_css_cp_dvs2_coefs(struct atomisp_sub_device *asd,
- 		if (sizeof(*cur) != sizeof(dvs2_coefs.grid) ||
- 		    memcmp(&dvs2_coefs.grid, cur, sizeof(dvs2_coefs.grid))) {
- 			dev_err(asd->isp->dev, "dvs grid mismatch!\n");
--			/* If the grid info in the argument differs from the current
--			grid info, we tell the caller to reset the grid size and
--			try again. */
-+						/*
-+						 * If the grid info in the argument differs
-+						 * from the current grid info, we tell the
-+						 * caller to reset the grid size and try
-+						 * again.
-+						 */
- 			return -EAGAIN;
- 		}
- 
+ drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c | 246 +++++++++----------
+ 1 file changed, 110 insertions(+), 136 deletions(-)
+
 -- 
-2.55.0
+2.54.0
 
