@@ -1,60 +1,60 @@
-Received: from mail-lr2-f1.google.com (mail-lr2-f1.google.com [74.125.230.65])
+Received: from mail-lr2-f0.google.com (mail-lr2-f0.google.com [74.125.230.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69F42416CEB
-	for <linux-staging@lists.linux.dev>; Tue, 30 Jun 2026 13:12:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 544B142314A
+	for <linux-staging@lists.linux.dev>; Tue, 30 Jun 2026 13:26:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782825161; cv=none; b=Q5PKpEFGhBLX9jZeUTM+h5gYkmKXxrpwyi3VjnD2ypXsHDJHAVSuyLLs1q8oQ+s7Mdz1hD0U1GYGpfm4HewjLtYC5qLdlobt7px77wA1uRoI5TsoKamPKC8tbmYWKvf9SYtGHFq3eXjQzY8sqAvzTvA+326NCHeru6gv/FJBnv4=
+	t=1782826003; cv=none; b=dg8v3MihSX6X5dUrqJZgPp2iRKd7Qh2r+rEcmbxS19ClCCqbJg62MXLztiFUmpXPg9T9Wa6gTyOoK8NdmClQqZ4Be0L8YAPlB8dXcOuVZhcQwKUMSpjdiY7rd47AAg6Oq/85gD3c3uT44JYzqkIinzt+XFD4Dcj3X95wyT+W2RY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782825161; c=relaxed/simple;
-	bh=HVg+YqWI4chdY73d0/jR0tccjaohiK3cyNxnhw5aYa0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ra+/tvQS7mnKucAzQEaBHPpdrSzJLUo+K2nSVmH2OFj/D01Y/Rdz1IVbZNSaRZeCut4VMNq+j+z36/lfH/DxdehIcjfJa+eTzn838GO9svLN0JCIEdAnBMTaulC9Mi4xSduY9mKcVmV09F+624a/Taf7O42mD+YCwzHBKvPIQ0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DOeE2C3S; arc=none smtp.client-ip=74.125.230.65
+	s=arc-20240116; t=1782826003; c=relaxed/simple;
+	bh=z8wxs+UliPE0bE9EvjH8ommNq4Q9+859qLoxJePls20=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=e/uIS8NzGEOouTtHaBOeiwCzur7IQICdl5vDQ8MLPV6djA2sOTO5BaVH/oJsfZQLRz6GUJsRu/Lsy6QpY+E49mVvwQw5D9i5D3A+Jq9RaQC54JqUpBAz+iCAhvxIp57z3zVqx2/QkwixTMCQpBZ5AUeyHAn0XJ5sWicotFeAIOE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GnTv56Db; arc=none smtp.client-ip=74.125.230.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DOeE2C3S"
-Received: by mail-lr2-f1.google.com with SMTP id 38308e7fff4ca-39aea87aaf6so6372001fa.1
-        for <linux-staging@lists.linux.dev>; Tue, 30 Jun 2026 06:12:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GnTv56Db"
+Received: by mail-lr2-f0.google.com with SMTP id 38308e7fff4ca-39b1c6b6f69so5110821fa.1
+        for <linux-staging@lists.linux.dev>; Tue, 30 Jun 2026 06:26:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782825157; x=1783429957; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1782826000; x=1783430800; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bshkajr9LMtOLYZB9AnqP+QXGl8rV2fpMnulclow29g=;
-        b=DOeE2C3SB7RotGK+XaMrH5oLlyYQmWVcly/Y3Ru29vr3AO2Asg+X8R7lxlbe1WuDzl
-         9Wi3A/JpEpNIZKeAq3qvyJSIxpCv4ZtvyFqnoX3DqFl9aPEpW9KwBuaH3R9gi7vFez7h
-         HDnJkidVY+suw/3ozfzDXn1Pg0ndPPzR1fhDbN6JFxLSQTcfPSfL9K5adCTL63fZUs/F
-         xRyl14z6LoHaa8FZcfZimNKK+fiME3G+DnNKQpiwMDYj/ifZsuXD8RjMmtZm1auP0acT
-         sOf3fkJGBNmIM0ijQIYEnh3P4q+tDFGZu8yoGFoFfNDRt18KbIQbQhYznm8wYfA+yxsd
-         bKsQ==
+        bh=sCtbIud45S7nTe5FjLzz2DOhp5efRAJQqbB7c988YWQ=;
+        b=GnTv56DbyX03xa3RNgGWWsW/mXrDuke880cy5lc+4jjyD/PSw/mEtnLVuT47SdrBDa
+         NQk/l7e7mo3TPkz/Fl9d6iZ9EU4KSlAMrpNsz5gP8Z9oohYGh/vX66Y49J3+pyayYMHh
+         L+nhnVfCdt2oBqRhq9m4e7JNUulU9qzG8v0faBVV6keHt2YWBV8dIAxdkBo27zimixQD
+         B9clDTS+YuKdotSdx0pCDC5PQMxXo3F3N3nZV3S0ojs0igy4RTKShs68iPfabtz+2C9m
+         yt9qP/GnHZ8pX9Fgy5BQy+zapTguMQF2WVu6gBH10b2qZUOZFOVihVupZLwNHNYutXVf
+         m6cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782825157; x=1783429957;
+        d=1e100.net; s=20251104; t=1782826000; x=1783430800;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bshkajr9LMtOLYZB9AnqP+QXGl8rV2fpMnulclow29g=;
-        b=N/MYhz0rMF3fSh82CsGZrpPDkEmGbCxpt0AkfrkL6nJQxdz0DhlD6wnBVK2bm9um0U
-         qtXzous7jRwit9o7ZxwJcmervNi3+eR5isKUviF0Bsfl/vajRVv+xqgcew4Gr0Ez1FmN
-         a/c8mdzi/vXdwOcHM+4ABdjobNk1+g5s7Y+uQxTrQIJ1q4xcddHAs2/3iKTazL9ORyPs
-         VifqIhoOtRC4G+ddxofQLrvazsF5isAzs56WT/iFgyRVe9nOwL3Ynl2nXnQR+NkhFV6A
-         r5sXU8ANAcgnZQM/XK1goTk0q0xsxacgNz3peXKw9SaJvzi/IozKGT4LA+OBk1bXS7XJ
-         5hdA==
-X-Forwarded-Encrypted: i=1; AHgh+RrMuhXlZh735zXVBl02PhXX36rPPCDVqyAy2joDbv160RuBNvZdso/JRTbr6T1vdnwX8YnsXvFTQs/VwZZq@lists.linux.dev
-X-Gm-Message-State: AOJu0YwmIVwxcVkShSDvsbZzgWxqqfcNsNWHNNk8FFWwtNkxgAesnPVg
-	+PWTdceg/X6oX6eYHEbzdkOEXTNt0HRRJGAqMSpGmY9fW/SQMXRzu117
-X-Gm-Gg: AfdE7ckuPXmpJxHYwBbsS2DY4WLTmqMZi3F5fGzQZqxZjYwtVe/anUMFG5PUHhZqVGk
-	VjXxmwwl0gs3ljdHAkEhEKxZEdyJoHX0dpqQ1na/0lyoauVDzUO8cBhJ1b4t3IGHMMJ3rzoerw2
-	4MhJYGdc6YZ7scvQbpTtDC7xfcD611f58en46CtwlZui6tFAzGf0GdFVtC8eeWCgqRtkbfbH763
-	Y8aVgF6jZPXysv0gYgJC2JsIGzPgz7ptGGHZO+iqonqk21mRMSfLNEaVpXr1Fl/BREAqoKPokt5
-	BROwpgmZJFDHCXwF78J0YfFiO+hHBrgXCjWUuD+4xxHNmkflxp4lUp7vCJ1pLkdLyeDtTM7vz1R
-	Cd1KdbwYmrwnWFG76o1QJqRlfqbpBNN3/T/KTlx1rjmzDV3aMh5Ska1n1TqVVFKqXS3nb1w==
-X-Received: by 2002:a05:651c:40d4:b0:39a:d587:ceaf with SMTP id 38308e7fff4ca-39b1da5dcb4mr5857451fa.8.1782825156443;
-        Tue, 30 Jun 2026 06:12:36 -0700 (PDT)
+        bh=sCtbIud45S7nTe5FjLzz2DOhp5efRAJQqbB7c988YWQ=;
+        b=Z13Xq1BxuopWF+HcnT5aHKKxSeIDf+KHPgZf3Jhx56BngCSWOtzxfYKHDxqjVjKAlh
+         RBAQQrBBdZ9jK2xPVcijW9lare5ygT0VNBIdV/y0qJrtwmJl9vAP4OKgssz29aAnpPkA
+         SrKvOcERLqZ+rhvqXT1RTbu9W1o6eYDx83ID0D8BTlvOWXwESJVBrYTCMPEebhSjR+q3
+         uDTdwsIU/tr3ssFJMWK7bFoG0i6TjVJJSmi56q1FPNmTrszek4cPchCZ7fAKWr5vPxJu
+         5vmdn/CAbvfyuQT/mionRApZYc5Q5bRDR5A6jLdongyHJ22fY6OcbX08ELlvSKD4MPMp
+         8Zlw==
+X-Forwarded-Encrypted: i=1; AHgh+RoYlpkhHF97aQ7winjYfC/rwTOhmZPtTYCB6flhBKqIjnBOY4FlzIKemG/IKh3f2i5e7C+FC4den2WoeDvO@lists.linux.dev
+X-Gm-Message-State: AOJu0YyPS+6MsIszTuLRPinSMZL2woM/PnhDfKWvoMVxmg7Ww15LFL4R
+	ytJeT/p67kEKTKyRMrWKXhVBtjBlIWjGJkPp86wyvQDUqwNa/OYA7eiM
+X-Gm-Gg: AfdE7cm0kohcHebyhlNybEXBFAudMmvoxBNQ8dmfxW6PQPG2e8PGLvC9boabbe2GxDm
+	olmveJ8lvkmWEQLMENGM0rQw/yKWVr6MWZxchcs3qWXecEfdeRXdzJjrEO3WmGzIpsBar4S281k
+	qNLGsAChkG8AqOuHHPD8fbFZw31qeHvH2Rc2yeOaoOIn2nAHZStKkRPIJQLCNsbjf7FlYhbSXut
+	aNcg1Ei6PEEsx4kzHom9rHXVJS1pFL7+6wdLjE79dJg1UNfOp9JpTcal55P9BFxC8D9smcpVdbI
+	kO7u1GbA++/FFLv7LKxR0YYsrn6A/SiylDta7sB76bq6dpp86IqP8S0PRDih6lPmUN29oKkVKPl
+	722rjlUHDLyF77ouFrAf/TcOFaVs0ZKUrPm9l/Bls2Sz9FL8z+bHnkmZGQYZTXGoUxwiLVA==
+X-Received: by 2002:a05:651c:2203:b0:39b:d0:e992 with SMTP id 38308e7fff4ca-39b1da26188mr8230171fa.4.1782826000423;
+        Tue, 30 Jun 2026 06:26:40 -0700 (PDT)
 Received: from arch ([93.177.236.219])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-39b1d81d0f8sm5296631fa.9.2026.06.30.06.12.33
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-39b1d81c80fsm6120731fa.4.2026.06.30.06.26.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jun 2026 06:12:36 -0700 (PDT)
+        Tue, 30 Jun 2026 06:26:39 -0700 (PDT)
 From: "Bohdan D. Marcus" <bohdandmarcus@gmail.com>
 To: hansg@kernel.org,
 	mchehab@kernel.org,
@@ -64,11 +64,10 @@ Cc: andy@kernel.org,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	"Bohdan D. Marcus" <bohdandmarcus@gmail.com>,
-	"Bohdan D. Marcus" <bohdanmarcus@tutanota.com>
-Subject: [PATCH] media: atomisp: fix block comment formatting style
-Date: Tue, 30 Jun 2026 16:12:26 +0300
-Message-ID: <20260630131226.23374-1-bohdandmarcus@gmail.com>
+	"Bohdan D. Marcus" <bohdandmarcus@gmail.com>
+Subject: [PATCH v2] media: atomisp: fix block comment formatting style
+Date: Tue, 30 Jun 2026 16:26:31 +0300
+Message-ID: <20260630132631.25762-1-bohdandmarcus@gmail.com>
 X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -78,10 +77,9 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix a block comment formatting warning reported by checkpatch.pl
-in atomisp_cmd.c to conform to the Linux kernel coding style.
+Fix a block comment formatting warning reported by checkpatch.pl in atomisp_cmd.c to conform to the Linux kernel coding style.
 
-Signed-off-by: Bohdan D. Marcus <bohdanmarcus@tutanota.com>
+Signed-off-by: Bohdan D. Marcus <bohdandmarcus@gmail.com>
 ---
  drivers/staging/media/atomisp/pci/atomisp_cmd.c | 9 ++++++---
  1 file changed, 6 insertions(+), 3 deletions(-)
