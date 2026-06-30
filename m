@@ -1,98 +1,104 @@
-Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B6CF27FD6D
-	for <linux-staging@lists.linux.dev>; Tue, 30 Jun 2026 13:32:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70C6223BCE3
+	for <linux-staging@lists.linux.dev>; Tue, 30 Jun 2026 14:05:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782826333; cv=none; b=FZjfcGT9RgWMq9vd/hbDuHFZvyvtRo48Qq2qhtdQx1b4VrJcwKqZeYUhjgtLxyvIEB+2sagNbRbmdeOhEG7JCq2WL5rjOqvQ6wbqZYgPwO5lFETArilw3qnD5pJLfXyE9JfKd7yhwdrgtLW/qKfnnjhWOHlwScICf4Ue789wUZQ=
+	t=1782828324; cv=none; b=ZrM2LONc4mtwzVHp2cCzZknmEnHe8V5/Z5s8yHnplmBQN8EK+Mi367OOINC8UjiQUl9H4bHr2ZDmW2ZoT2qbyPJb3PcHPpM2xFdctK3skmzjoaGFQ6gVNB0SnUcuH/jiKA1p1wXroPWjBGq++L6VczkSBkLk8xV0E8tdOHCbbGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782826333; c=relaxed/simple;
-	bh=7bw+O5WLaToHP2tSBli+IIhJTmS788eghpGopgDx+l4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uYZyAgLvIh1h4OcZWcsrN/pAFMAlCcf3F4d+UZzFkX0GgIUHc9rYjbx7ica4PuSUEiimOBJpCZ5vQprr5GAh6FQEaA47XWqKOpos/t0E+GSolFNuu0D0l7ykM3zqD0YL+z1/D4s281jgyqgZU1yN0C7FUT4SoTa7aktM9whODbo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b2KPnHnX; arc=none smtp.client-ip=209.85.221.180
+	s=arc-20240116; t=1782828324; c=relaxed/simple;
+	bh=h4Bk2vS84/K+uN7N+3iFwUXv7x6OXYbSuSCpCdgMOCo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=KfZIOgZOjuFyHuX6y5stfUMZJKPCG88p9opBfZrU5OGvLDnrO4a/0xE/uYOzPzEW4d2ehmUKebbhbi9UPr++HwgTZDwRAVUwhKexPrfD/X/VTDTeyt4yGT2wtSYSQWRSlc7JL4UBbqx5T8oPe6iQSiqi+yK++eBPKrqg2MqG7+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m2VikAKj; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b2KPnHnX"
-Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-5bbc6c99b5cso1482083e0c.1
-        for <linux-staging@lists.linux.dev>; Tue, 30 Jun 2026 06:32:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m2VikAKj"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-4629051c9d1so2638432f8f.2
+        for <linux-staging@lists.linux.dev>; Tue, 30 Jun 2026 07:05:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782826331; x=1783431131; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4FUqC2k9DGG9C47+8sXljTM7/f1XaSgmpyp+bRm68aI=;
-        b=b2KPnHnXw0RCvNGgDnIjYi52TapNj2/7I4Az1jjUtRfLl39i9WDHvY/NAs6GvsBWtC
-         vM5aNJR+QRmTKep/Gc1gIsiuzynKiZDuZfiTWGCb8f2GYeggbM8SO5jsDwBtaMA833wd
-         UWRa+Z8VGRKCa/toZ4xsnSHbhcXRzijTINi/wxp9N5PFDWjE2NxAxzYI0HWwj4PrH7PQ
-         6aNw+39hUnxALYuv+VH4G6CZTs7+jCizYfZaSuN2yMEfOF3M8kBGGLRaDbq6rYK9Y+/I
-         81BLkAnwRmgQ+s4w0S8Oua/zAHI9xOmK/kUAecH2vjER8Oe5QcUxUeCRkeSESgLBom6r
-         1kag==
+        d=gmail.com; s=20251104; t=1782828322; x=1783433122; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O6LhOb8EsOqkumof6PN234kRqnlpHLJfaxXGP2ixv0M=;
+        b=m2VikAKjxmzF62HSIInr18z0K0IrQCY2xsWQc39muoYoLKT3yL3oDuUIEfT2/nhg3m
+         3WPm7SjiHUsqfg2cnkDu1HhnAmyUT5hSM9/6wjcqDkCC5IpvPb2q3w37hU/i2ICyEbGl
+         FESlOtA/ObzGYV6SG6gUrNKwk4yUEIVkv2XDks5nFm5RGCKYCqlliBziCzn+BHevvIB3
+         v8BOlQFiH8cs9kR/q40xytNxdGAf8YVt1GRYQCihfEEjZGMv7E+wC0Z1Booc2JsiOqxE
+         WkMftBXjHJZCPOFOhJTqvF0OWN2+ykq+2ihvbCL6AlEmotdQqf/tpECMEO8HiygZ0pHZ
+         /uYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782826331; x=1783431131;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4FUqC2k9DGG9C47+8sXljTM7/f1XaSgmpyp+bRm68aI=;
-        b=kOASXoY6NWOwDtjSkcOAvidGTOzRjf2zZg0XCfmpfIyk1qFseN7zLOCEhcW9nIEoQb
-         G5G0ergX0InBjGND2+90/IGE3lyD2UkBwBz9Gakj1jTj14kobh+q6IezOqcZVmDc86+X
-         frvSUpm8hINIwfSLjWI30n+vnd2mxpLvzbPLYLLc32b4N+4QguHOJvnIz7Keroq1k72G
-         Xj85C8Vei02RP4DKBEdxTnbCJl4mrvOI3ivRCBlKcXgtfKbg1X3frT2AXzBl5AsJ8GcJ
-         YyHlrqlvs6WBYadkKUHHlNq6R/vVwMv+XeShEt1kv9DlJFHfDdq4cSU462bPJWw9Frmc
-         mUXg==
-X-Forwarded-Encrypted: i=1; AHgh+RrKpmwN+kohVgA8J2P35UfShI80f1o2vwD1z8NQcf2WVYMmYz1Spz2nRzaCR+L382qo7FEOLwzGQ3W+V5v/@lists.linux.dev
-X-Gm-Message-State: AOJu0YwMkZgQgLsDGshPiwo7Gxkt1jTj6JyVT9eziabWw7UZ+XdrpR6q
-	3Ex9S3oZfTpuDH2XdfVq0JEX9Sjm6/X8AJx5+Gd9c755QAlx5sCsNopq
-X-Gm-Gg: AfdE7clOsvddz8A0TPGvng8L5p8UhzXfuC51JHI3C8ZnPvZW+MmoByztHZl4EVsx5gd
-	PuPSW5LgQi7NOvj2mLspC6WPRP7DEpVLcdUNyGoGym5VwuxY4R1c2s0/q4qn7QZc8+KNHVtUVFg
-	MyGuOlm1JxLDPrdn6P6+C8uSgeC3yuj5Y3ilvEgX6BXUQZUIr82PL5Kxaf81UTImZ7oDtpG6lCt
-	xiSkRf8xuHMF7UI/M5KW/9Eo9KGn6ePZmm9GYkyi/YNEFEXxTgXw9oIvAAiagqgAOvzUxFYK9he
-	iqfSxL5SRWohTbGbl5qlz5+W1dvktGxgVWLTcDNLOapDzsUDyKkJl67so3MDy0+ywNUXeA90HcK
-	Oeqy9qyaqpjb0sMmdjqDMldUFm5Ze8KoHK+1u7j+dcDjziM5dreJqjoEsXJ9FOhIAKXPZMemGrs
-	SQq464
-X-Received: by 2002:a05:6122:8299:b0:5a2:5c65:850f with SMTP id 71dfb90a1353d-5bdcf5d4cbcmr195881e0c.10.1782826331326;
-        Tue, 30 Jun 2026 06:32:11 -0700 (PDT)
-Received: from localhost ([74.80.182.83])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5bdc1a8d959sm1359638e0c.10.2026.06.30.06.32.09
+        d=1e100.net; s=20251104; t=1782828322; x=1783433122;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=O6LhOb8EsOqkumof6PN234kRqnlpHLJfaxXGP2ixv0M=;
+        b=hOGFhdiFqI7Z8vdeVOfutaXWGt/seT4Pc1XzYsrVrF8rYvPDmToBQI+lLhCAfHM6wC
+         b5Xo078OiglcAOqjxBru3RCfV3/5schySjxyo/SBn9zCMM1VSifOE3SABaoL5Mkr2iev
+         f+jfw117WI6kH6Tw4ZTovTlqM+7u49I4O0/XUrtToamJgz45X0x6+OaKDR3tf14WSvvj
+         38U71LC5Qjtmyr4O1I0q3mVeg7xK8o5LCMfM5/df6k24+8QeyDguRQSFayoTob2ycqtt
+         oku4e0k5WnHD6xG38f3EVgJDfjKvYJuCn7NMHdSjY6UbuAU3UW4lhGj+53QEFD0++AsH
+         EaDg==
+X-Forwarded-Encrypted: i=1; AHgh+RpMWnx+M99OJVp5L7V7gYZGyPucAAcHb81Sc4BRgGRdKX34bsgMFpl7tI+HmmGYWJHPQSWiGMGchfwjlw/n@lists.linux.dev
+X-Gm-Message-State: AOJu0YxnjBWa9fAoqkFf5UL7I3qRbM9ReEzODqcgDAE52F5FhEOLZblh
+	v0jNt+PravZ1nwZqxSCIbFtWZaxxdDr0ck0J3ko0PtGO/+3oj2vgJcOb
+X-Gm-Gg: AfdE7cnijxmj5/kMd6ztTrN0sHbuA/rNXcBFxV2oIUG8J9JeNEB/cO1YHntVW+xiPRJ
+	LUK8DBcpIT6DbFg+iH4H0mRmG79oOibf0X3dharzqyCIFFYUpjuAmaYno0KuCHRODHBHL0frrTr
+	/qU4TWdIsoR3/lbWQRGGXELuG9CeFIA6W/47ONTN05DUY0/AhW2r40l2KXHE26tBcDnYmaCde4P
+	ZK9sgZfIhfgzuvhkGrmdxLPotQRRJaz9CsQrDFsw4uTQEbaOuqgzCo0spyuKaFjDd8428nLoF2R
+	VKXRLSZoOUMiN3fdAOZGuuBBoJL/INkLVfHGV5WwaOIkkyqaTjGY1cGvf+5oDoVGZgM02a23XnE
+	bWoAIquMXJo4FdnBBM7u3CyWDWHFHFxVea7MezXajVj3j9Tm2PAf6UuAo/rF/ef20RwM90EvhDM
+	N0lr+DsSv3HJ6biJN6s3Zvc3dm1IQ=
+X-Received: by 2002:a05:6000:2510:b0:475:f0f0:9ed0 with SMTP id ffacd0b85a97d-475f0f0a0d6mr2897097f8f.59.1782828319713;
+        Tue, 30 Jun 2026 07:05:19 -0700 (PDT)
+Received: from anthony.local ([2a06:c701:49b2:4c00:12ff:e0ff:fea5:3d2e])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4756778f015sm8456382f8f.31.2026.06.30.07.05.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jun 2026 06:32:10 -0700 (PDT)
-Date: Tue, 30 Jun 2026 16:32:05 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: "Bohdan D. Marcus" <bohdandmarcus@gmail.com>
-Cc: hansg@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
-	andy@kernel.org, sakari.ailus@linux.intel.com,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] media: atomisp: fix block comment formatting style
-Message-ID: <akPFVbUVbdb7-9j7@stanley.mountain>
-References: <20260630132631.25762-1-bohdandmarcus@gmail.com>
+        Tue, 30 Jun 2026 07:05:19 -0700 (PDT)
+From: Amit Barzilai <amit.barzilai22@gmail.com>
+To: javierm@redhat.com
+Cc: airlied@gmail.com,
+	andy@kernel.org,
+	azuddinadam@gmail.com,
+	chintanlike@gmail.com,
+	conor+dt@kernel.org,
+	deller@gmx.de,
+	devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	gregkh@linuxfoundation.org,
+	krzk+dt@kernel.org,
+	linux-fbdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	robh@kernel.org,
+	simona@ffwll.ch,
+	tzimmermann@suse.de
+Subject: Re: [PATCH v2 2/4] drm/ssd130x: Add RGB565 support to SSD133X family
+Date: Tue, 30 Jun 2026 17:04:53 +0300
+Message-ID: <20260630140453.78029-1-amit.barzilai22@gmail.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <87jyrhd58b.fsf@ocarina.mail-host-address-is-not-set>
+References: <87jyrhd58b.fsf@ocarina.mail-host-address-is-not-set>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260630132631.25762-1-bohdandmarcus@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jun 30, 2026 at 04:26:31PM +0300, Bohdan D. Marcus wrote:
-> Fix a block comment formatting warning reported by checkpatch.pl in atomisp_cmd.c to conform to the Linux kernel coding style.
-> 
+Javier Martinez Canillas <javierm@redhat.com> writes:
+> Given that we don't have that, I suppose that we could just get rid of the
+> DRM_FORMAT_RGB332 support for SSD133X and just default to DRM_FORMAT_RGB565.
 
-Run checkpatch on your patch.
+I see your point. In v3 I'll remove the format_rgb565 option and just make RGB565 
+compatible screens (ssd133x and ssd135x) use the higher color depth.
 
-> Signed-off-by: Bohdan D. Marcus <bohdandmarcus@gmail.com>
-> ---
-
-There is a specific format for v2 patches.
-
-https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
-
-But the main thing is to wait a day between resends otherwise it's
-overwhelming for reviewers.
-
-regards,
-dan carpenter
-
+--
+Thanks,
+Amit
