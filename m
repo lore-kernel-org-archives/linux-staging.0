@@ -1,125 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lr2-f2.google.com (mail-lr2-f2.google.com [74.125.230.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB9BB2ECD32;
-	Tue, 30 Jun 2026 22:59:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B30713A244
+	for <linux-staging@lists.linux.dev>; Wed,  1 Jul 2026 03:46:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782860381; cv=none; b=UwUN5dO6U2DQsGE/pxV83n5x1USsaBqQYA96VmaScKKIJCIoVCi8Wup/gdQNV+oRHuq5B7LsUmEUt8FWHx9++uzfovnfjeWlfqhFQWSIPTVuX/M1eaMIR6tEaMRzRhkrjLHEBZ7AllETw2NfuoWwaHv2pAHTKVj7B3VXTGnaxDw=
+	t=1782877571; cv=none; b=lhuI7v2L/WgUd9J+aHtu+VeTAHYUAwL43k2Snn0dw1qpqYqpPlvn9eaerl74b5SbcIRsECvVcKYTrRxGVS4i0mMxsTJQHEsTqmalC7qX/UOSZ90mERIEi5ITqh8T264ujWWUNT8ljXdfy8q9ZUGBAtOIFSb79Rd7X1Bt1PqoFlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782860381; c=relaxed/simple;
-	bh=osL3uTJhTm9LSLp2YQOww4VTQarThaS3fqxKF5kmtwQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rbKbuSYL3a7HY4FxRvQv2W2sqkCdrC9jqcNzYYwyYIuhLOOJxHfBXtBl70hWqVDi7S+F0C3XeLsonCgg86eXdVzHyfCZcDtnXoDKydnZjLA+T6Zi6v91jkaH7r7bn+fIVFyyrB0LUguP0Ho9kKLIRDQ3enW6L6HHt/E6xTyCaG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mm9De9GY; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1782877571; c=relaxed/simple;
+	bh=Sq89uGz10pVo64QUiZ8/BpES6hmpfn1tG/h4Mb9egxs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Mpa/T3oYD29nX9kuELm1SPWTEdh1uE6prAAT50BUMpTdu2EsqlHmenhQ8+tLlF7ImDN+2BCT615Hd8MW/Ti99PWEUqRGPDigPBq2LXnvujm92BveitHss+Tb3QU27+gQk62CkVn5EEmxRTEtMYytye21Rmwv726gACXxe5zwfIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F/YfUWhS; arc=none smtp.client-ip=74.125.230.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mm9De9GY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AA291F00A3A;
-	Tue, 30 Jun 2026 22:59:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782860379;
-	bh=hpGHznkuiVzbCssE8nF1WP+hU9QiCHLL5//s39XABS8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=Mm9De9GY9AnlBfnkQ9gv0ORM7La070SlXrEbmoHfUfxOBaaYtLJzUqs9PXOSo5uvx
-	 x8ahgeal3hZOtIlVzn+sGWk2Wd9jC54VlkmDT+j5eym3wm5AyGxRApheO30IDwD0K2
-	 QdandJ9p+VqURQ55EBEevLOY9PD2oxYa3D+5N4hcCkk1dxrxTbWQmt0dW7EiJpPW5G
-	 b46VcVPSt/7ODA+Cf+2Qz5OPJ8C8iyGxJyl1JksTpn0JixooJbhtizar1JMDgq1vyl
-	 uSARJIL8TJdfN7XRf+Dd3m/PbdMBkIu5nYFVZcm4oktRv733+3Li6DDj1RcA9xv49a
-	 VbgZsQ9v79akg==
-Date: Tue, 30 Jun 2026 23:59:35 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: "Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= (The Capable Hub)"
- <u.kleine-koenig@baylibre.com>
-Cc: Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Michael Hennerich
- <Michael.Hennerich@analog.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, David Lechner <dlechner@baylibre.com>, Andy
- Shevchenko <andy@kernel.org>, linux@analog.com, linux-iio@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] staging: iio: Initialize spi_device_id arrays
- using member names
-Message-ID: <20260630235935.4cfa827c@jic23-huawei>
-In-Reply-To: <4c743f86ca4072d34d715333589aa540aed895f2.1782833415.git.u.kleine-koenig@baylibre.com>
-References: <cover.1782833415.git.u.kleine-koenig@baylibre.com>
-	<4c743f86ca4072d34d715333589aa540aed895f2.1782833415.git.u.kleine-koenig@baylibre.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F/YfUWhS"
+Received: by mail-lr2-f2.google.com with SMTP id 38308e7fff4ca-3967995bd4eso1151751fa.0
+        for <linux-staging@lists.linux.dev>; Tue, 30 Jun 2026 20:46:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782877568; x=1783482368; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=r6N/JmeBk9DGQeD2dKaQh5XnYgag8lTn6wljFX2j/Mk=;
+        b=F/YfUWhSNA9EIMWOzxTJ6gaVBHNTza/WPtQptHG5sGq89uEZTG4Jb8Wm9+ELMWLjBA
+         jJFaFtWOSCdnVyx/LvCXMO2D1mXx6YQ1Ns1pGMTiif5cgrAuEt//Bf6RhYrFf4jQF5Hv
+         iwVZnDEzWzvOkvM2wEFuaUA4BH8LSWsccdo3lZxwDGAbYsmIF69M/tBh+N2LNM0ocWeJ
+         MJUHP2FG/Y9nt8rH0K2h0AOy1dwLg/FTh522BgtLU6+7NTQsD9YLMwM0TSzmAltDkvQ8
+         jHITx30J2xXhHVhJ05r2GAY6h/E129Xb+kk+ZXczTQ+74/4PYQaD2g9ufPhUTWippawL
+         Gpnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782877568; x=1783482368;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=r6N/JmeBk9DGQeD2dKaQh5XnYgag8lTn6wljFX2j/Mk=;
+        b=lPpgKIzl+t7Ae5tf91bwEPQlijfijc5aiNQRvQH8xN6uMWGB6cIWILrwezjKTz9qJk
+         KSTKwCnYoek8zDp68vlJC+WocoPHNXcS7pm5DyA82l0BtZY9FuyDK+2bNkTEHZzvSRom
+         3YANF2AxGzVGmgT1UbbGm3MJlB9lc4WECkj6D9kJmb/uZ910j1pXGpzU/1UVmu5fDXBs
+         /ft9b7etRaqeILRiNeIH6R+CfKzozHalf0pmVxyqbCu6+n3+9qBFfxQ0QwWpyI9glcUz
+         1EieHaAl/jcrmnEffZlpFfBXVM4uUscxlTjBfTvqUL5ytNVzKzumEJ+4lEb+BH4ARXQa
+         WQqg==
+X-Forwarded-Encrypted: i=1; AHgh+Rr+Xo86vT+uqV9A59t0nAonTh0KWM/3DXkHu7HSaD+ibmMGHsnrK7A/D1s7xhbWDItnwNwNf3bvWo4yg+9W@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx/ER0l2DT1K2HIQsQiAFxb5VIQfSI1eUk5X/vPcL6UKDYDsAuR
+	v2aQEdNjBLjOzUkmrxwABCn2AYe7ykrbynFVfUrBMNwTsdN+e1jg8R3S
+X-Gm-Gg: AfdE7clU5FvQoPqdbkagUGC1Mi4JreSa72y5SOSKx6CLPMq3Q2BT2G/skt1op3VXp9z
+	aCRqhVfqhmGBOooXTaxpnh/nE16iQTQ1VpxogfecDWVHIKPCLCFMpZn8zJxdXGcZH0zmStDofrq
+	R/J/u/N3AQpDCN/q7jzm+Ca6B2IcibniqR7r3c8y9etdpI+wxjAEagjFMlwH2Xfig9GiS/Fb3Dy
+	uZIei5g1wukY15v3eSxedtQWtwJD/HbR3QwVEp116iu7rz/+KMs7s2xMAwQA47NXNBuapNTr+1+
+	Nw/yJAcljRDABVgXN7TzvXScYhqgnvGf1xJ9lBI2yc3puapbK0oUcPUnMeyLiSrkCfzPBcsyI8n
+	NxoJ4JvFxL3EW2qilTE056uNoBgLPmkWvJCV3GGmyu8yZ8rwH6hM/6IYV332t+87SNLTxHdLZeA
+	39LlwNQucPtr/Ws1rVG9tfE3yiFwiyKw==
+X-Received: by 2002:a05:6512:3589:b0:5ae:a76b:4bb2 with SMTP id 2adb3069b0e04-5aec10c27aamr488150e87.33.1782877567875;
+        Tue, 30 Jun 2026 20:46:07 -0700 (PDT)
+Received: from myhost.localdomain ([89.253.29.25])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aebe4aa01fsm958606e87.75.2026.06.30.20.46.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jun 2026 20:46:07 -0700 (PDT)
+From: Ruziev Miraly <miraly.dev@gmail.com>
+To: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org,
+	Ruziev Miraly <miraly.dev@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: remove unnecessary braces in rtw_wlan_util.c
+Date: Wed,  1 Jul 2026 08:45:52 +0500
+Message-ID: <20260701034552.5668-1-miraly.dev@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, 30 Jun 2026 17:35:36 +0200
-Uwe Kleine-K=C3=B6nig (The Capable Hub) <u.kleine-koenig@baylibre.com> wrot=
-e:
+Remove unnecessary braces for a single statement block to comply
+with the Linux kernel coding style.
 
-> While being less compact, using named initializers allows to more easily
-> see which members of the structs are assigned which value without having
-> to lookup the declaration of the struct. And it's also more robust
-> against changes to the struct definition.
->=20
-> The mentioned robustness is relevant for a planned change to struct
-> spi_device_id that replaces .driver_data by an anonymous union.
->=20
-> This patch doesn't modify the compiled arrays, only their representation
-> in source form benefits. The former was confirmed with x86 and arm64
-> builds.
->=20
-> Signed-off-by: Uwe Kleine-K=C3=B6nig (The Capable Hub) <u.kleine-koenig@b=
-aylibre.com>
-> Reviewed-by: Nuno S=C3=A1 <nuno.sa@analog.com>
-> Link: https://patch.msgid.link/cac7a68e6a6adb1b58207640ab045e59eec86f53.1=
-781883685.git.u.kleine-koenig@baylibre.com
-Given I messed up applying this in v1, picked up now.
+Signed-off-by: Ruziev Miraly <miraly.dev@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_wlan_util.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Thanks for catching that miss!
-
-Jonathan
-
-> ---
->  drivers/staging/iio/adc/ad7816.c       | 6 +++---
->  drivers/staging/iio/frequency/ad9834.c | 8 ++++----
->  2 files changed, 7 insertions(+), 7 deletions(-)
->=20
-> diff --git a/drivers/staging/iio/adc/ad7816.c b/drivers/staging/iio/adc/a=
-d7816.c
-> index 0e32a2295990..30644d2d7c54 100644
-> --- a/drivers/staging/iio/adc/ad7816.c
-> +++ b/drivers/staging/iio/adc/ad7816.c
-> @@ -426,9 +426,9 @@ static const struct of_device_id ad7816_of_match[] =
-=3D {
->  MODULE_DEVICE_TABLE(of, ad7816_of_match);
-> =20
->  static const struct spi_device_id ad7816_id[] =3D {
-> -	{ "ad7816", ID_AD7816 },
-> -	{ "ad7817", ID_AD7817 },
-> -	{ "ad7818", ID_AD7818 },
-> +	{ .name =3D "ad7816", .driver_data =3D ID_AD7816 },
-> +	{ .name =3D "ad7817", .driver_data =3D ID_AD7817 },
-> +	{ .name =3D "ad7818", .driver_data =3D ID_AD7818 },
->  	{ }
->  };
-> =20
-> diff --git a/drivers/staging/iio/frequency/ad9834.c b/drivers/staging/iio=
-/frequency/ad9834.c
-> index 4359b358e0e5..f95c5365cd03 100644
-> --- a/drivers/staging/iio/frequency/ad9834.c
-> +++ b/drivers/staging/iio/frequency/ad9834.c
-> @@ -465,10 +465,10 @@ static int ad9834_probe(struct spi_device *spi)
->  }
-> =20
->  static const struct spi_device_id ad9834_id[] =3D {
-> -	{"ad9833", ID_AD9833},
-> -	{"ad9834", ID_AD9834},
-> -	{"ad9837", ID_AD9837},
-> -	{"ad9838", ID_AD9838},
-> +	{ .name =3D "ad9833", .driver_data =3D ID_AD9833 },
-> +	{ .name =3D "ad9834", .driver_data =3D ID_AD9834 },
-> +	{ .name =3D "ad9837", .driver_data =3D ID_AD9837 },
-> +	{ .name =3D "ad9838", .driver_data =3D ID_AD9838 },
->  	{ }
->  };
->  MODULE_DEVICE_TABLE(spi, ad9834_id);
+diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+index 1d37c2d5b..cc05decd4 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
++++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+@@ -256,9 +256,8 @@ inline void rtw_set_oper_ch(struct adapter *adapter, u8 ch)
+ {
+ 	struct dvobj_priv *dvobj = adapter_to_dvobj(adapter);
+ 
+-	if (dvobj->oper_channel != ch) {
++	if (dvobj->oper_channel != ch)
+ 		dvobj->on_oper_ch_time = jiffies;
+-	}
+ 
+ 	dvobj->oper_channel = ch;
+ }
+-- 
+2.54.0
 
