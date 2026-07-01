@@ -1,69 +1,69 @@
-Received: from mail-lr2-f2.google.com (mail-lr2-f2.google.com [74.125.230.66])
+Received: from mail-wm2-f1.google.com (mail-wm2-f1.google.com [74.125.225.129])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B30713A244
-	for <linux-staging@lists.linux.dev>; Wed,  1 Jul 2026 03:46:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F34CF389DE8
+	for <linux-staging@lists.linux.dev>; Wed,  1 Jul 2026 04:14:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.129
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782877571; cv=none; b=lhuI7v2L/WgUd9J+aHtu+VeTAHYUAwL43k2Snn0dw1qpqYqpPlvn9eaerl74b5SbcIRsECvVcKYTrRxGVS4i0mMxsTJQHEsTqmalC7qX/UOSZ90mERIEi5ITqh8T264ujWWUNT8ljXdfy8q9ZUGBAtOIFSb79Rd7X1Bt1PqoFlQ=
+	t=1782879279; cv=none; b=dD9p1jPjBLpAejqceRkvT+wkJwGRbp6S5VFS8BVd0HN+BO3zfQ6bGgxUsiGedkwnIM/aIUoqoiqPMxE4z4QWOG+FtXfIUFTJFXN1DirKT4JjgRDEG3RgVI4Rinwf2JuFLOjFER/Pvv+rD78sKyi27KWQZDGM/Eq4X0zDUT+ELPM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782877571; c=relaxed/simple;
-	bh=Sq89uGz10pVo64QUiZ8/BpES6hmpfn1tG/h4Mb9egxs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Mpa/T3oYD29nX9kuELm1SPWTEdh1uE6prAAT50BUMpTdu2EsqlHmenhQ8+tLlF7ImDN+2BCT615Hd8MW/Ti99PWEUqRGPDigPBq2LXnvujm92BveitHss+Tb3QU27+gQk62CkVn5EEmxRTEtMYytye21Rmwv726gACXxe5zwfIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F/YfUWhS; arc=none smtp.client-ip=74.125.230.66
+	s=arc-20240116; t=1782879279; c=relaxed/simple;
+	bh=YSVKBzTb+iUCKjPUjh8DK38+fCXuHmVewWGjSAu3VS0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qPrylQnWr9mQE0YWfOcoz6NZY86PwarvEL6UuaFqLRPlDux9SC+QnHUNp82EaODXxgeZB0YrXEeaLZccpmkc7M/TM5n8dfhtUZi83mQ7B/colz4ZBDD44Boz0FX/H1H/vK4J6twKgPf1YV4O14LAXTufsYPdFyvGOJYxM2IoaKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SkqRK9RJ; arc=none smtp.client-ip=74.125.225.129
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F/YfUWhS"
-Received: by mail-lr2-f2.google.com with SMTP id 38308e7fff4ca-3967995bd4eso1151751fa.0
-        for <linux-staging@lists.linux.dev>; Tue, 30 Jun 2026 20:46:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SkqRK9RJ"
+Received: by mail-wm2-f1.google.com with SMTP id 5b1f17b1804b1-493b8cfbb88so45645e9.1
+        for <linux-staging@lists.linux.dev>; Tue, 30 Jun 2026 21:14:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782877568; x=1783482368; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1782879272; x=1783484072; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=r6N/JmeBk9DGQeD2dKaQh5XnYgag8lTn6wljFX2j/Mk=;
-        b=F/YfUWhSNA9EIMWOzxTJ6gaVBHNTza/WPtQptHG5sGq89uEZTG4Jb8Wm9+ELMWLjBA
-         jJFaFtWOSCdnVyx/LvCXMO2D1mXx6YQ1Ns1pGMTiif5cgrAuEt//Bf6RhYrFf4jQF5Hv
-         iwVZnDEzWzvOkvM2wEFuaUA4BH8LSWsccdo3lZxwDGAbYsmIF69M/tBh+N2LNM0ocWeJ
-         MJUHP2FG/Y9nt8rH0K2h0AOy1dwLg/FTh522BgtLU6+7NTQsD9YLMwM0TSzmAltDkvQ8
-         jHITx30J2xXhHVhJ05r2GAY6h/E129Xb+kk+ZXczTQ+74/4PYQaD2g9ufPhUTWippawL
-         Gpnw==
+        bh=3aapNbHrrlYAD8WOsLANovB99qp/McmspZSu0jeb+fU=;
+        b=SkqRK9RJylG+H/8Dnr33+xc69osGLlL+c4y0x/UJLiTfUXL0lw8vM3CUguY9MRZmRa
+         AKMYA1XntfHvvSBB5ga7f+A4i481V6Nhf9zUCp0gReUsOAJC1iPP4JdHejIN1qV9nr+H
+         gt6so9bIIWXJHz14sxnWUdXZ9EISQA68AE2x9KPdrXEjpmLuT3pPEetnncp4mffw2abe
+         AeE1tomF7UuPKro/V8waXTjCDAogvRxy+lPvUOZgolissty+Ri4kmXSTJdDmVXcShXP/
+         S4ss/EyPn1g/xS1LqVPg1Pm3Jb0kEM/1doMX7SFxzqERaJB3/qF12CkeUNE0023gDqxs
+         1Tqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782877568; x=1783482368;
+        d=1e100.net; s=20251104; t=1782879272; x=1783484072;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=r6N/JmeBk9DGQeD2dKaQh5XnYgag8lTn6wljFX2j/Mk=;
-        b=lPpgKIzl+t7Ae5tf91bwEPQlijfijc5aiNQRvQH8xN6uMWGB6cIWILrwezjKTz9qJk
-         KSTKwCnYoek8zDp68vlJC+WocoPHNXcS7pm5DyA82l0BtZY9FuyDK+2bNkTEHZzvSRom
-         3YANF2AxGzVGmgT1UbbGm3MJlB9lc4WECkj6D9kJmb/uZ910j1pXGpzU/1UVmu5fDXBs
-         /ft9b7etRaqeILRiNeIH6R+CfKzozHalf0pmVxyqbCu6+n3+9qBFfxQ0QwWpyI9glcUz
-         1EieHaAl/jcrmnEffZlpFfBXVM4uUscxlTjBfTvqUL5ytNVzKzumEJ+4lEb+BH4ARXQa
-         WQqg==
-X-Forwarded-Encrypted: i=1; AHgh+Rr+Xo86vT+uqV9A59t0nAonTh0KWM/3DXkHu7HSaD+ibmMGHsnrK7A/D1s7xhbWDItnwNwNf3bvWo4yg+9W@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx/ER0l2DT1K2HIQsQiAFxb5VIQfSI1eUk5X/vPcL6UKDYDsAuR
-	v2aQEdNjBLjOzUkmrxwABCn2AYe7ykrbynFVfUrBMNwTsdN+e1jg8R3S
-X-Gm-Gg: AfdE7clU5FvQoPqdbkagUGC1Mi4JreSa72y5SOSKx6CLPMq3Q2BT2G/skt1op3VXp9z
-	aCRqhVfqhmGBOooXTaxpnh/nE16iQTQ1VpxogfecDWVHIKPCLCFMpZn8zJxdXGcZH0zmStDofrq
-	R/J/u/N3AQpDCN/q7jzm+Ca6B2IcibniqR7r3c8y9etdpI+wxjAEagjFMlwH2Xfig9GiS/Fb3Dy
-	uZIei5g1wukY15v3eSxedtQWtwJD/HbR3QwVEp116iu7rz/+KMs7s2xMAwQA47NXNBuapNTr+1+
-	Nw/yJAcljRDABVgXN7TzvXScYhqgnvGf1xJ9lBI2yc3puapbK0oUcPUnMeyLiSrkCfzPBcsyI8n
-	NxoJ4JvFxL3EW2qilTE056uNoBgLPmkWvJCV3GGmyu8yZ8rwH6hM/6IYV332t+87SNLTxHdLZeA
-	39LlwNQucPtr/Ws1rVG9tfE3yiFwiyKw==
-X-Received: by 2002:a05:6512:3589:b0:5ae:a76b:4bb2 with SMTP id 2adb3069b0e04-5aec10c27aamr488150e87.33.1782877567875;
-        Tue, 30 Jun 2026 20:46:07 -0700 (PDT)
+        bh=3aapNbHrrlYAD8WOsLANovB99qp/McmspZSu0jeb+fU=;
+        b=YZcU/p8KmOWXfWsyBDwkdbTFdgfPj6K6ok/0GROuQ4Oc2W/XtKDbEy60lQTRI7PTTN
+         mRIC9hJaUGYa+y21nHugHgS5JDS6N4XVD6/e32Oha7QYlHooqs0ciWZMTx1F31IZlhJk
+         kHWA2UeGgGApjfBrQh3waLJLtrehEwifhSquBdHqt8Q3a1FmfmWAsz8Vw1ypZKpdToJ8
+         NELI2Kr49RVbnF815xNLmJYBAuEeJTAmWt7LyQwIkLIguMLyVoawz7DquRkpn0sr1y+i
+         iwhCrrNHbJcVpHvTajDoE3t+94muvYlHwu6wt09HdkaFkv6YvzuVdhzDWXyITpjK4xka
+         IeSQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+iJZT36aYr8drI0AuUeOOP6zbR24MfsT+3E+ZZbUIl2j8YyJj11i6MNs5wjoU5XNwC+OsG12XEiR98cK6S@lists.linux.dev
+X-Gm-Message-State: AOJu0YzIMPZmEPuLSkpdNeNxPc9zsw0OXcKp7B7ATKkRmVnzN50M0EnF
+	VKenmKzHtKu5TmFrEsS1DM3sutnQjQhFttz4ivu/vxVU2K0zryz//4aLWp0YmWS3eBU=
+X-Gm-Gg: AfdE7clpRxyIhKj9ebxkn4Dq20NRZ+lald8aLCPihLosKgiVVM7JQCNEMltjog1Uy7F
+	o5GWHY/GYQpKXNTpucGmx+KaZZzfeOHJAC6ZMf5yDfuq3dd49tyH+le9uU4ze/ngZ9Gw6e0g0C4
+	hy+0HgFeCi7yHZYpi3KiChPKMCq6iK1aDxgWCi2u4SKBvP4zswFsofQ8HWtAoC1+2aMxRtgpCv4
+	ycVw5qnAoRD2gDXYPlohSlAgCJaqW8K7rhgrurV8aHo74eCg6X1hAa3KcuVZNC0ZXpdYAoRAcUV
+	gjVxKU8JqfjXhkoIuxvG6p9MWXfwPOpkC0a5HFhbiXc4aRAh4cuUnl63/sLZSGKJduCVbiHbPSD
+	22PmKD9FJRDIHYGDviiUKXj9/CCWL9M2tHw5rS3ySg8iBdddqKe94S7Bb2FHd3ZWJIW1aCo6oYw
+	d5JUjBIvaUzsVhoYMG5ss=
+X-Received: by 2002:a05:600c:6098:b0:492:4871:7e21 with SMTP id 5b1f17b1804b1-493c234d6b2mr779825e9.10.1782879271700;
+        Tue, 30 Jun 2026 21:14:31 -0700 (PDT)
 Received: from myhost.localdomain ([89.253.29.25])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aebe4aa01fsm958606e87.75.2026.06.30.20.46.06
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493be81fca5sm49402335e9.14.2026.06.30.21.14.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jun 2026 20:46:07 -0700 (PDT)
+        Tue, 30 Jun 2026 21:14:31 -0700 (PDT)
 From: Ruziev Miraly <miraly.dev@gmail.com>
 To: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev
 Cc: linux-kernel@vger.kernel.org,
 	Ruziev Miraly <miraly.dev@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: remove unnecessary braces in rtw_wlan_util.c
-Date: Wed,  1 Jul 2026 08:45:52 +0500
-Message-ID: <20260701034552.5668-1-miraly.dev@gmail.com>
+Subject: [PATCH] staging: sm750fb: make g_fbmode array const
+Date: Wed,  1 Jul 2026 09:14:23 +0500
+Message-ID: <20260701041423.7881-1-miraly.dev@gmail.com>
 X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -73,29 +73,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove unnecessary braces for a single statement block to comply
-with the Linux kernel coding style.
+The g_fbmode array of pointers to constant strings is never modified.
+Mark it as const to move it to the read-only data section (.rodata)
+and comply with the Linux kernel coding style.
 
 Signed-off-by: Ruziev Miraly <miraly.dev@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_wlan_util.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/staging/sm750fb/sm750.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-index 1d37c2d5b..cc05decd4 100644
---- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-@@ -256,9 +256,8 @@ inline void rtw_set_oper_ch(struct adapter *adapter, u8 ch)
- {
- 	struct dvobj_priv *dvobj = adapter_to_dvobj(adapter);
- 
--	if (dvobj->oper_channel != ch) {
-+	if (dvobj->oper_channel != ch)
- 		dvobj->on_oper_ch_time = jiffies;
--	}
- 
- 	dvobj->oper_channel = ch;
- }
+diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+index 89c811e08..8f533f3b1 100644
+--- a/drivers/staging/sm750fb/sm750.c
++++ b/drivers/staging/sm750fb/sm750.c
+@@ -21,7 +21,7 @@
+ static int g_hwcursor = 1;
+ static int g_noaccel __ro_after_init;
+ static int g_nomtrr __ro_after_init;
+-static const char *g_fbmode[] = {NULL, NULL};
++static const char * const g_fbmode[] = {NULL, NULL};
+ static const char *g_def_fbmode = "1024x768-32@60";
+ static char *g_settings;
+ static int g_dualview __ro_after_init;
 -- 
 2.54.0
 
