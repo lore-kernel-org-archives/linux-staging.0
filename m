@@ -1,74 +1,70 @@
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FC3019D07E
-	for <linux-staging@lists.linux.dev>; Wed,  1 Jul 2026 05:04:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14B7A36C9EC
+	for <linux-staging@lists.linux.dev>; Wed,  1 Jul 2026 05:06:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782882288; cv=none; b=YkH/iSiOk2LNKWNlmvZ1De8svGCozn0FXoH2DgGaawwgs50SAY583+FbA3HlHHM97v1ZuA7Oa/PCuOq63uCxTKkHycMrI40eX23f5JVd/SOzoyQqWXg/12k1WbT7GDFEoxIEenggpR/9Qqj94dYNaOLPcmgt05f0XOS72m0iCNg=
+	t=1782882420; cv=none; b=bs5Wny5h6psi6KUBl+c5vDyeLyoBRk4q/igPuzWHOov0glU5uH+Rv1Dy7JJT2gQ3ZcYcdAc0HU3ZCxia1+KJ6h2xz5G/7G3DfQ087Fu309ckd1R8fGUVoozb/2Tm90yUEdEiAn5GJzvAzUNp+61pyltUINhLABSu429XBMzfFXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782882288; c=relaxed/simple;
-	bh=rvm+4uEtAJwTSt2QHnNUd5p40BFoClhDEOgDK5i6ytI=;
+	s=arc-20240116; t=1782882420; c=relaxed/simple;
+	bh=lFr+ukwiWIY19w+dAS6Pv7ubLR247NrU7SEjHac+NEM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GIgRKi1w7IwWvDEHO/6kyVU/0ev+1yCIREqzQ7FAPGh3MEx4yjggEzvgx71Ys8IIth6tCi6ZEo2JyUuNCfnFog8NEXJPOF66KPo57fMwgwWXNPyNYpLEnEDRIcmpGBNfRt0xufPBM0+wRcIPLm5bCsHc20H99/FF5KXiWsvCES8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GdHVV5kW; arc=none smtp.client-ip=209.85.210.46
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZVicQc+hbGNZvkAeCZ3lTXxGIap/AseVoi1WAIoZ8Wufp7cE5v0E30JmdgCqRjEKRZS12kVT+V+Q+SHnJzmntU7PmENaEKpCQsJdCCaUPlAOUvGn7xi1V7CzxHtqEyKLacRQvmJ7m+5H+80jrlLulzBOCvv51a5EWhpTMRnHnCY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dlvY+ttF; arc=none smtp.client-ip=209.85.210.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GdHVV5kW"
-Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-7e9ed64d490so95835a34.3
-        for <linux-staging@lists.linux.dev>; Tue, 30 Jun 2026 22:04:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dlvY+ttF"
+Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-7e9eaf04bfaso74647a34.1
+        for <linux-staging@lists.linux.dev>; Tue, 30 Jun 2026 22:06:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782882286; x=1783487086; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1782882417; x=1783487217; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=fGkBqmWMziFZfQZQE69AV18F0fO02fbt3lLS7uXpR/w=;
-        b=GdHVV5kWJPkyxOo5aDxW5EjTK1K1uVLKkNuTyTDo0Sn37/5i51k17FgX6TmJMk2z9Q
-         9A1QdSUnf4j2fHfxKeNJFHbL3DaTeIfclvSqTaqIqOryqfjsFsfzg/nrhzx+rJ6aichf
-         nRUZG4jdbJiAd7XnMPr0a2xPimrCVNLRlCr9b2VnxPUCKociS77ARm+tOoTdw8qg886L
-         TT83moh8Y5FLx7Z8eta/2TU8wHRHyN6pD/hPnswWbSdnmKjK5CStQhchnwnj2WdVvWo3
-         090QL4qaiLfuU+ErSkHasL8/IdMuZuEEJXn5aRLkkiezO0AZFehukJ7rfdJYlHM9TaIq
-         W40Q==
+        bh=9862ZC2mh9/j1MKeFPYhR6cp5dT4HTxmJlSErp+XMAU=;
+        b=dlvY+ttFI36n6Zt/CQT4PNC37x1SobqoLwQ4M1zGOgw4VjH4PVZZmSoJ35QYsSOI0Y
+         7fJY0KYp2tFeEEDz8kp4v+MNxZCquUaPp++zgXb9B6UpuEci6VLnJZpR/nkMO602Ugrl
+         7U/1GkFOOLtSWzL+do2Gh9neeiMOsvINpMjaWuJlwY4Xyzafk86ATL+MDehGTGfBiVm9
+         9kWTLRR8Ujne+NocjFffRmNdZo5UpQ3uWP9Z2lkzbHiK3OvQrNo2xyF1xvf0A9+5Cnwa
+         O4blKndy+Ld7NkKX0Xy2mMys83/BccnI/EURoMTgT4GyvfLstdXHQk1YoXtx9nOOTvun
+         tkFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782882286; x=1783487086;
+        d=1e100.net; s=20251104; t=1782882417; x=1783487217;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fGkBqmWMziFZfQZQE69AV18F0fO02fbt3lLS7uXpR/w=;
-        b=cEt3JdNJtq5emoefTtrUiJPR4SAFLtOqe5mQuztWkBEOR3eUk1jbT6juoQNSieVRYH
-         CDDq4k7kgOQf2S5uLfcui8EssVBDfkmeuZYyA+LT2vUgxWDoRLb3yNr6SmuRlNyY0Dw1
-         KRsAHOLtCTzkwK7kRpErCPA+T8+gB8j8VJUSfCqfqvwhCoT5/LB5AZULP9t3o4mTCAgw
-         GbZKChNXrdeKhxS8qQN722BcXNkKcI2K8cqEnpDZb84NQh5j7ylffV10rFlLUCwyMzjS
-         rKPXUxH7uV1s+h5QxTMoWCSSefwAwn3iLy/GKU33aPnQF93cn2oG5gfihtD0v7Att/Px
-         z3Tg==
-X-Forwarded-Encrypted: i=1; AFNElJ94rfR1FuyuHZGstZcO+36W372raTbQsOpDlKQFYH6hC4q27aU/Z4bK721ZpHO7+QyC4PtxUadiog2KXnZD@lists.linux.dev
-X-Gm-Message-State: AOJu0YwJdCvWbAbeHaNVFXbH5LWQUgvyfPqxPltgWPRx6dEuf9/FEU2G
-	HAKVkybwnd+4uy8bLgt94Dh7eNyyRG35OKA2530IT1JohRnTQlwzZwPj
-X-Gm-Gg: AfdE7ckMkiKk+nYNgfmFULSPkYtnCNN6O9vrUqeanQqhLndbhFY4Npr4gyaFS0g17Lu
-	MKcD6DwqHSGtBVyI+hoWowWVQnBz6LutV9j1m9rlfSwz5PcljaWtLFguGrLRoGDO0JnTjrOY+38
-	/pnB3SYn4SEOO83xCtbnxRlehtbRPM4N9Vs8+AnCp/vaWwV0BVMPBZfFU/LZoZGm3Lub3aBfu3p
-	69O98xNphOmT6SQ1sqW119Wam//zajtwyP58ji6W1tPAxZnFVJAAUKc0WmzGA9sLZexMZn2iudV
-	zExx7GNhEwlDMuSjgTh/Cqtgw3VmXI2zRQOrP1afcEAYwL1493+vNaLD7uhGu0NGz/sRbA8VCEI
-	+geOyyI/6OHTukCN0F/xRoxGSJF+VhbLQ7sxJ2BiwKuuzWqu2dcDGAYZy0WdmurH7xnEv1Rm7/Y
-	5UDfPX
-X-Received: by 2002:a05:6830:82a4:b0:7e9:e1ec:c818 with SMTP id 46e09a7af769-7e9fc26b827mr2264128a34.25.1782882286053;
-        Tue, 30 Jun 2026 22:04:46 -0700 (PDT)
+        bh=9862ZC2mh9/j1MKeFPYhR6cp5dT4HTxmJlSErp+XMAU=;
+        b=YWGlYYHvJwsivN/lCGQvNLC354I6D9bBmClo7Bjq/P0bDc2tzRPU6GzlY6Hy3e3QzA
+         eEGPd/PobiezQ5sBTQykUOvqkjg+XOSzxks2pEVKWF2tyah+/39xQtkTXoBZV1O9kOOG
+         9Fb7IttH/qnp//vZYM6XDNIhqO/sLl5TnXp4SZJnohmZI0jWxYlTKzbuVOFoZCWCpnuS
+         rK52svQZXE0YLIJ4EI8PV7CF4CTHsjMG9BiS1bBXI8ORFCJN41qLeTqhHVfKeXvcQRrc
+         JWprSS20AVY2n7BcpnV+vByN7knQT8S1B2Som0QqjDivkVbSP8Jbb81UTd8hObSyeAIt
+         1Olw==
+X-Forwarded-Encrypted: i=1; AFNElJ/JzuLyH4TnJKpJ/pySTWkDKNyhjFgQX/hhQAKaIKR0UD9bP4JQr+x4oiMr3cdPxyx82Mo/2/P/D5Xe2KTf@lists.linux.dev
+X-Gm-Message-State: AOJu0YzZswFVNycjnm7zBhF/QdsEx97t79L0Y/tRhoLKvBDAVhNm+TTK
+	qSQPxJNVOdCiB5Y2rpQHcW24rTEm3kaf6dAGj3ymrKhVYf/bC9ZGQw8evckhyr26zpQ=
+X-Gm-Gg: AfdE7cm38lZN6ZYHPfR93LERHPEe6ty9C8A3xqFzvAufdG1Vgqm2Um4SFXgPvND5cwd
+	vW7Ni19olrsQkdNFFx3dF+RyUHueY3ri6Fi0MeIjH3VU81z5pT2kkWNSBZABDiK1pBxAqZbP3IH
+	qyHy1K5CkvHJkl6dwBtJL2WrZol3x3jANHcleFpQNfWRu87K4+qx9nr9BQSoqAvXLmj4cCq8Ead
+	b355iXrRvgSKEMZw/mDcJFLn9N+pqNzEXBPDTyAmghRMgxvL8NKP8WkROig5tChIehzxb9SJTcH
+	gVUCxMGv6VlsriphxV1gk/5VtxFs6gVFQiIDmycUUmXwlvURa4RzKXHAfLl2TCcy1kt64eiDWmZ
+	iqdikTGC8YSE1fURpQrMUVyzxCf7y7+CQpB8SyqiQlG/siiHBgTGrjPvXSJUj6+xtmv34pKQbRP
+	ocOfvq
+X-Received: by 2002:a05:6830:700c:b0:7e6:c819:22e9 with SMTP id 46e09a7af769-7e9fc23dabamr2278649a34.17.1782882416900;
+        Tue, 30 Jun 2026 22:06:56 -0700 (PDT)
 Received: from localhost ([74.80.182.83])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e9ec2e200asm3974254a34.19.2026.06.30.22.04.43
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e9ec31293fsm3995004a34.23.2026.06.30.22.06.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Jun 2026 22:04:44 -0700 (PDT)
-Date: Wed, 1 Jul 2026 08:04:38 +0300
+        Tue, 30 Jun 2026 22:06:56 -0700 (PDT)
+Date: Wed, 1 Jul 2026 08:06:48 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: adi25charis@gmail.com
-Cc: vaibhav.sr@gmail.com, mgreer@animalcreek.com, johan@kernel.org,
-	elder@kernel.org, gregkh@linuxfoundation.org,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+To: Ruziev Miraly <miraly.dev@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: greybus: audio: split topology get into size
- and data calls
-Message-ID: <akSf5lCBOSU1Crxy@stanley.mountain>
-References: <20260629144941.33818-1-adi25charis@gmail.com>
- <20260630204908.40206-1-adi25charis@gmail.com>
+Subject: Re: [PATCH] staging: sm750fb: make g_fbmode array const
+Message-ID: <akSgaOdkxQHL2R7t@stanley.mountain>
+References: <20260701041423.7881-1-miraly.dev@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,57 +73,18 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260630204908.40206-1-adi25charis@gmail.com>
+In-Reply-To: <20260701041423.7881-1-miraly.dev@gmail.com>
 
-On Wed, Jul 01, 2026 at 02:19:08AM +0530, adi25charis@gmail.com wrote:
-> From: Aditya Chari S <adi25charis@gmail.com>
+On Wed, Jul 01, 2026 at 09:14:23AM +0500, Ruziev Miraly wrote:
+> The g_fbmode array of pointers to constant strings is never modified.
+> Mark it as const to move it to the read-only data section (.rodata)
+> and comply with the Linux kernel coding style.
 > 
-> gb_audio_gb_get_topology() combined three separate responsibilities
-> into a single call: querying the topology size, allocating a buffer
-> for it, and fetching the topology data into that buffer. This left
-> callers with no way to perform any of these steps independently, and
-> forced the kzalloc() allocation to live inside the protocol-layer
-> driver rather than the caller, as already flagged by a FIXME comment
-> at the call site in audio_module.c.
-> 
-> Split the function into two:
-> 
->   gb_audio_gb_get_topology_size() - queries only the topology size
->   gb_audio_gb_get_topology()      - fetches topology data into a
->                                      caller-supplied buffer of a
->                                      given size
-> 
-> Update the only caller, gb_audio_probe() in audio_module.c, to query
-> the size first, allocate the topology buffer itself, then fetch the
-> data into it, freeing the buffer via the existing free_topology error
-> path on failure.
-> 
-> This resolves both the "TODO: Split into separate calls" comment
-> above the original function in audio_gb.c and the FIXME comment at
-> the call site in audio_module.c, both of which are removed as part
-> of this change.
-> 
-> No functional change in behavior for the existing probe path.
-> 
-> Compile-tested with W=1, sparse (C=2), and checkpatch.pl; all clean
-> on the three changed files (audio_gb.c, audio_module.c, audio_codec.h).
-> 
-> Signed-off-by: Aditya Chari S <adi25charis@gmail.com>
-> 
-> ----------
-> v2:
-> - Fold in review feedback from Dan Carpenter.
-> - Store topology size as size_t instead of u16.
-> - Move topology size validation into gb_audio_probe() before kzalloc().
-> - Use -EINVAL for invalid topology size.
-> - Drop unrelated dev_err() formatting cleanup.
-> - Compile-tested with `make M=drivers/staging/greybus`.
-> - Run checkpatch.pl on the updated patch; no issues reported.
+> Signed-off-by: Ruziev Miraly <miraly.dev@gmail.com>
 > ---
 
-Thanks!
-
-Reviewed-by: Dan Carpenter <error27@gmail.com>
+For old warnings, you should assume that maybe it's deliberate and look
+it up on lore to see why.
 
 regards,
 dan carpenter
