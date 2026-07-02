@@ -1,108 +1,97 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lr2-f3.google.com (mail-lr2-f3.google.com [74.125.230.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CE9239184E
-	for <linux-staging@lists.linux.dev>; Thu,  2 Jul 2026 10:36:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E85CE4A2E01
+	for <linux-staging@lists.linux.dev>; Thu,  2 Jul 2026 13:56:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782988577; cv=none; b=Q4wtks+PuXTP2RxLHJsV5975ajPmqET71IkZELFYmuGoyIhysxbB+Zhu+v9a73V3k3lMaeHZbkaff3iFTb02WYdAy/4gMJznK5ikviiBYAu71cJEu1kH+cDhqHyhQYwqurZH27Yz0g1AYWvV0f4nvzXcHatTk0wu7N3+61RD2fA=
+	t=1783000577; cv=none; b=gqBmrESIqmsgj0K2KNZ1qEjCthIUf/95+/oQosCJLCMJIK5JA8e4GofuEb3hjWKplynC/B33u06rY6uh0UogGHvqp9IQONuVYwxVQtVLssg/T4RdtZcaoRId+xt3NCky2V/hIUSSmv4s3XajAt81nREhCUQXv57ZBVvu1RSdc4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782988577; c=relaxed/simple;
-	bh=KKwMbEsVglT34K4nkdyHyx2nc0kXBL2aJGaLAjuEc5o=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=UWAx6xPRGpZv/bDYKtx5Hd8KSl0w9t+R8YyLTmHakmxXrsjU+OEX7gs8wTJDGPjwcFkvURIFp4pzIvRaMm+XUJt/A9/Sf3z/PYZLFjZYpB+POaaK+wG5r6qrciP3rRhiFm1i+7RJ8UMchmHtdpJWf+Oj2y/61onz7lsyYncsp4Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=BbQOnVIq; arc=none smtp.client-ip=68.232.154.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
+	s=arc-20240116; t=1783000577; c=relaxed/simple;
+	bh=UaVEUdRAGtC7aLKhUviK1MAizQJj6stdK5GFApCJui0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lWU1dGCPSqymgxwOUGiN8Q/fO6+kgSI1gcBZBi8kZ6EFluSwRX1j4loIYQ8V6ullMbz18MVDec4A6FFn4zP4+EmNPxTZ793+KjpmsBoiOlTMPvXHOfPERRtjrIi98lA4TEBq/VdYZrZNeuknr8WFpPSSe0wkUwzQMLalbPP1hvc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iyM3OEtR; arc=none smtp.client-ip=74.125.230.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="BbQOnVIq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1782988573; x=1814524573;
-  h=from:date:subject:mime-version:content-transfer-encoding:
-   message-id:to:cc;
-  bh=KKwMbEsVglT34K4nkdyHyx2nc0kXBL2aJGaLAjuEc5o=;
-  b=BbQOnVIqJGTGtHUThL+YWmkgBl4+4gNHoY49g14y5rOaN6MiQWb6qjem
-   vMccRm1zePmoGGrlaOGLjL3eri6UTdLnJkutTGgAiEim/LERPMYgGv4kH
-   1Y9KFBLEfAiumRDVNduT1W9dwBahbA5aV000Q5EAKOIYjfdAGBcNgye53
-   ASwsmWRg9uZ83Xj4M2aAgl12s1QbwupUhYSoqkoFuzm131N1H+O53uLzD
-   W8Rox31rAks5wRmHeCd+uLWyJjNRUhJm/HPIg73VO2J2t4feFvjOylclg
-   jxUmpF/5j6WCbf+7aA5wdXJKvMJLqCqitIymbrfzM5nHEzg2h8M9yDAs0
-   A==;
-X-CSE-ConnectionGUID: s+8iEvFlQYy3/T62SoT8vw==
-X-CSE-MsgGUID: /uXFG2VoRtW2NbtFuEFi5w==
-X-IronPort-AV: E=Sophos;i="6.25,143,1779174000"; 
-   d="scan'208";a="59155305"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa4.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2026 03:36:12 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.87.71) by
- chn-vm-ex4.mchp-main.com (10.10.87.33) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.43; Thu, 2 Jul 2026 03:36:12 -0700
-Received: from [127.0.0.1] (10.10.85.11) by chn-vm-ex01.mchp-main.com
- (10.10.85.143) with Microsoft SMTP Server id 15.1.2507.58 via Frontend
- Transport; Thu, 2 Jul 2026 03:36:08 -0700
-From: Balakrishnan Sambath <balakrishnan.s@microchip.com>
-Date: Thu, 2 Jul 2026 16:06:06 +0530
-Subject: [PATCH] staging: nvec: disable i2c slave on remove
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iyM3OEtR"
+Received: by mail-lr2-f3.google.com with SMTP id 38308e7fff4ca-39aeee5817fso5529051fa.0
+        for <linux-staging@lists.linux.dev>; Thu, 02 Jul 2026 06:56:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783000574; x=1783605374; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=4JyGNpvvoY2EfnwsLcpSI0KMTB87kuQf0AOS0r1gf6I=;
+        b=iyM3OEtRYvMhi8PdRzI3P2JaRZ6lA93JymkM9mWvscDbUavJu16q/etPaPklDlEVcQ
+         C+tSvF0YfOknjp/mmzqq/zI+jebAT8J/IvakGTuNrDzFcH3zz8vi3fc16AWH6dAifoRw
+         r/uM0Tm/opHw4jK6WhIjL9ZVzjuvu1gaYWvOpNKWy+4+KVblH1dLWFRlH1Y0D6qKIdh6
+         B+VIVqxcSi87v1NJXfiizz6cF+kx7waUdHlIVqgerdQiQISADiqgtXoqXvrRc3tcVZbO
+         0uhLP+DDjgvoiSOnG4iBBpoudPBU9ozo8B3H6vCE8sAXM+AaHFmb//ggorw3X57xo/G2
+         nrrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783000574; x=1783605374;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=4JyGNpvvoY2EfnwsLcpSI0KMTB87kuQf0AOS0r1gf6I=;
+        b=Rr8wmUdVqbQ/HDBVDbLyLcFwIC6Zmt04iCTUTxmacEQixsmpwzNP/Z3aS4nW4veMhR
+         zrX4cTF2XIn2D0mzNjMt/3JJmSR0YmyK9ShYkr6GJQivPxJzHdt6cW48PNbtsKP9Ywmq
+         oLESAHFah8ybD2jQA6H/+IaAb+MDfvq5sTRq3mz6zwbTGMZ9V40y/nKUQHEd6vH+Fu56
+         ySfEIvMue50V/dNWgctJdaxnvoIQNQvLxtrtJiIJWCC5XmBmmP3/RLhU5zQBKugI/i3r
+         8V1cEcZ6jEspj2GGbrpQk0DI0Es4YbYzMjvdlmpM32y9O4jV0aXXq6tA5Wt2eYk9BfUH
+         8N5A==
+X-Forwarded-Encrypted: i=1; AHgh+RoaXdM+rR1MW1AN+RyZ2XhuqZm67NLmQswf4dUieN/OddWU83SW290o/XjEJCGyMEENKDkyh0Xe055NxglZ@lists.linux.dev
+X-Gm-Message-State: AOJu0Yye7JU8YGeOTwYmbKFZj7JiP8oGAw/PBenu7zxOVWKnmvfo32R2
+	icp+I2wdlwrMZ+vc3YKXt48JuQjwlQnBNxvKoXm7n0Fitc586dj44LwZ
+X-Gm-Gg: AfdE7cm4nRwp6WWxyGydI4K8IFXFJs1JaVPKqfKHqhiWwkg2OjdqthcPNVEbZuGtQC0
+	2+t+6hl+0YKfKrPx7snzzntnk8Byc6jQzIZpU/JzWbJ4UQW6opDvnLw1FzMD6HVJk8atNZfdZtg
+	Sgd/2zHPVAILgwixb4kN1XKeAeyjpY5w8J8XNUUrcUML7m/2vwZbwUkKP4nvIAUhSuljYJqtdxn
+	mVdlGSnryYqWByHjYrH3WRwAkYUFcwvZcH7GNGE/8+a3tuardIQzi74IBSfT9BS2VGLSLAoyOsd
+	QCIK7ycvvNWbleWI5e8nDuxYT8ZeVbnCJP9Rgw/htA5xyzBwv3SBX9cSmdsNh5pxrGbChTxo745
+	UKX70PxJ9Libz22Ybm673WKk0h4vWWkxN0VPdaskebKYhnfR9IakP/ael9pEDM6Trj0e7vPxsX1
+	ujxrBBSWGB
+X-Received: by 2002:a05:6512:6887:b0:5ae:b77f:f823 with SMTP id 2adb3069b0e04-5aec80196c6mr934774e87.15.1783000573989;
+        Thu, 02 Jul 2026 06:56:13 -0700 (PDT)
+Received: from arch ([93.177.236.219])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aec89919bcsm720820e87.11.2026.07.02.06.56.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Jul 2026 06:56:13 -0700 (PDT)
+From: "Bohdan D. Marcus" <bohdandmarcus@gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	"Bohdan D. Marcus" <bohdandmarcus@gmail.com>
+Subject: [PATCH 0/3] media: atomisp: clean up block comment formatting
+Date: Thu,  2 Jul 2026 16:52:27 +0300
+Message-ID: <20260702135230.19030-1-bohdandmarcus@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20260702-contrib-nvec-clk-leak-v1-1-659bcbe74e56@microchip.com>
-X-B4-Tracking: v=1; b=H4sIABU/RmoC/x3MQQqAIBBA0avErBswKwe6SrQwm2ooLDQkiO6et
- HyL/x+IHIQjdMUDgZNEOXxGVRbgVusXRpmyQSttFCmN7vBXkBF9Yodu33BnuyHR1FJtqTHWQG7
- PwLPc/7cf3vcDg9FaLmcAAAA=
-X-Change-ID: 20260702-contrib-nvec-clk-leak-77d573a746a6
-To: Marc Dietrich <marvin24@gmx.de>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, Stephen Warren <swarren@nvidia.com>, "Prashant
- Gaikwad" <pgaikwad@nvidia.com>
-CC: <ac100@lists.launchpad.net>, <linux-tegra@vger.kernel.org>,
-	<linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	"Balakrishnan Sambath" <balakrishnan.s@microchip.com>
-X-Mailer: b4 0.14.3
+Content-Transfer-Encoding: 8bit
 
-tegra_init_i2c_slave() runs from probe and enables the i2c controller
-clock with clk_prepare_enable(), and enables the interrupt.
-tegra_nvec_remove() removes the mfd devices, notifier and work queues
-but never calls the matching nvec_disable_i2c_slave(), so the clock's
-prepare/enable count is leaked on unbind and the controller clock is
-left running with no user.
+This patch series addresses the block comment formatting issues across
+several header files in the atomisp driver, as suggested in previous
+reviews. The comments have been reformatted to comply with the Linux
+kernel coding style guidelines.
 
-The leak is only reached on driver unbind, which is why it has gone
-unnoticed in normal use.
+Checkpatch reports no remaining errors or warnings for these files.
 
-Call nvec_disable_i2c_slave() on remove, the same teardown the suspend
-path already does.
+Bohdan D. Marcus (3):
+  media: atomisp: fix block comment formatting in atomisp_internal.h
+  media: atomisp: fix block comment formatting in ia_css_mipi.h
+  media: atomisp: fix block comment formatting in ia_css_timer.h
 
-Fixes: 61c3b1971ad4 ("staging: nvec: add clk_prepare/clk_unprepare")
-Signed-off-by: Balakrishnan Sambath <balakrishnan.s@microchip.com>
----
- drivers/staging/nvec/nvec.c | 1 +
- 1 file changed, 1 insertion(+)
+ .../media/atomisp/pci/atomisp_internal.h      |  3 +-
+ .../staging/media/atomisp/pci/ia_css_mipi.h   |  6 ++-
+ .../staging/media/atomisp/pci/ia_css_timer.h  | 49 +++++++++++--------
+ 3 files changed, 34 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
-index 88c416ee0381..3869c16ad3c8 100644
---- a/drivers/staging/nvec/nvec.c
-+++ b/drivers/staging/nvec/nvec.c
-@@ -908,6 +908,7 @@ static void tegra_nvec_remove(struct platform_device *pdev)
- 	cancel_work_sync(&nvec->tx_work);
- 	if (pm_power_off == nvec_power_off)
- 		pm_power_off = NULL;
-+	nvec_disable_i2c_slave(nvec);
- }
- 
- #ifdef CONFIG_PM_SLEEP
-
----
-base-commit: be5c93fa674f0fc3c8f359c2143abce6bbb422e6
-change-id: 20260702-contrib-nvec-clk-leak-77d573a746a6
-
-Best regards,
 -- 
-Balakrishnan Sambath <balakrishnan.s@microchip.com>
+2.55.0
 
