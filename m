@@ -1,177 +1,615 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2391D39061C
-	for <linux-staging@lists.linux.dev>; Thu,  2 Jul 2026 07:06:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782975998; cv=none; b=G2cpJeM8qJRe+cPwnQ5+31FIlnMbRrBvutc49Mpq0sii19uaJ9/6p7/beOoFzdtBeqUtvnjCSpPvDIpgfu1O92AHPSRefm+vBrkxvS+CIB0nWAg7Mc8zhscEAsD8jQy2yWLIZWQzUSHt05F2+OSPLhG95yGfDGpaj3sEGXDcgpU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782975998; c=relaxed/simple;
-	bh=qwCY0nFaOJCUvrmLvadCEv+mpvx7nZJWCKGrLiomDdU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Si1P7bFxJ5zMLldNhGJ7OU5kwlOBcseocVuJhU7DUAgYYLLXacMaIuANOuPzVBMXhdxMYV2hLw7Wq3E7Jse+6jH1Za7lkgUfSh2ciqxqs2cS0JX6fom7nTVIwYsz+b6EWcPcWrBXMsUD6jlIlWnKL1Dm7yd6TAUnq3dUfHcHTXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XlLn7/6f; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70C7939BFFE
+	for <linux-staging@lists.linux.dev>; Thu,  2 Jul 2026 07:38:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.161.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782977919; cv=pass; b=kK3yHM/NPp9MeTnFq7NOvuW2cTpzh0pCUdCZcw0WV7ktT4UyNscEtoGxhtI8aprBCWZAtVQ4SRqhv3USnWPm7wP4pn/3epJQItr/dnaNdtpNiSipzKHLPbXkXc9ON6XctZiA00r6qLsb0kz4Zjelm8ozEPHu3XA1D2Llu5kw47M=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782977919; c=relaxed/simple;
+	bh=3A0v2XtqozOP+7zUrZIKciBmJ4WY0eQRWYUXouRob2U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GQfIzNvuAn6WpiWwwpqDnQl+pRbPJZ8W6QIKFAdx+l6v8PLfYooOMztvCY8uOI5/tnPKssxwrv76DZnhD/UXN+lns2UBEyVJJUWWSv8XCU+RWsHe4X29Ada6iGioSp5/2EV/k3R/DINGGIdAk2d0e+1YOc10RcDbCx2cDECBGME=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ovr6OO81; arc=pass smtp.client-ip=209.85.161.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XlLn7/6f"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2c9f10fa7a3so14714805ad.0
-        for <linux-staging@lists.linux.dev>; Thu, 02 Jul 2026 00:06:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ovr6OO81"
+Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-69ed219d3ecso1057198eaf.2
+        for <linux-staging@lists.linux.dev>; Thu, 02 Jul 2026 00:38:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782977915; cv=none;
+        d=google.com; s=arc-20260327;
+        b=SG/2wIGKv/QsYwd/ZWnJyFxrMVlHNXzlLgypHMXoj7XtX09jeCwVr4tr7x6ZeUkhI9
+         0CrgEfaAtiZ+AOs2pArdR5XM17vm+k+1P4+oBy8IgtmyoE7mcgAz5wGFWiW10fci672S
+         zqRcrIPFYUHbr5SLnlkejQQ7uHD5bxTMQzDt57kYqHIzMbIyuFfJpvtqppE8JPRpMHgk
+         bIlQTpA0GFF/mHwFhTXoevhzgSvpO0Bulx+Jk55vKDp8Wm+WGMQxoJa1UzwSoo7E5PR+
+         7rFGmWrxjQVOp+CiUwBe4PvzxHYKb9eQCch0NtrvCislSGci3kmLVckVy4Tt0HoJ8ccB
+         nIuQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=E7tAThkTU62sF2pLGd0LQMWFOOCDs+XQSemtf4LuUt4=;
+        fh=KB5QHeJsUTt8CIV5uemLe5hef0MNHAeuXWwbDS7tbx0=;
+        b=Y8yxrTwlecPeU/r9xy69gECmQyA7QDGpv3CeC89U/jI7JR4hgb7TaB8rsPsxyqaCPj
+         tRlc4I9pGIMBxSE+91PdCLBLDB0bPz1EIdttFMJfAqZqsk7Af/uck1TgzuzWgJKNFd7T
+         PQeN+JMPJljLRgmfd/RBmFKuX8rSHi3nuEmEmqp4fuPrW8ofc9zvGZngVn5HEx1v+KE7
+         rKQtxbQu4CltGYuoSbGqvVSsNaQdw1sjiHMcTTfKJhlD9G/T6hS8rCGx1cN3NKtRnUlR
+         iz69DbQJpS0DEB+6SADkAnDYy2SXSaMBjFFaFyFDrp2rkfV+uE/I2Jfm62SUOzKtMRS+
+         /t+g==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782975995; x=1783580795; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4qLH8TGZ+WUlwfUH/GXvctqR+GIWLJhWorLHDQ/+QDc=;
-        b=XlLn7/6feLasSbs89SQOBanJ+XXgXlsKiU+eqnnyO+kTyPoGJyQmzB6lIIVhl8HOko
-         hUeMDhFhlT6VwTr2T+FE9iEt87Ir6JPhOJvBfA5Nmfl7eumtG43ja86zHZIQGN6vQftP
-         4S/nyqpmiAcKvD4Ms5YFwOcl+71aV/QyClhWkCgHT3CvLNJBP6cLRSPENgcTOJJRzKdl
-         f6ZuaI/B5uiEI3T5rGNXs753bUIkkr4QyLY4KW6JPl81k5xVxGw1idIiyklZYJRnkXM+
-         64LINEETJj+27U1nZiX9Uf6oHBMLy6MH7qIbweWrvRXgn5s2qja+FCvGcPdRMyDSVeo3
-         Wlmg==
+        d=gmail.com; s=20251104; t=1782977915; x=1783582715; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=E7tAThkTU62sF2pLGd0LQMWFOOCDs+XQSemtf4LuUt4=;
+        b=Ovr6OO81XqUCqh/uu3n5MBmQ+KWEIxPMuHReGaoKHeGTEbqiK2g9HDge35bCyoTy8N
+         GpVV/LKFD/RqCP83y0A+xvYlazrqn5QpUrfjdFCbbiy7rYlL7CzHjX7gY0hpP2z4sdw4
+         aTzSmwRrxrODwxwBKYDq22hMb36gpHI3ciqgI+GwlpIt1S8eTpV1kFhKv52MAVK1qiXD
+         GsFPdC1VBZnhB1ssJEHQYTB8KFxSiuPYutSiRl0WOUP841ZOGUO/gVDeJwOGG6295jXn
+         Cxhg1aCOpDjkrDReNbhegGq7r8wOvKONPpnEYF9liRgJthsN9wtwfViWBOdzEqWNkDrX
+         f77Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782975995; x=1783580795;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=4qLH8TGZ+WUlwfUH/GXvctqR+GIWLJhWorLHDQ/+QDc=;
-        b=s73bqvGYVJkdYjiIjYR9/Jql3Ef3Ssq3+NfWjZYIIkLQ9NTAeycnL698FptRa/MGFn
-         nhK5l6ASJrjzYrKftJUWhM8qEkJbR288VnL6JGNai9mIFNMew5J1vyU5Z2SB/aLJlpUv
-         ukch5xHKjqiu8XMieWq9ThdP2DudTkcT7ZzpL9PrYs4Yb+uiks2G3GYNw33D6BAoXze8
-         AyT8iLPTJdeJUCT8O+2k2cBDYRcVNLOn1M8hIUMvRoLcPyrQmvebxjy9MDQKxJAMAnJO
-         8GubGRHM5ZhmIrJ8jFrHuIjwQPWvGM6Uw+ekrCMDsyxUMw9Kx48tlWZv3EluYVOYCJYT
-         msyg==
-X-Forwarded-Encrypted: i=1; AHgh+RpA1I1IwRjW1iT5MKgqVp4vS40gf6AgRWVEsH3YLe8DRuaPhn2j1clFTGNs8Ds+Zx7jdly4Qk3Ko4JSOfq1@lists.linux.dev
-X-Gm-Message-State: AOJu0YyZmtvplPrcaq2JBry6/nK9vAUaEaO+O/C9wU0JgRU+qUb4SpQn
-	JpXvPSuUrfknq4OBMFkE4C/da6JWeQ9/N6H0L6KpNGZGaGQ+5f6pS/xn
-X-Gm-Gg: AfdE7cnHrMzGe/DUL81O5Ee9Khno1qQgPYhX6UIo2y9zBk0pzH8qbBDM1L9ON8oM2wx
-	oLaJUIRoxeaoB1fNsP2CmqVGzq5lPLAvVZ3tWjgPOPa4eijIMWKvFU9DFore+nkWuN2wVKNoJpw
-	KS4l5+2eHzvFL42B2mHe1ARA8NJdJUfup66eNPqzCdBhXL+kXvch8L/6fegmlaZluuZfCcv3UG0
-	9dfcX4qgw0kz4jK4ojVFIoh6oNChGyzxi8NmO4CfYjeL3P8HUUqnNO0abwQbqfTFXNA020UysEy
-	gDpSwdqDvtd83uBxH66HSr1JdUXqP2WCckaXsFoLflniabpwO4q1C9gA4/aBGO6sqmyveOgaJn5
-	5F1+ua++YPauGZQz80am76IOmLHvIaoS7tKq7+QB7B+26AnakqmoNfTKhawpm2BNhENGcgsU/dh
-	2dVpqf/EQWfF1/fhK7AG+nRvnQQXvFk5Q2qy9+lEnfY+u9pVAwl8Ln6uEcxP9pi0Qq8qko+iSkS
-	ir/tL1ezeA=
-X-Received: by 2002:a17:902:d490:b0:2c9:fa37:c666 with SMTP id d9443c01a7336-2ca7e8cbd87mr46648105ad.44.1782975994973;
-        Thu, 02 Jul 2026 00:06:34 -0700 (PDT)
-Received: from [192.168.1.45] ([45.64.226.42])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ca9a9124f2sm8865035ad.33.2026.07.02.00.06.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jul 2026 00:06:34 -0700 (PDT)
-From: Prashant Rahul <prashantrahul23@gmail.com>
-Date: Thu, 02 Jul 2026 12:36:17 +0530
-Subject: [PATCH v2 4/4] staging: octeon: handle rx/tx initialization
- failures in probe
+        d=1e100.net; s=20251104; t=1782977915; x=1783582715;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=E7tAThkTU62sF2pLGd0LQMWFOOCDs+XQSemtf4LuUt4=;
+        b=kC92bjsJH5rSGfkDWg30yE2HV+rMAkSUr5yGzG+694RLbhOr5v/M4S5uDjp5qLBVra
+         32A93ATPUD3Ch13BPAo7LsKYUWNDI6nJ5yuucVpBrKh4wbkDQ7TBdsuhYBNI5zyIXEug
+         CDgnlb9GMfZuJ/MYNQ+2nym+BrTc6sH31+lAtYW7KmLPTlZDqqml5iCJS3g054RNgEsE
+         lYegXaJJC1PNhv7OHT75XI0mtlvK8Zp7r9c8V/sK69+eoWjLe9iBTFHIvbtngw2WgiW/
+         +tlpXhGzdJGqUGEf04ykzNvxSWjgy79Oen9GU1JKpxZ1wuqkdP7i1ujEDbZ9D+mkJR81
+         qK0g==
+X-Forwarded-Encrypted: i=1; AFNElJ/Ab4+s2PRRWVoQppJyanelJu0lo1JoebOpoBVEgz8lPdGa8IRcDeGryRQo2r3EwmGNVo+GyGx+9Xe2XNfu@lists.linux.dev
+X-Gm-Message-State: AOJu0YxzOcxy9hR/LrZC6iGBeagVT1iPPH+9/yQL3C+vB7MGqOsVVoyH
+	m3jCLJrGKSX9RXzrU1egKzheVZ1ngYr8+HzdmOzq9EwgQXUpMHl5NPNhvTB+mRCS/ROVXT28YeF
+	57NZhG70vRm3zWWWO93Fy3Bmf9b3wls8=
+X-Gm-Gg: AfdE7clUBBIcvIM7anLrIRXVdst/5mAGvmEMbIXYmqGHuMYKoBQytWBtfPbaX3pYy1O
+	SLkiDQMtxr/Yi4Ef576c8Vgdbx7aDoHrDeURsTQS7fSamizf6rviafIFVvjoQfqbnKjXX7Mg2KQ
+	D4nEinG5TSLx5WHLVLDnM/rgDEROd3gOrwY10+qNpkE+Uh2dAJJyp5kD/8GJuaydkK6GjcQTBk+
+	1AUhFblMozjWwa0uT6bIQ6tR5UVfhZxxPea/XxTnQRw+32UJUzaZrA6chl1DIRUxSzydu9hY56I
+	nOZxdhoMxOi1LoAJo31UPMXg4Gy+MQleA6qq4takP4Jo1t2PFZyODRxV
+X-Received: by 2002:a05:6820:4b09:b0:6a1:5756:10d3 with SMTP id
+ 006d021491bc7-6a30d79e230mr2586326eaf.22.1782977915404; Thu, 02 Jul 2026
+ 00:38:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260702-staging-driver-octeon-panic-v2-4-2c2b6ae086dd@gmail.com>
-References: <20260702-staging-driver-octeon-panic-v2-0-2c2b6ae086dd@gmail.com>
-In-Reply-To: <20260702-staging-driver-octeon-panic-v2-0-2c2b6ae086dd@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Shuah Khan <shuah@kernel.org>, linux-staging@lists.linux.dev, 
- linux-kernel@vger.kernel.org, Klara Modin <klarasmodin@gmail.com>, 
- Prashant Rahul <prashantrahul23@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2139;
- i=prashantrahul23@gmail.com; h=from:subject:message-id;
- bh=qwCY0nFaOJCUvrmLvadCEv+mpvx7nZJWCKGrLiomDdU=;
- b=owEBbQKS/ZANAwAKAWw+kajX8DhtAcsmYgBqRg3pQ0F973YJeuqcWtpTNrj3CnK/+ILJkFIIJ
- Xsv+ApE3eSJAjMEAAEKAB0WIQRS5esR6MP3hQs0SsxsPpGo1/A4bQUCakYN6QAKCRBsPpGo1/A4
- baD8EACwPLwOlwPPoNMCRbkJrGzhIVtMtC6CnufFYRxD3GeLHHeDZ6W0Ez3cvvLq9g8vCvvaNly
- l+2N8dImpk0V/7Nq3Ou3BLDo6c3Pptdvfb9wkStEgP9xxBMFrdrR6JTIVG9ZRZ5m69xnpqptk9u
- 1nFC8Mpbj2C5hljelZnvNpLiMg7tJzjMvkdTY5wLFAKUomxQ4+yyu1uG5usf2D7R73UGgs7xJh3
- BbfOc7TAY1LV1uRFrtFKyxwf3Kw+JY01EqSXTYpw91W4XbqmfSx89dlgbLZrHHTGjGIZTADLdUo
- KPPi4gN+O9/bxMJuwwJKPSRdTrNWbQ/U1Bb07bxOtmhJNap5a8QB680DVt+Tl7sEPQEG9T2qFKR
- O8QI7zuVMj79OO8TfEZZaP3p7X47Cl1qux5WhwB5yzU0/7IwH9vFuH+MrfJp1UmkaeGPlaNKLMK
- gcx9cPaKxgdTMsXaCaDQaaXLTU5gDq7AOxxYcnug7ZuSrdz+5Tw3mFUafMmAw0FIYXM2TU+bvtA
- gCbA1lArBHOKuEjOjRYlPGPC64IJM9l7CqUJUAesWK7MTkNVQQoBIXk53k0YtiDQZ5cEg/vXnVl
- Ao73MX12/FbMUXAspcWC6gz7roneLMK7L1+yCmQukIS4POmLgh1Jdvmbw5Xez+b+rmb5mB5rbne
- 3urOhP8qRljmEEw==
-X-Developer-Key: i=prashantrahul23@gmail.com; a=openpgp;
- fpr=52E5EB11E8C3F7850B344ACC6C3E91A8D7F0386D
+References: <20260518102451.417971-1-paulk@sys-base.io> <20260518102451.417971-2-paulk@sys-base.io>
+In-Reply-To: <20260518102451.417971-2-paulk@sys-base.io>
+From: arash golgol <arash.golgol@gmail.com>
+Date: Thu, 2 Jul 2026 11:08:23 +0330
+X-Gm-Features: AVVi8CeafjPFa4ObcedUXNC1nyKbr1QgWVPZnCBama60Wv2Vd2sSRdfYRIO95ik
+Message-ID: <CAMxPZkjeCL=kdpj2V-9b-C68kOsrAv1dPKq4iHn2PEpn2pYEuA@mail.gmail.com>
+Subject: Re: [PATCH 01/16] media: sun6i-csi: bridge: Use V4L2 subdev active state
+To: Paul Kocialkowski <paulk@sys-base.io>
+Cc: linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Check return value of rx/tx initialization functions and abort probing
-if either one fails.
+Hi Paul,
 
-Add error handling labels to deallocate resources before returning the
-error.
+On Mon, May 18, 2026 at 1:55=E2=80=AFPM Paul Kocialkowski <paulk@sys-base.i=
+o> wrote:
+>
+> From: Arash Golgol <arash.golgol@gmail.com>
+>
+> Use the V4L2 subdev active state API to store the active format.
+> This simplifies the driver not only by dropping the bridge mbus_format
+> field, but it also allows dropping the bridge lock, replaced with
+> the state lock.
+>
+> Previously, capture accessed bridge private state directly. After
+> moving to framework-managed state, resolve the format through the
+> subdev pad API.
+>
+> The sun6i-csi-bridge hardware does not perform any format conversion.
+> Enforce identical formats on the sink and source pads in the set_fmt()
+> and init_state() callbacks.
+>
+> Signed-off-by: Arash Golgol <arash.golgol@gmail.com>
+> Reviewed-by: Paul Kocialkowski <paulk@sys-base.io>
+> Tested-by: Paul Kocialkowski <paulk@sys-base.io>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Signed-off-by: Prashant Rahul <prashantrahul23@gmail.com>
----
- drivers/staging/octeon/ethernet.c | 36 ++++++++++++++++++++++++++++++++++--
- 1 file changed, 34 insertions(+), 2 deletions(-)
+I noticed this series didn't make it into the v7.2 merge window.
+Is there anything still pending on my side before it can be picked up,
+or is it just a matter of timing for the next cycle?
 
-diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
-index 56ea848187531..42ec4b8324a83 100644
---- a/drivers/staging/octeon/ethernet.c
-+++ b/drivers/staging/octeon/ethernet.c
-@@ -688,6 +688,7 @@ static int cvm_oct_probe(struct platform_device *pdev)
- {
- 	int num_interfaces;
- 	int interface;
-+	int ret = 0;
- 	int fau = FAU_NUM_PACKET_BUFFERS_TO_FREE;
- 	int qos;
- 	struct device_node *pip;
-@@ -934,17 +935,48 @@ static int cvm_oct_probe(struct platform_device *pdev)
- 		}
- 	}
- 
--	cvm_oct_tx_initialize(pdev);
--	cvm_oct_rx_initialize(pdev);
-+	ret = cvm_oct_tx_initialize(pdev);
-+	if (ret)
-+		goto err_tx;
-+
-+	ret = cvm_oct_rx_initialize(pdev);
-+	if (ret)
-+		goto err_rx;
- 
- 	/*
- 	 * 150 uS: about 10 1500-byte packets at 1GE.
- 	 */
- 	cvm_oct_tx_poll_interval = 150 * (octeon_get_clock_rate() / 1000000);
- 
- 	schedule_delayed_work(&plat->rx_refill_work, HZ);
- 
- 	return 0;
-+
-+err_rx:
-+	cvm_oct_tx_shutdown();
-+err_tx:
-+	cvmx_ipd_disable();
-+
-+	atomic_inc_return(&cvm_oct_poll_queue_stopping);
-+
-+	/* Free the ethernet devices */
-+	for (int port = 0; port < TOTAL_NUMBER_OF_PORTS; port++)
-+		cvm_oct_remove_device(port);
-+
-+	cvmx_pko_shutdown();
-+
-+	cvmx_ipd_free_ptr();
-+
-+	/* Free the HW pools */
-+	cvm_oct_mem_empty_fpa(pdev, CVMX_FPA_PACKET_POOL, CVMX_FPA_PACKET_POOL_SIZE,
-+			      num_packet_buffers);
-+	cvm_oct_mem_empty_fpa(pdev, CVMX_FPA_WQE_POOL, CVMX_FPA_WQE_POOL_SIZE,
-+			      num_packet_buffers);
-+	if (CVMX_FPA_OUTPUT_BUFFER_POOL != CVMX_FPA_PACKET_POOL)
-+		cvm_oct_mem_empty_fpa(pdev, CVMX_FPA_OUTPUT_BUFFER_POOL,
-+				      CVMX_FPA_OUTPUT_BUFFER_POOL_SIZE, 128);
-+
-+	return ret;
- }
- 
- static void cvm_oct_remove(struct platform_device *pdev)
+Happy to help however I can.
 
--- 
-2.54.0
+> ---
+>  .../sunxi/sun6i-csi/sun6i_csi_bridge.c        | 155 ++++++++----------
+>  .../sunxi/sun6i-csi/sun6i_csi_bridge.h        |   9 -
+>  .../sunxi/sun6i-csi/sun6i_csi_capture.c       |  27 ++-
+>  3 files changed, 86 insertions(+), 105 deletions(-)
+>
+> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c b/=
+drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c
+> index d006d9dd0170..43a85bcc2ba2 100644
+> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c
+> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c
+> @@ -13,26 +13,6 @@
+>  #include "sun6i_csi_bridge.h"
+>  #include "sun6i_csi_reg.h"
+>
+> -/* Helpers */
+> -
+> -void sun6i_csi_bridge_dimensions(struct sun6i_csi_device *csi_dev,
+> -                                unsigned int *width, unsigned int *heigh=
+t)
+> -{
+> -       if (width)
+> -               *width =3D csi_dev->bridge.mbus_format.width;
+> -       if (height)
+> -               *height =3D csi_dev->bridge.mbus_format.height;
+> -}
+> -
+> -void sun6i_csi_bridge_format(struct sun6i_csi_device *csi_dev,
+> -                            u32 *mbus_code, u32 *field)
+> -{
+> -       if (mbus_code)
+> -               *mbus_code =3D csi_dev->bridge.mbus_format.code;
+> -       if (field)
+> -               *field =3D csi_dev->bridge.mbus_format.field;
+> -}
+> -
+>  /* Format */
+>
+>  static const struct sun6i_csi_bridge_format sun6i_csi_bridge_formats[] =
+=3D {
+> @@ -226,7 +206,8 @@ static void sun6i_csi_bridge_disable(struct sun6i_csi=
+_device *csi_dev)
+>  }
+>
+>  static void
+> -sun6i_csi_bridge_configure_parallel(struct sun6i_csi_device *csi_dev)
+> +sun6i_csi_bridge_configure_parallel(struct sun6i_csi_device *csi_dev,
+> +                                   const struct v4l2_mbus_framefmt *mbus=
+_format)
+>  {
+>         struct device *dev =3D csi_dev->dev;
+>         struct regmap *regmap =3D csi_dev->regmap;
+> @@ -234,11 +215,9 @@ sun6i_csi_bridge_configure_parallel(struct sun6i_csi=
+_device *csi_dev)
+>                 &csi_dev->bridge.source_parallel.endpoint;
+>         unsigned char bus_width =3D endpoint->bus.parallel.bus_width;
+>         unsigned int flags =3D endpoint->bus.parallel.flags;
+> -       u32 field;
+> +       u32 field =3D mbus_format->field;
+>         u32 value =3D SUN6I_CSI_IF_CFG_IF_CSI;
+>
+> -       sun6i_csi_bridge_format(csi_dev, NULL, &field);
+> -
+>         if (field =3D=3D V4L2_FIELD_INTERLACED ||
+>             field =3D=3D V4L2_FIELD_INTERLACED_TB ||
+>             field =3D=3D V4L2_FIELD_INTERLACED_BT)
+> @@ -317,13 +296,12 @@ sun6i_csi_bridge_configure_parallel(struct sun6i_cs=
+i_device *csi_dev)
+>  }
+>
+>  static void
+> -sun6i_csi_bridge_configure_mipi_csi2(struct sun6i_csi_device *csi_dev)
+> +sun6i_csi_bridge_configure_mipi_csi2(struct sun6i_csi_device *csi_dev,
+> +                                    const struct v4l2_mbus_framefmt *mbu=
+s_format)
+>  {
+>         struct regmap *regmap =3D csi_dev->regmap;
+>         u32 value =3D SUN6I_CSI_IF_CFG_IF_MIPI;
+> -       u32 field;
+> -
+> -       sun6i_csi_bridge_format(csi_dev, NULL, &field);
+> +       u32 field =3D mbus_format->field;
+>
+>         if (field =3D=3D V4L2_FIELD_INTERLACED ||
+>             field =3D=3D V4L2_FIELD_INTERLACED_TB ||
+> @@ -335,19 +313,20 @@ sun6i_csi_bridge_configure_mipi_csi2(struct sun6i_c=
+si_device *csi_dev)
+>         regmap_write(regmap, SUN6I_CSI_IF_CFG_REG, value);
+>  }
+>
+> -static void sun6i_csi_bridge_configure_format(struct sun6i_csi_device *c=
+si_dev)
+> +static void
+> +sun6i_csi_bridge_configure_format(struct sun6i_csi_device *csi_dev,
+> +                                 const struct v4l2_mbus_framefmt *mbus_f=
+ormat)
+>  {
+>         struct regmap *regmap =3D csi_dev->regmap;
+>         bool capture_streaming =3D csi_dev->capture.state.streaming;
+>         const struct sun6i_csi_bridge_format *bridge_format;
+>         const struct sun6i_csi_capture_format *capture_format;
+> -       u32 mbus_code, field, pixelformat;
+> +       u32 pixelformat;
+> +       u32 field =3D mbus_format->field;
+>         u8 input_format, input_yuv_seq, output_format;
+>         u32 value =3D 0;
+>
+> -       sun6i_csi_bridge_format(csi_dev, &mbus_code, &field);
+> -
+> -       bridge_format =3D sun6i_csi_bridge_format_find(mbus_code);
+> +       bridge_format =3D sun6i_csi_bridge_format_find(mbus_format->code)=
+;
+>         if (WARN_ON(!bridge_format))
+>                 return;
+>
+> @@ -391,16 +370,17 @@ static void sun6i_csi_bridge_configure_format(struc=
+t sun6i_csi_device *csi_dev)
+>  }
+>
+>  static void sun6i_csi_bridge_configure(struct sun6i_csi_device *csi_dev,
+> -                                      struct sun6i_csi_bridge_source *so=
+urce)
+> +                                      struct sun6i_csi_bridge_source *so=
+urce,
+> +                                      const struct v4l2_mbus_framefmt *m=
+bus_format)
+>  {
+>         struct sun6i_csi_bridge *bridge =3D &csi_dev->bridge;
+>
+>         if (source =3D=3D &bridge->source_parallel)
+> -               sun6i_csi_bridge_configure_parallel(csi_dev);
+> +               sun6i_csi_bridge_configure_parallel(csi_dev, mbus_format)=
+;
+>         else
+> -               sun6i_csi_bridge_configure_mipi_csi2(csi_dev);
+> +               sun6i_csi_bridge_configure_mipi_csi2(csi_dev, mbus_format=
+);
+>
+> -       sun6i_csi_bridge_configure_format(csi_dev);
+> +       sun6i_csi_bridge_configure_format(csi_dev, mbus_format);
+>  }
+>
+>  /* V4L2 Subdev */
+> @@ -415,6 +395,8 @@ static int sun6i_csi_bridge_s_stream(struct v4l2_subd=
+ev *subdev, int on)
+>         struct sun6i_csi_bridge_source *source;
+>         struct v4l2_subdev *source_subdev;
+>         struct media_pad *remote_pad;
+> +       struct v4l2_subdev_state *state;
+> +       const struct v4l2_mbus_framefmt *mbus_format;
+>         int ret;
+>
+>         /* Source */
+> @@ -433,6 +415,10 @@ static int sun6i_csi_bridge_s_stream(struct v4l2_sub=
+dev *subdev, int on)
+>         else
+>                 source =3D &bridge->source_mipi_csi2;
+>
+> +       /* Active State */
+> +
+> +       state =3D v4l2_subdev_lock_and_get_active_state(subdev);
+> +
+>         if (!on) {
+>                 v4l2_subdev_call(source_subdev, video, s_stream, 0);
+>                 ret =3D 0;
+> @@ -443,7 +429,7 @@ static int sun6i_csi_bridge_s_stream(struct v4l2_subd=
+ev *subdev, int on)
+>
+>         ret =3D pm_runtime_resume_and_get(dev);
+>         if (ret < 0)
+> -               return ret;
+> +               goto unlock;
+>
+>         /* Clear */
+>
+> @@ -451,7 +437,9 @@ static int sun6i_csi_bridge_s_stream(struct v4l2_subd=
+ev *subdev, int on)
+>
+>         /* Configure */
+>
+> -       sun6i_csi_bridge_configure(csi_dev, source);
+> +       mbus_format =3D v4l2_subdev_state_get_format(state,
+> +                                                  SUN6I_CSI_BRIDGE_PAD_S=
+INK);
+> +       sun6i_csi_bridge_configure(csi_dev, source, mbus_format);
+>
+>         if (capture_streaming)
+>                 sun6i_csi_capture_configure(csi_dev);
+> @@ -472,7 +460,8 @@ static int sun6i_csi_bridge_s_stream(struct v4l2_subd=
+ev *subdev, int on)
+>         if (ret && ret !=3D -ENOIOCTLCMD)
+>                 goto disable;
+>
+> -       return 0;
+> +       ret =3D 0;
+> +       goto unlock;
+>
+>  disable:
+>         if (capture_streaming)
+> @@ -482,6 +471,8 @@ static int sun6i_csi_bridge_s_stream(struct v4l2_subd=
+ev *subdev, int on)
+>
+>         pm_runtime_put(dev);
+>
+> +unlock:
+> +       v4l2_subdev_unlock_state(state);
+>         return ret;
+>  }
+>
+> @@ -504,21 +495,23 @@ sun6i_csi_bridge_mbus_format_prepare(struct v4l2_mb=
+us_framefmt *mbus_format)
+>  static int sun6i_csi_bridge_init_state(struct v4l2_subdev *subdev,
+>                                        struct v4l2_subdev_state *state)
+>  {
+> -       struct sun6i_csi_device *csi_dev =3D v4l2_get_subdevdata(subdev);
+> -       unsigned int pad =3D SUN6I_CSI_BRIDGE_PAD_SINK;
+> -       struct v4l2_mbus_framefmt *mbus_format =3D
+> -               v4l2_subdev_state_get_format(state, pad);
+> -       struct mutex *lock =3D &csi_dev->bridge.lock;
+> +       unsigned int pad;
+>
+> -       mutex_lock(lock);
+> +       /*
+> +        * This subdev does not perform format conversion,
+> +        * initialize both pads identically.
+> +        */
+> +       for (pad =3D 0; pad < subdev->entity.num_pads; pad++) {
+> +               struct v4l2_mbus_framefmt *mbus_format;
+>
+> -       mbus_format->code =3D sun6i_csi_bridge_formats[0].mbus_code;
+> -       mbus_format->width =3D 1280;
+> -       mbus_format->height =3D 720;
+> +               mbus_format =3D v4l2_subdev_state_get_format(state, pad);
+>
+> -       sun6i_csi_bridge_mbus_format_prepare(mbus_format);
+> +               mbus_format->code =3D sun6i_csi_bridge_formats[0].mbus_co=
+de;
+> +               mbus_format->width =3D 1280;
+> +               mbus_format->height =3D 720;
+>
+> -       mutex_unlock(lock);
+> +               sun6i_csi_bridge_mbus_format_prepare(mbus_format);
+> +       }
+>
+>         return 0;
+>  }
+> @@ -536,53 +529,32 @@ sun6i_csi_bridge_enum_mbus_code(struct v4l2_subdev =
+*subdev,
+>         return 0;
+>  }
+>
+> -static int sun6i_csi_bridge_get_fmt(struct v4l2_subdev *subdev,
+> -                                   struct v4l2_subdev_state *state,
+> -                                   struct v4l2_subdev_format *format)
+> -{
+> -       struct sun6i_csi_device *csi_dev =3D v4l2_get_subdevdata(subdev);
+> -       struct v4l2_mbus_framefmt *mbus_format =3D &format->format;
+> -       struct mutex *lock =3D &csi_dev->bridge.lock;
+> -
+> -       mutex_lock(lock);
+> -
+> -       if (format->which =3D=3D V4L2_SUBDEV_FORMAT_TRY)
+> -               *mbus_format =3D *v4l2_subdev_state_get_format(state,
+> -                                                            format->pad)=
+;
+> -       else
+> -               *mbus_format =3D csi_dev->bridge.mbus_format;
+> -
+> -       mutex_unlock(lock);
+> -
+> -       return 0;
+> -}
+> -
+>  static int sun6i_csi_bridge_set_fmt(struct v4l2_subdev *subdev,
+>                                     struct v4l2_subdev_state *state,
+>                                     struct v4l2_subdev_format *format)
+>  {
+> -       struct sun6i_csi_device *csi_dev =3D v4l2_get_subdevdata(subdev);
+> -       struct v4l2_mbus_framefmt *mbus_format =3D &format->format;
+> -       struct mutex *lock =3D &csi_dev->bridge.lock;
+> +       struct v4l2_mbus_framefmt *fmt;
+>
+> -       mutex_lock(lock);
+> +       /* The format on the source pad always matches the sink pad. */
+> +       if (format->pad !=3D SUN6I_CSI_BRIDGE_PAD_SINK)
+> +               return v4l2_subdev_get_fmt(subdev, state, format);
+>
+> -       sun6i_csi_bridge_mbus_format_prepare(mbus_format);
+> +       sun6i_csi_bridge_mbus_format_prepare(&format->format);
+>
+> -       if (format->which =3D=3D V4L2_SUBDEV_FORMAT_TRY)
+> -               *v4l2_subdev_state_get_format(state, format->pad) =3D
+> -                       *mbus_format;
+> -       else
+> -               csi_dev->bridge.mbus_format =3D *mbus_format;
+> +       /* Set the format on the sink pad. */
+> +       fmt =3D v4l2_subdev_state_get_format(state, format->pad);
+> +       *fmt =3D format->format;
+>
+> -       mutex_unlock(lock);
+> +       /* Propagate the format to the source pad. */
+> +       fmt =3D v4l2_subdev_state_get_format(state, SUN6I_CSI_BRIDGE_PAD_=
+SOURCE);
+> +       *fmt =3D format->format;
+>
+>         return 0;
+>  }
+>
+>  static const struct v4l2_subdev_pad_ops sun6i_csi_bridge_pad_ops =3D {
+>         .enum_mbus_code =3D sun6i_csi_bridge_enum_mbus_code,
+> -       .get_fmt        =3D sun6i_csi_bridge_get_fmt,
+> +       .get_fmt        =3D v4l2_subdev_get_fmt,
+>         .set_fmt        =3D sun6i_csi_bridge_set_fmt,
+>  };
+>
+> @@ -780,8 +752,6 @@ int sun6i_csi_bridge_setup(struct sun6i_csi_device *c=
+si_dev)
+>         };
+>         int ret;
+>
+> -       mutex_init(&bridge->lock);
+> -
+>         /* V4L2 Subdev */
+>
+>         v4l2_subdev_init(subdev, &sun6i_csi_bridge_subdev_ops);
+> @@ -809,6 +779,12 @@ int sun6i_csi_bridge_setup(struct sun6i_csi_device *=
+csi_dev)
+>         if (ret < 0)
+>                 return ret;
+>
+> +       /* V4L2 Subdev finalize */
+> +
+> +       ret =3D v4l2_subdev_init_finalize(subdev);
+> +       if (ret < 0)
+> +               goto error_media_entity;
+> +
+>         /* V4L2 Subdev */
+>
+>         if (csi_dev->isp_available)
+> @@ -818,7 +794,7 @@ int sun6i_csi_bridge_setup(struct sun6i_csi_device *c=
+si_dev)
+>
+>         if (ret) {
+>                 dev_err(dev, "failed to register v4l2 subdev: %d\n", ret)=
+;
+> -               goto error_media_entity;
+> +               goto error_subdev_finalize;
+>         }
+>
+>         /* V4L2 Async */
+> @@ -852,6 +828,9 @@ int sun6i_csi_bridge_setup(struct sun6i_csi_device *c=
+si_dev)
+>         else
+>                 v4l2_device_unregister_subdev(subdev);
+>
+> +error_subdev_finalize:
+> +       v4l2_subdev_cleanup(subdev);
+> +
+>  error_media_entity:
+>         media_entity_cleanup(&subdev->entity);
+>
+> @@ -868,5 +847,7 @@ void sun6i_csi_bridge_cleanup(struct sun6i_csi_device=
+ *csi_dev)
+>
+>         v4l2_device_unregister_subdev(subdev);
+>
+> +       v4l2_subdev_cleanup(subdev);
+> +
+>         media_entity_cleanup(&subdev->entity);
+>  }
+> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.h b/=
+drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.h
+> index 44653b38f722..a5b0a6f064dd 100644
+> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.h
+> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.h
+> @@ -42,20 +42,11 @@ struct sun6i_csi_bridge {
+>         struct v4l2_subdev              subdev;
+>         struct v4l2_async_notifier      notifier;
+>         struct media_pad                pads[2];
+> -       struct v4l2_mbus_framefmt       mbus_format;
+> -       struct mutex                    lock; /* Mbus format lock. */
+>
+>         struct sun6i_csi_bridge_source  source_parallel;
+>         struct sun6i_csi_bridge_source  source_mipi_csi2;
+>  };
+>
+> -/* Helpers */
+> -
+> -void sun6i_csi_bridge_dimensions(struct sun6i_csi_device *csi_dev,
+> -                                unsigned int *width, unsigned int *heigh=
+t);
+> -void sun6i_csi_bridge_format(struct sun6i_csi_device *csi_dev,
+> -                            u32 *mbus_code, u32 *field);
+> -
+>  /* Format */
+>
+>  const struct sun6i_csi_bridge_format *
+> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c b=
+/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
+> index 65879f4802c0..d90abba21309 100644
+> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
+> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
+> @@ -888,14 +888,19 @@ static int sun6i_csi_capture_link_validate(struct m=
+edia_link *link)
+>                 media_entity_to_video_device(link->sink->entity);
+>         struct sun6i_csi_device *csi_dev =3D video_get_drvdata(video_dev)=
+;
+>         struct v4l2_device *v4l2_dev =3D csi_dev->v4l2_dev;
+> +       struct v4l2_subdev *src_subdev =3D
+> +               media_entity_to_v4l2_subdev(link->source->entity);
+>         const struct sun6i_csi_capture_format *capture_format;
+>         const struct sun6i_csi_bridge_format *bridge_format;
+>         unsigned int capture_width, capture_height;
+> -       unsigned int bridge_width, bridge_height;
+>         const struct v4l2_format_info *format_info;
+> +       struct v4l2_subdev_format src_fmt =3D {
+> +               .which =3D V4L2_SUBDEV_FORMAT_ACTIVE,
+> +               .pad =3D link->source->index
+> +       };
+>         u32 pixelformat, capture_field;
+> -       u32 mbus_code, bridge_field;
+>         bool match;
+> +       int ret;
+>
+>         sun6i_csi_capture_dimensions(csi_dev, &capture_width, &capture_he=
+ight);
+>
+> @@ -904,19 +909,22 @@ static int sun6i_csi_capture_link_validate(struct m=
+edia_link *link)
+>         if (WARN_ON(!capture_format))
+>                 return -EINVAL;
+>
+> -       sun6i_csi_bridge_dimensions(csi_dev, &bridge_width, &bridge_heigh=
+t);
+> +       /* Resolve csi bridge format. */
+> +       ret =3D v4l2_subdev_call(src_subdev, pad, get_fmt, NULL, &src_fmt=
+);
+> +       if (ret)
+> +               return ret;
+>
+> -       sun6i_csi_bridge_format(csi_dev, &mbus_code, &bridge_field);
+> -       bridge_format =3D sun6i_csi_bridge_format_find(mbus_code);
+> +       bridge_format =3D sun6i_csi_bridge_format_find(src_fmt.format.cod=
+e);
+>         if (WARN_ON(!bridge_format))
+>                 return -EINVAL;
+>
+>         /* No cropping/scaling is supported. */
+> -       if (capture_width !=3D bridge_width || capture_height !=3D bridge=
+_height) {
+> +       if (capture_width !=3D src_fmt.format.width ||
+> +           capture_height !=3D src_fmt.format.height) {
+>                 v4l2_err(v4l2_dev,
+>                          "invalid input/output dimensions: %ux%u/%ux%u\n"=
+,
+> -                        bridge_width, bridge_height, capture_width,
+> -                        capture_height);
+> +                        src_fmt.format.width, src_fmt.format.height,
+> +                        capture_width, capture_height);
+>                 return -EINVAL;
+>         }
+>
+> @@ -947,7 +955,8 @@ static int sun6i_csi_capture_link_validate(struct med=
+ia_link *link)
+>         /* With raw input mode, we need a 1:1 match between input and out=
+put. */
+>         if (bridge_format->input_format =3D=3D SUN6I_CSI_INPUT_FMT_RAW ||
+>             capture_format->input_format_raw) {
+> -               match =3D sun6i_csi_capture_format_match(pixelformat, mbu=
+s_code);
+> +               match =3D sun6i_csi_capture_format_match(pixelformat,
+> +                                                      src_fmt.format.cod=
+e);
+>                 if (!match)
+>                         goto invalid;
+>         }
+> --
+> 2.54.0
+>
 
+--=20
+Regards,
+Arash Golgol
