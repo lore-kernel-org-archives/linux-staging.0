@@ -1,157 +1,201 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B87AA246788
-	for <linux-staging@lists.linux.dev>; Sat,  4 Jul 2026 16:48:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783183698; cv=pass; b=jOcjRqIN0hTA1U3zht/y3e25McNhmntLwGxoCn8U87YvEIYFN5RU8i2u5cmArHaV4TsbOdY8IVlZZWSFC7pw/PeKcesHHcfxlLjw2fKNAL6qHIb858p/YnGQMG0hkQCMPW7Xkmdth2rfoktVhoVMS/eOiCHzjuEcy/EREk634zs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783183698; c=relaxed/simple;
-	bh=6u4HdF/D8Oe74jbT858It60RPJgVighEcTUvgQ1cukk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eKRNWCWS5kyDlHVSuUdgGQ3qzW92+y7KDbYzoKYbBxaxZvMFEz/8cjWGUQ2FV2U9xN/9rKViPRPoarSpIAvJre7BZddGaPulzqQlRFwd8YlU31b+EkRBPqFTKN9Wctn3iz3Q4WtacWdsaP8QaXmNWz+fUYe4+sTSBCfGe8JtRgM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XO9R3Uls; arc=pass smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B44D826B08F
+	for <linux-staging@lists.linux.dev>; Sat,  4 Jul 2026 19:09:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.65
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783192146; cv=none; b=SwyfXhMQAWlacD/QJJyeZ+geo2Zl8yOXAQAkZOmfFU/sytKBzGeIFgPJCV7wsaqdppBbBNg1vkGcPQOBdDW2jaIzS8ouE4kRTNwsoDGb66Rgpwy4yYY0bCIP7u+oScSJKJe3pEfZoWoQEDZ0XjNcp6bM63VXyi6NVR7bJAjpcmY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783192146; c=relaxed/simple;
+	bh=A06Yy2EYDfHEtoWJM6CBiEhn33Kee9RzFJyasyjw0wY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OJJLcm7HDCEJ0IVDoQkDWHUMICDB/QRodazFLAEqrLgN2G+fVqDrvscuIn5tXhKPgT+njMp4dJG4G7N7hkw/bWzyIDXmrN0CCFrXRE/5jdWQg4CTN7EDA0LGo0IyTtfdi7+0auxewyYVgoxVhQsPKKlJlZf70Mgv8vxVwEJSLXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MFgD13SN; arc=none smtp.client-ip=209.85.128.65
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XO9R3Uls"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-c1276b8c7e2so146234166b.3
-        for <linux-staging@lists.linux.dev>; Sat, 04 Jul 2026 09:48:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783183695; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Nr6xyfSexG2/NY2TM+GzB/GgPzc7WGBj1ZpDb8KyhJ19OzBG/eTh42zgGbaRtSKpR3
-         y5djT6YMubGfA5MFwA6PZXChHFPHdOUOL6OX0CLUQwzF/G/VqHbXClwTBIrKDOOZA4rN
-         fcVs42+vGYRzc7JdipYQkNI2OnN+6tm7JUkITBne11bq9Fk+0KjCh9MZ6POrbrBPoFMO
-         7TVdMSY3wigzWxzuqDze6J1Ii2onsB+y5NVQFprZzT3uuvMuglNXy7vDVw+Kabmx/7A6
-         LAuJ+2oAhhhUANvIXyp6z3MNXOQ1MCO5kXkCHXf3M/wVK2laS2Xl0P5A7i0/eGm/ulOW
-         gPAw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=LtFcRccVXWV3jIWFIefXiUO2EXyRDVKEhdr6p8e27VY=;
-        fh=9gHEoU+HFZN17rilYoLwhc2KPvHqNZQcu4oe4ne4uDg=;
-        b=AxcnM7Nj8h1Czpp7OXDbO3WXKZ9V37+owAJVr+VHDAp3dYYqVnqJW2zZsLLYDASRn+
-         kiMCozRZSJqGZFlKLDi5V8y1jbv8464H7DYF35jCIBffEpWgilf8MqdVx8Gk7EwH+YSW
-         jt+czcOZBbAsNB3ThsPruh6haMum3wkJ8x8+jp71cGsoel1cqDWMWt+89JUmR8pnnjTl
-         sltjIR3kCLvEga027jg6sz93Qseb3qdINizwl2y75OUfJqr1YIQKMyQ/xP+ujjNZmGgx
-         1FILW8gAR7f6Nm5YS9Yl9kq5KSKhLKzAEKceyDXj6BqApXC8jRz5XVOJAjRWExgxgTvx
-         nrbA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MFgD13SN"
+Received: by mail-wm1-f65.google.com with SMTP id 5b1f17b1804b1-493b27c7451so24236745e9.0
+        for <linux-staging@lists.linux.dev>; Sat, 04 Jul 2026 12:09:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783183695; x=1783788495; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=LtFcRccVXWV3jIWFIefXiUO2EXyRDVKEhdr6p8e27VY=;
-        b=XO9R3Ulsm0Z6QrMVQgnqizVYX9EWLEvcoZC/EFDR3RERvHPoWe6VvKnvmUWOwWPTq0
-         RbCOvVDDoAdGf5F6OaMlRIZsVoGIky8grEihiUHaFtIqPw1ON/xag5XuszObZ5E4kE8E
-         /8k6I7DltSSxt3XFXq34RQkpA+qZW8k35nY/rEBXSlGfKC8Z3qdBeLezfk0W+ON9ldAm
-         EEEzDBcYBmJHRdaT3hjNKJj77lKcPRgWjEcNeCF+5U9mA+vrPDhPHz6pUy1eJ33AwJUZ
-         n0me2Oklstymz9kYZ3LPXrqLzm2egONJmTYlfL7gVFgjAm3qjINT5x/e+BM5HOQocpbl
-         fdBA==
+        d=gmail.com; s=20251104; t=1783192143; x=1783796943; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=VRh4MeESNZjA8ZY8SVwMDtx07Fu+whGeI3UAREbb+eo=;
+        b=MFgD13SNm/iryWWkOr6rSsqAyD3+u3I3aKGzsiG9N5R+x+dZkOfm88ztRA6pngj6XF
+         tI0+wvVk+Z0QFB/foBw2B4hDNnxJYj6mTsNxEoTCJnvVcl7wSJoqlsYIz6AXhZIin3Q4
+         caQzCAJQMz1K71Rp1Sm6ZHxFe29zotsm7nwPJtXZ5OCG42Hsw00O40g0j6+GBDwb42A1
+         iC6OSt7fRcDxrj9Lfiz3GJYjTYEjJNtb70Bxnsr5qMB827D88U+XH89lZIVCfpBcyAMU
+         edqn7A3twd+f0o/+Yd9oZnR/A4PqA7VNLQP9aMQPQuJEgIXVx/gd25e8Wq0nHn4a5jOb
+         GVEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783183695; x=1783788495;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=LtFcRccVXWV3jIWFIefXiUO2EXyRDVKEhdr6p8e27VY=;
-        b=rL1MouHkt2RX8I94r2yeH2xxD8wPkpZpc7SCM73fS3Nb109q3Sh2GY6+8rahclUwpy
-         Pf7n60RG/SgR47B09MktLIVYtq1YWikiQmvLpln5xgWRX2S0Vs1hU9P6jNJfrtg6Fwck
-         Jff8ojUz6FILwV7AJCH0IIljVf4e0noONAe7ZIUCz3HIJCofsUe1nSqG1E9n3/N+Q261
-         sT3oNWK1umo6poU5Kznt4LK6M0Wfac0UstlpVfoF7KwJ9Fto4XirSY6O5hqkmFXm7C79
-         fKIYDE9oEuuaK3R8zevah5tEBso0WyL42U4c0docjI5yRAbTT34WNxOANh2aaj6q+D5b
-         cY9w==
-X-Forwarded-Encrypted: i=1; AFNElJ99OyzDXJY//GUcNk9o+EOnkljLiopPUAN58ZHkMCUPMExSeOi2ChNL7MNLJNdz+FNlozRCS9UzenBbYlzX@lists.linux.dev
-X-Gm-Message-State: AOJu0YzKhmOOrVJH1B24bUMHqFZniTSFP6v7GiMfPe4q1TmlNrX0xUIY
-	SRgqPM2Y0Dx/BxG1+5BuRtGiMJkMiaGnd1pQs5jy/1uFxpRRsnSq/fCbnjVzxzoYEwB4NBBQBuw
-	ot0qb46unwv97oehoHnft47Yw1ChBvh8=
-X-Gm-Gg: AfdE7cnkPu8lKbugBxPieGO4R9O4W4znKyQ57bFmoAJlEYHKNQyyc8owhd1bi9ZnpCR
-	KCcxY9A5TjrAV1u6oDv0SioGTC04v2JXVOe/Q0NW+sjyTzdL61OtMB7isTDvFJPIJZPPtT5fDuc
-	ezKrXapl8BzoRmd056Hu5NAKiVBrAS2JQZVLC06VLV5TWOU4cPdr1qvW7dtU8xnKbKhnZSAY0Th
-	3U67Swf1OWAbux9y+MamNLPcdz1uypy/xIMgbi+fFHl1iPhU4gjyVaucMBhR2at2WraiyuHq+w7
-	PYFAh5JFVme/MSPiDIAXLHUUlrighxjJGrwDEDlAt8szl6dj0gBvP1OZHeHPcqwGFAp/PMGsRUa
-	MIQY/ebgQt80x2geZqw3wFswY0OjIJ6cjV64koX/fYmmScRptuDjS65jaVA==
-X-Received: by 2002:a17:907:1b08:b0:c0f:cbe8:7832 with SMTP id
- a640c23a62f3a-c12e6c773a6mr112448366b.48.1783183694777; Sat, 04 Jul 2026
- 09:48:14 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1783192143; x=1783796943;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VRh4MeESNZjA8ZY8SVwMDtx07Fu+whGeI3UAREbb+eo=;
+        b=RwjmO6nZ69jhPXa52mwcFLPC4ssDnUbVMMwugAPG5Pby08RU5vW8pbH3NG5i9Lp5EG
+         iDDVwW/0nnAAvEef7kiRORzfUgUoWBSyofpPvue8W7/0j7qWkL7+Bs9WU7as9seYa6ZT
+         NJut7LjJH/0PBLnyQJzo3vHoobE9TPEOtzuxXNcSkruEQupKtv3mmwKrioT/Sq37IxJ5
+         eS+BYO8y+5VPbpt1jcB+TNLm5RfuLSuluXDqCpJrwAEhtYvGkQupXEQxnYYxuhIJt49V
+         qRxUJeh8hHoukuCJmxG6RGvZv+HanlZOB0nHM0KB3p4EqMiJ0uIqnr27r+M9Ansn6njv
+         0jMA==
+X-Forwarded-Encrypted: i=1; AFNElJ/AUMi9V1Do3CgoAp9dCkr4xnDrHJ6RWA7lDwyZcKHBxbU/ABQH5LN+QfpOza4prU8W2ZEGcbmt1yOVe97D@lists.linux.dev
+X-Gm-Message-State: AOJu0YxXpUJXiiFsvJn4cp8upCE+6lF/VzSwRJxVe/oKinbpA1JUsgFk
+	AZxzag5KP8IVkJcEs3D53jCNnhugG0tGHUiVtUUcoq1ScK4G1wauSVDS
+X-Gm-Gg: AfdE7ckIFmnLBJvIGC6o6LFktiutBc2GgkeyEcdH/3jdcUYFL1R9rOz1AwLaamWaobp
+	sx0morgJ9NGvYh/tNSAnkYXPLX2zKDLoFPH7mxTqb4MhLxSuke/3r464R3KTtRWxNDbcsyJ6T34
+	LalL7RE7xxKSDBdusw7iK4goM0cj9Q+EwrQASDn51fL72pPXrUWsEHr9mYiKOxP72cWaf+XR3bf
+	eaotZKZbtS4bama+om3Q4BQd9LmIk9Fdc3jhw7uzVqGN1O1VHKebJpwh1gQMJP4zpBvqhaCVZ1x
+	Kp5HjiDE1AEA1ZaS7ZyUoMjFg3sUxBBZMrgqSYw01bTY9UlCyAlMecb/4m/qm9lVPRUsHMwh2Np
+	yZjAbdPY5VRshUPFY9DGQ4jI0D+aNiJhkVVgbaebpLMX+3SW/cwlzNreRH0vxIrDE2ptT2nKmx1
+	SRWKDWl51HHBygC3szqJyR
+X-Received: by 2002:a05:600c:3b28:b0:493:b698:9247 with SMTP id 5b1f17b1804b1-493d1593adbmr39535475e9.14.1783192142995;
+        Sat, 04 Jul 2026 12:09:02 -0700 (PDT)
+Received: from myhost.localdomain ([89.253.41.227])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493c63bfba1sm261718885e9.15.2026.07.04.12.09.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 Jul 2026 12:09:02 -0700 (PDT)
+From: Ruziev Miraly <miraly.dev@gmail.com>
+To: hansg@kernel.org,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: andy@kernel.org,
+	sakari.ailus@linux.intel.com,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Ruziev Miraly <miraly.dev@gmail.com>
+Subject: [PATCH v2] media: atomisp: flatten pre_power_down logic and clean up staging code
+Date: Sun,  5 Jul 2026 00:08:54 +0500
+Message-ID: <20260704190854.114172-1-miraly.dev@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260704140055.88080-1-miraly.dev@gmail.com>
-In-Reply-To: <20260704140055.88080-1-miraly.dev@gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Sat, 4 Jul 2026 19:47:38 +0300
-X-Gm-Features: AVVi8CckRQ48RpwOmD0TBUNdiWh54ywDxlO-NJIYdI6QAynFVo8e2ykyMTUBNRk
-Message-ID: <CAHp75Vd7-nLUnM=76Lr+G+sBxw2aPEBAwBJXqkM-JNRYHqx56g@mail.gmail.com>
-Subject: Re: [PATCH] staging: media: atomisp: clean up atomisp_v4l2.c style warnings
-To: Ruziev Miraly <miraly.dev@gmail.com>
-Cc: hansg@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org, 
-	andy@kernel.org, sakari.ailus@linux.intel.com, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sat, Jul 4, 2026 at 5:01=E2=80=AFPM Ruziev Miraly <miraly.dev@gmail.com>=
- wrote:
->
-> Fix checkpatch.pl warnings in atomisp_v4l2.c regarding unnecessary
-> ftrace-like logging and redundant else statements after return.
->
-> Remove dev_dbg() calls that only log function entry, as ftrace should
-> be preferred for this purpose. Also, remove the unnecessary else block
-> following a return statement to flatten the code structure.
+Refactor atomisp_mrfld_pre_power_down() by removing the redundant
+nested 'else' block, making the function structure linear and easier
+to follow. Keep both error logging branches intact to ensure consistency
+in hardware failure reporting.
 
-...
+In addition, fix minor checkpatch.pl style warnings in the same file
+regarding code alignment and hanging open parentheses.
 
-> @@ -468,22 +464,18 @@ static int atomisp_mrfld_pre_power_down(struct atom=
-isp_device *isp)
->                         __func__, irq);
+Signed-off-by: Ruziev Miraly <miraly.dev@gmail.com>
+---
+Changes in v2:
+  - Fixed an issue from v1 where dev_err() was accidentally dropped.
+  - Kept both error logging branches for consistency with original behavior.
+  - Flattened the code structure by removing the nested 'else' block.
+  - Fixed checkpatch.pl style issues (hanging parenthesis and alignment).
+---
+ .../staging/media/atomisp/pci/atomisp_v4l2.c  | 39 +++++++++++--------
+ 1 file changed, 23 insertions(+), 16 deletions(-)
 
-^^^
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+index 2d72467eb..78cf09753 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+@@ -439,14 +439,14 @@ static int atomisp_mrfld_pre_power_down(struct atomisp_device *isp)
+ 	struct pci_dev *pdev = to_pci_dev(isp->dev);
+ 	u32 irq;
+ 	unsigned long flags;
++	int ret = 0;
+ 
+ 	spin_lock_irqsave(&isp->lock, flags);
+ 
+ 	/*
+ 	 * MRFLD HAS requirement: cannot power off i-unit if
+ 	 * ISP has IRQ not serviced.
+-	 * So, here we need to check if there is any pending
+-	 * IRQ, if so, waiting for it to be served
++	 * Wait for pending IRQs to be served.
+ 	 */
+ 	pci_read_config_dword(pdev, PCI_INTERRUPT_CTRL, &irq);
+ 	irq &= BIT(INTR_IIR);
+@@ -454,29 +454,36 @@ static int atomisp_mrfld_pre_power_down(struct atomisp_device *isp)
+ 
+ 	pci_read_config_dword(pdev, PCI_INTERRUPT_CTRL, &irq);
+ 	if (!(irq & BIT(INTR_IIR)))
+-		goto done;
++		goto power_down;
+ 
++	/* Clear and check interrupt status registers */
+ 	atomisp_css2_hw_store_32(MRFLD_INTR_CLEAR_REG, 0xFFFFFFFF);
+ 	atomisp_load_uint32(MRFLD_INTR_STATUS_REG, &irq);
++
+ 	if (irq != 0) {
+ 		dev_err(isp->dev,
+ 			"%s: fail to clear isp interrupt status reg=0x%x\n",
+ 			__func__, irq);
+-		spin_unlock_irqrestore(&isp->lock, flags);
+-		return -EAGAIN;
++		ret = -EAGAIN;
++		goto unlock_exit;
+ 	}
++
+ 	pci_read_config_dword(pdev, PCI_INTERRUPT_CTRL, &irq);
+ 	irq &= BIT(INTR_IIR);
+ 	pci_write_config_dword(pdev, PCI_INTERRUPT_CTRL, irq);
+ 
+ 	pci_read_config_dword(pdev, PCI_INTERRUPT_CTRL, &irq);
+-	if (!(irq & BIT(INTR_IIR))) {
+-		atomisp_css2_hw_store_32(MRFLD_INTR_ENABLE_REG, 0x0);
+-		goto done;
++	if (irq & BIT(INTR_IIR)) {
++		dev_err(isp->dev,
++			"%s: error in iunit interrupt. status reg=0x%x\n",
++			__func__, irq);
++		ret = -EAGAIN;
++		goto unlock_exit;
+ 	}
+-	spin_unlock_irqrestore(&isp->lock, flags);
+-	return -EAGAIN;
+-done:
++
++	atomisp_css2_hw_store_32(MRFLD_INTR_ENABLE_REG, 0x0);
++
++power_down:
+ 	/*
+ 	 * MRFLD WORKAROUND:
+ 	 * before powering off IUNIT, clear the pending interrupts
+@@ -490,9 +497,10 @@ static int atomisp_mrfld_pre_power_down(struct atomisp_device *isp)
+ 
+ 	atomisp_msi_irq_uninit(isp);
+ 	atomisp_freq_scaling(isp, ATOMISP_DFS_MODE_LOW, true);
+-	spin_unlock_irqrestore(&isp->lock, flags);
+ 
+-	return 0;
++unlock_exit:
++	spin_unlock_irqrestore(&isp->lock, flags);
++	return ret;
+ }
+ 
+ /*
+@@ -839,7 +847,7 @@ static int atomisp_register_entities(struct atomisp_device *isp)
+ 	/* Register internal entities */
+ 	for (i = 0; i < ATOMISP_CAMERA_NR_PORTS; i++) {
+ 		ret = atomisp_mipi_csi2_register_entities(&isp->csi2_port[i],
+-			&isp->v4l2_dev);
++							  &isp->v4l2_dev);
+ 		if (ret == 0)
+ 			continue;
+ 
+@@ -847,8 +855,7 @@ static int atomisp_register_entities(struct atomisp_device *isp)
+ 		dev_err(isp->dev, "failed to register the CSI port: %d\n", i);
+ 		/* deregister all registered CSI ports */
+ 		while (i--)
+-			atomisp_mipi_csi2_unregister_entities(
+-			    &isp->csi2_port[i]);
++			atomisp_mipi_csi2_unregister_entities(&isp->csi2_port[i]);
+ 
+ 		goto csi_and_subdev_probe_failed;
+ 	}
+-- 
+2.54.0
 
->                 spin_unlock_irqrestore(&isp->lock, flags);
->                 return -EAGAIN;
-> -       } else {
-> -               pci_read_config_dword(pdev, PCI_INTERRUPT_CTRL, &irq);
-> -               irq &=3D BIT(INTR_IIR);
-> -               pci_write_config_dword(pdev, PCI_INTERRUPT_CTRL, irq);
-> -
-> -               pci_read_config_dword(pdev, PCI_INTERRUPT_CTRL, &irq);
-> -               if (!(irq & BIT(INTR_IIR))) {
-> -                       atomisp_css2_hw_store_32(MRFLD_INTR_ENABLE_REG, 0=
-x0);
-> -                       goto done;
-> -               }
-
-> -               dev_err(isp->dev,
-> -                       "%s: error in iunit interrupt. status reg=3D0x%x\=
-n",
-> -                       __func__, irq);
-
-You removed this one and the above branch seems to have the similar
-one. Be consistent.
-
-> -               spin_unlock_irqrestore(&isp->lock, flags);
-> -               return -EAGAIN;
->         }
-> +       pci_read_config_dword(pdev, PCI_INTERRUPT_CTRL, &irq);
-> +       irq &=3D BIT(INTR_IIR);
-> +       pci_write_config_dword(pdev, PCI_INTERRUPT_CTRL, irq);
-> +
-> +       pci_read_config_dword(pdev, PCI_INTERRUPT_CTRL, &irq);
-> +       if (!(irq & BIT(INTR_IIR))) {
-> +               atomisp_css2_hw_store_32(MRFLD_INTR_ENABLE_REG, 0x0);
-> +               goto done;
-> +       }
-> +       spin_unlock_irqrestore(&isp->lock, flags);
-> +       return -EAGAIN;
-
---=20
-With Best Regards,
-Andy Shevchenko
