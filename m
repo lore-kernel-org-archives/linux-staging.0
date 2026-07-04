@@ -1,79 +1,74 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5DB73126D6
-	for <linux-staging@lists.linux.dev>; Sat,  4 Jul 2026 06:58:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8E6B2EDD7D
+	for <linux-staging@lists.linux.dev>; Sat,  4 Jul 2026 07:19:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783148308; cv=none; b=FbVrUURB7+Pl186KXcB3uwgIUVL/lIGtXb3nYy57UYJBqWXvaZ3sIuglHd2EI2MHOrrdbIJE3Yi0vHjA8nxTMU9gBTZcO/FiZgIHT5GuLpPKZ83eY4HzVYKeBICKeXgFkgE9TzPvam3oTbqpoXzL5z3N3ltykYkqe56KxcK46tY=
+	t=1783149595; cv=none; b=mF7u+HN+ZWeoJx3Biic8BRF5spLkwDSAKwFBQwq+ealZ8YCq9dFGUIshM9vZBLQUxGBn5iUIqKxhg+OJ34ONSjWyALZdADCxbVYAYZVlsZhR5EHZJgG60v/uLN0Pt2osuHMFfYPf+MEuyQ3u96HrmNI10n+J3IqWkiPc2XmhqZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783148308; c=relaxed/simple;
-	bh=0Ql7R0chKKnSTLTalEhgSVivzAge5FzmNSZ6cbj00i8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QSMcLtXygmuysG4c6LF5Tcjc0vOGCzvxh0x69l+5YAKffjR8hNChikmbguI6k22OKLlCiDspAMomkpXou7T4Vgdr8ab7mQyq7LFUGNVz92J13JPrrWMFwhhfoIS4uvXpSalPo0hn/DVaLCoV1zX1chUxYp39lfcTT2Q1DjdVMHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MrLovYhe; arc=none smtp.client-ip=209.85.214.174
+	s=arc-20240116; t=1783149595; c=relaxed/simple;
+	bh=XOFQ1VSoz8ClvZu74QVU2nepCuDy3Xaw/nKxBxUJkXc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DzGthlW+pGmhRn9y7jBfXuT9PeMi+oh9vtK7fBGXg6IryzZ/mmIUMQZFVr2TE2Jb9dvKykTAtYGJCDoFRMtOHtI18NhKnK4p6dyuxk6HfnaCdSMyVIGKWVSWalD7f8VcOffMTXRh9ePvAv/ryHoeLAttltUXAqsLnEz/Xl4W7E4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mzdbNWo3; arc=none smtp.client-ip=209.85.216.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MrLovYhe"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2ca1479dfe0so14111535ad.1
-        for <linux-staging@lists.linux.dev>; Fri, 03 Jul 2026 23:58:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mzdbNWo3"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-381891a9525so1026379a91.3
+        for <linux-staging@lists.linux.dev>; Sat, 04 Jul 2026 00:19:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783148306; x=1783753106; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pk1gsSzNyvLyGL3wQhMLxqEWyeTVD6LK9bSQUeXZaTk=;
-        b=MrLovYheEyKu9T1zm/XQKuuIlf1FOPDf93Wc30Wq/2H6K58tymEE+OsyekwqYcd+PI
-         ta5pf5Xmsv8lS38oeTlSuWuhFe9W9gtCOI2y1D7nsIYf29lMK1JZMoxNATYJ0ExCtpg2
-         R2HW82QRDFYJibb91cxF6EBdGTVUgekPFYpWhzXeDk6RAyJD9EVVh1ntF1a6Q2Ghx9B+
-         AjWy2EofdXGEXDdO7PtWbnrNaABr8n/kKTqigi0O9mZ+CtsfKsH4ozWp+qIoIT4AVWY8
-         YCHJm5EJuoqyToW5r26Y4iG1MUuoccYlk1pF0xS58w4wP+3cW8U/e6VuHQqL0VZG4qAP
-         n/kA==
+        d=gmail.com; s=20251104; t=1783149583; x=1783754383; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qFAcIP7DOWAyvuQhvWswn0mxvtkPsgySjMfSxKhSxwk=;
+        b=mzdbNWo3INgOqoF8R79zCf9IbCHnFlFZiAuDM4zRK8lq+SpLMWlDbzNi0rGog1AMdL
+         I7zqi+qtE77T4lP9YA6a9TmBrX3/unHFFVhSYF7kRdU0uK7LoL11o2/CiYX6j3wT3PJG
+         y6L0Dy+E+O4IJi1OONq64BhKkiPDkSq8WIAujKLXgkiAS+i7lNOBFYjoFnzNYxUnWCVe
+         QwUnaPGx1j07sE2xeeoWLCjCIhPrJmwhlDHBaLo9EcA8TYTTAWUrZPYEHa0UiAppUmBB
+         pyY9UZdH9rEw8iZeHTdGfbOokwA6YnlMwb7a5+qG+iYlRwBzCnLDnRkUqcLhmsbAbdps
+         n8pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783148306; x=1783753106;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=pk1gsSzNyvLyGL3wQhMLxqEWyeTVD6LK9bSQUeXZaTk=;
-        b=lbYGBkjHtlPMNoCqAERNEfaViiOaFQTVY3Sy/C2+6S28I5SBAhIle6ORUYPyr6jdzf
-         xdJS/r9fixZa+FK8rs6sRtKQvdw3RKYqm1iIL5fFUDVJ+jLHy5/JSc3wxxg8NTrb+MSS
-         s/fxp7+QxCuRNVK9KaPR96ddAqvHV+MVAzdZY2auJL98zqFo9cU3yHpTMKDqWlLSQ0wy
-         WTAkdFuCLWcsX/bW0yAnufRvRAEUarJubQl32Xw8UqqcRNdy7mmzokE9OPJfsi/p/YBl
-         WSiRSGLe3TR8n6wxBZ9is4qezDhaC0gf8nnlKh9LADgZmZhKlGz75Ca+BMEzaYxMybDb
-         kjcA==
-X-Forwarded-Encrypted: i=1; AHgh+RqmnQxPwlhxhpFABGC66wOQK+WPxYJ2G6zlC0mTjwiMr73FZl8v21WqgGoQ1EoB/TwTFocgEmyPOYpKwuSx@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy+tEBgPSa6DAZ9UJv+icWvSsqA0Acuz4rcrhUrAJX0ssCs7U29
-	W6szZbvPw/sv6UnCC2f+Uw0ENC0faFRyYhlciWT/2RgM8TLzhjedSQjt
-X-Gm-Gg: AfdE7cnnvhiD/wIfgU87jYOY/P6r+REm9B6ZOEet5Lil1P9EeHOV6zuweEzF/38BHE+
-	Tnn8Pcz/TOMRceUcPA9CZsMpsdNuoqSUgljWwL7D3gHPrwYs2FRmOmyWw/kQBSmzOA8ZbQXxftH
-	Giglj4svXJWYUPdA959/ztEQQMX3OasHFG2mbznOyCqarBk1DqTobpmiXA0jABSVxCqACVlPhhh
-	6KGnI9wx6NZ3MozYEmHroTS1hQyolBeYPuS8hwpGEk7MdraDph9VT43kL8+tjrcJ8QvoZVnKadR
-	cTPnzeH2C35KcbpinQiI/Wc5tuIHR3HExnRMJxRNSn8/Oer/rcmPakTVH+SrW3C+ztCgap6Ive8
-	4OSXYulRL//3YEFjr63cNmfcOJm5Vum/wq/PXiGaXlNcU+sq0OuujVo8rIZRFct6EjX0OEtQuUq
-	8k0SWnqAao040KjqoPX850VY0doWRyV8KTXA==
-X-Received: by 2002:a17:902:ffd0:b0:2ca:feb:303b with SMTP id d9443c01a7336-2cbb9ee4ecdmr21754205ad.25.1783148305926;
-        Fri, 03 Jul 2026 23:58:25 -0700 (PDT)
-Received: from Alvin.tail8ccd9a.ts.net ([101.12.233.227])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cad712ca17sm19526275ad.28.2026.07.03.23.58.23
+        d=1e100.net; s=20251104; t=1783149583; x=1783754383;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qFAcIP7DOWAyvuQhvWswn0mxvtkPsgySjMfSxKhSxwk=;
+        b=O456ocWAemLbZjCP3SgKPTWaPKVhJDYpf906GZopryh1XChsTkJsFF5pnWLaYYTWyk
+         hKCDmLGkmJsNfrHrz5xbK8+W96oPgl31aHSlJenfZd9XzKxko6SI07gUvoYXWsadxQ2t
+         Z57xOl9Cxe8zvVMTPwaywpdRt9y410dLq5OCNBq8fCI1Hzs+tTui1rZFuLx+aGPo2FLc
+         +hkKjIyNe8TEKCPRe7klPZeeleNuykOsK2unuepCTc0iFhj81joeeMW4pT05W+5Tr9eW
+         N5zF2eYZA0vEr1xYJ2sjc5lXW1eoUUGwUtT6CrgwhQ6W6NVrRieoZEvQoAmj09VeIeRU
+         BBXg==
+X-Forwarded-Encrypted: i=1; AHgh+RrTRicrEfA+ZCWDXRGQ7xLN9b4HfGmS77NjumS/+sP+s84vO/myZeSmor5xhI87qQlRwqjRJwqrYhPElxii@lists.linux.dev
+X-Gm-Message-State: AOJu0YyojRYcuFQG/QH0DfaqC25XIVxFEwYeh9u0F6wzUDtF8mnawVgX
+	cjWiTMDSrm3XKfMU6uxxfs5n3xYlir6K1xIB1PHlPkqKYaqk+YO+d9aw
+X-Gm-Gg: AfdE7ckjatHA2o8ElnUOJ4g+kwU0kW9+ELNgpJ+WzjJup1iZACt8ih4wqI6JA0ucjAY
+	kLij3xG9dz2B0gSGwvBDva9YtXXprUxNWX8632zGHsymr6Cpf9qMdWrE9YKScdNg0oTGp4xG6P7
+	R9FeG53iStKMrWzm88F0R1WyT1znE6DsBWT/FKVMOEfK6sPx/vxQhaUq8ZAU8wikUos3ue4WwU2
+	GT796hCwLb5id4GuIHdyRXA7WLIxa+ipqioqB5jh1/MiX2sukmRThwk+XN9w4DjEabCw/q4AfW1
+	sTiJNUL8sZgg1/0lntWzK5V0ntNe+MJpeI786txkZQVB7FfCAlVtRloEQKgYzC37TTo/qLPUVoz
+	U0117oRLnyhoEiEcNmqYc4oG7E8Jygq87XkPdyx+FUoaUSUXM/0uZRAyNn1r3sHtR64HJ05U/CJ
+	jsRYthFhEccYs8iUnmoR9YjhKcUC7jtVRLXa0qLPyu2hSKr+GMh2Fs8Ow=
+X-Received: by 2002:a17:90b:4c4c:b0:37f:9ce1:7366 with SMTP id 98e67ed59e1d1-3829f4f0e14mr2919837a91.28.1783149582517;
+        Sat, 04 Jul 2026 00:19:42 -0700 (PDT)
+Received: from kernel-dev.multipass ([49.36.101.14])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30f3c8b19c7sm9420435eec.4.2026.07.04.00.19.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Jul 2026 23:58:25 -0700 (PDT)
-From: Hao-Qun Huang <alvinhuang0603@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Johan Hovold <johan@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	Nadzeya Hutsko <nadzya.info@gmail.com>,
+        Sat, 04 Jul 2026 00:19:41 -0700 (PDT)
+From: adi25charis@gmail.com
+To: vireshk@kernel.org,
+	johan@kernel.org,
+	elder@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: greybus-dev@lists.linaro.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Hao-Qun Huang <alvinhuang0603@gmail.com>,
-	stable@vger.kernel.org,
-	Martyn Welch <martyn@welchs.me.uk>
-Subject: [PATCH 2/2] staging: vme_user: fix location monitor leak in tsi148 bridge
-Date: Sat,  4 Jul 2026 14:58:16 +0800
-Message-ID: <20260704065817.403111-2-alvinhuang0603@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260704065817.403111-1-alvinhuang0603@gmail.com>
-References: <20260704065817.403111-1-alvinhuang0603@gmail.com>
+	Aditya Chari S <adi25charis@gmail.com>
+Subject: [PATCH] staging: greybus: bootrom: power off module on timeout
+Date: Sat,  4 Jul 2026 12:49:26 +0530
+Message-ID: <20260704071926.6606-1-adi25charis@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -82,44 +77,53 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-tsi148_probe() allocates a location monitor resource and links it into
-tsi148_bridge->lm_resources. The probe error path frees this list, but
-tsi148_remove() only frees the dma, slave and master resource lists, so
-the location monitor resource is leaked on device unbind or module
-unload.
+From: Aditya Chari S <adi25charis@gmail.com>
 
-Free the lm_resources list in tsi148_remove() as well, before
-tsi148_bridge is freed.
+Previously, when a firmware size request, get firmware request, or
+ready-to-boot request from a module timed out, the driver would log
+an error and free any firmware buffer, but left the module powered
+on in a potentially inconsistent state.
 
-Fixes: d22b8ed9a3b0 ("Staging: vme: add Tundra TSI148 VME-PCI Bridge driver")
-Cc: stable@vger.kernel.org
-Cc: Martyn Welch <martyn@welchs.me.uk>
-Assisted-by: Claude:claude-fable-5
-Signed-off-by: Hao-Qun Huang <alvinhuang0603@gmail.com>
+Fix this by ejecting the module's interface via the SVC when a
+timeout occurs, forcing it to be power-cycled and re-detected rather
+than left in limbo.
+
+Signed-off-by: Aditya Chari S <adi25charis@gmail.com>
 ---
-diff --git a/drivers/staging/vme_user/vme_tsi148.c b/drivers/staging/vme_user/vme_tsi148.c
-index 4cf3486646ce..c695ad9b4ca2 100644
---- a/drivers/staging/vme_user/vme_tsi148.c
-+++ b/drivers/staging/vme_user/vme_tsi148.c
-@@ -2534,6 +2534,7 @@ static void tsi148_remove(struct pci_dev *pdev)
- {
- 	struct list_head *pos = NULL;
- 	struct list_head *tmplist;
-+	struct vme_lm_resource *lm;
- 	struct vme_master_resource *master_image;
- 	struct vme_slave_resource *slave_image;
- 	struct vme_dma_resource *dma_ctrlr;
-@@ -2590,6 +2591,13 @@ static void tsi148_remove(struct pci_dev *pdev)
+ drivers/staging/greybus/bootrom.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/greybus/bootrom.c b/drivers/staging/greybus/bootrom.c
+index 83921d90c..b564d2255 100644
+--- a/drivers/staging/greybus/bootrom.c
++++ b/drivers/staging/greybus/bootrom.c
+@@ -54,8 +54,12 @@ static void gb_bootrom_timedout(struct work_struct *work)
+ 	struct delayed_work *dwork = to_delayed_work(work);
+ 	struct gb_bootrom *bootrom = container_of(dwork,
+ 						  struct gb_bootrom, dwork);
+-	struct device *dev = &bootrom->connection->bundle->dev;
++	struct gb_connection *connection = bootrom->connection;
++	struct device *dev = &connection->bundle->dev;
++	struct gb_interface *intf = connection->bundle->intf;
++	struct gb_svc *svc = connection->hd->svc;
+ 	const char *reason;
++	int ret;
  
- 	tsi148_crcsr_exit(tsi148_bridge, pdev);
+ 	switch (bootrom->next_request) {
+ 	case NEXT_REQ_FIRMWARE_SIZE:
+@@ -82,7 +86,11 @@ static void gb_bootrom_timedout(struct work_struct *work)
+ 	free_firmware(bootrom);
+ 	mutex_unlock(&bootrom->mutex);
  
-+	/* resources are stored in link list */
-+	list_for_each_safe(pos, tmplist, &tsi148_bridge->lm_resources) {
-+		lm = list_entry(pos, struct vme_lm_resource, list);
-+		list_del(pos);
-+		kfree(lm);
-+	}
-+
- 	/* resources are stored in link list */
- 	list_for_each_safe(pos, tmplist, &tsi148_bridge->dma_resources) {
- 		dma_ctrlr = list_entry(pos, struct vme_dma_resource, list);
+-	/* TODO: Power-off Module ? */
++	/* Power-off Module */
++	ret = gb_svc_intf_eject(svc, intf->interface_id);
++	if (ret)
++		dev_err(dev, "failed to eject interface %u (%d)\n",
++			intf->interface_id, ret);
+ }
+ 
+ static void gb_bootrom_set_timeout(struct gb_bootrom *bootrom,
+-- 
+2.53.0
+
