@@ -1,83 +1,151 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com [209.85.208.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BFCD27732
-	for <linux-staging@lists.linux.dev>; Sat,  4 Jul 2026 13:45:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7D9DB672
+	for <linux-staging@lists.linux.dev>; Sat,  4 Jul 2026 14:01:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783172733; cv=none; b=sPym2BeG0GmZ0TJXfcD16H0Ij/u+g+a7plq5PLUOqe834oPA7sGTCGNVTYEZyH1JsFOMGoeiJFLzvxwdBwwYJSVxf2kyenVeCGGUgSZrd9IYrxDd0Vh09/gIaqhw2+qnflylcs6UO9dxQqTFG+iRrJ5jxZTwHmNajlZx7TpbK0o=
+	t=1783173673; cv=none; b=E8jVKOoCLbqCfxE4vAhSDrYjcfj2gY71FEitLwT8muFqcAJiNd1MiVcY73V6fiDox2gmtO07ApkBc518KTXxK438nG60W7pxtIlNkP88Mmz9wUUQMGRNgY+Ab0nX7f22TrZnRJl5tMDS26gsuaVT5XC7WP0ZX0s4UrzLwZ8QOy0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783172733; c=relaxed/simple;
-	bh=jqHtxjhUBP/2grYMg1hxVyeRBnpFzBP7XCLUmgOyz9Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MBASkzQzIgGlfjn/36f9DH6EVZLvrBwZCg8j7kZjJUC3a1wliJ4oTPBtBHXQ69ETvedTvxYYKcd/cl0nrMeTN/WwrYS65leC3mgbqXdROfxMsh6PX8gXw4eoD3b4MAkmTTRJycdP//IxQgwvdi/v/NP2IiD559DIkUpuDEQ0cxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bDYMKmxn; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1783173673; c=relaxed/simple;
+	bh=X9dhOW7szVP4R7YiwC+ooewHbP8bEQ5HGQ+9OTzrZ5o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dCmACMAg87oa4rAHVatVMH6YsX/ro7i5Iu6OIabijpasID5MnzTQ+w5EEgnEGLtqCURq9ti7kEA42A9D5IrQHca8JOOduEl1RIgbduj+VpTuOFX8TE9iN/YZVB8wcnpGQLQO6odcdhjfjn5IjgePRTJIm6Czq3hVTzvlNb3Qmfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rnNpMSQN; arc=none smtp.client-ip=209.85.208.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bDYMKmxn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783172731; x=1814708731;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jqHtxjhUBP/2grYMg1hxVyeRBnpFzBP7XCLUmgOyz9Q=;
-  b=bDYMKmxnX6x+KuEa5/Jv48S50Xz4KgBtu1GwYO1YC+XoEOx+kpS6wEoZ
-   hfzB7d/9V/mrMlQ7QCsXGOfU5ghR1G7w9D0f710cvSujABvY9B58KQBDL
-   fxhmjSeS2fOcprkldLkqudS4Wy2o6VgZ5+PRGMGjoAhVd7pbLjoC0/tbc
-   2EW7/hyWlkmi1mni049gtaDz4MI0wp/b72NIpszJp5P/2NvQywEAQopnq
-   5Q1j6i/zr0TSSyto0K7camarkl1qEkOrAbT0OHbjH1GOnJDkwRpdJvRx2
-   ut739C6M7A+slj8AaK0BQ2/woAzLeEgAN2OQl1Q31a4gQFgSYm73W81vU
-   g==;
-X-CSE-ConnectionGUID: 3/jh7nsWTXWqr/oOJu76VA==
-X-CSE-MsgGUID: sSg74ao6T0y0Mr7ZS0MTWw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11837"; a="95385926"
-X-IronPort-AV: E=Sophos;i="6.25,147,1779174000"; 
-   d="scan'208";a="95385926"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2026 06:45:30 -0700
-X-CSE-ConnectionGUID: R+/J0dhkSp2E0Gl/LvCeHQ==
-X-CSE-MsgGUID: MjXbyDKkRkGN5ggbe2AYLQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,147,1779174000"; 
-   d="scan'208";a="249333714"
-Received: from fpallare-mobl4.ger.corp.intel.com (HELO localhost) ([10.245.245.218])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2026 06:45:27 -0700
-Date: Sat, 4 Jul 2026 16:45:25 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Dileep Sankhla <dileepsankhla.ds@gmail.com>
-Cc: andy@kernel.org, hansg@kernel.org, mchehab@kernel.org,
-	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
-	abdelrahmanfekry375@gmail.com, error27@gmail.com,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: media: atomisp: Remove unnecessary else after
- return
-Message-ID: <akkOdQ1oT0hIc0tz@ashevche-desk.local>
-References: <20260704120113.201099-1-dileepsankhla.ds@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rnNpMSQN"
+Received: by mail-lj1-f194.google.com with SMTP id 38308e7fff4ca-39b011ae0b4so10930781fa.1
+        for <linux-staging@lists.linux.dev>; Sat, 04 Jul 2026 07:01:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783173670; x=1783778470; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QoW6wy5Ibs/c5PrDFE7Z/Vk7E0hnNjlbrEMZdtHLRLk=;
+        b=rnNpMSQN6kWNCTqgZBdwTXaeZkMNJSzsXfmQgYUtpYZhPuq2VVDYp+5OuBHsxSMkfy
+         bnE14oH5FyOPCwQmTQFcw+VNeaUdnvGiysEw7rZoXX6Adw8mkd7Ny8BdLd/qKTkDnzal
+         am+7BltF54R0kcE4iHd249/GSPSfKOxTCZvc0YtLX9G6cbMpBjF2BBOxX1bp/O4FP5W+
+         HV8Jf9xJKZgmgH6b2wiqIwCLu1lidDxhMKr1rouPqFAlXv1k0YK9djZ354H1EGggtRTP
+         qc334p7pRNqgKfPd2MTL2q3tXfn3vwctxvcEEBHj6lvr8WQ9tBF5a1xzmcRMliLJ54TB
+         ZaBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783173670; x=1783778470;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QoW6wy5Ibs/c5PrDFE7Z/Vk7E0hnNjlbrEMZdtHLRLk=;
+        b=ILSD40UThK3eqI9EM53JCenXLZvabN6W6DgjM4fM8bCfw6DE3jkvAj0AfhDfemTPSh
+         LfeGekp5AMI9nNfZhp8ILoWi92P2WrjBsgDij8tyt0l7P676mPdAjuneCWPN+uNcK5/+
+         UVsI9WSz2hbXWi20rUiWO9OeJ41unU2EZeNsKwKknA3EreJWRlZZbq8EiPyG0yKpGT4p
+         3vr3v93xsAyg6KvnIqoTvy/QyFJkIYuPLNMV2YzXmEhAytUdhLZX6DQP/P3xJc3lZ6vO
+         r7+dnjkEx9le5ui9V/cQ9MlyftuKqCMXlREzL1FXI547Rbromt2Qf5f0Fk4nvfXbc2rV
+         zwoA==
+X-Forwarded-Encrypted: i=1; AHgh+RrCKeNYY+q5A3Yu5FK+QuBHnURhvpqcq1TAgQvRFPx56r/EKqnWefBcpQybc6CSqu1xnt8AMLAIGXmEzeOb@lists.linux.dev
+X-Gm-Message-State: AOJu0YxKDhvwE8nFMcInxNv4c31aFnRd5SMGvd7Lx5IZqMn0KMVXy+Ts
+	D0Ja6Uxc7eZ1v4Aj7FEpoFNhgB+svXO9hnQXQMbIYvzFGnOPoMBOCry/
+X-Gm-Gg: AfdE7clN8Rx+7zXoXz1Rc4ZyYUKiPNa8tpe/AGDA0zEEnjEOHKJ/Hbxm9FfsYPpo2he
+	60BO21VA+g8eutC/70QLBAz4+581y+YvkuQWdnGZxK88ECf3MTCHVLDSEVYqJf/2yUXrgYrXrC0
+	BHutq/d1S4jNiZxlxJhTugnBqM8bo7ei6Mxqy+6Jo+RJLNjiJXNj6idojHYwWQMA/d11317q7Xu
+	IO5h6qAjqYN5tvZtXgzqCv5xLUQ/n543odLjMnVCCXnzS498DgP+nvEUWxi3oG/K+zjw1xiRSLC
+	ha5tQBm2PJg8YtUCbhb6VimYVpMaQrysKVwIHYPpg5GXwkRC0W+9YZ4weag0yD9QZ9qVxx25k4p
+	cphw0LvoDMXdnCpLaxauFmZeHbTGMM+MLHdM9Re+FeFtvxKU8l4vtytMTcdm7fNPq162zwszPil
+	MHAqNHXX6dItz5Ikr4krA=
+X-Received: by 2002:a2e:a107:0:b0:39a:cfea:f17 with SMTP id 38308e7fff4ca-39b53c9e119mr7914081fa.30.1783173669522;
+        Sat, 04 Jul 2026 07:01:09 -0700 (PDT)
+Received: from myhost.localdomain ([89.253.17.10])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-39b4ad18b5asm8604601fa.9.2026.07.04.07.01.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 04 Jul 2026 07:01:09 -0700 (PDT)
+From: Ruziev Miraly <miraly.dev@gmail.com>
+To: hansg@kernel.org,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: andy@kernel.org,
+	sakari.ailus@linux.intel.com,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Ruziev Miraly <miraly.dev@gmail.com>
+Subject: [PATCH] staging: media: atomisp: clean up atomisp_v4l2.c style warnings
+Date: Sat,  4 Jul 2026 19:00:55 +0500
+Message-ID: <20260704140055.88080-1-miraly.dev@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260704120113.201099-1-dileepsankhla.ds@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Sat, Jul 04, 2026 at 05:31:13PM +0530, Dileep Sankhla wrote:
-> Remove unnecessary else clause after return statement as the else branch
-> is not needed when the if branch always returns.
+Fix checkpatch.pl warnings in atomisp_v4l2.c regarding unnecessary
+ftrace-like logging and redundant else statements after return.
 
-Is this the only place (of a such kind) that can be amended
-in the entire driver?
+Remove dev_dbg() calls that only log function entry, as ftrace should
+be preferred for this purpose. Also, remove the unnecessary else block
+following a return statement to flatten the code structure.
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+Signed-off-by: Ruziev Miraly <miraly.dev@gmail.com>
+---
+ .../staging/media/atomisp/pci/atomisp_v4l2.c  | 30 +++++++------------
+ 1 file changed, 11 insertions(+), 19 deletions(-)
 
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+index 812230397..2d72467eb 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+@@ -345,8 +345,6 @@ static int atomisp_save_iunit_reg(struct atomisp_device *isp)
+ {
+ 	struct pci_dev *pdev = to_pci_dev(isp->dev);
+ 
+-	dev_dbg(isp->dev, "%s\n", __func__);
+-
+ 	pci_read_config_word(pdev, PCI_COMMAND, &isp->saved_regs.pcicmdsts);
+ 	/* isp->saved_regs.ispmmadr is set from the atomisp_pci_probe() */
+ 	pci_read_config_dword(pdev, PCI_MSI_CAPID, &isp->saved_regs.msicap);
+@@ -400,8 +398,6 @@ static int atomisp_restore_iunit_reg(struct atomisp_device *isp)
+ {
+ 	struct pci_dev *pdev = to_pci_dev(isp->dev);
+ 
+-	dev_dbg(isp->dev, "%s\n", __func__);
+-
+ 	pci_write_config_word(pdev, PCI_COMMAND, isp->saved_regs.pcicmdsts);
+ 	pci_write_config_dword(pdev, PCI_BASE_ADDRESS_0, isp->saved_regs.ispmmadr);
+ 	pci_write_config_dword(pdev, PCI_MSI_CAPID, isp->saved_regs.msicap);
+@@ -468,22 +464,18 @@ static int atomisp_mrfld_pre_power_down(struct atomisp_device *isp)
+ 			__func__, irq);
+ 		spin_unlock_irqrestore(&isp->lock, flags);
+ 		return -EAGAIN;
+-	} else {
+-		pci_read_config_dword(pdev, PCI_INTERRUPT_CTRL, &irq);
+-		irq &= BIT(INTR_IIR);
+-		pci_write_config_dword(pdev, PCI_INTERRUPT_CTRL, irq);
+-
+-		pci_read_config_dword(pdev, PCI_INTERRUPT_CTRL, &irq);
+-		if (!(irq & BIT(INTR_IIR))) {
+-			atomisp_css2_hw_store_32(MRFLD_INTR_ENABLE_REG, 0x0);
+-			goto done;
+-		}
+-		dev_err(isp->dev,
+-			"%s: error in iunit interrupt. status reg=0x%x\n",
+-			__func__, irq);
+-		spin_unlock_irqrestore(&isp->lock, flags);
+-		return -EAGAIN;
+ 	}
++	pci_read_config_dword(pdev, PCI_INTERRUPT_CTRL, &irq);
++	irq &= BIT(INTR_IIR);
++	pci_write_config_dword(pdev, PCI_INTERRUPT_CTRL, irq);
++
++	pci_read_config_dword(pdev, PCI_INTERRUPT_CTRL, &irq);
++	if (!(irq & BIT(INTR_IIR))) {
++		atomisp_css2_hw_store_32(MRFLD_INTR_ENABLE_REG, 0x0);
++		goto done;
++	}
++	spin_unlock_irqrestore(&isp->lock, flags);
++	return -EAGAIN;
+ done:
+ 	/*
+ 	 * MRFLD WORKAROUND:
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.54.0
 
