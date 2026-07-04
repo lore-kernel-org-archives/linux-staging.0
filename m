@@ -1,96 +1,157 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DC8D288BA;
-	Sat,  4 Jul 2026 14:13:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783174434; cv=none; b=fgqWlhSDWE99immfp6G3UrrvU0nZgr93CkC6lXzPf1HH57jE5lVhj3z4HIVNIizilqd7tj2nZGbI2N9NId6hjFeZHA5UzxUBxhCL1Sxc5bI1qpqRewHSN6v84oF/lvQwjT787BgLRBm99IFG5ZK5vUToQu/ByeiPRe40vLB1eNo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783174434; c=relaxed/simple;
-	bh=haHFTXmDQ5aiiw5QM8Z1oIYQg5A3tgVLGwdXjbQ0puw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CXZkaKpVia4cbdHZ3whdflzZifLD3w0EDoKJomCUTD+RyL6J2oawFg/q6kue3G04n4D55RHbkX3QCkCank3OLL55OpSpeSAWc1oc9CFcGDhq2GzhLuiX93h7mwQ6F97EUTxioEgJyEQeZPR0AB8Um/J5gs2EHV9UZX1p8iQ2CH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PL/ZCsd1; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B87AA246788
+	for <linux-staging@lists.linux.dev>; Sat,  4 Jul 2026 16:48:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783183698; cv=pass; b=jOcjRqIN0hTA1U3zht/y3e25McNhmntLwGxoCn8U87YvEIYFN5RU8i2u5cmArHaV4TsbOdY8IVlZZWSFC7pw/PeKcesHHcfxlLjw2fKNAL6qHIb858p/YnGQMG0hkQCMPW7Xkmdth2rfoktVhoVMS/eOiCHzjuEcy/EREk634zs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783183698; c=relaxed/simple;
+	bh=6u4HdF/D8Oe74jbT858It60RPJgVighEcTUvgQ1cukk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eKRNWCWS5kyDlHVSuUdgGQ3qzW92+y7KDbYzoKYbBxaxZvMFEz/8cjWGUQ2FV2U9xN/9rKViPRPoarSpIAvJre7BZddGaPulzqQlRFwd8YlU31b+EkRBPqFTKN9Wctn3iz3Q4WtacWdsaP8QaXmNWz+fUYe4+sTSBCfGe8JtRgM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XO9R3Uls; arc=pass smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PL/ZCsd1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1783174432; x=1814710432;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=haHFTXmDQ5aiiw5QM8Z1oIYQg5A3tgVLGwdXjbQ0puw=;
-  b=PL/ZCsd1IDaxhWOzWnkaxMG2nZ7qp6WmMEGiAE3Iw51vdkslzBAZUP1b
-   OSoUuBse0VhvDNgmXdEe9J3UzNN2ctGKkWiGd/lZw2IxCcLNbM0TRa5hC
-   lvXzwmBYOwrhn39il2JzDZ65s9B7DAYaKzm28xe5/oKiPNWz9tc/oY/Tx
-   9tOotRkjh6O9QjS2017k1Cs5EO7BfnXwVQQ7qsW+b9NQMMOY93Q06z6dB
-   cwjhIQz3ssAjJVwvH4nomEu4Mi1p7OYRoY+zkyy5wen6CU8++wgMjCD6H
-   VepKXhWQr7BFjwc9JBBXYR7f3h2+xJSQ2IG2Ko9klRrZYksK7zVAKZBRv
-   w==;
-X-CSE-ConnectionGUID: 1BspFlupStWk/8CtXSyJOA==
-X-CSE-MsgGUID: /l99gezbRnGN89SZt9+MNw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11837"; a="86432040"
-X-IronPort-AV: E=Sophos;i="6.25,147,1779174000"; 
-   d="scan'208";a="86432040"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2026 07:13:51 -0700
-X-CSE-ConnectionGUID: PDxd48G8Rl+ulU/Rsg6ZdQ==
-X-CSE-MsgGUID: HyDxZS8JSJuC469nzXvMfw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,147,1779174000"; 
-   d="scan'208";a="283392842"
-Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
-  by orviesa002.jf.intel.com with ESMTP; 04 Jul 2026 07:13:49 -0700
-Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wg17q-00000000D63-05F2;
-	Sat, 04 Jul 2026 14:13:46 +0000
-Date: Sat, 4 Jul 2026 22:12:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: adi25charis@gmail.com, vireshk@kernel.org, johan@kernel.org,
-	elder@kernel.org, gregkh@linuxfoundation.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Aditya Chari S <adi25charis@gmail.com>
-Subject: Re: [PATCH] staging: greybus: bootrom: power off module on timeout
-Message-ID: <202607042245.XyM6HiC2-lkp@intel.com>
-References: <20260704071926.6606-1-adi25charis@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XO9R3Uls"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-c1276b8c7e2so146234166b.3
+        for <linux-staging@lists.linux.dev>; Sat, 04 Jul 2026 09:48:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783183695; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Nr6xyfSexG2/NY2TM+GzB/GgPzc7WGBj1ZpDb8KyhJ19OzBG/eTh42zgGbaRtSKpR3
+         y5djT6YMubGfA5MFwA6PZXChHFPHdOUOL6OX0CLUQwzF/G/VqHbXClwTBIrKDOOZA4rN
+         fcVs42+vGYRzc7JdipYQkNI2OnN+6tm7JUkITBne11bq9Fk+0KjCh9MZ6POrbrBPoFMO
+         7TVdMSY3wigzWxzuqDze6J1Ii2onsB+y5NVQFprZzT3uuvMuglNXy7vDVw+Kabmx/7A6
+         LAuJ+2oAhhhUANvIXyp6z3MNXOQ1MCO5kXkCHXf3M/wVK2laS2Xl0P5A7i0/eGm/ulOW
+         gPAw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=LtFcRccVXWV3jIWFIefXiUO2EXyRDVKEhdr6p8e27VY=;
+        fh=9gHEoU+HFZN17rilYoLwhc2KPvHqNZQcu4oe4ne4uDg=;
+        b=AxcnM7Nj8h1Czpp7OXDbO3WXKZ9V37+owAJVr+VHDAp3dYYqVnqJW2zZsLLYDASRn+
+         kiMCozRZSJqGZFlKLDi5V8y1jbv8464H7DYF35jCIBffEpWgilf8MqdVx8Gk7EwH+YSW
+         jt+czcOZBbAsNB3ThsPruh6haMum3wkJ8x8+jp71cGsoel1cqDWMWt+89JUmR8pnnjTl
+         sltjIR3kCLvEga027jg6sz93Qseb3qdINizwl2y75OUfJqr1YIQKMyQ/xP+ujjNZmGgx
+         1FILW8gAR7f6Nm5YS9Yl9kq5KSKhLKzAEKceyDXj6BqApXC8jRz5XVOJAjRWExgxgTvx
+         nrbA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783183695; x=1783788495; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=LtFcRccVXWV3jIWFIefXiUO2EXyRDVKEhdr6p8e27VY=;
+        b=XO9R3Ulsm0Z6QrMVQgnqizVYX9EWLEvcoZC/EFDR3RERvHPoWe6VvKnvmUWOwWPTq0
+         RbCOvVDDoAdGf5F6OaMlRIZsVoGIky8grEihiUHaFtIqPw1ON/xag5XuszObZ5E4kE8E
+         /8k6I7DltSSxt3XFXq34RQkpA+qZW8k35nY/rEBXSlGfKC8Z3qdBeLezfk0W+ON9ldAm
+         EEEzDBcYBmJHRdaT3hjNKJj77lKcPRgWjEcNeCF+5U9mA+vrPDhPHz6pUy1eJ33AwJUZ
+         n0me2Oklstymz9kYZ3LPXrqLzm2egONJmTYlfL7gVFgjAm3qjINT5x/e+BM5HOQocpbl
+         fdBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783183695; x=1783788495;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=LtFcRccVXWV3jIWFIefXiUO2EXyRDVKEhdr6p8e27VY=;
+        b=rL1MouHkt2RX8I94r2yeH2xxD8wPkpZpc7SCM73fS3Nb109q3Sh2GY6+8rahclUwpy
+         Pf7n60RG/SgR47B09MktLIVYtq1YWikiQmvLpln5xgWRX2S0Vs1hU9P6jNJfrtg6Fwck
+         Jff8ojUz6FILwV7AJCH0IIljVf4e0noONAe7ZIUCz3HIJCofsUe1nSqG1E9n3/N+Q261
+         sT3oNWK1umo6poU5Kznt4LK6M0Wfac0UstlpVfoF7KwJ9Fto4XirSY6O5hqkmFXm7C79
+         fKIYDE9oEuuaK3R8zevah5tEBso0WyL42U4c0docjI5yRAbTT34WNxOANh2aaj6q+D5b
+         cY9w==
+X-Forwarded-Encrypted: i=1; AFNElJ99OyzDXJY//GUcNk9o+EOnkljLiopPUAN58ZHkMCUPMExSeOi2ChNL7MNLJNdz+FNlozRCS9UzenBbYlzX@lists.linux.dev
+X-Gm-Message-State: AOJu0YzKhmOOrVJH1B24bUMHqFZniTSFP6v7GiMfPe4q1TmlNrX0xUIY
+	SRgqPM2Y0Dx/BxG1+5BuRtGiMJkMiaGnd1pQs5jy/1uFxpRRsnSq/fCbnjVzxzoYEwB4NBBQBuw
+	ot0qb46unwv97oehoHnft47Yw1ChBvh8=
+X-Gm-Gg: AfdE7cnkPu8lKbugBxPieGO4R9O4W4znKyQ57bFmoAJlEYHKNQyyc8owhd1bi9ZnpCR
+	KCcxY9A5TjrAV1u6oDv0SioGTC04v2JXVOe/Q0NW+sjyTzdL61OtMB7isTDvFJPIJZPPtT5fDuc
+	ezKrXapl8BzoRmd056Hu5NAKiVBrAS2JQZVLC06VLV5TWOU4cPdr1qvW7dtU8xnKbKhnZSAY0Th
+	3U67Swf1OWAbux9y+MamNLPcdz1uypy/xIMgbi+fFHl1iPhU4gjyVaucMBhR2at2WraiyuHq+w7
+	PYFAh5JFVme/MSPiDIAXLHUUlrighxjJGrwDEDlAt8szl6dj0gBvP1OZHeHPcqwGFAp/PMGsRUa
+	MIQY/ebgQt80x2geZqw3wFswY0OjIJ6cjV64koX/fYmmScRptuDjS65jaVA==
+X-Received: by 2002:a17:907:1b08:b0:c0f:cbe8:7832 with SMTP id
+ a640c23a62f3a-c12e6c773a6mr112448366b.48.1783183694777; Sat, 04 Jul 2026
+ 09:48:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260704071926.6606-1-adi25charis@gmail.com>
+References: <20260704140055.88080-1-miraly.dev@gmail.com>
+In-Reply-To: <20260704140055.88080-1-miraly.dev@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Sat, 4 Jul 2026 19:47:38 +0300
+X-Gm-Features: AVVi8CckRQ48RpwOmD0TBUNdiWh54ywDxlO-NJIYdI6QAynFVo8e2ykyMTUBNRk
+Message-ID: <CAHp75Vd7-nLUnM=76Lr+G+sBxw2aPEBAwBJXqkM-JNRYHqx56g@mail.gmail.com>
+Subject: Re: [PATCH] staging: media: atomisp: clean up atomisp_v4l2.c style warnings
+To: Ruziev Miraly <miraly.dev@gmail.com>
+Cc: hansg@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org, 
+	andy@kernel.org, sakari.ailus@linux.intel.com, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Sat, Jul 4, 2026 at 5:01=E2=80=AFPM Ruziev Miraly <miraly.dev@gmail.com>=
+ wrote:
+>
+> Fix checkpatch.pl warnings in atomisp_v4l2.c regarding unnecessary
+> ftrace-like logging and redundant else statements after return.
+>
+> Remove dev_dbg() calls that only log function entry, as ftrace should
+> be preferred for this purpose. Also, remove the unnecessary else block
+> following a return statement to flatten the code structure.
 
-kernel test robot noticed the following build errors:
+...
 
-[auto build test ERROR on staging/staging-testing]
+> @@ -468,22 +464,18 @@ static int atomisp_mrfld_pre_power_down(struct atom=
+isp_device *isp)
+>                         __func__, irq);
 
-url:    https://github.com/intel-lab-lkp/linux/commits/adi25charis-gmail-com/staging-greybus-bootrom-power-off-module-on-timeout/20260704-152129
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20260704071926.6606-1-adi25charis%40gmail.com
-patch subject: [PATCH] staging: greybus: bootrom: power off module on timeout
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260704/202607042245.XyM6HiC2-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 0a2fb2a2269da0e2a3e230beb6cad39ca314db33)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260704/202607042245.XyM6HiC2-lkp@intel.com/reproduce)
+^^^
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202607042245.XyM6HiC2-lkp@intel.com/
+>                 spin_unlock_irqrestore(&isp->lock, flags);
+>                 return -EAGAIN;
+> -       } else {
+> -               pci_read_config_dword(pdev, PCI_INTERRUPT_CTRL, &irq);
+> -               irq &=3D BIT(INTR_IIR);
+> -               pci_write_config_dword(pdev, PCI_INTERRUPT_CTRL, irq);
+> -
+> -               pci_read_config_dword(pdev, PCI_INTERRUPT_CTRL, &irq);
+> -               if (!(irq & BIT(INTR_IIR))) {
+> -                       atomisp_css2_hw_store_32(MRFLD_INTR_ENABLE_REG, 0=
+x0);
+> -                       goto done;
+> -               }
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+> -               dev_err(isp->dev,
+> -                       "%s: error in iunit interrupt. status reg=3D0x%x\=
+n",
+> -                       __func__, irq);
 
->> ERROR: modpost: "gb_svc_intf_eject" [drivers/staging/greybus/gb-bootrom.ko] undefined!
+You removed this one and the above branch seems to have the similar
+one. Be consistent.
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> -               spin_unlock_irqrestore(&isp->lock, flags);
+> -               return -EAGAIN;
+>         }
+> +       pci_read_config_dword(pdev, PCI_INTERRUPT_CTRL, &irq);
+> +       irq &=3D BIT(INTR_IIR);
+> +       pci_write_config_dword(pdev, PCI_INTERRUPT_CTRL, irq);
+> +
+> +       pci_read_config_dword(pdev, PCI_INTERRUPT_CTRL, &irq);
+> +       if (!(irq & BIT(INTR_IIR))) {
+> +               atomisp_css2_hw_store_32(MRFLD_INTR_ENABLE_REG, 0x0);
+> +               goto done;
+> +       }
+> +       spin_unlock_irqrestore(&isp->lock, flags);
+> +       return -EAGAIN;
+
+--=20
+With Best Regards,
+Andy Shevchenko
