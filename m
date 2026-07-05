@@ -1,68 +1,70 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9135211A14
-	for <linux-staging@lists.linux.dev>; Sun,  5 Jul 2026 15:33:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93EE52E1722
+	for <linux-staging@lists.linux.dev>; Sun,  5 Jul 2026 19:36:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783265588; cv=none; b=HPBKwKuUue2/Q83w77j78tvgdvYawjzCvkrSvTXK1LgPTUay4WrEd8IkOzd9gsI078uoHRlRbrezi5WdbuIPQxt+Q9d1x6DDCV2LlJzQ4sfoFJnbo9WYD22ALvRaJXtXO+/UFdxeLMBsJc4CqHRbB5N+fDLfBqVhlMOqvEiyMPM=
+	t=1783280166; cv=none; b=F1oSLBiMyL78HMsV1lFLTZUVw3n2tQDKl1zjb6zKJBS20RDuqwV96tlBifljxCgCX0ewNXX2Q39Xv3XfFDpLW3lW1hCGZ0Ag//awutY12RZIKDCIhS7LK1AW2f8bslYmq1joo2BPR4REWhKnL4qwaeg1RZ5rObVFoOcerqozhUM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783265588; c=relaxed/simple;
-	bh=ATGU/8rGhnZEEvjZ93WYF/PdZbGhfRaZTJn31f/M9es=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=V/5olqYP5jjsAF6HIepD9p0IG5vrAESm5ACxTk8K0usaWW6Ie7Zrswhlo/4hFzTovt3ZbOuBcXccwVmo781IpvYOK0Utq5CAw30vIr7HY1UZMqxLIPXp0IOQ8Auj7V0hn/MNuk3t0fIVK08PLGJ03RsOS3GMSOX1ip6Ni483/5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UxekoRbC; arc=none smtp.client-ip=209.85.128.42
+	s=arc-20240116; t=1783280166; c=relaxed/simple;
+	bh=QztdeMOFdrIWd77/JFwZ0L9TaHZTS90cORzHILt7xKo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pyAUVeAzmvOOZCtoaq3sFuL0/q2oJ3IA/pE37iFpPFgiZAqw+aa57S0J14RBPASHLg0sUbOzxfNkqNE0lU789XsWOvtRz0v2ni29ilWBUEXECzNoUbYzyLMsSKNxv6I1AwTuFoqoCNjzxxpvn/eZhzVN2C9bejJExS/rsh7n4is=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ivqTp2NS; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UxekoRbC"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-493ae59eca6so15341975e9.1
-        for <linux-staging@lists.linux.dev>; Sun, 05 Jul 2026 08:33:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ivqTp2NS"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2caa0551d8bso7505045ad.2
+        for <linux-staging@lists.linux.dev>; Sun, 05 Jul 2026 12:36:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783265585; x=1783870385; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1783280165; x=1783884965; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=XMgii/iVxVB8xnoV5Xg9sOp0V7wf0u21y3U4TcuHcW8=;
-        b=UxekoRbCuq+epA65MIPd022PIioLsOcntwN3n76pCyy5mBSdDoV9afeeGBQ3RbOSLZ
-         JNttfLq2razCoOAMLWjr7JRjVu4cDVqRr997V6e85pJ5NcI1jH3f4G01OqnJLtt0qsqd
-         TmC8t5Xj9F24nUo0NMgPPiH3G96SrCPKHRZjMTly3htL68vR5x/Hyf+IY5eMTBYWcH/a
-         8FCYf1yHn0kHSm8JItQ1Je8fA61PM10pFEPLveSqvPW6BQJTwAamL+s2kLxGEIIT4jwt
-         w5TEy1Sl/OSLRKY1KK9/ZwXG84i4b6TbT70udhyvFtkgqi0anIp9iJjCwsDpR0H84ZoE
-         aXxg==
+        bh=w4rdjqjUZoW9EXTRb4ttiQdT9CbW7hl1jr0RLDeWbqw=;
+        b=ivqTp2NSRbhrZa1Gvly0B+L3IoksrP0nnuaI+LfGUv3FmbgU0MkX+CEQfdsIl2IjL+
+         u9MXLTMRwW5WO66nCCjjSefvdp4QEvrfOroveg7chFLWNllapARKE6q6e36zhWvU8OMr
+         99k2tUZqxMxobakCywIU4ugb5X1kELiIzr234xUKUiCzvkAUPB0hMTDpi+/exi4fa7jb
+         RbWAWohgcXo4EB7AzFdLjrYCws9gmodhhrWzdOtFDyZopZNr3da87l0/5TLYfXqZ2vvb
+         2kNiJw8K2Jh4tSNJ/eW13sE8lWRs7Kovav87KBE1aWxL5V9LZY95W05VqJX8DC2caLvv
+         /kxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783265585; x=1783870385;
+        d=1e100.net; s=20251104; t=1783280165; x=1783884965;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=XMgii/iVxVB8xnoV5Xg9sOp0V7wf0u21y3U4TcuHcW8=;
-        b=ER7q5dPSMkBSHL/IbBrro90oNkW1b9+QQaLporENgc1YXE9cHrNQGDCoBhls7FLQVd
-         1FXcyDgEdIy7Xn+8pAszFffErB1V+o4sI43LKZOfWUUCqggjla2TNNbRHhj76L9/NFqs
-         Iroi5LpURujogYwszEpsTRhZ8mZZ4Hyxb1oAV1reaKjDyZ1PzO33kNFnPSt0dYIRyJxG
-         ZYuUkKl5VHWIpVCGqyzdemI2F7hc+LEftPCnFEENickOViEDqArzulCC8IVkfK81D7IK
-         WbQrk3KmeDx3hxnC20AbeCMfF4rplIE5VZQWRSrT08an1OQ6TyABFSqvWtUTnrMYcy0v
-         MzCg==
-X-Gm-Message-State: AOJu0YxByot+jGSk4HvuvZm3kkjsx0cljC5D/X7FEjO6r0apViWh7Jtn
-	LrxLhgYakTKkCPWyJtgVFanInt70aEDjEgq0jk9ESHvD0fbnkZMlidKm
-X-Gm-Gg: AfdE7clQBNFjILCdjnLrxJKrxDd4QenDkYfY8fr5/qXVdd/bZI8299Qp9qSnyPTwPK2
-	5unqqTvxOPkLtZM2zUy1qx6yOZV8fUCZujovm6ckaXyKJ8IxYxpq6Nv4Y61HHn4WXnqcwo1vnlq
-	179U16hnqDiBPEKulrQkzu/oCs8Y3wQCTHK6cwCB5PTA3HnJolM5NtVme9HRFkjr2OUlQChTk4Q
-	T3x0RECMrgNk2Fqvpo2yk17Vdl7OSgqdGasbXmxWVh4yN4379S5F+rXE4C5P2J0h42v+6xiJXWI
-	5Ug1YGvB0CwdRw+l2V1is1Oh5dMnG62JNeb4NIsRBhLZ0wq3MIIY0kOeLBp1YTHKlvii/M9ipgd
-	UTCMHhvjqT63Tmfklihgrxu+0dDnGVt5+4zVZN+RCygUcc12x/roRyjJSkEDCPenz4AZpgU4C1H
-	NMz/lKEwU2DHRIXBXXXfu3PAbQv0iQB3waqzj3C/3QjgR+g+Gp+Pg=
-X-Received: by 2002:a05:600c:8716:b0:493:c337:db19 with SMTP id 5b1f17b1804b1-493d11dc92amr73371625e9.17.1783265584777;
-        Sun, 05 Jul 2026 08:33:04 -0700 (PDT)
-Received: from fedora ([2a02:1388:a04:2d27:27e1:ef30:40f0:19b6])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493c637bc21sm525059075e9.7.2026.07.05.08.33.03
+        bh=w4rdjqjUZoW9EXTRb4ttiQdT9CbW7hl1jr0RLDeWbqw=;
+        b=kz76juDmbMhZEoif9etDqSih4NO6vx0pYFVRYtR3qd6ek7h7ZkH8kPSMzwSOaDTaFq
+         cC49A+gsCyacUvNGEeVshCmoLHROfP8n/0QEEj/oXaExb5MddHgiBHi9pXdvdslJ3bRa
+         0KZd5ODBYqMLrjT1yo01afAgzoyufUCxTUP5aMVb+2326XItueqzuDlWSmTIF84FGhH7
+         0aPsC2bwJ88aiNOKpkMPeSTyAsT06m75+OqbWFY3RTwhehqIGq5T5BvUel8gB/W2TLUD
+         ZbbQfcI9U6zvEg1knkJ1eCI9IUBmwviisHI8uMp+7Dx98FYpgDBc04xijT7vXUh4XePW
+         EZzw==
+X-Gm-Message-State: AOJu0YyBw07bfA+WJMwYuc9/IltwOjDwR+tRhK367ZjGY2ayw4t48uCg
+	p9u9RiJnLj+vRlEo6BkGE0Nt05wcUC9a7wQQ0fki4VClm9qGzIA0Ki+j
+X-Gm-Gg: AfdE7cm0Cg5u/gkdf5dEu0iO+quMH2kVcnC4l5FMWq6e3dYZyWmIJ2JUWcntWmgbyF0
+	sQl8O/mx3IlI7277MTe5Cg5Y5RAsjs8dRRTouhT5yyMUHJWQRbvV4ssrUSy1Jf4b203U5Pl1Z3a
+	GLfn7ta9Xw6QLAodArmBtRtyjhdqweD8OTPISChwxUDOgnaLqaYO8g8+jBYxG4lr/FDdxKCq4hX
+	KQr3xR/Oi1f7Q2DgxmmuxtXcS+eVhjGxxn0Vqy9c0SMQFB/PnZCatkWl7QM3bDsNqmK3gw3t5nG
+	Ae3I3wLQh4QwaGaMpMwjyfeIUvhVx3HCeYeCBnIa/GePM5t4TiAmnSNZA9fVt0LAOezXsM/PCKg
+	UqlkwrZVBz588/XbB/ki9m9qmjUSMSoKYEf9L1iw4DT6YKIGFf/l/JZozj2yjOmX2XvIe5N9xQz
+	Ki9GdTHfiNEC2AjJWcIreXGwfH3407io9WdyZ1kCC+BN2GlXNI/PfvLoGTXXiFrXHuXbPDtO2jG
+	s+SP2EkOoBJv+QV2dNyFxI=
+X-Received: by 2002:a17:902:d551:b0:2cc:9d9:b8df with SMTP id d9443c01a7336-2cc09d9c025mr43811895ad.5.1783280164894;
+        Sun, 05 Jul 2026 12:36:04 -0700 (PDT)
+Received: from localhost.localdomain (n58-104-240-194.mrk2.qld.optusnet.com.au. [58.104.240.194])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b446a766asm51627548c88.7.2026.07.05.12.36.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Jul 2026 08:33:04 -0700 (PDT)
-From: Panagiotis Petrakopoulos <npetrakopoulos2003@gmail.com>
+        Sun, 05 Jul 2026 12:36:04 -0700 (PDT)
+From: Daniel Guihot <daniel.guihot123@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
-	Panagiotis Petrakopoulos <npetrakopoulos2003@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: use rS0S1_PathSwitch define instead of 0x948 magic number
-Date: Sun,  5 Jul 2026 18:32:43 +0300
-Message-ID: <20260705153243.32484-1-npetrakopoulos2003@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	linux-kernel@vger.kernel.org,
+	Daniel Guihot <daniel.guihot123@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: remove unnecessary braces from single statement blocks
+Date: Mon,  6 Jul 2026 05:33:42 +1000
+Message-ID: <20260705193340.14684-3-daniel.guihot123@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -71,199 +73,129 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Using magic numbers is error prone. The address
-0x948 already has a define, rS0S1_PathSwitch,
-in Hal8192CPhyReg.h. Replace the occurrences of
-the magic number 0x948 with the rS0S1_PathSwitch
-define for more clarity and readability.
+Remove braces around single statement blocks in rtl8723b_hal_init.c to
+comply with the kernel code style, as reported by checkpatch.pl:
 
-No functional change intended.
+  WARNING: braces {} are not necessary for single statement blocks
+  WARNING: braces {} are not necessary for any arm of this statement
 
-Signed-off-by: Panagiotis Petrakopoulos <npetrakopoulos2003@gmail.com>
+No functional change.
+
+Signed-off-by: Daniel Guihot <daniel.guihot123@gmail.com>
 ---
- .../staging/rtl8723bs/hal/HalPhyRf_8723B.c    | 40 +++++++++----------
- .../staging/rtl8723bs/hal/rtl8723b_phycfg.c   |  2 +-
- 2 files changed, 21 insertions(+), 21 deletions(-)
+ .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 32 +++++++------------
+ 1 file changed, 12 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
-index 70b68f473d58..8eb59d7e089f 100644
---- a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
-+++ b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
-@@ -349,7 +349,7 @@ static u8 phy_PathA_IQK_8723B(
- 	struct dm_odm_t *pDM_Odm = &pHalData->odmpriv;
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+index bcaf63b2893c..b74fdf66c772 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+@@ -194,9 +194,8 @@ static s32 polling_fwdl_chksum(
+ 		yield();
+ 	} while (jiffies_to_msecs(jiffies-start) < timeout_ms || cnt < min_cnt);
  
- 	/*  Save RF Path */
--	Path_SEL_BB = PHY_QueryBBReg(pDM_Odm->Adapter, 0x948, bMaskDWord);
-+	Path_SEL_BB = PHY_QueryBBReg(pDM_Odm->Adapter, rS0S1_PathSwitch, bMaskDWord);
+-	if (!(value32 & FWDL_ChkSum_rpt)) {
++	if (!(value32 & FWDL_ChkSum_rpt))
+ 		goto exit;
+-	}
  
- 	/* leave IQK mode */
- 	PHY_SetBBReg(pDM_Odm->Adapter, rFPGA0_IQK, bMaskH3Bytes, 0x000000);
-@@ -387,10 +387,10 @@ static u8 phy_PathA_IQK_8723B(
- 	/* Ant switch */
- 	if (configPathB || (RF_Path == 0))
- 		/*  wifi switch to S1 */
--		PHY_SetBBReg(pDM_Odm->Adapter, 0x948, bMaskDWord, 0x00000000);
-+		PHY_SetBBReg(pDM_Odm->Adapter, rS0S1_PathSwitch, bMaskDWord, 0x00000000);
- 	else
- 		/*  wifi switch to S0 */
--		PHY_SetBBReg(pDM_Odm->Adapter, 0x948, bMaskDWord, 0x00000280);
-+		PHY_SetBBReg(pDM_Odm->Adapter, rS0S1_PathSwitch, bMaskDWord, 0x00000280);
+ 	if (g_fwdl_chksum_fail) {
+ 		g_fwdl_chksum_fail--;
+@@ -235,9 +234,8 @@ static s32 _FWFreeToGo(struct adapter *adapter, u32 min_cnt, u32 timeout_ms)
+ 		yield();
+ 	} while (jiffies_to_msecs(jiffies - start) < timeout_ms || cnt < min_cnt);
  
- 	/* GNT_BT = 0 */
- 	PHY_SetBBReg(pDM_Odm->Adapter, 0x764, bMaskDWord, 0x00000800);
-@@ -404,7 +404,7 @@ static u8 phy_PathA_IQK_8723B(
- 	mdelay(IQK_DELAY_TIME_8723B);
+-	if (!(value32 & WINTINI_RDY)) {
++	if (!(value32 & WINTINI_RDY))
+ 		goto exit;
+-	}
  
- 	/* restore Ant Path */
--	PHY_SetBBReg(pDM_Odm->Adapter, 0x948, bMaskDWord, Path_SEL_BB);
-+	PHY_SetBBReg(pDM_Odm->Adapter, rS0S1_PathSwitch, bMaskDWord, Path_SEL_BB);
- 	/* GNT_BT = 1 */
- 	PHY_SetBBReg(pDM_Odm->Adapter, 0x764, bMaskDWord, 0x00001800);
+ 	if (g_fwdl_wintint_rdy_fail) {
+ 		g_fwdl_wintint_rdy_fail--;
+@@ -1031,9 +1029,8 @@ void UpdateHalRAMask8723B(struct adapter *padapter, u32 mac_id, u8 rssi_level)
+ 	rate_bitmap = hal_btcoex_GetRaMask(padapter);
+ 	mask &= ~rate_bitmap;
  
-@@ -447,7 +447,7 @@ static u8 phy_PathA_RxIQK8723B(
- 	struct dm_odm_t *pDM_Odm = &pHalData->odmpriv;
+-	if (pHalData->fw_ractrl) {
++	if (pHalData->fw_ractrl)
+ 		rtl8723b_set_FwMacIdConfig_cmd(padapter, mac_id, psta->raid, psta->bw_mode, short_gi_rate, mask);
+-	}
  
- 	/*  Save RF Path */
--	Path_SEL_BB = PHY_QueryBBReg(pDM_Odm->Adapter, 0x948, bMaskDWord);
-+	Path_SEL_BB = PHY_QueryBBReg(pDM_Odm->Adapter, rS0S1_PathSwitch, bMaskDWord);
+ 	/* set correct initial date rate for each mac_id */
+ 	pdmpriv->INIDATA_RATE[mac_id] = psta->init_rate;
+@@ -1184,9 +1181,9 @@ void Hal_EfuseParseIDCode(struct adapter *padapter, u8 *hwinfo)
  
- 	/* leave IQK mode */
- 	PHY_SetBBReg(pDM_Odm->Adapter, rFPGA0_IQK, bMaskH3Bytes, 0x000000);
-@@ -486,10 +486,10 @@ static u8 phy_PathA_RxIQK8723B(
- 	/* Ant switch */
- 	if (configPathB || (RF_Path == 0))
- 		/*  wifi switch to S1 */
--		PHY_SetBBReg(pDM_Odm->Adapter, 0x948, bMaskDWord, 0x00000000);
-+		PHY_SetBBReg(pDM_Odm->Adapter, rS0S1_PathSwitch, bMaskDWord, 0x00000000);
- 	else
- 		/*  wifi switch to S0 */
--		PHY_SetBBReg(pDM_Odm->Adapter, 0x948, bMaskDWord, 0x00000280);
-+		PHY_SetBBReg(pDM_Odm->Adapter, rS0S1_PathSwitch, bMaskDWord, 0x00000280);
+ 	/*  Check 0x8129 again for making sure autoload status!! */
+ 	EEPROMId = le16_to_cpu(*((__le16 *)hwinfo));
+-	if (EEPROMId != RTL_EEPROM_ID) {
++	if (EEPROMId != RTL_EEPROM_ID)
+ 		pEEPROM->bautoload_fail_flag = true;
+-	} else
++	else
+ 		pEEPROM->bautoload_fail_flag = false;
+ }
  
- 	/* GNT_BT = 0 */
- 	PHY_SetBBReg(pDM_Odm->Adapter, 0x764, bMaskDWord, 0x00000800);
-@@ -503,7 +503,7 @@ static u8 phy_PathA_RxIQK8723B(
- 	mdelay(IQK_DELAY_TIME_8723B);
+@@ -1596,9 +1593,8 @@ static void rtl8723b_cal_txdesc_chksum(struct tx_desc *ptxdesc)
+ 	/*  Thomas, Lucas@SD4, 20130515 */
+ 	count = 16;
  
- 	/* restore Ant Path */
--	PHY_SetBBReg(pDM_Odm->Adapter, 0x948, bMaskDWord, Path_SEL_BB);
-+	PHY_SetBBReg(pDM_Odm->Adapter, rS0S1_PathSwitch, bMaskDWord, Path_SEL_BB);
- 	/* GNT_BT = 1 */
- 	PHY_SetBBReg(pDM_Odm->Adapter, 0x764, bMaskDWord, 0x00001800);
+-	for (index = 0; index < count; index++) {
++	for (index = 0; index < count; index++)
+ 		checksum |= le16_to_cpu(*(__le16 *)(usPtr + index));
+-	}
  
-@@ -572,10 +572,10 @@ static u8 phy_PathA_RxIQK8723B(
- 	/* Ant switch */
- 	if (configPathB || (RF_Path == 0))
- 		/*  wifi switch to S1 */
--		PHY_SetBBReg(pDM_Odm->Adapter, 0x948, bMaskDWord, 0x00000000);
-+		PHY_SetBBReg(pDM_Odm->Adapter, rS0S1_PathSwitch, bMaskDWord, 0x00000000);
- 	else
- 		/*  wifi switch to S0 */
--		PHY_SetBBReg(pDM_Odm->Adapter, 0x948, bMaskDWord, 0x00000280);
-+		PHY_SetBBReg(pDM_Odm->Adapter, rS0S1_PathSwitch, bMaskDWord, 0x00000280);
+ 	ptxdesc->txdw7 |= cpu_to_le32(checksum & 0x0000ffff);
+ }
+@@ -1772,11 +1768,10 @@ static void rtl8723b_fill_default_txdesc(
+ 		ptxdesc->mbssid = pattrib->mbssid & 0xF;
  
- 	/* GNT_BT = 0 */
- 	PHY_SetBBReg(pDM_Odm->Adapter, 0x764, bMaskDWord, 0x00000800);
-@@ -589,7 +589,7 @@ static u8 phy_PathA_RxIQK8723B(
- 	mdelay(IQK_DELAY_TIME_8723B);
+ 		ptxdesc->rty_lmt_en = 1; /*  retry limit enable */
+-		if (pattrib->retry_ctrl) {
++		if (pattrib->retry_ctrl)
+ 			ptxdesc->data_rt_lmt = 6;
+-		} else {
++		else
+ 			ptxdesc->data_rt_lmt = 12;
+-		}
  
- 	/* restore Ant Path */
--	PHY_SetBBReg(pDM_Odm->Adapter, 0x948, bMaskDWord, Path_SEL_BB);
-+	PHY_SetBBReg(pDM_Odm->Adapter, rS0S1_PathSwitch, bMaskDWord, Path_SEL_BB);
- 	/* GNT_BT = 1 */
- 	PHY_SetBBReg(pDM_Odm->Adapter, 0x764, bMaskDWord, 0x00001800);
+ 		ptxdesc->datarate = MRateToHwRate(pmlmeext->tx_rate);
  
-@@ -632,7 +632,7 @@ static u8 phy_PathB_IQK_8723B(struct adapter *padapter)
- 	struct dm_odm_t *pDM_Odm = &pHalData->odmpriv;
+@@ -1867,9 +1862,8 @@ void rtl8723b_fill_fake_txdesc(
+ 		SET_TX_DESC_HWSEQ_SEL_8723B(pDesc, 0);
+ 	}
  
- 	/*  Save RF Path */
--	Path_SEL_BB = PHY_QueryBBReg(pDM_Odm->Adapter, 0x948, bMaskDWord);
-+	Path_SEL_BB = PHY_QueryBBReg(pDM_Odm->Adapter, rS0S1_PathSwitch, bMaskDWord);
+-	if (IsBTQosNull) {
++	if (IsBTQosNull)
+ 		SET_TX_DESC_BT_INT_8723B(pDesc, 1);
+-	}
  
-     /* leave IQK mode */
- 	PHY_SetBBReg(pDM_Odm->Adapter, rFPGA0_IQK, bMaskH3Bytes, 0x000000);
-@@ -669,7 +669,7 @@ static u8 phy_PathB_IQK_8723B(struct adapter *padapter)
- 	PHY_SetBBReg(pDM_Odm->Adapter, rFPGA0_IQK, bMaskH3Bytes, 0x808000);
+ 	SET_TX_DESC_USE_RATE_8723B(pDesc, 1); /*  use data rate which is set by Sw */
+ 	SET_TX_DESC_OWN_8723B((u8 *)pDesc, 1);
+@@ -2555,9 +2549,8 @@ void SetHwReg8723B(struct adapter *padapter, u8 variable, u8 *val)
  
- 	/* switch to path B */
--	PHY_SetBBReg(pDM_Odm->Adapter, 0x948, bMaskDWord, 0x00000280);
-+	PHY_SetBBReg(pDM_Odm->Adapter, rS0S1_PathSwitch, bMaskDWord, 0x00000280);
- /* 	PHY_SetRFReg(pDM_Odm->Adapter, RF_PATH_A, 0xb0, bRFRegOffsetMask, 0xeffe0); */
+ 			/*  Forece leave RF low power mode for 1T1R to prevent conficting setting in Fw power */
+ 			/*  saving sequence. 2010.06.07. Added by tynli. Suggested by SD3 yschang. */
+-			if (psmode != PS_MODE_ACTIVE) {
++			if (psmode != PS_MODE_ACTIVE)
+ 				ODM_RF_Saving(&pHalData->odmpriv, true);
+-			}
  
- 	/* GNT_BT = 0 */
-@@ -684,7 +684,7 @@ static u8 phy_PathB_IQK_8723B(struct adapter *padapter)
- 	mdelay(IQK_DELAY_TIME_8723B);
+ 			/* if (psmode != PS_MODE_ACTIVE)	{ */
+ 			/* 	rtl8723b_set_lowpwr_lps_cmd(padapter, true); */
+@@ -2871,11 +2864,10 @@ u8 GetHalDefVar8723B(struct adapter *padapter, enum hal_def_variable variable, v
+ 		break;
  
- 	/* restore Ant Path */
--	PHY_SetBBReg(pDM_Odm->Adapter, 0x948, bMaskDWord, Path_SEL_BB);
-+	PHY_SetBBReg(pDM_Odm->Adapter, rS0S1_PathSwitch, bMaskDWord, Path_SEL_BB);
- 	/* GNT_BT = 1 */
- 	PHY_SetBBReg(pDM_Odm->Adapter, 0x764, bMaskDWord, 0x00001800);
+ 	case HAL_DEF_TX_PAGE_BOUNDARY:
+-		if (!padapter->registrypriv.wifi_spec) {
++		if (!padapter->registrypriv.wifi_spec)
+ 			*(u8 *)pval = TX_PAGE_BOUNDARY_8723B;
+-		} else {
++		else
+ 			*(u8 *)pval = WMM_NORMAL_TX_PAGE_BOUNDARY_8723B;
+-		}
+ 		break;
  
-@@ -723,12 +723,12 @@ static u8 phy_PathB_RxIQK8723B(struct adapter *padapter, bool configPathB)
- 	struct dm_odm_t *pDM_Odm = &pHalData->odmpriv;
- 
- 	/*  Save RF Path */
--	Path_SEL_BB = PHY_QueryBBReg(pDM_Odm->Adapter, 0x948, bMaskDWord);
-+	Path_SEL_BB = PHY_QueryBBReg(pDM_Odm->Adapter, rS0S1_PathSwitch, bMaskDWord);
-     /* leave IQK mode */
- 	PHY_SetBBReg(pDM_Odm->Adapter, rFPGA0_IQK, bMaskH3Bytes, 0x000000);
- 
- 	/* switch to path B */
--	PHY_SetBBReg(pDM_Odm->Adapter, 0x948, bMaskDWord, 0x00000280);
-+	PHY_SetBBReg(pDM_Odm->Adapter, rS0S1_PathSwitch, bMaskDWord, 0x00000280);
- 	/* modify RXIQK mode table */
- 	PHY_SetRFReg(pDM_Odm->Adapter, RF_PATH_A, RF_WE_LUT, 0x80000, 0x1);
- 	PHY_SetRFReg(pDM_Odm->Adapter, RF_PATH_A, RF_RCK_OS, bRFRegOffsetMask, 0x18000);
-@@ -761,7 +761,7 @@ static u8 phy_PathB_RxIQK8723B(struct adapter *padapter, bool configPathB)
- 	PHY_SetBBReg(pDM_Odm->Adapter, rFPGA0_IQK, bMaskH3Bytes, 0x808000);
- 
- 	/* switch to path B */
--	PHY_SetBBReg(pDM_Odm->Adapter, 0x948, bMaskDWord, 0x00000280);
-+	PHY_SetBBReg(pDM_Odm->Adapter, rS0S1_PathSwitch, bMaskDWord, 0x00000280);
- /* 	PHY_SetRFReg(pDM_Odm->Adapter, RF_PATH_A, 0xb0, bRFRegOffsetMask, 0xeffe0); */
- 
- 	/* GNT_BT = 0 */
-@@ -776,7 +776,7 @@ static u8 phy_PathB_RxIQK8723B(struct adapter *padapter, bool configPathB)
- 	mdelay(IQK_DELAY_TIME_8723B);
- 
- 	/* restore Ant Path */
--	PHY_SetBBReg(pDM_Odm->Adapter, 0x948, bMaskDWord, Path_SEL_BB);
-+	PHY_SetBBReg(pDM_Odm->Adapter, rS0S1_PathSwitch, bMaskDWord, Path_SEL_BB);
- 	/* GNT_BT = 1 */
- 	PHY_SetBBReg(pDM_Odm->Adapter, 0x764, bMaskDWord, 0x00001800);
- 
-@@ -847,7 +847,7 @@ static u8 phy_PathB_RxIQK8723B(struct adapter *padapter, bool configPathB)
- 	PHY_SetBBReg(pDM_Odm->Adapter, rFPGA0_IQK, bMaskH3Bytes, 0x808000);
- 
- 	/* switch to path B */
--	PHY_SetBBReg(pDM_Odm->Adapter, 0x948, bMaskDWord, 0x00000280);
-+	PHY_SetBBReg(pDM_Odm->Adapter, rS0S1_PathSwitch, bMaskDWord, 0x00000280);
- /* 	PHY_SetRFReg(pDM_Odm->Adapter, RF_PATH_A, 0xb0, bRFRegOffsetMask, 0xeffe0); */
- 
- 	/* GNT_BT = 0 */
-@@ -862,7 +862,7 @@ static u8 phy_PathB_RxIQK8723B(struct adapter *padapter, bool configPathB)
- 	mdelay(IQK_DELAY_TIME_8723B);
- 
- 	/* restore Ant Path */
--	PHY_SetBBReg(pDM_Odm->Adapter, 0x948, bMaskDWord, Path_SEL_BB);
-+	PHY_SetBBReg(pDM_Odm->Adapter, rS0S1_PathSwitch, bMaskDWord, Path_SEL_BB);
- 	/* GNT_BT = 1 */
- 	PHY_SetBBReg(pDM_Odm->Adapter, 0x764, bMaskDWord, 0x00001800);
- 
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c b/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c
-index d6369eb7b570..78fa99115751 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c
-@@ -376,7 +376,7 @@ int PHY_BBConfig8723B(struct adapter *Adapter)
- 	RegVal = rtw_read16(Adapter, REG_SYS_FUNC_EN);
- 	rtw_write16(Adapter, REG_SYS_FUNC_EN, (u16)(RegVal | BIT(13) | BIT(0) | BIT(1)));
- 
--	rtw_write32(Adapter, 0x948, 0x280);	/*  Others use Antenna S1 */
-+	rtw_write32(Adapter, rS0S1_PathSwitch, 0x280);	/*  Others use Antenna S1 */
- 
- 	rtw_write8(Adapter, REG_RF_CTRL, RF_EN | RF_RSTB | RF_SDMRSTB);
- 
+ 	case HAL_DEF_MACID_SLEEP:
 -- 
-2.55.0
+2.54.0
 
