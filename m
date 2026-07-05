@@ -1,36 +1,58 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 638E31E98E3;
-	Sun,  5 Jul 2026 09:21:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08E8435DA65
+	for <linux-staging@lists.linux.dev>; Sun,  5 Jul 2026 14:22:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783243297; cv=none; b=iGsUgXTFA5/wjMJPUn9+Q0DZO/Oka+aWLRvVGBNZkY1NU+3YnHM/nSOeHeA41GjswsIEad2mxjZ/4eBxHb0WBJRtQ3R0V9w7SPXZFkDkny/Neq77/qTKiLomuKg6mb1B15F61KwZcjVjrskUbL3PcpvX1ukn6anVv6HvXbNpfa4=
+	t=1783261357; cv=none; b=bFWTbjtZLJrzOQ6PMmh8aW2EzXZ0gB4TCL1+ILJrYWF0J1/yFGaKRiNFhHeT0xV2mtFK86W54cQKmqt+YRKnwb3dT5/e2DfFenb//4bs2AsgvNM6LTW1so6zp9l7li5dx83XQK2u9b0OCDlMxd3WxmJUCqP02l8oWs0zQaCpB1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783243297; c=relaxed/simple;
-	bh=7qCau1pXqrLDLc5AUA2tjSOvVvzDOySI335DrUq3UO4=;
+	s=arc-20240116; t=1783261357; c=relaxed/simple;
+	bh=YNQVvg/XiPpVOCPUJMfQag6QloucgkMiRuDaQGZlsf8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Jmi1qAqx5tWQPTSbL/XBl8/Bu3dnHR0XnaUw39uhR1Ss0yEBrj2Q5Kc4EE3i/OdVcejPNj5d3V+8vEeOqk2bgkNnFRBeY5m2c1ChQUEaNVL+baGC0feEtMEP6BwI7ukiWUeDQ4gKeJ8Lw0XDbNmEaADYWdpmyl/aXV1zz033iJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=CZ+/NfDO; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=t9T0vpzw7gInpz2kXQzU//SCI75U4LMwOU1aiaAXBFmlshWrpAPvgNLJre1lHpyiZN2D/loOaJeltrPA051FSE+wLO8nuT8hHFvySRrE9mVa0B4JHriw8PkOsLZgyPsWRhWLmp1Cqbd9HO+YdcPMAhOf44d8CWQIEiPEzBQ9YhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BcPSjMN1; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="CZ+/NfDO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49CF71F000E9;
-	Sun,  5 Jul 2026 09:21:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1783243295;
-	bh=o9ouxXUULUO3PUqUEcJLw56usGmv5BsxHyO/P+Gl1N0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=CZ+/NfDOhpmnsEX84V2uL/WR5DEs6rzFaXOYCOvuS6wBKnfECPaXBb0f/dMtQnxoD
-	 +yyGZ5H5tLUDEIdhymtlikYRkYnmk6/RYy0fY7J3qqD/cijP56M8vXAIdRtbawbOIP
-	 BBjcBSKg/s93g3b97NxFtVGqq9vWCOzAR+leKGpY=
-Date: Sun, 5 Jul 2026 11:20:19 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: pastraman <pastraman1@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: rtl8723bs: rename bLinkInfoDump to snake_case
-Message-ID: <2026070531-doozy-sash-c547@gregkh>
-References: <his-message-id>
- <20260705083424.9606-1-pastraman1@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BcPSjMN1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783261356; x=1814797356;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YNQVvg/XiPpVOCPUJMfQag6QloucgkMiRuDaQGZlsf8=;
+  b=BcPSjMN1HfNAnk74PUHMNwfg672awKUyV4jC1eyJBQI/6FoKTMiyV1Yz
+   7/hCeL4++RDZfomxwpHapAdm1bEZn4XpEVJFF2UQLkDjpH2ibxfH18MQC
+   AoS6PVifeTLCezoT3ZAIoMNfxoHBPCHKmcrHw1tKh5MoHpC8rEn9s6bIn
+   pRfvpbGhT91EQnnIuyq7vhToTugeIfngG5GgU7pY0nQlKGd4BY6kJGcgV
+   uR6sa6eZkk0Ywgow2dPvUp8nROBy2BWvLx7S7cJLPIJvHycI9+dnftoex
+   B+u8t3kiXUwauTOEq8vPrX4GqxL0fSsZrrXcA3z6MQhYW9O9A4wSPKYge
+   g==;
+X-CSE-ConnectionGUID: rENXCofJTaKWJcO54um4rQ==
+X-CSE-MsgGUID: yRRJZIfVQTCFSTHHL5MHtA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11838"; a="95287976"
+X-IronPort-AV: E=Sophos;i="6.25,149,1779174000"; 
+   d="scan'208";a="95287976"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2026 07:22:35 -0700
+X-CSE-ConnectionGUID: FjHEc2ngRAGBhyZyFmIEoA==
+X-CSE-MsgGUID: MPVt+0f6SaetyH/hKkSGfg==
+X-ExtLoop1: 1
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.6])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2026 07:22:32 -0700
+Date: Sun, 5 Jul 2026 17:22:30 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Neal Patalay <nealpatalay0@gmail.com>
+Cc: andy@kernel.org, hansg@kernel.org, mchehab@kernel.org,
+	gregkh@linuxfoundation.org, sakari.ailus@linux.intel.com,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, mugrinphoto@gmail.com,
+	matt@mattwardle.net
+Subject: Re: [PATCH v3] staging: media: atomisp: refactor pipe graph dump
+ stage formatting
+Message-ID: <akpopoFZyWW2e9En@ashevche-desk.local>
+References: <20260705073844.146578-1-nealpatalay0@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,50 +61,63 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260705083424.9606-1-pastraman1@gmail.com>
+In-Reply-To: <20260705073844.146578-1-nealpatalay0@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Sun, Jul 05, 2026 at 11:34:24AM +0300, pastraman wrote:
-> Rename bLinkInfoDump to link_info_dump to follow the kernel coding
-> style, which discourages CamelCase and Hungarian notation. Issue
-> reported by checkpatch.pl.
-> 
-> Signed-off-by: pastraman <pastraman1@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 2 +-
->  drivers/staging/rtl8723bs/include/drv_types.h | 2 +-
->  drivers/staging/rtl8723bs/os_dep/os_intfs.c   | 4 ++--
->  3 files changed, 4 insertions(+), 4 deletions(-)
+On Sun, Jul 05, 2026 at 12:38:44AM -0700, Neal Patalay wrote:
+> The original implementation of ia_css_debug_pipe_graph_dump_stage()
+> includes an off-by-one error where the original strscpy() size dropped
+> characters immediately before newlines. It also allocates over 600
+> bytes across multiple buffers on the stack. Address these shortcomings
+> and reduce stack usage with a single 256 byte buffer via a new helper
+> function, ia_css_debug_build_info().
 
-Hi,
+...
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+> +static void ia_css_debug_build_info(char *info, size_t info_size,
+> +				    int *offset,
+> +				    const char *flag_str, size_t flag_str_size,
+> +				    int *line_len)
+> +{
+> +	int len = *line_len;
+> +	int off = *offset;
+> +	int len_written;
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+The blank line must divide the definition and code blocks.
 
-- It looks like you did not use your "real" name for the patch on either
-  the Signed-off-by: line, or the From: line (both of which have to
-  match).  Please read the kernel file,
-  Documentation/process/submitting-patches.rst for how to do this
-  correctly.
+> +	/*
+> +	 * If new line length exceeds max line length,
+> +	 * replace the last ',' with a "\\n"
 
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
+Missing period at the end.
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+> +	 */
+> +	if (len > 0 && info_size - off >= 2 &&
+> +	    len + flag_str_size > ENABLE_LINE_MAX_LENGTH) {
+> +		info[off - 1] = '\\';
 
-thanks,
+If for some reason len is > 0 and offset is 0, this will write beyond
+the boundaries.
 
-greg k-h's patch email bot
+> +		info[off] = 'n';
+> +		off += 1;
+> +		len = 0;
+> +	}
+
+> +	len_written = scnprintf(info + off, info_size - off,
+> +				    "%s,", flag_str);
+
+Broken indentation. Note the statement fits a single line.
+
+> +	*offset = off + len_written;
+> +	*line_len = len + len_written;
+> +}
+
+This will continue writing even if there are more than 3 lines.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
