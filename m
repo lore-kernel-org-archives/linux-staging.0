@@ -1,334 +1,168 @@
-Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C45CE17D6
-	for <linux-staging@lists.linux.dev>; Mon,  6 Jul 2026 00:10:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DDF63AEF4A
+	for <linux-staging@lists.linux.dev>; Mon,  6 Jul 2026 04:55:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783296603; cv=none; b=kF4C5n/UyfuTRCGLmNap3Qa9Uc8LxyhvmktfeUtG/RPnRjqwvE7WYWcQaSfXxHhbbQ5bzRh3R1ohFl5z+7k1C8/bLu9hYgYcZ//YtUM70ZVqmvJP6+1f7OkYVSg6wWqyKX5iaPWGgKaoYyYQHwlNmtWZrI2yoBlxK+bDYNj19Qc=
+	t=1783313760; cv=none; b=rJSnRp/3fWTn2RILq7ppok2CEl9MnChng5pHWl5HQ5IIuy3mX+lIVRUqZUDQK6sGAH5S7oC8Ec+sLCWWRSSmXPEEcaTf4KDW8BUKvc7CIwGYBPR/VC+lilwsRqG4B1wjjbEy/GGOrcc26ncpT6cSL3qp9MRDThRx3WUwTjTM2DA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783296603; c=relaxed/simple;
-	bh=X1Ah+l3/ZB5oCV+QF+h+tusCtXKrXutWylNwgaixmVo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eahL4GQA7UUegPF2G48vaB9snvMh/5WTwC6CxQWE6SMhn64Am23xPC6JbWMz7B1O1c9c7huByRh6+vnCGcfZxT03bQGwcrPn49IEqMON65BT8Pi3ellOibzRQFmbGBHTpPRsqQDbv4szAvamwzkyv4YVhoEKBKb/XHxiU/Q7tDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EZXPkAnL; arc=none smtp.client-ip=74.125.224.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783313760; c=relaxed/simple;
+	bh=YmgsfoXmP3wicea3p38VOglMuty4QAN7Ko28KEOX1Hc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AoEyRWl3rrL2Jt8ApxbIE71BtFW3i7NFNvOgErUJ21Rzh6eXqQwa1igojY/PfwfMc/Oc8rtBqoOMO8TgHlF+ZCXAtJFp/MaoHkie7R3gFDIYD+RtfR66CO/oaaUTLap+ya816GFDS0fhD5/Rv8RDjpChDyyLgMAXpIuIGhdpdvk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=BtuYZphI; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=XgYcjuBE; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EZXPkAnL"
-Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-662d984bedeso237771d50.2
-        for <linux-staging@lists.linux.dev>; Sun, 05 Jul 2026 17:10:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="BtuYZphI";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="XgYcjuBE"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 66641qeb3586258
+	for <linux-staging@lists.linux.dev>; Mon, 6 Jul 2026 04:55:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	JvLKKEyLLlv8tWw8qJtzyelBHieDthun419uycWn1Dc=; b=BtuYZphIK7UnAPPa
+	qYGHPuM+VD3C6WvezTLdqIjiYVGHLzNLv6RSapQqEJ2excDEyUkD/0AEcWQjp5ej
+	4HI3bMiV8UCRYHw/YXMP72BUtTB2CANb5/xl2wJKaV5lc87Ax6wEFDsEhbUsTXur
+	RNx2Hm91I1sPL4Fp17l4JFxQuB37ZPnouzzUHhLqbWpMJkm6xOuGNEQuSB8vkr4v
+	iHs+mInjL3lcrCXDe3aaUW3MnfspbyT4APEA3ecMXRsbeK03HAVvm7fbyNR3ckpu
+	4lDTqZIfECL8APV6bvyHqU87nPrqklBdw7zS2B0zT/os5ltI50S9QbhC5yDZwUWY
+	z7D7UA==
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4f6t8umdmj-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-staging@lists.linux.dev>; Mon, 06 Jul 2026 04:55:57 +0000 (GMT)
+Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-381250979d5so2292808a91.0
+        for <linux-staging@lists.linux.dev>; Sun, 05 Jul 2026 21:55:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783296601; x=1783901401; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=WoWipZJJsquAFbGvSKcXoTo7sOkuUz1BZt1zlYOduU4=;
-        b=EZXPkAnLHqbISRoLsJ4E5oqb4E+e3zt97xdeD9RcstvwFJKSEWVWgWxRuxi1HPxwkC
-         zTWwfdyPH4aVSZdf0/0sRgyHylT/rmMep2PB2vwOO45KCp5x8HsG6HHs7pzHp4KyJXSc
-         AfQOaRB1KtCUc2FwFTXvav7kiWpLaKpI3yTZ9/sYF0h0kcgH12UNzDWowRDJL11/ZBWe
-         9Vx86UpI4Jd1ipdeG1eLynPD1yUyk0CukybaFyPt0rYYViKSlI8dc6vcC9oCgwKReoWM
-         txFw+N2o+qlEhWTq0GvUCgx8hufmNg5Ae/FT9/8KV/ehkwNn/1kaqxAuluVbLRw6W9mo
-         c5wQ==
+        d=oss.qualcomm.com; s=google; t=1783313756; x=1783918556; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JvLKKEyLLlv8tWw8qJtzyelBHieDthun419uycWn1Dc=;
+        b=XgYcjuBEj2gxyfNwdnRvrpMcrNz1Rns6022PEgk7sP3EmYpFPHjNdaDI6ESuxrZPK5
+         9BgF5XXOZxdS+3nBfl5ocxU1FWCPLP/acXrj43JLJrDEiR32Vg6tClBhSwovvz797xpy
+         LCLlmTYpKZtX5mcOvEMDD+XxqxoUp1eKi4zD7lhhlsxcsGLDM8egdzbBsqkp+zoZE19m
+         6LnnXV/8hGVKzoWOpfHIAKqJxqUPlRajEUdq2vCZ5/R8X3nasJR5czvQ07g3j8grF77g
+         sDTN4QrYi+j5qoxzBUJiInGIsaXwhygieoZ3I3fc+GxH8CrkdyXtarTtkR1qDbbWuNo+
+         YCoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783296601; x=1783901401;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=WoWipZJJsquAFbGvSKcXoTo7sOkuUz1BZt1zlYOduU4=;
-        b=C2XtqN1B3ExGKXsRYyNe2+3qCFQ4D1RBab3kIBfUfxZ+Rxr+WouKc5qO7l5ITIhZUq
-         9F2PsLjl9p5Hwxkl26DIaPgDBJ+MpjARKH2eiZm31svJYLPlPk/oANvDNFjr+IOA/aO5
-         bq7XVG/3fZJVllrech+aW3fT33Cy79Cn3l1ob5l1im6YdkkyUvgarSu25KYDf6iW/r30
-         5OqbhPJaGy29HgmViW3m71quXzE5dCvlpfKDRM1JKXA3XHvZwvLTWzNveDqXDYpnt7qR
-         xVILoRcgLOx27iOIvKVERl+nJr4p61AlRTjhWxol1ylvi8Hijgk3Aq9EpVyrKgwtgqQQ
-         pxkw==
-X-Forwarded-Encrypted: i=1; AHgh+Rpq3+RKMo0E5cmc8NrMKBX8wsqk9BBXoqkBocgYDf9VZa8jmUCOO6VYgkHJCImhoYD2qagP3e9j96cl//Wn@lists.linux.dev
-X-Gm-Message-State: AOJu0Yza+raI27itR+rU18ArEl+FdyCFqCvoBKoCqMXZzOIackxvSPhL
-	VW6odPsovdb/J0jEP8e8Z+A1hz8rk5POgAFCBeA/jCHWWu2te77+BHla
-X-Gm-Gg: AfdE7cljbvzPnkT52WI8zZCAog/2MFVdyX1Jv4SOJ2QLZsUd6ihQuSDiTs0DiXbsohs
-	Eu7ibM2+lbhvETjGWA6QQGq1kVtDO511RQQl8lYbjsOZme4LB4oIRywPiUBuzR5i+858bWd05dz
-	ifKAbXGvi/Cr5lRLKZLOABCfMpPydkpBywWKjC71aTfb8DwTXNYd2uMItT44Z0+MH6P12579/nf
-	jSMYTJfdlhxw7Ff+w7Qqapx+Li2O7O40yZaq2Uzcbaro1ICLJGEjeu78tHFB9JQefF1PUkGfELL
-	57qKhdx0GeIlaS1VH4JZ4PQ+rC12z62JNVzCmXuqnFgQLO27/pED0NB+Ttsj2amZKCBbZTF7+H/
-	XuZ7d7fUw2UnhSDIpS6bQgPTpXNpWivbUnW8hMYRRU9gJ+/bxQzGpm688gwJE1XHS+gag
-X-Received: by 2002:a05:690e:1241:b0:667:541c:2282 with SMTP id 956f58d0204a3-667541c23efmr5399080d50.9.1783296600821;
-        Sun, 05 Jul 2026 17:10:00 -0700 (PDT)
-Received: from desktop ([2600:1700:78e0:fd0::27])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-666408c2597sm4008673d50.21.2026.07.05.17.09.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Jul 2026 17:10:00 -0700 (PDT)
-From: Neal Patalay <nealpatalay0@gmail.com>
-To: andy@kernel.org,
-	hansg@kernel.org,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: sakari.ailus@linux.intel.com,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	mugrinphoto@gmail.com,
-	matt@mattwardle.net,
-	nealpatalay0@gmail.com
-Subject: [PATCH v4] staging: media: atomisp: refactor pipe graph dump stage formatting
-Date: Sun,  5 Jul 2026 17:07:38 -0700
-Message-ID: <20260706000738.18478-1-nealpatalay0@gmail.com>
-X-Mailer: git-send-email 2.55.0
+        d=1e100.net; s=20251104; t=1783313756; x=1783918556;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JvLKKEyLLlv8tWw8qJtzyelBHieDthun419uycWn1Dc=;
+        b=CDOjrrHTQoqmJqXnmwbCZpgcHXzHAjHEwABrnULXQERq9v//drOjjACjqxscrEftpv
+         HrUUBVhmuZZzFNWZTqhVUt/Q+4VYDC78sHHKfZrg60nnepjOyTlOM0kGBfU+tXjvVOIW
+         j/WllA2CqIF1qQkK37eIkTbWsgHNnti7ZRN/z1YjI9t0hkuDqQmELOH8waXx10GGEzMk
+         MLfqXCY72It0LUnLqc1qbEnGVLtHk5Ewh1JTUl1mAAyjiVidHh1ckxGWL6cZgramTF99
+         fXloJH+vARAS15RT5N6afygmIASCJ53R7D3IRlcBx3MD591TJ4I0JlxvZbaC57VB0YxR
+         ixjQ==
+X-Forwarded-Encrypted: i=1; AHgh+RquZ7RxnHGtqQ2W8RIyaDB6w+M0XbYtXxdFv4LLPDOv+NOB5Rgm5j5m/7uTjxwrwI6GGOQsC7/Em/sjgn3D@lists.linux.dev
+X-Gm-Message-State: AOJu0YwDiDNm5JGi1IbMsqE6E+NrYfAib16aimXA7HGHgnsZ7J16IR3f
+	0MrIzG6SZWWJHai+oAnXRjCtFMNxYNC62TnvC92fIemnXDhh2prd2JKsLkDtZoCtZs1NOY/3YOJ
+	w0YY25Z86jjJVn/rFlxjUQixatOsppobFs8HDo+6/dWfpl6y0jK15vOXH6goQJr5wDvcb
+X-Gm-Gg: AfdE7cnW5aGCzcQgyz+wyIb3RAtNPwFJHgXZ7nxDCXbUxrunTZNHMwvPagdRhQw0U/x
+	oS4vGmvQv9G9+D4UvLk+gPwkypOq7FcQL/kjr61aWa/CLab9xNsL/EQI9lAk/jnLQ00Sgmfhpbh
+	Er/SZ703HS+UpDmDGdE7uh/v0WRXlfBGqWbeK4WtEVpHk7ztmBC/b01XzdFhNz50Kbwt7Wy9y3f
+	1SXYBlzNihI9PsdbGrjc64ktVs0vjanePDawFL6BCiWKBvV4MXgihaFoQa93X9GwUbXp3JroBg9
+	h05LwBX/Y2KBo/euVFavSvHYKxAtxtmcjLmSajQf8wcXukdME+fbYWfGxznoFu4hvDDHknBfZLi
+	KCGbUzUvngqzBfYtxJ3d8geaHpQ0B8UPvson/KjrP
+X-Received: by 2002:a17:90b:35cf:b0:381:9b7b:35e5 with SMTP id 98e67ed59e1d1-382800d1a6emr8328720a91.4.1783313756490;
+        Sun, 05 Jul 2026 21:55:56 -0700 (PDT)
+X-Received: by 2002:a17:90b:35cf:b0:381:9b7b:35e5 with SMTP id 98e67ed59e1d1-382800d1a6emr8328696a91.4.1783313755987;
+        Sun, 05 Jul 2026 21:55:55 -0700 (PDT)
+Received: from [10.204.78.130] ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3114fe08b1bsm12946548eec.26.2026.07.05.21.55.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 05 Jul 2026 21:55:55 -0700 (PDT)
+Message-ID: <95e8281c-91e9-4444-8b83-ea87243122c9@oss.qualcomm.com>
+Date: Mon, 6 Jul 2026 10:25:47 +0530
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 40/42] misc: fastrpc: Use
+ devm_of_reserved_mem_device_init()
+To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>, devicetree@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, imx@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-mmc@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        linux-sound@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, openbmc@lists.ozlabs.org,
+        sound-open-firmware@alsa-project.org,
+        Srinivas Kandagatla <srini@kernel.org>
+Cc: Konrad Dybcio <konradybcio@kernel.org>
+References: <20260703193855.110619-1-mukesh.ojha@oss.qualcomm.com>
+ <20260705194019.2565498-8-mukesh.ojha@oss.qualcomm.com>
+Content-Language: en-US
+From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+In-Reply-To: <20260705194019.2565498-8-mukesh.ojha@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: ZIVYAlMU8C450qdAEdX08G7kl4nw9d8j
+X-Proofpoint-GUID: ZIVYAlMU8C450qdAEdX08G7kl4nw9d8j
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNzA2MDA0NSBTYWx0ZWRfX9u1oFpQWnJcw
+ jmktBHuHuaXPxU329gP3sDXqVrWweZYLv98NlbxkfK2h/PP3zoeC4g+VhyyZxbnN8fmxGKB80M+
+ aJE5yBBFuMs0yTlCsdka1BfbX2Ab0/s=
+X-Authority-Analysis: v=2.4 cv=MZxcfZ/f c=1 sm=1 tr=0 ts=6a4b355d cx=c_pps
+ a=RP+M6JBNLl+fLTcSJhASfg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=RAioF0-LDSMA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22
+ a=EUspDBNiAAAA:8 a=ee02QKOXNWxg8IJ2rEsA:9 a=QEXdDO2ut3YA:10
+ a=iS9zxrgQBfv6-_F4QbHw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNzA2MDA0NSBTYWx0ZWRfX9p910JFZ83k5
+ f/9tB+Trq2Ob5KYmWqzFiZwKhveQsW85XU3yV0GdDlqHjLSOhHZdSsJoqJXuurohY7HNi3EqnF1
+ wqGn4XNy2X9SWBNztV4qQYwhBXKqeORJDb38gHj+UuHnNgC9cg2YHS0au/GT3knX1uW/4Rsajwe
+ N0gCjM4AlFF1jcJQWPMoaJKyYuHi7AqLOTbLlOhXz9Lnoy/vPMqi8T+VCG9CU6+EE9dTufDlX53
+ BJubPeIgwGzEHh82I316+csPRGLsFg+EzAF7A5Tl2KHcQXr7VkTX14xqqJ5bcyN3suj7yIDV1TG
+ SQh7cH4WVENglPQ4zqp+vRLHg97tVAA9ofJSKJgQqoAkql2G6C7PTOk9QmrYQEbt9PPYtCkk1qB
+ F61MJqt5msE/HWeu6ax2nYZSFMPrpCwLaC82c9VA2VgfaAHX639jiSLdCqwLjyP6aotk0SwMwnG
+ nwM1g+dmi7GBUcLR/vA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-07-05_02,2026-07-03_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 priorityscore=1501 impostorscore=0 malwarescore=0 bulkscore=0
+ lowpriorityscore=0 suspectscore=0 phishscore=0 spamscore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2607060045
 
-The original implementation of ia_css_debug_pipe_graph_dump_stage()
-includes an off-by-one error where the original strscpy() size dropped
-characters immediately before newlines. It also allocates over 600
-bytes across multiple buffers on the stack. Address these shortcomings
-and reduce stack usage with a single 256 byte buffer via a new helper
-function, ia_css_debug_build_info().
+On 06-07-2026 01:10, Mukesh Ojha wrote:
+> Use the devres-managed devm_of_reserved_mem_device_init() to ensure
+> the reserved memory region is released on device removal, fixing a
+> missing of_reserved_mem_device_release() in fastrpc_rpmsg_remove().
+nit: I see this change is also fixing fastrpc_rpmsg_probe() early
+failure leaks as well as -EPROBE_DEFER retry paths which could be added
+to the commit message.
 
-Fixes: 662fb4fceb1a ("media: atomisp: get rid of a string_support.h abstraction layer")
-Signed-off-by: Neal Patalay <nealpatalay0@gmail.com>
----
-v4:
-- Changed logic to truncate output after the third line
-- Added offset check to avoid writing beyond bounds
-- Fixed indentation inside helper function
-- Separated variable definitions from code in helper function
-- Fixed comment in helper function
-
-v3:
-- Moved "len_written" variable declaration to top of helper function
-- Added local variables to track values inside helper function
-- Fixed macro indentation
-- Removed loop out of macro definition
-
-v2:
-- Fixed strscpy typo in commit message
-- Changed Fixes tag to point to the actual buggy commit
-- Dropped "flag" parameter from helper function and moved check to the macro
-- Split long lines to conform with subsystem character limit
----
- .../pci/runtime/debug/src/ia_css_debug.c      | 198 ++++++++----------
- 1 file changed, 83 insertions(+), 115 deletions(-)
-
-diff --git a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-index 5113aa5973f3..19c4e0246c34 100644
---- a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-@@ -1162,6 +1162,43 @@ void ia_css_debug_pipe_graph_dump_epilogue(void)
- 	pg_inst.stream_format = N_ATOMISP_INPUT_FORMAT;
- }
- 
-+static void ia_css_debug_build_info(char *info, size_t info_size,
-+				    int *offset,
-+				    const char *flag_str, size_t flag_str_size,
-+				    int *line_len,
-+				    int *num_lines)
-+{
-+	int len = *line_len;
-+	int off = *offset;
-+	int lines = *num_lines;
-+	int len_written;
-+
-+	if (lines > 3)
-+		return;
-+
-+	/*
-+	 * If new line length exceeds max line length,
-+	 * replace the last ',' with a "\\n".
-+	 */
-+	if (len > 0 && off > 0 && info_size - off >= 2 &&
-+	    len + flag_str_size > ENABLE_LINE_MAX_LENGTH) {
-+		if (lines >= 3) {
-+			*num_lines = lines + 1;
-+			return;
-+		}
-+		info[off - 1] = '\\';
-+		info[off] = 'n';
-+		off += 1;
-+		len = 0;
-+		lines += 1;
-+	}
-+
-+	len_written = scnprintf(info + off, info_size - off, "%s,", flag_str);
-+	*offset = off + len_written;
-+	*line_len = len + len_written;
-+	*num_lines = lines;
-+}
-+
- void
- ia_css_debug_pipe_graph_dump_stage(
-     struct ia_css_pipeline_stage *stage,
-@@ -1194,123 +1231,54 @@ ia_css_debug_pipe_graph_dump_stage(
- 
- 	/* Guard in case of binaries that don't have any binary_info */
- 	if (stage->binary_info) {
--		char enable_info1[100];
--		char enable_info2[100];
--		char enable_info3[100];
--		char enable_info[302];
-+		char enable_info[256];
-+		int offset = 0;
-+		int line_len = 0;
-+		int num_lines = 1;
- 		struct ia_css_binary_info *bi = stage->binary_info;
- 
--		/* Split it in 2 function-calls to keep the amount of
--		 * parameters per call "reasonable"
--		 */
--		snprintf(enable_info1, sizeof(enable_info1),
--			 "%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
--			 bi->enable.reduced_pipe ?	"rp," : "",
--			 bi->enable.vf_veceven ?		"vfve," : "",
--			 bi->enable.dis ?		"dis," : "",
--			 bi->enable.dvs_envelope ?	"dvse," : "",
--			 bi->enable.uds ?		"uds," : "",
--			 bi->enable.dvs_6axis ?		"dvs6," : "",
--			 bi->enable.block_output ?	"bo," : "",
--			 bi->enable.ds ?			"ds," : "",
--			 bi->enable.bayer_fir_6db ?	"bf6," : "",
--			 bi->enable.raw_binning ?	"rawb," : "",
--			 bi->enable.continuous ?		"cont," : "",
--			 bi->enable.s3a ?		"s3a," : "",
--			 bi->enable.fpnr ?		"fpnr," : "",
--			 bi->enable.sc ?			"sc," : ""
--			);
--
--		snprintf(enable_info2, sizeof(enable_info2),
--			 "%s%s%s%s%s%s%s%s%s%s%s",
--			 bi->enable.macc ?		"macc," : "",
--			 bi->enable.output ?		"outp," : "",
--			 bi->enable.ref_frame ?		"reff," : "",
--			 bi->enable.tnr ?		"tnr," : "",
--			 bi->enable.xnr ?		"xnr," : "",
--			 bi->enable.params ?		"par," : "",
--			 bi->enable.ca_gdc ?		"cagdc," : "",
--			 bi->enable.isp_addresses ?	"ispa," : "",
--			 bi->enable.in_frame ?		"inf," : "",
--			 bi->enable.out_frame ?		"outf," : "",
--			 bi->enable.high_speed ?		"hs," : ""
--			);
--
--		/* And merge them into one string */
--		snprintf(enable_info, sizeof(enable_info), "%s%s",
--			 enable_info1, enable_info2);
--		{
--			int l, p;
--			char *ei = enable_info;
--
--			l = strlen(ei);
--
--			/* Replace last ',' with \0 if present */
--			if (l && enable_info[l - 1] == ',')
--				enable_info[--l] = '\0';
--
--			if (l > ENABLE_LINE_MAX_LENGTH) {
--				/* Too big for one line, find last comma */
--				p = ENABLE_LINE_MAX_LENGTH;
--				while (ei[p] != ',')
--					p--;
--				/* Last comma found, copy till that comma */
--				strscpy(enable_info1, ei, umin(p, sizeof(enable_info1)));
--
--				ei += p + 1;
--				l = strlen(ei);
--
--				if (l <= ENABLE_LINE_MAX_LENGTH) {
--					/* The 2nd line fits */
--					/* we cannot use ei as argument because
--					 * it is not guaranteed dword aligned
--					 */
--
--					strscpy(enable_info2, ei, umin(l, sizeof(enable_info2)));
--
--					snprintf(enable_info, sizeof(enable_info), "%s\\n%s",
--						 enable_info1, enable_info2);
--
--				} else {
--					/* 2nd line is still too long */
--					p = ENABLE_LINE_MAX_LENGTH;
--					while (ei[p] != ',')
--						p--;
--
--					strscpy(enable_info2, ei, umin(p, sizeof(enable_info2)));
--
--					ei += p + 1;
--					l = strlen(ei);
--
--					if (l <= ENABLE_LINE_MAX_LENGTH) {
--						/* The 3rd line fits */
--						/* we cannot use ei as argument because
--						* it is not guaranteed dword aligned
--						*/
--						strscpy(enable_info3, ei,
--							sizeof(enable_info3));
--						snprintf(enable_info, sizeof(enable_info),
--							 "%s\\n%s\\n%s",
--							 enable_info1, enable_info2,
--							 enable_info3);
--					} else {
--						/* 3rd line is still too long */
--						p = ENABLE_LINE_MAX_LENGTH;
--						while (ei[p] != ',')
--							p--;
--						strscpy(enable_info3, ei,
--							umin(p, sizeof(enable_info3)));
--						ei += p + 1;
--						strscpy(enable_info3, ei,
--							sizeof(enable_info3));
--						snprintf(enable_info, sizeof(enable_info),
--							 "%s\\n%s\\n%s",
--							 enable_info1, enable_info2,
--							 enable_info3);
--					}
--				}
--			}
--		}
-+#define ADD_INFO(flag, flag_str)						\
-+	if (bi->enable.flag)							\
-+		ia_css_debug_build_info(enable_info, sizeof(enable_info),	\
-+					&offset,				\
-+					flag_str, sizeof(flag_str),		\
-+					&line_len,				\
-+					&num_lines)
-+
-+		/* Build string in enable_info buffer */
-+		ADD_INFO(reduced_pipe, "rp");
-+		ADD_INFO(vf_veceven, "vfve");
-+		ADD_INFO(dis, "dis");
-+		ADD_INFO(dvs_envelope, "dvse");
-+		ADD_INFO(uds, "uds");
-+		ADD_INFO(dvs_6axis, "dvs6");
-+		ADD_INFO(block_output, "bo");
-+		ADD_INFO(ds, "ds");
-+		ADD_INFO(bayer_fir_6db, "bf6");
-+		ADD_INFO(raw_binning, "rawb");
-+		ADD_INFO(continuous, "cont");
-+		ADD_INFO(s3a, "s3a");
-+		ADD_INFO(fpnr, "fpnr");
-+		ADD_INFO(sc, "sc");
-+		ADD_INFO(macc, "macc");
-+		ADD_INFO(output, "outp");
-+		ADD_INFO(ref_frame, "reff");
-+		ADD_INFO(tnr, "tnr");
-+		ADD_INFO(xnr, "xnr");
-+		ADD_INFO(params, "par");
-+		ADD_INFO(ca_gdc, "cagdc");
-+		ADD_INFO(isp_addresses, "ispa");
-+		ADD_INFO(in_frame, "inf");
-+		ADD_INFO(out_frame, "outf");
-+		ADD_INFO(high_speed, "hs");
-+
-+#undef ADD_INFO
-+
-+		/* Replace last ',' with '\0' */
-+		if (offset > 0)
-+			enable_info[offset - 1] = '\0';
-+		else
-+			enable_info[0] = '\0';
- 
- 		dtrace_dot("node [shape = circle, fixedsize=true, width=2.5, label=\"%s\\n%s\\n\\n%s\"]; \"%s(pipe%d)\"",
- 			   bin_type, blob_name, enable_info, blob_name, id);
--- 
-2.55.0
+Reviewed-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+> 
+> Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+> ---
+>  drivers/misc/fastrpc.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
+> index d86e79134c68..c4e05b0db527 100644
+> --- a/drivers/misc/fastrpc.c
+> +++ b/drivers/misc/fastrpc.c
+> @@ -2396,7 +2396,7 @@ static int fastrpc_rpmsg_probe(struct rpmsg_device *rpdev)
+>  		return -EINVAL;
+>  	}
+>  
+> -	if (of_reserved_mem_device_init_by_idx(rdev, rdev->of_node, 0))
+> +	if (devm_of_reserved_mem_device_init(rdev))
+>  		dev_info(rdev, "no reserved DMA memory for FASTRPC\n");
+>  
+>  	vmcount = of_property_read_variable_u32_array(rdev->of_node,
 
