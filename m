@@ -1,174 +1,188 @@
-Received: from sender4-op-o11.zoho.com (sender4-op-o11.zoho.com [136.143.188.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE3A376A1E;
-	Mon,  6 Jul 2026 15:02:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCE172DB794
+	for <linux-staging@lists.linux.dev>; Mon,  6 Jul 2026 21:59:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.178
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783350173; cv=pass; b=Mc9fRp0GcYRHlV6A9UbvaKdblnJAauPdyddbxQ5MbLEsRjXi9iYvetLT2rCpimmmZx41lE/70wY++X1MUVuMDnfskR36ctBsf5KCbmCQsrYA8EHi8MJUax8+nDrWhatWVTPz3eQZg1JOzA781OgCyCi1xX5bgMQRLGCufLF/n8E=
+	t=1783375170; cv=pass; b=CBj5iddMtuogmFSiF92AonYHHB8lgZsQ7PHF5rPyBme+u7eHyGsmI68xwLZC+UoqGlm7Mtvr+J1mdknW4ESUWfLMe90moC/MDb74rNXpsgVrdpVZ83oEZjkC+kERNT6L072sefCPM4fo7sMAMR6xgBVax8M/YDXz0SIkEwZXGg0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783350173; c=relaxed/simple;
-	bh=Lu9wLxVbs/Lk9+t6I1rSrNmYpbDMa4qMMSV45NFfKlI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dhSqMm+J88fCSJzsAc7xWVidGP5NYAJpFA2AEnwijdD0SO+HiQ+llNoaMh/Sh0SxIG78g4aQMEcN8x3eTHmMtlYnRPL39A+lQzHlJm3r6tMxHD6wJlu9ORS1tiNl2bky9JkKQDpD8kMdSgr1w3LeRQotx3EglPeJbXtB3py7Ugc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b=ImgA1Hj8; arc=pass smtp.client-ip=136.143.188.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1783375170; c=relaxed/simple;
+	bh=jdKcNjPTLk4t5sB7vBYT7B94qVTUT2yntEybL1W759g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kXtTx9oKAGroDLgCr+Ns+4pfTPIDqhHDhitAcl3W8baLrMbd3ToZLNGwVl3w/W3460Gqi87qCY2dUit9IUqFIlJ7Ef5N64H/DnHByYVHa4W2GveUPKM3Ay8HdCVu1sjxx+b7sDXBoVw4eOg5CV2GUunPTnCfGykciFu590/X244=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eVrOCOmb; arc=pass smtp.client-ip=209.85.167.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="ImgA1Hj8"
-ARC-Seal: i=1; a=rsa-sha256; t=1783350034; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=ShBwgIB9Tp0j2ieVFNXD2nNlBvkYSrZX6KL3AeDB+tfLOnE+7CHZu5rN/HP3/wiA65AfS2awNfBnLG6v3KttLERp5k37uX5cTjLkGlHu1epQC0tpKbiWTjw2bmWO4R3cJ9Bceq/UN4MGpiO+12hQk2boeKqRMVN9X9phSckbKF0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1783350034; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=3XwyWTIrA/V6J7edt1EVqOvQjuCfvvAm71aap9OvOCI=; 
-	b=aUIQNdoKYFXhqBqNhsY+F02CkGve6EXcuTScFbe5OHL/WHUKXk+LgtUumBUdfOodPJNOea5bCjHJ9ycCR0cPvohjbCewZV5P129fWS7uy+uA2tTiwdLdX3wI3zpXyvb7h2kq1Re2lQrUV6CFisZwObNuwW+4qzyVdb787O027/g=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
-	dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1783350034;
-	s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=3XwyWTIrA/V6J7edt1EVqOvQjuCfvvAm71aap9OvOCI=;
-	b=ImgA1Hj80B9JHQg2Jp0iR3Hfkzuv+c1ZmjHHLY5vXEEHJlu3rx/mY5cc4HVAWJDf
-	QREjGnw/uNA5JcHG0nEUz0PUvTE/0uKgXtwmj8p0wIRVC2fcF+pZOIvPjdNL8NnCNrh
-	RgJCMxLw7XsRX8tO1eirdxvjf97IRGDZQzh4oCj8=
-Received: by mx.zohomail.com with SMTPS id 1783350031182921.1240379629376;
-	Mon, 6 Jul 2026 08:00:31 -0700 (PDT)
-Message-ID: <3541fb84-81ce-4415-8027-38aa611834ae@collabora.com>
-Date: Mon, 6 Jul 2026 18:00:09 +0300
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eVrOCOmb"
+Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-49cb5f51b01so178783b6e.0
+        for <linux-staging@lists.linux.dev>; Mon, 06 Jul 2026 14:59:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783375168; cv=none;
+        d=google.com; s=arc-20260327;
+        b=YyJl4WiHHgJcqhgbJ8pW3YqbV4lWvvLPqIhxH2u4yWves+Q02SiUUE5OdsdWVov+Wv
+         PKtfqJ1PpbBKxNhPkntREbfX8+WFg7RNghFk3X75dzy5WPYzYIeZX2lxwS1YIFCte55O
+         ptFG8yjwrNev278kSV3wXHQHzbNKH/6lhPHTlFy/RYj5gjvv2wMBP8Cqm8w3rTYTGKwJ
+         bb29rIl3pNti6bng9w7SiosSHKkorT2+uujda2f1JTVL1Waw+wYsCUHw5hAWG6J3aBR5
+         3rNAdvoZp4lgGrGbNrFQBjEw1DI8fZFZb0hVg+8xUEzZktuomqB1+SaK4wTKlnlSxwAY
+         +jIw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=wdCTNR4NAcbt+UHljJQJGBCWlwecJPFZO5UT6CqBrWI=;
+        fh=+xk4Eopnu8KLKII8xNlQ8PnQZX/Pa8BHsNWtdE4vYjk=;
+        b=mGkEyCnnKM+9lfsCoxgqD9HctgqTSYZdsXymWz5Id4ypcJrPuIxVORpfQaKcNxWHTn
+         FzaG2fiVC+WzBq3AoXPRBXsiE2CzwdjeaVx4muYUphTp3UArg+Ut0YcaDesH2hVj9NnI
+         7H1eHAKu2EhOwwRthyhgWCv3MCnetSEMahw1plGXWj5uURz3rRMZPwZBd0vW61MREdzM
+         D2pBxcTnKM4oC6mgco8QXeP4kJGuKI7PfrOn7uhG6fNz8PZECfYAsXuOKCz7sMfBD9Hy
+         sINVmADfcTJs40vPox4OCoMWeMcp0Jxwja2VOoqsf494EHdW9FT6AcrSfXskTKPB7+P1
+         ZruA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783375168; x=1783979968; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=wdCTNR4NAcbt+UHljJQJGBCWlwecJPFZO5UT6CqBrWI=;
+        b=eVrOCOmbugPwkqD6qlEezsXJZqfwubuqgai53Qc8R0XSna2N3cM96A8VidZgUdTxMr
+         RqcJXVO3dHsGft3gr9WbNwY7suybW0zyP1hYuATn+yfLO1/j+GLf39LI/E0sDaho3OQJ
+         NnBLNKLtM1Re7ZziE658X+opKoXbIqgQ47Y/9aIzkMelWFtGqeUvG3udcOq9VzCjHJRC
+         Xxt6R7mYgOsaXf9Lxlp9tIzhyf75Z8tVZzP3xyLYiJzGOA5y+k4fu6ygcXLAq9c3M8zi
+         TRrl9Mj9ToCIwxZAO6ydPWIAeypSanci0gIIRYEgDObIw94FTLlOC2mfqzeaR9q+KMpl
+         3+Aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783375168; x=1783979968;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=wdCTNR4NAcbt+UHljJQJGBCWlwecJPFZO5UT6CqBrWI=;
+        b=iMVfph7YWxKUv1KvSK7zMoYrL2ry/SKPkKprlkbg7GKKno2hfHgfN5E/WnLVdh3P0Y
+         UDE/NbDaftR73wGWpvNzeHVn7ufLVTqnCqwKbjpKlOKJa7RZWy6MxGSx8CpIbG3TyU6/
+         oOHoimAHwqpFD7xBQsbO5sibd1rrK0m+TEGNTUAy7QwHukBUlwYEBGzYjW3BDJf8BUvf
+         osAcYvuihPtzRGZNRxhi2j6ni7fJQjlpp19D3dwgqtFE6UK/RJl1AbE6VWFRulGoJvlJ
+         BbXV0dHKbVNt7S92HjVgGP05UZBqXCG6OFJM4BCEvpf66XSE4e9Hhh4kEZqAitojc1Qv
+         iYnw==
+X-Forwarded-Encrypted: i=1; AFNElJ/hNFnxLxQ0oPFsZ+tONp3SN/+eiOxmNUbVhgyRqwFyQ5i/fIBbfoXNX6/0b6sERt2PIB2sIzmZR0RwuC4s@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw9lMN1sjPr6COU+L5UE9DGNAidDY51bF6QCMfYcSHwesy7z4pQ
+	egSpwHaCFf14e0J47JaErhG4uxCG3+U9zGpaHvAA3mTcL1rSg90uVkAgRVJZ/qIiiqSzvRGAKix
+	HuXc6ouDUGPr3r3oVRUgbxBpXoG7tDbI=
+X-Gm-Gg: AfdE7cmxiV9vVfCJ15qPrl03cp9itTynY/gWZCNipjhWEY3SLNsDWfYuKpz1HZJwKOq
+	A+TrKxDDmvfiK/yF5RiWA4IxXXfmDXxrUx9esIjEG7rZn8W8Ujheogm/2sjclzNs6r6y6wyXqDB
+	IVrMnu6iBPbD7OcJfxitoJ4/9xRg7RNyYS5juvhBz37jDmUSku1oJr3noKAO7bYdGHY1SSD6VeS
+	fE3OD8E+aG7SD/mj7zfc9euEKPcqad1Lh/AAYR44vaaSXb3mcvEUOtQJRwwVAo0fexAgWR+nvOn
+	ennnQ3Ie
+X-Received: by 2002:a05:6808:1995:b0:496:c5a:e126 with SMTP id
+ 5614622812f47-499bacb258amr6099961b6e.4.1783375167763; Mon, 06 Jul 2026
+ 14:59:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 06/42] media: synopsys: hdmirx: Use
- devm_of_reserved_mem_device_init()
-To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@codeconstruct.com.au>,
- Paul Cercueil <paul@crapouillou.net>,
- Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
- Paul Kocialkowski <paulk@sys-base.io>, Linus Walleij <linusw@kernel.org>,
- Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Alexey Brodkin
- <abrodkin@synopsys.com>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Michal Simek <michal.simek@amd.com>,
- Daniel Scally <dan.scally@ideasonboard.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Eddie James <eajames@linux.ibm.com>, Tiffany Lin <tiffany.lin@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Yunfei Dong <yunfei.dong@mediatek.com>,
- Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
- Houlong Wei <houlong.wei@mediatek.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Joseph Liu <kwliu@nuvoton.com>, Marvin Lin <kflin@nuvoton.com>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Thierry Reding <thierry.reding@kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Srinivas Kandagatla <srini@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Ge Gordon
- <gordon.ge@bst.ai>, Adrian Hunter <adrian.hunter@intel.com>,
- Ulf Hansson <ulfh@kernel.org>, Rob Herring <robh@kernel.org>,
- Saravana Kannan <saravanak@kernel.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Shengjiu Wang <shengjiu.wang@gmail.com>, Xiubo Li <Xiubo.Lee@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
- Bard Liao <yung-chuan.liao@linux.intel.com>,
- Daniel Baluta <daniel.baluta@nxp.com>, Orson Zhai <orsonzhai@gmail.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Peter Chen <peter.chen@cixtech.com>, Fugang Duan <fugang.duan@cixtech.com>
-Cc: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
- BST Linux Kernel Upstream Group <bst-upstream@bstai.top>,
- Fabio Estevam <festevam@gmail.com>, Nicolin Chen <nicoleotsuka@gmail.com>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
- Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
- Chunyan Zhang <zhang.lyra@gmail.com>,
- CIX Linux Kernel Upstream Group <cix-kernel-upstream@cixtech.com>,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-aspeed@lists.ozlabs.org,
- linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-media@vger.kernel.org,
- openbmc@lists.ozlabs.org, linux-mediatek@lists.infradead.org,
- kernel@collabora.com, linux-tegra@vger.kernel.org,
- linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
- linux-remoteproc@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- imx@lists.linux.dev, sound-open-firmware@alsa-project.org
-References: <20260703193855.110619-1-mukesh.ojha@oss.qualcomm.com>
- <20260703193855.110619-7-mukesh.ojha@oss.qualcomm.com>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Content-Language: en-US
-In-Reply-To: <20260703193855.110619-7-mukesh.ojha@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+References: <20260706000738.18478-1-nealpatalay0@gmail.com> <CAHp75VcSGXC=x3hFXt8qvyRQjPzy3uLN9iBTURp2yA9+P_jibg@mail.gmail.com>
+In-Reply-To: <CAHp75VcSGXC=x3hFXt8qvyRQjPzy3uLN9iBTURp2yA9+P_jibg@mail.gmail.com>
+From: Neal Patalay <nealpatalay0@gmail.com>
+Date: Mon, 6 Jul 2026 14:59:16 -0700
+X-Gm-Features: AVVi8CdG0PfkX4vD-oqmzTQi7x8RBptmf2YrKOaT-BDXOM7UHShSIEj9USx4BO0
+Message-ID: <CAGjuiT9gu32wvx2Vf0U0g9deyAzzGtwwCNEdW_R4JVarO9x4JQ@mail.gmail.com>
+Subject: Re: [PATCH v4] staging: media: atomisp: refactor pipe graph dump
+ stage formatting
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: andy@kernel.org, hansg@kernel.org, mchehab@kernel.org, 
+	gregkh@linuxfoundation.org, sakari.ailus@linux.intel.com, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, mugrinphoto@gmail.com, matt@mattwardle.net
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 7/3/26 22:38, Mukesh Ojha wrote:
-> Replace the hand-rolled devm_hdmirx_of_reserved_mem_device_release()
-> devres action with devm_of_reserved_mem_device_init(), which handles the
-> cleanup automatically. This removes both the wrapper function and the
-> devm_add_action_or_reset() call.
-> 
-> Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-> ---
->  .../media/platform/synopsys/hdmirx/snps_hdmirx.c | 16 ++--------------
->  1 file changed, 2 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
-> index 25f8ca0d6d94..7c6acc6d7e88 100644
-> --- a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
-> +++ b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
-> @@ -2265,11 +2265,6 @@ static const struct hdmirx_cec_ops hdmirx_cec_ops = {
->  	.read = hdmirx_readl,
->  };
->  
-> -static void devm_hdmirx_of_reserved_mem_device_release(void *dev)
-> -{
-> -	of_reserved_mem_device_release(dev);
-> -}
-> -
->  static int hdmirx_parse_dt(struct snps_hdmirx_dev *hdmirx_dev)
->  {
->  	struct device *dev = hdmirx_dev->dev;
-> @@ -2316,16 +2311,9 @@ static int hdmirx_parse_dt(struct snps_hdmirx_dev *hdmirx_dev)
->  	if (!device_property_read_bool(dev, "hpd-is-active-low"))
->  		hdmirx_dev->hpd_trigger_level_high = true;
->  
-> -	ret = of_reserved_mem_device_init(dev);
-> -	if (ret) {
-> +	ret = devm_of_reserved_mem_device_init(dev);
-> +	if (ret)
->  		dev_warn(dev, "no reserved memory for HDMIRX, use default CMA\n");
-> -	} else {
-> -		ret = devm_add_action_or_reset(dev,
-> -					       devm_hdmirx_of_reserved_mem_device_release,
-> -					       dev);
-> -		if (ret)
-> -			return ret;
-> -	}
->  
->  	return 0;
->  }
+On Sun, Jul 5, 2026 at 10:37=E2=80=AFPM Andy Shevchenko wrote:
 
-Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> Please, slow down! No need to send a new version immediately after
+> replying to the previous one without settling down all aspects of the
+> change.
+>
+> This version is no go, sorry.
 
--- 
-Best regards,
-Dmitry
+Understood, no problem.
+
+> > +static void ia_css_debug_build_info(char *info, size_t info_size,
+> > +                                   int *offset,
+> > +                                   const char *flag_str, size_t flag_s=
+tr_size,
+> > +                                   int *line_len,
+> > +                                   int *num_lines)
+> > +{
+> > +       int len =3D *line_len;
+> > +       int off =3D *offset;
+> > +       int lines =3D *num_lines;
+> > +       int len_written;
+> > +
+> > +       if (lines > 3)
+> > +               return;
+> > +
+> > +       /*
+> > +        * If new line length exceeds max line length,
+> > +        * replace the last ',' with a "\\n".
+> > +        */
+> > +       if (len > 0 && off > 0 && info_size - off >=3D 2 &&
+> > +           len + flag_str_size > ENABLE_LINE_MAX_LENGTH) {
+> > +               if (lines >=3D 3) {
+> > +                       *num_lines =3D lines + 1;
+> > +                       return;
+> > +               }
+> > +               info[off - 1] =3D '\\';
+> > +               info[off] =3D 'n';
+> > +               off +=3D 1;
+> > +               len =3D 0;
+> > +               lines +=3D 1;
+> > +       }
+> > +
+> > +       len_written =3D scnprintf(info + off, info_size - off, "%s,", f=
+lag_str);
+> > +       *offset =3D off + len_written;
+> > +       *line_len =3D len + len_written;
+> > +       *num_lines =3D lines;
+> > +}
+>
+> This makes helper too ugly and unreadable. Again, study the case
+> first, when this can be true. Do we really need to cut it? This whole
+> thing AFAICS depends on the dtrace facility in the driver. Is that
+> HW-related? Is it pure SW? You need to perform some homework.
+
+I've taken a look at the driver in greater depth. The flag wrapping
+functionality being refactored here is used to construct a graph
+visualization for debugging.
+
+> >                 dtrace_dot("node [shape =3D circle, fixedsize=3Dtrue, w=
+idth=3D2.5, label=3D\"%s\\n%s\\n\\n%s\"]; \"%s(pipe%d)\"",
+> >                            bin_type, blob_name, enable_info, blob_name,=
+ id);
+
+Each one of these calls generates a node in that graph, and the contents
+of the node are decided by the flag string we build in enable_info. Seeing
+as we are just collecting debug info and populating a visualization with it=
+,
+this refactor seems to be software.
+
+Seeing as it's unlikely that every flag is enabled at once, and even if the=
+y
+are this only causes a slightly more unreadable graph, avoiding 3 line
+truncation seems to be the best option since it leads to more readable code
+and avoids omitting information.
+
+Additionally, len > 0 && offset =3D=3D 0 is an impossible condition under a=
+ny
+feasible helper function use condition. This can be documented in a comment=
+.
+
+Given this information, to me it seems like the best course of action is to
+revert the helper function to its simpler state without line count truncati=
+on
+or the offset > 0 comparison. What do you think?
+
+--=20
+Thank you,
+Neal Patalay
