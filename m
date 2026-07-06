@@ -1,125 +1,334 @@
-Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
+Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8065136C9C2
-	for <linux-staging@lists.linux.dev>; Sun,  5 Jul 2026 23:56:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.161.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783295809; cv=pass; b=Qd9itRBLnv0lTSGPlAnq9jFafLhKDnCdyYUcuobDyp593OGg9obAxuywovNe4izyJsjDcnbYlrGV0kosMzsXOMNuQ8PrMpn/6slId/5p7NhRdd9xfIg9Me2pYkRstfrr3yoWcu1nimZSORB0HXnf6YNgEumE0r8QlyUKSl2+/HU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783295809; c=relaxed/simple;
-	bh=64A3RjqKwHf5tCXSdbvzN8P2GTNUK3YmMcpWKlrj2Dk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=P0sH9rel+jpKIUIt2tgItlrbS7nIqrgV5+HLggonb10wWBYLZEqzUNegj7/GqeCr0O5GysGpkzRq/ZiPEgSZLXXaFLBUVlupF+i4h3ryu7J6v5579Te3WsGX5qRrWToWz7X8red+BXs0n0dRkjsKeY/JnanOzLdFJc77M/kZpII=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aInvHRfb; arc=pass smtp.client-ip=209.85.161.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C45CE17D6
+	for <linux-staging@lists.linux.dev>; Mon,  6 Jul 2026 00:10:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.41
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783296603; cv=none; b=kF4C5n/UyfuTRCGLmNap3Qa9Uc8LxyhvmktfeUtG/RPnRjqwvE7WYWcQaSfXxHhbbQ5bzRh3R1ohFl5z+7k1C8/bLu9hYgYcZ//YtUM70ZVqmvJP6+1f7OkYVSg6wWqyKX5iaPWGgKaoYyYQHwlNmtWZrI2yoBlxK+bDYNj19Qc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783296603; c=relaxed/simple;
+	bh=X1Ah+l3/ZB5oCV+QF+h+tusCtXKrXutWylNwgaixmVo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eahL4GQA7UUegPF2G48vaB9snvMh/5WTwC6CxQWE6SMhn64Am23xPC6JbWMz7B1O1c9c7huByRh6+vnCGcfZxT03bQGwcrPn49IEqMON65BT8Pi3ellOibzRQFmbGBHTpPRsqQDbv4szAvamwzkyv4YVhoEKBKb/XHxiU/Q7tDc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EZXPkAnL; arc=none smtp.client-ip=74.125.224.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aInvHRfb"
-Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-6a319a80309so59111eaf.0
-        for <linux-staging@lists.linux.dev>; Sun, 05 Jul 2026 16:56:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783295807; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Srky1q9ZroANKGQoJmE0o5IpSjQ4jzY+ilZ24+lEFBJKIzzWTs9/IVwB8wWmV07o7D
-         u/+x4aNwZ5uVYxbCfnZoVFcXh08tmdfsoU+clK3CUye/D/B7nWMDwi5678vZ3EmLGH6b
-         cG3rlHXqyqxt/+1h8V27o5wm1lACXdP9NeJPMboBTzXHvZsap23yOaxGgsmCQubDuaEp
-         w5Z800RnlkfWy+9houScSDDrZ51PBCN4lRubT0p7r3Ni+C6n+0I1D120clJf0GtvlvY9
-         9q/SmhlKcJWLdYC4mwh0mlMYJ2bRvxP+VK2pBHabETLUhKJglJdRX4QSL30U/Y1VfkMs
-         bPnw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=64A3RjqKwHf5tCXSdbvzN8P2GTNUK3YmMcpWKlrj2Dk=;
-        fh=wp5TyMQzzFWix3gklDV4Avzkv30zYcNBYfFOz0+lDPQ=;
-        b=fsYbIf34TBhk1dyXYIVINmdl598490NdtvXYYleKNjRqXYG2TQUOBzJdlSQpDkcsss
-         QcNRY/WZ2h5rTNjS9DmWcPuuFLVzdgL/Qvu4Ba6Yb9nQviv4zLZPGq+vsf2IdrEc//wt
-         agaKEsohJ33MQqFwtSQ7psrMRH05gGwDjZNG1ZCeFNrt3qexCCMyjSrOhUQL7Enr9TtJ
-         mitXShtT1PXu2utlBUURCbVJ8gun2uWV2CXnEvdqC99qI0TrD1HlsjI8J21ughTs+rKY
-         6YxzVT3nQsX59826qpmrpITbawfhy36+TuXaYCosyjDldkfwDshKBAwKAVxxo76Y0z4h
-         iI2g==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EZXPkAnL"
+Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-662d984bedeso237771d50.2
+        for <linux-staging@lists.linux.dev>; Sun, 05 Jul 2026 17:10:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783295807; x=1783900607; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=64A3RjqKwHf5tCXSdbvzN8P2GTNUK3YmMcpWKlrj2Dk=;
-        b=aInvHRfbO/5Ao4rC0GXCq170KlOzQrSFvgQZLD0gywYw/r7N93KzdF9U4LlNTWdofI
-         9WwHu0aS+r1ZTS4Y7lfA404Ta1jDryfgJLBAjCTXBesXfeagiusaXLQZCEeZeVdLtewQ
-         6DbHiJUuwCqil4jHDc6AL0eEn1xS2JF+8PiVvrFx3DTtph3UDOawiBTjhBaMzHRJ5rP6
-         4a3fKu6F8LU+b07o8KbpmDdJcAu1JZhwxRiuxwkQzzFHMLGnSfoSPex1OqkaJhEO1Ear
-         4/WJGMFbiUHXmyhWWNhPnTK1pAMobnFUkDyylFLKHmQs9gWdh9stLlG2kHoQNIbfDFZr
-         tong==
+        d=gmail.com; s=20251104; t=1783296601; x=1783901401; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=WoWipZJJsquAFbGvSKcXoTo7sOkuUz1BZt1zlYOduU4=;
+        b=EZXPkAnLHqbISRoLsJ4E5oqb4E+e3zt97xdeD9RcstvwFJKSEWVWgWxRuxi1HPxwkC
+         zTWwfdyPH4aVSZdf0/0sRgyHylT/rmMep2PB2vwOO45KCp5x8HsG6HHs7pzHp4KyJXSc
+         AfQOaRB1KtCUc2FwFTXvav7kiWpLaKpI3yTZ9/sYF0h0kcgH12UNzDWowRDJL11/ZBWe
+         9Vx86UpI4Jd1ipdeG1eLynPD1yUyk0CukybaFyPt0rYYViKSlI8dc6vcC9oCgwKReoWM
+         txFw+N2o+qlEhWTq0GvUCgx8hufmNg5Ae/FT9/8KV/ehkwNn/1kaqxAuluVbLRw6W9mo
+         c5wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783295807; x=1783900607;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=64A3RjqKwHf5tCXSdbvzN8P2GTNUK3YmMcpWKlrj2Dk=;
-        b=YtergZrTZWhoP98+PlQ3laHIHRIOLIYTTAN8NlWdLbjgWYUysy4b80yl5H/d9dfIFu
-         6Y54w1FpxpzJc3VF6cIl/XaTn/GbUMvp8a1q9xffhjcBFjtqg1OS5rZwfzqQ7Qhq3yN6
-         8YXucv0WyzsZkv5b2TNEDNV4CAASgQHtyLsPlPV9Cu+tIMCxIUEWFbKybnSf7809EFHP
-         O3Ll30MRcXnuQpidffXsWhtg6hSz3pbaTOaUjEtyS6Kdz/J+vig9HxNFKVO6exBRXWzy
-         +sZ/ku1JuuAvwKwTj0hpFslOjzZ56MOx+95OoX+e3Nm8OlKVlThGNR5Dg0TvBhHJbiwn
-         oETA==
-X-Forwarded-Encrypted: i=1; AFNElJ9FRKYoLBSc4LxwjrHqr8iFg5dC8l+yStCBBnuOsv/CtyJco5Z51J5KVW93Thvn0ZHXp7+JCaYFGA7HDCzK@lists.linux.dev
-X-Gm-Message-State: AOJu0YzZwMXikT+fdK8LvMniX5u+0ZqTVfCBu5MURmK1HbEIlIBcjJIl
-	73z8XgLY768YRtfj+NjqRAgXD22NG20mv80U7n7GnPysBd94npqk3AkUhnfY9D6toP4yZkVURfh
-	/mzBs1RSV8dqWqpD4ntZw1UfsV4PpA84=
-X-Gm-Gg: AfdE7cmmsyz/Vx4ycYyvsLosazD1UIPSJerHlqgmNf2Ug2EU4/9CuO4Ra+swJlWaX/E
-	ywzQxXwKWGgg6flcM24X+BTtsyu7xlZaVwjnerOWvpj9seiLIqAD/0WnFrAzRNQwjzfCN04VLJV
-	BPCo/p5gereRfbqihirB/ivOrRIQBin054wlKZVRpGsqluSJVDV6SL4ks+K+M/Xko6U1SjIaznY
-	5hs/Dt+aRgx0WscZHGgtcA23I6ehQzJTgRwC+RqRhva6GZypgV6p/TIUVaaqJ/RbDRpx9Iuyxd/
-	kXoXaylz
-X-Received: by 2002:a05:6820:c090:b0:6a1:334a:90f7 with SMTP id
- 006d021491bc7-6a32d8e1f4fmr1968742eaf.0.1783295807040; Sun, 05 Jul 2026
- 16:56:47 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1783296601; x=1783901401;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=WoWipZJJsquAFbGvSKcXoTo7sOkuUz1BZt1zlYOduU4=;
+        b=C2XtqN1B3ExGKXsRYyNe2+3qCFQ4D1RBab3kIBfUfxZ+Rxr+WouKc5qO7l5ITIhZUq
+         9F2PsLjl9p5Hwxkl26DIaPgDBJ+MpjARKH2eiZm31svJYLPlPk/oANvDNFjr+IOA/aO5
+         bq7XVG/3fZJVllrech+aW3fT33Cy79Cn3l1ob5l1im6YdkkyUvgarSu25KYDf6iW/r30
+         5OqbhPJaGy29HgmViW3m71quXzE5dCvlpfKDRM1JKXA3XHvZwvLTWzNveDqXDYpnt7qR
+         xVILoRcgLOx27iOIvKVERl+nJr4p61AlRTjhWxol1ylvi8Hijgk3Aq9EpVyrKgwtgqQQ
+         pxkw==
+X-Forwarded-Encrypted: i=1; AHgh+Rpq3+RKMo0E5cmc8NrMKBX8wsqk9BBXoqkBocgYDf9VZa8jmUCOO6VYgkHJCImhoYD2qagP3e9j96cl//Wn@lists.linux.dev
+X-Gm-Message-State: AOJu0Yza+raI27itR+rU18ArEl+FdyCFqCvoBKoCqMXZzOIackxvSPhL
+	VW6odPsovdb/J0jEP8e8Z+A1hz8rk5POgAFCBeA/jCHWWu2te77+BHla
+X-Gm-Gg: AfdE7cljbvzPnkT52WI8zZCAog/2MFVdyX1Jv4SOJ2QLZsUd6ihQuSDiTs0DiXbsohs
+	Eu7ibM2+lbhvETjGWA6QQGq1kVtDO511RQQl8lYbjsOZme4LB4oIRywPiUBuzR5i+858bWd05dz
+	ifKAbXGvi/Cr5lRLKZLOABCfMpPydkpBywWKjC71aTfb8DwTXNYd2uMItT44Z0+MH6P12579/nf
+	jSMYTJfdlhxw7Ff+w7Qqapx+Li2O7O40yZaq2Uzcbaro1ICLJGEjeu78tHFB9JQefF1PUkGfELL
+	57qKhdx0GeIlaS1VH4JZ4PQ+rC12z62JNVzCmXuqnFgQLO27/pED0NB+Ttsj2amZKCBbZTF7+H/
+	XuZ7d7fUw2UnhSDIpS6bQgPTpXNpWivbUnW8hMYRRU9gJ+/bxQzGpm688gwJE1XHS+gag
+X-Received: by 2002:a05:690e:1241:b0:667:541c:2282 with SMTP id 956f58d0204a3-667541c23efmr5399080d50.9.1783296600821;
+        Sun, 05 Jul 2026 17:10:00 -0700 (PDT)
+Received: from desktop ([2600:1700:78e0:fd0::27])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-666408c2597sm4008673d50.21.2026.07.05.17.09.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 05 Jul 2026 17:10:00 -0700 (PDT)
+From: Neal Patalay <nealpatalay0@gmail.com>
+To: andy@kernel.org,
+	hansg@kernel.org,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: sakari.ailus@linux.intel.com,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	mugrinphoto@gmail.com,
+	matt@mattwardle.net,
+	nealpatalay0@gmail.com
+Subject: [PATCH v4] staging: media: atomisp: refactor pipe graph dump stage formatting
+Date: Sun,  5 Jul 2026 17:07:38 -0700
+Message-ID: <20260706000738.18478-1-nealpatalay0@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260705073844.146578-1-nealpatalay0@gmail.com> <akpopoFZyWW2e9En@ashevche-desk.local>
-In-Reply-To: <akpopoFZyWW2e9En@ashevche-desk.local>
-From: Neal Patalay <nealpatalay0@gmail.com>
-Date: Sun, 5 Jul 2026 16:56:36 -0700
-X-Gm-Features: AVVi8CfaWYTJPFlFAn3GUSPgkRxVwBdu7ezv3P3Yzznr9ibVYaCCBIIVkcP7O3I
-Message-ID: <CAGjuiT_WMkYOJJ40AJPcF_mbyZv+0pvgMOv8fp6hxPN29N_2Wg@mail.gmail.com>
-Subject: Re: [PATCH v3] staging: media: atomisp: refactor pipe graph dump
- stage formatting
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: andy@kernel.org, hansg@kernel.org, mchehab@kernel.org, 
-	gregkh@linuxfoundation.org, sakari.ailus@linux.intel.com, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, mugrinphoto@gmail.com, matt@mattwardle.net
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sun, Jul 5, 2026 at 7:22=E2=80=AFAM Andy Shevchenko wrote:
+The original implementation of ia_css_debug_pipe_graph_dump_stage()
+includes an off-by-one error where the original strscpy() size dropped
+characters immediately before newlines. It also allocates over 600
+bytes across multiple buffers on the stack. Address these shortcomings
+and reduce stack usage with a single 256 byte buffer via a new helper
+function, ia_css_debug_build_info().
 
-> The blank line must divide the definition and code blocks.
+Fixes: 662fb4fceb1a ("media: atomisp: get rid of a string_support.h abstraction layer")
+Signed-off-by: Neal Patalay <nealpatalay0@gmail.com>
+---
+v4:
+- Changed logic to truncate output after the third line
+- Added offset check to avoid writing beyond bounds
+- Fixed indentation inside helper function
+- Separated variable definitions from code in helper function
+- Fixed comment in helper function
 
-Thanks, I'll fix this.
+v3:
+- Moved "len_written" variable declaration to top of helper function
+- Added local variables to track values inside helper function
+- Fixed macro indentation
+- Removed loop out of macro definition
 
-> Missing period at the end.
+v2:
+- Fixed strscpy typo in commit message
+- Changed Fixes tag to point to the actual buggy commit
+- Dropped "flag" parameter from helper function and moved check to the macro
+- Split long lines to conform with subsystem character limit
+---
+ .../pci/runtime/debug/src/ia_css_debug.c      | 198 ++++++++----------
+ 1 file changed, 83 insertions(+), 115 deletions(-)
 
-I'll fix this too.
+diff --git a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
+index 5113aa5973f3..19c4e0246c34 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
++++ b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
+@@ -1162,6 +1162,43 @@ void ia_css_debug_pipe_graph_dump_epilogue(void)
+ 	pg_inst.stream_format = N_ATOMISP_INPUT_FORMAT;
+ }
+ 
++static void ia_css_debug_build_info(char *info, size_t info_size,
++				    int *offset,
++				    const char *flag_str, size_t flag_str_size,
++				    int *line_len,
++				    int *num_lines)
++{
++	int len = *line_len;
++	int off = *offset;
++	int lines = *num_lines;
++	int len_written;
++
++	if (lines > 3)
++		return;
++
++	/*
++	 * If new line length exceeds max line length,
++	 * replace the last ',' with a "\\n".
++	 */
++	if (len > 0 && off > 0 && info_size - off >= 2 &&
++	    len + flag_str_size > ENABLE_LINE_MAX_LENGTH) {
++		if (lines >= 3) {
++			*num_lines = lines + 1;
++			return;
++		}
++		info[off - 1] = '\\';
++		info[off] = 'n';
++		off += 1;
++		len = 0;
++		lines += 1;
++	}
++
++	len_written = scnprintf(info + off, info_size - off, "%s,", flag_str);
++	*offset = off + len_written;
++	*line_len = len + len_written;
++	*num_lines = lines;
++}
++
+ void
+ ia_css_debug_pipe_graph_dump_stage(
+     struct ia_css_pipeline_stage *stage,
+@@ -1194,123 +1231,54 @@ ia_css_debug_pipe_graph_dump_stage(
+ 
+ 	/* Guard in case of binaries that don't have any binary_info */
+ 	if (stage->binary_info) {
+-		char enable_info1[100];
+-		char enable_info2[100];
+-		char enable_info3[100];
+-		char enable_info[302];
++		char enable_info[256];
++		int offset = 0;
++		int line_len = 0;
++		int num_lines = 1;
+ 		struct ia_css_binary_info *bi = stage->binary_info;
+ 
+-		/* Split it in 2 function-calls to keep the amount of
+-		 * parameters per call "reasonable"
+-		 */
+-		snprintf(enable_info1, sizeof(enable_info1),
+-			 "%s%s%s%s%s%s%s%s%s%s%s%s%s%s",
+-			 bi->enable.reduced_pipe ?	"rp," : "",
+-			 bi->enable.vf_veceven ?		"vfve," : "",
+-			 bi->enable.dis ?		"dis," : "",
+-			 bi->enable.dvs_envelope ?	"dvse," : "",
+-			 bi->enable.uds ?		"uds," : "",
+-			 bi->enable.dvs_6axis ?		"dvs6," : "",
+-			 bi->enable.block_output ?	"bo," : "",
+-			 bi->enable.ds ?			"ds," : "",
+-			 bi->enable.bayer_fir_6db ?	"bf6," : "",
+-			 bi->enable.raw_binning ?	"rawb," : "",
+-			 bi->enable.continuous ?		"cont," : "",
+-			 bi->enable.s3a ?		"s3a," : "",
+-			 bi->enable.fpnr ?		"fpnr," : "",
+-			 bi->enable.sc ?			"sc," : ""
+-			);
+-
+-		snprintf(enable_info2, sizeof(enable_info2),
+-			 "%s%s%s%s%s%s%s%s%s%s%s",
+-			 bi->enable.macc ?		"macc," : "",
+-			 bi->enable.output ?		"outp," : "",
+-			 bi->enable.ref_frame ?		"reff," : "",
+-			 bi->enable.tnr ?		"tnr," : "",
+-			 bi->enable.xnr ?		"xnr," : "",
+-			 bi->enable.params ?		"par," : "",
+-			 bi->enable.ca_gdc ?		"cagdc," : "",
+-			 bi->enable.isp_addresses ?	"ispa," : "",
+-			 bi->enable.in_frame ?		"inf," : "",
+-			 bi->enable.out_frame ?		"outf," : "",
+-			 bi->enable.high_speed ?		"hs," : ""
+-			);
+-
+-		/* And merge them into one string */
+-		snprintf(enable_info, sizeof(enable_info), "%s%s",
+-			 enable_info1, enable_info2);
+-		{
+-			int l, p;
+-			char *ei = enable_info;
+-
+-			l = strlen(ei);
+-
+-			/* Replace last ',' with \0 if present */
+-			if (l && enable_info[l - 1] == ',')
+-				enable_info[--l] = '\0';
+-
+-			if (l > ENABLE_LINE_MAX_LENGTH) {
+-				/* Too big for one line, find last comma */
+-				p = ENABLE_LINE_MAX_LENGTH;
+-				while (ei[p] != ',')
+-					p--;
+-				/* Last comma found, copy till that comma */
+-				strscpy(enable_info1, ei, umin(p, sizeof(enable_info1)));
+-
+-				ei += p + 1;
+-				l = strlen(ei);
+-
+-				if (l <= ENABLE_LINE_MAX_LENGTH) {
+-					/* The 2nd line fits */
+-					/* we cannot use ei as argument because
+-					 * it is not guaranteed dword aligned
+-					 */
+-
+-					strscpy(enable_info2, ei, umin(l, sizeof(enable_info2)));
+-
+-					snprintf(enable_info, sizeof(enable_info), "%s\\n%s",
+-						 enable_info1, enable_info2);
+-
+-				} else {
+-					/* 2nd line is still too long */
+-					p = ENABLE_LINE_MAX_LENGTH;
+-					while (ei[p] != ',')
+-						p--;
+-
+-					strscpy(enable_info2, ei, umin(p, sizeof(enable_info2)));
+-
+-					ei += p + 1;
+-					l = strlen(ei);
+-
+-					if (l <= ENABLE_LINE_MAX_LENGTH) {
+-						/* The 3rd line fits */
+-						/* we cannot use ei as argument because
+-						* it is not guaranteed dword aligned
+-						*/
+-						strscpy(enable_info3, ei,
+-							sizeof(enable_info3));
+-						snprintf(enable_info, sizeof(enable_info),
+-							 "%s\\n%s\\n%s",
+-							 enable_info1, enable_info2,
+-							 enable_info3);
+-					} else {
+-						/* 3rd line is still too long */
+-						p = ENABLE_LINE_MAX_LENGTH;
+-						while (ei[p] != ',')
+-							p--;
+-						strscpy(enable_info3, ei,
+-							umin(p, sizeof(enable_info3)));
+-						ei += p + 1;
+-						strscpy(enable_info3, ei,
+-							sizeof(enable_info3));
+-						snprintf(enable_info, sizeof(enable_info),
+-							 "%s\\n%s\\n%s",
+-							 enable_info1, enable_info2,
+-							 enable_info3);
+-					}
+-				}
+-			}
+-		}
++#define ADD_INFO(flag, flag_str)						\
++	if (bi->enable.flag)							\
++		ia_css_debug_build_info(enable_info, sizeof(enable_info),	\
++					&offset,				\
++					flag_str, sizeof(flag_str),		\
++					&line_len,				\
++					&num_lines)
++
++		/* Build string in enable_info buffer */
++		ADD_INFO(reduced_pipe, "rp");
++		ADD_INFO(vf_veceven, "vfve");
++		ADD_INFO(dis, "dis");
++		ADD_INFO(dvs_envelope, "dvse");
++		ADD_INFO(uds, "uds");
++		ADD_INFO(dvs_6axis, "dvs6");
++		ADD_INFO(block_output, "bo");
++		ADD_INFO(ds, "ds");
++		ADD_INFO(bayer_fir_6db, "bf6");
++		ADD_INFO(raw_binning, "rawb");
++		ADD_INFO(continuous, "cont");
++		ADD_INFO(s3a, "s3a");
++		ADD_INFO(fpnr, "fpnr");
++		ADD_INFO(sc, "sc");
++		ADD_INFO(macc, "macc");
++		ADD_INFO(output, "outp");
++		ADD_INFO(ref_frame, "reff");
++		ADD_INFO(tnr, "tnr");
++		ADD_INFO(xnr, "xnr");
++		ADD_INFO(params, "par");
++		ADD_INFO(ca_gdc, "cagdc");
++		ADD_INFO(isp_addresses, "ispa");
++		ADD_INFO(in_frame, "inf");
++		ADD_INFO(out_frame, "outf");
++		ADD_INFO(high_speed, "hs");
++
++#undef ADD_INFO
++
++		/* Replace last ',' with '\0' */
++		if (offset > 0)
++			enable_info[offset - 1] = '\0';
++		else
++			enable_info[0] = '\0';
+ 
+ 		dtrace_dot("node [shape = circle, fixedsize=true, width=2.5, label=\"%s\\n%s\\n\\n%s\"]; \"%s(pipe%d)\"",
+ 			   bin_type, blob_name, enable_info, blob_name, id);
+-- 
+2.55.0
 
-> If for some reason len is > 0 and offset is 0, this will write beyond
-> the boundaries.
-
-I'll add a check to make sure the offset is greater than 0.
-
-> Broken indentation. Note the statement fits a single line.
-
-I'll put that all on one line.
-
-> This will continue writing even if there are more than 3 lines.
-
-The original code completely removes the third line from the output
-by writing the third line into enable_info3, and then overwriting that
-buffer with everything after the third line. I'll assume the author meant
-to remove all flags after the third line.
