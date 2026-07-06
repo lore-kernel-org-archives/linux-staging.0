@@ -1,116 +1,231 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B91E3BFAD1
-	for <linux-staging@lists.linux.dev>; Mon,  6 Jul 2026 10:42:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783334543; cv=pass; b=u7zfGeoEMn+b9SBf7xJffNLuHkdLvNqe3ON7L1yQn24RMrL45J7cCuQn+xJmNdTJYx3D9QA57XZQj4qeO1tTQV4VRovXyjK6zfWfKz7ljQJb4v6cdkQT09NP/hhh6D8z2LlsMENNwQpPYYRjv3yIVwP/oI/gobo7gc++wtSvzzI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783334543; c=relaxed/simple;
-	bh=1Y5QC9VaR0WOBQ9xrknlymia7s1s/X0KyolGNg9xbT4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WDfn1d7IzbShDBRu2QbH7SFnjsjzBlWGKaexOEbodfCMqCpjHC8g167IbRkA4aa9VfVYjrNU90Mfo2I0hNbVWE2V6LPz18Yu3Q7oG4aPgf2sLMcqdQiJK9iyuVxvyN3O8SJ3S70tJ2nJYsoqbJDBozpsskOy+ZwHxc8q5qcaQFA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=amL6KgdW; arc=pass smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C938E424676;
+	Mon,  6 Jul 2026 12:14:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783340074; cv=none; b=qvaONZx0rx1U58nJXfLJD/VSUc/JHxrq8/tUPUfqG7GvLX8ANn8WwL+KlsZmvYjPHOXzQVuYlFMmYZz0cuiSvS3SvXNXWyjGEnlJdeu5VKlN8LvOcVLbX0kl3OH4E0BOoVRjuBKUQ1Ad4Qp72bV0H1S4zrQNMktS0kONrmW57ok=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783340074; c=relaxed/simple;
+	bh=JP+dwK2+wbSyrHCmqviCaHk1vIzaoSh3lHrjMAaH/YQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nEebPpLilwBYQlouMSOXyFi/faKXrFFlrA9j+2FFnh/sE4Pn1l3DIuMexC+k0Hy5xsCt/1SgfWbjPoLf0qJLPJs31cSLUmJN7xWANZra8rwWw0aQNIWrgZgDOdUqvZBr/2I9ZixXf0IZ7jrQuGLKuoTKZENeDp3WQEM2+j7RRFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bPmtO7uN; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="amL6KgdW"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-69a5ecbbfb2so989385a12.2
-        for <linux-staging@lists.linux.dev>; Mon, 06 Jul 2026 03:42:21 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783334540; cv=none;
-        d=google.com; s=arc-20260327;
-        b=R9SbKXF4o3EWHsmzzwwpEWP06Kz09Tj2AbeBjgDLD493hKPGp/77n1FwJhb5fE2Q2u
-         ZPCZfJnLGG89xwbIlf/CeFGnM3Yq4k+3mrfdEFD0L33RCqAbdrsIVipU9ZtKgb6w3Tz8
-         EbBfJCtGBhvlja08TUMQW3Ui9Ah+xEk9beuVHAw6Yv7BdSEgKejmOgrhj6BNvKT2hMOK
-         2v8rYXUHucXNyLweOVNIk/4HnOx+v7V5Vemn1ULtU4j8RcHKBRyjRML/4+KBHUw8yOAb
-         eJcGIGZiQxCEeUIiggPv3NtkhYGktugJcgz5iHGQKWrea2LP+76xidFzc9VHsIL9HN+D
-         NShg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=1Y5QC9VaR0WOBQ9xrknlymia7s1s/X0KyolGNg9xbT4=;
-        fh=6iJzKPpHZJCrpNsIv3yFBQGzIpv1vMfKYWBhYFtInUU=;
-        b=JO4lhzTd0eEhteiBIpILgZVouF+VVcOpqh4Wg9edLr2immGnu4M9Mc2SX/Qy61QBjc
-         DfdarSyB0ZeVyYfVe5Q+23T0T5RNzM1b/8yk8Qr2wf19J4mvoN9wixqpNd4ZHOKcuwOj
-         ksqbIF0dNZvbwuClUMkHQAMOsDGzx4YTcP+CM048VX7jvabxIVR7xOvjQfjEUTYCoBx6
-         axz1tc56sN+7wEiskLopXprNeyQNxMRFS2TNZcBy21qjlCcYlLVSK31bLtQbhjkxFS+M
-         oj8yWL5O+EKNwz1rXyPSCYwHz6DQtt/YktGHpHhzF2ousovF2t4c4ZocCRJedytKWUv/
-         +cxg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783334540; x=1783939340; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=1Y5QC9VaR0WOBQ9xrknlymia7s1s/X0KyolGNg9xbT4=;
-        b=amL6KgdWoief/+UrEj0M9wHuHX57cBxHeWtzeQLowrOXE+CyftgzHwlVBOFZYJUj0V
-         vY3TU6T0tQwlRZVneT/tUgqLKsofIvbQpJpBXXqZhiR4y4wcbr4ytej2bVuAWcWEcWFB
-         fTO0rZOsYOhZlG+w09tiZ7RaJ48nx5xCkjlBeJ0XAwzpC/lvAnYxxtXBZlQ3eC6XmbMe
-         2iwTClKm4blyLvGTDEkkFAsWPNfb+cVt8tIOm8XGZNxtQtu/a/oH3aqiAN9Ij9n/vmal
-         h+l4oYpATY0/loP3wVAQ5ANxF+58ufjY80iigmuX3rZIJZ4hoF0sxzCl6COSFINUiTsR
-         9d7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783334540; x=1783939340;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=1Y5QC9VaR0WOBQ9xrknlymia7s1s/X0KyolGNg9xbT4=;
-        b=aX0PPqPIpt6gBe13Y9EgzlG1fDWnVpb46VS+f85++9Ke4hhYpSZRgKcTTE+XLdVMko
-         +rzU2H7gFT6LxXxdETlMtWLZNTnfYHYrYuUs9aBlLdcwyYSJOLCFfyG7zlLE7ftsUY9J
-         QVr6gQr8PBzvJ+WUCJqoq0N0MgL/oOk3OLddvYlo4JbWgLz8Y35wDiYlBKMaNY7flpsu
-         kKm+a7pS4yjpVfv1CbmvmSPnsTyTaBPvHq0WDFGhhO4fVBJuh2JD+dxOah/NTZJN3Tou
-         TbvQHQtyseDvXQBIi7ydvjrl4abwGpv5MUhzbeeFqrR3+/LuUQTShQbNNFpE6Fnj9JYC
-         E8NQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoGWSfug4JhL2PpbVXPtga4z76z3uHckppppKknxCkHxlriwus4YEXSlusJgaRIXn+nvcqBJV29y5YAMTQa@lists.linux.dev
-X-Gm-Message-State: AOJu0YzkyuVMIipT/hMEPcZexnJRvS+7ZvMz4sFZMcYiTUzE9PgwfeDx
-	u0wQqPrQuCexWOEi4XN3e0yYT9D+82+KxVl+TSMIqGp3P5RS3U/eNQdu46i7E0kaG/dicW8z+Hb
-	1IecHKO5L4wEjg0pJatCGgnw02VRMXfo=
-X-Gm-Gg: AfdE7clQ612EGd3tURNI9gY39c976slCEAAoMqDQmogmGUgV1WFMNwOJNTQiniGf6g+
-	p2b93Q0KioFJaQPKPY097yji2sT3BlG9Fjs1q3JLYxPBcry9HS4twTWVDiMMS3TYwzttalIJPqO
-	OdxRnKdQWPb3LPluCJVZ+mj9jygpgkoN12OuLsfqaD5s8P4RnR5IaZNsjgJI+AXZznERdP9TJkN
-	IiYiLsAEg4KUlXT01axpxaWpWsnWE+fpXKamxeksSYmcGQ7Q/HKK8aZfFgwlomJkVnQiwUfTA1o
-	YmGEIZNG6veK7d+tGac/1+X1Df5cINCvPF6wkxbhnbq60+ojDVu41yOdO6L6VA==
-X-Received: by 2002:a05:6402:5107:b0:698:b23a:e54a with SMTP id
- 4fb4d7f45d1cf-69a85c281cdmr38340a12.31.1783334539697; Mon, 06 Jul 2026
- 03:42:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bPmtO7uN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 121871F000E9;
+	Mon,  6 Jul 2026 12:14:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783340071;
+	bh=UfZEhOmUAtYb9FNfwIrhuWbkBWwbFTNpgJ24RGae3QQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=bPmtO7uNl48Q6bs+krcLQuw/tGKsl/JnxFHgbLFLkbFx148tTkkA7+0+myQHEaGRx
+	 umK1+gemSQ381e4T0ydJrpe5m50O2llJQVDfxhEPEtVvjgabuo/BR5Ho6mleocrkpE
+	 fTxcf+KK6Dpfmp5M9B1Dl5PVW39xYP/4cksVqp5fVQ5O4WWUR3U4zCxV6tksNIYDNJ
+	 3bY+xwqwO8IC0rw+2yC2rczkDRpdu3Xv940Wc8aK8I3AlcbIjJHmDU4JiesBKEXqny
+	 SHdPswcAheebzOd/3vvQV+K23MtLsBdoa4ItivVZCf7TP91cWgJ6w8JjpA1/pDNXqP
+	 IZRI1tts3WtBQ==
+Date: Mon, 6 Jul 2026 13:14:13 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	Linus Walleij <linusw@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Alexey Brodkin <abrodkin@synopsys.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Daniel Scally <dan.scally@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Eddie James <eajames@linux.ibm.com>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+	Houlong Wei <houlong.wei@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Joseph Liu <kwliu@nuvoton.com>, Marvin Lin <kflin@nuvoton.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ge Gordon <gordon.ge@bst.ai>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Ulf Hansson <ulfh@kernel.org>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Xiubo Li <Xiubo.Lee@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
+	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Peter Chen <peter.chen@cixtech.com>,
+	Fugang Duan <fugang.duan@cixtech.com>,
+	Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
+	BST Linux Kernel Upstream Group <bst-upstream@bstai.top>,
+	Fabio Estevam <festevam@gmail.com>,
+	Nicolin Chen <nicoleotsuka@gmail.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	CIX Linux Kernel Upstream Group <cix-kernel-upstream@cixtech.com>,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-aspeed@lists.ozlabs.org,
+	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, linux-media@vger.kernel.org,
+	openbmc@lists.ozlabs.org, linux-mediatek@lists.infradead.org,
+	kernel@collabora.com, linux-tegra@vger.kernel.org,
+	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	imx@lists.linux.dev, sound-open-firmware@alsa-project.org
+Subject: Re: [PATCH 00/42] of: reserved_mem: Introduce devres helpers and
+ convert drivers
+Message-ID: <ceeca378-3c76-4b2c-81b4-0ff1bb1e99be@sirena.org.uk>
+Mail-Followup-To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	Linus Walleij <linusw@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Alexey Brodkin <abrodkin@synopsys.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Daniel Scally <dan.scally@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Eddie James <eajames@linux.ibm.com>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+	Houlong Wei <houlong.wei@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Joseph Liu <kwliu@nuvoton.com>, Marvin Lin <kflin@nuvoton.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ge Gordon <gordon.ge@bst.ai>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Ulf Hansson <ulfh@kernel.org>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Xiubo Li <Xiubo.Lee@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
+	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Peter Chen <peter.chen@cixtech.com>,
+	Fugang Duan <fugang.duan@cixtech.com>,
+	Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
+	BST Linux Kernel Upstream Group <bst-upstream@bstai.top>,
+	Fabio Estevam <festevam@gmail.com>,
+	Nicolin Chen <nicoleotsuka@gmail.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	CIX Linux Kernel Upstream Group <cix-kernel-upstream@cixtech.com>,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-aspeed@lists.ozlabs.org,
+	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, linux-media@vger.kernel.org,
+	openbmc@lists.ozlabs.org, linux-mediatek@lists.infradead.org,
+	kernel@collabora.com, linux-tegra@vger.kernel.org,
+	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	imx@lists.linux.dev, sound-open-firmware@alsa-project.org
+References: <20260703193855.110619-1-mukesh.ojha@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260704120113.201099-1-dileepsankhla.ds@gmail.com>
- <akkOdQ1oT0hIc0tz@ashevche-desk.local> <CAHxc4buoGJJ4ZUbvCz7EtcosH3mZWXp0NqFMfDBH1QV__0qDpA@mail.gmail.com>
- <CAHp75VfHKcW4BfgWht5wN=SY1u8=Jw4zAo=Sx0Fm_n0=D3pNWg@mail.gmail.com> <CAHxc4bt4ix2O_T6m4c9y+k8hqmx-C+iRd23mqVS-8Zns0DFa4A@mail.gmail.com>
-In-Reply-To: <CAHxc4bt4ix2O_T6m4c9y+k8hqmx-C+iRd23mqVS-8Zns0DFa4A@mail.gmail.com>
-From: Dileep Sankhla <dileepsankhla.ds@gmail.com>
-Date: Mon, 6 Jul 2026 16:20:08 +0530
-X-Gm-Features: AVVi8Ccgnjmj7aT3AzMNV0fHJdJ2rWbK4zfohOMS4OfJCoMgCokRFN11TnO--ec
-Message-ID: <CAHxc4bsLGj0fbVuez2hNo3tRNBDef3U0N4UTiwQc0SqWiEe1OA@mail.gmail.com>
-Subject: Re: [PATCH] staging: media: atomisp: Remove unnecessary else after return
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, andy@kernel.org, hansg@kernel.org, 
-	mchehab@kernel.org, sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, 
-	abdelrahmanfekry375@gmail.com, error27@gmail.com, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="wOAp0AJHJvNt3tz3"
+Content-Disposition: inline
+In-Reply-To: <20260703193855.110619-1-mukesh.ojha@oss.qualcomm.com>
+X-Cookie: Did I do an INCORRECT THING??
 
-On Mon, Jul 6, 2026 at 1:04=E2=80=AFPM Dileep Sankhla
-<dileepsankhla.ds@gmail.com> wrote:
-> I will try to send a patch addressing all the "else is not generally
-> useful after a break or return" warnings.
 
-Hi Andy,
+--wOAp0AJHJvNt3tz3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I have sent the patch for the same here:
-https://lore.kernel.org/linux-media/20260706103810.71919-1-dileepsankhla.ds=
-@gmail.com/T/#u
+On Sat, Jul 04, 2026 at 01:08:13AM +0530, Mukesh Ojha wrote:
+> Drivers using of_reserved_mem_device_init() and its variants must
+> manually call of_reserved_mem_device_release() in their remove and
+> error-unwind paths. This is repetitive boilerplate that is easy to
+> get wrong, and several drivers have open-coded the teardown
+> inconsistently or skipped it entirely, leading to dangling reserved
+> memory references.
 
---
-Best Regards,
-Dileep Sankhla
+Just as a general thing, rather than sending a huge cross subsystem
+series for something like this it's probably better to just send a
+couple of examples, then once the new API is introduced and either has a
+pullable tag or has made it to mainline go and do the conversion.  This
+avoids clogging everyone's inbox with very big serieses.
+
+--wOAp0AJHJvNt3tz3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmpLnBQACgkQJNaLcl1U
+h9CmKwf9F2YIGBkVeulsWbi5D2t0CnJR/02sSOVl3kzxHiLVhiwWDuHChe6nJcf/
+B22JeTRk3geytCtoi5VvvmmNuN+5GmfWxtqo+bJgCYojxOFKt1bde4RkYg1O+aIO
+0JEs896VePybnfaXzCbeT2n3+gnqC/RMKL+WfvNsfpZqVXUb+QNc6jdCba+Jhlc6
+kJV1YxYgK0VXXLsuZ1ziJ+d22nU5afgm5JQX8CTrl+8EVCL+rbnDtnNmClMg8C6b
+RFN0y9e3hN+0tUEYxGm+VotHPeBuzmgBQucRkMCypqkAEegoWehkdUWzi41bhUBF
+sBJ4nhpfaNf7OXkA6cTOGSwuEFc7yA==
+=BASk
+-----END PGP SIGNATURE-----
+
+--wOAp0AJHJvNt3tz3--
