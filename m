@@ -1,118 +1,157 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 319763A168F;
-	Tue,  7 Jul 2026 06:25:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACF9C3C13F5
+	for <linux-staging@lists.linux.dev>; Tue,  7 Jul 2026 07:18:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783405554; cv=none; b=YAkdzVZO2xu7Ym46/xNw8xBGknGvM/r7HUycWLtxRCagSzGeMxU9DnbJz6bqEQAeKRhh2CUa/NkSUZ5+2CNnYuqg7cxJ4gBaKDY2qs+k11H/ycwtrWI4d5LoJd0AqEcJcbjg7yxIQvtqU/iFmGOtrpKT2jvTcRsyqE630zzlP5E=
+	t=1783408700; cv=none; b=Vc/kuxyY8OZAv9xf5XGcVJikDa+INnumMmLfthd7sGLbFmyiEg8aNr17k5pUr8ZiBd0npGLINqRWEZ1PAHVcya0Kxt6DZ0qNoP4YoMZ7m4M0VyqgliLUVf9lKu/upVIAQQzEwJxUneubGt1MPkCbLWY4cbH5D9YPqlQuc4/hY7g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783405554; c=relaxed/simple;
-	bh=mA5UtQohvvg8OshJRtRj4I9DeD69NeX09biGlu64/Fg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DNftgmk9RtAGEWg2AmCsUpkR3DJyZAqqDepdxpLvsQkpsvyde7R1MhIbk3BJod6Z67ZmLo3W0ghoto7HfO+CwbpLSHYEP/QY6YL7eyQJ4oOV+YVJOs5hDwo2Hm6yEWC2JTOBCryG2BKJiF9hxEfIHqv1/yUDrgZ7bnNaEQpek1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bxCxhAJZ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783408700; c=relaxed/simple;
+	bh=lXv3s7TUQglwtYTP8xhW2uZKJRMERLZ2mMC90X8SyVI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Pr9C+G9Dseq6W9wMHwuQBfEvZ6FJkVHdMZ1ife5o+/5+BENLytxXgR7z2T4ZMfyA9NFrKZqbPOslvVF5GEXb8hnE6FMo5DSnsO+BEDci7OCYpGk07UPKpDGyan6zwp4UOwW5zlij+BBLqOSBNTQXHifGptszJqG7PaYXDkfHTu0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mK6Iolm+; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bxCxhAJZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 600E81F000E9;
-	Tue,  7 Jul 2026 06:25:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783405552;
-	bh=KibwUGio/FQLe0X19LH+thqRGi0+pup4XTEK2YftfSo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=bxCxhAJZpgR7lDR5mwgYDDZ+Pi1XWXcgKCN7GTiN63qfiyLPfUhSEYp4P0FD/VeYN
-	 Ygd/2SffPxjp0UVB2FzbVPCSbLscVcgM4sUT4KWUSXyQpGLuvb5aNgLGkmG+xwYCtJ
-	 sqArYhm7/kVggVmJKGbqMxWvUWHt9wrM9u65pY984kNsT3Qc9v+mfR7b0gdWK8DciD
-	 yfPhE/bW4j5hZ4c8arngP3ytG8emd8lu+OZ4xhGX1BpMXLSBjqYaTIFu8Az5oxUaWd
-	 20yIXPZ6WY0YFEC2hdMxftizFepzRq6tICp76tZCJymWwD8QvazUdThb6gG82MdHBJ
-	 BNht25CRGMh6w==
-Message-ID: <1ba3f12f-f05d-4301-81b8-2cb1703d0e72@kernel.org>
-Date: Tue, 7 Jul 2026 08:25:46 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mK6Iolm+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783408693; x=1814944693;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=lXv3s7TUQglwtYTP8xhW2uZKJRMERLZ2mMC90X8SyVI=;
+  b=mK6Iolm+zAtXgIajTm4BQ2OiwRm8kWuXRuuSU8jlj0aSp1PMdSymSdGn
+   pSqvbXUlQWN13GisU7cJMGekApOzwI8VylX/xtYSVlGuXVfYlvty+Bs2I
+   aCS1K0CID/LvA1z6EPx1SfwdgxYi8yoH3Z5YLsLBqguRcyWwACRrFbuJT
+   uvU19ETS/GcH3vcYzM+UO1dL1wtkaV9vBHPaKYt5I3pmjzdm1KbNOcxZt
+   RuCVEOK9S3l+x2MV2S20UTNH32lirm9uN+EKdTS7f76VWuLsxq524/Ada
+   IlE2Ez89JunovRAxDIoxrmy/+SPs8qy1iruBTwBtBFb7yEj4ZP9OgxlwI
+   Q==;
+X-CSE-ConnectionGUID: U4W25O11TnKTaAfftE1Evg==
+X-CSE-MsgGUID: nfznV4TbSwqOWdh/63gk5A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11839"; a="84072954"
+X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
+   d="scan'208";a="84072954"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2026 00:18:11 -0700
+X-CSE-ConnectionGUID: GR2WtPkFT+KRqjVdul0wpQ==
+X-CSE-MsgGUID: Ea2HVu0rRgS03xBy/Mzg9g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,153,1779174000"; 
+   d="scan'208";a="254009287"
+Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.244.178])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2026 00:18:09 -0700
+Date: Tue, 7 Jul 2026 10:18:06 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Neal Patalay <nealpatalay0@gmail.com>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, andy@kernel.org,
+	hansg@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
+	sakari.ailus@linux.intel.com, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	mugrinphoto@gmail.com, matt@mattwardle.net
+Subject: Re: [PATCH v4] staging: media: atomisp: refactor pipe graph dump
+ stage formatting
+Message-ID: <akyoLqy98pt2iRkP@ashevche-desk.local>
+References: <20260706000738.18478-1-nealpatalay0@gmail.com>
+ <CAHp75VcSGXC=x3hFXt8qvyRQjPzy3uLN9iBTURp2yA9+P_jibg@mail.gmail.com>
+ <CAGjuiT9gu32wvx2Vf0U0g9deyAzzGtwwCNEdW_R4JVarO9x4JQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] staging: sm750fb: fix remaining CamelCase issues
-To: Arnav Kapoor <kapoorarnav43@gmail.com>,
- Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
- Teddy Wang <teddy.wang@siliconmotion.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20260621045340.65872-1-kapoorarnav43@gmail.com>
- <20260624042543.38925-1-kapoorarnav43@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <20260624042543.38925-1-kapoorarnav43@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAGjuiT9gu32wvx2Vf0U0g9deyAzzGtwwCNEdW_R4JVarO9x4JQ@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On 24/06/2026 06:25, Arnav Kapoor wrote:
-> Rename the remaining CamelCase variables and constants
-> to follow kernel coding style.
+On Mon, Jul 06, 2026 at 02:59:16PM -0700, Neal Patalay wrote:
+> On Sun, Jul 5, 2026 at 10:37 PM Andy Shevchenko wrote:
 > 
-> Rename:
+> > Please, slow down! No need to send a new version immediately after
+> > replying to the previous one without settling down all aspects of the
+> > change.
+> >
+> > This version is no go, sorry.
 > 
-> * powerMode -> power_mode
-> * setAllEngOff -> set_all_eng_off
-> * resetMemory -> reset_memory
-> * sm750_doubleTFT -> SM750_DOUBLE_TFT
-> * sm750_dualTFT -> SM750_DUAL_TFT
+> Understood, no problem.
 > 
-> Fix build errors by renaming the corresponding
-> declarations and enum values as well.
+> > > +static void ia_css_debug_build_info(char *info, size_t info_size,
+> > > +                                   int *offset,
+> > > +                                   const char *flag_str, size_t flag_str_size,
+> > > +                                   int *line_len,
+> > > +                                   int *num_lines)
+> > > +{
+> > > +       int len = *line_len;
+> > > +       int off = *offset;
+> > > +       int lines = *num_lines;
+> > > +       int len_written;
+> > > +
+> > > +       if (lines > 3)
+> > > +               return;
+> > > +
+> > > +       /*
+> > > +        * If new line length exceeds max line length,
+> > > +        * replace the last ',' with a "\\n".
+> > > +        */
+> > > +       if (len > 0 && off > 0 && info_size - off >= 2 &&
+> > > +           len + flag_str_size > ENABLE_LINE_MAX_LENGTH) {
+> > > +               if (lines >= 3) {
+> > > +                       *num_lines = lines + 1;
+> > > +                       return;
+> > > +               }
+> > > +               info[off - 1] = '\\';
+> > > +               info[off] = 'n';
+> > > +               off += 1;
+> > > +               len = 0;
+> > > +               lines += 1;
+> > > +       }
+> > > +
+> > > +       len_written = scnprintf(info + off, info_size - off, "%s,", flag_str);
+> > > +       *offset = off + len_written;
+> > > +       *line_len = len + len_written;
+> > > +       *num_lines = lines;
+> > > +}
+> >
+> > This makes helper too ugly and unreadable. Again, study the case
+> > first, when this can be true. Do we really need to cut it? This whole
+> > thing AFAICS depends on the dtrace facility in the driver. Is that
+> > HW-related? Is it pure SW? You need to perform some homework.
 > 
-> Reported-by: kernel test robot [lkp@intel.com](mailto:lkp@intel.com)
-> Closes: https://lore.kernel.org/oe-kbuild-all/202606240916.wIIrdOzC-lkp@intel.com/
-> Signed-off-by: Arnav Kapoor <kapoorarnav43@gmail.com>
+> I've taken a look at the driver in greater depth. The flag wrapping
+> functionality being refactored here is used to construct a graph
+> visualization for debugging.
+> 
+> > >                 dtrace_dot("node [shape = circle, fixedsize=true, width=2.5, label=\"%s\\n%s\\n\\n%s\"]; \"%s(pipe%d)\"",
+> > >                            bin_type, blob_name, enable_info, blob_name, id);
+> 
+> Each one of these calls generates a node in that graph, and the contents
+> of the node are decided by the flag string we build in enable_info. Seeing
+> as we are just collecting debug info and populating a visualization with it,
+> this refactor seems to be software.
+> 
+> Seeing as it's unlikely that every flag is enabled at once, and even if they
+> are this only causes a slightly more unreadable graph, avoiding 3 line
+> truncation seems to be the best option since it leads to more readable code
+> and avoids omitting information.
+> 
+> Additionally, len > 0 && offset == 0 is an impossible condition under any
+> feasible helper function use condition. This can be documented in a comment.
+> 
+> Given this information, to me it seems like the best course of action is to
+> revert the helper function to its simpler state without line count truncation
+> or the offset > 0 comparison. What do you think?
 
-Same comments.
+I agree, just add more comments to the code and elaborate in the commit message
+the (potential) difference in the behaviour.
 
-Best regards,
-Krzysztof
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
