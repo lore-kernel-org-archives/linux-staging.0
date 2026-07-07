@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06BB53F7ABE;
-	Tue,  7 Jul 2026 11:26:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E532F233924;
+	Tue,  7 Jul 2026 11:26:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783423568; cv=none; b=PLYYXUAMJgFFj1rifGrbimB7eOoAdlIXqfQS6FFskq0bDUfFAJUULFq7qYqo0rDg9M2Oz3e9w22fQaPj3wK0IvS5qFNJ9/nckHU1Un/dWUCNBHoJJ6AdKgvYt/dQ+bttniz+jgJWOcj9Q8MRAmXkAKBBd6B6uHgoBKgOynjIkT8=
+	t=1783423586; cv=none; b=CNOqwTJFRbiXP0pVW3dAbngfxChzStYW4NnmUf4Tx/fK30re9aPExzS7ByiSVW0A+DfwFHB1/Vi/OYlbo7iPQMDr4L6/sk/lgALzW8/oJHT1/vLTsAy9O35cyXQD58icnZ0oi1J0aA0P3gHJYpyiGz6+QUwBl7yjSJAzdAudOTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783423568; c=relaxed/simple;
-	bh=CzFCETi5LwZnorsB1agbbfp2nLl/0pSHktqqEMHqet0=;
+	s=arc-20240116; t=1783423586; c=relaxed/simple;
+	bh=ni8YX3dW7lN6PrKz6aOMMpn2IOfF6BPA60ZtFx6XDgw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e+gOKK4WmYiHXWJ9hKCEAq2Wp7mYP4KWPMJCMkvmbg8G0QTcOnWDor/PM7LBklKCNL95mHCElKjr0vsHrd/ecEM4z7/t3Z6VselduGU6P0XNB1bq9VP1mN8aSlClX2ZrKeaPrYObVaXRT5GAj0oU8HTODub5Pv59R/Tq+Lc5CWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=QaM1FtMd; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=otaVzuy/zafq8d+nQXNYwGauI/sEZub/lOOsA7akyMe75Gl6pmuWdGbJF9zy5s/Szyuk034I8Tv/ycejJWU7tKE4DpYmgZLjA5yW6bXywvnE7GwkuAtAXy3SUcaDYWEHm7Ibu5bo21xXhpoSVctUIlRPkA7PDVNdVDsb0I8xCKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=xehoBkoJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="QaM1FtMd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 119571F000E9;
-	Tue,  7 Jul 2026 11:26:00 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="xehoBkoJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 229A81F000E9;
+	Tue,  7 Jul 2026 11:26:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1783423561;
-	bh=uTxTIa+E+eT5hcRL0TNwpUyYe95IcNWRZBIkZglWsaA=;
+	s=korg; t=1783423584;
+	bh=Y2oEYjwEQudIZ8XNevwJ+AGM1SrB+iPkMqwtzULQoDc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=QaM1FtMduILnCpNslZvN41tSLfFr+1Ylwf+A7bymOFzqQnxYDTWlEwAsasSet0Q1B
-	 kh4rSPAEsxYr6XFGR1YpQ3jpDx+8nDXDdytHUYeo1ngTHZze14bVNyndC4t9pv9gQN
-	 aadmwo7enGcsCgqBcxpJeZKaYZAyoQeuX329Wcqc=
-Date: Tue, 7 Jul 2026 13:25:59 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Bruce Ou <oubruce1234@gmail.com>
+	b=xehoBkoJji0Y9wRBXrzcXRzIO4HGbHBFD7l19AOfT84yXqetaD+9GX6xHRKMoBINN
+	 xrnqsFmTgIGdAinzr3k848oem+lvFc1tUO0DhdDGc3zzwOOME9Y3D1xLy63s4Jv/wJ
+	 xGFTqjtZERUo5i1S0oh9PiUthxFBRiBYGogTD+eM=
+Date: Tue, 7 Jul 2026 13:26:22 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Xiaofeng Yuan <xiaofengmian@163.com>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: fix CamelCase warning for bAllow
-Message-ID: <2026070748-violin-dilute-24ce@gregkh>
-References: <20260622095236.10932-1-oubruce1234@gmail.com>
+Subject: Re: [PATCH] staging: rtl8723bs: hal: remove unnecessary braces
+Message-ID: <2026070712-pastor-bath-0442@gregkh>
+References: <20260622131719.4241-1-xiaofengmian@163.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -38,27 +38,55 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260622095236.10932-1-oubruce1234@gmail.com>
+In-Reply-To: <20260622131719.4241-1-xiaofengmian@163.com>
 
-On Mon, Jun 22, 2026 at 05:52:36PM +0800, Bruce Ou wrote:
-> Signed-off-by: Bruce Ou <oubruce1234@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/core/rtw_cmd.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+On Mon, Jun 22, 2026 at 01:17:19PM +0000, Xiaofeng Yuan wrote:
+> checkpatch reports two warnings about unnecessary braces in hal_intf.c:
 > 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> index c1185c25e..c23cf4216 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> @@ -299,12 +299,12 @@ void rtw_free_cmd_priv(struct	cmd_priv *pcmdpriv)
->  int rtw_cmd_filter(struct cmd_priv *pcmdpriv, struct cmd_obj *cmd_obj);
->  int rtw_cmd_filter(struct cmd_priv *pcmdpriv, struct cmd_obj *cmd_obj)
+>  - WARNING: braces {} are not necessary for any arm of this
+>    statement (rtw_hal_update_ra_mask)
+>  - WARNING: braces {} are not necessary for single statement
+>    blocks (rtw_hal_dm_watchdog_in_lps)
+> 
+> Both blocks contain only single statements, so the braces are
+> redundant. Remove them to align with kernel coding style.
+> 
+> Compile tested with CONFIG_RTL8723BS=m.
+> 
+> Signed-off-by: Xiaofeng Yuan <xiaofengmian@163.com>
+> ---
+>  drivers/staging/rtl8723bs/hal/hal_intf.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/hal/hal_intf.c b/drivers/staging/rtl8723bs/hal/hal_intf.c
+> index 27c0c0198..45634b5e5 100644
+> --- a/drivers/staging/rtl8723bs/hal/hal_intf.c
+> +++ b/drivers/staging/rtl8723bs/hal/hal_intf.c
+> @@ -208,9 +208,8 @@ void rtw_hal_update_ra_mask(struct sta_info *psta, u8 rssi_level)
+>  
+>  	if (check_fwstate(pmlmepriv, WIFI_AP_STATE) == true)
+>  		add_ratid(padapter, psta, rssi_level);
+> -	else {
+> +	else
+>  		UpdateHalRAMask8723B(padapter, psta->mac_id, rssi_level);
+> -	}
+>  }
+>  
+>  void rtw_hal_add_ra_tid(struct adapter *padapter, u32 bitmap, u8 *arg, u8 rssi_level)
+> @@ -254,9 +253,8 @@ void rtw_hal_dm_watchdog(struct adapter *padapter)
+>  
+>  void rtw_hal_dm_watchdog_in_lps(struct adapter *padapter)
 >  {
-> -	u8 bAllow = false; /* set to true to allow enqueuing cmd when hw_init_completed is false */
-> +	u8 allow = false; /* set to true to allow enqueuing cmd when hw_init_completed is false */
+> -	if (adapter_to_pwrctl(padapter)->fw_current_in_ps_mode) {
+> +	if (adapter_to_pwrctl(padapter)->fw_current_in_ps_mode)
+>  		rtl8723b_HalDmWatchDog_in_LPS(padapter); /* this function caller is in interrupt context */
+> -	}
+>  }
+>  
+>  void beacon_timing_control(struct adapter *padapter)
+> -- 
+> 2.43.0
+> 
+> 
 
-Shouldn't this now be a boolean?
-
-thnaks,
-
-greg k-h
+Does not apply to the latest tree :(
