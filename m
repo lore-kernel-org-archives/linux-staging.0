@@ -1,36 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D95813F54A4;
-	Tue,  7 Jul 2026 11:15:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB7AB81AA8;
+	Tue,  7 Jul 2026 11:16:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783422948; cv=none; b=jbk7x8rD2PPdIjr17vGZD/XDkXV56/gckbYVn1tTwFHuUeHpPL2KX2fta4D/ceAM3I2QCyouTg3K3R+GS8pRKE0Omr3Ar0+IQ042jC7i3NSDYpM7Wy2WMu3GXOrWq3TZrmLDb3C/UwyXJbY3TGLFP38DjyK7oDZrO4yj2C62y34=
+	t=1783422982; cv=none; b=dw9Z2Xo31gfzBc532zvecA4MTpKswstxOIypFwVhYOWkW2rildoYmTHiAxHuLF1Ay7kqrXgBbVU9lYzMXUTuIvtmETOJ1iYMnuTxvjg6wswWY1vaK6j4fRRJlaZES7nakrRjGUqzm+zd1Bi/IJpA8EfQv6UDiYQO4+rJ/+vNyFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783422948; c=relaxed/simple;
-	bh=uJQi0sczChTPEQYmefja2PSKSqMnfflu4v+Bzv0lVkc=;
+	s=arc-20240116; t=1783422982; c=relaxed/simple;
+	bh=MOLAevC8PA0LxA6HNJoDnwr8J+1ogIG9tBKSSDLA3kw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ey3mmrgfS2jx13c6qcqBO/jgX8+H7momQUKK3O8YM+it9NhUzv8pkQBcNJHmyHnsTpAdM3Xy7sLDuACRjpSS68dCKgC0VAoDamF/iS4D538EmcpnYY9nsx/AbI8302xwY2yZOmXKVD+MplWL7yfpwhDbSZSchzrtWTSn/BqRokE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=d58g1ZKK; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=IZVZwlPjbkivzDfnAi0EEdg3BhTsk67BwFm1tSWpw+OI35J7DgmRzm7P3p97Wpjh2OKR9C8Cxv23s2lSNKQoX/6Y0CgstqQ4svAJzxyTd2b/4kMMnGBkkNfag/UNYq9AmBgniad1mlnFmt7SC7q8ToGu25uiOxK9ih4TPxKEtqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=D1+QxCJr; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="d58g1ZKK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 263B71F00A3D;
-	Tue,  7 Jul 2026 11:15:46 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="D1+QxCJr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B6F61F000E9;
+	Tue,  7 Jul 2026 11:16:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1783422947;
-	bh=CducxYuW0Jm79zHyQGaGn/CWHbfe+ye7EhyINoj5FDw=;
+	s=korg; t=1783422981;
+	bh=aF+FhFAAhtKKzcFBlmCtSSLn+STovTtA1qBrxTt/hF4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=d58g1ZKKQURjP7612iyCqRuuyJaCKGfcxTXlH3kEHMx+7sghIWFiu4vwwtzjasMqU
-	 NW7G2S2P2Vj0BH5RGo99eiHHqOdLgJHkv1aQV/bfXJUq/lwDbCdoNEv03EmqZ86/bF
-	 rN/dUomhb6gUD788LoTu8dErlP6TDzeczT/tAAAM=
-Date: Tue, 7 Jul 2026 13:15:45 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Daniel Guihot <daniel.guihot123@gmail.com>
+	b=D1+QxCJrHUUHiCyfBNDf8b2fS+ZPAne8ds/G8eE4RBabaW7a/iuj0fcsBh1gG5B1P
+	 5NPjnmTD0rJvRKKtNkaNKvbYGng5l21apNT2kGly+52cMlR9FL/UVFDc/a7deuC+w7
+	 jXe2URGaOmXlCfYc8+JNGL2K71sGijJptyUkU1so=
+Date: Tue, 7 Jul 2026 13:16:19 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Jeeva Anandh <anandhjeeva215@gmail.com>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: remove unnecessary braces from
- single statement blocks
-Message-ID: <2026070718-charging-outsource-81a1@gregkh>
-References: <20260705193340.14684-3-daniel.guihot123@gmail.com>
+Subject: Re: [PATCH] staging: rtl8723bs: simplify NULL pointer checks in
+ rtw_recv.h
+Message-ID: <2026070713-falcon-drier-1ef3@gregkh>
+References: <20260603091411.21482-1-anandhjeeva215@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,27 +39,60 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260705193340.14684-3-daniel.guihot123@gmail.com>
+In-Reply-To: <20260603091411.21482-1-anandhjeeva215@gmail.com>
 
-On Mon, Jul 06, 2026 at 05:33:42AM +1000, Daniel Guihot wrote:
-> Remove braces around single statement blocks in rtl8723b_hal_init.c to
-> comply with the kernel code style, as reported by checkpatch.pl:
+On Wed, Jun 03, 2026 at 09:14:11AM +0000, Jeeva Anandh wrote:
+> Replace explicit NULL pointer comparisons with idiomatic
+> pointer checks to improve readability and follow kernel style.
 > 
->   WARNING: braces {} are not necessary for single statement blocks
->   WARNING: braces {} are not necessary for any arm of this statement
-> 
-> No functional change.
-> 
-> Signed-off-by: Daniel Guihot <daniel.guihot123@gmail.com>
+> Signed-off-by: Jeeva Anandh <anandhjeeva215@gmail.com>
 > ---
->  .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 32 +++++++------------
->  1 file changed, 12 insertions(+), 20 deletions(-)
+>  drivers/staging/rtl8723bs/include/rtw_recv.h | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/include/rtw_recv.h b/drivers/staging/rtl8723bs/include/rtw_recv.h
+> index 8e45871f07f0..9c32d480a20a 100644
+> --- a/drivers/staging/rtl8723bs/include/rtw_recv.h
+> +++ b/drivers/staging/rtl8723bs/include/rtw_recv.h
+> @@ -349,7 +349,7 @@ s32  rtw_recv_entry(union recv_frame *precv_frame);
+>  static inline u8 *get_rxmem(union recv_frame *precvframe)
+>  {
+>  	/* always return rx_head... */
+> -	if (precvframe == NULL)
+> +	if (!precvframe)
+>  		return NULL;
+>  
+>  	return precvframe->u.hdr.rx_head;
+> @@ -362,7 +362,7 @@ static inline u8 *recvframe_pull(union recv_frame *precvframe, signed int sz)
+>  	/* used for extract sz bytes from rx_data, update rx_data and return the updated rx_data to the caller */
+>  
+>  
+> -	if (precvframe == NULL)
+> +	if (!precvframe)
+>  		return NULL;
+>  
+>  
+> @@ -387,7 +387,7 @@ static inline u8 *recvframe_put(union recv_frame *precvframe, signed int sz)
+>  	/* after putting, rx_tail must be still larger than rx_end. */
+>  	unsigned char *prev_rx_tail;
+>  
+> -	if (precvframe == NULL)
+> +	if (!precvframe)
+>  		return NULL;
+>  
+>  	prev_rx_tail = precvframe->u.hdr.rx_tail;
+> @@ -414,7 +414,7 @@ static inline u8 *recvframe_pull_tail(union recv_frame *precvframe, signed int s
+>  	/* used for extract sz bytes from rx_end, update rx_end and return the updated rx_end to the caller */
+>  	/* after pulling, rx_end must be still larger than rx_data. */
+>  
+> -	if (precvframe == NULL)
+> +	if (!precvframe)
+>  		return NULL;
+>  
+>  	precvframe->u.hdr.rx_tail -= sz;
+> -- 
+> 2.43.0
+> 
+> 
 
-You sent this twice, from two different email addresses?  Which one is
-correct?
-
-Please resend a v2 from the correct one so we know what to do here.
-
-thanks,
-
-greg k-h
+Does not apply to the tree :(
