@@ -1,138 +1,99 @@
-Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62A48306D3F
-	for <linux-staging@lists.linux.dev>; Tue,  7 Jul 2026 20:18:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 870123F23B9
+	for <linux-staging@lists.linux.dev>; Tue,  7 Jul 2026 20:44:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783455483; cv=none; b=FdcAdeRFkcarz4uiYEATDz104Ye0OtsqPVWNdqLrRSbcNBmZGIpyihI/AcLVyBNp9QUm9j9qWOIoQ1RyOeAaXkv8LY73hfzRu2dL7BoD4F8o4pKLB4Pf98LOuVfG6zEDyJGlM5ymHRUuwfzo6rwJxwarfGkxRbGUyzFcw45Iwwo=
+	t=1783457051; cv=none; b=V5Cy20vcr6kqLNAaBakk6E+fCs4jbEyev9KLGkfthppR9Y8thT1zmkFAn3oF0wZFRHQ5xYqvuqqRxmWeLnaiSkVl/6PJj5DEWCDSd1FMhhCK+pXGzfJ/nEle4jwXtzghq0fqIayKvpx+XJOkRa1ta+QRsL1e49q1PG+IRlg4mjs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783455483; c=relaxed/simple;
-	bh=LT84Mt9Usfp2EKOVxpbMacj1qP8vDd8wrB3bl7sGTqk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hSxVlDDO0mPjli5DjkAK6uV6IoqTtNarR543FOfmQJq5WmNf4A4CqIVxaYNmpFvIqQD0hxc2/KJZETEAwMWOP5dNwJs56cxXCWKf/1W2pF2XH9bXt+ZKO0xhDwr6FXmGb7gKeGsTdh3WMOC9biVhSNpSzn8S8Ocdh2PuGfMrkdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=r6gk4TjX; arc=none smtp.client-ip=74.125.82.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783457051; c=relaxed/simple;
+	bh=4LwkHrmEkZ/w0rTKdZFWp6HHbkBzF2K/UCOe/6HNkiQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=M9Ao3r6smSL1GE+uPxQlsVe3Itiy2Sd2Gyq4IyyRezlu82Y8sRFlFhKeFOTUztHlTvbKfsyu3oDdhlGTU9Tp63miXBRLNVRe99dLwJxrcilZalrfVc6EBUfAqbDtA87gQyVw1J+05IhHGehxOVYvc8qDilC0xfko6YVfcvQyFQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hurranet.com; spf=pass smtp.mailfrom=hurranet.com; dkim=pass (2048-bit key) header.d=hurranet.com header.i=@hurranet.com header.b=im1EhK7L; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hurranet.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hurranet.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="r6gk4TjX"
-Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-13b5fae0710so27005c88.0
-        for <linux-staging@lists.linux.dev>; Tue, 07 Jul 2026 13:18:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783455481; x=1784060281; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=9aWTekv18Vz7q14Rh1vzCFo3WAspKNMWkB+3v3BTdxo=;
-        b=r6gk4TjX8A6iP864fafWmtQdSI3Cp7+ePduYumQcPCIgJtiJr0393CMXUrb3dn49rC
-         Uq+xyG/bBTb1suMtbCafQgf48r85LKYBsV2cTWMy1EPf0E5+GfKgGCs9wURY8zf/Q/Gj
-         fC2L5ZpEgepqBiQBmbEgOxxXRBWOf6srBdF6fsb5YxsWcA0/vZWpCmQADRF/tfsYnNuM
-         KRgmi+3sce9adUfs3oaJtx0XM8wC9UtCXKkr2EkrbzWnIG71J8exFCQxRSD5lz5nOfWl
-         Wc5bpiaBl5htssDagFZ/ZWwTHYksVqnasvd1KrRL79TUdmpcvX1DXALnoBVVWjgDeJFf
-         zRLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783455481; x=1784060281;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=9aWTekv18Vz7q14Rh1vzCFo3WAspKNMWkB+3v3BTdxo=;
-        b=GWCXmQYIAQOQ2Z4LuIO0uE6XBnjhQerXABiwGsS4LcsW/sQrVNi+WdfxXZICMmY8+W
-         3cxVTa9ed5/EvaGJpKGvCDI7UeyCRURE1OHIbz+HP5EdOyVMDWF8rRfiJXx2p4aSjefB
-         sVaMuwdqjmMaF5kdJNsIBMjzlqVls0+IC30kYXHVl1fvTDzGS0vrAADA3GifuOc8jzWq
-         I1eSIBKGjkNWu96En/dkkanzK9WyCkXh+WWVZ2mSEFDhdn7jZ/YbJznNQPSz5yD4/Jqv
-         DNSMefysmL0mtqeJEvZMK7qy+j3mYDyVuxXr2Bx3fdVJXBEjhEu0qZ4hB6BXJJNsmFDp
-         KVcg==
-X-Forwarded-Encrypted: i=1; AHgh+Rq1ep18BySpO77doqKrDNW1JRwG6xHQi+Actp5peI9ELY9AM5xJ6DdADyunz+Rliz2blMWNKR3nnQpBhCYP@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywt/3v8b3ujBNwK36YNUHPCOHd5y4N88XEicDM+JnEyC06tOF8j
-	0BBEIFvVIsTNq5H/0v/Tp25d8Oul1zyTWh4EnuFSj7oLOB/WdshqrIVkCit1ugqg3NGreR7M
-X-Gm-Gg: AfdE7cmHnxL/EBw713fUQbSg3kcrYpJOVXgpJHlvIj1aqXOe2NNeeQHsUHwv1M0cTk7
-	munUdlB6Sph4O61x2FA7NaX7LXAAH11yEEwdPy+xHxF+vh4bL9uZVORzIaHNXaPe0bZzHA/9294
-	mJ2QrbMpzsOVN0GECmFYqi6gYNwOMtjsZ6d8uWSNDRLaYrTm72TY8zAfE8efYkg2sxaGxwOyLvK
-	OKPudr+KTw5g0gdso4cNgQNARijq2VdWrmuTZD4mNtcGuEANK6KaWAGgJtt7fUe/YO3xb3r5S88
-	/mG5im3UhatG8iZyLP8Gj9qnvhMAsnlqWx7wBbIrtvGQTdjmInI/ZBLZHp+O8biIPJ7tv5pRKQy
-	nVYe02qlskE37CpRrNFX7J6STox7coGWLShag//PRRvYNI7FGLvK6skj+Q4J3aD41hFeJCO54eS
-	Hgk+FBQAmIgnxILflS+A==
-X-Received: by 2002:a05:7022:f10d:b0:136:959a:abf2 with SMTP id a92af1059eb24-13b625e0929mr57728c88.2.1783455481318;
-        Tue, 07 Jul 2026 13:18:01 -0700 (PDT)
-Received: from adr.. ([103.216.221.83])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b65960d88sm9835785c88.6.2026.07.07.13.17.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2026 13:18:01 -0700 (PDT)
-From: =?UTF-8?q?Andr=C3=A9=20Moreira?= <andrem.33333@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Andr=C3=A9=20Moreira?= <andrem.33333@gmail.com>
-Subject: [PATCH v5] staging: sm750fb: rename variables to comply with kernel style
-Date: Tue,  7 Jul 2026 17:15:41 -0300
-Message-ID: <20260707201541.12459-1-andrem.33333@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <2026070710-exact-unveiling-e321@gregkh>
-References: <2026070710-exact-unveiling-e321@gregkh>
+	dkim=pass (2048-bit key) header.d=hurranet.com header.i=@hurranet.com header.b="im1EhK7L"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA512)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4gvtVr5Nr4zKw1P;
+	Tue, 07 Jul 2026 22:44:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hurranet.com;
+	s=MBO0001; t=1783457044;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=oa464xCUGkmiGy9zkxLRJVpNeIXjkXZ5GwRr5B/+Ozs=;
+	b=im1EhK7LMr0ClEG3wcjhPE32ifSEYqhG0arf514OnpMkV9c8PApulKDU8yqphFkW4y5Uzt
+	80+2DF2HtbP88S8O/w9Q3ypK//czNOWHqYMj+Pbk2xYiIHAc8RAo8GmAYrQoZ8Ljw30zWq
+	NXlEybUfiR+FQ6kueyEPTiVdDg9sBIVm54ggauaqPQpJx5nzgIk1iUagWH4utClzpXA2+0
+	cFxDDyr9wsZdANe/tAkBYdiM7G6qD7rN1UtoYAYx9uVYXcayooX7n4QvAnCvnYlqT6cteR
+	phi1/xuuiOyxZtDKIzJs0KLuH6VicecEl3pA5UpBAsPpW/jIfAgIHCtGZPeaPA==
+From: Aiman Najjar <aiman.najjar@hurranet.com>
+Subject: [PATCH v2 0/2] staging: rtl8723bs: enum labels naming, coding
+ style
+Date: Tue, 07 Jul 2026 16:43:38 -0400
+Message-Id: <20260707-rtl8723bs-code-style-v2-0-df50f0eead17@hurranet.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPpkTWoC/4WNQQ6DIBBFr2JmXRrEiNBV79G4AJzWaawYQKMx3
+ r1qD9DlS95/f4WIgTDCLVsh4ESRfL+DuGTgWtO/kFGzMwguJJdcs5A6VYnCRuZ8gyympUPGVZV
+ bxa2stIZ9OgR80nxmH/WP42jf6NLROoyWYvJhOX+n/PD+XEw546wxhqMqi1Ibee+oH+er8x+ot
+ 237ArNVoqLKAAAA
+X-Change-ID: 20260609-rtl8723bs-code-style-0871b80b6799
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ kernel-janitors@vger.kernel.org, Aiman Najjar <aiman.najjar@hurranet.com>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1783457042; l=1495;
+ i=aiman.najjar@hurranet.com; s=20260606; h=from:subject:message-id;
+ bh=4LwkHrmEkZ/w0rTKdZFWp6HHbkBzF2K/UCOe/6HNkiQ=;
+ b=WirCTj71y5YfcByNoiWTGbuyDgtI2y9MOatE7YJ1i2t4TdRkigYg0ybjdd57b2PU1FzGhe3w9
+ U1HNnNyqegACLSGAVuC4YB/UHPtagXLsOEixkGM7SaVaIjqprCCj7IR
+X-Developer-Key: i=aiman.najjar@hurranet.com; a=ed25519;
+ pk=iKg5UkqF2CmKvQwe+Jp8Cf4JOcIHoyvApdVll0sJHu8=
 
-Rename 'setAllEngOff' to 'set_all_eng_off' within the 'init_status'
-struct to avoid CamelCase and comply with the Linux kernel coding style.
-Also update its usage within sm750.c to prevent compilation errors.
+Hi Greg, sorry it seems I had used the wrong base tree.
+I've rebased now in this v2 series. Thanks for reviewing :)
 
-Signed-off-by: André Moreira <andrem.33333@gmail.com>
+Enum labels generated by token-pasting macros adopt camel case. This
+patch removes the use of macro to generate the enum label names and
+adopts new captialized names.
+
+Signed-off-by: Aiman Najjar <aiman.najjar@hurranet.com>
 ---
-v5:
-  - Fix broken diff from v4 that was accidentally recreating the entire struct.
-  - Update the variable usage inside drivers/staging/sm750fb/sm750.c to
-    prevent compilation errors.
+Changes in v2:
+- Rebased series onto correct upstream tree, i.e. gregkh/staging-testing
+  instead of mainline and resolve minor conflicts
+- No functional code changes
+- Link to v1: https://patch.msgid.link/20260609-rtl8723bs-code-style-v1-0-daa0e85359a6@linux.com
 
-v4:
-  - Drop register renames 'pvReg' to 'regs' as they were merged via another upstream patch.
-  - Keep only the 'init_status' CamelCase cleanup.
+---
+Aiman Najjar (2):
+      staging: rtl8723bs: drop GEN_CMD_CODE macro and capitalize labels
+      staging: rtl8723bs: drop GEN_EVT_CODE macro and capitalize labels
 
-v3:
-  - Added changelog history to satisfy the bot.
+ drivers/staging/rtl8723bs/core/rtw_ap.c          |   4 +-
+ drivers/staging/rtl8723bs/core/rtw_cmd.c         | 190 +++++++++++------------
+ drivers/staging/rtl8723bs/core/rtw_mlme.c        |   4 +-
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c    |  30 ++--
+ drivers/staging/rtl8723bs/include/rtw_cmd.h      | 154 +++++++++---------
+ drivers/staging/rtl8723bs/include/rtw_event.h    |   4 -
+ drivers/staging/rtl8723bs/include/rtw_mlme_ext.h |  54 +++----
+ 7 files changed, 214 insertions(+), 226 deletions(-)
+---
+base-commit: 955bd61f814c3f5a44bb805e1ba55ddb77cb7fdf
+change-id: 20260609-rtl8723bs-code-style-0871b80b6799
 
-v2:
-  - Renamed 'pv_reg' to 'regs' to completely remove Hungarian notation, based on Greg KH's feedback.
-
- drivers/staging/sm750fb/sm750.c | 2 +-
- drivers/staging/sm750fb/sm750.h | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index 89c811e0806c4..00c293430a7d5 100644
---- a/drivers/staging/sm750fb/sm750.c
-+++ b/drivers/staging/sm750fb/sm750.c
-@@ -848,7 +848,7 @@ static void sm750fb_setup(struct sm750_dev *sm750_dev, char *src)
- 	sm750_dev->init_parm.mem_clk = 0;
- 	sm750_dev->init_parm.master_clk = 0;
- 	sm750_dev->init_parm.power_mode = 0;
--	sm750_dev->init_parm.setAllEngOff = 0;
-+	sm750_dev->init_parm.set_all_eng_off = 0;
- 	sm750_dev->init_parm.reset_memory = 1;
- 
- 	/* defaultly turn g_hwcursor on for both view */
-diff --git a/drivers/staging/sm750fb/sm750.h b/drivers/staging/sm750fb/sm750.h
-index d2c522e67f26a..589ae51444f81 100644
---- a/drivers/staging/sm750fb/sm750.h
-+++ b/drivers/staging/sm750fb/sm750.h
-@@ -44,7 +44,7 @@ struct init_status {
- 	ushort chip_clk;
- 	ushort mem_clk;
- 	ushort master_clk;
--	ushort setAllEngOff;
-+	ushort set_all_eng_off;
- 	ushort reset_memory;
- };
- 
--- 
-2.43.0
+Best regards,
+--  
+Aiman Najjar <aiman.najjar@hurranet.com>
 
