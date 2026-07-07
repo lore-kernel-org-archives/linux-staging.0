@@ -1,75 +1,108 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74DF638E8BE;
-	Tue,  7 Jul 2026 09:52:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EC5A27A907;
+	Tue,  7 Jul 2026 09:59:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783417955; cv=none; b=Nz256stu/Sz41lIZyqJRj4pJvloocGIzB7bPUtQeICFHLMZzMMsg3lYL4ed1WL5phOt4BrU0AlnqG7iA4s1uO0j1KZVBsugGmC5ghpBGDbj1LZCPA05eE0QkOqCyRnQuvY3Oi3p6s4CG1lG/jaGxndC48tZlt3z+Vcl1wCokad8=
+	t=1783418400; cv=none; b=jUQn4gAkgLrHJXCnttS6qvofr+jnkP1wux1at86gGuuYx/05cR88qsXTPk+t3PNrz0vK3LsSAhmPUvQwyLodC4qZ2FRewMR3qLtoze0Myg3i2tQsLjjodPskGoC4BTXfgpxqz6PIXuahEhiZw7bxfqV9B6z5a7TBFAA7f817gJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783417955; c=relaxed/simple;
-	bh=KeUZ5XaSovh1WHwL7hnIQKVtVcyN0irhfCJ9Mw4wZ5k=;
+	s=arc-20240116; t=1783418400; c=relaxed/simple;
+	bh=3OOV3gT7Dhm5ebiEewYMEnHFHiFkuUQIWOyRr5nzAnQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rb4nrY8u2e6l1SrRJFe6E1w00f7jNUrZJc8OLopQOts8X6MjI7eHN6UL0IrkAeqo3BCS8lnvAArzMFEvtFQ4QMYBgdZOKhAOmDiD7Dydus70K7U0tPb0JbQ07sTzpDbNoefdn4gx7YG7BfA6Y2rKTnnPJMPuk+zZU7oqQhywEUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=1BeBugKT; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=iIhhtLtvj4BqqP5KfkVR23ssa22nqTpSmHO18lfP99ZuDgj6HfJ/IADr0se8mIJvafm/oII5yuSAwkQYyMDIq+fbhhaj8BUksUfqwDMMUcW/W3HTrTu1b0jnAoJTvdKQW+FkJ7fHTRylFBn1tn5sVCtA7CM0POqKLnzAzXj2Y9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=0XhCDVTU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="1BeBugKT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C48E1F000E9;
-	Tue,  7 Jul 2026 09:52:33 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="0XhCDVTU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B6911F000E9;
+	Tue,  7 Jul 2026 09:59:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1783417954;
-	bh=+NVG6QAYWNHVBhtHGSkXBH5iaVfONPGH5BGyh4Ktkfc=;
+	s=korg; t=1783418398;
+	bh=/8mjPD40N3vgMofdeVpcl8iN91dng7EtLdqpCAtTE74=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=1BeBugKT1Tn2Y7CZcVlvbcpz2x50rhIWeWqx3oOH68BhSkgCvRGBKysir7v5jNgi4
-	 RZZRXuY7sEq85FqpTkhk75bVpwsSj0ULTPeYuqOJn1RwePgU0qOMqhWA4unLZ8/s2x
-	 yNVkDMGlXAWagpR0T/qEhOWoJlqWDLiM9DX/UZxU=
-Date: Tue, 7 Jul 2026 11:52:31 +0200
+	b=0XhCDVTUFPD5BOBWS5A/M/xpf77dGyewWxCiRpjT1t0L/tNqPjQPvWlB+iS7WDaN5
+	 Un8PxPE1fTSTJf2hmIBwy/hYMiT+XnxZ5q0+R6EOYZsuOVOM4dPnjNNTKvLxKp0Lfo
+	 rInxMd9W0fuz+j6SQFFcV1fSOTHe9Q5RytZxGvNU=
+Date: Tue, 7 Jul 2026 11:59:56 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Diego Fernando Mancera =?iso-8859-1?Q?G=F3mez?= <diegomancera.dev@gmail.com>
-Cc: linux-staging@lists.linux.dev, m.steinmoetzger@gmail.com,
-	guojy.bj@gmail.com, straube.linux@gmail.com, error27@gmail.com,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: rtl8723bs: clean up if-else logic in
- odm_HWConfig.c
-Message-ID: <2026070715-polyester-recycling-fb55@gregkh>
-References: <20260522054624.190256-1-diegomancera.dev@gmail.com>
+To: artur.ugnivenko@gmx.de
+Cc: ahmet@sezginduran.net, error27@gmail.com, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH v9 3/3] staging: rtl8723bs: refactor queue priority
+ initialization
+Message-ID: <2026070724-unsolved-phoney-3b8c@gregkh>
+References: <20260528170645.30861-1-artur.ugnivenko@gmx.de>
+ <20260528180757.19082-1-artur.ugnivenko@gmx.de>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260522054624.190256-1-diegomancera.dev@gmail.com>
+In-Reply-To: <20260528180757.19082-1-artur.ugnivenko@gmx.de>
 
-On Thu, May 21, 2026 at 11:46:24PM -0600, Diego Fernando Mancera Gómez wrote:
-> Refactored redundant if-else blocks to a cleaner else-if structure in
-> odm_HWConfig.c and fixed indentation to use tabs as required by the
-> kernel coding style.
+On Thu, May 28, 2026 at 08:07:57PM +0200, artur.ugnivenko@gmx.de wrote:
+> From: Artur Ugnivenko <artur.ugnivenko@gmx.de>
 > 
-> Signed-off-by: Diego Fernando Mancera Gómez <diegomancera.dev@gmail.com>
+> Pack individual priority values into an enum-indexed array
+> to simplify the initialization code and prevent passing around
+> six loose values as function parameters.
+> 
+> Signed-off-by: Artur Ugnivenko <artur.ugnivenko@gmx.de>
 > ---
-> v3: Restored accidentally removed comments and blank line.
-> v2: Added commit body description and Signed-off-by tag.
-> v1: Initial cleanup of if-else logic.
+> Changes in v9:
+> - don't declare variables in the middle of functions
+> - remove unnecessary whitespace
+> Changes in v8:
+> - Remove the struct from v7, use an enum-indexed array instead
+> - Remove other lines ending in parentheses fixes to keep the
+>   commit small
+> Changes in v7:
+> - Add changelog.
+> - Add transmit_queues struct in include/drv_types.h to improve
+>   style of _InitNormalChipRegPriority
+> Changes in v6: Make the patch apply to gregkh/staging-testing.
+> Changes in v5: No changes in this patch.
+> Changes in v4: No changes in this patch.
+> Changes in v3: Split the patch into multiple patches.
+> Changes in v2: Make patch apply to gregkh/staging-testing.
 > 
->  drivers/staging/rtl8723bs/hal/odm_HWConfig.c | 11 ++++-------
->  1 file changed, 4 insertions(+), 7 deletions(-)
+>  drivers/staging/rtl8723bs/hal/sdio_halinit.c  | 105 +++++++++---------
+>  drivers/staging/rtl8723bs/include/drv_types.h |  10 ++
+>  2 files changed, 62 insertions(+), 53 deletions(-)
 > 
-> diff --git a/drivers/staging/rtl8723bs/hal/odm_HWConfig.c b/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
-> index c88d669cb086..abf3d96746b9 100644
-> --- a/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
-> +++ b/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
-> @@ -227,19 +227,16 @@ static void odm_rx_phy_status_parsing(struct dm_odm_t *dm_odm,
+> diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit.c b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+> index 6f2aea984b30..1246c5fdfc32 100644
+> --- a/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+> +++ b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+> @@ -188,25 +188,18 @@ static void _InitTxBufferBoundary(struct adapter *padapter)
+>  	rtw_write8(padapter, REG_TDECTRL + 1, txpktbuf_bndy);
+>  }
 >  
->  		odm_parsing_cfo(dm_odm, pkt_info, phy_sta_rpt->path_cfotail);
->  	}
-> -
->  	/*
+> -static void _InitNormalChipRegPriority(
+> -	struct adapter *Adapter,
+> -	u16 beQ,
+> -	u16 bkQ,
+> -	u16 viQ,
+> -	u16 voQ,
+> -	u16 mgtQ,
+> -	u16 hiQ
+> -)
+> +static void _InitNormalChipRegPriority(struct adapter *Adapter,
+> +				       u16 queues[TX_Q_MAX])
 
-Why did you delete this blank line?
+Wow, that's an odd thing to be passing by value in a function, do you
+really mean to do this?  Yes, the compiler will let you, but it's not a
+good idea to do that at all in the kernel as it messes with the stack,
+and all sorts of "odd" things can happen.
+
+Please always pass structures by reference.
+
+Also, you are "open coding" the structure size here, which is not a good
+idea as you have to manually keep everything in sync.  What's wrong with
+that original structure you used a few versions before?
 
 thanks,
 
