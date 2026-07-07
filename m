@@ -1,74 +1,63 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12E4C3E3D9C;
-	Tue,  7 Jul 2026 10:27:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EF953E025F;
+	Tue,  7 Jul 2026 10:28:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783420029; cv=none; b=r5j56Scqiw1HZeGKIdHFueS28MwD+ZOEp5YRfGakENfVCYbvevtNVFczWpMyMz1bQPuEMXx2Ge0dy+Xknh86mk7EsufHzFOutjLYTkaZFFn72NJ7IX8+nEh8e6ji+PQlKzpKwKty6zJAe7Fhxo3TmVFfvcOX0us6/FLYRuBAhzY=
+	t=1783420098; cv=none; b=tLdXxDZDuOE3AQal+8/9dPwOeD61lh94kY/aoVEDi7dQ02pMQPl+lWSAAYoVyh4vMMLg+mxmkHXBTdRsB4OXnZFg2w0GWBRZLdPR4MX4FASayVIsRhIOYs2+z6DOXYrd4f99V4Z859ImIhNr29sd3Op5r2LycERCXYJnQfWpE/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783420029; c=relaxed/simple;
-	bh=SolqK98Hg25vmdSpppPARJWo4MuIs//jYF6XN2Jtdu4=;
+	s=arc-20240116; t=1783420098; c=relaxed/simple;
+	bh=JDiUlGg2j5mxjD66QNeAQpbLipmKwjiaXdHQvKofHLU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nDEeDyWO5KG8nr1kr2B9qAZGOHARy0Htn0gbeMnBrWc2QnaKGwURzH1/kPU/xG0wJFm6qeBlHyx/R9T3pjEChIlHv0QWeTezFS55stcrIGy2o8vbAAvSNSmfoHwVVFDOW1er9MQ27VKBQE7M2UkCPy1qxB0Lqv+J3Dc/8VqhK9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=k7xJ5ePB; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=amTBLxmq0ueX3nkXgs7vEFRmbMz7548lMazQGQiqys2DqlIWIYzBabBL7rWMSARaGyt3ZXU3+5z92KT7eBjhrCAMBtaGjfyRw/xR78s/l61eHCrQmYTHoxGFUY2ZyU6uu80qkJQ7Eu9HCsgpZpk9MyTn+1ktYVTHUdsUMLEOmpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=C8xpgAeP; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="k7xJ5ePB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3EF61F000E9;
-	Tue,  7 Jul 2026 10:27:05 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="C8xpgAeP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D26E91F00A3A;
+	Tue,  7 Jul 2026 10:28:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1783420026;
-	bh=OkTGGusC3puhGGieiji4FISEepBQRtw7C08TghiNzOo=;
+	s=korg; t=1783420094;
+	bh=46+bYC6reCzQWstyWxUnJVrmpn+WdtR/wpyleQnUyqs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=k7xJ5ePBRwCmAeUsm5qUhiYBOFw2FPvhlD+v112Z+UysL8ygGVALvJNyLbFyw6/gY
-	 MrUiyyvr4MtiIVEdpyKSFzEu5juyTT3Lh04amaqppbsthrQbvKAHGdMu13KE0G/hIx
-	 /wWk+gSUsPSMW3eGwMlbwAyWLK+vn1j6GP4sYP58=
-Date: Tue, 7 Jul 2026 12:27:03 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Bruce Ou <oubruce1234@gmail.com>
-Cc: Dan Carpenter <error27@gmail.com>, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] staging: rtl8723bs: fix CamelCase warning for
- bResult
-Message-ID: <2026070739-poem-scale-6118@gregkh>
-References: <20260623120815.14737-1-oubruce1234@gmail.com>
- <20260623120815.14737-2-oubruce1234@gmail.com>
+	b=C8xpgAePgjjOWNsgJRLaBMomODcTlzj1KEfCJufjVCcFqBXgwFQLZ2PNzM5clDE6t
+	 6KAoyQjdH9Oh0Vuc3O5o/oXVySCOJfFeGiAV8yABHmIKlySZun/x4AMwRHXgdNVejr
+	 DQMM60FLDPQzCCUA/ZNHP80I3Dq1IUkLR2H+GSAE=
+Date: Tue, 7 Jul 2026 12:28:11 +0200
+From: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+To: Saulo Henrique <saulohsdoroteio@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: rtl8723bs: fix checkpatch style issues
+Message-ID: <2026070745-spirits-arming-f24e@gregkh>
+References: <CAM09=pU-wLaqvizTt-pu595nSx2PRw8W60rraArTWRo8VFemRg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260623120815.14737-2-oubruce1234@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAM09=pU-wLaqvizTt-pu595nSx2PRw8W60rraArTWRo8VFemRg@mail.gmail.com>
 
-On Tue, Jun 23, 2026 at 08:08:13PM +0800, Bruce Ou wrote:
-> Fix the coding style warning reported by checkpatch.pl regarding
-> the CamelCase local variable bResult by renaming it to result.
+On Sat, Jun 20, 2026 at 08:41:12PM -0300, Saulo Henrique wrote:
+> >From 66175877cefddce1a2ea5ee2cffec427c05b21d2 Mon Sep 17 00:00:00 2001
+> From: =?UTF-8?q?Saulo=20Henrique=20Santos=20Dorot=C3=A9io?=
+>  <doroteios@outlook.com>
+> Date: Sat, 20 Jun 2026 19:29:24 -0300
+> Subject: [PATCH] staging: rtl8723bs: fix checkpatch style issues
+> MIME-Version: 1.0
+> Content-Type: text/plain; charset=UTF-8
+> Content-Transfer-Encoding: 8bit
 > 
-> No functional changes are introduced.
+> Fix multiple coding styles issues reported by checkpatch.pl, including
+> line wrapping and whitespace cleanup.
 > 
-> Signed-off-by: Bruce Ou <oubruce1234@gmail.com>
-> ---
-> Changes in v2:
->   - Split from a single comprehensive patch into a standalone patch.
-> 
->  drivers/staging/rtl8723bs/core/rtw_efuse.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-> index a40d6eab7249..4bf205e078e7 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-> @@ -89,7 +89,7 @@ u16	addr,
->  u8	*data)
->  {
->  	u32 tmpidx = 0;
-> -	u8 bResult;
-> +	u8 result;
+> Signed-off-by: Saulo Henrique Santos Dorotéio <doroteios@outlook.com>
 
-Why isn't this a boolean variable now?
+You sent this 5 times?  Also, the header shouldn't be in the body like
+this, please use git send-email or b4 to send this type of thing out.
 
 thanks,
 
