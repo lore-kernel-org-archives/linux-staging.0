@@ -1,36 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDD0A3F1AD7;
-	Tue,  7 Jul 2026 11:19:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7E0E3F44D0;
+	Tue,  7 Jul 2026 11:21:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783423197; cv=none; b=iNXESncpio7vQ4q+Zdg9KTA60covIDFbRHbvbs03WQSJg7kD/EaVLMuTmMOFR9mv68sFAtIvJugAepy6dxiz46KjMjkXq5HVmfUHNBCJBbeJLlE+MycqxzngjvlQFEhpWbdO9lWvCwer+k3i16AyIhjn8XHQacY4h1Xv0nqXSrA=
+	t=1783423277; cv=none; b=mvC9DF03w+JM9VVBBQ9gLFSwpUsYdLI9xHulpkoUJtaEHqsHxNxw2U4EJ9NFpgUZxAkwvSWJfp12u50eev99LXpCiojlC2A8tRcXm1DsMSV9cu3LLhndBOoGIgUC4b6P8TZgLp+R/20BvXP/jtwULaVZyXwYfTwF66rM8k/YHZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783423197; c=relaxed/simple;
-	bh=gFRd/BVcfDMpPLjGer56q8LsuprxKYXWmkQBKgNbM7E=;
+	s=arc-20240116; t=1783423277; c=relaxed/simple;
+	bh=OTyZ1Q9R7sWinmGqBcfxxSCHypzeH2UEvzYNAkdQN2w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HSMyaMG0KnvAVXHdK7Sjgia3kwn622TEuGg5fy93qZ6mtdXRKxAwA/oL5PH4CZbF5iEAKH0PVzbMrNBbgXPghMrmBXJJgKF9VtXHmO9jJ1k4828YR8nTC+6WM+EZFMJmrIhqjeXmlIsM0muRxGmbfOYSlNfFL7vjgQF0GCqn2PM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Tum4KKbV; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y2QoMrnOvwb5aTNmb4cKFGGupGPOUKJEnDS9BJbRuEZPdpMuCn6l4r0c0p35ki7oufKyvwQU2qooR/fjfWN3TOTJqmEDSa+tlxiPecEaHwRxhSDuGHRTl50R4GUQLy/5oMqUYu4+YKu0+pa7B3AEZZhYJj2RrSRo/0mrDRRN7Zk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=qjZpXOU/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Tum4KKbV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 478391F00A3A;
-	Tue,  7 Jul 2026 11:19:55 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="qjZpXOU/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF31F1F00A3A;
+	Tue,  7 Jul 2026 11:21:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1783423195;
-	bh=eobIkxVPBRDg0OEhqgcBqY7I9JDA4WWKtQ4KE5Nesi8=;
+	s=korg; t=1783423276;
+	bh=kXxbJSeWgLQBooFobNbkFvWYJcdVyZLjV4vOVJCEC+A=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Tum4KKbVPoWGXhbUSt0j+LbE2zltCTxSLWqF3rXYuXDTyVtl8qdyZ5Fu4XHZKGGIE
-	 lF3FGDD7/zlnjjaHUseWXQ1FT90zw7o/p5U/aFDPwE0eyg41XStqqLyuW5Crwi1Xp0
-	 yCSnHZYrJVOVveMAzzGwfhxAcqrbVsZ9wlQUhXjM=
-Date: Tue, 7 Jul 2026 13:19:53 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Brock Haftner <brockhaftner@gmail.com>
-Cc: outreachy@lists.linux.dev, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: fix spelling mistake in rtw_recv.c
-Message-ID: <2026070743-clapped-agility-7ec6@gregkh>
-References: <20260613155807.18623-1-brockhaftner@gmail.com>
+	b=qjZpXOU/GmViIOxGv80l+jpgQ3eh+k9PD5XanEYF0WQSydfg2zk5N5O2YTkAJm9Wg
+	 up8Dd2mOVaZVprEH/S5gBct3D067LuNlAkaMD1aG9Bqmpcu99AoDAjvy+/2B10vrv3
+	 hZqrmcbX1Ly7bxpRYZk/gQQXu9UfcZb7WbQArIrg=
+Date: Tue, 7 Jul 2026 13:21:13 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Dalvin-Ehinoma Noah Aiguobas <fliegbert2@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: fix spaces preferred fix
+Message-ID: <2026070706-flatly-scoop-1868@gregkh>
+References: <ajUOSj9A8AUxNZQC@koolguy>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,46 +38,14 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260613155807.18623-1-brockhaftner@gmail.com>
+In-Reply-To: <ajUOSj9A8AUxNZQC@koolguy>
 
-On Sat, Jun 13, 2026 at 08:58:07AM -0700, Brock Haftner wrote:
-> Correct the spelling of the word "temporily" to "temporarily"
-> in the comments within rtw_recv.c to improve code readability.
+On Fri, Jun 19, 2026 at 09:39:22AM +0000, Dalvin-Ehinoma Noah Aiguobas wrote:
+> Adding spaces around operators to match kernel coding style.
 > 
-> Signed-off-by: Brock Haftner <brockhaftner@gmail.com>
+> Signed-off-by: Dalvin-Ehinoma Noah Aiguobas <fliegbert2@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/core/rtw_recv.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
-> index 86c5e2c4e7dd..0ffa69c38bca 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_recv.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
-> @@ -815,7 +815,7 @@ static signed int ap2sta_data_frame(struct adapter *adapter, union recv_frame *p
->  		}
->  
->  		if (GetFrameSubType(ptr) & BIT(6)) {
-> -			/* No data, will not indicate to upper layer, temporily count it here */
-> +			/* No data, will not indicate to upper layer, temporarily count it here */
->  			count_rx_stats(adapter, precv_frame, *psta);
->  			ret = RTW_RX_HANDLED;
->  			goto exit;
-> @@ -895,7 +895,7 @@ static signed int sta2ap_data_frame(struct adapter *adapter, union recv_frame *p
->  			process_wmmps_data(adapter, precv_frame);
->  
->  		if (GetFrameSubType(ptr) & BIT(6)) {
-> -			/* No data, will not indicate to upper layer, temporily count it here */
-> +			/* No data, will not indicate to upper layer, temporarily count it here */
->  			count_rx_stats(adapter, precv_frame, *psta);
->  			ret = RTW_RX_HANDLED;
->  			goto exit;
-> -- 
-> 2.54.0
-> 
-> 
+>  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 196 +++++++++---------
+>  1 file changed, 98 insertions(+), 98 deletions(-)
 
-Soeone already sent this patch before you did, sorry.
-
-thanks,
-
-greg k-h
+DOes not apply to the latest tree :(
