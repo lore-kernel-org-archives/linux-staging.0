@@ -1,748 +1,250 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E18223F86E0;
-	Tue,  7 Jul 2026 11:33:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 264B04315F
+	for <linux-staging@lists.linux.dev>; Tue,  7 Jul 2026 11:41:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783424018; cv=none; b=flZ5cnxFsqcad9VYQdauf6ILU/urXOFY9KJbvm1JTe9oESkyNDmZWNEgF/gL0SW5+EEUZeEXMUB0VADAeducTENNg9cOOLTqgW3VmJJgIpuzuQaRmhyfdhdJFpDX5REP/eNd+VBPQogJIGnxjeW/5Fp2+vyyfl1k7y2Mp8KCyVc=
+	t=1783424510; cv=none; b=qx+6Y5Ro2/iN9jRckSowszPN+8gQtcSlBKzllPJqDr0neHINtgyS5BVr6XRbuEByluYyircHY6MwM4GWqs/z1yrUSydH9+yYOHkZaWKiAXXckXDt0/km4rmvQlKTgr50NsVDk34aO8NshPHNEl4OtxphgwdEQwj/4O+25hwVBHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783424018; c=relaxed/simple;
-	bh=dOiWleiTLpiDaMJFm1mSom6lNHsqwValsGGTlfMlkPo=;
+	s=arc-20240116; t=1783424510; c=relaxed/simple;
+	bh=AXimq/rtIFwP4aD04kh/5vfPSxje93mi8aUhDJB2eB0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nY8Vk/P+Ua912DF3eOEbmTOUe0YuY/O+3NdumHSdU4bfMdV6WNvgQkGAvvb6cRrj8/O9H3GZd40uLl8ie5W8hSmz8sDpy+P3QplcxC9AokEf210tEN+ck6tDV4V+lPPdqgHRnDanfHBHtecfZWo+RpbJpajROZ3eevOkD5ZsZ+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=xSwomM80; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=ioKGvWsh5x/8BG0mwbFRH1B7MLsTngZ0Yj9XIsuJ9HZmCBtCIoqZHjPWhGHyvelKnBIUn/XcbfzJudvKxLnySloWKLZabFaCm3vpX8u8xtTpj4IQ811bOcq+iUM4TYiM2in8PULttKvP2twrBTeSPoVe0STXsvS3VnIgM6GHA/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=MkRIWItJ; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="xSwomM80"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E30FE1F000E9;
-	Tue,  7 Jul 2026 11:33:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1783424015;
-	bh=p1ryhYh5l/BeyVQiMMpcBcJDPNSiSpDQA281ojFJlJU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=xSwomM80tQm2EfgjixUiM7h4WJ1Yjaj9HznHu3xzChRheC8hQH0TTSgFtGQN20kYz
-	 ZkLQeFJ4PCTDszUgvgUYuii0J4lhOqx3JIiWUHKX5Dvk4aIaRT1y2GhnBfwKzQ5R2V
-	 mtnh4OLj5GX7vGy2WALVJQd8EzI+M0HWcaroVO3I=
-Date: Tue, 7 Jul 2026 13:33:32 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Jinke Wu <coolbeaner@126.com>
-Cc: error27@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: fix operator spacing in rtw_mlme_ext
-Message-ID: <2026070721-sedation-spout-ee32@gregkh>
-References: <20260703115953.58217-1-coolbeaner@126.com>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="MkRIWItJ"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 41FCC271B
+	for <linux-staging@lists.linux.dev>; Tue,  7 Jul 2026 04:41:44 -0700 (PDT)
+Received: from [192.168.0.1] (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 6593F3F85F
+	for <linux-staging@lists.linux.dev>; Tue,  7 Jul 2026 04:41:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1783424508; bh=AXimq/rtIFwP4aD04kh/5vfPSxje93mi8aUhDJB2eB0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MkRIWItJMfw7o9v1//sA7u8Q7W7wIcqjiaUep6nb6LRDmrD3EG/dkAPZ4I8Nzq6Gy
+	 AyNMM1k2VBUOvV+VglOiaU7l9u5sr72Vik45vVpjG/jgl/2AkS+JyiNsGb0cPe/iHA
+	 zIvmVlbORY6P3hLambpFNwhkmr8pOuKUBd7xd9H4=
+Date: Tue, 7 Jul 2026 12:39:54 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	Linus Walleij <linusw@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Alexey Brodkin <abrodkin@synopsys.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Daniel Scally <dan.scally@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Eddie James <eajames@linux.ibm.com>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+	Houlong Wei <houlong.wei@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Joseph Liu <kwliu@nuvoton.com>, Marvin Lin <kflin@nuvoton.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ge Gordon <gordon.ge@bst.ai>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Ulf Hansson <ulfh@kernel.org>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Xiubo Li <Xiubo.Lee@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Peter Chen <peter.chen@cixtech.com>,
+	Fugang Duan <fugang.duan@cixtech.com>,
+	Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
+	BST Linux Kernel Upstream Group <bst-upstream@bstai.top>,
+	Fabio Estevam <festevam@gmail.com>,
+	Nicolin Chen <nicoleotsuka@gmail.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	CIX Linux Kernel Upstream Group <cix-kernel-upstream@cixtech.com>,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-aspeed@lists.ozlabs.org,
+	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, linux-media@vger.kernel.org,
+	openbmc@lists.ozlabs.org, linux-mediatek@lists.infradead.org,
+	kernel@collabora.com, linux-tegra@vger.kernel.org,
+	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	imx@lists.linux.dev, sound-open-firmware@alsa-project.org
+Subject: Re: [PATCH 00/42] of: reserved_mem: Introduce devres helpers and
+ convert drivers
+Message-ID: <akzliqtjZVwNw594@e142607>
+References: <20260703193855.110619-1-mukesh.ojha@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260703115953.58217-1-coolbeaner@126.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260703193855.110619-1-mukesh.ojha@oss.qualcomm.com>
 
-On Fri, Jul 03, 2026 at 07:59:53PM +0800, Jinke Wu wrote:
-> Fix checkpatch.pl warnings regarding preferred spaces around
-> operators in rtw_mlme_ext.c. While adjusting these lines, also
-> clean up associated coding style issues introduced or encountered
-> on the modified lines, including:
+On Sat, Jul 04, 2026 at 01:08:13AM +0530, Mukesh Ojha wrote:
+> Drivers using of_reserved_mem_device_init() and its variants must
+> manually call of_reserved_mem_device_release() in their remove and
+> error-unwind paths. This is repetitive boilerplate that is easy to
+> get wrong, and several drivers have open-coded the teardown
+> inconsistently or skipped it entirely, leading to dangling reserved
+> memory references.
 > 
-> - Splitting lines that exceeded 100 columns after adding spaces
-> - Adjusting misaligned parentheses due to line splitting
-> - Removing an unnecessary parenthesis and a trailing whitespace
-> - Moving logical continuations to the previous line
+> This series introduces devres-managed wrappers —
+> devm_of_reserved_mem_device_init(), devm_of_reserved_mem_device_init_by_idx(),
+> and devm_of_reserved_mem_device_init_by_name() — that tie the reserved
+> memory region lifetime to the device, releasing it automatically on
+> unbind. The remaining 40 patches convert drivers across the drm, media,
+> ASoC, remoteproc, firmware, mmc, memory and misc subsystems to use these
+> helpers, yielding a net reduction of ~90 lines of boilerplate.
 > 
-> No functional change.
+> This series depends on  https://lore.kernel.org/lkml/20260703164457.4040457-1-mukesh.ojha@oss.qualcomm.com/
 > 
-> Signed-off-by: Jinke Wu <coolbeaner@126.com>
-> ---
->  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 227 ++++++++++--------
->  1 file changed, 126 insertions(+), 101 deletions(-)
+> Konrad Dybcio (1):
+>   of: reserved_mem: Introduce devres-managed initialization functions
 > 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> index a86d6f97cf02..ade7b42abc97 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> @@ -324,7 +324,7 @@ static u8 init_channel_set(struct adapter *padapter, u8 ChannelPlan, struct rt_c
->  	u8 b2_4GBand = false;
->  	u8 Index2G = 0;
->  
-> -	memset(channel_set, 0, sizeof(struct rt_channel_info)*MAX_CHANNEL_NUM);
-> +	memset(channel_set, 0, sizeof(struct rt_channel_info) * MAX_CHANNEL_NUM);
->  
->  	if (ChannelPlan >= RT_CHANNEL_DOMAIN_MAX && ChannelPlan != RT_CHANNEL_DOMAIN_REALTEK_DEFINE)
->  		return chanset_size;
-> @@ -519,7 +519,7 @@ unsigned int OnProbeReq(struct adapter *padapter, union recv_frame *precv_frame)
->  		if (is_valid_p2p_probereq)
->  			goto _issue_probersp;
->  
-> -		if ((ielen != 0 && false == !memcmp((p+2), cur->ssid.ssid, cur->ssid.ssid_length))
-> +		if ((ielen != 0 && false == !memcmp((p + 2), cur->ssid.ssid, cur->ssid.ssid_length))
->  			|| (ielen == 0 && pmlmeinfo->hidden_ssid_mode)
->  		)
->  			return _SUCCESS;
-> @@ -588,7 +588,9 @@ unsigned int OnBeacon(struct adapter *padapter, union recv_frame *precv_frame)
->  			}
->  
->  			/* check the vendor of the assoc AP */
-> -			pmlmeinfo->assoc_AP_vendor = check_assoc_AP(pframe+sizeof(struct ieee80211_hdr_3addr), len-sizeof(struct ieee80211_hdr_3addr));
-> +			pmlmeinfo->assoc_AP_vendor =
-> +				check_assoc_AP(pframe + sizeof(struct ieee80211_hdr_3addr),
-> +					       len - sizeof(struct ieee80211_hdr_3addr));
->  
->  			/* update TSF Value */
->  			update_TSF(pmlmeext, pframe, len);
-> @@ -607,7 +609,8 @@ unsigned int OnBeacon(struct adapter *padapter, union recv_frame *precv_frame)
->  			return _SUCCESS;
->  		}
->  
-> -		if (((pmlmeinfo->state&0x03) == WIFI_FW_STATION_STATE) && (pmlmeinfo->state & WIFI_FW_ASSOC_SUCCESS)) {
-> +		if (((pmlmeinfo->state & 0x03) == WIFI_FW_STATION_STATE) &&
-> +		    (pmlmeinfo->state & WIFI_FW_ASSOC_SUCCESS)) {
->  			psta = rtw_get_stainfo(pstapriv, GetAddr2Ptr(pframe));
->  			if (psta) {
->  				ret = rtw_check_bcn_info(padapter, pframe, len);
-> @@ -625,7 +628,7 @@ unsigned int OnBeacon(struct adapter *padapter, union recv_frame *precv_frame)
->  
->  				adaptive_early_32k(pmlmeext, pframe, len);
->  			}
-> -		} else if ((pmlmeinfo->state&0x03) == WIFI_FW_ADHOC_STATE) {
-> +		} else if ((pmlmeinfo->state & 0x03) == WIFI_FW_ADHOC_STATE) {
->  			psta = rtw_get_stainfo(pstapriv, GetAddr2Ptr(pframe));
->  			if (psta) {
->  				/* update WMM, ERP in the beacon */
-> @@ -674,7 +677,7 @@ unsigned int OnAuth(struct adapter *padapter, union recv_frame *precv_frame)
->  	uint len = precv_frame->u.hdr.len;
->  	u8 offset = 0;
->  
-> -	if ((pmlmeinfo->state&0x03) != WIFI_FW_AP_STATE)
-> +	if ((pmlmeinfo->state & 0x03) != WIFI_FW_AP_STATE)
->  		return _FAIL;
->  
->  	sa = GetAddr2Ptr(pframe);
-> @@ -688,8 +691,8 @@ unsigned int OnAuth(struct adapter *padapter, union recv_frame *precv_frame)
->  		prxattrib->hdrlen = WLAN_HDR_A3_LEN;
->  		prxattrib->encrypt = _WEP40_;
->  
-> -		iv = pframe+prxattrib->hdrlen;
-> -		prxattrib->key_index = ((iv[3]>>6)&0x3);
-> +		iv = pframe + prxattrib->hdrlen;
-> +		prxattrib->key_index = ((iv[3] >> 6) & 0x3);
->  
->  		prxattrib->iv_len = 4;
->  		prxattrib->icv_len = 4;
-> @@ -930,7 +933,7 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
->  	u8 *pframe = precv_frame->u.hdr.rx_data;
->  	uint pkt_len = precv_frame->u.hdr.len;
->  
-> -	if ((pmlmeinfo->state&0x03) != WIFI_FW_AP_STATE)
-> +	if ((pmlmeinfo->state & 0x03) != WIFI_FW_AP_STATE)
->  		return _FAIL;
->  
->  	frame_type = GetFrameSubType(pframe);
-> @@ -988,7 +991,7 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
->  		goto OnAssocReqFail;
->  	} else {
->  		/*  check if ssid match */
-> -		if (memcmp(p+2, cur->ssid.ssid, cur->ssid.ssid_length))
-> +		if (memcmp(p + 2, cur->ssid.ssid, cur->ssid.ssid_length))
->  			status = WLAN_STATUS_CHALLENGE_FAIL;
->  
->  		if (ie_len != cur->ssid.ssid_length)
-> @@ -1011,7 +1014,7 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
->  		if (ie_len > sizeof(supportRate))
->  			ie_len = sizeof(supportRate);
->  
-> -		memcpy(supportRate, p+2, ie_len);
-> +		memcpy(supportRate, p + 2, ie_len);
->  		support_rate_num = ie_len;
->  
->  		p = rtw_get_ie(pframe + WLAN_HDR_A3_LEN + ie_offset, WLAN_EID_EXT_SUPP_RATES, &ie_len,
-> @@ -1046,12 +1049,14 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
->  		wpa_ie = elems.rsn_ie;
->  		wpa_ie_len = elems.rsn_ie_len;
->  
-> -		if (rtw_parse_wpa2_ie(wpa_ie-2, wpa_ie_len+2, &group_cipher, &pairwise_cipher, NULL) == _SUCCESS) {
-> +		if (rtw_parse_wpa2_ie(wpa_ie - 2, wpa_ie_len + 2, &group_cipher,
-> +				      &pairwise_cipher, NULL) == _SUCCESS) {
->  			pstat->dot8021xalg = 1;/* psk,  todo:802.1x */
->  			pstat->wpa_psk |= BIT(1);
->  
-> -			pstat->wpa2_group_cipher = group_cipher&psecuritypriv->wpa2_group_cipher;
-> -			pstat->wpa2_pairwise_cipher = pairwise_cipher&psecuritypriv->wpa2_pairwise_cipher;
-> +			pstat->wpa2_group_cipher = group_cipher & psecuritypriv->wpa2_group_cipher;
-> +			pstat->wpa2_pairwise_cipher = pairwise_cipher &
-> +				psecuritypriv->wpa2_pairwise_cipher;
->  
->  			if (!pstat->wpa2_group_cipher)
->  				status = WLAN_STATUS_INVALID_GROUP_CIPHER;
-> @@ -1068,12 +1073,14 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
->  		wpa_ie = elems.wpa_ie;
->  		wpa_ie_len = elems.wpa_ie_len;
->  
-> -		if (rtw_parse_wpa_ie(wpa_ie-2, wpa_ie_len+2, &group_cipher, &pairwise_cipher, NULL) == _SUCCESS) {
-> +		if (rtw_parse_wpa_ie(wpa_ie - 2, wpa_ie_len + 2, &group_cipher,
-> +				     &pairwise_cipher, NULL) == _SUCCESS) {
->  			pstat->dot8021xalg = 1;/* psk,  todo:802.1x */
->  			pstat->wpa_psk |= BIT(0);
->  
-> -			pstat->wpa_group_cipher = group_cipher&psecuritypriv->wpa_group_cipher;
-> -			pstat->wpa_pairwise_cipher = pairwise_cipher&psecuritypriv->wpa_pairwise_cipher;
-> +			pstat->wpa_group_cipher = group_cipher & psecuritypriv->wpa_group_cipher;
-> +			pstat->wpa_pairwise_cipher = pairwise_cipher &
-> +				psecuritypriv->wpa_pairwise_cipher;
->  
->  			if (!pstat->wpa_group_cipher)
->  				status = WLAN_STATUS_INVALID_GROUP_CIPHER;
-> @@ -1102,8 +1109,8 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
->  
->  		/*  AP support WPA/RSN, and sta is going to do WPS, but AP is not ready */
->  		/*  that the selected registrar of AP is _FLASE */
-> -		if ((psecuritypriv->wpa_psk > 0)
-> -			&& (pstat->flags & (WLAN_STA_WPS|WLAN_STA_MAYBE_WPS))) {
-> +		if ((psecuritypriv->wpa_psk > 0) &&
-> +		    (pstat->flags & (WLAN_STA_WPS | WLAN_STA_MAYBE_WPS))) {
->  			if (pmlmepriv->wps_beacon_ie) {
->  				u8 selected_registrar = 0;
->  
-> @@ -1134,7 +1141,7 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
->  		}
->  
->  		if (copy_len > 0)
-> -			memcpy(pstat->wpa_ie, wpa_ie-2, copy_len);
-> +			memcpy(pstat->wpa_ie, wpa_ie - 2, copy_len);
->  	}
->  
->  	/*  check if there is WMM IE & support WWM-PS */
-> @@ -1153,7 +1160,7 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
->  			if (!p)
->  				break;
->  
-> -			if (memcmp(p+2, WMM_IE, 6)) {
-> +			if (memcmp(p + 2, WMM_IE, 6)) {
->  				p = p + ie_len + 2;
->  				continue;
->  			}
-> @@ -1161,33 +1168,33 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
->  			pstat->flags |= WLAN_STA_WME;
->  
->  			pstat->qos_option = 1;
-> -			pstat->qos_info = *(p+8);
-> +			pstat->qos_info = *(p + 8);
->  
-> -			pstat->max_sp_len = (pstat->qos_info>>5)&0x3;
-> +			pstat->max_sp_len = (pstat->qos_info >> 5) & 0x3;
->  
-> -			if ((pstat->qos_info&0xf) != 0xf)
-> +			if ((pstat->qos_info & 0xf) != 0xf)
->  				pstat->has_legacy_ac = true;
->  			else
->  				pstat->has_legacy_ac = false;
->  
-> -			if (pstat->qos_info&0xf) {
-> -				if (pstat->qos_info&BIT(0))
-> -					pstat->uapsd_vo = BIT(0)|BIT(1);
-> +			if (pstat->qos_info & 0xf) {
-> +				if (pstat->qos_info & BIT(0))
-> +					pstat->uapsd_vo = BIT(0) | BIT(1);
->  				else
->  					pstat->uapsd_vo = 0;
->  
-> -				if (pstat->qos_info&BIT(1))
-> -					pstat->uapsd_vi = BIT(0)|BIT(1);
-> +				if (pstat->qos_info & BIT(1))
-> +					pstat->uapsd_vi = BIT(0) | BIT(1);
->  				else
->  					pstat->uapsd_vi = 0;
->  
-> -				if (pstat->qos_info&BIT(2))
-> -					pstat->uapsd_bk = BIT(0)|BIT(1);
-> +				if (pstat->qos_info & BIT(2))
-> +					pstat->uapsd_bk = BIT(0) | BIT(1);
->  				else
->  					pstat->uapsd_bk = 0;
->  
-> -				if (pstat->qos_info&BIT(3))
-> -					pstat->uapsd_be = BIT(0)|BIT(1);
-> +				if (pstat->qos_info & BIT(3))
-> +					pstat->uapsd_be = BIT(0) | BIT(1);
->  				else
->  					pstat->uapsd_be = 0;
->  			}
-> @@ -1208,14 +1215,14 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
->  	} else
->  		pstat->flags &= ~WLAN_STA_HT;
->  
-> -	if (!pmlmepriv->htpriv.ht_option && (pstat->flags&WLAN_STA_HT)) {
-> +	if (!pmlmepriv->htpriv.ht_option && (pstat->flags & WLAN_STA_HT)) {
->  		status = WLAN_STATUS_CHALLENGE_FAIL;
->  		goto OnAssocReqFail;
->  	}
->  
->  	if ((pstat->flags & WLAN_STA_HT) &&
-> -		    ((pstat->wpa2_pairwise_cipher&WPA_CIPHER_TKIP) ||
-> -		      (pstat->wpa_pairwise_cipher&WPA_CIPHER_TKIP))) {
-> +		    ((pstat->wpa2_pairwise_cipher & WPA_CIPHER_TKIP) ||
-> +		      (pstat->wpa_pairwise_cipher & WPA_CIPHER_TKIP))) {
->  		/* status = WLAN_STATUS_CIPHER_SUITE_REJECTED; */
->  		/* goto OnAssocReqFail; */
->  	}
-> @@ -1359,7 +1366,8 @@ unsigned int OnAssocRsp(struct adapter *padapter, union recv_frame *precv_frame)
->  	pmlmeinfo->slotTime = (pmlmeinfo->capability & BIT(10)) ? 9 : 20;
->  
->  	/* AID */
-> -	res = pmlmeinfo->aid = (int)(le16_to_cpu(*(__le16 *)(pframe + WLAN_HDR_A3_LEN + 4))&0x3fff);
-> +	pmlmeinfo->aid = (int)(le16_to_cpu(*(__le16 *)(pframe + WLAN_HDR_A3_LEN + 4)) & 0x3fff);
-> +	res = pmlmeinfo->aid;
->  
->  	/* following are moved to join event callback function */
->  	/* to handle HT, WMM, rate adaptive, update MAC reg */
-> @@ -1587,7 +1595,7 @@ unsigned int OnAction_back(struct adapter *padapter, union recv_frame *precv_fra
->  	if (memcmp(myid(&(padapter->eeprompriv)), GetAddr1Ptr(pframe), ETH_ALEN))/* for if1, sta/ap mode */
->  		return _SUCCESS;
->  
-> -	if ((pmlmeinfo->state&0x03) != WIFI_FW_AP_STATE)
-> +	if ((pmlmeinfo->state & 0x03) != WIFI_FW_AP_STATE)
->  		if (!(pmlmeinfo->state & WIFI_FW_ASSOC_SUCCESS))
->  			return _SUCCESS;
->  
-> @@ -1667,7 +1675,7 @@ static s32 rtw_action_public_decache(union recv_frame *recv_frame, s32 token)
->  	struct adapter *adapter = recv_frame->u.hdr.adapter;
->  	struct mlme_ext_priv *mlmeext = &(adapter->mlmeextpriv);
->  	u8 *frame = recv_frame->u.hdr.rx_data;
-> -	u16 seq_ctrl = ((recv_frame->u.hdr.attrib.seq_num&0xffff) << 4) |
-> +	u16 seq_ctrl = ((recv_frame->u.hdr.attrib.seq_num & 0xffff) << 4) |
->  		(recv_frame->u.hdr.attrib.frag_num & 0xf);
->  
->  	if (GetRetry(frame)) {
-> @@ -1803,9 +1811,9 @@ unsigned int OnAction_sa_query(struct adapter *padapter, union recv_frame *precv
->  	struct mlme_ext_priv *pmlmeext = &(padapter->mlmeextpriv);
->  	unsigned short tid;
->  
-> -	switch (pframe[WLAN_HDR_A3_LEN+1]) {
-> +	switch (pframe[WLAN_HDR_A3_LEN + 1]) {
->  	case 0: /* SA Query req */
-> -		memcpy(&tid, &pframe[WLAN_HDR_A3_LEN+2], sizeof(unsigned short));
-> +		memcpy(&tid, &pframe[WLAN_HDR_A3_LEN + 2], sizeof(unsigned short));
->  		issue_action_SA_Query(padapter, GetAddr2Ptr(pframe), 1, tid);
->  		break;
->  
-> @@ -2023,10 +2031,10 @@ static int update_hidden_ssid(u8 *ies, u32 ies_len, u8 hidden_ssid_mode)
->  			u8 *next_ie = ssid_ie + 2 + ssid_len_ori;
->  			u32 remain_len = 0;
->  
-> -			remain_len = ies_len - (next_ie-ies);
-> +			remain_len = ies_len - (next_ie - ies);
->  
->  			ssid_ie[1] = 0;
-> -			memcpy(ssid_ie+2, next_ie, remain_len);
-> +			memcpy(ssid_ie + 2, next_ie, remain_len);
->  			len_diff -= ssid_len_ori;
->  
->  			break;
-> @@ -2086,16 +2094,16 @@ void issue_beacon(struct adapter *padapter, int timeout_ms)
->  	pframe += sizeof(struct ieee80211_hdr_3addr);
->  	pattrib->pktlen = sizeof(struct ieee80211_hdr_3addr);
->  
-> -	if ((pmlmeinfo->state&0x03) == WIFI_FW_AP_STATE) {
-> +	if ((pmlmeinfo->state & 0x03) == WIFI_FW_AP_STATE) {
->  		{
->  			int len_diff;
->  
->  			memcpy(pframe, cur_network->ies, cur_network->ie_length);
-> -			len_diff = update_hidden_ssid(pframe+_BEACON_IE_OFFSET_,
-> -						      cur_network->ie_length-_BEACON_IE_OFFSET_,
-> +			len_diff = update_hidden_ssid(pframe + _BEACON_IE_OFFSET_,
-> +						      cur_network->ie_length - _BEACON_IE_OFFSET_,
->  						      pmlmeinfo->hidden_ssid_mode);
-> -			pframe += (cur_network->ie_length+len_diff);
-> -			pattrib->pktlen += (cur_network->ie_length+len_diff);
-> +			pframe += (cur_network->ie_length + len_diff);
-> +			pattrib->pktlen += (cur_network->ie_length + len_diff);
->  		}
->  
->  		{
-> @@ -2103,8 +2111,12 @@ void issue_beacon(struct adapter *padapter, int timeout_ms)
->  			uint wps_ielen;
->  			u8 sr = 0;
->  
-> -			wps_ie = rtw_get_wps_ie(pmgntframe->buf_addr+TXDESC_OFFSET+sizeof(struct ieee80211_hdr_3addr)+_BEACON_IE_OFFSET_,
-> -				pattrib->pktlen-sizeof(struct ieee80211_hdr_3addr)-_BEACON_IE_OFFSET_, NULL, &wps_ielen);
-> +			wps_ie = rtw_get_wps_ie(pmgntframe->buf_addr + TXDESC_OFFSET +
-> +						sizeof(struct ieee80211_hdr_3addr) +
-> +						_BEACON_IE_OFFSET_,
-> +						pattrib->pktlen -
-> +						sizeof(struct ieee80211_hdr_3addr) -
-> +						_BEACON_IE_OFFSET_, NULL, &wps_ielen);
->  			if (wps_ie && wps_ielen > 0)
->  				rtw_get_wps_attr_content(wps_ie,  wps_ielen, WPS_ATTR_SELECTED_REGISTRAR, (u8 *)(&sr), NULL);
->  			if (sr != 0)
-> @@ -2236,8 +2248,10 @@ void issue_probersp(struct adapter *padapter, unsigned char *da, u8 is_valid_p2p
->  	if (cur_network->ie_length > MAX_IE_SZ)
->  		return;
->  
-> -	if ((pmlmeinfo->state&0x03) == WIFI_FW_AP_STATE) {
-> -		pwps_ie = rtw_get_wps_ie(cur_network->ies+_FIXED_IE_LENGTH_, cur_network->ie_length-_FIXED_IE_LENGTH_, NULL, &wps_ielen);
-> +	if ((pmlmeinfo->state & 0x03) == WIFI_FW_AP_STATE) {
-> +		pwps_ie = rtw_get_wps_ie(cur_network->ies + _FIXED_IE_LENGTH_,
-> +					 cur_network->ie_length - _FIXED_IE_LENGTH_,
-> +					 NULL, &wps_ielen);
->  
->  		/* inerset & update wps_probe_resp_ie */
->  		if (pmlmepriv->wps_probe_resp_ie && pwps_ie && wps_ielen > 0) {
-> @@ -2255,13 +2269,13 @@ void issue_probersp(struct adapter *padapter, unsigned char *da, u8 is_valid_p2p
->  			pattrib->pktlen += wps_offset;
->  
->  			wps_ielen = (uint)pmlmepriv->wps_probe_resp_ie[1];/* to get ie data len */
-> -			if ((wps_offset+wps_ielen+2) <= MAX_IE_SZ) {
-> -				memcpy(pframe, pmlmepriv->wps_probe_resp_ie, wps_ielen+2);
-> -				pframe += wps_ielen+2;
-> -				pattrib->pktlen += wps_ielen+2;
-> +			if ((wps_offset + wps_ielen + 2) <= MAX_IE_SZ) {
-> +				memcpy(pframe, pmlmepriv->wps_probe_resp_ie, wps_ielen + 2);
-> +				pframe += wps_ielen + 2;
-> +				pattrib->pktlen += wps_ielen + 2;
->  			}
->  
-> -			if ((wps_offset+wps_ielen+2+remainder_ielen) <= MAX_IE_SZ) {
-> +			if ((wps_offset + wps_ielen + 2 + remainder_ielen) <= MAX_IE_SZ) {
->  				memcpy(pframe, premainder_ie, remainder_ielen);
->  				pframe += remainder_ielen;
->  				pattrib->pktlen += remainder_ielen;
-> @@ -2278,14 +2292,15 @@ void issue_probersp(struct adapter *padapter, unsigned char *da, u8 is_valid_p2p
->  			signed int ssid_ielen;
->  			signed int ssid_ielen_diff;
->  			u8 *buf;
-> -			u8 *ies = pmgntframe->buf_addr+TXDESC_OFFSET+sizeof(struct ieee80211_hdr_3addr);
-> +			u8 *ies = pmgntframe->buf_addr + TXDESC_OFFSET +
-> +				sizeof(struct ieee80211_hdr_3addr);
->  
->  			buf = kzalloc(MAX_IE_SZ, GFP_ATOMIC);
->  			if (!buf)
->  				return;
->  
-> -			ssid_ie = rtw_get_ie(ies+_FIXED_IE_LENGTH_, WLAN_EID_SSID, &ssid_ielen,
-> -				(pframe-ies)-_FIXED_IE_LENGTH_);
-> +			ssid_ie = rtw_get_ie(ies + _FIXED_IE_LENGTH_, WLAN_EID_SSID, &ssid_ielen,
-> +					     (pframe - ies) - _FIXED_IE_LENGTH_);
->  
->  			ssid_ielen_diff = cur_network->ssid.ssid_length - ssid_ielen;
->  
-> @@ -2293,8 +2308,8 @@ void issue_probersp(struct adapter *padapter, unsigned char *da, u8 is_valid_p2p
->  				uint remainder_ielen;
->  				u8 *remainder_ie;
->  
-> -				remainder_ie = ssid_ie+2;
-> -				remainder_ielen = (pframe-remainder_ie);
-> +				remainder_ie = ssid_ie + 2;
-> +				remainder_ielen = (pframe - remainder_ie);
->  
->  				if (remainder_ielen > MAX_IE_SZ) {
->  					netdev_warn(padapter->pnetdev,
-> @@ -2304,9 +2319,10 @@ void issue_probersp(struct adapter *padapter, unsigned char *da, u8 is_valid_p2p
->  				}
->  
->  				memcpy(buf, remainder_ie, remainder_ielen);
-> -				memcpy(remainder_ie+ssid_ielen_diff, buf, remainder_ielen);
-> -				*(ssid_ie+1) = cur_network->ssid.ssid_length;
-> -				memcpy(ssid_ie+2, cur_network->ssid.ssid, cur_network->ssid.ssid_length);
-> +				memcpy(remainder_ie + ssid_ielen_diff, buf, remainder_ielen);
-> +				*(ssid_ie + 1) = cur_network->ssid.ssid_length;
-> +				memcpy(ssid_ie + 2, cur_network->ssid.ssid,
-> +				       cur_network->ssid.ssid_length);
->  
->  				pframe += ssid_ielen_diff;
->  				pattrib->pktlen += ssid_ielen_diff;
-> @@ -2344,7 +2360,7 @@ void issue_probersp(struct adapter *padapter, unsigned char *da, u8 is_valid_p2p
->  		/*  DS parameter set */
->  		pframe = rtw_set_ie(pframe, WLAN_EID_DS_PARAMS, 1, (unsigned char *)&(cur_network->configuration.ds_config), &pattrib->pktlen);
->  
-> -		if ((pmlmeinfo->state&0x03) == WIFI_FW_ADHOC_STATE) {
-> +		if ((pmlmeinfo->state & 0x03) == WIFI_FW_ADHOC_STATE) {
->  			u8 erpinfo = 0;
->  			u32 ATIMWindow;
->  			/*  IBSS Parameter Set... */
-> @@ -2684,7 +2700,8 @@ void issue_asocrsp(struct adapter *padapter, unsigned short status, struct sta_i
->  		pframe = rtw_set_ie(pframe, WLAN_EID_SUPP_RATES, pstat->bssratelen, pstat->bssrateset, &(pattrib->pktlen));
->  	} else {
->  		pframe = rtw_set_ie(pframe, WLAN_EID_SUPP_RATES, 8, pstat->bssrateset, &(pattrib->pktlen));
-> -		pframe = rtw_set_ie(pframe, WLAN_EID_EXT_SUPP_RATES, (pstat->bssratelen-8), pstat->bssrateset+8, &(pattrib->pktlen));
-> +		pframe = rtw_set_ie(pframe, WLAN_EID_EXT_SUPP_RATES, (pstat->bssratelen - 8),
-> +				    pstat->bssrateset + 8, &pattrib->pktlen);
->  	}
->  
->  	if ((pstat->flags & WLAN_STA_HT) && (pmlmepriv->htpriv.ht_option)) {
-> @@ -2694,18 +2711,18 @@ void issue_asocrsp(struct adapter *padapter, unsigned short status, struct sta_i
->  		/* p = hostapd_eid_ht_capabilities_info(hapd, p); */
->  		pbuf = rtw_get_ie(ie + _BEACON_IE_OFFSET_, WLAN_EID_HT_CAPABILITY, &ie_len, (pnetwork->ie_length - _BEACON_IE_OFFSET_));
->  		if (pbuf && ie_len > 0) {
-> -			memcpy(pframe, pbuf, ie_len+2);
-> -			pframe += (ie_len+2);
-> -			pattrib->pktlen += (ie_len+2);
-> +			memcpy(pframe, pbuf, ie_len + 2);
-> +			pframe += (ie_len + 2);
-> +			pattrib->pktlen += (ie_len + 2);
->  		}
->  
->  		/* FILL HT ADD INFO IE */
->  		/* p = hostapd_eid_ht_operation(hapd, p); */
->  		pbuf = rtw_get_ie(ie + _BEACON_IE_OFFSET_, WLAN_EID_HT_OPERATION, &ie_len, (pnetwork->ie_length - _BEACON_IE_OFFSET_));
->  		if (pbuf && ie_len > 0) {
-> -			memcpy(pframe, pbuf, ie_len+2);
-> -			pframe += (ie_len+2);
-> -			pattrib->pktlen += (ie_len+2);
-> +			memcpy(pframe, pbuf, ie_len + 2);
-> +			pframe += (ie_len + 2);
-> +			pattrib->pktlen += (ie_len + 2);
->  		}
->  	}
->  
-> @@ -2716,10 +2733,10 @@ void issue_asocrsp(struct adapter *padapter, unsigned short status, struct sta_i
->  
->  		for (pbuf = ie + _BEACON_IE_OFFSET_; ; pbuf += (ie_len + 2)) {
->  			pbuf = rtw_get_ie(pbuf, WLAN_EID_VENDOR_SPECIFIC, &ie_len, (pnetwork->ie_length - _BEACON_IE_OFFSET_ - (ie_len + 2)));
-> -			if (pbuf && !memcmp(pbuf+2, WMM_PARA_IE, 6)) {
-> -				memcpy(pframe, pbuf, ie_len+2);
-> -				pframe += (ie_len+2);
-> -				pattrib->pktlen += (ie_len+2);
-> +			if (pbuf && !memcmp(pbuf + 2, WMM_PARA_IE, 6)) {
-> +				memcpy(pframe, pbuf, ie_len + 2);
-> +				pframe += (ie_len + 2);
-> +				pattrib->pktlen += (ie_len + 2);
->  
->  				break;
->  			}
-> @@ -2953,9 +2970,9 @@ static int _issue_nulldata(struct adapter *padapter, unsigned char *da,
->  	fctrl = &(pwlanhdr->frame_control);
->  	*(fctrl) = 0;
->  
-> -	if ((pmlmeinfo->state&0x03) == WIFI_FW_AP_STATE)
-> +	if ((pmlmeinfo->state & 0x03) == WIFI_FW_AP_STATE)
->  		SetFrDs(fctrl);
-> -	else if ((pmlmeinfo->state&0x03) == WIFI_FW_STATION_STATE)
-> +	else if ((pmlmeinfo->state & 0x03) == WIFI_FW_STATION_STATE)
->  		SetToDs(fctrl);
->  
->  	if (power_mode)
-> @@ -3095,9 +3112,9 @@ static int _issue_qos_nulldata(struct adapter *padapter, unsigned char *da,
->  	fctrl = &(pwlanhdr->frame_control);
->  	*(fctrl) = 0;
->  
-> -	if ((pmlmeinfo->state&0x03) == WIFI_FW_AP_STATE)
-> +	if ((pmlmeinfo->state & 0x03) == WIFI_FW_AP_STATE)
->  		SetFrDs(fctrl);
-> -	else if ((pmlmeinfo->state&0x03) == WIFI_FW_STATION_STATE)
-> +	else if ((pmlmeinfo->state & 0x03) == WIFI_FW_STATION_STATE)
->  		SetToDs(fctrl);
->  
->  	qc = (unsigned short *)(pframe + pattrib->hdrlen - 2);
-> @@ -3624,7 +3641,7 @@ unsigned int send_delba(struct adapter *padapter, u8 initiator, u8 *addr)
->  	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
->  	u16 tid;
->  
-> -	if ((pmlmeinfo->state&0x03) != WIFI_FW_AP_STATE)
-> +	if ((pmlmeinfo->state & 0x03) != WIFI_FW_AP_STATE)
->  		if (!(pmlmeinfo->state & WIFI_FW_ASSOC_SUCCESS))
->  			return _SUCCESS;
->  
-> @@ -3635,7 +3652,8 @@ unsigned int send_delba(struct adapter *padapter, u8 initiator, u8 *addr)
->  	if (initiator == 0) {/*  recipient */
->  		for (tid = 0; tid < MAXTID; tid++) {
->  			if (psta->recvreorder_ctrl[tid].enable) {
-> -				issue_action_BA(padapter, addr, WLAN_ACTION_DELBA, (((tid << 1) | initiator)&0x1F));
-> +				issue_action_BA(padapter, addr, WLAN_ACTION_DELBA,
-> +						(((tid << 1) | initiator) & 0x1F));
->  				psta->recvreorder_ctrl[tid].enable = false;
->  				psta->recvreorder_ctrl[tid].indicate_seq = 0xffff;
->  			}
-> @@ -3643,7 +3661,8 @@ unsigned int send_delba(struct adapter *padapter, u8 initiator, u8 *addr)
->  	} else if (initiator == 1) {/*  originator */
->  		for (tid = 0; tid < MAXTID; tid++) {
->  			if (psta->htpriv.agg_enable_bitmap & BIT(tid)) {
-> -				issue_action_BA(padapter, addr, WLAN_ACTION_DELBA, (((tid << 1) | initiator)&0x1F));
-> +				issue_action_BA(padapter, addr, WLAN_ACTION_DELBA,
-> +						(((tid << 1) | initiator) & 0x1F));
->  				psta->htpriv.agg_enable_bitmap &= ~BIT(tid);
->  				psta->htpriv.candidate_tid_bitmap &= ~BIT(tid);
->  			}
-> @@ -3668,7 +3687,9 @@ unsigned int send_beacon(struct adapter *padapter)
->  			cond_resched();
->  			rtw_hal_get_hwreg(padapter, HW_VAR_BCN_VALID, (u8 *)(&bxmitok));
->  			poll++;
-> -		} while ((poll%10) != 0 && false == bxmitok && !padapter->bSurpriseRemoved && !padapter->bDriverStopped);
-> +		} while ((poll % 10) != 0 && !bxmitok &&
-> +			 !padapter->bSurpriseRemoved &&
-> +			 !padapter->bDriverStopped);
->  
->  	} while (false == bxmitok && issue < 100 && !padapter->bSurpriseRemoved && !padapter->bDriverStopped);
->  
-> @@ -3863,7 +3884,7 @@ u8 collect_bss_info(struct adapter *padapter, union recv_frame *precv_frame, str
->  
->  	p = rtw_get_ie(bssid->ies + ie_offset, WLAN_EID_EXT_SUPP_RATES, &len, bssid->ie_length - ie_offset);
->  	if (p) {
-> -		if (len > (NDIS_802_11_LENGTH_RATES_EX-i))
-> +		if (len > (NDIS_802_11_LENGTH_RATES_EX - i))
->  			return _FAIL;
->  
->  		memcpy(bssid->supported_rates + i, (p + 2), len);
-> @@ -3956,7 +3977,7 @@ void start_create_ibss(struct adapter *padapter)
->  	/* update capability */
->  	caps = rtw_get_capability((struct wlan_bssid_ex *)pnetwork);
->  	update_capinfo(padapter, caps);
-> -	if (caps&WLAN_CAPABILITY_IBSS) {/* adhoc master */
-> +	if (caps & WLAN_CAPABILITY_IBSS) {/* adhoc master */
->  		val8 = 0xcf;
->  		rtw_hal_set_hwreg(padapter, HW_VAR_SEC_CFG, (u8 *)(&val8));
->  
-> @@ -4007,7 +4028,7 @@ void start_clnt_join(struct adapter *padapter)
->  	/* update capability */
->  	caps = rtw_get_capability((struct wlan_bssid_ex *)pnetwork);
->  	update_capinfo(padapter, caps);
-> -	if (caps&WLAN_CAPABILITY_ESS) {
-> +	if (caps & WLAN_CAPABILITY_ESS) {
->  		set_msr(padapter, WIFI_FW_STATION_STATE);
->  
->  		val8 = (pmlmeinfo->auth_algo == dot11AuthAlgrthm_8021X) ? 0xcc : 0xcf;
-> @@ -4031,10 +4052,10 @@ void start_clnt_join(struct adapter *padapter)
->  		beacon_timeout = decide_wait_for_beacon_timeout(pmlmeinfo->bcn_interval);
->  		set_link_timer(pmlmeext, beacon_timeout);
->  		_set_timer(&padapter->mlmepriv.assoc_timer,
-> -			(REAUTH_TO * REAUTH_LIMIT) + (REASSOC_TO*REASSOC_LIMIT) + beacon_timeout);
-> +			(REAUTH_TO * REAUTH_LIMIT) + (REASSOC_TO * REASSOC_LIMIT) + beacon_timeout);
->  
->  		pmlmeinfo->state = WIFI_FW_AUTH_NULL | WIFI_FW_STATION_STATE;
-> -	} else if (caps&WLAN_CAPABILITY_IBSS) { /* adhoc client */
-> +	} else if (caps & WLAN_CAPABILITY_IBSS) { /* adhoc client */
->  		set_msr(padapter, WIFI_FW_ADHOC_STATE);
->  
->  		val8 = 0xcf;
-> @@ -4096,7 +4117,7 @@ unsigned int receive_disconnect(struct adapter *padapter, unsigned char *MacAddr
->  	if (!(!memcmp(MacAddr, get_my_bssid(&pmlmeinfo->network), ETH_ALEN)))
->  		return _SUCCESS;
->  
-> -	if ((pmlmeinfo->state&0x03) == WIFI_FW_STATION_STATE) {
-> +	if ((pmlmeinfo->state & 0x03) == WIFI_FW_STATION_STATE) {
->  		if (pmlmeinfo->state & WIFI_FW_ASSOC_SUCCESS) {
->  			pmlmeinfo->state = WIFI_FW_NULL_STATE;
->  			report_del_sta_event(padapter, MacAddr, reason);
-> @@ -4157,7 +4178,7 @@ static void process_80211d(struct adapter *padapter, struct wlan_bssid_ex *bssid
->  				if (fcn <= 14)
->  					channel = fcn + j; /*  2.4 GHz */
->  				else
-> -					channel = fcn + j*4; /*  5 GHz */
-> +					channel = fcn + j * 4; /*  5 GHz */
->  
->  				chplan_ap.Channel[i++] = channel;
->  			}
-> @@ -4548,7 +4569,9 @@ void update_sta_info(struct adapter *padapter, struct sta_info *psta)
->  
->  		psta->htpriv.ampdu_enable = pmlmepriv->htpriv.ampdu_enable;
->  
-> -		psta->htpriv.rx_ampdu_min_spacing = (pmlmeinfo->HT_caps.u.HT_cap_element.AMPDU_para&IEEE80211_HT_CAP_AMPDU_DENSITY)>>2;
-> +		psta->htpriv.rx_ampdu_min_spacing =
-> +			(pmlmeinfo->HT_caps.u.HT_cap_element.AMPDU_para &
-> +			 IEEE80211_HT_CAP_AMPDU_DENSITY) >> 2;
->  
->  		if (support_short_GI(padapter, &(pmlmeinfo->HT_caps), CHANNEL_WIDTH_20))
->  			psta->htpriv.sgi_20m = true;
-> @@ -4653,7 +4676,7 @@ void mlmeext_joinbss_event_callback(struct adapter *padapter, int join_res)
->  		return;
->  	}
->  
-> -	if ((pmlmeinfo->state&0x03) == WIFI_FW_ADHOC_STATE)
-> +	if ((pmlmeinfo->state & 0x03) == WIFI_FW_ADHOC_STATE)
->  		/* update bc/mc sta_info */
->  		update_bmc_sta(padapter);
->  
-> @@ -4702,7 +4725,7 @@ void mlmeext_joinbss_event_callback(struct adapter *padapter, int join_res)
->  	join_type = 2;
->  	rtw_hal_set_hwreg(padapter, HW_VAR_MLME_JOIN, (u8 *)(&join_type));
->  
-> -	if ((pmlmeinfo->state&0x03) == WIFI_FW_STATION_STATE) {
-> +	if ((pmlmeinfo->state & 0x03) == WIFI_FW_STATION_STATE) {
->  		/*  correcting TSF */
->  		correct_TSF(padapter, pmlmeext);
->  
-> @@ -4719,7 +4742,7 @@ void mlmeext_sta_add_event_callback(struct adapter *padapter, struct sta_info *p
->  	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
->  	u8 join_type;
->  
-> -	if ((pmlmeinfo->state&0x03) == WIFI_FW_ADHOC_STATE) {
-> +	if ((pmlmeinfo->state & 0x03) == WIFI_FW_ADHOC_STATE) {
->  		if (pmlmeinfo->state & WIFI_FW_ASSOC_SUCCESS) { /* adhoc master or sta_count>1 */
->  
->  			/* nothing to do */
-> @@ -4781,7 +4804,7 @@ void _linked_info_dump(struct adapter *padapter)
->  	struct dvobj_priv *pdvobj = adapter_to_dvobj(padapter);
->  
->  	if (padapter->bLinkInfoDump) {
-> -		if ((pmlmeinfo->state&0x03) == WIFI_FW_STATION_STATE)
-> +		if ((pmlmeinfo->state & 0x03) == WIFI_FW_STATION_STATE)
->  			rtw_hal_get_def_var(padapter,
->  					    HAL_DEF_UNDERCORATEDSMOOTHEDPWDB,
->  					    &UndecoratedSmoothedPWDB);
-> @@ -5271,9 +5294,11 @@ u8 disconnect_hdl(struct adapter *padapter, unsigned char *pbuf)
->  	u8 val8;
->  
->  	if (is_client_associated_to_ap(padapter))
-> -		issue_deauth_ex(padapter, pnetwork->mac_address, WLAN_REASON_DEAUTH_LEAVING, param->deauth_timeout_ms/100, 100);
-> +		issue_deauth_ex(padapter, pnetwork->mac_address, WLAN_REASON_DEAUTH_LEAVING,
-> +				param->deauth_timeout_ms / 100, 100);
->  
-> -	if (((pmlmeinfo->state&0x03) == WIFI_FW_ADHOC_STATE) || ((pmlmeinfo->state&0x03) == WIFI_FW_AP_STATE)) {
-> +	if (((pmlmeinfo->state & 0x03) == WIFI_FW_ADHOC_STATE) ||
-> +	    ((pmlmeinfo->state & 0x03) == WIFI_FW_AP_STATE)) {
->  		/* Stop BCN */
->  		val8 = 0;
->  		rtw_hal_set_hwreg(padapter, HW_VAR_BCN_FUNC, (u8 *)(&val8));
-> @@ -5294,7 +5319,7 @@ static int rtw_scan_ch_decision(struct adapter *padapter, struct rtw_ieee80211_c
->  	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
->  
->  	/* clear first */
-> -	memset(out, 0, sizeof(struct rtw_ieee80211_channel)*out_num);
-> +	memset(out, 0, sizeof(struct rtw_ieee80211_channel) * out_num);
->  
->  	/* acquire channels from in */
->  	j = 0;
-> @@ -5533,7 +5558,7 @@ u8 add_ba_hdl(struct adapter *padapter, unsigned char *pbuf)
->  		return	H2C_SUCCESS;
->  
->  	if (((pmlmeinfo->state & WIFI_FW_ASSOC_SUCCESS) && (pmlmeinfo->HT_enable)) ||
-> -		((pmlmeinfo->state&0x03) == WIFI_FW_AP_STATE)) {
-> +		((pmlmeinfo->state & 0x03) == WIFI_FW_AP_STATE)) {
->  		/* pmlmeinfo->ADDBA_retry_count = 0; */
->  		/* pmlmeinfo->candidate_tid_bitmap |= (0x1 << pparm->tid); */
->  		/* psta->htpriv.candidate_tid_bitmap |= BIT(pparm->tid); */
+> Mukesh Ojha (41):
+>   of: reserved_mem: Add devm_of_reserved_mem_device_init_by_name()
+>   firmware: qcom: scm: Use devm_of_reserved_mem_device_init()
+>   remoteproc: da8xx: Use devm_of_reserved_mem_device_init()
+>   remoteproc: keystone: Use devm_of_reserved_mem_device_init()
+>   media: synopsys: hdmirx: Use devm_of_reserved_mem_device_init()
+>   remoteproc: omap: Use devm_of_reserved_mem_device_init()
+>   drm: logicvc: Use devm_of_reserved_mem_device_init()
+>   drm: hdlcd: Use devm_of_reserved_mem_device_init()
+>   drm: pl111: Use devm_of_reserved_mem_device_init()
+>   remoteproc: mtk_scp: Use devm_of_reserved_mem_device_init()
+>   media: aspeed: Use devm_of_reserved_mem_device_init()
+>   media: nuvoton: npcm-video: Use devm_of_reserved_mem_device_init()
+>   memory: tegra210-emc: Use devm_of_reserved_mem_device_init_by_name()
+>   drm: komeda: Use devm_of_reserved_mem_device_init()
+>   drm: malidp: Use devm_of_reserved_mem_device_init()
+
+For the hdlcd, komeda and malidp drivers:
+
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+
+Best regards,
+Liviu
+
+>   drm: ingenic: Use devm_of_reserved_mem_device_init()
+>   drm: kmb: Use devm_of_reserved_mem_device_init()
+>   drm: sun4i: Use devm_of_reserved_mem_device_init()
+>   drm: xlnx: zynqmp_dpsub: Use devm_of_reserved_mem_device_init()
+>   media: arm: mali-c55: Use devm_of_reserved_mem_device_init()
+>   media: mediatek: vpu: Use devm_of_reserved_mem_device_init()
+>   mmc: sdhci-of-bst: Use devm_of_reserved_mem_device_init_by_idx()
+>   remoteproc: ti_k3: Use devm_of_reserved_mem_device_init()
+>   ASoC: mediatek: mt8192: Use devm_of_reserved_mem_device_init()
+>   ASoC: mediatek: mt8196: Use devm_of_reserved_mem_device_init()
+>   ASoC: mediatek: mt8183: Use devm_of_reserved_mem_device_init()
+>   ASoC: mediatek: mt8189: Use devm_of_reserved_mem_device_init()
+>   ASoC: SOF: imx: Use devm_of_reserved_mem_device_init_by_name()
+>   staging: media: cedrus: Use devm_of_reserved_mem_device_init()
+>   ASoC: cix-ipbloq: Use devm_of_reserved_mem_device_init()
+>   drm: aspeed: Use devm_of_reserved_mem_device_init()
+>   drm: arcpgu: Use devm_of_reserved_mem_device_init()
+>   ASoC: mediatek: mt8173: Use devm_of_reserved_mem_device_init()
+>   ASoC: mediatek: mt8186: Use devm_of_reserved_mem_device_init()
+>   ASoC: mediatek: mt8188: Use devm_of_reserved_mem_device_init()
+>   ASoC: mediatek: mt8195: Use devm_of_reserved_mem_device_init()
+>   ASoC: SOF: mediatek: mt8186: Use devm_of_reserved_mem_device_init()
+>   ASoC: SOF: mediatek: mt8195: Use devm_of_reserved_mem_device_init()
+>   misc: fastrpc: Use devm_of_reserved_mem_device_init()
+>   ASoC: fsl: imx-rpmsg: Use devm_of_reserved_mem_device_init_by_idx()
+>   ASoC: sprd: Use devm_of_reserved_mem_device_init()
+> 
+>  drivers/firmware/qcom/qcom_scm.c              | 22 +++------
+>  .../gpu/drm/arm/display/komeda/komeda_dev.c   |  4 +-
+>  drivers/gpu/drm/arm/hdlcd_drv.c               |  6 +--
+>  drivers/gpu/drm/arm/malidp_drv.c              |  4 +-
+>  drivers/gpu/drm/aspeed/aspeed_gfx_drv.c       |  2 +-
+>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c     | 13 +-----
+>  drivers/gpu/drm/kmb/kmb_drv.c                 | 12 +----
+>  drivers/gpu/drm/logicvc/logicvc_drm.c         | 21 ++++-----
+>  drivers/gpu/drm/pl111/pl111_drv.c             |  4 +-
+>  drivers/gpu/drm/sun4i/sun4i_drv.c             |  4 +-
+>  drivers/gpu/drm/tiny/arcpgu.c                 |  2 +-
+>  drivers/gpu/drm/xlnx/zynqmp_dpsub.c           |  4 +-
+>  .../platform/arm/mali-c55/mali-c55-core.c     | 12 ++---
+>  drivers/media/platform/aspeed/aspeed-video.c  | 12 ++---
+>  drivers/media/platform/mediatek/vpu/mtk_vpu.c |  3 +-
+>  drivers/media/platform/nuvoton/npcm-video.c   |  9 +---
+>  .../platform/synopsys/hdmirx/snps_hdmirx.c    | 16 +------
+>  drivers/memory/tegra/tegra210-emc-core.c      | 21 ++++-----
+>  drivers/misc/fastrpc.c                        |  2 +-
+>  drivers/mmc/host/sdhci-of-bst.c               |  7 +--
+>  drivers/of/of_reserved_mem.c                  | 41 +++++++++++++++++
+>  drivers/remoteproc/da8xx_remoteproc.c         | 10 +---
+>  drivers/remoteproc/keystone_remoteproc.c      | 16 +------
+>  drivers/remoteproc/mtk_scp.c                  |  3 +-
+>  drivers/remoteproc/omap_remoteproc.c          | 13 +-----
+>  drivers/remoteproc/ti_k3_common.c             | 13 +-----
+>  drivers/remoteproc/ti_k3_common.h             |  1 -
+>  .../staging/media/sunxi/cedrus/cedrus_hw.c    |  6 +--
+>  include/linux/of_reserved_mem.h               | 46 +++++++++++++++++++
+>  sound/hda/controllers/cix-ipbloq.c            |  2 +-
+>  sound/soc/fsl/imx-rpmsg.c                     |  2 +-
+>  sound/soc/mediatek/mt8173/mt8173-afe-pcm.c    |  2 +-
+>  sound/soc/mediatek/mt8183/mt8183-afe-pcm.c    | 13 +-----
+>  sound/soc/mediatek/mt8186/mt8186-afe-pcm.c    |  2 +-
+>  sound/soc/mediatek/mt8188/mt8188-afe-pcm.c    |  2 +-
+>  sound/soc/mediatek/mt8189/mt8189-afe-pcm.c    | 16 +------
+>  sound/soc/mediatek/mt8192/mt8192-afe-pcm.c    | 11 +----
+>  sound/soc/mediatek/mt8195/mt8195-afe-pcm.c    |  2 +-
+>  sound/soc/mediatek/mt8196/mt8196-afe-pcm.c    | 14 +-----
+>  sound/soc/sof/imx/imx-common.c                |  9 ++--
+>  sound/soc/sof/mediatek/mt8186/mt8186.c        |  2 +-
+>  sound/soc/sof/mediatek/mt8195/mt8195.c        |  2 +-
+>  sound/soc/sprd/sprd-pcm-dma.c                 |  3 +-
+>  43 files changed, 162 insertions(+), 249 deletions(-)
+> 
 > -- 
-> 2.34.1
+> 2.53.0
 > 
 
-Hi,
-
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- Your patch did many different things all at once, making it difficult
-  to review.  All Linux kernel patches need to only do one thing at a
-  time.  If you need to do multiple things (such as clean up all coding
-  style issues in a file/driver), do it in a sequence of patches, each
-  one doing only one thing.  This will make it easier to review the
-  patches to ensure that they are correct, and to help alleviate any
-  merge issues that larger patches can cause.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
