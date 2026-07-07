@@ -1,75 +1,44 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-m155101.qiye.163.com (mail-m155101.qiye.163.com [101.71.155.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 693AA42089E
-	for <linux-staging@lists.linux.dev>; Tue,  7 Jul 2026 07:40:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ED1E2C237C
+	for <linux-staging@lists.linux.dev>; Tue,  7 Jul 2026 08:06:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783410038; cv=none; b=FpPMHO0w98gkwECLiyWIRvbVwDJ9jakzaSWbzpIJC/btUrBQplK3dONrPZCcSsdTb/RuEFKGHbmQhRia/KdSSZSB0QDW6HfJFbDeQA6fPds9OlThiCzUO+F6CTjKhQ7VxQ64QUjzBpfL7ZWxFUTNKMXFdC6QRzRtuexdco7EV5g=
+	t=1783411589; cv=none; b=C8EHXEAc0/g+mTtFFqSZUJwX4HJwN8XEncQPnDvr31pNgF86y+VxhHnb14t6wvkKfBofr2SSFmzZAVW6pc22zco/fR9ns/DXnutp+cG9KtMS2NOJTyr+7PNsQ7qVCQDYZhNQPHRGipn/3b7NoLYtP9F6APylBYrFr/YtNTDvW+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783410038; c=relaxed/simple;
-	bh=DSEChP9kAsmk2HrXfSdbcWaNkWfX3idepBBcxxyGuF8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MMaKjm6h4/nEyxNiFlYx4xyw/AQxxKAVpg14dTr6Lsd3xfEmcJNnl9igN4URZd8OXyx67yvReCqBNXZ2jFiuelVi5bkxj3N5RYCyVzoSg7un7ibajIn2TDWbizhZOLuNt8ukCLP3//Tgv+3r0YFzq74U/+zbYrdNhG5iXRbXQvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X+xHkvT8; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783411589; c=relaxed/simple;
+	bh=jJ7ty7jq4rNWfZ6cw92JQ71UqFobN1PDQyluvXEEPxc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=BBM8F4/oaD6wapUbmm0WBMaEi5nR7Yz5o2+18GM7JBxx+5KI4MMIZDt1ZfUanO5aFBLNfEeR/j+ieJf/3yE6Py92ILcxcxh7jHh9pxsMhV/d+kXST1fvOepmF3G09Q2MZ96QXrgttjBxs6cl+J3frHLZAVr5qZaW73ExBc8mZvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=MphwiHHY; arc=none smtp.client-ip=101.71.155.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X+xHkvT8"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-c15b509c323so16943366b.0
-        for <linux-staging@lists.linux.dev>; Tue, 07 Jul 2026 00:40:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783410036; x=1784014836; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=K6AeqTPAcZ4JrA+Qd1cNlOBTaQ+fwvnS/cXYGctMis0=;
-        b=X+xHkvT8UTFD5DgufW0iXb+sMNX2HRMrMYVBeQaq6i80QovH3rmfle7MBmjEIdkSdN
-         eRqKeUpHqbqlygEV8/U+5v0UFQIoFSI+Lw+/fvCYn0uTLFssDApP0LHe+SGdcaqwcGEu
-         WbCckgXlVo0FfTEXUfia+PubtMFABtePcChsM96a7tCzDWjgwbekup2ngGBtRpiI8Y1D
-         4imDwgQgm0WIna7Du/6jLCAFauT8BqIndqrQDqrTW4UXwF3i8kQH55OPHuJ3ZPt5hMXb
-         z/6srlTyWBdIRiUPRvUx+5qAoRvfhMJtu7h4G7jmfaZBzC6R75cBADrEMfZwSLkYHZ2Q
-         U7dQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783410036; x=1784014836;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=K6AeqTPAcZ4JrA+Qd1cNlOBTaQ+fwvnS/cXYGctMis0=;
-        b=NNja+S6ZdlhRYEJnBOsVlj7Pl1bAUDJZg9aF7OkAvNLX1aCXYybQnuvoZ9jE6LBK2Z
-         C65ckiLB+qQWwV2lk1ks8uVEZkcbDJdfXnrTvYFtxM4BP4Eh9U+o/DwXj8QkJuStxZ1A
-         qxpDw/j959DOQOkseFLOHm9ho3RsjpR2bsC+DJODwPulZ3yKqiUxp+Mn/YyW7Ddx0fQu
-         bZiCrKu7KGwjkiYky4DmLhTDrTOl2QShGyCGGDW7ssTc/oiOYLeIqFEET3aZIJpU3ro6
-         7djJXLSPFnNJWGPge7a5u8MQZ2IOY14x1pNSDZZs5+ArMCkaUX+0fINtnURUbhZFJsgY
-         /EVQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqjeCHWUqhekdop+W/6u0iAT0QXTJv7oUqDbUZuHYvseLAOumL981EI+SKNiZyGnR140Z2rYWR7T3IO+xrz@lists.linux.dev
-X-Gm-Message-State: AOJu0YwZWB6akz92150Wj26E9lBKjdSKU+0Kxg2nBrRs5W7QnlXOyOoK
-	U7CspdTuwlQm1PJ/lX/bFTOhwLgHECBQQPtSwveFYKlaCkDeRzzMLibP
-X-Gm-Gg: AfdE7cmYEiu8BZQPz8r1aug2e+mUWjhkWG7e/btG1wjMnzEWyu6N9AjqPFA4fOwT7v4
-	RGe9Hl3vDoA/ci8VNJqI2q/p2HX2TANYhN4JNj4aBpxsqmJdlodys8vwVjZHMplcb+6zLDVVR8Z
-	/8j3fd4dO7CIt0ZPrzZeuFUBfoOeeT5nk70zK0udpFDBy4OxNu0cX/deU8XYKz42agDBdScMjsX
-	7NW1TrxMsGrp57tcfADIHEjvC94n+3YcBiujTSFcy3YhfG2RT6pC7Xgr3pqN5CnV2juWOKiwPw5
-	gBkHiT9NWtp2cjtIcA7zWOTsMbeSnQdnMZNGSk4pUQVfgonyOCxJvgNiJCkAOI64PnaaPHxqUsY
-	FvDKv3BPV+wAZcTnxRAQHC7v1NYmpY/TvFvGFA3lrnkxFAAuf9+HRJg/49SHlQWpltNwWrZQ2Jv
-	zJkf35aA==
-X-Received: by 2002:a17:907:e14e:10b0:c12:696a:b217 with SMTP id a640c23a62f3a-c15a6823e54mr192470966b.25.1783410035532;
-        Tue, 07 Jul 2026 00:40:35 -0700 (PDT)
-Received: from fedora ([156.203.68.153])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c15ad882342sm72125866b.28.2026.07.07.00.40.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2026 00:40:35 -0700 (PDT)
-From: Ziad Ali <zalshemy9@gmail.com>
-To: hansg@kernel.org,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: sakari.ailus@linux.intel.com,
+	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="MphwiHHY"
+Received: from DESKTOP-SUEFNF9.taila7e912.ts.net (unknown [221.228.238.82])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 453773698;
+	Tue, 7 Jul 2026 16:06:21 +0800 (GMT+08:00)
+From: Dawei Feng <dawei.feng@seu.edu.cn>
+To: hansg@kernel.org
+Cc: mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
 	andy@kernel.org,
+	gregkh@linuxfoundation.org,
+	azpijr@gmail.com,
+	error27@gmail.com,
+	kees@kernel.org,
+	arnd@arndb.de,
+	pontescpedro@gmail.com,
 	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	Ziad Ali <zalshemy9@gmail.com>
-Subject: [PATCH] staging: atomisp: fix typo in atomisp_tables.h
-Date: Tue,  7 Jul 2026 10:40:20 +0300
-Message-ID: <20260707074020.12332-1-zalshemy9@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	jianhao.xu@seu.edu.cn,
+	zilin@seu.edu.cn,
+	Dawei Feng <dawei.feng@seu.edu.cn>
+Subject: [PATCH v2] media: atomisp: fix scaler setup leaks
+Date: Tue,  7 Jul 2026 16:06:15 +0800
+Message-Id: <20260707080615.631222-1-dawei.feng@seu.edu.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,34 +46,162 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9f3b9d201703a2kunm9435365539493
+X-HM-MType: 10
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaQx1MVh9DTUMYTB9PSUtMTVYeHw
+	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUpVSUlDVUlIQ1VDSVlXWRYaDxIVHRRZQVlPS0hVSktISk
+	9ITFVKS0tVSkJLS1kG
+DKIM-Signature: a=rsa-sha256;
+	b=MphwiHHYuTi6ESIPoyYhQeosf81+2JlXOhTh1dtcrppDctICkIKMhSi+R3H+zQ7fj7impmx7NjU3s74WdXmOtSrgoIbdBDb+oFLykddMsmdGh00Ypqs2PJC8A3UzoK6vVWRExQl1xeZJqojd9Leex8utvz360VH4vgP5pn/Xhqk=; c=relaxed/relaxed; s=default; d=seu.edu.cn; v=1;
+	bh=nBpWsa4JwdsFOGP1xCF1vGkR/mRGjxPDQ0mKNQD/sqU=;
+	h=date:mime-version:subject:message-id:from;
 
-Signed-off-by: Ziad Ali <zalshemy9@gmail.com>
+load_video_binaries() and load_primary_binaries() create a CAS scaler
+descriptor before allocating and looking up the YUV scaler binaries. Error
+paths after descriptor creation can return without destroying the
+descriptor and without freeing the partially allocated scaler state.
+
+Fix this by properly destroying the CAS scaler descriptor on failure and
+using reverse-order cleanup labels to free the partially allocated scaler
+arrays and state variables.
+
+The bug was first flagged by an experimental analysis tool we are
+developing for kernel memory-management bugs while analyzing
+v6.13-rc1. The tool is still under development and is not yet publicly
+available. Manual inspection confirms that the bug is still
+present in v7.1.1.
+
+An x86_64 allyesconfig build showed no new warnings. As we do not have
+an Intel Atom ISP camera platform with matching sensor firmware and ACPI
+camera graph to test with, no runtime testing was able to be performed.
+
+Fixes: ad85094b293e ("Revert "media: staging: atomisp: Remove driver"")
+Signed-off-by: Dawei Feng <dawei.feng@seu.edu.cn>
 ---
- drivers/staging/media/atomisp/pci/atomisp_tables.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Changes in v2:
+- Use reverse-order cleanup labels to free partially allocated scaler
+  state on the scaler setup failure paths.
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_tables.h b/drivers/staging/media/atomisp/pci/atomisp_tables.h
-index 33e6079aa..59730ce32 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_tables.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_tables.h
-@@ -93,7 +93,7 @@ static struct ia_css_macc_table skin_high_macc_table = {
+ drivers/staging/media/atomisp/pci/sh_css.c | 43 +++++++++++++++++-----
+ 1 file changed, 34 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
+index 6cda5925fa45..b17e0b3879f4 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css.c
++++ b/drivers/staging/media/atomisp/pci/sh_css.c
+@@ -4527,21 +4527,25 @@ static int load_video_binaries(struct ia_css_pipe *pipe)
+ 			  pipe_out_info,
+ 			  NULL,
+ 			  &cas_scaler_descr);
+-		if (err)
++		if (err) {
++			ia_css_pipe_destroy_cas_scaler_desc(&cas_scaler_descr);
+ 			return err;
++		}
+ 		mycs->num_yuv_scaler = cas_scaler_descr.num_stage;
+ 		mycs->yuv_scaler_binary = kzalloc_objs(struct ia_css_binary,
+ 						       cas_scaler_descr.num_stage);
+ 		if (!mycs->yuv_scaler_binary) {
+ 			mycs->num_yuv_scaler = 0;
+ 			err = -ENOMEM;
++			ia_css_pipe_destroy_cas_scaler_desc(&cas_scaler_descr);
+ 			return err;
+ 		}
+ 		mycs->is_output_stage = kzalloc_objs(bool,
+ 						     cas_scaler_descr.num_stage);
+ 		if (!mycs->is_output_stage) {
+ 			err = -ENOMEM;
+-			return err;
++			ia_css_pipe_destroy_cas_scaler_desc(&cas_scaler_descr);
++			goto free_yuv_scaler;
+ 		}
+ 		for (i = 0; i < cas_scaler_descr.num_stage; i++) {
+ 			struct ia_css_binary_descr yuv_scaler_descr;
+@@ -4555,9 +4559,8 @@ static int load_video_binaries(struct ia_css_pipe *pipe)
+ 			err = ia_css_binary_find(&yuv_scaler_descr,
+ 						 &mycs->yuv_scaler_binary[i]);
+ 			if (err) {
+-				kfree(mycs->is_output_stage);
+-				mycs->is_output_stage = NULL;
+-				return err;
++				ia_css_pipe_destroy_cas_scaler_desc(&cas_scaler_descr);
++				goto free_output_stage;
+ 			}
+ 		}
+ 		ia_css_pipe_destroy_cas_scaler_desc(&cas_scaler_descr);
+@@ -4734,6 +4737,15 @@ static int load_video_binaries(struct ia_css_pipe *pipe)
  	}
- };
+ 	IA_CSS_LEAVE_PRIVATE("");
+ 	return 0;
++
++free_output_stage:
++	kfree(mycs->is_output_stage);
++	mycs->is_output_stage = NULL;
++free_yuv_scaler:
++	kfree(mycs->yuv_scaler_binary);
++	mycs->yuv_scaler_binary = NULL;
++	mycs->num_yuv_scaler = 0;
++	return err;
+ }
  
--/*Blue enhencement image effect table*/
-+/*Blue enhancement image effect table*/
- static struct ia_css_macc_table blue_macc_table = {
- 	.data = {
- 		9728, -3072, 0, 8192,
-@@ -115,7 +115,7 @@ static struct ia_css_macc_table blue_macc_table = {
+ static int
+@@ -5105,6 +5117,7 @@ static int load_primary_binaries(
+ 			  NULL,
+ 			  &cas_scaler_descr);
+ 		if (err) {
++			ia_css_pipe_destroy_cas_scaler_desc(&cas_scaler_descr);
+ 			IA_CSS_LEAVE_ERR_PRIVATE(err);
+ 			return err;
+ 		}
+@@ -5112,7 +5125,9 @@ static int load_primary_binaries(
+ 		mycs->yuv_scaler_binary = kzalloc_objs(struct ia_css_binary,
+ 						       cas_scaler_descr.num_stage);
+ 		if (!mycs->yuv_scaler_binary) {
++			mycs->num_yuv_scaler = 0;
+ 			err = -ENOMEM;
++			ia_css_pipe_destroy_cas_scaler_desc(&cas_scaler_descr);
+ 			IA_CSS_LEAVE_ERR_PRIVATE(err);
+ 			return err;
+ 		}
+@@ -5120,8 +5135,8 @@ static int load_primary_binaries(
+ 						     cas_scaler_descr.num_stage);
+ 		if (!mycs->is_output_stage) {
+ 			err = -ENOMEM;
+-			IA_CSS_LEAVE_ERR_PRIVATE(err);
+-			return err;
++			ia_css_pipe_destroy_cas_scaler_desc(&cas_scaler_descr);
++			goto free_yuv_scaler;
+ 		}
+ 		for (i = 0; i < cas_scaler_descr.num_stage; i++) {
+ 			struct ia_css_binary_descr yuv_scaler_descr;
+@@ -5135,8 +5150,8 @@ static int load_primary_binaries(
+ 			err = ia_css_binary_find(&yuv_scaler_descr,
+ 						 &mycs->yuv_scaler_binary[i]);
+ 			if (err) {
+-				IA_CSS_LEAVE_ERR_PRIVATE(err);
+-				return err;
++				ia_css_pipe_destroy_cas_scaler_desc(&cas_scaler_descr);
++				goto free_output_stage;
+ 			}
+ 		}
+ 		ia_css_pipe_destroy_cas_scaler_desc(&cas_scaler_descr);
+@@ -5257,6 +5272,16 @@ static int load_primary_binaries(
  	}
- };
  
--/*Green enhencement image effect table*/
-+/*Green enhancement image effect table*/
- static struct ia_css_macc_table green_macc_table = {
- 	.data = {
- 		8192, 0, 0, 8192,
+ 	return 0;
++
++free_output_stage:
++	kfree(mycs->is_output_stage);
++	mycs->is_output_stage = NULL;
++free_yuv_scaler:
++	kfree(mycs->yuv_scaler_binary);
++	mycs->yuv_scaler_binary = NULL;
++	mycs->num_yuv_scaler = 0;
++	IA_CSS_LEAVE_ERR_PRIVATE(err);
++	return err;
+ }
+ 
+ static int
 -- 
-2.55.0
-
+2.34.1
