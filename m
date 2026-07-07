@@ -1,35 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1009C2F7EEF;
-	Tue,  7 Jul 2026 11:28:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A10753F6600;
+	Tue,  7 Jul 2026 11:29:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783423700; cv=none; b=r/7yrxVhXO4yIyPHm66Go5q3Gjs5QMGqQRyORHhIZl025KmRyGSIqtuFgwfgznQ5Ofy94Me2L2LxQtWO+J4AVUatEmoFE5ZYVzlilBKeHX0YJV53P8Sh7qVbEzWn1otDYQkkprshdOSMssA0e9zYNVJBJ1/KNDa9yCrgvG2RGZQ=
+	t=1783423773; cv=none; b=mxHpnYh7aueiC4ghXpK5236sTu4qnElYvF7nFzUToJ0syJAQDkqCgtDMweB8S6G2V6GcyGILThZsg7dl1ApdI95ZEHCn5ii72BDeJP4a54h8zA+VUMuOveH7dgNrR0LmTzOplAPcRYojVctvQE1rvP461rq+yo1RuV89qODSmIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783423700; c=relaxed/simple;
-	bh=KDIj6HY1yMUyplaSYIOtUJPEwNCewAdCq9dxAOKGPDo=;
+	s=arc-20240116; t=1783423773; c=relaxed/simple;
+	bh=YFvR+hSHdXV5U+jd5QWueTbETLB+RvOyaxsYlC9PPgg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YSxGrSNy8HWyTLfCSnB2R0zRoA8vL/IOz8LqVOAyG0KoXn4li9jEqHw6uOmxl7k+xdSq7LNApsYuyaoKcsNaR2M1H+A1+9fUe+ozvonklMCU2ICo3NzqEZJKLf9NJ0nosP5uN/5MeTHDy/bsy6JGoefacDFE7MRnSODt9AsfiEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=dKqEa2DW; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=nKKZVtM/Fewv622yobpcOh5LjsPaaZIPlzMDb/nvy1KT+GIT+K+1WtKSJyI+o58VSA/escXCRa/p0CvB49Ad0ca+ion7iUakaf0AipaNhgwApGnslEUxKzPpqGS6Ty+LtQGdrLvZMN/Dbk1IIvwidw4n31Jce/KRF0+G9ws1FQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=eDTYvCOJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="dKqEa2DW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3ABA01F000E9;
-	Tue,  7 Jul 2026 11:28:18 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="eDTYvCOJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A56E1F00A3A;
+	Tue,  7 Jul 2026 11:29:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1783423698;
-	bh=NFaUkUDCtGLHV3j4c5VlLkLuiQaeTRJBrbYORRrXy5M=;
+	s=korg; t=1783423772;
+	bh=i/FpuVFRQiacSAL4FXvWKzy05sf5T8LOTcPUWF6qY44=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=dKqEa2DWO+tm4ZP9Yvi8CafMg4klxWQiyZK/UjExRIDucbgaIJ2dboVDqqfV1YFAa
-	 8RsuvJojYdWwZXUT2ghw2k9MFBEQntsJ1PF3nxWi3jE7bRdeEOEV79LuwyQUSTYbPz
-	 KSgWXeqIavVZ0j+HFKbGqc3DG91g0in6So0UdvBw=
-Date: Tue, 7 Jul 2026 13:28:16 +0200
+	b=eDTYvCOJ6mgniOJ5VR0nWvRkvx5TO5OgKLefRJ8EJslTHxdudk4i9Nj0DkN4euXJL
+	 hV3gNOc6lw05S6sjp2nTE67B0uGKDo7eTpJ0y1heCmmLLsGsu7HkfEf96Cd9Tfufwr
+	 FfhMUl6TDLHCDLZOtCPPwBW0b0KUTWHVw4bNhdSU=
+Date: Tue, 7 Jul 2026 13:29:29 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Dalvin-Ehinoma Noah Aiguobas <fliegbert2@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: fix CamelCase warning for OnAssoc
-Message-ID: <2026070725-napped-decimal-3768@gregkh>
-References: <ajpXBI0GxOGkmTUF@koolguy>
+To: Aditya Chari <adi25charis@gmail.com>
+Cc: broonie@kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: rtl8723bs: remove unused function
+ declarations
+Message-ID: <2026070702-mold-shelf-e0af@gregkh>
+References: <20260622130453.63786-1-adi25charis@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -38,23 +40,39 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ajpXBI0GxOGkmTUF@koolguy>
+In-Reply-To: <20260622130453.63786-1-adi25charis@gmail.com>
 
-On Tue, Jun 23, 2026 at 09:51:00AM +0000, Dalvin-Ehinoma Noah Aiguobas wrote:
-> Rename OnAssoc values from CamelCase to snake_case to conform to
-> linux kernel coding style:
-> OnAssocReq	  -> on_assoc_req
-> OnAssocRsp	  -> on_assoc_rsp
-> WMMOnAssocRsp     -> WMM_on_assoc_rsp
-> HTOnAssocRsp	  -> HT_on_assoc_rsp
-> OnAssocReqFail	  -> on_assoc_req_fail
+On Mon, Jun 22, 2026 at 06:34:53PM +0530, Aditya Chari wrote:
+> rtl8192c_translate_rx_signal_stuff() and rtl8192c_query_rx_desc_status()
+> are declared in rtl8192c_recv.h but have no implementation and no
+> caller anywhere in the kernel tree. They are leftover from when this
+> driver was derived from Realtek's shared vendor codebase covering
+> multiple chip families.
+> 
+> Verified via grep across the full tree that neither symbol is
+> referenced outside this declaration, and confirmed via a full build
+> of the module before and after removal that no warnings or errors
+> are introduced.
+> 
+> This addresses the "find and remove any code for other chips that is
+> left over" item in the driver's TODO file.
+> 
+> Signed-off-by: Aditya Chari <adi25charis@gmail.com>
+> ------------------------------------------------------------------
 
-Why just these?  It's a miss-mash of different things all at once.
-Please make this a series that does one function at a time.
+This line isn't needed because:
 
-Also, when you change the function names, make them more obvious they
-are in this driver as they turn into some pretty horrible global symbol
-names, right?
+> 
+> Changes since v1:
+> - Rebased onto linux-next as requested by Dan Carpenter
+
+That should go below
+
+> ---
+
+That line.
+
+I think the documentation explains this, right?
 
 thanks,
 
