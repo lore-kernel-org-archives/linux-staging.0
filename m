@@ -1,137 +1,140 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AD6B312814
-	for <linux-staging@lists.linux.dev>; Tue,  7 Jul 2026 14:20:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783434052; cv=pass; b=UNYsEWbd5YG5sctwE5UNZw5wbWB8QjcxZCoZss3LsiEFanr52+IEP5VzmLYJvgT8XdP4kqs6HOwreFgc6q01PmST0/qruDl+FPoSBGQeXk2oBc1QVy7liyDmJGdAKztnmhgFVefoLOWYFE18C3dwygM2XatUDKzy78649HukGC0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783434052; c=relaxed/simple;
-	bh=0Pmyp4+fKGpQSRa/JRAnhA6Y6d88du6SFSR8E/Xq4Qc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ceiLFRpJq89MjZ4CjvRWguwuuNrZ80P7oraURyVV9iNUAoZ0pmQKhiC/Q1tPAP2jQ34pU3X3LIyULBlxhCM0a6Ta/gmN19H5nDjTrw3nxVZxmJhWOsSS2IHrve2N/6xyzOSkVlQqpSCLNyZt9u+OE35JuCLWI7zaeZAg8CArVHg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RYlmTZXJ; arc=pass smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B37237266E
+	for <linux-staging@lists.linux.dev>; Tue,  7 Jul 2026 15:03:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783436616; cv=none; b=WJwnVONJxG3a+NI26c9CVmqvdq//QN2GUHjd5MBxTBUvg6HVCNsfEAWAsID9QejP9vqfIz0cpL0i31WLXdlle6ZLCWq38IY4GNyj5Be4nEftTy/v87mKD+d8ts516VfzGEVPet56o4Ro5Hw3NA5sJcAB7JIYeINxuTJ6INNFdmY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783436616; c=relaxed/simple;
+	bh=WIvJ/zjcMo6mUW9sI3RPnc0QUrY+/Xv0ltvp3NGiIxo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PV8KydhWLMabLQebTcdj84VbKqjuCKO3cZ3nJVxm6ubBQeXwRA8f8GR7V0RVFFVql1J3xSBtT87n1h8vH77Ntx9WeLghmdrjz069OMCjnuifNldK4P5TEeZ8WgQnubvU0RfsMBET+SxYIqHlza/A1GrtcGoTqooaB1ZDXUo8pKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qRiDnjZo; arc=none smtp.client-ip=209.85.210.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RYlmTZXJ"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-693c51a8a19so6492881a12.3
-        for <linux-staging@lists.linux.dev>; Tue, 07 Jul 2026 07:20:51 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783434050; cv=none;
-        d=google.com; s=arc-20260327;
-        b=W/j9z5ldx0rlPyRdVHfHJaAf7NzIYbL0dch4xqifPQJX4QSNDNI6QXDOn/cBE452BL
-         OPj2UIz/4NkqDdOUGhvcBhQP4C8o8xvxMeIE2DTdsf8/4zYE5j1Klegop3U0C8FHE9sK
-         5yAC2S0cr1PDbfg2ZYVD1r8FffU7QsCw9eN+ehOxxRcBW7LLVi+HGz1ORcSLsBU0i/8y
-         1XCL3IK7+GKYwoeELCAlJ4LT92aFPJgW3ry0l949CqWfL0YcaF9A/tOhdJ777bVrOdsk
-         Ck1rov7wEF4p915omFJyK2nBfGuHuk4Ecjs3tpHD4NHso+RKctU2ogFl+6l2JHJFSdoL
-         XcEw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=iFw/uuft2ZNSb/Wju7Fc7KgMmtW46i8JZGDIIBDOgNM=;
-        fh=gM0TLHthMXV3KDiKUeOtiDL88pt5dlRRSunFbAODlic=;
-        b=q18+sG+i8RpC8xOkzmqGMNEH/3Egf6S+cx93ijr981DusVzush6QpDLn6KaXXRNREI
-         YEFpKhxUu24E2+a5bwKKLTHsgoBLTnjLf2HeE+4n9799Y1PQ28GfxdADX2nu95Sirehp
-         5mzoSAz6DOwD+DpGfSYtty42vRmEeEtT0cEfgt2GtLHpXeDY3mfc3Ff/DYgHjzZKIBBX
-         2n9EQd08z3+huix82zoPrENtOsaQU4JqpzSnrSst2MGHaTUsg/2mPSQAon6RdC+j/Zst
-         v1UbcYQLL0g6MqVmQNlN8qKsMEd4rbMsFHwBxZIDorNRXQBXd2gjjewpTMHc2KBbWGpH
-         M8BQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qRiDnjZo"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-845b6d9bf39so842038b3a.1
+        for <linux-staging@lists.linux.dev>; Tue, 07 Jul 2026 08:03:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783434050; x=1784038850; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iFw/uuft2ZNSb/Wju7Fc7KgMmtW46i8JZGDIIBDOgNM=;
-        b=RYlmTZXJhXIz6sjBWNadieDoCyc8ELBrTftvM61qFG7HfyDC9K9ehSfAkz/5ErVxVa
-         IqMEIx2vlO0UvaPE2rrgW086OzT+RduR+NC06yfC1Nw0i3jX3sSQPMvOSDuPw9tlqyuh
-         gYknCLqhew9DQAu0Y5vhz8fwnBAxER8uAXsGSiVIE4dj9ZhRCDCqpBD0bjJcEF0nIdnH
-         PkNS31nqpa4rpaKyi85TY3SZNZNDK3ADm9FgEE2WXGjNYWZwOMBSVHlup7hWrtsdkRtf
-         pTeEVo6TPDjxUONLWFEp+oqm1HcCgH+GSTWefsLDeSCjmkBgF+FnFY9M7v+0CNYRvDVg
-         vWDg==
+        d=gmail.com; s=20251104; t=1783436614; x=1784041414; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7Yuz6fHmdCtAYz8Y8qNJQTbNofhSYgvmngc/Kl/kwUc=;
+        b=qRiDnjZout9qDtkn2FPw2Ri5YEVKE6zf2y71zGXYA+U28nXMVNVRxjtcT79e/B1a2h
+         SFO/iX34wF0BPJMIN/40sidd5IrDm2V1tSwGjNo58uNPejjTxN1SABiKCL+9kIkEORXX
+         VVgbkkN29wCDuvdoM+2lZw2ycccePgb+2+bTgJNLE0E1oTbBnd0P6ibpt7moXJnD6uS7
+         3pWaOBpSD+CQxeVoQxSRMinqGVP3IZBaxi7rU+79+xGJtzt+b0JI+11QeYt9pJ7asJMK
+         txaBAOnTHFZzhqSFwfow/MEcQnOPPYZQ+8wac/SVMz3EsVqGMItcKtxnir4ruVjFRu0a
+         mJbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783434050; x=1784038850;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=iFw/uuft2ZNSb/Wju7Fc7KgMmtW46i8JZGDIIBDOgNM=;
-        b=ef8eU8zKhFvpHmFIN3JDSJTAB0d9OSYNcYU4+UMmJiiAjR+Lth2MFXWeOMrNjtQRMw
-         7jJFcObqmBR8LU+7+OOjuDmEKGq67sxOwogq4Nqf2KfSKt4R7j3X6UlG98D3c6gfprRo
-         RjFvWIs0ALvVqebIyj4XxPsdN19GqqBq/IVx0ujxZTZggModJTP1sqW80ovE6YVrE7Wh
-         mI93ST+qYS3MPczUilKypP6SF60JmC7PGxfpPjT8eLarwq/jWnLWTn5YzhdHxPGFVhbd
-         NRvWLsw0FK2JGJ/LHlg4SBL50hwz/br7G10qag+vYpv9bNR55nbI6PzlRwFB3BY82EZR
-         NREA==
-X-Gm-Message-State: AOJu0Yw2xWu8CoohKJFaNlQqp8Cvw/zbVeN23ls+3he/P9SngwtM9WrJ
-	wX1RUSFVJxSbhYCOjslrEJVEzLgJqBhw7DYXGGM3YyjnuKTRV8utuJNkSefsTu3n6sYe1KTvDks
-	XVbdsbxHoSdlnpU/eFyAo9eXGJWDuAWE=
-X-Gm-Gg: AfdE7ckM0H/6WmES3QKWOA0T1zHm/6JDBCUfTjpQogCmWQ2SPijsSPEreEHro09FAqf
-	wPc9F3UilWB0pl2jCKQuQPUSslByyq4iyDb0l+ymuh9/h12WWAykNVQjbfkZmwNpmDTTUBHrtM0
-	qLAKQCXOK8XRjG0NVMp+n2Arw+86gEp219RMmoYBicudAOsfJdLpBNVqF2NRM3JqdtpESQILItH
-	UTR9I6HEcdlQyVPPG0NTy8S34/cPkmaueY9+/H7BTbzr2o4UtJiARyhdbPw/mpYscTutosmf4IV
-	1/283zH1b806gzbWCoCaclhQwb7mYvnwsZ6wL0NlH5spIhzmIE5x7+X8gFHY
-X-Received: by 2002:a05:6402:3229:b0:698:5f47:1d4b with SMTP id
- 4fb4d7f45d1cf-69a85c0d3d7mr2863068a12.22.1783434049767; Tue, 07 Jul 2026
- 07:20:49 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1783436614; x=1784041414;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7Yuz6fHmdCtAYz8Y8qNJQTbNofhSYgvmngc/Kl/kwUc=;
+        b=AsL4KCVzotGo59XEADLs3KAJXOtRvg2FzYtFBVT8htLLsZiATJwuof7uOEOQ2Ec1RM
+         aprrrJ2Vj1B4ZD6x806KXlK0q/1i5kemn0icwCeGJQRq8OeBRny1pvD4YWSb9D2OoJoh
+         E5+mejD/sedMv/gp+KUsT/QE4QiylZ6eZnY/HVzyJppukMO3AqIJzeiJ849PB4zz63x2
+         bposqZ+tBeaDONqjsceaUOQuhXSl/nJZhEwmAqntP0YrlhafXuVzIp1vHMjdgUQBCR31
+         1vU0nSZSZ4YNjnQr2AIF6IzgOZrXFi8u/EGJ5x2w/9Iv458bfOJSm457bkCW/KzWRIyP
+         3PXQ==
+X-Forwarded-Encrypted: i=1; AHgh+RpmQPcQSNJoblG0HOA4wh1JrNCg2Zu+bW0V1OkDhPT5Qpt/NlvP4SYinBSY0N6eUX1frCiU8oHl1kXf1IZv@lists.linux.dev
+X-Gm-Message-State: AOJu0YyfHOmER8QanzvbbygER8eyE/zulqvqBV1aafiblnQILjs5hkaa
+	uZal6E3d2ugtoGmC+6IpUjRYkkYeUtXEuhVxXsYvKFPCDCmiX4gIXQEw
+X-Gm-Gg: AfdE7cmi6rdrMVjIyVOttAgEMgRvtSCSqjuRwwMv/b7oTEsk4efkdl2AzwXV0WB8gB3
+	4H5cRoWDaCOis4sWZvHzPPBqLaLXlRLZF7OpaZo6uI7fpo+AdO36LsQAM8AJdWUxfullJ3h6exi
+	7xiX74fE7owkhmyY+zRHStnUlZEFriuNicEB1QH/KrIQHUSZGYtZRNQ45fR7vzXjL7oxACUSiRA
+	ECjkqdb2L5bwRoDFWbNAPhFtWEfFWQNuXHNxX4u8x8OALh88hP6oXT0j/OFomgrvC9p3arqStxz
+	dthg+eOZ+K4tTrCmcaZbGOZC2wGSiylSuQHLtAs22E509CdGE2L/KPkPL145Nr7IHQvkwn4jMsb
+	o2LVST9sV1/HZpMnllYZZkJEFK9eS+FJwwAP6qI8g8kaFlJRFrB1QXNBOjxOFEZe8ANrC9vVZZU
+	hEYQqxwK+5/FMNo8jMnb3/k5+HOdVfg4p1+AiqpKQBqZvw
+X-Received: by 2002:a05:6a00:844:b0:847:e2e4:a36b with SMTP id d2e1a72fcca58-8482f4ba9fcmr2733557b3a.19.1783436613808;
+        Tue, 07 Jul 2026 08:03:33 -0700 (PDT)
+Received: from Alvin.tail8ccd9a.ts.net ([49.216.173.166])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847f6dd3bd3sm5604773b3a.58.2026.07.07.08.03.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Jul 2026 08:03:33 -0700 (PDT)
+From: Hao-Qun Huang <alvinhuang0603@gmail.com>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Hao-Qun Huang <alvinhuang0603@gmail.com>
+Subject: [PATCH] staging: media: tegra-video: fix of_node_put() on VIP parse errors
+Date: Tue,  7 Jul 2026 23:03:26 +0800
+Message-ID: <20260707150326.554689-1-alvinhuang0603@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260625202911.26782-1-mokshpanicker.7@gmail.com> <2026070712-gift-curtly-5f96@gregkh>
-In-Reply-To: <2026070712-gift-curtly-5f96@gregkh>
-From: Moksh Panicker <mokshpanicker.7@gmail.com>
-Date: Tue, 7 Jul 2026 14:20:37 +0000
-X-Gm-Features: AVVi8CeD3RwiVLji4-TTiExWVp2TyEKcBkmmhXz5DauvaGb9_i46Um4R2cQZkyg
-Message-ID: <CAK0z5OkkdOcXkz_sUj521e4Om+HGGesqkoBpau8kYDDjvY8S1g@mail.gmail.com>
-Subject: Re: [PATCH] staging: rtl8723bs: fix OOB reads in rtw_get_wps_ie()
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org, skhan@linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-This issue was found by code review while analyzing the OOB read
-patterns fixed by Alexandru Hossu in sibling functions
-(rtw_get_sec_ie, rtw_get_wapi_ie, rtw_get_wps_attr) in the same file.
-The same unbounded IE iteration pattern was present in
-rtw_get_wps_ie() but was not included in his series. The fix was
-compile-tested against linux-next. As this is a staging driver for a
-USB WiFi adapter that I do not have physical access to, runtime
-testing was not possible. The fix follows the same pattern as the
-accepted fixes in the sibling functions.
+tegra_vip_channel_of_parse() initializes np from dev->of_node without
+taking a reference, but its error paths drop one through the
+err_node_put label. This underflows the refcount of the VIP device's
+OF node when endpoint parsing fails on a malformed device tree.
 
-Thanks,
-Moksh
+The only reference the function takes on np is the success-path
+of_node_get() stored in vip->chan.of_node, and that one is already
+released by the tegra_vip_init() error path and by tegra_vip_exit().
 
-On Tue, Jul 7, 2026 at 11:30=E2=80=AFAM Greg KH <gregkh@linuxfoundation.org=
-> wrote:
->
-> On Thu, Jun 25, 2026 at 08:29:11PM +0000, Moksh Panicker wrote:
-> > rtw_get_wps_ie() iterates over IE data from network frames without
-> > validating that the IE header and payload fit within the remaining
-> > buffer before reading them. Specifically:
-> >
-> > - in_ie[cnt + 1] is read without checking cnt + 1 < in_len
-> > - memcmp(&in_ie[cnt + 2], ...) accesses cnt + 2 without bounds check
-> > - in_ie[cnt + 1] is used as length without verifying payload fits
-> >
-> > Add bounds checks at the top of the loop body to break early if fewer
-> > than 2 bytes remain for the IE header, or if the declared payload
-> > extends past the end of the buffer. Also require at least 4 bytes of
-> > payload before comparing the WPS OUI.
-> >
-> > Fixes: 554c0a3abf21 ("staging: rtl8723bs: add r8723bs driver")
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Moksh Panicker <mokshpanicker.7@gmail.com>
-> > ---
-> >  drivers/staging/rtl8723bs/core/rtw_ieee80211.c | 9 ++++++++-
-> >  1 file changed, 8 insertions(+), 1 deletion(-)
->
-> How was this issue found?  How was it tested?
->
-> thanks,
->
-> greg k-h
+Return errors directly instead of jumping to the bogus cleanup label.
+
+Fixes: e740d199cf0f ("staging: media: tegra-video: add support for Tegra20 parallel input")
+Assisted-by: Claude:claude-fable-5
+Signed-off-by: Hao-Qun Huang <alvinhuang0603@gmail.com>
+---
+diff --git a/drivers/staging/media/tegra-video/vip.c b/drivers/staging/media/tegra-video/vip.c
+index 9ff1f1750a15..5fba11e31e1d 100644
+--- a/drivers/staging/media/tegra-video/vip.c
++++ b/drivers/staging/media/tegra-video/vip.c
+@@ -126,7 +126,7 @@ static int tegra_vip_channel_of_parse(struct tegra_vip *vip)
+ 	if (!ep) {
+ 		err = -EINVAL;
+ 		dev_err_probe(dev, err, "%pOF: error getting endpoint node\n", np);
+-		goto err_node_put;
++		return err;
+ 	}
+ 
+ 	fwh = of_fwnode_handle(ep);
+@@ -134,14 +134,14 @@ static int tegra_vip_channel_of_parse(struct tegra_vip *vip)
+ 	of_node_put(ep);
+ 	if (err) {
+ 		dev_err_probe(dev, err, "%pOF: failed to parse v4l2 endpoint\n", np);
+-		goto err_node_put;
++		return err;
+ 	}
+ 
+ 	num_pads = of_graph_get_endpoint_count(np);
+ 	if (num_pads != TEGRA_VIP_PADS_NUM) {
+ 		err = -EINVAL;
+ 		dev_err_probe(dev, err, "%pOF: need 2 pads, got %d\n", np, num_pads);
+-		goto err_node_put;
++		return err;
+ 	}
+ 
+ 	vip->chan.of_node = of_node_get(np);
+@@ -149,10 +149,6 @@ static int tegra_vip_channel_of_parse(struct tegra_vip *vip)
+ 	vip->chan.pads[TEGRA_VIP_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE;
+ 
+ 	return 0;
+-
+-err_node_put:
+-	of_node_put(np);
+-	return err;
+ }
+ 
+ static int tegra_vip_channel_init(struct tegra_vip *vip)
