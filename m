@@ -1,61 +1,61 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DABBB3B38AF
-	for <linux-staging@lists.linux.dev>; Tue,  7 Jul 2026 07:36:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 693AA42089E
+	for <linux-staging@lists.linux.dev>; Tue,  7 Jul 2026 07:40:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783409782; cv=none; b=lr8bvkIcP7SKLpdUldwNeBQxB3xMDaBY/1AM98AmmbL7QKiSciBhKQ//DlCZC9ul9hRVKf+0ms5k0KPl9WWkyVnkb0B+sPK5O7cdevmO9Gb6hPJhUsLYDzsy5f0h+kBOJt4ydnjItZJna0Ba3HrhhkPBefKnXCRy+FtxVFYGsWo=
+	t=1783410038; cv=none; b=FpPMHO0w98gkwECLiyWIRvbVwDJ9jakzaSWbzpIJC/btUrBQplK3dONrPZCcSsdTb/RuEFKGHbmQhRia/KdSSZSB0QDW6HfJFbDeQA6fPds9OlThiCzUO+F6CTjKhQ7VxQ64QUjzBpfL7ZWxFUTNKMXFdC6QRzRtuexdco7EV5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783409782; c=relaxed/simple;
+	s=arc-20240116; t=1783410038; c=relaxed/simple;
 	bh=DSEChP9kAsmk2HrXfSdbcWaNkWfX3idepBBcxxyGuF8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Un+6DXTbE4i9Jyovz7xl1rwzV4GKQENBD3+BCH6Ja1EgSM0de0jBckSd9qNmZhoXYujyATsYnk2KEABecLKQSMxR8OBFTcq6VcPyac9usTn60wJ46BmU8enGuP9HE/A1T+InT58F7w7/pmqCR3xWrIfFFMF7yxkQnlnCI2dHmm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KHWHP9SA; arc=none smtp.client-ip=209.85.208.44
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MMaKjm6h4/nEyxNiFlYx4xyw/AQxxKAVpg14dTr6Lsd3xfEmcJNnl9igN4URZd8OXyx67yvReCqBNXZ2jFiuelVi5bkxj3N5RYCyVzoSg7un7ibajIn2TDWbizhZOLuNt8ukCLP3//Tgv+3r0YFzq74U/+zbYrdNhG5iXRbXQvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X+xHkvT8; arc=none smtp.client-ip=209.85.218.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KHWHP9SA"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-69532288224so6890659a12.0
-        for <linux-staging@lists.linux.dev>; Tue, 07 Jul 2026 00:36:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X+xHkvT8"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-c15b509c323so16943366b.0
+        for <linux-staging@lists.linux.dev>; Tue, 07 Jul 2026 00:40:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783409778; x=1784014578; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1783410036; x=1784014836; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
         bh=K6AeqTPAcZ4JrA+Qd1cNlOBTaQ+fwvnS/cXYGctMis0=;
-        b=KHWHP9SAb0rnZf43ULhZ0JCaLiuAxypuPGoxm1k9JF/HM+oNxC/gd1FXHdsKjI4Dnf
-         22I2VSKNm6URJjNq85/sssQNwaxKQzurmaFp8LlUfqYrkl4d8puGE4eVGaOQbKbnKIEP
-         bPP6zfnzwkyNWeiMYu+Fdr6TqDEUD828sYmYM+VVy7XiagHhr9a9Issf8EHmaUCqEyHl
-         Jw8Tk+lPWAekSbucJ0KTiBTDp5yweCockiuCSfeUueqIluW0uXraSLzfU5ezTPfDZNth
-         SFDe6rjR2vvHNnIrOrVw1Rss9agiXHfeLyqnut1U96owO2lgf1z4umc6Pq8dCsDPJ4Qh
-         theg==
+        b=X+xHkvT8UTFD5DgufW0iXb+sMNX2HRMrMYVBeQaq6i80QovH3rmfle7MBmjEIdkSdN
+         eRqKeUpHqbqlygEV8/U+5v0UFQIoFSI+Lw+/fvCYn0uTLFssDApP0LHe+SGdcaqwcGEu
+         WbCckgXlVo0FfTEXUfia+PubtMFABtePcChsM96a7tCzDWjgwbekup2ngGBtRpiI8Y1D
+         4imDwgQgm0WIna7Du/6jLCAFauT8BqIndqrQDqrTW4UXwF3i8kQH55OPHuJ3ZPt5hMXb
+         z/6srlTyWBdIRiUPRvUx+5qAoRvfhMJtu7h4G7jmfaZBzC6R75cBADrEMfZwSLkYHZ2Q
+         U7dQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783409778; x=1784014578;
+        d=1e100.net; s=20251104; t=1783410036; x=1784014836;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
         bh=K6AeqTPAcZ4JrA+Qd1cNlOBTaQ+fwvnS/cXYGctMis0=;
-        b=hsx/u3HKxNeb1ylt+w3yzOXIdItMMJZm0S0W1hLKdwggJ7/c0ZVqGGTjrMrQxb+C77
-         Ry4i+8Ti+EX9zHZPSRcCISqMR0eP/Qm8VtLyBTr9mUXVgsQkKsOTAsUT4TXkHClBA2bF
-         ZslqOH5SqoS5G0bxQOvq3ODNhkSN1W858S0JnK3xaCdntQLXJHxpdFwKl2CXQc8akhSZ
-         f5gYTTEfiHX7gP/xi/6Ux7SO5F6w6prqF39bqlaxQh4GgQSse8C1hBsgiq+5riYbDoxw
-         rKKJdFYOSEfvH3khXl39f3ky9lv2zv1cYpWZjcTHmtk82Y2xpLixMY2WAKGriseG6F8W
-         93Mg==
-X-Forwarded-Encrypted: i=1; AHgh+RoDpqfjlZN5B6PevB1szbHMnH7ngMulVCMRcxFd+rFsUoCCc9PBAYD/uQx7iqO3U8GIry1YoKEtqKuSuOsw@lists.linux.dev
-X-Gm-Message-State: AOJu0YxUKCKW9TUrA41gJUJDIK7vJuLhqcP6Y5sepNTMsle/MVQHN2fz
-	eM5EPajm/SXGQlWmy/42Asmi8e2eQWGPMDk39hM5+57hEmeWEBtgLgmI
-X-Gm-Gg: AfdE7cmMeSkBo9Dm9SgnNwpQlPU6Rb7g6qViSPH2fVbCus79zjvKP232GtXPmrvdrJU
-	7EFVExMtydMcNrKwZXdF/kZS7cdT6oUbIprvYDP/Mz+YrnCbElEyr/kNc2AqSTzQi5fqdHNq8Nc
-	s/xCAk53vDpbwUHULaYdDqr9qxYmi6c6DcyOd2QfeYh6twlgVkGWOcTM3oxLzRpfvnaOmyB6hsA
-	cX8f+riLbY48V92H4cazA21P/kZB4cT4KrESiBtqxiq6p7mZc1IlJHKWFNJpFeN+qCCw7/pmGNw
-	V96zUmjUW8yUOK8dDqd4u48EFuJFro2DZe84/pkkJeAUP0PLTkBcmEJUqxtE5YzpuOXpBPd7ja9
-	4ClfCxw7KvSi8h8Vry5qeJ62YcPLLOlZcTrKtlEDW3OkwKD9DcMQptyKF/2aoySIgloK5XD5PQz
-	ho1cOs2wfrxWWMGuJ/
-X-Received: by 2002:a05:6402:5406:b0:699:6d24:e298 with SMTP id 4fb4d7f45d1cf-69a8564e926mr2104511a12.8.1783409778033;
-        Tue, 07 Jul 2026 00:36:18 -0700 (PDT)
+        b=NNja+S6ZdlhRYEJnBOsVlj7Pl1bAUDJZg9aF7OkAvNLX1aCXYybQnuvoZ9jE6LBK2Z
+         C65ckiLB+qQWwV2lk1ks8uVEZkcbDJdfXnrTvYFtxM4BP4Eh9U+o/DwXj8QkJuStxZ1A
+         qxpDw/j959DOQOkseFLOHm9ho3RsjpR2bsC+DJODwPulZ3yKqiUxp+Mn/YyW7Ddx0fQu
+         bZiCrKu7KGwjkiYky4DmLhTDrTOl2QShGyCGGDW7ssTc/oiOYLeIqFEET3aZIJpU3ro6
+         7djJXLSPFnNJWGPge7a5u8MQZ2IOY14x1pNSDZZs5+ArMCkaUX+0fINtnURUbhZFJsgY
+         /EVQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqjeCHWUqhekdop+W/6u0iAT0QXTJv7oUqDbUZuHYvseLAOumL981EI+SKNiZyGnR140Z2rYWR7T3IO+xrz@lists.linux.dev
+X-Gm-Message-State: AOJu0YwZWB6akz92150Wj26E9lBKjdSKU+0Kxg2nBrRs5W7QnlXOyOoK
+	U7CspdTuwlQm1PJ/lX/bFTOhwLgHECBQQPtSwveFYKlaCkDeRzzMLibP
+X-Gm-Gg: AfdE7cmYEiu8BZQPz8r1aug2e+mUWjhkWG7e/btG1wjMnzEWyu6N9AjqPFA4fOwT7v4
+	RGe9Hl3vDoA/ci8VNJqI2q/p2HX2TANYhN4JNj4aBpxsqmJdlodys8vwVjZHMplcb+6zLDVVR8Z
+	/8j3fd4dO7CIt0ZPrzZeuFUBfoOeeT5nk70zK0udpFDBy4OxNu0cX/deU8XYKz42agDBdScMjsX
+	7NW1TrxMsGrp57tcfADIHEjvC94n+3YcBiujTSFcy3YhfG2RT6pC7Xgr3pqN5CnV2juWOKiwPw5
+	gBkHiT9NWtp2cjtIcA7zWOTsMbeSnQdnMZNGSk4pUQVfgonyOCxJvgNiJCkAOI64PnaaPHxqUsY
+	FvDKv3BPV+wAZcTnxRAQHC7v1NYmpY/TvFvGFA3lrnkxFAAuf9+HRJg/49SHlQWpltNwWrZQ2Jv
+	zJkf35aA==
+X-Received: by 2002:a17:907:e14e:10b0:c12:696a:b217 with SMTP id a640c23a62f3a-c15a6823e54mr192470966b.25.1783410035532;
+        Tue, 07 Jul 2026 00:40:35 -0700 (PDT)
 Received: from fedora ([156.203.68.153])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-69a19ce4588sm5515780a12.7.2026.07.07.00.36.16
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c15ad882342sm72125866b.28.2026.07.07.00.40.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2026 00:36:17 -0700 (PDT)
+        Tue, 07 Jul 2026 00:40:35 -0700 (PDT)
 From: Ziad Ali <zalshemy9@gmail.com>
 To: hansg@kernel.org,
 	mchehab@kernel.org,
@@ -67,8 +67,8 @@ Cc: sakari.ailus@linux.intel.com,
 	linux-staging@lists.linux.dev,
 	Ziad Ali <zalshemy9@gmail.com>
 Subject: [PATCH] staging: atomisp: fix typo in atomisp_tables.h
-Date: Tue,  7 Jul 2026 10:36:04 +0300
-Message-ID: <20260707073604.11463-1-zalshemy9@gmail.com>
+Date: Tue,  7 Jul 2026 10:40:20 +0300
+Message-ID: <20260707074020.12332-1-zalshemy9@gmail.com>
 X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
