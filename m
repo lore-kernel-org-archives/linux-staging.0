@@ -1,37 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3F2B330668
-	for <linux-staging@lists.linux.dev>; Tue,  7 Jul 2026 09:01:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33031330668;
+	Tue,  7 Jul 2026 09:02:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783414887; cv=none; b=ROE84uG/L0ljD068GJMN94VBd9nkzPVi6VzdCdAPo4d4eVan/zCqacVYRpbJyTjlblQueqdnd467cAq3UJfreB45ZSvCp27Qv5l4glWtoYIP6LzCb3gQ+Qfu93nDf9wEPYMa7udbcoWZZ7IwfrxXQf44ApPc8OJZfCz6gVzyqIE=
+	t=1783414953; cv=none; b=RW9S7Bm5dapKtUF7PQSNbgExBxkPtlJORvtbvH5EK3ZMc89U5RwB2CNa52ynsOIVOA+pFiw4p7JBOVoaMCjxy+OCn5Jy8t4HuN24iZzJ/Dd5jj5opEkPrq9DUXTok2qFf0h0IOOQW/iCgTzWudzrer96RhYkHj4/HEzagNH87eU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783414887; c=relaxed/simple;
-	bh=56uc8f4GME4sShur8EhlJiM7/85PZl4aZSQZpbAeG04=;
+	s=arc-20240116; t=1783414953; c=relaxed/simple;
+	bh=SxXC9SuSF2tAQoaHScGDzNheyAkuGUHV51tIWlVwYZk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gD0zTP2TV3zJiGszOevPcL2s7dC0sc3MZWvNYX68YAt1CtHwzEhFag+U86/H9lMShsDFltNJsktFUNxiQjB+tZaBItoyCHPLgx5AqG+gzjLL3sdJ1eHAC4gvhIhhms/lkuGWO+6nPpErko2ChujC8/q8koWtluoNNYff6xjrQDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=d/7d1mIk; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=l2kKio/aPjH4yD5EnNjz666UNIrF4OCfjRsHwTh2vfnQdKDhzQ5/HXcxEdy3W3ITIRQB2LmG4ecE/VBSrEjNW9rTpfyPCHAXuKPFO04pjoi9jeRM5sFKFRVbfw2TchxHoO6ywTdOEJHRP/77y3dyoZa8QW87ZleJn6zLsKzR1oA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Mw+DB3MT; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="d/7d1mIk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB6071F000E9;
-	Tue,  7 Jul 2026 09:01:25 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Mw+DB3MT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DA201F000E9;
+	Tue,  7 Jul 2026 09:02:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1783414886;
-	bh=6raVjvi3XDmAui1gkysk51ynAxJsWrL+QzELOj6V6sY=;
+	s=korg; t=1783414951;
+	bh=iyzS887MStQRxqJO3VlrvtpEmCU5l1Z3IuKzwc+5k6I=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=d/7d1mIkXHsAGC+cG8yeAfuzkdkYiNZqfHjbdxm8xHccv0BjzJl5i6e4Fn+hUV7L0
-	 kJj8bOiu6t/K8Nnd3kdInQU1jRiInX1iTlwobxOOO3lQdvVM0xq2umj4gON/6zqrqd
-	 vOi2yusqfJ9HgCzEYV8WhS8qwY6/o3sKmAfkFY7M=
-Date: Tue, 7 Jul 2026 11:01:23 +0200
+	b=Mw+DB3MTNW6eQH4jFsv6YdSN1F4PMRNbtPR9/f0LqyKo/IkTwHwi/O0Eo8BkMN/cC
+	 V4v53jbRu7+cZ6qI4GgOaEb1xcJZSSUd10V0gGKfHOwPHjsncaxOD71aI1jv6WMMDI
+	 qd5eEXRfHWvJBGE5g285q5I9XFB2/U3/PVsR3gO8=
+Date: Tue, 7 Jul 2026 11:02:29 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Arnav Kapoor <kapoorarnav43@gmail.com>
-Cc: Johan Hovold <johan@kernel.org>, linux-staging@lists.linux.dev,
-	greybus-dev@lists.linaro.org
-Subject: Re: [staging] staging: greybus: loopback: add missing comment for
- mutex
-Message-ID: <2026070754-lumber-raking-ea19@gregkh>
-References: <20260622042721.31760-1-kapoorarnav43@gmail.com>
+To: Pengpeng Hou <pengpeng@iscas.ac.cn>
+Cc: Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [RFC] staging: greybus: arche still depends on missing USB3613
+ provider
+Message-ID: <2026070752-maggot-corrosive-265d@gregkh>
+References: <20260625061208.30279-1-pengpeng@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,32 +42,39 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260622042721.31760-1-kapoorarnav43@gmail.com>
+In-Reply-To: <20260625061208.30279-1-pengpeng@iscas.ac.cn>
 
-On Mon, Jun 22, 2026 at 09:57:21AM +0530, Arnav Kapoor wrote:
-> Add a comment for the mutex as suggested by checkpatch.
+On Thu, Jun 25, 2026 at 02:12:08PM +0800, Pengpeng Hou wrote:
+> Hi,
 > 
-> Signed-off-by: Arnav Kapoor <kapoorarnav43@gmail.com>
-
-The subject line should have [PATCH] in it, right?
-
-> ---
->  drivers/staging/greybus/loopback.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> while auditing conditional provider/header contracts, I noticed that Greybus
+> Arche still appears to describe a USB3613 provider world that is absent from
+> current mainline.
 > 
-> diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
-> index ea57b1f5d..bf827e672 100644
-> --- a/drivers/staging/greybus/loopback.c
-> +++ b/drivers/staging/greybus/loopback.c
-> @@ -61,7 +61,7 @@ struct gb_loopback {
->  
->  	struct dentry *file;
->  	struct kfifo kfifo_lat;
-> -	struct mutex mutex;
-> +	struct mutex mutex;		/* protects the entire structure */
+> drivers/staging/greybus/Kconfig still has:
+> 
+> depends on USB_HSIC_USB3613 || COMPILE_TEST
+> 
+> and drivers/staging/greybus/arche-platform.c still conditionally includes
+> the USB3613 header and calls usb3613_hub_mode_ctrl() when
+> CONFIG_USB_HSIC_USB3613 is enabled.  However, the current tree does not appear
+> to provide include/linux/usb/usb3613.h or a Kconfig provider for
+> USB_HSIC_USB3613.
+> 
+> I am not sending a patch yet because this is staging/hardware policy sensitive.
+> The possible directions seem to be:
+> 
+> 1. restore or move the USB3613 provider/header if the hardware path is still
+>    intended;
+> 2. remove the stale USB3613 integration path and rely on the local stub;
+> 3. change the Kconfig dependency to describe only current supported worlds; or
+> 4. keep the contract if an out-of-tree provider is intentionally expected.
+> 
+> Could you advise which direction is expected for Arche?
 
-Look on the mailing list for other places where this type of change was
-rejected as it doesn't really explain anything.
+I would just leave it as-is for now.  Hopefully once the greybus code
+for the beaglebone devices gets more integrated we can get all of this
+code out of staging, which will delete the unused stuff properly.
 
 thanks,
 
