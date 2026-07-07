@@ -1,188 +1,540 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3BE323D7E3
-	for <linux-staging@lists.linux.dev>; Tue,  7 Jul 2026 10:32:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F7FF3AB28C
+	for <linux-staging@lists.linux.dev>; Tue,  7 Jul 2026 10:50:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783420329; cv=none; b=r/S6fRkzN6h4R0wwpEu+e8wg1czNYETacpqm8Ql5z7VMMrxE+/CrDb8R76GjnUSfFYlHbdD3W2K6GKIBxxEgszf6PDni/yD8g540otPEamL/vzLOPlCR6v7Lfeoj8CczQo94vG7K1FY3Vsa5JP0SHqznZrqTQYtPpJDJ3QSFzi4=
+	t=1783421431; cv=none; b=bccGCyqkKmN040Wtp54Bw/629hINVBRz3fiOYE1chstgO5f/LkDNSUr0CJI8XNGz6oFbx+RnKdfFsh7xENPlc7g9Ipgn8vwY4h7dDNsnf/2UjyzS8d7FxXkNl4Hb674EWjK194G4BhGTRqwJ5JUFWkNLIeirNzYKlygztzyJSbk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783420329; c=relaxed/simple;
-	bh=j1XBFunEU6BwQkC5nNZIrOSvYAs4W1maioqJqDuKPAU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=O7Em/ueqWc5dFtghwbtf3oCLt/5Obg88YcJcqSFnY+dnwLl1Oy4rzlPFsyoYHltqrmrMBt0hLExv2NQO+uaxzHafZSxQxU3S7DtnsiNQaNhUPBMHFZ/Ns57OeqqluQyYL7tQ7/znSkh0JQJbCJj4fODghweLJdEA1Tt97d0sBbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b0sIQIPz; arc=none smtp.client-ip=209.85.216.52
+	s=arc-20240116; t=1783421431; c=relaxed/simple;
+	bh=nGKDVy8/GjVGPr5RIvII+7eRfBZ8WUP7dNr1BxrgaAo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=gAsaQSuH4zxKmBSdtMKoSu+PbdTIGwbwRioFnBNDXl6Lw7e/sTDqj0RvgbjZ4KDxI1L4tCze/bjeVn4S973WbFmfhr7Amu/ag8ApFyk7h9bz9jx7J3/gKZiGUmd8rsRomAyqteTX3qXwQZcdEYclh4Tn/Zq7QG7mtZFAPexH78I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pr/0XFQP; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b0sIQIPz"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-37cab825ec9so4036676a91.1
-        for <linux-staging@lists.linux.dev>; Tue, 07 Jul 2026 03:32:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pr/0XFQP"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2cc73e322dbso24592915ad.1
+        for <linux-staging@lists.linux.dev>; Tue, 07 Jul 2026 03:50:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783420325; x=1784025125; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=6xy7w3iaM3CPGjGH2norsW2YY0eS10nlgFN5gxOYh8k=;
-        b=b0sIQIPzERx4/SwZNgC8jRfURpnFMPkTBCMjRyeCiAnmvH0Hn4jr5I5sb5b0Yq3qBH
-         0mRxRF/imDmK9h1eoOjD1IaEzlGm+ahM1I/I7v6xXaGq5pTCSMqr7EMk0/EhXyMXIHoe
-         fhevAccZdl+7CbmA65DZf5ulw/JKNYiPfSSzXMM4BptNJ11nj+2aVdgQHjOof+V+rgaW
-         48X835kNeYntiefcNTJrI+VqH//8K6MFbto5j/Ejs40xZgC8ZblvZAb72rTLv3+iU9t8
-         EHReQv3lsAO1hhyPnbSytJ+hpPMRUIer7wsCbi074piklQjBmtD+fuklT0PMVJGIEtez
-         ZYYA==
+        d=gmail.com; s=20251104; t=1783421428; x=1784026228; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pHkPxchNhxNl3kf8X0eAVbtfgIRZx/FmTxI8jmT8EHQ=;
+        b=Pr/0XFQPbdYTevgZPwKxZUTchECciWQomILv22jLUy7ZiRUncciAt3tTRQHxE1eXB8
+         sgAJmaB7qqc1PDyHCaGF0rZVi2HNRKPJMN7wBTP/8GWE0ghWEZaUZJaLq5yrJ7tWBQCI
+         kvQKnuzg0Tadt4YBYC0Yxt9f7D01cvrQckLAjyP1KuGsBZZMHOafZkQfJEpbzOQQdp3E
+         g3vY9peRAppFpwbM7FHa5CDJROnQXtrHn+zbNDyvOG2Yw2fOyVgHmgJ02mgTmZIFRgU6
+         V9HKoE/Bk0Pw40ZJ1f4S9NpQGS+pWkjCF2ngVYiZALwB2D5i82TbWkHcLQy29+mukora
+         amlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783420325; x=1784025125;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=6xy7w3iaM3CPGjGH2norsW2YY0eS10nlgFN5gxOYh8k=;
-        b=Y9GY+MfIuBfBqEJQb1QKvcBJN+4ksaNN7MndvYgZUy2KpU9Eq1Nuyvk4JwN04Skqom
-         Mk/3bhbneyDTVFXXUqH49oyj7hWeYmAN+C+wZTwrRBSvvSby0//JMTroylaNZkMNJQFV
-         V/hKRNG3iygZt+DZKk/Yclrs7vCt+S6h9SB1IkfF5h6kzZf0q1mTxUyRvIJGaEBvK3H1
-         Ute7ZWmUJn9y2ASKcxbmRE5oU6K3oIzCaLLHMHnmckYKzP4i4VoRVEkPKu/JdPWivLsQ
-         90qGZEG4v3R6mtCvWxKJyJwK+QKFOsoHcNqmlVY1cCUsqYcIC+qtm11G70GNa9a7uvD/
-         tNVQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rrz/dM+p/iabPMRep/BXMoTLW/Cu2hxmL5Iuryqk/26DmLNYGI54TdoCvYsQFfU5nea9WdVn7Gk9TsHDjKJ@lists.linux.dev
-X-Gm-Message-State: AOJu0YxDE/4cvIo1f2RbBp4aTLfvAXH6Et6K3Csz1o/Fqi9ZCM8j48Wy
-	pTfJ0pSHLRjhh6W1cmnSrZD5urpcQWoXTEyDnz1xvWCrevzOqmWamAma
-X-Gm-Gg: AfdE7ckqFPa7rdAqC/Sfe68KCL1yfxQkso6c6hCiUyu98UuBCpnnzqkeePimUpuvSOf
-	vWoFYbhzEZ0u0INHGJiqTHm+SCA/oroGhOmYTmRxqRKlLNwDR0Inm7X3gwCLogQZsIDoOtiGAsj
-	tOCtkUjv/YG59o05Juk0T6jTWEORKkXu5Tfp8OqSEx9XhMU3wT6GC7hj1IWKxoyLAyE/St8HY6U
-	YLSqQrO5KQjjECGr3DMR/iZerFNe7URlnu9v8y3bpk/+dZHx6cfI5+LghC7UaCdIM1TERH7GFYl
-	4yrLEWH040S0MCKHIhJ4nDF5ToWfvKLBjfJvWD+xhZrBN2ifm5165r6dzsmdFIAhKRROns9lwEA
-	W6PhBj7pf84Hc84W5N98Y5YfSOOnsCDJU8lm6lChx+oB+btrSpJQnPSsUdHqrf67e8YHM8QI7yj
-	EePq1Zybo=
-X-Received: by 2002:a05:6a20:cf88:b0:3b4:605c:2163 with SMTP id adf61e73a8af0-3c08ec71668mr6396365637.4.1783420325236;
-        Tue, 07 Jul 2026 03:32:05 -0700 (PDT)
-Received: from adr.. ([103.216.221.83])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b659c8665sm7264138c88.10.2026.07.07.03.31.59
+        d=1e100.net; s=20251104; t=1783421428; x=1784026228;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pHkPxchNhxNl3kf8X0eAVbtfgIRZx/FmTxI8jmT8EHQ=;
+        b=Hmkzv1ZuE/XiXLVGyE9ZSnGvJK/nwmTMdaJvL9oVm48S1UynY24xhsIPb5eIlURW1v
+         27qM8ucOwn+t+wXI5i85Z9nuHijyi2lHDXYBu2vmDexiWs7rAY9JM4uP9BdYixEuKfAU
+         g0qowDJvp3zKSzxvdMNOzSfPzNIIFoDJWm0LPYTA1jId4kFXoSTixL75MvUUJ2qmbil0
+         EbMe+M0x9jq4ZQQu2YzCZi5CVVnREukZpSdepqJV+VAtQCX/3bg9uuoJNvNePJrpTcL4
+         mV6NiNow8TL84/52D5WYPJVirwkAtaQpU4URBFm1/kqCpHK0bHpvgqc7X6+iMVaWMB2g
+         KfsQ==
+X-Gm-Message-State: AOJu0YwWO3DLdCZZbXsIJuxIYX1RvOrPS+1PXjZxMJdBcI9Zaw/xmyze
+	mh646KWz55WjDr1Q/C4lou1UeMS7uzg9OLADWhkaGZtSKNSAYwvCU9KS
+X-Gm-Gg: AfdE7cmTT4Uy3aBQQ7ozpcE2LSkZSzzOQvta1W6XospysebN/Nxf0Fn+1bJYJ1SBfjq
+	FL917S+Rqb3pAxHVsAI/euW1+0ZchS+n5/Etim+Y/b4uXwvjZ3x2AvzV9sqbhfx0KuSMV2O/OJV
+	yfmtjiM3VLuJMivPVAHhkBaUa77mhljlx7lDviFRvDSOUgKfel5WQOqLZmKXecPMpA+mJraDHit
+	6CHuxxl8RlWdMaYAgWvnXVx+mlusQbMdXj98hnaOgVMOPEEBjOSdi9mYotFCsAtY/8J7sipKbiT
+	GWPyrVHCXAiXokZVvP2/PmCKZypI4XkMFYKNWOnAUmGViyrBt7ppvpW35Krme/X8kX+Dfh3wb2P
+	g0hwvYfNBq/qZbw9u6uF/mYKMyj/2B6h8kvodKLkYa9ownvqJJ7VZE0VZibZCPYXtmixW8w6DT1
+	HdUsS5F1bvzYoktNrFxZXw1c1g2C+APw==
+X-Received: by 2002:a17:903:15c7:b0:2cc:9763:e607 with SMTP id d9443c01a7336-2ccbed27817mr47128215ad.27.1783421428368;
+        Tue, 07 Jul 2026 03:50:28 -0700 (PDT)
+Received: from SGN-LDSENG.tasernet.com ([2405:4800:5cc3:11a:1ac0:4dff:fe8b:4a69])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9bf8e9csm9623115ad.24.2026.07.07.03.50.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2026 03:32:04 -0700 (PDT)
-From: =?UTF-8?q?Andr=C3=A9=20Moreira?= <andrem.33333@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
+        Tue, 07 Jul 2026 03:50:27 -0700 (PDT)
+From: Cong Nguyen <congnt264@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Andr=C3=A9=20Moreira?= <andrem.33333@gmail.com>
-Subject: [PATCH v2] staging: sm750fb: rename variables to comply with kernel style
-Date: Tue,  7 Jul 2026 07:27:48 -0300
-Message-ID: <20260707102749.15163-1-andrem.33333@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <2026070710-exact-unveiling-e321@gregkh>
-References: <2026070710-exact-unveiling-e321@gregkh>
+	Cong Nguyen <congnt264@gmail.com>
+Subject: [PATCH v3] staging: rtl8723bs: use nl80211_iftype instead of custom NDIS enum
+Date: Tue,  7 Jul 2026 17:48:36 +0700
+Message-Id: <20260707104836.3176765-1-congnt264@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Rename 'pvReg' to 'regs' to remove Hungarian notation, and rename
-'setAllEngOff' to 'set_all_eng_off' to avoid CamelCase throughout
-the driver. This complies with the Linux kernel coding style.
+The driver defined its own enum ndis_802_11_network_infrastructure to
+represent the operating mode (STA/AP/IBSS) and translated nl80211 iftypes
+into it in cfg80211_rtw_change_iface(). The kernel already provides
+enum nl80211_iftype for this purpose, so use it directly and drop the
+redundant translation layer.
 
-Signed-off-by: André Moreira <andrem.33333@gmail.com>
+Map the removed values as follows:
+  Ndis802_11IBSS           -> NL80211_IFTYPE_ADHOC
+  Ndis802_11Infrastructure -> NL80211_IFTYPE_STATION
+  Ndis802_11APMode         -> NL80211_IFTYPE_AP
+  Ndis802_11AutoUnknown    -> NL80211_IFTYPE_UNSPECIFIED
+
+Compile-tested only.
+
+Signed-off-by: Cong Nguyen <congnt264@gmail.com>
 ---
- drivers/staging/sm750fb/sm750.c    |  6 +++---
- drivers/staging/sm750fb/sm750.h    |  4 ++--
- drivers/staging/sm750fb/sm750_hw.c | 12 ++++++------
- 3 files changed, 11 insertions(+), 11 deletions(-)
+Changes in v3:
+  - Rebased against staging-testing (no functional changes).
 
-diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index 89c811e0806c4..7cd9cb0b3498c 100644
---- a/drivers/staging/sm750fb/sm750.c
-+++ b/drivers/staging/sm750fb/sm750.c
-@@ -743,7 +743,7 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
- 	 * must be set after crtc member initialized
- 	 */
- 	crtc->cursor.offset = crtc->o_screen + crtc->vidmem_size - 1024;
--	crtc->cursor.mmio = sm750_dev->pvReg +
-+	crtc->cursor.mmio = sm750_dev->regs +
- 		0x800f0 + (int)crtc->channel * 0x140;
+Changes in v2:
+  - Replace the custom enum ndis_802_11_network_infrastructure with the
+    standard enum nl80211_iftype and drop the translation layer, instead
+    of just renaming the enum values to uppercase (Greg Kroah-Hartman).
+
+v1: https://lore.kernel.org/linux-staging/20260511134930.4086521-1-congnt264@gmail.com/
+
+ drivers/staging/rtl8723bs/core/rtw_ap.c       |  4 ++--
+ drivers/staging/rtl8723bs/core/rtw_cmd.c      | 12 ++++------
+ .../staging/rtl8723bs/core/rtw_ioctl_set.c    | 21 ++++++++---------
+ drivers/staging/rtl8723bs/core/rtw_mlme.c     |  8 +++----
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 14 +++++------
+ drivers/staging/rtl8723bs/hal/hal_intf.c      |  8 +++----
+ drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c  |  6 ++---
+ drivers/staging/rtl8723bs/include/rtw_cmd.h   |  2 +-
+ .../staging/rtl8723bs/include/rtw_ioctl_set.h |  2 +-
+ .../staging/rtl8723bs/include/wlan_bssdef.h   | 14 +----------
+ .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 23 ++++++-------------
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c   |  2 +-
+ 12 files changed, 46 insertions(+), 70 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
+index dd361714f9ac..27abd6021ca9 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ap.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+@@ -782,7 +782,7 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
  
- 	crtc->cursor.max_h = 64;
-@@ -848,7 +848,7 @@ static void sm750fb_setup(struct sm750_dev *sm750_dev, char *src)
- 	sm750_dev->init_parm.mem_clk = 0;
- 	sm750_dev->init_parm.master_clk = 0;
- 	sm750_dev->init_parm.power_mode = 0;
--	sm750_dev->init_parm.setAllEngOff = 0;
-+	sm750_dev->init_parm.set_all_eng_off = 0;
- 	sm750_dev->init_parm.reset_memory = 1;
+ 	memcpy(ie, pbuf, pbss_network->ie_length);
  
- 	/* defaultly turn g_hwcursor on for both view */
-@@ -1047,7 +1047,7 @@ static void lynxfb_pci_remove(struct pci_dev *pdev)
- 	sm750fb_framebuffer_release(sm750_dev);
- 	arch_phys_wc_del(sm750_dev->mtrr.vram);
+-	if (pbss_network->infrastructure_mode != Ndis802_11APMode)
++	if (pbss_network->infrastructure_mode != NL80211_IFTYPE_AP)
+ 		return _FAIL;
  
--	iounmap(sm750_dev->pvReg);
-+	iounmap(sm750_dev->regs);
- 	iounmap(sm750_dev->vmem);
- 	pci_release_region(pdev, 1);
- 	kfree(g_settings);
-diff --git a/drivers/staging/sm750fb/sm750.h b/drivers/staging/sm750fb/sm750.h
-index d2c522e67f26a..32f9a9ac7be73 100644
---- a/drivers/staging/sm750fb/sm750.h
-+++ b/drivers/staging/sm750fb/sm750.h
-@@ -44,7 +44,7 @@ struct init_status {
- 	ushort chip_clk;
- 	ushort mem_clk;
- 	ushort master_clk;
--	ushort setAllEngOff;
-+	ushort set_all_eng_off;
- 	ushort reset_memory;
+ 	pbss_network->rssi = 0;
+@@ -1889,7 +1889,7 @@ void rtw_ap_restore_network(struct adapter *padapter)
+ 	char chk_alive_list[NUM_STA];
+ 	int i;
+ 
+-	rtw_setopmode_cmd(padapter, Ndis802_11APMode, false);
++	rtw_setopmode_cmd(padapter, NL80211_IFTYPE_AP, false);
+ 
+ 	set_channel_bwmode(padapter,
+ 			   pmlmeext->cur_channel,
+diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+index b932670f5d63..c3f9ff5ffb43 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
++++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+@@ -682,7 +682,7 @@ u8 rtw_joinbss_cmd(struct adapter  *padapter, struct wlan_network *pnetwork)
+ 	struct security_priv *psecuritypriv = &padapter->securitypriv;
+ 	struct registry_priv *pregistrypriv = &padapter->registrypriv;
+ 	struct ht_priv *phtpriv = &pmlmepriv->htpriv;
+-	enum ndis_802_11_network_infrastructure ndis_network_mode = pnetwork->network.infrastructure_mode;
++	enum nl80211_iftype ndis_network_mode = pnetwork->network.infrastructure_mode;
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+ 	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
+ 	u32 tmp_len;
+@@ -699,17 +699,15 @@ u8 rtw_joinbss_cmd(struct adapter  *padapter, struct wlan_network *pnetwork)
+ 	/* for hidden ap to set fw_state here */
+ 	if (!check_fwstate(pmlmepriv, WIFI_STATION_STATE | WIFI_ADHOC_STATE)) {
+ 		switch (ndis_network_mode) {
+-		case Ndis802_11IBSS:
++		case NL80211_IFTYPE_ADHOC:
+ 			set_fwstate(pmlmepriv, WIFI_ADHOC_STATE);
+ 			break;
+ 
+-		case Ndis802_11Infrastructure:
++		case NL80211_IFTYPE_STATION:
+ 			set_fwstate(pmlmepriv, WIFI_STATION_STATE);
+ 			break;
+ 
+-		case Ndis802_11APMode:
+-		case Ndis802_11AutoUnknown:
+-		case Ndis802_11InfrastructureMax:
++		default:
+ 			break;
+ 		}
+ 	}
+@@ -832,7 +830,7 @@ u8 rtw_disassoc_cmd(struct adapter *padapter, u32 deauth_timeout_ms, bool enqueu
+ 	return res;
+ }
+ 
+-u8 rtw_setopmode_cmd(struct adapter  *padapter, enum ndis_802_11_network_infrastructure networktype, bool enqueue)
++u8 rtw_setopmode_cmd(struct adapter  *padapter, enum nl80211_iftype networktype, bool enqueue)
+ {
+ 	struct	cmd_obj *ph2c;
+ 	struct	setopmode_parm *psetop;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
+index 85f50ef44812..c8992a148508 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
+@@ -278,15 +278,15 @@ u8 rtw_set_802_11_connect(struct adapter *padapter, u8 *bssid, struct ndis_802_1
+ }
+ 
+ u8 rtw_set_802_11_infrastructure_mode(struct adapter *padapter,
+-	enum ndis_802_11_network_infrastructure networktype)
++	enum nl80211_iftype networktype)
+ {
+ 	struct	mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 	struct	wlan_network	*cur_network = &pmlmepriv->cur_network;
+-	enum ndis_802_11_network_infrastructure *pold_state = &(cur_network->network.infrastructure_mode);
++	enum nl80211_iftype *pold_state = &(cur_network->network.infrastructure_mode);
+ 
+ 	if (*pold_state != networktype) {
+-		if (*pold_state == Ndis802_11APMode) {
+-			/* change to other mode from Ndis802_11APMode */
++		if (*pold_state == NL80211_IFTYPE_AP) {
++			/* change to other mode from AP mode */
+ 			cur_network->join_res = -1;
+ 
+ 			stop_ap_mode(padapter);
+@@ -294,14 +294,14 @@ u8 rtw_set_802_11_infrastructure_mode(struct adapter *padapter,
+ 
+ 		spin_lock_bh(&pmlmepriv->lock);
+ 
+-		if (check_fwstate(pmlmepriv, _FW_LINKED) || (*pold_state == Ndis802_11IBSS))
++		if (check_fwstate(pmlmepriv, _FW_LINKED) || (*pold_state == NL80211_IFTYPE_ADHOC))
+ 			rtw_disassoc_cmd(padapter, 0, true);
+ 
+ 		if (check_fwstate(pmlmepriv, _FW_LINKED) ||
+ 		    check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE))
+ 			rtw_free_assoc_resources(padapter, 1);
+ 
+-		if ((*pold_state == Ndis802_11Infrastructure) || (*pold_state == Ndis802_11IBSS)) {
++		if ((*pold_state == NL80211_IFTYPE_STATION) || (*pold_state == NL80211_IFTYPE_ADHOC)) {
+ 			if (check_fwstate(pmlmepriv, _FW_LINKED))
+ 				rtw_indicate_disconnect(padapter); /* will clr Linked_state; before this function, we must have checked whether issue dis-assoc_cmd or not */
+ 		}
+@@ -311,23 +311,22 @@ u8 rtw_set_802_11_infrastructure_mode(struct adapter *padapter,
+ 		_clr_fwstate_(pmlmepriv, ~WIFI_NULL_STATE);
+ 
+ 		switch (networktype) {
+-		case Ndis802_11IBSS:
++		case NL80211_IFTYPE_ADHOC:
+ 			set_fwstate(pmlmepriv, WIFI_ADHOC_STATE);
+ 			break;
+ 
+-		case Ndis802_11Infrastructure:
++		case NL80211_IFTYPE_STATION:
+ 			set_fwstate(pmlmepriv, WIFI_STATION_STATE);
+ 			break;
+ 
+-		case Ndis802_11APMode:
++		case NL80211_IFTYPE_AP:
+ 			set_fwstate(pmlmepriv, WIFI_AP_STATE);
+ 			start_ap_mode(padapter);
+ 			/* rtw_indicate_connect(padapter); */
+ 
+ 			break;
+ 
+-		case Ndis802_11AutoUnknown:
+-		case Ndis802_11InfrastructureMax:
++		default:
+ 			break;
+ 		}
+ 
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+index 48986e9de77b..8c09ceb0a1df 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+@@ -51,7 +51,7 @@ int	rtw_init_mlme_priv(struct adapter *padapter)
+ 
+ 	pmlmepriv->pscanned = NULL;
+ 	pmlmepriv->fw_state = WIFI_STATION_STATE; /*  Must sync with rtw_wdev_alloc() */
+-	pmlmepriv->cur_network.network.infrastructure_mode = Ndis802_11AutoUnknown;
++	pmlmepriv->cur_network.network.infrastructure_mode = NL80211_IFTYPE_UNSPECIFIED;
+ 	pmlmepriv->scan_mode = SCAN_ACTIVE;/*  1: active, 0: passive. Maybe someday we should rename this variable to "active_mode" (Jeff) */
+ 
+ 	spin_lock_init(&pmlmepriv->lock);
+@@ -1051,7 +1051,7 @@ static void rtw_joinbss_update_network(struct adapter *padapter, struct wlan_net
+ 
+ 	/* update fw_state will clr _FW_UNDER_LINKING here indirectly */
+ 	switch (pnetwork->network.infrastructure_mode) {
+-	case Ndis802_11Infrastructure:
++	case NL80211_IFTYPE_STATION:
+ 
+ 			if (pmlmepriv->fw_state & WIFI_UNDER_WPS)
+ 				pmlmepriv->fw_state = WIFI_STATION_STATE | WIFI_UNDER_WPS;
+@@ -1059,7 +1059,7 @@ static void rtw_joinbss_update_network(struct adapter *padapter, struct wlan_net
+ 				pmlmepriv->fw_state = WIFI_STATION_STATE;
+ 
+ 			break;
+-	case Ndis802_11IBSS:
++	case NL80211_IFTYPE_ADHOC:
+ 			pmlmepriv->fw_state = WIFI_ADHOC_STATE;
+ 			break;
+ 	default:
+@@ -2145,7 +2145,7 @@ void rtw_update_registrypriv_dev_network(struct adapter *adapter)
+ 
+ 	pdev_network->configuration.ds_config = (pregistrypriv->channel);
+ 
+-	if (cur_network->network.infrastructure_mode == Ndis802_11IBSS)
++	if (cur_network->network.infrastructure_mode == NL80211_IFTYPE_ADHOC)
+ 		pdev_network->configuration.atim_window = (0);
+ 
+ 	pdev_network->infrastructure_mode = (cur_network->network.infrastructure_mode);
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index adea7e38bace..208055e658aa 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -3901,10 +3901,10 @@ u8 collect_bss_info(struct adapter *padapter, union recv_frame *precv_frame, str
+ 	val16 = rtw_get_capability((struct wlan_bssid_ex *)bssid);
+ 
+ 	if (val16 & BIT(0)) {
+-		bssid->infrastructure_mode = Ndis802_11Infrastructure;
++		bssid->infrastructure_mode = NL80211_IFTYPE_STATION;
+ 		memcpy(bssid->mac_address, GetAddr2Ptr(pframe), ETH_ALEN);
+ 	} else {
+-		bssid->infrastructure_mode = Ndis802_11IBSS;
++		bssid->infrastructure_mode = NL80211_IFTYPE_ADHOC;
+ 		memcpy(bssid->mac_address, GetAddr3Ptr(pframe), ETH_ALEN);
+ 	}
+ 
+@@ -5039,15 +5039,15 @@ u8 setopmode_hdl(struct adapter *padapter, u8 *pbuf)
+ 	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
+ 	struct setopmode_parm *psetop = (struct setopmode_parm *)pbuf;
+ 
+-	if (psetop->mode == Ndis802_11APMode) {
++	if (psetop->mode == NL80211_IFTYPE_AP) {
+ 		pmlmeinfo->state = WIFI_FW_AP_STATE;
+ 		type = _HW_STATE_AP_;
+ 		/* start_ap_mode(padapter); */
+-	} else if (psetop->mode == Ndis802_11Infrastructure) {
++	} else if (psetop->mode == NL80211_IFTYPE_STATION) {
+ 		pmlmeinfo->state &= ~(BIT(0) | BIT(1));/*  clear state */
+ 		pmlmeinfo->state |= WIFI_FW_STATION_STATE;/* set to	STATION_STATE */
+ 		type = _HW_STATE_STATION_;
+-	} else if (psetop->mode == Ndis802_11IBSS) {
++	} else if (psetop->mode == NL80211_IFTYPE_ADHOC) {
+ 		type = _HW_STATE_ADHOC_;
+ 	} else {
+ 		type = _HW_STATE_NOLINK_;
+@@ -5056,7 +5056,7 @@ u8 setopmode_hdl(struct adapter *padapter, u8 *pbuf)
+ 	rtw_hal_set_hwreg(padapter, HW_VAR_SET_OPMODE, (u8 *)(&type));
+ 	/* set_msr(padapter, type); */
+ 
+-	if (psetop->mode == Ndis802_11APMode) {
++	if (psetop->mode == NL80211_IFTYPE_AP) {
+ 		/*  Do this after port switch to */
+ 		/*  prevent from downloading rsvd page to wrong port */
+ 		rtw_btcoex_media_status_notify(padapter, 1); /* connect */
+@@ -5079,7 +5079,7 @@ u8 createbss_hdl(struct adapter *padapter, u8 *pbuf)
+ 	}
+ 
+ 	/* below is for ad-hoc master */
+-	if (pparm->network.infrastructure_mode == Ndis802_11IBSS) {
++	if (pparm->network.infrastructure_mode == NL80211_IFTYPE_ADHOC) {
+ 		rtw_joinbss_reset(padapter);
+ 
+ 		pmlmeext->cur_bwmode = CHANNEL_WIDTH_20;
+diff --git a/drivers/staging/rtl8723bs/hal/hal_intf.c b/drivers/staging/rtl8723bs/hal/hal_intf.c
+index 9a3ebad35efc..e70dd5361f31 100644
+--- a/drivers/staging/rtl8723bs/hal/hal_intf.c
++++ b/drivers/staging/rtl8723bs/hal/hal_intf.c
+@@ -9,18 +9,18 @@
+ 
+ static void rtw_hal_init_opmode(struct adapter *padapter)
+ {
+-	enum ndis_802_11_network_infrastructure networkType = Ndis802_11InfrastructureMax;
++	enum nl80211_iftype networkType = NL80211_IFTYPE_UNSPECIFIED;
+ 	struct  mlme_priv *pmlmepriv = &(padapter->mlmepriv);
+ 	signed int fw_state;
+ 
+ 	fw_state = get_fwstate(pmlmepriv);
+ 
+ 	if (fw_state & WIFI_ADHOC_STATE)
+-		networkType = Ndis802_11IBSS;
++		networkType = NL80211_IFTYPE_ADHOC;
+ 	else if (fw_state & WIFI_STATION_STATE)
+-		networkType = Ndis802_11Infrastructure;
++		networkType = NL80211_IFTYPE_STATION;
+ 	else if (fw_state & WIFI_AP_STATE)
+-		networkType = Ndis802_11APMode;
++		networkType = NL80211_IFTYPE_AP;
+ 	else
+ 		return;
+ 
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
+index c35c7f1c38ef..0c6613fdb955 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
+@@ -237,19 +237,19 @@ static void ConstructNullFunctionData(
+ 		SetPwrMgt(fctrl);
+ 
+ 	switch (cur_network->network.infrastructure_mode) {
+-	case Ndis802_11Infrastructure:
++	case NL80211_IFTYPE_STATION:
+ 		SetToDs(fctrl);
+ 		ether_addr_copy(pwlanhdr->addr1, get_my_bssid(&(pmlmeinfo->network)));
+ 		ether_addr_copy(pwlanhdr->addr2, myid(&(padapter->eeprompriv)));
+ 		ether_addr_copy(pwlanhdr->addr3, StaAddr);
+ 		break;
+-	case Ndis802_11APMode:
++	case NL80211_IFTYPE_AP:
+ 		SetFrDs(fctrl);
+ 		ether_addr_copy(pwlanhdr->addr1, StaAddr);
+ 		ether_addr_copy(pwlanhdr->addr2, get_my_bssid(&(pmlmeinfo->network)));
+ 		ether_addr_copy(pwlanhdr->addr3, myid(&(padapter->eeprompriv)));
+ 		break;
+-	case Ndis802_11IBSS:
++	case NL80211_IFTYPE_ADHOC:
+ 	default:
+ 		ether_addr_copy(pwlanhdr->addr1, StaAddr);
+ 		ether_addr_copy(pwlanhdr->addr2, myid(&(padapter->eeprompriv)));
+diff --git a/drivers/staging/rtl8723bs/include/rtw_cmd.h b/drivers/staging/rtl8723bs/include/rtw_cmd.h
+index f78aa0d7abc5..357d8cb452c6 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_cmd.h
++++ b/drivers/staging/rtl8723bs/include/rtw_cmd.h
+@@ -586,7 +586,7 @@ extern u8 rtw_clearstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8
+ 
+ extern u8 rtw_joinbss_cmd(struct adapter *padapter, struct wlan_network *pnetwork);
+ u8 rtw_disassoc_cmd(struct adapter *padapter, u32 deauth_timeout_ms, bool enqueue);
+-extern u8 rtw_setopmode_cmd(struct adapter  *padapter, enum ndis_802_11_network_infrastructure networktype, bool enqueue);
++extern u8 rtw_setopmode_cmd(struct adapter  *padapter, enum nl80211_iftype networktype, bool enqueue);
+ extern u8 rtw_setrfintfs_cmd(struct adapter  *padapter, u8 mode);
+ 
+ extern u8 rtw_gettssi_cmd(struct adapter  *padapter, u8 offset, u8 *pval);
+diff --git a/drivers/staging/rtl8723bs/include/rtw_ioctl_set.h b/drivers/staging/rtl8723bs/include/rtw_ioctl_set.h
+index c3a1d1a84f78..768e4868ecfd 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_ioctl_set.h
++++ b/drivers/staging/rtl8723bs/include/rtw_ioctl_set.h
+@@ -13,7 +13,7 @@ u8 rtw_set_802_11_authentication_mode(struct adapter *pdapter, enum ndis_802_11_
+ u8 rtw_set_802_11_add_wep(struct adapter *padapter, struct ndis_802_11_wep *wep);
+ u8 rtw_set_802_11_disassociate(struct adapter *padapter);
+ u8 rtw_set_802_11_bssid_list_scan(struct adapter *padapter, struct ndis_802_11_ssid *pssid, int ssid_max_num);
+-u8 rtw_set_802_11_infrastructure_mode(struct adapter *padapter, enum ndis_802_11_network_infrastructure networktype);
++u8 rtw_set_802_11_infrastructure_mode(struct adapter *padapter, enum nl80211_iftype networktype);
+ u8 rtw_set_802_11_ssid(struct adapter *padapter, struct ndis_802_11_ssid *ssid);
+ u8 rtw_set_802_11_connect(struct adapter *padapter, u8 *bssid, struct ndis_802_11_ssid *ssid);
+ 
+diff --git a/drivers/staging/rtl8723bs/include/wlan_bssdef.h b/drivers/staging/rtl8723bs/include/wlan_bssdef.h
+index 812a68394268..bcc5a1712670 100644
+--- a/drivers/staging/rtl8723bs/include/wlan_bssdef.h
++++ b/drivers/staging/rtl8723bs/include/wlan_bssdef.h
+@@ -42,14 +42,6 @@ struct ndis_802_11_conf {
+ 	u32 ds_config;           /*  Frequency, units are kHz */
  };
  
-@@ -97,7 +97,7 @@ struct sm750_dev {
- 	unsigned long vidreg_start;
- 	__u32 vidmem_size;
- 	__u32 vidreg_size;
--	void __iomem *pvReg;
-+	void __iomem *regs;
- 	unsigned char __iomem *vmem;
- 	/* locks*/
- 	spinlock_t slock;
-diff --git a/drivers/staging/sm750fb/sm750_hw.c b/drivers/staging/sm750fb/sm750_hw.c
-index 34a837fb4b649..c5a495bb5ac57 100644
---- a/drivers/staging/sm750fb/sm750_hw.c
-+++ b/drivers/staging/sm750fb/sm750_hw.c
-@@ -23,18 +23,18 @@ int hw_sm750_map(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
+-enum ndis_802_11_network_infrastructure {
+-	Ndis802_11IBSS,
+-	Ndis802_11Infrastructure,
+-	Ndis802_11AutoUnknown,
+-	Ndis802_11InfrastructureMax,     /*  Not a real value, defined as upper bound */
+-	Ndis802_11APMode,
+-};
+-
+ struct ndis_802_11_fix_ie {
+ 	u8  time_stamp[8];
+ 	u16  beacon_interval;
+@@ -125,10 +117,6 @@ struct ndis_802_11_wep {
+ /*  MIC check time, 60 seconds. */
+ #define MIC_CHECK_TIME	60000000
+ 
+-#ifndef Ndis802_11APMode
+-#define Ndis802_11APMode (Ndis802_11InfrastructureMax + 1)
+-#endif
+-
+ struct wlan_phy_info {
+ 	u8 signal_strength;/* in percentage) */
+ 	u8 signal_quality;/* in percentage) */
+@@ -161,7 +149,7 @@ struct wlan_bssid_ex {
+ 	long  rssi;/* in dBM, raw data , get from PHY) */
+ 	enum ndis_802_11_network_type  network_type_in_use;
+ 	struct ndis_802_11_conf  configuration;
+-	enum ndis_802_11_network_infrastructure  infrastructure_mode;
++	enum nl80211_iftype  infrastructure_mode;
+ 	NDIS_802_11_RATES_EX  supported_rates;
+ 	struct wlan_phy_info phy_info;
+ 	u32  ie_length;
+diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+index 8d6c59b52f6c..ddbbd32f547a 100644
+--- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
++++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+@@ -1027,7 +1027,6 @@ static int cfg80211_rtw_change_iface(struct wiphy *wiphy,
+ 				     struct vif_params *params)
+ {
+ 	enum nl80211_iftype old_type;
+-	enum ndis_802_11_network_infrastructure networkType;
+ 	struct adapter *padapter = rtw_netdev_priv(ndev);
+ 	struct wireless_dev *rtw_wdev = padapter->rtw_wdev;
+ 	struct mlme_ext_priv *pmlmeext = &(padapter->mlmeextpriv);
+@@ -1057,30 +1056,22 @@ static int cfg80211_rtw_change_iface(struct wiphy *wiphy,
+ 		pmlmeext->action_public_dialog_token = 0xff;
  	}
  
- 	/* now map mmio and vidmem */
--	sm750_dev->pvReg =
-+	sm750_dev->regs =
- 		ioremap(sm750_dev->vidreg_start, sm750_dev->vidreg_size);
--	if (!sm750_dev->pvReg) {
-+	if (!sm750_dev->regs) {
- 		dev_err(&pdev->dev, "mmio failed\n");
- 		ret = -EFAULT;
- 		goto err_release_region;
+-	switch (type) {
+-	case NL80211_IFTYPE_ADHOC:
+-		networkType = Ndis802_11IBSS;
+-		break;
+-	case NL80211_IFTYPE_STATION:
+-		networkType = Ndis802_11Infrastructure;
+-		break;
+-	case NL80211_IFTYPE_AP:
+-		networkType = Ndis802_11APMode;
+-		break;
+-	default:
++	if (type != NL80211_IFTYPE_ADHOC &&
++	    type != NL80211_IFTYPE_STATION &&
++	    type != NL80211_IFTYPE_AP) {
+ 		ret = -EOPNOTSUPP;
+ 		goto exit;
  	}
  
--	sm750_dev->accel.dpr_base = sm750_dev->pvReg + DE_BASE_ADDR_TYPE1;
--	sm750_dev->accel.dp_port_base = sm750_dev->pvReg + DE_PORT_ADDR_TYPE1;
-+	sm750_dev->accel.dpr_base = sm750_dev->regs + DE_BASE_ADDR_TYPE1;
-+	sm750_dev->accel.dp_port_base = sm750_dev->regs + DE_PORT_ADDR_TYPE1;
+ 	rtw_wdev->iftype = type;
  
--	mmio750 = sm750_dev->pvReg;
-+	mmio750 = sm750_dev->regs;
- 	sm750_set_chip_type(sm750_dev->devid, sm750_dev->revid);
+-	if (!rtw_set_802_11_infrastructure_mode(padapter, networkType)) {
++	if (!rtw_set_802_11_infrastructure_mode(padapter, type)) {
+ 		rtw_wdev->iftype = old_type;
+ 		ret = -EPERM;
+ 		goto exit;
+ 	}
  
- 	sm750_dev->vidmem_start = pci_resource_start(pdev, 0);
-@@ -58,7 +58,7 @@ int hw_sm750_map(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
- 	return 0;
+-	rtw_setopmode_cmd(padapter, networkType, true);
++	rtw_setopmode_cmd(padapter, type, true);
  
- err_unmap_reg:
--	iounmap(sm750_dev->pvReg);
-+	iounmap(sm750_dev->regs);
- err_release_region:
- 	pci_release_region(pdev, 1);
- 	return ret;
+ exit:
+ 
+@@ -1611,12 +1602,12 @@ static int cfg80211_rtw_leave_ibss(struct wiphy *wiphy, struct net_device *ndev)
+ 
+ 		rtw_wdev->iftype = NL80211_IFTYPE_STATION;
+ 
+-		if (!rtw_set_802_11_infrastructure_mode(padapter, Ndis802_11Infrastructure)) {
++		if (!rtw_set_802_11_infrastructure_mode(padapter, NL80211_IFTYPE_STATION)) {
+ 			rtw_wdev->iftype = old_type;
+ 			ret = -EPERM;
+ 			goto leave_ibss;
+ 		}
+-		rtw_setopmode_cmd(padapter, Ndis802_11Infrastructure, true);
++		rtw_setopmode_cmd(padapter, NL80211_IFTYPE_STATION, true);
+ 	}
+ 
+ leave_ibss:
+diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+index b63db61649af..2d51786a4ba0 100644
+--- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
++++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+@@ -19,7 +19,7 @@ static int rtw_rfintfs = HWPI;
+ static int rtw_lbkmode;/* RTL8712_AIR_TRX; */
+ 
+ 
+-static int rtw_network_mode = Ndis802_11IBSS;/* Ndis802_11Infrastructure;infra, ad-hoc, auto */
++static int rtw_network_mode = NL80211_IFTYPE_ADHOC;/* infra, ad-hoc, auto */
+ /* struct ndis_802_11_ssid	ssid; */
+ static int rtw_channel = 1;/* ad-hoc support requirement */
+ static int rtw_wireless_mode = WIRELESS_11BG_24N;
 -- 
-2.43.0
+2.25.1
 
