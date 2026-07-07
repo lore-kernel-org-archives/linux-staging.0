@@ -1,83 +1,69 @@
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from forward500b.mail.yandex.net (forward500b.mail.yandex.net [178.154.239.144])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C6563101B6
-	for <linux-staging@lists.linux.dev>; Tue,  7 Jul 2026 12:03:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A49A940D575
+	for <linux-staging@lists.linux.dev>; Tue,  7 Jul 2026 12:27:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783425819; cv=none; b=fdo7EG4LnkE8FjpA+PxlpiwHpHHaPXIrgyXgMajOorOQCo2n/PWzPUTpCnYxMgY03XYE/tkwqk+rPTS0n3iIS5Ojx9C4zecWMHz+I+q8LV8lkjGA5euW67ZzvC25OBB51kBcL4Ys0YYLTVJIpw+sj+hF0x2ysaK4V+93Aoi1/z0=
+	t=1783427271; cv=none; b=Os6Q3ycwH+3zA+DyeTvQuU2CL/T8zXWvK+jwf/xVzT8YHOaqYFmNKfU/ozAAms5Tn+rDn5RNs8TuwRSo13cUgJAQkBmmADbwX4AXpau6N5tKAu5dc2cHdfiW0QKhFhk7l7Ok8l3MCRk8+7ndAPnIIHB9g+QmzNs9ggqziRlaj+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783425819; c=relaxed/simple;
-	bh=ducWhqa9x4kiv9smi6Zdw3sJgTMTjDnL//RQg9WoPe4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fs4ZY4yHy2r7XPPg+H0de1HHq69cxAcEiGeJ/UwcWLpy6O4BF7ThcmjsXIysL8ffrjj7uDD8b/2Je2vHgN5ISpUQF71/gFyZBig0A9CWng6Cl6/JKltnqCge1Ey0Ss9RgdcJsofqrc9Pnc71GLW5MPjs0LXOM3KGcbS3ExtAyaM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=s+BCkYyS; arc=none smtp.client-ip=209.85.222.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783427271; c=relaxed/simple;
+	bh=SYyRAZZ81AweDLWe5IkLWoMsXAsVwrAoV2TJbX6rLBU=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=TMntBtX8TtMaOKRBbvUxBwwYEpkYdoYuWDfWof1XBKUWOIRlGy8sT7T6Aawdv7NzmesM/7S5aKmeC3tdJGgnqeD5Vz2ixK58bh/eGRaAAvggnB97zwTNEQlbYK8WacfLneM/+oAO4afVgb/BzMEZf5BjT8fqYWJylGIZFyOGkcU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net; spf=pass smtp.mailfrom=sezginduran.net; dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b=TOUwgg9O; arc=none smtp.client-ip=178.154.239.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sezginduran.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="s+BCkYyS"
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-92ea24a2dbfso197283385a.0
-        for <linux-staging@lists.linux.dev>; Tue, 07 Jul 2026 05:03:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783425817; x=1784030617; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ducWhqa9x4kiv9smi6Zdw3sJgTMTjDnL//RQg9WoPe4=;
-        b=s+BCkYySbEiCIEcGlJR20k1ANcO4YE8hhIdiSBI0xnSklWbRgL3NTveLbFhhNtkNVR
-         Xa6EHU7zegi8RZBVNgQBM3VF2zWaXhWc41/O/BA0thwBBH5VszH9KCbmuYbK4P9Wta+6
-         mTOsRdnmtt4gRW9NhJeGzTyZ3IZ2g4BwA0sDtXhu51GKIuYFyRsrdLBQvI0pY0Ex8QVP
-         bApPQ8bBD0G3Rfu7wjuk/VGp8pX1sztpQYh6INuIqs8Quz2XWoN0zMAnd1RPucNtqMsR
-         rfSTrx7/ruU9GIn3rJKoxNkFSwWJUQNSJxton4lNoUs6ZVYEcdnq7t3etdSJKMkpuq5N
-         FpaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783425817; x=1784030617;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ducWhqa9x4kiv9smi6Zdw3sJgTMTjDnL//RQg9WoPe4=;
-        b=sYy32AUsr3auz8JlAAUx64MfLMPB3N0JUNzOWx1C740A0Q/wtCEDWvyD+XbTabqOy6
-         L1p6bPyOfm+fjslhdAHuHbvtXMXX3zvudzXKBerbLA3+zWhU7eDj5SHrmN+gUcI7QZ0o
-         4lPDpLLdNnROTM+nDTr5aMqpYigEN0zw7I3aaYMU3RSGAtzjCV9k/vJ0K4UKLHd4ZUhB
-         zV0Zr2CfhUkZ7A8G1m059Azh1skGBOjM4FhHTIzEUR7kXdYQSzy0aL0vovaJJnl1rFSt
-         mvEsjJn45injaqwdQSmiiT0rfmnsqqYuk6w+vRHzgubtbmXa2/gbvL1p4NR6S1JCfUSo
-         KCpw==
-X-Gm-Message-State: AOJu0Yx3/SKz77HYAMPyeD14OFi7a8oi645j6uErAw3T16S92xQHd4da
-	fjDPYnnK+0GgHodvleN6xnzac8kIr1OwUUGU5mqVDv4PNBnhIC+JHMisEUKBWQ==
-X-Gm-Gg: AfdE7ckgxxP0V79U3l/hByMKyHHGYdYC2EECYygj6sFpSTh10FLMcl2JVIYyFU6pwgZ
-	JcBg3O4o8iZToAtIzX1ipfXvHAtnybt4EcjTAYS3lg3Nh75XkO/7OXxuIJtIW1OMIEn8fmzG7xn
-	vvfCcw6sbPjoifw1cl0vB76gj6rymbTlgszqxgyGkqKwBEwF3MnpeziwaTDgjynK84EFerQWT/s
-	ZDNOdQXD5Oqvk1Z0i6HnEcYvd99ZA2o4FbZr8QsYlu4wzPnZbF/DyAKNgqdgU1SwVi/7UeNdTZN
-	K9UiJHJ8ofmt7jKW03viB2mOSgD0qUnAVePE+NdMxt480nUgZ1hZpiIET+/R19rgf2xpQ+JzqkE
-	rg27Z2eUo4Bm2TKxA4HUODQjKl/meP/moZ+Nl9WUg78hX4T4ZL5vD5hVw04sQATFgzxk75+s7TL
-	cs1z7hv0HRswA=
-X-Received: by 2002:a05:620a:198b:b0:92e:5ffe:7833 with SMTP id af79cd13be357-92ebb5a2bcamr557790585a.61.1783425816817;
-        Tue, 07 Jul 2026 05:03:36 -0700 (PDT)
-Received: from EyeOfGod ([103.129.134.78])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-92e90b81342sm1144553985a.7.2026.07.07.05.03.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2026 05:03:36 -0700 (PDT)
-Date: Tue, 7 Jul 2026 17:48:28 +0545
-From: Parsal Baral <parsalbaral@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: Use PTR_ALIGN for rsp_buf alignment
-Message-ID: <akzmbhapkSyUyrF2@EyeOfGod>
-References: <20260603182602.658589-1-parsalbaral@gmail.com>
- <2026070733-entryway-cost-91a0@gregkh>
+	dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b="TOUwgg9O"
+Received: from mail-nwsmtp-smtp-production-main-87.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-87.sas.yp-c.yandex.net [IPv6:2a02:6b8:c11:1199:0:640:2d84:0])
+	by forward500b.mail.yandex.net (postfix) with ESMTPS id EA5CCC0D9A;
+	Tue, 07 Jul 2026 15:27:46 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-87.sas.yp-c.yandex.net (smtp) with ESMTPSA id iRH6ew7gQGk0-xAqaF9Jv;
+	Tue, 07 Jul 2026 15:27:46 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sezginduran.net;
+	s=mail; t=1783427266;
+	bh=jFICI/XmROnTIS7/SGbPk48OLtw960wDLSn7xgwyTcM=;
+	h=In-Reply-To:Cc:Date:References:To:Subject:From:Message-ID;
+	b=TOUwgg9O0H9IqAd3gQMQmJUlhn07Yq1goTtNnqbVgOV0J52PeXm5atVN9fOtmiiMv
+	 TYOIX4ZoC08LztKiFoff8JNGDUwZRVFLa0ya1h9yqzGDBdj+c4FV00WfObpckCUsKx
+	 uMobaHyZ6hvmtERXADec++SSWJ4MtKV0zSd0aG4M=
+Authentication-Results: mail-nwsmtp-smtp-production-main-87.sas.yp-c.yandex.net; dkim=pass header.i=@sezginduran.net
+Message-ID: <dec681d9-a33d-48a1-a3b5-8e4d8679457d@sezginduran.net>
+Date: Tue, 7 Jul 2026 15:27:43 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2026070733-entryway-cost-91a0@gregkh>
+User-Agent: Mozilla Thunderbird
+From: Ahmet Sezgin Duran <ahmet@sezginduran.net>
+Subject: Re: [PATCH v3 4/4] staging: sm750fb: deduplicate fbinfo loop in
+ suspend/resume
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: error27@gmail.com, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20260525085808.171974-1-ahmet@sezginduran.net>
+ <20260525085808.171974-5-ahmet@sezginduran.net>
+ <2026070721-trimming-justifier-ec8d@gregkh>
+ <d3541f6b-0541-4986-b75f-ba19d2ce44f6@sezginduran.net>
+Content-Language: tr
+In-Reply-To: <d3541f6b-0541-4986-b75f-ba19d2ce44f6@sezginduran.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jul 07, 2026 at 12:58:40PM +0200, Greg KH wrote:
-> Does not apply to the latest tree :(
+On 7/7/26 2:49 PM, Ahmet Sezgin Duran wrote:
+> 
+> Though, I should mention that compiled object file (sm750.o) is 
+> identical in my dev machine, sha256sum matches.
+> 
 
-Sorry about that.
+I made a mistake there. Those functions are omitted by the compiler, 
+when CONFIG_PM_SLEEP is not enabled. That's why object file was identical.
 
-The code this patch modifies has been reworked in the staging-testing
-tree. Please disregard this patch.
+When config is enabled, object file changes, before and after the patch.
+
+Regards,
+Ahmet Sezgin Duran
