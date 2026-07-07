@@ -1,188 +1,203 @@
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SEYPR02CU001.outbound.protection.outlook.com (mail-koreacentralazon11023084.outbound.protection.outlook.com [40.107.44.84])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCE172DB794
-	for <linux-staging@lists.linux.dev>; Mon,  6 Jul 2026 21:59:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FF6618E02A;
+	Tue,  7 Jul 2026 01:36:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.44.84
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783375170; cv=pass; b=CBj5iddMtuogmFSiF92AonYHHB8lgZsQ7PHF5rPyBme+u7eHyGsmI68xwLZC+UoqGlm7Mtvr+J1mdknW4ESUWfLMe90moC/MDb74rNXpsgVrdpVZ83oEZjkC+kERNT6L072sefCPM4fo7sMAMR6xgBVax8M/YDXz0SIkEwZXGg0=
+	t=1783388210; cv=fail; b=EpKMi24CGSjgO6VLtsfglTykE2SkAR4dBWPx9erFib0gAgLTrqDxDi0yjLlykXbpRvjCUeLky2/AJgT9OVTm1nmVNP/FkDEfusDvv81RuTpbmZ6u6v0jLsauDsiTTB9ptNz2U/xiLoGy5wlIPKD2/L4HEiOOaPUjzcju/fphRjs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783375170; c=relaxed/simple;
-	bh=jdKcNjPTLk4t5sB7vBYT7B94qVTUT2yntEybL1W759g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kXtTx9oKAGroDLgCr+Ns+4pfTPIDqhHDhitAcl3W8baLrMbd3ToZLNGwVl3w/W3460Gqi87qCY2dUit9IUqFIlJ7Ef5N64H/DnHByYVHa4W2GveUPKM3Ay8HdCVu1sjxx+b7sDXBoVw4eOg5CV2GUunPTnCfGykciFu590/X244=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eVrOCOmb; arc=pass smtp.client-ip=209.85.167.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eVrOCOmb"
-Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-49cb5f51b01so178783b6e.0
-        for <linux-staging@lists.linux.dev>; Mon, 06 Jul 2026 14:59:28 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1783375168; cv=none;
-        d=google.com; s=arc-20260327;
-        b=YyJl4WiHHgJcqhgbJ8pW3YqbV4lWvvLPqIhxH2u4yWves+Q02SiUUE5OdsdWVov+Wv
-         PKtfqJ1PpbBKxNhPkntREbfX8+WFg7RNghFk3X75dzy5WPYzYIeZX2lxwS1YIFCte55O
-         ptFG8yjwrNev278kSV3wXHQHzbNKH/6lhPHTlFy/RYj5gjvv2wMBP8Cqm8w3rTYTGKwJ
-         bb29rIl3pNti6bng9w7SiosSHKkorT2+uujda2f1JTVL1Waw+wYsCUHw5hAWG6J3aBR5
-         3rNAdvoZp4lgGrGbNrFQBjEw1DI8fZFZb0hVg+8xUEzZktuomqB1+SaK4wTKlnlSxwAY
-         +jIw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=wdCTNR4NAcbt+UHljJQJGBCWlwecJPFZO5UT6CqBrWI=;
-        fh=+xk4Eopnu8KLKII8xNlQ8PnQZX/Pa8BHsNWtdE4vYjk=;
-        b=mGkEyCnnKM+9lfsCoxgqD9HctgqTSYZdsXymWz5Id4ypcJrPuIxVORpfQaKcNxWHTn
-         FzaG2fiVC+WzBq3AoXPRBXsiE2CzwdjeaVx4muYUphTp3UArg+Ut0YcaDesH2hVj9NnI
-         7H1eHAKu2EhOwwRthyhgWCv3MCnetSEMahw1plGXWj5uURz3rRMZPwZBd0vW61MREdzM
-         D2pBxcTnKM4oC6mgco8QXeP4kJGuKI7PfrOn7uhG6fNz8PZECfYAsXuOKCz7sMfBD9Hy
-         sINVmADfcTJs40vPox4OCoMWeMcp0Jxwja2VOoqsf494EHdW9FT6AcrSfXskTKPB7+P1
-         ZruA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783375168; x=1783979968; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=wdCTNR4NAcbt+UHljJQJGBCWlwecJPFZO5UT6CqBrWI=;
-        b=eVrOCOmbugPwkqD6qlEezsXJZqfwubuqgai53Qc8R0XSna2N3cM96A8VidZgUdTxMr
-         RqcJXVO3dHsGft3gr9WbNwY7suybW0zyP1hYuATn+yfLO1/j+GLf39LI/E0sDaho3OQJ
-         NnBLNKLtM1Re7ZziE658X+opKoXbIqgQ47Y/9aIzkMelWFtGqeUvG3udcOq9VzCjHJRC
-         Xxt6R7mYgOsaXf9Lxlp9tIzhyf75Z8tVZzP3xyLYiJzGOA5y+k4fu6ygcXLAq9c3M8zi
-         TRrl9Mj9ToCIwxZAO6ydPWIAeypSanci0gIIRYEgDObIw94FTLlOC2mfqzeaR9q+KMpl
-         3+Aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783375168; x=1783979968;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=wdCTNR4NAcbt+UHljJQJGBCWlwecJPFZO5UT6CqBrWI=;
-        b=iMVfph7YWxKUv1KvSK7zMoYrL2ry/SKPkKprlkbg7GKKno2hfHgfN5E/WnLVdh3P0Y
-         UDE/NbDaftR73wGWpvNzeHVn7ufLVTqnCqwKbjpKlOKJa7RZWy6MxGSx8CpIbG3TyU6/
-         oOHoimAHwqpFD7xBQsbO5sibd1rrK0m+TEGNTUAy7QwHukBUlwYEBGzYjW3BDJf8BUvf
-         osAcYvuihPtzRGZNRxhi2j6ni7fJQjlpp19D3dwgqtFE6UK/RJl1AbE6VWFRulGoJvlJ
-         BbXV0dHKbVNt7S92HjVgGP05UZBqXCG6OFJM4BCEvpf66XSE4e9Hhh4kEZqAitojc1Qv
-         iYnw==
-X-Forwarded-Encrypted: i=1; AFNElJ/hNFnxLxQ0oPFsZ+tONp3SN/+eiOxmNUbVhgyRqwFyQ5i/fIBbfoXNX6/0b6sERt2PIB2sIzmZR0RwuC4s@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw9lMN1sjPr6COU+L5UE9DGNAidDY51bF6QCMfYcSHwesy7z4pQ
-	egSpwHaCFf14e0J47JaErhG4uxCG3+U9zGpaHvAA3mTcL1rSg90uVkAgRVJZ/qIiiqSzvRGAKix
-	HuXc6ouDUGPr3r3oVRUgbxBpXoG7tDbI=
-X-Gm-Gg: AfdE7cmxiV9vVfCJ15qPrl03cp9itTynY/gWZCNipjhWEY3SLNsDWfYuKpz1HZJwKOq
-	A+TrKxDDmvfiK/yF5RiWA4IxXXfmDXxrUx9esIjEG7rZn8W8Ujheogm/2sjclzNs6r6y6wyXqDB
-	IVrMnu6iBPbD7OcJfxitoJ4/9xRg7RNyYS5juvhBz37jDmUSku1oJr3noKAO7bYdGHY1SSD6VeS
-	fE3OD8E+aG7SD/mj7zfc9euEKPcqad1Lh/AAYR44vaaSXb3mcvEUOtQJRwwVAo0fexAgWR+nvOn
-	ennnQ3Ie
-X-Received: by 2002:a05:6808:1995:b0:496:c5a:e126 with SMTP id
- 5614622812f47-499bacb258amr6099961b6e.4.1783375167763; Mon, 06 Jul 2026
- 14:59:27 -0700 (PDT)
+	s=arc-20240116; t=1783388210; c=relaxed/simple;
+	bh=91Je8gFr6JB5PfNsNijcj8PMTQF0z+oCEFcEsEaHduc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XpQMu94SQ54g3FicLHxEaj8sTBNkI+hLjfvzUY/hIpDwteXvNn6PPTyFz+0tqakgFUs0RwnMoZPkoSBZdoguz33zuqVN6aE5P7YxNzXKENNCKZmKZpiadWOhOfvW9H1oAjo/WgSGt9YhvhtzfyvW7SJr1Q07uyTbzIJtkuAEg9I=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com; spf=pass smtp.mailfrom=cixtech.com; arc=fail smtp.client-ip=40.107.44.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cixtech.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=enilA8zYZzVL1Y1E8qXyS7/jZFIXtdnJgPiYOmK83r9gOPTKJqwAyI7CyKQs+aKJ1M+HROiyeuGbdPHmRVnJhy8f9qATTUWW/dR+MGYmZboIEBamyfvWeCtG4iGsKDHMY2kTdJvNX5nHkKeH7TKowAy9NEs1b0yc3CF/5K1y/QsnJDJ3tJKH2NOWanUBrhBBdaKZhZN/Ldv5hNETIzEw1qS3ZklECAswkfAwdyvZsZb6Z0hIrUVzYZFStGf3lUW33Dk6c2R8Dsy3z4d2cRMJHVFhIL64JDowVSpYTgqbLqB1q7KSMChujI+tLRZo//qeztXYZaGviP1AgewKeZG6ZA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=zVAt++BBwa9Lp7CQU3w81aHy4kuxWu8xS5VkSssx/8s=;
+ b=SfMp+HnA/nq59x5AwpIC0k7qpcQi7ldLr+1t2moMNCA4VpXIRK3jyw4SzceIhwaMHBE62OTqFCusu/qV9Hq8mUU68M1RknexNMQwMUDWX/+KLaLBBZyVNSNGSGqQm3zZgCj9USN3uKolqS4FnPJiwobgFokr8JLFK3TBIPxfdipT4A8d5ADV0EfacqXDymSeClaJP+h3oiNPCUqGtmh3/j8fLFwEOVTATcnMN4cKKHaV2K0LTEk6qNqFqsL9MlYAmlqdDk0UAPnSHh+/XIkw/3D+bp8Tt4mg8bzdqVe0S5tO/Hr939ErpSqiU5v4MfF4esSzg4pG1LLn6dbXRZrL2Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 222.71.101.198) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=cixtech.com;
+ dmarc=bestguesspass action=none header.from=cixtech.com; dkim=none (message
+ not signed); arc=none (0)
+Received: from PUVP216CA0003.KORP216.PROD.OUTLOOK.COM (2603:1096:301:16f::7)
+ by SEZPR06MB5992.apcprd06.prod.outlook.com (2603:1096:101:f2::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.181.10; Tue, 7 Jul
+ 2026 01:36:42 +0000
+Received: from TY2PEPF0000AB85.apcprd03.prod.outlook.com
+ (2603:1096:301:16f:cafe::97) by PUVP216CA0003.outlook.office365.com
+ (2603:1096:301:16f::7) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.181.13 via Frontend Transport; Tue, 7
+ Jul 2026 01:36:42 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 222.71.101.198)
+ smtp.mailfrom=cixtech.com; dkim=none (message not signed)
+ header.d=none;dmarc=bestguesspass action=none header.from=cixtech.com;
+Received-SPF: Pass (protection.outlook.com: domain of cixtech.com designates
+ 222.71.101.198 as permitted sender) receiver=protection.outlook.com;
+ client-ip=222.71.101.198; helo=smtprelay.cixcomputing.com; pr=C
+Received: from smtprelay.cixcomputing.com (222.71.101.198) by
+ TY2PEPF0000AB85.mail.protection.outlook.com (10.167.253.5) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.181.6 via Frontend Transport; Tue, 7 Jul 2026 01:36:41 +0000
+Received: from gary-System-Product-Name (unknown [172.16.64.196])
+	by smtprelay.cixcomputing.com (Postfix) with ESMTPSA id 15ED34351F23;
+	Tue,  7 Jul 2026 09:36:40 +0800 (CST)
+Date: Tue, 7 Jul 2026 09:34:46 +0800
+From: Gary Yang <gary.yang@cixtech.com>
+To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Joel Stanley <joel@jms.id.au>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	Linus Walleij <linusw@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Alexey Brodkin <abrodkin@synopsys.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Daniel Scally <dan.scally@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Eddie James <eajames@linux.ibm.com>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+	Houlong Wei <houlong.wei@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Joseph Liu <kwliu@nuvoton.com>, Marvin Lin <kflin@nuvoton.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ge Gordon <gordon.ge@bst.ai>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Ulf Hansson <ulfh@kernel.org>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Xiubo Li <Xiubo.Lee@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>,
+	Daniel Baluta <daniel.baluta@nxp.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Peter Chen <peter.chen@cixtech.com>,
+	Fugang Duan <fugang.duan@cixtech.com>,
+	Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
+	BST Linux Kernel Upstream Group <bst-upstream@bstai.top>,
+	Fabio Estevam <festevam@gmail.com>,
+	Nicolin Chen <nicoleotsuka@gmail.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
+	Vijendar Mukunda <Vijendar.Mukunda@amd.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	CIX Linux Kernel Upstream Group <cix-kernel-upstream@cixtech.com>,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-aspeed@lists.ozlabs.org,
+	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, linux-media@vger.kernel.org,
+	openbmc@lists.ozlabs.org, linux-mediatek@lists.infradead.org,
+	kernel@collabora.com, linux-tegra@vger.kernel.org,
+	linux-mmc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	imx@lists.linux.dev, sound-open-firmware@alsa-project.org
+Subject: Re: [PATCH 31/42] ASoC: cix-ipbloq: Use
+ devm_of_reserved_mem_device_init()
+Message-ID: <akxXtlUYtT3T-huE@gary-System-Product-Name>
+References: <20260703193855.110619-1-mukesh.ojha@oss.qualcomm.com>
+ <20260703193855.110619-32-mukesh.ojha@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260706000738.18478-1-nealpatalay0@gmail.com> <CAHp75VcSGXC=x3hFXt8qvyRQjPzy3uLN9iBTURp2yA9+P_jibg@mail.gmail.com>
-In-Reply-To: <CAHp75VcSGXC=x3hFXt8qvyRQjPzy3uLN9iBTURp2yA9+P_jibg@mail.gmail.com>
-From: Neal Patalay <nealpatalay0@gmail.com>
-Date: Mon, 6 Jul 2026 14:59:16 -0700
-X-Gm-Features: AVVi8CdG0PfkX4vD-oqmzTQi7x8RBptmf2YrKOaT-BDXOM7UHShSIEj9USx4BO0
-Message-ID: <CAGjuiT9gu32wvx2Vf0U0g9deyAzzGtwwCNEdW_R4JVarO9x4JQ@mail.gmail.com>
-Subject: Re: [PATCH v4] staging: media: atomisp: refactor pipe graph dump
- stage formatting
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: andy@kernel.org, hansg@kernel.org, mchehab@kernel.org, 
-	gregkh@linuxfoundation.org, sakari.ailus@linux.intel.com, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, mugrinphoto@gmail.com, matt@mattwardle.net
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260703193855.110619-32-mukesh.ojha@oss.qualcomm.com>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY2PEPF0000AB85:EE_|SEZPR06MB5992:EE_
+X-MS-Office365-Filtering-Correlation-Id: 58b0bcd8-fc53-439a-90a3-08dedbc83256
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|23010399003|82310400026|1800799024|36860700016|376014|4143699003|22082099003|18002099003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	PbsmJJUC3r+PSMHFYv1/5KAHLPksanDfP7Pr+9GjfsZBINxm7MQ/6oaciRBlKjgm8PiiDmCKpLrQa3R0g79rj/OxhD1HdasUwlMwOHrf0JU8wHBBXuG3hdrKLpnv3P2vBaYKWkRyc7YH5GxFLqRfvvRthoAbKoabp1FOx4VB5JAj7OOr80zr2tzMjzlR47UUAXdphACxz6nv6LEjFZjw5nkP/Lfsoqsy57C1SI/3g+k5VsMhfKjzOnAQN3EyPypuAs7HBnj/AgliW+5HrJP1s74vhFuGt9CA1adcAJymarP4P5Nu6rX/AGOmLp1FnrjZvD2gczG1qUGKllxinGTkHAq4cqKLnqUQi8kaQUtaGx1KVfb86Qb1Z9CU5EFISIvQPEeR4m6sVRd3OljqlwtBXwmq8NH0FKD6SzKRqX4kD7GACn0dK6g6lsKQaR0sduqxWfqLbbg995xOWjawLEAXZ5XeivDMAZdOzhoR1hZr9DyJLv97YF00hvFCX5vTY7XkkngNF6u6oJDxRFbKaxRldx2PRzrbyC1rKEQxL5IX49C9fw7ENvTpNXgi0JPL/z+qTwPIgc77MJq1fRsrgmnB0IzA4DF+dUOpoKdg8bFdE74+HkbQgvupu+ng7tbGCb//sb+zUbDWK84eo+dJfWy2FVgLDQ3OEd3TdRSJu+GPRJAWAcu149u8rXkMyUlF6D54k0cbFWV3qZoNda129jn/Gg==
+X-Forefront-Antispam-Report:
+	CIP:222.71.101.198;CTRY:CN;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:smtprelay.cixcomputing.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(23010399003)(82310400026)(1800799024)(36860700016)(376014)(4143699003)(22082099003)(18002099003)(56012099006);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	YQP9tmTZsZsst2XVhSMEt6ze26TOYYsaRySCTBU4b2JeGgsxxgjlxfxR5rqo9srtq52gxFXeRrAQpizWmq4rnR131aJL0yADN5UOJK5lOhRoyD34mXpqnTYllYtoO8lT3DKhABUr/r2VCTrknBLHcdjkvQxRqySLGfkJL2ujdOo/T6nQjmBRjqZerpuQXpvNUbQjY+9vRg32YosHnAcL16AMcUeJKjcxDswM9WRodsARyKalf+gPqZeGfVvQ8KBlfqwwBXHZU+z4FORlOWYRleGy1UUtXHCYuF2zFO2AEVXiVpYxVmrrfudDWbEcZaDDnNgniI5tZ2x+7qCWJ2wsDNzhdk4pdS+t1rXnoA677qfpLmy+0wLuODVSDADMZKXY1btJl1j4/a4CCslM/GsYj2UZ3ZJuQONRDXT5z0louJEFMWXX8aZh++Us93/xLCDu
+X-OriginatorOrg: cixtech.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jul 2026 01:36:41.4300
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 58b0bcd8-fc53-439a-90a3-08dedbc83256
+X-MS-Exchange-CrossTenant-Id: 0409f77a-e53d-4d23-943e-ccade7cb4811
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0409f77a-e53d-4d23-943e-ccade7cb4811;Ip=[222.71.101.198];Helo=[smtprelay.cixcomputing.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	TY2PEPF0000AB85.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB5992
 
-On Sun, Jul 5, 2026 at 10:37=E2=80=AFPM Andy Shevchenko wrote:
+On 2026-07-04 01:08, Mukesh Ojha wrote:
 
-> Please, slow down! No need to send a new version immediately after
-> replying to the previous one without settling down all aspects of the
-> change.
->
-> This version is no go, sorry.
+> [Some people who received this message don't often get email from mukesh.ojha@oss.qualcomm.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
+> 
+> EXTERNAL EMAIL
+> 
+> Use the devres-managed devm_of_reserved_mem_device_init() to ensure
+> the reserved memory region is released on device removal, fixing a
+> missing cleanup in the original code.
+> 
+> Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+> ---
+>  sound/hda/controllers/cix-ipbloq.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/sound/hda/controllers/cix-ipbloq.c b/sound/hda/controllers/cix-ipbloq.c
+> index c1084a915c13..815932e5c58b 100644
+> --- a/sound/hda/controllers/cix-ipbloq.c
+> +++ b/sound/hda/controllers/cix-ipbloq.c
+> @@ -257,7 +257,7 @@ static int cix_ipbloq_hda_probe(struct platform_device *pdev)
+> 
+>         dma_set_mask_and_coherent(hda->dev, DMA_BIT_MASK(32));
+> 
+> -       err = of_reserved_mem_device_init(hda->dev);
+> +       err = devm_of_reserved_mem_device_init(hda->dev);
+>         if (err < 0 && err != -ENODEV) {
+>                 dev_err(hda->dev,
+>                         "failed to init reserved mem for DMA, err = %d\n", err);
 
-Understood, no problem.
+Reviewed-by: Gary Yang <gary.yang@cixtech.com>
 
-> > +static void ia_css_debug_build_info(char *info, size_t info_size,
-> > +                                   int *offset,
-> > +                                   const char *flag_str, size_t flag_s=
-tr_size,
-> > +                                   int *line_len,
-> > +                                   int *num_lines)
-> > +{
-> > +       int len =3D *line_len;
-> > +       int off =3D *offset;
-> > +       int lines =3D *num_lines;
-> > +       int len_written;
-> > +
-> > +       if (lines > 3)
-> > +               return;
-> > +
-> > +       /*
-> > +        * If new line length exceeds max line length,
-> > +        * replace the last ',' with a "\\n".
-> > +        */
-> > +       if (len > 0 && off > 0 && info_size - off >=3D 2 &&
-> > +           len + flag_str_size > ENABLE_LINE_MAX_LENGTH) {
-> > +               if (lines >=3D 3) {
-> > +                       *num_lines =3D lines + 1;
-> > +                       return;
-> > +               }
-> > +               info[off - 1] =3D '\\';
-> > +               info[off] =3D 'n';
-> > +               off +=3D 1;
-> > +               len =3D 0;
-> > +               lines +=3D 1;
-> > +       }
-> > +
-> > +       len_written =3D scnprintf(info + off, info_size - off, "%s,", f=
-lag_str);
-> > +       *offset =3D off + len_written;
-> > +       *line_len =3D len + len_written;
-> > +       *num_lines =3D lines;
-> > +}
->
-> This makes helper too ugly and unreadable. Again, study the case
-> first, when this can be true. Do we really need to cut it? This whole
-> thing AFAICS depends on the dtrace facility in the driver. Is that
-> HW-related? Is it pure SW? You need to perform some homework.
-
-I've taken a look at the driver in greater depth. The flag wrapping
-functionality being refactored here is used to construct a graph
-visualization for debugging.
-
-> >                 dtrace_dot("node [shape =3D circle, fixedsize=3Dtrue, w=
-idth=3D2.5, label=3D\"%s\\n%s\\n\\n%s\"]; \"%s(pipe%d)\"",
-> >                            bin_type, blob_name, enable_info, blob_name,=
- id);
-
-Each one of these calls generates a node in that graph, and the contents
-of the node are decided by the flag string we build in enable_info. Seeing
-as we are just collecting debug info and populating a visualization with it=
-,
-this refactor seems to be software.
-
-Seeing as it's unlikely that every flag is enabled at once, and even if the=
-y
-are this only causes a slightly more unreadable graph, avoiding 3 line
-truncation seems to be the best option since it leads to more readable code
-and avoids omitting information.
-
-Additionally, len > 0 && offset =3D=3D 0 is an impossible condition under a=
-ny
-feasible helper function use condition. This can be documented in a comment=
-.
-
-Given this information, to me it seems like the best course of action is to
-revert the helper function to its simpler state without line count truncati=
-on
-or the offset > 0 comparison. What do you think?
-
---=20
-Thank you,
-Neal Patalay
+> --
+> 2.53.0
+> 
