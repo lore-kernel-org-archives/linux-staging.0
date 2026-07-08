@@ -1,95 +1,143 @@
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CBD43F58CA
-	for <linux-staging@lists.linux.dev>; Wed,  8 Jul 2026 09:04:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA0853C465
+	for <linux-staging@lists.linux.dev>; Wed,  8 Jul 2026 09:46:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783501479; cv=none; b=hjbLevmX3lL1mqLk3+mla8/JR6AREnJEvMUVya1QgPyt4A1VcrIYIUaHZTaBY1ZsCvRQa7EjXnxKeOVp2/GZUHYUqbBmCyKwxeKqbGJEQhBw/1VCMBTiNfDxvMiyeWKja+LhkT+Q1+JrjXWnfe1khQnwzYM0kygncSXvxgFjFlk=
+	t=1783504003; cv=none; b=pGF7RyU8oTs9czm+ZvZfJfLCMr1A3iXR7fc0GWG5L3Hn8tyNvFoCvGT4qZylXtUnRuT3/52Ec4slEJET2Hkt5fjjX63DvVLWs1r+AGCG31yDoW2nK9D5iGvo1vAUfrUqIJqOfryEMVt/dqgayfVMO8Qvdt7dxl13NF+4LEk8Ix4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783501479; c=relaxed/simple;
-	bh=y36FUV+Kj0COd2vvIG9U/6igV1AeQxXH+J1W3RL3kQU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ing/ZntRT6yS7NnEuX1r7Yu2uU2aYA7lL+G0/MVfjhOedjzoLs8F7M4o3q9pejEckj5Xl4juZUP7NpxBuzO4CImtNbjfZXxm6JQpApGtP6W97ySloME/wXTMzYHiRqdoDFA1CkKZaQ2R7nSZNvZ/mn3NqMDe9XEFf0qGx3UyB18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=m9IyuGqp; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=CN00Qk39; arc=none smtp.client-ip=80.241.56.151
+	s=arc-20240116; t=1783504003; c=relaxed/simple;
+	bh=wmpfXwOOnhry9Q+7FIuUKY9er7IsvCB1ck1WlSzUW5Y=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=auXoOYxyNJ7R30I47mYqrmh8OSqS8TH8aIALRRiZu8xfiSitF3i8QxIOusLFDTq7Xi8KmY3bL7o8nKqOFD1WU5F8+ZohEjNWFnt13L87mv1FH5aAJujVthIp/vPsNDp8HxVv7ydvoWj9TwzzQR0OAuqVdcEE55LiOuSmeHbumR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=BYHWltk8; arc=none smtp.client-ip=80.241.56.152
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="m9IyuGqp";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="CN00Qk39"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="BYHWltk8"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA512)
 	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4gwBxG4M92z8v7M;
-	Wed, 08 Jul 2026 11:04:34 +0200 (CEST)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4gwCsp0d1HzKvv2;
+	Wed, 08 Jul 2026 11:46:38 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1783501474;
+	t=1783503998;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=pZy96z5qFb4ItyQSThPEEv+Sh95ZU/kjNEwyLEXw154=;
-	b=m9IyuGqpPV++bTETQPaxcjnOpLgXkZ/6V583bFfF6NZxshyrsM27DsmRhjN1HLRnhXqSra
-	MLEchBaRh3ql7CGe5aknSsZkdOpnZ1koH+lXx2pGdhPQb5AzB9+JbSC33EZbQyFe1mTeJk
-	rJmPzlGXGSVSD3Y/xeAPR2AtEH25l93ZjJGsSGxQosL7TRiGtlPz/v0Rbvq4O0u+6SjNYq
-	o0EGlMibXtQhqNqVupsaBaHWaJXpaztNwQZFqrFor/Xq6WYvCRSj2ndEK6f3qq09pkSiJh
-	jL8ftN6DvVwuoH35bggNjUckV2j4O6Qs/xMn0nFv58vS86fYSZ1/JL7kSmod+g==
+	bh=COJUhYqOhbFD0yRfI6JTEikK6q3GyC7gz712kjp9hWQ=;
+	b=BYHWltk8xDgH1UOb/OUD81hzLUNegyGpYAy42HJaBBA4j1fjh4gg5mErcx/F6jPYaX7Bz4
+	IatGwdola43jAOCxpK+TZG0fU+8LqPyLb8wrnSPk29kiE4Oa1d7coX9Mc+wc8Aze5F6BYd
+	AQl+7dNP7XVj8ZrjOA8zKRJknc3u8CwcqcbFBY7izoDnDOsHekgTcyojHQ1H6D5FKh988u
+	2oMm9UECQMEFcNiN7ZnxiXXCiExZMk/3yio70h+rb6uNjiAy0ZNaNepTzLCBY+Y7V+/Mpz
+	OhN1yPPaGmtOVNnDv05NrZ4oCUBYBrku8+yJd87beW8Nd/yF8Cfth6AoHbCdBA==
+Message-ID: <39a61cc710b34ffbfecbbddfadeb8b4d8352a7f5.camel@mailbox.org>
+Subject: Re: [PATCH] staging: rtl8723bs: fix missing shared-key auth
+ challenge length check
 From: Manuel Ebner <manuelebner@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1783501473;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pZy96z5qFb4ItyQSThPEEv+Sh95ZU/kjNEwyLEXw154=;
-	b=CN00Qk39X8M1SF0AOsp2/678wuwJfoYzNkOr5TJdueXwMlZUPN8MepXFb3hKAozahVLUGI
-	qJ4UWwA0uWBTaaUhxWnW7ETTZ+mjFmBuTEkWIidHFulDONH8QdSkiB/kArh+nNABQ0tgV8
-	8wrI/2VpW/3KRVMdX841w16MtkZSiBpxEzbzqMDH8h8nChFYd3HhMZV4CU+QVh9+Po0ZUX
-	3qpCQRt+VSJO7rs+XaILKBAhmWgtPEqLhB+jrmOE66yIXgWSIAvfGc0G8Kh9ifIp9r2xBE
-	50NFxJPByFZl7eNanZ/pJBaZLpMgtQVRXHHrerPtFh/dgx9wq0GkQmDjxHVDAg==
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: manuelebner@mailbox.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH v4 3/3] staging: rtl8723bs: sdio_intf.c: cleanup function
-Date: Wed,  8 Jul 2026 11:01:00 +0200
-Message-ID: <20260708090058.307365-4-manuelebner@mailbox.org>
-In-Reply-To: <20260708084808.305951-4-manuelebner@mailbox.org>
-References: <20260708084808.305951-4-manuelebner@mailbox.org>
+To: Panagiotis Petrakopoulos <npetrakopoulos2003@gmail.com>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, stable@vger.kernel.org, Hans de Goede
+	 <hdegoede@redhat.com>, Bastien Nocera <hadess@hadess.net>, Larry Finger
+	 <Larry.Finger@lwfinger.net>, Jes Sorensen <jes.sorensen@gmail.com>
+Date: Wed, 08 Jul 2026 11:46:32 +0200
+In-Reply-To: <20260708084342.136878-1-npetrakopoulos2003@gmail.com>
+References: <20260708084342.136878-1-npetrakopoulos2003@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: b7de175c3d1666f36cf
-X-MBO-RS-META: d1pazto31qj6hdex65ni5udfd8451mwz
+X-MBO-RS-ID: 2562f0c27290f2d00dc
+X-MBO-RS-META: dc6c7a6ft6fanrnhsr3ptapsroorukeq
 
-Reformat function declaration.
+On Wed, 2026-07-08 at 11:43 +0300, Panagiotis Petrakopoulos wrote:
+> The WEP shared-key authentication handlers use the challenge-text
+> element's attacker-controlled length without checking it against the
+> fixed 128-byte chg_txt buffer.
 
-Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
----
- drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+Plenty long and complex sentence. It took me a couple minutes to
+understand (or misunderstand). Please split into a couple sentences.
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-index 63ec486f9a34..fd805ee74a1b 100644
---- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-+++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-@@ -334,9 +334,8 @@ static void rtw_sdio_if1_deinit(struct adapter *if1)
-  * notes: drv_init() is called when the bus driver has located a card for us to support.
-  *        We accept the new device by returning 0.
-  */
--static int rtw_drv_init(
--	struct sdio_func *func,
--	const struct sdio_device_id *id)
-+static int rtw_drv_init(struct sdio_func *func,
-+			const struct sdio_device_id *id)
- {
- 	int status = _FAIL;
- 	struct adapter *if1 = NULL;
--- 
-2.54.0
 
+That's my try in rewording (is it possible to drop 'shared key'?):
+
+The WEP shared key authentication handlers use the challenge-text
+element's length. This text and it's lenght are attacker-controlled.
+The handler does not check the lenght against the fixed 128-byte
+chg_txt buffer.
+
+
+> In OnAuthClient() the length from rtw_get_ie() - up to 255 - is used
+> to perform memcpy() into the 128-byte pmlmeinfo->chg_txt, so a
+> malicious AP sending a malformed WLAN_EID_CHALLENGE element can
+> overflow/underfill chg_txt by up to 127 bytes.
+
+Again, but this one isn't as bad.
+
+>  It is reachable over the
+> air, before association, during shared-key authentication. In the case
+> of an overflow, the driver can write out of bounds. In the case of an
+> underfill, the driver can echo stale buffer memory. In OnAuth() a
+> similar issue is observed. The driver compares a full 128 bytes
+> regardless of the element's length, reading past a shorter element.
+>=20
+> The challenge text is defined to be exactly 128 octets, which is
+> already provided as the WLAN_AUTH_CHALLENGE_LEN define; require the
+> element to be exactly that length in both handlers.
+
+This is good.
+
+> Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
+I added the mentioned people in the commit to cc.
+
+Thanks and
+Reviewed-by: Manuel Ebner <manuelebner@mailbox.org>
+
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Panagiotis Petrakopoulos <npetrakopoulos2003@gmail.com>
+> ---
+> Compile-tested only; I do not have RTL8723BS hardware to test the
+> shared-key authentication path at runtime. The change only rejects
+> challenge elements whose length differs from the spec-mandated 128
+> bytes, so conforming peers are unaffected.
+>=20
+> =C2=A0drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 4 ++--
+> =C2=A01 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> index a86d6f97cf02..13634d4e83d1 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+> @@ -787,7 +787,7 @@ unsigned int OnAuth(struct adapter *padapter, union r=
+ecv_frame
+> *precv_frame)
+> =C2=A0			p =3D rtw_get_ie(pframe + WLAN_HDR_A3_LEN + 4 + _AUTH_IE_OFFSET_=
+,
+> WLAN_EID_CHALLENGE, (int *)&ie_len,
+> =C2=A0					len - WLAN_HDR_A3_LEN - _AUTH_IE_OFFSET_ - 4);
+> =C2=A0
+> -			if (!p || ie_len <=3D 0) {
+> +			if (!p || ie_len !=3D WLAN_AUTH_CHALLENGE_LEN) {
+> =C2=A0				status =3D WLAN_STATUS_CHALLENGE_FAIL;
+> =C2=A0				goto auth_fail;
+> =C2=A0			}
+> @@ -873,7 +873,7 @@ unsigned int OnAuthClient(struct adapter *padapter, u=
+nion recv_frame
+> *precv_fram
+> =C2=A0			p =3D rtw_get_ie(pframe + WLAN_HDR_A3_LEN + _AUTH_IE_OFFSET_,
+> WLAN_EID_CHALLENGE, (int *)&len,
+> =C2=A0				pkt_len - WLAN_HDR_A3_LEN - _AUTH_IE_OFFSET_);
+> =C2=A0
+> -			if (!p)
+> +			if (!p || len !=3D WLAN_AUTH_CHALLENGE_LEN)
+> =C2=A0				goto authclnt_fail;
+> =C2=A0
+> =C2=A0			memcpy(pmlmeinfo->chg_txt, p + 2, len);
