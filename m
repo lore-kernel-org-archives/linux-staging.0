@@ -1,140 +1,129 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 389CF3CF210
-	for <linux-staging@lists.linux.dev>; Wed,  8 Jul 2026 10:43:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783507434; cv=none; b=cV535tnNIJ3FLN5mYC1/Wuxwa2aXxYOCnCDVzFHseTvHqH/RQKTNxufDu9OF2QLNommkUb0JLj/q6DQrPjTkE2zCSHTW81GHwvfMpabWhyVRqSkyDoAaSZy5tDzvbxatsgRSEM4gWXbyzmuGO85upOj8/rBLRppHPrRyCCOgBr8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783507434; c=relaxed/simple;
-	bh=H5w2AGzF0fc8Ya/zdI3DizU+no0z49YzComkUyJ5R/Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rYg7zKJnQYemUTfteNOhdkq+yOpEOKgUEkf5cBDGP8S9RP8Ewv1G0iRu8/zjM7puRjEIsW/qx0RL4+5NXk5hgGYqKVSnlF4pRVVb31qa3T/fzXu4oosJqTei4OI4T7K3V2KvYG6uhKjaiO65E4Fe+z8uX7gCCaoPoFfS8lRPfqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IffDWf3p; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE7D537FF50
+	for <linux-staging@lists.linux.dev>; Wed,  8 Jul 2026 11:46:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.176
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783511169; cv=pass; b=WerHPE/w9hZP8sSVWQW1b+YCXySox9h2fAoSLpWz1VWaBMU6sdN/hBenRoyRf+UfrQVIrdKD3dabGb4sTu2wTB0+sqrv/qmgrhyfLnrpN5dkZIatdVidUa3C4o+wOwmpKq72C9+CnnPMoVEy9OdK5fBra7+eKSxcbkiRQ0QuL0s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783511169; c=relaxed/simple;
+	bh=eTRFwjAgZ55uKTIXvptBO84lO1AIWMqO2VsrHs7pnSM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aDLhw76v2E4pcCq+6+xX6QF3dF9STcKn9vl9r49TZbcaxTY49tC/kLEMMuddt5KBsvEG02u6jmpf88C1jBcj0Shpl2XxmcEAYejbSFuu/CleBQAGd5qliLrshBAnO55Jy6JbsOoZRKd9Gmiv7LopZQaNyqgX5CuHlsynAEoZGnc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aqrvqH+D; arc=pass smtp.client-ip=209.85.167.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IffDWf3p"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-490cf3000f0so3572975e9.1
-        for <linux-staging@lists.linux.dev>; Wed, 08 Jul 2026 03:43:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aqrvqH+D"
+Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-4961446bee6so28523b6e.0
+        for <linux-staging@lists.linux.dev>; Wed, 08 Jul 2026 04:46:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783511167; cv=none;
+        d=google.com; s=arc-20260327;
+        b=e2H2XEmOmvetJLLAzQmzNtyHjgc5avACbrMIyL6qdfZNzDsI4t/n6JHHTjtfJlU8zJ
+         SUFmYvhidHlA4qNvzointrdptuT5V647Yr0AxQxiAVAymrNQ7X0fqtQwdtnhfL30s/MR
+         SkEAEs8i1wJnQK2H8BEl+qk9UHcZQ1yGic2X9f62JEpJKwSTBAFsj/u36NVORshQ8Y5P
+         Y16PLSuYgAmcUz8d5YFpntjKoshkziWR9x6nUtd535OJlAt+ix95hHwrPYyBHR41mc9A
+         Y/tUc8ildTKozrBBdsaXqL/YfFZ+d6mwdpvlzTp/5h/Pl3h5EYt+TNFguZamfUgEtq6+
+         wHQQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=7muqRZWvUhz8t2t+SrhjjnRNlJjEmMaTZhcgbwUwW78=;
+        fh=iF+upiwN0S8JobbSYdu9o9IXABfya9LQIy+B/hGKxYo=;
+        b=ArJlIcBmv53/2qmTLAnKmd5M874R6Jx6QBhlbTuMmEYHh5d34Llj6hQhmo6aIrdlaj
+         mO1NX1gbvGdkV4iSAS/SFQHxc13dYQpw3wJQOoPsn/56PLTkAlLHguxcIdI/rZqNEIbL
+         ojFNfD11qjYRUYt3iF5+HLj9fcegl1Qy/6MWDP1GKOi1DMIepm3E1jCdRKuiO9ht62FW
+         RIEK/NeLENCz3jUkFv7ueA9nYHg8G4lyUVwMQQ/yqaaJK8kyRiE8R8reGiPqKonElMQS
+         ay3sO43p2PYngCKP0qRApRUrXRFU1HgBMgNvM6RshD/12Qd/qFX6MdT2Xd6E0jhdT3Ul
+         4Xaw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783507420; x=1784112220; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Sd+jn8OxzBqMCiodLdjuCiQn2jNeMVrmmbxD+3HhGec=;
-        b=IffDWf3pjNacTtnio/3vIRR0mem2IRGAyiseKCDFGFyT07Wrpc30jyNBTPwihJoOB/
-         F7iKi024ZWjuoiqtyFcmJS6Z/ROBVBN9UwCFSV16xF0eREZX8DRcEmNYKXC1cu4QyNOJ
-         ZUn6hhO/+s3ZoRoY4dznM95UtUuA7szDjb8yzCNoVoL6dJHG9OcT+G0lsBg0E+MrRVSc
-         iNKZxzrq0KzCzAyXFWu15jQGnZsQpu/GdOTtDnK216hY1F/aXBWK4pcR8h3wvDi4zfEK
-         5s3qhsatxKOMlwU5byM2mz5WcCt/auBaUHt6CYQC5zAHEo0QHTURkxzu4uTa1PFn2c98
-         jf3A==
+        d=gmail.com; s=20251104; t=1783511167; x=1784115967; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=7muqRZWvUhz8t2t+SrhjjnRNlJjEmMaTZhcgbwUwW78=;
+        b=aqrvqH+DU38FYsXsg4vuQCOeNgL49xBA0JlhsxRrrIEWozqBJ5nODCvnbD6fawP7iK
+         EiDU9J15bDdDn+jLRQa0KzkfPmy36ejY+mjHXeZKaeJbnrIgtT1eMwcQ2VtbDacA/r0V
+         0ZCWN5r/G62nXMweYWmxV9T1rNHWruBO3E4NoLsi4w7QyW1N2t2E1Sg+dguegMpAeOgL
+         RQcbz46JUMjNbpmxHhIenRdhH3ZI/XU1XRDAUZFVxJzBtx9zBU3K4we8IMUh99IbytH0
+         n4XLGX62j3LgrDe70L5/V8Q7Xrn/JC7RTVAxS0gs0IjC740NMgDA3+UNXzL0zts3NpV7
+         Z/QA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783507420; x=1784112220;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Sd+jn8OxzBqMCiodLdjuCiQn2jNeMVrmmbxD+3HhGec=;
-        b=lKh4KBtyIlGZvrZegINvcVPy446CeBtuXamo1DxZ1GNw350kppfvDbm3y6eu/A5HFM
-         eLDQUU68Xm7gznfYbsMOSJfPWkNCNEcJzZqR4exkQMPDnoElsFDeffCAnQCdZJDNGy/W
-         /EpqFbWwXhbc4Lw8nmLNf9h0HyGs8/tVBRYMCnu4ZlGl/7WeR3UKsTmpG+8W30OcmFXj
-         IpqjVnduMaR9R2O1NlkkrmxdqAwA+h79/6wfEphj9WyWOBglKSjp75U2hDhc11VeeZg0
-         UlV13sYr1gY2IjCxFDuP1Cv048Bsr7cN1fypThcuDNQWh0VKnUjpP+QB2eVNOnTvdYdT
-         2IKw==
-X-Gm-Message-State: AOJu0YwjquYX3oMYujR2JJr0AsPR1U50UcO7nLqAgN2ko67ilXAK0QYL
-	ov1lHfBSr6q2yWbF1HZL2M6QPWKXwCYvxOl7adOBQBlOYYNPCMcwYjrAjhenPz2B+DQ=
-X-Gm-Gg: AfdE7cm+7X9sz4kYobqog5bjjAOW8aiMVzvnr/7USj9oRVOGa34Ub1RBBTJr6qUowe7
-	ZoV9srQLd0F1u6JiBZ1D7gcNcoqGdGJFFdxpW9nozXc8H74Gkx14Ckqxh76MnoFReYc3lU7+o++
-	eysJk0c9EmXMQOEAjLW76CTBTl2e/nNyN26G8siE9h822vc2JjhpF6kXuTQUS84RnGT0zTOY2jP
-	SWhFXEhLlWHuXsdDo5EDG86jEcE/NZKdbO8PJgQ6Sl9Va37ZuqtVCPdoSKqoQjmKQX5il5wdhNm
-	7moiy77sOq9kwoWJNFujN1OJObwgiuC84vejuXSumJB6vND6bOHpnxWbK8IDJbWTeWss16Aahwn
-	AJsL4+30GP6lpoE0qkfWIZXoIrXoKyomGePu6a3DPvRS1LQxCxh/1mqJUaeFc2YlCSaCd+l9jgu
-	yU/ngNSAAj+sfqWTK4PWw4FadLvROM/PIKPl/oHi4qBb2UzoIFA8Rk
-X-Received: by 2002:a05:600c:548d:b0:493:b8d9:f28b with SMTP id 5b1f17b1804b1-493e68c7f63mr20954575e9.23.1783507419780;
-        Wed, 08 Jul 2026 03:43:39 -0700 (PDT)
-Received: from fedora ([2a02:586:e223:fc00:8acb:cd0c:11d0:f2d2])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493e0f50418sm117703385e9.11.2026.07.08.03.43.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2026 03:43:39 -0700 (PDT)
-From: Panagiotis Petrakopoulos <npetrakopoulos2003@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev,
-	Hans de Goede <hdegoede@redhat.com>,
-	Bastien Nocera <hadess@hadess.net>,
-	Larry Finger <Larry.Finger@lwfinger.net>,
-	Jes Sorensen <jes.sorensen@gmail.com>,
-	Manuel Ebner <manuelebner@mailbox.org>,
-	Panagiotis Petrakopoulos <npetrakopoulos2003@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v2] staging: rtl8723bs: fix missing shared-key auth challenge length check
-Date: Wed,  8 Jul 2026 13:42:52 +0300
-Message-ID: <20260708104252.144101-1-npetrakopoulos2003@gmail.com>
-X-Mailer: git-send-email 2.55.0
+        d=1e100.net; s=20251104; t=1783511167; x=1784115967;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=7muqRZWvUhz8t2t+SrhjjnRNlJjEmMaTZhcgbwUwW78=;
+        b=MAvrsCVDC6aJ+oprTqKnsiJC6hoCnIDEbIP7sujL3DF1B335dzf0RdddCzH6cn6zCw
+         nRKnbeAdyTMRjGzdiT5EHEWf06bf/wwXO1TcnsKdrzHbKTK3YJkM8BuFGXxJdmI/LwYR
+         Vl/tKYkPge6M+O05CcJyau1fUhUkNs9TcmnjdXeuricKQQdeQU+20AURcMan1iPV6I09
+         vJUAJtwyelX9j4RCk7IJyaL4xpVWpGFr84YCS8q6Zu4A0/6wMAgTS1tnYziCKXRtffpq
+         YcLI5DAtzYUZ2X/D/+1kuP6VyxP7H+C5o/QPOMnI52Pk3X4w3g9luNzX2WXfIgm58G9H
+         HrmA==
+X-Gm-Message-State: AOJu0Yz+C0GPjK9IbzviY9TK5v1m4/CgQodNMbT7wqS+OQNvSVZsP7UJ
+	F8CsnB0h2T6VZN0KFWg9wRelvH67HDMOEBB1eVADFAHoqOiOJsndJTRd/k7InA0H+8Fi1lkJJs4
+	QLFL5TN4vd5R9mbkuuPAIaD86vgAfNAM=
+X-Gm-Gg: AfdE7cmLj8ErHoMyX887duSDvqGDH76AC7eXSvf6KLhVrorj/DbLfW/1szY7WVwE1dg
+	iMP/jn0LCzDkXqoo5EE8ztTBBImyHOTxXdhUv8Wt7hSuLI/afX2ZBvU5ZVL5vbPtp3j9ojzSy3q
+	xQErgxdaU9r4vjHaLKHyZerA4x66Ycin2rHju3j0kOK/mILPiYVL4NsHycflXgVMZTQj1svj9dQ
+	UffeGZ4ZqvmchR7v8WVumOphU+KXP9RopwEF4sGY1zrz4+ijcXgPviVYxuCNid09QwgvfwwRQ==
+X-Received: by 2002:a05:6808:1508:b0:495:d2f0:3e1e with SMTP id
+ 5614622812f47-4a2043d0ab3mr1085352b6e.5.1783511166635; Wed, 08 Jul 2026
+ 04:46:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260705193340.14684-3-daniel.guihot123@gmail.com> <2026070718-charging-outsource-81a1@gregkh>
+In-Reply-To: <2026070718-charging-outsource-81a1@gregkh>
+From: Daniel Guihot <daniel.guihot123@gmail.com>
+Date: Wed, 8 Jul 2026 21:45:55 +1000
+X-Gm-Features: AVVi8CdPhSWTmP9yWxC_9-Mn6GNB1nC6T_A2pziWBSVgbXb65SI-55NSt21kql8
+Message-ID: <CAPLDmXuXjV-DfaiKfd1RbiqB2Tp5nFC+8p=KYjJ5eXF8sx7aJg@mail.gmail.com>
+Subject: Re: [PATCH] staging: rtl8723bs: remove unnecessary braces from single
+ statement blocks
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The WEP shared-key authentication handlers use the challenge-text
-element's length. This text and its length are attacker-controlled.
-The handlers do not check the length against the fixed 128-byte
-chg_txt buffer.
+Sorry for the confusion, my personal email host failed to deliver to
+both linux-staging@lists.linux.dev and linux-kernel@vger.kernel.org,
+so I resent it from a gmail address. I will resend the patch as a v2
+so that everything aligns.
 
-In OnAuthClient() the length from rtw_get_ie() can be up to 255 bytes.
-It is used to perform memcpy() into the 128-byte pmlmeinfo->chg_txt.
-A malicious AP sending a malformed WLAN_EID_CHALLENGE element can
-overflow/underfill chg_txt by up to 127 bytes. This is reachable over
-the air, before association, during shared-key authentication. In the
-case of an overflow, the driver can write out of bounds. In the case
-of an underfill, the driver can echo stale buffer memory. In OnAuth() 
-a similar issue is observed. The driver compares a full 128 bytes
-regardless of the element's length, reading past a shorter element.
+Thanks,
+Daniel
 
-The challenge text is defined to be exactly 128 octets, which is
-already provided as the WLAN_AUTH_CHALLENGE_LEN define; require the
-element to be exactly that length in both handlers.
 
-Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Panagiotis Petrakopoulos <npetrakopoulos2003@gmail.com>
-Reviewed-by: Manuel Ebner <manuelebner@mailbox.org>
----
-v2:
-improved patch description for clarity. no code changes.
-
-testing:
-Compile-tested only; I do not have RTL8723BS hardware to test the
-shared-key authentication path at runtime. The change only rejects
-challenge elements whose length differs from the spec-mandated 128
-bytes, so conforming peers are unaffected.
-
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index a86d6f97cf02..13634d4e83d1 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -787,7 +787,7 @@ unsigned int OnAuth(struct adapter *padapter, union recv_frame *precv_frame)
- 			p = rtw_get_ie(pframe + WLAN_HDR_A3_LEN + 4 + _AUTH_IE_OFFSET_, WLAN_EID_CHALLENGE, (int *)&ie_len,
- 					len - WLAN_HDR_A3_LEN - _AUTH_IE_OFFSET_ - 4);
- 
--			if (!p || ie_len <= 0) {
-+			if (!p || ie_len != WLAN_AUTH_CHALLENGE_LEN) {
- 				status = WLAN_STATUS_CHALLENGE_FAIL;
- 				goto auth_fail;
- 			}
-@@ -873,7 +873,7 @@ unsigned int OnAuthClient(struct adapter *padapter, union recv_frame *precv_fram
- 			p = rtw_get_ie(pframe + WLAN_HDR_A3_LEN + _AUTH_IE_OFFSET_, WLAN_EID_CHALLENGE, (int *)&len,
- 				pkt_len - WLAN_HDR_A3_LEN - _AUTH_IE_OFFSET_);
- 
--			if (!p)
-+			if (!p || len != WLAN_AUTH_CHALLENGE_LEN)
- 				goto authclnt_fail;
- 
- 			memcpy(pmlmeinfo->chg_txt, p + 2, len);
--- 
-2.55.0
-
+On Tue, Jul 7, 2026 at 9:15=E2=80=AFPM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Mon, Jul 06, 2026 at 05:33:42AM +1000, Daniel Guihot wrote:
+> > Remove braces around single statement blocks in rtl8723b_hal_init.c to
+> > comply with the kernel code style, as reported by checkpatch.pl:
+> >
+> >   WARNING: braces {} are not necessary for single statement blocks
+> >   WARNING: braces {} are not necessary for any arm of this statement
+> >
+> > No functional change.
+> >
+> > Signed-off-by: Daniel Guihot <daniel.guihot123@gmail.com>
+> > ---
+> >  .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 32 +++++++------------
+> >  1 file changed, 12 insertions(+), 20 deletions(-)
+>
+> You sent this twice, from two different email addresses?  Which one is
+> correct?
+>
+> Please resend a v2 from the correct one so we know what to do here.
+>
+> thanks,
+>
+> greg k-h
