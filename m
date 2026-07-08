@@ -1,123 +1,130 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0256543DA3A
-	for <linux-staging@lists.linux.dev>; Wed,  8 Jul 2026 12:20:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783513212; cv=none; b=DknSVeAprc5TdniUgQGM2/BChBAaSTzAuFgEf85izNSIvZOGWZAtQs//zFFeFEgG5ys4BI2x8cdiL8LcngkMM5T+WW+bNa2a2ro04i7pA4ujGac04JFABKZzV6q3ssjVW+nFBdd45MubZRTwPqNxG2WWiULU91NXlzSNRGcbv6c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783513212; c=relaxed/simple;
-	bh=MRVJi2gMsSKWBFtUyiFAbKMFdKdwK8cvWcVCnI2RW1g=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ktvyXRgLyKrgbIqGX7pO6DRZQ/cxz6qFQuo6wBh/qiip8xENbnGY4rj6M/69ZAzEPqI3TW10phyaLrt0X2tbqrd0ox+EmnffYts/n+HPJR7Ka2qf3PKNLUtTfcgntWnNKlLjnWSbMGRCJWW/jZHOzCy6Jy3ZnI1TFr6sB7iUXTM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K6dwLwEw; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CE3B246770
+	for <linux-staging@lists.linux.dev>; Wed,  8 Jul 2026 13:09:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.217.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783516163; cv=pass; b=gqOzTiJkvdJe0lRNu3fvSDR1liUgmtdf8dsSdmYlfM0CNjAJDyOWUrf6/L85JagbFEAnAf7Zu6tcSwubiqadZZ4rppw4gj+WzhBCIzXXtkskmybp2rugJGqNLJechjTNod0DYlvvi+F3xC1QoIFUpG4jT6nr2T/JSbYJl8wHqnU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783516163; c=relaxed/simple;
+	bh=Bep79+Nm0KT5E0hNBAXvimuSZeTsW1P8+5T9xVwMzYc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ly2zpBSSRt/ypnCJC9NaC/UQ1XgXeSz1NuNboLxXzrkLmPas3HO5ZFpIlSjhzyJYFp8Q/YOpWN3FiJqa9EgR4Ce9S6X1fQYSYjTsViy2Zs8IXGDaAFHrveXE0cj3a1DAbYDF6dM6OUWAAmjpYuFWhX27leQOpJM8fX38xH3tgrY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RGLZjDGI; arc=pass smtp.client-ip=209.85.217.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K6dwLwEw"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-493e497643fso3153485e9.0
-        for <linux-staging@lists.linux.dev>; Wed, 08 Jul 2026 05:20:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RGLZjDGI"
+Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-735f73287e2so473456137.2
+        for <linux-staging@lists.linux.dev>; Wed, 08 Jul 2026 06:09:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783516161; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Zki3vqi1VNJozwUk3UgogW1y6rDwp8XGV7cSUwSLcJzOxynSuXobTin1sHXjqASikB
+         8lAlYXZ8M//37NHbczPd0usGHWFxAWy0DglD1NzYFGDoP0S49xQYWrDrHFSjMq6pytNk
+         8pN/VFCvaU6m3jgkgD8SOfPrLE2VIqJxQQBViR9BquckH2v7y4pJwB36VF4/A1d7qz90
+         pZnBsauAKvo6AO/87xm9RAcebGDUzgihQA3LBemyVOo+QYbJxDNKjzrUXr55ipuoO3Hs
+         +u7jdpFBh/xqk7CFsai4VgUq7Dejpkk6ZohVlilu/Dj7AmdeecVYp/c9cczJsRKhx9/J
+         TF/g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=hsBQU5mcTVdYUucmcqEpkwbojCtOIWzKkEYP8GQ9mQ4=;
+        fh=jcYikrzeFzMOXeWf7Ocjh5JKjpWtmubv8e7oeRoPdjc=;
+        b=cJlRQtElGJ5cvr9P48dk4adAKxYbsh1oZeHBWf7JbH/OAIPZ6cP6L+YeWenbnrGb2r
+         84k17YiBE2yCOAht1xfdYDJh9RVqbuKSjHakDl/cw+Sm3w5wL4ziwiXLolEbdBX+vh/c
+         It1TsBlI7tBDdPy9mZKs5OFipwdyex6XH8L8AxJciXliPg9ypsyImz+01xklA6ofKe0d
+         Sffz+o2FqVylejO/5+PsxK6vG7xDRxSTY9uIAbn+5Fl/XpSVSJUvBa+sFXt2US8Ld32N
+         9+cBzkCqE9/JqMmb8YnecBrhn8NRu/21zgRoRnxpdVk5ISDJ8O5N4yc6jyUQf3fom0HV
+         EOMQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783513209; x=1784118009; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=IGqG0OwPeFgXu+GU5RRlO28XYpnGio+BzEGbfwJtg9k=;
-        b=K6dwLwEwxO5yW7cSgx9xtPq0YpeGlyLILvP1llNhz1YAUnRiWiagNiygkk9BsIFfFO
-         C1cipcOPZkaIlagqEBcx+zN1nxS10eywFvtDFh+u6L4JGY9Mzt9h0+5OIZYDvqbYczGu
-         DWWkGoBaZxTljvw57EvfUqcg6cwUBDUQO4P8sSI5Or2MOadywWTK/kfUHqiVg3SaQLHI
-         MiH6ZUzLW3HtDglKmtulDB6MGs0chXB7dv+VfdmJSOEAzf6KunpW58Bu42b7Sp5PvAmu
-         8QqGJheBFn+OOUVg3xUmrsgm02rZQzZpJHN0VOUO0UPQiiVgBSagxIOVby7vLgWO/YZX
-         w1Jg==
+        d=gmail.com; s=20251104; t=1783516161; x=1784120961; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=hsBQU5mcTVdYUucmcqEpkwbojCtOIWzKkEYP8GQ9mQ4=;
+        b=RGLZjDGIWGX2MPO265T7Mw/25sxTsmm0WXH0+fcde7TEW6arvYZn2rIYs+M++A05Ql
+         Vnb1Bk8WddoXqb5I8lNqR7+5weyKZdwbyA2Pug/NyFTPOn8t5wtKJYOFzxUMsU882xIJ
+         PXGkxVu9KzPrGPbrmF7yjomY0Mkf6gnJaeiVVBZ/72P7rp8duwVhcdlC45QH1nG9SUYc
+         9qoeQy0q55iHe+nRt12jCSIiI3xblYOrZYpAXF74qikU+dmnvNr1LX51HVwXQKm7Lioo
+         dg0tYxEw8WR7FdScdIYKf01o0+GwnzbuRXdnv5/Lwk1+l7eAAfUj10eNi7hCFjBiVqD0
+         FHaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783513209; x=1784118009;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=IGqG0OwPeFgXu+GU5RRlO28XYpnGio+BzEGbfwJtg9k=;
-        b=o8j03apghjOvg+cKzO7b4s8DYsSsi01CkbGheLj9Rk/GOeqAsmJO1tTbgyziC2RCXz
-         HFPiYtQIYM4oEjxNuuJC0XHrDBCgju+00GV0liCyJEiMV3dN8LHm++vOxNcwrwDuZ77q
-         Bf0y/pURAyE4jk7aKSK+DgsjNQ34R5VzFksH5zWosMhnCeZbbyI9lfDYa0dklPLs3bwE
-         cCFKmCAoVuxVIT2ag/6TL0yw+siSu/73+A9kbBsZ//tp6ODkrqKHJbg1XH/+2GkIg0I/
-         CtOb3Al1TWsi23yFwQJBBZjlp/ncVf7CgsjrsRx2GbS+D0GMzYP/KiW9fxa66rEI4jFk
-         j0yw==
-X-Forwarded-Encrypted: i=1; AHgh+RrW312CBAmyUsWU5bN7qvUKSySpL8lWAT17/4u+6Dl87sTvf7SjFBeWcleBtWJqXu7qcNGSj1jHY2F13hzC@lists.linux.dev
-X-Gm-Message-State: AOJu0YyBVqfunusmDFkeiDQ4rDxtm5qOhBPHMpLp4uSXF6xjdJ3vsnxT
-	6IWMlivaiv8yk6B/gQbxzsDuQ6mz95YN10nRy8e2dy6qhM8YcCrUHsfM
-X-Gm-Gg: AfdE7ckWPXk4xtYXLnFL8Eb09DQ0IYUhC1L2bd3cbkET4lq4o7c8eox5zyOw68uvnWb
-	iM1NnEGR5CrHjShjBIoJGR3lIDuECqMyoQJ+HC8Lc4T2m3TSrw1ODzDw7bfAa3nlV9wQgh5PL6z
-	YOtEzatS8rBes80hfQb746HtScsndQChxSgxjOFowP/QfVL17yCUD+1IZ4TKvEA6YXQjUK+5SZP
-	8EZjzuFHseAdSKb/pA3OCFF7Yy4LOP4Cs8vV+Zk45zN/PmPXaZ30msotkU5ESShFn4sjuALkaY5
-	Wvlk3sY58EzU5RMsKuliqycDWE91igTGOem2raptST49IWEi0AzNdef8CEWx/B+ieV7oQXavz0I
-	l1MIuXOb7QRGrzLiRvuUtm9LPQVmvYKCsCdmtMiml/OMpQ/gpDErvOGyQM5gezELCmYE5fZE8l3
-	PSrUsorLKMe/mX4LhK7lZ217As/3HjoZ//rZ7LUEjWGHNYkIfH7lIMeieIY7EmTH5+Ev/BZVY5k
-	T38NpobDyKeY1bh
-X-Received: by 2002:a05:600c:6289:b0:493:b647:1acd with SMTP id 5b1f17b1804b1-493e68dbd98mr22745055e9.36.1783513209176;
-        Wed, 08 Jul 2026 05:20:09 -0700 (PDT)
-Received: from koolguy.fritz.box (dslb-088-074-245-227.088.074.pools.vodafone-ip.de. [88.74.245.227])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493e0f50418sm122571205e9.11.2026.07.08.05.20.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2026 05:20:08 -0700 (PDT)
-From: fliegbert2@gmail.com
-To: gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Dalvin-Ehinoma Noah Aiguobas <fliegbert2@gmail.com>
-Subject: [PATCH v2 6/6] staging: rtl8723bs: Rename camelcase enum values dot11AuthAlgrthm_WAPI and dot11AuthAlgrthm_MaxNum
-Date: Wed,  8 Jul 2026 12:16:03 +0000
-Message-ID: <20260708121603.2393-7-fliegbert2@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260708121603.2393-1-fliegbert2@gmail.com>
-References: <cover.1780343502.git.fliegbert2@gmail.com>
- <20260708121603.2393-1-fliegbert2@gmail.com>
+        d=1e100.net; s=20251104; t=1783516161; x=1784120961;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=hsBQU5mcTVdYUucmcqEpkwbojCtOIWzKkEYP8GQ9mQ4=;
+        b=dBN+ShePPTtco1c0627u2bu6/mIIAR5pkTowS5YPxCTEDjGiRQret8DQUXqrWqFx7X
+         ot274DA2YgTi2BQI5bLMLW4CT6hQctxzqeP9Ktcl4w/U9tIOyD02zPCcQelm26MpItDJ
+         1tbGbxE1cA5H0OCi8VTOJKya7x4eHHy6nH2YZAIeXXyRfwPVMrC+AvUf64qSWtbLCyON
+         Ab7TxEp/BG8+KpArbHSskVFdHI9fDl8Q3D+a5L3J6S93T3xHZ96rSi6Duo+vC8uUU6vB
+         uQZvAe3SpKdT07KxLyYDj6gNQZJspJXOhaJUANChVSBHk0BJF7tNSeHhB6kCi7voyWwb
+         cLQg==
+X-Forwarded-Encrypted: i=1; AHgh+RrkalaPt6ZisTpZFM16Qsx3xx4OKjaDOze3gfhAo3dV4nsYm/TsFPvmz6q83jWvha9CUMgGwxY0dUEtSlBf@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyefino7eHjwUs9WGyWHX71HSVMHbRtWK1FraVF4CASDmvZ2rM0
+	R8rzkfZdRBUo+fsm+197Fpw0KxFEGA1ImP3jR2XNy3qkHoFn6iXR3QWAQwnZ1hAyxdvDt+yrF1l
+	DD3YXRUbtmavHjG5r3HzmQDrMP0vmyMotf6kzZeQNeRCWQAU=
+X-Gm-Gg: AfdE7cmwGy5qskNSAuhA5BuoLvg03CfmH2y23QvEzW6zrV4GsNEIAyYO/ALqRkjwm/s
+	36UvdTxc8eoz1RxkzDNSUvC+dLKgoApymtDbRxyK5kmxXrfuCgWwF1gIGSpatbBNFv+ghuvjcqt
+	gMlmhkwZpzHIdBiCd1fNYsgLWS2Qpcsk6U7gWwIjqU9RtdLa9W8GdKa6+bB6hIJw8HCcIEBtr69
+	QQZhMKe1cR2Rusg6F7cgZef2Yz8AsqvIxs/xB3bTaRfzKSb2Ll4Yg/qDMhuIO/V0xdo3wAfPQ==
+X-Received: by 2002:a05:6102:3e17:b0:729:cc7c:7de2 with SMTP id
+ ada2fe7eead31-744e000d349mr1220107137.10.1783516161146; Wed, 08 Jul 2026
+ 06:09:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <2026070710-exact-unveiling-e321@gregkh> <20260708060307.12237-1-andrem.33333@gmail.com>
+ <2026070828-arrange-degrading-a2ed@gregkh>
+In-Reply-To: <2026070828-arrange-degrading-a2ed@gregkh>
+From: Andre Moreira <andrem.33333@gmail.com>
+Date: Wed, 8 Jul 2026 10:09:09 -0300
+X-Gm-Features: AUfX_my45Q2tevoGqF5EtS1St9Km9BvGWs-C4r7mC4HKR6GOpox7QrqhzNm-z54
+Message-ID: <CACO0qFJhE-p1NfEo-oVfVrrmxr=QUmOy0L3OihE6yTd=CeQQiw@mail.gmail.com>
+Subject: Re: [PATCH v6] staging: sm750fb: Remove unused variable 'setAllEngOff'
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>, Teddy Wang <teddy.wang@siliconmotion.com>, 
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Dalvin-Ehinoma Noah Aiguobas <fliegbert2@gmail.com>
+Hi Greg,
 
-Rename enum values dot11AuthAlgrthm_WAPI and dot11AuthAlgrthm_MaxNum
-to fix checkpatch.pl CamelCase finding.
+Please disregard this patch. Upon rebasing against staging-testing, I
+noticed that 'setAllEngOff' was recently renamed to 'set_all_eng_off'
+and its value is now actually being read/used inside
+drivers/staging/sm750fb/ddk750_chip.c.
 
-Signed-off-by: Dalvin-Ehinoma Noah Aiguobas <fliegbert2@gmail.com>
----
- drivers/staging/rtl8723bs/include/rtw_mlme.h     | 4 ++--
- drivers/staging/rtl8723bs/include/rtw_security.h | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+Thank you for your time!
 
-diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme.h b/drivers/staging/rtl8723bs/include/rtw_mlme.h
-index f2b020988ca1..a18d0edc937a 100644
---- a/drivers/staging/rtl8723bs/include/rtw_mlme.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_mlme.h
-@@ -48,8 +48,8 @@ enum {
- 	dot11_auth_algrthm_shared,
- 	dot11_auth_algrthm_8021x,
- 	dot11_auth_algrthm_auto,
--	dot11AuthAlgrthm_WAPI,
--	dot11AuthAlgrthm_MaxNum
-+	dot11_auth_algrthm_wapi,
-+	dot11_auth_algrthm_maxnum
- };
- 
- /* Scan type including active and passive scan. */
-diff --git a/drivers/staging/rtl8723bs/include/rtw_security.h b/drivers/staging/rtl8723bs/include/rtw_security.h
-index ae4149b6bbb3..e9fd97d68394 100644
---- a/drivers/staging/rtl8723bs/include/rtw_security.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_security.h
-@@ -182,7 +182,7 @@ do {\
- 		else\
- 			encry_algo = (u8)psta->dot118021XPrivacy;\
- 		break;\
--	case dot11AuthAlgrthm_WAPI:\
-+	case dot11_auth_algrthm_wapi:\
- 		encry_algo = (u8)psecuritypriv->dot11PrivacyAlgrthm;\
- 		break;\
- 	} \
--- 
-2.54.0
+Regards,
+Andr=C3=A9
 
+Em qua., 8 de jul. de 2026 =C3=A0s 09:01, Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> escreveu:
+>
+> On Wed, Jul 08, 2026 at 03:03:07AM -0300, Andr=C3=A9 Moreira wrote:
+> > The variable 'setAllEngOff' within the 'init_status' struct is only
+> > set to zero during setup but its value is never read anywhere else
+> > in the driver. Remove it entirely to clean up the code.
+> >
+> > Signed-off-by: Andr=C3=A9 Moreira <andrem.33333@gmail.com>
+> > ---
+> > v6:
+> >   - Change patch approach from renaming CamelCase to entirely removing
+> >     the unused 'setAllEngOff' variable, based on Greg KH's feedback.
+>
+> This doesn't apply to my tree at all.  Can you rebase against the
+> staging-testing branch and resend?
+>
+> thanks,
+>
+> greg k-h
