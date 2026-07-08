@@ -1,222 +1,203 @@
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 120213BFE3E
-	for <linux-staging@lists.linux.dev>; Tue,  7 Jul 2026 20:44:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783457054; cv=none; b=YQGlENeJ3kjM7TD/M0ejMj+RxCua4UqAlD3WEfQO7y21YRTx3U5Akf++7zUbScXYXyPnmuj2RiWFLxw9xbTCywS4qNmA/IguInTOHGC0a0825alvS5vIU00BFv1lmtEzVMHStYoBgh07e4bNOLaC7mMUbmVNy4fx7VB/CEUtHSY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783457054; c=relaxed/simple;
-	bh=mCLsf/+oR8rhOxt3Kdbz1cZwwT0Jk+FCtel9STucBtk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=LVBEw72Dfci2xEHVBRdzEiYGgo69d9MIa86WZkzWKCjwRQWMIAwajU9xui+BXJHZungCBDVpRTP1xt/YXcq4XFApbR7oYwnds6xLD/cosiraTIkEhgcRD0fKqZJIX2cNwE4sO+gL06Pu8rbRCr9LpoT7eyUa9XPGpYT6SIiUx3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hurranet.com; spf=pass smtp.mailfrom=hurranet.com; dkim=pass (2048-bit key) header.d=hurranet.com header.i=@hurranet.com header.b=nO855s2d; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hurranet.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hurranet.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F8132EBB9E
+	for <linux-staging@lists.linux.dev>; Wed,  8 Jul 2026 03:05:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1783479905; cv=pass; b=qbE79DtSBYuSLHIvoWFO3/EgjAbAh3+fPAswZD7a9wjJY7YLT3en0iLAHiax3hb1mtUjj+PSIfscCeGwSHuiQepcn17hIUwDVcB2S+SQteu9oie4hODPRbCvhU/4esEd7sLoS7uYdcs5cnXI/FQuxlVX/BHCEpo/olff3SAwFyI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1783479905; c=relaxed/simple;
+	bh=chsPa3PrXAEUEgzR2gIA/zhhWCOgC3uVGg97PvuoFgQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UyDiNkO9b0FNteEmzU37wrnLkGpoS5G6YJgD2x7iTz6Nl90hjI61C2LMSAKKXXTmpitWXYiTlcixA/RdFZZlF5JxY0D0qbl0aPblUSiCiMOeD9Gv4VusOKjx9XEe5EcVV4tsyrvLdtaUxVkFDxkcM8wG7enZHYEWap1SjAwid/g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AQ1SbDKs; arc=pass smtp.client-ip=209.85.210.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hurranet.com header.i=@hurranet.com header.b="nO855s2d"
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA512)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4gvtVx1vw3z8v8m;
-	Tue, 07 Jul 2026 22:44:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hurranet.com;
-	s=MBO0001; t=1783457049;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BV851b4wK72CvqTgDwoEzspgFeFOAlTOZ1Ip0MuqsBA=;
-	b=nO855s2dVqYnuH07HQURSv7uCUKp28X/vUcN+8XYGpla/17oHnnjAHAe3bPKH47kVZBTDX
-	pX7lDsy6cLlI6gvgsZo/azUzqlUcmOrLDLRRiUNPhtEu+Uunens8Z6AmcDC4OLWoA8Gj3+
-	uCwLFRFwT1OIGexyGiIGSnLjHosnAGIT//A0EYHPDnnWrwSH9IeRZ1w/z9VjbnHJGk3duy
-	7ij17VffBd5Ep6InGgK6GkgJ7qd22C9jOuE98LeIHRBjRw8OBavQ8Rx8gGGRPoZCv6OnSt
-	i8pLshuTbp+65tLPOwTnW133JghTSMHLwOigZdCU6Cha0KQHGN6kSVS+iLN9hA==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=none;
-	spf=pass (outgoing_mbo_mout: domain of aiman.najjar@hurranet.com designates 2001:67c:2050:b231:465::1 as permitted sender) smtp.mailfrom=aiman.najjar@hurranet.com
-From: Aiman Najjar <aiman.najjar@hurranet.com>
-Date: Tue, 07 Jul 2026 16:43:40 -0400
-Subject: [PATCH v2 2/2] staging: rtl8723bs: drop GEN_EVT_CODE macro and
- capitalize labels
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AQ1SbDKs"
+Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-7e9b24c46caso5674a34.0
+        for <linux-staging@lists.linux.dev>; Tue, 07 Jul 2026 20:05:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1783479901; cv=none;
+        d=google.com; s=arc-20260327;
+        b=W2fn+3QfPKl6O9UQmE+KRUw6hspa/yl812o54VTBEIE9AgeLmqD62cLeUPC/kBiggB
+         +rVw8S8g6iivjLU/aqO4jsU29plHQxwtn+1NAeGRYhylo2DUcdwlHOm3tWdjrUkY/4/8
+         SSu7H9cSje5oyIA642dOK6nWIXXSpmbG5ovGIZQP21ZO6FyTkTsqNMLLrxDIAMoV+o1K
+         2baxdAJESHtUivslYammM8hJs0ncDaN3HfoQWowdLV5j4sfOg8bkpvYhTjUxjeQCkbE/
+         D8lVOAEwUazNeFSTxD0lm6JY1W6j5czdjNtX1UDa2UDWxd+KhaaEpgldg9eXQgu3RgDc
+         B1/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=t0Oxs6yifRrQtckE7lh7MhuoDMg5v+QCzZUpFln4pLs=;
+        fh=f+pyddaj693UPnjUqaWW7t+p6PHd/KgVSRwQkBjXf4U=;
+        b=Et2uM2akIn36/aGFWEPYLmeaiW/XwARGi9ARJsmv+sIctN9v2kGcwtYWdyFY+FXou2
+         fV36Ml4aWlGhn1U8+Q8dDMWd7UW7bWEgXvZDQGbMnt8tHrDOmurbSHE0i+R7E7ulEoEM
+         hhqAvGXJipwSZ+H/6zCttgtnnomTNsUM4adngwu9iZ4JFp2CMRJCi3Xs4SVLG72CZycU
+         or+0ouHBdriqjp8bVt1OLD19sPK+b41vnZc4K3j7ffDutMIxh9xyYPBstAJTCTt++8I0
+         HkSSAt51H/5lbcUOTZltX6uGEyZ+vWw++ENZUy0fHyNGjTjwjzGjFKPUCI9mjbQ1QKWO
+         ErRQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783479901; x=1784084701; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=t0Oxs6yifRrQtckE7lh7MhuoDMg5v+QCzZUpFln4pLs=;
+        b=AQ1SbDKskqlmGnGdAv43ucsqHgtbJR3fELr7SN90hDdhuIRoUoW0DhYoqcZn6q8UOO
+         LgF2L4RP86+zQtrz6m2mUp5LtyB2ExITcvLAX/c3RBBUdU6Svs5b9BspcSJXfnvOfXCb
+         r9oaNLraAxy4y5nYYGsKTSwBs+i4lFUYwG1Xd783jY6gInyXFEspjo2jCRheu/NZ6QAd
+         bI9A7OdYZBV2GjyaXxSxCQBrpqv2esGBdTKDGsi/Hws8z47JEnS0Gb4dZP7Timmedxp9
+         lpVBPkI1LldNpFBYAb51lRTf5hdU2bEYbwQAyRbkBfF19h+/jcNhGtPKHmF8+Nsty+k4
+         EfCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783479901; x=1784084701;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=t0Oxs6yifRrQtckE7lh7MhuoDMg5v+QCzZUpFln4pLs=;
+        b=P8lEtO4/ezWmqcxbxe82fxmNFGAUGqAgZewgYgUboz/8apyfonnJcG0E9KdJ81GbZG
+         Xanc537rbHr+Vd46gnmarEMSHF2hzk24+VdC9rOEimdinim+YCreARsY0CJEDathk/xg
+         HrC3Mt7Ih8js48XN8IVgw+6qgIa7xYLgTck0b2UQo0ZmGsSqCEiRpycBVOpJe4Ez5ruq
+         CtVoQrLY/Ce7Yb8UpOBHSKv6BqMThEtcs3x4ZyETuD/U18Ips7qTxV0KxYdRHvgtlzKN
+         m9T1ypHXuJMy8c+2ifXkQtv9uL9qVOHV5bIstowZxI2WwfMDIfuszEKXqrU1jT8LzV9p
+         VlbQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9msLaQ2u8BKIdlCBwYRTTSM77YLu5K7ExhtkiKdd8fmNHnJagRm2HoFGM/FznPMOOhg7ILwAEqvZpgEMu6@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywrq3+t557BUFpZ6wKOHjlN2awDvmcBuMxRwfOgdZ35YbImf83h
+	7BISUATeY+gzJOi6YIlNggZoqvIDqRcUUNgzKtGBYr0V8rUVJVh5XkFrVECgdrAle7JbtbBoh99
+	3LlcPeqYvl4rWzF6B1C/UH41BXESYebU=
+X-Gm-Gg: AfdE7cmMjO+a+epdEcyPsx2OIdg+Ve1Wwa+Et4FHPFxCFl4/phI9XknrSpJWSteMbSW
+	0jQGyccd06a8J8VVY7xGe+yYOTgP7m+1V/o7TBmBNUUQYInGzcq+OMTKTK81eBDFtzJhlmFVRqH
+	x06WS9QfP+B30vup706IrcpiJHOWwqdyyzHwevyIl1Z86WrUruWf07Ku2/EOwVXft5DgFNG3+ay
+	sCarT9HbvSyMWzEDJ5eG7ZnUOyhOdXT9TZ3ewniQAyP48eVKgwtD5C4VM8KBMx70AwNgcCjzWM4
+	nGvLT9csGVhWPmk0DPA=
+X-Received: by 2002:a05:6830:81ec:b0:7e6:6f9f:7445 with SMTP id
+ 46e09a7af769-7ebcff80811mr293192a34.3.1783479901517; Tue, 07 Jul 2026
+ 20:05:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260707-rtl8723bs-code-style-v2-2-df50f0eead17@hurranet.com>
-References: <20260707-rtl8723bs-code-style-v2-0-df50f0eead17@hurranet.com>
-In-Reply-To: <20260707-rtl8723bs-code-style-v2-0-df50f0eead17@hurranet.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
- kernel-janitors@vger.kernel.org, Aiman Najjar <aiman.najjar@hurranet.com>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1783457042; l=6059;
- i=aiman.najjar@hurranet.com; s=20260606; h=from:subject:message-id;
- bh=mCLsf/+oR8rhOxt3Kdbz1cZwwT0Jk+FCtel9STucBtk=;
- b=uTYS0t9YbrBzx7Z0aUPHB849DQFIjN5ekuR1hnwjhMdQ558r0YJ/EyJc+bnGLpSDGtDfvQoV3
- WEz84GC0KFBBnhNHp+qkwSaG4rCrSupxwQT5dNODv5ZgyW+Okk9mi6n
-X-Developer-Key: i=aiman.najjar@hurranet.com; a=ed25519;
- pk=iKg5UkqF2CmKvQwe+Jp8Cf4JOcIHoyvApdVll0sJHu8=
-X-Rspamd-Queue-Id: 4gvtVx1vw3z8v8m
+References: <20260706000738.18478-1-nealpatalay0@gmail.com>
+ <CAHp75VcSGXC=x3hFXt8qvyRQjPzy3uLN9iBTURp2yA9+P_jibg@mail.gmail.com>
+ <CAGjuiT9gu32wvx2Vf0U0g9deyAzzGtwwCNEdW_R4JVarO9x4JQ@mail.gmail.com> <akyoLqy98pt2iRkP@ashevche-desk.local>
+In-Reply-To: <akyoLqy98pt2iRkP@ashevche-desk.local>
+From: Neal Patalay <nealpatalay0@gmail.com>
+Date: Tue, 7 Jul 2026 20:04:49 -0700
+X-Gm-Features: AVVi8CenugNcpfN2pyvUXiLwv0I1FUqz1UIw41O-1bzFWgEPuSLhJGSeSI7uiCg
+Message-ID: <CAGjuiT82_sXhEQ93FftK60qg20-GC-8q5NRN8Xrif8JVx0KGnw@mail.gmail.com>
+Subject: Re: [PATCH v4] staging: media: atomisp: refactor pipe graph dump
+ stage formatting
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, andy@kernel.org, hansg@kernel.org, 
+	mchehab@kernel.org, gregkh@linuxfoundation.org, sakari.ailus@linux.intel.com, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, mugrinphoto@gmail.com, matt@mattwardle.net
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The use of GEN_EVT_CODE macro to generate event enum label names is applied
-inconsistently and is confusing, it also makes it harder to make use of
-tools such as clangd when looking up symbols.
+On Tue, Jul 7, 2026 at 12:18=E2=80=AFAM Andy Shevchenko wrote:
+>
+> On Mon, Jul 06, 2026 at 02:59:16PM -0700, Neal Patalay wrote:
+> > On Sun, Jul 5, 2026 at 10:37=E2=80=AFPM Andy Shevchenko wrote:
+> >
+> > > Please, slow down! No need to send a new version immediately after
+> > > replying to the previous one without settling down all aspects of the
+> > > change.
+> > >
+> > > This version is no go, sorry.
+> >
+> > Understood, no problem.
+> >
+> > > > +static void ia_css_debug_build_info(char *info, size_t info_size,
+> > > > +                                   int *offset,
+> > > > +                                   const char *flag_str, size_t fl=
+ag_str_size,
+> > > > +                                   int *line_len,
+> > > > +                                   int *num_lines)
+> > > > +{
+> > > > +       int len =3D *line_len;
+> > > > +       int off =3D *offset;
+> > > > +       int lines =3D *num_lines;
+> > > > +       int len_written;
+> > > > +
+> > > > +       if (lines > 3)
+> > > > +               return;
+> > > > +
+> > > > +       /*
+> > > > +        * If new line length exceeds max line length,
+> > > > +        * replace the last ',' with a "\\n".
+> > > > +        */
+> > > > +       if (len > 0 && off > 0 && info_size - off >=3D 2 &&
+> > > > +           len + flag_str_size > ENABLE_LINE_MAX_LENGTH) {
+> > > > +               if (lines >=3D 3) {
+> > > > +                       *num_lines =3D lines + 1;
+> > > > +                       return;
+> > > > +               }
+> > > > +               info[off - 1] =3D '\\';
+> > > > +               info[off] =3D 'n';
+> > > > +               off +=3D 1;
+> > > > +               len =3D 0;
+> > > > +               lines +=3D 1;
+> > > > +       }
+> > > > +
+> > > > +       len_written =3D scnprintf(info + off, info_size - off, "%s,=
+", flag_str);
+> > > > +       *offset =3D off + len_written;
+> > > > +       *line_len =3D len + len_written;
+> > > > +       *num_lines =3D lines;
+> > > > +}
+> > >
+> > > This makes helper too ugly and unreadable. Again, study the case
+> > > first, when this can be true. Do we really need to cut it? This whole
+> > > thing AFAICS depends on the dtrace facility in the driver. Is that
+> > > HW-related? Is it pure SW? You need to perform some homework.
+> >
+> > I've taken a look at the driver in greater depth. The flag wrapping
+> > functionality being refactored here is used to construct a graph
+> > visualization for debugging.
+> >
+> > > >                 dtrace_dot("node [shape =3D circle, fixedsize=3Dtru=
+e, width=3D2.5, label=3D\"%s\\n%s\\n\\n%s\"]; \"%s(pipe%d)\"",
+> > > >                            bin_type, blob_name, enable_info, blob_n=
+ame, id);
+> >
+> > Each one of these calls generates a node in that graph, and the content=
+s
+> > of the node are decided by the flag string we build in enable_info. See=
+ing
+> > as we are just collecting debug info and populating a visualization wit=
+h it,
+> > this refactor seems to be software.
+> >
+> > Seeing as it's unlikely that every flag is enabled at once, and even if=
+ they
+> > are this only causes a slightly more unreadable graph, avoiding 3 line
+> > truncation seems to be the best option since it leads to more readable =
+code
+> > and avoids omitting information.
+> >
+> > Additionally, len > 0 && offset =3D=3D 0 is an impossible condition und=
+er any
+> > feasible helper function use condition. This can be documented in a com=
+ment.
+> >
+> > Given this information, to me it seems like the best course of action i=
+s to
+> > revert the helper function to its simpler state without line count trun=
+cation
+> > or the offset > 0 comparison. What do you think?
+>
+> I agree, just add more comments to the code and elaborate in the commit m=
+essage
+> the (potential) difference in the behaviour.
 
-Replace them with writing the enum labels directly and adopting
-new capitalized names instead of the current camel case ones.
+Great, I'll send in v5.
 
-Signed-off-by: Aiman Najjar <aiman.najjar@hurranet.com>
----
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c    | 12 +++---
- drivers/staging/rtl8723bs/include/rtw_event.h    |  4 --
- drivers/staging/rtl8723bs/include/rtw_mlme_ext.h | 54 ++++++++++++------------
- 3 files changed, 33 insertions(+), 37 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index 13ba38db75d4..128213c97a61 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -4293,7 +4293,7 @@ void report_survey_event(struct adapter *padapter, union recv_frame *precv_frame
- 
- 	pc2h_evt_hdr = (struct C2HEvent_Header *)(pevtcmd);
- 	pc2h_evt_hdr->len = sizeof(struct survey_event);
--	pc2h_evt_hdr->ID = GEN_EVT_CODE(_Survey);
-+	pc2h_evt_hdr->ID = SURVEY_EVENT;
- 	pc2h_evt_hdr->seq = atomic_inc_return(&pmlmeext->event_seq);
- 
- 	psurvey_evt = (struct survey_event *)(pevtcmd + sizeof(struct C2HEvent_Header));
-@@ -4343,7 +4343,7 @@ void report_surveydone_event(struct adapter *padapter)
- 
- 	pc2h_evt_hdr = (struct C2HEvent_Header *)(pevtcmd);
- 	pc2h_evt_hdr->len = sizeof(struct surveydone_event);
--	pc2h_evt_hdr->ID = GEN_EVT_CODE(_SurveyDone);
-+	pc2h_evt_hdr->ID = SURVEY_DONE_EVENT;
- 	pc2h_evt_hdr->seq = atomic_inc_return(&pmlmeext->event_seq);
- 
- 	psurveydone_evt = (struct surveydone_event *)(pevtcmd + sizeof(struct C2HEvent_Header));
-@@ -4385,7 +4385,7 @@ void report_join_res(struct adapter *padapter, int res)
- 
- 	pc2h_evt_hdr = (struct C2HEvent_Header *)(pevtcmd);
- 	pc2h_evt_hdr->len = sizeof(struct joinbss_event);
--	pc2h_evt_hdr->ID = GEN_EVT_CODE(_JoinBss);
-+	pc2h_evt_hdr->ID = JOIN_BSS_EVENT;
- 	pc2h_evt_hdr->seq = atomic_inc_return(&pmlmeext->event_seq);
- 
- 	pjoinbss_evt = (struct joinbss_event *)(pevtcmd + sizeof(struct C2HEvent_Header));
-@@ -4429,7 +4429,7 @@ void report_wmm_edca_update(struct adapter *padapter)
- 
- 	pc2h_evt_hdr = (struct C2HEvent_Header *)(pevtcmd);
- 	pc2h_evt_hdr->len = sizeof(struct wmm_event);
--	pc2h_evt_hdr->ID = GEN_EVT_CODE(_WMM);
-+	pc2h_evt_hdr->ID = WMM_EVENT;
- 	pc2h_evt_hdr->seq = atomic_inc_return(&pmlmeext->event_seq);
- 
- 	pwmm_event = (struct wmm_event *)(pevtcmd + sizeof(struct C2HEvent_Header));
-@@ -4472,7 +4472,7 @@ void report_del_sta_event(struct adapter *padapter, unsigned char *MacAddr, unsi
- 
- 	pc2h_evt_hdr = (struct C2HEvent_Header *)(pevtcmd);
- 	pc2h_evt_hdr->len = sizeof(struct stadel_event);
--	pc2h_evt_hdr->ID = GEN_EVT_CODE(_DelSTA);
-+	pc2h_evt_hdr->ID = DEL_STA_EVENT;
- 	pc2h_evt_hdr->seq = atomic_inc_return(&pmlmeext->event_seq);
- 
- 	pdel_sta_evt = (struct stadel_event *)(pevtcmd + sizeof(struct C2HEvent_Header));
-@@ -4522,7 +4522,7 @@ void report_add_sta_event(struct adapter *padapter, unsigned char *MacAddr, int
- 
- 	pc2h_evt_hdr = (struct C2HEvent_Header *)(pevtcmd);
- 	pc2h_evt_hdr->len = sizeof(struct stassoc_event);
--	pc2h_evt_hdr->ID = GEN_EVT_CODE(_AddSTA);
-+	pc2h_evt_hdr->ID = ADD_STA_EVENT;
- 	pc2h_evt_hdr->seq = atomic_inc_return(&pmlmeext->event_seq);
- 
- 	padd_sta_evt = (struct stassoc_event *)(pevtcmd + sizeof(struct C2HEvent_Header));
-diff --git a/drivers/staging/rtl8723bs/include/rtw_event.h b/drivers/staging/rtl8723bs/include/rtw_event.h
-index 62e0dec249ad..e5cb46c2a731 100644
---- a/drivers/staging/rtl8723bs/include/rtw_event.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_event.h
-@@ -64,10 +64,6 @@ struct wmm_event {
- 	unsigned char wmm;
- };
- 
--#define GEN_EVT_CODE(event)	event ## _EVT_
--
--
--
- struct fwevent {
- 	u32 parmsize;
- 	void (*event_callback)(struct adapter *dev, u8 *pbuf);
-diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-index 786dc805516e..bf5a7e9dbe0e 100644
---- a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-@@ -675,33 +675,33 @@ void rtw_dummy_event_callback(struct adapter *adapter, u8 *pbuf);
- void rtw_fwdbg_event_callback(struct adapter *adapter, u8 *pbuf);
- 
- enum {
--	GEN_EVT_CODE(_Read_MACREG) = 0, /*0*/
--	GEN_EVT_CODE(_Read_BBREG),
--	GEN_EVT_CODE(_Read_RFREG),
--	GEN_EVT_CODE(_Read_EEPROM),
--	GEN_EVT_CODE(_Read_EFUSE),
--	GEN_EVT_CODE(_Read_CAM),			/*5*/
--	GEN_EVT_CODE(_Get_BasicRate),
--	GEN_EVT_CODE(_Get_DataRate),
--	GEN_EVT_CODE(_Survey),	 /*8*/
--	GEN_EVT_CODE(_SurveyDone),	 /*9*/
--
--	GEN_EVT_CODE(_JoinBss), /*10*/
--	GEN_EVT_CODE(_AddSTA),
--	GEN_EVT_CODE(_DelSTA),
--	GEN_EVT_CODE(_AtimDone),
--	GEN_EVT_CODE(_TX_Report),
--	GEN_EVT_CODE(_CCX_Report),			/*15*/
--	GEN_EVT_CODE(_DTM_Report),
--	GEN_EVT_CODE(_TX_Rate_Statistics),
--	GEN_EVT_CODE(_C2HLBK),
--	GEN_EVT_CODE(_FWDBG),
--	GEN_EVT_CODE(_C2HFEEDBACK),               /*20*/
--	GEN_EVT_CODE(_ADDBA),
--	GEN_EVT_CODE(_C2HBCN),
--	GEN_EVT_CODE(_ReportPwrState),		/* filen: only for PCIE, USB */
--	GEN_EVT_CODE(_CloseRF),				/* filen: only for PCIE, work around ASPM */
--	GEN_EVT_CODE(_WMM),					/*25*/
-+	READ_MACREG_EVENT = 0,		/*0*/
-+	READ_BBREG_EVENT,
-+	READ_RFREG_EVENT,
-+	READ_EEPROM_EVENT,
-+	READ_EFUSE_EVENT,
-+	READ_CAM_EVENT,			/*5*/
-+	GET_BASICRATE_EVENT,
-+	GET_DATARATE_EVENT,
-+	SURVEY_EVENT,			/*8*/
-+	SURVEY_DONE_EVENT,		/*9*/
-+
-+	JOIN_BSS_EVENT,			/*10*/
-+	ADD_STA_EVENT,
-+	DEL_STA_EVENT,
-+	ATIM_DONE_EVENT,
-+	TX_REPORT_EVENT,
-+	CCX_REPORT_EVENT,		/*15*/
-+	DTM_REPORT_EVENT,
-+	TX_RATE_STATISTICS_EVENT,
-+	C2HLBK_EVENT,
-+	FWDBG_EVENT,
-+	C2HFEEDBACK_EVENT,		/*20*/
-+	ADDBA_EVENT,
-+	C2HBCN_EVENT,
-+	REPORT_PWR_STATE_EVENT,		/* filen: only for PCIE, USB */
-+	CLOSE_RF_EVENT,			/* filen: only for PCIE, work around ASPM */
-+	WMM_EVENT,			/*25*/
- 	MAX_C2HEVT
- };
- 
-
--- 
-2.54.0
-
+--=20
+Thank you,
+Neal Patalay
