@@ -1,139 +1,113 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5077A1C84BC
-	for <linux-staging@lists.linux.dev>; Wed,  8 Jul 2026 06:04:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5552137923
+	for <linux-staging@lists.linux.dev>; Wed,  8 Jul 2026 06:20:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783490676; cv=none; b=b2uLE/FIFizaIaiBlAoD336Bm8+/uLYzBwEZhPePcUqP8VIbkgfVgFgF3/rkbQEN+Gzyq/bflsidOkxSOO/4Dkg6coeV0u4LwjBQZh+JYNnR29e7f3hzVaOGNQrSfoBjNsn1Wnyj70yKm6ULpuYxfkxS1IMCT+7WuCqKRjd9Im8=
+	t=1783491635; cv=none; b=RS/yokojk0KZj4dFO98VmOzc7UFMyTnYCPv99iJl7VQv2h91zJJTuZhsMjV5ALuOY37xuYeAF1sGk6RYGEzPnKeBA4axhmY1DUPpf1OVmjbeZdQ9iL8OUUyEOkixEaxQPzBXqdstuZx8sNRunol/kRvG7H3gyLjhsR8CxaOx++o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783490676; c=relaxed/simple;
-	bh=cVqHhZReA2fXAlrREfgN40nDiihFftFmc/keShq8z6o=;
+	s=arc-20240116; t=1783491635; c=relaxed/simple;
+	bh=zZUky4Ti5K5b2I/qYxTuyBNkejcUG9ciqS41NGWsXyA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AGCXcRujGvrX2IXrLVPFyh2xWG1FiZM8ded/piFygdXI+Zx3Rdb4KRDiexLeVw+9c6AQRTU1Okv0BMN7Qw6GpzQa+muiVL0cnQbspIJQq4nz/M/DblnKgzqYxmZY23g1r+sumQMBZCkOr+2a26quqNEL9NToV5nLhLQCrpRiY7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ge1hlTJ3; arc=none smtp.client-ip=209.85.210.171
+	 MIME-Version; b=uppgE/iUejXH7hhVrViGmE4RTuHm5gJbf74PLbxy0gAM4tnhUoWpcd3S7hlXxYno1hRlXwn3Ws9e3TXgfbSy0tZaYMBMmGqSPgAZq8HbdKIPo3D87LIMpzkC1w1zRV/dBgEc4jlZ8VcXYIEN6ExNPLtdgPz0q5AJiJUndYI36+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TqhBYPET; arc=none smtp.client-ip=209.85.215.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ge1hlTJ3"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-847d1e9db22so288186b3a.2
-        for <linux-staging@lists.linux.dev>; Tue, 07 Jul 2026 23:04:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TqhBYPET"
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-c95d0a54ea5so214153a12.0
+        for <linux-staging@lists.linux.dev>; Tue, 07 Jul 2026 23:20:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783490673; x=1784095473; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1783491634; x=1784096434; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kpzBKe/Z1YBswSZZupc0hFrJmi6kmBaWyF6zI7yuDcY=;
-        b=ge1hlTJ3Ddlzu1kkHN3/cwksDYBsEDBdL8G3ZhKVVEnInhCGYca9WMl8ThcgkmQJla
-         HP1k4LQKmJbg+xfCTsphojGT/nm6o81+oeXLQ1mssrfaAiAR/sKbxYJrwLF8VxbcSAX3
-         kJeiQAum8MNNeWnWXzSHXPpPA+nAiBrqWTuVQrrH1lLdbCh3uc87YJf1orEsW3O6uLXc
-         PEIuFrBjme58ysVNFBf+N056q9maXvXXvdYPtSlr1nqDcIqMEJeVQZwhDnQFZ2LXktPT
-         QH/FIcX/IIPE6quCzKWzjBK/DR9gmwnvKWEZLhV/VgsLhArDhhCJ2aoWqAwVP2oDUMwf
-         LVvA==
+        bh=SrPN1YlmcOQDFtv6Z8Zs8QVwWt20pN0jNfxZqZuHP9s=;
+        b=TqhBYPET2zAymFk8M0qksgZk4y8rLL9AkePeyHVZJv8BU5DmBdM32TMnB+t2BKkhPN
+         1Ia4bqSxePvoZf6e4PIhZAJ7GT1RPKconBt6C8TirTbwUBy55YmTojakwK1hUuukfreF
+         TAsouHgnwWRSqP83iWqHJ/iGuJy4mqqrdd+XXFL+TaT591IWJHo5tITEROF+49iZXPIB
+         98sE6BgWki410rjfnhHtVW0t/A/P2hREr7CTAI3gmdRbOn8R6Hp7lJPvMiW7oc3pqxfJ
+         Eby55lG5j7G8+Mfvp8/ovv0/6dBGRIvgJjJ4mhMlCZzb6EbXSbj6i3JjsMEC1x7Xpoiv
+         Tz5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783490673; x=1784095473;
+        d=1e100.net; s=20251104; t=1783491634; x=1784096434;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=kpzBKe/Z1YBswSZZupc0hFrJmi6kmBaWyF6zI7yuDcY=;
-        b=N/Whhgb1wf2TyRlbQFMJRaWsRlA7kiLJL71q3x/a86id230k+uANxwrc+afPhnDUqb
-         qYFkyRs7IqGk8pF/lAQYYTU7l405+rTatmd4j8y1iwE9SNZlZ38ukDvz/7li/djdzVBz
-         TvdBbLz5kaLJo0EBM0OI5/5fk8HmZxuJIpW9+ZfNTzs3Dh3nSeg7aYKBVcpdlvW7OnIi
-         nVmcwzfmV/8kGMyiVvPLohXmMibQCKn+Rzr5zdOJHVKo0Qyq+5LcwDAYRloGjzPUdVmb
-         WMG9RFWXQzQJA5UKeg0qDM5MEwfFR3JjNOSqJ1L1tubsGiX0ulRB/vd99WqtsdRLA5+9
-         Sdjg==
-X-Forwarded-Encrypted: i=1; AHgh+Rqf7F78NzJQL1K1JlwKMO32ZwhmrEno7AOLuxjP3RJrTHTjqawJj3nHaX7P7uwyaWuo3+LQUHbAWg8mGl7o@lists.linux.dev
-X-Gm-Message-State: AOJu0YxX1ZcUE/1qwavbl2xi/cdVabP3mSLiJQFDsx6VKsCeLzjxFwvL
-	iSlUK99E9NZIH2SCQX0w40moG62xG2qCIdPPR2w6uK7n03d175QuWJKa
-X-Gm-Gg: AfdE7cl/S6N07JrhawFen6LPBc4vUNVrlbAIrL3rcvwuCGlQaXv132/6OGDWpWx8IBc
-	B4AuddFVfg6hl3mfKXPy1D2FGlaYPI4OG0HAwIhSHzsYNTjhl65LlFd0n4GYYg9qTQYxi1nIuBP
-	OwEF6A/zZCe7T0W+mX7LQOXK+edugZGxk7cuh8pdEhRWTeLDReWiPvyu2oRfhDypPUw22XwbxyN
-	83jBn0vEtYTtJXLkpHy6Ix5KROEcpXTNGJV5dKuf7tbzv9ukjADh1jfJ4C11kd7NaxZFzwk74I0
-	zZKeGJ4nNaWWmIO/Iq1B+nOfnxKchh7W41wBkwSWmThA/CTk3u92bcdi0qW8i/R+Ko3MWNsexDn
-	c/v4mntus/m5vtAzWKgto7A+k0VTIYXhQACvBgN3A8e7ez/Ifoxh0nH2Atv4oSezn7tlxrjzssC
-	8kxSyHgQ==
-X-Received: by 2002:a05:6a00:3e23:b0:847:8250:2b31 with SMTP id d2e1a72fcca58-8484342518dmr1118351b3a.38.1783490672638;
-        Tue, 07 Jul 2026 23:04:32 -0700 (PDT)
-Received: from adr.. ([149.88.23.108])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847f6d76e0esm6421930b3a.41.2026.07.07.23.04.27
+        bh=SrPN1YlmcOQDFtv6Z8Zs8QVwWt20pN0jNfxZqZuHP9s=;
+        b=RQn5qn9dZvJ9i51L8OxcpfuRpfR5yI2+/6ADXyFCOW54I/wpJHBPZFV6DbsvYGEyTe
+         PoUZfxlir3EBxb9dxZ95cmGJXD4cEb5iRdsW7NSVV8Vc/aYo5SFLOtZEjq0A89TbaTh7
+         iAuPZMHe6ufWDtrhIMRpWrtLjYWtbFDxeP/gWxMD1w9W9bx1csvS85DA1p+aLyTOye58
+         msugohDeb/K09Yh1IF3W8Or/Qtl5iMUUVu9FIAqFyihgZTzp7OGcuRC36VGtQvlfaW9p
+         Geup49x8cvVMZIU6WmAJQIFWSPAFwxGSXQ2Vc3J9Q5OWe28+DKmUbmF/1EK87a6kRSOD
+         RHiQ==
+X-Gm-Message-State: AOJu0YxidnbOkjP1641KhiG53QsYQXT/l1SaFRuvAJYKJNWW1GGtCiG9
+	IFyM3mYynG2GpOxuzBFtTlf6NcMGdTph6Hkh4LPckAO3uoqSVUQugdUCkSsUwa1U8Gc=
+X-Gm-Gg: AfdE7ckCH+qGduXnYv9H6uoQZWYmFabMwSehRLsTXXXXczTzVD398VAMPrDnGtY2gpR
+	bTjIqVeFP/c8Z91QxcbmYKMDCGzmTRCjtzp2hQOHe5VWaGZsbtl9BZxYMFBCDHMvSd0Nz+WigEn
+	EZZmidDPJ8eNalabfwsFpy7tuCPLCXqyP76ms239gKw/JUFw9JFoh7KG4/xr6LzN4DWINUOu0nQ
+	Rz0E3Y8/amOS3ub+EmXP6ZFVwXnbIiRUCjllZJpdQmuxajmAUHKZYlz8r1u8oh8b3lxwFTJDCuL
+	fqFMhscs8UvJ+J6lNm1JfQK/H6pn1LrokhsNCD75s0bGK8g4OdlkiRi1FFXxQo25F0+WmOa3F4h
+	3iPGMJCqAb0SB+VBLdRIph0NOyaq8AbzmIJFU2yeVt1U8iaZSTPcOsyhKGeQ7SafOHTlt+maU6X
+	Mv1z6roeqwB2QtIsNDl+a/3YkWK83mtMjd1fqL5Cxg+/6Xr8wPPRQc86kXaSRqDP8yU7ayzYU9u
+	TYBkATxAtIshL+qjArO4rPqJEF8nurnK3qiiZo=
+X-Received: by 2002:a05:6a21:4e02:b0:3c0:9c1a:8941 with SMTP id adf61e73a8af0-3c0bcd20057mr1214329637.73.1783491634026;
+        Tue, 07 Jul 2026 23:20:34 -0700 (PDT)
+Received: from ip-172-31-35-55.ap-south-1.compute.internal (ec2-13-232-101-197.ap-south-1.compute.amazonaws.com. [13.232.101.197])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b6596681fsm18075489c88.8.2026.07.07.23.20.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Jul 2026 23:04:32 -0700 (PDT)
-From: =?UTF-8?q?Andr=C3=A9=20Moreira?= <andrem.33333@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
+        Tue, 07 Jul 2026 23:20:33 -0700 (PDT)
+From: Anirban Bose <boses156@gmail.com>
+To: gregkh@linux-foundation.org
+Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Andr=C3=A9=20Moreira?= <andrem.33333@gmail.com>
-Subject: [PATCH v6] staging: sm750fb: Remove unused variable 'setAllEngOff'
-Date: Wed,  8 Jul 2026 03:03:07 -0300
-Message-ID: <20260708060307.12237-1-andrem.33333@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <2026070710-exact-unveiling-e321@gregkh>
-References: <2026070710-exact-unveiling-e321@gregkh>
+	Anirban Bose <boses156@gmail.com>
+Subject: [PATCH v2] staging: rtl8723bs: rename camelcase variable bAllow
+Date: Wed,  8 Jul 2026 06:19:04 +0000
+Message-ID: <20260708061904.4136-1-boses156@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260524142309.88007-1-boses156@gmail.com>
+References: <20260524142309.88007-1-boses156@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The variable 'setAllEngOff' within the 'init_status' struct is only
-set to zero during setup but its value is never read anywhere else
-in the driver. Remove it entirely to clean up the code.
+Rename the local variable 'bAllow' to 'allow' in
+rtw_cmd_filter() to fix a checkpatch CamelCase warning.
 
-Signed-off-by: André Moreira <andrem.33333@gmail.com>
+Signed-off-by: Anirban Bose <boses156@gmail.com>
 ---
-v6:
-  - Change patch approach from renaming CamelCase to entirely removing
-    the unused 'setAllEngOff' variable, based on Greg KH's feedback.
-
-v5:
-  - Fix broken diff from v4 that was accidentally recreating the entire struct.
-  - Update the variable usage inside drivers/staging/sm750fb/sm750.c to
-    prevent compilation errors.
-
-v4:
-  - Drop register renames 'pvReg' to 'regs' as they were merged via another upstream patch.
-  - Keep only the 'init_status' CamelCase cleanup.
-
-v3:
-  - Added changelog history to satisfy the bot.
-
 v2:
-  - Renamed 'pv_reg' to 'regs' to completely remove Hungarian notation, based on Greg KH's feedback.
+  - Changed the variable type to bool (as requested)
+---
+ drivers/staging/rtl8723bs/core/rtw_cmd.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
- drivers/staging/sm750fb/sm750.c | 1 -
- drivers/staging/sm750fb/sm750.h | 1 -
- 2 files changed, 2 deletions(-)
-
-diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index 89c811e0806c4..f676f1716cf89 100644
---- a/drivers/staging/sm750fb/sm750.c
-+++ b/drivers/staging/sm750fb/sm750.c
-@@ -848,7 +848,6 @@ static void sm750fb_setup(struct sm750_dev *sm750_dev, char *src)
- 	sm750_dev->init_parm.mem_clk = 0;
- 	sm750_dev->init_parm.master_clk = 0;
- 	sm750_dev->init_parm.power_mode = 0;
--	sm750_dev->init_parm.setAllEngOff = 0;
- 	sm750_dev->init_parm.reset_memory = 1;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+index aa9ad4d05e36..623ce064d395 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
++++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+@@ -296,12 +296,12 @@ void rtw_free_cmd_priv(struct	cmd_priv *pcmdpriv)
+ int rtw_cmd_filter(struct cmd_priv *pcmdpriv, struct cmd_obj *cmd_obj);
+ int rtw_cmd_filter(struct cmd_priv *pcmdpriv, struct cmd_obj *cmd_obj)
+ {
+-	u8 bAllow = false; /* set to true to allow enqueuing cmd when hw_init_completed is false */
++	bool allow = false; /* set to true to allow enqueuing cmd when hw_init_completed is false */
  
- 	/* defaultly turn g_hwcursor on for both view */
-diff --git a/drivers/staging/sm750fb/sm750.h b/drivers/staging/sm750fb/sm750.h
-index d2c522e67f26a..e7b8626cb876e 100644
---- a/drivers/staging/sm750fb/sm750.h
-+++ b/drivers/staging/sm750fb/sm750.h
-@@ -44,7 +44,6 @@ struct init_status {
- 	ushort chip_clk;
- 	ushort mem_clk;
- 	ushort master_clk;
--	ushort setAllEngOff;
- 	ushort reset_memory;
- };
+ 	if (cmd_obj->cmdcode == SET_CHANNEL_PLAN_CMD)
+-		bAllow = true;
++		allow = true;
+ 
+-	if ((!pcmdpriv->padapter->hw_init_completed && !bAllow) ||
++	if ((!pcmdpriv->padapter->hw_init_completed && !allow) ||
+ 	    !atomic_read(&pcmdpriv->cmdthd_running))	/* com_thread not running */
+ 		return _FAIL;
  
 -- 
-2.43.0
+2.53.0
 
