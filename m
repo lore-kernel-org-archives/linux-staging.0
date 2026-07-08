@@ -1,75 +1,75 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529EE43B6C7
-	for <linux-staging@lists.linux.dev>; Wed,  8 Jul 2026 12:08:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8A204252C6
+	for <linux-staging@lists.linux.dev>; Wed,  8 Jul 2026 12:18:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783512528; cv=none; b=mJHfni1oXmNgHPcj41e5o7Jx0sHiJvqQlAf8mrbZEnkTjq4SrnyyiXsifWxbeFqn37w9ViEGn18Ss9X0CRXBwondkRhdJcqGCmLecyU1HAUWU1/wXVxTJt3YLKPwZz2NnZERaWv6JiBANvN81Ifmha1vWg2vSivNKrECpLOvc8c=
+	t=1783513115; cv=none; b=CKtvWnhU/mCMViM2yNZdB3NdzSDyPGMwbBK3ALkDGBkqTx5BXRDZtW3y3o9RIYhLLODjp0McnYh4i/7Gt+n2F723XOTbI6NYUshTAf63GNXJZ9Vx68/xYNocss8bmGfwwU3v6cxIfJbaOlZ1xE8BQoKcyHmyrL4ZJJXPTwXg/Xk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783512528; c=relaxed/simple;
-	bh=6TeoPMQvaGGiUgpQ0CUrRX+Gf5Tq/W4nF1Mgc+W7RR8=;
+	s=arc-20240116; t=1783513115; c=relaxed/simple;
+	bh=0DT6+nBbiHwYrqCRCt3sRc+wEt54Asr0ltfvB5YuZFg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=V+a17ZwycNY3lIgJaZysa+3N+vpgC2v8mfA3PEDFJYeKO9qOWBmb5YHDcDBlJgEhjPQqwMCylPji14IHuFaNDaXGWTittBOsIG9HU8rBREgmDVmdi2wgMMwFV7StmdDAUrD/EztMWq3HpER2qMnpOjcp8Sygn6T6Ar8YIX5hbak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QkGtO9Ee; arc=none smtp.client-ip=209.85.214.177
+	 MIME-Version; b=Gp4muC0b28ZLRGdAOdzyXqmfWvYXItk4tPoq1j5FD+TWCPbk04IVDVJlsRhZSPVmySPiVjEh5GACCZBaB1X75uRXyvCnYFqEkAj86JCpDoVhKvSVP/97o3QR8rhqjKBweaL6aL9Fh6zB2H+DOVqa7dpRRryHhVKwKwNhcTriW+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cxGlvqW7; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QkGtO9Ee"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2cad68425a7so840415ad.1
-        for <linux-staging@lists.linux.dev>; Wed, 08 Jul 2026 05:08:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cxGlvqW7"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-493ae59eca6so3366845e9.1
+        for <linux-staging@lists.linux.dev>; Wed, 08 Jul 2026 05:18:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783512527; x=1784117327; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1783513112; x=1784117912; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=l2kZSf623HYDi2Srcexl0GU1swSPjNebDGJsAM3gZqM=;
-        b=QkGtO9Eeo8fpW1M4qiwYuefIC7KUdzD8+Mfo6LWCOFN+HK90D+Gc61EUEuMKunNEy5
-         sxGTidthNj1S1cHxRjPLrV+D3eQ5lbxpEyc9wG1tn9w4fHMyduNpcBbCncRYKMWfWNld
-         2/IXIoWyGRvPZxiKTetemBJWIIBRx196zGez5756fQxb/RqbQrKQ8bXng/e6pd6yJwB8
-         cMJGcDB2jfRAR2xE2xMMRhNpY5JS4wEgP0Z7shOnERTo4vROO4vD7aNNBABh2iDJ3QM+
-         ZAScP35TivqDoB7QGk/tnlu/jd9wMi1NjhamAaHrgmGeD9yKh/N7hkLzTz8vLS4rsZDI
-         v8fg==
+        bh=9+MdgcEGeJysSuzvsTrS+7TyWDxT0U/H/2Nlys02W94=;
+        b=cxGlvqW74o2w/k0BZYu2BO73lOjr0QXDhUxq2aqMlFtKQQIkrED9QbxIFcHmvhJMb5
+         uCFMakAYaCuvXDf8zD4B6Q9dT5VHtq0EAPjcqdUKSBJ+qxZCDPVV7zFw1+vFmqjzXni2
+         P+x09pnmx4JI2Tqm6FO8+c5hIGLGTiwyqUy1ZU/8fg0JVtu9RSxcCEHjoGI66tlbBqNd
+         V+zwpxLvcXAC2mVnphrE6qpN1nX/3XsemBMJFLDiWCqTpRYkkFBAs40c6cFZ/VBrvXjm
+         zrYcVP88bpMcBBPgNUjjBJYgmmyI4+QYrkkHUFZiVZd/YzWqvau5KG28JANyLQvaeyZ1
+         GPTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783512527; x=1784117327;
+        d=1e100.net; s=20251104; t=1783513112; x=1784117912;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=l2kZSf623HYDi2Srcexl0GU1swSPjNebDGJsAM3gZqM=;
-        b=m/+Yh6m/U8Rzks/2o3FCgCLUKjFrfshbLWEJELi45P5gqVVTViEyfF6VfN+BxiqNSC
-         ExbB5yAWebj6MtIvySsKYokN+ssxwC0cITAkI94c5FcpcJXt3XzLT4LLhGeMY8mcpyen
-         gAnCJEeccjhttYjCHWt0oPhxD5m1rQfwtRffVZd+x/8kKYMgVaA0+kg+khoumS2MGRww
-         okZhS6hINvYfV4Kp816QCav7w4FD/SEGxG7kJ5LEKUFGthAIdqo4EdrSnx+UjdC0cLs5
-         HOcc1mEr/neNv2aIpgCjZRLlEild9j4PqhVz95ZVKMH0MszQMR1sQkFdfWSNA+vINBmO
-         n0Qw==
-X-Forwarded-Encrypted: i=1; AHgh+RoOco7fqkI+yrRO3jVLdZHAtX7qUV190x2aCXLsj1YX1WFZqtpkTCEy1g9LqS02b6a7z2M9Wj6PXs62V41r@lists.linux.dev
-X-Gm-Message-State: AOJu0YybhjpYxBDapmM9a8mSur4CM2vw3aSAaEsrmjHSuFwzrSJK9o90
-	12agzDEshl33/zwLK742aJfFL3L7iLKTy7BsiStlOj+8NZSY6VWqyhpa
-X-Gm-Gg: AfdE7cl0hypYX/LWRlN/2EBN8WtLa6qnuiiEPb9Hmmd3pEjwiYNXDZbmaEITp/vV0C6
-	RLERzR0XyIqhITCm7ejhcTq/xBf0gBHofEqhisnn6wfHlJstfyDtzGHlos0GmtebHpkp6LOfaRb
-	KJxJ+rNyK2fLmiE0kgWlcw5S7yl7soWGuQDLeCAWWto1IBaNAP35N0Tuz/DZ9UIfrk1SJlo9eD/
-	pqK4jrL2aV/AOBjMDA+O69dhvFRWDzK3fXGhdlxM+qURZN+vOguAi7aRjCbl+0hwvgZpB5Jk9fG
-	OVNkZbvAG0e8VSTpfWwskdJ5mBJOL5XsKeMt7I73Y9CgkzsLyaAHwdzi42LbDF8eRy4kM9K/UCj
-	cwIOi7NY4Oyu/3huHb3tgahjinrLEuWn4A7nRd5qJmlU2WWI1CHSFueSHm09gr7aiePxI2HRUWX
-	EYAtcy3Ig5rNRPqNY20BNGWrICFb4pWpWKd/s6/Y6xqUoo3jwdqAQdNzGd1VQJkYaEHxmD116bo
-	MEiP8c2aez9NxwHfbxk/u8=
-X-Received: by 2002:a17:902:fc84:b0:2ca:d803:5c8f with SMTP id d9443c01a7336-2ccea2af3bbmr19552885ad.1.1783512526502;
-        Wed, 08 Jul 2026 05:08:46 -0700 (PDT)
-Received: from localhost.localdomain (n58-104-240-194.mrk2.qld.optusnet.com.au. [58.104.240.194])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9bdb7e9sm27952165ad.10.2026.07.08.05.08.41
+        bh=9+MdgcEGeJysSuzvsTrS+7TyWDxT0U/H/2Nlys02W94=;
+        b=JarzEPftnWPoZrHXH2XrlS9Xih+ZC3aqQn13jxrj5jHA1d4+/HN92fYg5h6p3kiZEy
+         tZvuqoL/DGHgI0Rlkou1aH+c+mhk+tc9wgxkNT5OLJnUov49UQvPWSwBU60oMKN3FZUF
+         oXsMrUMstkAengAJnNKuGdg9MeZD5tfHtBqwrfpjHyxTcwXoVdcJC81VGiolapVP8ViT
+         wpWbgECgu3NjTOLvU5OUAtkK+xR64SV7fpCHFxaNgkfO3JqNgghx3V+x5mQO3M1GMciQ
+         N9sUFAdMGQF0q9lb1iVmedyyxLdvi72gu4YaF3HpI3CukYVY6GkOL64LaVQTy6hdROeP
+         SWcg==
+X-Forwarded-Encrypted: i=1; AHgh+RpuiP2JFlfdkJ+li4gRHrn9AsN/g3x6aW0b5frIzq3Q/gAf3qLsJ6W/BTwsBnkBsngPecsKo0wWS6SXDJK9@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyyela86IgTdm/D4+Mox8B0/CNI+yobRPskyHNacCp79Yu4vuph
+	lZon53jJHhI7mTRLwcs7aU/WND/uC+kn4gBjjik74h+XuC4U6QP1dlm8OFYlHoZd
+X-Gm-Gg: AfdE7cnbQhjXMDLxoxfv9RbJZ/P8TIQCKUCwK8JurFQnoTDyLpIddPclo/YiGr3WpGA
+	EzZUqNitgT7Y0+vDUv6oc+WaSio2iWPkH75xVrx8pD3AVfv59a3fa38S0ND+lUAdGNJN9REcna+
+	T7G/fmnzramHzTaeaov3ZPeeGKkV1hZ+nlFXxiuJ0QdzZG0xiJNbXklbht6egdtuqf9K6Lj7Fue
+	mYClWVtiR4g//woGON+0KvBg9bGmUYhrdjbvByE0gNSePAMgyBMi6Cjk2qyrints8dc3VtFMDDw
+	SwfjTMYe3KLRKePoFAPDYIXWyemYniC1zTuiTA2yadoIsP0B/twaJps6UoAKAL0PbPedV63kTLk
+	SMK3tcGahTWj1UIxc6zRTkRuXpZ+EmBBwKQydchXkwsR1hGUCTSusrYNeetj6RIcUu3czpvBgyG
+	ZHMZvOI+WAitoXnKvn0sBDiXlExFg/rWARC7ZwuftJHnHbi4lnFF73uyXKnru2JqdLq/kHL0NC1
+	tcHqg==
+X-Received: by 2002:a05:600c:6d0d:b0:493:b9cd:1272 with SMTP id 5b1f17b1804b1-493e68c40dbmr14026105e9.23.1783513112206;
+        Wed, 08 Jul 2026 05:18:32 -0700 (PDT)
+Received: from koolguy.fritz.box (dslb-088-074-245-227.088.074.pools.vodafone-ip.de. [88.74.245.227])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493e0f50418sm122571205e9.11.2026.07.08.05.18.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2026 05:08:45 -0700 (PDT)
-From: Daniel Guihot <daniel.guihot123@gmail.com>
+        Wed, 08 Jul 2026 05:18:31 -0700 (PDT)
+From: fliegbert2@gmail.com
 To: gregkh@linuxfoundation.org
-Cc: daniel.guihot123@gmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH v2] staging: rtl8723bs: remove unnecessary braces from single statement blocks
-Date: Wed,  8 Jul 2026 22:07:48 +1000
-Message-ID: <20260708120747.22388-2-daniel.guihot123@gmail.com>
+Cc: linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Dalvin-Ehinoma Noah Aiguobas <fliegbert2@gmail.com>
+Subject: [PATCH v2 0/6] Rename camelcase enum values dot11AuthAlgrthm_
+Date: Wed,  8 Jul 2026 12:15:57 +0000
+Message-ID: <20260708121603.2393-1-fliegbert2@gmail.com>
 X-Mailer: git-send-email 2.54.0
-In-Reply-To: <2026070718-charging-outsource-81a1@gregkh>
-References: <2026070718-charging-outsource-81a1@gregkh>
+In-Reply-To: <cover.1780343502.git.fliegbert2@gmail.com>
+References: <cover.1780343502.git.fliegbert2@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -78,132 +78,40 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove braces around single statement blocks in rtl8723b_hal_init.c to
-comply with the kernel coding style, as reported by checkpatch.pl:
+From: Dalvin-Ehinoma Noah Aiguobas <fliegbert2@gmail.com>
 
-  WARNING: braces {} are not necessary for single statement blocks
-  WARNING: braces {} are not necessary for any arm of this statement
+This patch series renames camelcase enum values in the rtl8723bs driver
+to address checkpatch.pl CamelCase warnings. It also replaces spaces
+with tabs where required by the kernel coding style.
 
-No functional change.
+Changes in v2:
+- Correct commit descriptions to refer to enum values instead of
+variables as pointed out by the reviewer.
+- Rebased onto latest staging-testing.
 
-Signed-off-by: Daniel Guihot <daniel.guihot123@gmail.com>
----
-v2: No code changes, v1 was accidentally delivered from two different
-addresses. Resent for consistency.
+Dalvin-Ehinoma Noah Aiguobas (6):
+  staging: rtl8723bs: Rename camelcase enum value dot11AuthAlgrthm_8021X
+  staging: rtl8723bs: Replace spaces for tab
+  staging: rtl8723bs: Rename camelcase enum value dot11AuthAlgrthm_Open
+  staging: rtl8723bs: Rename camelcase enum value dot11AuthAlgrthm_Auto
+  staging: rtl8723bs: Rename camelcase enum value
+    dot11AuthAlgrthm_Shared
+  staging: rtl8723bs: Rename camelcase enum values dot11AuthAlgrthm_WAPI
+    and dot11AuthAlgrthm_MaxNum
 
- .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 32 +++++++------------
- 1 file changed, 12 insertions(+), 20 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_ap.c       |  8 ++---
+ .../staging/rtl8723bs/core/rtw_ioctl_set.c    |  2 +-
+ drivers/staging/rtl8723bs/core/rtw_mlme.c     | 10 +++---
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 18 +++++------
+ drivers/staging/rtl8723bs/core/rtw_pwrctrl.c  |  2 +-
+ drivers/staging/rtl8723bs/core/rtw_xmit.c     |  8 ++---
+ drivers/staging/rtl8723bs/hal/hal_com.c       |  2 +-
+ drivers/staging/rtl8723bs/include/rtw_mlme.h  | 16 +++++-----
+ .../staging/rtl8723bs/include/rtw_security.h  | 10 +++---
+ .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 32 +++++++++----------
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c   |  2 +-
+ 11 files changed, 55 insertions(+), 55 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-index bcaf63b2893c..b74fdf66c772 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-@@ -194,9 +194,8 @@ static s32 polling_fwdl_chksum(
- 		yield();
- 	} while (jiffies_to_msecs(jiffies-start) < timeout_ms || cnt < min_cnt);
- 
--	if (!(value32 & FWDL_ChkSum_rpt)) {
-+	if (!(value32 & FWDL_ChkSum_rpt))
- 		goto exit;
--	}
- 
- 	if (g_fwdl_chksum_fail) {
- 		g_fwdl_chksum_fail--;
-@@ -235,9 +234,8 @@ static s32 _FWFreeToGo(struct adapter *adapter, u32 min_cnt, u32 timeout_ms)
- 		yield();
- 	} while (jiffies_to_msecs(jiffies - start) < timeout_ms || cnt < min_cnt);
- 
--	if (!(value32 & WINTINI_RDY)) {
-+	if (!(value32 & WINTINI_RDY))
- 		goto exit;
--	}
- 
- 	if (g_fwdl_wintint_rdy_fail) {
- 		g_fwdl_wintint_rdy_fail--;
-@@ -1031,9 +1029,8 @@ void UpdateHalRAMask8723B(struct adapter *padapter, u32 mac_id, u8 rssi_level)
- 	rate_bitmap = hal_btcoex_GetRaMask(padapter);
- 	mask &= ~rate_bitmap;
- 
--	if (pHalData->fw_ractrl) {
-+	if (pHalData->fw_ractrl)
- 		rtl8723b_set_FwMacIdConfig_cmd(padapter, mac_id, psta->raid, psta->bw_mode, short_gi_rate, mask);
--	}
- 
- 	/* set correct initial date rate for each mac_id */
- 	pdmpriv->INIDATA_RATE[mac_id] = psta->init_rate;
-@@ -1184,9 +1181,9 @@ void Hal_EfuseParseIDCode(struct adapter *padapter, u8 *hwinfo)
- 
- 	/*  Check 0x8129 again for making sure autoload status!! */
- 	EEPROMId = le16_to_cpu(*((__le16 *)hwinfo));
--	if (EEPROMId != RTL_EEPROM_ID) {
-+	if (EEPROMId != RTL_EEPROM_ID)
- 		pEEPROM->bautoload_fail_flag = true;
--	} else
-+	else
- 		pEEPROM->bautoload_fail_flag = false;
- }
- 
-@@ -1596,9 +1593,8 @@ static void rtl8723b_cal_txdesc_chksum(struct tx_desc *ptxdesc)
- 	/*  Thomas, Lucas@SD4, 20130515 */
- 	count = 16;
- 
--	for (index = 0; index < count; index++) {
-+	for (index = 0; index < count; index++)
- 		checksum |= le16_to_cpu(*(__le16 *)(usPtr + index));
--	}
- 
- 	ptxdesc->txdw7 |= cpu_to_le32(checksum & 0x0000ffff);
- }
-@@ -1772,11 +1768,10 @@ static void rtl8723b_fill_default_txdesc(
- 		ptxdesc->mbssid = pattrib->mbssid & 0xF;
- 
- 		ptxdesc->rty_lmt_en = 1; /*  retry limit enable */
--		if (pattrib->retry_ctrl) {
-+		if (pattrib->retry_ctrl)
- 			ptxdesc->data_rt_lmt = 6;
--		} else {
-+		else
- 			ptxdesc->data_rt_lmt = 12;
--		}
- 
- 		ptxdesc->datarate = MRateToHwRate(pmlmeext->tx_rate);
- 
-@@ -1867,9 +1862,8 @@ void rtl8723b_fill_fake_txdesc(
- 		SET_TX_DESC_HWSEQ_SEL_8723B(pDesc, 0);
- 	}
- 
--	if (IsBTQosNull) {
-+	if (IsBTQosNull)
- 		SET_TX_DESC_BT_INT_8723B(pDesc, 1);
--	}
- 
- 	SET_TX_DESC_USE_RATE_8723B(pDesc, 1); /*  use data rate which is set by Sw */
- 	SET_TX_DESC_OWN_8723B((u8 *)pDesc, 1);
-@@ -2555,9 +2549,8 @@ void SetHwReg8723B(struct adapter *padapter, u8 variable, u8 *val)
- 
- 			/*  Forece leave RF low power mode for 1T1R to prevent conficting setting in Fw power */
- 			/*  saving sequence. 2010.06.07. Added by tynli. Suggested by SD3 yschang. */
--			if (psmode != PS_MODE_ACTIVE) {
-+			if (psmode != PS_MODE_ACTIVE)
- 				ODM_RF_Saving(&pHalData->odmpriv, true);
--			}
- 
- 			/* if (psmode != PS_MODE_ACTIVE)	{ */
- 			/* 	rtl8723b_set_lowpwr_lps_cmd(padapter, true); */
-@@ -2871,11 +2864,10 @@ u8 GetHalDefVar8723B(struct adapter *padapter, enum hal_def_variable variable, v
- 		break;
- 
- 	case HAL_DEF_TX_PAGE_BOUNDARY:
--		if (!padapter->registrypriv.wifi_spec) {
-+		if (!padapter->registrypriv.wifi_spec)
- 			*(u8 *)pval = TX_PAGE_BOUNDARY_8723B;
--		} else {
-+		else
- 			*(u8 *)pval = WMM_NORMAL_TX_PAGE_BOUNDARY_8723B;
--		}
- 		break;
- 
- 	case HAL_DEF_MACID_SLEEP:
 -- 
 2.54.0
 
