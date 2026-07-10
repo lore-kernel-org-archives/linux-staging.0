@@ -1,116 +1,279 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8B07356740
-	for <linux-staging@lists.linux.dev>; Fri, 10 Jul 2026 17:46:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DBE7374725
+	for <linux-staging@lists.linux.dev>; Fri, 10 Jul 2026 17:53:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783705562; cv=none; b=gWSERzkTwFNnip/KX59fJcJSyoujiXxyG6vYrxRqFT6JgPu1F78qezzvXcVQ85ieCLkqAiJE+oeanbweMkGcUPSbISvsWH07KDuNjY4psAKwOEBxzmccPOj0+63S9dGdLO0B6ISaiMSRorq4cpCsVrORXWaTz6hn1XmAnivREik=
+	t=1783705991; cv=none; b=tekZzpo9WfiuvagPJKAw3LDZmvrXWuuJVr2jh2HNPIDEUmGGJyhiHyJczJjCVVbDtEsgo3p0FdazLTPhIMNnwNJmNfC5CWaPcRvVe066zZlVWvZZ3WtPopTXBQzYCgcRn7+DGiDvW9ou//jXD66MC2h1/5OMgNtuynoXWeSmiOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783705562; c=relaxed/simple;
-	bh=KvBYP+wl2IjCxMaSVmX25pjv+NEzDq5zeL7bHnenBoI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=F8RDKdaXz7ufENE6zOzMHbLTmjztjB+AWj5XB42yHf2rl7aGptIpWMNunybG2uykQ/pIjZM0IumjE+GZwAjNUb34qZlNzOH77oO8eMHMlH72K+4k/aj2QuBhO12RzLvK4qxe05t529hG7FpfEB1rjCVfDvWVbIe/aXcQhyXq/lc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LmfKMIhN; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1783705991; c=relaxed/simple;
+	bh=OZapa3bgIo8yc+weY233lrRX3z7qkV8mFNDkYIfQ7Sw=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:In-Reply-To:
+	 Subject:References; b=eBQsuznTyNWd0+EiVhCN+bEVdoQkglzSDl+MnM+wx+Pij05pjiPkZOOx3YSUBuDlQ76ev9Zg5XN/bfi8svHlYdy4++LlX3fk2vAAfsEgm7RfO/aYhQzBhYd1zBl/G9GKgzsBtHS7SEKFz/4kaW86Z5elp4seDIJWxnWE5sKW3nM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F6czLgtO; arc=none smtp.client-ip=209.85.210.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LmfKMIhN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B19D91F00A3F
-	for <linux-staging@lists.linux.dev>; Fri, 10 Jul 2026 17:46:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1783705561;
-	bh=KvBYP+wl2IjCxMaSVmX25pjv+NEzDq5zeL7bHnenBoI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=LmfKMIhNNv8C44AEXf9A5oXKyj1wnekLNBpv0FC5tLO9CpVpSuE1tgvMo/TO/hXai
-	 PquOZ80oyklvhr1I+E1hL77bf4ojmyAQDZA11YRNl3GNTyOiJLKkfLD6zaIiL9al4W
-	 XARyciEe7S/6wvwE2dJNpLwkmlCUoNZLHo5ojOd5jVcEUwISzK8AdKpHtg7hTyn6OL
-	 /kDfFhxTVyW3lxSrrbU587UsqVVxMNGAflXZBDUmf70fca88msuudj54MpnWX3wygC
-	 wNg7SMGtoz/l85PSE9odvcmp5yDWdN56rAi2EuHOJXi1VWkZoc7F8BKQAG1EO/7KuU
-	 LQA4zNm9cHesg==
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5b00d1e7082so859340e87.1
-        for <linux-staging@lists.linux.dev>; Fri, 10 Jul 2026 10:46:01 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+RqklNEel07Mo6S1+bmGQ5C4U+lgOjkK3Re3j+5fCRYoLyoliD48LbPNiF50R7i5gbUBuFLLkcz6b0zBGBCj@lists.linux.dev
-X-Gm-Message-State: AOJu0YzSq0+VLvrMTFtwgyiaxa0f3cSBjyO60N+dB6psTK7SApEhPsjV
-	6VusVvQ2skwaV+Pw5JpM0IlpA4w9uwJzJ8xBKK+ANW+k5S6QqSyp2Y3ofX764TNSE8vXpk74xdm
-	roHMos2HENaM6RoBKEg18mo98YshMF54=
-X-Received: by 2002:a05:6512:688f:10b0:5b0:12d6:4c05 with SMTP id
- 2adb3069b0e04-5b02369c6e8mr17375e87.36.1783705559836; Fri, 10 Jul 2026
- 10:45:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F6czLgtO"
+Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-7eb34c17b96so817916a34.2
+        for <linux-staging@lists.linux.dev>; Fri, 10 Jul 2026 10:53:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783705988; x=1784310788; darn=lists.linux.dev;
+        h=references:subject:in-reply-to:cc:to:from:message-id:date
+         :content-type:mime-version:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=TfF2+32yHkCY9OgSDVX9M5VHYIrR7dh1QXXljKX3DLU=;
+        b=F6czLgtOzO7jlleds0o64Vxjp4McjMuQkuH57Om+6zkR5Y0d8qf0RX+CvYHvyedVcF
+         YUq2j9HpWLU8DsISmMR6MH5apNiS7aqY9uI06OJChLBLLsMfZzVPKX/skE80UHZmvPW7
+         ITkMPzpJfkwOj6Kh9OKC292pgU1lpaoBIy5ZEAJQhltzC3AaUJPA3JMr88pxeLKhqiNJ
+         RL/7VDAcTCdCEiO7srognjIU0WKs+E/DlEomLR0paovePVdlKfiRaH8FhQN9j6gdX+of
+         Xg+iBRT4MITmxC+kIWUCdeKsMYgYLAIeOs1LhiKzTgWRj/vf2G359bVQG6hehBc2lUgh
+         hyQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783705988; x=1784310788;
+        h=references:subject:in-reply-to:cc:to:from:message-id:date
+         :content-type:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=TfF2+32yHkCY9OgSDVX9M5VHYIrR7dh1QXXljKX3DLU=;
+        b=PhQMnXxscEkLV4QlkC8Gs1/IhqccPKk4k6a4IL1fXGkYzusZuCNof5cIbnydUKPFMD
+         f5fCIrrnTcGArhT4rBI1DFUOdpx0Qw7YTq94GZpRcUR08FJ3CznUPURuaQR5j6oRtTra
+         URV/5CaiDiN/4HuIw6pwIz6O83g4F43jy6uSH97p85AyNlMPm0LqJyfEuGS66c1ehBzG
+         Kd28pKg8fzRswKB78qbHnJHZC0rHqhZjb8Ht6VMXNb6RCBVsqNJrAdc046FCqD5s+7jN
+         TEOvzNJjjzW0WmEDDNEmfRPAfwB+i0qTjZCiWCQkOGfvuYrXb2hUawD+2aERnQQt5OZK
+         CEkA==
+X-Forwarded-Encrypted: i=1; AFNElJ98eGmrv7YVmPns3CyVcdz/g6pzVLigmI/QG7rM6JQEGlFZtj8Hoa8/q8Gi7RvMazj77MsKNTgYcn1nOybM@lists.linux.dev
+X-Gm-Message-State: AOJu0YyltCQJzk5shxKJjV7VlSIMrbo+q5/+OLx3GSKpNEIjfgJZvo//
+	BTSvCm92tMG1fONc+jewMygTLtCLDEutaA+AYc7JCiufAWw1zKJPlvm4
+X-Gm-Gg: AfdE7ck1DabtqtTpkH37PGFFL951+0v2zawF6tBpyiwCeYtz0CESAAGI0x9S4W9zMBl
+	rZj+Kl34he0FYy19lSBRW5Qoc8r5Bd8wIl9O9U5RzjwUVMcrz7+n945xQvsoLhZrTtfJMjbA11A
+	zKiHGj9oS9dWbvVxfm2g6xDoyXazsFs/psSAWWrLtebUh8xbhFasuAtQNpy2j7EYIM0jJs/IF3T
+	03yXFGNnKwwk8AWeIleVyfOEHW4OZWOox5An+Y8YJBLJwBpxCkVOiMjijOem2Udsm/JKG69aE3K
+	i5W14CSB84XVf9zPUMimtBOTGdWQz95iOkBgCI+Fgs9G1INpbzQf03reGSa0ZJg6eBBnaXYRewU
+	LEjupZLlfK+WcHthIFQDnnRXhGm6yvEkIETX5H3TRkLNFkT/h/yookE3787ilsymr8kllwgp4BZ
+	Y7ZTACi95Sbq2fH0MbQzVMEi5ZxiFWNqEOgHfJmQ0=
+X-Received: by 2002:a05:6830:6015:b0:7e9:c4ce:f7e5 with SMTP id 46e09a7af769-7ebd00ef930mr9343510a34.23.1783705986703;
+        Fri, 10 Jul 2026 10:53:06 -0700 (PDT)
+Received: from localhost (23-88-128-2.fttp.usinternet.com. [23.88.128.2])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7ebcb2bae7fsm7514885a34.21.2026.07.10.10.53.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Jul 2026 10:53:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20260703193855.110619-1-mukesh.ojha@oss.qualcomm.com> <20260703193855.110619-11-mukesh.ojha@oss.qualcomm.com>
-In-Reply-To: <20260703193855.110619-11-mukesh.ojha@oss.qualcomm.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Fri, 10 Jul 2026 19:45:47 +0200
-X-Gmail-Original-Message-ID: <CAD++jLnUf6j8jPJogpuo4w55EHqgt7LChOQX5JY5h4n2VOf5nQ@mail.gmail.com>
-X-Gm-Features: AUfX_mz2mAY-nRqzEwN08-F9a7Mq7XiQwd_nI9Ppbf1sw-soYPlPLluIapY3fR0
-Message-ID: <CAD++jLnUf6j8jPJogpuo4w55EHqgt7LChOQX5JY5h4n2VOf5nQ@mail.gmail.com>
-Subject: Re: [PATCH 10/42] drm: pl111: Use devm_of_reserved_mem_device_init()
-To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-Cc: Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	Liviu Dudau <liviu.dudau@arm.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Joel Stanley <joel@jms.id.au>, 
-	Andrew Jeffery <andrew@codeconstruct.com.au>, Paul Cercueil <paul@crapouillou.net>, 
-	Anitha Chrisanthus <anitha.chrisanthus@intel.com>, Paul Kocialkowski <paulk@sys-base.io>, 
-	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Alexey Brodkin <abrodkin@synopsys.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Michal Simek <michal.simek@amd.com>, 
-	Daniel Scally <dan.scally@ideasonboard.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Eddie James <eajames@linux.ibm.com>, 
-	Tiffany Lin <tiffany.lin@mediatek.com>, Andrew-CT Chen <andrew-ct.chen@mediatek.com>, 
-	Yunfei Dong <yunfei.dong@mediatek.com>, Minghsiu Tsai <minghsiu.tsai@mediatek.com>, 
-	Houlong Wei <houlong.wei@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Joseph Liu <kwliu@nuvoton.com>, 
-	Marvin Lin <kflin@nuvoton.com>, Dmitry Osipenko <dmitry.osipenko@collabora.com>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Thierry Reding <thierry.reding@kernel.org>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Srinivas Kandagatla <srini@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Ge Gordon <gordon.ge@bst.ai>, 
-	Adrian Hunter <adrian.hunter@intel.com>, Ulf Hansson <ulfh@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Saravana Kannan <saravanak@kernel.org>, Mathieu Poirier <mathieu.poirier@linaro.org>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Shengjiu Wang <shengjiu.wang@gmail.com>, 
-	Xiubo Li <Xiubo.Lee@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Peter Ujfalusi <peter.ujfalusi@linux.intel.com>, 
-	Bard Liao <yung-chuan.liao@linux.intel.com>, Daniel Baluta <daniel.baluta@nxp.com>, 
-	Orson Zhai <orsonzhai@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Peter Chen <peter.chen@cixtech.com>, Fugang Duan <fugang.duan@cixtech.com>, 
-	Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>, 
-	BST Linux Kernel Upstream Group <bst-upstream@bstai.top>, Fabio Estevam <festevam@gmail.com>, 
-	Nicolin Chen <nicoleotsuka@gmail.com>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>, 
-	Vijendar Mukunda <Vijendar.Mukunda@amd.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
-	CIX Linux Kernel Upstream Group <cix-kernel-upstream@cixtech.com>, linux-arm-msm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-aspeed@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mips@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-media@vger.kernel.org, openbmc@lists.ozlabs.org, 
-	linux-mediatek@lists.infradead.org, kernel@collabora.com, 
-	linux-tegra@vger.kernel.org, linux-mmc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-remoteproc@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-sound@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, imx@lists.linux.dev, 
-	sound-open-firmware@alsa-project.org
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+Content-Type: multipart/signed;
+ boundary=bf94d117aab954e431a08de8ad5ad467a2313772f0af2049462f558603cc;
+ micalg=pgp-sha384; protocol="application/pgp-signature"
+Date: Fri, 10 Jul 2026 12:53:01 -0500
+Message-Id: <DJV2ZZKDGQHF.1S79N3553DJ0C@gmail.com>
+From: "Maxwell Doose" <m32285159@gmail.com>
+To: "Taha Narimani" <tahanarimani3443@gmail.com>, <jic23@kernel.org>,
+ <lars@metafoo.de>, <Michael.Hennerich@analog.com>,
+ <gregkh@linuxfoundation.org>
+Cc: <dlechner@baylibre.com>, <nuno.sa@analog.com>, <andy@kernel.org>,
+ <linux-iio@vger.kernel.org>, <linux-staging@lists.linux.dev>,
+ <linux-kernel@vger.kernel.org>
+In-Reply-To: <20260710160001.29856-2-tahanarimani3443@gmail.com>
+Subject: Re: [PATCH v3] staging: iio: adc: ad7816: Use
+ devm_gpiod_get_optional() for busy GPIO
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260710160001.29856-1-tahanarimani3443@gmail.com>
+ <20260710160001.29856-2-tahanarimani3443@gmail.com>
+
+--bf94d117aab954e431a08de8ad5ad467a2313772f0af2049462f558603cc
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-On Fri, Jul 3, 2026 at 9:43=E2=80=AFPM Mukesh Ojha <mukesh.ojha@oss.qualcom=
-m.com> wrote:
+Hi Taha,
 
-> Switch to devm_of_reserved_mem_device_init() so the reserved memory
-> region is released automatically on probe failure or device removal.
-> Remove the explicit of_reserved_mem_device_release() calls in the
-> dev_put error path and pl111_amba_remove().
+On Fri Jul 10, 2026 at 11:00 AM CDT
+Taha Narimani <tahanarimani3443@gmail.com> wrote:
+
+> The driver currently utilizes devm_gpiod_get() for the 'busy' line,
+> which makes the GPIO mandatory. However, the busy pin is hardware-optiona=
+l
+> depending on the specific board configuration.
 >
-> Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+> Switch to devm_gpiod_get_optional() to allow boards that do not have
+> this pin wired up to still probe the driver successfully. Clean up
+> the redundant busy_pin conditional checks as gpiod_get_value() safely
+> handles NULL descriptors. Additionally, use dev_err_probe() to prevent
+> bootlog spamming during deferred probing.
+>
+> Fixes: 3e5971b2ddb6 ("base: original ad7816.c")
 
-Looks good to me:
-Reviewed-by: Linus Walleij <linusw@kernel.org>
+If this is a fix, then why are we making style changes?
 
-Yours,
-Linus Walleij
+> Signed-off-by: Taha Narimani <tahanarimani3443@gmail.com>
+> ---
+> Changes in v3:
+>   - Removed redundant conditional check around gpiod_get_value() as sugge=
+sted by Andy Shevchenko and Dan Carpenter.
+>   - Switched to dev_err_probe() to avoid deferred probe spamming.
+>   - Introduced local struct device *dev pointer in probe and kept the GPI=
+O request on a single line for better readability.
+
+Unless someone requested this during review this doesn't make sense.
+Please see my above comment, and I'd also suggest to take a look at
+Documentation/process/submitting-patches.rst.
+
+>   - Added the missing Fixes tag requested by Jonathan Cameron.
+>
+>  drivers/staging/iio/adc/ad7816.c | 67 +++++++++++++-------------------
+>  1 file changed, 28 insertions(+), 39 deletions(-)
+>
+> diff --git a/drivers/staging/iio/adc/ad7816.c b/drivers/staging/iio/adc/a=
+d7816.c
+> index 988eee3..807cf57 100644
+> --- a/drivers/staging/iio/adc/ad7816.c
+> Changes in v3:
+>   - Removed redundant conditional check around gpiod_get_value() as sugge=
+sted by Andy Shevchenko and Dan Carpenter.
+>   - Switched to dev_err_probe() to avoid deferred probe spamming.
+>   - Introduced local struct device *dev pointer in probe and kept the GPI=
+O request on a single line for better readability.
+>   - Added the missing Fixes tag requested by Jonathan Cameron.
+>
+
+Wrong spot for this + causes the patch to not apply. It should be below
+the --- right after the list of tags.
+
+> +++ b/drivers/staging/iio/adc/ad7816.c
+> @@ -22,20 +22,20 @@
+>  /*
+>   * AD7816 config masks
+>   */
+> -#define AD7816_FULL			0x1
+> -#define AD7816_PD			0x2
+> -#define AD7816_CS_MASK			0x7
+> -#define AD7816_CS_MAX			0x4
+> +#define AD7816_FULL                     0x1
+> +#define AD7816_PD                       0x2
+> +#define AD7816_CS_MASK                  0x7
+> +#define AD7816_CS_MAX                   0x4
+> =20
+
+Nothing changed? Seems like a stray change.
+
+>  /*
+>   * AD7816 temperature masks
+>   */
+> -#define AD7816_VALUE_OFFSET		6
+> -#define AD7816_BOUND_VALUE_BASE		0x8
+> -#define AD7816_BOUND_VALUE_MIN		-95
+> -#define AD7816_BOUND_VALUE_MAX		152
+> -#define AD7816_TEMP_FLOAT_OFFSET	2
+> -#define AD7816_TEMP_FLOAT_MASK		0x3
+> +#define AD7816_VALUE_OFFSET             6
+> +#define AD7816_BOUND_VALUE_BASE         0x8
+> +#define AD7816_BOUND_VALUE_MIN          -95
+> +#define AD7816_BOUND_VALUE_MAX          152
+> +#define AD7816_TEMP_FLOAT_OFFSET        2
+> +#define AD7816_TEMP_FLOAT_MASK          0x3
+> =20
+
+Ditto.
+
+>  /*
+>   * struct ad7816_chip_info - chip specific information
+> @@ -48,7 +48,7 @@ struct ad7816_chip_info {
+>  	struct gpio_desc *convert_pin;
+>  	struct gpio_desc *busy_pin;
+>  	u8  oti_data[AD7816_CS_MAX + 1];
+> -	u8  channel_id;	/* 0 always be temperature */
+> +	u8  channel_id; /* 0 always be temperature */
+>  	u8  mode;
+>  };
+> =20
+
+Here as well.
+
+> @@ -84,10 +84,8 @@ static int ad7816_spi_read(struct ad7816_chip_info *ch=
+ip, u16 *data)
+>  		gpiod_set_value(chip->convert_pin, 1);
+>  	}
+> =20
+> -if (chip->id =3D=3D ID_AD7816 || chip->id =3D=3D ID_AD7817) {
+> -		while (gpiod_get_value(chip->busy_pin))
+> -			cpu_relax();
+> -	}
+> +	while (gpiod_get_value(chip->busy_pin))
+> +		cpu_relax();
+>
+
+Can you explain why we're removing this check? There also seems to be a
+spot in _probe() where the check gets removed as well.
+
+>  	gpiod_set_value(chip->rdwr_pin, 0);
+>  	gpiod_set_value(chip->rdwr_pin, 1);
+> @@ -254,8 +252,8 @@ static const struct attribute_group ad7816_attribute_=
+group =3D {
+>   * temperature bound events
+>   */
+> =20
+> -#define IIO_EVENT_CODE_AD7816_OTI IIO_UNMOD_EVENT_CODE(IIO_TEMP,	\
+> -						       0,		\
+> +#define IIO_EVENT_CODE_AD7816_OTI IIO_UNMOD_EVENT_CODE(IIO_TEMP,        =
+\
+> +						       0,               \
+>  						       IIO_EV_TYPE_THRESH, \
+>  						       IIO_EV_DIR_FALLING)
+> =20
+
+Seems like another stray change.
+
+> @@ -351,11 +349,12 @@ static const struct iio_info ad7816_info =3D {
+> =20
+>  static int ad7816_probe(struct spi_device *spi_dev)
+>  {
+> +	struct device *dev =3D &spi_dev->dev;
+
+Again, why are we doing style changes? This seems to be a fix instead of
+a style patch.
+
+>  	struct ad7816_chip_info *chip;
+>  	struct iio_dev *indio_dev;
+>  	int i, ret;
+> =20
+> -	indio_dev =3D devm_iio_device_alloc(&spi_dev->dev, sizeof(*chip));
+> +	indio_dev =3D devm_iio_device_alloc(dev, sizeof(*chip));
+>  	if (!indio_dev)
+>  		return -ENOMEM;
+>  	chip =3D iio_priv(indio_dev);
+
+...
+
+> @@ -431,7 +421,6 @@ static const struct spi_device_id ad7816_id[] =3D {
+>  	{ "ad7818", ID_AD7818 },
+>  	{ }
+>  };
+> -
+
+Stray change.
+
+>  MODULE_DEVICE_TABLE(spi, ad7816_id);
+> =20
+>  static struct spi_driver ad7816_driver =3D {
+
+
+--=20
+best regards,
+max
+
+
+--bf94d117aab954e431a08de8ad5ad467a2313772f0af2049462f558603cc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTMrEGfAFxnfnRQ/UIQghIb0dl/iQUCalExfgAKCRAQghIb0dl/
+iZ0CAX43+2agHfad+6pqgKeDQ5Qi/G4AxGVSP1M5pU9xZ4anEspFjfF9On5hWe9l
+GJsdU6oBgPMccTfg3SSIYoSfVCOvEboqSAT0xl4CiiXYeOx30w3pV5ErKpfcoI1a
+G9NuzugpMg==
+=MjO/
+-----END PGP SIGNATURE-----
+
+--bf94d117aab954e431a08de8ad5ad467a2313772f0af2049462f558603cc--
