@@ -1,301 +1,527 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5763B385D85;
-	Fri, 10 Jul 2026 20:44:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C6883B14C2
+	for <linux-staging@lists.linux.dev>; Fri, 10 Jul 2026 21:23:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783716287; cv=none; b=nC87/XQy+OuavLKNwqICv4xRcihrKhftXpfwCnNSVokosDMjZ1s/JGKzCZraE1v/6xNthbrDSJYhPRmZwJ9Wh5j/e1aPTOD9Kand1BE4ZNontB/+tqLz11FiacPEFmF139cnZ2dfDPPAPMm3Y6gyTE32cDDy9dEkv1zFTFF64eY=
+	t=1783718611; cv=none; b=uZ/QZt4H6E/mwbX5MqFUQFgn+UZFv7KytFxHLg1eAd7gRJjI2/cYgbT0FlsGJsOfSTvdzdi+kB3KBUk6UsO/wxsQlMx7fHZGyFdBOVA3pwgQciERTTfFHXgRcQKK18jmxFXttPgsWdA4sJqb9mvsUO4vcZUVoN0ffy2SerGcCr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783716287; c=relaxed/simple;
-	bh=ltqMKCiaqQdjvTI+FF1Bbx8iaCWQ0kLFmcfGnyBTD70=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=tT+VfAtc5hw5hUpXbN9utdYqH/0gw3jBeHyg9g7i+CXrBhkvr0Vhj8m4NQmRuxOoESjXz1yIe/FV4s4cyK58GOnW0WjjZbEKuoJ2W4IkkC/W9fO000qIGRe7QLmmxGv6crgxKLfWX8cKSh9lQ6IrTCxCMDbXOmPJs/baWnzaBjw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=CnVVOsUp; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1783718611; c=relaxed/simple;
+	bh=AcfVmJkqR7bn7li+332O5qBBSAUO/bk1Bc4usi+5dis=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bfGa2Y0F3dbQbly2XFOttIYnA4tr4bYf2ZqOkPnM4nCrRSHswmbCUYR3vuclQkT7Q0VrIiR2hbazdsYNIN0FoqTCtTIIpIQR+aSenosywcq51I5Lyby7Y+eRdcGrphhVy+VADqtpQ8GgQCI9beunwuJDRmeWjrnTXzHhONaiEoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YE8druhJ; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="CnVVOsUp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1783716284;
-	bh=ltqMKCiaqQdjvTI+FF1Bbx8iaCWQ0kLFmcfGnyBTD70=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=CnVVOsUpmfXVpd5NASaGnZj2GulmbwGyMJKdSNXJPWhcrujOmjTkV+9t5n7689Nka
-	 8NUvv8FnT/G4c4p6720OQw0ksqjvI5Ey196DAZh7zw0wy87sYnBu+IoDNH0bIXEc+b
-	 l5etBxyFOZe3MEyw9Dp9N0GbUicFnd6UDjykD2a2qxpOeo0Pdbk2AMFCK5CL3O4+Al
-	 OkdfhZCO4CMeDHEQM1wew+ibxJRZIwHy0a72eK+k2Z5VXR9HBVh11SDBrvHohHr/5w
-	 gEkApOdH8jU0XlHa40XIHPWPz83KFrSZFXc+pYC0aTVC0oga/hXypRwe8GofYvErXd
-	 ZLrU4ofi8pQpQ==
-Received: from [100.64.0.214] (unknown [100.64.0.214])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 33BAE17E03CE;
-	Fri, 10 Jul 2026 22:44:43 +0200 (CEST)
-Message-ID: <88535b996b84fae201592da11847ce9f7735a7eb.camel@collabora.com>
-Subject: Re: [PATCH v2] media: cedrus: reject invalid active H.264 ref
- indices
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Pengpeng Hou <pengpeng@iscas.ac.cn>, Maxime Ripard <mripard@kernel.org>
-Cc: Paul Kocialkowski <paulk@sys-base.io>, Mauro Carvalho Chehab	
- <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland	 <samuel@sholland.org>, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Date: Fri, 10 Jul 2026 16:44:41 -0400
-In-Reply-To: <273883f0479afb1037d9b4b815937267b6bd658d.camel@collabora.com>
-References: <20260324080856.56787-1-pengpeng@iscas.ac.cn>
-		 <20260409223001.1-cedrus-h264-active-v2-pengpeng@iscas.ac.cn>
-	 <273883f0479afb1037d9b4b815937267b6bd658d.camel@collabora.com>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Organization: Collabora Canada
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-o4MtyftxKrMMeCtHeUA0"
-User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YE8druhJ"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-c15f6d667bcso177093866b.2
+        for <linux-staging@lists.linux.dev>; Fri, 10 Jul 2026 14:23:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783718607; x=1784323407; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=DQKLAy+q4WVq9Y37Ln7ncK+4sykkn+Pf4c/5Lgs8Ca8=;
+        b=YE8druhJku+vDtBU6DDtr5jZZbcJtRX8JJk+YoPvUvIthVFn1KbEKsnOQuIAXTIrEf
+         ZPvXfD8QoHeSt0xb8rv91XzTMOnrm/7ZDhFnrvUuvVzfNmBSlHVduV5usLUG7NvwED86
+         eYEpH7oD8+/HgkN+xmo5Re0cWooj7gagWJEjytExeJpQq+SNICdpkVDFr9QkZG/wd5MO
+         +zCJNzWnIbXDD9wEck1NP9tY5UXPHIdgg9CSkQc660QdQbninsXFViETHHSGoDzA/MCo
+         PLNKVF7zwfnTxXrjIeZa9KMWVS1P7RH5eSv3+Ulp0CwlwoV2Vr0oVtNxLq95pA07xPo7
+         9aBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783718607; x=1784323407;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=DQKLAy+q4WVq9Y37Ln7ncK+4sykkn+Pf4c/5Lgs8Ca8=;
+        b=qfvSiudW1XnZ8RQI0mRm+2KXXKet2Ig14movXkzQIiWnZo9GZJS7Gy71dUmdvj2/jV
+         1UVUr6t3bS8G9QLVdC656MIDDTdPvsQfncCmIkOz+BJ8LrgOtu54ONJD4LSzSizp3TRx
+         Q+wj4/JH3azL6uvOIV0rEXh7rjTCpYLjtO6MsNk4oksmMb1Myg4J1YS8P5vjqgOpc81J
+         zSQmnA3gLG84rISbkrBcia+XOPov7NavBLBtmLgG2C9Y+3RRwbk43pz4vVp4kc+EMKMy
+         9ruKeDhSKJxuTYRXRGA9otz+wkLP/zdFtMIrbwLErY1vYlzonYcUckHaXC8QhRReY/Cw
+         rYfQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rq+tjS6ALZL4lqLUQBgJSQ2Qy5OCtzVXijdJ2/kffL49uRjdNi345Pu2NXbjA4YPtMDggQ9RcZ4FcqIFVrk@lists.linux.dev
+X-Gm-Message-State: AOJu0YzEMGSzGnDttgqtFtgEu5IXkwwYxwJ0ZDNXHl2njCkice5IUMyn
+	w1I3Ye+LrJNzW2MWEbeO3DCV2r9C+1zatbzT0jYEVfcABVxOzYHZ0+54
+X-Gm-Gg: AfdE7cmz3E24xS3Y8NpNBEDYHScK6/EXV4N1G7pfrZDakEMC9P/KODC7t2/qLTDuSeF
+	q4YIBJdm5LlXblQ+nbAgh/cLovpPiAWY4+UcFLkp0TM37MnRPw/8YBg4P8E3cdycpRd2BvCOyXE
+	hZUjHPdPLSCUcqurw5iwQUBBN2IIp/RjigvGWgD26aoyJjII77KH8nZZrzZ0qOhB4A0brNRkeFY
+	y2eJCW4t+RCYNwMm/mc+Su/7iFTc65nzq3mfOQexPOH7wn+zAllgWABCB8bQKa4WjIV3eTIJTka
+	Ye5pXEQ+jnnpFEjdzalKbadFa94O7jI4Fb3Or9VeDMWlqRrEoRzIZVWXxIcNfvThcT3+GcwyWs8
+	6XvqjWJpbWDy3UJaEo0XMaHKg4SsCyoq1iKaQZOQYRhk1RlenoH2B3sNHPaxxc/wgEfssK3SCc5
+	4OnhPvRtsFLd6EZR4dGBR+GCMUHZOV4RGSl4ZfagoTaW0TVJcNGp/O8PZsyc7gyGA=
+X-Received: by 2002:a17:907:3f0c:b0:c12:34ed:e100 with SMTP id a640c23a62f3a-c161f38b21bmr21774166b.62.1783718606434;
+        Fri, 10 Jul 2026 14:23:26 -0700 (PDT)
+Received: from node ([202.47.63.86])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1602f5e9c5sm137784266b.21.2026.07.10.14.23.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Jul 2026 14:23:25 -0700 (PDT)
+From: Muhammad Bilal <meatuni001@gmail.com>
+To: greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Vaibhav Agarwal <vaibhav.sr@gmail.com>,
+	Mark Greer <mgreer@animalcreek.com>,
+	Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Muhammad Bilal <meatuni001@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] staging: greybus: audio: bound topology parsing to the received buffer
+Date: Sat, 11 Jul 2026 02:23:12 +0500
+Message-ID: <20260710212312.117781-1-meatuni001@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
+The Greybus audio topology parser trusts length and count fields taken
+straight from the module's topology blob and never checks them against
+the size of the buffer it actually allocated, leading to out-of-bounds
+reads of the kernel heap.
 
---=-o4MtyftxKrMMeCtHeUA0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+gb_audio_gb_get_topology() reads a u16 size from the module, allocates a
+buffer of that size, fetches the topology into it, and then discards the
+size. gbaudio_tplg_parse_data() then walks that buffer using fields
+stored inside it:
 
-Le vendredi 10 juillet 2026 =C3=A0 16:34 -0400, Nicolas Dufresne a =C3=A9cr=
-it=C2=A0:
-> Le jeudi 09 avril 2026 =C3=A0 21:30 +0800, Pengpeng Hou a =C3=A9crit=C2=
-=A0:
-> > Cedrus consumes the active ref_pic_list0/ref_pic_list1 entries and uses
-> > their indices to look up decode->dpb[] in _cedrus_write_ref_list().
-> >=20
-> > Those active portions are the first
-> > num_ref_idx_l0_active_minus1 + 1 / num_ref_idx_l1_active_minus1 + 1
-> > entries in the two reference lists.
-> >=20
-> > An out-of-range index in that active portion can therefore read past th=
-e
-> > fixed V4L2_H264_NUM_DPB_ENTRIES array.
-> >=20
-> > Checking this in cedrus_try_ctrl() is awkward because the request-local
-> > DPB state may not have been applied yet. Instead, validate the active
-> > entries at the actual Cedrus use site and fail setup with -EINVAL if on=
-e
-> > points past decode->dpb[].
-> >=20
-> > Entries beyond the active reference counts remain ignored as before, so
-> > this does not change how Cedrus treats unused tail data in the
-> > reference-list controls.
-> >=20
-> > Fixes: 6eb9b758e307 ("media: cedrus: Add H264 decoding support")
-> > Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
->=20
-> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
->=20
-> > ---
-> > Changes since v1:
-> > - reject invalid indices in the active reference list entries instead o=
-f
-> > =C2=A0 silently skipping them
-> > - keep the validation at the Cedrus use site, but propagate -EINVAL bac=
-k
-> > =C2=A0 through setup
-> >=20
-> > =C2=A0drivers/staging/media/sunxi/cedrus/cedrus_h264.c | 32 +++++++++++=
-+++--
-> > =C2=A01 file changed, 29 insertions(+), 3 deletions(-)
-> >=20
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers=
-/staging/media/sunxi/cedrus/cedrus_h264.c
-> > index 3e2843ef6cce..58c411c580f3 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> > @@ -186,10 +186,10 @@ static int cedrus_write_frame_list(struct cedrus_=
-ctx *ctx,
-> > =C2=A0
-> > =C2=A0#define CEDRUS_MAX_REF_IDX	32
-> > =C2=A0
-> > -static void _cedrus_write_ref_list(struct cedrus_ctx *ctx,
-> > -				=C2=A0=C2=A0 struct cedrus_run *run,
-> > -				=C2=A0=C2=A0 const struct v4l2_h264_reference *ref_list,
-> > -				=C2=A0=C2=A0 u8 num_ref, enum cedrus_h264_sram_off sram)
-> > +static int _cedrus_write_ref_list(struct cedrus_ctx *ctx,
-> > +				=C2=A0 struct cedrus_run *run,
-> > +				=C2=A0 const struct v4l2_h264_reference *ref_list,
-> > +				=C2=A0 u8 num_ref, enum cedrus_h264_sram_off sram)
-> > =C2=A0{
-> > =C2=A0	const struct v4l2_ctrl_h264_decode_params *decode =3D run->h264.=
-decode_params;
-> > =C2=A0	struct vb2_queue *cap_q;
-> > @@ -210,6 +210,9 @@ static void _cedrus_write_ref_list(struct cedrus_ct=
-x *ctx,
-> > =C2=A0		u8 dpb_idx;
-> > =C2=A0
-> > =C2=A0		dpb_idx =3D ref_list[i].index;
-> > +		if (dpb_idx >=3D V4L2_H264_NUM_DPB_ENTRIES)
-> > +			return -EINVAL;
-> > +
+  - gbaudio_tplg_process_header() computes the control, widget and route
+    block offsets by adding the wire-supplied __le32 size_dais,
+    size_controls and size_widgets onto the buffer base with no bound, so
+    a module that reports a small allocation size but large block sizes
+    moves those offsets far past the end of the buffer before they are
+    dereferenced.
 
-Ah, got confused in triaging, this one got actually replaced by what we alr=
-eady
-merged, which is just these two lines. Marking as obsolete, feel free to fo=
-llow-
-up.
+  - gbaudio_tplg_process_kcontrols(), _process_widgets() and
+    _process_routes() iterate num_controls / num_widgets / num_routes
+    (also from the blob) and advance a pointer by a per-element size that
+    includes the __le16 names_length of an enumerated control, again with
+    no check that the element stays inside the buffer.
 
-cheers,
-Nicolas
+  - gb_generate_enum_strings() loops over an attacker-controlled __le32
+    items count and, for each, scans for a NUL terminator with no end
+    pointer, walking off the end of the buffer.
 
-> > =C2=A0		dpb =3D &decode->dpb[dpb_idx];
-> > =C2=A0
-> > =C2=A0		if (!(dpb->flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
-> > @@ -229,28 +232,30 @@ static void _cedrus_write_ref_list(struct cedrus_=
-ctx *ctx,
-> > =C2=A0
-> > =C2=A0	size =3D min_t(size_t, ALIGN(num_ref, 4), sizeof(sram_array));
-> > =C2=A0	cedrus_h264_write_sram(dev, sram, &sram_array, size);
-> > +
-> > +	return 0;
-> > =C2=A0}
-> > =C2=A0
-> > -static void cedrus_write_ref_list0(struct cedrus_ctx *ctx,
-> > -				=C2=A0=C2=A0 struct cedrus_run *run)
-> > +static int cedrus_write_ref_list0(struct cedrus_ctx *ctx,
-> > +				=C2=A0 struct cedrus_run *run)
-> > =C2=A0{
-> > =C2=A0	const struct v4l2_ctrl_h264_slice_params *slice =3D run->h264.sl=
-ice_params;
-> > =C2=A0
-> > -	_cedrus_write_ref_list(ctx, run,
-> > -			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 slice->ref_pic_list0,
-> > -			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 slice->num_ref_idx_l0_active_m=
-inus1 + 1,
-> > -			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 CEDRUS_SRAM_H264_REF_LIST_0);
-> > +	return _cedrus_write_ref_list(ctx, run,
-> > +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 slice->ref_pic_list0,
-> > +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 slice->num_ref_idx_l0_active_minus1=
- + 1,
-> > +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 CEDRUS_SRAM_H264_REF_LIST_0);
-> > =C2=A0}
-> > =C2=A0
-> > -static void cedrus_write_ref_list1(struct cedrus_ctx *ctx,
-> > -				=C2=A0=C2=A0 struct cedrus_run *run)
-> > +static int cedrus_write_ref_list1(struct cedrus_ctx *ctx,
-> > +				=C2=A0 struct cedrus_run *run)
-> > =C2=A0{
-> > =C2=A0	const struct v4l2_ctrl_h264_slice_params *slice =3D run->h264.sl=
-ice_params;
-> > =C2=A0
-> > -	_cedrus_write_ref_list(ctx, run,
-> > -			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 slice->ref_pic_list1,
-> > -			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 slice->num_ref_idx_l1_active_m=
-inus1 + 1,
-> > -			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 CEDRUS_SRAM_H264_REF_LIST_1);
-> > +	return _cedrus_write_ref_list(ctx, run,
-> > +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 slice->ref_pic_list1,
-> > +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 slice->num_ref_idx_l1_active_minus1=
- + 1,
-> > +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 CEDRUS_SRAM_H264_REF_LIST_1);
-> > =C2=A0}
-> > =C2=A0
-> > =C2=A0static void cedrus_write_scaling_lists(struct cedrus_ctx *ctx,
-> > @@ -338,8 +343,8 @@ static void cedrus_skip_bits(struct cedrus_dev *dev=
-, int num)
-> > =C2=A0	}
-> > =C2=A0}
-> > =C2=A0
-> > -static void cedrus_set_params(struct cedrus_ctx *ctx,
-> > -			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct cedrus_run *run)
-> > +static int cedrus_set_params(struct cedrus_ctx *ctx,
-> > +			=C2=A0=C2=A0=C2=A0=C2=A0 struct cedrus_run *run)
-> > =C2=A0{
-> > =C2=A0	const struct v4l2_ctrl_h264_decode_params *decode =3D run->h264.=
-decode_params;
-> > =C2=A0	const struct v4l2_ctrl_h264_slice_params *slice =3D run->h264.sl=
-ice_params;
-> > @@ -351,6 +356,7 @@ static void cedrus_set_params(struct cedrus_ctx *ct=
-x,
-> > =C2=A0	size_t slice_bytes =3D vb2_get_plane_payload(src_buf, 0);
-> > =C2=A0	unsigned int pic_width_in_mbs;
-> > =C2=A0	bool mbaff_pic;
-> > +	int ret;
-> > =C2=A0	u32 reg;
-> > =C2=A0
-> > =C2=A0	cedrus_write(dev, VE_H264_VLD_LEN, slice_bytes * 8);
-> > @@ -393,11 +399,17 @@ static void cedrus_set_params(struct cedrus_ctx *=
-ctx,
-> > =C2=A0
-> > =C2=A0	if ((slice->slice_type =3D=3D V4L2_H264_SLICE_TYPE_P) ||
-> > =C2=A0	=C2=A0=C2=A0=C2=A0 (slice->slice_type =3D=3D V4L2_H264_SLICE_TYP=
-E_SP) ||
-> > -	=C2=A0=C2=A0=C2=A0 (slice->slice_type =3D=3D V4L2_H264_SLICE_TYPE_B))
-> > -		cedrus_write_ref_list0(ctx, run);
-> > +	=C2=A0=C2=A0=C2=A0 (slice->slice_type =3D=3D V4L2_H264_SLICE_TYPE_B))=
+A malicious or malfunctioning module can therefore make the parser read
+past the allocation. The wild block offsets are most likely to hit an
+unmapped page and oops (denial of service); the byte-at-a-time enum scan
+walks from a still-valid pointer and can copy adjacent heap bytes into
+ALSA control name strings, which are readable by unprivileged local
+users, so an information leak cannot be ruled out.
+
+Thread the allocated topology size from gb_audio_gb_get_topology()
+through to gbaudio_tplg_parse_data() and bound every walk against the end
+of the buffer: verify the block offsets are ordered and within the
+buffer (the "< previous" tests also catch a 32-bit unsigned wrap of the
+running offset), check each control, widget and route lies fully inside
+its block before use, and give gb_generate_enum_strings() an explicit
+end pointer plus an items-versus-names_length sanity check.
+
+Fixes: 6339d2322c47 ("greybus: audio: Add topology parser for GB codec")
+Cc: stable@vger.kernel.org
+Signed-off-by: Muhammad Bilal <meatuni001@gmail.com>
+---
+ drivers/staging/greybus/audio_codec.h    |   4 +-
+ drivers/staging/greybus/audio_gb.c       |  13 ++-
+ drivers/staging/greybus/audio_module.c   |   6 +-
+ drivers/staging/greybus/audio_topology.c | 135 ++++++++++++++++++-----
+ 4 files changed, 120 insertions(+), 38 deletions(-)
+
+diff --git a/drivers/staging/greybus/audio_codec.h b/drivers/staging/greybus/audio_codec.h
+index f3f7a7ec6be40..f9225cf52d843 100644
+--- a/drivers/staging/greybus/audio_codec.h
++++ b/drivers/staging/greybus/audio_codec.h
+@@ -167,7 +167,7 @@ struct gbaudio_module_info {
+ };
+ 
+ int gbaudio_tplg_parse_data(struct gbaudio_module_info *module,
+-			    struct gb_audio_topology *tplg_data);
++			    struct gb_audio_topology *tplg_data, size_t size);
+ void gbaudio_tplg_release(struct gbaudio_module_info *module);
+ 
+ int gbaudio_module_update(struct gbaudio_codec_info *codec,
+@@ -179,7 +179,7 @@ void gbaudio_unregister_module(struct gbaudio_module_info *module);
+ 
+ /* protocol related */
+ int gb_audio_gb_get_topology(struct gb_connection *connection,
+-			     struct gb_audio_topology **topology);
++			     struct gb_audio_topology **topology, size_t *size);
+ int gb_audio_gb_get_control(struct gb_connection *connection,
+ 			    u8 control_id, u8 index,
+ 			    struct gb_audio_ctl_elem_value *value);
+diff --git a/drivers/staging/greybus/audio_gb.c b/drivers/staging/greybus/audio_gb.c
+index 9d8994fdb41a2..0811652bc417f 100644
+--- a/drivers/staging/greybus/audio_gb.c
++++ b/drivers/staging/greybus/audio_gb.c
+@@ -10,11 +10,11 @@
+ 
+ /* TODO: Split into separate calls */
+ int gb_audio_gb_get_topology(struct gb_connection *connection,
+-			     struct gb_audio_topology **topology)
++			     struct gb_audio_topology **topology, size_t *size)
  {
-> > +		ret =3D cedrus_write_ref_list0(ctx, run);
-> > +		if (ret)
-> > +			return ret;
-> > +	}
-> > =C2=A0
-> > -	if (slice->slice_type =3D=3D V4L2_H264_SLICE_TYPE_B)
-> > -		cedrus_write_ref_list1(ctx, run);
-> > +	if (slice->slice_type =3D=3D V4L2_H264_SLICE_TYPE_B) {
-> > +		ret =3D cedrus_write_ref_list1(ctx, run);
-> > +		if (ret)
-> > +			return ret;
-> > +	}
-> > =C2=A0
-> > =C2=A0	// picture parameters
-> > =C2=A0	reg =3D 0;
-> > @@ -478,6 +490,8 @@ static void cedrus_set_params(struct cedrus_ctx *ct=
-x,
-> > =C2=A0		=C2=A0=C2=A0=C2=A0=C2=A0 VE_H264_CTRL_SLICE_DECODE_INT |
-> > =C2=A0		=C2=A0=C2=A0=C2=A0=C2=A0 VE_H264_CTRL_DECODE_ERR_INT |
-> > =C2=A0		=C2=A0=C2=A0=C2=A0=C2=A0 VE_H264_CTRL_VLD_DATA_REQ_INT);
-> > +
-> > +	return 0;
-> > =C2=A0}
-> > =C2=A0
-> > =C2=A0static enum cedrus_irq_status
-> > @@ -531,9 +545,7 @@ static int cedrus_h264_setup(struct cedrus_ctx *ctx=
-, struct cedrus_run *run)
-> > =C2=A0	if (ret)
-> > =C2=A0		return ret;
-> > =C2=A0
-> > -	cedrus_set_params(ctx, run);
-> > -
-> > -	return 0;
-> > +	return cedrus_set_params(ctx, run);
-> > =C2=A0}
-> > =C2=A0
-> > =C2=A0static int cedrus_h264_start(struct cedrus_ctx *ctx)
+ 	struct gb_audio_get_topology_size_response size_resp;
+ 	struct gb_audio_topology *topo;
+-	u16 size;
++	u16 tplg_size;
+ 	int ret;
+ 
+ 	ret = gb_operation_sync(connection, GB_AUDIO_TYPE_GET_TOPOLOGY_SIZE,
+@@ -22,22 +22,23 @@ int gb_audio_gb_get_topology(struct gb_connection *connection,
+ 	if (ret)
+ 		return ret;
+ 
+-	size = le16_to_cpu(size_resp.size);
+-	if (size < sizeof(*topo))
++	tplg_size = le16_to_cpu(size_resp.size);
++	if (tplg_size < sizeof(*topo))
+ 		return -ENODATA;
+ 
+-	topo = kzalloc(size, GFP_KERNEL);
++	topo = kzalloc(tplg_size, GFP_KERNEL);
+ 	if (!topo)
+ 		return -ENOMEM;
+ 
+ 	ret = gb_operation_sync(connection, GB_AUDIO_TYPE_GET_TOPOLOGY, NULL, 0,
+-				topo, size);
++				topo, tplg_size);
+ 	if (ret) {
+ 		kfree(topo);
+ 		return ret;
+ 	}
+ 
+ 	*topology = topo;
++	*size = tplg_size;
+ 
+ 	return 0;
+ }
+diff --git a/drivers/staging/greybus/audio_module.c b/drivers/staging/greybus/audio_module.c
+index 12c376c477b3c..9367ab6debdbe 100644
+--- a/drivers/staging/greybus/audio_module.c
++++ b/drivers/staging/greybus/audio_module.c
+@@ -240,6 +240,7 @@ static int gb_audio_probe(struct gb_bundle *bundle,
+ 	struct gbaudio_data_connection *dai, *_dai;
+ 	int ret, i;
+ 	struct gb_audio_topology *topology;
++	size_t tplg_size;
+ 
+ 	/* There should be at least one Management and one Data cport */
+ 	if (bundle->num_cports < 2)
+@@ -308,14 +309,15 @@ static int gb_audio_probe(struct gb_bundle *bundle,
+ 	 * FIXME: malloc for topology happens via audio_gb driver
+ 	 * should be done within codec driver itself
+ 	 */
+-	ret = gb_audio_gb_get_topology(gbmodule->mgmt_connection, &topology);
++	ret = gb_audio_gb_get_topology(gbmodule->mgmt_connection, &topology,
++				       &tplg_size);
+ 	if (ret) {
+ 		dev_err(dev, "%d:Error while fetching topology\n", ret);
+ 		goto disable_connection;
+ 	}
+ 
+ 	/* process topology data */
+-	ret = gbaudio_tplg_parse_data(gbmodule, topology);
++	ret = gbaudio_tplg_parse_data(gbmodule, topology, tplg_size);
+ 	if (ret) {
+ 		dev_err(dev, "%d:Error while parsing topology data\n",
+ 			ret);
+diff --git a/drivers/staging/greybus/audio_topology.c b/drivers/staging/greybus/audio_topology.c
+index 76146f91cddcc..4095e6c741efa 100644
+--- a/drivers/staging/greybus/audio_topology.c
++++ b/drivers/staging/greybus/audio_topology.c
+@@ -134,21 +134,35 @@ static const char **gb_generate_enum_strings(struct gbaudio_module_info *gb,
+ 					     struct gb_audio_enumerated *gbenum)
+ {
+ 	const char **strings;
+-	int i;
+ 	unsigned int items;
+-	__u8 *data;
++	u16 names_length;
++	const __u8 *data;
++	const __u8 *end;
++	int i;
+ 
+ 	items = le32_to_cpu(gbenum->items);
++	names_length = le16_to_cpu(gbenum->names_length);
++	data = gbenum->names;
++	end = data + names_length;
++
++	/*
++	 * Each enumerated value is a NUL-terminated string occupying at least
++	 * one byte, so a valid names block cannot hold more items than it has
++	 * bytes. This also bounds the devm_kcalloc() request below.
++	 */
++	if (items > names_length)
++		return NULL;
++
+ 	strings = devm_kcalloc(gb->dev, items, sizeof(char *), GFP_KERNEL);
+ 	if (!strings)
+ 		return NULL;
+ 
+-	data = gbenum->names;
+-
+ 	for (i = 0; i < items; i++) {
+ 		strings[i] = (const char *)data;
+-		while (*data != '\0')
++		while (data < end && *data != '\0')
+ 			data++;
++		if (data == end)
++			return NULL;
+ 		data++;
+ 	}
+ 
+@@ -1009,9 +1023,40 @@ static const struct snd_soc_dapm_widget gbaudio_widgets[] = {
+ 					SND_SOC_DAPM_POST_PMD),
+ };
+ 
++/*
++ * Return the on-wire size of the topology control at @curr, in bytes, after
++ * verifying that the whole control - including its variable-length enum names
++ * block - lies within [@curr, @end). Returns a negative errno on overrun.
++ */
++static int gbaudio_control_size(struct gb_audio_control *curr, const u8 *end)
++{
++	size_t csize;
++
++	/*
++	 * Enough of the control must be present to read its id and name and
++	 * the fixed part of the enumerated descriptor (items, names_length).
++	 */
++	csize = offsetof(struct gb_audio_control, info);
++	csize += offsetof(struct gb_audio_ctl_elem_info, value);
++	csize += offsetof(struct gb_audio_enumerated, names);
++	if ((u8 *)curr + csize > end)
++		return -EINVAL;
++
++	if (curr->info.type == GB_AUDIO_CTL_ELEM_TYPE_ENUMERATED)
++		csize += le16_to_cpu(curr->info.value.enumerated.names_length);
++	else
++		csize = sizeof(struct gb_audio_control);
++
++	if ((u8 *)curr + csize > end)
++		return -EINVAL;
++
++	return csize;
++}
++
+ static int gbaudio_tplg_create_widget(struct gbaudio_module_info *module,
+ 				      struct snd_soc_dapm_widget *dw,
+-				      struct gb_audio_widget *w, int *w_size)
++				      struct gb_audio_widget *w, int *w_size,
++				      const u8 *end)
+ {
+ 	int i, ret, csize;
+ 	struct snd_kcontrol_new *widget_kctls;
+@@ -1040,6 +1085,11 @@ static int gbaudio_tplg_create_widget(struct gbaudio_module_info *module,
+ 	/* create relevant kcontrols */
+ 	curr = w->ctl;
+ 	for (i = 0; i < w->ncontrols; i++) {
++		ret = gbaudio_control_size(curr, end);
++		if (ret < 0)
++			goto error;
++		csize = ret;
++
+ 		ret = gbaudio_tplg_create_wcontrol(module, &widget_kctls[i],
+ 						   curr);
+ 		if (ret) {
+@@ -1063,10 +1113,6 @@ static int gbaudio_tplg_create_widget(struct gbaudio_module_info *module,
+ 			struct gb_audio_enumerated *gbenum =
+ 				&curr->info.value.enumerated;
+ 
+-			csize = offsetof(struct gb_audio_control, info);
+-			csize += offsetof(struct gb_audio_ctl_elem_info, value);
+-			csize += offsetof(struct gb_audio_enumerated, names);
+-			csize += le16_to_cpu(gbenum->names_length);
+ 			control->texts = (const char * const *)
+ 				gb_generate_enum_strings(module, gbenum);
+ 			if (!control->texts) {
+@@ -1074,8 +1120,6 @@ static int gbaudio_tplg_create_widget(struct gbaudio_module_info *module,
+ 				goto error;
+ 			}
+ 			control->items = le32_to_cpu(gbenum->items);
+-		} else {
+-			csize = sizeof(struct gb_audio_control);
+ 		}
+ 
+ 		*w_size += csize;
+@@ -1136,7 +1180,8 @@ static int gbaudio_tplg_create_widget(struct gbaudio_module_info *module,
+ }
+ 
+ static int gbaudio_tplg_process_kcontrols(struct gbaudio_module_info *module,
+-					  struct gb_audio_control *controls)
++					  struct gb_audio_control *controls,
++					  const u8 *end)
+ {
+ 	int i, csize, ret;
+ 	struct snd_kcontrol_new *dapm_kctls;
+@@ -1152,6 +1197,11 @@ static int gbaudio_tplg_process_kcontrols(struct gbaudio_module_info *module,
+ 
+ 	curr = controls;
+ 	for (i = 0; i < module->num_controls; i++) {
++		ret = gbaudio_control_size(curr, end);
++		if (ret < 0)
++			goto error;
++		csize = ret;
++
+ 		ret = gbaudio_tplg_create_kcontrol(module, &dapm_kctls[i],
+ 						   curr);
+ 		if (ret) {
+@@ -1176,10 +1226,6 @@ static int gbaudio_tplg_process_kcontrols(struct gbaudio_module_info *module,
+ 			struct gb_audio_enumerated *gbenum =
+ 				&curr->info.value.enumerated;
+ 
+-			csize = offsetof(struct gb_audio_control, info);
+-			csize += offsetof(struct gb_audio_ctl_elem_info, value);
+-			csize += offsetof(struct gb_audio_enumerated, names);
+-			csize += le16_to_cpu(gbenum->names_length);
+ 			control->texts = (const char * const *)
+ 				gb_generate_enum_strings(module, gbenum);
+ 			if (!control->texts) {
+@@ -1187,8 +1233,6 @@ static int gbaudio_tplg_process_kcontrols(struct gbaudio_module_info *module,
+ 				goto error;
+ 			}
+ 			control->items = le32_to_cpu(gbenum->items);
+-		} else {
+-			csize = sizeof(struct gb_audio_control);
+ 		}
+ 
+ 		list_add(&control->list, &module->ctl_list);
+@@ -1210,7 +1254,8 @@ static int gbaudio_tplg_process_kcontrols(struct gbaudio_module_info *module,
+ }
+ 
+ static int gbaudio_tplg_process_widgets(struct gbaudio_module_info *module,
+-					struct gb_audio_widget *widgets)
++					struct gb_audio_widget *widgets,
++					const u8 *end)
+ {
+ 	int i, ret, w_size;
+ 	struct snd_soc_dapm_widget *dapm_widgets;
+@@ -1225,8 +1270,13 @@ static int gbaudio_tplg_process_widgets(struct gbaudio_module_info *module,
+ 
+ 	curr = widgets;
+ 	for (i = 0; i < module->num_dapm_widgets; i++) {
++		/* The fixed part of the widget must lie within the buffer. */
++		if ((u8 *)curr + sizeof(struct gb_audio_widget) > end) {
++			ret = -EINVAL;
++			goto error;
++		}
+ 		ret = gbaudio_tplg_create_widget(module, &dapm_widgets[i],
+-						 curr, &w_size);
++						 curr, &w_size, end);
+ 		if (ret) {
+ 			dev_err(module->dev, "%s:%d type not supported\n",
+ 				curr->name, curr->type);
+@@ -1259,7 +1309,8 @@ static int gbaudio_tplg_process_widgets(struct gbaudio_module_info *module,
+ }
+ 
+ static int gbaudio_tplg_process_routes(struct gbaudio_module_info *module,
+-				       struct gb_audio_route *routes)
++				       struct gb_audio_route *routes,
++				       const u8 *end)
+ {
+ 	int i, ret;
+ 	struct snd_soc_dapm_route *dapm_routes;
+@@ -1275,6 +1326,10 @@ static int gbaudio_tplg_process_routes(struct gbaudio_module_info *module,
+ 	curr = routes;
+ 
+ 	for (i = 0; i < module->num_dapm_routes; i++) {
++		if ((u8 *)curr + sizeof(struct gb_audio_route) > end) {
++			ret = -EINVAL;
++			goto error;
++		}
+ 		dapm_routes->sink =
+ 			gbaudio_map_widgetid(module, curr->destination_id);
+ 		if (!dapm_routes->sink) {
+@@ -1320,8 +1375,12 @@ static int gbaudio_tplg_process_routes(struct gbaudio_module_info *module,
+ }
+ 
+ static int gbaudio_tplg_process_header(struct gbaudio_module_info *module,
+-				       struct gb_audio_topology *tplg_data)
++				       struct gb_audio_topology *tplg_data,
++				       size_t size)
+ {
++	unsigned long tplg_start = (unsigned long)tplg_data;
++	unsigned long tplg_end = tplg_start + size;
++
+ 	/* fetch no. of kcontrols, widgets & routes */
+ 	module->num_controls = tplg_data->num_controls;
+ 	module->num_dapm_widgets = tplg_data->num_widgets;
+@@ -1336,6 +1395,20 @@ static int gbaudio_tplg_process_header(struct gbaudio_module_info *module,
+ 	module->route_offset = module->widget_offset +
+ 					le32_to_cpu(tplg_data->size_widgets);
+ 
++	/*
++	 * The DAI, control, widget and route blocks are concatenated in that
++	 * order after the header. Their sizes come straight off the wire and
++	 * are attacker-controlled, so verify the resulting block boundaries
++	 * are ordered and stay within the allocated topology buffer. The
++	 * "< previous" tests also reject an unsigned wrap of the running
++	 * offset on 32-bit builds.
++	 */
++	if (module->control_offset < module->dai_offset ||
++	    module->widget_offset < module->control_offset ||
++	    module->route_offset < module->widget_offset ||
++	    module->route_offset > tplg_end)
++		return -EINVAL;
++
+ 	dev_dbg(module->dev, "DAI offset is 0x%lx\n", module->dai_offset);
+ 	dev_dbg(module->dev, "control offset is %lx\n",
+ 		module->control_offset);
+@@ -1346,7 +1419,7 @@ static int gbaudio_tplg_process_header(struct gbaudio_module_info *module,
+ }
+ 
+ int gbaudio_tplg_parse_data(struct gbaudio_module_info *module,
+-			    struct gb_audio_topology *tplg_data)
++			    struct gb_audio_topology *tplg_data, size_t size)
+ {
+ 	int ret;
+ 	struct gb_audio_control *controls;
+@@ -1357,7 +1430,10 @@ int gbaudio_tplg_parse_data(struct gbaudio_module_info *module,
+ 	if (!tplg_data)
+ 		return -EINVAL;
+ 
+-	ret = gbaudio_tplg_process_header(module, tplg_data);
++	if (size < sizeof(*tplg_data))
++		return -EINVAL;
++
++	ret = gbaudio_tplg_process_header(module, tplg_data, size);
+ 	if (ret) {
+ 		dev_err(module->dev, "%d: Error in parsing topology header\n",
+ 			ret);
+@@ -1366,7 +1442,8 @@ int gbaudio_tplg_parse_data(struct gbaudio_module_info *module,
+ 
+ 	/* process control */
+ 	controls = (struct gb_audio_control *)module->control_offset;
+-	ret = gbaudio_tplg_process_kcontrols(module, controls);
++	ret = gbaudio_tplg_process_kcontrols(module, controls,
++					     (const u8 *)module->widget_offset);
+ 	if (ret) {
+ 		dev_err(module->dev,
+ 			"%d: Error in parsing controls data\n", ret);
+@@ -1376,7 +1453,8 @@ int gbaudio_tplg_parse_data(struct gbaudio_module_info *module,
+ 
+ 	/* process widgets */
+ 	widgets = (struct gb_audio_widget *)module->widget_offset;
+-	ret = gbaudio_tplg_process_widgets(module, widgets);
++	ret = gbaudio_tplg_process_widgets(module, widgets,
++					   (const u8 *)module->route_offset);
+ 	if (ret) {
+ 		dev_err(module->dev,
+ 			"%d: Error in parsing widgets data\n", ret);
+@@ -1386,7 +1464,8 @@ int gbaudio_tplg_parse_data(struct gbaudio_module_info *module,
+ 
+ 	/* process route */
+ 	routes = (struct gb_audio_route *)module->route_offset;
+-	ret = gbaudio_tplg_process_routes(module, routes);
++	ret = gbaudio_tplg_process_routes(module, routes,
++					  (const u8 *)tplg_data + size);
+ 	if (ret) {
+ 		dev_err(module->dev,
+ 			"%d: Error in parsing routes data\n", ret);
+-- 
+2.55.0
 
---=-o4MtyftxKrMMeCtHeUA0
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCalFZuQAKCRDZQZRRKWBy
-9E4gAP9IKReqizEjnQfn4ApLGat1bJ5U0qQKq3VhmdZ9lvsLyQEAlR9FERLUU97O
-YAYg5Flg0N0JR45jozsHFNE8RcF5JgE=
-=Ag+W
------END PGP SIGNATURE-----
-
---=-o4MtyftxKrMMeCtHeUA0--
