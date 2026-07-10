@@ -1,279 +1,216 @@
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DBE7374725
-	for <linux-staging@lists.linux.dev>; Fri, 10 Jul 2026 17:53:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDDC63822AB
+	for <linux-staging@lists.linux.dev>; Fri, 10 Jul 2026 19:12:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783705991; cv=none; b=tekZzpo9WfiuvagPJKAw3LDZmvrXWuuJVr2jh2HNPIDEUmGGJyhiHyJczJjCVVbDtEsgo3p0FdazLTPhIMNnwNJmNfC5CWaPcRvVe066zZlVWvZZ3WtPopTXBQzYCgcRn7+DGiDvW9ou//jXD66MC2h1/5OMgNtuynoXWeSmiOI=
+	t=1783710749; cv=none; b=VL/oFw5+49FlGlKJV/qF2yuIFnAimZb+z0Z7PTNgc2okkMpoTFYFNsgNiEhKpvCW0PSw1FHtuDDla8oq+Ql5WzC+pbLrgn+Qj+x5K/8GoM1K3HH3UddNCplMde2lcxbhyxjKVYPWk8rBJySJhg3IOEwSpvbraOZMlYB0em6nh2E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783705991; c=relaxed/simple;
-	bh=OZapa3bgIo8yc+weY233lrRX3z7qkV8mFNDkYIfQ7Sw=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:In-Reply-To:
-	 Subject:References; b=eBQsuznTyNWd0+EiVhCN+bEVdoQkglzSDl+MnM+wx+Pij05pjiPkZOOx3YSUBuDlQ76ev9Zg5XN/bfi8svHlYdy4++LlX3fk2vAAfsEgm7RfO/aYhQzBhYd1zBl/G9GKgzsBtHS7SEKFz/4kaW86Z5elp4seDIJWxnWE5sKW3nM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F6czLgtO; arc=none smtp.client-ip=209.85.210.46
+	s=arc-20240116; t=1783710749; c=relaxed/simple;
+	bh=hN1BELHe0HzMVXZth/JdE+10ehzOn9zzJk1tjshEl80=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pj49zN6kmudrkfyZ6GnYlGGXML+dbdjDUP7kEcLDAeyav6EYelMXrAzLaWpIa/kw/m1HD1CQ1LQ5Ni9AeKfULmZcSSbK32KRTs60Rs+cJCQ3ky2eEp2cj1ndP8001cgQHNMjwv9yPYoAbK4sYx3rxNEp3p4jCCfOVZoe0/yJRqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qOkFMZ6h; arc=none smtp.client-ip=209.85.167.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F6czLgtO"
-Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-7eb34c17b96so817916a34.2
-        for <linux-staging@lists.linux.dev>; Fri, 10 Jul 2026 10:53:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qOkFMZ6h"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5aebc8cb5bcso910898e87.2
+        for <linux-staging@lists.linux.dev>; Fri, 10 Jul 2026 12:12:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783705988; x=1784310788; darn=lists.linux.dev;
-        h=references:subject:in-reply-to:cc:to:from:message-id:date
-         :content-type:mime-version:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=TfF2+32yHkCY9OgSDVX9M5VHYIrR7dh1QXXljKX3DLU=;
-        b=F6czLgtOzO7jlleds0o64Vxjp4McjMuQkuH57Om+6zkR5Y0d8qf0RX+CvYHvyedVcF
-         YUq2j9HpWLU8DsISmMR6MH5apNiS7aqY9uI06OJChLBLLsMfZzVPKX/skE80UHZmvPW7
-         ITkMPzpJfkwOj6Kh9OKC292pgU1lpaoBIy5ZEAJQhltzC3AaUJPA3JMr88pxeLKhqiNJ
-         RL/7VDAcTCdCEiO7srognjIU0WKs+E/DlEomLR0paovePVdlKfiRaH8FhQN9j6gdX+of
-         Xg+iBRT4MITmxC+kIWUCdeKsMYgYLAIeOs1LhiKzTgWRj/vf2G359bVQG6hehBc2lUgh
-         hyQw==
+        d=gmail.com; s=20251104; t=1783710746; x=1784315546; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=UJQcbXWAh+kWYkQGfCOXff9Cmt1+z/g0OGZkizOIHnU=;
+        b=qOkFMZ6hfmcQ3KFi49x+f1Aq/zqpAZzTULWeS5lqe+w+G/j9J7M89s+JTnDeZ7SZgJ
+         rhte/+Eg+gH+I1Hcw7Av9tgLcOzLfYoAaXxZ1iovF4/ak0dXDtfVUOwtScIdzqd205Nn
+         tQRIzZneCshvjyv/gVMQLmMyTzNCreXdUbvhsBwJBsoU/WMnNfmNqqEux3NAfzt1K4Zs
+         XyHP2JW1b7Kr1uE/lcc3DJkHgdAx2xhqLzzCeP14/T37XzXcTJCy7EJoM5YIoV+eGC8o
+         x2lvl/+MQS3Qal29l/weaXfUBLGjIYvF6+CwNkyQVYV2C3mo79Y9TQiAyJZahGsAKRMA
+         Q+Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783705988; x=1784310788;
-        h=references:subject:in-reply-to:cc:to:from:message-id:date
-         :content-type:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=TfF2+32yHkCY9OgSDVX9M5VHYIrR7dh1QXXljKX3DLU=;
-        b=PhQMnXxscEkLV4QlkC8Gs1/IhqccPKk4k6a4IL1fXGkYzusZuCNof5cIbnydUKPFMD
-         f5fCIrrnTcGArhT4rBI1DFUOdpx0Qw7YTq94GZpRcUR08FJ3CznUPURuaQR5j6oRtTra
-         URV/5CaiDiN/4HuIw6pwIz6O83g4F43jy6uSH97p85AyNlMPm0LqJyfEuGS66c1ehBzG
-         Kd28pKg8fzRswKB78qbHnJHZC0rHqhZjb8Ht6VMXNb6RCBVsqNJrAdc046FCqD5s+7jN
-         TEOvzNJjjzW0WmEDDNEmfRPAfwB+i0qTjZCiWCQkOGfvuYrXb2hUawD+2aERnQQt5OZK
-         CEkA==
-X-Forwarded-Encrypted: i=1; AFNElJ98eGmrv7YVmPns3CyVcdz/g6pzVLigmI/QG7rM6JQEGlFZtj8Hoa8/q8Gi7RvMazj77MsKNTgYcn1nOybM@lists.linux.dev
-X-Gm-Message-State: AOJu0YyltCQJzk5shxKJjV7VlSIMrbo+q5/+OLx3GSKpNEIjfgJZvo//
-	BTSvCm92tMG1fONc+jewMygTLtCLDEutaA+AYc7JCiufAWw1zKJPlvm4
-X-Gm-Gg: AfdE7ck1DabtqtTpkH37PGFFL951+0v2zawF6tBpyiwCeYtz0CESAAGI0x9S4W9zMBl
-	rZj+Kl34he0FYy19lSBRW5Qoc8r5Bd8wIl9O9U5RzjwUVMcrz7+n945xQvsoLhZrTtfJMjbA11A
-	zKiHGj9oS9dWbvVxfm2g6xDoyXazsFs/psSAWWrLtebUh8xbhFasuAtQNpy2j7EYIM0jJs/IF3T
-	03yXFGNnKwwk8AWeIleVyfOEHW4OZWOox5An+Y8YJBLJwBpxCkVOiMjijOem2Udsm/JKG69aE3K
-	i5W14CSB84XVf9zPUMimtBOTGdWQz95iOkBgCI+Fgs9G1INpbzQf03reGSa0ZJg6eBBnaXYRewU
-	LEjupZLlfK+WcHthIFQDnnRXhGm6yvEkIETX5H3TRkLNFkT/h/yookE3787ilsymr8kllwgp4BZ
-	Y7ZTACi95Sbq2fH0MbQzVMEi5ZxiFWNqEOgHfJmQ0=
-X-Received: by 2002:a05:6830:6015:b0:7e9:c4ce:f7e5 with SMTP id 46e09a7af769-7ebd00ef930mr9343510a34.23.1783705986703;
-        Fri, 10 Jul 2026 10:53:06 -0700 (PDT)
-Received: from localhost (23-88-128-2.fttp.usinternet.com. [23.88.128.2])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7ebcb2bae7fsm7514885a34.21.2026.07.10.10.53.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Jul 2026 10:53:06 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1783710746; x=1784315546;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=UJQcbXWAh+kWYkQGfCOXff9Cmt1+z/g0OGZkizOIHnU=;
+        b=MLxohnyBJRDtrBHkHCSf8UC30DLDSqQ2WC1PdWHJFgLLnoj3BwC5s+GxPV1P8t8RW3
+         axRmInw0GbcGMfEZCj8KyPMY7O6z6/RtCOhxRTklBr971GfbsaUCwJw05r1lAkFrzDRq
+         3XXTx5X7hZZk+5q5vnpH4biFiY1FBrf6wNZNtkZRkJzUbaBuFsn/ieQiAkEwrWu+1K2/
+         MLYfHxZVFe1jR7FfNcxSYGk21QKAxytp54lJUVM0Fyi1KHhUZMMjQ5cvurKLpLMZroMx
+         TiZVHJbMxCS27WokJpQ5264ZpSg+/XhEbBS18CnI8I1P09k17L9J3SxO2IByik2xHE8u
+         E0sQ==
+X-Gm-Message-State: AOJu0Yx8spt5DqK5fgsjSGiYel8ZF8sqBBt3rgaLpb8UYq82cAsJ47WO
+	L834G52SpIbYcfnxjmqyQnnrvHYDFVRrcZl94ep9Xb069ycXBORV3U38
+X-Gm-Gg: AfdE7ckF9TCrJY5qUZw1cHycMy3y63AzYg3cTjUjZfiLeuBrt1EKEY8Jbyg7ZGXvfs8
+	kX6T6T/HQ3OtV9rloLhXzTTk5ssE/FOIhD+ZJ0USHRHyT1Dn+8/XQFsEfpYf+78fTA+rBT4GAqX
+	Cx3QLgBN5AqaR1nN3KYHLdMWvo14hT+rABDseGpgS19K8Ku3kHxcAlRp5m/ic9Cxc3rMPTkyr72
+	HgVF1c0b6CEnjNndYvHkEd+fTdLEELIwiV8oiljNWk3eopLRV4diR67TD8ePX9w7N+ZpiuTPndh
+	Yn547VS4h/fLMqf9I6Sf9e6H2l+XdFFW+7jzagl0N1ujpOYu9inK1OTE4vRewEeXQE/PnmizG7s
+	mbklyAbxKw42bpWShgHcSLepbueVXZ/BvSO6Mn8OuJqLU9Gy0uDgyuim0JD6JJSo1bu7dpnpLRY
+	NKlz4JggqEebZSyrejZeIV7pqqv/u0m2lpD8ueD+FEvwjIwyp61nJqXEQUH7S/UL+mgkDTg1nqK
+	GQHRjc=
+X-Received: by 2002:ac2:51d1:0:b0:5b0:bc3:dc05 with SMTP id 2adb3069b0e04-5b02369c7cdmr76618e87.40.1783710745968;
+        Fri, 10 Jul 2026 12:12:25 -0700 (PDT)
+Received: from debian.localdomain (95-25-158-125.broadband.corbina.ru. [95.25.158.125])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b01ca9dd41sm807683e87.48.2026.07.10.12.12.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Jul 2026 12:12:25 -0700 (PDT)
+From: Igor Putko <igorpetindev@gmail.com>
+To: gregkh@linuxfoundation.org,
+	marvin24@gmx.de
+Cc: linux-staging@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	ac100@lists.launchpad.net,
+	linux-kernel@vger.kernel.org,
+	Igor Putko <igorpetindev@gmail.com>
+Subject: [PATCH] staging: nvec: kbd: replace global state with dynamic allocation
+Date: Fri, 10 Jul 2026 22:12:21 +0300
+Message-ID: <20260710191221.2820-1-igorpetindev@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: multipart/signed;
- boundary=bf94d117aab954e431a08de8ad5ad467a2313772f0af2049462f558603cc;
- micalg=pgp-sha384; protocol="application/pgp-signature"
-Date: Fri, 10 Jul 2026 12:53:01 -0500
-Message-Id: <DJV2ZZKDGQHF.1S79N3553DJ0C@gmail.com>
-From: "Maxwell Doose" <m32285159@gmail.com>
-To: "Taha Narimani" <tahanarimani3443@gmail.com>, <jic23@kernel.org>,
- <lars@metafoo.de>, <Michael.Hennerich@analog.com>,
- <gregkh@linuxfoundation.org>
-Cc: <dlechner@baylibre.com>, <nuno.sa@analog.com>, <andy@kernel.org>,
- <linux-iio@vger.kernel.org>, <linux-staging@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>
-In-Reply-To: <20260710160001.29856-2-tahanarimani3443@gmail.com>
-Subject: Re: [PATCH v3] staging: iio: adc: ad7816: Use
- devm_gpiod_get_optional() for busy GPIO
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260710160001.29856-1-tahanarimani3443@gmail.com>
- <20260710160001.29856-2-tahanarimani3443@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
---bf94d117aab954e431a08de8ad5ad467a2313772f0af2049462f558603cc
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+Remove the global static 'keys_dev' struct to allow multiple device
+instances. Allocate 'nvec_keys' dynamically per-device using
+devm_kzalloc() during probe, and fetch the context using
+input_get_drvdata() and container_of().
 
-Hi Taha,
+Signed-off-by: Igor Putko <igorpetindev@gmail.com>
+---
+ drivers/staging/nvec/nvec_kbd.c | 40 ++++++++++++++++++++-------------
+ 1 file changed, 24 insertions(+), 16 deletions(-)
 
-On Fri Jul 10, 2026 at 11:00 AM CDT
-Taha Narimani <tahanarimani3443@gmail.com> wrote:
+diff --git a/drivers/staging/nvec/nvec_kbd.c b/drivers/staging/nvec/nvec_kbd.c
+index d2b91318f..4b61aebca 100644
+--- a/drivers/staging/nvec/nvec_kbd.c
++++ b/drivers/staging/nvec/nvec_kbd.c
+@@ -35,19 +35,17 @@ struct nvec_keys {
+ 	bool caps_lock;
+ };
+ 
+-static struct nvec_keys keys_dev;
+-
+-static void nvec_kbd_toggle_led(void)
++static void nvec_kbd_toggle_led(struct nvec_keys *keys)
+ {
+ 	char buf[] = { NVEC_KBD, SET_LEDS, 0 };
+ 
+-	keys_dev.caps_lock = !keys_dev.caps_lock;
++	keys->caps_lock = !keys->caps_lock;
+ 
+-	if (keys_dev.caps_lock)
++	if (keys->caps_lock)
+ 		/* should be BIT(0) only, firmware bug? */
+ 		buf[2] = BIT(0) | BIT(1) | BIT(2);
+ 
+-	nvec_write_async(keys_dev.nvec, buf, sizeof(buf));
++	nvec_write_async(keys->nvec, buf, sizeof(buf));
+ }
+ 
+ static int nvec_keys_notifier(struct notifier_block *nb,
+@@ -55,6 +53,7 @@ static int nvec_keys_notifier(struct notifier_block *nb,
+ {
+ 	int code, state;
+ 	unsigned char *msg = data;
++	struct nvec_keys *keys = container_of(nb, struct nvec_keys, notifier);
+ 
+ 	if (event_type == NVEC_KB_EVT) {
+ 		int _size = (msg[0] & (3 << 5)) >> 5;
+@@ -70,11 +69,11 @@ static int nvec_keys_notifier(struct notifier_block *nb,
+ 		state = msg[1] & 0x80;
+ 
+ 		if (code_tabs[_size][code] == KEY_CAPSLOCK && state)
+-			nvec_kbd_toggle_led();
++			nvec_kbd_toggle_led(keys);
+ 
+-		input_report_key(keys_dev.input, code_tabs[_size][code],
++		input_report_key(keys->input, code_tabs[_size][code],
+ 				 !state);
+-		input_sync(keys_dev.input);
++		input_sync(keys->input);
+ 
+ 		return NOTIFY_STOP;
+ 	}
+@@ -85,7 +84,7 @@ static int nvec_keys_notifier(struct notifier_block *nb,
+ static int nvec_kbd_event(struct input_dev *dev, unsigned int type,
+ 			  unsigned int code, int value)
+ {
+-	struct nvec_chip *nvec = keys_dev.nvec;
++	struct nvec_keys *keys = input_get_drvdata(dev);
+ 	char buf[] = { NVEC_KBD, SET_LEDS, 0 };
+ 
+ 	if (type == EV_REP)
+@@ -98,7 +97,7 @@ static int nvec_kbd_event(struct input_dev *dev, unsigned int type,
+ 		return -1;
+ 
+ 	buf[2] = !!value;
+-	nvec_write_async(nvec, buf, sizeof(buf));
++	nvec_write_async(keys->nvec, buf, sizeof(buf));
+ 
+ 	return 0;
+ }
+@@ -107,6 +106,7 @@ static int nvec_kbd_probe(struct platform_device *pdev)
+ {
+ 	struct nvec_chip *nvec = dev_get_drvdata(pdev->dev.parent);
+ 	int i, j, err;
++	struct nvec_keys *keys;
+ 	struct input_dev *idev;
+ 	char	clear_leds[] = { NVEC_KBD, SET_LEDS, 0 },
+ 		enable_kbd[] = { NVEC_KBD, ENABLE_KBD },
+@@ -115,6 +115,9 @@ static int nvec_kbd_probe(struct platform_device *pdev)
+ 						true };
+ 
+ 	j = 0;
++	keys = devm_kzalloc(&pdev->dev, sizeof(struct nvec_keys), GFP_KERNEL);
++	if (!keys)
++		return -ENOMEM;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(code_tab_102us); ++i)
+ 		keycodes[j++] = code_tab_102us[i];
+@@ -138,14 +141,18 @@ static int nvec_kbd_probe(struct platform_device *pdev)
+ 		set_bit(keycodes[i], idev->keybit);
+ 
+ 	clear_bit(0, idev->keybit);
++
++	input_set_drvdata(idev, keys);
++	platform_set_drvdata(pdev, keys);
++
+ 	err = input_register_device(idev);
+ 	if (err)
+ 		return err;
+ 
+-	keys_dev.input = idev;
+-	keys_dev.notifier.notifier_call = nvec_keys_notifier;
+-	keys_dev.nvec = nvec;
+-	nvec_register_notifier(nvec, &keys_dev.notifier, 0);
++	keys->input = idev;
++	keys->notifier.notifier_call = nvec_keys_notifier;
++	keys->nvec = nvec;
++	nvec_register_notifier(nvec, &keys->notifier, 0);
+ 
+ 	/* Enable keyboard */
+ 	nvec_write_sync(nvec, enable_kbd, 2, NULL);
+@@ -165,12 +172,13 @@ static int nvec_kbd_probe(struct platform_device *pdev)
+ static void nvec_kbd_remove(struct platform_device *pdev)
+ {
+ 	struct nvec_chip *nvec = dev_get_drvdata(pdev->dev.parent);
++	struct nvec_keys *keys = platform_get_drvdata(pdev);
+ 	char disable_kbd[] = { NVEC_KBD, DISABLE_KBD },
+ 	     uncnfg_wake_key_reporting[] = { NVEC_KBD, CNFG_WAKE_KEY_REPORTING,
+ 						false };
+ 	nvec_write_async(nvec, uncnfg_wake_key_reporting, 3);
+ 	nvec_write_async(nvec, disable_kbd, 2);
+-	nvec_unregister_notifier(nvec, &keys_dev.notifier);
++	nvec_unregister_notifier(nvec, &keys->notifier);
+ }
+ 
+ static struct platform_driver nvec_kbd_driver = {
+-- 
+2.47.3
 
-> The driver currently utilizes devm_gpiod_get() for the 'busy' line,
-> which makes the GPIO mandatory. However, the busy pin is hardware-optiona=
-l
-> depending on the specific board configuration.
->
-> Switch to devm_gpiod_get_optional() to allow boards that do not have
-> this pin wired up to still probe the driver successfully. Clean up
-> the redundant busy_pin conditional checks as gpiod_get_value() safely
-> handles NULL descriptors. Additionally, use dev_err_probe() to prevent
-> bootlog spamming during deferred probing.
->
-> Fixes: 3e5971b2ddb6 ("base: original ad7816.c")
-
-If this is a fix, then why are we making style changes?
-
-> Signed-off-by: Taha Narimani <tahanarimani3443@gmail.com>
-> ---
-> Changes in v3:
->   - Removed redundant conditional check around gpiod_get_value() as sugge=
-sted by Andy Shevchenko and Dan Carpenter.
->   - Switched to dev_err_probe() to avoid deferred probe spamming.
->   - Introduced local struct device *dev pointer in probe and kept the GPI=
-O request on a single line for better readability.
-
-Unless someone requested this during review this doesn't make sense.
-Please see my above comment, and I'd also suggest to take a look at
-Documentation/process/submitting-patches.rst.
-
->   - Added the missing Fixes tag requested by Jonathan Cameron.
->
->  drivers/staging/iio/adc/ad7816.c | 67 +++++++++++++-------------------
->  1 file changed, 28 insertions(+), 39 deletions(-)
->
-> diff --git a/drivers/staging/iio/adc/ad7816.c b/drivers/staging/iio/adc/a=
-d7816.c
-> index 988eee3..807cf57 100644
-> --- a/drivers/staging/iio/adc/ad7816.c
-> Changes in v3:
->   - Removed redundant conditional check around gpiod_get_value() as sugge=
-sted by Andy Shevchenko and Dan Carpenter.
->   - Switched to dev_err_probe() to avoid deferred probe spamming.
->   - Introduced local struct device *dev pointer in probe and kept the GPI=
-O request on a single line for better readability.
->   - Added the missing Fixes tag requested by Jonathan Cameron.
->
-
-Wrong spot for this + causes the patch to not apply. It should be below
-the --- right after the list of tags.
-
-> +++ b/drivers/staging/iio/adc/ad7816.c
-> @@ -22,20 +22,20 @@
->  /*
->   * AD7816 config masks
->   */
-> -#define AD7816_FULL			0x1
-> -#define AD7816_PD			0x2
-> -#define AD7816_CS_MASK			0x7
-> -#define AD7816_CS_MAX			0x4
-> +#define AD7816_FULL                     0x1
-> +#define AD7816_PD                       0x2
-> +#define AD7816_CS_MASK                  0x7
-> +#define AD7816_CS_MAX                   0x4
-> =20
-
-Nothing changed? Seems like a stray change.
-
->  /*
->   * AD7816 temperature masks
->   */
-> -#define AD7816_VALUE_OFFSET		6
-> -#define AD7816_BOUND_VALUE_BASE		0x8
-> -#define AD7816_BOUND_VALUE_MIN		-95
-> -#define AD7816_BOUND_VALUE_MAX		152
-> -#define AD7816_TEMP_FLOAT_OFFSET	2
-> -#define AD7816_TEMP_FLOAT_MASK		0x3
-> +#define AD7816_VALUE_OFFSET             6
-> +#define AD7816_BOUND_VALUE_BASE         0x8
-> +#define AD7816_BOUND_VALUE_MIN          -95
-> +#define AD7816_BOUND_VALUE_MAX          152
-> +#define AD7816_TEMP_FLOAT_OFFSET        2
-> +#define AD7816_TEMP_FLOAT_MASK          0x3
-> =20
-
-Ditto.
-
->  /*
->   * struct ad7816_chip_info - chip specific information
-> @@ -48,7 +48,7 @@ struct ad7816_chip_info {
->  	struct gpio_desc *convert_pin;
->  	struct gpio_desc *busy_pin;
->  	u8  oti_data[AD7816_CS_MAX + 1];
-> -	u8  channel_id;	/* 0 always be temperature */
-> +	u8  channel_id; /* 0 always be temperature */
->  	u8  mode;
->  };
-> =20
-
-Here as well.
-
-> @@ -84,10 +84,8 @@ static int ad7816_spi_read(struct ad7816_chip_info *ch=
-ip, u16 *data)
->  		gpiod_set_value(chip->convert_pin, 1);
->  	}
-> =20
-> -if (chip->id =3D=3D ID_AD7816 || chip->id =3D=3D ID_AD7817) {
-> -		while (gpiod_get_value(chip->busy_pin))
-> -			cpu_relax();
-> -	}
-> +	while (gpiod_get_value(chip->busy_pin))
-> +		cpu_relax();
->
-
-Can you explain why we're removing this check? There also seems to be a
-spot in _probe() where the check gets removed as well.
-
->  	gpiod_set_value(chip->rdwr_pin, 0);
->  	gpiod_set_value(chip->rdwr_pin, 1);
-> @@ -254,8 +252,8 @@ static const struct attribute_group ad7816_attribute_=
-group =3D {
->   * temperature bound events
->   */
-> =20
-> -#define IIO_EVENT_CODE_AD7816_OTI IIO_UNMOD_EVENT_CODE(IIO_TEMP,	\
-> -						       0,		\
-> +#define IIO_EVENT_CODE_AD7816_OTI IIO_UNMOD_EVENT_CODE(IIO_TEMP,        =
-\
-> +						       0,               \
->  						       IIO_EV_TYPE_THRESH, \
->  						       IIO_EV_DIR_FALLING)
-> =20
-
-Seems like another stray change.
-
-> @@ -351,11 +349,12 @@ static const struct iio_info ad7816_info =3D {
-> =20
->  static int ad7816_probe(struct spi_device *spi_dev)
->  {
-> +	struct device *dev =3D &spi_dev->dev;
-
-Again, why are we doing style changes? This seems to be a fix instead of
-a style patch.
-
->  	struct ad7816_chip_info *chip;
->  	struct iio_dev *indio_dev;
->  	int i, ret;
-> =20
-> -	indio_dev =3D devm_iio_device_alloc(&spi_dev->dev, sizeof(*chip));
-> +	indio_dev =3D devm_iio_device_alloc(dev, sizeof(*chip));
->  	if (!indio_dev)
->  		return -ENOMEM;
->  	chip =3D iio_priv(indio_dev);
-
-...
-
-> @@ -431,7 +421,6 @@ static const struct spi_device_id ad7816_id[] =3D {
->  	{ "ad7818", ID_AD7818 },
->  	{ }
->  };
-> -
-
-Stray change.
-
->  MODULE_DEVICE_TABLE(spi, ad7816_id);
-> =20
->  static struct spi_driver ad7816_driver =3D {
-
-
---=20
-best regards,
-max
-
-
---bf94d117aab954e431a08de8ad5ad467a2313772f0af2049462f558603cc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTMrEGfAFxnfnRQ/UIQghIb0dl/iQUCalExfgAKCRAQghIb0dl/
-iZ0CAX43+2agHfad+6pqgKeDQ5Qi/G4AxGVSP1M5pU9xZ4anEspFjfF9On5hWe9l
-GJsdU6oBgPMccTfg3SSIYoSfVCOvEboqSAT0xl4CiiXYeOx30w3pV5ErKpfcoI1a
-G9NuzugpMg==
-=MjO/
------END PGP SIGNATURE-----
-
---bf94d117aab954e431a08de8ad5ad467a2313772f0af2049462f558603cc--
