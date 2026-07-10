@@ -1,61 +1,63 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 428D1435ED8
-	for <linux-staging@lists.linux.dev>; Fri, 10 Jul 2026 16:00:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FF87356755
+	for <linux-staging@lists.linux.dev>; Fri, 10 Jul 2026 16:00:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783699225; cv=none; b=kEI9FrpVjNbuwP+Y+XrXfnO32qRKGMAz0yEiiU5lXh/EHZfL0LAgp7r9+7BELiPZ+fv0y4rb1nB6KQ3AftRf7xBBBnXv0E1sK5XoJ5DSE0Mpz91w81ooOJn9wLYWCiuuTk5XFtEP6hvVICR+pESygQFCYN81QHNIEPs9hRPLug4=
+	t=1783699226; cv=none; b=BL5TQNz4fkM5e5k02fEzWqT1XVEqwLI7x4LPSM3+fd7T/RXbGtG5/gb2gfjXyLen29Jq3wBKacDYMej/S+znJl55bGx6iBwcfWn1sIgx02upoH0zNn8k1EqpMT4cxdSqkFKveYXgTzSoruhDoJ8gNaVUv/hxUDKFhJnpnVOWeLY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783699225; c=relaxed/simple;
-	bh=2kx7pUx9tfhx0zv+z3s5tqYIU5nastRIq2hdNkClcbQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KLz83LhokWbw++YqNfSnnMnBdGmVXRhSarx1q6fzcYGgaP4RjqC4HZ5Qg/szWCLL+ozwaSjZsP4TU9+AeJfyTezcWK91+iRgX5DYQvbkQpPQXXvuAYNxyJVOy9AOeokGDwW5yU9D941IuU6yQUIvPtx8qb75qPW5BAOFtPxi2Lo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qYhx8cjV; arc=none smtp.client-ip=209.85.167.48
+	s=arc-20240116; t=1783699226; c=relaxed/simple;
+	bh=kAyPTH/4tiqZKHmk1hPFWby2kNutxnNPbeUwxEyjAEA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=QWDQq6C4y6k5f3Cmdx+2Dr6S3Warh32TuJXN5wq80UWeuf3lxm4ddKOypeJpPhJpBIRbj+m/NzuYQM87tm7bPoHzOwgdouzeF7IMqhwvsd0Any1YV4XRCx9KWUG3apgTsgJ4E+OFchW/zYItoEKoBnbbxrKVjn5MpXwhvO0Gc5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aiRPP5WB; arc=none smtp.client-ip=209.85.208.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qYhx8cjV"
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5b0190a62beso245992e87.0
-        for <linux-staging@lists.linux.dev>; Fri, 10 Jul 2026 09:00:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aiRPP5WB"
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-39c68f34133so930221fa.3
+        for <linux-staging@lists.linux.dev>; Fri, 10 Jul 2026 09:00:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783699214; x=1784304014; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ck1r2NVwZBaaF90kGpS5I0sjGQcOnMc2dil2XeQuca4=;
-        b=qYhx8cjV+IDK7llxU/3AMwmdwTVvGegiYYFsbk5QdDLd2qVYOgzr7UKpRUcW9lNM/z
-         GhnFMtoVMxiw7qGe7iMk+MfVOyoFveMuxGhLbSJRNl0LVjXs3pfyYAQS+nkUSjRB2e2y
-         yL6FXDZVC0yOXvKGJKhPnWZyfFRxIG/3hJIqhWY6G7jMuLBPeBysW6l37kX2hwBG/rnq
-         cq6a6SeY6kTm63nEnwrBAExHOfzYlS0Yd7DWDJsmHd23jM3pAqIKhmvqkK3mQYNQjfYN
-         DXbblWV4EMu7snTdHw7GoeBL4wTMYgdTDrYhZUta9kqDJcFoHC8Eva6kZf1BDLmccpxG
-         tMxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783699214; x=1784304014;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1783699218; x=1784304018; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=ck1r2NVwZBaaF90kGpS5I0sjGQcOnMc2dil2XeQuca4=;
-        b=IzLo9MER5EqKl7D37fuiGRWozwO9mWhmak0Q9ObhTVKlRxQPSGo/3ZTugCva/35OIm
-         FmUAcCIN4pA7GzKATbPzmWh+FOv67zmF7t62C3M3GsngIzpGgjBXg/OPolM3C6kqs0Jn
-         +MKNeQdh/UQYkEzSihfVcMKW3LFPIr/4TNbijTzr/cnuTliA91/JS03iQfoFTTUnSSAc
-         H0NizjicRyK1OnO6kh1DEmxJgUziVDwmuh/A3b2hPuBdGucuEhXMpf1Wkh14YF+dtQtn
-         UmAD9Kl5AvQmCPjD3UuwY2WJX6uinHg1ytReFxrnOboYxhul8lY2PEjoCUx3xAjDvtJ4
-         LBEA==
-X-Forwarded-Encrypted: i=1; AHgh+RpJaBGvkxwRRylN3m/9zA9U6BsNc/NXBRF3MoLu5in530EB8f8nmVhHLn81fUYLx94ybGnXn8Hb1YqI3L20@lists.linux.dev
-X-Gm-Message-State: AOJu0YyaB+WXDFxto8AHndIsA3xAcW4fEXxDvoOp+FMLUGpt+6awMrw8
-	DCF/ghDKPgTQqgfxAu0gP2Y6lE/gNmAdw5lbrsCveCAJxtV0JDBpk5qY
-X-Gm-Gg: AfdE7clOH0F5ppScx6ER6+BJ+YfMeKqG7bIAW6sScjNA0piv7AcvSXFH8ifTt+jnRep
-	QY8gFU4QQsiby3/WVIgfxvACTyFE6rr9USKS0A1zdMDptJmF03xdcAUEKfCOu3BscZuiH/NhUZ/
-	e0fVtja8FSfp2pQt6W5yEx0NOVMpWf/ZUbPL4JfvkhRVCjvQze5pmtICMdMYRuJYf18ObiBN7zY
-	9QXsXX37jRcjwPwBed6lfgu+uBwmQPASnsl06R6UPeK4Z4onbq43vqKXwNVynP9w5g8z+xqmKCm
-	b7Rm20IfGQXeTIoXmkQZZdP4ZRU09z2MAKZZSLbQS8lxq45EYLZLQHFRwdmbJYShvz+b+BcJXDT
-	CXlrsCWMYJWJ5XPJAoXAeRPUJm8dvYpH/f+mSmcO7jBW2maWwGRnx8svmYGqS0oFZxX2b3hZ+in
-	KCsejwJExyX57I5QUU7H1V6O86
-X-Received: by 2002:a05:6512:12cd:b0:5ae:bce5:70f2 with SMTP id 2adb3069b0e04-5b0115af09amr1756207e87.4.1783699213314;
-        Fri, 10 Jul 2026 09:00:13 -0700 (PDT)
+        bh=htbp4eZVoCOY0ETRBZFkljATlldpw89nkTYb09YWpTM=;
+        b=aiRPP5WBJNe4gjNYdw2LaFu60n6YTlCRJoeufafhRranKrv/uBDwyL7DjnqwXn/qrf
+         kxY9MyOpwMcRRZn6gA/igwdiel9Gpzgb7iDJfDOcU/nLjmL0tO7tf7CEj+xEkLlp0vGe
+         zBTMpACbcGFuxSlyZdedDgzii17/M+/KHgfc++OTtD4VK68Jqg4HDVM6IC4tL8ulkrgE
+         jrAAEcVIPWGZTLNo2FqY8qJiFFUzpXkXk9EbkY4Aww7EMdiDT7K7Z/7Mn4O2XfcGsXJu
+         iK51a/84EKKmRSrvwLtK3q98LZ13O+Wj3CoZeWOz7oQ1DsUaUycL950XxJrCHSMmskET
+         +zQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783699218; x=1784304018;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=htbp4eZVoCOY0ETRBZFkljATlldpw89nkTYb09YWpTM=;
+        b=qSccmNB6S7gie0cbr1exKF4GrdhEn6G6vp+M/ZfzXgSJ/waJFJv7xiEM8qmCdESyjj
+         5owdfi5/zvELThZlqXJbBwvtRj70EV77FVlApkmNncN6hEkuxRGm/SeiOLuMybzIfiD2
+         u3o6Peg0nAKX2QPv4CRyXD2KVeoUtOs8KNKhcdfFJS/UMk2ogGDrD3elcFWh9Jc9v0bL
+         7e7ejreoA3s4InsXGIauqfCKq1EYKJp55JI+/nYx0tZA+sn0pYxJMhPwG++k5o2PfzPC
+         OGE1iM8gGuxJlp90vmgCfgqzEr1Bv+uitPvDToKJ7YrbXi+D7kCO6DAm1RWkltXu1w0s
+         lKHg==
+X-Forwarded-Encrypted: i=1; AHgh+RrfoFtdyKK7WpI912G//Lw+ZjS74YVnrz0Fgo7qut31kizLwGoJyLK/H1YJDOr098I9JIwVDC+fQHeEbktS@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyu43CZ6E+fjXq+7orfhj/83fr9Gs0gcP+0MZjVt/5k0JipWuxY
+	L2D0UHOGC66a+SQbwQCoYnjUw7i2yLF9638BO8YKDP3DCLnybrNaBFlO
+X-Gm-Gg: AfdE7cl23Mfjjr0oLb4PweRGTv+UHhuJjItAWDcVqoM0sjl7oQCy/r09N7P/jD/1gF5
+	ozBqYz8djq0P/01O2uCnG+dIWhnYXaBfQgqBJkRcwxwoKX3GdoA4KH67QRtC6jiZqlYpO0COOas
+	j0JyX/jGzFs1Qc8nFP9gzkIVo9kb2ul1X0uDBfbDtlH+f08J6+rkSBCpxpXgn/ZoXiwAhhJRNcz
+	fLfZI3ICh+Q3jUmabwDD4wchkS4jVc2bhGQPkJQwbpeXpEQvNHSuCndneuxeKe/7Nuptp30U57a
+	CorLTfSdctoey+z3GBIrPX4+4HURPnowLE1uzm2oEwidyNBcvxEZ30ifCkB9p7P7YYtqfWEDcUv
+	vBcFn8wTvPMAOfu5vkwXGDJVuD6Iwtp3+AxHgOwPy9t3AdWwpvgKxRT2aUAenYynjyQAp719oeR
+	32Sg98wxwK0L/p0prNu8TOp+wfZ8TIzcq3Xsg=
+X-Received: by 2002:a05:651c:2115:b0:39a:fe2e:52b0 with SMTP id 38308e7fff4ca-39c82b3c679mr10420811fa.7.1783699217593;
+        Fri, 10 Jul 2026 09:00:17 -0700 (PDT)
 Received: from localhost ([5.250.49.195])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b01ca54fddsm708567e87.33.2026.07.10.09.00.12
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-39c84b83a93sm11421281fa.24.2026.07.10.09.00.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jul 2026 09:00:12 -0700 (PDT)
+        Fri, 10 Jul 2026 09:00:17 -0700 (PDT)
 From: Taha Narimani <tahanarimani3443@gmail.com>
 To: jic23@kernel.org,
 	lars@metafoo.de,
@@ -68,10 +70,12 @@ Cc: dlechner@baylibre.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Taha Narimani <tahanarimani3443@gmail.com>
-Subject: [PATCH v3 RFC v3] dt-bindings: iio: adc: add ad7816/7/8 digital temperature sensor / ADC
-Date: Fri, 10 Jul 2026 16:00:00 +0000
-Message-ID: <20260710160001.29856-1-tahanarimani3443@gmail.com>
+Subject: [PATCH v3] staging: iio: adc: ad7816: Use devm_gpiod_get_optional() for busy GPIO
+Date: Fri, 10 Jul 2026 16:00:01 +0000
+Message-ID: <20260710160001.29856-2-tahanarimani3443@gmail.com>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260710160001.29856-1-tahanarimani3443@gmail.com>
+References: <20260710160001.29856-1-tahanarimani3443@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -80,22 +84,17 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Document the Analog Devices AD7816, AD7817, and AD7818 digital
-temperature sensor and ADC bindings in YAML format.
+The driver currently utilizes devm_gpiod_get() for the 'busy' line,
+which makes the GPIO mandatory. However, the busy pin is hardware-optional
+depending on the specific board configuration.
 
-Please note that the driver for this device is currently in drivers/staging.
-This patch is sent as an RFC to clean up and standardize the device tree
-bindings prior to any major driver refactoring.
+Switch to devm_gpiod_get_optional() to allow boards that do not have
+this pin wired up to still probe the driver successfully. Clean up
+the redundant busy_pin conditional checks as gpiod_get_value() safely
+handles NULL descriptors. Additionally, use dev_err_probe() to prevent
+bootlog spamming during deferred probing.
 
-While reviewing the AD7816/7/8 datasheet to correctly document the properties,
-it was noted that the current staging driver attempts to request a 'busy' GPIO
-for both AD7816 and AD7817. However, the AD7816 is an 8-pin device and does
-not possess a BUSY pin (only the 16-pin AD7817 has it). Therefore, in this
-binding, busy-gpios is strictly limited to adi,ad7817.
-
-This resolves the checkpatch.pl warnings regarding undocumented DT
-compatible strings.
-
+Fixes: 3e5971b2ddb6 ("base: original ad7816.c")
 Signed-off-by: Taha Narimani <tahanarimani3443@gmail.com>
 ---
 Changes in v3:
@@ -104,127 +103,168 @@ Changes in v3:
   - Introduced local struct device *dev pointer in probe and kept the GPIO request on a single line for better readability.
   - Added the missing Fixes tag requested by Jonathan Cameron.
 
- .../bindings/iio/adc/adi,ad7816.yaml          | 105 ++++++++++++++++++
- 1 file changed, 105 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/iio/adc/adi,ad7816.yaml
+ drivers/staging/iio/adc/ad7816.c | 67 +++++++++++++-------------------
+ 1 file changed, 28 insertions(+), 39 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7816.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad7816.yaml
-new file mode 100644
-index 0000000..48563e4
---- /dev/null
+diff --git a/drivers/staging/iio/adc/ad7816.c b/drivers/staging/iio/adc/ad7816.c
+index 988eee3..807cf57 100644
+--- a/drivers/staging/iio/adc/ad7816.c
 Changes in v3:
   - Removed redundant conditional check around gpiod_get_value() as suggested by Andy Shevchenko and Dan Carpenter.
   - Switched to dev_err_probe() to avoid deferred probe spamming.
   - Introduced local struct device *dev pointer in probe and kept the GPIO request on a single line for better readability.
   - Added the missing Fixes tag requested by Jonathan Cameron.
 
-+++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7816.yaml
-@@ -0,0 +1,105 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/iio/adc/adi,ad7816.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/staging/iio/adc/ad7816.c
+@@ -22,20 +22,20 @@
+ /*
+  * AD7816 config masks
+  */
+-#define AD7816_FULL			0x1
+-#define AD7816_PD			0x2
+-#define AD7816_CS_MASK			0x7
+-#define AD7816_CS_MAX			0x4
++#define AD7816_FULL                     0x1
++#define AD7816_PD                       0x2
++#define AD7816_CS_MASK                  0x7
++#define AD7816_CS_MAX                   0x4
+ 
+ /*
+  * AD7816 temperature masks
+  */
+-#define AD7816_VALUE_OFFSET		6
+-#define AD7816_BOUND_VALUE_BASE		0x8
+-#define AD7816_BOUND_VALUE_MIN		-95
+-#define AD7816_BOUND_VALUE_MAX		152
+-#define AD7816_TEMP_FLOAT_OFFSET	2
+-#define AD7816_TEMP_FLOAT_MASK		0x3
++#define AD7816_VALUE_OFFSET             6
++#define AD7816_BOUND_VALUE_BASE         0x8
++#define AD7816_BOUND_VALUE_MIN          -95
++#define AD7816_BOUND_VALUE_MAX          152
++#define AD7816_TEMP_FLOAT_OFFSET        2
++#define AD7816_TEMP_FLOAT_MASK          0x3
+ 
+ /*
+  * struct ad7816_chip_info - chip specific information
+@@ -48,7 +48,7 @@ struct ad7816_chip_info {
+ 	struct gpio_desc *convert_pin;
+ 	struct gpio_desc *busy_pin;
+ 	u8  oti_data[AD7816_CS_MAX + 1];
+-	u8  channel_id;	/* 0 always be temperature */
++	u8  channel_id; /* 0 always be temperature */
+ 	u8  mode;
+ };
+ 
+@@ -84,10 +84,8 @@ static int ad7816_spi_read(struct ad7816_chip_info *chip, u16 *data)
+ 		gpiod_set_value(chip->convert_pin, 1);
+ 	}
+ 
+-if (chip->id == ID_AD7816 || chip->id == ID_AD7817) {
+-		while (gpiod_get_value(chip->busy_pin))
+-			cpu_relax();
+-	}
++	while (gpiod_get_value(chip->busy_pin))
++		cpu_relax();
+ 
+ 	gpiod_set_value(chip->rdwr_pin, 0);
+ 	gpiod_set_value(chip->rdwr_pin, 1);
+@@ -254,8 +252,8 @@ static const struct attribute_group ad7816_attribute_group = {
+  * temperature bound events
+  */
+ 
+-#define IIO_EVENT_CODE_AD7816_OTI IIO_UNMOD_EVENT_CODE(IIO_TEMP,	\
+-						       0,		\
++#define IIO_EVENT_CODE_AD7816_OTI IIO_UNMOD_EVENT_CODE(IIO_TEMP,        \
++						       0,               \
+ 						       IIO_EV_TYPE_THRESH, \
+ 						       IIO_EV_DIR_FALLING)
+ 
+@@ -351,11 +349,12 @@ static const struct iio_info ad7816_info = {
+ 
+ static int ad7816_probe(struct spi_device *spi_dev)
+ {
++	struct device *dev = &spi_dev->dev;
+ 	struct ad7816_chip_info *chip;
+ 	struct iio_dev *indio_dev;
+ 	int i, ret;
+ 
+-	indio_dev = devm_iio_device_alloc(&spi_dev->dev, sizeof(*chip));
++	indio_dev = devm_iio_device_alloc(dev, sizeof(*chip));
+ 	if (!indio_dev)
+ 		return -ENOMEM;
+ 	chip = iio_priv(indio_dev);
+@@ -365,31 +364,22 @@ static int ad7816_probe(struct spi_device *spi_dev)
+ 		chip->oti_data[i] = 203;
+ 
+ 	chip->id = spi_get_device_id(spi_dev)->driver_data;
+-	chip->rdwr_pin = devm_gpiod_get(&spi_dev->dev, "rdwr", GPIOD_OUT_HIGH);
++	chip->rdwr_pin = devm_gpiod_get(dev, "rdwr", GPIOD_OUT_HIGH);
+ 	if (IS_ERR(chip->rdwr_pin)) {
+ 		ret = PTR_ERR(chip->rdwr_pin);
+-		dev_err(&spi_dev->dev, "Failed to request rdwr GPIO: %d\n",
+-			ret);
++		dev_err(dev, "Failed to request rdwr GPIO: %d\n", ret);
+ 		return ret;
+ 	}
+-	chip->convert_pin = devm_gpiod_get(&spi_dev->dev, "convert",
+-					   GPIOD_OUT_HIGH);
++	chip->convert_pin = devm_gpiod_get(dev, "convert", GPIOD_OUT_HIGH);
+ 	if (IS_ERR(chip->convert_pin)) {
+ 		ret = PTR_ERR(chip->convert_pin);
+-		dev_err(&spi_dev->dev, "Failed to request convert GPIO: %d\n",
+-			ret);
++		dev_err(dev, "Failed to request convert GPIO: %d\n", ret);
+ 		return ret;
+ 	}
+-	if (chip->id == ID_AD7816 || chip->id == ID_AD7817) {
+-		chip->busy_pin = devm_gpiod_get(&spi_dev->dev, "busy",
+-						GPIOD_IN);
+-		if (IS_ERR(chip->busy_pin)) {
+-			ret = PTR_ERR(chip->busy_pin);
+-			dev_err(&spi_dev->dev, "Failed to request busy GPIO: %d\n",
+-				ret);
+-			return ret;
+-		}
+-	}
 +
-+title: Analog Devices AD7816/7/8 digital temperature sensor / ADC
-+
-+maintainers:
-+  - Taha Narimani <tahanarimani3443@gmail.com>
-+
-+description: |
-+  Analog Devices AD7816, AD7817, and AD7818 10-Bit general purpose ADC and
-+  temperature sensor. The device communicates via an SPI interface.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - adi,ad7816
-+      - adi,ad7817
-+      - adi,ad7818
-+
-+  reg:
-+    maxItems: 1
-+
-+  spi-max-frequency:
-+    maximum: 12500000
-+
-+  vdd-supply:
-+    description: Main power supply.
-+
-+  vref-supply:
-+    description: |
-+      Optional external reference voltage supply. If not provided, the
-+      internal reference is used. Applicable for AD7816 and AD7817.
-+
-+  rdwr-gpios:
-+    maxItems: 1
-+    description: GPIO connected to the RD/WR pin.
-+
-+  convert-gpios:
-+    maxItems: 1
-+    description: GPIO connected to the CONVST (Convert Start) pin.
-+
-+  busy-gpios:
-+    maxItems: 1
-+    description: GPIO connected to the BUSY pin. Only applicable for AD7817.
-+
-+  interrupts:
-+    maxItems: 1
-+    description: OTI (Over Temperature Indicator) interrupt. Active low.
-+
-+required:
-+  - compatible
-+  - reg
-+  - vdd-supply
-+  - rdwr-gpios
-+  - convert-gpios
-+
-+allOf:
-+  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: adi,ad7817
-+    then:
-+      required:
-+        - busy-gpios
-+    else:
-+      properties:
-+        busy-gpios: false
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: adi,ad7818
-+    then:
-+      properties:
-+        vref-supply: false
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    spi {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        adc@0 {
-+            compatible = "adi,ad7817";
-+            reg = <0>;
-+            spi-max-frequency = <1000000>;
-+            vdd-supply = <&vcc>;
-+            vref-supply = <&vref>;
-+            rdwr-gpios = <&gpio 5 GPIO_ACTIVE_HIGH>;
-+            convert-gpios = <&gpio 6 GPIO_ACTIVE_HIGH>;
-+            busy-gpios = <&gpio 7 GPIO_ACTIVE_HIGH>;
-+            interrupts = <20 IRQ_TYPE_LEVEL_LOW>;
-+            interrupt-parent = <&gpio>;
-+        };
-+    };
++	chip->busy_pin = devm_gpiod_get_optional(dev, "busy", GPIOD_IN);
++	if (IS_ERR(chip->busy_pin))
++		return dev_err_probe(dev, PTR_ERR(chip->busy_pin), "Failed to request busy GPIO\n");
+ 
+ 	indio_dev->name = spi_get_device_id(spi_dev)->name;
+ 	indio_dev->info = &ad7816_info;
+@@ -397,7 +387,7 @@ static int ad7816_probe(struct spi_device *spi_dev)
+ 
+ 	if (spi_dev->irq) {
+ 		/* Only low trigger is supported in ad7816/7/8 */
+-		ret = devm_request_threaded_irq(&spi_dev->dev, spi_dev->irq,
++		ret = devm_request_threaded_irq(dev, spi_dev->irq,
+ 						NULL,
+ 						&ad7816_event_handler,
+ 						IRQF_TRIGGER_LOW | IRQF_ONESHOT,
+@@ -407,11 +397,11 @@ static int ad7816_probe(struct spi_device *spi_dev)
+ 			return ret;
+ 	}
+ 
+-	ret = devm_iio_device_register(&spi_dev->dev, indio_dev);
++	ret = devm_iio_device_register(dev, indio_dev);
+ 	if (ret)
+ 		return ret;
+ 
+-	dev_info(&spi_dev->dev, "%s temperature sensor and ADC registered.\n",
++	dev_info(dev, "%s temperature sensor and ADC registered.\n",
+ 		 indio_dev->name);
+ 
+ 	return 0;
+@@ -431,7 +421,6 @@ static const struct spi_device_id ad7816_id[] = {
+ 	{ "ad7818", ID_AD7818 },
+ 	{ }
+ };
+-
+ MODULE_DEVICE_TABLE(spi, ad7816_id);
+ 
+ static struct spi_driver ad7816_driver = {
 -- 
 2.53.0
 
