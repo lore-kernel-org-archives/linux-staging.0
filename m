@@ -1,69 +1,69 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD69F43B498
-	for <linux-staging@lists.linux.dev>; Fri, 10 Jul 2026 16:52:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EF9E43B498
+	for <linux-staging@lists.linux.dev>; Fri, 10 Jul 2026 16:52:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783702352; cv=none; b=eljoosSuXa8+SDvlc9PvlRCEjG+xKKjieXWABMLUmHET6fJazpsacfN5xsugSJ47IMazW0DUB9yifVFZM5rWSltIfcFb7eZH9KwzbRHK5ySU796RhZMMEFhvzZJI0f/vgi4DFphZtlCEnrkN5LVOsw+9wI774WYkAQOeSo+xKGY=
+	t=1783702356; cv=none; b=Mb8y2vnYtSilo3LDfkMQ34Vv9Oy65wKVTgs2PPUE7bDnjrtVyRtspVdhSARblNoREved/HQ/XlpRkIm9cENDSsxJW53Xx9l7kqAGyn0IE8xBBhaEal56cOKrjo35BLB5BItOycqYa0o94tOWzbyfz89ul7B5FWVLTvxx7Bib2EY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783702352; c=relaxed/simple;
-	bh=AEESI2ci/GgzEU+ISLqvkMdFA9jLuD+J9/4ZnJT5gPY=;
+	s=arc-20240116; t=1783702356; c=relaxed/simple;
+	bh=do5+VuiSQYGOek/x1myGB3E5fb7x6ZiJQESYdU7Tnyw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DdHTimuqicB8O0q+5UrgPEE/ej1o8IHVFwXzXykeVmumv0giNkS8ca3pn99RwBn67UfDZPist6hWIkdFNtfPVoKTfHsQ+5QQDaB1V3aekt5WwOXXyZEiz401BlFaRh98RVdFXkhJASjBmMnkBDPw3H6t8MreGCk5OjstqNkemh0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZGTqtIo3; arc=none smtp.client-ip=209.85.218.42
+	 MIME-Version; b=PXR8H3ve4LhErQXWUX2V/ZbyJdV10/0o51Kmt//JX70h9frXfbN3/Qx6BICi1ci2J5HUeFEJw6YLBWpVGM4kD5t0AA+LWPBaBvjoXrSCympR6T7MoURnYqlPHB9j8q4eQgQ7RP2iPQAydmVGHZS0C7gcLJLSX7FZgWZeMQwJaxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mv/OZAN0; arc=none smtp.client-ip=209.85.218.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZGTqtIo3"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-c15bf399d3bso144206866b.2
-        for <linux-staging@lists.linux.dev>; Fri, 10 Jul 2026 09:52:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mv/OZAN0"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-c15ba3a2b4bso144144966b.1
+        for <linux-staging@lists.linux.dev>; Fri, 10 Jul 2026 09:52:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783702349; x=1784307149; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1783702353; x=1784307153; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=aSYaiBgqBeB2C0CbSwChMdQ/qMeElBjW/bR7A9b7gbQ=;
-        b=ZGTqtIo3GU9yv5vIcEkGydx5Hk9KelwLVdGhXgpjjJNnPZ4LYZeFpQ8e0zAZjx2F9l
-         zJqcGuWrgEkmJtCLOquKiqICu6Aej0jf0rVm/kwZWMhwuWdX1A33nrYHKAy6Rxo0Bqz5
-         lw6dZT9v/K8UIcrQXT05+iDQ1QA6BCWhN4liCk07Z3t1uB3fl605QcY1KZ3MCpvD8osk
-         0mc+0kj0WnfnozJswSl3/78AplWi/rmtC1NUM3/81kPi/AfMhNH3LxCBGSr6+Q7YtcQZ
-         2rC2UowA/qF2Va13qsntxLlxJtJolBF+2dmbJP8AZ4MOmT5qJfqFz1Vyi87+oEX2BaV5
-         E+aw==
+        bh=yLWD01JCL1dBsFgnUdPHrQzbvvtyUZW+9Q5F6PMRSxg=;
+        b=mv/OZAN01vFnErZVCexzqm79jzWh4GZ318njuHSuY3VPnnji0VPtGvmuW7JIXGic6d
+         U5oguJGauNJg8fU9c26twmuEGYD+oJqJBI1s5XOjXLJYbaZI3VAIVvuTeh5JpmdL91OQ
+         ySI5cfuADWBH9HawBfWpj4Gl6vrkZ0naMnGreoO0NT4n8hSNo/1LSjHSvHUQZQFjB+qd
+         C3hY1yAfSpkDMXh7VbyklBEDchg2C5ra78slUYD90LMMV325fEXWxfUH+6/lwRsHo/G8
+         e3zVXErjhKrDeeYkzedFEcOEs6u6ZHWiVJBJquYmbKRHu88DjVZPwWEXvRcVsBiGyIvs
+         RjxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783702349; x=1784307149;
+        d=1e100.net; s=20251104; t=1783702353; x=1784307153;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=aSYaiBgqBeB2C0CbSwChMdQ/qMeElBjW/bR7A9b7gbQ=;
-        b=qd/zasV42bf9S+N1KIquH/sNik4rxMGB0nodVsyQPOrMAq2s4MxKugrHeZkR7EUd+E
-         UCCrgJ/o9Xe2zRzeXaRmSFidipR+qlAllmxVe7KpdC4UB0j7kUUsTBNkdIB2YztydmfL
-         rlRHhcQHPc23iStlLrvstAX5NBbBLt4NOAvu7cF0z0pcilI1X8KWnmxMQbFs3qfcV+2i
-         j7VoqaGz+Hf0NzvygRRQtmy7V/fNhaaScQQ/+IehKI4A5zrFVDkW/IiYWQSJkNGQBOWp
-         9mRlE2RyH5PfqZTKpeJ8R58/i0SmEf1iO74r4Jid6jSv6e70Bt6GweeCulbThenXOO9s
-         TIgg==
-X-Gm-Message-State: AOJu0Yw3RuDXEWG3CIEbB1eafT1Y4QhFpA+/wW6kzDxHAHwe7hx9xcj0
-	xqwym4y8Yhn9WJhzuT1SlZJkpQQ5EHktDq9PqW3jqoj1gN5B0R1ZYZp+
-X-Gm-Gg: AfdE7cmtsUI4nD8jgL1a0DNfsq/XB+ZNZ3540Hod9AhIcI4dhSUAzv/4Pl93+HhuiXR
-	lFtjZI0JPmuNlOYavnUHdj1bmPs0zMU7LVq2rMygZ06gwi5lDlD7nd47ls/WPJnAPErke3GvyR+
-	/nyJA5to0sn2pPf6Ga0xHVYMnJUYeCLAVPP6m7L0YDVyM8NQtXxoY2wyuoC3yKgmcGQ3C39nkPM
-	DQQp9awHeO/JpVI0Jc003gDhvMfE9s7Dm+/xcVodxQarmPNIVRqUuZG2qWyxPJp7LAqC4nkmL5U
-	nfZ7V/ejiNMEJTSf40W76uCdvh/Oqq41mkYHHn+Q1++nyjK21F3yQmO9hAoZ1+8VTYH5dFC434o
-	1Vbb0rhCJXKuyhWxJC3IMm5gqObuyPhME4CnNl05iayiiKgrQroGvHXKoHOvUUIqeFP9orLE/gI
-	nC+0qC2k761Q==
-X-Received: by 2002:a17:906:1005:20b0:c12:6ad6:6398 with SMTP id a640c23a62f3a-c15ce0c0389mr362852066b.34.1783702348839;
-        Fri, 10 Jul 2026 09:52:28 -0700 (PDT)
+        bh=yLWD01JCL1dBsFgnUdPHrQzbvvtyUZW+9Q5F6PMRSxg=;
+        b=d6FJfee75t26JC0Blb1sgr0gdWDDUmOwZfhB23W+EYSrE9sPMffv3YBkivSuoFZ9/I
+         vQphTDtf9dZ+xy/MTDdRzwVDuMejJxc48Qz9RIhfUyDI1zxZPeTNZLEdcnobqPuidLdY
+         IgDiuD3nMjSU/Ne0dbrf/JtHTJO4pWnov4hCGS+6AXMhPzEWn9GaRZo1ga7WHquHCSEE
+         QgTLqg3OXITKlTp+s4amKXC1XItWEoAwBWhFejnTIiVuYcKvEDBRyMk+6VKoVEBmoDgb
+         +08iCXbEdZr84gG+W/ZAdv0xcz0P9aiO2jPq6lPMSeaDi3jcHKy3he9ZmG4Voty3EHVJ
+         YKmQ==
+X-Gm-Message-State: AOJu0Yy+FsIJqE5gkEtMo740TWamFsW/injxCddKL1fLSd04YpnQ3KG0
+	NAT5JsgtuaCQcHBfWVjguYmsnXSp/23pFTMCiAdvyxUczuPLjcNljZ7wDoMPSw==
+X-Gm-Gg: AfdE7ckV0v8LJVxOl7qnfEJ+QkYFaceM+ZQkW2GHDQACeSxrwGYUW9Ywje96pT7woD3
+	Iz3Xau/LSP1+JSdXTAftgrp+O/brEZD6hfyMr/wK0n2wrA28QR6i6EgeIvYEqvUycwb9ziLY+Ia
+	OulGE3raiv+/LGLk7bbWUZ80ja7fPNSZbKeDSAeEjO1nO7ukmnkb7NFXB7pjRJ3HeQX/ez8SAmE
+	1Ay7SgJqhZ2n8bgD3FTEUt++21rZ6TbdmvzsLUi29N+QKkIEHLQlJS8bzXSqOkdA9Clei0Uf0BP
+	Qd5jtoSvZDuig2+wsKgK2sjMsMSiPGG+4xMBvrxVzds1wa3LnXPX2JTjV42plsJv+slLru1FDPR
+	TU5fCZO2gXIStJsfbL+hwRdFLb8fRktQ9J37Aqjse3h1wAASGhDS7tHM+mHyD5zdY8u0faR0vP7
+	lxwPefZGimqw==
+X-Received: by 2002:a17:907:741:b0:c15:beaa:7ec0 with SMTP id a640c23a62f3a-c15ce043ce0mr529563766b.17.1783702352844;
+        Fri, 10 Jul 2026 09:52:32 -0700 (PDT)
 Received: from archlinux ([94.229.19.199])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c15ad694736sm643050266b.0.2026.07.10.09.52.27
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c15ad694736sm643050266b.0.2026.07.10.09.52.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jul 2026 09:52:28 -0700 (PDT)
+        Fri, 10 Jul 2026 09:52:32 -0700 (PDT)
 From: Nikolay Kulikov <nikolayof23@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	Nikolay Kulikov <nikolayof23@gmail.com>
-Subject: [PATCH v2 1/5] staging: rtl8723bs: remove unused 'EEPROMCustomerID' from hal_com_data
-Date: Fri, 10 Jul 2026 19:51:08 +0300
-Message-ID: <20260710165220.68599-2-nikolayof23@gmail.com>
+Subject: [PATCH v2 2/5] staging: rtl8723bs: remove unused ForcedDataRate from hal_com_data
+Date: Fri, 10 Jul 2026 19:51:09 +0300
+Message-ID: <20260710165220.68599-3-nikolayof23@gmail.com>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260710165220.68599-1-nikolayof23@gmail.com>
 References: <20260710165220.68599-1-nikolayof23@gmail.com>
@@ -75,89 +75,38 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This field is set during initialization but never used, so remove it.
+This field is set once and never used, so remove it.
 
 Signed-off-by: Nikolay Kulikov <nikolayof23@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 12 ------------
- drivers/staging/rtl8723bs/hal/sdio_halinit.c      |  1 -
- drivers/staging/rtl8723bs/include/hal_data.h      |  1 -
- drivers/staging/rtl8723bs/include/hal_pg.h        |  1 -
- drivers/staging/rtl8723bs/include/rtl8723b_hal.h  |  2 --
- 5 files changed, 17 deletions(-)
+ drivers/staging/rtl8723bs/hal/rtl8723b_dm.c  | 1 -
+ drivers/staging/rtl8723bs/include/hal_data.h | 1 -
+ 2 files changed, 2 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-index ecd66f090a50..367f3facb255 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-@@ -1459,18 +1459,6 @@ void Hal_EfuseParseChnlPlan_8723B(
- 	Hal_ChannelPlanToRegulation(padapter, padapter->mlmepriv.ChannelPlan);
- }
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c b/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c
+index bd6fbb80ddb7..13efbfa5b58a 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c
+@@ -94,7 +94,6 @@ static void Update_ODM_ComInfo_8723b(struct adapter *Adapter)
+ 	ODM_CmnInfoHook(pDM_Odm, ODM_CMNINFO_NET_CLOSED, &(Adapter->net_closed));
+ 	ODM_CmnInfoHook(pDM_Odm, ODM_CMNINFO_MP_MODE, &zero);
+ 	ODM_CmnInfoHook(pDM_Odm, ODM_CMNINFO_FORCED_IGI_LB, &(pHalData->u1ForcedIgiLb));
+-	ODM_CmnInfoHook(pDM_Odm, ODM_CMNINFO_FORCED_RATE, &(pHalData->ForcedDataRate));
  
--void Hal_EfuseParseCustomerID_8723B(
--	struct adapter *padapter, u8 *hwinfo, bool AutoLoadFail
--)
--{
--	struct hal_com_data	*pHalData = GET_HAL_DATA(padapter);
--
--	if (!AutoLoadFail)
--		pHalData->EEPROMCustomerID = hwinfo[EEPROM_CustomID_8723B];
--	else
--		pHalData->EEPROMCustomerID = 0;
--}
--
- void Hal_EfuseParseXtal_8723B(
- 	struct adapter *padapter, u8 *hwinfo, bool AutoLoadFail
- )
-diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit.c b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-index 6f2aea984b30..80119559664f 100644
---- a/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-+++ b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-@@ -1046,7 +1046,6 @@ static void _ReadEfuseInfo8723BS(struct adapter *padapter)
- 	Hal_EfuseParseChnlPlan_8723B(padapter, hwinfo, pEEPROM->bautoload_fail_flag);
- 	Hal_EfuseParseXtal_8723B(padapter, hwinfo, pEEPROM->bautoload_fail_flag);
- 	Hal_EfuseParseThermalMeter_8723B(padapter, hwinfo, pEEPROM->bautoload_fail_flag);
--	Hal_EfuseParseCustomerID_8723B(padapter, hwinfo, pEEPROM->bautoload_fail_flag);
- 
- 	Hal_EfuseParseVoltage_8723B(padapter, hwinfo, pEEPROM->bautoload_fail_flag);
- 
+ 	ODM_CmnInfoHook(pDM_Odm, ODM_CMNINFO_SCAN, &(pmlmepriv->bScanInProcess));
+ 	ODM_CmnInfoHook(pDM_Odm, ODM_CMNINFO_POWER_SAVING, &(pwrctrlpriv->bpower_saving));
 diff --git a/drivers/staging/rtl8723bs/include/hal_data.h b/drivers/staging/rtl8723bs/include/hal_data.h
-index c93b21822ea7..273080ae62d1 100644
+index 273080ae62d1..578cff14adc5 100644
 --- a/drivers/staging/rtl8723bs/include/hal_data.h
 +++ b/drivers/staging/rtl8723bs/include/hal_data.h
-@@ -162,7 +162,6 @@ struct hal_com_data {
- 	u8 PackageType;
+@@ -154,7 +154,6 @@ struct hal_com_data {
  
- 	/*  EEPROM setting. */
--	u8 EEPROMCustomerID;
- 	u8 EEPROMVersion;
- 	u8 EEPROMRegulatory;
- 	u8 EEPROMThermalMeter;
-diff --git a/drivers/staging/rtl8723bs/include/hal_pg.h b/drivers/staging/rtl8723bs/include/hal_pg.h
-index 7cb9c441fc01..c0fca8fc7270 100644
---- a/drivers/staging/rtl8723bs/include/hal_pg.h
-+++ b/drivers/staging/rtl8723bs/include/hal_pg.h
-@@ -39,7 +39,6 @@
- #define	EEPROM_RF_BOARD_OPTION_8723B		0xC1
- #define	EEPROM_RF_BT_SETTING_8723B		0xC3
- #define	EEPROM_VERSION_8723B			0xC4
--#define	EEPROM_CustomID_8723B			0xC5
- #define EEPROM_DEFAULT_DIFF			0XFE
+ 	u16 CustomerID;
+ 	u16 BasicRateSet;
+-	u16 ForcedDataRate;/*  Force Data Rate. 0: Auto, 0x02: 1M ~ 0x6C: 54M. */
+ 	u32 ReceiveConfig;
  
- /* RTL8723BS */
-diff --git a/drivers/staging/rtl8723bs/include/rtl8723b_hal.h b/drivers/staging/rtl8723bs/include/rtl8723b_hal.h
-index 259ba63ba4bc..f2979cde78e5 100644
---- a/drivers/staging/rtl8723bs/include/rtl8723b_hal.h
-+++ b/drivers/staging/rtl8723bs/include/rtl8723b_hal.h
-@@ -215,8 +215,6 @@ void Hal_EfuseParseEEPROMVer_8723B(struct adapter *padapter, u8 *hwinfo,
- 				   bool AutoLoadFail);
- void Hal_EfuseParseChnlPlan_8723B(struct adapter *padapter, u8 *hwinfo,
- 				  bool AutoLoadFail);
--void Hal_EfuseParseCustomerID_8723B(struct adapter *padapter, u8 *hwinfo,
--				    bool AutoLoadFail);
- void Hal_EfuseParseXtal_8723B(struct adapter *padapter, u8 *hwinfo,
- 			      bool AutoLoadFail);
- void Hal_EfuseParseThermalMeter_8723B(struct adapter *padapter, u8 *hwinfo,
+ 	/* rf_ctrl */
 -- 
 2.54.0
 
