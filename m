@@ -1,76 +1,69 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C6883B14C2
-	for <linux-staging@lists.linux.dev>; Fri, 10 Jul 2026 21:23:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 693D326E71F
+	for <linux-staging@lists.linux.dev>; Sat, 11 Jul 2026 02:42:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783718611; cv=none; b=uZ/QZt4H6E/mwbX5MqFUQFgn+UZFv7KytFxHLg1eAd7gRJjI2/cYgbT0FlsGJsOfSTvdzdi+kB3KBUk6UsO/wxsQlMx7fHZGyFdBOVA3pwgQciERTTfFHXgRcQKK18jmxFXttPgsWdA4sJqb9mvsUO4vcZUVoN0ffy2SerGcCr4=
+	t=1783737763; cv=none; b=bgH+n9i/6JmwhHmzWfFmOsXDnlPZ9UiTN35kfVraIAURNZt1YCQPMLvVucH1bckLO6uCLMsJlIMxU50TtbxbxlA30icMqTepNT22hjC0ahe0QovdL8Gh8xdEI/IfZqs+GGatYYaNRuAN7buPHSuLsIvHH9/VonsI0QkSgJnWs1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783718611; c=relaxed/simple;
-	bh=AcfVmJkqR7bn7li+332O5qBBSAUO/bk1Bc4usi+5dis=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bfGa2Y0F3dbQbly2XFOttIYnA4tr4bYf2ZqOkPnM4nCrRSHswmbCUYR3vuclQkT7Q0VrIiR2hbazdsYNIN0FoqTCtTIIpIQR+aSenosywcq51I5Lyby7Y+eRdcGrphhVy+VADqtpQ8GgQCI9beunwuJDRmeWjrnTXzHhONaiEoI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YE8druhJ; arc=none smtp.client-ip=209.85.218.42
+	s=arc-20240116; t=1783737763; c=relaxed/simple;
+	bh=qhzaz5c7gqai7uH8ENp4OXcvcRx5rtyjEEv0SrYq2GE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BRbRWIxlbvC2cH0T3j/Kr6OIUifYttfVWFmt+3boM1dre2z+AHrYdpPUOCXd1A8wwg3flBvvIQ+NVMrav/04A2gxTl5vE20VIcsYgTuVWj/zjTHybZ2ZkBAnFpSYrxtLS5t4PXz0NgCC3BF/z1ZvSYk27KRNW1srpnsGcigqrkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AHsTE0oA; arc=none smtp.client-ip=209.85.216.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YE8druhJ"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-c15f6d667bcso177093866b.2
-        for <linux-staging@lists.linux.dev>; Fri, 10 Jul 2026 14:23:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AHsTE0oA"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-384930ca5e2so1850463a91.3
+        for <linux-staging@lists.linux.dev>; Fri, 10 Jul 2026 19:42:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783718607; x=1784323407; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1783737762; x=1784342562; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=DQKLAy+q4WVq9Y37Ln7ncK+4sykkn+Pf4c/5Lgs8Ca8=;
-        b=YE8druhJku+vDtBU6DDtr5jZZbcJtRX8JJk+YoPvUvIthVFn1KbEKsnOQuIAXTIrEf
-         ZPvXfD8QoHeSt0xb8rv91XzTMOnrm/7ZDhFnrvUuvVzfNmBSlHVduV5usLUG7NvwED86
-         eYEpH7oD8+/HgkN+xmo5Re0cWooj7gagWJEjytExeJpQq+SNICdpkVDFr9QkZG/wd5MO
-         +zCJNzWnIbXDD9wEck1NP9tY5UXPHIdgg9CSkQc660QdQbninsXFViETHHSGoDzA/MCo
-         PLNKVF7zwfnTxXrjIeZa9KMWVS1P7RH5eSv3+Ulp0CwlwoV2Vr0oVtNxLq95pA07xPo7
-         9aBw==
+        bh=+aTWheqepBxqS9cLgqp6GBAdIX7fO7wElh36f1viqvM=;
+        b=AHsTE0oA3RIuRgarWpiMOSeL48j/IzF6W9N6bsnyJ1DLLr/4Mkfz5h6sR8zZDibtDj
+         Sb5Cy1FrdCxmBZDMv1kTF9BwpDpCcNmTyECOvgphJE83WVAlQcHv3Xz69tJES/FqZ1PC
+         NnemswS/dgJ3o4z9UT3fqGsAKLVbvqNOGpFV01LN55yacZJ5XAFgurTcfHf089EuPlbz
+         S7lRopNBuxhZLFeCgx73rik3ZBCcc/fp41jti9GFIh/sw9ezj9kWZKhsUJzF6yghrvZH
+         SBSbYvKuFAxoIYyUqE6CyCTvbhpSqmjmnNmKvPL8fBwl7Np3g3xkwLZZI908hyajYA1g
+         Xc0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783718607; x=1784323407;
+        d=1e100.net; s=20251104; t=1783737762; x=1784342562;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=DQKLAy+q4WVq9Y37Ln7ncK+4sykkn+Pf4c/5Lgs8Ca8=;
-        b=qfvSiudW1XnZ8RQI0mRm+2KXXKet2Ig14movXkzQIiWnZo9GZJS7Gy71dUmdvj2/jV
-         1UVUr6t3bS8G9QLVdC656MIDDTdPvsQfncCmIkOz+BJ8LrgOtu54ONJD4LSzSizp3TRx
-         Q+wj4/JH3azL6uvOIV0rEXh7rjTCpYLjtO6MsNk4oksmMb1Myg4J1YS8P5vjqgOpc81J
-         zSQmnA3gLG84rISbkrBcia+XOPov7NavBLBtmLgG2C9Y+3RRwbk43pz4vVp4kc+EMKMy
-         9ruKeDhSKJxuTYRXRGA9otz+wkLP/zdFtMIrbwLErY1vYlzonYcUckHaXC8QhRReY/Cw
-         rYfQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rq+tjS6ALZL4lqLUQBgJSQ2Qy5OCtzVXijdJ2/kffL49uRjdNi345Pu2NXbjA4YPtMDggQ9RcZ4FcqIFVrk@lists.linux.dev
-X-Gm-Message-State: AOJu0YzEMGSzGnDttgqtFtgEu5IXkwwYxwJ0ZDNXHl2njCkice5IUMyn
-	w1I3Ye+LrJNzW2MWEbeO3DCV2r9C+1zatbzT0jYEVfcABVxOzYHZ0+54
-X-Gm-Gg: AfdE7cmz3E24xS3Y8NpNBEDYHScK6/EXV4N1G7pfrZDakEMC9P/KODC7t2/qLTDuSeF
-	q4YIBJdm5LlXblQ+nbAgh/cLovpPiAWY4+UcFLkp0TM37MnRPw/8YBg4P8E3cdycpRd2BvCOyXE
-	hZUjHPdPLSCUcqurw5iwQUBBN2IIp/RjigvGWgD26aoyJjII77KH8nZZrzZ0qOhB4A0brNRkeFY
-	y2eJCW4t+RCYNwMm/mc+Su/7iFTc65nzq3mfOQexPOH7wn+zAllgWABCB8bQKa4WjIV3eTIJTka
-	Ye5pXEQ+jnnpFEjdzalKbadFa94O7jI4Fb3Or9VeDMWlqRrEoRzIZVWXxIcNfvThcT3+GcwyWs8
-	6XvqjWJpbWDy3UJaEo0XMaHKg4SsCyoq1iKaQZOQYRhk1RlenoH2B3sNHPaxxc/wgEfssK3SCc5
-	4OnhPvRtsFLd6EZR4dGBR+GCMUHZOV4RGSl4ZfagoTaW0TVJcNGp/O8PZsyc7gyGA=
-X-Received: by 2002:a17:907:3f0c:b0:c12:34ed:e100 with SMTP id a640c23a62f3a-c161f38b21bmr21774166b.62.1783718606434;
-        Fri, 10 Jul 2026 14:23:26 -0700 (PDT)
-Received: from node ([202.47.63.86])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1602f5e9c5sm137784266b.21.2026.07.10.14.23.20
+        bh=+aTWheqepBxqS9cLgqp6GBAdIX7fO7wElh36f1viqvM=;
+        b=JYSUBTxg4Mv3zAtzl0hOM7YFH5Caqu4Vqlwe7ds30x2xx6VvufjvddEuzjPU2Ga8o6
+         h5Hppy850FT7AV3HsK6hIbkG3Qof62QGxze7euArNTIy18iLrZ8qZ1tP9sPUyCstUPxP
+         m+EGQ9oD7CgPfOgezB5vP57X22ydhBnOwqUPzlvzS44nDMkmwZ1MxjLgD+7bb3QG3PXo
+         LPS2YNM8O+1za5FWiJ/elBSU20uvI8T4UtAojEgdbXulbH6ZiiYrokON3LyRYlJ5eKpB
+         uWbUstbN5rnU/nW2GDywWj5wIkD7xa/zyv2SOfmofgdDBsHbdnxhZTGE/KqsrBQtc1hE
+         7FqQ==
+X-Gm-Message-State: AOJu0YxvrGCkDJo3AXAMU8evREMQToc94p5ZC2lfkttGFtThetgW3VOt
+	F5fHv40gpSWaEnIfjYL64VVVvQq/M44ot5qJrD5KW4fewG/Q+O2AyZWR
+X-Gm-Gg: AfdE7cm3Fksir88VNv45fZ7t33SPqgtStILKtUyDPKnG1rx0NadsuPdTf/SpbO+zQI+
+	LQdl7GWfucOxFOzAJA2y9bMMu90hgt7RyO0DwRppgbN5CcrjCa2H0IcW0fY8TG/6AwEQ1zsPLCL
+	0fo9WOfrwi6Co/emGxpeZ9ckF8aa9deiqT3fTZDcd5RPL3Qy3yJiU5J7iQETFIxuo5AqwP3TG9W
+	fKc+XOu1aJnkmrksiKTHpEr1jPA2hLqxOvYKuVVxNYGLXjX9kkarlI5tQQ+1lvcPOrC7evdkPaP
+	Ks4y76YdCMzQzWK3ceEr3hRyAr3C04k2tFYFneVbGCNGdUnkLgT1R//BIwzB3miYUkr13kUVzmz
+	X5lT5X0JjcUc9MJexdbPAsteqzPRe0Jae9EQUs/i09dNKsYMLGoBbWzQMGeLAbb8o6J5upaUdVL
+	gxrjw6hQTgQcgL0LC5NGq9HRu42ZNZ
+X-Received: by 2002:a05:6a21:110:b0:3c0:9c19:65b2 with SMTP id adf61e73a8af0-3c110a7742fmr1779738637.74.1783737761855;
+        Fri, 10 Jul 2026 19:42:41 -0700 (PDT)
+Received: from localhost.localdomain ([116.68.83.225])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-311747f596asm45686757eec.2.2026.07.10.19.42.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jul 2026 14:23:25 -0700 (PDT)
-From: Muhammad Bilal <meatuni001@gmail.com>
-To: greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Vaibhav Agarwal <vaibhav.sr@gmail.com>,
-	Mark Greer <mgreer@animalcreek.com>,
-	Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Muhammad Bilal <meatuni001@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] staging: greybus: audio: bound topology parsing to the received buffer
-Date: Sat, 11 Jul 2026 02:23:12 +0500
-Message-ID: <20260710212312.117781-1-meatuni001@gmail.com>
-X-Mailer: git-send-email 2.55.0
+        Fri, 10 Jul 2026 19:42:41 -0700 (PDT)
+From: Ananthan <ananthanr.off@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Ananthan <ananthanr.off@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: replace magic number in InitBeaconParameters
+Date: Sat, 11 Jul 2026 08:10:06 +0530
+Message-ID: <20260711024005.19900-2-ananthanr.off@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -79,449 +72,47 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Greybus audio topology parser trusts length and count fields taken
-straight from the module's topology blob and never checks them against
-the size of the buffer it actually allocated, leading to out-of-bounds
-reads of the kernel heap.
+Per the bitfield comment in hal_com_reg.h, REG_TBTT_PROHIBIT packs
+a "setup" time in bits 3:0 and a "hold" time in bits 19:8. The
+rtw_write16() call here only writes the low 16 bits of that
+register, covering the full setup field and the low byte of the
+hold field.
 
-gb_audio_gb_get_topology() reads a u16 size from the module, allocates a
-buffer of that size, fetches the topology into it, and then discards the
-size. gbaudio_tplg_parse_data() then walks that buffer using fields
-stored inside it:
+Replace the magic number 0x6404 with two named constants
+representing these fields.
 
-  - gbaudio_tplg_process_header() computes the control, widget and route
-    block offsets by adding the wire-supplied __le32 size_dais,
-    size_controls and size_widgets onto the buffer base with no bound, so
-    a module that reports a small allocation size but large block sizes
-    moves those offsets far past the end of the buffer before they are
-    dereferenced.
+No functional change.
 
-  - gbaudio_tplg_process_kcontrols(), _process_widgets() and
-    _process_routes() iterate num_controls / num_widgets / num_routes
-    (also from the blob) and advance a pointer by a per-element size that
-    includes the __le16 names_length of an enumerated control, again with
-    no check that the element stays inside the buffer.
-
-  - gb_generate_enum_strings() loops over an attacker-controlled __le32
-    items count and, for each, scans for a NUL terminator with no end
-    pointer, walking off the end of the buffer.
-
-A malicious or malfunctioning module can therefore make the parser read
-past the allocation. The wild block offsets are most likely to hit an
-unmapped page and oops (denial of service); the byte-at-a-time enum scan
-walks from a still-valid pointer and can copy adjacent heap bytes into
-ALSA control name strings, which are readable by unprivileged local
-users, so an information leak cannot be ruled out.
-
-Thread the allocated topology size from gb_audio_gb_get_topology()
-through to gbaudio_tplg_parse_data() and bound every walk against the end
-of the buffer: verify the block offsets are ordered and within the
-buffer (the "< previous" tests also catch a 32-bit unsigned wrap of the
-running offset), check each control, widget and route lies fully inside
-its block before use, and give gb_generate_enum_strings() an explicit
-end pointer plus an items-versus-names_length sanity check.
-
-Fixes: 6339d2322c47 ("greybus: audio: Add topology parser for GB codec")
-Cc: stable@vger.kernel.org
-Signed-off-by: Muhammad Bilal <meatuni001@gmail.com>
+Signed-off-by: Ananthan <ananthanr.off@gmail.com>
 ---
- drivers/staging/greybus/audio_codec.h    |   4 +-
- drivers/staging/greybus/audio_gb.c       |  13 ++-
- drivers/staging/greybus/audio_module.c   |   6 +-
- drivers/staging/greybus/audio_topology.c | 135 ++++++++++++++++++-----
- 4 files changed, 120 insertions(+), 38 deletions(-)
+ drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/greybus/audio_codec.h b/drivers/staging/greybus/audio_codec.h
-index f3f7a7ec6be40..f9225cf52d843 100644
---- a/drivers/staging/greybus/audio_codec.h
-+++ b/drivers/staging/greybus/audio_codec.h
-@@ -167,7 +167,7 @@ struct gbaudio_module_info {
- };
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+index bcaf63b2893c..9609ae025736 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+@@ -11,6 +11,9 @@
+ #include <rtl8723b_hal.h>
+ #include "hal_com_h2c.h"
  
- int gbaudio_tplg_parse_data(struct gbaudio_module_info *module,
--			    struct gb_audio_topology *tplg_data);
-+			    struct gb_audio_topology *tplg_data, size_t size);
- void gbaudio_tplg_release(struct gbaudio_module_info *module);
- 
- int gbaudio_module_update(struct gbaudio_codec_info *codec,
-@@ -179,7 +179,7 @@ void gbaudio_unregister_module(struct gbaudio_module_info *module);
- 
- /* protocol related */
- int gb_audio_gb_get_topology(struct gb_connection *connection,
--			     struct gb_audio_topology **topology);
-+			     struct gb_audio_topology **topology, size_t *size);
- int gb_audio_gb_get_control(struct gb_connection *connection,
- 			    u8 control_id, u8 index,
- 			    struct gb_audio_ctl_elem_value *value);
-diff --git a/drivers/staging/greybus/audio_gb.c b/drivers/staging/greybus/audio_gb.c
-index 9d8994fdb41a2..0811652bc417f 100644
---- a/drivers/staging/greybus/audio_gb.c
-+++ b/drivers/staging/greybus/audio_gb.c
-@@ -10,11 +10,11 @@
- 
- /* TODO: Split into separate calls */
- int gb_audio_gb_get_topology(struct gb_connection *connection,
--			     struct gb_audio_topology **topology)
-+			     struct gb_audio_topology **topology, size_t *size)
++#define TBTT_PROHIBIT_SETUP     0x04  /* bits 3:0: setup time, unit 32us */
++#define TBTT_PROHIBIT_HOLD_LOW  0x64  /* bits 15:8: low byte of 12-bit hold time, unit 32us */
++
+ static void _FWDownloadEnable(struct adapter *padapter, bool enable)
  {
- 	struct gb_audio_get_topology_size_response size_resp;
- 	struct gb_audio_topology *topo;
--	u16 size;
-+	u16 tplg_size;
- 	int ret;
+ 	u8 tmp, count = 0;
+@@ -861,8 +864,8 @@ void rtl8723b_InitBeaconParameters(struct adapter *padapter)
  
- 	ret = gb_operation_sync(connection, GB_AUDIO_TYPE_GET_TOPOLOGY_SIZE,
-@@ -22,22 +22,23 @@ int gb_audio_gb_get_topology(struct gb_connection *connection,
- 	if (ret)
- 		return ret;
+ 	rtw_write16(padapter, REG_BCN_CTRL, val16);
  
--	size = le16_to_cpu(size_resp.size);
--	if (size < sizeof(*topo))
-+	tplg_size = le16_to_cpu(size_resp.size);
-+	if (tplg_size < sizeof(*topo))
- 		return -ENODATA;
- 
--	topo = kzalloc(size, GFP_KERNEL);
-+	topo = kzalloc(tplg_size, GFP_KERNEL);
- 	if (!topo)
- 		return -ENOMEM;
- 
- 	ret = gb_operation_sync(connection, GB_AUDIO_TYPE_GET_TOPOLOGY, NULL, 0,
--				topo, size);
-+				topo, tplg_size);
- 	if (ret) {
- 		kfree(topo);
- 		return ret;
- 	}
- 
- 	*topology = topo;
-+	*size = tplg_size;
- 
- 	return 0;
- }
-diff --git a/drivers/staging/greybus/audio_module.c b/drivers/staging/greybus/audio_module.c
-index 12c376c477b3c..9367ab6debdbe 100644
---- a/drivers/staging/greybus/audio_module.c
-+++ b/drivers/staging/greybus/audio_module.c
-@@ -240,6 +240,7 @@ static int gb_audio_probe(struct gb_bundle *bundle,
- 	struct gbaudio_data_connection *dai, *_dai;
- 	int ret, i;
- 	struct gb_audio_topology *topology;
-+	size_t tplg_size;
- 
- 	/* There should be at least one Management and one Data cport */
- 	if (bundle->num_cports < 2)
-@@ -308,14 +309,15 @@ static int gb_audio_probe(struct gb_bundle *bundle,
- 	 * FIXME: malloc for topology happens via audio_gb driver
- 	 * should be done within codec driver itself
- 	 */
--	ret = gb_audio_gb_get_topology(gbmodule->mgmt_connection, &topology);
-+	ret = gb_audio_gb_get_topology(gbmodule->mgmt_connection, &topology,
-+				       &tplg_size);
- 	if (ret) {
- 		dev_err(dev, "%d:Error while fetching topology\n", ret);
- 		goto disable_connection;
- 	}
- 
- 	/* process topology data */
--	ret = gbaudio_tplg_parse_data(gbmodule, topology);
-+	ret = gbaudio_tplg_parse_data(gbmodule, topology, tplg_size);
- 	if (ret) {
- 		dev_err(dev, "%d:Error while parsing topology data\n",
- 			ret);
-diff --git a/drivers/staging/greybus/audio_topology.c b/drivers/staging/greybus/audio_topology.c
-index 76146f91cddcc..4095e6c741efa 100644
---- a/drivers/staging/greybus/audio_topology.c
-+++ b/drivers/staging/greybus/audio_topology.c
-@@ -134,21 +134,35 @@ static const char **gb_generate_enum_strings(struct gbaudio_module_info *gb,
- 					     struct gb_audio_enumerated *gbenum)
- {
- 	const char **strings;
--	int i;
- 	unsigned int items;
--	__u8 *data;
-+	u16 names_length;
-+	const __u8 *data;
-+	const __u8 *end;
-+	int i;
- 
- 	items = le32_to_cpu(gbenum->items);
-+	names_length = le16_to_cpu(gbenum->names_length);
-+	data = gbenum->names;
-+	end = data + names_length;
-+
-+	/*
-+	 * Each enumerated value is a NUL-terminated string occupying at least
-+	 * one byte, so a valid names block cannot hold more items than it has
-+	 * bytes. This also bounds the devm_kcalloc() request below.
-+	 */
-+	if (items > names_length)
-+		return NULL;
-+
- 	strings = devm_kcalloc(gb->dev, items, sizeof(char *), GFP_KERNEL);
- 	if (!strings)
- 		return NULL;
- 
--	data = gbenum->names;
--
- 	for (i = 0; i < items; i++) {
- 		strings[i] = (const char *)data;
--		while (*data != '\0')
-+		while (data < end && *data != '\0')
- 			data++;
-+		if (data == end)
-+			return NULL;
- 		data++;
- 	}
- 
-@@ -1009,9 +1023,40 @@ static const struct snd_soc_dapm_widget gbaudio_widgets[] = {
- 					SND_SOC_DAPM_POST_PMD),
- };
- 
-+/*
-+ * Return the on-wire size of the topology control at @curr, in bytes, after
-+ * verifying that the whole control - including its variable-length enum names
-+ * block - lies within [@curr, @end). Returns a negative errno on overrun.
-+ */
-+static int gbaudio_control_size(struct gb_audio_control *curr, const u8 *end)
-+{
-+	size_t csize;
-+
-+	/*
-+	 * Enough of the control must be present to read its id and name and
-+	 * the fixed part of the enumerated descriptor (items, names_length).
-+	 */
-+	csize = offsetof(struct gb_audio_control, info);
-+	csize += offsetof(struct gb_audio_ctl_elem_info, value);
-+	csize += offsetof(struct gb_audio_enumerated, names);
-+	if ((u8 *)curr + csize > end)
-+		return -EINVAL;
-+
-+	if (curr->info.type == GB_AUDIO_CTL_ELEM_TYPE_ENUMERATED)
-+		csize += le16_to_cpu(curr->info.value.enumerated.names_length);
-+	else
-+		csize = sizeof(struct gb_audio_control);
-+
-+	if ((u8 *)curr + csize > end)
-+		return -EINVAL;
-+
-+	return csize;
-+}
-+
- static int gbaudio_tplg_create_widget(struct gbaudio_module_info *module,
- 				      struct snd_soc_dapm_widget *dw,
--				      struct gb_audio_widget *w, int *w_size)
-+				      struct gb_audio_widget *w, int *w_size,
-+				      const u8 *end)
- {
- 	int i, ret, csize;
- 	struct snd_kcontrol_new *widget_kctls;
-@@ -1040,6 +1085,11 @@ static int gbaudio_tplg_create_widget(struct gbaudio_module_info *module,
- 	/* create relevant kcontrols */
- 	curr = w->ctl;
- 	for (i = 0; i < w->ncontrols; i++) {
-+		ret = gbaudio_control_size(curr, end);
-+		if (ret < 0)
-+			goto error;
-+		csize = ret;
-+
- 		ret = gbaudio_tplg_create_wcontrol(module, &widget_kctls[i],
- 						   curr);
- 		if (ret) {
-@@ -1063,10 +1113,6 @@ static int gbaudio_tplg_create_widget(struct gbaudio_module_info *module,
- 			struct gb_audio_enumerated *gbenum =
- 				&curr->info.value.enumerated;
- 
--			csize = offsetof(struct gb_audio_control, info);
--			csize += offsetof(struct gb_audio_ctl_elem_info, value);
--			csize += offsetof(struct gb_audio_enumerated, names);
--			csize += le16_to_cpu(gbenum->names_length);
- 			control->texts = (const char * const *)
- 				gb_generate_enum_strings(module, gbenum);
- 			if (!control->texts) {
-@@ -1074,8 +1120,6 @@ static int gbaudio_tplg_create_widget(struct gbaudio_module_info *module,
- 				goto error;
- 			}
- 			control->items = le32_to_cpu(gbenum->items);
--		} else {
--			csize = sizeof(struct gb_audio_control);
- 		}
- 
- 		*w_size += csize;
-@@ -1136,7 +1180,8 @@ static int gbaudio_tplg_create_widget(struct gbaudio_module_info *module,
- }
- 
- static int gbaudio_tplg_process_kcontrols(struct gbaudio_module_info *module,
--					  struct gb_audio_control *controls)
-+					  struct gb_audio_control *controls,
-+					  const u8 *end)
- {
- 	int i, csize, ret;
- 	struct snd_kcontrol_new *dapm_kctls;
-@@ -1152,6 +1197,11 @@ static int gbaudio_tplg_process_kcontrols(struct gbaudio_module_info *module,
- 
- 	curr = controls;
- 	for (i = 0; i < module->num_controls; i++) {
-+		ret = gbaudio_control_size(curr, end);
-+		if (ret < 0)
-+			goto error;
-+		csize = ret;
-+
- 		ret = gbaudio_tplg_create_kcontrol(module, &dapm_kctls[i],
- 						   curr);
- 		if (ret) {
-@@ -1176,10 +1226,6 @@ static int gbaudio_tplg_process_kcontrols(struct gbaudio_module_info *module,
- 			struct gb_audio_enumerated *gbenum =
- 				&curr->info.value.enumerated;
- 
--			csize = offsetof(struct gb_audio_control, info);
--			csize += offsetof(struct gb_audio_ctl_elem_info, value);
--			csize += offsetof(struct gb_audio_enumerated, names);
--			csize += le16_to_cpu(gbenum->names_length);
- 			control->texts = (const char * const *)
- 				gb_generate_enum_strings(module, gbenum);
- 			if (!control->texts) {
-@@ -1187,8 +1233,6 @@ static int gbaudio_tplg_process_kcontrols(struct gbaudio_module_info *module,
- 				goto error;
- 			}
- 			control->items = le32_to_cpu(gbenum->items);
--		} else {
--			csize = sizeof(struct gb_audio_control);
- 		}
- 
- 		list_add(&control->list, &module->ctl_list);
-@@ -1210,7 +1254,8 @@ static int gbaudio_tplg_process_kcontrols(struct gbaudio_module_info *module,
- }
- 
- static int gbaudio_tplg_process_widgets(struct gbaudio_module_info *module,
--					struct gb_audio_widget *widgets)
-+					struct gb_audio_widget *widgets,
-+					const u8 *end)
- {
- 	int i, ret, w_size;
- 	struct snd_soc_dapm_widget *dapm_widgets;
-@@ -1225,8 +1270,13 @@ static int gbaudio_tplg_process_widgets(struct gbaudio_module_info *module,
- 
- 	curr = widgets;
- 	for (i = 0; i < module->num_dapm_widgets; i++) {
-+		/* The fixed part of the widget must lie within the buffer. */
-+		if ((u8 *)curr + sizeof(struct gb_audio_widget) > end) {
-+			ret = -EINVAL;
-+			goto error;
-+		}
- 		ret = gbaudio_tplg_create_widget(module, &dapm_widgets[i],
--						 curr, &w_size);
-+						 curr, &w_size, end);
- 		if (ret) {
- 			dev_err(module->dev, "%s:%d type not supported\n",
- 				curr->name, curr->type);
-@@ -1259,7 +1309,8 @@ static int gbaudio_tplg_process_widgets(struct gbaudio_module_info *module,
- }
- 
- static int gbaudio_tplg_process_routes(struct gbaudio_module_info *module,
--				       struct gb_audio_route *routes)
-+				       struct gb_audio_route *routes,
-+				       const u8 *end)
- {
- 	int i, ret;
- 	struct snd_soc_dapm_route *dapm_routes;
-@@ -1275,6 +1326,10 @@ static int gbaudio_tplg_process_routes(struct gbaudio_module_info *module,
- 	curr = routes;
- 
- 	for (i = 0; i < module->num_dapm_routes; i++) {
-+		if ((u8 *)curr + sizeof(struct gb_audio_route) > end) {
-+			ret = -EINVAL;
-+			goto error;
-+		}
- 		dapm_routes->sink =
- 			gbaudio_map_widgetid(module, curr->destination_id);
- 		if (!dapm_routes->sink) {
-@@ -1320,8 +1375,12 @@ static int gbaudio_tplg_process_routes(struct gbaudio_module_info *module,
- }
- 
- static int gbaudio_tplg_process_header(struct gbaudio_module_info *module,
--				       struct gb_audio_topology *tplg_data)
-+				       struct gb_audio_topology *tplg_data,
-+				       size_t size)
- {
-+	unsigned long tplg_start = (unsigned long)tplg_data;
-+	unsigned long tplg_end = tplg_start + size;
-+
- 	/* fetch no. of kcontrols, widgets & routes */
- 	module->num_controls = tplg_data->num_controls;
- 	module->num_dapm_widgets = tplg_data->num_widgets;
-@@ -1336,6 +1395,20 @@ static int gbaudio_tplg_process_header(struct gbaudio_module_info *module,
- 	module->route_offset = module->widget_offset +
- 					le32_to_cpu(tplg_data->size_widgets);
- 
-+	/*
-+	 * The DAI, control, widget and route blocks are concatenated in that
-+	 * order after the header. Their sizes come straight off the wire and
-+	 * are attacker-controlled, so verify the resulting block boundaries
-+	 * are ordered and stay within the allocated topology buffer. The
-+	 * "< previous" tests also reject an unsigned wrap of the running
-+	 * offset on 32-bit builds.
-+	 */
-+	if (module->control_offset < module->dai_offset ||
-+	    module->widget_offset < module->control_offset ||
-+	    module->route_offset < module->widget_offset ||
-+	    module->route_offset > tplg_end)
-+		return -EINVAL;
-+
- 	dev_dbg(module->dev, "DAI offset is 0x%lx\n", module->dai_offset);
- 	dev_dbg(module->dev, "control offset is %lx\n",
- 		module->control_offset);
-@@ -1346,7 +1419,7 @@ static int gbaudio_tplg_process_header(struct gbaudio_module_info *module,
- }
- 
- int gbaudio_tplg_parse_data(struct gbaudio_module_info *module,
--			    struct gb_audio_topology *tplg_data)
-+			    struct gb_audio_topology *tplg_data, size_t size)
- {
- 	int ret;
- 	struct gb_audio_control *controls;
-@@ -1357,7 +1430,10 @@ int gbaudio_tplg_parse_data(struct gbaudio_module_info *module,
- 	if (!tplg_data)
- 		return -EINVAL;
- 
--	ret = gbaudio_tplg_process_header(module, tplg_data);
-+	if (size < sizeof(*tplg_data))
-+		return -EINVAL;
-+
-+	ret = gbaudio_tplg_process_header(module, tplg_data, size);
- 	if (ret) {
- 		dev_err(module->dev, "%d: Error in parsing topology header\n",
- 			ret);
-@@ -1366,7 +1442,8 @@ int gbaudio_tplg_parse_data(struct gbaudio_module_info *module,
- 
- 	/* process control */
- 	controls = (struct gb_audio_control *)module->control_offset;
--	ret = gbaudio_tplg_process_kcontrols(module, controls);
-+	ret = gbaudio_tplg_process_kcontrols(module, controls,
-+					     (const u8 *)module->widget_offset);
- 	if (ret) {
- 		dev_err(module->dev,
- 			"%d: Error in parsing controls data\n", ret);
-@@ -1376,7 +1453,8 @@ int gbaudio_tplg_parse_data(struct gbaudio_module_info *module,
- 
- 	/* process widgets */
- 	widgets = (struct gb_audio_widget *)module->widget_offset;
--	ret = gbaudio_tplg_process_widgets(module, widgets);
-+	ret = gbaudio_tplg_process_widgets(module, widgets,
-+					   (const u8 *)module->route_offset);
- 	if (ret) {
- 		dev_err(module->dev,
- 			"%d: Error in parsing widgets data\n", ret);
-@@ -1386,7 +1464,8 @@ int gbaudio_tplg_parse_data(struct gbaudio_module_info *module,
- 
- 	/* process route */
- 	routes = (struct gb_audio_route *)module->route_offset;
--	ret = gbaudio_tplg_process_routes(module, routes);
-+	ret = gbaudio_tplg_process_routes(module, routes,
-+					  (const u8 *)tplg_data + size);
- 	if (ret) {
- 		dev_err(module->dev,
- 			"%d: Error in parsing routes data\n", ret);
+-	/*  TODO: Remove these magic number */
+-	rtw_write16(padapter, REG_TBTT_PROHIBIT, 0x6404);/*  ms */
++	rtw_write16(padapter, REG_TBTT_PROHIBIT,
++		    (TBTT_PROHIBIT_HOLD_LOW << 8) | TBTT_PROHIBIT_SETUP);/*  ms */
+ 	/*  Firmware will control REG_DRVERLYINT when power saving is enable, */
+ 	/*  so don't set this register on STA mode. */
+ 	if (!check_fwstate(&padapter->mlmepriv, WIFI_STATION_STATE))
 -- 
-2.55.0
+2.43.0
 
