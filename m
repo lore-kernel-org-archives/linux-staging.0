@@ -1,96 +1,104 @@
-Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F6FB3769F5
-	for <linux-staging@lists.linux.dev>; Sat, 11 Jul 2026 11:09:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3D2C2877DA;
+	Sat, 11 Jul 2026 14:00:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783768157; cv=none; b=Q3Opb1b8dPR0dX7k71wA9MnQ4ez2GVawNBShj/xr8fU6XJCohCJMEa7/L5s2fOqnHQed/k/tcCFaBQaKFRsTerhQvi1VaTdpQcb9xs6NNHtvtZz0dz2E4nyEBZcjcveQRcKZ8SPZmAtxM+tGy+dRGA6Bf7cTxSHcGbwh8XEFd4c=
+	t=1783778411; cv=none; b=Enl07gLIj5ELCX/mt0RA8evsDxhHz9p3CEeO8WrAeMPV7gyYUGYAmabhYpRBYOBwDu9i28jxZBIXIF0hBcOgUxH+FbHAB11FuBkf4kZPy7mXmxfdLsRvTQ/XvzrHZXiDbHA0GQs/VF9a+Q+IIxLY98croQ2WxAQTe9HsIMnIfZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783768157; c=relaxed/simple;
-	bh=/ct3a4d07mIPp80dTOTKKFNLheltHpdu7cQ/5IYNZcg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=br7W5TpldDI6jyHw8ur4keSI87HbVXP6aNCzWZeCzGixdEx29ln+Dqiv8On63puSanjEBD3Ec4LarmvvrTu/R1sPrJNtooBGXfLr6NNKBTfhBirNGoanwtL3d+zMj2nFAEfrNLw5mBnZdhBxPFisNyr2RnXiBC2vnaa+X/g9Rig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MWY0BkJy; arc=none smtp.client-ip=209.85.160.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783778411; c=relaxed/simple;
+	bh=Q7sOoB3VrXS4zjRLNEjueSh8nOAfFRmn+saoy9jpSTU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=h6zRDVQyPsMce4c5uHaCNUsSvjl/FbWoytYEmaApAGU3QXNsOoaKUZMy5ZRecxZBNClniciG/Dz45lqu6VK0MJnitxWQeW3IG61QJqVVNeC/rsUn0Tt79P7zVMJV1ZrDnmgqI2j4TkTfI0JhZAIV+zQttQyTVOx9JbNoPV2Me/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iN2TDt0S; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MWY0BkJy"
-Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-44868d6a066so492838fac.3
-        for <linux-staging@lists.linux.dev>; Sat, 11 Jul 2026 04:09:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783768155; x=1784372955; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=/ct3a4d07mIPp80dTOTKKFNLheltHpdu7cQ/5IYNZcg=;
-        b=MWY0BkJy9IM6E0t9TA7+2u2+GlNE63YBBMJGGmcIORilX+my666uyZwWR3lcnkVmMo
-         fVXuK8fkmFocOyfzbr/NO6AbvlQyhDMAD6fcKEO3qACOwDyTJILrZZNyDhgnfH/ylrKO
-         L6TSYw/4Ri23/QKWIj4V/oEZJu9yu+kEeOjs0FFB3Z+I0MyDteq6NEZN7Eoed+0HxkMz
-         NSvcgJmWN2G/gFOKUdvvkpRQF/dBXpKqYTszQuNb78spOFkLHR4hrZdAaJN4QfR2axOx
-         0pugcBcS5uf3Hzeb7VM3rGAyzkxk7moOewXsloWsy/XvisIabafBQspBjtesV09oYkw7
-         5Jxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783768155; x=1784372955;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=/ct3a4d07mIPp80dTOTKKFNLheltHpdu7cQ/5IYNZcg=;
-        b=HW1fxkX+R5zjZZb3fRtEGfCpM27ROWW3AWbembQhbDB2qtOAllKewlNFhVTVzAUwiu
-         jMILoyO3TIMFoj1+yviQ7CGvlq8McjA2KmI/f4RzBrYuOOiChLfytDpoW6dv34CkevuF
-         ZQhkuU6hIoO8TkITuFcw10Vt57t6WgmHgLij8UOgkf9RzrS0+UJTxVNrkxGdMjCV0mzJ
-         4Q1V/lNDgnWzNNlZGMLMt0LNwUZixu8cRnKBOUQoMpyLysEcP0zs/LJ/uUWWuByySV4A
-         HhIXYcq7PfH7Cz0uYRSNKmN8pfTkBjH2B6cSJxucfHSuyRdFU2czY7vR/JFFIge3sgXb
-         EK6w==
-X-Forwarded-Encrypted: i=1; AFNElJ+cZIHQxj9VnK33A0padWXyeFER3Nb+3qllgZvUoY0Ya/tr0uUAvJKSuB6/ahmX+LcQV9QNP4tMO7pjnNq6@lists.linux.dev
-X-Gm-Message-State: AOJu0YztoqLXwdGjSzX6JS0AIkP544a7iBCyMEzPWuQGo0iIPn4I/fUY
-	FI1SQaNlUQFDV9YKFgzxNpyBT+f1YbKwiBD3BA3/oKcVMI9j5vkFIR9I
-X-Gm-Gg: AfdE7cmcKUN3+bF1erwP16xqe3vY6FivJY5COr6nLFlzuCAnsIP5EXSF7RgYjUljPTK
-	klIyEnyATa5JEWkSbqf304dbP1iBEWD8NvzJaR8BvPCNTixk9IJOXK102M4Tq50t2ZLRyfBEQMH
-	Sey8qK88KIJIm+ydfsCc8GhbZ0Zx4C+7g66+KcRrLu+vOVu/sM1zpaB9EahuH1NP9s6qir8L5/7
-	3GEHP5RqbnkQ5J/gjnjNzNot2AOWE2ZsmY4b9fMQ113T1yFZ5GiFkV7SsBUA6M1uTA7nRJoQdEP
-	e1Te3Av/nqc7baj2zgoASbDXXxYIMXRg21p5z1EhVtrYVeX59HI8h4h5WoMeeHydRq9xRMG+XJw
-	FBr0fdMwLgFmRru9Fp527tJUTn2e5AqYZkWAKqt4aZjAPLh+5CHkiJ9k9EfzGEX1vz6laM8FFcj
-	JgTjIy
-X-Received: by 2002:a05:6870:a255:b0:43b:5268:b7a0 with SMTP id 586e51a60fabf-451f1375b2amr1284724fac.26.1783768155055;
-        Sat, 11 Jul 2026 04:09:15 -0700 (PDT)
-Received: from localhost ([74.80.182.78])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-451ff78897asm1123162fac.17.2026.07.11.04.09.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Jul 2026 04:09:12 -0700 (PDT)
-Date: Sat, 11 Jul 2026 14:09:06 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: "A. Kalimov" <erqeon@gmail.com>
-Cc: gregkh@linuxfoundation.org, hansg@kernel.org, andy@kernel.org,
-	mchehab@kernel.org, sakari.ailus@intel.com,
-	linux-staging@lists.linux.dev, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] staging: media: atomisp: remove unnecessary
- return statement
-Message-ID: <alIkUiNSk-GbxXDg@stanley.mountain>
-References: <20260711110152.66188-1-erqeon@gmail.com>
- <20260711110152.66188-2-erqeon@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iN2TDt0S"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 469F81F00A3D;
+	Sat, 11 Jul 2026 14:00:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1783778409;
+	bh=68XIjv3oMF74stzxvIJ/Qs/DZ1vupGwuNZ5/TScVAvA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=iN2TDt0S4biyCk8WOcxwnVlb7psB5khRO/3zJd+1StlxchyMgu6w81SUhBVK0H168
+	 P+cAljV3Kqzc8Rt5TOZf1kx8Z9g2RGBdWsYtcmiDP4tSU5QDRzUfetPRaqWuroYqbD
+	 1NpdXbB20qsJG0kBGzplXT8KS95iGzA1dDGqn4mDVO9Zu3b456D5RnG83IIIUB7I4c
+	 0voVYyvaOzL5ti1iDPR7mz7yaj79ULglU28/PeMg9H/GsMpkP/L5f+UjnIcND4dwJl
+	 +qil9nxOTI59bWE7pOeMibs53l3DuQki0WdOSV7jly46oZwybUxPZtfq7153iWXJYl
+	 G7wIwrNaDw3Ew==
+Received: by wens.tw (Postfix, from userid 1000)
+	id 20A725FBBD; Sat, 11 Jul 2026 22:00:06 +0800 (CST)
+From: Chen-Yu Tsai <wens@kernel.org>
+To: Maxime Ripard <mripard@kernel.org>,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Jernej Skrabec <jernej@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	devicetree@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH v2 3/7] dt-bindings: media: sun4i-a10-video-engine: Add H616 compatible
+Date: Sat, 11 Jul 2026 21:59:54 +0800
+Message-ID: <20260711135959.3616919-4-wens@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260711135959.3616919-1-wens@kernel.org>
+References: <20260711135959.3616919-1-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260711110152.66188-2-erqeon@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Jul 11, 2026 at 03:01:51PM +0400, A. Kalimov wrote:
-> Signed-off-by: A. Kalimov <erqeon@gmail.com>
-> ---
+The H616 contains a video engine similar to past SoCs.
 
-No commit message.
+Add a new compatible for it.
 
-Please wait 24 hours between resends.
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
+---
+ .../bindings/media/allwinner,sun4i-a10-video-engine.yaml       | 3 +++
+ 1 file changed, 3 insertions(+)
 
-staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
-
-regards,
-dan carpenter
+diff --git a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml
+index 818d815d4732..20c430795134 100644
+--- a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml
++++ b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml
+@@ -24,6 +24,7 @@ properties:
+       - allwinner,sun50i-a64-video-engine
+       - allwinner,sun50i-h5-video-engine
+       - allwinner,sun50i-h6-video-engine
++      - allwinner,sun50i-h616-video-engine
+ 
+   reg:
+     maxItems: 1
+@@ -96,6 +97,7 @@ allOf:
+           contains:
+             enum:
+               - allwinner,sun50i-h6-video-engine
++              - allwinner,sun50i-h616-video-engine
+     then:
+       properties:
+         iommus:
+@@ -111,6 +113,7 @@ allOf:
+           contains:
+             enum:
+               - allwinner,sun50i-h6-video-engine
++              - allwinner,sun50i-h616-video-engine
+     then:
+       properties:
+         allwinner,sram:
+-- 
+2.47.3
 
