@@ -1,106 +1,130 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE06822083
-	for <linux-staging@lists.linux.dev>; Sat, 11 Jul 2026 08:41:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81F044499A4
+	for <linux-staging@lists.linux.dev>; Sat, 11 Jul 2026 09:16:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783759309; cv=none; b=Nso4krXq6QJy4dRKyg0MknRnuEsri0veHGcGGhF0VTioqN/BT1yMv5FAyYEtPO69gaKXuNkW0KhlRpq5cmbf16F2TMATpvXL5GHcBuc9LKVK5D9lYzkrlKsUUH2aMcebH07IsqTMQITmcBroju9LcOkEWl4WgwEsLqbaQU01LzA=
+	t=1783761402; cv=none; b=mhBEBoPfZHOYG/Zzdj4LblnnuRo9oKC4I5hAUqX6afnlw7y3qfz4NmQlQio5kqIvW2CAoftwDaBZUFcn3QDMEaRZTDNRf68DOq8Q/vTtu7tksiP0gTzuwZM5yJfutuX8GtMlv5aXRihvp2bO9r8ak6haOnwRoR/VkyhRD3iiSWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783759309; c=relaxed/simple;
-	bh=741NkNwMBd+zrpm/eJCRcdcbZ5O/1bxg/Lz5NDisiKI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OxBQ4AFHmtrLNVTQAWmiXvLfOatb+Y0zp3ROZEax4FlQnfjgye6lZNE3kBXPkNZPRAUz+LGrHoBJleh/ePcshqhACKg7ATfs0j0HU711Qyjz4piTePE8aYxG8EgRvwXR3S4NFa3l6zOg02iyDP3AlMImSlfHEQgYcZBIN56a1CY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CFR62ml9; arc=none smtp.client-ip=209.85.128.46
+	s=arc-20240116; t=1783761402; c=relaxed/simple;
+	bh=uaK4E2NN338KW60VTHBVG2Nge1niyLZtTyuoJn6LktE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tnalU0SY5EXoMWnTG40i/S6k2/MbQT4nrxUSo3I2J54gfCp0/dZO2zzFA2bFD0ZZPfTNuS/x0MN3C0Qn/ks74oElBhzJH+kfw4+ecJ3v9nWi0y8fR7E1akIva1/sHxdCxh6koymL5GSB/p2xRcwXAJlBXixhmFOPiX3sHLbfVvI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SQw4/qpT; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CFR62ml9"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4921eed3fa2so14928195e9.0
-        for <linux-staging@lists.linux.dev>; Sat, 11 Jul 2026 01:41:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SQw4/qpT"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4938d5f86f3so12300915e9.1
+        for <linux-staging@lists.linux.dev>; Sat, 11 Jul 2026 02:16:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783759306; x=1784364106; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=SlLLztUM+0640uqDvfdh3aW/oG7BuHYgj+9xmBZ2wEI=;
-        b=CFR62ml9VOlb4bV4sr2eJEgx9HuGlt157TMEz8Q5fh788RxFNdbHyrv7hLxPZoA77y
-         npgnNtQuvzT6ROTAnJ/rRUP5VEI77dljhX50hg0WKGPVSQSfLeskubRq8NOMYgytCPp2
-         qUMSfmbxW20VwMKg1i51ITLnE4pSQh6XwIhPWtezn8hVgGxaeAzicw2v0jJHDe1c2G2J
-         CYHDlARsW5DVgG1uV0UAgnVQNy7AJTqdh+CikX8FHEYF4PqEvJJ144slhw0RWRj3HhPh
-         iT+oPUCSX0nmcTGoEq7eqA5dDjmUQg9LQzxNfJ2rrRFRwqRSTu/sqY7yWmQSdXNDUMHN
-         t0Vg==
+        d=gmail.com; s=20251104; t=1783761400; x=1784366200; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=gsR0+1V67dKoDon9Zt9yFSPL0W+9/ofIZEZlGwU2kRs=;
+        b=SQw4/qpTPb1J/bAy/A6qK6YragcpTbP85f7QTT6gkh+5gHZNV080z8X8fqyV6GL2te
+         ilfiV+qGojrjb9VGMfR+ZWInfMJXm3zgKCIJVwhFUYPS71Ic8AcMzvRec6gzIMiE/80Q
+         hX5uRkBZ3+EDgUo11kLN41V21ZIMODkhnzXwuonYgVdSomQIlE2w6b+RufiihCc7/EhY
+         RyyMacF+KjLBFC0T66op0PsTWmfKycQiunR95lI1eiQc9unfFlkLOrg31mHhUDl15jag
+         plKQgvohLEgOw48dw1uL4odXd0UgLiykGwDxFzP46HW/hUNQTQ2SYwoowJWchYaHmutb
+         XnSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783759306; x=1784364106;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=SlLLztUM+0640uqDvfdh3aW/oG7BuHYgj+9xmBZ2wEI=;
-        b=RpEtwfxci4zYXsFGoN9tYR+xff/cPbTz+DPPTZ3t1neuTBs+TkKS+YjG6ym+iwnJ56
-         Ht1LI3Kze5T6Bivcbcp8jKe9GneNjlQQtiZOw1xnrbQ2zaFhWQEivRN579MPOpv768rc
-         cCVZDOmNoaraSHYWYsHi/RzgrsMapU9vfOZsOfKuZUCSCjhRp/LgHJAR6uqqSNzrWCy2
-         5jmah9FmOgiiG5gq6cbxnjKlmmvXlrCdKDY7gHREvfIVnhma/Hkx8rX4gPDJO0jxh7LU
-         uVMJV1wDNf65O7sOfL4z1f3JIn/WIEmxuVh5zZJXIw5i//ER6ZUv+ce9GRaCvEnorw+Q
-         AnWQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqkEja/JVUJiQas6O6OoFExU+Ox0MzsiFa58ACvHsTKZplfW9eWb7ue+UN9beHvg4BEkTK5SCqm6kLYZvDp@lists.linux.dev
-X-Gm-Message-State: AOJu0YznXcI7Hf65PyKtkI9Sb8oqLsGQ75yDtPSAHpg1PpL9JqqJIbuR
-	ERyGoAugCdND9bIQp0D0ZjBqvR5hp7yAMDiRZPhbEAFKyJwJXaqb4kIqH79RkaPX
-X-Gm-Gg: AfdE7cn9yLcQl69f6ifF4ydP0xVQm9BhAWW+IOQP+G/clhpIeVXXqEvJZFojxZ0zwld
-	+TMcIxHhKG90bI+IUbs2gHdjOn51bmwfWL6obcy7MAV+yn6FjiJlxXUnadK+T8mcC7T+ko1Ks9X
-	7gh61kWHXG3nIT8tkI7s7frzrmUbUTZ7S1QSLwKYojAKQUfZ8DufHh75kE1reaQagAzpW/WALIN
-	qiC9vTFxxQwIetC0FoSM+P+heir8otvFhHcBiPz/v0CT0fKz9kWafDBkpqC/EoBxcjxTiNnHtSA
-	zRtMgzxCMpvRsI9juYFUNAWZmMY4xV70erndLgE02HCi9SnY0uMhoZA3wqsbH1btNtC9CeHiCzm
-	3F6Ihy5FhyPjquH0+rkAFsf8KT2XqYvCgmLxMg7py3DejqhiAxpWsXIAFzJuJ//VFroqCvyvyLX
-	EK+OiyuRB6Ok8Q1L+ISGg2V1OPySTZsdQddu4VDi+xQbjMXOIgDpe90b9lynbfqwbbJqlLJiyqZ
-	iZ75w==
-X-Received: by 2002:a05:600c:1989:b0:493:c194:4e7a with SMTP id 5b1f17b1804b1-493f87d613fmr18066205e9.3.1783759306088;
-        Sat, 11 Jul 2026 01:41:46 -0700 (PDT)
-Received: from koolguy.fritz.box (dslb-088-074-245-227.088.074.pools.vodafone-ip.de. [88.74.245.227])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493eb73ae14sm196647325e9.11.2026.07.11.01.41.45
+        d=1e100.net; s=20251104; t=1783761400; x=1784366200;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=gsR0+1V67dKoDon9Zt9yFSPL0W+9/ofIZEZlGwU2kRs=;
+        b=V6c5CeFvWoMNlPH228YZ2BP70QiltqUSdiNuMSzk2KJGVriysxXb40osqRxgKOh+Cc
+         33EXPyznq8RpqPb2xQeVXGmU7PmyOo0h7Dgc0nS5YEyfGJ+tWfgGgOgZRN1Ncf4rm0B2
+         nvcjtNVuUVCWLDK0KR6Ehnvrg5RmObiaYLDrOSwY4YueKVhFmehtFvJ1MP+MPKb0p3g8
+         kx586BjARu6q1X5qMWZ9HXyjNM+Vax3Z6fypcViJ3qVv4pxZhF25CmW0x+azdrO3SUvg
+         MfB9t+zJguOKVOK+F7OkLkmPlqge08j9N+oiNwNzP4W/oWmtNQSHANwL45X3PX1QDLAk
+         FIcg==
+X-Forwarded-Encrypted: i=1; AHgh+Rr3O3vtKaN4pGdcxhIOBRq9ljI2wU0n1etVcR2GAyxfTrB2hWOO036XJOOUS8c2ZCd07VF9moFUzqAl90mz@lists.linux.dev
+X-Gm-Message-State: AOJu0YxnRdqAHTkhglRcbCBY00mUj/2AuJG8rslF+CZyd9R2RCZRCJlX
+	2NunT01WMre5klZ0JqlVyXumbdq7zvzF8mDb8nPOTJPJqG224lXanRh9inQwLHw3EqI=
+X-Gm-Gg: AfdE7cl9Yw19Sklq56s/S+gceIoEHdHmqU8IX6+/Lq8xPwYygXG1U1UFsxetTXPUR6h
+	bL6nsoxyvdp+22z4pq1y/TSz91jnTfylAmvExAZkh1L1Bx6zQxR+GSxpHrGXIwZfUoTwgODzu5t
+	4XjuOBToiWY6Pq3nt5HTrbWzyUHppg7tprh+lj1evnUGq5v5tvlwUZO9V22M9DsaWM3s2rngox3
+	CqVm1bFFjtN7eEYcPQScdv9E8yUaLXPpJ7hkGIV1RhgzVTwpeAPPK5yrbparpHRxoigfmWM13p1
+	ObTZSwdTrOks1Oxp/0elSOw3dOHXLZFrWvZWT2gX0cPccQ8kKD8j6T67Yjtq0IoRO+bJ/ecLaFE
+	ubJQT9KLzEPJ+JSSSnBsxdd87yzczl0Qyc/TQAY5+e1IZWCVLPLGxqL/UWeJUCi0w+fAn/cCdiz
+	6VrPavwKru
+X-Received: by 2002:a05:600c:3492:b0:492:714d:8c4 with SMTP id 5b1f17b1804b1-493fb0450bfmr9365165e9.11.1783761399743;
+        Sat, 11 Jul 2026 02:16:39 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493eb670a41sm193656215e9.0.2026.07.11.02.16.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Jul 2026 01:41:45 -0700 (PDT)
-From: Dalvin-Ehinoma Noah Aiguobas <fliegbert2@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	fliegbert2@gmail.com
-Subject: Re: [PATCH v2] staging: rtl8723bs: spaces preferred fix
-Date: Sat, 11 Jul 2026 08:40:02 +0000
-Message-ID: <20260711084002.8507-1-fliegbert2@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <2026071037-floral-linked-fd2f@gregkh>
-References: <2026071037-floral-linked-fd2f@gregkh>
+        Sat, 11 Jul 2026 02:16:39 -0700 (PDT)
+Date: Sat, 11 Jul 2026 12:16:35 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: erqeons <erqeon@gmail.com>
+Cc: gregkh@linuxfoundation.org, hansg@kernel.org, andy@kernel.org,
+	mchehab@kernel.org, sakari.ailus@intel.com,
+	linux-staging@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: media: atomisp: fix indentation and remove dead
+ return
+Message-ID: <alIJ83ctZ7NDzBhF@stanley.mountain>
+References: <20260711081657.37117-1-erqeon@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260711081657.37117-1-erqeon@gmail.com>
 
-On Fri, Jul 10, 2026 at 04:49:55PM +0200, Greg KH wrote:
-> On Wed, Jul 08, 2026 at 08:28:26PM +0000, fliegbert2@gmail.com wrote:
-> > From: Dalvin-Ehinoma Noah Aiguobas <fliegbert2@gmail.com>
-> >
-> > Adding spaces around operators to match kernel coding style.
-> >
-> > Signed-off-by: Dalvin-Ehinoma Noah Aiguobas <fliegbert2@gmail.com>
-> > ---
-> > - Rebased onto latest staging-testing
-> >
-> >  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 194 +++++++++---------
->
-> This does not apply to my tree at all, are you sure you made it against
-> the right branch?
+On Sat, Jul 11, 2026 at 12:16:57PM +0400, erqeons wrote:
+> Fix style issues reported by checkpatch.pl:
+> - Remove unnecessary return statement in void function.
+> - Convert spaces to tabs for function arguments indentation.
 
-I checked my repository and found that I had rebased onto an outdated
-local copy of staging-testing instead of the current
-origin/staging-testing branch.
+Split this into two patches.
 
-After rebasing onto the latest staging-testing tree, I noticed that this
-change is already present in the tree, so this patch is no longer needed.
+> 
+> Signed-off-by: erqeons <erqeon@gmail.com>
 
-I will drop this patch from my queue.
+Real name, please.
 
-Regards,
-Dalvin
+> ---
+>  drivers/staging/media/atomisp/pci/atomisp_cmd.c | 15 +++++++--------
+>  1 file changed, 7 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+> index 6cd500d9f..fb1ae146b 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+> @@ -1419,7 +1419,6 @@ static void atomisp_update_grid_info(struct atomisp_sub_device *asd,
+>  
+>  err:
+>  	atomisp_css_free_stat_buffers(asd);
+> -	return;
+>  }
+>  
+>  static void atomisp_curr_user_grid_info(struct atomisp_sub_device *asd,
+> @@ -1885,8 +1884,8 @@ int atomisp_calculate_real_zoom_region(struct atomisp_sub_device *asd,
+>   * Function to check the zoom region whether is effective
+>   */
+>  static bool atomisp_check_zoom_region(
+> -    struct atomisp_sub_device *asd,
+> -    struct ia_css_dz_config *dz_config)
+> +	struct atomisp_sub_device *asd,
+> +	struct ia_css_dz_config *dz_config)
+
+
+Normally we would align it like this:
+
+static bool atomisp_check_zoom_region(struct atomisp_sub_device *asd,
+				      struct ia_css_dz_config *dz_config)
+{
+
+regards,
+dan carpenter
+
+
