@@ -1,74 +1,74 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B2C730E853
-	for <linux-staging@lists.linux.dev>; Sat, 11 Jul 2026 06:41:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFBB730E853
+	for <linux-staging@lists.linux.dev>; Sat, 11 Jul 2026 06:42:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783752069; cv=none; b=gSlxKO78Xb7D+JZ5D1h8MDVtSG8KLnJeaeYsGEN/mDzJTUjV6H92K0QslZboqGj1t2yioD+znk23ILmYK8gZzy0MgKx/UUQl8pcVJx10ZSTAgx9MeLclOHGkgqUQACK4j4XLVeFhNC5xWTacuJErFm4kp0pzAm60UlRiRzRwLm8=
+	t=1783752162; cv=none; b=PtZYimJptKZUS0sAJ34AAAODLSQyVtLv3sGCztYXenvvIXfqr1tpNbQrdMxCsZpfHLv7RfbVGVZPcBSwxfNZPPYCkgXvLRfi7fxBXSJlfcCa3PdTKbzSQXt6MyuqF0Y3j9JLGMcQ1TLGwsKojIubX7fw5vhi57+KcEF1GA/gDdY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783752069; c=relaxed/simple;
-	bh=A6B0Zxih+I7Rq3c9g10x1h4S8Rws1f/k8/e8dgPeCdc=;
+	s=arc-20240116; t=1783752162; c=relaxed/simple;
+	bh=loroDMZU+n7SMrWqE5d9BScW7RJVKj3q4enj/fl4Ojk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o84ugrv8ytDSp129ID3WQ3qFNCQxc8TwodrS236MxGSAT4cucfunplty/ETFlcuJMYsacpqp/ONKh89/nuFfDOOifktneMTlcpRgvU4NZMAuqjQdkq9oNAaEt2lzugV9bC0NbG93273xMYPyOwek8ghjNJP8nohiCOhkINmBUnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nyhQSFIS; arc=none smtp.client-ip=209.85.221.50
+	 Content-Type:Content-Disposition:In-Reply-To; b=LXrTw17bZIDIL4cUMtVIqPhJHgzzRbvSFxOELfcymubwvxPj8KXqYgX71J+NaYE94CrzEm0rSYywf2eKY1wzZ0tfUSdTFF3DArDyFR+T7NGysrvGnrA9XrgRY2T56z1vHW9RSatu2E8EAP581oSJkq6yNIp33Evv8OwU9PqnmpM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OJVB76Ar; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nyhQSFIS"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-4799b3f7c83so1192487f8f.2
-        for <linux-staging@lists.linux.dev>; Fri, 10 Jul 2026 23:41:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OJVB76Ar"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-493d92b7db3so16080895e9.2
+        for <linux-staging@lists.linux.dev>; Fri, 10 Jul 2026 23:42:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783752066; x=1784356866; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1783752159; x=1784356959; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=EhxKKwuF4Pn/rSdF0cvkbK8KjRQV5qcC8u/my848Gjo=;
-        b=nyhQSFISJmNQcgbYpOJIhyoEva6jJ4IlmTVVC+2nVJsQm6b8M5ANpcPMc6cvPGpPEo
-         Ydi5t25z+4XMYtNZsCoCRTnqEeesFb3tAFzH8EIxEfHHJNQhpOdpZRSb1sE0t+Dpfz8D
-         QkNHEkOjGGbvSuBuPR70LqQ9k1DiIutrQaJAa+PCQaUz8GgYKgnGeZnEN6b/m5XYzTxM
-         KLS6dxn7iKYyB6BfnEISXk5FpdNZJyuh/RTRJB1ccAzrN7YZH6/b8HfoAd3UGaftaZQg
-         NQhlHk7L7+wDrlkQVkAEPw5heXNbjSiTJwEazhrxPmLwUNzbhgfwQhgGXAj5ZD/a8vhp
-         iB/Q==
+        bh=ezINNweKUyPIgvxpWdPRkOeMqoIqysLDCxIA7CJpvqQ=;
+        b=OJVB76Arvd+MJqEf6AOC7jwvwd4GBMzwqmerXk1gQYQ8p5ROQlf4dWxOAq7C9//YyE
+         dM1v6Uqi8yLjM2Y9vEOhZCbyUjL3KsXrV8q3uV6kLYziJ1g+mWJuwMcLNPGUqLIdeCmO
+         gA5HHiYYfaOImWGln9t5+hbdUszoiySuwTz4zonADTvKV3q79SaL/VJFEqEFzn4fsrvM
+         fGtMYMctHogSR/f9RkvXIdeE0pVG0d/LooUXxV3Y5IBQ/CngvPCyQGP7GZTQxN1GXy2D
+         yIjrlvb/B3Xn37idZrIzFdjsaM+OYY9E/l91hshvPzsS/J0/6xnH1hl4voGtNH2v1TKT
+         1crw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783752066; x=1784356866;
+        d=1e100.net; s=20251104; t=1783752159; x=1784356959;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=EhxKKwuF4Pn/rSdF0cvkbK8KjRQV5qcC8u/my848Gjo=;
-        b=SZnWGxlKHpv6OBATuKtg66kEprX6IQOKSqjgg3Ve8Gj21etAVRngDdB0Du0JkQx9l3
-         qnajag+gbKxJSyFcSTIjeja4SZI5JBSMbEsVyeFODHf3nhD+s6DLDpFNzzMI1HeiBqJo
-         BqtcBr29ZmJn/CnHodfB7pOZmGp9LfYSkdDcOjKMf4v6EoGb4mIbQs6sL6ftKqNWIA/o
-         /ST0fRClddpVd4DAyWazF6j/mLywUYrnFvkxmcvZoWQ271HN6bKuxftDqgpKSqpt/PuF
-         g5U9vNudR0wNn8GsjsnGjApEuSmiLDMfLIS+k68m5/3y4utmGfAIqFuI/r+xps8qZ93S
-         gMPw==
-X-Forwarded-Encrypted: i=1; AHgh+RqzaRMpnwRBgkwsGl9eH+e/kYyNxsHbCXgkGq3DAkNj/Kk7p/spGNtNGVEb2A8Y7FNkDnBA8vQiaCALYY+n@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx7cvuv0rnm8afMOYOmK3BfjurcRyfyJXsbRBDBu1u1Jq1Xk4u0
-	jcAAqiYgMtMal+PEBXJ/HK1LUFMnPu2aq9nWylWUEQS9hyKG9rYvOBc8
-X-Gm-Gg: AfdE7ckOb+YeQQZaSgFPsck34FXys2cb+M9V491jiAm2Sdoo0TmqD8hii/AeGqqUQtm
-	tLwzZMK9caA2NStWZcnFy+K+uXx+943/OuoVLHBd0dH8Hucogud4jcM+dmWtanHhewonmcz2ETL
-	XqsVjb1mYIMAra9U6Z74JKE7/2Q8XTj2pQhy5BRMpTdL1ba/fuq1Qq5QaJkCRkaYBYw0H7Ste31
-	BzjvD6EvZcKjvDtGzHearPx1GPibC4RkLHiF2sRRndGqrhUC2Z1M8ClllJ+Kbg/wlgkdqdUZjh3
-	1RSVAVx+p5AWKC7MCjXtAZV+xSvEwzyuyIWm3FPXuJYiRJJTOvxw7gkSnNc8oD0MM8zJr79NHQW
-	UBeXBbciSeXnF3691w8srPHrzwSSTJjRdpuJqGle7ss+QC72bqJ5HapgOHXT5gMZicLHJSDb2kI
-	aRq1GJk+u3
-X-Received: by 2002:a5d:5846:0:b0:472:79bc:3919 with SMTP id ffacd0b85a97d-47f2dceac0cmr1625900f8f.39.1783752066448;
-        Fri, 10 Jul 2026 23:41:06 -0700 (PDT)
+        bh=ezINNweKUyPIgvxpWdPRkOeMqoIqysLDCxIA7CJpvqQ=;
+        b=aKQxXaqbHdyUiYjkmsCvViSkxiLMVgPqP9nLWCcXxdJmncVu2Y68QyxWnclcYGajqk
+         Y+KpxIi66s1Hm/g5IzKDEIDoDYRAEXRUEV504rhKtITyZqZA68XaWJ2aihglWxTO+ITQ
+         nORxyP7mK2zprnofjKEIlQuzXg+zruzgYFXYFn0sHWz2NfNAQ7yStDYGKQ7AFXJYQ/PG
+         rcT2OkDpkbaQ7gEZMpj/5UaGiOF+uGlEohfvuwrsCSADRYjhJ/t+ZJ13M60FO1z+Llqd
+         e+7R+0xGzj5xrIW6ABLPXfHfwWeK7WT1kvNYrwjtImcQia2UgvK39G4cNud/t6/sMopb
+         6SIA==
+X-Forwarded-Encrypted: i=1; AHgh+RqkhAzQv+U3rujUyeMixHPoyT/ZjI6Ps4UQsbePWmmS6gfiMEbsKT2u6nhQruQgSBdxpUZbCxgT2vJoEwHI@lists.linux.dev
+X-Gm-Message-State: AOJu0YyKrvg6+qGliP+r2NikcJOI0JO98Kkg245mkVPUTM44CYsimp+j
+	u6+iNd8IA89q73Y4R9khHhX9HHAHkqCm018hsIveBCltNlFo31KBVBHi
+X-Gm-Gg: AfdE7clJHcVFq75FH4mox/UwIlEilTSF0Jm7xNvrkEwaJnXUAxwHsw+jUY3KRUpO1uO
+	aETP00d1/IiAwael7pn2VJn8dHAppDKnq0Egf98e1RJki3G/EKCyDBQ8O8JNY7TC28dDrQSuX4t
+	5B3NSQ51ytv3EAZminckyvWmr03H70Zo/N3je5rdR8ncJRJc1B965O95FyL17czSta68gj69cjp
+	9rCgwHJjToEnokee2WnM19E7qIKv4caDLu8VVG7IG7h/l1qRdJLcWVKcW+pskQDiUgTPxB8Ycul
+	Zlac3DowZcQsCfztJXU6TpZAZyY+DVyyHsMwQKkslYtlWnqpTpSGkSfQr/5auviV3G2X2jYtl2p
+	oAznWT84GIZM8c6kttu+sM8v3KrQo5t+SFPyQ3nkSFIS0P9KqfKFG5v+Se2iJTj3g8T0alpPpRX
+	6aJFBSU0mC
+X-Received: by 2002:a05:600c:46c7:b0:493:bc92:ba9a with SMTP id 5b1f17b1804b1-493f87e4983mr16522745e9.13.1783752159354;
+        Fri, 10 Jul 2026 23:42:39 -0700 (PDT)
 Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47a9e4d843csm65223828f8f.14.2026.07.10.23.41.05
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-493eb6f16cfsm193109485e9.12.2026.07.10.23.42.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Jul 2026 23:41:05 -0700 (PDT)
-Date: Sat, 11 Jul 2026 09:41:01 +0300
+        Fri, 10 Jul 2026 23:42:38 -0700 (PDT)
+Date: Sat, 11 Jul 2026 09:42:34 +0300
 From: Dan Carpenter <error27@gmail.com>
 To: Anantha Krishnan <ananthanr.off@gmail.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2] staging: rtl8723bs: replace magic number in
  InitBeaconParameters
-Message-ID: <alHlffn9rB4HV0gN@stanley.mountain>
+Message-ID: <alHl2nsrGPQE-7sN@stanley.mountain>
 References: <2026071157-ovary-property-4427@gregkh>
- <20260711062248.28968-3-ananthanr.off@gmail.com>
+ <20260711063901.30828-2-ananthanr.off@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,9 +77,9 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260711062248.28968-3-ananthanr.off@gmail.com>
+In-Reply-To: <20260711063901.30828-2-ananthanr.off@gmail.com>
 
-On Sat, Jul 11, 2026 at 11:52:49AM +0530, Anantha Krishnan wrote:
+On Sat, Jul 11, 2026 at 12:09:02PM +0530, Anantha Krishnan wrote:
 > Per the bitfield comment in hal_com_reg.h, REG_TBTT_PROHIBIT packs
 > a "setup" time in bits 3:0 and a "hold" time in bits 19:8. The
 > rtw_write16() call here only writes the low 16 bits of that
@@ -96,52 +96,16 @@ On Sat, Jul 11, 2026 at 11:52:49AM +0530, Anantha Krishnan wrote:
 > 
 > Signed-off-by: Anantha Krishnan <ananthanr.off@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 11 +++++++++--
->  1 file changed, 9 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-> index bcaf63b2893c..699e24f52392 100644
-> --- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-> +++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-> @@ -11,6 +11,13 @@
->  #include <rtl8723b_hal.h>
->  #include "hal_com_h2c.h"
->  
-> +/*
-> + * Bitfield layout per the comment above REG_TBTT_PROHIBIT in
-> + * drivers/staging/rtl8723bs/include/hal_com_reg.h.
-> + */
-> +#define TBTT_PROHIBIT_SETUP     0x04  /* bits 3:0: setup time, unit 32us */
-> +#define TBTT_PROHIBIT_HOLD_LOW  0x64  /* bits 15:8: low byte of 12-bit hold time, unit 32us */
+> v2: Use full name in Signed-off-by and document the source of the
+>     bitfield values (comment above REG_TBTT_PROHIBIT in hal_com_reg.h)
+>     per Greg's review.
 
-Jad already sent a version of this.
-https://lore.kernel.org/all/20260708150930.1813224-1-inasj268@gmail.com/
+Please wait 24 hours between resends.  Otherwise it feels like we're
+holding your hand while you write code.  It's overwhelming for
+reviewers.
 
-The "_LOW", I guess, means "low byte" which is misleading because
-it suggests that this is a low byte and that a high byte exists...
-The 15 should really be 19.
-
-> +
->  static void _FWDownloadEnable(struct adapter *padapter, bool enable)
->  {
->  	u8 tmp, count = 0;
-> @@ -861,8 +868,8 @@ void rtl8723b_InitBeaconParameters(struct adapter *padapter)
->  
->  	rtw_write16(padapter, REG_BCN_CTRL, val16);
->  
-> -	/*  TODO: Remove these magic number */
-> -	rtw_write16(padapter, REG_TBTT_PROHIBIT, 0x6404);/*  ms */
-> +	rtw_write16(padapter, REG_TBTT_PROHIBIT,
-> +		    (TBTT_PROHIBIT_HOLD_LOW << 8) | TBTT_PROHIBIT_SETUP);/*  ms */
-
-The comments still say "ms" when really it's in units of 32us.
+https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
 
 regards,
 dan carpenter
 
->  	/*  Firmware will control REG_DRVERLYINT when power saving is enable, */
->  	/*  so don't set this register on STA mode. */
->  	if (!check_fwstate(&padapter->mlmepriv, WIFI_STATION_STATE))
-> -- 
-> 2.43.0
-> 
