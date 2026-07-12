@@ -1,113 +1,106 @@
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11AC2211A09
-	for <linux-staging@lists.linux.dev>; Sun, 12 Jul 2026 14:59:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DA6119A2A3
+	for <linux-staging@lists.linux.dev>; Sun, 12 Jul 2026 15:05:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783868390; cv=none; b=LJp2xc6H5jgsy5yD6MaiY82DMRUAjXk92QlYvrOfdpuvvIkgtNp8s5K4cZEH8c1C5XYpZQS0EQRIHCQaNIL2Y/SOFxDCqZ0vb7EUu0IHJf+1z+T4G3rzxgeN2hzzjOIRwBgrV6l1TpXDj+O2/CusJgQJGsFMuk0WaocNQdJGQJs=
+	t=1783868751; cv=none; b=tLrtEneDz71mheYRl9Em9C05DzkfGraGOAydJO1et4ZBLA+ZimJD9uQXck4Ijc6TrWofFPpNPklw1BfJfxY9iyA+Luvgi/S5KgShWRg7JK/on7YDmuKrTbFzWetNWGmv2dZ+tH3dghv+rYtHIqCFfjfKUHBotrnsoowCprCwKg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783868390; c=relaxed/simple;
-	bh=wndxgxOgCk12X0Jl2sY1qVz7auXnOu2Nb66hP6XRdwg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UcR2Jojr3xl6hKuRwTKgyMz4IVI7I175W1pUPiI2Ns5K+lmeCYW1S4Ag+Mxndf05MH3ZDtHCHBtNxanjNKZn7DAo/C7DayFq4ss8YJ3N3YegTWrqQ+1T1WFZRggpaiG4zY3FEZrv7XlESu+fbCAoMqqiNW3HjxW1yDHohB3C7TQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UIt9hdz6; arc=none smtp.client-ip=209.85.208.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783868751; c=relaxed/simple;
+	bh=zDF2A9L7LPEyJ4WCEOZ+dSPiuxqdjE9dorvQrvNDE1I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=F4jfJH9tLebSCYQdD51n5w+u1e3Yn8EwljcbxMPQ629dI8u0K8kQGoJF0ajDs2fIgHcCk28Od3gcbzD0zOMdiPrBu53ct/QrtwBaTGS/cMUa8Y4afN41a+tebXEafGY9ptNK1zO4E/MC8NlVvMNmyJgGkr+hTMb9xkzAHOQnVfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d3yIpJ3j; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UIt9hdz6"
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-39ca0a30148so14672291fa.3
-        for <linux-staging@lists.linux.dev>; Sun, 12 Jul 2026 07:59:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783868387; x=1784473187; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=b/fdqtHsA7kt6bWwH2CKdmdDEMhGqG4sxt1XJFnvV4o=;
-        b=UIt9hdz6dVdrakMJkN29Zv7ruqeqEm1SRlOZ/X+b9ZIPszQK6uWrxyxE9O/B40PKH2
-         ROf8G9vYSZZhpeXPId0NUDQehN369hW68UJx1uh4RQIhqeYow2NHZ2E5OoMmE7+X9vlw
-         9Yg6xEyrdvxM9yQ8GC1EBvObhhFowxFOsBbxpxdylq7p6b2hSpIaG70imERW1c8gecXJ
-         dCY85mZZTGDBCa+scdk27hg5KlW0Kvu7BjR9XL+6IokQk0lNm0OZ9ejtd4UvtJEKATw2
-         6onRDWitD6NAkv1D2Bi8kZ2bTKmT0VQr78kAvxG50YSQc552NvQhizAqQ3HZl4I8QzkA
-         B7EA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783868387; x=1784473187;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=b/fdqtHsA7kt6bWwH2CKdmdDEMhGqG4sxt1XJFnvV4o=;
-        b=pLqoqMNU0Q6Y+GOjOqeLSppUjPB1Y2n8jUNVFyHvjHaQhtb7UCuK3fC2p8RiibZQud
-         5wanPgg/+f/wXgN5G8W9/HGHGe/fAIR0CZyoWqOSQxI8aNAGVHgtxcudNllP8HXABgiq
-         VB2N3i6PvnSlv7ABb5JR/WrrlHLQWbrrqHvD1Tkyr0hTPg6Vxrs/AJj0SCaRygSST5TV
-         hoo58LKbubGtaMHf2isfOkdqqz/Mm+JzMWY68+aOZhx001PezQNBPCLroQY43ds8I/7L
-         4FvWbVcNq5z/RcTBUxsvAImMkF+g5wqtJuge91JrETcSt91EQAzWUAPMm0+U8RcvbioY
-         MCiA==
-X-Gm-Message-State: AOJu0Yz+Y0GnNlR7avLtL3fnlgtco4awIF9x6FOhWqhwiB1wx5AIjma7
-	lWNkOpv6/0hvRrbgNE36IgSiyR/RVwy0noLUyjvd74qIgpCKK8Xus4KMfjCWKJHGGC8=
-X-Gm-Gg: AfdE7cmQioHirkuh9RehG5beSkKp7lp3BLlbHopcRg9dtgqbCKvVZ2A9bRR7AWvRahW
-	In0r/FVBfZQYxKhTir/1LRHn9QiTT+zMDlfA6W4V6EcmjCNWNiyXB03BMHcIk/mRVipcfd01jXG
-	MqBzh0FiKdJ4WBddzuEHGS4hkMnvc6Nu4GhyH+0ICObV7hLiWFVQh68DWaP3Yrpbqbcp/ihI7jX
-	OjQmzLOR5Cu40s9nIWFoTbKb33dCsLF3pvTRGGNCIBpMUU0JlA3XtNnlYpPSkgdH/dSiQd5r+/A
-	l/CkvfkCYb/BL/vOP8R1al2OkrbH1SSiDcW6XEwbina2kya32NuC1eVuqvelpWqKKosrF4RLj0c
-	L6iBsY8NmdiOYANibYXCutxqwFrwz74falQXwV09/CX7uLK0zpXnHk9GKuh2762dsIuIu/Ct4Ia
-	FcZA9MdyTa93+IqtZF1jCr0BvqOBThr66aC6RWHt0tIh1ZZT3x0VriKM9KdF5uyo66WDUBYxLhq
-	Fnrbdo53AMMokcVvbu1lIQh
-X-Received: by 2002:a05:651c:198e:b0:39c:6e84:99b6 with SMTP id 38308e7fff4ca-39caa80e85dmr10280571fa.23.1783868386941;
-        Sun, 12 Jul 2026 07:59:46 -0700 (PDT)
-Received: from archlinux ([94.180.100.43])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-39c84b13423sm22187141fa.13.2026.07.12.07.59.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Jul 2026 07:59:44 -0700 (PDT)
-From: Arsenii Pashchenko <ulijg308@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	ulijg308@gmail.com
-Subject: [PATCH v2 2/2] staging: rtl8723bs: remove redundant chip version wrapper
-Date: Sun, 12 Jul 2026 21:59:40 +0700
-Message-ID: <20260712145940.123031-1-ulijg308@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d3yIpJ3j"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783868749; x=1815404749;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=zDF2A9L7LPEyJ4WCEOZ+dSPiuxqdjE9dorvQrvNDE1I=;
+  b=d3yIpJ3jXxDsEZoiDX4kbbB8SJm5QnQZV5CEjGGt+AL7Kg3vZ8sIQHaz
+   cD760k0mst3DYeIrY7MyLO2UDkhOJ9dEjYCOgzt7Oc0HWdU7fKU9+NgRp
+   uIlMTTdkkXFCx6+CcKYCQiCIkzCsH86QcdaDMlykvBgr7d6TVrvom2TKF
+   oG8O9MDlUQ2li0nzuPhv7sV06Vb+7cv3kshvmcGntOH55ZSNBFKFlb3nu
+   w7AY9ZXzrvc2SxsEVQYIK1Hapc/dHkRQSKXUr72X9voaQmcf08GY/8NS3
+   +THIxKytcSjxRT4NDBJssVHmKb38OCY2JuG7B+vtd0LK2/PrARoHkcMUW
+   Q==;
+X-CSE-ConnectionGUID: q8Pq6uT9QK6zSZdiEpOwzQ==
+X-CSE-MsgGUID: B9Zf22GTRjO+m+P/R4oZmQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="83477066"
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="83477066"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2026 08:05:48 -0700
+X-CSE-ConnectionGUID: t+qI6cuWTMmckOngd4tSew==
+X-CSE-MsgGUID: wfp2UfdVQZiz+owk+zizUg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="285417404"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.24])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2026 08:05:45 -0700
+Date: Sun, 12 Jul 2026 18:05:43 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: dylanliu050903 <dylanliu050903@protonmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dylan Liu <pxyforeverlove1314@gmail.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>, linux@analog.com,
+	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: =?utf-8?B?5Zue5aSN77yaIFJlOiBbUEFUQ0g=?= =?utf-8?Q?=5D?=
+ Signed-off-by: Dylan Liu <dylanliu050903@protonmail.com>
+Message-ID: <alOtR-zUc71PORuA@ashevche-desk.local>
+References: <20260712141928.559844-1-dylanliu050903@protonmail.com>
+ <2026071227-unspoiled-blatancy-0809@gregkh>
+ <QNymfg8xEp8CU0BQxNJDcXKxDRN_xohHqySr8jzeakn2iJwHaezt4D2ks87ODGRh9227yPZ6dVpvcAa5OghRpS0htIaCUhCS7viUtr9aPgw=@protonmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <QNymfg8xEp8CU0BQxNJDcXKxDRN_xohHqySr8jzeakn2iJwHaezt4D2ks87ODGRh9227yPZ6dVpvcAa5OghRpS0htIaCUhCS7viUtr9aPgw=@protonmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Remove the redundant internal helper __rtl8723b_read_chip_version()
-by merging its body directly into rtl8723b_read_chip_version().
+On Sun, Jul 12, 2026 at 02:56:40PM +0000, dylanliu050903 wrote:
+> 使用 Proton Mail 安全邮箱发送。
+> 2026年7月12日 星期日 下午 10:27，Greg Kroah-Hartman <gregkh@linuxfoundation.org> 来信：
+> > You just changed the user/kernel api, right?  Are you sure this is ok to
+> > do?
+> 
+> I apologize for the oversight; being new to this, I am still learning the
+> ropes and appreciate your patience.
+> 
+> You are absolutely right. I acknowledge that changing the sysfs names
+> directly impacts userspace and violates the "never break userspace" rule. I
+> will take a step back and adopt a more conservative approach: I plan to keep
+> the original attribute names as they are to ensure backward compatibility
+> while introducing the new snake_case names as aliases.
+> 
+> Would this be an acceptable way to move forward, or would you prefer I handle
+> this cleanup in a different way?
 
-This eliminates unnecessary functional overhead and simplifies the hardware
-initialization code path.
+You also should stop sending HTML mails.
 
-Signed-off-by: Arsenii Pashchenko <ulijg308@gmail.com>
----
- drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+The driver is in staging and most likely more work is needed. As for this ABI
+change, it's possible but it needs to be aligned with IIO maintainers and
+reviewers first to understand why the original driver has it and what will be
+needed to fulfil the same / similar if driver becomes part of IIO.
 
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-index d7f9e3119..a364f4507 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-@@ -820,7 +820,7 @@ void Hal_ReadEFuse(
- 		hal_ReadEFuse_BT(padapter, _offset, _size_byte, pbuf);
- }
- 
--static void __rtl8723b_read_chip_version(struct adapter *padapter)
-+void rtl8723b_read_chip_version(struct adapter *padapter)
- {
- 	u32 value32;
- 	struct hal_com_data *pHalData;
-@@ -843,10 +843,6 @@ static void __rtl8723b_read_chip_version(struct adapter *padapter)
- 	pHalData->PolarityCtl = ((value32 & WL_HWPDN_SL) ? RT_POLARITY_HIGH_ACT : RT_POLARITY_LOW_ACT);
- }
- 
--void rtl8723b_read_chip_version(struct adapter *padapter)
--{
--	__rtl8723b_read_chip_version(padapter);
--}
- 
- void rtl8723b_InitBeaconParameters(struct adapter *padapter)
- {
 -- 
-2.55.0
+With Best Regards,
+Andy Shevchenko
+
 
