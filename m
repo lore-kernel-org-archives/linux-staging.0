@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB81D36654C;
-	Sun, 12 Jul 2026 03:00:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7E0C36A01A;
+	Sun, 12 Jul 2026 03:00:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783825221; cv=none; b=ADvmvfFH5AGR+d4ffv7jxyl963dpg6BgExojqemmbGo7695XRQRCKFD/4O/v+ElFkD3cbQopTI2ntDETelZDUweq+UnnX3FijqKrlmuzxWyjn4pC2J1mHvTD9CnpSRQ9RMK1ymKqLmqAOku21VvT8WmJurJbJvIwwa1h2tTjrco=
+	t=1783825221; cv=none; b=dj3kW6bZyaJyI7LXVezLZBQ9zGmZVSStk3mRTCp4sBfgrReHD5kx16ptVOFPVg6SC9jpOJhhHDS7Eka5ymVNgD3P1rI/9stV9uIH6bPNtlFLxYoRQmYUU7UErmrxmNYST7cWYPrC73P40bz0EhvDchVQtPnvW8xiFEKmT81fkcw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1783825221; c=relaxed/simple;
-	bh=Cc3iXIe7vA6bWvZE/goaLJXnEVxUk1J4/yD+9CVPv6c=;
+	bh=q2s2FOvbicJk+TqrHhjlreyNpWh5i3wgKoewp4eJcKc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ctEliKPc/AqAXHdoz3ubXXopFaCCBaK5qHQCO1uI4gYrJTwl56Vbz1S+CZ1XsRIV0GGwIsr9/CJbmfmrvm3Ot8suwDggVlFVg7HukDws5UvZCfDgn/ifhLjpZcYqMWj+OHwjgREXZSX65udv9kkafDObweL2sKSJTOrDWhICotc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M3ViGUJD; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=bXwxA/7nxNFiFRn/N6vv2qN+4CEjRDTiJDeYLGic9vVT1FGevuicWzY/sWu0ntUZ/JMsaQUxyRlQojB/DloEFt1FnFjg5kvYGt26iC9z02o12jTQNUrjyxJwxaiY6ixz4mDNfwuOpYN5ISBJFhGFjX8XA9bLIDOR9rIHEktgbE8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PiL2Vajb; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M3ViGUJD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1097D1F00A3D;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PiL2Vajb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F6491F00A3E;
 	Sun, 12 Jul 2026 03:00:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1783825215;
-	bh=4OuezE/moo5Tppqmye8t2PqCkPAk1kmw20Fa1p80Uak=;
+	bh=+kKJ3JnDN7CMAEU7BuJ5mn/TOdxuZKO16Ai+J9jrTaQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=M3ViGUJDdOiDRTiVtWE163GhjLsJEZern531YSS1D5os1zFDHYIvLNbuqrR2Ev8PP
-	 RAEOpFlhoxoWnZvZWEMGKj1lfMbM+WbhqgfZ8fNpN5kr8mid/ABCNeOCMB+Q5Hb8Mo
-	 RFmEW7NRCjPNhVXH3I+Bg4cbGESorTC/GXDFrHMgvG3Y+2Qgmb4yUxkK5URber0DFY
-	 F8wT9k0tB0pd5MkP5i3xquo1ZlmzvD9+lRdGfEP06GHHgeyDy/E22GifI17e/BL5yb
-	 CKkLrUm9/T1DyQuFvNJyEWnVGrhXyl359afP5EqyeMBwaRYw26d8cgkRMAulPJzgss
-	 tlXGLCKPEcCuA==
+	b=PiL2VajbblouMJbCl4hJb0obOawgU6W0DNq/OopJ6+VjFtINEurqUTitTDfoV2K5+
+	 XDnRBIpfY9iQMkmobm9cHAqbdGIUbbfGiPj0fH3miLZ8S0lFm1DJD+JC1fQznpl93/
+	 ZA57Y1/MmPmkWWzCQASiJucyVaI9MtJtQX3+AS1ErYbLOsusM/Het3OLx8/lhNgEQe
+	 Mp/dj+B8DDqrWs2ILYYK47A74i7MmjOcdyK7D1XML+yMIOKi19XvF+6GjgWIgNX6FJ
+	 MfpJ4UkdhO7DLPFwRKTOfdGqvbIH50jiVMg4SYHM4QlNovoZ3bLWkAnVUK3Cg56whH
+	 hfEl9CR0Jsy3A==
 Received: by wens.tw (Postfix, from userid 1000)
-	id E2AB55FE73; Sun, 12 Jul 2026 11:00:12 +0800 (CST)
+	id 050F260162; Sun, 12 Jul 2026 11:00:12 +0800 (CST)
 From: Chen-Yu Tsai <wens@kernel.org>
 To: Maxime Ripard <mripard@kernel.org>,
 	Paul Kocialkowski <paulk@sys-base.io>,
@@ -46,9 +46,9 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v3 2/7] dt-bindings: media: sun4i-a10-video-engine: Fix SRAM count for H6
-Date: Sun, 12 Jul 2026 11:00:05 +0800
-Message-ID: <20260712030011.3778169-3-wens@kernel.org>
+Subject: [PATCH v3 4/7] staging: media: sunxi: cedrus: add H616 variant
+Date: Sun, 12 Jul 2026 11:00:07 +0800
+Message-ID: <20260712030011.3778169-5-wens@kernel.org>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260712030011.3778169-1-wens@kernel.org>
 References: <20260712030011.3778169-1-wens@kernel.org>
@@ -60,62 +60,40 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On the H6, the SRAM C region includes an alias of part of the VE SRAM
-used by the video engine. This region should also be claimed so that no
-access happens through the alias window.
+The Allwinner H616 SoC has a video engine hardware block like the one
+found on previous generations such as the H6. In addition to the
+currently supported features of the H6, it also includes a VP9 decoder.
+Support for VP9 will be added separately.
 
-Add a second SRAM region phandle to the video engine for the H6.
+Add the compatible for the H616 variant, using the H6 variant data.
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
 Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
 ---
- .../allwinner,sun4i-a10-video-engine.yaml     | 21 ++++++++++++++++++-
- 1 file changed, 20 insertions(+), 1 deletion(-)
+Changes since v2:
+- Drop "drivers:" from subject
 
-diff --git a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml
-index 932043d7f0cc..818d815d4732 100644
---- a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml
-+++ b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml
-@@ -48,11 +48,15 @@ properties:
- 
-   allwinner,sram:
-     $ref: /schemas/types.yaml#/definitions/phandle-array
-+    minItems: 1
-     items:
-       - items:
-           - description: phandle to SRAM
-           - description: register value for device
--    description: Phandle to the device SRAM
-+      - items:
-+          - description: phandle to SRAM alias
-+          - description: register value for device
-+    description: Phandle to the device SRAM(s)
- 
-   iommus:
-     minItems: 1
-@@ -101,6 +105,21 @@ allOf:
-         iommus:
-           maxItems: 1
- 
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - allwinner,sun50i-h6-video-engine
-+    then:
-+      properties:
-+        allwinner,sram:
-+          minItems: 2
-+    else:
-+      properties:
-+        allwinner,sram:
-+          maxItems: 1
-+
- additionalProperties: false
- 
- examples:
+Changes since v1:
+- Updated commit message on VP9 decoder status
+---
+ drivers/staging/media/sunxi/cedrus/cedrus.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
+index bbd186b8035b..ac0217976670 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+@@ -696,6 +696,10 @@ static const struct of_device_id cedrus_dt_match[] = {
+ 		.compatible = "allwinner,sun50i-h6-video-engine",
+ 		.data = &sun50i_h6_cedrus_variant,
+ 	},
++	{
++		.compatible = "allwinner,sun50i-h616-video-engine",
++		.data = &sun50i_h6_cedrus_variant,
++	},
+ 	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, cedrus_dt_match);
 -- 
 2.47.3
 
