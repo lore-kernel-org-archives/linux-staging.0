@@ -1,33 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 849DC369D6D;
-	Sun, 12 Jul 2026 03:00:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB13DCA52;
+	Sun, 12 Jul 2026 03:00:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783825221; cv=none; b=cyWC4CerK7xehKdYxW1ihcto/d4fmDMVvrQQh1lME2Y4Zrbtbz+6KL5/VL/D9zNiLUD62KuEG7aXISs6WnTICe4ZCuFzFfBHG9ivfC7SbgV7WOWLODNNB4o6uCOfGojbemF5r/JE35dzOY9jB5DnpcdO9Ja81e+LZ30Hnp79LeY=
+	t=1783825221; cv=none; b=au6kpQkQvKB93z69Imc5w4lP4qpGTthRFWdbdG6xc2GxGLuUExjaAPeCaU9XTtnIYZyAqIqU7QFmn7zZXghWy03r/s/JdXbsnLQIAZJjyzeWYsyom9TtJrOmbAx1PoSYJMNNPr2YujRAdBbIe+cjjsbGrxcTiXZ2Dx0thxwC9Mw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1783825221; c=relaxed/simple;
-	bh=Q7sOoB3VrXS4zjRLNEjueSh8nOAfFRmn+saoy9jpSTU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mR/m+SgILLIWWr0PgXPzBd9XKkX3m+lplADo439IWZoX9ZhGgG/2EnRb+e3wEc3k6+7AHCJnoG4g7u8kW9doLNH0HEPBqkBUgWNICkZ9VXy94oTXtSJE4qI6KGRLDJLP3M249MvwxysMH56AWrlRYonRjtaqjg2NsVVFmNhJylI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JyzhDnQp; arc=none smtp.client-ip=100.103.45.18
+	bh=A/ywmB7DXuB0nsapi5LzDPQVxCX9fGZDB1EHQ7pxL2M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lQF//rSyu9j9YUh6zqvJsAz6mBWyRyvyfrysZjFpJWgGEq52pmIaGTkZrIr7TPKlVxIAhNlOyNpNYcBU9cvQVqoqHhfdZRzJ4EX2Dgp9TbB3zprwqjJVwtWPznw4Bbx76seJPCtio94EUxHNTZ/UaFKFBk9s/I1AeAxv36dU35M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bkVxiSuT; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JyzhDnQp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 212F81F00A3F;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bkVxiSuT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 060991F00A3A;
 	Sun, 12 Jul 2026 03:00:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1783825215;
-	bh=68XIjv3oMF74stzxvIJ/Qs/DZ1vupGwuNZ5/TScVAvA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=JyzhDnQptnp796Jt8cIQNA2igTmFyWjk5uOuM7cPCPEy2loMVoyEBQBPfLvzgJJAZ
-	 mpj0wuyY9JZNWgV8QlTPF/kN9Ylsyuj6D2ARjSCQ88uKm5wbWbomImHRFVr6fnZDXw
-	 OLOmzAnyzH9fkEhodd8nd8c05v2t+BQo3NoLy7HZQ/Ts8/n04krPk5V2mWGuUHFJmv
-	 a5umP4t2zgQkaub3l1oVFxzYYTLys7MUCqhWa4FLlMNiQZKx/3SZ1R1W8g/Dszmk6x
-	 hepWeRF+XURJZry173jlwV81Ldvd6lW6tovSG+y/0XuPpqK8cQqbPSj/IHX6FyeVHV
-	 q6r3padp8Id4w==
+	bh=pPMB1E9mxY98sJzlxRNQcBMbjxdnpUE7XN7dpLMKjA0=;
+	h=From:To:Cc:Subject:Date;
+	b=bkVxiSuT++4UcUJpwBGKoHrUTiEU37RsXgTTE0IJKdT48S2k9fExAiTIbQzTXllGr
+	 ygvejOln/yhZalFw0kdMOnUH2iiCntFPT+m0pmdWCWEEVKitGFSmTIQV6kYF4VzWIy
+	 RZ8kmiWRQFVScYk1KvR8xnXH+k2NftNUTgSuPE4q0zqp9ljWN6qRPxrVYOGa9vX3Xr
+	 nyzUBHZlFvh7aNe55/C+IFfv+y43SqmMLuQQO1IyQy5hOZQyRD3i30w40TlvwwnC2A
+	 c2/W9E9gcIes3wV7x1JBMbetmS3BxuVPRfGAGlRfaEFduRZvBU0OyXkPL2GvDuLRO8
+	 UgY6zPYEDtyZA==
 Received: by wens.tw (Postfix, from userid 1000)
-	id EA7F95FEEE; Sun, 12 Jul 2026 11:00:12 +0800 (CST)
+	id CCC695FDD4; Sun, 12 Jul 2026 11:00:12 +0800 (CST)
 From: Chen-Yu Tsai <wens@kernel.org>
 To: Maxime Ripard <mripard@kernel.org>,
 	Paul Kocialkowski <paulk@sys-base.io>,
@@ -44,14 +43,11 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	devicetree@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v3 3/7] dt-bindings: media: sun4i-a10-video-engine: Add H616 compatible
-Date: Sun, 12 Jul 2026 11:00:06 +0800
-Message-ID: <20260712030011.3778169-4-wens@kernel.org>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/7] arm64: allwinner: h616: Support Video Engine
+Date: Sun, 12 Jul 2026 11:00:03 +0800
+Message-ID: <20260712030011.3778169-1-wens@kernel.org>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260712030011.3778169-1-wens@kernel.org>
-References: <20260712030011.3778169-1-wens@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -60,45 +56,71 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The H616 contains a video engine similar to past SoCs.
+Hi folks,
 
-Add a new compatible for it.
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
----
- .../bindings/media/allwinner,sun4i-a10-video-engine.yaml       | 3 +++
- 1 file changed, 3 insertions(+)
+This is v3 of my Allwinner H616 Cedrus series. The series is ready to be
+merged.
 
-diff --git a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml
-index 818d815d4732..20c430795134 100644
---- a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml
-+++ b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml
-@@ -24,6 +24,7 @@ properties:
-       - allwinner,sun50i-a64-video-engine
-       - allwinner,sun50i-h5-video-engine
-       - allwinner,sun50i-h6-video-engine
-+      - allwinner,sun50i-h616-video-engine
- 
-   reg:
-     maxItems: 1
-@@ -96,6 +97,7 @@ allOf:
-           contains:
-             enum:
-               - allwinner,sun50i-h6-video-engine
-+              - allwinner,sun50i-h616-video-engine
-     then:
-       properties:
-         iommus:
-@@ -111,6 +113,7 @@ allOf:
-           contains:
-             enum:
-               - allwinner,sun50i-h6-video-engine
-+              - allwinner,sun50i-h616-video-engine
-     then:
-       properties:
-         allwinner,sram:
+Changes since v2:
+- Dropped "drivers:" from cedrus driver patch subject
+
+Changes since v1:
+- Fixed IOMMU ports on H616 (patch 7)
+- Updated comment about VP9 on H616
+
+
+This series adds support for the Cedar video engine found in the
+Allwinner H616 SoC. On the way, it also fixes some issues with the
+DT representation for the Allwinner H6 SoC.
+
+Patch 1 fixes the video engine's number of IOMMU endpoints on the
+H6 in the DT binding.
+
+Patch 2 fixes the video engine's number of SRAM regions on the
+H6 in the DT binding.
+
+Patch 3 adds a new compatible for the H616's video engine.
+
+Patch 4 adds the new compatible for the H616's video engine to the
+cedrus driver.
+
+Patch 5 adds the video engine's missing SRAM region to the H6 dtsi.
+
+Patch 6 adds the video engine's missing IOMMU endpoint to the H6 dtsi.
+
+Patch 7 adds a device node for the video engine to the H616 dtsi.
+
+
+Patches 1-4 should go through the media tree, while patches 5-7 will go
+through the soc tree via the sunxi tree.
+
+
+Please have a look.
+
+
+Thanks
+ChenYu
+
+
+Chen-Yu Tsai (6):
+  dt-bindings: media: sun4i-a10-video-engine: Fix IOMMU count for H6
+  dt-bindings: media: sun4i-a10-video-engine: Fix SRAM count for H6
+  dt-bindings: media: sun4i-a10-video-engine: Add H616 compatible
+  staging: media: sunxi: cedrus: add H616 variant
+  arm64: dts: allwinner: sun50i-h6: Add missing SRAM region for video
+    engine
+  arm64: dts: allwinner: sun50i-h6: Add missing IOMMU for video engine
+
+Jernej Skrabec (1):
+  arm64: dts: allwinner: sun50i-h616: Add video engine
+
+ .../allwinner,sun4i-a10-video-engine.yaml     | 45 ++++++++++++++++++-
+ arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi  |  4 +-
+ .../arm64/boot/dts/allwinner/sun50i-h616.dtsi | 12 +++++
+ drivers/staging/media/sunxi/cedrus/cedrus.c   |  4 ++
+ 4 files changed, 61 insertions(+), 4 deletions(-)
+
 -- 
 2.47.3
 
