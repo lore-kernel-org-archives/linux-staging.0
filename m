@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66A11369D71;
-	Sun, 12 Jul 2026 03:00:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 849DC369D6D;
+	Sun, 12 Jul 2026 03:00:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783825220; cv=none; b=nLZBuA6s7TncTiooD5csejqq6iCxPoDnW3gyc3dKNkGB1unMptw4Scj2t0pxshA6Sa1IeRqYBRxbMlih2kCcPRG7fEAA8YfW3sGeBKFZ+fL2UBPT+vRu71vzWDHZ1mUJqvbscw/06auMMS7vHRP+4rrsdLQqPI6uM4WoROCfqus=
+	t=1783825221; cv=none; b=cyWC4CerK7xehKdYxW1ihcto/d4fmDMVvrQQh1lME2Y4Zrbtbz+6KL5/VL/D9zNiLUD62KuEG7aXISs6WnTICe4ZCuFzFfBHG9ivfC7SbgV7WOWLODNNB4o6uCOfGojbemF5r/JE35dzOY9jB5DnpcdO9Ja81e+LZ30Hnp79LeY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783825220; c=relaxed/simple;
-	bh=eYBnTZ5HKkGWeLXchZhY3cgtIf3nlD6Kr1/ecwKnd14=;
+	s=arc-20240116; t=1783825221; c=relaxed/simple;
+	bh=Q7sOoB3VrXS4zjRLNEjueSh8nOAfFRmn+saoy9jpSTU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Pq1brnPHPcYNCLk1d8u67TdJoMwuzfSs8chwP23gIvWuZFi1evLZOdm2W0N7oNdXCD75CW5SBD6eD5J+zTbhJW4Ig7iPaB1s30CL/fTKBozPz3CRquQI3ur9yv5Ss2Stcf7w16L7T2dPt9AnymQg59j2iNZNucVcQpc/2rfulpo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e2XDoclE; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version; b=mR/m+SgILLIWWr0PgXPzBd9XKkX3m+lplADo439IWZoX9ZhGgG/2EnRb+e3wEc3k6+7AHCJnoG4g7u8kW9doLNH0HEPBqkBUgWNICkZ9VXy94oTXtSJE4qI6KGRLDJLP3M249MvwxysMH56AWrlRYonRjtaqjg2NsVVFmNhJylI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JyzhDnQp; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e2XDoclE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0157C1F000E9;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JyzhDnQp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 212F81F00A3F;
 	Sun, 12 Jul 2026 03:00:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1783825215;
-	bh=/qCsV/vqShpGar2CdE6+oSzfHojJA4x7ZwJRazSD1MM=;
+	bh=68XIjv3oMF74stzxvIJ/Qs/DZ1vupGwuNZ5/TScVAvA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=e2XDoclEhrjcVXWvh1B880XUPV66a/sOIoLIrOoFelZVtLPr/wUYWsLyZrlKRu581
-	 0O9NHLai3WeFMS/3jZeBqPVEogdIvl5wCdN3aKBoh5tYGft3DEwSWmoshmmUmRd/kQ
-	 k+Du1QevYvtZVwb8BSzkvAyGbVu9jriVr9tmU3rG8DPvItNNqd2GQfdVqvf6lxAeDH
-	 uJITsVjef9Dz4j0oylJOyQuV3b+ZnC23fR8I0WSag+l/fuqTdzFRDpNbyjhoYTID+w
-	 gd4QpTZucdCndzrFVIjiN/yF/qZrqZy0plb9VoGPnHUJ0HlhL1GsbkOdtEmb9KFyYR
-	 Gotp95BSe0iNw==
+	b=JyzhDnQptnp796Jt8cIQNA2igTmFyWjk5uOuM7cPCPEy2loMVoyEBQBPfLvzgJJAZ
+	 mpj0wuyY9JZNWgV8QlTPF/kN9Ylsyuj6D2ARjSCQ88uKm5wbWbomImHRFVr6fnZDXw
+	 OLOmzAnyzH9fkEhodd8nd8c05v2t+BQo3NoLy7HZQ/Ts8/n04krPk5V2mWGuUHFJmv
+	 a5umP4t2zgQkaub3l1oVFxzYYTLys7MUCqhWa4FLlMNiQZKx/3SZ1R1W8g/Dszmk6x
+	 hepWeRF+XURJZry173jlwV81Ldvd6lW6tovSG+y/0XuPpqK8cQqbPSj/IHX6FyeVHV
+	 q6r3padp8Id4w==
 Received: by wens.tw (Postfix, from userid 1000)
-	id D7B8A5FBF9; Sun, 12 Jul 2026 11:00:12 +0800 (CST)
+	id EA7F95FEEE; Sun, 12 Jul 2026 11:00:12 +0800 (CST)
 From: Chen-Yu Tsai <wens@kernel.org>
 To: Maxime Ripard <mripard@kernel.org>,
 	Paul Kocialkowski <paulk@sys-base.io>,
@@ -46,9 +46,9 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v3 1/7] dt-bindings: media: sun4i-a10-video-engine: Fix IOMMU count for H6
-Date: Sun, 12 Jul 2026 11:00:04 +0800
-Message-ID: <20260712030011.3778169-2-wens@kernel.org>
+Subject: [PATCH v3 3/7] dt-bindings: media: sun4i-a10-video-engine: Add H616 compatible
+Date: Sun, 12 Jul 2026 11:00:06 +0800
+Message-ID: <20260712030011.3778169-4-wens@kernel.org>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260712030011.3778169-1-wens@kernel.org>
 References: <20260712030011.3778169-1-wens@kernel.org>
@@ -60,60 +60,45 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On the H6 SoC, the Video Engine has two memory ports, thus two IOMMU
-connections. The secondary one that is missing is likely used for
-reading reference frames. The newer H616 is the same. On the other
-hand, the D1 only has one memory port.
+The H616 contains a video engine similar to past SoCs.
 
-Add the missing IOMMU connection for the Video Engine.
+Add a new compatible for it.
 
-Fixes: 62a8ccf3a248 ("arm64: dts: allwinner: h6: Fix Cedrus IOMMU usage")
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
 ---
- .../allwinner,sun4i-a10-video-engine.yaml     | 21 ++++++++++++++++++-
- 1 file changed, 20 insertions(+), 1 deletion(-)
+ .../bindings/media/allwinner,sun4i-a10-video-engine.yaml       | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml
-index 01f2afa023f0..932043d7f0cc 100644
+index 818d815d4732..20c430795134 100644
 --- a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml
 +++ b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml
-@@ -55,7 +55,10 @@ properties:
-     description: Phandle to the device SRAM
+@@ -24,6 +24,7 @@ properties:
+       - allwinner,sun50i-a64-video-engine
+       - allwinner,sun50i-h5-video-engine
+       - allwinner,sun50i-h6-video-engine
++      - allwinner,sun50i-h616-video-engine
  
-   iommus:
--    maxItems: 1
-+    minItems: 1
-+    items:
-+      - description: VE port on IOMMU
-+      - description: VE_R port on IOMMU
- 
-   memory-region:
+   reg:
      maxItems: 1
-@@ -82,6 +85,22 @@ required:
-   - resets
-   - allwinner,sram
- 
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - allwinner,sun50i-h6-video-engine
-+    then:
-+      properties:
-+        iommus:
-+          minItems: 2
-+    else:
-+      properties:
-+        iommus:
-+          maxItems: 1
-+
- additionalProperties: false
- 
- examples:
+@@ -96,6 +97,7 @@ allOf:
+           contains:
+             enum:
+               - allwinner,sun50i-h6-video-engine
++              - allwinner,sun50i-h616-video-engine
+     then:
+       properties:
+         iommus:
+@@ -111,6 +113,7 @@ allOf:
+           contains:
+             enum:
+               - allwinner,sun50i-h6-video-engine
++              - allwinner,sun50i-h616-video-engine
+     then:
+       properties:
+         allwinner,sram:
 -- 
 2.47.3
 
