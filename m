@@ -1,661 +1,194 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B86E2E414
-	for <linux-staging@lists.linux.dev>; Sun, 12 Jul 2026 14:19:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5EB222D7B9
+	for <linux-staging@lists.linux.dev>; Sun, 12 Jul 2026 14:20:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783865997; cv=none; b=K0DhZ0/TlvZEPu6jz/tHZAMWiGJFwysvUP4MfTENTBhGDjefi7fjFFcr6OKIgs+OTwK+B6Qj8y+DwoMyLcFflhC5g4Ik+iuHtK7kJ2CdvaC7MUMeZ1CiByIDkxteht7at/Fmg46hgl0977G1m6Wi+MMghjbMK5xA4qgLQi7RPk4=
+	t=1783866024; cv=none; b=mIwzRLIoYagmqRg1OwOmoLcaehRDiyXEjEmqdqvK7F5E4Xt4sAyUaq6Q0TghIAQNtO2u3lywMfcCGE5uUw93wbEf9C6gFm9ZhZkHnKToHZVaTPKPgeLLKpgYEAtIvj0pyXTAzavq980Am/YQYv6NHPmYJSFjtB3us+kb8792Sdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783865997; c=relaxed/simple;
-	bh=oumYVdpIN4W8nLhHdGLVyH6GNHi0uZqLNP3y6iHH/bw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fUtj2MRcrSleKeMiLl7GypKUbKRf5FQm64GtDr7ejQLYs9GSsNKtpvCCg3AJoRFFc62OGA1j7/EK1QgzDv7T2TXhO2AQXNQF1FfktyutRGfaiNVpKvM4IJn4puxk24yiWuxdFMlLofTptmGHKeAG+LtWbS7CppkgaNzdF5fwlkU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FvVB63JI; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1783866024; c=relaxed/simple;
+	bh=5Nhcnc4ezLPy8605Kf9M8EI1NlsLUYRMPtnyY/wPBAk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WA4AYvlqjvo8vYZAy2ZJLK5BcVeSPm2a5gpv5O33BDzuq+gBXFvYApu+joKu+rP4uLi77LAi+KtXO75Vzt/jVTH87b/x6PQj7M5eBc5Q0Id51PgadrLxbH17P54zIZOeaOQmUzD2BreIWOagtkqHdhdMdkZATL53L4pIKfHiauM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bAnVOMr+; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FvVB63JI"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-848643382fcso2383630b3a.1
-        for <linux-staging@lists.linux.dev>; Sun, 12 Jul 2026 07:19:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783865994; x=1784470794; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=MphLtdwgHqey6iKL4dV4IsACIIPSiSMUlutX9C9/Ahs=;
-        b=FvVB63JIijE1ftagYaRVJF3WIxd1lxeSHIUhi+DJZX+ONAyLWE3953UG6SPlzCRtdf
-         VxGf5pQELI5E18xcXT+sKVBqPqgkPRr31XOQITmjNGteBmJ7sZowlIqqG30Hl59Upbvo
-         ybPi7CUz3FbNLtcE9jrXcoNve95Po9AjJf21jB6Ixek30fYGaPLgrT3qzRvzMOdvZH6E
-         EOYTSWZ/5ZQpftHcRUQjoGBRHINYlxiqaZFw95hEe2vTXfKVkoInCr7Xhj2lfGbLjF8P
-         qwZXXcehVX94CWqU2uC4nXMxMY+CqTrIGFE8Up+DbiJo91zPqUPksv5hokBBj0apB9qm
-         vEWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783865994; x=1784470794;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=MphLtdwgHqey6iKL4dV4IsACIIPSiSMUlutX9C9/Ahs=;
-        b=rrCsxvzip/temSpjp6bAdSn8Gu/DTDDhBIxAZYBBdxGU5E0VJ9N0IoCQ58CBkXwBS8
-         9PN8P+KBaat1nlZ8iUaWDHLHxA+FmBFAmsw7WrRhOZnZMeAo2QsC/wtYdapJ4HDItCo4
-         KjnpGB3bZGNCxZ2PKr9x93PIdOqaFYkfd4Lcc/xQYtY4IqB/lNPlcVC2ynr+WR1TAsII
-         3rEzmnx670HVr2WJSBRgTrWmhVs49iam7tjNuw/T2jlCL8frFyaz0Z4yU1p6xIF3URMv
-         VjXfv4ILu7AqgPttXwk7XmpFfcnasKsMzGNe/NsbwZ/Mhm5ViSsTjhkt1UdzNoik9Aw1
-         NBLg==
-X-Forwarded-Encrypted: i=1; AHgh+Rru5DlId4+SK3UuX+fAH/QFf/icRKLRZ4EUJEmsEFOyL0N0K8fprooQDOyHgX2I3MaArHeRiTN/M9pGWoWU@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx6TB6ztfB8Co9MycLMpoQxRSyVM8VdtL0opbvAPhJ3e+0EF3+h
-	WmCYZRhvAsqHBwrKKDzLsNIFeDps6eJUWK190ZR1UrJ0atrwU1odMOXi
-X-Gm-Gg: AfdE7clwiv4Lt3svZAwsIzMF3lw9hn2ZUpu5b2VMkt9IXgu78v+46ninx15/PlObKF5
-	38OlNE22mTsofVItu15wXKR/qcXol9HgUANQthUQBtYXN7h15SCnT8+1QaofAMr69axNCbC5JSV
-	1q8oE3kSveb4N2JzAqHa4Ze05ZiukZoLrK2EdMqh166qU7MnG2b0JpDod0kd1QIPORKmmq6E9IZ
-	y4jpmV8JPopYkdWYTAIU59oXaa6LLB4bk1qPoHlXaAsHb+DrC19wBBQJzHcGuqEqn/reHC3Tz1o
-	YNgB1eBdzhJIHK9DsGu/Zm5NHElsGrSHS0G2dvsLf0LmGO3b7SunJgTnswlpAivm7Hi01Q7+CBK
-	+qIoKS7d7nZYf5HeN8+kB7hxlPvDl/H0y5CwzRhaoLJTsLAxshbYIyHuffPeYhZD2D1ssjg8viZ
-	F5QK5OOcRs7u6Nqpk=
-X-Received: by 2002:a05:6a00:1881:b0:848:5f4f:289a with SMTP id d2e1a72fcca58-84889721d5amr5447474b3a.49.1783865993298;
-        Sun, 12 Jul 2026 07:19:53 -0700 (PDT)
-Received: from fedora ([66.90.98.146])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847f6b9a832sm12705500b3a.18.2026.07.12.07.19.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Jul 2026 07:19:52 -0700 (PDT)
-From: Dylan Liu <pxyforeverlove1314@gmail.com>
-X-Google-Original-From: Dylan Liu <dylanliu050903@protonmail.com>
-To: 
-Cc: Dylan Liu <dylanliu050903@protonmail.com>,
-	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux@analog.com,
-	linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] Signed-off-by: Dylan Liu <dylanliu050903@protonmail.com>
-Date: Sun, 12 Jul 2026 22:19:20 +0800
-Message-ID: <20260712141928.559844-1-dylanliu050903@protonmail.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bAnVOMr+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1783866023; x=1815402023;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5Nhcnc4ezLPy8605Kf9M8EI1NlsLUYRMPtnyY/wPBAk=;
+  b=bAnVOMr+UbCRZlQfQzKHSRnT2YoWW3qWePzlWNO32uFxv9C8rJvaDbZH
+   5H5B5zOGEtiqyLd6iAK8HIB/KN4mwBDECwI9N75ndOCwXc/KRlGnq/5zj
+   VFcGu1kEo3H20uzAITWuBFrleLrkNQvkXlyfXOzDn3+k4CJ4Zf+Ub0I4P
+   8z88+ZlkVQPfEz5M5zHtAhSckiS4dnlfDDpwSLtqmheBr0dgQSVKHfnAQ
+   jfoHkUOQuzi+xIMeKKO1LbyaJtJN0Fve0sNovNAn0VUct7JqGvGqYoVNS
+   4FbVXd19ERJiFlIoDxPRd1B3qFpflJakCNSWhG4OwuRc50qfQEL2sun+7
+   A==;
+X-CSE-ConnectionGUID: cX6JN1HLTDOwVKuff8mJSw==
+X-CSE-MsgGUID: kvZN+Y1LQ2Kdj8HIyXrZww==
+X-IronPort-AV: E=McAfee;i="6800,10657,11841"; a="107295052"
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="107295052"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2026 07:20:22 -0700
+X-CSE-ConnectionGUID: 4tJoZCGGRTS6U1yqQB2mNA==
+X-CSE-MsgGUID: 4yjcvf6eSzinApMmCgAc3Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,154,1779174000"; 
+   d="scan'208";a="259628589"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.24])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2026 07:20:17 -0700
+Date: Sun, 12 Jul 2026 17:19:55 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Dileep Sankhla <dileepsankhla.ds@gmail.com>
+Cc: andy@kernel.org, hansg@kernel.org, mchehab@kernel.org,
+	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
+	chelsyratnawat2001@gmail.com, abdelrahmanfekry375@gmail.com,
+	matt@mattwardle.net, azpijr@gmail.com, error27@gmail.com,
+	kees@kernel.org, pontescpedro@gmail.com, starpt.official@gmail.com,
+	karthikey3608@gmail.com, roehling@debian.org, feng@innora.ai,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: media: atomisp: Drop unnecessary else block
+ after return/break
+Message-ID: <alOii3vwmkWGfVNx@ashevche-desk.local>
+References: <20260706103810.71919-1-dileepsankhla.ds@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260706103810.71919-1-dileepsankhla.ds@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-staging: iio: adt7316: Fix CamelCase naming for sysfs attributes
+On Mon, Jul 06, 2026 at 04:08:10PM +0530, Dileep Sankhla wrote:
+> Remove redundant else blocks following return or break statements. As
+> control flow exits in these cases, the else branch is unnecessary.
+> Dropping it improves code readability.
+> 
+> No functional change.
 
-Fix multiple checkpatch.pl warnings complaining about CamelCase
-variable and function names.
+...
 
-In order to comply with standard Linux coding style and IIO ABI
-conventions, convert all uppercase abbreviations (AIN, DAC, Vref)
-in the adt7316 driver to lowercase snake_case.
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+> static int atomisp_mrfld_pre_power_down(struct atomisp_device *isp)
 
-Note that this patch changes the sysfs ABI for this driver, as
-the device attributes exposed to userspace are now lowercase
-(e.g., from 'AIN_internal_Vref' to 'ain_internal_vref'). This is
-necessary to bring the staging driver in line with the official
-IIO ABI.
+>  		spin_unlock_irqrestore(&isp->lock, flags);
+>  		return -EAGAIN;
+> -	} else {
+> -		pci_read_config_dword(pdev, PCI_INTERRUPT_CTRL, &irq);
+> -		irq &= BIT(INTR_IIR);
+> -		pci_write_config_dword(pdev, PCI_INTERRUPT_CTRL, irq);
+> -
+> -		pci_read_config_dword(pdev, PCI_INTERRUPT_CTRL, &irq);
+> -		if (!(irq & BIT(INTR_IIR))) {
+> -			atomisp_css2_hw_store_32(MRFLD_INTR_ENABLE_REG, 0x0);
+> -			goto done;
+> -		}
+> -		dev_err(isp->dev,
+> -			"%s: error in iunit interrupt. status reg=0x%x\n",
+> -			__func__, irq);
+> -		spin_unlock_irqrestore(&isp->lock, flags);
+> -		return -EAGAIN;
+>  	}
+> +
+> +	pci_read_config_dword(pdev, PCI_INTERRUPT_CTRL, &irq);
+> +	irq &= BIT(INTR_IIR);
+> +	pci_write_config_dword(pdev, PCI_INTERRUPT_CTRL, irq);
+> +
+> +	pci_read_config_dword(pdev, PCI_INTERRUPT_CTRL, &irq);
+> +	if (!(irq & BIT(INTR_IIR))) {
+> +		atomisp_css2_hw_store_32(MRFLD_INTR_ENABLE_REG, 0x0);
+> +		goto done;
+> +	}
+> +	dev_err(isp->dev,
+> +		"%s: error in iunit interrupt. status reg=0x%x\n", __func__,
+> +		irq);
+> +	spin_unlock_irqrestore(&isp->lock, flags);
+> +	return -EAGAIN;
 
-Signed-off-by: Dylan Liu <dylanliu050903@protonmail.com>
----
- drivers/staging/iio/addac/adt7316.c | 228 ++++++++++++++--------------
- 1 file changed, 114 insertions(+), 114 deletions(-)
+I would really avoid touching this for now. This is non-straight workaround for
+some platforms and it needs real care on what's going on and how to make it
+look better. Since your patch does not targeting that, it's doubtful that this
+change is helpful.
 
-diff --git a/drivers/staging/iio/addac/adt7316.c b/drivers/staging/iio/addac/adt7316.c
-index 59fb3bd26bc1..845d79591128 100644
---- a/drivers/staging/iio/addac/adt7316.c
-+++ b/drivers/staging/iio/addac/adt7316.c
-@@ -663,7 +663,7 @@ static IIO_DEVICE_ATTR(da_high_resolution, 0644,
- 		adt7316_store_da_high_resolution,
- 		0);
- 
--static ssize_t adt7316_show_AIN_internal_Vref(struct device *dev,
-+static ssize_t adt7316_show_ain_internal_vref(struct device *dev,
- 					      struct device_attribute *attr,
- 					      char *buf)
- {
-@@ -677,7 +677,7 @@ static ssize_t adt7316_show_AIN_internal_Vref(struct device *dev,
- 		!!(chip->config3 & ADT7516_AIN_IN_VREF));
- }
- 
--static ssize_t adt7316_store_AIN_internal_Vref(struct device *dev,
-+static ssize_t adt7316_store_ain_internal_vref(struct device *dev,
- 					       struct device_attribute *attr,
- 					       const char *buf,
- 					       size_t len)
-@@ -704,12 +704,12 @@ static ssize_t adt7316_store_AIN_internal_Vref(struct device *dev,
- 	return len;
- }
- 
--static IIO_DEVICE_ATTR(AIN_internal_Vref, 0644,
--		adt7316_show_AIN_internal_Vref,
--		adt7316_store_AIN_internal_Vref,
-+static IIO_DEVICE_ATTR(ain_internal_vref, 0644,
-+		adt7316_show_ain_internal_vref,
-+		adt7316_store_ain_internal_vref,
- 		0);
- 
--static ssize_t adt7316_show_enable_prop_DACA(struct device *dev,
-+static ssize_t adt7316_show_enable_prop_daca(struct device *dev,
- 					     struct device_attribute *attr,
- 					     char *buf)
- {
-@@ -720,7 +720,7 @@ static ssize_t adt7316_show_enable_prop_DACA(struct device *dev,
- 		!!(chip->config3 & ADT7316_EN_IN_TEMP_PROP_DACA));
- }
- 
--static ssize_t adt7316_store_enable_prop_DACA(struct device *dev,
-+static ssize_t adt7316_store_enable_prop_daca(struct device *dev,
- 					      struct device_attribute *attr,
- 					      const char *buf,
- 					      size_t len)
-@@ -743,12 +743,12 @@ static ssize_t adt7316_store_enable_prop_DACA(struct device *dev,
- 	return len;
- }
- 
--static IIO_DEVICE_ATTR(enable_proportion_DACA, 0644,
--		       adt7316_show_enable_prop_DACA,
--		       adt7316_store_enable_prop_DACA,
-+static IIO_DEVICE_ATTR(enable_proportion_daca, 0644,
-+		       adt7316_show_enable_prop_daca,
-+		       adt7316_store_enable_prop_daca,
- 		       0);
- 
--static ssize_t adt7316_show_enable_prop_DACB(struct device *dev,
-+static ssize_t adt7316_show_enable_prop_dacb(struct device *dev,
- 					     struct device_attribute *attr,
- 					     char *buf)
- {
-@@ -759,7 +759,7 @@ static ssize_t adt7316_show_enable_prop_DACB(struct device *dev,
- 		!!(chip->config3 & ADT7316_EN_EX_TEMP_PROP_DACB));
- }
- 
--static ssize_t adt7316_store_enable_prop_DACB(struct device *dev,
-+static ssize_t adt7316_store_enable_prop_dacb(struct device *dev,
- 					      struct device_attribute *attr,
- 					      const char *buf,
- 					      size_t len)
-@@ -782,12 +782,12 @@ static ssize_t adt7316_store_enable_prop_DACB(struct device *dev,
- 	return len;
- }
- 
--static IIO_DEVICE_ATTR(enable_proportion_DACB, 0644,
--		       adt7316_show_enable_prop_DACB,
--		       adt7316_store_enable_prop_DACB,
-+static IIO_DEVICE_ATTR(enable_proportion_dacb, 0644,
-+		       adt7316_show_enable_prop_dacb,
-+		       adt7316_store_enable_prop_dacb,
- 		       0);
- 
--static ssize_t adt7316_show_DAC_2Vref_ch_mask(struct device *dev,
-+static ssize_t adt7316_show_dac_2vref_ch_mask(struct device *dev,
- 					      struct device_attribute *attr,
- 					      char *buf)
- {
-@@ -798,7 +798,7 @@ static ssize_t adt7316_show_DAC_2Vref_ch_mask(struct device *dev,
- 		chip->dac_config & ADT7316_DA_2VREF_CH_MASK);
- }
- 
--static ssize_t adt7316_store_DAC_2Vref_ch_mask(struct device *dev,
-+static ssize_t adt7316_store_dac_2vref_ch_mask(struct device *dev,
- 					       struct device_attribute *attr,
- 					       const char *buf,
- 					       size_t len)
-@@ -825,12 +825,12 @@ static ssize_t adt7316_store_DAC_2Vref_ch_mask(struct device *dev,
- 	return len;
- }
- 
--static IIO_DEVICE_ATTR(DAC_2Vref_channels_mask, 0644,
--		       adt7316_show_DAC_2Vref_ch_mask,
--		       adt7316_store_DAC_2Vref_ch_mask,
-+static IIO_DEVICE_ATTR(dac_2vref_channels_mask, 0644,
-+		       adt7316_show_dac_2vref_ch_mask,
-+		       adt7316_store_dac_2vref_ch_mask,
- 		       0);
- 
--static ssize_t adt7316_show_DAC_update_mode(struct device *dev,
-+static ssize_t adt7316_show_dac_update_mode(struct device *dev,
- 					    struct device_attribute *attr,
- 					    char *buf)
- {
-@@ -855,7 +855,7 @@ static ssize_t adt7316_show_DAC_update_mode(struct device *dev,
- 	}
- }
- 
--static ssize_t adt7316_store_DAC_update_mode(struct device *dev,
-+static ssize_t adt7316_store_dac_update_mode(struct device *dev,
- 					     struct device_attribute *attr,
- 					     const char *buf,
- 					     size_t len)
-@@ -885,12 +885,12 @@ static ssize_t adt7316_store_DAC_update_mode(struct device *dev,
- 	return len;
- }
- 
--static IIO_DEVICE_ATTR(DAC_update_mode, 0644,
--		       adt7316_show_DAC_update_mode,
--		       adt7316_store_DAC_update_mode,
-+static IIO_DEVICE_ATTR(dac_update_mode, 0644,
-+		       adt7316_show_dac_update_mode,
-+		       adt7316_store_dac_update_mode,
- 		       0);
- 
--static ssize_t adt7316_show_all_DAC_update_modes(struct device *dev,
-+static ssize_t adt7316_show_all_dac_update_modes(struct device *dev,
- 						 struct device_attribute *attr,
- 						 char *buf)
- {
-@@ -905,10 +905,10 @@ static ssize_t adt7316_show_all_DAC_update_modes(struct device *dev,
- 	return sysfs_emit(buf, "manual\n");
- }
- 
--static IIO_DEVICE_ATTR(all_DAC_update_modes, 0444,
--		       adt7316_show_all_DAC_update_modes, NULL, 0);
-+static IIO_DEVICE_ATTR(all_dac_update_modes, 0444,
-+		       adt7316_show_all_dac_update_modes, NULL, 0);
- 
--static ssize_t adt7316_store_update_DAC(struct device *dev,
-+static ssize_t adt7316_store_update_dac(struct device *dev,
- 					struct device_attribute *attr,
- 					const char *buf,
- 					size_t len)
-@@ -943,12 +943,12 @@ static ssize_t adt7316_store_update_DAC(struct device *dev,
- 	return len;
- }
- 
--static IIO_DEVICE_ATTR(update_DAC, 0644,
-+static IIO_DEVICE_ATTR(update_dac, 0644,
- 		       NULL,
--		       adt7316_store_update_DAC,
-+		       adt7316_store_update_dac,
- 		       0);
- 
--static ssize_t adt7316_show_DA_AB_Vref_bypass(struct device *dev,
-+static ssize_t adt7316_show_da_ab_vref_bypass(struct device *dev,
- 					      struct device_attribute *attr,
- 					      char *buf)
- {
-@@ -959,7 +959,7 @@ static ssize_t adt7316_show_DA_AB_Vref_bypass(struct device *dev,
- 		!!(chip->dac_config & ADT7316_VREF_BYPASS_DAC_AB));
- }
- 
--static ssize_t adt7316_store_DA_AB_Vref_bypass(struct device *dev,
-+static ssize_t adt7316_store_da_ab_vref_bypass(struct device *dev,
- 					       struct device_attribute *attr,
- 					       const char *buf,
- 					       size_t len)
-@@ -982,12 +982,12 @@ static ssize_t adt7316_store_DA_AB_Vref_bypass(struct device *dev,
- 	return len;
- }
- 
--static IIO_DEVICE_ATTR(DA_AB_Vref_bypass, 0644,
--		       adt7316_show_DA_AB_Vref_bypass,
--		       adt7316_store_DA_AB_Vref_bypass,
-+static IIO_DEVICE_ATTR(da_ab_vref_bypass, 0644,
-+		       adt7316_show_da_ab_vref_bypass,
-+		       adt7316_store_da_ab_vref_bypass,
- 		       0);
- 
--static ssize_t adt7316_show_DA_CD_Vref_bypass(struct device *dev,
-+static ssize_t adt7316_show_da_cd_vref_bypass(struct device *dev,
- 					      struct device_attribute *attr,
- 					      char *buf)
- {
-@@ -998,7 +998,7 @@ static ssize_t adt7316_show_DA_CD_Vref_bypass(struct device *dev,
- 		!!(chip->dac_config & ADT7316_VREF_BYPASS_DAC_CD));
- }
- 
--static ssize_t adt7316_store_DA_CD_Vref_bypass(struct device *dev,
-+static ssize_t adt7316_store_da_cd_vref_bypass(struct device *dev,
- 					       struct device_attribute *attr,
- 					       const char *buf,
- 					       size_t len)
-@@ -1021,12 +1021,12 @@ static ssize_t adt7316_store_DA_CD_Vref_bypass(struct device *dev,
- 	return len;
- }
- 
--static IIO_DEVICE_ATTR(DA_CD_Vref_bypass, 0644,
--		       adt7316_show_DA_CD_Vref_bypass,
--		       adt7316_store_DA_CD_Vref_bypass,
-+static IIO_DEVICE_ATTR(da_cd_vref_bypass, 0644,
-+		       adt7316_show_da_cd_vref_bypass,
-+		       adt7316_store_da_cd_vref_bypass,
- 		       0);
- 
--static ssize_t adt7316_show_DAC_internal_Vref(struct device *dev,
-+static ssize_t adt7316_show_dac_internal_vref(struct device *dev,
- 					      struct device_attribute *attr,
- 					      char *buf)
- {
-@@ -1041,7 +1041,7 @@ static ssize_t adt7316_show_DAC_internal_Vref(struct device *dev,
- 		       !!(chip->ldac_config & ADT7316_DAC_IN_VREF));
- }
- 
--static ssize_t adt7316_store_DAC_internal_Vref(struct device *dev,
-+static ssize_t adt7316_store_dac_internal_vref(struct device *dev,
- 					       struct device_attribute *attr,
- 					       const char *buf,
- 					       size_t len)
-@@ -1082,9 +1082,9 @@ static ssize_t adt7316_store_DAC_internal_Vref(struct device *dev,
- 	return len;
- }
- 
--static IIO_DEVICE_ATTR(DAC_internal_Vref, 0644,
--		       adt7316_show_DAC_internal_Vref,
--		       adt7316_store_DAC_internal_Vref,
-+static IIO_DEVICE_ATTR(dac_internal_vref, 0644,
-+		       adt7316_show_dac_internal_vref,
-+		       adt7316_store_dac_internal_vref,
- 		       0);
- 
- static ssize_t adt7316_show_ad(struct adt7316_chip_info *chip,
-@@ -1162,7 +1162,7 @@ static ssize_t adt7316_show_ad(struct adt7316_chip_info *chip,
- 		(data & ADT7316_T_VALUE_FLOAT_MASK) * 25);
- }
- 
--static ssize_t adt7316_show_VDD(struct device *dev,
-+static ssize_t adt7316_show_vdd(struct device *dev,
- 				struct device_attribute *attr,
- 				char *buf)
- {
-@@ -1171,7 +1171,7 @@ static ssize_t adt7316_show_VDD(struct device *dev,
- 
- 	return adt7316_show_ad(chip, ADT7316_AD_SINGLE_CH_VDD, buf);
- }
--static IIO_DEVICE_ATTR(VDD, 0444, adt7316_show_VDD, NULL, 0);
-+static IIO_DEVICE_ATTR(vdd, 0444, adt7316_show_vdd, NULL, 0);
- 
- static ssize_t adt7316_show_in_temp(struct device *dev,
- 				    struct device_attribute *attr,
-@@ -1185,7 +1185,7 @@ static ssize_t adt7316_show_in_temp(struct device *dev,
- 
- static IIO_DEVICE_ATTR(in_temp, 0444, adt7316_show_in_temp, NULL, 0);
- 
--static ssize_t adt7316_show_ex_temp_AIN1(struct device *dev,
-+static ssize_t adt7316_show_ex_temp_ain1(struct device *dev,
- 					 struct device_attribute *attr,
- 					 char *buf)
- {
-@@ -1195,11 +1195,11 @@ static ssize_t adt7316_show_ex_temp_AIN1(struct device *dev,
- 	return adt7316_show_ad(chip, ADT7316_AD_SINGLE_CH_EX, buf);
- }
- 
--static IIO_DEVICE_ATTR(ex_temp_AIN1, 0444, adt7316_show_ex_temp_AIN1,
-+static IIO_DEVICE_ATTR(ex_temp_ain1, 0444, adt7316_show_ex_temp_ain1,
- 		       NULL, 0);
--static IIO_DEVICE_ATTR(ex_temp, 0444, adt7316_show_ex_temp_AIN1, NULL, 0);
-+static IIO_DEVICE_ATTR(ex_temp, 0444, adt7316_show_ex_temp_ain1, NULL, 0);
- 
--static ssize_t adt7316_show_AIN2(struct device *dev,
-+static ssize_t adt7316_show_ain2(struct device *dev,
- 				 struct device_attribute *attr,
- 				 char *buf)
- {
-@@ -1208,9 +1208,9 @@ static ssize_t adt7316_show_AIN2(struct device *dev,
- 
- 	return adt7316_show_ad(chip, ADT7516_AD_SINGLE_CH_AIN2, buf);
- }
--static IIO_DEVICE_ATTR(AIN2, 0444, adt7316_show_AIN2, NULL, 0);
-+static IIO_DEVICE_ATTR(ain2, 0444, adt7316_show_ain2, NULL, 0);
- 
--static ssize_t adt7316_show_AIN3(struct device *dev,
-+static ssize_t adt7316_show_ain3(struct device *dev,
- 				 struct device_attribute *attr,
- 				 char *buf)
- {
-@@ -1219,9 +1219,9 @@ static ssize_t adt7316_show_AIN3(struct device *dev,
- 
- 	return adt7316_show_ad(chip, ADT7516_AD_SINGLE_CH_AIN3, buf);
- }
--static IIO_DEVICE_ATTR(AIN3, 0444, adt7316_show_AIN3, NULL, 0);
-+static IIO_DEVICE_ATTR(ain3, 0444, adt7316_show_ain3, NULL, 0);
- 
--static ssize_t adt7316_show_AIN4(struct device *dev,
-+static ssize_t adt7316_show_ain4(struct device *dev,
- 				 struct device_attribute *attr,
- 				 char *buf)
- {
-@@ -1230,7 +1230,7 @@ static ssize_t adt7316_show_AIN4(struct device *dev,
- 
- 	return adt7316_show_ad(chip, ADT7516_AD_SINGLE_CH_AIN4, buf);
- }
--static IIO_DEVICE_ATTR(AIN4, 0444, adt7316_show_AIN4, NULL, 0);
-+static IIO_DEVICE_ATTR(ain4, 0444, adt7316_show_ain4, NULL, 0);
- 
- static ssize_t adt7316_show_temp_offset(struct adt7316_chip_info *chip,
- 					int offset_addr, char *buf)
-@@ -1381,7 +1381,7 @@ static IIO_DEVICE_ATTR(ex_analog_temp_offset, 0644,
- 		       adt7316_show_ex_analog_temp_offset,
- 		       adt7316_store_ex_analog_temp_offset, 0);
- 
--static ssize_t adt7316_show_DAC(struct adt7316_chip_info *chip,
-+static ssize_t adt7316_show_dac(struct adt7316_chip_info *chip,
- 				int channel, char *buf)
- {
- 	u16 data = 0;
-@@ -1418,7 +1418,7 @@ static ssize_t adt7316_show_DAC(struct adt7316_chip_info *chip,
- 	return sysfs_emit(buf, "%d\n", data);
- }
- 
--static ssize_t adt7316_store_DAC(struct adt7316_chip_info *chip,
-+static ssize_t adt7316_store_dac(struct adt7316_chip_info *chip,
- 				 int channel, const char *buf, size_t len)
- {
- 	u8 msb, lsb, lsb_reg, offset;
-@@ -1459,17 +1459,17 @@ static ssize_t adt7316_store_DAC(struct adt7316_chip_info *chip,
- 	return len;
- }
- 
--static ssize_t adt7316_show_DAC_A(struct device *dev,
-+static ssize_t adt7316_show_dac_a(struct device *dev,
- 				  struct device_attribute *attr,
- 				  char *buf)
- {
- 	struct iio_dev *dev_info = dev_to_iio_dev(dev);
- 	struct adt7316_chip_info *chip = iio_priv(dev_info);
- 
--	return adt7316_show_DAC(chip, 0, buf);
-+	return adt7316_show_dac(chip, 0, buf);
- }
- 
--static ssize_t adt7316_store_DAC_A(struct device *dev,
-+static ssize_t adt7316_store_dac_a(struct device *dev,
- 				   struct device_attribute *attr,
- 				   const char *buf,
- 				   size_t len)
-@@ -1477,23 +1477,23 @@ static ssize_t adt7316_store_DAC_A(struct device *dev,
- 	struct iio_dev *dev_info = dev_to_iio_dev(dev);
- 	struct adt7316_chip_info *chip = iio_priv(dev_info);
- 
--	return adt7316_store_DAC(chip, 0, buf, len);
-+	return adt7316_store_dac(chip, 0, buf, len);
- }
- 
--static IIO_DEVICE_ATTR(DAC_A, 0644, adt7316_show_DAC_A,
--		       adt7316_store_DAC_A, 0);
-+static IIO_DEVICE_ATTR(dac_a, 0644, adt7316_show_dac_a,
-+		       adt7316_store_dac_a, 0);
- 
--static ssize_t adt7316_show_DAC_B(struct device *dev,
-+static ssize_t adt7316_show_dac_b(struct device *dev,
- 				  struct device_attribute *attr,
- 				  char *buf)
- {
- 	struct iio_dev *dev_info = dev_to_iio_dev(dev);
- 	struct adt7316_chip_info *chip = iio_priv(dev_info);
- 
--	return adt7316_show_DAC(chip, 1, buf);
-+	return adt7316_show_dac(chip, 1, buf);
- }
- 
--static ssize_t adt7316_store_DAC_B(struct device *dev,
-+static ssize_t adt7316_store_dac_b(struct device *dev,
- 				   struct device_attribute *attr,
- 				   const char *buf,
- 				   size_t len)
-@@ -1501,23 +1501,23 @@ static ssize_t adt7316_store_DAC_B(struct device *dev,
- 	struct iio_dev *dev_info = dev_to_iio_dev(dev);
- 	struct adt7316_chip_info *chip = iio_priv(dev_info);
- 
--	return adt7316_store_DAC(chip, 1, buf, len);
-+	return adt7316_store_dac(chip, 1, buf, len);
- }
- 
--static IIO_DEVICE_ATTR(DAC_B, 0644, adt7316_show_DAC_B,
--		       adt7316_store_DAC_B, 0);
-+static IIO_DEVICE_ATTR(dac_b, 0644, adt7316_show_dac_b,
-+		       adt7316_store_dac_b, 0);
- 
--static ssize_t adt7316_show_DAC_C(struct device *dev,
-+static ssize_t adt7316_show_dac_c(struct device *dev,
- 				  struct device_attribute *attr,
- 				  char *buf)
- {
- 	struct iio_dev *dev_info = dev_to_iio_dev(dev);
- 	struct adt7316_chip_info *chip = iio_priv(dev_info);
- 
--	return adt7316_show_DAC(chip, 2, buf);
-+	return adt7316_show_dac(chip, 2, buf);
- }
- 
--static ssize_t adt7316_store_DAC_C(struct device *dev,
-+static ssize_t adt7316_store_dac_c(struct device *dev,
- 				   struct device_attribute *attr,
- 				   const char *buf,
- 				   size_t len)
-@@ -1525,23 +1525,23 @@ static ssize_t adt7316_store_DAC_C(struct device *dev,
- 	struct iio_dev *dev_info = dev_to_iio_dev(dev);
- 	struct adt7316_chip_info *chip = iio_priv(dev_info);
- 
--	return adt7316_store_DAC(chip, 2, buf, len);
-+	return adt7316_store_dac(chip, 2, buf, len);
- }
- 
--static IIO_DEVICE_ATTR(DAC_C, 0644, adt7316_show_DAC_C,
--		       adt7316_store_DAC_C, 0);
-+static IIO_DEVICE_ATTR(dac_c, 0644, adt7316_show_dac_c,
-+		       adt7316_store_dac_c, 0);
- 
--static ssize_t adt7316_show_DAC_D(struct device *dev,
-+static ssize_t adt7316_show_dac_d(struct device *dev,
- 				  struct device_attribute *attr,
- 				  char *buf)
- {
- 	struct iio_dev *dev_info = dev_to_iio_dev(dev);
- 	struct adt7316_chip_info *chip = iio_priv(dev_info);
- 
--	return adt7316_show_DAC(chip, 3, buf);
-+	return adt7316_show_dac(chip, 3, buf);
- }
- 
--static ssize_t adt7316_store_DAC_D(struct device *dev,
-+static ssize_t adt7316_store_dac_d(struct device *dev,
- 				   struct device_attribute *attr,
- 				   const char *buf,
- 				   size_t len)
-@@ -1549,11 +1549,11 @@ static ssize_t adt7316_store_DAC_D(struct device *dev,
- 	struct iio_dev *dev_info = dev_to_iio_dev(dev);
- 	struct adt7316_chip_info *chip = iio_priv(dev_info);
- 
--	return adt7316_store_DAC(chip, 3, buf, len);
-+	return adt7316_store_dac(chip, 3, buf, len);
- }
- 
--static IIO_DEVICE_ATTR(DAC_D, 0644, adt7316_show_DAC_D,
--		       adt7316_store_DAC_D, 0);
-+static IIO_DEVICE_ATTR(dac_d, 0644, adt7316_show_dac_d,
-+		       adt7316_store_dac_d, 0);
- 
- static ssize_t adt7316_show_device_id(struct device *dev,
- 				      struct device_attribute *attr,
-@@ -1642,26 +1642,26 @@ static struct attribute *adt7316_attributes[] = {
- 	&iio_dev_attr_powerdown.dev_attr.attr,
- 	&iio_dev_attr_fast_ad_clock.dev_attr.attr,
- 	&iio_dev_attr_da_high_resolution.dev_attr.attr,
--	&iio_dev_attr_enable_proportion_DACA.dev_attr.attr,
--	&iio_dev_attr_enable_proportion_DACB.dev_attr.attr,
--	&iio_dev_attr_DAC_2Vref_channels_mask.dev_attr.attr,
--	&iio_dev_attr_DAC_update_mode.dev_attr.attr,
--	&iio_dev_attr_all_DAC_update_modes.dev_attr.attr,
--	&iio_dev_attr_update_DAC.dev_attr.attr,
--	&iio_dev_attr_DA_AB_Vref_bypass.dev_attr.attr,
--	&iio_dev_attr_DA_CD_Vref_bypass.dev_attr.attr,
--	&iio_dev_attr_DAC_internal_Vref.dev_attr.attr,
--	&iio_dev_attr_VDD.dev_attr.attr,
-+	&iio_dev_attr_enable_proportion_daca.dev_attr.attr,
-+	&iio_dev_attr_enable_proportion_dacb.dev_attr.attr,
-+	&iio_dev_attr_dac_2vref_channels_mask.dev_attr.attr,
-+	&iio_dev_attr_dac_update_mode.dev_attr.attr,
-+	&iio_dev_attr_all_dac_update_modes.dev_attr.attr,
-+	&iio_dev_attr_update_dac.dev_attr.attr,
-+	&iio_dev_attr_da_ab_vref_bypass.dev_attr.attr,
-+	&iio_dev_attr_da_cd_vref_bypass.dev_attr.attr,
-+	&iio_dev_attr_dac_internal_vref.dev_attr.attr,
-+	&iio_dev_attr_vdd.dev_attr.attr,
- 	&iio_dev_attr_in_temp.dev_attr.attr,
- 	&iio_dev_attr_ex_temp.dev_attr.attr,
- 	&iio_dev_attr_in_temp_offset.dev_attr.attr,
- 	&iio_dev_attr_ex_temp_offset.dev_attr.attr,
- 	&iio_dev_attr_in_analog_temp_offset.dev_attr.attr,
- 	&iio_dev_attr_ex_analog_temp_offset.dev_attr.attr,
--	&iio_dev_attr_DAC_A.dev_attr.attr,
--	&iio_dev_attr_DAC_B.dev_attr.attr,
--	&iio_dev_attr_DAC_C.dev_attr.attr,
--	&iio_dev_attr_DAC_D.dev_attr.attr,
-+	&iio_dev_attr_dac_a.dev_attr.attr,
-+	&iio_dev_attr_dac_b.dev_attr.attr,
-+	&iio_dev_attr_dac_c.dev_attr.attr,
-+	&iio_dev_attr_dac_d.dev_attr.attr,
- 	&iio_dev_attr_device_id.dev_attr.attr,
- 	&iio_dev_attr_manufactorer_id.dev_attr.attr,
- 	&iio_dev_attr_device_rev.dev_attr.attr,
-@@ -1684,29 +1684,29 @@ static struct attribute *adt7516_attributes[] = {
- 	&iio_dev_attr_enable_smbus_timeout.dev_attr.attr,
- 	&iio_dev_attr_powerdown.dev_attr.attr,
- 	&iio_dev_attr_fast_ad_clock.dev_attr.attr,
--	&iio_dev_attr_AIN_internal_Vref.dev_attr.attr,
-+	&iio_dev_attr_ain_internal_vref.dev_attr.attr,
- 	&iio_dev_attr_da_high_resolution.dev_attr.attr,
--	&iio_dev_attr_enable_proportion_DACA.dev_attr.attr,
--	&iio_dev_attr_enable_proportion_DACB.dev_attr.attr,
--	&iio_dev_attr_DAC_2Vref_channels_mask.dev_attr.attr,
--	&iio_dev_attr_DAC_update_mode.dev_attr.attr,
--	&iio_dev_attr_all_DAC_update_modes.dev_attr.attr,
--	&iio_dev_attr_update_DAC.dev_attr.attr,
--	&iio_dev_attr_DAC_internal_Vref.dev_attr.attr,
--	&iio_dev_attr_VDD.dev_attr.attr,
-+	&iio_dev_attr_enable_proportion_daca.dev_attr.attr,
-+	&iio_dev_attr_enable_proportion_dacb.dev_attr.attr,
-+	&iio_dev_attr_dac_2vref_channels_mask.dev_attr.attr,
-+	&iio_dev_attr_dac_update_mode.dev_attr.attr,
-+	&iio_dev_attr_all_dac_update_modes.dev_attr.attr,
-+	&iio_dev_attr_update_dac.dev_attr.attr,
-+	&iio_dev_attr_dac_internal_vref.dev_attr.attr,
-+	&iio_dev_attr_vdd.dev_attr.attr,
- 	&iio_dev_attr_in_temp.dev_attr.attr,
--	&iio_dev_attr_ex_temp_AIN1.dev_attr.attr,
--	&iio_dev_attr_AIN2.dev_attr.attr,
--	&iio_dev_attr_AIN3.dev_attr.attr,
--	&iio_dev_attr_AIN4.dev_attr.attr,
-+	&iio_dev_attr_ex_temp_ain1.dev_attr.attr,
-+	&iio_dev_attr_ain2.dev_attr.attr,
-+	&iio_dev_attr_ain3.dev_attr.attr,
-+	&iio_dev_attr_ain4.dev_attr.attr,
- 	&iio_dev_attr_in_temp_offset.dev_attr.attr,
- 	&iio_dev_attr_ex_temp_offset.dev_attr.attr,
- 	&iio_dev_attr_in_analog_temp_offset.dev_attr.attr,
- 	&iio_dev_attr_ex_analog_temp_offset.dev_attr.attr,
--	&iio_dev_attr_DAC_A.dev_attr.attr,
--	&iio_dev_attr_DAC_B.dev_attr.attr,
--	&iio_dev_attr_DAC_C.dev_attr.attr,
--	&iio_dev_attr_DAC_D.dev_attr.attr,
-+	&iio_dev_attr_dac_a.dev_attr.attr,
-+	&iio_dev_attr_dac_b.dev_attr.attr,
-+	&iio_dev_attr_dac_c.dev_attr.attr,
-+	&iio_dev_attr_dac_d.dev_attr.attr,
- 	&iio_dev_attr_device_id.dev_attr.attr,
- 	&iio_dev_attr_manufactorer_id.dev_attr.attr,
- 	&iio_dev_attr_device_rev.dev_attr.attr,
+...
+
+>  	if ((*flags) & INPUT_SYSTEM_CFG_FLAG_SET) {
+>  		// Check for consistency with already set value.
+> -		if ((*lhs) == (rhs)) {
+> +		if ((*lhs) == (rhs))
+
+Unneeded parentheses, also see below.
+
+>  			return INPUT_SYSTEM_ERR_NO_ERROR;
+> -		} else {
+> -			*flags |= INPUT_SYSTEM_CFG_FLAG_CONFLICT;
+> -			return INPUT_SYSTEM_ERR_CONFLICT_ON_RESOURCE;
+> -		}
+> +
+> +		*flags |= INPUT_SYSTEM_CFG_FLAG_CONFLICT;
+> +		return INPUT_SYSTEM_ERR_CONFLICT_ON_RESOURCE;
+>  	}
+
+In this case it's better to toggle the conditional to follow the pattern to
+check for errors first.
+
+		if (*lhs != rhs) {
+			*flags |= INPUT_SYSTEM_CFG_FLAG_CONFLICT;
+			return INPUT_SYSTEM_ERR_CONFLICT_ON_RESOURCE;
+		}
+
+		return INPUT_SYSTEM_ERR_NO_ERROR;
+
+And yeah, looking at the below, you might want to have a common helper for
+this. So, perhaps don't touch these three cases for now. Or we can leave them
+as in your patch, it's up to Sakari and you.
+
+...
+
+> +		/* TMP: check discrepancy between nr of enqueued
+> +		 * parameter sets and dequeued sets
+> +		 */
+
+When moving comments with a wrong style, fix the style at the same time.
+
+		/*
+		 * TMP: check discrepancy between nr of enqueued parameter sets
+		 * and dequeued sets.
+		 */
+
+...
+
+> +		assert(g_param_buffer_enqueue_count < g_param_buffer_dequeue_count + 50);
+
+What will this do in the kernel environment? Perhaps first you need to check that and
+most likely change the assert():s to something else?
+
+...
+
+> +		ia_css_bufq_enqueue_psys_event(
+> +				IA_CSS_PSYS_SW_EVENT_BUFFER_ENQUEUED,
+> +				(uint8_t)thread_id, (uint8_t)queue_id, 0);
+
+Why do we need the castings?
+
+...
+
+Half of the patch is good to go, and the other needs more work and real work on
+the driver.
+
 -- 
-2.54.0
+With Best Regards,
+Andy Shevchenko
+
 
