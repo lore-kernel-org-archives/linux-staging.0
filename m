@@ -1,63 +1,63 @@
-Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com [209.85.216.65])
+Received: from mail-pj2-f1.google.com (mail-pj2-f1.google.com [74.125.227.129])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6424368D5F
-	for <linux-staging@lists.linux.dev>; Mon, 13 Jul 2026 07:05:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C54E36920D
+	for <linux-staging@lists.linux.dev>; Mon, 13 Jul 2026 07:05:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.129
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783926358; cv=none; b=fyoSV14z3BEF2JhhpLACFTGs6qRhhWhbvnXYOs7RujaHEFtHtWUQ5nt0xImUrpaV3gitEguoNWCcmJZjDk98b+X+nBMaj/pyviavRIM7Cw+ZBxuZuD/7Bwpg3ZO4PRuv7yhTwwuWaVffS4FEi26gwkLHm7/85jSk7LCkxkpG3WY=
+	t=1783926361; cv=none; b=fa0KmxQ9SY0OztOE7ckCqkyGS1LwX8r1vFSNYZYIWdyBNE45ejlgEdzHiGoJ8d47RXdIIiFrKtmim9bFF3wPynzSSXgdv3atoHeMCWrtmRKF6YFSz3KKBSTafgEAyso9cJ1pVbtu9YcqBbg/wQ7YQJR6iPCjl9PW9GeAcv5lxFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783926358; c=relaxed/simple;
-	bh=XzfgW/QIAC3UIidbn9HJWxF8wgWeSp6iQuDvdi+K8hA=;
+	s=arc-20240116; t=1783926361; c=relaxed/simple;
+	bh=N9HLizXXiFAvZaaWH1ui6wNm8m+fAkUVUXVihRy1fBw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=lH4WblbAf/xE0XcaZyT5rSaD7Lt2dhIMnMoCcJf+3q/8/38sR00yRA48QSjTusfy6GwtziAOKnC428I922Z8Wxx0prCNkA/BUURAQmY/cV8ijqPoFYx4E3Jf9+wmUU0mLbCuB89C/RR+h69u+PJ4sRQu04Jf7vIjq4ndxgXy7rY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dqBDlxte; arc=none smtp.client-ip=209.85.216.65
+	 MIME-Version; b=L5BXGZyN7V1SweJlprluEAFs5geUsD7EAcYOIUqjsTpM5Wo26Bqrtyf2QrWKMr8J9K6aMYqaH4P+0JB2NGfucvfYEbMYeWZ7FIeRODFz2NuSdA488DDbG0C5okidai0z+l7d04PQaBXBUmR6GrKTVOhyjFZN1+TUIkVCBbSR0tY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lv604YSS; arc=none smtp.client-ip=74.125.227.129
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dqBDlxte"
-Received: by mail-pj1-f65.google.com with SMTP id 98e67ed59e1d1-388b404ea89so2291401a91.0
-        for <linux-staging@lists.linux.dev>; Mon, 13 Jul 2026 00:05:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lv604YSS"
+Received: by mail-pj2-f1.google.com with SMTP id 98e67ed59e1d1-3810f0aba07so1656791a91.1
+        for <linux-staging@lists.linux.dev>; Mon, 13 Jul 2026 00:05:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783926356; x=1784531156; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1783926357; x=1784531157; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=CkIMlCQQAnln+Op2DNgA0UlpbuYk4uUCoqJrhtqHg84=;
-        b=dqBDlxteR/TwsaSaMumVUde8C/lg5Z2LFzw47Wivb/Lr7Y5J7IoMn4prirAsWmjmAQ
-         XnQyx4QTmdshMZgbEQjgjsb3J5RWFzW0bOMz+z2b3zrw8t+mr9Jtkc4QQRMx5PMMtBm2
-         t/DLmjgIJ/zREPTijrp7FJKRXgQ6ykZBeeY26eIP1O0ZtqTQScCIjTt2roqGMoHy6SrS
-         nUhkSiy4FS/ZdLZvFmqb1RMs9zLnI2HYGE5ev6JtR8B3qwBOXTTxuz7h9Ne344vCCLc/
-         kmT2QI9J/c6WCkI+JjkYi7hCnaQfxNBHEQauo8G4aYoaL35lRTIr/PJTswarNYJNzYJl
-         6okA==
+        bh=bFy8a5KYcxfhVgWB2o9ncTF1rCZKKEFMUuyrfhVpuV4=;
+        b=lv604YSS8z789KxwPto/qyxyBpksHVIvAeRqLPCFBfsPUIPmFMyCCgu2TTsgn2oMZ4
+         By0POB9vjT89al21iFtmGnHth9ZmZFbGf7sW3S6rB29LA//n05fzPhj6qsiG8LuaidL2
+         wgGinA4ATmD9tFLp0znJzz1fRQB33nFgmYahBRnYZUfKLNRuzNdsXZav/7H9vh4gUQ6p
+         ft+QrQ8p4rgzVMak+4bUEwaP4UMHxtNMv/ycw3q3DTIwyM9iDHuE1VC4Me7laltQMilU
+         Bt8tQXwKypngAp9Soo0lADX/fyp0zfvvz3u22NK4qh5YwDwooCwAYKN7ng8rQGPHzLl6
+         qNTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783926356; x=1784531156;
+        d=1e100.net; s=20251104; t=1783926357; x=1784531157;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=CkIMlCQQAnln+Op2DNgA0UlpbuYk4uUCoqJrhtqHg84=;
-        b=k2jfuuzNmLDxpm8Dr9S5EhqZ+s0beWLTIAdxIHkCx+VuhhMuRxMuVYPp7VjcJceuIU
-         vc9E/T66JDFg3jx7Dh1mQu1uauojtKWnwSVcPWWVqiZDhU5mS6stzUlclKToD9kzcEiE
-         Arkb8baXsBNK+nDhxbJkemAwv6K9+D0drjME/U0Jbxc2tzUkDvIs2T6KGnStij9dx/yy
-         Zdt5Pjgeq/k5Pd/i0fbSXgz/Q3mSroeVsBKHy1jnK9nC7W2jr7MmumovJOvbE3JYWi7k
-         sCT40C3AAgFhi4BGe0G5vD5Pb5duswJbUNf6KNj6OKfNIoUwFNf9p+MVXo9d2dXegx50
-         9X0A==
-X-Forwarded-Encrypted: i=1; AHgh+RpFX6CCVh5HuHfMwRrYrsSviGm5p1bUKKYEHahSnP/RiVp9RGxkeQGf8WUHnjSVzUZe5tJdx1N/dBLn199D@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyz70cwnIH3eLZbDAx+79IYjy6L3DOJs/KPdOXzTtdqNKDVQ5sB
-	/JUBlXbuncMFrm0O6yjxf0hprkf6r8R4R2Id5/rtfbhsCeCs/rra+UBt
-X-Gm-Gg: AfdE7cmzlqzZd7c9+WtzispC+d+gi2tU2LdJaCeR+I5KX/hrjEi0zIEEe53XOk3ZsGG
-	cmToDpqke3MrKlrGH3k2S+v/GV+pqt/agr6W00Tfxc4yHxrtcX0gGPggEiL4xEnptjXABThQaO7
-	5GHjTnE5bezlmbo63hMctcZybch50Dd0J1eZE3+w2yqmhGkWlKfi7M1pXEQh57dBYfhVYZrdO+k
-	GuMDkBqkMvT63usjQwK3bmUjrbU2i3/CHTHZY51tGNa9z8azGLWBjQd50toKczjwfgmAalVXtqC
-	i6BxlnQdpcYdNo66K7JarpBqivcQtHeIsHqNdLe1xCFFrayayGUZKawptsrVIv0o3He4iC8KFuT
-	tzjQ6ghCf5jJh/5jbgSia4S2bXLGxEyOGzPhv8mjCg5t5UjkQj5znutm8v0Teph2T1/OH0gYiEu
-	cgg79P8GTS/EaNkLtpI+G3e5gKh5LCBqboBkhSzTDBoL9vwF/xltqD89/lphdjzhlL6g==
-X-Received: by 2002:a17:90a:d2c4:b0:38d:d9a7:a4e9 with SMTP id 98e67ed59e1d1-38dd9a7aa3amr3766897a91.11.1783926356166;
+        bh=bFy8a5KYcxfhVgWB2o9ncTF1rCZKKEFMUuyrfhVpuV4=;
+        b=S+vdhVei3E2cy4tRGRpo6HNIUwwMjlL4J+D2+qudg7pwc4oge1QqXjqp8ZvExWTXtS
+         Ckc6t7D3FpJXPdYs++vRwGxmAzHu58JvtVpVd137x3Yr7j/B48OoueHnMtpSkrb6DGxk
+         BGMht26IyTCKLVs8w/K4TenvAgXRdwb2O9ti1rrkVnzm9FTHJquYCZw1TJQ+/FDrbPTE
+         lXRLCNjPYUkfGi6j5i1xabg1P8T/24Fxf3niAq7l34JO/DPvbUKkWYyaVyMeKnZjoDUy
+         eXyn+5G4TQZ6Dp638PHpbEEjXMbVcKylfuqAGA8PyfQh2z/gAiCp0sl5if9gTAGhSAfV
+         Szaw==
+X-Forwarded-Encrypted: i=1; AHgh+Rrlbl0KZ0qhtXWAhOT5X1Vy0MK5/iiYS10c3ASq9npbrxYzxTL+I4HeG6BrahV986V5MizevhUTMvrnN3mv@lists.linux.dev
+X-Gm-Message-State: AOJu0YwYO7xJbvFqUpuoI8+P510FuguyoyClHlQgxI+Ww4e4ArIYVkCg
+	DZlzZUjS6ik+BpBXnQ4iOThwuTSl3r17qv4+zSroRYlHW6DquQcFUB1a
+X-Gm-Gg: AfdE7cljT3HaS1qrSKdImzXYf5waNuSNLquSUV/OtBHEBxEk8bTCLTz2wqLZgwaPbKZ
+	znxCimLpGVehE5U5xRMrtByCFKcqWp6a5psNTxvHgLszPnGq16ewgmc7JqhpPreshobkw7XDaCB
+	fyMZ80fIioWW2Jt2G4rm6N+cuHFcGveHN9bmdesOz1I4hhmxYNoEmzYlidgjFwAUnuc2ionUA1Z
+	rKYXbP+IKOEMSBXqocS5gCn2wel4HXlWhUI4Zc6mUMMt3Oc3ztdiTKXNM8FY6pd1+3tHIJvQwnX
+	615NvVucZq7n+QSWVsoxXLH5cQ7OY/qQri3AYFJjm7iN+bgoZcwevsYmLPbOlgA8dsPQ25/lcs+
+	1/l51iOlwg6nFxKjLQrBt4Nif9j+0lPPoq32bOpF5mrUcgG+Vz4JuhiW+0v3GHXIDiK0HhdCPmF
+	vsA4mNANvXMdvXuAS9RqqJLILPSFgmICD8Jl61pdXmjge4
+X-Received: by 2002:a17:90b:17c9:b0:387:e0db:3d90 with SMTP id 98e67ed59e1d1-38dc77e8853mr7597465a91.43.1783926356989;
         Mon, 13 Jul 2026 00:05:56 -0700 (PDT)
 Received: from localhost.localdomain ([76.32.119.210])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-313b0240570sm33971943eec.28.2026.07.13.00.05.55
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-313b0240570sm33971943eec.28.2026.07.13.00.05.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jul 2026 00:05:55 -0700 (PDT)
+        Mon, 13 Jul 2026 00:05:56 -0700 (PDT)
 From: Hungyu Lin <dennylin0707@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: error27@gmail.com,
@@ -68,9 +68,9 @@ Cc: error27@gmail.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Hungyu Lin <dennylin0707@gmail.com>
-Subject: [PATCH 2/5] staging: rtl8723bs: convert rtw_make_wlanhdr() to return errno
-Date: Mon, 13 Jul 2026 07:05:34 +0000
-Message-ID: <20260713070537.15903-3-dennylin0707@gmail.com>
+Subject: [PATCH 3/5] staging: rtl8723bs: convert xmitframe_addmic() to return errno
+Date: Mon, 13 Jul 2026 07:05:35 +0000
+Message-ID: <20260713070537.15903-4-dennylin0707@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260713070537.15903-1-dennylin0707@gmail.com>
 References: <20260713070537.15903-1-dennylin0707@gmail.com>
@@ -82,7 +82,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert rtw_make_wlanhdr() to return 0 on success and
+Convert xmitframe_addmic() to return 0 on success and
 a negative errno on failure.
 
 Update the immediate caller to handle errno return values
@@ -92,81 +92,56 @@ No functional change intended.
 
 Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_xmit.c    | 15 ++++++++-------
- drivers/staging/rtl8723bs/include/rtw_xmit.h |  2 +-
- 2 files changed, 9 insertions(+), 8 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_xmit.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-index ff67e2576b31..98b886732646 100644
+index 98b886732646..07e413f4dbdb 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-@@ -903,7 +903,7 @@ static s32 xmitframe_swencrypt(struct adapter *padapter, struct xmit_frame *pxmi
- 	return _SUCCESS;
+@@ -797,7 +797,7 @@ static int update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct p
+ 	return 0;
  }
  
--s32 rtw_make_wlanhdr(struct adapter *padapter, u8 *hdr, struct pkt_attrib *pattrib)
-+int rtw_make_wlanhdr(struct adapter *padapter, u8 *hdr, struct pkt_attrib *pattrib)
+-static s32 xmitframe_addmic(struct adapter *padapter, struct xmit_frame *pxmitframe)
++static int xmitframe_addmic(struct adapter *padapter, struct xmit_frame *pxmitframe)
  {
- 	u16 *qc;
+ 	signed int			curfragnum, length;
+ 	u8 *pframe, *payload, mic[8];
+@@ -820,12 +820,12 @@ static s32 xmitframe_addmic(struct adapter *padapter, struct xmit_frame *pxmitfr
  
-@@ -950,7 +950,7 @@ s32 rtw_make_wlanhdr(struct adapter *padapter, u8 *hdr, struct pkt_attrib *pattr
- 			if (pattrib->qos_en)
- 				qos_option = true;
- 		} else {
--			return _FAIL;
-+			return -EINVAL;
- 		}
- 
- 		if (pattrib->mdata)
-@@ -978,13 +978,13 @@ s32 rtw_make_wlanhdr(struct adapter *padapter, u8 *hdr, struct pkt_attrib *pattr
- 
- 			psta = rtw_get_stainfo(&padapter->stapriv, pattrib->ra);
- 			if (pattrib->psta != psta)
--				return _FAIL;
-+				return -EINVAL;
- 
- 			if (!psta)
--				return _FAIL;
-+				return -ENOENT;
- 
- 			if (!(psta->state & _FW_LINKED))
--				return _FAIL;
-+				return -ENOLINK;
- 
- 			if (psta) {
- 				psta->sta_xmitpriv.txseq_tid[pattrib->priority]++;
-@@ -1024,7 +1024,7 @@ s32 rtw_make_wlanhdr(struct adapter *padapter, u8 *hdr, struct pkt_attrib *pattr
- 	} else {
+ 			if (bmcst) {
+ 				if (!memcmp(psecuritypriv->dot118021XGrptxmickey[psecuritypriv->dot118021XGrpKeyid].skey, null_key, 16))
+-					return _FAIL;
++					return -EINVAL;
+ 				/* start to calculate the mic code */
+ 				rtw_secmicsetkey(&micdata, psecuritypriv->dot118021XGrptxmickey[psecuritypriv->dot118021XGrpKeyid].skey);
+ 			} else {
+ 				if (!memcmp(&pattrib->dot11tkiptxmickey.skey[0], null_key, 16))
+-					return _FAIL;
++					return -EINVAL;
+ 				/* start to calculate the mic code */
+ 				rtw_secmicsetkey(&micdata, &pattrib->dot11tkiptxmickey.skey[0]);
+ 			}
+@@ -876,7 +876,7 @@ static s32 xmitframe_addmic(struct adapter *padapter, struct xmit_frame *pxmitfr
+ 			pattrib->last_txcmdsz += 8;
+ 			}
  	}
- 
 -	return _SUCCESS;
 +	return 0;
  }
  
- s32 rtw_txframes_pending(struct adapter *padapter)
-@@ -1093,7 +1093,8 @@ s32 rtw_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, struct
- 	hw_hdr_offset = TXDESC_OFFSET;
- 	mem_start = pbuf_start +	hw_hdr_offset;
+ static s32 xmitframe_swencrypt(struct adapter *padapter, struct xmit_frame *pxmitframe)
+@@ -1175,7 +1175,8 @@ s32 rtw_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, struct
+ 		memcpy(mem_start, pbuf_start + hw_hdr_offset, pattrib->hdrlen);
+ 	}
  
--	if (rtw_make_wlanhdr(padapter, mem_start, pattrib) == _FAIL) {
-+	ret = rtw_make_wlanhdr(padapter, mem_start, pattrib);
+-	if (xmitframe_addmic(padapter, pxmitframe) == _FAIL) {
++	ret = xmitframe_addmic(padapter, pxmitframe);
 +	if (ret) {
  		res = _FAIL;
  		goto exit;
  	}
-diff --git a/drivers/staging/rtl8723bs/include/rtw_xmit.h b/drivers/staging/rtl8723bs/include/rtw_xmit.h
-index f67cb22e3396..303b50051274 100644
---- a/drivers/staging/rtl8723bs/include/rtw_xmit.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_xmit.h
-@@ -410,7 +410,7 @@ extern s32 rtw_free_xmitbuf(struct xmit_priv *pxmitpriv, struct xmit_buf *pxmitb
- 
- void rtw_count_tx_stats(struct adapter *padapter, struct xmit_frame *pxmitframe, int sz);
- extern void rtw_update_protection(struct adapter *padapter, u8 *ie, uint ie_len);
--extern s32 rtw_make_wlanhdr(struct adapter *padapter, u8 *hdr, struct pkt_attrib *pattrib);
-+extern int rtw_make_wlanhdr(struct adapter *padapter, u8 *hdr, struct pkt_attrib *pattrib);
- extern s32 rtw_put_snap(u8 *data, u16 h_proto);
- 
- extern struct xmit_frame *rtw_alloc_xmitframe(struct xmit_priv *pxmitpriv);
 -- 
 2.43.0
 
