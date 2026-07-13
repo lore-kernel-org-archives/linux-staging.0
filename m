@@ -1,42 +1,70 @@
-Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F38A356767
-	for <linux-staging@lists.linux.dev>; Mon, 13 Jul 2026 19:39:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D9A73769FE
+	for <linux-staging@lists.linux.dev>; Mon, 13 Jul 2026 23:34:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783971588; cv=none; b=Duq0yBN6XttN/O74hXMHpZKSKQV75uYuPuvMkGpz7ljUahGgXlsbTKRigM8FdA4RiebLZT3efzXGua8mf/DBWAXI58yMsL/H2RQ98YyKPetHQWdOLJXNuSWj9kxhWivOb1HvKiawXGuP2QMdZvJa1QSTRfcAMDar368l2MBQdzM=
+	t=1783985662; cv=none; b=IRJVRjEufIhnOO6U0V4snpA7Pitl/obPVYh+KF+TMPUtTJgs9mD1kzdxsvE1wFPyStwF0lxPw2+Vl7LrjSCGsHEM+guK0BBZ+e0wb71k8NR7eQmvDLxhuwc1AG9PFhJZYMYQcFFaLa8dyOrY/4sJZ1WSb16Mmw0jRxo1n65dJaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783971588; c=relaxed/simple;
-	bh=umF/sx6bIIwQeaYbboHdJAZQ6Y9hPQuDrP2Upx52huU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:Message-ID:
-	 MIME-Version:Content-Type; b=fkpR/oXjGGMlq5n+FxhlskV35o/Fex86tgbkr2HHyixe8Z0CCDbiRw2M8XE9SIOG8a7EW3y5z0IxGM5Eh0yNiCbXW9VbVZkcDaFYySuRQsyqovGEnwQOaIDxDsMil5HL6GESK4VXPg05zS7AZgIICz8pszmjdzBWUnW628Liefw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=postmarketos.org; spf=pass smtp.mailfrom=postmarketos.org; dkim=pass (2048-bit key) header.d=postmarketos.org header.i=@postmarketos.org header.b=hZ1fStIX; arc=none smtp.client-ip=91.218.175.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=postmarketos.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=postmarketos.org
+	s=arc-20240116; t=1783985662; c=relaxed/simple;
+	bh=vI7IUfDTfhJhO23+36VGjVdFP5t4Tvo8CJM9Posgewo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LSo2Ebj1qJUUuqWCai8SJR3BaFGoO94cjmQV1gqSkucm2doC+V7qzQLdLh73xyvN03eKWRRNUdP8xzqAFY6gu5Ea0AHPrPyXDo0sMgMzFApjMAnUOd6S9Wf8kCtK/47aDZ53ZEMhMKLiP+lqfzunJw7pyJRKUNLUCaKlwbNZVSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dlbnJG2f; arc=none smtp.client-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=postmarketos.org header.i=@postmarketos.org header.b="hZ1fStIX"
-Date: Mon, 13 Jul 2026 19:37:21 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=postmarketos.org;
-	s=key1; t=1783971571;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=V7JScJ65S74OmQCfQVJCxmKPT8+6MQO8A69eSEkL4aw=;
-	b=hZ1fStIXHoXebScgXEUY3rFwJ4+lq+D+AiAHgD1Zjm5eSt1/tO2fWFHEsAzuHkb0klf3XY
-	RHz/lTKZssFrq2fYTFhqUtwYujNeZIYzpE8CYtYltMzx9nll/CTkdN4Xl2+zZANRlcb1sq
-	5Pb8YS9f1MJ4RhTzbS83H7u4LZ5obWRIIoNkR42QsoWiQ11RMH5sOPna5O29OIHDGvqGYH
-	cbVIYALjS3Vu3kjL3cf95I+2mwhkfk9sBnYqi1qoyss8UV6W22tN4bwqVjhfdy+bjMlcld
-	+DVd48ntM2N5oQW7wyL0ugTUa9Gbj2EPuLK9am1jkzKsKlrOixQ2j77yxXsSag==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Ferass El Hafidi <funderscore@postmarketos.org>
-To: linux-amlogic@lists.infradead.org, Alfie Varghese <alfievarghese22@gmail.com>, neil.armstrong@linaro.org, gregkh@linuxfoundation.org, linux-media@vger.kernel.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: Alfie Varghese <alfievarghese22@gmail.com>
-Subject: Re: [PATCH v2] staging: media: meson: vdec: fix advanced concurrency and UAF bugs
-References: <20260713181602.773-1-alfievarghese22@gmail.com>
-In-Reply-To: <20260713181602.773-1-alfievarghese22@gmail.com>
-Message-ID: <ti4p9r.3t6o48on8v4gw@postmarketos.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dlbnJG2f"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-38de840f2f0so467309a91.0
+        for <linux-staging@lists.linux.dev>; Mon, 13 Jul 2026 16:34:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783985660; x=1784590460; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=//ZlacB2Oa2FNvdIBoflrEYY2gfZtfJvgiobaqyBbuo=;
+        b=dlbnJG2fmMVyW2kJbRm3iqVkGX9edKIIw9evofhDEOgf8jp/7Xqv1Q045pww4kTBU0
+         1oIxPZLqp4tS1p0xSjIvRSf1Q8P/6Z7LN59N96YIyQGC+ky7z+zg7pDgXCxxsU7QObeF
+         RmC+YGwWtgghlYt3fRVF+FRilMbs8bp4B5xjYVt0URJXmItuljvMahA0gIizD764OYEm
+         M/rpU9+NpOfYeTW9X/AJYTA0iM5XukiIbGdYXenhfaGhNg3BEQS9mBb2OEZLTn5jP7w4
+         23VzAsv1V99WhTs7CfS7uE4jL7+0U5soXxD4+Ok9/UTAug6jajDvoCF+rsmrF+aL1gMU
+         fZ8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783985660; x=1784590460;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=//ZlacB2Oa2FNvdIBoflrEYY2gfZtfJvgiobaqyBbuo=;
+        b=oTU5RtChTVAeZGL+dTHtqPYdbJqRgM6jE9RkumpX978tUZJi69hCrZfKIXs7zkQlRb
+         TqJewJ3j4GE8zWTJhBbAP9KkGfFisuSa3yPKqMYUFqhhejo8f8ntfr5gsgM84dUv4M1J
+         2Vn4qz2rD+h+lkT9RD/9TXnQSDRU2yAMXboJRazA+JqhYzjsPRW9QBFxqU8aHoOFg8ZZ
+         iWQPamdArgseHd6W2AVLa+U/BFrICjtQYvHqwyiT2X8Wmg9Jp8wRogSpFZKtWEkdfWZm
+         C5E7m+sK0nMWGgPm+h8gFco0sIfQAqaHOkD07wYRMPRh1IRVwQAyckoXFiD1Vz4X2VFR
+         G8kA==
+X-Gm-Message-State: AOJu0YyoZYi5tK9OY4aRHiUALAf/0g/vTuL4M/bGB3Onkf5OR/jcR5KF
+	JEXPFjuQtFAKsOR+RtCxY2XnpYupEr9ZEt8cMOzMYELYnqMPWMcT1igk
+X-Gm-Gg: AfdE7cks2ud3sTLoFkRdGJW4Sc+ENIyivPs4ETni67+uZ918xCZHoIdy5Xmxg3qQ1IW
+	raY7Ve2eN9GFUOF8pKT4TislYcvDlLw2qoLTnzSoUnobY8bTEHfwmU7gi7e8qvfKdnvL530DuCG
+	SmdpcX9rTLFHqDVpivb41ICMkfuVYClEzcpyIVicjy8oKx4qMnk6cnm/Kel+x8buAMDL6yyJefq
+	yg4K4vWNcvRbccS4uLDPO5bkRSqNZJZMrY0r9AnXTB5/uXb3vvT/RRqRW5YezeHJUuXiNV8FgPY
+	NEF70cp9OnH6nwfXdRRx5K0FCQXJh7Q34ZCw1NH09CU+wbWv+ztHSb+bs0vS8nifPHfz9SYGEfw
+	rxGGgRuOtWBXxAanuUeZYomO/k8FxUFaHag7bUL5kt1jbBrEcjF0BQocYrEWtlZRQpAqJJoIFok
+	78VLdV3ANW/e7pmJN+PrV2bN/OgeEJ38Ta/ikaoG2HhHYo98r8CMy9OoCk5WbOB6nhlfx4JVvaw
+	Z1oYCSjNq70qoaeyhY24cBy6zGUvUv+BwtZs/PmdL1Sl4OvGaukE9IeNLergnc=
+X-Received: by 2002:a17:90b:3d90:b0:381:973e:fa08 with SMTP id 98e67ed59e1d1-38dc7a49f4emr10412330a91.18.1783985660265;
+        Mon, 13 Jul 2026 16:34:20 -0700 (PDT)
+Received: from bloom.localdomain (S010680dac2bce256.cg.shawcable.net. [174.0.186.197])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cebec91c92sm30178305ad.56.2026.07.13.16.34.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jul 2026 16:34:19 -0700 (PDT)
+From: Ivy Lopez <skunkolee@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Ivy Lopez <skunkolee@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: use kfree_sensitive() for key material
+Date: Mon, 13 Jul 2026 17:34:01 -0600
+Message-ID: <20260713233401.48262-1-skunkolee@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -44,800 +72,153 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset=utf-8; format=flowed
-X-Migadu-Flow: FLOW_OUT
 
-On Mon, 13 Jul 2026 18:16, Alfie Varghese <alfievarghese22@gmail.com> wrote:
->This commit fixes several deep concurrency and race condition issues identified
->in the Amlogic video decoder driver:
->
->1. Fix a Use-After-Free window in vdec_close() by moving
->   cancel_work_sync(&sess->esparser_queue_work) to execute after the hardware
->   is stopped via v4l2_m2m_ctx_release(), preventing interrupts from re-arming it.
->2. Fix a Use-After-Free relating to v4l2_m2m_release(). The driver incorrectly
->   allocated the m2m_dev per-session rather than per-device. Moved the
->   m2m_dev allocation to vdec_probe() and cleanup to vdec_remove() to fix
->   the structural UAF when background m2m jobs were pending.
->3. Fix a TOCTOU race condition in vdec_isr() by adding synchronize_irq()
->   in vdec_stop_streaming() after clearing core->cur_sess, ensuring that
->   running interrupt handlers finish before freeing session data.
->4. Fix a potential NULL/ERR pointer dereference in vdec_start_streaming()
->   by checking the return value of kthread_run() and handling errors gracefully.
->5. Fix a memory leak in vdec_close() by freeing the session control
->   handler via v4l2_ctrl_handler_free().
->6. Prevent a potential NULL pointer dereference in vdec_probe() by adding
->   a NULL check for of_match_node().
->
->Signed-off-by: Alfie Varghese <alfievarghese22@gmail.com>
->---
-> drivers/staging/media/meson/vdec/vdec.c |  52 ++-
-> drivers/staging/media/meson/vdec/vdec.h | 586 ++++++++++++------------
-> 2 files changed, 331 insertions(+), 307 deletions(-)
->
->diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
->index a039d925c0fe..f57c473da5e1 100644
->--- a/drivers/staging/media/meson/vdec/vdec.c
->+++ b/drivers/staging/media/meson/vdec/vdec.c
->@@ -337,9 +337,16 @@ static int vdec_start_streaming(struct vb2_queue *q, unsigned int count)
-> 
-> 	sess->sequence_cap = 0;
-> 	sess->sequence_out = 0;
->-	if (vdec_codec_needs_recycle(sess))
->+	if (vdec_codec_needs_recycle(sess)) {
-> 		sess->recycle_thread = kthread_run(vdec_recycle_thread, sess,
-> 						   "vdec_recycle");
->+		if (IS_ERR(sess->recycle_thread)) {
->+			ret = PTR_ERR(sess->recycle_thread);
->+			sess->recycle_thread = NULL;
->+			vdec_poweroff(sess);
->+			goto vififo_free;
->+		}
->+	}
-> 
-> 	sess->status = STATUS_INIT;
-> 	core->cur_sess = sess;
->@@ -404,7 +411,7 @@ static void vdec_stop_streaming(struct vb2_queue *q)
-> 	    sess->status == STATUS_INIT ||
-> 	    (sess->status == STATUS_NEEDS_RESUME &&
-> 	     (!sess->streamon_out || !sess->streamon_cap))) {
->-		if (vdec_codec_needs_recycle(sess))
->+		if (vdec_codec_needs_recycle(sess) && sess->recycle_thread)
-> 			kthread_stop(sess->recycle_thread);
-> 
-> 		vdec_poweroff(sess);
->@@ -416,6 +423,7 @@ static void vdec_stop_streaming(struct vb2_queue *q)
-> 		kfree(sess->priv);
-> 		sess->priv = NULL;
-> 		core->cur_sess = NULL;
->+		synchronize_irq(core->irq);
-> 		sess->status = STATUS_STOPPED;
-> 	}
-> 
->@@ -873,18 +881,11 @@ static int vdec_open(struct file *file)
-> 
-> 	sess->core = core;
-> 
->-	sess->m2m_dev = v4l2_m2m_init(&vdec_m2m_ops);
->-	if (IS_ERR(sess->m2m_dev)) {
->-		dev_err(dev, "Fail to v4l2_m2m_init\n");
->-		ret = PTR_ERR(sess->m2m_dev);
->-		goto err_free_sess;
->-	}
->-
->-	sess->m2m_ctx = v4l2_m2m_ctx_init(sess->m2m_dev, sess, m2m_queue_init);
->+	sess->m2m_ctx = v4l2_m2m_ctx_init(core->m2m_dev, sess, m2m_queue_init);
-> 	if (IS_ERR(sess->m2m_ctx)) {
-> 		dev_err(dev, "Fail to v4l2_m2m_ctx_init\n");
-> 		ret = PTR_ERR(sess->m2m_ctx);
->-		goto err_m2m_release;
->+		goto err_free_sess;
-> 	}
-> 
-> 	ret = vdec_init_ctrls(sess);
->@@ -915,8 +916,6 @@ static int vdec_open(struct file *file)
-> 
-> err_m2m_ctx_release:
-> 	v4l2_m2m_ctx_release(sess->m2m_ctx);
->-err_m2m_release:
->-	v4l2_m2m_release(sess->m2m_dev);
-> err_free_sess:
-> 	kfree(sess);
-> 	return ret;
->@@ -927,10 +926,12 @@ static int vdec_close(struct file *file)
-> 	struct amvdec_session *sess = file_to_amvdec_session(file);
-> 
-> 	v4l2_m2m_ctx_release(sess->m2m_ctx);
->-	v4l2_m2m_release(sess->m2m_dev);
->+	cancel_work_sync(&sess->esparser_queue_work);
-> 	v4l2_fh_del(&sess->fh, file);
-> 	v4l2_fh_exit(&sess->fh);
-> 
->+	v4l2_ctrl_handler_free(&sess->ctrl_handler);
->+
-> 	mutex_destroy(&sess->lock);
-> 	mutex_destroy(&sess->bufs_recycle_lock);
-> 
->@@ -953,6 +954,9 @@ static irqreturn_t vdec_isr(int irq, void *data)
-> 	struct amvdec_core *core = data;
-> 	struct amvdec_session *sess = core->cur_sess;
-> 
->+	if (!sess)
->+		return IRQ_NONE;
->+
-> 	sess->last_irq_jiffies = get_jiffies_64();
-> 
-> 	return sess->fmt_out->codec_ops->isr(sess);
->@@ -963,6 +967,9 @@ static irqreturn_t vdec_threaded_isr(int irq, void *data)
-> 	struct amvdec_core *core = data;
-> 	struct amvdec_session *sess = core->cur_sess;
-> 
->+	if (!sess)
->+		return IRQ_NONE;
->+
-> 	return sess->fmt_out->codec_ops->threaded_isr(sess);
-> }
-> 
->@@ -1020,6 +1027,8 @@ static int vdec_probe(struct platform_device *pdev)
-> 		return PTR_ERR(core->canvas);
-> 
-> 	of_id = of_match_node(vdec_dt_match, dev->of_node);
->+	if (!of_id)
->+		return -ENODEV;
-> 	core->platform = of_id->data;
-> 
-> 	if (core->platform->revision == VDEC_REVISION_G12A ||
->@@ -1049,6 +1058,8 @@ static int vdec_probe(struct platform_device *pdev)
-> 	if (irq < 0)
-> 		return irq;
-> 
->+	core->irq = irq;
->+
-> 	ret = devm_request_threaded_irq(core->dev, irq, vdec_isr,
-> 					vdec_threaded_isr, IRQF_ONESHOT,
-> 					"vdec", core);
->@@ -1065,10 +1076,17 @@ static int vdec_probe(struct platform_device *pdev)
-> 		return -ENOMEM;
-> 	}
-> 
->+	core->m2m_dev = v4l2_m2m_init(&vdec_m2m_ops);
->+	if (IS_ERR(core->m2m_dev)) {
->+		dev_err(dev, "Failed to init v4l2 m2m dev\n");
->+		ret = PTR_ERR(core->m2m_dev);
->+		goto err_v4l2_unreg;
->+	}
->+
-> 	vdev = video_device_alloc();
-> 	if (!vdev) {
-> 		ret = -ENOMEM;
->-		goto err_vdev_release;
->+		goto err_m2m_release;
-> 	}
-> 
-> 	core->vdev_dec = vdev;
->@@ -1096,6 +1114,9 @@ static int vdec_probe(struct platform_device *pdev)
-> 
-> err_vdev_release:
-> 	video_device_release(vdev);
->+err_m2m_release:
->+	v4l2_m2m_release(core->m2m_dev);
->+err_v4l2_unreg:
-> 	v4l2_device_unregister(&core->v4l2_dev);
-> 	return ret;
-> }
->@@ -1105,6 +1126,7 @@ static void vdec_remove(struct platform_device *pdev)
-> 	struct amvdec_core *core = platform_get_drvdata(pdev);
-> 
-> 	video_unregister_device(core->vdev_dec);
->+	v4l2_m2m_release(core->m2m_dev);
-> 	v4l2_device_unregister(&core->v4l2_dev);
-> }
-> 
+The set_stakey_parm struct contains a 16-byte encryption key.
+Use kfree_sensitive() instead of kfree() to ensure the key
+material is zeroed before the memory is freed, preventing
+potential information leaks.
 
-It probably would be better to split into multiple commits to make
-it easier for maintainers to review your patch.
+Signed-off-by: Ivy Lopez <skunkolee@gmail.com>
+---
+ drivers/net/ethernet/faraday/ftmac100.c  | 47 +++++-------------------
+ drivers/staging/rtl8723bs/core/rtw_cmd.c |  8 ++--
+ 2 files changed, 13 insertions(+), 42 deletions(-)
 
->diff --git a/drivers/staging/media/meson/vdec/vdec.h b/drivers/staging/media/meson/vdec/vdec.h
->index 7a5d8e871d70..b2a606e965b4 100644
->--- a/drivers/staging/media/meson/vdec/vdec.h
->+++ b/drivers/staging/media/meson/vdec/vdec.h
->@@ -1,292 +1,294 @@
->-/* SPDX-License-Identifier: GPL-2.0+ */
->-/*
->- * Copyright (C) 2018 BayLibre, SAS
->- * Author: Maxime Jourdan <mjourdan@baylibre.com>
->- */
->-
->-#ifndef __MESON_VDEC_CORE_H_
->-#define __MESON_VDEC_CORE_H_
->-
->-#include <linux/irqreturn.h>
->-#include <linux/regmap.h>
->-#include <linux/list.h>
->-#include <media/videobuf2-v4l2.h>
->-#include <media/v4l2-ctrls.h>
->-#include <media/v4l2-device.h>
->-#include <linux/soc/amlogic/meson-canvas.h>
->-
->-#include "vdec_platform.h"
->-
->-/* 32 buffers in 3-plane YUV420 */
->-#define MAX_CANVAS (32 * 3)
->-
->-struct amvdec_buffer {
->-	struct list_head list;
->-	struct vb2_buffer *vb;
->-};
->-
->-/**
->- * struct amvdec_timestamp - stores a src timestamp along with a VIFIFO offset
->- *
->- * @list: used to make lists out of this struct
->- * @tc: timecode from the v4l2 buffer
->- * @ts: timestamp from the VB2 buffer
->- * @offset: offset in the VIFIFO where the associated packet was written
->- * @flags: flags from the v4l2 buffer
->- * @used_count: times this timestamp was checked for a match with a dst buffer
->- */
->-struct amvdec_timestamp {
->-	struct list_head list;
->-	struct v4l2_timecode tc;
->-	u64 ts;
->-	u32 offset;
->-	u32 flags;
->-	u32 used_count;
->-};
->-
->-struct amvdec_session;
->-
->-/**
->- * struct amvdec_core - device parameters, singleton
->- *
->- * @dos_base: DOS memory base address
->- * @esparser_base: PARSER memory base address
->- * @regmap_ao: regmap for the AO bus
->- * @dev: core device
->- * @dev_dec: decoder device
->- * @platform: platform-specific data
->- * @canvas: canvas provider reference
->- * @dos_parser_clk: DOS_PARSER clock
->- * @dos_clk: DOS clock
->- * @vdec_1_clk: VDEC_1 clock
->- * @vdec_hevc_clk: VDEC_HEVC clock
->- * @vdec_hevcf_clk: VDEC_HEVCF clock
->- * @esparser_reset: RESET for the PARSER
->- * @vdev_dec: video device for the decoder
->- * @v4l2_dev: v4l2 device
->- * @cur_sess: current decoding session
->- * @lock: video device lock
->- */
->-struct amvdec_core {
->-	void __iomem *dos_base;
->-	void __iomem *esparser_base;
->-	struct regmap *regmap_ao;
->-
->-	struct device *dev;
->-	struct device *dev_dec;
->-	const struct vdec_platform *platform;
->-
->-	struct meson_canvas *canvas;
->-
->-	struct clk *dos_parser_clk;
->-	struct clk *dos_clk;
->-	struct clk *vdec_1_clk;
->-	struct clk *vdec_hevc_clk;
->-	struct clk *vdec_hevcf_clk;
->-
->-	struct reset_control *esparser_reset;
->-
->-	struct video_device *vdev_dec;
->-	struct v4l2_device v4l2_dev;
->-
->-	struct amvdec_session *cur_sess;
->-	struct mutex lock;
->-};
->-
->-/**
->- * struct amvdec_ops - vdec operations
->- *
->- * @start: mandatory call when the vdec needs to initialize
->- * @stop: mandatory call when the vdec needs to stop
->- * @conf_esparser: mandatory call to let the vdec configure the ESPARSER
->- * @vififo_level: mandatory call to get the current amount of data
->- *		  in the VIFIFO
->- */
->-struct amvdec_ops {
->-	int (*start)(struct amvdec_session *sess);
->-	int (*stop)(struct amvdec_session *sess);
->-	void (*conf_esparser)(struct amvdec_session *sess);
->-	u32 (*vififo_level)(struct amvdec_session *sess);
->-};
->-
->-/**
->- * struct amvdec_codec_ops - codec operations
->- *
->- * @start: mandatory call when the codec needs to initialize
->- * @stop: mandatory call when the codec needs to stop
->- * @load_extended_firmware: optional call to load additional firmware bits
->- * @num_pending_bufs: optional call to get the number of dst buffers on hold
->- * @can_recycle: optional call to know if the codec is ready to recycle
->- *		 a dst buffer
->- * @recycle: optional call to tell the codec to recycle a dst buffer. Must go
->- *	     in pair with @can_recycle
->- * @drain: optional call if the codec has a custom way of draining
->- * @resume: optional call to resume after a resolution change
->- * @eos_sequence: optional call to get an end sequence to send to esparser
->- *		  for flush. Mutually exclusive with @drain.
->- * @isr: mandatory call when the ISR triggers
->- * @threaded_isr: mandatory call for the threaded ISR
->- */
->-struct amvdec_codec_ops {
->-	int (*start)(struct amvdec_session *sess);
->-	int (*stop)(struct amvdec_session *sess);
->-	int (*load_extended_firmware)(struct amvdec_session *sess,
->-				      const u8 *data, u32 len);
->-	u32 (*num_pending_bufs)(struct amvdec_session *sess);
->-	int (*can_recycle)(struct amvdec_core *core);
->-	void (*recycle)(struct amvdec_core *core, u32 buf_idx);
->-	void (*drain)(struct amvdec_session *sess);
->-	void (*resume)(struct amvdec_session *sess);
->-	const u8 * (*eos_sequence)(u32 *len);
->-	irqreturn_t (*isr)(struct amvdec_session *sess);
->-	irqreturn_t (*threaded_isr)(struct amvdec_session *sess);
->-};
->-
->-/**
->- * struct amvdec_format - describes one of the OUTPUT (src) format supported
->- *
->- * @pixfmt: V4L2 pixel format
->- * @min_buffers: minimum amount of CAPTURE (dst) buffers
->- * @max_buffers: maximum amount of CAPTURE (dst) buffers
->- * @max_width: maximum picture width supported
->- * @max_height: maximum picture height supported
->- * @flags: enum flags associated with this pixfmt
->- * @vdec_ops: the VDEC operations that support this format
->- * @codec_ops: the codec operations that support this format
->- * @firmware_path: Path to the firmware that supports this format
->- * @pixfmts_cap: list of CAPTURE pixel formats available with pixfmt
->- */
->-struct amvdec_format {
->-	u32 pixfmt;
->-	u32 min_buffers;
->-	u32 max_buffers;
->-	u32 max_width;
->-	u32 max_height;
->-	u32 flags;
->-
->-	struct amvdec_ops *vdec_ops;
->-	struct amvdec_codec_ops *codec_ops;
->-
->-	char *firmware_path;
->-	u32 pixfmts_cap[4];
->-};
->-
->-enum amvdec_status {
->-	STATUS_STOPPED,
->-	STATUS_INIT,
->-	STATUS_RUNNING,
->-	STATUS_NEEDS_RESUME,
->-};
->-
->-/**
->- * struct amvdec_session - decoding session parameters
->- *
->- * @core: reference to the vdec core struct
->- * @fh: v4l2 file handle
->- * @m2m_dev: v4l2 m2m device
->- * @m2m_ctx: v4l2 m2m context
->- * @ctrl_handler: V4L2 control handler
->- * @ctrl_min_buf_capture: V4L2 control V4L2_CID_MIN_BUFFERS_FOR_CAPTURE
->- * @lock: cap & out queues lock
->- * @fmt_out: vdec pixel format for the OUTPUT queue
->- * @pixfmt_cap: V4L2 pixel format for the CAPTURE queue
->- * @src_buffer_size: size in bytes of the OUTPUT buffers' only plane
->- * @width: current picture width
->- * @height: current picture height
->- * @colorspace: current colorspace
->- * @ycbcr_enc: current ycbcr_enc
->- * @quantization: current quantization
->- * @xfer_func: current transfer function
->- * @pixelaspect: Pixel Aspect Ratio reported by the decoder
->- * @esparser_queued_bufs: number of buffers currently queued into ESPARSER
->- * @esparser_queue_work: work struct for the ESPARSER to process src buffers
->- * @streamon_cap: stream on flag for capture queue
->- * @streamon_out: stream on flag for output queue
->- * @sequence_cap: capture sequence counter
->- * @sequence_out: output sequence counter
->- * @should_stop: flag set if userspace signaled EOS via command
->- *		 or empty buffer
->- * @keyframe_found: flag set once a keyframe has been parsed
->- * @num_dst_bufs: number of destination buffers
->- * @changed_format: the format changed
->- * @canvas_alloc: array of all the canvas IDs allocated
->- * @canvas_num: number of canvas IDs allocated
->- * @vififo_vaddr: virtual address for the VIFIFO
->- * @vififo_paddr: physical address for the VIFIFO
->- * @vififo_size: size of the VIFIFO dma alloc
->- * @bufs_recycle: list of buffers that need to be recycled
->- * @bufs_recycle_lock: lock for the bufs_recycle list
->- * @recycle_thread: task struct for the recycling thread
->- * @timestamps: chronological list of src timestamps
->- * @ts_spinlock: spinlock for the timestamps list
->- * @last_irq_jiffies: tracks last time the vdec triggered an IRQ
->- * @last_offset: tracks last offset of vififo
->- * @wrap_count: number of times the vififo wrapped around
->- * @fw_idx_to_vb2_idx: firmware buffer index to vb2 buffer index
->- * @status: current decoding status
->- * @priv: codec private data
->- */
->-struct amvdec_session {
->-	struct amvdec_core *core;
->-
->-	struct v4l2_fh fh;
->-	struct v4l2_m2m_dev *m2m_dev;
->-	struct v4l2_m2m_ctx *m2m_ctx;
->-	struct v4l2_ctrl_handler ctrl_handler;
->-	struct v4l2_ctrl *ctrl_min_buf_capture;
->-	struct mutex lock;
->-
->-	const struct amvdec_format *fmt_out;
->-	u32 pixfmt_cap;
->-	u32 src_buffer_size;
->-
->-	u32 width;
->-	u32 height;
->-	u32 colorspace;
->-	u8 ycbcr_enc;
->-	u8 quantization;
->-	u8 xfer_func;
->-
->-	struct v4l2_fract pixelaspect;
->-
->-	atomic_t esparser_queued_bufs;
->-	struct work_struct esparser_queue_work;
->-
->-	unsigned int streamon_cap, streamon_out;
->-	unsigned int sequence_cap, sequence_out;
->-	unsigned int should_stop;
->-	unsigned int keyframe_found;
->-	unsigned int num_dst_bufs;
->-	unsigned int changed_format;
->-
->-	u8 canvas_alloc[MAX_CANVAS];
->-	u32 canvas_num;
->-
->-	void *vififo_vaddr;
->-	dma_addr_t vififo_paddr;
->-	u32 vififo_size;
->-
->-	struct list_head bufs_recycle;
->-	struct mutex bufs_recycle_lock; /* bufs_recycle list lock */
->-	struct task_struct *recycle_thread;
->-
->-	struct list_head timestamps;
->-	spinlock_t ts_spinlock; /* timestamp list lock */
->-
->-	u64 last_irq_jiffies;
->-	u32 last_offset;
->-	u32 wrap_count;
->-	u32 fw_idx_to_vb2_idx[32];
->-
->-	enum amvdec_status status;
->-	void *priv;
->-};
->-
->-static inline struct amvdec_session *file_to_amvdec_session(struct file *filp)
->-{
->-	return container_of(file_to_v4l2_fh(filp), struct amvdec_session, fh);
->-}
->-
->-u32 amvdec_get_output_size(struct amvdec_session *sess);
->-
->-#endif
->+/* SPDX-License-Identifier: GPL-2.0+ */
->+/*
->+ * Copyright (C) 2018 BayLibre, SAS
->+ * Author: Maxime Jourdan <mjourdan@baylibre.com>
->+ */
->+
->+#ifndef __MESON_VDEC_CORE_H_
->+#define __MESON_VDEC_CORE_H_
->+
->+#include <linux/irqreturn.h>
->+#include <linux/regmap.h>
->+#include <linux/list.h>
->+#include <media/videobuf2-v4l2.h>
->+#include <media/v4l2-ctrls.h>
->+#include <media/v4l2-device.h>
->+#include <linux/soc/amlogic/meson-canvas.h>
->+
->+#include "vdec_platform.h"
->+
->+/* 32 buffers in 3-plane YUV420 */
->+#define MAX_CANVAS (32 * 3)
->+
->+struct amvdec_buffer {
->+	struct list_head list;
->+	struct vb2_buffer *vb;
->+};
->+
->+/**
->+ * struct amvdec_timestamp - stores a src timestamp along with a VIFIFO offset
->+ *
->+ * @list: used to make lists out of this struct
->+ * @tc: timecode from the v4l2 buffer
->+ * @ts: timestamp from the VB2 buffer
->+ * @offset: offset in the VIFIFO where the associated packet was written
->+ * @flags: flags from the v4l2 buffer
->+ * @used_count: times this timestamp was checked for a match with a dst buffer
->+ */
->+struct amvdec_timestamp {
->+	struct list_head list;
->+	struct v4l2_timecode tc;
->+	u64 ts;
->+	u32 offset;
->+	u32 flags;
->+	u32 used_count;
->+};
->+
->+struct amvdec_session;
->+
->+/**
->+ * struct amvdec_core - device parameters, singleton
->+ *
->+ * @dos_base: DOS memory base address
->+ * @esparser_base: PARSER memory base address
->+ * @regmap_ao: regmap for the AO bus
->+ * @dev: core device
->+ * @dev_dec: decoder device
->+ * @platform: platform-specific data
->+ * @canvas: canvas provider reference
->+ * @dos_parser_clk: DOS_PARSER clock
->+ * @dos_clk: DOS clock
->+ * @vdec_1_clk: VDEC_1 clock
->+ * @vdec_hevc_clk: VDEC_HEVC clock
->+ * @vdec_hevcf_clk: VDEC_HEVCF clock
->+ * @esparser_reset: RESET for the PARSER
->+ * @vdev_dec: video device for the decoder
->+ * @v4l2_dev: v4l2 device
->+ * @m2m_dev: v4l2 m2m device
->+ * @cur_sess: current decoding session
->+ * @lock: video device lock
->+ * @irq: decoder irq
->+ */
->+struct amvdec_core {
->+	void __iomem *dos_base;
->+	void __iomem *esparser_base;
->+	struct regmap *regmap_ao;
->+
->+	struct device *dev;
->+	struct device *dev_dec;
->+	const struct vdec_platform *platform;
->+
->+	struct meson_canvas *canvas;
->+
->+	struct clk *dos_parser_clk;
->+	struct clk *dos_clk;
->+	struct clk *vdec_1_clk;
->+	struct clk *vdec_hevc_clk;
->+	struct clk *vdec_hevcf_clk;
->+
->+	struct reset_control *esparser_reset;
->+
->+	struct video_device *vdev_dec;
->+	struct v4l2_device v4l2_dev;
->+	struct v4l2_m2m_dev *m2m_dev;
->+
->+	struct amvdec_session *cur_sess;
->+	struct mutex lock;
->+	int irq;
->+};
->+
->+/**
->+ * struct amvdec_ops - vdec operations
->+ *
->+ * @start: mandatory call when the vdec needs to initialize
->+ * @stop: mandatory call when the vdec needs to stop
->+ * @conf_esparser: mandatory call to let the vdec configure the ESPARSER
->+ * @vififo_level: mandatory call to get the current amount of data
->+ *		  in the VIFIFO
->+ */
->+struct amvdec_ops {
->+	int (*start)(struct amvdec_session *sess);
->+	int (*stop)(struct amvdec_session *sess);
->+	void (*conf_esparser)(struct amvdec_session *sess);
->+	u32 (*vififo_level)(struct amvdec_session *sess);
->+};
->+
->+/**
->+ * struct amvdec_codec_ops - codec operations
->+ *
->+ * @start: mandatory call when the codec needs to initialize
->+ * @stop: mandatory call when the codec needs to stop
->+ * @load_extended_firmware: optional call to load additional firmware bits
->+ * @num_pending_bufs: optional call to get the number of dst buffers on hold
->+ * @can_recycle: optional call to know if the codec is ready to recycle
->+ *		 a dst buffer
->+ * @recycle: optional call to tell the codec to recycle a dst buffer. Must go
->+ *	     in pair with @can_recycle
->+ * @drain: optional call if the codec has a custom way of draining
->+ * @resume: optional call to resume after a resolution change
->+ * @eos_sequence: optional call to get an end sequence to send to esparser
->+ *		  for flush. Mutually exclusive with @drain.
->+ * @isr: mandatory call when the ISR triggers
->+ * @threaded_isr: mandatory call for the threaded ISR
->+ */
->+struct amvdec_codec_ops {
->+	int (*start)(struct amvdec_session *sess);
->+	int (*stop)(struct amvdec_session *sess);
->+	int (*load_extended_firmware)(struct amvdec_session *sess,
->+				      const u8 *data, u32 len);
->+	u32 (*num_pending_bufs)(struct amvdec_session *sess);
->+	int (*can_recycle)(struct amvdec_core *core);
->+	void (*recycle)(struct amvdec_core *core, u32 buf_idx);
->+	void (*drain)(struct amvdec_session *sess);
->+	void (*resume)(struct amvdec_session *sess);
->+	const u8 * (*eos_sequence)(u32 *len);
->+	irqreturn_t (*isr)(struct amvdec_session *sess);
->+	irqreturn_t (*threaded_isr)(struct amvdec_session *sess);
->+};
->+
->+/**
->+ * struct amvdec_format - describes one of the OUTPUT (src) format supported
->+ *
->+ * @pixfmt: V4L2 pixel format
->+ * @min_buffers: minimum amount of CAPTURE (dst) buffers
->+ * @max_buffers: maximum amount of CAPTURE (dst) buffers
->+ * @max_width: maximum picture width supported
->+ * @max_height: maximum picture height supported
->+ * @flags: enum flags associated with this pixfmt
->+ * @vdec_ops: the VDEC operations that support this format
->+ * @codec_ops: the codec operations that support this format
->+ * @firmware_path: Path to the firmware that supports this format
->+ * @pixfmts_cap: list of CAPTURE pixel formats available with pixfmt
->+ */
->+struct amvdec_format {
->+	u32 pixfmt;
->+	u32 min_buffers;
->+	u32 max_buffers;
->+	u32 max_width;
->+	u32 max_height;
->+	u32 flags;
->+
->+	struct amvdec_ops *vdec_ops;
->+	struct amvdec_codec_ops *codec_ops;
->+
->+	char *firmware_path;
->+	u32 pixfmts_cap[4];
->+};
->+
->+enum amvdec_status {
->+	STATUS_STOPPED,
->+	STATUS_INIT,
->+	STATUS_RUNNING,
->+	STATUS_NEEDS_RESUME,
->+};
->+
->+/**
->+ * struct amvdec_session - decoding session parameters
->+ *
->+ * @core: reference to the vdec core struct
->+ * @fh: v4l2 file handle
->+ * @m2m_ctx: v4l2 m2m context
->+ * @ctrl_handler: V4L2 control handler
->+ * @ctrl_min_buf_capture: V4L2 control V4L2_CID_MIN_BUFFERS_FOR_CAPTURE
->+ * @lock: cap & out queues lock
->+ * @fmt_out: vdec pixel format for the OUTPUT queue
->+ * @pixfmt_cap: V4L2 pixel format for the CAPTURE queue
->+ * @src_buffer_size: size in bytes of the OUTPUT buffers' only plane
->+ * @width: current picture width
->+ * @height: current picture height
->+ * @colorspace: current colorspace
->+ * @ycbcr_enc: current ycbcr_enc
->+ * @quantization: current quantization
->+ * @xfer_func: current transfer function
->+ * @pixelaspect: Pixel Aspect Ratio reported by the decoder
->+ * @esparser_queued_bufs: number of buffers currently queued into ESPARSER
->+ * @esparser_queue_work: work struct for the ESPARSER to process src buffers
->+ * @streamon_cap: stream on flag for capture queue
->+ * @streamon_out: stream on flag for output queue
->+ * @sequence_cap: capture sequence counter
->+ * @sequence_out: output sequence counter
->+ * @should_stop: flag set if userspace signaled EOS via command
->+ *		 or empty buffer
->+ * @keyframe_found: flag set once a keyframe has been parsed
->+ * @num_dst_bufs: number of destination buffers
->+ * @changed_format: the format changed
->+ * @canvas_alloc: array of all the canvas IDs allocated
->+ * @canvas_num: number of canvas IDs allocated
->+ * @vififo_vaddr: virtual address for the VIFIFO
->+ * @vififo_paddr: physical address for the VIFIFO
->+ * @vififo_size: size of the VIFIFO dma alloc
->+ * @bufs_recycle: list of buffers that need to be recycled
->+ * @bufs_recycle_lock: lock for the bufs_recycle list
->+ * @recycle_thread: task struct for the recycling thread
->+ * @timestamps: chronological list of src timestamps
->+ * @ts_spinlock: spinlock for the timestamps list
->+ * @last_irq_jiffies: tracks last time the vdec triggered an IRQ
->+ * @last_offset: tracks last offset of vififo
->+ * @wrap_count: number of times the vififo wrapped around
->+ * @fw_idx_to_vb2_idx: firmware buffer index to vb2 buffer index
->+ * @status: current decoding status
->+ * @priv: codec private data
->+ */
->+struct amvdec_session {
->+	struct amvdec_core *core;
->+
->+	struct v4l2_fh fh;
->+	struct v4l2_m2m_ctx *m2m_ctx;
->+	struct v4l2_ctrl_handler ctrl_handler;
->+	struct v4l2_ctrl *ctrl_min_buf_capture;
->+	struct mutex lock;
->+
->+	const struct amvdec_format *fmt_out;
->+	u32 pixfmt_cap;
->+	u32 src_buffer_size;
->+
->+	u32 width;
->+	u32 height;
->+	u32 colorspace;
->+	u8 ycbcr_enc;
->+	u8 quantization;
->+	u8 xfer_func;
->+
->+	struct v4l2_fract pixelaspect;
->+
->+	atomic_t esparser_queued_bufs;
->+	struct work_struct esparser_queue_work;
->+
->+	unsigned int streamon_cap, streamon_out;
->+	unsigned int sequence_cap, sequence_out;
->+	unsigned int should_stop;
->+	unsigned int keyframe_found;
->+	unsigned int num_dst_bufs;
->+	unsigned int changed_format;
->+
->+	u8 canvas_alloc[MAX_CANVAS];
->+	u32 canvas_num;
->+
->+	void *vififo_vaddr;
->+	dma_addr_t vififo_paddr;
->+	u32 vififo_size;
->+
->+	struct list_head bufs_recycle;
->+	struct mutex bufs_recycle_lock; /* bufs_recycle list lock */
->+	struct task_struct *recycle_thread;
->+
->+	struct list_head timestamps;
->+	spinlock_t ts_spinlock; /* timestamp list lock */
->+
->+	u64 last_irq_jiffies;
->+	u32 last_offset;
->+	u32 wrap_count;
->+	u32 fw_idx_to_vb2_idx[32];
->+
->+	enum amvdec_status status;
->+	void *priv;
->+};
->+
->+static inline struct amvdec_session *file_to_amvdec_session(struct file *filp)
->+{
->+	return container_of(file_to_v4l2_fh(filp), struct amvdec_session, fh);
->+}
->+
->+u32 amvdec_get_output_size(struct amvdec_session *sess);
->+
->+#endif
+diff --git a/drivers/net/ethernet/faraday/ftmac100.c b/drivers/net/ethernet/faraday/ftmac100.c
+index 5803a382f0ba..adb318925f44 100644
+--- a/drivers/net/ethernet/faraday/ftmac100.c
++++ b/drivers/net/ethernet/faraday/ftmac100.c
+@@ -49,7 +49,6 @@ struct ftmac100_descs {
+ };
+ 
+ struct ftmac100 {
+-	struct resource *res;
+ 	void __iomem *base;
+ 	int irq;
+ 
+@@ -1137,11 +1136,9 @@ static int ftmac100_probe(struct platform_device *pdev)
+ 		return irq;
+ 
+ 	/* setup net_device */
+-	netdev = alloc_etherdev(sizeof(*priv));
+-	if (!netdev) {
+-		err = -ENOMEM;
+-		goto err_alloc_etherdev;
+-	}
++	netdev = devm_alloc_etherdev(&pdev->dev, sizeof(*priv));
++	if (!netdev)
++		return -ENOMEM;
+ 
+ 	SET_NETDEV_DEV(netdev, &pdev->dev);
+ 	netdev->ethtool_ops = &ftmac100_ethtool_ops;
+@@ -1150,7 +1147,7 @@ static int ftmac100_probe(struct platform_device *pdev)
+ 
+ 	err = platform_get_ethdev_address(&pdev->dev, netdev);
+ 	if (err == -EPROBE_DEFER)
+-		goto defer_get_mac;
++		return err;
+ 
+ 	platform_set_drvdata(pdev, netdev);
+ 
+@@ -1165,20 +1162,9 @@ static int ftmac100_probe(struct platform_device *pdev)
+ 	netif_napi_add(netdev, &priv->napi, ftmac100_poll);
+ 
+ 	/* map io memory */
+-	priv->res = request_mem_region(res->start, resource_size(res),
+-				       dev_name(&pdev->dev));
+-	if (!priv->res) {
+-		dev_err(&pdev->dev, "Could not reserve memory region\n");
+-		err = -ENOMEM;
+-		goto err_req_mem;
+-	}
+-
+-	priv->base = ioremap(res->start, resource_size(res));
+-	if (!priv->base) {
+-		dev_err(&pdev->dev, "Failed to ioremap ethernet registers\n");
+-		err = -EIO;
+-		goto err_ioremap;
+-	}
++	priv->base = devm_platform_ioremap_resource(pdev, 0);
++	if (IS_ERR(priv->base))
++		return PTR_ERR(priv->base);
+ 
+ 	priv->irq = irq;
+ 
+@@ -1208,32 +1194,17 @@ static int ftmac100_probe(struct platform_device *pdev)
+ 	return 0;
+ 
+ err_register_netdev:
+-	iounmap(priv->base);
+-err_ioremap:
+-	release_resource(priv->res);
+-err_req_mem:
+ 	netif_napi_del(&priv->napi);
+-defer_get_mac:
+-	free_netdev(netdev);
+-err_alloc_etherdev:
+ 	return err;
+ }
+ 
+ static void ftmac100_remove(struct platform_device *pdev)
+ {
+-	struct net_device *netdev;
+-	struct ftmac100 *priv;
+-
+-	netdev = platform_get_drvdata(pdev);
+-	priv = netdev_priv(netdev);
++	struct net_device *netdev = platform_get_drvdata(pdev);
++	struct ftmac100 *priv = netdev_priv(netdev);
+ 
+ 	unregister_netdev(netdev);
+-
+-	iounmap(priv->base);
+-	release_resource(priv->res);
+-
+ 	netif_napi_del(&priv->napi);
+-	free_netdev(netdev);
+ }
+ 
+ static const struct of_device_id ftmac100_of_ids[] = {
+diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+index b932670f5d63..a34ee407285b 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
++++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+@@ -899,7 +899,7 @@ u8 rtw_setstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8 unicast_
+ 	if (enqueue) {
+ 		ph2c = kzalloc_obj(*ph2c);
+ 		if (!ph2c) {
+-			kfree(psetstakey_para);
++			kfree_sensitive(psetstakey_para);
+ 			res = _FAIL;
+ 			goto exit;
+ 		}
+@@ -907,7 +907,7 @@ u8 rtw_setstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8 unicast_
+ 		psetstakey_rsp = kzalloc_obj(*psetstakey_rsp);
+ 		if (!psetstakey_rsp) {
+ 			kfree(ph2c);
+-			kfree(psetstakey_para);
++			kfree_sensitive(psetstakey_para);
+ 			res = _FAIL;
+ 			goto exit;
+ 		}
+@@ -918,7 +918,7 @@ u8 rtw_setstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8 unicast_
+ 		res = rtw_enqueue_cmd(pcmdpriv, ph2c);
+ 	} else {
+ 		set_stakey_hdl(padapter, (u8 *)psetstakey_para);
+-		kfree(psetstakey_para);
++		kfree_sensitive(psetstakey_para);
+ 	}
+ exit:
+ 	return res;
+@@ -958,7 +958,7 @@ u8 rtw_clearstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8 enqueu
+ 		psetstakey_rsp = kzalloc_obj(*psetstakey_rsp);
+ 		if (!psetstakey_rsp) {
+ 			kfree(ph2c);
+-			kfree(psetstakey_para);
++			kfree_sensitive(psetstakey_para);
+ 			res = _FAIL;
+ 			goto exit;
+ 		}
+-- 
+2.55.0
 
-What is this huge diff?
-
->-- 
->2.54.0.windows.1
->
->
->_______________________________________________
->linux-amlogic mailing list
->linux-amlogic@lists.infradead.org
->http://lists.infradead.org/mailman/listinfo/linux-amlogic
-
-Best regards,
-Ferass
