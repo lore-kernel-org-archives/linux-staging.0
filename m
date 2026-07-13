@@ -1,70 +1,74 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D9A73769FE
-	for <linux-staging@lists.linux.dev>; Mon, 13 Jul 2026 23:34:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 525A23D3D09
+	for <linux-staging@lists.linux.dev>; Mon, 13 Jul 2026 23:38:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783985662; cv=none; b=IRJVRjEufIhnOO6U0V4snpA7Pitl/obPVYh+KF+TMPUtTJgs9mD1kzdxsvE1wFPyStwF0lxPw2+Vl7LrjSCGsHEM+guK0BBZ+e0wb71k8NR7eQmvDLxhuwc1AG9PFhJZYMYQcFFaLa8dyOrY/4sJZ1WSb16Mmw0jRxo1n65dJaE=
+	t=1783985892; cv=none; b=XG1uKCsDkE/n7BaBRSUwaFBz7ijzT82cmKJ9X9llF6wRXEgiXOUQj3TQOlHxaLBghvS7ZE3mdEY+RwP5AR9gVQe0Vlb8Y3ggMVcbWDZkqMOu5xGYi5bG0vcn42L9szJjEJP6VG6xA33A3jnyf1BQrtcHG2PSLRQITdRxZfSZkgk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783985662; c=relaxed/simple;
-	bh=vI7IUfDTfhJhO23+36VGjVdFP5t4Tvo8CJM9Posgewo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LSo2Ebj1qJUUuqWCai8SJR3BaFGoO94cjmQV1gqSkucm2doC+V7qzQLdLh73xyvN03eKWRRNUdP8xzqAFY6gu5Ea0AHPrPyXDo0sMgMzFApjMAnUOd6S9Wf8kCtK/47aDZ53ZEMhMKLiP+lqfzunJw7pyJRKUNLUCaKlwbNZVSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dlbnJG2f; arc=none smtp.client-ip=209.85.216.42
+	s=arc-20240116; t=1783985892; c=relaxed/simple;
+	bh=/00cRYn0DsZnB/nldo8mYbZIQeKonyJgnletLxrLHdM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=BAkb8mAjSwwiH7s4rRgLnGFXcKihTY8x9NC2P3fw2p4pkFvUy4BpiaO/tSkfdZBIHA2hDx1Pem/uybUNHhWFrA50XanHbWhcrAwV2HDnA20y3gNJ6eWyo5M2Su5sIax+Fpwtqq+R5LR6qlEFadeca/9RUfrfNNYrUU4mfeN8iTM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g1Wc/5WH; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dlbnJG2f"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-38de840f2f0so467309a91.0
-        for <linux-staging@lists.linux.dev>; Mon, 13 Jul 2026 16:34:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g1Wc/5WH"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2cc7ef7ec27so41418115ad.1
+        for <linux-staging@lists.linux.dev>; Mon, 13 Jul 2026 16:38:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783985660; x=1784590460; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=//ZlacB2Oa2FNvdIBoflrEYY2gfZtfJvgiobaqyBbuo=;
-        b=dlbnJG2fmMVyW2kJbRm3iqVkGX9edKIIw9evofhDEOgf8jp/7Xqv1Q045pww4kTBU0
-         1oIxPZLqp4tS1p0xSjIvRSf1Q8P/6Z7LN59N96YIyQGC+ky7z+zg7pDgXCxxsU7QObeF
-         RmC+YGwWtgghlYt3fRVF+FRilMbs8bp4B5xjYVt0URJXmItuljvMahA0gIizD764OYEm
-         M/rpU9+NpOfYeTW9X/AJYTA0iM5XukiIbGdYXenhfaGhNg3BEQS9mBb2OEZLTn5jP7w4
-         23VzAsv1V99WhTs7CfS7uE4jL7+0U5soXxD4+Ok9/UTAug6jajDvoCF+rsmrF+aL1gMU
-         fZ8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783985660; x=1784590460;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1783985890; x=1784590690; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=//ZlacB2Oa2FNvdIBoflrEYY2gfZtfJvgiobaqyBbuo=;
-        b=oTU5RtChTVAeZGL+dTHtqPYdbJqRgM6jE9RkumpX978tUZJi69hCrZfKIXs7zkQlRb
-         TqJewJ3j4GE8zWTJhBbAP9KkGfFisuSa3yPKqMYUFqhhejo8f8ntfr5gsgM84dUv4M1J
-         2Vn4qz2rD+h+lkT9RD/9TXnQSDRU2yAMXboJRazA+JqhYzjsPRW9QBFxqU8aHoOFg8ZZ
-         iWQPamdArgseHd6W2AVLa+U/BFrICjtQYvHqwyiT2X8Wmg9Jp8wRogSpFZKtWEkdfWZm
-         C5E7m+sK0nMWGgPm+h8gFco0sIfQAqaHOkD07wYRMPRh1IRVwQAyckoXFiD1Vz4X2VFR
-         G8kA==
-X-Gm-Message-State: AOJu0YyoZYi5tK9OY4aRHiUALAf/0g/vTuL4M/bGB3Onkf5OR/jcR5KF
-	JEXPFjuQtFAKsOR+RtCxY2XnpYupEr9ZEt8cMOzMYELYnqMPWMcT1igk
-X-Gm-Gg: AfdE7cks2ud3sTLoFkRdGJW4Sc+ENIyivPs4ETni67+uZ918xCZHoIdy5Xmxg3qQ1IW
-	raY7Ve2eN9GFUOF8pKT4TislYcvDlLw2qoLTnzSoUnobY8bTEHfwmU7gi7e8qvfKdnvL530DuCG
-	SmdpcX9rTLFHqDVpivb41ICMkfuVYClEzcpyIVicjy8oKx4qMnk6cnm/Kel+x8buAMDL6yyJefq
-	yg4K4vWNcvRbccS4uLDPO5bkRSqNZJZMrY0r9AnXTB5/uXb3vvT/RRqRW5YezeHJUuXiNV8FgPY
-	NEF70cp9OnH6nwfXdRRx5K0FCQXJh7Q34ZCw1NH09CU+wbWv+ztHSb+bs0vS8nifPHfz9SYGEfw
-	rxGGgRuOtWBXxAanuUeZYomO/k8FxUFaHag7bUL5kt1jbBrEcjF0BQocYrEWtlZRQpAqJJoIFok
-	78VLdV3ANW/e7pmJN+PrV2bN/OgeEJ38Ta/ikaoG2HhHYo98r8CMy9OoCk5WbOB6nhlfx4JVvaw
-	Z1oYCSjNq70qoaeyhY24cBy6zGUvUv+BwtZs/PmdL1Sl4OvGaukE9IeNLergnc=
-X-Received: by 2002:a17:90b:3d90:b0:381:973e:fa08 with SMTP id 98e67ed59e1d1-38dc7a49f4emr10412330a91.18.1783985660265;
-        Mon, 13 Jul 2026 16:34:20 -0700 (PDT)
+        bh=C11haklYJCflJ7xXpeAfmRSpmnlxr53KIUoMp0xcj0A=;
+        b=g1Wc/5WHNgMchQZJthodVNnJm5uQZRcHtSIE0n2c61e3IkWJn/kjOfE9jl4FAFnDo/
+         c8EV6O5JYAa2LI0EIuRKe9geFqWbRVhmkn8dkz5Sti2Y45SeGNu7P8/2tYwpD1uZf4Ri
+         R9+/pA93bsKwmqVH0HdQNXmKzSatr4DtJLBamlgPcVtdWQ1s9iJ5kbsv3mes6kjSajDA
+         2WdF2ZWgNuHLkQwNW+4iMMqBXQMCYivFeRTyCFN0tDc5Fo0jQL2EJDW+CSLWTlLJusiL
+         pVLkjoQGtOcyypQJ/psv8DVxPhRur3XH9g2SETuQ5IpFE5MX8eSk+wtuJuqmyrM8e5M5
+         e9jA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783985890; x=1784590690;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=C11haklYJCflJ7xXpeAfmRSpmnlxr53KIUoMp0xcj0A=;
+        b=GJXeBZZ3MMVxHWPg1vQmrFkm0/cJ5h+NnYZKgipXD85rQrzs9mduz7TQFMZfqahJCB
+         6WDjqKGepke8PUqx/tUB2rtnEgfsR+Ah7JDRKCGRdqRy2IbPklGh1GKiuWHOn9QK1k03
+         CUXd1tzznlJKDbd3hWMj0nMHISWWttOXUAhbHhKy7hw4wQPdXuFs/eYBp+A1fKHeiqr/
+         5Id+yqyKdJ8Ar42yvyjVZb/GZVsENBFPkPzNcMaT7QyP2GVkZ90Dg571kz0hQiPrOGE4
+         FrJjBTveTGOtXOY29NZeulhAP9loqabpmHaJ1ZqCpF4TwC0U3/suuyWLR68w9/jRn+ax
+         oMnQ==
+X-Gm-Message-State: AOJu0Ywea2AeY6FlkFrYLE6LSpSYqfarSmdxUr2K9l0znnvFO+bJ+XZi
+	G/LUmq/EBKaSBy9lKLoVd4tYjJiONJ/ezjnDfxxS14kPEVflcGK8Fl4eipbL00lb
+X-Gm-Gg: AfdE7ckQEbMsdEB9c6z8VOTxTEjLOjaNmluKKFAVTmpEbFFXmdwGNQXIXX1ABvkrCbH
+	IRSSusSSZnv/BIU39I2jkuMELTAbfUj3T6ZBPfZ7bjzyr+yTzssSOH+9RTDHB0YpoL3P1jJR6NQ
+	WcREg5tcB6ff3tAExmTmhMCKGhVnh95T844bVYgfl3gfnFLpExd87H4jymI3YjxjyX5sCirSHPo
+	EklUPtzFHaNhSzp/2vlN/mqW42erJq+a3GI0SX7fX8LbeUoEzBY/r8hzr/+aPgBBNR/WmpbJC42
+	eDVaQs0HO1g9D7JQK3i92Vm5qBuEjSuQBo9WAlDXXl/0NYmXbjzAyHHCVzrWmyKpVaTXdDrWONX
+	xw28Q/8vihhxmg5fhsXQPv8By7xI0xsVGJJ/CJnJqWoJ9HkVVZQxN+2NyUe854gpg2e1IAzo2g4
+	sSIdl6x0W5bqseZgj6hTnitquKhLd6hbgYvPi1criXNgDBwsI9HJ52kVSWmR5yy0vGs4Ifl2UH9
+	pxZbHtYOUTcVzdYokti3FpjH6QWnp0zOPl2AHWzsyfU0iKco9PHFUEwcrZVpiw=
+X-Received: by 2002:a17:903:4b2b:b0:2cc:76fd:6537 with SMTP id d9443c01a7336-2ce9e7a53edmr99065725ad.2.1783985890419;
+        Mon, 13 Jul 2026 16:38:10 -0700 (PDT)
 Received: from bloom.localdomain (S010680dac2bce256.cg.shawcable.net. [174.0.186.197])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cebec91c92sm30178305ad.56.2026.07.13.16.34.19
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ccc9d1eea1sm107151175ad.46.2026.07.13.16.38.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jul 2026 16:34:19 -0700 (PDT)
+        Mon, 13 Jul 2026 16:38:09 -0700 (PDT)
 From: Ivy Lopez <skunkolee@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Ivy Lopez <skunkolee@gmail.com>
 Subject: [PATCH] staging: rtl8723bs: use kfree_sensitive() for key material
-Date: Mon, 13 Jul 2026 17:34:01 -0600
-Message-ID: <20260713233401.48262-1-skunkolee@gmail.com>
+Date: Mon, 13 Jul 2026 17:37:53 -0600
+Message-ID: <20260713233753.50816-1-skunkolee@gmail.com>
 X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260713233401.48262-1-skunkolee@gmail.com>
+References: <20260713233401.48262-1-skunkolee@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -80,105 +84,9 @@ potential information leaks.
 
 Signed-off-by: Ivy Lopez <skunkolee@gmail.com>
 ---
- drivers/net/ethernet/faraday/ftmac100.c  | 47 +++++-------------------
- drivers/staging/rtl8723bs/core/rtw_cmd.c |  8 ++--
- 2 files changed, 13 insertions(+), 42 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_cmd.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/net/ethernet/faraday/ftmac100.c b/drivers/net/ethernet/faraday/ftmac100.c
-index 5803a382f0ba..adb318925f44 100644
---- a/drivers/net/ethernet/faraday/ftmac100.c
-+++ b/drivers/net/ethernet/faraday/ftmac100.c
-@@ -49,7 +49,6 @@ struct ftmac100_descs {
- };
- 
- struct ftmac100 {
--	struct resource *res;
- 	void __iomem *base;
- 	int irq;
- 
-@@ -1137,11 +1136,9 @@ static int ftmac100_probe(struct platform_device *pdev)
- 		return irq;
- 
- 	/* setup net_device */
--	netdev = alloc_etherdev(sizeof(*priv));
--	if (!netdev) {
--		err = -ENOMEM;
--		goto err_alloc_etherdev;
--	}
-+	netdev = devm_alloc_etherdev(&pdev->dev, sizeof(*priv));
-+	if (!netdev)
-+		return -ENOMEM;
- 
- 	SET_NETDEV_DEV(netdev, &pdev->dev);
- 	netdev->ethtool_ops = &ftmac100_ethtool_ops;
-@@ -1150,7 +1147,7 @@ static int ftmac100_probe(struct platform_device *pdev)
- 
- 	err = platform_get_ethdev_address(&pdev->dev, netdev);
- 	if (err == -EPROBE_DEFER)
--		goto defer_get_mac;
-+		return err;
- 
- 	platform_set_drvdata(pdev, netdev);
- 
-@@ -1165,20 +1162,9 @@ static int ftmac100_probe(struct platform_device *pdev)
- 	netif_napi_add(netdev, &priv->napi, ftmac100_poll);
- 
- 	/* map io memory */
--	priv->res = request_mem_region(res->start, resource_size(res),
--				       dev_name(&pdev->dev));
--	if (!priv->res) {
--		dev_err(&pdev->dev, "Could not reserve memory region\n");
--		err = -ENOMEM;
--		goto err_req_mem;
--	}
--
--	priv->base = ioremap(res->start, resource_size(res));
--	if (!priv->base) {
--		dev_err(&pdev->dev, "Failed to ioremap ethernet registers\n");
--		err = -EIO;
--		goto err_ioremap;
--	}
-+	priv->base = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(priv->base))
-+		return PTR_ERR(priv->base);
- 
- 	priv->irq = irq;
- 
-@@ -1208,32 +1194,17 @@ static int ftmac100_probe(struct platform_device *pdev)
- 	return 0;
- 
- err_register_netdev:
--	iounmap(priv->base);
--err_ioremap:
--	release_resource(priv->res);
--err_req_mem:
- 	netif_napi_del(&priv->napi);
--defer_get_mac:
--	free_netdev(netdev);
--err_alloc_etherdev:
- 	return err;
- }
- 
- static void ftmac100_remove(struct platform_device *pdev)
- {
--	struct net_device *netdev;
--	struct ftmac100 *priv;
--
--	netdev = platform_get_drvdata(pdev);
--	priv = netdev_priv(netdev);
-+	struct net_device *netdev = platform_get_drvdata(pdev);
-+	struct ftmac100 *priv = netdev_priv(netdev);
- 
- 	unregister_netdev(netdev);
--
--	iounmap(priv->base);
--	release_resource(priv->res);
--
- 	netif_napi_del(&priv->napi);
--	free_netdev(netdev);
- }
- 
- static const struct of_device_id ftmac100_of_ids[] = {
 diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
 index b932670f5d63..a34ee407285b 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
