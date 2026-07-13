@@ -1,73 +1,73 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A222A33C182
-	for <linux-staging@lists.linux.dev>; Mon, 13 Jul 2026 17:08:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 354FB324B22
+	for <linux-staging@lists.linux.dev>; Mon, 13 Jul 2026 17:16:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783962529; cv=none; b=KyuxZ3MkA53uuJaCqH2sJCqt4ZA1vgp1eT8AaqZaQFQrHX+BWk5Y9tJUofLnQX8gTIrK/xz6DxCbdzfqL9VDp8PE0zyLhXAo5HlA1wmk6rJPo3AMiMiJaX3Ppaaacj4InOUFDpDltYXZ3PYfK2T6pR9Ppv8pWxvgS8AEQmQvCWE=
+	t=1783963009; cv=none; b=hQGa48lVxKaHtESX46XqbdMNBXkl/Tw/ckNg/NhJg47wJfy8iwtpOyiaNX1N00N0YMWp/Ot3Eo6YciRtHEuKUgwchH7AghQvKlt/KqlKqrQGFCUM2pKtXZfxr+tLRZQpP0cBMS+cTDGrjokOcwIVRxeJkHDAfs4/OCMNPY6eNh0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783962529; c=relaxed/simple;
-	bh=lo4+XCpPDh8c0k0gz8YEx1ohqw/wcd4J6whfyFX7xmU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cZE11J7QLbcZjUuIhL9dof0Gt2UHnHc/J4WkIBoaaNEx5BdV/Fglel5IbDGL2VKN5cXE7zk43PgJAA5YqGrODhvZaQ4u/9PHyokudR027FUwVWTVhFxr8FDHJ5WCyfrwMqgLNXRBANAo21XbsobQTb3ZfDJrSlDR8yJtFgBXuS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PU8hKM4l; arc=none smtp.client-ip=209.85.210.181
+	s=arc-20240116; t=1783963009; c=relaxed/simple;
+	bh=DtDlb4T/GlICkbzrC4fhGZYL7BcVSaw/4uXDAPCLN2w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ssVIYXNYM2mLaXPh2D2GkRwpTHCNLZtcRSiBonL6wpeWhQacCpNWJTeM9NFFBgk76XUSo0YZVDJ34RqTU3ZTEjs2RMuL9e9AiFqoJPfGERM7q3eRFuKG+t07ogj7A6irn2xjBO4Pt31ijiTQGjgXp4XLO6+ds+Zrm+147l3k3zE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eHYvAQRR; arc=none smtp.client-ip=209.85.216.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PU8hKM4l"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-84a2c90e383so101093b3a.0
-        for <linux-staging@lists.linux.dev>; Mon, 13 Jul 2026 10:08:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eHYvAQRR"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-381216921aaso3778621a91.1
+        for <linux-staging@lists.linux.dev>; Mon, 13 Jul 2026 10:16:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783962528; x=1784567328; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1783963006; x=1784567806; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=qFgEIJe873D6LcL30QNtzeLHCAWHrsjuemBtpi5imkw=;
-        b=PU8hKM4lYWMeTVB3dGdfzQNhR8AC32QJAeZyeBCEgqx+98qlfWfmWujcJdWSm5Le/o
-         cDiiludBMHvNl/jUUP3lldZuOCBTwFhu22g67NpylKjcKBCOaLW2ocbRWpZoYtr7Vvqb
-         lzh71OKDTAlT7N7KjTcWp5jOW7a6GEUHpLrQSLgcz5HM0aPfUUs21mtl7MdhFT+oDNZF
-         lcbw1/aCxzVDHPNE2/lfVdv9zDhFg/vY8DbCOqQ2bYVa9HytWirtvKFnluG1vvMafeqc
-         saWyYfcU2FsT9cTkSFqbWT9wjjNg6cSi6B8lf9lKrTiIhmZ3DkgkxBGxk0kKJNEuOfeJ
-         4Ebg==
+        bh=r8F7PDpBGQrWy7oTUa6pu42Pf+937GWEA5yn0veEyiU=;
+        b=eHYvAQRRKZqzzDLvRtKC5zdkoaT6vSdy9umu5/4MrNnrg156IK6zfRRJn3+buBflJh
+         f9xd3k5rj7gwbEKnjYPGoBiULaVUzHBYr3hwlDLD8yMCxpwQg+IukeUKF6GoD38QqrGK
+         9XHRVSBqDJnEfsQzs9QKGoK2S77w9DrDJ4V9drJDo8Lq8sykvuo1vzoni0gtRFk3jiTH
+         Gra3WIm35vEUaBeQasLX1tZcMJdtDizwbEza2YjJ4mjkWu6pxkmRhB/vosbSlr5QpFbf
+         TVIK6PZUNl3l6AjxtOicTrcLR6X/BED6QRMKzIbLaBzzAWxn/Vv27+1RYowywdS01boZ
+         NSaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783962528; x=1784567328;
+        d=1e100.net; s=20251104; t=1783963006; x=1784567806;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=qFgEIJe873D6LcL30QNtzeLHCAWHrsjuemBtpi5imkw=;
-        b=Dj/9sn+O6awy3eyZyZeKSBNTYpJFeBJPcI4MgsiKTDFX4KkFBTXuWruk8qVUstODR2
-         TqHf3b8yfWq/4iVM8wV6cYOp1+yRNMJoF54zDSoT1jvt3MlKb6BrXHYhHoJ0Bg5Qxk5T
-         WTgGNITwY15sYp7+RPLday8KYRZhQIUuk3kFGGrRMjM19Hh2+IBzr8SRWLvu38iT+SGj
-         1XCfDgDmAgdmPdSGJxmA8buXCaGL3mHj5QJQVJA/Nl1jFhI3qjhBdHdi85nMyHIqNGk4
-         K5E1g6ImWnNSihnphRnNufYFG4I44ymoOENgi+flQtxCEB4TKnLB5NScEId9lhAFaiE2
-         gb8w==
-X-Forwarded-Encrypted: i=1; AHgh+Rr9Lb9WxOlCc78ujJ65jwysfYmAsinab36VsGwF/hpMXkB14WgY0/BzWFkw1qokAv5jDGTKX8mEIcHxD/Tt@lists.linux.dev
-X-Gm-Message-State: AOJu0YyRCTIuB764Pp5nbaCFLkNe9i05qxxvFWTv3+7VWQwqQXe6KB68
-	uI2Y6rPnLe30e2Lzc8hd0DIgcvVYeB+yTC0HMgdXmiDWRngpcunldwhA2bHrVgR8
-X-Gm-Gg: AfdE7clc3niY6dR4PKdhPaZY3h80a0im8+1jqwnRHIYDr/uIpwt/T/YuNTPdJAQkH/L
-	U7fMms3/gV5mVYmQdttou4xiI0uNUKvUMoOYbxqCo0Jj1qc1KR1Gb0/XgVzDksurCKacilEVqwk
-	zhQcoPBphGpd8xRFyZLDLCFS9nwMwfEv2HjwfVs7E0tYcH50qtxtV3kxqFxmYuOkPlQLpLJhYYJ
-	EqBJ0K/oFGZcSiGVyMwtJnmbM9MLXtJt80V/3BT7fZSlgJ/XvBo6ZcV/R4Zz0Pe37cSGK/eKTtG
-	30wiRO4gzr1w890HXKLeZQS0WbrdXfcb6Sqo4uPbHYRgu//e6fDnExW53q0H4r5gi0eqV+IfnBD
-	GO1vF2cCzyHgPHcsjGgisVDQyYJtNKz1HYk74BNy1eU1Uuf6dKHsNS507BQrAfg3ty58gCEA66p
-	u3cfkcpuvslfXCOZi+YPU0nC2MiPz3QVFGmtO9R07/VRb6mpniPv72Vz6SyEBNwrZl97FXnFgH9
-	XehNbmilDcqYhGgPl+DpMm/tg9MZovBQbdppyUbxYdSHONkU/iikEpXJkTj557Pbix9
-X-Received: by 2002:a05:6a21:6e43:b0:3bf:b7e8:68ab with SMTP id adf61e73a8af0-3c0f08602bbmr16557584637.2.1783962527926;
-        Mon, 13 Jul 2026 10:08:47 -0700 (PDT)
+        bh=r8F7PDpBGQrWy7oTUa6pu42Pf+937GWEA5yn0veEyiU=;
+        b=Q6zaYTWhOSKLGwv50gg1W8uQJtSyt4kcs//SKPMT6BK+7PXYfRSFy3qiyGtWoLP8zS
+         TdIkfFoKr2stsIjYpJfNesxO23d9nqhVAMylwSY1upzKRvd6YUWmM7d+iEB/hzeGUniV
+         KKdr4BXc/y5J7ET2iDmUaNieWcNwoL4nuRKTqdouWMU5bdSB79pd2RU4FHREgPm0HyV6
+         qNsC/pt5f50wXYVml4G8U7IIPT6CRheSv97CAdOWoddy15ylyV+KoXKVm804+HpJSxTA
+         7TbXvPkS9aAVnxQtfejaJcLVO2VCKluuh7hWUp6uX4FFARadhg0KppTSbbWxNT0ssPvX
+         4FjA==
+X-Forwarded-Encrypted: i=1; AHgh+RoK37H9LfgKd598Fh4j3hl2JxfR2FKutqmKgVTTxsp4EVePgdo4lWLbizTrldLkGSqAuCBdSSpQ+/wRgiwM@lists.linux.dev
+X-Gm-Message-State: AOJu0YzS3SQnOWwTNUArk7aaCxjMgsmJ26NIR4nz14+vx+3FEg1An6ev
+	KeHeMgJzi2aHcsYo7mCM2c9Ad0L4V9F6ngRru3kXtUEDTCdyvzVP7/1tHseWoudv
+X-Gm-Gg: AfdE7cl693+3BoOjy2/SJ1UYrwLJqoYDhI3m/RqLs2UVTE9SXUEebCfiQE3Zzv5GCuX
+	Zxf47KgILowu1K+xIcGNEupufjSo+jhbDY0JbfTbmC7gSwK/l182DMSaGdz9i+sQ/i+IKly/eSO
+	UPMWIdmzd7KT7gJ+gjiwJfGaY3NI8kN91AliozDUWYZ1F1St6sHOIqKJZvCnCmpLiyZj/zz3Uoq
+	5yA7xGTmf23+7F+BV1HB1ke/LJ6lCILOby5ClRQqsVesY80sf6XoaLYAc+c0s+PCvgr1kSLJd/v
+	gCN6AmK7N5AubzQbrpFcZPHhkYxkh0PEyxoB8jFZysiWlNH2eeh+VngAgnGHYWZAXhzBhM6hB9K
+	DNHku3QU9MI6zEhXO5tCyun62m5w50wL7RyvLocp4CqmgA+2xaBhOnWtrv9nHF9+i2+xSFZWyzD
+	gYdU3sJUvuTKmO2AXnSRWl7qtjZtzDqzbFsM89hktv0rdYzPjkJ1joDkJkdHBoJjgDgsomahSH4
+	cIKlLpP0SxmD/rb1Yy/0D1D1AGPCFQS59XAKe2gN9sRbiI=
+X-Received: by 2002:a17:90b:58ce:b0:381:152b:d596 with SMTP id 98e67ed59e1d1-38dc74cff62mr9789745a91.11.1783963006364;
+        Mon, 13 Jul 2026 10:16:46 -0700 (PDT)
 Received: from OMEN ([103.184.238.250])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13b659d8da9sm123126740c88.14.2026.07.13.10.08.44
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-311a6115e61sm55281016eec.22.2026.07.13.10.16.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jul 2026 10:08:47 -0700 (PDT)
+        Mon, 13 Jul 2026 10:16:45 -0700 (PDT)
 From: Alfie Varghese <alfievarghese22@gmail.com>
-To: johan@kernel.org,
-	elder@kernel.org,
+To: neil.armstrong@linaro.org,
 	gregkh@linuxfoundation.org
-Cc: greybus-dev@lists.linaro.org,
+Cc: linux-media@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Alfie Varghese <alfievarghese22@gmail.com>
-Subject: [PATCH] staging: greybus: uart: return tty_alloc_driver() errors
-Date: Mon, 13 Jul 2026 22:38:45 +0530
-Message-ID: <20260713170845.1518-1-alfievarghese22@gmail.com>
+Subject: [PATCH] staging: media: meson: vdec: propagate devm_clk_get() errors
+Date: Mon, 13 Jul 2026 22:46:44 +0530
+Message-ID: <20260713171644.691-1-alfievarghese22@gmail.com>
 X-Mailer: git-send-email 2.54.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -77,31 +77,50 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-gb_tty_init() maps any tty_alloc_driver() failure to -ENOMEM. This
-loses the real errno returned by the driver core and makes failures
-harder to diagnose correctly.
+vdec_probe() maps any devm_clk_get() failure to -EPROBE_DEFER. This is
+incorrect because devm_clk_get() can fail with other error codes like
+-ENOMEM or -ENOENT (clock not registered). Hardcoding -EPROBE_DEFER
+masks these real errors, causing the driver core to retry probing
+indefinitely instead of failing early.
 
-Return PTR_ERR(gb_tty_driver) instead so callers receive the actual
-failure reason while preserving the existing cleanup path.
+Propagate the actual error value using PTR_ERR() instead.
 
 Signed-off-by: Alfie Varghese <alfievarghese22@gmail.com>
 ---
- drivers/staging/greybus/uart.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/media/meson/vdec/vdec.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/staging/greybus/uart.c b/drivers/staging/greybus/uart.c
-index 7d060b4cd33d..24b4dab069c3 100644
---- a/drivers/staging/greybus/uart.c
-+++ b/drivers/staging/greybus/uart.c
-@@ -951,7 +951,7 @@ static int gb_tty_init(void)
- 					 TTY_DRIVER_DYNAMIC_DEV);
- 	if (IS_ERR(gb_tty_driver)) {
- 		pr_err("Can not allocate tty driver\n");
--		retval = -ENOMEM;
-+		retval = PTR_ERR(gb_tty_driver);
- 		goto fail_unregister_dev;
+diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
+index a039d925c0fe..fba1e7f88d81 100644
+--- a/drivers/staging/media/meson/vdec/vdec.c
++++ b/drivers/staging/media/meson/vdec/vdec.c
+@@ -1026,24 +1026,24 @@ static int vdec_probe(struct platform_device *pdev)
+ 	    core->platform->revision == VDEC_REVISION_SM1) {
+ 		core->vdec_hevcf_clk = devm_clk_get(dev, "vdec_hevcf");
+ 		if (IS_ERR(core->vdec_hevcf_clk))
+-			return -EPROBE_DEFER;
++			return PTR_ERR(core->vdec_hevcf_clk);
  	}
  
--- 
-2.54.0.windows.1
-
+ 	core->dos_parser_clk = devm_clk_get(dev, "dos_parser");
+ 	if (IS_ERR(core->dos_parser_clk))
+-		return -EPROBE_DEFER;
++		return PTR_ERR(core->dos_parser_clk);
+ 
+ 	core->dos_clk = devm_clk_get(dev, "dos");
+ 	if (IS_ERR(core->dos_clk))
+-		return -EPROBE_DEFER;
++		return PTR_ERR(core->dos_clk);
+ 
+ 	core->vdec_1_clk = devm_clk_get(dev, "vdec_1");
+ 	if (IS_ERR(core->vdec_1_clk))
+-		return -EPROBE_DEFER;
++		return PTR_ERR(core->vdec_1_clk);
+ 
+ 	core->vdec_hevc_clk = devm_clk_get(dev, "vdec_hevc");
+ 	if (IS_ERR(core->vdec_hevc_clk))
+-		return -EPROBE_DEFER;
++		return PTR_ERR(core->vdec_hevc_clk);
+ 
+ 	irq = platform_get_irq_byname(pdev, "vdec");
+ 	if (irq < 0)
