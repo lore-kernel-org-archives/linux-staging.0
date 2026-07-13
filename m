@@ -1,73 +1,73 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 354FB324B22
-	for <linux-staging@lists.linux.dev>; Mon, 13 Jul 2026 17:16:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8752276050
+	for <linux-staging@lists.linux.dev>; Mon, 13 Jul 2026 17:21:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1783963009; cv=none; b=hQGa48lVxKaHtESX46XqbdMNBXkl/Tw/ckNg/NhJg47wJfy8iwtpOyiaNX1N00N0YMWp/Ot3Eo6YciRtHEuKUgwchH7AghQvKlt/KqlKqrQGFCUM2pKtXZfxr+tLRZQpP0cBMS+cTDGrjokOcwIVRxeJkHDAfs4/OCMNPY6eNh0=
+	t=1783963291; cv=none; b=Rdt9+DBeNZkTzjmjS5UaMajXNdsU3VhhhZIZygCytMVLcLi7TcPaUT0WlCtXPtjebOgRG77FjWyGObN/PcQnCUt91zgJsk0+cVLTBPwHQal5XTHf8ybBgHv8INxM6Tk+RKHd2JUvg4GG9j0eXCR+PhxB94ZrZ2uAXROQoAMMx0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1783963009; c=relaxed/simple;
-	bh=DtDlb4T/GlICkbzrC4fhGZYL7BcVSaw/4uXDAPCLN2w=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ssVIYXNYM2mLaXPh2D2GkRwpTHCNLZtcRSiBonL6wpeWhQacCpNWJTeM9NFFBgk76XUSo0YZVDJ34RqTU3ZTEjs2RMuL9e9AiFqoJPfGERM7q3eRFuKG+t07ogj7A6irn2xjBO4Pt31ijiTQGjgXp4XLO6+ds+Zrm+147l3k3zE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eHYvAQRR; arc=none smtp.client-ip=209.85.216.49
+	s=arc-20240116; t=1783963291; c=relaxed/simple;
+	bh=H1Iz7IMNy+NBBLF2lJ4JDxKCCY2c6NJXPxecRbmI2+A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mIZIPnSDDUJ4fJGaBR28FW6x2a3CYwBzbsWiSZ3lfDIzEpIt1oHprqcI4zqDH2HHjDccgFpb9mIBh5SxQDv3ZCS3Nm55JGiBJ2Du/klYHUfoXPa61/YlOgli66G6gIB+gSnhn2RLXkIvdUKNK0tjI3SokH0zJpHsmL47Q/JKsAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CYILDARE; arc=none smtp.client-ip=209.85.216.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eHYvAQRR"
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-381216921aaso3778621a91.1
-        for <linux-staging@lists.linux.dev>; Mon, 13 Jul 2026 10:16:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CYILDARE"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-385ea3ce80dso3721685a91.2
+        for <linux-staging@lists.linux.dev>; Mon, 13 Jul 2026 10:21:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1783963006; x=1784567806; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1783963289; x=1784568089; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=r8F7PDpBGQrWy7oTUa6pu42Pf+937GWEA5yn0veEyiU=;
-        b=eHYvAQRRKZqzzDLvRtKC5zdkoaT6vSdy9umu5/4MrNnrg156IK6zfRRJn3+buBflJh
-         f9xd3k5rj7gwbEKnjYPGoBiULaVUzHBYr3hwlDLD8yMCxpwQg+IukeUKF6GoD38QqrGK
-         9XHRVSBqDJnEfsQzs9QKGoK2S77w9DrDJ4V9drJDo8Lq8sykvuo1vzoni0gtRFk3jiTH
-         Gra3WIm35vEUaBeQasLX1tZcMJdtDizwbEza2YjJ4mjkWu6pxkmRhB/vosbSlr5QpFbf
-         TVIK6PZUNl3l6AjxtOicTrcLR6X/BED6QRMKzIbLaBzzAWxn/Vv27+1RYowywdS01boZ
-         NSaw==
+        bh=tNqpsvb529pea4MTwMPJfT3oG4xMq+3jZrBViJ1NtuA=;
+        b=CYILDAREZdWOCOphJLenFnRQy63yD8PjwyLJQMRUZRA701fLD2hmDo3QOSmvFE71gQ
+         yxUDctlws4rZXw0sf3zV9lBj61y4jjtKRHNCqiTTYLSUj7vuDBhIOOxz5H168jaS2h7K
+         LJsiRfGuZJN88X1Z8rKlwPPBQsnVIrRSsJEZmJsopeOIdphxfyESKA/+Ddk6ICKLociA
+         eZs1CjrCqTODyd2daE3oIvERZfFQ6/WXzYN54J935XGMt/cjfGVQEtpwN7xw0CLP1bzg
+         yIHIMqF4o7E7Ws3d4HP7JU46r9fA0t68keuArBGBxUnJbF71przi7FxSRzRSQemHQLe0
+         I5/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1783963006; x=1784567806;
+        d=1e100.net; s=20251104; t=1783963289; x=1784568089;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=r8F7PDpBGQrWy7oTUa6pu42Pf+937GWEA5yn0veEyiU=;
-        b=Q6zaYTWhOSKLGwv50gg1W8uQJtSyt4kcs//SKPMT6BK+7PXYfRSFy3qiyGtWoLP8zS
-         TdIkfFoKr2stsIjYpJfNesxO23d9nqhVAMylwSY1upzKRvd6YUWmM7d+iEB/hzeGUniV
-         KKdr4BXc/y5J7ET2iDmUaNieWcNwoL4nuRKTqdouWMU5bdSB79pd2RU4FHREgPm0HyV6
-         qNsC/pt5f50wXYVml4G8U7IIPT6CRheSv97CAdOWoddy15ylyV+KoXKVm804+HpJSxTA
-         7TbXvPkS9aAVnxQtfejaJcLVO2VCKluuh7hWUp6uX4FFARadhg0KppTSbbWxNT0ssPvX
-         4FjA==
-X-Forwarded-Encrypted: i=1; AHgh+RoK37H9LfgKd598Fh4j3hl2JxfR2FKutqmKgVTTxsp4EVePgdo4lWLbizTrldLkGSqAuCBdSSpQ+/wRgiwM@lists.linux.dev
-X-Gm-Message-State: AOJu0YzS3SQnOWwTNUArk7aaCxjMgsmJ26NIR4nz14+vx+3FEg1An6ev
-	KeHeMgJzi2aHcsYo7mCM2c9Ad0L4V9F6ngRru3kXtUEDTCdyvzVP7/1tHseWoudv
-X-Gm-Gg: AfdE7cl693+3BoOjy2/SJ1UYrwLJqoYDhI3m/RqLs2UVTE9SXUEebCfiQE3Zzv5GCuX
-	Zxf47KgILowu1K+xIcGNEupufjSo+jhbDY0JbfTbmC7gSwK/l182DMSaGdz9i+sQ/i+IKly/eSO
-	UPMWIdmzd7KT7gJ+gjiwJfGaY3NI8kN91AliozDUWYZ1F1St6sHOIqKJZvCnCmpLiyZj/zz3Uoq
-	5yA7xGTmf23+7F+BV1HB1ke/LJ6lCILOby5ClRQqsVesY80sf6XoaLYAc+c0s+PCvgr1kSLJd/v
-	gCN6AmK7N5AubzQbrpFcZPHhkYxkh0PEyxoB8jFZysiWlNH2eeh+VngAgnGHYWZAXhzBhM6hB9K
-	DNHku3QU9MI6zEhXO5tCyun62m5w50wL7RyvLocp4CqmgA+2xaBhOnWtrv9nHF9+i2+xSFZWyzD
-	gYdU3sJUvuTKmO2AXnSRWl7qtjZtzDqzbFsM89hktv0rdYzPjkJ1joDkJkdHBoJjgDgsomahSH4
-	cIKlLpP0SxmD/rb1Yy/0D1D1AGPCFQS59XAKe2gN9sRbiI=
-X-Received: by 2002:a17:90b:58ce:b0:381:152b:d596 with SMTP id 98e67ed59e1d1-38dc74cff62mr9789745a91.11.1783963006364;
-        Mon, 13 Jul 2026 10:16:46 -0700 (PDT)
+        bh=tNqpsvb529pea4MTwMPJfT3oG4xMq+3jZrBViJ1NtuA=;
+        b=dt3jniQ6DuNar7m8L94b4Tv3i6A+sJD4bkTjMypHIXn9QP9EwUhlAHiqpL4qRaCy98
+         AkVy/Dl2CrlA0pxktxW/yflF2dHSeIgOqFNk0FIFBfKpISam5H7kr5ExopZMnru8BxCr
+         C9reJUsplWFs3VXIoOCW2IiW6gzGZ3tnURXlQEoSb8OcO5OX1pcYzEBLKKj4qTZzeTlm
+         KOILoVV8dJL7r3dFb9rONWIQLILBThqX6Go5MuAEqEWz77lZAvsy5zNrpm5h0UME7vM7
+         rhxAiNygqZ+EpUKd36ZkMK+i+CmX1UIx/ZLu4+6Uw1orujQNCyWvMK8Odm86wmylI3Rj
+         IjUA==
+X-Forwarded-Encrypted: i=1; AHgh+RrPJGmmi/Kix9d6ZuTMkkF6PzsSrZ4KSUFVzHw41t2sfcc/PDfbLtF57X7IeLBw0K6pF88Crl0lHU9kwESM@lists.linux.dev
+X-Gm-Message-State: AOJu0YwNLCqwesCB4e5rGejabl9cwRUI0gkKGl+NBFBFYkzr9NNtWIhw
+	XqILuhj5IFZhLnzk54wiTVSqp3vhmeqPELHqXRK7fvsLFzWm/tQTZMg6
+X-Gm-Gg: AfdE7cl3V+WNmMi2XqM3Th4mIX7s2DSVhgYtBCqV8NTpQTVYw2LPpV7wm2RPlE84Bjy
+	2KaGCSmQe3IG5MIDxD8EAkl4X8FIZ/LejIbFEg3dvjGrTWEsXnExuxr+WLgBnCcfPc65NiO6lZ3
+	m0SsPodeJTMt1Xa4NbFndJdPuvaL8VI0qfO4scfQpdcrUsYYS8JJMo8KxwcNBcQHqezjJz1Xe4q
+	6FsNt68UI8kqbQCzBZV1TaKDM3VZrAiHnrSRFrxecsrj4fsAfK6ir04JTW5ghLnKxPYL/BvgmOC
+	Shncl/QvrGx4wxvs0NLm1kD0xw6rPlIEjgQwEYFaa7oVP2G8WPSOhQH9VQ0xM4mhmAuzTq76Oxe
+	Y/HmdTZ8oWagALgcCjF7esY0qBtUhTfyd5oJAs2k7vdxTZeEi5htV2EGaZkCZeXdvfRC3eKTZSd
+	qBfxXQvZZOxx99HwOHbWmfNIWgoaHvURQ+B4WK8fPjKQ8L2GM6oc8ezvPf0/2z3n7vTBCct7UJF
+	e+cB3fV1izoKhuUQPdkGSuvKGa/TuQHJTKUU+26vYpSWWs=
+X-Received: by 2002:a17:90b:5112:b0:381:6c5:3f63 with SMTP id 98e67ed59e1d1-38e17d96405mr129387a91.6.1783963289228;
+        Mon, 13 Jul 2026 10:21:29 -0700 (PDT)
 Received: from OMEN ([103.184.238.250])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-311a6115e61sm55281016eec.22.2026.07.13.10.16.43
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-313b4cbafa1sm57958608eec.6.2026.07.13.10.21.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jul 2026 10:16:45 -0700 (PDT)
+        Mon, 13 Jul 2026 10:21:28 -0700 (PDT)
 From: Alfie Varghese <alfievarghese22@gmail.com>
-To: neil.armstrong@linaro.org,
+To: sakari.ailus@linux.intel.com,
 	gregkh@linuxfoundation.org
-Cc: linux-media@vger.kernel.org,
-	linux-amlogic@lists.infradead.org,
+Cc: bingbu.cao@intel.com,
+	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Alfie Varghese <alfievarghese22@gmail.com>
-Subject: [PATCH] staging: media: meson: vdec: propagate devm_clk_get() errors
-Date: Mon, 13 Jul 2026 22:46:44 +0530
-Message-ID: <20260713171644.691-1-alfievarghese22@gmail.com>
+Subject: [PATCH] staging: media: ipu7: add NULL checks before ipu7_mmu_cleanup() in remove
+Date: Mon, 13 Jul 2026 22:51:27 +0530
+Message-ID: <20260713172127.615-1-alfievarghese22@gmail.com>
 X-Mailer: git-send-email 2.54.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -77,50 +77,35 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-vdec_probe() maps any devm_clk_get() failure to -EPROBE_DEFER. This is
-incorrect because devm_clk_get() can fail with other error codes like
--ENOMEM or -ENOENT (clock not registered). Hardcoding -EPROBE_DEFER
-masks these real errors, causing the driver core to retry probing
-indefinitely instead of failing early.
+ipu7_pci_remove() calls ipu7_mmu_cleanup() on isp->isys->mmu and
+isp->psys->mmu without checking whether isys or psys are valid
+pointers. If ipu7_pci_probe() partially failed and left isys or psys
+as NULL or an error pointer, the remove path will dereference a bad
+pointer and crash the kernel.
 
-Propagate the actual error value using PTR_ERR() instead.
+The probe error cleanup path already guards these calls correctly with
+IS_ERR_OR_NULL() checks. Apply the same guards in ipu7_pci_remove().
 
 Signed-off-by: Alfie Varghese <alfievarghese22@gmail.com>
 ---
- drivers/staging/media/meson/vdec/vdec.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/staging/media/ipu7/ipu7.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
-index a039d925c0fe..fba1e7f88d81 100644
---- a/drivers/staging/media/meson/vdec/vdec.c
-+++ b/drivers/staging/media/meson/vdec/vdec.c
-@@ -1026,24 +1026,24 @@ static int vdec_probe(struct platform_device *pdev)
- 	    core->platform->revision == VDEC_REVISION_SM1) {
- 		core->vdec_hevcf_clk = devm_clk_get(dev, "vdec_hevcf");
- 		if (IS_ERR(core->vdec_hevcf_clk))
--			return -EPROBE_DEFER;
-+			return PTR_ERR(core->vdec_hevcf_clk);
- 	}
+diff --git a/drivers/staging/media/ipu7/ipu7.c b/drivers/staging/media/ipu7/ipu7.c
+index 310e3f24e571..41436f22c684 100644
+--- a/drivers/staging/media/ipu7/ipu7.c
++++ b/drivers/staging/media/ipu7/ipu7.c
+@@ -2637,8 +2637,10 @@ static void ipu7_pci_remove(struct pci_dev *pdev)
+ 	if (!IS_ERR_OR_NULL(isp->fw_code_region))
+ 		vfree(isp->fw_code_region);
  
- 	core->dos_parser_clk = devm_clk_get(dev, "dos_parser");
- 	if (IS_ERR(core->dos_parser_clk))
--		return -EPROBE_DEFER;
-+		return PTR_ERR(core->dos_parser_clk);
+-	ipu7_mmu_cleanup(isp->isys->mmu);
+-	ipu7_mmu_cleanup(isp->psys->mmu);
++	if (!IS_ERR_OR_NULL(isp->isys) && !IS_ERR_OR_NULL(isp->isys->mmu))
++		ipu7_mmu_cleanup(isp->isys->mmu);
++	if (!IS_ERR_OR_NULL(isp->psys) && !IS_ERR_OR_NULL(isp->psys->mmu))
++		ipu7_mmu_cleanup(isp->psys->mmu);
  
- 	core->dos_clk = devm_clk_get(dev, "dos");
- 	if (IS_ERR(core->dos_clk))
--		return -EPROBE_DEFER;
-+		return PTR_ERR(core->dos_clk);
+ 	ipu7_bus_del_devices(pdev);
  
- 	core->vdec_1_clk = devm_clk_get(dev, "vdec_1");
- 	if (IS_ERR(core->vdec_1_clk))
--		return -EPROBE_DEFER;
-+		return PTR_ERR(core->vdec_1_clk);
- 
- 	core->vdec_hevc_clk = devm_clk_get(dev, "vdec_hevc");
- 	if (IS_ERR(core->vdec_hevc_clk))
--		return -EPROBE_DEFER;
-+		return PTR_ERR(core->vdec_hevc_clk);
- 
- 	irq = platform_get_irq_byname(pdev, "vdec");
- 	if (irq < 0)
+
