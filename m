@@ -1,114 +1,112 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECBB82853EE
-	for <linux-staging@lists.linux.dev>; Tue, 14 Jul 2026 13:49:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67EAC36C0AC;
+	Tue, 14 Jul 2026 14:00:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784036969; cv=none; b=oJAgYHNjRdhdCDKLowNhM2hrbhFTnPnMfoP6Mf4lRUgBq+vFKGRT8UydXp6XDbS+oc2trZ+duNZzHXU5rANbGK7FwDIMfChjM1XWTS6KpjVLYHRckExFq5/tsmy7qbY3RTev7WYPm2FQSHd0XI5hNysCFhW2pIum7LoGQlClZuw=
+	t=1784037635; cv=none; b=LFWj0Q7fzXAIXnJNmXU/tfoid0Zoj0VHgndfLNoTkuABanSTYjDhMhrq9VGJIP3GBl1DiMbbmcrL9Xjqpewk96N8BnWkoDWJmGKcKSlJuKSDeBJFK5NhU2CUpvHG232K0hST/fg9Y4Tx5XsO5QdyXZtH2cPN0+TqwyBRYdfOCU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784036969; c=relaxed/simple;
-	bh=4WcLQU/ZB2ddX2leJOxaOJJnbeYtNJImDgoylUFs7B8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oBFf7g532fmQJ+1evQFNdIQ6+w69whc7cjn6i2UrLq2tr0IG84ytnXFlYc7BYRUZcXJnMaxXsq+d1DVXww/c26IQSFANZIvp1shbZ3XDixMf33y3iJNFuqtWdQkbHr1IOnTAjkEAbjj/08cFCmCMUDoFLHPOlNveXIvps63dckc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RzPi3yk6; arc=none smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784037635; c=relaxed/simple;
+	bh=JlTtuTgyttUoJX1tzSz3FCb8u2Xjs4nbU6LV982KfNo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Dw1vo48X71GSfOY5GLbWxAJ8rLkK+fMrHONP7QsBIb/22fp6R2Wdi12octtAMPfzbJg46yPNh9q0ER7lWUtGArZSqgpQenE4fJLyzwy9S1+YmME6/x7tnzxbhV7IiR0SPMXWbohn+hq4zdaPhmaVvbjwhg2walYFrsthfObU3/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fQYhA4+L; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RzPi3yk6"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-38125cebfdaso1215940a91.1
-        for <linux-staging@lists.linux.dev>; Tue, 14 Jul 2026 06:49:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784036967; x=1784641767; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=dnpCUCIhUIUVob1+81rKKkOZhThYfFIyjzh2lJvfSZM=;
-        b=RzPi3yk65Cr0o2lhJTM9shmnK3YxLCzMoYTO4ipYzutFrlYlhlQ7kko5+p5l1IsBk7
-         pP32G9ghXdU/gJGfgvOJ+bs2RWbRifQLXtRSiRcJrLMgQ6FIQTLjCYHIKjumiY+hzmWG
-         9yWcKgQe/ME0YljZ2LOymj3ePNvyAZ9aZw1fqJ+X4HbrHRAwNeHojhtSGqRTBYtAF26Q
-         85I2E47ZtFFpqUripOeoKpGZfOhMdxl99yhj66Uf1ZwMjSIVatgX3GIvcg8+CrnncJQ0
-         7JrThTXnQ/dsQj4Hog7jgiavCF/SNoNspiUYbsFL5FLwQKBDBB0PB/mSIc89xCpB3UMU
-         moXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784036967; x=1784641767;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=dnpCUCIhUIUVob1+81rKKkOZhThYfFIyjzh2lJvfSZM=;
-        b=Q4ved/+qc7Gu1igi8LzDuTrL1qFK0k+vC5dUAcfvmf/CQjjmHXDJR9HeUmZIdj9Wlv
-         aT1K6lr4Bi6W9VJ2+ROAw2kxvmNC1xmkdtfN6F5vxqPpOagx0jPyaqkxlnaov6o6LYnR
-         7JWVlcb6WrEJIRLMqls8YxA9CS+1m+JUyIMZ7fZIJS+shAFjAu0pjZIVr2HyuCSG2hQe
-         WNA8+TOn4e0LzIimj1FPApemqgmzP8NODfqaVxcwhaJiTBW5ddjvKRc6nhGi4FI6dGL/
-         rWgI41mR0g6ZqJ374nXKcKJFFU7HxBgsPMksf/S9mgPLpcfmWK3yw+eNbZwIND8xf7IM
-         nmtQ==
-X-Forwarded-Encrypted: i=1; AHgh+Ro7vj+jjWbB6mLCRBG/cRrRbeZ8k+sdjGGVcPZiLl271t8ul53jKnq4ddIu3O+/e9ooaFD5LrYHe9kkqQh/@lists.linux.dev
-X-Gm-Message-State: AOJu0YyWzJR0zXSTNODdgZX5VOT0s7YLg2aYyggvt7EPUgJYEl9h7dLr
-	VxNIdIJv9kdcVU0C8XUbpdbXeCyees8lN8HGqZQhn1atcbKH6BYz1bPaNBdyfTTY
-X-Gm-Gg: AfdE7cmuCFFJDm1NCQxWDUGZ9trGY+QcJLXpUWAvJalQVYghW04z4/WZEHu8KrS8aXb
-	C6mWiYhdPfR+Oxu1WIYL+Fy2Qb3nR01npr7vih4Q7cqTRyh4n2a9s7HYlU++h9b3dRFhdmKeZL4
-	8HxU0r1A7GB/1fpTx0rOLCL72zabEfeJEVX7ieDK3hAXD0Q3Kei/iDWQkp1bU4CvHQB4CZ17NmP
-	SjtRjzN92hxC6lSfb+8H7V44XzkpK+5td+iFO26nByzGUoVrpiMn5BadYVxJq7eaNHjXq2zghJG
-	JyMYe1EO9QWx9Eekn2wOeUK2qEsmMd+cbhBCE7qdXrQnQGCnd5N7Wp7Jt3N7G6h+kKYX2DCZ9cX
-	tmwObPpuZilIbMtYN288SI7FiFZXpaT1i5OH525oLaW7+sewVMsqKB5cIlYW5X2Jpu5HKjWol7W
-	kb/CCbgQYduUcyvYx0AVguazQdNxfc13F9t1IrjRfcKH8jLVc7xc+DsIZ48Q5UnJnVsPBZcOius
-	LNSxiJg9WbD24MrisFCg4cD4GfMTrNxEEEhAGanW5CwEePYJSyOj3WdQQ==
-X-Received: by 2002:a17:90b:5344:b0:381:e74f:8a6a with SMTP id 98e67ed59e1d1-38dc74d5646mr13154372a91.16.1784036967020;
-        Tue, 14 Jul 2026 06:49:27 -0700 (PDT)
-Received: from OMEN ([103.184.238.250])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3117462f5c7sm87462212eec.0.2026.07.14.06.49.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jul 2026 06:49:26 -0700 (PDT)
-From: Alfie Varghese <alfievarghese22@gmail.com>
-To: johan@kernel.org,
-	elder@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	dan.carpenter@linaro.org,
-	error27@gmail.com,
-	alfievarghese22@gmail.com
-Subject: [PATCH v3] staging: greybus: uart: return tty_alloc_driver() errors
-Date: Tue, 14 Jul 2026 19:19:21 +0530
-Message-ID: <20260714134921.817-1-alfievarghese22@gmail.com>
-X-Mailer: git-send-email 2.54.0.windows.1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fQYhA4+L"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1784037634; x=1815573634;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JlTtuTgyttUoJX1tzSz3FCb8u2Xjs4nbU6LV982KfNo=;
+  b=fQYhA4+LarETgrVfmE1QOP1+S17OQlzm5Wxa/4vgky9bCtdmzi5sIUIW
+   2zHdDejDa8cnxaieTNJickMQwB1OyVIHuLwo7WXvJmbcU1gAzcbzHQE/G
+   gu356fcD6Jt7ECeZ3kpCn2w9xpViZE418lsPi5wHcRRriwAmY29Gp2sww
+   PUG2Hm9WHagwV4w/cVkpkVzdhXj5oiMMIjqE79Qbm6noH3ioyk7JOzZij
+   pHxArxP9FnwMdyjV1jUJyAAhQmf9h3BZXyWuSLuIheM5Rb2le/ndVSzuZ
+   PKdOAF+wu0LgvedTCjXGXZkBiOB7idCsFQORMgBDsAmKffknhA7nrLXNq
+   Q==;
+X-CSE-ConnectionGUID: FPXtWuE5S2+g5bdjcjRCFw==
+X-CSE-MsgGUID: JqUHVK6GSOmZvv77PomMgA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11846"; a="83781031"
+X-IronPort-AV: E=Sophos;i="6.25,163,1779174000"; 
+   d="scan'208";a="83781031"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2026 07:00:34 -0700
+X-CSE-ConnectionGUID: z8g/5vJ7ROme4zo2zAVSAQ==
+X-CSE-MsgGUID: 4ZauGFZWRNeP3PVTEl3ffw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,163,1779174000"; 
+   d="scan'208";a="260764911"
+Received: from lkp-server02.sh.intel.com (HELO ea128546eb3d) ([10.239.97.151])
+  by fmviesa005.fm.intel.com with ESMTP; 14 Jul 2026 07:00:32 -0700
+Received: from kbuild by ea128546eb3d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wjdgT-00000000Mh2-258m;
+	Tue, 14 Jul 2026 14:00:29 +0000
+Date: Tue, 14 Jul 2026 21:59:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alfie Varghese <alfievarghese22@gmail.com>, neil.armstrong@linaro.org,
+	gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+	linux-amlogic@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Alfie Varghese <alfievarghese22@gmail.com>
+Subject: Re: [PATCH v2] staging: media: meson: vdec: fix advanced concurrency
+ and UAF bugs
+Message-ID: <202607142142.HnOYDndp-lkp@intel.com>
+References: <20260713181602.773-1-alfievarghese22@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260713181602.773-1-alfievarghese22@gmail.com>
 
-gb_tty_init() maps any tty_alloc_driver() failure to -ENOMEM.
-tty_alloc_driver() currently always returns -ENOMEM on failure,
-so this does not change behavior in practice. However, returning
-PTR_ERR(gb_tty_driver) is more correct and consistent with kernel
-conventions, preserving any future error codes the function might
-return.
+Hi Alfie,
 
-Signed-off-by: Alfie Varghese <alfievarghese22@gmail.com>
----
-v3: resend, v2 was corrupted in transit. No code changes.
-v2: updated commit message per Dan Carpenter's review to clarify
-    that tty_alloc_driver() currently only returns -ENOMEM, making
-    this a style fix rather than a behavioral change.
----
- drivers/staging/greybus/uart.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+kernel test robot noticed the following build errors:
 
-diff --git a/drivers/staging/greybus/uart.c b/drivers/staging/greybus/uart.c
-index 7d060b4cd33d..24b4dab069c3 100644
---- a/drivers/staging/greybus/uart.c
-+++ b/drivers/staging/greybus/uart.c
-@@ -951,7 +951,7 @@ static int gb_tty_init(void)
- 					 TTY_DRIVER_DYNAMIC_DEV);
- 	if (IS_ERR(gb_tty_driver)) {
- 		pr_err("Can not allocate tty driver\n");
--		retval = -ENOMEM;
-+		retval = PTR_ERR(gb_tty_driver);
- 		goto fail_unregister_dev;
- 	}
- 
--- 
-2.54.0.windows.1
+[auto build test ERROR on staging/staging-testing]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Alfie-Varghese/staging-media-meson-vdec-fix-advanced-concurrency-and-UAF-bugs/20260714-023427
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20260713181602.773-1-alfievarghese22%40gmail.com
+patch subject: [PATCH v2] staging: media: meson: vdec: fix advanced concurrency and UAF bugs
+config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20260714/202607142142.HnOYDndp-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260714/202607142142.HnOYDndp-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202607142142.HnOYDndp-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/staging/media/meson/vdec/vdec.c: In function 'vdec_m2m_job_abort':
+>> drivers/staging/media/meson/vdec/vdec.c:156:33: error: 'struct amvdec_session' has no member named 'm2m_dev'
+     156 |         v4l2_m2m_job_finish(sess->m2m_dev, sess->m2m_ctx);
+         |                                 ^~
+
+
+vim +156 drivers/staging/media/meson/vdec/vdec.c
+
+3e7f51bd96077ac Maxime Jourdan 2019-06-06  151  
+3e7f51bd96077ac Maxime Jourdan 2019-06-06  152  static void vdec_m2m_job_abort(void *priv)
+3e7f51bd96077ac Maxime Jourdan 2019-06-06  153  {
+3e7f51bd96077ac Maxime Jourdan 2019-06-06  154  	struct amvdec_session *sess = priv;
+3e7f51bd96077ac Maxime Jourdan 2019-06-06  155  
+3e7f51bd96077ac Maxime Jourdan 2019-06-06 @156  	v4l2_m2m_job_finish(sess->m2m_dev, sess->m2m_ctx);
+3e7f51bd96077ac Maxime Jourdan 2019-06-06  157  }
+3e7f51bd96077ac Maxime Jourdan 2019-06-06  158  
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
