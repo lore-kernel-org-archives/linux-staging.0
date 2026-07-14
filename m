@@ -1,64 +1,63 @@
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6C34432E73
-	for <linux-staging@lists.linux.dev>; Tue, 14 Jul 2026 22:52:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7058B42BEAF
+	for <linux-staging@lists.linux.dev>; Tue, 14 Jul 2026 22:52:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784069569; cv=none; b=FsNjdH6nj1sFx0EdakmTKu9VT+NPEQtEkljGAJw6wbjPF1nCnVF/pWu99LX4/crTZrdsLt3wYg3DbJab9jP4XTWY6yXl/GQvRJ9s8HzhlFJqd7RHw68Ol7sFEKsF+xS7gxE9xK8sENo9VuZNJxcStq5nRtsVsmolDvMoJXjgxXU=
+	t=1784069574; cv=none; b=DQzJ3sVx0t1YSCnPAe6h+2pzbJ1JxNUBijgqIHtsCZU6GKrKx1xXO5/BD/7p2ps05ULQkqIisaLjINmEzLn3DBN0bRxncFdJJIQSfcHbXp07BBipEZhi40svXZF9hri8aFhQ+gGerjy325yJR1v/BDVRc9YSn60eoFbJdNhfjGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784069569; c=relaxed/simple;
-	bh=A/qCooa4CX/pAneYM+GM5KmJMW5XYUBE0lCmM9t6q+o=;
+	s=arc-20240116; t=1784069574; c=relaxed/simple;
+	bh=5xD+gbAAQfa7Zz6DBWl8uQYu5cCVQd7fsutssEb695I=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=i9rBzftZlzghl2zYTZMWsUTTExvOfowPUpLt4R2+Dfqx9DPkq3WJHU++11f84OyoG3i9HIrO5om0M++h3FYP+B8CKQvr5LDFN1r31C9nSG5NBwmctZykbNg0MmYte+dCb0G8Ba9UTFw6lJ2naOWrDtR8nrBxLFYprIkyKcqkNSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JyXWsOux; arc=none smtp.client-ip=209.85.128.181
+	 MIME-Version; b=r96wHT3PaxObvB7JgfLCw2NAkIOOcGjGyD7gACixbs7sgWFCkI8T8Lhdqh74gr3oF6g6yGXP79w4+ObPiP4+X60cF+6Z6nMplTstl8xtRpsb/WH+Z3lpv2L56cy4lM90q66qt+jblO3Ll4mA0YykkKEH3xx8LW0bQ7T0Rc/p6GQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZgBJYmWX; arc=none smtp.client-ip=209.85.128.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JyXWsOux"
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-80dc4a68e4aso39633277b3.0
-        for <linux-staging@lists.linux.dev>; Tue, 14 Jul 2026 15:52:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZgBJYmWX"
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-81e8fa1b8d6so39823537b3.1
+        for <linux-staging@lists.linux.dev>; Tue, 14 Jul 2026 15:52:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784069567; x=1784674367; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1784069571; x=1784674371; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=U/WWXOiE2bPExBcg+mH0smayeiXsP/dreEIzKLTojxg=;
-        b=JyXWsOuxo0fZeMUK2gNawvkKYEtxWnqTVZkIfjQfv3UWzjJ0bEuGsKOLrii1TafSK9
-         2xoAypENHj102yC8knSIAEfswn9+uKsRlnhHJKHytpvVjUP0tLEINn+UJfsvlhdY63Q5
-         B8kjqKrQ14fFkjYrs9q2LFRlthUnqs47p5jgpBqBbBXYXlsntcn0P366D2H90ysZSng/
-         +3zdG+LZWIjQo02Gjldvc7bUIrmy3wAFdM/GmTKWqzKJWBs9nJJBVeQOskM1IlO7D51g
-         R0lI8TVMpjCkETlEJ/Iv2jhuY2NlydPEdUsHF3fGxfs1wT6A4dP2WmgG1DCRT8aLhMHf
-         OE9A==
+        bh=fS/qYunkaEsTBnkedEsMK25XcSingk2GiGQfZYV0Pss=;
+        b=ZgBJYmWXOC3UG8mTZOzgl5kcAEiP70k/O6L3SrlzXAOfFQjGOvy58fb4N5XlxPtM4l
+         Py/kbDZhtMiI6jSldeX8XfOUewcrMr4J7NXnP5bj/EmXbEJZ6t3aPWh+3DVZPhrEXmxl
+         145iR7UjVd+oewSP22Unr95XsLVH8jbjvE60fvmOFJEKGzdu8XqF2xlo3OFowWMU/CxO
+         Rjinx5T1J5aVmgad7DWSET1JNeM9PE+rhbaBeF0AsVZU6dwbNWdmPdYgctH93OZY8/Pj
+         +jTHdo3w1jhXUd6auToww/gFSgHERoElD96oW9l9PvVY6yrzrcvi5kN739M39e1QX9qg
+         tIvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784069567; x=1784674367;
+        d=1e100.net; s=20251104; t=1784069571; x=1784674371;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=U/WWXOiE2bPExBcg+mH0smayeiXsP/dreEIzKLTojxg=;
-        b=j75GVZneAyK+1vTVwqpPVuCYekpA44djg7cuSgDU0Kq80KF3Wg+BXq6DG6FrAymuWg
-         b+Kn+aWdSR7U0Mz7oJOKmHl0r8xF+hjXmFxMWFSbV+WrcNR+db3bDF8x+hCIPg2r8O7L
-         nxizX/0LjIXLzIiNJOMx1TTBewfQVBO8KCFFvKTRLSWsJwJbexOFAq+7ZJbHL5jWupTS
-         IzcAl8G/hC3ZblUTKkbJ7ocDGiUwYKtCOWQnCIRE4LIY+rLlU2pku1sWWZV+lSKct8vO
-         JK4oy5ouo6gdeSVUEVNjOdTCC4j9yW5UjsMkf3sxyjbJ6vYrowQT5o8lJVUZytcyl1hA
-         O1IA==
-X-Forwarded-Encrypted: i=1; AHgh+Rpa1aCh1V9DCfVix7RY2bbHzIEUarAaEE5FKDrlNka8my8kZfykqVZ6WGFjLWlFsfd6vUVbZgTTs2Oe6a8c@lists.linux.dev
-X-Gm-Message-State: AOJu0YyelUR5ByzfjJk2plv2ms5RKgiFj5R6nd40NVsiHfCTh2xfKrWp
-	eA+bH1uBUPLIHDVXZKshGeqPixb6uA/fa6eoJJYh9IU3EQTF8zz44WYj
-X-Gm-Gg: AfdE7cmpabDaI+vsovm0y+craHmsrF+L4tE/ET78u6e62S16t8goaxmJxSt2GgmOHq5
-	wLej0fSO0vDp3SZETK4c2czzRtCxQs3cR9lgzbtU7+zKyleRn1b5Ng6nsGwn9kKMxGV14jLPSaW
-	Vp3fHvrZH4LpSeFzD4a3XTyaULmzUwM5/5TNBXQBM2/dnVUD04Er5xv3CU9r9ivZshWE6TM1UwK
-	3t9Y8kjYPQtp0nYmhsQqEC3JqirMcvvlVlGFWec+zu3iJ6x5qm9UBPwA3XeK9nZzI5QgODWI5t/
-	Ypf0xgihjfTlEKe6++LDAqiCLwGNJgy3gkctyDwBQYruZMXWHaViyT0C6cHO8JnZCgOME/OeWoK
-	oX/uhwM9M8Ccpgtw15umDtssZRRnz9OtQi21Y0d3+cxR9f9OwfbfZ8TNi2lqdTCvNMJS31MDUgd
-	ibHsjHnAzcz80sZvJkbwsbSoPZs2grX/NW2YMKCJL4H4UW2KkzJ8f1DvM18z2MWfdWoH/Q3uHXW
-	r65
-X-Received: by 2002:a05:690c:6b86:b0:81d:2194:6c4a with SMTP id 00721157ae682-81ecfa39bdbmr4685007b3.47.1784069566934;
-        Tue, 14 Jul 2026 15:52:46 -0700 (PDT)
+        bh=fS/qYunkaEsTBnkedEsMK25XcSingk2GiGQfZYV0Pss=;
+        b=Dhu2s/vyM+crkooqrECP1ljTPoUxdHBHnXQpaT4m8/ecdaZ9uLaU7ziOnPGPBsZ59X
+         +9dounBN0AfLy8hRjOb0BDRFh85JORYmUKL4vJGYn/D4TIemvMTfC1yZn8REuBwa3l4t
+         XKsjTvKYePkqWGWqGcxlforHt4zJbptOHRaM1yC1mWOytTwdFRVUbkceQ1+UCZ7bXDVk
+         Mgk4v/RBiCP8zUl3fv2hGqsvO4MZcT00hjQq93LFig4mAGzjIoOMDVk826uJxniu2zNY
+         27dV+asLCFl5nx5Tqt2g3T0Qn4MRWKedITGVFcRABJAEfFCZLV8DDxkBNHTehx6QAaSk
+         ZnXQ==
+X-Forwarded-Encrypted: i=1; AHgh+RonUxj3Q4ry8TrcF7SQQmSZQOkaAk+xNJMQrdieKiM586PwE03BnzwXRlzL/Iweo+krR34TF1UfmtTNrw70@lists.linux.dev
+X-Gm-Message-State: AOJu0YzFIe0oCK1Xj9hSsVRcsKQ0yCgsixTvWIBYlsJnapjayFIOarl4
+	mTkhJ/tI21tuTxkuB6iUWjxQfGI8y+YCkDMCjLhpAoaLxzg3WvmC1Qsq
+X-Gm-Gg: AfdE7clvloSZYiHhhW9I+RWaOZLxC3X9HQdo805/3KmOtMsrbQNsttGyGI+RQ8XV1Pu
+	CFkVtAVPPDdh4U2S3R98zzl0xDTpZRn0M74GFvJaCv7jIzU1EWcP+xngN4WmCev9lX6QDeWjvPs
+	qDaQ2oD3CjoSKbYlkzvLubn4vxCMXEUQleOiTywMW5sjcM9e+ScUA0xGd3sVRfsjEzh1F4yBqBi
+	9IL6sqzAkpZjWn+k4wc/KYDiw4+bUwNZZcAZOMUlqGaEx34jFY7sO6244RVNmBxfLzWSzv29yU6
+	2cUg3BUIVYIKIUEmXEX9PK+/LnQ/sgWIyaKzZWhtQYYeEhZuDiYP/UIx0hDZhffCEW/c9hN/0Td
+	rGowHLeY94/xMMcJhWqpZqlqYwBwqKket0wskTZSERBr3KRmok0rEFLBNbDU1FIE+j9RLDBWzkj
+	3JgzHDGBwYW4OlHtAUPXtGWhnqjhUe0mv6QRJihAB6+QncQqIcuPcQW5uNKIp+8BLvOg==
+X-Received: by 2002:a05:690c:998b:b0:7fe:4069:d3fe with SMTP id 00721157ae682-81ebfdafedfmr30470587b3.30.1784069571383;
+        Tue, 14 Jul 2026 15:52:51 -0700 (PDT)
 Received: from localhost.localdomain ([2804:14d:4c64:82a2:a510:f4e7:1a8:cf71])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-81e6c249b87sm153446897b3.49.2026.07.14.15.52.42
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-81e6c249b87sm153446897b3.49.2026.07.14.15.52.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jul 2026 15:52:46 -0700 (PDT)
+        Tue, 14 Jul 2026 15:52:50 -0700 (PDT)
 From: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
 To: andy@kernel.org,
 	hansg@kernel.org,
@@ -71,9 +70,9 @@ Cc: ~lkcamp/patches@lists.sr.ht,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH v4 1/3] staging: media: atomisp: use kvmalloc_objs() in make_histogram()
-Date: Tue, 14 Jul 2026 19:49:00 -0300
-Message-ID: <20260714225235.47134-2-rodrigo.gobbi.7@gmail.com>
+Subject: [PATCH v4 2/3] staging: media: atomisp: use kvmalloc_objs() for overflow-safe allocation
+Date: Tue, 14 Jul 2026 19:49:01 -0300
+Message-ID: <20260714225235.47134-3-rodrigo.gobbi.7@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20260714225235.47134-1-rodrigo.gobbi.7@gmail.com>
 References: <20260714225235.47134-1-rodrigo.gobbi.7@gmail.com>
@@ -85,48 +84,237 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace kvmalloc() with multiply with kvmalloc_objs(), which handles
-the size multiplication internally with overflow checking, silenting
-checkpatch warn.
+From: Feng Ning <feng@innora.ai>
 
+Replace open-coded width * height * sizeof() multiplications with
+kvmalloc_objs() and array_size() to prevent integer overflow in buffer
+allocations.
+
+The atomisp driver computes DVS and statistics buffer sizes using
+unchecked arithmetic.  When dimensions are large, the product can
+silently wrap, causing kvmalloc() to allocate an undersized buffer.
+
+kvmalloc_objs() uses size_mul() internally, which saturates to SIZE_MAX
+on overflow, so kvmalloc() returns NULL instead of succeeding with too
+few bytes.  array_size() provides the same overflow protection for the
+two-factor dimension products.
+
+Suggested-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+Signed-off-by: Feng Ning <feng@innora.ai>
+[rodrigo: rebased; convert only the sites left open-coded after
+ commit d178c7ca8fef ("staging: media: atomisp: use array3_size()
+ for overflow-safe allocation")]
 Signed-off-by: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
 Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
 ---
- drivers/staging/media/atomisp/pci/sh_css_metrics.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ .../staging/media/atomisp/pci/sh_css_params.c | 101 +++++++-----------
+ 1 file changed, 36 insertions(+), 65 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_metrics.c b/drivers/staging/media/atomisp/pci/sh_css_metrics.c
-index edf473dd86ca..90d92ab8d52b 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_metrics.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_metrics.c
-@@ -4,6 +4,8 @@
-  * Copyright (c) 2015, Intel Corporation.
-  */
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c b/drivers/staging/media/atomisp/pci/sh_css_params.c
+index 8420a22fd8f0..adc329be8b0b 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_params.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
+@@ -6,6 +6,7 @@
  
+ #include <linux/overflow.h>
+ #include <linux/math.h>
 +#include <linux/slab.h>
-+
- #include "assert_support.h"
- #include "sh_css_metrics.h"
  
-@@ -59,16 +61,13 @@ make_histogram(struct sh_css_pc_histogram *histogram, unsigned int length)
- 		return;
- 	if (histogram->run)
- 		return;
--	histogram->run = kvmalloc(length * sizeof(*histogram->run),
--				  GFP_KERNEL);
-+	histogram->run = kvmalloc_objs(*histogram->run, length);
- 	if (!histogram->run)
- 		return;
--	histogram->stall = kvmalloc(length * sizeof(*histogram->stall),
--				    GFP_KERNEL);
-+	histogram->stall = kvmalloc_objs(*histogram->stall, length);
- 	if (!histogram->stall)
- 		return;
--	histogram->msink = kvmalloc(length * sizeof(*histogram->msink),
--				    GFP_KERNEL);
-+	histogram->msink = kvmalloc_objs(*histogram->msink, length);
- 	if (!histogram->msink)
- 		return;
+ #include "gdc_device.h"		/* gdc_lut_store(), ... */
+ #include "isp.h"			/* ISP_VEC_ELEMBITS */
+@@ -4151,7 +4152,7 @@ struct ia_css_3a_statistics *
+ ia_css_3a_statistics_allocate(const struct ia_css_3a_grid_info *grid)
+ {
+ 	struct ia_css_3a_statistics *me;
+-	int grid_size;
++	size_t grid_size;
+ 
+ 	IA_CSS_ENTER("grid=%p", grid);
+ 
+@@ -4162,8 +4163,8 @@ ia_css_3a_statistics_allocate(const struct ia_css_3a_grid_info *grid)
+ 		goto err;
+ 
+ 	me->grid = *grid;
+-	grid_size = grid->width * grid->height;
+-	me->data = kvmalloc(grid_size * sizeof(*me->data), GFP_KERNEL);
++	grid_size = array_size(grid->width, grid->height);
++	me->data = kvmalloc_objs(*me->data, grid_size);
+ 	if (!me->data)
+ 		goto err;
+ 	/* No weighted histogram, no structure, treat the histogram data as a byte dump in a byte array */
+@@ -4236,6 +4237,7 @@ struct ia_css_dvs_coefficients *
+ ia_css_dvs_coefficients_allocate(const struct ia_css_dvs_grid_info *grid)
+ {
+ 	struct ia_css_dvs_coefficients *me;
++	size_t cnt;
+ 
+ 	assert(grid);
+ 
+@@ -4245,15 +4247,13 @@ ia_css_dvs_coefficients_allocate(const struct ia_css_dvs_grid_info *grid)
+ 
+ 	me->grid = *grid;
+ 
+-	me->hor_coefs = kvmalloc(grid->num_hor_coefs *
+-				 IA_CSS_DVS_NUM_COEF_TYPES *
+-				 sizeof(*me->hor_coefs), GFP_KERNEL);
++	cnt = array_size(grid->num_hor_coefs, IA_CSS_DVS_NUM_COEF_TYPES);
++	me->hor_coefs = kvmalloc_objs(*me->hor_coefs, cnt);
+ 	if (!me->hor_coefs)
+ 		goto err;
+ 
+-	me->ver_coefs = kvmalloc(grid->num_ver_coefs *
+-				 IA_CSS_DVS_NUM_COEF_TYPES *
+-				 sizeof(*me->ver_coefs), GFP_KERNEL);
++	cnt = array_size(grid->num_ver_coefs, IA_CSS_DVS_NUM_COEF_TYPES);
++	me->ver_coefs = kvmalloc_objs(*me->ver_coefs, cnt);
+ 	if (!me->ver_coefs)
+ 		goto err;
+ 
+@@ -4277,6 +4277,7 @@ struct ia_css_dvs2_statistics *
+ ia_css_dvs2_statistics_allocate(const struct ia_css_dvs_grid_info *grid)
+ {
+ 	struct ia_css_dvs2_statistics *me;
++	size_t cnt;
+ 
+ 	assert(grid);
+ 
+@@ -4286,59 +4287,37 @@ ia_css_dvs2_statistics_allocate(const struct ia_css_dvs_grid_info *grid)
+ 
+ 	me->grid = *grid;
+ 
+-	me->hor_prod.odd_real = kvmalloc(grid->aligned_width *
+-					 grid->aligned_height *
+-					 sizeof(*me->hor_prod.odd_real),
+-					 GFP_KERNEL);
++	cnt = array_size(grid->aligned_width, grid->aligned_height);
++
++	me->hor_prod.odd_real = kvmalloc_objs(*me->hor_prod.odd_real, cnt);
+ 	if (!me->hor_prod.odd_real)
+ 		goto err;
+ 
+-	me->hor_prod.odd_imag = kvmalloc(grid->aligned_width *
+-					 grid->aligned_height *
+-					 sizeof(*me->hor_prod.odd_imag),
+-					 GFP_KERNEL);
++	me->hor_prod.odd_imag = kvmalloc_objs(*me->hor_prod.odd_imag, cnt);
+ 	if (!me->hor_prod.odd_imag)
+ 		goto err;
+ 
+-	me->hor_prod.even_real = kvmalloc(grid->aligned_width *
+-					  grid->aligned_height *
+-					  sizeof(*me->hor_prod.even_real),
+-					  GFP_KERNEL);
++	me->hor_prod.even_real = kvmalloc_objs(*me->hor_prod.even_real, cnt);
+ 	if (!me->hor_prod.even_real)
+ 		goto err;
+ 
+-	me->hor_prod.even_imag = kvmalloc(grid->aligned_width *
+-					  grid->aligned_height *
+-					  sizeof(*me->hor_prod.even_imag),
+-					  GFP_KERNEL);
++	me->hor_prod.even_imag = kvmalloc_objs(*me->hor_prod.even_imag, cnt);
+ 	if (!me->hor_prod.even_imag)
+ 		goto err;
+ 
+-	me->ver_prod.odd_real = kvmalloc(grid->aligned_width *
+-					 grid->aligned_height *
+-					 sizeof(*me->ver_prod.odd_real),
+-					 GFP_KERNEL);
++	me->ver_prod.odd_real = kvmalloc_objs(*me->ver_prod.odd_real, cnt);
+ 	if (!me->ver_prod.odd_real)
+ 		goto err;
+ 
+-	me->ver_prod.odd_imag = kvmalloc(grid->aligned_width *
+-					 grid->aligned_height *
+-					 sizeof(*me->ver_prod.odd_imag),
+-					 GFP_KERNEL);
++	me->ver_prod.odd_imag = kvmalloc_objs(*me->ver_prod.odd_imag, cnt);
+ 	if (!me->ver_prod.odd_imag)
+ 		goto err;
+ 
+-	me->ver_prod.even_real = kvmalloc(grid->aligned_width *
+-					  grid->aligned_height *
+-					  sizeof(*me->ver_prod.even_real),
+-					  GFP_KERNEL);
++	me->ver_prod.even_real = kvmalloc_objs(*me->ver_prod.even_real, cnt);
+ 	if (!me->ver_prod.even_real)
+ 		goto err;
+ 
+-	me->ver_prod.even_imag = kvmalloc(grid->aligned_width *
+-					  grid->aligned_height *
+-					  sizeof(*me->ver_prod.even_imag),
+-					  GFP_KERNEL);
++	me->ver_prod.even_imag = kvmalloc_objs(*me->ver_prod.even_imag, cnt);
+ 	if (!me->ver_prod.even_imag)
+ 		goto err;
+ 
+@@ -4377,51 +4356,43 @@ ia_css_dvs2_coefficients_allocate(const struct ia_css_dvs_grid_info *grid)
+ 
+ 	me->grid = *grid;
+ 
+-	me->hor_coefs.odd_real = kvmalloc(grid->num_hor_coefs *
+-					  sizeof(*me->hor_coefs.odd_real),
+-					  GFP_KERNEL);
++	me->hor_coefs.odd_real = kvmalloc_objs(*me->hor_coefs.odd_real,
++					       grid->num_hor_coefs);
+ 	if (!me->hor_coefs.odd_real)
+ 		goto err;
+ 
+-	me->hor_coefs.odd_imag = kvmalloc(grid->num_hor_coefs *
+-					  sizeof(*me->hor_coefs.odd_imag),
+-					  GFP_KERNEL);
++	me->hor_coefs.odd_imag = kvmalloc_objs(*me->hor_coefs.odd_imag,
++					       grid->num_hor_coefs);
+ 	if (!me->hor_coefs.odd_imag)
+ 		goto err;
+ 
+-	me->hor_coefs.even_real = kvmalloc(grid->num_hor_coefs *
+-					   sizeof(*me->hor_coefs.even_real),
+-					   GFP_KERNEL);
++	me->hor_coefs.even_real = kvmalloc_objs(*me->hor_coefs.even_real,
++						grid->num_hor_coefs);
+ 	if (!me->hor_coefs.even_real)
+ 		goto err;
+ 
+-	me->hor_coefs.even_imag = kvmalloc(grid->num_hor_coefs *
+-					   sizeof(*me->hor_coefs.even_imag),
+-					   GFP_KERNEL);
++	me->hor_coefs.even_imag = kvmalloc_objs(*me->hor_coefs.even_imag,
++						grid->num_hor_coefs);
+ 	if (!me->hor_coefs.even_imag)
+ 		goto err;
+ 
+-	me->ver_coefs.odd_real = kvmalloc(grid->num_ver_coefs *
+-					  sizeof(*me->ver_coefs.odd_real),
+-					  GFP_KERNEL);
++	me->ver_coefs.odd_real = kvmalloc_objs(*me->ver_coefs.odd_real,
++					       grid->num_ver_coefs);
+ 	if (!me->ver_coefs.odd_real)
+ 		goto err;
+ 
+-	me->ver_coefs.odd_imag = kvmalloc(grid->num_ver_coefs *
+-					  sizeof(*me->ver_coefs.odd_imag),
+-					  GFP_KERNEL);
++	me->ver_coefs.odd_imag = kvmalloc_objs(*me->ver_coefs.odd_imag,
++					       grid->num_ver_coefs);
+ 	if (!me->ver_coefs.odd_imag)
+ 		goto err;
+ 
+-	me->ver_coefs.even_real = kvmalloc(grid->num_ver_coefs *
+-					   sizeof(*me->ver_coefs.even_real),
+-					   GFP_KERNEL);
++	me->ver_coefs.even_real = kvmalloc_objs(*me->ver_coefs.even_real,
++						grid->num_ver_coefs);
+ 	if (!me->ver_coefs.even_real)
+ 		goto err;
+ 
+-	me->ver_coefs.even_imag = kvmalloc(grid->num_ver_coefs *
+-					   sizeof(*me->ver_coefs.even_imag),
+-					   GFP_KERNEL);
++	me->ver_coefs.even_imag = kvmalloc_objs(*me->ver_coefs.even_imag,
++						grid->num_ver_coefs);
+ 	if (!me->ver_coefs.even_imag)
+ 		goto err;
  
 -- 
 2.48.1
