@@ -1,122 +1,178 @@
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F2BE3EC2EF
-	for <linux-staging@lists.linux.dev>; Tue, 14 Jul 2026 07:20:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.41
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784013634; cv=none; b=O9fPe3b0M45S5Pj3pGlnfwqZF8wWqAClU/qU7jpZ4CNohOUUQRFjohWZtZyXM+Q2qiAoYMHjdly4Vxb2BTa49wbsYcu3C/yxt6umOw2dxblRQUt0Tk7am/GB60FfVI66qHVW83PWxMn/DQ8FVbCOH9RID1cgD+f3XKjYBnh7AkY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784013634; c=relaxed/simple;
-	bh=0fAdOWv/wZxG/+FHQr4Br7W7JkKnKTmywTnQ8Ia2Eoo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z93PIIWxrmoBbZjsgDjeYWil+YvJtua2yejikYoWJAkBWbBkZNYL27DVKYrBvvKBVsI/cCQDUztahNkIPF+PQiofXjbxyRmP4o9Nvj8oWlalvv6+hcQMGoOLq1AYmnUljUTvQ+oqygiQObeWlylTkRpIbUTND3uKnaOGkL7CKgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ngByqi8i; arc=none smtp.client-ip=209.85.210.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 531433EC2F6
+	for <linux-staging@lists.linux.dev>; Tue, 14 Jul 2026 07:23:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784013839; cv=pass; b=ev2/yQzWW4S+hI6vjUc46uCBNCi/ADX46lySN9/vZrzfHiD66KQ8JCV3kdCXzQ3ZBzWeD7kdnpyz/yRNz20CGzgsdm8u5c3z4AIeDLIMg23G0Q01hpS3aehFPmW2YIki2IASuAf/HuA1mZjeTbVbM7aRlygiuH75+fT2YBRNZa4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784013839; c=relaxed/simple;
+	bh=UpfozN3EwKE3mwnRPUAc2uAXRnO6CkpDnAeOhOziE+c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Q6cZjDfg6HWlZnXUMemQAGhou0BYA2UMwuOqe5wDmruwFNvmPidVinm6gVL06hSnzopmB//ygN+M4namQpMqMTSs3ZgggJuE+zOm9YyYjmBd0fOc858dotsp/tNq1LSl1DuXgYu3TaHRsauVXB2vP/Cszd9fWv33pQkqjaNZRkA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C/WNPTBd; arc=pass smtp.client-ip=209.85.208.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ngByqi8i"
-Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-7e9ecb1e13bso1582873a34.2
-        for <linux-staging@lists.linux.dev>; Tue, 14 Jul 2026 00:20:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C/WNPTBd"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-698acd36d67so7180852a12.0
+        for <linux-staging@lists.linux.dev>; Tue, 14 Jul 2026 00:23:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784013837; cv=none;
+        d=google.com; s=arc-20260327;
+        b=AtG+y1TlzyZzKUK3X2yaBSBx+2ELUH6o2sdKTUF/RY8ovIbmsqp70T5x/HuSuoztqF
+         GuquNJEJ04AYytsP7gjLDcoMmiAXNyfYRSeJlxlFZibs2IoQ0urBTqOi2/zWXjg7ofN4
+         C+79nqDHihc7WQ98Vch2zKbM+OYuVEK/NmiRfsyB/t5BX6wRpuW4eaSPqlrVARgFRb96
+         fBWXG1QeG7J52mgOpxTCQriFqyMl9AwDNkdPIgvjwix7c5yyQouuSqPa896x3P1J/cgX
+         Eblcm13LhBpLs/5bdDLA7Rviha7RM6wsqg2B6FRdjr9obRSe98mQggGvuBtVHBs9fdyr
+         98Gg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=4otLa0osIIgCWg6PJhWGRKAbFh1CF4DbrLX8uzqDyWU=;
+        fh=sig8qYYJ9WQWVSEhKsQy9k/TbzQyfoewWPgUL67jzTQ=;
+        b=pu/3I1SvI/VZsL+LklIDgXMWCpSGuKyqxhMQ6ycVEISxrk06bNDI1ezRkqKAyFJQxW
+         BDOpP/pl403fhYMePs/7Bv9HCUetWkkCD/20pnJ7pQItI3O0m/Gmh9pgt8cuHqb2ybQZ
+         Yx5TvsFOgHpEgm+8KnHJ85HTY8i0CcuM5mphh8zMKEDBSRbPmPNpDn9b69W+8YAhrheW
+         pBYthaZS+r/J4EmL1AyxnaoNFI6/QBxYCCOHnk4q3fCTsMz7ZEZDyDHOyTUYhej/E+SS
+         4gQZTGVgrPn8JRV+UhqYp7WtAeGtGlrVNqEEZlNIhnJMQt7Z+2w5yVCYLi9CVSSuhjKJ
+         NAxw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784013632; x=1784618432; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Byci8e0G2bo3uIP1pnZZvRGU8unL40JtAxaPq207uTQ=;
-        b=ngByqi8ifKuQeP9sTm6YS6kZFth52DyQaLiYSDRcQETzlsEoZ59KzRirgvFz49GcLe
-         u7CqqTaBU34hQbOR1fbum6J3+vrhcIBW1cBnczj299Skuq6T1hoQu5mh6vv5YO0+v9AG
-         zUvP0rkRJnvXf5BJrACr7CFC+MhWfXX8bAa5z2pRX89+DLKvJq/qB6PrVn5WnO0MBGXq
-         LRSvB9QNTckDCbOtpCwrykiAjU61T7LkUmNG9DTUaLTZ7c2ur+BcTMR0Cvygbfjj0g6S
-         vIYjttjxzmF/RM05e6P4udjZdmsS70CKnQu5PzfMlrn1JT0OtopqQxA6LHgF7UfPmhHs
-         Mspg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784013632; x=1784618432;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1784013837; x=1784618637; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Byci8e0G2bo3uIP1pnZZvRGU8unL40JtAxaPq207uTQ=;
-        b=oA0caU/ohsovacB6MJFkVbytIjcvglCIHmrzCjsSu5KOWhv5ll8uV1VjIzZOeGXKsQ
-         kSdAPCenc7NwSIJKitFIO0w264IlYh/gv9VlNDODqNTNx6Ojf6qOLTWs2gEAqTgXq1r6
-         reOcJIfFGJ9vNgMu3s5ah24bGSdz3+H4qEFwI27jqAfjyilRZnCHYlPGz18NwViAzDn2
-         oLYnIZAMFi/io+EJjzNQ5xhYuAzUjKep69Sdq9JLjtYgIlrhTrm1Ob5ixMhsChXIfwcL
-         wL8oLw6o6kEZPWFseSus+dvxMODqLSPEsMVCUaeW71xkguNTKUtMUw8OBp5dzjQdUYxg
-         p8Yw==
-X-Forwarded-Encrypted: i=1; AFNElJ9o1qUeh4SFLJY85etEJ3kwv8vN8w8u6WjCaB/unewqVRCimcQcHijBS8zAp68r18ZdkHKMlpIlLrtVhOpn@lists.linux.dev
-X-Gm-Message-State: AOJu0YxcLEsxGJGXmNWY4rwQGjcxdgP0Onf9ZIOzAg+qSkJAEOzoKQ2j
-	NWXzW+pCzFBesTK06XQA5btS0dCIDQxd8XzP3X04uy9G/R2cIJHOJqn7
-X-Gm-Gg: AfdE7ckGx8CyPFe3xR34+ZOBupL625D5FH6azluD/bZIn21wylChqRpNjiy/TbIHo9y
-	FIoz4MCYyljqqSkDNftkS0rtCJAJ/gV1N/a36LqPNgvu05eSyGpcg879UNkjRTZjyrmScvhr/Lr
-	bSV2UiOMew14gj3ST+2qL0sc3ftSyjMbFgBKw/WA9d7hjI2flZ2rydnYd7+miudyFXkr5NDfdwc
-	474FxV+Kao+4XFsD+SUIxuCa4ITnWi1HpS7IT0KXiZCdtAjffbYtqgYyFyWs9FFCtmYI4/lU+4u
-	PF/N5AOOledhJGcoCsn3oCA3WSd2CfjCcq6nWAIuAZKxPVhZv2/M7eGLM8LRmP/qtKxSYQYS24+
-	fNHMd4lobJZPlu0PQJ3EPHRV5vxJ7ghyIlqTpaZuzUPRWPU0Bwi8Lp+EsEA97FNlkOBnuAyw4j1
-	aML9KO
-X-Received: by 2002:a05:6830:310b:b0:7e9:e1ec:c818 with SMTP id 46e09a7af769-7ec09802247mr6902810a34.25.1784013632157;
-        Tue, 14 Jul 2026 00:20:32 -0700 (PDT)
-Received: from localhost ([74.80.182.78])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7ebcae1dce3sm14604988a34.3.2026.07.14.00.20.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jul 2026 00:20:31 -0700 (PDT)
-Date: Tue, 14 Jul 2026 10:20:25 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Ivy Lopez <skunkolee@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: use kfree_sensitive() for key
- material
-Message-ID: <alXjOb8c53MddWeH@stanley.mountain>
-References: <20260713233401.48262-1-skunkolee@gmail.com>
+        bh=4otLa0osIIgCWg6PJhWGRKAbFh1CF4DbrLX8uzqDyWU=;
+        b=C/WNPTBdK4JBOo2Nj+WnnYIix62QJiMbw/EZhwlDhLlPer8kX0gmmuGboNX1+6T8BQ
+         wZBb6WhKzJObsDwCBEoe17svwx1puk5pYpbZcw8WVOtrHS7KeiIIiTBwJ0obAuMraC3K
+         JpEDGToYNU3GeXPQFyxZiezmiJG4Dt6MJLRty2pR+5CpU3TOpv/xnlfIWW2yJKRIKTzv
+         YQtrvxreAjI943DbVAK9296hbI9R+BeGJ66O4rDuVydL8dRovns0ppdr0+rBpDjec+fF
+         2FB2LlTs/lqP2LJHoAv+MWE7li38smZDfDD3hAiztjRRleGPbTbIG83TtMlY9hfij3Oi
+         axkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784013837; x=1784618637;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=4otLa0osIIgCWg6PJhWGRKAbFh1CF4DbrLX8uzqDyWU=;
+        b=rhgVvRBKWIPVsoD2v445W5kZe3/foKphNn2v4VSkF2fhsr2skzBvxKwcL7EbUf30nh
+         Y1aeeOshpIguAVHaaZ8rdkjMIeEkzqO8T419ETMDQb9XjNhUsh4FaHPOHeXOfatzx6KN
+         TN0qYw1RckGbxARUrCgmznFXF2W7Z5d/x6YPKP7FhHn35QqhOk6MJONjTB+Q72wUycDs
+         1yc7zBgUDmK9A+mFio43jPMHO7D/Wz0EnrIgsN5VxFKcyX9LCjai4xazVbof1k+glAff
+         eui5G4RJOQNX4yzu/hNVrGqWz6Hv97yPQjWaeK59yqwoOkyauAq3VpKB8aWphmuitPQn
+         XM5w==
+X-Forwarded-Encrypted: i=1; AHgh+RrEc/hSt2nKuWHNgpEysxp9KUYlZaA/9xZuhv4ceCa3mOigFoQjRLYzMegsfuvkV6RWmdh+EPTkJ/cOt4HK@lists.linux.dev
+X-Gm-Message-State: AOJu0YziZoormczf9qutNFS9+e72XKhWuZS+RK1MZ/11QBIKbSiXPOsW
+	Qn/+cMqXzClK0nMt3lZNFTzykNBzKncS0ZjpnW8HXGJMgGQvafjvg2sgN8xk1HlVATBIsmpuqMx
+	m/xJbtLqju4KciS3BWGity2IwOepBX6s=
+X-Gm-Gg: AfdE7cnhkeOGcqYLVRvAPtxP0iSpO/QeDBFmY60IDJ4jnfZAx00xdkhKwtdihlOkfFL
+	5cvi6t60kqTlVRVtOqsWCBOvxyapvi2u44eGYWw3d3H+Jme2cKhtd2BdhyW5G+lkaNXvTYe2kR4
+	5pWPKfyA5YXgYLmHdAm4wZdP8ehIxzdRZGWgs5Y4jr1ESLUzkntc67sVFaSeIiTbr13qUAvtnUB
+	ilj+vS/+LX4cc3GtRd8yzIKydl0b+7DXaTkYgyRFpn4RsGY3iFuHq++YT1y1XvYagbe65cWzHf8
+	Ryjt1w==
+X-Received: by 2002:a05:6402:e94:b0:698:c13e:179a with SMTP id
+ 4fb4d7f45d1cf-69cd2a001acmr1004913a12.10.1784013836409; Tue, 14 Jul 2026
+ 00:23:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260713233401.48262-1-skunkolee@gmail.com>
+References: <20260713120840.17427-1-linux.amoon@gmail.com>
+In-Reply-To: <20260713120840.17427-1-linux.amoon@gmail.com>
+From: Anand Moon <linux.amoon@gmail.com>
+Date: Tue, 14 Jul 2026 12:53:43 +0530
+X-Gm-Features: AUfX_mzvXnkQt9N3uwj4z53r62LfKGSebrr5Wzfs3imVuOH5yaZKNS9xAf_UWqU
+Message-ID: <CANAwSgSz+e483m9VKkFZzSKzB1Tsd8kS20UcB3ON-cZ=J8gX+w@mail.gmail.com>
+Subject: Re: [PATCH v7 00/19] media: meson: vdec: Fix lifecycles, race
+ conditions, and stability bugs
+To: Neil Armstrong <neil.armstrong@linaro.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"open list:DRM DRIVERS FOR AMLOGIC SOCS" <dri-devel@lists.freedesktop.org>, 
+	"open list:DRM DRIVERS FOR AMLOGIC SOCS" <linux-amlogic@lists.infradead.org>, 
+	"moderated list:ARM/Amlogic Meson SoC support" <linux-arm-kernel@lists.infradead.org>, 
+	open list <linux-kernel@vger.kernel.org>, 
+	"open list:MESON VIDEO DECODER DRIVER FOR AMLOGIC SOCS" <linux-media@vger.kernel.org>, 
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
+Cc: Doruk Tan Ozturk <doruk@0sec.ai>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Jul 13, 2026 at 05:34:01PM -0600, Ivy Lopez wrote:
-> The set_stakey_parm struct contains a 16-byte encryption key.
-> Use kfree_sensitive() instead of kfree() to ensure the key
-> material is zeroed before the memory is freed, preventing
-> potential information leaks.
-> 
-> Signed-off-by: Ivy Lopez <skunkolee@gmail.com>
-> ---
->  drivers/net/ethernet/faraday/ftmac100.c  | 47 +++++-------------------
->  drivers/staging/rtl8723bs/core/rtw_cmd.c |  8 ++--
->  2 files changed, 13 insertions(+), 42 deletions(-)
-> 
-> diff --git a/drivers/net/ethernet/faraday/ftmac100.c b/drivers/net/ethernet/faraday/ftmac100.c
-> index 5803a382f0ba..adb318925f44 100644
-> --- a/drivers/net/ethernet/faraday/ftmac100.c
-> +++ b/drivers/net/ethernet/faraday/ftmac100.c
-> @@ -49,7 +49,6 @@ struct ftmac100_descs {
->  };
->  
->  struct ftmac100 {
-> -	struct resource *res;
->  	void __iomem *base;
->  	int irq;
->  
-> @@ -1137,11 +1136,9 @@ static int ftmac100_probe(struct platform_device *pdev)
->  		return irq;
->  
->  	/* setup net_device */
-> -	netdev = alloc_etherdev(sizeof(*priv));
-> -	if (!netdev) {
-> -		err = -ENOMEM;
-> -		goto err_alloc_etherdev;
-> -	}
-> +	netdev = devm_alloc_etherdev(&pdev->dev, sizeof(*priv));
-> +	if (!netdev)
-> +		return -ENOMEM;
+Hi All,
 
-This is unrelated...
+On Mon, 13 Jul 2026 at 17:38, Anand Moon <linux.amoon@gmail.com> wrote:
+>
+> This patch series addresses a collection of critical race conditions,
+> memory leaks, use-after-free bugs, and resource management issues
+> within the Amlogic Meson video decoder (meson-vdec) driver and
+> associated components.
+>
+> The primary focus is tightening session lifecycles, safely synchronising
+> the V4L2 m2m framework callbacks, hardening work queue operations
+> (esparser_queue_work), and correcting buffer validations to prevent
+> stability issues like KASAN out-of-bounds errors or stream-on timeouts.
+>
+> Summary of Changes:
+> * Race Conditions & Synchronisation: Fixes multi-threading and
+>   execution races across stream-on, stream-off, job abort, and
+>   teardown pathways.
+> * Memory Lifecycle: Eliminates memory leaks and use-after-free
+>   vulnerabilities by safely pinning, canceling, and sequencing
+>   device removals.
+> * VP9 & Buffer Hardening: Addresses payload handling bugs in the ES
+>   parser, properly tracks ongoing buffers via atomic counters, and
+>   prevents invalid memory writes.
+> * Platform/DMA Adjustments: Adjusts DMA segment configurations,
+>   canvas handling, and buffer sizes to match modern hardware demands.
+>
+> Note on an outstanding issue:
+> An execution deadlock occurs in the driver workqueue path during high
+> stress or long playback sessions. This stall is triggered when the
+> Amlogic hardware internal video FIFO buffer becomes completely full.
+> When esparser_queue_all_src runs, the capacity validation check is
+> tripped due to a design limitation in how buffer exhaustion is handled.
+> This blocks progress and leaves the workqueue worker waiting indefinitely
+> on a core mutex lock.
+>
+> The resulting hung task call trace shows the worker thread blocking
+> on the internal lock:
+>
+> Workqueue: events esparser_queue_all_src [meson_vdec]
+> ...
+> __mutex_lock
+> mutex_lock_nested
+> esparser_queue_all_src
+>
+> I have tried to address this issue, but the underlying deadlock persists
+> under extreme conditions.
+>
+> Any feedback on this new appock is welcome.
+>
+> Testing was done using v4l2-compliance and active decoding pipelines
+> on Meson platforms (like Hardkernel ODROID-N2+ and ODROID-C4) SBCs.
+>
+> The v4l2-compliance tests passed successfully via:
+> $ v4l2-compliance -s -v -d /dev/video0
+>
+> Pipelines were validated using the following GStreamer script.
+>
+> [1] https://gist.github.com/moonlinux/08295ba1f17ce7155550773f2d2cb6e5
+>
+> Previous changes:
+> v6: https://lore.kernel.org/all/20260530094326.11892-2-linux.amoon@gmail.com/
+>
 
-regards,
-dan carpenter
+I will review Sashiko's feedback. I will look into these suggestions and
+work on incorporating them to improve the code quality
 
+> Thanks
+> -Annad
+>
+Thanks
+-Anand
