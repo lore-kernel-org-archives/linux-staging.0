@@ -1,74 +1,74 @@
-Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0744B3EDE5C
-	for <linux-staging@lists.linux.dev>; Tue, 14 Jul 2026 07:12:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 482A3368282
+	for <linux-staging@lists.linux.dev>; Tue, 14 Jul 2026 07:15:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784013146; cv=none; b=LSRfEfUtIxLAQa2+L0b4q5eihMk4Sn7LO1M++H57hBSH7IY3qrhL+2LcaMNh8h2jOk6PC0YtnU7rLwjoiQtZZMqvpjhazfdu5CzYLYU1pcRIoSUGhb1wBT5W8dRc+3HQ39S/eMpKUbqyBUGZnYqK4LR0shMcTrcIvHVTldtEb4o=
+	t=1784013352; cv=none; b=FLGnNBTMpR5PgO38mP7ehB2m7llEyiJbQCBnVHrz4DpeAK44CG2epEFJBO+41fCdGF7LiCbfmg7LkU6uG/B9ZlArXPQTD2lngsKr7id6k1P0O8L7NIx+7yLjJeU2MkUrEi9y0rnAopWJ2lJXfS2S345DiKz+OOSbpvGxhqxuk2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784013146; c=relaxed/simple;
-	bh=So77X3sMp+X8X/Uf6jYIL4nu6vIlJI8yrVJBIzmhyUE=;
+	s=arc-20240116; t=1784013352; c=relaxed/simple;
+	bh=H141Rol/s91YdtYDmDq4sqT8D3wkXMjtdEljbEKZvLQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H116e/lOuwiPNWPk2XfpXR2Z7dcLhJUFYDSyBhqieM7VAbqnMW/eLzsaftvI9kcX2do53f51mhrLEHnzW8ZBehlsnqJOKCimY3/G/xAhN4LVcqSB3/w8PERB0pka/56WpfFSv2CdMwxV+Ka7ASsANLJGKsQS/Q6hi/tzIFcQCT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bh589rne; arc=none smtp.client-ip=209.85.160.52
+	 Content-Type:Content-Disposition:In-Reply-To; b=DxcWQ8TbaZnmfn/Cuphj8YSfvUG9662WXTSar6O7zIlY7mlvACJMopAkNJHfIHqFbV+9cDofAKaiRM8KJlzxZ1WFRYXFhDixABKUnJUMnnpjivdYYmH5h3Sn+e+t0iLlPjN9/Gd3r8R1viipxKpVgy06ggQvC6MZ4H+L6+YPAKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H3iAIjQ/; arc=none smtp.client-ip=209.85.210.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bh589rne"
-Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-451fd21113cso648818fac.1
-        for <linux-staging@lists.linux.dev>; Tue, 14 Jul 2026 00:12:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H3iAIjQ/"
+Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-7eb68bdf53aso1581221a34.3
+        for <linux-staging@lists.linux.dev>; Tue, 14 Jul 2026 00:15:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784013130; x=1784617930; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1784013350; x=1784618150; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=i7/u5DtJLPl6AAyXQzJGGOWXfylHC+3RbrSgc8B6ED0=;
-        b=bh589rneYXRj1PIyFa6zf5eJGSxV3FvozOKATX2+AidN9/7Yb7RIgxqF9FEJFTvRLr
-         TXSpHBqFCyshaty30Jzms0FzsLi5BXSFbRn6AhmiAJ5t//wXu76ijCXnjO1m5ariF9FI
-         NdcVk1Ujc52t5fNjNX90Ow+Ca0nbxzF4e0rNiSbgeq5Kz2VcGg0tYeENFeoa5EAFLxGE
-         EPOWPIxNCCIJc5cLtAunXpHk5yOUxFD6RLvVcjQdr1hVeq3lrcoE1j36A63UBW0bWZZt
-         cPtXKI0/8ZhGp9P/MSgrcjSFNnMHc5cWK3PaR8+Coo1VRgk3ZhHvZ7EKmA3m0cHRWOi2
-         2Grg==
+        bh=M+9VXYQoFKrduQQaI0MXfTWAOznl3U7BNrRUoVoj9CU=;
+        b=H3iAIjQ/GAQ1Fo9v4a9Ufg9LG8BiBS84nBEREXUK6NRApGWiSEocAP7MLkmrAPqPUu
+         1RHJexDLdJE/sAj9qLTmwhR5jDe5UyH1gj2sqHe+UeUgb+pw9WBJdtkicC3l9nCMyF/K
+         C5NqjzLfkIBPfQCohTiC9jefhel7brf/0VP8S7TwUDCZtE4buTBV0RlOCfAvOyzNARbu
+         FVNf5hqsOSlur+RaBMXB7otStE/jDemcf0inlAvFxUdyhoQrZW2oNVWBBXJCS4ukGEOT
+         2ETpsaSm+MFwuKqqoB65+ADXwrxr91wZOKtDif3OG1eoAKoYFchE0NpaNWeXt+M66Rfj
+         PzwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784013130; x=1784617930;
+        d=1e100.net; s=20251104; t=1784013350; x=1784618150;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=i7/u5DtJLPl6AAyXQzJGGOWXfylHC+3RbrSgc8B6ED0=;
-        b=VDffryXPMFqbrAeZJt4r9jzg6eGyoABr4CiejYfeKYHLkyTvsTU/5yo7ILJLU8iFaO
-         N6svgy4wNDXcfS2cugKUbByF21zxCM3imaDo1rHHnJVs2q2OStQqG1e+9yih5YDFdYHk
-         0WEi1CYh1yVU2m5j/xhdQTr20F8fRenVdfvzav+GpQZqacOT0WtZVOu4WscyDQ8eLD+7
-         wnxo8YyFIoVB84Hmu1vI/T1IRtP+8nBf2ooMyJ1hLsp3wXK0y8vT/nKe5dbZ7xMr3+lI
-         +n2glxAVn42l7ZWXhvxrK4m3MF5rZFnxnMScLcbnvu5tYxy9IMrGp6sGk1Qsj+N3z0a/
-         YPPw==
-X-Forwarded-Encrypted: i=1; AHgh+RqVCq1SRbNAsN2crvDwz5eXHkX3w/0uiUd5Q+JL0fyunlma6wPs/1FJf46ALiujQOnEu5QQKnM6jzQNqBkR@lists.linux.dev
-X-Gm-Message-State: AOJu0YwJzmano8fTNA9RrIAtbM97SAt1inRTdASi4MuB7GpSy7/5k/8s
-	WnoiqUwCDv6DB7HXxetUIjocrqwYt/Rtr1eXO8GWq1xaaBGL7BfpD1nu
-X-Gm-Gg: AfdE7cm5iBoulEX1y/frH0y3RmflVKNkUqKtSD8mY1cV1Kj21+WkoKeR4hMqdt6RV/l
-	iwazgHbR6grzjEpbU1k54tSNhCFHQCXVYhYsb2slUXYME4QEaSGorrYppFwAvYeMkvbiGsynJ+5
-	EhjxrmzBjfaJapNj+UX7dRKgbvEBB98wZXwDI7gpFdJkMJ3FU6oiuyOUJeqbi2lM6cOCx6rGZTu
-	FP95oYreTE9eFwVFRs3hGF5dclzTNcf9MzbOxGIcNnXyRa3gJJjPZSylglu8JAjfA2Nvc64nKGp
-	zAPvKpiXa+vt8CRRajfAZPypygpdM9TitWDZFOxfu4MmdtW7rIf4JPyZOvrg6emAEWjsYqYEGab
-	n1D/X+8Ck1qoqBUbDadopgvUwF+8a0QExPjQLmhGGYZRRgY+jzbNY4EtDvIhoecx5boonukhlsq
-	ld+YRO
-X-Received: by 2002:a05:6870:e188:b0:443:1de6:beb3 with SMTP id 586e51a60fabf-451f253aa66mr6397334fac.5.1784013130404;
-        Tue, 14 Jul 2026 00:12:10 -0700 (PDT)
+        bh=M+9VXYQoFKrduQQaI0MXfTWAOznl3U7BNrRUoVoj9CU=;
+        b=RPLF/6ovf1oi44BFuLTxRPhbbzczJI3VojekNE2nNV2sGnjUnOTy60ZVzubQHppnj+
+         vJGSzmYm4x54sGFnNp8n3RZydRkzlIWU5wiTxqjx+r8klrvBzX/GqbIwgYyazCF2c/R0
+         u+3vwqcS2lTNO78ttj6pCODEGb7yk+iSsMbV8W05RhOZZmXCXix9n78TFZ9LpO+y55HH
+         Z9NL4cy7n68B8bLeV2s+KwFIGiSHHYCnWy3svvOJcUPv/P03Ksm5Ez/+DDILLkmszD16
+         +A7/XgXCyOjabeOCNyqLDAepWlhtfS59GtAPYnjsq6VMPDtLsRFKuJHmA3FiF1demPmk
+         qgeA==
+X-Forwarded-Encrypted: i=1; AFNElJ/jo3HCcLxBVVGYRD8u3i1phI5E3DcMJsUJdTqC4eI2MqxByF4gf+LkO9l4gz/8ZzlWc669ziJIruyOBa7c@lists.linux.dev
+X-Gm-Message-State: AOJu0YzhYtA3X4QoizkXcLu/12OjxsVO1IA+5DHFCwZneXuTT7ve2hzk
+	hAu8792ANP8vHQDVdH+RsG/+H5v6+QDyecf3S6PSBs8S6lpqpyOPVC2yNHJwDnpxUC0=
+X-Gm-Gg: AfdE7cmZE8unYx0H222C5ArGbfCSPmNnzFZk/2lbUcBJkE4xexETlu04xDzZSqdXIYH
+	Dcieg+5KVkoB20g8bw4tZwWLWTj+8pj2wanv0fpVG9EWLJfA5Hk0Zs4Uepxrv/jFXd36Mf5YSsJ
+	tpBuwOG8o/+Mitc94tu1QF6Bdl8577GbS27qftPqiGzBeQsbIRUilzsS/qrDGJikp8dWhs0ZdqH
+	ujSca9KNGJDi6CE/mW14vTzaY2pv52DxvB0UUyVo2k4QtjsR3j4y+FjQ65+KHtTj7/YDjq71W5i
+	fENgSDc0/Bl5/R1lVt+NccjYhRuuxVMUe5Fw4DGQBvpzHQTP0sIbvZZVD1ZQJTPASeuIig/xT9B
+	3gGls0fPN4Z+ITMMAozZdP1OGGB1P5MSgDu9VXa59kTN8a6oSyjHU7Na7OJLWadmktS3ADH1thL
+	gI4SOK
+X-Received: by 2002:a05:6830:6b05:b0:7e9:c481:ff8a with SMTP id 46e09a7af769-7ec096782c6mr8345084a34.11.1784013350259;
+        Tue, 14 Jul 2026 00:15:50 -0700 (PDT)
 Received: from localhost ([74.80.182.78])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-45191244618sm15385010fac.4.2026.07.14.00.12.07
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7ec14489139sm6778498a34.5.2026.07.14.00.15.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jul 2026 00:12:08 -0700 (PDT)
-Date: Tue, 14 Jul 2026 10:12:02 +0300
+        Tue, 14 Jul 2026 00:15:49 -0700 (PDT)
+Date: Tue, 14 Jul 2026 10:15:44 +0300
 From: Dan Carpenter <error27@gmail.com>
 To: Alfie Varghese <alfievarghese22@gmail.com>
-Cc: sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
-	bingbu.cao@intel.com, linux-media@vger.kernel.org,
+Cc: neil.armstrong@linaro.org, gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: media: ipu7: add NULL checks before
- ipu7_mmu_cleanup() in remove
-Message-ID: <alXhQv_8v7ndQwWx@stanley.mountain>
-References: <20260713172127.615-1-alfievarghese22@gmail.com>
+Subject: Re: [PATCH v2] staging: media: meson: vdec: fix advanced concurrency
+ and UAF bugs
+Message-ID: <alXiIGfZjTeaD7gm@stanley.mountain>
+References: <20260713181602.773-1-alfievarghese22@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,42 +77,17 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260713172127.615-1-alfievarghese22@gmail.com>
+In-Reply-To: <20260713181602.773-1-alfievarghese22@gmail.com>
 
-On Mon, Jul 13, 2026 at 10:51:27PM +0530, Alfie Varghese wrote:
-> ipu7_pci_remove() calls ipu7_mmu_cleanup() on isp->isys->mmu and
-> isp->psys->mmu without checking whether isys or psys are valid
-> pointers. If ipu7_pci_probe() partially failed and left isys or psys
-> as NULL or an error pointer, the remove path will dereference a bad
-> pointer and crash the kernel.
-> 
-> The probe error cleanup path already guards these calls correctly with
-> IS_ERR_OR_NULL() checks. Apply the same guards in ipu7_pci_remove().
-> 
-> Signed-off-by: Alfie Varghese <alfievarghese22@gmail.com>
-> ---
->  drivers/staging/media/ipu7/ipu7.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/ipu7/ipu7.c b/drivers/staging/media/ipu7/ipu7.c
-> index 310e3f24e571..41436f22c684 100644
-> --- a/drivers/staging/media/ipu7/ipu7.c
-> +++ b/drivers/staging/media/ipu7/ipu7.c
-> @@ -2637,8 +2637,10 @@ static void ipu7_pci_remove(struct pci_dev *pdev)
->  	if (!IS_ERR_OR_NULL(isp->fw_code_region))
->  		vfree(isp->fw_code_region);
->  
-> -	ipu7_mmu_cleanup(isp->isys->mmu);
-> -	ipu7_mmu_cleanup(isp->psys->mmu);
-> +	if (!IS_ERR_OR_NULL(isp->isys) && !IS_ERR_OR_NULL(isp->isys->mmu))
-> +		ipu7_mmu_cleanup(isp->isys->mmu);
-> +	if (!IS_ERR_OR_NULL(isp->psys) && !IS_ERR_OR_NULL(isp->psys->mmu))
-> +		ipu7_mmu_cleanup(isp->psys->mmu);
+Please slow down.  Wait 24 hours between resends.  Otherwise it's like
+we are hovering over you watching you work and holding your hand for
+the tricky bits.  It is overwhelming for maintainers.
 
-The original code here is fine.  It is the probe() function which is
-is wrong.  See my blog on how to fix the probe() function.
+Follow the other v2 rules as well:
 
-https://staticthinking.wordpress.com/2022/04/28/free-the-last-thing-style/
+https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
+
+Also say that you are using AI and haven't tested these.
 
 regards,
 dan carpenter
