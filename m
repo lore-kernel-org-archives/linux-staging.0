@@ -1,71 +1,71 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25F2D481A89
-	for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 12:50:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3350B48AE24
+	for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 12:50:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784119851; cv=none; b=ox9YFYQWoby4c4kHuCN2r2jxKh6EIcTHVJLVNBfpyvLevDP8MA+t4E9oQW9wWO8b8oWSkOyrC/WPDKMGVqWd4DD3EyXA3sBz+CA8ftNADkpAdEYqrIyx2qQ9FnGEYlzuPDs91zHEFA9onDoYhRZ+fnrZR5QPX8RNi95EmrD2Gs4=
+	t=1784119851; cv=none; b=MsuwOPQXO22DwBo6Vl7vKABsw2OoCEwKSdWLLcHub6lHZq0Z+8b/YQg1Q6hMKMt+qTbu2q+JqP/lDm+JDz7/jjj1kXbxLmwm/nvdHQnOgFssHJBsH9JKdg0+aE2aG1NLMlWOoZzUuQ7gX+fg2hXRc1n4EIRWETtkRa5efoHoRLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1784119851; c=relaxed/simple;
-	bh=n6fe+naOVACowWy5NFQ1XJF2gzsEWNhJRUv7gG6UAXg=;
+	bh=ugc1wl73gyCiFlC8VPNE08duIEs6oNaSxsOBFhWPaAw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ttzDyPncwmp1o08KHMXdpXuN2moJTQXe7fg+CVS6KLVe72ixLL8gwGojkFI0EPY162rNiRI2zoJLCy3pUS5OkgLqL/xDcj2cPIKjG4lkHGpMae/qZJE/kC5raA3Tm54BNcZv1HoloSf1zDoNz6qBQRT/tABoxZ7iPEFe0e9vuM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QNpBEcSv; arc=none smtp.client-ip=209.85.167.45
+	 MIME-Version; b=fep9+HHbMDP8uigL4TeDnl2ZQWt896snWhvl9ACAhReQQCh9LPZYvpCFWx9vz/im1ctHYvyY9wPs+NvdJzM22B/fZ9yYdbER/n76xwyvDvsXkfymIqgAIZ7E1gbRML+GXD8yciElNcK8Ij+cKyKrVlE1fa+wz+k9WUNMFe6CWAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QsSc+XiX; arc=none smtp.client-ip=209.85.167.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QNpBEcSv"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5b159850b16so1841793e87.3
-        for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 05:50:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QsSc+XiX"
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5aeae771c49so6245183e87.3
+        for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 05:50:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784119844; x=1784724644; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1784119845; x=1784724645; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=UEcs5vvVq43qJQUckvqztaAgEygqZRuFTmokfHHDOMs=;
-        b=QNpBEcSvZ9ggBvJxQIKt0DPkDrsuhEb+IWr+7S2SQhP8QuwjFG3OPjM2DnTrtp/8Zv
-         zPs7IW1cgE5P0zW6hlENkyMLg62siip5cV7C1DWGWvy42NifFek/kRdHAmx9iKGXh1PK
-         rJOUzLQaraLuIixbyXy/h6vkKIjaIPrTA42FJ5fcYd2xfR2YQhkE8PeV5rbcEQiEPvvB
-         a4mOvWOdU4MOEPBFmIIlCV8T5ynMPwtQ+JysRUqq+bBxXxGkFD6UERvQ7D2mwQS6i5FB
-         nwMqpssv5QN7FxfAfCZw3U3HdCSomJFP/GfSa2jq67niFCQshqx8KQ9TgNRnZlNDP3Cv
-         uHUw==
+        bh=AMl0JK2aYeTwB6YV2v47Dym/vUmzgdvhjJIdnzT3agg=;
+        b=QsSc+XiXAQ9AZIKwKL5d0JSou5uXmuC7BC/mT6eNkXquq7awFWCgwHUxf2P2CZhIun
+         gvaeskHd0bAJLkfC/fnOkcX1XWFyr3Rorv1F2KOM0b4eknbZMVRqZi+UpfWLgEsCN7LR
+         ZBErBD97WZHvLTmMdvcCSk5nCjcSS8qy7LueUCqdziKQJItZ8sF/6wfmMOVBdlCxAf9m
+         ZylLzP1GPymalvTgJa/JOqMNsFSk8CGuh/SCCJqrBg44iyGeGR2dfd3JKgu34F3fPDxJ
+         voFpcyUL/LuB6qrMCpGqIt7D8TK5fyIfz0VHRQp1Any8cI8LbAj4UVOwtopUsqve+Gs3
+         M0BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784119844; x=1784724644;
+        d=1e100.net; s=20251104; t=1784119845; x=1784724645;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=UEcs5vvVq43qJQUckvqztaAgEygqZRuFTmokfHHDOMs=;
-        b=lgtYh4U28//TdXSZNUjYs10c/EUbP/PwhSSiygcy/S+40RQ05iqnxUb9qysFCHysn3
-         DUFEuT/Gn91fIfOfx5r1s7eM1h3GdC5+0sVq5H5bSNGd2XEhwevQGeCGebD8wGNU1JOX
-         uJHkgbcBSBFe/95O1fROwI41pvqQWwsjgz00tg4zXv0UzIGniaUY5BPiCoel9lLchU4O
-         myPNZEX49fzyzMMx1Jv/VbAxMkD6T5qdDzip4xFlc3DbZSxbTCxYlfJKy/IWDC8v92pH
-         3ZSJ0pC5Vyp7nzeQTey4qonb3/I9IjfjFs+gRMqIHhWhp/lvFsG8IdSvTrY9u6xU+Dtu
-         0QtA==
-X-Gm-Message-State: AOJu0Yz6CwF0MCASW0Q7+MTW9JVHpLuONguDjtYPE/c2v3UjSpO/HmSt
-	FkARJtDVoGJmM39ehq7dRYldBRda5drksC6gqbTipUxl/JHovqa/UGnLH9Z4oyVVXZc=
-X-Gm-Gg: AfdE7ck9c9ntiGEax0vtFqLYf+NEOIGfZyi4tipQG65f43GN8TKIIIziF5k6M3FoVc+
-	wpHTlpm5VhbJMvQteNu47MaanQgT2PUiNdviajjEQUOx7wEfQwUd+n6K+64AsuW+1GwHklH/mLD
-	coGHcwRn0jZ8/yWwYBxj94qN8eJHpcMjIPssmbMEtM2YAbjaCQwES/VLBnBNMjPcK4Ux8qmNk6x
-	VrGyPyWJyvkcY2u+2xBygJZaJcsoOJY0iydVi6ECQda2j45lVeDxhWqgm5/nsQQJ19AkTwULerA
-	OhWLxK6vsk/3+sF6qc4tYy1tvjMg8yyUmZsX1azYr81pzCkjfBQE92uEHQOFiFecSrj7DmTX8l4
-	U88Pb48H0cx0ukAxoig9Sltxl6pfiddnbnaLImGCah4NN1wbEOx7a9ABXeNNRj+yn6+7/O9MXdP
-	w/BTHOGtaD4okgfiFUM+1SnZGY4f+PdiHOqNkdRNv4UjyqhvKsFFyyM+9hBfEBwhw+Jn8plJhP6
-	glt2V92yz/fmQ==
-X-Received: by 2002:ac2:59c8:0:b0:5b0:17f0:606 with SMTP id 2adb3069b0e04-5b1582a3631mr1154258e87.40.1784119843966;
-        Wed, 15 Jul 2026 05:50:43 -0700 (PDT)
+        bh=AMl0JK2aYeTwB6YV2v47Dym/vUmzgdvhjJIdnzT3agg=;
+        b=cs/kSgVt3ORBSrKeWRJpj/bbSk8KH7irtg8ypPxo9uj5pISE6XeImj+KuXQ/7f4IBt
+         hjZ8LQWqIrKYeeiWiZEQlguIjPy8bGqMB5uQ00mzfNk3iVQ+q74Yt4gGsiLaESPePO1j
+         MUg48KJ02nnTQHVgLiS9ZQmVwjQFdwkhaTVfe6FnZAzZC4MqBjKtAYIxhyK/zlYKVHRn
+         mGoZm8P6whKppO78ZqLVRHVwMM5fKMNOptWS3knfWOMwUVUxGOLtO6zTGXpZ0mtxQ3mC
+         +sQrNhXyhv9PX6GXu6swmsmm8GeeBJSvWl94YcJSoUKArUNLFpb1JH1o0q8bJY5+bmaK
+         Tr5A==
+X-Gm-Message-State: AOJu0Yyj/JcRNCQ0sDUPo0Pp/2JkUgpVpbaC0gZ/cz9CQ+cA3vZnubgY
+	jJlKCzcmv0natmrJjbmWQd5a4jFo5+PWyxM6cAhsVgbprRKdLE9TYcQS
+X-Gm-Gg: AfdE7cmH2yG1Gh+VedyodmtNUQ3IgFxZabVIyUVQoeEDC5ChTQ0buCwL22+vZ2xlyqQ
+	erWe2zJ/uE1db/aEsbjSV730wSbV52FKa/R3aBl2cYAvo2tcMa6PPdtJ3lNDxmlmF9bfvKmBUjU
+	s388hTtZOZhAtaEWlotfy4n50o4OhG/Pn/CgbSAOyK33T4szc8emGsW9Oz6Z/ZmxF/r6OqsNxk2
+	fvzQoatqxdN49UrCaj9q80GbgUbAcbpYNO5IE4Q3sBq2Cic0OdhyD9WkGdy5DxAG2UABXU4Y8sm
+	5Z2F+uZ3ZeN+X/zd2G8p7uZuzB5Oih/El8wqtucBf5dbWFP9/+XROfwumCJxUYOKVyJwLSkd0v8
+	nLEaVqTJMyP6lEaUov6nyt5FU6OFRIaachhg5KNwcBKtTwNeDRPcLKTn+0Wb58U5YSX6mGSUcHK
+	7ZgqTE/ym03vlKDKGnw4GVayxZZZEFO2dMVC9SYMunxlTqivQseaKXKBGm9ZFjOkAlE5/0Gr7Rd
+	dA0XjtVzoizeg==
+X-Received: by 2002:a05:6512:6819:b0:5b0:15b1:3d5d with SMTP id 2adb3069b0e04-5b15d783560mr562863e87.22.1784119844729;
+        Wed, 15 Jul 2026 05:50:44 -0700 (PDT)
 Received: from archlinux ([94.180.44.28])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b022fac999sm3404042e87.55.2026.07.15.05.50.43
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b022fac999sm3404042e87.55.2026.07.15.05.50.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2026 05:50:43 -0700 (PDT)
+        Wed, 15 Jul 2026 05:50:44 -0700 (PDT)
 From: Arsenii Pashchenko <ulijg308@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	ulijg308@gmail.com
-Subject: [PATCH 36/61] staging: rtl8723bs: remove rtw_wmm_event_callback and update handler
-Date: Wed, 15 Jul 2026 19:48:04 +0700
-Message-ID: <20260715124829.90290-37-ulijg308@gmail.com>
+Subject: [PATCH 37/61] staging: rtl8723bs: replace halbtc8723b1ant_SwMechanism with direct call
+Date: Wed, 15 Jul 2026 19:48:05 +0700
+Message-ID: <20260715124829.90290-38-ulijg308@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260715124829.90290-1-ulijg308@gmail.com>
 References: <20260715124829.90290-1-ulijg308@gmail.com>
@@ -77,98 +77,104 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Completely eliminate the rtw_wmm_event_callback() wrapper function.
-Adapt the signature of WMMOnAssocRsp() to match the event dispatcher
-prototype by adding an unused buffer pointer argument.
+Remove the redundant halbtc8723b1ant_SwMechanism() wrapper function
+from the Bluetooth coexistence code.
 
-Update the other invocation site of WMMOnAssocRsp() to pass a NULL
-argument, and register the handler directly in the wlanevents table.
-This removes a useless indirection layer from the event handling path.
+The helper provides no extra logic, serving only to pass the arguments
+along with a fixed NORMAL_EXEC state flag to the underlying function
+halbtc8723b1ant_LowPenaltyRa(). Removing it simplifies the driver's
+coexistence mechanism path and eliminates unnecessary indirection.
+
+Clean up the function definition, remove its prototype from the header
+file, and update all call sites to invoke halbtc8723b1ant_LowPenaltyRa
+directly.
 
 Signed-off-by: Arsenii Pashchenko <ulijg308@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme.c        | 4 ----
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c    | 4 ++--
- drivers/staging/rtl8723bs/core/rtw_wlan_util.c   | 2 +-
- drivers/staging/rtl8723bs/include/rtw_mlme.h     | 1 -
- drivers/staging/rtl8723bs/include/rtw_mlme_ext.h | 2 +-
- 5 files changed, 4 insertions(+), 9 deletions(-)
+ .../staging/rtl8723bs/hal/HalBtc8723b1Ant.c   | 19 +++++--------------
+ 1 file changed, 5 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index 1450589aa..b57b665c2 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -1483,10 +1483,6 @@ void rtw_cpwm_event_callback(struct adapter *padapter, u8 *pbuf)
- 	cpwm_int_hdl(padapter, preportpwrstate);
+diff --git a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
+index 0613beaa3..522e4dd4c 100644
+--- a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
++++ b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
+@@ -755,12 +755,6 @@ static void halbtc8723b1ant_LpsRpwm(
+ 	pCoexDm->preRpwm = pCoexDm->curRpwm;
  }
  
--void rtw_wmm_event_callback(struct adapter *padapter, u8 *pbuf)
+-static void halbtc8723b1ant_SwMechanism(
+-	struct btc_coexist *pBtCoexist, bool bLowPenaltyRA
+-)
 -{
--	WMMOnAssocRsp(padapter);
+-	halbtc8723b1ant_LowPenaltyRa(pBtCoexist, NORMAL_EXEC, bLowPenaltyRA);
 -}
  
- /*
-  * _rtw_join_timeout_handler - Timeout/failure handler for CMD JoinBss
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index 25dfb20f3..62abfd896 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -4658,7 +4658,7 @@ void mlmeext_joinbss_event_callback(struct adapter *padapter, int join_res)
- 	update_capinfo(padapter, pmlmeinfo->capability);
+ static void halbtc8723b1ant_SetAntPath(
+ 	struct btc_coexist *pBtCoexist, u8 antPosType, bool bInitHwCfg, bool bWifiOff
+@@ -1271,35 +1265,32 @@ static bool halbtc8723b1ant_IsCommonAction(struct btc_coexist *pBtCoexist)
+ 		!bWifiConnected &&
+ 		pCoexDm->btStatus == BT_8723B_1ANT_BT_STATUS_NON_CONNECTED_IDLE
+ 	) {
+-		/* halbtc8723b1ant_SwMechanism(pBtCoexist, false); */
  
- 	/* WMM, Update EDCA param */
--	WMMOnAssocRsp(padapter);
-+	WMMOnAssocRsp(padapter, NULL);
+ 		bCommon = true;
+ 	} else if (
+ 		bWifiConnected &&
+ 		(pCoexDm->btStatus == BT_8723B_1ANT_BT_STATUS_NON_CONNECTED_IDLE)
+ 	) {
+-		/* halbtc8723b1ant_SwMechanism(pBtCoexist, false); */
  
- 	/* HT */
- 	HTOnAssocRsp(padapter);
-@@ -5614,7 +5614,7 @@ static struct fwevent wlanevents[] = {
- 	{0, NULL},
- 	{0, &rtw_cpwm_event_callback},
- 	{0, NULL},
--	{0, &rtw_wmm_event_callback},
-+	{0, &WMMOnAssocRsp},
+ 		bCommon = true;
+ 	} else if (
+ 		!bWifiConnected &&
+ 		(pCoexDm->btStatus == BT_8723B_1ANT_BT_STATUS_CONNECTED_IDLE)
+ 	) {
+-		/* halbtc8723b1ant_SwMechanism(pBtCoexist, false); */
  
- };
+ 		bCommon = true;
+ 	} else if (
+ 		bWifiConnected &&
+ 		(pCoexDm->btStatus == BT_8723B_1ANT_BT_STATUS_CONNECTED_IDLE)
+ 	) {
+-		/* halbtc8723b1ant_SwMechanism(pBtCoexist, false); */
++
  
-diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-index 1597fc33a..df5508ce5 100644
---- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-@@ -683,7 +683,7 @@ static void sort_wmm_ac_params(u32 *inx, u32 *edca)
+ 		bCommon = true;
+ 	} else if (
+ 		!bWifiConnected &&
+ 		(pCoexDm->btStatus != BT_8723B_1ANT_BT_STATUS_CONNECTED_IDLE)
+ 	) {
+-		/* halbtc8723b1ant_SwMechanism(pBtCoexist, false); */
++
+ 
+ 		bCommon = true;
+ 	} else {
+@@ -1975,14 +1966,14 @@ static void halbtc8723b1ant_RunCoexistMechanism(struct btc_coexist *pBtCoexist)
+ 		else
+ 			halbtc8723b1ant_LimitedRx(pBtCoexist, NORMAL_EXEC, false, true, 0x8);
+ 
+-		halbtc8723b1ant_SwMechanism(pBtCoexist, true);
++		halbtc8723b1ant_LowPenaltyRa(pBtCoexist, NORMAL_EXEC, true);
+ 		halbtc8723b1ant_RunSwCoexistMechanism(pBtCoexist);  /* just print debug message */
+ 	} else {
+ 		halbtc8723b1ant_LimitedTx(pBtCoexist, NORMAL_EXEC, 0, 0, 0, 0);
+ 
+ 		halbtc8723b1ant_LimitedRx(pBtCoexist, NORMAL_EXEC, false, false, 0x5);
+ 
+-		halbtc8723b1ant_SwMechanism(pBtCoexist, false);
++		halbtc8723b1ant_LowPenaltyRa(pBtCoexist, NORMAL_EXEC, false);
+ 		halbtc8723b1ant_RunSwCoexistMechanism(pBtCoexist); /* just print debug message */
  	}
- }
  
--void WMMOnAssocRsp(struct adapter *padapter)
-+void WMMOnAssocRsp(struct adapter *padapter, u8 *pbuf)
- {
- 	u8 ACI, ACM, AIFS, ECWMin, ECWMax, aSifsTime;
- 	u8 acm_mask;
-diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme.h b/drivers/staging/rtl8723bs/include/rtw_mlme.h
-index f15dfcac0..973688bef 100644
---- a/drivers/staging/rtl8723bs/include/rtw_mlme.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_mlme.h
-@@ -264,7 +264,6 @@ extern void rtw_stassoc_event_callback(struct adapter *adapter, u8 *pbuf);
- extern void rtw_stadel_event_callback(struct adapter *adapter, u8 *pbuf);
- extern void rtw_atimdone_event_callback(struct adapter *adapter, u8 *pbuf);
- extern void rtw_cpwm_event_callback(struct adapter *adapter, u8 *pbuf);
--extern void rtw_wmm_event_callback(struct adapter *padapter, u8 *pbuf);
+@@ -2019,7 +2010,7 @@ static void halbtc8723b1ant_InitCoexDm(struct btc_coexist *pBtCoexist)
+ 	/*  force to reset coex mechanism */
  
- extern void rtw_join_timeout_handler(struct timer_list *t);
- extern void _rtw_scan_timeout_handler(struct timer_list *t);
-diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-index b12128963..3d1126740 100644
---- a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-@@ -478,7 +478,7 @@ int is_IBSS_empty(struct adapter *padapter);
- unsigned char check_assoc_AP(u8 *pframe, uint len);
+ 	/*  sw all off */
+-	halbtc8723b1ant_SwMechanism(pBtCoexist, false);
++	halbtc8723b1ant_LowPenaltyRa(pBtCoexist, NORMAL_EXEC, false);
  
- int WMM_param_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE);
--void WMMOnAssocRsp(struct adapter *padapter);
-+void WMMOnAssocRsp(struct adapter *padapter, u8 *pbuf);
- 
- void HT_caps_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE);
- void HT_info_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE);
+ 	/* halbtc8723b1ant_PsTdma(pBtCoexist, FORCE_EXEC, false, 8); */
+ 	halbtc8723b1ant_CoexTableWithType(pBtCoexist, FORCE_EXEC, 0);
 -- 
 2.55.0
 
