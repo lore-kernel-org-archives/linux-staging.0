@@ -1,74 +1,74 @@
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
+Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E532F3C279B
-	for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 07:28:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 282F93C4563
+	for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 07:45:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784100533; cv=none; b=ZGMoM91i0KyPKX357c+VRRs8IECsTVvJcdcdW2gvZE4Sf2PFYnGLThylehBi2MhSxhqAhWXjxzYRm0c98jtJxgQh6SFB5SfMUtoAOWaKd/43avYGJYExOWpQWeM9cOUHzk52Pf1T9F1/y13jv1G6cBayskDTzID4SWAq+DZt38Y=
+	t=1784101522; cv=none; b=QUoICJSYs0Yosn3054eKH8UX1dfa90ki9+uVCU5dNPnJRc48e7WSFWXxPIxBiu+m15S+aeG7VNObeCfR6gzwApmQYTS1geSpDO2uUiy8QBuQcPbKbuDqH1EqQj6rJPTJ46SoCDyOCWc5tjBFzEmTHOJLW7hB4v18jBaItiOTRks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784100533; c=relaxed/simple;
-	bh=kyLCZZV9kbfs2YsCqC/zFnPHyjufd3uJsLGVylKb0mQ=;
+	s=arc-20240116; t=1784101522; c=relaxed/simple;
+	bh=PeiH9douFvc+HxIpB99pE1Gfd5/7tftG+WHI20aKOUQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nrdq6NmJf16Ff/l8H+k9pB54FnU67RoDFtUIOVDpHJij1bhnMRSdE6C8ppmDUA6LvokeYgnNWFqT9p6JVEklqHAvBmaJDF1YwoT3qE9jZMiAxENyQUYjoT/Lcwg5xgAq3jXjGsTfLUg86KYt5COCvXYTRuad8EK98dzi89ig+mY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eX51Nc8v; arc=none smtp.client-ip=209.85.160.54
+	 Content-Type:Content-Disposition:In-Reply-To; b=eKL7bgQ+174s/570WER0MLcdaoD8J750T3PeVvHYOmss2FXOMwD8o7sAve597pU4DBEC2dpTH3pCLRZUgI/3VZU2DWL7qHRtxZmEbVhMn/54pygZuLb3rkoddTbj+nYh2ZAGbXEu4ZhC834mvFZklOpwsxAwuobaEduyiJQuEnM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BBR0prLz; arc=none smtp.client-ip=209.85.161.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eX51Nc8v"
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-44cc65b0a7fso311893fac.0
-        for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 00:28:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BBR0prLz"
+Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-6a1888969ddso2955560eaf.3
+        for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 00:45:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784100527; x=1784705327; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1784101520; x=1784706320; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=UxQ0BxbdBsXkQRkJTN/tYd3cFPb7z2YjlCsAC7VkUCY=;
-        b=eX51Nc8vKh7LDIdpfWQflSrDiYQDCdjNrhonpZHB5cZAf8BzIPPvZKRpMmm1u4e2aA
-         3dWPFKmXX8ZZC80wErqiO7MBfD8GR7KvYxnpvWkdTLBw1U1FHbbdEl4zAkVu7OXiKucW
-         bqOZojNrwneSNRw9HLsCZHlhRmcWks972cH2jb7BhQHTlpcYFgujyOWvV3CqRDEo50cX
-         6NOzRAHYelA/cGVOuL9NHpNsybFieGx7YcwAeOqxxfOBaOWi6nJ4UhY+ZBD2CLDX5fGB
-         CqWjm+UU1oaQpBz+MmY+jauF012d/Mgswh+s0wXKrDGgrOxY5UGugE8i5x8b0kwhUdWC
-         jHoA==
+        bh=GhO1mJGgjWSe+KMt/J4uIGbAbNcsJnOSgG2JKrf7iyg=;
+        b=BBR0prLz+ST+08KjU+4XLiqMXEifZKQYC36vTw5XY4MLTGWqBRxwTydM5axPhSMKP9
+         mJ2u/Z0UnLYyKH8djecwgFGx3cKzlGMuW7Nna8iw0S9ZB/Ko/ltZKhHtFjtBfHCYZ/tS
+         bRS9PoCXGqy06yjyJyowB/W5d8q4VZnTsvGTHtuHV+YiFkN9bi222DxyFRhJFv9FGL7y
+         mZrXsFoZR1qpFT6DQYJYZe+dBvkmTZvIkM3CV1KwV2PcQVwcl0wccETX74h5HNAoaM2q
+         2MQzSFInJ3BgSjIyyJHJ2wBY8vfjTzuXTlRS0jRfycefJuNwuAGFcZqE0M6+SaHBd2AT
+         rVvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784100527; x=1784705327;
+        d=1e100.net; s=20251104; t=1784101520; x=1784706320;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=UxQ0BxbdBsXkQRkJTN/tYd3cFPb7z2YjlCsAC7VkUCY=;
-        b=Gq+uSC9fAS99ppkx2ebBlKB9ETjHvQ0TZexxdJW5Us1O2Ct0EqNq6eAdeVxKd4qHwL
-         6LLzLiz14OUENRgL+PMEY68cqe0V0iwQdhKJjFENP3mbbcYNOIMbDH/6EJIW92/Py3HR
-         lpu0DKEbVg7iA0yab/d6xzi5bsBOG65IZdKInh+ivh2SdGQ65Kpghv+KZUGRR32qOCWM
-         CiKcJCFZ+qW+d471JrLHlbFxLg59MKHK/V+Gh/JwMQkQwSBzKHMC+dYwHKAHpK5L3Iuc
-         qbQKmcnsCQkf810K7U1ZjCJ/wkbYQCRf/ePeOFWwmvGOZYWSHVC/4r+4ElkUq3OcYVtm
-         012Q==
-X-Forwarded-Encrypted: i=1; AHgh+Rq2HYRFxGTVwZrtHeMHVvy32ZfML5HM8MB5UvOH9Sgc7mczQjRaRvcFu+pUzZPjtH8TuwERinys9JJZ/3qi@lists.linux.dev
-X-Gm-Message-State: AOJu0YwSej+RDU4WTipJdV3mT1cknRG92POlN8Rr/Jz0SfGv9oNdemZ1
-	qmAYOARlRtwR6/PVyhtHH5JFf/TAyOzSS+yY7tzFRw0NxvYWgHqsFpen
-X-Gm-Gg: AfdE7cmQPIimPhExeUwN4Hh3+rJHcVNiDincyjAm8KBvOErN/HQf/EdMpFj2G4qiVPs
-	kYUDZlODuQTvLuBMGfTj25x0gVXyo+qsPuwfOV8LcvQAB5LWhp9SQp2bvmfyep9DvOIecyyQJ3y
-	HjfPTJ8x8iOkadYAlJ7Jmbs23pUqafA/5TmCOFr9sYYvSjSVIO2sN3H1q84D8AZb9xMq/a8A1NC
-	AelTyYCR2jEP+9BOyPtSCvVLkDgWazBU7yfOBwZnPliiSIdKF/zoRFKBchqTqCIX1bpP4K6c5kX
-	8MirZKC8Kl3lCn6X7xEywhiDAXFNJrXxtp6Bm3mwr22gdhnPDPr8fJiJwAaJhpZSrQVGqZ3rb1E
-	nVWy8j9vRsfEFy8R3BeK/DfWuQOAApl4p4CDB46BQjc39hHQ8b9O+qJ5ZqVcORHSKv+RyDu7QUW
-	DGVIPg
-X-Received: by 2002:a05:6820:f021:b0:6a3:1b9a:48e8 with SMTP id 006d021491bc7-6a39bee8e8bmr7442734eaf.33.1784100527217;
-        Wed, 15 Jul 2026 00:28:47 -0700 (PDT)
+        bh=GhO1mJGgjWSe+KMt/J4uIGbAbNcsJnOSgG2JKrf7iyg=;
+        b=AnmYHWGVeGcRCVsW5gIxPdlKOwTk8VkZ2qoqLZB8kTpuNMyCIQG0ytQeT/uDi2EV6O
+         ls5qGtL9osbbHu+lSSAWPil6zS9G8GEToOm4YYa9HiBU/whzkDNJlZevFUT3QU2Tf9S1
+         3Mpn7808ImDIKlByr2U+IEScTKDSn+cOfuA6CdqnoFYhnBWnRbszRFCEXLdVOi5+jITu
+         aUVPGxT3FUeSQYjINf7fscdEgmqfiFimWRTWQpV9aeoABe9CC94J70W5VYM6vGEqkWdc
+         hltLk2W5EVwVQYJMI8pCK0t0Wml+Oo/YIekw5vJ8X5dXSpHmXOwm48zoaXsOwbLELO7c
+         OF0w==
+X-Forwarded-Encrypted: i=1; AHgh+RroH686L96F8b3lrOLhAkrV0Cy0JrbSjdlNKtoWjXbdjQKsfXHubsbYrKbOCh63gSSqsfy/OxJ7ttPBwLt6@lists.linux.dev
+X-Gm-Message-State: AOJu0YxadDCmdbMUpjK4pbdERQ8ft8TXZV6gVg7+io4xWkVmQxHKkD8v
+	gbkdVRt9IvhITKaTPtLP43BYg90UMpW2G73pKoJ58QS7/pygsI5VYLyl
+X-Gm-Gg: AfdE7clAGEQFbmTEi+smelQgXOak+3serCqFyJ2s0STYrC6p2ppNkFO1IwQbZ/kYF4b
+	rBnRqhiG4Wb1YXad24l/OwRt4tzzj6XvfLrJSkD5HKYEiHHnsDXh27wrEiYUnV3aATFB7K1JxoO
+	Y7FZArGUfQqJMoIToLuiz1v3Y2g3jL/cjryLn1q25KKAsTtKG4dQjuu39aX4JPJXUPAsbQrb5ug
+	L5Oz+uD4zmc9FrKMEUEvKCuEYbdycEMUSA2mCWafwZgHIvCMUoEVNg9rIy6igD6gML8sDcivfuU
+	O+mSDtzUJPyycLEZ7//fox29hODuJvVtY2a6skuADmSpP20lYaxfYrU/2vNZQTRTCt1Q8zSKOAB
+	PYjg0VhkybHjJg8u7+/Cd5Ss2zQutPAjOh563mxw/RmVshUJzj+XlSc40tzGmFnpsOngD6YtpDm
+	C33K1X
+X-Received: by 2002:a05:6820:298f:b0:6a1:fd87:5325 with SMTP id 006d021491bc7-6a3cbae177cmr3271498eaf.19.1784101519915;
+        Wed, 15 Jul 2026 00:45:19 -0700 (PDT)
 Received: from localhost ([74.80.182.78])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6a36a3b0d60sm15711707eaf.0.2026.07.15.00.28.44
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7ebcb262da7sm16673556a34.17.2026.07.15.00.45.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2026 00:28:45 -0700 (PDT)
-Date: Wed, 15 Jul 2026 10:28:39 +0300
+        Wed, 15 Jul 2026 00:45:18 -0700 (PDT)
+Date: Wed, 15 Jul 2026 10:45:11 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: Panagiotis Gravias <graviaspanagiotis1@gmail.com>
-Cc: andy@kernel.org, gregkh@linuxfoundation.org, namcao@linutronix.de,
-	tomasz.unger@yahoo.pl, dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+To: William Elder <williamxelder@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/3] staging/fbtft: Minor cleanups.
-Message-ID: <alc2pxlSIEv5FMWa@stanley.mountain>
-References: <20260714190958.219437-2-graviaspanagiotis1@gmail.com>
+Subject: Re: [PATCH v4] staging: rtl8723bs: remove comparisons to boolean
+ literals
+Message-ID: <alc6hzi8Eb8LLRqx@stanley.mountain>
+References: <2026070738-usual-rinse-7c52@gregkh>
+ <20260714210843.72848-1-williamxelder@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,18 +77,25 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260714190958.219437-2-graviaspanagiotis1@gmail.com>
+In-Reply-To: <20260714210843.72848-1-williamxelder@gmail.com>
 
-On Tue, Jul 14, 2026 at 10:09:38PM +0300, Panagiotis Gravias wrote:
-> Solved some style errors,
-> parenthesis spacing, aligning arguments, replacing udelay() with
-> usleep_range().
-> 
-> I hope this makes future checks with the style script cleaner and more
-> helpfull.
-> 
+On Tue, Jul 14, 2026 at 03:08:43PM -0600, William Elder wrote:
+> Remove comparisons to true and false as they are error prone.
+> Use the idiomatic C forms instead. Removed a stray blank line
 
-With old code you should search lore for why it still exists.
+Don't mix "Removed a stray blank line" into unrelated changes.
+
+> 
+> Signed-off-by: William Elder <williamxelder@gmail.com>
+> ---
+> 
+> v4: Per Greg's request, included all patch revisions and moved the
+> version notes below the --- line
+> v3: Fix inverted logic for ht_option checks
+> v2: No changes, resent v1 as a mistake
+> v1: Fix redundant boolean comparisons and introduce inverted logic on false conditions and removed a stray blank line
+
+Please work against the latest staging-devel tree.
 
 regards,
 dan carpenter
