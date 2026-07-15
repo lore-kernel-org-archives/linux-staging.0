@@ -1,71 +1,71 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F05A41B8EB
-	for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 12:50:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66E7941DEE2
+	for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 12:50:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784119821; cv=none; b=cNAC5jXCs9U+5lxHdiooOrHujsI9V3ifyECGiZITTek87Flv2kVwM2D2MDT8sbCbfo56vMNPnU94R6/P4RwH6UIOAV4RL7582UqgeIvcFMsoBqTYEpBJneJ4NQbYK35+cnZWZcdTu6p7YQx7496SK/EqEgpz88Tp1eQVQ175Xqs=
+	t=1784119823; cv=none; b=gBomkLkVd0e8pnjYnuzXEiO1ANhj94TZZH6Gnmp+1BhBXkDudxeFgXV0Z67+s+IwVNH0raeE/BbJ1BBqRkknF758y4/WJuSXfapxuT36GlaE4tta+zHPikTihKUE3p1UO79wKBQAL/XVN4/TQlO/u496HvXcUHkiDxx5sosvGIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784119821; c=relaxed/simple;
-	bh=BM5yn8aa6nsA0MchY4B51U8iZ7cExTIA1lfWS+CBrDE=;
+	s=arc-20240116; t=1784119823; c=relaxed/simple;
+	bh=2enGK+2yFu7ccYT1RFgOq9BblDV/xR+9lzKnkxuffKg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hYKLV5bZQyg6NAOcLf9CfcAfo4/Sp/tyFTV4o8CyWBrN1GmzwiJl6hPOWsLGtMM6+vvsRL7lhYIrvTl9Iwv3p1An4ExwnRlBt1YDnIRC/bVZUzcD5vJhdgpVNS/LCDuK4wfSkMdupOqkKJz1e8dlWBIfAPJ7nZjlececj45LtGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=s98PvyvI; arc=none smtp.client-ip=209.85.167.54
+	 MIME-Version; b=hEvS3v4ZIlCSIT+2LUtlD7Aec2tkswSu/QCv4KPcoJBeG+zsgZcQaDsbGOIf007KsdUw2g0EngWxbi6j/bbBtZ5ZP+yBjv8HIMeg6krQdklAQufP1AA4JcyYA1gxhq84x9cpFET6cMBrn/U7mPCA2notShGfE/CquSeCIqgIs9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WUfoEaUu; arc=none smtp.client-ip=209.85.167.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="s98PvyvI"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5aec201b582so5192296e87.1
-        for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 05:50:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WUfoEaUu"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5b15c6fb864so764569e87.1
+        for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 05:50:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784119818; x=1784724618; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1784119819; x=1784724619; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=P6gSPxNU6kjOmC+K/JcDDEl1A8+wRRo1W8eJFJVQ8aU=;
-        b=s98PvyvIAQVFhp+ZZGTEtWeQdt9HY9LKKyvwrwzNAiBZACs01wYIcBw6+Azx9ifoQO
-         HS4Y4g5A6vhBdHTykE3rJVzaKdDieZ0z1i0sHHy6csF2dK1ahmkYpGqXQuK01AUTIlUE
-         /sjcjwEO1WBCjnMvezlDlVbxQd3Q0bpazU5uV+/uytCMBmftwuI+w4Pw4lFVj3ePp6Lt
-         2cNp9hkOuYIVjIVorSkf+PZEthIXwAwL1lTAS/NcaMa8Cbi1IQz7HZXKF+XL3tViYzPD
-         oipf2+hyj08rCVZSQcrrP4U2NMsP8bNAA/G54A3Nr+DLGIvqkaMiC3nsAaD/aj+uEw/1
-         W7OQ==
+        bh=ppLEqAItlHRjf3OSSFlRs6JoUnbvvpjgmMQuOUp2Ddk=;
+        b=WUfoEaUuEzGTXUrTga1+fGYgmDiCaFZnpLhQcB2oFXMaCfT/M9MXHaJ2RSg+vMm/0F
+         xUmPP0kwPdoHyTBI0k9Se8m5y7VlihnXRPzbebhcBE28E7XRCjXEvVaffA0t55GaOvVo
+         DK4T5f9gS4K0dnTpiCvXLf/c9b7AZNaM/Y5AO7O9imYN2GqaL7ALatCr8YoEzNVyppa9
+         VWyVBo+Wve+oL5BNh5LY39nxWhrk+hWHeDV+TBU+KpbTNC0aLmMDLPlvcYJD+f0ycsEq
+         KAQZ44hd6ycqfSFsijNHGbWKs+4DxdZY4SBUIKCBg2lNg/8DmxyNRya/bQFj2rsxZhmr
+         jMaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784119818; x=1784724618;
+        d=1e100.net; s=20251104; t=1784119819; x=1784724619;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=P6gSPxNU6kjOmC+K/JcDDEl1A8+wRRo1W8eJFJVQ8aU=;
-        b=Vpik5lJcTZ1d71q+lLSGCo0Lnwg6+o0EvPvJiRDrFtI78J6fAPFB6+Y3eWXGmkg33f
-         vkgxeYa1NwEg9fFgcaYTwvEq2D0uTT59x1fPkDgmmubKqP3yeusMfv2zwLmV3R6+p1cq
-         9BxSQDcIV7/0LDMCXDumJSTVc9YYDmqd4UeSR4LJt60gr8pGTGMpTa9NP5aF22f/106G
-         SWkU28EuIgpMj6ESpGBvWuMEI3z4ott2WeQOWSVKYybKy2uqLYf0iB5NYmZShDqu+Xsk
-         U/bgGlCuWWM16OzDjun0i7EBGijddjaeqEPC+z5b3amKrZXm9PQdSKEctcrNWhBvcFJo
-         AnZQ==
-X-Gm-Message-State: AOJu0Yy9RohcWn1DJn6AuuKQfn2sGEXWp8VExIFJz3mbfVj3JUP/+tUJ
-	m1TtaH2nxSPJsxR2gWvX3p77qaaBOz+IPK7ZopPuVwN17yYNwc/yeaZUNkwqxpAwv1iz3g==
-X-Gm-Gg: AfdE7ckUR0TcA4rRmrKGzljhbnGUyzC0m6PRFqrd/OpUNQyvkksuO95WMBJVTdVTl7c
-	3V82d0PQPGMNeVaXuJf0HDx14ZNUf2HY8lsusi0NA17UdkI62/Eq5tptLRNRTpqEkGYNhBKiBys
-	oxGtHNYDKpQlH90IRVneAWILpo56UtszgrJNFtCbLcNSFRyzHp/sHgUMj7YdfUXAwbLmoY2jZYj
-	4D5jHkjsubUaD5n8Tydg23b/oX9YkfKJW2WSvLSNiMTz3xbOGLjC6k1SjwZpb1tsLCXY0xnq+OV
-	OxpQVZ2fusBkSg1EJP7fP9jhqC051IHdBF8LGfMlkYM3qhw0lHdhSivQ8dsDfP/st0NBKQaN0rf
-	bwDy7EAAg6oN1P9SLT3EqX3tiaxYEd+aD7OUA0OpuhmaWF1KpW1mffhb4AcRI6WeSRhHCcPWruG
-	2kSniTOpznsRc+p7QMeZYlpYokVKI/2jkWk7enIrMOFT00xcJrkCm02oiXE7U3pnRv+cb0Xfayu
-	NpexUzIGmosQzY6hipc1d+c
-X-Received: by 2002:a05:6512:2c8c:b0:5ae:b0ec:b024 with SMTP id 2adb3069b0e04-5b15d7b5373mr638834e87.53.1784119818261;
-        Wed, 15 Jul 2026 05:50:18 -0700 (PDT)
+        bh=ppLEqAItlHRjf3OSSFlRs6JoUnbvvpjgmMQuOUp2Ddk=;
+        b=dA2bHNp2FioVI1FLXVMYRZgYbPYMEDHYHfdy+s1k+YxMhw7VYlf3aNE0EdhFrfusyz
+         hB+NspMbkgolUkFO1a5vBp41rMxsRRp9btzBYJfC+rZizQ2Fk7z4ixUAHwIEixG7Ow9H
+         KEabocu4nilPPxSdszfC3ChqbdnSnrqK8njmgIg8Otj5yHSZ3MAcidw1WwbLc1Uqta4y
+         j3eNbifJ3KxkddauT1MczDJdLjXRc5Y0kImydeoj6qwtYpXaroJ0q00B+hXitCnqW0yu
+         MqF3YuR4ERmdNo7MBrg1MH+GGL2CQBotWlv4oEXU5DtFS79Vokliv870Vn+4Nx4UDzU6
+         f23A==
+X-Gm-Message-State: AOJu0YxD8UEbuomwWAjdFD/nhQV4p/aZHTHUcxZrMNWFR7kHmkrJZ2rD
+	oKT93PZh5b/eq3IdTrmIpc81Mm/3xMUslPxj3mO69wOBW/MB24JNTyf4
+X-Gm-Gg: AfdE7cluV2Ye2k2+arJC+3HtsHMgeSLzCMpc76OZ79k35yN+RrA6ySlmKvAoujhP7B6
+	WSqXf4BoxAMc2KFUbzIUWI4RUoZbswHGdkZegNInSbIHMAD5VumZXI4Ld0Jb/tFc+klHyGhmHeT
+	Wa3d4o2ZvLbGofE1t/8gMSHOMg4RC1U1Dd9HROea+1at40t4OJxA4CguvNRyjAdaItGnI3OUp1E
+	9ZXXIA0EdSIILA2icj73699YNtIMiX2fO2vp6Xvr8lcdGhDz+txGfyT9MzRp7iFQPqyhd5Wzf1x
+	+0N3x5Pui2kkuSUgFewf4E6XEXr+AVX4polSEpp7qbv+BULfrC9YxgT1NwJ4QWb5uyKyU130edw
+	EabsshMJKKvEzHsSq81ijHDROUqrGbL9u4RfqcTsw+b+yjagYEiaLe7UHoQpqAwfPtzPB5YcpjI
+	/iw+fZh66I7Gy6hoy4el/mQmkZh6X3zuNOP3xzdEo1zTiopQhiJo/pXAbYkXoTJi10a+snjOp3X
+	BXMHSbPYr9NFA==
+X-Received: by 2002:a05:6512:66c6:10b0:5b0:bc3:dbf3 with SMTP id 2adb3069b0e04-5b15d79dabbmr463709e87.30.1784119819065;
+        Wed, 15 Jul 2026 05:50:19 -0700 (PDT)
 Received: from archlinux ([94.180.44.28])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b022fac999sm3404042e87.55.2026.07.15.05.50.17
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b022fac999sm3404042e87.55.2026.07.15.05.50.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2026 05:50:17 -0700 (PDT)
+        Wed, 15 Jul 2026 05:50:18 -0700 (PDT)
 From: Arsenii Pashchenko <ulijg308@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	ulijg308@gmail.com
-Subject: [PATCH 04/61] staging: rtl8723bs: remove redundant rtw_dec_to_roam helper
-Date: Wed, 15 Jul 2026 19:47:32 +0700
-Message-ID: <20260715124829.90290-5-ulijg308@gmail.com>
+Subject: [PATCH 05/61] staging: rtl8723bs: remove unused OnAtim stub function
+Date: Wed, 15 Jul 2026 19:47:33 +0700
+Message-ID: <20260715124829.90290-6-ulijg308@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260715124829.90290-1-ulijg308@gmail.com>
 References: <20260715124829.90290-1-ulijg308@gmail.com>
@@ -77,87 +77,57 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Eliminate the redundant rtw_dec_to_roam() inline helper function by
-replacing it with the open-coded prefix decrement operator '--' at all
-call sites.
+The OnAtim() function is an empty stub that merely returns _SUCCESS
+without performing any actual work. Since ATIM frame processing is
+not required for this driver, remove the redundant function definition,
+its prototype, and replace its reference in mlme_sta_tbl[] with NULL.
 
-Since the original helper merely decrements the mlmepriv.to_roam field
-and returns its updated value, using '--adapter->mlmepriv.to_roam' acts
-as a direct, native language equivalent. This reduces boilerplate and
-improves code scannability.
+The internal _mgt_dispatcher() already safely checks if ptable->func is
+not NULL before dereferencing, making this change completely safe.
 
 Signed-off-by: Arsenii Pashchenko <ulijg308@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme.c    | 15 +++++----------
- drivers/staging/rtl8723bs/include/rtw_mlme.h |  1 -
- 2 files changed, 5 insertions(+), 11 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c    | 7 +------
+ drivers/staging/rtl8723bs/include/rtw_mlme_ext.h | 1 -
+ 2 files changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index 6c042de11..b038233af 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -745,7 +745,7 @@ void rtw_surveydone_event_callback(struct adapter	*adapter, u8 *pbuf)
- 				rtw_indicate_connect(adapter);
- 			} else {
- 				if (adapter->mlmepriv.to_roam != 0) {
--					if (rtw_dec_to_roam(adapter) == 0 ||
-+					if (--adapter->mlmepriv.to_roam == 0 ||
- 					    rtw_sitesurvey_cmd(adapter, &pmlmepriv->assoc_ssid,
- 							       1, NULL, 0) != _SUCCESS) {
- 						rtw_set_to_roam(adapter, 0);
-@@ -1421,7 +1421,8 @@ void rtw_stadel_event_callback(struct adapter *adapter, u8 *pbuf)
- 
- 		if (roam) {
- 			if (adapter->mlmepriv.to_roam > 0)
--				rtw_dec_to_roam(adapter); /* this stadel_event is caused by roaming, decrease to_roam */
-+				/* this stadel_event is caused by roaming, decrease to_roam */
-+				--adapter->mlmepriv.to_roam;
- 			else if (adapter->mlmepriv.to_roam == 0)
- 				rtw_set_to_roam(adapter, adapter->registrypriv.max_roaming_times);
- 		} else {
-@@ -1518,7 +1519,7 @@ void _rtw_join_timeout_handler(struct timer_list *t)
- 
- 	if (adapter->mlmepriv.to_roam > 0) { /* join timeout caused by roaming */
- 		while (1) {
--			rtw_dec_to_roam(adapter);
-+			--adapter->mlmepriv.to_roam;
- 			if (adapter->mlmepriv.to_roam != 0) { /* try another */
- 				int do_join_r;
- 
-@@ -2534,12 +2535,6 @@ inline void rtw_set_to_roam(struct adapter *adapter, u8 to_roam)
- 	adapter->mlmepriv.to_roam = to_roam;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index a86d6f97c..774fa9e32 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -23,7 +23,7 @@ static struct mlme_handler mlme_sta_tbl[] = {
+ 	{0,					"DoReserved",		&DoReserved},
+ 	{0,					"DoReserved",		&DoReserved},
+ 	{WIFI_BEACON,		"OnBeacon",		&OnBeacon},
+-	{WIFI_ATIM,			"OnATIM",		&OnAtim},
++	{WIFI_ATIM,			"OnATIM",		NULL},
+ 	{WIFI_DISASSOC,		"OnDisassoc",		&OnDisassoc},
+ 	{WIFI_AUTH,			"OnAuth",		&OnAuthClient},
+ 	{WIFI_DEAUTH,		"OnDeAuth",		&OnDeAuth},
+@@ -1531,11 +1531,6 @@ unsigned int OnDisassoc(struct adapter *padapter, union recv_frame *precv_frame)
+ 	return _SUCCESS;
  }
  
--inline u8 rtw_dec_to_roam(struct adapter *adapter)
+-unsigned int OnAtim(struct adapter *padapter, union recv_frame *precv_frame)
 -{
--	adapter->mlmepriv.to_roam--;
--	return adapter->mlmepriv.to_roam;
+-	return _SUCCESS;
 -}
 -
- 
- void rtw_roaming(struct adapter *padapter, struct wlan_network *tgt_network)
+ unsigned int on_action_spct(struct adapter *padapter, union recv_frame *precv_frame)
  {
-@@ -2561,7 +2556,7 @@ void _rtw_roaming(struct adapter *padapter, struct wlan_network *tgt_network)
- 		pmlmepriv->assoc_by_bssid = false;
- 
- 		while (rtw_do_join(padapter) != _SUCCESS) {
--			rtw_dec_to_roam(padapter);
-+			--padapter->mlmepriv.to_roam;
- 			if (padapter->mlmepriv.to_roam <= 0) {
- 				rtw_indicate_disconnect(padapter);
- 				break;
-diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme.h b/drivers/staging/rtl8723bs/include/rtw_mlme.h
-index b5276c429..233bf98e2 100644
---- a/drivers/staging/rtl8723bs/include/rtw_mlme.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_mlme.h
-@@ -388,7 +388,6 @@ int is_same_network(struct wlan_bssid_ex *src, struct wlan_bssid_ex *dst, u8 fea
- void _rtw_roaming(struct adapter *adapter, struct wlan_network *tgt_network);
- void rtw_roaming(struct adapter *adapter, struct wlan_network *tgt_network);
- void rtw_set_to_roam(struct adapter *adapter, u8 to_roam);
--u8 rtw_dec_to_roam(struct adapter *adapter);
- int rtw_select_roaming_candidate(struct mlme_priv *pmlmepriv);
- 
- void rtw_sta_media_status_rpt(struct adapter *adapter, struct sta_info *psta, u32 mstatus);
+ 	struct sta_info *psta = NULL;
+diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
+index cb23c6939..332411ead 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
++++ b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
+@@ -564,7 +564,6 @@ unsigned int OnProbeReq(struct adapter *padapter, union recv_frame *precv_frame)
+ unsigned int OnProbeRsp(struct adapter *padapter, union recv_frame *precv_frame);
+ unsigned int DoReserved(struct adapter *padapter, union recv_frame *precv_frame);
+ unsigned int OnBeacon(struct adapter *padapter, union recv_frame *precv_frame);
+-unsigned int OnAtim(struct adapter *padapter, union recv_frame *precv_frame);
+ unsigned int OnDisassoc(struct adapter *padapter, union recv_frame *precv_frame);
+ unsigned int OnAuth(struct adapter *padapter, union recv_frame *precv_frame);
+ unsigned int OnAuthClient(struct adapter *padapter, union recv_frame *precv_frame);
 -- 
 2.55.0
 
