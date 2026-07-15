@@ -1,71 +1,71 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D30D148B362
-	for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 12:50:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C46C41613E
+	for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 12:50:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784119856; cv=none; b=ZKoT37pVMLgf7RoZtZWr6MO9HdqZ+/ZZz6SYfnq73QAYlNXxqO9XZJYVR7ZoulP8dScmyXc0TX9wV8bc5yqw3ZDkBG+9mgd59gdp+HLhUx1Y+x29izoI6OGvp9oebp6j0vj89myh/YDV71saoTYY1F/gnkiTjnT2mS4/Kn+lgf4=
+	t=1784119859; cv=none; b=YRTaNemZCJRtolSQO7/xGmeqwrIPaxP8reYmJkCei0uDvj4k//Q5FhizH65+KmbAQkmov7c6gWMqSL8U48izwxw2HouGwPgKzbTKWMPj9VAN3sswtMIB6XjQVxNQiCQJ3KLXZqssWH8MuMcavurQVaexdAd2xmLgXqedNQS0UuI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784119856; c=relaxed/simple;
-	bh=Y+mJVQsdOZhHspaLoCX+QJxQEN60zb+BQLiuQAAuisE=;
+	s=arc-20240116; t=1784119859; c=relaxed/simple;
+	bh=wtfrGOSbYySqm4h0oIWWSq7cMn7fwHq4h1Zh+gzcI6c=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BlPSo0jWMUGQkstlTqihXTbq/6YLuSHFxWzyQBF99TAz0sV8HPTE1gDNGr01o7yc3R+E7Su0iDCoIuaG70vtjiRS3iXkwQPWNZj+uSh8qAExS8DddwckpWNWPJy+uop9pW0lmmfz7kQ7ZHopdsZBjMzh2A/8GSzHsCUTOvOuRFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ON024K8p; arc=none smtp.client-ip=209.85.208.176
+	 MIME-Version; b=bz1C02jBP2IwLMPrNqb2NujeQAfcUZLv9vMXK7zsYsEKtdIfZdAhbQTMhD7uJ0SOSEE944PCQNlaiOLeYla+y2O6ryFMh9AEDeOQtl0pcF0/jl4botWUYS4Ps815AmtUVeXbWIUsabnyGLZqFXFyZtLlcJV6gJ5pCtJvbhpUPXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bWxozFxK; arc=none smtp.client-ip=209.85.208.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ON024K8p"
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-39c9cbf0719so45509131fa.0
-        for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 05:50:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bWxozFxK"
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-39c9bb9d2fbso17825501fa.2
+        for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 05:50:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784119847; x=1784724647; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1784119848; x=1784724648; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=CFZ/4Gw2NifXMZ8Gb7PCOFhMD9zPHtXEzuF5ovYnS7E=;
-        b=ON024K8pB2CnNr7tbYJChMSl6zeTs6rGngu6J4kv1Nl+ZHMTmCqx9ZnZpZs9ogNSJf
-         lrWvgs0Ux1Efm17LRN6oOEbF0JJqig8G9FNrBULjcb3IuB+71OxqrLVkmnQ66zJY6E0V
-         TUeh1VgdIu5ubKpIlSwiA3iuOyBqJyxXAxD9Ty1SNv74P0M/7liD9IOt9UN0fBe6mtQC
-         5q8tQ+w6SNneGpf2XA51C9b0qlNZqsAlOL9sAA5EBWEq5YoNEGbcXeddBySwochMyVTb
-         owhXQ0AkN47+BOlSjRBPHrR1FL+NzeELxaAwObS4a5uaQy4d/yZtJTOGJRtEzWV9DLRu
-         uR8A==
+        bh=fjto6yW0lhXk7pSEPdKcvcJzxoNat2gyFFa/JjfwEhA=;
+        b=bWxozFxKcmoO6rWICU4g9IJa9LmqIUznMHOwPr05k6UGCRrH6Sh0ybjLe9Ezw6xl+D
+         Q8kH1ajLxpYNx1cF2bV5cUjETd3zVqfH/jcMJbafjrtmHu3nNQAIIyRkOOsj6nVJzRlx
+         pvN/086+9WCM8ejOk6XAJLO4PfWgelE0HQ1/zGTDuxO2BRacpHcL0pg4xAhELp9rWMrk
+         Wln0P2nTiFxUyt7Syx7e2gvi5qKVz/QSHRadvp7huDs6jjhet2AlBtD97JV9rWymMtF2
+         67hkK0XxrhNT+l7ibyX/ekN/Ft80y5dNt9CacuGA9GsJx+JSNZs2bljWMvX4IhD9Rrzu
+         6aog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784119847; x=1784724647;
+        d=1e100.net; s=20251104; t=1784119848; x=1784724648;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=CFZ/4Gw2NifXMZ8Gb7PCOFhMD9zPHtXEzuF5ovYnS7E=;
-        b=T5Iwvj/WvSKf9XOSNDDep45uquNRAUmVu6hucO80rrhzwZ4igU/KUd6DdMEZQEaAv2
-         5q1iCrOqkqK4xkdJ/MfpdG0qk8YGeo/4iVfoFKpQWhySOslI0sxqc+QOZ9owL+1fJ4q4
-         kG6ZnUSdd07BZ/2q8Z7mz6kBBQCDHUJ2iexEKZ/uOVcHZ254X9ZtrgHOM/KVZmjIx+IS
-         fAushcjtK3+RqxLiTT/Z8WeBAX7hD/wzgf5buRK1ENYirOrYrQ6pG/mlZ1o/m/9EMRJ0
-         pwdAj5w58AMV6RZnmMAMCrbpeiZlqntPv9OLU6g1bCpbDJ7/eUVyrDlebR0wqN56RZBd
-         rAAQ==
-X-Gm-Message-State: AOJu0YxkOpqTYMs38bXT9eo1uMyTbhZwjMLjulEHubAhPMPfDG4hSYdi
-	Hzm1t5IDdz5YUwBnqqgSIgpvZRtgxT2AQFBhtYh7PXYhuqFhmeehehvj
-X-Gm-Gg: AfdE7cllnVhTLzjwFwQ4F3NFELH2EINRSXUAxC7Jr1bNTqBYC8dAa5ySk6vAJXLBLZT
-	tEUZQ342+2nCwTyIc06DFGMqw8xshRaAL7gwLUn2dKG9vhhaqBHbNViKSmMIEYlhlhdhn+Cnvoa
-	X12LPX8lX7IrBCqY8PoqyTkUTZr1Wl7e3Disz+dM35RamryxxCW2e0cGurh2BQKBpRUVhaCCgNz
-	zkdjXS7sOGO6JlgLFejNrcUFPtoms/0qjOuts2xzbD6y48jwCz9Pav3qgWtvlm9EfxxTxlAErRi
-	VGuKIzy2l5kAPY5uRtn3gPerE66VvUJ7iu9dmwSizefv3xpUkIyTa8WVkw1z8s2SapJp2mTQSa2
-	CyTiExge0eXCffyJuKGw43Td4L6lcsZ6Fj7IXd52B+l35ZrzE3+2c05NxhaDiofAouWtfkJSy+B
-	X2kic7uHTe92yw3Rf4RcdyxDhuS2QSBY7Z5Flk7qtFncJrHUTSb58Mv7/WcbjWQPTKB2MWMJT8C
-	M6S5UG2K7lUZTNojMg0ZjaZ
-X-Received: by 2002:a05:6512:690:b0:5ae:bd4d:68c8 with SMTP id 2adb3069b0e04-5b159b874bemr1279318e87.46.1784119846371;
-        Wed, 15 Jul 2026 05:50:46 -0700 (PDT)
+        bh=fjto6yW0lhXk7pSEPdKcvcJzxoNat2gyFFa/JjfwEhA=;
+        b=dRkRFYvcg2Xvu1Or+SJoYmh/1ertMUQvy+mmzKLQDWawTcIcx+/VJRYeoLC9jw0rX6
+         /V6LKeFG7vpX+YqLaqDZcn0hmCudYS9dEC8KvC8p7o+aiLdke84s1h1aqxVKpVpgajR8
+         aLyqzs+x6mfyvsHGQq8ivZYeEUCN7SKHXL7sGfcjh9vcVJ1tC5iz48AWRD6yiIZVIBAI
+         q9eT+wb/JN8hQfoiU82/mb9jGyVVBefVy/vzyYqQc94viZUq6A44QVIIH7h4dIWb4WjJ
+         2g2QT1EtZKI+03D8fqj/VcYAFo9LnxzGOtT2h9gYqjivuJvFKLGz2cjfQ912o4T/SHsI
+         a3+A==
+X-Gm-Message-State: AOJu0YzLmq5PRXefbo4vx5eF7vUMRPOntAHrHrTHKaz46iOaLOSYjLKl
+	Q1ZyF8gOu1lgCGiye/vrlOA5yOZAn45R7EbFSRIkv1sYr0GFlOFuuexQ
+X-Gm-Gg: AfdE7cmq3CiI77RYZeEPFRrng4TbWKjgoFI2WqjbmrncT1oGwFoTaB4ijDuYtpOZH4T
+	cspZC0jD4EcQ0JA+MYxdV2jhpDzghnZegpw66XFvZfHKKsZhvPUERXb2dp83rxVDN3MPKOw9fHm
+	hH1gfaIt8B5KAEqXp9QVKsracGHsIm/jMDVhx415BCElQhev8kM8xQMNpbQfNu12tRit4YeB3KS
+	PlXJtyEU1B7x2RbHDz5EcN6+lpBvGm412ayPAzOiBEH3OxTktsgzg0XTsGaN/uT8e3o8IETLgg4
+	WYGqgGXabSFtxAogo1+WHzyXtRGaffCbibYmQodpyyJwo1/f2NwT5XEe/klx7f1Jo04LNXDOTmn
+	lvLR3qmufbkSr2HC8OWquqz2RTcji4p9SwLz5gkUpcAc0uXkxjkgUBJzf3mMtLRggYzVUFxiCHZ
+	pdgSkvORa62HIaKuMvb0QXLBFcoVgAYsj83hswtXhpmBE5LO/w6owwuiEpzIiDa0G0HLlaRpYSH
+	yuGEMNd1qqRFzf6P4oe1Yl+
+X-Received: by 2002:a05:6512:2390:b0:5b1:5dab:4640 with SMTP id 2adb3069b0e04-5b15dab4eeemr757981e87.57.1784119848012;
+        Wed, 15 Jul 2026 05:50:48 -0700 (PDT)
 Received: from archlinux ([94.180.44.28])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b022fac999sm3404042e87.55.2026.07.15.05.50.45
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b022fac999sm3404042e87.55.2026.07.15.05.50.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2026 05:50:46 -0700 (PDT)
+        Wed, 15 Jul 2026 05:50:47 -0700 (PDT)
 From: Arsenii Pashchenko <ulijg308@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	ulijg308@gmail.com
-Subject: [PATCH 39/61] staging: rtl8723bs: remove redundant DM wrapper
-Date: Wed, 15 Jul 2026 19:48:07 +0700
-Message-ID: <20260715124829.90290-40-ulijg308@gmail.com>
+Subject: [PATCH 41/61] staging: rtl8723bs: remove EXhalbtc8723b1ant_InitHwConfig
+Date: Wed, 15 Jul 2026 19:48:09 +0700
+Message-ID: <20260715124829.90290-42-ulijg308@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260715124829.90290-1-ulijg308@gmail.com>
 References: <20260715124829.90290-1-ulijg308@gmail.com>
@@ -78,58 +78,72 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Remove the useless external wrapper function
-EXhalbtc8723b2ant_InitCoexDm and call the internal
-halbtc8723b2ant_InitCoexDm directly. This cleans up the driver
-code and cuts down on redundant layer calls.
+EXhalbtc8723b1ant_InitHwConfig. Call the internal function
+halbtc8723b1ant_InitHwConfig directly, passing true as the second
+argument to preserve the original behavior and clean up the code.
 
 Signed-off-by: Arsenii Pashchenko <ulijg308@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c | 5 +----
- drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.h | 1 -
+ drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c | 6 +-----
+ drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.h | 3 ++-
  drivers/staging/rtl8723bs/hal/hal_btcoex.c      | 2 +-
- 3 files changed, 2 insertions(+), 6 deletions(-)
+ 3 files changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c b/drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c
-index 6da6940c9..f1d8e01bb 100644
---- a/drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c
-+++ b/drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c
-@@ -2378,10 +2378,7 @@ void EXhalbtc8723b2ant_InitHwConfig(struct btc_coexist *pBtCoexist, bool bWifiOn
- 	halbtc8723b2ant_InitHwConfig(pBtCoexist, true);
+diff --git a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
+index 522e4dd4c..0fde1654a 100644
+--- a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
++++ b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.c
+@@ -2018,7 +2018,7 @@ static void halbtc8723b1ant_InitCoexDm(struct btc_coexist *pBtCoexist)
+ 	pCoexSta->popEventCnt = 0;
  }
  
--void EXhalbtc8723b2ant_InitCoexDm(struct btc_coexist *pBtCoexist)
--{
--	halbtc8723b2ant_InitCoexDm(pBtCoexist);
--}
-+
+-static void halbtc8723b1ant_InitHwConfig(
++void halbtc8723b1ant_InitHwConfig(
+ 	struct btc_coexist *pBtCoexist,
+ 	bool bBackUp,
+ 	bool bWifiOnly
+@@ -2107,10 +2107,6 @@ void EXhalbtc8723b1ant_PowerOnSetting(struct btc_coexist *pBtCoexist)
+ 	}
+ }
  
- void EXhalbtc8723b2ant_IpsNotify(struct btc_coexist *pBtCoexist, u8 type)
+-void EXhalbtc8723b1ant_InitHwConfig(struct btc_coexist *pBtCoexist, bool bWifiOnly)
+-{
+-	halbtc8723b1ant_InitHwConfig(pBtCoexist, true, bWifiOnly);
+-}
+ 
+ void EXhalbtc8723b1ant_InitCoexDm(struct btc_coexist *pBtCoexist)
  {
-diff --git a/drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.h b/drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.h
-index ebc47f65e..b0e24c69d 100644
---- a/drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.h
-+++ b/drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.h
-@@ -131,7 +131,6 @@ struct coex_sta_8723b_2ant {
+diff --git a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.h b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.h
+index f39c93ac7..8180b6071 100644
+--- a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.h
++++ b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.h
+@@ -168,7 +168,6 @@ struct coex_sta_8723b_1ant {
+ /*  The following is interface which will notify coex module. */
  /*  */
- void EXhalbtc8723b2ant_PowerOnSetting(struct btc_coexist *pBtCoexist);
- void EXhalbtc8723b2ant_InitHwConfig(struct btc_coexist *pBtCoexist, bool bWifiOnly);
--void EXhalbtc8723b2ant_InitCoexDm(struct btc_coexist *pBtCoexist);
- void EXhalbtc8723b2ant_IpsNotify(struct btc_coexist *pBtCoexist, u8 type);
- void EXhalbtc8723b2ant_LpsNotify(struct btc_coexist *pBtCoexist, u8 type);
- void EXhalbtc8723b2ant_ScanNotify(struct btc_coexist *pBtCoexist, u8 type);
+ void EXhalbtc8723b1ant_PowerOnSetting(struct btc_coexist *pBtCoexist);
+-void EXhalbtc8723b1ant_InitHwConfig(struct btc_coexist *pBtCoexist, bool bWifiOnly);
+ void EXhalbtc8723b1ant_InitCoexDm(struct btc_coexist *pBtCoexist);
+ void EXhalbtc8723b1ant_IpsNotify(struct btc_coexist *pBtCoexist, u8 type);
+ void EXhalbtc8723b1ant_LpsNotify(struct btc_coexist *pBtCoexist, u8 type);
+@@ -182,3 +181,5 @@ void EXhalbtc8723b1ant_BtInfoNotify(
+ void EXhalbtc8723b1ant_HaltNotify(struct btc_coexist *pBtCoexist);
+ void EXhalbtc8723b1ant_PnpNotify(struct btc_coexist *pBtCoexist, u8 pnpState);
+ void EXhalbtc8723b1ant_Periodical(struct btc_coexist *pBtCoexist);
++
++void halbtc8723b1ant_InitHwConfig(struct btc_coexist *pBtCoexist, bool bBackUp,	bool bWifiOnly);
 diff --git a/drivers/staging/rtl8723bs/hal/hal_btcoex.c b/drivers/staging/rtl8723bs/hal/hal_btcoex.c
-index c66ca6f73..a975e3393 100644
+index c2d355ef1..5a3aa9b16 100644
 --- a/drivers/staging/rtl8723bs/hal/hal_btcoex.c
 +++ b/drivers/staging/rtl8723bs/hal/hal_btcoex.c
-@@ -846,7 +846,7 @@ void EXhalbtcoutsrc_InitCoexDm(struct btc_coexist *pBtCoexist)
- 	pBtCoexist->statistics.cntInitCoexDm++;
- 
+@@ -835,7 +835,7 @@ void EXhalbtcoutsrc_InitHwConfig(struct btc_coexist *pBtCoexist, u8 bWifiOnly)
  	if (pBtCoexist->boardInfo.btdmAntNum == 2)
--		EXhalbtc8723b2ant_InitCoexDm(pBtCoexist);
-+		halbtc8723b2ant_InitCoexDm(pBtCoexist);
+ 		halbtc8723b2ant_InitHwConfig(pBtCoexist);
  	else if (pBtCoexist->boardInfo.btdmAntNum == 1)
- 		EXhalbtc8723b1ant_InitCoexDm(pBtCoexist);
+-		EXhalbtc8723b1ant_InitHwConfig(pBtCoexist, bWifiOnly);
++		halbtc8723b1ant_InitHwConfig(pBtCoexist, true, bWifiOnly);
+ }
  
+ void EXhalbtcoutsrc_InitCoexDm(struct btc_coexist *pBtCoexist)
 -- 
 2.55.0
 
