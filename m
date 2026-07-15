@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A12D431AAAA;
-	Wed, 15 Jul 2026 14:09:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0767236F433;
+	Wed, 15 Jul 2026 14:10:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784124556; cv=none; b=T3TzbzUM2+21vNJh1XvGzr7L32Nuxf5nvPFfnS9awJpOhIa/veXDoedoCyiQro/6yc6f+J3njAhXoaVor7FWbRkPaE9AnzlcgbBhMTPBZWk8TOv6LlCCj8+EsbdCVG1qc5TANfI9I9hNzbtgQ7Cki/DhE+mCrhvw3gtcgFTMEsM=
+	t=1784124633; cv=none; b=GLHsuI1g4S3WKpJihinY/QHJUehPZoBaAC6u1u6kLRYDiVZPT8HOZXHx5VXFGHG46OhdOfhVvs05ZyeMFCwCoN4hMxxX71juGV2n9pEbD+Gc8HCLOe7SdQgqeaKXTMZpdEGcnEWUrZRLEiikF5x/Mv6AxHV4cb4k6egOvbqEFo8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784124556; c=relaxed/simple;
-	bh=2eJdG55r/UC8M9VS+Si7IEF2yFXNHYydHAYznJ3vnVE=;
+	s=arc-20240116; t=1784124633; c=relaxed/simple;
+	bh=hYqiQ7DksK6ezNKHiyodFw/MgiNhOBp1BrxxZizEvpM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VHLwLodV1yzAgQNNEznMmRwRgC83PUo+FaW9ec6osmiRxxIz7VhEu1BU8IuC00exSJQ4Ia1EJw5YajUj/Js7uA2bAQqRtgQLebkbwluniABWRT4lubRpCKvAijSi5/6e+LmIIajRuc4zljvn7aX/f6ejUpDn9ZO3TCHQWn5g9cg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=VYhx0AkK; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=AbiqS7ifogmL0uefVlT0YZoR1K1ny5BYzlD+4jNsJ44gI8k+tnf0d/v/UExL+ARl+bbPjF8xjF9jTXA2IhrLBVm/LZ6NCtjLgp2iOrgGQxg+npNyDnzxsrM6Apc4Dr2B2S7X4lYzGFkzhxQ4cS98jGKR+zfdR2Thu488qHu15P0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=CHfe/2Pk; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="VYhx0AkK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C57191F000E9;
-	Wed, 15 Jul 2026 14:09:14 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="CHfe/2Pk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13B1C1F000E9;
+	Wed, 15 Jul 2026 14:10:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1784124555;
-	bh=fe+ft7CpRW/sBBmG/+LkiEmJMa7rczQfD2Ttgg7mSrc=;
+	s=korg; t=1784124631;
+	bh=nL080WGjtY3OZ/UkiV80q/GidqYYHcqJZxT/Agi8/as=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=VYhx0AkKhPoY1O0lM2RH02Sm/31GizCMRl5s+rbW/GOq2L5PAl/8iVZ5+0QZWv1xZ
-	 vsWSHeqhMAG7UzadHYL9hhXTtQo1jyiS4C3AuhzpKNLC4uJXe88+nFtQg1Zuz4LXzm
-	 eYeUwc+M0UUWETTHthuAgh8aXrY1sCujUCuZ4vGQ=
-Date: Wed, 15 Jul 2026 16:09:08 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Ivy Lopez <skunkolee@gmail.com>
+	b=CHfe/2Pk8N7T3Tup1yijMmmFa84A6+5PJHMrmp2/Qwd3g5s7nq0o7fZ6mngqVdZXb
+	 Pe4ai8XVUwm6zvEzxnA+BhzfJD/hGMWyTvIZfPvIhwBzXsPKshAft6HAApSo3VXp1f
+	 myZzsGznhQ+j4rxQQ4gC5QuZwCnFhgnhkinsfm0s=
+Date: Wed, 15 Jul 2026 16:10:25 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Anantha Krishnan <ananthanr.off@gmail.com>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: use kfree_sensitive() for key
- material
-Message-ID: <2026071557-overhand-cattishly-72fb@gregkh>
-References: <20260713233401.48262-1-skunkolee@gmail.com>
- <20260713233753.50816-1-skunkolee@gmail.com>
+Subject: Re: [PATCH v2] staging: rtl8723bs: replace magic number in
+ InitBeaconParameters
+Message-ID: <2026071512-engorge-exact-7e22@gregkh>
+References: <2026071157-ovary-property-4427@gregkh>
+ <20260711063901.30828-2-ananthanr.off@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,88 +40,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260713233753.50816-1-skunkolee@gmail.com>
+In-Reply-To: <20260711063901.30828-2-ananthanr.off@gmail.com>
 
-On Mon, Jul 13, 2026 at 05:37:53PM -0600, Ivy Lopez wrote:
-> The set_stakey_parm struct contains a 16-byte encryption key.
-> Use kfree_sensitive() instead of kfree() to ensure the key
-> material is zeroed before the memory is freed, preventing
-> potential information leaks.
+On Sat, Jul 11, 2026 at 12:09:02PM +0530, Anantha Krishnan wrote:
+> Per the bitfield comment in hal_com_reg.h, REG_TBTT_PROHIBIT packs
+> a "setup" time in bits 3:0 and a "hold" time in bits 19:8. The
+> rtw_write16() call here only writes the low 16 bits of that
+> register, covering the full setup field and the low byte of the
+> hold field.
 > 
-> Signed-off-by: Ivy Lopez <skunkolee@gmail.com>
+> Replace the magic number 0x6404 with two named constants
+> representing these fields.
+> 
+> No functional change.
+> 
+> Bit-field positions are documented in the comment above
+> REG_TBTT_PROHIBIT in drivers/staging/rtl8723bs/include/hal_com_reg.h.
+> 
+> Signed-off-by: Anantha Krishnan <ananthanr.off@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/core/rtw_cmd.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> index b932670f5d63..a34ee407285b 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> @@ -899,7 +899,7 @@ u8 rtw_setstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8 unicast_
->  	if (enqueue) {
->  		ph2c = kzalloc_obj(*ph2c);
->  		if (!ph2c) {
-> -			kfree(psetstakey_para);
-> +			kfree_sensitive(psetstakey_para);
->  			res = _FAIL;
->  			goto exit;
->  		}
-> @@ -907,7 +907,7 @@ u8 rtw_setstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8 unicast_
->  		psetstakey_rsp = kzalloc_obj(*psetstakey_rsp);
->  		if (!psetstakey_rsp) {
->  			kfree(ph2c);
-> -			kfree(psetstakey_para);
-> +			kfree_sensitive(psetstakey_para);
->  			res = _FAIL;
->  			goto exit;
->  		}
-> @@ -918,7 +918,7 @@ u8 rtw_setstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8 unicast_
->  		res = rtw_enqueue_cmd(pcmdpriv, ph2c);
->  	} else {
->  		set_stakey_hdl(padapter, (u8 *)psetstakey_para);
-> -		kfree(psetstakey_para);
-> +		kfree_sensitive(psetstakey_para);
->  	}
->  exit:
->  	return res;
-> @@ -958,7 +958,7 @@ u8 rtw_clearstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8 enqueu
->  		psetstakey_rsp = kzalloc_obj(*psetstakey_rsp);
->  		if (!psetstakey_rsp) {
->  			kfree(ph2c);
-> -			kfree(psetstakey_para);
-> +			kfree_sensitive(psetstakey_para);
->  			res = _FAIL;
->  			goto exit;
->  		}
-> -- 
-> 2.55.0
-> 
-> 
+> v2: Use full name in Signed-off-by and document the source of the
+>     bitfield values (comment above REG_TBTT_PROHIBIT in hal_com_reg.h)
+>     per Greg's review.
+>  drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 11 +++++++++--
+>  1 file changed, 9 insertions(+), 2 deletions(-)
 
-Hi,
-
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
+This should be v3, as you already sent a v2 :(
