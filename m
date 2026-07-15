@@ -1,68 +1,58 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0767236F433;
-	Wed, 15 Jul 2026 14:10:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44CC136F434
+	for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 14:12:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784124633; cv=none; b=GLHsuI1g4S3WKpJihinY/QHJUehPZoBaAC6u1u6kLRYDiVZPT8HOZXHx5VXFGHG46OhdOfhVvs05ZyeMFCwCoN4hMxxX71juGV2n9pEbD+Gc8HCLOe7SdQgqeaKXTMZpdEGcnEWUrZRLEiikF5x/Mv6AxHV4cb4k6egOvbqEFo8=
+	t=1784124755; cv=none; b=gg4ukEBVfyqpkAkS13MXZrGfcmc1KcCCcr/Ad8BgXH+whMedXpUynQEFnQ4n5FkXlcrxCELRaAFNUhAl9cviApXwYCKpuUPPxNR2KRnQxvv9Ej3C7q0PTzGz+qbrJQccVkYbqrJSyzEIW0dZFz62NRPvfKPs0WvAq/R+eAYhIBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784124633; c=relaxed/simple;
-	bh=hYqiQ7DksK6ezNKHiyodFw/MgiNhOBp1BrxxZizEvpM=;
+	s=arc-20240116; t=1784124755; c=relaxed/simple;
+	bh=PFIdls6l5Hb/HT5IwkBcYt8uCYSmoGHG5+tYsGbv7ys=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AbiqS7ifogmL0uefVlT0YZoR1K1ny5BYzlD+4jNsJ44gI8k+tnf0d/v/UExL+ARl+bbPjF8xjF9jTXA2IhrLBVm/LZ6NCtjLgp2iOrgGQxg+npNyDnzxsrM6Apc4Dr2B2S7X4lYzGFkzhxQ4cS98jGKR+zfdR2Thu488qHu15P0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=CHfe/2Pk; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZmOgV37eAqfrQbRXG025Ik9dlupmTlat5SvUX4un1TxEl2daQGKo7r85aGOd7sOo2GN0SFD4Vv4r58nBg5lu3A1yKP4lr30QshluzcwSyX6o9IAnEyIJSq6t8cc+1SEXhlLaA1s3UQxs+MhrCL/2Xtn9P61B1p1q+CrtNz77yFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=s6xX9Uhx; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="CHfe/2Pk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13B1C1F000E9;
-	Wed, 15 Jul 2026 14:10:30 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="s6xX9Uhx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40DE51F000E9;
+	Wed, 15 Jul 2026 14:12:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1784124631;
-	bh=nL080WGjtY3OZ/UkiV80q/GidqYYHcqJZxT/Agi8/as=;
+	s=korg; t=1784124753;
+	bh=JyIVraV3dhUCWzsE1D9X0cC6ePGQG0DTma6G7oQHCRA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=CHfe/2Pk8N7T3Tup1yijMmmFa84A6+5PJHMrmp2/Qwd3g5s7nq0o7fZ6mngqVdZXb
-	 Pe4ai8XVUwm6zvEzxnA+BhzfJD/hGMWyTvIZfPvIhwBzXsPKshAft6HAApSo3VXp1f
-	 myZzsGznhQ+j4rxQQ4gC5QuZwCnFhgnhkinsfm0s=
-Date: Wed, 15 Jul 2026 16:10:25 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Anantha Krishnan <ananthanr.off@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: rtl8723bs: replace magic number in
- InitBeaconParameters
-Message-ID: <2026071512-engorge-exact-7e22@gregkh>
-References: <2026071157-ovary-property-4427@gregkh>
- <20260711063901.30828-2-ananthanr.off@gmail.com>
+	b=s6xX9UhxnaiXCCytDPiQwxSHqO4NV2Y+YFE5RgdE6Ozxmkjrr7XeXeVoD8tEdJBGs
+	 rrKv1ZW2Oin4vYFTFyA5A5vvlV5M2wNUHLoq69mi+HfXYSuTt1GLKLiU49ONSVkLvB
+	 8/baezvGUYrtqVcS9xI4RVpmFyMtm9oD8X0AxwQI=
+Date: Wed, 15 Jul 2026 16:12:27 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: =?utf-8?B?0JDRgNGB0LXQvdC40Lkg0J/QsNGJ0LXQvdC60L4=?= <ulijg308@gmail.com>
+Cc: linux-staging@lists.linux.dev
+Subject: Re: [PATCH 1/2] staging: rtl8723bs: rename ReadChipVersion8723B to
+ snake_case
+Message-ID: <2026071543-king-bronchial-1f9b@gregkh>
+References: <CALVCEwaxiiPEc76COZkKeCVLppamx=Z6LOVj=5w8fHXAaUTJCg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260711063901.30828-2-ananthanr.off@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALVCEwaxiiPEc76COZkKeCVLppamx=Z6LOVj=5w8fHXAaUTJCg@mail.gmail.com>
 
-On Sat, Jul 11, 2026 at 12:09:02PM +0530, Anantha Krishnan wrote:
-> Per the bitfield comment in hal_com_reg.h, REG_TBTT_PROHIBIT packs
-> a "setup" time in bits 3:0 and a "hold" time in bits 19:8. The
-> rtw_write16() call here only writes the low 16 bits of that
-> register, covering the full setup field and the low byte of the
-> hold field.
-> 
-> Replace the magic number 0x6404 with two named constants
-> representing these fields.
-> 
-> No functional change.
-> 
-> Bit-field positions are documented in the comment above
-> REG_TBTT_PROHIBIT in drivers/staging/rtl8723bs/include/hal_com_reg.h.
-> 
-> Signed-off-by: Anantha Krishnan <ananthanr.off@gmail.com>
-> ---
-> v2: Use full name in Signed-off-by and document the source of the
->     bitfield values (comment above REG_TBTT_PROHIBIT in hal_com_reg.h)
->     per Greg's review.
->  drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 11 +++++++++--
->  1 file changed, 9 insertions(+), 2 deletions(-)
+On Sun, Jul 12, 2026 at 09:42:39PM +0700, Арсений Пащенко wrote:
+> >From 51598f4093b689f19369277ae77dbd1d9d15ab53 Mon Sep 17 00:00:00 2001
+> From: Arsenii Pashchenko <ulijg308@gmail.com>
+> Date: Sun, 12 Jul 2026 20:15:48 +0700
+> Subject: [PATCH 1/2] staging: rtl8723bs: rename ReadChipVersion8723B
+>  to snake_case
 
-This should be v3, as you already sent a v2 :(
+Something went really wrong with your patch submissions.  I see multiple
+messages sent, and no versioning and no linking between patches 1 and 2.
+Take a look at the kernelnewbies.org tutorial and please try again.
+
+thanks,
+
+greg k-h
