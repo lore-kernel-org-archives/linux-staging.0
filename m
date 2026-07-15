@@ -1,70 +1,74 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E0A2334C3C
-	for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 22:59:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF3D33D7D89
+	for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 23:55:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784156383; cv=none; b=THHPOUtv7L7n/4SEmtJ3QieqTQR21u+VY+QXHnsrC6aSgpfib5dhxPiNjNbbNUOq7bHNYfqyOd9R+KJj8OzmhPT/dLPaHMpWLOjgnMM/EkvajAmibukrixjq6R4MqTZbSNJ9YcbiQJWcY8XhQ8pZ4zjVuwN2qavriwA8Fs7Dc2g=
+	t=1784159718; cv=none; b=HGtIJZ1B+58w/MbuDrn/vaV6Vv4S2BZkFWfwxwft9OhHacPA2Y/yWdcUGYWoDEscPp5dxh6gwONbT05xhpst+yoOg6XsPp8mWqhn+/Buwo8hwU6ktRC6gyuhkV6wsOtrDVxQiI/8UXtFKVhe847nvuhT3n8KQjK5su3hKlojF6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784156383; c=relaxed/simple;
-	bh=SU2hoRPG+1k7cGHNPohtItOA1d+nMq2sxOhtFrmxPIU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=J2YEMRH25LawtReEtEUylBhD5V2CpaGCWJzTs9nAcYdvsBKOTTOU6RNSKI3zyRyogcKYj3AEZn3NE3OU84sOh35ExF+tB10tjgeCQ2NKYGoeQ/0r6cWqY8T5aVbMP2TdMaZqHPX0VpWUJswW3iFMkNOy6Z+1T7yOfuh8uiXt9QU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fxZP9yvv; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com
+	s=arc-20240116; t=1784159718; c=relaxed/simple;
+	bh=is1pW2HuG81gcCJFv7FSgdB2gm4dZ36chPReSl96KrE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=C/ERc/juaKRVf7omMFux5bkYlnc2e6gmbWvylxkul6aFz4aNDFwmCglfB6Gs84nfvAWOXJx2wdVFztDTvNPBQkTmZVMkugJefg40Zr/5GYiJrK6FQlQVrjzgSwzJ8hqWLntV2qeYslZA734oVvga+36rVbqzXvb+dsXORPKNzK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KOECAmGy; arc=none smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fxZP9yvv"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2cacb8416a1so26457485ad.1
-        for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 15:59:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KOECAmGy"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-384c94c9414so2294887a91.3
+        for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 16:55:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784156381; x=1784761181; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=eNT2j80oL+vOQNj5bsDBuwhde81jFRTGR6LJsB2wnZY=;
-        b=fxZP9yvvIThXb5pZ+VbZPeS8WZFa4qMHbNNNG+S9S9uVAgXJns+4DuqFEWqdNSUS1M
-         hmf0ZhUDwJbGK4Dr7up0CyZzudtN2l0PnSNEax3Ns1QdkyO9KuLYzIoH9iIxX3muGQC1
-         D2D1MOgmTaYx9HIh2SX2DX8SBqVeweFP4uxVwvmyqXonX5n9DgdWQCdKyED7U+ClJ7f6
-         +vdtaKpPjX8ip3UQMHt48+IWu1iXUvZ7lAm2Rk9NZjPJLEUilgw85B8w0wQWTeZWBVe6
-         MbqtxopO6hWWFLZxQSc2qjdrHOvtkUS065du4GT3c7sicML+Y0VUsdgN4sHA4C0YihEL
-         0ILA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784156381; x=1784761181;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1784159716; x=1784764516; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=eNT2j80oL+vOQNj5bsDBuwhde81jFRTGR6LJsB2wnZY=;
-        b=es0Mx+mFsG8g1caxq0R1TGxhRyfXQTaEa78q9UyLVsyUv9FxDsd6uspEobl+l+uwzq
-         njL8ntd5c5SxnF8Sd0ofAN2Obmyl189hJngoYBExj/zRJhz+TkKQ6o3ITRyk+8EgGHC8
-         OTh6MkUOIJfbZVHBLAp4DXXwpx8rXyVoeqOWAQgYr0JGt/Nepb9AXCCOSsna74Fe5BHw
-         /Ji7gCF5u636A09ciX8Q/HuRg8RZ/0LA4iqXFZ+SEZiWGe6Mt7QGI8zGi0TNGiaWHpr/
-         fMhdWLrMQI2lai8FPcdOerJss3uHQorPy+DQO1tHgn+y0hod7n0Sguqi6lMrS4AQR4rf
-         o+DA==
-X-Gm-Message-State: AOJu0YwH5gOnBl4RSnmvkjoqcdc1PuwXcZGs5GVjACRm/+4vXj0TZlws
-	M8MT/MCXFrE0AiC5qM77U+jjXnXg/gA57GGd79+jxGeM4rkqMKcTbyhh
-X-Gm-Gg: AfdE7cmfTUJH0Qq+Nq/5KUIuAoWDVDt7hjg3r+ZGyjIyNedukiiiBj4GqME3PtZx3VF
-	6ZjSUU3NCItD2UFqwGoBeyZT/LdFp3oQcUrn2q1JKmW8H2Dl4G4N30zTj4G3BEjGtPrjF5+B8zg
-	LKA/6OiyLM4WFM4vnwBattqve4N4ovbu7/rlYLTzn42O+++IwukqYC7qC+R28uwfHJvgzHHHIsn
-	4nEbou0gSPxbBfBzBGVZ6kNwtj+C4e0DTqN9aCiLkoC5eS/pTDMbthzh2X7CYfdiPGfP0Kci0Nt
-	xTpFdDpFcGxdp8eVDK2aZkLDjGr4AWeVKpwqQPay6GLdWsSKbXO3iYSDmA8iO1B4fL/sXPiC/e9
-	ChO+eiiRpVXswg9RXcGy6lFU6TCGNBeS9F3SwOV+v4KYNZ0Zd0gu2MOMXP1ZOZGuV7xR43ZSEKY
-	NOZCntUtAsaBmstQMmo6HQ
-X-Received: by 2002:a05:6a21:6b83:b0:3bf:7bf7:7903 with SMTP id adf61e73a8af0-3c1102d7d04mr22331467637.15.1784156381411;
-        Wed, 15 Jul 2026 15:59:41 -0700 (PDT)
-Received: from fedora.taild6b28d.ts.net ([190.183.80.146])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13cd42a155bsm4772473c88.7.2026.07.15.15.59.39
+        bh=BPaYRuKfVlAHIk2YkEvf4Nb9gfPYqcQWIb2PtQaeYYw=;
+        b=KOECAmGy1Vjf3SWb0/tGio56z0Skjx8rYAy9kA+61iIctyTluSaiZbumPb3oC7tpYl
+         GIzkbwYg6J+5/YGpFJhguQMWANFD07Dwe4rt2IhN0uHEAiMu1hRJfnZ+lSggSYzpmwH5
+         PhBY/nuqJcDT8fo2Ho6YOLV7tws0SwMAk+NjGD98Ekr/fhMPX4BMIruCHObz0Biy1Y8e
+         iVT5EXYurf1ReFz6uZAOw2ikuMIft9hboIUeTPBooJKU5b0kOxvAroYuO+D4hVJJBonv
+         Z+Z6ArgG4FvGz/By4Gv+W2QC4m7ZNeyxQ0kHH1cZIX7T8Pnp7bbkR7Qv5HIrdo9rQUBn
+         Iafw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784159716; x=1784764516;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=BPaYRuKfVlAHIk2YkEvf4Nb9gfPYqcQWIb2PtQaeYYw=;
+        b=AfwjWoMY6nubbhBg9ylPRo1E/dFwuQlWsozxrdCGHFXZtUYXCPjo/8OJHeFY14WZxC
+         U+V/X1WxJWpw1m6TdWZy1hWfac5qUlWbZiOAAsVCgUdbh9k0w5hCxIyy9KUZOt7WzRaW
+         5aajkBIHr5Y/XbyR/KnNKSTSr7nH2BgG0wOFrJ2N2iVkk+bjkzv0WrJ1NKVnuNzr/+r6
+         P+QOW8MGCxyz3PbCdD8N2Djqe6ZBqSOV7UoJECD7FbC8TXZVYRPUELHeXDbjeX3teJmw
+         v8mnqdM3/X8vRFt/k2TVWN8j+kQ9ildOTkYSa93E18Z0NhUnsjydQ2Lg5n3JyJBNAyAf
+         AH2w==
+X-Gm-Message-State: AOJu0YyIjoj8nSk2CWBv70XcJicby+1jkG2uX3f6FpAH1dvCVzSOWvZL
+	klJ3ZrUXxORa/tqbIchUR/lq0TfUUTbNsW9RpAAdFLlkTyWavgthWJ9dlG5nkE8qoH8=
+X-Gm-Gg: AfdE7clNkIzQkpMg58H9S/KZ69J35HBo7KkwczkAiufqbWuRt5qtqCgzRJNdr3Fg/sI
+	ZGXG/jznw/HuuZ5mHWGblRHnEVqAs9FvXI52sqknJJsrFT6t8kq1rdoBKLFeXZ8pQTs5wgHvuVr
+	xARcidforxTUzNv5nCQ0tTVQY+gzO1qIJKc/bWJ0pZgg/JprZ0RtW+OsFxDdtVMXiS4qxm70sxA
+	+TGEO4f0fhBVgf+SineAotVbLpAVs6LhmykO2++2Ec9y63U3gxD6pdJZzBVVPt5uiLlOtGPAgFQ
+	s4t4nokHU1pzwZsmUGikiE974VoxCB9nmNajpnT5XMqwrnArK/zKe/WXN6XuYQtpChjYp9II1OZ
+	GyoxYwSY5zdURyq1moCJtigs4vfW3BbguKMkBpQQR3S97HxUXOZDC2yI6FCa6Son2ErDvoAx+4Q
+	sHIUG5Pc17BSRLtlz/2NtgpU17h0UC/+U+42SrpJsjp/j9bCFmpMO8J/5wAWcIpCvzdUvswyS71
+	A==
+X-Received: by 2002:a17:90b:2d4e:b0:387:e0db:bc29 with SMTP id 98e67ed59e1d1-38dc77d79e0mr18418496a91.41.1784159716059;
+        Wed, 15 Jul 2026 16:55:16 -0700 (PDT)
+Received: from bloom.localdomain ([2604:3d09:178e:e100::9dab])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cf100e3946sm10223245ad.4.2026.07.15.16.55.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2026 15:59:40 -0700 (PDT)
-Sender: TheySaidThisWouldntFit <mariano.ignacio.baragiola@gmail.com>
-From: Mariano Baragiola <mbaragiola@linux.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+        Wed, 15 Jul 2026 16:55:15 -0700 (PDT)
+From: Ivy Lopez <skunkolee@gmail.com>
+To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
-	Mariano Baragiola <mbaragiola@linux.com>
-Subject: [PATCH] staging: rtl8723bs: validate monitor transmit frame lengths
-Date: Wed, 15 Jul 2026 19:59:38 -0300
-Message-ID: <20260715225938.1403192-1-mbaragiola@linux.com>
+	linux-kernel@vger.kernel.org,
+	Ivy Lopez <skunkolee@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: use kfree_sensitive() for key material
+Date: Wed, 15 Jul 2026 17:55:11 -0600
+Message-ID: <20260715235511.7357-1-skunkolee@gmail.com>
 X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260713233401.48262-1-skunkolee@gmail.com>
+References: <20260713233401.48262-1-skunkolee@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -73,45 +77,59 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-rtw_cfg80211_monitor_if_xmit_entry() removes the radiotap header and
-then reads the 802.11 frame control field without checking that a base
-802.11 header remains.
+The set_stakey_parm struct contains a 16-byte encryption key.
+Use kfree_sensitive() instead of kfree() to ensure the key
+material is zeroed before the memory is freed, preventing
+potential information leaks.
 
-The data path also pulls the calculated 802.11, QoS and SNAP header
-span before confirming that the skb contains it. A truncated frame can
-therefore cause out-of-bounds reads or leave insufficient data for the
-Ethernet address writes.
-
-Reject frames that do not contain the base 802.11 header and data
-frames that do not contain their complete calculated header span.
-
-Signed-off-by: Mariano Baragiola <mbaragiola@linux.com>
+Signed-off-by: Ivy Lopez <skunkolee@gmail.com>
 ---
- drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Changes in v2/v3:
+- Remove unrelated ftmac100 changes accidentally included in v1
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index 6a97afd89dc7..bed8192ab44f 100644
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -2033,6 +2033,8 @@ static netdev_tx_t rtw_cfg80211_monitor_if_xmit_entry(struct sk_buff *skb, struc
- 
- 	/* Skip the ratio tap header */
- 	skb_pull(skb, rtap_len);
-+	if (unlikely(skb->len < dot11_hdr_len))
-+		goto fail;
- 
- 	dot11_hdr = (struct ieee80211_hdr *)skb->data;
- 	frame_control = le16_to_cpu(dot11_hdr->frame_control);
-@@ -2045,6 +2047,8 @@ static netdev_tx_t rtw_cfg80211_monitor_if_xmit_entry(struct sk_buff *skb, struc
- 			qos_len = 2;
- 		if ((frame_control & 0x0300) == 0x0300)
- 			dot11_hdr_len += 6;
-+		if (unlikely(skb->len < dot11_hdr_len + qos_len + snap_len))
-+			goto fail;
- 
- 		memcpy(dst_mac_addr, dot11_hdr->addr1, sizeof(dst_mac_addr));
- 		memcpy(src_mac_addr, dot11_hdr->addr2, sizeof(src_mac_addr));
+ drivers/staging/rtl8723bs/core/rtw_cmd.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+index b932670f5d63..a34ee407285b 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
++++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+@@ -899,7 +899,7 @@ u8 rtw_setstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8 unicast_
+ 	if (enqueue) {
+ 		ph2c = kzalloc_obj(*ph2c);
+ 		if (!ph2c) {
+-			kfree(psetstakey_para);
++			kfree_sensitive(psetstakey_para);
+ 			res = _FAIL;
+ 			goto exit;
+ 		}
+@@ -907,7 +907,7 @@ u8 rtw_setstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8 unicast_
+ 		psetstakey_rsp = kzalloc_obj(*psetstakey_rsp);
+ 		if (!psetstakey_rsp) {
+ 			kfree(ph2c);
+-			kfree(psetstakey_para);
++			kfree_sensitive(psetstakey_para);
+ 			res = _FAIL;
+ 			goto exit;
+ 		}
+@@ -918,7 +918,7 @@ u8 rtw_setstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8 unicast_
+ 		res = rtw_enqueue_cmd(pcmdpriv, ph2c);
+ 	} else {
+ 		set_stakey_hdl(padapter, (u8 *)psetstakey_para);
+-		kfree(psetstakey_para);
++		kfree_sensitive(psetstakey_para);
+ 	}
+ exit:
+ 	return res;
+@@ -958,7 +958,7 @@ u8 rtw_clearstakey_cmd(struct adapter *padapter, struct sta_info *sta, u8 enqueu
+ 		psetstakey_rsp = kzalloc_obj(*psetstakey_rsp);
+ 		if (!psetstakey_rsp) {
+ 			kfree(ph2c);
+-			kfree(psetstakey_para);
++			kfree_sensitive(psetstakey_para);
+ 			res = _FAIL;
+ 			goto exit;
+ 		}
 -- 
 2.55.0
 
