@@ -1,71 +1,71 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A54303368B7
-	for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 12:49:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0CCB3368B7
+	for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 12:50:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784119779; cv=none; b=rUZA4PUxeHN66keruuL4lVzvKh1w/3VHQGxcNwGInXDlf4u0wGAtWGOocOGG5i5zgrCGa6eOJiTo1n5pn2VDfygJzzB6x2ikOZ5AZf3uNC7PZdBGXTEGJYUzIvFefSm/R8cVAATa9RMpusQw3yG2J18+b19kX/8bIhn+ShysCSM=
+	t=1784119821; cv=none; b=C16Y0MaGXbw0bd4xxp34GrGYhFWU1JA5g59J+Ygyw62WM4tVfLMW1JYMDt995IDuCxZ8+6ouFjjD4evJvP9L5gh6mIO6dSIe/RagrwKB8yRKqUWuOIFQNwZjZ2qW+CWc/57qN1cc2IHZxWKelN4rTVVzelUvNp8mt/T0+OojHxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784119779; c=relaxed/simple;
-	bh=/LJKCIO04dSaGL7p4czn4Eo/pq61LGxuabz70pZKyow=;
+	s=arc-20240116; t=1784119821; c=relaxed/simple;
+	bh=c82bzzoJN5+wD7QRbDZBQm7K5arVc0DPy2QsJOOc2r4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Bavi03hWkIi+PdnLJdkriIe1221BLF7HN+nIyHodFY2odoQ8h5nZGjFR6CjnD+uWfgo+rzzrMUheShG7+WCWXUHM3St9BMHMLT0vCUJxeU7n5gBx9fkRTrooJ7W5+WGePslJ4MjIYfzuruFw+xZb7ktZuBBAzqZNyrTu5c0RLxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HBDM588G; arc=none smtp.client-ip=209.85.167.45
+	 MIME-Version; b=cpRiVX0DufqOtuUxScYQdzbnm6qYl3PGHnCbd6WElRbGmhk4vTd5BioymTnGKUDcqiP0fuFLwXUxLU8BcilAGxk4sIgY1kVCGUqavhwTgPOqiMcJGn8VGlP7K3QFVlFkfsOykf7eRs/SnRL0ikYndjXNb6Ie6SvPjSs3lZyN2bE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J/NUmuYH; arc=none smtp.client-ip=209.85.167.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HBDM588G"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5aea9d606f0so5626377e87.3
-        for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 05:49:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J/NUmuYH"
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5b0117dda13so1898103e87.0
+        for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 05:50:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784119776; x=1784724576; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1784119818; x=1784724618; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=YUQCIbej7stm8aLt6hPSaaqQwT1L5yVkeI52z1hhfUw=;
-        b=HBDM588GwseGjeJ84z0hHR9UZJTVsuG83mDpxec1mxC9TUNVg22FuMY+OtYgOinNtG
-         WuKttYK+AwkgRL0vwjN/auTiVqWgYh++U/D4q2rwI0Nnpu814sD958tqNJ7zxv49yqwo
-         j4AF/kl40XDPxZP+TzP5vvJR48Le49DNgC/58u+6ZDnvrXcJSfUcynw4jmwPjstRBINn
-         ncku4uCg1vxG2DmAP+JfaOaE8otSHrMmABywyW4P7ksY9nPj1nBmWPM/mfFZMGAXbGS8
-         weVH+dAxGwzdNu3zynOYADTr6ZyHOPtgkmpQPBe5iuVzWeB6cpHUbhlKpGPMx4lVcq5l
-         v4aQ==
+        bh=Fmjy7fGI2Ix2XPkU4EhhKdKH2Y1aaPOILOdheCazGBs=;
+        b=J/NUmuYH2qaoifx4EkdZZA8z/NPmEH6051kum+Rar8VJk4/bsnn0jhF1RpWM5aeJaH
+         7QrVGa1Cdl5MMszLVxv0LpleAc4LLRfuU/WhCJCL5B4vimGG6Z0Mlf6eGdcvkDqo2A+q
+         LVsg1+fb87l3CHjdRNqkgXebja27PdBFgoF/2cj0mxrBpJnJdKYKyudt9YDTwSQTjBrH
+         qvfp55/NgPgfnOX2GnCCJj77E2xI934RTmLJO3i9zE8Riq/CaVJXO2ho7vs5viSZk31w
+         1Rrv4j7vMkkt953uCamCgY7MabHMuZ8vfcvrRVPolzfQRCCYQlKE7ukrx4PUoeOLAQYX
+         JGow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784119776; x=1784724576;
+        d=1e100.net; s=20251104; t=1784119818; x=1784724618;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=YUQCIbej7stm8aLt6hPSaaqQwT1L5yVkeI52z1hhfUw=;
-        b=NQorlUNsxqHuJ9dVYidb/iqDmBpZLR7WVH/nhSV7xzBJewwP/b2XCNaHfVsWLfj+kq
-         wlX7HVJXFklcactzXtajGTEhwC4NPmOTlqsOA84mTj2gPrWdAUqES3njabDF34Qz77Lz
-         pqFWAfbgy7oT0Up9K4lC+UcpRFPzoZ0BZWRADgI+p7gtNKwAfcnDSqMkJ1B46489piSY
-         tDKgNqnXo1AWGclIZQ8jSsX0KDQgg8hdvfzd+HgD1BsDU0xDzhWRJVThZK+eTifgOIqg
-         KuHL1JWYbHiJv/lg4zzgyueHxDM2IPtqPAU4AZk/y6jBH1bYbLTv6/F28QuzFIS1BjRs
-         L8PA==
-X-Gm-Message-State: AOJu0YxaLPnBf31Nqla30L7vMURfNDL9yKbI7IJnQzrUv7QBw3zopYQw
-	afj1In74pb3PXwUMRJxZE5iK8/XZM/+nX3YRQ2Gll/vkx8HNaebudEjo
-X-Gm-Gg: AfdE7cmlnl4cSjw1Zt1Il1R2IxLSZG6UUDT8lddXU4lZUj+Ob4LGQDwBhhILCtGo5n6
-	D6kG0mE0mum/I0330w1g/hCJhbi5eFT5zgemqA52RkqITPY/kA9os8RFfuN8XbipekXAsNgQBIf
-	zHo8wNTv2N+khBIoiGvzBO0fucJ12zE/N2CWhy7IEi56l25kY6pZIiINyEAeMLKrNXLrm3Nkep9
-	W/6Fkf7lxP9BFXKEaIElebhuThqEtHOMLPPO04BsEEpQpPEYxVpSM9TDf321D0TYTSryiVc65H/
-	LgD7MIyxKQ3RqugcrVVl7w8dJ4N35cotziOd6lzqxrbM5+hEe0vV7euvqUSnGGjvPKEsABqSVsA
-	QCc5jfRRLbD0EKrl3GYu13wqT7LXChx7/u+sj+XbdhwXfQUT4A6w7GU+xDK24zZxvDJHAZVHenJ
-	OjhUlxmkvVD0OoFW9N5d040ptoa/IHnrBR1xTeDaHcJf8IMhIDzypuoPNCqAWAchJ7LCiQFGpG9
-	Cpv7QHLaJE4Yw==
-X-Received: by 2002:a05:6512:3410:b0:5b0:177f:beab with SMTP id 2adb3069b0e04-5b15d7b2cc0mr694248e87.44.1784119775452;
-        Wed, 15 Jul 2026 05:49:35 -0700 (PDT)
+        bh=Fmjy7fGI2Ix2XPkU4EhhKdKH2Y1aaPOILOdheCazGBs=;
+        b=Rg2qaimcIvbHLYoGkt7TWp5tafRg/NwvDsBN+Z+acSFgfHpR6hgxv5Mv+LhfxPVrCV
+         rpS286EOkNV+TAdiiDnswJEzdZjmp18Z6S50cSoYEyj/T9P18WXdlopIGgiP9KnXYWvN
+         89tvsqWsMrCxffunj9i74PbXN2M2ze6WMukjOB7SYty2VaXh8gXDr5qG6yWGRKuSQS9J
+         kuY74KCbZElECqq+Vhw2xfzmnsbTKS2G4/D4BYtO36hqb4VAZUJgt/8P2CwQO4Sbo4XD
+         2O5bLwTzEInN5HUGnI4cNpuJZ8bxKNS1QJ/vpWBNSZ1ZjhPPyBu2G2aisYX9v77kyDAW
+         qftA==
+X-Gm-Message-State: AOJu0YyMlNKJaLZyIgi/bdlyWZAHY8AFzhFLCSat0uWeTB2o0HI8uxNe
+	vnlMxN/4D0rJ0j4ar5uqHKIXOOgC0sijk5KZbKoPZRb0AuyAj8pdi5Lh
+X-Gm-Gg: AfdE7ckG/0W25mM8EyvDsHO7O9ODHYOFe+6NOFeOIMCQOjWyQx45/GMczL7OH+rn3iN
+	WKx9I7OlnlAW6ld8mf/9n5o8luNYKwRckZ0aPHtPfqnfkK7T0qxG9wWCUsUSCBK9yITuU4878qn
+	Eyf7j9cnO9qfs0FR2T0I+kQ+yJe9r92fVdhErTSF8iAVpeEyKf7ww0uc1QJIJFrFcmksbmF+vSl
+	lMsiR3BDsG57Tbi0TEQXrqDA3KDxafey5J5B8vk9qkdY2V9GmfiAKyZ5LvocUr6TrwVqZ/FOmIG
+	dqk0TqJ4Na/kTpftltydfD7S8PVtLyAcsyiEs7Tpu8feHErf8QL/5SJNe14+YoWOl0UAM1uijWy
+	T8cmD1hzfuLKV1CnNeKKo3V59O9xbdielbNibnFjwExmQfxXEJx+9BLwwQx4Ms0hzwAgxt+REr0
+	naEC1AalosVtquN6jkj5uX8OfExOhwZHUHgQ3WoNMY84T1Td1aj0I53/weYn/s/KWDLOte7OykF
+	8QC6M9dc4y8Dg==
+X-Received: by 2002:ac2:4a81:0:b0:5ae:bd53:70f6 with SMTP id 2adb3069b0e04-5b023566824mr2914444e87.4.1784119817466;
+        Wed, 15 Jul 2026 05:50:17 -0700 (PDT)
 Received: from archlinux ([94.180.44.28])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b022fac999sm3404042e87.55.2026.07.15.05.49.34
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b022fac999sm3404042e87.55.2026.07.15.05.50.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2026 05:49:35 -0700 (PDT)
+        Wed, 15 Jul 2026 05:50:17 -0700 (PDT)
 From: Arsenii Pashchenko <ulijg308@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	ulijg308@gmail.com
-Subject: [PATCH 02/61] staging: rtl8723bs: replace is_same_ess with rtw_ssid_differ
-Date: Wed, 15 Jul 2026 19:47:30 +0700
-Message-ID: <20260715124829.90290-3-ulijg308@gmail.com>
+Subject: [PATCH 03/61] staging: rtl8723bs: remove redundant rtw_to_roam wrapper
+Date: Wed, 15 Jul 2026 19:47:31 +0700
+Message-ID: <20260715124829.90290-4-ulijg308@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260715124829.90290-1-ulijg308@gmail.com>
 References: <20260715124829.90290-1-ulijg308@gmail.com>
@@ -77,59 +77,153 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The helper function is_same_ess() is only used in an inverted context
-to check if SSIDs are different. Flip the logic by introducing a new
-static inline helper rtw_ssid_differ() that returns true when SSIDs
-do not match.
-
-This eliminates the need for the logical negation operator '!' at call
-sites, improves code readability, and optimizes the check to
-short-circuit early if the SSID lengths are not equal. While at it,
-switch the return type to bool, use the proper 'rtw_' prefix.
+Eliminate the redundant rtw_to_roam() helper function by accessing the
+mlmepriv.to_roam field directly at all call sites. This removes unnecessary
+boilerplate code and simplifies driver interface readability.
 
 Signed-off-by: Arsenii Pashchenko <ulijg308@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ .../staging/rtl8723bs/core/rtw_ioctl_set.c    |  4 ++--
+ drivers/staging/rtl8723bs/core/rtw_mlme.c     | 24 ++++++++-----------
+ drivers/staging/rtl8723bs/include/rtw_mlme.h  |  1 -
+ .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c |  2 +-
+ 4 files changed, 13 insertions(+), 18 deletions(-)
 
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
+index 12bf7780b..9872467b8 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
+@@ -59,7 +59,7 @@ u8 rtw_do_join(struct adapter *padapter)
+ 		/* when set_ssid/set_bssid for rtw_do_join(), but scanning queue is empty */
+ 		/* we try to issue sitesurvey firstly */
+ 
+-		if (!pmlmepriv->link_detect_info.busy_traffic || rtw_to_roam(padapter) > 0) {
++		if (!pmlmepriv->link_detect_info.busy_traffic || padapter->mlmepriv.to_roam > 0) {
+ 			/*  submit site_survey_cmd */
+ 			ret = rtw_sitesurvey_cmd(padapter, &pmlmepriv->assoc_ssid, 1, NULL, 0);
+ 			if (ret != _SUCCESS)
+@@ -110,7 +110,7 @@ u8 rtw_do_join(struct adapter *padapter)
+ 				/* when set_ssid/set_bssid for rtw_do_join(), but there are no desired bss in scanning queue */
+ 				/* we try to issue sitesurvey firstly */
+ 				if (!pmlmepriv->link_detect_info.busy_traffic ||
+-				    rtw_to_roam(padapter) > 0) {
++				    padapter->mlmepriv.to_roam > 0) {
+ 					ret = rtw_sitesurvey_cmd(padapter, &pmlmepriv->assoc_ssid, 1, NULL, 0);
+ 					if (ret != _SUCCESS)
+ 						pmlmepriv->to_join = false;
 diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index 1196ec011..b1a268728 100644
+index b1a268728..6c042de11 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -340,10 +340,12 @@ bool rtw_is_same_ibss(struct adapter *adapter, struct wlan_network *pnetwork)
- 	return true;
- }
+@@ -744,7 +744,7 @@ void rtw_surveydone_event_callback(struct adapter	*adapter, u8 *pbuf)
+ 				_clr_fwstate_(pmlmepriv, _FW_UNDER_LINKING);
+ 				rtw_indicate_connect(adapter);
+ 			} else {
+-				if (rtw_to_roam(adapter) != 0) {
++				if (adapter->mlmepriv.to_roam != 0) {
+ 					if (rtw_dec_to_roam(adapter) == 0 ||
+ 					    rtw_sitesurvey_cmd(adapter, &pmlmepriv->assoc_ssid,
+ 							       1, NULL, 0) != _SUCCESS) {
+@@ -893,10 +893,10 @@ void rtw_indicate_disconnect(struct adapter *padapter)
  
--inline int is_same_ess(struct wlan_bssid_ex *a, struct wlan_bssid_ex *b)
-+static inline bool rtw_ssid_differ(struct wlan_bssid_ex *a, struct wlan_bssid_ex *b)
- {
--	return (a->ssid.ssid_length == b->ssid.ssid_length)
--		&&  !memcmp(a->ssid.ssid, b->ssid.ssid, a->ssid.ssid_length);
-+	if (a->ssid.ssid_length != b->ssid.ssid_length)
-+		return true;
-+
-+	return memcmp(a->ssid.ssid, b->ssid.ssid, a->ssid.ssid_length) != 0;
- }
+ 	_clr_fwstate_(pmlmepriv, _FW_UNDER_LINKING | WIFI_UNDER_WPS);
  
- int is_same_network(struct wlan_bssid_ex *src, struct wlan_bssid_ex *dst, u8 feature)
-@@ -1673,7 +1675,7 @@ static int rtw_check_roaming_candidate(struct mlme_priv *mlme
- 	int updated = false;
- 	struct adapter *adapter = container_of(mlme, struct adapter, mlmepriv);
+-	if (rtw_to_roam(padapter) > 0)
++	if (padapter->mlmepriv.to_roam > 0)
+ 		_clr_fwstate_(pmlmepriv, _FW_LINKED);
  
--	if (!is_same_ess(&competitor->network, &mlme->cur_network.network))
-+	if (rtw_ssid_differ(&competitor->network, &mlme->cur_network.network))
+-	if (check_fwstate(&padapter->mlmepriv, _FW_LINKED) || rtw_to_roam(padapter) <= 0) {
++	if (check_fwstate(&padapter->mlmepriv, _FW_LINKED) || padapter->mlmepriv.to_roam <= 0) {
+ 		/*  Do it first for tx broadcast pkt after disconnection issue! */
+ 		netif_carrier_off(padapter->pnetdev);
+ 
+@@ -1420,9 +1420,9 @@ void rtw_stadel_event_callback(struct adapter *adapter, u8 *pbuf)
+ 		}
+ 
+ 		if (roam) {
+-			if (rtw_to_roam(adapter) > 0)
++			if (adapter->mlmepriv.to_roam > 0)
+ 				rtw_dec_to_roam(adapter); /* this stadel_event is caused by roaming, decrease to_roam */
+-			else if (rtw_to_roam(adapter) == 0)
++			else if (adapter->mlmepriv.to_roam == 0)
+ 				rtw_set_to_roam(adapter, adapter->registrypriv.max_roaming_times);
+ 		} else {
+ 			rtw_set_to_roam(adapter, 0);
+@@ -1516,10 +1516,10 @@ void _rtw_join_timeout_handler(struct timer_list *t)
+ 
+ 	spin_lock_bh(&pmlmepriv->lock);
+ 
+-	if (rtw_to_roam(adapter) > 0) { /* join timeout caused by roaming */
++	if (adapter->mlmepriv.to_roam > 0) { /* join timeout caused by roaming */
+ 		while (1) {
+ 			rtw_dec_to_roam(adapter);
+-			if (rtw_to_roam(adapter) != 0) { /* try another */
++			if (adapter->mlmepriv.to_roam != 0) { /* try another */
+ 				int do_join_r;
+ 
+ 				do_join_r = rtw_do_join(adapter);
+@@ -1773,7 +1773,7 @@ static int rtw_check_join_candidate(struct mlme_priv *mlme
+ 	if (!rtw_is_desired_network(adapter, competitor))
  		goto exit;
  
- 	if (!rtw_is_desired_network(adapter, competitor))
-@@ -1774,7 +1776,7 @@ static int rtw_check_join_candidate(struct mlme_priv *mlme
- 	if (rtw_to_roam(adapter) > 0) {
+-	if (rtw_to_roam(adapter) > 0) {
++	if (adapter->mlmepriv.to_roam > 0) {
  		if (jiffies_to_msecs(jiffies - competitor->last_scanned) >=
  		    mlme->roam_scanr_exp_ms ||
--		    !is_same_ess(&competitor->network, &mlme->cur_network.network))
-+		    rtw_ssid_differ(&competitor->network, &mlme->cur_network.network))
- 			goto exit;
- 	}
+ 		    rtw_ssid_differ(&competitor->network, &mlme->cur_network.network))
+@@ -2540,10 +2540,6 @@ inline u8 rtw_dec_to_roam(struct adapter *adapter)
+ 	return adapter->mlmepriv.to_roam;
+ }
  
+-inline u8 rtw_to_roam(struct adapter *adapter)
+-{
+-	return adapter->mlmepriv.to_roam;
+-}
+ 
+ void rtw_roaming(struct adapter *padapter, struct wlan_network *tgt_network)
+ {
+@@ -2559,14 +2555,14 @@ void _rtw_roaming(struct adapter *padapter, struct wlan_network *tgt_network)
+ 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 	struct wlan_network *cur_network = &pmlmepriv->cur_network;
+ 
+-	if (rtw_to_roam(padapter) > 0) {
++	if (padapter->mlmepriv.to_roam > 0) {
+ 		memcpy(&pmlmepriv->assoc_ssid, &cur_network->network.ssid, sizeof(struct ndis_802_11_ssid));
+ 
+ 		pmlmepriv->assoc_by_bssid = false;
+ 
+ 		while (rtw_do_join(padapter) != _SUCCESS) {
+ 			rtw_dec_to_roam(padapter);
+-			if (rtw_to_roam(padapter) <= 0) {
++			if (padapter->mlmepriv.to_roam <= 0) {
+ 				rtw_indicate_disconnect(padapter);
+ 				break;
+ 			}
+diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme.h b/drivers/staging/rtl8723bs/include/rtw_mlme.h
+index 8cc96164e..b5276c429 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_mlme.h
++++ b/drivers/staging/rtl8723bs/include/rtw_mlme.h
+@@ -389,7 +389,6 @@ void _rtw_roaming(struct adapter *adapter, struct wlan_network *tgt_network);
+ void rtw_roaming(struct adapter *adapter, struct wlan_network *tgt_network);
+ void rtw_set_to_roam(struct adapter *adapter, u8 to_roam);
+ u8 rtw_dec_to_roam(struct adapter *adapter);
+-u8 rtw_to_roam(struct adapter *adapter);
+ int rtw_select_roaming_candidate(struct mlme_priv *pmlmepriv);
+ 
+ void rtw_sta_media_status_rpt(struct adapter *adapter, struct sta_info *psta, u32 mstatus);
+diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+index ce76a8586..397440af8 100644
+--- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
++++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+@@ -436,7 +436,7 @@ void rtw_cfg80211_indicate_connect(struct adapter *padapter)
+ 			   FUNC_ADPT_FMT " BSS not found !!\n",
+ 			   FUNC_ADPT_ARG(padapter));
+ 
+-	if (rtw_to_roam(padapter) > 0) {
++	if (padapter->mlmepriv.to_roam > 0) {
+ 		struct wiphy *wiphy = pwdev->wiphy;
+ 		struct ieee80211_channel *notify_channel;
+ 		u32 freq;
 -- 
 2.55.0
 
