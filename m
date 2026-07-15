@@ -1,73 +1,35 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B6894C0438
-	for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 12:51:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D30D242046D;
+	Wed, 15 Jul 2026 13:03:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784119888; cv=none; b=HceO6Bfx7s9o6EQCZpG2wDzYXLHViog7vDdHk+t4fqzSofucBZvQAw4UegqSSwoM1393lTeXAwYPpNAhEILma0xGakXfR3qcmCjzmXSAdOEybjDntHwssaCNTxRa4EaL6KNsF1ddT2tVLWqTf1XgdZv5BEmeim3/asJL1+bEhbA=
+	t=1784120599; cv=none; b=Nq3Nn6Gpq018K1Gvox4X9GRFtGsSg8tv2u40cnxEsgN7pSb8f6svQXR6mc03AdJA/0/basLGYnELq3jlAn8Eg1PODz3QzANNWq20ulZWzdVTBiUkaSMZY8p11KQ1ZtnQ8bX9zTgkHIsBYiIE9FVRtZi/aRXoA1gUCI22mtO6tZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784119888; c=relaxed/simple;
-	bh=2K3uMd0qj4h5cWvgljLvyufuFwQ8Xol5kia+7tNtQ+4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Pzt/rNMAqjcHGzgEDafr+vCgn0DOvU6phGifDPK2cGSDdVEKc8FfnRlQDeiM3ooDabhRM86yBnbmlL7ALuinCSdMCK0IHjSmTHbqSBiPvsaWpsfx2jSmKVyfyzvSo1AhM97R1o0NtZPZji2t3JcczQqCX1utGN5akOfrTm+Zj24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lKKCdWi7; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784120599; c=relaxed/simple;
+	bh=MwloPwwe5mU2QGdOjBAJc2FapRP6pWx+LHznZ5VkZvo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D0A1vQx3hLKfmVJ5Ei7/rsuwu5VXlC7rMgSlv1YW/wTxQnY+BNYYiDjgBpe4X7iXs1hx6cARiBoRfdE6M99fyzcW44dI0ZoPwKxZPpCNeNQyu2fLb9DXzJmWnCyzlmSBbyb14KOxR3K09LgtbXCbo/Y9FjXUvPZtaKfZjxf9CAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=QUEE1zOg; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lKKCdWi7"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5aeb2bc82ccso2686055e87.2
-        for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 05:51:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784119861; x=1784724661; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=/giKKJOlrJZmyyc0tV7j+6GkAzOJxcx9dQZUh/VbNdM=;
-        b=lKKCdWi7Rnn9CCxn9vYWjIxQ07qOdRhKKhVndD3xrPCujWvFLMDAWJ18ZtAX0WL+Sn
-         pKLOqbSb9Weo88wowpvxzh2AKuzUecQrMKr6SspfCSb2zAkWzMdm1zWIHG/uS3ml88ge
-         fvOx5Ps/ku/1K4XWSx9V29PM8nsHjrwXES7u//HIugSX2dSZTTgIl4GqhCCPKKvcEOuU
-         fP8Jx5BBH5yrsRTTaWMWKxgYTurA5UtUbSc/wqWzom84Eghg4vW20w/VTpzNACWb8h29
-         fBd45A5tl+yrc9C5D8UWHS4n0V1ypLCFsggSRrpbYHcvDIMGwPH6ecEATtizRtvVOHWy
-         6u5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784119861; x=1784724661;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=/giKKJOlrJZmyyc0tV7j+6GkAzOJxcx9dQZUh/VbNdM=;
-        b=e/6FXvQ8hFRKMle12ijUjBhtoewk477lmEDRN6U5PY+puvrxmw6ZmN+R8hVX5jyuqx
-         DPlRTPCgix0MxSJRNGOAGKv00ajvhZGoNYLQGxGdz+McQ8AAo8zqJ1WF2cP0Y1KlAiH4
-         saUqnGxa44YNxq66doKmftMpa/gs2A7hDSqFKL+vmLa6LNy0VjXK4FYyqPrHk7i8r0lE
-         JFPHNeNje+rwKNcKFCHDieUOx6E2ybZOhURsyOA1GC3HKFlC4s0UxBBz9XRNhp2p75Ah
-         3z6NkmB9JZhNt/HgwB9lCkIpn4V8R7NYcJTnNNcZ2360R3eSd9Gf2qCw6vW+VUOROnnd
-         v9sw==
-X-Gm-Message-State: AOJu0Yx5DAf7c3JhS/jcnX9FczgOEAXfGz0iVdQYH0VqdTD56Z6aEvqd
-	Sv9FeOqeXeymaetqGt4j0aR1Acu3eYrl2FlwRJ0nqgM9e2DS+DI4HUrM
-X-Gm-Gg: AfdE7cli3aNg4ub5bYdh8TFxM1qk+AoTWXo6aYavz+fDmUsVonOok6v4WpgqQrkxVG1
-	NJdsnModcUex1/C6kGQXbJAqpLz9ZOgiRMKLKwQ3RuLzH5D32VY/GmfTlMKJUJ1KMTYfBrTYsiK
-	ZOoKu1Z2m5AoRW57ezFmN2djChuod39b4AOIQdN3938vcr6GthHfLgJUe8fH/jwm7u8y3FRH8DF
-	sF25bF/ZtIkxetCdB5UvxzFGRPrqiYR4HvfvWCdZZcY9SXUSrZPrpRc1pnykqC9An429b1mhxOp
-	A+FKGzMHdluqLmZ3nXsd4bM4a7n08eYn5/P7zHdF0AmWqmHQNFIQ28DAbSu37jS4aaiEak6bI7s
-	y+zpe8jslQ3CNa7uuMv7OPtGQya1Q4TSt9C4HO2Gr4WaCkf2jJSVP9oSW+UHw8fweB4+RsxAHh4
-	ZVQ/hCxCGYcab+qlIUqDtouA1TcHDqYjC1/uLeL5PUiiDZ31blaXehMQpTxZ/CiLLhgZieDI9ln
-	O4RA6uEtbHWfQ==
-X-Received: by 2002:ac2:48ac:0:b0:5ae:bd65:9e04 with SMTP id 2adb3069b0e04-5b0235664a4mr2971527e87.8.1784119861133;
-        Wed, 15 Jul 2026 05:51:01 -0700 (PDT)
-Received: from archlinux ([94.180.44.28])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b022fac999sm3404042e87.55.2026.07.15.05.51.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2026 05:51:00 -0700 (PDT)
-From: Arsenii Pashchenko <ulijg308@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	ulijg308@gmail.com
-Subject: [PATCH 54/61] staging: rtl8723bs: inline SetHalODMVar into rtw_hal_set_odm_var
-Date: Wed, 15 Jul 2026 19:48:22 +0700
-Message-ID: <20260715124829.90290-55-ulijg308@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260715124829.90290-1-ulijg308@gmail.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="QUEE1zOg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D235D1F00A3A;
+	Wed, 15 Jul 2026 13:03:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1784120597;
+	bh=6KoEq7we8D7MNjaWMlaa0tiRGQB+sGQz7vW0IkPGUwU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=QUEE1zOgGWj199mqoaWgV/lOrsPkRaC63K2KUvCg1cCCaOdqDFMM4aWw5Zl92uYtm
+	 TsI0EDai/XRz8tje0GV0fRoaPulpoVKU3sILtIPonkoEws4cMYiL/a2IdYDDofXg5z
+	 zfX3e4YIgkHhTaXiQXyL/F/5QvNz8k1AauBVaTGo=
+Date: Wed, 15 Jul 2026 15:03:10 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Arsenii Pashchenko <ulijg308@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/61] staging: rtl8723bs: monolithic HAL cleanup and tx
+ power limit fix
+Message-ID: <2026071541-spindle-voicing-fd97@gregkh>
 References: <20260715124829.90290-1-ulijg308@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -75,124 +37,65 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260715124829.90290-1-ulijg308@gmail.com>
 
-Inline the hardware configuration logic from SetHalODMVar directly
-into rtw_hal_set_odm_var. This eliminates a redundant CamelCase layer
-and simplifies the interface for updating ODM variables.
+On Wed, Jul 15, 2026 at 07:47:28PM +0700, Arsenii Pashchenko wrote:
+> Hello,
+> 
+> This patch series performs a massive, systematic cleanup of the legacy 
+> vendor HAL layer and redundant abstraction wrappers in the rtl8723bs 
+> driver, concluding with a functional fix for the TX power limit lookup.
+> 
+> The primary goal of this refactoring is to drastically improve the 
+> readability and maintainability of the codebase, transforming the 
+> highly tangled, Windows-legacy Realtek abstractions into a cleaner, 
+> more idiomatic Linux driver structure.
+> 
+> KEY CHANGES IN THIS SERIES:
+> 
+> 1. Dead Code & Stub Removal: Eliminated several unimplemented functions, 
+>    empty stubs (like OnAtim, DoReserved), duplicate prototypes, and 
+>    completely unused helpers (NULL_hdl, set_csa_hdl, tdls_hdl).
+> 2. Wrapper Collapse & Inlining: Removed multiple layers of superficial 
+>    wrappers around core operations (e.g., rtw_ap_set_group_key, 
+>    issue_deauth, issue_probereq, rtw_free_mlme_priv, etc.). High-frequency 
+>    or single-use HAL entry points (like SetHwReg8723BS, GetHwReg8723BS, 
+>    and xmit helpers) have been carefully inlined directly into their 
+>    respective dispatchers to enhance readability.
+> 3. Scope & Warning Fixes: Restructured local functions (like 
+>    lps_ctrl_wk_hdl) by marking them static and aligning headers, which 
+>    resolves missing-prototypes compiler warnings.
+> 4. Logical Fixes: In the final patch, a critical copy-paste bug in 
+>    phy_get_tx_pwr_lmt() was resolved. The computed channel index from 
+>    phy_GetChannelIndexOfTxPowerLimit() was mistakenly assigned back to 
+>    the 'channel' parameter and discarded, leaving 'idx_channel' at -1. 
+>    This caused the function to always fail validation and return 
+>    MAX_POWER_INDEX. Correcting this restores the intended hardware tx 
+>    power limit logic and resolves a compiler warning.
+> 5. Refined Abstractions: In places where removing a wrapper would 
+>    decrease overall elegance or require awkward type workarounds, the 
+>    cleanest architectural approach was intentionally preserved.
+> 
+> TESTING & VERIFICATION:
+> 
+> - Hardware: I do not possess the physical rtl8723bs hardware, so 
+>   real-world runtime wireless testing was not performed.
+> - Compilation: The entire series compiles flawlessly against the 
+>   latest tree.
+> - Code Style: All 61 patches have been fully validated with 
+>   `scripts/checkpatch.pl` and return 0 errors / 0 warnings per patch. 
+>   (Note: A few pre-existing vendor style warnings remain in the modified 
+>   files, but no new ones were introduced).
+> 
+> This cleanup significantly reduces the boilerplate footprint, making 
+> future maintenance and eventual mac80211 migration tasks much more 
+> approachable.
 
-Signed-off-by: Arsenii Pashchenko <ulijg308@gmail.com>
----
- drivers/staging/rtl8723bs/hal/hal_com.c     | 36 ---------------------
- drivers/staging/rtl8723bs/hal/hal_intf.c    | 33 ++++++++++++++++++-
- drivers/staging/rtl8723bs/include/hal_com.h |  5 ---
- 3 files changed, 32 insertions(+), 42 deletions(-)
+How did you do all of these?  Without testing I am loath to take such
+large changes, right?  Did you use a llm?
 
-diff --git a/drivers/staging/rtl8723bs/hal/hal_com.c b/drivers/staging/rtl8723bs/hal/hal_com.c
-index 0a0b41ebe..3d6b59c24 100644
---- a/drivers/staging/rtl8723bs/hal/hal_com.c
-+++ b/drivers/staging/rtl8723bs/hal/hal_com.c
-@@ -643,42 +643,6 @@ u8 GetHalDefVar(
- 	return bResult;
- }
- 
--void SetHalODMVar(
--	struct adapter *Adapter,
--	enum hal_odm_variable eVariable,
--	void *pValue1,
--	bool bSet
--)
--{
--	struct hal_com_data	*pHalData = GET_HAL_DATA(Adapter);
--	struct dm_odm_t *podmpriv = &pHalData->odmpriv;
--	/* _irqL irqL; */
--	switch (eVariable) {
--	case HAL_ODM_STA_INFO:
--		{
--			struct sta_info *psta = pValue1;
--
--			if (bSet) {
--				ODM_CmnInfoPtrArrayHook(podmpriv, ODM_CMNINFO_STA_STATUS, psta->mac_id, psta);
--			} else {
--				/* spin_lock_bh(&pHalData->odm_stainfo_lock); */
--				ODM_CmnInfoPtrArrayHook(podmpriv, ODM_CMNINFO_STA_STATUS, psta->mac_id, NULL);
--
--				/* spin_unlock_bh(&pHalData->odm_stainfo_lock); */
--		    }
--		}
--		break;
--	case HAL_ODM_P2P_STATE:
--			ODM_CmnInfoUpdate(podmpriv, ODM_CMNINFO_WIFI_DIRECT, bSet);
--		break;
--	case HAL_ODM_WIFI_DISPLAY_STATE:
--			ODM_CmnInfoUpdate(podmpriv, ODM_CMNINFO_WIFI_DISPLAY, bSet);
--		break;
--
--	default:
--		break;
--	}
--}
- 
- bool GetU1ByteIntegerFromStringInDecimal(char *Str, u8 *pInt)
- {
-diff --git a/drivers/staging/rtl8723bs/hal/hal_intf.c b/drivers/staging/rtl8723bs/hal/hal_intf.c
-index 2c50fa5c0..d2e310115 100644
---- a/drivers/staging/rtl8723bs/hal/hal_intf.c
-+++ b/drivers/staging/rtl8723bs/hal/hal_intf.c
-@@ -161,7 +161,38 @@ u8 rtw_hal_get_def_var(struct adapter *padapter, enum hal_def_variable eVariable
- 
- void rtw_hal_set_odm_var(struct adapter *padapter, enum hal_odm_variable eVariable, void *pValue1, bool bSet)
- {
--	SetHalODMVar(padapter, eVariable, pValue1, bSet);
-+	struct hal_com_data	*pHalData = GET_HAL_DATA(padapter);
-+	struct dm_odm_t *podmpriv = &pHalData->odmpriv;
-+	/* _irqL irqL; */
-+	switch (eVariable) {
-+	case HAL_ODM_STA_INFO:
-+		{
-+			struct sta_info *psta = pValue1;
-+
-+			if (bSet) {
-+				ODM_CmnInfoPtrArrayHook(
-+					podmpriv, ODM_CMNINFO_STA_STATUS, psta->mac_id, psta
-+				);
-+			} else {
-+				/* spin_lock_bh(&pHalData->odm_stainfo_lock); */
-+				ODM_CmnInfoPtrArrayHook(
-+					podmpriv, ODM_CMNINFO_STA_STATUS, psta->mac_id, NULL
-+				);
-+
-+				/* spin_unlock_bh(&pHalData->odm_stainfo_lock); */
-+			}
-+		}
-+		break;
-+	case HAL_ODM_P2P_STATE:
-+			ODM_CmnInfoUpdate(podmpriv, ODM_CMNINFO_WIFI_DIRECT, bSet);
-+		break;
-+	case HAL_ODM_WIFI_DISPLAY_STATE:
-+			ODM_CmnInfoUpdate(podmpriv, ODM_CMNINFO_WIFI_DISPLAY, bSet);
-+		break;
-+
-+	default:
-+		break;
-+	};
- }
- 
- u8 rtw_hal_check_ips_status(struct adapter *padapter)
-diff --git a/drivers/staging/rtl8723bs/include/hal_com.h b/drivers/staging/rtl8723bs/include/hal_com.h
-index 962ba3aaa..79bb60c5c 100644
---- a/drivers/staging/rtl8723bs/include/hal_com.h
-+++ b/drivers/staging/rtl8723bs/include/hal_com.h
-@@ -141,9 +141,4 @@ bool GetU1ByteIntegerFromStringInDecimal(char *str, u8 *in);
- 
- void rtw_bb_rf_gain_offset(struct adapter *padapter);
- 
--void SetHalODMVar(
--	struct adapter *Adapter,
--	enum hal_odm_variable		eVariable,
--	void *pValue1,
--	bool					bSet);
- #endif /* __HAL_COMMON_H__ */
--- 
-2.55.0
+thanks,
 
+greg k-h
