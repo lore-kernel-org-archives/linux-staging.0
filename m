@@ -1,130 +1,101 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D835948B396
-	for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 17:30:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CE7C2E6116
+	for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 21:31:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784136646; cv=none; b=uN0GD15Ls8A6Q+r/q4rT3S9Ys5sTP5lYpUQ0ut4D/JzEqu/LvN0MvOHh/ruY6z9KRbX4GBJmax4Ty26rYambN2mR0UNcpw4zYrffwSDzgS4kgrbqNJfIJ/gPEQfdcuxdQ2/U0q/WKPw53T3aMcerGd8sr64+VjKiwib4PepWnOg=
+	t=1784151106; cv=none; b=pxJvKz+48Tdok/+c5LqsqbQL4cBwkZ+tGcxN4xnMsRcFBRcrGEaNL0gvEU9hWxs7Po4bTTzRoacWTSBad33NauvKeoEoY606jqsCRiBuJS9UrEbyPnW2lP4O+XXat/70G6AY8UwUHeAF7snjNFy5sREIKJdT5gMASyAqAfj4tnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784136646; c=relaxed/simple;
-	bh=l47BE7pUOntdEn1Mu5nMlzXv1Lh4KNOOZ4NVwlROktM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qw2u/xd+Pyxl0vAjTov174S/StoxwlWx2++Bm5sVcHlLElFbBDsE+sTV7RuRfm2PVkcqeXIzbsw00BEyked1GD14yCZ7ByyOvpftzS4PhzE0IO+BVmUxi388p+64md0NSXkCYigNLU3e+09Zpm3pV/FxsZjqCdDCw2r+9QVtKgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RZ0SxvmB; arc=none smtp.client-ip=209.85.221.44
+	s=arc-20240116; t=1784151106; c=relaxed/simple;
+	bh=UQ9VAiVeCZWMZkBEOtn6RY19qayrGcPhQbdZi0ZSpHU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tQpTo/6nTPa6Z+kCufyM916ziuIX+UGZwTeEIb5rOkuVGxCU5D7m4qX2WNtY1mPB914GjMC7cHuEeT+0OXrMX7l0EEnMPSBB7YhdYN9MiWxMp99s+v7/M+lIVNYdtGcnmbvG48N1AW2IoYqdqhIr9UlJ9XmJnLL0UO6sBr8eYE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WveETwT3; arc=none smtp.client-ip=209.85.210.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RZ0SxvmB"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-47dec32798aso5937420f8f.1
-        for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 10:30:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WveETwT3"
+Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-7ec58fa3e01so691369a34.1
+        for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 14:31:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784136641; x=1784741441; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=tJeFAR7iwdWGDaIC40OEbm2UHXdTFtuNScwJl51xzPY=;
-        b=RZ0SxvmBtQbxBmjPVHFl9eKNMMQBh/dORi59zDOptcwTEl5t7nA1xHlqkdzFD5Jbbb
-         gzj5wxiZ/qSgUdBCWum6iWM4CGcz3MICPxKiuwACBiOQLfuh/ibjr0fZ3ANbmsmwLRD6
-         /VQ++QyF14FR4JPiiOqXw5lv82Pa+Pm6TK8b6hMWpCAY96IQzsVkO5vF0Pwi21Ghoq+o
-         3Ypw1IiWdg0m65+0uC6pIBf6bHG7/sBY/4RamVY0kmGv27xA1eEobDND0hBgGflNqw+6
-         HzQBQKCFOJSOr/oaPCrGLDPXngD2UiYLNq7Snow4X9HfHY05VSXlLM9PAOe91pWr+gBW
-         ATXA==
+        d=gmail.com; s=20251104; t=1784151104; x=1784755904; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=FH1G2p6pP1LRbcz11N5iQe1Ot4d6ncQZprgfJdvooEs=;
+        b=WveETwT3h7HqkMQVCj1Pvrx0tlr8JHMqDrr9j3j2LjVGQLF9rth6mWR104IEtE3KlZ
+         eHd12hj9xnkHLave+SvkVuqFHh3XaoFyTn/6x74WS/FOgxEE1eLmkx5kNlyj8Ye5yTmG
+         hYnXwg53aNJq0OLluWl6ZqbD97bhH5O95Yx691F8zJ3L+e1EMYnEUTlrMD2r2CWOqkpH
+         HLvXQ6IHz+rw2fdqkuaXAaUXgYDSMwxys8ujqNLRsD5zG4t2hOkUhOto24hCTlm9IVbz
+         pNWiWEyueeGGcLaetBvC6y9IHsYjOAYaNiL+6kNLrxKH4Ihf4omHRmBgqOWPHLQnQjTd
+         PXdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784136641; x=1784741441;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=tJeFAR7iwdWGDaIC40OEbm2UHXdTFtuNScwJl51xzPY=;
-        b=n4KKC6Y4CUAOq/V4eGyt3pGeHhIe5M887nUmhN3eA4sZCDfUwe23H6A56fhsdXE8r8
-         HG7z8/rwSokVft3iziJDbOUNTtq6o8c6Qpa0d1Nj5RgOnaE0wmNIzHnnF72k3ZQOCg9z
-         mjvFv4X0MUo6ITw7ldRQVOeKirJPTXo0rVN0uzsU35i/vb/LDHcHvWPBuiX+K9WVGkZ8
-         sjgtYsKgacZm4n5yPaqYhazeEbPpBxmYAjG6GzNzB9ROvqnSZ1p8yPgKEWYj+DAhjTqD
-         U5IMKV6F9eu8SzIQZPG5KoQtP+fDrryd+RLTxSrFtpvGfO47JrXiUv9iWVD2fINLLoid
-         B/5g==
-X-Forwarded-Encrypted: i=1; AHgh+RrURPvNNeB/evOZxvQ+hTu137TEQVFUfQVIerXbVpt9bZ4DCM9b65h49OgTp/jjcykzZvF9K+Cn3pGt3Qj1@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyo2CcolrQ8ygHnujMtAerWyAuBehzE4Zqavw5zxBId9i/MAxfr
-	Vs16VkLEN1EAadwoTl3/JdCG1eyIj/QJ6nEaGAqmyDZ5V0jeRMm9KOUT
-X-Gm-Gg: AfdE7clDx/bvu9H+/3jiQkAyP73vALBMXcmAY0td54LM6x2btxXxyHhX7vDjUKt0NUV
-	DKewgZYEVEh3wtqlBlzIrvDoNZlNGreVEXFs7IryyhbZKTicq4g1lpBYVTlfoEdZHI25JBuc8kN
-	pnUlixAnIMu0byIA7aAjPBJYMVQEA/OTx+C63ia3nWZhiq1pTuvZ/jCm3INXoBa68BIMbNRb8ua
-	OqshlwuUPK3cKCKDt4GnTyUioZSSfDSpYLClTIKvW2qyx5GTrl0IPPkIpVaXtXfjLdIFrO5Gqab
-	HxWV72PHb/xYOkR0mvI9288XF4D1qiud5aNTHaO4yUCpWt3SJym8STUJd8/VjMCCP2+P8w8/JQb
-	tgEy2whHpBTe1+DHrR1G+BD8K6GOftHlgXsvDUFCSDFaq4KMnJPX9i3DYVBOITsuliAWO2gwB5R
-	R84yoWODn/63yguzDF0BFbZpMV5xw=
-X-Received: by 2002:a05:6000:18af:b0:46f:7d90:8128 with SMTP id ffacd0b85a97d-47f4885669dmr9952433f8f.14.1784136640969;
-        Wed, 15 Jul 2026 10:30:40 -0700 (PDT)
-Received: from Ubuntu.. ([2.147.165.129])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f4635082csm17997981f8f.7.2026.07.15.10.30.39
+        d=1e100.net; s=20251104; t=1784151104; x=1784755904;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=FH1G2p6pP1LRbcz11N5iQe1Ot4d6ncQZprgfJdvooEs=;
+        b=nPN9o2ryhIS9rdsyRmPJVllwpVcdRHCouRFX7LG+Q87mHuduJMl+aCi5qK1HcrkzOv
+         bTrm8DvCVZkOT2z7O0bLRIODD5EOSfCOyQzW6k+VxUEOlHMY4CWq5uwOrC7CrK6cLMx0
+         dTh2i0dKoDDqSMrn6Mj3Kx6QbzwdoPmA12x2nZH8mqyuj4ob8UkIjfKAubsLaRpO1Cdu
+         W1bp8o2eqSQFs8pdPRhrPFzkZA0CkTgb2XMMUa4u/JxHVzVsEBrsRO2YDeQSfQODF4TD
+         n+pGMHMEwPhMcbrO1cE6MF5SrlP1Opgyl8VW/u5lswT2347/cpptegaKqkHuF88Kk81C
+         gB0Q==
+X-Forwarded-Encrypted: i=1; AHgh+Ron0Ntu5PyXGIEH/PZfnZ84u4A4HFcQ2S0UR9SlEiTatOKthLW+I95OM7K9YY5v8cudHouaHfWH/0h7WMf1@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy0Y+UNilNLxh09Wmdx+o3sqfr/KiqxytchRv5n7/P6qLXdDOAX
+	e65zr2Ts/2rvzww6wAfCgeeqdF9cyzqkdFRRT7HQQ3sbTAVkOT6/soCG
+X-Gm-Gg: AfdE7cm/9uL7cgf0aXbGTBCtrv/RtmTu1TRla4y3+KSmGfXd3AXRrtI0eV0PZnnChPT
+	liTJZB41e2CkZTkc/fsW4j2qkWGJRz91Qud+32+DR7wqE13XQhD92mXpdOBWb4s0E6PFwxVvyYK
+	L1DDakEdTRHal4dDRr6Fkg1QMnYIJCRuUv5SPKt6TatNsno6iQNR8LZfYfU1+pCU0PMpAjADWJc
+	/JzckgS6nkqRGGQy7O0gIh+eMZdvjC6XaQY1d8GdT+lCv/6op5IEGJ3OoFmzePFX1486JUuf2It
+	tVD6XLerh5bpiAi4yDeaAexjJiykGBQ0jV7VWzSvCs6cKDaP56L0Niq9TdGMP41bWqTPFfZZM7k
+	VzQYoj8/PVkDTLnCbpVmsaO9ta9x4AZAjKEaOX0g2/nQZQwUp6ZZMrsHwOtcwmrbgHqyosQ==
+X-Received: by 2002:a05:6830:680e:b0:7e9:f8e8:d905 with SMTP id 46e09a7af769-7ec097a243fmr12860663a34.16.1784151103942;
+        Wed, 15 Jul 2026 14:31:43 -0700 (PDT)
+Received: from localhost ([74.80.182.90])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7ebcab8efc3sm17586080a34.0.2026.07.15.14.31.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2026 10:30:40 -0700 (PDT)
-From: Mohammad Davoudi <mdavoudi2011@gmail.com>
-X-Google-Original-From: Mohammad Davoudi <MDavoudi2011@gmail.com>
-To: johan@kernel.org,
-	elder@kernel.org,
-	gregkh@linuxfoundation.org,
-	rmfrfs@gmail.com
-Cc: greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Mohammad Davoudi <MDavoudi2011@gmail.com>
-Subject: [PATCH] staging: greybus: Replace sprintf with sysfs_emit
-Date: Wed, 15 Jul 2026 17:28:58 +0000
-Message-ID: <20260715172858.17658-1-MDavoudi2011@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Wed, 15 Jul 2026 14:31:42 -0700 (PDT)
+Date: Thu, 16 Jul 2026 00:31:35 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Mohammad Davoudi <mdavoudi2011@gmail.com>
+Cc: johan@kernel.org, elder@kernel.org, gregkh@linuxfoundation.org,
+	rmfrfs@gmail.com, greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: greybus: Replace sprintf with sysfs_emit
+Message-ID: <alf8N5msXi95aQfB@stanley.mountain>
+References: <20260715172858.17658-1-MDavoudi2011@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260715172858.17658-1-MDavoudi2011@gmail.com>
 
-Replace sprintf() with sysfs_emit() in sysfs show functions.
-The sprintf() function is unaware of the PAGE_SIZE limit of the sysfs
-buffer, which can potentially lead to buffer overruns. sysfs_emit()
-is strictly designed for sysfs attributes and inherently protects
-against buffer boundaries.
+On Wed, Jul 15, 2026 at 05:28:58PM +0000, Mohammad Davoudi wrote:
+> Replace sprintf() with sysfs_emit() in sysfs show functions.
+> The sprintf() function is unaware of the PAGE_SIZE limit of the sysfs
+> buffer, which can potentially lead to buffer overruns. sysfs_emit()
+> is strictly designed for sysfs attributes and inherently protects
+> against buffer boundaries.
+> 
+> Signed-off-by: Mohammad Davoudi <MDavoudi2011@gmail.com>
 
-Signed-off-by: Mohammad Davoudi <MDavoudi2011@gmail.com>
----
- drivers/staging/greybus/gbphy.c | 2 +-
- drivers/staging/greybus/light.c | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+We're not applying this kind of patch in cases where sprintf is fine.
 
-diff --git a/drivers/staging/greybus/gbphy.c b/drivers/staging/greybus/gbphy.c
-index bdb0f5164..bb9a5b538 100644
---- a/drivers/staging/greybus/gbphy.c
-+++ b/drivers/staging/greybus/gbphy.c
-@@ -31,7 +31,7 @@ static ssize_t protocol_id_show(struct device *dev,
- {
- 	struct gbphy_device *gbphy_dev = to_gbphy_dev(dev);
- 
--	return sprintf(buf, "0x%02x\n", gbphy_dev->cport_desc->protocol_id);
-+	return sysfs_emit(buf, "0x%02x\n", gbphy_dev->cport_desc->protocol_id);
- }
- static DEVICE_ATTR_RO(protocol_id);
- 
-diff --git a/drivers/staging/greybus/light.c b/drivers/staging/greybus/light.c
-index cab02b5da..2689f9a75 100644
---- a/drivers/staging/greybus/light.c
-+++ b/drivers/staging/greybus/light.c
-@@ -173,7 +173,7 @@ static ssize_t fade_##__dir##_show(struct device *dev,			\
- 	struct led_classdev *cdev = dev_get_drvdata(dev);		\
- 	struct gb_channel *channel = get_channel_from_cdev(cdev);	\
- 									\
--	return sprintf(buf, "%u\n", channel->fade_##__dir);		\
-+	return sysfs_emit(buf, "%u\n", channel->fade_##__dir);		\
- }									\
- 									\
- static ssize_t fade_##__dir##_store(struct device *dev,			\
-@@ -220,7 +220,7 @@ static ssize_t color_show(struct device *dev, struct device_attribute *attr,
- 	struct led_classdev *cdev = dev_get_drvdata(dev);
- 	struct gb_channel *channel = get_channel_from_cdev(cdev);
- 
--	return sprintf(buf, "0x%08x\n", channel->color);
-+	return sysfs_emit(buf, "0x%08x\n", channel->color);
- }
- 
- static ssize_t color_store(struct device *dev, struct device_attribute *attr,
--- 
-2.43.0
+Really, I never like commit messages which talk about "potential
+buffer overruns".  Is it a buffer overrun or not?  If it's really
+hard to figure out then say that "This code is really hard to figure
+out and I suspect its fine but let's be safe."
+
+In this case the code is really simple and we can all see the original
+code is fine just from reading the diff...
+
+regards,
+dan carpenter
 
