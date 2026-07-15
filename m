@@ -1,71 +1,71 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE3784A13A4
-	for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 12:50:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34D763909A3
+	for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 12:50:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784119861; cv=none; b=gL37dHmmnN/spejoiJ4tTd77/PiIv72ZVdVIyo/+INdZuT08SO+3ofh8IR5ZCFn4jXoQfUSemaKCzT7evn4uQAQGsllIrd22SP5auLBGET53BtMoiuflEdcV3HLOJ0r0C+Wwvzgmw2yklwIs2kLyQWavcAxXxFuOw8GThy9GuH0=
+	t=1784119861; cv=none; b=lvk+0ChzjqUYwRxqcfeGJvzHvLaCCzNdrM4Ahlg4aLeVP0PTvnLXkGcSY6JU9XhbENF3fe88mmMRcpiqSGys/x7mO/s3dIK4L8gkSX6b9Gvf83XpAYSYph69jJ6MpIT9jP/cN+AB9CtT81xOHST8pxbS6fZL+PBqulViGm0J+P4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1784119861; c=relaxed/simple;
-	bh=2Q6d8WyT9DBrXtGDiScoAlgfUG4yEAeG9nXn7SKHrnM=;
+	bh=xlFC6HLoV2n1vFY6zAXQKisCqIRVD1f4N5Bs+wu8YGA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=a6WuP4BtmLidLu+tyAThqQzLDqkVtTG22hgrb6oSbWDK25Yj5gPc6TpeT9TuUOPEgZjg5itJyCqdyrn55BoPhdXoAqMXNMS7Y/MuxEcE6a362WMuHBOJcXVuy0FHZNYcBfQSK6DPuBNf92QVgtTvhTGZu8jkxGi1AAV5xRcn2SE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ogjU9Zqb; arc=none smtp.client-ip=209.85.208.176
+	 MIME-Version; b=gF1Vn6QdoTi2VdnVhWVc8x44CWigxiB3T1mGAylwFPOQiHum05BMyBN1E9Ism7MzrNrxcVdAMUeTmcU676j7LzWcp09LspZlone4u0AETf0DikSsn3EUsCyAUZfABueF6RMp5jKmfNuK7SYNmvVjOEi2TZ9R88NpQ7w5igjyJu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jd8wjs7o; arc=none smtp.client-ip=209.85.167.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ogjU9Zqb"
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-3997a448ecbso20537621fa.0
-        for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 05:50:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jd8wjs7o"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5aeb5e85378so5766187e87.1
+        for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 05:50:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784119855; x=1784724655; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1784119849; x=1784724649; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=4TMzq3sqLE2mIsEbqNFBEWHJwoVqep7wjRLvzGXoJzE=;
-        b=ogjU9ZqbcMbcH/YMUc9pfmbXEiJeFneqQiWEbcoqqgXbjiQafXOvuWgycDPiSdS7Hp
-         FCLAJqJHIO5yPucEEtBkFdEXXbotC2iGe113Hl71m9Oo82boLzzqA39gBu0BqyocGD0A
-         ki4zCRUlqZ8vGI2nLlYUQtcTjvktQ6C/szw57Ic9vuQp+QYJD+KO6cLrgwk5K26SwMwo
-         FxhgHSxCzqFc/XB+GEu7IH7GUh1tlB81d0UEe1ffFdr5IyPkN1iMVhjL5p5w3WLlhaK8
-         ZG4Zkc+ct+1tWSJqCfV+asbmdnwA/VYiJYCIAk4WaAvzPK3Otqg3R1nymz0JOYyIhXFj
-         GJwA==
+        bh=dr2lce3rXypZeYHhFi4dr63szYheMvNYAGHnVpT1kRQ=;
+        b=Jd8wjs7ofMgmcByQLtK0tkxLdqEiwFWwnFJl5ylZ4fGoM7oUI63hEdLrZzUuvF3tXI
+         2cZaJAFC378etIxY8/t4HY9kYn76SUlXNlR24typ6pKpK2XKxEByZQVCd8kWBvX66Dzb
+         pM19I8zlYR68lYT4skfrwAYjW5c748s9p2EgY3PQ6ixJvM8RiXjVDwcN5QkI8A7CjDEQ
+         b6VJlrzQr0LcdRHzONyw/ryWjbl4WnTA2Hqnj2jW9hOOx02ke5S0iIVr5NM1hU02NJlq
+         kBCJNy0vD7IDxGntneFAhrBDPb14gdbLiXKL9aK2ptHsjT5NHIenRAhXXmYMjyfEB4uP
+         SoNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784119855; x=1784724655;
+        d=1e100.net; s=20251104; t=1784119849; x=1784724649;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=4TMzq3sqLE2mIsEbqNFBEWHJwoVqep7wjRLvzGXoJzE=;
-        b=rWY2pIsh0Y6nTybsEZ3aAzi78e2pvvcaOpyCu/bw2T2DUJTieX3wnKN5zEcWhAdUFt
-         HkhDwOat50/U1sRuQl5gZw0w4cnv1AYCTozx1SPYIO7X920839yfZ52yHo1Q/MrRDYJx
-         35UwawRC3tbeXrqSOjuL7qz4D8nMOkW1AFXy0tORlKDAGlxqxBw8DPqj85l6lnm84YyH
-         f5Hl8Y1HArAWAZK6enwhDHfoISaECwyfC+Zm71tne1t6xrNGLL64iwQQre1vPx7qp5h/
-         /hctyh91Q+dcSbCj77U4ZdwREeymaBVik3YCe0UsY1sN2K2QxTwOycnSuMeQrDV1uEgQ
-         5uMQ==
-X-Gm-Message-State: AOJu0Yyb0k3W8+FAIIEmovZxSmFh2En2PbYfL6evyi65elaDHS1j6sku
-	2MQ7qU/LcajVMqSZQbWEkqxFbqUqEvXg36cQJd00fVXZpzJgzQwid4JT
-X-Gm-Gg: AfdE7clqcmjmKh89anRVmX5usv/abcAdicr6LeXl1V5QmWX1c4ejNBLbCdh2AXWoRaR
-	wWuFySQEbtbrnHLomqKx2Aks4C8YUmdQixh4zj+i5n3M++9iWn0xywlD0Snk+w6Lp0Dbvf9XDYG
-	R5Ab5z+RfbG+3TQguiLgsMQuOYyDmO4PSlIpsUA9VDY2UAmi0i8cQD5Jo6pOsI8d7Hht5uEFVaD
-	FV4CB8n3oxuhoCmM0QjLPwivIg920S4QCzwtBDqBU8ZZwfom6nI5JRLfEm/YyJXS9iHUNms4KD1
-	1Jiju+kAki5W5mmIjoEfbpiB+E1H2ASO9spO8J1FIG8+LoZNv8b6+1RAmIb8Cp+P2qpU7T6Hrzl
-	GcxvIuoMmWU6vOZyzG7eULLyVvfgGAJ0uFJEE4OT03LOtz8w0n49JQYPHRQLJo2Q1FtHY7qJvws
-	9+4WxhSaoJmTKP2m7f5fBIPehvo3BuLPiKdsaiA6DNK4Ll2jl75WjhhMKPxofEYLbSeI6LPCzP0
-	wSUafgi7Nte9g==
-X-Received: by 2002:ac2:508c:0:b0:5b0:e70:c6e8 with SMTP id 2adb3069b0e04-5b0236c0babmr3009824e87.59.1784119854817;
-        Wed, 15 Jul 2026 05:50:54 -0700 (PDT)
+        bh=dr2lce3rXypZeYHhFi4dr63szYheMvNYAGHnVpT1kRQ=;
+        b=JkIoMDqF07SCJRCQ0A7z81rryzkGNWS+Swh2K8njqc5oC11EL1K3iMPNOKiUjkARW2
+         21oEC3mojVNsMAWL4DmhnxolShFqrMRSWDy4gHtUKN+n3pVK6IBzP7N9dQ3ARrZoARgH
+         J32JRmbiNPqTaXaEcFonjpxooVKbLf47DAq9lheMyfxHe3wPdnQixGMpLEH2kaa2ApYC
+         H26oavQSpP03nt9pObsPM/dbWV2zPVbkQIF2XuPbBHWbyfwyCHXUtKjSDsnOA5FsVskk
+         uuXLiQnjv0e3aPcsgWVjS/J4geKOh1+Xfwc/A5SSA02mV+o+hTex4citwCp4TruhlaWn
+         DLQA==
+X-Gm-Message-State: AOJu0Yw8cYXgXpnqRN6Hr36gQ4Xne+mr+hCk8qv2x65Vz73+z6wxaAVH
+	GrFa22Ph/C70tU94cD02zAeFKrE9EcOOwzuuj5ROVTjK5hLgwTmHTdv5
+X-Gm-Gg: AfdE7clMh9Ipttc6k+rvY33Vc6f0AOoWrrjL7MNCougz6c8o8yLmcOW9p56gL1WMZ3d
+	89WP5/uiT9eE1E3WV4xcoRbHiL0A+SRLhME5TCLP0YXtaytkzh2FzReNH7RGeIJFHtPGBpIKYbN
+	ZLi8nbx8x4QHZkO8/tBXzSB7DewIl+7d27VAR4RmYBcLwO8ZMm6Ul1GiMk4qrpT9YzN3hzrEjRZ
+	GIkF4DbqH7LKREXj7HcLnIXaMKI4iSHnfZcNWTG7RSOkGvwLoyXJGZPFT2vWXMJeErAK5A0kxr6
+	o28KCjRwYq+DcnqTJVpJzc7F/t5mnH1lPg69b8GTt9bGKPZEzFu3saGU+01a5qzzCsxz25mDqBJ
+	wJpDGiOHGnx1ShIixtknNT/rIIUnMlJ4KvLhkSNcyPFn5ibWLQr+HbhukrxrZDlfBVpU+KjokdB
+	lepPsv4JpNCn/tc8nakyM57V2CMAxfDZrz8q/JTLlYK9hON1NTojuv0FWnyddHiM5TUKjn4wO3M
+	bw4UrdeqPXyrWwI1iFogkpk
+X-Received: by 2002:a05:6512:4016:b0:5b0:13b4:6079 with SMTP id 2adb3069b0e04-5b159b8919cmr1426425e87.53.1784119848808;
+        Wed, 15 Jul 2026 05:50:48 -0700 (PDT)
 Received: from archlinux ([94.180.44.28])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b022fac999sm3404042e87.55.2026.07.15.05.50.54
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b022fac999sm3404042e87.55.2026.07.15.05.50.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2026 05:50:54 -0700 (PDT)
+        Wed, 15 Jul 2026 05:50:48 -0700 (PDT)
 From: Arsenii Pashchenko <ulijg308@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	ulijg308@gmail.com
-Subject: [PATCH 49/61] staging: rtl8723bs: remove phy_GetChannelIndexOfTxPowerLimit helper
-Date: Wed, 15 Jul 2026 19:48:17 +0700
-Message-ID: <20260715124829.90290-50-ulijg308@gmail.com>
+Subject: [PATCH 42/61] staging: rtl8723bs: remove ConfigureTxpowerTrack wrapper
+Date: Wed, 15 Jul 2026 19:48:10 +0700
+Message-ID: <20260715124829.90290-43-ulijg308@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260715124829.90290-1-ulijg308@gmail.com>
 References: <20260715124829.90290-1-ulijg308@gmail.com>
@@ -77,50 +77,53 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove the tiny single-line helper function
-phy_GetChannelIndexOfTxPowerLimit. Inline the arithmetic index
-calculation directly into the callers to simplify the code and
-reduce runtime call overhead.
+Remove the useless external wrapper function ConfigureTxpowerTrack.
+Call ConfigureTxpowerTrack_8723B directly instead. This eliminates
+the unused pDM_Odm argument and cleans up the driver code
 
 Signed-off-by: Arsenii Pashchenko <ulijg308@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/hal_com_phycfg.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ drivers/staging/rtl8723bs/hal/HalPhyRf.c | 7 ++-----
+ drivers/staging/rtl8723bs/hal/HalPhyRf.h | 1 -
+ 2 files changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
-index 32b69ba3b..7ad04aa85 100644
---- a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
-+++ b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
-@@ -643,10 +643,7 @@ static s8 phy_GetWorldWideLimit(s8 *LimitTable)
- 	return min;
- }
+diff --git a/drivers/staging/rtl8723bs/hal/HalPhyRf.c b/drivers/staging/rtl8723bs/hal/HalPhyRf.c
+index 9e4d42e3a..14b4ac979 100644
+--- a/drivers/staging/rtl8723bs/hal/HalPhyRf.c
++++ b/drivers/staging/rtl8723bs/hal/HalPhyRf.c
+@@ -8,10 +8,7 @@
+ /* include "Mp_Precomp.h" */
+ #include "odm_precomp.h"
  
--static s8 phy_GetChannelIndexOfTxPowerLimit(u8 Channel)
+-void ConfigureTxpowerTrack(struct dm_odm_t *pDM_Odm, struct txpwrtrack_cfg *pConfig)
 -{
--	return Channel - 1;
+-	ConfigureTxpowerTrack_8723B(pConfig);
 -}
 +
  
- static s16 get_bandwidth_idx(const enum channel_width bandwidth)
- {
-@@ -721,7 +718,7 @@ s8 phy_get_tx_pwr_lmt(struct adapter *adapter, u32 reg_pwr_tbl_sel,
- 	if (idx_rate_sctn == 0 || idx_rate_sctn == 1)
- 		idx_bandwidth = 0;
+ /*  */
+ /*  <20121113, Kordan> This function should be called when TxAGC changed. */
+@@ -78,7 +75,7 @@ void ODM_TXPowerTrackingCallback_ThermalMeter(struct adapter *Adapter)
  
--	channel = phy_GetChannelIndexOfTxPowerLimit(channel);
-+	channel--;
+ 	/* 4 2. Initialization (7 steps in total) */
  
- 	if (idx_regulation == -1 || idx_bandwidth == -1 ||
- 	    idx_rate_sctn == -1 || idx_channel == -1)
-@@ -838,7 +835,7 @@ void PHY_SetTxPowerLimit(
- 	else if (strcmp(Bandwidth, "40M") == 0)
- 		bandwidth = 1;
+-	ConfigureTxpowerTrack(pDM_Odm, &c);
++	ConfigureTxpowerTrack_8723B(&c);
  
--	channelIndex = phy_GetChannelIndexOfTxPowerLimit(channel);
-+	channelIndex = channel-1;
+ 	(*c.GetDeltaSwingTable)(
+ 		pDM_Odm,
+diff --git a/drivers/staging/rtl8723bs/hal/HalPhyRf.h b/drivers/staging/rtl8723bs/hal/HalPhyRf.h
+index bd9430db9..3d098ce34 100644
+--- a/drivers/staging/rtl8723bs/hal/HalPhyRf.h
++++ b/drivers/staging/rtl8723bs/hal/HalPhyRf.h
+@@ -30,7 +30,6 @@ struct txpwrtrack_cfg {
+ 	FuncSwing GetDeltaSwingTable;
+ };
  
- 	if (channelIndex == -1)
- 		return;
+-void ConfigureTxpowerTrack(struct dm_odm_t *pDM_Odm, struct txpwrtrack_cfg *pConfig);
+ 
+ void ODM_ClearTxPowerTrackingState(struct dm_odm_t *pDM_Odm);
+ 
 -- 
 2.55.0
 
