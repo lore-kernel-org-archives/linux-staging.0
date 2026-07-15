@@ -1,71 +1,71 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C04874A1390
-	for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 12:50:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E373449551B
+	for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 12:50:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784119862; cv=none; b=t7qt5/N8y7pDFhGu55GIwJAd/5+UJd+rcHDraJKmqO7oAShpg1lk5i9I9zcIRut8wb05iBHAV06t5Yfgv8tmFkOdQ8bgZr3ADsq9nDSGkdCLh9N+kDD/5TCgRPtBzukfbqKLjFrl2Db2tyLvzldx44r06PKbnn7uTnRUcODzsqY=
+	t=1784119865; cv=none; b=uha8M0+Wx3f0UTVQzTkwGgvKRFp55mVT8+N1n5t6vhLVd/O3clKCCc4LjMHQjOzFSSHg3boY+ojvj7lHK4IyNI1sBWXkRzz8Qt7HkbiTzOL8HC4Vm7aLMRn2YOu9S1qYVYK8Z1Q93LM1neZWhEAuwVHJHGDZ0sVXN/Bf2+dWlmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784119862; c=relaxed/simple;
-	bh=ZybPtwgV9g5pEAiIu8Xt4xd8WcHEPSvLIBdB5uTgeIY=;
+	s=arc-20240116; t=1784119865; c=relaxed/simple;
+	bh=4vReyokegtoDdnzUCaFF1FRWkBMX2s/84JinAlpGIDo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=apBnlt+5YZ6TaJu0ZHcSSK/xfx2bxtuzjQQiSk1QRx+gOMNqOhTh41crcgYbneMsN72yN7b+jXNGADMSDVLokPaWPMHv8iHYOgnQI7Nm8NS1dNdne1s2b/kZRcQ/l3N9Tl+0ZGoauuu0bjAuZqBCbN77PCZjUBaBfwDRn8iJpHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pku+veyJ; arc=none smtp.client-ip=209.85.208.176
+	 MIME-Version; b=j3qRZnglic3blKeaREsb/Dt65rZYYQi0xF1IZqr+PIWIAtR7P7jS3JuU8yyQvalBLYPx7NLH/W4uaYdhpfbbsrv6Rn5oYAiYyyu9/G5zmPQGRBfOIye9vRX7K9nYWUHP2ihEJyyVGwbEPMVABMKqO275OyzSFkidl53yUnft2sM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GwL8QzO3; arc=none smtp.client-ip=209.85.208.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pku+veyJ"
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-39c83acb86eso19094141fa.1
-        for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 05:50:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GwL8QzO3"
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-39da69c5ba3so16384881fa.1
+        for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 05:50:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784119854; x=1784724654; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1784119852; x=1784724652; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=JKfBmQTqieXbamD4LbBY6VXDsMe0l1JKVyBB18eX4Mg=;
-        b=pku+veyJTLue0/guZDza7VU8WGd+ZnKA481CaISYhxu6ZlU7ZEQdVRjUrWCZrenOye
-         wLs3SV0PouaPOWX+WcXWT51QWGZgWi+T3dVuF+kuepil5je59C4ICjTWvWMkDH7ZXAgC
-         +YJRtGk2pE2iMKeLfkVtUCvGoeaNV+BOqtxw3qikI+MFj3N2ZWSD8fSOY4HtS8gFYkIG
-         uq0J3mlfFXzfM0itMSuRARz7lYvuFwPU//CTUrcOV6XuRZJFXh6CNb2KYlZizmDTlwx8
-         50VRLqDBfwL44Ua/C3bni5+s5gNg0uZJSQsOnUmVIMbYmcM1cwuMFE9bO4jh4tDRgZXz
-         kyYg==
+        bh=47CI7mo8Wjc0LIH72n9ZJUdZDiMq/SPSI3cwI67agh0=;
+        b=GwL8QzO30Dt5aKz4LTloep+yaOKLd4OCPXAuJNnSW9WWJDHnUx2xVwIXHokUUb8OQg
+         99pTmd/FoIA6MVSAZhy2FM/B/3e8eKBQob6wMoBgEy39pbKA2dmqkFplDOcACQ57ycZw
+         wS6DzQar0Sgc0WLkxmfrACoh4ylqsMSQsA2XpR7viYBAAzMu3bSG7A8zBhXgTCr2mI3e
+         jVfTQ4c6tt3BuPWtTtN3z7loP+fzdSpFexfXCK7d5iBD9caMAJ/cqk8+ZK7PH1XYJsYe
+         wDzDHHtRljQpmvNTaKTn6jZAvfLBamZjVkl3LNxkb29BSlxEJWyeLYBAhuAhE2u/PPyO
+         APmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784119854; x=1784724654;
+        d=1e100.net; s=20251104; t=1784119852; x=1784724652;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=JKfBmQTqieXbamD4LbBY6VXDsMe0l1JKVyBB18eX4Mg=;
-        b=ldV6/zeAcE/BtStfGibXraiYhTfMWS4qUaLcIkjrG7tKOS6LSEXIjoGM/Fs1VO7N+2
-         kVdqW3qarvprikkXW+mFsSk/QewT2kKs3mNg1mZareIRpo1wLg+VrqK/cj9JWF/GbGMC
-         bXcz3sXlokwS+TnUVnYOFIbAk42A5tjIuaWQYBcPq3RfjMppDGb7lRVHL4KsF6wfekZY
-         HxfcvyNQpAPwj8wNYm+MvBHIJuYO3RR3Snmf3Ecg2iRwboUuxqq1oE72/IWKN/EHlFDu
-         qHCgqA0B84DR7lXBYVX4/VG95PVUMtvuScVd0r8Lq2ET1crK3OlYI1akZjFoZpjxWpAd
-         qwww==
-X-Gm-Message-State: AOJu0Yy0hp80Udd3wyYSppWeMGKPyxvZc+t7880qTyRSQRldcApk8He3
-	G/26D39xoXdkyTcYQJfs8gV4h6GF6G/5tk9rejQ4RzebclVAQCt2SYSG
-X-Gm-Gg: AfdE7cmbOvlKG5jstKehudCrMbBlRyE9/WiY1NV+0ZFu2Lfd1VT2xMn61xWx/bK0+4S
-	Bc2HkAwub19YCKtThZn/gmi34yi2CKw6IuIdH5UUKtydmraBiORi7PHh+82KmCZSxc4V+c78RX7
-	r5nOvQcG3x0RBpJF99ve+ign/a3HzwKxlQwV4Ec2qzBy2TqPTRiA+W8VToXaQV24kJQGDVsXlFi
-	B1gLgVvDW1+Fv+fYeZB8nUhf0FyzoKVmqbBDHRL48dzCDu8t3E/zJUeUJxzF40LwoVvldJOM2ir
-	LQ5So2JETu/2VPGGb9A0j9Hs+7h2MesFFWPmky0kFBVW4KEMT3qfu2io8USnqnrKGksNtwsuwiw
-	eJLL5+sx7geJRichFRI1nluYXwhH2U3VpKodbFuyHEZjqjOG1YCKa48DC1MXgXn4pi/q5zAVGN8
-	MEfLb1xbeQE+WEYFDeDfNcwj8lp4Rd/S+nX8useZY9Q8ufj1RFsHK5cZ8zL4FmtkmGzYeCe1IXA
-	N8L8RnZaseTQg==
-X-Received: by 2002:a05:6512:12cc:b0:5b0:17e7:67cb with SMTP id 2adb3069b0e04-5b02366a270mr4528182e87.17.1784119854037;
-        Wed, 15 Jul 2026 05:50:54 -0700 (PDT)
+        bh=47CI7mo8Wjc0LIH72n9ZJUdZDiMq/SPSI3cwI67agh0=;
+        b=B+utFOvUdbAWDbKK8Pxh61YRRz/YWueH01fSrBWawO17sfMU7lqLPZ4DbMTQG+BLXU
+         pCZ1UySw0Iom7PpfI39OvOxtLpF0Urt9aOMSB0k70X7ss2DikUYOVW6m9EBnotFQpGnd
+         lnq9I03L0D4ciF4ahQpG12EpXWTGNBFXjZKEWCdDc/ToDyEJS2Obym04lKWEDNYcWv5I
+         Xq6hRY5eygaW/gPJ1OrISw3xmjjG7Gx4eLUaH9/yjIWpdpjO6lIey1pL0EMAWm+da3BY
+         WugJRdoSJ4BBfim22o1dkgO4tKv5K7lKraYuB6+tONO9XNculkldrbaj8QleKHAwRc/H
+         a2ZQ==
+X-Gm-Message-State: AOJu0YwYuW2NVg/k25EYG5RL1hXTR2ibOPRx2wGnVBOZbm65hkPRrNBt
+	MpEOoEGHky2+SrVMvEWIeJMxXcwDlvLhR4X5zNCgy8f89fjjzc4PwC4R+v+2SS5gpTc=
+X-Gm-Gg: AfdE7cnlzzl4r5FDQOJQsxhKMK6UGivjLH7jZqU3th4DXSimNKFjFiAK7QH+Do6fhpO
+	UTZ5tyaUuobCIWmLaoE1gALDV5LQ16b/73fd14t2I7/3iVxUlGwaNhPMDZbzAAgkIdWecfKK1gW
+	hb16gonGi6Ld9Sc6OTwLZuDwbGrrFwNgAPV3CGiVDrX6OAgOjt6nbpXdO2ly/o8c8Q003jJ0bHO
+	piCT4ikdKXydbZiNsTsdi1Mwmi65v9BbYDjyjvC8luyvMAzJV9EBZSj79IpORfpyd70mB1AgDuM
+	s6uedeMH2lf2v8eJpr5TtiOcC0qHPN3ZXa3IQRV51WlYQ/rbAZOrhh3czPuwGuIr3qm0CsQKUUz
+	dmwFbsJ1j1jdjBAeKCXQXQOZwbQYChI+dZ9VBtfWd7if85xyty7Cb3bcfpwXbDOUM0B5QvSQ14E
+	XJwfG20ctlUbq/HqU9QULORdvf9hhjM1mOlmXkYz1Ke5HjB8JSdhyQF9V8KdE/aJpg291O/JWR8
+	d4fkVJ+ET7WfQkXAyrZ0pdn
+X-Received: by 2002:a05:6512:12c3:b0:5b0:5306:210e with SMTP id 2adb3069b0e04-5b0531567femr3904899e87.37.1784119852381;
+        Wed, 15 Jul 2026 05:50:52 -0700 (PDT)
 Received: from archlinux ([94.180.44.28])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b022fac999sm3404042e87.55.2026.07.15.05.50.53
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b022fac999sm3404042e87.55.2026.07.15.05.50.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2026 05:50:53 -0700 (PDT)
+        Wed, 15 Jul 2026 05:50:52 -0700 (PDT)
 From: Arsenii Pashchenko <ulijg308@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	ulijg308@gmail.com
-Subject: [PATCH 48/61] staging: rtl8723bs: remove PHY_TxPowerByRateConfiguration wrapper
-Date: Wed, 15 Jul 2026 19:48:16 +0700
-Message-ID: <20260715124829.90290-49-ulijg308@gmail.com>
+Subject: [PATCH 46/61] staging: rtl8723bs: remove rtw_get_mgntframe_raid helper
+Date: Wed, 15 Jul 2026 19:48:14 +0700
+Message-ID: <20260715124829.90290-47-ulijg308@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260715124829.90290-1-ulijg308@gmail.com>
 References: <20260715124829.90290-1-ulijg308@gmail.com>
@@ -77,100 +77,57 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove the single-use function PHY_TxPowerByRateConfiguration. Inline
-its code directly at the call site, along with the relevant block
-comment, to eliminate an unnecessary redirection layer and clean up
-the overall driver flow.
+Remove the tiny helper function rtw_get_mgntframe_raid. Inline the
+ternary operator check directly into the callers to simplify the
+driver architecture and avoid unnecessary call overhead.
 
 Signed-off-by: Arsenii Pashchenko <ulijg308@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/hal_com_phycfg.c     | 13 ++-----------
- drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c    |  7 ++++---
- drivers/staging/rtl8723bs/include/hal_com_phycfg.h |  1 -
- drivers/staging/rtl8723bs/include/rtl8723b_hal.h   |  4 ++++
- 4 files changed, 10 insertions(+), 15 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 2 +-
+ drivers/staging/rtl8723bs/hal/hal_com.c       | 4 ----
+ drivers/staging/rtl8723bs/include/hal_com.h   | 1 -
+ 3 files changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
-index 21b9d1c82..32b69ba3b 100644
---- a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
-+++ b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
-@@ -60,7 +60,7 @@ phy_SetTxPowerByRateBase(struct adapter *Adapter, u8 RfPath,
- 	}
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index 62abfd896..0cc6887bb 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -1897,7 +1897,7 @@ void update_mgntframe_attrib(struct adapter *padapter, struct pkt_attrib *pattri
+ 		wireless_mode = WIRELESS_11B;
+ 	else
+ 		wireless_mode = WIRELESS_11G;
+-	pattrib->raid =  rtw_get_mgntframe_raid(padapter, wireless_mode);
++	pattrib->raid = (wireless_mode & WIRELESS_11B) ? RATEID_IDX_B : RATEID_IDX_G;
+ 	pattrib->rate = pmlmeext->tx_rate;
+ 
+ 	pattrib->encrypt = _NO_PRIVACY_;
+diff --git a/drivers/staging/rtl8723bs/hal/hal_com.c b/drivers/staging/rtl8723bs/hal/hal_com.c
+index b357c5145..0a0b41ebe 100644
+--- a/drivers/staging/rtl8723bs/hal/hal_com.c
++++ b/drivers/staging/rtl8723bs/hal/hal_com.c
+@@ -467,10 +467,6 @@ s32 c2h_evt_read_88xx(struct adapter *adapter, u8 *buf)
+ 	return ret;
  }
  
--static void phy_StoreTxPowerByRateBase(struct adapter *padapter)
-+void phy_StoreTxPowerByRateBase(struct adapter *padapter)
- {
- 	u8 path, base;
- 
-@@ -367,7 +367,7 @@ void PHY_StoreTxPowerByRate(
- 	}
- }
- 
--static void phy_ConvertTxPowerByRateInDbmToRelativeValues(struct adapter *padapter)
-+void phy_ConvertTxPowerByRateInDbmToRelativeValues(struct adapter *padapter)
- {
- 	u8 base = 0;
- 	u8 i = 0;
-@@ -408,15 +408,6 @@ static void phy_ConvertTxPowerByRateInDbmToRelativeValues(struct adapter *padapt
- 	}
- }
- 
--/*
-- * This function must be called if the value in the PHY_REG_PG.txt(or header)
-- * is exact dBm values
-- */
--void PHY_TxPowerByRateConfiguration(struct adapter *padapter)
+-u8 rtw_get_mgntframe_raid(struct adapter *adapter, unsigned char network_type)
 -{
--	phy_StoreTxPowerByRateBase(padapter);
--	phy_ConvertTxPowerByRateInDbmToRelativeValues(padapter);
+-	return (network_type & WIRELESS_11B) ? RATEID_IDX_B : RATEID_IDX_G;
 -}
  
- void PHY_SetTxPowerIndexByRateSection(
- 	struct adapter *padapter, u8 RFPath, u8 Channel, u8 RateSection
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c b/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c
-index d6369eb7b..75d01e730 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c
-@@ -346,9 +346,10 @@ static int phy_BB8723b_Config_ParaFile(struct adapter *Adapter)
- 	   pHalData->EEPROMRegulatory != 2)) {
- 		ODM_ConfigBBWithHeaderFile(&pHalData->odmpriv, CONFIG_BB_PHY_REG_PG);
+ void rtw_hal_update_sta_rate_mask(struct adapter *padapter, struct sta_info *psta)
+ {
+diff --git a/drivers/staging/rtl8723bs/include/hal_com.h b/drivers/staging/rtl8723bs/include/hal_com.h
+index 0a43655f7..962ba3aaa 100644
+--- a/drivers/staging/rtl8723bs/include/hal_com.h
++++ b/drivers/staging/rtl8723bs/include/hal_com.h
+@@ -126,7 +126,6 @@ u8 NumOutPipe
  
--		if (pHalData->odmpriv.PhyRegPgValueType == PHY_REG_PG_EXACT_VALUE)
--			PHY_TxPowerByRateConfiguration(Adapter);
--
-+		if (pHalData->odmpriv.PhyRegPgValueType == PHY_REG_PG_EXACT_VALUE) {
-+			phy_StoreTxPowerByRateBase(Adapter);
-+			phy_ConvertTxPowerByRateInDbmToRelativeValues(Adapter);
-+		}
- 		if (Adapter->registrypriv.reg_enable_tx_power_limit == 1 ||
- 		    (Adapter->registrypriv.reg_enable_tx_power_limit == 2 &&
- 		   pHalData->EEPROMRegulatory == 1))
-diff --git a/drivers/staging/rtl8723bs/include/hal_com_phycfg.h b/drivers/staging/rtl8723bs/include/hal_com_phycfg.h
-index cb7c7ed74..2dde01c2a 100644
---- a/drivers/staging/rtl8723bs/include/hal_com_phycfg.h
-+++ b/drivers/staging/rtl8723bs/include/hal_com_phycfg.h
-@@ -85,7 +85,6 @@ void PHY_InitTxPowerByRate(struct adapter *padapter);
- void PHY_StoreTxPowerByRate(struct adapter *padapter, u32 RfPath,
- 			    u32	RegAddr, u32 BitMask, u32 Data);
+ s32 c2h_evt_read_88xx(struct adapter *adapter, u8 *buf);
  
--void PHY_TxPowerByRateConfiguration(struct adapter *padapter);
+-u8 rtw_get_mgntframe_raid(struct adapter *adapter, unsigned char network_type);
+ void rtw_hal_update_sta_rate_mask(struct adapter *padapter, struct sta_info *psta);
  
- u8 PHY_GetTxPowerIndexBase(struct adapter *padapter, u8 RFPath, u8 Rate,
- 			   enum channel_width BandWidth, u8 Channel);
-diff --git a/drivers/staging/rtl8723bs/include/rtl8723b_hal.h b/drivers/staging/rtl8723bs/include/rtl8723b_hal.h
-index b6006110a..fe6401c4f 100644
---- a/drivers/staging/rtl8723bs/include/rtl8723b_hal.h
-+++ b/drivers/staging/rtl8723bs/include/rtl8723b_hal.h
-@@ -239,4 +239,8 @@ s32 c2h_handler_8723b(struct adapter *padapter, u8 *pC2hEvent);
- void Hal_ReadRFGainOffset(struct adapter *padapter, u8 *hwinfo,
- 			  bool AutoLoadFail);
- 
-+
-+void phy_StoreTxPowerByRateBase(struct adapter *padapter);
-+void phy_ConvertTxPowerByRateInDbmToRelativeValues(struct adapter *padapter);
-+
- #endif
+ void SetHwReg(struct adapter *padapter, u8 variable, u8 *val);
 -- 
 2.55.0
 
