@@ -1,213 +1,108 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA1F537205D
-	for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 14:24:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E6DD3B27F7
+	for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 16:47:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784125501; cv=none; b=Kh1/k/ig63IFK2nHwmyZibg1qQTjHbFwn2rVOMYdh2pav7s2yLpzfzp+5xbJCHqWbZf0zpb6/zrSMAAI7lvHN5d/K8lkGcrD+6hokzSZ5b41WPCeIMjrZMimHOcjv/1xjj/5RNsMdTjYcLjDyqmZq6MR9Yo/Lnd+3ZWGGZSUj7s=
+	t=1784134035; cv=none; b=bACzyeWZAeD4khinYFZ1xtPESnauj/eqsSozrEONs+HCbjSxXs7g9vgASbPkQszTwAPyrgh4hD325FZnknpbXgSLGFIVcosBO6LvtYdXzYUXj4DiSaCvviTUlLUFcB+F8ultsGPoY7fIACeimbiHTy7JG/aXYfyM8KBGWsv9v6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784125501; c=relaxed/simple;
-	bh=rwPDXsTip2O50qVw7MVaMEE2q0Alcc9GaVCCh+wa6Ys=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=mA28QnadOTjLt/7iIxCOTFvtg9+4x1Vk1RcJpAb6DHfFdHqbOu4amh/piJwaiZeUw9C85+C+HVqC689MFBXJ2S0Hlln16AFu1jauy/rISx9RQHs/xa/WuJqbJERi/1zZDTLS3HC1YISh28QuuTyobyETBEf26Pg6BnqXFPbWwhg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ke1JTIuC; arc=none smtp.client-ip=209.85.208.180
+	s=arc-20240116; t=1784134035; c=relaxed/simple;
+	bh=E0Dp7VsfZvVeY4N45L1zt9aQMkOndMTAvINrGrJzdvE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=P7fxKSTs7Vy32GJRWeIMaxgwoOLf5UfT+9sO8J8jHETqkfUryEkFdICyHbcf9GQMM0D6yEk++IAegNVT0610+U9ExwqahoWcTPvFADeGR7V6YTf9HU5aX00n1NU+33xpxuLKC8CGyl4I8KlwOCFUJOAEueX6xCwkwBnI1aGm828=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LDt+eLa3; arc=none smtp.client-ip=209.85.167.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ke1JTIuC"
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-39c74722e27so22590811fa.0
-        for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 07:24:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LDt+eLa3"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5aec201b582so5511425e87.1
+        for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 09:47:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784125496; x=1784730296; darn=lists.linux.dev;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:content-type:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=ACfTUsYc5cSIDcygJYvmfOEuoTU9YLmEZsn/dlKjqbk=;
-        b=Ke1JTIuCrj0muYsf5PezhRn5S/JUo/dQwd9FHJ1UIybe2DAdGyfT+fSl+XO3et4XvF
-         cyvF5xw2J3Etx9alVbn4umJIBq1ZLeLDVaQJqYF812eDhicwJVfSZnuc9f8GJWQqqY0j
-         533s/ope6xvWvyE6ubrLTkunrAVRe+ff+iC/MVSqOs1nivCH8XCgP2QboDiUu66z5Dw7
-         ByClC45fnOifh+QR3AbnNYj/PY3Ep+xoHY3KvCzRQ8/4vV/uQTzxQ04+467inUoZZJAF
-         aLp25cSgnctxLXowyKvJgvER2ByzsRJnxZUpxiGYwmgfL0L+wDDOenzE5HHKCfWfmIVN
-         ChrA==
+        d=gmail.com; s=20251104; t=1784134031; x=1784738831; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=6UDATpfYZlmf++6P+nmVgStpBKytxc4QYZWjmMW1lBg=;
+        b=LDt+eLa3hxTHw29rESDX1lODI3ARWh8fEG63zlCCp5OXimGAs587vz/ygnZMbY0lwP
+         R1RLRNMzdTLdqehTY3Dp9ZpGRf3J3b1RArltJ/jXEpSlso7z3vDzu+Dvd0KYMP4p2mYn
+         H9ZWiuf681ucuxiKDXx6y/Mq9sm7QFm8orwW8BV2YvoxMv2qnNXq1/3x4wvK8IjTSwRx
+         wunv5bWDR4HAKxmAcIo1Xl/BkFdHh0N5P9tOFOeCtKYfIiJv5t76SgDdGblbb1xicxcU
+         dLuyKZzvridLmT5b2fTNFISwz0ZbIAn6vA8OAT6sDPmTzq8hR5wI6QWGcsOsfYu6bwaG
+         Ws1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784125496; x=1784730296;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:content-type:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ACfTUsYc5cSIDcygJYvmfOEuoTU9YLmEZsn/dlKjqbk=;
-        b=mWmFvbp7UZG7APlIhmpK79+/uTcFjWbltOgxa76H3bWaKJxnb+RRFA3vtfNCWjfxi3
-         Ht/KFSwC7rAWKSUyEJ7D7ow4VPQ5Gsmr5TN1hKifrMq0UkO8LQ3ikPkurHDRnSdBD368
-         x039ce0xKr09SVCcZdXehmffN97nVkaPXD3jfg/xENFMllZKwzGk2qBKASIPZPqbkAs4
-         zOqqWENPNFDOZS1vNVVd1COk4ysteObFZ4GiHyMzHUfGao3GZUpzPWlwBT+NeNzVDRu6
-         nCboXqAxXY2fAdQWB0bPamkR1HAj3Fp684y1LHOv6k9psRJbW657GLj4FTUW8l9qBSVY
-         NXnA==
-X-Forwarded-Encrypted: i=1; AHgh+RrxuTWlOOh7O8N3UsqzWGXrp+m61Z9FCV0T14cSafHztKmsJOzJBsPhUnPPrE8zsWlTw3hn/W5AZxVX3mlw@lists.linux.dev
-X-Gm-Message-State: AOJu0YxAQ1UsFa+IZOjdm/7EInq6jdBU48447YZs1beaPX9KkK26DyId
-	cA4PB3cuE+jJleGnx0YDMqf6GwpXH4Itg5+AROtybdnI4rSLWyg7v9dx
-X-Gm-Gg: AfdE7clhWrL/MVDX2dFiII3YTwu7J9rklapyLls7oIjhOz4LUvqKzEAUV/3lr1ed9ps
-	08nfMPogE09OKBIlCws2cA28jm7deMD6/2O9g6L02nEr72UhY/dnfBXpcKD3SZnR4JTomPnSOUc
-	Ob8XghmdQwMw7bNW2Dm0L6jztY376jBJJfzl7OueKbs1Vh+CZBMCRNOKr8c7V5/row2Aq2ilid0
-	Lpx1/w1YcJpXqUr6Rkw7+JfuXdcMCbHUiCaLCASbagj8DdxnGt1YpYvJ/w6vhBj3xCtXOaxSqYL
-	WolFL2NFh9axPX8p0NZzpIPrsX8KA8AG1RyIV0aNoBHKQAkDXqPOcTOXKA3r+58wRkq6fM5trU7
-	hMpqOfR91w8E6kVE8B+tl5neszBX9zm83TpPa5ETZLZ0Ay+JQQGVn2JF2whpfZKrCIkBFrB45Ne
-	EFz+y6CZ5+QQ5/Dm++qZLRQXZQKTmmUitwoyy3yq/Xa+hp6KEUNsCI
-X-Received: by 2002:a05:651c:b28:b0:39a:fef1:ad7 with SMTP id 38308e7fff4ca-39c94cde536mr48470341fa.21.1784125496005;
-        Wed, 15 Jul 2026 07:24:56 -0700 (PDT)
-Received: from smtpclient.apple ([87.200.95.144])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-39c849180f3sm36977811fa.4.2026.07.15.07.24.51
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 15 Jul 2026 07:24:55 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
+        d=1e100.net; s=20251104; t=1784134031; x=1784738831;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=6UDATpfYZlmf++6P+nmVgStpBKytxc4QYZWjmMW1lBg=;
+        b=THS9D1f0kudCQYSC//6ktwOB91tslyVx4J5q4XUvnI+CCuLTK4WjmFOfw2LpL8Hih5
+         sU0OfW9IxBf06HGXez5BivfOh9BlCSexuBJa1hq4GB6ncW5ztF/H8YKbOR2kfyAQ8ZAy
+         3axq6hq3e3jK4LI6oXeLSVdOF0iA6GhFEqAEUluzHOYdTgxar1LZJC5lwbasjEd/wsVH
+         PCE3HgENNvF5Y8qoSTEsJEF5LyL8PsDt/TjpdyBhGeTJzeCJYBZKRZjoohzVJqE5idNt
+         MTYc5TcbLTCMMB3REb9GQpHYUjpCPcF0PcZXqlANXkDpOv6/p9Jk1EJDwDis6ASDRgJg
+         eDpg==
+X-Gm-Message-State: AOJu0YzWbZoKuTxGmMMqG2BVguZwkbzD9AuPSeYXs/kd/A2JJ0yltB+a
+	vPQEFER3zvCMsBVLGxpKyMzno4770hV+ShuKkwR532XtzYaJFE6cEBrp
+X-Gm-Gg: AfdE7clrtVi2CdfTElORm08nOopXNyekualN7cQKeP8eElbTy5YxBwH5CmPBHXvwIZL
+	So+UxsNl5xILTyGDEI5g37n6pgRB9QaR1WBSTPW7ZrvuHlM1DhrlBs9ACTecPu0YRFYRJz/h1f/
+	Z1MYLuM4JLjjVslC7X0KUeoVuYV0U2tWE0r4xQTLWcrlHAW2XwF0Ns3VVeYjkH/KVxfn6ojXQQ8
+	2gKqKIgjCJQoO+u9iffzUSRJSFNXQvRnNM1HTJw5iR+2hFi813qhZfwpZ9XrwEjVnSLYy6aNOic
+	UBozo9nWFhciqGa+k5KKvYwuuIq2rQIEfC1zYjCE926g0m4wquez0lPBeihJTJRifZ3L88nTAEt
+	CTlk1zeIukw54TidZvI7R/SYDQcu96Dw4Fur8PPnnnnXQQLV/HlIQv7ufnMR73/MgW4kc2QrZyP
+	3Y1mpMgzHAnlNMHBM/cOdmS1qncNbeQq/oMZy9OA==
+X-Received: by 2002:a05:6512:3a84:b0:5ae:b952:6c with SMTP id 2adb3069b0e04-5b15d76a8camr922937e87.13.1784134031207;
+        Wed, 15 Jul 2026 09:47:11 -0700 (PDT)
+Received: from DESKTOP-PGTNBU2.localdomain ([178.131.96.22])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b01caa66cbsm4326265e87.61.2026.07.15.09.47.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Jul 2026 09:47:10 -0700 (PDT)
+From: Amin Madani <aminmadani112@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Amin Madani <aminmadani112@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: Replace msleep with usleep_range in os_intfs.c
+Date: Wed, 15 Jul 2026 20:17:13 +0330
+Message-ID: <20260715164713.91613-1-aminmadani112@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.600.51.1.1\))
-Subject: Re: [PATCH v7 00/19] media: meson: vdec: Fix lifecycles, race
- conditions, and stability bugs
-From: Christian Hewitt <christianshewitt@gmail.com>
-In-Reply-To: <CANAwSgSz+e483m9VKkFZzSKzB1Tsd8kS20UcB3ON-cZ=J8gX+w@mail.gmail.com>
-Date: Wed, 15 Jul 2026 18:24:39 +0400
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Kevin Hilman <khilman@baylibre.com>,
- Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "open list:DRM DRIVERS FOR AMLOGIC SOCS" <dri-devel@lists.freedesktop.org>,
- "open list:DRM DRIVERS FOR AMLOGIC SOCS" <linux-amlogic@lists.infradead.org>,
- "moderated list:ARM/Amlogic Meson SoC support" <linux-arm-kernel@lists.infradead.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:MESON VIDEO DECODER DRIVER FOR AMLOGIC SOCS" <linux-media@vger.kernel.org>,
- "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
- Doruk Tan Ozturk <doruk@0sec.ai>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <8DCA30D7-46DA-41A3-BB05-4C841D20BC0F@gmail.com>
-References: <20260713120840.17427-1-linux.amoon@gmail.com>
- <CANAwSgSz+e483m9VKkFZzSKzB1Tsd8kS20UcB3ON-cZ=J8gX+w@mail.gmail.com>
-To: Anand Moon <linux.amoon@gmail.com>
-X-Mailer: Apple Mail (2.3864.600.51.1.1)
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-> On 14 Jul 2026, at 11:23=E2=80=AFam, Anand Moon =
-<linux.amoon@gmail.com> wrote:
->=20
-> Hi All,
->=20
-> On Mon, 13 Jul 2026 at 17:38, Anand Moon <linux.amoon@gmail.com> =
-wrote:
->>=20
->> This patch series addresses a collection of critical race conditions,
->> memory leaks, use-after-free bugs, and resource management issues
->> within the Amlogic Meson video decoder (meson-vdec) driver and
->> associated components.
->>=20
->> The primary focus is tightening session lifecycles, safely =
-synchronising
->> the V4L2 m2m framework callbacks, hardening work queue operations
->> (esparser_queue_work), and correcting buffer validations to prevent
->> stability issues like KASAN out-of-bounds errors or stream-on =
-timeouts.
->>=20
->> Summary of Changes:
->> * Race Conditions & Synchronisation: Fixes multi-threading and
->>  execution races across stream-on, stream-off, job abort, and
->>  teardown pathways.
->> * Memory Lifecycle: Eliminates memory leaks and use-after-free
->>  vulnerabilities by safely pinning, canceling, and sequencing
->>  device removals.
->> * VP9 & Buffer Hardening: Addresses payload handling bugs in the ES
->>  parser, properly tracks ongoing buffers via atomic counters, and
->>  prevents invalid memory writes.
->> * Platform/DMA Adjustments: Adjusts DMA segment configurations,
->>  canvas handling, and buffer sizes to match modern hardware demands.
->>=20
->> Note on an outstanding issue:
->> An execution deadlock occurs in the driver workqueue path during high
->> stress or long playback sessions. This stall is triggered when the
->> Amlogic hardware internal video FIFO buffer becomes completely full.
->> When esparser_queue_all_src runs, the capacity validation check is
->> tripped due to a design limitation in how buffer exhaustion is =
-handled.
->> This blocks progress and leaves the workqueue worker waiting =
-indefinitely
->> on a core mutex lock.
->>=20
->> The resulting hung task call trace shows the worker thread blocking
->> on the internal lock:
->>=20
->> Workqueue: events esparser_queue_all_src [meson_vdec]
->> ...
->> __mutex_lock
->> mutex_lock_nested
->> esparser_queue_all_src
->>=20
->> I have tried to address this issue, but the underlying deadlock =
-persists
->> under extreme conditions.
->>=20
->> Any feedback on this new appock is welcome.
->>=20
->> Testing was done using v4l2-compliance and active decoding pipelines
->> on Meson platforms (like Hardkernel ODROID-N2+ and ODROID-C4) SBCs.
->>=20
->> The v4l2-compliance tests passed successfully via:
->> $ v4l2-compliance -s -v -d /dev/video0
->>=20
->> Pipelines were validated using the following GStreamer script.
->>=20
->> [1] =
-https://gist.github.com/moonlinux/08295ba1f17ce7155550773f2d2cb6e5
->>=20
->> Previous changes:
->> v6: =
-https://lore.kernel.org/all/20260530094326.11892-2-linux.amoon@gmail.com/
->>=20
->=20
-> I will review Sashiko's feedback. I will look into these suggestions =
-and
-> work on incorporating them to improve the code quality
+msleep() for values under 20ms is not precise enough and can sleep for
+up to 20ms. Replace msleep(10) and msleep(1) with usleep_range() to
+provide better precision and allow hrtimers to be used in os_intfs.c.
 
-Hello Anand,
+Signed-off-by: Amin Madani <aminmadani112@gmail.com>
+---
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I=E2=80=99ve picked this entire series into a LibreELEC image using Kodi =
-22 and
-ffmpeg 8.1 (using the RPi source that improves v4l2_m2m behaviour) on a
-7.2-rc3 kernel and run some tests on a GXBB/S905 board.
-
-Without this series H264 plays and seeks well and the unmerged H265 =
-codec
-also plays well and seeks well but with minor artefacts (something that =
-I
-need to look into). The experience is not perfect (this driver has a few
-flaws) but it=E2=80=99s consistent with the =E2=80=98usable=E2=80=99 =
-behaviour of the driver in
-the last 1-2 years.
-
-With this series H264 plays but seek seems to hang everything with no =
-logged
-errors anywhere. H265 results in a black screen and again everything=E2=80=
-=99s hung.
-
-It=E2=80=99s possible that kernel changes need to be balanced with =
-userspace? Can
-you please share details of how you have been testing things (and on =
-what
-hardware)? - I will attempt to replicate and poke smaller portions of =
-the
-series to see if I can isolate which bits are problematic to the =
-otherwise
-usable current experience.
-
-Christian
-
-
+diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+index f31196f54..24b55a542 100644
+--- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
++++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+@@ -992,7 +992,7 @@ void rtw_dev_unload(struct adapter *padapter)
+ 			if (cnt > 5)
+ 				break;
+ 			cnt++;
+-			msleep(10);
++			usleep_range(10000, 15000);
+ 		}
+ 
+ 		/* check the status of IPS */
+@@ -1092,7 +1092,7 @@ void rtw_suspend_common(struct adapter *padapter)
+ 	pwrpriv->bInSuspend = true;
+ 
+ 	while (pwrpriv->bips_processing)
+-		msleep(1);
++		usleep_range(1000, 2000);
+ 
+ 	if ((!padapter->bup) || (padapter->bDriverStopped) || (padapter->bSurpriseRemoved))
+ 		return;
+-- 
+2.53.0
 
