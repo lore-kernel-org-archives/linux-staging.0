@@ -1,71 +1,71 @@
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2454D47CC86
-	for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 12:50:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82C61481AAE
+	for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 12:50:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784119849; cv=none; b=OWhbzOMS93XiOdh2QHuqgshVsmYu6RNOIiwyM0VWVlH1RD+Kzz9byZbA0ztItGGUaQZfkRqcLmhyUetxLKb7gAvosnYUEhJ7b9CZaVv84E0/n9wiEP2hZFNXLJEhPlr5k9IYKy6vXSiEQVSn9qR0HSwLcpxLsfEVOl6uCwztfgs=
+	t=1784119850; cv=none; b=YMb21AfWE5i6QpL6kzKul2Qnm8WvYsBkif9zluZ/wOIZT3Bmw5MBkyCPOPALo+uBAvPlmojr4rkQc2TGY85idumyychVA02B+ynFsgClPHxWpZVVB+Vv8MZaKFUt4wrPTEiE4K1u6g6DWVE7IFCeQuLkI+uUZl42e7kHNdGFIB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784119849; c=relaxed/simple;
-	bh=MLDCAjhau4+N8EDZSJMo7maYPptWbIlQKd6yEnP5wYU=;
+	s=arc-20240116; t=1784119850; c=relaxed/simple;
+	bh=RQgHe7MNFy2jTX3N82Ppi9LspoMW1n8fVhbZL+pIuxA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kji5DhTuW0HmTqlCPiQRA8EbO1R9LmChBOnyGzCoPv1U1oxQFrNTEeZ/zUcV9pKQLTwEOMcyLKRF+GZvR77XY5+DGp0nq0czbrY5s6Qj4xTqxQJMREJmTFpsSfI0SQa8ynqu8+3dA+9L+i1BRs2n9gxyvtxeTTsqeceL89LRK1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Uq4DXfY/; arc=none smtp.client-ip=209.85.208.178
+	 MIME-Version; b=SFmeBwrFDgDpv95RXbv0zq/5/vJr3vGzk2tYEa+FMiCrrIY3smTcALlcPPf/vP7otmWlnNHlhn52/lrtq/5/NUcPL5bE34A4gJSMzG3Y2aEvQYQKdBKYwMSwkwOOGXVW1QxMoNsQ6sbJn0mQEFySGBV6ZImFI7an1ZctvcT0Jlk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O8S6yGNy; arc=none smtp.client-ip=209.85.167.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Uq4DXfY/"
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-39c83acb86eso19092311fa.1
-        for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 05:50:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O8S6yGNy"
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5aeb98460c6so2285215e87.2
+        for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 05:50:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784119843; x=1784724643; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1784119841; x=1784724641; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=DshzI76EE/QJT7xJTIgm81rXA61uLEsU1/ph4m1+q0M=;
-        b=Uq4DXfY/tbdsdDoh3naDzzEfipRb6p8i7JMLyHTHCoB5ylDjxlHG5QLjn7pKEqzWx7
-         52UYwKUJsKv9J8+gToSLcS1WlpQv91F//OPqM+EKrNYUED8YQlHAFJUrAXxfkW/Jsz/y
-         aONF7PthFYPHhKbRyi3+IKFsnYBXaIW8xELgslG0xVaU1MykxzILddUtFJkKYyk5/xHt
-         uIfktkQogCIhWnK/uba4JbGpPHP61BwRj2KrV8S1ZHE9tcYunckFMZMoCaH1YcfmUw/g
-         YqujvvOypQVwGuOpD5UAJQEy293x+MmsBcJzkh5SD5xwCUm5q+TPSVTtNyEh67iBto37
-         1O3w==
+        bh=EccBw5SDsbElCyYYL5IOHllhMjqbCF7PrrIukfOLRUY=;
+        b=O8S6yGNyvsdLCxqdwIr7+6vRI4fXX3gvhooN9Nv4WZKICAaac4Bn1eSzsoeI8ezUQm
+         /3/XB4m0PYm0UeR9PZuTtIy5V51h8aQavIZNCoLqyN1Kr8aqEnZq2o0JSGKVJeN1Hd2w
+         c3lxZExfihoH35i+cH3CenWLgQGnyXSyrzPDc0OWsKmCXqjKHW9GKmly3ME/y4AyaB8/
+         E0NKGUmCmzt+Nmhg1Cmupkk3GybLJJuSmguS5mNon5T9ws9P1fWsHn2r0EuDw9LxL7fV
+         l20l/Rnu6A3H/MpbXkAMsfujsMaWtxuTgN7skJ4x0dXHEkKoJqoE2bL8NUmG4W/3bQz9
+         c9FA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784119843; x=1784724643;
+        d=1e100.net; s=20251104; t=1784119841; x=1784724641;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=DshzI76EE/QJT7xJTIgm81rXA61uLEsU1/ph4m1+q0M=;
-        b=ciOQnSkI+9SjRLjNWNpS7YPiXT49FC7FFzMXijbrBYhHTDVGugwZV2ighp2lj/OwJ5
-         rb+gRpbqnmZJXC8s7dglMSxfygl62ejV+L5fQoYv+P0/EbT6z136MbqOyI0obrb+j4r0
-         Y2cCSPMenMDK078Ys0/uZAB+DwiQ57PgGQs7i7sS9M372Tz7uCx1rnqzkdiSUyPIp2Id
-         cFy8XOb+peGSciRKOFoTWJwqBAgZBmCOKOzC8V6Ht3bmS+iD8jz4A+KK+byVGLs2/wRl
-         qj53giNYwD6DTD1OsDu6Gm2pkJZHzpRPnSWeRiQ8aGjgv3QMD+WslB9/Pn98ME1gPD1n
-         SV9w==
-X-Gm-Message-State: AOJu0YzM7uHKsIXAjKPDBMzpwvzBTK32wyMsy1FsilvLsDhBKIWo3W0o
-	4a8ryECDEIat2K0qbxt1NbmlgRg15ZGq5CNc8afj7ZCH7T4w1CWOdoOE
-X-Gm-Gg: AfdE7cmRe9CHXxXZ5+raXBlhw/RnvvTKW/1Cqz4bYb5CO7tsNfhFh4YaesUpDcXPMRX
-	NySZRqdn3fUz/fu5vPRKHvtJ/Q491rPtSfUaabkL3NHiCotW28uPK2nKgd5uU3tionGnxkLdTop
-	NB/VWJ2kVBusAmyzCg7ZMmm/ZBwLYVCQrv4F3SXnT4TuHA/ist9KZRj2LX14CYGLoa7JoQwXd19
-	/pFoSD+Hi4fWdOT/E1TtCgLrC6LcENuT5GcstNFcXZfq9P74BUzNh+PlA0Kc4KumW8HVjLvbXCQ
-	SyNo7qATepX4aJIo+2S319kqFSJv/q4FSy2ClFujMAYkkjzXXIX/RGCXD3+AbpDnICRSLIwY5HD
-	AqSJu6VJsjUgnw3fjcnUj2RC63XLQUJ7qTiacgBevjlOUf2pJNcBmNfM6fUBwAp9fdzAMUaRqO2
-	7a11RqSCx8Ldk4jjSKbKOR03ybDHJOKU0rYrwq8vjhGU2ZJleBa/q9XnLRFTVuj7hrUHmFUAT5X
-	pZ0FSa1dSuUvg==
-X-Received: by 2002:ac2:5686:0:b0:5b0:161f:8fc6 with SMTP id 2adb3069b0e04-5b02369d941mr3891332e87.40.1784119843154;
-        Wed, 15 Jul 2026 05:50:43 -0700 (PDT)
+        bh=EccBw5SDsbElCyYYL5IOHllhMjqbCF7PrrIukfOLRUY=;
+        b=g6SVFXNXkMP6LGfAQpmcafTOpPcc/W9qef0jlVJGUs+/2UFnff012ELanKVpaAd3sG
+         xqzJaSsSImb247sKNtaXmL1SJODCVy6DLmbakoheUJx28+aMhj6ACxj5xPR3y14lnlEo
+         C+UFNP3YjPgyDZS9IgLDI2SCqvFmSRPeSNQ+hLeVB1uTzvPPLRF16WWSj4e59Aud3+It
+         kNaxWgzgEXxh792nWo3B0BMt7hZ4qQXhMDh04khNumZUv5LPGJzEhx0Us5vY2EIs2RdW
+         LXDu2MdcBcYUJc28qNLd5mxDmDtMRzKxAmsBRmSxZfhxVHfi6weEn9Uv5CANqDWywJ/J
+         /JrQ==
+X-Gm-Message-State: AOJu0YwVE7LBeVRg6VlyN9LG6Dk8roZ1Wb9gYRVYko3Aan62g6I8BvJc
+	h0AdIrenB7iN2aBCt0mJQZOECuoMliYfVn80rSJ49KiHMTOcHNVPX9NVe/UHdi3kuYc=
+X-Gm-Gg: AfdE7cmXYm7vHmtauZ3N+NVi+6e37//WGnK0QvB86se55+uc6f1HY6j5ymvySQ23u5X
+	PuZQPhsaOzwibC+HlKZJLkLMysA/7HwHYQCLTBh9gNlSynefiRRFullL7U5ezdO5OAKrwWIZ2Hh
+	Xq0TXWd7Kd0mwQNcZRJFf7ed9aHzr5w5FDpVW3PuPh3zBCqiKIX6YLk4o6PZy8+FhQZUaXDjck4
+	N5YJ1Kd/Qhb4md0plsPTFm8NOUvkoxH+l/eFB3zZ1GTjupyo8yI6Y+pW8uwMnir4m+LApV2U9hZ
+	9RaFLMTxUxS07PBg5Y5DZDAokYDryHKUgaTn9hw0hmaRPPLmhPXMLJTz0WRYXTd69bTEGfoa3PK
+	GRmhHUAEGHoShs2ntVexmlV0A/E7J0W4H5U7T2eNBxIuguptvsQbI8n1+mXQEvt1bp2EjtdyozA
+	gzIjSah7kTOwz6xZjyy1LZ1bzgb8CwT6qKZJ/P0+Pt4+ewSGHkBtr9Qsbj3VECtbFEeNt1cYZak
+	DGWjseW+KtV2g==
+X-Received: by 2002:a05:6512:1081:b0:5b1:54a3:d133 with SMTP id 2adb3069b0e04-5b154a3d1b7mr2946167e87.44.1784119840835;
+        Wed, 15 Jul 2026 05:50:40 -0700 (PDT)
 Received: from archlinux ([94.180.44.28])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b022fac999sm3404042e87.55.2026.07.15.05.50.42
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b022fac999sm3404042e87.55.2026.07.15.05.50.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2026 05:50:42 -0700 (PDT)
+        Wed, 15 Jul 2026 05:50:40 -0700 (PDT)
 From: Arsenii Pashchenko <ulijg308@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	ulijg308@gmail.com
-Subject: [PATCH 35/61] staging: rtl8723bs: inline _rtw_free_network_nolock into wrapper
-Date: Wed, 15 Jul 2026 19:48:03 +0700
-Message-ID: <20260715124829.90290-36-ulijg308@gmail.com>
+Subject: [PATCH 32/61] staging: rtl8723bs: remove rtw_free_mlme_priv wrapper and rename helper
+Date: Wed, 15 Jul 2026 19:48:00 +0700
+Message-ID: <20260715124829.90290-33-ulijg308@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260715124829.90290-1-ulijg308@gmail.com>
 References: <20260715124829.90290-1-ulijg308@gmail.com>
@@ -77,85 +77,60 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Collapse the internal _rtw_free_network_nolock() helper function into
-its only external caller, rtw_free_network_nolock().
+Remove the redundant rtw_free_mlme_priv() wrapper function, which did
+nothing but call _rtw_free_mlme_priv().
 
-The separation between these two functions served no architectural purpose
-and only created unnecessary call overhead by extracting and passing the
-mlmepriv pointer. Inlining the logic simplifies the BSS network freeing
-path.
+Simplify the code by renaming the internal _rtw_free_mlme_priv()
+helper to rtw_free_mlme_priv() and using it everywhere directly. This
+eliminates the useless leading underscore naming and reduces call
+overhead.
 
-Clean up the internal function definition, remove its prototype from the
-header file, and keep only the unified rtw_free_network_nolock() function.
+Clean up the old wrapper definition, update the function prototype in
+the header file, and adjust all call sites across the driver.
 
 Signed-off-by: Arsenii Pashchenko <ulijg308@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme.c    | 26 +++++++++-----------
- drivers/staging/rtl8723bs/include/rtw_mlme.h |  2 +-
- 2 files changed, 12 insertions(+), 16 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_mlme.c    | 7 +------
+ drivers/staging/rtl8723bs/include/rtw_mlme.h | 1 -
+ 2 files changed, 1 insertion(+), 7 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index 0ec599383..1450589aa 100644
+index b038233af..e86a4e83b 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -198,20 +198,6 @@ void _rtw_free_network(struct	mlme_priv *pmlmepriv, struct wlan_network *pnetwor
- 	spin_unlock_bh(&free_queue->lock);
+@@ -129,7 +129,7 @@ void rtw_free_mlme_priv_ie_data(struct mlme_priv *pmlmepriv)
+ 	rtw_free_mlme_ie_data(&pmlmepriv->p2p_assoc_req_ie, &pmlmepriv->p2p_assoc_req_ie_len);
  }
  
--void _rtw_free_network_nolock(struct	mlme_priv *pmlmepriv, struct wlan_network *pnetwork)
+-void _rtw_free_mlme_priv(struct mlme_priv *pmlmepriv)
++void rtw_free_mlme_priv(struct mlme_priv *pmlmepriv)
+ {
+ 	if (pmlmepriv) {
+ 		rtw_free_mlme_priv_ie_data(pmlmepriv);
+@@ -302,11 +302,6 @@ u8 *rtw_get_beacon_interval_from_ie(u8 *ie)
+ 	return ie + 8;
+ }
+ 
+-void rtw_free_mlme_priv(struct mlme_priv *pmlmepriv)
 -{
--	struct __queue *free_queue = &pmlmepriv->free_bss_pool;
--
--	if (!pnetwork)
--		return;
--
--	if (pnetwork->fixed)
--		return;
--
--	list_del_init(&pnetwork->list);
--
--	list_add_tail(&pnetwork->list, get_list_head(free_queue));
+-	_rtw_free_mlme_priv(pmlmepriv);
 -}
- 
- /*
-  * return the wlan_network with the matching addr
-@@ -300,7 +286,17 @@ u16 rtw_get_capability(struct wlan_bssid_ex *bss)
- 
+-
+ void rtw_free_network_nolock(struct adapter *padapter, struct wlan_network *pnetwork);
  void rtw_free_network_nolock(struct adapter *padapter, struct wlan_network *pnetwork)
  {
--	_rtw_free_network_nolock(&padapter->mlmepriv, pnetwork);
-+	struct __queue *free_queue = &padapter->mlmepriv.free_bss_pool;
-+
-+	if (!pnetwork)
-+		return;
-+
-+	if (pnetwork->fixed)
-+		return;
-+
-+	list_del_init(&pnetwork->list);
-+
-+	list_add_tail(&pnetwork->list, get_list_head(free_queue));
- 	rtw_cfg80211_unlink_bss(padapter, pnetwork);
- }
- 
 diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme.h b/drivers/staging/rtl8723bs/include/rtw_mlme.h
-index 23c46df90..f15dfcac0 100644
+index 233bf98e2..8c924e35a 100644
 --- a/drivers/staging/rtl8723bs/include/rtw_mlme.h
 +++ b/drivers/staging/rtl8723bs/include/rtw_mlme.h
-@@ -360,7 +360,6 @@ extern struct wlan_network *rtw_alloc_network(struct mlme_priv *pmlmepriv);
+@@ -349,7 +349,6 @@ void rtw_set_scan_deny(struct adapter *adapter, u32 ms);
  
+ void rtw_free_mlme_priv_ie_data(struct mlme_priv *pmlmepriv);
  
- extern void _rtw_free_network(struct mlme_priv *pmlmepriv, struct wlan_network *pnetwork, u8 isfreeall);
--extern void _rtw_free_network_nolock(struct mlme_priv *pmlmepriv, struct wlan_network *pnetwork);
+-extern void _rtw_free_mlme_priv(struct mlme_priv *pmlmepriv);
  
+ /* extern struct wlan_network* _rtw_dequeue_network(struct __queue *queue); */
  
- extern struct wlan_network *_rtw_find_network(struct __queue *scanned_queue, u8 *addr);
-@@ -395,4 +394,5 @@ int rtw_select_roaming_candidate(struct mlme_priv *pmlmepriv);
- void rtw_sta_media_status_rpt(struct adapter *adapter, struct sta_info *psta, u32 mstatus);
- void rtw_reset_securitypriv(struct adapter *adapter);
- 
-+void rtw_free_network_nolock(struct adapter *padapter, struct wlan_network *pnetwork);
- #endif /* __RTL871X_MLME_H_ */
 -- 
 2.55.0
 
