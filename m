@@ -1,71 +1,71 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9EF248B364
-	for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 12:50:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D30D148B362
+	for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 12:50:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784119853; cv=none; b=UU6mDasNIqpRabvrD5CHPpxwVrQWuyezHrc/IyRzwrKFgAtxOIjc4j+tDqC2Jad3ICQUimzvOQWk5IT2B6xuvFReXPwj7Jpdom/znkmpuZryoC1wyj3Qf37RPxd7sXmHIjNiYzZxE7nrvrROOc09e//Z1VziVR64klSNsbVjYZc=
+	t=1784119856; cv=none; b=ZKoT37pVMLgf7RoZtZWr6MO9HdqZ+/ZZz6SYfnq73QAYlNXxqO9XZJYVR7ZoulP8dScmyXc0TX9wV8bc5yqw3ZDkBG+9mgd59gdp+HLhUx1Y+x29izoI6OGvp9oebp6j0vj89myh/YDV71saoTYY1F/gnkiTjnT2mS4/Kn+lgf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784119853; c=relaxed/simple;
-	bh=YtJxF4Is0snuBMbeg+ChIlG/QhAqDBn18REtNAV4k2E=;
+	s=arc-20240116; t=1784119856; c=relaxed/simple;
+	bh=Y+mJVQsdOZhHspaLoCX+QJxQEN60zb+BQLiuQAAuisE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Pre/082l7nWQtJdgH6R71WPH13nubi5QeD8amc81tWy+Ic0hjMaCOjPalScSc3Hv2bprRrp/KB/Kn9IC5cZvOUDgLBUoVZzrtftr4hxTWphg2YMeHb9LADP5nuRfRlFL35pD1dwuTNtCic/kmRNKgu5SfInlhi3/BEuvcAyfa5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HbWKHwBq; arc=none smtp.client-ip=209.85.167.50
+	 MIME-Version; b=BlPSo0jWMUGQkstlTqihXTbq/6YLuSHFxWzyQBF99TAz0sV8HPTE1gDNGr01o7yc3R+E7Su0iDCoIuaG70vtjiRS3iXkwQPWNZj+uSh8qAExS8DddwckpWNWPJy+uop9pW0lmmfz7kQ7ZHopdsZBjMzh2A/8GSzHsCUTOvOuRFU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ON024K8p; arc=none smtp.client-ip=209.85.208.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HbWKHwBq"
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5b0f19bea2fso2002993e87.1
-        for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 05:50:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ON024K8p"
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-39c9cbf0719so45509131fa.0
+        for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 05:50:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784119846; x=1784724646; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1784119847; x=1784724647; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=IRZKMKBLHzjrLUfnJ386Esme59XPCYH886UtCUem0Pc=;
-        b=HbWKHwBqS4xrPkdQim6PBn9jiyEoXxIMDk3Vg6j0mCUolafKevB62t152z6viryKjG
-         Yx/LhPWrT89elJw+fTMiNqiY54yeU4+tNl+C4BFIH7FKVW7R4qEonGi+0HLdUp1peUoJ
-         pEuDCviEdFKXv+i8e8G9NMVnHNX1hw64hnly+bgC8bdPvRVFRhTifnYAOZ5p8897Jgdv
-         jlOsWx0CwGe8CTlnriVh40ZC0t/dt7Xbn36Q5n2IKCe2ZRwKrPx8iX+ZGJIk56rh8lVD
-         T/dqmpxw9nK8efgRsQbbBD8ESPxzNQ1TJJXcd6sb6t/SxUliIdTPFI9IZaPvNh11PMOH
-         lzXA==
+        bh=CFZ/4Gw2NifXMZ8Gb7PCOFhMD9zPHtXEzuF5ovYnS7E=;
+        b=ON024K8pB2CnNr7tbYJChMSl6zeTs6rGngu6J4kv1Nl+ZHMTmCqx9ZnZpZs9ogNSJf
+         lrWvgs0Ux1Efm17LRN6oOEbF0JJqig8G9FNrBULjcb3IuB+71OxqrLVkmnQ66zJY6E0V
+         TUeh1VgdIu5ubKpIlSwiA3iuOyBqJyxXAxD9Ty1SNv74P0M/7liD9IOt9UN0fBe6mtQC
+         5q8tQ+w6SNneGpf2XA51C9b0qlNZqsAlOL9sAA5EBWEq5YoNEGbcXeddBySwochMyVTb
+         owhXQ0AkN47+BOlSjRBPHrR1FL+NzeELxaAwObS4a5uaQy4d/yZtJTOGJRtEzWV9DLRu
+         uR8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784119846; x=1784724646;
+        d=1e100.net; s=20251104; t=1784119847; x=1784724647;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=IRZKMKBLHzjrLUfnJ386Esme59XPCYH886UtCUem0Pc=;
-        b=HhTgdXxS/4QiqWIRAzuq9eTj01xG+qPcN0GmVvDU7kV2OI8pkeXl/kV+gW4sjJJXop
-         wYtYYF2I5IXHO7fnNbWLZwYptnrRvgLt5j8OONjFVzk6AVsqlo7tNwfZfhM02+lpvXJh
-         QvV1CfJW4XJ40yDJysnTXdzb1ietQnNfLMYOkYvoX1vHqQjArWPC/7RSgdtVp7kb/OoI
-         sGwwwhyy5XNaNBFdYVj0O88VE/9LPykNg68gdwS2LYMoTGwY2Jbc1sidhsw7/MzZLdhA
-         03ijpnCBWeHrG/2qhsU1SVR9qEr+YCbmeFBCYtkvo95uxLNcHgp8+tvnZnA1Vo7EGUdS
-         i0fg==
-X-Gm-Message-State: AOJu0YzpqcGKa+okHIywpRUto/z+627k56IEa5Kw3pZXEmFMcr5Apa+K
-	lsiUUDjxlpPYt0dpTTHxvm5cV3Wm8AHH3xWFctVbzThv/H0oRoXiSTZG
-X-Gm-Gg: AfdE7ckFDxw5BgWCe8VZaB5k4eyd16Qn6ZnLQbLe8KlDEit64CmPWAIoFp0VyuIkmPo
-	0llwuPQSpGXqFSk5r/MDE2t/f4sqrLY1+h2IcFSRyoVE9NVz9ClWqiLN3yCTJY6uqIrYPHxGqn5
-	PsOGqRnb1K+0ov7r/DMpUfWjNskUpI9oWC9SrgJIwxWvV3xgvED+eVWPdqHUCVmIZuqU+pTK42J
-	n5dOmeALxrWpMmPAXTYhEcJ+4mPDVh5YqM/9ENmmncCpMrFKXYjkpZAsEIDg1NIOYL4WghKoMlr
-	gaUJD/VTEV2uig7MasvzhBSz7bgQfdYezeuxzojWWBJtjqbMb61DlIl2bnvi/J2S4CdLKQku3uZ
-	VyCkSKUBCBvVyxhYTDl1gigfrJkiSIXXN8cPMCXKjZCWkyCQ43JO3twQMooq4g8BxNRAnE3NxFx
-	Jm87J6jSuJJrE3CXiVUcQMopyyDWYnTIM0Gck/6FrFe1cLeS7HmCwPffA80zKRPnsseMK/p2xx5
-	1EfZ/3olLp6IQ==
-X-Received: by 2002:a05:6512:8344:b0:5ae:c745:f39 with SMTP id 2adb3069b0e04-5b0236a66ccmr2897073e87.44.1784119845553;
-        Wed, 15 Jul 2026 05:50:45 -0700 (PDT)
+        bh=CFZ/4Gw2NifXMZ8Gb7PCOFhMD9zPHtXEzuF5ovYnS7E=;
+        b=T5Iwvj/WvSKf9XOSNDDep45uquNRAUmVu6hucO80rrhzwZ4igU/KUd6DdMEZQEaAv2
+         5q1iCrOqkqK4xkdJ/MfpdG0qk8YGeo/4iVfoFKpQWhySOslI0sxqc+QOZ9owL+1fJ4q4
+         kG6ZnUSdd07BZ/2q8Z7mz6kBBQCDHUJ2iexEKZ/uOVcHZ254X9ZtrgHOM/KVZmjIx+IS
+         fAushcjtK3+RqxLiTT/Z8WeBAX7hD/wzgf5buRK1ENYirOrYrQ6pG/mlZ1o/m/9EMRJ0
+         pwdAj5w58AMV6RZnmMAMCrbpeiZlqntPv9OLU6g1bCpbDJ7/eUVyrDlebR0wqN56RZBd
+         rAAQ==
+X-Gm-Message-State: AOJu0YxkOpqTYMs38bXT9eo1uMyTbhZwjMLjulEHubAhPMPfDG4hSYdi
+	Hzm1t5IDdz5YUwBnqqgSIgpvZRtgxT2AQFBhtYh7PXYhuqFhmeehehvj
+X-Gm-Gg: AfdE7cllnVhTLzjwFwQ4F3NFELH2EINRSXUAxC7Jr1bNTqBYC8dAa5ySk6vAJXLBLZT
+	tEUZQ342+2nCwTyIc06DFGMqw8xshRaAL7gwLUn2dKG9vhhaqBHbNViKSmMIEYlhlhdhn+Cnvoa
+	X12LPX8lX7IrBCqY8PoqyTkUTZr1Wl7e3Disz+dM35RamryxxCW2e0cGurh2BQKBpRUVhaCCgNz
+	zkdjXS7sOGO6JlgLFejNrcUFPtoms/0qjOuts2xzbD6y48jwCz9Pav3qgWtvlm9EfxxTxlAErRi
+	VGuKIzy2l5kAPY5uRtn3gPerE66VvUJ7iu9dmwSizefv3xpUkIyTa8WVkw1z8s2SapJp2mTQSa2
+	CyTiExge0eXCffyJuKGw43Td4L6lcsZ6Fj7IXd52B+l35ZrzE3+2c05NxhaDiofAouWtfkJSy+B
+	X2kic7uHTe92yw3Rf4RcdyxDhuS2QSBY7Z5Flk7qtFncJrHUTSb58Mv7/WcbjWQPTKB2MWMJT8C
+	M6S5UG2K7lUZTNojMg0ZjaZ
+X-Received: by 2002:a05:6512:690:b0:5ae:bd4d:68c8 with SMTP id 2adb3069b0e04-5b159b874bemr1279318e87.46.1784119846371;
+        Wed, 15 Jul 2026 05:50:46 -0700 (PDT)
 Received: from archlinux ([94.180.44.28])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b022fac999sm3404042e87.55.2026.07.15.05.50.44
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b022fac999sm3404042e87.55.2026.07.15.05.50.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2026 05:50:45 -0700 (PDT)
+        Wed, 15 Jul 2026 05:50:46 -0700 (PDT)
 From: Arsenii Pashchenko <ulijg308@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	ulijg308@gmail.com
-Subject: [PATCH 38/61] staging: rtl8723bs: remove redundant ternary operators from bool returns
-Date: Wed, 15 Jul 2026 19:48:06 +0700
-Message-ID: <20260715124829.90290-39-ulijg308@gmail.com>
+Subject: [PATCH 39/61] staging: rtl8723bs: remove redundant DM wrapper
+Date: Wed, 15 Jul 2026 19:48:07 +0700
+Message-ID: <20260715124829.90290-40-ulijg308@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260715124829.90290-1-ulijg308@gmail.com>
 References: <20260715124829.90290-1-ulijg308@gmail.com>
@@ -77,220 +77,59 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Purge all implicit and redundant ternary operator expressions of the form
-'(condition) ? true : false' or comparisons with zero from logical return
-statements across the driver.
-
-Expressions like '(atomic_read(...) != 0) ? true : false' add useless
-visual clutter and unnecessary branching, since the underlying comparison
-or atomic read already naturally evaluates to a boolean truth value in C.
-
-Replace these verbose patterns with direct return statements to streamline
-the code, maximize readability, and match standard kernel coding style.
+Remove the useless external wrapper function
+EXhalbtc8723b2ant_InitCoexDm and call the internal
+halbtc8723b2ant_InitCoexDm directly. This cleans up the driver
+code and cuts down on redundant layer calls.
 
 Signed-off-by: Arsenii Pashchenko <ulijg308@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme.c         |  6 +++---
- drivers/staging/rtl8723bs/core/rtw_wlan_util.c    |  2 +-
- drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.h   |  2 +-
- drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h      | 11 ++++++++---
- drivers/staging/rtl8723bs/hal/hal_com.c           |  2 +-
- drivers/staging/rtl8723bs/hal/odm_HWConfig.c      |  2 +-
- drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c |  4 ++--
- drivers/staging/rtl8723bs/hal/sdio_halinit.c      |  4 ++--
- drivers/staging/rtl8723bs/include/ieee80211.h     |  6 +++---
- drivers/staging/rtl8723bs/include/rtw_pwrctrl.h   |  2 +-
- drivers/staging/rtl8723bs/os_dep/osdep_service.c  |  4 ++--
- 11 files changed, 25 insertions(+), 20 deletions(-)
+ drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c | 5 +----
+ drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.h | 1 -
+ drivers/staging/rtl8723bs/hal/hal_btcoex.c      | 2 +-
+ 3 files changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index b57b665c2..7e5f73707 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -1629,7 +1629,7 @@ inline bool rtw_is_scan_deny(struct adapter *adapter)
- {
- 	struct mlme_priv *mlmepriv = &adapter->mlmepriv;
- 
--	return (atomic_read(&mlmepriv->set_scan_deny) != 0) ? true : false;
-+	return atomic_read(&mlmepriv->set_scan_deny);
+diff --git a/drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c b/drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c
+index 6da6940c9..f1d8e01bb 100644
+--- a/drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c
++++ b/drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.c
+@@ -2378,10 +2378,7 @@ void EXhalbtc8723b2ant_InitHwConfig(struct btc_coexist *pBtCoexist, bool bWifiOn
+ 	halbtc8723b2ant_InitHwConfig(pBtCoexist, true);
  }
  
- inline void rtw_clear_scan_deny(struct adapter *adapter)
-@@ -2197,8 +2197,8 @@ void rtw_ht_use_default_setting(struct adapter *padapter)
- 	else
- 		phtpriv->bss_coexist = 0;
- 
--	phtpriv->sgi_40m = TEST_FLAG(pregistrypriv->short_gi, BIT(1)) ? true : false;
--	phtpriv->sgi_20m = TEST_FLAG(pregistrypriv->short_gi, BIT(0)) ? true : false;
-+	phtpriv->sgi_40m = TEST_FLAG(pregistrypriv->short_gi, BIT(1));
-+	phtpriv->sgi_20m = TEST_FLAG(pregistrypriv->short_gi, BIT(0));
- 
- 	/*  LDPC support */
- 	rtw_hal_get_def_var(padapter, HAL_DEF_RX_LDPC, (u8 *)&bHwLDPCSupport);
-diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-index df5508ce5..d833c5e3a 100644
---- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-@@ -476,7 +476,7 @@ static bool _rtw_camid_is_gk(struct adapter *adapter, u8 cam_id)
- 	if (!(cam_ctl->bitmap & BIT(cam_id)))
- 		goto exit;
- 
--	ret = (dvobj->cam_cache[cam_id].ctrl & BIT(6)) ? true : false;
-+	ret = dvobj->cam_cache[cam_id].ctrl & BIT(6);
- 
- exit:
- 	return ret;
-diff --git a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.h b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.h
-index 7a12d92da..f39c93ac7 100644
---- a/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.h
-+++ b/drivers/staging/rtl8723bs/hal/HalBtc8723b1Ant.h
-@@ -15,7 +15,7 @@
- #define	BT_INFO_8723B_1ANT_B_CONNECTION		BIT(0)
- 
- #define	BT_INFO_8723B_1ANT_A2DP_BASIC_RATE(_BT_INFO_EXT_)	\
--		(((_BT_INFO_EXT_ & BIT(0))) ? true : false)
-+		(((_BT_INFO_EXT_ & BIT(0))))
- 
- #define	BTC_RSSI_COEX_THRESH_TOL_8723B_1ANT 2
- 
-diff --git a/drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h b/drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h
-index 36b0f429d..0002b822a 100644
---- a/drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h
-+++ b/drivers/staging/rtl8723bs/hal/HalBtcOutSrc.h
-@@ -93,9 +93,14 @@ enum {
- 	BTC_RSSI_STATE_STAY_LOW			= 0x5,
- 	BTC_RSSI_MAX
- };
--#define BTC_RSSI_HIGH(_rssi_)	((_rssi_ == BTC_RSSI_STATE_HIGH || _rssi_ == BTC_RSSI_STATE_STAY_HIGH) ? true : false)
--#define BTC_RSSI_MEDIUM(_rssi_)	((_rssi_ == BTC_RSSI_STATE_MEDIUM || _rssi_ == BTC_RSSI_STATE_STAY_MEDIUM) ? true : false)
--#define BTC_RSSI_LOW(_rssi_)	((_rssi_ == BTC_RSSI_STATE_LOW || _rssi_ == BTC_RSSI_STATE_STAY_LOW) ? true : false)
-+#define BTC_RSSI_HIGH(_rssi_) \
-+	((_rssi_) == BTC_RSSI_STATE_HIGH || (_rssi_) == BTC_RSSI_STATE_STAY_HIGH)
+-void EXhalbtc8723b2ant_InitCoexDm(struct btc_coexist *pBtCoexist)
+-{
+-	halbtc8723b2ant_InitCoexDm(pBtCoexist);
+-}
 +
-+#define BTC_RSSI_MEDIUM(_rssi_) \
-+	((_rssi_) == BTC_RSSI_STATE_MEDIUM || (_rssi_) == BTC_RSSI_STATE_STAY_MEDIUM)
-+
-+#define BTC_RSSI_LOW(_rssi_) \
-+	((_rssi_) == BTC_RSSI_STATE_LOW || (_rssi_) == BTC_RSSI_STATE_STAY_LOW)
  
- enum {
- 	BTC_WIFI_BW_LEGACY			= 0x0,
-diff --git a/drivers/staging/rtl8723bs/hal/hal_com.c b/drivers/staging/rtl8723bs/hal/hal_com.c
-index 634af4657..77b189efa 100644
---- a/drivers/staging/rtl8723bs/hal/hal_com.c
-+++ b/drivers/staging/rtl8723bs/hal/hal_com.c
-@@ -396,7 +396,7 @@ bool Hal_MappingOutPipe(struct adapter *padapter, u8 NumOutPipe)
+ void EXhalbtc8723b2ant_IpsNotify(struct btc_coexist *pBtCoexist, u8 type)
  {
- 	struct registry_priv *pregistrypriv = &padapter->registrypriv;
+diff --git a/drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.h b/drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.h
+index ebc47f65e..b0e24c69d 100644
+--- a/drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.h
++++ b/drivers/staging/rtl8723bs/hal/HalBtc8723b2Ant.h
+@@ -131,7 +131,6 @@ struct coex_sta_8723b_2ant {
+ /*  */
+ void EXhalbtc8723b2ant_PowerOnSetting(struct btc_coexist *pBtCoexist);
+ void EXhalbtc8723b2ant_InitHwConfig(struct btc_coexist *pBtCoexist, bool bWifiOnly);
+-void EXhalbtc8723b2ant_InitCoexDm(struct btc_coexist *pBtCoexist);
+ void EXhalbtc8723b2ant_IpsNotify(struct btc_coexist *pBtCoexist, u8 type);
+ void EXhalbtc8723b2ant_LpsNotify(struct btc_coexist *pBtCoexist, u8 type);
+ void EXhalbtc8723b2ant_ScanNotify(struct btc_coexist *pBtCoexist, u8 type);
+diff --git a/drivers/staging/rtl8723bs/hal/hal_btcoex.c b/drivers/staging/rtl8723bs/hal/hal_btcoex.c
+index c66ca6f73..a975e3393 100644
+--- a/drivers/staging/rtl8723bs/hal/hal_btcoex.c
++++ b/drivers/staging/rtl8723bs/hal/hal_btcoex.c
+@@ -846,7 +846,7 @@ void EXhalbtcoutsrc_InitCoexDm(struct btc_coexist *pBtCoexist)
+ 	pBtCoexist->statistics.cntInitCoexDm++;
  
--	bool bWIFICfg = (pregistrypriv->wifi_spec) ? true : false;
-+	bool bWIFICfg = pregistrypriv->wifi_spec;
+ 	if (pBtCoexist->boardInfo.btdmAntNum == 2)
+-		EXhalbtc8723b2ant_InitCoexDm(pBtCoexist);
++		halbtc8723b2ant_InitCoexDm(pBtCoexist);
+ 	else if (pBtCoexist->boardInfo.btdmAntNum == 1)
+ 		EXhalbtc8723b1ant_InitCoexDm(pBtCoexist);
  
- 	bool result = true;
- 
-diff --git a/drivers/staging/rtl8723bs/hal/odm_HWConfig.c b/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
-index c88d669cb..5b374eea0 100644
---- a/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
-+++ b/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
-@@ -268,7 +268,7 @@ static void odm_Process_RSSIForDM(
- 	if (pPktinfo->is_beacon)
- 		pDM_Odm->PhyDbgInfo.NumQryBeaconPkt++;
- 
--	isCCKrate = ((pPktinfo->data_rate <= DESC_RATE11M)) ? true : false;
-+	isCCKrate = pPktinfo->data_rate <= DESC_RATE11M;
- 	pDM_Odm->RxRate = pPktinfo->data_rate;
- 
- 	/* Statistic for antenna/path diversity------------------ */
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-index 53f6cd708..7ddc75e65 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-@@ -2751,7 +2751,7 @@ void GetHwReg8723B(struct adapter *padapter, u8 variable, u8 *val)
- 		{
- 			/*  BCN_VALID, BIT16 of REG_TDECTRL = BIT0 of REG_TDECTRL+2 */
- 			val8 = rtw_read8(padapter, REG_TDECTRL+2);
--			*val = (BIT(0) & val8) ? true : false;
-+			*val = BIT(0) & val8;
- 		}
- 		break;
- 
-@@ -2805,7 +2805,7 @@ void GetHwReg8723B(struct adapter *padapter, u8 variable, u8 *val)
- 		break;
- 	case HW_VAR_CHK_HI_QUEUE_EMPTY:
- 		val16 = rtw_read16(padapter, REG_TXPKT_EMPTY);
--		*val = (val16 & BIT(10)) ? true : false;
-+		*val = val16 & BIT(10);
- 		break;
- 	default:
- 		GetHwReg(padapter, variable, val);
-diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit.c b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-index ed9b8fb07..767db342c 100644
---- a/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-+++ b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-@@ -1032,8 +1032,8 @@ static void _ReadPROMContent(struct adapter *padapter)
- 
- 	eeValue = rtw_read8(padapter, REG_9346CR);
- 	/*  To check system boot selection. */
--	pEEPROM->EepromOrEfuse = (eeValue & BOOT_FROM_EEPROM) ? true : false;
--	pEEPROM->bautoload_fail_flag = (eeValue & EEPROM_EN) ? false : true;
-+	pEEPROM->EepromOrEfuse = eeValue & BOOT_FROM_EEPROM;
-+	pEEPROM->bautoload_fail_flag = eeValue & EEPROM_EN;
- 
- 	_ReadEfuseInfo8723BS(padapter);
- }
-diff --git a/drivers/staging/rtl8723bs/include/ieee80211.h b/drivers/staging/rtl8723bs/include/ieee80211.h
-index 39ee139f1..3363c6496 100644
---- a/drivers/staging/rtl8723bs/include/ieee80211.h
-+++ b/drivers/staging/rtl8723bs/include/ieee80211.h
-@@ -155,10 +155,10 @@ enum network_type {
- 
- #define is_legacy_only(net_type)  ((net_type) == ((net_type) & (WIRELESS_11BG)))
- 
--#define is_supported_24g(net_type) ((net_type) & SUPPORTED_24G_NETTYPE_MSK ? true : false)
-+#define is_supported_24g(net_type) ((net_type) & SUPPORTED_24G_NETTYPE_MSK)
- 
--#define is_supported_tx_cck(net_type) (((net_type) & (WIRELESS_11B)) ? true : false)
--#define is_supported_ht(net_type) (((net_type) & (WIRELESS_11_24N)) ? true : false)
-+#define is_supported_tx_cck(net_type) (((net_type) & (WIRELESS_11B)))
-+#define is_supported_ht(net_type) (((net_type) & (WIRELESS_11_24N)))
- 
- struct ieee_param {
- 	u32 cmd;
-diff --git a/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h b/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
-index 9b6c42e4f..bcf141274 100644
---- a/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_pwrctrl.h
-@@ -80,7 +80,7 @@ enum rt_rf_power_state {
- #define	RT_RF_LPS_DISALBE_2R			BIT(30)	/*  When LPS is on, disable 2R if no packet is received or transmitted. */
- #define	RT_RF_LPS_LEVEL_ASPM			BIT(31)	/*  LPS with ASPM */
- 
--#define	RT_IN_PS_LEVEL(ppsc, _PS_FLAG)		((ppsc->cur_ps_level & _PS_FLAG) ? true : false)
-+#define	RT_IN_PS_LEVEL(ppsc, _PS_FLAG)		((ppsc->cur_ps_level & _PS_FLAG))
- #define	RT_CLEAR_PS_LEVEL(ppsc, _PS_FLAG)	(ppsc->cur_ps_level &= (~(_PS_FLAG)))
- #define	RT_SET_PS_LEVEL(ppsc, _PS_FLAG)		(ppsc->cur_ps_level |= _PS_FLAG)
- 
-diff --git a/drivers/staging/rtl8723bs/os_dep/osdep_service.c b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-index 4cfdf7c62..214c1fd9b 100644
---- a/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-+++ b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-@@ -130,7 +130,7 @@ void rtw_buf_update(u8 **buf, u32 *buf_len, u8 *src, u32 src_len)
-  */
- inline bool rtw_cbuf_full(struct rtw_cbuf *cbuf)
- {
--	return (cbuf->write == cbuf->read - 1) ? true : false;
-+	return cbuf->write == cbuf->read - 1;
- }
- 
- /**
-@@ -141,7 +141,7 @@ inline bool rtw_cbuf_full(struct rtw_cbuf *cbuf)
-  */
- inline bool rtw_cbuf_empty(struct rtw_cbuf *cbuf)
- {
--	return (cbuf->write == cbuf->read) ? true : false;
-+	return cbuf->write == cbuf->read;
- }
- 
- /**
 -- 
 2.55.0
 
