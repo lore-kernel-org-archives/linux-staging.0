@@ -1,71 +1,71 @@
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 159CA4A3412
-	for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 12:51:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5288A478E5E
+	for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 12:51:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784119873; cv=none; b=qSPPBlwceg1oSKgyHX+oLiciudAQXTjHRsI8gGUVcHFb1whcEyw3JHpiynCcce6ByTgvqlCq1irWUTxag1/npPdsA24DFEQ8lS3Eyv6ZDd1BlhXgL+ZwANOVoA7bx7Hp50B9oHkp9LBZGFWEkEIDOMflXsgyL0Np0HQS53C2LNY=
+	t=1784119872; cv=none; b=JOUgCTspyp/wzTvz1zZSuftevbgkI1sDLNJpgIraPJaWfTVPjCUP/dirdMFgtv+kzpkLbo4AhGg9Cpho2NpiPUL3BghLHPIXVYXZJ4IKNkUUZ7QbTwGQwP30I4r5Df9sTSk3Asvz1e8cxQzlRZs8a+Q6rUzR0bXPK2K4Cd3BddU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784119873; c=relaxed/simple;
-	bh=meFM+m3+QXLv46H2Nga/34GDbnkXJvTqjgu2sz1WhSs=;
+	s=arc-20240116; t=1784119872; c=relaxed/simple;
+	bh=u1jBMXa16A7v++4qMutiXWlJdKAbcPe3g/LhjZ9tVHY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mH0Va1SYRonh9QLCawQlztlA2AvCInGQrjlEwvc/PYpDN2+xeIDDqQ6f7YUJ5RP2q7+AkZD97Fms3GQ5+68R92NA1mPebRT+XW+UDD6Mu+mNiS3vNuo0zGvq46LLsSAwlZQki+6o+thJdwzRgQDShIVukRHKyL+VAoLA0BVecXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c6FphhHh; arc=none smtp.client-ip=209.85.167.51
+	 MIME-Version; b=oAu9CqBE33Ia/8kI4kCvQ4gxx4kuBtE130q748jdx0pT2DZvdMiGWu0EYiSMlVBVpihekGEJsZjH82aXyrc0huPm2P2yNr/8xQr7Rr9Gtjohl2UY7HmBDM0+wx5JcFjjkBsP80eeZPSbXAQYNs3PYh0Wsbt/P5jSvWk/gwlsUJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qe/O12HM; arc=none smtp.client-ip=209.85.167.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c6FphhHh"
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5aeb59d54b1so1775931e87.1
-        for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 05:51:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qe/O12HM"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5aea0fff535so2260596e87.3
+        for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 05:51:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784119859; x=1784724659; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1784119858; x=1784724658; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=9jk3XKktcIbFuEFIN65sHF6Ly+ytHzoWCdAncm6Hg7g=;
-        b=c6FphhHhqvPgBaFtbOg/dz4vEjUEsxbChIC0eJoYwxZ7QbFcD/5/dLvx/5zs4jv4nv
-         0hXMkrPcWN2sItmilqb1lxTis8zpvXhTSYDdl6d5Nig9wo6Ns6OVaZsenK8jJ0V8/hO/
-         tgm0azVEp8Y43mKiSIkPsh4lQ1Wi1oCy5kRUIzwl2UX8F/7CXkBEctTjWM4UMq8FsVhl
-         dW6c4AXGdmAqi09t89UnfOevHCjy0yj8xJZcYW4mUQsEIl0W55OAdYKi8/DkIdIr9/ay
-         NUUwznqaxf1hezpZhIG49svc/PtI3in+6zFdxXxhNZObe+PWBHGBuyAWju8zq41so+BP
-         ouRQ==
+        bh=HGQst0oyHOMRM9hMxtCvVXC1/fk2wJSMXeEKR5JD+kU=;
+        b=qe/O12HMe/gIvxeSxz15H76cxyStlHJ/1mHckBqAl/UfiFJAjlbYERoXh8bMzN6nij
+         GWzMT21wqx6WsWRFzitECqG1oMaxnX4OnIutrRD2S7ToWR6RtmrCu0AYj+VXjthn6HlX
+         Eyh3Lc+uwI3BEv3tnKYsYV7YdnscJCAlN/NtfaK2/nDXItSp5WduRB4rnSjJdltW4VYE
+         PE9KJibfsqatGT5v5yllyGdgG81pGupBdb36xh3jBYl36nEYsU1f3eyp7nwK+HGPVShe
+         LqVHp594GDtOXvaLTjp2+H46RSTdnJlnaF/Spe8cD14RNx1PViF0RLcsMWv6nZTysFIu
+         BI9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784119859; x=1784724659;
+        d=1e100.net; s=20251104; t=1784119858; x=1784724658;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=9jk3XKktcIbFuEFIN65sHF6Ly+ytHzoWCdAncm6Hg7g=;
-        b=bJBgcAyWyRLWSKQKWSpjF4x15a1XdZ2CkPCD5c+y4y3zubSktQiL0baFa8hIhajJf7
-         3CE6nS1ucnBBVJgD/wyNahbqpFcknoeNJtZXNhofKxdLqOXc8svnH1m6kpJt+A0oMdyn
-         G1BnN0SQSZRhXv9LDLviTiPe9hCN2HODkwtiNmBEfSmrMnZ1o5NWWiXA5YQO+R4F1S8E
-         fjG+tvz8Gdro19nz3m3ZH7I29grH8km6qo8r9MwEzGqMKiq6adUiLp3H++A0TvtLDHY6
-         D+XUUy5vqCFEZQzBcnzn65oaSbKfiYfwAe+YzSwIAOG4iyQ1Fvs7cVJ5y32Vz68e21H5
-         M0ZQ==
-X-Gm-Message-State: AOJu0Yw9rN69e5N+lNlPK+ZAewYKDJAZvKHNF+FTg/g9pYdgW9Xr4DF2
-	1TfLcKzs0v7IlgOQj7YJUWYj0W51knuj4kyRyyJdO+4ZaOkSsCUvVAPr
-X-Gm-Gg: AfdE7ckioUbhLsMvObQfZZb7dpLSQ8/ybjZBJHwMX2OHniGXW+UxZ+Qf9CAmP3Ehvv6
-	jAEIxviT7avxUfzOWei+RbvegFhe17Kyy1CEg42yJjNB7nB6vxf4Dtcg/Ypfze1NCmscEKoKzii
-	HFYq43zCm9DbtINhv/pYKGOjtJPuVfaOdnS09kLU38e0YPl2Ayz8CZfYqze4Ez9X9dcJyPpBW/0
-	lEcEsN+IMlumHqSaOYkwwMzN7soX7t+YlZKupTB1ih4yxBZL0G4ImJSij1cXoSicz6TK6w14ceJ
-	OalTowWZG4YUIDOsj2y1Njw4+JfZ0u0uSEsVghHM1aQ+l7cbcAlS7WzB9Cj8iKi4FSeWUECaKeP
-	/BzaF9WLMZLxnXlDrNXnfL7Bqk7fc0CUCVWnuTgGMDf3iZjWBTtkvC3AsdRcalQ1GdQt/qDnbnc
-	QHOR/MWzSogNTFXMwyum+234DF5rE3yNCGnR5aK7FW3f+yWSqPiQGewGlrCcFJ+FkFlOPvJ4IQw
-	P3X0Si059sHTw==
-X-Received: by 2002:a05:6512:61ac:b0:5a8:88f8:9ed4 with SMTP id 2adb3069b0e04-5b02369dae3mr4198488e87.30.1784119859340;
-        Wed, 15 Jul 2026 05:50:59 -0700 (PDT)
+        bh=HGQst0oyHOMRM9hMxtCvVXC1/fk2wJSMXeEKR5JD+kU=;
+        b=C8qlNsAQ+oyaYJ6st4Mk9hRbcNKgavaCDoB1MmnP78+a7O8+Xo6dLIyBtc9/hFHAnr
+         2v4PC388cSuh/7QB2jmtUM/8GG+U7C8tWrupuL9uLuznMCXEY0xxWNTpW6uKf1lkT7UL
+         CVfDSgFrQ8owyModqr2TQSdjOUZFFLJaiE7fHLqSQPuH1B3m2a94GnCqUoA9VCenIZGl
+         /In/GX8w5W9l9UPt0B5VorImpcjBzQ9WXEIr1yu4Dtma52sKVtkLlPFpyg+vzgw5bVMK
+         dxpuWOEWg0Ux/1MQ/c4U7MqWyIgQHdokmHfZft4lPnYm3AJZOeZaAiPVVfAlRLqnfqm+
+         P3Gw==
+X-Gm-Message-State: AOJu0YxxPtrhXITrU1VdoLt4KFrScqk1OVHD99XLJlYwTzFuLrMsaxO0
+	NthJCSz0dKyhrHDFzpLXi3AGrzhzv7+ZEEpbU9EyJV+op4l/DxFOl178m2Hwd1sNyjI=
+X-Gm-Gg: AfdE7cmjjzI9TpIGV7Uiw/wsXTINIg7aRQjDU5bVhb9fr0wRE/8yn8WezqBZUQkMj8F
+	1dPsZIywxipxGXkMDjfffB0OZBiHSvUor5wQf/3bkewjvoiXNAOo3GRVUHHzDhlARt8fZoSlajS
+	fKMVAAyTIUMfn2M+TyYK7BH0j3GsSoxA+vHtmR/j4FkfDVte2RClpEmV2R8Svw+lN8dOIsg4Vnn
+	71c8ch+dVrbvWB/g70xIEfs715a42SYnocd7B/M7wkeYChjnfD8nOpbJxmYm0EMJlPUvSIkzLJY
+	tM/l4a5ts7joirN3kJD6a90hFYia0K2L2XQYZdJE+LG33fvoK1cD4p2EAek5T3vpMzQeO9XE9qL
+	DmrlZx3wxbGE8Xw9zizW6JZxmfNgUgBWoEGEylorFp2NiBm5Acyu4LzxNh8PvEYoVZnB7rTXJqU
+	ZsI3l60fPb/XjCpfUf3MLIuqa0+ixwE26gW1HCmUMDvuuNscjM9jsVBxA1RbhJzR9Oigw4o2Y9X
+	pwXbIIjk+ob3g==
+X-Received: by 2002:a05:6512:3e1e:b0:5ae:a9ec:bb31 with SMTP id 2adb3069b0e04-5b0236bb3cemr4161121e87.57.1784119857536;
+        Wed, 15 Jul 2026 05:50:57 -0700 (PDT)
 Received: from archlinux ([94.180.44.28])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b022fac999sm3404042e87.55.2026.07.15.05.50.58
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b022fac999sm3404042e87.55.2026.07.15.05.50.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2026 05:50:58 -0700 (PDT)
+        Wed, 15 Jul 2026 05:50:55 -0700 (PDT)
 From: Arsenii Pashchenko <ulijg308@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	ulijg308@gmail.com
-Subject: [PATCH 52/61] staging: rtl8723bs: inline SetHwRegWithBuf8723B into helper
-Date: Wed, 15 Jul 2026 19:48:20 +0700
-Message-ID: <20260715124829.90290-53-ulijg308@gmail.com>
+Subject: [PATCH 50/61] staging: rtl8723bs: inline SetHwReg8723BS into rtw_hal_set_hwreg
+Date: Wed, 15 Jul 2026 19:48:18 +0700
+Message-ID: <20260715124829.90290-51-ulijg308@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260715124829.90290-1-ulijg308@gmail.com>
 References: <20260715124829.90290-1-ulijg308@gmail.com>
@@ -77,70 +77,161 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Inline the hardware register configuration logic from
-SetHwRegWithBuf8723B directly into rtw_hal_set_hwreg_with_buf.
-This removes a redundant CamelCase layer for C2H packet handling.
+Inline the hardware register configuration logic from SetHwReg8723BS
+directly into rtw_hal_set_hwreg. This eliminates the intermediate
+CamelCase call layer for SDIO-specific registers and cleans up the
+driver entry point.
 
 Signed-off-by: Arsenii Pashchenko <ulijg308@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/hal_intf.c     |  8 +++++++-
- drivers/staging/rtl8723bs/hal/sdio_halinit.c | 11 -----------
- drivers/staging/rtl8723bs/include/hal_intf.h |  1 -
- 3 files changed, 7 insertions(+), 13 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c |  2 +-
+ .../staging/rtl8723bs/core/rtw_wlan_util.c    |  4 +-
+ drivers/staging/rtl8723bs/hal/hal_intf.c      | 35 ++++++++++++++-
+ drivers/staging/rtl8723bs/hal/sdio_halinit.c  | 43 -------------------
+ drivers/staging/rtl8723bs/include/hal_intf.h  |  1 -
+ 5 files changed, 37 insertions(+), 48 deletions(-)
 
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index 0cc6887bb..1fab3e829 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -5449,7 +5449,7 @@ u8 setkey_hdl(struct adapter *padapter, u8 *pbuf)
+ 		rtw_hal_set_hwreg(padapter, HW_VAR_SEC_DK_CFG, (u8 *)true);
+ 
+ 	/* allow multicast packets to driver */
+-	SetHwReg8723BS(padapter, HW_VAR_ON_RCR_AM, null_addr);
++	rtw_hal_set_hwreg(padapter, HW_VAR_ON_RCR_AM, null_addr);
+ 
+ 	return H2C_SUCCESS;
+ }
+diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+index d833c5e3a..3ac04c8b0 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
++++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+@@ -1515,9 +1515,9 @@ void update_wireless_mode(struct adapter *padapter)
+ 	SIFS_Timer = 0x0a0a0808; /* 0x0808 -> for CCK, 0x0a0a -> for OFDM */
+ 													/* change this value if having IOT issues. */
+ 
+-	SetHwReg8723BS(padapter, HW_VAR_RESP_SIFS,  (u8 *)&SIFS_Timer);
++	rtw_hal_set_hwreg(padapter, HW_VAR_RESP_SIFS,  (u8 *)&SIFS_Timer);
+ 
+-	SetHwReg8723BS(padapter, HW_VAR_WIRELESS_MODE,  (u8 *)&(pmlmeext->cur_wireless_mode));
++	rtw_hal_set_hwreg(padapter, HW_VAR_WIRELESS_MODE,  (u8 *)&(pmlmeext->cur_wireless_mode));
+ 
+ 	if (pmlmeext->cur_wireless_mode & WIRELESS_11B)
+ 		update_mgnt_tx_rate(padapter, IEEE80211_CCK_RATE_1MB);
 diff --git a/drivers/staging/rtl8723bs/hal/hal_intf.c b/drivers/staging/rtl8723bs/hal/hal_intf.c
-index 92e4605fa..e58fc1405 100644
+index 9a3ebad35..bbf987ace 100644
 --- a/drivers/staging/rtl8723bs/hal/hal_intf.c
 +++ b/drivers/staging/rtl8723bs/hal/hal_intf.c
-@@ -128,7 +128,13 @@ void rtw_hal_get_hwreg(struct adapter *padapter, u8 variable, u8 *val)
+@@ -71,7 +71,40 @@ uint rtw_hal_deinit(struct adapter *padapter)
  
- void rtw_hal_set_hwreg_with_buf(struct adapter *padapter, u8 variable, u8 *pbuf, int len)
+ void rtw_hal_set_hwreg(struct adapter *padapter, u8 variable, u8 *val)
  {
--	SetHwRegWithBuf8723B(padapter, variable, pbuf, len);
+-	SetHwReg8723BS(padapter, variable, val);
++	u8 val8;
++
 +	switch (variable) {
-+	case HW_VAR_C2H_HANDLE:
-+		C2HPacketHandler_8723B(padapter, pbuf, len);
++	case HW_VAR_SET_RPWM:
++		/*  rpwm value only use BIT0(clock bit) , BIT6(Ack bit), and BIT7(Toggle bit) */
++		/*  BIT0 value - 1: 32k, 0:40MHz. */
++		/*  BIT6 value - 1: report cpwm value after success set, 0:do not report. */
++		/*  BIT7 value - Toggle bit change. */
++		{
++			val8 = *val;
++			val8 &= 0xC1;
++			rtw_write8(padapter, SDIO_LOCAL_BASE | SDIO_REG_HRPWM1, val8);
++		}
++		break;
++	case HW_VAR_SET_REQ_FW_PS:
++		{
++			u8 req_fw_ps = 0;
++
++			req_fw_ps = rtw_read8(padapter, 0x8f);
++			req_fw_ps |= 0x10;
++			rtw_write8(padapter, 0x8f, req_fw_ps);
++		}
++		break;
++	case HW_VAR_RXDMA_AGG_PG_TH:
++		val8 = *val;
++		break;
++
++	case HW_VAR_DM_IN_LPS:
++		rtl8723b_hal_dm_in_lps(padapter);
 +		break;
 +	default:
++		SetHwReg8723B(padapter, variable, val);
 +		break;
-+		}
++	}
  }
  
- u8 rtw_hal_get_def_var(struct adapter *padapter, enum hal_def_variable eVariable, void *pValue)
+ void rtw_hal_get_hwreg(struct adapter *padapter, u8 variable, u8 *val)
 diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit.c b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-index 22d6180f1..0155c523e 100644
+index 731ca9276..775fd5138 100644
 --- a/drivers/staging/rtl8723bs/hal/sdio_halinit.c
 +++ b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-@@ -1079,17 +1079,6 @@ void rtw_read_adapter_info(struct adapter *padapter)
+@@ -1077,49 +1077,6 @@ void rtw_read_adapter_info(struct adapter *padapter)
+ 
+ 	_ReadAdapterInfo8723BS(padapter);
  }
- 
- 
--void SetHwRegWithBuf8723B(struct adapter *padapter, u8 variable, u8 *pbuf, int len)
+-
+-/*
+- * If variable not handled here,
+- * some variables will be processed in SetHwReg8723B()
+- */
+-void SetHwReg8723BS(struct adapter *padapter, u8 variable, u8 *val)
 -{
+-	u8 val8;
+-
 -	switch (variable) {
--	case HW_VAR_C2H_HANDLE:
--		C2HPacketHandler_8723B(padapter, pbuf, len);
+-	case HW_VAR_SET_RPWM:
+-		/*  rpwm value only use BIT0(clock bit) , BIT6(Ack bit), and BIT7(Toggle bit) */
+-		/*  BIT0 value - 1: 32k, 0:40MHz. */
+-		/*  BIT6 value - 1: report cpwm value after success set, 0:do not report. */
+-		/*  BIT7 value - Toggle bit change. */
+-		{
+-			val8 = *val;
+-			val8 &= 0xC1;
+-			rtw_write8(padapter, SDIO_LOCAL_BASE | SDIO_REG_HRPWM1, val8);
+-		}
+-		break;
+-	case HW_VAR_SET_REQ_FW_PS:
+-		{
+-			u8 req_fw_ps = 0;
+-
+-			req_fw_ps = rtw_read8(padapter, 0x8f);
+-			req_fw_ps |= 0x10;
+-			rtw_write8(padapter, 0x8f, req_fw_ps);
+-		}
+-		break;
+-	case HW_VAR_RXDMA_AGG_PG_TH:
+-		val8 = *val;
+-		break;
+-
+-	case HW_VAR_DM_IN_LPS:
+-		rtl8723b_hal_dm_in_lps(padapter);
 -		break;
 -	default:
+-		SetHwReg8723B(padapter, variable, val);
 -		break;
 -	}
 -}
 -
- /*  */
- /*	Description: */
- /*		Query setting of specified variable. */
+ /*
+  * If variable not handled here,
+  * some variables will be processed in GetHwReg8723B()
 diff --git a/drivers/staging/rtl8723bs/include/hal_intf.h b/drivers/staging/rtl8723bs/include/hal_intf.h
-index b6ceea02a..1d5c0b7bb 100644
+index ee8ad2632..51fdbf9fe 100644
 --- a/drivers/staging/rtl8723bs/include/hal_intf.h
 +++ b/drivers/staging/rtl8723bs/include/hal_intf.h
 @@ -241,7 +241,6 @@ s32 rtw_hal_macid_wakeup(struct adapter *padapter, u32 macid);
  
  s32 rtw_hal_fill_h2c_cmd(struct adapter *, u8 ElementID, u32 CmdLen, u8 *pCmdBuffer);
  
--void SetHwRegWithBuf8723B(struct adapter *padapter, u8 variable, u8 *pbuf, int len);
+-void SetHwReg8723BS(struct adapter *padapter, u8 variable, u8 *val);
+ void GetHwReg8723BS(struct adapter *padapter, u8 variable, u8 *val);
+ void SetHwRegWithBuf8723B(struct adapter *padapter, u8 variable, u8 *pbuf, int len);
  u8 GetHalDefVar8723BSDIO(struct adapter *Adapter, enum hal_def_variable eVariable, void *pValue);
- void UpdateHalRAMask8723B(struct adapter *padapter, u32 mac_id, u8 rssi_level);
- void rtl8723b_SetBeaconRelatedRegisters(struct adapter *padapter);
 -- 
 2.55.0
 
