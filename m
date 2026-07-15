@@ -1,71 +1,71 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1249347DD7F
-	for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 12:51:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 308844BC02C
+	for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 12:51:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784119874; cv=none; b=ZEF2hDpRj6jBVzegDT6BfSRe9LHRK7d4dnpTnN8XJfJlIpIbs/Rv1AdtZ3Yoy7TAQ0HBROR3RCabnzwooaR9nB/sLRCF2jgWfGmvfTEnjJ/YZgPI7LwbxeMy9UeKJp1cu8uLg6nycKREDA+aDrLS1hUTEvXCiPqTjDjZ/D+ck70=
+	t=1784119876; cv=none; b=O5esO+v8vy/3QPr1GCq0y8Kxo7vt0addKYeFIbq0Pksw6pTXqLMmXT1ccnGZ0X1xjdL5bYbcR01UPgFS21d7cCEhEveNKACNOy2O1pMt4XKA2d6mEAgdz2fI2e7hxnZISR6XgtUrv02pXIyCF50tZ2Xf0b7Fz0Ivr6tbqS9JyNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784119874; c=relaxed/simple;
-	bh=HZ0zRdItiR8WpGFkFya4oqOg6EPC1u9XQZB0V+DLwOw=;
+	s=arc-20240116; t=1784119876; c=relaxed/simple;
+	bh=cSVtqwIAX/SFczkOeUbAhlabmVOHw/+tSx5h7+a5Czw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KoVtXzTVuz2JAKRjw+yt/32G2kecNAeqNxoiZDqzHPqi4cIR/CpZ7J+PUb2GaRMRItsdKlk3g74HBhpfcxHFAlBN2nGRaZk5J/NiG1VfHxhYWvHxLL4LWZCzrCVdUFK/1XCFCQMoMfyv0Vzg2qkbK5neXtkp42ZGtiCcoRgeJZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oszw7QgH; arc=none smtp.client-ip=209.85.167.45
+	 MIME-Version; b=LVI/XPxXKALUWgC2YWP9ATUMTXAbsZHe65wPhoJPmJdcKihQoT4OTlpNSTn6ykwzjEiqWbaGnWlJ3Axae6Lc341IRoDkXCC6hPYslKWe4rAAYATCtTuTOnYYkKV+RZJBgbyUgwIKby/fqG9XMuYyO7OlNgak3VMiTh34ES6+OrI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XhQCGJN9; arc=none smtp.client-ip=209.85.167.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oszw7QgH"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5aeb5e85378so5766371e87.1
-        for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 05:51:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XhQCGJN9"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5b159850b16so1842039e87.3
+        for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 05:51:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784119858; x=1784724658; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1784119864; x=1784724664; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=KE8cqmEWFDwhs9+uHCZ9XurXdXQwWEdGM0MtE4jhXF4=;
-        b=oszw7QgHX2x979dWSH//VZr7FIIu5Okqz6VKTGpLETqJd/NinjtAmbKS7yFTbw61y7
-         gKgBKeO0pQYFoAyqyhjmUgapbyaXXcnW4Oe/uYiF8y9kgHBItnepdTkcQ50/V5QIWit+
-         E795cKPsXmcps2Ph3B4bijYqhK2LTSpgiNOSNVe8vZnoeiR57uGTUSG0XHBmdo/joo5P
-         W2L1L4D6uBCfwAe5HpkVaeBoJNwv6EJzWAUcYfqljfNL+OW4EQ5TY8q1SmBdmxY6P0EF
-         iAUEBTyRV4UPxdtHfZGumdEqT+R6+jOLcrCvV44nYtiQgVCo1Ko0KDzl4Mxm38j2B3i3
-         pjLg==
+        bh=P7qtNLeb3vifmZy8w97jp5BanhP4clMFWT1Ht9D7LA0=;
+        b=XhQCGJN9FrJhp3+c09JCwkcGYqXUZV3mlp9IidzB2rt1doAm9HuFjVLode8Ys7XFSj
+         3PAwhmdJyse+XrsBYhWel6umIhueKTutQLF0lLtzIxfexlaXJqfMso8TLsp43u6PQblJ
+         6FKhq/xOzEal6XVqHN09hkOw5TQ9tnopUFN71N4iQecQm/sGBFyAP1utAB8z02rVg5y4
+         38ylkshvo2Wf8fCX6HftClqYwNRE46tJIBI/gB3pBW3wqpB5wh692ZTeWsb+NdPLg3jl
+         9UKx44r+zRv56jqvvqp6qqDLjQ5XWuVklP2zps72tSi38BJGE/qMO3Xgxd+vKzYZ2UdZ
+         EFCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784119858; x=1784724658;
+        d=1e100.net; s=20251104; t=1784119864; x=1784724664;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=KE8cqmEWFDwhs9+uHCZ9XurXdXQwWEdGM0MtE4jhXF4=;
-        b=k6HxVRtUXsN9GBIEx+7viEkrXQd+Tkkbz0kBUQuR9c+5kmQDJcFbywPhok6eEqtlAG
-         Tk4uwiyUvdpEbEDme2Nyzi7xzuqU5bWl3Zk42j5dQzaPB2S2BU5SH2kYWvXc7hO2O+ts
-         /WZ4/ogQrmMkTTjPEIl/+yDfQZVfvpjqlYRvge/qIVFX/Q+1JA/6nXa7LmKZQwm5X4Kc
-         KythL+BXFFyKhZkf74FqAX4ah8iwXvIC6j6OxBVvyYP0NdcIo9fz5Idd85ntimqqVh3g
-         xnffn1FMDOuh1hhOsQBx5JVwHJuAM+KsQgtx+p4GIZ7KdLi9ShnwkX0BqTo9USKP+zUv
-         h3rw==
-X-Gm-Message-State: AOJu0YydpFW4npvNAPWuQabOl5vRG0rdqgqy4uEujSxAp70zcC9cbDSR
-	5QmM37p8td3kjQ5C5xs3URQCOfGopU0B6cqMjzyaopL8vfFV9GpNfJfU
-X-Gm-Gg: AfdE7cmiqVqzRiFzlIbJc/k2OAHm+XociRX+v+uyeMO5CzOj1EpAq6oL05iVUFqSZ5v
-	JToEpjWN7hI0Bux+H5abJgCY5Dg62UAWtMqAZ6dPB1MGfIrbsd+rhSFcVDRrhKpAgLWEr8tcILV
-	EzfVUJXjaJ8soynfLwQ/LO15gT45KiNFHF3PW7gk/7REgwXRiB72aum1AUoLGqGYXZuHi38An9d
-	XViKCWcg2ePY+tkTFZJ4P5Vk7ikjxesFMCZkGDXmj9Q730QH1f1VNDoclMurHknO+tYgH6DV++p
-	SwIisgN1M0JH/oFAlNIV3e/g8sGLhunKdCh89Kaq/Ha0Y9UyNbu2aGBEZUzWo8EA1ygKSVO8Hqz
-	/eBFh7nyJJeRJVhiNyWzgSk5CZg2P264L6r4ZmFSJj8hruHVmC77C63Jy4uaDK4QvDgJfvPOQZY
-	U2uEJk8ZzyAghRdsIHYG+LUrcfvZ/KLB5ma7FMuP7tsANsnf38FnkM/rOjMXvMaeh0TAm91Ou8j
-	k0k6eCr1wSOIJ9IqG8TdUid
-X-Received: by 2002:a05:6512:3c8d:b0:5ae:c561:3ace with SMTP id 2adb3069b0e04-5b159b8bb5emr1608577e87.57.1784119858312;
-        Wed, 15 Jul 2026 05:50:58 -0700 (PDT)
+        bh=P7qtNLeb3vifmZy8w97jp5BanhP4clMFWT1Ht9D7LA0=;
+        b=AHS82gtSYq29Z0ikdDY1NE5kDoWOskkunplC+IF8BlsgnOFtR+npseNFb3F9VDbMlS
+         fV+lgj0nS1rvtk51046yOzADAad9PFAQjntyp8IZlzbqfRPnSF4RkdIVwMbZRRMcee/N
+         UhUBI6g5GpJ/oGJbzS1MZ05QoLKuHmQMMgYVKazUFoj+VkVZxOK58BWQa206IgtWOtDX
+         Z9QjZ67OBo8WFk2N8jP6OS0ed7N1kktKd4mGMnoGbkUz2FV+UT3++VrU6cnKAihjBJo0
+         zzVvMp/5wWTjjgKPKfrYO/GvY9tRAdbkBcjMJ3YYKHLSPlgyx3EvExXvgnZBI7uXLIEw
+         6Aog==
+X-Gm-Message-State: AOJu0YwBMNWoZWIrk6jmp33POp53Mgnd1MJKn6A81qwl8/0xY3j3Irnq
+	ICqf2Rvzgp9ekFHfvXE/8RO9e8JD6CHHCh3HvzWSsxToMJi3akK0pnyHecXqYEuk4xg=
+X-Gm-Gg: AfdE7ckUK0yDFzctVh5lxXaHvZQ8v1OuQ9P5n3NPfCR/HYldxQMVWGIWAvXHJYcKcsx
+	ACCuSkM5rOQmJUgTYq9uI9aeN9dO30via/1fhRC5ZS9E32vQ11+CGGC37j984Nbd6G4H2JitTyX
+	mAyMSkdVhScb1a94McX0Mh1sxoMcFSR1C3chkWTY7h7y7Es70R5/+gj/0Nw6waACeJcUh3twujM
+	dulQdoQn3bU5wR/67GTu9pZ5W8fmPCPeN+1vF3fnzLpcsRJveZVqs+tmDNN1gHbibxi8IoaIepi
+	J+nWerJgOgD7OHZOedIX/f4R9DPl6E3DV3MOF9AVZYwsfMbMtBk4xDwQmwFrBeGj6+rNGoxQZ5j
+	VNDHdQCMh7aD2wEg0p6QZe/6fQSE56SeHelFHODcGOv6NvyP9ihgk6jXHbDurf23S+mtsoElcWS
+	GLaynjtqEEmX61U7iYpDC5zrlGb1xH8HnQuoagpSHHnAfEH7UHAbBq2NKEx5v3H+v609RfbgYJx
+	PwznQCRM8eaWg==
+X-Received: by 2002:a05:6512:2524:b0:5ae:b5bd:5e72 with SMTP id 2adb3069b0e04-5b1582c61aemr1847196e87.59.1784119863753;
+        Wed, 15 Jul 2026 05:51:03 -0700 (PDT)
 Received: from archlinux ([94.180.44.28])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b022fac999sm3404042e87.55.2026.07.15.05.50.57
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b022fac999sm3404042e87.55.2026.07.15.05.51.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2026 05:50:58 -0700 (PDT)
+        Wed, 15 Jul 2026 05:51:03 -0700 (PDT)
 From: Arsenii Pashchenko <ulijg308@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	ulijg308@gmail.com
-Subject: [PATCH 51/61] staging: rtl8723bs: inline GetHwReg8723BS into rtw_hal_get_hwreg
-Date: Wed, 15 Jul 2026 19:48:19 +0700
-Message-ID: <20260715124829.90290-52-ulijg308@gmail.com>
+Subject: [PATCH 57/61] staging: rtl8723bs: inline rtl8723bs_hal_xmit into rtw_hal_xmit
+Date: Wed, 15 Jul 2026 19:48:25 +0700
+Message-ID: <20260715124829.90290-58-ulijg308@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260715124829.90290-1-ulijg308@gmail.com>
 References: <20260715124829.90290-1-ulijg308@gmail.com>
@@ -77,89 +77,125 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Inline the hardware register reading logic from GetHwReg8723BS directly
-into rtw_hal_get_hwreg. This removes the redundant CamelCase wrapper
-layer for reading SDIO-specific registers and simplifies the flow.
+Inline the transmit frame handling logic from rtl8723bs_hal_xmit
+directly into rtw_hal_xmit. This simplifies the driver's transmit path,
+cuts down on an unnecessary redirection layer, and improves code
+maintainability.
 
 Signed-off-by: Arsenii Pashchenko <ulijg308@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/hal_intf.c     | 16 ++++++++++++++-
- drivers/staging/rtl8723bs/hal/sdio_halinit.c | 21 --------------------
- drivers/staging/rtl8723bs/include/hal_intf.h |  1 -
- 3 files changed, 15 insertions(+), 23 deletions(-)
+ drivers/staging/rtl8723bs/hal/hal_intf.c      | 28 ++++++++++++-
+ .../staging/rtl8723bs/hal/rtl8723bs_xmit.c    | 42 -------------------
+ .../staging/rtl8723bs/include/rtl8723b_xmit.h |  1 -
+ 3 files changed, 27 insertions(+), 44 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/hal/hal_intf.c b/drivers/staging/rtl8723bs/hal/hal_intf.c
-index bbf987ace..92e4605fa 100644
+index b11f4ab4a..9bb1fba5c 100644
 --- a/drivers/staging/rtl8723bs/hal/hal_intf.c
 +++ b/drivers/staging/rtl8723bs/hal/hal_intf.c
-@@ -109,7 +109,21 @@ void rtw_hal_set_hwreg(struct adapter *padapter, u8 variable, u8 *val)
+@@ -219,10 +219,36 @@ int rtw_hal_xmitframe_enqueue(struct adapter *padapter, struct xmit_frame *pxmit
  
- void rtw_hal_get_hwreg(struct adapter *padapter, u8 variable, u8 *val)
+ s32	rtw_hal_xmit(struct adapter *padapter, struct xmit_frame *pxmitframe)
  {
--	GetHwReg8723BS(padapter, variable, val);
-+	switch (variable) {
-+	case HW_VAR_CPWM:
-+		*val = rtw_read8(padapter, SDIO_LOCAL_BASE | SDIO_REG_HCPWM1_8723B);
-+		break;
+-	if (rtl8723bs_hal_xmit(padapter, pxmitframe))
++	struct xmit_priv *pxmitpriv;
++	s32 err;
 +
-+	case HW_VAR_FW_PS_STATE:
-+		{
-+			/* 3. read dword 0x88               driver read fw ps state */
-+			*((u16 *)val) = rtw_read16(padapter, 0x88);
-+		}
-+		break;
-+	default:
-+		GetHwReg8723B(padapter, variable, val);
-+		break;
-+		}
++	pxmitframe->attrib.qsel = pxmitframe->attrib.priority;
++	pxmitpriv = &padapter->xmitpriv;
++
++	if (
++		(pxmitframe->frame_tag == DATA_FRAMETAG) &&
++		(pxmitframe->attrib.ether_type != 0x0806) &&
++		(pxmitframe->attrib.ether_type != 0x888e) &&
++		(pxmitframe->attrib.dhcp_pkt != 1)
++	) {
++		if (padapter->mlmepriv.link_detect_info.busy_traffic)
++			rtw_issue_addbareq_cmd(padapter, pxmitframe);
++	}
++
++	spin_lock_bh(&pxmitpriv->lock);
++	err = rtw_xmitframe_enqueue(padapter, pxmitframe);
++	spin_unlock_bh(&pxmitpriv->lock);
++	if (err) {
++		rtw_free_xmitframe(pxmitpriv, pxmitframe);
++
++		pxmitpriv->tx_drop++;
+ 		return _FAIL;
++	}
++
++	complete(&pxmitpriv->SdioXmitStart);
+ 
+ 	return _SUCCESS;
++
  }
  
- void rtw_hal_set_hwreg_with_buf(struct adapter *padapter, u8 variable, u8 *pbuf, int len)
-diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit.c b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-index 775fd5138..22d6180f1 100644
---- a/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-+++ b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-@@ -1077,28 +1077,7 @@ void rtw_read_adapter_info(struct adapter *padapter)
- 
- 	_ReadAdapterInfo8723BS(padapter);
+ /*
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
+index a4dfee1d4..2298c41df 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
+@@ -453,48 +453,6 @@ s32 rtl8723bs_mgnt_xmit(
+ 	return ret;
  }
+ 
 -/*
-- * If variable not handled here,
-- * some variables will be processed in GetHwReg8723B()
+- * Description:
+- *Handle xmitframe(packet) come from rtw_xmit()
+- *
+- * Return:
+- * true      dump packet directly ok
+- * false     enqueue, temporary can't transmit packets to hardware
 - */
--void GetHwReg8723BS(struct adapter *padapter, u8 variable, u8 *val)
+-s32 rtl8723bs_hal_xmit(
+-	struct adapter *padapter, struct xmit_frame *pxmitframe
+-)
 -{
--	switch (variable) {
--	case HW_VAR_CPWM:
--		*val = rtw_read8(padapter, SDIO_LOCAL_BASE | SDIO_REG_HCPWM1_8723B);
--		break;
- 
--	case HW_VAR_FW_PS_STATE:
--		{
--			/* 3. read dword 0x88               driver read fw ps state */
--			*((u16 *)val) = rtw_read16(padapter, 0x88);
--		}
--		break;
--	default:
--		GetHwReg8723B(padapter, variable, val);
--		break;
+-	struct xmit_priv *pxmitpriv;
+-	s32 err;
+-
+-	pxmitframe->attrib.qsel = pxmitframe->attrib.priority;
+-	pxmitpriv = &padapter->xmitpriv;
+-
+-	if (
+-		(pxmitframe->frame_tag == DATA_FRAMETAG) &&
+-		(pxmitframe->attrib.ether_type != 0x0806) &&
+-		(pxmitframe->attrib.ether_type != 0x888e) &&
+-		(pxmitframe->attrib.dhcp_pkt != 1)
+-	) {
+-		if (padapter->mlmepriv.link_detect_info.busy_traffic)
+-			rtw_issue_addbareq_cmd(padapter, pxmitframe);
 -	}
+-
+-	spin_lock_bh(&pxmitpriv->lock);
+-	err = rtw_xmitframe_enqueue(padapter, pxmitframe);
+-	spin_unlock_bh(&pxmitpriv->lock);
+-	if (err) {
+-		rtw_free_xmitframe(pxmitpriv, pxmitframe);
+-
+-		pxmitpriv->tx_drop++;
+-		return true;
+-	}
+-
+-	complete(&pxmitpriv->SdioXmitStart);
+-
+-	return false;
 -}
  
- void SetHwRegWithBuf8723B(struct adapter *padapter, u8 variable, u8 *pbuf, int len)
- {
-diff --git a/drivers/staging/rtl8723bs/include/hal_intf.h b/drivers/staging/rtl8723bs/include/hal_intf.h
-index 51fdbf9fe..b6ceea02a 100644
---- a/drivers/staging/rtl8723bs/include/hal_intf.h
-+++ b/drivers/staging/rtl8723bs/include/hal_intf.h
-@@ -241,7 +241,6 @@ s32 rtw_hal_macid_wakeup(struct adapter *padapter, u32 macid);
- 
- s32 rtw_hal_fill_h2c_cmd(struct adapter *, u8 ElementID, u32 CmdLen, u8 *pCmdBuffer);
- 
--void GetHwReg8723BS(struct adapter *padapter, u8 variable, u8 *val);
- void SetHwRegWithBuf8723B(struct adapter *padapter, u8 variable, u8 *pbuf, int len);
- u8 GetHalDefVar8723BSDIO(struct adapter *Adapter, enum hal_def_variable eVariable, void *pValue);
- void UpdateHalRAMask8723B(struct adapter *padapter, u32 mac_id, u8 rssi_level);
+ /*
+  * Return
+diff --git a/drivers/staging/rtl8723bs/include/rtl8723b_xmit.h b/drivers/staging/rtl8723bs/include/rtl8723b_xmit.h
+index 8d6d6d2b7..157b2a808 100644
+--- a/drivers/staging/rtl8723bs/include/rtl8723b_xmit.h
++++ b/drivers/staging/rtl8723bs/include/rtl8723b_xmit.h
+@@ -409,7 +409,6 @@ u32 rtl8723bs_hal_init(struct adapter *padapter);
+ u32 rtl8723bs_hal_deinit(struct adapter *padapter);
+ s32 rtl8723bs_init_xmit_priv(struct adapter *padapter);
+ void rtl8723bs_free_xmit_priv(struct adapter *padapter);
+-s32 rtl8723bs_hal_xmit(struct adapter *padapter, struct xmit_frame *pxmitframe);
+ s32 rtl8723bs_mgnt_xmit(struct adapter *padapter, struct xmit_frame *pmgntframe);
+ s32 rtl8723bs_xmit_buf_handler(struct adapter *padapter);
+ int rtl8723bs_xmit_thread(void *context);
 -- 
 2.55.0
 
