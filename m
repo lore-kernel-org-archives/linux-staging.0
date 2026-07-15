@@ -1,102 +1,124 @@
-Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 282F93C4563
-	for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 07:45:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1D483C9880;
+	Wed, 15 Jul 2026 08:14:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784101522; cv=none; b=QUoICJSYs0Yosn3054eKH8UX1dfa90ki9+uVCU5dNPnJRc48e7WSFWXxPIxBiu+m15S+aeG7VNObeCfR6gzwApmQYTS1geSpDO2uUiy8QBuQcPbKbuDqH1EqQj6rJPTJ46SoCDyOCWc5tjBFzEmTHOJLW7hB4v18jBaItiOTRks=
+	t=1784103250; cv=none; b=gPJ7x4YWmA99p3okD5WOYLrpaWUzZKyHsx5IpgdFiJ5VBm/jIkpuVhMHirX7bjWuct2oV7CN6rh6uIajkMPYebDOrAdGLny8OQJrJA9W3y4E7yQmOkyKqvPxVJVfXWQL2mLifh+3k/TNmUYmf7MX3jNmnA0APHoCnPmqEVgnXt0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784101522; c=relaxed/simple;
-	bh=PeiH9douFvc+HxIpB99pE1Gfd5/7tftG+WHI20aKOUQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eKL7bgQ+174s/570WER0MLcdaoD8J750T3PeVvHYOmss2FXOMwD8o7sAve597pU4DBEC2dpTH3pCLRZUgI/3VZU2DWL7qHRtxZmEbVhMn/54pygZuLb3rkoddTbj+nYh2ZAGbXEu4ZhC834mvFZklOpwsxAwuobaEduyiJQuEnM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BBR0prLz; arc=none smtp.client-ip=209.85.161.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784103250; c=relaxed/simple;
+	bh=qQ/xVvLJGYrrm7Z0qUSCTnS7ZyFLoa4WxXZQTCPmQ7U=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=F+sCo6FNwD5ldIM1Okj9hsmQrVm/Zv7BiJu9l5QMNP/VOJ6uTRPEePmv0Mh5ZGJ1iiKQMBVvGHgmhCPrlXfV2YuVtftGuMi7xTGxtlVPSmVSn7htiFu37Ta/1x8Bkbh6QUhAa1jTiRFh5peI1KrBFkyTXkW12jWnn/DPT4eKjac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PwZEzPm/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BBR0prLz"
-Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-6a1888969ddso2955560eaf.3
-        for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 00:45:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784101520; x=1784706320; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=GhO1mJGgjWSe+KMt/J4uIGbAbNcsJnOSgG2JKrf7iyg=;
-        b=BBR0prLz+ST+08KjU+4XLiqMXEifZKQYC36vTw5XY4MLTGWqBRxwTydM5axPhSMKP9
-         mJ2u/Z0UnLYyKH8djecwgFGx3cKzlGMuW7Nna8iw0S9ZB/Ko/ltZKhHtFjtBfHCYZ/tS
-         bRS9PoCXGqy06yjyJyowB/W5d8q4VZnTsvGTHtuHV+YiFkN9bi222DxyFRhJFv9FGL7y
-         mZrXsFoZR1qpFT6DQYJYZe+dBvkmTZvIkM3CV1KwV2PcQVwcl0wccETX74h5HNAoaM2q
-         2MQzSFInJ3BgSjIyyJHJ2wBY8vfjTzuXTlRS0jRfycefJuNwuAGFcZqE0M6+SaHBd2AT
-         rVvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784101520; x=1784706320;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=GhO1mJGgjWSe+KMt/J4uIGbAbNcsJnOSgG2JKrf7iyg=;
-        b=AnmYHWGVeGcRCVsW5gIxPdlKOwTk8VkZ2qoqLZB8kTpuNMyCIQG0ytQeT/uDi2EV6O
-         ls5qGtL9osbbHu+lSSAWPil6zS9G8GEToOm4YYa9HiBU/whzkDNJlZevFUT3QU2Tf9S1
-         3Mpn7808ImDIKlByr2U+IEScTKDSn+cOfuA6CdqnoFYhnBWnRbszRFCEXLdVOi5+jITu
-         aUVPGxT3FUeSQYjINf7fscdEgmqfiFimWRTWQpV9aeoABe9CC94J70W5VYM6vGEqkWdc
-         hltLk2W5EVwVQYJMI8pCK0t0Wml+Oo/YIekw5vJ8X5dXSpHmXOwm48zoaXsOwbLELO7c
-         OF0w==
-X-Forwarded-Encrypted: i=1; AHgh+RroH686L96F8b3lrOLhAkrV0Cy0JrbSjdlNKtoWjXbdjQKsfXHubsbYrKbOCh63gSSqsfy/OxJ7ttPBwLt6@lists.linux.dev
-X-Gm-Message-State: AOJu0YxadDCmdbMUpjK4pbdERQ8ft8TXZV6gVg7+io4xWkVmQxHKkD8v
-	gbkdVRt9IvhITKaTPtLP43BYg90UMpW2G73pKoJ58QS7/pygsI5VYLyl
-X-Gm-Gg: AfdE7clAGEQFbmTEi+smelQgXOak+3serCqFyJ2s0STYrC6p2ppNkFO1IwQbZ/kYF4b
-	rBnRqhiG4Wb1YXad24l/OwRt4tzzj6XvfLrJSkD5HKYEiHHnsDXh27wrEiYUnV3aATFB7K1JxoO
-	Y7FZArGUfQqJMoIToLuiz1v3Y2g3jL/cjryLn1q25KKAsTtKG4dQjuu39aX4JPJXUPAsbQrb5ug
-	L5Oz+uD4zmc9FrKMEUEvKCuEYbdycEMUSA2mCWafwZgHIvCMUoEVNg9rIy6igD6gML8sDcivfuU
-	O+mSDtzUJPyycLEZ7//fox29hODuJvVtY2a6skuADmSpP20lYaxfYrU/2vNZQTRTCt1Q8zSKOAB
-	PYjg0VhkybHjJg8u7+/Cd5Ss2zQutPAjOh563mxw/RmVshUJzj+XlSc40tzGmFnpsOngD6YtpDm
-	C33K1X
-X-Received: by 2002:a05:6820:298f:b0:6a1:fd87:5325 with SMTP id 006d021491bc7-6a3cbae177cmr3271498eaf.19.1784101519915;
-        Wed, 15 Jul 2026 00:45:19 -0700 (PDT)
-Received: from localhost ([74.80.182.78])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7ebcb262da7sm16673556a34.17.2026.07.15.00.45.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2026 00:45:18 -0700 (PDT)
-Date: Wed, 15 Jul 2026 10:45:11 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: William Elder <williamxelder@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] staging: rtl8723bs: remove comparisons to boolean
- literals
-Message-ID: <alc6hzi8Eb8LLRqx@stanley.mountain>
-References: <2026070738-usual-rinse-7c52@gregkh>
- <20260714210843.72848-1-williamxelder@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PwZEzPm/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 268431F000E9;
+	Wed, 15 Jul 2026 08:14:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1784103248;
+	bh=rMmHpW/WUR/bosNEJKxuvYuEM+okoRuwMkzlwbtjFlU=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To;
+	b=PwZEzPm/9U/BTRwZkwCz8QyeS/Pzz42AjXaA2ykrifnw7Z2FiZorbfFAxg5khWk7N
+	 5GWIqv4y3MN8wGeyAaA7qCEQ68jjfNfdQDDS5w7rf75qwvuyL/DVXsTpaCdDPWZF20
+	 Jpw7Hurcain+v28pDAjOeyXMobNnQqhIkpEyk9oeltJv3OuXoCWBYkOVzeVcTKg9Mm
+	 Tz0RP+Pu7Y7xjW3NpqhS4dG76lK2uXinlUhMfWrmSycEop/8V7v5uDqcnyB3DOyynL
+	 gpyzq9WmieVR36IaFAl8bMb3Bb4rzUsWoqnUIirwf24KyLg9ClgXrTonieLeiDQUzd
+	 5YI9jvs84JG2g==
+Message-ID: <4a9b9842-8d51-4ddc-9b24-b69440091345@kernel.org>
+Date: Wed, 15 Jul 2026 10:14:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260714210843.72848-1-williamxelder@gmail.com>
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Subject: Re: [PATCH] media: av7110: refactor deeply nested PTS loops
+To: =?UTF-8?Q?Andr=C3=A9_Moreira?= <andrem.33333@gmail.com>,
+ mchehab@kernel.org, gregkh@linuxfoundation.org
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20260620054654.122464-1-andrem.33333@gmail.com>
+Content-Language: en-US, nl
+In-Reply-To: <20260620054654.122464-1-andrem.33333@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jul 14, 2026 at 03:08:43PM -0600, William Elder wrote:
-> Remove comparisons to true and false as they are error prone.
-> Use the idiomatic C forms instead. Removed a stray blank line
-
-Don't mix "Removed a stray blank line" into unrelated changes.
-
+On 20/06/2026 07:46, André Moreira wrote:
+> Extract the deeply nested loops handling PTS flags in the MPEG-1
+> block into a separate helper function `av7110_ipack_m1_pts()`.
 > 
-> Signed-off-by: William Elder <williamxelder@gmail.com>
+> This fixes a checkpatch warning regarding too many leading tabs and
+> improves code readability without changing the underlying parser logic.
+> 
+> Signed-off-by: André Moreira <andrem.33333@gmail.com>
 > ---
+>  drivers/staging/media/av7110/av7110_ipack.c | 35 +++++++++++----------
+>  1 file changed, 18 insertions(+), 17 deletions(-)
 > 
-> v4: Per Greg's request, included all patch revisions and moved the
-> version notes below the --- line
-> v3: Fix inverted logic for ht_option checks
-> v2: No changes, resent v1 as a mistake
-> v1: Fix redundant boolean comparisons and introduce inverted logic on false conditions and removed a stray blank line
+> diff --git a/drivers/staging/media/av7110/av7110_ipack.c b/drivers/staging/media/av7110/av7110_ipack.c
+> index 4be6e225f08e8..a3e69a737e97d 100644
+> --- a/drivers/staging/media/av7110/av7110_ipack.c
+> +++ b/drivers/staging/media/av7110/av7110_ipack.c
+> @@ -136,6 +136,22 @@ static void write_ipack(struct ipack *p, const u8 *data, int count)
+>  	}
+>  }
+>  
+> +static int av7110_ipack_m1_pts(struct ipack *p, const u8 *buf,
+> +			       int c, int count, int max_which)
+> +{
+> +	while (c < count && p->which < max_which) {
+> +		if (p->which < 7)
+> +			p->pts[p->which - 2] = buf[c];
+> +
+> +		write_ipack(p, buf + c, 1);
+> +		c++;
+> +		p->found++;
+> +		p->which++;
+> +		p->hlength++;
+> +	}
+> +	return c;
+> +}
+> +
+>  int av7110_ipack_instant_repack(const u8 *buf, int count, struct ipack *p)
+>  {
+>  	int l;
+> @@ -335,26 +351,11 @@ int av7110_ipack_instant_repack(const u8 *buf, int count, struct ipack *p)
+>  				return count;
+>  			if (p->which > 2) {
+>  				if ((p->flag2 & PTS_DTS_FLAGS) == PTS_ONLY) {
+> -					while (c < count && p->which < 7) {
+> -						p->pts[p->which - 2] = buf[c];
+> -						write_ipack(p, buf + c, 1);
+> -						c++;
+> -						p->found++;
+> -						p->which++;
+> -						p->hlength++;
+> -					}
+> +					c = av7110_ipack_m1_pts(p, buf, c, count, 7);
+>  					if (c == count)
+>  						return count;
+>  				} else if ((p->flag2 & PTS_DTS_FLAGS) == PTS_DTS) {
+> -					while (c < count && p->which < 12) {
+> -						if (p->which < 7)
+> -							p->pts[p->which - 2] = buf[c];
+> -						write_ipack(p, buf + c, 1);
+> -						c++;
+> -						p->found++;
+> -						p->which++;
+> -						p->hlength++;
+> -					}
+> +					c = av7110_ipack_m1_pts(p, buf, c, count, 12);
+>  					if (c == count)
+>  						return count;
+>  				}
 
-Please work against the latest staging-devel tree.
+Hmm, I think I'll just keep the code as-is. Creating a separate function for this makes
+the repack function actually harder to understand.
 
-regards,
-dan carpenter
+Regards,
 
+	Hans
