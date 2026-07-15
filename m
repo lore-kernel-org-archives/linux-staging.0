@@ -1,71 +1,71 @@
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8559847F2EE
-	for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 12:50:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6D0B480DF5
+	for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 12:50:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784119835; cv=none; b=LNbAazqjy2Sdqw+byAk2WKhxmnpRb53EMqUO5hnXyoZtSbzAsIRgVc0hIS040HKHGrdQpBJNkPpQQdlav0dff8Lq+WjttcrlGBZoDY6VlkXFGyYKel5AW2VcKNr5HqK0oT8XToNFvB4pwqRnhB0st0FwxR1UPAgFibMihl1eURY=
+	t=1784119837; cv=none; b=XXXrdif4taTSYMYfEk0tFvnKlraNIIciVxrux+sK7lSQqLxPJt5boF//Lv5pjKBmthDiWIZycfu6ulRRwnLtKxKOmlN71rIGk1TQ/MQh9rIhNtKgEcEnCIs3T8o1mlU/e5w5crLPmgaADOButXIit8UYsDHh+mcaHMMUAUUAzDM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784119835; c=relaxed/simple;
-	bh=dBVdRgXIWAoyKsj3TPr1oJMnRG77I8qkl71C8ky55BU=;
+	s=arc-20240116; t=1784119837; c=relaxed/simple;
+	bh=im5v7plYnVL19o33g8lyvm2Jq97CV75vKcPw6PmxTKc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=f1ZjD7iht5DZGzVENPSTljzciUFK5dA9ObNoRjvWZ67O2bachcv2WZD1L2lMf9VCNnK83FjLTz86Cx1xCkgq+5+avue8TnOL1f9/iQoS76Duzm+ki4YYM/zitU9k9g5BwKf/gys7YRYqayvUxpcrhfXpQDLx5rpE4lu4jmnF8VI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CFp78UWL; arc=none smtp.client-ip=209.85.208.182
+	 MIME-Version; b=ezFvwkjZYmzETrFE3Rs0AtjQDiVozMP9rMIue8omLvsuppAiga7ZDKonfsdhRCxyrJl6LDZFd+P3q19QU1avNvDAUXgrAdbQcZZw76ESqZfrjst/MuAQx1pO8dddqSyUZ4I2tOKYMgDsGeuGrmtn3jE3nfFMnsGcdV4GzxUBIX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e5s/+pqb; arc=none smtp.client-ip=209.85.208.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CFp78UWL"
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-39c7ce122c7so49411411fa.2
-        for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 05:50:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e5s/+pqb"
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-39c7ac9b8c3so19181141fa.0
+        for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 05:50:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784119831; x=1784724631; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1784119833; x=1784724633; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Iop18RDc/dqM3JoQfcP5lwliQX3WzU3E7lAR8YIGN5A=;
-        b=CFp78UWL0CWmiCbDXHodAYnwgJFxvQpIYebwpTEeiw431oAvnaDAEzaNvPv9zdf74w
-         DYrL7pA/Qt6k2LK4VnZZ6izUjkfyMhu2+55tkQPev5c1o2EfGFTAUG+en0VBjo/tCJ+v
-         prvL7IWJUcJ79XJe9T77rmUpYbQzWzfGALggcTcrImF5GCNR/55TUuG4ukrs72H7u3dc
-         uhRRH4KmtuMZFn4oV/bw9am3cpkgJnTIVk7eqxeC4yaCDcvpxQzneejdxdxSLRiIoApe
-         JWNz/JIJdbY39NfnR8wuFFxiINtApjLtyPCAqADAI0NG+pAXajbVvQgx4MBHWZcdKymz
-         1BKg==
+        bh=N3xnvEidNAcLGJBtkHvj3DBY0GwTLkUJo2iIVQ5ynqM=;
+        b=e5s/+pqbKohCQKrVOOiboJcVyGKTY8XzL+gfHLhbNrsGg0o66We77dHEV3dW1gTgru
+         FYRm9aBjX9tImVF9a7PyFOFYaDqypzKExQ1Jg0kWM6IZ09blgfnW8PHoKcCw+ZJzSjhJ
+         oObGppgJizvI5otGOQEaTYq9D0b4qzuEUn4YJdUwuBIqFIOo0WXcX61kHi6e3EvmIoX+
+         tx0rJzVgVxsbdT3xuqR5YYxTjQUrdDqO4gwydzDKRx8M5luh3UBqyvwlRHliVqWbTe7U
+         S0AfOgkKd1dl2rHP9Uv8JBNMXM3T/WchiFSLe0wgqi/4iMJpbs0hnruZQ4eaTpSY34Uq
+         kWIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784119831; x=1784724631;
+        d=1e100.net; s=20251104; t=1784119833; x=1784724633;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Iop18RDc/dqM3JoQfcP5lwliQX3WzU3E7lAR8YIGN5A=;
-        b=FMtorXIAY9nrOlZ2q4YpIGdNltjlw9PWN+4dYGs5wEyPZlqyg9B0tZzw0IE3X6b3F1
-         /co4qROAOynBgDwsezYi4sqcmyFcgxlAK3nRdWs4o9hPkdluz/FuPEvShQksgbcpZcOI
-         HqbvBz6xL/fNAHnAuuZgUE9xHSothX/JtmW97Doc6yrM2Sdxkegm4py0LghZ7rmPYopu
-         VB00BaP0UaQZW5PMhDQE57UTWarp8xHXQUP07yjjKQ7QlEc8Ofp1YYQSqwpte5VnUkji
-         xsGgv8+S4Iku1mAx+h4lQRQSp0mreA99gDl6lL46OeboQR1W7pBLbZDMt7bmRV8/XAFk
-         sSSQ==
-X-Gm-Message-State: AOJu0YxOd2AqUM2BcNc/xeXZuMFuLkYT6pJFK2oEkw4Io9xGkeZdfaJl
-	gO4K+bAA75kh6GL4JIZ0ntNbT99VZNNTtKbkLifT4JDcwmbolqQ3QXSJ
-X-Gm-Gg: AfdE7cmepGdX8XSUdV3X6vgvYvVR3Z94mgwtB84x1udAJgkb3EQ5Q7o2q0WpYUntalk
-	liJqeER2RPjA+vUKS/mGRW0iqt4mub/5hcg7TXu3gDf+/85ymlDrKQp1RcFk5utGzGvMsXqApRt
-	l65B1TepRaGzPxY3G2xFbdCkKsapjYByNPyZxGucgDB8dWNAUbO3LYQKZfhOm/acIk1igpCE5CY
-	TaWrj7pxTlYpV6Sz36SUPBKNOcSFVrStGSmExETszBehp8uRCdkCZE47nWIsA+3x6aWYQKr86xY
-	SUWW88FqApEZhbaIAyaeTCM9TGLjDumTL8Fq4K4FWIjUKYk6aCQrWkLgygotAYtugleDM3qDO1m
-	2uQ/YC03JcaJ9iZ3C2OhSoHvFVDT9v/iOVQxfm0Hp7i+cFm5W52o42Me3U1OyAN59rQDNz4t35e
-	FAVpFNns+lqahXMk9G2IA6symqkd+C3DaTRsosXT0eJqfjQfA28hRT3O0xZGSD4h1OXOGb2+dTx
-	tSxI/xY0L7Wf4u7TXERrEvY
-X-Received: by 2002:a05:6512:400b:b0:5ae:bade:3d27 with SMTP id 2adb3069b0e04-5b159b87076mr1325021e87.37.1784119831028;
-        Wed, 15 Jul 2026 05:50:31 -0700 (PDT)
+        bh=N3xnvEidNAcLGJBtkHvj3DBY0GwTLkUJo2iIVQ5ynqM=;
+        b=IAdmzECA6c18L6Vr94MYhUNc9pb+sO7WKyd5BeprtAsS1CdO83pUKCoInffOzxFsOF
+         MV5DNCdLvQe/MDgxKnDagWx7vfh6vmTAHwIPm8jQcr095At8mv8cIctoGnyzfN3IvG0P
+         w4ipF2jLUfzSG486EZGWzgJ1ZrUpq1U60n06wFS/zgIuxcGr83/pj1LbZ6a8F4mo08VZ
+         gqMQTBYjXmEny/bsTIoE46wiC2YehgEDSJAeHXHFH7uu+WN6C194kZWI3WSo/zxL/Via
+         v02aWsrSD5fVRimV7tenXyjxjoNFoJqsXgKXszviB5OY0LQfpODICzjzPUeplzpZyCXG
+         7ESA==
+X-Gm-Message-State: AOJu0YydVG3waOtK2HUJBx/AJJeFoRSh8d80cjEMDQswB3FdEsO1Q/8L
+	MSEM84i++tEDemX2i/OvLnw4wyTQ4CJyjOVJWRsneJI1lQ7+Nosn8K59IdP8IC2WVzE=
+X-Gm-Gg: AfdE7cncfD+S43Z1ciPhqLIWzIJAyAlnePjZHkppGs10Dlk0l+/S0zvNjMnoXq9Nt37
+	TNJnas3ZvRtWTbe1JRTfYftZjHQVnlNavZ+bQQA7EtFXXEiRrqXY8aSHJi0fIZRWjMUjDF1WZ4B
+	D2Id+Js75Qq8h5HP5RCq8UBCH2U78ff3NPu5pkXrCl2pIa5nLrOCBpj0c7sOgczE4MZn2tnURp0
+	k9myNIJgSPihIU6MsbMCX3rfBQTB4It98jcHIGqf8gPZSHYtOUx8qoFgtpXJi6V2MsouFK8OFu6
+	2hGCVm5PUXm55b8RrfTgDPdKinUXD/steZgi1v/9sMiPsdGIJSyJ3pGQlRU6eWO90BVNjLyG5Sh
+	qF6S5E7pKHKk9VH4gFGU/rqp+Y6LU5FrWWbrahzhtLfI9P8BWCDccZAvK8tz9Dnep3PXAwpZsyI
+	eRQEJYy2izXTOfqFMFHaiDiAUQVhATk+z5E0wvvfpIx88U/3Cu9T5gShiu/dJoUuDqn3RP5uql4
+	lUVcMhkgyNvkg==
+X-Received: by 2002:a05:6512:3509:b0:5b0:197b:9811 with SMTP id 2adb3069b0e04-5b0236b6f58mr4393191e87.53.1784119832671;
+        Wed, 15 Jul 2026 05:50:32 -0700 (PDT)
 Received: from archlinux ([94.180.44.28])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b022fac999sm3404042e87.55.2026.07.15.05.50.30
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b022fac999sm3404042e87.55.2026.07.15.05.50.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2026 05:50:30 -0700 (PDT)
+        Wed, 15 Jul 2026 05:50:32 -0700 (PDT)
 From: Arsenii Pashchenko <ulijg308@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	ulijg308@gmail.com
-Subject: [PATCH 20/61] staging: rtl8723bs: sanitize and align efuse read function headers
-Date: Wed, 15 Jul 2026 19:47:48 +0700
-Message-ID: <20260715124829.90290-21-ulijg308@gmail.com>
+Subject: [PATCH 22/61] staging: rtl8723bs: inline single-use init_mlme_default_rate_set
+Date: Wed, 15 Jul 2026 19:47:50 +0700
+Message-ID: <20260715124829.90290-23-ulijg308@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260715124829.90290-1-ulijg308@gmail.com>
 References: <20260715124829.90290-1-ulijg308@gmail.com>
@@ -77,67 +77,86 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix the function headers for rtw_efuse_read_1_byte() and
-rtw_efuse_one_byte_read() to conform with the Linux kernel coding
-style. Place the return type on the same line as the function name,
-collapse arguments into single-line definitions, and drop the obsolete
-trailing comment.
+Remove the init_mlme_default_rate_set() helper function since it has
+only a single call site across the driver.
+
+Inline its rate configuration arrays and memcpy operations directly
+into the initialization routine where it was used. This simplifies
+the MLME initialization path and reduces code clutter.
+
+Clean up the function definition from its source file and remove its
+prototype from the corresponding header file.
 
 Signed-off-by: Arsenii Pashchenko <ulijg308@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_efuse.c | 30 +++-------------------
- 1 file changed, 4 insertions(+), 26 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 34 +++++++++++--------
+ .../staging/rtl8723bs/include/rtw_mlme_ext.h  |  1 -
+ 2 files changed, 20 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-index a40d6eab7..52ec19294 100644
---- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-@@ -25,26 +25,8 @@ rtw_efuse_calculate_word_counts(u8 word_en)
- 	return word_cnts;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index 064c9923d..54690c2fc 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -184,19 +184,6 @@ void init_hw_mlme_ext(struct adapter *padapter)
+ 			   pmlmeext->cur_ch_offset, pmlmeext->cur_bwmode);
  }
  
--/*-----------------------------------------------------------------------------
-- * Function:	rtw_efuse_read_1_byte
-- *
-- * Overview:	Copy from WMAC fot EFUSE read 1 byte.
-- *
-- * Input:       NONE
-- *
-- * Output:      NONE
-- *
-- * Return:      NONE
-- *
-- * Revised History:
-- * When			Who		Remark
-- * 09/23/2008	MHC		Copy from WMAC.
-- *
-- */
--u8
--rtw_efuse_read_1_byte(
--struct adapter *Adapter,
--u16		Address)
-+
-+u8 rtw_efuse_read_1_byte(struct adapter *Adapter, u16 Address)
- {
- 	u8 Bytetemp = {0x00};
- 	u8 temp = {0x00};
-@@ -79,14 +61,10 @@ u16		Address)
- 	} else {
- 		return 0xFF;
- 	}
--} /* rtw_efuse_read_1_byte */
-+}
+-void init_mlme_default_rate_set(struct adapter *padapter)
+-{
+-	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+-
+-	unsigned char mixed_datarate[NumRates] = {_1M_RATE_, _2M_RATE_, _5M_RATE_, _11M_RATE_, _6M_RATE_, _9M_RATE_, _12M_RATE_, _18M_RATE_, _24M_RATE_, _36M_RATE_, _48M_RATE_, _54M_RATE_, 0xff};
+-	unsigned char mixed_basicrate[NumRates] = {_1M_RATE_, _2M_RATE_, _5M_RATE_, _11M_RATE_, _6M_RATE_, _12M_RATE_, _24M_RATE_, 0xff,};
+-	unsigned char supported_mcs_set[16] = {0xff, 0xff, 0x00, 0x00, 0x01, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
+-
+-	memcpy(pmlmeext->datarate, mixed_datarate, NumRates);
+-	memcpy(pmlmeext->basicrate, mixed_basicrate, NumRates);
+-
+-	memcpy(pmlmeext->default_supported_mcs_set, supported_mcs_set, sizeof(pmlmeext->default_supported_mcs_set));
+-}
  
- /*  11/16/2008 MH Read one byte from real Efuse. */
--u8
--rtw_efuse_one_byte_read(
--struct adapter *padapter,
--u16	addr,
--u8	*data)
-+u8 rtw_efuse_one_byte_read(struct adapter *padapter, u16 addr, u8 *data)
+ static void init_mlme_ext_priv_value(struct adapter *padapter)
  {
- 	u32 tmpidx = 0;
- 	u8 bResult;
+@@ -216,7 +203,26 @@ static void init_mlme_ext_priv_value(struct adapter *padapter)
+ 
+ 	pmlmeext->cur_wireless_mode = padapter->registrypriv.wireless_mode;
+ 
+-	init_mlme_default_rate_set(padapter);
++
++	u8 mixed_datarate[NumRates] = {
++		_1M_RATE_, _2M_RATE_, _5M_RATE_, _11M_RATE_, _6M_RATE_,
++		_9M_RATE_, _12M_RATE_, _18M_RATE_, _24M_RATE_, _36M_RATE_,
++		_48M_RATE_, _54M_RATE_, 0xff
++	};
++	u8 mixed_basicrate[NumRates] = {
++		_1M_RATE_, _2M_RATE_, _5M_RATE_, _11M_RATE_, _6M_RATE_,
++		_12M_RATE_, _24M_RATE_, 0xff
++	};
++	u8 supported_mcs_set[16] = {
++		0xff, 0xff, 0x00, 0x0, 0x01, 0x0, 0x0, 0x0, 0x0,
++		0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0
++	};
++
++	memcpy(pmlmeext->datarate, mixed_datarate, NumRates);
++	memcpy(pmlmeext->basicrate, mixed_basicrate, NumRates);
++
++	memcpy(pmlmeext->default_supported_mcs_set, supported_mcs_set,
++		sizeof(pmlmeext->default_supported_mcs_set));
+ 
+ 	pmlmeext->tx_rate = IEEE80211_CCK_RATE_1MB;
+ 	pmlmeext->sitesurvey_res.state = SCAN_DISABLE;
+diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
+index e949f5efd..a850675d5 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
++++ b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
+@@ -418,7 +418,6 @@ struct mlme_ext_priv {
+ 	u8 active_keep_alive_check;
+ };
+ 
+-void init_mlme_default_rate_set(struct adapter *padapter);
+ void init_mlme_ext_priv(struct adapter *padapter);
+ void init_hw_mlme_ext(struct adapter *padapter);
+ void free_mlme_ext_priv(struct mlme_ext_priv *pmlmeext);
 -- 
 2.55.0
 
