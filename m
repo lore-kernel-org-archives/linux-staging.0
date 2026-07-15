@@ -1,71 +1,71 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 648E41624D5
-	for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 12:50:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F1E447F2EE
+	for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 12:50:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784119832; cv=none; b=tI4cpfrbXuVyJS1WloSiODy1QZFOXRibAGjqNyVvlVXb7mByySN7eKaDwCXspxI8huUiCC21JoL3hcwf9Rq75HMsytZHhpj6pqvujTH+wuidtS9E2DSVgX6mTR/RTvV3HuVZBfhKGaM4dVujS7SU99Q/5Ljnvkfo7vIidpgaEKg=
+	t=1784119833; cv=none; b=PkiVh929s7T4Du8BoN9pB0XdMUx1uDC3wdxkgH/sdn+/RqJNcLqJkAO0TXQPyQbNx7WQyASBxjQRjX/OXLWOkdPI/iOAjlzCquKSpLxwDgO03tVySOI2SQ4L3ROw+X9oN0ziCOw1s3DZmU9qRvVd+RdDwfyE4byvQhntrJFpRzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784119832; c=relaxed/simple;
-	bh=W6BRbQosy9+VJxJ2NnAs6tVHo69WH7Dj+Y1Gx+AlapE=;
+	s=arc-20240116; t=1784119833; c=relaxed/simple;
+	bh=PWo8drYNmEl9T8m+e3kEc5tCHU5tvkZBEFlJt3YnZF4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nF6cnuC9bhGzmOkZI/U6FlqB+RKQwBtUVqj4yWb3aB/50S5iKi0wMSxvzSIjCZrfxFkdpxABYUYBzOZ/sb2ivOmgna2QhaKhBtAbkGAiwyBLZO5YTkl6Cv9JoS9v9xMGh/t31Nd6tS0dRKhuPnHPKsdRmAM4n4MUD38DcrBlnGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PL/dTlVH; arc=none smtp.client-ip=209.85.167.52
+	 MIME-Version; b=WIDlrrerOqeWr+QtcWz5g7Ktnc4jrEBtdt/u3Y8W2ldmwmsLPCa+6NAvJIlrkallw6jgkWGeMG+ibYgNH0uXbF365BYF+0XNMBpN7O0yqFGzhuXAMd7Pp64FuGBoV9DVQ5klVjtNGjrln0JS5z/ignvKi5E+0TeYEBTnjKouep8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QOgdSchg; arc=none smtp.client-ip=209.85.167.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PL/dTlVH"
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5b01910b499so1871676e87.0
-        for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 05:50:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QOgdSchg"
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5aeae771c49so6244937e87.3
+        for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 05:50:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784119827; x=1784724627; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1784119828; x=1784724628; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=5PFnaOg+lw5Xf9qwyUTIHf1OlvU0B0nTlj+WhmVz3kE=;
-        b=PL/dTlVHa+njFRY+O0nLwqnOnbNjcCckPKgrwaVGYXXAHUv1xkKWGhxdyX4Gn0eKc2
-         JB9Zepnjqd0q6URtWoE8WK5cY2bd0iIfQ3tWSoI7GryjoqMkwQHJnFSmVlTOWk+0157I
-         HBOc/kx8wYZiCFFBYwr1nzezmKmU3MdvLKcEv5esEYcT9RnRMJAFx5Bte+DLyZMt6ght
-         WaR2MO7czVGDETZbZVwxqU8kzh5QaE9Cuz6OmUrd/mwVj57X1UmsCPEyC88YQA3da+p4
-         VHhAFtgPiG5If/M7WNwt28Q0LeW6xiINMIUL9H+meNwn2gEa5o7uuiNzLYhwwLQzDkwZ
-         ElBA==
+        bh=mo9sFeBPLc9RN2BJhYoa0KVAtXoxfFGVpq2rblM6wTg=;
+        b=QOgdSchgfMxUlUKCjAu4xxlH8n+5LS0eivaeEK5H5IDU6MPRW+AgZcHi1ovYv8txLf
+         ye0RGGLF9A1t0fsEeE6GQALLJkatWNRNkUgKeyotr0MgCjp46g8EwIA4cwcKIS5KgdWw
+         RffAuQA5QSxyM6H5g+7+eYc3krww2NBu44d3iIR370tnaOv+qIxrVCHbZh2r3U1vpHBx
+         xkvRUeIPww6nT23OwMyvZbixL2E0J7GOhltSOOJ8oHumpKEJ4NbOCicE0IYlYQKku2sn
+         RuNKTn2rILpioUbewkSeLqlys9IWi7cfTiFaGCPhxbLoxBaXTYSWJdaoiwcHkQplSEYN
+         +spA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784119827; x=1784724627;
+        d=1e100.net; s=20251104; t=1784119828; x=1784724628;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=5PFnaOg+lw5Xf9qwyUTIHf1OlvU0B0nTlj+WhmVz3kE=;
-        b=VvGF7wyWO/nUZ/66sgIddXOADHp8LLxcdDswEsUxWw8FzotmsTgH6suIUiiOOKdLvj
-         fgMl2YKAvjD6kGx8S8c/hsOmWppyHsDzqVOmVKKu9UcGG2XbemcnNYjVwpQlsNUJ8jpM
-         ycbSrGpKf7PhecET1MeDhiyduAKIEE0CpkeL+u0TQ+CM6yqyfuEBby4lL/iLRpoP/U6r
-         oOW20UdIAaLXB7RJTsm2oyT2GBau2XWh95A/zAZPv33BgFP5ikLpUAkJE72Z++BALoe6
-         GWwnv1NRnA+ZEZ1CyxTAvJVIc5S0T6FsOMkrBPKdBSbXkCFLg6ooDxOiB+Cy3OICTOzJ
-         8JYw==
-X-Gm-Message-State: AOJu0Yy3O6LgnYUl6pRBeAHDORfj088LSFyKWiH2BrsiagX/ewZFTSD1
-	lPtYkZNNq1AV8G2zm5bG6624dlXNQikR0MmzVMUhgbAhU2P0nXjwpdG7
-X-Gm-Gg: AfdE7cmfl6fmh6u12KKktDwPXNk+9IGHR/ML86hm3cYaA+kZs+OORobH5rZYDoDDRHv
-	P30dyJNYgzPIAVqrn3TB6A1+hGUCRuVrWDLeDN3uzoTHVrujRueHLlBgBXvAkoPBUpeWE4CEkBk
-	NhPOt+KsD/BZXl+MRupQion6XbbiVkeIO2BCaj7eOGQHQRbWk0UE0t0R4/UNeZoVthhzvvT3fCJ
-	29S7JPYompJxFf39n3xPXdtEzA19ybpjRdpYqglfcOZJ8Q8/ve5SVHpgN6uYME/T8/p/KWodTpj
-	oPikCM9EkFfkq4BJS71UaZu5Nq58iDgKB9bPeawXWAdoI27N9KN/RenKcWYMDaKVNKC+XyhyM3J
-	q2yWoV1UUT6MjXxo8Tq2FkHPgnvlz5f46QT8ak7wlr4rP8/MShtpcZVBZVdZHVv0Kv71+AuFXJa
-	8OfRzRtJ+QtSq/3AV0Z31krMtZ1OVqPcouORPpgiMoB9SB7Bk70CfXstQ+hhA4C7WZpBzQU9u6j
-	VWIzWsYutsdWQ==
-X-Received: by 2002:a05:6512:68d:b0:5ae:b2d5:202f with SMTP id 2adb3069b0e04-5b02ba1e9a8mr3277797e87.21.1784119827029;
+        bh=mo9sFeBPLc9RN2BJhYoa0KVAtXoxfFGVpq2rblM6wTg=;
+        b=kPWfbcRXIalJXtAkItP1/kkRQLNb1dPtNasE3NylSDkidAM776qbGQCnxGUwb626Uj
+         lszIurv+sEg5MZ+05HnAHCQsNB7eScSluD+PRzCKdsdpQx0yb738ZrEntM1kqwQMHZ6j
+         fztvldD3Qf0bji9oAvWe/FtGlfxdFwKPsEpnHjpPS47IURTiH+2A9LtwZuOL1mS8iM8Z
+         unqn36wanp5lNOQ4HfAHbIeFXpsfWF7ezcKoxpEJcLXawLCGkF/qs01aDisozo6mV21c
+         Ugz/KJ0eY/+dlEw9dnlTQ+MrtHICn8dp4j3QGdY51wDbTXS0uVwXsHIyzKEQLho9iJTR
+         e9HQ==
+X-Gm-Message-State: AOJu0YzCZ2ZDL/96x83TdSUD0C9F1WNxhn04Mp0yzaMIsfFs/pBzQHii
+	JT9xRt55ycOgCc+F+fUTCPgp5/I5A4xIEzopngmziUmdIf4g7xpPsgYCUcwfM/31qtk=
+X-Gm-Gg: AfdE7ck9LYuQFiur5flhna3OI/Pv0cLkfOX6ZUo8Q/8b1V2eZwC6eTjUe/9n9aBRt8E
+	P0tjGpjD76ozy+v3tetJEvGY0a5iYGCTMECzUHXmZMMzM7D10FnRtBvyzHHxTnFgeCEKQ4T7X2O
+	1Zgo1R0BMGG9Zmzr/C/v1rLlkjWizW0xUAyCncYPmRniMa2U3JOY/hLbEJA/HGQllp0D1R+mbSA
+	8nfhzSdk16/rQjk7+UZjmashwrevz46aHpVjPY4F79PWFqN1ny3HYBSnBEHw/LY2w4d0aSomqK1
+	JIiEWwkJAtGdwrsQFl4R9qHn1g5OWAb/lvo/TcxLQIlodE4ItozGYiJ24arQCEFhEPrrmHER2Xm
+	R6uNAPI/JFXUlTktZTZpKwaOB0MKNsFfav21Z7N13MjS71sRjrtF9IGrs9jxCtA9zIqRpJ2WZkh
+	QehqsGuNgeuL5rj4heNro8/F0PrMAogdalUH+jSmGasNw8bp+r1OvP5Q67vJfPd8Y9BdHM5XytS
+	PJ33xJmSDC31A==
+X-Received: by 2002:ac2:4bc5:0:b0:5b0:1eb2:53de with SMTP id 2adb3069b0e04-5b15d7ae06fmr634702e87.44.1784119827818;
         Wed, 15 Jul 2026 05:50:27 -0700 (PDT)
 Received: from archlinux ([94.180.44.28])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b022fac999sm3404042e87.55.2026.07.15.05.50.26
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b022fac999sm3404042e87.55.2026.07.15.05.50.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Jul 2026 05:50:26 -0700 (PDT)
+        Wed, 15 Jul 2026 05:50:27 -0700 (PDT)
 From: Arsenii Pashchenko <ulijg308@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	ulijg308@gmail.com
-Subject: [PATCH 15/61] staging: rtl8723bs: remove unimplemented halbtcoutsrc_GetBtReg helper
-Date: Wed, 15 Jul 2026 19:47:43 +0700
-Message-ID: <20260715124829.90290-16-ulijg308@gmail.com>
+Subject: [PATCH 16/61] staging: rtl8723bs: remove rtw_free_evt_priv wrapper and rename helper
+Date: Wed, 15 Jul 2026 19:47:44 +0700
+Message-ID: <20260715124829.90290-17-ulijg308@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260715124829.90290-1-ulijg308@gmail.com>
 References: <20260715124829.90290-1-ulijg308@gmail.com>
@@ -77,44 +77,59 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove the halbtcoutsrc_GetBtReg() stub function from hal_btcoex.c.
-The function was never fully implemented and simply returned a
-temporary constant value of 0.
+Remove the redundant rtw_free_evt_priv() wrapper function from
+rtw_cmd.c, which did nothing but call _rtw_free_evt_priv().
 
-Clean up the codebase by removing the function definition, its
-associated prototype in the header file, and updating or removing
-its remaining call sites across the driver.
+Simplify the code by renaming the internal _rtw_free_evt_priv()
+helper to rtw_free_evt_priv() and using it everywhere directly. This
+eliminates the useless leading underscore naming and reduces call
+overhead.
+
+Clean up the old wrapper definition, update the function prototype in
+the header file, and adjust all call sites across the driver.
 
 Signed-off-by: Arsenii Pashchenko <ulijg308@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/hal_btcoex.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_cmd.c      | 6 +-----
+ drivers/staging/rtl8723bs/include/cmd_osdep.h | 1 -
+ 2 files changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/hal_btcoex.c b/drivers/staging/rtl8723bs/hal/hal_btcoex.c
-index 195ccc4b7..c66ca6f73 100644
---- a/drivers/staging/rtl8723bs/hal/hal_btcoex.c
-+++ b/drivers/staging/rtl8723bs/hal/hal_btcoex.c
-@@ -729,11 +729,6 @@ static void halbtcoutsrc_SetBtReg(void *pBtcContext, u8 RegType, u32 RegAddr, u3
- 	rtw_hal_fill_h2c_cmd(padapter, 0x67, 4, &(CmdBuffer2[0]));
+diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+index d2c6d48a8..b91182549 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
++++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+@@ -212,7 +212,7 @@ int rtw_init_evt_priv(struct evt_priv *pevtpriv)
+ 	return 0;
  }
  
--static u32 halbtcoutsrc_GetBtReg(void *pBtcContext, u8 RegType, u32 RegAddr)
+-void _rtw_free_evt_priv(struct	evt_priv *pevtpriv)
++void rtw_free_evt_priv(struct	evt_priv *pevtpriv)
+ {
+ 	_cancel_workitem_sync(&pevtpriv->c2h_wk);
+ 	while (pevtpriv->c2h_wk_alive)
+@@ -286,10 +286,6 @@ struct	cmd_obj	*_rtw_dequeue_cmd(struct __queue *queue)
+ 	return obj;
+ }
+ 
+-void rtw_free_evt_priv(struct	evt_priv *pevtpriv)
 -{
--	/* To be implemented. Always return 0 temporarily */
--	return 0;
+-	_rtw_free_evt_priv(pevtpriv);
 -}
  
- static void halbtcoutsrc_FillH2cCmd(void *pBtcContext, u8 elementId, u32 cmdLen, u8 *pCmdBuffer)
+ void rtw_free_cmd_priv(struct	cmd_priv *pcmdpriv)
  {
-@@ -808,7 +803,7 @@ void hal_btcoex_Initialize(void *padapter)
+diff --git a/drivers/staging/rtl8723bs/include/cmd_osdep.h b/drivers/staging/rtl8723bs/include/cmd_osdep.h
+index 91d933d71..2259fe57a 100644
+--- a/drivers/staging/rtl8723bs/include/cmd_osdep.h
++++ b/drivers/staging/rtl8723bs/include/cmd_osdep.h
+@@ -9,7 +9,6 @@
  
- 	pBtCoexist->fBtcGet = halbtcoutsrc_Get;
- 	pBtCoexist->fBtcSet = halbtcoutsrc_Set;
--	pBtCoexist->fBtcGetBtReg = halbtcoutsrc_GetBtReg;
-+	pBtCoexist->fBtcGetBtReg = 0; /*not be implemented*/
- 	pBtCoexist->fBtcSetBtReg = halbtcoutsrc_SetBtReg;
+ int rtw_init_cmd_priv(struct	cmd_priv *pcmdpriv);
+ int rtw_init_evt_priv(struct evt_priv *pevtpriv);
+-extern void _rtw_free_evt_priv(struct	evt_priv *pevtpriv);
+ extern void _rtw_free_cmd_priv(struct	cmd_priv *pcmdpriv);
+ extern struct	cmd_obj	*_rtw_dequeue_cmd(struct __queue *queue);
  
- 	pBtCoexist->boardInfo.singleAntPath = 0;
 -- 
 2.55.0
 
