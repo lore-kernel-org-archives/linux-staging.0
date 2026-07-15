@@ -1,61 +1,61 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79EB5478E42
-	for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 12:50:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44CB147B405
+	for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 12:50:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784119825; cv=none; b=b5xPrLYjmDtNdNUpoeX4hrAxI8qUfa9+TOGBTwdTPGVQ6AE0yA75rVOCAzJLbp3+qVKECsCVh/N8EwZdjZOpDvW2B4uydCtZSul0cRKLN6epp8TZy19v6PPogvvlEIS2TImTIJRjiquCHmv8zFpJVSVEq7gzNH811Xjl08MdaPo=
+	t=1784119826; cv=none; b=K4EstLTLYu2UkgalU0cD/48t/3x/bSNSdQYcNgvi+9yPD9y/McfbneHis1DwhNXjCJW1iHSiV6rvUmTmXR/89JYK4ek1agub5EvqeHeyAHnGFzy4IG7QhzLLddF6nS64tVLbYdmvzkRI1bHrP4usV7KBKe/7BfqiDyAVjP2ARqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784119825; c=relaxed/simple;
-	bh=tOisHDi0phiyzU0vMYb0qTFoiPyLIHuqVUpPm+GYpOA=;
+	s=arc-20240116; t=1784119826; c=relaxed/simple;
+	bh=p5BJJIFOuCH2FQBegzzB8r2HroXxOgZWU9yO98C8Bjg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WWHjNRWAghATxOv8o+IZDDzPR4Ne+FYYJiNP6uzuLyy1efXfRVksuszgC8XzcE9Xt+ezNotwcOUm009r7N4VFrKkGDKqTjW1GtQ5PmfgA7FhLi7ixfW79X7QTghMsTQCE4gN8gvhfEQ8T+l+SlLjCurZ1zs7I+2RnPIxjK8SUTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qWTbYkCs; arc=none smtp.client-ip=209.85.167.45
+	 MIME-Version; b=WdgYBxVfyo+I4I9fagma67xyxDuEB7S8Nr3e7egtOBBzAn4czY7yxpJjKdEoAwa2NcwB33f3SyAyKRbuQFfUXLen05+tLdhve5EoB5AukBhYdUHHIrkBDiGTIYcQ/KjDT7vjyEC/IjsB8Z1p6HyEgKoGTkhz6Z8bh+FHrAViMiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I5Ub1l2L; arc=none smtp.client-ip=209.85.167.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qWTbYkCs"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5b15c6fb864so764600e87.1
-        for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 05:50:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I5Ub1l2L"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5aeba09900bso1548085e87.2
+        for <linux-staging@lists.linux.dev>; Wed, 15 Jul 2026 05:50:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784119821; x=1784724621; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1784119822; x=1784724622; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=gsOYVxFhznZQrT6Z49Uf6QbYafsZoVDekj2J13kqbiM=;
-        b=qWTbYkCssxnqAAbp2+s1Xz82hLaQTKdXMe8K6yolGeFxViWHcWfiUc75sz9zZj+5jC
-         bU9gsYpcimnnuZSqTrKh7JbuVttF71/ik3ws4m6lkGs4SsGNLfEOqTEfpVLGISfkNHku
-         8g/mEZHI0NhrH4uyI1KlYd6cyq8hj4e2xljQRza9oemC8b520n2dWViNtchorjyafrYO
-         a/ptdjFfoJk0Wm9wNpn2ROePZ0IeE00yqtozB1VHEEjtF5/xBgdPnIg8jNX67sM1n3BR
-         lvgS6JKkxfwg73o8SlTlSRVeiNWjIwbkgdTkYb65v/fxWb99rPUZPkPhOl7VVraNf8T3
-         5Qgg==
+        bh=bz/T7W3ofqiKO6uuCg8rzvGuRQTBtkTYjUum+zV4WC4=;
+        b=I5Ub1l2Ls4489rVrHRh8zxznZW0XliE1k07o5hHzl+Eq05MzTm9uBbCDk20cPdJcYA
+         pTp5UflgUT24OsPtm2x7WTrYApbCdG9DvEGSvHRZ/Wcx9OuVGpi/OtivoxHlnjY5RyhH
+         045gttYnwB68NTGIKmhcryaxp31yUSm4rEFylifT+KUDv4LGHls0rCBPtjBUcsxQt9UJ
+         kTPge45acC3MgkE9Asglh+hRggbc2YWoruzvMWzV+vIG8sZriULPo330UlyIAj3+c7X0
+         sE6IeqWDYE0qeyBA8JtIvjerwKweO/Oi6x3zP7ReCoY+T6UCHHsqjtoubIHX7Xaa6esB
+         ddew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784119821; x=1784724621;
+        d=1e100.net; s=20251104; t=1784119822; x=1784724622;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=gsOYVxFhznZQrT6Z49Uf6QbYafsZoVDekj2J13kqbiM=;
-        b=MPyyTLLpmhfG0VVkpV8BTROy8HsB6rDruYEAD2EiWFwqXo4Wv3+wMcwLATllYOdQ7N
-         MCjygu8zwdbtxdyVSY9vAvc40BfnzK1T0LJV3ppr7mS2bCe0nOGWrscCBW/FF6tUEsbU
-         KR8YcinfGtZ3VIsVS4zC6UeXViftj2umQE21wxh0PpXlMquDx7fPJlYPA6f8eVwhQq+Q
-         DAv5UIPM+Q6oFBp9dpg/ZYzUzpZo5lCd1k23Co0tZXUcLqfkyylj/GpMLwyRgnrIGmz4
-         9HwKVfXIl7MamGt6gjS150FUhVkupsNeS++V2WsNe7cslQEJatigmBTEvj0Zu8bHYjvW
-         NeLw==
-X-Gm-Message-State: AOJu0YyILYuYDzJzY7i406o4SXW/gxK+veM86n/3CbP/o4uHzr7I4KUG
-	g8WAF20c/Q8ygXteuqcoL1yAii5iioYl6siR0LQq/fsHELpPJ8EMrVxS
-X-Gm-Gg: AfdE7clLIedGDuQX3V2IF3oLgtno+jU0wvrglF3u+rs1BTjbAzy0G2MqxmcGvwJXtJF
-	47G4S9e6ZtR1GANwqonR4/DCrTWlZoE3s2kN8ALow2XuV8olBzP3DrEx6Em3NCkJzVe4+Rhq+tm
-	5bgPEqGQV+5B/y1Fizi6Kv3O70+TeQuEGo1YE9p21mxk1U+Hc6PxXaaMVFhFR0+BEhTgL3lEmMT
-	soyz6ndns/fh8QcYlrqIeNhHdW4QS6+dpiHiLGufo7ZT7M01uAagyDVD6KkzaUQnwb3H0qjkCSY
-	1cyOiH79zXqxQ9CpKt0KgFwp22maCRy79n7TU476SejjomZvlxFCqZV0LZlc004dXR5X7Bkvqrj
-	KEYI1bQEqtOfk7/vRdT0v6+D1DHih7SW2Gq1RQSjd8G/Mu0QFNs+jNgN/pWVgbdNSrpgdYH5OzS
-	bj1opqlGgZgnQjn+wBT6mbvP7E62hdYBLNrGI7/DglRXuMXsZnHthrXkXGdP6mje23XNs71Ptm6
-	73NWGd4pl0YdA==
-X-Received: by 2002:a05:6512:61d3:20b0:5aa:5ef9:a33 with SMTP id 2adb3069b0e04-5b15d77e547mr473071e87.25.1784119821409;
-        Wed, 15 Jul 2026 05:50:21 -0700 (PDT)
+        bh=bz/T7W3ofqiKO6uuCg8rzvGuRQTBtkTYjUum+zV4WC4=;
+        b=DrfP+Wd6o+uMtpjynjZ9J+erkrY2Kzj3mIHH0swPFWmyrfwUO5lAA9e0LRc7pS2bu0
+         t8VhxDpz8WTMn37Gl0UUvODblG6bdWWiua9DiNdHWZfxeQRcjaJjK3NMOzLOFfBtpi46
+         LhWxzN0NB/8XuUsP5pe06YVvBBeWPwp3Fbmdx3rAHQrngfiT6e+2gbdQg1lbHH9VE9G2
+         bq+mXztxtk+TYXwT3c8HY/GZIoWFX4JxXNCQUgcvOY81Y5gsIhMbyur8P8vujH5Ee1bk
+         4Uz9MyJpUeIUK0sNlVqXIP+Hm03tR2OJYcIWimMG9vjC5p+74Huf1F+80yaKz3i4N6xl
+         UwBQ==
+X-Gm-Message-State: AOJu0Yyjy0O53P5RkQhOVYY3BteAv8/ImtJRBMO1GmxFOMd8INaYvtpW
+	+UJJdcLa3mntEmfUKfyZEnEX9fS2YPuzBpPbJ3y2UDE6FNRlC+EjmfAi
+X-Gm-Gg: AfdE7cket0fNaEUBJDtbCFbN5Ink6ENhRyYn/AbNiGWzndIktmiJfm01VedAjl/6r58
+	pvMaRBXgatKX3hvKbTkDXWHnVhONdXLpKUUK2GGuysxmi/kh+875GFy2PYvZR4BNtsJH/fWvsp0
+	PzGmkloRzD2pmwHULOnnq1qHlgRQDIMr+Msy+q30IIG7BbzdLHce+1UKz+aLGK/ZHBDBINBDsUE
+	A3ZLJ0tPD3BUx2h348Uzl5ksLH/yK9ALqcqR8RIjhwIFn0WvSlPO6UVJn8dy9+fscC2GOU/wRWg
+	hfxsXZ5HN1R+l4gdDXZZgQPoiJyevokPn+qa+wLzvBOEhCtdXF2lv4cqdZrKSxDi5isfMLXGL4u
+	h7KBu6a/MDpPqKR4hptN3fWqxASm7KmZeKzImrC59R7NkOA+tKDB5ra1ZhUBfVpQaUG9KIBKU5C
+	eUNeq5ohJftAOChONo+9nxh72xPvn7Km5siMx+K9t7tKYCOYYB6FD1j8kLc8xmQ8lbH629I5f38
+	ERQ0D+mqa9zmw==
+X-Received: by 2002:ac2:4f09:0:b0:5ae:b764:3b9a with SMTP id 2adb3069b0e04-5b0236b253fmr5070457e87.46.1784119822174;
+        Wed, 15 Jul 2026 05:50:22 -0700 (PDT)
 Received: from archlinux ([94.180.44.28])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b022fac999sm3404042e87.55.2026.07.15.05.50.20
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b022fac999sm3404042e87.55.2026.07.15.05.50.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Wed, 15 Jul 2026 05:50:21 -0700 (PDT)
 From: Arsenii Pashchenko <ulijg308@gmail.com>
@@ -63,9 +63,9 @@ To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	ulijg308@gmail.com
-Subject: [PATCH 08/61] staging: rtl8723bs: remove unused NULL_hdl function
-Date: Wed, 15 Jul 2026 19:47:36 +0700
-Message-ID: <20260715124829.90290-9-ulijg308@gmail.com>
+Subject: [PATCH 09/61] staging: rtl8723bs: remove unused set_csa_hdl function
+Date: Wed, 15 Jul 2026 19:47:37 +0700
+Message-ID: <20260715124829.90290-10-ulijg308@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260715124829.90290-1-ulijg308@gmail.com>
 References: <20260715124829.90290-1-ulijg308@gmail.com>
@@ -77,76 +77,57 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The NULL_hdl() function is completely unused across the entire driver
-and serves as dead code. Remove the redundant function definition and
-its prototype to clean up the codebase and reduce the driver footprint
+The function set_csa_hdl() always returns H2C_REJECTED and is
+not actively used. Replace its handler reference with NULL and
+remove the dead code and its declaration.
 
 Signed-off-by: Arsenii Pashchenko <ulijg308@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_cmd.c         | 12 ++++++------
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c    |  5 +----
- drivers/staging/rtl8723bs/include/rtw_mlme_ext.h |  2 --
- 3 files changed, 7 insertions(+), 12 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_cmd.c         | 2 +-
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c    | 4 ----
+ drivers/staging/rtl8723bs/include/rtw_mlme_ext.h | 1 -
+ 3 files changed, 1 insertion(+), 6 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-index b932670f5..0c8fb2754 100644
+index 0c8fb2754..9f1efbd25 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-@@ -86,12 +86,12 @@ static struct _cmd_callback rtw_cmd_callback[] = {
- };
+@@ -149,7 +149,7 @@ static struct cmd_hdl wlancmds[] = {
+ 	GEN_MLME_EXT_HANDLER(0, h2c_msg_hdl) /*58*/
+ 	GEN_MLME_EXT_HANDLER(sizeof(struct SetChannelPlan_param), set_chplan_hdl) /*59*/
  
- static struct cmd_hdl wlancmds[] = {
--	GEN_DRV_CMD_HANDLER(0, NULL) /*0*/
--	GEN_DRV_CMD_HANDLER(0, NULL)
--	GEN_DRV_CMD_HANDLER(0, NULL)
--	GEN_DRV_CMD_HANDLER(0, NULL)
--	GEN_DRV_CMD_HANDLER(0, NULL)
--	GEN_DRV_CMD_HANDLER(0, NULL)
-+	{0, NULL}, /*0*/
-+	{0, NULL},
-+	{0, NULL},
-+	{0, NULL},
-+	{0, NULL},
-+	{0, NULL},
- 	GEN_MLME_EXT_HANDLER(0, NULL)
- 	GEN_MLME_EXT_HANDLER(0, NULL)
- 	GEN_MLME_EXT_HANDLER(0, NULL)
+-	GEN_MLME_EXT_HANDLER(sizeof(struct SetChannelSwitch_param), set_csa_hdl) /*60*/
++	GEN_MLME_EXT_HANDLER(sizeof(struct SetChannelSwitch_param), NULL) /*60*/
+ 	GEN_MLME_EXT_HANDLER(sizeof(struct TDLSoption_param), tdls_hdl) /*61*/
+ 	GEN_MLME_EXT_HANDLER(0, chk_bmc_sleepq_hdl) /*62*/
+ 	GEN_MLME_EXT_HANDLER(sizeof(struct RunInThread_param), run_in_thread_hdl) /*63*/
 diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index 84283bb22..e1503b054 100644
+index e1503b054..aca6111ff 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -5005,10 +5005,7 @@ void sa_query_timer_hdl(struct timer_list *t)
- 	spin_unlock_bh(&pmlmepriv->lock);
+@@ -5787,10 +5787,6 @@ u8 set_chplan_hdl(struct adapter *padapter, unsigned char *pbuf)
+ 	return	H2C_SUCCESS;
  }
  
--u8 NULL_hdl(struct adapter *padapter, u8 *pbuf)
+-u8 set_csa_hdl(struct adapter *padapter, unsigned char *pbuf)
 -{
--	return H2C_SUCCESS;
+-	return	H2C_REJECTED;
 -}
-+
  
- u8 setopmode_hdl(struct adapter *padapter, u8 *pbuf)
- {
+ /*  TDLS_ESTABLISHED	: write RCR DATA BIT */
+ /*  TDLS_CS_OFF		: go back to the channel linked with AP, terminating channel switch procedure */
 diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-index 578708cb3..0f606357d 100644
+index 0f606357d..a0124eee5 100644
 --- a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
 +++ b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-@@ -628,7 +628,6 @@ u8 read_rfreg_hdl(struct adapter *padapter, u8 *pbuf);
- u8 write_rfreg_hdl(struct adapter *padapter, u8 *pbuf);
- 
- 
--u8 NULL_hdl(struct adapter *padapter, u8 *pbuf);
- u8 join_cmd_hdl(struct adapter *padapter, u8 *pbuf);
- u8 disconnect_hdl(struct adapter *padapter, u8 *pbuf);
- u8 createbss_hdl(struct adapter *padapter, u8 *pbuf);
-@@ -652,7 +651,6 @@ u8 tdls_hdl(struct adapter *padapter, unsigned char *pbuf);
+@@ -646,7 +646,6 @@ u8 chk_bmc_sleepq_hdl(struct adapter *padapter, unsigned char *pbuf);
+ u8 tx_beacon_hdl(struct adapter *padapter, unsigned char *pbuf);
+ u8 set_ch_hdl(struct adapter *padapter, u8 *pbuf);
+ u8 set_chplan_hdl(struct adapter *padapter, unsigned char *pbuf);
+-u8 set_csa_hdl(struct adapter *padapter, unsigned char *pbuf);	/* Kurt: Handling DFS channel switch announcement ie. */
+ u8 tdls_hdl(struct adapter *padapter, unsigned char *pbuf);
  u8 run_in_thread_hdl(struct adapter *padapter, u8 *pbuf);
  
- 
--#define GEN_DRV_CMD_HANDLER(size, cmd)	{size, &cmd ## _hdl},
- #define GEN_MLME_EXT_HANDLER(size, cmd)	{size, cmd},
- 
- struct C2HEvent_Header {
 -- 
 2.55.0
 
