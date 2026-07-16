@@ -1,71 +1,37 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02EBA416135
-	for <linux-staging@lists.linux.dev>; Thu, 16 Jul 2026 10:34:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E62473FDC06;
+	Thu, 16 Jul 2026 11:08:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784198046; cv=none; b=a+okJLJtxK3sILe9U1+OF1TdJdhfBQLibVohRJCJCc7BZTd1oTdHznu0oMOiMp1Zzn2I798u4qmTlaa/jZrox3a2SHmwbtLbL7edqUGF3S3usTExDyH7r0PY1HCN3ivK6WOmrXQ6z0n6Ruij3Ww5vttp/i4iyH/m7N0FbxVApp8=
+	t=1784200117; cv=none; b=J8Emhp8oOKIUGL8bSjqhnugqISxwiWXTy7N0R39G7xqsv78yk0oObi22gf+0QZC6drfjbIJOHjWXHzkM0Vy9AvoqgTUNGcTNaiQ3iOvFyUiUQvkUG2P6pvhiXiyV0SbMBQBpiwU61ZIOs3qt1NPJ1+QT+AeP186KYWS8wtsTQ7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784198046; c=relaxed/simple;
-	bh=WeL9TL4Gt8EdrX6dcZHIjgd7n84sIKeGL8Hj3EMT7zI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=GXu2XzwXFRYZfBBs03EAKORqgkwgM1hjIowYvmkHDGq6ZMSTq4eDb3z72oWOrqTS9eajLxT9lK87bc912c17IUKvN6jlhLdWfsnaFFFCwrgvlcKwdH/+qeEb6RK+rter2NL7gu//i4Kk0hjBH+vjmlF6W3PifR0EysZ5uhGmxM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JsDwvVC7; arc=none smtp.client-ip=209.85.208.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784200117; c=relaxed/simple;
+	bh=x1ZIyVKdr7A/SeoU6wb+U8BSxH8pNQF4hiJSDCyNV7s=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=t2heCD9Wb+KS5cWFKdRt3EZKDItjMz/trtyIcMxPC1UqOyHFaRF4z4aAJk64uOYTUu6RcPCt86sU5eWbQ86Q8R7SjcdbCKOsd3L/xdO3V519jUd8GJ6RHEuKOpwbbO4MrwnVQwd98kfKGeiFcKBQFBuWP7frs9W0APx/ymBZ4Vk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bTj/OcXl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JsDwvVC7"
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-39c9452243cso31720571fa.3
-        for <linux-staging@lists.linux.dev>; Thu, 16 Jul 2026 03:34:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784198043; x=1784802843; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=MlY0iE0nrfg/x1sTa2ofH+RF34ApEkPLdNPs/LgH//E=;
-        b=JsDwvVC7Ejt6KGPnFY3Qv2wgX0ibxFIPPv2IbpEPM5BnnEqNXFJYeefH4gYh1zhsCD
-         p5ymZdl2qRRYel7bK1m2+R4R2D2DSIsED26S2jgzci243LxlEL/IZqoMGGapyY5TpZO9
-         z3A9plnSdn9LP0UTe2pVakk3VI+8tBjRLDhx3owAPezhwQFGd2Lx4zKEAEelXHnODIVP
-         4r6al8rv9FmBC2GAH4KQEDjpwYQA1ZMCpBLKb2uYmSI+Xu8dwla+XMw5JgVuylYvKDnO
-         GuLDufha7xpTQJKlACpYB5/4ootPsmtDqMKNVL8ZvgvHvBO5zxTHZsYuLObUFTrdEjvW
-         Lnew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784198043; x=1784802843;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=MlY0iE0nrfg/x1sTa2ofH+RF34ApEkPLdNPs/LgH//E=;
-        b=o32sAPe8ALIfYmwVRDeg7JWijdLLiG6Gp7MdSV5nXUe05fcyhyvhJE3UT7sdv2kDlA
-         ZIdDeo0VrI3GCvZJ64qjbDOfn4iw1WO5j+E1895RR3lw3Bn8ako6Y9V6gRke48aI4stT
-         vwzjOoUPKXC03HGYqOuNtKfpXockO5xZ6RHAmfD/wMwppyAcq+mAminT3VIlq6sTEYFl
-         5QPOq7yVmB1F3XMxAJ6nSbLLZl86e5PNFj56f/MVOlgM6hkjnELgycjEf/w4Yl+BCQex
-         ZH76MP4kTcxnBikSGa05h24popHUPeF1JIEEoeRvmxKD7FxJqegtDwTIuzfn1zADefmw
-         dLyw==
-X-Gm-Message-State: AOJu0YxoMNBg+luy1tGXS2PFiyb6hGueSRHILHFVgzBDgsBbOJ8LBmC9
-	mh5kyCiRBv27/EgMZ0u6ms8sP4d4ucfrgT5pqcdbSnmekXE8xB3xTE51
-X-Gm-Gg: AfdE7cnwis4yy6xkVp/i5MLirZwHklSpbvXXikpnjv352wjaeN+LKorrgG/7Pz0Yk0P
-	LOAK9ShT60BxLZgU3o6ijBgngMYMpviXD5laZ19i4yGDLe5UjlEIB98YbmxnNLguqZnFkQENZMu
-	Q3N3jA1wVqOPLk2jT63wWBDASkV6VWv+EsY2xosCkPhaHIKxWBvj35uJHD8zrT7UfB+w8e1M5Or
-	NOZsb2qyQCPY96uDIMWVRgaqMHSDE/XhjoKsqYsdYvwc80aw+Jz/wbcO7wVKodgSDmWEjoxdbVc
-	3Hs6ytH+aK2uf1JHedWvNpx8SFV9gUObQTECvgrEOcMcIgHR0l1dTL2lt5W5sMDvpCYSCkK1EGk
-	uAuJtNTGBeGi8t8gdWG0Bc8BldlEfR4a/sa0Z7vVhfsdCPfIuIiMCghyJMltBbGs4WyTATShvRg
-	dyLxY4XkGLrF2eMd5PHwEMrsMedL5W+Cd/lRAnDtQQQ9pOu5iseqvd1nxbuALrW16uTcPj2Ymvv
-	BRI1qrMZhP9
-X-Received: by 2002:a2e:3c0c:0:b0:39b:3018:fbb5 with SMTP id 38308e7fff4ca-39caa8af9cbmr30966761fa.26.1784198042835;
-        Thu, 16 Jul 2026 03:34:02 -0700 (PDT)
-Received: from archlinux ([94.180.44.28])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-39c84b1be8bsm46612611fa.17.2026.07.16.03.34.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jul 2026 03:34:02 -0700 (PDT)
-From: Arsenii Pashchenko <ulijg308@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	ulijg308@gmail.com
-Subject: [PATCH v4] staging: rtl8723bs: remove redundant ReadChipVersion8723B wrapper
-Date: Thu, 16 Jul 2026 17:33:10 +0700
-Message-ID: <20260716-remove-readchipversion8723b-wrapper-v4-1-9493b5f37c31@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bTj/OcXl"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 79F0CC19425;
+	Thu, 16 Jul 2026 11:08:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1784200115;
+	bh=x1ZIyVKdr7A/SeoU6wb+U8BSxH8pNQF4hiJSDCyNV7s=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=bTj/OcXlfSg8X2KjsC7qjq3xzuquWV99Vf7k838VMGZnX2GdEhuYe1F7LXZ1apuAo
+	 In3mQ/la8gi6ijCfs5Uh6ZMzIr34WEmACOua/HCps8O+7hrHivIVIJb7+W/ViQGrC0
+	 7rZDqZ36fHqsEs3KVKbSvMwDp5gM13o3J4K7XXCuLnEEUJWQCkZyTcoNx11xhF5VEJ
+	 h0Cx6mTpwqLMU6Smz//kfFcyj5iAdXHnlfZKKBn8pvBaWazqIo4IA99jbk2jEr+KDh
+	 uLZwkQxX4iC9gZdWdSaeo+KJ19g7RvScZLQALc7kEhLXsE5h9rfmFld/wDgRQxe6+t
+	 3yy24k6hbGL2Q==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69F41C4450E;
+	Thu, 16 Jul 2026 11:08:35 +0000 (UTC)
+From: Selby Mashiki via B4 Relay <devnull+mashikiselby.gmail.com@kernel.org>
+Date: Thu, 16 Jul 2026 13:08:33 +0200
+Subject: [PATCH] staging: fbtft: fb_ra8875: replace udelay with
+ usleep_range
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -73,43 +39,73 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-X-Change-ID: 20260716-remove-readchipversion8723b-wrapper-16b9d8f2aaed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260716-staging-testing-v1-1-2ebc0c6bb27a@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMzQqCIRCF4VuRWX+CY2DRrUQLfyabFhaORSDee
+ 9q3OjyL83YQqkwCZ9Wh0oeFn2UCNwXx7ksmzWkarLHOHNFpaT5zybqRtLUBwwmTOySTEObrVen
+ G33/xct0t7/Cg2FYGxvgB5ulh2HMAAAA=
+X-Change-ID: 20260716-staging-testing-b1b81d63d0d1
+To: Andy Shevchenko <andy@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Selby Mashiki <mashikiselby@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1784200113; l=1339;
+ i=mashikiselby@gmail.com; s=20260716; h=from:subject:message-id;
+ bh=Kw+oD1A3+MZuZjRR0K6KD78XW22TnMscyBb1Nk+0T4w=;
+ b=+XPtQJi1tekVKGVbfuhRY+B22fbiiusYW8TIqcCqQ4iPZ2931p+OWTAgL0WeT9DfelBFQd/9T
+ PeId6DNZnE7BgpJEDPyRCWLDoFaoaVkKJyNgYYFevuEBf03PbzXTZ28
+X-Developer-Key: i=mashikiselby@gmail.com; a=ed25519;
+ pk=pdu1PfyliHcDzX9YL6q+8PseyTQ5vDHYAsHmrqMp/BQ=
+X-Endpoint-Received: by B4 Relay for mashikiselby@gmail.com/20260716 with
+ auth_id=875
+X-Original-From: Selby Mashiki <mashikiselby@gmail.com>
+Reply-To: mashikiselby@gmail.com
 
-Collapse the static CamelCase helper function ReadChipVersion8723B()
-directly into the main rtl8723b_read_chip_version() function.
-This removes unnecessary code nesting and cleans up the CamelCase
-naming violation in a single atomic change.
+From: Selby Mashiki <mashikiselby@gmail.com>
+
+udelay() busy-waits for the specified duration, consuming CPU cycles
+unnecessarily. usleep_range() is preferred for delays that can sleep,
+as it allows the scheduler to run other tasks during the wait.
+
+Replace two instances of udelay(100) with usleep_range(100, 200) to
+use the preferred sleeping delay function.
+
+Signed-off-by: Selby Mashiki <mashikiselby@gmail.com>
+---
+ drivers/staging/fbtft/fb_ra8875.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/fbtft/fb_ra8875.c b/drivers/staging/fbtft/fb_ra8875.c
+index 0ab1de664..d2400bb44 100644
+--- a/drivers/staging/fbtft/fb_ra8875.c
++++ b/drivers/staging/fbtft/fb_ra8875.c
+@@ -210,7 +210,7 @@ static void write_reg8_bus8(struct fbtft_par *par, int len, ...)
+ 	}
+ 	len--;
+ 
+-	udelay(100);
++	usleep_range(100, 200);
+ 
+ 	if (len) {
+ 		buf = (u8 *)par->buf;
+@@ -231,7 +231,7 @@ static void write_reg8_bus8(struct fbtft_par *par, int len, ...)
+ 
+ 	/* restore user spi-speed */
+ 	par->fbtftops.write = fbtft_write_spi;
+-	udelay(100);
++	usleep_range(100, 200);
+ }
+ 
+ static int write_vmem16_bus8(struct fbtft_par *par, size_t offset, size_t len)
 
 ---
-Changes in v4:
-  - Format patch via b4 as suggested by Greg (no code changes). 
-  
-Changes in v3:
-  - Merged the previous 2-patch series into a single patch as suggested
-     by Nikolay. Completely removed the redundant helper instead of
-    renaming it with '__' prefixes.
-
-Changes in v2:
-  - Resent the series due to submission issues with v1 (no code changes).
-
-Signed-off-by: Arsenii Pashchenko <ulijg308@gmail.com>
-
----
-Arsenii Pashchenko (1):
-      staging: rtl8723bs: remove redundant ReadChipVersion8723B wrapper
-
-
----
-base-commit: 4d4ac249a4f992a9c77c5187bb795f1e888d9614
-change-id: 20260716-remove-readchipversion8723b-wrapper-16b9d8f2aaed
+base-commit: 64276d9bfe4d1fdd5cf2636f1065f7ea55c2defb
+change-id: 20260716-staging-testing-b1b81d63d0d1
 
 Best regards,
 --  
-Arsenii Pashchenko <ulijg308@gmail.com>
----
-
----
-
+Selby Mashiki <mashikiselby@gmail.com>
 
 
