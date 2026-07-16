@@ -1,111 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E62473FDC06;
-	Thu, 16 Jul 2026 11:08:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9657A2D0606
+	for <linux-staging@lists.linux.dev>; Thu, 16 Jul 2026 18:37:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784200117; cv=none; b=J8Emhp8oOKIUGL8bSjqhnugqISxwiWXTy7N0R39G7xqsv78yk0oObi22gf+0QZC6drfjbIJOHjWXHzkM0Vy9AvoqgTUNGcTNaiQ3iOvFyUiUQvkUG2P6pvhiXiyV0SbMBQBpiwU61ZIOs3qt1NPJ1+QT+AeP186KYWS8wtsTQ7k=
+	t=1784227051; cv=none; b=To+c/CnTUNxOBzpednusyVf3bUAFRv5uoFe9MfFVLJjH7ivrvDMNmnkd8Vs9HbmtFYF1l79yu1HWmXZIql2CUdCuw+dipctSFkD/8aaHI4fZ/Ud1B6qkNIx+TCrlIA4zIs8mj+k7WAFntEeTxC077kHCibgxhX60uaHth5QP/xY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784200117; c=relaxed/simple;
-	bh=x1ZIyVKdr7A/SeoU6wb+U8BSxH8pNQF4hiJSDCyNV7s=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=t2heCD9Wb+KS5cWFKdRt3EZKDItjMz/trtyIcMxPC1UqOyHFaRF4z4aAJk64uOYTUu6RcPCt86sU5eWbQ86Q8R7SjcdbCKOsd3L/xdO3V519jUd8GJ6RHEuKOpwbbO4MrwnVQwd98kfKGeiFcKBQFBuWP7frs9W0APx/ymBZ4Vk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bTj/OcXl; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1784227051; c=relaxed/simple;
+	bh=Gp+OUefwokWpgHwdunzLQJOrzjxr3nWteQh1SnYFjOs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eImo6kr2gnjTFNh3fvQguCKUhosHLiHEsSDdZ5xFfwyJRIBj26/6wuCcG6ykmJSr9MUgKa1B+lzCev8OkXRslpNS06B/vx+1jzF+TYQcpY2Oazm14Ohi/9sU7z8775TjMxLxEIQFn3UA2cbunx53BWj4gC4edFyuRjYaPVr4rI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dj3kgWQW; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bTj/OcXl"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 79F0CC19425;
-	Thu, 16 Jul 2026 11:08:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1784200115;
-	bh=x1ZIyVKdr7A/SeoU6wb+U8BSxH8pNQF4hiJSDCyNV7s=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=bTj/OcXlfSg8X2KjsC7qjq3xzuquWV99Vf7k838VMGZnX2GdEhuYe1F7LXZ1apuAo
-	 In3mQ/la8gi6ijCfs5Uh6ZMzIr34WEmACOua/HCps8O+7hrHivIVIJb7+W/ViQGrC0
-	 7rZDqZ36fHqsEs3KVKbSvMwDp5gM13o3J4K7XXCuLnEEUJWQCkZyTcoNx11xhF5VEJ
-	 h0Cx6mTpwqLMU6Smz//kfFcyj5iAdXHnlfZKKBn8pvBaWazqIo4IA99jbk2jEr+KDh
-	 uLZwkQxX4iC9gZdWdSaeo+KJ19g7RvScZLQALc7kEhLXsE5h9rfmFld/wDgRQxe6+t
-	 3yy24k6hbGL2Q==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69F41C4450E;
-	Thu, 16 Jul 2026 11:08:35 +0000 (UTC)
-From: Selby Mashiki via B4 Relay <devnull+mashikiselby.gmail.com@kernel.org>
-Date: Thu, 16 Jul 2026 13:08:33 +0200
-Subject: [PATCH] staging: fbtft: fb_ra8875: replace udelay with
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dj3kgWQW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1784227050; x=1815763050;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Gp+OUefwokWpgHwdunzLQJOrzjxr3nWteQh1SnYFjOs=;
+  b=dj3kgWQWygd/PvtZ+dBmNxqqZdoY/c8gnEFJ0tEfdRZbHTOcsQXqalbg
+   ePzCd48MRrgDzqssQk9ld/64kcBn+X6/AcKzH34xJAqJ/eH9WcYVQ+cQZ
+   rmnaZeI34dEsZXEtqvxLxTOaEDg3jIbOk4Mj6CHjiWfVnxLuqK0BBdIeT
+   Hw1RDCO87elg+bXV8iPgIyZDlXJJ+N/pR59qTjINew7dGljFGa0p7Smzz
+   YPt0JzARqSvDUp2Y/TUxb0Nd+riT9XuOln8lcgTh2KfJu0qEmZ/Yl/+dG
+   2VzSH6L4bEahVPD/VSZGA8aKLCpWx9pvmgvL8m7N/EB4m0rd7HdBaZuHw
+   g==;
+X-CSE-ConnectionGUID: ZCiM6YTZTxSSmMk7q/89VQ==
+X-CSE-MsgGUID: gOcLCbLzQXaFTXH3X1W/pg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11848"; a="72432329"
+X-IronPort-AV: E=Sophos;i="6.25,167,1779174000"; 
+   d="scan'208";a="72432329"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2026 11:37:29 -0700
+X-CSE-ConnectionGUID: +TT9WKXMRIuIU+56AVkQqg==
+X-CSE-MsgGUID: iYAGxyBWSnKSCN9dwhK/Tg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,167,1779174000"; 
+   d="scan'208";a="294795210"
+Received: from conormcd-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.245.26])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2026 11:37:28 -0700
+Date: Thu, 16 Jul 2026 21:37:24 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: mashikiselby@gmail.com
+Cc: Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: fbtft: fb_ra8875: replace udelay with
  usleep_range
+Message-ID: <alkk5CVmeEY6org0@ashevche-desk.local>
+References: <20260716-staging-testing-v1-1-2ebc0c6bb27a@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260716-staging-testing-v1-1-2ebc0c6bb27a@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMzQqCIRCF4VuRWX+CY2DRrUQLfyabFhaORSDee
- 9q3OjyL83YQqkwCZ9Wh0oeFn2UCNwXx7ksmzWkarLHOHNFpaT5zybqRtLUBwwmTOySTEObrVen
- G33/xct0t7/Cg2FYGxvgB5ulh2HMAAAA=
-X-Change-ID: 20260716-staging-testing-b1b81d63d0d1
-To: Andy Shevchenko <andy@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Selby Mashiki <mashikiselby@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1784200113; l=1339;
- i=mashikiselby@gmail.com; s=20260716; h=from:subject:message-id;
- bh=Kw+oD1A3+MZuZjRR0K6KD78XW22TnMscyBb1Nk+0T4w=;
- b=+XPtQJi1tekVKGVbfuhRY+B22fbiiusYW8TIqcCqQ4iPZ2931p+OWTAgL0WeT9DfelBFQd/9T
- PeId6DNZnE7BgpJEDPyRCWLDoFaoaVkKJyNgYYFevuEBf03PbzXTZ28
-X-Developer-Key: i=mashikiselby@gmail.com; a=ed25519;
- pk=pdu1PfyliHcDzX9YL6q+8PseyTQ5vDHYAsHmrqMp/BQ=
-X-Endpoint-Received: by B4 Relay for mashikiselby@gmail.com/20260716 with
- auth_id=875
-X-Original-From: Selby Mashiki <mashikiselby@gmail.com>
-Reply-To: mashikiselby@gmail.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260716-staging-testing-v1-1-2ebc0c6bb27a@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-From: Selby Mashiki <mashikiselby@gmail.com>
+On Thu, Jul 16, 2026 at 01:08:33PM +0200, Selby Mashiki via B4 Relay wrote:
 
-udelay() busy-waits for the specified duration, consuming CPU cycles
-unnecessarily. usleep_range() is preferred for delays that can sleep,
-as it allows the scheduler to run other tasks during the wait.
+> udelay() busy-waits for the specified duration, consuming CPU cycles
+> unnecessarily. usleep_range() is preferred for delays that can sleep,
+> as it allows the scheduler to run other tasks during the wait.
+> 
+> Replace two instances of udelay(100) with usleep_range(100, 200) to
+> use the preferred sleeping delay function.
 
-Replace two instances of udelay(100) with usleep_range(100, 200) to
-use the preferred sleeping delay function.
+NAK. Read mailing list archives why.
 
-Signed-off-by: Selby Mashiki <mashikiselby@gmail.com>
----
- drivers/staging/fbtft/fb_ra8875.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/fbtft/fb_ra8875.c b/drivers/staging/fbtft/fb_ra8875.c
-index 0ab1de664..d2400bb44 100644
---- a/drivers/staging/fbtft/fb_ra8875.c
-+++ b/drivers/staging/fbtft/fb_ra8875.c
-@@ -210,7 +210,7 @@ static void write_reg8_bus8(struct fbtft_par *par, int len, ...)
- 	}
- 	len--;
- 
--	udelay(100);
-+	usleep_range(100, 200);
- 
- 	if (len) {
- 		buf = (u8 *)par->buf;
-@@ -231,7 +231,7 @@ static void write_reg8_bus8(struct fbtft_par *par, int len, ...)
- 
- 	/* restore user spi-speed */
- 	par->fbtftops.write = fbtft_write_spi;
--	udelay(100);
-+	usleep_range(100, 200);
- }
- 
- static int write_vmem16_bus8(struct fbtft_par *par, size_t offset, size_t len)
-
----
-base-commit: 64276d9bfe4d1fdd5cf2636f1065f7ea55c2defb
-change-id: 20260716-staging-testing-b1b81d63d0d1
-
-Best regards,
---  
-Selby Mashiki <mashikiselby@gmail.com>
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
