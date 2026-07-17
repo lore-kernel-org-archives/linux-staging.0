@@ -1,68 +1,66 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CCB941F5CB
-	for <linux-staging@lists.linux.dev>; Fri, 17 Jul 2026 14:00:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F18F340A929
+	for <linux-staging@lists.linux.dev>; Fri, 17 Jul 2026 14:04:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784296847; cv=none; b=LZI4G4DENFSl95vU3tejjY+Q0ukljxnC3xi4K2EVkz9/rMGfMo6/Dc/+/8cM0wsAQsnN6g7Ri3jg6x7XyKcc8SUFlOqeVmnPYTDUMixdSdU1xtqaW13gKic+ro6GnWp88n2Y0CC6zEW7UNEhtFQW2Wnn1mqQ4EeFtf3MugZQc8M=
+	t=1784297058; cv=none; b=HKEIquXPC+e222z3Wuxj8AJ2s6gOiHq3sUqA7y5aWPhCzFCezcsDhR9xhBsfJL/+Ahi0KZy0jHRl0GpBylPFxDcYyk5rGnGePt+Mzj3tWWx7QpqcddMYjFDUVQT1AkwVoH75kJjrg7laU3fX+4VG9ItPRUF6v23Kzuk86rNhxR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784296847; c=relaxed/simple;
-	bh=7/Rk+vM5Qs7exWIRyvaiiv6TBmZWHCJJyz7HZuRVCz4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UxjxXOixEujCIPODd/vFArz77+743QW7DqTayluGMAgYHGdHN6J6cLBrLvVWTYWwyDX/CZ7EgMw7r6SDWO8DeNAa8itrKuT3xUX6toAUvAaWvkrf8TCDHyCnUn/Gh+d+dhc+xoglzlReYJjONZMP6KVN8KgK9ytk5CHJUGm+qwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N2O7lTiQ; arc=none smtp.client-ip=209.85.216.53
+	s=arc-20240116; t=1784297058; c=relaxed/simple;
+	bh=Fcrv3ho4a/Bdu9R2pvvayKJ+uqPF2Z6594uTAfjTQmc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XLKa91/ocArlEAeZpWqTKzxiSeljYpMtgXAAJrIx9Dmg5sbh7QmvJ9RAGTekn2mXJ34WexOHDofue9GsjUnENFdWIUWlmrl6BDhV92B1cHiP+vw2vsZd/DlA6SALyoXFU5G8+er8XC3yV4JASxZUTXU2ejlHmo/dNIxqNnNI1Ow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jkxDGaQq; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N2O7lTiQ"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-38dc4553f62so6289724a91.0
-        for <linux-staging@lists.linux.dev>; Fri, 17 Jul 2026 07:00:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jkxDGaQq"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4954aff6088so4042155e9.3
+        for <linux-staging@lists.linux.dev>; Fri, 17 Jul 2026 07:04:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784296843; x=1784901643; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1784297055; x=1784901855; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=sERW7m0hXF74fq7WqPw8YIV8y1X1DG4C9sUANrXDA0Q=;
-        b=N2O7lTiQoCAVMeCT9JqXZJvYZpFV8vi+lWmnsZtN4t1GIANcYszDZsVZZF7FPJjc4e
-         Sqku/1pAOWmh30HX5e+SSjc/3jVzvwOZNu04mucw3A8vrA21Dz8d1x5m2x2HuwrtZ7WM
-         mYesZk6eWsi3Eyid8xuAFbRNE1Ce/DjG2OPGseR8l78FCrwfU66TQAGLx2XbOaPbDwro
-         0TTIfqvVhTm3r4HgaOTyOrH6wzOedLs/RBOGo0p/XXADDt46JCw33DQiuvXxqVK7mAqe
-         lqrvT+ZMNo1lG1COxpz50fhw+FropvI1RextN0Yod4/zlIUfuSZ13b9ucuNIhoS+FmFG
-         NvYA==
+        bh=GpuRFlGheVor4/ei1mKLa9SoZ5o5hzTyVqzO3edNXtc=;
+        b=jkxDGaQq0VnPYYloPq6Wo5ctz5g70xzSJaYtYL53eRCAUfqraFaLjw3272AqxqAP2G
+         uuYn+xlkk0wU/euIDYeGl9/v/fD5xKpJEz/QMyPAzczwSReE2Le/R5nW43vN1JJkgzhN
+         wZBD4x9IZpWr6Ph/K/NCd33wLC0amL86Qj3UudGSLqG8CL6gE1+wX1reVpgoHUpIWZdu
+         Fbf8TNOjV1bYKVQLjoOEk//51ZLclQwnYdHRWmZ+6n2YqpLVXbAhz50On0/NZ8FaNhuZ
+         JE8Cxge/hq+f6eV+efRifgd+kJJoULbHMOpTqxusbtwr57FG/9wbVECVO9xGwnFVOqo2
+         FwJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784296843; x=1784901643;
+        d=1e100.net; s=20251104; t=1784297055; x=1784901855;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=sERW7m0hXF74fq7WqPw8YIV8y1X1DG4C9sUANrXDA0Q=;
-        b=LIl/SksSC5rEm9ne+4ktcwvZnqdN0U/mkYOMxNq7/leq4yPQiPdvocelFfzdpd05Ns
-         vghol6YadJE3y0g/KzniwirxE+n+4MeKXirjBujftl0YGb1WTCjsk6/4ugRqtLplANOs
-         41HmxGYglKT6LFXENxp2tj9ULZ59zQQBeXkYkWtVxd2MGgVo94NLvaNqNpwTTiZ71aQa
-         f7yKPkAHAiugqgdh+IVCPLvr51zCPh2D4maaXpCrMZxB2ydSfUcpsA1T12dNTbWVbA3S
-         jBZHFQpx7s6VndAtuW27vZoVG0yshE2yPq/FIzoj+vLeQIWi13bn7bceV9FTSwPUfpsC
-         Mp/A==
-X-Gm-Message-State: AOJu0YxGnlAuTOARtOIm+LfTKJ9qbn/vP+DFsyvBmgidAwBclMb3zwWf
-	/O28BAE7FgdxLNpUatUrCLe0SS1LYt4cJ9xCx4nrg/Gab7fzyjVYlb03CtfgY4UmPQBd0Q==
-X-Gm-Gg: AfdE7cmTSHGEjPeRHE5XfCjofxhgE1R/Aew8gU2DdCL5DfjNv+dXAQGEdjm1Kh/AH5W
-	vC1YiMiEa6Barb0hz9wQgGY6t8p5RO9XTlYXjotK4KxRRZk6RaLUguNaSwEUCm+GZupmubFIG3c
-	lwjbAM2raeE58lTRsNFL/Z/ZeFrNZxqI/r1SWrwH/raC0yzZA8ZJ/+Y6/lmLqCW25bUtaNc3psK
-	OuwOdesGpr/hcbIADU2hOu0JVRjwvctgkNCicdQqfuUbMBnG5LfrXnVOMxUEUhz+D8mvI1iT4Qu
-	IDDW4GhDtWh/2ofzFAhJQLpFzFRySCHnTxaADX5hTWnsZeMlD8lrtS01nev9ohnweeuudL0ZfOI
-	V8iIIQDDs3aMuy1ryx/cVEfN3zCpNGjsYwsPr1a/nVazHpjRwT1BjGtyroDvkNg3YTsIoLq7IFx
-	PpRw==
-X-Received: by 2002:a17:90b:3bcd:b0:387:e0cb:c8e1 with SMTP id 98e67ed59e1d1-38e4b594dadmr2694700a91.42.1784296843278;
-        Fri, 17 Jul 2026 07:00:43 -0700 (PDT)
-Received: from kerneldev ([152.59.151.166])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3142a20cfe3sm8177746eec.30.2026.07.17.07.00.39
+        bh=GpuRFlGheVor4/ei1mKLa9SoZ5o5hzTyVqzO3edNXtc=;
+        b=KgO+JSruZn2pQFDvLiYRi0VksbWxGYDsYrNWS4qCGFdQO28GuY+Kw1TRF5MKARm6vd
+         S89mX3ckquEO7GrwXzEdgYoy5Adnjaoo67G+k82x6tisBaELw1vdx33mdc1ff20Nwftt
+         dETnhfAgqFdqXwMFITNKDq4mv8L1V3vZu1my7Z3ARha5I8JIy5U6Jaui3FzSi4HAE1Nq
+         0tDY2byZPej8tthp6EyCz3wJooNCY4diCvztZK+w8a5QHKY23yisGyOcAXXX6R+Iv4qB
+         APS/dX39Fvpb78qh2OSHAr0s7T42cHr+Ax2o5vHM8B7/9vnIlN7gxi2vloma+Vu6uCV9
+         T+Rw==
+X-Gm-Message-State: AOJu0YyauQLy7PwHmkPxJovVawhr6Ax03HfzDAC3woGdtsZBYP8j6Y51
+	YqNFHKneyevogvBv6Hgk4oMRAtlYDJspsrMBXdHk7sEUtMfrfOYDW3dI3vzoXkLb0Bw=
+X-Gm-Gg: AfdE7cnU2r0VtMtBauHMg8fzzfsuSns6iBagURYge9RO2M65R6Rtm9Go0v0l+mtsqOj
+	tK4qEPyYE/YQ3PeyBzYffMhWK4zD9rQFkWS+qK4ehBRh1QoVkY69ddAlN5FUlSOFgu2x3PsL3r5
+	CTakY5uQ3sXkilwTIzSrRCl8tOrxQoiHrXMMAEgGq+uu7aCY3DKjbVn7M+iCLLtC6vANqUCl454
+	f+LExQSZ9XJpylTKUbqc4LxqM/g8Cm5p21EEk06mtVgYmD0ppbBO5Hu/DeihOpa/lcst08DPaSe
+	A+bd+Ci5Kk264F7HKTdn8mbNxrfn3MyP0ITTDjCY4S6x1RbM4FN//TntAFJoeXUmGFRtYnlhn7K
+	qBY4i77uq1MFQl54upQK+UyStWvgIx1FV2ET8/+25aV0NMbYRY+IXl3rkWVVM92NGQ+6nDFkM
+X-Received: by 2002:a05:600c:524e:b0:495:40aa:d982 with SMTP id 5b1f17b1804b1-4954a3d08e1mr35953085e9.6.1784297054609;
+        Fri, 17 Jul 2026 07:04:14 -0700 (PDT)
+Received: from fedora ([169.224.36.110])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4954a2edda2sm48354915e9.13.2026.07.17.07.04.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jul 2026 07:00:42 -0700 (PDT)
-From: Anirban Bose <boses156@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Anirban Bose <boses156@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: rename Update_RA_Entry to update_ra_entry
-Date: Fri, 17 Jul 2026 19:30:06 +0530
-Message-ID: <20260717140006.2443-1-boses156@gmail.com>
+        Fri, 17 Jul 2026 07:04:14 -0700 (PDT)
+From: Hussien Sajjad Ali <teamakeads@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: gregkh@linuxfoundation.org,
+	Hussien Sajjad Ali <teamakeads@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: fix while loop checkpatch logic in enqueue_reorder_recvframe
+Date: Fri, 17 Jul 2026 17:03:44 +0300
+Message-ID: <20260717140344.16131-1-teamakeads@gmail.com>
 X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -72,80 +70,54 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-I changed the Update_RA_Entry() function to update_ra_entry()
-to fix the camelcase warning by checkpatch, I updated every
-instance it was present and I have checked it successfully
-building the driver with the changes I have done.
+The checkpatch.pl tool reports a warning for using an unnecessary else
+after a return statement. This patch refactors the while loop logic in
+enqueue_reorder_recvframe to remove the unnecessary else block and
+improve code style.
 
-Signed-off-by: Anirban Bose <boses156@gmail.com>
+Signed-off-by: Hussien Sajjad Ali <teamakeads@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_ap.c          | 2 +-
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c    | 2 +-
- drivers/staging/rtl8723bs/core/rtw_wlan_util.c   | 4 ++--
- drivers/staging/rtl8723bs/include/rtw_mlme_ext.h | 2 +-
- 4 files changed, 5 insertions(+), 5 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_recv.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
-index 5731a245c0d9..470be57e651f 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ap.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-@@ -1833,7 +1833,7 @@ void rtw_ap_restore_network(struct adapter *padapter)
+diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
+index 16ec2248b083..915559f64b40 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_recv.c
++++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
+@@ -1763,7 +1763,6 @@ static int check_indicate_seq(struct recv_reorder_ctrl *preorder_ctrl, u16 seq_n
  
- 		if (psta->state & _FW_LINKED) {
- 			rtw_sta_media_status_rpt(padapter, psta, 1);
--			Update_RA_Entry(padapter, psta);
-+			update_ra_entry(padapter, psta);
- 			/* pairwise key */
- 			/* per sta pairwise key and settings */
- 			if ((psecuritypriv->dot11_privacy_algrthm == _TKIP_) ||
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index f5ab94a2d0a0..1e6d995a9ff5 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -4812,7 +4812,7 @@ void mlmeext_sta_add_event_callback(struct adapter *padapter, struct sta_info *p
- 	psta->raid = networktype_to_raid_ex(padapter, psta);
- 
- 	/* rate radaptive */
--	Update_RA_Entry(padapter, psta);
-+	update_ra_entry(padapter, psta);
+ 	return true;
  }
- 
- void mlmeext_sta_del_event_callback(struct adapter *padapter)
-diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-index 8b0502a1881b..e28602d45936 100644
---- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-@@ -1372,7 +1372,7 @@ unsigned char get_highest_rate_idx(u32 mask)
- 	return rate_idx;
- }
- 
--void Update_RA_Entry(struct adapter *padapter, struct sta_info *psta)
-+void update_ra_entry(struct adapter *padapter, struct sta_info *psta)
+-
+ static int enqueue_reorder_recvframe(struct recv_reorder_ctrl *preorder_ctrl, union recv_frame *prframe)
  {
- 	rtw_hal_update_ra_mask(psta, 0);
- }
-@@ -1380,7 +1380,7 @@ void Update_RA_Entry(struct adapter *padapter, struct sta_info *psta)
- void set_sta_rate(struct adapter *padapter, struct sta_info *psta)
- {
- 	/* rate adaptive */
--	Update_RA_Entry(padapter, psta);
-+	update_ra_entry(padapter, psta);
- }
+ 	struct rx_pkt_attrib *pattrib = &prframe->u.hdr.attrib;
+@@ -1782,16 +1781,17 @@ static int enqueue_reorder_recvframe(struct recv_reorder_ctrl *preorder_ctrl, un
+ 		pnextrframe = (union recv_frame *)plist;
+ 		pnextattrib = &pnextrframe->u.hdr.attrib;
  
- static u32 get_realtek_assoc_AP_vender(struct ndis_80211_var_ie *pIE)
-diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-index 0c2bd51b6bc2..19565f119575 100644
---- a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-@@ -503,7 +503,7 @@ int update_sta_support_rate(struct adapter *padapter, u8 *pvar_ie, uint var_ie_l
+-		if (SN_LESS(pnextattrib->seq_num, pattrib->seq_num))
+-			plist = get_next(plist);
+-		else if (SN_EQUAL(pnextattrib->seq_num, pattrib->seq_num))
+-			/* Duplicate entry is found!! Do not insert current entry. */
+-			/* spin_unlock_irqrestore(&ppending_recvframe_queue->lock, irql); */
+-			return false;
+-		else
++		if (!SN_LESS(pnextattrib->seq_num, pattrib->seq_num)) {
++			if (SN_EQUAL(pnextattrib->seq_num, pattrib->seq_num)) {
++				/* Duplicate entry is found!! Do not insert current entry. */
++				/* spin_unlock_irqrestore(&ppending_recvframe_queue->lock, irql); */
++				return false;
++			}
+ 			break;
+-	}
++		}
  
- /* for sta/adhoc mode */
- void update_sta_info(struct adapter *padapter, struct sta_info *psta);
--void Update_RA_Entry(struct adapter *padapter, struct sta_info *psta);
-+void update_ra_entry(struct adapter *padapter, struct sta_info *psta);
- void set_sta_rate(struct adapter *padapter, struct sta_info *psta);
++		plist = get_next(plist);
++	}
+ 	/* spin_lock_irqsave(&ppending_recvframe_queue->lock, irql); */
+ 	/* spin_lock(&ppending_recvframe_queue->lock); */
  
- unsigned int receive_disconnect(struct adapter *padapter, unsigned char *MacAddr, unsigned short reason);
 -- 
 2.55.0
 
