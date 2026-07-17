@@ -1,69 +1,69 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E645C385D6B
-	for <linux-staging@lists.linux.dev>; Fri, 17 Jul 2026 18:54:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF16237E5FB
+	for <linux-staging@lists.linux.dev>; Fri, 17 Jul 2026 18:54:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784314462; cv=none; b=AkYqEBCYpi1GoGcBx8Av8p/fRgsBgd9xLnpqnxIsw6pl8mgvung1eEz8c5eFnzCUGM/ok5tVTqxGWbeS7KbMLiUbALqemlO3gGc8IDg5+xqhRcUsphKC45Dy9wGAd292/9Az4lL4vU9h8rl73HAqi/6m8k0C3fif4EpFgmwzqCQ=
+	t=1784314464; cv=none; b=QlE1KNMfEXYQFLwunMrxPMb9K4rc/T4vVpwtTe8sQbUsEIdWg7PHOsNap8YvIPZOqYX0Mm3GeK8jpUqxTxiQ7rpFOdzsMJp0ymsrWRh5S1/7ssaeBufnW7cMUctj23Zj3ZXgsXmbWNI3Pms8Arxe3p7Iv83vktcxwq0BiEG/As0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784314462; c=relaxed/simple;
-	bh=No2ezKch2todCwkKqAo2TgTLOc21HGeVklQJeHCTXG4=;
+	s=arc-20240116; t=1784314464; c=relaxed/simple;
+	bh=bcmy07aPHKD/vMzTJ6gG12H1lSMsm8ZnYB70z7beDIw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iA+7OiSB0GXITsGT/Bn3Tbx9bXGKBbEYLKNm4lDHLpuEM05n/7UVywMJBHB6AbsHc1xvQ5wLQPAxfWzO98S2Aj8atspg2Ca7zTjNKW9C1Nqc9ycOU7h9wawxnmS1iG9PZtcxl6/5yhpmDaSTVoxM8EZIYxtCbebJkHljUXDdhr0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=imC41GkJ; arc=none smtp.client-ip=209.85.218.44
+	 MIME-Version; b=fYXEulGB9Pn0dfDSmQnA7jd106BKQzvFAAVMpoQxAVX2vRmZNAZhfl/dE1BAeEIjPeK9pEW2BmPLZCzF7ChcK82NWVZrx+jcvcmSEw7NOex973fSj1GA3bD3VwoE1MneZV7NpX1uD26xqWDiaPo35Ff29oeG/L9Wqx1qMqQYBmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AkbZ+ge+; arc=none smtp.client-ip=209.85.218.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="imC41GkJ"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-c16794450aeso415663666b.2
-        for <linux-staging@lists.linux.dev>; Fri, 17 Jul 2026 11:54:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AkbZ+ge+"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-c167bda216fso554835366b.2
+        for <linux-staging@lists.linux.dev>; Fri, 17 Jul 2026 11:54:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784314459; x=1784919259; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1784314461; x=1784919261; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=JTZt8754/e1sxdp8s4voDK7NYM6qmairXeMD5vaXfBg=;
-        b=imC41GkJI1sicGMX7weuCWVVpH0S/LBVyCSpp46txLkQ2z83gcxOKWJ/DkaNROE29i
-         P0+nSLK90znzgEABub0IQCHGUibTQ6F9a55I87AtOzGiUBOLZtJNP+Uf80O1Q+CdtPAw
-         20gruiab/onJfa2jnlo+XiYTl4Gz6Vz2FCB5gOssaSiSyNm6eFVISv9DVNGf68021sXa
-         WxIMPUsysB4cRsKgjcC6SshoFTs7dNO3UC6pebQz/Nb6pLx3HrPoZM21HebKs+VER7JI
-         EPrdX511Y9JuKF6NjRE0JF7oY+C7mkfzJnP9TDZAJqOaTObLaNCiqZZ6lLV/o33OvMwW
-         +lRw==
+        bh=fruDIKtmb8LrryzopEwKTZuEWpqvvfkSG+eKtk7qTjc=;
+        b=AkbZ+ge+Xk4lscwgcUQ/gG1QREwaOYBXFamY5QQsbVDC2HIelRoWkcIDmikskJabcX
+         4Egr7c5yHZgCA0AhRPLQcsSg1/vLm35cShvcvxSW5NhSGjWyGbs0uqqA7gpgQiY6lAJy
+         awoPclhfRuS+ONtb6SGRT+OiUg/6GWp3s2SquOs9E7sHxZZXQ9El63ZVNFNsqmzPitE1
+         Ll6OEclXPacsWyOKL+0296nhs0vIN8bWDy0OVYIFY8PRVyMxVBC0OSVW4NtyNsvRl9SX
+         BfNJiO+xMHrTmv+nazCYh/Q755neADtxwpDrBSjq2OQ4h2wNOhgkbq1k4kSID6xpqT9e
+         weeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784314459; x=1784919259;
+        d=1e100.net; s=20251104; t=1784314461; x=1784919261;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=JTZt8754/e1sxdp8s4voDK7NYM6qmairXeMD5vaXfBg=;
-        b=b2viDqBFqhJpOhCJmwCiFSJomEfR20CgOKpzgX9JUS6+0DNyHu5DK1Y4pfpi1oLAmK
-         0a57nP+X7XXMvGFesvPAMEzQV1NIak+90ucNssyoz7EF6wluAkQIMm6jtNjkwgGBMSGJ
-         PlWNZaki+suzbFHiVVUwv56Ezg9HRRSOJLJq5jKW8Podz5aeRSP2ewFk7IKyOoy+VULj
-         eVtkRTvguQieKbqod/BiD5DGEDVdTc18k4kxVv8q/TuhHo0UrZbdAx5+zkdKZi+bBvPY
-         bLCvHrjV8j0LaWf1fwRiNpfH5f7VcBi50McQQdW8wI0AJXFUQVX5VrKhDxvsMCHd+9lA
-         371w==
-X-Gm-Message-State: AOJu0YySrBfbNPmciKASl2PocTVi1RVl+RyiP0LKGTnrBpfGF0xeLRO/
-	oIoyzf2auCmH4UYCcLBymm3PxvaVjU5xy0Kmc+ZImLHY1ulopjzkcZnI
-X-Gm-Gg: AfdE7ckmmbR8m7ZuEMNnhP5AApQCVoa+5Me0YVTLWHatPKs+fbERVSCEXJ1MGToR3qK
-	fri3QeSYavR/azfLUXMYcEUHZk7te+xNefFehE4ckbPI1OsmuTh7wNB14ijzcBY1+uqbEAWy/ZR
-	jjZ3oBSqvKSraFxAKpN/LzhUAGZjNXFzFrcvQKfi8RiVE/kyekLAnuXwELcBhplFflYPeNbONH9
-	NJ1D+aVlHUbeMFqkJUojKj66JtxgZCu33s5TsGuaZZbA3vHvedBeyB6gCM2wS+/Ir0meslrbYE0
-	ksJiGCWovcTPYSszIHIYX3vkPbig1QNzry+oee7cDZVRPLJv2Ui/Is69eCGXvTEbTEnQyv/q9UI
-	kCEY46TBPgtycsuRNaR4lmFyTaWsI+f35PUab67iqPT24fTlFwacmg9fVhixKZg4a/FpxqFu3ZZ
-	0sh9FMx8onxV4=
-X-Received: by 2002:a17:907:d18:b0:c16:8799:fcb4 with SMTP id a640c23a62f3a-c16b46ab8d1mr185366966b.19.1784314459119;
-        Fri, 17 Jul 2026 11:54:19 -0700 (PDT)
+        bh=fruDIKtmb8LrryzopEwKTZuEWpqvvfkSG+eKtk7qTjc=;
+        b=DiU4BYTMWEfoZDdQDajgPfm5Kr2Y5YyQjzTVkjxevgCbOyoLG6Njy/kAT5KvaGbcSL
+         TmlUoYxddgroGg5r7HXN4VFTcR81R/BqtgU/lfPwM68a5VQ0JeKgzbLUMzl4UlhDdJTX
+         pS2Hjd8AZebfYT4hflOx6hnDnri1hzZWhCEXFIuzaBYhl38esvS0JbW7Fv2Dbj6bKsMO
+         iLSmHciTwCN5oyys5sNInbOueEp0has2rQ/WJ9Z81GKViOjiKQmXaU8PxwvJOzRibZPx
+         FPyJ5Qjf7AOraOLDmYdPqpdOa3f4C9OLOYo7/FAzmBK7uZlmzfVrkrg+jIBufqlBWlpm
+         gf4A==
+X-Gm-Message-State: AOJu0Ywz1kcLPen0VYkPk3LKK3LAFnf68yZ8r1OArHHQ+pKtZIa9rUrl
+	jUFMUw8l0ulfG8EpzQWe6MGhn3x7HvxXTnP/yw4YUcNL16s7iKJZdrGt
+X-Gm-Gg: AfdE7ck4si1jth1Gqu9jJvPEFomDw2QbrTGYk8171O2EDWKpBZz1sI9/ir8Z2k7s7XL
+	NTR2Nj+xCLuieW1FKdVHOAJ2SX28r1j0n0RjnpypNMXK8ZHgVDjH+EHq7kTeZ0i2wbLWS9w4plS
+	YdvwS01l+k1MplQVgODsFhHggseiy9GHTzJYmDnGn9YQJCQ+5QFchMocJ5DgNditSQdiMDK6Cfo
+	/btmuaMJrGdQ2Fgdzce5qFx7gluaD3KQtyL133Sj9KFLCKTDDleSk0XnKsE0R2mg12ssWxEMBw0
+	M4Ji2FeXya3toPpcYBlohv5qqqOkLd7ckQQAYIv87Q+JSCYZ/RfGOw7Zldh5US7H6yNeRsRzkjQ
+	y/3Q/SYndqvUke3y/b8UhCOksdRlT/2+JCbNNhPMlODi1WX76v2nkt/ZmFOswTaR1HfC2bzQx7h
+	uJ
+X-Received: by 2002:a17:906:c115:b0:c12:80a9:d571 with SMTP id a640c23a62f3a-c16b476e6cdmr195147366b.24.1784314461122;
+        Fri, 17 Jul 2026 11:54:21 -0700 (PDT)
 Received: from archlinux ([94.229.19.199])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1712a5f8c5sm118622666b.34.2026.07.17.11.54.17
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1712a5f8c5sm118622666b.34.2026.07.17.11.54.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jul 2026 11:54:18 -0700 (PDT)
+        Fri, 17 Jul 2026 11:54:20 -0700 (PDT)
 From: Nikolay Kulikov <nikolayof23@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	Nikolay Kulikov <nikolayof23@gmail.com>
-Subject: [PATCH 2/9] staging: rtl8723bs: remove unused array MCSTxPowerLevelOriginalOffset
-Date: Fri, 17 Jul 2026 21:52:01 +0300
-Message-ID: <20260717185407.56513-3-nikolayof23@gmail.com>
+Subject: [PATCH 3/9] staging: rtl8723bs: remove unused 'bIQKInitialized ' from hal_com_data
+Date: Fri, 17 Jul 2026 21:52:02 +0300
+Message-ID: <20260717185407.56513-4-nikolayof23@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260717185407.56513-1-nikolayof23@gmail.com>
 References: <20260717185407.56513-1-nikolayof23@gmail.com>
@@ -75,62 +75,43 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove the 'MCSTxPowerLevelOriginalOffset' array and the 'pwrGroupCnt'
-field (which is used as an index for that array), as values are being
-written to it but are no longer used.
+This field is always initialized to 'false' but is never used.
 
 Signed-off-by: Nikolay Kulikov <nikolayof23@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/hal_com_phycfg.c | 13 -------------
- drivers/staging/rtl8723bs/include/hal_data.h   |  4 ----
- 2 files changed, 17 deletions(-)
+ drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 3 ---
+ drivers/staging/rtl8723bs/include/hal_data.h      | 1 -
+ 2 files changed, 4 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
-index f886699104e5..df0eaff4c841 100644
---- a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
-+++ b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
-@@ -329,16 +329,6 @@ static void PHY_StoreTxPowerByRateNew(struct adapter *padapter,	u32 RfPath,
- 	}
- }
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+index 83e05693b5b7..ac4bc18b6f93 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+@@ -1047,12 +1047,9 @@ void rtl8723b_init_default_value(struct adapter *padapter)
  
--static void PHY_StoreTxPowerByRateOld(
--	struct adapter *padapter, u32	RegAddr, u32 BitMask, u32 Data
--)
--{
--	struct hal_com_data	*pHalData = GET_HAL_DATA(padapter);
--	u8	index = PHY_GetRateSectionIndexOfTxPowerByRate(padapter, RegAddr, BitMask);
+ 	/*  init default value */
+ 	pHalData->fw_ractrl = false;
+-	pHalData->bIQKInitialized = false;
+ 	if (!adapter_to_pwrctl(padapter)->bkeepfwalive)
+ 		pHalData->LastHMEBoxNum = 0;
+ 
+-	pHalData->bIQKInitialized = false;
 -
--	pHalData->MCSTxPowerLevelOriginalOffset[pHalData->pwrGroupCnt][index] = Data;
--}
--
- void PHY_InitTxPowerByRate(struct adapter *padapter)
- {
- 	struct hal_com_data	*pHalData = GET_HAL_DATA(padapter);
-@@ -362,9 +352,6 @@ void PHY_StoreTxPowerByRate(
- 
- 	if (pDM_Odm->PhyRegPgVersion > 0)
- 		PHY_StoreTxPowerByRateNew(padapter, RfPath, RegAddr, BitMask, Data);
--	else if (pDM_Odm->PhyRegPgVersion == 0) {
--		PHY_StoreTxPowerByRateOld(padapter, RegAddr, BitMask, Data);
--	}
- }
- 
- static void
+ 	/*  init dm default value */
+ 	pdmpriv->TM_Trigger = 0;/* for IQK */
+ /* 	pdmpriv->binitialized = false; */
 diff --git a/drivers/staging/rtl8723bs/include/hal_data.h b/drivers/staging/rtl8723bs/include/hal_data.h
-index b88ae2eb1072..8b1b61e78fee 100644
+index 8b1b61e78fee..532b1635831d 100644
 --- a/drivers/staging/rtl8723bs/include/hal_data.h
 +++ b/drivers/staging/rtl8723bs/include/hal_data.h
-@@ -198,10 +198,6 @@ struct hal_com_data {
- 	/*  Store the original power by rate value of the base of each rate section of rf path A & B */
- 	u8 TxPwrByRateBase2_4G[MAX_RF_PATH_NUM][MAX_RATE_SECTION_NUM];
+@@ -206,7 +206,6 @@ struct hal_com_data {
+ 	u8 TypeAPA;
+ 	u8 RFEType;
+ 	u8 BoardType;
+-	u8 bIQKInitialized;
+ 	bool		bLCKInProgress;
  
--	/*  Read/write are allow for following hardware information variables */
--	u8 pwrGroupCnt;
--	u32 MCSTxPowerLevelOriginalOffset[MAX_PG_GROUP][16];
--
- 	u8 CrystalCap;
- 
- 	u8 TypeGLNA;
+ 	bool		bSwChnl;
 -- 
 2.55.0
 
