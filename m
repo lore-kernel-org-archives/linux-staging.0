@@ -1,37 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2D413F12EE;
-	Fri, 17 Jul 2026 12:15:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D42F23ACA4B;
+	Fri, 17 Jul 2026 12:15:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784290530; cv=none; b=Cr2kFmK9wdld8W8Lh8VUH+G1r29wNF9vGcIQytpE74ZEdwCNxElFcfsbuhMf3mct03GruRaU/yvn4/P7BPekqGqxky0XA/XvWkd8PTUFb/CQ/tv3RIh2UiC3fKDWdguppIwZLzuCyCVU/PIF1IRUd8vNdNwQlvYFTT9mby8hxIo=
+	t=1784290550; cv=none; b=DToAA0myHO6MUIG7XF1xMhdtMDOsffpGXcPlcrA3tvsHhTndQXJrcNlKbB0hvsDlhCsk3t1O6Kqxq0u3+izT2tCWaaidRR/tdP1FbEsjITQfd0riPQ8dvdVrNy9T/ChaKHN+bSNyHwxebocLjwM9cTS/hB7yaKJfBG2GcB9zF5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784290530; c=relaxed/simple;
-	bh=C6TjuoVAPsgn+X2OIB6hsXxljhktJd7RHFNIO9o8G1c=;
+	s=arc-20240116; t=1784290550; c=relaxed/simple;
+	bh=mpcFaNVK+3RU1N/s/ukAzZKQR/7A5MN/O3J+5Yw08c0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g4EOkS0cfF7oEJgKmhjz+xm4r3J0dKZIDngOAGrIzhE5PSkqDG8LyOlB4ZXKPF+zGBmlOLrmewXc5hr0RarPj9Pzc5wQvxa/vGqW2a264Tb0ZmwQSXslKi3ux+pbFRwZtVEErA36O1e2AIyBEsj6nLTfjx4oe6c9Cjyw1aumT2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Gp7ZwrHg; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Rwhh5x1z2yQB+ZGPdZEiXxwL0xN7/0Cl0JnCZn9dFrLk2V7DslVMMo1eXOX1Dst9+aioSu0HL/duCItVxaUXpLXQ1nCYO/j9cBtdPnkJierTUg6nSUSrpSEnDmRTE0SZChu1YbUhMswoHMpXY6LHFwG2KACXarE0Ht+LVcFweHw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=X3MQidWv; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Gp7ZwrHg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 247E11F000E9;
-	Fri, 17 Jul 2026 12:15:17 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="X3MQidWv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 019FA1F000E9;
+	Fri, 17 Jul 2026 12:15:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1784290518;
-	bh=Vxmb9PzCPg79eQXP+9/yoEeoVh/vzwKATMC3xG08tP4=;
+	s=korg; t=1784290549;
+	bh=aQldS0q4EByQzo1Z0/1iSD0jA8WmXvdMUQPBMBpymhg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Gp7ZwrHghxK0Esc2Ui7SooqK5+fm5a8Xsm2cUYMkV2q+sFiPbIwPtcyh4nsnq7Brn
-	 5MIaln3UPzks1296MAIokmgDhlkzKl2hNqP5CiMkz/y0+cdHH2WwnUS7VomAZ+Haya
-	 Gh7agGkdX3HMKw8ENzSVn44j5h2oULGuaM2fNt5Q=
-Date: Fri, 17 Jul 2026 14:15:11 +0200
+	b=X3MQidWvQ1S/fChM6RHNYJ8dP6SsZ0MYk2NmNJHL4nimVfXn2bfFwgZcigT5+SrsB
+	 8IMcBwmc+0LxKQ/Rt8u5fDqV3s5rKpT2k9uhPi3VX1wvRwc7dql9HLdVf1LAN2J7fN
+	 KTinwln+XwHT6orMHJ1Q38bZ9D3ENRfxQCuByzu8=
+Date: Fri, 17 Jul 2026 14:15:42 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Moksh Panicker <mokshpanicker.7@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org
-Subject: Re: [PATCH v7] staging: rtl8723bs: reformat rtw_efuse_read_1_byte()
- signature
-Message-ID: <2026071700-legume-bleep-dae8@gregkh>
-References: <20260713043448.27132-1-mokshpanicker.7@gmail.com>
+To: Yash Pratap Kulshrestha <pratapyashkulshrestha@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: fix space before tab in
+ HalPhyRf_8723B.c
+Message-ID: <2026071727-jingling-bacteria-51ca@gregkh>
+References: <20260713162020.2478175-1-pratapyashkulshrestha@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,66 +39,44 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260713043448.27132-1-mokshpanicker.7@gmail.com>
+In-Reply-To: <20260713162020.2478175-1-pratapyashkulshrestha@gmail.com>
 
-On Mon, Jul 13, 2026 at 04:34:48AM +0000, Moksh Panicker wrote:
-> Reformat the multi-line function signature to a single line to fix
-> the following checkpatch.pl warning:
+On Mon, Jul 13, 2026 at 09:50:20PM +0530, Yash Pratap Kulshrestha wrote:
+> Remove stray spaces before tabs throughout HalPhyRf_8723B.c,
+> fixing checkpatch.pl warnings. Most of them were comments but
+> some of them were variable declarations with unusual indents
+> having mixed space/tab alignments.
 > 
-> WARNING: function definition argument 'struct adapter *Adapter'
-> should also have an identifier name
-> 
-> Signed-off-by: Moksh Panicker <mokshpanicker.7@gmail.com>
+> Signed-off-by: Yash Pratap Kulshrestha <pratapyashkulshrestha@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/core/rtw_efuse.c | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
+>  .../staging/rtl8723bs/hal/HalPhyRf_8723B.c    | 116 +++++++++---------
+>  1 file changed, 58 insertions(+), 58 deletions(-)
 > 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-> index a0f5b4b7ab39..168ecb7a998f 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-> @@ -41,10 +41,7 @@ rtw_efuse_calculate_word_counts(u8 word_en)
->   * 09/23/2008	MHC		Copy from WMAC.
->   *
->   */
-> -u8
-> -rtw_efuse_read_1_byte(
-> -struct adapter *Adapter,
-> -u16		Address)
-> +u8 rtw_efuse_read_1_byte(struct adapter *Adapter, u16 Address)
->  {
->  	u8 Bytetemp = {0x00};
->  	u8 temp = {0x00};
-> -- 
-> 2.34.1
-> 
-> 
+> diff --git a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
+> index 70b68f473d58..ebebc202971c 100644
+> --- a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
+> +++ b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
+> @@ -354,14 +354,14 @@ static u8 phy_PathA_IQK_8723B(
+>  	/* leave IQK mode */
+>  	PHY_SetBBReg(pDM_Odm->Adapter, rFPGA0_IQK, bMaskH3Bytes, 0x000000);
+>  
+> -	/* 	enable path A PA in TXIQK mode */
+> +	/* enable path A PA in TXIQK mode */
+>  	PHY_SetRFReg(pDM_Odm->Adapter, RF_PATH_A, RF_WE_LUT, 0x80000, 0x1);
+>  	PHY_SetRFReg(pDM_Odm->Adapter, RF_PATH_A, RF_RCK_OS, bRFRegOffsetMask, 0x18000);
+>  	PHY_SetRFReg(pDM_Odm->Adapter, RF_PATH_A, RF_TXPA_G1, bRFRegOffsetMask, 0x0003f);
+>  	PHY_SetRFReg(pDM_Odm->Adapter, RF_PATH_A, RF_TXPA_G2, bRFRegOffsetMask, 0xc7f87);
+> -	/* 	disable path B PA in TXIQK mode */
+> -/* 	PHY_SetRFReg(pDM_Odm->Adapter, RF_PATH_A, 0xed, bRFRegOffsetMask, 0x00020); */
+> -/* 	PHY_SetRFReg(pDM_Odm->Adapter, RF_PATH_A, 0x43, bRFRegOffsetMask, 0x40ec1); */
+> +	/* disable path B PA in TXIQK mode */
+> +/* PHY_SetRFReg(pDM_Odm->Adapter, RF_PATH_A, 0xed, bRFRegOffsetMask, 0x00020); */
+> +/* PHY_SetRFReg(pDM_Odm->Adapter, RF_PATH_A, 0x43, bRFRegOffsetMask, 0x40ec1); */
 
-Hi,
+That doesn't look correct anymore, right?
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+Why keep these lines at all?
 
 thanks,
 
-greg k-h's patch email bot
+greg k-h
