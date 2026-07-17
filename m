@@ -1,136 +1,122 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51F133FBEB8
-	for <linux-staging@lists.linux.dev>; Fri, 17 Jul 2026 12:57:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784293031; cv=pass; b=KcnEE9wCS7J+Qu2xlU1AN0gcILMfOmhEPS+RZSAheAV15kUuUzb5AkzyuXlv6FgdyJ8dzpXswIe+DA4bTsGPNlK85revp91h94BZ9zsmzWicvztQG/d3MP7S48vtsdZ1gmGOFU+JcrKhOVkhosg9LSyDuc2t69A4iYEOxGHkLaY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784293031; c=relaxed/simple;
-	bh=VxRwuygTU9AoUQ0S4EdfU+bCUToEaxOHkB8It6+r9Dc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gaG2AuKJcwrwJ9Uw18jBkiDJJ/b7rio8uYno7yzbzlFZF6jfANG4vPhIzVxizruNwFAsuONBmTh/2HoTEHXwj0dBSzIi/YUEBPM8xC7rvHe/Ud/CD8+o6zVUovEIQYB/+H3C0tpfjqKC8/gcqOGD5gOXdx2tI72r989298BTAoQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bQJi9h1D; arc=pass smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAF773FD129
+	for <linux-staging@lists.linux.dev>; Fri, 17 Jul 2026 13:04:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784293444; cv=none; b=lNMh8HC7mWUmluradxkLx9GxOfzxdjeFxfMvcLrFHz02Lwgx8mND+DVWhGxz2Z4gMa25wzRCwhZ1I8xlX3Inl01SgMvXUZjVKANpRf0t3bsf2U4FAuppsJPBFMvuK4ZugJUWzNrk1udMQY75iyxyzk5/G3AU+nWKlJ8Cudikk3k=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784293444; c=relaxed/simple;
+	bh=Gy6LP6bTRRXFbNIKjCgrGt/GweJLEAumLYk+CZRrsVM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=hORTXwM3aA+F3G3GhpR0F4jJIseHAHG52t3aGlD3gqcm2A3PV8JATXUZ12avO47+giEMQrLbWE4RpXPC0VGS7IBNo1W6H8JFmKBQBKpYqG1UsD6pBf0FtBPc5zcdPsSOakVAsJjUSVeI9VbWEQ00iBIZwn6dOqQFGGYd93cn2H0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K+uZuhjA; arc=none smtp.client-ip=209.85.128.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bQJi9h1D"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c160420289bso1085332266b.0
-        for <linux-staging@lists.linux.dev>; Fri, 17 Jul 2026 05:57:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784293027; cv=none;
-        d=google.com; s=arc-20260327;
-        b=KSXeVqy2H2xgcrJvRMduhJSZIOg935aP40Bkc0wEYLbcSzxTE29/hh6d6LYaBi7yCJ
-         bqATG7I69FaF8fQi2NulLSQBrob59I+QrwkcDPPadrIgEUWOWKCC0Q74legekzh/n4Z+
-         eXlI4GRRct5XGwm1KNqd/BnwAXuo5Bei1JrorpJKEa4rXphKC6+Xsu6I6E0I+f9ws08+
-         hBeoOG6q3FLmXfSsiK44Wht7w7hK3NERvx1E6vJifYxbQCn9K7EICAZmIHbT6ch6rBRw
-         itH5GsRN3yXEjMVfxkn0xKvm1tY3T5+GYuVnFS5kB2WMsdA02t4m4iG+x7xs+Kv1WwQZ
-         /8JA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=svTgFu9s+lNvR0ImLSl7IFWMvijrBYhlNbArZkaFdUY=;
-        fh=ycebxEjTnsNh9MFGfctE6W+/mNEO+K1hUVRqH2OKtks=;
-        b=eyVlIU7eRX1wo3XjDrIKxi+Bwjn70t1aL20gy9OleCCEnYTJF0olEmqrQfm6uSnDJ3
-         pmTRJlxWQoRmrpIT5Zml553oNnnUwlHyZOZJSOesIoigmHzS8EXe0XvE8rB9ITNbqv6J
-         9u1X+an+2JZ9skFGYyB7IzdwZhJxJsA/XOr95N082O0qdg+jm7Vig9NYwdpR12zVQxzj
-         /jfPgHaf4uJeWHP5Vrs9/8z+19tmSL8VfZKLqu5zG8hGJigFlfQWC0ozqVpCrIE6oqWF
-         F+rJeMbL5LEMfVxre18zRhpoR1L7XeyFJPSx5V/Jm4sslBc14CS4SNXG426Cby/4Ai+B
-         LMIQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K+uZuhjA"
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-81ed2a00f12so49130797b3.2
+        for <linux-staging@lists.linux.dev>; Fri, 17 Jul 2026 06:04:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784293027; x=1784897827; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=svTgFu9s+lNvR0ImLSl7IFWMvijrBYhlNbArZkaFdUY=;
-        b=bQJi9h1D+UVWwUeYKa9/C46LqWxTWBMfT0AsPfbPnuPeHa/AQ708WQ/OCjEq7pX52q
-         4ejYYsoMhiC7amO8cv6QEuxQRoV4b4uRj0cjSf5zoLR4Hh9ncR4kX+uvUW9uu0q+krth
-         rV77FgDbD6dz9pyzcd7HVR/RjE5uBPk7bcVISpYAL0UtVkLxIMdS7D1dzTm7QCRJ+OS1
-         sI/FQPWv1O7Xg3zI0V0na8t6jH2H+2UGVvoyGbosB6Rw1iIWMply5B/cO5rXCLMcSNek
-         03DHbI7CR23AqTaOt8B151SKRhQ/VIWDzvCi5iwzZANHDyTG9XRVc1KH3xaFozMGg9l3
-         bUqA==
+        d=gmail.com; s=20251104; t=1784293442; x=1784898242; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=YIFe0KJ7fkUFEDjA2U2ZbKOXvc0zQfi8RIzitq0Adio=;
+        b=K+uZuhjADZaKQDWpjdufYEJX6Wf/xPrBLaEOs9UT1Ve8tblvawlIj8dEGD7L9EqU+p
+         7LH9NdDuuunzCVdYOVeCEt+gYg0tYRJvUfSlt6se8oaFz1H8zFh9L/y1o2yMMmUVSQix
+         86KZzC03gOsEbCt3lpL/FE3Io/eDIfYmHscjSogSSOKCJUAoJRYAKE6YAH0eq4KG99hq
+         fuqymZhn3Q3gNTikHRBedp7giI+mwegvZK5Wk662keR198oigYD0xkZnHRcbmWB43Pk4
+         ReD5IsDFKTDieHvl7/cX+1++/aVj3lZljw6v5/+n85ve3ML8F5K3cdmKSE3DDA9iXyH3
+         kUKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784293027; x=1784897827;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=svTgFu9s+lNvR0ImLSl7IFWMvijrBYhlNbArZkaFdUY=;
-        b=Ojet8f+0y+RvngnWPxoUsPC2lgJLYqmDGtPFhtaSHd6ptuCqM/uOBDl/kFsdnUXcfI
-         ffgjYsFQYx3fV//Zg6oKexpa+xrudIh23HAUGYAuaXEUyL4r3UFhI/BW0qpYpQo1CxmH
-         0zn/j0mhcDxuk9SX2gQvDKdaQOLHJt1yZ6dSEPALrLNP6El7fmUyI/rK8R6pbVgmMK02
-         2XcK71HvNFyh7O+egpGROlCg/mKwlB95S3+8VPkByY5QfWtK9TNQ4RIM39h6sFKJqgUS
-         8kQj6KUpy/cYQ1KtV10mLVbXBKOCxg7zFjizJEe7T9R4/15ancsKYbXOqCaL8oloeB5y
-         Gy/w==
-X-Forwarded-Encrypted: i=1; AHgh+RpCQFA2efe7KjwecAMy4rqPIZDEhL1CuJng0JSTwUQKSoY0F/PMXllxsOIsWqR0aJ2Dth/ceR6dflbOciBJ@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx59FTfLROSZXWowhwkEngXIrAqw+I4b9SWBZE1TQ5hvAwKBoPf
-	20n+QWjjdEtLTfKIoUO88og24s88+9xbcZR5MuhDNSLygcjq9Sh/vri9dzmDUVyHBs/f9lsXD2/
-	Ox8yOiB3qi9qEuEqPOE7So+i52FWz1S4=
-X-Gm-Gg: AfdE7ckIe57/E9CBlNsqy3F506T1VCaxxBv/fyMZ2YRbJFviQh8LNIzZr5JiKcC2FB2
-	REf/IHyjzgAObDaAz1W2SypsGEcmtwJpAPTuLgUUnd0+hPMZS+Jy7rZUx2mUjMF5ExMFTbzbihF
-	pYqsZ0Aesij750t3DZ2945l4DPp7omiTPFWLQ5TvAGiL6+5vqQEmFHcqj9wQhsvs7Z/AWmCzFls
-	RIWrRkllzXixfmyHV0nUiqe2tNj7XyL4qRewvcfG6KPzuGv4tuKcn1yR6zmxEq5Hk6iSb4s453o
-	SCShkORVbayOQoeE/I5hyUaaw0Dlt06WQk4HhpqzaKA8aKS+k3fBHI3C
-X-Received: by 2002:a17:907:72cd:b0:c16:3187:997e with SMTP id
- a640c23a62f3a-c16b46ade61mr99195166b.7.1784293027129; Fri, 17 Jul 2026
- 05:57:07 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1784293442; x=1784898242;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=YIFe0KJ7fkUFEDjA2U2ZbKOXvc0zQfi8RIzitq0Adio=;
+        b=Z7KxwnG4suIp8CT7HY/ypllUU1IgzEtKDyBb6XEjWjWJr9w1WqqSzSDop3vDul5rnT
+         DLPEuM9Q8JNOf6ofGBONhBwfx1BjDb8IJGYLQS4ATKRjhannnabptWrZr0j/rxU8fHD4
+         79GbLJ0Few2S7Iyi5g0GLQKcJ03JPsf6NEbnXjPrQJ5rHxRhAnwywh5RKjxHWJ/fvHlX
+         X8LvabIOblejn6AekNZkHo7aZX4DQn0pD6Hf5bYGdVGXQTltBhhdCMQr3F95O76r5ht5
+         39Fae4zGgqLKiViQyKm/EpUU7Q1yoEmkm0CCs6vTooulBwkesOkx/v7gd1efX4lRzasN
+         8sMQ==
+X-Gm-Message-State: AOJu0YzMLPp8KyqDO/aKhR4Y08gY2KMI4RpXy8yRQDIk8GS1bIxavwdC
+	AtLA2vSmPeUfS+VFW75yKnGCsyN8QWDU/5Y3wk3eJPB50goQNQ0lHIZu
+X-Gm-Gg: AfdE7ckKVpcAVlOkpcib5M7NqH0D1uPs1HWB8lEi3n4TK5kiNDbodsQ0P532QyDdE4b
+	RRMEx3tOtO3X4chI8ArMgoRFxHjvZUhrjAnZVUT9y4yFHBipmqLPJqJ2L+hX/W7BsG57gCFRtN1
+	20QGDox7HeinaeJ7qZEmg6QURZsP3VYhT8LLjocMX7UrLh9gh34FHFhjco3mJzbIxVb9NhhqcoJ
+	8FzyfWkwbPr1QVFkcCUnq22AJ2Ee29xZcpEk2WG+nN9L+G3Agi1LqQkT+CDgZ36oYDyOPdn3KkG
+	c+XzX7tl2698Bmk7qwdk5vxMdqZRcEE0gteCXx0mFkTEgdic3woodi7efJ4oOPAqL6/AlP3XONp
+	QsZ65RobFylg9/5uEn2bhj5OLXu46k7YOBmTjno8J7jBtNawGW4KCsvHmjfrv+/dUoUhk3jPqth
+	oFgpk5f7DC1TF013WER5A=
+X-Received: by 2002:a53:a4c8:0:b0:667:a382:baf3 with SMTP id 956f58d0204a3-6683bd4d642mr506910d50.75.1784293441776;
+        Fri, 17 Jul 2026 06:04:01 -0700 (PDT)
+Received: from fedora.taild6b28d.ts.net ([200.55.79.212])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6683b56fbf3sm1281400d50.8.2026.07.17.06.03.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Jul 2026 06:04:00 -0700 (PDT)
+Sender: TheySaidThisWouldntFit <mariano.ignacio.baragiola@gmail.com>
+From: Mariano Baragiola <mbaragiola@linux.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev,
+	Dan Carpenter <error27@gmail.com>
+Subject: [PATCH v2] staging: rtl8723bs: validate monitor transmit frame lengths
+Date: Fri, 17 Jul 2026 10:03:56 -0300
+Message-ID: <20260717130356.2544481-1-mbaragiola@linux.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260715225938.1403192-1-mbaragiola@linux.com>
+References: <20260715225938.1403192-1-mbaragiola@linux.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260710212312.117781-1-meatuni001@gmail.com> <2026071744-unsteady-easter-16ab@gregkh>
-In-Reply-To: <2026071744-unsteady-easter-16ab@gregkh>
-From: Muhammad Bilal <meatuni001@gmail.com>
-Date: Fri, 17 Jul 2026 17:56:54 +0500
-X-Gm-Features: AUfX_myKzWSR5rEYoP3NZQmCokffDes95vQyXBZBa1acuorlTHcHVbko8mUajy8
-Message-ID: <CADqcGB=nEfdZhZj_zkO3+nW3M17XYEM86mSQctG_3h-pjsz-3A@mail.gmail.com>
-Subject: Re: [PATCH] staging: greybus: audio: bound topology parsing to the
- received buffer
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Vaibhav Agarwal <vaibhav.sr@gmail.com>, 
-	Mark Greer <mgreer@animalcreek.com>, Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, 
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jul 17, 2026 at 05:13:00PM +0000, Greg Kroah-Hartman wrote:
-> How was this found, and tested?
+rtw_cfg80211_monitor_if_xmit_entry() removes the radiotap header and
+then reads the 802.11 frame control field without checking that a base
+802.11 header remains.
 
-Found by manual code audit of the topology parsing path in
-drivers/staging/greybus/audio_topology.c.
+The data path also pulls the calculated 802.11, QoS and SNAP header
+span before confirming that the skb contains it. A truncated frame can
+therefore cause out-of-bounds reads or leave insufficient data for the
+Ethernet address writes.
 
-The pattern that caught my attention was in gb_audio_gb_get_topology():
-it reads a u16 size from the module, allocates and fills a buffer of
-that size, but then discards the size and never passes it to the parsing
-functions. The parser then walks the buffer using lengths and counts
-taken from inside the buffer itself (size_dais, size_controls,
-size_widgets, num_controls, num_widgets, num_routes, names_length,
-items) with no bounds checks against the actual allocation size, so
-every one of those walks is an unchecked trust of wire data.
+Reject frames that do not contain the base 802.11 header and data
+frames that do not contain their complete calculated header span.
 
-gb_generate_enum_strings() in particular has an unbounded
-while (*data != '\0') scan with no end pointer, which is the most
-straightforward out-of-bounds read.
+Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
+Signed-off-by: Mariano Baragiola <mbaragiola@linux.com>
+---
+ drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Testing: I verified the patch builds cleanly with
-make M=drivers/staging/greybus on x86_64 (allyesconfig with
-CONFIG_STAGING=y and CONFIG_GREYBUS=m). I do not have Greybus hardware,
-so runtime testing was limited to build verification and manual review
-of the bounds logic.
+diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+index 6a97afd89dc7..bed8192ab44f 100644
+--- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
++++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+@@ -2033,6 +2033,8 @@ static netdev_tx_t rtw_cfg80211_monitor_if_xmit_entry(struct sk_buff *skb, struc
+ 
+ 	/* Skip the ratio tap header */
+ 	skb_pull(skb, rtap_len);
++	if (unlikely(skb->len < dot11_hdr_len))
++		goto fail;
+ 
+ 	dot11_hdr = (struct ieee80211_hdr *)skb->data;
+ 	frame_control = le16_to_cpu(dot11_hdr->frame_control);
+@@ -2045,6 +2047,8 @@ static netdev_tx_t rtw_cfg80211_monitor_if_xmit_entry(struct sk_buff *skb, struc
+ 			qos_len = 2;
+ 		if ((frame_control & 0x0300) == 0x0300)
+ 			dot11_hdr_len += 6;
++		if (unlikely(skb->len < dot11_hdr_len + qos_len + snap_len))
++			goto fail;
+ 
+ 		memcpy(dst_mac_addr, dot11_hdr->addr1, sizeof(dst_mac_addr));
+ 		memcpy(src_mac_addr, dot11_hdr->addr2, sizeof(src_mac_addr));
+-- 
+2.55.0
 
-I confirmed that:
-  - All four block offsets (dai, control, widget, route) are validated
-    as ordered and within the buffer in gbaudio_tplg_process_header().
-  - Each per-element walk in _process_kcontrols(), _process_widgets(),
-    and _process_routes() checks that the element fits before
-    dereferencing.
-  - gb_generate_enum_strings() now has an explicit end pointer and
-    rejects items > names_length.
-  - The gbaudio_control_size() helper centralises the variable-length
-    control size calculation and validates it before use.
-
-Thanks,
-Muhammad Bilal
