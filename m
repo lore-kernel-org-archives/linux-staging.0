@@ -1,69 +1,69 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 388A737E5FB
-	for <linux-staging@lists.linux.dev>; Fri, 17 Jul 2026 18:54:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D743385D6B
+	for <linux-staging@lists.linux.dev>; Fri, 17 Jul 2026 18:54:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784314466; cv=none; b=C9EByG4pTfgP58FqbcaTHKD2dTOq+R+LUTlcZL9/gGHPB9RBf1ZUbeDSUBiJh6IyT3yqcSlbjXHHc0BD2ysGe7xo0rW7bMXZolN2OyLjNrlJmtgw80VNzeq1mWYo5Lj+DBPob+oWL4cfmDK7X4vrQ28mINeKk2Wc0l/CBVb239c=
+	t=1784314469; cv=none; b=l7q6eVvP8nSQF3Nsh5yYiYpbk2hctEM/0HQiw6CQqhR5rW/VODJAUnoBVpwdpMFgcFotS1VE8C9vCNE5O8+MunEwGImmT1IEoDXXstvSB737dK4iKHyYhLowsAfPz0yUwRruINYD3C7zBHJzUsPMzvK2puv32RGHEhXIAM0C6ak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784314466; c=relaxed/simple;
-	bh=AihO/u+2gHTUv0lT26H4iNsuCnzewcwtKV6SKBkOr9c=;
+	s=arc-20240116; t=1784314469; c=relaxed/simple;
+	bh=HCpGBxWFNx9UDdyl3BGNfnsOQ5Ynq8TNKIcCi5LxR/I=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Tns3zrgFvojpFR1KyGeNbN6Re7Yh/9ER+ZYsJBPJtKnJA+hn0iOLykBLRPwuyfKcdoTu+if9YFQ2NOi0SAbeX4VWfFhuR8S4iYaDx+fIJ3slBtnd/43Yjbck6LLjBowliZ9cu5D31oq9ZUmgQqDzKVpZIx4s8iAZtFjqlhZWlkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MgGdlcp+; arc=none smtp.client-ip=209.85.218.43
+	 MIME-Version; b=bZWdgaA0o75ls0FBDFMMBQS/uO/6gWQFh+qJJoSmyPEC8AyNL7jT1+skRscaQMImmQO2LARigzSYwvpvnEm3kT4qctViHGgOfVGSDy7sdLwNXCKwpIj1Pg/h5vu606CweJO16iKk/tLXSjEcLb3uwj4Zg2CV2ymmDR07TT3REis=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PA2fee42; arc=none smtp.client-ip=209.85.218.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MgGdlcp+"
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-c16794450aeso415673866b.2
-        for <linux-staging@lists.linux.dev>; Fri, 17 Jul 2026 11:54:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PA2fee42"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c15cd3fd760so930691666b.2
+        for <linux-staging@lists.linux.dev>; Fri, 17 Jul 2026 11:54:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784314463; x=1784919263; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1784314466; x=1784919266; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=vBd0A16xIYhVRvp8WviqmtFa9SWI6LXYXdyTI54ramE=;
-        b=MgGdlcp+zqQIqMcHehOrat9ECjyLzZAHAaSBg6logOpgzXqyfRXclBZQkkdvm1tnKJ
-         9DBbteQj38EBMcxEWnzyUl8n1zEK0XJ8d8Ki9n++xerMwv8G07FuPeVAMIt2RLkKrdNO
-         GFQIJKBXufwqSNXDqrY1dxOy7AVCn/eZnfGvVgGFI2t4e7tOM1irReiRc4lloXaIx+yK
-         7f9BxmDR1bYNGT55V5o8mf3jp3eQm87jDIpEqrs1WEi5HpoWJkAcNQcas2scbHGgv0pb
-         PXTkBx469Ej6Dvw/Hmsn5Vg2mB3nh9nyBDYVpu3lxgMjs1qmXqxq1JpORh7iD2+xcCxp
-         OhWw==
+        bh=DqIYYaltJSq+0jPirb9KwUNPP9xcvBnDwx536/vKxMQ=;
+        b=PA2fee42zp4Bs17oCavXAi6sh9WtePf0EMa5dqWXr9R5E0MX4yRSsFGYG2NTMNnZQu
+         561GoGViStvF/d5VcEccQXSKb0K7U/un4ymsnjqjckFek23wGf7UaR7oBKPh5GGT1CY1
+         9rmfsCgPakrAK8B9YhJ55HJVxKQQ+t91AQCA0XJM3ZvWmsfg0zBD5ajg/ITcY/y5HZ2I
+         u2/RsfI7GjX2YYvja2HkIyvHT/gM4TV5SCgqsY0J8URSc6pTQyKGhiiEg1/K6wUDkIJu
+         yTkXKoTfdq+jqQgafUhx9DmyZiXf4l9v/M2z4iFy0XN/1y2H1tIbrHwcZctiNAp5MGvC
+         f6Sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784314463; x=1784919263;
+        d=1e100.net; s=20251104; t=1784314466; x=1784919266;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=vBd0A16xIYhVRvp8WviqmtFa9SWI6LXYXdyTI54ramE=;
-        b=LnY4x4bVzqA7/8CSWwCAnoHQBeELXIROJ6Fkwi95izXJb+ctCMyomUZ0zEgRPdp7uM
-         gL8DYo8Oqa5zJVs2iHLOL8YdeMBZVobK2N37E1chRC9TlBeGTgrZZXEReZLJroXxmtMJ
-         aiDOkTSiOM89Y3Wk9neCuwalYxblxbukBkmVT7JDXBFsfjaNSq+4hwCaIlIaPdPSCKz+
-         QciYo/k1LDwNH0POsjuQRwzBJAmcoEy1KFiSQQBvrp+US6MXDf5guomToFpu9HWaunCt
-         dJowF/4BEkSB3nGg4vxVmBBPY38ZqO+hvg7UnQCFvGNJ0e+H3T3+sp4/Z9580I+dNHw1
-         dtaw==
-X-Gm-Message-State: AOJu0Ywv9ZjmyYG67ccJGUZD7tyHhKhDy5qK/HVYlM/6CTAuNENPsUqF
-	yyDdZolaBmjZ6gF+jT2mo6TaNnDMqM5fRd9sNDLxbIBqrrjUrsgeTZxCydKpDg==
-X-Gm-Gg: AfdE7cniIqDNuP5oao0WfJ9JlpXliX9UFiPrRZkD2KXeocUnVAVUavxBlUwifjOwImG
-	Z4kFAeOVLIpeUri4sHheKJwQxtTFZ1qCUxkO7EyMEUgpJh2sgxYmftIFLVlJH1lx/yx+ktID3n3
-	Igv1V06/npXVXr9dztUrEo0tF1Mw0vS8nZBFABpPoWZ/ZBMKjAtQilTWvILQjVrsl2jwFjqR6GT
-	88i93REpsio/+X42Hm7lDmHhZuwN/3CxTgrkJPj/OgeciZfvJtaXj9VPle1McTnAK9mTelBKUPV
-	cMs6bFPN28CA/gkXQjFmD8WO4NVuix+QH2aC8sITYQCBLYPggyopAOZAAp9Pzy9aCF7vMuYnAFT
-	wHE+9HEgPuON59fQbcR9jYBdkt1MgW6TTrAB0O+EXxnm1mmKhVt0ubtDwsGkwoFFqsdnpzWXzJ/
-	DifR3Ob78h8Cc=
-X-Received: by 2002:a17:906:c151:b0:c12:4ddd:ade1 with SMTP id a640c23a62f3a-c16b4581152mr201872866b.4.1784314463493;
-        Fri, 17 Jul 2026 11:54:23 -0700 (PDT)
+        bh=DqIYYaltJSq+0jPirb9KwUNPP9xcvBnDwx536/vKxMQ=;
+        b=gCFD1udrstx7NKfCI7Q2ysLdONp1af3qTs5NLILn6d96M7yOCiglJNgVrlzoeyyTW4
+         2yGojk4nogIRLKK46xwQQIFG8P0EAnw7jKIsfuO6hBNUkhIMMgKEKOFV1zdt+RI5F8f6
+         LlVu5W3ZkgMlIg8dR3VIyvzOrSrCcR2EEfmCfgjuUvzjpfmcrlR4GsCy7EV0VRYfGd5w
+         7oNppwexZtQM3x/JnPW0bvTNQfTzogjf9y666f6weC3jXKa6pUkSL0Pes/XnyWP8F/K7
+         RseZ6WtDhHFZ44kBddMwdM61gLtLIcx6KC0YDidJeqf5p/Nmmh+2U4dtgFYJE9m6P3hG
+         HpOQ==
+X-Gm-Message-State: AOJu0YwuifiBkZFne8MWLk6jGJQyaE1FyUKST+BqIc1TLYN3+t3dbg27
+	7zLSWk0ZCrumOjlQg4YHe4HECmnBrylN4pXkH5kGia2evxj3HNbBddKl
+X-Gm-Gg: AfdE7cmILmitD1OoOXBh8U72CoFokO2Kn4fxQdTlglF+/l2FYMzpMWxuAGEgWthF02w
+	9HNpYU3sKhVt4tNeyM0jBcVRas+7lJyini+QyeisCu4WneRozcKEG7x81p361uO0xKuutmQfa7P
+	XY7qudyQVLTcOZgvjWbteyO9bXNQigEGsvBTBRYUY3POfCLsBZg3kIISmYScbLRtkJGoQ5+jtAT
+	Lh6fQmFvCilMZo545HxpQX+ylJsaKsFV37gRChTdAckopRcrlOwXbkBOgpPL8UrdtIrqOFSEacv
+	XKNlM8ShkODP3Qk84gwcrBS1fBWJslQgq+NNpb4mu8PAU2XbLMwrLFdHeqNkp5S5MBxrDEY9b3F
+	V7KYZCtthZslu3uBau3lDaMrcXRYcrruibgtpjvVXyEtOcs2iKRttO+eJgUBtY9M32HukV28ayB
+	5+
+X-Received: by 2002:a17:906:7947:b0:c12:9b93:61fd with SMTP id a640c23a62f3a-c16b46aa27amr150704166b.6.1784314466180;
+        Fri, 17 Jul 2026 11:54:26 -0700 (PDT)
 Received: from archlinux ([94.229.19.199])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1712a5f8c5sm118622666b.34.2026.07.17.11.54.22
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1712a5f8c5sm118622666b.34.2026.07.17.11.54.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jul 2026 11:54:23 -0700 (PDT)
+        Fri, 17 Jul 2026 11:54:25 -0700 (PDT)
 From: Nikolay Kulikov <nikolayof23@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	Nikolay Kulikov <nikolayof23@gmail.com>
-Subject: [PATCH 4/9] staging: rtl8723bs: remove unused 'bNeedIQK' from struct hal_com_data
-Date: Fri, 17 Jul 2026 21:52:03 +0300
-Message-ID: <20260717185407.56513-5-nikolayof23@gmail.com>
+Subject: [PATCH 5/9] staging: rtl8723bs: hal: remove unused readings from the chip
+Date: Fri, 17 Jul 2026 21:52:04 +0300
+Message-ID: <20260717185407.56513-6-nikolayof23@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260717185407.56513-1-nikolayof23@gmail.com>
 References: <20260717185407.56513-1-nikolayof23@gmail.com>
@@ -75,94 +75,47 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The value 'true' is written to this field, but it is never used.
-Remove it and the case branch, as the latter becomes meaningless. This
-also requires removing calls to rtw_hal_set_hwreg() with the
-'HW_VAR_DO_IQK' argument to prevent execution of the default branch
-containing the netdev_dbg() call in SetHwReg().
+These values are read from the chip but never used.
 
 Signed-off-by: Nikolay Kulikov <nikolayof23@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_ap.c           | 2 --
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c     | 3 ---
- drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 4 ----
- drivers/staging/rtl8723bs/include/hal_data.h      | 1 -
- drivers/staging/rtl8723bs/include/hal_intf.h      | 1 -
- 5 files changed, 11 deletions(-)
+ drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 3 ---
+ drivers/staging/rtl8723bs/include/hal_data.h      | 3 ---
+ 2 files changed, 6 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
-index 5731a245c0d9..8fb2d41c8984 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ap.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-@@ -680,8 +680,6 @@ void start_bss_network(struct adapter *padapter)
- 	/* Beacon Control related register */
- 	rtw_hal_set_hwreg(padapter, HW_VAR_BEACON_INTERVAL, (u8 *)(&bcn_interval));
- 
--	rtw_hal_set_hwreg(padapter, HW_VAR_DO_IQK, NULL);
--
- 	if (!pmlmepriv->cur_network.join_res) { /* setting only at  first time */
- 		/* turn on all dynamic functions */
- 		switch_dm_func(padapter, DYNAMIC_ALL_FUNC_ENABLE, true);
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index f5ab94a2d0a0..d50c36036f4a 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -4009,8 +4009,6 @@ void start_create_ibss(struct adapter *padapter)
- 		val8 = 0xcf;
- 		rtw_hal_set_hwreg(padapter, HW_VAR_SEC_CFG, (u8 *)(&val8));
- 
--		rtw_hal_set_hwreg(padapter, HW_VAR_DO_IQK, NULL);
--
- 		/* switch channel */
- 		/* SelectChannel(padapter, pmlmeext->cur_channel, HAL_PRIME_CHNL_OFFSET_DONT_CARE); */
- 		set_channel_bwmode(padapter, pmlmeext->cur_channel, HAL_PRIME_CHNL_OFFSET_DONT_CARE, CHANNEL_WIDTH_20);
-@@ -5305,7 +5303,6 @@ u8 join_cmd_hdl(struct adapter *padapter, u8 *pbuf)
- 	rtw_hal_set_hwreg(padapter, HW_VAR_BSSID, pmlmeinfo->network.mac_address);
- 	join_type = 0;
- 	rtw_hal_set_hwreg(padapter, HW_VAR_MLME_JOIN, (u8 *)(&join_type));
--	rtw_hal_set_hwreg(padapter, HW_VAR_DO_IQK, NULL);
- 
- 	set_channel_bwmode(padapter, ch, offset, bw);
- 
 diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-index ac4bc18b6f93..81ae53c60623 100644
+index 81ae53c60623..a6b977ec4250 100644
 --- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
 +++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-@@ -2636,10 +2636,6 @@ void SetHwReg8723B(struct adapter *padapter, u8 variable, u8 *val)
- 		}
- 		break;
+@@ -859,11 +859,8 @@ void rtl8723b_InitBeaconParameters(struct adapter *padapter)
+ 	/*  because test chip does not contension before sending beacon. by tynli. 2009.11.03 */
+ 	rtw_write16(padapter, REG_BCNTCFG, BCNTCFG_8723B);
  
--	case HW_VAR_DO_IQK:
--		pHalData->bNeedIQK = true;
--		break;
--
- 	case HW_VAR_DL_RSVD_PAGE:
- 		if (check_fwstate(&padapter->mlmepriv, WIFI_AP_STATE))
- 			rtl8723b_download_BTCoex_AP_mode_rsvd_page(padapter);
+-	pHalData->RegBcnCtrlVal = rtw_read8(padapter, REG_BCN_CTRL);
+-	pHalData->RegTxPause = rtw_read8(padapter, REG_TXPAUSE);
+ 	pHalData->RegFwHwTxQCtrl = rtw_read8(padapter, REG_FWHW_TXQ_CTRL+2);
+ 	pHalData->RegReg542 = rtw_read8(padapter, REG_TBTT_PROHIBIT+2);
+-	pHalData->RegCR_1 = rtw_read8(padapter, REG_CR+1);
+ }
+ 
+ void _InitBurstPktLen_8723BS(struct adapter *Adapter)
 diff --git a/drivers/staging/rtl8723bs/include/hal_data.h b/drivers/staging/rtl8723bs/include/hal_data.h
-index 532b1635831d..4f37beb0c2db 100644
+index 4f37beb0c2db..6d9421cd0312 100644
 --- a/drivers/staging/rtl8723bs/include/hal_data.h
 +++ b/drivers/staging/rtl8723bs/include/hal_data.h
-@@ -210,7 +210,6 @@ struct hal_com_data {
+@@ -223,12 +223,9 @@ struct hal_com_data {
+ 	u8 LastHMEBoxNum;
  
- 	bool		bSwChnl;
- 	bool		bSetChnlBW;
--	bool		bNeedIQK;
+ 	u8 fw_ractrl;
+-	u8 RegTxPause;
+ 	/*  Beacon function related global variable. */
+-	u8 RegBcnCtrlVal;
+ 	u8 RegFwHwTxQCtrl;
+ 	u8 RegReg542;
+-	u8 RegCR_1;
+ 	u16 RegRRSR;
  
- 	u8 TxPowerTrackControl; /* for mp mode, turn off txpwrtracking as default */
- 
-diff --git a/drivers/staging/rtl8723bs/include/hal_intf.h b/drivers/staging/rtl8723bs/include/hal_intf.h
-index 8a85e8419e47..26b871e420c0 100644
---- a/drivers/staging/rtl8723bs/include/hal_intf.h
-+++ b/drivers/staging/rtl8723bs/include/hal_intf.h
-@@ -97,7 +97,6 @@ enum {
- 	HW_VAR_WIRELESS_MODE,
- 	HW_VAR_USB_MODE,
- 	HW_VAR_PORT_SWITCH,
--	HW_VAR_DO_IQK,
- 	HW_VAR_DM_IN_LPS,
- 	HW_VAR_SET_REQ_FW_PS,
- 	HW_VAR_FW_PS_STATE,
+ 	u8 CurAntenna;
 -- 
 2.55.0
 
