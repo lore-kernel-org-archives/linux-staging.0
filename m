@@ -1,74 +1,72 @@
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA5B63A9850
-	for <linux-staging@lists.linux.dev>; Fri, 17 Jul 2026 05:51:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 311633F6C29
+	for <linux-staging@lists.linux.dev>; Fri, 17 Jul 2026 11:50:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784267507; cv=none; b=Uai40mrkuaAXLgbRv+TqqJYjdNwHEqK0bBs1cJUyfo6bGsAjXTUUnZxU8bjLbHCLaard4GJ8ekWutwRJncGZtGGn14v/2hx5na2j/0K/q0yYTNZHFe/dZZXxOIwWmEum5IH5ezdXge8cs4T1l4jzRiIgCxZ8RYX5RthChsgIYRA=
+	t=1784289029; cv=none; b=MNYX7teO/qp+LGKVYVMX5MYOnEGJ8DgY+qrcVUw+fUFmcYBKYtezez/VtkHP+t8wi/RLqSkWxMVVzmi2vdL3LP2CQrLsHd+agX7IggMQt1irojecLI6FKrpl9A9Rgqy+6FCxSuJMPiy2qIo+sDnAfVkrQ7zSLpZC6jqv2ReX0sQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784267507; c=relaxed/simple;
-	bh=1EFfARZqTYougMDxqJVwrAAU6s5k6TPIb1KJJancNeA=;
+	s=arc-20240116; t=1784289029; c=relaxed/simple;
+	bh=NOZZYuhxHF53xSIOtY6kopoSY2UWRsXC151GycTD378=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KEe9wpJMqlghDw5Y9TKQZXGK50bTZSV2WYMag38XMy7H+5o4XAU3tCaTFbNLgG4MFqt7M9h2i+ml7MyfmOQ2ihQPEtHw66Tem+diqnbV82HqpUPDLdmFXHfdl6/yn47ODZH1xXrSJ1xP5Iq4nOcHNqgHaAVT/+bUTOEAa+fQL4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QHlg6+49; arc=none smtp.client-ip=209.85.210.53
+	 Content-Type:Content-Disposition:In-Reply-To; b=SaNn2OFFMOCK4mZzgBO1hUgUBb0enWXtkYPylJZISDoQ8OPGYFv+TZszcc4wdr04TvUZ1K18tD1F65zq4vH0O7vhbxKGBWFD6FbsCxHjJwgchhAlgBMKDE6C4NHSAnbX2oJHXyRpLPQJSM+XydiGk39gPShwDYbpLjjLQnvRa9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WrKCZh8P; arc=none smtp.client-ip=209.85.210.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QHlg6+49"
-Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-7e9ecd7216cso2093477a34.3
-        for <linux-staging@lists.linux.dev>; Thu, 16 Jul 2026 22:51:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WrKCZh8P"
+Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-7e9f829d75aso2797216a34.0
+        for <linux-staging@lists.linux.dev>; Fri, 17 Jul 2026 04:50:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784267501; x=1784872301; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1784289024; x=1784893824; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=7GNJ2VsT/H/OoPywtw6dAhOceHxaw517jB295gP2NHc=;
-        b=QHlg6+49XUrt66HQubrfWzHqZegw6wS7aJ4NveG43cgiRIQULZ3Ls3b5TQc4fgV6aH
-         u7CcIBX47LfwM/FccoPeShcCSOrY+/OdFLvfA7vg6FiRuiWvwwtSFnDETXVXTGctR/mk
-         xzRmfopL0xl8ZgU69LmIJhWYfRuFqSycI4ntU2um6z6fsNaTDpQ3DjrmMc55ciMhK7x+
-         MKGNNrwvu0saKcXNrCWBMIcceYlcSwjpRPRRJtcEOmZNY3GkMtF++iQ2Lz1SekkOmRU1
-         3lMZ/Fgtj+lxZnDONVl0E4nRjjdwbvW10H3JX7FdIo6y3M3X0Zkp0oWusvBbTlMFJbLo
-         DTEg==
+        bh=Trwfl3haxYHN93JlJ/urlVTQWvD0ALsq+DP5zD9i6XQ=;
+        b=WrKCZh8PEM4/rNFKg1AyPq3k5CA8WwlJqHzlyEkMzlJpvJAPH1pLOOCWHN7HlosGDH
+         T0/HbQ9uKyEah1YCFwVFdt5VoTFCl47IAd+i+U4rfmd7tny6wCtztY31skiMleZ6AK06
+         HS8jDvvUulSbv+65tAExw1gvg4PHhxTXyj800Ov9gsMzN6QaSEH2UGktvdEMcN+GV6Rd
+         JZZYTrpC6yr1Onkqn080hAhmOm6ctgH0A3ViIdLpYo1ePgckwc84x842D2Ys30/oXypu
+         jqjpjlymgdMAdKmtkKEo3s/22PyxLFLTAZexY+hUjUvLthdkDKn+3E7EZfY6pWmJTKuY
+         9SqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784267501; x=1784872301;
+        d=1e100.net; s=20251104; t=1784289024; x=1784893824;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=7GNJ2VsT/H/OoPywtw6dAhOceHxaw517jB295gP2NHc=;
-        b=BwsXUtru3E4bXsGvzrMwnWgYuPdKT04wcS0QE8aXM/gvFLvFg/wUynVxVSkEQwu24g
-         lHAJthGARhP3KTYn97pQ8ntxnJ6caYi7+aI708KfKJ+FQCeCKRY4WdgU9AqwSaJ1iNo9
-         QCoGmCoWMSMFJqSSXS6dXHvMxmVMfvs80OexSbQXDpr1YN0Ie68Zsi6Dg5oLis/mb+VR
-         FxkeyMcYkT8SKSDK2Asb+LonJgBzIMLPJOY+vn08K/nFHr7lz0vdpfbr5qajHxaLcaeG
-         Wd6uFtPOCpR12f5MSmqaK/mb0J7iyxSasUq85WxQYSTymPG4wewgz4bUMbvlR2LiJdze
-         Ux0g==
-X-Forwarded-Encrypted: i=1; AHgh+RpJsTCDJYAM9rrJ6l4eojtiKUqoUus1hMQgOBUon21bgq+gqJCXTTy24LXNsWuKYH7ZJCnIU6/Q/Hl7Yy1P@lists.linux.dev
-X-Gm-Message-State: AOJu0YwuIaOF1kJwO8KvMcLGgLm3jPhA3WbHmX2cD4vXxHTI6h0ETF7U
-	hioR8Xzbhx8oeAKSSjYqaeSAttwt2DXkHvjYni75uUadygjwhxu6eTCu
-X-Gm-Gg: AfdE7cnr4HyRF9x9BTdWSfznOGg5CiaVRconlZbkJxddVJg4zgIvGS3l9i/yaJPYnb0
-	0hnCIhzX43isjcwuVcOsK/3zlEvnrxOYtTz5FhrggL2kSaodEGrbfwYXuoM1vSmtf3DKkXFbwQE
-	A+4U3h7swAt33wW3wyOHpCSXQcDnkYcUPEQz3cLs1IvhiurvUFAVHYTNwjsf9sb24etGHxphkso
-	11v7woVwsGkAw509uuppMlGrZClt2HhrDR56/BYQyrf7HxGvhXwy2tLE3KTh6eWcbKJrrg9LDIW
-	XQNX5BFbm8il6c5bQ6AyBUlVd78tvJTpik+DJrjc4M+2V/DJTKYKLcCcYw9jhPIw1ddlLXwIuM3
-	oHXcUVM0QmlZJIo296PSaIGNve0q66P5lXI+MK8Juc7WUdSw4JredwcPMF3tYEYV8ZKUFyw==
-X-Received: by 2002:a05:6808:308c:b0:4a4:c12:46f6 with SMTP id 5614622812f47-4a4d01f55ebmr585102b6e.2.1784267501599;
-        Thu, 16 Jul 2026 22:51:41 -0700 (PDT)
+        bh=Trwfl3haxYHN93JlJ/urlVTQWvD0ALsq+DP5zD9i6XQ=;
+        b=k3rwgnExiODNsK2VUoNoT0DsiQmYt92/0ShQlBBZVTZbOTOrC4hBlb6qUi24VWVosZ
+         oix+yLpraGUhj+zJ8OojJ/U6nhP6GYTZwZ+x8ZSdr5LE+FyKU+uo3ikRTPvqXi+NeHLw
+         sKomtlMeJ1GPjOfV2zhLB94pzvtqfIXAsFaaPnwSTAxmoPE+DSFw8OdDYwkbw5P/Iu5s
+         0Ih0e78Mm9wjo25SX6cYMGhewBIuoIbQ9yMkmZntACvcO92hl5Tcq2tm0L+6xnE0XJhr
+         fsSRk6dB2fi3uQO0NSM9YRjBN+yZtntgKsgJ8mNb6vmi0eYbYWeIrGIkSxUKVaFkbLk6
+         I/fA==
+X-Forwarded-Encrypted: i=1; AHgh+Rr7fU/sysebTZec5gxHWY/UQV/p3DwfcfCR/vRDb9/fc5JVueWIn62GblVoEWqyhmk6t5mkIv0YFAzHZZOd@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx0YoGsF4q4KbwStmUZ3XG1wKLslX1+w3ov4sJPxQlkDszbCml/
+	etCsqRHD2v72LKbFTgFDNaG0oZYvn5NTSHRuXl+K1Jkgf/A3Eu1XcYCs
+X-Gm-Gg: AfdE7cmM9UPZA1amd3pC15j9dk/5mPMTevQ/o9hWmqq/qtCQ8aJEaNvCSF5tXtHVbb5
+	TRNtqQTYJ6JrjWyhxT75BEgcR9z2vAE232DLcejQoJm5nMUG5anBGUZ1v2vQ5jnwlNOO1Sop7FQ
+	PbD7Ss/Tm5bymDkh5s3O3+Cs0Yeeg0G99EdlIMnK6tLWMfq0Gm5SAq5korYtxyycTPzoaHGC8Wp
+	lMgMMdzqPhu3zmQbJLuVxL8nlYouIFA8RKuop7Hfb+dCwu3X0fr9h1Lb1Gz6h+8vkklDgGekduo
+	XpkdRrFGRtcl1QMDKBbxUwEbIx/6JcN7akxEOedOln+uKkKpLbmAqmxizs2sQol4Z1QVmkhBgMm
+	bjS60hLZqp+1yD7zz+WXGmwqwsqLHlX02ODy8VRVUiznYAfpZfWI61+lJH7x4dqzxz0KaqQ==
+X-Received: by 2002:a05:6830:7101:b0:7e9:b4d0:53a5 with SMTP id 46e09a7af769-7eda15301eemr1183450a34.30.1784289023967;
+        Fri, 17 Jul 2026 04:50:23 -0700 (PDT)
 Received: from localhost ([74.80.182.90])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4a4d3cb035csm167035b6e.11.2026.07.16.22.51.37
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7edad98ab3dsm1046368a34.12.2026.07.17.04.50.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jul 2026 22:51:39 -0700 (PDT)
-Date: Fri, 17 Jul 2026 08:51:32 +0300
+        Fri, 17 Jul 2026 04:50:21 -0700 (PDT)
+Date: Fri, 17 Jul 2026 14:50:15 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: Alfie Varghese <alfievarghese22@gmail.com>
-Cc: neil.armstrong@linaro.org, gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-amlogic@lists.infradead.org,
-	dan.carpenter@linaro.org
-Subject: Re: [PATCH v3] staging: media: meson: vdec: propagate devm_clk_get()
- errors
-Message-ID: <alnC5GH7m84F-tnk@stanley.mountain>
-References: <20260717030559.167-1-alfievarghese22@gmail.com>
+To: Mariano Baragiola <mbaragiola@linux.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: rtl8723bs: validate monitor transmit frame
+ lengths
+Message-ID: <aloW93Nb_A9JtUfh@stanley.mountain>
+References: <20260715225938.1403192-1-mbaragiola@linux.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,24 +75,25 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260717030559.167-1-alfievarghese22@gmail.com>
+In-Reply-To: <20260715225938.1403192-1-mbaragiola@linux.com>
 
-On Fri, Jul 17, 2026 at 08:35:58AM +0530, Alfie Varghese wrote:
-> vdec_probe() hardcodes -EPROBE_DEFER for all devm_clk_get() failures.
-> This masks the actual error code returned by the clock framework, such
-> as -ENOENT when a clock is not registered or -ENOMEM on allocation
-> failure.
+On Wed, Jul 15, 2026 at 07:59:38PM -0300, Mariano Baragiola wrote:
+> rtw_cfg80211_monitor_if_xmit_entry() removes the radiotap header and
+> then reads the 802.11 frame control field without checking that a base
+> 802.11 header remains.
 > 
-> Return PTR_ERR() instead to propagate the real error to the caller.
+> The data path also pulls the calculated 802.11, QoS and SNAP header
+> span before confirming that the skb contains it. A truncated frame can
+> therefore cause out-of-bounds reads or leave insufficient data for the
+> Ethernet address writes.
 > 
-> Reviewed-by: Dan Carpenter <error27@gmail.com>
-> Signed-off-by: Alfie Varghese <alfievarghese22@gmail.com>
+> Reject frames that do not contain the base 802.11 header and data
+> frames that do not contain their complete calculated header span.
+> 
+> Signed-off-by: Mariano Baragiola <mbaragiola@linux.com>
 > ---
 
-There is supposed to be a note here under the --- cut off line which
-says what changed.  Did you resend just to add my Reviewed-by line?
-
-No need for that.
+Looks reasonable.  Please add a Fixes tag.
 
 regards,
 dan carpenter
