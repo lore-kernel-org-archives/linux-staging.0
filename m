@@ -1,68 +1,72 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6114537E2E7
-	for <linux-staging@lists.linux.dev>; Fri, 17 Jul 2026 18:54:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B463E345741
+	for <linux-staging@lists.linux.dev>; Fri, 17 Jul 2026 18:54:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784314457; cv=none; b=PTfDPsKQf+RaNKV4ybFnCkmUYw2MOslmB7ZbIY5Sk1OSiXeMzf4seKqTT7DFM6MDy7neq390cWgHoESWGNQ2bNeVQcXkY7wP7EFnz+KO5ZQrMBR7ecp+MAyY79hdzMnzERur44tZNU+vYtXWx3BM8OomHf/D/bO80p82dJEX874=
+	t=1784314460; cv=none; b=gJa//eAm3QwKxpbYOBz2wbdEp4QE3Y5Cy14JBIOSLZk0HNJVGcKdZvpijqSKzXRQThvk/zWA8UtQCI5LCwxpugNht/NV1/ZNIWhAP3QMlN+zlZtlaxNBPtZtHM6UGl+Smc53u8P7agmG3p9/zuDiFtusMNKCO2BB1SNQdPG+JUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784314457; c=relaxed/simple;
-	bh=6oI4DFk9mf5H+nUurTOjdLDbZ43pkzH24VzbJeVX8kc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KAomEKElTfc31IElLealVyiPEQh3vm2p5u2OasxFS6tgOoPH4hPWGoVFMd7lmdp3MaDnRPdjrVv1DPP9t6UZf5lvEo8cksjQfEjGwZ5Zd5EQi6r8w6j5j48jIyskj48IsHlzrkWoL2yc+89UV/t02jEdR/2v9mfuxX/8XMb6TVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ojmSJ5Nl; arc=none smtp.client-ip=209.85.208.46
+	s=arc-20240116; t=1784314460; c=relaxed/simple;
+	bh=bMu2j02n6Y5ykqp3bMRHxyZkhjpbWWvrKz4i6NDTA+o=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=MvvHXGAcold6TBCTmAQ6+p1sEcYdPsJEH1Xi0q+y2ZNgQtFmZuL8gCJ2fmi2HJCN+iReUFziP83Fzj2XBtaJWe2qKrnRU9zXjOEgSRK7kk+tJkWogMBBDuq+najWF3a5ssdbdgj9zXLLoanp8Ek+pfaSrjrWNQhSEvh1dXppnxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IIbPt8JO; arc=none smtp.client-ip=209.85.218.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ojmSJ5Nl"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-69a50189d25so14675166a12.3
-        for <linux-staging@lists.linux.dev>; Fri, 17 Jul 2026 11:54:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IIbPt8JO"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c15e592da74so1008408266b.1
+        for <linux-staging@lists.linux.dev>; Fri, 17 Jul 2026 11:54:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784314455; x=1784919255; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=UOXij0Px8HRitRRzP55IKqERaox+7WT605UpubMT8yg=;
-        b=ojmSJ5Nl/XAca6xQTTPZqp7YgtjemUgOHsgau0qbS1riuuq97cvMVATBGxC14t+0ml
-         mYFgi+Rtu6iVspQtaTMTszXWxI066Eqb6NQEceqLGnmf7DqWkZbfwn5zQksGwijwHFww
-         TpWIFEIhefPKLv5W9qrSBQncBw7odI1Y1I/O1Q+DYQGKcfzRrzpeaOUg91eQKzDXtemP
-         ogUcjlPd8gSXw+vj0xaTw6ZfidV2CHE0Was0yEJrzqhCf57iqclXOTGrnQnQecQu5ROY
-         6KIh4ECD85SVloeW/UHmphPewwCjf59LkFAMrupfbiIs8W7R7ZiQmZ5Tdz62WUuQSDGr
-         gN+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784314455; x=1784919255;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1784314457; x=1784919257; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=UOXij0Px8HRitRRzP55IKqERaox+7WT605UpubMT8yg=;
-        b=LsQTsh/5kGXh8mA9GJH6+QZjNcvWEcbX+bABOo/9E5wrttOE63gNzox0JmjhYyGDC2
-         1xTXD3WdupbrGABfmQjofd+LI+EUNMfUEWAozSVKa5atP0x7/u2TYJQI0yIvBAMOLvOP
-         m2CpBWLnAbX1OrrbX6psEzxWq2M1n4ou3qrVl08fKiKKD1dGVrhzW0hKJsf0w1eBMxpg
-         kBnJr9XUP3xHO0/5kHxt+bYn745BTCZy3MmykPdtbTYvzucpIUF3xEUjIsorEFmHdoof
-         JqL+AYY1K5TloQfhroNeN7ull5elmzv9iJqLRjr/9HD3bScK6ZwMs52u0QC/ixJj2ORq
-         HHPA==
-X-Gm-Message-State: AOJu0YzVxPZUxq0zLSxUN8ke6SZxEFqHW/G3KMeB9Y0udWnzR9s86x4o
-	r7EwcF7E584D8us8PfwSBCTldPgfv1Ux0Z8HQRnynpvh7/BGn+mof8Ec
-X-Gm-Gg: AfdE7clcnOmYwkYXQuCLujaXwjVS0gTAZNcQ7S6YcWrmEqNImTV2AyqEKfqk8kVgxaF
-	2LFgbm2nm0cYpyqk3AqsbIvxgCZoD+ih6sqHQBZ44ZGzRyk29ek4yJmbjJFbBqPaegMz1mGSn1q
-	KAvTQiITuhpOkBczSBN/O8BixKjm5TtPPpPqnoaxQOteZf5xU91PmHYxPnS3yNpXSWX28wjhBnv
-	cVLRlEoSYGXD4w1odfmwuzD57grBKuGygMqviMRr8J2FGEcXkE4QbFintBnjSVj+hip5xfmhFux
-	wgIPA/bbdsc+5vkUjVGr93DEZN3tD6kfH1wFkx6XYbK9Wb25Akt5y3ZJNyyFMrleCs0s+bECyNL
-	5WIuAMvv2LGDHSZ1AOfPPu00k4C6iXjbDm74uOWyActi0SzWE4lwo+TGz02W3YsiyBkx6xPgD46
-	IQ
-X-Received: by 2002:a17:907:f497:b0:c16:5b06:4d67 with SMTP id a640c23a62f3a-c16b4865908mr180693566b.55.1784314454362;
-        Fri, 17 Jul 2026 11:54:14 -0700 (PDT)
+        bh=/eJc503q6aC6SjQgPfr4xwzVraTuiP4kIDU6rORsb/Q=;
+        b=IIbPt8JOR3nRxWAmPzWPnMIwxvK++T3ZXyb9/bxqCXfL8aRYEXsxysIArkFBBqut6t
+         3syaeY0HZhPR/FsUqlkyulnUu5VNgJg7doE7dT4KHg8BxFhVZmeZDeJopWTElxrlTCc/
+         bT5woWlD1KIIUy35eoYWG+qLrzpV1FbXMebqQH5dp1ITkHwkp3xWJtqdm3OWP+1go2yP
+         u6EDh/rrlzJED2vFQcuz9IrNG/akFik6XKgSVonetWuoloPwV7f7Bfa6/sjOj2+9Vhtk
+         qnUMvc3WUNBpA/i7NyGgFIRGflspHsyeSWQbnjGqtyMiOg9IZeMdBkhEoOLSnI7VQi+5
+         37fQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784314457; x=1784919257;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=/eJc503q6aC6SjQgPfr4xwzVraTuiP4kIDU6rORsb/Q=;
+        b=XgkMNRdb7mXl9ktH160/bAGXKFpuUWYFo64dl3c/tyzgEFRCehbcZgjjKjt9mRQ+/w
+         YaoD8c6KjeXxFecD8+yB6DP6+OskfMaxh2iWRKrUBGjpZOz/pIZfe7hK2sLAdP5nrO0y
+         3lQlyVJmRAglyvBXmb4rGRBST5K8BSkw/Jl4R0FgeIFFJNtj76EmPiJ1L5X4ajzFkedu
+         LEcp43XHA3G9YqI9RIMPIv2RQJfonYsq0+BJvMkXIL/FREe9WTyn8rUS2uQC30jAAj1a
+         eoV+6bGTzFpOJmre2+8ujem+CbRUgLaQo4x6lFunTgGgze5Uz5Br8RTyRRzuF19l7zgp
+         SeJA==
+X-Gm-Message-State: AOJu0YxNw/mGoLYjHMM3djelwxv7AjzN+5G07mwPjMqE9SyGqsHoA5mE
+	ob3OtYcOXSiOCrGPlcIseA6K09NR1SPly1B1s2whEYRbHyEUxv2C4W9y
+X-Gm-Gg: AfdE7clUMG17DI/H/PSPzKqg7589RIZ2dbFDWGndoX0EKuniNhzP+YWv2APRF/oIih3
+	69ZDX+juBVAILLDViXQw9SYI0cd4cOLPEqj0SlkJE/tyJbVZ+KWnk2C0aawyfsGGiY0lzzqYVPg
+	8p/AW1VB3n1nPwdeiBA6E6UAQbX5w1sxA4HKErayEmmYkaSph5WRrtUUbOkDrosafUgalNWRM3e
+	jEPMeLMMXvLpul9M4ZWEeaYmegdBV5OPsqRBGCi5UJdWmDdT2uYLp+P3Qn4Q616pFod/1f3MIsJ
+	X7BF/sZYHybNJKTfzldRe/aXy8i3Y2AaJLjbT9FWYZcquY7lx48xYsi1XoNvj+YbcFtlMDWsL6V
+	KSVcXgnRou0yByt2X+XvxgH0Kv8xWysoPKulelsMwsO3m2kk1DT33ApVjBIUWxMcJyBKhFchEXk
+	ZRkz0eWclTDE8=
+X-Received: by 2002:a17:907:e1d3:20b0:c15:b67b:523e with SMTP id a640c23a62f3a-c16b46f14c6mr124064966b.19.1784314456785;
+        Fri, 17 Jul 2026 11:54:16 -0700 (PDT)
 Received: from archlinux ([94.229.19.199])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1712a5f8c5sm118622666b.34.2026.07.17.11.54.13
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1712a5f8c5sm118622666b.34.2026.07.17.11.54.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jul 2026 11:54:14 -0700 (PDT)
+        Fri, 17 Jul 2026 11:54:16 -0700 (PDT)
 From: Nikolay Kulikov <nikolayof23@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	Nikolay Kulikov <nikolayof23@gmail.com>
-Subject: [PATCH 0/9] staging: rtl8723bs: continued cleanup of struct
-Date: Fri, 17 Jul 2026 21:51:59 +0300
-Message-ID: <20260717185407.56513-1-nikolayof23@gmail.com>
+Subject: [PATCH 1/9] staging: rtl8723bs: remove unused 'CCK_24G_Diff' from hal_com_data
+Date: Fri, 17 Jul 2026 21:52:00 +0300
+Message-ID: <20260717185407.56513-2-nikolayof23@gmail.com>
 X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260717185407.56513-1-nikolayof23@gmail.com>
+References: <20260717185407.56513-1-nikolayof23@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -71,35 +75,38 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Removal of some fields that are primarily written to but not read.
+Values are written to this array, but they are never used.
 
-Nikolay Kulikov (9):
-  staging: rtl8723bs: remove unused 'CCK_24G_Diff' from hal_com_data
-  staging: rtl8723bs: remove unused array MCSTxPowerLevelOriginalOffset
-  staging: rtl8723bs: remove unused 'bIQKInitialized ' from hal_com_data
-  staging: rtl8723bs: remove unused 'bNeedIQK' from struct hal_com_data
-  staging: rtl8723bs: hal: remove unused readings from the chip
-  staging: rtl8723bs: remove unused 'UsbRxHighSpeedMode' from
-    hal_com_data
-  staging: rtl8723bs: remove unused spinlock 'SdioTxFIFOFreePageLock'
-  staging: rtl8723bs: remove 'rf_chip' from struct hal_com_data
-  staging: rtl8723bs: remove debug fields from hal_com_data
+Signed-off-by: Nikolay Kulikov <nikolayof23@gmail.com>
+---
+ drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 1 -
+ drivers/staging/rtl8723bs/include/hal_data.h      | 1 -
+ 2 files changed, 2 deletions(-)
 
- drivers/staging/rtl8723bs/core/rtw_ap.c       |  2 --
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c |  3 ---
- drivers/staging/rtl8723bs/hal/hal_com.c       |  6 -----
- .../staging/rtl8723bs/hal/hal_com_phycfg.c    | 13 -----------
- drivers/staging/rtl8723bs/hal/hal_sdio.c      |  4 ----
- .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 11 ---------
- .../staging/rtl8723bs/hal/rtl8723b_phycfg.c   |  2 --
- .../staging/rtl8723bs/hal/rtl8723bs_xmit.c    |  1 -
- drivers/staging/rtl8723bs/hal/sdio_halinit.c  | 23 -------------------
- drivers/staging/rtl8723bs/include/hal_data.h  | 18 ---------------
- drivers/staging/rtl8723bs/include/hal_intf.h  |  1 -
- 11 files changed, 84 deletions(-)
-
-
-base-commit: cb08dcd0a896c3ac8073a57296f2377b106c35b4
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+index 3dac9a8fe5d8..83e05693b5b7 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+@@ -1311,7 +1311,6 @@ void Hal_EfuseParseTxPowerInfo_8723B(
+ 		}
+ 
+ 		for (TxCount = 0; TxCount < MAX_TX_COUNT; TxCount++) {
+-			pHalData->CCK_24G_Diff[rfPath][TxCount] = pwrInfo24G.CCK_Diff[rfPath][TxCount];
+ 			pHalData->OFDM_24G_Diff[rfPath][TxCount] = pwrInfo24G.OFDM_Diff[rfPath][TxCount];
+ 			pHalData->BW20_24G_Diff[rfPath][TxCount] = pwrInfo24G.BW20_Diff[rfPath][TxCount];
+ 			pHalData->BW40_24G_Diff[rfPath][TxCount] = pwrInfo24G.BW40_Diff[rfPath][TxCount];
+diff --git a/drivers/staging/rtl8723bs/include/hal_data.h b/drivers/staging/rtl8723bs/include/hal_data.h
+index df0c3248a4e1..b88ae2eb1072 100644
+--- a/drivers/staging/rtl8723bs/include/hal_data.h
++++ b/drivers/staging/rtl8723bs/include/hal_data.h
+@@ -176,7 +176,6 @@ struct hal_com_data {
+ 	u8 Index24G_CCK_Base[MAX_RF_PATH][CHANNEL_MAX_NUMBER];
+ 	u8 Index24G_BW40_Base[MAX_RF_PATH][CHANNEL_MAX_NUMBER];
+ 	/* If only one tx, only BW20 and OFDM are used. */
+-	s8	CCK_24G_Diff[MAX_RF_PATH][MAX_TX_COUNT];
+ 	s8	OFDM_24G_Diff[MAX_RF_PATH][MAX_TX_COUNT];
+ 	s8	BW20_24G_Diff[MAX_RF_PATH][MAX_TX_COUNT];
+ 	s8	BW40_24G_Diff[MAX_RF_PATH][MAX_TX_COUNT];
 -- 
 2.55.0
 
