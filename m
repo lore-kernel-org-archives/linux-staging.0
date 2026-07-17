@@ -1,221 +1,131 @@
-Received: from linuxtv.org (140-211-166-241-openstack.osuosl.org [140.211.166.241])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5156743F097;
-	Thu, 16 Jul 2026 23:26:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.241
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C3F634EF0D
+	for <linux-staging@lists.linux.dev>; Fri, 17 Jul 2026 03:06:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784244391; cv=none; b=UNGyRANA7/In2Fcme2JSV+bmuIWk6f1XyIkerdF1Rp695EbzJYHqiCeawHZg3shiC9TgteYfaJJw936eD+p+g97X0dMjZzQt+sO55hj9Fx07g2ZhwonOyxVwUiLzPc+Ki3H4rjknGSle+fQyaoPAqh9pzc9s+9VKTMSv7gw3vs0=
+	t=1784257563; cv=none; b=u4o+MeVWCvycDWGkfjZSntiXOZJE+g88AMCXowVrSBz8pXCJSbPBOyIQDyPI7dLVqkB9XVEGOsnQDJqHSF1QqCoCVOVzR4xGxQn0pJYFIyexYV1d7B7U54fNbvZ8uLDSOpYph0PRF49n8hyBPV6P7pkqMfAAg/4+mNYE+cyL66I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784244391; c=relaxed/simple;
-	bh=BVhjvZhGMiaLCa93vfj3ujq5Weyad55MoNHzoDNXoG0=;
-	h=Subject:From:To:Message-Id:Date; b=aPxhIkNuM5wGK19aW5PEUA9HhyclKDs8m+S9yEuPlCQlyp7VWxsqckG+gvcSoLux+j/dKpxHd1aFnYC3RGoKZMHu9P9gmPLpyUJSVLaJl04JWvH0NP+yniifRltiRX98dR2H31N8hb9A7iH32KD3ig3oC/G9qyKcEWxIE6700yU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxtv.org; spf=pass smtp.mailfrom=linuxtv.org; dkim=pass (2048-bit key) header.d=linuxtv.org header.i=@linuxtv.org header.b=dsvb9vYj; arc=none smtp.client-ip=140.211.166.241
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxtv.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxtv.org
+	s=arc-20240116; t=1784257563; c=relaxed/simple;
+	bh=IVQpi5kOsSjc6nbKgnNr4wTB7eZdYdNqamQ1aOhbGM4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CuzT1g4lJzEF3HpAGQi+aoBD/9f9b6cjpzlraT1Ypk5UwTyYE1oeZ83rt2tgYHKFUFpn7MGfhey+DrExeyXOx/oB/dAykP3OwP6col87pOJaPNw32/tnfEIs+qyQjQrG4kDMV/CPUQNVybEcrAnNRzJ4t1Rw8B9QR3sV18xGpH4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PPHSzj8M; arc=none smtp.client-ip=209.85.216.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linuxtv.org header.i=@linuxtv.org header.b="dsvb9vYj"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linuxtv.org
-	; s=s1; h=Date:Message-Id:Reply-to:To:From:Subject:Sender:Cc:MIME-Version:
-	Content-Type:Content-Transfer-Encoding:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=qaHa8KJLoBTZfeWC+MVLBqEjDwLjXw5lbB496sY+B64=; b=dsvb9vYj7tAQuKEQq01EVU+dsx
-	yecGq94XdJ5UJGKVQ/rVzhBZhM6qJRIAIzCgbYW65BucU6bbZ21M4G9Pj4iP+S16Zy937vHDibZTp
-	yha4VgK/Nw8Z+IPNNZXlCpmMvfMONS1ZD9om5aNElaBfogJDXFIiwEnq2FgdFmE7ac4CbSiZQYs77
-	jXT9ltYUGW4Hm//jROn1uRC8qX2Zk5GH744+wcztAsOBW5V3w2ISRtTvo2lbhp9uWZqBnP/KtbZX+
-	qUgOkdA3IYK/XDMN4pQYH/DjLWzXU+7YXHbUVwSVR1lxqDSZa7tC4nTALztBolVO58HLHHWBUQgK9
-	9YSL8POA==;
-Received: from mchehab by linuxtv.org with local (Exim 4.96)
-	(envelope-from <mchehab@linuxtv.org>)
-	id 1wkT7F-0006fi-2H;
-	Thu, 16 Jul 2026 20:55:33 +0000
-Subject: [media.git/next] MAINTAINERS: Camera sensor and Intel IPU driver changes
-From: media-ci@linuxtv.org
-To: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, Yong Zhi <yong.zhi@intel.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, David Heidelberg <david@ixit.cz>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linuxtv-commits@linuxtv.org, Bingbu Cao <bingbu.cao@amd.com>, Dan Scally <dan.scally@ideasonboard.com>, Dave Hansen <dave.hansen@linux.intel.com>, Lixu Zhang <lixu.zhang@intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-staging@lists.linux.dev
-Mail-followup-to: linux-media@vger.kernel.org
-Forward-to: linux-media@vger.kernel.org
-Reply-to: linux-media@vger.kernel.org
-Message-Id: <E1wkT7F-0006fi-2H@linuxtv.org>
-Date: Thu, 16 Jul 2026 20:55:33 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PPHSzj8M"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-38e08baf860so4922983a91.2
+        for <linux-staging@lists.linux.dev>; Thu, 16 Jul 2026 20:06:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784257561; x=1784862361; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=mZVR56XOREeMXVCUwfvytwmladieL4xpwdBWK5Npchw=;
+        b=PPHSzj8MY9wtlE3gvSffV69darXwwaspGyRC1jpj3bgWBfKaJr0YPEiRMLA90sR8t1
+         QAEGk+kMuaNlR99X+uYP2T0yo+EnCm3YeyVkKNDsSrszJxZedc+XPDL0qkrkU2ub90zB
+         IvBqILZs2+RxwFscRCLzq/cEgXfWVru0cKWW80VtsloRIhnunPLZu9bGn5CT0ss6X1Sd
+         yBBQp/L/Mv5MbCJKurhKsOqvSaD7JfzyJiy8soWNPR9fqbgHW+N/KWLn2n6rkfHuOo6d
+         K7jGpOcU3h7ge92twNuH6gKSk1VNA5pA2Ff2pIGXp/tCvqbVf3ikl+ONAP54CLW4A4pZ
+         CWHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784257561; x=1784862361;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=mZVR56XOREeMXVCUwfvytwmladieL4xpwdBWK5Npchw=;
+        b=P64plDL466xu+MMd7hKcr5hNkpqSuq83i78xCJWIjP7kW0emk4Euxd5eYl+Ux4QIy8
+         yQKUm/x3BcvZS3P4UJ704d62YFEpBidX7N5M63wLz2d+U0WctsVoXwIf1yhBpeXQJirg
+         rrLihKtIosrrHbzMzju7LQXSdTl3uhhnHfJMYIAYvgaWNhqrYXhciyBpCUSfyy3JC5A9
+         0nWGr3ciWO0s9FjDXg6U1eoaKvnBSi2lQ/TbmDs/dkkxZhVD8px8LBt76R8+vWDl+EFb
+         QyxaK0gnO/nrntrSFlKIPFYNo30TtORsVQrIJB8I+HX15GiRanihWJYgIOGXpwbAACBI
+         8pJw==
+X-Forwarded-Encrypted: i=1; AHgh+RrXPdd+I3Q91U9Av1qvfhBMkHYL4ZY7MofV08IRJZQvh+nM4uE1xyEHaaeubs4W0EDpI60E5FEAg5mM2DHu@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy7sdG+b1DlGrghMBzCqsO1vWP7taRsyflKCRJZvrj11p62tRes
+	IdK/DL1R4Zm8PTRlPd/JAJ9wHhfHAmy/AYpaD7bVnUzae/vaFpftMAy0
+X-Gm-Gg: AfdE7clAF+WLfxfZu9MZ4g12XJoaEsCw3wdne5nWgteiRDt4WtQLG3VC/2w0U3DAnoM
+	G9RBS1Mm5wVLJ2ihtsQspmrywh9FWkg9g6V9GzM8QqGeaJpfBDlD93Rhez2tuyMFod2CKxSlMwB
+	pc3cT0DiICGTUYGlPdZeO6rVdauPRD87vk2CGW6b3hvqpyd/xRE/0U6jr8prFbQkn+aId7uFBDw
+	tt/2sGkbKeE0imacpOG3X5/T6Au05E18DtZNxSI3mryMOY9V7Iy0ZKpLVliYbTF9Bo/LR9E3SZq
+	L62mto/zh21hCiDGC9sh6oEQD3lLUqfkKfw+ZJk/AZp/QzQtYyz12jqgTjrabQMraE4CEbvrQQm
+	4ccwW9MAAxlGhXr7uOnPpuZ9kf/GTJgJfZSTEY9y5CyV3jdrSKa9/HQ7spKagGG5xZOC2y/8BAo
+	E7Zez3Ejrv5ll4tTRTbf5z313OMGkqD5zUI0qLM3VOJ8B7Yq77eqxIpFqj5o6fdczerLw591J+H
+	PmfbSbZ6stSm+iG7LelH2yBhZFAZ8yBJSFA
+X-Received: by 2002:a17:90b:58cb:b0:381:5bd6:eb19 with SMTP id 98e67ed59e1d1-38e4b47765dmr715137a91.18.1784257561268;
+        Thu, 16 Jul 2026 20:06:01 -0700 (PDT)
+Received: from OMEN ([103.184.238.237])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31429fe1014sm1424650eec.7.2026.07.16.20.05.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Jul 2026 20:06:00 -0700 (PDT)
+From: Alfie Varghese <alfievarghese22@gmail.com>
+To: neil.armstrong@linaro.org
+Cc: gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	dan.carpenter@linaro.org,
+	error27@gmail.com,
+	alfievarghese22@gmail.com
+Subject: [PATCH v3] staging: media: meson: vdec: propagate devm_clk_get() errors
+Date: Fri, 17 Jul 2026 08:35:58 +0530
+Message-ID: <20260717030559.167-1-alfievarghese22@gmail.com>
+X-Mailer: git-send-email 2.54.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue May 26 14:41:31 2026 -0700, Dave Hansen wrote:
-> Tian Shu Qiu and Bingbu Cao are maintainers and reviewers of a bunch of
-> media drivers (7 and 9 respectively). Bingbu's e-mail address has changed
-> and Tian Shu's is bouncing.
-> 
-> Update Bingbu's e-mail address, remove Bingbu as a maintainer from Intel
-> specific drivers and remove Tian Shu as maintainer. Also add Dave
-> Stevenson as a maintainer and David Heidelberg as a reviewer for the
-> imx355 driver.
-> 
-> Also add Bingbu and Tian Shu to CREDITS.
-> 
-> Signed-off-by: Dave Hansen <dave.hansen@linux.intel.com>
-> Cc: Yong Zhi <yong.zhi@intel.com>
-> Cc: Dan Scally <dan.scally@ideasonboard.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Lixu Zhang <lixu.zhang@intel.com>
-> Cc: linux-media@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-staging@lists.linux.dev
-> Co-developed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Acked-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Acked-by: David Heidelberg <david@ixit.cz>
-> Reviewed-by: Bingbu Cao <bingbu.cao@amd.com>
+vdec_probe() hardcodes -EPROBE_DEFER for all devm_clk_get() failures.
+This masks the actual error code returned by the clock framework, such
+as -ENOENT when a clock is not registered or -ENOMEM on allocation
+failure.
 
-Patch committed.
+Return PTR_ERR() instead to propagate the real error to the caller.
 
-Thanks,
-Sakari Ailus
-
- CREDITS     |  7 +++++++
- MAINTAINERS | 29 ++++++++++++-----------------
- 2 files changed, 19 insertions(+), 17 deletions(-)
-
+Reviewed-by: Dan Carpenter <error27@gmail.com>
+Signed-off-by: Alfie Varghese <alfievarghese22@gmail.com>
 ---
+ drivers/staging/media/meson/vdec/vdec.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/CREDITS b/CREDITS
-index 84793a967a0b..7456c8bbffc2 100644
---- a/CREDITS
-+++ b/CREDITS
-@@ -640,6 +640,10 @@ S: 25-29 St Giles
- S: Oxford
- S: United Kingdom
+diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
+index a039d925c0fe..fba1e7f88d81 100644
+--- a/drivers/staging/media/meson/vdec/vdec.c
++++ b/drivers/staging/media/meson/vdec/vdec.c
+@@ -1026,24 +1026,24 @@ static int vdec_probe(struct platform_device *pdev)
+ 	    core->platform->revision == VDEC_REVISION_SM1) {
+ 		core->vdec_hevcf_clk = devm_clk_get(dev, "vdec_hevcf");
+ 		if (IS_ERR(core->vdec_hevcf_clk))
+-			return -EPROBE_DEFER;
++			return PTR_ERR(core->vdec_hevcf_clk);
+ 	}
  
-+N: Bingbu Cao
-+E: bingbu.cao@amd.com
-+D: Ipu6, ipu7 and camera sensor drivers
-+
- N: Luiz Fernando N. Capitulino
- E: lcapitulino@mandriva.com.br
- E: lcapitulino@gmail.com
-@@ -3334,6 +3338,9 @@ E: rpurdie@rpsys.net
- D: Backlight subsystem maintainer
- S: United Kingdom
+ 	core->dos_parser_clk = devm_clk_get(dev, "dos_parser");
+ 	if (IS_ERR(core->dos_parser_clk))
+-		return -EPROBE_DEFER;
++		return PTR_ERR(core->dos_parser_clk);
  
-+N: Tian Shu Qiu
-+D: Ipu6, ipu7 and camera sensor drivers
-+
- N: Daniel Quinlan
- E: quinlan@pathname.com
- W: https://www.pathname.com/~quinlan/
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b083e44ffce4..05b783f429e6 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3946,7 +3946,7 @@ F:	Documentation/devicetree/bindings/leds/ams,as3668.yaml
- F:	drivers/leds/leds-as3668.c
+ 	core->dos_clk = devm_clk_get(dev, "dos");
+ 	if (IS_ERR(core->dos_clk))
+-		return -EPROBE_DEFER;
++		return PTR_ERR(core->dos_clk);
  
- ASAHI KASEI AK7375 LENS VOICE COIL DRIVER
--M:	Tianshu Qiu <tian.shu.qiu@intel.com>
-+M:	Sakari Ailus <sakari.ailus@linux.intel.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media.git
-@@ -13135,9 +13135,7 @@ F:	drivers/iommu/intel/
- INTEL IPU3 CSI-2 CIO2 DRIVER
- M:	Yong Zhi <yong.zhi@intel.com>
- M:	Sakari Ailus <sakari.ailus@linux.intel.com>
--M:	Bingbu Cao <bingbu.cao@intel.com>
- M:	Dan Scally <dan.scally@ideasonboard.com>
--R:	Tianshu Qiu <tian.shu.qiu@intel.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media.git
-@@ -13146,8 +13144,6 @@ F:	drivers/media/pci/intel/ipu3/
+ 	core->vdec_1_clk = devm_clk_get(dev, "vdec_1");
+ 	if (IS_ERR(core->vdec_1_clk))
+-		return -EPROBE_DEFER;
++		return PTR_ERR(core->vdec_1_clk);
  
- INTEL IPU3 CSI-2 IMGU DRIVER
- M:	Sakari Ailus <sakari.ailus@linux.intel.com>
--R:	Bingbu Cao <bingbu.cao@intel.com>
--R:	Tianshu Qiu <tian.shu.qiu@intel.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- F:	Documentation/admin-guide/media/ipu3.rst
-@@ -13157,8 +13153,6 @@ F:	drivers/staging/media/ipu3/
+ 	core->vdec_hevc_clk = devm_clk_get(dev, "vdec_hevc");
+ 	if (IS_ERR(core->vdec_hevc_clk))
+-		return -EPROBE_DEFER;
++		return PTR_ERR(core->vdec_hevc_clk);
  
- INTEL IPU6 INPUT SYSTEM DRIVER
- M:	Sakari Ailus <sakari.ailus@linux.intel.com>
--M:	Bingbu Cao <bingbu.cao@intel.com>
--R:	Tianshu Qiu <tian.shu.qiu@intel.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media.git
-@@ -13167,7 +13161,6 @@ F:	drivers/media/pci/intel/ipu6/
- 
- INTEL IPU7 INPUT SYSTEM DRIVER
- M:	Sakari Ailus <sakari.ailus@linux.intel.com>
--R:	Bingbu Cao <bingbu.cao@intel.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media.git
-@@ -13469,7 +13462,6 @@ F:	drivers/net/wireless/intel/iwlwifi/
- 
- INTEL VISION SENSING CONTROLLER DRIVER
- M:	Sakari Ailus <sakari.ailus@linux.intel.com>
--R:	Bingbu Cao <bingbu.cao@intel.com>
- R:	Lixu Zhang <lixu.zhang@intel.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
-@@ -19902,7 +19894,8 @@ F:	Documentation/devicetree/bindings/media/i2c/ovti,os05b10.yaml
- F:	drivers/media/i2c/os05b10.c
- 
- OMNIVISION OV01A10 SENSOR DRIVER
--M:	Bingbu Cao <bingbu.cao@intel.com>
-+M:	Bingbu Cao <bingbu.cao@amd.com>
-+M:	Sakari Ailus <sakari.ailus@linux.intel.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media.git
-@@ -19995,9 +19988,8 @@ F:	Documentation/devicetree/bindings/media/i2c/ovti,ov2735.yaml
- F:	drivers/media/i2c/ov2735.c
- 
- OMNIVISION OV2740 SENSOR DRIVER
--M:	Tianshu Qiu <tian.shu.qiu@intel.com>
--R:	Sakari Ailus <sakari.ailus@linux.intel.com>
--R:	Bingbu Cao <bingbu.cao@intel.com>
-+M:	Sakari Ailus <sakari.ailus@linux.intel.com>
-+R:	Bingbu Cao <bingbu.cao@amd.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media.git
-@@ -20139,8 +20131,8 @@ F:	Documentation/devicetree/bindings/media/i2c/ovti,ov9650.txt
- F:	drivers/media/i2c/ov9650.c
- 
- OMNIVISION OV9734 SENSOR DRIVER
--M:	Tianshu Qiu <tian.shu.qiu@intel.com>
--R:	Bingbu Cao <bingbu.cao@intel.com>
-+M:	Sakari Ailus <sakari.ailus@linux.intel.com>
-+R:	Bingbu Cao <bingbu.cao@amd.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media.git
-@@ -25217,7 +25209,8 @@ F:	Documentation/devicetree/bindings/media/i2c/sony,imx296.yaml
- F:	drivers/media/i2c/imx296.c
- 
- SONY IMX319 SENSOR DRIVER
--M:	Bingbu Cao <bingbu.cao@intel.com>
-+M:	Bingbu Cao <bingbu.cao@amd.com>
-+M:	Sakari Ailus <sakari.ailus@linux.intel.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media.git
-@@ -25239,7 +25232,9 @@ F:	Documentation/devicetree/bindings/media/i2c/sony,imx335.yaml
- F:	drivers/media/i2c/imx335.c
- 
- SONY IMX355 SENSOR DRIVER
--M:	Tianshu Qiu <tian.shu.qiu@intel.com>
-+M:	Sakari Ailus <sakari.ailus@linux.intel.com>
-+M:	Dave Stevenson <dave.stevenson@raspberrypi.com>
-+R:	David Heidelberg <david@ixit.cz>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media.git
+ 	irq = platform_get_irq_byname(pdev, "vdec");
+ 	if (irq < 0)
+-- 
+2.54.0.windows.1
+
