@@ -1,113 +1,110 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C50122E11B9
-	for <linux-staging@lists.linux.dev>; Sat, 18 Jul 2026 04:57:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC825305E32
+	for <linux-staging@lists.linux.dev>; Sat, 18 Jul 2026 05:44:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784350632; cv=none; b=aMUXcUKrwbtXdNMwVPNfb2V2Moj2U2L2pk2jUycHw6WcJvh7CNaBF+7rmzwx5Cwl8mL/G9k+LEXvmh+y277WZsmjrIp4UldOMTHCpIOGvmzvT3Y28IIs+UZis+9hdXdbg0ckvsCqLZPyl7cSfBTP1GvmK3IS8woaYYn0gLATeHY=
+	t=1784353459; cv=none; b=PzGYasJVbcyrfV4DsbumRfKm3zIFKh7RyY8Yz63zdCfb/RBjYhrKg+E8v4nIWy5Ok8NlWJhPkUqxfevsdkGUhHi1h3qLMLB1rWpyiUo6Od/+3ZUDXjQGrJmZzFKNr2Qm21PXHnG96hdHLbUDd767noOWnuJ5c/qMZ4nLEkqbk/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784350632; c=relaxed/simple;
-	bh=TJUsfjnTqW01BqA4c2SrNKyLpzODeEISYa0BR5PUda0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bCvr8bUVcpbWYUF2D6sy+LAaegCLBPaHSf1HAU9mVhMlWWpw71M3IPCBE5T79bP09oyB2V1myaSORzC/CX0ff/xDBcq4Q0GPfGdnvDt2kYbOdvD2+jxo6ZspxLqMX7maqB7Fcocod2/R/UScAR0bNkhUKUmdG/fC95kvMmlEGOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YBIyNYbc; arc=none smtp.client-ip=209.85.218.44
+	s=arc-20240116; t=1784353459; c=relaxed/simple;
+	bh=v3COTV9+rSfqp6L59u01sSvvYHm7zK17jRrglIjfiyU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CHVnUDjRfi1jIfkV7K09kPNtctUmxBFR6aZ/JRDu+w3n2Is5WsokzY4vn3tPBdIdOyYYsn2zG5JtWFw4wiEwjd5eGGzoKif3pkTTI5w0uaHYdeXDF92mGu5f+gU2M5NDbLYYkoWWpIhP70rAatTLrSWB2xJUJWuE+Tro94mnO18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F/EnESkW; arc=none smtp.client-ip=209.85.161.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YBIyNYbc"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-c15d5468673so547054066b.0
-        for <linux-staging@lists.linux.dev>; Fri, 17 Jul 2026 21:57:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F/EnESkW"
+Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-6a0e55e82d0so3232808eaf.1
+        for <linux-staging@lists.linux.dev>; Fri, 17 Jul 2026 22:44:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784350629; x=1784955429; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=aF4697Uf41KJkQZyxlwdYFjyI6ttMNVshCuVIWwkfKI=;
-        b=YBIyNYbcOuaDhMiDw+zUHpDbzH0i4az5TyoN5D0iAOQTGBSDSzLVQcgsFjKWYR9vF/
-         CL7o8YtafkQQ5TIFDC7bARbzdwbpSvK2ML49DF5D1+AhSwv5qqAHmwbRaMnwQMMS+HNv
-         R06YHLUBwVNU2htJg+14wx6tngYuLmlpAiZjqXCLvxcPuT3pkTtQYxqtyyoOGZAfH/CV
-         CympKzkaW7FYuxcxIAauCIK0UbZT8+dJ3wQlYDm8+/tfymwVIYwdxc7IlJePx2B6EuW9
-         vFpiUt/jLJ2vuKrk/vsCVsKOzSonVjcba4nsWR7gd58NTur5kg74Yuh4wcs58Ub9UFkD
-         dlJA==
+        d=gmail.com; s=20251104; t=1784353456; x=1784958256; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=71HbJ1PmI0j43ZykPUAoW9mbuzTezbVtmIlABT7/mPw=;
+        b=F/EnESkWqlFcSHvysTJ72iGRNSv6Z1VFHzP/j3iivlU+SjBdZITBwEHwMevxQ0bIr3
+         AmfGNjfOev+pxj55Gcib6ZD2QB7PRxQTPXxxdbBeBKwc7vGiDgVk3CaoBn4/P7AIqxOM
+         RJqEReY8EIsJ7I6ZsjZvbOY70uac77NmJh/y2Nqc9dbfgi5KczJuFCwyD0Iz/Esz82oM
+         86hsVRO72MG55ecRDd8tK4C7O6iYdOVt/X29xWcaxGjHd7Skhp9FdPAdqSozoxmbenCw
+         akIh3fliFyxMj/i8+ptypHXCbTUuYSw0M301K+ckxFE8tOw47lb9IdHlFk0gduJnCrXh
+         QSSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784350629; x=1784955429;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=aF4697Uf41KJkQZyxlwdYFjyI6ttMNVshCuVIWwkfKI=;
-        b=CfaqVomqgYGykBxDjVDtLj1so0U2cQl1vTOzdx4F7UEGRHGJ3nOupq4L3eane3SO5E
-         CvwliSa5W7ERKdy66fXpI93Sz+/l7LxRgkwgN9gshZeNhZK//tiT6JK708fZzNHGtfAp
-         qyjuc4gS4jQAbP+rDdHnsFszhSK25exbfpm/a8sI2E078ykhWLDnNIkQz9Zri4Ap80wB
-         vVyEiIOMErX9kVR50MmQY2ysigrP5zo2QKsNJDPdmjog9FLeM6dEM9to2KAEx/e9gb6d
-         TNgwfR7avySaBDaYU0ND1e1LFfZhJ/krUcUc3hs4lECChsYrC7g6oFboOInfR2Jz1Z6V
-         lfTA==
-X-Forwarded-Encrypted: i=1; AHgh+RpWhyCtnXGDzbKMxt9PzQwj2v7WTwiToVE3FLrF8P/U3n53Hz4cF+tGAwcrHSxnFNVAuCnnV16POborJFqf@lists.linux.dev
-X-Gm-Message-State: AOJu0YyF8VhKRY8qriubewmWv6irxtkqsruUOZtplpVfZnH7jJ4n/AOM
-	cEltdb1RW+IqZ/k6PwWNf+lo503VX5svGFubDQZ+lkf7v3X1Qpzolmwa
-X-Gm-Gg: AfdE7cnugs+OfENWXXDSI1PapN2jII1VZcZv1E59mdS4bbcElG3L4KkURZYxlIPHJMU
-	RmbQU43dH34hMEWhyeaDh6UygQ9AywxAFgBcooNMZ0Ni7b+7++cwZoRXkLC7swWV+GJ+h9r/lkO
-	RGv8BYvisTYy+sUbAjcFbGOg01QykdqunJ7Nrab0LDWYTyEmKa3RFIleKZHPR9Z6RhGGrrjuA1d
-	bW31M8FKSVie5bfZSUfgcRiMfx+aPL7ghHo6Li5AEk5L8+XxLB1RmLY5wo7te10lSd62e1H8tXS
-	JfEnr9yV7Ob1Is2+fg9gESMdms9KPL1Q8ZUNFexADs6q3Nxuu2fEWqFZ7XZ+Sc2H9giURE0uaNT
-	wbykNsbP9Dlbk0IfXDhLV0HVkP2yO0tUfrRAnHs6nLB3zIHglgNPK3vCTXxqKMNRTA581uebjkG
-	eRokDEuVSB2Oe4GJxKoYi8LmHyfl0MaAzlQcwB0BqoZzkuMbWVqgETQWk=
-X-Received: by 2002:a17:907:6d09:b0:c15:fc9d:cf3c with SMTP id a640c23a62f3a-c16b48c1139mr259395066b.42.1784350628774;
-        Fri, 17 Jul 2026 21:57:08 -0700 (PDT)
-Received: from fedora ([202.47.63.86])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c17009ae102sm168303166b.13.2026.07.17.21.57.06
+        d=1e100.net; s=20251104; t=1784353456; x=1784958256;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=71HbJ1PmI0j43ZykPUAoW9mbuzTezbVtmIlABT7/mPw=;
+        b=efGZX/9awZs+yVshrCVYygw+L3pBdXiw4lCKQvViXO1SGLBbHG4SALTfG7Y601DmUd
+         5p+tbts3ktqwsRQukGlDYKO33JU70YYEuAeTi69wSMn9BIbJHVRhe5QX2u4PDq5EMVNP
+         OMc14rQUilbOGGdLiNhyuzWxz5X8Xj+zeULy2aJPOO3Ye5AcsgTiBu80sx7FyQgVq1hb
+         AuMwd0rHbKSf1YhfnWx7StL9G+YDFDkF2Cdkyvc7mbGs/YvgwxlFN3l9+59aPA01+2Zs
+         Ik5GacnsB2Y3KFN/QX03XILCQ4iMIyY/u9OxHU5U2sIPo31b2K9XkR2VyRTAhNStaj+Q
+         ag5w==
+X-Forwarded-Encrypted: i=1; AHgh+Rr8yEEe/q3IBZbsha7QD2iFt1kOv/P/Glq7GnZMmMPWQdXGR/vOsyJm597XTNsh6AAFACEWhYd5vUEBQi6b@lists.linux.dev
+X-Gm-Message-State: AOJu0YwxqXDfYCdfaL0ds9XWiBMuFvWWegsSk+gUe9nLsVhb/1JqpAC1
+	mLjWVY7i6/5c3eFZRIUnzB89D7GXtRyJGrKL0fyuAHf/Kzd3H91ZRErs
+X-Gm-Gg: AfdE7cmMuspbeJhFnDjJEnPC6z8iBrVbd0/TSfnGNb76N0YY2OsV/iJ5zpweTCjsIxk
+	+mI49Zqsn6gsGAMlQb8K0F2/MOk6uNWgV7O1t9oT2RTlAazlTymRz2G2Hmq7iXyT7v5Kq7CQHBn
+	pgHrgCKShE/YRGs8Lilbe6tjS6wel8+lzoxVIB5YE/E9dKc/0hVLEPr18YhZS3RYSeKbJ55Al7U
+	wZ4Vrk5hvL7EqJsxjEgTw0yLG5sYyH53OYl5l83pCOQaQbg+ktOpdSvVDDPmGaVxEzWyOwFseHg
+	+q7tnowqcBIlQ/FQLw9h0eAC+F2SeXNZS227ATwFMufhbsk9hXlnQ4ExD9P5oTSye4DZ98y2kiq
+	7zLoJ4m3mP2ItRDKptweIbecL0EyTa+1QZrMwvceR/Xw4ixl10Po2Uf4UNbZbhrh4LDjtoA==
+X-Received: by 2002:a05:6820:150c:b0:6a3:7e5d:3e26 with SMTP id 006d021491bc7-6a536896826mr2682171eaf.46.1784353456605;
+        Fri, 17 Jul 2026 22:44:16 -0700 (PDT)
+Received: from localhost ([74.80.182.90])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6a51a2225c8sm2857440eaf.10.2026.07.17.22.44.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Jul 2026 21:57:08 -0700 (PDT)
-From: Muhammad Bilal <meatuni001@gmail.com>
-To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Muhammad Bilal <meatuni001@gmail.com>
-Subject: [PATCH] staging: sm750fb: fix mono image source stride mismatch in lynxfb_ops_imageblit()
-Date: Sat, 18 Jul 2026 09:56:41 +0500
-Message-ID: <20260718045641.468640-1-meatuni001@gmail.com>
-X-Mailer: git-send-email 2.55.0
+        Fri, 17 Jul 2026 22:44:14 -0700 (PDT)
+Date: Sat, 18 Jul 2026 08:44:07 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Muhammad Bilal <meatuni001@gmail.com>
+Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: sm750fb: fix mono image source stride mismatch
+ in lynxfb_ops_imageblit()
+Message-ID: <alsSp5tAe8tunTeG@stanley.mountain>
+References: <20260718045641.468640-1-meatuni001@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260718045641.468640-1-meatuni001@gmail.com>
 
-sm750_hw_imageblit() advances its monochrome source pointer by
-src_delta per scanline, and computes the correct rounded-up stride
-internally as:
+On Sat, Jul 18, 2026 at 09:56:41AM +0500, Muhammad Bilal wrote:
+> sm750_hw_imageblit() advances its monochrome source pointer by
+> src_delta per scanline, and computes the correct rounded-up stride
+> internally as:
+> 
+> 	bytes_per_scan = (width + start_bit + 7) / 8;
+> 
+> Its only caller, lynxfb_ops_imageblit(), instead passes src_delta as
+> image->width >> 3. For widths not a multiple of 8 this under-counts
+> the stride, so the source pointer falls further behind the real
+> per-scanline layout on every line, corrupting the rendered image.
+> 
+> Use DIV_ROUND_UP() so the stride passed in matches what
+> sm750_hw_imageblit() already assumes.
+> 
+> Signed-off-by: Muhammad Bilal <meatuni001@gmail.com>
 
-	bytes_per_scan = (width + start_bit + 7) / 8;
+Looks reasonable.  Add a Fixes tag.
 
-Its only caller, lynxfb_ops_imageblit(), instead passes src_delta as
-image->width >> 3. For widths not a multiple of 8 this under-counts
-the stride, so the source pointer falls further behind the real
-per-scanline layout on every line, corrupting the rendered image.
+You have this hardware and are finding these with testing?
 
-Use DIV_ROUND_UP() so the stride passed in matches what
-sm750_hw_imageblit() already assumes.
+It would be better to move the source delta calculation into
+the the sm750_hw_imageblit() since it's just width rounded up
+(or rounded down if you want to be wrong I suppose).
 
-Signed-off-by: Muhammad Bilal <meatuni001@gmail.com>
----
- drivers/staging/sm750fb/sm750.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index 89c811e0806c..69e803f4f175 100644
---- a/drivers/staging/sm750fb/sm750.c
-+++ b/drivers/staging/sm750fb/sm750.c
-@@ -261,7 +261,7 @@ static void lynxfb_ops_imageblit(struct fb_info *info,
- 	spin_lock(&sm750_dev->slock);
- 
- 	sm750_dev->accel.de_imageblit(&sm750_dev->accel,
--				      image->data, image->width >> 3, 0,
-+				      image->data, DIV_ROUND_UP(image->width, 8), 0,
- 				      base, pitch, bpp,
- 				      image->dx, image->dy,
- 				      image->width, image->height,
--- 
-2.55.0
+regards,
+dan carpenter
 
