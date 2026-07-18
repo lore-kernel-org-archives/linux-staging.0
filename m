@@ -1,71 +1,71 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77FB132B116
-	for <linux-staging@lists.linux.dev>; Sat, 18 Jul 2026 18:55:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E56B332D43C
+	for <linux-staging@lists.linux.dev>; Sat, 18 Jul 2026 18:55:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784400921; cv=none; b=LgVEbDBOFODf/7KPlRB9Fi6L6JVbQ9Paanj5WdWJmXO4pNYhu7dcG8IsY0vvpT5uhUUUUA4+p/Y3RFjfj1oYrRrW8OPXeqY4YS27NqzuiilDgmcpkYyAGdILTJno7TL5nTr3Zfxpg7wjE7LJed1CHdkM8ihTUZ6he7wjEaCDNZY=
+	t=1784400922; cv=none; b=lKRdDz2PoXwyQKdQs8sTosV9b1RCBTEhAF2YR+3B0bgm4/MSahChqXzLU0t6iqeGYZ1+SsBA2AWKXEUCUjSbYAdmDS6dXb2536P2m/YFvlnJCNiyT30RtB6qvbEVdnWllzjIyIMNwHH7/CdeE6GAdB16hYJOmSDGpkKkWhndHtg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784400921; c=relaxed/simple;
-	bh=7igi6JgfyV7UtI5KhWMltwcUSiXutkp84qo2icc/bR0=;
+	s=arc-20240116; t=1784400922; c=relaxed/simple;
+	bh=bCImW5FveOgLSFMnd3wYiHnrEIorbTiPRBOU3dDrN38=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uxborPxV8dXxWXAgpcjkGKMeuHsNxrDeIA97/aRhKBygM+rkuOCys6qnTnQ1jxewn6nbqrbGU/tle6IHHIa+r2iEPMUw7SCy5q++/P1nH/cq7RBDJmpfBQyHqc4xbx01qnX2jkNAnEri/wXloZfiHDm73lqpS37rree4jB7t+RI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HLM2kZi9; arc=none smtp.client-ip=209.85.218.47
+	 MIME-Version; b=DwBam0FSpH9hopsPHq/hG0ZjJRhY4NgmWz5Zmg1NtVd/scKCBJHEPn4F82l66q1oSdEGs20on43GRb4KRAGLB/eZWhFXMq8++j+8hRXyB0SrjT/Jh936+mDFUpN1dH/ufy8TgRWF6mslwexfkeAn1W7Y2+9i2F7dtBPUBPa1uEk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K5AnfrJ6; arc=none smtp.client-ip=209.85.218.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HLM2kZi9"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c15f020a223so1171481566b.1
-        for <linux-staging@lists.linux.dev>; Sat, 18 Jul 2026 11:55:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K5AnfrJ6"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-c1740c36c5cso218291166b.2
+        for <linux-staging@lists.linux.dev>; Sat, 18 Jul 2026 11:55:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784400919; x=1785005719; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1784400916; x=1785005716; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=amhXqSP3saN85/NqS6GeuPvXXhbdKvSiHBtrXRJeyQM=;
-        b=HLM2kZi9FgSwkC19vHkfeaYL8HpxGp43nS/nfhwwEnyM9/QdR1+laRz/nDs7zSn+gc
-         AGNex25ZEDS56EphmsQKbikRe0Nao/0a3PMdrX9fMRqCKw3Z8TS8qqB1p+JI7MctXh9c
-         cx1n077Rh0eQiTwzTzXX8hHmkqVhcplsFD1B42NubzSicURwTeXiqayaWb87ktOO0J7f
-         qOxYWok4LNcRwb+bjVM2/DXLkXqbQtqhCounM+NIGrgDUOIs0KBcSv5rlXnYSMZiY2kp
-         6D4JQKwa3xawxnsr019QFzx9+5EKLvzwwCOowCEkSUG6YvoY2PPCiU8dOod/LROV7V2z
-         8zMQ==
+        bh=3K1t70zaHBwvr/zd5QGdCAYVOIE1pLnv+eQf2gzB8Y8=;
+        b=K5AnfrJ6eETXdnRT7KbX7R4QX9PP5DeNTGNLiBuv/oE/vmOFYSFje+K+6MIiCWnsS7
+         a4OL+Qkff0Arz4teimHeyXBPhE3I0RzsYhJLm8ZVuRXHeoyiFyOBhDDyJHGaqHL2cNBv
+         QPaDp89dqCa0K8vGrwlhmlJUNzQpEBe7xk47aoK5YnJ37/xq1SvrZRZM8ub5grefwnem
+         dWF23guMIvUoIgNn5A1ry8Abk+aj48YDNrowC4FByhJeFdmvmxfzRhjNUFZCoVlrj+gq
+         2zYf0SdMiXrNSc11vN7O34vwuxFRrli+MVLj5YHOzNNr+KfHwJSdzcpPWuxDUPY/mbLi
+         j8lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784400919; x=1785005719;
+        d=1e100.net; s=20251104; t=1784400916; x=1785005716;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=amhXqSP3saN85/NqS6GeuPvXXhbdKvSiHBtrXRJeyQM=;
-        b=RKriK0Kt6miB+Jv3M5dEzKHJ2Ps7rz5mn3MU59ya0RGeOhjttHYzFx4hAwwdO3RrlJ
-         4NXt3ITH/H4L2zzZEarupxifMd09LEZ3hQQ6uymKHZX2/Q4jCbqQSiWLZCaSRPNjpf1J
-         p+dLbVzvld/t2cyV8uCG5RZykONZ9VkqKQl1UYkjnyk3LZHENMPtHZdMPjE+I6l4gNBE
-         +ZaxIbl0Qp0rzuqV7KTBkNKhIVYW/itKlxSJhKZNb1zi1jauIm2ttzpU8Bvw+TZ+00tf
-         kdWQGjDw6ZZZjcnvLR4O9jvEAFwPZFgCzp/+zpUKbgLFrNCj66e1qBdRsXqJxsBunXWE
-         Zh1A==
-X-Gm-Message-State: AOJu0YwQsow/MehObOTAGDEImD0HeNZ5OaKD0KZQCxa9+k4VeHo/xkSZ
-	K6hDJ8TXB1yFTof074+mbMVM7X2UijOZA+HFlY92K6JuteZmbswOX7fpsM9VSUi0
-X-Gm-Gg: AfdE7cmtGO7LSI0IaSAypWtPgse8hhsBiYAxERhY1hT4rXddYVbyNqLOyqURopM79P2
-	ilbki+InHueH+Da55FiHuphaSeKGh3egt/VWWbtnDI54IvOJ70MzR8tnVENvOASIVvFy49TdPb0
-	TfHzN6w+M+YtQVEMoBd5kTLXNPtDlkKpz3uR3CwqCC1rjk09FdYtEdyhujZ9IhAMfNKk7+LyebY
-	C/MwiZ6mVCQaOhI1+GbP3XEykDpKTWnl5aMHEfFPrCad40+QhBt0Fx95JU4f7k1BPwXvZgBAuOk
-	5my71w7MQbCG14FLNqpa3YmyBuvDYmx4VNvl9RuCVd+z5iCDbZVcmQJkfKqxYEnNlktESohl3Ob
-	JSxUwhb/wLPm66V1JpcQdEkjyiRH9hiUCNGYK1MU5ylfvTpl+LoXmvJcb3IaebSYBrFeISVlvbj
-	cFhwrZwgropfcVuvwPeKo4/GT/+8E0bHobW6WIiaDhqAzOyqnWwayyMFw=
-X-Received: by 2002:a17:907:960a:b0:c16:abdc:5605 with SMTP id a640c23a62f3a-c16b46ade56mr314311566b.3.1784400918663;
-        Sat, 18 Jul 2026 11:55:18 -0700 (PDT)
+        bh=3K1t70zaHBwvr/zd5QGdCAYVOIE1pLnv+eQf2gzB8Y8=;
+        b=QyxmQz6cZDgkD+lOyHM2g+1IWYOycYEXw2KrobCvweoLs9Dc5uc1DZBVqLlsrrAJSR
+         TRPd6UxBhnLoY13d/sHuLJTw9JLmRQv18piVCIvpX9elujFbeX8RXl7BlYetyDI5p9tm
+         2vPJJnUy8RlZVVxivrIbu2RZU2H4IE1o7gfXyqkJEE8GQJ6cnL60Jb00GqY0/JYojs5c
+         PG6paMaL5tN1cyWBHFFhmIAAuefv/xuOFlQQf1KKtUOQRgZJbCI59nLSY5y7e/8N0RjR
+         P35WqG/XJ+ctNFPkXk6jMeAsFF+guQDvev8fOXbXc6LCodQymErLZzb7ymOAo3qXv17M
+         u20Q==
+X-Gm-Message-State: AOJu0YxaFf2MH9PQOnbR6/5/ccnt9rRFQ0OuX/xB+PviduR/VdQT1P4G
+	MqPrj88MlxjeJzkrXvib4iZizQ8pn/NhTwylWYbGCiH/ucowcqWDidAM
+X-Gm-Gg: AfdE7clWhw3kAMCGSA/lJuq9Dz70iJFkc4j4i3x1SnC/A5fBRv0QXebDiIDSQfTbah1
+	0DoMJxhhJDXn/F2FfPunoWYuuj8r0gs5fh+jNibKmOwX5yfEEkT4eM2BPMLj6nHc3zxOSB/PNwL
+	ac1sjYBZHdfeIUNNXLZ4/Bni8w1OnIYs8Opb8RTobimkE1YWnQa3zSP3l/YWv2Dk1xXZKqbptVz
+	us+F+pJ2T8YZbZkfF2Hf2N+bZU3h6ig0gWre2dAQEcnf9pCCc9RJHWdKGzj/7tzWsXQ1EnHwPUY
+	2b3ZApuoFUfEBXfsK9xX2rMtHewagEC+9mbp0AKCmEuk/JF9xdkUCW4BEL6BBbQbeL+4dj31w0E
+	6ryn0uHjSAZfn8DGzFUhY4F1w+KrEKzucsOPUJ9sPglEWQIq2cyIy6ES9T8Qwt5uG/KXKbnJpHs
+	5obWB4UgFGUUi2PHGkFkDRWAIsS0V00nyKnsaa3IkNNVmsDgrUo86gI+g=
+X-Received: by 2002:a17:907:c8a4:b0:c16:af70:f981 with SMTP id a640c23a62f3a-c16b48551d8mr273271766b.32.1784400916066;
+        Sat, 18 Jul 2026 11:55:16 -0700 (PDT)
 Received: from fedora ([202.47.63.86])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1712a5f837sm249151866b.32.2026.07.18.11.55.16
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1712a5f837sm249151866b.32.2026.07.18.11.55.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Jul 2026 11:55:18 -0700 (PDT)
+        Sat, 18 Jul 2026 11:55:15 -0700 (PDT)
 From: Muhammad Bilal <meatuni001@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org,
 	Muhammad Bilal <meatuni001@gmail.com>
-Subject: [PATCH 3/5] staging: rtl8723bs: fix OOB read in rtw_action_frame_parse()
-Date: Sat, 18 Jul 2026 23:54:43 +0500
-Message-ID: <20260718185445.63070-4-meatuni001@gmail.com>
+Subject: [PATCH 2/5] staging: rtl8723bs: fix OOB read / stack overflow in rtw_get_wps_attr()
+Date: Sat, 18 Jul 2026 23:54:42 +0500
+Message-ID: <20260718185445.63070-3-meatuni001@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260718185445.63070-1-meatuni001@gmail.com>
 References: <20260718185445.63070-1-meatuni001@gmail.com>
@@ -77,48 +77,67 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-rtw_action_frame_parse() takes a frame_len parameter but never
-actually checks it before indexing into the frame body:
+rtw_get_wps_attr() walks WPS attributes inside a WPS IE taken from
+a wireless management frame. For each candidate attribute it only
+checks that the fixed 4-byte attribute header (2-byte ID + 2-byte
+length) fits inside the IE:
 
-	const u8 *frame_body = frame + sizeof(struct ieee80211_hdr_3addr);
-	...
-	c = frame_body[0];
-	...
-	a = frame_body[1];
+	if (attr_ptr + 4 > wps_ie + wps_ielen)
+		break;
+	u16 attr_id = get_unaligned_be16(attr_ptr);
+	u16 attr_data_len = get_unaligned_be16(attr_ptr + 2);
+	u16 attr_len = attr_data_len + 4;
 
-frame_body already points 24 bytes (sizeof(struct
-ieee80211_hdr_3addr)) into frame, so reading frame_body[0] and
-frame_body[1] requires frame_len >= 26. A management action frame
-shorter than that (e.g. exactly 24 bytes, the minimum a malicious
-peer can send) causes a 1-2 byte out-of-bounds read.
+attr_data_len (and therefore attr_len) is read directly from the
+wire and is never checked against the remaining bytes in the IE
+before being used as the size of:
 
-This is reachable from rtw_cfg80211_monitor_if_xmit_entry() and
-cfg80211_rtw_mgmt_tx() in ioctl_cfg80211.c, both of which pass
-attacker/user-influenced frame buffers and lengths straight through.
+	memcpy(buf_attr, attr_ptr, attr_len);
 
-Add the missing length check before frame_body is dereferenced.
+Since attr_len is fully attacker controlled (0 to 65535+4), this is
+both a heap OOB read of wps_ie, and, more seriously, a stack buffer
+overflow at several call sites where buf_attr is a single-byte
+stack variable, e.g. rtw_get_wps_attr_content()'s callers passing
+WPS_ATTR_SELECTED_REGISTRAR into a stack "u8 sr"/"u8
+selected_registrar" (drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c,
+drivers/staging/rtl8723bs/core/rtw_mlme_ext.c). A crafted WPS IE in a
+beacon or probe response processed during scanning can therefore
+smash the stack of the parsing thread.
+
+rtw_get_wps_attr_content() itself has no independent length check
+and simply trusts the attr_len it gets back from rtw_get_wps_attr(),
+so fixing the bound here also fixes that caller.
+
+The "attr_ptr + 4 > wps_ie + wps_ielen" header check above was added
+by commit 1463ca3ec6601 ("staging: rtl8723bs: fix OOB reads in
+rtw_get_sec_ie(), rtw_get_wapi_ie(), and rtw_get_wps_attr()"), which
+bounded the fixed header but never extended the check to cover the
+variable-length attribute data that follows it. Add that missing
+check before attr_len is used as a memcpy() length or accepted as a
+match.
 
 Fixes: 554c0a3abf216 ("staging: Add rtl8723bs sdio wifi driver")
 Cc: stable@vger.kernel.org
 Signed-off-by: Muhammad Bilal <meatuni001@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_ieee80211.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/staging/rtl8723bs/core/rtw_ieee80211.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-index be374d222c55..e02b54131633 100644
+index 2fb5863dbeef..be374d222c55 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-@@ -1145,6 +1145,9 @@ int rtw_action_frame_parse(const u8 *frame, u32 frame_len, u8 *category, u8 *act
- 	u8 c;
- 	u8 a = ACT_PUBLIC_MAX;
+@@ -733,6 +733,10 @@ u8 *rtw_get_wps_attr(u8 *wps_ie, uint wps_ielen, u16 target_attr_id, u8 *buf_att
+ 		u16 attr_data_len = get_unaligned_be16(attr_ptr + 2);
+ 		u16 attr_len = attr_data_len + 4;
  
-+	if (frame_len < sizeof(struct ieee80211_hdr_3addr) + 2)
-+		return false;
++		/* Reject attributes whose claimed length runs past the IE */
++		if (attr_ptr + attr_len > wps_ie + wps_ielen)
++			break;
 +
- 	fc = le16_to_cpu(((struct ieee80211_hdr_3addr *)frame)->frame_control);
+ 		if (attr_id == target_attr_id) {
+ 			target_attr_ptr = attr_ptr;
  
- 	if ((fc & (IEEE80211_FCTL_FTYPE | IEEE80211_FCTL_STYPE)) !=
 -- 
 2.55.0
 
