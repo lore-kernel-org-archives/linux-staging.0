@@ -1,64 +1,64 @@
-Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E890334403A
-	for <linux-staging@lists.linux.dev>; Sat, 18 Jul 2026 11:55:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E63EA3769E5
+	for <linux-staging@lists.linux.dev>; Sat, 18 Jul 2026 11:57:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784375706; cv=none; b=dj2OdOlEtAaMKVPVCZJHG379Ny7x+G5bC+2kC06lf6L826HpGQrx9xgCQEXWJEKUkG7M9QyBeBthU7OLqB68Tb2T+1Z5kK4gpSwT2+YnAuPxk7UdoaqFJV8bxwrzIlrlVsjgWxaJLfPfEKub+B98Dligj7vlCPQ7ya8lut4G2nE=
+	t=1784375864; cv=none; b=UtMA1dMgS/U+a6Cpyq1CrFU37Y5/C2qZkbfBUbRssR1KkJbn5jWAqLj2UdP4oW3EXdHlwVVFA8T0PjhTZOtm3ZJchqFfAqEhjidEKtfJTudrxrwqZBFiB7k4mWVFN9FoCKO4JDkLMEfwgVLddciXebqUdsTZb28sQJK8e1Mw/4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784375706; c=relaxed/simple;
-	bh=uL1h+zcBYTdhfJh+Pjb1mkpqWBcpEGzZ2496SPN7xBA=;
+	s=arc-20240116; t=1784375864; c=relaxed/simple;
+	bh=bRZ7r5ito+ISYPPpW3iV3q8jRne4kVIXg/UH5tYXNOo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SqQ9/KwcbDlBa+x1E1w1txBHbzOG7mMayO7f+IMKIM4YvZ8YHxPmfYAvJgtR7jDQ+iKHMmJKqLi/h0KRO5A1TMtbbXGiDxkmeknrEHJcpts5FmXIcL5wGql1yfW6TH/H21/pqagyFxdhUL/e3CwBIsl3oy+MbaRub0KD5B/hWvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I9rUq1jj; arc=none smtp.client-ip=209.85.160.53
+	 Content-Type:Content-Disposition:In-Reply-To; b=sXRp6laGw248k3YDhA3GQAvTZ66jClnAu7b8jqfQrT23j3ZhSee0Bn92rivhtJcwCLSZluICSnSi583bBXbw2+/SQ+NlI0VZKpfqSLcFf+9QIzVNK+G+7z6biXNrjw4rXR3nG5h94/Q0hOgZ8/9FYEY+vhuwOYS+WW8ZW6XnZ90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WSwpiijp; arc=none smtp.client-ip=209.85.210.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I9rUq1jj"
-Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-43b7e186a0cso3183963fac.0
-        for <linux-staging@lists.linux.dev>; Sat, 18 Jul 2026 04:55:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WSwpiijp"
+Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-7e9ecb1e13cso6602455a34.3
+        for <linux-staging@lists.linux.dev>; Sat, 18 Jul 2026 04:57:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784375704; x=1784980504; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1784375860; x=1784980660; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=L0tz/h43xnvUpRXIsTHo/6Kg9VzM1jb7Ry9KU5PShuk=;
-        b=I9rUq1jjPe8G05jnG1t+WJ+d9Z33AKZZouIMFc6SpIANw8B+SQZuCPqU8Fg99FLDN6
-         qcJ9aVDveuNlDxTqirnF/MfL5lWacqJ18dPH0keOJD2bAL0zTRxOP09qJeoZlZ8yY5HA
-         kWawsMpHOW+Mw7m+mCSXsgmi/HFAys4C2WS9gLmy+dBFGF+mPqEidqh2Z0UTSrnk3DLv
-         EQDlP/3LCj5NQCF77Ti4YprrR40e9SkMIfaVT8KGxLSEQjRclvb5WxYTc3PLQ8Jstqq2
-         z9rUSTZCk5TmYkfMqG+cLSNK2FT1jpHUJMp7Q8Fzl14Vll3ki8lMBaiy3qn4c8vw7vXQ
-         eRFg==
+        bh=3/gVjW7F0KtjB8QhqPU1YYK9NmfO70mkrphRQOGidpk=;
+        b=WSwpiijpZFXP6UmFy58jnQ7ERPSmvl6qY5VfTVGYDO/h4lRubXGZV/DGY/Z0Bi3vQJ
+         3Spg+zDLjQy7ygWfjvmtj9csswKln+apDZR0KpqQqz8J0Wgpv/Dmo6IvouDnQuWQKnWg
+         29TpJFdxrXfxgoeUgww+LTJhI87NphNeYJPkr8J59uXV3eOKxCGFCotOXpnCLGptOPuz
+         CR44k6xtTeLHY6KerMMGCI//YTMBhQVK8tBXrMtD6wut0QmMiqZx0YzUBN0BoerJiBic
+         19XD50K5DSZmXNbvyp1xnj4XIPk0kTcDRramwV8EZ2MsqzTCS0NaCqbsRuaIutbzXctT
+         9+nA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784375704; x=1784980504;
+        d=1e100.net; s=20251104; t=1784375860; x=1784980660;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=L0tz/h43xnvUpRXIsTHo/6Kg9VzM1jb7Ry9KU5PShuk=;
-        b=pTf+hSxOzPiQcb0dtYb5/eKlEK++gpNoe+b0uXMAbEYCS9knxEvVJWE1gqI2yHIV3U
-         NrQjDkHwvpP8Rd3sIDgzAAVZLY6iHroe3Na3E8UbfULtQvjGqvwt1EuHZWbKbCin5hy/
-         FgNkZVSnwUfs9trrfMe01iG4uLbXKrEJz7Slb6R8iz7YD0t9r4UPvZwKCqnFNOjykko3
-         dSYIJ4U0Q55Yw+4iD9aZWu2KgUoGQYTTw50YyNOEmUZLRKxhJSRQgC9qxTTNpTcM7dwx
-         BJWcChLQHFZOLc2P+OnB0HNqOOk9gncC0gc/3LtieS93uCIHDeT7m9Y2S70mU9c63Xip
-         YxfQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rr0zM5WQCiOAZg3tjV8LxuHNme5wGruuLzlX5j8aRNxa4e0qCS9ZEoHNq8VDmBy5Hgip7Ph6B1R30hc4A1O@lists.linux.dev
-X-Gm-Message-State: AOJu0YzKwhgwYicH55K9w9ATZdZlo5eTUbpb5/ZyM4KZwDjgZ09/njVZ
-	gZDhL/QjQtpC3QYaF+cwuMirG79ADWpeWe59P4YGQa7HFgM9DPh9udLo
-X-Gm-Gg: AfdE7cn7CXuIhGkDllSdnI5DTA3u8yZh3T3MA02a2c79zGkvUqDcxwMZYPqPocxDHbM
-	cszZ1gMj1M78z9FcB1XuLANPMk4BeWFI5jYiOpOIR4+1m7F5ybCU06liFf9KFcGzWPz3IHq/HFg
-	eet5K9E5esmfwvvs5y7Qk2LwhsO1oStZa6ANHH1CwoWON+NPS1sNeUr1hKXJbnadA+I7LGBBKFH
-	pVqgjqDGCiCFQcuoffshDRcJLk1dph8z4I/ofNEG7H0s960E3Ftxdp9nMbsnMw4I0M/8kNHhcGm
-	TN4qOJbl/YhxZiwiO5mfSzMhL1QC60iGYhvEo/slMmcKX3MyHZMEnXj5+RttT4UMY/IvvPmkgWl
-	UoeQCasxqEi1XWl+TCSRrcZi5xiWit5GLzoJ8i6WTtJSQQDd+o7XX1b+lnLDM92dvM1SGNw==
-X-Received: by 2002:a05:6870:1b83:b0:448:558c:d83e with SMTP id 586e51a60fabf-45690620df5mr3110708fac.35.1784375703743;
-        Sat, 18 Jul 2026 04:55:03 -0700 (PDT)
+        bh=3/gVjW7F0KtjB8QhqPU1YYK9NmfO70mkrphRQOGidpk=;
+        b=M2ywsOm5w7zqUiYEuJjwwTHA7P5iodVbvabQLbAuOFfw5cKznuyEm3YrCADeEEewnd
+         ih0ssuWf2z6IFG/zY5l9YXAxYrtTMLjWymDeXa4n7IRHK7nn0cyHPsvlaj+UQVNRBY9d
+         6ujWYhG5zI/66o1abv5B2h7U67pHdrSQGEpr0/rXDnbUT8Z/6hENimvSe4N1Ku+vnIbn
+         k/VEiIc+UoElucVh2McNNooqfEL55GvW0cmSGOHRZVfhR2xsfsS+ev9p0O2MdoA2eXNC
+         k+62A3Prl8z8VhpbtJenzPqpBtEK4HX/8dOGBdmVwDTq+/exXqP3EB78YFfIrxc53uyU
+         WIwg==
+X-Forwarded-Encrypted: i=1; AHgh+RpiZKKl1zbX9o8dsTWTqvfsA8gZC++6PZzJJ7noXR8ySlKEo0d0vvnkxylnSoqLCp8X5QFNYbvqmAMfCQp8@lists.linux.dev
+X-Gm-Message-State: AOJu0YwTzugIbBKdcH17rhVeKVrfY1fSIlnXmwclRZdN883+VS2uiu2s
+	hg3slqml1rZNI81T68IzPjS0RNWdyLtRLqhiRREcXQLcBOoYI8fxopty
+X-Gm-Gg: AfdE7cn2/TSf2hE/C54mnlTYrtTMo0IiNiKZw7pM5E6Ww4i5vShjNiCm0vt2+4LCcMP
+	k3mo9IeE7U673TawdOLGhSnU3iRx8Ul3wYl0LDX3GdCsIunB9SVKJGWatlNyLlha9a6G4jpkbBE
+	c8M3brza2ARfFteJG70KnLcxyvypLsAp2/Pa/wHLq78M0vzYKXyup1lmhvCE/ZvesO1HjWFljde
+	T8kzm5GgCdFcx3Fn2Qi4oDPdT50SuSuu81M+CBLx97+cBo0dg1YvFCp601M3YoulGJZhPd5rlSD
+	fU1nypdh/gdpNZTOWLZuCQ1QM9W/rVHqW/aJ6wctsy3brI1Z83wf+foseBVMU9pht6puo5x6hk+
+	gJcM03wN5QMSviGEhtcy3VwgmQMrgQkM0ZbaP5HSy8lTnyLXyFJ2kBmQwtMgHurks6IvDcw==
+X-Received: by 2002:a05:6820:151e:b0:6a4:cf9:9a69 with SMTP id 006d021491bc7-6a5366c922emr2917108eaf.20.1784375860437;
+        Sat, 18 Jul 2026 04:57:40 -0700 (PDT)
 Received: from localhost ([74.80.182.90])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4568e6a92f5sm3425488fac.15.2026.07.18.04.54.59
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6a516c03f36sm3343831eaf.7.2026.07.18.04.57.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Jul 2026 04:55:01 -0700 (PDT)
-Date: Sat, 18 Jul 2026 14:54:55 +0300
+        Sat, 18 Jul 2026 04:57:38 -0700 (PDT)
+Date: Sat, 18 Jul 2026 14:57:32 +0300
 From: Dan Carpenter <error27@gmail.com>
 To: Muhammad Bilal <meatuni001@gmail.com>
 Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
@@ -66,12 +66,10 @@ Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: sm750fb: fix mono image source stride mismatch
- in lynxfb_ops_imageblit()
-Message-ID: <altpj57xQvrY8I4w@stanley.mountain>
-References: <20260718045641.468640-1-meatuni001@gmail.com>
- <alsSp5tAe8tunTeG@stanley.mountain>
- <CADqcGB=F6Qvk-3zQ=DCPewfpOAQvCta2q-WrfuSPanmoVqyGpg@mail.gmail.com>
+Subject: Re: [PATCH v2] staging: sm750fb: fix mono image source stride
+ mismatch in lynxfb_ops_imageblit()
+Message-ID: <altqLCKzCdGLaMzl@stanley.mountain>
+References: <20260718103103.18082-1-meatuni001@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -80,31 +78,41 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CADqcGB=F6Qvk-3zQ=DCPewfpOAQvCta2q-WrfuSPanmoVqyGpg@mail.gmail.com>
+In-Reply-To: <20260718103103.18082-1-meatuni001@gmail.com>
 
-On Sat, Jul 18, 2026 at 03:38:52PM +0500, Muhammad Bilal wrote:
-> On Sat, Jul 18, 2026, Dan Carpenter wrote:
-> > Looks reasonable.  Add a Fixes tag.
-> >
-> > You have this hardware and are finding these with testing?
-> >
-> > It would be better to move the source delta calculation into
-> > the the sm750_hw_imageblit() since it's just width rounded up
-> > (or rounded down if you want to be wrong I suppose).
+On Sat, Jul 18, 2026 at 03:31:03PM +0500, Muhammad Bilal wrote:
+> sm750_hw_imageblit() advances its monochrome source pointer by
+> src_delta per scanline, and computes the correct rounded-up stride
+> internally as:
 > 
-> Thanks for the review. Sending v2 as a separate message since it
-> came out as a fuller rework rather than a small diff on v1:
+> 	bytes_per_scan = (width + start_bit + 7) / 8;
 > 
->  - Added Fixes: 81dee67e215b2 ("staging: sm750fb: add sm750 to
->    staging"), traced via git blame. The bug has been there,
->    unchanged, since the original 2015 staging import.
+> Its only caller, lynxfb_ops_imageblit(), instead passed src_delta as
+> image->width >> 3. For widths not a multiple of 8 this under-counted
+> the stride, so the source pointer fell further behind the real
+> per-scanline layout on every line, corrupting the rendered image.
 > 
->  - No, I don't have this hardware. This was found by auditing
->    sm750_hw_imageblit()'s internal stride calculation against what
->    its caller was passing in, and confirmed with a clean "-Werror"
->    build. No runtime testing on real sm750 silicon.
+> Rather than just fixing the caller's calculation, remove src_delta
+> as a parameter entirely and have sm750_hw_imageblit() advance by the
+> bytes_per_scan it already computes for itself. There has only ever
+> been one caller, and that caller was passing an out-of-sync
+> derivative of the same width/start_bit values sm750_hw_imageblit()
+> already has, so keeping stride as a separate parameter served no
+> purpose beyond letting the two calculations drift apart, which is
+> exactly what happened here.
+> 
+> Fixes: 81dee67e215b2 ("staging: sm750fb: add sm750 to staging")
+> Signed-off-by: Muhammad Bilal <meatuni001@gmail.com>
+> ---
 
-You really need to put this into the commit message.
+There is supposed to be a little note here:
+---
+v2: Added a Fixes tag.
+
+https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
+
+Obviously there is an inconsistency between rounding up and down
+but without testing it's less clear which one is correct...
 
 regards,
 dan carpenter
