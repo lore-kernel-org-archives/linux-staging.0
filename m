@@ -1,119 +1,146 @@
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E63EA3769E5
-	for <linux-staging@lists.linux.dev>; Sat, 18 Jul 2026 11:57:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784375864; cv=none; b=UtMA1dMgS/U+a6Cpyq1CrFU37Y5/C2qZkbfBUbRssR1KkJbn5jWAqLj2UdP4oW3EXdHlwVVFA8T0PjhTZOtm3ZJchqFfAqEhjidEKtfJTudrxrwqZBFiB7k4mWVFN9FoCKO4JDkLMEfwgVLddciXebqUdsTZb28sQJK8e1Mw/4o=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784375864; c=relaxed/simple;
-	bh=bRZ7r5ito+ISYPPpW3iV3q8jRne4kVIXg/UH5tYXNOo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sXRp6laGw248k3YDhA3GQAvTZ66jClnAu7b8jqfQrT23j3ZhSee0Bn92rivhtJcwCLSZluICSnSi583bBXbw2+/SQ+NlI0VZKpfqSLcFf+9QIzVNK+G+7z6biXNrjw4rXR3nG5h94/Q0hOgZ8/9FYEY+vhuwOYS+WW8ZW6XnZ90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WSwpiijp; arc=none smtp.client-ip=209.85.210.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DF913D6664
+	for <linux-staging@lists.linux.dev>; Sat, 18 Jul 2026 14:49:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784386165; cv=pass; b=jgPXt+NzpxMWLP9XNoU0Ga51nkIjnUuqKs04aaeXZvRUU/iepKwaMWrTNijuTSzheQeOj3iV0ZHhNkequ+3g0CoEy6S+WTctEmslVqepp0bSCzb0RHCLzO5hTx5pQWluh8vvdUhPSaQf3Em6eS8MMArjWFZTGjAuD0/zFgX5yFI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784386165; c=relaxed/simple;
+	bh=cY0n5YdJZT/kDg6q2RLSXisqeJKPpk4DBOLmie8Zcr0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LMKLuQbAdvqw/YMRIyOK37EvqFoE4J4mS9i2TZBNgp2CCPy0So+E2TOR+lt1Yx47/iKYSE7tKI0qYPlsRxuxofRa+RmEH/qjWOpp/mXOqgJvgkDk6+D+PTEH4GMxJhN/gOTtHpELN/UDq4fgC3rnAhlKqkmcJMg9E2fjhaxNLxs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fDBg5zOb; arc=pass smtp.client-ip=209.85.218.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WSwpiijp"
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-7e9ecb1e13cso6602455a34.3
-        for <linux-staging@lists.linux.dev>; Sat, 18 Jul 2026 04:57:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fDBg5zOb"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-c15f360851aso793800366b.2
+        for <linux-staging@lists.linux.dev>; Sat, 18 Jul 2026 07:49:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1784386161; cv=none;
+        d=google.com; s=arc-20260327;
+        b=dQptP0+XXfrcIpFwFQcdO59c4fo9Em9H4XPHgiGKqXG8J3cDg+gJydM6LxZuS2+FNa
+         GUEMLCmtr8Oa/Hgm3k6V5AQBIO12MVOyqnWsL55qzTFcQLLAMsg6iV4waxF4K7WV5CwF
+         J6E+nC6eWAByymwkwEcTCfO4PUqkcwZt2x3e1ZfMO3UqyTXZzYX/W5KFzpQzGM5c+8dW
+         OkQQNcrDf8A3cLtI5O13J9l7HFYjIy/C/Mo3BcpKPcPVv2xctcMDO9UQA95mH1dqFutT
+         z26+P1nXIhTTOuRbwX63S4VYp1PJW428aWOev9KOaiLfuN3+fF+zZvV5JJFW/0iXBcQ5
+         aN0w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=vl1WVyiHzVkea159MteyZ6RyA+Bj3Qd5o83McaIp3/I=;
+        fh=tRFppvRDB/X1j9S1/Otlsk8TTh8kHrc9nzbxyuQi1nY=;
+        b=R4Skdz0vaVD+uOEhU6RRv/qaupbfwEYwL4T6HzznUqZCHEGHHAtulzwseHuBb7qC2q
+         IsOkeVRPvr177v2JHzYqLarTXgzvxJvG5/TfVhwzhq1aeBtD8PGzdpXRhmIpVZXsphqV
+         99taexyhEIadBvVj4BFcZU+2oGyFgKg+hrtUxtzA5vKVTVD2ZkEGrpaf4XWwrEkD9xqj
+         CaRUM0iP3ieRzRPcBd2+aAEDQ7gpTPwflPamGYzEZrKlUZ8dHakM13enRcWDkzvEusY7
+         lr4Enn39hLbIvysxEI70t/S/Xw+zJH6yleSIGFy7Z5+SxfR9rw9yGc3sRRllSjqko3yE
+         yRQQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784375860; x=1784980660; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1784386161; x=1784990961; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=3/gVjW7F0KtjB8QhqPU1YYK9NmfO70mkrphRQOGidpk=;
-        b=WSwpiijpZFXP6UmFy58jnQ7ERPSmvl6qY5VfTVGYDO/h4lRubXGZV/DGY/Z0Bi3vQJ
-         3Spg+zDLjQy7ygWfjvmtj9csswKln+apDZR0KpqQqz8J0Wgpv/Dmo6IvouDnQuWQKnWg
-         29TpJFdxrXfxgoeUgww+LTJhI87NphNeYJPkr8J59uXV3eOKxCGFCotOXpnCLGptOPuz
-         CR44k6xtTeLHY6KerMMGCI//YTMBhQVK8tBXrMtD6wut0QmMiqZx0YzUBN0BoerJiBic
-         19XD50K5DSZmXNbvyp1xnj4XIPk0kTcDRramwV8EZ2MsqzTCS0NaCqbsRuaIutbzXctT
-         9+nA==
+        bh=vl1WVyiHzVkea159MteyZ6RyA+Bj3Qd5o83McaIp3/I=;
+        b=fDBg5zObWwkduE3ql/DIcFCI9H0qRHnghlLrvLPdkH0aJ9rOcrN+ffLZlxcQDYU+rB
+         KwdUEsZAEMWy0nvPD5aJ+TAROBE+uAtIN7h0pRCKEdjEe5yGjEQvAfRC0KCYKepnsdnU
+         QFIdzwvia8P81PJFkHsAm/ncUn9n0082TtT48M76/g6w7V+fRy8xKo1kyZmzd8GxT966
+         4a9KyTg4+pi6ifRZhvHm72Sk4HOr0w9vPFKw/EbNSUMO+wdz02PWbMo55WYdfHI0Ob7+
+         Oxcl3CZJMh1/U2UXePSvo5i6yhm3DDTl4TDpP3L98vTjUsUPvcb9RByreXSTgdA8dVaF
+         c8eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784375860; x=1784980660;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20251104; t=1784386161; x=1784990961;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=3/gVjW7F0KtjB8QhqPU1YYK9NmfO70mkrphRQOGidpk=;
-        b=M2ywsOm5w7zqUiYEuJjwwTHA7P5iodVbvabQLbAuOFfw5cKznuyEm3YrCADeEEewnd
-         ih0ssuWf2z6IFG/zY5l9YXAxYrtTMLjWymDeXa4n7IRHK7nn0cyHPsvlaj+UQVNRBY9d
-         6ujWYhG5zI/66o1abv5B2h7U67pHdrSQGEpr0/rXDnbUT8Z/6hENimvSe4N1Ku+vnIbn
-         k/VEiIc+UoElucVh2McNNooqfEL55GvW0cmSGOHRZVfhR2xsfsS+ev9p0O2MdoA2eXNC
-         k+62A3Prl8z8VhpbtJenzPqpBtEK4HX/8dOGBdmVwDTq+/exXqP3EB78YFfIrxc53uyU
-         WIwg==
-X-Forwarded-Encrypted: i=1; AHgh+RpiZKKl1zbX9o8dsTWTqvfsA8gZC++6PZzJJ7noXR8ySlKEo0d0vvnkxylnSoqLCp8X5QFNYbvqmAMfCQp8@lists.linux.dev
-X-Gm-Message-State: AOJu0YwTzugIbBKdcH17rhVeKVrfY1fSIlnXmwclRZdN883+VS2uiu2s
-	hg3slqml1rZNI81T68IzPjS0RNWdyLtRLqhiRREcXQLcBOoYI8fxopty
-X-Gm-Gg: AfdE7cn2/TSf2hE/C54mnlTYrtTMo0IiNiKZw7pM5E6Ww4i5vShjNiCm0vt2+4LCcMP
-	k3mo9IeE7U673TawdOLGhSnU3iRx8Ul3wYl0LDX3GdCsIunB9SVKJGWatlNyLlha9a6G4jpkbBE
-	c8M3brza2ARfFteJG70KnLcxyvypLsAp2/Pa/wHLq78M0vzYKXyup1lmhvCE/ZvesO1HjWFljde
-	T8kzm5GgCdFcx3Fn2Qi4oDPdT50SuSuu81M+CBLx97+cBo0dg1YvFCp601M3YoulGJZhPd5rlSD
-	fU1nypdh/gdpNZTOWLZuCQ1QM9W/rVHqW/aJ6wctsy3brI1Z83wf+foseBVMU9pht6puo5x6hk+
-	gJcM03wN5QMSviGEhtcy3VwgmQMrgQkM0ZbaP5HSy8lTnyLXyFJ2kBmQwtMgHurks6IvDcw==
-X-Received: by 2002:a05:6820:151e:b0:6a4:cf9:9a69 with SMTP id 006d021491bc7-6a5366c922emr2917108eaf.20.1784375860437;
-        Sat, 18 Jul 2026 04:57:40 -0700 (PDT)
-Received: from localhost ([74.80.182.90])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6a516c03f36sm3343831eaf.7.2026.07.18.04.57.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Jul 2026 04:57:38 -0700 (PDT)
-Date: Sat, 18 Jul 2026 14:57:32 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Muhammad Bilal <meatuni001@gmail.com>
-Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: sm750fb: fix mono image source stride
- mismatch in lynxfb_ops_imageblit()
-Message-ID: <altqLCKzCdGLaMzl@stanley.mountain>
-References: <20260718103103.18082-1-meatuni001@gmail.com>
+        bh=vl1WVyiHzVkea159MteyZ6RyA+Bj3Qd5o83McaIp3/I=;
+        b=M2kPf1/YCP8FMFcGJZRG0H5OKC9lbdztBShCjo6olZFZuQzFBoXwaFlI22TN4Joyrd
+         rxFcb2IV0TvZuWYF6iCY29MshOQeSej41PdCHoPj+/tM0ek5oXquwT4ibdsmYGisizSk
+         lCwhyMYgRGLNzVRrGxL6bvrsLCO/YnmQRc56kUn88BcBUFSFrKfYCJeUxxr6L7MfZXM4
+         nOWtFjyBroVwiGMN14ejOajpDsUo1jnfGTJGwjsUj+OfeksUfs+XK+WUz0fjRd3sbqqj
+         ZxsJpr+tHPC17gFM5OczdYjIFS0EK6g38V0AzpZVnmcebNmsbOmP14EQK7gEPgXTN+ej
+         mK7Q==
+X-Forwarded-Encrypted: i=1; AHgh+RoKIKkwpAlCIkNkllRnPpuP5rlV1Rr4L9CjXBSh8UUoLIUAHkgFnr8QEhZluMyAyqMzGQ7APIIO0iYhnwSY@lists.linux.dev
+X-Gm-Message-State: AOJu0YzMbDmP0gIleQuqetZqFX8MYVHZ7qhzsDWbntC6e6DFy2ybmleq
+	UbfrdqhtJuhpM4s6mcs9MIgjZ87sQWT+jFB/OkBP6wNRgcgj7EDucU5KYYqpzXQFGx19LlxC29z
+	qUA2HqUAa/4KH3zLvTL4VGz1QspxxuZM=
+X-Gm-Gg: AfdE7ckha+vDwsMdfcZOOSTOta56VsznGgwopV1pcEOtZqRCUQDzHtMcek3bR0ch81P
+	gGBy8nObP8uEVq4sGaBIpqYyk2JEIA/qTOdX/+tEn76cVbULt5tHhUA9gzMDiW1oXciYphQ8weT
+	b6rf7OtrnnqMwbbJoaUU7725MiVutO5ChfQM4I07qVGTlnRxnHmaboGQZJJIE/6hpyTJAZtRjhO
+	z+0x3EI63fuoBeBnKVlXojQxkxNA31eBGf6DiHRAUwEJhrSo7wPCtciLdrmCIPZl68p+mxiph7t
+	YTGCbs3PoHI5ak92OK8K1L9+kNSleXnZjyrtzv+V2SyZbsK0zz0eUp5m75o=
+X-Received: by 2002:a17:907:3c82:b0:c15:f0b8:eb91 with SMTP id
+ a640c23a62f3a-c16b469b580mr291371066b.7.1784386160988; Sat, 18 Jul 2026
+ 07:49:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260718103103.18082-1-meatuni001@gmail.com>
+References: <20260629144941.33818-1-adi25charis@gmail.com> <20260630204908.40206-1-adi25charis@gmail.com>
+ <2026070742-marathon-facsimile-648c@gregkh>
+In-Reply-To: <2026070742-marathon-facsimile-648c@gregkh>
+From: Aditya Chari S <adi25charis@gmail.com>
+Date: Sat, 18 Jul 2026 20:19:09 +0530
+X-Gm-Features: AUfX_mxFrqSSDggOS3fPevk9sELTA_inmI-94_M6dZS9housHt4PhqHn-u4ldRU
+Message-ID: <CAKt_FXsofONvbB0+uHh=0b0-Wu1oTQvmADBzoUvLu9YgjSad-Q@mail.gmail.com>
+Subject: Re: [PATCH v2] staging: greybus: audio: split topology get into size
+ and data calls
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: vaibhav.sr@gmail.com, mgreer@animalcreek.com, johan@kernel.org, 
+	elder@kernel.org, error27@gmail.com, greybus-dev@lists.linaro.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jul 18, 2026 at 03:31:03PM +0500, Muhammad Bilal wrote:
-> sm750_hw_imageblit() advances its monochrome source pointer by
-> src_delta per scanline, and computes the correct rounded-up stride
-> internally as:
-> 
-> 	bytes_per_scan = (width + start_bit + 7) / 8;
-> 
-> Its only caller, lynxfb_ops_imageblit(), instead passed src_delta as
-> image->width >> 3. For widths not a multiple of 8 this under-counted
-> the stride, so the source pointer fell further behind the real
-> per-scanline layout on every line, corrupting the rendered image.
-> 
-> Rather than just fixing the caller's calculation, remove src_delta
-> as a parameter entirely and have sm750_hw_imageblit() advance by the
-> bytes_per_scan it already computes for itself. There has only ever
-> been one caller, and that caller was passing an out-of-sync
-> derivative of the same width/start_bit values sm750_hw_imageblit()
-> already has, so keeping stride as a separate parameter served no
-> purpose beyond letting the two calculations drift apart, which is
-> exactly what happened here.
-> 
-> Fixes: 81dee67e215b2 ("staging: sm750fb: add sm750 to staging")
-> Signed-off-by: Muhammad Bilal <meatuni001@gmail.com>
-> ---
+Hi Greg,
+Thanks for the heads up =E2=80=94 I'll rebase against your current staging
+tree and resend as v3.
 
-There is supposed to be a little note here:
----
-v2: Added a Fixes tag.
+Regards,
+Aditya
 
-https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
-
-Obviously there is an inconsistency between rounding up and down
-but without testing it's less clear which one is correct...
-
-regards,
-dan carpenter
-
+On Tue, Jul 7, 2026 at 2:50=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org>=
+ wrote:
+>
+> On Wed, Jul 01, 2026 at 02:19:08AM +0530, adi25charis@gmail.com wrote:
+> > From: Aditya Chari S <adi25charis@gmail.com>
+> >
+> > gb_audio_gb_get_topology() combined three separate responsibilities
+> > into a single call: querying the topology size, allocating a buffer
+> > for it, and fetching the topology data into that buffer. This left
+> > callers with no way to perform any of these steps independently, and
+> > forced the kzalloc() allocation to live inside the protocol-layer
+> > driver rather than the caller, as already flagged by a FIXME comment
+> > at the call site in audio_module.c.
+> >
+> > Split the function into two:
+> >
+> >   gb_audio_gb_get_topology_size() - queries only the topology size
+> >   gb_audio_gb_get_topology()      - fetches topology data into a
+> >                                      caller-supplied buffer of a
+> >                                      given size
+> >
+> > Update the only caller, gb_audio_probe() in audio_module.c, to query
+> > the size first, allocate the topology buffer itself, then fetch the
+> > data into it, freeing the buffer via the existing free_topology error
+> > path on failure.
+> >
+> > This resolves both the "TODO: Split into separate calls" comment
+> > above the original function in audio_gb.c and the FIXME comment at
+> > the call site in audio_module.c, both of which are removed as part
+> > of this change.
+> >
+> > No functional change in behavior for the existing probe path.
+> >
+> > Compile-tested with W=3D1, sparse (C=3D2), and checkpatch.pl; all clean
+> > on the three changed files (audio_gb.c, audio_module.c, audio_codec.h).
+> >
+> > Signed-off-by: Aditya Chari S <adi25charis@gmail.com>
+>
+> Does not apply to my tree :(
