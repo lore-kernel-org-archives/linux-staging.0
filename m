@@ -1,146 +1,114 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DF913D6664
-	for <linux-staging@lists.linux.dev>; Sat, 18 Jul 2026 14:49:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784386165; cv=pass; b=jgPXt+NzpxMWLP9XNoU0Ga51nkIjnUuqKs04aaeXZvRUU/iepKwaMWrTNijuTSzheQeOj3iV0ZHhNkequ+3g0CoEy6S+WTctEmslVqepp0bSCzb0RHCLzO5hTx5pQWluh8vvdUhPSaQf3Em6eS8MMArjWFZTGjAuD0/zFgX5yFI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784386165; c=relaxed/simple;
-	bh=cY0n5YdJZT/kDg6q2RLSXisqeJKPpk4DBOLmie8Zcr0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LMKLuQbAdvqw/YMRIyOK37EvqFoE4J4mS9i2TZBNgp2CCPy0So+E2TOR+lt1Yx47/iKYSE7tKI0qYPlsRxuxofRa+RmEH/qjWOpp/mXOqgJvgkDk6+D+PTEH4GMxJhN/gOTtHpELN/UDq4fgC3rnAhlKqkmcJMg9E2fjhaxNLxs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fDBg5zOb; arc=pass smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DDD51B142D
+	for <linux-staging@lists.linux.dev>; Sat, 18 Jul 2026 15:07:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784387281; cv=none; b=KmMrUE6uMGQl/+LAj5OIHdL2XtNj/9BqYbv9/v/wRR5MmwmPGZ6fThCJXdW6IwccKwVYeWwjGH1hq76JdTzIUvgr3G1Mg1X6lD0gNwRi3bTqaMGTP3Lcr11T8HDX2Pr6zeOu4wAsMU7oXIvaGrRqpKwFn5Q7d5Saw7yKkPJXcKo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784387281; c=relaxed/simple;
+	bh=05x7CX+zxGhsw7H1cjqKbG4QrUrqBbted8urbsIYC1w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Iymz3xoyxc5BJYrYefx1ayr5FMymtDv6vjovK15lKoSzj2uqtTZdNI6bUICZkFhUFKFXrz5TtH7mu+t1vAF72gSx+tJJneViz5fsz1V2ThRu0SJQucqyWk9D5sDnO6oPj28Hu5eHuiZYWfoNkPfytmOQHUPox0PPPvgfojGQQZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fOSuJGEA; arc=none smtp.client-ip=209.85.215.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fDBg5zOb"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-c15f360851aso793800366b.2
-        for <linux-staging@lists.linux.dev>; Sat, 18 Jul 2026 07:49:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784386161; cv=none;
-        d=google.com; s=arc-20260327;
-        b=dQptP0+XXfrcIpFwFQcdO59c4fo9Em9H4XPHgiGKqXG8J3cDg+gJydM6LxZuS2+FNa
-         GUEMLCmtr8Oa/Hgm3k6V5AQBIO12MVOyqnWsL55qzTFcQLLAMsg6iV4waxF4K7WV5CwF
-         J6E+nC6eWAByymwkwEcTCfO4PUqkcwZt2x3e1ZfMO3UqyTXZzYX/W5KFzpQzGM5c+8dW
-         OkQQNcrDf8A3cLtI5O13J9l7HFYjIy/C/Mo3BcpKPcPVv2xctcMDO9UQA95mH1dqFutT
-         z26+P1nXIhTTOuRbwX63S4VYp1PJW428aWOev9KOaiLfuN3+fF+zZvV5JJFW/0iXBcQ5
-         aN0w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=vl1WVyiHzVkea159MteyZ6RyA+Bj3Qd5o83McaIp3/I=;
-        fh=tRFppvRDB/X1j9S1/Otlsk8TTh8kHrc9nzbxyuQi1nY=;
-        b=R4Skdz0vaVD+uOEhU6RRv/qaupbfwEYwL4T6HzznUqZCHEGHHAtulzwseHuBb7qC2q
-         IsOkeVRPvr177v2JHzYqLarTXgzvxJvG5/TfVhwzhq1aeBtD8PGzdpXRhmIpVZXsphqV
-         99taexyhEIadBvVj4BFcZU+2oGyFgKg+hrtUxtzA5vKVTVD2ZkEGrpaf4XWwrEkD9xqj
-         CaRUM0iP3ieRzRPcBd2+aAEDQ7gpTPwflPamGYzEZrKlUZ8dHakM13enRcWDkzvEusY7
-         lr4Enn39hLbIvysxEI70t/S/Xw+zJH6yleSIGFy7Z5+SxfR9rw9yGc3sRRllSjqko3yE
-         yRQQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fOSuJGEA"
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-c96b08cdd1cso5799174a12.0
+        for <linux-staging@lists.linux.dev>; Sat, 18 Jul 2026 08:07:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784386161; x=1784990961; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=vl1WVyiHzVkea159MteyZ6RyA+Bj3Qd5o83McaIp3/I=;
-        b=fDBg5zObWwkduE3ql/DIcFCI9H0qRHnghlLrvLPdkH0aJ9rOcrN+ffLZlxcQDYU+rB
-         KwdUEsZAEMWy0nvPD5aJ+TAROBE+uAtIN7h0pRCKEdjEe5yGjEQvAfRC0KCYKepnsdnU
-         QFIdzwvia8P81PJFkHsAm/ncUn9n0082TtT48M76/g6w7V+fRy8xKo1kyZmzd8GxT966
-         4a9KyTg4+pi6ifRZhvHm72Sk4HOr0w9vPFKw/EbNSUMO+wdz02PWbMo55WYdfHI0Ob7+
-         Oxcl3CZJMh1/U2UXePSvo5i6yhm3DDTl4TDpP3L98vTjUsUPvcb9RByreXSTgdA8dVaF
-         c8eg==
+        d=gmail.com; s=20251104; t=1784387279; x=1784992079; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ToFjATkctckbEeuPcSDJpiHKavCbws4eU2tpdAfj4VQ=;
+        b=fOSuJGEA9DVKPqqLjGxxRTpSde2MA2uRrihEmx8z5z4nPMmQbPogMVNmRozn3pv198
+         y+PQ/qyDzz8kKGi3KA+pF7RPAVW1LlcyzkZKNimImN5NpSmX1rQumrvKXrFRNgIOYqDw
+         faWLPnPLEsNGr7Ijow6f0KK/7EYxCBBbBLlzoAXU5Eehz+XVHWVAjhGvv5a/CyPZpUG7
+         JuPpgdm1RSk2uxosei1drVfLBa4FYY4UCOkegMcfrRHNFQE8mjmCtBlJNEPjoPs/XVaF
+         NC00X1r07Mg40PPLCvPLI0L+2uy4j3K7N/DLuy1NY9whSZ7hr+3CqtqNvYuKnDAaoA7A
+         whqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784386161; x=1784990961;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=vl1WVyiHzVkea159MteyZ6RyA+Bj3Qd5o83McaIp3/I=;
-        b=M2kPf1/YCP8FMFcGJZRG0H5OKC9lbdztBShCjo6olZFZuQzFBoXwaFlI22TN4Joyrd
-         rxFcb2IV0TvZuWYF6iCY29MshOQeSej41PdCHoPj+/tM0ek5oXquwT4ibdsmYGisizSk
-         lCwhyMYgRGLNzVRrGxL6bvrsLCO/YnmQRc56kUn88BcBUFSFrKfYCJeUxxr6L7MfZXM4
-         nOWtFjyBroVwiGMN14ejOajpDsUo1jnfGTJGwjsUj+OfeksUfs+XK+WUz0fjRd3sbqqj
-         ZxsJpr+tHPC17gFM5OczdYjIFS0EK6g38V0AzpZVnmcebNmsbOmP14EQK7gEPgXTN+ej
-         mK7Q==
-X-Forwarded-Encrypted: i=1; AHgh+RoKIKkwpAlCIkNkllRnPpuP5rlV1Rr4L9CjXBSh8UUoLIUAHkgFnr8QEhZluMyAyqMzGQ7APIIO0iYhnwSY@lists.linux.dev
-X-Gm-Message-State: AOJu0YzMbDmP0gIleQuqetZqFX8MYVHZ7qhzsDWbntC6e6DFy2ybmleq
-	UbfrdqhtJuhpM4s6mcs9MIgjZ87sQWT+jFB/OkBP6wNRgcgj7EDucU5KYYqpzXQFGx19LlxC29z
-	qUA2HqUAa/4KH3zLvTL4VGz1QspxxuZM=
-X-Gm-Gg: AfdE7ckha+vDwsMdfcZOOSTOta56VsznGgwopV1pcEOtZqRCUQDzHtMcek3bR0ch81P
-	gGBy8nObP8uEVq4sGaBIpqYyk2JEIA/qTOdX/+tEn76cVbULt5tHhUA9gzMDiW1oXciYphQ8weT
-	b6rf7OtrnnqMwbbJoaUU7725MiVutO5ChfQM4I07qVGTlnRxnHmaboGQZJJIE/6hpyTJAZtRjhO
-	z+0x3EI63fuoBeBnKVlXojQxkxNA31eBGf6DiHRAUwEJhrSo7wPCtciLdrmCIPZl68p+mxiph7t
-	YTGCbs3PoHI5ak92OK8K1L9+kNSleXnZjyrtzv+V2SyZbsK0zz0eUp5m75o=
-X-Received: by 2002:a17:907:3c82:b0:c15:f0b8:eb91 with SMTP id
- a640c23a62f3a-c16b469b580mr291371066b.7.1784386160988; Sat, 18 Jul 2026
- 07:49:20 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1784387279; x=1784992079;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ToFjATkctckbEeuPcSDJpiHKavCbws4eU2tpdAfj4VQ=;
+        b=G510cPn+Jrv+WsoxtILma7Tyme3zY7ue/IUk1moNVGTnNQjAPjuEM0Y6n1+YnlrAOf
+         W7FGwMgvA1VD5zDR+CULeUdP2uLVR3B/oG21Kl6rwnM4Gk3/h2trS3L0T62Cb1yhJLwF
+         fstOG2hcqHvhdYXf9zT0KFYISlpuHaWdQnQO53lD4FncoTJ93TFzMc7QVmnCE9u6aoZ7
+         TSDnf7cbgMRqij0MxuKwTRMxZzR9c67B53Ctp4qf6DNKgPKkClPYVqvu+kV9i+6w8BIH
+         sG7ZLcmfzT6J8a21ll6kVvHLgBcqlnOZPF/0sLh+KOR9NQeq6m/eSggWXdqO72kH/gcH
+         k4jw==
+X-Forwarded-Encrypted: i=1; AHgh+RolnWZLbIqShssyZ1HnsFYoNo/WORAtxW3X0NC0rD2ku1AkCAXC2QSOH1Nm5vjncsqBfIx3qriXYgx8KdKP@lists.linux.dev
+X-Gm-Message-State: AOJu0YwkP+sHiAibp2/hN904iLAZfrlSpgA6peI2Q5MWqlH3FgWKrs5Z
+	R3GnjIsd7enTXT7eCTXq3SbxrlZFiljYdVNlenhze1CJ0xfDFScZT1aXAhL7ZHDu
+X-Gm-Gg: AfdE7ckkNLj8mHSB79ELhqtMOhdv29s6BApbck/uj6lHJk/5Vyurm8DUsly48uHF+s8
+	UNDnfTO0oYmDc2JdcstWaYvkD1H22Z8j2wVUOHpBQ/UiQ46fn+OkPeZbkc01limlnvRpStDt8Gk
+	qF7XjGPzw8lkaRqs2ytopBNzCVPra+7ZSDBCQ1x2CmRujPNCro1kHmcfyhgjr7+hKqbpxy01KGd
+	YSo2mWufQi8ik4eOzJhiLxT/+a4meZhzstUb/+sQBBhSmqGk6WWlKPKqbabrXPbUqz7GCgxMROC
+	LIQybllLqMBD0oJnIBhOOs9aHcONv7ohH79HlVnZHgwZCG5L+ATKvBT610M+Y/YWjvprtsTBb3X
+	i6Emx6q1HbbUcOBsZBe+dVPFZJpWEIDCi/T8T4QacfLiPvmuCh4YaqRuPAiGEs+INIt8EhSTOhS
+	gZSG8h24G0bQFJdlESwUTuooQyhGovw0o=
+X-Received: by 2002:a17:90b:5390:b0:36a:8240:2477 with SMTP id 98e67ed59e1d1-38e4b47be8emr7677619a91.19.1784387279286;
+        Sat, 18 Jul 2026 08:07:59 -0700 (PDT)
+Received: from kernel-dev ([49.36.97.210])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31429fdbd45sm18536687eec.12.2026.07.18.08.07.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 18 Jul 2026 08:07:58 -0700 (PDT)
+From: Aditya Chari <adi25charis@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: broonie@kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Aditya Chari <adi25charis@gmail.com>
+Subject: [PATCH v3] staging: rtl8723bs: remove unused function declarations
+Date: Sat, 18 Jul 2026 20:37:50 +0530
+Message-ID: <20260718150750.1908-1-adi25charis@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260629144941.33818-1-adi25charis@gmail.com> <20260630204908.40206-1-adi25charis@gmail.com>
- <2026070742-marathon-facsimile-648c@gregkh>
-In-Reply-To: <2026070742-marathon-facsimile-648c@gregkh>
-From: Aditya Chari S <adi25charis@gmail.com>
-Date: Sat, 18 Jul 2026 20:19:09 +0530
-X-Gm-Features: AUfX_mxFrqSSDggOS3fPevk9sELTA_inmI-94_M6dZS9housHt4PhqHn-u4ldRU
-Message-ID: <CAKt_FXsofONvbB0+uHh=0b0-Wu1oTQvmADBzoUvLu9YgjSad-Q@mail.gmail.com>
-Subject: Re: [PATCH v2] staging: greybus: audio: split topology get into size
- and data calls
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: vaibhav.sr@gmail.com, mgreer@animalcreek.com, johan@kernel.org, 
-	elder@kernel.org, error27@gmail.com, greybus-dev@lists.linaro.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Greg,
-Thanks for the heads up =E2=80=94 I'll rebase against your current staging
-tree and resend as v3.
+rtl8192c_translate_rx_signal_stuff() and rtl8192c_query_rx_desc_status()
+are declared in rtl8192c_recv.h but have no implementation and no
+caller anywhere in the kernel tree. They are leftover from when this
+driver was derived from Realtek's shared vendor codebase covering
+multiple chip families.
 
-Regards,
-Aditya
+Verified via grep across the full tree that neither symbol is
+referenced outside this declaration, and confirmed via a full build
+of the module before and after removal that no warnings or errors
+are introduced.
 
-On Tue, Jul 7, 2026 at 2:50=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org>=
- wrote:
->
-> On Wed, Jul 01, 2026 at 02:19:08AM +0530, adi25charis@gmail.com wrote:
-> > From: Aditya Chari S <adi25charis@gmail.com>
-> >
-> > gb_audio_gb_get_topology() combined three separate responsibilities
-> > into a single call: querying the topology size, allocating a buffer
-> > for it, and fetching the topology data into that buffer. This left
-> > callers with no way to perform any of these steps independently, and
-> > forced the kzalloc() allocation to live inside the protocol-layer
-> > driver rather than the caller, as already flagged by a FIXME comment
-> > at the call site in audio_module.c.
-> >
-> > Split the function into two:
-> >
-> >   gb_audio_gb_get_topology_size() - queries only the topology size
-> >   gb_audio_gb_get_topology()      - fetches topology data into a
-> >                                      caller-supplied buffer of a
-> >                                      given size
-> >
-> > Update the only caller, gb_audio_probe() in audio_module.c, to query
-> > the size first, allocate the topology buffer itself, then fetch the
-> > data into it, freeing the buffer via the existing free_topology error
-> > path on failure.
-> >
-> > This resolves both the "TODO: Split into separate calls" comment
-> > above the original function in audio_gb.c and the FIXME comment at
-> > the call site in audio_module.c, both of which are removed as part
-> > of this change.
-> >
-> > No functional change in behavior for the existing probe path.
-> >
-> > Compile-tested with W=3D1, sparse (C=3D2), and checkpatch.pl; all clean
-> > on the three changed files (audio_gb.c, audio_module.c, audio_codec.h).
-> >
-> > Signed-off-by: Aditya Chari S <adi25charis@gmail.com>
->
-> Does not apply to my tree :(
+This addresses the "find and remove any code for other chips that is
+left over" item in the driver's TODO file.
+
+Signed-off-by: Aditya Chari <adi25charis@gmail.com>
+---
+Changes since v2:
+- Fixed placement of changelog notes below the --- marker, per 
+  submitting-patches.rst
+
+ drivers/staging/rtl8723bs/include/rtl8192c_recv.h | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/include/rtl8192c_recv.h b/drivers/staging/rtl8723bs/include/rtl8192c_recv.h
+index 1f86654f0..b63625ab4 100644
+--- a/drivers/staging/rtl8723bs/include/rtl8192c_recv.h
++++ b/drivers/staging/rtl8723bs/include/rtl8192c_recv.h
+@@ -30,7 +30,4 @@ struct phy_stat {
+ /*  Rx smooth factor */
+ #define	Rx_Smooth_Factor (20)
+ 
+-void rtl8192c_translate_rx_signal_stuff(union recv_frame *precvframe, struct phy_stat *pphy_status);
+-void rtl8192c_query_rx_desc_status(union recv_frame *precvframe, struct recv_stat *pdesc);
+-
+ #endif
+-- 
+2.53.0
+
