@@ -1,74 +1,72 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AF7234D4D6
-	for <linux-staging@lists.linux.dev>; Sat, 18 Jul 2026 19:02:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B81317B505
+	for <linux-staging@lists.linux.dev>; Sun, 19 Jul 2026 03:06:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784401359; cv=none; b=FeI0XI90JsVagHQUDPQZp9S8HrqvMmDm9cI10TyyseRezMbK7F/rwJVKRzvk2oPrC29CUa4B7B5MhPxYx3LFCCvZJQcV/tsCd2pXYuyGqaVap+LC4M12d/rBBVaLUthLj2CzERF2xozNHklExNtaN0f9nPiO3k9o2m2fjeibfn8=
+	t=1784430413; cv=none; b=FWImhtrT00VMHDQAc1KForhgko/+y89fqCGqkEjfG+6IfmV5AnI+BLYTSV1ts3GrU8MPLihp5TkWI0gQ41vqJrGxOVuepX9Qjlzf5v/MP3ASFPFWQyGrlf/saTjwMyYhYVCMHkbzDlpnZ1OQ4VSQuhytTZxK9pla2r9X6dDUvjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784401359; c=relaxed/simple;
-	bh=XZdD3zKdSTbuGZxGX0Q/ZUS+GERYGHbGZ7CTTNOTzCY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=blr7rx5u4jrvffe1sNyYi2VDFZwUMgGhlljmWYNwXJQcR16h1VaCaaZNARgDHdrZqPyhDvtoL2LvfPmCsc50FqL6UYGqQK+C364/xkXro/jVWiwhIpeMtkQOOEm7Dzg7mtvrlofsu3Y9PLHmp6eabqZIrQbMIbVYnuTMIk8fUXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F1EZpe0R; arc=none smtp.client-ip=209.85.208.54
+	s=arc-20240116; t=1784430413; c=relaxed/simple;
+	bh=+s33b2r3lHpGsYdd7mU8JRWxBLo9UKuVJeuzWshsSy0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=R0py+1xpEcQlSFfm2PiTQilJQUKBMB4hIbz6tJfJe5O8b3V+kEf3m/xzgvaBqavTdJYBgq1fP2aC+AN0md48mIaFeUIXbhjNb7Qiu1K4qXM68f53izyG8AnE069CsNDGd738BItWYOXy5Kvv9odt3idr7007nelC5KLzgWGkHcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YMCL4j9e; arc=none smtp.client-ip=209.85.208.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F1EZpe0R"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-698aa7ba3e6so6673408a12.1
-        for <linux-staging@lists.linux.dev>; Sat, 18 Jul 2026 12:02:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YMCL4j9e"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-69e54d9c8c6so569542a12.0
+        for <linux-staging@lists.linux.dev>; Sat, 18 Jul 2026 20:06:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784401345; x=1785006145; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=zu/jYX89xJfIleoyKAvoiz/I4BllDAYOzQIUgGaxN8U=;
-        b=F1EZpe0Rc69aZaPJphbdao4ZreGyGeaRTtD/hMIy9a+4Wx5H5HfXepVD+oCkhTYbW9
-         RV1zND7B8k+BloNnT6vvOSrQKKgRONpSEmEERhavgQF/4XEyR04uv1vwLLAwYPn+45Bi
-         0vruttUIid+eAz/1dEay5Fh7gYTlBZM+dkCEkb1gv9F4IOEH5NRG9w/yufGqtQXd4qQv
-         /abSshD1QvCqziLCe8vnaUHar4bRb6s7FssyrICvZIs99svkF+YOciX7OyArjstRe8EG
-         TaxgwvneglgTtWojcZtIw38syQkXloIOzssEwriKeUacmNEWCnKkyKXXxUSLKrzRkSZd
-         diXw==
+        d=gmail.com; s=20251104; t=1784430408; x=1785035208; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=fs8E0jLUar5HdcayoGlzBPDcKNFGyvNAfQjWNK0wZRw=;
+        b=YMCL4j9etXxECAWrns2MLMJrZEEzP8h1ptfqFzb1axPWKe1Sod0A74uxQpkQ2uDgJT
+         o1F4o2bMaunpulveHHhxq77p7oBRpb07Cz42Wi2Pqk0XlVRsyFUErfuk/XzfBvilfQjI
+         lL4oL9CQN6hGyB/KH73OujbgKDFYtXgd7lSAyKs7EBbu5m1Mwt9TDv45UXIuFojd4ACx
+         G5RLRbFhZK9Pr2hKvfZjsERRbHOl1hiWUQ/X8c4bN0NdWpiAptjlbtILQMFL5GAisEKq
+         6eLAKIkXfs74CtEQRvCWyI2MEJl3OtVTZvmfeGyQvuXtHhgxiJh9Um3ki7gH15VIBsGi
+         AitQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784401345; x=1785006145;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=zu/jYX89xJfIleoyKAvoiz/I4BllDAYOzQIUgGaxN8U=;
-        b=D3+hmPNP6EMcMRffruS1YAmFjVqIZEnE9Hb/WqxIdV57iPwttQgjqqrwyoxDh0facS
-         nI4bSg1KxLffPhE0nyR6GJ7v5pULe3W8LFUvOkIIWy6gSHkuew51IWrHDE0J6H7xL4k0
-         pZ1yldx0nWyHUbgxuzsY+KdYrqSh7aaL5rpAUYlFa1Uq3nb9Eb8xBUIs63w6cwvfSIta
-         50fmTMDPJgr8PH+D8O1WVWyq9I2K1viRyA4WRJivj0Uywuz3OSbY9xQDNhYL/Io4q2cI
-         37PdPQh1Jrp0/0LW+rCAx6UVzdLq5VNaKcmRNuQxq56wrqei9yDyy3VTIP0c1sJwMfye
-         gE8w==
-X-Gm-Message-State: AOJu0Ywxmz2IdTD658yziF208qh4cf1lyBB1FBKLJoVvvHUANK3s3U3N
-	zpScqx0t46cFP8IJrvL9vGyXI3VVM9ZFSNJQQALKcgb9rsDmTEpmsCfx
-X-Gm-Gg: AfdE7cnT7xgqmhNZfpkpLVBzQFD5OySD0mRYEiZn4Y3QmDhA7hbZHt8ntYgL2pUBTGh
-	NQWRfqEN635rR41FAdsyZ7t5oEl0drB/oO5Mkm7tDKrRw9cWemgGaNm3HfX0W6xoVFGwZefO/ar
-	j9fDlfm45f+hOXMz4VKDM9gRPjrxRIXziDw/ey+4pb0HyGvidLesqX+PPHUWEo5Iq/dOsk+gV8d
-	VrYNK1G/JpvltU7BFRRxVu8eVJ+RyTVNEW5fk8sSbsd/lB0iU+vabrCsapUL4YZjnMRUYFAOEbn
-	N6GBSfgoDEX0MDheW0MRwUptkr71kvKyRdiYnagonTdIXotC/HK/tWdLvYmvLC+MEoG4SCIB8b+
-	Zt8deiyMINQMtO/WPAPb9ttWhuyanyidCRKJw+MlKgdGFaExCPrGM1oeteG2ogP4vnFDG4zt9Y7
-	6WWTkwUlErJtGggTfffy05NjxBoEj+ANSGBh/hx9nKAO0PjmqVEViOqrc=
-X-Received: by 2002:a05:6402:51cb:b0:698:c1d9:8134 with SMTP id 4fb4d7f45d1cf-69e6525c1b7mr3043951a12.9.1784401345439;
-        Sat, 18 Jul 2026 12:02:25 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1784430408; x=1785035208;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=fs8E0jLUar5HdcayoGlzBPDcKNFGyvNAfQjWNK0wZRw=;
+        b=fCrx/mCtr4JyR+UNVeRcKdwHhmk3ZE5DfWb4/mkYoTGf9lMVKSFT5CZ7nSg/YdxVvZ
+         lOOUB9KsAzQ1fvCn4k2q1JXvQijjNx79tFkCFnR4QudkzcKCLsbPqaORKighCYo/ERMv
+         poeYE1ArLRYAOUblE0c/aY0v8ZGub7nSS435X8sgOQuz7VasrqfzEosglr5EdlwHC/FZ
+         GUL+6PHKIinaDot3VBufYP+9IaVrj9bUaBuSLiOf0M8eraisQaFeayIITXnkERXeEzD9
+         MlNhzaZOt5QXlbcIXjv+7bVOPvvJ8AxxxaMiY3+UlWfOLV0PZWHxzZyB614RAhrUuF6d
+         hKPQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rr+aG4SkKOZYe55ZQi+tI2ZgHyDR3zth11pDchgdTBRLVb6ku9Hmwxjva02MxKqgV/PSslXI9BMKSh0QMsr@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx2znS2Oa/mp7PDRxWPA5Ot+TgSKElsFOlWeyv/zGhqHH/TFFdG
+	KEo4wCLTHFSBblg/tXd1QPfkts0951fFA2cHTnhUP/BEMwU0gS2BGZvt
+X-Gm-Gg: AfdE7cnVBW+p5beU75UwqwjLBntmZVWWc9uCJmhznUP/dHliN8gjOCtF84OfDtcF1gl
+	2kMbWAhunpx5Gs+cfETvMRD/Saxw71qHvjod9UlMb/AqJmEvitN1hfsf1/ZD7dCnjt0DWjeXy1P
+	Cird8zEuBrZqxFPYxDDUMqVhW/q2aOr/JIacgcLCcU+U0p7Pt6g1nnrTE5nCMqv9jTVewqu3eGD
+	k4JP2M19u/srHj583nmH6icJy2BKFNqz+znNKn4F2thsRtsA+rKznRNHf+u5sp+j09ZFtEQ/TZI
+	rtdSjhO6gu8RV/uAgxPOXTXSOGFHOoV4Bp/Ez/1zV+v9fn8JivfIkFh7Na6GPBVsarR9bHxliJb
+	strqRe9lUDRomVkHhmTyzWM9+PLmGcRD/BX9ZTYMsZ9mgQ9LkdC+hCgBsnkQ7ypX7NsKeuDDbvU
+	ESUbHVXtc6KxZ1Rln5FYkZJFr3NME4qihdC7VWwWt+aMrnYgfK2TibdiMGeQRHrhgCxg==
+X-Received: by 2002:a17:907:3e97:b0:c16:55de:60e4 with SMTP id a640c23a62f3a-c16b476f1f7mr402142366b.50.1784430408224;
+        Sat, 18 Jul 2026 20:06:48 -0700 (PDT)
 Received: from fedora ([202.47.63.86])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-69e6ffbba0fsm2392534a12.17.2026.07.18.12.02.23
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-69e6ffd0eeesm2856192a12.20.2026.07.18.20.06.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Jul 2026 12:02:24 -0700 (PDT)
+        Sat, 18 Jul 2026 20:06:47 -0700 (PDT)
 From: Muhammad Bilal <meatuni001@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev,
+To: gregkh@linuxfoundation.org
+Cc: hansg@kernel.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org,
 	Muhammad Bilal <meatuni001@gmail.com>
-Subject: [PATCH 5/5] staging: rtl8723bs: fix skb->len underflow in monitor TX path
-Date: Sun, 19 Jul 2026 00:02:12 +0500
-Message-ID: <20260718190212.64409-1-meatuni001@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: fix OOB read in rtw_get_wpa_ie()
+Date: Sun, 19 Jul 2026 08:06:31 +0500
+Message-ID: <20260719030631.88254-1-meatuni001@gmail.com>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260718185445.63070-1-meatuni001@gmail.com>
-References: <20260718185445.63070-1-meatuni001@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,79 +75,51 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-rtw_cfg80211_monitor_if_xmit_entry() strips a radiotap header with
-skb_pull(skb, rtap_len), then immediately dereferences the 802.11
-header fields (frame_control, addr1, addr2) without checking that
-skb->len is still large enough to contain a struct ieee80211_hdr
-(24 bytes).
+rtw_get_wpa_ie() reads bytes at fixed offsets into a vendor-specific
+information element without checking that the element is long enough,
+causing an out-of-bounds read for a short trailing IE.
 
-Further down, it calls:
+The function locates a vendor-specific IE (EID 221) with rtw_get_ie()
+and then compares a 4-byte OUI+type at pbuf + 2 and reads a 2-byte
+version word at pbuf + 6. Those accesses require the IE body to be at
+least 6 bytes, but rtw_get_ie() only guarantees that the element fits
+within the buffer; it does not enforce a minimum body length. A
+vendor-specific IE whose length byte is 0 to 5, placed at the end of
+the buffer, therefore makes these reads run past the end of the IE and
+past the end of the buffer itself.
 
-	skb_pull(skb, dot11_hdr_len + qos_len + snap_len -
-			sizeof(src_mac_addr) * 2);
+The buffer holds information elements taken from received management
+frames and from the IE blob passed to rtw_cfg80211_set_wpa_ie(), which
+is kmemdup'd to its exact length, so the read can run off the end of
+the allocation.
 
-again with no check that skb->len covers this amount first. Plain
-skb_pull() does not itself validate the requested length against
-skb->len; on a too-short injected frame this makes skb->len
-underflow to a huge unsigned value, after which skb->data and the
-following memcpy()s operate on a corrupted skb.
-
-This function is reachable by writing a raw frame to a monitor-mode
-network device, which does not require elevated privileges beyond
-being able to create/use a monitor-mode interface (CAP_NET_RAW).
-
-Add explicit skb->len checks before dereferencing the 802.11 header
-and before each skb_pull(), bailing out via the existing "fail"
-error path on any mismatch.
+The sibling helpers rtw_get_sec_ie(), rtw_get_wapi_ie() and
+rtw_get_wps_ie() in this file already reject too-short vendor-specific
+IEs before their OUI memcmp(); rtw_get_wpa_ie() was never brought in
+line with them, and needs a minimum of 6 rather than 4 bytes because
+of the version word. Add the missing length check.
 
 Fixes: 554c0a3abf216 ("staging: Add rtl8723bs sdio wifi driver")
 Cc: stable@vger.kernel.org
 Signed-off-by: Muhammad Bilal <meatuni001@gmail.com>
 ---
- drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ drivers/staging/rtl8723bs/core/rtw_ieee80211.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index 6a97afd89dc7..eac1b6ac4c67 100644
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -2034,10 +2034,15 @@ static netdev_tx_t rtw_cfg80211_monitor_if_xmit_entry(struct sk_buff *skb, struc
- 	/* Skip the ratio tap header */
- 	skb_pull(skb, rtap_len);
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+index e02b54131633..781dfe63c239 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+@@ -371,6 +371,9 @@ unsigned char *rtw_get_wpa_ie(unsigned char *pie, int *wpa_ie_len, int limit)
+ 		pbuf = rtw_get_ie(pbuf, WLAN_EID_VENDOR_SPECIFIC, &len, limit_new);
  
-+	if (unlikely(skb->len < sizeof(struct ieee80211_hdr)))
-+		goto fail;
+ 		if (pbuf) {
++			if (len < 6)
++				goto check_next_ie;
 +
- 	dot11_hdr = (struct ieee80211_hdr *)skb->data;
- 	frame_control = le16_to_cpu(dot11_hdr->frame_control);
- 	/* Check if the QoS bit is set */
- 	if ((frame_control & IEEE80211_FCTL_FTYPE) == IEEE80211_FTYPE_DATA) {
-+		int pull_len;
-+
- 		/* Check if this ia a Wireless Distribution System (WDS) frame
- 		 * which has 4 MAC addresses
- 		 */
-@@ -2046,13 +2051,19 @@ static netdev_tx_t rtw_cfg80211_monitor_if_xmit_entry(struct sk_buff *skb, struc
- 		if ((frame_control & 0x0300) == 0x0300)
- 			dot11_hdr_len += 6;
- 
-+		if (unlikely(skb->len < dot11_hdr_len + qos_len))
-+			goto fail;
-+
- 		memcpy(dst_mac_addr, dot11_hdr->addr1, sizeof(dst_mac_addr));
- 		memcpy(src_mac_addr, dot11_hdr->addr2, sizeof(src_mac_addr));
- 
- 		/* Skip the 802.11 header, QoS (if any) and SNAP, but leave spaces for
- 		 * two MAC addresses
- 		 */
--		skb_pull(skb, dot11_hdr_len + qos_len + snap_len - sizeof(src_mac_addr) * 2);
-+		pull_len = dot11_hdr_len + qos_len + snap_len - sizeof(src_mac_addr) * 2;
-+		if (unlikely(pull_len < 0 || skb->len < pull_len))
-+			goto fail;
-+		skb_pull(skb, pull_len);
- 		pdata = (unsigned char *)skb->data;
- 		memcpy(pdata, dst_mac_addr, sizeof(dst_mac_addr));
- 		memcpy(pdata + sizeof(dst_mac_addr), src_mac_addr, sizeof(src_mac_addr));
+ 			/* check if oui matches... */
+ 			if (memcmp((pbuf + 2), wpa_oui_type, sizeof(wpa_oui_type)))
+ 				goto check_next_ie;
 -- 
 2.55.0
 
