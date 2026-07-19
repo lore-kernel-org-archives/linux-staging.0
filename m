@@ -1,61 +1,63 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A3CB31195C
-	for <linux-staging@lists.linux.dev>; Sun, 19 Jul 2026 14:09:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6BAC31195C
+	for <linux-staging@lists.linux.dev>; Sun, 19 Jul 2026 14:09:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784470166; cv=none; b=ZaZgqNIMQ2Orb6zFY3Dm8dldl7hIa9DEhn3d3hIsh3HvSYiDqVm6MDOIdkp7jJWXoOaSze8iqHmW/bLz404U3cCI5pN5psaYCIFowYGhREFdQ8O/doQNiUDGj4TSTq0LdSeE6DKabswmYTxb7bWgZkHuskyXh3O+I2l3AGWO1wc=
+	t=1784470177; cv=none; b=sWDptxCGtlUN0RtBsrAdyDXPQNhWVRGEE4tDrx29Iuv26aaMM5IFMUP2tBB9cyr4DysFHYgNCA43O41LcjqOd4HaIoJDJSMrTFESQBrZpnf5i2XGcSCdIg6VbeCCHTf5BDQT3+fo2tv5k/zh/o+t8UeScwkQ9q5DWs7jFCocvcE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784470166; c=relaxed/simple;
-	bh=MEi4MePEOlhyLiWhDXjcK23C8xJankTZUdjD50pO1Yo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=aKg7oq1FMt/I7f0yeBSFLwWWxqWrOisrdfoQBGTS8K8qHqodbzyLcMn8595lGls8FNv765GWkrTrk5Uub/btFtFL0HK+ncF3/NuOw/a6nrpgX0oE+tjf8xhTO6zf8oN4AXvm7hVgF18//dDuXuH+W64HNCcikoj7O8F1hRt5zGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lHPC/ydx; arc=none smtp.client-ip=209.85.215.175
+	s=arc-20240116; t=1784470177; c=relaxed/simple;
+	bh=VyoYZX2D8OpDlEMmDS96qc0SFFUHyp553K5Y3reG7BU=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=qVoxDgNubal7GmmH//knypzM2edW0XSdjXLVEyie+FtK2uzBHzfe7L8/uLkiPjhSRIIAXnUJcGHbqp5/bHemqN+M7FxJPgDqDlm19Hch9kdPNK+GHiAKZvYqEgqxxBMzH7Z1/5s/GiiWNBwrH9tKvmwUbAKl7PiJGbzyv5H/X9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X2P57F39; arc=none smtp.client-ip=209.85.215.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lHPC/ydx"
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-c9fe3c9bd5fso1861109a12.0
-        for <linux-staging@lists.linux.dev>; Sun, 19 Jul 2026 07:09:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X2P57F39"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-ca97d139d5fso6556117a12.0
+        for <linux-staging@lists.linux.dev>; Sun, 19 Jul 2026 07:09:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784470165; x=1785074965; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=00346VtkKx3gyCJc91Tl5P1B1MYLfkTlj8IZlPeohbI=;
-        b=lHPC/ydx87VxnV2foIuEJU47bjsn4tU4mxghx8qz/565Ppj44ttxzXOZoMU/jr/sv5
-         17wKek+GzWwZh84nbcIskZ/HTiRqAP1EUZ1Y5JVNmbr68fC47g9GgLGIfGsa+Pm3zauM
-         SgqkQLQVAmk+kLJdNSoxt9imvPjr51MYtIQ6kQjHELjZkUfI+dfEo2MpDCsmmjBRiyjm
-         jDMAjmgT9KSBBSdY44j2PvEKucvXqr2NKSr6qFJpZAYkyiCdE5uimb2cQiKPyBE/vaiR
-         FpHS2Jxzw657acOrHID62SWAMjF+0tOIHhXil+SCB+f7FuJpBxXnoyDbz6BUlyv9dZ+w
-         zWlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784470165; x=1785074965;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1784470176; x=1785074976; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=00346VtkKx3gyCJc91Tl5P1B1MYLfkTlj8IZlPeohbI=;
-        b=QIvNa8hVPJCA2woJguyWKCHknkF5zCwlr2xDms5LeS3hfpFXIvAYy0BJjvDibuUyhY
-         ixuq+nCqAiooxZA8I5hkncY0Djj8o/kxGpKEKgFnr4Lpi6TrmyRnTV8eDUA19aBkkqL+
-         w/sdPmz1lKPvysDAXwZlj9tdcxNacQh2o4oD+j0XCRjvPpsCkk8Sa+E42adosIjCHkV1
-         jE/hwxO6KOpfXNo5AgCOGoEiiptfTToNlXv5i1CGc/wQCh2lVc+CGmOVKKJnvCvw7VP/
-         0xrtwn78K0OLOJ7aWrmWZX5DZYAW8bkNfVEBPj/eZlv81fdRstNz3VDfu8JuZdUjE6xn
-         fB1w==
-X-Forwarded-Encrypted: i=1; AHgh+RrZxMu/c84/cn0bAQFqvioPOpngt8dVUhK+N8Pm+PmZ5Xh88L3fKIZudiVJopWvg4MMTDtUBWl8epGONMA7@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyt+vbXPF3zRd1UnPl63e0+dwczPO1UzzDBA31hgY61A8x7PVyI
-	LK7ZBrrcwfeCTma8bTFT9Cuyxd9hP3kUBztbggiGL9rycvTP67yFvrgF
-X-Gm-Gg: AfdE7cmQnIjAmgGwJBthR4HraqgjFMEA7G+whC48FTxm36n+feXjMjJOzG1oTTEpmh5
-	oP9XMas8GXp9ozfPfT19EGwQ4sRRrMhtFCzhXC+iVV8GJ1wC8mVbzEo3qqBh5UQuuvyZV8zjRGD
-	wN+dkRButeodYShClD1uQHuqC23DoHB68ccQNX5KG6rG5/hFD3yelAcDI84jQWsdAmXl9zNygAx
-	Tc7NGJH/2v9HY5dv4EEtsFP0fvH2QPPwwtF609dDb5vIqlcZZFBrdeD/gzF4b5RkejiMfV0JBfn
-	aHx7TURMFr2kONNbd/ff85OMBT0JqE1DuZROObp4M6vBTBZkatrAKlaJDgBlf272oXjKASnMYfi
-	g6yJ/YHTRMPIsJu9AnZuY//+m7zk6dAHMKLznzjZs5idYKXIzUJPKHcAmbiEjTKzHvXMp1az4MS
-	AjcSwt3bS/oJ1ebzagCG20Qgga
-X-Received: by 2002:a05:6a20:9192:b0:3bf:8a0e:dd99 with SMTP id adf61e73a8af0-3c38d9615abmr16276182637.17.1784470164815;
-        Sun, 19 Jul 2026 07:09:24 -0700 (PDT)
+        bh=/VsDwgGBi6jRNk4FQjDctfybeowX+5DSAIGnbjWlZPo=;
+        b=X2P57F39H5Sm93DtgC1HIbwg1ySE9wQlt4PRg5mTDOF/wZuW2hU2+Yt0IpRhxwgF3c
+         T9/MOLAiEj09nnvTH3/LLwH1VK+Go1dbpOVdCmRwEdUhIFTj59u0qE4LqWW/4Z7Y661D
+         PTk7KhGCy7zoLlipjW3s8EFpN17algSZqiHjL0m040molJQj7ZqRi/N+DW5RJuva7qxG
+         bSnBgmcGCU39KcjEcl6DcqPmWYOZIHiavTHJsg5nW++gxH1Af1Bafri678+ZSOnuJxt5
+         K/frW0cCKzApeYTPAF2609wQe3Xi3Rk4xPEdkArWwRxSGh4aULf/VxSeJYlmgv20gAwl
+         Kn3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784470176; x=1785074976;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=/VsDwgGBi6jRNk4FQjDctfybeowX+5DSAIGnbjWlZPo=;
+        b=qTZ/625DlSSM45A88MEW32ekblPFyDa6e0bL+3VZuA/ivl9Atz8AcrTlGPur39wQQh
+         rqyUcUEad6Hii5EzMUaWNQhQsNi/uiCq2YTACrIsVUqYUCJjf984M4SfXsu3ZeO/8OXu
+         xxxM/66u3Ah5w3lIEUrEJybXRCFW9RZ2nyFetlDnrBubdbtX3erL163qYHg5K+6Pz09G
+         wYBqEfOl0P06uKgOJ6cSUOd5HYCGTMI+lYy2OuBuzHnOmIVOBr0R5mT3sd01Yb+Oss6x
+         yDfyjLq7oEm2Acc2Y4YP4bHsEL/BPxVS1IwQIETe5uwqgXaZQMkdqvAlc5RpmFPPl8gJ
+         co7g==
+X-Forwarded-Encrypted: i=1; AHgh+RoyOr0DRYp3e8ljNaGNdNGo0bB6lYXVbDCDt6dPUvchZnsOpixtlWaDvEC90btOhprbfkOxVzmeX5PcSMjr@lists.linux.dev
+X-Gm-Message-State: AOJu0YwOq18mtDWsc1YXxbbXV6dDgIaNLYKgfGPTm1SpMc4o2w9toptK
+	vzGM1E+7qWMinkd1K8ZDBZZV3yZexmiDyYEpzWZK8RsVJUHfGtZNR6in
+X-Gm-Gg: AfdE7ckm+EXbEqRtY3Ck+5e7BNj+UPPSD2wkq+H9/BrFp9AK5H72zqFFrBCgdxB3udH
+	6bhhI/HvwFzqxSiaRowYWFXIP4CiC2BkuPnotcrkWVUk/Uzib+uMseAUy6NsaVYSJdzGshKYKZ9
+	qpcjcaK4LTYHdxnK5bWHux6WwXl1y1RACg/0BFcSFStb4umCrKCzQeznV6uWCdwoOCkMUZaoS/5
+	u51zwUTx5fYmstgBezeCd8YkbMWWcQHwuLbf8F5YzqXXyRoWXRU76w/IIBt8Ijh0zAYnB0M7rG2
+	qmkIg79ZKm48k4E/eoP/Mj8ONlB1WhYAy9SfnNDu5X3/mpTPjVAMXf6QOBGQlne/mVnT/StAF4j
+	QboTOrmVGdQPOhb4jtJF9Ss0NwgpmsBcY+DcRq3I7GYBrSy1jJsF0950O7CrARGII81k7+36p68
+	Z5+/Zvf3Gj+ljQvOAmXlSmmFMuLyDEucZfvN+6c6OTyrwo8w==
+X-Received: by 2002:a05:6a20:9397:b0:3bf:82c5:ed13 with SMTP id adf61e73a8af0-3c3ad8eccf3mr10908276637.38.1784470175969;
+        Sun, 19 Jul 2026 07:09:35 -0700 (PDT)
 Received: from UbuntuOS.. ([49.34.211.33])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3142a20bf96sm26738331eec.28.2026.07.19.07.09.18
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3142a20bf96sm26738331eec.28.2026.07.19.07.09.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Jul 2026 07:09:23 -0700 (PDT)
+        Sun, 19 Jul 2026 07:09:35 -0700 (PDT)
 From: Prajval Chaudhary <prajvalchaudhari733@gmail.com>
 To: Hans de Goede <hansg@kernel.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -66,10 +68,12 @@ Cc: Andy Shevchenko <andy@kernel.org>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Prajval Chaudhary <prajvalchaudhari733@gmail.com>
-Subject: [PATCH 0/2] staging: media: atomisp: Clean up unnecessary module parameters
-Date: Sun, 19 Jul 2026 19:33:48 +0530
-Message-Id: <20260719140350.8266-1-prajvalchaudhari733@gmail.com>
+Subject: [PATCH 1/2] staging: media: atomisp: Remove unused and unwanted debug module parameters
+Date: Sun, 19 Jul 2026 19:33:49 +0530
+Message-Id: <20260719140350.8266-2-prajvalchaudhari733@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260719140350.8266-1-prajvalchaudhari733@gmail.com>
+References: <20260719140350.8266-1-prajvalchaudhari733@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -78,24 +82,54 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch series addresses the 'Remove unnecessary/unwanted module
-parameters' task listed in the atomisp driver's TODO file.
+Remove the unused module parameters 'dbg_level' and 'dbg_func'.
+Additionally, remove the 'pad_w' and 'pad_h' module parameters
+to prevent userspace from overriding internal ISP hardware padding
+boundaries, leaving them as internal driver constants.
 
-The first patch removes the unused debug parameters along with the
-user-facing pad_w and pad_h parameters to safeguard hardware padding
-boundaries. The second patch converts the remaining internal usages
-of pad_w and pad_h to const configurations to enable compiler
-optimizations and enforce type safety.
+This addresses the 'Remove unnecessary/unwanted module parameters'
+task in the driver's TODO file.
 
-Prajval Chaudhary (2):
-  staging: media: atomisp: Remove unused and unwanted debug module
-    parameters
-  staging: media: atomisp: Mark pad_w and pad_h as const constants
+Signed-off-by: Prajval Chaudhary <prajvalchaudhari733@gmail.com>
+---
+ drivers/staging/media/atomisp/pci/atomisp_v4l2.c | 15 ---------------
+ 1 file changed, 15 deletions(-)
 
- .../media/atomisp/pci/atomisp_common.h        |  6 ++----
- .../staging/media/atomisp/pci/atomisp_v4l2.c  | 19 ++-----------------
- 2 files changed, 4 insertions(+), 21 deletions(-)
-
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+index 812230397409..5c2f5996a03f 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+@@ -44,17 +44,6 @@
+ /* G-Min addition: pull this in from intel_mid_pm.h */
+ #define CSTATE_EXIT_LATENCY_C1  1
+ 
+-/* cross component debug message flag */
+-int dbg_level;
+-module_param(dbg_level, int, 0644);
+-MODULE_PARM_DESC(dbg_level, "debug message level (default:0)");
+-
+-/* log function switch */
+-int dbg_func = 1;
+-module_param(dbg_func, int, 0644);
+-MODULE_PARM_DESC(dbg_func,
+-		 "log function switch non/printk (default:printk)");
+-
+ /*
+  * Set to 16x16 since this is the amount of lines and pixels the sensor
+  * exports extra. If these are kept at the 10x8 that they were on, in yuv
+@@ -65,12 +54,8 @@ MODULE_PARM_DESC(dbg_func,
+  * the chosen solution is the next best thing.
+  */
+ int pad_w = 16;
+-module_param(pad_w, int, 0644);
+-MODULE_PARM_DESC(pad_w, "extra data for ISP processing");
+ 
+ int pad_h = 16;
+-module_param(pad_h, int, 0644);
+-MODULE_PARM_DESC(pad_h, "extra data for ISP processing");
+ 
+ /*
+  * FIXME: this is a hack to make easier to support ISP2401 variant.
 -- 
 2.34.1
 
