@@ -1,149 +1,152 @@
-Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazon11012039.outbound.protection.outlook.com [40.107.75.39])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E1943BBFCA
-	for <linux-staging@lists.linux.dev>; Mon, 20 Jul 2026 13:44:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.75.39
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784555080; cv=fail; b=aObCDEWtbjXwA/UTauunhbqHikEefjQFCez3j6FkmQ7DSqiDraYWXzCNmMcn119HH+ul36WjWniOfYVZsgamkrMSqP11LUCNsBy1mzXePwMKigRSC6vep/KAlmr7R4Pdty3JSMH0MP+AK3NSUfsiqniBOBzVYHpSSZbcTDSOstU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784555080; c=relaxed/simple;
-	bh=hOqYo5fu2rbAbxHFNxZ9RcAXPZy826erujSJ5YwgKGM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=P8VhHG/9Dxz3gOZsAwsDgWv94QwnNuOYRSMD9czqgA/YLnHfuOyTsfdP9N00jeNnV+e+gZz71KBmz4YypCZzrwfrCj70GHJXBJgE3O84ShxEv4q3p9G+ioGTehmr4IzlSJzRD9iG1gm0y+O/Od/QlkdGVa3zSJF5lMHM+73bio0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=gSPFnRTO; arc=fail smtp.client-ip=40.107.75.39
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D3E13D7D66
+	for <linux-staging@lists.linux.dev>; Mon, 20 Jul 2026 14:26:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784557602; cv=none; b=rH1LIMyksOSfk08ukvqJBVqNsdIVgTR3gwpAnyNThjTYuzVsvOQ8gf8B5PPUlVkbBe5Of0NwlPzFODblJoc+OwjO8zP3gdVA+SuomBOPhu+RW24kn/plFdYBNQD/N2/3tTgS9MAsRHSF8WltqI4w/7GqSB5oMJI5MBIs/FILWFI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784557602; c=relaxed/simple;
+	bh=p/jPcTmkeeX77iSaCsL7N9400sQYSGpluXtQkUOG47c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iRB4UTw4ibvjJ2HSjzN4BxJODCFXdNnYGafBgNOJT7ibcL19LIA9kI+KD+XdA7wzDbBs9qHvEtEAu5UdaUgnl6KGVg75XbDoCB5yIJ+Mv2DfzBm5wEG0D0Y7FwMF3D9KV69bCgI+UIPFONMJZPOkELbEcSSHaYxGMNm3akECdf0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N4fWUwOg; arc=none smtp.client-ip=209.85.215.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="gSPFnRTO"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JuaAHpFXzMza/4T73j6+qh/PNjxHDJJbwZKYBilbDzzxtLpBr2lz7hQD5RMpqwVCVdn3cDHkc6ucsaOgldcbQiK1Bk/NqcLQuB8NufqVuyBleJ4IFkTPkOQKpdjoi/8z1z108JYCWkW+OhhyxhC6oDJE6kAzMGThF5pn4xNFLUNYfHFK0pCqMTip6n1N8fFg5qHV0LJlYj8z0w6TkpnfqbfaARyav/RI07fWfm8KifHYPY94j8BphBOFxF6KGmer9dmq61Mbo5faQnKGhAN5GuOBXGrf/CeJWtYZqtZfHC0q65tihjpzizKIyHNPUUloBRhxtpGe/+RkFIbZXys4ZQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6M4t386ZK2fmr+f9z7qHA1SZxfmIdaBdW9FlC6Nwhfk=;
- b=dTtGLEjH+Cxl20amym3/9jGa90Im9KAS9fihHG8s9YOocSclGL7N42iKx1D3wD2cF4vb6+m3rsJg4Oh1duCeui5Sn64CFEK1NSO8HFamxhLBqWIlVRi8aoKS5EGLn8I4iiafoCc8eezYOILVoqbD0gTLXcgvUE0+JEOPE8YAorCY+EFcOf5sef+zhzGPsUuVHRwVPZxCfGuQ9vuq/o80RTj+PipjM8aB/3bopf93Odz9jkXmwenYfmNYfiuerfhnPEh8pLWypegHk6b6eS31TPuvoZqEQ/PfWACl1fN8suvSIUYm9lJ2W2BXPOh++fxglNjG+7k4b7yZiSFXo1H9Mw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6M4t386ZK2fmr+f9z7qHA1SZxfmIdaBdW9FlC6Nwhfk=;
- b=gSPFnRTO/d00a6UEq7r5+GeXsdCbgBJK5ei8GYzbljOZ4v8pRgptv2l6wjCUiqFOrGvkQXwKn/lc+/681Zl7RzlwB+KHgz/Jpl+NGGQuTCadFb0D1SlnyhcPrn1vO09L6Aht2mgadwNdE4UC0ML+/Qu15zK4ieGLApZSGlAwFvRdCx4ZW8dCKR95HI6wP5I3yY7Z6TCG99qVpLqakiAilkp9uVHMw93uaz7jUaEk3C2p8cEIsn1RF4xp9EZhYPaC0KGw61ryjuvUlcQ0mNkQB72R2HUkHS0dl/ZTOU4ZOmhqKaxbUnETMU6/6t9YgVXnvJYfhzbUu4/xAcziN9O+iA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from SEZPR06MB5832.apcprd06.prod.outlook.com (2603:1096:101:c8::12)
- by TY0PR06MB5457.apcprd06.prod.outlook.com (2603:1096:400:32a::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.223.18; Mon, 20 Jul
- 2026 13:44:10 +0000
-Received: from SEZPR06MB5832.apcprd06.prod.outlook.com
- ([fe80::f98:5e32:4ccb:d07b]) by SEZPR06MB5832.apcprd06.prod.outlook.com
- ([fe80::f98:5e32:4ccb:d07b%6]) with mapi id 15.21.0223.017; Mon, 20 Jul 2026
- 13:44:10 +0000
-From: Pan Chuang <panchuang@vivo.com>
-To: Marc Dietrich <marvin24@gmx.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	ac100@lists.launchpad.net (moderated list:STAGING - NVIDIA COMPLIANT EMBEDDED CONTROLLER...),
-	linux-tegra@vger.kernel.org (open list:STAGING - NVIDIA COMPLIANT EMBEDDED CONTROLLER...),
-	linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM),
-	linux-kernel@vger.kernel.org (open list)
-Cc: Pan Chuang <panchuang@vivo.com>
-Subject: [PATCH 7/7] staging: nvec: Remove redundant dev_err_probe()
-Date: Mon, 20 Jul 2026 21:43:13 +0800
-Message-Id: <20260720134324.239391-8-panchuang@vivo.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260720134324.239391-1-panchuang@vivo.com>
-References: <20260720134324.239391-1-panchuang@vivo.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TP0P295CA0038.TWNP295.PROD.OUTLOOK.COM
- (2603:1096:910:4::11) To SEZPR06MB5832.apcprd06.prod.outlook.com
- (2603:1096:101:c8::12)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N4fWUwOg"
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-c999f162c9aso6356738a12.3
+        for <linux-staging@lists.linux.dev>; Mon, 20 Jul 2026 07:26:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784557601; x=1785162401; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=QpEdeGGLeSN9RZd1dNw8hRrHTwjmNFcu+OQpMNS+88Y=;
+        b=N4fWUwOgsry0qZ5Q18utjrK6uBnOnaeS2SKArRQ/Sc7VZSlkzoozKOBHQqhPqC7sKN
+         dQ6UAlfnQcWQCp5c9BTbHZ0+DwA9/5dHkUDIdo3dWihfDepOTUnzGAj8Qmg0GJTnTQFe
+         WOvcTXsnEXEVU0o0nF88Xa7AR5gt51JZ90covsqrWO6siszbsR8HwE/CXKhct3A3GK/n
+         FJdL0i9/Nlhr+BFBWgzIusoWaoyYulXV887hssXcJEh0sm3jjieEiMVDQGDm77ddY77m
+         GNtTR+bzFPrn7FprCpvE4Ei2Ui7yPPzoGUy6okz0Sx9MsXA7zEoDlE44Sbrx4Dp8OHH5
+         Izrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784557601; x=1785162401;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=QpEdeGGLeSN9RZd1dNw8hRrHTwjmNFcu+OQpMNS+88Y=;
+        b=AZD2Fmmg3lerFz/HMdb5Qthdu2wOSAkdBj58BlepagNdTFYSof0HOcdyU0IblJOjgg
+         QbCUoT+OTJn9svKuVt2lblgSjv9ySMrn32b9XgIKy1ugX38j4LQHhzBgDNve2vgdIiju
+         0b4Ust6XXlGZW5dXGBx+Xfax0/5pL8CpqL47UvDXdKYqJBppkPnX5xJa1i9Ar+dZ/0r8
+         o7aD3hUmgzik27DcdGJ0K5aHrhz5VQ2TB1dDTaJeJnQH3NEfV2gdovsjmu7p5IR0i5uO
+         ygJTKgbtn4XcU0jYWo4++e0kKFzTDWVnMGJf/5rC40s1Mwk67q5OJleW7ML2UlcDuYgu
+         5lOA==
+X-Forwarded-Encrypted: i=1; AHgh+Rpp4xjlyFJ2vApHmKPffa6eRPL1cZ+QV2LstbirpKQvWN0iDk56DThzPIA+OmaUEwrQgG3vXFZKq/vAuDmv@lists.linux.dev
+X-Gm-Message-State: AOJu0YxhMPblZWWyvHR4rCQ2xZ0w4svkdObGKZc590Mib40jOatdKJM6
+	wyT4Z+msTqp4iKqEK5+bjOb+uShumZ+wUEegG+xBHwzKy0DSz5shc9PWyP4EjlnWQpY=
+X-Gm-Gg: AfdE7cmL2r40f7pYj+vIyK7sjDubgfe/jcFd5ROFjXObVNFVXeKp4CDmxlSFYwTkMZQ
+	NXtT+FQtm5HPTIxq7fV1fh50wI1pwRt0pdbvAeNjnmS4p9Im5m4D05R+Vl5zJg6Cle0hq3yPZiA
+	niG3IoSt/K2BiIeAYMiqzWCeCfdjeex7GXvSfLYGB5OmM9ImQB8dpbGoqmWwk8i54e5VnT6fd2Y
+	e67cSIM5E5oL7/4KKPCaWPRWfvT7wBLVvGHfs8pQaZwnBwgHZ3dXVcM6uceNnMCdWKKtrjrN+as
+	1a3kYk05F9gbdlsxjgGfqSD3T6L2Tn9m7mxyi9LsHknXKuMsE/eU8ICBf7+XHz1Z5JZG5Bvr7zW
+	Ca/5zu0a29x9PSYyZSZhVZtdCH8Qfhj3t5FbvYlKtX7Fbp2b7sqQ6zlecvB0WHlhwj38tLDydVs
+	xOpg==
+X-Received: by 2002:a05:6a21:484:b0:398:6ea8:21d2 with SMTP id adf61e73a8af0-3c3ad7a2ebamr16040253637.19.1784557600692;
+        Mon, 20 Jul 2026 07:26:40 -0700 (PDT)
+Received: from PC.. ([103.172.209.188])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31429f9d444sm43228050eec.6.2026.07.20.07.26.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Jul 2026 07:26:39 -0700 (PDT)
+From: Mohit Mishra <mishraloopmohit@gmail.com>
+To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Mohit Mishra <mishraloopmohit@gmail.com>
+Subject: [PATCH] staging: sm750fb: Align prototype parameter names to implementation
+Date: Mon, 20 Jul 2026 19:56:05 +0530
+Message-ID: <20260720142605.63454-1-mishraloopmohit@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SEZPR06MB5832:EE_|TY0PR06MB5457:EE_
-X-MS-Office365-Filtering-Correlation-Id: fa812ead-3c68-4419-4d59-08dee664fa63
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|23010399003|1800799024|52116014|376014|6133799003|10067099003|56012099006|11063799006|38350700014|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	1UboE5fo/+qqb91EkJ7wLASJ3CXSKTm57CPHwetRMWJmrxnSLT2FEiNLwaAkxH8iSrHVJ1v3Oig8X56bq5JkfbrcYWDLDOxgsD36LFFM2NPkLx23RgqD5T+ehKoF0gIlDsoGbeQimdjWNI8cHbl6xJMj0rtGVqVLkKgykyyG5Rzj8EpgqPP1FLRqhnrj6ebh+IMMNk8VsSWv4knUrYPYR7ltcGFiPIdB1hOT/BM7AtOG1gV4vdTgA+dPS6GwWZH7fR2j1+t7irq2Ge5FSfttfN+0YM4BNRWwUaAYpmOnCWg4ezLnqqAsucd1gMFYKRr1pZ37LX1IKzc8qzRRnk00zgWuvgN2xoO56HdCuGawwXkj0VohEMWuPdDC6groecJ0NLPNCIKWUyr5LVquP5FR2ooJJsdSzZGR/U8uOG5+HbshyhdRYkHmib0xffrlu3l2VvntmMq9XHDM/nB8eXOM4n58r/nTKVepm4OQiqgwf2xXCLkOak4JWxhzfJOL7oO9qLq9EOEwg1q226qFMmxbrjQ29GzgMR00n2JRpIGhdfZU/IFLLK/h7RExEnwvdFIdstB/KnnZzSiNPXc54kShPfHkG6TTXvpEM0zq+PtdZhX/YWIWJT9uZk5XXziFFBlWoUa9JOxIU6Y7ynr1FAAGf+mOYlbEqBPYmNxzElgFWKUftxMoFhCh7IJwDXW2uEfOiyo6RXq2Knej70hQY4wCE6VQ4hZ+hsUTK27IeF2Etok=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR06MB5832.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(1800799024)(52116014)(376014)(6133799003)(10067099003)(56012099006)(11063799006)(38350700014)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?11l+FDVQBVros3wgor1mp4N9qyo5rTgDSamzdHhgxdS7jVOBtHZFMFjxqMOE?=
- =?us-ascii?Q?/hB79vJI8mEs3Aa2CiFD7Qk80oGastSc1EXzGKcVYMmpO5nID0VLYLdmXl1g?=
- =?us-ascii?Q?XPui4U1HXHOMPaCuVtDxNCBz7occXgsAolc+AczV1nfEx5S+pMYnVyN6KCno?=
- =?us-ascii?Q?RMr9q/LCwkvumBviZsX+MPAvLZGoOTLZ16fPcr+F+v2alZfXVLHiNJDSHP+B?=
- =?us-ascii?Q?tbNZLXNSzUxoeezFjYIpqbYrMjLQ3uCBvmvc4qe5uEAGWKwId3YT2BSI1kcm?=
- =?us-ascii?Q?OVuO9bXwoJD7j6bgJwOWIhX8VP4PkQp0fSgxCk3Fba0DWkI4b7jNt+ZkJr2e?=
- =?us-ascii?Q?p4qSgjsRC3Kmt6d4A914APt+5WkXtUChkV26fe7Iw6GKkuHyua8wbvgRYXa1?=
- =?us-ascii?Q?jAqv2V29iOlReHJi7cNdGMlyNy2USN/nDMHe6iJUQTl0piWeoCVSJ2AYY7tq?=
- =?us-ascii?Q?DZF/l8EeYpLLIZHwrchERA6KpG6iPnpniriwaa7L+bvzGT3AF98ZTq9tqlUY?=
- =?us-ascii?Q?P36dX6B+s7Or2RHp6NmOLIawdUBrcWhDJ8572YBCdNW4nPaPnAymIsJeSyY5?=
- =?us-ascii?Q?ocqYZXmB+zRYMzYyNZap1vYdMd6200D92BYzQYu4hi2HMkl4JdnzvO49gYQu?=
- =?us-ascii?Q?2DfqfXYJBcD4sFslq7RMQ1QmmtT+YguMqu7lNnHih9iWpdZcwMIUlDq8YAx3?=
- =?us-ascii?Q?YMzGEl7tAwryQVLjOaqJN+RShD7biDZeQ59+5KaclcI0xaPL1okYwyhRKCsI?=
- =?us-ascii?Q?17jZcoKDj5dtySw5h5gaj+18w33jAeUu3ckSWkB72EPvnshEn3nkYczIIKK2?=
- =?us-ascii?Q?GWNFlexyKSf0oPtSRHw1lpDmk+0s/fTqAJL3Qu5HqiWhA/oAvnLexC7bRI9M?=
- =?us-ascii?Q?Xg9QG0n+z4m2NuRJhlO1MFWCyKXOrVX5j3RsAFp82ujCyaTo16RvsHppahpg?=
- =?us-ascii?Q?2F1DtaW87MC2nV+wrmXOl7GXcXVh8WF0M8SFwFYXw08zL6H0EsHJdGAqPN1I?=
- =?us-ascii?Q?MqMziMcGnARUnu94PEkwlojWLZL2qY6Nj6fc4nXmYwOscuRhYJE5Srocnlrb?=
- =?us-ascii?Q?4e/Fllmzm/MCD7LpyVLJOECijbFJALgnuxM2p3fnFJ+ldoud1+0HbiZhYIwq?=
- =?us-ascii?Q?WdesiYn2e66TFx6QKwmvSRJkuRyICZHwa6fLAsqXyfmYEuIXdcInQZxu+8OU?=
- =?us-ascii?Q?QZ33nh0AUPoqzh5A3aNrENtyTksq6s69sdNsV1fkWPoNFRkweRcvW1nfTcMx?=
- =?us-ascii?Q?CVOzeP2U1GgSseZQ9LhJE+p3PV/QxeU5uMQjzAWy8+8VxXu85gRVHk+napy1?=
- =?us-ascii?Q?8mch1BMK8BEvuNQ/Q9E9LnaznFD01dlmXmr+BpGPc0yDpPdNOc5WhcQscl5h?=
- =?us-ascii?Q?J8MDkAHUPSlbx1WfGBqWEn0fo55XzMPS+SdYzB8aC2g6fjby0lgqz+o+/MIf?=
- =?us-ascii?Q?yQdSlAk64+HkFbo0ESuW9E/viK4PYdLoxfNaFcGaDnf8VbFateaJLJ3abIXt?=
- =?us-ascii?Q?9ItN/xLtty1FUcHQmZWfa3eBuF97bCvNTboTUBFT8x8BFP2pAJoy8eGrv+FK?=
- =?us-ascii?Q?yviIVq8cdQlDwEZ92EPgr8OWlhelKlspkmVNWeSEjS4F/vQu6mQuSMAKosHz?=
- =?us-ascii?Q?YuoNuSclPBSsn2WoOQDOzQTv0N4kkzI9vNJ06BB3dW1g+1p7cOeOLryqhNhJ?=
- =?us-ascii?Q?QmNNEg0yseZ8xh9zAoyBs+D7F/71TL6dC6KLGaZbu4km/VmcbsHPC+BxWvXv?=
- =?us-ascii?Q?BjZCnIW4Qg=3D=3D?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fa812ead-3c68-4419-4d59-08dee664fa63
-X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5832.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jul 2026 13:44:10.6713
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RsJNjcyL5ufFcEfxcInoswf2VIl1vUdUVL13ib2/+/lenq2kPX+zlbg9sv5oOk49aORiJUCdjI/OOLQu1PCv+A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY0PR06MB5457
+Content-Transfer-Encoding: 8bit
 
-Since commit
-55b48e23f5c4 ("genirq/devres: Add error handling in devm_request_*_irq()"),
-devm_request_irq() automatically logs detailed error messages on failure.
-Remove the now-redundant driver-specific dev_err_probe() calls.
+The declarations for sm750_hw_copyarea and sm750_hw_imageblit in sm750_accel.h
+use legacy CamelCase parameters, which do not match the snake_case names
+in the actual implementation in sm750_accel.c. The de_copyarea and
+de_imageblit function pointers in struct lynx_accel (sm750.h) also use
+outdated parameter names.
 
-Signed-off-by: Pan Chuang <panchuang@vivo.com>
+Rename these prototype parameters to match their implementation names.
+
+Signed-off-by: Mohit Mishra <mishraloopmohit@gmail.com>
 ---
- drivers/staging/nvec/nvec.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/sm750fb/sm750.h       | 10 +++++-----
+ drivers/staging/sm750fb/sm750_accel.h | 12 ++++++------
+ 2 files changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
-index 41cbdfdc1da6..05b130aea870 100644
---- a/drivers/staging/nvec/nvec.c
-+++ b/drivers/staging/nvec/nvec.c
-@@ -853,7 +853,7 @@ static int tegra_nvec_probe(struct platform_device *pdev)
- 	err = devm_request_irq(dev, nvec->irq, nvec_interrupt, IRQF_NO_AUTOEN,
- 			       "nvec", nvec);
- 	if (err)
--		return dev_err_probe(dev, err, "couldn't request irq\n");
-+		return err;
+diff --git a/drivers/staging/sm750fb/sm750.h b/drivers/staging/sm750fb/sm750.h
+index 0324778768cb..cd34d7f82c64 100644
+--- a/drivers/staging/sm750fb/sm750.h
++++ b/drivers/staging/sm750fb/sm750.h
+@@ -57,17 +57,17 @@ struct lynx_accel {
+ 			   u32 color, u32 rop);
  
- 	tegra_init_i2c_slave(nvec);
+ 	int (*de_copyarea)(struct lynx_accel *accel,
+-			   u32 s_base, u32 s_pitch,
++			   u32 source_base, u32 source_pitch,
+ 			   u32 sx, u32 sy,
+-			   u32 d_base, u32 d_pitch,
++			   u32 dest_base, u32 dest_pitch,
+ 			   u32 bpp, u32 dx, u32 dy,
+ 			   u32 width, u32 height,
+ 			   u32 rop2);
  
+-	int (*de_imageblit)(struct lynx_accel *accel, const char *p_srcbuf,
+-			    u32 src_delta, u32 start_bit, u32 d_base, u32 d_pitch,
++	int (*de_imageblit)(struct lynx_accel *accel, const char *src_buf,
++			    u32 src_delta, u32 start_bit, u32 dest_base, u32 dest_pitch,
+ 			    u32 byte_per_pixel, u32 dx, u32 dy, u32 width,
+-			    u32 height, u32 f_color, u32 b_color, u32 rop2);
++			    u32 height, u32 fg_color, u32 bg_color, u32 rop2);
+ 
+ };
+ 
+diff --git a/drivers/staging/sm750fb/sm750_accel.h b/drivers/staging/sm750fb/sm750_accel.h
+index d15a40cacb84..25e5703b6774 100644
+--- a/drivers/staging/sm750fb/sm750_accel.h
++++ b/drivers/staging/sm750fb/sm750_accel.h
+@@ -210,9 +210,9 @@ int sm750_hw_fillrect(struct lynx_accel *accel,
+  * @rop2: ROP value
+  */
+ int sm750_hw_copyarea(struct lynx_accel *accel,
+-		      unsigned int sBase, unsigned int sPitch,
++		      unsigned int source_base, unsigned int source_pitch,
+ 		      unsigned int sx, unsigned int sy,
+-		      unsigned int dBase, unsigned int dPitch,
++		      unsigned int dest_base, unsigned int dest_pitch,
+ 		      unsigned int bpp, unsigned int dx, unsigned int dy,
+ 		      unsigned int width, unsigned int height,
+ 		      unsigned int rop2);
+@@ -235,9 +235,9 @@ int sm750_hw_copyarea(struct lynx_accel *accel,
+  * @bColor: Background color (corresponding to a 0 in the monochrome data
+  * @rop2: ROP value
+  */
+-int sm750_hw_imageblit(struct lynx_accel *accel, const char *pSrcbuf,
+-		       u32 srcDelta, u32 startBit, u32 dBase, u32 dPitch,
+-		       u32 bytePerPixel, u32 dx, u32 dy, u32 width,
+-		       u32 height, u32 fColor, u32 bColor, u32 rop2);
++int sm750_hw_imageblit(struct lynx_accel *accel, const char *src_buf,
++		       u32 src_delta, u32 start_bit, u32 dest_base, u32 dest_pitch,
++		       u32 byte_per_pixel, u32 dx, u32 dy, u32 width,
++		       u32 height, u32 fg_color, u32 bg_color, u32 rop2);
+ 
+ #endif
 -- 
-2.34.1
+2.43.0
 
