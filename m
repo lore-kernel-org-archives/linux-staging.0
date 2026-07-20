@@ -1,143 +1,126 @@
-Received: from forward500d.mail.yandex.net (forward500d.mail.yandex.net [178.154.239.208])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D61C3CB543
-	for <linux-staging@lists.linux.dev>; Mon, 20 Jul 2026 08:01:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.208
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD2523CCA02
+	for <linux-staging@lists.linux.dev>; Mon, 20 Jul 2026 08:24:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784534469; cv=none; b=aIgD+9rDv0busHScetZSJt7GM/k2UjDUHg4/SiixUyyr3sTQqCwunOzUTf9wQKbWcLABVPX5brrsspDas9KyvzMP3+Jwi6sGoBmHWFX5LpXE0kDRFDJX3Ah4axHds/9I54LqU+853BPgjwC03vOIvMLrCgjcWs5tAuKGhtQwPrk=
+	t=1784535869; cv=none; b=ofRXmGXhS3U3VV1HyqeMki5Orp4G3Hqn9ajNJ7wkd5tzGFGMLMXPme7uZ628MbP9Y4tW+pD4pkQvMGayW0rbk30czF20jnrrHnUq6NBTyhPbq+iQxJ7cQd10gfUxO9WqomdPKkqJb1BK09rXLr8vJHpzwsL5eTZw84c7WV97s6s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784534469; c=relaxed/simple;
-	bh=TCQHs+rArkoqijduLYw5wOiMiputSAl44AecWhYBsN8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=inyr7JfrwWKEMGdoQtpGyKioWS5X+8BpobpRvXN5dbUJuE/EXLSjH1m8SYIjnEWUTTkxU3U+RNm4JIRYW0dANX7Ira5L5w3B1bnG273A/buDUD9rRr0TbrUN6vp0efkz6qWVD/oe8q7cou67sujEuaIaLVWyrgHf2TEc7Nz0+e8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net; spf=pass smtp.mailfrom=sezginduran.net; dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b=LzYXiiPS; arc=none smtp.client-ip=178.154.239.208
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sezginduran.net
+	s=arc-20240116; t=1784535869; c=relaxed/simple;
+	bh=OCCuX75TX/03jq2jqV7MjyMtFkPk5zMl0VhBOs0GrWc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rwW7Pa0zj/ttf+5yzQjo9FAQk+JhzbDVH0Wf1F2xWFvyLnIvYN7jkTR53frZQfYsb0tX/Hrg+RA0pEA9RP+8TSJCpRt9tp/wHo0ZUvSyHFtWdK3I4o4HBSalrWmAZBiXXR8vbw907OGJhDfxEIqtZqlBoKWjO16hCJriyzUn3JM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gCeK/H+4; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b="LzYXiiPS"
-Received: from mail-nwsmtp-smtp-production-main-59.klg.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-59.klg.yp-c.yandex.net [IPv6:2a02:6b8:c42:3d46:0:640:8ea9:0])
-	by forward500d.mail.yandex.net (postfix) with ESMTPS id 6F32081BE3;
-	Mon, 20 Jul 2026 10:54:51 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-59.klg.yp-c.yandex.net (smtp) with ESMTPSA id lsPAN91eGGk0-4cxjBAB8;
-	Mon, 20 Jul 2026 10:54:50 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sezginduran.net;
-	s=mail; t=1784534091;
-	bh=xZT4y8ftoTSX4hi6pZwDmuUTQ+yHour+L+LW6qHnlMs=;
-	h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
-	b=LzYXiiPS9Kd3IsN/zYRdmtFtv/kqFEvSAXR5WEn4J61wW89lVIVtnBnKRp3zSnQ9m
-	 dCOqP2XdrprtJjUKwaWlTorD/xfHfKMMyc5K1XYLYeeKff3zgGQ7yOVQFfOaEddtG9
-	 Sqo3BW5T/YB1s2QP0GpYarZ7G8pWFEJFMmWt/78s=
-Authentication-Results: mail-nwsmtp-smtp-production-main-59.klg.yp-c.yandex.net; dkim=pass header.i=@sezginduran.net
-Message-ID: <ff52daad-657b-4f46-9ef6-bb2194a6c221@sezginduran.net>
-Date: Mon, 20 Jul 2026 10:54:46 +0300
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gCeK/H+4"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-493f75f7172so76890885e9.1
+        for <linux-staging@lists.linux.dev>; Mon, 20 Jul 2026 01:24:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784535866; x=1785140666; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=4HV5tdGDvtX2807flRJDk1RjGtFc+woOgquZeUolgwc=;
+        b=gCeK/H+4hCojpH17SVClGM7AM5tgK4dcsHqENJfQ8CmEXDVrc2m+iAu7q9KW881mnV
+         ayMRYaq7EbO+rexNtCW983XyJlCnzDoXchGY2FWbEodweAhrtHPt9Cv5QvRIkIZUB6+z
+         Cgy6qhiKV+Sr7WwezuJHPgH9X6vDXFyGL1SN65lMyUB4lIGb1mG+v6niAcmGovCw+ExJ
+         wQu4iJRjiYBjH9/UWhGW2RhARmVos10a4ro5kstJ2u98A1dOUjnkuZuTjXlwI1nf9pk6
+         mAhFEccgbYz4n30uV/DXOQsp4PqlAMwpmrQp3YUKHe4TK2lacyF/j0q83ZtWQkeA1dub
+         FQsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784535866; x=1785140666;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=4HV5tdGDvtX2807flRJDk1RjGtFc+woOgquZeUolgwc=;
+        b=QATUkuoNcWO4aKZaDSjH95LRM0/GPFv6a/yWtNaXrwcxnWv5yq2rY4u0yErLUeDTCW
+         8twPgMEW/tsaYPiOz32wp6TYZlEkl5e1++iu6ucl2JCJSgSgeDC7pyJwMOOyVoykaYzq
+         Zom+QqrrDhErymfEiIrFwfj8qhlG12i3fvrAptQ9mfk7ZKv8fFMsSAzdysMteo3T4DB+
+         RF3Q0DRZ0QcN9SrCK8/GZme7+MjYylPbVM/AXEjHlK1fuoXLg9Yv248BdPPvT2AfgWBr
+         croI5PEJrxaKC36ThNsEttkLwMLhj11i8wmqY9aewH2d7Bsog5kRAdc6uWiae5Imj+i+
+         j7BQ==
+X-Gm-Message-State: AOJu0Yw39XcmSWPkFGmlnWjbmhABhf3TkfZL8No1M8gES3Ejxw2ze/tk
+	yKDEuQPs073dYyPOVwil7TyzItYhU1cv6T0WdsUgjL8JX6qa2zk8oIHM
+X-Gm-Gg: AfdE7cnjF2Pbt++OB3RxlGZRKTD0zWFeJ1g/wJFoWCETrkEuB3p0ZHFgq83LOD8/HGG
+	al5qZD4zaLMVe6eCnGjDVpmwngTQK6AIMSzf2897NIbnwy+SJmfyptucijwF10RNE7NUvQvEY8L
+	BeF7psdzpGn43tm6bUiZkdC5TYDTSE+Qrbqol7eVSL4m3pDa9GpFCNKX9sxJDeqOCdRlatRGuTu
+	BEHS9oQKb/6onfXrc/QJDJui3wvvVV9p496jDVZj2hqUUSAbzacjSFpdU6u+hm4DMlJgB8i0vXi
+	O0+D1g26HHlU9ejt+eMzpODj9Fum5IN0GVg7hTUPpwkXamd8cOMFe+ITAudr5dmMfn20EypY8p4
+	68I/CXVTykxPguQj5g2SOnprr5mY5o80hxdE+qT8NfQ30j3Q8CjRm01kGJ7ZJYHIw9KIOzwRmTm
+	v3x429jhi+zALrm0zOOsCZeJfXDCMwdNDQHERrEwiPlT0zV4x7nIgf7Z3gDck3TyA=
+X-Received: by 2002:a05:600c:3113:b0:495:61aa:523c with SMTP id 5b1f17b1804b1-49561aa56admr11697155e9.17.1784535865627;
+        Mon, 20 Jul 2026 01:24:25 -0700 (PDT)
+Received: from fedora ([2a02:586:e223:fc00:8acb:cd0c:11d0:f2d2])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f6980582csm20734516f8f.13.2026.07.20.01.24.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Jul 2026 01:24:24 -0700 (PDT)
+From: Panagiotis Petrakopoulos <npetrakopoulos2003@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev,
+	Panagiotis Petrakopoulos <npetrakopoulos2003@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH v3] staging: rtl8723bs: fix missing shared-key auth challenge length check
+Date: Mon, 20 Jul 2026 11:24:09 +0300
+Message-ID: <20260720082409.168379-1-npetrakopoulos2003@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: sm750fb: rename pvReg to avoid CamelCase
-To: Olivier Tanoh <olivier.tanoh19@gmail.com>, gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20260720074804.29657-1-olivier.tanoh19@gmail.com>
-Content-Language: tr
-From: Ahmet Sezgin Duran <ahmet@sezginduran.net>
-In-Reply-To: <20260720074804.29657-1-olivier.tanoh19@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 7/20/26 10:48 AM, Olivier Tanoh wrote:
-> Fix checkpatch.pl warning regarding the use of CamelCase:
-> CHECK: Avoid CamelCase: <pvReg>
-> 
-> Rename the struct member pvReg to reg across the driver to
-> comply with the Linux kernel coding style.
-> 
-> Signed-off-by: Olivier Tanoh <olivier.tanoh19@gmail.com>
-> ---
->   drivers/staging/sm750fb/sm750.c    |  4 ++--
->   drivers/staging/sm750fb/sm750.h    |  2 +-
->   drivers/staging/sm750fb/sm750_hw.c | 12 ++++++------
->   3 files changed, 9 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-> index 89c811e0806c..c5f43a364437 100644
-> --- a/drivers/staging/sm750fb/sm750.c
-> +++ b/drivers/staging/sm750fb/sm750.c
-> @@ -743,7 +743,7 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
->   	 * must be set after crtc member initialized
->   	 */
->   	crtc->cursor.offset = crtc->o_screen + crtc->vidmem_size - 1024;
-> -	crtc->cursor.mmio = sm750_dev->pvReg +
-> +	crtc->cursor.mmio = sm750_dev->pvreg +
->   		0x800f0 + (int)crtc->channel * 0x140;
->   
->   	crtc->cursor.max_h = 64;
-> @@ -1047,7 +1047,7 @@ static void lynxfb_pci_remove(struct pci_dev *pdev)
->   	sm750fb_framebuffer_release(sm750_dev);
->   	arch_phys_wc_del(sm750_dev->mtrr.vram);
->   
-> -	iounmap(sm750_dev->pvReg);
-> +	iounmap(sm750_dev->pvreg);
->   	iounmap(sm750_dev->vmem);
->   	pci_release_region(pdev, 1);
->   	kfree(g_settings);
-> diff --git a/drivers/staging/sm750fb/sm750.h b/drivers/staging/sm750fb/sm750.h
-> index d2c522e67f26..39471d7f2696 100644
-> --- a/drivers/staging/sm750fb/sm750.h
-> +++ b/drivers/staging/sm750fb/sm750.h
-> @@ -97,7 +97,7 @@ struct sm750_dev {
->   	unsigned long vidreg_start;
->   	__u32 vidmem_size;
->   	__u32 vidreg_size;
-> -	void __iomem *pvReg;
-> +	void __iomem *pvreg;
->   	unsigned char __iomem *vmem;
->   	/* locks*/
->   	spinlock_t slock;
-> diff --git a/drivers/staging/sm750fb/sm750_hw.c b/drivers/staging/sm750fb/sm750_hw.c
-> index 34a837fb4b64..d1f021e31a96 100644
-> --- a/drivers/staging/sm750fb/sm750_hw.c
-> +++ b/drivers/staging/sm750fb/sm750_hw.c
-> @@ -23,18 +23,18 @@ int hw_sm750_map(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
->   	}
->   
->   	/* now map mmio and vidmem */
-> -	sm750_dev->pvReg =
-> +	sm750_dev->pvreg =
->   		ioremap(sm750_dev->vidreg_start, sm750_dev->vidreg_size);
-> -	if (!sm750_dev->pvReg) {
-> +	if (!sm750_dev->pvreg) {
->   		dev_err(&pdev->dev, "mmio failed\n");
->   		ret = -EFAULT;
->   		goto err_release_region;
->   	}
->   
-> -	sm750_dev->accel.dpr_base = sm750_dev->pvReg + DE_BASE_ADDR_TYPE1;
-> -	sm750_dev->accel.dp_port_base = sm750_dev->pvReg + DE_PORT_ADDR_TYPE1;
-> +	sm750_dev->accel.dpr_base = sm750_dev->pvreg + DE_BASE_ADDR_TYPE1;
-> +	sm750_dev->accel.dp_port_base = sm750_dev->pvreg + DE_PORT_ADDR_TYPE1;
->   
-> -	mmio750 = sm750_dev->pvReg;
-> +	mmio750 = sm750_dev->pvreg;
->   	sm750_set_chip_type(sm750_dev->devid, sm750_dev->revid);
->   
->   	sm750_dev->vidmem_start = pci_resource_start(pdev, 0);
-> @@ -58,7 +58,7 @@ int hw_sm750_map(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
->   	return 0;
->   
->   err_unmap_reg:
-> -	iounmap(sm750_dev->pvReg);
-> +	iounmap(sm750_dev->pvreg);
->   err_release_region:
->   	pci_release_region(pdev, 1);
->   	return ret;
+The WEP shared-key authentication handler uses the challenge-text
+element's attacker-controlled length without checking it against the
+fixed 128-byte chg_txt buffer.
 
-Does not apply to Greg's staging-testing branch. `pvReg` was already 
-renamed to `mmio` before.
+In OnAuthClient() the length from rtw_get_ie() - up to 255 - is used
+to perform memcpy() into the 128-byte pmlmeinfo->chg_txt, so a
+malicious AP sending a malformed WLAN_EID_CHALLENGE element can
+overflow/underfill chg_txt by up to 127 bytes. It is reachable over the
+air, before association, during shared-key authentication. In the case
+of an overflow, the driver can write out of bounds. In the case of an
+underfill, the driver can echo stale buffer memory.
 
-Regards,
-Ahmet Sezgin Duran
+The challenge text is defined to be exactly 128 octets, which is
+already provided as the WLAN_AUTH_CHALLENGE_LEN define; require the
+element to be exactly that length before use.
+
+Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Panagiotis Petrakopoulos <npetrakopoulos2003@gmail.com>
+---
+v3:
+rebased onto staging-linus. OnAuth() is already fixed there, so this
+revision only touches OnAuthClient(). no other code changes.
+
+v2:
+improved patch description for clarity. no code changes.
+
+testing:
+Compile-tested only; I do not have RTL8723BS hardware to test the
+shared-key authentication path at runtime. The change only rejects
+challenge elements whose length differs from the spec-mandated 128
+bytes, so conforming peers are unaffected.
+
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index a443b3530fb9..a9382dc1294b 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -879,7 +879,7 @@ unsigned int OnAuthClient(struct adapter *padapter, union recv_frame *precv_fram
+ 			p = rtw_get_ie(pframe + WLAN_HDR_A3_LEN + _AUTH_IE_OFFSET_, WLAN_EID_CHALLENGE, (int *)&len,
+ 				pkt_len - WLAN_HDR_A3_LEN - _AUTH_IE_OFFSET_);
+ 
+-			if (!p)
++			if (!p || len != WLAN_AUTH_CHALLENGE_LEN)
+ 				goto authclnt_fail;
+ 
+ 			memcpy(pmlmeinfo->chg_txt, p + 2, len);
+-- 
+2.55.0
+
