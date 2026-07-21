@@ -1,72 +1,72 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 256C24499BE
-	for <linux-staging@lists.linux.dev>; Tue, 21 Jul 2026 09:56:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D074846D570
+	for <linux-staging@lists.linux.dev>; Tue, 21 Jul 2026 16:04:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784627816; cv=none; b=HX3HT93SAMBcaaqy+zGI94SqLGhC5zIaWvmoFFAUP4saf0wA1L+xJydhEyOPQJE6ZtjL0m1EvTam5UKuX2fLmJ75YBcaERtPlsrkM4uZQ67nFxFwULOqNOBB2p6N2r6Mckf2GCEsOCLYFPlhdgU9kjmR7ncUQ3KFoKxNzy9YPNs=
+	t=1784649893; cv=none; b=au9IERbChTbAzCZGENWF6BR/N0iD8167G/UQpYJe7xoRBwJ0nITOq3BU126jWErlwPY0lWgWPoKguuIV4/YR9G1ok8v+cEUFEm4yIiseuZSh788/GGm1vRvhDFS72xFi5iEQHKZsqjlLi9ya5VckHxF7vcJAcRmHybXSyo/VPsU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784627816; c=relaxed/simple;
-	bh=tikWYDEQLVc5waY2/78bTj9CLn2yecpBpXsk/U5GP90=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Q3SzrLyvYh48dZMCzC7RwS2NU1NAsQoPgA0G4BBk4WDzXkyyRdUaaE3jjcy0QoIJ3XNgTjGRhZ23gnXpHYSzzYZLaBRI00nFnQDOhMx2cSuXnS9Hg/Xpc0cRUsBL6uPrgygxEnLsa60EosWwRbZg64U23iRnKrek6uN5FJox+oA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=q1Auc5j2; arc=none smtp.client-ip=209.85.214.180
+	s=arc-20240116; t=1784649893; c=relaxed/simple;
+	bh=y60J1vaaP8TUzLNxgUTx0t4GsR+fleFS3Ps/t53XRz4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Fpwtvtn4N1EWsf/o3Huj4nVx/7o7dSsPw9sExGkRZK6j2WP9lHgnIKHtiC81xVbKHwC9EqQB5dyt7/XfJm4a6+Kdvw0ocWCvhRScoGS+nc7wBXu0Rl+wMrwI7pFmk3cGV8V5fDIKFDR4dCgz1fEJwojuWXAU7v7jKZHvBk61szY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tIA46TKa; arc=none smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="q1Auc5j2"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2cf50c6f235so31220025ad.0
-        for <linux-staging@lists.linux.dev>; Tue, 21 Jul 2026 02:56:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tIA46TKa"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-47362928f65so10467181f8f.2
+        for <linux-staging@lists.linux.dev>; Tue, 21 Jul 2026 09:04:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784627814; x=1785232614; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1784649890; x=1785254690; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=b4FztRgbbuu/DGlKT6aKIPa27gZ9w0psRj4kEpq+JGc=;
-        b=q1Auc5j22SKXIcZMnPMuQrt1zH8j8rqrLxb+4f599ocIoHOUz9Io7mg59GTnvjY5R9
-         oE7IgPx/2sH4SxDzZlp/do0NkojBmm81KKB/7uMNG3gRJCoKJkUBbCqR9qvgTQcj5Jq+
-         U9cVRW+1ccPMUbZC+I3+X472cUKdIE9CDlKwK8z2hNnLk9UqwIPHDT/Yv1+uOywkvxRk
-         W5cRuKkzqwxE7kYM9GueZ40uEDQpeqM2E28g1Qpr+jyaIttmd9ZPLCBjzZoHMle1KlPN
-         s6oKho+jbx0zB0JqzDTP60JjAhVQ5Xy0+peWq5R9OupoRMlKAx6cWqLDV6Od86KO1iVC
-         FR0w==
+        bh=eXoWCdwhd85iJHMaOslBo9FxJYhxSgzHEpw839M28tA=;
+        b=tIA46TKa8/pnxaqBo2Y8htWP+7NS8hHvlAMcxpe9/nZf3cuYc0ibcqxpp1VpZk3KYE
+         LtGWBKg2qP0hWtrFZch2kGdg3ihvttBfrf0n20AuDBrwwXRnJN2sM5QZXAhB2/9L6qqV
+         TwB92FMlrJn2rDxg/HZzeHWUy49PfhfLjpOD7vcSU1do4Mn4ow/6hXgsV6fLQapxzA++
+         oihexUltgp+Is3U6v7KD/bN5LhKjKLiVU7vtjbhvCBtUnc854GMsxiTFLlmz8Qj+6NpR
+         QGLiSx9HJcacllHSi8Kkd0ELqVqP+oQo/s5XofM9K8Zsap3hNhxFvgEOL9OMQDbyBvic
+         r7UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784627814; x=1785232614;
+        d=1e100.net; s=20251104; t=1784649890; x=1785254690;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=b4FztRgbbuu/DGlKT6aKIPa27gZ9w0psRj4kEpq+JGc=;
-        b=NESwTYOrZRCDy3JuBOBzG92F6T+BKtGNfpMp7krwScypvRfA96iPRNYVVcwvJVwCz/
-         2c3ioRDaN1rSlQBq1waK5voIc/0aJrWggCdzl6fJstj6NDoEmT6atvV7CoiNHNqqgV4G
-         AOrBP2RV9MTqongBErU4E/WaFOQZfA0nS9A8mMkv4ZcznCvRIa/Sy8Jab5jnqLLZ5TuU
-         bSRFDeGNtXcaq6jwIcNrnmV8WP+q6FmTBbwj/NkR7h691ZwqFTo8LRPIi0MqystsOtAi
-         XVQxNbbM7rU/f2CmaQhFyJ2Xgi/90plHrCsBzbXzPJb3bAdMTH42HjLOxs6QmAyvXKPS
-         jIlg==
-X-Gm-Message-State: AOJu0YyLLofO3+WmxfXSts8zEtx7fVJEs0jB1Of7MkbJDaPNWiM9vQwW
-	gaQhp3dQ95SNkamo9QGG6em2JEmlQNtAEewhcEdhSjOyOO/7QzumY7fk+auuBAGf
-X-Gm-Gg: AR+sD11Vpmr0qvWWIVb25r38tu+zs9Vkw70ICel1gLZQdzBmJZUDUWGORz5F8pFdNZb
-	vDQ+U44z9yYrHScWtODR2SzIya59PUUSYepnvVufMVojoxKq9p0Zbiii8SfTpobui4P0nYvylSB
-	Td/hlCV121AsaQnEe5M0afIpSTKdmkKfnbWkHF3XFjRtd9cmnnvbxmNDR+HKRMIvSTFi5wA/ns6
-	H3ij4p+1eUEcJFnay18dozPlProETUyqNWzctaDYgvba9+/nrIY2luOP0VfgPIaiqAh1cMDsYwS
-	1E3oQuC67f7nwXk5Tt6ex0L3eQ+5osNuqvq5M1sqmgEIiszM9io4x9X4X3AhEwrqnMh693UEFNL
-	bw2/CCcR2MBogDWG3GUyVtMp9PFUvaVBbjnRgjDwzlXGD5rNuxmt05QQgtHlizirgNfJf58xWIP
-	OviVvWGkTNJ4UsggOExvs51E/WpE3uC3eaSABh
-X-Received: by 2002:a17:902:ce0d:b0:2cc:9a86:9c42 with SMTP id d9443c01a7336-2cf349eb316mr181225525ad.45.1784627814521;
-        Tue, 21 Jul 2026 02:56:54 -0700 (PDT)
-Received: from localhost.localdomain ([125.20.165.194])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3142a20b1f3sm44496508eec.26.2026.07.21.02.56.50
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 21 Jul 2026 02:56:53 -0700 (PDT)
-From: Aayush7352 <aayushdixit924@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: Marc Dietrich <marvin24@gmx.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-tegra@vger.kernel.org,
+        bh=eXoWCdwhd85iJHMaOslBo9FxJYhxSgzHEpw839M28tA=;
+        b=YDe1DXNLYuiTCyl4/9sByscFex+APo2y0dx3D6dxMOUo+z7RauHtQfQsjZ4QGnbHXb
+         mDxNmco1msEtNBJg8b8Q4kGLackfpn4q/IMU8nCBx/yLawMzBO+FgLKjXImaRCN5Xle+
+         qV2aAMbCFNGJmiey/uc6Efzl4iwHinLQRXeOrCkPj6wiz2YRUUmn28VSiK8ikg7mMXhB
+         qU4j0/Cc3LBEuSN/YyVt1bVIbvEG5cTzNqdFcHSB1SyjmmUc9q4SVZeD8aPD1ExnCS1m
+         dvaawMK688fjPfQF3NlyEqak4G7zAVDPXQgKtduaOoMtbLOzSLSWeozfOvdLD0pLCORg
+         JGiA==
+X-Forwarded-Encrypted: i=1; AHgh+RrE5YNrzmrMF7D1j2RTN+Ddhp9Wz/0muNBU8oXQ6afy0e9D2KsnIj/ybs+mOg5D05hJSGC9hP7hHMvXD2Eb@lists.linux.dev
+X-Gm-Message-State: AOJu0YxPrRr3mufm8VHuw432olOIe5LG0P5VVTYBjUL3xRtSbZpWu0qP
+	I8RGNc7zQR4x3e7gYl5/uzMNkbNYLqSMhN1N2BIdjnQT+o6nJNai85Xo
+X-Gm-Gg: AR+sD13R48qIj7bUKbbn6qsxKe4mxiO/dnh1VPRL7DOaZiHjrVtfiXMK+yTkL1NDNEa
+	lfieDKdmbjRWfcUdECmjbNagjMyfpfnJ/vb+nL9o7IUBu5m2m161SHCUvGP5NJpeVw8ZJgoArUE
+	DmpCiJXIPmoN3ANVc5N3MI8ULGGqdaK2PG54SIaZk5+ASmSADpnMP+FDNi4mS3SjBPTNgo3AKm8
+	3CtvEbZqHOGYLgvWVQ6pG4fnAej7gBQv0wFZAc7bUT8TA+dinGPr+6qoa+olmNfthkZO8/0bwPX
+	/cYRl5E1Rv3G7Xru1mk8bYosullqfULf5/RBs0n49zKF+r0wjYfafghBgvS6h6HpjxxCcYtxOqf
+	SBrJ+QmZc8tcFF4hswgw+EbDlqC7xmIVZNQCP4h0ZofLy6AI7R3vxWA83wXZKBqm/YD3I1S0PcY
+	uc
+X-Received: by 2002:a05:6000:26c5:b0:47f:73d3:bfc6 with SMTP id ffacd0b85a97d-47f73d3c168mr14462717f8f.46.1784649889820;
+        Tue, 21 Jul 2026 09:04:49 -0700 (PDT)
+Received: from ubuntu ([27.96.94.148])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f67466e09sm43793828f8f.21.2026.07.21.09.04.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Jul 2026 09:04:49 -0700 (PDT)
+From: Faisal Mukhtar <mukhtarfaisal03@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Eric Wu <kunjinkao.jp@gmail.com>,
+	Ayush Mukkanwar <ayushmukkanwar@gmail.com>,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Dan Carpenter <error27@gmail.com>,
-	Aayush Dixit <aayushdixit924@gmail.com>
-Subject: [PATCH] staging: nvec: fix power-off path to not depend on workqueue
-Date: Tue, 21 Jul 2026 15:26:46 +0530
-Message-ID: <20260721095646.80663-1-aayushdixit924@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	Faisal Mukhtar <mukhtarfaisal03@gmail.com>
+Subject: [PATCH] drivers: staging: octeon: ethernet: removed unneeded parentheses
+Date: Tue, 21 Jul 2026 21:04:17 +0500
+Message-ID: <20260721160417.242644-1-mukhtarfaisal03@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -75,57 +75,46 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Aayush Dixit <aayushdixit924@gmail.com>
+removed redundant inner parentheses around "interface < 2"
+in 3 if statement instances within the file ethernet.c,
+got the warning by running checkpatch.pl script on the file.
 
-nvec_power_off() uses nvec_write_async() which queues work via
-schedule_work().  During system shutdown or reboot, workqueues may be
-frozen, so the AP_PWR_DOWN message never reaches the embedded
-controller and the system hangs instead of powering off.
-
-Fix by calling nvec_request_master() directly after queuing the
-power-off messages, processing the TX queue synchronously in the
-power-off context.  Also add a NULL guard for nvec_power_handle.
-
-This addresses the TODO item "add atomic ops in order to fix
-shutoff/reboot problems" in drivers/staging/nvec/TODO.
-
-Signed-off-by: Aayush Dixit <aayushdixit924@gmail.com>
+Signed-off-by: Faisal Mukhtar <mukhtarfaisal03@gmail.com>
 ---
-This patch has not been tested.  Compile-tested and checkpatch-clean only.
+ drivers/staging/octeon/ethernet.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
- drivers/staging/nvec/nvec.c | 17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
-index 88c416ee0..938ea8f34 100644
---- a/drivers/staging/nvec/nvec.c
-+++ b/drivers/staging/nvec/nvec.c
-@@ -774,10 +774,23 @@ static void nvec_disable_i2c_slave(struct nvec_chip *nvec)
+diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
+index f3fa221f452e..5083d9596972 100644
+--- a/drivers/staging/octeon/ethernet.c
++++ b/drivers/staging/octeon/ethernet.c
+@@ -247,7 +247,7 @@ static int cvm_oct_common_change_mtu(struct net_device *dev, int new_mtu)
  
- static void nvec_power_off(void)
- {
-+	struct nvec_chip *nvec = nvec_power_handle;
- 	char ap_pwr_down[] = { NVEC_SLEEP, AP_PWR_DOWN };
+ 	dev->mtu = new_mtu;
  
--	nvec_toggle_global_events(nvec_power_handle, false);
--	nvec_write_async(nvec_power_handle, ap_pwr_down, 2);
-+	if (!nvec)
-+		return;
-+
-+	nvec_toggle_global_events(nvec, false);
-+	nvec_write_async(nvec, ap_pwr_down, 2);
-+
-+	/*
-+	 * Process the TX queue directly instead of relying on the
-+	 * workqueue.  Workqueues may be frozen during the power-off
-+	 * sequence, so schedule_work() from nvec_write_async() may
-+	 * not execute, leaving the AP_PWR_DOWN message unsent and
-+	 * the system unable to power off.
-+	 */
-+	nvec_request_master(&nvec->tx_work);
- }
+-	if ((interface < 2) &&
++	if (interface < 2 &&
+ 	    (cvmx_helper_interface_get_mode(interface) !=
+ 		CVMX_HELPER_INTERFACE_MODE_SPI)) {
+ 		int index = INDEX(priv->port);
+@@ -293,7 +293,7 @@ static void cvm_oct_common_set_multicast_list(struct net_device *dev)
+ 	struct octeon_ethernet *priv = netdev_priv(dev);
+ 	int interface = INTERFACE(priv->port);
  
- static int tegra_nvec_probe(struct platform_device *pdev)
+-	if ((interface < 2) &&
++	if (interface < 2 &&
+ 	    (cvmx_helper_interface_get_mode(interface) !=
+ 		CVMX_HELPER_INTERFACE_MODE_SPI)) {
+ 		union cvmx_gmxx_rxx_adr_ctl control;
+@@ -345,7 +345,7 @@ static int cvm_oct_set_mac_filter(struct net_device *dev)
+ 	union cvmx_gmxx_prtx_cfg gmx_cfg;
+ 	int interface = INTERFACE(priv->port);
+ 
+-	if ((interface < 2) &&
++	if (interface < 2 &&
+ 	    (cvmx_helper_interface_get_mode(interface) !=
+ 		CVMX_HELPER_INTERFACE_MODE_SPI)) {
+ 		int i;
 -- 
-2.55.0
+2.53.0
 
