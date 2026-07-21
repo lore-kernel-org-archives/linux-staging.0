@@ -1,105 +1,117 @@
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D32A746AA64
-	for <linux-staging@lists.linux.dev>; Tue, 21 Jul 2026 18:49:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50F873B71CC
+	for <linux-staging@lists.linux.dev>; Tue, 21 Jul 2026 20:55:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784659771; cv=none; b=Hk1K2LMFRxgKLP7cTje32shH4a+iwUsYckhwTjAtYU08WzAYGB2ckHIY/8ZdOKhS0C0hKYB46mbxD4AG/oRWZ7CyIUqH9kufwfmYXwDpIaLjSiUKmnxa+j0sSwE4DaypN8Ge/65GU5oT8VSac2m/V61fU9AE0jzlvCyVhgjdY+k=
+	t=1784667336; cv=none; b=da4gK/yxEec6dd5RpiQ/ef8hBSJKmAABP1iduRTeWQHes/LYrvZCQnbOq9B9q0GTHKH5Sl33GZXrondi+lZMPYaQaTNgl5M9pkbtaH0ksDe5xaaLDiAj9sYMQ2XjQg3InLWg8R/jqCNisVVdrgaTV67ej4Z43AJRfErXiYAVrSs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784659771; c=relaxed/simple;
-	bh=EF7x05Jus7vw2M6Zs189/09ELm68bdOtbNlQYK3DMBQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rMa35ahx3gclDDN8+dRq4ZybHbqCtgzjQ5wOMnXFe2xOiLsJfxtIp/advMY0cfwL0ZfK5erXtaiOcJMvtnLb3Ox7cSKzuOGqbFqhHNSoVFJppjLOUDFv5y+DW8TKx+Tmcg6p3K2SQ3iPyktgfRCMduL/N4yhC/iwNEoGvgoN+lQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ob05MpAe; arc=none smtp.client-ip=209.85.217.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1784667336; c=relaxed/simple;
+	bh=u+9295C9ecb9Whe1DdoflOUPgK8JQtup6FOqACjo+HM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t7etkAV23FHaGJ+XZXtVcesZVM7ZQuaNfvu9MIFhzoSKZDmBPc1kV0v8rfp+4MVLAnW5BzmBPJDPyWD/Zys2lJsY1WZqMC31YIgXiHo48IBP+1o6yKfgA3FrnfYEdjpCEqEzOUmkRndPUqPJCnN6KZvW0TNXM5lAH4v37a5KmIQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VyAWEqsQ; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ob05MpAe"
-Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-738cdd667ceso1606595137.3
-        for <linux-staging@lists.linux.dev>; Tue, 21 Jul 2026 11:49:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784659769; x=1785264569; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=iMHI5d9AyTacxam0z1p5qnhCK+J63tJO9FBXrk9zja8=;
-        b=Ob05MpAeqRlytAYaqBPwGI0JycM6OD8kfvtAV4q+IFs5V+0Q6CLMnOEA1cRrH/Psqy
-         9nJLDf4ouELXVulQOBW9JyQTRwSV47Zb361N5mxj8C/Th+ZDI/mrVX/ThgslSzI8i80J
-         LjdscWn2nAKP34FY2bESq5t8bncSAC9sondJqUQAZgL/EJ5HCs7buZebCn332PdIMYrv
-         ctmjPhTat4AGrv+R2KpwLiPp6xPH8DeWT14NknrUk76xL0z3hxmCliEV7w8DMY8oUmek
-         R8wggJdjVrJTKpEu4ysoGKdjx0TCii2utjQvbT+hcgppR2gPx97X5is7RUdj6SKvl4dU
-         ebhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784659769; x=1785264569;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=iMHI5d9AyTacxam0z1p5qnhCK+J63tJO9FBXrk9zja8=;
-        b=U0+xT/czNy5hTvMOwF3arFeiGI2yqNlKL4dT3GPWKh87y+um2gyzy1ZmrH/gwvy2oX
-         JpSW9d1VKl/zH8r69Osbas1Tu+FS9bQAsHRV/ffhZFJZWrGTub2iPuv08TYUaHjZ1HBI
-         0WIaJvwLJBTpdqUTmg1eQU3Nh0Yi5XrYFBJ4Fzronp4zlTPaYqvOVN2FwwX50HPrSXCy
-         HClOshcYOCUIRdSZ+KJnegvbgWx/kt8bcQQTNeT+GWln1YIrYOczVRP4AgsOzWzVS8S9
-         72b9r0X4G999Rwr8Z/JuASTPFqQQdVdUJcyEC3YeFKc3K6sVsNwOjpdCD9GVsIL9ecC/
-         BV0A==
-X-Gm-Message-State: AOJu0YzyAgULLnN0SoAs1mG52X/cestBhnRS9AaNHd7OXZCHLsl+ZX3k
-	Qb6baEqRfgvnjPjRcmX6fMHZz6YTHr0zD1zbJK4Dy2gINIPBtXmb8/dz
-X-Gm-Gg: AR+sD13agEK6UiygbG8HFIBkFIDXzSxLLn53d/RDi6CEbO4NITR801mfsZXQrx0oqmP
-	XuLiofsSiRA/4VNebOwXLQ6Snh+40jXy2tm2AuleDpp42zdhReNhHBxZCbSn71iE50RPJh/yFYi
-	UbnmFIjR9ZGvc9EWkeZqUFTgz+GZkJQu55h2gO7all4gGO9xqiYcuNxd+sLlrsghXf3c7ysVtcD
-	z7ZmyG8WEiC+vGydiO21cWFfvXSCcG/pl52uD65Lm9zwDNGq8aXBviruj+54bouxv2peHMWuT3n
-	uhivIiS96JU9hESYSE5GUVSXeHYzlD9LTGRVDQYRrxsYwLYNVjYIwVdfzJa/sNFSg/HEBdo9M4p
-	EFOhBY8hbVoD924+a/82kzkgS0haHmzM0TVOnNWp8xLqKOAdQ1tarAmdqIbKziRqNX8ASUyeLpJ
-	gmkGXEYv7JsChGPdFha+A=
-X-Received: by 2002:a05:6102:6442:b0:631:23fa:38d7 with SMTP id ada2fe7eead31-74753669f51mr5646548137.14.1784659768554;
-        Tue, 21 Jul 2026 11:49:28 -0700 (PDT)
-Received: from localhost.localdomain ([2804:2d2c:ef14:c500:a136:52ac:3edf:ebf5])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-9774407726dsm156120241.5.2026.07.21.11.49.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jul 2026 11:49:28 -0700 (PDT)
-From: Leonardo Martins Martins <dev.lmmrtns@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Leonardo Martins Martins <dev.lmmrtns@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: remove redundant goto in rtw_free_xmitframe()
-Date: Tue, 21 Jul 2026 15:37:46 -0300
-Message-ID: <20260721183746.80069-1-dev.lmmrtns@gmail.com>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VyAWEqsQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1784667335; x=1816203335;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=u+9295C9ecb9Whe1DdoflOUPgK8JQtup6FOqACjo+HM=;
+  b=VyAWEqsQm2r70gqj1ZkSEGJP9prQhAsUpsNcEtYtBk4HHswKQC7sqAIw
+   pm2c0xxxHxoiakMkGtjoVaTl7XZ9vV7eRLB812/ealv0naClFqDU9Emma
+   q5Y6uKveJ2L2bNmCuNuf+rNpJbwNQJBqwRbP03mNAavXXq4A5UGsKvDmK
+   WZFew6ykwlSkjHU7Di9PL+r0Vo2PYssNPj/QOvetD9O2PF0BIkcqpneAl
+   pNIvgu32sQI8w+Ni37Cu/Z/l8ov+gvpeuoug2k98NHxFVLdDzeVhYZ5C6
+   KilHVssNs/91tmqNO0sdUygpnp6/lY2J3SgzgNmuQFjUWTNSXhD8dwkAl
+   g==;
+X-CSE-ConnectionGUID: 96ip9n3kQjS5m2KZnZ10kw==
+X-CSE-MsgGUID: fzetwdhORFOTF2Sz1izh3A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11853"; a="85229536"
+X-IronPort-AV: E=Sophos;i="6.25,177,1779174000"; 
+   d="scan'208";a="85229536"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2026 13:55:34 -0700
+X-CSE-ConnectionGUID: HsLxCkGzSLasTMnkZ0sobg==
+X-CSE-MsgGUID: HfDb9v8HQde4WKuqwE7edw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,177,1779174000"; 
+   d="scan'208";a="261437363"
+Received: from ncintean-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.67])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2026 13:55:31 -0700
+Date: Tue, 21 Jul 2026 23:55:29 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Prajval Chaudhary <prajvalchaudhari733@gmail.com>
+Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH v4 2/2] staging: media: atomisp: Remove dbg_level and
+ dbg_func module parameters
+Message-ID: <al_cwbjvaAJ1mOC9@ashevche-desk.local>
+References: <20260721163533.15888-1-prajvalchaudhari733@gmail.com>
+ <20260721163533.15888-3-prajvalchaudhari733@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260721163533.15888-3-prajvalchaudhari733@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Remove redundant goto statement and return _SUCCESS directly.
+On Tue, Jul 21, 2026 at 10:05:32PM +0530, Prajval Chaudhary wrote:
+> Remove the 'dbg_level' and 'dbg_func' module parameters to align the
+> driver's debug facility with standard Linux kernel APIs (printk/vprintk).
+> 
+> The internal logic relying on custom debug parameters has been updated
+> so that message logging and function tracing no longer depend on exposed
+> userspace module parameters.
 
-Signed-off-by: Leonardo Martins Martins <dev.lmmrtns@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_xmit.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+...
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-index 16e6c9567224..f11fc285ee3a 100644
---- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-@@ -1740,7 +1740,7 @@ s32 rtw_free_xmitframe(struct xmit_priv *pxmitpriv, struct xmit_frame *pxmitfram
- 	struct sk_buff *pndis_pkt = NULL;
- 
- 	if (!pxmitframe)
--		goto exit;
-+		return _SUCCESS;
- 
- 	if (pxmitframe->pkt) {
- 		pndis_pkt = pxmitframe->pkt;
-@@ -1773,7 +1773,6 @@ s32 rtw_free_xmitframe(struct xmit_priv *pxmitpriv, struct xmit_frame *pxmitfram
- 	if (pndis_pkt)
- 		rtw_os_pkt_complete(padapter, pndis_pkt);
- 
--exit:
- 	return _SUCCESS;
- }
- 
+>  /* cross component debug message flag */
+> -int dbg_level;
+> -module_param(dbg_level, int, 0644);
+> -MODULE_PARM_DESC(dbg_level, "debug message level (default:0)");
+
+And what level is the default now? What the difference with the other levels?
+
+>  /* log function switch */
+> -int dbg_func = 1;
+> -module_param(dbg_func, int, 0644);
+> -MODULE_PARM_DESC(dbg_func,
+> -		 "log function switch non/printk (default:printk)");
+
+What are the other options?
+
+...
+
+>  /*! \file */
+> -
+
+Stray blank line removal.
+
+> +#include <linux/printk.h>
+
+Locate it in the linux/*.h group below. But I agree that at some point this
+custom type_support should be moved down.
+
+>  #include <type_support.h>
+>  #include <linux/stdarg.h>
+>  #include <linux/bits.h>
+
 -- 
-2.47.3
+With Best Regards,
+Andy Shevchenko
+
 
