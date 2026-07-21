@@ -1,79 +1,69 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3577D43B3F8
-	for <linux-staging@lists.linux.dev>; Tue, 21 Jul 2026 21:43:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C54243DA5C
+	for <linux-staging@lists.linux.dev>; Tue, 21 Jul 2026 22:01:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784670185; cv=none; b=gD4e2O2WQoQgmjlzkvTKCIIG8LxqkmCj2toui+iRgYyxjVhVlAdU7z4KCFHcGdmheBCM6Y/dZFVcM2WQHzT0FByOewKHgYJSWB7/i78GQeIm5IdDb/Tz4hgFhrf3jD+YO3K/jKDHDlFP79vdtsPb83ncvc2JmkUgUQhbWLyiNRk=
+	t=1784671306; cv=none; b=bP2a0wRqWfuvYeSw6C7e67qjnLDny931SYZs9P926abJPWk5fFd1Tde2AeivSqf+sAA71apSBKPbbwd8ALFzp9kEHxZi2W2NwOLjgcNobeY+a/L6SP/t00MNazlvjoCumdejqDEWgOaRT/uCuUOLKPmjq9Mqd6Z5tZV8EkwyHy4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784670185; c=relaxed/simple;
-	bh=DefLr6N+E9PvdVZ8GGKHB1D7oDumfhx69XLAlNfBtz8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hYOAvGwF9j2jIiLVFLJWabvH92m4XmFGkDOEISnn0qGA3EAMQakYx4AEcl8O64/tIazgVIwXGeVNVm79nmnhCcWBM12RSxGXQ/H0OE5IlBAt72NIm5gNiTM4Ryi9J+yhP/4b2tuyL/V9nZ4rZObko2rL2HT4AzKL/CgaSARKcv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TeiAq1wC; arc=none smtp.client-ip=209.85.167.42
+	s=arc-20240116; t=1784671306; c=relaxed/simple;
+	bh=kbKDu/079E+YGckG0IZyv4PYSic/CVWb/SWk8feol6A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KgmeTMTmv8EN3jGAu/kI/ATdOQt9mQsK28YN3FR5gHx1xwn4L3WSwPHCGejzqo9FbAKJHUStpbkkYtSwzu3Qjk7rFf4RJPlv/QwdYoq+2n3N4Dx4JyklAcRtPqFWpD2DM/LGZtL814B870XjD3lNDtUb4AGATpv9ViPmT7hiYw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OUbHUrMD; arc=none smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TeiAq1wC"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5aeb8c19017so14428994e87.0
-        for <linux-staging@lists.linux.dev>; Tue, 21 Jul 2026 14:43:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OUbHUrMD"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-47f59f25ec4so1742351f8f.2
+        for <linux-staging@lists.linux.dev>; Tue, 21 Jul 2026 15:01:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784670182; x=1785274982; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ok5uMFFrIqvWj5X3glWDZ3EQJA6Z86TLs/gXGnbTACs=;
-        b=TeiAq1wCQBKLxrCrCb18gcP1eCCL0gEhc7XefndH18j7bqvexNmM6ruTVvLkEwXGYW
-         3cCTgO9P5Ix5IlS6wBeKYUEDudP7ctBiyPhZwQj+Uhnt4+jDhSPPVGagdOdQc3M5Ls3u
-         M12UMAZkBjA8Go7zJvlou8q2fyq5STEPQgGy+5YgDQtYozkG4dr29PiTsWs+ET3BfDbF
-         89Ew21ZLP/1kqQ4mvYP9Nj+rvhk3ZDDve1PEbBcVr2Mc1u197j7kjJ5XKse9dxZuRdue
-         KUb/ihe3fLkRCgwXGmTi3dPIwhk0HYv+Ryybva1pJ/+69FqshmbnOBac8DGqn7Wy3FgT
-         PDAA==
+        d=gmail.com; s=20251104; t=1784671303; x=1785276103; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=4tNDArrQhjAw/UF5CZPAGQs/eQvTvCiV8lOXtii5gUw=;
+        b=OUbHUrMDMgJt3JPnlrM6lGq4woxPiOWjT4N2THcItE5vsDyvEVNKmhgCmmTlnPkLBj
+         D038XQ4JUQnVUJlMHLRjl/+fVxeK8zm781y1aAlbXTC1LTsydW2bYwnxNBtv9pSBuTgI
+         +sSgoWg8Fy5Oqa6qbP58lG8yra5s/kfbPQZmhZxpN3PT86k7/yOzjak7ZB0V3C5sU15B
+         2Jpm2O1IZ5yt+WXKSoEsRQqS6H9JT4X7k/kcXHmDrNPPlDaJ9M+sPVWQIMkf6Z39n4Or
+         1urLhcH2EfQm0JHayCeC25C2pY0UZhjhl04hIRH2xQqmxvUnQQUq26FyeOvsUUJ0zMrL
+         0AlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784670182; x=1785274982;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ok5uMFFrIqvWj5X3glWDZ3EQJA6Z86TLs/gXGnbTACs=;
-        b=j76CXX0+dA5DJe6iLwvN87FtvuceJ+gDuYBfsPIo37dQgs/Pmy0rv0bi/oyUiHbx4l
-         Je01Lw8SOv1sfEzs0ZV9rur5vqUotdbIwvGVdk5bGpcpJ7FEaAgvgKLTz92KhWisvXEq
-         m4x45og5DrNMs5wX7+YVZem0aKSonYWJwQRxbkuldXnyYk5UiZRuLwqPQMidg/cV6tL+
-         b6AZZNnvdMGJzozsvn3HWuJEe3OQbGSxC5aiyTKg1LM2ji371qBUA01BA1OqobmmHPWv
-         EwH+ci2KgFblL5vn6qjkFGx4tfpwd8QeUPYEt0UHC11jgY8F+ChF6P+4WiETKH3A+VtY
-         TlGA==
-X-Forwarded-Encrypted: i=1; AHgh+RrzEhlGRzMYcyFyhWWb2B92xN+UwvT5O+lixsXtqkRgKVvXInF9HjwgmP20qHY3TZh7IzRnQPyQ7sxZQd1y@lists.linux.dev
-X-Gm-Message-State: AOJu0YwD/oahwTbHZ1mhgmYo1y4altfMLj86wenqh6VmbQ/gATjq/Vpw
-	bTCW1/cuChRlcmmlFGGwEna/8KVOm8p029wBez5SMCxwMfxRLMU+qOda
-X-Gm-Gg: AR+sD10SlN8djf60Z9BM9+K2C0F4D1fr/qhXGSttRok/CgvfEtQ6ux1h2RqGyH6azKR
-	eNNo3qMPe6aFDTbYr12t1oF6wT/EM5+72aaW8PXB5mt3Nz3MQrON0Zva83Nv7l9mTleOkKKzGCv
-	rV/78rxUbxPldvb+dCXeUmdaALHuCPDSnj/g4WqB6PdhCb+M+bSFWwzCPG2Y/QIqwFwAyI8LO+f
-	3Ho6OqBR39GgvB54m8M24MlgKxLNfq4f+QVRO8yDqc6ZeqFumIQhMH0hWq3Gut/9oTGrKd4yD1Q
-	HEmUc0ruGoufvp3J8OuKJfvsx5Q0qFQlqEK6nvFzdNL/rjTbsyeSBhZiqxoF9+JPE9kZfMP5sZr
-	n0OxTibDGV5bLO4m/3OVWp0malz2erQAaVhNKKb3hv2thMClLFAN+wm6aDlIi2chGJWMiCWBKbg
-	c=
-X-Received: by 2002:a05:6512:61d3:20b0:5ae:b135:64de with SMTP id 2adb3069b0e04-5b28f9ac22amr3357626e87.31.1784670182135;
-        Tue, 21 Jul 2026 14:43:02 -0700 (PDT)
-Received: from archlinux ([94.229.19.199])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b2a9bada25sm131509e87.30.2026.07.21.14.43.00
+        d=1e100.net; s=20251104; t=1784671303; x=1785276103;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=4tNDArrQhjAw/UF5CZPAGQs/eQvTvCiV8lOXtii5gUw=;
+        b=BMiolcEwYQ6aqZyCU9qlKQ2b3XMF1MaGq4AmH3Rd7PAR5Ru6+sRkz/kCcnPVO3MR9i
+         fbEZXd60ZOHhqII2tZ5mZCCQLDeUNKVPhlBbZqGuo5i/tzwoidgzEJRQCOMJ/eXRd0Ou
+         9+UNHetDqlkQ9qUWbGpTh+LD46T6iwHwEuSQPmTxqvr/KAsnlBMiFUhsmFygAqaGoFOn
+         fMpGayyRlvK05I/2Iyx+Z4ktoJQCbwYUGgdiBmT2JdAQ2ivxstx2rfXi2pnUaecetqZP
+         vKAMxYrfMBoY7OiDauDzWyr5yCXlN6lZwT0+CLRJN0Bn8mllQDQi99P1RKgupOK7PRJ7
+         Xs2A==
+X-Gm-Message-State: AOJu0YzISYtSVV90nNnM50sTN3d6mQeWi1fWdkjJcWchTb6NdvagKqnx
+	WkJ+bG8lFBizebvs2EFiZJGnbsuworU9GUPF5+FVGJnvpMuxF9SxDMEP
+X-Gm-Gg: AR+sD13H1F3N7cs1SpnpC1EDmOdGEQcnBQzQOoBRFgbQkNLgwCdXW88+5/UWtiU0DY1
+	+iN5h/CfOts6iwXEFhdRFkigcaFPtbFpYgtDW7/KpijCRDBdExe8KZWvwLtmekA0SbHyUG231q3
+	TiBDoEliX07KkJjN+EVCjXETlAsY5iXXJdNnogpGwt4kfEoIF4XtM8R7iSF24chX2RyJOgxEhW0
+	d07h1Otb//zjmSmF2LQEIb2YyBD/yNCbiRnKA7Di5igi9E6vp2lMw3HX/wzQuC1pNlLDr7f1Am5
+	VQue246m/JO9t+ZuEwDHUO0ivN2qU8e0BtZMIEe5J0ivzpdaopRwokbBreWoJ15h1L1pB/pRvYI
+	W2rrmixkQVPqjNht0BvYzunY667mdSwIT+40icuHCOUMlA23ywfypYXMQ0loJWKKNVjekaWlB7K
+	+4vZ/qJjWEfC5kdzk6z2SMnpo868ISM+oE3TUNUdUl
+X-Received: by 2002:a05:6000:178a:b0:47f:7636:7692 with SMTP id ffacd0b85a97d-47f76367b41mr13816188f8f.4.1784671303382;
+        Tue, 21 Jul 2026 15:01:43 -0700 (PDT)
+Received: from soup.lan (73.pool92-185-242.dynamic.orange.es. [92.185.242.73])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f85bdac28sm30168f8f.16.2026.07.21.15.01.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jul 2026 14:43:01 -0700 (PDT)
-From: Nikolay Kulikov <nikolayof23@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>
-Cc: linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
+        Tue, 21 Jul 2026 15:01:43 -0700 (PDT)
+From: smart-bee-hub/beezled <smartbeemails@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Nikolay Kulikov <nikolayof23@gmail.com>
-Subject: [PATCH 2/2] staging: media: atomisp: remove unused functions from hmm_bo.c
-Date: Wed, 22 Jul 2026 00:42:33 +0300
-Message-ID: <20260721214238.840406-3-nikolayof23@gmail.com>
+	smart-bee-hub/beezled <smartbeemails@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: remove consecutive blank lines in rtw_security.c
+Date: Wed, 22 Jul 2026 00:01:34 +0200
+Message-ID: <20260721220134.4077913-1-smartbeemails@gmail.com>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260721214238.840406-1-nikolayof23@gmail.com>
-References: <20260721214238.840406-1-nikolayof23@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -82,175 +72,51 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove several functions that are defined but never called.
-
-Signed-off-by: Nikolay Kulikov <nikolayof23@gmail.com>
+Signed-off-by: smart-bee-hub/beezled <smartbeemails@gmail.com>
 ---
- .../media/atomisp/include/hmm/hmm_bo.h        | 19 ----
- .../staging/media/atomisp/pci/hmm/hmm_bo.c    | 97 -------------------
- 2 files changed, 116 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_security.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/include/hmm/hmm_bo.h b/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
-index e09ac29ac43d..ba3c582a0f89 100644
---- a/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
-+++ b/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
-@@ -205,7 +205,6 @@ int hmm_bo_page_allocated(struct hmm_buffer_object *bo);
-  */
- int hmm_bo_bind(struct hmm_buffer_object *bo);
- void hmm_bo_unbind(struct hmm_buffer_object *bo);
--int hmm_bo_binded(struct hmm_buffer_object *bo);
+diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
+index 0cfd7734c..da61a552b 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_security.c
++++ b/drivers/staging/rtl8723bs/core/rtw_security.c
+@@ -409,7 +409,6 @@ static void phase2(u8 *rc4key, const u8 *tk, const u16 *p1k, u16 iv16)
+ 	rc4key[2] = Lo8(iv16);
+ 	rc4key[3] = Lo8((PPK[5] ^ TK16(0)) >> 1);
  
- /*
-  * vmap buffer object's pages to contiguous kernel virtual address.
-@@ -224,17 +223,6 @@ void hmm_bo_flush_vmap(struct hmm_buffer_object *bo);
-  */
- void hmm_bo_vunmap(struct hmm_buffer_object *bo);
- 
--/*
-- * mmap the bo's physical pages to specific vma.
-- *
-- * vma's address space size must be the same as bo's size,
-- * otherwise it will return -EINVAL.
-- *
-- * vma->vm_flags will be set to (VM_RESERVED | VM_IO).
-- */
--int hmm_bo_mmap(struct vm_area_struct *vma,
--		struct hmm_buffer_object *bo);
 -
- /*
-  * find the buffer object by its virtual address vaddr.
-  * return NULL if no such buffer object found.
-@@ -251,11 +239,4 @@ struct hmm_buffer_object *hmm_bo_device_search_start(
- struct hmm_buffer_object *hmm_bo_device_search_in_range(
-     struct hmm_bo_device *bdev, ia_css_ptr vaddr);
- 
--/*
-- * find the buffer object with kernel virtual address vaddr.
-- * return NULL if no such buffer object found.
-- */
--struct hmm_buffer_object *hmm_bo_device_search_vmap_start(
--    struct hmm_bo_device *bdev, const void *vaddr);
--
- #endif
-diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
-index 0a8f401a1ca1..837077f1d229 100644
---- a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
-+++ b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
-@@ -578,31 +578,6 @@ struct hmm_buffer_object *hmm_bo_device_search_in_range(
- 	return bo;
+ 	/* Copy 96 bits of PPK[0..5] to RC4KEY[4..15]  (little-endian)       */
+ 	for (i = 0; i < 6; i++) {
+ 		rc4key[4 + 2 * i] = Lo8(PPK[i]);
+@@ -417,7 +416,6 @@ static void phase2(u8 *rc4key, const u8 *tk, const u16 *p1k, u16 iv16)
+ 	}
  }
  
--struct hmm_buffer_object *hmm_bo_device_search_vmap_start(
--    struct hmm_bo_device *bdev, const void *vaddr)
--{
--	struct list_head *pos;
--	struct hmm_buffer_object *bo;
--	unsigned long flags;
 -
--	check_bodev_null_return(bdev, NULL);
--
--	spin_lock_irqsave(&bdev->list_lock, flags);
--	list_for_each(pos, &bdev->entire_bo_list) {
--		bo = list_to_hmm_bo(pos);
--		/* pass bo which has no vm_node allocated */
--		if ((bo->status & HMM_BO_MASK) == HMM_BO_FREE)
--			continue;
--		if (bo->vmap_addr == vaddr)
--			goto found;
--	}
--	spin_unlock_irqrestore(&bdev->list_lock, flags);
--	return NULL;
--found:
--	spin_unlock_irqrestore(&bdev->list_lock, flags);
--	return bo;
--}
--
- static void free_pages_bulk_array(unsigned long nr_pages, struct page **page_array)
- {
- 	unsigned long i;
-@@ -885,21 +860,6 @@ void hmm_bo_unbind(struct hmm_buffer_object *bo)
- 		"buffer vm or page not allocated or not binded yet.\n");
+ /* The hlen isn't include the IV */
+ u32 rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
+ {																	/*  exclude ICV */
+@@ -491,7 +489,6 @@ u32 rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
+ 	return res;
  }
  
--int hmm_bo_binded(struct hmm_buffer_object *bo)
--{
--	int ret;
 -
--	check_bo_null_return(bo, 0);
+ /* The hlen isn't include the IV */
+ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
+ {																	/*  exclude ICV */
+@@ -593,11 +590,8 @@ exit:
+ 	return res;
+ }
+ 
 -
--	mutex_lock(&bo->mutex);
+ /* 3			=====AES related ===== */
+ 
 -
--	ret = bo->status & HMM_BO_BINDED;
 -
--	mutex_unlock(&bo->mutex);
--
--	return ret;
--}
--
- void *hmm_bo_vmap(struct hmm_buffer_object *bo, bool cached)
- {
- 	check_bo_null_return(bo, NULL);
-@@ -1023,60 +983,3 @@ static const struct vm_operations_struct hmm_bo_vm_ops = {
- 	.open = hmm_bo_vm_open,
- 	.close = hmm_bo_vm_close,
- };
--
--/*
-- * mmap the bo to user space.
-- */
--int hmm_bo_mmap(struct vm_area_struct *vma, struct hmm_buffer_object *bo)
--{
--	unsigned int start, end;
--	unsigned int virt;
--	unsigned int pgnr, i;
--	unsigned int pfn;
--
--	check_bo_null_return(bo, -EINVAL);
--
--	check_bo_status_yes_goto(bo, HMM_BO_PAGE_ALLOCED, status_err);
--
--	pgnr = bo->pgnr;
--	start = vma->vm_start;
--	end = vma->vm_end;
--
--	/*
--	 * check vma's virtual address space size and buffer object's size.
--	 * must be the same.
--	 */
--	if ((start + pgnr_to_size(pgnr)) != end) {
--		dev_warn(atomisp_dev,
--			 "vma's address space size not equal to buffer object's size");
--		return -EINVAL;
--	}
--
--	virt = vma->vm_start;
--	for (i = 0; i < pgnr; i++) {
--		pfn = page_to_pfn(bo->pages[i]);
--		if (remap_pfn_range(vma, virt, pfn, PAGE_SIZE, PAGE_SHARED)) {
--			dev_warn(atomisp_dev,
--				 "remap_pfn_range failed: virt = 0x%x, pfn = 0x%x, mapped_pgnr = %d\n",
--				 virt, pfn, 1);
--			return -EINVAL;
--		}
--		virt += PAGE_SIZE;
--	}
--
--	vma->vm_private_data = bo;
--
--	vma->vm_ops = &hmm_bo_vm_ops;
--	vm_flags_set(vma, VM_IO | VM_DONTEXPAND | VM_DONTDUMP);
--
--	/*
--	 * call hmm_bo_vm_open explicitly.
--	 */
--	hmm_bo_vm_open(vma);
--
--	return 0;
--
--status_err:
--	dev_err(atomisp_dev, "buffer page not allocated yet.\n");
--	return -EINVAL;
--}
+ #define MAX_MSG_SIZE	2048
+ 
+ /****************************************/
 -- 
-2.55.0
+2.54.0
 
