@@ -1,121 +1,117 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80C2233A014
-	for <linux-staging@lists.linux.dev>; Wed, 22 Jul 2026 13:18:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBD973D9551
+	for <linux-staging@lists.linux.dev>; Wed, 22 Jul 2026 15:42:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784726320; cv=none; b=JLOTK8059CcGuW73XO4TPOAd4lPIGsTjlcOESgYFxh7amfu/3HCcf8JdOWgKXensuw1etS4NvT/b71beYpGK2rj5hLpOgOoTGtbW2cvpfZOBpoH8kGEcVW12bn19u9/M25hfzGgg87BOw9bxyfEgxwZ+nSkyGtdnFZnro3ScLP8=
+	t=1784734978; cv=none; b=pfhd8N6oH+8XZZu2M/LnGFHXo+8Vjbgm7xBKiEyVGIZ8+0Od+ZObqXxxDtlw97vRWZfum7ZykmMba9OrP+t2Yh3MetUbyZZGrxuN8AOpYZ8g4dUPX9N2Ruq7kGQYyuUdKVLTsvCEOAufV0ZW5QQiqaDBsDQZ/8AEOlvGU1Azn6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784726320; c=relaxed/simple;
-	bh=k+5oKtEqL70gEp3h6FzkBpEcLqg1ICPkB8aQSW7L7dc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nHBw08yegrMtjhm5Qi86yUAEoS8NRaHcAwI7v+Tx1XPfkDbEe4C2a4qd80IJ/JewwnUIczhrJFZy1MXsR0V23LioqhfIA8K+y/Dm4FCy6zmPTPlQQ5E+t5IKHby7b2DB/AhHjJWay/4y+cMsQRR2NH4xelzOHUBbdVeCnwvEfvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e55SyFNj; arc=none smtp.client-ip=209.85.208.46
+	s=arc-20240116; t=1784734978; c=relaxed/simple;
+	bh=6U37pSBUsFqGwWSczzhAZcH+3PB93yJspCigulFbK00=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EVw8QGLFiiJG06n5DoruksuRpXECZATXQN1XJn2SwHhVv1jxRX56WeNLKzWeyiktR9p5EnJw5XFQxdJa6jOvJHJnIPxtkg1ix/LjlrdaA+cEFxa0NSTGVoRyBhI3yEMIt3sfFGuhfhVEHMyOP8SMQsLD2HZ/j0K6y4s2pgQLCTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NcBOC628; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e55SyFNj"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-698a9f11776so14942364a12.1
-        for <linux-staging@lists.linux.dev>; Wed, 22 Jul 2026 06:18:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NcBOC628"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-471eeac43bfso11935439f8f.3
+        for <linux-staging@lists.linux.dev>; Wed, 22 Jul 2026 08:42:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784726312; x=1785331112; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=AVcL8bHptDGyb4PRSOTsJyHP66RQMYrlTEWkldK31zI=;
-        b=e55SyFNjHh6dKOL1Vtn+DXq9gfgfNR4vSPgMguoVIyBB1Ag5UB6/yKLYWEuhzQhdjg
-         aejULLMRTiClBUIAdWISxAXnasam65rd5+NlqGN29w0uAM/5fw+dvsQyHlgLhE9AZnEU
-         26bYInBYd0N1honGbsRdr1dcTMx92Bu66PVL/ItCUuXGOncUIOrM+kzQ6P2ZamegnTBn
-         K8+O4jmo9qTnmEHhK7nIfLvBssVobQCq5R78HXITHXZZNMbGSw9zd+4Vh4tvHiLp+H6t
-         ydbKi++Y3d/vObQGWcBRzhqc7DpQ4/VjAT18GIxskSEJA/YF0xLgmpD5qYBz31f0V2Ba
-         DfXQ==
+        d=gmail.com; s=20251104; t=1784734974; x=1785339774; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=xtaD+wctm/flHKZdG+eEG/nGmQRGwK75GvDz6KLeZjc=;
+        b=NcBOC628BWqTqgoJCxGhlL3H6LU2tP+k8tuzAlnWNwhQIU9J8SEcWsKp/vsZsYipV9
+         EHHplUH81vl2ESB11Qr9G6RO+KhNBcPc8ol0sCXcRHI1DBHDOxfFfmQt0O7ykNy8e1X9
+         +sZ0Nk1z1bWkUSBMCu/tCD/y50i3GM4D9AAZf4gmnF6tD8Ma+voWSYXYbmsrg4S7MF7R
+         PVPT7kE45frjxoqgArOrtYz7ea9UDQTp+NxEithwK982GQVsnDFJlK44i5b0UsXLvCd0
+         QG6T7fdkZGQnVio0aYPMZSqFzfC5EZvJhYXs1H8LZ5+Jv6whSD605Nk46QJl4Eosxy2J
+         JWsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784726312; x=1785331112;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=AVcL8bHptDGyb4PRSOTsJyHP66RQMYrlTEWkldK31zI=;
-        b=Nmk/eogAKApXa2W1d0ykwQ7xfqvcXj0SEfpykKRGtB2nbvN4CRLZa7SoL9heYliE2t
-         kQ5lY112MD8/qKpg4YnGsW7p7r/e6BIBERc84M3B1Lzwn57jLV08gOwSy6y7VmXoeWiQ
-         xP8gzMXYiNGLH4negmyl+YbnfhLy6XmuRBwzt44iRHADTyODeO163zLfik/fCqxgEnSL
-         jh0ImX1EKyGe5/SDk5w5KUtG7LfHg9olpRak5SrdEb1j9pz8nYsNc71Db0qZ5WwEZtDm
-         ZB1b47Zxo21zvdog16fkTGJRhbmdJeMCn+H1UtUpfzQaC9rs0E/0wRrAfTz2Uy1nKlo9
-         7hKA==
-X-Forwarded-Encrypted: i=1; AHgh+RocbbqGrO+mJ3vJDrEtO11uEsA85wDJjgf21Eed4P9uRDrdntAezzC2oeZwsSMsC3Be2VRnkMqLFRBDrlK7@lists.linux.dev
-X-Gm-Message-State: AOJu0YwF3BfQKTUlQytpoSfw4XEm7WEojRmaeeX9+x00E8cXNxSQnGUE
-	mJnvy9MW3Hly6RTbB1+aJF/L+MWS3tpr8tMY/DH55Kq8c7a6nau08d4c
-X-Gm-Gg: AR+sD13tp+O9DtwC8sew6U/FqQnnj5tXlfBRKLAxP44+N1TpTZfTucpHoLH241TdrJh
-	bTN3lW/5uzbvaBjKGFF+1aBbSDlw2t3nT/ELpp+ZPdWUmClgDUa/H3yRcyCrKYNHIs/PeTNE0Xu
-	8fqQyEfb5jKQ4v+WQXQytvIilqRjlifBlqgDkwbDNqz3qbSTrJoWEcedJMCP3ikgqzAbJVTcjc+
-	v07NeLgq7t98lpNBpO2d/ohHd+AsJWaXbzZzw9L99VbGONJ8V+XvK9cK7iqSIbKgZ8t92wfAHDR
-	XiG+w8Xw28hENWsPXYb1PSEXQ7W8Wy2nDgQfS21mIF2nkgptbWYNnpDfWah/wy2AzGCFbyksDMt
-	1FcS8g+sxKtQwdr1hcEaqPiq0RIY/HtOVjMIWiwGjUDQnz0xPzKfNspL74Z1G0r0JOfWrjALMME
-	wMCuMTK97oYd/NwgWubidPgZOdazTVZc6LhdA3DBZ41EPOIB1vA8AJn1SU3wf3HpdR
-X-Received: by 2002:a17:907:26c7:b0:c16:9ca5:e551 with SMTP id a640c23a62f3a-c16b46ec872mr1031163566b.14.1784726311924;
-        Wed, 22 Jul 2026 06:18:31 -0700 (PDT)
-Received: from DESKTOP-LO2SIVE.localdomain (83.4.116.191.ipv4.supernova.orange.pl. [83.4.116.191])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1c32a76fcdsm104303666b.4.2026.07.22.06.18.30
+        d=1e100.net; s=20251104; t=1784734974; x=1785339774;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=xtaD+wctm/flHKZdG+eEG/nGmQRGwK75GvDz6KLeZjc=;
+        b=s6zq8HRR7udUSwPVXHqEtLdzXy8R87k4RSIKV7bUOzZKIxkNtRvH1tpb4hBovk2X28
+         ta/TVnGGMKrASIU6Iehjxhu0XWcS0Ko1/cPYtc8XOeHs6tWXvIrbX9nhCgQCXn1IFAeE
+         P5mcds9VU/THEbu7FcSgh0yZtq4xLYXAD/C/JXJ7KUlxHWXELCE/2mUGRTc2/WhfmWdn
+         XnyXoj2ne2cC+tZIIxgrlGPTHKNnlLBpEEXoSYnG05y9C4UDeab4EwdGkni1Hq6Fh/DU
+         lTUFi304JqbrFFP/FX0efpIbLeXbh5WgKGMBZCo/wbVPE0K0AVDCz8uV3+yfWiOfFF8Y
+         R5aw==
+X-Forwarded-Encrypted: i=1; AHgh+RpmTKjUUwnR0Gp+f4mwff2mEzJpBzdyzTUiv89/vgnoTiWpcATuZCCZSPb+XjAGi4lG89vphGdJGtuxXHxC@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyl32UhmJjZegpfuWtIRmsLi/x8lysfszZSO1hYEw/YVBE0cQJE
+	tIdWgQAISaQPF18beQwyIdIh3l2ui70vEs5Yv4PSKwjyLbzhBnceaZfi
+X-Gm-Gg: AR+sD10VMi51zLo8vNNO2fiXhcvSKHeiIO4Y6+CH/JqPHDY0A6LDTXSwlObSE3JwqaJ
+	XLYdr7up7FBkIxdbn9KT0r3fFrQu3lM+jHBua8lg2EtfGyiMNUWITqePC6I6ci32zxDEq4gD4j6
+	PswNWUck/FObdg+RRDENWBLu25pw3Zm38D/mcrjYdybBqd5cYdxdcNzv4bmToBUkiKU6JMSZVl+
+	nntcn0gobm89MGduWhFLTdIszl+JXWc6yDugI8Q1bKRV9cHiyTpyXCyxhTRmhqtWP0ufrgFR1ux
+	APVxn2KfuZWJgUhXebMXD0kTeuQXKH1Yn4XKhVFUBrrLATelp68a6UJqj367cq/gZpo+0Cm7SA4
+	z8vlHilDCed6yH+OPaBbKmDS1AAHFDONT+zm2/LamaXTCuiTeCbwOe68bIG7SESm6TfU7z9ZcNf
+	madMM=
+X-Received: by 2002:a05:6000:41eb:b0:475:c946:36c5 with SMTP id ffacd0b85a97d-47f622fce56mr30653466f8f.9.1784734973852;
+        Wed, 22 Jul 2026 08:42:53 -0700 (PDT)
+Received: from ubuntu ([103.196.162.15])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f85c53052sm6889489f8f.18.2026.07.22.08.42.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2026 06:18:31 -0700 (PDT)
-From: =?UTF-8?q?Patryk=20Gawro=C5=84ski?= <gawronski1.6@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: =?UTF-8?q?Patryk=20Gawro=C5=84ski?= <gawronski1.6@gmail.com>,
-	Nikolay Kulikov <nikolayof23@gmail.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Michael Straube <straube.linux@gmail.com>,
-	William Hansen-Baird <william.hansen.baird@gmail.com>,
-	Gianmaria Biselli <gianmariabiselli@gmail.com>,
-	Eugene Mavick <mavick4022@gmail.com>,
-	Artur Stupa <arthur.stupa@gmail.com>,
-	Yan Pan <maxwell2119@163.com>,
-	Diksha Kumari <dikshakdevgan@gmail.com>,
+        Wed, 22 Jul 2026 08:42:53 -0700 (PDT)
+From: Faisal Mukhtar <mukhtarfaisal03@gmail.com>
+To: thierry.reding@kernel.org,
+	jonathanh@nvidia.com,
+	skomatineni@nvidia.com,
+	luca.ceresoli@bootlin.com,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: linux-media@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8723bs: Use pointer type in vzalloc()
-Date: Wed, 22 Jul 2026 15:18:25 +0200
-Message-ID: <20260722131827.46975-1-gawronski1.6@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	linux-kernel@vger.kernel.org,
+	Faisal Mukhtar <mukhtarfaisal03@gmail.com>
+Subject: [PATCH] media: tegra-video: Use BIT macro in tegra20.c
+Date: Wed, 22 Jul 2026 20:40:55 +0500
+Message-ID: <20260722154055.385164-1-mukhtarfaisal03@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Update the memory allocation in _rtw_init_sta_priv() to use
-sizeof(*pstapriv->pallocated_stainfo_buf) instead of explicitly
-passing sizeof(struct sta_info).
+Fix checkpatch.pl warnings by replacing explicit
+bit shift (1 << n) with the BIT macro, to better
+adhere to the kernel coding style.
 
-This resolves the following checkpatch warning:
-"Prefer vzalloc(sizeof(*pstapriv->pallocated_stainfo_buf)...) over
-vzalloc(sizeof(struct sta_info)...)"
-
-Using the pointer type is preferred in the kernel as it ensures the
-allocated size remains correct even if the pointer's underlying type
-changes in the future. The allocation was also split across multiple
-lines to comply with column length limits.
-
-Signed-off-by: Patryk Gawroński <gawronski1.6@gmail.com>
+Signed-off-by: Faisal Mukhtar <mukhtarfaisal03@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_sta_mgt.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/staging/media/tegra-video/tegra20.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c b/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
-index aea660f27959..0758d0540f4b 100644
---- a/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
-@@ -54,7 +54,8 @@ u32 _rtw_init_sta_priv(struct	sta_priv *pstapriv)
- 	struct sta_info *psta;
- 	s32 i;
- 
--	pstapriv->pallocated_stainfo_buf = vzalloc(sizeof(struct sta_info) * NUM_STA + 4);
-+	pstapriv->pallocated_stainfo_buf =
-+		vzalloc(sizeof(*pstapriv->pallocated_stainfo_buf) * NUM_STA + 4);
- 
- 	if (!pstapriv->pallocated_stainfo_buf)
- 		return _FAIL;
+diff --git a/drivers/staging/media/tegra-video/tegra20.c b/drivers/staging/media/tegra-video/tegra20.c
+index e513e6ccb776..cdfd9f276d11 100644
+--- a/drivers/staging/media/tegra-video/tegra20.c
++++ b/drivers/staging/media/tegra-video/tegra20.c
+@@ -177,15 +177,15 @@ enum tegra_vi_out {
+ #define       CSI_SKIP_PACKET_THRESHOLD(n)		(((n) & 0xff) << 16)
+ #define TEGRA_CSI_PIXEL_STREAM_CONTROL0(n)		(0x0018 + (n) * 0x2c)
+ #define       CSI_PP_PAD_FRAME_PAD0S			(0 << 28)
+-#define       CSI_PP_PAD_FRAME_PAD1S			(1 << 28)
++#define       CSI_PP_PAD_FRAME_PAD1S			BIT(28)
+ #define       CSI_PP_PAD_FRAME_NOPAD			(2 << 28)
+ #define       CSI_PP_HEADER_EC_ENABLE			BIT(27)
+ #define       CSI_PP_PAD_SHORT_LINE_PAD0S		(0 << 24)
+-#define       CSI_PP_PAD_SHORT_LINE_PAD1S		(1 << 24)
++#define       CSI_PP_PAD_SHORT_LINE_PAD1S		BIT(24)
+ #define       CSI_PP_PAD_SHORT_LINE_NOPAD		(2 << 24)
+ #define       CSI_PP_EMBEDDED_DATA_EMBEDDED		BIT(20)
+ #define       CSI_PP_OUTPUT_FORMAT_ARBITRARY		(0 << 16)
+-#define       CSI_PP_OUTPUT_FORMAT_PIXEL		(1 << 16)
++#define       CSI_PP_OUTPUT_FORMAT_PIXEL		BIT(16)
+ #define       CSI_PP_OUTPUT_FORMAT_PIXEL_REP		(2 << 16)
+ #define       CSI_PP_OUTPUT_FORMAT_STORE		(3 << 16)
+ #define       CSI_PP_VIRTUAL_CHANNEL_ID(n)		(((n) - 1) << 14)
 -- 
-2.55.0
+2.53.0
 
