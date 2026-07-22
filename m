@@ -1,117 +1,171 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBD973D9551
-	for <linux-staging@lists.linux.dev>; Wed, 22 Jul 2026 15:42:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74331361954
+	for <linux-staging@lists.linux.dev>; Wed, 22 Jul 2026 16:03:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784734978; cv=none; b=pfhd8N6oH+8XZZu2M/LnGFHXo+8Vjbgm7xBKiEyVGIZ8+0Od+ZObqXxxDtlw97vRWZfum7ZykmMba9OrP+t2Yh3MetUbyZZGrxuN8AOpYZ8g4dUPX9N2Ruq7kGQYyuUdKVLTsvCEOAufV0ZW5QQiqaDBsDQZ/8AEOlvGU1Azn6E=
+	t=1784736225; cv=none; b=lOU6ttK6ewD9o8caHPulom1KZKfzAQnMxDiQPnMmw+d07dv0a5Ymuo4KvUuK9Pob9yotr3foWfhY4uIVFzUru8GPAgLns4/delh3q68ju1jlBnmpoHAC/T8+7K1CmOwUckvqYw3Besa+XJSqvBJ5Chtu1i0qLMFj41+/tiZMpxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784734978; c=relaxed/simple;
-	bh=6U37pSBUsFqGwWSczzhAZcH+3PB93yJspCigulFbK00=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EVw8QGLFiiJG06n5DoruksuRpXECZATXQN1XJn2SwHhVv1jxRX56WeNLKzWeyiktR9p5EnJw5XFQxdJa6jOvJHJnIPxtkg1ix/LjlrdaA+cEFxa0NSTGVoRyBhI3yEMIt3sfFGuhfhVEHMyOP8SMQsLD2HZ/j0K6y4s2pgQLCTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NcBOC628; arc=none smtp.client-ip=209.85.221.51
+	s=arc-20240116; t=1784736225; c=relaxed/simple;
+	bh=1otvit2ICqX01VZfuWeoTPRah7RXDLpRfiXbAwprmwA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sPuK7TNTWkQhsiZZGzQKBmynKO2sEz8vXAMBLszUKVBvlKFG3ssgdmkPqRFRt2NpRckM91frfEVuE8PiangKgTetH7IrQFCdAbc0NfLaeSvTVv6ZVFj+fml5LsbjNQJ/2dBQwnhyFOEhM5kqXxsU1pfu36fdKk3mNUJGkLXpHww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G5KFlmQ3; arc=none smtp.client-ip=209.85.216.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NcBOC628"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-471eeac43bfso11935439f8f.3
-        for <linux-staging@lists.linux.dev>; Wed, 22 Jul 2026 08:42:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G5KFlmQ3"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3856d6fbcb3so8367433a91.2
+        for <linux-staging@lists.linux.dev>; Wed, 22 Jul 2026 09:03:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784734974; x=1785339774; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=xtaD+wctm/flHKZdG+eEG/nGmQRGwK75GvDz6KLeZjc=;
-        b=NcBOC628BWqTqgoJCxGhlL3H6LU2tP+k8tuzAlnWNwhQIU9J8SEcWsKp/vsZsYipV9
-         EHHplUH81vl2ESB11Qr9G6RO+KhNBcPc8ol0sCXcRHI1DBHDOxfFfmQt0O7ykNy8e1X9
-         +sZ0Nk1z1bWkUSBMCu/tCD/y50i3GM4D9AAZf4gmnF6tD8Ma+voWSYXYbmsrg4S7MF7R
-         PVPT7kE45frjxoqgArOrtYz7ea9UDQTp+NxEithwK982GQVsnDFJlK44i5b0UsXLvCd0
-         QG6T7fdkZGQnVio0aYPMZSqFzfC5EZvJhYXs1H8LZ5+Jv6whSD605Nk46QJl4Eosxy2J
-         JWsg==
+        d=gmail.com; s=20251104; t=1784736224; x=1785341024; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=+nkpUqQJix6KKXMhqyzdYJniOtozme3lGhsWfFwbkPQ=;
+        b=G5KFlmQ3IOw196nhReU+momCCoLmUmeNusNqSzEspspXgpWUDwWxDjHabPK7yzxhbK
+         P3zoE88knv90ufvNIIBVBw1DWOBjIOQwTSMpCzWqSIfyb1sPgnxS3ggpsDeZYay3C7Xy
+         ktYCzbGwqEt7liWrNNIRWzeWeQEV0Qkqh1BYtoojW3GxEHQgRLLHvBFjBjCzJw2mAH5D
+         n7QjH/J85sjC4LqX3Yk6Afkk1MWI/rD7nbxr+jv8Kt3rHfGdJIAdrPX4I4Ptd+tQfU05
+         CZC2iLVwGWQR4TB+WTlkWXRBGs0IbIUmexldvJlK2/VViC0GBoiS9os2ucokD/K9s9i7
+         yDXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784734974; x=1785339774;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=xtaD+wctm/flHKZdG+eEG/nGmQRGwK75GvDz6KLeZjc=;
-        b=s6zq8HRR7udUSwPVXHqEtLdzXy8R87k4RSIKV7bUOzZKIxkNtRvH1tpb4hBovk2X28
-         ta/TVnGGMKrASIU6Iehjxhu0XWcS0Ko1/cPYtc8XOeHs6tWXvIrbX9nhCgQCXn1IFAeE
-         P5mcds9VU/THEbu7FcSgh0yZtq4xLYXAD/C/JXJ7KUlxHWXELCE/2mUGRTc2/WhfmWdn
-         XnyXoj2ne2cC+tZIIxgrlGPTHKNnlLBpEEXoSYnG05y9C4UDeab4EwdGkni1Hq6Fh/DU
-         lTUFi304JqbrFFP/FX0efpIbLeXbh5WgKGMBZCo/wbVPE0K0AVDCz8uV3+yfWiOfFF8Y
-         R5aw==
-X-Forwarded-Encrypted: i=1; AHgh+RpmTKjUUwnR0Gp+f4mwff2mEzJpBzdyzTUiv89/vgnoTiWpcATuZCCZSPb+XjAGi4lG89vphGdJGtuxXHxC@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyl32UhmJjZegpfuWtIRmsLi/x8lysfszZSO1hYEw/YVBE0cQJE
-	tIdWgQAISaQPF18beQwyIdIh3l2ui70vEs5Yv4PSKwjyLbzhBnceaZfi
-X-Gm-Gg: AR+sD10VMi51zLo8vNNO2fiXhcvSKHeiIO4Y6+CH/JqPHDY0A6LDTXSwlObSE3JwqaJ
-	XLYdr7up7FBkIxdbn9KT0r3fFrQu3lM+jHBua8lg2EtfGyiMNUWITqePC6I6ci32zxDEq4gD4j6
-	PswNWUck/FObdg+RRDENWBLu25pw3Zm38D/mcrjYdybBqd5cYdxdcNzv4bmToBUkiKU6JMSZVl+
-	nntcn0gobm89MGduWhFLTdIszl+JXWc6yDugI8Q1bKRV9cHiyTpyXCyxhTRmhqtWP0ufrgFR1ux
-	APVxn2KfuZWJgUhXebMXD0kTeuQXKH1Yn4XKhVFUBrrLATelp68a6UJqj367cq/gZpo+0Cm7SA4
-	z8vlHilDCed6yH+OPaBbKmDS1AAHFDONT+zm2/LamaXTCuiTeCbwOe68bIG7SESm6TfU7z9ZcNf
-	madMM=
-X-Received: by 2002:a05:6000:41eb:b0:475:c946:36c5 with SMTP id ffacd0b85a97d-47f622fce56mr30653466f8f.9.1784734973852;
-        Wed, 22 Jul 2026 08:42:53 -0700 (PDT)
-Received: from ubuntu ([103.196.162.15])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f85c53052sm6889489f8f.18.2026.07.22.08.42.50
+        d=1e100.net; s=20251104; t=1784736224; x=1785341024;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=+nkpUqQJix6KKXMhqyzdYJniOtozme3lGhsWfFwbkPQ=;
+        b=dupBPubSAetORPgutSJKgox+gMoPfywPVKU76GioIQXMs8yc+7+lIqakKFMp15YANR
+         MhEBPCNpyh7UVXn70HaE8nlzLdYplUf4KyBWwM0FI1c7piAbrv7TcG8XmQrLt+VHUAqU
+         gkI0rUGmptrQMfm9hPyfnl71OxVuudk67P5d8Ic116TrZItGzAs4RKcduBpgB8gXG05l
+         Sa7zTzH6/rGZ4giCofAO9YMSsRC25lPo7ocY2T0a49q8jIXkCxoScckxQGSuy9xfe2wv
+         2rg54Lxv8gGZAjtbyMzwvCOPtIXx8Aj2/tTQ31QbxImBdOOmpdJ+33jOSggFFWQQUtUB
+         ERAg==
+X-Forwarded-Encrypted: i=1; AHgh+RpPH3fZTgPWDVMVomZLXPqdVVYrt5ZvRyD3CCQqOclPl7Pk37ehgTH/EMzXSq1qSSPdxOZWR5n5ZPcPQW4B@lists.linux.dev
+X-Gm-Message-State: AOJu0YzTJRuIF++0uAWkCfgX6epXCuLChGFSIdxjoSNArUc1h4ewu+Vr
+	H3CniycaGSpU3bOuusavtYi8Mf1Di1TQa1O/L/jry1FiLgvXOtzaYgn3
+X-Gm-Gg: AR+sD12p6ooP1Xc0vqYbuBvXu9wAG/cw3Y/Gk+NWBFgBcOhd8RyDOPAUBEWlo3nRAz9
+	3srb8J/mz3jqnEBgHXXkm6ChJx3qUJIMvj17RVZc5lMh9Rm4P7gULuTWy9t9UzChQwD6W5GBx0O
+	xczJpEy+CdBPUVnO2L/ooBy4z5jvUARAzxMS2Hsnkm0Sa4P/FAjHyTVvd8DrIg73Us5ezjBtkMQ
+	cQsFPHSTc6ELS0Jd/dnU7bQNqiMri63ZHFuvpId2ekL9+UCk3s/EL+w3Nn9VEXdeAq+WFX+UXlO
+	XH9H309yWZaHnD4lzzwB+XYXYjaL3MGoSI4764wCR4ESb1dI+shzWkSAH8nKITQ62FfKOFrh+ca
+	oz3OSGQSb1fl6ZnGS2OqJ66J1fjs7fPUBr4mFU2MdObiEuLT6aXkHxSgRmeYSIH5zqhuY7I2rhT
+	8qem5CCjuyPrD1e8GUXDGL4A==
+X-Received: by 2002:a17:90b:568e:b0:38e:673:5d18 with SMTP id 98e67ed59e1d1-38e4b56a0c2mr21959475a91.36.1784736223565;
+        Wed, 22 Jul 2026 09:03:43 -0700 (PDT)
+Received: from kernel ([103.219.206.61])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13d130ce035sm7548395c88.13.2026.07.22.09.03.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2026 08:42:53 -0700 (PDT)
-From: Faisal Mukhtar <mukhtarfaisal03@gmail.com>
-To: thierry.reding@kernel.org,
-	jonathanh@nvidia.com,
-	skomatineni@nvidia.com,
-	luca.ceresoli@bootlin.com,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: linux-media@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Faisal Mukhtar <mukhtarfaisal03@gmail.com>
-Subject: [PATCH] media: tegra-video: Use BIT macro in tegra20.c
-Date: Wed, 22 Jul 2026 20:40:55 +0500
-Message-ID: <20260722154055.385164-1-mukhtarfaisal03@gmail.com>
-X-Mailer: git-send-email 2.53.0
+        Wed, 22 Jul 2026 09:03:42 -0700 (PDT)
+Date: Wed, 22 Jul 2026 21:33:33 +0530
+From: Mohamad Raizudeen <raizudeen.kerneldev@gmail.com>
+To: Joshua Crofts <joshua.crofts1@gmail.com>
+Cc: jic23@kernel.org, dlechner@baylibre.com, andy@kernel.org,
+	nuno.sa@analog.com, gregkh@linuxfoundation.org,
+	skhan@linuxfoundation.org, me@brighamcampbell.com,
+	jkoolstra@xs4all.nl, linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Andy Shevchenko <andriy.shevchenko@intel.com>
+Subject: Re: [PATCH v2] staging: iio: frequency: ad9832/ad9834: add comment
+ explaining do_div usage
+Message-ID: <amDp1VPSMF0P6r8T@kernel>
+References: <20260630032322.5805-1-raizudeen.kerneldev@gmail.com>
+ <20260722082227.18768-1-raizudeen.kerneldev@gmail.com>
+ <20260722104617.000050fa@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260722104617.000050fa@gmail.com>
 
-Fix checkpatch.pl warnings by replacing explicit
-bit shift (1 << n) with the BIT macro, to better
-adhere to the kernel coding style.
+On Wed, Jul 22, 2026 at 10:46:17AM +0200, Joshua Crofts wrote:
+> On Wed, 22 Jul 2026 13:52:27 +0530
+> Mohamad Raizudeen <raizudeen.kerneldev@gmail.com> wrote:
+> > Previous attempts to change do_div() to div64_ul() were rejected because
+> > mclk will always fit within 32 bits for this hardware, making do_div()
+> > safe to use.
+> > 
+> > However, Coccinelle continues to flag this as a false positive. To
+> > prevent future developers from submitting unnecessary fixes, add a
+> > comment explaining why do_div() is intentionally kept.
+> > 
+> > Suggested-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+> > Signed-off-by: Mohamad Raizudeen <raizudeen.kerneldev@gmail.com>
+> > ---
+> 
+> Please don't send a new version as a reply to the previous version,
+> as it can break tooling such as b4 for patch review.
+> 
+> As for the comment, I think it's good, however I'm not sure whether
+> this should be split into two patches, given that this is a small
+> change. Andy, what do you think?
+> 
+> > diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/iio/frequency/ad9832.c
+> > index 60c33e10c46f..6d046e9121e2 100644
+> > --- a/drivers/staging/iio/frequency/ad9832.c
+> > +++ b/drivers/staging/iio/frequency/ad9832.c
+> > @@ -118,6 +118,13 @@ static unsigned long ad9832_calc_freqreg(unsigned long mclk, unsigned long fout)
+> >  {
+> >  	u64 freqreg = (u64)fout << AD9832_FREQ_BITS;
+> >  
+> > +       /*
+> > +	* mclk is an unsigned long, which triggers a Coccinelle false positive
+> > +	* warning about using do_div() for 64-by-32 division. However, mclk
+> > +	* for this hardware will always fit within 32 bits, so do_div() is
+> > +	* safe to use here.
+> > +	*/
+> > +
+> 
+> Unnecessary blank line here, you want to couple the comment with the
+> line that it's describing.
+> 
+> >  	do_div(freqreg, mclk);
+> >  	return freqreg;
+> >  }
+> > diff --git a/drivers/staging/iio/frequency/ad9834.c b/drivers/staging/iio/frequency/ad9834.c
+> > index 33dfd723923c..8722f3a01cde 100644
+> > --- a/drivers/staging/iio/frequency/ad9834.c
+> > +++ b/drivers/staging/iio/frequency/ad9834.c
+> > @@ -103,6 +103,13 @@ static unsigned int ad9834_calc_freqreg(unsigned long mclk, unsigned long fout)
+> >  {
+> >  	unsigned long long freqreg = (u64)fout * (u64)BIT(AD9834_FREQ_BITS);
+> >  
+> > +       /*
+> > +	* mclk is an unsigned long, which triggers a Coccinelle false positive
+> > +	* warning about using do_div() for 64-by-32 division. However, mclk
+> > +	* for this hardware will always fit within 32 bits, so do_div() is
+> > +	* safe to use here.
+> > +	*/
+> > +
+> 
+> Ditto.
+> 
+> >  	do_div(freqreg, mclk);
+> >  	return freqreg;
+> >  }
+> 
+> 
+> 
+> -- 
+> Kind regards,
+> Joshua Crofts
 
-Signed-off-by: Faisal Mukhtar <mukhtarfaisal03@gmail.com>
----
- drivers/staging/media/tegra-video/tegra20.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Hi Joshua,
+Thanks you for reviewing the patch and for the clarifications.
 
-diff --git a/drivers/staging/media/tegra-video/tegra20.c b/drivers/staging/media/tegra-video/tegra20.c
-index e513e6ccb776..cdfd9f276d11 100644
---- a/drivers/staging/media/tegra-video/tegra20.c
-+++ b/drivers/staging/media/tegra-video/tegra20.c
-@@ -177,15 +177,15 @@ enum tegra_vi_out {
- #define       CSI_SKIP_PACKET_THRESHOLD(n)		(((n) & 0xff) << 16)
- #define TEGRA_CSI_PIXEL_STREAM_CONTROL0(n)		(0x0018 + (n) * 0x2c)
- #define       CSI_PP_PAD_FRAME_PAD0S			(0 << 28)
--#define       CSI_PP_PAD_FRAME_PAD1S			(1 << 28)
-+#define       CSI_PP_PAD_FRAME_PAD1S			BIT(28)
- #define       CSI_PP_PAD_FRAME_NOPAD			(2 << 28)
- #define       CSI_PP_HEADER_EC_ENABLE			BIT(27)
- #define       CSI_PP_PAD_SHORT_LINE_PAD0S		(0 << 24)
--#define       CSI_PP_PAD_SHORT_LINE_PAD1S		(1 << 24)
-+#define       CSI_PP_PAD_SHORT_LINE_PAD1S		BIT(24)
- #define       CSI_PP_PAD_SHORT_LINE_NOPAD		(2 << 24)
- #define       CSI_PP_EMBEDDED_DATA_EMBEDDED		BIT(20)
- #define       CSI_PP_OUTPUT_FORMAT_ARBITRARY		(0 << 16)
--#define       CSI_PP_OUTPUT_FORMAT_PIXEL		(1 << 16)
-+#define       CSI_PP_OUTPUT_FORMAT_PIXEL		BIT(16)
- #define       CSI_PP_OUTPUT_FORMAT_PIXEL_REP		(2 << 16)
- #define       CSI_PP_OUTPUT_FORMAT_STORE		(3 << 16)
- #define       CSI_PP_VIRTUAL_CHANNEL_ID(n)		(((n) - 1) << 14)
--- 
-2.53.0
+I understood and will make sure v3 is sent as a new and separate email
+thread without in-reply-to header so i doesn't break b4.
 
+Sure, I will remove the unnecessary blank line.
+
+I will hold off sending v3 until I hear from Andy regarding whether this should be split
+into two patches or kept as one.
+
+Thanks & regards,
+Mohamad Raizudeen
