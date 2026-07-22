@@ -1,158 +1,110 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D4FF481236
-	for <linux-staging@lists.linux.dev>; Wed, 22 Jul 2026 08:46:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15045313531
+	for <linux-staging@lists.linux.dev>; Wed, 22 Jul 2026 12:26:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784709982; cv=none; b=YvyxM2uabMmWu2fNhm+cYmuN4Pxzn5O6PYhmq0WQNnBShZoZfV+569DRMtVN0oawoUHGjukCCmPpXlJlQcQBfWz5Lhb1W1/1ROzmNtHk4g+J+5R6+bU+NOQr+jQwWvjbP5jymxYZjQPJpTGWRHZuSzEgtOeQBdST7Orv7Oa6lQQ=
+	t=1784723186; cv=none; b=af43cLsbWEH2/pu67GK29i7wzm0pNWBBiFkXRlE6YKDrBQ2KpuOLNSdDhgoytt1ZpNNbeN9cHUQmAmGuqGq4IVnO4yC/z15JJYTMrDdpSDIcztEDdPA8278GLsp68f5n7B/rE7GMGk1CZh3SiJ2lITNbRkbCWMdC+jUwoJdmjcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784709982; c=relaxed/simple;
-	bh=52I+FqtPSlac7Up26ZcTnxLn+KCNGyoMvIJjZotH8VM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mqUBGPOIh9hMTJm26+oDXLRBlOE0cWtm3lX1L6gSx9xkG0JX2b2rAawr+6KgzsObv6u4F8yPrF5WuVfH+3l59vuFqcigU8RgxAgF/H/cqBCKbekgJ7RDPIZvMnSV1QYFDx3ItDsDEvN4nfdPkgZsZdUz7eL5GTluhXr1FK5dLtc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UDdHZbEA; arc=none smtp.client-ip=209.85.221.44
+	s=arc-20240116; t=1784723186; c=relaxed/simple;
+	bh=vonf3+wevdyAh5E4nhVRWB8FQ8xXeBQfY4QDmilXIrs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=TiAhG6w8ZE2PPG0SguIewRRHE6V5UCg33pJFjFurN3HXOu7zjXOGCUDjRhmdQHIdcvadVpVr9/oDFDjBiqgOYYQe0GRL5mbxjijG8L6ERQsUIFlph3Bj/tXgdLOeFhvH+aZqr4WoWBMDqb57Hs3xbDQL/p41dqlqOE28jo6UzSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lL2Pvv+p; arc=none smtp.client-ip=209.85.218.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UDdHZbEA"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-47f703a9d05so2229357f8f.0
-        for <linux-staging@lists.linux.dev>; Wed, 22 Jul 2026 01:46:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lL2Pvv+p"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c167bda216fso1186456866b.2
+        for <linux-staging@lists.linux.dev>; Wed, 22 Jul 2026 05:26:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784709979; x=1785314779; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=QWQplWHzIYiB9ra/DxAbtBKO9FD01YAgyf90olLpA8U=;
-        b=UDdHZbEAI38mjAakgeD70KEGERWxkvM2b5xfwFss6vK5q3N2ajiNFG8oD4T2IQiaMS
-         MZ2WQ4CnMnL+ZkaBuYl+WdnxvrsHkcvAFWBwVGfil9dBVird8TarQeKmphQvGNHKWFa8
-         kzLcScNvEVRXLgUca9GVCZqrMK9Jd98zccVxH0Qz1XWFV/RUDv+UH3e0wXQVX49JgYuE
-         EO287PR1we/l9NiYCgiJWk3jqm5WLf21lJzqQRUSZFhJhp9Flpi0gF4d3JrPkHARsRdM
-         ZXJ4dUer2MqnCKYIm3s5UnvVDGopk+sPl6dkDJdpRfIqI6btwUZ86M+bg6XDo7FJENPk
-         PdyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784709979; x=1785314779;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1784723182; x=1785327982; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=QWQplWHzIYiB9ra/DxAbtBKO9FD01YAgyf90olLpA8U=;
-        b=a5namfTNHAGeeNtdNq4vJA2C8AjnjJvjoukL4H1uLrNrYVQ5cufj/9Soh+HZwHBhaW
-         caNHrpw2KeG+RN44lBnP0TUbsSkRtFsrVkHcIMXO51CDviigwiadCRzIeMn43l/YStzS
-         10JZpCeVQfKYQZ/HWbcYpMfKQJgwK3tyf74Pp8OMRZIV6Zw8PB8/rlTfNmsdC1fHkWT2
-         2gDT6i7tbGkWsEzQoeDit5GlodLXE47pMbtF1gF0XFEskxZ/s4QM5/kEYYeR+ZQK3Ysq
-         D3DN2bRJ+vFOPExxzlts3Xx3/l23ZL8ZsDX2GyJI7Occ6/dWEMfDzB+ra6O98CLt4hY8
-         fApQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqEDalGBDFfkwj6UmzGDRFYldOgKtntAuYTpc5Onp/XqtPC73XRHNs+5XAYTq7XJmHenmRUG0wO0vlhZvh2@lists.linux.dev
-X-Gm-Message-State: AOJu0YwjAcDubVRDcFRBS+0vXQH8GTOIvY51MIORgz9yPwAnxK/kRJgU
-	jVcZwSZraZ1MoLm6LuCwaAPNAIsB3e3tOGLhCS9yhH8LZP94KXxqsUkw
-X-Gm-Gg: AR+sD10hStnKCOk6CZ2JJSnzUvonRuyKsBFqZbX4b8Iua5kqkFqG27U4suUniEld8az
-	b0fip4IkUZTPKHQjUyxrwKMShzGbDZMQl712biD3EV8jaybdZUKLNyjGbebbMim5dQQXmJEPVvU
-	FKMFGzp6TIVG4Mw1VhXU5Dc9VGXXbOmhY+WX2hAljUJRfKKXIGheRvJfoaCOhJ9S0e/T+3xpDdd
-	aJk9f6OajiKiL/7HPCRozvsBGYOpsFekpHyH+kBpy8XwlcYAPkrQfKTl1zkkfnquKtu9enRNy8d
-	uzOXpnRQz6K/vfoS1jO/ijPQTQLlAVUjK87WDCLCWNQvqulPpAf8hrCRrg8kuzbonCsalrSwTFo
-	x5BmFWgB5UDWtOx2jxB4DD3DhuwlsVmHsBe1Y/sRVpEVE3quIrVm9LWFaM0Irjij0YDLi/6BlIv
-	alOC2pIutzEIJgcVFuLCQfSsPKIcz7bXZQcsWzOczrMsh95sEbZUHwEQrC6kw2dC9sHwvaLEg9K
-	Yybaic2oNbP3FTpGz356BqbYpmeNgOpzgwXGFl59aEnb886Hrfd3VmZR0/36dii3G7/uC9I620H
-	mPF0ElFmJMos/JWPGo6dLrRplMZjo5nblTAVsHn3DOo3m8bLwHdr5RB7qL7Xff2OP3dXpg1ckPY
-	aWdI2oqKMpBWi
-X-Received: by 2002:a05:600c:2049:b0:495:6397:14b1 with SMTP id 5b1f17b1804b1-495639714bfmr87077095e9.34.1784709978460;
-        Wed, 22 Jul 2026 01:46:18 -0700 (PDT)
-Received: from localhost (90-182-112-124.rcp.o2.cz. [90.182.112.124])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-495653c9d99sm133607895e9.12.2026.07.22.01.46.17
+        bh=OsVt3asVGylNxsOn48sC9QIekMdCTbHAMhPRVZQXPs8=;
+        b=lL2Pvv+pqH2Jb+TwBfbNrpj5V/AGzyyXGzYVJVDXE2M/jrVMxUDKO+tZ8I0U0dWzvC
+         ZeOUQ8KmX1wYSM7TDbm3Fa9iuNEC8COT4jzEmV5UDtHF0mEiSXRaJpD+iml6O4kQQEe8
+         keqx0FLNGkcVEjuFDLITXoIUGnCMeCgnrs/3Ggz/VEmxvi1P+K4vCcYyOOrzOLJj9AO9
+         +vGgUgA4RkMRzPq7RinPU0IGEVOvK+vzBCR7FE8U4bdqUPZOSr6Mn6M8TG3xHWb5LRpI
+         +Kw8kILeeME62wDqYiX04AuEZjr8hUv8fi66aTNleNT3GcgqVKPFrwpaYE+yKnNgL31w
+         qe+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784723182; x=1785327982;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=OsVt3asVGylNxsOn48sC9QIekMdCTbHAMhPRVZQXPs8=;
+        b=tE3B3LiFeuamDo6/qvHc073W75DU0/pBFeCasWmq8wiEFdi7jh5l/pvjGT/amsd8XB
+         1/1cyfmTs5ar79xqaexHf9cbnxoEUyhkfQjbxtn0aynfA+9+nQ8x2u7Xc1e4bdz74wL7
+         tJnW2+MURXh7jTMHdoKoZI6EUv6Q/gT+waolSkrBNxi3qIigMBiS0xDIuIUMeBEf7HAN
+         kay1j/SAMFtuGEitf+qz9YArZ+j1E1lyuMdEJZkIMtWG3h8/b3KqWb9oWjoN+eB8zg9e
+         CR8GgPe3miqI4pjQUwH9X/+/LtRqAFjw7CE0E9yrHONt2NocT1d4eU4bqtt52ALKWcDx
+         peSg==
+X-Forwarded-Encrypted: i=1; AHgh+Rrg4UBrknE3q79Bc9BgNDmuGqbXSNyUBGBimE6/VJ+ueSVE56WcZmBwYndltMrNr+eXj++G4CflZDw0qt2C@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw9OS2nR/2WUoRJgdgl8FuYe8hV2HFdo84KvQ5f02DugHO/mdy5
+	Tx0qdiRPS2IKW6bqyH1dI6kCSkQuUCGS8ZJe+HhamNkb03wfMQ1akoQX
+X-Gm-Gg: AR+sD13OVGYIUbFoputFLfw7Ysz11MAGpfZK0eSB4QMmEWfmq+EPf3Xd2CMwWEKnkm9
+	GLLWWjnlimmXKcDcRtxhYq5a16AzS+hBkRiVg4Wq0rMseb2jiEf88AXGOZg+/jZ3jfJ4T2yL5N3
+	fQ//n7u3eeZb61L3JRLLC4TP1Jr4NyQ5nkHVvilJrIIwAwjqtHg0IyOpz6soYj3WeN1p2WdD9PR
+	ahcdWc+ZY6gI6DQHZQfIE8t5IMVwX4XaFWmTG69ll/4ZK6+HoBW0dkr1PzdIIq8rA8hEL6gu9gI
+	gNuZHazQZxpPcguqfJOHYtViS8hjqakgIIzptvO3jG+aTDcUaE4X7FVn5qRXnZcxhd9cDkDF5B8
+	+8jSCPkiA/7jfo5loC2eMHOLLDstSr3tjyEw7CGUl4322w7Qjk9V/i3/dh3dkaHNn4q0AzgDg+c
+	LjQ0W6/72OpLugmBrq5YV5fBArleA8dbgQ63RMpCAu7kh4PLYEsh6pYfZR5c3MKy3B
+X-Received: by 2002:a17:906:f587:b0:c16:12ff:dc8b with SMTP id a640c23a62f3a-c16b48ed34amr1059324666b.54.1784723182100;
+        Wed, 22 Jul 2026 05:26:22 -0700 (PDT)
+Received: from DESKTOP-LO2SIVE.localdomain (83.4.116.191.ipv4.supernova.orange.pl. [83.4.116.191])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1c32ac9d79sm94973966b.21.2026.07.22.05.26.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jul 2026 01:46:18 -0700 (PDT)
-Date: Wed, 22 Jul 2026 10:46:17 +0200
-From: Joshua Crofts <joshua.crofts1@gmail.com>
-To: Mohamad Raizudeen <raizudeen.kerneldev@gmail.com>
-Cc: jic23@kernel.org, dlechner@baylibre.com, andy@kernel.org,
- nuno.sa@analog.com, gregkh@linuxfoundation.org, skhan@linuxfoundation.org,
- me@brighamcampbell.com, jkoolstra@xs4all.nl, linux-iio@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Andy
- Shevchenko <andriy.shevchenko@intel.com>
-Subject: Re: [PATCH v2] staging: iio: frequency: ad9832/ad9834: add comment
- explaining do_div usage
-Message-ID: <20260722104617.000050fa@gmail.com>
-In-Reply-To: <20260722082227.18768-1-raizudeen.kerneldev@gmail.com>
-References: <20260630032322.5805-1-raizudeen.kerneldev@gmail.com>
-	<20260722082227.18768-1-raizudeen.kerneldev@gmail.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
+        Wed, 22 Jul 2026 05:26:21 -0700 (PDT)
+From: =?UTF-8?q?Patryk=20Gawro=C5=84ski?= <gawronski1.6@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: dennylin0707@gmail.com,
+	error27@gmail.com,
+	fliegbert2@gmail.com,
+	khomenkov@mailbox.org,
+	nikolayof23@gmail.com,
+	khushalchitturi@gmail.com,
+	s9430939@naver.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?Patryk=20Gawro=C5=84ski?= <gawronski1.6@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: Remove multiple assignments
+Date: Wed, 22 Jul 2026 14:26:18 +0200
+Message-ID: <20260722122618.41747-1-gawronski1.6@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, 22 Jul 2026 13:52:27 +0530
-Mohamad Raizudeen <raizudeen.kerneldev@gmail.com> wrote:
-> Previous attempts to change do_div() to div64_ul() were rejected because
-> mclk will always fit within 32 bits for this hardware, making do_div()
-> safe to use.
-> 
-> However, Coccinelle continues to flag this as a false positive. To
-> prevent future developers from submitting unnecessary fixes, add a
-> comment explaining why do_div() is intentionally kept.
-> 
-> Suggested-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-> Signed-off-by: Mohamad Raizudeen <raizudeen.kerneldev@gmail.com>
-> ---
+Fix a checkpatch warning by splitting multiple assignments on a single
+line into separate operations. This improves code readability and aligns
+with kernel coding style guidelines.
 
-Please don't send a new version as a reply to the previous version,
-as it can break tooling such as b4 for patch review.
+Signed-off-by: Patryk Gawroński <gawronski1.6@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_xmit.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-As for the comment, I think it's good, however I'm not sure whether
-this should be split into two patches, given that this is a small
-change. Andy, what do you think?
-
-> diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/iio/frequency/ad9832.c
-> index 60c33e10c46f..6d046e9121e2 100644
-> --- a/drivers/staging/iio/frequency/ad9832.c
-> +++ b/drivers/staging/iio/frequency/ad9832.c
-> @@ -118,6 +118,13 @@ static unsigned long ad9832_calc_freqreg(unsigned long mclk, unsigned long fout)
->  {
->  	u64 freqreg = (u64)fout << AD9832_FREQ_BITS;
->  
-> +       /*
-> +	* mclk is an unsigned long, which triggers a Coccinelle false positive
-> +	* warning about using do_div() for 64-by-32 division. However, mclk
-> +	* for this hardware will always fit within 32 bits, so do_div() is
-> +	* safe to use here.
-> +	*/
-> +
-
-Unnecessary blank line here, you want to couple the comment with the
-line that it's describing.
-
->  	do_div(freqreg, mclk);
->  	return freqreg;
->  }
-> diff --git a/drivers/staging/iio/frequency/ad9834.c b/drivers/staging/iio/frequency/ad9834.c
-> index 33dfd723923c..8722f3a01cde 100644
-> --- a/drivers/staging/iio/frequency/ad9834.c
-> +++ b/drivers/staging/iio/frequency/ad9834.c
-> @@ -103,6 +103,13 @@ static unsigned int ad9834_calc_freqreg(unsigned long mclk, unsigned long fout)
->  {
->  	unsigned long long freqreg = (u64)fout * (u64)BIT(AD9834_FREQ_BITS);
->  
-> +       /*
-> +	* mclk is an unsigned long, which triggers a Coccinelle false positive
-> +	* warning about using do_div() for 64-by-32 division. However, mclk
-> +	* for this hardware will always fit within 32 bits, so do_div() is
-> +	* safe to use here.
-> +	*/
-> +
-
-Ditto.
-
->  	do_div(freqreg, mclk);
->  	return freqreg;
->  }
-
-
-
+diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+index 16e6c9567224..7f183db72123 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
++++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+@@ -185,7 +185,8 @@ s32 _rtw_init_xmit_priv(struct xmit_priv *pxmitpriv, struct adapter *padapter)
+ 		pxmitbuf->phead = pxmitbuf->pbuf;
+ 		pxmitbuf->pend = pxmitbuf->pbuf + MAX_XMITBUF_SZ;
+ 		pxmitbuf->len = 0;
+-		pxmitbuf->pdata = pxmitbuf->ptail = pxmitbuf->phead;
++		pxmitbuf->pdata = pxmitbuf->phead;
++		pxmitbuf->ptail = pxmitbuf->phead;
+ 
+ 		pxmitbuf->flags = XMIT_VO_QUEUE;
+ 
 -- 
-Kind regards,
-Joshua Crofts
+2.55.0
+
