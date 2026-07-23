@@ -1,76 +1,78 @@
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
+Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5388845D190
-	for <linux-staging@lists.linux.dev>; Thu, 23 Jul 2026 15:22:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BE6F45D182
+	for <linux-staging@lists.linux.dev>; Thu, 23 Jul 2026 15:22:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784820130; cv=none; b=txrwf0GYVJraiHK3rHyMT08DJxHf3o+YSSck6mI07o+GnAROxlhtsJ+fHMxhpcEtng8Q74CDQK2sNm9cmgu9cUm+o9TGKjY7R9/vilq1wyWzjT7zNbDSNcKtz5AsOkmCua52YNYhr+j+E6sCylDCb3eVfeRe3GN8W8KpvHc+TZ8=
+	t=1784820146; cv=none; b=K97gITQy0zmxs9uEtyn6SZJdYL0FtkgS3VFyqXXHU/UPqpcPU+UnYNcG22t9yRidupZhavVkZXzmIi+zqySJTbj524XGkNr8cUjB+XxbIBgjm8HJltYuUF90rfaC7vt89LZbbRyeMu8kTP8MSOYRu3/yt3aOrPAH/wxM+ff6PB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784820130; c=relaxed/simple;
-	bh=Wdu5jzsTRu1UQapIpzehyg1ZndegJxmvxZqQI4wa8/I=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Pav5hEnECTxh4yAPfQNl9G+Pl2xpBGch+wlu3kSDA0Q3GQnpQ1KCO22F9+kaKRPwJGD4qCkVPPHLsI0XU5TKwQpCg7+J5OkFrpXzaWAVU/rJRoeVq9NuqnObb9RP9fSSlzho7ReraIuy/A0Y9VXloGhKhuKqOErNqMf7dKiB6fg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oEeJsdR7; arc=none smtp.client-ip=209.85.217.46
+	s=arc-20240116; t=1784820146; c=relaxed/simple;
+	bh=bulsuqfT4elwA0ChnmuElrRF7eFdJcIJCtLvAjuNCcw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GBXmEILydGBG7G5NgnxNqpPSnYXe8ArubYCRwu7MJN9WM6M1mt30ZYnJYyrnVL12dpo4xE7dSwNzeQD42olEKXwiLXA2tXUwYnV9PCvgNJfLt9yuxkWWLi0VJHVx2QoXv9amZOr2TMxrYXnC8oBj9zY5YabhXUa2fV8bcxgQqtk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N6RqbY9s; arc=none smtp.client-ip=209.85.221.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oEeJsdR7"
-Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-74d55dac06eso404193137.3
-        for <linux-staging@lists.linux.dev>; Thu, 23 Jul 2026 08:22:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N6RqbY9s"
+Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-59b074ec7ceso247605e0c.1
+        for <linux-staging@lists.linux.dev>; Thu, 23 Jul 2026 08:22:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784820121; x=1785424921; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1784820135; x=1785424935; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Fj+kSfKG+GX3ABilBOw8Vr5IsCiYnxIkSvhYryTFnFI=;
-        b=oEeJsdR75QRhtIjsudumWtcdjgnFt/NxALur6ovZI36SH6U4ueZeVKzbq/Bx/1ZtbC
-         l1XOxTh3Z+n3WwZbvsdLDx6iqGgR2CwuzeRy8KmyxEUsCejf+nVd2CwqFuHYylOI8+01
-         glzwD/lwUk6NVXFOluXAwJEKRu5LrFbRs/IVcq+joLKH10dQfmzZE6Aj7co3/6Q8z7ci
-         ya00TDpK5G2V7fG8tq26EuaLHkLRCdMpoDCVhpCrFrKAvtL+Rf6WwZMwESAlB4rNfgVp
-         aLzro0E+n0Q3UsarlgsvwYBuNmNsSZ61+PB1rIZ9jsEHUD1UmrBxOVW7CrHDGBhFz747
-         acYw==
+        bh=bhoCJazApu7PhpZQh7Bx1EblplBzJkAncb/FnM2OHyE=;
+        b=N6RqbY9swJWgDsH4YrXGXUbg4jiC4UmvGLKkW6Mfw+iHHMwRcPpZGptoHYQynPmQom
+         bdepIqDOC4ACzRhExWuJn/4GBTqJULpU0rLVth9Uiz18xOLe/qlmYzMDwa6o6hf29SAR
+         PHRAcZQQjb0kf3OD6C4jvl9r5FquJrkfBN4NW5TOsPtvFGlnUzfBFoP0oE6G1D8mxhkw
+         2XXEGLlaXEqP+0xbLXkGmjJtlNpt62YseEXqKa9mKuRr9gHn+ZruvOEqHpWFfHc3jLig
+         gdqwdTJnc+sdUJMR0xiJepbb71yT8JWpwsYH2SgND4FMowUy8oJHm/1XtgH8gIXzDowM
+         VzSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784820121; x=1785424921;
+        d=1e100.net; s=20251104; t=1784820135; x=1785424935;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Fj+kSfKG+GX3ABilBOw8Vr5IsCiYnxIkSvhYryTFnFI=;
-        b=cvBCC7EQaTcqZBnsrTc+AfytFE7XhnBPNp8TZ/CQzBLamxk+wmiQfJwwRsBwczIXNE
-         l8lMLMuWOsacQ5GEZSYH4IkjFY3RDzGuNb9UzpNJwNiWDWssumDO4rh645fwgH5GTK0H
-         WreMwUaZ/udXY6tgNh1+PFjUMwGwknXm/KxrUUqlpAE0PVEyliDAoSltw3sHExyMJed0
-         qloZ2pq6r7icwbEv5vW6I7Lu7MhUzm8fc/c39FXrBAGkt9nVZzVgSOlTpMTSU5uXUP7+
-         zydwugpNwdCpeDtsRsj2vzmiVK1hEKj4fT112sr0hnsYYqNuLt0wL3YC/mxoB9A6gTqZ
-         ozJA==
-X-Gm-Message-State: AOJu0YzFfMgDSR53NzQxZMxAJiArH+PPVYbEJAk9ONKjkwJgOc97d+m3
-	HCYYowYcfCF9wTbWr5lE5ZP+eAMVudiOMxNTPXHmw+220ezly5RhtFiw21oIUwdB
-X-Gm-Gg: AR+sD12wA5sjYjfPRnQhy1dI0Z2DfhgR1Cu5AikBembUpa6dCSWqS8Vh8UUTskXJJtR
-	XqFR9UssjNl3pZhQUgvAMRD5Ohgn/GaQL5Vb9ZQEiVWT23V3YAgMFGzFCqOmdhEgDw8JqZGnjem
-	H/EJ2ekBR1+SiRmMzyuVWOwtndwos9xlq9vkHaYEuG5TMfu+iKML3SmaWjiPCW47gDRSljGetaN
-	ZjRr433QptHXt55p087aNh8VrTMjfnZHTO7H/CQXurjqzOmrV1O4IxBt+gfbmKrofhp3YL6tpum
-	bnbzGxftrkS4wjKTPwVzO2nWHGFoPGUjWvmNuueS2c9qDApOoYd/CJE0YbmDI0vkq1V7VMCoj3w
-	tLnlnWf36OHEruXqRVsLW7turjH6brgEGA3HcegHsKQY6p07qoayJP66ZMN1leW4Oznu9RRugT8
-	5vLQ3gJW1OGMRtL1Wx4zp+uc7eUcXOgc+s/nIdymq/NHG4HYo=
-X-Received: by 2002:a05:6102:c50:b0:631:2973:5c2c with SMTP id ada2fe7eead31-74d604fd347mr1689165137.21.1784820120923;
-        Thu, 23 Jul 2026 08:22:00 -0700 (PDT)
-Received: from note-javi.intranet.unl (fweduroam249.unl.edu.ar. [190.122.249.184])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-74ad344bb32sm5494191137.11.2026.07.23.08.21.57
+        bh=bhoCJazApu7PhpZQh7Bx1EblplBzJkAncb/FnM2OHyE=;
+        b=NrccQzH7L58ywxw6wBSYdkASJYbXVYihySra0EpvYG+W6JVbnHNrk+LrfGIFA433jV
+         MDpTSVZHizpYXmFYIcZxtqlmi8Crqs+QKZsyZy3sLmeZ16+/mtcvdmwgIzX+FaxiDOFw
+         /OysDRDhvXZeTQ5S8xBanvoUwzFRzx1LScVxxxfrtduhgCz3qxnx1TaSDcnRRGV+UxoI
+         +cp4tkM+cGeo1u27DCLnAeD8GrZZi2dSmnlSF++XhvnQMG+ojMlC+yFWv6/Y0NMkj8g5
+         zY2AUbeKE5G+YugffY/UgNPyj4UNTczOGB0bTpUzLRZsR2KPgx/qrVq0xCmeZlwp3oDa
+         rfrw==
+X-Forwarded-Encrypted: i=1; AHgh+RpfxCV6ImpUT5pB46teRaiPbWzavl7I1iUHNyaSyBjlINXUXiROg2tKCRtTUfETIMNLl+nVi17Nehi9KdVZ@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxl8N61BssYyH/iRXJJHhXmp1RilZdT637s0aaHpSp++0W9PrXi
+	H6NhEFcfe0AAi3Rit829tRvmjP5OyjExSPfNzJx5CM2i6sO4EhQKSbqH
+X-Gm-Gg: AR+sD10nM7E97PJMg8LEtHi5XIvrrwYytOr09iXRsG7hvNET6h0tLMTuz20l+6SnaNe
+	QixB3eetYyge2Pia9+hyRmPk/2klsYddPeOtLNyw4xLTrJ1UhxNkdRbojy06nM8+3rm9KLCgfsS
+	acDUPPZBYv8TEu2FrMhD9e6DOt0WH6kFi/5611y15NvbVuzn53xJuitwY88ptyCNwT5hQiwHJCj
+	UiPFA+E1c7ezUujJueqxKCxO9nVcykNWqT4Irjy0/moVWM0FUKtgBb8Fw4x0JAregXtGt9f7QH9
+	lxxN7ayaYDAhZ5WhYCpFxqLPNbEST2HcdR4X3qyI3lUylaB9vA9OeStv6PdGn7JL9NBNKsH823h
+	lvT8KTjv4g4dKOutALfAmh5s0FyofgF8bwO3BEpmPnhOZVc0rewk6KjEBkIjm7Rr7raAeBmOtjS
+	/lIuERju5marikxOoactC+Qy949cUbXeHIns8pAzhzE9isYN1K7+1pMDu7rbshGfYcH4deeBCOf
+	vpxnJT+bCxGPrXguwpv
+X-Received: by 2002:a05:6123:a1:b0:5bf:d2c7:c481 with SMTP id 71dfb90a1353d-5c2da0e126bmr1430338e0c.7.1784820135565;
+        Thu, 23 Jul 2026 08:22:15 -0700 (PDT)
+Received: from user.intranet.unl (fweduroam249.unl.edu.ar. [190.122.249.184])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5c2c648704dsm6118065e0c.12.2026.07.23.08.22.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jul 2026 08:22:00 -0700 (PDT)
-From: JavierLeventan <javierleventan@gmail.com>
-To: linux-staging@lists.linux.dev,
-	linux-media@vger.kernel.org,
+        Thu, 23 Jul 2026 08:22:14 -0700 (PDT)
+From: Tomas Chimenti <tach.365@gmail.com>
+To: linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	gregkh@linuxfoundation.org,
-	sakari.ailus@linux.intel.com,
-	mchehab@kernel.org,
+	linux-staging@lists.linux.dev,
 	hansg@kernel.org,
-	andy@kernel.org
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	andy@kernel.org,
+	gregkh@linuxfoundation.org
 Cc: ~lkcamp/patches@lists.sr.ht,
 	koike@igalia.com,
-	JavierLeventan <javierleventan@gmail.com>
-Subject: [PATCH] media: atomisp: replace spaces with tabs
-Date: Thu, 23 Jul 2026 12:21:30 -0300
-Message-ID: <20260723152133.56400-1-javierleventan@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	Tomas Chimenti <tach.365@gmail.com>
+Subject: [PATCH] media: atomisp: Remove useless return statement
+Date: Thu, 23 Jul 2026 12:21:46 -0300
+Message-Id: <20260723152146.86978-1-tach.365@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -79,45 +81,148 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix checkpath error "WARNING: please, no spaces at the start of a line"
-in ia_css_fpn.host.c
+Fix checkpatch error 
+"WARNING: void function return statements are not generally useful"
 
-Signed-off-by: JavierLeventan <javierleventan@gmail.com>
+Signed-off-by: Tomas Chimenti <tach.365@gmail.com>
 ---
+Hello
 
-Hey, this is my first patch. I appreciate any feedback, thanks!
+This is my first patch, any feedback would be very welcome. Thanks
 ---
- .../pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.c      | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ .../pci/runtime/inputfifo/src/inputfifo.c        | 16 ----------------
+ 1 file changed, 16 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.c
-index e701b7e41ef4..1c8e60c1b071 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/fpn/fpn_1.0/ia_css_fpn.host.c
-@@ -22,9 +22,9 @@
+diff --git a/drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c b/drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c
+index 8e1efeb6372c..f0dcd839e33b 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c
++++ b/drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c
+@@ -88,7 +88,6 @@ _sh_css_fifo_snd(unsigned int token)
+ 	while (!can_event_send_token(STR2MIPI_EVENT_ID))
+ 		udelay(1);
+ 	event_send_token(STR2MIPI_EVENT_ID, token);
+-	return;
+ }
  
- void
- ia_css_fpn_encode(
--    struct sh_css_isp_fpn_params *to,
--    const struct ia_css_fpn_table *from,
--    unsigned int size)
-+	struct sh_css_isp_fpn_params *to,
-+	const struct ia_css_fpn_table *from,
-+	unsigned int size)
- {
- 	(void)size;
- 	to->shift = from->shift;
-@@ -33,8 +33,8 @@ ia_css_fpn_encode(
+ static void inputfifo_send_data_a(
+@@ -98,7 +97,6 @@ static void inputfifo_send_data_a(
+ 	unsigned int token = (1 << HIVE_STR_TO_MIPI_VALID_A_BIT) |
+ 			     (data << HIVE_STR_TO_MIPI_DATA_A_LSB);
+ 	_sh_css_fifo_snd(token);
+-	return;
+ }
  
- void
- ia_css_fpn_dump(
--    const struct sh_css_isp_fpn_params *fpn,
--    unsigned int level)
-+	const struct sh_css_isp_fpn_params *fpn,
-+	unsigned int level)
+ static void inputfifo_send_data_b(
+@@ -108,7 +106,6 @@ static void inputfifo_send_data_b(
+ 	unsigned int token = (1 << HIVE_STR_TO_MIPI_VALID_B_BIT) |
+ 			     (data << _HIVE_STR_TO_MIPI_DATA_B_LSB);
+ 	_sh_css_fifo_snd(token);
+-	return;
+ }
+ 
+ static void inputfifo_send_data(
+@@ -121,7 +118,6 @@ static void inputfifo_send_data(
+ 			      (a << HIVE_STR_TO_MIPI_DATA_A_LSB) |
+ 			      (b << _HIVE_STR_TO_MIPI_DATA_B_LSB));
+ 	_sh_css_fifo_snd(token);
+-	return;
+ }
+ 
+ static void inputfifo_send_sol(void)
+@@ -131,7 +127,6 @@ static void inputfifo_send_sol(void)
+ 				1 << HIVE_STR_TO_MIPI_SOL_BIT);
+ 
+ 	_sh_css_fifo_snd(token);
+-	return;
+ }
+ 
+ static void inputfifo_send_eol(void)
+@@ -140,7 +135,6 @@ static void inputfifo_send_eol(void)
+ 	hrt_data	token = inputfifo_wrap_marker(
+ 				1 << HIVE_STR_TO_MIPI_EOL_BIT);
+ 	_sh_css_fifo_snd(token);
+-	return;
+ }
+ 
+ static void inputfifo_send_sof(void)
+@@ -150,7 +144,6 @@ static void inputfifo_send_sof(void)
+ 				1 << HIVE_STR_TO_MIPI_SOF_BIT);
+ 
+ 	_sh_css_fifo_snd(token);
+-	return;
+ }
+ 
+ static void inputfifo_send_eof(void)
+@@ -159,7 +152,6 @@ static void inputfifo_send_eof(void)
+ 	hrt_data	token = inputfifo_wrap_marker(
+ 				1 << HIVE_STR_TO_MIPI_EOF_BIT);
+ 	_sh_css_fifo_snd(token);
+-	return;
+ }
+ 
+ static void inputfifo_send_ch_id_and_fmt_type(
+@@ -177,7 +169,6 @@ static void inputfifo_send_ch_id_and_fmt_type(
+ 	 */
+ 	token = inputfifo_wrap_marker(0);
+ 	_sh_css_fifo_snd(token);
+-	return;
+ }
+ 
+ static void inputfifo_send_empty_token(void)
+@@ -186,7 +177,6 @@ static void inputfifo_send_empty_token(void)
+ 	hrt_data	token = inputfifo_wrap_marker(0);
+ 
+ 	_sh_css_fifo_snd(token);
+-	return;
+ }
+ 
+ static void inputfifo_start_frame(
+@@ -196,7 +186,6 @@ static void inputfifo_start_frame(
  {
- 	if (!fpn)
- 		return;
+ 	inputfifo_send_ch_id_and_fmt_type(ch_id, fmt_type);
+ 	inputfifo_send_sof();
+-	return;
+ }
+ 
+ static void inputfifo_end_frame(
+@@ -207,7 +196,6 @@ static void inputfifo_end_frame(
+ 	for (i = 0; i < marker_cycles; i++)
+ 		inputfifo_send_empty_token();
+ 	inputfifo_send_eof();
+-	return;
+ }
+ 
+ static void inputfifo_send_line2(
+@@ -297,7 +285,6 @@ static void inputfifo_send_line2(
+ 	for (i = 0; i < hblank_cycles; i++)
+ 		inputfifo_send_empty_token();
+ 	inputfifo_send_eol();
+-	return;
+ }
+ 
+ static void
+@@ -377,7 +364,6 @@ static void inputfifo_send_frame(
+ 		}
+ 	}
+ 	inputfifo_end_frame(marker_cycles);
+-	return;
+ }
+ 
+ static enum inputfifo_mipi_data_type inputfifo_determine_type(
+@@ -453,7 +439,6 @@ void ia_css_inputfifo_start_frame(
+ 	s2mi->streaming = true;
+ 
+ 	inputfifo_start_frame(ch_id, s2mi->fmt_type);
+-	return;
+ }
+ 
+ void ia_css_inputfifo_send_line(
+@@ -516,5 +501,4 @@ void ia_css_inputfifo_end_frame(
+ 	inputfifo_end_frame(s2mi->marker_cycles);
+ 
+ 	s2mi->streaming = false;
+-	return;
+ }
 -- 
-2.55.0
+2.39.5
 
