@@ -1,76 +1,81 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C64C142EEB3
-	for <linux-staging@lists.linux.dev>; Thu, 23 Jul 2026 10:10:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D01B1410D19
+	for <linux-staging@lists.linux.dev>; Thu, 23 Jul 2026 10:10:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784801428; cv=none; b=GE5GsAnIJe4gvayBbY6VUCzFYVx1pzeUSwZfKnsck5s9ZqbZbrYFNj5AQyhuSKsKDxPNuFGoORC9j6Lbnx436Mlm/ye7+GPg9sBEfd5oIzF/SRAzxgSQ3ODuyIGBYZu0IXQZIfsSwb7ckycgCnesqhPr/EOiQRblny4ukBvEUbo=
+	t=1784801434; cv=none; b=L5N8Vmq6ZdGdSL4WRIur+/pwnlAAC86/5jdvEF+2i+lwp3MEhiOxHMfBXiskU4jkonM94H/1XRxPRGwJeCkzpvVdlw7sunml39GGP8rwpxKynxe+4dmcIkY3wxBMXyFsUHXA8Ilo3kodAENkJ+Orhg++FrIqq3gjxSptWVdFPZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784801428; c=relaxed/simple;
-	bh=ZB447XxCBqH89cLA+iAMyBEOgv3a3ukggHt0biRRmDI=;
+	s=arc-20240116; t=1784801434; c=relaxed/simple;
+	bh=yItB58k8BFtqh2Q5pQjupFSfMUetmTfeicNvjsKB1j4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GR9e85l5okV34kMn/7cXb9pab9xf9ZE4C4upO5tmF23zC+rMeJ/q2PDE9CB8b+HJyUZuDvQF83D3A30gP3La5a1Ie4XL77yUNEEtZ1UlgEEcmAzjVXv7GvNe3bpMadzR/D5BOPMxmZPkPR6JlaeE6LdJzIUSdtViqvhrAxrkBTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=APINqIEM; arc=none smtp.client-ip=209.85.128.54
+	 Content-Type:Content-Disposition:In-Reply-To; b=CgPjo0+Ksoz9IK3zCSsQ04HG4BBxhdlFnxWq3ViBWCpr9JJk3QH+462AiV1Lqr/0x7kdYOip2VmZJH5lz00EPVMNkfc8impw7Hm+Q+WjVbp98SIj7IOhWx258v8qrySfjizVAqXRNanxrpvQLCVdzuOGxY2JhajODJHWlZgA2l0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=n4SWF8s/; arc=none smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="APINqIEM"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4921eed3fa2so3312745e9.0
-        for <linux-staging@lists.linux.dev>; Thu, 23 Jul 2026 03:10:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="n4SWF8s/"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-472326ca506so316812f8f.2
+        for <linux-staging@lists.linux.dev>; Thu, 23 Jul 2026 03:10:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784801425; x=1785406225; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1784801431; x=1785406231; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=VlMWE9xZkorwpxL9EbIVt9uDSDnZ20C3ZODwFQe3gZ4=;
-        b=APINqIEMxMcuYh61TqSRJRZ3GF+H4eRHZkRCvgnCMpQpoUcLoLY4kg+45eECM7Cz09
-         gJMcqls1HXYJTJQ3u35Izmyuc910KtVreTaV7AcR/jLtFqZL0kfn1oAHbPiGeEBObSDw
-         PW9qO314E2IV9jfG6x6aZUn+eaAiIQrO2nQOxEsO+Jc4Nafvj0Knfqw50XA18vM08Pp6
-         NuR31gF+8IiIo3t31lASj/4QNqAJIKHaIBg5kzeuhVivimbU8ePPdxKSs8ax1nKvm/ed
-         wCCJKLg+msivGHGm35vGCVgT7qBIJnYecptR+jSTZ6x0pzi2s2MYyO6WBH9bLDYSdQcw
-         R/Iw==
+        bh=jpc/Xl7lBNJNdoEZz5gUFmHlWajy28tsF9ky0//+6w0=;
+        b=n4SWF8s/mWti3p+QrFZxjD7YELtc4am1ijQ+p+7NmjbTlYi71Y48MoWhjsUZiJrUUg
+         sb33fzace+tYsVswU4/1jvR0XRHNp8LggM3I4cMtd8v5JRCPnI7lYVzSoO0OJtcjWayx
+         ZqYug22YHj/dXcjBilQ6r1JNJQeyUbtS/DpyboUpAUM4NkGCsNZx8LGAzXKGXFfFyvqr
+         HVmg9RGYdzgdyBhdrXZuFOZHgWGLKoudhbnkTUaNOukud17f6bA75e4h0TilbLPy3BFk
+         YFQYvwlu8H5C1STjE82Gq3+A6zjd8R16qPvZm9jAZxYyi7wuIa4cfEzwzMgMyI0HySbA
+         ASOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784801425; x=1785406225;
+        d=1e100.net; s=20251104; t=1784801431; x=1785406231;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=VlMWE9xZkorwpxL9EbIVt9uDSDnZ20C3ZODwFQe3gZ4=;
-        b=BXcHEZnsg/niUNCwVCRow7/e/9Mg6zzv/r2tWZMjyCVqdm2reZx58wZ7hCZH4zGlZF
-         8107PPTuwOEW0l4ZdmJFU2UtDDw0y4j8DG0fGoXynYfwEuTvwqXJvyGSeyX1dfBLP8ce
-         bfDnEM5X33rBFURQrV/2HDbR8EtlvtJxjhqRE3qHSvRG9xhWSlU3PTCbqbFbmVnNz9Cp
-         ifCNAjr1MaN0Qxq67eaGA3o+CrPGQKeg6E0Y4JxfCQHYUOp+TXFccLe5BFMNyPcBiKiQ
-         kNr7I5WZT1Fl788N3Ho3RvV9eAHDrMzAlHDEm8ux3NYczE1V7A5QJFRPlkDCfxuJ+jk6
-         imhA==
-X-Forwarded-Encrypted: i=1; AHgh+Ro6FyOFd6gEz1c85t8/lJRyQi2KEFAcR/DnctgADqjjeK2yUVTryPSNkP4Xr+103xohJqJu3RSJFvD9U9XO@lists.linux.dev
-X-Gm-Message-State: AOJu0YwUrCUxwFyUiLJoaBDlrmp6NxgNQUbLVsdFyhJuKrDjZ+0h7nfb
-	klvNegrRTkJuQzLGGJba0TsKWT5DrHLIQbnNo7zGEgJh7xFG/RLhhgB/
-X-Gm-Gg: AR+sD118npRYORtUKey3FYlTrH6b3Bzuo5m57JGw2aqwZ7XuZAOInqwf+rRlpp5jhCu
-	kCEfYkpBqBHoFIcjR+4c5toiutJ6Qft5LvX7ETWZzwBlCm7ZRKaM6ISsy3NthpECw9Yh7RDJWTM
-	OtEg3FoozJisIZ81b/6sp8X2Z5UAC5+WY92dy0bNvsV+DpMIDAbpNQqB28lXa7EgRv+pVN867Fn
-	OoJo75/ml16EWP/gVa5qjCdUOOKHfDu6eSiC0IQjixcYFHGjheJGICrC5dl95ZT8quJYnl3hj8T
-	YjIkD7zFnstaUnjEuPqea/7dOBBJ6SIiiHSgp1BwYwkiKYmBOmrdGJdLigwWn7S3vG2wT5APWgO
-	gpsSVco6EuUZDfq1UV60rukcODTn4Dy3CdXgUeZhehpQvRSs7ZnCV7UGwoQaxz7/HQ3hOq45IDQ
+        bh=jpc/Xl7lBNJNdoEZz5gUFmHlWajy28tsF9ky0//+6w0=;
+        b=BLAIAxEmeF2JaeiLrWzyWE/180dGQNMTrtKJJ3VGr3/9P0FrfEVRiuwu0kQErzcCUF
+         yQqU/smK9uWi1f0oXm+drLKG/kzm4WLjXyZPfW6PTexdzdsKXVpDUz5/tzjPvoEdsuFt
+         exkQuPGjfjVOAf+PuzFINBFaFj9+wkHu/eHOLbVNV2WehJc6HTS/4BggWQua7M8WfYWY
+         mAMzqVAt9inhRDcPu4tf1UMFb6odEg080qr6Ae/dMB1W4gPGgl0O7/J7NPXGN5eMJ1nM
+         E0cBE2HXPTfTWhz0ATFnnbNvZwAld31QkSfpga7b8GdU21fDYYIk7Y6O8RDj/bZc2r2W
+         4McA==
+X-Forwarded-Encrypted: i=1; AHgh+RrQIAxvxMgscc9+og6VehcD3UzwXl96XVlLR0oZbhnC6Q8jAhdxwfG1rjnVUBDlcXRXcvnqwU3lbw96h59l@lists.linux.dev
+X-Gm-Message-State: AOJu0YzK29AqhwI7dQIWU5kCo7QNWjsM4nf/gU6v5Jhl+VXtd62zCjpp
+	F6zkP2U9TognGjtu+q/Zu0aRu77gITCrBlTi9F+/TkouGFMi79Lme7ko
+X-Gm-Gg: AR+sD12tNmX71Hal6wEu0ED8O+ymCOq+A5XcVOwbSp9Mf1zY3otTi6ZVPkpi8FqIwCk
+	bONMA9uFSsyXIve9c1c80ozqy0vobARdcoN0r+7QI6rv8STyzyVtoDkUFAwe1WwZM5zGt6mSzy9
+	bo6rG5zWVdF7ydY3aKezA7WWqo1Xr4AR8rAdA10Lf9G5eQJADFSop2Ej9b3zr9BuZD7IA7MfWJm
+	w4K9pPLzRJOax+dvY6loJQC6ViocJS8kEPgkMBjMMkCa3RwC49q2OA1hqk1YwBD4jRbG0MyM7X9
+	79mntr3w/LEPB5RAuIlRMjUFNWncGB02ZPmbLRmq29KIQCIeIlg9nu0cpHGogso71Vi7ulxpi9g
+	IaVX3WMZ1cSmKz2wme/eVrjIwkAmXxWoWJca8OM0RvcLhKM5mkJF/AbaUzx1mI4lEDvAG8+YcUw
 	==
-X-Received: by 2002:a05:600c:190a:b0:495:6e68:5df2 with SMTP id 5b1f17b1804b1-49573c9995bmr27760195e9.12.1784801424740;
-        Thu, 23 Jul 2026 03:10:24 -0700 (PDT)
+X-Received: by 2002:a05:6000:2302:b0:476:8a:5 with SMTP id ffacd0b85a97d-47f8d755530mr2890703f8f.34.1784801430971;
+        Thu, 23 Jul 2026 03:10:30 -0700 (PDT)
 Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-495653bfed7sm229252705e9.11.2026.07.23.03.10.23
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47f85b9a5d9sm13544887f8f.5.2026.07.23.03.10.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jul 2026 03:10:24 -0700 (PDT)
-Date: Thu, 23 Jul 2026 11:25:55 +0300
+        Thu, 23 Jul 2026 03:10:30 -0700 (PDT)
+Date: Thu, 23 Jul 2026 11:29:42 +0300
 From: Dan Carpenter <error27@gmail.com>
-To: Mohit Mishra <mishraloopmohit@gmail.com>
-Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] staging: sm750fb: Remove legacy kernel-doc comments
- from header
-Message-ID: <amHQE1sKtB9rxoiA@stanley.mountain>
-References: <20260722175817.213235-1-mishraloopmohit@gmail.com>
+To: ColtenOuO <jun930436@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Michael Straube <straube.linux@gmail.com>,
+	Nikolay Kulikov <nikolayof23@gmail.com>,
+	Andrei Khomenkov <khomenkov@mailbox.org>,
+	Jennifer Guo <guojy.bj@gmail.com>, Minu Jin <s9430939@naver.com>,
+	Khasar Munkh-Erdene <02khasar@gmail.com>,
+	Mohammed Rizwan Kaniyate <mrizwank004@gmail.com>,
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] staging: rtl8723bs: remove unnecessary else after
+ break/return
+Message-ID: <amHQ9nTvkU6cAg_N@stanley.mountain>
+References: <20260721160236.80963-1-jun930436@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -79,24 +84,20 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260722175817.213235-1-mishraloopmohit@gmail.com>
+In-Reply-To: <20260721160236.80963-1-jun930436@gmail.com>
 
-On Wed, Jul 22, 2026 at 11:28:16PM +0530, Mohit Mishra wrote:
-> The header file sm750_accel.h contains duplicate kernel-doc comments for
-> sm750_hw_copyarea and sm750_hw_imageblit. These comments are outdated,
-> still reference legacy CamelCase parameters, and generate kernel-doc
-> warnings because they do not document the 'accel' parameter.
+On Tue, Jul 21, 2026 at 04:02:32PM +0000, ColtenOuO wrote:
+> checkpatch.pl flags an else clause following a branch that already
+> returns, in enqueue_reorder_recvframe(). Restructure the if/else-if/else
+> chain into sequential checks to remove the redundant else, with no
+> change in behavior.
 > 
-> Since the correct and updated kernel-doc comments are already present
-> in the actual implementation file (sm750_accel.c), remove the duplicate
-> and outdated comments from the header.
-> 
-> Signed-off-by: Mohit Mishra <mishraloopmohit@gmail.com>
-> ---
+> Signed-off-by: ColtenOuO <jun930436@gmail.com>
 
-Acked-by: Dan Carpenter <error27@gmail.com>
+That's not the name you use to sign legal documents.
 
-Because nothing pisses me off more than comments...  :P  LOL.
+But really, the original code is fine, just ignore tools when they are
+wrong.
 
 regards,
 dan carpenter
