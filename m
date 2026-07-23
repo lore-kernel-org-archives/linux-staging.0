@@ -1,99 +1,85 @@
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F274C45D18D
-	for <linux-staging@lists.linux.dev>; Thu, 23 Jul 2026 15:51:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62773442B27
+	for <linux-staging@lists.linux.dev>; Thu, 23 Jul 2026 15:52:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784821889; cv=none; b=kxmLomBEcB8NFSsVPaLvSxM1CkAot0S4mnJx0S45m4GZ7DEMgYT1YKiO+tYTfzU9qNzjpOEtZ9ac8+6RfvQsbN/g6j6QrP7lHZcQQl2EB44gzfdMtqzn9bElnilzbH8jq5DBfTCOlTh/nKQXUeTX1l+la1bS4FDHNEA86kJ0rys=
+	t=1784821925; cv=none; b=H08GAToKL4/Ny6nFpeblRDlx1yBZxGvJCWhw6DwmYfCEbDnVk3yXIw8QrOqkpDV8PltH/xjwNUt8O0aVA0FAhrplNDqOjYKNcqH8qPYaYnhOHO53Hc3bFplJBsxbF4fSZBa0tR65R/8hvqAivrtHSh2XO6hHI++Rghq/hqUOYwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784821889; c=relaxed/simple;
-	bh=54LgF6y60oBprhX2JNd2LD9/7EEhFqrkMPDkETdy5RA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=G/5Xpl5O/4+0DSlahCVHOomIFtTbXDELpr1gl4cK/U50hbu8X5SDCBbBcevxdiDd6NjTUl/XOtK9s4fvL4JLwoDzk/vurnslKVZ1ZdH52SJkHX3Ku77Xzy2g3CrqAc8YuLTfFF+nyRQt0I7L+PHQlzhIhI+IGWvkK9Xxuru8XZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=lbC+8J4T; arc=none smtp.client-ip=178.21.23.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
+	s=arc-20240116; t=1784821925; c=relaxed/simple;
+	bh=BjrUfjq/MjDeKu8VuDeSCS2n4mwqGRre5zkgY1xB2aM=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
+	 References:In-Reply-To; b=SDWNwREXXTTFXroL/rFC710joJ9vbIZSMyyyr7lKHlPW+Wqt3OVOgo69/bXid5/VDsMpVaFR06Kb2L4sTt4w/XX32O7sNQluLittE2Uy9F9+QW9wrEvXuxpf9dncmlC4DJw8L+7Yqhgw1h2uUvma7iJhpB5xUmg41UBc6xF3Ld8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=JHliCg/3; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="lbC+8J4T"
-Received: from mail01.layka.lan (localhost [127.0.0.1])
-	by disroot.org (Postfix) with ESMTP id 5E41B8498F;
-	Thu, 23 Jul 2026 17:51:23 +0200 (CEST)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id zPcpabtT-PHZ; Thu, 23 Jul 2026 17:51:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
-	t=1784821882; bh=54LgF6y60oBprhX2JNd2LD9/7EEhFqrkMPDkETdy5RA=;
-	h=From:To:Cc:Subject:Date;
-	b=lbC+8J4ThF81g3O0QMYw6oDSku6ngYX2eKp9Yt0yJwBQ+HPZ7FK0483QhImndvtYt
-	 9/jLQGEAx4a8biBi05YQexV0r/XRlmi9gaway3hVUpvPV0IqOfKOwocrm/MQ7X3BUv
-	 Vxz9k+P9iBO/sXq3HOypLAJn3eMxh4dY7nKu+BG8bGAXN4esgdT240q/mMU/5QjVVq
-	 L1JYhxOftueodDH7JX/Rb2pU3hzO+POVXrWyQYal+ykaStX50pbqVRLhn4sxBonz/i
-	 +bXTd9PDECYUE1c8yM8qbjWtKxqzXpKl/kF/Of09XAHbDij0pUqIFwy+sFgIsLwGa7
-	 +DpKoGun1R6Mw==
-From: Sergei Stepanenkov <sergei_stepanenkov@disroot.org>
-To: linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	andy@kernel.org,
-	hansg@kernel.org,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org
-Cc: ~lkcamp/patches@lists.sr.ht,
-	koike@igalia.com,
-	Sergei Stepanenkov <sergei_stepanenkov@disroot.org>
-Subject: [PATCH] staging: media: atomisp: move constant to the right side of comparisons
-Date: Thu, 23 Jul 2026 12:50:20 -0300
-Message-ID: <20260723155027.124722-1-sergei_stepanenkov@disroot.org>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="JHliCg/3"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id A32AE4E40F0F;
+	Thu, 23 Jul 2026 15:52:00 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 6FECA6038D;
+	Thu, 23 Jul 2026 15:52:00 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B09C811C11008;
+	Thu, 23 Jul 2026 17:51:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1784821919; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=BjrUfjq/MjDeKu8VuDeSCS2n4mwqGRre5zkgY1xB2aM=;
+	b=JHliCg/39OgWSf9sRMaZTt5N9rBOaXPdLxeAuqiA32mrAzMDK+Conn/zSIk8BrAESow62n
+	XEgxZP6c6st+03q50oM72qqWajsiYm7fQAH3Jun9MfNw+QDqEYEXLXno0tx+S8Wl3AvZCO
+	zO01B7AKWmz4b++2AQhrhUJRmI+D8fN3cWd+XuGFizg+B0aBvK39CdDU9T7BVqmS38VBTE
+	v4fZwRlZYnYAxESbSoyEq5c3xGkRg0DnACkVNbio4sH3+tavwr0ZIIt+WaQ77gtUm732YV
+	LdJOGKM1D+Hu2MUq7JL6XfqXgO7s4JK8qD+GwKJ9ric2mU++/9hsFo615w5N/g==
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 23 Jul 2026 17:51:46 +0200
+Message-Id: <DK62K8A5CYEJ.1JR30M4BEXVYN@bootlin.com>
+Cc: "Mauro Carvalho Chehab" <mchehab@kernel.org>, "Hans Verkuil"
+ <hverkuil@kernel.org>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Dmitry Osipenko" <digetx@gmail.com>, <linux-media@vger.kernel.org>,
+ <linux-tegra@vger.kernel.org>, <linux-staging@lists.linux.dev>,
+ <linux-kernel@vger.kernel.org>
+To: "Hao-Qun Huang" <alvinhuang0603@gmail.com>, "Luca Ceresoli"
+ <luca.ceresoli@bootlin.com>, "Thierry Reding" <thierry.reding@kernel.org>,
+ "Jonathan Hunter" <jonathanh@nvidia.com>, "Sowjanya Komatineni"
+ <skomatineni@nvidia.com>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH] staging: media: tegra-video: fix of_node_put() on VIP
+ parse errors
+X-Mailer: aerc 0.21.0
+References: <20260707150326.554689-1-alvinhuang0603@gmail.com>
+In-Reply-To: <20260707150326.554689-1-alvinhuang0603@gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
 
-Fix all checkpatch warning occurences
-"WARNING: Comparisons should place the constant on the right side of
-the test" in folder drivers/staging/media/atomisp/pci
+On Tue Jul 7, 2026 at 5:03 PM CEST, Hao-Qun Huang wrote:
+> tegra_vip_channel_of_parse() initializes np from dev->of_node without
+> taking a reference, but its error paths drop one through the
+> err_node_put label. This underflows the refcount of the VIP device's
+> OF node when endpoint parsing fails on a malformed device tree.
+>
+> The only reference the function takes on np is the success-path
+> of_node_get() stored in vip->chan.of_node, and that one is already
+> released by the tegra_vip_init() error path and by tegra_vip_exit().
+>
+> Return errors directly instead of jumping to the bogus cleanup label.
+>
+> Fixes: e740d199cf0f ("staging: media: tegra-video: add support for Tegra2=
+0 parallel input")
+> Assisted-by: Claude:claude-fable-5
+> Signed-off-by: Hao-Qun Huang <alvinhuang0603@gmail.com>
 
-Signed-off-by: Sergei Stepanenkov <sergei_stepanenkov@disroot.org>
----
-Hey, this is my first patch, I appreciate any feedback, thanks!
----
- drivers/staging/media/atomisp/pci/atomisp_compat_css20.c | 4 ++--
- drivers/staging/media/atomisp/pci/sh_css.c               | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-index 0ee52637ea30..1e9f7d96f18c 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-@@ -2301,8 +2301,8 @@ int atomisp_get_css_frame_info(struct atomisp_sub_device *asd,
- 			       ATOMISP_INPUT_STREAM_VIDEO :
- 			       ATOMISP_INPUT_STREAM_GENERAL;
- 
--	if (0 != ia_css_pipe_get_info(asd->stream_env[stream_index]
--		.pipes[pipe_index], &info)) {
-+	if (ia_css_pipe_get_info(asd->stream_env[stream_index]
-+		.pipes[pipe_index], &info) != 0) {
- 		dev_dbg(isp->dev, "ia_css_pipe_get_info FAILED");
- 		return -EINVAL;
- 	}
-diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-index 00082276f1db..3399e6793628 100644
---- a/drivers/staging/media/atomisp/pci/sh_css.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css.c
-@@ -7708,7 +7708,7 @@ ia_css_pipe_override_frame_format(struct ia_css_pipe *pipe,
- 		IA_CSS_LEAVE_ERR_PRIVATE(err);
- 		return err;
- 	}
--	if (0 != pin_index && 1 != pin_index) {
-+	if (pin_index != 0 && pin_index != 1) {
- 		IA_CSS_ERROR("pin index is not valid");
- 		err = -EINVAL;
- 		IA_CSS_LEAVE_ERR_PRIVATE(err);
--- 
-2.47.3
-
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
