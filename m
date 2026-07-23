@@ -1,85 +1,101 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62773442B27
-	for <linux-staging@lists.linux.dev>; Thu, 23 Jul 2026 15:52:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAA92456DE3
+	for <linux-staging@lists.linux.dev>; Thu, 23 Jul 2026 16:18:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784821925; cv=none; b=H08GAToKL4/Ny6nFpeblRDlx1yBZxGvJCWhw6DwmYfCEbDnVk3yXIw8QrOqkpDV8PltH/xjwNUt8O0aVA0FAhrplNDqOjYKNcqH8qPYaYnhOHO53Hc3bFplJBsxbF4fSZBa0tR65R/8hvqAivrtHSh2XO6hHI++Rghq/hqUOYwM=
+	t=1784823541; cv=none; b=Fo8lndLOLtLNVyv2MQwhrWHLBz18FCY/yvz45FISmu3JvA/0QkrLqykGqIPLD6noj975QCWTaoZ9OO4ZoKVFxiTE37ULqAxP9j2QEGtpGNLYCiiWHPoOf0gsMy7v7/8cRuSQ6gcEEMqMgqe9ku7zKNvay7zLm3/4aGf7jbSjovY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784821925; c=relaxed/simple;
-	bh=BjrUfjq/MjDeKu8VuDeSCS2n4mwqGRre5zkgY1xB2aM=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
-	 References:In-Reply-To; b=SDWNwREXXTTFXroL/rFC710joJ9vbIZSMyyyr7lKHlPW+Wqt3OVOgo69/bXid5/VDsMpVaFR06Kb2L4sTt4w/XX32O7sNQluLittE2Uy9F9+QW9wrEvXuxpf9dncmlC4DJw8L+7Yqhgw1h2uUvma7iJhpB5xUmg41UBc6xF3Ld8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=JHliCg/3; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1784823541; c=relaxed/simple;
+	bh=NpnKO/51+etpeqJ25cg/EF74MiQwdswhazoXGAAjbFE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GUeck/P9PYsgzp+ibAWDCSurCEfcTH/wwAaux9sWbe+2cV67c5uWB56kmUnFMsX7upsAOJbpN9y1Pc6l2nHxoSte36lAxqqeY8Mch7bUBkbpVXbMLpWk4maSKJc6sYwkBOi3F6lx3EU8DBnB8i0cg2b0gqMq/AT3shIOOUuwYp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=orEqa4hn; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="JHliCg/3"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id A32AE4E40F0F;
-	Thu, 23 Jul 2026 15:52:00 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 6FECA6038D;
-	Thu, 23 Jul 2026 15:52:00 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B09C811C11008;
-	Thu, 23 Jul 2026 17:51:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1784821919; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=BjrUfjq/MjDeKu8VuDeSCS2n4mwqGRre5zkgY1xB2aM=;
-	b=JHliCg/39OgWSf9sRMaZTt5N9rBOaXPdLxeAuqiA32mrAzMDK+Conn/zSIk8BrAESow62n
-	XEgxZP6c6st+03q50oM72qqWajsiYm7fQAH3Jun9MfNw+QDqEYEXLXno0tx+S8Wl3AvZCO
-	zO01B7AKWmz4b++2AQhrhUJRmI+D8fN3cWd+XuGFizg+B0aBvK39CdDU9T7BVqmS38VBTE
-	v4fZwRlZYnYAxESbSoyEq5c3xGkRg0DnACkVNbio4sH3+tavwr0ZIIt+WaQ77gtUm732YV
-	LdJOGKM1D+Hu2MUq7JL6XfqXgO7s4JK8qD+GwKJ9ric2mU++/9hsFo615w5N/g==
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="orEqa4hn"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5b0231a3e86so943768e87.0
+        for <linux-staging@lists.linux.dev>; Thu, 23 Jul 2026 09:18:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1784823527; x=1785428327; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=LqbiPvOO3ZvJwq5MwuKHTtbfwKr6s4CP7Qh/+Zyyw4w=;
+        b=orEqa4hnY2x/9BStIUGe58uNJOBkBqfJUcuEu91zgu1tdUNhqSW4CIvUxSYGotwdHl
+         lrOJBUD+6hx845EPbvKccTGGa/vSw/x1bpTfI+3qQ4skdYcjL6WHyk5NpOHNCx3QZJwM
+         1ruiFKIy50KnhcoJnv4VimcURY4oUYHo0cUV9q+UpLJmAeSrDUWRGD3yDV4XeO7+oKh1
+         1AfklgaHyUs7oyjNmcKjmN++p15WPjUH025YTOKUeB66zdJXzhDn8uIC0HKnVt1gN+G0
+         EFCcoFh6tkCTE4zTUO4pg4N88v986MhDC4P5xviuimIPFGQx73BDSRy23Dh1cXPx2Vca
+         kT7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784823527; x=1785428327;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=LqbiPvOO3ZvJwq5MwuKHTtbfwKr6s4CP7Qh/+Zyyw4w=;
+        b=YRs4Tv40h1SxV0qAhJvEDulveagEXY95vjlY3KeyOyFOdaLXDKXcb3VFAicrkhLl/W
+         AgmOASWYa+zLTVUXmc1PDdMh8o5SxdUmWiKwsz46r0Kv/CGpE+hlx4KYxovSd/ku3z8o
+         2ob1OkAFsUzNWNnbSKu1dyQfU3Zaf4KzvYn7F61r1FlOQMNaFpTHTeIWprscoum044aq
+         eDuDcDbwD7YAj5voyimKNcGuW1pJdLO6Xx/iEgfc6EWOz+BKisms+t3Zx6peVWEe/Y+p
+         j5150qw3F3O2Wyzzp3UdC3/ToT9DnseadfFBcvy1jovU1FhFrdyFOaogmcv6LGawh7qM
+         eo0w==
+X-Gm-Message-State: AOJu0YzCp3Vvy4pH/KiQvApvR62zfcb4M4JttuENCnZiXyqLoVNWZE0T
+	eDsDi6+mScZyz3u3D9adG3F1X5PMNnXqqCTndrOHEYCnfdNcc/8BfIaWzMAAxYyCESA=
+X-Gm-Gg: AR+sD10OTKGzqmaMbI+cYvJyN50Pl5CZS1/OeOv1CbYjpcLk2yVf60NTqOSsU2oOJyK
+	/voFFburEfA2/JirWcCm0X3GQynCYzk3sUv4rvcXl0/GetSJlztpTtZbm0QBd9OpDI0kWs3h+jH
+	X7muL5Oq4VUc4GV6Jzt/mHZMQlc5MOQnhvKdoY615K17sbU8p/ZVA5K1BaW3HX8szQaEKUaGPVK
+	wtvZ6uARSZmVEFN4pvz1kihI8Yf75sSOsrzym8Ktny3/XIrbjF2j/LLNLesUY9bdaB6kN8adHQe
+	pkR5kARKw0pkvrJFkcSLD3nSQ3vtGKvsYju3CG1dryQMdVQ5ZUbaN7GRTNyhXNE3U4lT8CSI8E4
+	Q8e8uADwTGg89bhDLb47AR+1i9OOzdjho3i8TtgYrNvXqiUVRgxdjwGKPwkhk9cAoOI9Ns6eBKM
+	/ZR7JOw/6JiC+NE0lYzOMhmPhsY1n4LYB2MWppx/pkY7ove2fc4RcWC21FHfIN6qSHyvmd62gZ7
+	4mzu0/vOL2BX4g=
+X-Received: by 2002:a05:6512:acc:b0:5ae:b250:5fa9 with SMTP id 2adb3069b0e04-5b2b2f6a795mr904040e87.31.1784823527194;
+        Thu, 23 Jul 2026 09:18:47 -0700 (PDT)
+Received: from localhost.localdomain (46-138-176-102.dynamic.spd-mgts.ru. [46.138.176.102])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b2a9b8c0a9sm1125783e87.17.2026.07.23.09.18.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Jul 2026 09:18:46 -0700 (PDT)
+From: Artem Lytkin <iprintercanon@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: gregkh@linuxfoundation.org,
+	marvin24@gmx.de,
+	linux-tegra@vger.kernel.org
+Subject: [PATCH RESEND] staging: nvec: use strcmp() instead of strncmp() with magic length
+Date: Thu, 23 Jul 2026 19:18:23 +0300
+Message-ID: <20260723161823.23921-1-iprintercanon@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 23 Jul 2026 17:51:46 +0200
-Message-Id: <DK62K8A5CYEJ.1JR30M4BEXVYN@bootlin.com>
-Cc: "Mauro Carvalho Chehab" <mchehab@kernel.org>, "Hans Verkuil"
- <hverkuil@kernel.org>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Dmitry Osipenko" <digetx@gmail.com>, <linux-media@vger.kernel.org>,
- <linux-tegra@vger.kernel.org>, <linux-staging@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>
-To: "Hao-Qun Huang" <alvinhuang0603@gmail.com>, "Luca Ceresoli"
- <luca.ceresoli@bootlin.com>, "Thierry Reding" <thierry.reding@kernel.org>,
- "Jonathan Hunter" <jonathanh@nvidia.com>, "Sowjanya Komatineni"
- <skomatineni@nvidia.com>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH] staging: media: tegra-video: fix of_node_put() on VIP
- parse errors
-X-Mailer: aerc 0.21.0
-References: <20260707150326.554689-1-alvinhuang0603@gmail.com>
-In-Reply-To: <20260707150326.554689-1-alvinhuang0603@gmail.com>
-X-Last-TLS-Session-Version: TLSv1.3
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue Jul 7, 2026 at 5:03 PM CEST, Hao-Qun Huang wrote:
-> tegra_vip_channel_of_parse() initializes np from dev->of_node without
-> taking a reference, but its error paths drop one through the
-> err_node_put label. This underflows the refcount of the VIP device's
-> OF node when endpoint parsing fails on a malformed device tree.
->
-> The only reference the function takes on np is the success-path
-> of_node_get() stored in vip->chan.of_node, and that one is already
-> released by the tegra_vip_init() error path and by tegra_vip_exit().
->
-> Return errors directly instead of jumping to the bogus cleanup label.
->
-> Fixes: e740d199cf0f ("staging: media: tegra-video: add support for Tegra2=
-0 parallel input")
-> Assisted-by: Claude:claude-fable-5
-> Signed-off-by: Hao-Qun Huang <alvinhuang0603@gmail.com>
+Replace strncmp() with a hardcoded length of 30 with strcmp().
+The bat_type string is already null-terminated (set two lines above),
+so strncmp() with an arbitrary length is misleading and functionally
+equivalent to strcmp().
 
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Signed-off-by: Artem Lytkin <iprintercanon@gmail.com>
+---
+ drivers/staging/nvec/nvec_power.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+diff --git a/drivers/staging/nvec/nvec_power.c b/drivers/staging/nvec/nvec_power.c
+index 2faab9fdedef7..89dd997aaf36b 100644
+--- a/drivers/staging/nvec/nvec_power.c
++++ b/drivers/staging/nvec/nvec_power.c
+@@ -207,7 +207,7 @@ static int nvec_power_bat_notifier(struct notifier_block *nb,
+ 		 * This differs a little from the spec fill in more if you find
+ 		 * some.
+ 		 */
+-		if (!strncmp(power->bat_type, "Li", 30))
++		if (!strcmp(power->bat_type, "Li"))
+ 			power->bat_type_enum = POWER_SUPPLY_TECHNOLOGY_LION;
+ 		else
+ 			power->bat_type_enum = POWER_SUPPLY_TECHNOLOGY_UNKNOWN;
+-- 
+2.43.0
+
