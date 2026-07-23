@@ -1,63 +1,63 @@
 Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AA7D483BE8
-	for <linux-staging@lists.linux.dev>; Thu, 23 Jul 2026 18:52:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B80E483BD8
+	for <linux-staging@lists.linux.dev>; Thu, 23 Jul 2026 18:52:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784832765; cv=none; b=dDpXC9zCgu6k5gFVpYGBFkhbtMgHtd1A7FYkGvG/fsjO9RMk7IxGabR+wMxzqgdKs7JiCSFxva/ROXkUlNtX+NBC2PhZkIvW7d6OPpP+GnRRpKpaevdrFQXYfCdmnmP8xKIZeu/eQfg6W0pwYDjomMH/FYnWAv0SYNl6Vc3L+yI=
+	t=1784832768; cv=none; b=hwTGDeE9bBEcbiwGBElO3RIUXQsVO2JgEzIeVBZBat1ScvOiqjcAZctDzl0JHIiTOQXvhrkmFChCK/HjLtZA6X6rJsHiCIUH1uqmEmRbZMxSGyWSpa7haVBWNfaniKMj2A6OU0WX5aeJdUi6MTLShK8NlSbbh3PG6hAUrO+GizA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784832765; c=relaxed/simple;
-	bh=417PvZV6MLha7RW5u+XT5AoGUeViXQS0dSHinR0tdNk=;
+	s=arc-20240116; t=1784832768; c=relaxed/simple;
+	bh=2bkdw8OxJrwnYUGhU/fhin1Aq0ZRsS8rd/JhENskV60=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eQWLv72jajXNUFKe2U9UjclqKYAPZODcBIsYGVlDBh+zXeyRKFFOtmwqpliIR4HTavxdVOUdaZc4CmbfAUepo19GYjKY6Wm3PTtts+EK8petEO2R3xvJh3tWo9xWHFz/pHrgDxo0DOhfPe48H18Kfa70+6zKP4vbOisscc2Q0Ns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SvDbOO/f; arc=none smtp.client-ip=209.85.208.171
+	 MIME-Version; b=hpdtdsqZJ5FS+CQvbn4M4zPBNTr+73fEWjxjGC8Y1S8/abli6AY/7/IX5BAW9ZZZx5ytvMyCuvAkhKMbH2GmChqUmW7bdnj+7yfOEZPTJxSZx/FQAkXnVqHWpoxrHXvhkiAjDNBMq5xDXchu56LUqSDmkzGQEDTAUlRGfwMJNMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ah/PW0n4; arc=none smtp.client-ip=209.85.208.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SvDbOO/f"
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-39c908d6cb6so8425901fa.1
-        for <linux-staging@lists.linux.dev>; Thu, 23 Jul 2026 11:52:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ah/PW0n4"
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-39c8dbf4f38so7661921fa.3
+        for <linux-staging@lists.linux.dev>; Thu, 23 Jul 2026 11:52:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784832752; x=1785437552; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1784832757; x=1785437557; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=S6YqaPjKVmdDMcCcfhFit+qzoapYrDK7L6d0hrzWx1A=;
-        b=SvDbOO/fW70N/eqvJdSqw8EZlEoKhvd85Z7nstoIWYCSnWW3qeR2v0/8q9wmRNQ1rf
-         wkEvePtzLYo+Do+xqdNKxtig6MZqlaek1lejPBPBVQMpwBy3TpBR9AOKJp1Z+p8q/jaz
-         MmV0lUf6acd46ubs14qwq9mMxbkKXCVACrvDi8L+YzeMdR+Sm5VZcCMK9Qb4FijlJj7P
-         H1aSfwWhtgEhjKK31wTtuWXelFwzsRW1Ppwi1erhNupd7wAk6u2a/IaV9d6MJZ+aoLIg
-         l7Vw93HcQ+GfhCYDzXH0vo2U5nPHwdyfgnims3mXOA5qhA25us0rqfu1aECQ0uOrMQE1
-         pxYw==
+        bh=75cngzgMY/OVAP7GKlxdzDklRXPgWBQ/BrWuJHHZzts=;
+        b=ah/PW0n4LtGMQdaLasvQIt+c8XysFNKmuy/sbFNaxDOQzkgibthFSy6lzf8Q8/sWEH
+         qDMRidqtV3nKeIMnllr5Na9cZzVRSJHZb4qCQaWewo3xENWHvOdmziRU5JkrgW9i90s8
+         X33qhvRIfRBqErK1LYI6SfloWwk/jvUQYG6q8dX8n9oRxTqi7NeMk2b1IhB2Ca9Wexq0
+         EkZOlePW/w/B4qhrEsrehhxh+Adf6TfgcDnmKgDm0Xggh1lKe+HOzVcIPmKxBp+ngI5c
+         9zgFq/1kikWntJAZs3LWiVDQ6da6vI5qUuwx2ZgE2ni/H1FObNvidLv64/lPpksjn1qZ
+         s9Xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784832752; x=1785437552;
+        d=1e100.net; s=20251104; t=1784832757; x=1785437557;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=S6YqaPjKVmdDMcCcfhFit+qzoapYrDK7L6d0hrzWx1A=;
-        b=PjV+t8boZjgWnMYfkarAb35oAW6DAINyfkm402Poa3KitjJJd7pWvlhkwdAsfof816
-         6nnbmr9bR+9lITPnfi3Xjky/3SaUfwzR6gKiNI9rBQfl+Ipf2KWlOERnIFLmKqZxwK/x
-         c1Iicx71GGLpV41NKpYP44HDYnfMH1CRnVCWXL0o8XPI2EO9lduudjLwenyNPq3httP2
-         mI7a6KJUVRtTgcKO26MnN6A41bSJsbqQdExQnGptis2u5Jo+gD3qFFfoBrLrKJlnSooc
-         d0KRKgynXae+r6ah6Uy8c+YWhZXk11sPapOI+TRDCcvspuxRipvtuaJcCrkIBYSid8l9
-         KwOQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoN62J6Mt2fin0Qbgy/8U2q29rozX6omkEcSA2hYkkkFrTETvx94ufuuHMZViGyGhCC1H5xta7oSVXcglIc@lists.linux.dev
-X-Gm-Message-State: AOJu0YwhYzbW/a8cjzNAhQE5rnTGHdyZHH8gMBqtNo7TT27I28zmvTqc
-	juUihjSita47jKLVOlkneB2WXRBMaCTbEu50g6Rp2OJRaR+1QzvDKFup
-X-Gm-Gg: AR+sD11orpyQfNyXVeTR1lMvGOvo3lB3RSO5lVzzvDYcS6KyQbG8XAyQjYoIe9mcbd2
-	5T4OIuxh44LLyuoTIaiE19/8neKFUNG6ye9wgwqKvrqIBBjBLd/Rb4q3Z9YjWIt0r8p49F6V7Y7
-	x2qnkvBAKas7YgiydV+g5zCn6Tx+x6UBf/QVsKPu+xWK1ub7RVv8NzmvTBkIDU/LZhop8w5vQ4C
-	KL0LpEYoj4wBxc1tVAWVT0iaZC+U/ybgBvexzA40kiL+fmokLWHFRdGaCKOWfYc06CV1v3eIu8h
-	RoUXAXWcLrsfi/iD4nRJRfEwhSIIU/9oQuHR++FxvAi4aaUhyAaiTpb9+eznJGBk3RUbB6ZdwAm
-	t3THbO5zFnS85rlGM8ZVbugz509+P1lfdHJMnukeqhtGrZrbNSAxuFpu92ILdI932b6DdLRh3Dr
-	0=
-X-Received: by 2002:a05:651c:881:b0:39b:2323:b700 with SMTP id 38308e7fff4ca-39f07c63c7emr8542801fa.10.1784832752086;
-        Thu, 23 Jul 2026 11:52:32 -0700 (PDT)
+        bh=75cngzgMY/OVAP7GKlxdzDklRXPgWBQ/BrWuJHHZzts=;
+        b=j4w361T8/AEz9pUnsrV5qqIqdvtidJ0ov1N4q/ZTjlF8zMzmTW6pp49aBgjjixJ4xV
+         Zu0ZF447GodqNQytXO4elY1Jj2qqSUCdvqwFKRK6pcqKB6o8E3gbyhe+NuUqqS+uLF2v
+         4Mlw2US2c5BFzkS6Z1E7pnWZ29wkzbd/zmUpxB4Y3EsE4Jv+BXDrcm9YnP5yYusXocFD
+         8VcQM5K88tmuNHUJiZC+1ZjiuKgR6DhpiJ+s5scyDV65XLUZpE9g21lcyAyL7zzUQtR7
+         ET4721CB8U6QDbsWrNuTxKB6dTvvxct+ktGM2zD0sVM9DJCiws8Q66LqBKQT+KCSke7o
+         WZSQ==
+X-Forwarded-Encrypted: i=1; AHgh+RroNKWaHvhzFtwpGtcZJLUwufDqOObkSXpHKel1hD+GQE26XXmMg2Y6oDGuzb0iF15xPSYdvUTBZjRVj8mE@lists.linux.dev
+X-Gm-Message-State: AOJu0YzAulLHYPFog3hRFQN+NCLKptOs9fs/WfeYsY93HGqX6J1lxznY
+	tpB/n0iy9RTKZe/kAMClfeBT3G7ZrkBGX+k7q7PaYh28JF9pksYPQ75K
+X-Gm-Gg: AR+sD13/v2Bvm0UsxFizwjEPyJTzSHuzCG1YTA8O0/I1eJkFpRcQj9GsGuGuhYXhA0b
+	Ba1cjWjnWKrBuDl4EWWBf2efALEnXHWg4hu1FT9+2p2U20yBDjVqgZMdxlUmvLukuBlT5ZSBI88
+	odZg1P7u0kADVXXtFO6srWprrFfRsQSiKUqIagweTxJbj4Aer2NDpjAs3aGFQ4DUkIZwZu9RRCN
+	gXt9V89L8xO2hdg0Y0LsopDbqJwhtIq3KRWILIGAv8vYKBTMR2zYncBUvACwCGd9H8YsKSnTJv7
+	IbCAxXAGHFVavF0YKTVHWj238sjDcXBD0cerOxgE7PzUoOqKAumqH+asSZX1OLFgNp0960DWSAu
+	QRmYZMC5pLPeGXzVGyM8s4vzpg3vye4L2KmTH6SfjjE3FVq4PSdqGyGljxXWtAK14JUku47ZRWd
+	g=
+X-Received: by 2002:a2e:a88a:0:b0:39e:b257:e878 with SMTP id 38308e7fff4ca-39f07bdfdafmr9749291fa.8.1784832756862;
+        Thu, 23 Jul 2026 11:52:36 -0700 (PDT)
 Received: from archlinux ([94.229.19.199])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-39ef68b68ebsm11601731fa.10.2026.07.23.11.52.30
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-39ef68b68ebsm11601731fa.10.2026.07.23.11.52.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jul 2026 11:52:31 -0700 (PDT)
+        Thu, 23 Jul 2026 11:52:36 -0700 (PDT)
 From: Nikolay Kulikov <nikolayof23@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Hans de Goede <hansg@kernel.org>,
@@ -68,9 +68,9 @@ Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Nikolay Kulikov <nikolayof23@gmail.com>
-Subject: [PATCH v2 3/4] staging: media: atomisp: inline the check_bo_status_*() macros
-Date: Thu, 23 Jul 2026 21:51:20 +0300
-Message-ID: <20260723185217.317981-4-nikolayof23@gmail.com>
+Subject: [PATCH v2 4/4] staging: media: atomisp: remove include/hmm/hmm_common.h file
+Date: Thu, 23 Jul 2026 21:51:21 +0300
+Message-ID: <20260723185217.317981-5-nikolayof23@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260723185217.317981-1-nikolayof23@gmail.com>
 References: <20260723185217.317981-1-nikolayof23@gmail.com>
@@ -82,129 +82,118 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-These macros check a bit in the bo->status field. Replace them with
-conditional expressions to make the code clearer.
+Replace the last used macro with a conditional expression and remove
+this header file, as it no longer contains any code that is being used.
 
 Signed-off-by: Nikolay Kulikov <nikolayof23@gmail.com>
 ---
- .../media/atomisp/include/hmm/hmm_bo.h        | 12 --------
- .../media/atomisp/include/hmm/hmm_common.h    | 18 -----------
- .../staging/media/atomisp/pci/hmm/hmm_bo.c    | 30 ++++++++++++-------
- 3 files changed, 20 insertions(+), 40 deletions(-)
+ .../staging/media/atomisp/include/hmm/hmm.h   |  1 -
+ .../media/atomisp/include/hmm/hmm_bo.h        |  1 -
+ .../media/atomisp/include/hmm/hmm_common.h    | 36 -------------------
+ .../staging/media/atomisp/pci/hmm/hmm_bo.c    |  9 +++--
+ 4 files changed, 6 insertions(+), 41 deletions(-)
+ delete mode 100644 drivers/staging/media/atomisp/include/hmm/hmm_common.h
 
-diff --git a/drivers/staging/media/atomisp/include/hmm/hmm_bo.h b/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
-index e974ab5ca2fc..69cf490bd88c 100644
---- a/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
-+++ b/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
-@@ -19,18 +19,6 @@
- #include "hmm/hmm_common.h"
+diff --git a/drivers/staging/media/atomisp/include/hmm/hmm.h b/drivers/staging/media/atomisp/include/hmm/hmm.h
+index 6bda02b9ff85..be92a9c9046f 100644
+--- a/drivers/staging/media/atomisp/include/hmm/hmm.h
++++ b/drivers/staging/media/atomisp/include/hmm/hmm.h
+@@ -15,7 +15,6 @@
+ #include <linux/slab.h>
+ #include <linux/mm.h>
+ 
+-#include "hmm_common.h"
+ #include "hmm/hmm_bo.h"
  #include "ia_css_types.h"
  
--#define	check_bo_status_yes_goto(bo, _status, label) \
--	var_not_equal_goto((bo->status & (_status)), (_status), \
--			label, \
--			"HMM buffer status not contain %s.\n", \
--			#_status)
--
--#define	check_bo_status_no_goto(bo, _status, label) \
--	var_equal_goto((bo->status & (_status)), (_status), \
--			label, \
--			"HMM buffer status contains %s.\n", \
--			#_status)
--
+diff --git a/drivers/staging/media/atomisp/include/hmm/hmm_bo.h b/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
+index 69cf490bd88c..2a19e3b2c1f9 100644
+--- a/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
++++ b/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
+@@ -16,7 +16,6 @@
+ #include <linux/spinlock.h>
+ #include <linux/mutex.h>
+ #include "mmu/isp_mmu.h"
+-#include "hmm/hmm_common.h"
+ #include "ia_css_types.h"
+ 
  #define rbtree_node_to_hmm_bo(root_node)	\
- 	container_of((root_node), struct hmm_buffer_object, node)
- 
 diff --git a/drivers/staging/media/atomisp/include/hmm/hmm_common.h b/drivers/staging/media/atomisp/include/hmm/hmm_common.h
-index f215130e5e17..c406fe8b1345 100644
+deleted file mode 100644
+index c406fe8b1345..000000000000
 --- a/drivers/staging/media/atomisp/include/hmm/hmm_common.h
-+++ b/drivers/staging/media/atomisp/include/hmm/hmm_common.h
-@@ -33,22 +33,4 @@
- 		} \
- 	} while (0)
- 
--#define	var_equal_goto(var1, var2, label, fmt, arg ...)	\
++++ /dev/null
+@@ -1,36 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-/*
+- * Support for Medifield PNW Camera Imaging ISP subsystem.
+- *
+- * Copyright (c) 2010 Intel Corporation. All Rights Reserved.
+- *
+- * Copyright (c) 2010 Silicon Hive www.siliconhive.com.
+- */
+-
+-#ifndef	__HMM_BO_COMMON_H__
+-#define	__HMM_BO_COMMON_H__
+-
+-#define	HMM_BO_NAME	"HMM"
+-
+-/*
+- * some common use micros
+- */
+-#define	var_equal_return(var1, var2, exp, fmt, arg ...)	\
 -	do { \
 -		if ((var1) == (var2)) { \
 -			dev_err(atomisp_dev, \
 -			fmt, ## arg); \
--			goto label;\
+-			return exp;\
 -		} \
 -	} while (0)
 -
--#define	var_not_equal_goto(var1, var2, label, fmt, arg ...)	\
+-#define	var_equal_return_void(var1, var2, fmt, arg ...)	\
 -	do { \
--		if ((var1) != (var2)) { \
+-		if ((var1) == (var2)) { \
 -			dev_err(atomisp_dev, \
 -			fmt, ## arg); \
--			goto label;\
+-			return;\
 -		} \
 -	} while (0)
 -
- #endif
+-#endif
 diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
-index b9949cc080e5..e92538ab025e 100644
+index e92538ab025e..dd1897cdf662 100644
 --- a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
 +++ b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
-@@ -687,7 +687,10 @@ int hmm_bo_alloc_pages(struct hmm_buffer_object *bo,
+@@ -30,7 +30,6 @@
+ #include <asm/set_memory.h>
+ 
+ #include "atomisp_internal.h"
+-#include "hmm/hmm_common.h"
+ #include "hmm/hmm_bo.h"
+ 
+ static int __bo_init(struct hmm_bo_device *bdev, struct hmm_buffer_object *bo,
+@@ -389,6 +388,7 @@ struct hmm_buffer_object *hmm_bo_alloc(struct hmm_bo_device *bdev,
+ {
+ 	struct hmm_buffer_object *bo, *new_bo;
+ 	struct rb_root *root;
++	int ret;
+ 
+ 	if (!bdev) {
+ 		dev_err(atomisp_dev, "NULL hmm_bo_device.\n");
+@@ -396,8 +396,11 @@ struct hmm_buffer_object *hmm_bo_alloc(struct hmm_bo_device *bdev,
  	}
  
- 	mutex_lock(&bo->mutex);
--	check_bo_status_no_goto(bo, HMM_BO_PAGE_ALLOCED, status_err);
-+	if (bo->status & HMM_BO_PAGE_ALLOCED) {
-+		dev_err(atomisp_dev, "HMM buffer status contains HMM_BO_PAGE_ALLOCED.\n");
-+		goto status_err;
+ 	root = &bdev->free_rbtree;
+-	var_equal_return(hmm_bo_device_inited(bdev), 0, NULL,
+-			 "hmm_bo_device not inited yet.\n");
++	ret = hmm_bo_device_inited(bdev);
++	if (!ret) {
++		dev_err(atomisp_dev, "hmm_bo_device not inited yet.\n");
++		return NULL;
 +	}
  
- 	bo->pages = kzalloc_objs(struct page *, bo->pgnr);
- 	if (unlikely(!bo->pages)) {
-@@ -738,7 +741,10 @@ void hmm_bo_free_pages(struct hmm_buffer_object *bo)
- 
- 	mutex_lock(&bo->mutex);
- 
--	check_bo_status_yes_goto(bo, HMM_BO_PAGE_ALLOCED, status_err2);
-+	if (!(bo->status & HMM_BO_PAGE_ALLOCED)) {
-+		dev_err(atomisp_dev, "HMM buffer status not contain HMM_BO_PAGE_ALLOCED.\n");
-+		goto status_err2;
-+	}
- 
- 	/* clear the flag anyway. */
- 	bo->status &= (~HMM_BO_PAGE_ALLOCED);
-@@ -788,11 +794,15 @@ int hmm_bo_bind(struct hmm_buffer_object *bo)
- 
- 	mutex_lock(&bo->mutex);
- 
--	check_bo_status_yes_goto(bo,
--				 HMM_BO_PAGE_ALLOCED | HMM_BO_ALLOCED,
--				 status_err1);
-+	if (!(bo->status & (HMM_BO_PAGE_ALLOCED | HMM_BO_ALLOCED))) {
-+		dev_err(atomisp_dev, "HMM buffer status not contain HMM_BO_PAGE_ALLOCED | HMM_BO_ALLOCED.\n");
-+		goto status_err1;
-+	}
- 
--	check_bo_status_no_goto(bo, HMM_BO_BINDED, status_err2);
-+	if (bo->status & HMM_BO_BINDED) {
-+		dev_err(atomisp_dev, "HMM buffer status contains HMM_BO_BINDED.\n");
-+		goto status_err2;
-+	}
- 
- 	bdev = bo->bdev;
- 
-@@ -868,10 +878,10 @@ void hmm_bo_unbind(struct hmm_buffer_object *bo)
- 
- 	mutex_lock(&bo->mutex);
- 
--	check_bo_status_yes_goto(bo,
--				 HMM_BO_PAGE_ALLOCED |
--				 HMM_BO_ALLOCED |
--				 HMM_BO_BINDED, status_err);
-+	if (!(bo->status & (HMM_BO_PAGE_ALLOCED | HMM_BO_ALLOCED | HMM_BO_BINDED))) {
-+		dev_err(atomisp_dev, "HMM buffer status not contain HMM_BO_PAGE_ALLOCED | HMM_BO_ALLOCED | HMM_BO_BINDED.\n");
-+		goto status_err;
-+	}
- 
- 	bdev = bo->bdev;
- 
+ 	if (pgnr == 0) {
+ 		dev_err(atomisp_dev, "0 size buffer is not allowed.\n");
 -- 
 2.55.0
 
