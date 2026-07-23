@@ -1,77 +1,67 @@
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E1AA456E1E
-	for <linux-staging@lists.linux.dev>; Thu, 23 Jul 2026 16:18:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5B5C456E00
+	for <linux-staging@lists.linux.dev>; Thu, 23 Jul 2026 16:19:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784823549; cv=none; b=uJYGXzFbelqKGmaTcZUwKMFeeJyo6+GamWEp0O8TwtqidN/KYUQXZD8hKt41EULjkhiSOXbk04u6xhFb/2ccObyfrMJNq8tTG9JxqRLwiG6xJo3x0CGbW4y/iP9PB2kyQnns/J3nl14nOzU1HTfqDg4cmDZ7cw8nwLss50L3C34=
+	t=1784823572; cv=none; b=vFj7jUDimVIa4JJ72rAkee9L1uKupYvXP7IKuLTLd5r7b7bJ3zuAJ8jnw+Ra1Nv3np2BmgSfbAXbXg+ZykDLcVzhPJK2JMCZf/qP+UltX6E0sX8qrTJhEojyPYQl/TirzK3b7Xf1A+d9SS8IcxM+gz+EpJIV3SC/Fz29lx5R274=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784823549; c=relaxed/simple;
-	bh=m10Tp///bVXlhJUeS/SvBawigHaYWgIpfVXkHjjJJpA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sYI345QPbPl/xOI+jEbwVKVU32Ezm5Qin6ZkKJR0bP5YXD0cFJdUhYFpHLqwplIlAasQaEdGGzEshFXcyWDgySGSBGdIlqY2EiZcg3VJuQfNrqxPI14AANukCmT9dw9SB02iCtPSSnc9jhYUAdXO+L8Y29XsOU9u6Io7ftftzsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dc.uba.ar; spf=pass smtp.mailfrom=dc.uba.ar; dkim=pass (2048-bit key) header.d=dc.uba.ar header.i=@dc.uba.ar header.b=WE/NGyc1; arc=none smtp.client-ip=209.85.221.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dc.uba.ar
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dc.uba.ar
+	s=arc-20240116; t=1784823572; c=relaxed/simple;
+	bh=9eMWlmQenIRZuDpZicY+XhXsZi9n+v4L+r0AY34VQMI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=no7g4XobC9ceuDAoPzraTRSoB2YEZBSjXkx1Ctz/I9yU11PF0vk2jYdj5GEZNWb/s4UwC9xJaC8fXnnOAABz1WtzaIolgbDi6u7bMrh4raS6jiHdPM/T5Ee2MpIumAopxWPYQE4zdkArVXu/rFVwXQgIRNYoJkW5E4zZjMK+NTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TsMUhsvO; arc=none smtp.client-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dc.uba.ar header.i=@dc.uba.ar header.b="WE/NGyc1"
-Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-5c2c46a428eso500589e0c.2
-        for <linux-staging@lists.linux.dev>; Thu, 23 Jul 2026 09:18:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TsMUhsvO"
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5b14d1f9315so739654e87.2
+        for <linux-staging@lists.linux.dev>; Thu, 23 Jul 2026 09:19:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dc.uba.ar; s=googledc; t=1784823531; x=1785428331; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1784823549; x=1785428349; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=zxIAIolpKE8AXCFqXAOw27ED1oOQb15jrnDW7oEkheA=;
-        b=WE/NGyc12gwQpZ49D1S+vj/5H9VNst0lmofeaKVPoJ91f5bilBFSJibMS5F6pK060B
-         m9tkrVw72xotfMkyE+a8MSJOfsTFd0Z4CNzlLi4O20ydcO6kSP7MGZNDnsWFJ5elKNMX
-         fYDl/CqMWgf+m7OewnhOsKzL62KYXr5UjuY6plcASwodtzfHGxuCg2dCrhd+tj+vJVqN
-         1qFXUEqkGri7qn2l8T7sllKh/WM6DQEbs4RcqflM1lWPDUwkR7PX8rr19Gxu+sLUup6+
-         QhYgkL9VomSx1LZwQ9m0B4JGJaGZuFTA3gEyF7t+rYFYhYBcIllOA5B3kdopQwj6/6Qb
-         mgyQ==
+        bh=hwDoa4qKMaNQ9cwM9tvXSi3JCDg46QDqD/o2SvdWUnk=;
+        b=TsMUhsvOneMI6RUPHpzoO4wge9J/g8QG1Jln2d6zRwKk+iHnK5OuhJ1eYP0BmzPYCR
+         dTBJBtTwtua0e5Wu3m8dzQa9ndhF34EF36YQH1yW8Q/E64/yIBLMmukMEQAEks3xsQ8H
+         V792k2h+6z6EMSprvhLVn0jyYkUg48NQuxM6FaaR5dnYO2rFIIoBGzXhKusM144iuj+S
+         qji46/abSOL1tQNKyWzc4Mw7kjvzowuNrHwNO7XeHbeuw1RfIYPMR50w0D4+IVWAQQgm
+         Ms2/PsjGGZ3raM7miWs/v6gSwB6zkAec2zZsxhMu3hILnr+bebmfftv+YjrGWPBhG9nE
+         y54A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784823531; x=1785428331;
+        d=1e100.net; s=20251104; t=1784823549; x=1785428349;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=zxIAIolpKE8AXCFqXAOw27ED1oOQb15jrnDW7oEkheA=;
-        b=A0z4k77Ejwo5N+XwIGOWomDv4wepHQcSNs5UcpWQsLsNsCdNpZU+ij37JWV3iyQP1o
-         x2VqSzeTVrkzaig3ZMEGPU2XFGdCC7gMYGbhN38KVA4Sk9QhDQLHJv/2afGhcOH1UW45
-         lVXwRe63npdgYa4TOawYFv4lL5KM4XMRscHeidScf73E4bweolmDYHTCqnrDdspweukc
-         /bryhyQzDcRxvFjVD/e8B+Q8DqDHuYUZGAfeYEy/ngQtU7VV5IDbQ6651rRnso8W+PTG
-         849KpZ/rjgbn1NWY6AIwm4SBLmz2GvVObJDf6PeQy2fEjFqo6F3WkEl03uL4u/qT7lXq
-         ONjA==
-X-Forwarded-Encrypted: i=1; AHgh+RrtvSve5Is07sMh+74v09+j6CaYX5mYqZJ3IdPNJqP3nlB229rgUWRgbjLL+A8m3AvQiK3ek5ElMQaUs7RN@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz5lhl0B0ZvZXQsD0ErfdX6ZTXiOaO3SESpMrbz7xZM93c096el
-	me//4Vwop4XF+Ak53IdFbfTL/hQlnbG9pCoPip5L+nTbvyQKnMi7mkNbr2E6WMHH06Q=
-X-Gm-Gg: AR+sD10uCKyRMeDbqa1vTyS3kT6NTrwBrOnsvMD1hMr+RAtoZLJxw8+5e+rci2GPm1v
-	a30uyPcogNL98FT67MphFCEd+0gpYkNCyaxaAKjnCdJRaJnzBdkZrZ5byo4srphr2PwFs3yBNUg
-	vq2R0+bDC9VKo7zInEr/p7Zjfv9AN6Z6qwY3HjygGZX6xcvdcWOihZ3FmO9XBivRzZnJfTpquE1
-	eqZT07rEi4ODBjND8uJw5yssUaGJEbg2AnDK6/7aOYCJ3sWNkiCJZJAypktbb7Zh1HedEQc3VM3
-	Q2stEI/ih7UvDolIKx1QjSvGkfk7GrRzFobircJvyu0ImeZU9PF9EzZr35TCoB3YEI/gc3H2EUg
-	s0wKD1bzOzb+RglPmcbtzLe+2VcRWARkx5taIiaVRtqRoGvU5QJ4ugx0FEdpqOPXiuhu1vSFW7l
-	BHrOFVuuMCGtlQ1/+4yHGaJcHyW9CpMalizYLiHgVpHeocx/Q=
-X-Received: by 2002:a05:6122:6e13:b0:5c2:b8a4:95c9 with SMTP id 71dfb90a1353d-5c2da17b31dmr1841068e0c.11.1784823530922;
-        Thu, 23 Jul 2026 09:18:50 -0700 (PDT)
-Received: from juli-ThinkPad-T460.intranet.unl (fweduroam249.unl.edu.ar. [190.122.249.184])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5c2c6275db6sm6659453e0c.3.2026.07.23.09.18.46
+        bh=hwDoa4qKMaNQ9cwM9tvXSi3JCDg46QDqD/o2SvdWUnk=;
+        b=TKxhA6TFY+GMnIrj90hWaI+Xw2o9WTUsuDGABXqCZu9XayeVEDHb1b5ZjAZldQoG66
+         iMvYR1Uy/7F0Rkz5RYVXPnsqRObqCYq/Cad0I3mzQWXALhiR9VHAYfJO8DdHWQDf9oP8
+         1YpFtWOebZu/8gu3XNjdUyAb2zrz0rU/H31px/mX9LP2e7LSwXE905RL0x0CqPhf+I6W
+         df/8OdCvhge/MF7eNB/MuIygCkmXuIfFWH9qzedn+ToLUd0wpvRou6JGoJMeui28KqOX
+         AokPmyLve07YZbEuK3MrKNP6/oysyOJbGJfBDxTpWX+WC0BGAac5T8Z3aYcz8K8h5DIF
+         tlkA==
+X-Gm-Message-State: AOJu0YzONssTA3diCUP9Fh1FNrWJd9hLZ6koJkuRheq/4iD0u+b4wlDY
+	FMicGjLH/n4Ybo/8zvsrNPnnkRZA8BqXIeMSzJtGThe1D9/Y3/suMTwX2NJ8hZJR5aI=
+X-Gm-Gg: AR+sD12URtRibXMlxktZ4cm3RyA23+fhnHzBVPS3kDOjwAyt0fbNrjGQExUY1jaPRpF
+	IVXirQDBon7XIczujmtTIA/hn0bmzgEJscAV9nVBGOkNnXu7dqgB238ZODClhosmxqRvjzMUgkN
+	IviGZaUUO+o5c3xSq+Pp/ZBcsn3iqqZAbuFuZhxdUlEL0K/4rvrIzmAHEqhOYLgqdtrznR4yOIg
+	+TOG/E6qI1T12m7PbwwXi0IDtP/p3XYLTKY9LJOaj3qKek5GbPTadwGLLr6vl9MdRQnjrS3TYA+
+	dx8/jvgOXJrNFrdgwndzOoKONozE4fDPAJaDlKNyS15tsKjTl373hqRf/DisvQfpNP/V+FLtUyG
+	gvMFB3h1dhE9m9iZaWEd24XOEbNnWKzuJgh3a3Xi+j2/C09s7py657uufqH78Drt/VU+k5Eevxd
+	Bt++hlNj2ycVhY/lTlElu4Qduhp+94iyL8HDhlPgJAsjrXnV3Sjs83VpJ3xlW0ebHXL33t6n4=
+X-Received: by 2002:a05:6512:61d5:10b0:5b1:5e92:dab3 with SMTP id 2adb3069b0e04-5b2b2f72d4fmr623083e87.44.1784823549404;
+        Thu, 23 Jul 2026 09:19:09 -0700 (PDT)
+Received: from localhost.localdomain (46-138-176-102.dynamic.spd-mgts.ru. [46.138.176.102])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b2a9b8cd3fsm1127126e87.1.2026.07.23.09.19.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Jul 2026 09:18:50 -0700 (PDT)
-From: Julieta Goria <jgoria@dc.uba.ar>
-To: hansg@kernel.org,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	andy@kernel.org,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Cc: ~lkcamp/patches@lists.sr.ht,
-	koike@igalia.com,
-	Julieta Goria <jgoria@dc.uba.ar>
-Subject: [PATCH] staging: media: atomisp: align * on comment
-Date: Thu, 23 Jul 2026 13:18:12 -0300
-Message-ID: <20260723161814.115168-1-jgoria@dc.uba.ar>
-X-Mailer: git-send-email 2.54.0
+        Thu, 23 Jul 2026 09:19:09 -0700 (PDT)
+From: Artem Lytkin <iprintercanon@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: gregkh@linuxfoundation.org
+Subject: [PATCH RESEND] staging: vme_user: reorder NULL check after kzalloc in fake_crcsr_init
+Date: Thu, 23 Jul 2026 19:18:46 +0300
+Message-ID: <20260723161846.23939-1-iprintercanon@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -80,36 +70,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-fixed the following checkpatch warning:
-WARNING: Block comments should align the * on each line
-in staging/drivers/staging/media/atomisp/pci/isp/kernels/ctc/ctc2/ia_css_ctc2.host.c:80:
+Move the NULL check for bridge->crcsr_kernel before its use in
+fake_ptr_to_pci(). While fake_ptr_to_pci() is a simple cast that
+handles NULL safely, using a value before validating it is a bad
+pattern that static analyzers flag and could become a real issue
+if fake_ptr_to_pci() changes in the future.
 
-Signed-off-by: Julieta Goria <jgoria@dc.uba.ar>
-
+Signed-off-by: Artem Lytkin <iprintercanon@gmail.com>
 ---
+ drivers/staging/vme_user/vme_fake.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Hey, this is my first patch contribution, I would appreciate any feedback. Thanks!
----
- .../atomisp/pci/isp/kernels/ctc/ctc2/ia_css_ctc2.host.c     | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/ctc/ctc2/ia_css_ctc2.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/ctc/ctc2/ia_css_ctc2.host.c
-index 177487b6b237..28fe34f2a848 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/ctc/ctc2/ia_css_ctc2.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/ctc/ctc2/ia_css_ctc2.host.c
-@@ -77,9 +77,9 @@ void ia_css_ctc2_vmem_encode(struct ia_css_isp_ctc2_vmem_params *to,
+diff --git a/drivers/staging/vme_user/vme_fake.c b/drivers/staging/vme_user/vme_fake.c
+index 434cf760ade6c..5a4e61d204796 100644
+--- a/drivers/staging/vme_user/vme_fake.c
++++ b/drivers/staging/vme_user/vme_fake.c
+@@ -1029,9 +1029,9 @@ static int fake_crcsr_init(struct vme_bridge *fake_bridge)
  
- 	(void)size;
- 	/*
--	*  Calculation of slopes of lines interconnecting
--	*  0.0 -> y_x1 -> y_x2 -> y _x3 -> y_x4 -> 1.0
--	*/
-+	 *  Calculation of slopes of lines interconnecting
-+	 *  0.0 -> y_x1 -> y_x2 -> y _x3 -> y_x4 -> 1.0
-+	 */
- 	dydx0 = ctc2_slope(from->y_y1, from->y_y0,
- 			   from->y_x1, 0);
- 	dydx1 = ctc2_slope(from->y_y2, from->y_y1,
+ 	/* Allocate mem for CR/CSR image */
+ 	bridge->crcsr_kernel = kzalloc(VME_CRCSR_BUF_SIZE, GFP_KERNEL);
+-	bridge->crcsr_bus = fake_ptr_to_pci(bridge->crcsr_kernel);
+ 	if (!bridge->crcsr_kernel)
+ 		return -ENOMEM;
++	bridge->crcsr_bus = fake_ptr_to_pci(bridge->crcsr_kernel);
+ 
+ 	vstat = fake_slot_get(fake_bridge);
+ 
 -- 
-2.54.0
+2.43.0
 
