@@ -1,126 +1,256 @@
-Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
+Received: from mail-244116.protonmail.ch (mail-244116.protonmail.ch [109.224.244.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9D29377AB6
-	for <linux-staging@lists.linux.dev>; Fri, 24 Jul 2026 09:34:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 222EF419301
+	for <linux-staging@lists.linux.dev>; Fri, 24 Jul 2026 13:13:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784885674; cv=none; b=Wu2jfO7mFcQLeXL3hLKTYOqY6Utj7GTFoto+3+Z+buzUyFgkwWW92sgy4ODRe/ENYt6fqKHpenBlCjmaCx+tJR1XsmuR6nLJHjeZgRcublYz9P4g9uNMFJObuB6bmRhIAZZ0ivm6SgfTlbPcxnj8nn2t97cVURw2Xgz3HnQWOJw=
+	t=1784898803; cv=none; b=AmuNet593eGYcxUgvRXlecDSrnJV+jbuEvWhmgsRsQRlkdUQOhjVQz+RRDp5P11sIhy2DerdAsMz7kyB4pC4rsnfF/JN/1xdQn0ukYo//Gn08Q4nJ7mXXU6icfENzGEOWfm408Bsd/awoMF4g1uFln/YV0uKdRPZbs51XDPnGwo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784885674; c=relaxed/simple;
-	bh=8gcy2zLBaCdLpQ/eKMcYAZX/j0Ykh5B8FsBo2OmTc1c=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=JkfYZrEBwfhCJOriGDYgrZSI74fPJ0Xay9VfTFBBjxkO89pXw8eqJrdfhG/NQdG+fkOloUPgmGOt43jqxKwtgByzImSEI4Rr+ux4liJGvf+vYSiXMbOQOFdoFkDSMrUKVehBsWxYHHwWfXnJimcsDR85PEc7AfXTeVXH1ERH8nc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luaberry.com; spf=pass smtp.mailfrom=luaberry.com; dkim=pass (2048-bit key) header.d=luaberry.com header.i=@luaberry.com header.b=KDYi/P3z; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=C3amm4nf; arc=none smtp.client-ip=202.12.124.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luaberry.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=luaberry.com
+	s=arc-20240116; t=1784898803; c=relaxed/simple;
+	bh=4Um5XDZQ0N4wZ5n3TmYvauZMlAPcS4O1xdx6vYlqZ4s=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=mwAz8OJ5EppAKnCwsqGziIIvan5RQKcW5QRoqu20ZtiVlhHea7tqujPTchbi/n3M1DA1vHiCAywM0MQ6312CACy9w+E9npI5axr02X9yAUUj3IZFjTS4P2ML17Lt9/vIxCxj5R/lhYhMuDWMHkcggHb+nO+QPiTe2+PMJ1hvL+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=VxsixZKD; arc=none smtp.client-ip=109.224.244.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=luaberry.com header.i=@luaberry.com header.b="KDYi/P3z";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="C3amm4nf"
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfout.stl.internal (Postfix) with ESMTP id 485B31D004FD;
-	Fri, 24 Jul 2026 05:34:30 -0400 (EDT)
-Received: from phl-imap-17 ([10.202.2.105])
-  by phl-compute-03.internal (MEProxy); Fri, 24 Jul 2026 05:34:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=luaberry.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1784885670;
-	 x=1784972070; bh=8gcy2zLBaCdLpQ/eKMcYAZX/j0Ykh5B8FsBo2OmTc1c=; b=
-	KDYi/P3z4UiRIYwaG4oEm7JsBKKoERWs9Af/9cM5WkJBZvWF2yYiZSmW8r4okFvb
-	7D5Ua5U/8Pi1/8sbf5EA9EsgfXY/hhEqYRR3mcGxMQ7qxK+9gtGCxbGjH4MpHDPX
-	mW7r8V8vi8X6PffQ3j4IiUSw0zNtNfalM92TyEpsk0xf0o0uhHpGIsk5VGHAM+BS
-	heA5MTtdkBq/FB66IsObB/Ir1MBBT+chHoFmK8FG5iwCpXL1wAmB9iYQqjxIHUYb
-	zN9Uqu4raY3V0lpToiSRtnQAizooflnyAIXosNTGEk9Y7aKrN1yJnH4UYSs8lP3+
-	pEeC+XVc7XGz6AMCO+wf2w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1784885670; x=
-	1784972070; bh=8gcy2zLBaCdLpQ/eKMcYAZX/j0Ykh5B8FsBo2OmTc1c=; b=C
-	3amm4nfiTgdN1eXnQwp7cvKDw5jkXNpdMAA9FymYPjeKjGbjBUth6MAhV/ypv0NT
-	KmrukSG3ILOe1yH1CLmF45O5onRqEC8sc/rOFjRxLl7G/pvzoYcO7qGJIi3yWteX
-	EbKRiUoPbBErlscc4keObx9kWvjjK1rhKyZMHdxpLqllLHHQ1NqmofgJF9jx8pSo
-	bZyX99jO7lfqwAxRLc8qXeDI+drAYuk+kGR7a1x+pAXQPrAwnNBkOGCXlCtwEb/N
-	Rpw8rSt3xwVEseMWR5q6FNqPX+rKKcqIIBqVXLWq7d8jUCZe5F7npeAmfceTNcZI
-	hqZDeCqXgTEoJXtvkP0Rw==
-X-ME-Sender: <xms:pTFjagQC7dvewu-AISx5_rjJlaR_LmBWkYhaxtR9fb3SZNlGkhXZzA>
-    <xme:pTFjaolH-MIw6vjeXFE-gEZekEn3QjNr96kK_goFmjAl0uzxejrfU8HXyVW6wgHtV
-    Ruivqw8693YJ0uXxqThD2fM906-CnTxQuNcf1jcIP3uijUOw9Dh1w>
-X-ME-Proxy-Cause: dmFkZTGarKqEYyZgRkCOSRz5emK2BAGzaNcoYhciZVYK/1l3GK0CqjCjuU0YdXkNHEufiS
-    7AQGu0lzyGC6OgZVZpISN3kw+0OR5JmPUELAqodb1D/bYBiMiT/YGPa3IghyFajPYrXw8T
-    sDIt8NrgkcCAMVomrlLcC2V2aY+sIRod+uLG0gBoXdN4IwyGkuaDdD7NreweeYlYrjq84d
-    YvJTfjeEcGgvhR9DyjUM3vBzeZzxg/mT6j/kutFd/7Ieq/6PDPHsR4ax+H81CkGgqMeRSS
-    WjGRX7Dwo2/0OWyEE/Eb2f4oqhb9fT6nPTlxhHKgpZBiVmQc6hBwPZoTJRP/aGpzeL7Ndh
-    kA+/971IhhgsxFn8UvEwmUfsKWzqpxydHRmuRpkf5WycoaG2k9pf86NwRB4qe3b3gZtBWb
-    7KD0iG3HjfHXzTVqhLiIF9H5SCHReQkuvqb6TdgFOrlaVHY3nbwm571pQoDqIMR/NakrXF
-    z1ccn0iNCN2RS8tlGa6fPiI4BqvluayPdlYXStEjv4fhYmexrLOlyHmV9g7ONRmErDtcol
-    my9tKLtVnqxmfJBOxqFvE+6Ly5rPKKqLaUXKEI1kRj7F31J+0qicxoG3EHU23Qjuesvf8B
-    MymbsE3Dd+VwVbiXOMEYuNwvx0dTZLCZVKu18/v4esl4un5fNKARQod7EzUw
-X-ME-Proxy: <xmx:pTFjajek6OcrNTBiHJxVtkIHQGW47RWwQtZRN8EZo1GEjuOCuio_4Q>
-    <xmx:pTFjanfbwziM3LbvlNLrYoOKlXma0V_GRWycKPG8rGmwQtErc4Un5Q>
-    <xmx:pTFjal2fk50jgOWqoyEu_jyAAeugp3v2rqHG8EBes7bgvshrtDtouA>
-    <xmx:pTFjan87qT-SlBsResX6f6-y-ybV7Jawus6ZcqbbtMXHvrgp0VrQ0w>
-    <xmx:pjFjaupW8alM1otK-4KCtBXtIIUdoaxYzEnPZ3txjwjv8xyi8n77u-dM>
-Feedback-ID: i372e487a:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 2E170C40071; Fri, 24 Jul 2026 05:34:29 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="VxsixZKD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail; t=1784898786; x=1785157986;
+	bh=nFzPiLNIxu9k0dmIlFTPve255AfGp+RaS4ETG1YT0KA=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=VxsixZKDsHEcZkQT8ukUzc2IigupRiAPge1KNJs/pQ50CFXP5EUgMn/bMweV7SAex
+	 SJOCuvHxbzCHTJKVbwGrwdgFsXIMKo6VO+yn7qZnL1HHQvZi+32dkkdzNlwF8yUWmC
+	 Uv0DCwnvZbM8H5x6PHlJSZAEm9+ZqDjL3gt7VtFmQDGhUpTqT2dckD0FaQ5iaoRqBU
+	 mqaWGuqaCoQtlnxqY2Hp891pC05GaOWlqgPmRY5omX/BwhCDklC0+IHJxBJXUrBILL
+	 /QZ/TLeJqYmsAdcrbDdVVJYJnzpXlcdTWQrxersyabk8Uuq7E3sHEW9o9JMxZ8q6cg
+	 X1jR2/OUEoedg==
+Date: Fri, 24 Jul 2026 13:12:59 +0000
+To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>, Teddy Wang <teddy.wang@siliconmotion.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+From: Nils Lehnen <nils.lehnen@proton.me>
+Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Nils Lehnen <nils.lehnen@proton.me>
+Subject: [PATCH v3] staging: sm750fb: remove dead VALIDATION_CHIP conditionals
+Message-ID: <20260724131121.438-1-nils.lehnen@proton.me>
+Feedback-ID: 188354734:user:proton
+X-Pm-Message-ID: 821a5592c4de17eac739be3c70659d090b60eb09
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: A74LFP6wUQ7F
-Date: Fri, 24 Jul 2026 18:34:07 +0900
-From: "Jeongin Yeo" <jeongin.yeo@luaberry.com>
-To: "Andy Shevchenko" <andy.shevchenko@gmail.com>
-Cc: hansg@kernel.org, mchehab@kernel.org,
- "Greg KH" <gregkh@linuxfoundation.org>,
- "Sakari Ailus" <sakari.ailus@linux.intel.com>, andy@kernel.org,
- matt@mattwardle.net, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Message-Id: <c5ddbe32-fc3e-416b-958a-bab154248d15@app.fastmail.com>
-In-Reply-To: 
- <CAHp75VcL4KK=K4ZhT+Qc8VWUBsdaPcjcHJX0WJu8cty_fpJsOg@mail.gmail.com>
-References: <20260527073705.1544479-1-jeongin.yeo@luaberry.com>
- <CAHp75VcL4KK=K4ZhT+Qc8VWUBsdaPcjcHJX0WJu8cty_fpJsOg@mail.gmail.com>
-Subject: Re: [PATCH v3] media: atomisp: remove redundant prefix from dev_dbg calls
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 27, 2026, at 5:05 PM, Andy Shevchenko wrote:
-> On Wed, May 27, 2026 at 9:37=E2=80=AFAM Jeongin Yeo <jeongin.yeo@luabe=
-rry.com> wrote:
-> >
-> > Remove the hardcoded function name and line number prefix from
-> > dev_dbg() output strings within ia_css_binary_find(). dev_dbg()
-> > can already emit the function name and line number via dynamic_debug=
-'s
-> > 'f' and 'l' flags, so embedding it in the format string is redundant.
-> >
-> > This resolves the EMBEDDED_FUNCTION_NAME checkpatch warnings without
-> > introducing __func__ to format strings.
-> >
-> > No functional changes.
->=20
-> LGTM,
-> Reviewed-by: Andy Shevchenko <andy@kernel.org>
->=20
-> --=20
-> With Best Regards,
-> Andy Shevchenko
->=20
+VALIDATION_CHIP is defined nowhere in the tree and no Makefile passes
+-DVALIDATION_CHIP, so every #ifdef VALIDATION_CHIP block is dead code
+and every #ifndef VALIDATION_CHIP condition is always true. Resolve all
+fourteen conditionals accordingly (dead branches dropped, live branches
+kept), as the driver TODO asks under "remove unused code".
 
-Hi,
+No functional change: the disassembly of every sm750fb object file is
+bit-identical before and after this patch.
 
-Gentle third ping on this patch.
+All English text in this patch (commit message and code comments) was
+translated from a German draft with the assistance of Claude Fable 5.
 
-It already has Andy's Reviewed-by tag. Please let me know if there is
-anything else I should address before it can be picked up.
+Assisted-by: Claude:claude-fable-5 sparse unifdef
+Signed-off-by: Nils Lehnen <nils.lehnen@proton.me>
+---
+v3: drop the unindent follow-up patch after Greg's review -- the
+indentation gives context (the indented defines are the values of the
+field define above them); the removal below leaves it untouched.
+Rebased onto current staging-next. A v2 of the series crossed with
+that review, please disregard it.
+v2: https://lore.kernel.org/r/20260718062027.5850-1-nils.lehnen@proton.me
+v1: https://lore.kernel.org/r/20260718055132.441-1-nils.lehnen@proton.me
+Compile-tested only (x86, CONFIG_FB_SM750=3Dm; no SM750 hardware
+available); the disassembly of every sm750fb object file is
+bit-identical before and after, re-verified after the rebase.
+ drivers/staging/sm750fb/ddk750_reg.h   | 34 --------------------------
+ drivers/staging/sm750fb/ddk750_chip.c  |  4 ---
+ drivers/staging/sm750fb/ddk750_power.c |  6 -----
+ 3 files changed, 44 deletions(-)
 
-Best regards,
-Jeongin Yeo
+diff --git a/drivers/staging/sm750fb/ddk750_reg.h b/drivers/staging/sm750fb=
+/ddk750_reg.h
+index fe412ead72e5..4bcede37584a 100644
+--- a/drivers/staging/sm750fb/ddk750_reg.h
++++ b/drivers/staging/sm750fb/ddk750_reg.h
+@@ -294,29 +294,15 @@
+=20
+ #define CURRENT_GATE                                  0x000040
+ #define CURRENT_GATE_MCLK_MASK                        (0x3 << 14)
+-#ifdef VALIDATION_CHIP
+-    #define CURRENT_GATE_MCLK_112MHZ                  (0x0 << 14)
+-    #define CURRENT_GATE_MCLK_84MHZ                   (0x1 << 14)
+-    #define CURRENT_GATE_MCLK_56MHZ                   (0x2 << 14)
+-    #define CURRENT_GATE_MCLK_42MHZ                   (0x3 << 14)
+-#else
+     #define CURRENT_GATE_MCLK_DIV_3                   (0x0 << 14)
+     #define CURRENT_GATE_MCLK_DIV_4                   (0x1 << 14)
+     #define CURRENT_GATE_MCLK_DIV_6                   (0x2 << 14)
+     #define CURRENT_GATE_MCLK_DIV_8                   (0x3 << 14)
+-#endif
+ #define CURRENT_GATE_M2XCLK_MASK                      (0x3 << 12)
+-#ifdef VALIDATION_CHIP
+-    #define CURRENT_GATE_M2XCLK_336MHZ                (0x0 << 12)
+-    #define CURRENT_GATE_M2XCLK_168MHZ                (0x1 << 12)
+-    #define CURRENT_GATE_M2XCLK_112MHZ                (0x2 << 12)
+-    #define CURRENT_GATE_M2XCLK_84MHZ                 (0x3 << 12)
+-#else
+     #define CURRENT_GATE_M2XCLK_DIV_1                 (0x0 << 12)
+     #define CURRENT_GATE_M2XCLK_DIV_2                 (0x1 << 12)
+     #define CURRENT_GATE_M2XCLK_DIV_3                 (0x2 << 12)
+     #define CURRENT_GATE_M2XCLK_DIV_4                 (0x3 << 12)
+-#endif
+ #define CURRENT_GATE_VGA                              BIT(10)
+ #define CURRENT_GATE_PWM                              BIT(9)
+ #define CURRENT_GATE_I2C                              BIT(8)
+@@ -376,9 +362,6 @@
+ #define MODE1_GATE_DMA                                BIT(0)
+=20
+ #define POWER_MODE_CTRL                               0x00004C
+-#ifdef VALIDATION_CHIP
+-    #define POWER_MODE_CTRL_336CLK                    BIT(4)
+-#endif
+ #define POWER_MODE_CTRL_OSC_INPUT                     BIT(3)
+ #define POWER_MODE_CTRL_ACPI                          BIT(2)
+ #define POWER_MODE_CTRL_MODE_MASK                     (0x3 << 0)
+@@ -400,15 +383,10 @@
+ #define PLL_CTRL_BYPASS                               BIT(18)
+ #define PLL_CTRL_POWER                                BIT(17)
+ #define PLL_CTRL_INPUT                                BIT(16)
+-#ifdef VALIDATION_CHIP
+-    #define PLL_CTRL_OD_SHIFT                         14
+-    #define PLL_CTRL_OD_MASK                          (0x3 << 14)
+-#else
+     #define PLL_CTRL_POD_SHIFT                        14
+     #define PLL_CTRL_POD_MASK                         (0x3 << 14)
+     #define PLL_CTRL_OD_SHIFT                         12
+     #define PLL_CTRL_OD_MASK                          (0x3 << 12)
+-#endif
+ #define PLL_CTRL_N_SHIFT                              8
+ #define PLL_CTRL_N_MASK                               (0xf << 8)
+ #define PLL_CTRL_M_SHIFT                              0
+@@ -422,7 +400,6 @@
+=20
+ #define SCRATCH_DATA                                  0x00006c
+=20
+-#ifndef VALIDATION_CHIP
+=20
+ #define MXCLK_PLL_CTRL                                0x000070
+=20
+@@ -431,7 +408,6 @@
+ #define VGA_CONFIGURATION_PLL                         BIT(2)
+ #define VGA_CONFIGURATION_MODE                        BIT(1)
+=20
+-#endif
+=20
+ #define GPIO_DATA                                       0x010000
+ #define GPIO_DATA_31                                    BIT(31)
+@@ -1020,9 +996,7 @@
+ #define CRT_DISPLAY_CTRL_CRTSELECT                    BIT(25)
+ #define CRT_DISPLAY_CTRL_RGBBIT                       BIT(24)
+=20
+-#ifndef VALIDATION_CHIP
+     #define CRT_DISPLAY_CTRL_CENTERING                BIT(24)
+-#endif
+ #define CRT_DISPLAY_CTRL_LOCK_TIMING                  BIT(23)
+ #define CRT_DISPLAY_CTRL_EXPANSION                    BIT(22)
+ #define CRT_DISPLAY_CTRL_VERTICAL_MODE                BIT(21)
+@@ -1121,22 +1095,17 @@
+=20
+ /* This vertical expansion below start at 0x080240 ~ 0x080264 */
+ #define CRT_VERTICAL_EXPANSION                        0x080240
+-#ifndef VALIDATION_CHIP
+     #define CRT_VERTICAL_CENTERING_VALUE_MASK         (0xff << 24)
+-#endif
+ #define CRT_VERTICAL_EXPANSION_COMPARE_VALUE_MASK     (0xff << 16)
+ #define CRT_VERTICAL_EXPANSION_LINE_BUFFER_MASK       (0xf << 12)
+ #define CRT_VERTICAL_EXPANSION_SCALE_FACTOR_MASK      0xfff
+=20
+ /* This horizontal expansion below start at 0x080268 ~ 0x08027C */
+ #define CRT_HORIZONTAL_EXPANSION                      0x080268
+-#ifndef VALIDATION_CHIP
+     #define CRT_HORIZONTAL_CENTERING_VALUE_MASK       (0xff << 24)
+-#endif
+ #define CRT_HORIZONTAL_EXPANSION_COMPARE_VALUE_MASK   (0xff << 16)
+ #define CRT_HORIZONTAL_EXPANSION_SCALE_FACTOR_MASK    0xfff
+=20
+-#ifndef VALIDATION_CHIP
+     /* Auto Centering */
+     #define CRT_AUTO_CENTERING_TL                     0x080280
+     #define CRT_AUTO_CENTERING_TL_TOP_MASK            (0x7ff << 16)
+@@ -1146,7 +1115,6 @@
+     #define CRT_AUTO_CENTERING_BR_BOTTOM_MASK         (0x7ff << 16)
+     #define CRT_AUTO_CENTERING_BR_BOTTOM_SHIFT        16
+     #define CRT_AUTO_CENTERING_BR_RIGHT_MASK          0x7ff
+-#endif
+=20
+ /* sm750le new register to control panel output */
+ #define DISPLAY_CONTROL_750LE=09=09=09      0x80288
+@@ -1326,9 +1294,7 @@
+ #define ZV0_CAPTURE_BUF1_ADDRESS_ADDRESS_MASK           0x3ffffff
+=20
+ #define ZV0_CAPTURE_BUF_OFFSET                          0x090014
+-#ifndef VALIDATION_CHIP
+     #define ZV0_CAPTURE_BUF_OFFSET_YCLIP_ODD_FIELD      (0x3ff << 16)
+-#endif
+ #define ZV0_CAPTURE_BUF_OFFSET_OFFSET_MASK              0xffff
+=20
+ #define ZV0_CAPTURE_FIFO_CTRL                           0x090018
+diff --git a/drivers/staging/sm750fb/ddk750_chip.c b/drivers/staging/sm750f=
+b/ddk750_chip.c
+index aa78d0bc1d87..1b3d1467ddf0 100644
+--- a/drivers/staging/sm750fb/ddk750_chip.c
++++ b/drivers/staging/sm750fb/ddk750_chip.c
+@@ -360,9 +360,7 @@ unsigned int sm750_calc_pll_value(unsigned int request_=
+orig,
+=20
+ unsigned int sm750_format_pll_reg(struct pll_value *p_PLL)
+ {
+-#ifndef VALIDATION_CHIP
+ =09unsigned int POD =3D p_PLL->POD;
+-#endif
+ =09unsigned int OD =3D p_PLL->OD;
+ =09unsigned int M =3D p_PLL->M;
+ =09unsigned int N =3D p_PLL->N;
+@@ -374,9 +372,7 @@ unsigned int sm750_format_pll_reg(struct pll_value *p_P=
+LL)
+ =09 * applied to any PLL in the calling function.
+ =09 */
+ =09return PLL_CTRL_POWER |
+-#ifndef VALIDATION_CHIP
+ =09=09((POD << PLL_CTRL_POD_SHIFT) & PLL_CTRL_POD_MASK) |
+-#endif
+ =09=09((OD << PLL_CTRL_OD_SHIFT) & PLL_CTRL_OD_MASK) |
+ =09=09((N << PLL_CTRL_N_SHIFT) & PLL_CTRL_N_MASK) |
+ =09=09((M << PLL_CTRL_M_SHIFT) & PLL_CTRL_M_MASK);
+diff --git a/drivers/staging/sm750fb/ddk750_power.c b/drivers/staging/sm750=
+fb/ddk750_power.c
+index eaba3bc2e01a..d617f554f58d 100644
+--- a/drivers/staging/sm750fb/ddk750_power.c
++++ b/drivers/staging/sm750fb/ddk750_power.c
+@@ -58,14 +58,8 @@ void sm750_set_power_mode(unsigned int mode)
+ =09/* Set up other fields in Power Control Register */
+ =09if (mode =3D=3D POWER_MODE_CTRL_MODE_SLEEP) {
+ =09=09ctrl &=3D ~POWER_MODE_CTRL_OSC_INPUT;
+-#ifdef VALIDATION_CHIP
+-=09=09ctrl &=3D ~POWER_MODE_CTRL_336CLK;
+-#endif
+ =09} else {
+ =09=09ctrl |=3D POWER_MODE_CTRL_OSC_INPUT;
+-#ifdef VALIDATION_CHIP
+-=09=09ctrl |=3D POWER_MODE_CTRL_336CLK;
+-#endif
+ =09}
+=20
+ =09/* Program new power mode. */
+
+base-commit: cb08dcd0a896c3ac8073a57296f2377b106c35b4
+--=20
+2.43.0
+
+
