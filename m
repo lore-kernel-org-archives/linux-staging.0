@@ -1,64 +1,64 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 091092F1FD7
-	for <linux-staging@lists.linux.dev>; Sat, 25 Jul 2026 13:20:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2A06233927
+	for <linux-staging@lists.linux.dev>; Sat, 25 Jul 2026 13:45:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784985615; cv=none; b=tbyqtQy9YE+2v8WsB8ilA6cGgBYwAyLeyguJgintW7K15mI/DYS/8nNZmAdEXY0vMEv6HpULl4O2dlKnINAi1huU0jk8o4CQbQlMKnC5AtppJy+z0p0LGAzps0L7+MSbUQ2gnv7gcWfdIf+8JEZx7Q241VyjoYoWtzE1DPXn078=
+	t=1784987148; cv=none; b=hxDauwje7zXP80GxLwj9t8U3xxQqMJF0V1lIKuwhCYnJYw3tDtbNIsWaubNsmNAYnhg4BaGK4tX4SA7k/TGKlq0YJzbYluxbFz++loBZEum20FrrqLZ8SPpRPGI5RROOV4YzkxeADj8SKvKrQprRT3MUwraigA6zk5F8ZAelPsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784985615; c=relaxed/simple;
-	bh=7nWByWrKamoS3Tawd6xHdcAqvwiHXGHtS3tq7v3gZUE=;
-	h=Message-ID:Date:Content-Type:MIME-Version:From:To:Cc:Subject; b=sbTM8O3H5NoyanzEo+l5QLX48ZpMX0myCjrx5s32mVf0Gkg0kBMyyDDnTV8lUTLy9Qb7BWIzkYI/EsrGaiyNEdNMGH359JJhbhMW621DgHBaTFmIPYB5r5MnPUw/Xc+KftjUbN1QaJEYL4gEOypMIZLZI5TIlN+t01VDIk9r+50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IA4t89sO; arc=none smtp.client-ip=209.85.214.180
+	s=arc-20240116; t=1784987148; c=relaxed/simple;
+	bh=hHOoAOyr58pD6yjUaagG4HUCyBt6wqIztIixIPpSEhU=;
+	h=Message-ID:Date:Content-Type:MIME-Version:From:To:Cc:Subject; b=S5eMRWxYNIvsMDSiyHjtBt8Dg1WlmDJuLg2gUp8Z2ewZX1XLKWg4/NArgM1pGjrGSzh19ba6Yfqz+Nk+hq5mb43jyUqVvCOEsCT1GHlgyZo0w9xprvCygkCtQ5EppHhcP7C3khhE+xADVAqKSh39gjfGGFey8ZRKfs88VOMRoTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pe+4U0i0; arc=none smtp.client-ip=209.85.216.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IA4t89sO"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2ceeee8c46bso4115715ad.2
-        for <linux-staging@lists.linux.dev>; Sat, 25 Jul 2026 06:20:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pe+4U0i0"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-37f9e2642deso262524a91.1
+        for <linux-staging@lists.linux.dev>; Sat, 25 Jul 2026 06:45:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784985613; x=1785590413; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1784987146; x=1785591946; darn=lists.linux.dev;
         h=subject:cc:to:from:mime-version:content-type:date:message-id:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=2kCL9s53ovP8SdOgy9H7WYAqOYqd6/28JGErTF4iyBk=;
-        b=IA4t89sOshCK5HnThSy/oE7LaJUreQnU9wTZczZUbXLhHJjoyL3e3elvZYS/Z/2gO5
-         B9b/hZimYnmwiDmbPdR/O/6h0BYf+icszvKZ1Z/GsI/KBwsIRw1CSfJRJQlcra+Nfpok
-         JdTKBpBf7j6hmcgO0BtHYIJPN1nMNICGsLo/sPinLGkbr7jeC+vvlabpBISD8OH4QM9i
-         OCx1AP6N8vXbS+kTGXWDeWvAv9ZBMNaFe5NnCvEiaAdKTc1jngyVc52iqIvXhKOxhnoE
-         55azlqk2/7lg7k6DfYhD9BYcHvxt1+DapBLM/7UQD2o80TkhThIO8DcXlRGWE6iWyYRd
-         x4TQ==
+        bh=h7qAgiFMuoI0XsywesYmI6lnB3+V01C+1D3bPuEhQJo=;
+        b=pe+4U0i0p1uiUpDfF1Pwrxd5vzo+eEaPeWnN4ocnNmDiBeoVIZ1oqzGBBx3sUKZ/P8
+         sfYwLO/5rE3CweRiqtc1KbyYZBwzdQaloICvg/c1AKfMcEqEkR9+ep6clUd4MHzi3eUQ
+         g8RP4CA475Rfe3U6PHLwfAEKlDrbYHSs056Fgsq0y8hqeQ50AFIPxegQIbI8LUhFlJEB
+         cJKIbIVuxWBhkPSV1AjYEiGuBCV5yP0cOulxZqPKocjsR2iUlqSh4cWuTtNquFlSsEqI
+         jQN4DNjTAAOvrwIkdbolUZFfmeZSz9Ez+Y8rJQOT6ugTEqYm2IMCDEGrwT25sSmCqQmk
+         dgGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784985613; x=1785590413;
+        d=1e100.net; s=20251104; t=1784987146; x=1785591946;
         h=subject:cc:to:from:mime-version:content-type:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=2kCL9s53ovP8SdOgy9H7WYAqOYqd6/28JGErTF4iyBk=;
-        b=mJXmWk8wZIurAqeFckAwkEP2MirNrxx3gyzEtp5xT75JRS8AWi5FROLtR6pepfS2nY
-         dsn0viOak5KoD6bXuENI/V2rpVvXxeF841Nr3qJxk8UcTWR9wMwq2xkbcvvLAESX6NuM
-         HEmHhRrxV6n9VzBiE/EsLGSF0WRmw3zRGMjx9Y1UqDZk2pCQxte6c6iyz296oonM/kfk
-         BVawnpLFxB8FpJyvqxgahhcPMqqZnLo7TWulA2yMfYRXebtV03JdB5Zs/uVcrgUgGtRJ
-         9eu2tkkyo6x2BsTonbOq7o2aizaxzqUVbDRfcoHo7E3Ow19k2/Bqn9mAzZjzZNHRROe3
-         7F9w==
-X-Forwarded-Encrypted: i=1; AHgh+Ro1KLg/KqqP53kGVYogrDMKfyhA1Iv5JIpM5sYu0aI6pMeqUHouQ5WPmu3/ko7zVQMJXZf+JwSqJi+P9Y5y@lists.linux.dev
-X-Gm-Message-State: AOJu0YyC4/a3cK8PxGmqzwa5jDkj50pRSICpyz2/Q4fQ4oid/TPov/jp
-	KUophQt1CRaNZK/pV8NFy2oIavjjd7/JS4RymM+2M0B8cVl0lPmE2tJY
-X-Gm-Gg: AR+sD11u4VsdFrcPEZpooVlVEfSYxRBxDg99DXQFqz157LwK+ACTgfSkfQlOp10c9Hg
-	9nvLimV//V9s3r56oR8x/DmZfVsoPGQkeUcDtAYc+ALw+65uGiW5q3t6Rm+Kq3/Cs3hZyownDVB
-	EX8ggER11Ks9HD9hWzhGm+40p+Jy+VnznYo7tG07LPgrhUUIw0Yo92ng1uFLS6ie+Vema8EGfc1
-	tiUinhW+9S86cGK65T+3cGqxP7aDmCkk2dklGY0Kg2Me6d6ndgqSiK5D/gEv0SsrfOiMEX0dnLx
-	2emQuBxU451m4aJ1eePQTNipL8YGfzuuOBVqNmnmcrpg88SqO6Ga1vyY+9j3RnLhUBW1Kq/SLfE
-	QZOCnkPfUcHFh5EyeFRVBQbKyE3vogo5ehfz05xV4pUT9uZ2K4lpho1d2i+b/JTm4PPatKSRNBx
-	k+WdqXpzyO7Q8XfuugVjCbUmAJ
-X-Received: by 2002:a17:90b:3e47:b0:381:6cf0:d5f5 with SMTP id 98e67ed59e1d1-38f2963ea06mr1710466a91.5.1784985613081;
-        Sat, 25 Jul 2026 06:20:13 -0700 (PDT)
+        bh=h7qAgiFMuoI0XsywesYmI6lnB3+V01C+1D3bPuEhQJo=;
+        b=g441ZonIZnUEQ6NuYREir2jhfA/7cQX2GBwgx44UXNthxP+8of3PcGBSODf8kPlnaC
+         jIWNKkFZlso5MqODo3ZWZF1OW3ATm4dRcaEqJxF54dikxfAg28yj3SX4D3sdZbLUkBcG
+         QktqgmFZJ3+tXc7i1ZD2CdrR1k2TeJZ+GAWAFiGmF70CTv0/lyG2qR5mxjGgO/+Upn0g
+         cpHJ219xZin4A/ls22NYAuXnyEHDaEsuBRKJdCuAR0DcU9XkwEWdBZsjy0ecSupyA8xX
+         g7tRjBLaD7Jt8gUQc5Dc6zNoD48iEgtPk+wP5wVL52qpkPqoOE7zorEueThZsCD+cTCY
+         DkmQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rr0uD65x79I8FmZdJ6rMaVMDibo2u4xdVgnAeRdJRcwoIvpw6x65Fv7/RoQyclnjubV/ASii1KNKQLD0qwG@lists.linux.dev
+X-Gm-Message-State: AOJu0YwVQuq3FLxgcpA5bhKGebZnTb8wCHnbfa52xlx56DLGHAm3Z7CF
+	W1f8Kn6r4BOq2asEnH+1yG2XvLUoFOM0PMdMyMKdhsfpTSOUL0PuPG6b
+X-Gm-Gg: AR+sD12CtIgMHFtxMzaelXWfDJXMC2tuS9ab2okO8PKFuNxgpjT6726toDyo3l3Y3FN
+	R5FU3hKUP2VJGiJJbBdagM+Cb6IWz2semftvoOcIsTBkALZxUy8sTW0Lx9NRke6os25SzhKBHoL
+	EKJGJ4JGAUk3uAraDnCJRvOmb9duHT53FJR/wNlv8ymYnfMfRzlhEgOZVuqFoG0Z4pgxV0Eu9uW
+	TXQoB02CLaZJR5ZbelSlW9EwZsUUeQusUStCsB9naUc197qQ4f2agXjhjzssdoMeID2SPgobMBT
+	hxgkRqPWoaKea6BBN3JHU5xEfF6k34pIafI+cX4IyMCXVcQTqu66Kb1VCvzrgf+yqn3NncxnC62
+	8KMujwKHUvZ698GFSvRObbiS7A9heoC1olqJdTuwkX9rMa2VfUvynORMOpF4+TfxHveiHfdspxJ
+	PCU7s4V1junxtM0g==
+X-Received: by 2002:a17:903:468d:b0:2c9:99be:f011 with SMTP id d9443c01a7336-2cfde8941b5mr17817335ad.6.1784987146082;
+        Sat, 25 Jul 2026 06:45:46 -0700 (PDT)
 Received: from Potato.localdomain ([171.76.83.76])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13d13015052sm33762367c88.5.2026.07.25.06.20.09
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-314bc59cfb4sm10588029eec.26.2026.07.25.06.45.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Jul 2026 06:20:12 -0700 (PDT)
-Message-ID: <6a64b80c.4987c784.13f2de.011a@mx.google.com>
-Date: Sat, 25 Jul 2026 06:20:12 -0700 (PDT)
-Content-Type: multipart/mixed; boundary="===============3307223758249983777=="
+        Sat, 25 Jul 2026 06:45:45 -0700 (PDT)
+Message-ID: <6a64be09.c4d3d80a.348a49.42e7@mx.google.com>
+Date: Sat, 25 Jul 2026 06:45:45 -0700 (PDT)
+Content-Type: multipart/mixed; boundary="===============7220607961872909415=="
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -66,75 +66,169 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 From: Shivesh <chanelshivesh@gmail.com>
-To: sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org
-Cc: bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org, linux-media@vger.kernel.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: ipu3: fix line ending with '(' in atomic_inc_return call
+To: vaibhav.sr@gmail.com, mgreer@animalcreek.com, johan@kernel.org, gregkh@linuxfoundation.org
+Cc: elder@kernel.org, greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] greybus: audio_manager: fix sysfs_emit newline and const warnings
 
---===============3307223758249983777==
+--===============7220607961872909415==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 
-From c753198ad726500786ba04d66d531db4c11e2b03 Mon Sep 17 00:00:00 2001
+From 5e0bcb4920bcb9e0ef6c03a91730fe45f643f3a4 Mon Sep 17 00:00:00 2001
 From: Shivesh <shivesh@example.com>
-Date: Sat, 25 Jul 2026 13:18:59 +0000
-Subject: [PATCH] media: ipu3: fix line ending with '(' in atomic_inc_return
- call
+Date: Sat, 25 Jul 2026 13:44:36 +0000
+Subject: [PATCH] greybus: audio_manager: fix sysfs_emit newline and const
+ warnings
 
-Move the atomic_inc_return() argument to the same line as the
-function call to fix checkpatch 'Lines should not end with a ('
-warning.
+Add terminating newlines to sysfs_emit() format strings as required
+by the kernel sysfs convention. Also make envp[] array const to fix
+checkpatch warning about char* array declaration.
 
 Signed-off-by: Shivesh <chanelshivesh@gmail.com>
 Signed-off-by: Shivesh <shivesh@example.com>
 ---
- drivers/staging/media/ipu3/ipu3.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/staging/greybus/audio_manager_module.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/staging/media/ipu3/ipu3.c b/drivers/staging/media/ipu3/ipu3.c
-index 84c4d0bf027d..14e30cf913b8 100644
---- a/drivers/staging/media/ipu3/ipu3.c
-+++ b/drivers/staging/media/ipu3/ipu3.c
-@@ -556,8 +556,7 @@ static irqreturn_t imgu_isr_threaded(int irq, void *imgu_ptr)
- 			buf->vid_buf.vbb.vb2_buf.timestamp = ns;
- 			buf->vid_buf.vbb.field = V4L2_FIELD_NONE;
- 			buf->vid_buf.vbb.sequence =
--				atomic_inc_return(
--				&imgu_pipe->nodes[node].sequence);
-+				atomic_inc_return(&imgu_pipe->nodes[node].sequence);
- 			dev_dbg(&imgu->pci_dev->dev, "vb2 buffer sequence %d",
- 				buf->vid_buf.vbb.sequence);
- 		}
+diff --git a/drivers/staging/greybus/audio_manager_module.c b/drivers/staging/greybus/audio_manager_module.c
+index dc90cc2d2308..74ea495e1c19 100644
+--- a/drivers/staging/greybus/audio_manager_module.c
++++ b/drivers/staging/greybus/audio_manager_module.c
+@@ -75,7 +75,7 @@ static void gb_audio_module_release(struct kobject *kobj)
+ static ssize_t gb_audio_module_name_show(struct gb_audio_manager_module *module,
+ 					 struct gb_audio_manager_module_attribute *attr, char *buf)
+ {
+-	return sysfs_emit(buf, "%s", module->desc.name);
++	return sysfs_emit(buf, "%s\n", module->desc.name);
+ }
+ 
+ static struct gb_audio_manager_module_attribute gb_audio_module_name_attribute =
+@@ -84,7 +84,7 @@ static struct gb_audio_manager_module_attribute gb_audio_module_name_attribute =
+ static ssize_t gb_audio_module_vid_show(struct gb_audio_manager_module *module,
+ 					struct gb_audio_manager_module_attribute *attr, char *buf)
+ {
+-	return sysfs_emit(buf, "%d", module->desc.vid);
++	return sysfs_emit(buf, "%d\n", module->desc.vid);
+ }
+ 
+ static struct gb_audio_manager_module_attribute gb_audio_module_vid_attribute =
+@@ -93,7 +93,7 @@ static struct gb_audio_manager_module_attribute gb_audio_module_vid_attribute =
+ static ssize_t gb_audio_module_pid_show(struct gb_audio_manager_module *module,
+ 					struct gb_audio_manager_module_attribute *attr, char *buf)
+ {
+-	return sysfs_emit(buf, "%d", module->desc.pid);
++	return sysfs_emit(buf, "%d\n", module->desc.pid);
+ }
+ 
+ static struct gb_audio_manager_module_attribute gb_audio_module_pid_attribute =
+@@ -103,7 +103,7 @@ static ssize_t gb_audio_module_intf_id_show(struct gb_audio_manager_module *modu
+ 					    struct gb_audio_manager_module_attribute *attr,
+ 					    char *buf)
+ {
+-	return sysfs_emit(buf, "%d", module->desc.intf_id);
++	return sysfs_emit(buf, "%d\n", module->desc.intf_id);
+ }
+ 
+ static struct gb_audio_manager_module_attribute
+@@ -114,7 +114,7 @@ static ssize_t gb_audio_module_ip_devices_show(struct gb_audio_manager_module *m
+ 					       struct gb_audio_manager_module_attribute *attr,
+ 					       char *buf)
+ {
+-	return sysfs_emit(buf, "0x%X", module->desc.ip_devices);
++	return sysfs_emit(buf, "0x%X\n", module->desc.ip_devices);
+ }
+ 
+ static struct gb_audio_manager_module_attribute
+@@ -125,7 +125,7 @@ static ssize_t gb_audio_module_op_devices_show(struct gb_audio_manager_module *m
+ 					       struct gb_audio_manager_module_attribute *attr,
+ 					       char *buf)
+ {
+-	return sysfs_emit(buf, "0x%X", module->desc.op_devices);
++	return sysfs_emit(buf, "0x%X\n", module->desc.op_devices);
+ }
+ 
+ static struct gb_audio_manager_module_attribute
+@@ -158,7 +158,7 @@ static void send_add_uevent(struct gb_audio_manager_module *module)
+ 	char ip_devices_string[64];
+ 	char op_devices_string[64];
+ 
+-	char *envp[] = {
++	const char *const envp[] = {
+ 		name_string,
+ 		vid_string,
+ 		pid_string,
 -- 
 2.53.0
 
 
---===============3307223758249983777==
+--===============7220607961872909415==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-media-ipu3-fix-line-ending-with-in-atomic_inc_return.patch"
+Content-Disposition: attachment; filename="0001-greybus-audio_manager-fix-sysfs_emit-newline-and-con.patch"
 
-RnJvbSBjNzUzMTk4YWQ3MjY1MDA3ODZiYTA0ZDY2ZDUzMWRiNGMxMWUyYjAzIE1vbiBTZXAgMTcg
+RnJvbSA1ZTBiY2I0OTIwYmNiOWUwZWY2YzAzYTkxNzMwZmU0NWY2NDNmM2E0IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBTaGl2ZXNoIDxzaGl2ZXNoQGV4YW1wbGUuY29tPgpEYXRlOiBT
-YXQsIDI1IEp1bCAyMDI2IDEzOjE4OjU5ICswMDAwClN1YmplY3Q6IFtQQVRDSF0gbWVkaWE6IGlw
-dTM6IGZpeCBsaW5lIGVuZGluZyB3aXRoICcoJyBpbiBhdG9taWNfaW5jX3JldHVybgogY2FsbAoK
-TW92ZSB0aGUgYXRvbWljX2luY19yZXR1cm4oKSBhcmd1bWVudCB0byB0aGUgc2FtZSBsaW5lIGFz
-IHRoZQpmdW5jdGlvbiBjYWxsIHRvIGZpeCBjaGVja3BhdGNoICdMaW5lcyBzaG91bGQgbm90IGVu
-ZCB3aXRoIGEgKCcKd2FybmluZy4KClNpZ25lZC1vZmYtYnk6IFNoaXZlc2ggPGNoYW5lbHNoaXZl
-c2hAZ21haWwuY29tPgpTaWduZWQtb2ZmLWJ5OiBTaGl2ZXNoIDxzaGl2ZXNoQGV4YW1wbGUuY29t
-PgotLS0KIGRyaXZlcnMvc3RhZ2luZy9tZWRpYS9pcHUzL2lwdTMuYyB8IDMgKy0tCiAxIGZpbGUg
-Y2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDIgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9zdGFnaW5nL21lZGlhL2lwdTMvaXB1My5jIGIvZHJpdmVycy9zdGFnaW5nL21lZGlhL2lw
-dTMvaXB1My5jCmluZGV4IDg0YzRkMGJmMDI3ZC4uMTRlMzBjZjkxM2I4IDEwMDY0NAotLS0gYS9k
-cml2ZXJzL3N0YWdpbmcvbWVkaWEvaXB1My9pcHUzLmMKKysrIGIvZHJpdmVycy9zdGFnaW5nL21l
-ZGlhL2lwdTMvaXB1My5jCkBAIC01NTYsOCArNTU2LDcgQEAgc3RhdGljIGlycXJldHVybl90IGlt
-Z3VfaXNyX3RocmVhZGVkKGludCBpcnEsIHZvaWQgKmltZ3VfcHRyKQogCQkJYnVmLT52aWRfYnVm
-LnZiYi52YjJfYnVmLnRpbWVzdGFtcCA9IG5zOwogCQkJYnVmLT52aWRfYnVmLnZiYi5maWVsZCA9
-IFY0TDJfRklFTERfTk9ORTsKIAkJCWJ1Zi0+dmlkX2J1Zi52YmIuc2VxdWVuY2UgPQotCQkJCWF0
-b21pY19pbmNfcmV0dXJuKAotCQkJCSZpbWd1X3BpcGUtPm5vZGVzW25vZGVdLnNlcXVlbmNlKTsK
-KwkJCQlhdG9taWNfaW5jX3JldHVybigmaW1ndV9waXBlLT5ub2Rlc1tub2RlXS5zZXF1ZW5jZSk7
-CiAJCQlkZXZfZGJnKCZpbWd1LT5wY2lfZGV2LT5kZXYsICJ2YjIgYnVmZmVyIHNlcXVlbmNlICVk
-IiwKIAkJCQlidWYtPnZpZF9idWYudmJiLnNlcXVlbmNlKTsKIAkJfQotLSAKMi41My4wCgo=
+YXQsIDI1IEp1bCAyMDI2IDEzOjQ0OjM2ICswMDAwClN1YmplY3Q6IFtQQVRDSF0gZ3JleWJ1czog
+YXVkaW9fbWFuYWdlcjogZml4IHN5c2ZzX2VtaXQgbmV3bGluZSBhbmQgY29uc3QKIHdhcm5pbmdz
+CgpBZGQgdGVybWluYXRpbmcgbmV3bGluZXMgdG8gc3lzZnNfZW1pdCgpIGZvcm1hdCBzdHJpbmdz
+IGFzIHJlcXVpcmVkCmJ5IHRoZSBrZXJuZWwgc3lzZnMgY29udmVudGlvbi4gQWxzbyBtYWtlIGVu
+dnBbXSBhcnJheSBjb25zdCB0byBmaXgKY2hlY2twYXRjaCB3YXJuaW5nIGFib3V0IGNoYXIqIGFy
+cmF5IGRlY2xhcmF0aW9uLgoKU2lnbmVkLW9mZi1ieTogU2hpdmVzaCA8Y2hhbmVsc2hpdmVzaEBn
+bWFpbC5jb20+ClNpZ25lZC1vZmYtYnk6IFNoaXZlc2ggPHNoaXZlc2hAZXhhbXBsZS5jb20+Ci0t
+LQogZHJpdmVycy9zdGFnaW5nL2dyZXlidXMvYXVkaW9fbWFuYWdlcl9tb2R1bGUuYyB8IDE0ICsr
+KysrKystLS0tLS0tCiAxIGZpbGUgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCspLCA3IGRlbGV0aW9u
+cygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvc3RhZ2luZy9ncmV5YnVzL2F1ZGlvX21hbmFnZXJf
+bW9kdWxlLmMgYi9kcml2ZXJzL3N0YWdpbmcvZ3JleWJ1cy9hdWRpb19tYW5hZ2VyX21vZHVsZS5j
+CmluZGV4IGRjOTBjYzJkMjMwOC4uNzRlYTQ5NWUxYzE5IDEwMDY0NAotLS0gYS9kcml2ZXJzL3N0
+YWdpbmcvZ3JleWJ1cy9hdWRpb19tYW5hZ2VyX21vZHVsZS5jCisrKyBiL2RyaXZlcnMvc3RhZ2lu
+Zy9ncmV5YnVzL2F1ZGlvX21hbmFnZXJfbW9kdWxlLmMKQEAgLTc1LDcgKzc1LDcgQEAgc3RhdGlj
+IHZvaWQgZ2JfYXVkaW9fbW9kdWxlX3JlbGVhc2Uoc3RydWN0IGtvYmplY3QgKmtvYmopCiBzdGF0
+aWMgc3NpemVfdCBnYl9hdWRpb19tb2R1bGVfbmFtZV9zaG93KHN0cnVjdCBnYl9hdWRpb19tYW5h
+Z2VyX21vZHVsZSAqbW9kdWxlLAogCQkJCQkgc3RydWN0IGdiX2F1ZGlvX21hbmFnZXJfbW9kdWxl
+X2F0dHJpYnV0ZSAqYXR0ciwgY2hhciAqYnVmKQogewotCXJldHVybiBzeXNmc19lbWl0KGJ1Ziwg
+IiVzIiwgbW9kdWxlLT5kZXNjLm5hbWUpOworCXJldHVybiBzeXNmc19lbWl0KGJ1ZiwgIiVzXG4i
+LCBtb2R1bGUtPmRlc2MubmFtZSk7CiB9CiAKIHN0YXRpYyBzdHJ1Y3QgZ2JfYXVkaW9fbWFuYWdl
+cl9tb2R1bGVfYXR0cmlidXRlIGdiX2F1ZGlvX21vZHVsZV9uYW1lX2F0dHJpYnV0ZSA9CkBAIC04
+NCw3ICs4NCw3IEBAIHN0YXRpYyBzdHJ1Y3QgZ2JfYXVkaW9fbWFuYWdlcl9tb2R1bGVfYXR0cmli
+dXRlIGdiX2F1ZGlvX21vZHVsZV9uYW1lX2F0dHJpYnV0ZSA9CiBzdGF0aWMgc3NpemVfdCBnYl9h
+dWRpb19tb2R1bGVfdmlkX3Nob3coc3RydWN0IGdiX2F1ZGlvX21hbmFnZXJfbW9kdWxlICptb2R1
+bGUsCiAJCQkJCXN0cnVjdCBnYl9hdWRpb19tYW5hZ2VyX21vZHVsZV9hdHRyaWJ1dGUgKmF0dHIs
+IGNoYXIgKmJ1ZikKIHsKLQlyZXR1cm4gc3lzZnNfZW1pdChidWYsICIlZCIsIG1vZHVsZS0+ZGVz
+Yy52aWQpOworCXJldHVybiBzeXNmc19lbWl0KGJ1ZiwgIiVkXG4iLCBtb2R1bGUtPmRlc2Mudmlk
+KTsKIH0KIAogc3RhdGljIHN0cnVjdCBnYl9hdWRpb19tYW5hZ2VyX21vZHVsZV9hdHRyaWJ1dGUg
+Z2JfYXVkaW9fbW9kdWxlX3ZpZF9hdHRyaWJ1dGUgPQpAQCAtOTMsNyArOTMsNyBAQCBzdGF0aWMg
+c3RydWN0IGdiX2F1ZGlvX21hbmFnZXJfbW9kdWxlX2F0dHJpYnV0ZSBnYl9hdWRpb19tb2R1bGVf
+dmlkX2F0dHJpYnV0ZSA9CiBzdGF0aWMgc3NpemVfdCBnYl9hdWRpb19tb2R1bGVfcGlkX3Nob3co
+c3RydWN0IGdiX2F1ZGlvX21hbmFnZXJfbW9kdWxlICptb2R1bGUsCiAJCQkJCXN0cnVjdCBnYl9h
+dWRpb19tYW5hZ2VyX21vZHVsZV9hdHRyaWJ1dGUgKmF0dHIsIGNoYXIgKmJ1ZikKIHsKLQlyZXR1
+cm4gc3lzZnNfZW1pdChidWYsICIlZCIsIG1vZHVsZS0+ZGVzYy5waWQpOworCXJldHVybiBzeXNm
+c19lbWl0KGJ1ZiwgIiVkXG4iLCBtb2R1bGUtPmRlc2MucGlkKTsKIH0KIAogc3RhdGljIHN0cnVj
+dCBnYl9hdWRpb19tYW5hZ2VyX21vZHVsZV9hdHRyaWJ1dGUgZ2JfYXVkaW9fbW9kdWxlX3BpZF9h
+dHRyaWJ1dGUgPQpAQCAtMTAzLDcgKzEwMyw3IEBAIHN0YXRpYyBzc2l6ZV90IGdiX2F1ZGlvX21v
+ZHVsZV9pbnRmX2lkX3Nob3coc3RydWN0IGdiX2F1ZGlvX21hbmFnZXJfbW9kdWxlICptb2R1CiAJ
+CQkJCSAgICBzdHJ1Y3QgZ2JfYXVkaW9fbWFuYWdlcl9tb2R1bGVfYXR0cmlidXRlICphdHRyLAog
+CQkJCQkgICAgY2hhciAqYnVmKQogewotCXJldHVybiBzeXNmc19lbWl0KGJ1ZiwgIiVkIiwgbW9k
+dWxlLT5kZXNjLmludGZfaWQpOworCXJldHVybiBzeXNmc19lbWl0KGJ1ZiwgIiVkXG4iLCBtb2R1
+bGUtPmRlc2MuaW50Zl9pZCk7CiB9CiAKIHN0YXRpYyBzdHJ1Y3QgZ2JfYXVkaW9fbWFuYWdlcl9t
+b2R1bGVfYXR0cmlidXRlCkBAIC0xMTQsNyArMTE0LDcgQEAgc3RhdGljIHNzaXplX3QgZ2JfYXVk
+aW9fbW9kdWxlX2lwX2RldmljZXNfc2hvdyhzdHJ1Y3QgZ2JfYXVkaW9fbWFuYWdlcl9tb2R1bGUg
+Km0KIAkJCQkJICAgICAgIHN0cnVjdCBnYl9hdWRpb19tYW5hZ2VyX21vZHVsZV9hdHRyaWJ1dGUg
+KmF0dHIsCiAJCQkJCSAgICAgICBjaGFyICpidWYpCiB7Ci0JcmV0dXJuIHN5c2ZzX2VtaXQoYnVm
+LCAiMHglWCIsIG1vZHVsZS0+ZGVzYy5pcF9kZXZpY2VzKTsKKwlyZXR1cm4gc3lzZnNfZW1pdChi
+dWYsICIweCVYXG4iLCBtb2R1bGUtPmRlc2MuaXBfZGV2aWNlcyk7CiB9CiAKIHN0YXRpYyBzdHJ1
+Y3QgZ2JfYXVkaW9fbWFuYWdlcl9tb2R1bGVfYXR0cmlidXRlCkBAIC0xMjUsNyArMTI1LDcgQEAg
+c3RhdGljIHNzaXplX3QgZ2JfYXVkaW9fbW9kdWxlX29wX2RldmljZXNfc2hvdyhzdHJ1Y3QgZ2Jf
+YXVkaW9fbWFuYWdlcl9tb2R1bGUgKm0KIAkJCQkJICAgICAgIHN0cnVjdCBnYl9hdWRpb19tYW5h
+Z2VyX21vZHVsZV9hdHRyaWJ1dGUgKmF0dHIsCiAJCQkJCSAgICAgICBjaGFyICpidWYpCiB7Ci0J
+cmV0dXJuIHN5c2ZzX2VtaXQoYnVmLCAiMHglWCIsIG1vZHVsZS0+ZGVzYy5vcF9kZXZpY2VzKTsK
+KwlyZXR1cm4gc3lzZnNfZW1pdChidWYsICIweCVYXG4iLCBtb2R1bGUtPmRlc2Mub3BfZGV2aWNl
+cyk7CiB9CiAKIHN0YXRpYyBzdHJ1Y3QgZ2JfYXVkaW9fbWFuYWdlcl9tb2R1bGVfYXR0cmlidXRl
+CkBAIC0xNTgsNyArMTU4LDcgQEAgc3RhdGljIHZvaWQgc2VuZF9hZGRfdWV2ZW50KHN0cnVjdCBn
+Yl9hdWRpb19tYW5hZ2VyX21vZHVsZSAqbW9kdWxlKQogCWNoYXIgaXBfZGV2aWNlc19zdHJpbmdb
+NjRdOwogCWNoYXIgb3BfZGV2aWNlc19zdHJpbmdbNjRdOwogCi0JY2hhciAqZW52cFtdID0gewor
+CWNvbnN0IGNoYXIgKmNvbnN0IGVudnBbXSA9IHsKIAkJbmFtZV9zdHJpbmcsCiAJCXZpZF9zdHJp
+bmcsCiAJCXBpZF9zdHJpbmcsCi0tIAoyLjUzLjAKCg==
 
---===============3307223758249983777==--
+--===============7220607961872909415==--
