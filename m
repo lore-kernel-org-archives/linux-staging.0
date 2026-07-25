@@ -1,94 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD733385D92
-	for <linux-staging@lists.linux.dev>; Sat, 25 Jul 2026 17:29:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A20D45039
+	for <linux-staging@lists.linux.dev>; Sat, 25 Jul 2026 18:18:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785000577; cv=none; b=rJhz1FbDZHLpCQuN+dz08KDymZyruYmK3RXDK40beRvYv3vVnHg/uGSx+UQXp/35JKevfNZSI/eJpSiDSEx8OSKgCKWRMd0TRjJSeIUE2xYuIkWUJPtmDoA2WtdlItchZpPxPfHzxDwmQKbFTOLnuKODvZW5PE3ZtJF9QCnRbeE=
+	t=1785003529; cv=none; b=WamIGq7mibQ1cgwhIk2wBs4pLF6tebdZjH7wB9EOt1llK1rEbdXrgHE0UYZI2OtVyIrSnkAjLN4RW05PQYeqNv0Bca14fBUM2acvQe0an3Yq3LU+6JVvqKNGM1AY30CoDDSbrEIVHrHvZuFQDgN4OM2T3kwgTdSvHdtpuw0rvDM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785000577; c=relaxed/simple;
-	bh=v+w3lYlWPFwICST/q/k4nV1DKNLcKra9Gdgk71fWnn0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hNiNLgVdX4E5nn+rAgsyAwkRoGn8u5AlSkEmd6LZLbY/JIctJzQfWshldMZGmt7VOBUt/8KKR6plUNnjXDRpNLCTBT/apo1xWz+BwL7cQ8Pwm6e80YhCfU4UzMMmw6yBctyDOxpO+uRQXetxg2fx4nLrAV/k/SvcVFt/49AWc+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=FEE93jea; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785003529; c=relaxed/simple;
+	bh=jGYlBYG46ZbULQZNbmbortL/wdkFWeDZi0Yl6wzj1Wk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=P+7qRbLYf41Sf5g9U0hU7FarISyav4BMS0tgOAEU2BeMr8BvUBPNwLHIsPUhd5c0v1W8zHz4QJxu9SsMRoyrkwYMilU+cDTr8PVb+ZtADf7Ww2GCxpsLA4GLHBsuDtvC43BiDuqKmhbx5ifUensw9dhBWa3LRy3GdaNMHRCxgqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IXDBB8aN; arc=none smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="FEE93jea"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6D8A1F000E9;
-	Sat, 25 Jul 2026 17:29:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1785000576;
-	bh=NQ07hR5OAvzFlxOrZ2dJQUcESfc2plXUq8yrDAfhV60=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=FEE93jealceemKksX7rpnsWoIl5i3jE0m+ee7cN5OZMY0Ukxg/iwifj++CevMbczD
-	 XRwbAoATUztSqQRHRI3xkTnFkkCvRtlIGfPN9nPfoVLH6Jlb2AH1e/rGmKlisz5+m1
-	 ZQ7f31DyEE5wEYhFkHyKMrBXRE2fCNZh3qk/3v28=
-Date: Sat, 25 Jul 2026 19:28:11 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Akhmad <akhmad100913@gmail.com>
-Cc: linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: rtl8723bs: coding style cleanup in rtw_mlme.c
-Message-ID: <2026072552-helper-monogram-5bb4@gregkh>
-References: <20260725135755.39512-1-Akhmad100913@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IXDBB8aN"
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5aeb98460c6so1543115e87.2
+        for <linux-staging@lists.linux.dev>; Sat, 25 Jul 2026 11:18:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785003526; x=1785608326; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=EcnmFMYASQgb7uEJtLGRNmi55NqIWkVVzyig/XXgCk4=;
+        b=IXDBB8aNmS03QmS4Mesa4antbUvSrp3yZaHCwlLgeR3hDC+bd2uUOLZKzbBT/nC6Fi
+         6KVhcp2NXtg37IYq51NF/WoiTFSmqYKIgKMdAsaW/v61vF0YqLBUSZs3Q3XYCDjiHap/
+         Nx+lRgoV5yZIJwh1198M94syKZqAwdxD1GJs2O0+5Mj4XTVtZNMywJsISdvi5uAhY3xQ
+         g7OnJtaNbdNb7vJeLOpTTLkGmMXfgT0Tt2Su6HwBnSh0Thpdie7rjAJ11zfygOqvUShN
+         c2bZIhZ6Tb3UaNBICsMYNpOGZSEFPf+C5VMLGxszYXmRcMASrBejPgk2q/If+VSBi8Ib
+         +Diw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785003526; x=1785608326;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=EcnmFMYASQgb7uEJtLGRNmi55NqIWkVVzyig/XXgCk4=;
+        b=baI4Ig6iJ1HzJm8Zh7wzR4j+24usPSEbXYNH/mZ6ixBl3ZwKf8RovtnDlW5fuJLc3A
+         rHhMb9742BbbjUSrs0Jl07Fy47xzuSZnJ0nTZsrFBC+ucVHKHHBU4EzzNcEZLKKferCB
+         B5TLlIDkN3RyI6saYg1O3txVemYoU+3dGSwmgvdBG40d859DHa9F9Df4Mz+4/q+PCBJ/
+         eAioyAS7e1/EpO5F7B4v/RRD5/J/d3VbGeeKPmddCsAZZ0xTB02TJE+ICVPY7SaKp6yh
+         pVB/akSFw5BTWi2nLAUgEgfkH/En5I1LvEmqUwb4lLiPGfH62+mahX91vBsLOiDNE+xT
+         67Kw==
+X-Gm-Message-State: AOJu0YxvwAP/sYef3jB0KxJjKGKh/RdXSVc9vKTWthZQ5kUKttZ75W+e
+	+0IWxBCUj8Tk8IBt0dZXJ41CKoyKdfjMLjFyQ1QYTh1vGY+S+fhPiwme
+X-Gm-Gg: AR+sD12yADD1n7ofamo2VxDOSgi/B3MVF0Pd3K9PiYUtqei1M5TCSTP1V11ILOYJATJ
+	avTFLYtbDqfpGazOJqd9wAOVGokrhfGnJIYv3UpKAhDwcwbbLTF2sRZRM2TjUNg43M7lU6XEkBa
+	MMJIp66ZCMcY4+9XeWMFISpS6kp8532XZJQ4NNcTnZK+X6icTJHpqK0xRBbpx2XdXHdYaeajlLi
+	33IvrUtOqSVLUG3oy05GWZJ8rogivubA7C4Dsdek8vWo8rB/nreKiPeOX3tZ/9jenxEVSNJc4yC
+	rjvqiEZj4tVAy/lel2f1w7gMqxGzWlc78bCl4Pz02qv03Wwrqu6Q2sfTqTZsZZiLA2VkyJS3eeL
+	Pv6ZzNnVpXPauy/SRnrIU307Ftj0orZuf+KBcSGXJDurgt0NDwKDgT4by6E6lPbNlIoB/TjSDUT
+	SD9yS/gzn8TvTn0+kI308o6U/ZFZY=
+X-Received: by 2002:a05:6512:23a9:b0:5b2:8d3e:7229 with SMTP id 2adb3069b0e04-5b2c1b4dcf4mr570340e87.57.1785003526248;
+        Sat, 25 Jul 2026 11:18:46 -0700 (PDT)
+Received: from localhost.localdomain ([78.156.235.247])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b2be077fa8sm537878e87.3.2026.07.25.11.18.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 Jul 2026 11:18:44 -0700 (PDT)
+From: Akhmad <akhmad100913@gmail.com>
+X-Google-Original-From: Akhmad <Akhmad100913@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	Akhmad Zubairugadzhiev <Akhmad100913@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: replace yield() with cond_resched()
+Date: Sat, 25 Jul 2026 21:18:37 +0300
+Message-Id: <20260725181837.39951-1-Akhmad100913@gmail.com>
+X-Mailer: git-send-email 2.37.1 (Apple Git-137.1)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260725135755.39512-1-Akhmad100913@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Jul 25, 2026 at 04:57:55PM +0300, Akhmad wrote:
-> Fix multiple coding style issues to improve code readability:
-> 
-> - Break a 140-character line to comply with the kernel coding
->   style guideline of maximum 100 characters per line
-> - Move comment before the code for better readability
-> - Fix typo in comment (varable -> variable)
-> - Remove dead code: empty if block with only a TODO comment
-> 
-> These changes improve code quality and compliance with kernel
-> coding style guidelines.
-> 
-> Signed-off-by: Akhmad <Akhmad100913@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/core/rtw_mlme.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+From: Akhmad Zubairugadzhiev <Akhmad100913@gmail.com>
 
-Hi,
+Replace deprecated yield() calls with cond_resched() in
+rtl8723b_hal_init.c. The yield() function is considered
+wrong practice in kernel code as it can lead to unexpected
+behavior. cond_resched() is the recommended replacement
+for conditional rescheduling in polling loops.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+Signed-off-by: Akhmad Zubairugadzhiev <Akhmad100913@gmail.com>
+---
+ drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+index bcaf63b28..6fc3774d2 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+@@ -191,7 +191,7 @@ static s32 polling_fwdl_chksum(
+ 		value32 = rtw_read32(adapter, REG_MCUFWDL);
+ 		if (value32 & FWDL_ChkSum_rpt || adapter->bSurpriseRemoved || adapter->bDriverStopped)
+ 			break;
+-		yield();
++		cond_resched();
+ 	} while (jiffies_to_msecs(jiffies-start) < timeout_ms || cnt < min_cnt);
+ 
+ 	if (!(value32 & FWDL_ChkSum_rpt)) {
+@@ -232,7 +232,7 @@ static s32 _FWFreeToGo(struct adapter *adapter, u32 min_cnt, u32 timeout_ms)
+ 		value32 = rtw_read32(adapter, REG_MCUFWDL);
+ 		if (value32 & WINTINI_RDY || adapter->bSurpriseRemoved || adapter->bDriverStopped)
+ 			break;
+-		yield();
++		cond_resched();
+ 	} while (jiffies_to_msecs(jiffies - start) < timeout_ms || cnt < min_cnt);
+ 
+ 	if (!(value32 & WINTINI_RDY)) {
+-- 
+2.37.1 (Apple Git-137.1)
 
-- Your patch did many different things all at once, making it difficult
-  to review.  All Linux kernel patches need to only do one thing at a
-  time.  If you need to do multiple things (such as clean up all coding
-  style issues in a file/driver), do it in a sequence of patches, each
-  one doing only one thing.  This will make it easier to review the
-  patches to ensure that they are correct, and to help alleviate any
-  merge issues that larger patches can cause.
-
-- It looks like you did not use your "real" name for the patch on either
-  the Signed-off-by: line, or the From: line (both of which have to
-  match).  Please read the kernel file,
-  Documentation/process/submitting-patches.rst for how to do this
-  correctly.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
