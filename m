@@ -1,172 +1,270 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9E5330216D
-	for <linux-staging@lists.linux.dev>; Sat, 25 Jul 2026 15:43:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1784994228; cv=pass; b=puTIYzEg1dRjbIQ27vfQzbC2sggo5CcabT6+0rA/0UEEFTGwP54bzdVhnQT1/zt0+P4FkHNZ/7q5a1JHuTvr1DXyLki84vL3MtjQjK3oljfXxRrRRTv7KHba7gdVJZd74cwpMxdO5zuQ25zQoLYSloZhwaFcDLd6SJNdvQh4lNE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1784994228; c=relaxed/simple;
-	bh=cNipdWbRL0RLaXct4u339AQMI2rFd1YBas+o6tFPqz4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SJGSMK0mw63yJfbXfwqZIcxP1y74PG6J+Xi16dVfjbepLf6ogPehi5aJWxZnZj/EmGqF8N2Biilt5TcpAhIHzziluf4sSjIPOOciLieoZYulbO1Fk/e3dCS+wftqhoILhntbvNn5G551cq2YVTvTO7JUKSS0N9x032eomWtvEnI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LRS21RAy; arc=pass smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19A1338399B
+	for <linux-staging@lists.linux.dev>; Sat, 25 Jul 2026 15:51:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1784994689; cv=none; b=pOi+hAVJ9R08VAmxziluZ2RMfjt98s2OPkkN7205M4wwmyTTFdLK/C0VIA8g33Q578RlnrSBrf4h4m1JX/0tAQr2VgCO6Vj1FZBavgmiz+kay3PPPbXgLYIGEdZne0uRV6ixnFHcW7v73Hng14BaS1uJaj8RPkQaRg9zbCb/Qlw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1784994689; c=relaxed/simple;
+	bh=Tmn2H+coHp+aXqT7nJrE7fJQeOzk6A1X1pgMjKiPtIk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=BrNv81u/kmyDx/SlOmGxMzeMKdfz0C5ppi0IN1eMg4I8bGSmMuBPMSlgQmtupEvjEIs4UxnZ8Wn1LnDkG+usk+/CI0NvDkSMxyC4Ecz+KnuYdctFj+PC3/sVYSOwxOVMirq2FpdA1/fgax1qtZgxf1XO6bfQwMwt7GF+x1Xn47s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JWwNmIIR; arc=none smtp.client-ip=209.85.215.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LRS21RAy"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-c197e7e4e94so251794566b.2
-        for <linux-staging@lists.linux.dev>; Sat, 25 Jul 2026 08:43:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1784994225; cv=none;
-        d=google.com; s=arc-20260327;
-        b=XPr5y8PfERKw8eon5j11XHVBfw8HLyZB4Q34s3OSAEc3DFJv3E9Aqemj8/Md2xnomQ
-         BtDAF3y2YIyAamJ1YSCzuMItjSMZ4qi7HIrQe0wuUimUMb4jNx7lT2QlefvxkXvc2JsN
-         crQcSVin/t4G//wKfd4x+MtfddftVV/ZW8SYMXFPY1t/Z408uB6Wa3PHyua9sjvICqOm
-         hfBRBXiEiIDPA1P+NsVM76yDrcUPkEZ4+6dkk8broWRfzDhcI1Q5ZIhdJySdGIehnlH9
-         lC0VfI9NX1snadvCAr2DdgvceMRr06CvlgUx4BCt7ydoEBOXW/k665FU4mNldouhxily
-         Ruug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=w8EIFn4+KsoG/JHN5+P2G8HXXuxo8xeQ3dS5xqmdx1U=;
-        fh=KoRgW+10WkAJOlvMVKrs9sny/Zozu7l/7560otxR1VY=;
-        b=I2BX6eVpk5TwzeYoKZlrklRcHVYWLw5zJ+0f2HPsoX4KkNyuNELr+wrK6DUnBVOa9/
-         +DU+UiCYjPLOH4GoNL/HUdEsfCBFBCzqq2MYtUUaZyVZN4UnYh5GUnfZzWUtaH1UtFKR
-         4Cg6i2GgqJqHx6FTsxyJxyR2dkls7hztD+F+PgXGkbQ+cpP8R6MhnwqkkIYRiMPLhQaG
-         ho86LO0jXgUS5p/hOP71u3Ac0fsScQFCCqYyZLGJNzfXyHODLITxkS2pVJrV16Ay0Shh
-         v4Ot4e6ecVb4D3iR9CvmMpe11dkkN0I3NRpEVDb9N8Ir0xKqeS38IBl4VSKMzZK4w/e4
-         x38A==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JWwNmIIR"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-ca97d139d8dso823291a12.2
+        for <linux-staging@lists.linux.dev>; Sat, 25 Jul 2026 08:51:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1784994225; x=1785599025; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=w8EIFn4+KsoG/JHN5+P2G8HXXuxo8xeQ3dS5xqmdx1U=;
-        b=LRS21RAyGlRXPsAF2MKDYuVNXGCewOYiNNddoA41+jXjvJ/m9LCeh3js85PPTzh1Gx
-         UqaRjmjzLs4zKnjoMFjc6xFWyYErhza7ULjWsn16EtOBNfoDVrLnHcmjKSvx0vi2j+dS
-         SS981G9gP5VI6Mefla+eU3H+u+bABFGu1rTyBoyLuTJq3xba6sik3xJBhMwFp6z0GWHG
-         n2Tc/UOKEHiMPzx7Rg617qu6DmbCHbfW5+PfQJPSzZpO/uR+SDN+SwlIIeVdrMoPuLNR
-         zBA3KaGiLU0tFXC0efp5NXatF7hdJctmZIbij85ZheLcCvjzfz7Vg9vuj5eUZWY2E9P+
-         j+Gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1784994225; x=1785599025;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1784994679; x=1785599479; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=w8EIFn4+KsoG/JHN5+P2G8HXXuxo8xeQ3dS5xqmdx1U=;
-        b=jpHrRY42I+9ph6rb/uyy+w0bZzI0dc0GOqlLe/htpRdFply7aKZ6qm1BJbg94VHfmZ
-         xahaYJtMzfkkcgnOHUaFFRGA3J+csiSj8uW/nuIpJ8tQ/stUdcU6dvBXQ4uFAPh6mk7b
-         uNx6j4LodmiCsaUHNfEC2SqVWEu0H4FqY/r0lDPXqOnKBIuV5ltYhJ73zJqVd8/g3G9H
-         JSH4CIVVDp3Zsf50/Qk4vRLosDpIdRRA/0G5yU++AG+5KQbE9oR98kxCC40Cz+cKJX4U
-         LP46HTR61D71xNiV8RiAmFQh4kSul+cx+6irJBXmq0EVQfiCwsddeXRRwUQtNFsqPDNz
-         2SEQ==
-X-Forwarded-Encrypted: i=1; AHgh+Ro7OtbGrPpgBDFUThvByNGPpVWuqUignwd1kmHjn+HqGjIJ9a5iEjVcS7mcxlAxQ1sbbEMBWn5gqhnWoNqx@lists.linux.dev
-X-Gm-Message-State: AOJu0YyRcqi4HBwTY7QzZkYajCbhkcTkFQ5x51W/ys+6FqY7e2GmX50T
-	I3UEOTLqwLQ1+xVRPyG5aw5uaXcMKqrJ0dX5jed3uPiBUJuG277wb+38PYXuW83S9bWePxp4O4n
-	/48hpPkqyOASnvKWj9KSLZC39gXptkUc=
-X-Gm-Gg: AR+sD12VqJJaio8anNlfvSrLTWf40SPkWnvoOihbM4GD0kpKm1fzao+qIA5qOugPXmC
-	9kVsJQuQarQHgMzxRX230YVP4NFFVzFKGI7UbWT7IsAJNLn/mdxbIXME7GLI/VkrN9ehwynOwOF
-	1m5GQciEHVco7s21llnn/2lyAgJ45qun0BxK1yQP8GKzsNHOPikfm5O+VgJZUxyfQpd3Oaim2iJ
-	xHiq+ESfXCPWYafPNiWtcKO4VRDSipsgptkphbIB5kh8P0GbMq8ULQleZ6PSltQ4B4hukJ67Tc6
-	fhG5GetpOhSOHPuFZriIn5MGFk2U+bt6qXZMcRxAQazL8AsuA9w/sDtl/eaefHVYoy+qVw==
-X-Received: by 2002:a17:907:6d0a:b0:c15:ca4c:a3aa with SMTP id
- a640c23a62f3a-c1f1f1b57ccmr98303066b.49.1784994224811; Sat, 25 Jul 2026
- 08:43:44 -0700 (PDT)
+        bh=hmZB8vxgqONx/9fM+xBM/ZafnHK7P0YzFF7u9E03lJ8=;
+        b=JWwNmIIRQSIVKPnfaEil2yCv3a4jCc07uB7O9a5uSMEM9R8UYC/mNwYhwSbhE81PSD
+         bJvURGX8rJAEkBmNlJ5i0m6O74E+0B5iW1O+bE0IGT4F/mzvUAkjSj4Yi0IJmYM3viEz
+         5+x8jRJYJiyLnuMSx/wtzhHEINSC8TjxjnMN6SCG76uKwC8ckH6pjtzU9lqrp0gpWLFf
+         9YNMZzyWxDf3kSvi4HdXvB+ygMDl80EbjWUGm1IqfJTrvWSnmZPhfI3+JWbhHPHUXojr
+         kKp2ikARmnsSXOJQFFjyJgHibTqjfeBI4s9bzxaSfBhuPtfUdrh/UAIb/NgWn1JKw3B4
+         MNGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1784994679; x=1785599479;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=hmZB8vxgqONx/9fM+xBM/ZafnHK7P0YzFF7u9E03lJ8=;
+        b=Bri5bJ1KbOUyg8dr/YI8CuTpgqvKpqlAKq3OUbU0l1/4sxRiA788M86f1xG58H1zAK
+         NF2pXJtFyFbOfnh7LtP43Xc/igMpw4WL1xN4RKYBj0NHoi9sv58BKnoUfKO/KSg945VL
+         FFI+ODNOW6vXLhWdGMTBaVT3tlmwA/lZF9Nzm3sVGa8fVc6qcwEoRsSc1QhO6XRMFdgo
+         RXR9yPZ1xP3wb/LRWTo1pzOmw290XO/ml7ZOjnTPZV2AzXWpMyUv1LdatKcknqWm3Hwb
+         P1yBidjq4gVrmfXZ77Gq5ZDgP+QEQCYrYriREgCFY26v/LmBNIAJVnJAfbRCTDxo/v5z
+         A11Q==
+X-Forwarded-Encrypted: i=1; AHgh+Rp+ZTQtL45ndF/4ztyg/2GGWzzknJ8O+52TAd5L3hx2kNzf9dmFQwmK65wgOFjU8jSo9GTWNatZ1qUDYxIl@lists.linux.dev
+X-Gm-Message-State: AOJu0YxhD4YssfSxb0FSC9yCgIwuOnpfYSl5NrecVfqIfHddlkxZc+CB
+	BY5mRr6b6uFO71WQzB0p2XnTvR9ZD4K4yN+l152ZFVbJ7652ZY1cAvfd
+X-Gm-Gg: AR+sD127+1G65S3RPyBezhInxe7hBEGxRJYXWnIAtFmelE2bp1xB6GH4ihsy4Xn8sin
+	9po/UrBaTl5L91FWxomVhF+nrXJ1gTIVdEdeM0c/msWi+blXEzOG5nVlaWJAR37x/gjCBeqKRJ5
+	vU6yjVmfDi2vHm0RBY0KlYa9rBUQoYYytldCjtQYihYUjML+/5kAM/eXkER9xEbswDUORFPw7Gk
+	8VT579tX/5RTf2Ma9lyedWa/GuZO7xgLmLrdYUYfyhdTSWb4/dP14tBdDW/CsGHeIXVFzd5B1JR
+	7+Vs4DSkpeU77PuH+OlHdwe/65USjdE5bZhXlHADyELpAetgIMiBnCythH1t5JYKJxc8DMiuHFR
+	C/62R/7Op3ppjp1v5RTHxIPQuQo9//dqoeZrluGyFOVWktrUmbMcXLTYvznILW5eusrsK/jv38Q
+	9pQ34Vw4EKEnqdn29YALZtqcNS0DjTJzo=
+X-Received: by 2002:a05:6a21:6b02:b0:3c3:6cfb:4ed7 with SMTP id adf61e73a8af0-3c67daecd42mr2418919637.30.1784994679431;
+        Sat, 25 Jul 2026 08:51:19 -0700 (PDT)
+Received: from kernel-dev ([49.36.97.234])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-314bc59e9fesm10492872eec.27.2026.07.25.08.51.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 Jul 2026 08:51:18 -0700 (PDT)
+From: Aditya Chari <adi25charis@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: vaibhav.sr@gmail.com,
+	mgreer@animalcreek.com,
+	johan@kernel.org,
+	elder@kernel.org,
+	error27@gmail.com,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Aditya Chari <adi25charis@gmail.com>
+Subject: [PATCH v4] greybus: audio: Split gb_audio_gb_get_topology() into size query and data fetch
+Date: Sat, 25 Jul 2026 21:21:08 +0530
+Message-ID: <20260725155108.7060-1-adi25charis@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260725143721.5908-1-adi25charis@gmail.com> <amTRrR1ly_GuV5Vp@stanley.mountain>
-In-Reply-To: <amTRrR1ly_GuV5Vp@stanley.mountain>
-From: Aditya Chari S <adi25charis@gmail.com>
-Date: Sat, 25 Jul 2026 21:13:31 +0530
-X-Gm-Features: AUfX_mwjaOHJoQ6iRArpCbBr45hZjKMoOgnLjVN56Mg2Ph_ZEGriMy2_orrH5WY
-Message-ID: <CAKt_FXtn4xk4sOAyRY-GeJSHNgdeRbM8O5PBpUsLVjynYdyVYA@mail.gmail.com>
-Subject: Re: [PATCH v3] greybus: audio: Split gb_audio_gb_get_topology() into
- size query and data fetch
-To: Dan Carpenter <error27@gmail.com>
-Cc: gregkh@linuxfoundation.org, vaibhav.sr@gmail.com, mgreer@animalcreek.com, 
-	johan@kernel.org, elder@kernel.org, greybus-dev@lists.linaro.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sat, Jul 25, 2026 at 08:39:xx PM, Dan Carpenter wrote:
-> These should be in chronological order.
-> > ---
-> Why are you sending a v3 of this? ...
+`gb_audio_gb_get_topology()` combined three separate responsibilities into
+a single call: querying the topology size, allocating a buffer for it, and
+fetching the topology data into that buffer. This left callers with no
+way to perform any of these steps independently, and forced the kzalloc()
+allocation to live inside the protocol‑layer driver rather than the
+caller, as already flagged by a FIXME comment at the call site
+in `audio_module.c`.
 
-Thanks for the review, Dan.
+Split the function into two:
+- `gb_audio_gb_get_topology_size()` – queries only the topology size
+- `gb_audio_gb_get_topology()`      – fetches topology data into a
+                                      caller‑supplied buffer
+                                      of a given size
 
-I sent v3 mainly to rebase against the latest staging-next as told in
-the earlier version
+Update the only caller, `gb_audio_probe()` in `audio_module.c`, to
+query the size first, allocate the topology buffer itself,
+then fetch the data into it, freeing the buffer via the existing
+`free_topology` error path on failure. The topology size is now
+stored as `size_t` and validated in the caller before allocation,
+addressing the earlier TODO and FIXME comments.
 
-I've now prepared v4 with the tag order corrected (Signed-off-by before
-Reviewed-by) as you suggested, and included the full changelog in the
-patch.
+This resolves both the "TODO: Split into separate calls" comment
+above the original function in `audio_gb.c` and the FIXME comment
+at the call site in `audio_module.c`, both of which are removed
+as part of this change.
 
-Regards,
-Aditya
+No functional change in behavior for the existing probe path.
 
-On Sat, Jul 25, 2026 at 8:39=E2=80=AFPM Dan Carpenter <error27@gmail.com> w=
-rote:
->
-> On Sat, Jul 25, 2026 at 08:07:21PM +0530, Aditya Chari wrote:
-> > `gb_audio_gb_get_topology()` combined three separate responsibilities i=
-nto
-> > a single call: querying the topology size, allocating a buffer for it, =
-and
-> > fetching the topology data into that buffer. This left callers with no
-> > way to perform any of these steps independently, and forced the kzalloc=
-()
-> > allocation to live inside the protocol=E2=80=91layer driver rather than=
- the
-> > caller, as already flagged by a FIXME comment at the call site
-> > in `audio_module.c`.
-> >
-> > Split the function into two:
-> > - `gb_audio_gb_get_topology_size()` =E2=80=93 queries only the topology=
- size
-> > - `gb_audio_gb_get_topology()`      =E2=80=93 fetches topology data int=
-o a
-> >                                       caller=E2=80=91supplied buffer
-> >                                     of a given size
-> >
-> > Update the only caller, `gb_audio_probe()` in `audio_module.c`, to
-> > query the size first, allocate the topology buffer itself,
-> > then fetch the data into it, freeing the buffer via the existing
-> > `free_topology` error path on failure. The topology size is now
-> > stored as `size_t` and validated in the caller before allocation,
-> > addressing the earlier TODO and FIXME comments.
-> >
-> > This resolves both the "TODO: Split into separate calls" comment
-> > above the original function in `audio_gb.c` and the FIXME comment
-> > at the call site in `audio_module.c`, both of which are removed
-> > as part of this change.
-> >
-> > No functional change in behavior for the existing probe path.
-> >
-> > Reviewed-by: Dan Carpenter <error27@gmail.com>
-> > Signed-off-by: Aditya Chari <adi25charis@gmail.com>
->
-> These should be in chronological order.
->
-> > ---
->
-> Why are you sending a v3 of this?  Presumably I missed some
-> critical stuff when I reviewed it but I can't be bothered to
-> search my inbox to find out what...
->
-> So partially laziness but also I would hate to miss this
-> opportunity for SEO so it's also greed.
-> https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
->
-> regards,
-> dan carpenter
->
+Signed-off-by: Aditya Chari S <adi25charis@gmail.com>
+Reviewed-by: Dan Carpenter <error27@gmail.com>
+---
+v4:
+- Reorder tags (Signed-off-by before Reviewed-by) as suggested by Dan.
+
+v3:
+- Rebased against latest staging-next.
+
+v2:
+- Fold in review feedback from Dan Carpenter.
+- Store topology size as size_t instead of u16.
+- Move topology size validation into gb_audio_probe() before kzalloc().
+- Use -EINVAL for invalid topology size.
+- Drop unrelated dev_err() formatting cleanup.
+- Compile-tested with `make M=drivers/staging/greybus`.
+- Run checkpatch.pl on the updated patch; no issues reported.
+---
+ drivers/staging/greybus/audio_codec.h  |  4 ++-
+ drivers/staging/greybus/audio_gb.c     | 45 +++++++-------------------
+ drivers/staging/greybus/audio_module.c | 27 ++++++++++++----
+ 3 files changed, 35 insertions(+), 41 deletions(-)
+
+diff --git a/drivers/staging/greybus/audio_codec.h b/drivers/staging/greybus/audio_codec.h
+index f3f7a7ec6..b45cd257d 100644
+--- a/drivers/staging/greybus/audio_codec.h
++++ b/drivers/staging/greybus/audio_codec.h
+@@ -178,8 +178,10 @@ int gbaudio_register_module(struct gbaudio_module_info *module);
+ void gbaudio_unregister_module(struct gbaudio_module_info *module);
+ 
+ /* protocol related */
++int gb_audio_gb_get_topology_size(struct gb_connection *connection,
++				  size_t *size);
+ int gb_audio_gb_get_topology(struct gb_connection *connection,
+-			     struct gb_audio_topology **topology);
++			     struct gb_audio_topology *topology, size_t size);
+ int gb_audio_gb_get_control(struct gb_connection *connection,
+ 			    u8 control_id, u8 index,
+ 			    struct gb_audio_ctl_elem_value *value);
+diff --git a/drivers/staging/greybus/audio_gb.c b/drivers/staging/greybus/audio_gb.c
+index 144591f1a..2e6f155d8 100644
+--- a/drivers/staging/greybus/audio_gb.c
++++ b/drivers/staging/greybus/audio_gb.c
+@@ -8,13 +8,10 @@
+ #include <linux/greybus.h>
+ #include "audio_codec.h"
+ 
+-/* TODO: Split into separate calls */
+-int gb_audio_gb_get_topology(struct gb_connection *connection,
+-			     struct gb_audio_topology **topology)
++int gb_audio_gb_get_topology_size(struct gb_connection *connection,
++				  size_t *size)
+ {
+ 	struct gb_audio_get_topology_size_response size_resp;
+-	struct gb_audio_topology *topo;
+-	u16 size;
+ 	int ret;
+ 
+ 	ret = gb_operation_sync(connection, GB_AUDIO_TYPE_GET_TOPOLOGY_SIZE,
+@@ -22,38 +19,18 @@ int gb_audio_gb_get_topology(struct gb_connection *connection,
+ 	if (ret)
+ 		return ret;
+ 
+-	size = le16_to_cpu(size_resp.size);
+-	if (size < sizeof(*topo))
+-		return -ENODATA;
+-
+-	topo = kzalloc(size, GFP_KERNEL);
+-	if (!topo)
+-		return -ENOMEM;
+-
+-	ret = gb_operation_sync(connection, GB_AUDIO_TYPE_GET_TOPOLOGY, NULL, 0,
+-				topo, size);
+-	if (ret) {
+-		kfree(topo);
+-		return ret;
+-	}
+-
+-	/*
+-	 * The size_* fields are supplied by the module and are used by
+-	 * gbaudio_tplg_parse_data() to compute offsets into the blob; make
+-	 * sure the sections fit within the fetched topology, so walking it
+-	 * cannot read out of bounds.
+-	 */
+-	if ((u64)le32_to_cpu(topo->size_dais) + le32_to_cpu(topo->size_controls) +
+-	    le32_to_cpu(topo->size_widgets) + le32_to_cpu(topo->size_routes) >
+-	    size - sizeof(*topo)) {
+-		kfree(topo);
+-		return -EINVAL;
+-	}
+-
+-	*topology = topo;
++	*size = le16_to_cpu(size_resp.size);
+ 
+ 	return 0;
+ }
++EXPORT_SYMBOL_GPL(gb_audio_gb_get_topology_size);
++
++int gb_audio_gb_get_topology(struct gb_connection *connection,
++			     struct gb_audio_topology *topology, size_t size)
++{
++	return gb_operation_sync(connection, GB_AUDIO_TYPE_GET_TOPOLOGY, NULL, 0,
++				 topology, size);
++}
+ EXPORT_SYMBOL_GPL(gb_audio_gb_get_topology);
+ 
+ int gb_audio_gb_get_control(struct gb_connection *connection,
+diff --git a/drivers/staging/greybus/audio_module.c b/drivers/staging/greybus/audio_module.c
+index 12c376c47..4cd1f42c1 100644
+--- a/drivers/staging/greybus/audio_module.c
++++ b/drivers/staging/greybus/audio_module.c
+@@ -239,6 +239,7 @@ static int gb_audio_probe(struct gb_bundle *bundle,
+ 	struct gb_audio_manager_module_descriptor desc;
+ 	struct gbaudio_data_connection *dai, *_dai;
+ 	int ret, i;
++	size_t size;
+ 	struct gb_audio_topology *topology;
+ 
+ 	/* There should be at least one Management and one Data cport */
+@@ -304,16 +305,30 @@ static int gb_audio_probe(struct gb_bundle *bundle,
+ 	}
+ 	gbmodule->dev_id = gbmodule->mgmt_connection->intf->interface_id;
+ 
+-	/*
+-	 * FIXME: malloc for topology happens via audio_gb driver
+-	 * should be done within codec driver itself
+-	 */
+-	ret = gb_audio_gb_get_topology(gbmodule->mgmt_connection, &topology);
++	ret = gb_audio_gb_get_topology_size(gbmodule->mgmt_connection, &size);
+ 	if (ret) {
+-		dev_err(dev, "%d:Error while fetching topology\n", ret);
++		dev_err(dev, "%d:Error while fetching topology size\n", ret);
++		goto disable_connection;
++	}
++
++	if (size < sizeof(*topology)) {
++		dev_err(dev, "Invalid topology size: %zu\n", size);
++		ret = -EINVAL;
+ 		goto disable_connection;
+ 	}
+ 
++	topology = kzalloc(size, GFP_KERNEL);
++	if (!topology) {
++		ret = -ENOMEM;
++		goto disable_connection;
++	}
++
++	ret = gb_audio_gb_get_topology(gbmodule->mgmt_connection, topology, size);
++	if (ret) {
++		dev_err(dev, "%d:Error while fetching topology\n", ret);
++		goto free_topology;
++	}
++
+ 	/* process topology data */
+ 	ret = gbaudio_tplg_parse_data(gbmodule, topology);
+ 	if (ret) {
+-- 
+2.53.0
+
