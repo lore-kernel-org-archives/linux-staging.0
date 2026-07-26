@@ -1,69 +1,78 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBD1D36998A
-	for <linux-staging@lists.linux.dev>; Sun, 26 Jul 2026 09:24:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 353691F09A5
+	for <linux-staging@lists.linux.dev>; Sun, 26 Jul 2026 10:04:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785057883; cv=none; b=bx6QZCe3ET2f3JthE1ZRSPXjHyVKjm1ulhg5DZdUQ9ElH0vq/AfxSLykkqVwwwUPRQu5FH1E42zB1SLjjZNwws0PpvsPo+2w8OtroQt6C/pC2o/6uYlMKn6iQR29slKlD8lS1RZ6fb5CMurSAXRTvPIfMG6/Q/HAd3pEaR1eWNc=
+	t=1785060271; cv=none; b=YpVtFciwS79DTNIuGF8bSRiBYX7Ez0/lCwb1WWyeJ5QTEH8/3T+vBcVCgcJt3t7W+jbWqJrCvvRNoRKvtnmtXa6YNfwfgaN6qHa5AdHTXoJFXxVviug1t++oDmZBa1C1kCZDqjydo0oZBBkrPG+NHbkHAlzcQYK47GE3HWeNQPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785057883; c=relaxed/simple;
-	bh=SbNbsaMeHaPyAhVrqZ62BhpN7+eu3wK0UPLae7NoGhY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=vGRREsNE3cwLEPFeM8Iw3DOXIuxV+xmuT2sf/wtjs5sAR4YC9hggDTOrJCcNqTxxSCksrqzFOxEXv/mBGDUS0kKjkVNNuoVxx7+MXwtT/UUbsY2AoM8slHPr6nXqXD+/qdE0HxNl3r+SNxyZcFWrKy71K5nBdKrpRyO11NZDwfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Nx7r6nPq; arc=none smtp.client-ip=209.85.216.51
+	s=arc-20240116; t=1785060271; c=relaxed/simple;
+	bh=7B35YZE6oc15BiSnsGvUCtFqLPIM1pzfUZ2v9rqMQOU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=gVuYJZIkT8dkVQdolJSHpQvkU837BtbdT+1Gr4fiiIshP9t2CYRLP1QMc/Z8CGIbXXH7kN/8VgXeVUJ2Ay2hJAh1W4+3mdN9Ys5KtPQA5JPVNMtVPLW+8UWtoZKk7TGOn42FZqooy8Eyu5CeHkAUMYUoX57xKS5ddQDBfBE1vFU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=joiADplY; arc=none smtp.client-ip=209.85.215.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Nx7r6nPq"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-384930ca5e2so1668526a91.3
-        for <linux-staging@lists.linux.dev>; Sun, 26 Jul 2026 02:24:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="joiADplY"
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-ca12086c06eso1422313a12.0
+        for <linux-staging@lists.linux.dev>; Sun, 26 Jul 2026 03:04:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785057882; x=1785662682; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1785060269; x=1785665069; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=YbMGOrQGeS4sFeL91YEW8y2nktryR+4ahz7YvnYUPQk=;
-        b=Nx7r6nPqakYzoe/7FqZdoyfmVWWdRIlgV5f6ohrKI69qxgOlQy/1Inl/eoeRq9tngf
-         VuWKskUetbaT4n6oAncgw4l9mU8DX1mSZD3qmdaIR7AfTFbTv4dMy4oW6KM0XNB9HCBP
-         6vKeGMWdVZ97q34qwpSeVgxxDgTbv5RaPGiXKq2u2hO050avatzj/DcHH0gAFSzdjfpB
-         FopxsUq3tSBuX9VdGtdwXxrm8Us3O9awkxmaaIbotpLl3pfXVZ5Bm7MNyjoLXdEZebO8
-         tbMapITVMAT6VmPAntznSa/ptewnQXA0cUt3GqBdNJGJaBV7202qOitCbrocfgBYb9Rd
-         VHlw==
+        bh=8ylvgAcOl9oKpTpFug9fyDy646d3xIKNYqdv16u3reo=;
+        b=joiADplYIK2liVu3EzwZluSA6BK41bw3b6y0B8KYQg2qAf3Pp9G+ga0q9oQPM2yxDm
+         xWtLX9cc+Qz8wGR6i+hV4hEU7ErqTtbHx9/DVMqxIfjxhsHWiQpYCdhoTHUD7iyjPkFN
+         MGnNRr1CdqNES+YqG/ghHqDAMINJ1tnN6lU3vpC0lR54QQ+IeeXHWoDms+vWEIGJDNZ7
+         GKmsaUs+/42iejndOfPk79mrY6r5W1McPd4+DettvTDt6T9wVmjiOmavGjbakKCCQjP8
+         revFazbC7ANtY3H5oXZhDCKTGeo6otukqESwCG0JERqcPP0jOw2UHbkIoyYqlZlvy9kK
+         Gq3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785057882; x=1785662682;
+        d=1e100.net; s=20251104; t=1785060269; x=1785665069;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=YbMGOrQGeS4sFeL91YEW8y2nktryR+4ahz7YvnYUPQk=;
-        b=m0P1lhlbHdayjZcNK5kd3CeH9P3OIBRFwYfQplc+2bwZc2rPKMk4UVX8f2J4kvqjor
-         v4bmobxJ16ObvUZgFwWu5jjxRe616lgMVoXFA5bZ4lAO/wYkxSlLFFNJ+2TlyI5NNjw5
-         xJLLjheVKVjrJjhmEmmMTfOKYJFdvsiLTyzj+IMoTffqDTFWElRbClOrIWAvplFsJgSD
-         06sm2/WXfl/Rt4Jp8+uwUi4lYaVQrljYOSGPoCsdLst4rRCg64hqlpWfGGMyFKaUGnT4
-         7pgLbcRcwqJEfF321992LrPc5JPOJ+ekL7nKCCogl7v7BdsU3W/uPvkIAajQbfGidTff
-         uGRw==
-X-Gm-Message-State: AOJu0Yw2H6KrTo75VNbKJoLZE6itxE20v0Q3TJf3IvxUn9rmQxU0me1d
-	xd5t2ENhzdQpq32+IXTRmZHuFIiJ6euUrS9ILdadUy9wvM41/96stY18
-X-Gm-Gg: AR+sD13wMC5kkK7IAWidXsKkd8w715IValfbht8ZuBayxebZHX1CUdxrPbQZHsxBOQz
-	NuK5ne8WZuMO5CEwM3PNxtnwseBO5+1Di6ZBvvqSCCwogTbhUA+gJIVkaq7litKEb+Kc/pKbdl3
-	BObli3ihBkyOhTVRZ50nsDZwcQzJGHAh2knhJoveVcmDZIYB6Y+EZVxBwsV8sctxe8sbdQqaS+o
-	XBjmN5V4smPby1D8xx3mveS/4pQuCoNxeht9heSoxlKtPZ53VmNkdoFuH8lzb9KHiWlO7PXjOQl
-	U+g+HU0PffGl7EEcQWpBKulEmaRETawx3ZkRC4KKEpijsNwg+QWj/o0ol7k48flXJ2uEn+yrKnU
-	W/cBXKcHRulq1jgeG5khVtbBzTm8rRoH+B8qOzoVowXDVnTS8LKXsYW8m88KYz8nrpvfQPWXBRe
-	1rZjfk6NhbyoGZ
-X-Received: by 2002:a17:90a:d00d:b0:381:cef1:11b0 with SMTP id 98e67ed59e1d1-38f2965eb33mr3829739a91.33.1785057881878;
-        Sun, 26 Jul 2026 02:24:41 -0700 (PDT)
-Received: from ArchLinux.localdomain ([115.76.55.213])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13d13002f39sm43639698c88.1.2026.07.26.02.24.40
+        bh=8ylvgAcOl9oKpTpFug9fyDy646d3xIKNYqdv16u3reo=;
+        b=r5yhsh8q3Ux9BFuenRyFLAWPDMEbLxL7BDMXTbOmvaj/ZI6YYMZFf/5nB+x3uNp+rc
+         bEK1xP5O1tXdBbGbEyQZxJymfLirOw1egVSR8pfthg49lrALMs8XUmRKwnYojGughHHo
+         ILUti3N9lmo7e7z2iBxBNde1I++9hHUdmgsBxd4oaZM7l/TSOIevSdgOpZtgetZgBYkl
+         kDODHHbAsMle9ZZIwZHrvA3GP+WXgVjnHJyVSeJJxPtjOiCdxZmVFe2uZXMd/i0voGMT
+         mzSkqiBUWsIxqNLogWV504kYESe9S9UYSU4CMJiU/kRIIseTYFE4OqT+ZmdSgYKVyo2c
+         aRLA==
+X-Forwarded-Encrypted: i=1; AHgh+RqUzjaglLmSwqzNF0q+8aMJISzjXCzDjL3mruarDe+CYNWrLOjAUmNiHOs0tPjB0kuIOTtvnKeef1f5v86s@lists.linux.dev
+X-Gm-Message-State: AOJu0YxMiZiafMfsmkeXJvd6Qx8uYfZ06v40AUKaVMCh8eCbKfuEgd3l
+	i8zLqFyQVNyD9umjtjtCiebkWG4oAHzU88RuAt/E8D8xsKdIcB3X0f9D
+X-Gm-Gg: AR+sD11twkyGcFrQt3nQbHySmzOvygHsGs+p/Q8dAb/ULenhz8hzVuu4obY0r0eXL9q
+	Fc7vXy4PewvByr+pA1lXBU4SGYWNZcv4NnjIDk255dY/dR+5I4EgRobx60K6fIU8HYdETZxCvuK
+	C4vKF3ddIEnXkjxLYMOLU4FxMiy8KRkEOUV74JFq6pZJR7Pf0RccMnkkmB5HBRmmFnfXaRWeEvJ
+	gUbfIIs4INE5scEJGGmvT7GkCmnicuh5XB2nbKdb8JIFNfyyIsbcDTg8l6nmbYRdzZWApYbRKeb
+	qgL16NntiYBK4gzZnHsSECsVJwRBQVSOAXVBKVR85+V9FE/AxupcSco/Xu19T/sqfOQs2rjk/dM
+	xhkYGf9tvGORIjqz7T84BXw6z0st9qo8J03Abz2ekUKQbwhlW7WE0PyLcwwfWvB278PABSDNWlE
+	kkP5GdPgmu6y4eywbzKRU=
+X-Received: by 2002:a05:6a20:d12f:b0:3c3:83e6:c705 with SMTP id adf61e73a8af0-3c67df08725mr4678734637.35.1785060269292;
+        Sun, 26 Jul 2026 03:04:29 -0700 (PDT)
+Received: from SGN-LDSENG.tasernet.com ([2405:4800:5cc3:11a:1ac0:4dff:fe8b:4a69])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-314bc57ae17sm16923506eec.22.2026.07.26.03.04.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Jul 2026 02:24:41 -0700 (PDT)
-From: Dang Vu Duc Hien <dvdh12707@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
+        Sun, 26 Jul 2026 03:04:28 -0700 (PDT)
+From: Cong Nguyen <congnt264@gmail.com>
+To: Thierry Reding <thierry.reding@kernel.org>
+Cc: Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Svyatoslav Ryhel <clamor95@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Dang Vu Duc Hien <dvdh12707@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: remove unnecessary braces
-Date: Sun, 26 Jul 2026 16:23:19 +0700
-Message-ID: <20260726092319.529566-1-dvdh12707@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	Cong Nguyen <congnt264@gmail.com>
+Subject: [PATCH] staging: media: tegra-video: fix syncpoint leak in tegra20 channel init
+Date: Sun, 26 Jul 2026 17:04:08 +0700
+Message-Id: <20260726100408.3262831-1-congnt264@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -72,33 +81,48 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix the checkpatch.pl warning:
-"WARNING: braces {} are not necessary for single statement blocks"
-in rtw_wlan_util.c.
+tegra20_channel_host1x_syncpt_init() requests two host1x syncpoints. It
+stored the first one (mw ack) into chan->mw_ack_sp[0] and only then
+requested the second one (frame start). If the second request failed the
+function returned without releasing the first syncpoint, leaking it: the
+caller tegra_channel_init() bails out with a bare "return ret" on a
+syncpt init failure and does not run its free_syncpts error path (that
+path only covers failures after syncpoint init has fully succeeded), and
+the channel is subsequently torn down via the kfree()-only path, so
+nothing ever releases the orphaned syncpoint.
 
-The if-statement only contains one line of code. Remove the redundant
-pair of braces to comply with the kernel coding style.
+Release the already-acquired syncpoint on the error path, and only
+publish the syncpoints into the channel once both have been successfully
+requested, so chan->mw_ack_sp[0] never holds a released handle. This
+matches the handling in tegra210_channel_host1x_syncpt_init().
 
-Signed-off-by: Dang Vu Duc Hien <dvdh12707@gmail.com>
+Fixes: 0e2c4117c351 ("staging: media: tegra-video: add CSI support for Tegra20 and Tegra30")
+Signed-off-by: Cong Nguyen <congnt264@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_wlan_util.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/staging/media/tegra-video/tegra20.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-index a4de53872..f107304eb 100644
---- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-@@ -256,9 +256,8 @@ inline void rtw_set_oper_ch(struct adapter *adapter, u8 ch)
- {
- 	struct dvobj_priv *dvobj = adapter_to_dvobj(adapter);
+diff --git a/drivers/staging/media/tegra-video/tegra20.c b/drivers/staging/media/tegra-video/tegra20.c
+index e513e6ccb776..f8acb6834a0b 100644
+--- a/drivers/staging/media/tegra-video/tegra20.c
++++ b/drivers/staging/media/tegra-video/tegra20.c
+@@ -429,12 +429,13 @@ static int tegra20_channel_host1x_syncpt_init(struct tegra_vi_channel *chan)
+ 	if (!out_sp)
+ 		return dev_err_probe(vi->dev, -EBUSY, "failed to request mw ack syncpoint\n");
  
--	if (dvobj->oper_channel != ch) {
-+	if (dvobj->oper_channel != ch)
- 		dvobj->on_oper_ch_time = jiffies;
--	}
+-	chan->mw_ack_sp[0] = out_sp;
+-
+ 	fs_sp = host1x_syncpt_request(&vi->client, HOST1X_SYNCPT_CLIENT_MANAGED);
+-	if (!fs_sp)
++	if (!fs_sp) {
++		host1x_syncpt_put(out_sp);
+ 		return dev_err_probe(vi->dev, -EBUSY, "failed to request frame start syncpoint\n");
++	}
  
- 	dvobj->oper_channel = ch;
- }
++	chan->mw_ack_sp[0] = out_sp;
+ 	chan->frame_start_sp[0] = fs_sp;
+ 
+ 	return 0;
 -- 
-2.54.0
+2.25.1
 
