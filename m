@@ -1,69 +1,69 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A20D45039
-	for <linux-staging@lists.linux.dev>; Sat, 25 Jul 2026 18:18:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3D6413B7A3
+	for <linux-staging@lists.linux.dev>; Sun, 26 Jul 2026 05:16:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785003529; cv=none; b=WamIGq7mibQ1cgwhIk2wBs4pLF6tebdZjH7wB9EOt1llK1rEbdXrgHE0UYZI2OtVyIrSnkAjLN4RW05PQYeqNv0Bca14fBUM2acvQe0an3Yq3LU+6JVvqKNGM1AY30CoDDSbrEIVHrHvZuFQDgN4OM2T3kwgTdSvHdtpuw0rvDM=
+	t=1785043003; cv=none; b=DGpErNfkrtNc0okdiLDAMfJGTUor0icxhcGJuCaFED0RA0fAVQegymmP4/OybID2l0RYzgVYr9fn4BvRYq9PtMdS3c4/EvQnSuzlyVZ+T/nmkexaK1Y1ZbBJP1J6mVf+Wjbdn2SYZSVWzV3kUCU7hJHH45qwiCxRfSNiR9BmUQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785003529; c=relaxed/simple;
-	bh=jGYlBYG46ZbULQZNbmbortL/wdkFWeDZi0Yl6wzj1Wk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=P+7qRbLYf41Sf5g9U0hU7FarISyav4BMS0tgOAEU2BeMr8BvUBPNwLHIsPUhd5c0v1W8zHz4QJxu9SsMRoyrkwYMilU+cDTr8PVb+ZtADf7Ww2GCxpsLA4GLHBsuDtvC43BiDuqKmhbx5ifUensw9dhBWa3LRy3GdaNMHRCxgqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IXDBB8aN; arc=none smtp.client-ip=209.85.167.53
+	s=arc-20240116; t=1785043003; c=relaxed/simple;
+	bh=PTKTLlIFZ5EUExBChvBEh/ZWxBSwK75LiBXSuv5IHRM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pUIJ7SmUjwvExn66TKMX7kh0ZblXpTHpR0k+D/g0KNYv/0pEKjjXmR0wEr6SGLDTu/e/QLVx3RTHDTtkPW9IpJHMqxAWyqj+UuGYRXl1E6MxadUH9KySk6xwM/7u6wIepu9oscDUASay3zuVFSC6tflx4UHTY5yGXckX/jEqujs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M974aw3x; arc=none smtp.client-ip=209.85.215.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IXDBB8aN"
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5aeb98460c6so1543115e87.2
-        for <linux-staging@lists.linux.dev>; Sat, 25 Jul 2026 11:18:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M974aw3x"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-c9e0b89e228so1164105a12.1
+        for <linux-staging@lists.linux.dev>; Sat, 25 Jul 2026 22:16:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785003526; x=1785608326; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1785043002; x=1785647802; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=EcnmFMYASQgb7uEJtLGRNmi55NqIWkVVzyig/XXgCk4=;
-        b=IXDBB8aNmS03QmS4Mesa4antbUvSrp3yZaHCwlLgeR3hDC+bd2uUOLZKzbBT/nC6Fi
-         6KVhcp2NXtg37IYq51NF/WoiTFSmqYKIgKMdAsaW/v61vF0YqLBUSZs3Q3XYCDjiHap/
-         Nx+lRgoV5yZIJwh1198M94syKZqAwdxD1GJs2O0+5Mj4XTVtZNMywJsISdvi5uAhY3xQ
-         g7OnJtaNbdNb7vJeLOpTTLkGmMXfgT0Tt2Su6HwBnSh0Thpdie7rjAJ11zfygOqvUShN
-         c2bZIhZ6Tb3UaNBICsMYNpOGZSEFPf+C5VMLGxszYXmRcMASrBejPgk2q/If+VSBi8Ib
-         +Diw==
+        bh=8VRLVQ/LyTiuPYf0JYJOE9rN7kDkweXujsX9L75VbjY=;
+        b=M974aw3xv4o20ChiKGGFkB2vmPG7lmvUvPMFNDx9Ux1TkLYElS1A/GLs2O3YMplXbh
+         UO38Vng9/2ObHdgUR+fW2Zgg+09iuoARQBQ+9RBe+IVAZlV7HK30sARFGfyq9jR6oabY
+         IQ9USVfAtFT8rG6VPGcYoCvWibgsbRo8H/n574tNaX9ZkWhsv02rzdCGPzSeTrgdzdVM
+         AzA3SfW0dGZbOEqZnSpvCeNC73FSf/qObNZQUjcbrK+UDCkJLQMK+BCm/UlZHx2kjKJP
+         lTKTRDyJrq2bAwwRz1yiRVf86aBzwjMYTtGxbcajVNiSq/lANNmMhxP38lhq9ARX/FHC
+         P41A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785003526; x=1785608326;
+        d=1e100.net; s=20251104; t=1785043002; x=1785647802;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=EcnmFMYASQgb7uEJtLGRNmi55NqIWkVVzyig/XXgCk4=;
-        b=baI4Ig6iJ1HzJm8Zh7wzR4j+24usPSEbXYNH/mZ6ixBl3ZwKf8RovtnDlW5fuJLc3A
-         rHhMb9742BbbjUSrs0Jl07Fy47xzuSZnJ0nTZsrFBC+ucVHKHHBU4EzzNcEZLKKferCB
-         B5TLlIDkN3RyI6saYg1O3txVemYoU+3dGSwmgvdBG40d859DHa9F9Df4Mz+4/q+PCBJ/
-         eAioyAS7e1/EpO5F7B4v/RRD5/J/d3VbGeeKPmddCsAZZ0xTB02TJE+ICVPY7SaKp6yh
-         pVB/akSFw5BTWi2nLAUgEgfkH/En5I1LvEmqUwb4lLiPGfH62+mahX91vBsLOiDNE+xT
-         67Kw==
-X-Gm-Message-State: AOJu0YxvwAP/sYef3jB0KxJjKGKh/RdXSVc9vKTWthZQ5kUKttZ75W+e
-	+0IWxBCUj8Tk8IBt0dZXJ41CKoyKdfjMLjFyQ1QYTh1vGY+S+fhPiwme
-X-Gm-Gg: AR+sD12yADD1n7ofamo2VxDOSgi/B3MVF0Pd3K9PiYUtqei1M5TCSTP1V11ILOYJATJ
-	avTFLYtbDqfpGazOJqd9wAOVGokrhfGnJIYv3UpKAhDwcwbbLTF2sRZRM2TjUNg43M7lU6XEkBa
-	MMJIp66ZCMcY4+9XeWMFISpS6kp8532XZJQ4NNcTnZK+X6icTJHpqK0xRBbpx2XdXHdYaeajlLi
-	33IvrUtOqSVLUG3oy05GWZJ8rogivubA7C4Dsdek8vWo8rB/nreKiPeOX3tZ/9jenxEVSNJc4yC
-	rjvqiEZj4tVAy/lel2f1w7gMqxGzWlc78bCl4Pz02qv03Wwrqu6Q2sfTqTZsZZiLA2VkyJS3eeL
-	Pv6ZzNnVpXPauy/SRnrIU307Ftj0orZuf+KBcSGXJDurgt0NDwKDgT4by6E6lPbNlIoB/TjSDUT
-	SD9yS/gzn8TvTn0+kI308o6U/ZFZY=
-X-Received: by 2002:a05:6512:23a9:b0:5b2:8d3e:7229 with SMTP id 2adb3069b0e04-5b2c1b4dcf4mr570340e87.57.1785003526248;
-        Sat, 25 Jul 2026 11:18:46 -0700 (PDT)
-Received: from localhost.localdomain ([78.156.235.247])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b2be077fa8sm537878e87.3.2026.07.25.11.18.44
+        bh=8VRLVQ/LyTiuPYf0JYJOE9rN7kDkweXujsX9L75VbjY=;
+        b=K3lxIQtkzvzh3IYJAIIfctHlvNs16CIWTcMReng7ghodLiFG+d/JGOi9Sd96+WourG
+         gCbUsmeDbF60tu4u1APt5enI1UJdY91MQTAdo3O3rL5e9EY/KpZ4xDsgtcSbrJ1RLjnh
+         wO9nNJ/rCRHfSCnJQBLHKUVoTUbEr/w8wm2Djh3QCA6RGusirx56Wik/Uy9i9U+h/aXn
+         yikNxznHaXGMbtUiJcKmE9kPqWapzHiG4vhV9lSbabYUTSGBn29P23OYxLGEIBqr9gBO
+         JV/+RFz6SwmM9je//u29ApGSxKZs8kHTAhT6JTRcNwkjORAl8sgM6JLALd/kS3KPTONH
+         VEdg==
+X-Gm-Message-State: AOJu0YyA+0icoO/eocZYIdl5k0ugFZW5BnCB4eJ9bSVT3W7W0nSLFdDu
+	xjcw5eH/61e1PjJDHgV6dGLqjbDJ6ebtege6pPr4NDGJ/jKbDzC8Mr47
+X-Gm-Gg: AR+sD11K7JBcEGxiIPxMIdxFn/HHupgqULplny1WJq3mzDy+NCbqlJRlitCZ9YKhoyl
+	977TBgWpBH63y52Dd3D8lDo/KwCeMXy4j6lS85owqHc8j2BizYaUcM6WKNfrulRRGv1Sca2s17u
+	W3a9PfSnQ+EWR9wzWwat/nnsvyeQuwbPNq5Jd/KYxWYSO3zDh3fyd2nbhGCpGPGR2xTPqkbbFkX
+	hk89Zu8zWG5V1Xqv7G2Zr4gR5TdgGx0fU6pP2Qc98tA4H2y0AnCCDHnzVS0sObTCXhDIsY7RV3z
+	QqI7SuOJ2UKY85b9LqlUnnCCKWZ2mTdpaBvdc1ioqLt+anzM70aVFRgz0DGwQUhJysl4CBEj4Fx
+	c3X4y4XtqeQfZ4AFUFNhETtnnDejC5qEO+Bd4OkM9IWP0PuzvVdNlMBhKr1M8hCa0nmTUiFyTS1
+	juSEW5jjSAIcFqWb77qGLKaseCanJA8LdBy3+dVO+gLbyL
+X-Received: by 2002:a05:6a20:c90b:b0:3bf:6237:4d46 with SMTP id adf61e73a8af0-3c67da812bbmr4199772637.28.1785043001778;
+        Sat, 25 Jul 2026 22:16:41 -0700 (PDT)
+Received: from fedora ([2405:201:a412:78a0:40cb:342e:9c1b:a9a3])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13d2d1d0d1esm18699530c88.0.2026.07.25.22.16.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Jul 2026 11:18:44 -0700 (PDT)
-From: Akhmad <akhmad100913@gmail.com>
-X-Google-Original-From: Akhmad <Akhmad100913@gmail.com>
-To: gregkh@linuxfoundation.org
+        Sat, 25 Jul 2026 22:16:41 -0700 (PDT)
+From: Shivank Sharma <shivanksharma2376543@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
-	Akhmad Zubairugadzhiev <Akhmad100913@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: replace yield() with cond_resched()
-Date: Sat, 25 Jul 2026 21:18:37 +0300
-Message-Id: <20260725181837.39951-1-Akhmad100913@gmail.com>
-X-Mailer: git-send-email 2.37.1 (Apple Git-137.1)
+	linux-kernel@vger.kernel.org,
+	Shivank Sharma <shivanksharma2376543@gmail.com>
+Subject: [PATCH] staging: axis-fifo: Remove unused includes
+Date: Sun, 26 Jul 2026 10:45:29 +0530
+Message-ID: <20260726051529.172905-1-shivanksharma2376543@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -72,41 +72,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Akhmad Zubairugadzhiev <Akhmad100913@gmail.com>
+'linux/cdev.h' and 'linux/jiffies.h' are not used anywhere in this driver
+it registers via miscdevices, not cdev, and there is no use of jiffies.
 
-Replace deprecated yield() calls with cond_resched() in
-rtl8723b_hal_init.c. The yield() function is considered
-wrong practice in kernel code as it can lead to unexpected
-behavior. cond_resched() is the recommended replacement
-for conditional rescheduling in polling loops.
-
-Signed-off-by: Akhmad Zubairugadzhiev <Akhmad100913@gmail.com>
+Signed-off-by: Shivank Sharma <shivanksharma2376543@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/axis-fifo/axis-fifo.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-index bcaf63b28..6fc3774d2 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-@@ -191,7 +191,7 @@ static s32 polling_fwdl_chksum(
- 		value32 = rtw_read32(adapter, REG_MCUFWDL);
- 		if (value32 & FWDL_ChkSum_rpt || adapter->bSurpriseRemoved || adapter->bDriverStopped)
- 			break;
--		yield();
-+		cond_resched();
- 	} while (jiffies_to_msecs(jiffies-start) < timeout_ms || cnt < min_cnt);
- 
- 	if (!(value32 & FWDL_ChkSum_rpt)) {
-@@ -232,7 +232,7 @@ static s32 _FWFreeToGo(struct adapter *adapter, u32 min_cnt, u32 timeout_ms)
- 		value32 = rtw_read32(adapter, REG_MCUFWDL);
- 		if (value32 & WINTINI_RDY || adapter->bSurpriseRemoved || adapter->bDriverStopped)
- 			break;
--		yield();
-+		cond_resched();
- 	} while (jiffies_to_msecs(jiffies - start) < timeout_ms || cnt < min_cnt);
- 
- 	if (!(value32 & WINTINI_RDY)) {
+diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
+index 3aa2aa870..ceda6c755 100644
+--- a/drivers/staging/axis-fifo/axis-fifo.c
++++ b/drivers/staging/axis-fifo/axis-fifo.c
+@@ -15,7 +15,6 @@
+ #include <linux/wait.h>
+ #include <linux/mutex.h>
+ #include <linux/device.h>
+-#include <linux/cdev.h>
+ #include <linux/init.h>
+ #include <linux/module.h>
+ #include <linux/slab.h>
+@@ -24,7 +23,6 @@
+ #include <linux/fs.h>
+ #include <linux/types.h>
+ #include <linux/uaccess.h>
+-#include <linux/jiffies.h>
+ #include <linux/miscdevice.h>
+ #include <linux/debugfs.h>
+ #include <linux/poll.h>
 -- 
-2.37.1 (Apple Git-137.1)
+2.55.0
 
