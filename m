@@ -1,125 +1,126 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8D6A42089D
-	for <linux-staging@lists.linux.dev>; Mon, 27 Jul 2026 16:21:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9B3A420E89;
+	Mon, 27 Jul 2026 16:24:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785169290; cv=none; b=QuxS6l7+VxUMCXOcd+7Y5W2I1YRITh3r8xS6h8z5K6poXGzEPG7NxxvA4YvBC+vhPH/Ah1rDMNHnNXr/HddFJmJw2WiLPTIaEU3TQ9ETd3nF7Exf7JdrCX3kVdCLcYYAh9Nh242lCH0Id+5Ay8tbb3Uu/HwPfO0Y6H0q+CSrHjo=
+	t=1785169449; cv=none; b=XdilAFB+XsToltd9+J0YEbN7qaxgro+gViI+xxN6e49Ce33m7zpCgRKUtV2fk8TwE3nasUDmYXd8wKY42KgCg5z5mm73QMnqtV/ikriwSFvO33tdxsvhpFT3WU0VPYhDqnfROqKwhmer2L94SYQETwdtjKGabvpQbLVsb88LzxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785169290; c=relaxed/simple;
-	bh=67jqyCE7oL3eqXdhotlmpsBj9Y+xbMo5HHGjgwiAFho=;
+	s=arc-20240116; t=1785169449; c=relaxed/simple;
+	bh=hnlLaHHGgdJk9dJXwr/8Bp+o2gpo+EYxsAgavievH4c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Sqrdarilmna2WRlyNfmusunY5AS7/kXFoy9pqJPLuktTS8TQ3O0xaVAAnAAOEPA7rk1UlirsP9pUc4hXN5DT227ukCd2/181ECmO8M80DmJYwqADPX5WU8+8NnsyVIiHwonI31gRTFJTFlC1y5UbdCdtZqaN37cvkQvlJKV4gq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XyCN1V4d; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=QtAnJtvKynWd3ebzjPND5cs1aFD/hAmee7oQ1iG4BYIWHzg3Sy2DNm1hogVuzkE/dDrERoEqyt6XgQD6I7s3zIsMgxVNxGbrxTp0eUrUzIGOu3dz9IpN9/BqQsNdN2NIcd5r94LO/UJv1/gifLUcHXUCuMSDWwqrfJOD+iUDhCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EB2oJyT3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XyCN1V4d"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-38dc4553f62so2837248a91.0
-        for <linux-staging@lists.linux.dev>; Mon, 27 Jul 2026 09:21:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785169288; x=1785774088; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=xFPCWJYmCtzG5hz6wV+lDFiaJ61fxXl+OCahuMFw6j4=;
-        b=XyCN1V4d4PPLx2fS5TFeMJgTFVy/PJG6/3bd+VYLuRpZL7nTVgYBfTMrVo/EzZ0sC3
-         N3XJjWxGDSUJCeBtSigS5xkb6/+KMz3dKNBfaKP0ttBujKdw+BI3QyrodQ333Fwq53sm
-         CGSANgZuzte5SCaGvr+TzyaLp1Gzg/mPlTuKcRrtrdHeTctlJmvlXN7kbugw2qfK0A1/
-         Jx194ogP5OsaGZZvZuGiX0WhyplliYJdVnlCzA4CYOqIG1z/NHK+rP13sl8FBixyHvrS
-         RaQ9inFOD/+KNd2Y6TBOVbIlqAYP9ujlxgARyV0iL1uc4Sq7RaXn1ZT8Vouehsv1VrPL
-         LBZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785169288; x=1785774088;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=xFPCWJYmCtzG5hz6wV+lDFiaJ61fxXl+OCahuMFw6j4=;
-        b=nhZDMAFHa+XV16zZlLD927cc3eQcn7BmnFybphwVNFbtEWy4d4rak8WgKT56x5/jSV
-         gSL0+H1cai7xYxC9h098VrZFIE0CZoUrb5vM00sOjJH1xTxTlJjwxKTft7mxp1Jjgm+m
-         fZVn/2e8UisnD1ECBTsPT/5HEmA2oHgoNfOhRW+go0vb8lFDuTCLmf2ebH6G0Zrw50Z2
-         RPV6+M8D/UcWvWOueTZINtUp3OTpwi2r5R1w+IcZ4zFzha/PvsMoZiwk9TXK9QhF3Vdt
-         l/MQNrof4LImPp9yrH6aNDupzzd0vmtk0cCQqGfVJhy4krcMkj2Jf5kePBHYW/1wfMeE
-         rPpQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrSI10Zxc500U1A5Rpa/PZ6BhhKioX20mHpJGQdZ2h4Gyz06TDUvPt1C3Dyb7LvjnGXPFKneiO94Lo1JLQq@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywumq48qdDFAurwJ9mcIHQNB7qM/uWjPDUDibQAmxAd4Y59QboA
-	ohWK7XiODdkCNUfSJlxqBZBYiKRvwpXD/qoeatPmAHrVydDnI8i0Avs9
-X-Gm-Gg: AR+sD10NuKWDRDKFzpJwKz4Setjm/ZGA/Kz3/qzLxpltV69e5zLoqoV/mv76Cm+YvPt
-	NZ4I347Vzju5LVdtzdCtCI9Jjxc+bXMglJeJx1sau5DxMVAOmVsHw3PscvppVla7GntUD4fMDIq
-	TH9X7RRX9+9Uixia+rFyy1ejdqnXvkRUtp90S+F8930JJURRuG82Cf1EZDkPH2bImMrNV9tMWQ2
-	53Uwm2DHmULQT//WzVb8lr1QXrzHfNMLT1bKKWc0J2vfjP7NplFgXLrZVG0/NypCvnc/nbGMpUe
-	4GfzcARnxVDLLNquLvuB0o/7JlPvY0sW0PCQJzacYXpHwUwUBQe/j2pAGpQMsSoPAjQHkD9c64e
-	mBbmnJxYK8heLwK+rElBFJttxaFDJy6i1XF47m2DsqXgaBAIqmSyzgY4xqMnd1Zp7X1N3VPe0
-X-Received: by 2002:a17:90b:184e:b0:38d:ecfe:41aa with SMTP id 98e67ed59e1d1-38f2978138amr7093404a91.43.1785169288178;
-        Mon, 27 Jul 2026 09:21:28 -0700 (PDT)
-Received: from localhost ([172.216.252.23])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38f6411be37sm80682a91.7.2026.07.27.09.21.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2026 09:21:27 -0700 (PDT)
-Date: Mon, 27 Jul 2026 19:21:21 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Hao-Qun Huang <alvinhuang0603@gmail.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: media: tegra-video: vi: fix probe failure on
- skipped last port
-Message-ID: <ameFgX4p_UvO0DiD@stanley.mountain>
-References: <20260707152425.571254-1-alvinhuang0603@gmail.com>
- <DK9B2RGTKZE4.BHXZNRMJ4PWK@bootlin.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EB2oJyT3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3E6D1F000E9;
+	Mon, 27 Jul 2026 16:24:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785169447;
+	bh=RBXpZSTaERLmZOoaiMiejoT9Ba+oDRYLMpaF9aCISp0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=EB2oJyT3LVT0a8ODTVmDTPnMgaNxyeAPbteSR00cUoroP9S9lnpuqGO5aj9m8WaA4
+	 9Bzjy6kuandWtV+tQDQBiy2NpUKkk+hHS5uv7HjhrXc0+hBXGfjQ9puvlY/6icN885
+	 xOlGBkoiOpwj73y11STRzyng+kXVFL8R4Xu7Yn0YBlb+QdaLocXyQbAEF8c2ypNDBc
+	 In6oxsckV7osHBnhuV6EMpmLoQjdSf3QgVE401Cv/3QdXNggF04s/vhlyE/8TFP1Pm
+	 PraX/zqhBWeqhKt38Re0oVJL7izWdMDyE/uiVUlxXIubUyk2P3eAxPwsLopAjRzi9d
+	 9ShDf5BWG0dXg==
+Date: Mon, 27 Jul 2026 18:24:04 +0200
+From: Thierry Reding <thierry.reding@kernel.org>
+To: Hao-Qun Huang <alvinhuang0603@gmail.com>, 
+	Rob Herring <robh@kernel.org>
+Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Sowjanya Komatineni <skomatineni@nvidia.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dmitry Osipenko <digetx@gmail.com>, linux-media@vger.kernel.org, 
+	linux-tegra@vger.kernel.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH] staging: media: tegra-video: fix of_node_put() on VIP
+ parse errors
+Message-ID: <ameBr5oM8pp4PpiQ@orome>
+References: <20260707150326.554689-1-alvinhuang0603@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="b7pg45i72k7ky7mj"
 Content-Disposition: inline
-In-Reply-To: <DK9B2RGTKZE4.BHXZNRMJ4PWK@bootlin.com>
+In-Reply-To: <20260707150326.554689-1-alvinhuang0603@gmail.com>
 
-On Mon, Jul 27, 2026 at 01:10:07PM +0200, Luca Ceresoli wrote:
-> Hello,
-> 
-> On Tue Jul 7, 2026 at 5:24 PM CEST, Hao-Qun Huang wrote:
-> > tegra_vi_channels_alloc() iterates over port nodes and skips those
-> > whose reg property cannot be read or whose remote endpoint fails
-> > v4l2_fwnode_endpoint_parse(), leaving the negative result of the
-> > failed call in ret. If that happens on the last port node, the loop
-> > ends with ret still negative and tegra_vi_init() fails the whole VI
-> > probe.
-> >
-> > The same defective port earlier in the ports node is skipped silently,
-> > so probing succeeds or fails depending on the order of the port nodes.
-> > The CSI equivalent, tegra_csi_channels_alloc(), returns 0
-> > unconditionally after its loop and does not have this problem.
-> >
-> > Use a separate variable for the per-port checks so that only fatal
-> > errors end up in ret.
-> >
-> > Fixes: 1ebaeb09830f ("media: tegra-video: Add support for external sensor capture")
-> > Fixes: 2ac4035a78c9 ("media: tegra-video: Add support for x8 captures with gang ports")
-> > Assisted-by: Claude:claude-fable-5
-> > Signed-off-by: Hao-Qun Huang <alvinhuang0603@gmail.com>
-> 
-> Do you have a real use case where ths failure happens?
-> 
-> Also, mixing two different return values may solve a bug but makes for more
-> intricated. I'd rather second a fix based on moving the whole foreach loop
-> body into a subfunction, and make the foreach loop body as simple as
-> calling the subfunction and handling returned errors. This would fix the
-> code making it more readbale.
 
-My instinct is that the continues should just be exits...  Why are we
-accepting broken device trees?
+--b7pg45i72k7ky7mj
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] staging: media: tegra-video: fix of_node_put() on VIP
+ parse errors
+MIME-Version: 1.0
 
-regards,
-dan carpenter
+On Tue, Jul 07, 2026 at 11:03:26PM +0800, Hao-Qun Huang wrote:
+> tegra_vip_channel_of_parse() initializes np from dev->of_node without
+> taking a reference, but its error paths drop one through the
+> err_node_put label. This underflows the refcount of the VIP device's
+> OF node when endpoint parsing fails on a malformed device tree.
+>=20
+> The only reference the function takes on np is the success-path
+> of_node_get() stored in vip->chan.of_node, and that one is already
+> released by the tegra_vip_init() error path and by tegra_vip_exit().
+>=20
+> Return errors directly instead of jumping to the bogus cleanup label.
+>=20
+> Fixes: e740d199cf0f ("staging: media: tegra-video: add support for Tegra2=
+0 parallel input")
+> Assisted-by: Claude:claude-fable-5
+> Signed-off-by: Hao-Qun Huang <alvinhuang0603@gmail.com>
 
+I suppose this is a common pattern, but isn't this technically broken?
+If we were really pedantic I think we'd need to grab a reference to the
+node very early in the function, like so:
+
+	struct device_node *np =3D of_node_get(dev->of_node);
+
+And then make sure to release it on error (and hold on to it on success
+and release it on remove). For kobject/kref, unless you hold a reference
+to them they can disappear at any time.
+
+That said, of_node_get() doesn't fully support this, it seems. It would
+need to do kobject_get_unless_zero() to be fully sure we get a valid OF
+node.
+
+Rob, I have seen these kinds of reference leak fixes a number of times
+now but they just don't seem to be fully correct. I know that OF_DYNAMIC
+probably isn't a very common configuration and so we might not run into
+most of these issues. However, I wonder if there generally is a problem,
+or if I just don't understand this correctly and there's some other
+mechanism that makes sure these references stay around while the code
+uses them without their own reference. I guess maybe as long as we run
+code as part of probe we can rely on the struct device hanging on to its
+reference?
+
+Thierry
+
+--b7pg45i72k7ky7mj
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmpnhiEACgkQ3SOs138+
+s6ED7A//ay6tQPT9ljBJEqYAPmHVdyXLy3wsaIcFw5eev0a8Iz/xC4hJrWNZp0ix
+2mmjA5Hek4YrPXUrNLDoH6lgkCj4SWISC+FZbh5vHaVIiv4tgGIaFiMuFCyPtkNR
+urrYV74O1Sckk8+AXFVdlZIiIX60qpKtibX/n8ufny71vqsd+0n+85/LPeGuEJsJ
+bNgBW8mYAziiKAPOm3/mJV9MRGX0E6qbf5oW+AGdDFkdI6yi+DEjbaQH9KZRDGr3
++d8vtA+jn9wt21lo2j5NwrLaclCiOyeZQe5QzoeCgIB2d2AlMykt1qbhtw7VXhRH
+3KXzioJtA6S+Nywz7PLiIB7OjGgo8/3vwJuRV9mrLOW+LfWb2t7N7yTM6G9fTf2Q
+4RKi8VTGZsg4IOsjJazOa2h0/Woqt/5XyovarYMwPK5Tgna0bQLoCuLraKjEpxOv
+B6hOyFN++pS176nwTFtAwT3Srq78e3Hw46gvDIUnTgQOwpg0MFWPrFSCaULTC6cM
+yyZTnQ4fd4L95jem2h2A2PGxjlkJVL2UnIN4JpZnYNGy7OzWsDVcE+eQNEN/uXBG
+fvZxd3+SN+JUZktmZRyGg5GVQCxqcohHZ2iA3to4sCeTNWrsmzxqWLIh/sR/E87R
+CZCCFRYo0rpS6WJqq8BcLLaUINXz3qEb76B5xlwoCt6ze/KrXhs=
+=Z5zv
+-----END PGP SIGNATURE-----
+
+--b7pg45i72k7ky7mj--
