@@ -1,72 +1,74 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EB3C3F9F2D
-	for <linux-staging@lists.linux.dev>; Mon, 27 Jul 2026 11:15:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46DF03F4DF8
+	for <linux-staging@lists.linux.dev>; Mon, 27 Jul 2026 11:22:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785150946; cv=none; b=XtyCUc8I0etNBH7AcDlERdWTQLEhdTqp1cQLXYUoSjG6Ts+gAwRYEeP+LhqsOuQCBiwvLBDgvNjGHmEEvSvmf66GoI3eUNUC9WeE4Kt3SiMfr03JnVVJL3IPBW8n6N66bKeZ52izXgjUtbQXCa3Cva6pG5B5yPZipU4wWMEtFbk=
+	t=1785151371; cv=none; b=OcuC3e+yWA4Y7stZggOz4lzvo5cpB3AmsBttJr/ZkPbUGwjdH3eKDbVRYPfmyoWFcW5I13gyyfddS/zHD2DjsuMM10mwYivJh6eLBt3HPXKuqFYD0A9IGHMbC48J6km8aFc2aWKIhcmg2JoiasxO7Tk+udytXxb/3dgEWAoYznE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785150946; c=relaxed/simple;
-	bh=GoUTgUI001M7Nkvz5L0znPw4/YTz9d1rdGCJaMUXKvw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=clPf5Ui/Eu+eEgP9hKVuAt7VyfpGQHb4C5huUbVyBbIVVXD1YvfHowiInrZiA8qL1qqAQ4V1Rxfpe53sOWZjCoTp9+gU4l8MqlcG1TfTqr8/VzdSYVJczVw8zzYzf8vmgU9yAuyzI+3cjJskMWoeUIvms9kXu4KdtFNjvCaLWnA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=s9ihWvZZ; arc=none smtp.client-ip=209.85.215.172
+	s=arc-20240116; t=1785151371; c=relaxed/simple;
+	bh=GvGPNpCEnQDfHxHOcxa+Ci3ycUkDkZuGgKa+12rrbsA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=VaP40UbV2mKuf1n2jAIQ8/tNeey9Y0JYz/dCHTQJ/AThVoRtkIzWgfU+ckxnuGM5Jb3GRnZxQqJ7lZAPB7yPdA1GaQvCNqXQXY+ppq7JxZD0uvvGnT/YoDd2X1mdRKoakXJ7lbInCaqyxTjpeQiGuGNpmiy24ceNyMDLIznfHq4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=knYps2GS; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="s9ihWvZZ"
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-cbb662575d3so1417157a12.0
-        for <linux-staging@lists.linux.dev>; Mon, 27 Jul 2026 04:15:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="knYps2GS"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2cca0c5799eso23158995ad.0
+        for <linux-staging@lists.linux.dev>; Mon, 27 Jul 2026 04:22:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785150944; x=1785755744; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1785151370; x=1785756170; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Z++gezlvac4xYRLRtWLYw02S+0yg9RS8Olu40yBTBJ4=;
-        b=s9ihWvZZaEkvbQHeD0JA/3UA3n+Bp7dy2KIxeyEpwzIYthLzlTLK7UI5OGHu9vBAp1
-         LCWEENJnLNoE/UI/cS866CPm8ULPLDegbaPBcm+8zhOlNZixItnJ7re0hjDsUdHGfWCQ
-         9DQCHFoBxmCirZvmZunuQQHGvFJ8jy8g7i/OVEvEnOChxzQa3HQFr7Y+esoKKdD7/6xL
-         efiRCH1U+z/VCGgW3u9c2xwxkvRHTZYNGmqY46n26FdWJW1UCcnS/0s246m+qAVpFchi
-         5V6n69ZYL6Ko8QqbhDwEX+TroyCDSupY9NomMw6vW0Iksr9s9m2twFrSEUf+ohXEX5G6
-         JIQw==
+        bh=k5E1s8oCcP+GEyqdmRlB9Q75yjWLw8arRgBTU8DpxFM=;
+        b=knYps2GSi4FazhGhWnQIrF7EILy41ZgwHb1QB08hKOhRFmxVhs08EGv1Pwb8KVrsH0
+         O1sgZEWFBz/e4uhaF0W6Sn9wWaWwOiUYOAVYXA1tPyh7UZkcbxkkaMVUsOxown65ipo0
+         vnV9IdUcIJK37JGYGJA5TY03p+es/qLPqOk9qaPWY4tC6NxoGMpYEDQoZuwSDvtU5c7q
+         HMB5sIH9O0gS4+w5f98OsIfYynrNPM82AaltDCxvKwfWvdBfuU5P2b6y+3vp4Zj3WbDr
+         tqfrkpKYiTzaP1SQ0W27vhdCkk0VeHThXQBZseHvb9tz3AMmLg3IZfifzCfbLNvTKJi5
+         7oyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785150944; x=1785755744;
+        d=1e100.net; s=20251104; t=1785151370; x=1785756170;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Z++gezlvac4xYRLRtWLYw02S+0yg9RS8Olu40yBTBJ4=;
-        b=emdLByrQiGxJgoCQgsoihqPqAg3YBC3uiK2RtnGL8vfugDiVTUL9cBlX3WzaeUgNBn
-         PzjLML95+pLlx7XdLOZrwXbYqUAMuIc6dElCE5GyBI5BfZYKcBSAYH+xppLhEIQq6fSY
-         EnkzkXOegdC7i+4ZvavJYDtU+rc6cxECxdFKucBef00OjI8vxtodmBf9ZCMp3BxJ65kP
-         QdjVsoncLHErMVu9BTrzzpZSKue/ZBaNGVr0jbgq7zr0QKqqEdg/kcGZvztJ7Y8KIF7/
-         7XYbuPZzk4Vk8+L2rCEC6oDIpHuYpDIIja56x6lPmwhk0pEJ6YYiC8IA8mKVKchtazQh
-         Dkzw==
-X-Forwarded-Encrypted: i=1; AHgh+RofnmRJiWvnwFdrFZgE+pm+fndJ5436NVk8H4kgRMY5j3ZpbWbkb+rPyn9iJaWgpuGTuoCY/Rt4vzs5HTY1@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxfn5MXRJ5GclaIraAmBNBUBx0eL9z5DO48NVYtQrUONsaEV5yI
-	7mCbRzeo6oTlK2Y/KPVsLI/TLMcF4NAXvC/CLzhdVgRKwCu/XfoLP+UI
-X-Gm-Gg: AR+sD11JLcOHlP+stv3jibsT1n+GKeAGy8/Ve8r6xnmohmb8SUJ5ctniTzAj9Vbfg1q
-	q/FhfrCRL76fJV4xfCmYfauOvfaokwy+dhVuIJYUJbs/7J/TgctkieIQLBTYbWSq0NoZZuOPCk/
-	iXeDzItjfuOFvyMYfrrs00pzs4GlVCRWz8t+BhC2r5BvT1lq6e/btrfc9rq15gq3G2kP0f9S56o
-	eH3AwE1OC6j4tBSs94PnbLDcK4VJcBa+mS8o3XEavjZSEnZhU9EWzVHrzsmA/TejTHG5o5iZg0d
-	FBhGf+QJtqW+gra1HWvtDZASlZMWv2dut2SwPkvcJPQuz0oP0TkRfH7oS/sOqsN3ExRJ4v1WBk0
-	ue3nUBs2axuT9auABvkhZeGWc2Oln+DEqCGfhAEvX9Onr6QMeyOXPKJlJ3HbAQukVeTYofs84qG
-	5Xhn17WLCYJUC1UPsR8yM=
-X-Received: by 2002:a05:6a21:50b:b0:3c4:147e:98f1 with SMTP id adf61e73a8af0-3c67daa7226mr8285938637.31.1785150943517;
-        Mon, 27 Jul 2026 04:15:43 -0700 (PDT)
+        bh=k5E1s8oCcP+GEyqdmRlB9Q75yjWLw8arRgBTU8DpxFM=;
+        b=kPUSsU5K6UxOrYk6qp0LwDSoSNxz6LZFO+r0fWfyueHVFL0OAmrm5UVN1Du2XLt9fr
+         3Y4Vywm/9NjlbX28isN5csBdqBJXU1QW2Vv8g6mjDERcJv0kqOvTguXmlhfgAMSdKaD2
+         W3FG88/0eKQEyD7jiPeesOM4PEW2hRMXBE4DFCjci+jz3nvEjHsJ6e6GVKw2ms8F+7Va
+         pK3sDJM1cBy7A+3ZXov4AZBwkqcOZyan1RVWaa4I6E3TNn5yf6crOfglj5+xkeMuokZt
+         RE9aB9fUxBBrJkCcxhaGLiSNN7n67u8rArCKFO2BXs/T2G2hQpr2RqNwKsMpHrbDUX/c
+         hIzw==
+X-Forwarded-Encrypted: i=1; AHgh+RrcCGIvZBEUS32vhIQ3hdw24LRBTJkv933jLyeaVBircAqLzbd9LPXIqjUyO6wCqffactwwKhZ4axnSBNrR@lists.linux.dev
+X-Gm-Message-State: AOJu0YzxpPb6jYxIlPyMFgvovrWcCnffjCMhHoRpZkN+EunuXbsVki1L
+	bSFncOMxjESgwUmiNh+lo9N4PqMcgWgXekAUVKxIerz4g1x80epUVsLz
+X-Gm-Gg: AR+sD11Sjb2MOaoUcBexM3CXmL4r5R1nTgre7rX1AsSPcj/Rwi7rITQLeRoaLzi/lB7
+	KDxB/qswPQMHs8C9v/YQaKlHZPc51GLNaETqTfhjOzAWvv/KZd4Y7qD1jCxKqHV+vGprpxO9W+5
+	fMLE4/8qXaDwgNWLegD5vgfIien0XrRlazh2tr4Tn6/rkSAjJdnJfLaxiMi/pz2KFVz+a1qJijK
+	jvcWQV9vuCS6X0xsY+11ZMA/fzpCJm4AwxjqaTRwije8ibCiHf14J6r31tmJTgmEMMQYA1Ebk8a
+	nSZ8pAmSNB4LP+H43p86J8prh3djTC21PH2hF6nAhKbAMmfcyheewO2Ra5NvJSqGxEQex8N6kO9
+	8jCAAMvFv8WJkk6UFcbzXs3OVl9rthDa3XDp1h9whJoWuDziW9raWQgHAZN4yh4Ho8pTIMJGoww
+	nPL+ucXtND/p8XGq5HB8o=
+X-Received: by 2002:a17:902:ea0e:b0:2cf:ca89:499d with SMTP id d9443c01a7336-2cfde6880fdmr74010545ad.7.1785151369490;
+        Mon, 27 Jul 2026 04:22:49 -0700 (PDT)
 Received: from SGN-LDSENG.tasernet.com ([2405:4800:5cc3:11a:1ac0:4dff:fe8b:4a69])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13d130262d2sm49070926c88.7.2026.07.27.04.15.40
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2cfde5e3e0asm32938925ad.29.2026.07.27.04.22.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2026 04:15:42 -0700 (PDT)
+        Mon, 27 Jul 2026 04:22:48 -0700 (PDT)
 From: Cong Nguyen <congnt264@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Martyn Welch <martyn@welchs.me.uk>,
-	Hao-Qun Huang <alvinhuang0603@gmail.com>,
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Hans Verkuil <hverkuil@kernel.org>,
+	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Cong Nguyen <congnt264@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] staging: vme_user: fix flush_image leak in tsi148 bridge
-Date: Mon, 27 Jul 2026 18:15:34 +0700
-Message-Id: <20260727111534.729615-1-congnt264@gmail.com>
+	Cong Nguyen <congnt264@gmail.com>
+Subject: [PATCH] media: staging/ipu7: fix async notifier leak on init error
+Date: Mon, 27 Jul 2026 18:22:39 +0700
+Message-Id: <20260727112239.812159-1-congnt264@gmail.com>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -76,50 +78,40 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When error checking is enabled (err_chk=1), tsi148_probe() allocates an
-extra master window resource, tsi148_device->flush_image, which is used
-to flush posted writes by reading back over the VME bus. Unlike the
-regular master windows, this resource is not linked into
-tsi148_bridge->master_resources.
+isys_notifier_init() initialises a v4l2 async notifier and then, for
+each CSI-2 port, adds a remote sensor subdev to the notifier's
+waiting_list via v4l2_async_nf_add_fwnode_remote(), which allocates a
+sensor_async_sd descriptor and takes a fwnode reference.
 
-Because it is not on any resource list, it is freed neither by the probe
-error path (which only walks the master_resources list) nor by
-tsi148_remove(), so it is leaked whenever err_chk is set and either
-probe fails after the allocation or the device is unbound / the module
-is unloaded.
+If parsing or adding a later port fails, the code jumps to the
+"err_parse" label, which only drops the current endpoint fwnode
+reference and returns, without calling v4l2_async_nf_cleanup(). Any
+descriptors already added to the notifier for earlier ports are
+therefore leaked, and the caller's error path does not clean up the
+notifier either.
 
-Free flush_image in both the probe error path and tsi148_remove(). This
-is safe when err_chk is disabled: tsi148_device is allocated with
-kzalloc() so flush_image is NULL and kfree(NULL) is a no-op.
+Call v4l2_async_nf_cleanup() on the error path, matching the cleanup
+already performed when v4l2_async_nf_register() fails. This is safe as
+the notifier is always initialised before the loop is entered.
 
-Fixes: d22b8ed9a3b0 ("Staging: vme: add Tundra TSI148 VME-PCI Bridge driver")
-Cc: stable@vger.kernel.org
+Fixes: a516d36bdc3d ("media: staging/ipu7: add IPU7 input system device driver")
 Signed-off-by: Cong Nguyen <congnt264@gmail.com>
 ---
- drivers/staging/vme_user/vme_tsi148.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/staging/media/ipu7/ipu7-isys.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/staging/vme_user/vme_tsi148.c b/drivers/staging/vme_user/vme_tsi148.c
-index c695ad9b4ca2..8ee1e00cef4f 100644
---- a/drivers/staging/vme_user/vme_tsi148.c
-+++ b/drivers/staging/vme_user/vme_tsi148.c
-@@ -2513,6 +2513,7 @@ static int tsi148_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 		list_del(pos);
- 		kfree(master_image);
- 	}
-+	kfree(tsi148_device->flush_image);
+diff --git a/drivers/staging/media/ipu7/ipu7-isys.c b/drivers/staging/media/ipu7/ipu7-isys.c
+index cb2f49f3e0fa..c626de051898 100644
+--- a/drivers/staging/media/ipu7/ipu7-isys.c
++++ b/drivers/staging/media/ipu7/ipu7-isys.c
+@@ -233,6 +233,7 @@ static int isys_notifier_init(struct ipu7_isys *isys)
  
- 	tsi148_irq_exit(tsi148_bridge, pdev);
- err_irq:
-@@ -2619,6 +2620,8 @@ static void tsi148_remove(struct pci_dev *pdev)
- 		kfree(master_image);
+ err_parse:
+ 		fwnode_handle_put(ep);
++		v4l2_async_nf_cleanup(&isys->notifier);
+ 		return ret;
  	}
  
-+	kfree(bridge->flush_image);
-+
- 	iounmap(bridge->base);
- 
- 	pci_release_regions(pdev);
 -- 
 2.25.1
 
