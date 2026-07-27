@@ -1,128 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B26F419FA2;
-	Mon, 27 Jul 2026 16:33:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66E753CF67F
+	for <linux-staging@lists.linux.dev>; Mon, 27 Jul 2026 19:53:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785170018; cv=none; b=gTQLzkum4RaVs8S+kELqTEdQDthZxsi7o56CcA/3/sR6enU6/e3pTZzhMfIUJjML+qn/vBspKp2rtB0lSdWw0dJZJyYKoXOel5QNkmDbqR/7QiMU7eMTO4YOQKW/wNchXRU3YUuqREI9beUUX+iQWoznzPizeVN6UvuGmONeuoQ=
+	t=1785181981; cv=none; b=PfaLCw29PFQS7GsWFjEmRxd+sWh/Cer6PHK6RF0BSqW9fWrbT2gSDkwuk8wiRSYkq5UsXZGVHomzuF+oHgzerWcGLwyuQ0eF7qGgN6tqiBSb7JAl9x1xldY/6dQahLJ5K6dBCJGl7fvnEVJZQ8aVDAXPvtT5StCIwjV4mFy1t3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785170018; c=relaxed/simple;
-	bh=lDRPaSO4rlyqFhVEx+9fpNe5Rxhf+BS6baLLxIOmR+I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gOjaWR5ncp7Bw2+02DL/uOHBjZ0i5J10ttwNEpubd9J1+FWDzxLaP9/zrmcc0H90P5V/Ik38nTBwuExEMxSq8jTC8snanLOvqZzxSYR8zo2gbeH131uZSWa1NFzCbB7GHaP/DVw+N64z2jOiMMjIH1F67YVS3v4Ox4kXA+FMzdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QXP/ZRE3; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785181981; c=relaxed/simple;
+	bh=OFjmmCAdVCnNLi9sqGj4/5IbahIIYpKULO/PAOdSaRc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=P5n9ZLGtb9aNSHtsUC2CvQbK15q2hujCbweClhqRysFS2eiCfQAhLY/IQg+/LKjWfrDv3RzG5ZQZQQa1aQSMt6Yx6HVQtKDbHq3jxQ5IwA/87YZ1VGhbFCJLOF2Zb7MQemTuMzxBto2xNhhjHHxFvZvrScrAosl6Qm1Zsi5Ej70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=r6Yl4eoS; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QXP/ZRE3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4732B1F000E9;
-	Mon, 27 Jul 2026 16:33:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785170016;
-	bh=Wr0iEMpY6mnymor8cobq8NKXGrDlWqO414r/J4YVasM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=QXP/ZRE3MMjYF+xivnPzI9S4ofX9Rg6wzaxqfdm4oSJUslpS45A6EaXYCfB059041
-	 hgqaljNDgil4e1B5GkbC74dZHmelG2ixK1GSVEQxDh7XKzoNTEfvTkRhtr7qHAI5nM
-	 4Zy0leon1eX+jYUDCkWdo/gYNbUVqn9Qs9zZ2zu5C/ZvFDvY6JETeJzzWsjp2MxnDO
-	 nFWjA4rBm/ZV9SecTPWu4vXcJA3Joldy/kx0bo3KWdBpziB7H50wsUtA+aHV87aFrQ
-	 lIyuCpzV3gQD71hSlQZWbdyzeNpnWHFy4FqKYMgKvBK6kJrHiES04ScWWDvimiF4B9
-	 luLgIym1E9Icg==
-Date: Mon, 27 Jul 2026 18:33:34 +0200
-From: Thierry Reding <thierry.reding@kernel.org>
-To: Mikko Perttunen <mperttunen@nvidia.com>
-Cc: jonathanh@nvidia.com, skomatineni@nvidia.com, 
-	luca.ceresoli@bootlin.com, mchehab@kernel.org, gregkh@linuxfoundation.org, 
-	Faisal Mukhtar <mukhtarfaisal03@gmail.com>, linux-media@vger.kernel.org, linux-tegra@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: tegra-video: Use BIT macro in tegra20.c
-Message-ID: <ameHNGAsPEN5UecN@orome>
-References: <20260722154055.385164-1-mukhtarfaisal03@gmail.com>
- <A0-05eQLQFWwHGewIFE3Kg@nvidia.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="r6Yl4eoS"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-cb5b8572b70so2347798a12.2
+        for <linux-staging@lists.linux.dev>; Mon, 27 Jul 2026 12:53:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785181979; x=1785786779; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=hUhS8pUGxVK73l2jmzaVX/4xoesiuavR5rUePoeMQhk=;
+        b=r6Yl4eoSGmkleXSd8/j5sjE1hBLQo2+L+Z9Q81bSUCQUfT02pTyZCEMCEQAysRadNH
+         iKNRsgczF0dQo1UFTpzVJsDkh/los5wKutXxRZsxNUjQ9gJse56R9buQBHFMngusEg+5
+         Sgqr3AqSQYz/NIMBXHK3wQp9wIimcLanMs28B+C8OerJejAD9ReO5hEtVxWhxrZfsKCh
+         fvn0IipCAWzbXl6+qMi+sHmFvlGUNvZYRqP3IVkTHVv7oi8wngcySD0MPV4uY6ShAQyV
+         GSAca8pHJdnX7Tztb3qJgf2Hh9cBq7aDYZcrWfDnMBdcOZ9v8F9tbAy8fdhxvPFkglSI
+         NBmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785181979; x=1785786779;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=hUhS8pUGxVK73l2jmzaVX/4xoesiuavR5rUePoeMQhk=;
+        b=V9LmY7yL7CWgGBjwWHjfwGsUjz2wERhTIymzPwvbRbRA0d9zeeKrdfhbv7/M7mv6Y4
+         mpNwDS4Nr1DrqaZ67xW8pDl1Vgy+monV2Z/305dZC26Du2W1cG0YqwoEpG8GqSTd4wtY
+         8qqImaj5JAFWFsGGx8t4DxHitB2xfpS/qmhX59tW2c6cTlp9TJJ1WwmASkvV3If+aPEj
+         Lbp9HtGd6hC4iJKeTkJt+fYrQK9RMKFcij7bWfPMiFKu9RSkWF1QOrb5mOROhRuFUQHz
+         hZwNKBEET3amFU2jGJntcMAXajhnDa1TUCW+wVBPsd0EnTNFFHYHQX9WPi7d9mEpdoZ4
+         lsbA==
+X-Gm-Message-State: AOJu0YzjSnajSKZ1XiS8OzFZYGhAkuUCofbVt0Ya3pEe3FgiJqU5SWYN
+	SMOourhuZdKPWc+lBws8eIwWmjftDbSBPHbm2xMBUfYa0ZtD5drpz7u+
+X-Gm-Gg: AR+sD13zv0nstXjuPyiIVlUsN/C3M4/yn8OMsZTa9V28H7bDKcKSr9VTdhziRK0XiJ1
+	NmWwAMWBJa8L439KiM18TMpbSl0Q1ImztZGwWN2/ke1D7Z1rtJB+AJt8aAsHv0MNwtr0NhmnlLi
+	ocetHevfm2KirE3+vwOQW2h7JCEXAsdR716IEdDF/bgxVuZGG171qplXzqq0nNwlyZ8x+Yfj/vJ
+	kdnEMxWparX9Ep3xm/bGG4HrCDF36ZGk71+ETcA9vVUeNLH22Rn4wrpn4cfTXbErFcOSRNnlakk
+	d18KRlcs+LVcUSox58HItAGvs8jTbj1ZqbQnILusTyILCYJ6sLyjmYrJvs0Z+MT6Mj6ytNlVMFE
+	C5mv7EBZ0Cs5E1chjqcDs/1C7pQpESsN7pRLi3rhqftRwOel/y/0I+p5ONujDn7NKsJga+KQncr
+	MeYVFnfAMDOSGA1QzHEcNU7jAz0H+aQKmHQ3SMpYPdwaZrKFmBm/HYZ5zwTRALRXwrRa9vYAfw7
+	eB6Bs0=
+X-Received: by 2002:a05:6a20:450f:b0:3b4:61f:1fec with SMTP id adf61e73a8af0-3c6c7b05b3emr1000087637.2.1785181979419;
+        Mon, 27 Jul 2026 12:52:59 -0700 (PDT)
+Received: from ArchLinux.taild01bf5.ts.net ([115.76.55.213])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-314bc3e261fsm39100835eec.6.2026.07.27.12.52.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Jul 2026 12:52:59 -0700 (PDT)
+From: Dang Vu Duc Hien <dvdh12707@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Dang Vu Duc Hien <dvdh12707@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: add blank line after declaration
+Date: Tue, 28 Jul 2026 02:52:36 +0700
+Message-ID: <20260727195236.663392-1-dvdh12707@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ofdew7mm3y3wxfle"
-Content-Disposition: inline
-In-Reply-To: <A0-05eQLQFWwHGewIFE3Kg@nvidia.com>
+Content-Transfer-Encoding: 8bit
 
+Fix the checkpatch.pl warning:
+"WARNING: Missing a blank line after declarations"
+in drv_types.h.
 
---ofdew7mm3y3wxfle
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] media: tegra-video: Use BIT macro in tegra20.c
-MIME-Version: 1.0
+Add a blank line between the variable declaration and the subsequent
+statement in RTW_ENABLE_FUNC() to comply with the kernel coding style.
 
-On Thu, Jul 23, 2026 at 01:18:11PM +0900, Mikko Perttunen wrote:
-> On Thursday, July 23, 2026 12:40=E2=80=AFAM Faisal Mukhtar wrote:
-> > Fix checkpatch.pl warnings by replacing explicit
-> > bit shift (1 << n) with the BIT macro, to better
-> > adhere to the kernel coding style.
-> >=20
-> > Signed-off-by: Faisal Mukhtar <mukhtarfaisal03@gmail.com>
-> > ---
-> >  drivers/staging/media/tegra-video/tegra20.c | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> >=20
-> > diff --git a/drivers/staging/media/tegra-video/tegra20.c b/drivers/stag=
-ing/media/tegra-video/tegra20.c
-> > index e513e6ccb776..cdfd9f276d11 100644
-> > --- a/drivers/staging/media/tegra-video/tegra20.c
-> > +++ b/drivers/staging/media/tegra-video/tegra20.c
-> > @@ -177,15 +177,15 @@ enum tegra_vi_out {
-> >  #define       CSI_SKIP_PACKET_THRESHOLD(n)		(((n) & 0xff) << 16)
-> >  #define TEGRA_CSI_PIXEL_STREAM_CONTROL0(n)		(0x0018 + (n) * 0x2c)
-> >  #define       CSI_PP_PAD_FRAME_PAD0S			(0 << 28)
-> > -#define       CSI_PP_PAD_FRAME_PAD1S			(1 << 28)
-> > +#define       CSI_PP_PAD_FRAME_PAD1S			BIT(28)
-> >  #define       CSI_PP_PAD_FRAME_NOPAD			(2 << 28)
-> >  #define       CSI_PP_HEADER_EC_ENABLE			BIT(27)
-> >  #define       CSI_PP_PAD_SHORT_LINE_PAD0S		(0 << 24)
-> > -#define       CSI_PP_PAD_SHORT_LINE_PAD1S		(1 << 24)
-> > +#define       CSI_PP_PAD_SHORT_LINE_PAD1S		BIT(24)
-> >  #define       CSI_PP_PAD_SHORT_LINE_NOPAD		(2 << 24)
-> >  #define       CSI_PP_EMBEDDED_DATA_EMBEDDED		BIT(20)
-> >  #define       CSI_PP_OUTPUT_FORMAT_ARBITRARY		(0 << 16)
-> > -#define       CSI_PP_OUTPUT_FORMAT_PIXEL		(1 << 16)
-> > +#define       CSI_PP_OUTPUT_FORMAT_PIXEL		BIT(16)
-> >  #define       CSI_PP_OUTPUT_FORMAT_PIXEL_REP		(2 << 16)
-> >  #define       CSI_PP_OUTPUT_FORMAT_STORE		(3 << 16)
-> >  #define       CSI_PP_VIRTUAL_CHANNEL_ID(n)		(((n) - 1) << 14)
-> > --=20
-> > 2.53.0
-> >=20
-> >=20
->=20
-> BIT is only used for true/false fields. These are not that.
+Signed-off-by: Dang Vu Duc Hien <dvdh12707@gmail.com>
+---
+ drivers/staging/rtl8723bs/include/drv_types.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-The best way for silencing checkpatch would probably be to define fields
-for each of these using GENMASK(), listing the values as defines without
-any bitshift and then change the code to use FIELD_PREP(). Or define the
-field values using FIELD_PREP() or FIELD_PREP_CONST().
+diff --git a/drivers/staging/rtl8723bs/include/drv_types.h b/drivers/staging/rtl8723bs/include/drv_types.h
+index c837157404d0..99a3e28319be 100644
+--- a/drivers/staging/rtl8723bs/include/drv_types.h
++++ b/drivers/staging/rtl8723bs/include/drv_types.h
+@@ -389,6 +389,7 @@ struct adapter {
+ static inline void RTW_ENABLE_FUNC(struct adapter *padapter, int func_bit)
+ {
+ 	int	df = atomic_read(&adapter_to_dvobj(padapter)->disable_func);
++
+ 	df &= ~(func_bit);
+ 	atomic_set(&adapter_to_dvobj(padapter)->disable_func, df);
+ }
+-- 
+2.55.0
 
-Thierry
-
---ofdew7mm3y3wxfle
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmpniF4ACgkQ3SOs138+
-s6Fu5w/+KKED9VpoHoHLZhpUloYOpqhB9p07QLKn0rbpUQB9BR8fTHzbrpf6uM4s
-HJR7WVfARyhc6XFwMBJbFySfmxAWG8EXACjEWNWOr0+cm5pfk4kG3MilodjoWy9D
-9WsdAzas9NR2BNyO5dUwXSIr2Pnd4Ea+Yled+A4d6xtFT5DcvKd+loHi7VhnaV+L
-7dwSaQHo2/IMkW8Hflgwk66Gz1lvaUTeHeXCdFwfpsp7Et6/LonkBiaKM5fxgniO
-zfY9Kw/7BrJT5cBWQFz/ApYB6dj68OE/ZOLvWYULLaK2T/3lUzZ14x0EKKT4dv9r
-sVjUDS6slAs99wxBb49vC1oJ4PDk7iEReSHs0J/Xj0zE4ofPMGbH7IrABpS1cquM
-3MTu++3jJooYipdyVgqFL2EqPENdZ6CV+YE7GaJ6rzNWlMq2DRetS4TSU9njW6v1
-boVP6krVKGkU8fSRnfMrCeMMPSWD7Kg1SQLL4sJ6YckMV/L9CEWmdUjCObTk/t2z
-ndS+V2UOKA5TJpBJbK2sBXSJSxonEOXn3vwLy+2g2VApn9G82dAhWg/yBZ6Axm89
-0h8V14l/oD4oNT/IkkXfri5WSvNSzd4hjfnuPYD6J8aAOe1ZBrGA7plI8yTsDrAc
-zzKWYw6NrQ3QNwkiA+DOSejU7ChuVgQJIriE3vf+MmO91mqDkNY=
-=TIZw
------END PGP SIGNATURE-----
-
---ofdew7mm3y3wxfle--
