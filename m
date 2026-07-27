@@ -1,208 +1,217 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6698F2C11CF
-	for <linux-staging@lists.linux.dev>; Mon, 27 Jul 2026 14:03:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39CB2375AC6
+	for <linux-staging@lists.linux.dev>; Mon, 27 Jul 2026 14:21:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785161042; cv=none; b=tdPvNEW6m8uDVh3wA7wVzzKG3IqasNGJ93Z8/axDZgxMM2WwL8D7wkuo04vZwRe4Js9K1rT6nrXgzbuTxWqYODFUkLLLEYOpqJS/W0BDExPLKYR6wFRcHA2R+aQyKELraGj5DE1YeRXq2m7mMS6/mQCW+SQY6ZQpMgezGWToKpw=
+	t=1785162064; cv=none; b=JXA4okKR6boGeDszXhKBbMLd2o8EkJ8ORMOqp6pFnaf1dHAxZP0japFFMt/T0ivaM2QvCoSZ8BGi2DW8JlQi48nIubsyFjyyvDPKw1zgSFxAjKHF29Qhci8n6i1ZcprURCQUSGQRAmEjTRdC4AgfhZ2l542IJeS+fgvxt+ZQZ3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785161042; c=relaxed/simple;
-	bh=K3e3dnefZ8/RlIqQHbNniXFpMlTitiztd78IhxO8lVo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=r1td3ojQG06v7WlBAgIEMGT4QUE86iGZjgEFjkKCtQUnnppBxGzimhmAzkQVGiwOtbnGnL6VVFtZ8tYcuUhockhoMUrxaRLkLOTm49oOnglucIqmzZaaV7bi4FDPq4jzslpHIyvhLdnS+bOzgZtICID8kX4BYbp7WqkTzKNQNgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pUyTpyOK; arc=none smtp.client-ip=209.85.167.44
+	s=arc-20240116; t=1785162064; c=relaxed/simple;
+	bh=c9kamtxeZK7dkuST6nX73rNFYrjOycKlzsHqFyFlQxo=;
+	h=Message-ID:Date:To:Cc:MIME-Version:Content-Type:From:Subject; b=up4byQJ0h62EX8OrCzOJl0sCY34vz6nv9zFOfF2naEg9AMAVCEzxibGoaIOpAiMuMVJxCODGe4GRaipxwWnpvhNW3OGCFXYGWPtp+ywhN3elXeOX357+XULxq/BrCkv6KrOh6r3BP+YrzZHRxerNIyXxNv8LZxuexWgL4RKGmZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sjvaAX6Q; arc=none smtp.client-ip=209.85.216.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pUyTpyOK"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5aea0fff535so2966874e87.3
-        for <linux-staging@lists.linux.dev>; Mon, 27 Jul 2026 07:03:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sjvaAX6Q"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-38dc4553f62so2664153a91.0
+        for <linux-staging@lists.linux.dev>; Mon, 27 Jul 2026 07:21:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785161037; x=1785765837; darn=lists.linux.dev;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=s+Tn4HTlZ3/styb7vy8HClV5wDXtpEStYadcdkObfR0=;
-        b=pUyTpyOKyanBbuhDcmagzsBkmdTPEsKqQdGoX7JXFwzFeG9EqYoiEQb5EbHIzpZBM6
-         xFfRAJi62TIX1ol+Ttr6cpF3DB5ODNE9NJIy6YGfCnWOZ+jjOlAT8cOUAwqKoHZpqHAb
-         pF+iduZfY02zp7w+Lu0GIqVCvYgwjRAvIAGShpaI5kHD5fB2eXZ1Yq8Ouq0PZbFF6ffj
-         V8DoKdWyyFh13rPNei+qXUHzNpJsBL7wzdcErEdB8rjjhs1uQD6qSaRql/pa0OSS/Lrv
-         ejP0A/G81G16czlonNDVFbIBw9Qh5u6WhKHaeHJNzo9R2mMmHbvAsscmdbiXCqeEid/Y
-         4nPw==
+        d=gmail.com; s=20251104; t=1785162062; x=1785766862; darn=lists.linux.dev;
+        h=subject:from:content-transfer-encoding:content-type:mime-version:cc
+         :to:date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=nVpghhcuxKhGyEPXRijDOdAxQjgTj39oRcqWienm+DY=;
+        b=sjvaAX6QfzKPzh6KYn2ZTyLx5wBYVWULWh8PpzGeSJFtFU02c2Q1CtvrFA4lvIhBrY
+         iRFvOWpuYQ07AYY/OooPojNrkzuKKvZSdb4NSxEuIgtgwoIGuwB6GeKXJW9voklZM868
+         RQv+fo4a5Z8Nt/C1A3A4NshT2lbp4wyCZcj8l6NEK43ZvTh7qnfX4mo/WiPu+Hz4Ode+
+         TWAKNa/S5lgbDvqeQ6DzyLZW4WNnWmur/zgjBfc55t9juft/r6H/wpx55EIAoeGHTD5d
+         M/D1fOEMW+JwvBw3mD0HUEgRhSYIV6SbuEYm0WCRJZglcZmTOX7VTYV+TBn3cWLe/h3T
+         BRVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785161037; x=1785765837;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=s+Tn4HTlZ3/styb7vy8HClV5wDXtpEStYadcdkObfR0=;
-        b=dS87oFOWCFuZsj23Rrx/AC5Z+VpscuJrSANpbDrQ2yye/06YUySEM6vuzjr+QkHW/D
-         XwdNUiSEQY1ulVLAs0xYBSmawHUtxIDxrlLMQPG4fj+dF52vG0L1RaS8fYz6tYGpUKDe
-         9mf8nExwJgHCSO92s/rCwoJIOmQfb5tpdpxV2JlsEitSBaTdjudv0RmcqIIpF+G0B5/S
-         yr5kgUMK9ckyLEtLc0+1Y+RL5n5kPQEACnp4OlX3+D9S1rF+XofFKniEzd6kQMHB6l/q
-         H6NSAggwQ95fIo1tecPJE5Ik0k/MfHf2crWz96eYtJ4Vt/83ZH3lzxNNXroc0fpss6Zk
-         A4Mw==
-X-Gm-Message-State: AOJu0YxwLOTGRLN4cbvcXKTrfxX69FUJVqZajgc/1LW3GlSs5HCXsv75
-	WHwEhMFIjAnIgoSmc6ub/uqZiZXq5xlgGFO/E/VhRxYrIZdcYlgzv/59
-X-Gm-Gg: AR+sD11bKFmdR3iN+l9vC+Sk5rGP+6HZFKisdQO9CQTPed/JB6Rq5m/1XhzEo/wEOYZ
-	RNtrut7mxlQiCEQ3F3Sp562jXa9zwLVt1e33+Q00lLZZFIQ8tUTDUgcEi5bDlfZoQeZxon80KMP
-	I9u+2Yd3phx5LeQERuiiwjFAT5g4nsa+jjTpoewUwceBAzK5wE6F5o9V4YCXjOw0HwVHZGrRY9i
-	pgKD6ZARWng1uVMtAVkWSRytefn3r8ndCSOMmCBD2PmzvpoWe1hRhWkTQPB2M1kXQUdPtWLBKix
-	9CDyptnPW5GyrPhUpmxl29gdj4kIV3gvKTudjpIa1SR+XAUR+OISj3DtoY6TcYXFHAvFpkVXuCE
-	2WF3og7beLZEcXXe9GkgYvXgfQx9L1ZxkPEiCSwBv27Yvih1qsMJisfWxLVk02re9oizwTkcY8u
-	DmQCVBoPG6zQ==
-X-Received: by 2002:a05:6512:3b9c:b0:5ae:b86b:71f4 with SMTP id 2adb3069b0e04-5b2c1b3fbabmr1575383e87.39.1785161037252;
-        Mon, 27 Jul 2026 07:03:57 -0700 (PDT)
-Received: from [192.168.243.250] ([94.229.19.199])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-39f22262dcdsm12318201fa.37.2026.07.27.07.03.55
+        d=1e100.net; s=20251104; t=1785162062; x=1785766862;
+        h=subject:from:content-transfer-encoding:content-type:mime-version:cc
+         :to:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=nVpghhcuxKhGyEPXRijDOdAxQjgTj39oRcqWienm+DY=;
+        b=Z05nnWANqqkZvtF0gnr4oRmhhPw2Cr/2BfngzY/gX3Sg8x/IBNAHDIRvRABQHE9sjg
+         YH+FxEybiBbBsu/AOKHc26z8GitbTMlUi5yrsKzhsWdNnzfOSgXOb9e/jZsY+LDSLHEl
+         daWhvbsGzbDRQiKwaFLGyzXLL5Vbsq945veDefL1/wxeMQ3q4SRpsnig7t9kAykxr8oE
+         Rrarn0iO+JiBx7UB323FdgzCzyasb+0kpNqrCPvxi3Wg3sCqvstOm/yXA8DpnuN4JwHc
+         fp5zUjHhsWYWcPw9VrrfGSlyzclDuN/Ncpf9t/EKCsIp2cq4ivR1lWh5PTUJJr7tq4Eo
+         qSbg==
+X-Forwarded-Encrypted: i=1; AHgh+RqhtG5t0TCf3tQOR3H3P7undYvSS4rOThH0dCqBoaOfNE4VU8P9YBsW7SeMyYolmNK+b30QzkXbtrowNblu@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy4z1gYcMvSVqXIh9Rl3VPtUeCyInVuOB33O1ok9ls8hUYBXlzY
+	t3NuNO+Id7fmy2WHid3sWpK33Bju+7LWUj0XGGAVkvQbSqr7d7TKPT8n
+X-Gm-Gg: AR+sD11Co14Yfg4UOUaVrjOt2POd/zfic9PUyJ1q7G+5MDgRMrNVyEhw/EQXnLpLxEt
+	BJ/8LIouvgLiIA+S7uhdidGl/hWaqhhrKhbIU+ORH10TN7D0TQW9nK+gl75ExwXqpjAgmGKDv4N
+	/ML2gk7bedNOvpcl6rLb7kAurOC/78ZhQkQK1kCZsiKtLdH+8gq8JS7hfQ6UD1sJtqohyHSQNKW
+	RKYclKVoZpmzmKURSv/ct6IJUX90kwBQsnXy9jebNyeLtCcZSDjGQlzEcK5D9qreNh/3rXwnAUp
+	Ky+U7OqhSX536Rc3b1RwqRoxEA0yXIGXopuT10BbBu6W2OO6H/6ynaoCJoR7AoWOg86iGVRri7W
+	aVnR88NffWSPNPdQVAA6OUq5lZ+isOQ1rhCCS9L8aRquHxO/8SCpV8uCq0yrfP28etIcyw/hchC
+	eo6Ae9YpGWOY1z2sPVHw==
+X-Received: by 2002:a17:90b:37c6:b0:38e:1497:af5b with SMTP id 98e67ed59e1d1-38f293cd077mr7722235a91.1.1785162062437;
+        Mon, 27 Jul 2026 07:21:02 -0700 (PDT)
+Received: from tv2_send.eml ([101.9.192.104])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38f041d5f78sm5117163a91.17.2026.07.27.07.20.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jul 2026 07:03:56 -0700 (PDT)
-From: Nikolay Kulikov <nikolayof23@gmail.com>
-Date: Mon, 27 Jul 2026 17:03:41 +0300
-Subject: [PATCH] staging: rtl8723bs: remove unused enumerations
+        Mon, 27 Jul 2026 07:21:02 -0700 (PDT)
+Message-ID: <20260727222056.26262.alvinhuang0603@gmail.com>
+Date: Mon, 27 Jul 2026 22:20:56 +0800
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>, Thierry Reding <thierry.reding@kernel.org>, Jonathan Hunter <jonathanh@nvidia.com>, Sowjanya Komatineni <skomatineni@nvidia.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, linux-tegra@vger.kernel.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260727-rtl8723bs_rmove_enums-v1-1-7974aab6c86e@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQqDMBBA0avIrA1oKkZ7FSliklFHapQZlYJ49
- 6Z1+Rb/nyDIhALP5ATGg4SWEJGnCbixCwMq8tGgM11mRhvF27sy+mGl5Xk5sMWwz6K6IrfeF1X
- pfA2xXRl7+vy/zeu27HZCt/1mcF1fCI8UsnkAAAA=
-X-Change-ID: 20260727-rtl8723bs_rmove_enums-a41bdd486cd9
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Nikolay Kulikov <nikolayof23@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1785161035; l=4923;
- i=nikolayof23@gmail.com; s=20260402; h=from:subject:message-id;
- bh=K3e3dnefZ8/RlIqQHbNniXFpMlTitiztd78IhxO8lVo=;
- b=B/R8aXUj/hDsY0Hf7b1w+dAkDtB1UVAl4DzEqSpM3zTgNcIt7iQ2BG/n5uiEGfUdKj1tQRK4e
- fmUZLwgaw6TDdoMIB84h/06XKcKgN0KiJSn1UFJHCXL9YDXapDqnBuP
-X-Developer-Key: i=nikolayof23@gmail.com; a=ed25519;
- pk=2GWUU1isl5NJpkwSCQ4OG80EinZ3EUZXlrgAg6Pz5zI=
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+From: Hao-Qun Huang <alvinhuang0603@gmail.com>
+Subject: [PATCH] staging: media: tegra-video: vi: move port parsing into a
+ subfunction
 
-These enumerations and their values are never used anywhere else; remove
-them.
+tegra_vi_channels_alloc() needs two error variables because its loop body
+mixes two things: ports that are skipped because they cannot be used, and
+errors that have to stop the whole allocation.
 
-Signed-off-by: Nikolay Kulikov <nikolayof23@gmail.com>
+Move the loop body into tegra_vi_port_channel_alloc(), which returns 0
+both when the port is skipped and when a channel was allocated, and a
+negative error only when allocation must stop. The loop is then a call
+and an error check, and the second error variable is no longer needed.
+
+No functional change intended.
+
+Suggested-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Assisted-by: Claude:claude-fable-5
+Signed-off-by: Hao-Qun Huang <alvinhuang0603@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/odm.h          |  7 -----
- drivers/staging/rtl8723bs/hal/odm_DIG.h      |  5 ----
- drivers/staging/rtl8723bs/include/hal_intf.h |  5 ----
- drivers/staging/rtl8723bs/include/wifi.h     | 41 ----------------------------
- 4 files changed, 58 deletions(-)
+This is the cleanup on top of "staging: media: tegra-video: vi: fix probe
+failure on skipped last port", already in media.git/next, so it needs
+that one applied first.
+ drivers/staging/media/tegra-video/vi.c | 92 ++++++++++++++------------
+ 1 file changed, 49 insertions(+), 43 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/odm.h b/drivers/staging/rtl8723bs/hal/odm.h
-index ee263790b32b..a20b48660e63 100644
---- a/drivers/staging/rtl8723bs/hal/odm.h
-+++ b/drivers/staging/rtl8723bs/hal/odm.h
-@@ -942,13 +942,6 @@ struct dm_odm_t { /* DM_Out_Source_Dynamic_Mechanism_Structure */
- 	#endif
- };
+diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+index f461e117305e..09eac34a7813 100644
+--- a/drivers/staging/media/tegra-video/vi.c
++++ b/drivers/staging/media/tegra-video/vi.c
+@@ -1247,17 +1247,54 @@ static int tegra_vi_tpg_channels_alloc(struct tegra_vi *vi)
+ 	return 0;
+ }
  
--enum odm_rf_content {
--	odm_radioa_txt = 0x1000,
--	odm_radiob_txt = 0x1001,
--	odm_radioc_txt = 0x1002,
--	odm_radiod_txt = 0x1003
--};
++static int tegra_vi_port_channel_alloc(struct tegra_vi *vi,
++				       struct device_node *port)
++{
++	struct v4l2_fwnode_endpoint v4l2_ep = { .bus_type = 0 };
++	struct device_node *parent;
++	struct device_node *ep;
++	unsigned int port_num;
++	unsigned int lanes;
++	int ret;
++
++	if (!of_node_name_eq(port, "port"))
++		return 0;
++
++	if (of_property_read_u32(port, "reg", &port_num) < 0)
++		return 0;
++
++	if (port_num > vi->soc->vi_max_channels) {
++		dev_err(vi->dev, "invalid port num %d for %pOF\n",
++			port_num, port);
++		return -EINVAL;
++	}
++
++	ep = of_get_child_by_name(port, "endpoint");
++	if (!ep)
++		return 0;
++
++	parent = of_graph_get_remote_port_parent(ep);
++	of_node_put(ep);
++	if (!parent)
++		return 0;
++
++	ep = of_graph_get_endpoint_by_regs(parent, 0, 0);
++	of_node_put(parent);
++	ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(ep), &v4l2_ep);
++	of_node_put(ep);
++	if (ret)
++		return 0;
++
++	lanes = v4l2_ep.bus.mipi_csi2.num_data_lanes;
++
++	return tegra_vi_channel_alloc(vi, port_num, port, lanes);
++}
++
+ static int tegra_vi_channels_alloc(struct tegra_vi *vi)
+ {
+ 	struct device_node *node = vi->dev->of_node;
+-	struct device_node *ep = NULL;
+ 	struct device_node *ports;
+-	struct device_node *port = NULL;
+-	unsigned int port_num;
+-	struct device_node *parent;
+-	struct v4l2_fwnode_endpoint v4l2_ep = { .bus_type = 0 };
+-	unsigned int lanes;
+-	int err;
++	struct device_node *port;
+ 	int ret = 0;
+ 
+ 	ports = of_get_child_by_name(node, "ports");
+@@ -1265,46 +1302,15 @@ static int tegra_vi_channels_alloc(struct tegra_vi *vi)
+ 		return dev_err_probe(vi->dev, -ENODEV, "%pOF: missing 'ports' node\n", node);
+ 
+ 	for_each_child_of_node(ports, port) {
+-		if (!of_node_name_eq(port, "port"))
+-			continue;
 -
- enum ODM_BB_Config_Type {
- 	CONFIG_BB_PHY_REG,
- 	CONFIG_BB_AGC_TAB,
-diff --git a/drivers/staging/rtl8723bs/hal/odm_DIG.h b/drivers/staging/rtl8723bs/hal/odm_DIG.h
-index 032c4abae49b..5517ef79bdf5 100644
---- a/drivers/staging/rtl8723bs/hal/odm_DIG.h
-+++ b/drivers/staging/rtl8723bs/hal/odm_DIG.h
-@@ -77,11 +77,6 @@ struct  false_ALARM_STATISTICS {
- 	u32 Cnt_BW_LSC; /* Gary */
- };
- 
--enum ODM_Pause_DIG_TYPE {
--	ODM_PAUSE_DIG = BIT(0),
--	ODM_RESUME_DIG = BIT(1)
--};
+-		err = of_property_read_u32(port, "reg", &port_num);
+-		if (err < 0)
+-			continue;
 -
- #define		DM_DIG_THRESH_HIGH			40
- #define		DM_DIG_THRESH_LOW			35
- 
-diff --git a/drivers/staging/rtl8723bs/include/hal_intf.h b/drivers/staging/rtl8723bs/include/hal_intf.h
-index 8a85e8419e47..d72fc4326a19 100644
---- a/drivers/staging/rtl8723bs/include/hal_intf.h
-+++ b/drivers/staging/rtl8723bs/include/hal_intf.h
-@@ -153,11 +153,6 @@ enum hal_odm_variable {
- 	HAL_ODM_NOISE_MONITOR,
- };
- 
--enum hal_intf_ps_func {
--	HAL_USB_SELECT_SUSPEND,
--	HAL_MAX_ID,
--};
+-		if (port_num > vi->soc->vi_max_channels) {
+-			dev_err(vi->dev, "invalid port num %d for %pOF\n",
+-				port_num, port);
+-			ret = -EINVAL;
+-			goto cleanup;
++		ret = tegra_vi_port_channel_alloc(vi, port);
++		if (ret) {
++			of_node_put(port);
++			break;
+ 		}
 -
- typedef s32 (*c2h_id_filter)(u8 *c2h_evt);
- 
- #define RF_CHANGE_BY_INIT	0
-diff --git a/drivers/staging/rtl8723bs/include/wifi.h b/drivers/staging/rtl8723bs/include/wifi.h
-index d5132bc4280a..48cc31c9125a 100644
---- a/drivers/staging/rtl8723bs/include/wifi.h
-+++ b/drivers/staging/rtl8723bs/include/wifi.h
-@@ -397,47 +397,6 @@ struct ADDBA_request {
- /* 	WPS attribute ID */
- #define WPS_ATTR_SELECTED_REGISTRAR	0x1041
- 
--/* 	=====================P2P Section ===================== */
--enum p2p_role {
--	P2P_ROLE_DISABLE = 0,
--	P2P_ROLE_DEVICE = 1,
--	P2P_ROLE_CLIENT = 2,
--	P2P_ROLE_GO = 3
--};
+-		ep = of_get_child_by_name(port, "endpoint");
+-		if (!ep)
+-			continue;
 -
--enum p2p_state {
--	P2P_STATE_NONE = 0,							/* 	P2P disable */
--	P2P_STATE_IDLE = 1,								/* 	P2P had enabled and do nothing */
--	P2P_STATE_LISTEN = 2,							/* 	In pure listen state */
--	P2P_STATE_SCAN = 3,							/* 	In scan phase */
--	P2P_STATE_FIND_PHASE_LISTEN = 4,				/* 	In the listen state of find phase */
--	P2P_STATE_FIND_PHASE_SEARCH = 5,				/* 	In the search state of find phase */
--	P2P_STATE_TX_PROVISION_DIS_REQ = 6,			/* 	In P2P provisioning discovery */
--	P2P_STATE_RX_PROVISION_DIS_RSP = 7,
--	P2P_STATE_RX_PROVISION_DIS_REQ = 8,
--	P2P_STATE_GONEGO_ING = 9,						/* 	Doing the group owner negotiation handshake */
--	P2P_STATE_GONEGO_OK = 10,						/* 	finish the group negotiation handshake with success */
--	P2P_STATE_GONEGO_FAIL = 11,					/* 	finish the group negotiation handshake with failure */
--	P2P_STATE_RECV_INVITE_REQ_MATCH = 12,		/* 	receiving the P2P Invitation request and match with the profile. */
--	P2P_STATE_PROVISIONING_ING = 13,				/* 	Doing the P2P WPS */
--	P2P_STATE_PROVISIONING_DONE = 14,			/* 	Finish the P2P WPS */
--	P2P_STATE_TX_INVITE_REQ = 15,					/* 	Transmit the P2P Invitation request */
--	P2P_STATE_RX_INVITE_RESP_OK = 16,				/* 	Receiving the P2P Invitation response */
--	P2P_STATE_RECV_INVITE_REQ_DISMATCH = 17,	/* 	receiving the P2P Invitation request and mismatch with the profile. */
--	P2P_STATE_RECV_INVITE_REQ_GO = 18,			/* 	receiving the P2P Invitation request and this wifi is GO. */
--	P2P_STATE_RECV_INVITE_REQ_JOIN = 19,			/* 	receiving the P2P Invitation request to join an existing P2P Group. */
--	P2P_STATE_RX_INVITE_RESP_FAIL = 20,			/* 	recveing the P2P Invitation response with failure */
--	P2P_STATE_RX_INFOR_NOREADY = 21,			/*  receiving p2p negotiation response with information is not available */
--	P2P_STATE_TX_INFOR_NOREADY = 22,			/*  sending p2p negotiation response with information is not available */
--};
+-		parent = of_graph_get_remote_port_parent(ep);
+-		of_node_put(ep);
+-		if (!parent)
+-			continue;
 -
--enum p2p_wpsinfo {
--	P2P_NO_WPSINFO						= 0,
--	P2P_GOT_WPSINFO_PEER_DISPLAY_PIN	= 1,
--	P2P_GOT_WPSINFO_SELF_DISPLAY_PIN	= 2,
--	P2P_GOT_WPSINFO_PBC					= 3,
--};
+-		ep = of_graph_get_endpoint_by_regs(parent, 0, 0);
+-		of_node_put(parent);
+-		err = v4l2_fwnode_endpoint_parse(of_fwnode_handle(ep),
+-						 &v4l2_ep);
+-		of_node_put(ep);
+-		if (err)
+-			continue;
 -
- #define IP_MCAST_MAC(mac)		((mac[0] == 0x01) && (mac[1] == 0x00) && (mac[2] == 0x5e))
- #define ICMPV6_MCAST_MAC(mac)	((mac[0] == 0x33) && (mac[1] == 0x33) && (mac[2] != 0xff))
+-		lanes = v4l2_ep.bus.mipi_csi2.num_data_lanes;
+-		ret = tegra_vi_channel_alloc(vi, port_num, port, lanes);
+-		if (ret < 0)
+-			goto cleanup;
+ 	}
  
-
----
-base-commit: cb08dcd0a896c3ac8073a57296f2377b106c35b4
-change-id: 20260727-rtl8723bs_rmove_enums-a41bdd486cd9
-
-Best regards,
---  
-Nikolay Kulikov <nikolayof23@gmail.com>
+-cleanup:
+-	of_node_put(port);
+ 	of_node_put(ports);
++
+ 	return ret;
+ }
+ 
+-- 
+2.43.0
 
