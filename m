@@ -1,37 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB35238237A
-	for <linux-staging@lists.linux.dev>; Mon, 27 Jul 2026 14:51:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98AB1388386;
+	Mon, 27 Jul 2026 14:53:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785163916; cv=none; b=HPhXLYce3SG61fi1x2urgxoGZ4a3K/QV7IDwGOQnrnISgXV2yCfmOBSLZjBXg48oYeCqkS/wQGhoDlGNs+a1sF6G7p15BNTFcmYK3wiNI8HGfATuf6G9odtvd6g7gowGuW6/FQBhHswrgXQoAGEvge4MD8cXZedtlel5U6J4Ljk=
+	t=1785163993; cv=none; b=KS26ab69y7XuI7WQGDS28leQI9K5PUYH1UrW+B34dXpcLRdYSGXYWvcM4g0pnLrR7JbL7SbvratLwcVWBgeq79a5kesp8EPzAlbJC/qDp8LxoD6z0Ga7URAWKgbflkLskyLqC4Un1gShqjblIjIclT977rAR3gpRgk90kUFJ2yk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785163916; c=relaxed/simple;
-	bh=oTYpDURKQ1M8ZRszX29j/DH5d/Y6mWLccJmNMqD4PhU=;
+	s=arc-20240116; t=1785163993; c=relaxed/simple;
+	bh=hAQL1Zf8hASV1azzVQOamlU6GIIrd0Xt3B3GgyAbh8w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B36FJh98RNCeSEXotvIOtBvqRSdmM1OHk/bDhMYK40iQwxbWSufAvD4b737PuREYlHjGjGDer+X6eXxlBIafcyczaBt3kELKHJtGiRGK+VC20jDVH57pRhnH8Po1grzAQ2eTPpIMqg4Qmo19oOi5iuuX49LWFnR61RH+kO4tLYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=mut9e0xA; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=r1zvcC1UY6640DwPhw+Tv61fEBstKWvu0s9H+zZUe7j1GHGKwf1NaAouGcVklL234mBFXhVGUaU/4KcFOph7wh3bd+fxIHHRsh9J1wIvs5fkQN+eUS+YxX82bqq5nXj3k9BcIQ2Lsttx2PBzVu0iUMusczX6ZFYsYurAIrRtVIY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=TnVHpwUb; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="mut9e0xA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3D311F00A3D;
-	Mon, 27 Jul 2026 14:51:52 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="TnVHpwUb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A82531F00A3A;
+	Mon, 27 Jul 2026 14:53:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1785163913;
-	bh=lPUDQ4h9Mmq0penVQhzAqLlc4SyDdDRWLB+9olW3szo=;
+	s=korg; t=1785163992;
+	bh=nSnXfvBu98NMccNGwN6FlBB4/hY7KTTbT5R46RVvHPY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=mut9e0xAdyPhX/ok/GQkOI1aCQVx88ZfX12rT3ykeLdII5wxx6opuni+Ydbi3QW4W
-	 mBsZljNAdmkHTSGg1VuXSAY0cSS27Bi5YUKNiHp9i5li+5GausuTXZ/pY8QVZTgN1Q
-	 h6nC9+TnDSNV9lmIQrMCT1NJJtVQehQZGQoKVZSk=
-Date: Mon, 27 Jul 2026 16:51:41 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Mariano Baragiola <mbaragiola@linux.com>
-Cc: linux-staging@lists.linux.dev, Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v3] staging: rtl8723bs: validate monitor transmit frame
- lengths
-Message-ID: <2026072751-anointer-remorse-943c@gregkh>
-References: <20260717130356.2544481-1-mbaragiola@linux.com>
- <20260717132437.2556215-1-mbaragiola@linux.com>
+	b=TnVHpwUbRPEJMvs3rdBBrKiol0hEcXoRUymNmLXEzfsJNPH5pUW/wQhc8M1bVcrf/
+	 E9SA9bHYyalmYMrJkV3FWNCD+e3ADYXz03/OoyjBClTNmN3XU+YbhhxHNnvxH/3CqE
+	 vcLcQRjYLgzyc7m7mIxGYFXOqzygeMGM5sOgb/Eo=
+Date: Mon, 27 Jul 2026 16:53:00 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Olivier Tanoh <olivier.tanoh19@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: sm750fb: rename pvReg to avoid CamelCase
+Message-ID: <2026072720-suffering-slit-a9cd@gregkh>
+References: <20260720074804.29657-1-olivier.tanoh19@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,62 +38,14 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260717132437.2556215-1-mbaragiola@linux.com>
+In-Reply-To: <20260720074804.29657-1-olivier.tanoh19@gmail.com>
 
-On Fri, Jul 17, 2026 at 10:24:37AM -0300, Mariano Baragiola wrote:
-> rtw_cfg80211_monitor_if_xmit_entry() removes the radiotap header and
-> then reads the 802.11 frame control field without checking that a base
-> 802.11 header remains.
-> 
-> The data path also pulls the calculated 802.11, QoS and SNAP header
-> span before confirming that the skb contains it. A truncated frame can
-> therefore cause out-of-bounds reads or leave insufficient data for the
-> Ethernet address writes.
-> 
-> Reject frames that do not contain the base 802.11 header and data
-> frames that do not contain their complete calculated header span.
-> 
-> Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
-> Signed-off-by: Mariano Baragiola <mbaragiola@linux.com>
-> ---
-> Changes in v3:
-> - Add the below-separator changelog as requested by Greg K-H patch-bot.
-> 
-> Changes in v2:
-> - Add the Fixes tag as requested by Dan Carpenter.
-> 
->  drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> index 6a97afd89dc7..bed8192ab44f 100644
-> --- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-> @@ -2033,6 +2033,8 @@ static netdev_tx_t rtw_cfg80211_monitor_if_xmit_entry(struct sk_buff *skb, struc
->  
->  	/* Skip the ratio tap header */
->  	skb_pull(skb, rtap_len);
-> +	if (unlikely(skb->len < dot11_hdr_len))
-> +		goto fail;
+On Mon, Jul 20, 2026 at 09:48:04AM +0200, Olivier Tanoh wrote:
+> -	void __iomem *pvReg;
+> +	void __iomem *pvreg;
 
-Only ever use likely/unlikely if you can measure the difference of it
-not being there.  Otherwise the cpu will almost always get it right
-instead.
-
-Is that the case here?
-
-
->  
->  	dot11_hdr = (struct ieee80211_hdr *)skb->data;
->  	frame_control = le16_to_cpu(dot11_hdr->frame_control);
-> @@ -2045,6 +2047,8 @@ static netdev_tx_t rtw_cfg80211_monitor_if_xmit_entry(struct sk_buff *skb, struc
->  			qos_len = 2;
->  		if ((frame_control & 0x0300) == 0x0300)
->  			dot11_hdr_len += 6;
-> +		if (unlikely(skb->len < dot11_hdr_len + qos_len + snap_len))
-> +			goto fail;
-
-Same here, is this actually measurable?
+No, you do not need the "pv" anymore, as that's the hungarian notation
+speaking, right?  It should just be "reg", right?
 
 thanks,
 
