@@ -1,102 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BD8141D202;
-	Mon, 27 Jul 2026 15:58:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50BB041F34B
+	for <linux-staging@lists.linux.dev>; Mon, 27 Jul 2026 16:09:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785167905; cv=none; b=W8k04g6P6G2XmZAE/xIsDtJL4OuHznbVSpp/pVOGqnISh4+AywC0p1wH9podjU0D3n422hMphUJkaR0v/XquvCJbHE0n24N12x6WRrXSbyq36obYMvR3807aWRPGcZAxD2aqmq6fcXUuxBmUZLSGWTprNvG2Fb/dTxX9Vryuq3c=
+	t=1785168546; cv=none; b=D5c+OYjTR0dpfQ84/9YV5XJoXy1EqLa6en8HoLYuC4ufuM215bomVU7iJt1uoKY5z1QLCyWXybLJ+F8zqs/9B4TyLo+Zx2Rl9vFZ+jjwtKGSpIuf6pKjy7W7v246lteTw0wbUKPTuU9zCReDnWSpzial6KmvnRr8w5mJZBzdRhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785167905; c=relaxed/simple;
-	bh=5p3eaphxU9EhTLrUu2sAuCF7Wg4reK+MR7/rz3J33Ok=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lG0akCvPwrM1z5Yd3rl2n63QiNbJFVY73ksXKB4YQEr80tIKDtczRQd1bpIjH10c/U3sk2Os5ML7hcJPUzocpBR11PAFIUgEEyUw4ZdOrWIoczqmJL4Cz00apd2yjqmthMFxczHwYf5gSI6ccNfQ8b/sp11lWFBepbkWobbCCrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k6cc4uYR; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785168546; c=relaxed/simple;
+	bh=NT59An7OjrACd1bRhxel17hkY4n4fCUgWW0vek5W9pg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=KfKUsmEfVu1i8FYpT1oBSfSFk0H49zMUjeGRDyEgzFFdMQMmDs0OvhthW4E5cKTUJo4ZxhsMbCwzHsTyK46eodiEv2tL3UcEdB6SJtgG/EiGDr/QhrF3/+yExgl/i2128mgGtwjZKHkTRML/4YTuo+ybEQFQPUa1NqM4kIDp14M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nRL1zjeA; arc=none smtp.client-ip=209.85.216.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k6cc4uYR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 409071F00A3A;
-	Mon, 27 Jul 2026 15:58:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785167903;
-	bh=LG6nBmSSjApXoo/jSzVAfEKwvSRC4xMRtG5lqY/DStI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=k6cc4uYRr/JtfRQ7iSwfMXqJSHL3HL8ixWstOC4TV83uq/eu8gLYxClDtZzIm5Vhq
-	 07+uhXvEDd2QCQ2C39bALdU1MZxhAX3vQsa653VzI/jrQhWArt9iO1PwTUOa7o6PYF
-	 W1PG24aSSgh/eBmHbiOcgS24J9NvNsdKxOG0JNoJvy6Xt/le6UgaPnw3FvPQ4wa3mP
-	 R7DSAC8Feoge1C/3+PWcazX+sD0cTAl9pdQukT2Im8AgwoJTr41KkwKX9AP1ZFGtqV
-	 VmmyvkZGQ2SGQQEfgibJ/ktxDrO8dbacUwh/oz/MVIPCZ09lE1Q6+o0lZw4ut9PExY
-	 uhjMjK7OBXaPg==
-Date: Mon, 27 Jul 2026 17:58:20 +0200
-From: Thierry Reding <thierry.reding@kernel.org>
-To: Artem Lytkin <iprintercanon@gmail.com>
-Cc: linux-staging@lists.linux.dev, gregkh@linuxfoundation.org, 
-	marvin24@gmx.de, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH RESEND] staging: nvec: use strcmp() instead of strncmp()
- with magic length
-Message-ID: <amd-EkmT_H1xlm7Q@orome>
-References: <20260723161823.23921-1-iprintercanon@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nRL1zjeA"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-38101f85591so64673a91.1
+        for <linux-staging@lists.linux.dev>; Mon, 27 Jul 2026 09:09:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785168543; x=1785773343; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=sfi6muhTpsZUY0xskbOOIF3D0r/nPgzr4Ssnap4JkLs=;
+        b=nRL1zjeAgAsSAbLPKOSMaCFibJRR/OQRtOurE1FQjcrEBruaSV0JXiWhSFTLZLSAMR
+         17JWc8ZYzz/i4LT8vt8yi9lNM2MVXRG0JYt+OVv5AuUX7L4f8JV+dKCokapfvRGO7v7S
+         E66hLT3RchwiXyaKQnohyrZX1EOe/hpoLRyibqwbChqJRL2G8xZOeiTp/7hGdAWegNHv
+         eDjpBWh1xW40KtdPeav36huvXzK5lKeGbVCjhvXgg1fpHmMirJyFnhjNk0KoPKbNwJz9
+         QOpRNf7vrkv3sArp72NchoxCuzXWJv72etqMq9oZMN3+zby7jpkGZWO0QCP4ih3FF0mw
+         mUNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785168543; x=1785773343;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:sender:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=sfi6muhTpsZUY0xskbOOIF3D0r/nPgzr4Ssnap4JkLs=;
+        b=RGKouk8HhrmgkEeCUjMccS5yDdyrjJlZnEUYHLRf+MgimuxLVx7erk3lcYbRXT+o45
+         bdptcptoMXY6TxVbAWhBxJXlSgh9fDGeFr3D442jlbPXI72/sZ9UTZB7tMIxdBoMIr5W
+         rnNMwB21TKNDsThG5Rs+Uw2ycbe/Vy+eEcWP8NL0dqm6hO2VCEh7bT+xdwE/mVkf4+1K
+         zNXPS/Vw3Km7p/hthjKmzmRc8vwloEQGOnvyjYb2DQC+HC9s5SQzwJHOBB5IQlXrn15m
+         PXgzqjKmJ5GoWYiWsiQ13x09jpIhi9P2J+GLk/d58GnWm6Dq+MwJA/PpS162UHkAZPNd
+         8ykg==
+X-Gm-Message-State: AOJu0Yx2ed9Se8WksJWlIFivazwvVWPbk8ueUzGhhv0DN7v/8QvC50Mq
+	pGzPVbKHMSaZuLj6EtGXHFgOHrT4X/jLPs8gE0b1xgpb+eVrxSQcXu29
+X-Gm-Gg: AR+sD10+PtYPxuN4tZjlNEMpq394ohXVP6VRcaLLRGiAvfuKGqwqizIMwS6d1KoMaWY
+	qDmd2Mb7z2yQoTkvIUirb3eOaS8d3WP7W2fp8P3MHU0xuNlYaQlU7lq4YINRF6sLCNnN0TLoMPq
+	xhxKv8NOmWir0mp0fbhRY3vXO2MVOFdk3MMhDKtslodjf+lNNRsFUypPaSYghn8p2mfoGYM6VXf
+	RP5OssCVOUa6RCuMFEZRYMsvxsq1RccvH/Ota8+vqEExjkQE/TpuPAHgjwDY0ckBsxzUHylfAXS
+	tgeWo2JOHHzb1GQJZnIwQ4m+wSatlpLZ/N5qcgJfZRrpvtzXmXRfMGOJXqJxTkKKZwTfrF8ls26
+	82T9ZEJE1kpTEvThqrEWlxdNoAmhJaksC5+UaHELXvtk7LLaGp2tsGIYmVK6LSOJ8aqqu+UdNxh
+	M/8GI3UbtJ9Y8ir2KikhVOKcyf5HvFNj2czPO43MpoM0bVShUYNfztrcyUBTMQijQyqEyztyuHu
+	pU=
+X-Received: by 2002:a17:90b:1b0c:b0:385:39ac:fe4b with SMTP id 98e67ed59e1d1-38f644d3bacmr68922a91.17.1785168543363;
+        Mon, 27 Jul 2026 09:09:03 -0700 (PDT)
+Received: from fedora.fibertel.com.ar ([200.55.79.212])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13d130a8421sm51660351c88.10.2026.07.27.09.09.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Jul 2026 09:09:02 -0700 (PDT)
+Sender: TheySaidThisWouldntFit <mariano.ignacio.baragiola@gmail.com>
+From: Mariano Baragiola <mbaragiola@linux.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev,
+	Dan Carpenter <error27@gmail.com>
+Subject: [PATCH v4] staging: rtl8723bs: validate monitor transmit frame lengths
+Date: Mon, 27 Jul 2026 13:08:59 -0300
+Message-ID: <20260727160859.1917096-1-mbaragiola@linux.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260717132437.2556215-1-mbaragiola@linux.com>
+References: <20260717130356.2544481-1-mbaragiola@linux.com> <20260717132437.2556215-1-mbaragiola@linux.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="vmhzzluxhqqzyle5"
-Content-Disposition: inline
-In-Reply-To: <20260723161823.23921-1-iprintercanon@gmail.com>
+Content-Transfer-Encoding: 8bit
 
+rtw_cfg80211_monitor_if_xmit_entry() removes the radiotap header and
+then reads the 802.11 frame control field without checking that a base
+802.11 header remains.
 
---vmhzzluxhqqzyle5
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH RESEND] staging: nvec: use strcmp() instead of strncmp()
- with magic length
-MIME-Version: 1.0
+The data path also pulls the calculated 802.11, QoS and SNAP header
+span before confirming that the skb contains it. A truncated frame can
+therefore cause out-of-bounds reads or leave insufficient data for the
+Ethernet address writes.
 
-On Thu, Jul 23, 2026 at 07:18:23PM +0300, Artem Lytkin wrote:
-> Replace strncmp() with a hardcoded length of 30 with strcmp().
-> The bat_type string is already null-terminated (set two lines above),
-> so strncmp() with an arbitrary length is misleading and functionally
-> equivalent to strcmp().
->=20
-> Signed-off-by: Artem Lytkin <iprintercanon@gmail.com>
-> ---
->  drivers/staging/nvec/nvec_power.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+Reject frames that do not contain the base 802.11 header and data
+frames that do not contain their complete calculated header span.
 
-I don't really see a point in this. strncmp() doesn't do any harm and it
-isn't misleading either. It's just very explicit that it should never
-check more than those 30 characters that can fit into the type string.
+Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
+Signed-off-by: Mariano Baragiola <mbaragiola@linux.com>
+---
+Changes in v4:
+- Remove unlikely() from both new length checks in response to Greg
+  Kroah-Hartman's review; no measurements exist to justify the annotations.
 
-Technically res->length could be larger than 30, in which case the
-memcpy() might copy more than those 30. Judging by the nvec core code we
-never sanity check the length, so even that memcpy() could be entirely
-wrong.
+Changes in v3:
+- Add the revision history below the separator.
 
-Either way, this change by itself doesn't look useful.
+Changes in v2:
+- Add the Fixes tag as requested by Dan Carpenter.
 
-Thierry
+ drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
---vmhzzluxhqqzyle5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmpngBkACgkQ3SOs138+
-s6H+Fw//Wmp1qIqT1zWam2BYIGXCmPAo4FTI6yde4DZ2lyxXncF94w1ijKRE4grD
-ahPCG2WKTX1wbXyYfaXlpbJYrtDAEcio990FFfmbJHgAz+625Kj/XunCORuNY9zQ
-jUlK53JdDlIGABEqZIpjxxclHwaGCu0fJeTZXKu3gt9lInyZKUChXqxpFTLTsB9A
-lpF0kjj4ijneaMh3LSFZjmPrsmDdGTgogG4vgN4AkKiHuFdrojo9Vy6BjtCyzmJX
-iYMgIxD3/1jcbryJ/TKNxwXoOXyW3ilNADy2hYmvkZeUxWOPBAtu35kLZSDKPyav
-iooN167DZ91bsdKHyXbQdyL4acjX3f1JXZtDUurnRT1d4HwmTkdSuTjsrhrVUOdw
-+UUq91jW7WBNDbbAsEsdn4zLlYzFsHRnKALv1qdlR/kRvBkLN35+bibEF+Ok8ni4
-nFmMj94XomjvTCOiaJVojX1KOIOWTpKQQr5uKS9QU1Skrd7HInUchcjdwAaWEfu1
-5RXhH6zPa+J8SEltRN6Kk7hdQWKKQ7nCMe0//agRBzGNa3gbgJ44wR29FcDX0EHq
-wcUjgZ8/YTG/I5AIoptWfv+zlluHDjqU/qnhmEu00MbD0exo8ERLrUMW2Kvhq/NF
-sPVvpVakkpnEP+MELHO+aeqvb0y6OPP/y7CnbcBr19jXTrRJ/5k=
-=Mkpx
------END PGP SIGNATURE-----
-
---vmhzzluxhqqzyle5--
+diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+index 6a97afd89dc7..6404044d2185 100644
+--- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
++++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+@@ -2033,6 +2033,8 @@ static netdev_tx_t rtw_cfg80211_monitor_if_xmit_entry(struct sk_buff *skb, struc
+ 
+ 	/* Skip the ratio tap header */
+ 	skb_pull(skb, rtap_len);
++	if (skb->len < dot11_hdr_len)
++		goto fail;
+ 
+ 	dot11_hdr = (struct ieee80211_hdr *)skb->data;
+ 	frame_control = le16_to_cpu(dot11_hdr->frame_control);
+@@ -2045,6 +2047,8 @@ static netdev_tx_t rtw_cfg80211_monitor_if_xmit_entry(struct sk_buff *skb, struc
+ 			qos_len = 2;
+ 		if ((frame_control & 0x0300) == 0x0300)
+ 			dot11_hdr_len += 6;
++		if (skb->len < dot11_hdr_len + qos_len + snap_len)
++			goto fail;
+ 
+ 		memcpy(dst_mac_addr, dot11_hdr->addr1, sizeof(dst_mac_addr));
+ 		memcpy(src_mac_addr, dot11_hdr->addr2, sizeof(src_mac_addr));
+-- 
+2.55.0
