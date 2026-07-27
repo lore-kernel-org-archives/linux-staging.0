@@ -1,68 +1,86 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36E883BED23
-	for <linux-staging@lists.linux.dev>; Sun, 26 Jul 2026 23:21:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F98D23393D
+	for <linux-staging@lists.linux.dev>; Mon, 27 Jul 2026 01:09:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785108088; cv=none; b=e/mH1Ge2ttSUKh8Psdf2m5/7GfEnIvw/wMkpcEBKBV6Igr7gmPN0nO2UMM91tGSrrYoLehvGlPO2IaM8Tqxl8Sm8RvoF56yzKawF4vzX32DWRUy6tqW2ZWG0xLqL+vEzhYFNh7ht3KM26/gOcZJWDKH/+7adTokv6Td9+kK0+/U=
+	t=1785114577; cv=none; b=MwYucrxxg5niPkoTSqOigws/YUtRzF++fqRX1pTwEhOHvuUjjrmSMB7gK39Y8Roeh8KMrV1IS6VuSCY3yjfLkwPg3xbt3p2uLLBGbGyg6sRgfIO8V4IdqceJoGJOAB4bs2s6qA4zV/k2ZEymLeN5gUYRCGZKh2SAitr5Kv5L8ck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785108088; c=relaxed/simple;
-	bh=Gb17aP3/TpMMJ4Ye+ZnazY7s0NWZl303YdUtRgNLY+4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZgWzeYnSCY83BUIel6HVpKQe22Ep7jCrycAncSXzdzYyvLjBDxKi7mkYrJ2/e+tPKgdQEB8sqVbRAw8ih5TscEF6flBypgdovqjnXx9C5GB6gm5PpUCTUBFnHxw78UnE5IRdI/FJiaS+TaGtpRxGPJlcren7F1jyQD4Tl4j5Tq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZQG7pA8U; arc=none smtp.client-ip=209.85.216.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785114577; c=relaxed/simple;
+	bh=4Skbq9YOlNzNneKExSNK0BKhCih2K90idKnQTUeJyAs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=N23g2NhmEWfID1c+NTSXEm0OAeuDDggoxYrIH2QUqX4ZMAswU4lckemqjhSGMe77kqL6Ti1um+7DeGKYS2/gqOwINisU/NphLdUFjjOxt86qnoDnAWehNwOTIRn8LMq1/gHIyd4AUNYQQi40hNckFR5984CcCsr8IMoosGKhZ1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.com; spf=pass smtp.mailfrom=fastmail.com; dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b=HJq7XS2e; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=DYcW7NsO; arc=none smtp.client-ip=103.168.172.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZQG7pA8U"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-38dc69c74b8so1740435a91.0
-        for <linux-staging@lists.linux.dev>; Sun, 26 Jul 2026 16:21:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785108086; x=1785712886; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=xAgDK7zS1OwpDXbv8KmwmhBSCp/R8mZRx6FqpLoqlG0=;
-        b=ZQG7pA8U8On6bbZoQ2aWELyuSK0aR/D4v1VeSPKM1rmqGJmUXiLX8GNWcwC8+IhY9e
-         Eh7CkLTbwJRCsqpmb0btX0hlpLDYyeH2Z65CebYvkfcCk6JVd7/NFjx9NkwujeGIKvoF
-         cYdZG298qhE1YzFw1TVeLaFnC1O1O3OIK3pPvzqS5LavaJmJZs3GsuQEraju/gs3T+ol
-         9b62fNYLwv1p0YhR8IF65c45MQqyQViXbDuaYYbYulbUdMdMZw4MviDwts4oRL7VXHT1
-         HxITMvp3zB/NdI+c3GpZPNkE+n88OIDIHnpyygt5eaOXj0HUi9iTVT9jndRs99aFMDby
-         pJ4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785108086; x=1785712886;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=xAgDK7zS1OwpDXbv8KmwmhBSCp/R8mZRx6FqpLoqlG0=;
-        b=TMU37RClfLBIwXNBsGXn4mC7aVAecDxisdwNgcOQEU6GuGZYLhhmYNSl8ILAfdrTmL
-         QrE3srzKKo3Q8tTVN1+gO6ryo76eMEPXOG29NSskUVeebN+CRK4jzBKFIkv7t9r3CTud
-         W7UDMIlNihGteK7jiraLNqVgnom18E/cV2BUmUX3IzW/O27eMZP3jt8FCsVNJRJAcFJf
-         wetw7Vtf9ZQ0aOQKOeZ6jALXvFigQGwyga2pcV9EEn4HZ4b0SO/qT8/siVM6sSzyiNxr
-         LAbwVDgspljCnNHWzrqqCo0CJPYIYEaeu8AfaAg+P1glE27rgPJG+QATXHftNBQNFum1
-         Zt+g==
-X-Gm-Message-State: AOJu0YxFAGu1CdhZ4m48Tr8JdmfkzUlnrSOzrDdoOYTt6m7OsaHL2MB3
-	DmFEaWazz25TOaajTw43OCB6eDwT3Nj7NDi/EahfHX2sISOww0B7twpb
-X-Gm-Gg: AR+sD11GohlruxSblhO2jtKeECEv/6nhODzbxY0snMNGT51oM0nMWXzd4vff8Gm6O2K
-	PaZr5PifxPG6H4CILe6lw1s/Az95FY37a66Iz1C/cj6dkNp4V02Vu7kL50KuHKOsAZHzZcQP/U1
-	TJhio8DgmMM/bC7CyGk5ZKLBzL9xz0cw6ZGraAVRGd2krpk+PYUzOWQORzgc6Mn2p2XZOut2AJU
-	/j0ziYUPIWIk/PdjPeUAY/sIrF0gkpLf/GRhg8ysmobDuR6sQcQ+il2jV0Uds6wAZmwgu7Ligk4
-	5TEzSOccbxkSUPmtuZrphQdif1VhqQ70DCPySa9nrzgXTNE/Z9U7XOpvbC3HL/sTr4BdZhqJWb3
-	6Vflk/Gt1+WrJF2Jh/x5lIHDhSClgVu6dYbGJCx9ewHHQbOyHLhZMdTIaHsmAJZiwrF5qVSsF0L
-	7VS3Ltcgkd4sUknf7XHTL9uCdtClo8x4LI9RQ7P/UsCA==
-X-Received: by 2002:a17:90b:4cd2:b0:38e:85fb:71b9 with SMTP id 98e67ed59e1d1-38f293a17c1mr6531846a91.4.1785108086436;
-        Sun, 26 Jul 2026 16:21:26 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:8008:5102:e09f:1b92:402a:b49d])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13e0f4a039asm20115997c88.9.2026.07.26.16.21.24
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 26 Jul 2026 16:21:26 -0700 (PDT)
-From: Arnesh Banerjee <linkrinku13@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b="HJq7XS2e";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="DYcW7NsO"
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 6F3E41400336;
+	Sun, 26 Jul 2026 21:09:34 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Sun, 26 Jul 2026 21:09:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm2; t=1785114574; x=1785200974; bh=koEaFn8/vGz5J9MQYjZWG
+	nGOHXBzGq/g7bp1GKu75qs=; b=HJq7XS2ehO4D0waA3VRPYCAKO+NWFlKzxVb/L
+	rCsrRf1CHhr2JSbVYLnmRnDGTHuor9DGuTVN8ECSzTcooCHoBPi37HfFZaJUBqYU
+	wwzRqsj5pbsWGmfYvjpocNhRPxrSVucG6N5stes+J2ZEsmBf1GrUZ+T7KER3ZKt8
+	vJweN0cJSkt/OjVJWtVifGV+GQyH0E4n6bHhMakh3HZJ6B3eZ0npSVgv/Xo0d1NY
+	QywDdDoQdsg/vK5kWxYGKeiz+fpkslJY6hH5btghNAKWz1xNX1wyLimnrDWsDYn5
+	M9bttdZgokeZ93Thn0hVc48FoxzXSF2sWLrKEfcpNaYzJ0s7g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1785114574; x=1785200974; bh=koEaFn8/vGz5J9MQYjZWGnGOHXBzGq/g7bp
+	1GKu75qs=; b=DYcW7NsOFElfREb5pDiSYgg0fsG9jSNTAtP16MTRjo04LWvI89a
+	23XD43+phqQqGO9jWqbg85h2+UxA78rDEXoJPFLt/vzXXID/jnJhpejGSyLLSrcD
+	T7GdMcN41TmiBHxRQiywUiOcCpEl7tddeypD5pBEBPSXx+nUzRpeGvR2GUY8EPSQ
+	oE44bi1QeaqrpkmMR9lyciBHrZ7RM3jcq40Wrd/n2BBRI3fuMdXNM2f73PFNUdFs
+	9Hwd2PQ5uNUViQ2La23qpwpOjSBptJjSlBcn5+latg0L8N+ac297VQ8PKNMIWxIT
+	sGCf3bdkcvKruRoz4deCbMmVMqqJsbdet3A==
+X-ME-Sender: <xms:za9mavdBwRdzq1avE0Tds9Y5kpwC4BGthKATLi3FiRnsL0vVPWJwrg>
+    <xme:za9marufriWK4NfVQM95yokm_jcw7ICVIXmX17IdhesQ3ZdnP-WFetsHxoN93r0aC
+    q--S4ofF1isHBe86EpOthJK6qBpZGWK0jpob8zB0tlMWtbEwV4qcT0>
+X-ME-Received: <xmr:za9mamgPKvKNL9pZYc1oYW5smvnnT_wEsd5793wF8U39xNAek2SBWq9rPWyBRFgC>
+X-ME-Proxy-Cause: dmFkZTFw09+8cA4s5S8iuDhSPfdq1LDs7d2+/fwxQaTb8huAScvaiu9VHnCs3K+Sf0N2cy
+    4ASfKAKMP5Sd54RmM8hV5oDDxGf9t3u+PId+u3Nred23EBYsYSBUN3/mwxnV3kUYGyorGm
+    m6qreTDlv6j1Oi/xfVhKFlZfns29XHFYw2ULptQMSBzjmwNt5xn6N5Q4i9THmEMNkOiLsJ
+    9eHO20c76Jjafrorj0xZf986Dc0Zgnur5bh9ZCUQLpTraf07j+YyVf0nLMdI1FF2nDOJ19
+    D4Cccw5ZA4JfnfpkUpBFYWUrD6XWoMGMA5iXBtVTrMro+ezT9K7jIrFWAOBD0qNEhyqLJZ
+    5POmIdwzire+TN6ay8B8V6dnmNx6WyUyh6x9A/1J2+kgyiaT7chqvMYFfVE+nQ2C10gCTl
+    Ipnj2pU7bsFX8LqFDJ397GzwO7xOzIMgKzgkqc2bV2Tf/Bb2ZkOiIUoafQuviAQXYg276o
+    2nwmLNCqVNuZer5fGRQpV/n1DKiznc6ErAIEJYN7IYr/tzZJR/O0IJzDVokNnejuVTy7DD
+    PVp476p/MGPX1ClD16Pvrsm8dj45QOZwcmqBMK99oRfRn0IZR7xyWt5QmlRwElE4fVsFLe
+    VZUepgIeagaw87HtfxKA51FO+wXjPNykqzuicuIzJ+AdF0PKMj6xRpvlZljw
+X-ME-Proxy: <xmx:za9majtLSldQDBnskrGddZcEYKJTRQP7-GJ4wLhOJKr5wm6DgWJ0tw>
+    <xmx:za9mah_tiugqK8xUYurw1IBMbwq8v2Q36hMMavZB1DNjc_2AdUIXJg>
+    <xmx:za9mapbDiuz-Qw_rlbP75fYXQLIDe7Tb5vS3Wz8N4fH-Z7PbiDhb4A>
+    <xmx:za9manpYjYz2A3gwC0YfE-kblXoO0w5pIQhlqRr8L-zy5bthHhH83g>
+    <xmx:zq9maoqDiIv4kiRCiMkyFPG0rsK9eXROG_T1r9fSknbL0CR_Ir4TJury>
+Feedback-ID: ice294775:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 26 Jul 2026 21:09:13 -0400 (EDT)
+From: Diego Schild Smiths <diegossmiths@fastmail.com>
+To: hansg@kernel.org,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	andy@kernel.org,
+	gregkh@linuxfoundation.org,
+	matt@mattwardle.net,
+	diegossmiths@fastmail.com,
+	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Arnesh Banerjee <linkrinku13@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: use !psta instead of comparison to NULL
-Date: Mon, 27 Jul 2026 04:51:19 +0530
-Message-ID: <20260726232119.6392-1-linkrinku13@gmail.com>
+	linux-staging@lists.linux.dev
+Cc: ~lkcamp/patches@lists.sr.ht,
+	koike@igalia.com
+Subject: [PATCH]     staging: media: atomisp: Remove spaces at the start of a line
+Date: Sun, 26 Jul 2026 22:08:10 -0300
+Message-ID: <20260727010826.91459-1-diegossmiths@fastmail.com>
 X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -72,32 +90,103 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The psta pointer was compared against NULL using an explicit equality
-check. The kernel coding style prefers testing a pointer directly, so
-use !psta instead. This also silences a checkpatch CHECK:
+    Fix checkpatch.pl warnings:
+    WARNING: please, no spaces at the start of a line
 
-  CHECK: Comparison to NULL could be written "!psta"
+Signed-off-by: Diego Schild Smiths <diegossmiths@fastmail.com>
 
-No functional change.
-
-Signed-off-by: Arnesh Banerjee <linkrinku13@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index a443b3530..5a45092f9 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -4915,7 +4915,7 @@ void linked_status_chk(struct adapter *padapter)
- 			if (pmlmeinfo->FW_sta_info[i].status == 1) {
- 				psta = pmlmeinfo->FW_sta_info[i].psta;
+Hey, this is my first patch. I learned this at DebConf 26.
+I appreciate any feedback. Thanks.
+---
+ .../isp/kernels/eed1_8/ia_css_eed1_8.host.c   | 32 ++++++++-----------
+ 1 file changed, 14 insertions(+), 18 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
+index 76d76ca4401a..3d8e473275e0 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/eed1_8/ia_css_eed1_8.host.c
+@@ -31,8 +31,8 @@ static const s16 chgrinv_x[NUMBER_OF_CHGRINV_POINTS] = {
  
--				if (psta == NULL)
-+				if (!psta)
- 					continue;
+ static const s16 chgrinv_a[NUMBER_OF_CHGRINV_POINTS] = {
+ 	-7171, -256, -29, -3456, -1071, -475, -189, -102,
+-	    -48, -38, -10, -9, -7, -6, 0
+-    };
++	-48, -38, -10, -9, -7, -6, 0
++};
  
- 				if (pmlmeinfo->FW_sta_info[i].rx_pkt == sta_rx_pkts(psta)) {
+ static const s16 chgrinv_b[NUMBER_OF_CHGRINV_POINTS] = {
+ 	8191, 1021, 256, 114, 60, 37, 24, 17,
+@@ -50,7 +50,7 @@ static const s16 tcinv_x[NUMBER_OF_TCINV_POINTS] = {
+ 
+ static const s16 tcinv_a[NUMBER_OF_TCINV_POINTS] = {
+ 	-6364, -631, -126, -34, -13, -6, -4452, -2156, 0
+-    };
++};
+ 
+ static const s16 tcinv_b[NUMBER_OF_TCINV_POINTS] = {
+ 	8191, 1828, 726, 352, 197, 121, 80, 55, 40
+@@ -66,7 +66,7 @@ static const s16 fcinv_x[NUMBER_OF_FCINV_POINTS] = {
+ 
+ static const s16 fcinv_a[NUMBER_OF_FCINV_POINTS] = {
+ 	-5244, -486, -86, -2849, -961, -400, -180, -86, 0
+-    };
++};
+ 
+ static const s16 fcinv_b[NUMBER_OF_FCINV_POINTS] = {
+ 	8191, 1637, 607, 287, 159, 98, 64, 44, 32
+@@ -77,10 +77,9 @@ static const s16 fcinv_c[NUMBER_OF_FCINV_POINTS] = {
+ };
+ 
+ void
+-ia_css_eed1_8_vmem_encode(
+-    struct eed1_8_vmem_params *to,
+-    const struct ia_css_eed1_8_config *from,
+-    size_t size)
++ia_css_eed1_8_vmem_encode(struct eed1_8_vmem_params *to,
++			  const struct ia_css_eed1_8_config *from,
++			  size_t size)
+ {
+ 	unsigned int i, j, base;
+ 	const unsigned int total_blocks = 4;
+@@ -208,10 +207,9 @@ ia_css_eed1_8_vmem_encode(
+ }
+ 
+ void
+-ia_css_eed1_8_encode(
+-    struct eed1_8_dmem_params *to,
+-    const struct ia_css_eed1_8_config *from,
+-    size_t size)
++ia_css_eed1_8_encode(struct eed1_8_dmem_params *to,
++		     const struct ia_css_eed1_8_config *from,
++		     size_t size)
+ {
+ 	int i;
+ 	int min_exp = 0;
+@@ -266,18 +264,16 @@ ia_css_eed1_8_encode(
+ }
+ 
+ void
+-ia_css_init_eed1_8_state(
+-    void *state,
+-    size_t size)
++ia_css_init_eed1_8_state(void *state,
++			 size_t size)
+ {
+ 	memset(state, 0, size);
+ }
+ 
+ #ifndef IA_CSS_NO_DEBUG
+ void
+-ia_css_eed1_8_debug_dtrace(
+-    const struct ia_css_eed1_8_config *eed,
+-    unsigned int level)
++ia_css_eed1_8_debug_dtrace(const struct ia_css_eed1_8_config *eed,
++			   unsigned int level)
+ {
+ 	if (!eed)
+ 		return;
 -- 
-2.50.1 (Apple Git-155)
+2.55.0
 
