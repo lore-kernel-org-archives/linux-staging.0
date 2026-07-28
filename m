@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 584233DDAF4;
-	Tue, 28 Jul 2026 07:29:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBBB03B8105;
+	Tue, 28 Jul 2026 07:30:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785223767; cv=none; b=KwaV89D8yJrCCAITfn5a8c1x6LaIcnpWdJIqzpNrEQzH6q8hCIh38SAoYFmFZuN8r8XqpC5oDDZ0Va3FvUiluq3x2lWq/QOd0rLTiWRm909mWv2EslQTc9Li0H+4Ute3jWTExq9c61cWl7sBfoZCfyJ9drQG4mDxIRIlCzKsEUo=
+	t=1785223825; cv=none; b=VzyLE0hTJjTjf6yn1DomZf7JcwVS9JrlKVhAowWJjXljRPJchy2b+Nftxt43gnhAAtwKHhzvKjCHoHe82khLF3lyexDzXfU0d0RZzOGHfpUOd6HcBCKkgZlZgfaoHv2DZrMMdz07/QrnfsdGhIcjR0eW/RlYE+0YJE4+Y4MXLRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785223767; c=relaxed/simple;
-	bh=D5UVOkiCu+KtiJswZXGOzxv4BI1W9lTOvcNAUtmiQDE=;
+	s=arc-20240116; t=1785223825; c=relaxed/simple;
+	bh=mi5hd+O3WnthaxQ88B8mw1fhrr42qP9et5SXwo/8LLA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tJmP0x8f6ue0eMMcwq0RoHb2BHe18AKpcLtN9QLT9/l6IUPsLcS9zPLrDojNXY8AYcUj/1xK+b3qgiLvb913j8NhTJIMFYvwNAyHmht4zEK/bjGpO4mx8uN2i3F2a0FCkXpPfl2YZswRdU5YRREQ56eJldkDxEEK9eFESo1cJRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=R32MNUtY; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=i3pE7lOEwEpmRQc4BazFlJJJ0VpzVKUG+Kf/cAo7KFUPDorYb/4JAAS9sn+tp7N3l49erdr1F6w8e70xOlp/hxDdQDndzkEQa6zA1WjSfZtN9xivrOdW8mi3Ea7CVtb9rae1GzzFcEFp/KHtbU2FQF5lJ5oHAcv5G/GonEV4ENo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=bEPCiAs1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="R32MNUtY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 480151F000E9;
-	Tue, 28 Jul 2026 07:29:25 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="bEPCiAs1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E16F51F000E9;
+	Tue, 28 Jul 2026 07:30:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1785223765;
-	bh=oKnUHCs9ceYoT0tJ6NUUnKhFCgsTExGi400pcm808dU=;
+	s=korg; t=1785223824;
+	bh=yn6X1P+d6Hs7cTLV635AKaVn6A0L238cSkpEOd1Nkok=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=R32MNUtYc5J24jsflLCzvJvZl4YUx6gqFgdhkeXZMTHi4Wy/QCnjw2Tg3n23xela3
-	 n5L6L07Du4RgRiz6LYR6nO52r8QSYoVjTprtS5RTZM+SAggnOXjuhBj6hfTwEyiRJC
-	 PjrKlD3kqRsRZ8CbChed6FcF3MLTARZlrd6MZips=
-Date: Tue, 28 Jul 2026 09:28:58 +0200
+	b=bEPCiAs121Kl4TSd6o+GwiVIofIFPXxr5jo++WUhf2op5t/PiNA7WRLxvu9K+ixVB
+	 ZL4BewIziWA4D88v0C4ERUFnAaIiswAv6DWuPwmT8FyA/WefQSZyXqZg0S60Q+AvwF
+	 M6xXkSvPkwF+mp9hdhlaS5lWxqvE6ZFazE9jctGE=
+Date: Tue, 28 Jul 2026 09:30:11 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Dalvin-Ehinoma Noah Aiguobas <fliegbert2@gmail.com>
+To: Olivier Tanoh <olivier.tanoh19@gmail.com>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] staging: rtl8723bs: Renaming variables with type
- prefix
-Message-ID: <2026072832-rehydrate-pulp-540b@gregkh>
-References: <20260719115451.4401-1-fliegbert2@gmail.com>
- <20260719115451.4401-4-fliegbert2@gmail.com>
+Subject: Re: [PATCH 1/3] staging: rtl8723bs: rename mBratesOS to avoid
+ CamelCase
+Message-ID: <2026072851-foil-womanly-4837@gregkh>
+References: <20260720124544.63457-1-olivier.tanoh19@gmail.com>
+ <20260720124544.63457-2-olivier.tanoh19@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,34 +40,17 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260719115451.4401-4-fliegbert2@gmail.com>
+In-Reply-To: <20260720124544.63457-2-olivier.tanoh19@gmail.com>
 
-On Sun, Jul 19, 2026 at 11:54:51AM +0000, Dalvin-Ehinoma Noah Aiguobas wrote:
-> Renaming deprecated variable names which use prefixes as type
-> indicators to conform to the styleguide and for improved readability.
+On Mon, Jul 20, 2026 at 02:45:42PM +0200, Olivier Tanoh wrote:
+> Fix checkpatch.pl warning regarding the use of CamelCase:
+> CHECK: Avoid CamelCase: <mBratesOS>
 > 
-> Signed-off-by: Dalvin-Ehinoma Noah Aiguobas <fliegbert2@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/core/rtw_mlme.c | 152 +++++++++++-----------
->  1 file changed, 76 insertions(+), 76 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> index 114deeecc80f..7e3be8cbc829 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> @@ -675,52 +675,52 @@ void rtw_survey_event_callback(struct adapter *adapter, u8 *pbuf)
->  	spin_unlock_bh(&pmlmepriv->lock);
->  }
->  
-> -void rtw_surveydone_event_callback(struct adapter *adapter, u8 *pbuf)
-> +void rtw_surveydone_event_callback(struct adapter *adapter, u8 *buf)
->  {
-> -	struct mlme_priv *pmlmepriv = &adapter->mlmepriv;
-> +	struct mlme_priv *mlme_priv = &adapter->mlmepriv;
+> Rename the struct member mBratesOS to comply with the
+> Linux kernel coding style.
 
-As you are changing all of the variables, this patch is hard to read and
-verify that this is correct.  Please only do one variable name at a
-time.
+Why are you keeping the "m" and "b" here?  Does that match up with what
+is really stored in this variable?
 
 thanks,
 
