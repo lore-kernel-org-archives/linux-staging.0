@@ -1,35 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E62BC38333A;
-	Tue, 28 Jul 2026 07:36:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A8A23845BC;
+	Tue, 28 Jul 2026 07:40:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785224220; cv=none; b=rVnJH4AkiloQf6OImM+JsAbqtH2PRnG/8g3PAOBR1maY9DoJC39kheiyd/c4tbjOtoSLSjGByXY8I4ri+fvInuEcv1mJ6tM3fdrSMlmzbIjU0G98yFTSVPQxJykyo/o6okZmGB2G/vAX2aR+VOTRMCKwI13xyJbyXShFk3T2xlU=
+	t=1785224446; cv=none; b=fHhuFfNHtloDAQ4JJ+90GcHS70UvYofYYxiGUt3lAXZZ8Ot6xHRi+dOfAGDVNS6xp7vrwsCTQ2v8dRNhhJ7HMicyaQ39aQEEalvJSi91eIArxVM87Ng92p3GcpnXRH1kNOA0QsQDXaVgFUowmmxIXOr9LuCdd2gBPb59w0bZmgg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785224220; c=relaxed/simple;
-	bh=+qS94dwPEHLDyOH4K043bgu+lzWhYwnUqcjC5d4hABk=;
+	s=arc-20240116; t=1785224446; c=relaxed/simple;
+	bh=rrihhYA2gi833VCb+7lIwC72FMpMN1SSrvaeN9g6jQg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FBsPk7I1cznmJ19dupKTDk8tGQQ6X9GZ/td1eJi7PUcGeDKZ57bIXbjl7UnTwJiLhKQFrxPJ3LT/ln3/NVhgQacEQrV9BoK8es+m6dCGscjhkdHzfPVVztrybGTGHL8fYolnvLH/Kx5dhDRM+EJtb28d+omMYc7pKw0dTMzSy54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=xHtpy9yV; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=tarPmkehwoXU6TTsLcGOFb5shYyGiqSyohvt98st9lUrnd33F22lS61C/VU03pDCNyBlhcGvsNYjSMIaYfXRSP1R1xYAXm+yD3Dto+9TC5YI/lUvje7DasmzLmN5+ZHZhNiFwLDXufMh9vn1faPpCs8i0yvVUpRMgRGK6SeY/vc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=PGt+eXP/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="xHtpy9yV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FEB31F000E9;
-	Tue, 28 Jul 2026 07:36:57 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="PGt+eXP/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E9641F000E9;
+	Tue, 28 Jul 2026 07:40:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1785224218;
-	bh=RqzgTrocNXUrq0Ife2fNnldTvDGU2B6EKmqhZoZjvMQ=;
+	s=korg; t=1785224445;
+	bh=iQg6cMZb34SYEIs09J6YbsKfyEc6r8rw45jwah0X8+s=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=xHtpy9yVXH5GrdVCJkRheKpSuwnFt6GTElz3HfeSVEDP2K7Q22nt1AP7gSeIHoddh
-	 neZ0DeTyDNajeljpzWQ3vSB8RAsy4nEsj3NS0KlJSzULRkhiMoO9+/jP4wIRl6jfok
-	 RMULgR3BocrWgrTzTZVydar0uhUQwL3V3dE9NlyQ=
-Date: Tue, 28 Jul 2026 09:36:45 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Dang Vu Duc Hien <dvdh12707@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: remove unnecessary braces
-Message-ID: <2026072834-shrug-winner-1fb0@gregkh>
-References: <20260726092319.529566-1-dvdh12707@gmail.com>
+	b=PGt+eXP/bcoD5TY/gdjmHcuNjwiAmZ8SaSHfCmCHi+5owiTA0a6UE4k6KsYnzqoQI
+	 VacituVkB15iQU0rAoAaB8dISgR60WC+XBdOkb2OQzgRG3a7ulm9F4/95Cz78YOA9h
+	 j5aAqSEn0j52UVWv55SYa+3G6kbq1n+m/i5OtDdA=
+Date: Tue, 28 Jul 2026 09:40:32 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Muhammad Bilal <meatuni001@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH 1/5] staging: rtl8723bs: fix OOB read in rtw_get_wps_ie()
+Message-ID: <2026072825-idealism-mortuary-5cbe@gregkh>
+References: <20260718185445.63070-1-meatuni001@gmail.com>
+ <20260718185445.63070-2-meatuni001@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -38,67 +40,63 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260726092319.529566-1-dvdh12707@gmail.com>
+In-Reply-To: <20260718185445.63070-2-meatuni001@gmail.com>
 
-On Sun, Jul 26, 2026 at 04:23:19PM +0700, Dang Vu Duc Hien wrote:
-> Fix the checkpatch.pl warning:
-> "WARNING: braces {} are not necessary for single statement blocks"
-> in rtw_wlan_util.c.
+On Sat, Jul 18, 2026 at 11:54:41PM +0500, Muhammad Bilal wrote:
+> rtw_get_wps_ie() walks a series of information elements taken
+> directly from received/associated wireless management frames
+> (beacons, probe responses, scan results). The loop condition only
+> checks "cnt < in_len" before reading in_ie[cnt + 1] (the IE length
+> byte) and before a 4-byte memcmp() at &in_ie[cnt + 2], with no check
+> that those offsets are actually within in_len.
 > 
-> The if-statement only contains one line of code. Remove the redundant
-> pair of braces to comply with the kernel coding style.
+> A malicious or malformed IE blob (e.g. a truncated vendor-specific
+> IE placed near the end of the buffer) can therefore make this
+> function read past the end of in_ie by up to several bytes, both in
+> the loop condition path and via memcpy(wps_ie, &in_ie[cnt],
+> in_ie[cnt + 1] + 2) when a spurious match occurs.
 > 
-> Signed-off-by: Dang Vu Duc Hien <dvdh12707@gmail.com>
+> The sibling helpers rtw_get_sec_ie() and rtw_get_wapi_ie() in this
+> same file already perform the equivalent "cnt + 2 > in_len" /
+> "cnt + 2 + in_ie[cnt + 1] > in_len" checks, added to those two
+> functions by commit 1463ca3ec660 ("staging: rtl8723bs: fix OOB reads
+> in rtw_get_sec_ie(), rtw_get_wapi_ie(), and rtw_get_wps_attr()").
+> rtw_get_wps_ie() was simply never brought in line with them. Add the
+> same checks here, plus a length check before the 4-byte OUI memcmp.
+> 
+> Fixes: 554c0a3abf216 ("staging: Add rtl8723bs sdio wifi driver")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Muhammad Bilal <meatuni001@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/core/rtw_wlan_util.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+>  drivers/staging/rtl8723bs/core/rtw_ieee80211.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-> index a4de53872..f107304eb 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-> @@ -256,9 +256,8 @@ inline void rtw_set_oper_ch(struct adapter *adapter, u8 ch)
->  {
->  	struct dvobj_priv *dvobj = adapter_to_dvobj(adapter);
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+> index 54f805a6b5ce..2fb5863dbeef 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+> @@ -668,9 +668,15 @@ u8 *rtw_get_wps_ie(u8 *in_ie, uint in_len, u8 *wps_ie, uint *wps_ielen)
+>  	cnt = 0;
 >  
-> -	if (dvobj->oper_channel != ch) {
-> +	if (dvobj->oper_channel != ch)
->  		dvobj->on_oper_ch_time = jiffies;
-> -	}
+>  	while (cnt < in_len) {
+> +		if (cnt + 2 > in_len)
+> +			break;
+> +		if (cnt + 2 + in_ie[cnt + 1] > in_len)
+> +			break;
+> +
+>  		eid = in_ie[cnt];
 >  
->  	dvobj->oper_channel = ch;
->  }
+> -		if ((eid == WLAN_EID_VENDOR_SPECIFIC) && (!memcmp(&in_ie[cnt + 2], wps_oui, 4))) {
+> +		if ((eid == WLAN_EID_VENDOR_SPECIFIC) && (in_ie[cnt + 1] >= 4) &&
+> +		    (!memcmp(&in_ie[cnt + 2], wps_oui, 4))) {
+>  			wpsie_ptr = &in_ie[cnt];
+>  
+>  			if (wps_ie)
 > -- 
-> 2.54.0
+> 2.55.0
 > 
 > 
 
-Hi,
+This patch doesn't apply to my tree :(
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
 
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- Your patch did not apply to any known trees that Greg is in control
-  of.  Possibly this is because you made it against Linus's tree, not
-  the linux-next tree, which is where all of the development for the
-  next version of the kernel is at.  Please refresh your patch against
-  the linux-next tree, or even better yet, the development tree
-  specified in the MAINTAINERS file for the subsystem you are submitting
-  a patch for, and resend it.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
