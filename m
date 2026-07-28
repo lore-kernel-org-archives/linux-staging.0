@@ -1,219 +1,170 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4584D42CAE1
-	for <linux-staging@lists.linux.dev>; Tue, 28 Jul 2026 13:11:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1F53415F0D
+	for <linux-staging@lists.linux.dev>; Tue, 28 Jul 2026 15:26:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785244266; cv=none; b=AYd+hne7rolF3SWMT5aZoUl0v3PxE9CZP3BkGjQ/bZ4XoRUeI2uFMWJPl8tIGa2kxB5KgFnnKgkmDXnV8uYrkAVu1xmWEB1s4jFFPCO8q1OThvA5zZfIbm2ggnGIEbBKvJfADQF61Y3n2A0YUrwmvQtXTdzfzhaiwQhLLVnhuho=
+	t=1785252413; cv=none; b=GG6Gprja/6L36Jwy2qbFRLvkX1QuX4yfomBe+LSBxC4mAMwJHaV+Wf71UwDw4cyM6JM8NRo7v2z/8GEFph7xg3HnbHFnx2lsymIfWkOj/RUMr4CrVBLbqvvr5Z2cZFGQIRaGNhyS7Yj9zKNksmBUnB11o8AkYVKuAfcIc+9X1o8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785244266; c=relaxed/simple;
-	bh=y1dmns9aZbfxPoXdcw4Ty1vhi+phYuXqgcWHjlPquo8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gKHJ360vgFCqbbb27GF6wb5hVhyqyMgSd4s2D6dL78LZm/slzRmnWZBxRulyFKMXZUZ+OLR4hIjSmgR7ZWs/SOhO/jMy2aCHBHPPOK35uPelNj+MUFRuqr+X/JW3F60u7ywte6j/Z1RihqI+72b5wuKsGzFy/LPjlrf/ChFcdfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K0/GYB0a; arc=none smtp.client-ip=209.85.128.42
+	s=arc-20240116; t=1785252413; c=relaxed/simple;
+	bh=kZrrZZWGPdcV7SfWS6ggm+lAzdtHzp0FQD9ABDssBI0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ATuB9kVGMDC3o6ENE2HwN5mkTer9gj6EZjFt9F0v8h+NeCLAnceT9LtHCeUzmXGCV1nhjBno9jMTnROEEyQ6Fk2y/tv5vwygmIR2fa+YDPK4J6U9P97vXJMpwYaYa2tUjFf8DXy3ZwZVD3K7SR3vRSNR6CxrOh6zgmqBOiXjBNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QTYMrQQ9; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K0/GYB0a"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4953e04ef16so41343325e9.2
-        for <linux-staging@lists.linux.dev>; Tue, 28 Jul 2026 06:11:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QTYMrQQ9"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-49558ce01afso30036335e9.1
+        for <linux-staging@lists.linux.dev>; Tue, 28 Jul 2026 08:26:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785244262; x=1785849062; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=kYkngR3zU/7J7Bh+e7YxqTUattKgmim551QQ/MGGdoI=;
-        b=K0/GYB0aN6lVw1viNsHioZicXh8TpX/YzrqZ1AHlM28odiE8ijBg5r2kH7s4tIma50
-         UYzoobKK3ByFEiewIlb8NkjcVhmn49aXwR8Rr/c/gyy7nC4pj5R7RzD4MpdE/luNsjxA
-         Rroh2c81a/FhydQGfTGkXCJoLBto5y3/ZVEsnea7tposdZhKZ2TuZDFD9Ci2rtDoFikM
-         U+R7LQIc7zqBVYEXmLy3SZaqvG5FmP8LqBcVrgR2qn4xGuAOe3A2Zwk5lQB7skXxoM/r
-         YmpIrfmNYCwwjjeNyIT7eBg4cbSCKR+89V0GBaGpf0FcIKgz04zH77wu4Y932NXJ14dP
-         n5ug==
+        d=gmail.com; s=20251104; t=1785252409; x=1785857209; darn=lists.linux.dev;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=dMH/1XOdyJ9P1EUbZssMT6pr1HBRVEjc3EUUDHcjPoY=;
+        b=QTYMrQQ9wwFAYpeys7h/bCf82sAfPQa7KFe6tp+vm4mfGvgdaP6M2fiIAWW6HKXNJ2
+         ckFYikwqKPGWIaXM7Fl/fDH51kf51PGz+PK295JgHYjbQJ3UUBNApMJSjzoIXLXenWaM
+         xeLHfF9OBlabws4mSPkVIahu5s4XS1cCHMb9vNWXI361LhZaXlnDgjdqpt4rr1Vh+VU4
+         83H/44UYAdTs161IW7FrpH7qJbUJtAT54hwdcf7C88JHHb/Deq2biBeHJ/KNQi1ECkyZ
+         CTZhZvKZwV27ZCYQRDTxKKmesJwICIob2RWBiqopvOsGLCcWbzd2J3rb/EesqzLucmEd
+         dc7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785244262; x=1785849062;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1785252409; x=1785857209;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=kYkngR3zU/7J7Bh+e7YxqTUattKgmim551QQ/MGGdoI=;
-        b=R/JIVbGYGpNu2LMdfLTSJx3LA4BC5frxf1UiLkCLTzdYyqOt5Rt3yasDq0KNmyPU9s
-         jxwyA+L9aSobk32Knouahh+NkfDcGAabygRmYWCBTl53Ntg/ihxV2QwNQso+9QI1xu5e
-         Itm++OTHpY+c4PsVNUAGgGZmwbz0SvqGffdXKrxZm5KuNLpKgTGeEXQvrZ8LytqqISmW
-         h33yqgZFOoT4971zShk+QxTfv6SMso7IabBnoKnrAARl8sAC8JoYLojcQTJXPRNPX7xt
-         rd1b7q7AScBcfhUsPKWF0RQgKYKbfqUbhsEKaIrnN388sB43h6K0H4cUyzrjuzSxgxAZ
-         TzJg==
-X-Forwarded-Encrypted: i=1; AHgh+Rp6ImuIP3bX5l+zyKCNwaRja3XAZfKVH716kEA9r7Rbcb2wLe5LY1CUzLg/cIJbEqMgg5bEx1OD8G62Wh4b@lists.linux.dev
-X-Gm-Message-State: AOJu0YxlGghqnRDRE/wpkgYEzsYeCLqkpTh//W+37GQmceM4eORZQVQL
-	BZULbRJxIu6UA/wrP9XSyBz+W9u2V811xukQhsjuITsD4pUrCX7uLATg
-X-Gm-Gg: AR+sD11i6bZNaMGmZAT4JOfII/eLTGv9+UyEmgQOBNtAgyU1WpTKSvvbCGMVxLVvEFU
-	MV9cdxUoQuNEstReKxg2Ae00FuFV0//YW71ouV2kt+/x97nWA0dBwrtufSMsQRGNHnZV7jfFuxS
-	7QRF3YFp1FgeToXiD9PHaBD2/kv0+g2qvn06weXF0i1D/POiaFnWovX1lGzFHzOE3Sy+d83LLIm
-	ox2ApAiSICLGp5AJ2EGDJ5aFuiQS2DbKgWyfpJCmdZTteR+Xn6RPUPJogj8cgJjBCaXc1q95/Dp
-	+lBQR25hXIjPCoyffoELyR3NeiUK2Va74tByG3uQpjB2et+6aaOlrVbXfAIVU46V7KyoxfHczJD
-	wBglLzCGZXxClJu/nCTea4AQFg9vwe0rVMieTbawD9zWBSe2G8/mSzID/ltZImKjuQq8mhs6Tda
-	/VsJwlQ7jWQ8IPrkqI1ECzXmGzTicUbUSSImeji04K2I5OzBCjANTg4Va34z21ckl4Hw==
-X-Received: by 2002:a05:600c:5295:b0:493:bb29:af40 with SMTP id 5b1f17b1804b1-496c6439ef7mr27416195e9.14.1785244262298;
-        Tue, 28 Jul 2026 06:11:02 -0700 (PDT)
-Received: from fedora ([202.47.63.86])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496c4443396sm87852245e9.0.2026.07.28.06.10.59
+        bh=dMH/1XOdyJ9P1EUbZssMT6pr1HBRVEjc3EUUDHcjPoY=;
+        b=SJiYZNXjW871IACyonlevTn0Unrl+rWRPvRezorusdfFybhO1anJ1rRB1Cit44yBo3
+         hvLJxBbgxnzJYn3B2de77mjGv+RlrBEvjgbD6eDPOhBIMCa55vt7KB/4p7jV0FAbHnIX
+         Ir2uqQRRMbvjwsVdozcvMf1I6Y/cxpP3arzmDErCTmF5Vm4W7hviL5dNIy9KWPJzojBf
+         gOI+kfoHHL8lqeDpRL0WuT1GRQDLb3vmL2tIPdi57vw6dNPzTKXSoqJ8pXkOujLvV1b4
+         KS2ciefnZpaNkf/z1jLeE+JAnc+kLIhN0LcYxRvaIzwrDYEpUZ6N1S8KT3hAORipIq2y
+         cu8w==
+X-Gm-Message-State: AOJu0YxPyMEMjGFqWPSknquw1JgPclgjSFr+FH3Q5ImQQfpEOuaUrL8k
+	44V7K3AeiD6HRtgo8Y+vIHuECfc8e5ZtBPjyAdQsmMIqWR7j+XLokCcy
+X-Gm-Gg: AR+sD12NBVl8q78bZPBM7VQtcbtfSH+RowKUEISQTDuWiHb9hEVf8iaD/UJTYXUnKg+
+	51sN5Es4mTpbonKISE64g0ZCUCzX2iRXGpji/R+R8maUR1iM/SQblC6eIPGbC1HMM2ckEIfLcLA
+	a9+hjR8NHYd1fAAJj8LUqR6P5Qs1z99bqeYi2Qjt/4EL2fXkmvnhWTUozC3UkKNFjmJagKBFNGG
+	5lCTjUh2yex3Zz00UkcIEm/YB3ojUmDpDHRXP0QPawhjBJluOJrhWfO+bmjWdZqYriNGgPD4rUJ
+	8plXl4uKZ89vdRfd4tQ683/wblCpTZ6djnCWpI6hjBOosNFmyJwsJPkRw25euCJ5CDC8CiXyvga
+	2G2e8Jvs03kKvM0Z12DXb3fh9K2NMZUFAmTJJa1DraG2WbTubYItILeLKLiqN+AHe+aOl2jFU7v
+	Uu
+X-Received: by 2002:a05:600c:154b:b0:495:4859:8f9b with SMTP id 5b1f17b1804b1-496c6420e39mr31886115e9.9.1785252408380;
+        Tue, 28 Jul 2026 08:26:48 -0700 (PDT)
+Received: from fedora ([41.204.187.5])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4957b5f35a1sm283742365e9.0.2026.07.28.08.26.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2026 06:11:01 -0700 (PDT)
-From: Muhammad Bilal <meatuni001@gmail.com>
-To: sudipm.mukherjee@gmail.com,
-	teddy.wang@siliconmotion.com
-Cc: gregkh@linuxfoundation.org,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Muhammad Bilal <meatuni001@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v3] staging: sm750fb: fix mono image source stride mismatch in lynxfb_ops_imageblit()
-Date: Tue, 28 Jul 2026 18:10:50 +0500
-Message-ID: <20260728131050.37032-1-meatuni001@gmail.com>
-X-Mailer: git-send-email 2.55.0
+        Tue, 28 Jul 2026 08:26:47 -0700 (PDT)
+Date: Tue, 28 Jul 2026 18:26:43 +0300
+From: Bramwel Barack <bramwelbarack89@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rtl8723bs: fix line length warnings in os_intfs.c
+Message-ID: <amjKM_tz7ul0vj40@fedora>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-sm750_hw_imageblit() advances its monochrome source pointer by
-src_delta per scanline, and computes the correct rounded-up stride
-internally as:
+The current formatting standards in the file rtl8723bs violates the
+kernel coding standards of 100 lines.
+Targeted most comments of code while avoiding key functions and comments
+included due to indents.
 
-        bytes_per_scan = (width + start_bit + 7) / 8;
+From 08a6ba8dd59504c030c0e6c9f9459a53436d32eb Mon Sep 17 00:00:00 2001
+From: Bramwel Barack <bramwelbarack89@gmail.com>
+Date: Tue, 28 Jul 2026 17:50:30 +0300
+Subject: [PATCH] staging: rtl8723bs: fix line length warnings in os_intfs.c
 
-Its only caller, lynxfb_ops_imageblit(), instead passed src_delta as
-image->width >> 3. For widths not a multiple of 8 this under-counted
-the stride, so the source pointer fell further behind the real
-per-scanline layout on every line, corrupting the rendered image.
-
-Rather than just fixing the caller's calculation, remove src_delta
-as a parameter entirely and have sm750_hw_imageblit() advance by the
-bytes_per_scan it already computes for itself. There has only ever
-been one caller, and that caller was passing an out-of-sync
-derivative of the same width/start_bit values sm750_hw_imageblit()
-already has, so keeping stride as a separate parameter served no
-purpose beyond letting the two calculations drift apart, which is
-exactly what happened here.
-
-Rounding up, rather than down, is the direction consistent with the
-rest of the fbdev core: struct fb_image mono bitmap data (the same
-image->data this driver receives) is walked elsewhere with byte
-strides derived from a ceiling division of width by 8. The generic
-mono bit iterator in drivers/video/fbdev/core/fb_imageblit.h advances
-scanlines with "iter->data += BITS_TO_BYTES(iter->width)", and
-BITS_TO_BYTES() (include/linux/bitops.h) is a ceiling division.
-sm750_hw_imageblit()'s own "(width + start_bit + 7) / 8" is that same
-ceiling division with an added start_bit offset, so the caller's
-">> 3" (floor) was the one calculation out of step with how this data
-layout is handled everywhere else.
-
-Found by code review of sm750_hw_imageblit()'s internal stride
-calculation against what its only caller was passing in, and
-confirmed with a clean -Werror build. I do not have this hardware,
-so this has not been exercised at runtime on real sm750 silicon.
-
-Fixes: 81dee67e215b2 ("staging: sm750fb: add sm750 to staging")
-Cc: stable@vger.kernel.org
-Signed-off-by: Muhammad Bilal <meatuni001@gmail.com>
+Signed-off-by: Bramwel Barack <bramwelbarack89@gmail.com>
 ---
-v3: Added the version notes below, which Dan pointed out were
-    missing from v2. Added Cc: stable@vger.kernel.org, flagged by
-    Greg's patch-bot since the Fixes: tag targets an old (2015)
-    commit. Added the rounding-direction justification Dan asked
-    about, citing fb_imageblit.h's BITS_TO_BYTES() as the existing
-    kernel-wide convention for this same struct fb_image layout.
-    Moved the "no hardware" disclosure from an email reply into the
-    commit message itself, per Dan's request.
-v2: Added a Fixes tag. Moved the src_delta calculation into
-    sm750_hw_imageblit() itself and dropped it as a parameter, per
-    Dan Carpenter's review.
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c | 37 ++++++++++++++++-----
+ 1 file changed, 29 insertions(+), 8 deletions(-)
 
- drivers/staging/sm750fb/sm750.c       | 2 +-
- drivers/staging/sm750fb/sm750.h       | 2 +-
- drivers/staging/sm750fb/sm750_accel.c | 6 ++----
- drivers/staging/sm750fb/sm750_accel.h | 4 +---
- 4 files changed, 5 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index 89c811e..da0b497 100644
---- a/drivers/staging/sm750fb/sm750.c
-+++ b/drivers/staging/sm750fb/sm750.c
-@@ -261,7 +261,7 @@ static void lynxfb_ops_imageblit(struct fb_info *info,
- 	spin_lock(&sm750_dev->slock);
- 
- 	sm750_dev->accel.de_imageblit(&sm750_dev->accel,
--				      image->data, image->width >> 3, 0,
-+				      image->data, 0,
- 				      base, pitch, bpp,
- 				      image->dx, image->dy,
- 				      image->width, image->height,
-diff --git a/drivers/staging/sm750fb/sm750.h b/drivers/staging/sm750fb/sm750.h
-index d2c522e..83229fe 100644
---- a/drivers/staging/sm750fb/sm750.h
-+++ b/drivers/staging/sm750fb/sm750.h
-@@ -73,7 +73,7 @@ struct lynx_accel {
- 			   u32 rop2);
- 
- 	int (*de_imageblit)(struct lynx_accel *accel, const char *p_srcbuf,
--			    u32 src_delta, u32 start_bit, u32 d_base, u32 d_pitch,
-+			    u32 start_bit, u32 d_base, u32 d_pitch,
- 			    u32 byte_per_pixel, u32 dx, u32 dy, u32 width,
- 			    u32 height, u32 f_color, u32 b_color, u32 rop2);
- 
-diff --git a/drivers/staging/sm750fb/sm750_accel.c b/drivers/staging/sm750fb/sm750_accel.c
-index 0316ea6..bac9a20 100644
---- a/drivers/staging/sm750fb/sm750_accel.c
-+++ b/drivers/staging/sm750fb/sm750_accel.c
-@@ -288,8 +288,6 @@ static unsigned int de_get_transparency(struct lynx_accel *accel)
-  * sm750_hw_imageblit
-  * @accel: Acceleration device data
-  * @src_buf: pointer to start of source buffer in system memory
-- * @src_delta: Pitch value (in bytes) of the source buffer, +ive means top down
-- *	      and -ive mean button up
-  * @start_bit: Mono data can start at any bit in a byte, this value should be
-  *	      0 to 7
-  * @dest_base: Address of destination: offset in frame buffer
-@@ -304,7 +302,7 @@ static unsigned int de_get_transparency(struct lynx_accel *accel)
-  * @rop2: ROP value
+diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+index c15056ee207c..c916f6f52253 100644
+--- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
++++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+@@ -71,20 +71,36 @@ int rtw_ht_enable = 1;
+  * 0x01 means enable 2.4G 40MHz
   */
- int sm750_hw_imageblit(struct lynx_accel *accel, const char *src_buf,
--		       u32 src_delta, u32 start_bit, u32 dest_base, u32 dest_pitch,
-+		       u32 start_bit, u32 dest_base, u32 dest_pitch,
- 		       u32 byte_per_pixel, u32 dx, u32 dy, u32 width,
- 		       u32 height, u32 fg_color, u32 bg_color, u32 rop2)
- {
-@@ -395,7 +393,7 @@ int sm750_hw_imageblit(struct lynx_accel *accel, const char *src_buf,
- 			write_dp_port(accel, *(unsigned int *)remain);
- 		}
+ static int rtw_bw_mode = 0x01;
+-static int rtw_ampdu_enable = 1;/* for enable tx_ampdu ,0: disable, 0x1:enable (but wifi_spec should be 0), 0x2: force enable (don't care wifi_spec) */
++static int rtw_ampdu_enable = 1;
++/*  for enable tx_ampdu ,0: disable */
++/*  0x1:enable (but wifi_spec should be 0) */
++/*  0x2: force enable (don't care wifi_spec) */
+ static int rtw_rx_stbc = 1;/*  0: disable, 1:enable 2.4g */
+-static int rtw_ampdu_amsdu;/*  0: disabled, 1:enabled, 2:auto . There is an IOT issu with DLINK DIR-629 when the flag turn on */
++static int rtw_ampdu_amsdu;
++/*  0: disabled */
++/*  1:enabled */
++/*  2:auto */
++/*  There is an IOT issu with DLINK DIR-629 when the flag turn on */
+ /*  Short GI support Bit Map */
+ /*  BIT0 - 20MHz, 0: non-support, 1: support */
+ /*  BIT1 - 40MHz, 0: non-support, 1: support */
+ /*  BIT2 - 80MHz, 0: non-support, 1: support */
+ /*  BIT3 - 160MHz, 0: non-support, 1: support */
+ static int rtw_short_gi = 0xf;
+-/*  BIT0: Enable VHT LDPC Rx, BIT1: Enable VHT LDPC Tx, BIT4: Enable HT LDPC Rx, BIT5: Enable HT LDPC Tx */
++/*  BIT0: Enable VHT LDPC Rx */
++/*  BIT1: Enable VHT LDPC Tx */
++/*  BIT4: Enable HT LDPC Rx */
++/*  BIT5: Enable HT LDPC Tx */
+ static int rtw_ldpc_cap = 0x33;
+-/*  BIT0: Enable VHT STBC Rx, BIT1: Enable VHT STBC Tx, BIT4: Enable HT STBC Rx, BIT5: Enable HT STBC Tx */
++/*  BIT0: Enable VHT STBC Rx */
++/*  BIT1: Enable VHT STBC Tx */
++/*  BIT4: Enable HT STBC Rx */
++/*  BIT5: Enable HT STBC Tx */
+ static int rtw_stbc_cap = 0x13;
+-/*  BIT0: Enable VHT Beamformer, BIT1: Enable VHT Beamformee, BIT4: Enable HT Beamformer, BIT5: Enable HT Beamformee */
++/*  BIT0: Enable VHT Beamformer */
++/*  BIT1: Enable VHT Beamformee */
++/*  BIT4: Enable HT Beamformer */
++/*  BIT5: Enable HT Beamformee */
+ static int rtw_beamform_cap = 0x2;
  
--		src_buf += src_delta;
-+		src_buf += bytes_per_scan;
- 	}
+ static int rtw_lowrate_two_xmit = 1;/* Use 2 path Tx to transmit MCS0~7 and legacy mode */
+@@ -98,7 +114,11 @@ module_param(rtw_ant_num, int, 0644);
+ MODULE_PARM_DESC(rtw_ant_num, "Antenna number setting");
  
- 	return 0;
-diff --git a/drivers/staging/sm750fb/sm750_accel.h b/drivers/staging/sm750fb/sm750_accel.h
-index d15a40c..4f609d6 100644
---- a/drivers/staging/sm750fb/sm750_accel.h
-+++ b/drivers/staging/sm750fb/sm750_accel.h
-@@ -220,8 +220,6 @@ int sm750_hw_copyarea(struct lynx_accel *accel,
- /**
-  * sm750_hw_imageblit
-  * @pSrcbuf: pointer to start of source buffer in system memory
-- * @srcDelta: Pitch value (in bytes) of the source buffer, +ive means top down
-- *>-----      and -ive mean button up
-  * @startBit: Mono data can start at any bit in a byte, this value should be
-  *>-----      0 to 7
-  * @dBase: Address of destination: offset in frame buffer
-@@ -236,7 +234,7 @@ int sm750_hw_copyarea(struct lynx_accel *accel,
-  * @rop2: ROP value
-  */
- int sm750_hw_imageblit(struct lynx_accel *accel, const char *pSrcbuf,
--		       u32 srcDelta, u32 startBit, u32 dBase, u32 dPitch,
-+		       u32 startBit, u32 dBase, u32 dPitch,
- 		       u32 bytePerPixel, u32 dx, u32 dy, u32 width,
- 		       u32 height, u32 fColor, u32 bColor, u32 rop2);
+ static int rtw_antdiv_cfg = 1; /*  0:OFF , 1:ON, 2:decide by Efuse config */
+-static int rtw_antdiv_type; /* 0:decide by efuse  1: for 88EE, 1Tx and 1RxCG are diversity.(2 Ant with SPDT), 2:  for 88EE, 1Tx and 2Rx are diversity.(2 Ant, Tx and RxCG are both on aux port, RxCS is on main port), 3: for 88EE, 1Tx and 1RxCG are fixed.(1Ant, Tx and RxCG are both on aux port) */
++static int rtw_antdiv_type;
++/* 0:decide by efuse  1: for 88EE, 1Tx and 1RxCG are diversity */
++/* (2 Ant with SPDT), 2:  for 88EE, 1Tx and 2Rx are diversity. */
++/* (2 Ant, Tx and RxCG are both on aux port, RxCS is on main port) */
++/*3: for 88EE, 1Tx and 1RxCG are fixed.(1Ant, Tx and RxCG are both on aux port) */
  
+ static int rtw_hw_wps_pbc;
+ 
+@@ -473,7 +493,8 @@ u32 rtw_start_drv_threads(struct adapter *padapter)
+ 	if (IS_ERR(padapter->cmdThread))
+ 		_status = _FAIL;
+ 	else
+-		wait_for_completion(&padapter->cmdpriv.terminate_cmdthread_comp); /* wait for cmd_thread to run */
++		wait_for_completion(&padapter->cmdpriv.terminate_cmdthread_comp);
++	/* wait for cmd_thread to run */
+ 
+ 	padapter->xmitpriv.SdioXmitThread = kthread_run(rtl8723bs_xmit_thread,
+ 							padapter, "RTWHALXT");
+@@ -659,7 +680,7 @@ u8 rtw_init_drv_sw(struct adapter *padapter)
+ 		goto free_xmit_priv;
+ 	spin_lock_init(&padapter->security_key_mutex);
+ 
+-	/*  We don't need to memset padapter->XXX to zero, because adapter is allocated by vzalloc(). */
++	/* We don't need to memset padapter->XXX to zero, because adapter is allocated by vzalloc(). */
+ 	/* memset((unsigned char *)&padapter->securitypriv, 0, sizeof (struct security_priv)); */
+ 
+ 	if (_rtw_init_sta_priv(&padapter->stapriv) == _FAIL)
 -- 
 2.55.0
+
