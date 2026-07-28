@@ -1,57 +1,93 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDCC72D8378;
-	Tue, 28 Jul 2026 07:32:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D7B12D8378;
+	Tue, 28 Jul 2026 07:33:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785223972; cv=none; b=hDAFCgWdCRNHWWd/NT28ygcInYSCFO1vxmIj98cS4RfT9aLrygUBTYel6FIZyiko9wT57dVayuAHg3myySAGlkEPsfRsz844nQLuhD+7OWcjzpgYxn2DKp/cnZVRYhCeMzxITuZavT8L9eKKy9zzRcsK/cgG3PgR65lNVWlPgtg=
+	t=1785224021; cv=none; b=oxcKme2AO71nXAGwt1w6hvTyq5Emrc0oxoCAnNnOr2CSVROuhedbLgLYyETD+fH7kgM/ZnDYNLhi5GE0Za1V9oYpSZcKrraRHb52fmE6ShAVSdXa947jz1+Xr2DUPrfW9GQr/3mg38BgtkN2BE8vAkO5RNzpc6rx7rhd7gsWLDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785223972; c=relaxed/simple;
-	bh=OaWRfLh/3NijDMGmlpyTk51cHXTneQnjgSMomaEh0vQ=;
+	s=arc-20240116; t=1785224021; c=relaxed/simple;
+	bh=YTiI/5eEUMLgnygBWAZM9iWQIPNLnRkCDUAT/gXZ26M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eKHE6sRNKCAczhB/H8gkTTU2qwelardS5r58wvL0dj1ShjCCFZUzO7+DEGnWn4LK+0Y0t2t+70uw8iyEOy5Dwz8Bv2x+iUKP2q76enk1Q7jmLk3xD0F0U/LIfr3aYzkxxc47nBlhBoLGOC/bFFhVmUs/qf0WMB5a77h/ZE2eVSU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=FDanqumI; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=r0QKblVSaymVDsUDdOjS9JdWwPTG3beBcgOS4PtBvcIVuN7cyqc1UgXC4IhMlGXKun8w2zQj4OhaEiTO91FFnTKyAAaHpQEsTe3DTWFKsBS+NvS3iKDXQcwqk/Ifn41kFJJBcE39jdwiiXe2F19PM0GuyG1FFje+iOaFjVv6JBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=GFbLkarK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="FDanqumI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E50301F000E9;
-	Tue, 28 Jul 2026 07:32:50 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="GFbLkarK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D2261F000E9;
+	Tue, 28 Jul 2026 07:33:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1785223971;
-	bh=Zl0oA8BeuDw9wRNAl5RE4G8Vxk10xisdBgdH2tJNcHw=;
+	s=korg; t=1785224020;
+	bh=+XRwqzs3kYlc9d8MqELzq30bRfCm/VyOvrox1rbFMkQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=FDanqumIYFyX2v5LSsIFUoGwjhrEgEz86Q4I6BFudI2lBEO7mMYAfh8qcgXXA4Pfy
-	 oZgvIjovNPBmxoOUCm2qGEGxC+ct5nzRoCFj8/c8dWedKkJvxQTFQlOaQg7lXAF3HI
-	 OfyT5shg/t08A2ArYJNJLd6GJXt3GW4uKLaPEPdc=
-Date: Tue, 28 Jul 2026 09:32:38 +0200
+	b=GFbLkarKEEMpBq6HvxM5z1lAKiC2cpPmIDElYyGJPOxU/V4EXNre0svBNJPiUdb+6
+	 RQbW6ntwN4hNIJVxoY8AcNCcMsR5he6lZ4x6rc1xTy3fa2Af7MuXwkaeUFgqYOzcKj
+	 hlYGOdfKfBkiWesv2sybH9Ger5diu1LGlEik5X+k=
+Date: Tue, 28 Jul 2026 09:33:27 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: =?utf-8?B?4KSv4KS2IOCkquCljeCksOCkpOCkvuCkqiDgpJXgpYHgpLLgpLbgpY3gpLA=?=
-	=?utf-8?B?4KWH4KS34KWN4KSg?= <pratapyashkulshrestha@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: fix space before tab in
- HalPhyRf_8723B.c
-Message-ID: <2026072830-old-paprika-309e@gregkh>
-References: <20260713162020.2478175-1-pratapyashkulshrestha@gmail.com>
- <2026071727-jingling-bacteria-51ca@gregkh>
- <CAKCYvoMf+-fPo1yj7VEYfgwHpOxRCYAGELwW7V8ODOwy+9OviA@mail.gmail.com>
- <CAKCYvoN=vM5gsGofBh_+CivXKqBJgV=4PqUkOwXB5SAkoMjJiA@mail.gmail.com>
+To: Gerrit Diersmann <gerrit@diersmann.eu>
+Cc: parthiban.veerasooran@microchip.com, christian.gromm@microchip.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: most: video: remove unnecessary blank line
+ before closing brace
+Message-ID: <2026072807-humvee-amplifier-5b1b@gregkh>
+References: <20260723213522.86962-1-gerrit@diersmann.eu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAKCYvoN=vM5gsGofBh_+CivXKqBJgV=4PqUkOwXB5SAkoMjJiA@mail.gmail.com>
+In-Reply-To: <20260723213522.86962-1-gerrit@diersmann.eu>
 
-On Tue, Jul 21, 2026 at 09:48:16PM +0530, यश प्रताप कुलश्रेष्ठ wrote:
-> Hey Greg,
+On Thu, Jul 23, 2026 at 11:35:22PM +0200, Gerrit Diersmann wrote:
+> Signed-off-by: Gerrit Diersmann <gerrit@diersmann.eu>
+> ---
+>  drivers/staging/most/video/video.c | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> Looking closer, these are commented-out function calls, not explanatory comments
-> that look like leftover debug code rather than documentation.
-> Would you like me to send a v2 that removes these dead lines
-> entirely, rather than just fixing their whitespace?
+> diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
+> index 78234620d..5c34f93a0 100644
+> --- a/drivers/staging/most/video/video.c
+> +++ b/drivers/staging/most/video/video.c
+> @@ -439,7 +439,6 @@ static int comp_register_videodev(struct most_video_dev *mdev)
+>  	mdev->vdev->release = video_device_release;
+>  
+>  	return 0;
+> -
+>  }
+>  
+>  static void comp_unregister_videodev(struct most_video_dev *mdev)
+> -- 
+> 2.55.0
+> 
 
-Yes please.
+Hi,
+
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
+
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- You did not specify a description of why the patch is needed, or
+  possibly, any description at all, in the email body.  Please read the
+  section entitled "The canonical patch format" in the kernel file,
+  Documentation/process/submitting-patches.rst for what is needed in
+  order to properly describe the change.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
