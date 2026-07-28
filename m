@@ -1,39 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69C603C9893;
-	Tue, 28 Jul 2026 07:14:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E0C2317166;
+	Tue, 28 Jul 2026 07:15:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785222883; cv=none; b=mOsQWE2XO100FHNHMF6MSX4rYl3aPvljKQPCinXm7mK7O4nfx14cUMnnQokJaPFjdOj1wAocgMJisu4wNdnJDONqrPsBMl/lSkv3SqmVWIHxwVICD3bRLKsKZSQ5TQ9Ew58zvMOBJnmtm6eqO5ADKzkBu0A67PMPHNAAPr+LxEo=
+	t=1785222942; cv=none; b=qlEacKxGgw9CXmMdBBKov1TidU64p84+RCHpTZph0aQQzgYMYTcm5V8DhHvYjoBWTi/m7fEXeyVik/BO7iS4lJ4vQrGEGNUXUsFLyo5DN5wWRRnjkyijjzGShkA+vFph4/q0yerLFHYN+CVbnDnSXK5T1KnH8XLwRHzPB4HeTAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785222883; c=relaxed/simple;
-	bh=pH+aYJgbOn0P0qKWIwglvbJdVlGjKnKkjw9IseUdwvM=;
+	s=arc-20240116; t=1785222942; c=relaxed/simple;
+	bh=z4wUUjUrQ96jB4SLwW8ZKTVWaNiNDAn/Crr2yp4W2e8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XW46gSOaaFP/jR1QTUz75KtCgtmslEtaSlJQPRHnOGjin0qj9tPgdC8UL1F2/kVuUuoZ7ABoMJxJxYrJn0O7Soh4X4pP9WlzmL/vwXjRUzmOW/lUfS2mxBipbZqlCdnb+VRv/XAhOyJaSkjelme9fdegcPJSATycIcOBEpRGN4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=QVdXfW0r; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=JUd02Qst2tiRdDQgWTXsAFesf0298SgOd22qj5frYBoRLG0MmgGthWtYEV6IypfEN0WM8tZ7nCdyxzjnEYe+WXIb2mHZNoISZyx3sxnMY3EK5hHAwSwv+P81CS6IINR6kppd1R3FVYiWywONT1O9OIuNswBpCMU/t/qr1RAetVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Jtb7MhXl; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="QVdXfW0r"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B59571F000E9;
-	Tue, 28 Jul 2026 07:14:41 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Jtb7MhXl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E0161F000E9;
+	Tue, 28 Jul 2026 07:15:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1785222882;
-	bh=bLOm4DZuYRPGDME/xcXZ2fDFNEQdpE2f6dkBtC2gS/w=;
+	s=korg; t=1785222941;
+	bh=ZEkmzU/xeqzGob3O6nq50bgEy+i26kUh0assl40IUww=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=QVdXfW0rVp7kOZSPQnaDbpF6I78PHzOHutXdrb1xb0b6hH9FEXtOReUIYCsA9djAM
-	 2UtiTPKO+V20kzxMPzsTog4Etzuboc2rON5m+IjO/1nMYIwUIr2uW3F/qpx83uZ6FD
-	 jUYggNfqGKEYTIiSHG2PyaDCsCSKgenERGriuzlQ=
-Date: Tue, 28 Jul 2026 09:14:29 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Mohit Mishra <mishraloopmohit@gmail.com>
-Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] staging: sm750fb: Remove dead VALIDATION_CHIP
- preprocessor blocks
-Message-ID: <2026072852-whole-commuting-cd30@gregkh>
-References: <20260725090750.113598-1-mishraloopmohit@gmail.com>
+	b=Jtb7MhXlNO7UqJGNzPeAo7vPpmj2JXHlAaJdYvwoPvPsGGIrQFOnBkRj2wP/wTgpo
+	 16u0j6iXqnxvfnMbIJIOAFd8y4lxZqu0JwFYOjaOWb27tAvSd7j9Pr5s1Hg4b5r9TR
+	 y9WS/fnrzgYtaibXbVdzDoUCL23SUEf8WsvYEaUc=
+Date: Tue, 28 Jul 2026 09:15:28 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Shivesh <chanelshivesh@gmail.com>
+Cc: vaibhav.sr@gmail.com, mgreer@animalcreek.com, johan@kernel.org,
+	elder@kernel.org, greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] greybus: audio_manager: fix sysfs_emit newline and const
+ warnings
+Message-ID: <2026072857-moody-twelve-33e4@gregkh>
+References: <6a64be09.c4d3d80a.348a49.42e7@mx.google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -42,35 +41,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260725090750.113598-1-mishraloopmohit@gmail.com>
+In-Reply-To: <6a64be09.c4d3d80a.348a49.42e7@mx.google.com>
 
-On Sat, Jul 25, 2026 at 02:37:48PM +0530, Mohit Mishra wrote:
-> @@ -1020,9 +994,7 @@
->  #define CRT_DISPLAY_CTRL_CRTSELECT                    BIT(25)
->  #define CRT_DISPLAY_CTRL_RGBBIT                       BIT(24)
->  
-> -#ifndef VALIDATION_CHIP
->      #define CRT_DISPLAY_CTRL_CENTERING                BIT(24)
-> -#endif
+On Sat, Jul 25, 2026 at 06:45:45AM -0700, Shivesh wrote:
+> >From 5e0bcb4920bcb9e0ef6c03a91730fe45f643f3a4 Mon Sep 17 00:00:00 2001
+> From: Shivesh <shivesh@example.com>
+> Date: Sat, 25 Jul 2026 13:44:36 +0000
+> Subject: [PATCH] greybus: audio_manager: fix sysfs_emit newline and const
+>  warnings
+> 
+> Add terminating newlines to sysfs_emit() format strings as required
+> by the kernel sysfs convention. Also make envp[] array const to fix
+> checkpatch warning about char* array declaration.
+> 
+> Signed-off-by: Shivesh <chanelshivesh@gmail.com>
+> Signed-off-by: Shivesh <shivesh@example.com>
 
-The indentation makes no sense here now, right?
+Something went really wrong here, why sign off on this twice with
+different email addresses?
 
->  #define CRT_DISPLAY_CTRL_LOCK_TIMING                  BIT(23)
->  #define CRT_DISPLAY_CTRL_EXPANSION                    BIT(22)
->  #define CRT_DISPLAY_CTRL_VERTICAL_MODE                BIT(21)
-> @@ -1121,22 +1093,17 @@
->  
->  /* This vertical expansion below start at 0x080240 ~ 0x080264 */
->  #define CRT_VERTICAL_EXPANSION                        0x080240
-> -#ifndef VALIDATION_CHIP
->      #define CRT_VERTICAL_CENTERING_VALUE_MASK         (0xff << 24)
-> -#endif
-
-Same here :(
-
-And elsewhere in this patch.
-
-Always look at the end result of your change please.
+Also, look in the archives for all the times that this same change has
+been rejected.
 
 thanks,
 
