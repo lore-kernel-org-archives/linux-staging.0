@@ -1,70 +1,74 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D23873AA51F
-	for <linux-staging@lists.linux.dev>; Tue, 28 Jul 2026 12:55:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24B1D42BC25
+	for <linux-staging@lists.linux.dev>; Tue, 28 Jul 2026 12:55:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785243313; cv=none; b=fA9KmseDxdsn+DEePs1Bp38MJsR3De9Rb7FMvIlJUOKtqltQq1dGg2jepSU5+knrW69eTDOaBmm87FgYznpt7OrmlQKmlN/u5gwXAvf+OuxUVBPuTOBa3k67r8W6o9WS8PWsjC8gXO8b1z50QlpeMTmBKns7Un5C9I1o7mV0ydA=
+	t=1785243316; cv=none; b=kCmQUTTMK6suibMPwhyiUNe0TGljs0IsmbtplqrugbCHDw/sfNELqTB77SzPwMcBaqU07ey6MmbIfVbmCVweYz+DMsQVwyYmhYiFhNwvcUk4bJR+DS6HKQE4jiyNrNcNvGyBQBgq7P6X4PrDPnbvLfLqTnx8+zqIFnhccYc6owo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785243313; c=relaxed/simple;
-	bh=/+mqHkFHeQZWQoo91PDLcdeK72c5ehlB2OrXUNBlPiw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=N/GC8+YbS/anTiPX0Wwoq5kmAZgqevZzQIk4lN6ZKeSS0w+UMUMNeXroGHwXXmEjHTZd9vjuIm16WXmzLcelNxnLGvxTK17D2yOF4FIViuIxkQ2cs5a8hIdI+rks1ByObqHoABIa5T0+X2goB5PXPUvW9Js/xq1mVsbXeBHMjKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rfoyTx+O; arc=none smtp.client-ip=209.85.128.43
+	s=arc-20240116; t=1785243316; c=relaxed/simple;
+	bh=bCImW5FveOgLSFMnd3wYiHnrEIorbTiPRBOU3dDrN38=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Fs0rwjIlLpYuKgs6gkzEmE6koyuP32KWrFDtwO9t3DxR9MkRDo8+7uPDU9HOnDRYi42olzl1TZG92BjvghtnaUcU0YzpdVTC9H/JQSVRPW9SPlxG4lyPqNNgf2RlySIYHxmqX1RLegumWgN4A3OYFvrBlHyGW7w834u5Yu60Uic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cErvEPEi; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rfoyTx+O"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4954afac04bso43887565e9.0
-        for <linux-staging@lists.linux.dev>; Tue, 28 Jul 2026 05:55:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cErvEPEi"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-495635a85d2so31416875e9.0
+        for <linux-staging@lists.linux.dev>; Tue, 28 Jul 2026 05:55:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785243310; x=1785848110; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=z9ileo+nwDNfD8yfsO2EMCCm8J730wo2xe5C8RjlSbE=;
-        b=rfoyTx+O8vCDu85paKuToE/uQzlNJ4TBNp4vezMHKhrayjnHXCVUd+iJqghk79BEaK
-         jVpAclYLDH3LAest68jexvHpGdj1GTCvFdPwDKZtU2SibE8PWqufJfuwVZwZWq9HlgNk
-         yXZ81cjSLNBpgHQN4SlS1zlik45iH1uJ8VFwKTSYHCB9+ro/8RxQvHea+WJZEAKhNnmR
-         jkIUo8MJD7PLGePYqSSX1WPnW6szd8i0YTNwiHCs6l4I3marOR2zS9WaUFnpdSmH6g6U
-         7rxsBQ8FP3rbrWB7fjSJGxEdTCxBLEUELmL3FYdNJsGHnzAmlgs7y9mSazR9UwflC/1z
-         Zd7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785243310; x=1785848110;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1785243312; x=1785848112; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=z9ileo+nwDNfD8yfsO2EMCCm8J730wo2xe5C8RjlSbE=;
-        b=HLEDwzDwgz0ZUKVrwRPKQtwjRsC2e0nzkh4A0+XK/4he4dGEVhMbRp2rQV20agY+kO
-         DLV5wNjoTS3fAb6LQaAjxidEQre1oFAwyykMSXqEfMArGrGjDxSpKd1FZwKLFjWo+frf
-         tyhpQDYaxHVmS7h3uitIKcNvPL6AI2lZ/u85D9xBBOgX3Y4Bh3v6vZ1zkE/t+fHnfTW2
-         +DQrWob0rQq1FCvh0xKszHxup0cfkPcpVuKKGg2M29aeB3I6l0ZUJz0P5tlBEyIS0LOY
-         P2BgGom8soxbnN1U7X0/xf8dKjJE7MZfJmlm9XGSG3UiqKRJyw4U/Nm9yMFYMOlDP3Kk
-         kyGQ==
-X-Gm-Message-State: AOJu0YxUoqRuTNxhHYu8wDUPBiRPeA+jIySzkaGSRHXBLhShPfjJCw6y
-	M/UBb72wVEQApH4bQ2HcYVwRhISV6cspc9N2NPPJY0GacJKZ7E5wXXWKgCPp2UdZFlY=
-X-Gm-Gg: AR+sD13CXMRip9jws6fb5gvQEZV/yzqhwLRGKaNlt9JIXU7kk7aZAA2jq7dvcHd053o
-	6EPDb/KHshh1X43gs/6igRR6Zv0JYfY0+zy+jbqbBLpQsr7DeNPqkks2omUi3qZICJZPj7zhIIw
-	/8ztEU+vsoZzypZGhw9qnmRZZOpaA7zMl2afcK8x2LMYQXPXhxdxsvhWA8FGGXOqEAJGCwIvoOl
-	p2cZ1NOY0AfTPjpGPbeqkrhB6EX+uZ4wIRfwHZsKL/bCvnsPLJymAKOliWe3IgUEwoyeKQWzF5Y
-	ctQ45OFKFooOiLgT1dwA8siOUb72yHGT2fzDR2zyChakC6Tx7aN1b3wgiW5+fdyejGziO4n3mwj
-	EYLWmE/PaUjZDLb2aTGL6zkzvjKmqyULYqT3PtNgzvcTUw/wdM0ZXbftyrbvjzmI/9G14lCkoJZ
-	gB2UBc1DrZNzb7Yu1Tgtbrka1ajuojSiQtV4IhVn22reHCyDalKU3x21GYgMdf0wfcpQ==
-X-Received: by 2002:a05:600c:8b2e:b0:495:4dd3:ca97 with SMTP id 5b1f17b1804b1-496c659f843mr30259395e9.29.1785243309992;
-        Tue, 28 Jul 2026 05:55:09 -0700 (PDT)
+        bh=3K1t70zaHBwvr/zd5QGdCAYVOIE1pLnv+eQf2gzB8Y8=;
+        b=cErvEPEiMnb31sVCFARfzB5sit0rfiQOJ8kIf28nPGXxpGdorLpicAKYt16SY64TnI
+         nyBHNdUXlxbO7p5iY7amEB9HCMdzfli3L67P488sTM5dd11NeaWE2DwSXPkBRl/JZs18
+         leplSjUGXvBKSHGJHT15hfZ1bXzn8FIZ4o/eGZrhXjFskWXlw9Dy5ldD86i+FxF/5jko
+         wvjJ/22xHxcs/knTrXUpZWNOkVsrPNP5R1c2eYYNww9WbsyZLvfIzTHqqrwxdVSii3ZL
+         g+o5fdKrctXYMAPyotiCVlwymFqxz3+zCZmPPun5VFTXl9GaDNiU0CiLNsJ/dtLPGH+3
+         j8iQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785243312; x=1785848112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=3K1t70zaHBwvr/zd5QGdCAYVOIE1pLnv+eQf2gzB8Y8=;
+        b=K3Fs75qXeP53Tuy+8a4kfYScmyCjFpQwY2UpsNgun/UyugXqtTqCqA0PAUO6Zorucs
+         gCfO6Ze9lZvBiUwyy3LUFkdGmJ2ZHvYa/53kDLHLokfa1HTgDKRq4y/wBYVgw1k8CSjw
+         DFU12JMdgPz0+lnGiY9vxVGlgZeNH/Tx9ckWVwE90RdrZLu/JBZjXElzRIGdFmAieCdZ
+         pgbgQMYDRTIkutJUfL29je/zbZWtuyC95nJ3qt3wywCY0BBAY62wTfxOEJ1ngadRoQ//
+         M9beR23tOi6Fo7I+8RNek8ygXZQOVa4719fjMmO6mqgAUsXjCdneKqIgqpW28SmLBKFV
+         uMKA==
+X-Gm-Message-State: AOJu0YzMX7gGrqvyjcccv4L8SA5S8uT2Ou3RzA9R/GslkiIL2n6W9FxY
+	EYWdNS9LUvblektVTrI5pQikuqfGxKNQg6Q9dnWhIsOHAE20zRbTty1/NVQO1gHZ7Ds=
+X-Gm-Gg: AR+sD13ylDPsYXzBFFazfeZpCqMr0plRG9MMoqh6YfdK0hhUPSZ/J8baaoN0oudu/av
+	EN0CAzR1z5iz5MDAtleXLhPkpFG/HbSLLYcwpzA05NjuaqnnT86jg9r9DczHklNwdVwBy5e4C7O
+	rJxgk/ml615/cqH8Fz53+XCJt9Gzdl7mQ7yWHRFwySBhMBu9cXTTvBVHivkwxl23h5yaK9Vzevk
+	kCQ30TwapCVFz9rl+tNuQq2zCSjIzWCOdVoikbKuSeUspSQFVl+MYzbREhoRqypvphUEnw02VTZ
+	N+iUFl15Ae3d5W4fnv6AZpJ0m4WAYblt2gEcNBmdrLQjfiAIw0d76EeAfk7FEu5MyhDZNAaClyq
+	fzx9HDfzql3rdw8RLrcIb+ghzhE0YvnaVbQwepKykejZ7Snc9lKAdNLCXQ5AS9NEfJQOzeHbiYg
+	bnmi6ThJV6cMAhXfmt4z7+wcRsauVEX/o/biGqmBAyIXR629AYcWQMGf9kwOtNSpDKTg==
+X-Received: by 2002:a05:600c:4744:b0:495:40f0:e77 with SMTP id 5b1f17b1804b1-496c6415054mr25043505e9.5.1785243312169;
+        Tue, 28 Jul 2026 05:55:12 -0700 (PDT)
 Received: from fedora ([202.47.63.86])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496c444304esm74096505e9.0.2026.07.28.05.55.08
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496c444304esm74096505e9.0.2026.07.28.05.55.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2026 05:55:09 -0700 (PDT)
+        Tue, 28 Jul 2026 05:55:11 -0700 (PDT)
 From: Muhammad Bilal <meatuni001@gmail.com>
 To: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: gregkh@linuxfoundation.org,
 	stable@vger.kernel.org,
 	Muhammad Bilal <meatuni001@gmail.com>
-Subject: [PATCH v2 0/3] staging: rtl8723bs: fix multiple OOB reads in IE and frame parsing
-Date: Tue, 28 Jul 2026 17:54:53 +0500
-Message-ID: <20260728125456.32359-1-meatuni001@gmail.com>
+Subject: [PATCH v2 1/3] staging: rtl8723bs: fix OOB read / stack overflow in rtw_get_wps_attr()
+Date: Tue, 28 Jul 2026 17:54:54 +0500
+Message-ID: <20260728125456.32359-2-meatuni001@gmail.com>
 X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260728125456.32359-1-meatuni001@gmail.com>
+References: <20260728125456.32359-1-meatuni001@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -73,27 +77,67 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-v2 of the series fixing out-of-bounds read and buffer overflow bugs in
-the rtl8723bs staging driver where length or offset fields from
-untrusted wireless frames are used without validating that enough
-bytes remain in the buffer.
+rtw_get_wps_attr() walks WPS attributes inside a WPS IE taken from
+a wireless management frame. For each candidate attribute it only
+checks that the fixed 4-byte attribute header (2-byte ID + 2-byte
+length) fits inside the IE:
 
-Changes since v1:
+	if (attr_ptr + 4 > wps_ie + wps_ielen)
+		break;
+	u16 attr_id = get_unaligned_be16(attr_ptr);
+	u16 attr_data_len = get_unaligned_be16(attr_ptr + 2);
+	u16 attr_len = attr_data_len + 4;
 
- - Dropped patch 1/5 ("fix OOB read in rtw_get_wps_ie()") - did not
-   apply.
- - Dropped patch 5/5 ("fix skb->len underflow in monitor TX path").
+attr_data_len (and therefore attr_len) is read directly from the
+wire and is never checked against the remaining bytes in the IE
+before being used as the size of:
 
-Muhammad Bilal (3):
-  staging: rtl8723bs: fix OOB read / stack overflow in
-    rtw_get_wps_attr()
-  staging: rtl8723bs: fix OOB read in rtw_action_frame_parse()
-  staging: rtl8723bs: fix OOB read in rtw_restruct_wmm_ie()
+	memcpy(buf_attr, attr_ptr, attr_len);
 
- drivers/staging/rtl8723bs/core/rtw_ieee80211.c | 7 +++++++
- drivers/staging/rtl8723bs/core/rtw_mlme.c      | 3 +++
- 2 files changed, 10 insertions(+)
+Since attr_len is fully attacker controlled (0 to 65535+4), this is
+both a heap OOB read of wps_ie, and, more seriously, a stack buffer
+overflow at several call sites where buf_attr is a single-byte
+stack variable, e.g. rtw_get_wps_attr_content()'s callers passing
+WPS_ATTR_SELECTED_REGISTRAR into a stack "u8 sr"/"u8
+selected_registrar" (drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c,
+drivers/staging/rtl8723bs/core/rtw_mlme_ext.c). A crafted WPS IE in a
+beacon or probe response processed during scanning can therefore
+smash the stack of the parsing thread.
 
+rtw_get_wps_attr_content() itself has no independent length check
+and simply trusts the attr_len it gets back from rtw_get_wps_attr(),
+so fixing the bound here also fixes that caller.
+
+The "attr_ptr + 4 > wps_ie + wps_ielen" header check above was added
+by commit 1463ca3ec6601 ("staging: rtl8723bs: fix OOB reads in
+rtw_get_sec_ie(), rtw_get_wapi_ie(), and rtw_get_wps_attr()"), which
+bounded the fixed header but never extended the check to cover the
+variable-length attribute data that follows it. Add that missing
+check before attr_len is used as a memcpy() length or accepted as a
+match.
+
+Fixes: 554c0a3abf216 ("staging: Add rtl8723bs sdio wifi driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Muhammad Bilal <meatuni001@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_ieee80211.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+index 2fb5863dbeef..be374d222c55 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+@@ -733,6 +733,10 @@ u8 *rtw_get_wps_attr(u8 *wps_ie, uint wps_ielen, u16 target_attr_id, u8 *buf_att
+ 		u16 attr_data_len = get_unaligned_be16(attr_ptr + 2);
+ 		u16 attr_len = attr_data_len + 4;
+ 
++		/* Reject attributes whose claimed length runs past the IE */
++		if (attr_ptr + attr_len > wps_ie + wps_ielen)
++			break;
++
+ 		if (attr_id == target_attr_id) {
+ 			target_attr_ptr = attr_ptr;
+ 
 -- 
 2.55.0
 
