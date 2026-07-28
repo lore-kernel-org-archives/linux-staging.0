@@ -1,74 +1,74 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53EB13F0A96
-	for <linux-staging@lists.linux.dev>; Tue, 28 Jul 2026 12:55:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4584D42CAE1
+	for <linux-staging@lists.linux.dev>; Tue, 28 Jul 2026 13:11:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785243319; cv=none; b=S3xTXRUM/pMc0ly7xeMtI1eqSkHpXw+28cBP0omb1rGmUtVbRppVW7YyM2fT+SHJnTZXm1qD0OR3CNHFaFidHhyHF6dBMPAk+PX/lG5/QnclcHDQ7/nLEJvvskF5RUYu7axTFE8PcfcwbFUH+mvl0UlsezDlCuwXEqpXB7hjExI=
+	t=1785244266; cv=none; b=AYd+hne7rolF3SWMT5aZoUl0v3PxE9CZP3BkGjQ/bZ4XoRUeI2uFMWJPl8tIGa2kxB5KgFnnKgkmDXnV8uYrkAVu1xmWEB1s4jFFPCO8q1OThvA5zZfIbm2ggnGIEbBKvJfADQF61Y3n2A0YUrwmvQtXTdzfzhaiwQhLLVnhuho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785243319; c=relaxed/simple;
-	bh=H1uaarUT/CzOlIYk85IhS6PC1+AMvnoZlaiNlT42aGw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=V3EPLUcYGNPiglLWljMO+8tHjZh7Oek02MVNn064rxah+65Y9Nj4g+Nl6eLrEh2sxnBHFrW31sgoWoEFSM3cv1unnRcNfd6T8D+45ZWe3r6Wu8/7Y1SWQSmjj+c9++lTE+SQ4b8wtLzRMzVlMz6aKepASEX4Of42qihFnKTujEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=St7kBnGG; arc=none smtp.client-ip=209.85.128.54
+	s=arc-20240116; t=1785244266; c=relaxed/simple;
+	bh=y1dmns9aZbfxPoXdcw4Ty1vhi+phYuXqgcWHjlPquo8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gKHJ360vgFCqbbb27GF6wb5hVhyqyMgSd4s2D6dL78LZm/slzRmnWZBxRulyFKMXZUZ+OLR4hIjSmgR7ZWs/SOhO/jMy2aCHBHPPOK35uPelNj+MUFRuqr+X/JW3F60u7ywte6j/Z1RihqI+72b5wuKsGzFy/LPjlrf/ChFcdfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K0/GYB0a; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="St7kBnGG"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4954a32cf1eso19976605e9.3
-        for <linux-staging@lists.linux.dev>; Tue, 28 Jul 2026 05:55:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K0/GYB0a"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4953e04ef16so41343325e9.2
+        for <linux-staging@lists.linux.dev>; Tue, 28 Jul 2026 06:11:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785243316; x=1785848116; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=c6Y+pKPXjSHKlGYu4KK+zrCXrOnM9HLfJHcJjmz+n5A=;
-        b=St7kBnGGQVAWHaPrVoNVVIEk5BFQ6mcOCGVHaVJiQ0Pr2/Z2EGCg1s+MdM3qTlG2zM
-         If3pr8ip/gFt2Syx6BmWKVPUhsQYcp6raqNjT4GPa7pTVUD6M2a5nYduCD0upv8VF8wd
-         Vix8h23IRUAVw4sHYqzJL99yrsGPISdg70W4exlzj2hcF9hOkDowO4pLRIbAfSvxrAXK
-         0HxezVWy4EHgYHdOuk3/oJJQlHbcf2g02MeTfl+YHI+cqNx/AxxNRKXTx1Z3oOgMXKwd
-         Vvd/2Mm11O3rNKJM4FI/FRTzGUNM4KDWf3cNkozD1bHYNI4dwUn9Pm9NqForm8NgYlHb
-         OdbQ==
+        d=gmail.com; s=20251104; t=1785244262; x=1785849062; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=kYkngR3zU/7J7Bh+e7YxqTUattKgmim551QQ/MGGdoI=;
+        b=K0/GYB0aN6lVw1viNsHioZicXh8TpX/YzrqZ1AHlM28odiE8ijBg5r2kH7s4tIma50
+         UYzoobKK3ByFEiewIlb8NkjcVhmn49aXwR8Rr/c/gyy7nC4pj5R7RzD4MpdE/luNsjxA
+         Rroh2c81a/FhydQGfTGkXCJoLBto5y3/ZVEsnea7tposdZhKZ2TuZDFD9Ci2rtDoFikM
+         U+R7LQIc7zqBVYEXmLy3SZaqvG5FmP8LqBcVrgR2qn4xGuAOe3A2Zwk5lQB7skXxoM/r
+         YmpIrfmNYCwwjjeNyIT7eBg4cbSCKR+89V0GBaGpf0FcIKgz04zH77wu4Y932NXJ14dP
+         n5ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785243316; x=1785848116;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=c6Y+pKPXjSHKlGYu4KK+zrCXrOnM9HLfJHcJjmz+n5A=;
-        b=BRy1AXs/f+T/sfMmhnOLwYOLGG8w69g88FUl0GATN8AtE25fDFnHdkN+RcK+S9tbar
-         SkkmhQj7ts4nGax2xB7EE17h5+HCi0hd5Qb6DKVbE9b3W7o245R9mZdITP15HzcjipLb
-         rvqWXWM4Y73b17Zv8ab48PKCwum1Pl/AZdalbtdiBibzPu4lUmjKlqRHaS8DXeFQ0WuQ
-         CO2twfgCe7U0LZJyb0JdOnulNo1oKzNwxALX2KlqS9hLiOylda5O9zr7zath6URFB8iU
-         quP9EhTNWTWv//PgPaKt8GLey5JyJXnEEZTTDeUR9zCiKOtXYGKvhyNjhqqAltEPkzv3
-         Gcxg==
-X-Gm-Message-State: AOJu0YwFJJRU19oXF/ngYPzyiARtENlJhW+SCq0QnOVm3uyYNEKYmx/w
-	6GCcLXSWEwXty46ttBquua7svkvjUVx8MM5zpuFsFscY3lnJ4yh94G/HGGJ/Uj2a8oA=
-X-Gm-Gg: AR+sD12yri+hOohW6hfaoen2B+9Ab8SQeLuaX6YkxGWP0Plp7piU30Rr677dKMBA9fo
-	wN/FX3UYF4IYllB8fQdhQd1achdpim/6RqRzOOKm05Qg6xbGksDQjCPswQ8TsNXqyjyUE/a1L70
-	fELr146XIXpXQrWDdxCAaJFQvM+gz5XOygvO0n/3XtD6Be7gLgxuXH1umDlnuVVej3KF0sGxSlA
-	vygIQrHC/5XOgJLiEp9DHBA3rv+xg5pocgnuZ6L+Spo/p7eAI96smekwIhXd1eK4jWTSO7bhi2M
-	ExiqaaSZZwTmQM/enZl6dCu1IgDlLu5OxAJp4JAe7BNTZZAtcqXamK0+aqxBUmnIwNejp987eKt
-	DLixfnoRCXyThhuJHMJttmaQlSdz/R43X1ISLZl49lN4KszcNbWzRTDlymKuFzAuEknJS1NxAvJ
-	CUgHOMQGhZ+ImJ69Ka/D6MeTL+lD7MBVeo85SDLN4gXLFSHCHmApMadKs=
-X-Received: by 2002:a05:600c:34c4:b0:495:8a1:7670 with SMTP id 5b1f17b1804b1-496c657ec72mr24247795e9.35.1785243316289;
-        Tue, 28 Jul 2026 05:55:16 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1785244262; x=1785849062;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=kYkngR3zU/7J7Bh+e7YxqTUattKgmim551QQ/MGGdoI=;
+        b=R/JIVbGYGpNu2LMdfLTSJx3LA4BC5frxf1UiLkCLTzdYyqOt5Rt3yasDq0KNmyPU9s
+         jxwyA+L9aSobk32Knouahh+NkfDcGAabygRmYWCBTl53Ntg/ihxV2QwNQso+9QI1xu5e
+         Itm++OTHpY+c4PsVNUAGgGZmwbz0SvqGffdXKrxZm5KuNLpKgTGeEXQvrZ8LytqqISmW
+         h33yqgZFOoT4971zShk+QxTfv6SMso7IabBnoKnrAARl8sAC8JoYLojcQTJXPRNPX7xt
+         rd1b7q7AScBcfhUsPKWF0RQgKYKbfqUbhsEKaIrnN388sB43h6K0H4cUyzrjuzSxgxAZ
+         TzJg==
+X-Forwarded-Encrypted: i=1; AHgh+Rp6ImuIP3bX5l+zyKCNwaRja3XAZfKVH716kEA9r7Rbcb2wLe5LY1CUzLg/cIJbEqMgg5bEx1OD8G62Wh4b@lists.linux.dev
+X-Gm-Message-State: AOJu0YxlGghqnRDRE/wpkgYEzsYeCLqkpTh//W+37GQmceM4eORZQVQL
+	BZULbRJxIu6UA/wrP9XSyBz+W9u2V811xukQhsjuITsD4pUrCX7uLATg
+X-Gm-Gg: AR+sD11i6bZNaMGmZAT4JOfII/eLTGv9+UyEmgQOBNtAgyU1WpTKSvvbCGMVxLVvEFU
+	MV9cdxUoQuNEstReKxg2Ae00FuFV0//YW71ouV2kt+/x97nWA0dBwrtufSMsQRGNHnZV7jfFuxS
+	7QRF3YFp1FgeToXiD9PHaBD2/kv0+g2qvn06weXF0i1D/POiaFnWovX1lGzFHzOE3Sy+d83LLIm
+	ox2ApAiSICLGp5AJ2EGDJ5aFuiQS2DbKgWyfpJCmdZTteR+Xn6RPUPJogj8cgJjBCaXc1q95/Dp
+	+lBQR25hXIjPCoyffoELyR3NeiUK2Va74tByG3uQpjB2et+6aaOlrVbXfAIVU46V7KyoxfHczJD
+	wBglLzCGZXxClJu/nCTea4AQFg9vwe0rVMieTbawD9zWBSe2G8/mSzID/ltZImKjuQq8mhs6Tda
+	/VsJwlQ7jWQ8IPrkqI1ECzXmGzTicUbUSSImeji04K2I5OzBCjANTg4Va34z21ckl4Hw==
+X-Received: by 2002:a05:600c:5295:b0:493:bb29:af40 with SMTP id 5b1f17b1804b1-496c6439ef7mr27416195e9.14.1785244262298;
+        Tue, 28 Jul 2026 06:11:02 -0700 (PDT)
 Received: from fedora ([202.47.63.86])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496c444304esm74096505e9.0.2026.07.28.05.55.14
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-496c4443396sm87852245e9.0.2026.07.28.06.10.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2026 05:55:15 -0700 (PDT)
+        Tue, 28 Jul 2026 06:11:01 -0700 (PDT)
 From: Muhammad Bilal <meatuni001@gmail.com>
-To: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
+To: sudipm.mukherjee@gmail.com,
+	teddy.wang@siliconmotion.com
 Cc: gregkh@linuxfoundation.org,
-	stable@vger.kernel.org,
-	Muhammad Bilal <meatuni001@gmail.com>
-Subject: [PATCH v2 3/3] staging: rtl8723bs: fix OOB read in rtw_restruct_wmm_ie()
-Date: Tue, 28 Jul 2026 17:54:56 +0500
-Message-ID: <20260728125456.32359-4-meatuni001@gmail.com>
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Muhammad Bilal <meatuni001@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH v3] staging: sm750fb: fix mono image source stride mismatch in lynxfb_ops_imageblit()
+Date: Tue, 28 Jul 2026 18:10:50 +0500
+Message-ID: <20260728131050.37032-1-meatuni001@gmail.com>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260728125456.32359-1-meatuni001@gmail.com>
-References: <20260728125456.32359-1-meatuni001@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,53 +77,143 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-rtw_restruct_wmm_ie() scans in_ie for a WMM IE with:
+sm750_hw_imageblit() advances its monochrome source pointer by
+src_delta per scanline, and computes the correct rounded-up stride
+internally as:
 
-	while (i < in_len) {
-		...
-		if (i + 5 < in_len && in_ie[i] == 0xDD && ...) {
-			...
-			break;
-		}
-		i += (in_ie[i + 1] + 2); /* to the next IE element */
-	}
+        bytes_per_scan = (width + start_bit + 7) / 8;
 
-When the "i + 5 < in_len" match check fails simply because i is
-within 5 bytes of the end of the buffer (i.e. no WMM IE was found
-near the tail of in_ie), execution falls through to
-"i += (in_ie[i + 1] + 2)", which reads in_ie[i + 1]. If i == in_len
-- 1 at that point, this is a 1-byte out-of-bounds read of an
-attacker-influenced IE buffer built from association/scan data.
+Its only caller, lynxfb_ops_imageblit(), instead passed src_delta as
+image->width >> 3. For widths not a multiple of 8 this under-counted
+the stride, so the source pointer fell further behind the real
+per-scanline layout on every line, corrupting the rendered image.
 
-Commit a75281626fc8f ("staging: rtl8723bs: fix potential
-out-of-bounds read in rtw_restruct_wmm_ie") added the "i + 5 <
-in_len" guard to the match condition itself, but did not add an
-equivalent guard before the fallthrough advance, so the same class
-of OOB read remained reachable through the non-matching path.
+Rather than just fixing the caller's calculation, remove src_delta
+as a parameter entirely and have sm750_hw_imageblit() advance by the
+bytes_per_scan it already computes for itself. There has only ever
+been one caller, and that caller was passing an out-of-sync
+derivative of the same width/start_bit values sm750_hw_imageblit()
+already has, so keeping stride as a separate parameter served no
+purpose beyond letting the two calculations drift apart, which is
+exactly what happened here.
 
-Add an explicit bounds check before advancing to the next IE.
+Rounding up, rather than down, is the direction consistent with the
+rest of the fbdev core: struct fb_image mono bitmap data (the same
+image->data this driver receives) is walked elsewhere with byte
+strides derived from a ceiling division of width by 8. The generic
+mono bit iterator in drivers/video/fbdev/core/fb_imageblit.h advances
+scanlines with "iter->data += BITS_TO_BYTES(iter->width)", and
+BITS_TO_BYTES() (include/linux/bitops.h) is a ceiling division.
+sm750_hw_imageblit()'s own "(width + start_bit + 7) / 8" is that same
+ceiling division with an added start_bit offset, so the caller's
+">> 3" (floor) was the one calculation out of step with how this data
+layout is handled everywhere else.
 
-Fixes: 554c0a3abf216 ("staging: Add rtl8723bs sdio wifi driver")
+Found by code review of sm750_hw_imageblit()'s internal stride
+calculation against what its only caller was passing in, and
+confirmed with a clean -Werror build. I do not have this hardware,
+so this has not been exercised at runtime on real sm750 silicon.
+
+Fixes: 81dee67e215b2 ("staging: sm750fb: add sm750 to staging")
 Cc: stable@vger.kernel.org
 Signed-off-by: Muhammad Bilal <meatuni001@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 3 +++
- 1 file changed, 3 insertions(+)
+v3: Added the version notes below, which Dan pointed out were
+    missing from v2. Added Cc: stable@vger.kernel.org, flagged by
+    Greg's patch-bot since the Fixes: tag targets an old (2015)
+    commit. Added the rounding-direction justification Dan asked
+    about, citing fb_imageblit.h's BITS_TO_BYTES() as the existing
+    kernel-wide convention for this same struct fb_image layout.
+    Moved the "no hardware" disclosure from an email reply into the
+    commit message itself, per Dan's request.
+v2: Added a Fixes tag. Moved the src_delta calculation into
+    sm750_hw_imageblit() itself and dropped it as a parameter, per
+    Dan Carpenter's review.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index 1196ec011455..7bdc5fe6dc8a 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -1980,6 +1980,9 @@ int rtw_restruct_wmm_ie(struct adapter *adapter, u8 *in_ie, u8 *out_ie, uint in_
- 			break;
+ drivers/staging/sm750fb/sm750.c       | 2 +-
+ drivers/staging/sm750fb/sm750.h       | 2 +-
+ drivers/staging/sm750fb/sm750_accel.c | 6 ++----
+ drivers/staging/sm750fb/sm750_accel.h | 4 +---
+ 4 files changed, 5 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+index 89c811e..da0b497 100644
+--- a/drivers/staging/sm750fb/sm750.c
++++ b/drivers/staging/sm750fb/sm750.c
+@@ -261,7 +261,7 @@ static void lynxfb_ops_imageblit(struct fb_info *info,
+ 	spin_lock(&sm750_dev->slock);
+ 
+ 	sm750_dev->accel.de_imageblit(&sm750_dev->accel,
+-				      image->data, image->width >> 3, 0,
++				      image->data, 0,
+ 				      base, pitch, bpp,
+ 				      image->dx, image->dy,
+ 				      image->width, image->height,
+diff --git a/drivers/staging/sm750fb/sm750.h b/drivers/staging/sm750fb/sm750.h
+index d2c522e..83229fe 100644
+--- a/drivers/staging/sm750fb/sm750.h
++++ b/drivers/staging/sm750fb/sm750.h
+@@ -73,7 +73,7 @@ struct lynx_accel {
+ 			   u32 rop2);
+ 
+ 	int (*de_imageblit)(struct lynx_accel *accel, const char *p_srcbuf,
+-			    u32 src_delta, u32 start_bit, u32 d_base, u32 d_pitch,
++			    u32 start_bit, u32 d_base, u32 d_pitch,
+ 			    u32 byte_per_pixel, u32 dx, u32 dy, u32 width,
+ 			    u32 height, u32 f_color, u32 b_color, u32 rop2);
+ 
+diff --git a/drivers/staging/sm750fb/sm750_accel.c b/drivers/staging/sm750fb/sm750_accel.c
+index 0316ea6..bac9a20 100644
+--- a/drivers/staging/sm750fb/sm750_accel.c
++++ b/drivers/staging/sm750fb/sm750_accel.c
+@@ -288,8 +288,6 @@ static unsigned int de_get_transparency(struct lynx_accel *accel)
+  * sm750_hw_imageblit
+  * @accel: Acceleration device data
+  * @src_buf: pointer to start of source buffer in system memory
+- * @src_delta: Pitch value (in bytes) of the source buffer, +ive means top down
+- *	      and -ive mean button up
+  * @start_bit: Mono data can start at any bit in a byte, this value should be
+  *	      0 to 7
+  * @dest_base: Address of destination: offset in frame buffer
+@@ -304,7 +302,7 @@ static unsigned int de_get_transparency(struct lynx_accel *accel)
+  * @rop2: ROP value
+  */
+ int sm750_hw_imageblit(struct lynx_accel *accel, const char *src_buf,
+-		       u32 src_delta, u32 start_bit, u32 dest_base, u32 dest_pitch,
++		       u32 start_bit, u32 dest_base, u32 dest_pitch,
+ 		       u32 byte_per_pixel, u32 dx, u32 dy, u32 width,
+ 		       u32 height, u32 fg_color, u32 bg_color, u32 rop2)
+ {
+@@ -395,7 +393,7 @@ int sm750_hw_imageblit(struct lynx_accel *accel, const char *src_buf,
+ 			write_dp_port(accel, *(unsigned int *)remain);
  		}
  
-+		if (i + 1 >= in_len)
-+			break;
-+
- 		i += (in_ie[i + 1] + 2); /*  to the next IE element */
+-		src_buf += src_delta;
++		src_buf += bytes_per_scan;
  	}
+ 
+ 	return 0;
+diff --git a/drivers/staging/sm750fb/sm750_accel.h b/drivers/staging/sm750fb/sm750_accel.h
+index d15a40c..4f609d6 100644
+--- a/drivers/staging/sm750fb/sm750_accel.h
++++ b/drivers/staging/sm750fb/sm750_accel.h
+@@ -220,8 +220,6 @@ int sm750_hw_copyarea(struct lynx_accel *accel,
+ /**
+  * sm750_hw_imageblit
+  * @pSrcbuf: pointer to start of source buffer in system memory
+- * @srcDelta: Pitch value (in bytes) of the source buffer, +ive means top down
+- *>-----      and -ive mean button up
+  * @startBit: Mono data can start at any bit in a byte, this value should be
+  *>-----      0 to 7
+  * @dBase: Address of destination: offset in frame buffer
+@@ -236,7 +234,7 @@ int sm750_hw_copyarea(struct lynx_accel *accel,
+  * @rop2: ROP value
+  */
+ int sm750_hw_imageblit(struct lynx_accel *accel, const char *pSrcbuf,
+-		       u32 srcDelta, u32 startBit, u32 dBase, u32 dPitch,
++		       u32 startBit, u32 dBase, u32 dPitch,
+ 		       u32 bytePerPixel, u32 dx, u32 dy, u32 width,
+ 		       u32 height, u32 fColor, u32 bColor, u32 rop2);
  
 -- 
 2.55.0
-
