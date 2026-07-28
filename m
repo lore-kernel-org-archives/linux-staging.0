@@ -1,35 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BFC13BA24E;
-	Tue, 28 Jul 2026 07:18:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8B533CD8CC
+	for <linux-staging@lists.linux.dev>; Tue, 28 Jul 2026 07:19:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785223103; cv=none; b=AQhJFs5zXab3VrVHO06wRW8N3GJ1cEdobw4BeEkMNW0YeZtJT7JXu1EDnPKBs8wK4Oi0RjyRKQqlXxmhaW/AzYGkW3Ol6ogYL+1K6Qv0j4mugJ0VOwaMIenGcjyauBp+ffAjHp53mavTXyx2bI+izRt6xDAANhnc7b9QXoMIq/U=
+	t=1785223161; cv=none; b=DzVBzgc5Zz15HhsKSdum2DiFp7P4euxxUGiD2n5dYDSvkYJnRQGDbEcPWnZ7dqe6Ex9qmwjkDVsJoHGlvAWhNAhMa4Wf3cv8WwaKTtlM9NRGE2jUzMQj8ub/gecY/dhdXflIf+XlLNktDzo4k3kxh1YJNGbxh7q7IG075c3QVbg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785223103; c=relaxed/simple;
-	bh=tkf40jImDccHsVtwCQqpdtrNaP4l0KQ23wio5NCaz9c=;
+	s=arc-20240116; t=1785223161; c=relaxed/simple;
+	bh=27gWCpBp5DQkIc7I13yB5xOT7eHX//cnBw3hoUQRneM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OnQWC2eK0APokUyn8rEpIlFCBx21mIyunCJT7vGXbv+QojB7SOFZ8dRWvv1Ji3J7JmvaK7exJN5KMwLzqd8Lt45DXJPQDcCHy4b7mUSdjNuvERAZlsrlJmAGfo/KI8SGAxPlK02ecs88iJ+KDFo7D/YfEFPVen0BADxrhNz6AeI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=tvihYlgd; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=S+sajjQBQOd3GPB/pQzWJkbQogw459SjdnZErz/o+VDL9QqsTuv9019sIIibS/kfPxi0X5QGDNwxYmLq9oINKAejg2sqB0kwTqPO8lyoZN5Lzyfou0aHpokHhoygIL+cDyBN0DKbcfz/iTvF+OgS6bs8HyaSYZtakMuWR7kmX+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=GEYwmrUj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="tvihYlgd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA5011F000E9;
-	Tue, 28 Jul 2026 07:18:21 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="GEYwmrUj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F02481F00A3D;
+	Tue, 28 Jul 2026 07:19:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1785223102;
-	bh=/DFf/mVo/5VzPVEn9lx5iZv+v02AXQAt5YyhZJu4AcI=;
+	s=korg; t=1785223160;
+	bh=Mo+OP0jJX+QxRfgnE92qYHUe3s/Tg7M+WJED5Kt4GWM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=tvihYlgd1fwD8OVkCXg5cudt4bBbA6wgVPzuXuzQnb+KZvMc1cNqRr7RVTkGFU+pE
-	 Q2YVH75+EqTlDQzyWcLgaqv992EGHI2dLf2R9bqqV6zo0zaMANM+5tAtiwflq1L5w0
-	 zySqyIcR3pkdWL2JwXM3WtbnV2etC85dhZnyoeK4=
-Date: Tue, 28 Jul 2026 09:18:09 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Faisal Mukhtar <mukhtarfaisal03@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: vme_user: Remove unnecessary parentheses
-Message-ID: <2026072836-blob-morality-4337@gregkh>
-References: <20260723152417.475323-1-mukhtarfaisal03@gmail.com>
+	b=GEYwmrUjcbepXKTShXOXf4C9xwVafU7SnK0wyKAt5Mvzhdew46n0YXVLkf8skxRTj
+	 59ZXYyQ84JFiWptVTJnsifZic/am85M0t8TfcRcbrUvllPonpEhuEltXT8gkwSFe7h
+	 boTZaT0073OaFsPMAFxvlwpUnMAeznKQ2DM0eKd8=
+Date: Tue, 28 Jul 2026 09:19:07 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Artem Lytkin <iprintercanon@gmail.com>
+Cc: linux-staging@lists.linux.dev
+Subject: Re: [PATCH RESEND] staging: vme_user: reorder NULL check after
+ kzalloc in fake_crcsr_init
+Message-ID: <2026072827-trifocals-cubbyhole-6cfb@gregkh>
+References: <20260723161846.23939-1-iprintercanon@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -38,36 +39,35 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260723152417.475323-1-mukhtarfaisal03@gmail.com>
+In-Reply-To: <20260723161846.23939-1-iprintercanon@gmail.com>
 
-On Thu, Jul 23, 2026 at 08:24:17PM +0500, Faisal Mukhtar wrote:
-> Fix style problems found by checkpatch.pl,
-> which are the unneeded parentheses inside if
-> statements in vme.c.
+On Thu, Jul 23, 2026 at 07:18:46PM +0300, Artem Lytkin wrote:
+> Move the NULL check for bridge->crcsr_kernel before its use in
+> fake_ptr_to_pci(). While fake_ptr_to_pci() is a simple cast that
+> handles NULL safely, using a value before validating it is a bad
+> pattern that static analyzers flag and could become a real issue
+> if fake_ptr_to_pci() changes in the future.
+
+Let's worry about that in the future, as this does not actually do
+anything at all.
+
 > 
-> Signed-off-by: Faisal Mukhtar <mukhtarfaisal03@gmail.com>
+> Signed-off-by: Artem Lytkin <iprintercanon@gmail.com>
 > ---
->  drivers/staging/vme_user/vme.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
+>  drivers/staging/vme_user/vme_fake.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
-> index b5c66b66ce32..68b5c4613724 100644
-> --- a/drivers/staging/vme_user/vme.c
-> +++ b/drivers/staging/vme_user/vme.c
-> @@ -1210,9 +1210,9 @@ void vme_bus_error_handler(struct vme_bridge *bridge,
->  	u32 aspace = vme_get_aspace(am);
+> diff --git a/drivers/staging/vme_user/vme_fake.c b/drivers/staging/vme_user/vme_fake.c
+> index 434cf760ade6c..5a4e61d204796 100644
+> --- a/drivers/staging/vme_user/vme_fake.c
+> +++ b/drivers/staging/vme_user/vme_fake.c
+> @@ -1029,9 +1029,9 @@ static int fake_crcsr_init(struct vme_bridge *fake_bridge)
 >  
->  	list_for_each_entry(handler, &bridge->vme_error_handlers, list) {
-> -		if ((aspace == handler->aspace) &&
-> -		    (address >= handler->start) &&
-> -		    (address < handler->end)) {
-> +		if  (aspace == handler->aspace &&
-> +		     address >= handler->start &&
-> +		     address < handler->end) {
+>  	/* Allocate mem for CR/CSR image */
+>  	bridge->crcsr_kernel = kzalloc(VME_CRCSR_BUF_SIZE, GFP_KERNEL);
+> -	bridge->crcsr_bus = fake_ptr_to_pci(bridge->crcsr_kernel);
 
-Please see the archives for why this patch just makes things harder to
-understand.  checkpatch should have not warned you about this, always be
-sure to use the latest version.
+Again, assigning NULL to a value is just fine.
 
 thanks,
 
