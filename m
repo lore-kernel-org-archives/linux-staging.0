@@ -1,37 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D7B12D8378;
-	Tue, 28 Jul 2026 07:33:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8640224AF9
+	for <linux-staging@lists.linux.dev>; Tue, 28 Jul 2026 07:34:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785224021; cv=none; b=oxcKme2AO71nXAGwt1w6hvTyq5Emrc0oxoCAnNnOr2CSVROuhedbLgLYyETD+fH7kgM/ZnDYNLhi5GE0Za1V9oYpSZcKrraRHb52fmE6ShAVSdXa947jz1+Xr2DUPrfW9GQr/3mg38BgtkN2BE8vAkO5RNzpc6rx7rhd7gsWLDk=
+	t=1785224051; cv=none; b=SH+b3wk7i2Zzm2VvtVczqDV9yym60dwzGG98ZzRY2s0uaWn9FnYuZIa+xwGBqrP9V+wVeWnIk3zahsebB4D6DuQYdlOBkBka7Di+m+Pe+S1onYVp+/TgbY952Ukkvp2Ljim4/n5OEfq8j8wY5r9wLHMj3N0ITjM8dOuJCx1NH1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785224021; c=relaxed/simple;
-	bh=YTiI/5eEUMLgnygBWAZM9iWQIPNLnRkCDUAT/gXZ26M=;
+	s=arc-20240116; t=1785224051; c=relaxed/simple;
+	bh=4GoJOEOeaG5Gz5smyS1FpFhBuSM7furX+Vz6cDrDPhU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r0QKblVSaymVDsUDdOjS9JdWwPTG3beBcgOS4PtBvcIVuN7cyqc1UgXC4IhMlGXKun8w2zQj4OhaEiTO91FFnTKyAAaHpQEsTe3DTWFKsBS+NvS3iKDXQcwqk/Ifn41kFJJBcE39jdwiiXe2F19PM0GuyG1FFje+iOaFjVv6JBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=GFbLkarK; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=e7xucCTgHUsqASirNgCmahM6SrAznkPoFc3hzqF3Q9S99voOTYSFdtSaCW0Hd2g0Y//DqfpskTTeiiQk/Yj088m7gpwyMnSkFeheZELaEXDQwrILAx0Q2tWC6RQMCwPUAQGokSj0dE1I5VECrslb+LFoX+UqYsGOtjPTzfnpx0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=pPXcTtOo; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="GFbLkarK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D2261F000E9;
-	Tue, 28 Jul 2026 07:33:39 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="pPXcTtOo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E160D1F000E9;
+	Tue, 28 Jul 2026 07:34:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1785224020;
-	bh=+XRwqzs3kYlc9d8MqELzq30bRfCm/VyOvrox1rbFMkQ=;
+	s=korg; t=1785224050;
+	bh=9uH0hEQacOy7ku2NqXl7cNNvunDuXOooCa52pgDGaK4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=GFbLkarKEEMpBq6HvxM5z1lAKiC2cpPmIDElYyGJPOxU/V4EXNre0svBNJPiUdb+6
-	 RQbW6ntwN4hNIJVxoY8AcNCcMsR5he6lZ4x6rc1xTy3fa2Af7MuXwkaeUFgqYOzcKj
-	 hlYGOdfKfBkiWesv2sybH9Ger5diu1LGlEik5X+k=
-Date: Tue, 28 Jul 2026 09:33:27 +0200
+	b=pPXcTtOoInONLcm7quF3gh3MZxPkZgpzROfe9uOvXVqze58zz16qXMqvTC3KwGfaZ
+	 7FREAbtol1pp1WhJqUcSLMtw1SrtPHP7PSn/VkaIv1N9rdH8TCtPTBuJi5MZvLB9NI
+	 J+lIxIUYTATGZ5hbjN+NRwCEgblPe+AR5+dqPv9w=
+Date: Tue, 28 Jul 2026 09:33:57 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Gerrit Diersmann <gerrit@diersmann.eu>
-Cc: parthiban.veerasooran@microchip.com, christian.gromm@microchip.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: most: video: remove unnecessary blank line
- before closing brace
-Message-ID: <2026072807-humvee-amplifier-5b1b@gregkh>
-References: <20260723213522.86962-1-gerrit@diersmann.eu>
+To: Akhmad <akhmad100913@gmail.com>
+Cc: linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: rtl8723bs: replace magic numbers with named
+ constants
+Message-ID: <2026072833-scoundrel-deodorize-2dda@gregkh>
+References: <20260725125314.39313-1-Akhmad100913@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,54 +39,22 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260723213522.86962-1-gerrit@diersmann.eu>
+In-Reply-To: <20260725125314.39313-1-Akhmad100913@gmail.com>
 
-On Thu, Jul 23, 2026 at 11:35:22PM +0200, Gerrit Diersmann wrote:
-> Signed-off-by: Gerrit Diersmann <gerrit@diersmann.eu>
-> ---
->  drivers/staging/most/video/video.c | 1 -
->  1 file changed, 1 deletion(-)
+On Sat, Jul 25, 2026 at 03:53:14PM +0300, Akhmad wrote:
+> Replace magic numbers 0x6404 and 0x660F in rtl8723b_InitBeaconVariables()
+> with named constants TBTT_PROHIBIT_INIT_VAL and BCNTCFG_INIT_VAL.
+
+Where did these magic constant names come from?  Please always document
+that.
+
+> This improves code readability and addresses a TODO comment requesting
+> the removal of magic numbers from this driver.
 > 
-> diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
-> index 78234620d..5c34f93a0 100644
-> --- a/drivers/staging/most/video/video.c
-> +++ b/drivers/staging/most/video/video.c
-> @@ -439,7 +439,6 @@ static int comp_register_videodev(struct most_video_dev *mdev)
->  	mdev->vdev->release = video_device_release;
->  
->  	return 0;
-> -
->  }
->  
->  static void comp_unregister_videodev(struct most_video_dev *mdev)
-> -- 
-> 2.55.0
-> 
+> Signed-off-by: Akhmad <Akhmad100913@gmail.com>
 
-Hi,
-
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- You did not specify a description of why the patch is needed, or
-  possibly, any description at all, in the email body.  Please read the
-  section entitled "The canonical patch format" in the kernel file,
-  Documentation/process/submitting-patches.rst for what is needed in
-  order to properly describe the change.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+Your full name please.
 
 thanks,
 
-greg k-h's patch email bot
+greg k-h
