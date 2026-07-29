@@ -1,75 +1,39 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CCBE44C4E3
-	for <linux-staging@lists.linux.dev>; Tue, 28 Jul 2026 22:40:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7780C54774
+	for <linux-staging@lists.linux.dev>; Wed, 29 Jul 2026 02:26:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785278407; cv=none; b=Pljv9BSZ2BIqol5mwpkhl5+venbo2Ou+bSAoK6MyWMqp+D/rikd6ZpCwoLgFoGv0bNphLqctwoBpU5gy/+zOtTekooC1DiN3QBZmE4mh6nJ0ZpykjZFACUXDoNbmW5dm6574LfdcrxlwYEgBqNO19dvmJFPphGTDj0PoFaThCJk=
+	t=1785291969; cv=none; b=n0JFYPRAryjum38m7YVeXKbiL+A2h/MJkGo2/Dii0lS6QEfl/Z9NkCdsgvJKd7ysdYz5iA/0Jtz0wDlwylx6l2Yb0ERRfD3N4/tR2QdlWj7nvxWO4C/3SIX44FVp0FsTE2tMpejySCAtyI9qBB20a6yVgAY7vJ8vVyKFdR4qga8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785278407; c=relaxed/simple;
-	bh=2se3aOv9/5GrHaham5C+DJtZbUroCRjXB7PwS1jc+U4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fUR6CWefTo+3mwi54+gTtFg0WovHJ1QAbdZWg/3ITicycN+GXAR0K3XM8AP4oNXF/nRprCcAwMuIJ0cBAZ3o+xN2tNHJSC2AisB38yA7MazBU8XXCkDffA5ixBJC68Wids+ZHMjgABvJPsHhYlBiRJiK6McwD/u1oUfG7f5rF+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a1WuDRgr; arc=none smtp.client-ip=209.85.216.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1785291969; c=relaxed/simple;
+	bh=wVe5+mn5qO+xX7gOPjL/cKVzya3+/hzPWH/ttH6sEEo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=QoUDN10G0M/Gb7U2lhv9l2MSaI5gcNBb8HYMckEfP1TDPK6TwyMiNsI4+vTt5RouaB7OZvTnV9+VatoJNnQ1DgNEEt/bSQ2MYfcTZ6Ci3hMNH9SzBs5j3JOfVjWX64eI9U3u9tJDTPfyaO0fEshCKlHNlCa4k4+BAuGoyHWuZsk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=pZg9G1Wo; arc=none smtp.client-ip=95.215.58.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a1WuDRgr"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-38dfe7eb825so281213a91.0
-        for <linux-staging@lists.linux.dev>; Tue, 28 Jul 2026 15:40:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785278406; x=1785883206; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=HFtUghgVXhXCFuPyxhJvt/ikNqme5a7AZrChDZVSnc0=;
-        b=a1WuDRgr0PODAOX8Q7SmQ2CyzyYIVvz64hqtzZizCeyYuXyJy7ovvWd/CFrn4xMzjO
-         ZJonqmIeEhRNWqKkeiGcgcYEZ02H4qHG6uZ9o6eyTXqYewN/cyBF/afOWjSyH3VsZckH
-         VuV4PvJ623aQJOr4WNZeA9JtXwSKs7ZyBpwZPevKraSZvdOwpW1PZwVkbMhP3i33ODrB
-         rEGEfuNa/OBKeQG9fUN0n84bJZfDZI66LZ2df2PqK9mGPV6CPPanFwCuOXJe6Zrgqs9c
-         qK1j/TO9Luqa7mSwmXs5gQNXRwgFDhDzJsphBFNyekI4JLKTZcPtrwdVXP1tC8d4HNRe
-         ROtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785278406; x=1785883206;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=HFtUghgVXhXCFuPyxhJvt/ikNqme5a7AZrChDZVSnc0=;
-        b=B7wKt+EebIF6hUE2jDKu+oJqZKI0XspW06SnrbtCuH1NOGI7m9nUAOLTHe8rWjzhSS
-         SwN6mU8hWoLbTsZDBgjvyTrI3vBcsiervl7zZhpz4Hh1gtBn1oa3SNz1BrQRTN2mS72e
-         ENBF7VWk/rp7VPl9j6K7hxR0Dqnavn7euwF91Jd9XenImYb0oqqzMBmA1lz6SLk5Gh5y
-         hfY4SrBgIvTUKqrjcUDRXZYFdTlPim31FcSSrYgcjbcX6uPA2R32FuMVvaMnICurAwvN
-         qNZrT9/D2ev6TZyLzqx9s2BF5JruRNac6BMWn3uCzQYa8ko7gyXqo3+9JvZJAqNU91B9
-         8Vyw==
-X-Forwarded-Encrypted: i=1; AHgh+RoxW5dPy0w5XNJrC9sJwLp/4hSb1mr25E4LHFQ3eUhxfvetqrFlhSNJapfRTzYlxB10+ILwQAaajJFEqFzc@lists.linux.dev
-X-Gm-Message-State: AOJu0YwUjozE2JbZqAfoCWdj6Q90YbM/et/BEYiZcHydlVicP6w4yZN5
-	TA7nw/aHcdi7PUA887LDA36dz77lsNvz4oErWdLWlbOOR/usTOq3mnK7
-X-Gm-Gg: AR+sD11bUgKT2TT2KMjgvYwVm4bw+GQ63d+e7yvduCST7uZ10KsPtt3quNS94+SSymh
-	FKsV0kGDT8lfHvsn8ZHPLPrLplBYx/rTEIt9ziaDoUpcqNAcbSneH68vaEIDpe93sKS9zt3fN3o
-	leVCEPN2wzplKFaqj8zUMyvwJ64jyEvVY9W6dAMdz2W2ePqdIfUuoOm13chuLT5kuVEnUI8b2M5
-	OS3r72WVb1HuVu2q53yjIBDrKK9A6iKMtfsAcDaAkVQsKPfOl37zD5NB610Pj/5Iu90tMwDOeIL
-	DwmOsxgWjRmfxROCqTsG4XyYIFkaoUIua4d9owVwKxkQ4OEpIGHNJcZr9vqMTvJXKo/R9u+Ni4k
-	Te+Hs9ZVutM1Yf9Msad+s4wI7zahO7iUSiDKBoKXLEAWa2lg5KOn/yOwb6TGMY3ZtwdQGeIwQM0
-	brRX6WH0ZHc4AJgq/4JPEjd8JGKqB8Cjbmy9qlZCMEkCy8H4ncJfQfuJ9+lJdOVLMewZwlP2x3x
-	jb1ulHR3LsiAo4ZBBUHUq6QtTIFbwACxi6QIZkhqUUa/xU847HtIMRZx7PspZSBoAeEnd4Tk0Yb
-	c6bWrIwe6B2i+V2gOebYVBAfWhpK/NXO71DjIH8=
-X-Received: by 2002:a17:90b:3848:b0:38e:4e62:f998 with SMTP id 98e67ed59e1d1-38f6a556542mr4751169a91.23.1785278405697;
-        Tue, 28 Jul 2026 15:40:05 -0700 (PDT)
-Received: from localhost.localdomain (c-67-170-60-64.hsd1.wa.comcast.net. [67.170.60.64])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38f7f12f965sm480915a91.5.2026.07.28.15.40.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2026 15:40:04 -0700 (PDT)
-From: Gabriel Changamire <gaberashawn@gmail.com>
-To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="pZg9G1Wo"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1785291964;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=QRTVVf8d7Axz/S3rNeJ+7xMa1Fbg7NLzg3mU1f2ku6Q=;
+	b=pZg9G1Wozqlai5t0Za8hrFmM199IeBZ7NhLOYQZIWxi0r2NJ3TfgaASAwbFd3MWKZt0edS
+	4ZOjWpQRKOI1fE8erg8q++nLC4Q6heYMkq6Mhg9B0vaNCvNV9naJKrOFSbKVMS2cR95NKT
+	tkzbXQvmOMVswE6bpz+hIdElmjdzc1g=
+From: Yi Cong <cong.yi@linux.dev>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-wireless@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Gabriel Changamire <gaberashawn@gmail.com>
-Subject: [PATCH] staging: sm750fb: fix kernel-doc comments in sm750_accel.h
-Date: Tue, 28 Jul 2026 22:39:06 +0000
-Message-ID: <20260728223906.350-1-gaberashawn@gmail.com>
-X-Mailer: git-send-email 2.47.3
+	Yi Cong <yicong@kylinos.cn>
+Subject: [PATCH 0/4] staging: rtl8723bs: fix several memory-safety bugs
+Date: Wed, 29 Jul 2026 10:25:05 +0800
+Message-Id: <20260729022509.2863634-1-cong.yi@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,43 +41,40 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-Fix the function name typo in the kernel-doc comment for
-sm750_hw_copyarea() (sm750_hm_copyarea) and add the missing @accel
-parameter descriptions for sm750_hw_copyarea() and
-sm750_hw_imageblit(), using the same wording as the corresponding
-comments in sm750_accel.c.
+From: Yi Cong <yicong@kylinos.cn>
 
-This silences the kernel-doc warnings about the mismatched function
-name and the undescribed accel parameters. No functional change.
+This small series fixes four memory-safety / resource-management bugs in
+the rtl8723bs SDIO staging driver.
 
-Signed-off-by: Gabriel Changamire <gaberashawn@gmail.com>
----
- drivers/staging/sm750fb/sm750_accel.h | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+All four are tagged:
 
-diff --git a/drivers/staging/sm750fb/sm750_accel.h b/drivers/staging/sm750fb/sm750_accel.h
-index 617885431661..e76928bf260f 100644
---- a/drivers/staging/sm750fb/sm750_accel.h
-+++ b/drivers/staging/sm750fb/sm750_accel.h
-@@ -195,7 +195,8 @@ int sm750_hw_fillrect(struct lynx_accel *accel,
- 		      u32 color, u32 rop);
- 
- /**
-- * sm750_hm_copyarea
-+ * sm750_hw_copyarea
-+ * @accel: Acceleration device data
-  * @source_base: Address of source: offset in frame buffer
-  * @source_pitch: Pitch value of source surface in BYTE
-  * @sx: Starting x coordinate of source surface
-@@ -219,6 +220,7 @@ int sm750_hw_copyarea(struct lynx_accel *accel,
- 
- /**
-  * sm750_hw_imageblit
-+ * @accel: Acceleration device data
-  * @src_buf: pointer to start of source buffer in system memory
-  * @src_delta: Pitch value (in bytes) of the source buffer, +ive means top down
-  *>-----      and -ive mean button up
+  Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
+
+  1/4 - kfree() used on a vzalloc() allocation (HalData) in the probe
+        error path.
+  2/4 - double free / UAF when register_netdev() fails: the error label
+        frees objects that the caller also frees.
+  3/4 - NULL deref in c2h_wk_callback() when the re-read allocation under
+        memory pressure fails.
+  4/4 - NULL deref on a bcmc station lookup in the 802.11 defrag path,
+        reachable from a fragment with an unknown transmitter address.
+
+Yi Cong (4):
+  staging: rtl8723bs: free HalData with vfree, not kfree
+  staging: rtl8723bs: fix double free when register_netdev() fails
+  staging: rtl8723bs: fix NULL deref in c2h_wk_callback() on alloc
+    failure
+  staging: rtl8723bs: fix NULL deref on bcmc station lookup in defrag
+    path
+
+ drivers/staging/rtl8723bs/core/rtw_cmd.c     |  6 ++++++
+ drivers/staging/rtl8723bs/core/rtw_recv.c    |  5 ++++-
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c  | 10 ++++++----
+ drivers/staging/rtl8723bs/os_dep/sdio_intf.c |  2 +-
+ 4 files changed, 17 insertions(+), 6 deletions(-)
+
 -- 
-2.47.3
+2.25.1
 
