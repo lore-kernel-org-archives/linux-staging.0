@@ -1,115 +1,136 @@
-Received: from sonic.asd.mail.yahoo.com (sonic-euwe1-0017.asd.mail.yahoo.com [34.2.82.16])
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C914449995
-	for <linux-staging@lists.linux.dev>; Wed, 29 Jul 2026 10:49:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.2.82.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D915E3438BB
+	for <linux-staging@lists.linux.dev>; Wed, 29 Jul 2026 17:27:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785322180; cv=none; b=XoUiEk2fUJ+WtSVTTjXyQZlNO9Imj9Abs+qAZae9sGoRYafeNjoTJV7zJhpPi3cy3DfgDqxxyZ24xX68ZUACtaF+Y7LCFXx1FxoHcbSnpepwfciXfFchaLPp+YSM3yF3j39n+xGo861G7OrXyqwnBrgWy994Li5m0dhr9HmiZOU=
+	t=1785346053; cv=none; b=mh6Psh3yEVWBT/ThwtaE1+IMlMtZIzB0s2fpd+t1C4Ht7+Xw4s1he7TLBxRxck9psv0opgSxDkTdhpRum1sC2DAa65e/FCv16VsuGqXa0hZK3Ar9nR09KrSQz+oF5gMyXWfUr+SRvjvbt0Yh/PLHeBmBhD7dUlE49DWVquRn0js=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785322180; c=relaxed/simple;
-	bh=csNuAcxNQxEm0JFQBbE30OkWlqKgkmwFKZ1ttNV2frY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc:
-	 References; b=WOcx1jIs0uVO84XgxL0HeBdEaVhSYTu4Vsq+LMmrkTtX2aSCzYDh1Wx3eyrbxexHmy1MGVYTkzrRQ157uViy4t09b/AAOy0w+PnFUxXqN9hyOyQqNe3UqtKu6V6dZIa4z5gdJjGiJvmMYqpXYoDo/FkVZPel6bgKZwx3JBtWBPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=r/oLO9AF; arc=none smtp.client-ip=34.2.82.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
+	s=arc-20240116; t=1785346053; c=relaxed/simple;
+	bh=IlR5SUN+TeNsR1gXMs3dh9kTQqnLR07f654TTJeT4Ak=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cJ3rAtUYKCz+sXnXCsbxsXu0YfhA6vcpj09a8ZSd+uqus0SQAVw7Pc1/BEVBttXaWCEx1aN6xAAMk/KQmjEBRe/zgX0bQYd54lobLzFh0btTjhbUH1cvf18iHaQVXgP+l3+jSz0uelKZeGTYi024DVacbh453mBrRar4T1Z02Ho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B2ibM+yZ; arc=none smtp.client-ip=209.85.215.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="r/oLO9AF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1785322176; bh=uxve866BWF4htd0+CpMI2/Yr/XqQcHixAEiZK3UmVoQ=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=r/oLO9AFViCRBKgswai6DoE1qp59XiIj8hlVP2eKJYE3tSduf5kvRojeCRrA9COfStVLsfMd257vNcb8O28ok+XHS4f/9fEcKbn5JVSXXelAzYNnqtjuOoDdsk+Ze1L7zDCU6JF2HpT7CCTQz32r6T0FFsDQirpE6uIlYNtCZqbq6uAZG8T48IBRudH1v7FZgmmwcXShtXhQo1KsDPMYaXIbKqEKskTUZ+pXnpEOTcc7dHshZioupLsjyFdS2tUpmhZEbmIlmosw1aVzOivs6ZQXohxcTmrCRUx10oP6vaZ8uLpbQmv3YgExFIUbNzras/PmzE1+IJSJJF74dx/FMw==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1785322176; bh=0txDAdqkQeVMnTeBx7ONn8K1Mad+UlpB9gvmCojtVMV=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=VqGjtUaGaJUV/LsGrf3xMIO+qw8tsZC5iOEpV99Ek9dd9fiap/CC1U5g14TOMjI6/aM6Z52alebpYEguzV1XOtGFM2SScE6apXm3loRVsw43WkgUCnnGgsIHE2V4axs1PS7kpvLxx/K517CKiVXDwbkrjPcRdTYOgTG9Ozbr5uw9kR1iPkopq/gmGT1xla3z3Pw4buFQP4uS8Gv5hHe0j2f2kNWj43+eulA6ErnP2qKFymW3WRIH6SMc9wc5utZBSYqid4ntJk8UteJDd2vCGZLklMbD4WciEmBxxwfRR6sP0JZSvIxCV5FHzACDIwvzu70CO6KT1S51KNih5rZk+A==
-X-YMail-OSG: VUJu24IVM1mEqiOHtHeWkIGRHPvkQHCoy0RQnbWt7J6oM2M0Ju6S1_TKpxFfD6G
- F6wR6lVinD6HSIyN19YwqYhkKxNPctz5Taf9WLROw0Wp8n6JXN9mO4JguRU3uqX4mGLpRAgs0zGT
- ypw5VNbzUaCjd489fHgUCyrYGym43gEiNNog9FmjsG5TkSR6DH1t.lVu_bArHfWsHg7hYB_0Ifxd
- oCJY0EKeqMHWPnSGgbmcaQGPg3VqcthkjM3QpJmHi6cV52W6tqMO0Svwihyan0vKjC.lMvUccqSO
- iRa9BdZnYHvXJX8mUkI4W.zNyacPqbGktlTkJlwhioXUeiDxl2_uJv_v1fPfubjCA.dJs7n3z.n0
- jUPLFw3SmvNV.9KXNxGPbNEX76GRviHEjKRhdjFOv8kVNe9r_2NInbkZyst9oMcQgpYH7xya1dmb
- ayf_3PWvmQs1e9c0PvkUNjgIDIbQu8UfONuiCTdMH_7Kb.rK7MD_fax6MPr6v3PNuho4O5upBYDt
- Eh9mJA0CPa4yw4ibF5rBgHuiRVZlpndq8hZhZcuxD8n8D74QFsVCK0.Vh8Ia6YPZxPg_6RDgOkuK
- KnPpuKuKUPL4L3MlIyOUQTbFIL4YPwFfNrHRQ.v0RjfOlvUZe.8k_Dv98vGrXBTlR6znoNzlrsZy
- P5KQSyoJ51dQyJubAama52HRLPz3l6Lp9xaqYJ9BkU7gJDTcVnOMeHHO9XhzaMC.EHjZlBtD5LPW
- eVrambySjBI.iDZS1lAas6XjbF5nuHceBinc7sZ99lsdLpfSSUCJDIxN.dSxonCdn_y4xZ63HpmR
- UJv1dcPfwxM8l_nyEEGfFbmlzQl30g1gbDjEJE4VE1nw5fpZEZ58qpiNZQ1j1b2sgprQzNrFAZ31
- lEW5X5odav27Qe39Bu6rmvjzkUcxevIOAShXonNhPvbGx9oS.xL2fhSV3.ao.MHXRCK6Gf4oUWCG
- L.pnAkkqwvVSQ4B4LjG7xy8C9GyCZb_n9GZ0eZ7r3iQGTj4kTrwME_nvltourCyjbHfKoilKnGdd
- .UoEU1kIjQ6TUGCi3Tuj4CaLkJkmYBOo6wN.3ZHd1vyfUwmezRQvQwmpluQbPXoEKhaI5qErfhY0
- k3l4Ey5a7jLuitrtmHBmJdzcsQGy1gbZj5fENOuW11iF7_hGLqsOa8eVRO9VTVDnwZb.QJ5omVAq
- RPCDRTYLBVWErgLbGXXmEuhpprWkwcUyFyC5qMU4Hb26QpoAp7I1mDx0tG5F8TrSkhBC1wTCoAYz
- MgiNzK.qRJn_yFmabQyLuRba.9TRYg3da8LtV27y5CBkiIvmo.iEZf1AeghKvgg9KUgwyeriQK0N
- yqWIxD6L6lBaq0l_njg.Nkf5Xi3JPWjUKJlv2To2gYobZmh6avkgaqO7.q2EB_K1Tgjizz1yqyJv
- rjHQyCbSMnSKRuN7ycVf_zaxDbxHScrg4foV1JSkSIHydvVraCyYWC3r37.9Sy64w7mf4LYWTUW_
- OLZp3.WMAU6xck9pFJSr4hDjxBPmwYMxris7ctbwDViWHwWZOVIcyPRnrDS7CdbMBVAncarq48fB
- TDmeD8JalCDVq.rAbdRyJKL1NV8vITwzehkbI2XvnpMMzrDrVtaDG5x9romujTW8hZVE.XKSu3DV
- 2RhSF.7slSR5ua6hZOpDoIyyfuSXylKyh4u9Zl8kDdpaJS0rxY07mg4XsEOi7HLeuudPyQvbfyit
- mLXMm5HrNdjifkBKqIYYitj5fAuhkLNDVgtJe5bP_NOBn.NwITE33HPohi1LI3qkn_VZBhEl.p0A
- AshhgUVSaru_XAFaRE8o.uZu61Czbvxc4u8O3bNiep_6koDIAfyaXfE5Q_jigrNIBx6KWO.QpYrO
- OujqLLzvGHhw5ZE4R9ezYCNCNbFDws4JozxRGsRVYdhRFgePqS05qt49g_unBHg0asoiHYi_EF1s
- tSdpMjExD_nGeuJHCO9zVdnyIJE7bTcCAm3zjHcRyB1k_84VzHHxQIqTVNC29UFlac3gNffI3aO2
- Tt7qRS.2lmzXFJsxrV.jSWcDvZ6_xBlYbl43MVLEtGH6m9eJxt0_qKDdtIzo.Hn627A5QbMGKoKM
- DWBm3
-X-Sonic-MF: <tomasz.unger@yahoo.pl>
-X-Sonic-ID: 9838cddb-c3db-4c47-8765-365365e09484
-Received: from sonic.gate.mail.ne1.yahoo.com by mail-asdoutdeli-p-cin-euwe1-prod-sonicconsumer-svc-102 with HTTP; Wed, 29 Jul 2026 10:49:36 +0000
-Received: from dip182.lsn.ir2.yahoo.com ([87.248.99.191])
-          by hello (SMTP) with SMTP ID 55ed7eb25d4b538459b72a781fc4e23e;
-          Wed, 29 Jul 2026 10:49:34 +0000 (UTC)
-From: Tomasz Unger <tomasz.unger@yahoo.pl>
-Date: Wed, 29 Jul 2026 12:49:35 +0200
-Subject: [PATCH] staging: fbtft: fix typo in fb_upd161704.c comment
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B2ibM+yZ"
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-cbb973e6749so1428258a12.1
+        for <linux-staging@lists.linux.dev>; Wed, 29 Jul 2026 10:27:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785346050; x=1785950850; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=P9wYjqLneOT9CcsqzWwUiSax4MjBMx5743Gw9YabJy4=;
+        b=B2ibM+yZyJw9ra4Rh2eDzxz91PsYJlSv/I++9jsxa/6c9DBEInbP9KdrUZiWRHQol9
+         EQ5TjKT9JTMbhc3mDKJh0ft5AtoIRFf1frhxlRxrMSAHfdM2esUXAnyijt1+KmXQUfeK
+         R8sTPCqSgFf52YABtODgA8KX/ixkB6K0V0V4udayvSLCUc+l9+K3gUB4JkYEh3vxmDxV
+         HS6+4oymQU9Hsmd9YsUqppcB8Iee3f/GNyrwy+Pm1qc+xeuOfE0EN84a1u0qtwAbySFE
+         fElVbwvAIfzoS+gG1rmc5JAcMXnqMeRAcMdaUyM8HF5HJORSf9Jm+wp6t7wo2RpDmxAz
+         HN4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785346050; x=1785950850;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=P9wYjqLneOT9CcsqzWwUiSax4MjBMx5743Gw9YabJy4=;
+        b=ORG0rWwC5Sk5+s/XhS//tr9GmyuvubHOFZ8qAShF4fOYMWyX3Ke34G+nphw/3MC5WW
+         wL5H2a5QIjq/WEluP0jglsKG6UkEwrdeqkUwz/z9bV459L+GTbP2orG3XbYHSkrPqqTK
+         c5UALEk6SuyRDiATAiSYe3niTnUSw/F3SXfoyUuadFsTL4A0tArrGAIS+JFBZMh8xzX2
+         iTOJNDKKNzH3c7P8Nr1+52bAtxK0CzTmq53rYo5pN7itZseVsgxm2b4I0yacxkJJ4iSz
+         354UD3BJOx5O56jyUgae5ryqs/tphDTxYQK2nj+REkxa3/Q/euI1G98urZH66NjUcJkI
+         8d2g==
+X-Gm-Message-State: AOJu0Yy2QU7JFeWwETqY2I7m4QOMD6hpg+/RLFMAZ1wIglCu7I/kko+u
+	LKB2aKpEnKNI0r0y8xcASPvoiREiMCHPc2utEHii5cX4NKXt891wuZYi
+X-Gm-Gg: AR+sD11G8h05xIQ//U+9Oe7uuebYp/YvFV7/cqG3Y0uvLvXTY8ZRPn0fJGbfuKe0zdf
+	G6sp9ENAxZ0CF4JqOLB/0/YrWsJx/ifYgaRlYdBG/3Ay+97a8q9LUJNNoTx+38dM65Bynz7IomQ
+	+Hp952pJwaHTnnOaGVXD74mdXPGWvvzDyA3HUXTADr39AlQgvzQYOw506+aFxMwZx7jN4RmH25J
+	sWM2jbIrvu9+1x9fmKTS2gZ4WAz5+dgB8OFgUvrD49v3haA0/l24yT0RP/mMegjks433UM6ue0f
+	61UUnM2x8e4oe8Ku2pr38KrjkuMiATchZjuVFb64ihl48tZvPk5+7u+e+GFYQa+M3TOyXNi6T5N
+	mp/ylFjsUGKZR+yZP1hVaXickI3CwLG+9O1i12UnF+2Af6PCpsDax8qtyKu0OBjenw/dqs124zD
+	32kZCzzJGgbeclJ0svZe5WMn227jlKzis6zntKEwINs1JY6EhhAg9YyvlFgCo=
+X-Received: by 2002:a05:6a21:690:b0:3c4:46ca:3339 with SMTP id adf61e73a8af0-3c8ba5d8f94mr8880806637.39.1785346050043;
+        Wed, 29 Jul 2026 10:27:30 -0700 (PDT)
+Received: from PC.. ([103.172.209.59])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31504d480c5sm19527526eec.25.2026.07.29.10.27.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Jul 2026 10:27:29 -0700 (PDT)
+From: Mohit Mishra <mishraloopmohit@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Mohit Mishra <mishraloopmohit@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: fix underflow logic in swing index calculations
+Date: Wed, 29 Jul 2026 22:57:07 +0530
+Message-ID: <20260729172707.13333-1-mishraloopmohit@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260729-upd161704-typo-v3-v1-1-69c962e35d59@yahoo.pl>
-X-B4-Tracking: v=1; b=H4sIAL7aaWoC/yXMTQ6DIBBA4auYWTsJPxaSXqXpQnBspwskIEZjv
- LtUl9/ivR0yJaYMz2aHRAtnnkKFbBvw3z58CHmoBiWUEVZZLHGQRlrR4bzFCReNJI2mR++0dwZ
- qFxONvF7P1/t2Lu5Hfv6P4DhO05YSrHUAAAA=
-X-Change-ID: 20260727-upd161704-typo-v3-e163e5ab3cb6
-To: Andy Shevchenko <andy@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Tomasz Unger <tomasz.unger@yahoo.pl>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1785322179; l=1089;
- i=tomasz.unger@yahoo.pl; s=20260611; h=from:subject:message-id;
- bh=csNuAcxNQxEm0JFQBbE30OkWlqKgkmwFKZ1ttNV2frY=;
- b=G47v76Ny6yUZ7ibrRTdY5NkJWZTUwHVOvWCnpBnqpgt9J+OBIpTkcz7L9OBRxDg5rsbOvcF9Y
- Bb4ZLnBBvbyB5yBUaubzhwssd5KaqpTlbW/+FZlPR5xWLGz/Sj85fD1
-X-Developer-Key: i=tomasz.unger@yahoo.pl; a=ed25519;
- pk=elW+gk1cZhyVAkPUfX4QaVHbxERM6w8ByGYxz0Rijl0=
-References: <20260729-upd161704-typo-v3-v1-1-69c962e35d59.ref@yahoo.pl>
+Content-Transfer-Encoding: 8bit
 
-Fix 'cencter' typo to 'center' in a register setting comment.
+In ODM_TxPwrTrackSetPwr_8723B(), the baseband swing index variables
+Final_OFDM_Swing_Index and Final_CCK_Swing_Index are declared as u8.
+However, their calculation adds Absolute_OFDMSwingIdx, which is a signed
+8-bit integer (s8) and can be negative:
 
-Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
+    Final_OFDM_Swing_Index = pDM_Odm->DefaultOfdmIndex +
+                             pDM_Odm->Absolute_OFDMSwingIdx[RFPath];
+
+If the resulting sum is negative, it underflows under u8 rules (e.g. -5
+becomes 251). This causes the lower-limit checks (e.g. <= 0) to fail,
+and in MIX_MODE causes the logic to execute the "BBSwing higher than limit"
+branch instead of capping to 0.
+
+Additionally, in BBSWING mode, the check for CCK underflow mistakenly
+examines the static struct member pDM_Odm->BbSwingIdxCck instead of the
+newly calculated Final_CCK_Swing_Index:
+
+    else if (pDM_Odm->BbSwingIdxCck <= 0)
+
+Fix this by changing both swing index variable types to int to enable
+signed math and correct branch selection (aligning with the TODO item to
+convert remaining unusual variable types). Update the CCK check in
+BBSWING mode to examine Final_CCK_Swing_Index.
+
+Note: The fix is scoped to the calculation and branching logic. When
+passed downstream to setIqkMatrix_8723B() and setCCKFilterCoefficient(),
+the values are already clamped within [0, 42], fitting safely in u8.
+
+Compile-tested only; no hardware available for testing.
+
+Signed-off-by: Mohit Mishra <mishraloopmohit@gmail.com>
 ---
- drivers/staging/fbtft/fb_upd161704.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/fbtft/fb_upd161704.c b/drivers/staging/fbtft/fb_upd161704.c
-index c680160d6380..7288140e7c3e 100644
---- a/drivers/staging/fbtft/fb_upd161704.c
-+++ b/drivers/staging/fbtft/fb_upd161704.c
-@@ -67,7 +67,7 @@ static int init_display(struct fbtft_par *par)
- 	write_reg(par, 0x001D, 0x0000);	/* Regulator current setting */
- 	write_reg(par, 0x001E, 0x0009);	/* VCOM output setting */
- 	write_reg(par, 0x001F, 0x0035);	/* VCOM amplitude setting */
--	write_reg(par, 0x0020, 0x0015);	/* VCOMM cencter setting */
-+	write_reg(par, 0x0020, 0x0015);	/* VCOMM center setting */
- 	write_reg(par, 0x0018, 0x1E7B);	/* DC/DC operation setting */
+diff --git a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
+index 6c5f56d5a1f4..4e89847700f3 100644
+--- a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
++++ b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
+@@ -160,8 +160,8 @@ void ODM_TxPwrTrackSetPwr_8723B(
+ 	u8 PwrTrackingLimit_OFDM = 34; /* 0dB */
+ 	u8 PwrTrackingLimit_CCK = 28; /* 2dB */
+ 	u8 TxRate = 0xFF;
+-	u8 Final_OFDM_Swing_Index = 0;
+-	u8 Final_CCK_Swing_Index = 0;
++	int Final_OFDM_Swing_Index = 0;
++	int Final_CCK_Swing_Index = 0;
  
- 	/* windows setting */
-
----
-base-commit: f5098b6bae761e346ebcd9da7f95622c04733cff
-change-id: 20260727-upd161704-typo-v3-e163e5ab3cb6
-
-Best regards,
---  
-Tomasz Unger <tomasz.unger@yahoo.pl>
+ 	{
+ 		u16 rate = *(pDM_Odm->pForcedDataRate);
+@@ -217,7 +217,7 @@ void ODM_TxPwrTrackSetPwr_8723B(
+ 
+ 		if (Final_CCK_Swing_Index >= CCK_TABLE_SIZE)
+ 			Final_CCK_Swing_Index = CCK_TABLE_SIZE-1;
+-		else if (pDM_Odm->BbSwingIdxCck <= 0)
++		else if (Final_CCK_Swing_Index <= 0)
+ 			Final_CCK_Swing_Index = 0;
+ 
+ 		setIqkMatrix_8723B(pDM_Odm, Final_OFDM_Swing_Index, RFPath,
+-- 
+2.43.0
 
