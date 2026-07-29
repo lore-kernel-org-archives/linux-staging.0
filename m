@@ -1,114 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sonic.asd.mail.yahoo.com (sonic-euwe1-0017.asd.mail.yahoo.com [34.2.82.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CD0C3603C9;
-	Wed, 29 Jul 2026 10:15:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C914449995
+	for <linux-staging@lists.linux.dev>; Wed, 29 Jul 2026 10:49:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.2.82.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785320157; cv=none; b=pk/TGnmagd18gbMnEW+84SrDZZgX0V7u4UTav7qSgfz1iUkICCi2MQibCfiJ9djxEfdgZCDcC7my8fif1uT5aFjZ+Xs2FOgqHbHFN0DVYoG6F4OXA0l/dHGiXWPxNfuHSWZGqLmYHObJBcqnKydMzC6HnAEAAD2lizofI2Se6eg=
+	t=1785322180; cv=none; b=XoUiEk2fUJ+WtSVTTjXyQZlNO9Imj9Abs+qAZae9sGoRYafeNjoTJV7zJhpPi3cy3DfgDqxxyZ24xX68ZUACtaF+Y7LCFXx1FxoHcbSnpepwfciXfFchaLPp+YSM3yF3j39n+xGo861G7OrXyqwnBrgWy994Li5m0dhr9HmiZOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785320157; c=relaxed/simple;
-	bh=R0itJK00LSUlbdsRKfkBmvn63ZPA+PnWm1a7Be7lgiM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZI18LlS1ci1bEjw05oztjZ1QE3DZPJWO/1brj1okixlcZegFhQU8Q3/Q7XIJdGsbh1m2+Pbo2Q+s+vp5hlqocyc0oa2ELDk0jmt1E0u7gplXi0Jf6kNOJngZozWXuN3fH1VL/XwDBvXEnx4Ga6nFGOOKHQv4WMO7LfOgtcIPOW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VfhOsJsm; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785322180; c=relaxed/simple;
+	bh=csNuAcxNQxEm0JFQBbE30OkWlqKgkmwFKZ1ttNV2frY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc:
+	 References; b=WOcx1jIs0uVO84XgxL0HeBdEaVhSYTu4Vsq+LMmrkTtX2aSCzYDh1Wx3eyrbxexHmy1MGVYTkzrRQ157uViy4t09b/AAOy0w+PnFUxXqN9hyOyQqNe3UqtKu6V6dZIa4z5gdJjGiJvmMYqpXYoDo/FkVZPel6bgKZwx3JBtWBPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=r/oLO9AF; arc=none smtp.client-ip=34.2.82.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VfhOsJsm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F3281F000E9;
-	Wed, 29 Jul 2026 10:15:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785320155;
-	bh=pRSHFW5y9uxO9c/P3jPBwDtJyXYexZDegWCvYiCZFvs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=VfhOsJsmW5qQWQ8xTf1khK6x8YbHrzcmV/BsKISuMMh7nVDN3is2ws4GezxziKtLc
-	 rRfh6A/KN6XGbpaI8pZpBM+jqQ2c+7pyWULMD4vp7tvanzQllIaIET2868KcnPmNvC
-	 j0zssnoA9Y5rN6iQ8Y86wrNTowwz7BfWtFC0MQkpUjGU0FBbv3y3GhKD06S+3oR8sw
-	 da3fUGRyBd3NlJZVgZBd9sLSEJuntdXo+3W5sSohGd6QWU3UQtr7mZfgR3hSXdqDsl
-	 Azy3eRSipOny7AV7oc9m8vNL1q0VqfJfXET4eW2GeW0Xcjko7oQzKDEtLhGAx+nnJk
-	 YPWHyBNnkcZmA==
-Date: Wed, 29 Jul 2026 12:15:53 +0200
-From: Thierry Reding <thierry.reding@kernel.org>
-To: Dan Carpenter <error27@gmail.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>, 
-	Artem Lytkin <iprintercanon@gmail.com>, linux-staging@lists.linux.dev, marvin24@gmx.de, 
-	linux-tegra@vger.kernel.org
-Subject: Re: [PATCH RESEND] staging: nvec: use strcmp() instead of strncmp()
- with magic length
-Message-ID: <amnPL9LvsNgWW0HA@orome>
-References: <20260723161823.23921-1-iprintercanon@gmail.com>
- <2026072836-swerve-splotchy-bf8d@gregkh>
- <amjKwgaQc0sM4UW8@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="r/oLO9AF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1785322176; bh=uxve866BWF4htd0+CpMI2/Yr/XqQcHixAEiZK3UmVoQ=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=r/oLO9AFViCRBKgswai6DoE1qp59XiIj8hlVP2eKJYE3tSduf5kvRojeCRrA9COfStVLsfMd257vNcb8O28ok+XHS4f/9fEcKbn5JVSXXelAzYNnqtjuOoDdsk+Ze1L7zDCU6JF2HpT7CCTQz32r6T0FFsDQirpE6uIlYNtCZqbq6uAZG8T48IBRudH1v7FZgmmwcXShtXhQo1KsDPMYaXIbKqEKskTUZ+pXnpEOTcc7dHshZioupLsjyFdS2tUpmhZEbmIlmosw1aVzOivs6ZQXohxcTmrCRUx10oP6vaZ8uLpbQmv3YgExFIUbNzras/PmzE1+IJSJJF74dx/FMw==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1785322176; bh=0txDAdqkQeVMnTeBx7ONn8K1Mad+UlpB9gvmCojtVMV=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=VqGjtUaGaJUV/LsGrf3xMIO+qw8tsZC5iOEpV99Ek9dd9fiap/CC1U5g14TOMjI6/aM6Z52alebpYEguzV1XOtGFM2SScE6apXm3loRVsw43WkgUCnnGgsIHE2V4axs1PS7kpvLxx/K517CKiVXDwbkrjPcRdTYOgTG9Ozbr5uw9kR1iPkopq/gmGT1xla3z3Pw4buFQP4uS8Gv5hHe0j2f2kNWj43+eulA6ErnP2qKFymW3WRIH6SMc9wc5utZBSYqid4ntJk8UteJDd2vCGZLklMbD4WciEmBxxwfRR6sP0JZSvIxCV5FHzACDIwvzu70CO6KT1S51KNih5rZk+A==
+X-YMail-OSG: VUJu24IVM1mEqiOHtHeWkIGRHPvkQHCoy0RQnbWt7J6oM2M0Ju6S1_TKpxFfD6G
+ F6wR6lVinD6HSIyN19YwqYhkKxNPctz5Taf9WLROw0Wp8n6JXN9mO4JguRU3uqX4mGLpRAgs0zGT
+ ypw5VNbzUaCjd489fHgUCyrYGym43gEiNNog9FmjsG5TkSR6DH1t.lVu_bArHfWsHg7hYB_0Ifxd
+ oCJY0EKeqMHWPnSGgbmcaQGPg3VqcthkjM3QpJmHi6cV52W6tqMO0Svwihyan0vKjC.lMvUccqSO
+ iRa9BdZnYHvXJX8mUkI4W.zNyacPqbGktlTkJlwhioXUeiDxl2_uJv_v1fPfubjCA.dJs7n3z.n0
+ jUPLFw3SmvNV.9KXNxGPbNEX76GRviHEjKRhdjFOv8kVNe9r_2NInbkZyst9oMcQgpYH7xya1dmb
+ ayf_3PWvmQs1e9c0PvkUNjgIDIbQu8UfONuiCTdMH_7Kb.rK7MD_fax6MPr6v3PNuho4O5upBYDt
+ Eh9mJA0CPa4yw4ibF5rBgHuiRVZlpndq8hZhZcuxD8n8D74QFsVCK0.Vh8Ia6YPZxPg_6RDgOkuK
+ KnPpuKuKUPL4L3MlIyOUQTbFIL4YPwFfNrHRQ.v0RjfOlvUZe.8k_Dv98vGrXBTlR6znoNzlrsZy
+ P5KQSyoJ51dQyJubAama52HRLPz3l6Lp9xaqYJ9BkU7gJDTcVnOMeHHO9XhzaMC.EHjZlBtD5LPW
+ eVrambySjBI.iDZS1lAas6XjbF5nuHceBinc7sZ99lsdLpfSSUCJDIxN.dSxonCdn_y4xZ63HpmR
+ UJv1dcPfwxM8l_nyEEGfFbmlzQl30g1gbDjEJE4VE1nw5fpZEZ58qpiNZQ1j1b2sgprQzNrFAZ31
+ lEW5X5odav27Qe39Bu6rmvjzkUcxevIOAShXonNhPvbGx9oS.xL2fhSV3.ao.MHXRCK6Gf4oUWCG
+ L.pnAkkqwvVSQ4B4LjG7xy8C9GyCZb_n9GZ0eZ7r3iQGTj4kTrwME_nvltourCyjbHfKoilKnGdd
+ .UoEU1kIjQ6TUGCi3Tuj4CaLkJkmYBOo6wN.3ZHd1vyfUwmezRQvQwmpluQbPXoEKhaI5qErfhY0
+ k3l4Ey5a7jLuitrtmHBmJdzcsQGy1gbZj5fENOuW11iF7_hGLqsOa8eVRO9VTVDnwZb.QJ5omVAq
+ RPCDRTYLBVWErgLbGXXmEuhpprWkwcUyFyC5qMU4Hb26QpoAp7I1mDx0tG5F8TrSkhBC1wTCoAYz
+ MgiNzK.qRJn_yFmabQyLuRba.9TRYg3da8LtV27y5CBkiIvmo.iEZf1AeghKvgg9KUgwyeriQK0N
+ yqWIxD6L6lBaq0l_njg.Nkf5Xi3JPWjUKJlv2To2gYobZmh6avkgaqO7.q2EB_K1Tgjizz1yqyJv
+ rjHQyCbSMnSKRuN7ycVf_zaxDbxHScrg4foV1JSkSIHydvVraCyYWC3r37.9Sy64w7mf4LYWTUW_
+ OLZp3.WMAU6xck9pFJSr4hDjxBPmwYMxris7ctbwDViWHwWZOVIcyPRnrDS7CdbMBVAncarq48fB
+ TDmeD8JalCDVq.rAbdRyJKL1NV8vITwzehkbI2XvnpMMzrDrVtaDG5x9romujTW8hZVE.XKSu3DV
+ 2RhSF.7slSR5ua6hZOpDoIyyfuSXylKyh4u9Zl8kDdpaJS0rxY07mg4XsEOi7HLeuudPyQvbfyit
+ mLXMm5HrNdjifkBKqIYYitj5fAuhkLNDVgtJe5bP_NOBn.NwITE33HPohi1LI3qkn_VZBhEl.p0A
+ AshhgUVSaru_XAFaRE8o.uZu61Czbvxc4u8O3bNiep_6koDIAfyaXfE5Q_jigrNIBx6KWO.QpYrO
+ OujqLLzvGHhw5ZE4R9ezYCNCNbFDws4JozxRGsRVYdhRFgePqS05qt49g_unBHg0asoiHYi_EF1s
+ tSdpMjExD_nGeuJHCO9zVdnyIJE7bTcCAm3zjHcRyB1k_84VzHHxQIqTVNC29UFlac3gNffI3aO2
+ Tt7qRS.2lmzXFJsxrV.jSWcDvZ6_xBlYbl43MVLEtGH6m9eJxt0_qKDdtIzo.Hn627A5QbMGKoKM
+ DWBm3
+X-Sonic-MF: <tomasz.unger@yahoo.pl>
+X-Sonic-ID: 9838cddb-c3db-4c47-8765-365365e09484
+Received: from sonic.gate.mail.ne1.yahoo.com by mail-asdoutdeli-p-cin-euwe1-prod-sonicconsumer-svc-102 with HTTP; Wed, 29 Jul 2026 10:49:36 +0000
+Received: from dip182.lsn.ir2.yahoo.com ([87.248.99.191])
+          by hello (SMTP) with SMTP ID 55ed7eb25d4b538459b72a781fc4e23e;
+          Wed, 29 Jul 2026 10:49:34 +0000 (UTC)
+From: Tomasz Unger <tomasz.unger@yahoo.pl>
+Date: Wed, 29 Jul 2026 12:49:35 +0200
+Subject: [PATCH] staging: fbtft: fix typo in fb_upd161704.c comment
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ojp6wdg7qyvwg6nq"
-Content-Disposition: inline
-In-Reply-To: <amjKwgaQc0sM4UW8@stanley.mountain>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260729-upd161704-typo-v3-v1-1-69c962e35d59@yahoo.pl>
+X-B4-Tracking: v=1; b=H4sIAL7aaWoC/yXMTQ6DIBBA4auYWTsJPxaSXqXpQnBspwskIEZjv
+ LtUl9/ivR0yJaYMz2aHRAtnnkKFbBvw3z58CHmoBiWUEVZZLHGQRlrR4bzFCReNJI2mR++0dwZ
+ qFxONvF7P1/t2Lu5Hfv6P4DhO05YSrHUAAAA=
+X-Change-ID: 20260727-upd161704-typo-v3-e163e5ab3cb6
+To: Andy Shevchenko <andy@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Tomasz Unger <tomasz.unger@yahoo.pl>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1785322179; l=1089;
+ i=tomasz.unger@yahoo.pl; s=20260611; h=from:subject:message-id;
+ bh=csNuAcxNQxEm0JFQBbE30OkWlqKgkmwFKZ1ttNV2frY=;
+ b=G47v76Ny6yUZ7ibrRTdY5NkJWZTUwHVOvWCnpBnqpgt9J+OBIpTkcz7L9OBRxDg5rsbOvcF9Y
+ Bb4ZLnBBvbyB5yBUaubzhwssd5KaqpTlbW/+FZlPR5xWLGz/Sj85fD1
+X-Developer-Key: i=tomasz.unger@yahoo.pl; a=ed25519;
+ pk=elW+gk1cZhyVAkPUfX4QaVHbxERM6w8ByGYxz0Rijl0=
+References: <20260729-upd161704-typo-v3-v1-1-69c962e35d59.ref@yahoo.pl>
 
+Fix 'cencter' typo to 'center' in a register setting comment.
 
---ojp6wdg7qyvwg6nq
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH RESEND] staging: nvec: use strcmp() instead of strncmp()
- with magic length
-MIME-Version: 1.0
+Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
+---
+ drivers/staging/fbtft/fb_upd161704.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Tue, Jul 28, 2026 at 06:29:06PM +0300, Dan Carpenter wrote:
-> On Tue, Jul 28, 2026 at 09:09:23AM +0200, Greg KH wrote:
-> > On Thu, Jul 23, 2026 at 07:18:23PM +0300, Artem Lytkin wrote:
-> > > Replace strncmp() with a hardcoded length of 30 with strcmp().
-> >=20
-> > I thought we were trying to get rid of strcmp() usage?  Why add it
-> > back?
->=20
-> I don't think we're trying to get rid of strcmp().
->=20
-> strncmp() is for prefixes and and strcmp() is for whole words.
-> They're not the same.  strncmp() with a fixed string always
-> seemed like nonsense to me and it causes a static checker in
-> unpublished Smatch checks because we've seen that bug where
-> people wanted to check the prefix but used the wrong number of
-> characters.
+diff --git a/drivers/staging/fbtft/fb_upd161704.c b/drivers/staging/fbtft/fb_upd161704.c
+index c680160d6380..7288140e7c3e 100644
+--- a/drivers/staging/fbtft/fb_upd161704.c
++++ b/drivers/staging/fbtft/fb_upd161704.c
+@@ -67,7 +67,7 @@ static int init_display(struct fbtft_par *par)
+ 	write_reg(par, 0x001D, 0x0000);	/* Regulator current setting */
+ 	write_reg(par, 0x001E, 0x0009);	/* VCOM output setting */
+ 	write_reg(par, 0x001F, 0x0035);	/* VCOM amplitude setting */
+-	write_reg(par, 0x0020, 0x0015);	/* VCOMM cencter setting */
++	write_reg(par, 0x0020, 0x0015);	/* VCOMM center setting */
+ 	write_reg(par, 0x0018, 0x1E7B);	/* DC/DC operation setting */
+ 
+ 	/* windows setting */
 
-Maybe the commit message should be updated. It makes the argument that
-bat_type is NUL-terminated and that that is the reason why changing this
-to strcmp() is safe. But it's not. There doesn't seem to be any sanity
-checking on the EC data that serves as input to this, so the length of
-the string that is copied could be any arbitrary value for all we know,
-meaning we may already be writing past the end of bat_type and insert
-the NUL some place invalid to begin with (we should probably fix that at
-some point).
+---
+base-commit: f5098b6bae761e346ebcd9da7f95622c04733cff
+change-id: 20260727-upd161704-typo-v3-e163e5ab3cb6
 
-The real reason the conversion is safe is because strcmp() stops
-searching the haystack if the needle is exhausted. Since the needle is
-only 2 characters in this case, *that's* why we don't have to worry
-about the limiting the search.
+Best regards,
+--  
+Tomasz Unger <tomasz.unger@yahoo.pl>
 
-Thierry
-
---ojp6wdg7qyvwg6nq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmpp0tQACgkQ3SOs138+
-s6GhJg//SLWlLDA0U7aX3DzUW6YR2GmeIn/r3wr9R7fXgXxx/dpPVh2N6Vfo4Zxp
-hb8dhVS5/FjPSD0QtT9sfO7tsTzwcim4FFKM8J+KfnKP4u+s0LNMKrUmp7GZUMow
-x/Wofbhq4opHEixqMJEyQcUd428CYYe9JFZB/uA+2iyTjBW5vQxamO+FXdSwYL47
-W4YcFlU5Ycl1HeZTxvlnDPctHJbuIzoNvkm0i6d02p/OfMib7eUH5J7zBBsHq8if
-dTVZ67y9fd62dPO0D8MJl4BdPHTSJNBGGffik+6tIRL+6teM5UHfC17jmwhmC3je
-UxQrDhprVdj+Pcti2u9LbmF65JGQmMYjgQShumBwglLsYsnblosgVfvO+Ey3zHk0
-3tpCIwHV2cz2iKFcCsvGswCBTCcfX2VR7c79EkmHPS2X/KmhH8ZoSMqSjvPOMXxx
-QP8CfrSd4Bu7ZzJd/xVSgkEosDNlLwFQHIgNR3zgRQ58iOYy2Uz2ce+Ih2GExmhP
-3CiiR3hlpdcqyqP+/PDxVD03NnrHolJtaIfsc5eM6bXkJqR7d85xD8Ht4oG7q1sH
-fN/46k451eiH6dwvSMFsNl/oPrIO8O0BxXGWibKGk+QH+FXdssOLxEisLAou91Q8
-rUancrvWrde4TUSA6EhUV/DsO0LBcE+ThEo7BqOtS738lP79dsA=
-=b+P8
------END PGP SIGNATURE-----
-
---ojp6wdg7qyvwg6nq--
