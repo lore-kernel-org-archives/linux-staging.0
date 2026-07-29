@@ -1,39 +1,43 @@
-Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
+Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com [95.215.58.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7780C54774
-	for <linux-staging@lists.linux.dev>; Wed, 29 Jul 2026 02:26:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24ED833E348
+	for <linux-staging@lists.linux.dev>; Wed, 29 Jul 2026 02:26:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785291969; cv=none; b=n0JFYPRAryjum38m7YVeXKbiL+A2h/MJkGo2/Dii0lS6QEfl/Z9NkCdsgvJKd7ysdYz5iA/0Jtz0wDlwylx6l2Yb0ERRfD3N4/tR2QdlWj7nvxWO4C/3SIX44FVp0FsTE2tMpejySCAtyI9qBB20a6yVgAY7vJ8vVyKFdR4qga8=
+	t=1785291973; cv=none; b=K+0B75r9iPjgLG+1f23mGZQ26GommHlLsS37fBdP5g8Rc16e3owGkWIxydkqDmV88H3eKBdmLiuqD73HqDAACf1dQ2IjxYUkIqHNX+4wmhCBUJWpzr/HSPV6kql/2uv6z3cPw5jR/PTvw28rl1JEr5JoPoH4fWnS/0d+3UB4Ks8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785291969; c=relaxed/simple;
-	bh=wVe5+mn5qO+xX7gOPjL/cKVzya3+/hzPWH/ttH6sEEo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=QoUDN10G0M/Gb7U2lhv9l2MSaI5gcNBb8HYMckEfP1TDPK6TwyMiNsI4+vTt5RouaB7OZvTnV9+VatoJNnQ1DgNEEt/bSQ2MYfcTZ6Ci3hMNH9SzBs5j3JOfVjWX64eI9U3u9tJDTPfyaO0fEshCKlHNlCa4k4+BAuGoyHWuZsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=pZg9G1Wo; arc=none smtp.client-ip=95.215.58.183
+	s=arc-20240116; t=1785291973; c=relaxed/simple;
+	bh=rJ5gkuJJTCWKhczkEk71zfPFb/fRSECE0TBf+zAQPaU=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=Q0hONIvZWFOfoh1jC6i+ZmTlTPQxxFJwIDptAARwOpGrZvdXg4OEX10ViwMWCF10swzL0CWnPlDjrtcQpqgRid62KowxG1qL7SJSBPNnPubK/qCwZMHuuiAE08blWUgcRDC7YQz3yOMf9XKYHyYjq9SMS32Of8gIEJbH1zH+dRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=NV9FBrbx; arc=none smtp.client-ip=95.215.58.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="pZg9G1Wo"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="NV9FBrbx"
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1785291964;
+	t=1785291969;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=QRTVVf8d7Axz/S3rNeJ+7xMa1Fbg7NLzg3mU1f2ku6Q=;
-	b=pZg9G1Wozqlai5t0Za8hrFmM199IeBZ7NhLOYQZIWxi0r2NJ3TfgaASAwbFd3MWKZt0edS
-	4ZOjWpQRKOI1fE8erg8q++nLC4Q6heYMkq6Mhg9B0vaNCvNV9naJKrOFSbKVMS2cR95NKT
-	tkzbXQvmOMVswE6bpz+hIdElmjdzc1g=
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pic5dVPEn0Kcm/eA5y2w5lDa3uK4+vPtXmqUgqeF360=;
+	b=NV9FBrbxvFPr0jvY1tGePPi8RAdJJ7oVR70bizwH3ttaVSqAaob7Ef5CAsNfB1BAi7euRG
+	eSuqlGMj8/v6UUDTNYnsWZzmNS1RMhYZYDJvUcuLwVSZ70g8A2u4ZWUna5qQ6LOMZMS5Ft
+	h7w59obZm08QnDR6Fqk+cSvJ1A5oJUY=
 From: Yi Cong <cong.yi@linux.dev>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-wireless@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Yi Cong <yicong@kylinos.cn>
-Subject: [PATCH 0/4] staging: rtl8723bs: fix several memory-safety bugs
-Date: Wed, 29 Jul 2026 10:25:05 +0800
-Message-Id: <20260729022509.2863634-1-cong.yi@linux.dev>
+Subject: [PATCH 1/4] staging: rtl8723bs: free HalData with vfree, not kfree
+Date: Wed, 29 Jul 2026 10:25:06 +0800
+Message-Id: <20260729022509.2863634-2-cong.yi@linux.dev>
+In-Reply-To: <20260729022509.2863634-1-cong.yi@linux.dev>
+References: <20260729022509.2863634-1-cong.yi@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -45,36 +49,34 @@ X-Migadu-Flow: FLOW_OUT
 
 From: Yi Cong <yicong@kylinos.cn>
 
-This small series fixes four memory-safety / resource-management bugs in
-the rtl8723bs SDIO staging driver.
+In the probe error path of rtw_sdio_if1_init(), HalData is released with
+kfree(), but it is allocated with vzalloc() in rtw_hal_data_init(). Freeing
+a vmalloc allocation with kfree() is undefined behaviour and can corrupt
+the allocator.
 
-All four are tagged:
+Use rtw_hal_data_deinit() instead, which calls vfree() and is the matching
+deallocator used on the normal tear-down path. It also NULLs the pointer
+and clears hal_data_sz, making it safe to call here.
 
-  Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
+Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
+Signed-off-by: Yi Cong <yicong@kylinos.cn>
+---
+ drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  1/4 - kfree() used on a vzalloc() allocation (HalData) in the probe
-        error path.
-  2/4 - double free / UAF when register_netdev() fails: the error label
-        frees objects that the caller also frees.
-  3/4 - NULL deref in c2h_wk_callback() when the re-read allocation under
-        memory pressure fails.
-  4/4 - NULL deref on a bcmc station lookup in the 802.11 defrag path,
-        reachable from a fragment with an unknown transmitter address.
-
-Yi Cong (4):
-  staging: rtl8723bs: free HalData with vfree, not kfree
-  staging: rtl8723bs: fix double free when register_netdev() fails
-  staging: rtl8723bs: fix NULL deref in c2h_wk_callback() on alloc
-    failure
-  staging: rtl8723bs: fix NULL deref on bcmc station lookup in defrag
-    path
-
- drivers/staging/rtl8723bs/core/rtw_cmd.c     |  6 ++++++
- drivers/staging/rtl8723bs/core/rtw_recv.c    |  5 ++++-
- drivers/staging/rtl8723bs/os_dep/os_intfs.c  | 10 ++++++----
- drivers/staging/rtl8723bs/os_dep/sdio_intf.c |  2 +-
- 4 files changed, 17 insertions(+), 6 deletions(-)
-
+diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+index c43a0391a5ca..f7ec09310ce9 100644
+--- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
++++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+@@ -286,7 +286,7 @@ static struct adapter *rtw_sdio_if1_init(struct dvobj_priv *dvobj, const struct
+ 
+ free_hal_data:
+ 	if (status != _SUCCESS && padapter->HalData)
+-		kfree(padapter->HalData);
++		rtw_hal_data_deinit(padapter);
+ 
+ 	if (status != _SUCCESS) {
+ 		rtw_wdev_unregister(padapter->rtw_wdev);
 -- 
 2.25.1
 
