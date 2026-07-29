@@ -1,123 +1,131 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2153AC2C8
-	for <linux-staging@lists.linux.dev>; Wed, 29 Jul 2026 05:20:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0059839EB5B
+	for <linux-staging@lists.linux.dev>; Wed, 29 Jul 2026 05:31:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785302450; cv=none; b=KRrnSc94eWkVx0nIobe452LdLQKEm7Cv71BqBwAtMH68RHFaku8wZ/97HyMKfmOvi5hrF3bo3p9a+l1vfLOnlDUT08JQM9iXTlgV35dBIHz6nwYnxC9ZpJ9u44xik+X2oTMFKF6LkkzavY/U+CyH48giHRlA/zRboS/SJzzVAJc=
+	t=1785303093; cv=none; b=hQBaJwxGRtA639lQmInlanCjdcQGWL9Ix+hDyn8WdZoVPnzKsuDRwIN9NWVdSMWZHHZzinxlHcBCGuJexzsVB3rBLvJDO1w+ZC29aIEPTfITsrZLczlK5+B3ra7HFY3ShfjLnvDblPLuVKGRV3Drpg72e3FCBpL6i072EHQH8Ys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785302450; c=relaxed/simple;
-	bh=7ycnY+QFyhhrmBU9D3KrVPHqDoLW6tZiB1yGWFsDSnQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rnU/GLqENyM+f6E4FQ0zAGJ+O+udaKhPmo7mrWiDRPrhd7Lm9FY6dR2g4DkPGxbCBUZd/AUWQ8kZsE9UuM+br4st9dmWy3P7y/8EXyj+aeXmDFl037kgq+gNfPolF7vSZkorjiReeeWYaFry7g4rFCkIJm0q/RjlhEoewD3zP7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hT/WEnry; arc=none smtp.client-ip=209.85.160.178
+	s=arc-20240116; t=1785303093; c=relaxed/simple;
+	bh=TK73DyNBFNgavPIJ8NX7LzeWA/wjG1g5dTxoKb05AaU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RuxITD5f1k8nxDj/jsTmcNsVdSlg8pFtrRGQOO6twgJU5Hi3leS1EGLcmD+cdm2xyQwS21jJrRnqVmIV0yuq0HWWqk17jQM7xbIgffF8UI6fEECd+4bAlvYcbLnscpQFgBpTM+5QrcRqhvbELtCbNgFac5TkxYYjDH2Vrs6E9yc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kcq2DAg8; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hT/WEnry"
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-51e4ba1cfb4so3441061cf.0
-        for <linux-staging@lists.linux.dev>; Tue, 28 Jul 2026 22:20:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kcq2DAg8"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-495757ccbc1so4195845e9.2
+        for <linux-staging@lists.linux.dev>; Tue, 28 Jul 2026 22:31:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785302448; x=1785907248; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Jag++Suh2iAHdugEf25lQ1W0AtpeYmQLLiEc8wtzC1c=;
-        b=hT/WEnryzqHvshPTU/eHJMF0Kq08QlEfGfz53VZnwcd3CVvFPh6/vjqwKQ5r+UdFEX
-         oa64LAGK+PShPwa+KM5OyU6h53FCBl6VwQPdur9KwlqgdX2ljsBw8lpLLc0vE+YodBqe
-         cmUjuUHkY2pwa4vLv/6vra4s05b1CCnou4uclFeYWhZdAHd3VTeyTM2H495gkD7hfDu4
-         xevzIGn5Lp3SeB13ibj3150Eb9KMJmA/h91oRa7h5AoGYRAsLvaTI/4IIu17YRy52M4f
-         JkJ4strhH6L+Oie3lnFoHSAVfAxYXpD83gFxySpoMyh+gtBxy/+HXt+HF57qtgLHBv1P
-         bZpA==
+        d=gmail.com; s=20251104; t=1785303090; x=1785907890; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ZZkhjXFCyNRKV6oXHNjuiRGL2GiMm192P3++mpEhAgw=;
+        b=kcq2DAg8C47jlNcaMfnkRGaSvMslNhtlN/2uYaSeHo/EhFbtvKEFJ0Uy5odwzpTcjy
+         y39DL8dwtG6hR4CMbt7NkG+5izvOz1r+Mpxks3KnP0X64+Gqf/i719s3E7KhkMuwuIPh
+         Nufko66vrPKFq9Zb/Y5eTsx/N+ZfeCJ3twRB6CYKjc84LtC6A8cld2Xniq3/GUsSHAnT
+         ptDtd4GM2+o6nZ+MZrYI19duv4pKgaBI98GL90xa0n+hCXquYjUMQ9U+qRqmWIFVYzCt
+         Zy4iZbjiTF4/Dmmb8uA/HiFOhHQhBhYMPnQidT+nIZgwrPHHbCozRx79u7o7XSW27XIa
+         jHGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785302448; x=1785907248;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Jag++Suh2iAHdugEf25lQ1W0AtpeYmQLLiEc8wtzC1c=;
-        b=a0ekV//rUT4zdnhiuSnNor0GLibBimpFaaRHPbBXdnRhkpXhzvLPwHp9hViz/GN/Gq
-         I7sw4Z5AJhjZOo2F5ooDEBWAF8a/DVwD8RAZN2Kx77Sp5vtG2Q+jdw0GyvW1xctTVdMj
-         XMJps4rhXBLGSRGAFFbzxtfiECA0BEjqAK7r7YVdE+K0gw68uU1P4ZZA6/Xko2BNsgjf
-         +BC02OhzHsWbIAYqfSuFS8f+dL8G2J4zOxKZnrPaFLS17uSTgX86c/xZy4TEfY4FvU4P
-         fAttquVk0t1H7Clg8VsObnCj9Be805GtkZJX155oOaotYT0QAyZzB6s0b2hrryJuifjd
-         tAJg==
-X-Gm-Message-State: AOJu0YwgyWhRXatD5XYshNF0yOKbxFXGhN34ZpMPO9BEXBS77tKSCtFS
-	s6ru9gEnPmd8jbTkOfjyPtT1kcxZkaFKB9imOJC4zkqZzhckuQ5DgWxnlMUh4UCa
-X-Gm-Gg: AR+sD11fvzH9yElrEebVOKWVGkz82dSkAt+YheSAyyLcaynEo3Wnh6rHV1k/KxCR/FS
-	NhR6ZsJ0jd6qmWHiNGsX/5t42FuDbFmv+GNmPx0EfAWdR+aa9M8/+5SUJI3h+OXUEXivQxrT3wP
-	e9GxuLDLXsNE5SeM+c1ZNURJp0P0ivdTWEhOlzwzJOqYCI7tDgYesbTf71O+g/1frKobGOrsirK
-	auCc6eYCV0gKvNVl55B4U9jlGq8hG1Vas19fyF2ea3h3rWemJ9SlJPAHraHc117iM2rDt+2BO0Y
-	IQzqYbDGsJMDOQjDUc5F/WxQiZk7cATzomh+YPyomYRe13hR/QqG/6Tm7vYYzWWrJQouVzaQRfY
-	/0wVUx4OzppkD5t3v74Gcprnyc6ihJ3VPofQwV9uCy1HeD9ip0S76RN54NIUnQcJ0d1e3KA2kqm
-	2Hgkm5kCCUwT0Sd7wK2BYYtghndzKmutqL+zVKuvONwTz79hN4ZRf21m8DIa9gYhrCeJMTlHomh
-	A==
-X-Received: by 2002:a05:622a:4203:b0:51e:4e87:3c4c with SMTP id d75a77b69052e-529d716548amr47314321cf.68.1785302447893;
-        Tue, 28 Jul 2026 22:20:47 -0700 (PDT)
-Received: from xenon ([2601:5cf:877f:4960::9a95])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-529e2d832a2sm12034821cf.18.2026.07.28.22.20.46
+        d=1e100.net; s=20251104; t=1785303090; x=1785907890;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ZZkhjXFCyNRKV6oXHNjuiRGL2GiMm192P3++mpEhAgw=;
+        b=X5cV/9msRdxakuwTpkEexFJAuw6dGbzl/qQgqUMpE3VIrqBhf86WgfhQFM81CleANf
+         +Padcgs3UbQ535Bj7706lCuUFxMa8vYP5c+4g296IYRV0h6hN1pQkNY7tU7yd4wV3TpQ
+         Y/3wpw+TYLnS0aGl/uk9J0Js9iV0345S7ehaKC/SvlpB5vte01fGmvzwX28jI8oTKJw1
+         VbZI0YjIpnNXwJ+TFQ52f7YUbLfvSEHAGy32DKoSWSvksW8GzFtOLNzpweGu4O/Td10K
+         x4RumSOGFdu5St4jc54ZnjXxsssSxqk3SI2lo1OZUKSuOaAXgNVgfEQU7w354AhJB0Fz
+         AZsQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rrb4ML49YXAhVCNPGSuU4zaRjnLL9+0nCXlFXe3AzaEFncYnfPYaWVI7fmhfWLBqw+L9/Z/RjlHjE7Zompk@lists.linux.dev
+X-Gm-Message-State: AOJu0YzVXVN5Uj5iUw0ZRTj5xnRv6AYkkhAiAQ5v1f3NCKVAONvHLpN+
+	hyfiTw4tLF9PPJk9k2BbvVG7ig4g7izh50Wl1NOMqCHNYsENbO0UYFuP
+X-Gm-Gg: AR+sD11lDZ+S/0o/a9x9XC6mKhO2GnJpJgcUNt13Qn9QmHbR7Z/nfWJ/vuD3tCIj42X
+	dquQ87DrUKTyshD1ZakKvniNUErM1DzjaLtnJEBZvYxP1+SAEmrQpRK3Wlbc1k7DGSyx+1EoO7n
+	eDbf/uiJYAask0yTgDxS9iojgJUygcidxrG4w0KiedZhV5QH1YU0in+y+pUeXKGE0FEUr2O8fDr
+	RuTL42C8zyE5pE07coM4++EKbVE0R99jnnicTG1fgVvwIy2KD4bJqJhSytGcKqoLyjP3w4Jycxn
+	JBfiDuJrFk2HRmP6ncBe9WTfEfunIqTO34n/JOuaRcyl1X4PMKcXTlpRijYjOOQf32UK4oZD8Y2
+	n9XZ+78HW/2qw9Gqyohq6VIoaSZvY2EYmMV1naFeaROpYeEflHjY2MASqdjANmu4XMGHt1lMkkU
+	Y/1z3NjysCDqEFrCncigDq6brMSuPTeS6UiyiNBuB+X/XQv4ANuvbtBaE+
+X-Received: by 2002:a05:600c:6986:b0:495:3aac:1098 with SMTP id 5b1f17b1804b1-496c6591311mr60736795e9.32.1785303090216;
+        Tue, 28 Jul 2026 22:31:30 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4957bff4784sm337623375e9.4.2026.07.28.22.31.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Jul 2026 22:20:47 -0700 (PDT)
-From: Connor Sample <tabulatejarl8@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: Connor Sample <tabulatejarl8@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Ethan Tidmore <ethantidmore06@gmail.com>,
-	Nikolay Kulikov <nikolayof23@gmail.com>,
-	Dan Carpenter <error27@gmail.com>,
-	Luka Gejak <luka.gejak@linux.dev>,
-	Khushal Chitturi <khushalchitturi@gmail.com>,
-	Hungyu Lin <dennylin0707@gmail.com>,
-	Samasth Norway Ananda <samasth.norway.ananda@oracle.com>,
-	Adrish Bora <adrishbora@gmail.com>,
-	Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: os_intfs: replace msleep with usleep_range
-Date: Wed, 29 Jul 2026 01:20:38 -0400
-Message-ID: <20260729052040.249972-1-tabulatejarl8@gmail.com>
-X-Mailer: git-send-email 2.55.0
+        Tue, 28 Jul 2026 22:31:29 -0700 (PDT)
+Date: Wed, 29 Jul 2026 08:31:26 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Yi Cong <cong.yi@linux.dev>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Yi Cong <yicong@kylinos.cn>
+Subject: Re: [PATCH 2/4] staging: rtl8723bs: fix double free when
+ register_netdev() fails
+Message-ID: <ammQLsniXJ4LwNRF@stanley.mountain>
+References: <20260729022509.2863634-1-cong.yi@linux.dev>
+ <20260729022509.2863634-3-cong.yi@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260729022509.2863634-3-cong.yi@linux.dev>
 
-checkpatch.pl warns that `msleep()` of durations <20ms may sleep for up
-to 20ms. As per `Documentation/timers/delay_sleep_functions.rst`,
-`usleep_range()` should be used whenever the accuracy of `msleep()` is
-not sufficient in order to avoid jiffy rounding.
+On Wed, Jul 29, 2026 at 10:25:07AM +0800, Yi Cong wrote:
+> From: Yi Cong <yicong@kylinos.cn>
+> 
+> When register_netdev() fails, the error_register_netdev label in
+> _rtw_drv_register_netdev() frees the adapter and netdev via
+> rtw_free_drv_sw()/rtw_free_netdev() and then returns _FAIL.
+> 
+> The caller rtw_drv_init(), however, still holds a non-NULL if1 on this
+> failure path and jumps to free_if1, where rtw_sdio_if1_deinit() invokes
+> rtw_free_drv_sw() and rtw_free_netdev() again on the same already-freed
+> objects, resulting in a double free / use-after-free.
+> 
+> Drop the freeing from error_register_netdev and let rtw_sdio_if1_deinit()
+> perform the tear-down, which is the single owner for this path.
+> 
+> Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
+> Signed-off-by: Yi Cong <yicong@kylinos.cn>
+> ---
+>  drivers/staging/rtl8723bs/os_dep/os_intfs.c | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+> index f31196f54b3e..ac401042faf4 100644
+> --- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+> +++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+> @@ -773,10 +773,12 @@ static int _rtw_drv_register_netdev(struct adapter *padapter, char *name)
+>  
+>  error_register_netdev:
+>  
+> -	rtw_free_drv_sw(padapter);
+> -
+> -	rtw_free_netdev(pnetdev);
+> -
+> +	/* Let the caller (rtw_drv_init -> rtw_sdio_if1_deinit) release the
+> +	 * adapter and netdev. Freeing them here would lead to a double free:
+> +	 * rtw_drv_init() still holds a non-NULL if1 and calls
+> +	 * rtw_sdio_if1_deinit(), which invokes rtw_free_drv_sw() and
+> +	 * rtw_free_netdev() again on the already-freed objects.
+> +	 */
 
-Replaced `msleep(10)` with `usleep_range(10000, 11000)` and replaced a
-1ms polling loop (`msleep(1)`) with `usleep_range(1000, 2000)`. This
-should provide improved scheduling tolerances without changing the
-minimum delay expectation for the hardware.
+No need for this comment.  These weren't allocated in
+_rtw_drv_register_netdev() and no one really expects them to be
+freed here either.  AI always adds obvious comments but eventually
+the kernel will turn into the Terms of Service text which no one can
+possibly read in a life time.
 
-Signed-off-by: Connor Sample <tabulatejarl8@gmail.com>
----
- drivers/staging/rtl8723bs/os_dep/os_intfs.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-index f31196f54b3e..ccac4c2c3269 100644
---- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-+++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-@@ -992,7 +992,7 @@ void rtw_dev_unload(struct adapter *padapter)
- 			if (cnt > 5)
- 				break;
- 			cnt++;
--			msleep(10);
-+			usleep_range(10000, 11000);
- 		}
- 
- 		/* check the status of IPS */
-@@ -1092,7 +1092,7 @@ void rtw_suspend_common(struct adapter *padapter)
- 	pwrpriv->bInSuspend = true;
- 
- 	while (pwrpriv->bips_processing)
--		msleep(1);
-+		usleep_range(1000, 2000);
- 
- 	if ((!padapter->bup) || (padapter->bDriverStopped) || (padapter->bSurpriseRemoved))
- 		return;
--- 
-2.55.0
+regards,
+dan carpenter
 
