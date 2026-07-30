@@ -1,85 +1,103 @@
-Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com [91.218.175.173])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B3F72EAB6F
-	for <linux-staging@lists.linux.dev>; Thu, 30 Jul 2026 06:00:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACA5C38DC76;
+	Thu, 30 Jul 2026 07:37:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785391255; cv=none; b=VdZ2PVihrR6moEshSO5G4cSKKuWQglXcUQqNI0Jp4k8spsI3IGrGMmqkASzVQZq99sSmi+bZAAjiNwsjceJQwcg4q2CwUnTmE8kZLpSWhKqOrEOG4ZYzt/c3kkBNeAW/1mzSCpNZRkKbHqntPJ5fWusaaYT47g8PcCVYOE0D8H4=
+	t=1785397049; cv=none; b=V5M7klNhijTsuHcBdWE62QMnwJj1R2KGO/sU3ukA7eJCw0Uyx+aICIi/VJF1S6OZD1mFQ366hdtf71BYW9daJaIkSdPBQGQQYAeozW5HhxrQ2UZg/eUcGmhmloVjEA5nqy4AqVbwpxB5eylc2u+5nIx4SEOUDVMevLlAFokcgcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785391255; c=relaxed/simple;
-	bh=f46phlbJp4xOCbYm0Rz6TMa0h9MPOPUwcjUWCOtdlbU=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=A8LR1sIb22ikt3wjYP/qVRulZR+WQsgKMxFU6lJ/iG/Q1ybmPgHiG0WCxbz6rFaIhTxgYfjD2tUrWoc3CwfltRpJ8vEqMRS4d+dGrPYcn/qk0BSq5yNjFM0jxd32NtsTbvUCEyzj4kmbAguN8oKRr3y7esLjGWyls8Gi8aqw4gY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=xEDN0djb; arc=none smtp.client-ip=91.218.175.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1785397049; c=relaxed/simple;
+	bh=sTXWlrJxI8pfdS+DYW5UrjBR3sUgKDeMCcZURiaRlUo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n9N/lmS524Q3RR1gQQmtBZZQ/jjmEw40LFYSErDiLgkAfsYqgNx7FhBt5C48/Wmr2h2wX2sf8YFelT3mP4o/hbSiCQrrXygOTThwyi9Tacma8xQsNfc2OGQidmLqaAxPLuZhZI+EcC6rPAmw0gQNcntPO0pYc0/pq6DwVobwnCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=MyaWkSq7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="xEDN0djb"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1785391249;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pEOlnZk1zo3OWh1B04mzdNRV4W0dMMt67+s7CACH6g4=;
-	b=xEDN0djb6C4Nehe7X3IM0i9g8eZq//ahG6YPpBrmknDQBzyqthE3oewTjfdJmSGMA6Z6Xx
-	0vSWM4QPk79LrAfOYfQjUUtrNLDNrSpQIi0xdGs5wswXrC7zED35W2hdVFexVgVb5LCt3V
-	XvSXwGBMbLFSxmGqYFS/iuiE8fUS2n0=
-From: Yi Cong <cong.yi@linux.dev>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-wireless@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Yi Cong <yicong@kylinos.cn>
-Subject: [PATCH v2 3/4] staging: rtl8723bs: fix NULL deref in c2h_wk_callback() on alloc failure
-Date: Thu, 30 Jul 2026 13:59:59 +0800
-Message-Id: <20260730060000.1944670-4-cong.yi@linux.dev>
-In-Reply-To: <20260730060000.1944670-1-cong.yi@linux.dev>
-References: <20260730060000.1944670-1-cong.yi@linux.dev>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="MyaWkSq7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69E711F00A3A;
+	Thu, 30 Jul 2026 07:37:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1785397039;
+	bh=pbhVyS0R521RsMNlGq20zsNsf28v0GVIwovNqermFz0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=MyaWkSq7Eeq0B1F6hliIkTd2cPAkKt4NSYeHmKQF7eo4k8KfkEgyOUX52ndfKoIfL
+	 7yRhptNeDLdhr8ZHnANzh3hLjjp94pC581pb8OqTIuaN4gZezqWzHZuBiOt4pGBFnG
+	 QIyd1WOFvXcli746ooHj+smCJCD/qQNDY6hJs/To=
+Date: Thu, 30 Jul 2026 09:35:51 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Dang Vu Duc Hien <dvdh12707@gmail.com>
+Cc: marvin24@gmx.de, ac100@lists.launchpad.net, linux-tegra@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	luquijeffrey@gmail.com
+Subject: Re: [PATCH] staging: nvec: fix out-of-bounds string copies
+Message-ID: <2026073012-unshipped-sketch-1de4@gregkh>
+References: <CAObkL7P+PnkEBpav6AVEPTyjiWsoOEBobUT2hrR=fay23FyO6w@mail.gmail.com>
+ <20260730041220.1064608-1-dvdh12707@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260730041220.1064608-1-dvdh12707@gmail.com>
 
-From: Yi Cong <yicong@kylinos.cn>
+On Thu, Jul 30, 2026 at 11:12:20AM +0700, Dang Vu Duc Hien wrote:
+> The function `nvec_power_bat_notifier()` assumes that `res->length` is
+> both >= 2 and within the battery info buffers.
+> Technically, `res->length` is provided by the embedded controller (EC)
+> and is unverified (ie. a malformed response). If `res->length` < 2, the
+> expression `res->length - 2` evaluates to a massive size_t value which
+> is passed to `memcpy()`, causing severe memory corruption. Conversely,
+> `res->length - 2` being larger than the buffer also causes an
+> out-of-bounds write.
+> 
+> Introduce helper function `nvec_bat_str_copy()` to safely handle these
+> string copies by:
+> 1. Ensuring that it returns an error to the upper layer along with a
+>    `dev_warn()` message when `res->length` < 2.
+> 2. Ensuring that it provides toleration by copying as much as it can
+>    along with a `dev_warn()` when `res->length - 2` is too big.
+> 3. Guaranteeing a properly sized, null-terminated destination string if
+>    the copy succeeds.
+> 
+> Signed-off-by: Dang Vu Duc Hien <dvdh12707@gmail.com>
+> ---
+> Note: Coincidentally, I have been working on this exact issue earlier
+> and had this patch prepared just before Lucas Jeffrey submitted his RFC.
+> I am sending it here to answer his protocol validation question with code.
+> ---
+>  drivers/staging/nvec/nvec_power.c | 41 ++++++++++++++++++++++++++-----
+>  1 file changed, 35 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/staging/nvec/nvec_power.c b/drivers/staging/nvec/nvec_power.c
+> index c514d51a9e57..12699515356d 100644
+> --- a/drivers/staging/nvec/nvec_power.c
+> +++ b/drivers/staging/nvec/nvec_power.c
+> @@ -117,6 +117,32 @@ static void get_bat_mfg_data(struct nvec_power *power)
+>  	}
+>  }
+>  
+> +static int nvec_bat_str_copy(struct nvec_power *power,
+> +			     struct bat_response *res, char *dst,
+> +			     unsigned int dst_size, const char *prop_name)
+> +{
+> +	unsigned int len;
+> +
+> +	if (res->length < 2) {
+> +		dev_warn(power->nvec->dev,
+> +			 "battery %s response length too short (%u)\n",
+> +			 prop_name, res->length);
 
-When the SDIO interrupt handler cannot allocate a c2h event buffer
-(GFP_ATOMIC under memory pressure) it pushes NULL onto c2h_queue as a
-"needs re-read" marker and wakes c2h_wk. In c2h_wk_callback(), if the
-re-allocation also fails, c2h_evt stays NULL and execution falls through
-to rtw_hal_c2h_valid(adapter, c2h_evt), whose underlying macro dereferences
-c2h_evt->id, causing a NULL pointer dereference panic.
+So you are allowing a malicious device to spam the kernel log?  If you
+really worry about malicious devices, this isn't a good idea :)
 
-C2H interrupts are produced by firmware/network events at runtime, so this
-is reachable under memory pressure. Add a `continue` in the re-allocation
-failure branch to give up this event instead of dereferencing NULL.
+But this is a platform device, built into the hardware, so you have to
+assume that it is NOT malicious and we can trust it, as we trust all
+platform devices these days.  If we wish to change that model, then we
+need to do more work on Linux than just stuff like this.
 
-Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
-Signed-off-by: Yi Cong <yicong@kylinos.cn>
----
- drivers/staging/rtl8723bs/core/rtw_cmd.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+thanks,
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-index b932670f5d63a..e9b1136dbf668 100644
---- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-@@ -1716,7 +1716,8 @@ static void c2h_wk_callback(struct work_struct *work)
- 					kfree(c2h_evt);
- 					continue;
- 				}
--			}
-+			} else
-+				continue;
- 		}
- 
- 		/* Special pointer to trigger c2h_evt_clear only */
--- 
-2.25.1
-
+greg k-h
