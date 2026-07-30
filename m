@@ -1,44 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCA8B38DC4E
-	for <linux-staging@lists.linux.dev>; Thu, 30 Jul 2026 07:38:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C578328B71;
+	Thu, 30 Jul 2026 07:39:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785397143; cv=none; b=mfXR2iZJE5q1EXW1s2cEOzuRO2bttOROoT3M1iGGO7KJCdS1MI9uUnpFYFsRJFYegXs+tibmOaDb9966eBBhy4/tfES/wr5NeKhi6Lwc8tc2KxL7gsUQudpGDGk+rzbaXe2/nVgxjVHfcLnFHqMTpxSAQmdhScgy80T3MLgMJXY=
+	t=1785397194; cv=none; b=lueeH5OSsxYrWE/rTEYyoQDeIunqpL4zlzohSjIDr3cLdGmGkCY/Sy9S2TXuAJDW9kI5R9VVJ4jBrnVy5xE5YOZWiKlz3aW+IqvOxub9ekVMAnpjwIRaaQelmDws/DCqMY3o9xjtMqEhh9kEU17TV+T4zuui+bi6478E+ihPZ+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785397143; c=relaxed/simple;
-	bh=xhU8Kir7iIRdFoo5ymKROv61SOQyoD7WOROeBO+65lI=;
+	s=arc-20240116; t=1785397194; c=relaxed/simple;
+	bh=3P112EVIHzjzV+HRW3sycyMQC8VD6eJ4jtjN/mILxzo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tpjmilX8spwegFjHre8hNro/5W/Ko+os1HuVB2zOyFuy/TK3YrfYiIGnUXhm2K9iQm23DnTtT6+q9qDUZdW0XbwqQ85tAnaenoug6kGr3QkqyjWxtmPztYHeU2YWTE7CDUDSQOo8JAVXk5uhE6+U62kzLqrQcIlVxAFKNmL/3bQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ykcS9s3N; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=tNmgyk/yWBYQV6jo8I62NN4cawr+3vTc5h41VLQDmp/rZWsRGqQg+fE8aPp4v8gpucxNS6Q+bNf33pMMIsortCuioIUjaxb6sruLC52tbVRcx8vTahOXTbnTR5MPdIrQnmr+X0N012a/BvPi2t3RTwK4JJaB7s6uJckevrs+tIo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=e8U9t4NX; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ykcS9s3N"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EB7A1F000E9;
-	Thu, 30 Jul 2026 07:38:57 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="e8U9t4NX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 051A41F000E9;
+	Thu, 30 Jul 2026 07:39:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1785397138;
-	bh=3Q+xiFKJLeGmM2p2kQQMRUm5RlUkpcAF2rzPVwUyBZQ=;
+	s=korg; t=1785397192;
+	bh=svLe7s4QjDfCesasTA8vn+XDkYAYv+K8Z0uBYaXxNEk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ykcS9s3Nqh4dMYuTC00glsjPYWICYJZnC8p0amd23KQm1la7Iv9Q9mFfpMSBXIJyT
-	 86TMC/CdvBbW4jvlTsm9VBXa3jszPQwC179KnNx8Ihr8ZYec4nlt9rblg3V03cWIek
-	 Kob7SsZ8jBa163hG3L25JVHKgniUTgq7HRdsvT9Y=
-Date: Thu, 30 Jul 2026 09:37:31 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Connor Sample <tabulatejarl8@gmail.com>
-Cc: linux-staging@lists.linux.dev, Ethan Tidmore <ethantidmore06@gmail.com>,
-	Nikolay Kulikov <nikolayof23@gmail.com>,
-	Dan Carpenter <error27@gmail.com>,
-	Luka Gejak <luka.gejak@linux.dev>,
-	Khushal Chitturi <khushalchitturi@gmail.com>,
-	Hungyu Lin <dennylin0707@gmail.com>,
-	Samasth Norway Ananda <samasth.norway.ananda@oracle.com>,
-	Adrish Bora <adrishbora@gmail.com>,
-	Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
-Subject: Re: [PATCH] staging: rtl8723bs: os_intfs: replace msleep with
- usleep_range
-Message-ID: <2026073013-tattling-herself-8f46@gregkh>
-References: <20260729052040.249972-1-tabulatejarl8@gmail.com>
+	b=e8U9t4NXHdEc2hbcy8XNay9RnFTFhWgYKw3EoY+v2IVGBZK1z9nPZBZosXh6qsW2D
+	 R6i14C85FJdNGeNR9XfxMGHWEdkdGIsXOKKmD1BC/q0oJmKOG8GTNwjbyJgF21aaOu
+	 6s1qEdIlULS8e4rScGzw4nGjwTGOoWryW+ITE2Jw=
+Date: Thu, 30 Jul 2026 09:38:25 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Yi Cong <cong.yi@linux.dev>
+Cc: linux-staging@lists.linux.dev, linux-wireless@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Yi Cong <yicong@kylinos.cn>
+Subject: Re: [PATCH v2 2/4] staging: rtl8723bs: fix double free when
+ register_netdev() fails
+Message-ID: <2026073007-handoff-pajamas-63a3@gregkh>
+References: <20260730060000.1944670-1-cong.yi@linux.dev>
+ <20260730060000.1944670-3-cong.yi@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,18 +41,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260729052040.249972-1-tabulatejarl8@gmail.com>
+In-Reply-To: <20260730060000.1944670-3-cong.yi@linux.dev>
 
-On Wed, Jul 29, 2026 at 01:20:38AM -0400, Connor Sample wrote:
-> checkpatch.pl warns that `msleep()` of durations <20ms may sleep for up
-> to 20ms. As per `Documentation/timers/delay_sleep_functions.rst`,
-> `usleep_range()` should be used whenever the accuracy of `msleep()` is
-> not sufficient in order to avoid jiffy rounding.
+On Thu, Jul 30, 2026 at 01:59:58PM +0800, Yi Cong wrote:
+> From: Yi Cong <yicong@kylinos.cn>
 > 
-> Replaced `msleep(10)` with `usleep_range(10000, 11000)` and replaced a
-> 1ms polling loop (`msleep(1)`) with `usleep_range(1000, 2000)`. This
-> should provide improved scheduling tolerances without changing the
-> minimum delay expectation for the hardware.
+> When register_netdev() fails, the error_register_netdev label in
+> _rtw_drv_register_netdev() frees the adapter and netdev via
+> rtw_free_drv_sw()/rtw_free_netdev() and then returns _FAIL.
+> 
+> The caller rtw_drv_init(), however, still holds a non-NULL if1 on this
+> failure path and jumps to free_if1, where rtw_sdio_if1_deinit() invokes
+> rtw_free_drv_sw() and rtw_free_netdev() again on the same already-freed
+> objects, resulting in a double free / use-after-free.
+> 
+> Drop the freeing from error_register_netdev and let rtw_sdio_if1_deinit()
+> perform the tear-down, which is the single owner for this path.
+> 
+> Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
+> Signed-off-by: Yi Cong <yicong@kylinos.cn>
 
-Please see the many places in the mailing list archives where we have
-rejected this same patch :)
+You forgot to use the proper "Assisted-by:" tags for this series, right?
+
+thanks,
+
+greg k-h
