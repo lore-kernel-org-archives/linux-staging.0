@@ -1,79 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0D883290B1;
-	Thu, 30 Jul 2026 05:58:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40CE4318EE2
+	for <linux-staging@lists.linux.dev>; Thu, 30 Jul 2026 06:00:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785391114; cv=none; b=DxHKxYCAixPbm6tqhBW6EhYuBp6N4F5Xw6BsSsfZrTBN5EV5t/7lreFXfq3u482WnySHcYNiXShJv+IrDpXMDp9X1X4M6LnSnHQwnJ0ZOeeFINjl6dLDkMvkggn61zCNfnWyRH8dLP2Qb0xkIdypLKdDkL7GvD3Zmvx+9zn1wyQ=
+	t=1785391253; cv=none; b=gny/DrebMMYg1If6fzVA72HX57yQLLyb7muVmrMRKsEAfEjYjF6f4r4DlcABx574pETZEf5i9C+mvcnJ5rsXF+aVICW5ryBUqtrmohk2k9J3SAG85Kko/0hX5CGjvkkwHtpw8EE5Cw9EgkVMjJB2p4/43iLuEnQz+ewgM5xzVuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785391114; c=relaxed/simple;
-	bh=un52Y5ytqKTXxuWC9lsn6S8NL+m2fHtUrr+94XuLY48=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ClWTjmz4j4R9UkfYovauRI2TsuWjIMqXiy1zBSPOii4iS9DzdcCawF1NidFMg2V1NqGdHe9FGGw4l7dPfq/WHD1hgyzjqMB6nGq+rM+hMfwa3LoE1KCgOuzrfZFICdDpnXND21uCYHp6Mix0hdpCncYPZiWmKiaBbZ43Kf3kxmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=sGIH1I2Z; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785391253; c=relaxed/simple;
+	bh=ynMYypmn5ysbWiN30VtMcICo3hX6NAlQlQjdlWjI4qo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=EwcEvzWFhvmy9Lry3jOlhOhSUXlftfnVsiCvu+KAsyitkKVYpajnk+keBrct3ULXlDxf7C0/5gvenle6ZfBRowWVIvwyD4anhJ0uRllmF7EfABFsD4WmogKk6uvj27Pmu86af69m4BDVkf98eibMK05gC6ZJVGBnMYy7SbnqKTk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=FMY0IwKl; arc=none smtp.client-ip=91.218.175.185
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="sGIH1I2Z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68B6A1F000E9;
-	Thu, 30 Jul 2026 05:58:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1785391110;
-	bh=zYRaQsU+lJFibNVhjhO85r9BF3r2QJt3MSd5Lc7ZXO8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=sGIH1I2ZER6jubK9avtXVMt9/wXWxHwWaFO6BHAguSd0731zsAituGgzZldAk3CJM
-	 CY0ZejN/4aQSDq6+bLvVMX1CJjrLA1Y/gb2ggdqgulpj/6x8kBu/KdB14CjYnIs5Mz
-	 jIIzxgeP4g7FdqFP1XdCfpPLMCUY6vE3t4c+csrg=
-Date: Thu, 30 Jul 2026 07:58:16 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Lucas Jeffrey <luquijeffrey@gmail.com>
-Cc: Marc Dietrich <marvin24@gmx.de>, linux-staging@lists.linux.dev,
-	linux-tegra@vger.kernel.org
-Subject: Re: [RFC] staging: nvec: possible missing bounds check in
- nvec_power_bat response handling
-Message-ID: <2026073001-bunch-aloft-63f8@gregkh>
-References: <CAObkL7OJBp1OkXud7cJvp-a5qA5ozZfE2Ee8j+w6XdfoXZ0z_g@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="FMY0IwKl"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1785391241;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=fZaxHH3KnRE/0ZxJ2fFGzrck1ahoFs+0wEpIO4BVcC0=;
+	b=FMY0IwKlb5U1OaKoUW0qtY0KChcYOtZukLmgR2AxZ3qTFOkYJ4TWLe4RyZDMphtjX+rs3K
+	pnK405CsxAeOI7FyYvpslBiNMkr93DpYWpMwvrgQ0e7TBIgVXrzc5ZE4I8g8oUd+QKkvX3
+	xIbENp3InKH+UdYwNP4OsFB75X2D6UQ=
+From: Yi Cong <cong.yi@linux.dev>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-wireless@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Yi Cong <yicong@kylinos.cn>
+Subject: [PATCH v2 0/4] staging: rtl8723bs: fix several memory-safety bugs
+Date: Thu, 30 Jul 2026 13:59:56 +0800
+Message-Id: <20260730060000.1944670-1-cong.yi@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAObkL7OJBp1OkXud7cJvp-a5qA5ozZfE2Ee8j+w6XdfoXZ0z_g@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, Jul 30, 2026 at 12:09:01AM -0300, Lucas Jeffrey wrote:
-> Hello Marc, Greg,
-> While reviewing drivers/staging/nvec/nvec_power.c I noticed that the
-> battery response handler uses the length field from struct bat_response
-> without validating it against the destination buffer size:
-> nvec_power.c between lines 120 and 220:
-> 
-> static int nvec_power_bat_notifier(struct notifier_block *nb,
-> unsigned long event_type, void *data)
-> {
-> struct nvec_power *power =
-> container_of(nb, struct nvec_power, notifier);
-> struct bat_response *res = data;
-> (...)
-> 
-> switch (res->sub_type) { (...)
-> case TYPE:
-> memcpy(power->bat_type, &res->plc, res->length - 2); //res->length is never
-> validated that is in a valid range, //according to the plc field in the
-> bat_response struct it should be smaller than 30 (...)
-> 
-> }
-> 
-> return NOTIFY_STOP;
-> }
-> 
-> 
-> The same patterns patterns exist for MANUFACTURER and MODEL.
-> My understanding is that res->length comes from the NVEC embedded
-> controller response. If a malformed response contains a length larger than
-> the destination buffer, this could result in an out-of-bounds write.
-> I would like to confirm whether the NVEC protocol guarantees these length
-> values, or whether the driver should validate them before copying.
+From: Yi Cong <yicong@kylinos.cn>
 
-The hardware should be trusted to send the correct data.
+This small series fixes four memory-safety / resource-management bugs in
+the rtl8723bs SDIO staging driver.
+
+v2:
+ - Remove some redundant comments in patch 2 and patch 3.
+
+v1:
+ - https://lore.kernel.org/all/20260729022509.2863634-1-cong.yi@linux.dev/
+
+All four are tagged:
+
+  Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
+
+  1/4 - kfree() used on a vzalloc() allocation (HalData) in the probe
+        error path.
+  2/4 - double free / UAF when register_netdev() fails: the error label
+        frees objects that the caller also frees.
+  3/4 - NULL deref in c2h_wk_callback() when the re-read allocation under
+        memory pressure fails.
+  4/4 - NULL deref on a bcmc station lookup in the 802.11 defrag path,
+        reachable from a fragment with an unknown transmitter address.
+
+Yi Cong (4):
+  staging: rtl8723bs: free HalData with vfree, not kfree
+  staging: rtl8723bs: fix double free when register_netdev() fails
+  staging: rtl8723bs: fix NULL deref in c2h_wk_callback() on alloc
+    failure
+  staging: rtl8723bs: fix NULL deref on bcmc station lookup in defrag
+    path
+
+ drivers/staging/rtl8723bs/core/rtw_cmd.c     |  3 ++-
+ drivers/staging/rtl8723bs/core/rtw_recv.c    |  5 ++++-
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c  | 14 ++------------
+ drivers/staging/rtl8723bs/os_dep/sdio_intf.c |  2 +-
+ 4 files changed, 9 insertions(+), 15 deletions(-)
+
+-- 
+2.25.1
+
