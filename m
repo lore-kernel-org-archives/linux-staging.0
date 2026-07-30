@@ -1,154 +1,118 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EFB2337BB8
-	for <linux-staging@lists.linux.dev>; Thu, 30 Jul 2026 09:45:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A62783B6C14
+	for <linux-staging@lists.linux.dev>; Thu, 30 Jul 2026 10:38:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785404760; cv=none; b=uZZXudmT9LaXgEYFKyaDsM9IlzZuVoyaRTYP/QHCZQKvdmYB5dfEA0nOjTPg+pmLpnYbWPT41D//1gKmesURd4QZU1siDh7zwkEyefSHHnEHXKZRy1RrPvoCv+xIkyX0fd0GvVH0PpcGTylW0rAKkxI+NwS6SllTrP9MeQibd+8=
+	t=1785407883; cv=none; b=WkWuUdIDpjCz8h6en45uqkWUvSv3AvNRP2V/GSChib7A7AAsPsi/o1Jmga2pdkSCJHDr4AV0ETFHIQ7VL9A0A9MEx1rWO8fDl/KEDVJHgHsu2ewRG48qT2hdy7hRjNgGeqOV52+jXR5e1Cp4h4qZaIHestwKbFdsjpgbiP8yDak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785404760; c=relaxed/simple;
-	bh=FEbxtOCMm+1zTlknwYYR45DhD/+98s/zCd3MSrKtwJg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pmErY8wABcDISp6ZLcCy3Eyt1qLuZHGSJPROkJPT3niT3Hi/saxMbv4bp97x7nn6M+0T/hi+nz7dNP8KL1u7fSgMHW2uhjeuFFVQIT+ovz011HOhWrJ1nc3+Jb1yjjKGJQE/4vlzx8omOP0e1uloLjZp1Vc8cBz100wpVnXRNDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cmZeFlwS; arc=none smtp.client-ip=209.85.167.44
+	s=arc-20240116; t=1785407883; c=relaxed/simple;
+	bh=C+XIta/PnXbHgq5uX591/FuJJN/cSTbjopEz3wI5Rjw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Nsz32p9HrUuqqh+FEF4SR+Wk6R2tMxXaJoF0kBGCyZx23kAnVF+vSBucCQd5V2KZaaTIBz/HOvsux7NMobwseImMcxhEuoRBB/MZCrW2/4HLDa9QBO3lD1FELKw9P/EjCnEp+c1PAjChFWJyw+b4KhK0lXML/QMRpdem/etedoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jrNa9N1W; arc=none smtp.client-ip=209.85.216.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cmZeFlwS"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5b0117dda13so1910824e87.0
-        for <linux-staging@lists.linux.dev>; Thu, 30 Jul 2026 02:45:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jrNa9N1W"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-3810c5d691bso1772928a91.1
+        for <linux-staging@lists.linux.dev>; Thu, 30 Jul 2026 03:38:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785404757; x=1786009557; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=mWDRAM6ScA6tepJC1oPzWjfjIMkzBdpkHj1B47+vimc=;
-        b=cmZeFlwS7CwkJFrpQMi6DW04ZNAiRTceCp0UNfO39LCu4hwc3wPQPmyf1Ah5Db3lvZ
-         AFHSBFgClkvUmth4p/EC1Pu0V5QbGHwXWo85ilZp304joDGs/hGzUtOywuJ7oThKbcck
-         dX5HlrtqFhTfOxZhN+g41ZDagOcr9etEdlDU5FzIT5sARoj2bv6S+RyiYF/qqaH8gucj
-         eIwQ3dJA1jMq0jNFm8HbpaO9HlDy3MR/nPCBdp3pPMy2cBTFgwFIhJ9bzb2DJ8xuL7hy
-         mv/MmUWFXxv5uGMAiZQgF6l1FsELL7eeOAPOCtewJdLQyp2Q/lLGN2lieYrvhtPK1Zo1
-         7UCA==
+        d=gmail.com; s=20251104; t=1785407882; x=1786012682; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=MXK6Swv7vBgoQF3j9El0Te9ljuWn43Xnd3oqzZNewrA=;
+        b=jrNa9N1Wz2004SAXAMnVV5G4LmBFH7K4lMO5u644h2mdqtJPB36mg+jZDvfKy6XcIn
+         lizsWWuGhli0yG853OikuQRue24AXenvcMA/v0/3L8tmg3LnwY7WbachC+xjtnlBFr05
+         5FLblS10fD9wG5ZYdBmRCL6sj+u+3S6cvZXloIPkqsZYwzLzZXnUz38Qu6mTWvCtiSv6
+         fQkQrnHHg5jVOkaWj6lh6PRR6cMNbE0uU9YJVcH+98sRf1qrFd3erHm6aFpY3ObFvDYj
+         xcUJF17Fg+l89WiLOKI8p62ocwgIHonrjXIwcUjZMmY2URIc+lgiGh6vz9M1gqRHl+j1
+         DIhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785404757; x=1786009557;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=mWDRAM6ScA6tepJC1oPzWjfjIMkzBdpkHj1B47+vimc=;
-        b=LEM1TNNZPUyWcjaKkvfOZ4l2AeAHtOqb5cUKyIpFJcZDw4HbIE8NWqp0iPub/zGODi
-         BTOtFxHbFvTF+oLQ+bsSbhob2Azz6hA0E5XlQwlEABX24eaQ3co/5kZEOzW7wVb8JGUm
-         dK5stBbA+lrjxy8XJT5V1hofCklGvPrtyFybdF9uv5APSfinZvMcyhpMREvraqP9lWTw
-         EVL6a1oP/qIADxeV+eImj8g3riMsVk2bQsDUaYBbnpDwYLdaETJpyHibAPShezP/Nxf7
-         /fyiGtZWNJBW/ceeidq8zIa2pk5TTpO15Bqo82EGBe/kJPKIJi3btoWRpx19DQhvPkI4
-         z4zQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqBj6FkuRzucnI9+7JW3MNHB9a7QFOn9GCp7wPMhP33GnDA83WkLPNADtiu8TadWoIJIcoH1e8YE9ikkEyR@lists.linux.dev
-X-Gm-Message-State: AOJu0YxRPSiP3NhRsH3sVUefBqARq5iYAYXktga4GkAwO+7oyy9zUf6w
-	o3NBFgnfdKGBZQxhZZ5aFV6Pfjmlmh/gOOUw8UPvThJlSw/KrUZScWcj
-X-Gm-Gg: AR+sD11XnAxFOkqVTKqJeCRkTQhaBgUXTMoHJooZ2qkFzMzpte+T0MEMiGhhDA56n4V
-	SEuCaBuWYLGuXTas91jy2kXlB6GBmZ3n7qy6Xh/byubA6M4+fHd6edEyFJPiKQNRrq5vM8fC9cr
-	obBXIVOV1n2BHmS/V5J0Wda63eIwU5MdEEeHhfKwps3Lf53hEIB0GhmkArTaOrV87irb7Xfi6Go
-	rskW+Djy4B+/8T8nDcfSYfxkLigfMeA88qfEQF3bLBP35lKI8lHAYFeLbzbNCX07mO31wLZDKPS
-	0MQjEg2kagvivmpZge2eLEU/ZT5fH4J+dN9Iqq6djPB9nNhPbGufBvk/qJmD6R5t7O7Be28UX5q
-	LTOAFA5y4H7SHH7XY2quDQbmS3oaDHvhYLgaQ0C7pmOudT55Rtsir0gegMnHwc3Bm5RNAk4bLgA
-	XqsC365WWsfNO9tS+yimTX6DEJljNFDzcldcRwtkZMy4ZvUMRwnoSROuskzDk=
-X-Received: by 2002:a05:6512:350c:b0:5b2:9c0e:a2d9 with SMTP id 2adb3069b0e04-5b2db3916a4mr379748e87.65.1785404756912;
-        Thu, 30 Jul 2026 02:45:56 -0700 (PDT)
-Received: from archlinux ([94.229.19.199])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b2db942d75sm226698e87.3.2026.07.30.02.45.55
+        d=1e100.net; s=20251104; t=1785407882; x=1786012682;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=MXK6Swv7vBgoQF3j9El0Te9ljuWn43Xnd3oqzZNewrA=;
+        b=d2l10jvqPPD/BZHVCh5V3+1mK7HxOgy9ookifn/NoKoO8twT3f7iKZbdFDp5EY8CG9
+         4zi0KLv2osMk3Jsu37d3GkCTRL08P4SNnk8MqAW4k4BmMkqjMrnQIHOp+W6Lf9hBGwWA
+         kZRAEcjVdYmpirRh+rACUM7N//SOttEjGA9j8yLSWB8NuvCwIvWvD5B9ImCFxpKn6siE
+         nxPjPXhU7u9D0a0ZxbDWxXFCJWpTSdDIzO1Rgq+dpbnA1dwNq+BPHs6m8QcKYTq8Ufu3
+         kZtWqvmrrnmGolQTh8G+wTgWBdO+GYREaWMu0/wBd3Oevzho3Q4eH0wdWFQgczJkEFf0
+         88vw==
+X-Forwarded-Encrypted: i=1; AHgh+RpCfwyp05rQI8zsBXetVCNZ6/8IKwuwH4hwCINFdyLBs7eqVc2yhk8zJ/A9Ai0o58KndTRV+MWn/oBJo7Gp@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzz40r3O43Q9BnbMeLx9CK6Mk8L8jUcAn822nZuMtLCoo6a4ZF4
+	lZcq6T8AELH2Z++j7YDe0BO7BYBE4XsTfoFC9Yq1GUo71TrcnC0+Ekp1
+X-Gm-Gg: AR+sD10zpCZz9J23oYmyPaBvA0h70YFuNFliVNOU/2OokuXW1kAtUliUgNqPbfh2w0O
+	+HGl+Gaxp2D4L5laCjAdG1U1bkqhPcmZDWj2fS1QPqCHIL/lZFUe77cNG4MHXByvIhg//L0lAE+
+	m/eaRln+BIch+I98vYdQYRi0PGQp3CF2KIU15uCjsN0xaDENojxdiSBCjOtzzWmLHa0nYgx7H51
+	ZohultAdvlOOFcGXTJqoqMCGLPHQqB6KCEhVjLXdYPlVRNsAc+3PPQ428aquspbixJ1X7nnSfQL
+	/hvLWHzCDgPCniPH5urTX9ZoDFNZ1nqm/dpjuDdqGoYWo9oavxNdHKlf1hk3V4Dks+jhMgsJhph
+	U4GZkqK3l4n17fSpF3u1QbxpdSutCPAXUGqx3FQq7gZpit+Y/29Wu/VmvfFQSqL+JIbqJEgYdfX
+	NMSA2LkTFo4/5bis+6qvaoHJOMhEn2+ctYaT/OS1w7yt6/TFeBiDEuQO8EPbIbw/3ZFqHAqop3Z
+	/uPzOo2LSg/sWyZ
+X-Received: by 2002:a17:90b:6c4:b0:380:a568:cc4e with SMTP id 98e67ed59e1d1-38f9bd632b4mr1766643a91.9.1785407881826;
+        Thu, 30 Jul 2026 03:38:01 -0700 (PDT)
+Received: from SGN-LDSENG.tasernet.com ([2405:4800:5cc3:11a:1ac0:4dff:fe8b:4a69])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-38f9b42d176sm837532a91.4.2026.07.30.03.37.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jul 2026 02:45:56 -0700 (PDT)
-Date: Thu, 30 Jul 2026 12:45:53 +0300
-From: Nikolay Kulikov <nikolayof23@gmail.com>
-To: Mohit Mishra <mishraloopmohit@gmail.com>
+        Thu, 30 Jul 2026 03:38:01 -0700 (PDT)
+From: Cong Nguyen <congnt264@gmail.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: fix underflow logic in swing index
- calculations
-Message-ID: <amsdUftM4DIS7s_z@archlinux>
-References: <20260729172707.13333-1-mishraloopmohit@gmail.com>
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] media: staging/ipu7: fix async notifier UAF on probe error path
+Date: Thu, 30 Jul 2026 17:37:54 +0700
+Message-Id: <20260730103754.1480367-1-congnt264@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260729172707.13333-1-mishraloopmohit@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jul 29, 2026 at 10:57:07PM +0530, Mohit Mishra wrote:
-> In ODM_TxPwrTrackSetPwr_8723B(), the baseband swing index variables
-> Final_OFDM_Swing_Index and Final_CCK_Swing_Index are declared as u8.
-> However, their calculation adds Absolute_OFDMSwingIdx, which is a signed
-> 8-bit integer (s8) and can be negative:
-> 
->     Final_OFDM_Swing_Index = pDM_Odm->DefaultOfdmIndex +
->                              pDM_Odm->Absolute_OFDMSwingIdx[RFPath];
-> 
-> If the resulting sum is negative, it underflows under u8 rules (e.g. -5
-> becomes 251). This causes the lower-limit checks (e.g. <= 0) to fail,
-> and in MIX_MODE causes the logic to execute the "BBSwing higher than limit"
-> branch instead of capping to 0.
-> 
-> Additionally, in BBSWING mode, the check for CCK underflow mistakenly
-> examines the static struct member pDM_Odm->BbSwingIdxCck instead of the
-> newly calculated Final_CCK_Swing_Index:
-> 
->     else if (pDM_Odm->BbSwingIdxCck <= 0)
-> 
-> Fix this by changing both swing index variable types to int to enable
-> signed math and correct branch selection (aligning with the TODO item to
-> convert remaining unusual variable types). Update the CCK check in
-> BBSWING mode to examine Final_CCK_Swing_Index.
-> 
-> Note: The fix is scoped to the calculation and branching logic. When
-> passed downstream to setIqkMatrix_8723B() and setCCKFilterCoefficient(),
-> the values are already clamped within [0, 42], fitting safely in u8.
+isys_register_devices() registers the V4L2 async notifier via
+isys_notifier_init(). If a subsequent probe step such as
+isys_fw_log_init() fails, isys_probe() jumps to the out_cleanup label
+which only calls isys_unregister_devices(). That helper tears down the
+video devices, subdevices, V4L2 device and media device, but never
+unregisters or cleans up the async notifier.
 
-There is no need to try to fix the check in BBSWING mode - it never
-executes and can be removed.
-The ODM_TxPwrTrackSetPwr_8723B() function is always called with 'Method'
-set to 'MIX_MODE' (see hal/HalPhyRf.c, lines 252 and 255).
+As a result the notifier stays chained in the global notifier_list while
+the enclosing struct ipu7_isys is freed by devres, leading to list
+corruption and a use-after-free the next time the list is walked.
 
+The remove path already does the right thing by calling
+isys_notifier_cleanup() before isys_unregister_devices(). Mirror that on
+the probe error path so the notifier is unregistered and cleaned up
+before the device is torn down.
 
-Thanks,
-Nikolay
+Fixes: a516d36bdc3d ("media: staging/ipu7: add IPU7 input system device driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Cong Nguyen <congnt264@gmail.com>
+---
+ drivers/staging/media/ipu7/ipu7-isys.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-> 
-> Compile-tested only; no hardware available for testing.
-> 
-> Signed-off-by: Mohit Mishra <mishraloopmohit@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
-> index 6c5f56d5a1f4..4e89847700f3 100644
-> --- a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
-> +++ b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
-> @@ -160,8 +160,8 @@ void ODM_TxPwrTrackSetPwr_8723B(
->  	u8 PwrTrackingLimit_OFDM = 34; /* 0dB */
->  	u8 PwrTrackingLimit_CCK = 28; /* 2dB */
->  	u8 TxRate = 0xFF;
-> -	u8 Final_OFDM_Swing_Index = 0;
-> -	u8 Final_CCK_Swing_Index = 0;
-> +	int Final_OFDM_Swing_Index = 0;
-> +	int Final_CCK_Swing_Index = 0;
->  
->  	{
->  		u16 rate = *(pDM_Odm->pForcedDataRate);
-> @@ -217,7 +217,7 @@ void ODM_TxPwrTrackSetPwr_8723B(
->  
->  		if (Final_CCK_Swing_Index >= CCK_TABLE_SIZE)
->  			Final_CCK_Swing_Index = CCK_TABLE_SIZE-1;
-> -		else if (pDM_Odm->BbSwingIdxCck <= 0)
-> +		else if (Final_CCK_Swing_Index <= 0)
->  			Final_CCK_Swing_Index = 0;
->  
->  		setIqkMatrix_8723B(pDM_Odm, Final_OFDM_Swing_Index, RFPath,
-> -- 
-> 2.43.0
-> 
-> 
+diff --git a/drivers/staging/media/ipu7/ipu7-isys.c b/drivers/staging/media/ipu7/ipu7-isys.c
+index cb2f49f3e0fa..bf262c01a2b8 100644
+--- a/drivers/staging/media/ipu7/ipu7-isys.c
++++ b/drivers/staging/media/ipu7/ipu7-isys.c
+@@ -773,6 +773,7 @@ static int isys_probe(struct auxiliary_device *auxdev,
+ 	return 0;
+ 
+ out_cleanup:
++	isys_notifier_cleanup(isys);
+ 	isys_unregister_devices(isys);
+ out_cleanup_fw:
+ 	ipu7_fw_isys_release(isys);
+-- 
+2.25.1
+
