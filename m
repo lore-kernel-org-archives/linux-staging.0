@@ -1,74 +1,72 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1D123CFF5C
-	for <linux-staging@lists.linux.dev>; Thu, 30 Jul 2026 23:20:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C031233954
+	for <linux-staging@lists.linux.dev>; Fri, 31 Jul 2026 00:01:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785453640; cv=none; b=l8/utgcE2RdXBg8yB3hlhHuCAFx4w1zR9s45K3usTKsHjqMuHPF7MRigvB62stqRID1WVKSUqXpNA34d2F26HZIJeMieC+632FA7+8klsLci5zY43bbWoy+oZ6ueNIE42CpTd5dHkQjRO150Dm2lxqAzTLhLMNG34r57BUpAGDA=
+	t=1785456115; cv=none; b=CUFKaSJncdzD82SJkyPJL0sPykdeqTeBROi3kOGtpLA1xsvMMY5cCYMYKeKRPHYphNY8ynSSPt0J6sMvbzvir39vdhAIzgtLz//ek459Fsbiw8X8oIv3s8vmScB8boJIKFkXrjvzXPX3XWMrpMmT+2ZfueBBFAgyic7a3jSNlWA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785453640; c=relaxed/simple;
-	bh=EgABQERAhR/kn5tIoo+6A9BnW0/pEBPIcp/Nu23W8Tk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mSXkJ0Zkv1yd7yw0KAy/rSaThKDBz701PK/0n0PtXb47ifKO5vCa0iXsLKOd+Tj31Iswosf1gwoyMaOHOACUGx689TaYITg8j1QZlIs5jAAI9gSJxIzTsHOuDL/ePyjWiTv5l6esXyzhzJqwuToXrQA+PnoPdcHdcKVJRPCCFEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d3ZwuvtC; arc=none smtp.client-ip=209.85.215.179
+	s=arc-20240116; t=1785456115; c=relaxed/simple;
+	bh=9ZRwQjPCaizQ4bN+gZRfSXmYVFs2bqgBTDrFloTFsnc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=h+UbL3xvBJkVHfwJoyVAJxtxNOmB5aKHb2UB6qh0hM0afWQ97D+bcH0hp1GtThOp0W/yu9JnC2r4luLk6QHDRaze6ySZDm4hxdSd7ryNUK265wyLzBXQ/ngsV6F2PXi8x6UoDP2oyvnwimD7C9N0EwdkVWX3OFP9qRh7Xd30JSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MJDbSfsB; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d3ZwuvtC"
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-c9e7391839cso286832a12.0
-        for <linux-staging@lists.linux.dev>; Thu, 30 Jul 2026 16:20:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MJDbSfsB"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2ceb096e675so4675005ad.0
+        for <linux-staging@lists.linux.dev>; Thu, 30 Jul 2026 17:01:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785453639; x=1786058439; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=EgABQERAhR/kn5tIoo+6A9BnW0/pEBPIcp/Nu23W8Tk=;
-        b=d3ZwuvtCcuBRRyKMrq2WAY6qQyPeW4sbCuACAe1XA+Hn8WqbGxYJamGBYXLiXw8Mzq
-         p8Vy9JN9PBtLKxHzv22kU/aqasYy0/pSaDwWgqTIXKKoAylg9hTfzSL69BJM2bG6rsp7
-         pVTVvCojSHkRC62ECFIE8vgR/9/usjsuj4AM1jbBaBIEOsGXa7IVgAJY1Yu1KoVvnfam
-         YwB+92WK0uYJpFrQDoYTkuqzwD2Kh9XvPJVqwj8SLnfXNt/m6vDZ964gcwbyD6JPOrg6
-         kMbB9YKE4jFQuAtwr0lwQKEgcXm+iuCXIlRbuATdcZaDXAjmiKYTL/sFBOzZTSpT2yBk
-         CZHw==
+        d=gmail.com; s=20251104; t=1785456113; x=1786060913; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=nE9dZ9awcdUrGQCJeMJn5hlWnAUsMViLR5JL6xcAB4k=;
+        b=MJDbSfsB+EHIuaKrV8TmbeLGuaf+VFRkOw/Dml/re2DeMETQGOGIK7L22ViTFNKgA2
+         Bebs0Ls/bAvMQK3AiwZ/KZnnVTNAHL7WH6DXutgc25FmezylsBUp0QbO6unIJCijyFsM
+         QsjtbitjHdVzLJQfSQnfhuJmGnuXmVmZLRJTlqElcOUecIPFTHldUnQberTxTXTlkyYo
+         46beMka4aQd/RuybycN4BLPh2CghGRHoJ0/sZREkG0h1moIQqKLy4OU7vlUhh5qKyjdZ
+         1P88gshfWMzjxtwLShyEMrBwbZLnBSnrBP4skvNKXVMLy0Ar49y/6P7EXpoxv7AM6xPu
+         li+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785453639; x=1786058439;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=EgABQERAhR/kn5tIoo+6A9BnW0/pEBPIcp/Nu23W8Tk=;
-        b=Kf0/Z+ldaWUYpIJHulU1hRH2ui/ooY+LuRyxoqKKFRLM6z++QXmzoKKEV6fitjn/r2
-         K3bNdGawN/8Lf2ZTH7ouUUOXxvOKWf06yLvBxeCuv6zPgmiSWV/9GBcJBI02ZFIW29kG
-         3HGkKppGvtnSB3vREbq3lfZKjhz0e3xJpyC2SaAvhM6hjsyYKgI4+DsGYf/47wJpEmBt
-         hwitoOZJIcpkwJUheILSSD6Lgi15kckfCsT6ks8lD7kHcr9scuJ+czW5O24w4GNzM+lv
-         t/nQk6hGbSPlxLNcNgvVqgNecyo3k7ycLiAdR3Qu7f/qqwEhCal61TOgnXeMNW2eXeQC
-         Uleg==
-X-Gm-Message-State: AOJu0YyNpbeZ0ppcGqsBT+OIbAUAwo59U2GCIp+Gs0Wu9LeqoqMyOFHH
-	zXegL5ztGD3Z7M1SwOSu0hqmfbPlHA91mda4VZGlZasW63OAf+I4T0ZL
-X-Gm-Gg: AR+sD12gKSfCIl+syXEme85U9HVTxkrvN3/O6cOmWY65ehWAGaEHaahpV8tvxIRXC8r
-	I4Ecwf3wvkVWy2qum8/eXWmErZ23lh4Nh82zhiVBMxPd7V2a/7Ppq3ygI5y62FnxARfSDP3Vf51
-	6k4ecjAHRAQR6IFwQWOdvfNTTSQcesrCTShP22J3lLkK3AUMxKOZotTYQwNIhVU6oyNtGDH6IoT
-	azVAQqjHwQybiVd5KOzvWSndpfqQobGXUkV0ttrzzRmmc8H5kwCsLLAizMmeT/5HhK6Foqk6hhv
-	Vddtcoo2KgrWyTYUGJNsi/L3SHc9BpkTv9Bc1GsTqzdDSZ6fEEJZWw2Rm1PuYEd5mYlaP3cJbTJ
-	LBYAoIQzCdvVJkg5oivmQ+GQ18vraNl3k8GXJcwxkNXwU74LOXE5KS4d0V5ZxFlW0V71OUNzLzH
-	JWWPWQYRXgpSrSL/d9bvpx6uATpSxI9IowQQHaTr3Tp84ookmAFwxCEMdStiOdO3gJFK3DMPv07
-	GOZmSi+8y3hQTXOByFcPi7H3aIrqZbkF1Iim45jeEOW2KUdexpkzg/FxrNF
-X-Received: by 2002:a05:6a20:ecc7:20b0:3c3:7427:5ed8 with SMTP id adf61e73a8af0-3c9004a0849mr2455141637.8.1785453638853;
-        Thu, 30 Jul 2026 16:20:38 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1785456113; x=1786060913;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=nE9dZ9awcdUrGQCJeMJn5hlWnAUsMViLR5JL6xcAB4k=;
+        b=iRW0uvjiCbf/TQizwstNhGlmA+oMTphFqE9jEAku0UMX9UPbm1PHYjbe4TDfC28d6H
+         DdoVm7PGDo9Rxfh+YussI/FillJZbpDjKWgt/TBw72JrJxK7AkmUBzrdbnwgWxQ6T4ta
+         L0OM7fsBx+2iwm5EbiU4v9ukBA4O1FOlWhI5XAfjKkTHqmX9WO+58VsRSpLfYOOj6Qjc
+         7u4XPNqekjFLJCgQqvspP0xbhz/pOlTW4bgXvYXeVPndNdZqMa6zl0MNTv98aaFWe6G0
+         zXp5GwM/2lot2gyoiDwA8jUbSVpZAX9YDq9yQSm2eK2b8FNfGFLrPb+DRJJUwvIIKGhL
+         azFQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoBXEDKK8AbbDhzC5g3XiKDrECj2Z22dE69c1Eov/J7lHQ/PHUDRH+ngai1rHtAT+vc7o7dflhsc1zf3SRa@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyty+yRi41rbkyV5oaIhgbVebwu9zdbI5i/aVgp/LONYitdUkSR
+	kb2tJMqmNPQ+PlOPodCoTJpIlGYFDwLkowFQSvHmRPIMPXgOckbrEGSh
+X-Gm-Gg: AR+sD109hst5Me3dvhOIRAsJym0pqInkTtCNKdv80VQ1oipJbUi0ICuzrMsoDTORh8c
+	fpjiscauGRgPXbCflsG61xzmdSnVOA+nMg+IWiwulDSpv4w+PXXfLBWS5Erdpwv2wgdxdgtbX31
+	LFUhJghWYAfAsZSEB59nB312LtoO2OfxYk+FeqAMjsTzwkjTMSGSG849lCK2bG9Vo3gIYSZ9OZJ
+	u5IBc1lDOTkS/6nML5/btlyjPBqYdiIwTWcmxqTBy7eP1jxgbVlk02lXtI15HsbjfrX8yV2Yltc
+	AaswlgkJ/li+sOdzxinqaTR9K3ygdJTQwfoJaAt2a8hSIbHsKWKPvwNfHE1uNRuDtiSN1z7Jdou
+	+zpIbi8QwstmhJSSXH1TXr6nKzdEQ6ffFrxAdRzYc+gNg4SF0Ab/Ticg1HNNFz93DaFy+rpPW7V
+	lO4Ev5QZMnbOlamu5X0CGgggpRT4wb1N/iLJVpEZMSsvDNEPrPxNQlcx3J5tttkWPHy3UE6Nbg8
+	NuCQOt7HhO7cVOcWcDKxSKBXBxFw9AsQU/Qtu/aGT3cglb1nWcp3uG/36FSQG/XFe/kQhR2
+X-Received: by 2002:a17:902:f60f:b0:2ce:e75f:b713 with SMTP id d9443c01a7336-2d046e8688cmr128935ad.23.1785456113179;
+        Thu, 30 Jul 2026 17:01:53 -0700 (PDT)
 Received: from bloom.localdomain ([2604:3d09:178e:e100::6868])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cbdb8250daesm2790109a12.9.2026.07.30.16.20.37
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d022bf39cdsm33069015ad.55.2026.07.30.17.01.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Jul 2026 16:20:38 -0700 (PDT)
+        Thu, 30 Jul 2026 17:01:52 -0700 (PDT)
 From: Ivy Lopez <skunkolee@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Ovidiu Panait <ovidiu.panait.oss@gmail.com>,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Ivy Lopez <skunkolee@gmail.com>
-Subject: Re: [PATCH] staging: rtl8723bs: use kfree_sensitive() for key material in rtw_set_key()
-Date: Thu, 30 Jul 2026 17:20:29 -0600
-Message-ID: <20260730232029.83304-1-skunkolee@gmail.com>
+Subject: [PATCH] staging: axis-fifo: validate tx_fifo_depth from device tree
+Date: Thu, 30 Jul 2026 18:01:36 -0600
+Message-ID: <20260731000136.96707-1-skunkolee@gmail.com>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260730231714.81977-2-skunkolee@gmail.com>
-References: <20260730231714.81977-2-skunkolee@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,8 +75,37 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Apologies, this was sent twice by mistake (duplicate of
-Message-ID: 20260730231315.79688-1-skunkolee@gmail.com). Please
-disregard this copy!
+tx_fifo_depth is read from the "xlnx,tx-fifo-depth" device tree
+property with no lower-bound check. It is later used in
+axis_fifo_write() as (fifo->tx_fifo_depth - 4), an unsigned
+subtraction, to bound the size of writes accepted from userspace.
+If tx_fifo_depth is less than 4, this subtraction underflows,
+defeating the check that exists specifically to prevent a
+'Transmit Packet Overrun Error' requiring a reset of the TX
+circuit to recover.
+
+Reject tx_fifo_depth values below 4 at parse time, consistent
+with the existing validation of the tdata-width properties in
+the same function.
 
 Signed-off-by: Ivy Lopez <skunkolee@gmail.com>
+---
+ drivers/staging/axis-fifo/axis-fifo.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
+index 3aa2aa870ea9..66845f919375 100644
+--- a/drivers/staging/axis-fifo/axis-fifo.c
++++ b/drivers/staging/axis-fifo/axis-fifo.c
+@@ -413,6 +413,8 @@ static int axis_fifo_parse_dt(struct axis_fifo *fifo)
+ 				   &fifo->tx_fifo_depth);
+ 	if (ret)
+ 		return ret;
++	if (fifo->tx_fifo_depth < 4)
++		return -EINVAL;
+ 
+ 	ret = of_property_read_u32(node, "xlnx,use-rx-data",
+ 				   &fifo->has_rx_fifo);
+-- 
+2.55.0
+
