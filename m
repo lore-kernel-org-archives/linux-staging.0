@@ -1,74 +1,74 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 077183E4C9F
-	for <linux-staging@lists.linux.dev>; Fri, 31 Jul 2026 11:02:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DE093D6692
+	for <linux-staging@lists.linux.dev>; Fri, 31 Jul 2026 11:03:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785495764; cv=none; b=BWaMaUqYKRAXtkN2zOepGiunz0/UICReSdgpfgHrkDp5r28v0b47Ayu/CQKJsVCllDPYzhsUrlmF9aKKeWumMGEU9J/LzCay+nvo4ZYqDgej/j9ZVHelwFKQOsClXeHUP8Ow4rb6qPGTXb2SAieYz7961XBZ0Gcyeue/da+KJOE=
+	t=1785495839; cv=none; b=uCHSFAqhUcQ1zBIrH0vZ3ZT+hrwSBEdiRhyIAz8xBRbBFEXY99ctqKGeyrO/XONp7I3KEbqlTrXjtfy1HPHHVkjXVDOarsFIDTcpKb0nInoGnmYCuPWa4OGdtzEJkurc7vR0JG2RE2ClQngMtoD1cXKWPqv1jF3G1LXCLWaiMZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785495764; c=relaxed/simple;
-	bh=UttL/smsbJtkih5lb1VV/UF9Ho2WkKRkc69jT3EqbN0=;
+	s=arc-20240116; t=1785495839; c=relaxed/simple;
+	bh=sEi+tX0MQ53M+EjMBBODNoAR3sytsf15B59aogLgzi0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KbyQ3IBEdKzKSu8m/1JhLgISBM1RlSmHc2r9XtZ5uUwtWrq7HdXH4guEkjPeRnLp2U80e1oW6OMP9YP0f211d6QzJW4GJR6EOhbxXv4w3K7P19YdGzIruU7SCGa53vf5Ync5sFnH4U3vicR9UEr8zU081n4gzYq4mDBqFHZ8DKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ax6/hCXC; arc=none smtp.client-ip=209.85.218.45
+	 Content-Type:Content-Disposition:In-Reply-To; b=G6oQqtIbphUtJAQiByv5N0h2iLvXj23o9AVeITOKRIleXuUWxbhQWV8PGz4wWMuO5+ny5wPCDdfACQIQl2h4Pgqn3KgtolVfFCvGVM7t/O7pgyHwHaNdEnRsER9grnCPvOaoovlwQQKHeGVpWP+1QJKdDpT0eC7vsnrRBgT1f3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nNIoxYo+; arc=none smtp.client-ip=209.85.208.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ax6/hCXC"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c1f5208b38dso146499466b.0
-        for <linux-staging@lists.linux.dev>; Fri, 31 Jul 2026 04:02:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nNIoxYo+"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-69ffbd2a277so1652596a12.0
+        for <linux-staging@lists.linux.dev>; Fri, 31 Jul 2026 04:03:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785495761; x=1786100561; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1785495835; x=1786100635; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=/6uNV2GL6C0ZsZDyZS0/gYxz+j9PZV4eKokd6xszxy0=;
-        b=ax6/hCXC1rXBV1fDdqCWqAAaLU96Rof/LEZhfa+f9YXy3d2kWgrANRUtm+oruiOzlZ
-         dhYc+9/P6WovU2CBnldlyauQFd14Q5/nB0HAKT0w5jEyY6A5FfmRn1QvAY0ieAGDly6Y
-         Ll2ktU+zUrQZ/JhkphEVQ6n7Yku9DNzDMMr++XPxYKZlzIBWabpq0Y4UnXRUkw6c4J7B
-         rt61KwEKdyJ3EblivL+qm0YVkaWSi8N6dMXnUu0Moyh1rKB6hU5J13OcNKMtZTI+mwVx
-         /ts4CfrbgF/wDf8A5L3zi92QwoPNHpo80MuZg7K2ygOK5fLx0SE+0plqPru3MOFruLGi
-         WHig==
+        bh=AvWCcfsZhC7SHwl/V5kypAzLsmxgXVBhLCLYNj64BtA=;
+        b=nNIoxYo+Jbe5mYfyK9QlGi13DeXjXos+fQbopL8qr8WX6LTCIQpP9R0a80ni/Z0vQC
+         oeSUhwUmsKsd6V3uMoR81vD/VLIJjjXCOY4RwkVFjQ9CCfp1lf1KeswtqBqtdbDFSMLq
+         GpxOs4doQuR2snf5jCqx+bCwN+iHCBonmBLEQMHnIMjn3ULvY5KbGmmrR3k38WOvoRxb
+         KRySJWa9c5lxxVf+VpyOjV8FEumI8suwhmmH4RmkCMPPBYUvTpLdMThW+zm2Cm9to6BH
+         o5AKcBBX/PbtXZnmoEE0HLcx69ytoUpTgxoJQY91dweq3dq6JlR3hOVZP3V51xzTkZHp
+         XGrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785495761; x=1786100561;
+        d=1e100.net; s=20251104; t=1785495835; x=1786100635;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=/6uNV2GL6C0ZsZDyZS0/gYxz+j9PZV4eKokd6xszxy0=;
-        b=rsvNyQwgdgVjsl/F4cE7XcV3P9PyOuZQ3SB5PkOMMGuhPR0MUyMFDw+mS4i+KMJywv
-         BnyicBkrTiXWqJTitVxKivJCyTseFaCv2a1KJkmwSswy2e0mwluQ86cZQW+CGXRbhuYL
-         rLgTAmAHE+N4rtfUvEQhHczXYAOSPDA8ES+WPItWfuaHb/QLKmw3FmL+srUTvr5tqQAO
-         eEbdT3RG5CZeSCmwl6DppSlEOp7vE00JhkFBxpEN+G7c6aVGwC/38/bel8ar++ShjvC8
-         IRaAo2b63GWwcIYSkyCR7+8FxEJfyps0BIaFbDzWoTEGJpnqLxqw8O3dWuOAo6u5jRbu
-         dV5w==
-X-Forwarded-Encrypted: i=1; AHgh+RrNgtecSZjZ7g+EqLwjnGhwhMmETt8PF4oxvwR0cmxAxtzE2slN6+mJgQ8ahkxAUEJ8UPdk1c4qArQ14vh/@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw6Ya7oc8ihvMoslVADWhgqyQMoK4vfhCq11lmyW3J1nGdSBda0
-	A4TmEzLrMBNrmm8ImVQH80hzhSrnvZgA0DGP+bbBMkkojgpxgJugjX1f
-X-Gm-Gg: AR+sD11fsayniA0V28CpCpbo5zb4Ho5fbLdAtCB86kf+G4rzf40N4V2achQbPVhWspQ
-	N8tktlJKEpIcFUyvJyfFRBDu9DAJU1BzKjj4gdABxWxiG2ZpGsX3owigEzAY+69OTMGARC3hXJU
-	qzk5rNAdd+HU0ELb3ERdoH5enIXn2rGlfSr/Lql65zt0pv5ZEpmowxwxSRESg11fMcVQG9SE9Iz
-	e3uzpfoDE+3dEhUdaSDkpKE4odGPyTw14HRA0N91PZmOJd3sw1ozWqXNhLdpzrdVCPAgMJ6XD5p
-	45h9uWJXB3/CBrfvcax7NdFxo32l9sTTkyD7Bnnq6mRK3QovM+obLkQ9N7cKeJKv2oF31CSmgk1
-	yUKRvLRM196NdJSndeSK0b6Co1dMBB0Out0ssbikudqJxvLNHt7PQQ6w8iZfXzNFZFWw7z+Rp5a
-	lmRE1Q42+Cad7iyMqXlAbqhYhxpVHOEB48unhoATR2rQXXqHP+k64cb3okMg==
-X-Received: by 2002:a17:906:7948:b0:beb:133d:cf02 with SMTP id a640c23a62f3a-c1fd24147f3mr89622466b.26.1785495760950;
-        Fri, 31 Jul 2026 04:02:40 -0700 (PDT)
+        bh=AvWCcfsZhC7SHwl/V5kypAzLsmxgXVBhLCLYNj64BtA=;
+        b=TFCT80n/jJ5yBJ5SsG0KKnm9yg3UXOc88bEkWdMVHk3EIYqA2Sb7tz8HMjaDHjqevS
+         IwQyw1tCpAVrT3sLsvzj0nhF4M42PWtaH4aw9lljIB/6L4TEDhSZ7uK/4NdwmkbqspSb
+         335sQI4OxOv6Tkh85LDnLKvKfzq1+1NF/yy/5BsZOP5+KpkH8hu4pfsHIX8MOvot8VDa
+         ddKB0hkD0+q345ASUzdmPfz7SZzze6BJ0xvbtaxl1W+xkZ/VHFd5BjIq/TVQWHSb2vEj
+         mhJqBzX+M6i+iqCV0vK8WARYcRcPLFpYfjN/TzJHN9Vpet9H0dzqI9eL9Ekk7ynCSj4s
+         FoQw==
+X-Forwarded-Encrypted: i=1; AHgh+RrQTESSVS/2e27olu6xlb5K+J9fCUMhOamJU9O/JVVMOSq8IK44X+X6EA6zirAIJAf0k8B+B/1Yw2GBPdGS@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy1jUr4GE1wnsGYr5NHSzYrpcRxVOwP0rnKH0CBlqnkwi6JlZ5q
+	m0lJBxUYk7turKVKD8plYEtaP1tf1d8mJWo/sG3Y3PBlS4FCrxFELtUwjtH6A4if63s=
+X-Gm-Gg: AR+sD13Mku90+FLIeC3dIu21AH7Gpzm8mBj6aGf5M09XB7TzKDU6WhoH7mtmeK7ftWA
+	YhuvbUz9PNCbtPHBQfqc1svI5N5gem+PlbHdZZtv9ZTE2TvS8hI7+hfjHz8Dt+qGL5stqzASshK
+	WZc0iXvaMOIdLDI3M9LSVUGh7hQLAftV2bf0NVLPmAtYJKHwOMINr10au7D1UsKNRzsEUKXVwbm
+	iVxlQ4fPOyRGOwAeOzYQBxdEhwSt+qFKN3Nn1mg5f8Z22HRsDMUbTS8f0nAcmLMsrRLqrsSmdrN
+	/pZxQP4L+v/uZyXmYcQ8XIXDKuVBk4/Zzg9HNMmRAF6ev0tJXtbqnQzwmdM35vhiovevZHsw3w8
+	SHVl6q/E7lJcrD75m/LE7qor5UFVneR9VxzdtLosPuEBch3J1SmdHAnMIlK2zvD4BEZ9+OfTD8n
+	+DIygKhDOpXsxlLlmGF53/628OHGfSGmFxjAywtNrYDNPLknuQKh7un8fi
+X-Received: by 2002:a17:906:9c89:b0:c1c:62b4:1ebf with SMTP id a640c23a62f3a-c1fd2567b29mr85574766b.60.1785495835324;
+        Fri, 31 Jul 2026 04:03:55 -0700 (PDT)
 Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1fd3c93a87sm114875166b.18.2026.07.31.04.02.39
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c1fd3c5b365sm120650366b.13.2026.07.31.04.03.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jul 2026 04:02:39 -0700 (PDT)
-Date: Fri, 31 Jul 2026 14:02:35 +0300
+        Fri, 31 Jul 2026 04:03:54 -0700 (PDT)
+Date: Fri, 31 Jul 2026 14:03:51 +0300
 From: Dan Carpenter <error27@gmail.com>
 To: Hungyu Lin <dennylin0707@gmail.com>
 Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] staging: rtl8723bs: propagate errno handling for
- mgmt xmit
-Message-ID: <amyAy1GO98r6wV9T@stanley.mountain>
+Subject: Re: [PATCH 1/3] staging: rtl8723bs: convert mgmt xmit coalesce to
+ errno
+Message-ID: <amyBFxWUIR2MgLke@stanley.mountain>
 References: <20260731070546.20959-1-dennylin0707@gmail.com>
- <20260731070546.20959-3-dennylin0707@gmail.com>
+ <20260731070546.20959-2-dennylin0707@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,44 +77,25 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260731070546.20959-3-dennylin0707@gmail.com>
+In-Reply-To: <20260731070546.20959-2-dennylin0707@gmail.com>
 
-On Fri, Jul 31, 2026 at 07:05:45AM +0000, Hungyu Lin wrote:
-> Convert rtw_hal_mgnt_xmit() to return errno-style values and update
-> dump_mgntframe_and_wait() to translate the result back to the existing
-> _SUCCESS/_FAIL flow. Update the prototype in hal_intf.h accordingly
+On Fri, Jul 31, 2026 at 07:05:44AM +0000, Hungyu Lin wrote:
+> Change rtw_mgmt_xmitframe_coalesce() to use kernel-style return values.
+> Return 0 on success and negative errno on failure, and update the
+> declaration in rtw_xmit.h accordingly
 > 
 > Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 4 ++++
->  drivers/staging/rtl8723bs/hal/hal_intf.c      | 9 +++++++--
->  drivers/staging/rtl8723bs/include/hal_intf.h  | 2 +-
->  3 files changed, 12 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> index f5ab94a2d0a0..0027f9333738 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> @@ -1990,6 +1990,10 @@ s32 dump_mgntframe_and_wait(struct adapter *padapter, struct xmit_frame *pmgntfr
->  	pxmitbuf->sctx = &sctx;
->  
->  	ret = rtw_hal_mgnt_xmit(padapter, pmgntframe);
-> +	if (ret)
-> +		ret = _FAIL;
-> +	else
-> +		ret = _SUCCESS;
->  
->  	if (ret == _SUCCESS)
->  		ret = rtw_sctx_wait(&sctx);
 
-This is awkward.  I would have allowed it either way, but it's good
-to note this kind of thing in the commit message:
+Ideally the commit message would explain that "This is safe because
+the only caller doesn't check for errors".  But then the question
+is "why don't we just make this a void function?" and the answer
+is that this shouldn't be a void function, the caller really ought
+to check for errors.
 
-"After this change the error checking in dump_mgntframe_and_wait()
-becomes quite awkward because we need to convert zero to  _SUCCESS (1)
-and negative error codes to _FAIL (0).  A follow on patch will
-change the dump_mgntframe_and_wait() to use kernel error codes
-consistently."
+  Change rtw_mgmt_xmitframe_coalesce() to use kernel-style return values.
+  Return 0 on success and negative errno on failure.  The caller doesn't
+  check for errors so this doesn't affect runtime.  Later patches will
+  hopefully add error checking.
 
 regards,
 dan carpenter
