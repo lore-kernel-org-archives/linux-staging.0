@@ -1,63 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from red-soft.ru (red-soft.ru [188.246.186.2])
+	(using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B00B535C6A7;
-	Fri, 31 Jul 2026 05:41:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E86A330652
+	for <linux-staging@lists.linux.dev>; Fri, 31 Jul 2026 07:01:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.246.186.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785476477; cv=none; b=SCE/pSkF08MSbjicpIekCiQIFdhvPz5we2k5wbRMElLWaxWhWZUY9MvH3Un77BStm5BfUKBGpzqZUaMCAHoxsu/Ro3I2Kr0yyej2DixmR02Nm5R4ZFgaOCTTt53HF/95JUBfFE3cYg06D8DwuKpiZoL9WiPd8MFivKF6ExuM9OM=
+	t=1785481292; cv=none; b=PTfrFqcHq3Jp0/pdfTJWEziVIi3mZiHrHvVkBcX5VHBgBPrnC/pMB6NE7S3Aacp9n3QBUftLQCfXI+eu7jeUQJiueFVC5IDPktIxANMN3GB7nQRaX7DkN9BnbMR0YRRJOCiWFaVpILYLWJAK31KCxN41woADcNDGrjyvBBpffcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785476477; c=relaxed/simple;
-	bh=MwVmUFvB2IsHlAp3QKV53MilDwTStiF+IOgbqUBBfT4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ng5PZgXvhxeKJiMQ9IvuiBZc93obCFxXTC8xWdNHk0qugTUBMbYl5iXbvKGhb5HedaWSQdVEz8tY+TRfHofsI5XcIUfQSMUfZvnvCMW90VCBJ4+0I4Lvw0oQQHbTWh+MPOVrWldqN1Jo0IrhKzc4ImG4IZviKt3B/HZqR4Bs9N8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=YM/NuU+8; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="YM/NuU+8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F1CB1F000E9;
-	Fri, 31 Jul 2026 05:41:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1785476476;
-	bh=bbwMV3vwKG31ynz9/MINUUL0rJKlA038BsSPhUgq9LA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=YM/NuU+8p9nrMdLNMgA2eJa97kX4F5b48uMSim71REYj3kYNdS6VZZGgUKSu4TWhj
-	 mNJbvwO1HzxSOSNvqZD8KCPuPv9ewBEGUJFzo7MtjY3v0FryeqshgBLb55aYO04+aS
-	 nW2XgX97ZKWTF+NR9ZLfEcmZiz62N1Uja6/zZ2bM=
-Date: Fri, 31 Jul 2026 07:41:01 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: ceohunk@gmail.com
-Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: rts5208: ms.c: replace udelay with usleep_range
-Message-ID: <2026073146-jokester-come-d879@gregkh>
-References: <6a6c2bbb.1c32ac96.11d8fd.8074@mx.google.com>
+	s=arc-20240116; t=1785481292; c=relaxed/simple;
+	bh=94NxW6S6rgTFntzcX1zBAoMm0RpW+nrszNYRfBBOXlQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sT1MffGyR0LOZwGBxM0u8hCYZQWPj0w7WqJNrZ/8TSRQu1WixhbDpWpY4ra80l/fE2UUzsVaeXhNjjWpCJRD4rN7nApRvSAHWZDRGl0vK44IFL/TTQOizT9t6DGuNt1vcgcyWP5ln/G/Hkt01MhZrcQxjGnD2nMdxmb0o8npaLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=red-soft.ru; spf=pass smtp.mailfrom=red-soft.ru; arc=none smtp.client-ip=188.246.186.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=red-soft.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=red-soft.ru
+Received: from localhost.localdomain (unknown [10.81.7.147])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by red-soft.ru (Postfix) with ESMTPSA id B6F99262E69;
+	Fri, 31 Jul 2026 10:01:33 +0300 (MSK)
+From: Roman Demidov <roman.demidov@red-soft.ru>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Roman Demidov <roman.demidov@red-soft.ru>,
+	Khushal Chitturi <khushalchitturi@gmail.com>,
+	Hungyu Lin <dennylin0707@gmail.com>,
+	Minu Jin <s9430939@naver.com>,
+	Archit Anant <architanant5@gmail.com>,
+	Ayushman Rout <ayushmanrout27@gmail.com>,
+	Kees Cook <kees@kernel.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	lvc-project@linuxtesting.org,
+	artem.chernyshev@red-soft.ru
+Subject: [PATCH] staging: rtl8723bs: Fix NULL pointer dereference in c2h_wk_callback
+Date: Fri, 31 Jul 2026 10:00:50 +0300
+Message-ID: <20260731070052.6582-1-roman.demidov@red-soft.ru>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6a6c2bbb.1c32ac96.11d8fd.8074@mx.google.com>
+Content-Transfer-Encoding: 8bit
+X-KSMG-AntiPhishing: NotDetected
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Envelope-From: roman.demidov@red-soft.ru
+X-KSMG-AntiSpam-Info: LuaCore: 113 0.3.113 b83a27b0bdff87150e3aba5d24ea90b4a220db99, {Tracking_ml_letters}, {Tracking_from_domain_doesnt_match_to}, FromAlignment: s
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiSpam-Lua-Profiles: 204910 [Jul 31 2026]
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Version: 6.1.1.22
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.0.7854, bases: 2026/07/31 03:38:00 #28597279
+X-KSMG-AntiVirus-Status: NotDetected, skipped
+X-KSMG-LinksScanning: NotDetected
+X-KSMG-Message-Action: skipped
+X-KSMG-Rule-ID: 1
 
-On Thu, Jul 30, 2026 at 09:59:39PM -0700, ceohunk@gmail.com wrote:
-> >>From 055881758fb68c22dc85a11add9e929f8506bbec Mon Sep 17 00:00:00 2001
-> From: ChengYuhong <ceohunk@gmail.com>
-> Date: Fri, 31 Jul 2026 12:00:54 +0800
-> Subject: [PATCH] staging: rts5208: ms.c: replace udelay with usleep_range
-> 
-> Signed-off-by: ChengYuhong <ceohunk@gmail.com>
-> ---
->  drivers/staging/rts5208/ms.c | 4311 ++++++++++++++++++++++++++++++++++
+If the kmalloc function fails to allocate memory, the c2h_evt variable
+will be NULL. Its subsequent use in the rtw_hal_c2h_valid() function
+will result in a NULL pointer dereference.
 
-Odd, you are adding a whole new file here, are you sure you made this
-patch correctly?
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
-Also, this was sent twice, with no changelog text, and the above in the
-body, is that intentional?  Perhaps go through the "write your first
-patch" tutorial on kernelnewbies.org or use a tool like b4 to send your
-patch?
+Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
+Signed-off-by: Roman Demidov <roman.demidov@red-soft.ru>
+---
+ drivers/staging/rtl8723bs/core/rtw_cmd.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-thanks,
+diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+index b932670f5d63..3c1149828718 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
++++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+@@ -1716,6 +1716,8 @@ static void c2h_wk_callback(struct work_struct *work)
+ 					kfree(c2h_evt);
+ 					continue;
+ 				}
++			} else {
++				continue;
+ 			}
+ 		}
+ 
+-- 
+2.53.0
 
-greg k-h
