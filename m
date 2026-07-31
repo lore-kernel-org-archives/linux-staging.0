@@ -1,76 +1,71 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-pj2-f1.google.com (mail-pj2-f1.google.com [74.125.227.129])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB2222B9BA
-	for <linux-staging@lists.linux.dev>; Fri, 31 Jul 2026 14:22:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C24B42DFF5
+	for <linux-staging@lists.linux.dev>; Fri, 31 Jul 2026 15:52:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.129
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785507739; cv=none; b=CrPHNJqwhXLhbZGwEOK6UXR5qyyXk1NA/uKKunAbf5pk6hgQPpuv/PmxW5DbSbW8SWrclmq9xG15xQGEzvxCe/+4kWnDHQJoZcRBImFQ33iSihRsMdiUSWUv3rz/hRs1/3gHI1DN+tBaIj1/0eqfQmqcoUU489yR5IAfpX+zN5U=
+	t=1785513172; cv=none; b=rLWvbrAPpfeRCJgOOCSoCUYclFsRnhNIbkbbFJsUoBQ6qbKiYTCGM/U82MCFzZbqc0xpAxpzbC9g6G7Shs8YLgu4iIu6UtTrxzjMk01GIr/RIcRA6N6PLBZedmEO+zDqaT20LnQtMh/MepbIOQJOE3/Kn5PTdyY3KKWaGO1wqRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785507739; c=relaxed/simple;
-	bh=OrjPIgmQO6mJaGefthcfjpUDpBZd14JPRr6HpqbPDhk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mPAa7cH8yfbnVoTuMph864AT1WROCstnXY+V/SEcs9PSbJjGIdXVtEruuxwajprprmmxrmEpyiIHj/rBGXjKe9wxGdHBSEyXUj6qR+pFw8/a41H6fwg1N0VvrL6/vZ8ennBmT/YEPAv0O39cDQgsBGm6ChFvzordRSMfoqmbTVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fKeeSg+t; arc=none smtp.client-ip=209.85.221.45
+	s=arc-20240116; t=1785513172; c=relaxed/simple;
+	bh=iMZuld2kpAyODNuLbxkBUtaVso/tA68c+VTKC3pE0JM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ye2gGdCeQ+0vUTVJwL2/niold87jR7Bw/1053oW/HIt3hmnue5LUd1falmSq0Cp2o1InoX13dGXhhRJRoL4zge+xKjZ3XMucT459b0Gv3PcmWdT99YcenAyzsAnPp1C9UxY6p0ZqYb556SCWVO/njAN2RQn3lIrezuL9uENoY+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AviZP1/F; arc=none smtp.client-ip=74.125.227.129
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fKeeSg+t"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-47f7872abb6so766385f8f.3
-        for <linux-staging@lists.linux.dev>; Fri, 31 Jul 2026 07:22:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AviZP1/F"
+Received: by mail-pj2-f1.google.com with SMTP id 98e67ed59e1d1-381072761d4so720380a91.0
+        for <linux-staging@lists.linux.dev>; Fri, 31 Jul 2026 08:52:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785507736; x=1786112536; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=FXUwTM3TEbyr/DfT8gIKhzbn8hpE6KHAjl8EfZV8JPk=;
-        b=fKeeSg+tmaIthMEC9bsfFBkZz55836cgVeAtUVInGFKE15j1uVHelYLRuA+j4kyT/q
-         pzmn+TUL5Ei2pwun1nZNqCXYpQj8RKZGAOHQinePghrLan3fGZNkkswAbbnP+F8UkEwr
-         Qfa+jDazD1pmdzME7nTEbqve3s55wGSa4is5/9qzHTVky29Fiv5JvY8g3SgfroWbB5U2
-         c0C0dZyWPRZVCJXOc43d1qCz+cyTdA73abcgwllZo8hskWX1kbn5hyGTZwekjSQnpEL2
-         aJyLCWaETlgJX8x+6RdbfbNQpT6hPC1qEqDG9ekXZYgB5ziRXtEzsE2W6OdumhmiKVgy
-         BLeg==
+        d=gmail.com; s=20251104; t=1785513169; x=1786117969; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=96bgMsXq3QaQ696yPEl0nZr9fyrOIbNR0fiV+Tvpm8E=;
+        b=AviZP1/FgHMxruOF08st5VJQEBaJV6sf0HdBAnQP0qPQb4f/M1IJht15K2lzYGM2Oj
+         XIDXJ/5vyULv3vLuTa3+TCfxPxwRUg1WiBU36Q0b9ydnWMPYP5cTm7ZjCQfHpFvokoUp
+         x1UY+yS3+WUCx7VvHRzIRDvWl4iC2FhR3MEGwkIuXx+LAeIadcKRou0MH5jR77G16cTF
+         1WX8z11TV51wYH9viJ/1qi5Cg9NWU8iGrEjd9vCH8K3hFL6MMibnPwqGtfImd+PbLpv5
+         HFPq2rEGVPppgqkkOqjvQz3M8GBSX2HJ5ld3Bmf9RZp80kabDW/7dk5Zj/Rfldtfimo/
+         30Kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785507736; x=1786112536;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=FXUwTM3TEbyr/DfT8gIKhzbn8hpE6KHAjl8EfZV8JPk=;
-        b=Brme36grvPsPwZ9lokl1kdIgpzPmZGPxe1HjVM0qGolANroiKjXlb3H8AJ6bIjptW7
-         DHxynlCCXMCP0UOUdg15LNFOuQxwvmj3Ug55Vvajd+jIDtJK5m16ckw7Embn8CJIakNx
-         Tj8FXSLr1v7CJTOuA/iPFbzWC9hOBuD4UjSzEjOJlpyu0+jwWvRvYCWWz0mc+Iw9iQon
-         nM1IaLzRSm/Szj8JgTinai59wbyMZCK2Y7gVe323Eeit3s3gMUb5hrupLBNhP4TyezGN
-         KDKXeRTTYmKSZSjWJBKK2PZQJFpPp5K8IeJDYd+pGzPdpGs9aQIkgH1d8I9ku/4DL9o7
-         8DlA==
-X-Forwarded-Encrypted: i=1; AHgh+RoRQKWFXIpj3V/u1TzYLwsEqfX7oOkRYybTO8ufeRNZnL8cDIjAwMDbmLcW5zU+w7Y69Lbm5xOxqEmhp0gz@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy2FIzWcwNKoZe12NsVZoqQNQgRXs/OPotGCeNWHM23UM9gT01R
-	EUGm2x9SHlUHfpO+8rKsf5BraFn6IQD0kPOgzX71gZk86bc72bR3t+CH
-X-Gm-Gg: AR+sD10wTvL1/aTEq3vwczA0fz4st66Bt0RvqHO7v4py/geB5xGghqdyDZ5/5/giUP9
-	63RyGbS8QVI+xEJgEp6fr+rlsHauWpMDx7czrs4Ndy6ARto99qaUyPwW1TBEt5L4skq+kZTBMWJ
-	2jtjRi6ipr5SyadOxTEiCc7KhGyhcieuN3dsJhcvHPb/BagzDLXkI+928gQJMoaGJTc3Fk1JpgR
-	Kln1il3fp2C5vxI0Y0Ad4RTGMw9D3qK3bE/IO6y3MW0/Ft1TpLHJD4dyojTOvGCc9ovS05qkzbp
-	pzWErrDUBHYqjnVrhX6dKwQwHfsGkWtVP0tG2rV6bnrzY7lCysTPOjdzL0tUtq+iOC1W8PaG4nq
-	kli7X5NBa1b6a3vGj+adnvlSEP84WDfZfUjLOxvjXND7jHfLNK0//P17cfyyNEnTsYX7OrnAYJI
-	biNWykbbdTHss3bby6PnZfZm0nfSbPsxmjNX/+jcH/MQFWFZBZ4+FjFeZURY0dY49MP+VzmKuDM
-	vRIm1mAQy8BdkTCQ4QpWOB/zWq5jFfSG0fN9Hk6bqP3Lniot27zqzXvPCDvh+g=
-X-Received: by 2002:a05:6000:40cc:b0:474:64bf:8fb6 with SMTP id ffacd0b85a97d-47fd2b365d6mr4741179f8f.39.1785507735892;
-        Fri, 31 Jul 2026 07:22:15 -0700 (PDT)
-Received: from koolguy.fritz.box (dslb-088-074-233-039.088.074.pools.vodafone-ip.de. [88.74.233.39])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fd456220esm5560224f8f.18.2026.07.31.07.22.15
+        d=1e100.net; s=20251104; t=1785513169; x=1786117969;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=96bgMsXq3QaQ696yPEl0nZr9fyrOIbNR0fiV+Tvpm8E=;
+        b=eZeTJrXb2spmyozbthk9WKYgeBMhala37sPCiX5T3EASSlgl6lh3wOtDv8gEHjksEZ
+         HD8o8QMpuP+IZqIRAa9X6pUXur8iz9AlsnMh+0otnCGzeajGOfOrvrPACN6xLJX0/XEC
+         U8fW3dYlCiW/GDtbv/iIgF/a1GqO1CWTSwUFXLRCo/SFAxO1PNBGwQSpmMkTHxxy6hvJ
+         RePoE5RzZZM4Utzvg4mLglgHiZ3jYv+1OiEWRl1qa8U4VZkCZd2McM+nZsKRMOiztNJ/
+         1JWfywpbdG5530syP8l2ADJTzkAMRsZbsprunVEocuELFdaUvOJn0gD65rmGFgJ5Q67m
+         IUow==
+X-Gm-Message-State: AOJu0YyR4yHqrfd4eFXzWbJb2rlD4THQf7bJDW0jLbfNR/QaOaOgHAxL
+	vIsR1zNdP6HLk+ooWUbfGr3HdQZ/hwQqcm9GsV5MEEnjwbvW3205fsoP
+X-Gm-Gg: AR+sD10RyaDx24qWhd3UbeWr4vZAgbATBs541sNqdLeIVbSayfssaH6ftvC92VaRFzA
+	Az4iw7olGdkG/iZHDS1OaLFcOtlU1JU82RUhbt05gnQdCuqCSQSM+fjHy2JpKf/ubxOES6611Op
+	+ED5syMjO5YgIvt3lm4PiGIloeHxI1UxgiblHwX1SG9uJ1jnlRnlLkeWORxs6byt92VVZSrqcaa
+	khvBjfm4yrgV6GaOhTsDKiQaYVQs9uttyhrBr0VD2BOSwfWdXva8IrxUv1Ud5rJ9QHnzFiJa6k0
+	VIlQuCiX8mqlOvv7C66PvUgwPmfHj0C1y5c3ZUCdrNmN9CxVeZ0du7N2ndALIU7Ad9hgBjyNbJ3
+	yZRUXfEynjZIuZ7ngLTQ8KHilGEUnW7ba184wb6uE69Wu3d91oX2sEAR68bbffGjXnoTCSslsh3
+	AOOr9X1rjt445C5hj2u9YfiuNvvpPON7PRaDDFSwSrvrwLD+IYlwrrp/1LhmjUUKwMdv4hMspld
+	SyKIPKBDdzYmpm47IQ+
+X-Received: by 2002:a17:90b:534e:b0:38e:2aa8:60d0 with SMTP id 98e67ed59e1d1-38fbc598d19mr452619a91.37.1785513169532;
+        Fri, 31 Jul 2026 08:52:49 -0700 (PDT)
+Received: from localhost.localdomain ([76.86.179.124])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3153dd9c96asm7669604eec.7.2026.07.31.08.52.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jul 2026 07:22:15 -0700 (PDT)
-From: Dalvin-Ehinoma Noah Aiguobas <fliegbert2@gmail.com>
+        Fri, 31 Jul 2026 08:52:49 -0700 (PDT)
+From: Hungyu Lin <dennylin0707@gmail.com>
 To: gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Dalvin-Ehinoma Noah Aiguobas <fliegbert2@gmail.com>
-Subject: [PATCH v3 2/2] staging: rtl8723bs: fix Alignment should match open parenthesis in rtw_mlme_ext.c
-Date: Fri, 31 Jul 2026 14:20:04 +0000
-Message-ID: <20260731142004.15281-3-fliegbert2@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260731142004.15281-1-fliegbert2@gmail.com>
-References: <20260715171634.1550-1-fliegbert2@gmail.com>
- <20260731142004.15281-1-fliegbert2@gmail.com>
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	error27@gmail.com,
+	Hungyu Lin <dennylin0707@gmail.com>
+Subject: [PATCH v2 0/3] staging: rtl8723bs: clean up management transmit return values
+Date: Fri, 31 Jul 2026 15:52:25 +0000
+Message-ID: <20260731155228.22526-1-dennylin0707@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -79,232 +74,38 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fixing almost every occurrence of checkpatch warning
-Alignment should match open parenthesis in rtw_mlme_ext.c.
+This series continues the cleanup of management transmit return values
+in the rtl8723bs driver.
 
-Signed-off-by: Dalvin-Ehinoma Noah Aiguobas <fliegbert2@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 60 +++++++++----------
- 1 file changed, 30 insertions(+), 30 deletions(-)
+Patch 1 converts rtw_mgmt_xmitframe_coalesce() to return kernel-style
+errno values.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index d662cc8f5c59..e5eb56d55689 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -256,8 +256,8 @@ static void init_mlme_ext_priv_value(struct adapter *padapter)
- }
- 
- static int has_channel(struct rt_channel_info *channel_set,
--					   u8 chanset_size,
--					   u8 chan)
-+		       u8 chanset_size,
-+		       u8 chan)
- {
- 	int i;
- 
-@@ -269,8 +269,8 @@ static int has_channel(struct rt_channel_info *channel_set,
- }
- 
- static void init_channel_list(struct adapter *padapter, struct rt_channel_info *channel_set,
--							  u8 chanset_size,
--							  struct p2p_channels *channel_list)
-+			      u8 chanset_size,
-+			      struct p2p_channels *channel_list)
- {
- 	static const struct p2p_oper_class_map op_class[] = {
- 		{ IEEE80211G,  81,   1,  13,  1, BW20 },
-@@ -302,7 +302,7 @@ static void init_channel_list(struct adapter *padapter, struct rt_channel_info *
- 				continue;
- 
- 			if ((0 < (padapter->registrypriv.bw_mode & 0xf0)) &&
--				((o->bw == BW40MINUS) || (o->bw == BW40PLUS)))
-+			    ((o->bw == BW40MINUS) || (o->bw == BW40PLUS)))
- 				continue;
- 
- 			if (!reg) {
-@@ -515,7 +515,7 @@ unsigned int OnProbeReq(struct adapter *padapter, union recv_frame *precv_frame)
- 	}
- 
- 	p = rtw_get_ie(pframe + WLAN_HDR_A3_LEN + _PROBEREQ_IE_OFFSET_, WLAN_EID_SSID, (int *)&ielen,
--			len - WLAN_HDR_A3_LEN - _PROBEREQ_IE_OFFSET_);
-+		       len - WLAN_HDR_A3_LEN - _PROBEREQ_IE_OFFSET_);
- 
- 	/* check (wildcard) SSID */
- 	if (p) {
-@@ -715,8 +715,8 @@ unsigned int OnAuth(struct adapter *padapter, union recv_frame *precv_frame)
- 	seq	= le16_to_cpu(*(__le16 *)((SIZE_PTR)pframe + WLAN_HDR_A3_LEN + offset + 2));
- 
- 	if (auth_mode == 2 &&
--			psecuritypriv->dot11_privacy_algrthm != _WEP40_ &&
--			psecuritypriv->dot11_privacy_algrthm != _WEP104_)
-+	    psecuritypriv->dot11_privacy_algrthm != _WEP40_ &&
-+	    psecuritypriv->dot11_privacy_algrthm != _WEP104_)
- 		auth_mode = 0;
- 
- 	if ((algorithm > 0 && auth_mode == 0) ||	/*  rx a shared-key auth but shared not enabled */
-@@ -797,7 +797,7 @@ unsigned int OnAuth(struct adapter *padapter, union recv_frame *precv_frame)
- 			pstat->authalg = algorithm;
- 		} else if (seq == 3) {
- 			p = rtw_get_ie(pframe + WLAN_HDR_A3_LEN + 4 + _AUTH_IE_OFFSET_, WLAN_EID_CHALLENGE, (int *)&ie_len,
--					len - WLAN_HDR_A3_LEN - _AUTH_IE_OFFSET_ - 4);
-+				       len - WLAN_HDR_A3_LEN - _AUTH_IE_OFFSET_ - 4);
- 
- 			if (!p || ie_len != 128) {
- 				status = WLAN_STATUS_CHALLENGE_FAIL;
-@@ -883,7 +883,7 @@ unsigned int OnAuthClient(struct adapter *padapter, union recv_frame *precv_fram
- 		if (pmlmeinfo->auth_algo == dot11_auth_algrthm_shared) {
- 			 /*  legendary shared system */
- 			p = rtw_get_ie(pframe + WLAN_HDR_A3_LEN + _AUTH_IE_OFFSET_, WLAN_EID_CHALLENGE, (int *)&len,
--				pkt_len - WLAN_HDR_A3_LEN - _AUTH_IE_OFFSET_);
-+				       pkt_len - WLAN_HDR_A3_LEN - _AUTH_IE_OFFSET_);
- 
- 			if (!p)
- 				goto authclnt_fail;
-@@ -992,7 +992,7 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
- 	/*  now we should check all the fields... */
- 	/*  checking SSID */
- 	p = rtw_get_ie(pframe + WLAN_HDR_A3_LEN + ie_offset, WLAN_EID_SSID, &ie_len,
--		pkt_len - WLAN_HDR_A3_LEN - ie_offset);
-+		       pkt_len - WLAN_HDR_A3_LEN - ie_offset);
- 
- 	if (!p || ie_len == 0) {
- 		/*  broadcast ssid, however it is not allowed in assocreq */
-@@ -1027,7 +1027,7 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
- 		support_rate_num = ie_len;
- 
- 		p = rtw_get_ie(pframe + WLAN_HDR_A3_LEN + ie_offset, WLAN_EID_EXT_SUPP_RATES, &ie_len,
--				pkt_len - WLAN_HDR_A3_LEN - ie_offset);
-+			       pkt_len - WLAN_HDR_A3_LEN - ie_offset);
- 		if (p) {
- 			if (support_rate_num + ie_len <= sizeof(supportRate)) {
- 				memcpy(supportRate + support_rate_num, p + 2, ie_len);
-@@ -1230,8 +1230,8 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
- 	}
- 
- 	if ((pstat->flags & WLAN_STA_HT) &&
--		    ((pstat->wpa2_pairwise_cipher & WPA_CIPHER_TKIP) ||
--		      (pstat->wpa_pairwise_cipher & WPA_CIPHER_TKIP))) {
-+	    ((pstat->wpa2_pairwise_cipher & WPA_CIPHER_TKIP) ||
-+	    (pstat->wpa_pairwise_cipher & WPA_CIPHER_TKIP))) {
- 		/* status = WLAN_STATUS_CIPHER_SUITE_REJECTED; */
- 		/* goto OnAssocReqFail; */
- 	}
-@@ -1962,7 +1962,7 @@ void update_mgntframe_attrib_addr(struct adapter *padapter, struct xmit_frame *p
- void dump_mgntframe(struct adapter *padapter, struct xmit_frame *pmgntframe)
- {
- 	if (padapter->surprise_removed ||
--		padapter->driver_stopped) {
-+	    padapter->driver_stopped) {
- 		rtw_free_xmitbuf(&padapter->xmitpriv, pmgntframe->pxmitbuf);
- 		rtw_free_xmitframe(&padapter->xmitpriv, pmgntframe);
- 		return;
-@@ -1980,7 +1980,7 @@ s32 dump_mgntframe_and_wait(struct adapter *padapter, struct xmit_frame *pmgntfr
- 	struct submit_ctx sctx;
- 
- 	if (padapter->surprise_removed ||
--		padapter->driver_stopped) {
-+	    padapter->driver_stopped) {
- 		rtw_free_xmitbuf(&padapter->xmitpriv, pmgntframe->pxmitbuf);
- 		rtw_free_xmitframe(&padapter->xmitpriv, pmgntframe);
- 		return ret;
-@@ -2009,7 +2009,7 @@ s32 dump_mgntframe_and_wait_ack(struct adapter *padapter, struct xmit_frame *pmg
- 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
- 
- 	if (padapter->surprise_removed ||
--		padapter->driver_stopped) {
-+	    padapter->driver_stopped) {
- 		rtw_free_xmitbuf(&padapter->xmitpriv, pmgntframe->pxmitbuf);
- 		rtw_free_xmitframe(&padapter->xmitpriv, pmgntframe);
- 		return -1;
-@@ -2505,7 +2505,7 @@ inline void issue_probereq(struct adapter *padapter, struct ndis_802_11_ssid *ps
- }
- 
- int issue_probereq_ex(struct adapter *padapter, struct ndis_802_11_ssid *pssid, u8 *da, u8 ch, bool append_wps,
--	int try_cnt, int wait_ms)
-+		      int try_cnt, int wait_ms)
- {
- 	int ret;
- 	int i = 0;
-@@ -2906,8 +2906,8 @@ void issue_assocreq(struct adapter *padapter)
- 		switch (pIE->element_id) {
- 		case WLAN_EID_VENDOR_SPECIFIC:
- 			if ((!memcmp(pIE->data, RTW_WPA_OUI, 4)) ||
--					(!memcmp(pIE->data, WMM_OUI, 4)) ||
--					(!memcmp(pIE->data, WPS_OUI, 4))) {
-+			    (!memcmp(pIE->data, WMM_OUI, 4)) ||
-+			    (!memcmp(pIE->data, WPS_OUI, 4))) {
- 				vs_ie_length = pIE->length;
- 				if ((!padapter->registrypriv.wifi_spec) && (!memcmp(pIE->data, WPS_OUI, 4))) {
- 					/* Commented by Kurt 20110629
-@@ -3279,7 +3279,7 @@ int issue_deauth(struct adapter *padapter, unsigned char *da, unsigned short rea
- }
- 
- int issue_deauth_ex(struct adapter *padapter, u8 *da, unsigned short reason, int try_cnt,
--	int wait_ms)
-+		    int wait_ms)
- {
- 	int ret;
- 	int i = 0;
-@@ -4171,7 +4171,7 @@ static void process_80211d(struct adapter *padapter, struct wlan_bssid_ex *bssid
- 
- 	/*  Adjust channel plan by AP Country IE */
- 	if (pregistrypriv->enable80211d &&
--		(!pmlmeext->update_channel_plan_by_ap_done)) {
-+	    (!pmlmeext->update_channel_plan_by_ap_done)) {
- 		u8 *ie, *p;
- 		u32 len;
- 		struct rt_channel_plan chplan_ap;
-@@ -4221,8 +4221,8 @@ static void process_80211d(struct adapter *padapter, struct wlan_bssid_ex *bssid
- 		if (pregistrypriv->wireless_mode & WIRELESS_11G) {
- 			do {
- 				if ((i == MAX_CHANNEL_NUM) ||
--					(chplan_sta[i].channel_num == 0) ||
--					(chplan_sta[i].channel_num > 14))
-+				    (chplan_sta[i].channel_num == 0) ||
-+				    (chplan_sta[i].channel_num > 14))
- 					break;
- 
- 				if ((j == chplan_ap.Len) || (chplan_ap.Channel[j] > 14))
-@@ -4249,8 +4249,8 @@ static void process_80211d(struct adapter *padapter, struct wlan_bssid_ex *bssid
- 
- 			/*  change AP not support channel to Passive scan */
- 			while ((i < MAX_CHANNEL_NUM) &&
--				(chplan_sta[i].channel_num != 0) &&
--				(chplan_sta[i].channel_num <= 14)) {
-+			       (chplan_sta[i].channel_num != 0) &&
-+			       (chplan_sta[i].channel_num <= 14)) {
- 				chplan_new[k].channel_num = chplan_sta[i].channel_num;
- 				chplan_new[k].scan_type = SCAN_PASSIVE;
- 				i++;
-@@ -4267,8 +4267,8 @@ static void process_80211d(struct adapter *padapter, struct wlan_bssid_ex *bssid
- 		} else {
- 			/*  keep original STA 2.4G channel plan */
- 			while ((i < MAX_CHANNEL_NUM) &&
--				(chplan_sta[i].channel_num != 0) &&
--				(chplan_sta[i].channel_num <= 14)) {
-+			       (chplan_sta[i].channel_num != 0) &&
-+			       (chplan_sta[i].channel_num <= 14)) {
- 				chplan_new[k].channel_num = chplan_sta[i].channel_num;
- 				chplan_new[k].scan_type = chplan_sta[i].scan_type;
- 				i++;
-@@ -5342,7 +5342,7 @@ u8 disconnect_hdl(struct adapter *padapter, unsigned char *pbuf)
- }
- 
- static int rtw_scan_ch_decision(struct adapter *padapter, struct rtw_ieee80211_channel *out,
--	u32 out_num, struct rtw_ieee80211_channel *in, u32 in_num)
-+				u32 out_num, struct rtw_ieee80211_channel *in, u32 in_num)
- {
- 	int i, j;
- 	int set_idx;
-@@ -5588,7 +5588,7 @@ u8 add_ba_hdl(struct adapter *padapter, unsigned char *pbuf)
- 		return	H2C_SUCCESS;
- 
- 	if (((pmlmeinfo->state & WIFI_FW_ASSOC_SUCCESS) && (pmlmeinfo->HT_enable)) ||
--		((pmlmeinfo->state & 0x03) == WIFI_FW_AP_STATE)) {
-+	    ((pmlmeinfo->state & 0x03) == WIFI_FW_AP_STATE)) {
- 		/* pmlmeinfo->ADDBA_retry_count = 0; */
- 		/* pmlmeinfo->candidate_tid_bitmap |= (0x1 << pparm->tid); */
- 		/* psta->htpriv.candidate_tid_bitmap |= BIT(pparm->tid); */
+Patch 2 propagates the new return value convention through
+rtw_hal_mgnt_xmit().
+
+Patch 3 makes dump_mgntframe_and_wait() return void, since none of its
+current callers use its return value. It still uses the return value
+from rtw_hal_mgnt_xmit() internally to determine whether to wait for
+completion.
+
+Changes in v2:
+ - Clarify commit messages based on review feedback.
+ - Make dump_mgntframe_and_wait() return void instead of converting it
+   to errno values.
+
+Hungyu Lin (3):
+  staging: rtl8723bs: convert mgmt xmit coalesce to errno
+  staging: rtl8723bs: propagate errno handling for mgmt xmit
+  staging: rtl8723bs: make dump_mgntframe_and_wait() return void
+
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c    | 13 ++++---------
+ drivers/staging/rtl8723bs/core/rtw_xmit.c        |  8 ++++----
+ drivers/staging/rtl8723bs/hal/hal_intf.c         |  9 +++++++--
+ drivers/staging/rtl8723bs/include/hal_intf.h     |  2 +-
+ drivers/staging/rtl8723bs/include/rtw_mlme_ext.h |  2 +-
+ drivers/staging/rtl8723bs/include/rtw_xmit.h     |  2 +-
+ 6 files changed, 18 insertions(+), 18 deletions(-)
+
 -- 
-2.55.0
+2.43.0
 
