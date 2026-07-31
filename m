@@ -1,69 +1,73 @@
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04741450903
-	for <linux-staging@lists.linux.dev>; Fri, 31 Jul 2026 17:33:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B2B33B388A
+	for <linux-staging@lists.linux.dev>; Fri, 31 Jul 2026 19:04:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785519241; cv=none; b=IAaLj97IwGipsi/PGG+9VwvjxET8isUNurNQ5vpdJdukQv2c1vEjEVHzrZ+1XQhgclLvS3SDNTxoPKI7cDLqyjjTETJcyMnRyQflevG4xyACHc5HrBdM8sPiQD7dA/gQVqCFPEVVESV2sr8ytO3RNH2GsbzstSeixjoGbwCWvl4=
+	t=1785524697; cv=none; b=ARe1jCqMjtU/LWIWWGcqGx5ca3xXMQ8ol1B6RdnQbM1+f3SL1im83OOO464CF6KHrhl1dGqCiakzkpJuGFJldZ3SZDoOOp/EoQee037I7LhuV4ZKEGuMKYfFekEEWiItHvYEVMjqtowvKCH01h/tngA068jf7PnsBnhPHYU4vRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785519241; c=relaxed/simple;
-	bh=DQ1TmrGRpLc13LB/YJY94Tfg3wK66ljM5Z2eenTjWzs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IK4ZwTP+njnbD8FZIFqpjGPqpwuFwpn5W9wvBrjYEflDnuczlv2vsgWMnW7SdxvhYJ3DK4sIZcVkctKV5wlnuZD08v5tmmChOytRS8oB3/aPgr0egCUV/x5L/vut8unGSfz1gnb/0Sd2dygTQJloUU0ypmPx9PndZcs3ceGZbH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WYjesfGy; arc=none smtp.client-ip=209.85.210.48
+	s=arc-20240116; t=1785524697; c=relaxed/simple;
+	bh=Pub46kgkCfxnWDMrg74Jhd9YwOvXrEH/ZQC389chyjw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rqKP1J/zmv3FM7tR2NjjqOs1El+bvw6LXJb7pYz6aAuVt3yLSdjTgjTvW12qMEZrxn3+L95DNhNfvAyl1wtvC2iGKTZM0CyHOgtmn3MkqGOQmQTMUr/4Ije/YoP9FcAFYY4XPiNPsQXUj/YfN8CFKrR5Y00S6RnIPgIE6lfYNLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eiO/i+wK; arc=none smtp.client-ip=209.85.216.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WYjesfGy"
-Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-7eb61bbeb25so938189a34.1
-        for <linux-staging@lists.linux.dev>; Fri, 31 Jul 2026 10:33:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eiO/i+wK"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-38de840f2f0so1016127a91.0
+        for <linux-staging@lists.linux.dev>; Fri, 31 Jul 2026 12:04:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785519236; x=1786124036; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1785524695; x=1786129495; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ANOHrvNNVg42ThGU5lHf7n5iQnLKgGzGEzIwYA09EIM=;
-        b=WYjesfGyg71G1oZsfMQBVnEnHQeghe2ObzFG38fzn/NaYM/9eeI7nCM5dpQIfC41DZ
-         ylGpO8cL7IAfCLLXbs5qL/Z1SxSfM5bFuY3TETawdPJt/sxtdsCgsfUo1rbPXQ+Ysrza
-         DODeBdL/UTcKBfDYoYRQS87xzIG5LPbygY4fV71gWcFcpveINsCwJECDHZ4iDapRneEF
-         tS5KtEw4DoTjDKRXR7sg2wfEfOgHpuuln0Y6hIidXNuThkzRcriihKCI/AQJ7Dfj6nFk
-         JAOC9yF89pJiKWe6Hz0mGjVefMznsNiuFpKXg7Qf1amaVyzPkFZiR8qViZr9QHETr08S
-         ERcw==
+        bh=42rb+aSyo3dAla+zqU29A1oNZ1TSHZvIKJ9LHyMaKtg=;
+        b=eiO/i+wK0h0sLPbynGROAi54e4i31vV8IsWcoux9dOxuxOwtECoxwpVyBRikkiS+oa
+         4RtinCl07NGYU9jSBjIjbP0zm/TKi+thwcI6vdlhNKr286rQns5kYgkrrjejk4+21u0o
+         R/sdMbV15IcOCGvxWq2ogLbRoDvU18G3yJsrR6UOkDEf/UCnzfI10/89RM/h//mN/ZBZ
+         Ysl98sCsrPxHNqjFysVVym76l2Vnv7TC0GJ+0rkZ9zZiVMd0BwLlg2ViCq+LXctMkAXh
+         uMwSqOUfEkOFq1SfBx3cSVuTABS/YgzFyOkeTAgFjJTMMR279NUct4R52VJFxCmn6GZW
+         vCDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785519236; x=1786124036;
+        d=1e100.net; s=20251104; t=1785524695; x=1786129495;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=ANOHrvNNVg42ThGU5lHf7n5iQnLKgGzGEzIwYA09EIM=;
-        b=WDCPQBsOUNWGsT1UWfZ0AKcalZi0UBErbJD0mV9QqtD0CiR+wWAx/fJUlgP2OrAI3i
-         TWIo+28toVlH068gPH0A94pYxC95si7cPTh5Kp3TzlGHHqaFItdmQEI3MbmeKZ60VLr4
-         qzwKDn2DfUioHirjc7l5HgVDF9M6p9zpd4kMjlTB7CEHqaJGO7sxJRcLkVNUYlx0z90b
-         a8WEkytnEzB9jDiN/zz9/0nwhabQ5zTQH+tApfrlLVZrT301ZTbnmsMINOYSaZAUjyyl
-         OI85gE9fBRWMgvpA+XpJDvhmQpos63EjxXDd7DzkfZdWtUF3Zpo/+VmqYA/4fXwdeXss
-         1HUA==
-X-Gm-Message-State: AOJu0YzRv4gB4DQv5kdNfrKvokpLbyQp9KgnxKAIYLFvkJUoH5zp01RV
-	DaPRlWIpaWEIrbyBfTK4PKhSdoe0HHmE6a1rCeUD66+Vj0Lx1ComYrk8lPJY4g==
-X-Gm-Gg: AR+sD10tI6b64xWyWXCEg/z6FddC6ovoL3xaa5Paf1ST/MfEa3XCmnNBkCMfhq2CdSU
-	LD0+HUXeWj+9CxRJ18+8vLEjiRsljPBo70r+6H6SZHoFkpQS1rEHk7Of3lW7hlw9T0GKDAtttdX
-	IeaGIfsJADUOdu60yxTAPtfN5ow242yhmCS3KMYGTWkvdzEKuMuc8m2gi2iEUWM7/ABiBnrUwql
-	C55qiP7FW2w7UhzWCRwPHVOiMHTvzVqXT4xVENZ/mqCMIt4o/vEM0KabZw3zXbu0bxPapFPpakg
-	u5zISvmSssD4Iev+qtWRiJ1w2/9Ph0ctEhjP7XyuxvDGgWmwC1Du/dW5/XeMNhWedfFsZXBlfAi
-	9EtYBIkglFsyXPnczQSQ0vuQp8aSDJk07gi4F9ubTKcViDXeY2cLbmL6YI7yYcIJPRzQWhWoutr
-	s4LZWVhetcC+RuKeHPdt7dIxDUbrvbv8fdA2+EtVEbFuaNCL+m8vI4hUwnaQ==
-X-Received: by 2002:a05:6830:600e:b0:7dc:c749:ade3 with SMTP id 46e09a7af769-7f196b4278dmr1505612a34.3.1785519236373;
-        Fri, 31 Jul 2026 10:33:56 -0700 (PDT)
-Received: from zephyr ([77.237.186.32])
-        by smtp.googlemail.com with ESMTPSA id 46e09a7af769-7f18ed9af83sm1151522a34.10.2026.07.31.10.33.54
+        bh=42rb+aSyo3dAla+zqU29A1oNZ1TSHZvIKJ9LHyMaKtg=;
+        b=c9sMWkObWyutl9LI1Z9jtY2J5g44LZza8UMx4B53FkkK7HaS4Ax9f/UIoK6gqrO2j0
+         ztPLF7sTI2zb5wnWCA5t87uBHpPX0l2duwBd2TLm5X9HKUaZS3HoFk1qutkmvBHmLgPN
+         4c7+OAQdMqnqB5LR+bCDz2nlh1Ekl2IJZuOXHEWg/Yn7VYld4A3pbk2TuRLt/3BzNc3a
+         2xHYOuNe5cwsg0n9iJH6ShwhqNnmER3Apok2ASUJkuhyRYfl43ajWO8cH0Wedyig0MKk
+         Ae4DIyezOps33xgICaeneyu02FXN36W5LelNQxXE1qgltbBCvE2gmAXzFa5acbZFmwu5
+         MR+g==
+X-Forwarded-Encrypted: i=1; AHgh+RqjgbbXouK3AFAM3WTBJGPUwzgd4Mg4LS+8hbOD5R0FBIQ9Uo+ARJ30WN1MAUyszR4g6xQdgFhzvxrAwVsB@lists.linux.dev
+X-Gm-Message-State: AOJu0YzmlpIRdJ6z3RjoM8dUNyCaXst1PCwadqAenwWtBtRer79gnqOL
+	TZMd/0xJQXqQUzc3Yel7dC6j0kLRMqEv245zL+v1kfy9vAX4d5Ei7IwX
+X-Gm-Gg: AR+sD120l4R3BS3fUkCjIHxoHnF7j6mgZog5FTMJLjuoTQgIjhGA65oL9/onTN8w0hU
+	Fas5Op0/AhNcI+OQ6/uKIjvwTnkiwekeUqXLEgQsiUJ+OhBgyJoqrEUUFwNhmo49FxUim9eB+fd
+	iRc3zybXehueWSMkDS5hHOkR4i3NNlqnukgvTdoBMmStiEQtkr6nka4fuBx63PK4cBHdG4xI+B7
+	AysUNsz4ko7/nVotL6Dbm4hRmH6f7p+1c1D9bjhDAhERRckhinkVJtoPkFRQW6+ldo73cylPfvb
+	Kds55vtPztX/xXb0rpdFhPWbegiGZUh55gD/GTEbPQC7gIgsD+5MV9sNsxX+iEtbh1Nv8KVh44I
+	xc7zrKQnNBXeYXltE5/KN1JX/b6uqJr/S1zIFd17inlWhzLkR0Tvl5OtX47LX3xNu+Zr8Gaqekl
+	iZpnx3o6sK6qMbGvgkeLbtP9ISUNaJGdAY28sRNrSPhUQB48T5qhkHBdN+9IRSJ0iSMChqE1oVh
+	8yg2TQgj+169+fWGWIaXpwJIOaRY0O0NApe
+X-Received: by 2002:a17:90b:17c5:b0:38e:7168:281 with SMTP id 98e67ed59e1d1-38fbc424a3dmr790107a91.10.1785524695321;
+        Fri, 31 Jul 2026 12:04:55 -0700 (PDT)
+Received: from Debian.tail44843d.ts.net ([183.82.161.178])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3153e06fe9fsm7404570eec.25.2026.07.31.12.04.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jul 2026 10:33:56 -0700 (PDT)
-From: Ali Nasrollahi <a.nasrolahi01@gmail.com>
-X-Google-Original-From: Ali Nasrollahi <A.Nasrolahi01@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org,
-	Ali Nasrollahi <A.Nasrolahi01@gmail.com>
-Subject: [PATCH] staging: media: atomisp: remove unnecessary parentheses
-Date: Fri, 31 Jul 2026 21:03:10 +0330
-Message-ID: <20260731173310.101185-1-A.Nasrolahi01@gmail.com>
-X-Mailer: git-send-email 2.55.0
+        Fri, 31 Jul 2026 12:04:54 -0700 (PDT)
+From: Mirza Ishan Beg <seedandsyntax@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	seedandsyntax@gmail.com
+Subject: [PATCH] staging: greybus: raw: add comment for list_lock mutex
+Date: Sat,  1 Aug 2026 00:27:20 +0530
+Message-ID: <20260731185720.30187-1-seedandsyntax@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -72,28 +76,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove unnecessary parentheses around comparison expressions in ov2722.c
-to be alinged with kernel coding style. This patch is only cosmetic and
-does not change the logic.
+Add a comment for list_lock mutex to document what it protects,
+fixing the following checkpatch warning:
 
-Signed-off-by: Ali Nasrollahi <A.Nasrolahi01@gmail.com>
+CHECK: struct mutex definition without comment
+
+Signed-off-by: Mirza Ishan Beg <seedandsyntax@gmail.com>
 ---
- drivers/staging/media/atomisp/i2c/atomisp-ov2722.c | 2 +-
+ drivers/staging/greybus/raw.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-index 2c41c496daa6..475bc521651b 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-@@ -731,7 +731,7 @@ static int ov2722_detect(struct i2c_client *client)
- 			OV2722_SC_CMMN_CHIP_ID_L, &low);
- 	id = (high << 8) | low;
+diff --git a/drivers/staging/greybus/raw.c b/drivers/staging/greybus/raw.c
+index 459aed0f1240..17c88778c30c 100644
+--- a/drivers/staging/greybus/raw.c
++++ b/drivers/staging/greybus/raw.c
+@@ -20,7 +20,7 @@ struct gb_raw {
  
--	if ((id != OV2722_ID) && (id != OV2720_ID)) {
-+	if (id != OV2722_ID && id != OV2720_ID) {
- 		dev_err(&client->dev, "sensor ID error\n");
- 		return -ENODEV;
- 	}
+ 	struct list_head list;
+ 	int list_data;
+-	struct mutex list_lock;
++	struct mutex list_lock; /* protect list and list_data */
+ 	struct rw_semaphore disconnect_lock;
+ 	bool disconnected;
+ 	struct cdev cdev;
 -- 
-2.55.0
+2.47.3
 
