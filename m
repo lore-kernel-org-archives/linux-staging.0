@@ -1,72 +1,72 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF4173C8C62
-	for <linux-staging@lists.linux.dev>; Fri, 31 Jul 2026 10:43:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B8C6407CCC
+	for <linux-staging@lists.linux.dev>; Fri, 31 Jul 2026 10:43:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785494638; cv=none; b=ZKr2HhwGb8LZ6GSNwoV2Or/xtJv/K1eh4aXHupROZD86507loBLKxYWxpi8eTmA6Gb0lR7I8LCEM5Y4i+64fP+E89Lphmx6J3DpjfACnxNR/Pt73ufeSQoVF1oYZ+11u02z/dbidtfKlWnl8aXjeKnQL+sFE+5FBeE9wFJ7W+tU=
+	t=1785494641; cv=none; b=ct0oNHpndlQBy+MJ7nMiVbNkgUT2xsXcDWO+nRhEaMhk9LZ+hT8psiTt357tljr1O8pjVMRWcbFA8XAoVn3A+5bir9xMewOmzzCbrOweHudWbAttjLMxYTthecqcmVNO78ue2czOodkqaahDcY8yYeF7p9k5g0L1Gqsx5YH7m3s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785494638; c=relaxed/simple;
-	bh=pW6vyIzERmBXqn1/A1MdW/DxaRNuYIsxm7FIZhJRgMw=;
+	s=arc-20240116; t=1785494641; c=relaxed/simple;
+	bh=K+vJbAC8Id1W3KleLtg9zUbUBVEVfAcnrfTeLUgnt5o=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DdC2yps7DlreT7vUbs4lmE3RsLUpW05PhGuZjzB+K/g2qxqwObpILWaekv/2QOuU1+BzBeQOHp/0L8cD7rAUVDwoe6GxPO4QUfhXhzF1+syrnkUtSu7hGcTBt9OAYd2shMNWS9KHtlkBwf5FXq6/iP2vSJgzIDEDaJJGSGUNzAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FG8FvmOO; arc=none smtp.client-ip=209.85.221.46
+	 MIME-Version; b=MR0M4Of0iZrMeICADY8p5LOsXPAl9c+oUy+IV/NYULn8ZqHDGQRXd2rgmqCzGKmtqkdYldemKXA/qpTj84NwESZGPDdvR++wIodbCyVj5Z0wcE6s5+T98qxtG8BbxssvCgmRqScCJ9f9IG8sDQSxYIGs4+Zp5A729AwGzDLNShg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=slGS8bf3; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FG8FvmOO"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-47f59f25ec4so374701f8f.2
-        for <linux-staging@lists.linux.dev>; Fri, 31 Jul 2026 03:43:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="slGS8bf3"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-47f84023916so852845f8f.3
+        for <linux-staging@lists.linux.dev>; Fri, 31 Jul 2026 03:43:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785494625; x=1786099425; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1785494626; x=1786099426; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=IbKaSw+MRwNj4WVeJIQ63LYq7o1fQU+CkE5QYBwX4fE=;
-        b=FG8FvmOO4GH/YX+DOlZBSszcKwqHbygouyc8T/eY0qc6EpLYKM/hd/06QnLuIAp1PC
-         R/djym9eWj4dgwriC1G4Sgq95j1B2dsVhtoY29IIMeP+6VEh3vwwv5s1xAo8fS8XAJPQ
-         zKVFYfjOSgEGY16QOpyXpZwv5jv9IbqmTutjKqPe8DrmFtF7uSHc1u1b/VU7LIQTO4by
-         o4VvZv0PC5RrfoQw1c5c0QYWwigyiJofkpgOSAIxr1wA1/wc3/se3eyJtEstVuXjBd/g
-         4Pdh+JXjuaQw/JnXwHTyS+ymIRNY7NqD13jjusLUB5UeFke+RPpWCrnibhqKrO6/lYMj
-         sH5A==
+        bh=m6zJBjR+mvcaIlTy8xSgJ5FSu18xQ+6e4Aiu2C8CT08=;
+        b=slGS8bf3xjxnRBtRhJJs9dBQcf9Q8b6xfzjU2IjBeVzxGTy0aDl4PlVJBY9QZFL4CM
+         08uCGcYSNamqYsytmNUtmCtFa5TI27g4FI1RZTeFp4lfjo05hOdWAFPkhYX8jg+rXyA1
+         D3JQ5OUy6oWkK5xk8QcpzYgS20gYlvFyYvysXA3QF4ukx/HY+CGyI5WxzSr/Wo6uCYSs
+         WX2CjqwhNJcFlKrWFcJKiwQsJNe/Wbfy8eTJFcTGNekWoi0UJ0dxxuNYFRl52vFqS3M/
+         jbXjk3zqfT6/4S+T2fGoieQ91XpG3N63CPJPN8fKgGYhuOLSLzFfCkVDwAuvR90uj2JN
+         ShSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785494625; x=1786099425;
+        d=1e100.net; s=20251104; t=1785494626; x=1786099426;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=IbKaSw+MRwNj4WVeJIQ63LYq7o1fQU+CkE5QYBwX4fE=;
-        b=kEOsvVQ8emxP6qZz+uOfJiZ8hRU1/eAT9IgVeZuk7930jKpR1jnTGp50UfcWphkG+q
-         8KB7HRcFd3E+wwKmYkzd70rgYu73LkT12GvwVL45SOUmJITNIXu4WzvzxH0MF2idB9TG
-         u7tbwfDZx3Qexr7DK4PFBqLgCc2Gqndd3ZMxcjx5gCLGvZvJoEzRyYBeGX5a+MZLWjfp
-         vS/rSQSfcTXutEXaN0r92fTs0mqu+N1wiQF2yYCruulVy+q8KZ3UI/iTNt/VCDYR5QN/
-         yo+d3WOe03aVIbSG+8gxRS98k5vdIGSUxqXXECwiuGwo3ohcbuCsu6SZkpTT0W1D5KZe
-         OWiA==
-X-Forwarded-Encrypted: i=1; AHgh+Roc+W7pxhdyrZuvEf65PuUSgRQYeD9Y1k7UO24RFTnXaFsj5egla2ha8gAU24tB00PWsflNqEsdWBqFhc9t@lists.linux.dev
-X-Gm-Message-State: AOJu0YwGxbi4Z/XLJjQ5rw2DP2k0WHQhVTLM7UCiOIoFTjjNte3w00Cq
-	c3Lv9I0edJtlsUlJQ3yeWhSaqrHjqBFU8qk8ekJnwjo0JUdKYPfSfbgyPokKvH8A
-X-Gm-Gg: AR+sD10DbWtofNzTLHlc3MWJ64nwIZDXjLDq9XUOhHFXjeeEvpO1bLxVCsawJYg0R1g
-	PR4VSVfOLLkrglgAXy6SSRCtkc8m9fNbTDPPn79jOh9Gx8gvKM5DoQCSRw0LyzsN2BBW1Z5URcO
-	rgteiuCfdEUbCE9ucBHSI5llbCXajbjR2cO4FVULkls94HGPLgZaPlJf/7jtIjnYDljJ0XpThTP
-	7LXqnhpqgmR68s5kuQ7EpeE8N0MD5tFwCJZkDJh7m+AYKW5pyxwV5C4lcKJAAMBnPP+sUDZmt65
-	v0aynuGeEP1Txc1Br18kQzjzQ6o8m48RNAyPSpZPYq7umeBHzwEy0hukwjJCxd93BTRPxBaq/c+
-	dx1WrTKsV09wOS4wbnSW5Vr600jkGQKiueEw2XYMeCXkG/pqDWXdZ1k1TV+aKGpXchvi8ItXHDA
-	ED2HDg67Kr49aJwV8xc0a13WgOIPqJWMKbMY5nJSPl9DlQKtNEv297ADkJZx+qQH5Dh0XBxblCG
-	EZLaFx5j8yAZmxb1EB1qYVlhKpAXFbdm5pPkSRPiOCeqS/K7jyOykW91xBuCjw=
-X-Received: by 2002:a05:6000:18a6:b0:47f:773f:2d68 with SMTP id ffacd0b85a97d-47fd2ac9f8dmr3724016f8f.16.1785494624402;
-        Fri, 31 Jul 2026 03:43:44 -0700 (PDT)
+        bh=m6zJBjR+mvcaIlTy8xSgJ5FSu18xQ+6e4Aiu2C8CT08=;
+        b=G8+x7rsnIXh1XAIbhIguXNpFee9eHrTv8sjZtOSnLIA7ZJ4+Bh+ugLK4yO+IczzpsR
+         a9VVPKjodyVHQQjws3lNRsQjzfUx0sRd41iEOQmy7fwBZ+J3EqoVToR8vt9nKpG4FsFU
+         zoIzqJUfOm0/YKSIt8flCUCxrkzEGcJiAcM84B7uJqQwENan1FogaBQAEWObK0tAAgew
+         ELEmFCwiToKlo04JrOyfM4ZsSPN7Zc9sSPH8Vm6TXmO9jFXAQBAt10VVA80U2I2J5yoY
+         QebRQhR1VwADA03NG7a0hro3QydAAaYbXKqWrVEOzML1HY9RL/MMuFtOKtPJv0BvKQRD
+         csvA==
+X-Forwarded-Encrypted: i=1; AHgh+RpEo78XDrIafcHLoHLHro1DwvjFKn39iaHzszrRdoBgtX31gg1bnTarZrsTUsah3sPJGoO/qgP0ExGjxGku@lists.linux.dev
+X-Gm-Message-State: AOJu0YxAuj7IWNmz0bPppv7WyC8KRxZFHJxnp79QeBs3WC6MQ3iZbJ8h
+	X3jnoPM6oJ8/KN7SdhJ9e8kCbAuYVzJYTRWFZge/miaiczJ6B/9PT89SIF1CQmMr
+X-Gm-Gg: AR+sD10TXvxZIytOlYlVeWUWTwILTEoZrAFJfpyjUtvhzGI1eqLffRjflBHstCW0QA6
+	4Toml+995MLgHYAlMSZwoFOtzMhACor3uleHUuI7MMi+Dh8gcg2vapbxTMSc+VMyLrhTlmsvrRi
+	kAwxm98aaPm18lUZtpq5e6cWJHXF8lVsvdOUctJQ67dNwVxn995XsCstM8anL5D7vf7v5+CWqzk
+	hKd0O8+2xVhZEdO4I2tJKdvaLKW2MrQp94aGuGCEJlvDlyxJDYr01zhd1k7SVKjtQq2HbmjcY4C
+	25MaK1uJDuPZEXvaLYfel7Kv4K6SDVgP2+QW8x4WkEHfvm7ntXLOSgGo1g69YuWoKzJzQYh77k7
+	VsjJfS1UQVwt8HKu9vvm523L0Maa/hsp4iQKCMujspOgpUIFF6Jk+CTORqL6TQgnxyhwHX01VXU
+	FrceAA8AuGRUpKvZsrIUtKH9t6bj5yg2VwAHuHOlwrs4zTY1IuBjK6QbhgZ/lqnvRuKfEZw3Vev
+	QaspMHJQ47kF4IdptnWtI/h3VSfxMfmxXd7dMVcSDIF6CqtqsCs
+X-Received: by 2002:a05:6000:268a:b0:47f:7b85:b883 with SMTP id ffacd0b85a97d-47fd2b6983fmr3363564f8f.47.1785494625931;
+        Fri, 31 Jul 2026 03:43:45 -0700 (PDT)
 Received: from koolguy.fritz.box (dslb-088-074-233-039.088.074.pools.vodafone-ip.de. [88.74.233.39])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fd456a6d7sm3423134f8f.19.2026.07.31.03.43.43
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fd456a6d7sm3423134f8f.19.2026.07.31.03.43.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jul 2026 03:43:44 -0700 (PDT)
+        Fri, 31 Jul 2026 03:43:45 -0700 (PDT)
 From: Dalvin-Ehinoma Noah Aiguobas <fliegbert2@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	Dalvin-Ehinoma Noah Aiguobas <fliegbert2@gmail.com>
-Subject: [PATCH 08/11] staging: rtl8723bs: renaming variable bHwLDPCSupport in rtw_mlme.c
-Date: Fri, 31 Jul 2026 10:41:31 +0000
-Message-ID: <20260731104134.12754-9-fliegbert2@gmail.com>
+Subject: [PATCH 10/11] staging: rtl8723bs: renaming variable bHwSupportBeamformer in rtw_mlme.c
+Date: Fri, 31 Jul 2026 10:41:33 +0000
+Message-ID: <20260731104134.12754-11-fliegbert2@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260731104134.12754-1-fliegbert2@gmail.com>
 References: <20260731104134.12754-1-fliegbert2@gmail.com>
@@ -78,46 +78,41 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Renaming occurrences of bHwLDPCSupport to hw_ldpc_support since the
-prefix b is an old naming convention to indicate a boolean variable.
+Renaming occurrences of bHwSupportBeamformer to hw_support_beamformer
+since the prefix b is an old naming convention to indicate a boolean
+variable.
 
 Signed-off-by: Dalvin-Ehinoma Noah Aiguobas <fliegbert2@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_mlme.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index 0da5515a6be5..6a7b86532d81 100644
+index caf8c7623a73..e0dbf420ac62 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -2183,7 +2183,7 @@ void rtw_ht_use_default_setting(struct adapter *adapter)
- 	struct mlme_priv *mlme_priv = &adapter->mlmepriv;
+@@ -2184,7 +2184,7 @@ void rtw_ht_use_default_setting(struct adapter *adapter)
  	struct ht_priv *ht_priv = &mlme_priv->htpriv;
  	struct registry_priv *registry_priv = &adapter->registrypriv;
--	bool bHwLDPCSupport = false, bHwSTBCSupport = false;
-+	bool hw_ldpc_support = false, bHwSTBCSupport = false;
- 	bool bHwSupportBeamformer = false, bHwSupportBeamformee = false;
+ 	bool hw_ldpc_support = false, hw_stbc_support = false;
+-	bool bHwSupportBeamformer = false, bHwSupportBeamformee = false;
++	bool hw_support_beamformer = false, bHwSupportBeamformee = false;
  
  	if (registry_priv->wifi_spec)
-@@ -2195,14 +2195,14 @@ void rtw_ht_use_default_setting(struct adapter *adapter)
- 	ht_priv->sgi_20m = TEST_FLAG(registry_priv->short_gi, BIT(0)) ? true : false;
+ 		ht_priv->bss_coexist = 1;
+@@ -2221,10 +2221,10 @@ void rtw_ht_use_default_setting(struct adapter *adapter)
+ 	}
  
- 	/*  LDPC support */
--	rtw_hal_get_def_var(adapter, HAL_DEF_RX_LDPC, (u8 *)&bHwLDPCSupport);
-+	rtw_hal_get_def_var(adapter, HAL_DEF_RX_LDPC, (u8 *)&hw_ldpc_support);
- 	CLEAR_FLAGS(ht_priv->ldpc_cap);
--	if (bHwLDPCSupport) {
-+	if (hw_ldpc_support) {
- 		if (TEST_FLAG(registry_priv->ldpc_cap, BIT(4)))
- 			SET_FLAG(ht_priv->ldpc_cap, LDPC_HT_ENABLE_RX);
- 	}
--	rtw_hal_get_def_var(adapter, HAL_DEF_TX_LDPC, (u8 *)&bHwLDPCSupport);
--	if (bHwLDPCSupport) {
-+	rtw_hal_get_def_var(adapter, HAL_DEF_TX_LDPC, (u8 *)&hw_ldpc_support);
-+	if (hw_ldpc_support) {
- 		if (TEST_FLAG(registry_priv->ldpc_cap, BIT(5)))
- 			SET_FLAG(ht_priv->ldpc_cap, LDPC_HT_ENABLE_TX);
- 	}
+ 	/*  Beamforming setting */
+-	rtw_hal_get_def_var(adapter, HAL_DEF_EXPLICIT_BEAMFORMER, (u8 *)&bHwSupportBeamformer);
++	rtw_hal_get_def_var(adapter, HAL_DEF_EXPLICIT_BEAMFORMER, (u8 *)&hw_support_beamformer);
+ 	rtw_hal_get_def_var(adapter, HAL_DEF_EXPLICIT_BEAMFORMEE, (u8 *)&bHwSupportBeamformee);
+ 	CLEAR_FLAGS(ht_priv->beamform_cap);
+-	if (TEST_FLAG(registry_priv->beamform_cap, BIT(4)) && bHwSupportBeamformer)
++	if (TEST_FLAG(registry_priv->beamform_cap, BIT(4)) && hw_support_beamformer)
+ 		SET_FLAG(ht_priv->beamform_cap, BEAMFORMING_HT_BEAMFORMER_ENABLE);
+ 
+ 	if (TEST_FLAG(registry_priv->beamform_cap, BIT(5)) && bHwSupportBeamformee)
 -- 
 2.55.0
 
