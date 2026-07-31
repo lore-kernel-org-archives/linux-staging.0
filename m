@@ -1,32 +1,32 @@
-Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
+Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com [91.218.175.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF6F0253B42
-	for <linux-staging@lists.linux.dev>; Fri, 31 Jul 2026 01:20:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8E6029ACC5
+	for <linux-staging@lists.linux.dev>; Fri, 31 Jul 2026 01:20:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785460803; cv=none; b=D7l+ow8KZxTvobBYiqI153v3wAONkkfHq8SlzX5MAgtJI4wd+BXKA1ShO0hjjjRsD+DUM/8a8XRa+dEqEarYbd6TPq3KQedORUD7tb+BORCxBMlGwuwLyAv8zb1bwclt9udSrsGwp1fPs+/OfZtchPa+wFsuoA2WE95GjW3Y5Sg=
+	t=1785460810; cv=none; b=dkbbz+3oc8kIscJ6Ju9IGe7UXK8L8/dTa9yyZDAQdgAOEdkXd5Cr3gLeeW/PMdrD3JpdrrbUaioCNGgu35Dd1JS9rMLlvEDss20iFpYsoqBadeUeLn02zGg6a7zi+WW2mAGyS9EXmyuyEyJx+mmDmBtY1hrmeN7unR8D7L3smS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785460803; c=relaxed/simple;
-	bh=FcgnHvf/nf59EDdmbipZWrJ+c6ayLiiQbkljh42e7Uk=;
+	s=arc-20240116; t=1785460810; c=relaxed/simple;
+	bh=/1G65/0RGWqgYt6TvQ0u8uwK//Jr7KOjKUmITCD2xpg=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=jdJDtBQeu3ywI5ATe4XZqrBXuZZwP4KkRRdCM6M0k9YonKzFZtb9nAVfoSdFHGLjsaQ44FnHNDJtPMldLAnK9DxxQDBeAEhWIdKD9CuRx6w5OJ/ytjawoEv8Gn+4Ngoi9fYlw3kiE/ImR0/3WfJ3yoBZTuwo+t+pa0fhXGn2SLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=OTxZn8Lq; arc=none smtp.client-ip=91.218.175.188
+	 MIME-Version; b=GUMysW3lB2xJLeZj7kBA2m2qZXrBZr9bS8xFYKfBLhcDDT+7NqIgUc/31Ny65y2f1Vcund8PcJLPpbg6n8oyPpP5+g8oGkStKnk5JuG2L+MuO0OCeyw6vmHGp43EF1iLQ89zjzvgrjmOF3axfHLiSDZiCT2WUpIFG9F93bnpj2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=V34RUJJq; arc=none smtp.client-ip=91.218.175.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="OTxZn8Lq"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="V34RUJJq"
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1785460798;
+	t=1785460800;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Afs96YJEbYAMJtEzntjOA/OwDoHOu0CZXDKx9MAXo9I=;
-	b=OTxZn8Lq0aziEnqr/IMeKvehXIUKesnM/ZXg1NIFMyL9NLWagGZUpcTjC+SgHZHFwjQh9x
-	nLUTQAc1IgPi4zWG7jJlFihSGKWcOS0yulB+7gQs/v+u/oWlgct6lSNsiCaL5jgk6+UMJp
-	6giZCcB2SnsuGUNmvS1mR4hrwBJqFp4=
+	bh=1SjDezo3u50GFBkzPXvGQqu6t8Eum3WQXRXk4DRobfs=;
+	b=V34RUJJqI2WzEzM5jycvNGBPqDWtsNDpx/jqdhrY9CaenAV/W59klc1KZywkNImrB8EFZp
+	exRrl6cW67f4CdV6ZGB8PBNY8GtR+UmhHexWVwi0j9Aht34owXtrErKm7/1Q0sgocH4uf8
+	OvNq5ACRx3gRb5qPXUqOQ/BkzgaXaUM=
 From: Yi Cong <cong.yi@linux.dev>
 To: gregkh@linuxfoundation.org,
 	error27@gmail.com
@@ -34,9 +34,9 @@ Cc: linux-staging@lists.linux.dev,
 	linux-wireless@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Yi Cong <yicong@kylinos.cn>
-Subject: [PATCH v3 3/4] staging: rtl8723bs: fix NULL deref in c2h_wk_callback() on alloc failure
-Date: Fri, 31 Jul 2026 09:18:55 +0800
-Message-Id: <20260731011856.2006363-4-cong.yi@linux.dev>
+Subject: [PATCH v3 4/4] staging: rtl8723bs: fix NULL deref on bcmc station lookup in defrag path
+Date: Fri, 31 Jul 2026 09:18:56 +0800
+Message-Id: <20260731011856.2006363-5-cong.yi@linux.dev>
 In-Reply-To: <20260731011856.2006363-1-cong.yi@linux.dev>
 References: <20260731011856.2006363-1-cong.yi@linux.dev>
 Precedence: bulk
@@ -50,38 +50,46 @@ X-Migadu-Flow: FLOW_OUT
 
 From: Yi Cong <yicong@kylinos.cn>
 
-When the SDIO interrupt handler cannot allocate a c2h event buffer
-(GFP_ATOMIC under memory pressure) it pushes NULL onto c2h_queue as a
-"needs re-read" marker and wakes c2h_wk. In c2h_wk_callback(), if the
-re-allocation also fails, c2h_evt stays NULL and execution falls through
-to rtw_hal_c2h_valid(adapter, c2h_evt), whose underlying macro dereferences
-c2h_evt->id, causing a NULL pointer dereference panic.
+In recvframe_chk_defrag(), when a fragment's transmitter address is unknown
+(no associated station) and the frame is not a data frame, the code looks
+up the broadcast/multicast station with rtw_get_bcmc_stainfo() and
+immediately dereferences the result to obtain defrag_q, without a NULL
+check. rtw_get_bcmc_stainfo() (a thin wrapper around rtw_get_stainfo())
+can return NULL, for example if the bcmc station has not been or is no
+longer allocated.
 
-C2H interrupts are produced by firmware/network events at runtime, so this
-is reachable under memory pressure. Add a `continue` in the re-allocation
-failure branch to give up this event instead of dereferencing NULL.
+Every other call site of rtw_get_bcmc_stainfo() in the driver checks the
+return value; this one was missed. A fragment with an unknown transmitter
+address received from the network (e.g. an injected/rogue management
+fragment) could thus trigger a NULL pointer dereference panic.
+
+Check the return value and set pdefrag_q = NULL when no bcmc station is
+available, consistent with the adjacent data-frame branch (the later code
+already handles pdefrag_q == NULL).
 
 Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
 Assisted-by: GLM:5.2
 Signed-off-by: Yi Cong <yicong@kylinos.cn>
 ---
- drivers/staging/rtl8723bs/core/rtw_cmd.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/staging/rtl8723bs/core/rtw_recv.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-index b932670f5d63a..e9b1136dbf668 100644
---- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-@@ -1716,7 +1716,8 @@ static void c2h_wk_callback(struct work_struct *work)
- 					kfree(c2h_evt);
- 					continue;
- 				}
--			}
-+			} else
-+				continue;
- 		}
+diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
+index 86c5e2c4e7ddd..ffcee431caf55 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_recv.c
++++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
+@@ -1146,7 +1146,10 @@ static union recv_frame *recvframe_chk_defrag(struct adapter *padapter, union re
  
- 		/* Special pointer to trigger c2h_evt_clear only */
+ 		if (type != WIFI_DATA_TYPE) {
+ 			psta = rtw_get_bcmc_stainfo(padapter);
+-			pdefrag_q = &psta->sta_recvpriv.defrag_q;
++			if (psta)
++				pdefrag_q = &psta->sta_recvpriv.defrag_q;
++			else
++				pdefrag_q = NULL;
+ 		} else {
+ 			pdefrag_q = NULL;
+ 		}
 -- 
 2.25.1
 
