@@ -1,75 +1,71 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2E4941167C
-	for <linux-staging@lists.linux.dev>; Fri, 31 Jul 2026 10:43:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 076E53C5833
+	for <linux-staging@lists.linux.dev>; Fri, 31 Jul 2026 10:43:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785494636; cv=none; b=RlSS6yyjc6IWEcTthJaxMSVx3qcjwzekj8ky70iefFu5gN7Jy0mtIFVwqvPsACiGIUHOthTdpITxlFHR34k9toYB/th5/ctzZ29zYrtokPphnq7CSZ7vYw03j2OngO9seqaHmCMDFAo1ek2yhKlcibKRGq2Kzs7OINpayOWIsnY=
+	t=1785494635; cv=none; b=XmmXyzarK3QzgTB4W8H+w3Dwta+u464RVawTP+3Oooii6A+8AG90322m1mS7fVz3nMUcsgabIL2fV5ehCB87wcynCxiy4mgZ/AQXH9XAmvO74wNAJ6FmY3zt9KjFYB7fpU+IfJH/ucn5w/6ZAF2zQjOWEq5fISe0G4XxxpW6ixY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785494636; c=relaxed/simple;
-	bh=iaVUpV/d+U2iLTKuHJHE3/DnccaoZGxveCcdeVs7kqo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dpheCz2K71Lw9jRzsKbHo6h08x+mEiCIwCyEHUU1WMHpQaFGICpyMqfJ18CFd+p/O52INxqTdhiAyjqx79gX0gM5CSid42vk2MNwFMTlpxjaJblc5JUAWcuvJ4/EwGPU0Vh/I4iIf19A4sgVZGongXym05hFEZVyP3+sm6gqJls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K+c/mwWQ; arc=none smtp.client-ip=209.85.221.48
+	s=arc-20240116; t=1785494635; c=relaxed/simple;
+	bh=HxwJmVcFY+aunv1tzkGrtLBUdHMQVU4afpXrVIxieYA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Uc52p0SjKAjxiR77YCT/tjxbmJO3CzEej6OeJyzGYtlp2i3MNm0fil8NqfJZs8VJUZfa09T7scL7VuzSdQW1f1hYh/qpeTRAQlsrd7TuLRQKzQzhN2PCAvyUZF7Fb7QbMrdH7mh4PbCd0KrB6RxXRg0/N2Zn+lhaiEbRVxuGxLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XDO+Yf5k; arc=none smtp.client-ip=209.85.221.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K+c/mwWQ"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-47f6609c657so414637f8f.2
-        for <linux-staging@lists.linux.dev>; Fri, 31 Jul 2026 03:43:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XDO+Yf5k"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-4728c12ba97so488114f8f.0
+        for <linux-staging@lists.linux.dev>; Fri, 31 Jul 2026 03:43:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785494624; x=1786099424; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=kbMMxVWI1HxBa2UGVYvHtHHQFtntrXS6D3AyyDSHIP4=;
-        b=K+c/mwWQGdhsuEJW3tvGXNGGKtkg2e9GD68HUIJk4zBlSl4QonDDiHg22fVN4GPG3U
-         6gFd4pyjV+hA8RwlMqH5JHGbEu3CYJs9bPABJMJ0OoX4EjlE9EhOqC23jEIyTH7Iue02
-         R1RBR8A6V0cHDW4v+x7LcFmlx1SXNcy5dDstNtAka/iat0Z0OgjwawdxoKCrjnRAXhAI
-         syvzE9IeS7mGTEKA21KxOWHUz3Nqevjc+8nRrB69EWudBy+Gy1xUOI50BKPyMO9KH5an
-         guUzZ38jxwF+v2AJ9MwWDhi9e+TSNsFoO9LC3G2NyYtC8izFE1rDoFYh6ZnTgEiCbUFT
-         nDKw==
+        d=gmail.com; s=20251104; t=1785494619; x=1786099419; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Is8qTwEFvpRyPXN5IK1Gedxfv7DNnnmfqXUL4XRaUGo=;
+        b=XDO+Yf5k2euam2YnwblKSr0HG/NpFrd5lREoMPQJfH0JopIvkjyPiwVSou8zPu29UB
+         4EQXICBozQs0UANq4gRcEdeseFy7WBpLxulG8sbbI5sadG6FQB9jep+ixeGoSaaOoOum
+         WIwHCw9xtskIEN3PAhevS3JSt/A7jxt4XpXD5dImattip9beDQlLLana2OBrcvkLWRw8
+         atRiKDJ5Hu5rB3xRjn0SXAi6Jk8S37RJcguSmL+b2dCDk8oxYgsZzaj2fAfuOZp7q890
+         C2QJF5tQaaXDtc+wYvdXKAQtDtHx5ZNXikRdBIj//9NzuweJ3soRBkpnSPxPn5GMKfn3
+         RHGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785494624; x=1786099424;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=kbMMxVWI1HxBa2UGVYvHtHHQFtntrXS6D3AyyDSHIP4=;
-        b=Gv7Fi0GYELcRF0LqR/c7zW8v7cgfFvVdbnEyi0c5R5ZCihyeeCJi0XkRi3Xj5MR3iY
-         nPC1cf/lV17yEGHHTpugptLUGHJLz46nmAsaAH9ALsVsM1HTPj9/CAHxsFL8w39qRb3U
-         a8JFG7Q1o7i9aVH6fU6hm5bvDWsrEtdjltcHjjJ5+KiMRta0sAOM9ArQMpImiLJ42GpH
-         tTLO8FWTv9rv1snBC0OEhhV95kZ+YN/6sGNDB8pduIF5DgRkCpLFZADnWlLOHP6w65JC
-         k+lQS2w55Unv1tPkogtpNJwzA3dVj0lJrXgaWrJ9HhCjv2cNaoHMeFlQw+8SM1l+LjaG
-         zH/g==
-X-Forwarded-Encrypted: i=1; AHgh+RqgNhACTH+ZrTTbCcM5vuN7eqh5ovmOCLqvXUxvtgiiDoSdohRjw6rsojDnRYGjwH9/K6Hdpj8f87JsLOLA@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy9N8yljpAbK26A8aC0f0WBYdXeUd7lQZNgjAVlfcQPVIgbcXhy
-	oEX7Tz5zUr4QZ+Gw6zYP7S0/TjJi8YUJCCiMvlO0tWW7LF0mq1GxVAWs
-X-Gm-Gg: AR+sD10Ya2drqupr/KDENVta4X8m279WZimxGJPhQ6M5riD1MUwL+zlS5DcLeUQkIKQ
-	D6jYMMdLhCKXUjeZNO5AqiGuZ3imlTFeGXmM4CrNDfRQ8SXt4pq5yvZD8Q+GdqOQAt/EUwsnXkD
-	6Z7+hI5Bx/TsDWgLj7iJo9k12cug43htNPSEhUNWDYqX7eh+PxZATc/8tQoGNJ7+6vxDV8X178A
-	TXeFh7H6ZhsZiplghvD8trr087PE2cSu9C0QFnec2JuiNRtzM4N4cPliStsRfbisiodx284Q6/1
-	d0OdbW54/zojDGRd8B3IE3B4O6VjojBSu7kmh2WmcXI3QnLYdXyri5mQNB12PXWEA92xkB1cZHs
-	N7wBWo1U8gvy47BFpvep+0+n+tsgGlKbwqpcDnCm5tVHy7XlJuju+/ZWFhORogZtihMHb8X5/Ez
-	MAHS+yURAclApRF85+7EwMPR9593LXFxHLZa6C4Ss1WxtZzw67ZKZzQfWmPfI2jA8QC3vX775B1
-	dXGgD96+SOMmzyfO78eAW7K7MF3ChHkcHeToLYRJRmAzhf80GO+
-X-Received: by 2002:a05:6000:41f2:b0:47f:81fe:12f8 with SMTP id ffacd0b85a97d-47fd2ababd7mr3595905f8f.1.1785494623811;
-        Fri, 31 Jul 2026 03:43:43 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1785494619; x=1786099419;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Is8qTwEFvpRyPXN5IK1Gedxfv7DNnnmfqXUL4XRaUGo=;
+        b=rGk8tn3jPM5RfqKGBYrDLbsO9FIFHubg7RLgZg2Fl/Fo7hcef2UljGIROQkKfpWBjl
+         yiflUJXY502v3BwDT2EFtsp0kVkxRDHN4PucXOkOIHcm0Lo+DgEjqH64Eu0mBnE5K4ey
+         vebhEER1Wd7iDThndifLQolRqRDXgBtdlQz9JvgxGraw3px1LiYGzO3ek1Sx/mPcL3gI
+         Wf6K/JC8QBEGbPBWZcceDKpQae65Kp9X4Wrw11I2as2qNV/0pF426trJPTt9IvobwB5P
+         IZUb2UGOY87hfH7h77bXC3/Ld2b9OUgt+qaUZTGCB1CS/FzNrW//NFyWqIL1A69z2mEM
+         tW4w==
+X-Forwarded-Encrypted: i=1; AHgh+RpbEEgA4AIog7pwkLE5dw9CPeeExQAjdkKa+7wP53/6yoWbUNeRDzRMCTP2yX0T9FlX78yDFgldoRlcdQhJ@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz+ukPcc2Ps3XExyzBrw7UNkJLl59eDYFGmcZ2JWDHvgIvmS4CA
+	Y4TFGIOeXXpEgDFNbg0RpjkqESxODsli+vAxKhbv9Sv0owhSbWqg0RrYEglS55eV
+X-Gm-Gg: AR+sD12GGoe+GAM2KKXCRWYu159v4XbS/QpNtGsbQbjOM3FSSDCw+UoTXB0fyFXo2Vg
+	ToUGyVWUpFWIFXuTTd8flWPyTpsckIu/sn8SqvKoxUHkfGF9duEXu6on9oZ7n0swMGJ/qaP/bL6
+	qUa7NYWCES1muVfAXEwURa2Wx910rFI/+c4TOha5GPxM5SpXBUZfMHbWDhH9WtFFyeJpJpivja+
+	cb2w02zU9uhjkPAjHNwULyezhkZjggKiS8kuEY/smN1AsmRa40snh2SS7xfDtPHZ4QXFMQDJ6+L
+	4hFLAYv03HwW46l/wj9kTWGeK9HZiv0UFUlBzaWl0WlSRrHcq6TYz59TFbQnZeeA5NOmkUoVvxr
+	diRXV6IQZrtFuZhCX7kG6eWEEQnYvKGmDgyKik73KiC2A+8yc6y2usS/GWIus37jIu+VaY07UET
+	zE9QpqepkdmTaDnfqZNRzg1dyp/CjqA9cW8Rz+Pp0HlnYNEU+QD6aeip2i4/RBqHcUi7iMffY7i
+	f+9l/i3PiBlf5PM8JJoQo2encOhf21gxNoNsBhD92x2hyDUcKSJeA==
+X-Received: by 2002:adf:e013:0:20b0:47f:93b4:2df3 with SMTP id ffacd0b85a97d-47fd2b5dda0mr2552195f8f.60.1785494619121;
+        Fri, 31 Jul 2026 03:43:39 -0700 (PDT)
 Received: from koolguy.fritz.box (dslb-088-074-233-039.088.074.pools.vodafone-ip.de. [88.74.233.39])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fd456a6d7sm3423134f8f.19.2026.07.31.03.43.43
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-47fd456a6d7sm3423134f8f.19.2026.07.31.03.43.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jul 2026 03:43:43 -0700 (PDT)
+        Fri, 31 Jul 2026 03:43:38 -0700 (PDT)
 From: Dalvin-Ehinoma Noah Aiguobas <fliegbert2@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	Dalvin-Ehinoma Noah Aiguobas <fliegbert2@gmail.com>
-Subject: [PATCH 07/11] staging: rtl8723bs: renaming variable pregistrypriv in rtw_mlme.c
-Date: Fri, 31 Jul 2026 10:41:30 +0000
-Message-ID: <20260731104134.12754-8-fliegbert2@gmail.com>
+Subject: [PATCH 00/11] Rename variables in rtw_mlme.c
+Date: Fri, 31 Jul 2026 10:41:23 +0000
+Message-ID: <20260731104134.12754-1-fliegbert2@gmail.com>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260731104134.12754-1-fliegbert2@gmail.com>
-References: <20260731104134.12754-1-fliegbert2@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -78,186 +74,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Renaming occurrences of pregistrypriv to registry_priv since the
-prefix p is an old naming convention to indicate a pointer variable.
+This patchset renames several variables because of an old naming
+convention to use the variable type as prefix. Also some variables
+are converted from camelcase to snakecase.
 
-Signed-off-by: Dalvin-Ehinoma Noah Aiguobas <fliegbert2@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 50 +++++++++++------------
- 1 file changed, 25 insertions(+), 25 deletions(-)
+Dalvin-Ehinoma Noah Aiguobas (11):
+  staging: rtl8723bs: renaming variable pbuf in rtw_mlme.c
+  staging: rtl8723bs: renaming variable pmlmepriv in rtw_mlme.c
+  staging: rtl8723bs: renaming variable pdev_network in rtw_mlme.c
+  staging: rtl8723bs: renaming variable pibss in rtw_mlme.c
+  staging: rtl8723bs: renaming variable padapter in rtw_mlme.c
+  staging: rtl8723bs: renaming variable phtpriv in rtw_mlme.c
+  staging: rtl8723bs: renaming variable pregistrypriv in rtw_mlme.c
+  staging: rtl8723bs: renaming variable bHwLDPCSupport in rtw_mlme.c
+  staging: rtl8723bs: renaming variable bHwSTBCSupport in rtw_mlme.c
+  staging: rtl8723bs: renaming variable bHwSupportBeamformer in
+    rtw_mlme.c
+  staging: rtl8723bs: renaming variable bHwSupportBeamformee in
+    rtw_mlme.c
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index 7245f671075e..0da5515a6be5 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -2102,14 +2102,14 @@ signed int rtw_restruct_sec_ie(struct adapter *adapter, u8 *in_ie, u8 *out_ie, u
- 
- void rtw_init_registrypriv_dev_network(struct adapter *adapter)
- {
--	struct registry_priv *pregistrypriv = &adapter->registrypriv;
-+	struct registry_priv *registry_priv = &adapter->registrypriv;
- 	struct eeprom_priv *peepriv = &adapter->eeprompriv;
--	struct wlan_bssid_ex *dev_network = &pregistrypriv->dev_network;
-+	struct wlan_bssid_ex *dev_network = &registry_priv->dev_network;
- 	u8 *myhwaddr = myid(peepriv);
- 
- 	memcpy(dev_network->mac_address, myhwaddr, ETH_ALEN);
- 
--	memcpy(&dev_network->ssid, &pregistrypriv->ssid, sizeof(struct ndis_802_11_ssid));
-+	memcpy(&dev_network->ssid, &registry_priv->ssid, sizeof(struct ndis_802_11_ssid));
- 
- 	dev_network->configuration.length = sizeof(struct ndis_802_11_conf);
- 	dev_network->configuration.beacon_period = 100;
-@@ -2118,8 +2118,8 @@ void rtw_init_registrypriv_dev_network(struct adapter *adapter)
- void rtw_update_registrypriv_dev_network(struct adapter *adapter)
- {
- 	int sz = 0;
--	struct registry_priv *pregistrypriv = &adapter->registrypriv;
--	struct wlan_bssid_ex *dev_network = &pregistrypriv->dev_network;
-+	struct registry_priv *registry_priv = &adapter->registrypriv;
-+	struct wlan_bssid_ex *dev_network = &registry_priv->dev_network;
- 	struct security_priv *psecuritypriv = &adapter->securitypriv;
- 	struct wlan_network *cur_network = &adapter->mlmepriv.cur_network;
- 
-@@ -2127,7 +2127,7 @@ void rtw_update_registrypriv_dev_network(struct adapter *adapter)
- 
- 	dev_network->rssi = 0;
- 
--	dev_network->configuration.ds_config = (pregistrypriv->channel);
-+	dev_network->configuration.ds_config = (registry_priv->channel);
- 
- 	if (cur_network->network.infrastructure_mode == NL80211_IFTYPE_ADHOC)
- 		dev_network->configuration.atim_window = (0);
-@@ -2137,8 +2137,8 @@ void rtw_update_registrypriv_dev_network(struct adapter *adapter)
- 	/*  1. Supported rates */
- 	/*  2. IE */
- 
--	/* rtw_set_supported_rate(dev_network->supported_rates, pregistrypriv->wireless_mode) ;  will be called in rtw_generate_ie */
--	sz = rtw_generate_ie(pregistrypriv);
-+	/* rtw_set_supported_rate(dev_network->supported_rates, registry_priv->wireless_mode) ;  will be called in rtw_generate_ie */
-+	sz = rtw_generate_ie(registry_priv);
- 
- 	dev_network->ie_length = sz;
- 
-@@ -2182,28 +2182,28 @@ void rtw_ht_use_default_setting(struct adapter *adapter)
- {
- 	struct mlme_priv *mlme_priv = &adapter->mlmepriv;
- 	struct ht_priv *ht_priv = &mlme_priv->htpriv;
--	struct registry_priv *pregistrypriv = &adapter->registrypriv;
-+	struct registry_priv *registry_priv = &adapter->registrypriv;
- 	bool bHwLDPCSupport = false, bHwSTBCSupport = false;
- 	bool bHwSupportBeamformer = false, bHwSupportBeamformee = false;
- 
--	if (pregistrypriv->wifi_spec)
-+	if (registry_priv->wifi_spec)
- 		ht_priv->bss_coexist = 1;
- 	else
- 		ht_priv->bss_coexist = 0;
- 
--	ht_priv->sgi_40m = TEST_FLAG(pregistrypriv->short_gi, BIT(1)) ? true : false;
--	ht_priv->sgi_20m = TEST_FLAG(pregistrypriv->short_gi, BIT(0)) ? true : false;
-+	ht_priv->sgi_40m = TEST_FLAG(registry_priv->short_gi, BIT(1)) ? true : false;
-+	ht_priv->sgi_20m = TEST_FLAG(registry_priv->short_gi, BIT(0)) ? true : false;
- 
- 	/*  LDPC support */
- 	rtw_hal_get_def_var(adapter, HAL_DEF_RX_LDPC, (u8 *)&bHwLDPCSupport);
- 	CLEAR_FLAGS(ht_priv->ldpc_cap);
- 	if (bHwLDPCSupport) {
--		if (TEST_FLAG(pregistrypriv->ldpc_cap, BIT(4)))
-+		if (TEST_FLAG(registry_priv->ldpc_cap, BIT(4)))
- 			SET_FLAG(ht_priv->ldpc_cap, LDPC_HT_ENABLE_RX);
- 	}
- 	rtw_hal_get_def_var(adapter, HAL_DEF_TX_LDPC, (u8 *)&bHwLDPCSupport);
- 	if (bHwLDPCSupport) {
--		if (TEST_FLAG(pregistrypriv->ldpc_cap, BIT(5)))
-+		if (TEST_FLAG(registry_priv->ldpc_cap, BIT(5)))
- 			SET_FLAG(ht_priv->ldpc_cap, LDPC_HT_ENABLE_TX);
- 	}
- 
-@@ -2211,12 +2211,12 @@ void rtw_ht_use_default_setting(struct adapter *adapter)
- 	rtw_hal_get_def_var(adapter, HAL_DEF_TX_STBC, (u8 *)&bHwSTBCSupport);
- 	CLEAR_FLAGS(ht_priv->stbc_cap);
- 	if (bHwSTBCSupport) {
--		if (TEST_FLAG(pregistrypriv->stbc_cap, BIT(5)))
-+		if (TEST_FLAG(registry_priv->stbc_cap, BIT(5)))
- 			SET_FLAG(ht_priv->stbc_cap, STBC_HT_ENABLE_TX);
- 	}
- 	rtw_hal_get_def_var(adapter, HAL_DEF_RX_STBC, (u8 *)&bHwSTBCSupport);
- 	if (bHwSTBCSupport) {
--		if (TEST_FLAG(pregistrypriv->stbc_cap, BIT(4)))
-+		if (TEST_FLAG(registry_priv->stbc_cap, BIT(4)))
- 			SET_FLAG(ht_priv->stbc_cap, STBC_HT_ENABLE_RX);
- 	}
- 
-@@ -2224,10 +2224,10 @@ void rtw_ht_use_default_setting(struct adapter *adapter)
- 	rtw_hal_get_def_var(adapter, HAL_DEF_EXPLICIT_BEAMFORMER, (u8 *)&bHwSupportBeamformer);
- 	rtw_hal_get_def_var(adapter, HAL_DEF_EXPLICIT_BEAMFORMEE, (u8 *)&bHwSupportBeamformee);
- 	CLEAR_FLAGS(ht_priv->beamform_cap);
--	if (TEST_FLAG(pregistrypriv->beamform_cap, BIT(4)) && bHwSupportBeamformer)
-+	if (TEST_FLAG(registry_priv->beamform_cap, BIT(4)) && bHwSupportBeamformer)
- 		SET_FLAG(ht_priv->beamform_cap, BEAMFORMING_HT_BEAMFORMER_ENABLE);
- 
--	if (TEST_FLAG(pregistrypriv->beamform_cap, BIT(5)) && bHwSupportBeamformee)
-+	if (TEST_FLAG(registry_priv->beamform_cap, BIT(5)) && bHwSupportBeamformee)
- 		SET_FLAG(ht_priv->beamform_cap, BEAMFORMING_HT_BEAMFORMEE_ENABLE);
- }
- 
-@@ -2253,7 +2253,7 @@ unsigned int rtw_restructure_ht_ie(struct adapter *adapter, u8 *in_ie, u8 *out_i
- 	unsigned char *p;
- 	struct ieee80211_ht_cap ht_capie;
- 	u8 cbw40_enable = 0, stbc_rx_enable = 0, operation_bw = 0;
--	struct registry_priv *pregistrypriv = &adapter->registrypriv;
-+	struct registry_priv *registry_priv = &adapter->registrypriv;
- 	struct mlme_priv *mlme_priv = &adapter->mlmepriv;
- 	struct ht_priv *ht_priv = &mlme_priv->htpriv;
- 	struct mlme_ext_priv *pmlmeext = &adapter->mlmeextpriv;
-@@ -2302,7 +2302,7 @@ unsigned int rtw_restructure_ht_ie(struct adapter *adapter, u8 *in_ie, u8 *out_i
- 	}
- 
- 	/* to disable 40M Hz support while gd_bw_40MHz_en = 0 */
--	if ((pregistrypriv->bw_mode & 0x0f) > 0)
-+	if ((registry_priv->bw_mode & 0x0f) > 0)
- 		cbw40_enable = 1;
- 
- 	if ((cbw40_enable == 1) && (operation_bw == CHANNEL_WIDTH_40)) {
-@@ -2318,8 +2318,8 @@ unsigned int rtw_restructure_ht_ie(struct adapter *adapter, u8 *in_ie, u8 *out_i
- 	ht_capie.cap_info |= cpu_to_le16(IEEE80211_HT_CAP_SM_PS);
- 
- 	if (TEST_FLAG(ht_priv->stbc_cap, STBC_HT_ENABLE_RX)) {
--		if ((channel <= 14 && pregistrypriv->rx_stbc == 0x1) ||	/* enable for 2.4GHz */
--			(pregistrypriv->wifi_spec == 1))
-+		if ((channel <= 14 && registry_priv->rx_stbc == 0x1) ||	/* enable for 2.4GHz */
-+			(registry_priv->wifi_spec == 1))
- 			stbc_rx_enable = 1;
- 	}
- 
-@@ -2377,7 +2377,7 @@ void rtw_update_ht_cap(struct adapter *adapter, u8 *pie, uint ie_len, u8 channel
- 	struct ieee80211_ht_cap *pht_capie;
- 	struct mlme_priv *mlme_priv = &adapter->mlmepriv;
- 	struct ht_priv *ht_priv = &mlme_priv->htpriv;
--	struct registry_priv *pregistrypriv = &adapter->registrypriv;
-+	struct registry_priv *registry_priv = &adapter->registrypriv;
- 	struct mlme_ext_priv *pmlmeext = &adapter->mlmeextpriv;
- 	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 	u8 cbw40_enable = 0;
-@@ -2389,7 +2389,7 @@ void rtw_update_ht_cap(struct adapter *adapter, u8 *pie, uint ie_len, u8 channel
- 		return;
- 
- 	/* maybe needs check if ap supports rx ampdu. */
--	if (!(ht_priv->ampdu_enable) && pregistrypriv->ampdu_enable == 1)
-+	if (!(ht_priv->ampdu_enable) && registry_priv->ampdu_enable == 1)
- 		ht_priv->ampdu_enable = true;
- 
- 	/* check Max Rx A-MPDU Size */
-@@ -2409,7 +2409,7 @@ void rtw_update_ht_cap(struct adapter *adapter, u8 *pie, uint ie_len, u8 channel
- 		/* todo: */
- 	}
- 
--	if ((pregistrypriv->bw_mode & 0x0f) > 0)
-+	if ((registry_priv->bw_mode & 0x0f) > 0)
- 		cbw40_enable = 1;
- 
- 	/* update cur_bwmode & cur_ch_offset */
+ drivers/staging/rtl8723bs/core/rtw_mlme.c | 960 +++++++++++-----------
+ 1 file changed, 480 insertions(+), 480 deletions(-)
+
 -- 
 2.55.0
 
