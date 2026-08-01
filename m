@@ -1,71 +1,73 @@
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AA453002CF
-	for <linux-staging@lists.linux.dev>; Sat,  1 Aug 2026 17:46:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6355933D6C0
+	for <linux-staging@lists.linux.dev>; Sat,  1 Aug 2026 20:25:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785606378; cv=none; b=c9Xof3IoQqjGcPkw5NNMFjrBGiUZyMcN9QNKeVg8kr5iyZL4BVkQdzNaMcIwdBxTy0ydGsxjSuO3rmFHzCrpz0dTawtEO0hYIVt3/uBnQxBgpookqONX2OoCgT6Fo86Lnac3FGfvK2Wm67EG3h77lgwnzXchKkJvvhWpEiguNyU=
+	t=1785615952; cv=none; b=S3fw/9KG3XUs4ZGxDWNB8Vb//L+4QRDKVy5zFvpMJbMk17A0IlcdKoUdFgFFfdewa6P055gr5s9CqI58yteeufSmVI1uB40PkOU2i0mG2KdkMVsdHLphM0ftxQWv+wMw61nJLRXdkdQuc5Tsf/EBW7JYiTvP3F+3u6RFqCnea2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785606378; c=relaxed/simple;
-	bh=FUZ4q1G7NLlYH4FBldchmQ9rFmJHtFQ5OSLYMtOJVGs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ohE01trc6lql8SUL8SA52vN0VNlTdmn7SDKxpC5WINiCrWvSS/m/PKbI5bH1lPLYT6fvJ05/EcZPPfEaRyiz2hCQ+QYH5fD7BocHgSXgDZSICkXuNjJiDwr6234kk274Wo1e102MDQHClEtj3CbE14HIEwtM/OuTyJsFIRgmnvk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QIkn8Hyh; arc=none smtp.client-ip=209.85.215.170
+	s=arc-20240116; t=1785615952; c=relaxed/simple;
+	bh=pCjYNayxI9syJzaaxW7CNiL4uxap1yIW8egnNPUyTZ0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eslUdTHTA368UgojjoBrjDbMVX96AeRLiQfVTTS3X9Cncqcl8XkjPe0EFlTWbG2t3yYcJNIbAB4MvRSqzOQFJxmTkh8afm5HG3knRaz8uYf1lWiJZBU4AZU/ymQVM4Qrm0veVmFrZv9HxVr8Hvpjcauor7UStN9riaA63t/tbuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oln/+k25; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QIkn8Hyh"
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-c9e30214d8fso1541987a12.3
-        for <linux-staging@lists.linux.dev>; Sat, 01 Aug 2026 10:46:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oln/+k25"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2cacf197759so30958905ad.2
+        for <linux-staging@lists.linux.dev>; Sat, 01 Aug 2026 13:25:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785606376; x=1786211176; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1785615951; x=1786220751; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ExlG7ok7P5AUsQgKkv2/C0UDicaYRTTkOfSkDIupq6E=;
-        b=QIkn8HyhDPBnoHDF/vP9uuxHbicfCbJTqO+Fr5v4H0vMlrpK4sGhXKBp0u8AeQ4Ve+
-         WCERASc+aVbaV61GnkeQlNWnjbcIcwpod5zKXrJ2fbPGjxWmnRRcwxWdzKqggXx+cmX+
-         BFAyLw/8dx1JGgoN5cVjuKuoKu4RihzVy/8Nq24zDuoywNqiilebwV2pJdbJYIZeUN6o
-         3rwcc4knYEOXNEaPjgmVuY+3C30btqzjVjqfxvDHkxgqQ1jMjNDumt7GdUxA+vvsiCWX
-         s9h0K92bsG7tgUVmYeniUSuBgeUBjHBMBQOUWYDrvwjEG7Iq0NgvIcKaIRORZE3kT3Fw
-         X3GA==
+        bh=Pa/H7W6muPB1BDZxr43f+z7H5KetpG9U5OYnXCT8xys=;
+        b=oln/+k25ULv+Rw9FCPcBf77hZHu0j5ynYvJNBDr4kylZj3ZF4CKE0W1GliwpsZP/VG
+         K9nYbvJZgX8g4eH6BgPjswfTVYN4zWjqL44fx9A6y/Vc14Aqf6z3dolr9SUGwsTxQ4fX
+         oKrhZpkv7UrZglniU1VkbEISZaeBU1bF6tq41Fggi0ob+VUWs93vJCeCOctngSLh4Hs+
+         oYR+DUOq21QBDGPjx33D5HYvxWDEsqtWONW8tVKt/MiRvvqlrJpLqlbQb5EH4Y1GGOGf
+         u5LyPVJIwGrkV5sH7/9ueMcT0Frh2NakoX164xb9v9+QElNNS+opWBh7y+pX8W1pavyg
+         GzBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785606376; x=1786211176;
+        d=1e100.net; s=20251104; t=1785615951; x=1786220751;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=ExlG7ok7P5AUsQgKkv2/C0UDicaYRTTkOfSkDIupq6E=;
-        b=qJXL+nV+1NiSa4pXnWKDBr32liRPULJUmNEgz82oiQJevZQviX96FoxUhHLvbZskCw
-         0o42OLXC5MOOzYqEbAkfyW7ikIJw4LMYmIQPMLv+Q8ds2KU4yTmFMHm3uqDIXNM0iUiA
-         wgrSiAWUyRdunLL/qUuE5cg0tylHt5qM5q1PuNq2oBYeWZkdUcbjG7a/lyCQW8AFfb3e
-         fBlLxiFdABVQ0lu+HuSWh6+yJXLly6jLcvy0t7B+ZSh4gYIJYaVcs5kwcoUPZbddN3cM
-         Fcmoqb5ToijAY2h9wgNxTNENrH8IyIlFzowj9OVxpnWWGdHzYdjpiD+l5tX3NN1tfWFs
-         F3mw==
-X-Gm-Message-State: AOJu0YytkzX3QciDxwZE/khaGWRqHQ3oktQuDWuSFSmb0BVZf7rHlxIN
-	0Liia+id2AfqORV7U9ueu8q2EpJWACNCBdktnOOvH4xBmlWv/B/99J5hRJW/ziDL
-X-Gm-Gg: AR+sD13TizQDfJoX5y/ttUa40NHSZFoKKw43YCLe88ghD15snwoAYtouKOwUh3E1ukU
-	UFPVS9bDAXOcqQ1ipXtk1Pz0FHzxo0IMD6br8GQC2cJvA2z6XeSVgeLfwimYLt6FDL/kGLXjZli
-	Clsz4wcxEe0IY7j9ueolAsNI42/yjeelLe4QpPfPm1KuJuEN9h3aUpZlpVkFXgLhvTJ0pZYJruG
-	8SErewj3RxGmYtextV3wS3PhvqG1IcY2m34OO53G7aSwAL/TsriteuG9GiXG4+EKJ7C9sFSYquX
-	UM55kOfeAbq9TYEnFphTzJWPnAZiVHVfNbEBCuvJLm+gEWtejKQc6Vl3YMt+Mpf4FHgAWbLlJJs
-	X4AdNiCPnCP9Gd//id5egSqhygynvoFJjZTpTR4JpffhV3O9OuRH259rftFtxsZTXHStRO0oy66
-	gZJDEEkeVBIePEz1DWhvhdgrzxPbbcK8x9cBLcsigSYhYD3d2vTyBgiPYrreveUODeLOnB+O5qB
-	R0F1uf+2ZjLeCU/S4ZAN+C1g3fyVHDrqnOp9ZKISyifDw4D1Uh8utvx+44WxjqSyzdE0je9+cE7
-	R/OxCGid60P1clX66kE=
-X-Received: by 2002:a05:6a20:7f9a:b0:3c3:64cc:c1fc with SMTP id adf61e73a8af0-3c92a99434cmr4132810637.73.1785606376416;
-        Sat, 01 Aug 2026 10:46:16 -0700 (PDT)
-Received: from localhost.localdomain ([2405:acc0:1306:9d5b:7865:f907:f2bf:8664])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3153dd4e5b0sm17817768eec.1.2026.08.01.10.46.14
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 01 Aug 2026 10:46:16 -0700 (PDT)
-From: Laxman Acharya Padhya <acharyalaxman8848@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans de Goede <hansg@kernel.org>
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8723bs: validate WPS attribute lengths
-Date: Sat,  1 Aug 2026 23:31:11 +0545
-Message-ID: <20260801174611.49470-1-acharyalaxman8848@gmail.com>
-X-Mailer: git-send-email 2.51.2
+        bh=Pa/H7W6muPB1BDZxr43f+z7H5KetpG9U5OYnXCT8xys=;
+        b=f793oIaHnSS9L6AN1JYNwEjt9r/vI8trbuc1FfSAe0hQ/Z6Hsz2L68tVMZeFZUr3Qv
+         hm+IZ6gF4e5sCWZ0DQgyW9Q/lFySjMCfJNRiVg8jOHhNji43BMLOdCJxLdhpB19H30x4
+         49R1DhO6dNxFptBz6hdvFM01W/9xp7ZZ5fZWzdyCBUV5BWbR3J4CQR/Gic7Ae2ldSqLA
+         ITR3nEphl5aaRJcwWQpPhdOhUsZR1LZvBe9qOjCPEIcaI5iJFa2fzmZWRPSU0sPWHZGH
+         f5AsuEms8NR5rDc5WRcCEpmMgrS/BcTc4k4ErHxJCnkuRyJ+D/VcbzEe2cUt5fkTSKvz
+         oaWA==
+X-Forwarded-Encrypted: i=1; AHgh+RqZB43uM3evWZPxbgfz15m77mqpHDi0Oh0O5EKa5lmMyT0Rsxhb/wyV7CNkieUPYFDfLZov3l9OvMmtrO3s@lists.linux.dev
+X-Gm-Message-State: AOJu0YyKEBd6LB7Vj8xfXUuoMlZVauBn44m5O2cnIGsXneu0PywauyBE
+	aH0Bv+mXSwE2yS9tnFHmc+upfMh+o/FKOli1/BRqgEYVj5ncn9vQ+hID
+X-Gm-Gg: AR+sD10sI7jbCb+A5NM9UOtF7ztNxpHOBgMZD5vpgPbTEWKOwyECvJ5WM0iTegu5g29
+	WZod1MKOVXg5Fp8G2DDqUOXnp107ygIBwoxzjtDzhr+UHucpQmIzO+jFcwwzpjhjVrDKkFcJVQq
+	o473cIkJ8QMRu8hA9ImR48HpivzMvUiH+dHj9biMP6DkhD8Pzynf3ikoGQ3MH8MQp47wcs6afoC
+	0XAQR30fPl/SJb7BnfOLkSf7Ed46wuIjptsidbbTd4gYGJpTRafZnoteYbrhp4UrX/kg8GpNJ8a
+	CyyybKuviluEZMecJD5spkcsZkhIw2Vgx0iG5DxgLWs43v2rliHdqJdBngdzGpR8heFJkYM8PMj
+	nPKjpLevvZ0G9fgussHOpTjgRe80SGvAIfhmw2EsUROsERFIuY5w/Zr6blofFyaQ3WA1IdEEbCm
+	fUlj8XyKVgKFpppj/UcT5ElCcuRUjBKvfM71ACwBwFQdkuEZTCkACRdj6Iyu7fm5dkH2xj7JVxS
+	GiIcIP3gAHB+6/SRchBWbWn
+X-Received: by 2002:a05:6a20:d809:b0:3c4:2eb6:c3a0 with SMTP id adf61e73a8af0-3c92a63ad0bmr4263180637.30.1785615950737;
+        Sat, 01 Aug 2026 13:25:50 -0700 (PDT)
+Received: from Debian.tail44843d.ts.net ([183.82.161.178])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13fab4fdb80sm14894116c88.15.2026.08.01.13.25.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 01 Aug 2026 13:25:50 -0700 (PDT)
+From: Mirza Ishan Beg <seedandsyntax@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	seedandsyntax@gmail.com
+Subject: [PATCH] staging: greybus: audio_manager_module: add missing newlines to sysfs_emit
+Date: Sun,  2 Aug 2026 01:54:34 +0530
+Message-ID: <20260801202435.5131-1-seedandsyntax@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -74,169 +76,76 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-rtw_get_wps_attr() checks that the four-byte attribute header fits in the
-WPS information element, but trusts the payload length from that header
-when copying the attribute and advancing to the next one. A malformed
-attribute can therefore make the driver read beyond a received management
-frame. Storing the total attribute length in u16 also allows the addition
-of the header size to wrap.
+Fixes checkpatch warnings: "return sysfs_emit(...) formats should include
+a terminating newline"
 
-rtw_get_wps_attr_content() also copies the full payload without knowing
-the destination size. Its callers copy the Selected Registrar attribute
-into one-byte objects, so an oversized payload can overwrite the stack
-even when the payload itself fits inside the information element.
+Add trailing newline characters to several sysfs_emit() calls to comply
+with the requirement that sysfs output buffers should be terminated by a
+newline.
 
-Store the total attribute length in u32 and reject attributes extending
-past the information element. Add destination lengths to the copy helpers
-and reject attributes that do not fit before copying them.
+Signed-off-by: Mirza Ishan Beg <seedandsyntax@gmail.com>
+---
+ drivers/staging/greybus/audio_manager_module.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Laxman Acharya Padhya <acharyalaxman8848@gmail.com>
-
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-index 863ddf846..4889c7247 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-@@ -702,11 +702,13 @@ u8 *rtw_get_wps_ie(u8 *in_ie, uint in_len, u8 *wps_ie, uint *wps_ielen)
-  * @wps_ielen: Length limit from wps_ie
-  * @target_attr_id: The attribute ID of WPS attribute to search
-  * @buf_attr: If not NULL and the WPS attribute is found, WPS attribute will be copied to the buf starting from buf_attr
-+ * @buf_attr_len: Length of buf_attr
-  * @len_attr: If not NULL and the WPS attribute is found, will set to the length of the entire WPS attribute
-  *
-  * Returns: the address of the specific WPS attribute found, or NULL
-  */
--u8 *rtw_get_wps_attr(u8 *wps_ie, uint wps_ielen, u16 target_attr_id, u8 *buf_attr, u32 *len_attr)
-+u8 *rtw_get_wps_attr(u8 *wps_ie, uint wps_ielen, u16 target_attr_id,
-+		     u8 *buf_attr, u32 buf_attr_len, u32 *len_attr)
+diff --git a/drivers/staging/greybus/audio_manager_module.c b/drivers/staging/greybus/audio_manager_module.c
+index dc90cc2d2308..5737f2a32f5a 100644
+--- a/drivers/staging/greybus/audio_manager_module.c
++++ b/drivers/staging/greybus/audio_manager_module.c
+@@ -75,7 +75,7 @@ static void gb_audio_module_release(struct kobject *kobj)
+ static ssize_t gb_audio_module_name_show(struct gb_audio_manager_module *module,
+ 					 struct gb_audio_manager_module_attribute *attr, char *buf)
  {
- 	u8 *attr_ptr = NULL;
- 	u8 *target_attr_ptr = NULL;
-@@ -732,13 +734,19 @@ u8 *rtw_get_wps_attr(u8 *wps_ie, uint wps_ielen, u16 target_attr_id, u8 *buf_att
- 			break;
- 		u16 attr_id = get_unaligned_be16(attr_ptr);
- 		u16 attr_data_len = get_unaligned_be16(attr_ptr + 2);
--		u16 attr_len = attr_data_len + 4;
-+		u32 attr_len = attr_data_len + 4;
-+
-+		if (attr_len > wps_ie + wps_ielen - attr_ptr)
-+			break;
+-	return sysfs_emit(buf, "%s", module->desc.name);
++	return sysfs_emit(buf, "%s\n", module->desc.name);
+ }
  
- 		if (attr_id == target_attr_id) {
- 			target_attr_ptr = attr_ptr;
- 
--			if (buf_attr)
-+			if (buf_attr) {
-+				if (attr_len > buf_attr_len)
-+					return NULL;
- 				memcpy(buf_attr, attr_ptr, attr_len);
-+			}
- 
- 			if (len_attr)
- 				*len_attr = attr_len;
-@@ -757,26 +765,35 @@ u8 *rtw_get_wps_attr(u8 *wps_ie, uint wps_ielen, u16 target_attr_id, u8 *buf_att
-  * @wps_ielen: Length limit from wps_ie
-  * @target_attr_id: The attribute ID of WPS attribute to search
-  * @buf_content: If not NULL and the WPS attribute is found, WPS attribute content will be copied to the buf starting from buf_content
-+ * @buf_content_len: Length of buf_content
-  * @len_content: If not NULL and the WPS attribute is found, will set to the length of the WPS attribute content
-  *
-  * Returns: the address of the specific WPS attribute content found, or NULL
-  */
--u8 *rtw_get_wps_attr_content(u8 *wps_ie, uint wps_ielen, u16 target_attr_id, u8 *buf_content, uint *len_content)
-+u8 *rtw_get_wps_attr_content(u8 *wps_ie, uint wps_ielen, u16 target_attr_id,
-+			     u8 *buf_content, uint buf_content_len,
-+			     uint *len_content)
+ static struct gb_audio_manager_module_attribute gb_audio_module_name_attribute =
+@@ -84,7 +84,7 @@ static struct gb_audio_manager_module_attribute gb_audio_module_name_attribute =
+ static ssize_t gb_audio_module_vid_show(struct gb_audio_manager_module *module,
+ 					struct gb_audio_manager_module_attribute *attr, char *buf)
  {
- 	u8 *attr_ptr;
- 	u32 attr_len;
-+	u32 content_len;
+-	return sysfs_emit(buf, "%d", module->desc.vid);
++	return sysfs_emit(buf, "%d\n", module->desc.vid);
+ }
  
- 	if (len_content)
- 		*len_content = 0;
+ static struct gb_audio_manager_module_attribute gb_audio_module_vid_attribute =
+@@ -93,7 +93,7 @@ static struct gb_audio_manager_module_attribute gb_audio_module_vid_attribute =
+ static ssize_t gb_audio_module_pid_show(struct gb_audio_manager_module *module,
+ 					struct gb_audio_manager_module_attribute *attr, char *buf)
+ {
+-	return sysfs_emit(buf, "%d", module->desc.pid);
++	return sysfs_emit(buf, "%d\n", module->desc.pid);
+ }
  
--	attr_ptr = rtw_get_wps_attr(wps_ie, wps_ielen, target_attr_id, NULL, &attr_len);
-+	attr_ptr = rtw_get_wps_attr(wps_ie, wps_ielen, target_attr_id, NULL, 0,
-+				    &attr_len);
+ static struct gb_audio_manager_module_attribute gb_audio_module_pid_attribute =
+@@ -103,7 +103,7 @@ static ssize_t gb_audio_module_intf_id_show(struct gb_audio_manager_module *modu
+ 					    struct gb_audio_manager_module_attribute *attr,
+ 					    char *buf)
+ {
+-	return sysfs_emit(buf, "%d", module->desc.intf_id);
++	return sysfs_emit(buf, "%d\n", module->desc.intf_id);
+ }
  
- 	if (attr_ptr && attr_len) {
--		if (buf_content)
--			memcpy(buf_content, attr_ptr + 4, attr_len - 4);
-+		content_len = attr_len - 4;
-+		if (buf_content) {
-+			if (content_len > buf_content_len)
-+				return NULL;
-+			memcpy(buf_content, attr_ptr + 4, content_len);
-+		}
+ static struct gb_audio_manager_module_attribute
+@@ -114,7 +114,7 @@ static ssize_t gb_audio_module_ip_devices_show(struct gb_audio_manager_module *m
+ 					       struct gb_audio_manager_module_attribute *attr,
+ 					       char *buf)
+ {
+-	return sysfs_emit(buf, "0x%X", module->desc.ip_devices);
++	return sysfs_emit(buf, "0x%X\n", module->desc.ip_devices);
+ }
  
- 		if (len_content)
--			*len_content = attr_len - 4;
-+			*len_content = content_len;
+ static struct gb_audio_manager_module_attribute
+@@ -125,7 +125,7 @@ static ssize_t gb_audio_module_op_devices_show(struct gb_audio_manager_module *m
+ 					       struct gb_audio_manager_module_attribute *attr,
+ 					       char *buf)
+ {
+-	return sysfs_emit(buf, "0x%X", module->desc.op_devices);
++	return sysfs_emit(buf, "0x%X\n", module->desc.op_devices);
+ }
  
- 		return attr_ptr + 4;
- 	}
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index a443b3530..ab620231c 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -1113,7 +1113,11 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
- 			if (pmlmepriv->wps_beacon_ie) {
- 				u8 selected_registrar = 0;
- 
--				rtw_get_wps_attr_content(pmlmepriv->wps_beacon_ie, pmlmepriv->wps_beacon_ie_len, WPS_ATTR_SELECTED_REGISTRAR, &selected_registrar, NULL);
-+				rtw_get_wps_attr_content(pmlmepriv->wps_beacon_ie,
-+							 pmlmepriv->wps_beacon_ie_len,
-+							 WPS_ATTR_SELECTED_REGISTRAR,
-+							 &selected_registrar,
-+							 sizeof(selected_registrar), NULL);
- 
- 				if (!selected_registrar) {
- 					status = WLAN_STATUS_AP_UNABLE_TO_HANDLE_NEW_STA;
-@@ -2116,7 +2120,9 @@ void issue_beacon(struct adapter *padapter, int timeout_ms)
- 			wps_ie = rtw_get_wps_ie(pmgntframe->buf_addr+TXDESC_OFFSET+sizeof(struct ieee80211_hdr_3addr)+_BEACON_IE_OFFSET_,
- 				pattrib->pktlen-sizeof(struct ieee80211_hdr_3addr)-_BEACON_IE_OFFSET_, NULL, &wps_ielen);
- 			if (wps_ie && wps_ielen > 0)
--				rtw_get_wps_attr_content(wps_ie,  wps_ielen, WPS_ATTR_SELECTED_REGISTRAR, (u8 *)(&sr), NULL);
-+				rtw_get_wps_attr_content(wps_ie, wps_ielen,
-+							 WPS_ATTR_SELECTED_REGISTRAR,
-+							 &sr, sizeof(sr), NULL);
- 			if (sr != 0)
- 				set_fwstate(pmlmepriv, WIFI_UNDER_WPS);
- 			else
-diff --git a/drivers/staging/rtl8723bs/include/ieee80211.h b/drivers/staging/rtl8723bs/include/ieee80211.h
-index 39ee139f1..114d73a91 100644
---- a/drivers/staging/rtl8723bs/include/ieee80211.h
-+++ b/drivers/staging/rtl8723bs/include/ieee80211.h
-@@ -735,8 +735,11 @@ int rtw_parse_wpa2_ie(u8 *wpa_ie, int wpa_ie_len, int *group_cipher, int *pairwi
- void rtw_get_sec_ie(u8 *in_ie, uint in_len, u8 *rsn_ie, u16 *rsn_len, u8 *wpa_ie, u16 *wpa_len);
- 
- u8 *rtw_get_wps_ie(u8 *in_ie, uint in_len, u8 *wps_ie, uint *wps_ielen);
--u8 *rtw_get_wps_attr(u8 *wps_ie, uint wps_ielen, u16 target_attr_id, u8 *buf_attr, u32 *len_attr);
--u8 *rtw_get_wps_attr_content(u8 *wps_ie, uint wps_ielen, u16 target_attr_id, u8 *buf_content, uint *len_content);
-+u8 *rtw_get_wps_attr(u8 *wps_ie, uint wps_ielen, u16 target_attr_id,
-+		     u8 *buf_attr, u32 buf_attr_len, u32 *len_attr);
-+u8 *rtw_get_wps_attr_content(u8 *wps_ie, uint wps_ielen, u16 target_attr_id,
-+			     u8 *buf_content, uint buf_content_len,
-+			     uint *len_content);
- 
- /**
-  * for_each_ie - iterate over continuous IEs
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index 967cd1b34..60c27b4fd 100644
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -251,7 +251,9 @@ struct cfg80211_bss *rtw_cfg80211_inform_bss(struct adapter *padapter, struct wl
- 		wpsie = rtw_get_wps_ie(pnetwork->network.ies + _FIXED_IE_LENGTH_, pnetwork->network.ie_length - _FIXED_IE_LENGTH_, NULL, &wpsielen);
- 
- 		if (wpsie && wpsielen > 0)
--			psr = rtw_get_wps_attr_content(wpsie, wpsielen, WPS_ATTR_SELECTED_REGISTRAR, (u8 *)(&sr), NULL);
-+			psr = rtw_get_wps_attr_content(wpsie, wpsielen,
-+						       WPS_ATTR_SELECTED_REGISTRAR,
-+						       &sr, sizeof(sr), NULL);
- 
- 		if (sr != 0) {
- 			/* it means under processing WPS */
+ static struct gb_audio_manager_module_attribute
 -- 
-2.51.2
+2.47.3
 
