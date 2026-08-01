@@ -1,73 +1,78 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B2B33B388A
-	for <linux-staging@lists.linux.dev>; Fri, 31 Jul 2026 19:04:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BE54242D72
+	for <linux-staging@lists.linux.dev>; Sat,  1 Aug 2026 17:36:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785524697; cv=none; b=ARe1jCqMjtU/LWIWWGcqGx5ca3xXMQ8ol1B6RdnQbM1+f3SL1im83OOO464CF6KHrhl1dGqCiakzkpJuGFJldZ3SZDoOOp/EoQee037I7LhuV4ZKEGuMKYfFekEEWiItHvYEVMjqtowvKCH01h/tngA068jf7PnsBnhPHYU4vRo=
+	t=1785605819; cv=none; b=mW5mbFzdX5Fo8ll7/xRufG4tVcTRcb+jWGL15PHYVcNZD8kGUQugriD9lrtcUXRl55krGsWLPDUKJkKW4OGWbzXLgKuPTcdkeXwdUIlEyiLrek4JkejwDbbbXTspJtrmpPAyDIFW39+X3agG5Zn62D8hzD71bcNtJ2ojpiM6eB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785524697; c=relaxed/simple;
-	bh=Pub46kgkCfxnWDMrg74Jhd9YwOvXrEH/ZQC389chyjw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rqKP1J/zmv3FM7tR2NjjqOs1El+bvw6LXJb7pYz6aAuVt3yLSdjTgjTvW12qMEZrxn3+L95DNhNfvAyl1wtvC2iGKTZM0CyHOgtmn3MkqGOQmQTMUr/4Ije/YoP9FcAFYY4XPiNPsQXUj/YfN8CFKrR5Y00S6RnIPgIE6lfYNLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eiO/i+wK; arc=none smtp.client-ip=209.85.216.52
+	s=arc-20240116; t=1785605819; c=relaxed/simple;
+	bh=Fdw+T38N5SdWYIhoqS0GEfMDWeanf7vjxSBMLXdnro4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=JI5rWvcVU/L2mFwYowCZsnOwQbqHSK3/ggQ9vK+P101t+H8bcFAuqbu5BSdsParxbLQYQ9xfyatL0lAr1GBfnp8iQrqlMBbfK+dxkOHUUYCWMev1mL9pHYs9KyyCfqinH0Hp+rDBNughHzgBAdNUI6iQ1RmziJ2kJSaHlr1/a38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aAv5+AHA; arc=none smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eiO/i+wK"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-38de840f2f0so1016127a91.0
-        for <linux-staging@lists.linux.dev>; Fri, 31 Jul 2026 12:04:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aAv5+AHA"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2ce98cb8165so21334705ad.1
+        for <linux-staging@lists.linux.dev>; Sat, 01 Aug 2026 10:36:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785524695; x=1786129495; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=42rb+aSyo3dAla+zqU29A1oNZ1TSHZvIKJ9LHyMaKtg=;
-        b=eiO/i+wK0h0sLPbynGROAi54e4i31vV8IsWcoux9dOxuxOwtECoxwpVyBRikkiS+oa
-         4RtinCl07NGYU9jSBjIjbP0zm/TKi+thwcI6vdlhNKr286rQns5kYgkrrjejk4+21u0o
-         R/sdMbV15IcOCGvxWq2ogLbRoDvU18G3yJsrR6UOkDEf/UCnzfI10/89RM/h//mN/ZBZ
-         Ysl98sCsrPxHNqjFysVVym76l2Vnv7TC0GJ+0rkZ9zZiVMd0BwLlg2ViCq+LXctMkAXh
-         uMwSqOUfEkOFq1SfBx3cSVuTABS/YgzFyOkeTAgFjJTMMR279NUct4R52VJFxCmn6GZW
-         vCDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785524695; x=1786129495;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1785605817; x=1786210617; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=42rb+aSyo3dAla+zqU29A1oNZ1TSHZvIKJ9LHyMaKtg=;
-        b=c9sMWkObWyutl9LI1Z9jtY2J5g44LZza8UMx4B53FkkK7HaS4Ax9f/UIoK6gqrO2j0
-         ztPLF7sTI2zb5wnWCA5t87uBHpPX0l2duwBd2TLm5X9HKUaZS3HoFk1qutkmvBHmLgPN
-         4c7+OAQdMqnqB5LR+bCDz2nlh1Ekl2IJZuOXHEWg/Yn7VYld4A3pbk2TuRLt/3BzNc3a
-         2xHYOuNe5cwsg0n9iJH6ShwhqNnmER3Apok2ASUJkuhyRYfl43ajWO8cH0Wedyig0MKk
-         Ae4DIyezOps33xgICaeneyu02FXN36W5LelNQxXE1qgltbBCvE2gmAXzFa5acbZFmwu5
-         MR+g==
-X-Forwarded-Encrypted: i=1; AHgh+RqjgbbXouK3AFAM3WTBJGPUwzgd4Mg4LS+8hbOD5R0FBIQ9Uo+ARJ30WN1MAUyszR4g6xQdgFhzvxrAwVsB@lists.linux.dev
-X-Gm-Message-State: AOJu0YzmlpIRdJ6z3RjoM8dUNyCaXst1PCwadqAenwWtBtRer79gnqOL
-	TZMd/0xJQXqQUzc3Yel7dC6j0kLRMqEv245zL+v1kfy9vAX4d5Ei7IwX
-X-Gm-Gg: AR+sD120l4R3BS3fUkCjIHxoHnF7j6mgZog5FTMJLjuoTQgIjhGA65oL9/onTN8w0hU
-	Fas5Op0/AhNcI+OQ6/uKIjvwTnkiwekeUqXLEgQsiUJ+OhBgyJoqrEUUFwNhmo49FxUim9eB+fd
-	iRc3zybXehueWSMkDS5hHOkR4i3NNlqnukgvTdoBMmStiEQtkr6nka4fuBx63PK4cBHdG4xI+B7
-	AysUNsz4ko7/nVotL6Dbm4hRmH6f7p+1c1D9bjhDAhERRckhinkVJtoPkFRQW6+ldo73cylPfvb
-	Kds55vtPztX/xXb0rpdFhPWbegiGZUh55gD/GTEbPQC7gIgsD+5MV9sNsxX+iEtbh1Nv8KVh44I
-	xc7zrKQnNBXeYXltE5/KN1JX/b6uqJr/S1zIFd17inlWhzLkR0Tvl5OtX47LX3xNu+Zr8Gaqekl
-	iZpnx3o6sK6qMbGvgkeLbtP9ISUNaJGdAY28sRNrSPhUQB48T5qhkHBdN+9IRSJ0iSMChqE1oVh
-	8yg2TQgj+169+fWGWIaXpwJIOaRY0O0NApe
-X-Received: by 2002:a17:90b:17c5:b0:38e:7168:281 with SMTP id 98e67ed59e1d1-38fbc424a3dmr790107a91.10.1785524695321;
-        Fri, 31 Jul 2026 12:04:55 -0700 (PDT)
-Received: from Debian.tail44843d.ts.net ([183.82.161.178])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3153e06fe9fsm7404570eec.25.2026.07.31.12.04.52
+        bh=jegZtKUrU8Lsg67WkyerCWWl/Ur54ZIdjcm+N4p52Ys=;
+        b=aAv5+AHAv15HtOiqdha3p5LxubREYyan3utb3ztwN8XS5t8T1C9d7PWoYdWuVOuihb
+         6uymoMsCi6N1RwKzcUqT9z/bf9nzjj3JrxBeT+e4+BEB4lJeJA8HeUX5ujyIjzX99lSz
+         AC6X2T2/VL1oK+T2yn7hd2CeV71ayGzZ03n4vP+T6g/Mg0Um6GvcVswHzt+oydHqrqWf
+         eN1fNATAJCQXFS8tvILUwXcq8J208apo3vP1mWGvlKemF8QFHk/IbD0pxSFHqk2u9Rci
+         C0JuZ/4mVFe4zOgnxq4dey87ahGaBKsx6+VKU06qeTJtcLdwnKdmStp+jnUe+CO9mkvh
+         kd9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785605817; x=1786210617;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=jegZtKUrU8Lsg67WkyerCWWl/Ur54ZIdjcm+N4p52Ys=;
+        b=CMnwV2z9PpIhLjTBUd6BIQelj1yI6JPSn0ygm+uBwvSaOQ+rSwZcT7tyPj72ilwPnP
+         e/IrUktV9xKIyEy5VA3mR93DpuVx7WZGeAQ1HsNxwWJy7N92ixOM4NAN8ixTeRuVY8h7
+         igss2Sp6T/fsV9dCBo1GVWZr7G3//+E7jguzMceq1AQM91jxa6/XRlteuzTqbSEFsNKg
+         gX2kdmZ0dFBOS/744ZVSxlN7u0PFuEfqePBpA/flWe7FECFqNXgnznj/vmJbZtOQhR1j
+         rMrmhjx6rtZMMngrWSn9z+eV8CwNzMJVCVMH7KYj5Yz/012q/91vBjXTbhyqJelz0Mz0
+         nnew==
+X-Forwarded-Encrypted: i=1; AHgh+RrJB4oaG0pNjHsdM4mxa2nuSghA25Z4/rnzSmTbzs/+wHcf++hwUMebdz7eM9XhDVeRG9iNrJNphm00mVvC@lists.linux.dev
+X-Gm-Message-State: AOJu0YxqUfXEXzxJnMv+IIqrwU/HNRAu1rsOvz5jKxk4ZjualI1IGgdT
+	WIt+UfT62Ira5QaMK9F26dSFzaKK+MhD+qt6y4LlcH6q5M3Of7+L39vp
+X-Gm-Gg: AR+sD13d5SWxWww9Y/wSIwn96MhRU2oAII8LL+SSEcurwJgQ9WJneeJdbLvLduQdVHs
+	z7TZ2WhfQpwDRhixOo9gn4w3YVt5eDTLOOK17Ep5Q7G5vzpZ10gaYnVQIFEz4bbQFMB/jyDKGfX
+	bPd76PvokE5WYAeW9lw0xx9g5bkCwo5ctHkpe3IrBoIr7yDbaxhnGthfyUguhiNV+FSq+ZFKwvH
+	GSW/DLbEPo03DWuXBnEyuvT+T/G07rSrqh3MAMAtAGTrSHh7uQD46Y3ScBhsIKNE2KZlkM8sVKH
+	XhqM3G+Kj32U5+g7WpK5UlCS1eUc1wlZzQVX7px2WnP0KTuNuzAzP7AAiUc4+5sqeMRzWiaUA7b
+	7q7yeqcv8lWzRAgY+aHnH6+2+CxU2l5KBqoanj4MTDzgUFjqCemgjYj8goDYGmIWn6VnHddhoMK
+	RPpi26VtCYtS5oLhGXnT8BNfrVk8fTwNZxKHvJT9oS3yMH9/Mxodb9c4x5Vg1jX+DcM3vVcKIme
+	FSsr5515emr7UZG+TAcgX1C5xeDAHwCGrmYB0LtI+A=
+X-Received: by 2002:a17:902:d58b:b0:2cf:6e5d:23e9 with SMTP id d9443c01a7336-2d047e39483mr54897385ad.14.1785605817113;
+        Sat, 01 Aug 2026 10:36:57 -0700 (PDT)
+Received: from lucas-inspiron153525.. (host110.181-12-179.telecom.net.ar. [181.12.179.110])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3153dd4e5c7sm22155725eec.5.2026.08.01.10.36.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 31 Jul 2026 12:04:54 -0700 (PDT)
-From: Mirza Ishan Beg <seedandsyntax@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	greybus-dev@lists.linaro.org,
+        Sat, 01 Aug 2026 10:36:56 -0700 (PDT)
+From: Lucas Jeffrey <luquijeffrey@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: ovidiu.panait.oss@gmail.com,
+	gustavopiazdasilva2102@gmail.com,
+	error27@gmail.com,
 	linux-staging@lists.linux.dev,
-	seedandsyntax@gmail.com
-Subject: [PATCH] staging: greybus: raw: add comment for list_lock mutex
-Date: Sat,  1 Aug 2026 00:27:20 +0530
-Message-ID: <20260731185720.30187-1-seedandsyntax@gmail.com>
-X-Mailer: git-send-email 2.47.3
+	linux-kernel@vger.kernel.org,
+	Lucas Jeffrey <luquijeffrey@gmail.com>
+Subject: [PATCH v2] staging: axis-fifo: use size_t for write size calculations
+Date: Sat,  1 Aug 2026 14:36:24 -0300
+Message-ID: <20260801173624.106971-1-luquijeffrey@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260731034307.327377-1-luquijeffrey@gmail.com>
+References: <20260731034307.327377-1-luquijeffrey@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -76,29 +81,48 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a comment for list_lock mutex to document what it protects,
-fixing the following checkpatch warning:
+The write length is provided as size_t, but words_to_write and the
+return value storage used narrower types (int and unsigned int).
+Use size_t for the word count and ssize_t for the return value
+to keep the types consistent with the write interface.
 
-CHECK: struct mutex definition without comment
+This is purely a cleanup. The VFS already bounds the write length
+before the driver is called, so this does not change runtime behavior.
 
-Signed-off-by: Mirza Ishan Beg <seedandsyntax@gmail.com>
+Signed-off-by: Lucas Jeffrey <luquijeffrey@gmail.com>
 ---
- drivers/staging/greybus/raw.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+v2:
+- Clarify that this is a cleanup.
+- Mention that VFS already bounds write sizes.
 
-diff --git a/drivers/staging/greybus/raw.c b/drivers/staging/greybus/raw.c
-index 459aed0f1240..17c88778c30c 100644
---- a/drivers/staging/greybus/raw.c
-+++ b/drivers/staging/greybus/raw.c
-@@ -20,7 +20,7 @@ struct gb_raw {
+ drivers/staging/axis-fifo/axis-fifo.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
+index 3aa2aa870ea9..d2b30b7b6845 100644
+--- a/drivers/staging/axis-fifo/axis-fifo.c
++++ b/drivers/staging/axis-fifo/axis-fifo.c
+@@ -214,9 +214,9 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
+ 			       size_t len, loff_t *off)
+ {
+ 	struct axis_fifo *fifo = f->private_data;
+-	unsigned int words_to_write;
++	size_t words_to_write;
+ 	u32 *txbuf;
+-	int ret;
++	ssize_t ret;
  
- 	struct list_head list;
- 	int list_data;
--	struct mutex list_lock;
-+	struct mutex list_lock; /* protect list and list_data */
- 	struct rw_semaphore disconnect_lock;
- 	bool disconnected;
- 	struct cdev cdev;
+ 	words_to_write = len / sizeof(u32);
+ 
+@@ -257,7 +257,7 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
+ 		goto end_unlock;
+ 	}
+ 
+-	for (int i = 0; i < words_to_write; ++i)
++	for (size_t i = 0; i < words_to_write; ++i)
+ 		iowrite32(txbuf[i], fifo->base_addr + XLLF_TDFD_OFFSET);
+ 
+ 	iowrite32(len, fifo->base_addr + XLLF_TLR_OFFSET);
 -- 
-2.47.3
+2.43.0
 
