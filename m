@@ -1,113 +1,133 @@
-Received: from sender-of-o58.zoho.eu (sender-of-o58.zoho.eu [136.143.169.58])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F01253BC68E
-	for <linux-staging@lists.linux.dev>; Sun,  2 Aug 2026 15:35:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.169.58
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785684928; cv=pass; b=HoOakWk0snhKQDxOW/B7we6ICoWR3JinfESVoKzsKU5jZrLPp3R9/wP3N6DUuAdovhHZP+laBvk4P/GvKfV0Ooz6Z/8k3CuKN98jr4clWCm9Xid6uzFEkaQNF2Ryu6+mgcdHqcPFMmmgPZ1S5TrZqAST8B9Ebz+0ddbvCLaJIBk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785684928; c=relaxed/simple;
-	bh=wPDDA021qFNTP8gg3ih8qeSKotDzkFGh6zuUhsuh5/0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hifXYpVMRt91kX30WeM3S7VSlE001e6bEfam+PD/xAQHBDBw9gJNGs9dzF8K0DZFIZbBybJKAlwqEudl8YDFZw+1qphExfy7MTFzzxqciTIY9SVKg7D/LU2kZ+3PCusNHolXjEfpvADOBUp7V395ytiaYGnsDy3U2naTugm+G40=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=iusegentoo.com; spf=pass smtp.mailfrom=iusegentoo.com; dkim=pass (1024-bit key) header.d=iusegentoo.com header.i=ali@iusegentoo.com header.b=UE2Cgzwd; arc=pass smtp.client-ip=136.143.169.58
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=iusegentoo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iusegentoo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C1E830F803;
+	Sun,  2 Aug 2026 18:47:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785696464; cv=none; b=fhb9CaLJV37y1Xp/mCJW42W32G9uLp64VzPyL8yDkW/6kK0hSotaljefIYiCTfWsXlWdCqN90anJT+1DA9CGHL6WMYYscVVzLr69adNcxn2+h/PyakzLP7ZzcEZseir++bqlhieNaW9htZwxSgfix+akY6AVthOFPDBe/M/899A=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785696464; c=relaxed/simple;
+	bh=hjg58UYGY/TkTDjz2jwIAmpKTZXxBbuIoeN85Dht244=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=SmpPiBsiTKMYoedkKF85K3Y962ryUeZewcjH0bAA8OtegrIwAM4uq7ij4B+scd1JxD8712norfpANDYkmdYE0e4agC+/grjvasXW+3uT92xOSB4EJ9t8n6aBYI6xeDWrKtRQ+2dQwLsR9gdiEbfzQkgb0uklyJ5KbwmUCTzO6Y8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U8x7MVS7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iusegentoo.com header.i=ali@iusegentoo.com header.b="UE2Cgzwd"
-ARC-Seal: i=1; a=rsa-sha256; t=1785684922; cv=none; 
-	d=zohomail.eu; s=zohoarc; 
-	b=U6S6Vx12U1mWpL4RXT2F+KVZoroqwm5ceyE4i9HKCl5CIbXrgtrAzuS7x7GFYymOTdx6hNyjcZ6nYwTqJF9SbQcsOaePSXNaz8l67TV29J757v+VRKXTVYoq6Tb9bv/WhdSYXY+qEgI+cum7bb6YeJWaATWHx6IiMeJS29SDrbQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.eu; s=zohoarc; 
-	t=1785684922; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=4Q3UZ9FF+kZanL0cghp5WdgJz4O58NIEjpKCeNIS7F0=; 
-	b=d00i910yRwmPMFX6e9RO3GWTZwerIrVlHJgJnRuKg7wLw03CJpUoDNzMWj4Pdgk+hF1l7WJF0tec+0hOaJ1SEyWzT51c37+U0/kOjvalmxKFJzU2WvP2O7Ow1gO9xbshTAMrQNmo3n145K2tBtbscxRka4o7EJdRBIZj9mFh0Jg=
-ARC-Authentication-Results: i=1; mx.zohomail.eu;
-	dkim=pass  header.i=iusegentoo.com;
-	spf=pass  smtp.mailfrom=ali@iusegentoo.com;
-	dmarc=pass header.from=<ali@iusegentoo.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1785684922;
-	s=zmail; d=iusegentoo.com; i=ali@iusegentoo.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=4Q3UZ9FF+kZanL0cghp5WdgJz4O58NIEjpKCeNIS7F0=;
-	b=UE2CgzwdZrLDRbLydhyJtxVLSDMS6GYIYNJgb1VVM9+oXvrP8HW879rhyxMXZJUr
-	07/8hKaj2A7ojyyl0lc78vwVTxTlXmWQhv8LbnZEAKJD3yhSZc/ZBHO2f4NKB5gVn3z
-	xyM6HzLRnyzhb87LOzLZ2uoQdFBBhv4UEdp3g7co=
-Received: by mx.zoho.eu with SMTPS id 178568492033180.75509870961241;
-	Sun, 2 Aug 2026 17:35:20 +0200 (CEST)
-From: Ali Ahmet Memis <ali@iusegentoo.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Hans de Goede <hansg@kernel.org>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/2] staging: rtl8723bs: bound the SSID element length before copying it
-Date: Sun,  2 Aug 2026 15:35:09 +0000
-Message-ID: <20260802153509.44263-3-ali@iusegentoo.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260802153509.44263-1-ali@iusegentoo.com>
-References: <20260802153509.44263-1-ali@iusegentoo.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U8x7MVS7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4FC61F000E9;
+	Sun,  2 Aug 2026 18:47:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1785696462;
+	bh=TvgyDk2HC89KcYNBNEsGQw6P/bZVUyMqtjZ5ahgyVhw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=U8x7MVS7QhkhXAoKznwL0UdXqLHko9btcbfYC4r/eQtMQKpMbNrACCvLNCIJkzDw3
+	 A5UffDXBSNaVGmEnnk1lsrTolIOv5E3XnTLTLBKWLC9NJ/OW4kwUGXR84fUvsXaIAz
+	 klGXANjn1bIcdTVhqM2cU1sM9wCMDDroZpbfrk2L6/EUWINVEwIqox9WJ706FxfKjC
+	 b7pPVtz+STSnvAta8ZftdcfW/rYLAMs67PFC688Abzsyjs4x+DQEbMyQMoAUtnKjUa
+	 El+FGpRqoY8W3accSc+9sidGjqDdLji+YzqYA2ouc7qECvW5PwhM9K4zSMb2zopf6R
+	 BbUjhWClVj+eg==
+Date: Sun, 2 Aug 2026 19:47:38 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: David Lechner <dlechner@baylibre.com>
+Cc: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>,
+ nuno.sa@analog.com, Michael.Hennerich@analog.com,
+ gregkh@linuxfoundation.org, andy@kernel.org, linux@analog.com,
+ linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: iio: ad7816: avoid DMA from stack in spi_read
+Message-ID: <20260802194738.034382ef@jic23-huawei>
+In-Reply-To: <0bde2343-8a70-44d4-9b27-8ce42c099309@baylibre.com>
+References: <20260802113840.17730-1-abdelnasserhussein11@gmail.com>
+	<0bde2343-8a70-44d4-9b27-8ce42c099309@baylibre.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-rtw_check_beacon_data() copies the SSID element straight into a fixed
-32 byte array:
+On Sun, 2 Aug 2026 10:31:29 -0500
+David Lechner <dlechner@baylibre.com> wrote:
 
-	p = rtw_get_ie(ie + _BEACON_IE_OFFSET_, WLAN_EID_SSID, &ie_len, ...);
-	if (p && ie_len > 0) {
-		memset(&pbss_network->ssid, 0, sizeof(struct ndis_802_11_ssid));
-		memcpy(pbss_network->ssid.ssid, (p + 2), ie_len);
+> On 8/2/26 6:38 AM, Abdelnasser Hussein wrote:
+> > The SPI core may use DMA for transfers. Using a stack-allocated
+> > buffer for DMA is unsafe and can trigger faults when VMAP_STACK is
+> > enabled, since the stack is not guaranteed to be DMA-accessible.
+> > 
+> > Move the transfer buffer from the stack into the ad7816_chip_info
+> > structure so it has a stable lifetime suitable for DMA transfers.
+> > Mark the buffer with ____cacheline_aligned to ensure proper alignment
+> > for DMA operations.  
+> 
+> Should also mention fixing the "wrong" sizeof() use in the spi_read()
+> call. It was the correct size, but the wrong variable was referenced.
+> 
+> >   
+> 
+> Probably deserves a Fixes: tag.
+> 
+> > Signed-off-by: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
+> > ---
+> >  drivers/staging/iio/adc/ad7816.c | 8 +++-----
+> >  1 file changed, 3 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/drivers/staging/iio/adc/ad7816.c b/drivers/staging/iio/adc/ad7816.c
+> > index 0e32a2295990..fcaadebff0f4 100644
+> > --- a/drivers/staging/iio/adc/ad7816.c
+> > +++ b/drivers/staging/iio/adc/ad7816.c
+> > @@ -50,6 +50,7 @@ struct ad7816_chip_info {
+> >  	u8  oti_data[AD7816_CS_MAX + 1];
+> >  	u8  channel_id;	/* 0 always be temperature */
+> >  	u8  mode;
+> > +	__be16 rx_buf ____cacheline_aligned;  
+> 
+> In IIO, we have a special macro for this instead of `____cacheline_aligned`. 
 
-rtw_get_ie() writes the raw element length byte to *len and only limits
-it against the end of the IE buffer:
+We've had a couple of these recently.  ____cacheline_aligned is simply
+wrong and I'm curious where that is coming from?  That's the performance
+hint cache line size, typically that of l1 and l2. In some systems other
+caches before the incoherent SPI controllers have larger cacheline sizes
+and we have to align to those.
 
-	tmp = *(p + 1);
-	if (i + 2 + tmp > limit)
-		break;
-	if (*p == index) {
-		*len = tmp;
+The correct option if not using the IIO one is __aligned(ARCH_DMA_MINALIGN)
 
-so ie_len can be up to 255, while the destination is
+For historical reasons IIO has it's own version of that which predates
+all architectures providing ARCH_DMA_MINALIGN.
 
-	struct ndis_802_11_ssid {
-		u32  ssid_length;
-		u8   ssid[32];
-	};
-
-and the only length check the function does beforehand is len <= MAX_IE_SZ
-on the whole buffer. An SSID element longer than 32 bytes therefore
-overruns ssid[] and the members of struct wlan_bssid_ex that follow it in
-pmlmepriv->cur_network.network.
-
-The beacon comes from cfg80211 start_ap and change_beacon, so it needs
-CAP_NET_ADMIN and a beacon that hostapd would not normally build, but
-nothing stops it. Skip the copy when the element does not fit, which is
-what already happens when the element is absent.
-
-Signed-off-by: Ali Ahmet Memis <ali@iusegentoo.com>
----
- drivers/staging/rtl8723bs/core/rtw_ap.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
-index 065850a9e894..62f420636485 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ap.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-@@ -802,7 +802,7 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
- 		       WLAN_EID_SSID,
- 		       &ie_len,
- 		       (pbss_network->ie_length - _BEACON_IE_OFFSET_));
--	if (p && ie_len > 0) {
-+	if (p && ie_len > 0 && ie_len <= sizeof(pbss_network->ssid.ssid)) {
- 		memset(&pbss_network->ssid, 0, sizeof(struct ndis_802_11_ssid));
- 		memcpy(pbss_network->ssid.ssid, (p + 2), ie_len);
- 		pbss_network->ssid.ssid_length = ie_len;
--- 
-2.55.0
+> 
+> __aligned(IIO_DMA_MINALIGN);
+> 
+> >  };
+> >  
+> >  enum ad7816_type {
+> > @@ -65,7 +66,6 @@ static int ad7816_spi_read(struct ad7816_chip_info *chip, u16 *data)
+> >  {
+> >  	struct spi_device *spi_dev = chip->spi_dev;
+> >  	int ret;
+> > -	__be16 buf;
+> >  
+> >  	gpiod_set_value(chip->rdwr_pin, 1);
+> >  	gpiod_set_value(chip->rdwr_pin, 0);
+> > @@ -91,14 +91,12 @@ static int ad7816_spi_read(struct ad7816_chip_info *chip, u16 *data)
+> >  
+> >  	gpiod_set_value(chip->rdwr_pin, 0);
+> >  	gpiod_set_value(chip->rdwr_pin, 1);
+> > -	ret = spi_read(spi_dev, &buf, sizeof(*data));
+> > +	ret = spi_read(spi_dev, &chip->rx_buf, sizeof(chip->rx_buf));
+> >  	if (ret < 0) {
+> >  		dev_err(&spi_dev->dev, "SPI data read error\n");
+> >  		return ret;
+> >  	}
+> > -
+> > -	*data = be16_to_cpu(buf);
+> > -
+> > +	*data = be16_to_cpu(chip->rx_buf);
+> >  	return ret;
+> >  }
+> >    
+> 
+> 
 
