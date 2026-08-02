@@ -1,49 +1,49 @@
 Received: from sender-of-o58.zoho.eu (sender-of-o58.zoho.eu [136.143.169.58])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 436322045AD
-	for <linux-staging@lists.linux.dev>; Sun,  2 Aug 2026 15:35:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F01253BC68E
+	for <linux-staging@lists.linux.dev>; Sun,  2 Aug 2026 15:35:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.169.58
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785684927; cv=pass; b=FKTWMIW5bfRVlyO74G5iNGxjo49YvFQG/E37vg9ByQdliY6jrcOxNn6lHvptHp+zbbN71xJPdhQ9CPGg8pbUJ9y9kialVbFjfHzAMIlq5rZl0sE3ZajqRrj5uAcTQ5810Id4bmOqJbmLGMXB0QI0CvadNzqbFStnYy7bMvCXDic=
+	t=1785684928; cv=pass; b=HoOakWk0snhKQDxOW/B7we6ICoWR3JinfESVoKzsKU5jZrLPp3R9/wP3N6DUuAdovhHZP+laBvk4P/GvKfV0Ooz6Z/8k3CuKN98jr4clWCm9Xid6uzFEkaQNF2Ryu6+mgcdHqcPFMmmgPZ1S5TrZqAST8B9Ebz+0ddbvCLaJIBk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785684927; c=relaxed/simple;
-	bh=kqqj0VlBcepVYiJNr8uj11Pq8oC06zLCjlxrwo1mSDs=;
+	s=arc-20240116; t=1785684928; c=relaxed/simple;
+	bh=wPDDA021qFNTP8gg3ih8qeSKotDzkFGh6zuUhsuh5/0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LRo8t1hIvqWfNTB2dtin+hVZyMgUxM62CnexVWRWc1NWrf4uMFrFD0g/D0/rWBpCPIyosMRna4Y9y1RlRNs8vF41qxvM3HU2TTtyeIwv5tcDICfzWOEgNl/+tLGexzLcbD9W1kCJbjDWZbpD/CbveV8sXAcddV8i8HyqX/8HDX8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=iusegentoo.com; spf=pass smtp.mailfrom=iusegentoo.com; dkim=pass (1024-bit key) header.d=iusegentoo.com header.i=ali@iusegentoo.com header.b=bVH0gtIh; arc=pass smtp.client-ip=136.143.169.58
+	 MIME-Version; b=hifXYpVMRt91kX30WeM3S7VSlE001e6bEfam+PD/xAQHBDBw9gJNGs9dzF8K0DZFIZbBybJKAlwqEudl8YDFZw+1qphExfy7MTFzzxqciTIY9SVKg7D/LU2kZ+3PCusNHolXjEfpvADOBUp7V395ytiaYGnsDy3U2naTugm+G40=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=iusegentoo.com; spf=pass smtp.mailfrom=iusegentoo.com; dkim=pass (1024-bit key) header.d=iusegentoo.com header.i=ali@iusegentoo.com header.b=UE2Cgzwd; arc=pass smtp.client-ip=136.143.169.58
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=iusegentoo.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iusegentoo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iusegentoo.com header.i=ali@iusegentoo.com header.b="bVH0gtIh"
-ARC-Seal: i=1; a=rsa-sha256; t=1785684921; cv=none; 
+	dkim=pass (1024-bit key) header.d=iusegentoo.com header.i=ali@iusegentoo.com header.b="UE2Cgzwd"
+ARC-Seal: i=1; a=rsa-sha256; t=1785684922; cv=none; 
 	d=zohomail.eu; s=zohoarc; 
-	b=VXvhvKIaDAEoHmsE5AgR5QixyQr31xH+FRhUcS46I2l0Dp3naRgKAPpwkveAq0wlgIu9MVPM2Nxr3kguy36AfQLuAELNsPneieWWmYGrLvitXZ2JHH7Q6Pnur0KITNfPHjXFaeH5dmvOEkpiwfUOmS6VVtIl1UH15TUDfGfZz9c=
+	b=U6S6Vx12U1mWpL4RXT2F+KVZoroqwm5ceyE4i9HKCl5CIbXrgtrAzuS7x7GFYymOTdx6hNyjcZ6nYwTqJF9SbQcsOaePSXNaz8l67TV29J757v+VRKXTVYoq6Tb9bv/WhdSYXY+qEgI+cum7bb6YeJWaATWHx6IiMeJS29SDrbQ=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.eu; s=zohoarc; 
-	t=1785684921; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=bF+Fc+x1n9YEAt6qGIKU8KFgtOfwIS+2zIFPKKpWyxo=; 
-	b=KSks8WRMmZr4ojrJRvhMvE6IAv55BKdWn5RyPtlcpyb4rzd91JA1GL8qF8wd4/rr/MS56EysfLj3s+RfOQx9UWiDceXLAKnTaZuV/LCv52KvIF6p4Ps6XJ/5DcGeQY5QH4FOVkBnxjlL6fn0K18fttD/tP1Ju2FZhpb31wijmjI=
+	t=1785684922; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=4Q3UZ9FF+kZanL0cghp5WdgJz4O58NIEjpKCeNIS7F0=; 
+	b=d00i910yRwmPMFX6e9RO3GWTZwerIrVlHJgJnRuKg7wLw03CJpUoDNzMWj4Pdgk+hF1l7WJF0tec+0hOaJ1SEyWzT51c37+U0/kOjvalmxKFJzU2WvP2O7Ow1gO9xbshTAMrQNmo3n145K2tBtbscxRka4o7EJdRBIZj9mFh0Jg=
 ARC-Authentication-Results: i=1; mx.zohomail.eu;
 	dkim=pass  header.i=iusegentoo.com;
 	spf=pass  smtp.mailfrom=ali@iusegentoo.com;
 	dmarc=pass header.from=<ali@iusegentoo.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1785684921;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1785684922;
 	s=zmail; d=iusegentoo.com; i=ali@iusegentoo.com;
 	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=bF+Fc+x1n9YEAt6qGIKU8KFgtOfwIS+2zIFPKKpWyxo=;
-	b=bVH0gtIhmVlWLySmQZyRsf3orhkBRk4wHX+S7C/67JDg1ifuiDgJ/Z+fXKMmf+pS
-	illfUmZfE598Yn4Up4r/AiBkb7uYqxuK7E9/bAXHM4wQr/jtf4L7Qv/8OZicdqWHkbC
-	Z66xqx80It4pEmfqNu7HhfR6lXwIi4hu+vJepH6Y=
-Received: by mx.zoho.eu with SMTPS id 1785684919692796.3558886520713;
-	Sun, 2 Aug 2026 17:35:19 +0200 (CEST)
+	bh=4Q3UZ9FF+kZanL0cghp5WdgJz4O58NIEjpKCeNIS7F0=;
+	b=UE2CgzwdZrLDRbLydhyJtxVLSDMS6GYIYNJgb1VVM9+oXvrP8HW879rhyxMXZJUr
+	07/8hKaj2A7ojyyl0lc78vwVTxTlXmWQhv8LbnZEAKJD3yhSZc/ZBHO2f4NKB5gVn3z
+	xyM6HzLRnyzhb87LOzLZ2uoQdFBBhv4UEdp3g7co=
+Received: by mx.zoho.eu with SMTPS id 178568492033180.75509870961241;
+	Sun, 2 Aug 2026 17:35:20 +0200 (CEST)
 From: Ali Ahmet Memis <ali@iusegentoo.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Hans de Goede <hansg@kernel.org>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/2] staging: rtl8723bs: validate HT capability IE length before use
-Date: Sun,  2 Aug 2026 15:35:08 +0000
-Message-ID: <20260802153509.44263-2-ali@iusegentoo.com>
+Subject: [PATCH v2 2/2] staging: rtl8723bs: bound the SSID element length before copying it
+Date: Sun,  2 Aug 2026 15:35:09 +0000
+Message-ID: <20260802153509.44263-3-ali@iusegentoo.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260802153509.44263-1-ali@iusegentoo.com>
 References: <20260802153509.44263-1-ali@iusegentoo.com>
@@ -56,84 +56,58 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-ZohoMailClient: External
 
-Four sites locate the HT capability element with rtw_get_ie() and then
-read through it without checking that the element is long enough:
+rtw_check_beacon_data() copies the SSID element straight into a fixed
+32 byte array:
 
-	p = rtw_get_ie(..., WLAN_EID_HT_CAPABILITY, &len, ...);
-	if (p && len > 0) {
-		pht_cap = (struct ieee80211_ht_cap *)(p + 2);
-		ht_cap_info = le16_to_cpu(pht_cap->cap_info);
+	p = rtw_get_ie(ie + _BEACON_IE_OFFSET_, WLAN_EID_SSID, &ie_len, ...);
+	if (p && ie_len > 0) {
+		memset(&pbss_network->ssid, 0, sizeof(struct ndis_802_11_ssid));
+		memcpy(pbss_network->ssid.ssid, (p + 2), ie_len);
 
-rtw_get_ie() only bounds the element against the end of the IE buffer, so
-len is whatever the sender put in the length byte. A beacon or probe
-response carrying a one byte HT capability element passes len > 0 and the
-driver then reads two bytes of cap_info, and in rtw_update_ht_cap() the
-ampdu_params_info byte after that, from beyond the element.
+rtw_get_ie() writes the raw element length byte to *len and only limits
+it against the end of the IE buffer:
 
-An HT capability element is a fixed 26 bytes, so require that much before
-dereferencing it. The frames come from the air, so the length is not
-under local control.
+	tmp = *(p + 1);
+	if (i + 2 + tmp > limit)
+		break;
+	if (*p == index) {
+		*len = tmp;
+
+so ie_len can be up to 255, while the destination is
+
+	struct ndis_802_11_ssid {
+		u32  ssid_length;
+		u8   ssid[32];
+	};
+
+and the only length check the function does beforehand is len <= MAX_IE_SZ
+on the whole buffer. An SSID element longer than 32 bytes therefore
+overruns ssid[] and the members of struct wlan_bssid_ex that follow it in
+pmlmepriv->cur_network.network.
+
+The beacon comes from cfg80211 start_ap and change_beacon, so it needs
+CAP_NET_ADMIN and a beacon that hostapd would not normally build, but
+nothing stops it. Skip the copy when the element does not fit, which is
+what already happens when the element is absent.
 
 Signed-off-by: Ali Ahmet Memis <ali@iusegentoo.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_ieee80211.c | 2 +-
- drivers/staging/rtl8723bs/core/rtw_mlme.c      | 2 +-
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c  | 2 +-
- drivers/staging/rtl8723bs/core/rtw_wlan_util.c | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_ap.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-index 863ddf846218..2e66a6e86a32 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-@@ -1094,7 +1094,7 @@ void rtw_get_bcn_info(struct wlan_network *pnetwork)
- 	/* get bwmode and ch_offset */
- 	/* parsing HT_CAP_IE */
- 	p = rtw_get_ie(pnetwork->network.ies + _FIXED_IE_LENGTH_, WLAN_EID_HT_CAPABILITY, &len, pnetwork->network.ie_length - _FIXED_IE_LENGTH_);
--	if (p && len > 0) {
-+	if (p && len >= sizeof(struct ieee80211_ht_cap)) {
- 		pht_cap = (struct ieee80211_ht_cap *)(p + 2);
- 		pnetwork->bcn_info.ht_cap_info = le16_to_cpu(pht_cap->cap_info);
- 	} else {
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index 1196ec011455..03dd4b5e94d6 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -2416,7 +2416,7 @@ void rtw_update_ht_cap(struct adapter *padapter, u8 *pie, uint ie_len, u8 channe
- 	/* check Max Rx A-MPDU Size */
- 	len = 0;
- 	p = rtw_get_ie(pie + sizeof(struct ndis_802_11_fix_ie), WLAN_EID_HT_CAPABILITY, &len, ie_len - sizeof(struct ndis_802_11_fix_ie));
--	if (p && len > 0) {
-+	if (p && len >= sizeof(struct ieee80211_ht_cap)) {
- 		pht_capie = (struct ieee80211_ht_cap *)(p + 2);
- 		max_ampdu_sz = (pht_capie->ampdu_params_info & IEEE80211_HT_CAP_AMPDU_FACTOR);
- 		max_ampdu_sz = 1 << (max_ampdu_sz + 3); /*  max_ampdu_sz (kbytes); */
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index a443b3530fb9..c884700d6e0d 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -3934,7 +3934,7 @@ u8 collect_bss_info(struct adapter *padapter, union recv_frame *precv_frame, str
- 		struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 
- 		p = rtw_get_ie(bssid->ies + ie_offset, WLAN_EID_HT_CAPABILITY, &len, bssid->ie_length - ie_offset);
--		if (p && len > 0) {
-+		if (p && len >= sizeof(struct HT_caps_element)) {
- 			struct HT_caps_element	*pHT_caps;
- 
- 			pHT_caps = (struct HT_caps_element	*)(p + 2);
-diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-index a4de538722b5..7fd032b89429 100644
---- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-@@ -1130,7 +1130,7 @@ int rtw_check_bcn_info(struct adapter *Adapter, u8 *pframe, u32 packet_len)
- 	/* check bw and channel offset */
- 	/* parsing HT_CAP_IE */
- 	p = rtw_get_ie(bssid->ies + _FIXED_IE_LENGTH_, WLAN_EID_HT_CAPABILITY, &len, bssid->ie_length - _FIXED_IE_LENGTH_);
--	if (p && len > 0) {
-+	if (p && len >= sizeof(struct ieee80211_ht_cap)) {
- 		pht_cap = (struct ieee80211_ht_cap *)(p + 2);
- 		ht_cap_info = le16_to_cpu(pht_cap->cap_info);
- 	} else {
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
+index 065850a9e894..62f420636485 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ap.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+@@ -802,7 +802,7 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
+ 		       WLAN_EID_SSID,
+ 		       &ie_len,
+ 		       (pbss_network->ie_length - _BEACON_IE_OFFSET_));
+-	if (p && ie_len > 0) {
++	if (p && ie_len > 0 && ie_len <= sizeof(pbss_network->ssid.ssid)) {
+ 		memset(&pbss_network->ssid, 0, sizeof(struct ndis_802_11_ssid));
+ 		memcpy(pbss_network->ssid.ssid, (p + 2), ie_len);
+ 		pbss_network->ssid.ssid_length = ie_len;
 -- 
 2.55.0
 
