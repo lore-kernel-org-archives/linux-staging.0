@@ -1,149 +1,137 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8929E22CBD9
-	for <linux-staging@lists.linux.dev>; Sun,  2 Aug 2026 06:01:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785650517; cv=none; b=Tbqbnw652fKklanUs0DF8VLhEd7AiHAbU5ZyGLZRHxvj563rCtG218yQtfl83hKLdtPnrfh4oN45AiQ21NXgVt43ZMHgnvd+BGGw48X1x2smWxIZu1nn+nP/REQQZtmo0+15TQOSD6R/rq3XgTGhUmpRXhjJRbzxSXF7BZVSt94=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785650517; c=relaxed/simple;
-	bh=JjxDKQF3hAPKt2Y2c8WbHYN4lqyU3INe1BlKLG3Hs+Q=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=sAvdHSh6lzffWM9xJyIKmEr4KiST38b+KoEgyy7COLed9+dtnSDgPUK1WIArAigp6hoDpenOGB/QOMX9e4aggm+hT9FdOngtWeTWIfO6Ozm/gZ8+HW0mjNhmtIELdXiEJpnrhmRKY65lMf5R/fqOmO6/1JLpg3nci67jcqHn6wM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YmljKItB; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6CE52C11E8
+	for <linux-staging@lists.linux.dev>; Sun,  2 Aug 2026 06:11:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.169
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785651091; cv=pass; b=hTpMjw1VhbT2q27Csj2bHsv1ehzxW9q0OrYKPV46D1cjTDDlPJamns+s7xpWWVf9Xy4YAIs2ueOspHQuguybB/dDiPBxdJJaovaae6cA3MlEPpkpQBT+iIufb4D+jrjBbCGQKkCw3esDl3ev6mL3fwe2NLoR738Y/4xIcosk5Ms=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785651091; c=relaxed/simple;
+	bh=3KeQlUyCvZTKk0GfDaAC8+eVlDXtWAA/xfcTGqdy97Q=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UDblEYKYShXBacbhYUNfOFHA8hmCX4K1+WJdMe4GJSwH3AM46xAKe2AAeoL2cznECS2IDvvs8O15F505jaGqbAsk+X2YlD3ITz7/u0KCarJ+1cyS9vEokiihJ6w8zHIitNb7BP/0yLSK1G3AWy5fk+60AJaAZeHvD92LG3d2Agg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O+ako4Pj; arc=pass smtp.client-ip=209.85.128.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YmljKItB"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-38e347638adso2792492a91.0
-        for <linux-staging@lists.linux.dev>; Sat, 01 Aug 2026 23:01:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O+ako4Pj"
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-81ed000b507so20851287b3.0
+        for <linux-staging@lists.linux.dev>; Sat, 01 Aug 2026 23:11:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785651089; cv=none;
+        d=google.com; s=arc-20260327;
+        b=nLY5oAZP/IZWTZ9FpUYmLorq7LMxXdfT3cng+kq0snOqVkPVGUWMWka0UsPqVi3vT2
+         KB14vi23Bj1DRROfDIa47opKZcf1UK291Bb13QzJW1kvBLWXi4+0N+R9yzoB2Cf0zgvS
+         vJB6w2X4JpvE0I8fYKWFFhCvpDYpoxGSOdAS1DrAp59Mgw0tQaXEHAOj35UapHlpfn3G
+         mfIvMNid26UxTNK5QrgcROwFG8nUKRAlz+K56PC3Lmdv8WxTcHEyOatjqzwiPlrsoyyb
+         I99AwtZNf1ADmaJ0oSeXI+qDU9pkFRQg6hVv+ieeOg//lA0e4iMSnsU6UG3ModQErWJK
+         iJCA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=3KeQlUyCvZTKk0GfDaAC8+eVlDXtWAA/xfcTGqdy97Q=;
+        fh=Ebt/gxoH2j4UKJIyMtUtnk3QO1PGWm3eyIG0RBAgy3I=;
+        b=H85C6gEPbSVM4npUJO/ywxVRR0Bs3feuQ1IIuU+cI7kGG8CmGTy9WP/vZvCCZTJOzt
+         RDxaqYzEpvnRac+6lnexQimjmD/ptYCX8KrSgwzgmJpCPTjRYFiziKeelF2PiSHgBzYg
+         riFQie7MFhRIVTG7fKiej5wF5ZxLKfj6tAm5PUCLbLmHaI809u30NBrk0QlZlawkL7vC
+         GOhgYzQvILe0I7oGtE3OCWdawASYRsZ3Oh1NMNiqTH1cXOS03YBsE8tJEUktBEm6qonV
+         hv8t3UZgjcqg6N9nuYNHMhkF6hl2fTKbTi5q6TfzIk8LO0zqw71ldRTAiHYAhsobwj8J
+         ExFw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785650516; x=1786255316; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=6Uf0TKCFjdWM1rYqDz7p4iU85M8ItTJOqGEGZ/I4vGE=;
-        b=YmljKItB60ID7YaQmZIxIh/RaFFLuDnXas5zevW3JTXG6WQpXn4IOsdhXiboA4i37k
-         9748vAX1QmSUtWZ6oYDX+f/B2sQ392EmF+9cvpPtpzNlS9dAoljjC96zE6DF8bhvqh6J
-         JA6Np9YVqhFnbbkZDTACECeEf8KAY4DNNRAXrCmnlXFfeJeeGxscKwu1YZ9PiCmdIncJ
-         cfrFmB2q0/sF8o+Up+2ZklHnbtwbWJqRWQnZ1VyeKqnaNZD317s8ACz9p2CFqfCHIIEI
-         qPJycSXMXdwZ4pVoN0SAzEM7MoU0ZpwbkGWgjJsVNcRk9Nf0XYhXMVCfF29lbXFCm7C4
-         X2Ww==
+        d=gmail.com; s=20251104; t=1785651089; x=1786255889; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=3KeQlUyCvZTKk0GfDaAC8+eVlDXtWAA/xfcTGqdy97Q=;
+        b=O+ako4PjskI4YjKm8kNA1R9gKRSOvmhgqlZZlhVZ381RfybTMFUwvqbULxkwSo80sg
+         O1nPDp0zkFbykt/cp14MpK+OUpG10MdhaBwaCitMSaHvU7igXUrEIidOkq+efa/KLcD0
+         7EFBKArFwkV4mQy4Px8F4R1/7i4//z+vEcr6ptEU6Zx31Ar11NKIeJSsixBHsKlXNper
+         9gYn9Hwftmve8aLDZyx+iqrOWfXmYKyQ+opQnMw8zLEEq5IvKLnumMWovYVi9aeEiZ1x
+         U4sbzge9HFQqan7+z3cEM04tbwxP9gMJyYK0+X9SA/zTHmzPWPrpr3QMqoxcgBOGIbLk
+         QC4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785650516; x=1786255316;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=6Uf0TKCFjdWM1rYqDz7p4iU85M8ItTJOqGEGZ/I4vGE=;
-        b=ab+ybJL6AwbYV71+C792gct0QxhA0loblnOwQGbURBP6FmpnN86SmoWpM72aCV67Q3
-         iuKm+R5vc7NvAVo3MmBb8ghi4THOPD04/TmfCyN4Yxwnw/0Azdn2DwTK2lqEf0EYvqrb
-         D9nkdStzvJvVfhtv0xS82g9VskUMOfloXZYr1h0G3f3RbW5Dpw3ln3CFx7IiAOu5SF6/
-         kPOT1bGaExdpdVldsJ6PTvXce1O6lqpmOgybdkEkZgcAAzCjcPBQC8NS/1JUHC2bdepC
-         SirK/cYqz7o9HDa9UoBL13ALU+5mxSQpiOp8GMrHtGs61gt4UucPHKuK5QfzMjH5v9UO
-         H4Ow==
-X-Forwarded-Encrypted: i=1; AHgh+Rqt742qCtjlNJQs8bzu4ZpoEHegOi6ZKKZe9KWzZzmm6vII5C4P7OQgiXtbWwaACJFfX4m0xuzNPFwRx1Bu@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzh7uK7VecEPJQv1tFxideu/OY/WsULVQa460p7rujgefnq0jvw
-	E9D0Mdvxy//HH4jzTDk1GfteiOovTeG48JpmlPHN09dK8LX7tOzTDesz
-X-Gm-Gg: AR+sD12eNwOBTyNaeCYu6aYhgej1idqBBqCaoWArwjFGv6OeLTXmJjC9dlLED7AZt9S
-	a/Qt4EZqStUiCTauDreXz7QbYHZOvtB+QK1HsQLTxyM/+bLwEkEZxGakamxMv8+/PHPqKlipxbR
-	VE7HP0zu9Pdga6Bpzo55Y5lwzIlk7ig/ujzDCaZS0V6X8PCskzIUKjg7h9IN1zQfekLOQE3T5kp
-	JSzosu7dDtcoGwLSGzrXUt5fPkFiqujLoOs0Br3AaxQbT3LP0gxFBz5S5etvbEQllfbHy/IfnZJ
-	fFoS6pw9jA/GCTWI3dhUw36CLS1Qx0pmtlTHowNhq7o35Ghzr946PE952J7w234lUmdmNm8vtyW
-	AT3A8u9C521/3pNzWh7d7c7S6VeGYmQSQ44hk6GWISY/Q6Mp7ALCuS8y5BZ+sT/QUtJGjLm/spD
-	KjsPQB/2lvPQqrZSAlJO6zQy8p24RMCyzXs8c0cnqmwPvkiqobbr3JFWIvNqwTa6NDt15ATJTNw
-	ckf3A==
-X-Received: by 2002:a17:90b:5605:b0:37f:9ce1:cdb1 with SMTP id 98e67ed59e1d1-38fbc57a333mr5181193a91.31.1785650515828;
-        Sat, 01 Aug 2026 23:01:55 -0700 (PDT)
-Received: from SGN-LDSENG.tasernet.com ([2405:4800:5cc3:11a:1ac0:4dff:fe8b:4a69])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13fab132cc4sm18610443c88.2.2026.08.01.23.01.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Aug 2026 23:01:55 -0700 (PDT)
-From: Cong Nguyen <congnt264@gmail.com>
-To: Rui Miguel Silva <rmfrfs@gmail.com>,
-	Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] staging: greybus: light: fix leak of cdev->name
-Date: Sun,  2 Aug 2026 13:01:49 +0700
-Message-Id: <20260802060149.3803224-1-congnt264@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        d=1e100.net; s=20251104; t=1785651089; x=1786255889;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=3KeQlUyCvZTKk0GfDaAC8+eVlDXtWAA/xfcTGqdy97Q=;
+        b=gGLJNr6Syxe1AZVz4/IOucIOOJ3+UT6kPk6/FtGwx0NiyOXH6kCAzleslDZ4xcZkwG
+         qHUs9mXtZrt3WrQ/RCZcPPvOJIsqH1riDFiL73frr6tilS826sV7hK0Lwr03oX5sEvG9
+         6Sv09/8s0B+v2Pzs/KFnku7j392edJM8lup53lKXz2aZFZVD4M0DZWiERNjsCHWS+imm
+         coL1Xtkjl8bTUXmDLUuSBQEpwITYBuYlQzfFq0SWKRuXO9Jz6eGQQ4Y47X/rfPs8XWh2
+         sFIoEuXPwPUKKdnV+c1i1/o00bTQbRbTtJF+uQ0CaHVUjADQE7klb5uIO6qA+fDhDYZr
+         dw9A==
+X-Forwarded-Encrypted: i=1; AHgh+Rq/Dle+/w64+stAsB+dgPJLoegOEOQeemdg9VP8Tm6ffQSdeaVf9VTDqhxY56aZT+n0lB4VLJAxh/+o7s8Z@lists.linux.dev
+X-Gm-Message-State: AOJu0YzdiySnek7Bhsm5KQhx/f4rwwuj7vDAD6zANJNy7p0kgQifv4nX
+	eQIJ8DPNXA6dCiTI3HULflYHYQOs5WTRiwzRGUpe3Ja1Hmb/jLzWRBamqEd38fWl1yQjnzdv9Oi
+	LO1RLApC5qdEErAeqeIA/xslCTP9f3ck=
+X-Gm-Gg: AR+sD13yXadYQqclAOrQiw8v7Oe7xKEnYI5iFRVE+Dz/Q1YjI7fT2CHc+pwZEaBnKUA
+	OTRsJscwEEEw0yawYqw2l7A+krrVUDGNrOWRPJfuPMCsDABSV4ms/dDY8bCJFAuqiHwI3lU/naJ
+	4qyQEibX7uS6pD7KOYxDW2K1ctYhuqTTp9BK7vKxSExH7Wc4Zhnv1z/QtG7Yvc5izCBImpaYEf0
+	vmIqFrghfxMPvX7LFDZPVuhCeJueL7NImsNEoLSSnI+dRySs0oq7BEvWfdfpjzbRykh9TiShe4r
+	gqCz53Ws+NANjLBKW9HmIzoLDROuCsAuRTLbdByTz/6BDQ==
+X-Received: by 2002:a05:690c:278a:b0:81c:b865:2231 with SMTP id
+ 00721157ae682-81fd4bf88ecmr81806557b3.33.1785651088728; Sat, 01 Aug 2026
+ 23:11:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260726110039.3674948-1-congnt264@gmail.com> <2026072842-protract-matcher-99b6@gregkh>
+ <CAJpJ=GtHycfZncrux5chZLF-s97DiTjm-Ps_cjopamT0OPwtkw@mail.gmail.com> <2026073028-impaired-acuteness-e80a@gregkh>
+In-Reply-To: <2026073028-impaired-acuteness-e80a@gregkh>
+From: =?UTF-8?B?Tmd1eeG7hW4gQ8O0bmc=?= <congnt264@gmail.com>
+Date: Sun, 2 Aug 2026 13:11:16 +0700
+X-Gm-Features: AUfX_mwl7NrKmvEmrDoOOjPOIyw6Xa4YW5YzKdjhaXgMzBQxxcEyYY_gQ6uowwc
+Message-ID: <CAJpJ=Gt92chCTWqkBMFjjQMsw_VT9vn=bidOJRuhd_dOeisyRA@mail.gmail.com>
+Subject: Re: [PATCH] staging: greybus: light: fix leak of cdev->name
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Rui Miguel Silva <rmfrfs@gmail.com>, Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, 
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-gb_lights_channel_config() builds the LED classdev name with kasprintf()
-and stores it in cdev->name for every channel during the configuration
-phase, which runs before the channel is registered.
+On Thu, Jul 30, 2026 at 6:07=E2=80=AFPM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> A: http://en.wikipedia.org/wiki/Top_post
+> Q: Were do I find info about this thing called top-posting?
+> A: Because it messes up the order in which people normally read text.
+> Q: Why is top-posting such a bad thing?
+> A: Top-posting.
+> Q: What is the most annoying thing in e-mail?
+>
+> A: No.
+> Q: Should I include quotations after my reply?
+>
+> http://daringfireball.net/2007/07/on_top
+>
+> On Thu, Jul 30, 2026 at 05:57:15PM +0700, Nguy=E1=BB=85n C=C3=B4ng wrote:
+> > Hi Greg,
+> > I used an LLM-based agent (Claude) to flag allocations that aren't free=
+d
+> > on error paths, then I verified this one by hand: I traced every place
+> > cdev->name (from kasprintf()) is freed and found that
+> > __gb_lights_led_unregister() misses it on the config-failure and flash
+> > channel teardown paths. No static-analysis tool was used - just the
+> > agent to surface the candidate plus manual review.
+>
+> Then please properly document this as required.
+>
+> thanks,
+>
+> greg k-h
 
-That name was only released by __gb_lights_led_unregister(), i.e. only for
-a normal LED channel that was actually registered. It was therefore leaked
-in two cases:
+Done - added an Assisted-by: tag per and resent as v2:
+https://lore.kernel.org/linux-staging/20260802060149.3803224-1-congnt264@gm=
+ail.com/
 
-  - a channel that is configured but never registered, e.g.
-    channel_attr_groups_set() fails, the flash configuration fails, or a
-    later channel in the same light fails to configure and the whole light
-    is torn down; the release path calls gb_lights_channel_unregister()
-    (which returns early because the channel is not registered) and then
-    gb_lights_channel_free();
-
-  - a flash, torch or indicator channel, whose unregister path
-    (__gb_lights_flash_led_unregister()) never releases cdev->name at all,
-    so the name leaks even on a successful teardown.
-
-cdev->name is a configuration-phase allocation, like channel->color_name
-and channel->mode_name. Free it in gb_lights_channel_free() next to
-those, since that runs unconditionally on every teardown path, and drop
-the special case free from __gb_lights_led_unregister().
-gb_lights_channel_unregister() is only ever called from
-gb_lights_channel_release(), immediately followed by
-gb_lights_channel_free(), so the name is still released on the registered
-path and is freed exactly once.
-
-Commit 04820da21050 ("staging: greybus: light: Release memory obtained by
-kasprintf") fixed the leak for the registered normal-LED path only; this
-covers the remaining cases.
-
-Fixes: 2870b52bae4c ("greybus: lights: add lights implementation")
-Assisted-by: Claude:claude-opus-4
-Signed-off-by: Cong Nguyen <congnt264@gmail.com>
----
-Changes in v2:
-- Add Assisted-by: tag to document AI assistance, per
-  Documentation/process/coding-assistants.rst (Greg KH).
-- No functional change.
-
- drivers/staging/greybus/light.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/greybus/light.c b/drivers/staging/greybus/light.c
-index cab02b5da867..1ecca479b5f4 100644
---- a/drivers/staging/greybus/light.c
-+++ b/drivers/staging/greybus/light.c
-@@ -905,8 +905,6 @@ static void __gb_lights_led_unregister(struct gb_channel *channel)
- 		return;
- 
- 	led_classdev_unregister(cdev);
--	kfree(cdev->name);
--	cdev->name = NULL;
- 	channel->led = NULL;
- }
- 
-@@ -1063,6 +1061,9 @@ static int gb_lights_light_register(struct gb_light *light)
- 
- static void gb_lights_channel_free(struct gb_channel *channel)
- {
-+	struct led_classdev *cdev = get_channel_cdev(channel);
-+
-+	kfree(cdev->name);
- 	kfree(channel->attrs);
- 	kfree(channel->attr_group);
- 	kfree(channel->attr_groups);
--- 
-2.25.1
-
+Sorry about the top-posting.
+thanks,
+Cong
