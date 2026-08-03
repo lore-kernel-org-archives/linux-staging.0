@@ -1,133 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C1E830F803;
-	Sun,  2 Aug 2026 18:47:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE27D27707
+	for <linux-staging@lists.linux.dev>; Mon,  3 Aug 2026 00:49:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785696464; cv=none; b=fhb9CaLJV37y1Xp/mCJW42W32G9uLp64VzPyL8yDkW/6kK0hSotaljefIYiCTfWsXlWdCqN90anJT+1DA9CGHL6WMYYscVVzLr69adNcxn2+h/PyakzLP7ZzcEZseir++bqlhieNaW9htZwxSgfix+akY6AVthOFPDBe/M/899A=
+	t=1785718185; cv=none; b=HABQEj7XmmuQSB8+X3L2CvZONtIAsGwsWhDIR0RYj4cgTNRnLubE6whwiKTIdhOVBz2HqdXbV54cw5d2hGZU4LvKvRJ9Kj5PgokFoIpO+0evHRQyf6p3ObIIVBzEO2/SWOYkhuhT+tI/Ng05YtXwoL80ARppjHKjantwJUliYvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785696464; c=relaxed/simple;
-	bh=hjg58UYGY/TkTDjz2jwIAmpKTZXxBbuIoeN85Dht244=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SmpPiBsiTKMYoedkKF85K3Y962ryUeZewcjH0bAA8OtegrIwAM4uq7ij4B+scd1JxD8712norfpANDYkmdYE0e4agC+/grjvasXW+3uT92xOSB4EJ9t8n6aBYI6xeDWrKtRQ+2dQwLsR9gdiEbfzQkgb0uklyJ5KbwmUCTzO6Y8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U8x7MVS7; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1785718185; c=relaxed/simple;
+	bh=RmdWQ40WACLEfQuBEwRKYHDY2nwKyeglBCr2/+Semv4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aH25Si0VpMpzXd3TCm1sktFxGvXikrTY3QAG4L+25L6WGH3rAetqUBEDd7AD0jw/45L7ONuObzZb5UPZR9E9VyqlOPcQYhHUlcPmNkUMUYxaAgx5YmKmd7c5MB37nCFV2eBVds9jyEbFG97Z+qnwYwzysfwF9YcNXIFOnoEInuM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D8n0E+84; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U8x7MVS7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4FC61F000E9;
-	Sun,  2 Aug 2026 18:47:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1785696462;
-	bh=TvgyDk2HC89KcYNBNEsGQw6P/bZVUyMqtjZ5ahgyVhw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=U8x7MVS7QhkhXAoKznwL0UdXqLHko9btcbfYC4r/eQtMQKpMbNrACCvLNCIJkzDw3
-	 A5UffDXBSNaVGmEnnk1lsrTolIOv5E3XnTLTLBKWLC9NJ/OW4kwUGXR84fUvsXaIAz
-	 klGXANjn1bIcdTVhqM2cU1sM9wCMDDroZpbfrk2L6/EUWINVEwIqox9WJ706FxfKjC
-	 b7pPVtz+STSnvAta8ZftdcfW/rYLAMs67PFC688Abzsyjs4x+DQEbMyQMoAUtnKjUa
-	 El+FGpRqoY8W3accSc+9sidGjqDdLji+YzqYA2ouc7qECvW5PwhM9K4zSMb2zopf6R
-	 BbUjhWClVj+eg==
-Date: Sun, 2 Aug 2026 19:47:38 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>,
- nuno.sa@analog.com, Michael.Hennerich@analog.com,
- gregkh@linuxfoundation.org, andy@kernel.org, linux@analog.com,
- linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: iio: ad7816: avoid DMA from stack in spi_read
-Message-ID: <20260802194738.034382ef@jic23-huawei>
-In-Reply-To: <0bde2343-8a70-44d4-9b27-8ce42c099309@baylibre.com>
-References: <20260802113840.17730-1-abdelnasserhussein11@gmail.com>
-	<0bde2343-8a70-44d4-9b27-8ce42c099309@baylibre.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D8n0E+84"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2cca0c5799eso22289485ad.0
+        for <linux-staging@lists.linux.dev>; Sun, 02 Aug 2026 17:49:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1785718183; x=1786322983; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=cuNxYG+m1i3A6tq4bgitFIgN68FwLjQXK2bjDLK0VxI=;
+        b=D8n0E+84Vem48IfdfOAb0/sASQXj+O3heoqWRrkxgHn8QmPAVugELT56H9rZZlwO53
+         PdeGlYN1f6F+d1B8+4Ey876XkSmIspvuLYR7dW6nvvAOHWE1a2ZOzjc38ykUZRJnv2dz
+         yN9gPWg4QH7e3igtXAfceMefLS+64znVzvLU2/w4mONPavvNIFGDWa/325WOfVr/VoSp
+         o8ZaUNFZAgUnbhkqYESMoat5Q8nker8Jjp49c9RLwHyU1uTknUrnWY/Am5BMeLUKz3pK
+         RQKSIiTtaSKmVBawxMDSXER9iiysCX0hKa9GpR/WybWY0220VRjJPGHsabct2WvktkpA
+         Fozw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1785718183; x=1786322983;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=cuNxYG+m1i3A6tq4bgitFIgN68FwLjQXK2bjDLK0VxI=;
+        b=hlEdC7ukNF8ThAHTzRMhK3ZZgW7j6QbFxhe1y5MOwIDx2HNUk/bJup91vm+OnSkidc
+         Z4/9NGlKk5l0kwfI4IdZ/y40nMvbQdOGOVtJ3U5M5T6r4JWAPT0egmir/Zg4IZ0z6kJu
+         qOiDiisy6SV9rPWbqPkmZVzGTpDkDqKxxPY2QN2sfdI/IKT95rWVd5oRCFo1tc+ZVXzb
+         AAP9W42hbRwzr0AGPLXUz4OfDL2S6SazOE6lSkhz8xVWMjtTyIRD7O3WUflU6qKa7gaa
+         3n1dEq89z+4bysZUR8MwgA41/1oyF8LvSnHviTpjns4dNhI3tY02SD2U0QKxKXG9yu/S
+         6P/A==
+X-Forwarded-Encrypted: i=1; AHgh+Rq9X9Di5xa0xUZ7MRghE9a6O4atKbcUsMZWG+BZeOBSqYNiAxtaw8roPiYkxdCGxb1PvTe6lEWSzJve4qBd@lists.linux.dev
+X-Gm-Message-State: AOJu0YxQXX56Nz6yffAri1l++nZonoKPYTOHqDfPxDMWTwRej0JaM4Mh
+	sYW7suP47O9/joy8eehCtoihDnURnPtqST+ad4NDKvpWrIWCu0Char3j
+X-Gm-Gg: AR+sD10liFEP9kVakWQZLpf/Ft/tEZQpJH7MV6aPaL0b/w5TjImCc/5r5oiVrnlNtja
+	U9fLrBhakCZhxd6qcBOrXEZpoL+vBvZldUDKKRXnDsDLNOrwdwTecogEN8sYF+29Um3FaDlcC0f
+	JtXJ/a1OxhHdyUmcNa4czYIrYxzPrnLiNHRdus0J+p6Pk17XMgbO6h+iUmdH4yxKcDLQkbtSuPn
+	UQMjFygpNZNhtZ97Ipw1rOJqXT3e3/SnS1kid8tXvsLbk9TK8QuyUjVHNHn7eTa7ochZk5ss6xv
+	N7eLjo7Rs0386TyajC0bk8GiwBHyoG4sBWUfc5+8HQXPTsuKV7AKq2dhQOa171QKJ5h04fSNleo
+	SvGR8gcmLhHVAdK2+TNbLn07QyGfKKTYR5q4sEh5j3AFHVUeA34nI5SiIOGwzACzJZBSD/4Z031
+	VfFAo620lBJ5EKHIGa2e69pgLbywbtjrsUe6Rotorwlpq3rnYX6oMxolkSAHfylIs4L2lZ3zEsR
+	wNW3JmiDjlxYPU6OsgPlPgk/6jwDSvOWBw9yeJqgXk=
+X-Received: by 2002:a17:903:185:b0:2cf:bf1e:36f2 with SMTP id d9443c01a7336-2d0522983cbmr84444925ad.25.1785718183097;
+        Sun, 02 Aug 2026 17:49:43 -0700 (PDT)
+Received: from lucas-inspiron153525.. (host110.181-12-179.telecom.net.ar. [181.12.179.110])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3153e044912sm35807345eec.15.2026.08.02.17.49.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 02 Aug 2026 17:49:42 -0700 (PDT)
+From: Lucas Jeffrey <luquijeffrey@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: johannes.berg@intel.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Lucas Jeffrey <luquijeffrey@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: handle key setup failures
+Date: Sun,  2 Aug 2026 21:49:19 -0300
+Message-ID: <20260803004919.901586-1-luquijeffrey@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Sun, 2 Aug 2026 10:31:29 -0500
-David Lechner <dlechner@baylibre.com> wrote:
+The return values from key setup helpers were ignored in
+rtw_cfg80211_ap_set_encryption().
 
-> On 8/2/26 6:38 AM, Abdelnasser Hussein wrote:
-> > The SPI core may use DMA for transfers. Using a stack-allocated
-> > buffer for DMA is unsafe and can trigger faults when VMAP_STACK is
-> > enabled, since the stack is not guaranteed to be DMA-accessible.
-> > 
-> > Move the transfer buffer from the stack into the ad7816_chip_info
-> > structure so it has a stable lifetime suitable for DMA transfers.
-> > Mark the buffer with ____cacheline_aligned to ensure proper alignment
-> > for DMA operations.  
-> 
-> Should also mention fixing the "wrong" sizeof() use in the spi_read()
-> call. It was the correct size, but the wrong variable was referenced.
-> 
-> >   
-> 
-> Probably deserves a Fixes: tag.
-> 
-> > Signed-off-by: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
-> > ---
-> >  drivers/staging/iio/adc/ad7816.c | 8 +++-----
-> >  1 file changed, 3 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/drivers/staging/iio/adc/ad7816.c b/drivers/staging/iio/adc/ad7816.c
-> > index 0e32a2295990..fcaadebff0f4 100644
-> > --- a/drivers/staging/iio/adc/ad7816.c
-> > +++ b/drivers/staging/iio/adc/ad7816.c
-> > @@ -50,6 +50,7 @@ struct ad7816_chip_info {
-> >  	u8  oti_data[AD7816_CS_MAX + 1];
-> >  	u8  channel_id;	/* 0 always be temperature */
-> >  	u8  mode;
-> > +	__be16 rx_buf ____cacheline_aligned;  
-> 
-> In IIO, we have a special macro for this instead of `____cacheline_aligned`. 
+Propagate failures from rtw_ap_set_wep_key(),
+rtw_ap_set_group_key(), and rtw_ap_set_pairwise_key() back to
+cfg80211 instead of continuing after an unsuccessful key setup.
 
-We've had a couple of these recently.  ____cacheline_aligned is simply
-wrong and I'm curious where that is coming from?  That's the performance
-hint cache line size, typically that of l1 and l2. In some systems other
-caches before the incoherent SPI controllers have larger cacheline sizes
-and we have to align to those.
+This avoids silently reporting success when the key setup command
+could not be queued or helper functions fail to allocate memory.
 
-The correct option if not using the IIO one is __aligned(ARCH_DMA_MINALIGN)
+Signed-off-by: Lucas Jeffrey <luquijeffrey@gmail.com>
+---
+ .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 19 +++++++++++++++----
+ 1 file changed, 15 insertions(+), 4 deletions(-)
 
-For historical reasons IIO has it's own version of that which predates
-all architectures providing ARCH_DMA_MINALIGN.
-
-> 
-> __aligned(IIO_DMA_MINALIGN);
-> 
-> >  };
-> >  
-> >  enum ad7816_type {
-> > @@ -65,7 +66,6 @@ static int ad7816_spi_read(struct ad7816_chip_info *chip, u16 *data)
-> >  {
-> >  	struct spi_device *spi_dev = chip->spi_dev;
-> >  	int ret;
-> > -	__be16 buf;
-> >  
-> >  	gpiod_set_value(chip->rdwr_pin, 1);
-> >  	gpiod_set_value(chip->rdwr_pin, 0);
-> > @@ -91,14 +91,12 @@ static int ad7816_spi_read(struct ad7816_chip_info *chip, u16 *data)
-> >  
-> >  	gpiod_set_value(chip->rdwr_pin, 0);
-> >  	gpiod_set_value(chip->rdwr_pin, 1);
-> > -	ret = spi_read(spi_dev, &buf, sizeof(*data));
-> > +	ret = spi_read(spi_dev, &chip->rx_buf, sizeof(chip->rx_buf));
-> >  	if (ret < 0) {
-> >  		dev_err(&spi_dev->dev, "SPI data read error\n");
-> >  		return ret;
-> >  	}
-> > -
-> > -	*data = be16_to_cpu(buf);
-> > -
-> > +	*data = be16_to_cpu(chip->rx_buf);
-> >  	return ret;
-> >  }
-> >    
-> 
-> 
+diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+index 967cd1b34aed..8e5aa036d5eb 100644
+--- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
++++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+@@ -563,7 +563,9 @@ static int rtw_cfg80211_ap_set_encryption(struct net_device *dev, struct ieee_pa
+ 
+ 		psecuritypriv->dot11DefKeylen[wep_key_idx] = wep_key_len;
+ 
+-		rtw_ap_set_wep_key(padapter, param->u.crypt.key, wep_key_len, wep_key_idx, 1);
++		if (rtw_ap_set_wep_key(padapter, param->u.crypt.key, wep_key_len, wep_key_idx, 1) == _FAIL)
++			ret = -EIO;
++
+ 
+ 		goto exit;
+ 	}
+@@ -604,7 +606,10 @@ static int rtw_cfg80211_ap_set_encryption(struct net_device *dev, struct ieee_pa
+ 
+ 			psecuritypriv->dot11PrivacyAlgrthm = psecuritypriv->dot118021XGrpPrivacy;/*  */
+ 
+-			rtw_ap_set_group_key(padapter, param->u.crypt.key, psecuritypriv->dot118021XGrpPrivacy, param->u.crypt.idx);
++			if (rtw_ap_set_group_key(padapter, param->u.crypt.key, psecuritypriv->dot118021XGrpPrivacy, param->u.crypt.idx) == _FAIL) {
++				ret = -EIO;
++				goto exit;
++			}
+ 
+ 			pbcmc_sta = rtw_get_bcmc_stainfo(padapter);
+ 			if (pbcmc_sta) {
+@@ -640,7 +645,10 @@ static int rtw_cfg80211_ap_set_encryption(struct net_device *dev, struct ieee_pa
+ 					psta->dot118021XPrivacy = _NO_PRIVACY_;
+ 				}
+ 
+-				rtw_ap_set_pairwise_key(padapter, psta);
++				if (rtw_ap_set_pairwise_key(padapter, psta) == _FAIL) {
++					ret = -EIO;
++					goto exit;
++				}
+ 
+ 				psta->ieee8021x_blocked = false;
+ 
+@@ -678,7 +686,10 @@ static int rtw_cfg80211_ap_set_encryption(struct net_device *dev, struct ieee_pa
+ 
+ 				psecuritypriv->dot11PrivacyAlgrthm = psecuritypriv->dot118021XGrpPrivacy;/*  */
+ 
+-				rtw_ap_set_group_key(padapter, param->u.crypt.key, psecuritypriv->dot118021XGrpPrivacy, param->u.crypt.idx);
++				if (rtw_ap_set_group_key(padapter, param->u.crypt.key, psecuritypriv->dot118021XGrpPrivacy, param->u.crypt.idx) == _FAIL) {
++					ret = -EIO;
++					goto exit;
++				}
+ 
+ 				pbcmc_sta = rtw_get_bcmc_stainfo(padapter);
+ 				if (pbcmc_sta) {
+-- 
+2.43.0
 
