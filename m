@@ -1,98 +1,118 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9687024B28;
-	Sun,  9 Aug 2026 20:47:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 385621C84A0
+	for <linux-staging@lists.linux.dev>; Mon, 10 Aug 2026 02:16:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786308437; cv=none; b=FzrkWxIj/MRl12Pw+ocTA/Ex38U6djGAoIjCACnEaDhGXZczwnD0xyQF3NPIE5CS3Ry1is8WjfglwciHZC0KW1kQ9Dp2pMRfVDaEnygQFStg2XHScuD0diPZA75AH0BQaELwSqJRxE9i6qYfJTz2KUQGzt8PjSUOjW+f9Dl1K3A=
+	t=1786328207; cv=none; b=TWEzEO3PSecUXhqme0n+SSuJHAxdVQuroCCCBb9l6qQBE4JrIw1MfvY1P18Jc6+n5kXMDx9/OUy7X+f0fQzMzCPb1juQZHthQAozkiO5LrehgySPKob87Z8zaMVkbGLwxBKXrFW5AoucfGTBrJWo4pLxUoi3fNxf4Us+6FbgQ6s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786308437; c=relaxed/simple;
-	bh=G+RNh2OUoXjmIs+RkEyxEeUrciN0xTA55KGspv09YaA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZIqGUW9enYKKK6VX8sdg/7kVFvLqpsCtUoOCcQuip01Cxz8pm6QTH1sjZpJxXIFbKAnIytKf3HrcX6hwD2rwBAs52CgUQ2lsfHxuOXlTMpCl1ojPa+3G1nOHWrm7eJEN4H/dzElszu9zqK5gI3/laVdUbFjvT/0U0HYKwhIYfBY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H16ShC28; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786328207; c=relaxed/simple;
+	bh=d6fyS4o6oHm6FjRqR4vniJmeWIw+Ne8bx2l2lJLE6Kk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=oex0w9dh1hN55xER97u14Bz/Z79qglIbleyy347NPxt1o0zBXSdWH9QNwNE/qF9sc7P0DDXeO+VjRLamP1yozLi6jqsO06yRrtsLPNDutYt+o1mjvafDRGyfQdLcCwL9Qz8jk14+1+81OPojweRFZo/3OfqWjabde9jcolTjaTE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TqGZM0u9; arc=none smtp.client-ip=209.85.215.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H16ShC28"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 145091F000E9;
-	Sun,  9 Aug 2026 20:47:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786308436;
-	bh=Csc9nEX9eRwLU7Dj/i1jGJAMS6b4fKU3+9fOiQhHo2U=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=H16ShC28UgKWvtczeVSy3iQmoPUzZKnOgih3sjDN3hyVHLB4vOGtLXNu8+f8JT+xW
-	 HgxFWH6EDYcnEgAH1NtXgrqsMw1+5mZY7ffXQqlHadnVvzwC049igY2qul+dvUEp/I
-	 BdRc2hk5bI++d26Q9WpT9SCawgzDoTLveoDNU6PqMgV1E36taAAbxSiGrEb0LgVn4c
-	 Da7QkiYaP7pAGmgU9Qf2IG8TsV/xspZXhNlmT5gJVXxWdGR3VwHMMZG8Kdto3nBmS/
-	 HcavBCI2ccbOfZyS72DoZTRnrFmY2GAOX43NzhIAgbfZ+M62aAnJS7k8oN5m84Z9Xp
-	 rl4QSwa/0L9Lg==
-Date: Sun, 9 Aug 2026 22:47:11 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Mohit Mishra <mishraloopmohit@gmail.com>, Hans de Goede
- <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari
- Ailus <sakari.ailus@linux.intel.com>, Andy Shevchenko <andy@kernel.org>,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] [RFC PATCH] staging: media: atomisp: remove redundant
- ov2722_startup() helper
-Message-ID: <20260809224704.608fcbce@foz.lan>
-In-Reply-To: <2026080949-breath-pacific-db89@gregkh>
-References: <20260809180105.58428-1-mishraloopmohit@gmail.com>
-	<2026080949-breath-pacific-db89@gregkh>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TqGZM0u9"
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-c9fe3c9bd5fso2513261a12.0
+        for <linux-staging@lists.linux.dev>; Sun, 09 Aug 2026 19:16:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786328205; x=1786933005; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=T50296aExFxsj0I/+ZL970YLUh41lH37G/h3Ek1dg8U=;
+        b=TqGZM0u9myYpVfM6jALE3Co+28YGWU7NJ4voA2Wk6LcOTWMtLTKxeXGKdbGPypKHOe
+         NxV7cf0Vn/rb7lPiUAHLaLValsenxQkopyu03jcg4wwI/HZ2kHpglm1OZ4uEQbexQygr
+         M9lLe4DrhTfZEivoQ6Kb6pTZf2lTs2HVuomgwcNzpJRklXO2Zpdg8L9Qs4BHgp6taUA3
+         vgNGWjFKRrJNSYrOxlMgJesxMuGenud1dCVWtK8gEN+IWK+kL/0Yjv3Slo3/IhDkxw/Y
+         jmtTXYqhcwdehWGbo9OfOqrxwxv8Q1IeA3kn2ML6VgnNfk6lU12gtDqkbYJN9HTBSSzw
+         D4WQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786328205; x=1786933005;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=T50296aExFxsj0I/+ZL970YLUh41lH37G/h3Ek1dg8U=;
+        b=rFIXQNbHpH7es6SowVdJpCWpFLujZROP0Do1syOWQ5AxHu8XPr4xFgv63buGGe8sZN
+         fMqM1l1lI3HgBEqhdzCld8uSENbDnQZZgyuzgwzE8P90dhgXUEAL6vI4cw3usLUy+Hlk
+         fIt8osMSFBdlhgnUJXlC7DXXxOs1UIf/cvYjjjQoCBJw7DyxNWYOYGAPmxyG1FisANzC
+         IirjCyzZW+5NNmNRmgb0W4wXQyXDIVzj9CCc0USBKsq5MBPHN9QnrEDIPSm2z0f6W1pr
+         9Px8oDheU3UdgrVdu2aIniRE2dHIx9ZmeO90CNhZLhIBqWhqwiUAfQaFZdbHaanvNuG/
+         MAaQ==
+X-Forwarded-Encrypted: i=1; AHgh+Roxt1w1YzQJelyEdOL3a8UlMCuo6W36UDGwnUzyyQkkHvhFACBystDePmgVUhjfRYZaw3X0CtQVHuOPjXOk@lists.linux.dev
+X-Gm-Message-State: AOJu0YyLTpXNW99EFWR2UWAIvSboPJZf/Z0vTsaUI4ZkITGf8HQiXSjk
+	X6YR7dLcgdSfyq6tNKa8u2Dd4pBsbrNaSKOmoF8ASCQzkCsC6KRSkGMM
+X-Gm-Gg: AR+sD11u9x2Tba+gBaCYDxmw2bmIsdGJ8eLaPFFfIdb6P09e5edHtSCMgRKKorwpIW7
+	G/ZVWq4CJy7KA+5Sz7Liq2H5MLOfJGkNNYHj9oGKBafvOXlYDU52E+euOaUI45U0rkLh1a+U8pj
+	f6DbZ3IulEe+DrWExpqkOQW5PwjcEeF7Ks6KAWjeuNFVvMM3EtXJDh7xvvX14PtQhmHN7b+tAjC
+	iQL93QUz1G6t6USMJPdNdmVw+Zg5HywD4nygebmXe5EojPjqMjDreikI2VcZUfiEe5z9xr3e4JJ
+	GBcewargKvraPuoBwClBBwjTeU/hUGMwxEMur23cWT3J96TMCrtg3PXybhcu8f5S7UBU0IoB8P2
+	r07I13jtAu9FjGqvBeMJlMI2XgwySJ50yAMSX2QvMI6VhNV0ULmrGif60pAdO9t4hYr2peAWXFJ
+	f8XeOUINkGKDwYAPsKy4WyvRjnVURnHWf8xBw+f3RUmu7uzuzMHKtwHgoY2w1t2E1hNY0HCHYdn
+	KUZ3du380SHIYKEAbELENBocTgcJ5SzzEayX/1xIIGdrOf62T/WPY1hRa0gJzNMJh+OJtyDUIs=
+X-Received: by 2002:a05:6a21:4916:b0:3c4:320a:737 with SMTP id adf61e73a8af0-3cbd3bc5576mr17285040637.16.1786328205375;
+        Sun, 09 Aug 2026 19:16:45 -0700 (PDT)
+Received: from kernel-dev ([49.36.97.234])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14101b95b20sm30050607c88.15.2026.08.09.19.16.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 09 Aug 2026 19:16:44 -0700 (PDT)
+From: Aditya Chari S <adi25charis@gmail.com>
+To: Dan Carpenter <error27@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] greybus: usb: fix response buffer size for fixed-length hub requests
+Date: Tue,  4 Aug 2026 05:21:55 +0530
+Message-ID: <20260803235155.356199-1-adi25charis@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <anbmj5m_fiASaOzK@stanley.mountain>
+References: <anbmj5m_fiASaOzK@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Sun, 9 Aug 2026 20:17:15 +0200
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+Hi Dan,
 
-> On Sun, Aug 09, 2026 at 11:31:05PM +0530, Mohit Mishra wrote:
-> > In atomisp-ov2722.c, ov2722_startup() was invoked inside
-> > ov2722_set_fmt() to program sensor hardware registers during format
-> > negotiation, accompanied by a "TODO: remove it" comment.
-> > 
-> > Standard V4L2 subdevice drivers do not program hardware registers during
-> > .set_fmt(), but defer hardware register configuration to stream start
-> > (.s_stream(1)).
-> > 
-> > This patch:
-> > 1. Removes the ov2722_startup() helper function and its TODO comment.
-> > 2. Refactors register initialization into a static
-> >    ov2722_startup_registers() helper.
-> > 3. Moves sensor software reset and resolution register array configuration
-> >    into ov2722_s_stream() when enable == 1.
-> > 4. Preserves the PMIC power-cycle retry loop on startup failure inside
-> >    ov2722_s_stream(1) to maintain hardware fault-tolerance for AtomISP
-> >    tablets.
-> > 5. Updates ov2722_set_fmt() to purely update internal software state.
-> > 
-> > BEHAVIORAL RISK & UNTESTED NOTICE:
-> > This is a functional timing change. Deferring hardware register writes to
-> > .s_stream(1) has not been tested on physical Intel AtomISP hardware.
-> > Submitted as RFC for review by AtomISP maintainers (Hans de Goede,
-> > Mauro Carvalho Chehab).  
-> 
-> I would recommend doing changes like this ONLY if you have the hardware
-> to test it with.
+Before I go through your questions point by point, I want to flag
+something that affects the confidence of the whole patch.
 
-Agreed. You should also run v4l2-compliance tools to check if the
-V4L2 API behavior didn't cause regressions.
+My rationale for hardcoding fixed sizes per request type
+(GetHubDescriptor/GetHubStatus/GetPortStatus) was based on reasoning
+from rh_call_control() alone, without checking how the actual Project
+Ara module-side firmware behaves. I went and found the firmware at
+github.com/projectara/, and the relevant file at
+github.com/projectara/nuttx/blob/master/nuttx/drivers/greybus/usb.c,
+gb_usb_hub_control(). It doesn't support the assumption I was making.
+The module allocates its own response buffer purely from wLength and
+passes wLength straight through to the hardware call:
 
-> 
-> And did you forget an Assisted-by: tag?
-> 
-> thanks,
-> 
-> greg k-h
+	response = gb_operation_alloc_response(operation,
+						sizeof(*response) + wLength);
+	...
+	status = device_usb_hcd_hub_control(usbdev, typeReq, wValue,
+					     wIndex, (char*) response->buf,
+					     wLength);
 
+So it's deferential to wLength on both ends. I don't see evidence here
+that the module would ever send back more data than wLength implied,
+which was the scenario I described as the "impact" of the original
+FIXME.
 
+Given that, and given this driver has been unreachable at runtime for
+11 years per commit a96493560cd1, I'd rather get your read on whether
+this is worth pursuing further before I go answer the rest of your
+review and send a v2. Happy to keep digging if you think it's still
+worthwhile, or fine leaving the FIXME as-is otherwise.
 
 Thanks,
-Mauro
+Aditya
