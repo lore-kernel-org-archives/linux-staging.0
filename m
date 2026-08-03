@@ -1,73 +1,76 @@
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1D84316199
-	for <linux-staging@lists.linux.dev>; Mon,  3 Aug 2026 02:19:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AC87283CB5
+	for <linux-staging@lists.linux.dev>; Mon,  3 Aug 2026 04:09:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785723545; cv=none; b=G32GC/QNDrIHX0D6xNvpv9O7kLKf49GgEqmltNZqcXtCR7mZ57GN5j/u+PoMn38Vp+koavpBPEuBEkapDvpJ40rZs6wX4UyO7Nq1AaQvkr8PgmVMmWmaITbygNZUsU3H3rWSYx2s7uCaHPscSzFiGS2ydPH9vayH3BdCRFfB6qs=
+	t=1785730181; cv=none; b=aExZUa+OJSPTRmP51H7PUMrdlZ6omxpx235Oql3cQn3DL/V2W05xfvIuxJU0fTbL9WepZ2Gr5KH10ZNsn34krTIXK39P8vtb8w30MQCxBF2QTPo//CbRl6h1vv/CIijC2gOYrVwYR7SuL4p4432HqvGzyX52w+EDNWLMzp9JXyw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785723545; c=relaxed/simple;
-	bh=iESi4iCCkTTt9OwbmlB9dC74SB5v5pJTXr4JYM9D/40=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZPPDGHj4JDvhcEF9Qdv6Gxw5b3t3XN5LjRDm6JPYAUO2icpg6Emjt4K+DiduiJmbOPTyepIe/yb9UczFaOaINJBRQ9COTUh5Yzzklq6CvOYKJFiojZ/+KDgljnKsP1HM8JJhECeakG3kCEuZNphxU4jthn69GHOY3oQxnjCUKXY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YXuD9wjM; arc=none smtp.client-ip=209.85.221.170
+	s=arc-20240116; t=1785730181; c=relaxed/simple;
+	bh=qdkgC7X8xsrVxxAJvBjGSGkn09CNoMf1XaeV8l/xSZ0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sUsW6ApXCZfKJYSEN/bS3aNb4Zl8cJnpwO4eT2yRREiZFRXQjMtiKX7fvyrORn/1JJCM+Za81yjJ/HUTyjios4ZCRXskUi59Nii2p5+GndvyJrXTvkmyiNAjbHUP0sN8e46DTy5SRannXv/uetY3fmB7V9cWBL1qeNNCG3drqxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QW+jiLX5; arc=none smtp.client-ip=209.85.221.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YXuD9wjM"
-Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-5bf9466412fso2476151e0c.1
-        for <linux-staging@lists.linux.dev>; Sun, 02 Aug 2026 19:19:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QW+jiLX5"
+Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-5bf9506704fso771880e0c.2
+        for <linux-staging@lists.linux.dev>; Sun, 02 Aug 2026 21:09:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785723542; x=1786328342; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1785730178; x=1786334978; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=keSmNns1zJBJ/ItsSp0VGQC44KolZzBEV15FLHoEMtk=;
-        b=YXuD9wjMcIuc/0TPLf++3quvRBxGx4/S172xQsQlGEVfT94dBX2Rej02UuPToo9COh
-         Am4lQsvF5QLpbq6Ec3FCq32+hSS6VvjBu7XLjRpBT9keI3Gt6w9dXQHRk2JOi4Is2Ydw
-         p6CFZtkwNnLV12RT4HsclVAk0C0EJj83y/bWd6nk3SFoKJaqKzbQ8MMhBaahZP0CFc+i
-         A/iLBJizWJlQB9RtKyxv6Ow+WrC0eLSFAT2iPOVHDOIafo7gyW477QrH506iXN6POyCv
-         +ia/upzD8vo53ID1LydlSCCvcepIoEuBbVSkU1OopBnorfPrk769clwOZDtU/xR14KO9
-         Z8yg==
+        bh=EDVVXgDFGwdwAJNFq0Lnv/4zVTHHlmavZdUyT2s7HFQ=;
+        b=QW+jiLX5N4HCzAmFI7arEURAFUZLqP4gxys9ulD1GB2+IL5LwroHBqXpDBI6YqOgki
+         KNQgm+jnGyZPkb7L8wceF5E32w6Lytu9YeyLKl9wYMzvnhXIKlSE7rckjNcXJZegBXvI
+         C4yDyoPwGm/ep2HibFR/rNk+iyNV67BYyNkJbsZgM1HdUpED9pjGPFW/fGrl5r6tFffX
+         KzydbDfv4V2LwFLb1ccT0WbWEsob/PY9xYy3mPVxNIfQzpLnM1UsTaRsE02HqwAwSP+4
+         uUAq1L8PpAIRBO8aGm5cI8lErabwkamnpaf7vrd/q0fKSEk3G6id17lp6vaSartGX1WN
+         KMkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785723542; x=1786328342;
+        d=1e100.net; s=20251104; t=1785730178; x=1786334978;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=keSmNns1zJBJ/ItsSp0VGQC44KolZzBEV15FLHoEMtk=;
-        b=h0hxSaE1CUh0Gh5a2L9DbOLL4QXl/ZX92kNya0cyfr0/VUMacTcUjB843JJql555vv
-         eswDycRf5fDcG22E8cyHGyjy9eRE7UHM/ezXd4iu5+134/c3S89Ff1FLCaFU5Tic9SjT
-         hN4qhWInK2JUz14hrqGFu6lgBTbvUoKOONEhXc/YT8O8AtjE0obLrhLYJrrtKYdXo9Y/
-         Cbtgud7DUjPgnGREi9dWR2E53GsUmq/xV37KncCVZBldufRh+OlOh/UBnI6LESHtT6zW
-         WSoJDGqRrFoFjLY6KFc7s8JNPwPcyFL+lk8izpXQQm3oAV43DNogKfmBnlF3dtUkNUGV
-         gzrg==
-X-Forwarded-Encrypted: i=1; AHgh+RpycuCDDQwhD4+mdLfcxYPMtab1Q019njZk+mlYhWcFs9uY8INBnoP3soJSqohxGsk33rdhrkhjmyHEjbTd@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz6MxhtrLJlTkJUpfIsJUaVG/Hvzhh3S/3C3Us5jIUBGAtvv7dA
-	KbgRo8UEpU7ZcRDJNEbOlh196pmRSB7pcsbRtfjX4gi4ToICtKDoAum0
-X-Gm-Gg: AR+sD1276bgunuYTGaEylrMp/UuFUl3uHxd6TuFrjVC9Pscr3oPopRg0j3529HmsAjz
-	SLJGwx5PcqZrc0PLeiPXVJJw2G1lKZX3MFXJ7norIVNlCIGAgdH0SvhvPCyTDY4FsS+t7eV36Hm
-	s1pfLbwnezNioVWTHO1kE5gMsE8AZzAU5QLdOjSIiOirdW04wAN3AQOTmNGpzwSah7NO7E2hHf1
-	r7oWXl45PP4ChgP0jLvEEb1lPn+2kDGiZmiCUPYWf/03D1ie0/fm1KX2xLG4ens0GdzWY8Q6oXr
-	r9xgTra+ncnPQX5yhPV0yzzz/j6+1QwMycsnGd1xnBpcNJMuTLMEhSe8/rdcMZmoBdR7OWWZj0Y
-	DenCvy7mQTMfTq1GXxWTxIXagIuhJpPsxif5Ac3ICDX0fGXgcqqFgGXPitvq+gQ52OcIQ13mnkp
-	HhzSsF3yIkMVCbSobKdc2zzqLgWUpZNsFAYWiNk77jj6J2PuQ6Lq7onZPDWgAVRkowMJ6/EG0lP
-	tPI6xKT+jVKcRYOOC8jxj8MeYZ0orrGwtsccOVPy0tR9cpljw==
-X-Received: by 2002:a05:6122:4694:b0:5c3:5f0e:d1da with SMTP id 71dfb90a1353d-5c38786037cmr2610705e0c.14.1785723541814;
-        Sun, 02 Aug 2026 19:19:01 -0700 (PDT)
-Received: from NoahDesktop.tailef97f4.ts.net ([66.231.155.87])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5c37ede14basm7104579e0c.15.2026.08.02.19.18.59
+        bh=EDVVXgDFGwdwAJNFq0Lnv/4zVTHHlmavZdUyT2s7HFQ=;
+        b=bMH7fQHk1BkSkPvXPofJS4MvxDK/2a7NitwrA8FEAJN4vZapYbh3/pVndaFrEV6aT3
+         l6CPQbgBY2SiFaD/WWAfy4aZJODQ9nyALB71vMctFcmWvhQ4/6lx2KNpdT2WgpZrWKPs
+         DQjXpxzS1MT+yG0euYkx48H2LtjrTk8w+QHCea+DN0q8wt/TLOWFWfhMJXczilGbH5Ze
+         pZ/mzHlSSI64zUr8mqK54JeL23SBwFB6N0sRM70JLfGoqFEm1/jFVdLyOKfFDkUeU+mu
+         a7yTOMvROqekxIR7KcKNYBxuzP+yQBGdMNMx+TJAzbZwU3F16J5OIRAk9Uf7aNx30wmR
+         J/Cg==
+X-Forwarded-Encrypted: i=1; AHgh+Rq2+0VL+ca/1jmotb/y4D97v75x2JdqdH+uaBkZ1NEKGRr5W2fHjQVfYW2mVkX1sc636h9vAZGG1A/wVb/m@lists.linux.dev
+X-Gm-Message-State: AOJu0YzvdybNw6bv1SLL5Uoz9owABZZjSJZNV2O/ZI3uo/Wa565L6Ht/
+	AcNS0n3Excqy6cXguYoV5ygKHz5QJ2kk838FFaIHE0BG5rHzFPQRZy05
+X-Gm-Gg: AR+sD10gJ3/i++7ojIZ7criAob52lFTSnPy1l9qQp4DcPVXqc9VSZIAHMNF4lHQ2TXf
+	EAAWlq6pGI/48uBte38OztLmqGqdHooYrUu+zyAXg7+lTuO9463KwhS75nW/JthTBIp6wKFIaPH
+	BNvf2xg4jqAxG1Sp2+kTF2Ds8YlhbCO1kT5eLPvjL/bNO0EXYIaOqw05GptCzl9n0uqIyhaBw/T
+	Ypq7JPs1OT0llAAEuaccNe7f71Cb3dIWbZA/WK7bCuvkg6ELt+2jo2SFU8DcUkSSEA/dx3PBO6V
+	NJhiQNP4o0NrNFg6JinbemTfFhMwAS/vsQTUi79e5mKHhQXvoYoaTogpqx2rf4n57eKQfxZ+NxD
+	cPCL5PWysG6i1Zzbob154KoHRvHwx0iSFaUZPm7HSeYB8KrcnXbwv2HJFIZnyfZ/y8jBuqMEhML
+	DABO3P/B9S/HpwEQ8MqcUcIU4aZdRouhJw9Wy/+eiO7yTciL1KlLi/fF3YUBnKeWtiLVFNeZXKl
+	q0JmvesUPObTdW9pzwtDlGS3z5YUEQzPGUlcIMpBQg=
+X-Received: by 2002:a05:6102:3e82:b0:747:4dcf:189e with SMTP id ada2fe7eead31-75b2225f8bcmr5708135137.5.1785730177794;
+        Sun, 02 Aug 2026 21:09:37 -0700 (PDT)
+Received: from lucas-inspiron153525.. (host110.181-12-179.telecom.net.ar. [181.12.179.110])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-759b8e1e8d5sm5366413137.6.2026.08.02.21.09.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Aug 2026 19:19:00 -0700 (PDT)
-From: Noah Techoueyres <noahtechoueyres@gmail.com>
-To: dtwlin@gmail.com,
-	johan@kernel.org,
-	elder@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: greybus-dev@lists.linaro.org,
+        Sun, 02 Aug 2026 21:09:37 -0700 (PDT)
+From: Lucas Jeffrey <luquijeffrey@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: florian.fainelli@broadcom.com,
+	rjui@broadcom.com,
+	sbranden@broadcom.com,
+	bcm-kernel-feedback-list@broadcom.com,
 	linux-staging@lists.linux.dev,
-	Noah Techoueyres <noahtechoueyres@gmail.com>
-Subject: [PATCH] staging: greybus: uart: Add comments for lock definitions
-Date: Sun,  2 Aug 2026 22:18:57 -0400
-Message-ID: <20260803021857.989-1-noahtechoueyres@gmail.com>
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Lucas Jeffrey <luquijeffrey@gmail.com>
+Subject: [PATCH] staging: vc04_services: preserve bcm2835_audio_write errors
+Date: Mon,  3 Aug 2026 01:09:28 -0300
+Message-ID: <20260803040928.12453-1-luquijeffrey@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -77,34 +80,31 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
- Add comments to spinlock and mutex fields explaining what they
- protect, as required by kernel coding style for lock definitions.
+When sending audio data in multiple packets, a successful later packet
+could overwrite an earlier failure in status. This caused the function
+to report success even if one packet was not queued.
 
-Signed-off-by: Noah Techoueyres <noahtechoueyres@gmail.com>
+Stop sending packets after the first failure to preserve the error.
+
+Signed-off-by: Lucas Jeffrey <luquijeffrey@gmail.com>
 ---
- drivers/staging/greybus/uart.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/staging/greybus/uart.c b/drivers/staging/greybus/uart.c
-index 7d060b4cd33d..46f38428c5cc 100644
---- a/drivers/staging/greybus/uart.c
-+++ b/drivers/staging/greybus/uart.c
-@@ -50,12 +50,12 @@ struct gb_tty {
- 	unsigned int minor;
- 	unsigned char clocal;
- 	bool disconnected;
--	spinlock_t read_lock;
--	spinlock_t write_lock;
-+	spinlock_t read_lock; /* Protects read operations */
-+	spinlock_t write_lock; /* Protects write operations */
- 	struct async_icount iocount;
- 	struct async_icount oldcount;
- 	wait_queue_head_t wioctl;
--	struct mutex mutex;
-+	struct mutex mutex; /* Protects port configuration */
- 	u8 ctrlin;	/* input control lines */
- 	u8 ctrlout;	/* output control lines */
- 	struct gb_uart_set_line_coding_request line_coding;
+diff --git a/drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c b/drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c
+index 3156cb8392f4..5ac23cfa7983 100644
+--- a/drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c
++++ b/drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c
+@@ -365,6 +365,9 @@ int bcm2835_audio_write(struct bcm2835_alsa_stream *alsa_stream,
+ 
+ 			status = vchiq_queue_kernel_message(vchiq_instance,
+ 							    instance->service_handle, src, bytes);
++			if (status)
++				break;
++
+ 			src += bytes;
+ 			count -= bytes;
+ 		}
 -- 
 2.43.0
 
