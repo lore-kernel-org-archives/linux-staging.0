@@ -1,71 +1,72 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A16AF417BE2
-	for <linux-staging@lists.linux.dev>; Mon,  3 Aug 2026 14:49:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76D7D40DB46
+	for <linux-staging@lists.linux.dev>; Mon,  3 Aug 2026 15:03:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785768563; cv=none; b=dnlNuXX0FWQ5WyrdpaexGRFoIEsjvu4nDQw2Wc/f1sWBb7+Kvc8Fg8Rj25FPnpLC7wqJS46WAy8lx1mzO43BPavZaNX+znLOA+ZZ0TCCFCyaVw+ECTEuSFWsAmQQ0+T+Sqp5DlMoCrKEVw+B0Tx47NYn8A5hwU+FKIC5XlYwm3Y=
+	t=1785769421; cv=none; b=N1qRqEM3UAAriAy763/WTj4FZfAgxM2ki6wIop19c52aOzDW7cV3mLeWNHh3ZTOqVGzCDii5ewS6d4c3Suf9Sz5HuQT1kMC3eHrst0ApmHr90/YE2XcEw/nJIHZtHxmR3fnzfGD2SXQmFkqwVQaRKXxCG5CSijRcBLBMdResz7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785768563; c=relaxed/simple;
-	bh=yXSrBtOlaEUAOxbBAS3EpuNazhUSLmm6d/PYmEb6PEA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CHlSGQR0uKUfEc3ENYCBGHii57VRpy8jT/Rz7SZSTHNIZKtW/L0m9ewEVINAwhJeK2qWccCOkk7129P92ypDaoP+2mpG5IjOfWGZM1bzP3EgFX/1wfwHlUy3GBWTF1ol0xAxlWPEmbAoilIwiigJ5eLBukeryTciwo9CYzNxWMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C60rv0h9; arc=none smtp.client-ip=209.85.216.47
+	s=arc-20240116; t=1785769421; c=relaxed/simple;
+	bh=UkL6Ifc7x0i8Rq2qR3qjbDE7NqW+lN+tczSVWLgjzXY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WFe+ubYKZ5tEPQtuGUQyTMPLZLqoUnv33ACa1ltO1kcgA/E0A5c6Miv8y1C77Kb5+8A4iY1DPlD58lu5OhisduYQ+Tdyqy1+O84KIxwWYhXX91+O/DLQ0SZ4NDnyffsXP22NApFixfk5K2WrQGcaEdy1aEWjNtREfLxd89YRdqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ioaHaBMq; arc=none smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C60rv0h9"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-38deea72eebso3316780a91.1
-        for <linux-staging@lists.linux.dev>; Mon, 03 Aug 2026 07:49:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ioaHaBMq"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2ce87c7e3bbso36888545ad.1
+        for <linux-staging@lists.linux.dev>; Mon, 03 Aug 2026 08:03:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785768561; x=1786373361; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1785769420; x=1786374220; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=OSDW3CGfoOGO3/Bj9spSJOLGw2/wshC5Zc0x5JyYqew=;
-        b=C60rv0h9epGC4NopsIUI4UM1Yz/UeddTkGTmrpHQhg1I5e69ac6OJSfj5eQqj+z5fR
-         dGa0BQJX6R9+ES/G7kv4kzd8CE5HmWfClWjMUVe4ig6c8ctVTqbvcJCILpROK0jtnaax
-         K/auuzJftCfpNE4KQzWtbtDV1v9Vi23a1YztYDH/42XWcP9Pq8Q8Hr2qBmSrrAICFA7N
-         L5jKfIyQauSiRrfKmXxX2IXwHYzmlL37i8MI2WP/558WjxNvBWjw6LWIBZ+v0GjjGCNk
-         nWLGf8571u1zluC9jOk+DsGfcQIIOFUjAr9o3vpzkkbJGg5SsPix9qyRTkEKNSVkEGlE
-         bqGQ==
+        bh=7EX3T3Ggd1sc1uw/8kcP/ExPM9XE7OXdbjAhKGjdSys=;
+        b=ioaHaBMqr3kHFus3EQuHmomf9AGUTWrWbNATpYx1YQLR6Ey4XjDDe2C5FOGEGK4MGn
+         BeUBDqrC5u4OBQSWxY8oVVkBsZNTBbShKHhVi7kkvB+jWIpP8MsZn6neKIErbnNlnBU/
+         z+7P0QaW84z/vxiDftJ6cBVHRrViiBpGZr3uXb084+R1ajtrEu8oGduYbpvLyQBRM/JM
+         k3uTOuX6Y7/Xsge1yt//Xz4lSVyrSxAsYJZFXAmwjySr/Yyqm38yNrXY6W6pwfMFAt0x
+         0rq2X2qqmTBG7bTpVrNtRRUAZJw6BdPA6k6LewVExV8XKlKWgfLaiLg50agn9mALQuqs
+         wjmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785768561; x=1786373361;
+        d=1e100.net; s=20251104; t=1785769420; x=1786374220;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=OSDW3CGfoOGO3/Bj9spSJOLGw2/wshC5Zc0x5JyYqew=;
-        b=Vqg6hCoVbSMDk3hdCLz3VO4jxw5E6Pw1IyeQfnmUxAeAjlBy0Smpx9TQJe3lJa1M4O
-         xXIwCZdctKUyEYRmOdwDsnTwrJpohysBeJkgm+7Nl+7U4QN7tvJsGTLYmmpK6nMH9Or1
-         cvMffgH8PCT6lbxF38f69bINAo5L2hN1y4XlXkntcAIZQAYDKuBKEzW9I4JP0TjCaVUN
-         0+YjhEoLzaTMmlFoLJs3VJHxIWwzMKsjn51+v421l2AJlcIVp66bNB39u8BZIbEVHh7A
-         1XXUR051ogABTZ3E9F+wSfiRQb237ZjY8J7cNqbUKImp+aQwAgixVE7nAIOLSvEokA2X
-         C4nQ==
-X-Gm-Message-State: AOJu0Ywwgx60bF/XBYKk7hg6zy2Lgn6DRRk4MVTPGTFJQ+Zd48groyXW
-	HSZs3/hJiUx+aGVi4A0h3UPrGLKM1EvHLLp/QV4WMWM+4mEmn2QWighY
-X-Gm-Gg: AR+sD111fflLZqPVKmxQaUbJDyBywl0k484VuimfYzzIeY0vWKMDPoTxqSE5jOucp7p
-	MLa9AHuE3Ov5DkKravceVgtboc0yc24X47W8iZjtLKl7GVmtJnU5fJEGVBx9oeKyF50V32xchJe
-	ZT6Yhr4kS8ATD4AkeqBE4LV3WmQ5fYWENxAqREcyJMvUoe7oJ1HoL1Oh3quy4WZP1TwR0c2r/y4
-	hj2fEYjEYN9PNnLNlTtNOT4MJllAKu7+HfcbWdLRWU6u1J9JUmJQfJtLseGZ1Hy4hJEzc/wS9EF
-	HdjHyGXiJ/+l3+TRas5Ma6YUsK/jK66QRy7Gu270lKgma19i9wHFlscPtXvkbaI2xQLmwAa7176
-	43aysvH4/w7sLYA1C7UkpOV8lcxv2cH4wBkc27j9I4c6pRL1k1EDdTepIk+B3hQgYIrL08V5VOy
-	hBamuU8W2ZBZ5bmJu+yi0QS27jedr0FPjAoUSKioBeXFYRowjMAmxnRD6NjIq7JYWfonecZ/oYY
-	WKfbAH9zelIEKdIAXmBIudw
-X-Received: by 2002:a17:90b:2882:b0:38e:4482:ab15 with SMTP id 98e67ed59e1d1-38fbc4feb5fmr9634342a91.22.1785768560922;
-        Mon, 03 Aug 2026 07:49:20 -0700 (PDT)
-Received: from Debian.tail44843d.ts.net ([183.82.161.178])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3153e04456dsm35979191eec.14.2026.08.03.07.49.18
+        bh=7EX3T3Ggd1sc1uw/8kcP/ExPM9XE7OXdbjAhKGjdSys=;
+        b=PuRgCHGbZsAA0x7naYYJRA5qKBWXTPJZdn8bqNP2nxzN1bzbOuQsquqYy9dF+TVCHF
+         EeJKNBOhXxI0PyREhiR6E8s4s+Fz+bePYjvQZdwqQcnsKImhEqS9GWxGg4dw3x5xuApL
+         guVDK4r6cdwZzkOA8T8Zt3Izc9+LFdDKp5a7ii+IbprFkRWTeef2ZCwAsbFqDx3ZbGE7
+         M2XpNgh1ZwJaHjAHmVu2a2c6Urw/CjGQFu+jcxir85V9QpcSSMi1CH5JZ6gumm/i6X4z
+         RFGSp7WC9NYUzIV052KFNTswmu80QB8/sPXdCzWGAwD3yxA/1iYc5Hd2I2IZsneAC7YW
+         o2WA==
+X-Forwarded-Encrypted: i=1; AHgh+RpBu9GZUZ0KzKUZiHDkfhZYglQ3XnZw0Na14o5nLiBw4WEKnvlVpPzScahm1DDs8eVnAsZR1+t1bhK0bQ08@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy7yZHgZcNSI6bsXeHr6TaZ0SO5lNQSean6rO3ffZQvqSdDL/vK
+	YnBG1LXhYWoYfNaR0WUtgR20Czfqom/x83RsUdX6w7kMa2eMDM9MCa/u
+X-Gm-Gg: AR+sD11mbM2CSM7QGoY8OOI4lbL8HU4D3NeqTAEuC02sgpBmjnFo924b1eVc4IasoH0
+	1LMJsIr+2hsT5rtg3gaXAmGyMwlUP3GDc1MCZnUqmFvBkTTy2tNCgWNBP4oh+jw4D7tNGvYTz+N
+	U2e3cIfdviw1F2EBqU1jFpYucekZo5WotB58rZrBuxWPaBU63LAiJO9K/EzA2EswX9nl+O98WIi
+	p57WssT93exawWcwpwv0kApLVyBxx9LrfxumJm1uni+W2YfENYmFHtLaT5fO/infJ2ItgFBXM6q
+	CkLswqIUKYA2QFy789U1xexIDvKNWrxB5Bc+j2Nh1VXi4Mx5fjFRz9Hr4if/Czrr7eurQe836Lk
+	OtcCLR7rDQS7vYbgOmEQfM0QVaRkA5OmSyZjXkseKQ+XToNXCb4KkurKzlsDAU1dy8/1NRNY2of
+	Y4AthMynHEC3KMckSQW6EO1kmQnrUi24woHhtqMgJRMFDizsS4xB4gYMxZ6DFgo50+SUxTNoAQa
+	AFCDaEzG7kvfaM71yQUMJgHMQ9UzBq15+kBKt5yQ+A+c3bXH+r3u4YdEr9n5hj0IR0=
+X-Received: by 2002:a05:6a21:610c:b0:3b1:882a:607b with SMTP id adf61e73a8af0-3c92a749de4mr10683890637.22.1785769419681;
+        Mon, 03 Aug 2026 08:03:39 -0700 (PDT)
+Received: from MominYounus ([2409:40f2:2160:25df:e8f5:8b52:4a57:c0f5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3153e04491dsm51855863eec.16.2026.08.03.08.03.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Aug 2026 07:49:20 -0700 (PDT)
-From: Mirza Ishan Beg <seedandsyntax@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
+        Mon, 03 Aug 2026 08:03:39 -0700 (PDT)
+From: Mohammed Momin <linuxmomin0@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev
+Cc: Dan Carpenter <error27@gmail.com>,
 	linux-kernel@vger.kernel.org,
-	nikolayof23@gmail.com,
-	seedandsyntax@gmail.com
-Subject: [PATCH] staging: rtl8723bs: refactor traffic_stat access in collect_traffic_statistics
-Date: Mon,  3 Aug 2026 20:18:26 +0530
-Message-ID: <20260803144826.15980-1-seedandsyntax@gmail.com>
-X-Mailer: git-send-email 2.47.3
+	Mohammed Momin <linuxmomin0@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: remove unnecessary braces
+Date: Mon,  3 Aug 2026 20:33:29 +0530
+Message-ID: <20260803150329.24065-1-linuxmomin0@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -74,59 +75,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace repetitive `pdvobjpriv->traffic_stat.` dereferencing with a local
-pointer `ts` to improve readability and reduce line length. This resolves
-multiple checkpatch line-length warnings without manual wrapping.
+Remove unnecessary braces around a single-statement 'if' block
+in HalPhyRf.c. This resolves the following checkpatch warning:
+"WARNING: braces {} are not necessary for single statement blocks"
 
-Suggested-by: Nikolay Kulikov <nikolayof23@gmail.com>
-Signed-off-by: Mirza Ishan Beg <seedandsyntax@gmail.com>
+Signed-off-by: Mohammed Momin <linuxmomin0@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_cmd.c | 25 ++++++++++++------------
- 1 file changed, 13 insertions(+), 12 deletions(-)
+ drivers/staging/rtl8723bs/hal/HalPhyRf.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-index ce3dfa1fee26..277eccba293c 100644
---- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-@@ -1109,25 +1109,26 @@ u8 rtw_dynamic_chk_wk_cmd(struct adapter *padapter)
- static void collect_traffic_statistics(struct adapter *padapter)
- {
- 	struct dvobj_priv *pdvobjpriv = adapter_to_dvobj(padapter);
-+	struct traffic_stat *ts = &pdvobjpriv->traffic_stat
+diff --git a/drivers/staging/rtl8723bs/hal/HalPhyRf.c b/drivers/staging/rtl8723bs/hal/HalPhyRf.c
+index bf44c1050be5..449db21e8a0b 100644
+--- a/drivers/staging/rtl8723bs/hal/HalPhyRf.c
++++ b/drivers/staging/rtl8723bs/hal/HalPhyRf.c
+@@ -117,9 +117,8 @@ void ODM_TXPowerTrackingCallback_ThermalMeter(struct adapter *Adapter)
+ 	}
  
- 	/*  Tx */
--	pdvobjpriv->traffic_stat.tx_bytes = padapter->xmitpriv.tx_bytes;
--	pdvobjpriv->traffic_stat.tx_pkts = padapter->xmitpriv.tx_pkts;
--	pdvobjpriv->traffic_stat.tx_drop = padapter->xmitpriv.tx_drop;
-+	ts->tx_bytes = padapter->xmitpriv.tx_bytes;
-+	ts->tx_pkts = padapter->xmitpriv.tx_pkts;
-+	ts->tx_drop = padapter->xmitpriv.tx_drop;
+ 	/* Calculate Average ThermalValue after average enough times */
+-	if (ThermalValue_AVG_count) {
++	if (ThermalValue_AVG_count)
+ 		ThermalValue = (u8)(ThermalValue_AVG / ThermalValue_AVG_count);
+-	}
  
- 	/*  Rx */
--	pdvobjpriv->traffic_stat.rx_bytes = padapter->recvpriv.rx_bytes;
--	pdvobjpriv->traffic_stat.rx_pkts = padapter->recvpriv.rx_pkts;
--	pdvobjpriv->traffic_stat.rx_drop = padapter->recvpriv.rx_drop;
-+	ts->rx_bytes = padapter->recvpriv.rx_bytes;
-+	ts->rx_pkts = padapter->recvpriv.rx_pkts;
-+	ts->rx_drop = padapter->recvpriv.rx_drop;
- 
- 	/*  Calculate throughput in last interval */
--	pdvobjpriv->traffic_stat.cur_tx_bytes = pdvobjpriv->traffic_stat.tx_bytes - pdvobjpriv->traffic_stat.last_tx_bytes;
--	pdvobjpriv->traffic_stat.cur_rx_bytes = pdvobjpriv->traffic_stat.rx_bytes - pdvobjpriv->traffic_stat.last_rx_bytes;
--	pdvobjpriv->traffic_stat.last_tx_bytes = pdvobjpriv->traffic_stat.tx_bytes;
--	pdvobjpriv->traffic_stat.last_rx_bytes = pdvobjpriv->traffic_stat.rx_bytes;
-+	ts->cur_tx_bytes = ts->tx_bytes - ts->last_tx_bytes;
-+	ts->cur_rx_bytes = ts->rx_bytes - ts->last_rx_bytes;
-+	ts->last_tx_bytes = ts->tx_bytes;
-+	ts->last_rx_bytes = ts->rx_bytes;
- 
--	pdvobjpriv->traffic_stat.cur_tx_tp = (u32)(pdvobjpriv->traffic_stat.cur_tx_bytes * 8 / 2 / 1024 / 1024);
--	pdvobjpriv->traffic_stat.cur_rx_tp = (u32)(pdvobjpriv->traffic_stat.cur_rx_bytes * 8 / 2 / 1024 / 1024);
-+	ts->cur_tx_tp = (u32)(ts->cur_tx_bytes * 8 / 2 / 1024 / 1024);
-+	ts->cur_rx_tp = (u32)(ts->cur_rx_bytes * 8 / 2 / 1024 / 1024);
- }
- 
- bool traffic_status_watchdog(struct adapter *padapter, bool from_timer)
+ 	/* 4 5. Calculate delta, delta_LCK */
+ 	/* delta" here is used to determine whether thermal value changes or not. */
 -- 
-2.47.3
+2.55.0
 
