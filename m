@@ -1,69 +1,71 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F77D42A17D
-	for <linux-staging@lists.linux.dev>; Mon,  3 Aug 2026 19:39:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26231436367
+	for <linux-staging@lists.linux.dev>; Mon,  3 Aug 2026 19:41:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785786001; cv=none; b=CBcicHem75BWj1fCdO2CHoh0fPkRQJ07dNEJOynYVTvClNpNIIgPU8PFfiVbURsCYUKHnhk5iModW66zj2qktyp6kMQt4zhtHMUKLxjfZehI3q5kLwBAI6TY2bK4EbMve8/hoX/LNefxNk7VsOf40o7BCy+joaJHfbaC/kWG15E=
+	t=1785786065; cv=none; b=d5mBFb5A4lPKRx+TVyK+meI83Nyk9LKBAoaNPj4PpYUgSGtPvrdJKrQUlLcOgTi3mtNGm1WqLsKzesRp3bGzBSQn/FqujfWEi5UyT0ElLL/zzCWeJPT3Xpd9DMs7pFWP0OQkccvQ9QoiYa2lypQsejGLErq2Fx447q10JptIWU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785786001; c=relaxed/simple;
-	bh=Js2eeyp2RxTL/qJMXg09zGqF24o62HQx7XZQzKJe+xA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Mb75HByr0KujZk1o2Om/aath9J8D1pHXWdA6TqKcfBsiLM2Itte3SOwDrxRQ9GTyJ0bVCkLAeXptArpHBy+kX2VbYlCEhEZ6nbXsuFd7JjeP1PqHaNVvkk0yZejW1p1TDTMivNGayOueGQncKRtJDSmqQLbp3hQA7NRC++361Rw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l6nL2Ijq; arc=none smtp.client-ip=209.85.215.173
+	s=arc-20240116; t=1785786065; c=relaxed/simple;
+	bh=bGTJxYUhkdMuFVT0Yepk3qvMo6KRIoF5A1Hk9B3qPvg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=clDWbroBypm8VZANC+FZjcQ0Y1TANkf+AXdOvZ3Lh3vgOvj4Ph8Y8xbRBcHckYfK+FLkP8MafNbXkMHb/NqtDINUY6OzBCi5/BqaUgYzhKjG95iaiq0ZBgRH9nBEdaZPWLi64msi7G/pOyxklW/MP34mGE5TWfOuMaydHnG16So=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c2IYm8Qm; arc=none smtp.client-ip=209.85.215.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l6nL2Ijq"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-cb5b8572b70so2999763a12.2
-        for <linux-staging@lists.linux.dev>; Mon, 03 Aug 2026 12:39:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c2IYm8Qm"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-ca7bea5e5b3so2865995a12.1
+        for <linux-staging@lists.linux.dev>; Mon, 03 Aug 2026 12:41:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785785999; x=1786390799; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1785786062; x=1786390862; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=d54Y+SQrU/2S5jWEPm6JIBCryRMOgdIzbUiN8raK158=;
-        b=l6nL2IjqhG7BDV8ewtFQB31tndZPmd0A20YIwTfUSdAJIAJIfo2KZdIrirsacsyQbI
-         8Xmz9A2UX9ypcy/VW2lkMLg76qoAN/iWro1LE+yA9xjKuiqDpVZqmpLnVmFMKoOzmp3U
-         hD0ZB/plY4jR4SYPfeWn6rpbnRcZwcuTd7diJLlZetO+mkWfFinWoPjpJzQFuTp0BWIH
-         6emHPHM+5yPfRxQawuiBeacxl+Ax2+aS+rwM/m8Gv3r2aPAMdfp1jVQ/Db6/K8Z96JIN
-         Ic3tQnXWJRvyGwltYD6rWud/9FNFDgGBJ1bzsDAHnoeBnZvIOGbtLI07q+B3qpr+zx1E
-         gpig==
+        bh=lb+dMcWMfms0fNLLWQ3HZFsBohDm1qBxYxzySJh/Nno=;
+        b=c2IYm8Qm921sf4u/bsXJ8sVOSZQw/ktunjgium+a900iKSfKC9O9/BRJ1JBBao6LLM
+         cH8BhWgakLaox/OUL32QhHNkQd3N6GhpqZ/b50XHssMbR+UTBSaN6PFRjvUEzXAIrMoc
+         uFa1Cp4XZeC040zWuZNGi/NAEPxvybSi5rpZIe8HT65M9z/O44O4ZU3wB3XI8z3qtpjp
+         xtbZZQt08n6Rzuek8X3fOXRbUk3lOTC3zVAYXQoJGCh2Pk67IStwZY3LwyMuFMtifPHS
+         QRbFq+w73ziVHUyQFlXHgrSprGJP+He/nb537rzszMYOHFUwQiusuXYcHd/1pmL6khIT
+         3QlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785785999; x=1786390799;
+        d=1e100.net; s=20251104; t=1785786062; x=1786390862;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=d54Y+SQrU/2S5jWEPm6JIBCryRMOgdIzbUiN8raK158=;
-        b=HBH6dfkAvPRXiPJIBapGMwinFuF9v77YA34jmMZUUPlotj31jC2dsaN0ZRN4WDkcY1
-         LmD3K9DubL+NO8dRei6jTFaN8ZVI0AOVMHF+ztlD0KCycbG0M6KyNC3sXHMw1W/gXUyY
-         +Yd4n6HzZ4Rf6wXcHTdDZHrNlEDRqr1MO7cJpTMy8uB8wWxbw4NmDi89A3UhN+nKLSJt
-         R6sNt9SOMc0NTQta31dOX8DWwLunxlM+5Z1GMW22ceMagTQNu/2bdzF2ebt6qtNBggzM
-         I8JCJVJkYN+W2mV5CAcgCl0KqhVY6nxfR7UhV34W7gpaSH08DYDrWWKh1UZLHKZIiEkC
-         OUGQ==
-X-Gm-Message-State: AOJu0Yyb/VenCHx6nKGk24MdgMsPt6w+QZhzyedIe7T4g7bIcly8APmR
-	kpCbI0KdxTHl3+rN+KxUEtzlK0DzVRKKHRrb7ZwwrNu0kE+5btGqlwpo
-X-Gm-Gg: AR+sD11Jy9EnKtaT1X/FlnF6pyvHrmMJtJ0uFuWtqb5Ah7wQVJ105l0GihxNaGs+Wrw
-	JNWw8m5nELQOCAIs/IAc92bo7ULfJXIn7JvGWyTZXlvrYfxZXoM1gPQxgvcn8lic8+l82JEGCM1
-	POWE++4uLcKkwUYlKsx0Gt1dydbj3BNXI4RznrakCZVfWk7SVdKwjZ8fMqPC0Ezm+XcgMqANjRF
-	9Nw1ACJwuuueHO227r6z7tyJzuAymssP2Ij/8Tk5ZWB+nU5tRsOAwrhc1/bLBeOUOup/O4FBJ2P
-	0Bz6zWrdXnHcbW+JTmQ7XKjeMmckWojXvByryGzbUCnlkxlse2oCgCvtktGCJL2BMaWpmmvzjxL
-	+ChQgWqU4iBxsxf74wwkcAD28p5YwwpsjZovZbBATo4+F5rurO1Mwg2zxwQ4ktNkhaHMht3F3Q0
-	36N8rHncNmGUSZy1Gu03IKMSUtOkCFjTgrdqmZxGwLNkVJ1Iv12UpauNusXI4Z1GXqTFh3VIhpL
-	GRQea7agowW7brNeMw=
-X-Received: by 2002:a05:6a20:6f02:b0:3b4:b216:2b26 with SMTP id adf61e73a8af0-3c92a4c975emr11197189637.5.1785785999294;
-        Mon, 03 Aug 2026 12:39:59 -0700 (PDT)
+        bh=lb+dMcWMfms0fNLLWQ3HZFsBohDm1qBxYxzySJh/Nno=;
+        b=rCrhp9x/om9hoMpy1MaANKibBn+u63B6qusiKqv5Bl9Md+J6azze/6hacWRYAbSTFt
+         /0qztfzafhj2j2ZaVLQqY1ghyyrIJsVFj4P17yIrhnYvA6vMz61Wj2ZpahRCmYgrbj9Y
+         SUpJGUfRjkyjnvUE6KhIlgoRaO4Iw3zGw8kS5kw/U31CwmR30Zx/rxFDo0EiGp6U+34a
+         +Usi+5i0jMYapz/pP+/xsMxokAlbv1YhWFfh8vatJ0ARAIuKbU2sTwafB7jmYdEkp35w
+         XVOPpypXdeM2WuzmZP1BQw2S30xGUvqYY7hPyaI97KOvhzu8PXQAq+TDIuVR3GcDXCWT
+         eghg==
+X-Gm-Message-State: AOJu0YwLuoLkSclw0hIzPEN3t4KgojmaWx7vnnaHqG1HKjJyhlWQVqJa
+	Z8pAIF0QuWGMX5BQzsb3FbTP5bxZrYquJIifvegJ91jlsix+CC8IpVlb
+X-Gm-Gg: AR+sD1117jvUw7roui8Ck+UakNOeYDIhvJVl9Ur5qxbj7fUB2QYHAO0AJQI7URl1LcJ
+	tL7RdpufJr/dRPgVqrsXewC74hGmH28awfW3Gyt+CmVqOpilEPyEAy4/rwXsx9h0ThzwC0vX6HQ
+	QP58qh6Nc8fW1CXXo4B8UnyTWbYWSwMW9Uq8OyApUT79fU6eHqp+RGxTuRToRhCb0yMjCfDvaO/
+	OojJ6Tpp5FGLo3hfaBdfgGqy5MAnNXMaXnnKtnO7npT9GoP5UIwzPFC+O0gdm6T3j/fWNnQp5aO
+	u+jaw4g1yl8GLD3Ilwj80uxBnZ+FLXlp3WxQvXJ0Vij834rB8j6BIxL6sjyBlfKSOh+1mI2N5hV
+	RoqY87aviIIfyV4sfZ6M7bCzXutdix/baoshOTCX0oBrPXtEJV9zc/xTfiGWn96tW/TQC89NRC3
+	9m02e4F1mRIEsnTGZ5ctoUwiFiF8Nf41VKFnPtG6+Oaji595cqiHUKT4ZvT2ZafkFU+JUDAnExz
+	z7CfUnX
+X-Received: by 2002:a05:6a21:7d0c:b0:3bf:e24e:3afe with SMTP id adf61e73a8af0-3c92a836be3mr11724275637.43.1785786062228;
+        Mon, 03 Aug 2026 12:41:02 -0700 (PDT)
 Received: from Vicious.localdomain ([106.211.56.189])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3153dd4f0f0sm39750497eec.2.2026.08.03.12.39.55
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3153dd9c93dsm40835326eec.8.2026.08.03.12.40.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Aug 2026 12:39:58 -0700 (PDT)
+        Mon, 03 Aug 2026 12:41:00 -0700 (PDT)
 From: Ashmit Kumar <work.ashmitkumar@gmail.com>
-To: gregkh@linuxfoundation.org
+To: gregkh@linuxfoundation.org,
+	mchehab@kernel.org
 Cc: linux-staging@lists.linux.dev,
+	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Ashmit Kumar <work.ashmitkumar@gmail.com>
-Subject: [PATCH 1/3] staging: rtl8723bs: remove redundant ternary operators from return
-Date: Mon,  3 Aug 2026 19:39:22 +0000
-Message-ID: <20260803193922.11111-1-work.ashmitkumar@gmail.com>
+Subject: [PATCH 2/3] staging: media: av7110: remove unnecessary parentheses from return
+Date: Mon,  3 Aug 2026 19:40:43 +0000
+Message-ID: <20260803194043.11554-1-work.ashmitkumar@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -73,38 +75,36 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Linux kernel coding style specifies that boolean expressions
-do not need a redundant `? true : false` ternary operator.
-Additionally, return is not a function and therefore parentheses
-are not required.
+The Linux kernel coding style specifies that return is not a function
+and therefore parentheses are not required.
 
 Signed-off-by: Ashmit Kumar <work.ashmitkumar@gmail.com>
 ---
- drivers/staging/rtl8723bs/os_dep/osdep_service.c | 4 ++--
+ drivers/staging/media/av7110/sp8870.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/osdep_service.c b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-index 4cfdf7c6234..214c1fd9b3e 100644
---- a/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-+++ b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-@@ -130,7 +130,7 @@ void rtw_buf_update(u8 **buf, u32 *buf_len, u8 *src, u32 src_len)
-  */
- inline bool rtw_cbuf_full(struct rtw_cbuf *cbuf)
- {
--	return (cbuf->write == cbuf->read - 1) ? true : false;
-+	return cbuf->write == cbuf->read - 1;
+diff --git a/drivers/staging/media/av7110/sp8870.c b/drivers/staging/media/av7110/sp8870.c
+index 29fb4934c03..83c6ee305d6 100644
+--- a/drivers/staging/media/av7110/sp8870.c
++++ b/drivers/staging/media/av7110/sp8870.c
+@@ -92,7 +92,7 @@ static int sp8870_readreg(struct sp8870_state *state, u16 reg)
+ 		return -1;
+ 	}
+ 
+-	return (b1[0] << 8 | b1[1]);
++	return b1[0] << 8 | b1[1];
  }
  
- /**
-@@ -141,7 +141,7 @@ inline bool rtw_cbuf_full(struct rtw_cbuf *cbuf)
-  */
- inline bool rtw_cbuf_empty(struct rtw_cbuf *cbuf)
+ static int sp8870_firmware_upload(struct sp8870_state *state, const struct firmware *fw)
+@@ -167,7 +167,7 @@ static void sp8870_microcontroller_start(struct sp8870_state *state)
+ 
+ static int sp8870_read_data_valid_signal(struct sp8870_state *state)
  {
--	return (cbuf->write == cbuf->read) ? true : false;
-+	return cbuf->write == cbuf->read;
+-	return (sp8870_readreg(state, 0x0D02) > 0);
++	return sp8870_readreg(state, 0x0D02) > 0;
  }
  
- /**
+ static int configure_reg0xc05(struct dtv_frontend_properties *p, u16 *reg0xc05)
 -- 
 2.43.0
 
