@@ -1,172 +1,211 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3458386553
-	for <linux-staging@lists.linux.dev>; Mon,  3 Aug 2026 10:46:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785754016; cv=none; b=aJQEmx0a94rcbDOlXBrj63GcYOILBArDacA9nipLUHMMs3BDSGO6P47ktj1ShZHqYP2sLPFIOH9nhKQuBXw3n25yR8ZGxGP+EVWSv8Cbs+uLJxOxcLPIMc0sG7B+8XXNdjQu3tERNIqhgL90DqLxSLUiOKxTN8N2OYaZCosuiGw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785754016; c=relaxed/simple;
-	bh=Glq0fmCg6xi/kYJObewGVQNCIUWZfMEBDofninoyDPc=;
-	h=From:Mime-Version:Content-Type:Date:Message-Id:Subject:To:Cc:
-	 References:In-Reply-To; b=NI7uKBR2O8MNqroSS8ukryPE8kE78mBOL++RrI58Mt1m1TmPC/uIdKKmgwjQ0S6RvIhk5Ubme/87XKK1uRkaa8jG6EvgDIIuT5mmhLRXQDvyDqTmN7wyGsVPIaTMj2DaatorNlXs6NYIjV2o4qCKzFc1KarOdyuZtylO8y8FOC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=l5Sx5C59; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED78840099A
+	for <linux-staging@lists.linux.dev>; Mon,  3 Aug 2026 12:09:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1785758977; cv=pass; b=MBAOr+Srxe9adqI1eW9kPxYaxDhY9uPQxvb4gd1gjskvPGxuSmK7SQeLAZj0UD6mihS8MUS8gSm33zDXEWSIzl2GJ0USw2IA4aH6zW19ngU5kSnW/lNvlAlBfRK/VO7egvB1dFPF3+loeZclW8GbHPxtw9MaU/FYHVftFWao4Ag=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1785758977; c=relaxed/simple;
+	bh=GBh7xuyHZSYcri5erZ0fuibf+63TnyENMGP92EyT63g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=c7N2kW/jSfrkYHHxfJp6wLXSxZ8bjmNRyXVyw+PaPEAqA3HRe6Hg9+ZSn3y9aV3DzEFgptpsSfUiuxvI7XMIeApdIUFM3YkxOEXa99ttRhYwQUBON/JDTYd0/7LbMlb3WZMXkBKVAwqzb8C29myF/356fg4GzXM5REj57p50sWk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dJQh7r9u; arc=pass smtp.client-ip=209.85.160.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="l5Sx5C59"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4955aa106b1so17929455e9.0
-        for <linux-staging@lists.linux.dev>; Mon, 03 Aug 2026 03:46:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dJQh7r9u"
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-44856d185bcso3876122fac.3
+        for <linux-staging@lists.linux.dev>; Mon, 03 Aug 2026 05:09:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1785758969; cv=none;
+        d=google.com; s=arc-20260327;
+        b=ZDIGauUFSmt6KZwhnDZ9P3GMqQCPsYyjUE541Ft2iTUsExKKcXh5lyIxPcGpLlEoTD
+         JUKwNkHRnuJccqIO/zS2gaD8fCqflDCqzrhCOmwdke0Ty3ReM4C/eGPdEo96QTbHkMD9
+         QQUTCB4/ct8CCQ0BTaQ63HJU+/diF/cx1fQrQgzA5tiYvrlPDmFizE/qsQ7DqWeIyiww
+         QMQchrceB6Sy60j/LGeHDv0OjNfTeS7bUtzwiIlKuY+ikQWcI3KgAeUB/dJZjBBJXwfP
+         RSS/B5nQSRvowZ/4gtIJNandWf65XWK3CtKbwMIKBC9IfZtisf/8Do4qFTGZI4a97cEq
+         sQig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=l+eiDhEKEJzv/YlOG+Kaa8MtY0pGCEb7E3JQDfcJnSk=;
+        fh=BCpCL1pjDzgyx5tF9KC6vwu5MOWIKIr2pIZm2rV3VwU=;
+        b=QENkMd94H5JCWOtzgbzdKWCccNG8kDv398jHlPjld6RFK0QfFZLDkXjhnPrv4m41T6
+         2cxDi/akoFnK19RvWPcLIfsNCeDmx/ofdLy7rxi6MUocMJhXrkzssuZM2vdxQe5Yt9V/
+         hb07wz7DBioClN6sOFuIs8x6k9eZCStUbA6lwfhGf6k0F2lLloqtoicCY2LwX99rT6zS
+         LxJTBENRaKJ7p/YzC7iwrXE/G+T3Ns+HpW4T/7/iPI5ZhpYadiRPu7mIodmSRs/+VEYN
+         SNYKR9roS1eVEfnnA8R6zWTodJLcm3nJ+mKtnduDybYB3RWMbRyue6b1ITlr5GskX/Oy
+         F2Gw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1785754013; x=1786358813; darn=lists.linux.dev;
-        h=in-reply-to:references:cc:to:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=3QTY24JB98Pe9BUSJfoHN22urBdk9I5a0mxp0X24KgE=;
-        b=l5Sx5C595RYd2/430G761bcHtJk+JH8WuN/XDjxVnzHuKdWx3HgpBWsCUS8jNJW9gW
-         HYMIalbJD1SZsFYpkiZBrmzFv6eHvBr/DMxsEcRpKNVZBrCkKPSkrYbV7iECc7JamXDl
-         3O1PUwvcm0NQ2L7vbBzlfe5hqaQOLvOwyPIdBRfJzkBggKIuaJcxDy4vwcGev+gDcCJu
-         3H7JBSTwh2NwbEo6Ro3vYq6mDr/45T5b5onKAZ7felBR33oVj8qgHxP0UUpEj/RaUA8i
-         EmyemZZuESJGrAEUEM9tVm3KkdStOm3u0rFDRObZstcy3fa+NG/hy5Gyy6nbXJl8/Ms/
-         qFpA==
+        d=gmail.com; s=20251104; t=1785758969; x=1786363769; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=l+eiDhEKEJzv/YlOG+Kaa8MtY0pGCEb7E3JQDfcJnSk=;
+        b=dJQh7r9ueq+nGfHZvVuBxk1zGgQmJozFEmaOrmEGHiqz15l0r7BbGcuwMNsnKvBnLL
+         wtFxiK+m8oJiJ1uyYqtChok0/pKmsBBmSLM0KE8f256EujDKjkW/WW1tHGh+2DxAtnT6
+         RV9bNHBxotBcK38X2zZ7FotFpbvyBk8TnmgoMNYwgtNqs8qhJTo1GWnbXP0WevjpheRE
+         KhdzqU4VRHARLkpM7f9q3EqP4FmHy+DzdAvWuYIOAkRtaLQVcB+oOBoxygNTkRLVeDdp
+         Du0PzkPOOsHHILrrd1jUs9xv7w9KPphoxtYxsT025vJFZ9UA8LC2iEi95b5bS2OKem4u
+         bDDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785754013; x=1786358813;
-        h=in-reply-to:references:cc:to:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:x-gm-gg
+        d=1e100.net; s=20251104; t=1785758969; x=1786363769;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=3QTY24JB98Pe9BUSJfoHN22urBdk9I5a0mxp0X24KgE=;
-        b=h9UA0zDsTgJ+Wxq/3C7rs37xZkshtfvPE4StfumOW202hF5+imI9/fWb+0zBjMT+bz
-         ruTjtXkCjjmZXIw6MAwaK5yclXUx0a+zxQkPkKaOEEAnSuKKMDfxuKQ/tsQlmdk1fD3P
-         Sq8+84m7L1FtxyazVWza8ErJVp60ecNUS0HBR92YBqTm5xtoGG9v49ozu3l1HiLdLEDg
-         E3Tl5yE6jx7Qg6WQJDXq+abXLPvrSigUJfzRQiu+DjKoSbVeYK0CSmwqGkPApzEsRtH+
-         YsBjDgz4nLQI0SbVCmKdSDFcS1u7uJZV5qewmhRFysqlrEM9eUpzuadPkyhPdBfZEkp3
-         Z8Tw==
-X-Forwarded-Encrypted: i=1; AHgh+RrnidU7U/Fko8QNvg64srF5ryP6L3u1pzCyWxDY45zx0lsdymf131jkvtAgBZRtQSfzYQ2zjXNe7S3oq85j@lists.linux.dev
-X-Gm-Message-State: AOJu0YxUlu4Q0J0rjDCatpAgQeqQlVel/dtdvl4lIOtye8TNHo/6hvN0
-	Y2/ekSmlfiehzKT/lbXF4Gz5wDb7ElywbJDUNwPSEEIUpv+xS3t5NWbMi0/nSVVazJQ=
-X-Gm-Gg: AR+sD130lGjbFeL4q8fJQflMxO0NLwEulcvx0CO/8mGSYxKyoUKtcGsYk/OvU01nN3/
-	czWkcbghfHu6zQqLoHrSlXmAxfvF8Bm5lTHsDtPxNW+huh+lD2A+YaBAoVasQJ0v7GnTmX9b4Y8
-	KKtGqL7xJG4O4witmMdvV71ZqmrXSivcKMfLHfOeODj5dd3bsC5LsZXvibsccZi1hJZ1n6hYy4k
-	VsKLTBA2xK/e8OUxEThQYjL93x4HD1U0TGaQS38pVFH4pfoShbzDIPLA6Lely1lt41HcO2Wfy8v
-	AFtV84j5b8xSbeAPpqmFCHkvzb90Ds9LPlfOg3B+spzaqEC90lHelVH3dZxB2Fqy3Wei53PNh5G
-	S+fuhQe2WYC2Wm9/0/eySpOEowVMstWiQAffrJAuvG74eRaal594FNIg9At42YrUzeiu0lrHjOn
-	P5I4mJZRFswBs2ZFBI68WD2XSMgSUtLjE5EWYY22XQoUlxmUHbMX4sgjPQ8Pb3zmRAEupN3xY=
-X-Received: by 2002:a05:600c:d5:b0:495:6713:9a40 with SMTP id 5b1f17b1804b1-4980c6950a6mr154992895e9.18.1785754012678;
-        Mon, 03 Aug 2026 03:46:52 -0700 (PDT)
-Received: from localhost ([2a01:11:8f11:bb70:dddc:c199:bb35:7cb0])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49807b85be7sm269171935e9.2.2026.08.03.03.46.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Aug 2026 03:46:52 -0700 (PDT)
-From: Rui Miguel Silva <rui.silva@linaro.org>
-X-Google-Original-From: "Rui Miguel Silva" <rui.silva@linaro.com>
+        bh=l+eiDhEKEJzv/YlOG+Kaa8MtY0pGCEb7E3JQDfcJnSk=;
+        b=p8qUXXAZstjTeKWBq80VmmOU9CCsaCwXNCroZ+vgibGVSQWSNMd22IncZbffGMPotd
+         o/Y0MOO8toDJU7wwcxc6Yf9WaLH4F3GfPp+ZTNjcMT+y2Sc599WmqQ19uIUoH0f2bLF5
+         4FLbiMmDKJZ2PmMyrvKyl0g0J3zpvoUFMVksrpjWYIoob0tB8ZNRmyaD+GiP9uSnWHIp
+         1lib736hZl5RhzwCw/rIH73stvZD8mHj+QnmrO1cLZbSvI/q5xW3FOU6MU8Wn3HEHcYT
+         LJtvcqfCNbvLutSuGbOREs2nICzoxx2XJWXF0yOJmOE44ka/QD8df6MmgUu7E3NT3SdF
+         WToA==
+X-Forwarded-Encrypted: i=1; AHgh+RrHUBV3qZ1SWe36Q3UZCXlJ5wIXeB4XCixj3HNixbFWg5+4Fqz7HgmTLd7hmTw+qGp5j9Ir1aGxnLkMcd1t@lists.linux.dev
+X-Gm-Message-State: AOJu0YzRK1UhRml6Zn7I4oETVSh5badP5wKdc9pMO8TFI3c83vjtKdMy
+	CMdoOg/r0UspKP1TqBqWTaNIUnBCRTm/y4VG7EejRwuKsWjvwndZbGHn0rlDdL9H1VZ8KI0Hcv5
+	6di1Xd8BDbb22YEtuOIorcC51UodXtkE=
+X-Gm-Gg: AR+sD12bmUP04QtbThTLJgXp2DqVNewRcdgg0M27OUMPMe9fyaiWusE+wLp63zW/Atl
+	qd7LbmI101G0fdBLll2B8ujjPx9jeE98RkAffy1UjggRdH39+KNDm1mOFwbCT+4j1gfsmlw95R7
+	DrPl+hSLWxB8B9w1rd2ncYYusGG1WzlSMxz8596dAMfkayrG9SFN6l/tGZkmdonUsP7i/LFMP2l
+	1mkDC+Xq8NEzjnRDdN+vP5A+cHbvAUbZ4ffDWzq/MEmy42AvoTlJVBEsNsUd4Im3Udq1JEzN1v+
+	/JZYBWnmW2Q95du7FXueVcxrau9V1PP5mIY6Cv91EcM3UQ==
+X-Received: by 2002:a05:6870:4686:b0:451:3852:25a9 with SMTP id
+ 586e51a60fabf-45905dd7fdfmr14512993fac.21.1785758964094; Mon, 03 Aug 2026
+ 05:09:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
+MIME-Version: 1.0
+References: <20260802113840.17730-1-abdelnasserhussein11@gmail.com>
+ <0bde2343-8a70-44d4-9b27-8ce42c099309@baylibre.com> <20260802194738.034382ef@jic23-huawei>
+In-Reply-To: <20260802194738.034382ef@jic23-huawei>
+From: nasser <abdelnasserhussein11@gmail.com>
+Date: Mon, 3 Aug 2026 15:09:13 +0300
+X-Gm-Features: AUfX_mxkDdPmJMT43CqX3qldlTS1ZnrEhcdMI7mWW1gOwzvpAJi2bPGzYHMtvfc
+Message-ID: <CANpqX3bYkz0GT9H9i2LFfxW3VxoPRAxDv+LMzU3cOXVh_UP1cA@mail.gmail.com>
+Subject: Re: [PATCH] staging: iio: ad7816: avoid DMA from stack in spi_read
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: David Lechner <dlechner@baylibre.com>, nuno.sa@analog.com, Michael.Hennerich@analog.com, 
+	gregkh@linuxfoundation.org, andy@kernel.org, linux@analog.com, 
+	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 03 Aug 2026 11:46:51 +0100
-Message-Id: <DKF8YRNCVG1E.2F0JZKNLBEMHF@linaro.com>
-Subject: Re: [PATCH v2] staging: greybus: light: fix leak of cdev->name
-To: "Cong Nguyen" <congnt264@gmail.com>, "Rui Miguel Silva"
- <rmfrfs@gmail.com>, "Johan Hovold" <johan@kernel.org>, "Alex Elder"
- <elder@kernel.org>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc: <greybus-dev@lists.linaro.org>, <linux-staging@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>
-References: <20260802060149.3803224-1-congnt264@gmail.com>
-In-Reply-To: <20260802060149.3803224-1-congnt264@gmail.com>
 
-Hi Cong,
-Thanks for the patch.
+Hi David,
 
-On Sun Aug 2, 2026 at 7:01 AM WEST, Cong Nguyen wrote:
+Thanks for the review and suggestions.
 
-> gb_lights_channel_config() builds the LED classdev name with kasprintf()
-> and stores it in cdev->name for every channel during the configuration
-> phase, which runs before the channel is registered.
->
-> That name was only released by __gb_lights_led_unregister(), i.e. only fo=
-r
-> a normal LED channel that was actually registered. It was therefore leake=
-d
-> in two cases:
->
->   - a channel that is configured but never registered, e.g.
->     channel_attr_groups_set() fails, the flash configuration fails, or a
->     later channel in the same light fails to configure and the whole ligh=
-t
->     is torn down; the release path calls gb_lights_channel_unregister()
->     (which returns early because the channel is not registered) and then
->     gb_lights_channel_free();
->
->   - a flash, torch or indicator channel, whose unregister path
->     (__gb_lights_flash_led_unregister()) never releases cdev->name at all=
-,
->     so the name leaks even on a successful teardown.
->
-> cdev->name is a configuration-phase allocation, like channel->color_name
-> and channel->mode_name. Free it in gb_lights_channel_free() next to
-> those, since that runs unconditionally on every teardown path, and drop
-> the special case free from __gb_lights_led_unregister().
-> gb_lights_channel_unregister() is only ever called from
-> gb_lights_channel_release(), immediately followed by
-> gb_lights_channel_free(), so the name is still released on the registered
-> path and is freed exactly once.
->
-> Commit 04820da21050 ("staging: greybus: light: Release memory obtained by
-> kasprintf") fixed the leak for the registered normal-LED path only; this
-> covers the remaining cases.
->
-> Fixes: 2870b52bae4c ("greybus: lights: add lights implementation")
-> Assisted-by: Claude:claude-opus-4
-> Signed-off-by: Cong Nguyen <congnt264@gmail.com>
+> Should also mention fixing the "wrong" sizeof() use in the spi_read() cal=
+l.
+> Probably deserves a Fixes: tag.
+> In IIO, we have a special macro for this instead of `____cacheline_aligne=
+d`.
+> __aligned(IIO_DMA_MINALIGN);
 
-Good Catch, LGTM.
-Reviewed-by: Rui Miguel Silva <rui.silva@linaro.org>
+I have applied all these changes. Following Jonathan's advice, I also
+added a mutex to protect the SPI read sequence to prevent race
+conditions.
 
-Cheers,
-    RUi
-> ---
-> Changes in v2:
-> - Add Assisted-by: tag to document AI assistance, per
->   Documentation/process/coding-assistants.rst (Greg KH).
-> - No functional change.
+I have split these changes into a two-patch v2 series and will send it
+to the list shortly.
+
+Best regards,
+Abdelnasser
+
+On Sun, Aug 2, 2026 at 9:47=E2=80=AFPM Jonathan Cameron <jic23@kernel.org> =
+wrote:
 >
->  drivers/staging/greybus/light.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+> On Sun, 2 Aug 2026 10:31:29 -0500
+> David Lechner <dlechner@baylibre.com> wrote:
 >
-> diff --git a/drivers/staging/greybus/light.c b/drivers/staging/greybus/li=
-ght.c
-> index cab02b5da867..1ecca479b5f4 100644
-> --- a/drivers/staging/greybus/light.c
-> +++ b/drivers/staging/greybus/light.c
-> @@ -905,8 +905,6 @@ static void __gb_lights_led_unregister(struct gb_chan=
-nel *channel)
->  		return;
-> =20
->  	led_classdev_unregister(cdev);
-> -	kfree(cdev->name);
-> -	cdev->name =3D NULL;
->  	channel->led =3D NULL;
->  }
-> =20
-> @@ -1063,6 +1061,9 @@ static int gb_lights_light_register(struct gb_light=
- *light)
-> =20
->  static void gb_lights_channel_free(struct gb_channel *channel)
->  {
-> +	struct led_classdev *cdev =3D get_channel_cdev(channel);
-> +
-> +	kfree(cdev->name);
->  	kfree(channel->attrs);
->  	kfree(channel->attr_group);
->  	kfree(channel->attr_groups);
-> --=20
-> 2.25.1
-
-
-
+> > On 8/2/26 6:38 AM, Abdelnasser Hussein wrote:
+> > > The SPI core may use DMA for transfers. Using a stack-allocated
+> > > buffer for DMA is unsafe and can trigger faults when VMAP_STACK is
+> > > enabled, since the stack is not guaranteed to be DMA-accessible.
+> > >
+> > > Move the transfer buffer from the stack into the ad7816_chip_info
+> > > structure so it has a stable lifetime suitable for DMA transfers.
+> > > Mark the buffer with ____cacheline_aligned to ensure proper alignment
+> > > for DMA operations.
+> >
+> > Should also mention fixing the "wrong" sizeof() use in the spi_read()
+> > call. It was the correct size, but the wrong variable was referenced.
+> >
+> > >
+> >
+> > Probably deserves a Fixes: tag.
+> >
+> > > Signed-off-by: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
+> > > ---
+> > >  drivers/staging/iio/adc/ad7816.c | 8 +++-----
+> > >  1 file changed, 3 insertions(+), 5 deletions(-)
+> > >
+> > > diff --git a/drivers/staging/iio/adc/ad7816.c b/drivers/staging/iio/a=
+dc/ad7816.c
+> > > index 0e32a2295990..fcaadebff0f4 100644
+> > > --- a/drivers/staging/iio/adc/ad7816.c
+> > > +++ b/drivers/staging/iio/adc/ad7816.c
+> > > @@ -50,6 +50,7 @@ struct ad7816_chip_info {
+> > >     u8  oti_data[AD7816_CS_MAX + 1];
+> > >     u8  channel_id; /* 0 always be temperature */
+> > >     u8  mode;
+> > > +   __be16 rx_buf ____cacheline_aligned;
+> >
+> > In IIO, we have a special macro for this instead of `____cacheline_alig=
+ned`.
+>
+> We've had a couple of these recently.  ____cacheline_aligned is simply
+> wrong and I'm curious where that is coming from?  That's the performance
+> hint cache line size, typically that of l1 and l2. In some systems other
+> caches before the incoherent SPI controllers have larger cacheline sizes
+> and we have to align to those.
+>
+> The correct option if not using the IIO one is __aligned(ARCH_DMA_MINALIG=
+N)
+>
+> For historical reasons IIO has it's own version of that which predates
+> all architectures providing ARCH_DMA_MINALIGN.
+>
+> >
+> > __aligned(IIO_DMA_MINALIGN);
+> >
+> > >  };
+> > >
+> > >  enum ad7816_type {
+> > > @@ -65,7 +66,6 @@ static int ad7816_spi_read(struct ad7816_chip_info =
+*chip, u16 *data)
+> > >  {
+> > >     struct spi_device *spi_dev =3D chip->spi_dev;
+> > >     int ret;
+> > > -   __be16 buf;
+> > >
+> > >     gpiod_set_value(chip->rdwr_pin, 1);
+> > >     gpiod_set_value(chip->rdwr_pin, 0);
+> > > @@ -91,14 +91,12 @@ static int ad7816_spi_read(struct ad7816_chip_inf=
+o *chip, u16 *data)
+> > >
+> > >     gpiod_set_value(chip->rdwr_pin, 0);
+> > >     gpiod_set_value(chip->rdwr_pin, 1);
+> > > -   ret =3D spi_read(spi_dev, &buf, sizeof(*data));
+> > > +   ret =3D spi_read(spi_dev, &chip->rx_buf, sizeof(chip->rx_buf));
+> > >     if (ret < 0) {
+> > >             dev_err(&spi_dev->dev, "SPI data read error\n");
+> > >             return ret;
+> > >     }
+> > > -
+> > > -   *data =3D be16_to_cpu(buf);
+> > > -
+> > > +   *data =3D be16_to_cpu(chip->rx_buf);
+> > >     return ret;
+> > >  }
+> > >
+> >
+> >
+>
