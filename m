@@ -1,71 +1,69 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30241442FBA
-	for <linux-staging@lists.linux.dev>; Tue,  4 Aug 2026 11:14:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63F41329E5D
+	for <linux-staging@lists.linux.dev>; Tue,  4 Aug 2026 11:14:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785842051; cv=none; b=EpP8yrjs1lY7OIXeHkuIBmk9Yhw3TmcQ546hnNvtTxvsBWaMoFgFVxbub/LMy2u2x2i+Car4u7K+5D2Knqi7HkmEVvUEotgCJ+yXuU5T4gwVYyLBp6n7Jwe+/nFvcQnf/DLksGLL+S5KKnKqwG2HvRoJ2EZcuHedGwPKgTr1678=
+	t=1785842080; cv=none; b=czqDguaxUUE+igT1F8qSGSTPxPlPErfjJoEFXfkh/cD5d5Gs5UGebd62M3zTnweQnxoLDaBs/zYUYKro7LBF3efuq8OeId9izu5vLxj7SvAeeqn8LX45xWFO5q8kA9TPXT1STJ5jt3lTAOCMohq3vwkr0hPWpdeyGujbvx1VpG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785842051; c=relaxed/simple;
-	bh=soGcrDO8LVCJhZZutqWHY5M/ewsJR53cstOhPqDZmIE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Img5UsxsYGQ+ITkf9Ur+JB8JZd4xbzW7/ZGYUsjWJVV4++6dsl65pGPQrDrQJh6hd4ZLfno95KUvbdGfUYmlfUCW2pyT4dSpjbTrPLcGjVL+0MePYW2m/KEIquwZdwSWz9v7xcI/WJoQnityjTZXL1t5/n8w85QUfJGHpBFErzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i3tsGf28; arc=none smtp.client-ip=209.85.215.182
+	s=arc-20240116; t=1785842080; c=relaxed/simple;
+	bh=QmgCDVnHL3EwQdcjBKl83nw0EXLAAdaxDQ7dV/oMKEA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sZFI51ychjaOeg3hX8IwJRYzYmbtl0ShPckDXfGpyxFUe4b8PIusezFrOVlSs88hxGs6EnrfPLxcYrvf0mQ0L0MlGIvo7ei4ar3UXT4EAypU2vTtAq2H2rEEWp9dpPTIw0x9KcK4dSVZzc3kX9kDICTBL8jkAW0OsHh7vWSKNT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YsoOM8k6; arc=none smtp.client-ip=209.85.216.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i3tsGf28"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-ca97d139d8dso2482440a12.2
-        for <linux-staging@lists.linux.dev>; Tue, 04 Aug 2026 04:14:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YsoOM8k6"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-38dfe7eb825so3336778a91.0
+        for <linux-staging@lists.linux.dev>; Tue, 04 Aug 2026 04:14:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785842049; x=1786446849; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1785842078; x=1786446878; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=qDeJ1eZ2UVo1OtlVo9NqbRA9RXNxkElEq+DmNTPQkt0=;
-        b=i3tsGf28oX88OIUZWQelYsIGU/DC6yHEIg2MOTFbNtI+w/oksv7Tj/u9hYtG6Kge08
-         dGiykUG+TMWDk825CiB8bRq/e9PQCidQUO5UT1BZEux+ed0rAwLg8qRZQstQ0tdilWK1
-         7F2NJ/WzSkLBN8iQsFRF7GXMV+5BkWC7dTBat0NfkYUBrN/ARaQF9mHVhJITPpc+/lQu
-         DFIzm4O6xozTH9drdB5V9LET9lxTRMvDN82QoSi88VTxzHT7cL7AmV86bu/Os5xS9KCO
-         KUvkE4U97y/hrr65F4HIWpqi/Y/IPEO2DJqA8wURWvu3XETOzdf2FZr8dRGLh/yAAuaw
-         v6cA==
+        bh=e8RbR7rsdFWNI2hf8UFgabxYhgw53lU+eapKDiTUJbw=;
+        b=YsoOM8k6D477TsG1FyE6DlPZ3blTTBZESGz7GTjbRTudpx8QOBIOBEzjD/i69u9vpL
+         USYcdV58v8GyeEvLH488UnXvOwxEk9/tesvQrfFMiPilZkbRm2fC0Uqf4WLBdF4jzJZl
+         r46v6dlA8ax/dggQWL5O4VoXUMN+yFWQrbKo1fy0a/N9sAQWeL066/syBixyfpWeARaO
+         K7cKTUgJg229pHNi6tWEMOc4tLXX7eEecwS87cxNgvHy740++uiGXuoLdBkd18Gy3Xxm
+         m+aqvDF1TwqBNpluGUWIySwPXevEOwm4sq3kOggPfRJ8DV/rjrM0ElzPHMlU5qX7ukva
+         /8Pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785842049; x=1786446849;
+        d=1e100.net; s=20251104; t=1785842078; x=1786446878;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=qDeJ1eZ2UVo1OtlVo9NqbRA9RXNxkElEq+DmNTPQkt0=;
-        b=cBctl4FiS6CeL2zvFr7ddmkCd+2gh76arQlzo+h0W5iojOv8ZOOz5KYPwaC+j2uUOi
-         d5OwSZdKr05CZR6OMIwJ3ilvpqweNzZsmBffBeorAHx4EXUBMtDokYzqa5qzsivmT2Ov
-         PSldDQqTHLoIhcCVaI4rh+NwCggop6rSImz7umFWJ+XWmppih6EgVTveHqbmYkqnCXcL
-         JG4yPD4iF3o9ILsm/plVOtrR0Dzo6EYI5hske3idpV1X/tc8X4kzNKDZMkPTshhC51a7
-         RI28KT9li8i9lxCMM5RMKzEXa2KIGVtxGp/Xr2rwLSo5BM290S2FbX7ZhyW2tf61dioU
-         OobQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rp0jQdbRHsibCnJ/4QejUmQWsSnmTMND3fxsL6+osP/+wOpEodgy7MO4fJZzq0Nu0dC0yaFz4MTtRkLKhtk@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyi4WK/imgai5c16/XGAIXy1WyqBdVrIuOjxozzof1NKP3zTvbm
-	dGlWj4izgjbQLXhDJ+XlurLiT/VWc2LSNmipLqbguILc18K2TQJF64xG
-X-Gm-Gg: AR+sD12ixSWxvbs/bFg0o0OlW6DDfaQMibuTdEyEXMlEa3n1WqLLIOkSuTRuBCsqwZT
-	lG70eQUHPybfWen4K4DtNEVzn6BbuTV6AhnFDQCLXgLkQH8HBU6eTvEuTvQwv9PE+xpbaCPAi8h
-	FqEKlHjIylfXiRAGyRJHrvLutNAf2jU5WycDHHVexb6J91zRqBCPFOcTMdnViuhz4LDn+z88v3R
-	QDGftMu4q11yWv47Qgq6q0l+YKqiQV7o1PMsfLMiHevPbnzTvguFqB1SASaBe44mHeWj+llFCxG
-	CccaagSm+C2RIfiXEYv3AeJeMHRzdK3/W4widrDuI8Cc1/Dw8+49Kp94afEfciHOa99XlApn+hj
-	JDx9d6fXlzLA68J6wveLAODO5kvTLWCdmvAVcSF4gdFzy/+oRzI0Ynbt38rWWLujiju9zIfKyK0
-	vNYG/+g0hg+tTlwz9Ylmr3JBIPDZS3DoR9Lb1RzMrTenxVyerB02Rva79McaOsK2G/t/OoHGZ1l
-	phBJbU=
-X-Received: by 2002:a05:6300:220a:b0:3c6:5770:9a16 with SMTP id adf61e73a8af0-3c92a9a4cf7mr13396298637.75.1785842049276;
-        Tue, 04 Aug 2026 04:14:09 -0700 (PDT)
+        bh=e8RbR7rsdFWNI2hf8UFgabxYhgw53lU+eapKDiTUJbw=;
+        b=ix5YQUtG2uIJwcce94VTBJjrozNXISuKjTyejZc/xmb2XadLk5+v3Vz04U1rAqBKvo
+         ZYqrMTST+ZzIiFhwbO/rWgNX5RQLyHfHcXnxqD2gqmEz0gJHE3wFk56UQXzzCOnQ6OoZ
+         HfhNzUgPuG75ZsKr7erxveqSTz+WQY5eaEwAKEM28NrP69msLm/tadMOMo7NheFBycUz
+         YXUZR06JOP1568zCcf0huy4tTS2Y0h3wkYcSOHz8TiMc1xMPs16oINiz5XsjY/vSnj0n
+         zaCfwxK1PRS2NnYQFG8WoeGr1EfabIenfovJs9CmnYcFRNirK4RB3IoGIKYB4g2UWfvR
+         q9Pg==
+X-Gm-Message-State: AOJu0YxaLxVWJUQZ+p97tQelVmw0nz6gPRTqy+ka0wwAXyUmEXgVFnyB
+	YYY32Kd2Tcfvq2g0jrcF0SfOX912SUNtODV1m4MCvwkEPOh1tQuslNg6suJr8y03
+X-Gm-Gg: AR+sD10slZtfyVKyvsNUunUbc1D/B36Z7c+8y6WdU2vkX9MgoyQn2LRw4dpiVrG7BK/
+	CqnxCeVoadcUb85T14BY+L+tqXPWAJkVx4UFvGHDEKMYgTD85zODZ5424aW2b346LeTAw9EkfpM
+	verOsKaTbDdFRbs9zVrXxgQoNbmiIWQrRUz+a5/Z9n1pSqQSPdf3Mu6wGff9H6oqQM52k3csLzo
+	TROKGYeppAgXg9dni8pg2+vHu+7+gp48yBooqnYiQoPhqXevnduQK1aZy9iXhBJ7mEslza3Kgt9
+	ixw5Ypu9JlYh0kLLEc/U5Kol4VxB+1XaArMnbMKXQh11Fj7/CE0AIjFp9p+aqXPQF8N5GAxzMpt
+	9+e0BP69FQa7sHE1DekJK/XtljmsjSwkzNGD4Wu8TXJyJXgzKlEiLOx7eoxnwIZspTVqH+ESnEu
+	5R5AFiQhd7JE88UVG5CnzrzuNrj6fAy3ApIeRtpjEUCg2xPJTQGFQfU9lV+uhuVwwm4QQyR64Rw
+	lzN9tVtnXbaGdENTw==
+X-Received: by 2002:a17:90a:e70f:b0:38d:f1a4:1116 with SMTP id 98e67ed59e1d1-38fbc4f84c0mr11870592a91.33.1785842077455;
+        Tue, 04 Aug 2026 04:14:37 -0700 (PDT)
 Received: from Vicious.localdomain ([103.37.82.147])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31586777bcfsm6318175eec.21.2026.08.04.04.14.05
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13fca9111b6sm2558473c88.13.2026.08.04.04.14.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Aug 2026 04:14:08 -0700 (PDT)
+        Tue, 04 Aug 2026 04:14:36 -0700 (PDT)
 From: Ashmit Kumar <work.ashmitkumar@gmail.com>
 To: gregkh@linuxfoundation.org
-Cc: dan.carpenter@linaro.org,
-	linux-staging@lists.linux.dev,
+Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Ashmit Kumar <work.ashmitkumar@gmail.com>
-Subject: [PATCH v3] staging: axis-fifo: align arguments to match open parenthesis
-Date: Tue,  4 Aug 2026 11:13:52 +0000
-Message-ID: <20260804111352.21257-1-work.ashmitkumar@gmail.com>
+Subject: [PATCH v4] staging: rtl8723bs: remove unnecessary parentheses from return
+Date: Tue,  4 Aug 2026 11:14:17 +0000
+Message-ID: <20260804111417.21503-1-work.ashmitkumar@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -75,30 +73,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fixes a checkpatch warning for alignment matching open parenthesis.
+The Linux kernel coding style specifies that return is not a function
+and therefore parentheses are not required.
 
 Signed-off-by: Ashmit Kumar <work.ashmitkumar@gmail.com>
 ---
-Changes in v3:
-- Fixed DOS line endings.
-- Shortened the Subject line to comply with checkpatch.
+Changes in v4:
+- Removed accidental modification of axis-fifo.c which was incorrectly bundled in v2.
 
- drivers/staging/axis-fifo/axis-fifo.c       | 2 +-
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-index 3aa2aa870ea..ed09be2fed4 100644
---- a/drivers/staging/axis-fifo/axis-fifo.c
-+++ b/drivers/staging/axis-fifo/axis-fifo.c
-@@ -246,7 +246,7 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
- 		mutex_lock(&fifo->write_lock);
+diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+index f31196f54b3..40793aa58d6 100644
+--- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
++++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+@@ -843,7 +843,7 @@ static int _netdev_open(struct net_device *pnetdev)
+ 	netif_carrier_off(pnetdev);
+ 	rtw_netif_stop_queue(pnetdev);
  
- 		ret = wait_event_interruptible(fifo->write_queue,
--			ioread32(fifo->base_addr + XLLF_TDFV_OFFSET) >= words_to_write);
-+					       ioread32(fifo->base_addr + XLLF_TDFV_OFFSET) >= words_to_write);
- 		if (ret)
- 			goto end_unlock;
- 	}
+-	return (-1);
++	return -1;
+ }
+ 
+ int netdev_open(struct net_device *pnetdev)
 -- 
 2.51.0.windows.1
 
