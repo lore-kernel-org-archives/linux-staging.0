@@ -1,73 +1,36 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19E02339360
-	for <linux-staging@lists.linux.dev>; Tue,  4 Aug 2026 12:11:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 597D83B47FB;
+	Tue,  4 Aug 2026 12:12:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785845485; cv=none; b=f5TzKYhsnU8wCNF+BY1DaKSQ2Zd118+wfYyOr8px9lGBbzGNKaa1MxsZ2kTz9m7kQIS3MEmEIcbnh627a2EK8F71FO9ovi6/ieECTfsFBRNmnzhXBejwT1iimZ+jhlA1/b4yexPEMbgWtAeyyK4f6gsnwYuRBHyT/ximjAOpBTM=
+	t=1785845542; cv=none; b=IOXl15j2AmWLXYJLl1M41fDVCUitiX+7M/L4V9ZAnInt2hNthFti0KzEBTnPqy+D87t8vx8NsI4yLH6sHqF//LazFYnMBwUbtMItsbf9KDE2GE6OvWUNURurbiYp7YzzljBRWRAuo4Sek8YwYuGwU/vtDMvaruBCOGIN9byBeGs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785845485; c=relaxed/simple;
-	bh=gdvqsoZDauSKbuK8JVk7/FuygUkQSM+flJUBcR3la6c=;
+	s=arc-20240116; t=1785845542; c=relaxed/simple;
+	bh=DoWgHOvOMYy11xsBqSnNoj6Q9PlV7xPFR36376Ph1fI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s82LR61T6IKxGxGaaYED42T8fiKvTE6uBOcbwpU/NphtpyCZgGy0oHN8lw9G1t+mJUWo8ASKjtfC5MIBpkoeHNzXEqzwOPBvEvwc958UMAWasqOS52TSW7G1kawy0mOBalX58LmY4rer6E0krmTBx3wtlI7JwCmINaeCJLlkm8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=q9LDdlIa; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=qo19t7aCpYEIzIXZjV+l6jrG5uyiHUY7mzgc8yZ9nwegX4Ogvn3FxMO0RCLtEbSKgFjA0CVCQzxH0npxwZoMJZNnur/NYM5T5JTVslcItFjjsbNAAbV/yhgxsIcBRZCf/Xnjrcx95ymHb1QIp+JW29LDurOc3hVbuV2K0sPgQf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=NnHMSt9U; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="q9LDdlIa"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-84874b52eabso5938449b3a.0
-        for <linux-staging@lists.linux.dev>; Tue, 04 Aug 2026 05:11:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785845483; x=1786450283; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=JkdEkpDmK/siHWbsxxW9Vf3NMr3wTKTZgRi6uSb9CHk=;
-        b=q9LDdlIaB3tlCPWLuarYFLS4yiPzkufnU/Y8PTSbP5MyuwEbon7H/R/1v9N9FS6Ouz
-         Nj7GCHFOXc3riRD0rf9dhh6hQM+doBc2QvV1wr+pIOReWTqP5GLkjYNkUzq7XMTKwqZD
-         GipOoM28Ad2dyCaZawp6I5d9SL2juK3cEeZKn/Jxq9WVgywQKDS1O8+P2OMPoY7yFWoO
-         /rx3KUXF+6BAjTKC82n7fu4UoNDRP9UMqii3ufRjU9vhevWNMSyVGT5/O9fujpqFjJPv
-         3XklA+NDFPqWUL4huutP+cS81NYyTE0jqMDJS92Kz03iRogO0oUR8xuyHFzCDdQpyL+S
-         GN6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785845483; x=1786450283;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=JkdEkpDmK/siHWbsxxW9Vf3NMr3wTKTZgRi6uSb9CHk=;
-        b=dxM+/0KrKZSE56zFi3IkpxUGLipPjBBIEIUuHNpkctTvp1dyx3CLo96ecOH7bd+2LJ
-         lsHZnDly0ctenW6lAZKYDO/SRxfhisPl3qbg2IrrM1CF0nSh6WwBxniO4YXgVS+XqcpF
-         lHpeefqqWK68VHPXAOjDM0NGokCLngka4Oi6IDR7dd5H1TF46VCQQOsKHLSGj+9ATTyp
-         ZkCzz/jvczG5tiesbD9rm+rTlCO3iXySYx4P4cmzxlba5dXEGwr9g9MsGYPWcCS2Cw8k
-         OJPB1uQpYuTGHXa8pwN796KeDVmyXFu+AooE0WQHmmFG4CUaCAOQMgcafCllSa5MYsal
-         OS4w==
-X-Forwarded-Encrypted: i=1; AHgh+RpAJ6647EPJq1FYl13vg7ZkTx6ZJarco3Bz8zaCAuBcT3Jz4ikDxBlyYU0dYss9N3KbZw7Z0czo/XORdSt+@lists.linux.dev
-X-Gm-Message-State: AOJu0YydbhegmRyIK2I7Ow4LJu21t/4Fv7fpb0jAv9TNUEUgvnJykX+P
-	5IBrycCHhlSloRlUuhgkpTeX4D4ewLcTesVuxnDnXQF74j5mGsuctlPj
-X-Gm-Gg: AR+sD13kqdbpczkBliii2uSjID1ncPWrt2+SM5saz8bqeGvTB9I7zuH9TskDkesgBaK
-	VXs9Ee4B+7e3SHVss3ImUo6Hh23+wMxqry5ENjIq/jkl3w/7S0bImDwmz/Fx52kB18tcbqD2rkd
-	OuEgezD8nODoj5RYy2dkxw19l3dyzu4ATLlPZW+ObHVdSLhCS7ERx/iUEEFRU0A9jeyaFW6Or5r
-	SW4Q8hhqur7tUWlBAO2bOufI9kPSgGkAq+U9dN3me2pxBJUVygEmtOui4RnrBEgHv2/dHsbxpPO
-	ZGmqqAdK1jlMZY2cpGJ7ah2XL8WjDDlsJdChMDevx0YnNlL3SlZGQUw0EzZ7gPOOkUqFR6ZO86L
-	nR8O0Ys7dCAdp44jQS8qGIW1Mn+17t71zcT2mP8eZlDATsZtO9VKetFLKgowsvdryhAbFtIRjxd
-	gJdzestRHVAikruZS3xaEq3A7aGEFbrXZaj6hta2FE5cuCUbdcS2YBRQ==
-X-Received: by 2002:a05:6a00:300f:b0:84e:2bb:2d3e with SMTP id d2e1a72fcca58-84ee47e4825mr13869945b3a.9.1785845483364;
-        Tue, 04 Aug 2026 05:11:23 -0700 (PDT)
-Received: from localhost ([172.216.252.8])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84edc2d7c03sm5029337b3a.50.2026.08.04.05.11.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Aug 2026 05:11:22 -0700 (PDT)
-Date: Sat, 1 Aug 2026 00:23:07 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Hungyu Lin <dennylin0707@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] staging: rtl8723bs: clean up management transmit
- return values
-Message-ID: <am0SO51R2cyCfm9j@stanley.mountain>
-References: <20260731155228.22526-1-dennylin0707@gmail.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="NnHMSt9U"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BDDB1F000E9;
+	Tue,  4 Aug 2026 12:12:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1785845540;
+	bh=0eSn8Z7uDiyYbqI55o9lPDpkn1GD65aw80kC4aFQCW4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=NnHMSt9UCCilO38pc1PjVpFygIGsfGRSbVFpr3/dKQjZHV7HFvc0Kp+Sw+ZnrkW88
+	 KXjnzqnrqVpxourIQaXkyXAE4Q2pGhDKY/m6tPKEbaac9CCHz/9deNOz4dx30Gonlf
+	 T3JFBeVOWy0EqBoeHuJrTyroRTRbM/FxKrmQtiUg=
+Date: Tue, 4 Aug 2026 14:10:51 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Ashmit Kumar <work.ashmitkumar@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] staging: rtl8723bs: remove redundant ternary
+ operators from return
+Message-ID: <2026080428-passion-popsicle-9ffd@gregkh>
+References: <20260804111443.21758-1-work.ashmitkumar@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -76,37 +39,50 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260731155228.22526-1-dennylin0707@gmail.com>
+In-Reply-To: <20260804111443.21758-1-work.ashmitkumar@gmail.com>
 
-On Fri, Jul 31, 2026 at 03:52:25PM +0000, Hungyu Lin wrote:
-> This series continues the cleanup of management transmit return values
-> in the rtl8723bs driver.
+On Tue, Aug 04, 2026 at 11:14:43AM +0000, Ashmit Kumar wrote:
+> The Linux kernel coding style specifies that boolean expressions
+> do not need a redundant `? true : false` ternary operator.
+> Additionally, return is not a function and therefore parentheses
+> are not required.
 > 
-> Patch 1 converts rtw_mgmt_xmitframe_coalesce() to return kernel-style
-> errno values.
+> Signed-off-by: Ashmit Kumar <work.ashmitkumar@gmail.com>
+> ---
+> Changes in v3:
+> - Formatted as a standalone patch (removed 1/3 series numbering).
 > 
-> Patch 2 propagates the new return value convention through
-> rtw_hal_mgnt_xmit().
+>  drivers/staging/rtl8723bs/os_dep/osdep_service.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> Patch 3 makes dump_mgntframe_and_wait() return void, since none of its
-> current callers use its return value. It still uses the return value
-> from rtw_hal_mgnt_xmit() internally to determine whether to wait for
-> completion.
-> 
-> Changes in v2:
->  - Clarify commit messages based on review feedback.
->  - Make dump_mgntframe_and_wait() return void instead of converting it
->    to errno values.
-> 
-> Hungyu Lin (3):
->   staging: rtl8723bs: convert mgmt xmit coalesce to errno
->   staging: rtl8723bs: propagate errno handling for mgmt xmit
->   staging: rtl8723bs: make dump_mgntframe_and_wait() return void
+> diff --git a/drivers/staging/rtl8723bs/os_dep/osdep_service.c b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
+> index 4cfdf7c6234..214c1fd9b3e 100644
+> --- a/drivers/staging/rtl8723bs/os_dep/osdep_service.c
+> +++ b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
+> @@ -130,7 +130,7 @@ void rtw_buf_update(u8 **buf, u32 *buf_len, u8 *src, u32 src_len)
+>   */
+>  inline bool rtw_cbuf_full(struct rtw_cbuf *cbuf)
+>  {
+> -	return (cbuf->write == cbuf->read - 1) ? true : false;
+> +	return cbuf->write == cbuf->read - 1;
+>  }
 
-Thanks!
+This is only used in one place, right?  Why not convert it to use a
+proper ring buffer instead?
 
-Reviewed-by: Dan Carpenter <error27@gmail.com>
+>  /**
+> @@ -141,7 +141,7 @@ inline bool rtw_cbuf_full(struct rtw_cbuf *cbuf)
+>   */
+>  inline bool rtw_cbuf_empty(struct rtw_cbuf *cbuf)
+>  {
+> -	return (cbuf->write == cbuf->read) ? true : false;
+> +	return cbuf->write == cbuf->read;
+>  }
 
-regards,
-dan carpenter
+Same here, only used once, why not use the proper data structure?
 
+and same comments as on other one, slow down, full version info, etc.
+
+thanks,
+
+greg k-h
