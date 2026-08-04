@@ -1,37 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1DDA429033;
-	Tue,  4 Aug 2026 07:20:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC2E2421A15;
+	Tue,  4 Aug 2026 07:21:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785828051; cv=none; b=HutSOfgbev508nNjMjbL6PFwcBAv+/PWr/SncLAQqve+fjGCxEv4b/ljIwhth733MnTp76LmvY205XhfMkPHTwQA5L+1ZduPmAxmlQw89SIklMAE9Iudkc4lc4VWca4zwku/5swdMd2s5coTx46N5heEJVKpmEvfxx9UWKhRQR8=
+	t=1785828086; cv=none; b=pbpcoLuj8Oaj/BgSpkIAOuMfo2m7C+1tF8WiQKYlORul0lTtxidieQ5aX4wab3slmuSPZDWQmTvKe7KPBxsnKinSxiChGod6szNkoYsbWlQ6SpcYoIAvGkors7Zv6C/sbeXbSObben++d9MXhh1g3h92mQsQvZUieedfSWUcj3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785828051; c=relaxed/simple;
-	bh=W3fto8xk/dUb/aABHCl83zGDbw7jQ4ikv+ac6GUYQfg=;
+	s=arc-20240116; t=1785828086; c=relaxed/simple;
+	bh=XVFQZAh2fXvUxC6/2yoCDARgrYJ3NWoW6GU4Nb/wbNk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=peKkRWQ0qw8187ULcYX2IF1J+7du8aeChQ7mVdAHVpZDrniL8oKLnWmFDcAG6gcJCKTD2LsYhWq4cSW5C3/4jOTlZa1CY9T5tDp8xg+cfY979wwLkYLMNnOtEOdf2x+HBxfioF8ScpWoVA1WHF4NhfdgA1knwIzPe/WgLPh1IGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=HjzZf2st; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=rHASW5ZQQX3qqIDZmy3AedD0MJ/WgPM6yWtFcpdULem5nKYym3P4w4ea+rM5sBNsBUiufABodY2FznWwKLYTppV37FfOEm5Y1jw82AtCqM1hqqZ/TAau0xqVFtu8lD1UtKgf1gMtE23+TQyADZQ2O9wJx1ovjhS7vzLBLQNPYXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=vA70elR3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="HjzZf2st"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC0971F000E9;
-	Tue,  4 Aug 2026 07:20:49 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="vA70elR3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5FD81F00A3F;
+	Tue,  4 Aug 2026 07:21:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1785828050;
-	bh=4LHuRgmhftTScec4rlOBlz53cWChf0FAhtNKz+eYMzA=;
+	s=korg; t=1785828085;
+	bh=beArhH1oSmQbBeZCCYGI55332WAf03A4Glzw2xAMNRc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=HjzZf2stwrejMXTfxazuYtz4V8NWzcDjuLpve606eg68NLnDyGH7cZdfQdGGYvDUl
-	 JeVSYivCvPTVA5QYaqauWhJ67NmrWzq5wX0nav0JizvMdqebjCtDFWNMkXByUzde05
-	 cC0YGV45Nj7a2B6Jx9ZLKE5TbMGJKUgG8PXxVRxE=
-Date: Tue, 4 Aug 2026 09:19:22 +0200
+	b=vA70elR3ctUI8N26bZGc7wZQ54Q300ALifDciu+uITmtr6+DjfSK5hR+OU2B/P4ls
+	 6zNIwS0eLwmyh8y05FNTd6iZ7dPE0xG3J05mQxijoXqkA2A2PW8+UW6nm/IL97yLqT
+	 0XDUgW4qDwZz/0KnQWCsP2x2Ha8wCBQSrvqFO9aY=
+Date: Tue, 4 Aug 2026 09:19:56 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Pedro Amorim <pedro.aml.dev@gmail.com>
-Cc: pure.logic@nexus-software.ie, johan@kernel.org, elder@kernel.org,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: greybus: Align wrapped function parameter
-Message-ID: <2026080404-paging-runt-f506@gregkh>
-References: <20260803204743.335743-1-pedro.aml.dev@gmail.com>
+To: Ashmit Kumar <work.ashmitkumar@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: rtl8723bs: remove unnecessary parentheses
+ from return
+Message-ID: <2026080443-unneeded-judgingly-98ed@gregkh>
+References: <20260803180605.430-1-work.ashmitkumar@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,29 +39,72 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260803204743.335743-1-pedro.aml.dev@gmail.com>
+In-Reply-To: <20260803180605.430-1-work.ashmitkumar@gmail.com>
 
-On Mon, Aug 03, 2026 at 04:47:43PM -0400, Pedro Amorim wrote:
-> Align the wrapped function parameter declaration with the
-> kernel coding style to improve readability.
-
-Ok, but:
-
+On Mon, Aug 03, 2026 at 06:06:04PM +0000, Ashmit Kumar wrote:
+> The Linux kernel coding style specifies that return is not a function
+> and therefore parentheses are not required.
 > 
-> Signed-off-by: Pedro Amorim <pedro.aml.dev@gmail.com>
+> Signed-off-by: Ashmit Kumar <work.ashmitkumar@gmail.com>
 > ---
->  drivers/staging/greybus/loopback.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/staging/axis-fifo/axis-fifo.c       | 2 +-
+>  drivers/staging/rtl8723bs/os_dep/os_intfs.c | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
-> index ea57b1f5d156..374ff4c4ca15 100644
-> --- a/drivers/staging/greybus/loopback.c
-> +++ b/drivers/staging/greybus/loopback.c
-> @@ -589,7 +589,7 @@ static int gb_loopback_async_sink(struct gb_loopback *gb, u32 len)
+> diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
+> index 3aa2aa870ea..ed09be2fed4 100644
+> --- a/drivers/staging/axis-fifo/axis-fifo.c
+> +++ b/drivers/staging/axis-fifo/axis-fifo.c
+> @@ -246,7 +246,7 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
+>  		mutex_lock(&fifo->write_lock);
+>  
+>  		ret = wait_event_interruptible(fifo->write_queue,
+> -			ioread32(fifo->base_addr + XLLF_TDFV_OFFSET) >= words_to_write);
+> +					       ioread32(fifo->base_addr + XLLF_TDFV_OFFSET) >= words_to_write);
+>  		if (ret)
+>  			goto end_unlock;
+>  	}
+> diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+> index f31196f54b3..40793aa58d6 100644
+> --- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+> +++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+> @@ -843,7 +843,7 @@ static int _netdev_open(struct net_device *pnetdev)
+>  	netif_carrier_off(pnetdev);
+>  	rtw_netif_stop_queue(pnetdev);
+>  
+> -	return (-1);
+> +	return -1;
 >  }
 >  
->  static int gb_loopback_async_transfer_complete(
-> -				struct gb_loopback_async_operation *op_async)
-> +	struct gb_loopback_async_operation *op_async)
+>  int netdev_open(struct net_device *pnetdev)
+> -- 
+> 2.43.0
+> 
 
-You didn't align it here :(
+Hi,
+
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
+
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/process/submitting-patches.rst for what
+  needs to be done here to properly describe this.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
