@@ -1,61 +1,61 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F67F45D180
-	for <linux-staging@lists.linux.dev>; Tue,  4 Aug 2026 11:15:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 457A2459AEE
+	for <linux-staging@lists.linux.dev>; Tue,  4 Aug 2026 11:15:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785842123; cv=none; b=Qbx6dZdnDrR+/j0W5jQ2nNmeZzQUdxx8dbwck7wvpM3nyuG0kv+aPd7Iz0g9LWgSdEU67+i7ApIbCxIyTh1DGDV7YP8tRlb+ck1v0mZVc6bawGOpIQrPJEYZLyf8j7MxswfLFX9ATyEGmec90WClQ28DFPS6B2plhG0h+dgRjpA=
+	t=1785842156; cv=none; b=PkaeHe6oMdrleikMytlU3TymsCol4z2vgaWEvoPXPw1mXCndAJ8aClc5LXRG7PhzkfDf2BjyApCZp02fmBHp/jzbWeLXXOxIzfrmzaR4r8W0egRP/SKtoNMEtiOV4z5HvToTtVvcDuZGHOy4gRfiZ9TAodxmuVgtSiC6kGCgaSo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785842123; c=relaxed/simple;
-	bh=uUSiEeKC5Jhes4/hJQI0INTXZFTq0Jt5W/fbROuMR2s=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Vpci+fm13Eeotg5AM4Mafj7q/g6Ene2gXN2qI6HJcwmm7FmhzyrFx/RdcWjdjT9+wOaeXdJ8UEVJ7e6Me6nEw59A/hPDc9ZDMleLTVXsPPXfkVvS2+LJGfI0XuiEn04PkTaId9+VutswMz1jd4N1ptqbgDC5C4dZAeeVfdhIWZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jqDtXElj; arc=none smtp.client-ip=209.85.216.53
+	s=arc-20240116; t=1785842156; c=relaxed/simple;
+	bh=IUwU/nLGHeCRsSHhulF9+tBrCHQUzPIiNTn1o7uFxQE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DgGKj1JLfO4GJmCFMarPOW3q9ETcVizw1mo2a5Uv6IHNugt4Uddklc+zLXxsbne2vUgpbMTHPPsMzQF6q/YNvDGUkUtzzmTd7/D7QVFE9cXhP06U9PCH5e4hhF7MZNJtTFMQvE1QY9CVE/eL2J25mFxCPWQ/OUDXLYQj+oNn5DE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TItKe1Mf; arc=none smtp.client-ip=209.85.216.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jqDtXElj"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-38e07ebd263so2730426a91.1
-        for <linux-staging@lists.linux.dev>; Tue, 04 Aug 2026 04:15:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TItKe1Mf"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-38e42560ebcso3414247a91.1
+        for <linux-staging@lists.linux.dev>; Tue, 04 Aug 2026 04:15:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785842120; x=1786446920; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1785842154; x=1786446954; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=OFBSUwUZyXCkVYgyiIaRGQdZLsjpXGpbkt70ey0xKsA=;
-        b=jqDtXEljNxR67c2UZcJBTuI3eit063z20ztZ7QiWrgM8p9DTffMEXx3f41uEYCmhMn
-         i2H5kWnTfgIo0kXp/C32wt8980yDiQ2XzK51TU8fyoUNIO62+yYTageZgihtRuGRWO6K
-         OhmYIUdsyRrZPktLkVa555+E7d8odtBgO1qW0zToqARB+sCIktpGPzBYnbbRVN38NrmH
-         rRSet0Ub1dBVgVj4x76TxoLGIovmr2Ac3P3R6TZk9BwGGN3lxn3iVi0ApU8OTFCSQSxB
-         0caJsLBKqQ/XoKPndiSxiLxkSYX4c5CaaQ0NorwFooL/rjb36sG7LvBDSi8g50IFqvNv
-         7cig==
+        bh=GFND/opO8GqY6sjWo2/QuYyoYB46IVuPSxGS5+qnPKw=;
+        b=TItKe1Mf0z31L+Kn0sej5KYMcHTCsHmoFi1d744+0OO9Wxz/DP3gPuoA7XLfHmNW39
+         PQYQhEuPxp3GGppvlgC7LBIixhtd6ZgMhOOec15Uc/VWe+HsxBSjlnJ+ANKHTtJVsSJf
+         d6INKJkArrLGb//GBARvFaJaocyjZNV2ZFNioAeTR5z9BiLLfwgITcs0HW5jbious65c
+         hQWIe+sN2mKkZ842znJ56XOLTBcAKe4X/AZ88V0vm/MVnIAUJv19S9wI9P6whfY/YsUW
+         psvCof30o7CKtb8kWoTsIs8noK0sjXeJI4Edrp4ArXVplmblG8bRTjThEIS+JwKwft7G
+         We2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785842120; x=1786446920;
+        d=1e100.net; s=20251104; t=1785842154; x=1786446954;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=OFBSUwUZyXCkVYgyiIaRGQdZLsjpXGpbkt70ey0xKsA=;
-        b=Rrxs1c+LmcdhWSotekzI8fjSGMY7FbMK30otqNj96IsPptGdSyg8gNdUx5QQmRqtS2
-         8iSpV43xBCf00eBZ4vL409Vdo8/7lBpNnSveP8OJPYVEbTMQMmCVcohrYAs85gdfdE5R
-         5oVM5eKuJJKgegFbZ2d3mlylC5230vnjdohA/bWm7Fki5TKU0eiPbPPIA0Lr0Nx5p0ej
-         aHYDL5ScEoJ2Tq8HvDFoexaftcz/cujkVN4ZwRJcj2YqfYOo22qeySSXk5IWbceEVP2N
-         lbIlh8Pc4ChAI/phHT9D87B0R6bGgDil5MoRjRm9P/AhwBvBOFA1Z9cSMFlqOsjtoypt
-         XDTQ==
-X-Gm-Message-State: AOJu0Yy2nMhm1DbBP5da8ODr7aWp5RRd+iucJ093sxaYq0oB33A+46Z3
-	PtTna0F1dBge0c1vBIEx5FDSzIzk/ptz7oIxpdYURFBxeJ0w3SHvANoh
-X-Gm-Gg: AR+sD10MH8/hK1gxifXst1okKUK92knBoajY2k7gBtfQnCgANQiZ6e55LMnVichB7Mp
-	ZkqLldfpXFHV83Qm2UzkgTkiDmCLIUb88/zmXI5zhb+JJUIT9oePsqVT9sw8RfFrRLVVzsuJXtZ
-	rDlK81Ogmrh+yWJQVs2/+5nPJI/OjXsNOTFGKmsCEJxTulaL2nWjiQ1ufSoHIluofl/kgpvf+rI
-	mOK1Tvm2+jMeA2+I0mWTF2MIfdiphR34mzHnKibZhBXFt5+ENb8yaKfZWADBQL/mHXzSWknPNbn
-	me/WweiYhoIFEIoJYDRYw3q+Du1pI4S0NlqSgmKPsOaKne2dyEm0sw/f+fOB5H6X5BHAQga0NkH
-	dUOSmlv4wLDJybNUmrFpyemZTjxfQJWRlA4OHejQ3reMeYrqAxGQ3Ox/68brT7cPaK8FinxzlZk
-	YHP7l0fxMtBZBW0H/NULVdXD4VVO1zs72JMKiiq7rFMyAYgzMMvqG3XCgwLUXKKqGcM6Hyib6DM
-	F/kZd4=
-X-Received: by 2002:a17:90b:3912:b0:38e:6a44:671b with SMTP id 98e67ed59e1d1-38fbc0a436emr13244133a91.0.1785842120417;
-        Tue, 04 Aug 2026 04:15:20 -0700 (PDT)
+        bh=GFND/opO8GqY6sjWo2/QuYyoYB46IVuPSxGS5+qnPKw=;
+        b=tOluNqn6gNntSEW8fi1qZ9Sc9IRU5+6bI5g6+ekzvc4BHEiMemDlawUt/wLDenzdv5
+         qZc7OhU2GPas8bKvWXbsDCVo8XWJ+dGgSskcyGUfmtYUVMLkjjkpiBplIbiLtPgBRcJw
+         fy2nH6/8DYw/Ui4ijg3X4LjeJ39w97OHB++lakw2cYTqWS8q+wylz4+FWGvK+rircgYQ
+         f4+MtTAx77U1QOX2l++X2gE2/NZPiCZOdtNWvTzJnDw63k1KydSEblm4AY07M2wDgGvl
+         EfQ4Y9c6/G1HGztunYQGnilcKUZfA3fBtmnnL4mf0LGkUGNBSFVxlBWtNchpMrR63s4s
+         hXGA==
+X-Gm-Message-State: AOJu0Yxoo04L0GG1SqemSZI/daEx16beWf66dS9/MRAoQYiZnsuhzZY6
+	DFUD8YHXfZb5L0/9IEPuMu3IhWH/6I5QgrAwRMIrT73sh9Xrda8SClVc
+X-Gm-Gg: AR+sD12cU60gA84f8sqa/zcd7dUDNvgk49BLX/bPG3V/JCYptiIH2MjsmsxE+SBuAfS
+	AjZ+ul8EIgjoI+oK+qB5rUZjknON+Af9mbcnKKGbUsm89BdTH3yd431ivT2l8G54e0MVzeFeHUb
+	dL9UXab9TzJKl2j67lasN8r+tU6mQ/M0PNCBNket5ZHjcrWjiw5rZ2Xo4Bx89n/42zNvR+lkR5l
+	EGaAsUXfK3fSXhauCfmQquW2HLPvF7hWNJPeGwbeBjVVysSyYcMjFQcEMDz8VPpFXrqdEmV3vmx
+	ertVETDqt9X7/M8UBfhDS7NkTd4SrYBpcbEGVjl32cWEkhhi0gf+/YofdkwjM19JWkcsrkFCoka
+	LpOiBaoz321I/MmJwm1tu2cMSK3yr1ZNE27E/O8EJWJvufBMM2HSgt4GyNbWZapR+OH7yHdGNEC
+	Gx440qkqxA5kB2Smg/7UsgHfF9wkTLWaTd3lg1Kb5kPDAiNzP9llC6XBa1n5PXvMVboYBbLoCJF
+	ujGOdM=
+X-Received: by 2002:a17:90b:1dc3:b0:38e:673:5d18 with SMTP id 98e67ed59e1d1-38fbc555340mr12128687a91.36.1785842154278;
+        Tue, 04 Aug 2026 04:15:54 -0700 (PDT)
 Received: from Vicious.localdomain ([103.37.82.147])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-13fca50acddsm2750601c88.3.2026.08.04.04.15.17
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-315863b0c61sm4200044eec.6.2026.08.04.04.15.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Aug 2026 04:15:19 -0700 (PDT)
+        Tue, 04 Aug 2026 04:15:53 -0700 (PDT)
 From: Ashmit Kumar <work.ashmitkumar@gmail.com>
 To: gregkh@linuxfoundation.org,
 	mchehab@kernel.org
@@ -63,9 +63,9 @@ Cc: linux-staging@lists.linux.dev,
 	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Ashmit Kumar <work.ashmitkumar@gmail.com>
-Subject: [PATCH v3] staging: media: av7110: remove unnecessary parentheses from return
-Date: Tue,  4 Aug 2026 11:15:04 +0000
-Message-ID: <20260804111504.21958-1-work.ashmitkumar@gmail.com>
+Subject: [PATCH v3] staging: media: ipu3: remove unnecessary parentheses from return
+Date: Tue,  4 Aug 2026 11:15:38 +0000
+Message-ID: <20260804111538.22300-1-work.ashmitkumar@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -81,33 +81,24 @@ and therefore parentheses are not required.
 Signed-off-by: Ashmit Kumar <work.ashmitkumar@gmail.com>
 ---
 Changes in v3:
-- Formatted as a standalone patch (removed 2/3 series numbering).
+- Formatted as a standalone patch (removed 3/3 series numbering).
 
- drivers/staging/media/av7110/sp8870.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/media/ipu3/ipu3-css.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/av7110/sp8870.c b/drivers/staging/media/av7110/sp8870.c
-index 29fb4934c03..83c6ee305d6 100644
---- a/drivers/staging/media/av7110/sp8870.c
-+++ b/drivers/staging/media/av7110/sp8870.c
-@@ -92,7 +92,7 @@ static int sp8870_readreg(struct sp8870_state *state, u16 reg)
- 		return -1;
- 	}
- 
--	return (b1[0] << 8 | b1[1]);
-+	return b1[0] << 8 | b1[1];
+diff --git a/drivers/staging/media/ipu3/ipu3-css.c b/drivers/staging/media/ipu3/ipu3-css.c
+index 8063401246f..84fc98dd352 100644
+--- a/drivers/staging/media/ipu3/ipu3-css.c
++++ b/drivers/staging/media/ipu3/ipu3-css.c
+@@ -1400,7 +1400,7 @@ bool imgu_css_pipe_queue_empty(struct imgu_css *css, unsigned int pipe)
+ 		if (!list_empty(&css_pipe->queue[q].bufs))
+ 			break;
+ 	spin_unlock(&css_pipe->qlock);
+-	return (q == IPU3_CSS_QUEUES);
++	return q == IPU3_CSS_QUEUES;
  }
  
- static int sp8870_firmware_upload(struct sp8870_state *state, const struct firmware *fw)
-@@ -167,7 +167,7 @@ static void sp8870_microcontroller_start(struct sp8870_state *state)
- 
- static int sp8870_read_data_valid_signal(struct sp8870_state *state)
- {
--	return (sp8870_readreg(state, 0x0D02) > 0);
-+	return sp8870_readreg(state, 0x0D02) > 0;
- }
- 
- static int configure_reg0xc05(struct dtv_frontend_properties *p, u16 *reg0xc05)
+ bool imgu_css_queue_empty(struct imgu_css *css)
 -- 
 2.51.0.windows.1
 
