@@ -1,67 +1,68 @@
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EF5F3CF943
-	for <linux-staging@lists.linux.dev>; Wed,  5 Aug 2026 18:23:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 868CC3D4137
+	for <linux-staging@lists.linux.dev>; Wed,  5 Aug 2026 18:23:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1785954221; cv=none; b=cnMNisCsVvvBFOOAWW5pKs7zLVAHHSKRy9jHpOXj7GBpQTvff1h+Glkyrg9tURlZwWo49I5hlGaMLHLx1kjyRy8b6c+HFzVMnsISTAERQFfMMLRaaA02ZOD7DyKDqxZ5gLmLGWVleMgVcGLRy00Rwo5djjht/7K/kw6ewSd4xo0=
+	t=1785954222; cv=none; b=qgjGJ4b7IOnEP42tKTDxDUwtQ7ILr7b1G1kFljUrwAD8tuBzr5RUEPrG4GS2EFgY3GBbMa5LGJNKzaGYLyZtATL6RJjq/MloEch8/mHkQcYzC85xD6mdWglKEtQCKc8rkN8budCL41SEIJZbBEMgoJkb/N9vdQj1UiX2m5/cpT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1785954221; c=relaxed/simple;
-	bh=1eEGL7A0dMavzZrvhCKZT8bMnGIebqmL+KjF3tzRagc=;
+	s=arc-20240116; t=1785954222; c=relaxed/simple;
+	bh=b54ks5RNORzdzaeeeOGGQzaGcigoOryJQNXEuvkvRQ8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=rPrpEFMCgY0SzB/bFixggN0LEthfdiUa0P3UQyyaishkmrLyFTrm4iTTJA6+vwIgNfqckq03M7S9KInCsnb8zoT79+SN+Kwg9MwDv/gjEg37hU4za1ZYUZFlX9HHVXglTb/6EBfugFHcHtZAx6CaeXOLcaZYnoJOr8CXE1s2aeo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=atz+kjmR; arc=none smtp.client-ip=209.85.208.169
+	 In-Reply-To:To:Cc; b=lWzw98/C3UDLDRa8DN3DM7J9gVlz0gcJr+xiPovZ2AU/jVzjvMTq3EB+AaG4FNsupqsikpHVMp3IVSji80Eyw69z0J5NsjY9ShYsObtPHXE5Fa57agzr0QlbobiHMsL7C7Z+XuUjV20qswjgala9YJ6ZEhh9kU9C4TF2yuMe8ew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A0nm8l9K; arc=none smtp.client-ip=209.85.208.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="atz+kjmR"
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-39c8dbf4f38so12539321fa.3
-        for <linux-staging@lists.linux.dev>; Wed, 05 Aug 2026 11:23:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A0nm8l9K"
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-39c9a3acd40so11570121fa.3
+        for <linux-staging@lists.linux.dev>; Wed, 05 Aug 2026 11:23:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1785954217; x=1786559017; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1785954219; x=1786559019; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=mciNMHer4yecSnmT/u7HJTGY8Xf5T8qm1lfeFBZ+yes=;
-        b=atz+kjmRqTkjmMnq+bOJU9xg53v+T309xfTpZVGrJpJBP/jf28T+XNrJPuqLzlv91/
-         HjFqrcAf7YSUMC20ua1Hqf97jAm5of2hR6PbR0U1sShpl/p0YAH1uTg0EbTK89AWSCbP
-         uPeoSWoIsynAIXRGpHZmlsIvHex/bMDgwHfNRXgqjGHT2FovNi/YiR0TVZJ3/621qvf3
-         JmUPYZSQDfTLg4DLXjaOa0HlAEiJwEtMzi2QSr2yeElUX4sj4vaTa5FY+vc1trt+LsZ1
-         cK/yXizH3lsh5fPvHvoTLFIBktZLwn0o9r1IbDLkyaRFzZjb7rV6KH6eNIoLpNzwfLBI
-         7zsA==
+        bh=/etY9O7l1mJNeqKFZj30VOo1bjana+xUrE/MK1RUdyE=;
+        b=A0nm8l9KIsWbRUhGJSjrE183P2gQtUOF+A++a6JkSBocvQFqTDV6LJRwoz6JOWYGu0
+         ZBf15BEVczjiUnW2ENbrIP9hBlL+jAgOS5JAsaiqxJ+2+aHp3aN8CJ6ss2skyQdhDyNO
+         MeQsndo93MFxhHaNc4EntE//Vlfjyak/Z0iQ4aZAca/f3NK3N6383BiMtZEPHVooS7VF
+         Sfix4Eo6x2RqSP7mv4/tsIfeyT/e1iYw2f6DkIo13DOJjz1UOsLywdCz4hC67XXD9LwX
+         XCsiCKemaaM76mVhlKTmk6QCMyATEUc2/voGf+ah0SzzpIgql11sC9U3IBt/RjI+Ccah
+         a2IQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1785954217; x=1786559017;
+        d=1e100.net; s=20251104; t=1785954219; x=1786559019;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=mciNMHer4yecSnmT/u7HJTGY8Xf5T8qm1lfeFBZ+yes=;
-        b=rx82erCWTrDuvY5QkghYhTuZ6zuw30jQ0fvJTTRv1d5y8wbcE6toMygrYBbqzREYoT
-         HBQR3ZtxzgZxGb100I1zFrlvOmp0S4a1mKwfdpuz9Dl90Zl0KVUmzrH1AE11T1xuVyXq
-         fd03zISpilvjWEWJfUPLVcCPBHK+Db2F3J1fi+JPTsb8YwQtwG0hCH7sUmVV9bfdWylo
-         fsokvRCBTZ3APLLgFUcu5DjjLYXFP4Sjh0VrLKtNQPD0dmnmqeglBggjYo77LdttSRgy
-         EBzYvHZAmcFs+64GCbVfpHPO9noiXyfP0woUAdYXZ1kMwnQChbp8Pfx7MGOTUbN+tMS/
-         9c5Q==
-X-Forwarded-Encrypted: i=1; AHgh+Rpyac4CUkehKBRvnwkdnRQYarVW84SjA62GVS1QcakpzmjAxiXJ5rj55AG/oKe93rJEf3p7kr8PWkHsth9w@lists.linux.dev
-X-Gm-Message-State: AOJu0YxNgMcSTLRaaTMM0EPN7zbfcv7g5AP699TH9O6V1lJUDstrJz+O
-	ziqNHSkUdHZsZnqNyh5lYNv13+K7WyjTjxW71IHrDtWA+IeNGsseTFElz4c5uQ==
-X-Gm-Gg: AR+sD13PXnB7gY1Ns04EOJw2cLADNNXSRRjcY+7xiSD5Y0BjSNZ1MLPcmI0QsaxZHP2
-	P09yj/NUEX1qW09b0i2K6keSzqqoKAcivVLieIWeMnHfvNQG+aPQyBahKVw+IdYCQDbZ+ZJStBo
-	rEazgCwp300xRGgueJEVAFMvT8oh6TGtyerqgB+gmVuhpFgLNYCRqiyQOqGM6zWQhu3ubBJE5qs
-	ibcj9wWjpjZ0lw+T4xmieUi58suRHF6SMVHEmnYNuuvV2uDnFNq02uebFVg/Cdt4P9omf+dbgG2
-	yBOFQ3C40KS51FShtQXhlxV6QsW4p27BcA2+WNlWMP66qbmm6zTLft69ouW0MWjFf8d4zhPgWui
-	jK4vxOPHX1AYW4umBDbBCRWdHe/qF3Hdc3nYARsWEJH9OkCKoThDftUxKu7YGa09bzKOz/fka3Q
-	qOa2m6IhTYxsvo6plnE532jW7cKPzcy09Av2CZ3ETtjd8M3HEi/6K5CH6AbywVuowtA+vEPA==
-X-Received: by 2002:a2e:bc25:0:b0:39b:2b7d:9c77 with SMTP id 38308e7fff4ca-39fbb22aba4mr11456861fa.30.1785954216734;
-        Wed, 05 Aug 2026 11:23:36 -0700 (PDT)
+        bh=/etY9O7l1mJNeqKFZj30VOo1bjana+xUrE/MK1RUdyE=;
+        b=YcWcgtsRruY3NXmyHL0Nm5JTSraEz9crgH7kQ+GpuPgyKIjmak7Lw+ChgAcQZJpRNB
+         xZzvqFZwyvboJcbNInyMTob4BFB8Byiah18xnJ4SGL6SXxRN4gwfy0/kSsSz3eUDl4ZI
+         7ZKZS8HMVzlemoPgShGkeoCTuhsLqOGzcOzY/Oj73TFx2p8hDAObKjk/xYKT4E0VNTXn
+         YftR4n7T2hVpZVqF8yJDr/kZJgpEihgaHdl6ZrEbEqLI2E61YE6LHycRI1UB1l0lB6G+
+         KCYHL/Nn0n5Kx1CH1921p/6kD8qPBeDqqlGpcdo9zycJr+vZF4ewWWUzy30BYvARYWvl
+         olbg==
+X-Forwarded-Encrypted: i=1; AHgh+RoqQ2VI0/Ek2qFxTRulF3sDr7NsP1BZesnNExTIlHqEzxdmxjM8WmLad/UyqkxGMJDfDlE+/GJvRc6Yl8Yq@lists.linux.dev
+X-Gm-Message-State: AOJu0YxNfeQML8xbeksNjPWh0rszLbiNss/TT0IMeT1Yc+OtAwZG3BaJ
+	wTlKwhP3YQBcR2nr5UypvZaY4WPfB90V8oKBa3vhIfGaEysgQSx/VriMd8YVGg==
+X-Gm-Gg: AR+sD10qB5ExR1Ao9WxfttK2LPes9mqtwk2h07vxZJi8jIKOTOSFYdqAPeiZ7EWQXAG
+	PBexL0LDhLg64wpiG4i6OR2Ke2AnACgpB9o+bIxJzAMrMRySvUpn5r587j4vxchzwAOJuCAyLF3
+	hSeH9NHKTdOfZ6oi9wTxjFKtttON+XKmv0l5GgbLnn1KbjTsfdxiElxWbxvnuw4qn4s1X12ikLc
+	b8IbBnqAIEyWRX6VkvV9E6pxIZU/3QUxcuX8w/7iXpn6GQtFmPPEYTPcoBF6BO3OqECkAEzREpX
+	/9wFUZxt7ckgTrovsF1qo0Q85mbT2cWu3HM00SSdTRsF55ol2PGuyz5UZlzoH+ZT2XEMXfeP9U1
+	8RxQ9k84WuaPSWc16wTNyEtE3OMzK8/nOxziD/mKg/YWur+mXhd9oSU+35fwCRf4WtuMGQF1I6r
+	fjTRHHLl4zPoSWHD6ZuY6SJHUrnbvja1WZiD8dznWErro4uyjAjyqAZSP6Aehe5S31AtKQqw==
+X-Received: by 2002:a05:651c:1993:b0:39b:2757:c1d3 with SMTP id 38308e7fff4ca-39fbae29cffmr10788271fa.9.1785954218658;
+        Wed, 05 Aug 2026 11:23:38 -0700 (PDT)
 Received: from [192.168.243.250] ([94.229.19.199])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-39fb9a32bb7sm11954811fa.29.2026.08.05.11.23.35
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-39fb9a32bb7sm11954811fa.29.2026.08.05.11.23.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Aug 2026 11:23:36 -0700 (PDT)
+        Wed, 05 Aug 2026 11:23:38 -0700 (PDT)
 From: Nikolay Kulikov <nikolayof23@gmail.com>
-Date: Wed, 05 Aug 2026 21:23:07 +0300
-Subject: [PATCH 3/4] staging: media: ipu7: remove unused abi enums
+Date: Wed, 05 Aug 2026 21:23:08 +0300
+Subject: [PATCH 4/4] staging: media: ipu7: remove unnecessary "#pragma
+ pack()" directives
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -70,7 +71,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260805-ipu7_abi-v1-3-46d420cef267@gmail.com>
+Message-Id: <20260805-ipu7_abi-v1-4-46d420cef267@gmail.com>
 References: <20260805-ipu7_abi-v1-0-46d420cef267@gmail.com>
 In-Reply-To: <20260805-ipu7_abi-v1-0-46d420cef267@gmail.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
@@ -80,559 +81,94 @@ To: Sakari Ailus <sakari.ailus@linux.intel.com>,
 Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
  linux-staging@lists.linux.dev, Nikolay Kulikov <nikolayof23@gmail.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1785954209; l=19244;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1785954209; l=2463;
  i=nikolayof23@gmail.com; s=20260402; h=from:subject:message-id;
- bh=1eEGL7A0dMavzZrvhCKZT8bMnGIebqmL+KjF3tzRagc=;
- b=79L5BphP9T/TJQUwVw9nDCE9H22fFJSx33DVR2VOOj93FyK+4XvJak8l2BfAIIkLoJfzzdPip
- fzpSD5eJ0BTAKy61f7SxSxB6gbVT+QZFWrWLpuvPmJveOG2PMJ3fe+J
+ bh=b54ks5RNORzdzaeeeOGGQzaGcigoOryJQNXEuvkvRQ8=;
+ b=4eo1I39brWWCs0IUeATVCS5ndG8QZkYOSCVi//iFbniZQwQWN+4W9556F5oQikt39mz3Gypcr
+ YpXAbp0+zAUDYx7GmRBr7/Lp1blbWYuBtoGv/jTFXb5folTRXWsXue9
 X-Developer-Key: i=nikolayof23@gmail.com; a=ed25519;
  pk=2GWUU1isl5NJpkwSCQ4OG80EinZ3EUZXlrgAg6Pz5zI=
 
-These enumerations and their members are defined but never used, so we
-can remove them.
+After the removeal of unused structures, these directives have no effect
+and can be removed.
 
 Signed-off-by: Nikolay Kulikov <nikolayof23@gmail.com>
 ---
- drivers/staging/media/ipu7/abi/ipu7_fw_boot_abi.h  |  44 ------
- .../staging/media/ipu7/abi/ipu7_fw_common_abi.h    |  22 ---
- drivers/staging/media/ipu7/abi/ipu7_fw_isys_abi.h  | 150 ------------------
- drivers/staging/media/ipu7/abi/ipu7_fw_msg_abi.h   | 170 ---------------------
- 4 files changed, 386 deletions(-)
+ drivers/staging/media/ipu7/abi/ipu7_fw_common_abi.h |  6 ------
+ drivers/staging/media/ipu7/abi/ipu7_fw_msg_abi.h    | 20 --------------------
+ 2 files changed, 26 deletions(-)
 
-diff --git a/drivers/staging/media/ipu7/abi/ipu7_fw_boot_abi.h b/drivers/staging/media/ipu7/abi/ipu7_fw_boot_abi.h
-index 00c04ee8dd0b..c65c88101234 100644
---- a/drivers/staging/media/ipu7/abi/ipu7_fw_boot_abi.h
-+++ b/drivers/staging/media/ipu7/abi/ipu7_fw_boot_abi.h
-@@ -30,18 +30,13 @@ struct ia_gofo_logger_config {
- enum ia_gofo_buttress_reg_id {
- 	IA_GOFO_FW_BOOT_CONFIG_ID = 0,
- 	IA_GOFO_FW_BOOT_STATE_ID = 1,
--	IA_GOFO_FW_BOOT_RESERVED1_ID = IA_GOFO_FW_BOOT_STATE_ID,
- 	IA_GOFO_FW_BOOT_SYSCOM_QUEUE_INDICES_BASE_ID = 2,
--	IA_GOFO_FW_BOOT_UNTRUSTED_ADDR_MIN_ID = 3,
--	IA_GOFO_FW_BOOT_RESERVED0_ID = IA_GOFO_FW_BOOT_UNTRUSTED_ADDR_MIN_ID,
- 	IA_GOFO_FW_BOOT_MESSAGING_VERSION_ID = 4,
- 	IA_GOFO_FW_BOOT_ID_MAX
- };
- 
- enum ia_gofo_boot_uc_tile_frequency_units {
- 	IA_GOFO_FW_BOOT_UC_FREQUENCY_UNITS_MHZ = 0,
--	IA_GOFO_FW_BOOT_UC_FREQUENCY_UNITS_HZ = 1,
--	IA_GOFO_FW_BOOT_UC_FREQUENCY_UNITS_N
- };
- 
- #define IA_GOFO_FW_BOOT_STATE_IS_CRITICAL(boot_state) \
-@@ -73,49 +68,10 @@ struct ia_gofo_boot_config {
- #define IA_GOFO_BIST_DMEM_FAULT_DETECTION_ERR	0xdead1000
- 
- enum ia_gofo_boot_state {
--	IA_GOFO_FW_BOOT_STATE_SECONDARY_BOOT_CONFIG_READY = 0x57a7b000,
- 	IA_GOFO_FW_BOOT_STATE_UNINIT = 0x57a7e000,
--	IA_GOFO_FW_BOOT_STATE_STARTING_0 = 0x57a7d000,
--	IA_GOFO_FW_BOOT_STATE_CACHE_INIT_DONE = 0x57a7d010,
--	IA_GOFO_FW_BOOT_STATE_MEM_INIT_DONE = 0x57a7d020,
--	IA_GOFO_FW_BOOT_STATE_STACK_INIT_DONE = 0x57a7d030,
--	IA_GOFO_FW_BOOT_STATE_EARLY_BOOT_DONE = 0x57a7d100,
--	IA_GOFO_FW_BOOT_STATE_BOOT_CONFIG_START = 0x57a7d200,
--	IA_GOFO_FW_BOOT_STATE_QUEUE_INIT_DONE = 0x57a7d300,
- 	IA_GOFO_FW_BOOT_STATE_READY = 0x57a7e100,
--	IA_GOFO_FW_BOOT_STATE_CRIT_UNSPECIFIED = 0xdead0001,
--	IA_GOFO_FW_BOOT_STATE_CRIT_CFG_PTR = 0xdead0101,
--	IA_GOFO_FW_BOOT_STATE_CRIT_CFG_VERSION = 0xdead0201,
--	IA_GOFO_FW_BOOT_STATE_CRIT_MSG_VERSION = 0xdead0301,
--	IA_GOFO_FW_BOOT_STATE_CRIT_WDT_TIMEOUT = IA_GOFO_WDT_TIMEOUT_ERR,
--	IA_GOFO_FW_BOOT_STATE_WRONG_DATA_SECTION_UNPACKING = 0xdead0501,
--	IA_GOFO_FW_BOOT_STATE_WRONG_RO_DATA_SECTION_UNPACKING = 0xdead0601,
--	IA_GOFO_FW_BOOT_STATE_INVALID_UNTRUSTED_ADDR_MIN = 0xdead0701,
--	IA_GOFO_FW_BOOT_STATE_CRIT_MEM_FATAL_DME = IA_GOFO_MEM_FATAL_DME_ERR,
--	IA_GOFO_FW_BOOT_STATE_CRIT_MEM_UNCORRECTABLE_LOCAL =
--	IA_GOFO_MEM_UNCORRECTABLE_LOCAL_ERR,
--	IA_GOFO_FW_BOOT_STATE_CRIT_MEM_UNCORRECTABLE_DIRTY =
--	IA_GOFO_MEM_UNCORRECTABLE_DIRTY_ERR,
--	IA_GOFO_FW_BOOT_STATE_CRIT_MEM_UNCORRECTABLE_DTAG =
--	IA_GOFO_MEM_UNCORRECTABLE_DTAG_ERR,
--	IA_GOFO_FW_BOOT_STATE_CRIT_MEM_UNCORRECTABLE_CACHE =
--	IA_GOFO_MEM_UNCORRECTABLE_CACHE_ERR,
--	IA_GOFO_FW_BOOT_STATE_CRIT_DOUBLE_EXCEPTION =
--	IA_GOFO_DOUBLE_EXCEPTION_ERR,
--	IA_GOFO_FW_BOOT_STATE_CRIT_BIST_DMEM_FAULT_DETECTION_ERR =
--	IA_GOFO_BIST_DMEM_FAULT_DETECTION_ERR,
--	IA_GOFO_FW_BOOT_STATE_CRIT_DATA_INTEGRITY_FAILURE = 0xdead1010,
--	IA_GOFO_FW_BOOT_STATE_CRIT_STACK_CHK_FAILURE = 0xdead1011,
--	IA_GOFO_FW_BOOT_STATE_CRIT_SYSCOM_CONTEXT_INTEGRITY_FAILURE =
--	0xdead1012,
--	IA_GOFO_FW_BOOT_STATE_CRIT_MPU_CONFIG_FAILURE = 0xdead1013,
--	IA_GOFO_FW_BOOT_STATE_CRIT_SHARED_BUFFER_FAILURE = 0xdead1014,
--	IA_GOFO_FW_BOOT_STATE_CRIT_CMEM_FAILURE = 0xdead1015,
- 	IA_GOFO_FW_BOOT_STATE_SHUTDOWN_CMD = 0x57a7f001,
--	IA_GOFO_FW_BOOT_STATE_SHUTDOWN_START = 0x57a7e200,
- 	IA_GOFO_FW_BOOT_STATE_INACTIVE = 0x57a7e300,
--	IA_GOFO_FW_BOOT_HW_CMD_ACK_TIMEOUT = 0x57a7e400,
--	IA_GOFO_FW_BOOT_SYSTEM_CYCLES_ERROR = 0x57a7e500
- };
- 
- #endif
 diff --git a/drivers/staging/media/ipu7/abi/ipu7_fw_common_abi.h b/drivers/staging/media/ipu7/abi/ipu7_fw_common_abi.h
-index dab4476f83ff..b85dcc519a31 100644
+index b85dcc519a31..40c7843ad7a7 100644
 --- a/drivers/staging/media/ipu7/abi/ipu7_fw_common_abi.h
 +++ b/drivers/staging/media/ipu7/abi/ipu7_fw_common_abi.h
-@@ -49,18 +49,6 @@ struct ia_gofo_msg_err {
+@@ -29,9 +29,6 @@ struct ia_gofo_msg_version_list {
+ 
+ #pragma pack(pop)
+ 
+-#pragma pack(push, 1)
+-#pragma pack(pop)
+-
+ #define IA_GOFO_MSG_ERR_MAX_DETAILS		(4U)
+ #define IA_GOFO_MSG_ERR_OK			(0U)
+ #define IA_GOFO_MSG_ERR_GROUP_UNSPECIFIED	(0U)
+@@ -49,14 +46,11 @@ struct ia_gofo_msg_err {
  #define IA_GOFO_MSG_ERR_GROUP_RESERVED	IA_GOFO_MSG_ERR_GROUP_UNSPECIFIED
  #define IA_GOFO_MSG_ERR_GROUP_GENERAL		1
  
--enum ia_gofo_msg_err_general {
--	IA_GOFO_MSG_ERR_GENERAL_OK = IA_GOFO_MSG_ERR_OK,
--	IA_GOFO_MSG_ERR_GENERAL_MSG_TOO_SMALL = 1,
--	IA_GOFO_MSG_ERR_GENERAL_MSG_TOO_LARGE = 2,
--	IA_GOFO_MSG_ERR_GENERAL_DEVICE_STATE = 3,
--	IA_GOFO_MSG_ERR_GENERAL_ALIGNMENT = 4,
--	IA_GOFO_MSG_ERR_GENERAL_INDIRECT_REF_PTR_INVALID = 5,
--	IA_GOFO_MSG_ERR_GENERAL_INVALID_MSG_TYPE = 6,
--	IA_GOFO_MSG_ERR_GENERAL_SYSCOM_FAIL = 7,
--	IA_GOFO_MSG_ERR_GENERAL_N
--};
--
- #pragma pack(push, 1)
+-#pragma pack(push, 1)
  #define IA_GOFO_MSG_TYPE_RESERVED	0
  #define IA_GOFO_MSG_TYPE_INDIRECT	1
-@@ -72,16 +60,6 @@ enum ia_gofo_msg_err_general {
+ #define IA_GOFO_MSG_TYPE_LOG		2
+ #define IA_GOFO_MSG_TYPE_GENERAL_ERR	3
+ 
+-#pragma pack(pop)
+-
  #pragma pack(push, 1)
  enum ia_gofo_msg_link_streaming_mode {
  	IA_GOFO_MSG_LINK_STREAMING_MODE_SOFF = 0,
--	IA_GOFO_MSG_LINK_STREAMING_MODE_DOFF = 1,
--	IA_GOFO_MSG_LINK_STREAMING_MODE_BCLM = 2,
--	IA_GOFO_MSG_LINK_STREAMING_MODE_BCSM_FIX = 3,
--	IA_GOFO_MSG_LINK_STREAMING_MODE_N
--};
--
--enum ia_gofo_soc_pbk_instance_id {
--	IA_GOFO_SOC_PBK_ID0 = 0,
--	IA_GOFO_SOC_PBK_ID1 = 1,
--	IA_GOFO_SOC_PBK_ID_N
- };
- 
- #pragma pack(pop)
-diff --git a/drivers/staging/media/ipu7/abi/ipu7_fw_isys_abi.h b/drivers/staging/media/ipu7/abi/ipu7_fw_isys_abi.h
-index f1dbcfefaa10..29ea0355fdde 100644
---- a/drivers/staging/media/ipu7/abi/ipu7_fw_isys_abi.h
-+++ b/drivers/staging/media/ipu7/abi/ipu7_fw_isys_abi.h
-@@ -36,7 +36,6 @@ enum ipu7_insys_resp_type {
- 	IPU_INSYS_RESP_TYPE_FRAME_EOF = 8,
- 	IPU_INSYS_RESP_TYPE_STREAM_START_AND_CAPTURE_DONE = 9,
- 	IPU_INSYS_RESP_TYPE_STREAM_CAPTURE_DONE = 10,
--	IPU_INSYS_RESP_TYPE_PWM_IRQ = 11,
- 	N_IPU_INSYS_RESP_TYPE
- };
- 
-@@ -44,86 +43,26 @@ enum ipu7_insys_send_type {
- 	IPU_INSYS_SEND_TYPE_STREAM_OPEN = 0,
- 	IPU_INSYS_SEND_TYPE_STREAM_START_AND_CAPTURE = 1,
- 	IPU_INSYS_SEND_TYPE_STREAM_CAPTURE = 2,
--	IPU_INSYS_SEND_TYPE_STREAM_ABORT = 3,
- 	IPU_INSYS_SEND_TYPE_STREAM_FLUSH = 4,
- 	IPU_INSYS_SEND_TYPE_STREAM_CLOSE = 5,
- 	N_IPU_INSYS_SEND_TYPE
- };
- 
--enum ipu7_insys_mipi_vc {
--	IPU_INSYS_MIPI_VC_0 = 0,
--	IPU_INSYS_MIPI_VC_1 = 1,
--	IPU_INSYS_MIPI_VC_2 = 2,
--	IPU_INSYS_MIPI_VC_3 = 3,
--	IPU_INSYS_MIPI_VC_4 = 4,
--	IPU_INSYS_MIPI_VC_5 = 5,
--	IPU_INSYS_MIPI_VC_6 = 6,
--	IPU_INSYS_MIPI_VC_7 = 7,
--	IPU_INSYS_MIPI_VC_8 = 8,
--	IPU_INSYS_MIPI_VC_9 = 9,
--	IPU_INSYS_MIPI_VC_10 = 10,
--	IPU_INSYS_MIPI_VC_11 = 11,
--	IPU_INSYS_MIPI_VC_12 = 12,
--	IPU_INSYS_MIPI_VC_13 = 13,
--	IPU_INSYS_MIPI_VC_14 = 14,
--	IPU_INSYS_MIPI_VC_15 = 15,
--	N_IPU_INSYS_MIPI_VC
--};
--
--enum ipu7_insys_mipi_port {
--	IPU_INSYS_MIPI_PORT_0 = 0,
--	IPU_INSYS_MIPI_PORT_1 = 1,
--	IPU_INSYS_MIPI_PORT_2 = 2,
--	IPU_INSYS_MIPI_PORT_3 = 3,
--	IPU_INSYS_MIPI_PORT_4 = 4,
--	IPU_INSYS_MIPI_PORT_5 = 5,
--	NA_IPU_INSYS_MIPI_PORT
--};
--
- enum ipu7_insys_frame_format_type {
--	IPU_INSYS_FRAME_FORMAT_NV11 = 0,
--	IPU_INSYS_FRAME_FORMAT_NV12 = 1,
--	IPU_INSYS_FRAME_FORMAT_NV12_16 = 2,
--	IPU_INSYS_FRAME_FORMAT_NV12_TILEY = 3,
--	IPU_INSYS_FRAME_FORMAT_NV16 = 4,
--	IPU_INSYS_FRAME_FORMAT_NV21 = 5,
--	IPU_INSYS_FRAME_FORMAT_NV61 = 6,
--	IPU_INSYS_FRAME_FORMAT_YV12 = 7,
--	IPU_INSYS_FRAME_FORMAT_YV16 = 8,
--	IPU_INSYS_FRAME_FORMAT_YUV420 = 9,
--	IPU_INSYS_FRAME_FORMAT_YUV420_10 = 10,
--	IPU_INSYS_FRAME_FORMAT_YUV420_12 = 11,
--	IPU_INSYS_FRAME_FORMAT_YUV420_14 = 12,
--	IPU_INSYS_FRAME_FORMAT_YUV420_16 = 13,
--	IPU_INSYS_FRAME_FORMAT_YUV422 = 14,
--	IPU_INSYS_FRAME_FORMAT_YUV422_16 = 15,
- 	IPU_INSYS_FRAME_FORMAT_UYVY = 16,
- 	IPU_INSYS_FRAME_FORMAT_YUYV = 17,
--	IPU_INSYS_FRAME_FORMAT_YUV444 = 18,
--	IPU_INSYS_FRAME_FORMAT_YUV_LINE = 19,
- 	IPU_INSYS_FRAME_FORMAT_RAW8 = 20,
- 	IPU_INSYS_FRAME_FORMAT_RAW10 = 21,
- 	IPU_INSYS_FRAME_FORMAT_RAW12 = 22,
--	IPU_INSYS_FRAME_FORMAT_RAW14 = 23,
- 	IPU_INSYS_FRAME_FORMAT_RAW16 = 24,
- 	IPU_INSYS_FRAME_FORMAT_RGB565 = 25,
--	IPU_INSYS_FRAME_FORMAT_PLANAR_RGB888 = 26,
- 	IPU_INSYS_FRAME_FORMAT_RGBA888 = 27,
--	IPU_INSYS_FRAME_FORMAT_QPLANE6 = 28,
--	IPU_INSYS_FRAME_FORMAT_BINARY_8 = 29,
--	IPU_INSYS_FRAME_FORMAT_Y_8 = 30,
--	IPU_INSYS_FRAME_FORMAT_ARGB888 = 31,
--	IPU_INSYS_FRAME_FORMAT_BGRA888 = 32,
--	IPU_INSYS_FRAME_FORMAT_ABGR888 = 33,
--	N_IPU_INSYS_FRAME_FORMAT
- };
- 
- #define N_IPU_INSYS_MIPI_DATA_TYPE 0x40
- 
- enum ipu7_insys_mipi_dt_rename_mode {
- 	IPU_INSYS_MIPI_DT_NO_RENAME = 0,
--	IPU_INSYS_MIPI_DT_RENAMED_MODE = 1,
--	N_IPU_INSYS_MIPI_DT_MODE
- };
- 
- #define IPU_INSYS_STREAM_SYNC_MSG_SEND_RESP_SOF			BIT(0)
-@@ -171,27 +110,10 @@ enum ipu7_insys_mipi_dt_rename_mode {
- 
- enum ipu7_insys_output_link_dest {
- 	IPU_INSYS_OUTPUT_LINK_DEST_MEM = 0,
--	IPU_INSYS_OUTPUT_LINK_DEST_PSYS = 1,
--	IPU_INSYS_OUTPUT_LINK_DEST_IPU_EXTERNAL = 2
--};
--
--enum ipu7_insys_dpcm_type {
--	IPU_INSYS_DPCM_TYPE_DISABLED = 0,
--	IPU_INSYS_DPCM_TYPE_10_8_10 = 1,
--	IPU_INSYS_DPCM_TYPE_12_8_12 = 2,
--	IPU_INSYS_DPCM_TYPE_12_10_12 = 3,
--	N_IPU_INSYS_DPCM_TYPE
--};
--
--enum ipu7_insys_dpcm_predictor {
--	IPU_INSYS_DPCM_PREDICTOR_1 = 0,
--	IPU_INSYS_DPCM_PREDICTOR_2 = 1,
--	N_IPU_INSYS_DPCM_PREDICTOR
- };
- 
- enum ipu7_insys_send_queue_token_flag {
- 	IPU_INSYS_SEND_QUEUE_TOKEN_FLAG_NONE = 0,
--	IPU_INSYS_SEND_QUEUE_TOKEN_FLAG_FLUSH_FORCE = 1
- };
- 
- #pragma pack(push, 1)
-@@ -296,84 +218,12 @@ struct ipu7_insys_send_queue_token {
- 
- #pragma pack(pop)
- 
--enum insys_msg_err_stream {
--	INSYS_MSG_ERR_STREAM_OK = IA_GOFO_MSG_ERR_OK,
--	INSYS_MSG_ERR_STREAM_STREAM_ID = 1,
--	INSYS_MSG_ERR_STREAM_MAX_OPINS = 2,
--	INSYS_MSG_ERR_STREAM_MAX_IPINS = 3,
--	INSYS_MSG_ERR_STREAM_STREAM_MESSAGES_MAP = 4,
--	INSYS_MSG_ERR_STREAM_SYNC_MESSAGES_MAP = 5,
--	INSYS_MSG_ERR_STREAM_SENSOR_TYPE = 6,
--	INSYS_MSG_ERR_STREAM_FOREIGN_KEY = 7,
--	INSYS_MSG_ERR_STREAM_STREAMING_MODE = 8,
--	INSYS_MSG_ERR_STREAM_DPCM_EN = 9,
--	INSYS_MSG_ERR_STREAM_DPCM_TYPE = 10,
--	INSYS_MSG_ERR_STREAM_DPCM_PREDICTOR = 11,
--	INSYS_MSG_ERR_STREAM_GRANULARITY_POINTER_UPDATE = 12,
--	INSYS_MSG_ERR_STREAM_MPF_LUT_ENTRY_RESOURCES_BUSY = 13,
--	INSYS_MSG_ERR_STREAM_MPF_DEV_ID = 14,
--	INSYS_MSG_ERR_STREAM_BUFFER_LINES = 15,
--	INSYS_MSG_ERR_STREAM_IPIN_ID = 16,
--	INSYS_MSG_ERR_STREAM_DATA_TYPE = 17,
--	INSYS_MSG_ERR_STREAM_STREAMING_PROTOCOL_STATE = 18,
--	INSYS_MSG_ERR_STREAM_SYSCOM_FLUSH = 19,
--	INSYS_MSG_ERR_STREAM_MIPI_VC = 20,
--	INSYS_MSG_ERR_STREAM_STREAM_SRC = 21,
--	INSYS_MSG_ERR_STREAM_PBK_ID = 22,
--	INSYS_MSG_ERR_STREAM_CMD_QUEUE_DEALLOCATE = 23,
--	INSYS_MSG_ERR_STREAM_INSUFFICIENT_RESOURCES = 24,
--	INSYS_MSG_ERR_STREAM_IPIN_CONFIGURATION = 25,
--	INSYS_MSG_ERR_STREAM_INVALID_STATE = 26,
--	INSYS_MSG_ERR_STREAM_SW_MANAGED = 27,
--	INSYS_MSG_ERR_STREAM_PBK_SLOT_ID = 28,
--	INSYS_MSG_ERR_STREAM_FLUSH_TIMEOUT = 29,
--	INSYS_MSG_ERR_STREAM_IPIN_WIDTH = 30,
--	INSYS_MSG_ERR_STREAM_IPIN_HEIGHT = 31,
--	INSYS_MSG_ERR_STREAM_OUTPUT_PIN_EARLY_ACK_EN = 32,
--	INSYS_MSG_ERR_STREAM_INCONSISTENT_PARAMS = 33,
--	INSYS_MSG_ERR_STREAM_PLANE_COUNT = 34,
--	INSYS_MSG_ERR_STREAM_FRAME_FORMAT_TYPE = 35,
--	INSYS_MSG_ERR_STREAM_INSUFFICIENT_RESOURCES_OUTPUT = 36,
--	INSYS_MSG_ERR_STREAM_WIDTH_OUTPUT_SIZE = 37,
--	INSYS_MSG_ERR_STREAM_CLOSED = 38,
--	INSYS_MSG_ERR_STREAM_N
--};
--
- enum insys_msg_err_capture {
--	INSYS_MSG_ERR_CAPTURE_OK = IA_GOFO_MSG_ERR_OK,
--	INSYS_MSG_ERR_CAPTURE_STREAM_ID = 1,
--	INSYS_MSG_ERR_CAPTURE_PAYLOAD_PTR = 2,
--	INSYS_MSG_ERR_CAPTURE_MEM_SLOT = 3,
--	INSYS_MSG_ERR_CAPTURE_STREAMING_MODE = 4,
--	INSYS_MSG_ERR_CAPTURE_AVAILABLE_CMD_SLOT = 5,
--	INSYS_MSG_ERR_CAPTURE_CONSUMED_CMD_SLOT = 6,
--	INSYS_MSG_ERR_CAPTURE_CMD_SLOT_PAYLOAD_PTR = 7,
--	INSYS_MSG_ERR_CAPTURE_CMD_PREPARE = 8,
--	INSYS_MSG_ERR_CAPTURE_OUTPUT_PIN = 9,
- 	INSYS_MSG_ERR_CAPTURE_SYNC_FRAME_DROP = 10,
--	INSYS_MSG_ERR_CAPTURE_FRAME_MESSAGES_MAP = 11,
--	INSYS_MSG_ERR_CAPTURE_TIMEOUT = 12,
--	INSYS_MSG_ERR_CAPTURE_INVALID_STREAM_STATE = 13,
--	INSYS_MSG_ERR_CAPTURE_HW_ERR_MULTIBIT_PH_ERROR_DETECTED = 14,
--	INSYS_MSG_ERR_CAPTURE_HW_ERR_PAYLOAD_CRC_ERROR = 15,
--	INSYS_MSG_ERR_CAPTURE_HW_ERR_INPUT_DATA_LOSS_ELASTIC_FIFO_OVFL  = 16,
--	INSYS_MSG_ERR_CAPTURE_HW_ERR_PIXEL_BUFFER_OVERFLOW = 17,
--	INSYS_MSG_ERR_CAPTURE_HW_ERR_BAD_FRAME_DIM = 18,
--	INSYS_MSG_ERR_CAPTURE_HW_ERR_PHY_SYNC_ERR = 19,
--	INSYS_MSG_ERR_CAPTURE_HW_ERR_SECURE_TOUCH = 20,
--	INSYS_MSG_ERR_CAPTURE_HW_ERR_MASTER_SLAVE_SYNC_ERR = 21,
--	INSYS_MSG_ERR_CAPTURE_FRAME_SKIP_ERR = 22,
--	INSYS_MSG_ERR_CAPTURE_FE_INPUT_FIFO_OVERFLOW_ERR = 23,
--	INSYS_MSG_ERR_CAPTURE_CMD_SUBMIT_TO_HW = 24,
--	INSYS_MSG_ERR_CAPTURE_N
- };
- 
- enum insys_msg_err_groups {
--	INSYS_MSG_ERR_GROUP_RESERVED = IA_GOFO_MSG_ERR_GROUP_RESERVED,
--	INSYS_MSG_ERR_GROUP_GENERAL = IA_GOFO_MSG_ERR_GROUP_GENERAL,
--	INSYS_MSG_ERR_GROUP_STREAM = 2,
- 	INSYS_MSG_ERR_GROUP_CAPTURE = 3,
--	INSYS_MSG_ERR_GROUP_N,
- };
- 
- #endif
 diff --git a/drivers/staging/media/ipu7/abi/ipu7_fw_msg_abi.h b/drivers/staging/media/ipu7/abi/ipu7_fw_msg_abi.h
-index 3f2c065dfe14..b2e6bd9159f2 100644
+index b2e6bd9159f2..01f4ce857238 100644
 --- a/drivers/staging/media/ipu7/abi/ipu7_fw_msg_abi.h
 +++ b/drivers/staging/media/ipu7/abi/ipu7_fw_msg_abi.h
-@@ -9,30 +9,6 @@
+@@ -8,8 +8,6 @@
+ 
  #include "ipu7_fw_common_abi.h"
  
- #pragma pack(push, 1)
--enum ipu7_msg_type {
--	IPU_MSG_TYPE_RESERVED = IA_GOFO_MSG_TYPE_RESERVED,
--	IPU_MSG_TYPE_INDIRECT = IA_GOFO_MSG_TYPE_INDIRECT,
--	IPU_MSG_TYPE_DEV_LOG = IA_GOFO_MSG_TYPE_LOG,
--	IPU_MSG_TYPE_GENERAL_ERR = IA_GOFO_MSG_TYPE_GENERAL_ERR,
--	IPU_MSG_TYPE_DEV_OPEN = 4,
--	IPU_MSG_TYPE_DEV_OPEN_ACK = 5,
--	IPU_MSG_TYPE_GRAPH_OPEN = 6,
--	IPU_MSG_TYPE_GRAPH_OPEN_ACK = 7,
--	IPU_MSG_TYPE_TASK_REQ = 8,
--	IPU_MSG_TYPE_TASK_DONE = 9,
--	IPU_MSG_TYPE_GRAPH_CLOSE = 10,
--	IPU_MSG_TYPE_GRAPH_CLOSE_ACK = 11,
--	IPU_MSG_TYPE_DEV_CLOSE = 12,
--	IPU_MSG_TYPE_DEV_CLOSE_ACK = 13,
--	IPU_MSG_TYPE_TERM_EVENT = 14,
--	IPU_MSG_TYPE_N,
--};
+-#pragma pack(push, 1)
 -
--enum ipu7_msg_node_type {
--	IPU_MSG_NODE_TYPE_PAD = 0,
--	IPU_MSG_NODE_TYPE_BASE,
--	IPU_MSG_NODE_TYPE_N
--};
- 
  #define IPU_MSG_NODE_MAX_DEVICES	(128U)
  #define DEB_NUM_UINT32	(IPU_MSG_NODE_MAX_DEVICES / (sizeof(u32) * 8U))
-@@ -45,173 +21,27 @@ typedef u32 ipu7_msg_deb_t[DEB_NUM_UINT32];
+ 
+@@ -21,28 +19,10 @@ typedef u32 ipu7_msg_deb_t[DEB_NUM_UINT32];
  
  typedef u32 ipu7_msg_rbm_t[RBM_NUM_UINT32];
  
--enum ipu7_msg_node_profile_type {
--	IPU_MSG_NODE_PROFILE_TYPE_PAD = 0,
--	IPU_MSG_NODE_PROFILE_TYPE_BASE,
--	IPU_MSG_NODE_PROFILE_TYPE_CB,
--	IPU_MSG_NODE_PROFILE_TYPE_N
--};
+-#pragma pack(pop)
 -
--enum ipu7_msg_node_option_types {
--	IPU_MSG_NODE_OPTION_TYPES_PADDING = 0,
--	IPU_MSG_NODE_OPTION_TYPES_N
--};
--
- #pragma pack(pop)
- 
- #pragma pack(push, 1)
- 
--enum ipu7_msg_link_type {
--	IPU_MSG_LINK_TYPE_PAD = 0,
--	IPU_MSG_LINK_TYPE_GENERIC = 1,
--	IPU_MSG_LINK_TYPE_N
--};
--
--enum ipu7_msg_link_option_types {
--	IPU_MSG_LINK_OPTION_TYPES_PADDING = 0,
--	IPU_MSG_LINK_OPTION_TYPES_CMPRS = 1,
--	IPU_MSG_LINK_OPTION_TYPES_N
--};
--
--enum ipu7_msg_link_cmprs_option_bit_depth {
--	IPU_MSG_LINK_CMPRS_OPTION_8BPP = 0,
--	IPU_MSG_LINK_CMPRS_OPTION_10BPP = 1,
--	IPU_MSG_LINK_CMPRS_OPTION_12BPP = 2,
--};
+-#pragma pack(push, 1)
 -
  #define IPU_MSG_LINK_FOREIGN_KEY_NONE		(65535U)
  #define IPU_MSG_LINK_PBK_ID_DONT_CARE		(255U)
  #define IPU_MSG_LINK_PBK_SLOT_ID_DONT_CARE	(255U)
  
- #pragma pack(pop)
- 
--enum ipu7_msg_dev_state {
--	IPU_MSG_DEV_STATE_CLOSED = 0,
--	IPU_MSG_DEV_STATE_OPEN_WAIT = 1,
--	IPU_MSG_DEV_STATE_OPEN = 2,
--	IPU_MSG_DEV_STATE_CLOSE_WAIT = 3,
--	IPU_MSG_DEV_STATE_N
--};
+-#pragma pack(pop)
 -
--enum ipu7_msg_graph_state {
--	IPU_MSG_GRAPH_STATE_CLOSED = 0,
--	IPU_MSG_GRAPH_STATE_OPEN_WAIT = 1,
--	IPU_MSG_GRAPH_STATE_OPEN = 2,
--	IPU_MSG_GRAPH_STATE_CLOSE_WAIT = 3,
--	IPU_MSG_GRAPH_STATE_N
--};
+-#pragma pack(push, 1)
+-#pragma pack(pop)
 -
--enum ipu7_msg_task_state {
--	IPU_MSG_TASK_STATE_DONE = 0,
--	IPU_MSG_TASK_STATE_WAIT_DONE = 1,
--	IPU_MSG_TASK_STATE_N
--};
+-#pragma pack(push, 1)
+-#pragma pack(pop)
 -
--enum ipu7_msg_err_groups {
--	IPU_MSG_ERR_GROUP_RESERVED = IA_GOFO_MSG_ERR_GROUP_RESERVED,
--	IPU_MSG_ERR_GROUP_GENERAL = IA_GOFO_MSG_ERR_GROUP_GENERAL,
--	IPU_MSG_ERR_GROUP_DEVICE = 2,
--	IPU_MSG_ERR_GROUP_GRAPH = 3,
--	IPU_MSG_ERR_GROUP_TASK = 4,
--	IPU_MSG_ERR_GROUP_N,
--};
+-#pragma pack(push, 1)
 -
- #pragma pack(push, 1)
--enum ipu7_msg_err_task {
--	IPU_MSG_ERR_TASK_OK = IA_GOFO_MSG_ERR_OK,
--	IPU_MSG_ERR_TASK_GRAPH_ID = 1,
--	IPU_MSG_ERR_TASK_NODE_CTX_ID = 2,
--	IPU_MSG_ERR_TASK_PROFILE_IDX = 3,
--	IPU_MSG_ERR_TASK_CTX_MEMORY_TASK = 4,
--	IPU_MSG_ERR_TASK_TERM_PAYLOAD_PTR = 5,
--	IPU_MSG_ERR_TASK_FRAME_ID = 6,
--	IPU_MSG_ERR_TASK_FRAG_ID = 7,
--	IPU_MSG_ERR_TASK_EXEC_EXT = 8,
--	IPU_MSG_ERR_TASK_EXEC_SBX = 9,
--	IPU_MSG_ERR_TASK_EXEC_INT = 10,
--	IPU_MSG_ERR_TASK_EXEC_UNKNOWN = 11,
--	IPU_MSG_ERR_TASK_PRE_EXEC = 12,
--	IPU_MSG_ERR_TASK_N
--};
+-#pragma pack(pop)
 -
- #pragma pack(pop)
- 
- #pragma pack(push, 1)
--enum ipu7_msg_term_type {
--	IPU_MSG_TERM_TYPE_PAD = 0,
--	IPU_MSG_TERM_TYPE_BASE,
--	IPU_MSG_TERM_TYPE_N,
--};
--
--enum ipu7_msg_term_option_types {
--	IPU_MSG_TERM_OPTION_TYPES_PADDING = 0,
--	IPU_MSG_TERM_OPTION_TYPES_N
--};
--
- #pragma pack(pop)
- 
- #pragma pack(push, 1)
- 
--enum ipu7_msg_err_device {
--	IPU_MSG_ERR_DEVICE_OK = IA_GOFO_MSG_ERR_OK,
--	IPU_MSG_ERR_DEVICE_MAX_GRAPHS = 1,
--	IPU_MSG_ERR_DEVICE_MSG_MAP = 2,
--	IPU_MSG_ERR_DEVICE_N
--};
--
- #pragma pack(pop)
- 
- #pragma pack(push, 1)
--
--enum ipu7_msg_graph_ack_option_types {
--	IPU_MSG_GRAPH_ACK_OPTION_TYPES_PADDING = 0,
--	IPU_MSG_GRAPH_ACK_TASK_Q_INFO,
--	IPU_MSG_GRAPH_ACK_OPTION_TYPES_N
--};
--
--enum ipu7_msg_err_graph {
--	IPU_MSG_ERR_GRAPH_OK = IA_GOFO_MSG_ERR_OK,
--	IPU_MSG_ERR_GRAPH_GRAPH_STATE = 1,
--	IPU_MSG_ERR_GRAPH_MAX_GRAPHS = 2,
--	IPU_MSG_ERR_GRAPH_GRAPH_ID = 3,
--	IPU_MSG_ERR_GRAPH_NODE_CTX_ID = 4,
--	IPU_MSG_ERR_GRAPH_NODE_RSRC_ID = 5,
--	IPU_MSG_ERR_GRAPH_PROFILE_IDX = 6,
--	IPU_MSG_ERR_GRAPH_TERM_ID = 7,
--	IPU_MSG_ERR_GRAPH_TERM_PAYLOAD_SIZE = 8,
--	IPU_MSG_ERR_GRAPH_LINK_NODE_CTX_ID = 9,
--	IPU_MSG_ERR_GRAPH_LINK_TERM_ID = 10,
--	IPU_MSG_ERR_GRAPH_PROFILE_TYPE = 11,
--	IPU_MSG_ERR_GRAPH_NUM_FRAGS = 12,
--	IPU_MSG_ERR_GRAPH_QUEUE_ID_USAGE = 13,
--	IPU_MSG_ERR_GRAPH_QUEUE_OPEN = 14,
--	IPU_MSG_ERR_GRAPH_QUEUE_CLOSE = 15,
--	IPU_MSG_ERR_GRAPH_QUEUE_ID_TASK_REQ_MISMATCH = 16,
--	IPU_MSG_ERR_GRAPH_CTX_MEMORY_FGRAPH = 17,
--	IPU_MSG_ERR_GRAPH_CTX_MEMORY_NODE = 18,
--	IPU_MSG_ERR_GRAPH_CTX_MEMORY_NODE_PROFILE = 19,
--	IPU_MSG_ERR_GRAPH_CTX_MEMORY_TERM = 20,
--	IPU_MSG_ERR_GRAPH_CTX_MEMORY_LINK = 21,
--	IPU_MSG_ERR_GRAPH_CTX_MSG_MAP = 22,
--	IPU_MSG_ERR_GRAPH_CTX_FOREIGN_KEY = 23,
--	IPU_MSG_ERR_GRAPH_CTX_STREAMING_MODE = 24,
--	IPU_MSG_ERR_GRAPH_CTX_PBK_RSRC = 25,
--	IPU_MSG_ERR_GRAPH_UNSUPPORTED_EVENT_TYPE = 26,
--	IPU_MSG_ERR_GRAPH_TOO_MANY_EVENTS = 27,
--	IPU_MSG_ERR_GRAPH_CTX_MEMORY_CMPRS = 28,
--	IPU_MSG_ERR_GRAPH_CTX_CMPRS_ALIGN_INTERVAL = 29,
--	IPU_MSG_ERR_GRAPH_CTX_CMPRS_PLANE_ID = 30,
--	IPU_MSG_ERR_GRAPH_CTX_CMPRS_UNSUPPORTED_MODE = 31,
--	IPU_MSG_ERR_GRAPH_CTX_CMPRS_BIT_DEPTH = 32,
--	IPU_MSG_ERR_GRAPH_CTX_CMPRS_STRIDE_ALIGNMENT = 33,
--	IPU_MSG_ERR_GRAPH_CTX_CMPRS_SUB_BUFFER_ALIGNMENT = 34,
--	IPU_MSG_ERR_GRAPH_CTX_CMPRS_LAYOUT_ORDER = 35,
--	IPU_MSG_ERR_GRAPH_CTX_CMPRS_LAYOUT_OVERLAP = 36,
--	IPU_MSG_ERR_GRAPH_CTX_CMPRS_BUFFER_TOO_SMALL = 37,
--	IPU_MSG_ERR_GRAPH_CTX_DELAYED_LINK = 38,
--	IPU_MSG_ERR_GRAPH_N
--};
--
- #pragma pack(pop)
+-#pragma pack(push, 1)
+-#pragma pack(pop)
  
  #define FWPS_MSG_ABI_MAX_INPUT_QUEUES	(60U)
+ #define FWPS_MSG_ABI_MAX_OUTPUT_QUEUES	(2U)
 
 -- 
 2.55.0
