@@ -1,135 +1,253 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E4E548551F;
-	Thu,  6 Aug 2026 17:16:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E81B2E54D1
+	for <linux-staging@lists.linux.dev>; Thu,  6 Aug 2026 19:34:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786036605; cv=none; b=MyeNtJuoMNwoIA5RqJPQ3mJ3d7t6Rnyc+VXVH69dhL4touCSNluC1uI5lrAI4LINraoZT6OYlBRByu/EH0c9bDRxSkmagGuX1Ke392bKUeENQy4tLy6J2AQPCWkxdiEzNp813W6uncZKMll1JbbBQb1ltlVwPzjwakrKwygfefk=
+	t=1786044900; cv=none; b=L2oq7UlvrsHqkJsDORPne12wfHYBbfwYE0LO3IpxICYgJeJ5L5aX8TIMFs8lTgbocIGlnOODpNBW6FBlHaLhBpGFCSVZpqLz/mHUul2iYgofgwK9okNPVmHLsWoLqxWCuEGg+2ve1g0GOJw/jW24fUe3V/m1IXa112Kjbe0E2dE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786036605; c=relaxed/simple;
-	bh=4Sq8YIMSRTIO/KIInPj/Oe7HRtw9ynnJ/uLV9HMJ93o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J+tJ5WGQXXXic5qzCrJEqui8QI5AE4Mx5GV8BlRFw0f+PO1VB/qmwFjwPiiP72g9GMNmAbvkOEuDYHIQxO773vDkdIeZ2ncRX1Iopn9VyUWaroT2X8mFOZ7LmFWdXjazBx0hbXy7KzZ91mv+SDBpChW962nz5qM6/sl5xevAM+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k8fnCzEm; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1786044900; c=relaxed/simple;
+	bh=sdXT9c2wPF3G1nUhhkO3syrJn8drvLfExg0K7M4rsfA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=lrZ6tFxdA+xrOk7Hmluouu6EdSFCPnQJ0bFQ23DBm7kxzjUkKocl4h3+JIxGQ06h+Ltys+u/1v1kGBKaeR4XthM6E/B8ZQs8wmWcDWGIr25GRxv6w5rp1Md7jJWv2msHYLYFO1FWrr/bc9l6Z9gl4Da6W4Wfe49+lO1LsUY0434=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cgbVGL+7; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k8fnCzEm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786036603; x=1817572603;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4Sq8YIMSRTIO/KIInPj/Oe7HRtw9ynnJ/uLV9HMJ93o=;
-  b=k8fnCzEmu3NdXi2igGQ3wE5JvNVmeiUJcoajVnRR6coTRfZ8Kgnab1MW
-   h8vNLG7kKpWzhJJfUHQHer/iRE2LVh9OGYor48AC7ac9jc/B1NVtNK6O7
-   zL0olUomv1jKD+fyquZtmMJA2WelplqPfp0ZA8xMgr8XVGYwyAeprIJhI
-   DY3XkUnflATlHqaG2gLe648CFao5dFDcizFLzLl8lo8Pc/srzAVeJ76X3
-   ceICcyKC/GUhybkcuGMMhHhJh0VVwreYgyAiBkSORysQH3+uCNR8oGU0z
-   /U5RYO7tJbfVx4AAyD3ohqk67x4SL4dT9lTM4q01ExPneXAM/67eZpOhv
-   Q==;
-X-CSE-ConnectionGUID: Vp6f8VwhQlCwewOTCkwGaw==
-X-CSE-MsgGUID: zm2Rc5ZxTCCHF01fjgPYIQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="86514545"
-X-IronPort-AV: E=Sophos;i="6.25,208,1779174000"; 
-   d="scan'208";a="86514545"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 10:16:43 -0700
-X-CSE-ConnectionGUID: FntjmgNuRzatEE3aXcxpHA==
-X-CSE-MsgGUID: F6YmuKn/TtyoLNvdrgjv5A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,208,1779174000"; 
-   d="scan'208";a="265645667"
-Received: from lkp-server01.sh.intel.com (HELO 6eda058d650d) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 06 Aug 2026 10:16:41 -0700
-Received: from kbuild by 6eda058d650d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1ws1hu-00000000FmD-3XcW;
-	Thu, 06 Aug 2026 17:16:38 +0000
-Date: Fri, 7 Aug 2026 01:15:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mirza Ishan Beg <seedandsyntax@gmail.com>, gregkh@linuxfoundation.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, nikolayof23@gmail.com,
-	seedandsyntax@gmail.com
-Subject: Re: [PATCH] staging: rtl8723bs: refactor traffic_stat access in
- collect_traffic_statistics
-Message-ID: <202608070159.puVnOVxb-lkp@intel.com>
-References: <20260803144826.15980-1-seedandsyntax@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cgbVGL+7"
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5b013aa02b2so1498911e87.0
+        for <linux-staging@lists.linux.dev>; Thu, 06 Aug 2026 12:34:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786044897; x=1786649697; darn=lists.linux.dev;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=U6ydmo3pNJnvQwPiXyo6A+XjC6JbIUSh589g1ZCJdIs=;
+        b=cgbVGL+7Yvp5uzb3zJSlW/u5ZP6aBYFhPGr/8/rx4yMVm7qs8TimM4UFfVq3e2WmkS
+         30/ihrcxYJWmQZVcBEbZLxfxbpwhUjbuNThZ3ZOcOOYELC2N91xdfYslagHWMBiNJlDC
+         jCZouBV/Qv61+wNQyA82L2XIlydH9PVL/ImtOfXBbs4kSTRitytP4uHvV71wCnP1mShh
+         AEJ0lgLKCip93bnzkTZJkSdqNG8z+P2i6fUanIbdzY4D7VUkdy/2Cxo3DbE2BmaIK6ex
+         VyUlcFSQtUFjyS+NZPyD5yufhy7thNnZTFL5YrVoAWR+IyJeNJhdJvpuKhseqOiOuwbN
+         QVBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786044897; x=1786649697;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=U6ydmo3pNJnvQwPiXyo6A+XjC6JbIUSh589g1ZCJdIs=;
+        b=NM5ASV61m/qpjsH1FZUc5Kz4NgFHHnq3RimOYEc1YPVT1PDWnailUbKXz4t/Y1alDZ
+         g7fFO5JJfa2+mHbE5JBJpH/u5fjpAj7ixeC9UEDXt2yBVMw0yeMP+VyEgCXtbnjGeDc8
+         gD6aLRS2lL8DZKvDUjWi6eukPQpmtUfD7152wfJyJzMNc8R6l9ECzdXRSylyDjRNQQnf
+         5Eu3cc6AaE+SYJw7VnhKBQKIO+tQxJd3eIG3QiXulXn1XQwVkhXVbNRqjw9AAyMPWPJc
+         y8e21C5qUE8aHGX8Vd3frEUzS//GNhqwtPYpQxyGLXFgjRGSkD7qMXE7fAGejK5TQ0nA
+         wWpw==
+X-Gm-Message-State: AOJu0YzvpS+zI87mLeM1vJTEmr25Pa4yOnh8HIoV/eS3YbFCmUzXx+Sf
+	9KtltiA31gQ6DbzM9pqnFNDuxqsuHZGLNdTO6e+5L6X887U73rdW4tYWsbZnjg==
+X-Gm-Gg: AR+sD117G5VIwoP60rqwXo1MIvyhtGGP2Hm39Oq8jNYf0cJkYGrwKRMdaDq4SkptG+R
+	HzNa+LIFtAjdgg2UMhG26V62bXHDcMj1phwnWrHyjpXDZOmOS3vGQJPfcAqdeFSxdKGOYwoGKN1
+	4tU0uxyNGdd6mKfdHVeM5wFGd6MWVj0P2IQ0ZRCUF0kWTNlLw8PIT7j5L8WlFKttwxeT+txX1gi
+	zuD9/+c0ZHoWQomEWiT7Z2AMz/lCfbFe5JG64jT38b3nniskYP4J4yTE6Tlv2nJ9C8V/DFCU4YY
+	TNaXkZceRqJwL2qemkLapOKtnJr/myKq4Pd2DCxDxKzz+Zbug2/gnn6VCvk/g2ZyTX+0DGHDOEh
+	H1sApyKnbgJnuWd9n3R3deHmqIiTnKI8dYZpsY/Ih55z9iw0xuJ0ISFm77eAtbT8SrnA6nlltpW
+	Bl9kwOHyYo5pwH6SAjDaTmbLeMO75HzuYG98SHmppu67O+KtaZHRQapUQhWfxz/rvDsU3QNQ==
+X-Received: by 2002:a05:6512:3f19:b0:5ad:68aa:8a78 with SMTP id 2adb3069b0e04-5b2fe39cd94mr1759088e87.5.1786044896948;
+        Thu, 06 Aug 2026 12:34:56 -0700 (PDT)
+Received: from [192.168.243.250] ([94.229.19.199])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b3050cfa65sm64444e87.20.2026.08.06.12.34.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Aug 2026 12:34:56 -0700 (PDT)
+From: Nikolay Kulikov <nikolayof23@gmail.com>
+Date: Thu, 06 Aug 2026 22:34:48 +0300
+Subject: [PATCH] staging: rtl8723bs: remove static HalDetectPwrDownMode()
+ function
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260803144826.15980-1-seedandsyntax@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260806-rtl8723bs_efuse-v1-1-fedb8b91f346@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXM2wpAQBCA4VfRXNvaQw55FUmWwUhoZ0nJu1tcf
+ hf/fwGjI2QoogscHsS0LgEqjqAdm2VAQV0waKlTmctEOD/nmTaWa+x3RpGqxpjEyk5ZDaHaHPZ
+ 0fsey+s27nbD17wbu+wGcmipLcwAAAA==
+X-Change-ID: 20260805-rtl8723bs_efuse-61a335b0d1b2
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Nikolay Kulikov <nikolayof23@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1786044895; l=5817;
+ i=nikolayof23@gmail.com; s=20260402; h=from:subject:message-id;
+ bh=sdXT9c2wPF3G1nUhhkO3syrJn8drvLfExg0K7M4rsfA=;
+ b=N4B0F+JDpDAgEmlqNgHeisPn5v6V9gTyT8Kgjl9BwlHRwkRu2z1TUW3US+CC7SEJVMzJH64wD
+ PHzirJ2TKdeC8H9HCBylcYCf0HnJnHxo95qQj2aZ7X/jLU/kaSMtQng
+X-Developer-Key: i=nikolayof23@gmail.com; a=ed25519;
+ pk=2GWUU1isl5NJpkwSCQ4OG80EinZ3EUZXlrgAg6Pz5zI=
 
-Hi Mirza,
+The return value of this function is ignored at the call site, and since
+the function has no side effects (except for the assignment to
+pHalData->pwrdown, which is not used anywhere else), it can be removed.
 
-kernel test robot noticed the following build errors:
+At the same time, remove the efuse shadow functions, as they are
+becoming unused.
 
-[auto build test ERROR on staging/staging-testing]
+Signed-off-by: Nikolay Kulikov <nikolayof23@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_efuse.c    | 75 ---------------------------
+ drivers/staging/rtl8723bs/hal/sdio_halinit.c  | 24 ---------
+ drivers/staging/rtl8723bs/include/rtw_efuse.h |  1 -
+ 3 files changed, 100 deletions(-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mirza-Ishan-Beg/staging-rtl8723bs-refactor-traffic_stat-access-in-collect_traffic_statistics/20260806-062100
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20260803144826.15980-1-seedandsyntax%40gmail.com
-patch subject: [PATCH] staging: rtl8723bs: refactor traffic_stat access in collect_traffic_statistics
-config: arm-randconfig-r051-20260806 (https://download.01.org/0day-ci/archive/20260807/202608070159.puVnOVxb-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260807/202608070159.puVnOVxb-lkp@intel.com/reproduce)
+diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c b/drivers/staging/rtl8723bs/core/rtw_efuse.c
+index 168ecb7a998f..7e215c9845f6 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
++++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
+@@ -145,54 +145,6 @@ static void Efuse_ReadAllMap(struct adapter *padapter, u8 efuseType, u8 *Efuse)
+ 	Hal_EfusePowerSwitch(padapter, false);
+ }
+ 
+-/*-----------------------------------------------------------------------------
+- * Function:	efuse_ShadowRead1Byte
+- *		efuse_ShadowRead2Byte
+- *		efuse_ShadowRead4Byte
+- *
+- * Overview:	Read from efuse init map by one/two/four bytes !!!!!
+- *
+- * Input:       NONE
+- *
+- * Output:      NONE
+- *
+- * Return:      NONE
+- *
+- * Revised History:
+- * When			Who		Remark
+- * 11/12/2008	MHC		Create Version 0.
+- *
+- */
+-static void efuse_ShadowRead1Byte(struct adapter *padapter, u16 Offset, u8 *Value)
+-{
+-	struct eeprom_priv *pEEPROM = GET_EEPROM_EFUSE_PRIV(padapter);
+-
+-	*Value = pEEPROM->efuse_eeprom_data[Offset];
+-
+-}	/*  EFUSE_ShadowRead1Byte */
+-
+-/* Read Two Bytes */
+-static void efuse_ShadowRead2Byte(struct adapter *padapter, u16 Offset, u16 *Value)
+-{
+-	struct eeprom_priv *pEEPROM = GET_EEPROM_EFUSE_PRIV(padapter);
+-
+-	*Value = pEEPROM->efuse_eeprom_data[Offset];
+-	*Value |= pEEPROM->efuse_eeprom_data[Offset + 1] << 8;
+-
+-}	/*  EFUSE_ShadowRead2Byte */
+-
+-/* Read Four Bytes */
+-static void efuse_ShadowRead4Byte(struct adapter *padapter, u16 Offset, u32 *Value)
+-{
+-	struct eeprom_priv *pEEPROM = GET_EEPROM_EFUSE_PRIV(padapter);
+-
+-	*Value = pEEPROM->efuse_eeprom_data[Offset];
+-	*Value |= pEEPROM->efuse_eeprom_data[Offset + 1] << 8;
+-	*Value |= pEEPROM->efuse_eeprom_data[Offset + 2] << 16;
+-	*Value |= pEEPROM->efuse_eeprom_data[Offset + 3] << 24;
+-
+-}	/*  efuse_ShadowRead4Byte */
+-
+ /*-----------------------------------------------------------------------------
+  * Function:	rtw_efuse_shadow_map_update
+  *
+@@ -224,30 +176,3 @@ void rtw_efuse_shadow_map_update(struct adapter *padapter, u8 efuseType)
+ 	/* PlatformMoveMemory((void *)&pHalData->EfuseMap[EFUSE_MODIFY_MAP][0], */
+ 	/* void *)&pHalData->EfuseMap[EFUSE_INIT_MAP][0], mapLen); */
+ } /*  rtw_efuse_shadow_map_update */
+-
+-/*-----------------------------------------------------------------------------
+- * Function:	rtw_efuse_shadow_read
+- *
+- * Overview:	Read from efuse init map !!!!!
+- *
+- * Input:       NONE
+- *
+- * Output:      NONE
+- *
+- * Return:      NONE
+- *
+- * Revised History:
+- * When			Who		Remark
+- * 11/12/2008	MHC		Create Version 0.
+- *
+- */
+-void rtw_efuse_shadow_read(struct adapter *padapter, u8 Type, u16 Offset, u32 *Value)
+-{
+-	if (Type == 1)
+-		efuse_ShadowRead1Byte(padapter, Offset, (u8 *)Value);
+-	else if (Type == 2)
+-		efuse_ShadowRead2Byte(padapter, Offset, (u16 *)Value);
+-	else if (Type == 4)
+-		efuse_ShadowRead4Byte(padapter, Offset, (u32 *)Value);
+-
+-} /* rtw_efuse_shadow_read*/
+diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit.c b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+index 57d2925642e7..001b4b32c02e 100644
+--- a/drivers/staging/rtl8723bs/hal/sdio_halinit.c
++++ b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+@@ -538,26 +538,6 @@ static void _RfPowerSave(struct adapter *padapter)
+ /* YJ, TODO */
+ }
+ 
+-/*  */
+-/*  2010/08/09 MH Add for power down check. */
+-/*  */
+-static bool HalDetectPwrDownMode(struct adapter *Adapter)
+-{
+-	u8 tmpvalue;
+-	struct hal_com_data *pHalData = GET_HAL_DATA(Adapter);
+-	struct pwrctrl_priv *pwrctrlpriv = adapter_to_pwrctl(Adapter);
+-
+-	rtw_efuse_shadow_read(Adapter, 1, 0x7B/*EEPROM_RF_OPT3_92C*/, (u32 *)&tmpvalue);
+-
+-	/*  2010/08/25 MH INF priority > PDN Efuse value. */
+-	if (tmpvalue & BIT(4) && pwrctrlpriv->reg_pdnmode)
+-		pHalData->pwrdown = true;
+-	else
+-		pHalData->pwrdown = false;
+-
+-	return pHalData->pwrdown;
+-}	/*  HalDetectPwrDownMode */
+-
+ u32 rtl8723bs_hal_init(struct adapter *padapter)
+ {
+ 	s32 ret;
+@@ -632,10 +612,6 @@ u32 rtl8723bs_hal_init(struct adapter *padapter)
+ 	if (pwrctrlpriv->reg_rfoff)
+ 		pwrctrlpriv->rf_pwrstate = rf_off;
+ 
+-	/*  2010/08/09 MH We need to check if we need to turnon or off RF after detecting */
+-	/*  HW GPIO pin. Before PHY_RFConfig8192C. */
+-	HalDetectPwrDownMode(padapter);
+-
+ 	/*  Save target channel */
+ 	/*  <Roger_Notes> Current Channel will be updated again later. */
+ 	pHalData->CurrentChannel = 6;
+diff --git a/drivers/staging/rtl8723bs/include/rtw_efuse.h b/drivers/staging/rtl8723bs/include/rtw_efuse.h
+index 808ba94a5998..a60e05cf699c 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_efuse.h
++++ b/drivers/staging/rtl8723bs/include/rtw_efuse.h
+@@ -73,6 +73,5 @@ u8 rtw_efuse_one_byte_read(struct adapter *padapter, u16 addr, u8 *data);
+ 
+ u8 rtw_efuse_read_1_byte(struct adapter *padapter, u16 Address);
+ void rtw_efuse_shadow_map_update(struct adapter *padapter, u8 efuseType);
+-void rtw_efuse_shadow_read(struct adapter *padapter, u8 Type, u16 Offset, u32 *Value);
+ 
+ #endif
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202608070159.puVnOVxb-lkp@intel.com/
+---
+base-commit: c6eb4dc5964fdf4086b73b7f0f5dc0d595fb5cf3
+change-id: 20260805-rtl8723bs_efuse-61a335b0d1b2
 
-All errors (new ones prefixed by >>):
+Best regards,
+--  
+Nikolay Kulikov <nikolayof23@gmail.com>
 
-   drivers/staging/rtl8723bs/core/rtw_cmd.c: In function 'collect_traffic_statistics':
-   drivers/staging/rtl8723bs/core/rtw_cmd.c:1112:28: error: initialization of 'struct traffic_stat *' from incompatible pointer type 'struct rtw_traffic_statistics *' [-Werror=incompatible-pointer-types]
-     struct traffic_stat *ts = &pdvobjpriv->traffic_stat
-                               ^
-   drivers/staging/rtl8723bs/core/rtw_cmd.c:1115:2: error: expected ',' or ';' before 'ts'
-     ts->tx_bytes = padapter->xmitpriv.tx_bytes;
-     ^~
->> drivers/staging/rtl8723bs/core/rtw_cmd.c:1116:4: error: dereferencing pointer to incomplete type 'struct traffic_stat'
-     ts->tx_pkts = padapter->xmitpriv.tx_pkts;
-       ^~
-   cc1: some warnings being treated as errors
-
-
-vim +1116 drivers/staging/rtl8723bs/core/rtw_cmd.c
-
-  1108	
-  1109	static void collect_traffic_statistics(struct adapter *padapter)
-  1110	{
-  1111		struct dvobj_priv *pdvobjpriv = adapter_to_dvobj(padapter);
-  1112		struct traffic_stat *ts = &pdvobjpriv->traffic_stat
-  1113	
-  1114		/*  Tx */
-  1115		ts->tx_bytes = padapter->xmitpriv.tx_bytes;
-> 1116		ts->tx_pkts = padapter->xmitpriv.tx_pkts;
-  1117		ts->tx_drop = padapter->xmitpriv.tx_drop;
-  1118	
-  1119		/*  Rx */
-  1120		ts->rx_bytes = padapter->recvpriv.rx_bytes;
-  1121		ts->rx_pkts = padapter->recvpriv.rx_pkts;
-  1122		ts->rx_drop = padapter->recvpriv.rx_drop;
-  1123	
-  1124		/*  Calculate throughput in last interval */
-  1125		ts->cur_tx_bytes = ts->tx_bytes - ts->last_tx_bytes;
-  1126		ts->cur_rx_bytes = ts->rx_bytes - ts->last_rx_bytes;
-  1127		ts->last_tx_bytes = ts->tx_bytes;
-  1128		ts->last_rx_bytes = ts->rx_bytes;
-  1129	
-  1130		ts->cur_tx_tp = (u32)(ts->cur_tx_bytes * 8 / 2 / 1024 / 1024);
-  1131		ts->cur_rx_tp = (u32)(ts->cur_rx_bytes * 8 / 2 / 1024 / 1024);
-  1132	}
-  1133	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
