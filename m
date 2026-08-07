@@ -1,74 +1,74 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C79A229BDBF
-	for <linux-staging@lists.linux.dev>; Fri,  7 Aug 2026 16:41:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D04D38330C
+	for <linux-staging@lists.linux.dev>; Fri,  7 Aug 2026 17:07:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786120880; cv=none; b=B7atgBfWKylRkLg6KvTxYGJTIh494+B4aV35uCpYpQCaj9EOow7Qtm/sGvnndYy0uUG+0Qg9jVPYN1Qj9yr5VyrUwz5dMmlPxH++Km/+aEWOGSav8dTsZUXxFCmIwiJxNbjCdA/u5yWrBo8lxpcAq2/GyYjQUs76LgPJMNXq2Zg=
+	t=1786122472; cv=none; b=nOfslsqpDVUmxNFsdOzukc8ikY5TYEz5yqS6HpAmOiqyg7a2v3R6hp6TA1JLpVgtfcdZOKxsgCw7uz1aALIm3dZzH/edKp2BakyT30JBlLFhBxkKnxbIGYNEw661FBqp9hbSPtIAr0aQa1FSCWJz7WyIfGKyuNaCMff5I8K8d3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786120880; c=relaxed/simple;
-	bh=5dIqpadMbEk+y91y1iRNf6AuBQ+eubdCVgyrzqMMx7g=;
+	s=arc-20240116; t=1786122472; c=relaxed/simple;
+	bh=Xjix+ezDww45fiSmmVE27IMAovNtEODaJjUP+svzGog=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gJbicbP10uLCc7yHKxA7SKWRLpber1nTIHnLOyz8nc0n8hfoPOfmURgTHygTSgQoXSfUbJi5+a5a/cXnFAkl3tXmiAyZCv5dzd6jjsGf3Uv7uRU0TKtHeER9Pw5naNO/3rKwS3IR0S/MC58dsL51AqkroPKHSLaLnI6lY6cWzCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gHhFdN5G; arc=none smtp.client-ip=209.85.167.49
+	 Content-Type:Content-Disposition:In-Reply-To; b=CnPHZNVmU+0lJWCmMcRo39iupRaq0ufyayuxD6PaNhetIqF+wAW+BChBGw25grla+nZAOiTWf/cDdb5Dok32bgNmqSgsDPu3Y5u2Y1QVCdgcMPGtX2cCdsDT4dF41Uog89azPTLcxuzskr5KO57qMqqmZ1HgvUf5lz4eOjJ5TeM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L38Kx+lM; arc=none smtp.client-ip=209.85.222.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gHhFdN5G"
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5b0f19bea2fso3693869e87.1
-        for <linux-staging@lists.linux.dev>; Fri, 07 Aug 2026 09:41:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L38Kx+lM"
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-92e54f8c051so192320785a.3
+        for <linux-staging@lists.linux.dev>; Fri, 07 Aug 2026 10:07:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786120877; x=1786725677; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1786122469; x=1786727269; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=RDWNsbn8AaiOnT73If9FoLX/GoxxLjSClflI4U9QaJA=;
-        b=gHhFdN5GQ/2bCVY6/8DACwBu25YtGqIdoeW5xGdj7KeS4xWkqgteM70iLb9k1PwOSC
-         o6Uy2+LjCa6ZTFaH87u4IsopuPDX1I8Q1VV/TxLBr5Qk5TKb26TENby3Bm+tOT2msDmt
-         DarUu+L0AZdkgMWcO/c2zQTSZc2HTvVZTp9qzMAjU0A2AH9EUzb8ZmKZUTtXNmiV5VZi
-         a580y0lhEoXUDrmG3uvz14igkw8CqZsgWamP0PKI+shPYyVP7iTBm40oLNO+/+Kkoela
-         jwZUFR2DHwHB3Ti+C7kLV6hrZbkg7Q3eY1ns+RKPjd85B2eVU7SOnyEOS9fFSYaU1dsf
-         ZGWQ==
+        bh=4Dm90l7NZdmGx7A2pHb1IyR/aqBOb4q6n8ufqhFP+ZQ=;
+        b=L38Kx+lM2ptxLgyEaCZUp2SMFidkoej0jzZO9LPrrwDfbArOPj6jyFwKrG77Ubx5qy
+         mUagbvrU1WSvxeQ7S4zMjj6tvfh8PugB3TvocXanvll4ynsy0OHWrB07uPreEqJHuWiP
+         vrRNorRlyFZbwZXRDr+awBQ4AurYdsJP3EeKY48BYSEH5z1D4hx91NM8VmeZprgyKRkg
+         n31M+mm9r+wjB3VBkv/4e4XiBe7DQxHs8r3NL4Ezbd/bcTwqACG+Q5PUsoiFJbjeqyMT
+         xmeOy1ZqIH+w3IycX8hMJXfzumWKFNeET37hZxQARQJdfeZ4cdAEccpfLS+cWF6+C1Zy
+         04OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786120877; x=1786725677;
+        d=1e100.net; s=20251104; t=1786122469; x=1786727269;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=RDWNsbn8AaiOnT73If9FoLX/GoxxLjSClflI4U9QaJA=;
-        b=YgfyGN5OIzAQak86eg2MMYT3EBQjn0M57QUvIZU+jf0ojP8OrectP9JnNCNfY90Vfe
-         HWCqOWpaapwsKMJP64mOuUY6klZIMDLEj1yfSqrKTGFEr1A1RuHm2tsBH3hot1I4/DDk
-         xg9xpn8C6J6OJODdciKD83pHRgmubUTGPyKVsl2xVkr+ytrEYpZpozmvKyI5AlVSQvHp
-         M+25DbmIryyfrXDvf4liTiJd7xWdDoxC20fiLhhlTgBgfm4+5r5AMhBpA7td+qI0BvVe
-         QaaZCmmlF0MkCcHQOrQO3btELqa4AKKaspAeL+td7yRy9xBrJYkbpMw1DowrYoDXuimI
-         +V6w==
-X-Forwarded-Encrypted: i=1; AHgh+Rpa8a27cdAAc1AWOZG4sqGwP9fyr97aTQDpFsIfh65YwyJJmLhgLyKdWlJ96rX6nnmdVpQ6BojWQ3Z7/WkY@lists.linux.dev
-X-Gm-Message-State: AOJu0YwBbdPi1Kv1CxmVD80zj0zihWuAPiPjCcliQHtGuJsTPORoc3EC
-	PSt7DuNWM3Ahw/Z0EDtGqdYnXp/GJp21oGdop2+GhZdAjxwGWxukQTfM
-X-Gm-Gg: AR+sD13loNLfRK/BEm/EKOMy57J9KvBS5pjPlpzvn/YleoxOAb8zQNzLqdhnnUw/Gxp
-	7x60tLP/VNSTxFOlG+wGWvGnMQt5jSIpgCXZEll7hpG3px4PTIUoa7ZD0Kt15pt4T9BbFzRHW5V
-	n11Vh22dkLoc0eIPlfy3YX4C5DxmHIiu8S9c9FxMESR51fG3UeMF9AnWfNMqypDqetcwhfzzScR
-	91ZTcagK4aK8gjtIp/gRGPt7PznqzsXOogRANmzyHqMdePHsYC65tdhKhNRFp/X2XAPWAxeKqz0
-	+q+g8QnRuOgp9RAkzuajQZSeSNIo/AQQWHUEGWSwisx/WrRuECLsdRixrb+vHuFn/QN9EJsCogs
-	nIqEfO6qjL4wgl1hTP/QoBYNypPOXRU4uYT+YGxAWd/yHU0V+/u1hQJV16HcRtDyzp+hbjdtBPX
-	I1NAJ3WjCswJ3xp1CnRxRZkjaXV4DSWQVnMy0NNd7OsYVuZBSQciEpTgr8vlI=
-X-Received: by 2002:a05:6512:3990:b0:5b0:eda:de1b with SMTP id 2adb3069b0e04-5b30919f542mr842704e87.16.1786120876629;
-        Fri, 07 Aug 2026 09:41:16 -0700 (PDT)
-Received: from archlinux ([94.229.19.199])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b3050d0147sm568681e87.27.2026.08.07.09.41.15
+        bh=4Dm90l7NZdmGx7A2pHb1IyR/aqBOb4q6n8ufqhFP+ZQ=;
+        b=Rn5Y4NrAUzKwsIfDtJ7r72fPT2aiZ9nUF3iLFn/ErsFcACDEwhkTjOtwOCFxfhJKJo
+         VUenzhbWO94tkJWXhjVD3f3FhLkElE63CsaFJLjGWy33tMTKbUh41P4nb2ClUv+Z+1tl
+         U1ZocGzRGcxKIvGYcSxPnOzKAfXXf4UCI2H1Vt3gynTU7GqQAy/7ZflpMzKWUDRMEfzv
+         3Cp0L0MURT2lcshS7VTRXOuAEiWG4VYAUhJfSQqm9jnDAIDniN2FcS/rdn6akO5UBpAg
+         vembmQIVWTEoe9hnPNLETH0BG6x1HWxdSlVcKBk4dOrOyaleVd9TDtcNrVummAbIpACE
+         j4Pg==
+X-Forwarded-Encrypted: i=1; AHgh+RowcOkkvfJ7eOAP0lujxKKBsW+RhWNvkcTPytH2lFHs7hHtIERGfogk7+ir02Tr9AFsPJZQPzFmyXUQBzTW@lists.linux.dev
+X-Gm-Message-State: AOJu0YxrmC6rHWC6yuLkGnKkNrMO8gHq/vyG8XFCSIprPjg2q3beMZiV
+	LwOWSx+y3KBG6STS6UFCkH+EUyNGYjc6e4lXvG1rlpidVD+6My5cn5RO
+X-Gm-Gg: AR+sD10AF316xx/DeXe0jEpMh46MX0Dz0I+jeCFSh6OFErKDzHlExqoILciE/BtPdLk
+	eWO8Kihg8KhqYwBcPinlDMaYd1Furo4K7gOMZ50HJlh5iewVn9Ans9VqFRyId2PUtNKxJePNNMq
+	8mLY1ZViSJIXP4JPi0K8uzZmsZPUMPdZ/mAJJreY49tuY8T9TYCI9ETgZY4QosMkLXnaZHSynAt
+	9lNbiXJ32ESiVMIf5uYBeFEHjVtNd9brZizJfohwPGUsLLFyhy8BZsHKlBTy874hxQqB14GCn4s
+	qjhKqEKhE8icrL56ANyetnzLjTY7GS3P6NECFaWA3jo/yMj6ZCKy8+XQXPVMxEIiQ/VTYW1Del+
+	oY5yqbySVd8z1ijnvNZKa/V18GKgaeN2uur70bkfDqwK7jfHHb0Gn9k2a9FfRJeTrnbFtjuyoUn
+	6wpgjbYe4hgY5xDGasVB2yo7nrBwrpzj8Np5tTw++JPJ0MgP9N5xZTUQ==
+X-Received: by 2002:a05:620a:a403:10b0:92e:4859:49dd with SMTP id af79cd13be357-936490e7540mr2021484685a.26.1786122469163;
+        Fri, 07 Aug 2026 10:07:49 -0700 (PDT)
+Received: from localhost ([172.216.11.43])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9366e03aeadsm191761385a.3.2026.08.07.10.07.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Aug 2026 09:41:16 -0700 (PDT)
-Date: Fri, 7 Aug 2026 19:41:12 +0300
-From: Nikolay Kulikov <nikolayof23@gmail.com>
-To: Dan Carpenter <error27@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: remove static HalDetectPwrDownMode()
- function
-Message-ID: <anYKqAZjl08i_Iws@archlinux>
-References: <20260806-rtl8723bs_efuse-v1-1-fedb8b91f346@gmail.com>
- <anWO7VdAafRvku1S@stanley.mountain>
+        Fri, 07 Aug 2026 10:07:48 -0700 (PDT)
+Date: Fri, 7 Aug 2026 20:07:41 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Punnay299 <punnaysharma805@gmail.com>
+Cc: gregkh@linuxfoundation.org, mchehab@kernel.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: media: av7110: fix sp8870 initialization and
+ hardware communication
+Message-ID: <anYQ3cNFJp-YCqLr@stanley.mountain>
+References: <20260807160149.41580-1-punnaysharma805@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,26 +77,91 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <anWO7VdAafRvku1S@stanley.mountain>
+In-Reply-To: <20260807160149.41580-1-punnaysharma805@gmail.com>
 
-On Fri, Aug 07, 2026 at 10:53:17AM +0300, Dan Carpenter wrote:
-> On Thu, Aug 06, 2026 at 10:34:48PM +0300, Nikolay Kulikov wrote:
-> > The return value of this function is ignored at the call site, and since
-> > the function has no side effects (except for the assignment to
-> > pHalData->pwrdown, which is not used anywhere else), it can be removed.
-> > 
+On Fri, Aug 07, 2026 at 09:31:49PM +0530, Punnay299 wrote:
+> Address multiple correctness issues in the sp8870 demodulator:
+> - Fix BER reporting in sp8870_read_ber() by correctly ORing the upper bits.
+> - Set state->initialised only after successful firmware upload in sp8870_init() to allow recovery from transient I2C failures.
+
+The AI is too vague on this.  It needs to be spelled out more
+specifically.
+
+> - Catch partial I2C transfers (err == 0) in sp8870_firmware_upload() and return -EREMOTEIO to prevent silent firmware corruption.
+
+Run your patch through checkpatch.
+Do one thing per patch instead of three unrelated things.
+If it's a real bug it needs a Fixes tag.
+
 > 
-> The patch needs to get rid of pwrdown from include/hal_data.h.  There
-> are two reasons for this.
+> Signed-off-by: Punnay299 <punnaysharma805@gmail.com>
+
+Use your real name.
+
+> ---
+>  drivers/staging/media/av7110/sp8870.c | 16 ++++++++++------
+>  1 file changed, 10 insertions(+), 6 deletions(-)
 > 
-> 1) For correctness and cleanliness.
-> 2) It makes the patch easier to review because as the patch is written
->    now we need to check the kernel source to see if what you're saying
->    is true.  But if we delete it and it is actually used somewhere then
->    we can rely on the kbuild-bot to find the mistake.
+> diff --git a/drivers/staging/media/av7110/sp8870.c b/drivers/staging/media/av7110/sp8870.c
+> index 29fb4934c..def2a7f0c 100644
+> --- a/drivers/staging/media/av7110/sp8870.c
+> +++ b/drivers/staging/media/av7110/sp8870.c
+> @@ -68,7 +68,8 @@ static int sp8870_writereg(struct sp8870_state *state, u16 reg, u16 data)
+>  
+>  	err = i2c_transfer(state->i2c, &msg, 1);
+>  	if (err != 1) {
+> -		dprintk("writereg error (err == %i, reg == 0x%02x, data == 0x%02x)\n", err, reg, data);
+> +		dprintk("writereg error (err == %i, reg == 0x%02x, data == 0x%02x)\n",
+> +			err, reg, data);
 
-Thanks for the review, I'll do this in v2.
+Don't make unrelated whitespace changes.
 
+>  		return -EREMOTEIO;
+>  	}
+>  
+> @@ -135,7 +136,7 @@ static int sp8870_firmware_upload(struct sp8870_state *state, const struct firmw
+>  		if (err != 1) {
+>  			pr_err("%s(): firmware upload failed!\n", __func__);
+>  			pr_err("%s(): i2c error (err == %i)\n", __func__, err);
+> -			return err;
+> +			return err < 0 ? err : -EREMOTEIO;
 
-Thanks,
-Nikolay
+I'm pretty sure i2c_transfer() can't return zero in this case.
+It feels like this would be a bug in i2c_transfer().
+
+>  		}
+>  		fw_pos += tx_len;
+>  	}
+> @@ -315,7 +316,6 @@ static int sp8870_init(struct dvb_frontend *fe)
+>  	sp8870_wake_up(state);
+>  	if (state->initialised)
+>  		return 0;
+> -	state->initialised = 1;
+>  
+>  	dprintk("initialising frontend...\n");
+>  
+> @@ -353,6 +353,8 @@ static int sp8870_init(struct dvb_frontend *fe)
+>  	sp8870_writereg(state, 0x0D00, 0x010);
+>  	sp8870_writereg(state, 0x0D01, 0x000);
+>  
+> +	state->initialised = 1;
+> +
+>  	return 0;
+>  }
+>  
+> @@ -401,7 +403,7 @@ static int sp8870_read_ber(struct dvb_frontend *fe, u32 *ber)
+>  	if (ret < 0)
+>  		return -EIO;
+>  
+> -	tmp = ret << 6;
+> +	tmp |= ret << 6;
+>  	if (tmp >= 0x3FFF0)
+>  		tmp = ~0;
+>  
+
+This feels like it probably is a Fix.  It would be better if it could
+be tested.
+
+regards,
+dan carpenter
+
