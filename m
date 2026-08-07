@@ -1,133 +1,108 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3A633A9851
-	for <linux-staging@lists.linux.dev>; Fri,  7 Aug 2026 07:16:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01F763890E8
+	for <linux-staging@lists.linux.dev>; Fri,  7 Aug 2026 07:36:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786086969; cv=none; b=rv89kRQLNC7dtRWTOo5JEAHR8tRx8A84TG9Hlh0zacNab5Gg0poVDQeXehbShHMvei4tjwtiSnqqtQvhIEUDFiRMR5F2uXSGALOSEJk8MW43FNZ0M15ubqJVCAYEKfpmtbFgJcABlaA9a/RkcA9/nLxqQIgc6oOiAcg3Mo6Btr8=
+	t=1786088202; cv=none; b=YhbwOtNaGoMCfV42gcRrF6KIAV6hxtCmdTfrKTf28NdoG6MDV1Zh0XAosSn+U0UhXQ2U+DpOXDPmXCtzo+hWi+jKwzX4tzMAVkUGcM5c+5sm8xgoXaYSZeQa7ANX3EZfbcpU1RLuvwbla+K8obDLVDBo9L6LGcrDWNNfAIgAiFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786086969; c=relaxed/simple;
-	bh=kQqz3hsk1y2iV4xeE5C9ALU/9J5Bfxq8H+CjBpgjeog=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QyWZJchfixAxso3JI7fgM04G94H5GZ7YiHd+JeQjdUu9/jC8BLaUgKQQ7IKPlZrYXsRbwuj/bQcgz2IK9ExjTjR1UjOB3LIGTl0dumAysfUCOWq00t+B7bAGrtrPaOUwFGe8EnZJiCsc1UxWRaT1LDx80SaW6UAxfk1XAb60jww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VtYxee6g; arc=none smtp.client-ip=209.85.216.54
+	s=arc-20240116; t=1786088202; c=relaxed/simple;
+	bh=wQAVvH1tNXlAzIGB7zvqrPD5lgABH9gvcOKmiSO8R/o=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=YWuxLgbyTKeLw5f/X6S6iE6Al3YQpMTC0qICjlT+ycLR8DDiCgGLqh2i48f5Oggw3lIfJQudRNoGxX/zqmUOT6rM0nBbbzBNbqYiCi7a/rmSCRqMTFH0WNwha+uH8oPsomejYcxZqPzDBAUOZVVt3FZ5WxFJE1lNezCXMWougZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=n3JoXUCA; arc=none smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VtYxee6g"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-38a0c7e841fso3807098a91.2
-        for <linux-staging@lists.linux.dev>; Fri, 07 Aug 2026 00:16:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="n3JoXUCA"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-47fe89fb333so1842616f8f.3
+        for <linux-staging@lists.linux.dev>; Fri, 07 Aug 2026 00:36:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786086967; x=1786691767; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=8GKuiDEG88B3UVF8xtTuPaQDFcoPyLRCeG2JmgopU+E=;
-        b=VtYxee6g37D3aPdwOV+8NnEAuey7oWITGScgXfmQwulrblfeXNuV5ns6maA6gv2qVH
-         sox8C5egQxKDidnCRI3XWlYbT5rk6JrWWJjI6Rde964GB/W1gyfUl9EsQREX04Ue0WC3
-         +2G7Ee9V+DAPytY46eYFzLmKOwuNt9Xtfxl4Hx7JGqUktxUQUjPmkph162+2prIJ+/hi
-         /QRg8jdZzRSvbkbxAop5b3hOWo9bRAVjQqBBbhdJFSJbmwmxH1i6Oz8NKnfAXQcPoOh/
-         mmVUg3e2w4CLqExWo4E0ajNaKehOSLnOXdzJs4YzeF0SABP95hyef2EGFLXXrBfpc7E4
-         RDIg==
+        d=gmail.com; s=20251104; t=1786088198; x=1786692998; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=z/WXJlREgBQORjV26H3RvXyQimV7YRpmumUNnx9xtAU=;
+        b=n3JoXUCAP8IsRfjOR2mPTIUesXnhSoenR4iSWzVxWxX3hjIzdDCKGcQr0/E0+RPVI3
+         MFA7KT68/1oC4/Ww1TYOWyhs7F4Z5gtOQvJthz9YAU2ziPXnrJjVnRKYMqM0ddLDfDct
+         xu6s1/WVH0OBIb7pA2A5FR857gjQ4wYErEN+P3AOuCjDOxMqvV9cuXxcL64NeqWF/Xzd
+         layKzg4AsT3R9rer7428YA2JFgLlEjQaT3+A7qDBnZ6vY18qYsIU55cctcRLaNbdyzwr
+         KSLVgtjHPxRmJeS5tZiGUqDkH3VPvuYQUdkXXSD0UjIJCBiObp81lMOgpxNRlzwRMfyy
+         nLQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786086967; x=1786691767;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=8GKuiDEG88B3UVF8xtTuPaQDFcoPyLRCeG2JmgopU+E=;
-        b=K0ki3gVuAJDq/kk2mAwSMJ0Z7N3C9KEnxvF1jPkxCdHdJpnc/jCar1BItyU9OTuvOY
-         BrbCkNvN0E3f3y+eh1tnHFedK4GhDlzwxiwV58SQfnF1eafHLSwxuBy5GxnpIn3M7Bj/
-         Ci4T4J7cYbm9Pq6tIEBV3VZAENk0VqfA7Lz5E+IPcIZk/uEpRlwu//seh2UrOgd9vHkl
-         +kGeReVRr1kw2l3q8tGul4VDOD+MdC3RjLJ+ithgKaituZtKy+EwWklPw42q/97qwNN8
-         RXaPUbpxciDBEEn0Hlq5kHMgfAC5fpChM8xq3d/3M0kwn79nutowYh0bk+5MQgbB58zi
-         1FUA==
-X-Forwarded-Encrypted: i=1; AHgh+RpiS5EpZ1VMKBAE5UNgHBs3FAweCLV1VlPpTNzz/LMarhELxyRj1dY4M+MqtFCzDiSUUMjbKzB9bfG+Dsk9@lists.linux.dev
-X-Gm-Message-State: AOJu0YzewMTbR4MwQ7++onNCKj3qWKZ7SF9O1dpk791PdRv93gmNd7Nr
-	YSiKhnzwffd9Z3UxlPXTB9U1B76qVmoQ/B8UNXJ7htlqo0Qzic8gi2+O
-X-Gm-Gg: AR+sD13M7S3xgaqEMGMiSJerOCMooqf58fxkSqBzCKrqfuEU+NVPPJs20AlGUKQt3rA
-	2XkNiP8C46pTG2FnlRgOIM/jmW6l5l3naHOhinAjShSFfgH1mudBq6P0s95lF5bq6oODj9YGzTa
-	HDpjPGph2yZFYEEj76LqGp/KIOEE+RcBWmHmMY/AIuvrdLnKzP0shxuh2RHGonx+F2PBZ0Y22mF
-	KY4M8tRnLOAzjQBDV55ydfg9ZNzdKjk8PN7GTjXT62NQYnC6OH3WONpGfFHKCxBzxU2C6jOp7QP
-	Mm3x2zTXVok+0uoaVKVGOHXo7EW/+pLMGflsDGleYKXQ3Ugquj4txHvpGVbSEvOdbyi90wjrqMO
-	E0gF44e1/iIAAbiwjdwipIb617U/M3cWeV4yL75Kdf2lMbraBU+s3kIQLJ82VRJcbJCY0c4PeOa
-	E4vJf1aCX3Ir7KtjUpAFOZhKjiiMjBanjRHSz/aQ9ChrcG77ZIQuvqjeYkgQ==
-X-Received: by 2002:a17:90b:1f8e:b0:38d:f096:a1dc with SMTP id 98e67ed59e1d1-392620e71c6mr2232422a91.11.1786086967193;
-        Fri, 07 Aug 2026 00:16:07 -0700 (PDT)
-Received: from dio ([103.161.231.220])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14101b7b39bsm4347753c88.14.2026.08.07.00.16.03
+        d=1e100.net; s=20251104; t=1786088198; x=1786692998;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=z/WXJlREgBQORjV26H3RvXyQimV7YRpmumUNnx9xtAU=;
+        b=CR2XwKzxnoYFPum3Mq0DMewDdQn336BYyKBS2diiGqfx97MxHTWKIndcKX11itakxw
+         zRxXuOdRxL0lt1GYKb4dLiIJfPe2NPiJ1+gT68WgYxWhUCYb79+P1byXvtBELx2rElUq
+         QKClp6O4bwSbpAaCLiri1gXX121SpvOOiD1zooQ7p1dfmNZML7NHgAEkZLTY2xGkxo1Q
+         coVoLxd2478nMzrw9IAlSd0Xo7B1zspVbicy6v3UBRZazGZo2KWok025fZwiNR76A3Qk
+         G1p5yPPpGbznOo76B9+9GHbkZ8al1pUlVcpGGeGFxZioxn2RAcYIL2UXuZSDtbW7Jn89
+         tL+A==
+X-Forwarded-Encrypted: i=1; AHgh+RoTJLECZ4GwAoU6Ud95LqjUM5PosM/OR3euipkO8kwADAhyqBqI/fy1IFdJP5HaPOOEKYSfsdoDKAGBT6g6@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzq6HTfYS9MpxG1DhpVjddyJh/wr/PhUSGApuXqQ/T9+ndYrCGk
+	E+fnh68blffNdUi6BN7JKrudLr7mgDambtXtI1tUhhoxWhahpwSdP0fl
+X-Gm-Gg: AR+sD10o8eeAj2mlBBmoNwrhLZLukxwYPzGPnbeExnH/6idHc3lgxBEB+9ZojznKqaC
+	XG8teDJrkPdmXGQLKggReERC5Uz4pm6sXlOEMnAtViE1cF5AyrJ7Y1wtfyKMg8QfRgiF1aUIbTb
+	JoRNpqLNeJ4kbm0iIZ/rKjoy3fOY6KSybu4ks/lZS7awbX5eQ07dMuo9sZcqZ8CDRvCQ2m2OFm2
+	4xMuPYgUdIQfkY4ytgY3vp1aeUHe/44/zv9fg4senn1GBe/RVXc3wg/IEfPd4+XOzNZUlVmzogC
+	xSMfPu0arXt+vtngr23WTm7I3Kx78XZgNQ8jw9icYc+itjn8xS1vHpCc2OQSy/T15jdiO6dcD3w
+	x7vCVPz/93GqE3fq6bZVM0jHNyM/I8lFndjvR1ZIu+UP/zF2ut98W/9MKR8FnxX6ns/h3TWYDDK
+	VW6fOxbjfvbB3/WXU/ifH1WvjSWQyJ/AzvWxE7qeALEmziepEC0aeiWYOxGjskiWlWE0JMSNSRC
+	ENF+7FhRwGLE0Vn5eTQ8NQZL0OmDCqLq9E720yMjCoYohMIdhaSHI4OWzSmc8ylxLkfN17saltv
+	T+mG+0gVeSReNya+M5CHB+MPsLnJRYygZd8xIewYeV89qp5q4w1usaUaLhyd247LmZwLPjx/BoI
+	nE3+GyH93Dk8bloJ7dwMAmlEWzJOehGFVrfMSbgtqPOTMukeklOUFqZy3dLG5ian0JHACj/8=
+X-Received: by 2002:a05:600c:c8c:b0:496:c18c:f9a3 with SMTP id 5b1f17b1804b1-4994e79dc76mr250053215e9.5.1786088198056;
+        Fri, 07 Aug 2026 00:36:38 -0700 (PDT)
+Received: from localhost (90-182-112-124.rcp.o2.cz. [90.182.112.124])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4995e9f0230sm13148745e9.6.2026.08.07.00.36.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Aug 2026 00:16:06 -0700 (PDT)
-From: singh.supreet14@gmail.com
-To: Viresh Kumar <vireshk@kernel.org>
-Cc: Rui Miguel Silva <rmfrfs@gmail.com>,
-	Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Supreet Singh <singh.supreet14@gmail.com>
-Subject: [PATCH v3] staging: greybus: spilib: Handle SPI device types with a switch statement
-Date: Fri,  7 Aug 2026 12:45:42 +0530
-Message-ID: <20260807071542.200192-1-singh.supreet14@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260806101118.146685-1-singh.supreet14@gmail.com>
-References: <20260806101118.146685-1-singh.supreet14@gmail.com>
+        Fri, 07 Aug 2026 00:36:37 -0700 (PDT)
+Date: Fri, 7 Aug 2026 09:36:37 +0200
+From: Joshua Crofts <joshua.crofts1@gmail.com>
+To: Mohamad Raizudeen <raizudeen.kerneldev@gmail.com>
+Cc: andriy.shevchenko@intel.com, jic23@kernel.org, dlechner@baylibre.com,
+ andy@kernel.org, nuno.sa@analog.com, gregkh@linuxfoundation.org,
+ skhan@linuxfoundation.org, me@brighamcampbell.com, jkoolstra@xs4all.nl,
+ linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] staging: iio: frequency: ad9832/ad9834: add comment
+ explaining do_div usage
+Message-ID: <20260807093637.00002bfa@gmail.com>
+In-Reply-To: <20260807060348.6477-1-raizudeen.kerneldev@gmail.com>
+References: <20260807060348.6477-1-raizudeen.kerneldev@gmail.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: Supreet Singh <singh.supreet14@gmail.com>
+On Fri,  7 Aug 2026 11:33:48 +0530
+Mohamad Raizudeen <raizudeen.kerneldev@gmail.com> wrote:
 
-Replace the if/else chain that selects the SPI device type with a switch
-statement. This makes the code easier to extend when additional device
-types are introduced and improves readability.
+> diff --git a/drivers/staging/iio/frequency/ad9834.c b/drivers/staging/iio/frequency/ad9834.c
+> index 33dfd723923c..85f39ceb3c4c 100644
+> --- a/drivers/staging/iio/frequency/ad9834.c
+> +++ b/drivers/staging/iio/frequency/ad9834.c
+> @@ -103,6 +103,12 @@ static unsigned int ad9834_calc_freqreg(unsigned long mclk, unsigned long fout)
+>  {
+>  	unsigned long long freqreg = (u64)fout * (u64)BIT(AD9834_FREQ_BITS);
+>  
+> +	/*
+> +	 * mclk is an unsigned long, which triggers a Coccinelle false positive
+> +	 * warning about using a do_div() for 64-by-32 division. However, mclk
+> +	 * for this hardware will always fir within 32 bits, so do_div() is
 
-Signed-off-by: Supreet Singh <singh.supreet14@gmail.com>
----
-Changes in v3:
-- Fixed the memcpy indentation issue
-- Removed the extra blank line in the commit message
+You have a typo here, fir -> fit.
 
- drivers/staging/greybus/spilib.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/staging/greybus/spilib.c b/drivers/staging/greybus/spilib.c
-index e4d1ae8308aa..39d5bf234c61 100644
---- a/drivers/staging/greybus/spilib.c
-+++ b/drivers/staging/greybus/spilib.c
-@@ -458,17 +458,22 @@ static int gb_spi_setup_device(struct gb_spilib *spi, u8 cs)
- 
- 	dev_type = response.device_type;
- 
--	if (dev_type == GB_SPI_SPI_DEV)
-+	switch (dev_type) {
-+	case GB_SPI_SPI_DEV:
- 		strscpy(spi_board.modalias, "spidev",
- 			sizeof(spi_board.modalias));
--	else if (dev_type == GB_SPI_SPI_NOR)
-+		break;
-+	case GB_SPI_SPI_NOR:
- 		strscpy(spi_board.modalias, "spi-nor",
- 			sizeof(spi_board.modalias));
--	else if (dev_type == GB_SPI_SPI_MODALIAS)
-+		break;
-+	case GB_SPI_SPI_MODALIAS:
- 		memcpy(spi_board.modalias, response.name,
- 		       sizeof(spi_board.modalias));
--	else
-+		break;
-+	default:
- 		return -EINVAL;
-+	}
- 
- 	spi_board.mode		= le16_to_cpu(response.mode);
- 	spi_board.bus_num	= ctlr->bus_num;
 -- 
-2.55.0
-
+Kind regards,
+Joshua Crofts
