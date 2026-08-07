@@ -1,109 +1,112 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A86A41F366
-	for <linux-staging@lists.linux.dev>; Fri,  7 Aug 2026 10:12:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 280DE30E0F2
+	for <linux-staging@lists.linux.dev>; Fri,  7 Aug 2026 12:53:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786097536; cv=none; b=MDqwiG6H/ojucJ9CHe3LBgqJ3MGbdwDwjyusmItZWoXVDUSYb+vfC2ydl42Gb1PypSDxJeRfxIBSBLZ4dJYAlyDaRNoV55/99DBrTEWDffqR36xegPWyBX83fm/lUP/PbqSU58LUFsgTFIXcI22j6cwgi3EsWGCQ8TGsbAhka38=
+	t=1786107224; cv=none; b=i0LB0whJzfJFJIQ8msDbPCAfBpie0p9vC+y5/dTbKBYe75bQmfqEodRMrGrBHEMpT/j2OAB3XuKIWyotiQIYBdDfvu6+oVhWSMhXdZghMYr427XWRZLsTmPAlTaExc3uIb5azHSetX1zAs++cbi0v5En5PsJibrHGA4+VseYBHA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786097536; c=relaxed/simple;
-	bh=oTHqQLCwhxCe7N0D1T5nZxG+I/w2kOY6Qan/KcU9ovA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Gqpc70d7IvenHN4s2/jyFYwAFkKe+KEshuikkC+k1+fimT9OcUWeMXO2CWF+LglnN1gsnYhs+y0nZllzE89r39j/3hun+Kl/+EBpR6Qe9/BvUiFYXKKJrumEAOTpR+bpdOkJ0o8NifxzVoiXYRiSvyss9crxpsxGotWQ9wXvmCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BGDLGT1E; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786107224; c=relaxed/simple;
+	bh=jw3JkQcm7J+kOSxRCeGS2D3A6Qe+4qxhPBNgCgg0zNg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=MLXbIchCfKWrnYPgsAPaPaA5iC0QiR7Cv4BmiyzzFONM1cla1cs2jULzFNYdw9l1FhImDe3BHa9rU9GhZxg/20W+4mpD9LYcb0+Xn9aSiy6ZPYFVnaiyWbi+YFJlg/wSA0TdxCeKv/0TmWAgIIM6lhp80JSJTVh2RLUPEVyDQFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=sEJRfZU1; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ExIx+e59; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BGDLGT1E"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-476a130c138so2763646f8f.0
-        for <linux-staging@lists.linux.dev>; Fri, 07 Aug 2026 03:12:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786097532; x=1786702332; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=dysWOlTH9FYoN0EEYHBpje7XGNqqwHjlQuHDF1F6Br8=;
-        b=BGDLGT1EgAwZot+SAFGCNVyL7JtIanWlseqsMPUnPA+xSKI8Uxq5ewjbIvv8OL6trq
-         yAPDxg9DBSD/0ajd9hw9bkddynaPLzETwycuNKVEXM8+Y6S+OIz8lMLYc58BzSelWaW3
-         MyQQ9k1McSFWA1SohYBhE8qjE7jg9hdpDIwq0ZpgB/CiaE7n3posXMklndp9oGF5oTu7
-         SfuU093TojmV4L18bbvSitjQCC0Ac55X7AfoqchNiEpxtZNa2DvV2Gdag1N6iVVRuSx6
-         vC1zu/ydgTeys3rG/Lxa6Wa1uLdabkcvSS3BvJ2z4h87I2XC35f19cFfTG5FpIGYehkz
-         lcqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786097532; x=1786702332;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=dysWOlTH9FYoN0EEYHBpje7XGNqqwHjlQuHDF1F6Br8=;
-        b=MDuWlSKmNqvjmtKNJREfOgsbYHCU+bNF0eFEfLVnl3XkqJlGJokHD3AHoqu/2dNsmQ
-         ejX+/lougzbKLZY7aBk+AnK4onUvYwUxr7Cv/cVQxVn0Ms/ksmZ7pWNG1B+/PfMs1O8J
-         qROqQWaAPhAyDMN1X9lYMi7k4EPOSZ9ed7uvywao+PEBXOknrL2YR7bqRI3ZNuQfNeaT
-         c6YJECdLIbgd8dfdI0ikZ6NnXwMIMfd0Q6U2iF9dSN4bL7F5MrLrMVMjKrCcThvAiZkZ
-         i65i728urqQgV9eBlmEk9rwQl6iRxMUdNJSGHaGB/URXw5UQhUbjGvtDKRzRTjKYwjfC
-         d7ng==
-X-Forwarded-Encrypted: i=1; AHgh+RpRd/dfBMoCAfi8be7WiaGe4O85WbzndtHP7wLfDB2x+zihSch8zWA/BzeicqviiMoyrAuFEBPArDxN48Ch@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyn0/FMjdCngibmI3xgxEzUYAW7so6/UuUlaTtlZks4eafFDOF3
-	Z9gApiYN6tZfhmy+RGNEWLeq1r8b8JGE0oSRdDE9f1/8XO/0e+tubstE
-X-Gm-Gg: AR+sD10IEyIIrgINghUS9CGdxUuJDv10j2kUoOBLqSLK0EwBGuOR/jet/kFhfNJiDDF
-	3rlDvvXz7Rdla7JOvzv8pc6bsoFCqnWv8IA+zvUTnc//R79plAv3Jwea4GDs69QsXQGaXsuzzZ4
-	7lgspYg6onATQHd9zyQiZ7kbo8yDty8Oska6WgNfnYc1IvdNXKThcVVQ+OFHF+jN8HLO57j0BHO
-	X3ipgGSlwT6XcFnGxa78IMXH6XJ8xsIulnR6T180FSJ0Al+b2zZm3cW9PBnLRHudLUuN+dCSvX9
-	QLF4hDv7LXH+VjSsrOS5FE1Xht+45kzs8s2XkzBn69dnOi5OqaG3Js+v/Kk8zlW7nTP62rsNBfv
-	tPihAhIDDwOoxQwUGfOtgdQ0m7kvZLxP/3jIH2nvM/5JhucRjyf6U/SglXcK2lwXAn3zvD1TeNr
-	RGA72X8NXPSrEe0CDeV0zg/7CjYC7HjIEUhHMJuQWb0MaPek2GTLKshN3zAh17S+DX5TJzyo//Y
-	jjXe6Wa7I9GB5SO67bWHlPP1eR87x7xBt6HsX+edz3Cj9lJBkUa2VeqD1whrzOwgoilVzYp0urv
-	QwBGlkU0Pgo+xTKuewTJ8a6vaazeATVWUXnDJGRcEni0U/Ax8feT0MAAt0d4h5FSUMAqY7Urpj6
-	Tg5+tcVIDec+7PBVEBsOubvE9wje28PN60GW43vKSJeLSX07TkJDtu430SjiuimeZNNOaRMA=
-X-Received: by 2002:a5d:64ce:0:b0:47f:e4e3:d85f with SMTP id ffacd0b85a97d-47ffd9180e2mr14145937f8f.17.1786097532403;
-        Fri, 07 Aug 2026 03:12:12 -0700 (PDT)
-Received: from localhost (90-182-112-124.rcp.o2.cz. [90.182.112.124])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48002206effsm4153583f8f.32.2026.08.07.03.12.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Aug 2026 03:12:12 -0700 (PDT)
-Date: Fri, 7 Aug 2026 12:12:10 +0200
-From: Joshua Crofts <joshua.crofts1@gmail.com>
-To: Mohamad Raizudeen <raizudeen.kerneldev@gmail.com>
-Cc: andriy.shevchenko@intel.com, jic23@kernel.org, dlechner@baylibre.com,
- andy@kernel.org, nuno.sa@analog.com, gregkh@linuxfoundation.org,
- skhan@linuxfoundation.org, me@brighamcampbell.com, jkoolstra@xs4all.nl,
- linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] staging: iio: frequency: ad9832/ad9834: add comment
- explaining do_div usage
-Message-ID: <20260807121210.0000764e@gmail.com>
-In-Reply-To: <20260807094704.5371-1-raizudeen.kerneldev@gmail.com>
-References: <20260807094704.5371-1-raizudeen.kerneldev@gmail.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="sEJRfZU1";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ExIx+e59"
+From: Nam Cao <namcao@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1786107207;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=B4mifpDlB5CYk8EeRO5Kq/ALY2oICGCMbinicf4fy6c=;
+	b=sEJRfZU1fzV0uLT+f0n5227TugAYQ7YhuAcqd29nB+yy8Cn90FeyPZnccaXU4YwE8zZS7q
+	N+L/cE91GnL9iai8Dh/NkyCEefjVRiMK75EWsG/SYu1i7WKuMVxnHCq1Oh9JR6kJXEV1Kj
+	foUNGAOSaq0uW8Q4i4u0Qy962mtURexN54r9ArWswU4shg8XMNh7cGmiMXWPalqQud5ceM
+	FmA4SCWz/hsw7HJsXWyHq8s6nlzPauD+ndDhxp69fo8RE4M4jIH577UAJA/KdiQJAtQyW2
+	6ld/0L78CTotHuA6mz9YYFm1d5/J3oCFOgn+PPnQV1DGREiiFDZgTiy4LD6lUQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1786107207;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=B4mifpDlB5CYk8EeRO5Kq/ALY2oICGCMbinicf4fy6c=;
+	b=ExIx+e59AsMBXTZ90pr6zvXLuEvwYAwLWeT1c3GVKwRD0QyyRBGwJpQAuxCJO0G7DoNyQd
+	LIFfh1eCjEZ/8XBQ==
+To: sh_def@163.com, andy@kernel.org, gregkh@linuxfoundation.org
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ sh_def@163.com, thomas.petazzoni@free-electrons.com, notro@tronnes.org
+Subject: Re: [PATCH] staging: fbtft: make dirty_lock IRQ-safe
+In-Reply-To: <20260804173712.176017-1-sh_def@163.com>
+References: <20260804173712.176017-1-sh_def@163.com>
+Date: Fri, 07 Aug 2026 14:53:26 +0200
+Message-ID: <87pkzu852x.fsf@yellow.woof>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-On Fri,  7 Aug 2026 15:17:03 +0530
-Mohamad Raizudeen <raizudeen.kerneldev@gmail.com> wrote:
+sh_def@163.com writes:
+> diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
+> index ca0c38221c16..193643d0329d 100644
+> --- a/drivers/staging/fbtft/fbtft-core.c
+> +++ b/drivers/staging/fbtft/fbtft-core.c
+> @@ -298,14 +298,20 @@ static void fbtft_mkdirty(struct fb_info *info, int y, int height)
+>  {
+>  	struct fbtft_par *par = info->par;
+>  	struct fb_deferred_io *fbdefio = info->fbdefio;
+> +	unsigned long flags;
+>  
+>  	/* Mark display lines/area as dirty */
+> -	spin_lock(&par->dirty_lock);
+> +	/*
+> +	 * fbcon takes dirty_lock while holding console_owner. Disable local
+> +	 * interrupts here so a printk hardirq cannot acquire console_owner
+> +	 * while dirty_lock is held and create the inverse lock ordering.
+> +	 */
 
-> Previous attempts to change do_div() to div64_ul were rejected because
-> mclk will always fit within 32 fits for this hardware, making do_div()
-> safe to use.
-> 
-> However, Coccinelle continues to flag this as a false positive. To
-> prevent future developers from submitting unnecessary fixes, add a
-> comment explaining why do_div() is intentionally kept.
-> 
-> Suggested-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-> Signed-off-by: Mohamad Raizudeen <raizudeen.kerneldev@gmail.com>
-> ---
+Beside that reason, we also need spin_lock_irqsave() because
+fbtft_mkdirty() can be called in both task context and hardirq
+context. And this reason alone suffices and usually is why
+spin_lock_irqsave() is used, so I think a comment is not necessary.
 
-Fine now.
+But I am fine with it either way.
 
-Reviewed-by: Joshua Crofts <joshua.crofts1@gmail.com>
+> +	spin_lock_irqsave(&par->dirty_lock, flags);
+>  	if (y < par->dirty_lines_start)
+>  		par->dirty_lines_start = y;
+>  	if (y + height - 1 > par->dirty_lines_end)
+>  		par->dirty_lines_end = y + height - 1;
+> -	spin_unlock(&par->dirty_lock);
+> +	spin_unlock_irqrestore(&par->dirty_lock, flags);
+>  
+>  	/* Schedule deferred_io to update display (no-op if already on queue)*/
+>  	schedule_delayed_work(&info->deferred_work, fbdefio->delay);
+> @@ -317,14 +323,15 @@ static void fbtft_deferred_io(struct fb_info *info, struct list_head *pagereflis
+>  	unsigned int dirty_lines_start, dirty_lines_end;
+>  	struct fb_deferred_io_pageref *pageref;
+>  	unsigned int y_low = 0, y_high = 0;
+> +	unsigned long flags;
+>  
+> -	spin_lock(&par->dirty_lock);
+> +	spin_lock_irqsave(&par->dirty_lock, flags);
+>  	dirty_lines_start = par->dirty_lines_start;
+>  	dirty_lines_end = par->dirty_lines_end;
+>  	/* set display line markers as clean */
+>  	par->dirty_lines_start = par->info->var.yres - 1;
+>  	par->dirty_lines_end = 0;
+> -	spin_unlock(&par->dirty_lock);
+> +	spin_unlock_irqrestore(&par->dirty_lock, flags);
 
--- 
-Kind regards,
-Joshua Crofts
+fbtft_deferred_io() is executed in workqueue with interrupt enabled. So
+it can use spin_lock_irq() instead of spin_lock_irqsave(), right?
+
+Nam
