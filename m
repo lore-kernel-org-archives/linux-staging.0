@@ -1,44 +1,76 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBE2433C1AD
-	for <linux-staging@lists.linux.dev>; Fri,  7 Aug 2026 15:12:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5390F31327A
+	for <linux-staging@lists.linux.dev>; Fri,  7 Aug 2026 15:13:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786115558; cv=none; b=oF3HfGlmsv2tj8zAW60LtNjrGAyQWPluNDnl7UBzcgpE/i41rK2wONG4iI6Q9JTP4+Xcmjx1SK0CupHEdpdtLjwcZ0YRQvjW+m8ASlTd5Sl6bO0MA8KrU6cVCY7+XXEvV0ASyzBf1h/oi41clhoy8fAai1TwELAa9dkm1aly0do=
+	t=1786115622; cv=none; b=rb2lJHBG5/GSCW+18/6HqEICtzfE1OeNE7IPcWri4wFW+wsmMpnpgQMhKSYdsuPvZJcUkNrfbnhUT6eao/por+gHAsajGml9A1N9eWDa9HUZqrGei7EYVtSmF5koeJdeQvi47XvVxEq+UcnO3KtC5LlFJwC8cv0elfTEULszeio=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786115558; c=relaxed/simple;
-	bh=xAlgKOanZUO69crIf5zuK3Jgn+0S9XV3E+Q195wuKPg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UFhGRw6rIdiz0Q9NIDg4OHWT9O7zY4NS+wq3ZJCF2NyOeqFcpf10DJZf2lqA4/335CsZNP90fm1PUOtBFM48XRI09TNI1kWQ3XCgl4dvfYQtSRuKqvmeL1tvS61itXxTGih3l7j653SEOumVlOT3rCzhct4gif8Ht+FyGdV5zfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=Q5+hOW5b; arc=none smtp.client-ip=220.197.31.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1786115622; c=relaxed/simple;
+	bh=TZvg4CCk4pYjzBzeTpLzlyqBGqsE8q40km4TaDOFFzU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=FM61uXtesX/w479h6JhdV8FbE57QpICSQJCHuhFMr6U4q4lvhxa3hePGs1Af0NzIicfxOEtZDwOAKS+oGkjita8bIBhVTu7ceCmczzQREVk0xJ2UFPKdfzrw4iVZy7DS3liG1nWcOVxwA2id+5C6KJ90DmfbhDMYyc45vxqRqsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y/eNnQQz; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="Q5+hOW5b"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=IO
-	i80gEkYM4uCYQ1/ilhSdZhfEjteUdqJwxT+1+Y4ak=; b=Q5+hOW5bHEPF45VC9E
-	CLuFGpNP1vh5huW4DQWktedM9B0wFzwuT5mg7PeeGkvrhWvXwjCkNuEz5bt1LWbV
-	BgP+918a6Avap/TKHW/7ZtOVZCIddij2ezvv3qRxA4vQNcioqGsbXxmWCS4uiS74
-	xChi4hOQU16InFy6O0zJ5ukgI=
-Received: from localhost (unknown [])
-	by gzga-smtp-mtada-g1-4 (Coremail) with SMTP id _____wA3v_+c9XVqE1XXOQ--.26426S2;
-	Fri, 07 Aug 2026 23:11:24 +0800 (CST)
-From: Hui Su <sh_def@163.com>
-To: andy@kernel.org
-Cc: gregkh@linuxfoundation.org,
-	namcao@linutronix.de,
-	dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y/eNnQQz"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2ce87c7e3bbso31399445ad.1
+        for <linux-staging@lists.linux.dev>; Fri, 07 Aug 2026 08:13:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786115621; x=1786720421; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=2gjiFRc/9v/fTmjpossmewKY7B5mrRB470O1t2G1f0w=;
+        b=Y/eNnQQzO8l3Hpvf8WxmuPHK7kageqvpMrHogzgvBZouVsNDJ8bl20iv48GQOSkByq
+         vT9cR08521R6HThfqaoE+E5fzzFCUuN/bko3V7XnzdCOWos1tnMYzXTFCWtJopX7ITKI
+         VuDMV0jJzlA/wileWsyLml/L6g3JcIEB3QmYjYzBQMDNoYQFTOURXmC0HgQ8echu6vji
+         8BWWfM5jgiTwzvfxi/4k6JGFIvsMKOSt5EvNsPGpPPOZDZfnN69M5jjunqkXxkCO8MDa
+         Uidwie2NdbVVo94F6t0ui6ETbDxlrFhTzg+j0AAC/zhUZVIGij7FWMYnS+1SCYTJAqBQ
+         WuyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786115621; x=1786720421;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=2gjiFRc/9v/fTmjpossmewKY7B5mrRB470O1t2G1f0w=;
+        b=nDjHDSoGF2ickXMIJcDveHK/I1fdju15g7aGqh8/11e+yz1Uzb9UyjLZFKf1X3PDnC
+         lqBxVJ36K0KzpPJF/a9dejtTheopL7KMaST5Zou23eI0dMIbEl+k4zVa7PJDHDCKLrJk
+         sfm2qlwMT3YALXJ8kS8AluqG2lZNtQ0UuigcIw/s4aKkokQvEi4TJCjeIyhz5NEY+LuM
+         +q8lHmQ8rQTdKbLeqCAsUQyVta/SQEpvPTG5rsUOqjm41m9whcUYjNacyG/9JRPF4bCM
+         cHN4ApPVed1aA1WPQN8O6N8kBp6u0hp9gJOfuIk85XFftrDZytsbw45f90HbL/fibmc/
+         bj3A==
+X-Gm-Message-State: AOJu0Yyu4tOBoeJ3WUTKSvQ11jn3k1junyU4AZLBu3qNmiEAP/nguWG/
+	RWyC9LSKsSvz7dC+zqgXhQCp98AVF028AL4kqdIpb3zv+ilNL7ZFi5tGQJg5ZoHC
+X-Gm-Gg: AR+sD12bWiU7LAwhiHNFTwyD0gHrTdVIXkKc7Fht4kVTetvlQVSWXeV+8jWBoKHYUDW
+	tv6p6r6WblitNANrX1AZJ1r62pgtLkXy+VWPR4/XicK+NGdWB4NMPxMfASthZW6fKztHtiFYv5P
+	k8OV/2QLsHtadWipFWv9Xo83vXLjayxSjGmcGjSSf/ssS/SftuqE2LDizVpFlge71yjdyxP+WgM
+	vNlHt5iDDZSHw8FccxqEajIIh2arf/7fgmIYXgut2JBQPgPVSw1DT+IOHMu3IdZeQDhRsON4ypJ
+	XroOsQHRFjrZiEW8cIvHgbc1zfHcfoWKYFwfIo2yLQVZoYpRvXpHmswmwyqTaHvcndk8A3BCgPr
+	LxmFS4Al69uY3u9kaeos+pho8Yuk5Msm3ycb8MOXJTha3NajU5gCaBdiLr5oGA4cOjC73CHTnWs
+	/ZWb58syZ1sP99i51pGUqkAkpsUqYwAhMIfO+Z7Q6g7cELh1oThtZLp3UvCJOxH+LYIvVxnfghU
+	wiujWeLaS1mTeucsinlg8nDewCno1M=
+X-Received: by 2002:a17:90b:28d0:b0:38d:fda6:4873 with SMTP id 98e67ed59e1d1-3903c57a0bbmr22792525a91.10.1786115620517;
+        Fri, 07 Aug 2026 08:13:40 -0700 (PDT)
+Received: from Debian.myguest.virtualbox.org ([183.82.161.178])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-315be86fc7bsm8707685eec.1.2026.08.07.08.13.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 07 Aug 2026 08:13:39 -0700 (PDT)
+From: Mirza Ishan Beg <seedandsyntax@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	sh_def@163.com,
-	thomas.petazzoni@free-electrons.com,
-	notro@tronnes.org
-Subject: [PATCH v2] staging: fbtft: make dirty_lock IRQ-safe
-Date: Fri,  7 Aug 2026 23:09:55 +0800
-Message-ID: <20260807150953.2811933-3-sh_def@163.com>
-X-Mailer: git-send-email 2.43.0
+	nikolayof23@gmail.com,
+	lkp@intel.com,
+	Mirza Ishan Beg <seedandsyntax@gmail.com>
+Subject: [PATCH v4] staging: rtl8723bs: refactor traffic_stat access in collect_traffic_statistics
+Date: Fri,  7 Aug 2026 20:35:29 +0530
+Message-ID: <20260807150940.5066-1-seedandsyntax@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260803180549.20859-1-seedandsyntax@gmail.com>
+References: <20260803180549.20859-1-seedandsyntax@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -46,98 +78,66 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wA3v_+c9XVqE1XXOQ--.26426S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxGF15ZF48WF48urW8GFWkCrg_yoW5Zw15pa
-	17ta45Ar48Ga1Fvr43Gr4DZF1a939Fkr4qkry0kw1fZ3W3Crs7WrykJFyrX3W0yrZxtrn5
-	CrWrK34fJw4UCw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRiYFJUUUUU=
-X-CM-SenderInfo: xvkbvvri6rljoofrz/xtbC6R2c+2p19Z08UwAA3L
 
-fbtft_mkdirty() can be reached from the fbcon rendering path while
-processing printk() in hardirq context. Meanwhile, dirty_lock is also
-taken by fbtft_deferred_io() in workqueue context with local interrupts
-enabled.
+Replace repetitive `pdvobjpriv->traffic_stat.` dereferencing with a local
+pointer `ts` to improve readability and reduce line length. This resolves
+multiple checkpatch line-length warnings without manual wrapping.
 
-Lockdep reports a possible IRQ lock inversion involving dirty_lock and
-console_owner. A hardirq can interrupt a CPU holding dirty_lock and
-enter the console rendering path, which can attempt to acquire
-dirty_lock again.
-
-The following lockdep report was observed on an RK3566 system with
-CONFIG_PROVE_LOCKING enabled:
-
-  WARNING: possible irq lock inversion dependency detected
-  swapper/2/0 just changed the state of lock:
-  (console_owner){-...}-{0:0}
-  but this lock took another, HARDIRQ-unsafe lock in the past:
-  (&par->dirty_lock){+.+.}-{2:2}
-
-  CPU0                    CPU1
-  ----                    ----
-  lock(&par->dirty_lock);
-                         local_irq_disable();
-                         lock(console_owner);
-                         lock(&par->dirty_lock);
-  <Interrupt>
-    lock(console_owner);
-
-  *** DEADLOCK ***
-
-Use spin_lock_irqsave() for fbtft_mkdirty() and spin_lock_irq() for
-fbtft_deferred_io(). They only access the dirty line range, so the
-IRQ-off regions remain short.
-
-Fixes: c296d5f9957c ("staging: fbtft: core support")
-Signed-off-by: Hui Su <sh_def@163.com>
+Suggested-by: Nikolay Kulikov <nikolayof23@gmail.com>
+Signed-off-by: Mirza Ishan Beg <seedandsyntax@gmail.com>
+Link: https://lore.kernel.org/linux-staging/agDaGJ5UKndFUNPY@archlinux/
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202608070159.puVnOVxb-lkp@intel.com/
+Closes: https://lore.kernel.org/oe-kbuild-all/202608070545.V0T8UE77-lkp@intel.com/
 ---
-Changes in v2:
-- Drop the comment explaining the lock ordering in fbtft_mkdirty().
-- Use spin_lock_irq() in fbtft_deferred_io(), since it runs in workqueue
-  context with interrupts enabled.
+Changes in v4:
+- Fix incorrect struct type: use `rtw_traffic_statistics` instead of `traffic_stat` (reported by kernel test robot)
+ drivers/staging/rtl8723bs/core/rtw_cmd.c | 25 ++++++++++++------------
+ 1 file changed, 13 insertions(+), 12 deletions(-)
 
-v1: https://lore.kernel.org/lkml/20260804173712.176017-1-sh_def@163.com/
-
- drivers/staging/fbtft/fbtft-core.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-index ca0c38221c16..7925d974de80 100644
---- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -298,14 +298,15 @@ static void fbtft_mkdirty(struct fb_info *info, int y, int height)
+diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+index ce3dfa1fee26..59f13f6b85ad 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
++++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+@@ -1109,25 +1109,26 @@ u8 rtw_dynamic_chk_wk_cmd(struct adapter *padapter)
+ static void collect_traffic_statistics(struct adapter *padapter)
  {
- 	struct fbtft_par *par = info->par;
- 	struct fb_deferred_io *fbdefio = info->fbdefio;
-+	unsigned long flags;
+ 	struct dvobj_priv *pdvobjpriv = adapter_to_dvobj(padapter);
++	struct rtw_traffic_statistics *ts = &pdvobjpriv->traffic_stat;
  
- 	/* Mark display lines/area as dirty */
--	spin_lock(&par->dirty_lock);
-+	spin_lock_irqsave(&par->dirty_lock, flags);
- 	if (y < par->dirty_lines_start)
- 		par->dirty_lines_start = y;
- 	if (y + height - 1 > par->dirty_lines_end)
- 		par->dirty_lines_end = y + height - 1;
--	spin_unlock(&par->dirty_lock);
-+	spin_unlock_irqrestore(&par->dirty_lock, flags);
+ 	/*  Tx */
+-	pdvobjpriv->traffic_stat.tx_bytes = padapter->xmitpriv.tx_bytes;
+-	pdvobjpriv->traffic_stat.tx_pkts = padapter->xmitpriv.tx_pkts;
+-	pdvobjpriv->traffic_stat.tx_drop = padapter->xmitpriv.tx_drop;
++	ts->tx_bytes = padapter->xmitpriv.tx_bytes;
++	ts->tx_pkts = padapter->xmitpriv.tx_pkts;
++	ts->tx_drop = padapter->xmitpriv.tx_drop;
  
- 	/* Schedule deferred_io to update display (no-op if already on queue)*/
- 	schedule_delayed_work(&info->deferred_work, fbdefio->delay);
-@@ -318,13 +319,13 @@ static void fbtft_deferred_io(struct fb_info *info, struct list_head *pagereflis
- 	struct fb_deferred_io_pageref *pageref;
- 	unsigned int y_low = 0, y_high = 0;
+ 	/*  Rx */
+-	pdvobjpriv->traffic_stat.rx_bytes = padapter->recvpriv.rx_bytes;
+-	pdvobjpriv->traffic_stat.rx_pkts = padapter->recvpriv.rx_pkts;
+-	pdvobjpriv->traffic_stat.rx_drop = padapter->recvpriv.rx_drop;
++	ts->rx_bytes = padapter->recvpriv.rx_bytes;
++	ts->rx_pkts = padapter->recvpriv.rx_pkts;
++	ts->rx_drop = padapter->recvpriv.rx_drop;
  
--	spin_lock(&par->dirty_lock);
-+	spin_lock_irq(&par->dirty_lock);
- 	dirty_lines_start = par->dirty_lines_start;
- 	dirty_lines_end = par->dirty_lines_end;
- 	/* set display line markers as clean */
- 	par->dirty_lines_start = par->info->var.yres - 1;
- 	par->dirty_lines_end = 0;
--	spin_unlock(&par->dirty_lock);
-+	spin_unlock_irq(&par->dirty_lock);
+ 	/*  Calculate throughput in last interval */
+-	pdvobjpriv->traffic_stat.cur_tx_bytes = pdvobjpriv->traffic_stat.tx_bytes - pdvobjpriv->traffic_stat.last_tx_bytes;
+-	pdvobjpriv->traffic_stat.cur_rx_bytes = pdvobjpriv->traffic_stat.rx_bytes - pdvobjpriv->traffic_stat.last_rx_bytes;
+-	pdvobjpriv->traffic_stat.last_tx_bytes = pdvobjpriv->traffic_stat.tx_bytes;
+-	pdvobjpriv->traffic_stat.last_rx_bytes = pdvobjpriv->traffic_stat.rx_bytes;
++	ts->cur_tx_bytes = ts->tx_bytes - ts->last_tx_bytes;
++	ts->cur_rx_bytes = ts->rx_bytes - ts->last_rx_bytes;
++	ts->last_tx_bytes = ts->tx_bytes;
++	ts->last_rx_bytes = ts->rx_bytes;
  
- 	/* Mark display lines as dirty */
- 	list_for_each_entry(pageref, pagereflist, list) {
+-	pdvobjpriv->traffic_stat.cur_tx_tp = (u32)(pdvobjpriv->traffic_stat.cur_tx_bytes * 8 / 2 / 1024 / 1024);
+-	pdvobjpriv->traffic_stat.cur_rx_tp = (u32)(pdvobjpriv->traffic_stat.cur_rx_bytes * 8 / 2 / 1024 / 1024);
++	ts->cur_tx_tp = (u32)(ts->cur_tx_bytes * 8 / 2 / 1024 / 1024);
++	ts->cur_rx_tp = (u32)(ts->cur_rx_bytes * 8 / 2 / 1024 / 1024);
+ }
+ 
+ bool traffic_status_watchdog(struct adapter *padapter, bool from_timer)
 -- 
-2.43.0
+2.47.3
 
