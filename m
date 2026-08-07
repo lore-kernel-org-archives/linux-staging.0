@@ -1,114 +1,139 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFD2C2F8E99
-	for <linux-staging@lists.linux.dev>; Thu,  6 Aug 2026 23:06:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 890011F91E3
+	for <linux-staging@lists.linux.dev>; Fri,  7 Aug 2026 01:25:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786057590; cv=none; b=V2umBY969qofk+CSfQJ/2vNyDFyy7fAFPbPfJvFAhetPNWv79wdbeB9d9dJXv4xZ5jMyhm2s0vXQj9eINxqmot+lOLV1xQaZG4zkSbXvd/HcNTmHBrpbI4/aNO2JhfmLGSB8LRJbxG4ThspQ6R8thEKpkWrecjutkr1sepP+0pA=
+	t=1786065915; cv=none; b=gdqmOVPAsaxFeGxcW1eRdfC1S7vO+RGCssEj54C36BVP8RoTtE5qzwyACScgvSfdI1vQKrKTJQc5YPQfKXBgqMcIs7QL8hvqoN7ZeFi1pfcv966TgRw5uMttQ4LYj/nH2Z8Ac+kOk/mXs1LKqclcIhwI6w7d/aRQpAyhs7IbglI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786057590; c=relaxed/simple;
-	bh=wGIDycR52k02hTBR2JMMfYfFb19M6FVrZWsU4A9nh80=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HI43F5onBluuYSgabjKGnkuEu/07veNHHM1O0cD3KtqMbDhGY08BujEgyQ90lEG6Tu4x98m0ZUpWdJWKLFHvOMA1+3wPnyZnSOY5oWf6A3LvME/tYoM8Y/e88erJt20ON28q1bNajWLhk6Gqp7GehrFc8qhhl4RS0CnNY4tKnNs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ndnc3dHe; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1786065915; c=relaxed/simple;
+	bh=M/pt70KtCs+icKAkrRpWwBPECuU1ngaL++gWm6DOHI4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iALfzCtXitigzFxVub49cz9LVHcklYFLley+04cRnIGLQnS77VQn6Dp4Z71lDb2cVIRzPhdo+ZSXoYUsEIMW72Th/zdrYR3NcuRnd6EvFirbQSqcUD0TTwOHzzGMCkl0hDpYJ/MjzlKbKnwnuIx8IcNii/0Lsd+tcpurRVq0Gmk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f2RBRAVQ; arc=none smtp.client-ip=209.85.210.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ndnc3dHe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786057589; x=1817593589;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wGIDycR52k02hTBR2JMMfYfFb19M6FVrZWsU4A9nh80=;
-  b=Ndnc3dHeRXibf7mv4jnH1xy8mDBLpaEy05EuAScOYUVpCCcm5RGEUYb5
-   bBw6dlazKqM02aDZo9CfvWNmhQpiOGZ/oQx6SiMZ1B+uWYjHJBaWHH9aI
-   VRDSympMBRIi37z0F5T7sMjY7566Ki7Tk+p9ybmzbBUXQqbMc+8ODKPRD
-   RZqjhf0Ihnb8kxgcnRKtX3kOrC6+1bXHmaM11K0n76Y2CBmSJDHLsIrtm
-   MDdhUbRbYezLVaDPonAH8uXdf+mJYwBbEOrZNUi8YRlScquluZofIZJkx
-   FxKAgvYcFcI1QonSAaSO1rBVUfcVoauk1Nc2N0TyWg4JK2bm00bPbx1V0
-   Q==;
-X-CSE-ConnectionGUID: hV0ub8mrSZaTEQFn8pmGwQ==
-X-CSE-MsgGUID: M/nN8Y+DT8uoeXbMHliYbA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11867"; a="86777806"
-X-IronPort-AV: E=Sophos;i="6.25,209,1779174000"; 
-   d="scan'208";a="86777806"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 16:06:28 -0700
-X-CSE-ConnectionGUID: mPvDfYinRLeBIkILMpAimg==
-X-CSE-MsgGUID: QMjGvVDRRUGsyLMD01CvWQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,209,1779174000"; 
-   d="scan'208";a="257928356"
-Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.50])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Aug 2026 16:06:26 -0700
-Date: Fri, 7 Aug 2026 02:06:23 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Sergei Stepanenkov <sergei_stepanenkov@disroot.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, andy@kernel.org, hansg@kernel.org,
-	mchehab@kernel.org, sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org, ~lkcamp/patches@lists.sr.ht,
-	koike@igalia.com
-Subject: Re: [PATCH] staging: media: atomisp: move constant to the right side
- of comparisons
-Message-ID: <anUTbyNk4H7Qet29@ashevche-desk.local>
-References: <20260723155027.124722-1-sergei_stepanenkov@disroot.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f2RBRAVQ"
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-7e9eaf04bfaso1113786a34.1
+        for <linux-staging@lists.linux.dev>; Thu, 06 Aug 2026 18:25:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786065912; x=1786670712; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Qa69CO0lFAMCF1EBY4SDQqVVF+TJtQeI64kkaeeZHXs=;
+        b=f2RBRAVQzjts6DYgPG6YbZJ+JkEzvQDwV3bwKA+XyttXzT9gR0RpOeziZ4sq+OHlme
+         L2OsJjRDs1ND+UQg4KekUzUotOD7ubkOwzEaRkKMsvcxAa8jWbHETDzk+3snIdaVn019
+         M2lfyhyodBbPgCxoH0OaOtR9GXtaS9ctMK9oaG6GYSHf+uL79RwCT4WwGDNbKXDMxl/O
+         hdx3mEDuSPKsqChJZwgu7aSQU4U0z2yC+D3wLB7XYJCIu/3zKI9e45CdiGVJB18lUgdY
+         xhuk+1vwjqBgd6XjOFroPfvxDkOo38/JKdKCB0wfpkqXGi6v0pgEYfZ0dMajgtKYOtI1
+         4vqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786065912; x=1786670712;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Qa69CO0lFAMCF1EBY4SDQqVVF+TJtQeI64kkaeeZHXs=;
+        b=BJuZzNFaeBi0eFPIG2qf1VK7fZfYV4M2ScWfnbmlz/qtStdnlcZ1yF91oImd24DDHj
+         zyWIlMI/TTMgU2x8ev+2nRwjHy+4bkQZtQTnfLMSRo1IE8cHlAYSPTShAQOaGdYEZIEh
+         pq1oy1G2wEMRGM2J5R1hhnQQjWLYSeDshQBVJLjtn8eusMydoatga44k8sIGGqVoLos1
+         JPcUheMmmcSHYmrMfC9h/VMUD8AMvzm1IrupDGMaYsFJLNO/4UZYbOHlqIriap4JFEUI
+         UFuM3yrTDcIc4zCsIPf9Y4uWQMNJmoNs+yGRltserD7/01nrU9FJpJelKl5HVbDiNfu5
+         loNg==
+X-Forwarded-Encrypted: i=1; AHgh+RqQCLoscDLKFF7CbsFHup4Rp+j0O3o9MuwICcAQs9ppFxY8B4CgievSWOGgja5DMt3MQtTKuBFyunERd9dN@lists.linux.dev
+X-Gm-Message-State: AOJu0YxPkyfksprk7dZZfi8/gm7pbnQCU02cAMX5sHepe6nXRnFR7Oj1
+	G4LVUhz08zrk9tqHGBdCLj11uHQoYd9/kiU6Wat+UFYYa4lYT6Kq1dA=
+X-Gm-Gg: AR+sD13UW/NEkrtJHI8Jr7wiuXyTKmjodr+9pf3FKenDkdlWFE40Fx25j2MZTDOh3vE
+	TSM6vzosv/o0ka8LM3x4jGslWeWN7XENg3SBYGNGDJx7tHQUIFlXpL7OyXp4s4E4wsxBUt+aCnu
+	BCsuqrUAVXXqIgmDYx/K5TyjaFrSvkhpQZvMnXrcg3P004eOaI/gfriyuhX19LfEL4YZwfZEQlv
+	fs/rMK/1CGGzB4PZGKkVUsojrh5VkIkLuNeozsAEFty2lL5sAoCEcjjpMkKaqPniFrkPtLYsNHF
+	c1sQn5D03G8mK9y1fZY0t+5d+xRxvC7PqSOr4vlhUK9c7wvYtpvkYg2aJY1AV68u53cCIEcCouB
+	YDYmCie603bZLKM+czgs1FylxOhQ3/fSXaNSBO1FtRJW7RiZN5C7gxjJBz6NdC9lhim7IzrPZRF
+	K1Hnq0aQ0JkUpZiJAV1ZNoIcbzyBjug++U+P97oRnSpvHWY6kLEyZExJnOUTJlJPv/ibmiDJXPt
+	/WJa5RWfeSHumz3fuomTbwRxXtb3FBQciqbvW/5D8/havByCEryhkZb
+X-Received: by 2002:a05:6830:838e:b0:7eb:9464:ac2e with SMTP id 46e09a7af769-7f1e5e321camr11474920a34.11.1786065912320;
+        Thu, 06 Aug 2026 18:25:12 -0700 (PDT)
+Received: from lone (69-5-138-1.icsincorporated.com. [69.5.138.1])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7f35b7700desm229386a34.18.2026.08.06.18.25.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Aug 2026 18:25:11 -0700 (PDT)
+From: Som Tripathi <tripathisom142004@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: error27@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Som Tripathi <tripathisom142004@gmail.com>
+Subject: [PATCH] staging: vme_user: fix bounds check when vme_get_size() returns zero
+Date: Thu,  6 Aug 2026 20:25:06 -0500
+Message-ID: <20260807012506.579588-1-tripathisom142004@gmail.com>
+X-Mailer: git-send-email 2.55.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260723155027.124722-1-sergei_stepanenkov@disroot.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jul 23, 2026 at 12:50:20PM -0300, Sergei Stepanenkov wrote:
-> Fix all checkpatch warning occurences
-> "WARNING: Comparisons should place the constant on the right side of
-> the test" in folder drivers/staging/media/atomisp/pci
-> 
-> Signed-off-by: Sergei Stepanenkov <sergei_stepanenkov@disroot.org>
-> ---
-> Hey, this is my first patch, I appreciate any feedback, thanks!
+vme_get_size() returns zero on failure, as its kerneldoc in vme.c
+states. vme_user_read() and vme_user_write() assign it to a size_t and
+check the file position with:
 
-Right.
-Please, read lore.kernel.org linux-media@ archives against this driver to
-understand what to do with this patch.
+	if ((*ppos < 0) || (*ppos > (image_size - 1)))
 
-Also, if you are in a group that is mentored, tell to the mentors to stop
-looking into this driver by a newbie. This driver has much more urgent tasks
-to do and it's not trivial, it also requires a real HW to be at hand to test.
+When image_size is zero, image_size - 1 wraps to SIZE_MAX. The test is
+then never true, so the check does nothing. The following statement,
 
-...
+	count = image_size - *ppos;
 
-> -	if (0 != ia_css_pipe_get_info(asd->stream_env[stream_index]
-> -		.pipes[pipe_index], &info)) {
-> +	if (ia_css_pipe_get_info(asd->stream_env[stream_index]
-> +		.pipes[pipe_index], &info) != 0) {
+wraps the same way whenever *ppos is greater than zero.
 
-The style is still wrong.
+This is not an out-of-bounds access. resource_to_user() and
+resource_from_user() clamp count to size_buf, buffer_to_user() and
+buffer_from_user() clamp it to size_buf - *ppos, and vme_master_read()
+and vme_master_write() reject an offset greater than the window
+length. What happens instead is that read() and write() operate on a
+window whose size the driver failed to read, rather than returning at
+the check.
 
+Compare *ppos against image_size directly. The two forms agree for a
+non-zero size, the new one is also correct for zero, and both wraps go
+away.
 
->  		dev_dbg(isp->dev, "ia_css_pipe_get_info FAILED");
->  		return -EINVAL;
->  	}
+Found by reading the code after Dan Carpenter listed this as one of
+three outstanding bugs in this driver; see the Link below. Compile
+tested only. I have no VME hardware.
 
-The above most likely already or should return a Linux error code in which case
-the whole thing should be refactored,
+Fixes: f00a86d98a1e ("Staging: vme: add VME userspace driver")
+Link: https://lore.kernel.org/all/aj0WWwiOzjLGbY5z@stanley.mountain/
+Signed-off-by: Som Tripathi <tripathisom142004@gmail.com>
+Assisted-by: Claude:claude-opus-5
+---
+ drivers/staging/vme_user/vme_user.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-	ret = ia_css_pipe_get_info(asd->stream_env[stream_index].pipes[pipe_index], &info);
-	if (ret)
-		dev_dbg(isp->dev, "ia_css_pipe_get_info FAILED");
-		return ret;
-	}
-
+diff --git a/drivers/staging/vme_user/vme_user.c b/drivers/staging/vme_user/vme_user.c
+index a472a38ef..0df30a3c3 100644
+--- a/drivers/staging/vme_user/vme_user.c
++++ b/drivers/staging/vme_user/vme_user.c
+@@ -213,7 +213,7 @@ static ssize_t vme_user_read(struct file *file, char __user *buf, size_t count,
+ 	image_size = vme_get_size(image[minor].resource);
+ 
+ 	/* Ensure we are starting at a valid location */
+-	if ((*ppos < 0) || (*ppos > (image_size - 1))) {
++	if ((*ppos < 0) || (*ppos >= image_size)) {
+ 		mutex_unlock(&image[minor].mutex);
+ 		return 0;
+ 	}
+@@ -255,7 +255,7 @@ static ssize_t vme_user_write(struct file *file, const char __user *buf,
+ 	image_size = vme_get_size(image[minor].resource);
+ 
+ 	/* Ensure we are starting at a valid location */
+-	if ((*ppos < 0) || (*ppos > (image_size - 1))) {
++	if ((*ppos < 0) || (*ppos >= image_size)) {
+ 		mutex_unlock(&image[minor].mutex);
+ 		return 0;
+ 	}
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.55.0.windows.1
 
