@@ -1,138 +1,147 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44B3A446851
-	for <linux-staging@lists.linux.dev>; Fri,  7 Aug 2026 06:04:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF041369D7A
+	for <linux-staging@lists.linux.dev>; Fri,  7 Aug 2026 06:31:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786082643; cv=none; b=hIyaCi0+32uJ8NBzpd7D49CMH5B1XvNF3w/qttEOsV4aeAKq6tREVe/pT/0yCbwf+P4WkqRqG8YZ5luIMxYkoxlG1+sErXYAuX/sKC+sfRsYwI3ufELFyH05ciSDa/HAh1RdXFLhuPTr+TtJHh9PpiZduoyzLsALuac9Fng96s4=
+	t=1786084287; cv=none; b=c+idFcwgMSsx8KSRWo0RIHc5jCuvQJWTAt2mrIyHDjCa7zhXxTkz/NSsALE6eAq3FPERhJP3zba/1GIAjOvYkVacQ5GYlZVCCgYMzrpnU1KUEGiYG6nFJ2q17lB7rPla6AWtn/AYisXPUeLrkBaOzblAOV1yJhI9ZVXhwMRRNvo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786082643; c=relaxed/simple;
-	bh=8VqW8kvm6CDSv32ZJLRDHAY1XXBUAN1d4rtNyqZ213Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=o58BG7FsCtB3AbEQa8rU/TVWQe5h5nzQ4JGAcVBng+DJ/sv1sJwVNAwdshGQLiEUlipFpVdN1PDmWEqrF0SjuWGTEOfuWoWPygfxJEJyydQiiFvJEUYBLa3hae/4yaiL8RDTh0AYSooY8b+MgCEWpo7puRAfx++zueZbBPRBD5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KLqRPzgk; arc=none smtp.client-ip=209.85.215.182
+	s=arc-20240116; t=1786084287; c=relaxed/simple;
+	bh=3lx5y7D2BH46IdHqSY10Ho6u3jWIrliReytwLOs3oXc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hZXVW3uT7GhhkX5peNV42Rollgtbfch6N7D5/3/1epbSKAattzCgWypDMlqbQp/6xyBNrosS3J7mDo14VbC2E1ZQx2qXuoh9cuxu9+OCzRnRdEU+ao6l3zMIJiSAhTOMesXkzKw0wxn/aRqdBSERTkeRr0Y7u2dP6uKDhh512Ak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Hloe6zsN; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KLqRPzgk"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-c9c26a5fb98so1192596a12.0
-        for <linux-staging@lists.linux.dev>; Thu, 06 Aug 2026 23:04:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hloe6zsN"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-49802c418b5so28313225e9.1
+        for <linux-staging@lists.linux.dev>; Thu, 06 Aug 2026 23:31:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786082639; x=1786687439; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Bi/ZTEuo08hf/a8t6fkw1rlM/UqizQDgz+QeGcjEPh0=;
-        b=KLqRPzgkZuTLQMb2c1WFexEbxK6aLkveQDU8j+Sp727N7oYJb1yhhOiogCUujogb+8
-         NkrcPg5EoBlxuODFIGVbZXjTexW0SxUVaxEDruxNALmGpltFutoO5XYnZHCwKOjmyhrB
-         t1p4F138oCu3Q+5luRXWtoWJWR3ZfEpJmEHHeIRn0sSF6A3rSVrEJ9WPhfr08S9HGC3k
-         MHc32nUsDzjq8DubEFHOhXUHXimanF/sYKp96CY3mcE/4rhvRv+EiZBEAeQrSIDkqCMh
-         HLgiUA3cs8OyuSL5bxIOvyAreukwD4k0gzZKV7RBh/Ay1KM/LFslCGhhowp0NPzYvmAz
-         EO7Q==
+        d=gmail.com; s=20251104; t=1786084284; x=1786689084; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=7TRI/BMp4S2EUObR2RuO3BEX7TL3pPneQPDQ8x7rfvY=;
+        b=Hloe6zsNx2CcC/4qQR1PkACEzbKYzXI5uBs8iwtvvL/U/ZwMRuUuIXQlmpmaRZ4LiI
+         BFbfj+z6R85SxEyBmULtgooChRsEp+jGfjGSmLXamOT5abeHajmGpWyh8hwvE75u2rXD
+         5IJQJlAJfg80PWdSTlO9TGEjYgDi/0lJXroQt2dJjvW+7GxYFq7lJCsoxY5qvLYq+F7q
+         QqJ0dFNjKo5kxLKkfQRKLHWDGH4sa15xCvkRB+I/paNvW9SAYekg4hQFCZBCLKO9qpkV
+         NjdaiJ2RawuDncR2vr0ahSsIto6qWKFn4OhvRksxdt1oYMC5jQhAZS0IqvTJvP0N1Sic
+         vExQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786082639; x=1786687439;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Bi/ZTEuo08hf/a8t6fkw1rlM/UqizQDgz+QeGcjEPh0=;
-        b=IyTDB8rKZZYLAuEx3OnP++oPjrjDk/9uk8nVtlpAnNzK/s0LgFbN2fQ/X25ZLj7Fq0
-         XeSrji+Cxg7s53S5eKZJ+GSO3GAqahO2t1uHAYSUcc67UWm8oirmdxu5xWYRb6vZ4jIN
-         b9uUYqHjfb2d8rvND//QVagkEQGgAKmX94BZDGuHx3nMXBoDjqphUl3sCH2GMIqucmgW
-         Xmi3j+WKhcowoDJ/A3VxYhWx+Ht72lklW5FN/vCnXnIMGIQbDM/4GoS+a4amHh++517f
-         1kiaB+Z7nGM83FH02rcPE1vHomZZ1zZyT+bKd6NdqK/5KI1ouqijXoRd9/OjQYv6CCq+
-         g8DA==
-X-Forwarded-Encrypted: i=1; AHgh+RpA6VtJR+/4iZ9LMOmC5n+SeZgN5vrxHdIZSyqLKsgYVfn8/F+4Peojzsmte311E3jDN5xzkayAnmP9yVwA@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxlppsj7pFn4PhgzyyK/XJlVGBLGz6lRXhRfQnSOqdWw8XwODm1
-	9BHjTPJQhS93hc3vjhA4odTYDNEbr/am3TiC119i/FaKC2lXKblfC824
-X-Gm-Gg: AR+sD11BzdIeWYL3aX5IwpZhmMzKxpaX5/0Y/foGCJL/IlcIpnFLjCCLTHnWgA0TnBx
-	6fAuQgdv7CeSB1rsoC2V9lwtlVh5iv9xu2l8eEzxIORqaNHm/cAUJ9MyPuxOO2Ctlubc15cs4+G
-	m0Xa8sCdURTDCDz5Mgabv2iGJwJik2PF6LSE/r2E1v5o7WJ+arMxy/HwjLtUVRRaehLbOSOMBnK
-	LOGn7X8125nP+L2yFbX0dOWkBcaqwxOZAEDwI7FeQzPIGYKYtIj1xKypedCIKgfs4ha794BQFRs
-	i6N1GR6cxCdRLY0tKdf4XHF/Uiehd/mCXvDJ18xeWOdyGAKTb6PaGPyB8L9/VhKMau2Ebv9/0ao
-	X8ojxL+3FGg/ZvHUwG5yy06BV+j7kEXVIt4ypvc1xfXvVt7COdRkL7uGisaGUG37tqRk1XaOnh5
-	McxB+Nrov07++CcVQNl7wHV6ql5N9V7YNhqmmO9t+9D5s03zl4gwlyNLBQaXw+kPU0PKtly1Fpa
-	+GEVg==
-X-Received: by 2002:a05:6a20:12c7:b0:3c3:75c5:48d5 with SMTP id adf61e73a8af0-3cb9c071bfdmr12830008637.4.1786082639405;
-        Thu, 06 Aug 2026 23:03:59 -0700 (PDT)
-Received: from kernel ([45.251.35.98])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-141019b4244sm3635471c88.4.2026.08.06.23.03.54
+        d=1e100.net; s=20251104; t=1786084284; x=1786689084;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=7TRI/BMp4S2EUObR2RuO3BEX7TL3pPneQPDQ8x7rfvY=;
+        b=tL1o0RNCVzV1x0n3aoXf5lVblS5yQX+jX56Ap0XQZFqpLZdVBBDdlCSNTnpbcvIxXb
+         twZffwvgWB+QSwNmuWG56hkQ8XQTNkWxdEwDumROpGJ1TmT6nk1I9ZRRHGdaQjiiu6gB
+         UzkvdficdYng1JLYM+Xw+/PReKFnoehRXlkPRc+TB1bTQsjs60MX2/CEukN15Rbzvmdk
+         mKmJi+RWdu/rSQUT+JufURARdq6L77fxM48nJT3pRS4IC1OnZeIs2SYZGk+umBl7fhDX
+         zNZI75Aps85VqTqZnPhQQYEO1p1qRSwR/hiXjjDIBFgR/iy0bQDNrlRi1Jfm8Zjpg8GU
+         jjJA==
+X-Forwarded-Encrypted: i=1; AHgh+Rq7mTFQLe33zf7cwGPTAOlvnF7FuyqGyIiEnrKdc0w5arxUP4yUm7ZWjbfi3u8A6H+zfJLi2Wr4CWSGHV8O@lists.linux.dev
+X-Gm-Message-State: AOJu0YwWI/7jj+By/eIIedclCKLGdMewUNnldGVrql/947K1wPeU+bPf
+	krpVpCCGkGwM/fYsY/ZDSKgQClPTXI+70vLGX8DjUszxxJga2bOdSbp6
+X-Gm-Gg: AR+sD12gtjbrDjB2e2tiCANjYgSERJdMJrxbEKN+Fyuo3I2t0vjqrWW/+uqDZroJ6Vo
+	shnrVx1Io53gia76Y6zDiblai0q5QZWoOK3Xd3XFkJB230Z2BVwlHnCrBrWLpFrGv0a3Td4gItp
+	uSxY5uR8zvMIGJb4GsXXonQuZtNGf1yX9JmNP+27cuf4EcqyC0em4HYh4ppj7hZu52YYJs7oBKq
+	wX1kjbJHco/fcPxJanQhJ9qGFTnC2o9b5fOzU0Ugc3umxXNliDTZBjXvT7k9pCUJS0wKc/8DkfA
+	2ErN7zQuNOtSPnkDpKlf4NQUgCK54v2dqI1IoUVpk645ehB0XeTS6aMvIvWXHznBgR/aoOcHiUH
+	Bz4ZYKVNNKSoeJ/Nkj7pXPxrHjdNrtRsyU3vvI0FfqT1FEIqL3rJ4sXyqgZfRSgTXf99fWIPHrB
+	T4p81ZSiCw6GDsJ0AxcWgUpr/es+0a3VmphJyDHCRWff53EsCX0xc+NpCy
+X-Received: by 2002:a7b:c854:0:b0:495:5b4a:53b7 with SMTP id 5b1f17b1804b1-4994e7d7320mr218609625e9.19.1786084283885;
+        Thu, 06 Aug 2026 23:31:23 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4995e9f0230sm9334415e9.6.2026.08.06.23.31.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Aug 2026 23:03:58 -0700 (PDT)
-From: Mohamad Raizudeen <raizudeen.kerneldev@gmail.com>
-To: andriy.shevchenko@intel.com,
-	jic23@kernel.org,
-	dlechner@baylibre.com,
-	andy@kernel.org,
-	nuno.sa@analog.com
-Cc: gregkh@linuxfoundation.org,
-	joshua.crofts1@gmail.com,
-	skhan@linuxfoundation.org,
-	me@brighamcampbell.com,
-	jkoolstra@xs4all.nl,
-	linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Mohamad Raizudeen <raizudeen.kerneldev@gmail.com>
-Subject: [PATCH v3] staging: iio: frequency: ad9832/ad9834: add comment explaining do_div usage
-Date: Fri,  7 Aug 2026 11:33:48 +0530
-Message-ID: <20260807060348.6477-1-raizudeen.kerneldev@gmail.com>
-X-Mailer: git-send-email 2.53.0
+        Thu, 06 Aug 2026 23:31:23 -0700 (PDT)
+Date: Fri, 7 Aug 2026 09:31:18 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Som Tripathi <tripathisom142004@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: vme_user: fix bounds check when vme_get_size()
+ returns zero
+Message-ID: <anV7tkD2AKmQLIfC@stanley.mountain>
+References: <20260807012506.579588-1-tripathisom142004@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260807012506.579588-1-tripathisom142004@gmail.com>
 
-Previous attempts to change do_div() to div64_ul were rejected because
-mclk will always fit within 32 fits for this hardware, making do_div()
-safe to use.
+On Thu, Aug 06, 2026 at 08:25:06PM -0500, Som Tripathi wrote:
+> vme_get_size() returns zero on failure, as its kerneldoc in vme.c
+> states. vme_user_read() and vme_user_write() assign it to a size_t and
+> check the file position with:
+> 
+> 	if ((*ppos < 0) || (*ppos > (image_size - 1)))
+> 
+> When image_size is zero, image_size - 1 wraps to SIZE_MAX. The test is
+> then never true, so the check does nothing. The following statement,
+> 
+> 	count = image_size - *ppos;
+> 
+> wraps the same way whenever *ppos is greater than zero.
+> 
+> This is not an out-of-bounds access. resource_to_user() and
+> resource_from_user() clamp count to size_buf, buffer_to_user() and
+> buffer_from_user() clamp it to size_buf - *ppos, and vme_master_read()
+> and vme_master_write() reject an offset greater than the window
+> length. What happens instead is that read() and write() operate on a
+> window whose size the driver failed to read, rather than returning at
+> the check.
+> 
+> Compare *ppos against image_size directly. The two forms agree for a
+> non-zero size, the new one is also correct for zero, and both wraps go
+> away.
+> 
+> Found by reading the code after Dan Carpenter listed this as one of
+> three outstanding bugs in this driver;
 
-However, Coccinelle continues to flag this as a false positive. To
-prevent future developers from submitting unnecessary fixes, add a
-comment explaining why do_div() is intentionally kept.
+There are probably more than three.  :P
 
-Suggested-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-Signed-off-by: Mohamad Raizudeen <raizudeen.kerneldev@gmail.com>
----
- drivers/staging/iio/frequency/ad9832.c | 6 ++++++
- drivers/staging/iio/frequency/ad9834.c | 6 ++++++
- 2 files changed, 12 insertions(+)
+> see the Link below. Compile
+> tested only. I have no VME hardware.
+> 
+> Fixes: f00a86d98a1e ("Staging: vme: add VME userspace driver")
+> Link: https://lore.kernel.org/all/aj0WWwiOzjLGbY5z@stanley.mountain/
+> Signed-off-by: Som Tripathi <tripathisom142004@gmail.com>
+> Assisted-by: Claude:claude-opus-5
+> ---
+>  drivers/staging/vme_user/vme_user.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/vme_user/vme_user.c b/drivers/staging/vme_user/vme_user.c
+> index a472a38ef..0df30a3c3 100644
+> --- a/drivers/staging/vme_user/vme_user.c
+> +++ b/drivers/staging/vme_user/vme_user.c
+> @@ -213,7 +213,7 @@ static ssize_t vme_user_read(struct file *file, char __user *buf, size_t count,
+>  	image_size = vme_get_size(image[minor].resource);
 
-diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/iio/frequency/ad9832.c
-index 60c33e10c46f..2e216c950c53 100644
---- a/drivers/staging/iio/frequency/ad9832.c
-+++ b/drivers/staging/iio/frequency/ad9832.c
-@@ -118,6 +118,12 @@ static unsigned long ad9832_calc_freqreg(unsigned long mclk, unsigned long fout)
- {
- 	u64 freqreg = (u64)fout << AD9832_FREQ_BITS;
- 
-+	/*
-+	 * mclk is an unsigned long, which triggers a Coccinelle false positive
-+	 * warning about using do_div() for 64-by-32 division. However, mclk
-+	 * for this hardware will always fit within 32 bits, so do_div() is
-+	 * safe to use here.
-+	 */
- 	do_div(freqreg, mclk);
- 	return freqreg;
- }
-diff --git a/drivers/staging/iio/frequency/ad9834.c b/drivers/staging/iio/frequency/ad9834.c
-index 33dfd723923c..85f39ceb3c4c 100644
---- a/drivers/staging/iio/frequency/ad9834.c
-+++ b/drivers/staging/iio/frequency/ad9834.c
-@@ -103,6 +103,12 @@ static unsigned int ad9834_calc_freqreg(unsigned long mclk, unsigned long fout)
- {
- 	unsigned long long freqreg = (u64)fout * (u64)BIT(AD9834_FREQ_BITS);
- 
-+	/*
-+	 * mclk is an unsigned long, which triggers a Coccinelle false positive
-+	 * warning about using a do_div() for 64-by-32 division. However, mclk
-+	 * for this hardware will always fir within 32 bits, so do_div() is
-+	 * safe to use here
-+	 */
- 	do_div(freqreg, mclk);
- 	return freqreg;
- }
--- 
-2.53.0
+It would be better to just add a check here.
+
+	if (!image_size)
+		return 0;
+
+Same for the other.
+
+regards,
+dan carpenter
+
+>  
+>  	/* Ensure we are starting at a valid location */
+> -	if ((*ppos < 0) || (*ppos > (image_size - 1))) {
+> +	if ((*ppos < 0) || (*ppos >= image_size)) {
+>  		mutex_unlock(&image[minor].mutex);
+>  		return 0;
+>  	}
 
