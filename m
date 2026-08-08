@@ -1,72 +1,74 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC23E1AA1D5
-	for <linux-staging@lists.linux.dev>; Sat,  8 Aug 2026 07:23:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5C561AA1D5
+	for <linux-staging@lists.linux.dev>; Sat,  8 Aug 2026 07:27:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786173828; cv=none; b=LLNaNNntNfvu1CG7RBxF0KaoTbggX8BPTtOKVpd9JMbIyiu4/XwWiPkF7sFRrD8+vQ4suoFFHkDSKSrKuq6Huno8JZlYTct4w2GTkt26Gr/ZeLCnsISRzFZ2kXiH23MbODm4FtoHfAXP+P5mo9MdTi07o8tCe5lRiBrCQge1ZrU=
+	t=1786174041; cv=none; b=mM7mieNkFPSiNCH5xX/SvoX4gUO4Gt47sSMJltXnrOtihERbxuvVBskX1TKHCCrb7JcSxy4QjpNLPDq/TLsAmTFq8JXEV4I3ms0EAvobTQ5woRO+xIG5uINZnPrOfYNQoB0F0wQSwVhnhNMjNGvlwDaRMCl98aiE9CJ8zWYvkLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786173828; c=relaxed/simple;
-	bh=kjxw2Q6l+XQciUjwv6WtFGuxME1n2kpduCrSzL144ek=;
+	s=arc-20240116; t=1786174041; c=relaxed/simple;
+	bh=zdSK4EW5EmRd+OYxCmA77w4dpjyy5DmMDhwRHmrdTDw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iWOQNlQX650ZUv/V80LOrBA8lqltP2pY7vzo/tBdpXNwG6rtC6jKUQcnwzN7zb3Fl9HBGnVpVGmbR02odfSZcvxnUqi+SZqOm1Ji6Sk7x8NrgWAXCKZ1UgBE0Gfw5ZPwiW/uYNgEGGEs3dWr/rDxLvJJSh1ngwDT1YSmUbEf9bo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nI48/QHv; arc=none smtp.client-ip=209.85.160.178
+	 Content-Type:Content-Disposition:In-Reply-To; b=L/esPPr633eLt9Wr63PSbAJjxXl5lQf4tORt/4TvQQBxZB0fBSS0AQxM2UXXJJ/MQH5EBdboJADgTaQMICN2kCIBx3DXAlggXu7NlSvLhz67oJ+9H5AbPwL1P8bu1PeskvEhhetO9S3WL5P6Wr8MIMYPBvjmXhd4j3uxFheMhrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CFuNEQZl; arc=none smtp.client-ip=209.85.219.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nI48/QHv"
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-52cd38ddcdfso1602421cf.3
-        for <linux-staging@lists.linux.dev>; Sat, 08 Aug 2026 00:23:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CFuNEQZl"
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-9034b6b7674so1578486d6.0
+        for <linux-staging@lists.linux.dev>; Sat, 08 Aug 2026 00:27:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786173826; x=1786778626; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1786174038; x=1786778838; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=QeHEWfzax/2BIcrdDHYJtRbgpFUEHFskYBkFqnlbTZA=;
-        b=nI48/QHvqntyP8wsXfTmgqavUjZBH0V98dH/YngL9wPvyKndYKCg0kVwZLnhY3b86a
-         L57dnI0YJqgMG+JG0ZDMQapYWqzd/pW5RdTbLTWZ4Ki17h6f6DO5tjAtlKDwo5vCCeSZ
-         2bbBCiUYB9WcJN0RrmHDzbi6EL9EDyg/I9TPm6PhGDto43G+vkoYQrzP1VngNkcQ8Fwa
-         xtEkb0sEpn4qEyu4YVfcMIi1dbb/0rZeLMEopmuluqN7xCxVnITVXCJyq2EiwDH6U3mm
-         1xM2Hh33UGjgd88pskYus9HHSoLnY6YIv7fQJNEyvtjocpqUER4fXnsIKbpAhYkRDbkh
-         P8DA==
+        bh=n6rNVAqrX9u/X9NY6P7dVHJ0E+jG06YmD37/7Pmp6bA=;
+        b=CFuNEQZlHm/xk2DpH3TnDnspWMEhQWFDWlNczGaiSKs9l+cQiOkDYtrDniPCG+oOfq
+         LDACBXWuKkxyeg37Aa8eFAnqTufC5JGO2XM+H6c1ZrZ5+H279XhcogvhVXSKMVgkUDZ/
+         OnngC5NTWkP7FU2YciwoGxCe3TNb4eLYAJTKDgW1s2mKmTMxnKbl8Epllc4dndQTNHSb
+         liYQJIlHkKlFw0s3kePZQcTS5hsSxfzZ7IemoUgDLaHGYEpt/lDI1cQZb4rPJx6aomqj
+         YCBpHlJS5hDgxA1N9EtTozNnnKy69mHX2fVIuzrz4E0kbLX553xdr5pY4IT9wjbrN6Jl
+         4fqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786173826; x=1786778626;
+        d=1e100.net; s=20251104; t=1786174038; x=1786778838;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=QeHEWfzax/2BIcrdDHYJtRbgpFUEHFskYBkFqnlbTZA=;
-        b=l4DXwZRvCv89OdfBnycCLPvdkRKJbHCqnea9lWU5hBNEd1VFnb9aETEr4fJrFr1zm+
-         D3TrDya1XqsP+BheLGU2na8k6P7XdjaKJm8xZSbmR5UBfnvlmuX8c8A1HQ0LEAfAJ4GD
-         raU/L9NJ+LEDSUfNcMLJC1gQy8ejGVwqxa2ee70vCn2mXnNQigf6e68vg1Ve86+eFjhi
-         lq2LHxGtyQscw9rRutlp4xdvVC1h9VAWy8mZ32VZX4ooKgw0dv6RLtSOAxEJmbw0xRiO
-         ftNiAFutGWm/X6ynbu73ynD/uQeOgFKKI7a5tJEekYuzOHybe9caDrYU3vvDYlKsL1bT
-         HKkQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqxHE8TqUxZ63wsZt0VLb5YI8KWlOZQrxYG3npOLNqtNKt6SfFMh6MOxVd60W6PNCmdrexN8UYHlQWulBzz@lists.linux.dev
-X-Gm-Message-State: AOJu0YyGzLLJm2ka3U/Q3qqy4PzGZnlHon19LeEl+c14P4UrbxPORKvV
-	bZehiZkhUQJfzRBC/TOZM4URDV1+v2Nvc0EMiDmK6Xs2cpNulJ9LGon/
-X-Gm-Gg: AR+sD12E4NxQwLlld5QpOj5KaxID7nS8NPSdRqtHuMgcFzgaFtAckbACgW+EKhDTWQo
-	icdiyn1fXjmuXL2SkPVQAHg5cZK4SlFKI+7LLlE8fBI4gz6lirVBZTsZWRl4icYsBxA1eOWM5z6
-	CSI7hgj+Z04lnuHm2m7KtLNUUiIstuzghHwherody/bShG3jNn1NuouN72l/8hwkWC1rEjmAAxu
-	77s7CnFWcMa5l/JbhGh3A/cujBp+ge26h9bYWG7Gr3mNW4OIOtNUJDMwMZClerM5JZpqU81/5Ye
-	T/cXw3a+bg3hkTLQ97FzLm5r5H0V49J6J4eHI4s8A4Yy14qJSlInlzJY1EjOjvhtQOy76Cu9S52
-	CZMieAnTNQgEU2j95+vEAq6KNNEXXnt4vyTw46fZkCgj7N5KgDdeHF8xsLPWJ6xARmBeIQpGLee
-	iVEm3ecSzSp3QabB00l4gw+xNXMUpu3nsHUDQaietFc5zBoifbbPRhQg==
-X-Received: by 2002:a05:622a:4c14:b0:51c:2633:9ddd with SMTP id d75a77b69052e-52ce61eabd5mr320157661cf.41.1786173826442;
-        Sat, 08 Aug 2026 00:23:46 -0700 (PDT)
+        bh=n6rNVAqrX9u/X9NY6P7dVHJ0E+jG06YmD37/7Pmp6bA=;
+        b=Z3IZqzd5Jat1yo5vWMln2iBJ7qrkV6LsFRGA7fuWHZTeiBodKN2Jd7vL4CiO379qMT
+         uHlUZ2wr72tC4mQ52sc777G8f2S6Ibv+MOy/CbNu8G9PHdCmWJA50G71Q+KbD/8sUnId
+         y+1mjMMI5m+TbBi2+phY+1T5n+rIZFBcqE2Gr4syOUK3QF06Kmd7HefRtA2PMMRrgJo4
+         sU9qN2Wt7+suORuB3HkBVHqHLROO//rG23lfCuPBSSjVTIGch0oONJRFSCflWe83J50D
+         aqnwggD08okZBNm9Ac6EW84zw4GwQBJoZsFPX8aBv0vN6dh1bzosVv4qNPN7/hAUXAFq
+         kifA==
+X-Forwarded-Encrypted: i=1; AHgh+RpP/OQwvj8xFXx4VndrKFrW99kf1+Nx2gQDyfJKDElP5BmdjJiTNFtt4O630HHMzShU4Pn36+lJBkm5gWLt@lists.linux.dev
+X-Gm-Message-State: AOJu0YwsAeRFQyruoFTsKaddCgNbI1g5gUA645SGGFoIUZQTWxAv9JtL
+	anWeRFi1hSxfx6Wn4x982HkjPfZnhOnpyCuCa3BDE7kpBJ3FKPI8Yzl3
+X-Gm-Gg: AR+sD12rRAPpQeS5CRwyqqpbyVNDhGWhX3Zk8EG6ETsUSNg5ld6Bg9RvzbH9ks8Bzcp
+	9pC71m9Rgx5e6+nBl73eMwiSI6U2rwa/E/iKRSg3HLGZj86pBvdAJdNQs/UbyK3XDHt80/ylThC
+	6phfPeBk6HYRUzHKAx3KoFCg3YynSBYJ9pcCx7fYUVXB9EtHS2ac1DWWm+3RKCmPfq56Cf6bj2J
+	r4AlXA7rOuuvspXUFH+aFjsH2UeQ2Lgkhp0UELii4m0Nd/JxOIaP5Bu8bn6ZETSgxCJSy6p4/wb
+	YJEr4Y1LDpaUkXjMSIrhUVYryJzUjUlIVpl0A25LTqwbeU9bZB6g0HAwxif5LWQFBKgYyxtQ0R4
+	PJ1pY1FyWW+rE6I1S1TzG6HY6heRkdqEV/XuBLuqieSYDKadLZ4RCssoXAddPJ+B1pKjmGbxf6C
+	OariDQsAR5BgeLG2llL0kgqR6zJscY5mC3dfSvhRA6Jdtp6zmxjZHcrUHPEM0YOJtD
+X-Received: by 2002:ac8:58ce:0:b0:528:162e:29d3 with SMTP id d75a77b69052e-52ce614ba88mr282876971cf.32.1786174038642;
+        Sat, 08 Aug 2026 00:27:18 -0700 (PDT)
 Received: from localhost ([172.216.11.43])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9366e03ed23sm321602685a.7.2026.08.08.00.23.43
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-52d160da94dsm28281311cf.0.2026.08.08.00.27.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Aug 2026 00:23:45 -0700 (PDT)
-Date: Sat, 8 Aug 2026 10:23:37 +0300
+        Sat, 08 Aug 2026 00:27:17 -0700 (PDT)
+Date: Sat, 8 Aug 2026 10:27:09 +0300
 From: Dan Carpenter <error27@gmail.com>
 To: Noah Techoueyres <noahtechoueyres@gmail.com>
-Cc: johan@kernel.org, elder@kernel.org, gregkh@linuxfoundation.org,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: greybus: Replace strncpy with strscpy
-Message-ID: <anbZeXqXbUAuAFUE@stanley.mountain>
-References: <20260803012620.5503-1-noahtechoueyres@gmail.com>
+Cc: pure.logic@nexus-software.ie, johan@kernel.org, elder@kernel.org,
+	gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: greybus: loopback: Add comment for mutex
+ definition
+Message-ID: <anbaTWYlNVYvOU6x@stanley.mountain>
+References: <20260803020609.693-1-noahtechoueyres@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -75,15 +77,36 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260803012620.5503-1-noahtechoueyres@gmail.com>
+In-Reply-To: <20260803020609.693-1-noahtechoueyres@gmail.com>
 
-On Sun, Aug 02, 2026 at 09:26:20PM -0400, Noah Techoueyres wrote:
->  Replace deprecated strncpy() with strscpy() to improve string
->   handling safety. strscpy() guarantees null-termination and is
->   the preferred function per the kernel string handling guidelines.
+On Sun, Aug 02, 2026 at 10:06:09PM -0400, Noah Techoueyres wrote:
+> Add a comment to the mutex field explaining what it protects,
+> as required by kernel coding style for lock definitions.
+> 
+> Signed-off-by: Noah Techoueyres <noahtechoueyres@gmail.com>
+> ---
+>  drivers/staging/greybus/loopback.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
+> index c33b8aa5871c..f94077a9d64b 100644
+> --- a/drivers/staging/greybus/loopback.c
+> +++ b/drivers/staging/greybus/loopback.c
+> @@ -61,7 +61,7 @@ struct gb_loopback {
+>  
+>  	struct dentry *file;
+>  	struct kfifo kfifo_lat;
+> -	struct mutex mutex;
+> +	struct mutex mutex; /* Protects sysfs attributes */
 
-This white space is weird.  You did't try to compile your patch.
+This comment is wrong.
 
 regards,
 dan carpenter
 
+>  	struct task_struct *task;
+>  	struct device *dev;
+>  	wait_queue_head_t wq;
+> -- 
+> 2.43.0
+> 
