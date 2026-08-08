@@ -1,74 +1,73 @@
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5C561AA1D5
-	for <linux-staging@lists.linux.dev>; Sat,  8 Aug 2026 07:27:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34FA04B04B7
+	for <linux-staging@lists.linux.dev>; Sat,  8 Aug 2026 07:37:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786174041; cv=none; b=mM7mieNkFPSiNCH5xX/SvoX4gUO4Gt47sSMJltXnrOtihERbxuvVBskX1TKHCCrb7JcSxy4QjpNLPDq/TLsAmTFq8JXEV4I3ms0EAvobTQ5woRO+xIG5uINZnPrOfYNQoB0F0wQSwVhnhNMjNGvlwDaRMCl98aiE9CJ8zWYvkLE=
+	t=1786174644; cv=none; b=eG4LprGvclYAm2lgnfRJEZISZ8pBKerTsx0T4og0slbBhl/TneCjuPmYmQ24i9MRzr1ocTpvPTdrve/dR3Ro8XVzP3FABEMi4LG+SyaKciYCJZ5+OxQF5gXR4HTB5qfnbRKelRjUbRHaTcjtbrJnNmkODmGNvWQkWErCAg4FWNw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786174041; c=relaxed/simple;
-	bh=zdSK4EW5EmRd+OYxCmA77w4dpjyy5DmMDhwRHmrdTDw=;
+	s=arc-20240116; t=1786174644; c=relaxed/simple;
+	bh=39NOZjY5jdkTwXTmsIU80g8ytrkeW7R5BAcp2XcskRY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L/esPPr633eLt9Wr63PSbAJjxXl5lQf4tORt/4TvQQBxZB0fBSS0AQxM2UXXJJ/MQH5EBdboJADgTaQMICN2kCIBx3DXAlggXu7NlSvLhz67oJ+9H5AbPwL1P8bu1PeskvEhhetO9S3WL5P6Wr8MIMYPBvjmXhd4j3uxFheMhrw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CFuNEQZl; arc=none smtp.client-ip=209.85.219.42
+	 Content-Type:Content-Disposition:In-Reply-To; b=JZvRW6NMz4FOYwHNzhvxOt9BT13GYLqWVUqhy0GkX1kZB8aFZj5e/pxFZq6XK7fO1kZ9A2Tpz+jCflLooJVHdGza5czykPzau9+6Pp2Pwl2JAbY9t/gmNNWzVXbzvcuJ+2BN6+S9Fsv/WRf6fmOX6GN0MLsUG+GpyPXDKDaO8bg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nKIGZ6kI; arc=none smtp.client-ip=209.85.219.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CFuNEQZl"
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-9034b6b7674so1578486d6.0
-        for <linux-staging@lists.linux.dev>; Sat, 08 Aug 2026 00:27:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nKIGZ6kI"
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-8ee88fce572so2338076d6.1
+        for <linux-staging@lists.linux.dev>; Sat, 08 Aug 2026 00:37:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786174038; x=1786778838; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1786174642; x=1786779442; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=n6rNVAqrX9u/X9NY6P7dVHJ0E+jG06YmD37/7Pmp6bA=;
-        b=CFuNEQZlHm/xk2DpH3TnDnspWMEhQWFDWlNczGaiSKs9l+cQiOkDYtrDniPCG+oOfq
-         LDACBXWuKkxyeg37Aa8eFAnqTufC5JGO2XM+H6c1ZrZ5+H279XhcogvhVXSKMVgkUDZ/
-         OnngC5NTWkP7FU2YciwoGxCe3TNb4eLYAJTKDgW1s2mKmTMxnKbl8Epllc4dndQTNHSb
-         liYQJIlHkKlFw0s3kePZQcTS5hsSxfzZ7IemoUgDLaHGYEpt/lDI1cQZb4rPJx6aomqj
-         YCBpHlJS5hDgxA1N9EtTozNnnKy69mHX2fVIuzrz4E0kbLX553xdr5pY4IT9wjbrN6Jl
-         4fqQ==
+        bh=pMq9IVceHSFtOfxmxRcqUVjciDxSmcJwMVjsRr15Crk=;
+        b=nKIGZ6kIJqvkIxv7OGAQohmuLfCbGtI2x5ECHZ2cLbehluGNSRSXOYRBa8VbSzc9GP
+         vDpla1ZedCMuQC82o8icftnnBbBpL6V+rMxVIIRtWnx6bzr25j68iYhRbUCmoLCIAaNU
+         WZ6iLZs7gnlrJHCpsWWI0n5SKrWNFrd4v4jWbOlzooWHT7B5NlQOt578n9CNBvVAl0Nf
+         rWHhWa3XNwySS3hs2tLIa7aE/0htgmDXXxhgtK5groyn1NaoSJCptpicprf54pjzhNte
+         mwozP4Ks2oFazllgAMhpvqI/LdSUHijSBDDmdmkqRo2mAvjUZXYiv9MaRKAgs8INQ9HP
+         tVmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786174038; x=1786778838;
+        d=1e100.net; s=20251104; t=1786174642; x=1786779442;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=n6rNVAqrX9u/X9NY6P7dVHJ0E+jG06YmD37/7Pmp6bA=;
-        b=Z3IZqzd5Jat1yo5vWMln2iBJ7qrkV6LsFRGA7fuWHZTeiBodKN2Jd7vL4CiO379qMT
-         uHlUZ2wr72tC4mQ52sc777G8f2S6Ibv+MOy/CbNu8G9PHdCmWJA50G71Q+KbD/8sUnId
-         y+1mjMMI5m+TbBi2+phY+1T5n+rIZFBcqE2Gr4syOUK3QF06Kmd7HefRtA2PMMRrgJo4
-         sU9qN2Wt7+suORuB3HkBVHqHLROO//rG23lfCuPBSSjVTIGch0oONJRFSCflWe83J50D
-         aqnwggD08okZBNm9Ac6EW84zw4GwQBJoZsFPX8aBv0vN6dh1bzosVv4qNPN7/hAUXAFq
-         kifA==
-X-Forwarded-Encrypted: i=1; AHgh+RpP/OQwvj8xFXx4VndrKFrW99kf1+Nx2gQDyfJKDElP5BmdjJiTNFtt4O630HHMzShU4Pn36+lJBkm5gWLt@lists.linux.dev
-X-Gm-Message-State: AOJu0YwsAeRFQyruoFTsKaddCgNbI1g5gUA645SGGFoIUZQTWxAv9JtL
-	anWeRFi1hSxfx6Wn4x982HkjPfZnhOnpyCuCa3BDE7kpBJ3FKPI8Yzl3
-X-Gm-Gg: AR+sD12rRAPpQeS5CRwyqqpbyVNDhGWhX3Zk8EG6ETsUSNg5ld6Bg9RvzbH9ks8Bzcp
-	9pC71m9Rgx5e6+nBl73eMwiSI6U2rwa/E/iKRSg3HLGZj86pBvdAJdNQs/UbyK3XDHt80/ylThC
-	6phfPeBk6HYRUzHKAx3KoFCg3YynSBYJ9pcCx7fYUVXB9EtHS2ac1DWWm+3RKCmPfq56Cf6bj2J
-	r4AlXA7rOuuvspXUFH+aFjsH2UeQ2Lgkhp0UELii4m0Nd/JxOIaP5Bu8bn6ZETSgxCJSy6p4/wb
-	YJEr4Y1LDpaUkXjMSIrhUVYryJzUjUlIVpl0A25LTqwbeU9bZB6g0HAwxif5LWQFBKgYyxtQ0R4
-	PJ1pY1FyWW+rE6I1S1TzG6HY6heRkdqEV/XuBLuqieSYDKadLZ4RCssoXAddPJ+B1pKjmGbxf6C
-	OariDQsAR5BgeLG2llL0kgqR6zJscY5mC3dfSvhRA6Jdtp6zmxjZHcrUHPEM0YOJtD
-X-Received: by 2002:ac8:58ce:0:b0:528:162e:29d3 with SMTP id d75a77b69052e-52ce614ba88mr282876971cf.32.1786174038642;
-        Sat, 08 Aug 2026 00:27:18 -0700 (PDT)
+        bh=pMq9IVceHSFtOfxmxRcqUVjciDxSmcJwMVjsRr15Crk=;
+        b=VxK15PYJpRdYyYkqkPG7ilh7vSYFsyKN9wJn5ktNqkjoG9+rFNwMl8CN6Uw9qBjrgT
+         yEC7kyb2kXhkFMI2VIc4Nk5E5lIC78N/1sbCQbMdOZ1hnps4WJUtsV+0K+6DQyes72lH
+         GljaAq8RBrhFrqvu08yky+vED88f9tTQNr45vzt5sevlFMmyWNFJTmVa0yV4QWRXXCJa
+         XhzRiCd4EdJdY5DLSqJ9vOPIAGIXh7/uBrOr+clqVsqNpbkjAm9qxlo7F56/Fn1441Je
+         XLVzPK0+piaonEduLF5heDcvNdFsmWwsPgu4y3kM7OBB1uL6pgolusfvgRofY59iZ8vn
+         qiaw==
+X-Forwarded-Encrypted: i=1; AHgh+RrtJHNo43lNFIaGndXhwyz5DGca7qQJisD/1d5mUeKzsIAhX02+gRa3D3SngZsnw78aEjD8Qlcu53aaWPb/@lists.linux.dev
+X-Gm-Message-State: AOJu0YwspVI30VmOdUHl3zfuhPhGhguecgTd1omjfmOOjrYaVnY8tYbS
+	bvnvcL5zjVU4PxC77yBKeTDnyZ9z8YI6n0eKnWDpGNul3ZfHcbdv1iyZ
+X-Gm-Gg: AR+sD13TA7imw0XPRlZ62SaecmgPw85pbigJq1s4IRJcUcRgQA6oIqRekkM7qvntf+c
+	vZR1UFAkp8N7fs8yGx+Z+sCY6Uq2LAVGJf7luEU8bhxCaliCimuICCMUp6VUS0wDTZfqfmLj7GO
+	Yhrw0kzVz3/sXRGCrVTjVFLfnkYp1QcguI5cBbgZrbllZJKJ4pvqVCvHBuM4I6ypnS69PP8P+Bl
+	jGaoChQhitIPs0JYfo/IrspuAidfflkUGAV8EoQuyezvJGNh9YNbWtuEkVrZ7m1n9nW1qzZ8cTV
+	2J76j1T87h89rfcq+LEZeIz0s+9MSN+/WuQJCzJDV2SUwEQg/qgSM5Okjjk/Eaqcj+XOThOhSbo
+	nViMTrKO0aAovhNSa5yIZuck76wvy/ng2LHPo2Jz+zsgp4QdxSG6dgvwgkIJzcKgVhSSAmkDBjW
+	mkjGF/9z6ipvY3ND8lTTLr/7VOCgTpZypC0tNCgYg9vq9w//joaRZnCAs=
+X-Received: by 2002:a05:6214:33c2:b0:8f1:e1ba:cdfc with SMTP id 6a1803df08f44-9089b603d7cmr207330076d6.16.1786174642080;
+        Sat, 08 Aug 2026 00:37:22 -0700 (PDT)
 Received: from localhost ([172.216.11.43])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-52d160da94dsm28281311cf.0.2026.08.08.00.27.15
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-908a918dd24sm26021596d6.8.2026.08.08.00.37.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Aug 2026 00:27:17 -0700 (PDT)
-Date: Sat, 8 Aug 2026 10:27:09 +0300
+        Sat, 08 Aug 2026 00:37:20 -0700 (PDT)
+Date: Sat, 8 Aug 2026 10:37:13 +0300
 From: Dan Carpenter <error27@gmail.com>
 To: Noah Techoueyres <noahtechoueyres@gmail.com>
-Cc: pure.logic@nexus-software.ie, johan@kernel.org, elder@kernel.org,
+Cc: dtwlin@gmail.com, johan@kernel.org, elder@kernel.org,
 	gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org,
 	linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: greybus: loopback: Add comment for mutex
- definition
-Message-ID: <anbaTWYlNVYvOU6x@stanley.mountain>
-References: <20260803020609.693-1-noahtechoueyres@gmail.com>
+Subject: Re: [PATCH] staging: greybus: uart: Add comments for lock definitions
+Message-ID: <anbcqQxPM8CP14HN@stanley.mountain>
+References: <20260803021857.989-1-noahtechoueyres@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,36 +76,24 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260803020609.693-1-noahtechoueyres@gmail.com>
+In-Reply-To: <20260803021857.989-1-noahtechoueyres@gmail.com>
 
-On Sun, Aug 02, 2026 at 10:06:09PM -0400, Noah Techoueyres wrote:
-> Add a comment to the mutex field explaining what it protects,
-> as required by kernel coding style for lock definitions.
+On Sun, Aug 02, 2026 at 10:18:57PM -0400, Noah Techoueyres wrote:
+>  Add comments to spinlock and mutex fields explaining what they
+>  protect, as required by kernel coding style for lock definitions.
 > 
 > Signed-off-by: Noah Techoueyres <noahtechoueyres@gmail.com>
 > ---
->  drivers/staging/greybus/loopback.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
-> index c33b8aa5871c..f94077a9d64b 100644
-> --- a/drivers/staging/greybus/loopback.c
-> +++ b/drivers/staging/greybus/loopback.c
-> @@ -61,7 +61,7 @@ struct gb_loopback {
->  
->  	struct dentry *file;
->  	struct kfifo kfifo_lat;
-> -	struct mutex mutex;
-> +	struct mutex mutex; /* Protects sysfs attributes */
 
-This comment is wrong.
+To be honest, I don't love this checkpatch warning.  It seems like
+a really easy task but it's actually difficult so it tricks people
+into sending patches that they shouldn't.
+
+We really want a proper analysis of the locking and not a three word
+guess.  What I *really* want is for people to check for bugs as they are
+doing this analysis.  If you can't find the bugs then this task is too
+difficult at this stage.
 
 regards,
 dan carpenter
 
->  	struct task_struct *task;
->  	struct device *dev;
->  	wait_queue_head_t wq;
-> -- 
-> 2.43.0
-> 
