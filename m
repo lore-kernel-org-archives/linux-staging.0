@@ -1,116 +1,117 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1914C39A061
-	for <linux-staging@lists.linux.dev>; Sat,  8 Aug 2026 17:13:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94C4B3246ED
+	for <linux-staging@lists.linux.dev>; Sat,  8 Aug 2026 18:55:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786209228; cv=none; b=T8T/M+IOkkglZa/CD+cP4t7U3RScmZr0Pf+LY+IrsSwn9UauW+IiImcnWAuWZxrpLmKn4e3cMieSasSZ02ly5K43QV1vFjCZDPgO373qVIk8pCZ8ZbhjhmGUCHgNUehP6nOzO9l9jwbXhssiCdEKHyXPBni2Vbg0Ub85hJ2Aaf0=
+	t=1786215331; cv=none; b=iW71U1t75HF4s0i2H7sUgeZowPt+Qvp8272NsjTUD7B3h9NyoZIG9VQtuOVurUvC5jVAoOu/ObKu0UDxR/XqVj/rtmnnit8UTVKL/RgcsczLtu3EbOk9lZJU7f2gFtr7bnlC7oiNFqtGiNzQZzGc4ueKWBO6TDBJPOhGAyedWH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786209228; c=relaxed/simple;
-	bh=BL4aaXl8jSrSD7KD2HElXnbVIvexcjEn3VDaSsBViDU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FeVLGWnKe4xdrHeCzZWsUTRfqVqcKYEYiHlDVk2fYwzQxYe3K8nGIQq78W8ehDZNtsrKZxXYJ99R6VwDG0kFbCe1HspRFUlFMnNPRy8L57ZAWF0ymdQ561qNuuqrFRVzLsvFxE7L5qQ8a7RXTAivN3e15pomExSOG2g8a3AX9d4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UgK/+a+l; arc=none smtp.client-ip=209.85.214.173
+	s=arc-20240116; t=1786215331; c=relaxed/simple;
+	bh=o8tp/RV19MDutoXFilVQRHPzFyUukCKdxAgfG9KzEXQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=UperaW0wawsiw9ILSE5Bj8o43kiZJb4YpoljtfSjs7DC1Yix9BdLVs+zifPPbC1MdT+5QO/BAB5M/iUPLpuk5+/fCW8JxGTeVCJDEtcfNn2kvZV80d5cdYu6PQ6HJHVjJ9dzcmEwZ/bS9+MH3pbCLtdqDuEWE5uEF1L7ThhlA70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Wl/VEgu/; arc=none smtp.client-ip=209.85.208.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UgK/+a+l"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2cf6d65d8a7so8412295ad.0
-        for <linux-staging@lists.linux.dev>; Sat, 08 Aug 2026 10:13:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Wl/VEgu/"
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-39c908d6cb6so5558091fa.1
+        for <linux-staging@lists.linux.dev>; Sat, 08 Aug 2026 11:55:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786209225; x=1786814025; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=x7rcP/EoxmNlfdqa20sdJaHCXqVdRdQPLgQvgF3F3BM=;
-        b=UgK/+a+lRmZmswHhgInSDqG0ILk1mWhWKAB+37dJiCeji8UXkeBFrNRhrYO5IdEU88
-         FImmmzM2dGyFaLeC4xsm+WtSUqV3c4l+PC6mHZ9aPD8xaLL4EhyvSuFjdhEwni1EfZgP
-         mldjS+5tUmIjMbnghdSlRHZM9w3g/CwHks9aJUmvWCFcbfw3Wmtw79lam7hCZHVC3jYN
-         5fU/iIHkPpAig/CMzXBwcwdborXVHBXwv21VqUpC1IRUNGmgr3XbKv+ouEWpP1XIZyq9
-         OQ3xacW3zwP4gOVnGxmDPir//RBp8l51iJyLQJqj7IcGpWH3+r/CqO3g5gJ9qEMyyZ0x
-         Z1pg==
+        d=gmail.com; s=20251104; t=1786215328; x=1786820128; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=VSJaRed4DSAJb36RG6Zz1ejo32wRTtdzotNw5DTlepE=;
+        b=Wl/VEgu/kVD4ApUKzQdnIAD+flUWoQgJ3jSV/7avZO3MMd/+DzmbZEaxmw4Mx82Qqn
+         pihACK0o+u7cT6lTWgQ8CuV2bjw6AKF6eUC5aCHvfYbwVLclZbJAU7HB3mY5/uIie7pS
+         WWRDeMTHJj4IfR6DZ2LNsf6QA22Uahb1neHyKg1A0vmi/UJNX5xpuDNX1j4h+3lKRekf
+         vGXVx8Xe2hbeeVroBrmVSAJiIZ1074+Pwxb1qjtVRc5KmC8xpYisXbu+eQ9o4JU0ACO5
+         k//xmLFE+KKnDAeJdwJ7lgdbrh/GU6r5CqdRZNCGJRtVt2BRZcaxMbgUj89aMz9dWlgI
+         XGnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786209225; x=1786814025;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=x7rcP/EoxmNlfdqa20sdJaHCXqVdRdQPLgQvgF3F3BM=;
-        b=YKgl+qOYaDDL9OZbDQtRCB3yeO8gnlble7BLZtHJYTtduNQi9LXhOIGsQPmfUChqEd
-         DzhSpH3xIRj4/W5hRsCUoJRUtOcx3wzjXUnLE8aIrxkoMlAEo3ttOshw7OSz6FxgPXxt
-         gzspJqxqR2VeE8ebRcBDiK3ufqD+Z+atpk+LQHh6alMaFmnrO64983jgICPvuqEQnQBr
-         FhlVmf4Jeu/Avox0jimXkrpL6oV5hBwJiohIMMkwZWjoypz29X4C2yOemr+DPe77AIqL
-         PaDCne2PSA4v6J1u8EALxySRnH2kHnNJmhBxwXqJ/U5vNnIbZm0ReKBhD60mGRinanFe
-         e8/w==
-X-Forwarded-Encrypted: i=1; AHgh+RpPpEYPXPf3IoYFhxLzV4mprpMfUXN47eke+WPU2wS5IeGwl/qEg0HUk5UXYV3VhhISZr0tvBhWCKe2x4vj@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz4pGFlvdvrziQPRm6+AelplkTSZ8/m552lTs8+eYTrRte+Dj6F
-	rJzDE6PxSBNIhr5TXmhbaKtc4E8vumOhbyfFPzOTEQtLS2eAn4qABWAx
-X-Gm-Gg: AR+sD13tZog/SRY7Iyz5xA6VUeRuhhlyRyIZrzLL6WxnMeWt7OLSVBgCMl2midEIsLf
-	Z68qSp/JHjp9VUl/hhdMuWTBApQYZYGFVEcA0CfGMeKkZkMCITOz/iste/QdAqU+ip21X5UW9rV
-	WgXH/6gct2ieTLlAg491a4sI6JSHgXvk3OolBD+KiL5KrQN5fJ0NGpkyceO/w9AcAr0/Y4zErh/
-	XuFVTrbE+NhFaMIyxGMh1os0RI7YAMOCGWxY/0asifShpRV1b3Q3aoG+wxlJwCG/7fjCdzFVqAk
-	/LQ2/Gw9//PYHCglKP6cM8kI0n9Q7KcI9NeAkCL65Jt4JpPBDezlDP82eBGVrl0R0O9/JzzDygP
-	OrNwu5aKrzSiKdb1Mf46bHOl0/OwZrO15PHJhEUanFDwwq2yuJQ4ERdbv2UWRIrhoeLNYULNpmi
-	Y+r3q523j//9VLREK4GciYljJIM+Yn7zUwU90vKEmtcOeuV7JCALtP4h0NQMM=
-X-Received: by 2002:a17:902:f68f:b0:2bf:dd0:c8b1 with SMTP id d9443c01a7336-2d2948d4921mr135028925ad.0.1786209224584;
-        Sat, 08 Aug 2026 10:13:44 -0700 (PDT)
-Received: from PC.. ([103.172.209.59])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-315bebde308sm21597494eec.20.2026.08.08.10.13.41
+        d=1e100.net; s=20251104; t=1786215328; x=1786820128;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=VSJaRed4DSAJb36RG6Zz1ejo32wRTtdzotNw5DTlepE=;
+        b=D4Mnht/OlVHOfQ+AAv0s7JPzYLpn0NZHDxKksG3zGJhPsrEXrAEAd+ITDSzfIFJA4T
+         1jS5v0qnt4ypjRYdvJKo7YTLtinkmJ6i4brHkjDkQoyNCzBF2aaIeAYioTILtz/5ht8R
+         NKVSocZolxfv9FIxTo78wVhdFSb5o2sf3CXPbeDdqWwPW9b+T2/UVa5oQ2AQb16nDgDt
+         icse3abUHNJgcrmZveZVFniaNvMeFw9UY0jYp2bKtap53otGXskn6o0HEFWYFPy2gacs
+         /SCvBoj1hchrBR0qPSTI4zv0fvqZ0HHoeRNITK3Jt+KUVHRV9fS6joNuB7KGhNzUck6e
+         Da3g==
+X-Forwarded-Encrypted: i=1; AHgh+RpUM3XkA4kcxU2oPx8/iQHquFnTzK0FOcfTuJmut/LTY0LtHkpeoNO16r4zjHzIyAGQdaa270fBGd4nc89Z@lists.linux.dev
+X-Gm-Message-State: AOJu0YwfpO/yRgrs8AHLbL37Vl4/6WUfrovxQSxPjLTvxvLWw71gllZn
+	WESbEWcZo8DyIuQYTB8F7YQORy7CZBmAHObX6txB0foOhsUQSEflXyiOmn8nUg==
+X-Gm-Gg: AR+sD12jZCgTTq2Qgp2LrpT0V+A3M6CAlQsYgFS0iQef8Iq+YhMpcGhKgrmZeKAW/EP
+	6M6mEJ5uWdVKp8TsE3Amplmi3JeO3t1p/oiPPRVLK3n7UcscAOOs1p1zwMEahKS7l3ppKjwdcBK
+	wVpyRzH14EyKdVBOte0Zt+dkZUeBSBsCiDRa6+B0bveKb0V5kepcnr5axmIqe7gxM/zMVbtpCnp
+	B2v21f68soXhNEPrBxgdkOCpQ6c70wdnHbRf9jAkcrPzTMYivB9zbzpz8GvqavTY+fuk73K8DdR
+	dN2ECPQ7GzNa1CAtrHD/z+2vsvyumhbr2Pzs1Fk2fNkPUgGbDsyHkdUPOf3Y95H8elm1Xo+cj8T
+	g9BonBb8JU9uJynnLhPxWLgJZczd9o5qSk84h8vh8EeYB50oGwk0Yi0zEelBwu9FcpgZ43RVoHE
+	J85z5lg63Q+NfPDoStPi7LaH0v9roUmxM7PvYbvMPAJQXKZy6V/imnUSMdKfGSd1/vma8voA==
+X-Received: by 2002:a05:651c:b2a:b0:39c:828a:ec28 with SMTP id 38308e7fff4ca-39fbb2df6bdmr34343321fa.31.1786215327344;
+        Sat, 08 Aug 2026 11:55:27 -0700 (PDT)
+Received: from [192.168.243.250] ([94.229.19.199])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-39fdda80e00sm11770001fa.9.2026.08.08.11.55.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Aug 2026 10:13:44 -0700 (PDT)
-From: Mohit Mishra <mishraloopmohit@gmail.com>
-To: Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rui Miguel Silva <rmfrfs@gmail.com>
-Cc: greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Mohit Mishra <mishraloopmohit@gmail.com>
-Subject: [PATCH] staging: greybus: light: use sysfs_emit() instead of sprintf()
-Date: Sat,  8 Aug 2026 22:43:38 +0530
-Message-ID: <20260808171338.72672-1-mishraloopmohit@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Sat, 08 Aug 2026 11:55:27 -0700 (PDT)
+From: Nikolay Kulikov <nikolayof23@gmail.com>
+Subject: [PATCH v2 0/2] staging: rtl8723bs: remove pwrdown field & related
+ function
+Date: Sat, 08 Aug 2026 21:55:16 +0300
+Message-Id: <20260808-rtl8723bs_efuse-v2-0-54488b13d554@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/2WNSw6CQBAFr0J67Zj5yIisvIchhoEeaMPHTAPRE
+ O4uYFy5rKRevRkYAyFDGs0QcCKmvltBHyIo6ryrUFC5MmiprUxkLMLQJGdtHN/Rj4zCqtyY2Ml
+ SOQ3r6hnQ02sv3rIv8+geWAxbZjNq4qEP7/1yUpv3q9u/+qSEEh5Ll7iL8uZkr1WbU3Ms+hayZ
+ Vk+3jA1hMAAAAA=
+X-Change-ID: 20260805-rtl8723bs_efuse-61a335b0d1b2
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Dan Carpenter <error27@gmail.com>, linux-staging@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, Nikolay Kulikov <nikolayof23@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1786215325; l=1046;
+ i=nikolayof23@gmail.com; s=20260402; h=from:subject:message-id;
+ bh=o8tp/RV19MDutoXFilVQRHPzFyUukCKdxAgfG9KzEXQ=;
+ b=lNMh8BOGQidir2jtPByTXZ2n4DeLnttcw2tHBYtWNfu0rjHZ4rZaIx9LBX8Y9eIBzmCdMTwcl
+ 5phkvGd5i3kBci+dqdOgdNe+Fb9jz9rNbOPQoFBj+V1ywtgDpGXop3M
+X-Developer-Key: i=nikolayof23@gmail.com; a=ed25519;
+ pk=2GWUU1isl5NJpkwSCQ4OG80EinZ3EUZXlrgAg6Pz5zI=
 
-color_show() and fade_show callbacks use sprintf() to format sysfs output
-into the page buffer. Convert them to sysfs_emit(), which is the preferred
-helper for sysfs show() callbacks as it enforces page boundary checks.
+Remove the function whose return value is ignored, as well as the field
+in the struct hal_com_data that is used only within that function.
 
-Similar conversions have already been made elsewhere in this subsystem
-(e.g. loopback.c, arche-platform.c).
-
-Signed-off-by: Mohit Mishra <mishraloopmohit@gmail.com>
+Signed-off-by: Nikolay Kulikov <nikolayof23@gmail.com>
 ---
- drivers/staging/greybus/light.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Changes in v2:
+- Move the removal of 'pwrdown' to a separate patch to simplify the
+  review process.
+- Link to v1: https://patch.msgid.link/20260806-rtl8723bs_efuse-v1-1-fedb8b91f346@gmail.com
 
-diff --git a/drivers/staging/greybus/light.c b/drivers/staging/greybus/light.c
-index cab02b5da867..2689f9a7524a 100644
---- a/drivers/staging/greybus/light.c
-+++ b/drivers/staging/greybus/light.c
-@@ -173,7 +173,7 @@ static ssize_t fade_##__dir##_show(struct device *dev,			\
- 	struct led_classdev *cdev = dev_get_drvdata(dev);		\
- 	struct gb_channel *channel = get_channel_from_cdev(cdev);	\
- 									\
--	return sprintf(buf, "%u\n", channel->fade_##__dir);		\
-+	return sysfs_emit(buf, "%u\n", channel->fade_##__dir);		\
- }									\
- 									\
- static ssize_t fade_##__dir##_store(struct device *dev,			\
-@@ -220,7 +220,7 @@ static ssize_t color_show(struct device *dev, struct device_attribute *attr,
- 	struct led_classdev *cdev = dev_get_drvdata(dev);
- 	struct gb_channel *channel = get_channel_from_cdev(cdev);
- 
--	return sprintf(buf, "0x%08x\n", channel->color);
-+	return sysfs_emit(buf, "0x%08x\n", channel->color);
- }
- 
- static ssize_t color_store(struct device *dev, struct device_attribute *attr,
--- 
-2.43.0
+---
+Nikolay Kulikov (2):
+      staging: rtl8723bs: remove unused 'pwrdown' from struct hal_com_data
+      staging: rtl8723bs: remove static HalDetectPwrDownMode() function
+
+ drivers/staging/rtl8723bs/core/rtw_efuse.c    | 75 ---------------------------
+ drivers/staging/rtl8723bs/hal/sdio_halinit.c  | 24 ---------
+ drivers/staging/rtl8723bs/include/hal_data.h  |  3 --
+ drivers/staging/rtl8723bs/include/rtw_efuse.h |  1 -
+ 4 files changed, 103 deletions(-)
+---
+base-commit: c6eb4dc5964fdf4086b73b7f0f5dc0d595fb5cf3
+change-id: 20260805-rtl8723bs_efuse-61a335b0d1b2
+
+Best regards,
+--  
+Nikolay Kulikov <nikolayof23@gmail.com>
 
