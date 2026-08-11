@@ -1,104 +1,94 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8E45311C2C
-	for <linux-staging@lists.linux.dev>; Tue, 11 Aug 2026 05:28:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A08940244D
+	for <linux-staging@lists.linux.dev>; Tue, 11 Aug 2026 07:30:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786426125; cv=none; b=ugQeHrQfOn3WMhZYHFIyNv4wX52f4+EbzJ6ptF6/YbDO3hC8DlqoYy88BRCKZIEgZ3GDVWGl9cnYUfkDjWhSRDwpbIc4oZsEkLV770LZMf88JBdFIlwiWNv2lmxIAMF5Uy3BdiMYzU85ACTtjCx1K9wvUC4nSqBNd8LTUDQTisg=
+	t=1786433461; cv=none; b=HlEenuIFjnNKPxHV5qQfBjkbB4Y0Lod8m1u1nYeoL+nhjs9AZ1Gu0hCLZLn6IjS9+L2tmZ0w0M53z933Kk6qKI/WvnQUmB598WEyn7CKyiE9C/RMuTD1nGP+RtJb6U0b0+CqzfHbgKMtGLBHAP8GNf/B6je5He6bHbFJvgMVQ/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786426125; c=relaxed/simple;
-	bh=Arog7K2z2QcwiJWvIw9Uy5HHO9Vf0+5jya1uNbCcqKM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p5pId7LnTI7JTCsD1y8+nMsVp0fMsENh11wz6AwLC1TgXSTwGK4AxlnsRCtCdIzGHALiUhIUfchXj/RAnwdaC1T0o9Q2PwcLB+31ryfT1ZjM5TYqqd29626phPEowEHv3ms6txZFkfFYsWYePHtmG4tF+H/Gqszp+KqH2AAst/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XlKf2yeu; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XlKf2yeu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786426124; x=1817962124;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Arog7K2z2QcwiJWvIw9Uy5HHO9Vf0+5jya1uNbCcqKM=;
-  b=XlKf2yeuppDT+VfTHYg/iiCA9nr/3qmAF64qcFMVqCejuay4MiNBtNw0
-   cZmTCBR86vaeN1RaFCe+gL+R7Jkh9YQkV9y/Be/X8wx1+6C5noeuoJ+8F
-   fowFyt13MYFviZZ5TjwOtCNcX7oxf9pkN/3Au+6EHob0PSiMcaQ8Hk7bn
-   qabDsPR15xR3T5yfphJ5zi6r7JXbKRZAzWQ6VSzivjQ1vq34Y+CGERMhv
-   JeqxlvwGslHVXFwG8swo9wy3uTEcZB+3oE0nvI9Ob501C34wuogGJ7cZo
-   psZlH0EZ8ispjon8cmPILNIJSbfKYHDvsUAdF6bpb87LqZew+kGgvLdD0
-   g==;
-X-CSE-ConnectionGUID: oQTKduN6SFqxnf/2C5xT8A==
-X-CSE-MsgGUID: /SKscG/NSTSyCrFab3EAEw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11871"; a="90764365"
-X-IronPort-AV: E=Sophos;i="6.25,217,1779174000"; 
-   d="scan'208";a="90764365"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2026 22:28:43 -0700
-X-CSE-ConnectionGUID: s4aZb+M9Tkey9ZTMR+Y9wg==
-X-CSE-MsgGUID: TUhvwN44Q6yYJICThSHjEw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,217,1779174000"; 
-   d="scan'208";a="259390092"
-Received: from slindbla-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.215])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Aug 2026 22:28:41 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id F088C11FC6D;
-	Tue, 11 Aug 2026 08:28:39 +0300 (EEST)
-Date: Tue, 11 Aug 2026 08:28:39 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: "Sidharth (Siddhi) Sharma" <wednisegit@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: staging/ipu7: return 0 for IPC messages that
- expect no response
-Message-ID: <anqzBxpnnlin7_we@kekkonen.localdomain>
-References: <20260811011718.274510-1-wednisegit@gmail.com>
+	s=arc-20240116; t=1786433461; c=relaxed/simple;
+	bh=CwAUaR488OrZMFfmERf5PK961nx0c8A88HCPIjtD7Iw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WLX1awMI6JyD74NyAD2tdwfInux9k0dBodClCy/OhJm19s7naxbXuzqWu1AS8wgx6Rz3cLZHOC6prRzEfH7ukS0x93oQRgBK1hi8IwKA0kuvKG9gNCMl6a9miyjR2iM1ZS6eGDG8ARqgDPCSWesqjO1DmQ3V8SjRZvolMY3rtss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 91b5f0a2955611f1aa26b74ffac11d73-20260811
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:34272b59-a387-4794-9f56-96e83a7fac6f,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:e7bac3a,CLOUDID:42c434b72a7bed245995d284f5de7cef,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102|850|865|898,TC:nil,Content:0|15|50,E
+	DM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA
+	:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 91b5f0a2955611f1aa26b74ffac11d73-20260811
+X-User: jiangyunshui@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <jiangyunshui@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 2002706240; Tue, 11 Aug 2026 15:30:46 +0800
+From: Yunshui Jiang <jiangyunshui@kylinos.cn>
+To: linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: gregkh@linuxfoundation.org,
+	martyn@welchs.me.uk,
+	kees@kernel.org,
+	jiangyunshui <jiangyunshui@kylinos.cn>
+Subject: [PATCH] staging: vme_user: fake: stop tasklet before freeing its data
+Date: Tue, 11 Aug 2026 15:30:39 +0800
+Message-ID: <20260811073039.288957-1-jiangyunshui@kylinos.cn>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260811011718.274510-1-wednisegit@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Sidharth,
+From: jiangyunshui <jiangyunshui@kylinos.cn>
 
-On Tue, Aug 11, 2026 at 06:47:18AM +0530, Sidharth (Siddhi) Sharma wrote:
-> ipu_buttress_ipc_send_msg() sends a command to the CSE and waits for the
-> send_complete completion, which the interrupt handler raises once the CSE
-> has executed the command. When a message does not ask for a response,
-> that completion is the whole story: the command went through, and the
-> caller should be told it succeeded.
-> 
-> The no-response path does the opposite. Right after the command completes
-> successfully it returns -EIO, turning a good send into an error. The IPU6
-> driver this code was derived from gets it right, since there the
-> no-response case simply moves on to the next message. This looks like a
-> slip made when the bulk loop was collapsed into a single-message helper.
-> 
-> Every caller today passes require_resp = true, so nothing is broken in
-> practice yet, but the return value is wrong and will trip up the first
-> no-response command that comes along. Return 0 instead.
-> 
-> Fixes: b7fe4c0019b1 ("media: staging/ipu7: add Intel IPU7 PCI device driver")
-> Signed-off-by: Sidharth (Siddhi) Sharma <wednisegit@gmail.com>
+fake_init() arms a tasklet whose callback fake_VIRQ_tasklet()
+dereferences fake_bridge and fake_bridge->driver_priv. Both fake_exit()
+and the err_master error path of fake_init() free
+fake_bridge->driver_priv (which embeds int_tasklet) and fake_bridge
+without calling tasklet_kill(), so a pending or running tasklet may
+access already-freed memory (use-after-free).
 
-Thanks for the patch. I'm however inclined to reject this because:
+Add tasklet_kill() before the frees in both paths.
 
-1. There's no actual bug here as all callers pass true for require_resp.
+Fixes: 658bcdae9c67 ("vme: Adding Fake VME driver")
+Signed-off-by: jiangyunshui <jiangyunshui@kylinos.cn>
+---
+ drivers/staging/vme_user/vme_fake.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-2. This staging driver will be dropped soon, in favour of supporting IPU7
-and later in the ipu6 driver.
+diff --git a/drivers/staging/vme_user/vme_fake.c b/drivers/staging/vme_user/vme_fake.c
+index 434cf760ade6..7b9d13183a41 100644
+--- a/drivers/staging/vme_user/vme_fake.c
++++ b/drivers/staging/vme_user/vme_fake.c
+@@ -1226,6 +1226,7 @@ static int __init fake_init(void)
+ 		kfree(master_image);
+ 	}
 
--- 
-Kind regards,
++	tasklet_kill(&fake_device->int_tasklet);
+ 	kfree(fake_device);
+ err_driver:
+ 	kfree(fake_bridge);
+@@ -1291,6 +1292,8 @@ static void __exit fake_exit(void)
+ 		kfree(master_image);
+ 	}
 
-Sakari Ailus
++	tasklet_kill(&bridge->int_tasklet);
++
+ 	kfree(fake_bridge->driver_priv);
+
+ 	kfree(fake_bridge);
+--
+2.34.1
+
