@@ -1,120 +1,129 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CACBA47DFBD
-	for <linux-staging@lists.linux.dev>; Wed, 12 Aug 2026 18:03:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A51830D3EE
+	for <linux-staging@lists.linux.dev>; Wed, 12 Aug 2026 18:39:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786557841; cv=none; b=UPETEZ2vz6h9CV8AQD1zbNk1fgq9gBsH8s8pSxt+F/B9NsRtc6HPncnnmvwip4WR6N844qIFZDnhlffvA1aJIorbGKiYurGrTtS+QYh70infq8GVAQGZvqT3MtYYhK6M9g2kaHluRkrOahDr2C6YSRCLpWT/f/9tC13eNMoDZI4=
+	t=1786559976; cv=none; b=Rdk7aKhhy1xC7mlE0KHtGXqqYQJvtmWxOIYk4you3gj8fj91jZn4CdC0hSKdly7FBKB3sG4t0bVqWiS0+y17ayQQ16CCBIrUMaZ7lwHF/rjYxXwN7M6tyP1DFsWRkMmQKL+jPuqoFuwusuVucUJi+HmnQp79n+6hBvJ9FCE6h4E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786557841; c=relaxed/simple;
-	bh=X4qZMzntQmtonEzW3xsFjGak19y1pukBZ/kbzssIuzc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gYCdqPP3K+z8aG9XMddyW8pJiCIM0moQVviWkev3+XA6JQkJED7VuvPxLq3CHtE3TdFtePwkwV4bw8UThllHrpZubJbqobiHoEJAmRD+ERsoZ/FeJFER6v1arA4xEjDD0kxUfiPtokIRv8S2iuWnbd/Itp6T/rXJvgpXIQ7gbFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NwX+wwX5; arc=none smtp.client-ip=209.85.221.47
+	s=arc-20240116; t=1786559976; c=relaxed/simple;
+	bh=VtC8kW5UgnXbzYRNvT5xE4/xMYOzDjx8D2Li708mD7g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Se/ZgRL8J1JzjFFdt3Nm/WVZgyfdiJAwIgihhOVddVFs03l9yBS64eG8wm2OSM8lpcLt3xEOia96+tRVyvP+l5dMj9lne7X4PXuejF4qbMH0YWq/68/DBNwBFwZTWVpcdJ1uy9oQsOWLGfvTZuJU84iOJgKtb2LjqtEQOJY9M+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FYtHJk6j; arc=none smtp.client-ip=209.85.216.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NwX+wwX5"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-47f703a9d05so884574f8f.0
-        for <linux-staging@lists.linux.dev>; Wed, 12 Aug 2026 11:03:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FYtHJk6j"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-384930ca5e2so1391379a91.3
+        for <linux-staging@lists.linux.dev>; Wed, 12 Aug 2026 11:39:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786557838; x=1787162638; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=RIuK/QcVkGoQXMhHo6v6ZPZQneDigGFJyRUb3Qf9p8Y=;
-        b=NwX+wwX5SKi1gv7e9zS4wPw6Qw/4SabNnhc7mmpWGvkjKbfphOLJdRtamwXgYx8j/R
-         hV23EZ61wucFM6zeVcB+X5mNBfQJb1kcmFVn29egGkLwaGAlyS+Ys56zDv1WVhNevltb
-         U2PFbPOI0jdW4x/+Oa1TsID6OwfXl5Xs8L0JsUH9o67TkJRQIfU7HuCjsWV4vmMrmGLh
-         B8pQxy+18DL09FU1XVzkAqGQK/ibwqZCdPU1/JEy4+2u2HrO3uxqP2bYPOQ/ih+H8Ue+
-         u6qwqjBOldCBjCEzpqYw9QRbbFuKN9YcFs1hzfr9dF23QgKK4HND0OXL/8+Rp4WE6g7F
-         TtIw==
+        d=gmail.com; s=20251104; t=1786559975; x=1787164775; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=58dcMDhVGB55A3sdC1Jxb+rfpaM/ylnibi1GRRPWgG0=;
+        b=FYtHJk6jLZ+TzvnYnZZTvp3vNarewzf/UTh+Dn9muEIf7WshebRDqyW/F17jOyjzmw
+         6685r2PeTeAzRIXv3Q2W6ztw/7+9r0kI6smzAd9QbDAxcJiJorQpX/akKizELFHNoKAj
+         6gPblFWI/8XpZzscY/MWsZUTLLqMfwpQEYv6XfLxRFc3eVh8vBF179CnMkb95t42KOV7
+         XWNC1r2jRolkO23nVna3+GqPXrXhKI4gDG/sTdHs8mSUR6v4z8H9WStD9spBLzjlZaS9
+         IFtBifMNFjrc/6eAHkB3ANVIEbB5o6EKzgSyuDNHzqPxa6DXU/pVhqBLuCqS15Jw9nxt
+         8m2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786557838; x=1787162638;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=RIuK/QcVkGoQXMhHo6v6ZPZQneDigGFJyRUb3Qf9p8Y=;
-        b=JdtadJra/oKKKafC+pFGTvucOdW5oQEjOEqRXtePTLLDTEMrLj3SDqjc9QdDTgCdxb
-         BHs4eOrrZo8qzAqxEqOnu6WaATpGSDzVTt2NmafMaoBNOoiFi7LaeXINAKEwInZSh5+Q
-         J5gF0C/TBWe4OhDliYL55peIv0qkgMS9E0PrkYKbdEYi7khW3DIUurUr1TOJzVup74Zw
-         DO5QFEan3zdsDeBIfAn2/EReAWdRWcDs1PQmu4kTHuKtX6AhiwqbgTbLeLYZg1xGlcQw
-         2VLIx4gLbEWLI9hhSfr1ALZXjgcRD2FhUSkmZkz2OXY5tB1GNho75Fz3VB3uGciIk4oj
-         1NZQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqFKUGuVG7okIB/7WMJPpdS9hetNXac+qMBg7ykbPOKg26bQttl7QHaznzgLkE+RzhvcIoxAF+W1XKl3dKQ@lists.linux.dev
-X-Gm-Message-State: AOJu0YwYe/4Jlc6sDRzf2pwgmQ2QFpo5+caq2jZ3Nba4EEqfth9KP3vA
-	uv0+MI62Kk3kbiIHPRqNvOD2sjFLUXwTblnQP4224cJWh1LuAgn2tYR5
-X-Gm-Gg: AR+sD10g9lwvfX/h/C6fOijDj5AOrLOqEG1LFO0DcXLWEAw2sbaXIZ+b9SJrN3YxLhe
-	xCcJsMKMcwrhHNLSQtM7qV90enVpIHtFtPijibbdsXRfTVy6tsAd9fdpTbMdpzgP40ARt1No9bu
-	zZOCtySRe5LPFxwwIWwFgZas2nYe/Ly6tbCQSUyxMFxF9IqE/H63hDgx9/+2ZfUMDRT9Hvl/7fL
-	rhCKO5mbYkdTPZJXGARb9dTGbnRkL8I2IGIyCMIVv3hgHTuxTuY/8ukCuT64TcsgfH2LiJbFznR
-	R+RRCkUE1yh7Pv4I1lwR4liHS9/JZgbQ/1nHADMTnkfs/DeAKSFFjL1v7AV78UNzLPyVFKRwzra
-	KRHC8afJse/eo8jZ93qOgY72uaE6K2Dnyoii2t1kdLcnEg6wIwmP8GqVIirm/TSP80cmBD2tmmL
-	6Z/kERU/CLXUQGgb1yIJscglJSKuuxKDNdmqeC8mBDnV2Lg9GK3oV6ad2G06nyKNhtnEbtktpnu
-	k/aC8hNH7L4HidzNLievGqKcBJbaPsXvA==
-X-Received: by 2002:a05:6000:25c5:b0:47f:91f0:9a8 with SMTP id ffacd0b85a97d-48152cc1d39mr9571784f8f.23.1786557837811;
-        Wed, 12 Aug 2026 11:03:57 -0700 (PDT)
-Received: from legion.localdomain ([176.88.100.197])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48157f1fbd0sm1935622f8f.28.2026.08.12.11.03.56
+        d=1e100.net; s=20251104; t=1786559975; x=1787164775;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=58dcMDhVGB55A3sdC1Jxb+rfpaM/ylnibi1GRRPWgG0=;
+        b=QTevT3dNNu2LM73vAB+PqtEFgUD/se7Xu0dsQNFu/lyUVYIaXdD6uQnZU7+Z1ejHFL
+         xO/ucuYU6iH6G52TYWu+2L3b/9Yu8Ji6UwerO9NeXMNDJkw5y+m4Dp9mK+ihZYUDS1y8
+         qXPMuwH+vNS238+BLLtOUN7prA1pMphh+8fvZIe3MXXtfeD0UszXHnyQrxQ9RWxs1yq1
+         lw9KP5Yv0E+21CDNerM7XoKVCtQWMVGc5QaFPQtgyTi6SK/XMo+DI7nM/DvtwjIiaf70
+         p/NY6S08fHRDTlSp2t7fLZglS13e2+pJzICDPWCmZuFbwXtEjIwYCyQWU8pWanV0U5Y2
+         XJgw==
+X-Forwarded-Encrypted: i=1; AHgh+RpT2FaFbT+y8CSQAGZl5T4c9m9Yi1BbamftP0QaBMvgrI14ASXxOuVgcDfA2ky7xp3m2ooTJbYWL9y8DIwE@lists.linux.dev
+X-Gm-Message-State: AOJu0YxKCwrrf7kcZuzzz8PC21ddHURPiKSIl2AmhdwDqITYZDRV8u0P
+	l9kWs5Ve7ZB40slC9TJGeeU2+oZoQZbzayMNjroKrId8TcRYJfTeBbxp
+X-Gm-Gg: AR+sD10qK+aH6tUR6s29yFA1JJLPplcdkepd5kfD2cY8ed+xsaasdiprh7ovJD/XPGP
+	y5aednjrpTNEP56e74lOWbg5hB5X8BLMRT07IHwBKzn/bevIVlWSEYormwwg122j1r87ytvAka2
+	5TMrbsJqb/x6gBiCE11iycSdvvyFQZyUJhvxyzM0Glx6Ij0Oz2ta79QdaiEJ69Ygx3x2FPSFA/L
+	/kAX3EJRSh8o80PTF2DzTDo99Y1dtFlfD5TAc4ogGjClgdqRBJSD128YOLVJ7Bm1Hk2XDVX3FAg
+	IbEc7oBAhCaNIw0ocdic+9bg5n7fVH8Yw5U+YXefVHtOL7T9pcO0yP7HBtnnXptTiMAgeFf8rt/
+	uPJJowlZb+1EGA4Y3SOJ8ANeb3HbKetzOXcduqeJ1oEkawD9lEkZ5f8h/+P5aDuL5F8ljsMXC1u
+	5ON2+TjK9cwPyvOjO30IePUtmWeVEjlMElJjN4pGOrRrpZQIWiI+ZX5HQ=
+X-Received: by 2002:a17:90b:3805:b0:381:5bd6:eb19 with SMTP id 98e67ed59e1d1-3931e2d5ad3mr150974a91.18.1786559974682;
+        Wed, 12 Aug 2026 11:39:34 -0700 (PDT)
+Received: from localhost ([2a02:6ea0:d33b:2320::12])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3931cd93d89sm410673a91.15.2026.08.12.11.39.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Aug 2026 11:03:57 -0700 (PDT)
-From: Batu Ada Tutkun <batuadatutkun@gmail.com>
-To: Bryan O'Donoghue <pure.logic@nexus-software.ie>
-Cc: Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Wed, 12 Aug 2026 11:39:34 -0700 (PDT)
+From: =?UTF-8?q?Andr=C3=A9=20Moreira?= <andrem.33333@gmail.com>
+To: pure.logic@nexus-software.ie
+Cc: johan@kernel.org,
+	elder@kernel.org,
+	gregkh@linuxfoundation.org,
 	greybus-dev@lists.linaro.org,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Batu Ada Tutkun <batuadatutkun@gmail.com>
-Subject: [PATCH] staging: greybus: loopback: remove unused includes
-Date: Wed, 12 Aug 2026 21:03:54 +0300
-Message-ID: <20260812180354.1968-1-batuadatutkun@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	=?UTF-8?q?Andr=C3=A9=20Moreira?= <andrem.33333@gmail.com>
+Subject: [PATCH] staging: greybus: remove unused loopback macro
+Date: Wed, 12 Aug 2026 15:38:32 -0300
+Message-ID: <20260812183833.39666-1-andrem.33333@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-linux/random.h, linux/sizes.h, linux/cdev.h, linux/fs.h, and
-linux/workqueue.h are not used anywhere in this file; none of their
-symbols appear in the source, and none are needed transitively either
-(debugfs helpers come from linux/debugfs.h, the async worker uses
-kthread_run()/kthread_stop() rather than the workqueue API).
+The gb_loopback_attr macro is no longer used in the Greybus
+loopback driver. Remove the unused macro to avoid keeping dead
+code in the driver.
 
-Verified by removing the five includes and rebuilding
-drivers/staging/greybus out-of-tree with W=1: no new warnings or
-errors, and checkpatch.pl reports the same warning/check count before
-and after.
-
-Assisted-by: Claude:claude-sonnet-4-6
-Signed-off-by: Batu Ada Tutkun <batuadatutkun@gmail.com>
+Signed-off-by: André Moreira <andrem.33333@gmail.com>
 ---
- drivers/staging/greybus/loopback.c | 5 -----
- 1 file changed, 5 deletions(-)
+ drivers/staging/greybus/loopback.c | 26 --------------------------
+ 1 file changed, 26 deletions(-)
 
 diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
-index ea57b1f5d156..1169cfcd28c6 100644
+index ea57b1f5d156..2a623fc2e99b 100644
 --- a/drivers/staging/greybus/loopback.c
 +++ b/drivers/staging/greybus/loopback.c
-@@ -14,15 +14,10 @@
- #include <linux/slab.h>
- #include <linux/kthread.h>
- #include <linux/delay.h>
--#include <linux/random.h>
--#include <linux/sizes.h>
--#include <linux/cdev.h>
--#include <linux/fs.h>
- #include <linux/kfifo.h>
- #include <linux/debugfs.h>
- #include <linux/list_sort.h>
- #include <linux/spinlock.h>
--#include <linux/workqueue.h>
- #include <linux/atomic.h>
- #include <linux/pm_runtime.h>
- #include <linux/greybus.h>
+@@ -167,32 +167,6 @@ static DEVICE_ATTR_RO(name##_avg)
+ 	gb_loopback_ro_stats_attr(field, max, u);		\
+ 	gb_loopback_ro_avg_attr(field)
+ 
+-#define gb_loopback_attr(field, type)					\
+-static ssize_t field##_show(struct device *dev,				\
+-			    struct device_attribute *attr,		\
+-			    char *buf)					\
+-{									\
+-	struct gb_loopback *gb = dev_get_drvdata(dev);			\
+-	return sysfs_emit(buf, "%" #type "\n", gb->field);			\
+-}									\
+-static ssize_t field##_store(struct device *dev,			\
+-			    struct device_attribute *attr,		\
+-			    const char *buf,				\
+-			    size_t len)					\
+-{									\
+-	int ret;							\
+-	struct gb_loopback *gb = dev_get_drvdata(dev);			\
+-	mutex_lock(&gb->mutex);						\
+-	ret = sscanf(buf, "%"#type, &gb->field);			\
+-	if (ret != 1)							\
+-		len = -EINVAL;						\
+-	else								\
+-		gb_loopback_check_attr(gb, bundle);			\
+-	mutex_unlock(&gb->mutex);					\
+-	return len;							\
+-}									\
+-static DEVICE_ATTR_RW(field)
+-
+ #define gb_dev_loopback_ro_attr(field)				\
+ static ssize_t field##_show(struct device *dev,		\
+ 			    struct device_attribute *attr,		\
 -- 
-2.53.0
+2.43.0
 
