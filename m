@@ -1,158 +1,67 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 021AB3B8D41
-	for <linux-staging@lists.linux.dev>; Wed, 12 Aug 2026 20:55:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9A66421253;
+	Wed, 12 Aug 2026 23:51:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786568149; cv=none; b=KrpMIRIpUPhLTFzsR/xsdzsgP+xFDGSln03gNxeG2zkEoPkwkkg4qn5OT+yhK5kqfSU5LLH+3/RdTByBffsn7Q95oz/kNQIWUhCKdi0dm3osMAOrUZzGzVxmmiMezlLXXeUiBdx3MZYT+lF8e94OKPv6uNIEOzwQC2MmRPFGqAE=
+	t=1786578714; cv=none; b=EWmQg/m+t9W11RF5NkGicBR6rQ2CPuIeYQZpXtYJeC+1PaQKp3kKNnyRh4B2eu9byh32/QuvbLX0PCRDYfxNRHR4PQ8YsA5GPWZmD9siRaq/7JqGQZqOQk/QNYY0E+s/fPi4rmQSQOMQG0skHkEqPSgy4yGS5wzm5C7V7Mrps6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786568149; c=relaxed/simple;
-	bh=pc5UESD6EDwQLGI9fUxjkSsSLs86VJEfjdxtMK0USzs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FJsQVXt/uBnfJ5Vl+X2J00qFOGlSnMYv8B7rpC8xON9vGUFL+G/2IPAEUFbnkfzqdakwKACzOYRaYgvaPvWCXtNXoh3Avm6z+onTcY4rCGS+e8MYK2zdjCJAeyJGnRgwNKhEN6ob29aHLEvtHLqFN886PQ4p9EygNdRN9pCrMxY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jTxgotCd; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1786578714; c=relaxed/simple;
+	bh=nCM9dDw55tZovPKAfmpKo+YH/4qHO9l8u6828ydOBfM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uQGJ1vmfkIGXGgdqiswoXyp6W1C8l5lpo572HPsCb6fF3mPILuguBytRKxG7Mp1eTQ9bqdKXpDeHVARpQQhn6iISvZEhItAbNmWRklcItgmY5L1+qLWQ/xTojVOdBMrN3rC3gWgJjK3Je2UzEBj5ISYpbYUCLHhmBG2F4ogoojs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=s0evZBBj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jTxgotCd"
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5b2a22c52c1so15136e87.3
-        for <linux-staging@lists.linux.dev>; Wed, 12 Aug 2026 13:55:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786568132; x=1787172932; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=EYpha9QcagCXp8KuwiP/ovEe90DQEndNvsYkBOdtUDs=;
-        b=jTxgotCdjR9aHffylw+mmc+rOuEE+s5Fe5TJZwOUhD539Wv1SLWuwrMz66i/dvn5T5
-         3UVggHVhbPM/08FUfxKiW7RPj1IvnDeKATVXEXJSg/Yo5djlbUBN+KruIM5BZO+omZEJ
-         ko550wm+7w3Yvfwow6whUCAEcXrg2fCje/F9tA0u/YRldpOeYDL+b6psEozR6J2hdcTt
-         HRVbHVTKmc4bSBvjqHw8URkJVSMLUzjmnTPcUu5jPSjEBFiexzk9t/m4RUAXElXOVagM
-         hYIqE7GnHsdUyVIUdCSN+VrjvfmcGNN65StV1UvfLuVDwhto3+bwwrleYbjmDJYkVpBc
-         s+vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786568132; x=1787172932;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=EYpha9QcagCXp8KuwiP/ovEe90DQEndNvsYkBOdtUDs=;
-        b=Qmn4TbvoFvja+KIOzcH32v0O5Vz/nCLtdZNn0DV7FUoUV7DmN8fM3QbkJB0OMXLAq/
-         xfhZhukd4yVLvuOj2pxsxPybm1ZGPintXZNt/p+sRFsiyebhadimq9NAtY6rVLEuFYTH
-         SrMQDJlaBA9mctxOWPeppr4ufUTrDre39+pL3oAh8n6T6UjG5/rzByvWbK3lu1gxRmJu
-         HYamJNp1Zvf+eCRIIO6BYxXq3SsdBfMRLJ1ezB8N0S2jq8VKWqeTTVzIsoeUQTX84j1J
-         sCIWY3qEUKOeI7eP53kwwcfOsoO6fnwN3e5lCzn9F2LztItZCz+VFLt8qEf2ql+f/SUT
-         g4Xg==
-X-Forwarded-Encrypted: i=1; AHgh+RoTMay1ird3YzsCbKmNVgMHbWoV9P/Zod+7mBlZN97wi9acDKDnLAH8UgjAejpdIgxPPLieUTzta2ibIHq0@lists.linux.dev
-X-Gm-Message-State: AOJu0YxeWltg/Vc4fMOrRye0iCGLfl7Xgcn694dTcc41F6UbQbGlmeSC
-	kb5X5pJ6t77OI4OVCHChckEauTOdFRYtSUgiUTHSdT8lemTRdxNn7738
-X-Gm-Gg: AR+sD10QorYWeloICdD771zkk07PxI2cXUxaPoK0I5BPX32Q6h4ZWQCgZmnS8aS7XKS
-	Qclm7FS45GU1Xl1iN8twHoSm1hPkqX/cOBF+77kuUO7PIM/mUAMzQ3hal+VJHTdSpaRbEpQPGRO
-	eeubvUA1nPJZx5nO1s4JaSUofMifJaMl+VN8NKgFXNuUYIqq0oFTRipszjDBa38IfYZewNkHowS
-	Vpb5MSNPrMqcGN2TPCn5owNyZ6XHXpKxyjyhILlUBT6m3P6T3FSf8Ly64kfS9ahjF/DaUWcyRTz
-	WZlzW2ha7Y8Q23ZMp5DA/BolfGiKfbILvgiGbPwZLY0PTY+Kg1mx9Y7D4tTAMigxdmrKsFgrGPW
-	Pfc+1AVCm5ojVFz5lOHGZgNv9kWQNLbXbqSDOeap4mN1/x4uhvYD8IqsGoS+PS27vxtpFQoqyvd
-	3oMtah8r81T1HCBSzpmQ0thCVC0bEB/UacOYFkC5rHus7QBMoGL/mAXLc73vpB
-X-Received: by 2002:a05:6512:3196:b0:5ae:b260:cf47 with SMTP id 2adb3069b0e04-5b453f317f1mr52261e87.10.1786568132298;
-        Wed, 12 Aug 2026 13:55:32 -0700 (PDT)
-Received: from archlinux ([94.229.19.199])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b4539e9605sm60999e87.22.2026.08.12.13.55.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Aug 2026 13:55:31 -0700 (PDT)
-From: Nikolay Kulikov <nikolayof23@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Nikolay Kulikov <nikolayof23@gmail.com>
-Subject: [PATCH v3 5/5] staging: media: atomisp: remove hmm/hmm_common.h file
-Date: Wed, 12 Aug 2026 23:51:38 +0300
-Message-ID: <20260812205429.39181-6-nikolayof23@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260812205429.39181-1-nikolayof23@gmail.com>
-References: <20260812205429.39181-1-nikolayof23@gmail.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="s0evZBBj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00F231F000E9;
+	Wed, 12 Aug 2026 23:51:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1786578712;
+	bh=UFhg16Nx5Oz/xGWvDX5HVQlK1QjV09kkKVXi1b9YYPQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=s0evZBBjAMBduMcLWfCA+S1TrGCaDs13zooWh4JzrbsCZe7zCGxc0D7iyJory889V
+	 kPa+qKySU8zMiQ9x8I+PCXDYOkLEP1wLeJBWjgjzN2CfBhaFK1x6rDpfGYwKXDl+vi
+	 /INWKb0Mby0eYSBSy8iHb6gWb0ILJp35JL4jRxZA=
+Date: Thu, 13 Aug 2026 08:50:19 +0900
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Batu Ada Tutkun <batuadatutkun@gmail.com>
+Cc: Bryan O'Donoghue <pure.logic@nexus-software.ie>,
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: greybus: loopback: remove unused includes
+Message-ID: <2026081355-unroll-spilt-6725@gregkh>
+References: <20260812180354.1968-1-batuadatutkun@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260812180354.1968-1-batuadatutkun@gmail.com>
 
-Now this file contains nothing, and we can remove it and all the
-"#include" directives.
+On Wed, Aug 12, 2026 at 09:03:54PM +0300, Batu Ada Tutkun wrote:
+> linux/random.h, linux/sizes.h, linux/cdev.h, linux/fs.h, and
+> linux/workqueue.h are not used anywhere in this file; none of their
+> symbols appear in the source, and none are needed transitively either
+> (debugfs helpers come from linux/debugfs.h, the async worker uses
+> kthread_run()/kthread_stop() rather than the workqueue API).
+> 
+> Verified by removing the five includes and rebuilding
+> drivers/staging/greybus out-of-tree with W=1: no new warnings or
+> errors, and checkpatch.pl reports the same warning/check count before
+> and after.
+> 
+> Assisted-by: Claude:claude-sonnet-4-6
+> Signed-off-by: Batu Ada Tutkun <batuadatutkun@gmail.com>
+> ---
+>  drivers/staging/greybus/loopback.c | 5 -----
+>  1 file changed, 5 deletions(-)
 
-Signed-off-by: Nikolay Kulikov <nikolayof23@gmail.com>
----
- drivers/staging/media/atomisp/include/hmm/hmm.h  |  1 -
- .../staging/media/atomisp/include/hmm/hmm_bo.h   |  1 -
- .../media/atomisp/include/hmm/hmm_common.h       | 16 ----------------
- drivers/staging/media/atomisp/pci/hmm/hmm_bo.c   |  1 -
- 4 files changed, 19 deletions(-)
- delete mode 100644 drivers/staging/media/atomisp/include/hmm/hmm_common.h
+Please read:
+	https://lore.kernel.org/all/2026080354-skater-urgent-31b2@gregkh
 
-diff --git a/drivers/staging/media/atomisp/include/hmm/hmm.h b/drivers/staging/media/atomisp/include/hmm/hmm.h
-index 6bda02b9ff85..be92a9c9046f 100644
---- a/drivers/staging/media/atomisp/include/hmm/hmm.h
-+++ b/drivers/staging/media/atomisp/include/hmm/hmm.h
-@@ -15,7 +15,6 @@
- #include <linux/slab.h>
- #include <linux/mm.h>
- 
--#include "hmm_common.h"
- #include "hmm/hmm_bo.h"
- #include "ia_css_types.h"
- 
-diff --git a/drivers/staging/media/atomisp/include/hmm/hmm_bo.h b/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
-index 69cf490bd88c..2a19e3b2c1f9 100644
---- a/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
-+++ b/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
-@@ -16,7 +16,6 @@
- #include <linux/spinlock.h>
- #include <linux/mutex.h>
- #include "mmu/isp_mmu.h"
--#include "hmm/hmm_common.h"
- #include "ia_css_types.h"
- 
- #define rbtree_node_to_hmm_bo(root_node)	\
-diff --git a/drivers/staging/media/atomisp/include/hmm/hmm_common.h b/drivers/staging/media/atomisp/include/hmm/hmm_common.h
-deleted file mode 100644
-index 029620347302..000000000000
---- a/drivers/staging/media/atomisp/include/hmm/hmm_common.h
-+++ /dev/null
-@@ -1,16 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--/*
-- * Support for Medifield PNW Camera Imaging ISP subsystem.
-- *
-- * Copyright (c) 2010 Intel Corporation. All Rights Reserved.
-- *
-- * Copyright (c) 2010 Silicon Hive www.siliconhive.com.
-- */
--
--#ifndef	__HMM_BO_COMMON_H__
--#define	__HMM_BO_COMMON_H__
--
--#define	HMM_BO_NAME	"HMM"
--
--
--#endif
-diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
-index 89e56ce07444..ce0c8b2717a4 100644
---- a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
-+++ b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
-@@ -30,7 +30,6 @@
- #include <asm/set_memory.h>
- 
- #include "atomisp_internal.h"
--#include "hmm/hmm_common.h"
- #include "hmm/hmm_bo.h"
- 
- static int __bo_init(struct hmm_bo_device *bdev, struct hmm_buffer_object *bo,
--- 
-2.55.0
 
