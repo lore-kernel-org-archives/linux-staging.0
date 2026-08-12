@@ -1,60 +1,60 @@
 Received: from sonic.asd.mail.yahoo.com (sonic-euwe1-0017.asd.mail.yahoo.com [34.2.82.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E3C945C719
-	for <linux-staging@lists.linux.dev>; Wed, 12 Aug 2026 15:30:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A28C3CA4A8
+	for <linux-staging@lists.linux.dev>; Wed, 12 Aug 2026 15:54:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.2.82.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786548637; cv=none; b=dDcCmSz04atVGkQSoCtu/DlgcfSfFXld4yLelTw4CYCQ2xDApCWWYyfYQ3NU67NqUfzT1OfUQdvhJuIoc/kdlG9qgA+O6UVvnJ2ZAPkxNdYg26yH1TD8rRXhksCo61XtaXfHpwVWMvVw3dzDBn0KYu5xAiaSF19Bx819lWSzSyA=
+	t=1786550086; cv=none; b=Yd9dXTtXoklnze2rvbBOoN58WimrHs025h0LiW0PLGihlvrB6Rs7hPW5pfhMRwazzCtHQZssefmIRPegcL+zWRbGg5dlmMTt0bOIef4huMtIe6fN2/SV4KUGokhZDdWTxnGnZRwGdNoOhaH9nBR0YbQhaiNl6KHvSmxUXdQchnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786548637; c=relaxed/simple;
-	bh=KgNiKtC5KFuc1wDCit6AyEiSLuN8mQ2IgMB1hVpvO8Q=;
+	s=arc-20240116; t=1786550086; c=relaxed/simple;
+	bh=WhyxJST2R372ONHs8/vWqXzDAcTpEusnQyOqkx5armY=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc:
-	 References; b=FlA8tLbbe9XvBMxIx515934z3KDRGCIKyjuVuqCzRMWNISwNAIjEFQ8HbHdL6KOKPck9qmI/XDLpx+qw4dIHEoQrLb1mV0tXsrLlWnCKWSc6KHcwmNlqgnOkEMsXJhscVKBC8s8A26mkLAfCl3Awdq9Fyg9PTG9ck57O6jb7Ews=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=LbjYcgX2; arc=none smtp.client-ip=34.2.82.16
+	 References; b=DgJzmt3gL0j6g+vpPWtwCj0t8tQP6D6pMtunak+OI7m/ZKhVlA4p+T8AQTE68jP9x7817s/NDCse0BA8gbQfqQvRWx5R8b77FMtlFrOxOaPgoU/2QQ3JWIah67O+vWLhVpy8/Z0gi5AnosuT6iuP+9kuOmLMgzMDeL21/XL5qJE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=j+0IPi+V; arc=none smtp.client-ip=34.2.82.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="LbjYcgX2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1786548622; bh=iJcYQ+i5eZAqt9k9URDpi12HLr9WvUz0Om5uuQ1CdcU=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=LbjYcgX2lthO4wagbur/xBB0RvichN+Bfjuerfpi/+lmiDHhkoQTosMMfxt5mIwCK2QHszZtOx842eJCzo70e+4ATE8rQN0fhS74YhHkn9u0JmE1ObbIj6HDgykPxBSemQIogFmSsNlyRs0YJiuPygWV2MTmJFJsUOrK3XWexeNmuRgvL9Vgs8uIM8iwo/cvngF9U/PYH1N6zJJpVOPI5NnFVajXGsemT/3yCGEzqAXlsBZnrV9uBWrA5r0I1FQ3Tr51ItKAi+npBXNilrn1lebfYOAgoccFZjBgkun+vY0rRS2sfwUVuEWQkMrXYMMx3+ORFD0TiSsT1LkFFAvQrQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1786548622; bh=pUEqYu8vvE8e6eRE+ytRKmOHvNaU3DPXZXwqhWLBhVA=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=HwxeLsAgJy+mKZjJLCvBHeptrGjr6F59CVjrJxvTBviczZx3tnsIhwFZUEk0NvuEZ8bdN1eYsHJ6Vz+R5ImwAsUF/khqsLebSX1MkQqgoiztLn3g13OznWs2o0MYfObGduhc2RkdJiT1meuK6Zmz5Exxhp0tqk1Jpvgk6a4OgAxg8tNAFGAQx8fJUSX31Gg1F3zh81/AKaAk2pdQKrOllRddLP0ZV9KZjPEeDiXPcDKUDvdseqkktdMzCfdGSy8IqMxAoNf+8mc4o10ZPTwWyYg8IxRte48/GmsoP8xUREtF218hCnvY/ekBqgyKRLL+A1Shud4sdrkfhe3j0wRdYA==
-X-YMail-OSG: UYvm.7sVM1mjHl062U.kGWmgMAykDG.we5534BwxzfsQ.tn0eI5dY3iRz2ZgzCn
- 0mwyzg0Tl50To4zopWAK6aLvXyInlDrPhu9GWdzvPLZWV1_WrpR6Wxwe9TwlpU37WMw0.KJ8DVE0
- K28NPgEmBF.xpd7RDToy8jiC4o21pnCcrIzl.lTkgenuO1QdVJ3UxY2gqpVwUwrxOBzV3bgcLSzn
- 3Dvwpsd8_wMSAavWJPPhxAxFy3IacBxnOGV9.2pPGVXbAzqV2kwF9U.VDvh6UwlD8sAC.YGcOYGZ
- VCP8akALzLbvR.6C35sfOWeOCRo9_ALYlKv5C7_VRRSsrLfOrzVUlWblVDUpHoMsDyAviLK8aiQq
- NJNs2jMCbKVV6ZSoOu3AfbluBEgW5zoPORSd4t0XAJ.kVaUqGBm9ixucPZNMdoD3u_8FjAr8EYF5
- zSNDoBI5ZIvRflAZ4x12hGsoQtdYpaMj8HrJQWTjTNPLiipwktbng.ebrcZvcHG8xZT1H0.R23hA
- D81dCYYg2BvwXY8wQnBmVLdLn2Wqc3BajG6LoeRsSPNSpXIgFh5cD00G1GDjXvgQv.VXuulFsSoR
- .kIrkNqw.W1PdAZ9ys.SO9lzjXL01FVRI1v_GwAdq5kJQxgQudc59LTM7iaX3qPsRVmYEy6a6TFV
- G6N2VwbFXkjOjj.XyNEIRGhLKVhNXbOmQo..Z1m2tT2Qppe.oNi9Ql_b3clh1YzAjhZ0oGcLgzCp
- HU9KNY0bTzr9MO32E68LpLZKwDMzhCMKr91d0PvpM61aRsmfLm9MLnoXjHzh1MDu8OdOFaGOwIUE
- X6v7Gn9lvMWk1XRTQ6YjTuqTLQ0AKSFX7pZXBzbfbggbsQtaNavES0kb.U9x9IM5_aqSB4gp7vw0
- bfexrxzTZ6Kn5Xd_FmFHP0__GxUw2DG76_1kHpSHXSOwzO2tPFiO1__qapjv2ohyPnlKY.6KW9KX
- 0BYoe86X.g2CBzEC3d5DeEV755VpsBTS86uQqP_LN3QHs6CYPmOFVNzZl8m3zrxZGm9A8yD1QhLW
- UqvHevkrDHhSAzeuYDrvAGZ392OvEaA0WgghEw5UljqFT6K9PFblM3MJqeHHF2KFDiic7Qwor4X2
- nJpKeHClJnuKekdbf9gO7I.b5CZa9U08WPby5jDU6UZ9zuQp3Geoo9MehNx_DaEth99pgoBiTPwW
- GpZdkGxZX9RITaPmIiK8Xh1K4ddpeURaVpn3twmN_ZLRGtNFpMAmFjBr_Jb3cYdXBMhPkvIQn3Kf
- 1YoVAUku1JhrnLZV9l43OjiQqrNAML4iVsZc628A2UEgyJcPDn5eEk39X_IYZh1hbc2lUqgYjYYl
- kPQG3dtUgdgAej1NxrXieS39QX5zCZXbRuWW9oIiDus.XoQH8SL.jXkBOsxPDchAIMAkiGMsOlLh
- 98AFk.wYtfSTCBoIpAV6t1rV0wpAEin1KVgGrJXmTeq2ys6lMC9ULsyVxvCjwKxOPdqNKA6n9Sh6
- wOY_jhTnV6.MgpBJDmKmViFhkT3qqi.doauG2Qc4PxPDZciGXYrKnkK49ux0gH6E7cVceAojhgHJ
- PHJ5SCo5xuXrlshaRr_z8oqUWvVrh7RSEfdFFAGTdwa7uIg6mhTmG9Xszr2C3yq.arFh35ABokAN
- kE857nBZVXmGN0Onm7wlhPI8qYSMkzc3rgPiULMejkRAD7EQKOTPWvdoodHT4uGu7gFzTf.GivDp
- oZuKrzjYLMUjKJh54M8gYGyIBAyw1Y_h.MMUx41z1UCvxb776gkZoSbaLw6lmUvwH0dwNw4Pvfde
- iFg2jm3VrK670rlNJQg.sgN1AzMh5acvB7IfAWh3dQTsRM71HAiLOhd3ZXdGlwaO_XO1yM4P8ZIq
- ARSYI4RH1v7pyUjtIoIM9JOhF7KigZ8xfy1vTMfpiTnvhvvg91Z42sNexCee.suNRLqXOMNsZhu9
- QU3KTlYXNCgYWEg0WP1pMFnx9yI8dcK..ihfmHUVqu0Jug4C08_N7NLVfGFofCDSI24eTBwSM3yt
- ajFbk.E5raGgW53_Exa48_8qSzc54fVOnDE8d5fQXO0P4fwwoag--
+	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="j+0IPi+V"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1786550083; bh=ZTNWcZI3iJqw6dIcRPdqORsXLNwyh/ryow8/n498Y4M=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=j+0IPi+V1jofk4CLCu/gb5KDpa1G0nBsZZTFAFnH4oZv4MZ2Ihp5TjraVQFLeOxEGGfm/EnsiWIfw00PHEgOks/X1+BIQz7OsFpOGUX4JmRCQSlkIxFeIKDqjEkqYLRo2JBDzG2gdDxU/Rh0QSt9EHPwaAxiqBw60wGpHr0Pk5Feh9c0Qy0oNvi36JZGMpJGeC1MAVhHwxTT1kwRfbXDBDcPKLoZYGLmDOx5W8FXmUnsuFDY/N5cPxiug3T9KI3O6QPVKzx8cROk35JDg3IichdVtOPHf8hPPNLgkQ93BWrSCpnjNXXSChJgVJ1qClSBzXlwnWhQgTjTYUk2WGJnRA==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1786550083; bh=qW/YR5JT7Ce1zr5fe990bGj1o5aw/4QCIgpRWgPud6A=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=aGQExsESTmZTxdzLQ/M3VJg5Bwtk1qXqXLtP4dlPHGP8dmzNuYsP5fk8d6lWDHGYQ7BTy7mB6n3D0xjzg/rJ8JSJQf+zUckoMq5XSO1Ba5AO/O6Nnv0FW8+rIrnouv6u+TS62RVXu7m3vcTneR9648UzaUEIKKvNBL49W08V3eOknVwpmRF9oQTO3E1Rl4Zm48ymLq8mVsqdOUbeoAFKqpxYaFXUkKK6VIeoFQY6W5q9dZVDX8svT4Q8hNxjrbXuuSt3fbvNCjtBpM+lsh4NEwJiI08ogtjYtaKST1Mqgjh3OfDRM8HpW+Ni5FBgopcXq1y3hl3Ds8pBag3Hd3gEfA==
+X-YMail-OSG: M1GdR34VM1nlURpLeXUN5Mm.Czl5N5W2SWy3tWfGdMzd0YV9JNVIW2LMTRe_uLT
+ K2chWJXvJSLaMmngTJA_O4vW.mydvFRuFr0hw60N.D0g08W_fl0P_A6PJlkgnWok5yIw9N3QGAiT
+ MPb4nsfXTO9at6Stl5lSKZ5Lgcfxe1IbeCFba9M0E5QCXwtmoFdBVqEXvVuq5CTQC37dw8_N597y
+ GFpmXsVufIxPi4YmGF4VVc5BwXdA_skSbBg3QjU4LaXoAYOO8PwB4c6HdiY_2BNl295yEd.GTKe3
+ DwbuELOv3pSraAnzTc2wpCBYYmoD8AKYzVjAf3UQOgcWYdfDEjF_Jy3kf_AoqQxLbay_03Hs8Vnf
+ IuCZfnOX96kfb_3y5fHBeZvzc8I7pR9nhvEtayw0SipstsSs7wakrxSkdyO6K0Hazhk1r3L2rxjn
+ HfrgPtUMI.CAkPxyWbPENzDWMjXdpNBCQExS3EfhpBz4OAELQZMn7zot910a6Ojo0guqWRQa53xt
+ qKg_AWeWcZj5c3FO3tnc_7r.P1IrGK3wDK60zb6sDukhL9c1gSOvR2vPMdzfpGsouo1QuR5Y6kwk
+ Vn.fS4NiREm2OqBBBJcQBC_JGfPTi_BXVdnrmlkRf..PDvrWfCxNiRRpv9W7xqpy89SvivBv7RTT
+ .EIg4_i60z9OF7KeCCttiZhW3OGFKj_C0rnlVJ6GosUNHMF5rbZg_rJnwm9XWr6nthyVqVCU3k7y
+ NpK_I2VBpvfDwBOexKjz0ibHeW2dLiyilmNZG0UNDLdLQTMyc0xorpU8pHqxfovia0XfIR94T6lV
+ h_O9gmR0i3kf3gqyAUix1f_L2qXEnwWnruHFP07Rg0rvuEKoMR26bgtJ62lMUtIQpnKIuiaMUHju
+ qP2txxU2AQWzM_g99hRGxsduVVd3emDRKOM83Xpf3YTE_r8xfZnjnmclJtiHtPan.cyAQRadTYD9
+ Vr.p30sVtfKd.ZT.UaGn26urmsq8haomUkYt1CwXuNUAEVNmBFeDCRr_dzqqDU3xfvZOCEpaKClC
+ LynSnewzB18dVBDPeQSkROPZhCM4wAcZ0riwaNu9Tye7I_P7dX08m4xQZo_kI89ZMZOf_HdGae.9
+ JdzAF.Ml0DKk9KJ3XiErCZkUIAvZLZD1nuLYzyOKN5CF5Ic3.VBJf47fz73B2zUPtEN2OWhbYMoh
+ GGbloIt8emc_.Cjjy44AjmJCKbAiiGlKxn0Nf5uoiwsTjqS6Npv2AUQ.K_HDRUHM5P70_gizTjBS
+ Q0fygzZFlEg2mW6kwDbbtD9hDEhG1suSGNqPLkctRvGTkPyGRJZrPFHr6cOBp8p4EkwPe3QMQNag
+ dlyyg76qg2e4doAItq_.Zi0YbkqkCqRp9EgGKlXs.ZN9T1kqDyEM2qwEHDsf0FZCgYzSXK.HTXmn
+ 4jt_DFEFaMT9hEqG5eUXhuaHmsCiQMO3JxUsYq6iasW8GQyL3XBT4_uY0cLUZ2V09iQhz3N6y2mz
+ R2DZd2Q.yOR6Q3p3vdP72OD3nRMFr.xqx1MquwBGjtCfARfKsOey35FX2edJPtywZBTgkVFX4Bmd
+ UqHsfKoJ.Dp1U16HMry97rPfG8QXt1bBo6Hn7xaQObqYq1HQhu4t2svhtkalTbOqM_eDO9He0L2A
+ B0iM2xcdiwe8ILjTRlM7KvfmLM9EeTxDJ0.gNktXC4iBhVXojbGFEN99URhv1n2VIiRfDRiyWdIH
+ zEK_ZXu8dUUvzVmearHtXnwrmSQzZoaupDzs_QNbc6LNtMLE79ud1G0mnYNfmTFn7rzFfVeuCFMg
+ eLOkKM3Klj7a2JtSm5MWYv3l8k2x9qDW4bLNNifoFyzS7qfyOdfxtLeMg0KvqAtx.tHI3h8pb7HM
+ PLQKEpVrwoU0EHX7Lh9Fyjgk9WfU0XsPJ9f8BEUzxUXXjwOxn4JtYs_l1QadlLirsiMeeVbXbYP.
+ Gf1so83GQS7MNSNr36FequXoHtYdZ4xElZ6VcdZbHKPHYtFPjo8bTFQ0swl8FzFVVYImMspVUqCv
+ G0rz4Cq7gJYYDYOAgGbgviDxc7fqtJLD8m6L1S64JSjrCbRbOIG7JH9LPIGFmCw0-
 X-Sonic-MF: <tomasz.unger@yahoo.pl>
-X-Sonic-ID: e395ea95-2952-4a9d-9233-0c3ca6aea537
-Received: from sonic.gate.mail.ne1.yahoo.com by mail-asdoutdeli-p-cin-euwe1-prod-sonicconsumer-svc-102 with HTTP; Wed, 12 Aug 2026 15:30:22 +0000
-Received: from dip29.lsn.ir2.yahoo.com ([87.248.99.38])
-          by hello (SMTP) with SMTP ID 73e725dd6d55608abda7fd226f05cabc;
-          Wed, 12 Aug 2026 15:30:20 +0000 (UTC)
+X-Sonic-ID: 64704df0-5e07-46b2-8ccb-109d8e994703
+Received: from sonic.gate.mail.ne1.yahoo.com by mail-asdoutdeli-p-cin-euwe1-prod-sonicconsumer-svc-102 with HTTP; Wed, 12 Aug 2026 15:54:43 +0000
+Received: from dip107.lsn.ir2.yahoo.com ([87.248.99.116])
+          by hello (SMTP) with SMTP ID a93bc84e770fe9cd2810f228a8a91847;
+          Wed, 12 Aug 2026 15:54:37 +0000 (UTC)
 From: Tomasz Unger <tomasz.unger@yahoo.pl>
-Date: Wed, 12 Aug 2026 17:30:17 +0200
-Subject: [PATCH] staging: rtl8723bs: fix space before tab in rtw_recv.h
+Date: Wed, 12 Aug 2026 17:54:34 +0200
+Subject: [PATCH] staging: rtl8723bs: fix space before tab in hal_com.h
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -63,56 +63,68 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260812-rtl8723bs-space-before-tab-recv-v1-1-7892d817ab59@yahoo.pl>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXNQQrCMBBG4auUWTuQjkSLVxEXSfpXI9KWmbQIp
- Xc36vLbvLeRQTOMLs1GijVbnsaK9tBQeoTxDs59NYmTk+taYS2v7izHaGxzSOCIYVJwCZEVaeU
- o3g8ivYcTqpVZMeT373C9/W1LfCKVb5b2/QODGiNngwAAAA==
-X-Change-ID: 20260812-rtl8723bs-space-before-tab-recv-b255f22d5e02
+Message-Id: <20260812-rtl8723bs-space-before-tab-halcom-v1-1-69f617827661@yahoo.pl>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXNQQ6CMBBA0auQWTtJW4JUr2JctMNUapCSTjUmh
+ LtTcfk2/68gnCMLXJsVMn+ixDRX6FMDNLr5wRiHajDKnJXVBnOZbG9aLyiLI0bPIWXG4jyObqL
+ 0wkurA3WqH8h2UDtL5hC/x+N2/1ve/slUfmHYth1D1E23hQAAAA==
+X-Change-ID: 20260812-rtl8723bs-space-before-tab-halcom-931fc507dc85
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
  Tomasz Unger <tomasz.unger@yahoo.pl>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1786548619; l=1445;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1786550077; l=1835;
  i=tomasz.unger@yahoo.pl; s=20260311; h=from:subject:message-id;
- bh=KgNiKtC5KFuc1wDCit6AyEiSLuN8mQ2IgMB1hVpvO8Q=;
- b=gcJ6CwCqKY8hgNMo775JPRfPrHRpiRKgsvsrFY+dP/s+8W2mhRpH9cYV/p56QF1k/9D01EoSy
- WRhGEnbaDdyCZrA+4SiGGaoM/s5ANAJ6Gox+KG4byI+z/YkZyX3Emep
+ bh=WhyxJST2R372ONHs8/vWqXzDAcTpEusnQyOqkx5armY=;
+ b=wYKNyY9sASLogPJ76+2lXVGWVU7TVLfclDNz0etMiQJAIL/MilNe426SZH5HgsUa8c/SceRtD
+ SXyMYhqlhE1AaVpXJ6VJuWp/GcBY5xPbWfOdMc4u560XgXzxdnqa6mJ
 X-Developer-Key: i=tomasz.unger@yahoo.pl; a=ed25519;
  pk=EPPsO91uz/0J2cTQ6ol+dgxYaieEc9dKSXWUb51n46c=
-References: <20260812-rtl8723bs-space-before-tab-recv-v1-1-7892d817ab59.ref@yahoo.pl>
+References: <20260812-rtl8723bs-space-before-tab-halcom-v1-1-69f617827661.ref@yahoo.pl>
 
-Replace space-then-tab with a single tab between field type and
-name for Cfo_short and Cfo_tail in struct phy_info, matching
-the alignment style used by the rest of the struct.
+Replace space-then-tab with a single tab between parameter type
+and name for hw_channel_plan, sw_channel_plan, def_channel_plan
+in hal_com_config_channel_plan(), and for Channel in
+HAL_IsLegalChannel(), matching the alignment style used by the
+rest of each function's parameter list.
 
 Verified with checkpatch.pl that the 'please, no space before
-tabs' warning was present before this change and is no longer
-reported after it.
+tabs' warnings were present before this change and are no
+longer reported for these lines after it.
 
 Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
 ---
- drivers/staging/rtl8723bs/include/rtw_recv.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/rtl8723bs/include/hal_com.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/rtw_recv.h b/drivers/staging/rtl8723bs/include/rtw_recv.h
-index 9c32d480a20a..153b43de9d5e 100644
---- a/drivers/staging/rtl8723bs/include/rtw_recv.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_recv.h
-@@ -75,8 +75,8 @@ struct phy_info {
+diff --git a/drivers/staging/rtl8723bs/include/hal_com.h b/drivers/staging/rtl8723bs/include/hal_com.h
+index 7bbf62cfd825..3e6140bead86 100644
+--- a/drivers/staging/rtl8723bs/include/hal_com.h
++++ b/drivers/staging/rtl8723bs/include/hal_com.h
+@@ -94,16 +94,16 @@ void rtw_hal_data_deinit(struct adapter *padapter);
+ u8 /* return the final channel plan decision */
+ hal_com_config_channel_plan(
+ struct adapter *padapter,
+-u8 	hw_channel_plan,	/* channel plan from HW (efuse/eeprom) */
+-u8 	sw_channel_plan,	/* channel plan from SW (registry/module param) */
+-u8 	def_channel_plan,	/* channel plan used when the former two is invalid */
++u8	hw_channel_plan,	/* channel plan from HW (efuse/eeprom) */
++u8	sw_channel_plan,	/* channel plan from SW (registry/module param) */
++u8	def_channel_plan,	/* channel plan used when the former two is invalid */
+ bool		AutoLoadFail
+ 	);
  
- 	u8 rx_mimo_signal_strength[4];/*  in 0~100 index */
+ bool
+ HAL_IsLegalChannel(
+ struct adapter *Adapter,
+-u32 		Channel
++u32		Channel
+ 	);
  
--	u16 	Cfo_short[4];			/*  per-path's Cfo_short */
--	u16 	Cfo_tail[4];			/*  per-path's Cfo_tail */
-+	u16	Cfo_short[4];			/*  per-path's Cfo_short */
-+	u16	Cfo_tail[4];			/*  per-path's Cfo_tail */
- 
- 	s8		RxPower; /*  in dBm Translate from PWdB */
- 	s8		RecvSignalPower;/*  Real power in dBm for this packet, no beautification and aggregation. Keep this raw info to be used for the other procedures. */
+ u8 MRateToHwRate(u8 rate);
 
 ---
 base-commit: db2ddb87143519e20a95aa36c60b36107b736a58
-change-id: 20260812-rtl8723bs-space-before-tab-recv-b255f22d5e02
+change-id: 20260812-rtl8723bs-space-before-tab-halcom-931fc507dc85
 
 Best regards,
 --  
