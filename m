@@ -1,99 +1,122 @@
-Received: from mail-ej2-f0.google.com (mail-ej2-f0.google.com [74.125.228.128])
+Received: from sonic.asd.mail.yahoo.com (sonic-euwe1-0017.asd.mail.yahoo.com [34.2.82.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B58C9340DA6
-	for <linux-staging@lists.linux.dev>; Wed, 12 Aug 2026 18:59:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.128
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786561198; cv=pass; b=sUVTO64mKxHuy2tEJ5AI7iXf0Hk+PV4RZ85CK4q8ho6sxov68s/LGrKqBOK6LcvMP0MU8mhfqggDWwLfcXfKsTPCYv1jKRXN/U2mcNgHg7bs0rrJzyyJsJJ1EQfNAvO1e0Z+nV3wbAtw7gyaCrx7QwI4E1j3nUsHwBvx4U0A33U=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786561198; c=relaxed/simple;
-	bh=5YpsLrQd66mt/oElMkbWRCNsoeN3vBlsEy3jrovT8is=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=hfnVHMn4xiQcnJayhEkKmjU/zjmqGMrAtS4nJxyPqdQ7yi5uagW7C9GOHqHr3NqywJmaenE2p0lW73vmHLztGcrdukRQOpKeHPbSO2EQ+V8ocvYyUU1MsUhZxfersp0ePT/1Ow8pPhkYkyCQu4BjyeW5KkECW3V269aAeW9OG0o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lkkNf6E5; arc=pass smtp.client-ip=74.125.228.128
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F047537204D
+	for <linux-staging@lists.linux.dev>; Wed, 12 Aug 2026 19:40:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.2.82.16
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786563632; cv=none; b=VLa8nKpxgGpD3kPBUK07zMqrJvd1Zh4Y8ZrmbAumqm9rexEP3cjNP6S80WsF6Fvqarxgax200PNdHGO85/VZjvyxizSr6tvZm5QlpV6aIiaVu4eR611EZVPAJqeYcu1/Idjvdq3beFjKX6b4kh0DyXlV/1aO/MDaiEbn1ShLck4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786563632; c=relaxed/simple;
+	bh=s0HdPcAWHK9Kl1ulaQ0ownUAC5qob2RxOiNh7CzQUEQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc:
+	 References; b=dBMzl3K78rCFpts1pyNt5i13GV5E4GIzcVbll9hSMu/86OJ0kizOpsEBQHtY32T64Hwwp9obBR+WmzvCB+UUOu6PPY2B1Hc+QtPidQrDBImnXIpRvxxeVer3xUV61vXUqMmlmP3GqMHz9sEUNA2GeVNrHmxfxwZizDweIOXBJR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=ebclKhUA; arc=none smtp.client-ip=34.2.82.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lkkNf6E5"
-Received: by mail-ej2-f0.google.com with SMTP id a640c23a62f3a-c166aef4f02so79623766b.0
-        for <linux-staging@lists.linux.dev>; Wed, 12 Aug 2026 11:59:56 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786561195; cv=none;
-        d=google.com; s=arc-20260327;
-        b=axcADENpA3TboZoZHy0OynuD5Pr9RGQue0Efv/BlAYMoBE1xvDCUH7uSGu6/BwGht+
-         WZsRVWWZiRz+P43svo28ziT/UtvrTk/FMTb9pagczpaAhpXwdoV1w8Jakszrl42CoVmy
-         XTbiCca71wep45axj5Hx3iN9OT7muClnRww3q3+naaCDJdzmrH05RYR/U0W4358ZQ0z3
-         Gortu5j2rpMJP7dcUUwiBurAU5QlprrwWcSrsZar2nCjP9cW4vO1yG4CchYZUcUVYxDT
-         cst0+Imyd2SkZzRsv1J9Aq5NqvNJnd7OHph1950WysZqNFmg4FltAuEd0d96W7rS+0pE
-         beQw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=5YpsLrQd66mt/oElMkbWRCNsoeN3vBlsEy3jrovT8is=;
-        fh=gksecBabw8k2FahPkq/8LaWKXe8N7iUuSy6UjmCd6YI=;
-        b=ooNS464ki3X3ihEStsvHWBif/AWZCRlreTuZuYtnK47/MqrxeMV19CVbUH4skXuwIZ
-         q29EZkJ6js+L0n5/zXX6sm6l8+IWttfzEdpP+xKO+kZE2XLDIg+yjEpJxQVFrvwJORuh
-         8GqMD/G1C2FndSDN5eE6lYfXzTN99q6OjRYyBoahCXJxEdD+XnQN7gbOUkejbvkB/rfm
-         hR0J4QuBg4GP2WwMr/sylmG4Y3kB3fUTka8QkpOzUZNIR4XfTEMIxLIcRusMkBkZkh3k
-         WD+TptxZVwglQPCOQyIFmJbxUUEVSZT5FBlxnDN67JkOusuPZywukLrVz9X6TwHY0IM/
-         NHcA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786561195; x=1787165995; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=5YpsLrQd66mt/oElMkbWRCNsoeN3vBlsEy3jrovT8is=;
-        b=lkkNf6E5Uzog0eHBmQcOafHvIYmxR3BAIuobjLeTZX9QsIM9TxwCvgkbPRogRskzi0
-         sjnWqE0pi4Q9woxTgkiQtyHgMgJTPCWELwK8fekXn3SiVVEhoZiCOG4VWvOXs2LBwcC/
-         5lv59R1ibfPCRa4kgcyTGvbXChXbnAGCN0bXozyQ5BAfqSvMHisbml8/rvq7j136aoOs
-         MWm4mqImEXu1rXG5nU6619d8XUj7EsOXRU7+poOhRETBAIDSd9qsArbLRWqJwD2JFCIQ
-         bSNZn/79AxVt67ZMnoeJ4s0SGAa1PTVAIV1h40VRjtt8feZHahLM/byYH2ClzGiOG8mY
-         eACQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786561195; x=1787165995;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=5YpsLrQd66mt/oElMkbWRCNsoeN3vBlsEy3jrovT8is=;
-        b=guLiZcItJJLy8D9nZN3gAIP5mm3Fe3ocKj60PGFdXTK6vZuP48JyI8fGTVPJijJxVn
-         W9hvAwqskggc064AWimq3hd9is4gMG4HpC3VvIyF0FdNa1zWLIl4/CK5B5SDhsy4V1io
-         wTijafljyU9AJPX54wS30uM1MzaWHXihrbzQtbOcdKkMPC6uK7p8On0HTK7bWQ33vkv/
-         uZqORNpSD1qPGlfAyk9Np+RAbeCayVrsrILB5OidTKzOD1XdoVh2t9pf0tfMgY//6I85
-         ECNhAkLAfcXm/toZHSeqjDNjQz55xcoA0+8gufh9y9aRLqT+9Luo5/wNJSL9aT5M+7UX
-         BIhQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqcYMkLik+j30EcagRSm52zuRFuuaDWjqgfy4ouNNyPfI0lnbWO3566DcX48jnrJB4brrNdpM9KGP62cRx+@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywbq5jtuLwwMajNzvmCDzX/fIYcphHkhD3sQfY8T8yptJDo3c37
-	C8tFaJwZP+sajjGuyCVPFb4V1F8DUAaSAOhySNbFaCPhGEYDod0Tr9t5HHpcQQrbZvrGg9NfegJ
-	dSRV9uFG0eQ4+Fg+R1dLWLjIVQKEwPiI=
-X-Gm-Gg: AR+sD13ri0MMkV5FqR29LWNOt2o+yYHQ9o5mhFN3a243V7/jFVbbPfnzGKEEQ03CRTS
-	Z9Odr2JzF/T6rplTOwD5Z4DDFVEoTGNMzmWlNWRE26uvjgu/DVFuuMn1Vn9U3MOK0XcXHZRbu1v
-	ejInpJEAbEf+aFpFA3h1Wl60T0Lg2dwQ4GEpEAz5iKh6C90Mio9FCjjJnqpw9o7jhGK4XJ75IMe
-	vORJ33gkb5a4ye+YF/51K5y3RhhFbGxCMocWVjFF9vE3Y8NWckBuJeMwIa8jtZh5Lz1MdEAC+wd
-	qV5pQXQnGJ6uK2x1WzqF6MCk7q1HN2yILkEe7PeE+OP+
-X-Received: by 2002:a17:907:608f:b0:c12:1651:17b2 with SMTP id
- a640c23a62f3a-c2108e5bfb5mr20737566b.9.1786561194813; Wed, 12 Aug 2026
- 11:59:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="ebclKhUA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1786563629; bh=t5+C0cCbX3Fnjnq6IYUkpCSxsdslSUZ16b9QyQVzVLY=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=ebclKhUA7suq/NN34tyEbnnGAZ1zKnk4nlyxAdLWccuv1fiNSII7vli/tz3LFNMj1jaRhLcKJ+5Rn4PTULGLiXbiFK2PNKnDrqhSOovovAeyMsEcyP6zjv1Dp3LetTIcZlYWqn3+QXQzT1F4X5HsMToIv0gsPAvztCvVAQL3DgFOpdu5ERsnI46odeG1ykFUgwAP2VEsvPl6v0n+sgYbqssj/7Vx3bITrguKBQGevKwjeA6Meu+nGpnL4+vlRMmnAitiVAoWvdX2gZQlP+KbNyX7apPZVms692erOf2+vDp7hpVCLwLY+53YVrNTGY7HbMQGQXmXoA/3XlycOEk3OA==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1786563629; bh=c9TTNvAxvoxfVFoiSUkl42lIKo34URwH2XU8zOVs21l=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=EiHBBvqqSW4D6sJiDBIVyVCvjYT2RnX1YG2TqduKPxKoFRyI8B030DLQ129Pqqd23UVFkf8Ia3G7OZ64tWq+z5npGbDh8ar4hTiL/2j5MoHJpJ/i34r3qb/WxB8G9gAlELTP7q6sdJDz4VTUcYkoncMEUK4oRdpAZBJ5sbQ0r/ZWFT5NkQpz7BhLF2aefFXTGAunNM1miY2U460HnIPewIjEFVrGk6AIXzpWGSyQmmsjxeBObeLyDcu2RamXOfsk11CTxbkA2aI9H4LJpy9j2XYO/uQsTEA6t3eAjLHfySV7wjRndqMav17hU45oE11PXheLxV72Qqn4MASXUFlQPA==
+X-YMail-OSG: 3v82lcMVM1mO_uMxrJaMGbzeRljazqgRhVpkwWwqej4S0Ho4Ohprcfd0nTjEKUd
+ mjVMACd8dDpEQIN3vUI2wGWr9CuDaEZzbQCEb.gtdZ0UbWaugPNsakOort4lFHHeojA6ZqdI8YDg
+ DLks6FU2jPnuHcZvkaeyqfkPNO9BKXThgu4SUz_d4JIfqZhvocin3Lz_ckAmYgIw_XAJgcxxttmp
+ Z9aKHHzCeiZ5ECnBbIsLpw2DHfSqgrfkqYICvNxSnRuFrawpRLbjMjsi1V57cKQ9Y6jnR.MqEVdF
+ .lFO.U77Y9X8k9ZWbH_dw84EA3cLHZ.REkQM1fI3A7Lwk6enJ52mmdfCozWFQJUcHxYAE0CKAdck
+ CWsd4sWHo1EQUBQSI4FmhuZdlqLmNHkkE9y4doipDA4UXJfQVLsHZD0mvqZVUQYqNDKsuSvFuAnv
+ zc9hv2CYBfBdMJCu4zL.ME3aMT3v2WyzzNH0m6TsOfqr5wIrYPe4yywGc6rnZ3J3g2Mf4d8tyB0.
+ Gq766KzpTL2_bm23QxYZgs51gzZuyMWYHF2Xo5CE9BWpNRTFksqYvkEPPV2TVRb3n9YSLedTCITW
+ WahsDQ_kd.6vjcW_Y2uYyysf1Rbd54.KuAhKTrhI9zME_6nnxqocmIYvPsBgpf1Arwgct7OWuZ41
+ _o9QRIhtjsY1A2gEK9dE5D2HSNAWjyQ8iSjc0zb0pkGMbZ8VeBMOxKuZ.Av7AwsLfAG.2hyBQFcD
+ lajPY9zOS98QWYKz_viEOY2RbIcLofXM1Yp9BpDNGxigDKn4zDIeXFMcXeeePdd3JuLALUumt4FB
+ H_qD2hlgGIvT5XnO7OabzMvzuSootubbZbAi_DEEwAi8rY91g4ZCwN9losY2SDjCr.G4IUy.7qTg
+ 5FXbXnOHjEJoweEuYpd6GPSh0zToHoWN3m3GM1fPa6pW7g6hVWx65NG_R5X842G8ccld2SXVHORL
+ 4o8O0fHqM1WqFhg2MT_WvQ1Z6whe.iAIZGkGzH_xL8pMJ2PocbG_Q4w7fBn29v4k8PTqqKLBXZP8
+ OEX4pUckKs6MDXWsdstfaiza5ljpMot2Z53IjtNoK4CDIxG_JUIP4MomoAGWTojaocDql_cZGy6q
+ OpqIHQ_Unnb0Bt7hR4Vu.vSGLAbnzt57dq5XMFJCEBOIDIikF9bVUMKKHLdL5FNbikbfOfoFjfPA
+ gC67p1BJtSMjCNFq8DJSl24hwLs.V9VzPqHFEim.RfMzvmGbChQWQU0ol7gpPXuvOYYn4HjOQfBd
+ OhyqDEyvzDmuODvtUxwxx_29QZg9qOEE66XgwIr1qeRjrT8q0os3nfKIl9ofRYC7Uvx8aBkb2q.p
+ 0y4QF2KgiNFs0qz_osA4MhyR5vx.ezB6o00iD.qbnZLFtdbK1RGhlo4GrqZjnO1wGS8R2xvwHkqs
+ IXLu3jmbtxtRMJujaPIYkU0.HEotGIGpsILEJdFrvdmnT0arSq1dcQFoR7yOuRsOXuaEvD4w_WSt
+ qPjox5hN5WY41DfI.tDAMYcFNVjjBN8ohxYWgBTgIwVl353eIewFaiqdq7DKeQdlVMhOjBQssAVF
+ h2CoTQvb2sBijxhJa5CD0ZppV1ZaIgvMkR8EM9OMjEXTIXn.9xA3ybS.XhGsZ4ZYfLo5uN4jFYb4
+ 64HeE1r.BJp5Vfo3I7X1oewkzKaxNcPeRK.Hpb42iQG7neRxH7bE0D3WBG6huoBzx_ycx64bwazO
+ E9pTWzMS3NoX_fmsOf8iynuJWpKvfawX5MprjuqSDQ3Om81i9a5FbIIVjItrWA3XeaC6D9dMHG_7
+ m_cN1JYO80FUsXsfLufTywqjMaswNuaZ4lFaGkjA.MU.vffSjestEqXtQZN.cw8Js3IgVS6MHltt
+ 0771kbwLKZUeT_uYKQtubNHOU9dwYlXqOMMtob7GUZ24SjLoAj.LRsH0.y1hdQWS2YzaPxyQxnNU
+ 0dF7ioODsAhVhrhXSjMeCryc6wypTfE7nTQdgT01I.KeJpaQrhGcaSLfTJmGVMQnoQGb6VUa.S8j
+ VSyfPV6f1ZwlfeNJWeXGISYLMiGt6gXZNCNXiJdrUfog4KwFGSQ47
+X-Sonic-MF: <tomasz.unger@yahoo.pl>
+X-Sonic-ID: 63bd8a5c-b9fd-4f88-96e7-071d6c99bf2d
+Received: from sonic.gate.mail.ne1.yahoo.com by mail-asdoutdeli-p-cin-euwe1-prod-sonicconsumer-svc-102 with HTTP; Wed, 12 Aug 2026 19:40:29 +0000
+Received: from dip203.lsn.ir2.yahoo.com ([87.248.99.212])
+          by hello (SMTP) with SMTP ID 8ef121c85d099bb13daa1f64fc16bd28;
+          Wed, 12 Aug 2026 19:40:23 +0000 (UTC)
+From: Tomasz Unger <tomasz.unger@yahoo.pl>
+Date: Wed, 12 Aug 2026 21:40:21 +0200
+Subject: [PATCH] staging: rtl8723bs: fix space before tab in hal_phy.h
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Shehryar Ahmad <shehryar.amd@gmail.com>
-Date: Wed, 12 Aug 2026 23:59:43 +0500
-X-Gm-Features: AUfX_mxI720OVCqWCabncilafTVACGGIMPo2NOHI0XObuFT7-5YQDH77NnxYQqk
-Message-ID: <CAHR+CoTo3yX=1-pfnkxu_UM2jXx0Fi8j6ZU6T-vRR4Pgb95mJw@mail.gmail.com>
-Subject: Re: [PATCH 0/3] Move adis16203 inclinometer driver out of staging
-To: nothingchang@mirrorstack.ai
-Cc: Michael.Hennerich@analog.com, andy@kernel.org, conor+dt@kernel.org, 
-	devicetree@vger.kernel.org, dlechner@baylibre.com, gregkh@linuxfoundation.org, 
-	jic23@kernel.org, krzk+dt@kernel.org, lars@metafoo.de, 
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-staging@lists.linux.dev, nuno.sa@analog.com, robh@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260812-rtl8723bs-space-before-tab-halphy-v1-1-20aaf940dc56@yahoo.pl>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXNQQ7CIBBG4as0s3aSgo2lXsW4APpXME1LGDSap
+ ncXdflt3ttIkCOEzs1GGc8ocV0q1KEhH+xyA8exmnSrT61RmnOZTa+PTliS9WCHac3gYh0HO6f
+ w5s6MugeGoVOeaidlTPH1e1yuf8vD3eHLN0z7/gGqRrGmhQAAAA==
+X-Change-ID: 20260812-rtl8723bs-space-before-tab-halphy-48d27ee9941c
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Tomasz Unger <tomasz.unger@yahoo.pl>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1786563623; l=1250;
+ i=tomasz.unger@yahoo.pl; s=20260311; h=from:subject:message-id;
+ bh=s0HdPcAWHK9Kl1ulaQ0ownUAC5qob2RxOiNh7CzQUEQ=;
+ b=JVDJvatnNLeOwaa/1zR1WPBcLnGwRr9uBs7DldbSHQ7q5olUrdIAeVRcl95ou1ROQuYR8zyQ5
+ wLlUI0l0nvpBi1Nio8rUBwSuW+K6QODl1A1TCEv3HiKTcFUfJYlOseG
+X-Developer-Key: i=tomasz.unger@yahoo.pl; a=ed25519;
+ pk=EPPsO91uz/0J2cTQ6ol+dgxYaieEc9dKSXWUb51n46c=
+References: <20260812-rtl8723bs-space-before-tab-halphy-v1-1-20aaf940dc56.ref@yahoo.pl>
 
-Hi Sheng Kun,
+Replace space-then-tab with a single tab between field type and
+name for Para1, Para2 and msDelay in struct SwChnlCmd, matching
+the alignment style used by the CmdID field in the same struct.
 
-Is this series still being worked on?
+Verified with checkpatch.pl that the 'please, no space before
+tabs' warnings were present before this change and are no
+longer reported for these lines after it.
 
-Thanks,
-Shehryar
+Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
+---
+ drivers/staging/rtl8723bs/include/hal_phy.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/include/hal_phy.h b/drivers/staging/rtl8723bs/include/hal_phy.h
+index abc0f27fdaa4..03d20e54d269 100644
+--- a/drivers/staging/rtl8723bs/include/hal_phy.h
++++ b/drivers/staging/rtl8723bs/include/hal_phy.h
+@@ -63,9 +63,9 @@ enum SwChnlCmdID {
+ 
+ struct SwChnlCmd {
+ 	enum SwChnlCmdID	CmdID;
+-	u32 			Para1;
+-	u32 			Para2;
+-	u32 			msDelay;
++	u32			Para1;
++	u32			Para2;
++	u32			msDelay;
+ };
+ 
+ /*--------------------------Exported Function prototype---------------------*/
+
+---
+base-commit: db2ddb87143519e20a95aa36c60b36107b736a58
+change-id: 20260812-rtl8723bs-space-before-tab-halphy-48d27ee9941c
+
+Best regards,
+--  
+Tomasz Unger <tomasz.unger@yahoo.pl>
+
