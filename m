@@ -1,129 +1,99 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+Received: from mail-ej2-f0.google.com (mail-ej2-f0.google.com [74.125.228.128])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A51830D3EE
-	for <linux-staging@lists.linux.dev>; Wed, 12 Aug 2026 18:39:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786559976; cv=none; b=Rdk7aKhhy1xC7mlE0KHtGXqqYQJvtmWxOIYk4you3gj8fj91jZn4CdC0hSKdly7FBKB3sG4t0bVqWiS0+y17ayQQ16CCBIrUMaZ7lwHF/rjYxXwN7M6tyP1DFsWRkMmQKL+jPuqoFuwusuVucUJi+HmnQp79n+6hBvJ9FCE6h4E=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786559976; c=relaxed/simple;
-	bh=VtC8kW5UgnXbzYRNvT5xE4/xMYOzDjx8D2Li708mD7g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Se/ZgRL8J1JzjFFdt3Nm/WVZgyfdiJAwIgihhOVddVFs03l9yBS64eG8wm2OSM8lpcLt3xEOia96+tRVyvP+l5dMj9lne7X4PXuejF4qbMH0YWq/68/DBNwBFwZTWVpcdJ1uy9oQsOWLGfvTZuJU84iOJgKtb2LjqtEQOJY9M+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FYtHJk6j; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B58C9340DA6
+	for <linux-staging@lists.linux.dev>; Wed, 12 Aug 2026 18:59:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.128
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786561198; cv=pass; b=sUVTO64mKxHuy2tEJ5AI7iXf0Hk+PV4RZ85CK4q8ho6sxov68s/LGrKqBOK6LcvMP0MU8mhfqggDWwLfcXfKsTPCYv1jKRXN/U2mcNgHg7bs0rrJzyyJsJJ1EQfNAvO1e0Z+nV3wbAtw7gyaCrx7QwI4E1j3nUsHwBvx4U0A33U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786561198; c=relaxed/simple;
+	bh=5YpsLrQd66mt/oElMkbWRCNsoeN3vBlsEy3jrovT8is=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=hfnVHMn4xiQcnJayhEkKmjU/zjmqGMrAtS4nJxyPqdQ7yi5uagW7C9GOHqHr3NqywJmaenE2p0lW73vmHLztGcrdukRQOpKeHPbSO2EQ+V8ocvYyUU1MsUhZxfersp0ePT/1Ow8pPhkYkyCQu4BjyeW5KkECW3V269aAeW9OG0o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lkkNf6E5; arc=pass smtp.client-ip=74.125.228.128
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FYtHJk6j"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-384930ca5e2so1391379a91.3
-        for <linux-staging@lists.linux.dev>; Wed, 12 Aug 2026 11:39:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lkkNf6E5"
+Received: by mail-ej2-f0.google.com with SMTP id a640c23a62f3a-c166aef4f02so79623766b.0
+        for <linux-staging@lists.linux.dev>; Wed, 12 Aug 2026 11:59:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786561195; cv=none;
+        d=google.com; s=arc-20260327;
+        b=axcADENpA3TboZoZHy0OynuD5Pr9RGQue0Efv/BlAYMoBE1xvDCUH7uSGu6/BwGht+
+         WZsRVWWZiRz+P43svo28ziT/UtvrTk/FMTb9pagczpaAhpXwdoV1w8Jakszrl42CoVmy
+         XTbiCca71wep45axj5Hx3iN9OT7muClnRww3q3+naaCDJdzmrH05RYR/U0W4358ZQ0z3
+         Gortu5j2rpMJP7dcUUwiBurAU5QlprrwWcSrsZar2nCjP9cW4vO1yG4CchYZUcUVYxDT
+         cst0+Imyd2SkZzRsv1J9Aq5NqvNJnd7OHph1950WysZqNFmg4FltAuEd0d96W7rS+0pE
+         beQw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=5YpsLrQd66mt/oElMkbWRCNsoeN3vBlsEy3jrovT8is=;
+        fh=gksecBabw8k2FahPkq/8LaWKXe8N7iUuSy6UjmCd6YI=;
+        b=ooNS464ki3X3ihEStsvHWBif/AWZCRlreTuZuYtnK47/MqrxeMV19CVbUH4skXuwIZ
+         q29EZkJ6js+L0n5/zXX6sm6l8+IWttfzEdpP+xKO+kZE2XLDIg+yjEpJxQVFrvwJORuh
+         8GqMD/G1C2FndSDN5eE6lYfXzTN99q6OjRYyBoahCXJxEdD+XnQN7gbOUkejbvkB/rfm
+         hR0J4QuBg4GP2WwMr/sylmG4Y3kB3fUTka8QkpOzUZNIR4XfTEMIxLIcRusMkBkZkh3k
+         WD+TptxZVwglQPCOQyIFmJbxUUEVSZT5FBlxnDN67JkOusuPZywukLrVz9X6TwHY0IM/
+         NHcA==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786559975; x=1787164775; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=58dcMDhVGB55A3sdC1Jxb+rfpaM/ylnibi1GRRPWgG0=;
-        b=FYtHJk6jLZ+TzvnYnZZTvp3vNarewzf/UTh+Dn9muEIf7WshebRDqyW/F17jOyjzmw
-         6685r2PeTeAzRIXv3Q2W6ztw/7+9r0kI6smzAd9QbDAxcJiJorQpX/akKizELFHNoKAj
-         6gPblFWI/8XpZzscY/MWsZUTLLqMfwpQEYv6XfLxRFc3eVh8vBF179CnMkb95t42KOV7
-         XWNC1r2jRolkO23nVna3+GqPXrXhKI4gDG/sTdHs8mSUR6v4z8H9WStD9spBLzjlZaS9
-         IFtBifMNFjrc/6eAHkB3ANVIEbB5o6EKzgSyuDNHzqPxa6DXU/pVhqBLuCqS15Jw9nxt
-         8m2g==
+        d=gmail.com; s=20251104; t=1786561195; x=1787165995; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=5YpsLrQd66mt/oElMkbWRCNsoeN3vBlsEy3jrovT8is=;
+        b=lkkNf6E5Uzog0eHBmQcOafHvIYmxR3BAIuobjLeTZX9QsIM9TxwCvgkbPRogRskzi0
+         sjnWqE0pi4Q9woxTgkiQtyHgMgJTPCWELwK8fekXn3SiVVEhoZiCOG4VWvOXs2LBwcC/
+         5lv59R1ibfPCRa4kgcyTGvbXChXbnAGCN0bXozyQ5BAfqSvMHisbml8/rvq7j136aoOs
+         MWm4mqImEXu1rXG5nU6619d8XUj7EsOXRU7+poOhRETBAIDSd9qsArbLRWqJwD2JFCIQ
+         bSNZn/79AxVt67ZMnoeJ4s0SGAa1PTVAIV1h40VRjtt8feZHahLM/byYH2ClzGiOG8mY
+         eACQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786559975; x=1787164775;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=58dcMDhVGB55A3sdC1Jxb+rfpaM/ylnibi1GRRPWgG0=;
-        b=QTevT3dNNu2LM73vAB+PqtEFgUD/se7Xu0dsQNFu/lyUVYIaXdD6uQnZU7+Z1ejHFL
-         xO/ucuYU6iH6G52TYWu+2L3b/9Yu8Ji6UwerO9NeXMNDJkw5y+m4Dp9mK+ihZYUDS1y8
-         qXPMuwH+vNS238+BLLtOUN7prA1pMphh+8fvZIe3MXXtfeD0UszXHnyQrxQ9RWxs1yq1
-         lw9KP5Yv0E+21CDNerM7XoKVCtQWMVGc5QaFPQtgyTi6SK/XMo+DI7nM/DvtwjIiaf70
-         p/NY6S08fHRDTlSp2t7fLZglS13e2+pJzICDPWCmZuFbwXtEjIwYCyQWU8pWanV0U5Y2
-         XJgw==
-X-Forwarded-Encrypted: i=1; AHgh+RpT2FaFbT+y8CSQAGZl5T4c9m9Yi1BbamftP0QaBMvgrI14ASXxOuVgcDfA2ky7xp3m2ooTJbYWL9y8DIwE@lists.linux.dev
-X-Gm-Message-State: AOJu0YxKCwrrf7kcZuzzz8PC21ddHURPiKSIl2AmhdwDqITYZDRV8u0P
-	l9kWs5Ve7ZB40slC9TJGeeU2+oZoQZbzayMNjroKrId8TcRYJfTeBbxp
-X-Gm-Gg: AR+sD10qK+aH6tUR6s29yFA1JJLPplcdkepd5kfD2cY8ed+xsaasdiprh7ovJD/XPGP
-	y5aednjrpTNEP56e74lOWbg5hB5X8BLMRT07IHwBKzn/bevIVlWSEYormwwg122j1r87ytvAka2
-	5TMrbsJqb/x6gBiCE11iycSdvvyFQZyUJhvxyzM0Glx6Ij0Oz2ta79QdaiEJ69Ygx3x2FPSFA/L
-	/kAX3EJRSh8o80PTF2DzTDo99Y1dtFlfD5TAc4ogGjClgdqRBJSD128YOLVJ7Bm1Hk2XDVX3FAg
-	IbEc7oBAhCaNIw0ocdic+9bg5n7fVH8Yw5U+YXefVHtOL7T9pcO0yP7HBtnnXptTiMAgeFf8rt/
-	uPJJowlZb+1EGA4Y3SOJ8ANeb3HbKetzOXcduqeJ1oEkawD9lEkZ5f8h/+P5aDuL5F8ljsMXC1u
-	5ON2+TjK9cwPyvOjO30IePUtmWeVEjlMElJjN4pGOrRrpZQIWiI+ZX5HQ=
-X-Received: by 2002:a17:90b:3805:b0:381:5bd6:eb19 with SMTP id 98e67ed59e1d1-3931e2d5ad3mr150974a91.18.1786559974682;
-        Wed, 12 Aug 2026 11:39:34 -0700 (PDT)
-Received: from localhost ([2a02:6ea0:d33b:2320::12])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3931cd93d89sm410673a91.15.2026.08.12.11.39.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Aug 2026 11:39:34 -0700 (PDT)
-From: =?UTF-8?q?Andr=C3=A9=20Moreira?= <andrem.33333@gmail.com>
-To: pure.logic@nexus-software.ie
-Cc: johan@kernel.org,
-	elder@kernel.org,
-	gregkh@linuxfoundation.org,
-	greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	=?UTF-8?q?Andr=C3=A9=20Moreira?= <andrem.33333@gmail.com>
-Subject: [PATCH] staging: greybus: remove unused loopback macro
-Date: Wed, 12 Aug 2026 15:38:32 -0300
-Message-ID: <20260812183833.39666-1-andrem.33333@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20251104; t=1786561195; x=1787165995;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=5YpsLrQd66mt/oElMkbWRCNsoeN3vBlsEy3jrovT8is=;
+        b=guLiZcItJJLy8D9nZN3gAIP5mm3Fe3ocKj60PGFdXTK6vZuP48JyI8fGTVPJijJxVn
+         W9hvAwqskggc064AWimq3hd9is4gMG4HpC3VvIyF0FdNa1zWLIl4/CK5B5SDhsy4V1io
+         wTijafljyU9AJPX54wS30uM1MzaWHXihrbzQtbOcdKkMPC6uK7p8On0HTK7bWQ33vkv/
+         uZqORNpSD1qPGlfAyk9Np+RAbeCayVrsrILB5OidTKzOD1XdoVh2t9pf0tfMgY//6I85
+         ECNhAkLAfcXm/toZHSeqjDNjQz55xcoA0+8gufh9y9aRLqT+9Luo5/wNJSL9aT5M+7UX
+         BIhQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqcYMkLik+j30EcagRSm52zuRFuuaDWjqgfy4ouNNyPfI0lnbWO3566DcX48jnrJB4brrNdpM9KGP62cRx+@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywbq5jtuLwwMajNzvmCDzX/fIYcphHkhD3sQfY8T8yptJDo3c37
+	C8tFaJwZP+sajjGuyCVPFb4V1F8DUAaSAOhySNbFaCPhGEYDod0Tr9t5HHpcQQrbZvrGg9NfegJ
+	dSRV9uFG0eQ4+Fg+R1dLWLjIVQKEwPiI=
+X-Gm-Gg: AR+sD13ri0MMkV5FqR29LWNOt2o+yYHQ9o5mhFN3a243V7/jFVbbPfnzGKEEQ03CRTS
+	Z9Odr2JzF/T6rplTOwD5Z4DDFVEoTGNMzmWlNWRE26uvjgu/DVFuuMn1Vn9U3MOK0XcXHZRbu1v
+	ejInpJEAbEf+aFpFA3h1Wl60T0Lg2dwQ4GEpEAz5iKh6C90Mio9FCjjJnqpw9o7jhGK4XJ75IMe
+	vORJ33gkb5a4ye+YF/51K5y3RhhFbGxCMocWVjFF9vE3Y8NWckBuJeMwIa8jtZh5Lz1MdEAC+wd
+	qV5pQXQnGJ6uK2x1WzqF6MCk7q1HN2yILkEe7PeE+OP+
+X-Received: by 2002:a17:907:608f:b0:c12:1651:17b2 with SMTP id
+ a640c23a62f3a-c2108e5bfb5mr20737566b.9.1786561194813; Wed, 12 Aug 2026
+ 11:59:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: Shehryar Ahmad <shehryar.amd@gmail.com>
+Date: Wed, 12 Aug 2026 23:59:43 +0500
+X-Gm-Features: AUfX_mxI720OVCqWCabncilafTVACGGIMPo2NOHI0XObuFT7-5YQDH77NnxYQqk
+Message-ID: <CAHR+CoTo3yX=1-pfnkxu_UM2jXx0Fi8j6ZU6T-vRR4Pgb95mJw@mail.gmail.com>
+Subject: Re: [PATCH 0/3] Move adis16203 inclinometer driver out of staging
+To: nothingchang@mirrorstack.ai
+Cc: Michael.Hennerich@analog.com, andy@kernel.org, conor+dt@kernel.org, 
+	devicetree@vger.kernel.org, dlechner@baylibre.com, gregkh@linuxfoundation.org, 
+	jic23@kernel.org, krzk+dt@kernel.org, lars@metafoo.de, 
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev, nuno.sa@analog.com, robh@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-The gb_loopback_attr macro is no longer used in the Greybus
-loopback driver. Remove the unused macro to avoid keeping dead
-code in the driver.
+Hi Sheng Kun,
 
-Signed-off-by: André Moreira <andrem.33333@gmail.com>
----
- drivers/staging/greybus/loopback.c | 26 --------------------------
- 1 file changed, 26 deletions(-)
+Is this series still being worked on?
 
-diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
-index ea57b1f5d156..2a623fc2e99b 100644
---- a/drivers/staging/greybus/loopback.c
-+++ b/drivers/staging/greybus/loopback.c
-@@ -167,32 +167,6 @@ static DEVICE_ATTR_RO(name##_avg)
- 	gb_loopback_ro_stats_attr(field, max, u);		\
- 	gb_loopback_ro_avg_attr(field)
- 
--#define gb_loopback_attr(field, type)					\
--static ssize_t field##_show(struct device *dev,				\
--			    struct device_attribute *attr,		\
--			    char *buf)					\
--{									\
--	struct gb_loopback *gb = dev_get_drvdata(dev);			\
--	return sysfs_emit(buf, "%" #type "\n", gb->field);			\
--}									\
--static ssize_t field##_store(struct device *dev,			\
--			    struct device_attribute *attr,		\
--			    const char *buf,				\
--			    size_t len)					\
--{									\
--	int ret;							\
--	struct gb_loopback *gb = dev_get_drvdata(dev);			\
--	mutex_lock(&gb->mutex);						\
--	ret = sscanf(buf, "%"#type, &gb->field);			\
--	if (ret != 1)							\
--		len = -EINVAL;						\
--	else								\
--		gb_loopback_check_attr(gb, bundle);			\
--	mutex_unlock(&gb->mutex);					\
--	return len;							\
--}									\
--static DEVICE_ATTR_RW(field)
--
- #define gb_dev_loopback_ro_attr(field)				\
- static ssize_t field##_show(struct device *dev,		\
- 			    struct device_attribute *attr,		\
--- 
-2.43.0
-
+Thanks,
+Shehryar
