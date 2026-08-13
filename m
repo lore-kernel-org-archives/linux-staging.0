@@ -1,119 +1,121 @@
-Received: from sonic.asd.mail.yahoo.com (sonic-euwe1-0017.asd.mail.yahoo.com [34.2.82.16])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6389B485518
-	for <linux-staging@lists.linux.dev>; Thu, 13 Aug 2026 16:59:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.2.82.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01F54499F2A
+	for <linux-staging@lists.linux.dev>; Thu, 13 Aug 2026 17:23:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786640366; cv=none; b=rthRQ0LMNOXzdOiqva/XCHU7Jl6BYP0jHsFVzGiJ8RlzKVnMJWTRgr/is7PuIRzKrkNaiQpHwOMuWREQwt2w5ybUNPv/FkVGFSYo3kUtf0Uk1IjPYe0S8BYdQTs406OCvuepqMO2vvOr7zPEHZ38O0KRUQdytCkn8PNI/eoTiek=
+	t=1786641820; cv=none; b=QSfhTxFxG/pO9anA5w3WEaLxok8wTGOrMnuND0tQtL26CyJ8WcBiu4z+igfh70OC0iFuZaDG6l51O9aVMKifsD1+MBU9kuVwMcWnLGHnU01DoDSX6pLN3KHVuvtQ+ibVkspfWIRaIUCNJCn8mWfVw+jafHcI9cqFiivDKjynQUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786640366; c=relaxed/simple;
-	bh=deheVz6EbziO6lh3IHy2gLuNM1X/uj8YtA0JHMxBanI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc:
-	 References; b=H01GmGr1wckRoE+DpMctZssg9H/FfM6AQ0T9ESJaxaoiX8g0mPc01LJc5FTEqChR8CaqVSQOO8hjM0SRlrtftRqVOLSmGus4b6wFdeh3KsMu6MYgDwqDxCpL4PvtQbvVQWIN6Rxh/FsxVnNtREmWHAKbgbXYbeIJLYGiGM64wxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=HOxY9PqQ; arc=none smtp.client-ip=34.2.82.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
+	s=arc-20240116; t=1786641820; c=relaxed/simple;
+	bh=uG0tHnepocVnkylL8AFXFuZuw+YH0IhFJtcA46V/1EU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WVT11ToQXwhO+lfIn0iE+IICKk7Nfy0Z4uktTlF8RPhHUUslEiybWJJZ22w+v0s5Yf4/R3Z5/E4ruDJWR/W6jwi1SgkIxOln4n8/qgJhlCCd6F+Qn70DzPHSMYTmZYP0rzL5o2i0N3KZUc02beicQNOAa7Sr3XoQli6S8qHWR/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TVnn2AEC; arc=none smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="HOxY9PqQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1786640362; bh=JizmvpkgHQ7shMwyqDODWSUaf4k34aMQnLoLbYQLanc=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=HOxY9PqQD+2jzhAfjtsn7vlFLEP1zh76RD3sgLpZrxgTf0Ka++D3cqIbNUUGKyJehV6rrQeY/+eHgNzP+khoPwHArKsFgf3CPsRKXPZUfXG2RZhHchh9f5hotzNjadp+0yiUmKzMkH1pH6+WD9EKFfwGVJRzKFSlSBPwDL+udszEoq2dkl7odEpoiJSra1lnYAAm+PcyBYe/rQ2WpmO5oJSEjq/Z6ds8Mq6udfRTTzW/rLazywRfVllBJS6M1yv9PsSyIEzfSKWDw/7JfCOWqrQOAJpmmo1G/SQll5mmWWUajfkew4jtYvml+3ugiLJfKSYRjcNDmBHpKTVFyyuCOg==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1786640362; bh=Md0Lynv+x8EhUFeltoTHPFnwCwYbnaz97W8ZgxgcNQI=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=n5O/0sC0A1ZGukr7sHyjvigHSZbQPm39X4zdo6Y94810YTIV2MI432E8gBZPY3lQ8LQihEqXMYd/X6/tMCqTkhb3J8lwHc7f4qr8MBCzUoRrPSKp8wEdwXwzELRKfTiBqERZikihGWuGr4+rjCYZhFSOM1KLlMLIjzOU2lldf0iBVbOufi7IKJphOA74MlV6mFdb7ZpLe1P/RQfqZ/k6g/CIBhjnvwST19dm/P7I1YdR7fdZXpYOJrXZpD5FgR1eutWzSudIFTONg0mMVyFXOfRwYI4tJ88H8/kn3cOcLVXEBZgDXNc9WHcUXdbFdBCj4WGtLLylD6YGMY/SMqEXmw==
-X-YMail-OSG: gBa_3B8VM1mvRjQk_.nIWqxwWn_5w7oXy9FhbmQe0Lxfa5KbTUs5rN0xi1AYLtd
- .M7vVdag.uXDKXZXQTPBGpeEIpVn.sjG55Ugay7nunqKnCrPgdo3CDYpgW9Yvf5LXklXaal4B28u
- PLO9W4dGpl.QZ2cDDyxoENrs3Id37jowjYjLiRWYcItlTeZ3JgaCCBEvurgDkgYgqnBxg.NQeuD6
- q8vj4d4l1_4N93FVi9Pv5wJ3IMtWTzNx7Pv1P7bOXtwRFCwGom8K3wUsvUgzpfG7.8wKuAbPY5_D
- Wpln5eN8Q0EOsW7_yYJFntA32Togse75z7Egf.RQH1eioCbHQBICwFonevFuizgrt4wYrFZvMv2P
- OQtVcD4pa8F74ev3lzC08MIJa5vckLmmghtpsL9i3LDkOW5V_9mbkt0RETxMfuN_WlDQFpyxcbQd
- fficSzfsg11JJtUjzLvZaebywrgdrQLPuT93VTM1Xio2F8L902fiIdXBFiYLW82TGk1KVUvuI7Ik
- NA.0st5bBXIrhWLa56ZrTZYzfYiNBkBZ2Nv8U5xj2w6Vq5Tcof9P8UFFOoLBdkRx6lHaExX3Ydqv
- UePihm0RHq31iFWW2vDNXM1EcEme78t4LQuOm5J8ZG0CB9eR4m7mVhAc3g2NHTQmvUHSnREGqWbG
- mZUwuC3EzMIFXB_NXlwyZjBM3KCiAKiF9qt5P4QfMc4WDp4LOJSLpk6aAB9CSbVsIcaCIDLPkz1u
- 9PBNtjZT3cb5uGNxjGvU.oou0FrHS8N48T779ddNyp9TfJGCR5vHvMspy9BHGYtPj1OTIAr5Uaf.
- ER.hkpg6Zhb9DpMsVxm8aE0D.jY5AbHf2c5fyqJG2waN0om0DpcIir8MDBHPFUCnzYMRTDQNpJkH
- uf0YmvY7Q5l6vZLVTezn75sNOgC9Nuz1w3bFTd5s_BRHJ0lv1qrqlMB07hSy.GCFCqCZu1L4uELD
- vRYW0nCQCT5BoZZNFuC3sIjmT5M4EcjboPWixQC7jueX9rPCAO99Rqgghk6B09o4JpP2fdBL5bnl
- RNYXozQQ5wWDVCG4jsfy.GNs0vARqvyAKDbriM8aQHwiE_XYa3F2J32ecOc6HLjfnGNulwkQsiW8
- IZpMr_qgm1dUdXFdy6pr.7mrAXTTBNB_Fb3ZQ.MEVKIuXpEEuU6xlBQgKVYHLh4fTUlURj2km6he
- RRWj9dGYI0IoyRncyslAWbWbF0zgGvWQ4u9X.7_whC36pgeUkO2veg__uZ9zQVXy9dQvIn.goruE
- CgmKWYJWQraeoJ6HCSZ_BTxEvdBkqLzwRZh.1jHOoe7ooqaBbXO_EKtlC.k3LRyiRlVy29x9hFY3
- 0qJd_BIo8oJofoaydlaUhKNw9lbjRN0xQley1FDhjzPdKEXNosaBjUVN.wr0Cvl8jAaySdXPfSFy
- H6QysOqZMVPOnpNynmMzeaVWZUItsXgDy06obBfme2OpucCW7dsNkcPiqKX8lUzrhO9HbtLRXLFw
- PZw1tCaJIX6ewEYlwen4mFn1GebhP1qiMpRoXZ1QCQWN32_OyNnVpOQSxqb6CFQtn4qFI3hFzDEF
- 1MfDV_FeCx2cOAZCmxtZkw6HGm8qCmTdxCiruPiOEntpjtXN9WFQegLzIXnh1oMVQidRYyXz9.46
- SMFPTtgYnv8kk7Tlcrm783S4sA8td.9HcO1rTOGFWf1DZ7oSsCo6_IK.sFVpqoZmOtbx.lVW.mC7
- Sbx_4bNAcwxPQNjE6Lm_lheIKfK9_F979qV4y8UWNIrD9ZmMSyIvDDWmurXp1OGywS3.UiFsAMdd
- zGZuB2RMwrut3RtUtCrIupuYHnqJ1GW1z2thqXBlgP5QspTBMIJ6P2TBRIz6mHEsOEZdy2OtWJeR
- C3h0Lz1qTOol5rSk9zueP_JmyAmuaGEGK7nv2MkWjjSDcok7h9PqZi94xjC.E4q89dI8qicoFRwO
- IKaOlOy_.vQKG3JxpohN3u6UiS2IQ3B1NcVZ03_0KFhmxUfuBmIxzM1XawjW2QKJvQ0umCLzWJj0
- -
-X-Sonic-MF: <tomasz.unger@yahoo.pl>
-X-Sonic-ID: 00ff135e-0536-4402-9714-0ae4b0d45c4f
-Received: from sonic.gate.mail.ne1.yahoo.com by mail-asdoutdeli-p-cin-euwe1-prod-sonicconsumer-svc-102 with HTTP; Thu, 13 Aug 2026 16:59:22 +0000
-Received: from dip2.lsn.ir2.yahoo.com ([87.248.99.11])
-          by hello (SMTP) with SMTP ID 5af242c419c37af97605f8d8a2f48edc;
-          Thu, 13 Aug 2026 16:59:21 +0000 (UTC)
-From: Tomasz Unger <tomasz.unger@yahoo.pl>
-Date: Thu, 13 Aug 2026 18:59:19 +0200
-Subject: [PATCH] staging: media: atomisp: fix typo in refcount.c comment
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TVnn2AEC"
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5aeba09900bso23509e87.2
+        for <linux-staging@lists.linux.dev>; Thu, 13 Aug 2026 10:23:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786641817; x=1787246617; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=jbA8z1rdNkDHr3lYrwN4B7BO4VGGhl6jzy9WNKUTJ/c=;
+        b=TVnn2AECbGD6eIJU8UmwumQ8cFDeAioGpsl4oToB3WSnQSHLIw+mxAzkkC6/qNibfc
+         ExNjPFVEtlNpupLjB2uiyb5+aaljDLvCd5j4leGqdLElbmqJK6pnoQf/UVChixceonqf
+         Usv97YzKTq5qIAK44ngbEvrlhKT7rp0EQNxjQ6bClYoJPN+Knnn13uoZbx2GuyV0hfFi
+         StgNDlixej21raTkrzD2BVqyuNqI51t86LMRhVaSVI5SQRtL451hJQfn1Ryepeqgh6+M
+         KynlwjYFSh54KS9cvl6nNsIXDzg22Heu828d+bOvTJJGU/lVS984eiB/PEu/YzOxwe93
+         UCzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786641817; x=1787246617;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=jbA8z1rdNkDHr3lYrwN4B7BO4VGGhl6jzy9WNKUTJ/c=;
+        b=IjXpW6jcKwk4r5jhoSKCeeU5OohKhsshMiGUgnrtT7F84PF93Xj8qQqw1g00KTkpLH
+         HoenUr6iJwTmMfWlFfKqUfDze9ElUk2rEM2lfgEME1bM+ZLoaVF5IMPZsFna/BPintqM
+         YmFFs8FYTLXe/ZBNDCW/Cs/Siod9zGOuE0LxH3mP60xGScxI6Q/PY+gY6rLbBQd8RymQ
+         z+DfkqCRDKeAShAJy0nTuEKOIp83e6eAsPjUdiDPix4gWh1N/zWxu7PUZXdmakGF4nGJ
+         L1SAmELxVSj4wLQFCjQqy628kgMrtB/l3xjejx9UHFn9fK7+BeT/s8UbqINaWeQ/yApx
+         /Lkg==
+X-Forwarded-Encrypted: i=1; AHgh+Rqn4iVRqRWpFOO5/wDGo6nOYWEBaZOz6D+MX1Ua/JT06jHqlm1r6wtyxeAiERkE2vkhzRWf/hqkuzWV+wGS@lists.linux.dev
+X-Gm-Message-State: AOJu0YxYtR9uIwV1MdNZXZVcLYG6It2JUFZt/Q3nx0NAB+S9+Ebm6i5z
+	rLJQrQy8rX+QuRneCddvVlOb7yojg7+mO+vUfvfa4aUFexwBcqBFqidW
+X-Gm-Gg: AR+sD12oC2ZEaDCDH93TzxsaNzFpn4iLvoBdLJMv36kCzGA590KRjmo0y8n8Rg00udS
+	2KmcdG4M5CYwO5jvY2ywNzleohYN445NlUA/QIBty1Yhp+IhzzuQcPQ2FH6z/Af6XfsJUKeFkXZ
+	Adyjooqk/CmVvUjWznIaNgoTVDKISK8m/sZf4pzzyRe5yUPxxsYRiOIxNK9N5QLH6E1z068NFim
+	GLcqCqZDwyw6caY/CwNJe7QBQ0LADUzY1qNpyV6OWelP4LjiNs5J1cuTpjx8gWRzXD3N8vkrwTi
+	6b1CRvPdK8sbIFV/7qBELo/bUrJM8O5FehoZAneH1vkaYbvLF0j8FS7tD9EUEKinVtIP8SSA9WG
+	YUN/NNlUb1BgehqqvvZ7C2UyImThAbaRlIoWVKkOw/VNtnIc9Whh06FBSUow8EKiw4C6Nxz+Blc
+	NAwN0NzDXGb5fhqHC5jAsxT3+HlS1dky1Vqvm2alKXufnzpumnYvvexWX4Y7Q=
+X-Received: by 2002:a05:6512:1444:10b0:5ae:bfd6:1bc1 with SMTP id 2adb3069b0e04-5b453f47e75mr997626e87.14.1786641816655;
+        Thu, 13 Aug 2026 10:23:36 -0700 (PDT)
+Received: from archlinux ([94.229.19.199])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b458c00945sm15213e87.63.2026.08.13.10.23.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Aug 2026 10:23:36 -0700 (PDT)
+Date: Thu, 13 Aug 2026 20:23:32 +0300
+From: Nikolay Kulikov <nikolayof23@gmail.com>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/5] staging: media: atomisp: cleanup pci/hmm/ code
+Message-ID: <an39lHmSRfuEzU4b@archlinux>
+References: <20260812205429.39181-1-nikolayof23@gmail.com>
+ <an2KI4rsL9tkA_4M@ashevche-desk.local>
+ <an2KlPmaXYxyVMEX@ashevche-desk.local>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260813-atomisp-fix-typo-aswell-v1-1-0aaf45422cf2@yahoo.pl>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMywqDMBCF4VeRWTtgUujFVxEXk3Rsp6gJmdgL4
- rs3tcsPzvlXUE7CCm21QuKnqIS5wNQV+DvNN0a5FoNt7LE5mwNSDpNoxEHemD8xIOmLxxFp8Cd
- jyF08WyjvmLhM9nLX/62Le7DPvxxs2xcigj22ewAAAA==
-X-Change-ID: 20260813-atomisp-fix-typo-aswell-afc711ab9ce2
-To: Hans de Goede <hansg@kernel.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Andy Shevchenko <andy@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-staging@lists.linux.dev, Tomasz Unger <tomasz.unger@yahoo.pl>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1786640360; l=1133;
- i=tomasz.unger@yahoo.pl; s=20260311; h=from:subject:message-id;
- bh=deheVz6EbziO6lh3IHy2gLuNM1X/uj8YtA0JHMxBanI=;
- b=imDm4e1qNZaoUWBwttLWhFYwvMOa+STREfScuammUYh0dyD6Ts/Z/SAerSH/qrvSM/YTBEoah
- VoFDMy1mU5gB/v1areY5pHXplWOqMZgoGQ5DodHn4lghKyWPVRWufqY
-X-Developer-Key: i=tomasz.unger@yahoo.pl; a=ed25519;
- pk=EPPsO91uz/0J2cTQ6ol+dgxYaieEc9dKSXWUb51n46c=
-References: <20260813-atomisp-fix-typo-aswell-v1-1-0aaf45422cf2.ref@yahoo.pl>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <an2KlPmaXYxyVMEX@ashevche-desk.local>
 
-Fix 'aswell' typo to 'as well' in a TODO comment describing
-refcount support for memory types other than ia_css_ptr. Only
-the spelling is corrected; the TODO item itself is unchanged
-and still needs to be addressed separately.
+On Thu, Aug 13, 2026 at 12:12:52PM +0300, Andy Shevchenko wrote:
+> On Thu, Aug 13, 2026 at 12:11:04PM +0300, Andy Shevchenko wrote:
+> > On Wed, Aug 12, 2026 at 11:51:33PM +0300, Nikolay Kulikov wrote:
+> > > This series removes unused functions and replaces obscure
+> > > variable-checking macros with clear conditional statements.
+> > 
+> > I believe I gave tags to some patches in v2. I don't see either.
+> > What's going on?
+> 
+> For _this_ time, please reply yourself to the patches I already tagged with my
+> Rb tags placed on a dedicated line.
+> 
+> > > Changes in v3:
+> > > 	- Split the last patch into two (inlining macros and removing
+> > > 	  the file).
+> > > 	- Replace variable initialization with assignment, followed
+> > > 	  immediately by a check.
+> > > Changes in v2:
+> > > 	- Squashed the function removals in pci/hmm/hmm.c and
+> > > 	  pci/hmm/hmm_bo.c into a single commit.
+> > > 	- Add commits to cleanup macros from include/hmm/hmm_common.h,
+> > > 	  as suggested by Andy Shevchenko.
+> > 
+> > Also two process hints:
+> > - add --base when prepare patches
+> > - add links (URLs to lore.kernel.org) for the previous versions.
+> 
+> Same here, just reply to your cover letter with these URLs, and for this time
+> just refer what the base was in a free form.
 
-Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
----
- drivers/staging/media/atomisp/pci/base/refcount/src/refcount.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Sorry, I think I should have used b4 from the start.
+I will send the new version with all the fixes.
 
-diff --git a/drivers/staging/media/atomisp/pci/base/refcount/src/refcount.c b/drivers/staging/media/atomisp/pci/base/refcount/src/refcount.c
-index 4a8675d0129a..5947f9033b89 100644
---- a/drivers/staging/media/atomisp/pci/base/refcount/src/refcount.c
-+++ b/drivers/staging/media/atomisp/pci/base/refcount/src/refcount.c
-@@ -15,7 +15,7 @@
- 
- #include "ia_css_debug.h"
- 
--/* TODO: enable for other memory aswell
-+/* TODO: enable for other memory as well
- 	 now only for ia_css_ptr */
- struct ia_css_refcount_entry {
- 	u32 count;
 
----
-base-commit: db2ddb87143519e20a95aa36c60b36107b736a58
-change-id: 20260813-atomisp-fix-typo-aswell-afc711ab9ce2
-
-Best regards,
---  
-Tomasz Unger <tomasz.unger@yahoo.pl>
-
+Thanks,
+Nikolay
