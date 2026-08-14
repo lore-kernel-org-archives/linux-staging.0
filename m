@@ -1,123 +1,120 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D63C46E01E
-	for <linux-staging@lists.linux.dev>; Thu, 13 Aug 2026 20:52:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786654334; cv=pass; b=nx/WeoHd2JcX6KDZKggYZsvK06AEJ4WLniZkPQdDu5ZMH6pVlFdXZtirnvYQAswU4jk2gVHju1LvgWAokrIR1W/Sygy4NzTTIiiRKCQ9jQ9v/4CYkRmQPmKc4rN+CjWs6TzbIT4c0XMGL7Kbs9F/e1UzzlyEF5Na/2ll9ctBC7o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786654334; c=relaxed/simple;
-	bh=fG15OhH2dzYlb4DsYjWF9/Cq0WDCMyRgsw5enN5N+IE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HppVU4ZTW3H+cEL8D82ReDI38LaMF3LmB8X/ZC0O5qZyZN/ArheMiEHMh/ag+jcMUZscWPxBd2wKNW5goiZlfFyrc/58EVNNWFQ89ARwd9CGDF0xn1TscV4JboSAR+RsD+Oru/0cJjYjabsPEAnkb/YxkU7b6ZBCTBGxAD6mTRw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FJZraorh; arc=pass smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7A02E555
+	for <linux-staging@lists.linux.dev>; Fri, 14 Aug 2026 00:26:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1786667197; cv=none; b=XYfns3IgEAl4HO+9yGZ+nHBR3F06K1i1lgcRp5yAKEjgUYHBOW157s2WGDWsRm3yzHF7D7blZ9CLZMLFmHNJSTjV9b9wwAZuHpdnURQSAT1kaWOGIajTn0ywuE4hONAB/mNQMQ5DbIe4Gquv/SXTenqKUWhJHQ+hk7BleL91+y8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1786667197; c=relaxed/simple;
+	bh=R9bTPVnIXneSwOj5nKNdH4epUqo8Fyg9c4RkOpGuvgg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=jSxV7291NQQv7Ny3uF7ctgihY15+7uuazItiNN+cO30iC9D33gRu8joA5I5ZHaYJ6G0Gj0AUKn7N95npricNDS1TaUe3ehhu07BPMIkieftCBLONN/4NfuSt7N+CD+9YhDZuG38U+Bjz3oeDI2oP9apdNKgiwD8u5Pi6OMjF8Qo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iinF6Pxs; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FJZraorh"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-6a156627e22so2442034a12.1
-        for <linux-staging@lists.linux.dev>; Thu, 13 Aug 2026 13:52:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1786654325; cv=none;
-        d=google.com; s=arc-20260327;
-        b=GwzcgW+gQRKApNBM2Z/LSzVVi8AYWHou2Gtc5XZlSVmfL92nuyyeQb2uLY1F/iDOXC
-         xYHqmFDoJStIeuFfiZ0IFkzAAdQZOSYC/fqczPi5zmlYmwW5Vt+RUidnI6B5/k+/Xukk
-         x6PZSQGL9ZQvggXd1lKRDpzmDpvRIEoqEy5mo1k6I1+VDJfolqUVHCzkMDA6SP5dkA/4
-         XnrqnZ6o6Zic9bFhHK1jiFHLyz8nv+04wGlUW4rB1bp+PKA+XxuBJx1S2McJf4n0w8kM
-         /Zkun9IaOg1kn+SanNa3hpAXrlrnl9ngONn1OITd0JMNK2hlZPeCmIF2rJgHNrZgMECj
-         HvKg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=PmkC/SC0r1DtEmc1lwjFEmmXFkt8QZi8W/yEFPQjw4s=;
-        fh=tSWasuqls/IoqxtIGiOIym0ZQZdStRs3SoFuJ8JrW20=;
-        b=lrZUKGXwEphjcs9cvXHLNh1b+w7otvCi+VnAwE/ELZIkswUBlUfOWnaWM7jWYLghd5
-         whyUlfuWmKJUf1rUZz38v9GbW0UQErPSF7Cu1XWsCKNxZQw1qKGkttAaiwcJkbftTL1P
-         omGY6ZKX0XWUa9jHhTTCMQ84NgJ+1as1Qu7pFAqro9iOn9TrMRkTPWMEOehrAdnS7vr6
-         SOVXMcIb/pHpI5e4ct0TLywJQd3PjpshCVhuM/iezD7gaYAmqdonbA4JIIZGJkTXoKoe
-         P01zHaDVrlLngu28jDahZbfVtq753R1Hnw4CQ9OzUaS84aFw8+h/botO9mAiBDfiGqji
-         AvjQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iinF6Pxs"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2cf27856f9cso4893665ad.2
+        for <linux-staging@lists.linux.dev>; Thu, 13 Aug 2026 17:26:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786654325; x=1787259125; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=PmkC/SC0r1DtEmc1lwjFEmmXFkt8QZi8W/yEFPQjw4s=;
-        b=FJZraorh0bnhgkmDvig+kEdA4YTayoTlYDfMacTOOe/AGvdpUmqGRWon5excj8V6uS
-         cdSAIeLPg4u+PHMHh1CYKTi5MULMOzfg1+Nd3w9NvEKcn59KEzZBRC4iQHSjFWOtGAFN
-         TtMC36pXsmAOED0K8qzih6EyAnHK+A0fDHJ1cIPubUo6lBc9KitmdDgQ8FKsIDTZcivY
-         ZNRP6kgqlKRE4UftJGx/QHvduk271UKLK8wyuOhezqXqoGrsx/QXagd/yLs/Ogacn1n0
-         nBKfJptWyrjuFpbg08ZHPDqcYRpbB8/wlmPgsM4WRnj9HsSorWuK9yZ6ywj1eGaFwC/C
-         VLLQ==
+        d=gmail.com; s=20251104; t=1786667196; x=1787271996; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=4f8inU9aaPCOu7H2o+xkxYl3DrCd0StIBeApHBHCWfM=;
+        b=iinF6PxsT4w7IDqML4v1W2eFxhTuhDmOpSlNECPeEaN3k3rvliKoEY5jCA9mvfhWg2
+         tY6UqF9r1ZdnXQqlziblDgrit4k3prhYe/hdfrx7jxBqiCrF3uOdH2MFOaa1BgHfu3Rj
+         /46LNAA+DHMXvHgV0tOXB/CpUWe2E83loJuIXHxCAQvhF6XeIBWjutjHZVlweJKasIZK
+         SI1/0weEpkQ88ry/53eUynxsqjatCtm3dyYSm9R+fA88ez2jrbIfmg5tXBnAfFLOxmNx
+         D+RcXYDbdMI8y8TT9bDBjziUV+T3bz/QmnE4xe+kcFO4TdSxOO7VMbpEG6145gohZ3aB
+         sEmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786654325; x=1787259125;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=PmkC/SC0r1DtEmc1lwjFEmmXFkt8QZi8W/yEFPQjw4s=;
-        b=iqUc54qFsgAByqDrPo0W7cj9CiryFOJxlCvuTKX3F+BTN6dnu0UMFcSzUj3ADOfC0t
-         yYGM0NN/Z4TJM2IK8mzgSVEYpv1IyXqsosbXqFgRdNtoRl2CGTacR0jJ97E0bylqEDdT
-         FaqnbkmV9ZtqJLXcL+sB2dePmKOGAWrqS/ZjgSdFCGwfkM3zanTqLirXCPPUGWTu4AfG
-         z9S4E2q2iBH1Gu3aT50T2+4FmyGEajMV5QbRWN0UToHhFBJFImPFe99hZXDf/YvjNU1R
-         63SK0rqVDE+2fUJ9oAUKFejtg50sKm493DdbKAE4pRfybt5sJxbFJ7tWrbtnarNbLKB/
-         WgpQ==
-X-Forwarded-Encrypted: i=1; AHgh+RrGI4MkBj7Yvu0lmOODCF81BFKD2IlLNAnpgYlgNa5umYVIziEv1uBehFNLkmKdC5HB4+/YxIKnDKxP5xr/@lists.linux.dev
-X-Gm-Message-State: AOJu0YxeMKLsO53pMEPUzhkfxcMISo6V02fd04F+ASPZORAsIBn47GKA
-	FvxDxU8BnpcexiDKTAjrAzvuMl7z3NbhMb7RoLLUMH1CugRseKbjlnHrhlr3V6+dKCXBgoRI970
-	yGGnd39tmfIU6C3TZ+qWsiPuMwQC/tdI=
-X-Gm-Gg: AR+sD11qK8kNGywY267m0ka6Nbkn9vv0CdDGzxkjynh/Uco1WTR/rm+nLJMIMvMUBDX
-	4PLrWbo97ZL+koxMFc91MM5xy2TIChYD+FheI3PRYtBqcFC/cMtKFlUvyh8ZppQR+/vCIaJk6dS
-	r2QEcKWHJ/kt8R0UgBq1yLpNz2gWCCapicNeegwmfCbVT1T9otrMwAXx6m1geQ8nPCE4GBV3y+j
-	Ut+hCSOxMa/u15dEjPiXCfsyz7EkiLehsqU4ouWJLi6FwJhRyupUUY3YoENMaMs/HCNE8yYyKd9
-	kOV6Gvz+UQgPCahYmISd7SR2/qQLDjycFl/R0iVQXy1t1H6jwS0YR2SvffcAzzetwd8vN/jF+LK
-	tMH0sa52J8AU1TqBHpiP0IFH+6DGSGHyoVVdUrqRDphZhAKOXEYkvJGshOKPHElw3ReLd8RKeQ/
-	Pb03KjBZ4TTCnnGK0LYbSXmPgNtZoyyg==
-X-Received: by 2002:a17:907:d0f:b0:c08:580e:899a with SMTP id
- a640c23a62f3a-c212aa1d477mr42443966b.10.1786654325049; Thu, 13 Aug 2026
- 13:52:05 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1786667196; x=1787271996;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=4f8inU9aaPCOu7H2o+xkxYl3DrCd0StIBeApHBHCWfM=;
+        b=iJE0RmIjA9J1zZv7lmYWo0HCj5WXjeCbnUxTllQKdA4uTMXU+6PfL46ed4RAs/K7jo
+         g4jcaiWEkQISl6egBRyd5Pi8aOU+QDbBlRKzHwpzcHcjVEWAuFtsZlJHPcMHyl2M0/G/
+         m1CKQsnxDB+r31zBt9TrTLPACv2QPbULItmpE9NMMogZ7n6kL42wy2RocZTcT5tDFI51
+         YJnISOwxbHpiIBoraACUdxhXmt6sbXOvVdfYj3MhTryvCCeQwn6V47AWeY1ZY7fjYk8H
+         7Tuh18X8KSAwAaMFiRLiy2EDodNitybSUBdHqhxRGIy2yWAA69tsk4U9LzDp4sZSV/CX
+         bQfQ==
+X-Gm-Message-State: AOJu0YwpO4l/1dgQXP2SRKA1Den9y7W2cA7GvFR/BKXSrL3keiShE6iv
+	cVoht5S+bJtwHdE0DCp4//aqKyfdxv1rlWe+cN0m5iwpqbka9eSGnGXq
+X-Gm-Gg: AR+sD11JmX3Vvo9pGsaZenezn2pwjXbHyUWW1QsAEy6nofuFoFZFqLp4hWX+PiJzPbD
+	VcPVzBSTw9rVyGTJCY7bsyOfwoZbPldAZ2B+0ECgwTPROsRbtTFCupwsiNanlG8HPO4ABUUbwCN
+	+j+3wkDHNXNouqi4RWJZ+xvnOF+zoKvsp/teRMrazuipanl6hVmVuB/zWai6QK5hc5rfabJ2Sfg
+	7xHlKp8NCtbFLRlC5wWWUIkOrlrM5rVysfpWN6chCDXa7B7x0GqZIjLG53pi0rYZ66E9Co8Ty8q
+	7KWoKn/K/0iI0eeNxsY23t1BXysbcM7XTGEIO49282uiv6BTUlVdp/nDvDVYeFMAfH/nQDWygC0
+	B+LNFM8kbCjmiBORc87QMtkFlk9/45iUxsemAGuUxmNAl5jaofKpDxY5BpO84lppSmgkutBU2vy
+	kmXMEvmbeuJ1K46jF7RFLFjKmqj9JaLgpUDdKe54ohdRCzN8UTOZXUhR1eGdkW9ScU
+X-Received: by 2002:a17:903:2c06:b0:2d3:a853:bb7a with SMTP id d9443c01a7336-2d3b0cde805mr24079285ad.19.1786667195880;
+        Thu, 13 Aug 2026 17:26:35 -0700 (PDT)
+Received: from [127.0.1.1] ([2804:14d:9ea1:8718:bb46:57cc:bba6:6246])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-31ebf731dbasm14666255eec.17.2026.08.13.17.26.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Aug 2026 17:26:35 -0700 (PDT)
+From: Leonardo Martins Martins <dev.lmmrtns@gmail.com>
+Subject: [PATCH 0/2] staging: rtl8723bs: replace and remove
+ N_BYTE_ALIGMENT()
+Date: Thu, 13 Aug 2026 21:25:51 -0300
+Message-Id: <20260813-staging-testing-v1-0-8baa7c210474@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260813-atomisp-fix-typo-aswell-v1-1-0aaf45422cf2.ref@yahoo.pl> <20260813-atomisp-fix-typo-aswell-v1-1-0aaf45422cf2@yahoo.pl>
-In-Reply-To: <20260813-atomisp-fix-typo-aswell-v1-1-0aaf45422cf2@yahoo.pl>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Thu, 13 Aug 2026 23:51:27 +0300
-X-Gm-Features: AUfX_mx_N9ZWgbNi1dwZpb3gSmsLHwluWxGJpTXUDWD9v7tdmrgt_mbDYd9pLdY
-Message-ID: <CAHp75VfzB=kkU5996wMh5mjsVLMw8r15ENs9Hp+H1H5He1q9BQ@mail.gmail.com>
-Subject: Re: [PATCH] staging: media: atomisp: fix typo in refcount.c comment
-To: Tomasz Unger <tomasz.unger@yahoo.pl>
-Cc: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Andy Shevchenko <andy@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJBgfmoC/x2MQQqAIBAAvxJ7TtAUib4SHSpX24uFKxGIf886D
+ XOYKcCYCBmmrkDCm5jO2ET1HezHGgMKcs1hkIOVo9KC8xooBpGR88fNWoPeqN1pCa26Enp6/uO
+ 81PoCE7FduWEAAAA=
+X-Change-ID: 20260813-staging-testing-b664ef41cd30
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Leonardo Martins Martins <dev.lmmrtns@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1786667193; l=1404;
+ i=dev.lmmrtns@gmail.com; s=20260813; h=from:subject:message-id;
+ bh=R9bTPVnIXneSwOj5nKNdH4epUqo8Fyg9c4RkOpGuvgg=;
+ b=m3yHCswhe7Ue8e0H2lNEIbCK1kkSRh0BrCZC2UX0L1sxtBTMF3PEWGg8Fpchm+jX3jpYHCDd5
+ OxkvywSZa+dCmCTRmj0za0fmDVIWMBv87Tg+Il6FdIiAIsgVBI6Y/zm
+X-Developer-Key: i=dev.lmmrtns@gmail.com; a=ed25519;
+ pk=dOFSCpUL7hbyVftAaUGDebsgsSl9Uk/Tx0Aqpd4Bcng=
 
-On Thu, Aug 13, 2026 at 7:59=E2=80=AFPM Tomasz Unger <tomasz.unger@yahoo.pl=
-> wrote:
->
-> Fix 'aswell' typo to 'as well' in a TODO comment describing
-> refcount support for memory types other than ia_css_ptr. Only
-> the spelling is corrected; the TODO item itself is unchanged
-> and still needs to be addressed separately.
+The macro N_BYTE_ALIGMENT() is used throughout the driver to perform
+byte alignment on pointers with manual castings to unsigned long and
+back to the pointer's type, making the code quite verbose.
 
-...
+This series replaces the macro N_BYTE_ALIGMENT() with the standard
+PTR_ALIGN() macro.
 
-> -/* TODO: enable for other memory aswell
-> +/* TODO: enable for other memory as well
->          now only for ia_css_ptr */
+Note: I've noticed that several of these alignments are called right
+after kzalloc() or vzalloc() while aligning to 4, with kzalloc()
+guaranteeing at least 8-byte alignment, this alignment is redundant.
+I've left it as is since I don't have the hardware to test on and I
+couldn't find out whether vzalloc() also guarantees byte alignment.
+Please let me know if this change is desired.
 
-It's still okay to make it either a single-line comment, or use the
-proper style for multi-line comments. On top of that I think it's not
-a single spelling mistake in that driver. Have you had a chance to
-check for the rest?
+Signed-off-by: Leonardo Martins Martins <dev.lmmrtns@gmail.com>
+---
+Leonardo Martins Martins (2):
+      staging: rtl8723bs: replace N_BYTE_ALIGMENT() with PTR_ALIGN()
+      staging: rtl8723bs: remove unused macro N_BYTE_ALIGMENT()
 
---=20
-With Best Regards,
-Andy Shevchenko
+ drivers/staging/rtl8723bs/core/rtw_recv.c       |  3 ++-
+ drivers/staging/rtl8723bs/core/rtw_xmit.c       | 13 +++++++------
+ drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c  |  3 ++-
+ drivers/staging/rtl8723bs/include/basic_types.h |  3 ---
+ 4 files changed, 11 insertions(+), 11 deletions(-)
+---
+base-commit: c6eb4dc5964fdf4086b73b7f0f5dc0d595fb5cf3
+change-id: 20260813-staging-testing-b664ef41cd30
+
+Best regards,
+-- 
+Leonardo Martins Martins <dev.lmmrtns@gmail.com>
+
