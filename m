@@ -1,121 +1,103 @@
-Received: from sonic.asd.mail.yahoo.com (sonic-euwe1-0017.asd.mail.yahoo.com [34.2.82.16])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D0A7410D1A
-	for <linux-staging@lists.linux.dev>; Fri, 14 Aug 2026 07:26:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.2.82.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DE2D41D12C
+	for <linux-staging@lists.linux.dev>; Fri, 14 Aug 2026 07:43:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786692379; cv=none; b=N1lI+HTDHSWK4N/xWdF3QBu4701ACwdqZsxD1wvdV2F7bHOnx933A+kXcH9sSGxiCjBAKiE/MSLFxWoXEVCyJqBC8xQtqGVndZ/AKvledifMWSEgwahw9pQAuXA+nHAOzePG6cina/Aq4RGUP8CJkoo25JRIM6Dwy2s1ztRx408=
+	t=1786693396; cv=none; b=FyxxutF4bG7CtwWDtJTbf3RewNge5vWfFdWYBE82tdY6mGBXm4L5E5bzuvg4niZWQeBVIZmdTIiw+Af6XN2oR1RZ617fndEK2lHkvpM8/p02PXQXR07bnAsVGmeTO/OWPMReq+YNlA6ZbjOpRrzhI0jt6vs78gEgWbfWAPENpGQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786692379; c=relaxed/simple;
-	bh=MZFya9JBs8QA/prZPxUj2RL7W+DoNkBpO04flR6/v4E=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc:
-	 References; b=c+wX7HwqhFOUb7Gv3WayKdnHST1oPjCn3rlnYIJb/0FJq4sUd4HbIsVW/W1m9ZSqoQDyikbCDpt6Umg4vh+I62XoNWQTZqSOa98Df+yjeqFEO/cJ7wxIxC39N6hVtj4Nk7St501MPH/srvPE5JEP1rjhHqhdFgBKjG01F7kSnqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=EVh0ULBw; arc=none smtp.client-ip=34.2.82.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
+	s=arc-20240116; t=1786693396; c=relaxed/simple;
+	bh=LY6wGybHY87wN/sEHx1ZWlnOgi42U2OkAX47+zw0baM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hbbJoRh0Z8azNX6a36roEbnPeyb8NiUGz7lbquo73MSRsHKjPgH604vWyCqhNCn8P8OMJ656a9nGJeTo14ZAUON0wEc5S8QsUmib6rjmI6rGIBOjLFR5iMw2W+cBNBIYl+oSKWlZp+3sMviXcUJB8+A21znAR0dw3A4/9I5eM54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pNFmOqmu; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="EVh0ULBw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1786692372; bh=kaYuEMmCA+WJjP2PPiADtCWKTjsT1NLQGyDAjzTAvgc=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=EVh0ULBwoGCeNxkUv7IeqauA5Weg1/R81V3/RRMR+rdFcVKvBzzQt4u1p+sNqBorZiccM6LM2IfI80rQopTdGPGkoddg05PE9ckM8RJ4Bnj1siTlJ1jn+pJly2TwGOEJficLLAJ4lpTjTCWjlmFnpiWANThEDnkNQD28sB8RW/zxBWocRyRHNbPpUNKrEEUqPQaZLBVIMlYkXRIigKPmSGlIFUWJxJ7y4+ACBQmFTqIGuy6HFwLsrtvZ5pdi7Qo1tDBfD8U2RhkQ6s0ca2vVGBsCoSPcrx4NZ8EyTGEa+HwQllU6TY5VvcI3KOSIauW6pOxWDDamDE3WPWZ+zKUA3A==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1786692372; bh=prjaL6EmjVKCXElzkF78//EyWCgTrpg0rRTpM/QFS9o=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=rfG2pYs1KiiFk2lvFCUbuV7VTlNoTrBlEOG8cRtMJeMaXVlhfoPZASq296ukZ/Qne1rZT1lRl5Mk338ZrjxKlAxu4hGleKvxS8n8WzS76uDaooG/0eI70NIySu9TMjP3KUtZ8J1PPZ5X/daqI1c/O7l3p4bqXY06AFcmmCQ54mFNLP+R77nfSsZDomOBfH2bIomohfQZ1L4RxWPuy6Xfch9ECZKIBN5rMLtqSKBPOlsJR2RHPzS+Yo4QO8iTZ5sMssa8NxWt0itn9H/TJuklztvORRdTr3Mb0x0Rzm+tbmH6Aty3SHwZOEWQ5V+BvPxb249b3gdzGBsDgTvfzpqd9Q==
-X-YMail-OSG: mNNTmk0VM1nCo_IcIGSwdJchvirs_jJ6uqa7PWZctDSuw978tnQJW.Kr9YXCVNz
- R7jIGYYAUpTVtTeM00ZEC_BGv1deJQyCkj3PxVBGmE5nzCvOrZN2aMRv.Iu3Rg1vY8NhsrMjQ3MM
- WWbXWH.0EMQn.Rqzt2DCHd9qYTEXUOg.WJcT1gnldmiecwGm09QnM3EYup5edyKGvhkPHyDPXjvy
- D982a0P3E..mfduixF4vG75wD4075dt2flaybB2XP1tpiG7daXcBkmD6cNUir2aNpnxt0a8Sd10z
- yG9QLoCF6ak3GpqwVOfhgYyZeQa_9KRWZ.rASTMUxz7rBsCK.7fbstWs..7lDm4XBDTwiQViOqGa
- iqlg1ms8CyqCGcusJ51rvooQMHOrRKSZbYtHM8WEwQWlL7gdCbZfjqdW9UI5S.oMOiWiTimJBkNy
- uO8X283h9RtJZ43cM4FZhcaxCdaj2pyaeEnBRzu0t59m3Q0ZEllL_nMz0oBCBXEahe3fHK4qYEUS
- 3lKeUSekZM658Y2Ap4zZw9jrOKOkmyusEmAlL3wpFEWaSsPIwDrY9uQvaN5ind7wqqyLsQ1KFw8k
- jft5waAGYVR2DkesePrRK2A8XAPufb0CQ6vLAcjoQvzmhNDyyhmO0d4LxwvwxVyBQI6wm5ta6swi
- a0ynH65OCgG1ykl1lbBz8ka32.Qjqo.GQoq8mx0qWnXXfwUVh7ZEf_gnCaqKwEHEB9gxjymMuixG
- aNgsh9BW_H.j21u1IuD5iWSVRmCA9y0ud0AwIKVxhohOfGXdhIr2XnM9CPhKYcM40mkjb_c.WmSj
- Hj0IcQhPShLwn6uUPZj.WU93kfM_40sffTHT1Qc2sxRLi.ZkBVRwGNErfq5KkZ2Xruwi.zjT8dSW
- dbkq4VhubTX6G3DBJAh0uLk7SVc5wVrOcmoqk1lXhSn0iiXxnYBCoSD1Mfss37ia6fSebhXzzJ0f
- G__inMGIL96fPojWnPkjTzq9W13rpaT9.5DrcssPyHy8w7eH9817_Ia8jBFCgs7GM4i4C1fOkCvt
- qhZb7vWEqRLHfnfXB8ZwwkjWnBQVmuio.SMvhxlljvtHRh6rqpa8fdsknA9.wu3Ph77cp5Or2kjl
- BnPDG9yWVRiyZB5sEtIGl26B50Jvhp2Sm8cRh8KQHAD4f_9lMmi1lheVAsI0um14fn.u4OuNbsMW
- h89KHptWvdqKnMdyRRBnDChm2kK3l34czAaFR2PJtWumnDCUwPhFIMIpMzzE1crk4pA9Ei5rEZgH
- 82Iy7RNxjeNEEoF6bd9rjAfJY8WYLmLZCXwZ5Iwna6HmRm7mFkj2rTyJF_dsHKpMwFqRDSln5oPi
- 8rZGazpDTuE.kx_nYwFxmLd5KTQowOrWzoNPEwhFycgL2Vx7XZ.2ID8luaDrbSUWyzMnouXKSrQh
- kf2UUEAyBd6YI9eOzT5UrIHm2OiCIjtCT29bBrpDQwsnxj3PBS9DfSKMNWQLHf3B_gSr6oMGNKCI
- DkWX0wRnBBtOYxpx7GNNBWUXv5CREZPKYueuYDyBSW99RySnuhXjd7ATx.xbKOZ.LcBwJJHNSzZ_
- aGtCkZmAXATROIJuhX96oKbWa6uIM07y42NpfsOLAhZ.YskSvxs19vvfk1iPGUcScpx6ST8nwNlu
- DCsbzLugn6UWxZvKFAEOTp71MY6sw4BCCc7igOMX78uTy4DPqUXkhhXKVcrzR8G8dTECxJiekdi1
- zq_jLrtI.nvHx5mkNua0l1HZUr8lMAfrwXgM8IF41nEOQub6cVNHqS1cf3Gg2IYcqS0iESn40h5l
- 0zZ6ePaPp3V5XC.dZvkq452IhXDMzoRqnVqinNeXrgQtOSxKLjEaUoRHNm1J3wzELyp2RyoFurqo
- ARnbj.1REQEMdZKs2sIWGDDrpeOSgXWdF112PHaVU0yO2GVzfMIKwzSdx.F2ek9JeFLD6Vd6fmGV
- Hnk0QEdvOiddgr9PVsD8z6rpncuJFTl9gCCU_i6lsSnzzv7EhJde_hHvjc.CjM2ZQC6cjX1GRg41
- AMvzI7BMUlYAS0UtLe0h7w8gPp7O0BG9FuY9LMrRTlCIvxnDJVg--
-X-Sonic-MF: <tomasz.unger@yahoo.pl>
-X-Sonic-ID: 8d41ffa2-e417-446d-a334-c0d04cd1d495
-Received: from sonic.gate.mail.ne1.yahoo.com by mail-asdoutdeli-p-cin-euwe1-prod-sonicconsumer-svc-101 with HTTP; Fri, 14 Aug 2026 07:26:12 +0000
-Received: from dip67.lsn.ir2.yahoo.com ([87.248.99.76])
-          by hello (SMTP) with SMTP ID c517ea445b08c3ce84b6018c1bea12c9;
-          Fri, 14 Aug 2026 07:26:09 +0000 (UTC)
-From: Tomasz Unger <tomasz.unger@yahoo.pl>
-Date: Fri, 14 Aug 2026 09:26:06 +0200
-Subject: [PATCH v2] staging: rtl8723bs: remove stale comment and dead code
- in os_intfs.c
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pNFmOqmu"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-4798bea72f9so414199f8f.1
+        for <linux-staging@lists.linux.dev>; Fri, 14 Aug 2026 00:43:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1786693384; x=1787298184; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=y8vjAWe5WEpjLI973Es38xQAbA8Y/MTMFx2xNaDbwjw=;
+        b=pNFmOqmunsZQ86IZ0dGPK/Q3F+CQItz3UxcjebF0kdwb8oRL2pe5UmQQDkxX2ChvLu
+         qlRMRfOl6TBKPXHrh/EFR9EyGYRFnIqGNKmlwM/RMuQdKOSbKnITEhlNly0AoM5woIsz
+         GXuTrb27I6jx+GRyE1HerF/7GKsR0lGLIhaVvDXCzqtsjaVuf++vl3y817Pb0BsFBkCc
+         jpBhp37/5doiOKdYnUNufXHRWTY40JzsyWbDEsdJtMHVPbN+6dq4MVVpFL9ZuzRdRUjj
+         Usii/kO3SzsMY2IEHfd6CqmnBgCdfHetBihdvGT5P+LAQ1pO4KZgvsnd0vjwhykb6kNk
+         MVSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1786693384; x=1787298184;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=y8vjAWe5WEpjLI973Es38xQAbA8Y/MTMFx2xNaDbwjw=;
+        b=WXtyQ5NUsU6sRIKUmJOfxSC/nrkOKBaqx9Xu4G2a5G7x0ZnDy9HZISy9UI37m7sfvV
+         bI4KBnpnB6DzmH3Y6zhts09s8GOql0jpq+AVG+MkK5J6SlpWVmFj4+9Dpze7AgRxxNRF
+         0dLwuCj0UU9q4zXioiB5sdlUSnSe18p3wIHbyNq/0HdqqOLaWIr514dZYIZzhZZ/QY6Z
+         2bx8/vH8AqD3qnub9MP2XU8jespYDcktJdlI5dF5dvVR/hCr+GE8biUXCP+E8Y6uB2Ci
+         uCTrh+cnL2fKqca+wNyer+uuFDxqPGG3bqor6F4H76gzL68nWsPrQYzkaod1ligz6DKw
+         SQtQ==
+X-Forwarded-Encrypted: i=1; AHgh+RohYPaaPISap4K6giP2utV8YEUU6+7TdxtG2kgFMM+UDZW4s7/TUbvz2zzq1tImnE4o2pyf2ccrctleZ1dT@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz60CNC1EqOcGVgWtGdTnNONyKjtL4pJ27R9lwI1Kdjw6iXCqan
+	5l1BWoeSwCaCEZDc2W7N6WXcu/Q6mkimhl4KFhX+/p+5109j6N3J13dv
+X-Gm-Gg: AR+sD10Q4Za8ON5+fpdTJGQb/i+4PeMEdi5ukhpVfconm/6K3z6IpI+HvKsNS+CVr/Z
+	Bw7W2oYWMhjvCgNSVgGa6yXuqD/nRsUXjrhChR4tHqXhV9IBm9ykUTXsH74e334LAPuRKGxWrJ6
+	jCiNlGg/SKS0Pv+5YZvSM0bLbojHTZCkcC1snIVZUYmTEi2stS5bl0PP1yzg6wcjIE7PRWKg/ZU
+	50+fGMD2kAPnTxhygN9+V4nlfJ23GPVGaGBV6joAnsNFa87aOzqTbKHf5+Ydb0+eDy10YB3HHnR
+	PJczN9SM2+vyM4xrRhN576PN3TBnq4Ys8np5Q80fXnnm+TyGw3xtRniqAB7gm3PRgMioPoSvSoT
+	4bqZGj6J8ywMzWktWFbS5WXhkwUy5EoH1wj2qmROZRMuzTA1Fxs1zQnzYUUV/Ebxh0zVbsG0XlH
+	gYCF/bxe6/WhVPNXpLckGXQyxSm7Ds8ngRfCD4cF9NL8W5Anndd9Zi6aL9
+X-Received: by 2002:a05:6000:40cc:b0:481:4697:a6b0 with SMTP id ffacd0b85a97d-481607a819bmr5106878f8f.20.1786693383650;
+        Fri, 14 Aug 2026 00:43:03 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4815f219f7bsm5744061f8f.13.2026.08.14.00.43.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Aug 2026 00:43:03 -0700 (PDT)
+Date: Fri, 14 Aug 2026 10:42:59 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Tomasz Unger <tomasz.unger@yahoo.pl>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: rtl8723bs: remove stale comment and dead
+ code in os_intfs.c
+Message-ID: <an7HA5fniAT6KKjt@stanley.mountain>
+References: <20260814-v2-attempt-final-v2-1-cd3a27834b7f.ref@yahoo.pl>
+ <20260814-v2-attempt-final-v2-1-cd3a27834b7f@yahoo.pl>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260814-v2-attempt-final-v2-1-cd3a27834b7f@yahoo.pl>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/03NTQ7CIBCG4as0rB1DKf3RlfcwLigdBIOFADaYp
- neX6sblm3zzzEoiBoORnKuVBFxMNG4uwQ4VkVrMdwQzlSaMso4ONYeFgUgJnz6BMrOwwFvOmeq
- asUdKypkPqEz+ktfbr+NrfKBMu7MvVHBPSDqg+KcbCMkOPWvGWOQMOWfwVkjUzk4Y9sdLDTWI0
- 4gDbYWk2F7eQjt39JZs2weiArZ5ywAAAA==
-X-Change-ID: 20260814-v2-attempt-final-45442f63b7e0
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Dan Carpenter <error27@gmail.com>, Tomasz Unger <tomasz.unger@yahoo.pl>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1786692369; l=1363;
- i=tomasz.unger@yahoo.pl; s=20260311; h=from:subject:message-id;
- bh=MZFya9JBs8QA/prZPxUj2RL7W+DoNkBpO04flR6/v4E=;
- b=ATkaBJ/qJ4tYsjWgW+Y9ATlfveutMkusdGThKFKnZ8LCbcinlhLx+wQ2zd72N1k9o2vg0/vCY
- JH+b4w14tu0AdYxL1yapeuV+lqssPG6RuNIWhhl57s8NhAkJ4BU5BcE
-X-Developer-Key: i=tomasz.unger@yahoo.pl; a=ed25519;
- pk=EPPsO91uz/0J2cTQ6ol+dgxYaieEc9dKSXWUb51n46c=
-References: <20260814-v2-attempt-final-v2-1-cd3a27834b7f.ref@yahoo.pl>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260814-v2-attempt-final-v2-1-cd3a27834b7f@yahoo.pl>
 
-Remove the comment referencing an unresolved 'XXX' placeholder
-and the commented-out memset() call it describes, rather than
-fixing the placeholder in place.
+On Fri, Aug 14, 2026 at 09:26:06AM +0200, Tomasz Unger wrote:
+> Remove the comment referencing an unresolved 'XXX' placeholder
+> and the commented-out memset() call it describes, rather than
+> fixing the placeholder in place.
+> 
+> Suggested-by: Dan Carpenter <error27@gmail.com>
 
-Suggested-by: Dan Carpenter <error27@gmail.com>
-Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
----
-Changes in v2:
-- Removed the stale comment and dead commented-out memset() call, per Dan Carpenter review suggestion.
----
- drivers/staging/rtl8723bs/os_dep/os_intfs.c | 3 ---
- 1 file changed, 3 deletions(-)
+Normally, we wouldn't give a Suggested-by tag for review comments, but
+I won't turn down credit just because it's undeserved.
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-index f31196f54b3e..e3f0b9c8123a 100644
---- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-+++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-@@ -664,9 +664,6 @@ u8 rtw_init_drv_sw(struct adapter *padapter)
- 	/*  add for CONFIG_IEEE80211W, none 11w also can use */
- 	spin_lock_init(&padapter->security_key_mutex);
- 
--	/*  We don't need to memset padapter->XXX to zero, because adapter is allocated by vzalloc(). */
--	/* memset((unsigned char *)&padapter->securitypriv, 0, sizeof (struct security_priv)); */
--
- 	if (_rtw_init_sta_priv(&padapter->stapriv) == _FAIL)
- 		goto free_recv_priv;
- 
+> Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
+> ---
+> Changes in v2:
+> - Removed the stale comment and dead commented-out memset() call, per Dan Carpenter review suggestion.
 
----
-base-commit: db2ddb87143519e20a95aa36c60b36107b736a58
-change-id: 20260814-v2-attempt-final-45442f63b7e0
+Thanks!
 
-Best regards,
---  
-Tomasz Unger <tomasz.unger@yahoo.pl>
+Reviewed-by: Dan Carpenter <error27@gmail.com>
+
+regards,
+dan carpenter
 
