@@ -1,74 +1,73 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+Received: from mail-wr2-f0.google.com (mail-wr2-f0.google.com [74.125.225.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF5D240B0E1
-	for <linux-staging@lists.linux.dev>; Sat, 15 Aug 2026 07:02:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3713D374169
+	for <linux-staging@lists.linux.dev>; Sat, 15 Aug 2026 11:38:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786777327; cv=none; b=AfzWwT6VYFyQH71rqveoATiZOfIUANfHEPhd9V2phZ3kh/x1CHURyxpNvM7aYOhvjywM2q4ITi4AwNtovYknw8fg2RsU8p5bFIDCXR9UXwBPsDYDtq9tpjlP2M4Xfl8cKHH/HE/0lRmxTp58YhLWw9KRgD5CERhnKXuNI4T3m30=
+	t=1786793902; cv=none; b=i4em0kvHreACCZhMLcDBbxqUTjE1SNbondyQwjKOIlkOvEg+PezDUSVkU5mUsz84rwpYJREYbS1TeBqYSX7g4EnVtaplputrFoahkCzMyjung1MZIqxCNIUvvQf6zNHKgASJ0ufrtmfGoiUyZrl8OuwAaPWWfg/0h7MG0Rw8YiI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786777327; c=relaxed/simple;
-	bh=iPualk3ExWlEnxN7ZTR58LOodbMlHOM9QkLFiZ0s2k0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ivj+6gUpqPOUbWPuX7BlEoSmurVWH37wFM2ReeiPeAqQmFBQFago5Ag1oWGF1qxmxjYG8EScJ1Bkdd1xmkQzCiUo4R0FjYh5yyj4BjPp0tMGRFbh3TUyjbeGbddkA5y64iPmcuZ+x/8HSSmeoeOx2GlhFZiIJgqgU/x+h42+8c8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W6FwZw5D; arc=none smtp.client-ip=209.85.216.41
+	s=arc-20240116; t=1786793902; c=relaxed/simple;
+	bh=pc5zSK4fV/YfSvOVtwjzBL1c5Pg5UxXYrp0Msx3zr/o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=f92qYI2cRptopHbdUX4sxCKG0bzLJgLuktpJJyqv+ghxzSGi0o2RekljdoBlQha72GTBawFZgX4RLtbo5+Z9J6hoJPHSNAAur+8Ecu/gXgMM6GYYavZmbj3npEqApMXaYOSriR6vvF/vFLrr9+7EPCscA60WuS7VFMbyAPz0O8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b+xKvWe1; arc=none smtp.client-ip=74.125.225.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W6FwZw5D"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-38dc69c74b8so1942984a91.0
-        for <linux-staging@lists.linux.dev>; Sat, 15 Aug 2026 00:02:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b+xKvWe1"
+Received: by mail-wr2-f0.google.com with SMTP id ffacd0b85a97d-4784b41f3aeso434183f8f.1
+        for <linux-staging@lists.linux.dev>; Sat, 15 Aug 2026 04:38:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786777322; x=1787382122; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1786793899; x=1787398699; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=MyxSssjLe/0OOnYg8ql2xBDGIwb07hj7I4YlvifUNpo=;
-        b=W6FwZw5DlqAi+AvOgcfpCTBUy4pMg+T8CHYFa1F9DUUHZrB3b6VVBSZsx7gILt8Mbb
-         3n7ocRSQ+XwaYrw4dlnJewjsLPQtqq78BsFm8QVsGzlFkKYE29G48TBQw9DZb3P1NU+f
-         U0IKNNu5BGO5wdJQvEx7HmuknrrmW/+YrkqhYQboW/WqXah1bx32PLjVe7MvZCTRLqTr
-         fw/TDFG0Eb3epvXXP0C7dCHAfBj17a+HH+VV/c4drKfi62DD6reRlV9DKJMYcFtl9ULK
-         PqsNHe8/P7RxldTko1gNFsAy4ZDvz9pL0FWMILajNX2k76GgJf01Q/Qq/5b4qaLIHfyx
-         bwhQ==
+        bh=1Gk0F4z/DVg0q+/rHeu9EZN0JYpqsup+4pZqfG/Sapw=;
+        b=b+xKvWe1kswsIG9OUXSVImMtydi5k54c4b6oJrVfZ6l5m8TlToxsRzlZj7FIdlt0Dk
+         zVdkMSB2Xim+d/4c/6OIqEsQuKqNyDjmn2M/F3Ufkh9QVIgCEIgkhZBQ1x0qrDuPRt1E
+         zUX2nZOSZJsfu4pfYc4d3LUB4swvrxvFIebDOgSd49UH7jSdcD96ULF0/r7bjZSHSPXW
+         FSuwKOqfH+YusrA/fSCZSdgzwJWD2txzNM68jIkzExwO88ec9rMvFtGwKqzplzO2Z+Mk
+         FhCOGfhQ4GU3ikkafbWbsHd8RLjrEAG9tOf1iAeKoBmIOkEfwuPgG1rNXjUSEvxkYXGA
+         AJvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786777322; x=1787382122;
+        d=1e100.net; s=20251104; t=1786793899; x=1787398699;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=MyxSssjLe/0OOnYg8ql2xBDGIwb07hj7I4YlvifUNpo=;
-        b=kHCvepm/z1Q3ywYD2YlkThzF4Qs+Xy9BrB73UF2olLFJHqSdA4Ljq6wuyb5XT57obL
-         Yd6DFDmrrb8VftWKynhZsusxlgYhQcY1xRw4Lw7NqkBCiNzrnIBHg0H0WsUk8p/pKhHD
-         CkQYuukqGzoBbNNnlnmOi24qCYhwaYxAKPSOwHjxyEIOsUg4s+UsFnLunTN52XcFaycC
-         PtVYXKbeROPRuwJySA0Vdxy2AtaVBz5yiwaxPqCCtUg3JBTzk0TLF/OqNsWuqwlLl/EW
-         7QGxE2W233KwqbjVqOLUS3Fk8qukEy25eaBn7/u9sHe2hFsKmJGdAha6Y0WBWcLaz9es
-         FkJg==
-X-Forwarded-Encrypted: i=1; AHgh+RrWU8z+gznbKx++8gAdgU8aRBe1WbpJwR7NpOE2MlJLLircnmMwRK3mzsvZAlxSUDa7twUlsy/ySQiO7YtX@lists.linux.dev
-X-Gm-Message-State: AOJu0YxabMd01TzGyvOgC4nrTSO0WaWbXl2y6zurDJFt4/rm2z4B0XQV
-	O7xqLTQQ5Nw1Xb5HXuceaj7p23H8lJJd90nmN2h6cdMVBzuKCKUBHoqE
-X-Gm-Gg: AR+sD11jYzwi0KcDutr64LZ9LKvJHUHvJ+IO4hGM7zm8sd8jRfxdvOwHG7iA+S6GXOb
-	NCp7hcEQugz5D67pE2HI50cO/ygR8GCUn/C3HaEsFKDhwbW6vJBY6iWZz1KVGKSXnG0H/kqwwtL
-	fVrIY1EWfS2D0zbsXsZrTuY5aiHKW05xvCtLHUrf9In4J28RupkBLQ6URnqUJ1rimtfbWDDeirG
-	OZ4o7NXpgoAC1YawueIGls4s3tWIBU7xNJxPzPk8+fUPa0DTtISOMxD1UiDIbDFl/bGNHI+RUok
-	frRorNdqovUIQ3cZCB1SqoZZ+0wqrozdhMidFjG2dO5oAy+m2EFn8e4uqcCLGpntMTL/Q0Y0bt7
-	OXIDjxxLmyYXu4zSZ9X2wdTr9YijfX2UOhoEe1rjdN9etACem8oaLcw0JG27G36JAabJPCyr2Om
-	3jq0YtnDg/7Tr1NT8/fvtEh/9BW3jgu7R0OY2NXLJW3CaEr4qV581Ex/Q2iElqnA==
-X-Received: by 2002:a17:90b:5803:b0:38f:18f9:785 with SMTP id 98e67ed59e1d1-3933cb3b889mr13039740a91.8.1786777322154;
-        Sat, 15 Aug 2026 00:02:02 -0700 (PDT)
-Received: from localhost ([103.210.95.70])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-320ea7fe465sm12363343eec.25.2026.08.15.00.01.58
+        bh=1Gk0F4z/DVg0q+/rHeu9EZN0JYpqsup+4pZqfG/Sapw=;
+        b=MlJ1quzO6zuPqivvEytBGmr4Ar/lNI23IaQIMtGsi+YCdGO2ADdcUzHGDR9CrI3RIZ
+         PlFE865lOK/+CbtG0h+jbOKhjr/Q46JsuauoMDf+dpdcn0HCyVwC8rqGm3dey0aUTz/1
+         Ism2GtKQzD/Zu2kZ9qmeRERVizepkMDwfcBxMInjcHSivJuv5qlKxJn+9FOQlMd8vbX6
+         WSh5l2lQ9ZFWFfu1spoOfoN+zFCVb+r/uyARbu351onrwxbE5sx60vv7Br9hH7CC+gsV
+         ZgUjRX2z8oYrUfbnrT5cHO3ylSRd+CIBZbfcZykyfRbJlnXTPN1GWIkdXCUEZZeiz+58
+         XjYg==
+X-Gm-Message-State: AOJu0Yw5eWYF55ud+fNJB99Nm+CHMiGxR+jM8mGXzyOfmZxfMokgXNyt
+	SxMdNShP8w/xtgl34eyEihyFsHGy31YBmePDwkKg7rKI6YfcGV5deA/v
+X-Gm-Gg: AR+sD11GBw56esPuSTGs/S8IcGEXDOVLL7xqmMeSRFs0VwBZH39GY94FSxzcMisWn0S
+	deZXylxFrhOwxmC5jI2x17yfe/9BTdplb/ZE3JdSAevKL1VZ/2XVtZ/KkMUGmlxteGKkyOEOuB/
+	qf+AVBJ7eQgBMhBEVhOsFs8/X0Bkts+Yu8MgsD7Xf5ygHJyOjgcsXdTFZa/fU2VGov6ikf4mEP6
+	Vda3HFDMBfKhESceB/t0kJ+oF2jbWoxepcfi9N+T9KU1DRG00+2OBeNjwC0+7q36zny03QPaWlx
+	EfF4EN9/tfBsWIkRVMLw7K7wPacZYXH29HvzaK4V7zKE4Ci1b9kHLvIETg2DTTnBWuMHm3e9ZOw
+	Hpy+r90OoB2ss706espyKCRSsOOtITVya5GJNGMo+wiSL0GueN1npIvQHeUV9suvJfL/Cu89gCY
+	4nPwHLe1rgnrIZSDERlmrIlDFU7CcNupPxtR1OFr6UoRpImLBB5JfjR8L0kVp4PJRcrGlM/c3ct
+	pivVTAJWbxs8Z/HmAN84jlS4fvqTydThAm2fyaV2tCvXjetkSjeK0nwohdWv2w8iUj0daooNUCG
+	aCkMYXnOvvSprgO3NPmei+NGHRmaNvEZsQRdw1wTNntixVeN/OWO2Ip9piv73RROPUuGf0isSrb
+	HCEQ=
+X-Received: by 2002:a05:600c:1988:b0:496:c93d:e2f with SMTP id 5b1f17b1804b1-4998798dc17mr168824335e9.15.1786793899342;
+        Sat, 15 Aug 2026 04:38:19 -0700 (PDT)
+Received: from arch-btw (2a02-8428-96eb-1901-000a-d617-f7a9-40b4.rev.sfr.net. [2a02:8428:96eb:1901:a:d617:f7a9:40b4])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4815f2b27bfsm16880472f8f.23.2026.08.15.04.38.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Aug 2026 00:02:01 -0700 (PDT)
-From: Raushan Kumar <mitramaurya80@gmail.com>
-To: Hans de Goede <hansg@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org,
+        Sat, 15 Aug 2026 04:38:18 -0700 (PDT)
+From: Nawar Alsafadi <nawaralsafadi1@gmail.com>
+To: parthiban.veerasooran@microchip.com,
+	christian.gromm@microchip.com,
+	gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Raushan Kumar <mitramaurya80@gmail.com>
-Subject: [PATCH] staging: media: atomisp: remove unnecessary return in gdc_reg_store()
-Date: Sat, 15 Aug 2026 12:31:05 +0530
-Message-ID: <20260815070105.124813-1-mitramaurya80@gmail.com>
+	Nawar Alsafadi <nawaralsafadi1@gmail.com>
+Subject: [PATCH] staging: most: video: Remove unnecessary blank line
+Date: Sat, 15 Aug 2026 13:38:03 +0200
+Message-ID: <20260815113803.23727-1-nawaralsafadi1@gmail.com>
 X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -78,25 +77,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove the return statement at the end of the void function
-gdc_reg_store(), as it's not needed since the function returns
-implicitly, as flagged by checkpatch.pl.
+Remove an unnecessary blank line before a close brace '}'
+to adhere to the Linux kernel coding style.
+This formatting issue was detected by checkpatch.pl.
 
-Signed-off-by: Raushan Kumar <mitramaurya80@gmail.com>
+Signed-off-by: Nawar Alsafadi <nawaralsafadi1@gmail.com>
 ---
- drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gdc.c | 1 -
+ drivers/staging/most/video/video.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gdc.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gdc.c
-index b31e3809c0e4..c60f53514553 100644
---- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gdc.c
-+++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gdc.c
-@@ -96,5 +96,4 @@ static inline void gdc_reg_store(
-     const hrt_data		value)
- {
- 	ia_css_device_store_uint32(GDC_BASE[ID] + reg * sizeof(hrt_data), value);
--	return;
+diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
+index 78234620d48d..5c34f93a0774 100644
+--- a/drivers/staging/most/video/video.c
++++ b/drivers/staging/most/video/video.c
+@@ -439,7 +439,6 @@ static int comp_register_videodev(struct most_video_dev *mdev)
+ 	mdev->vdev->release = video_device_release;
+ 
+ 	return 0;
+-
  }
+ 
+ static void comp_unregister_videodev(struct most_video_dev *mdev)
 -- 
 2.55.0
 
