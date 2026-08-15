@@ -1,68 +1,69 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4D5945000
-	for <linux-staging@lists.linux.dev>; Sat, 15 Aug 2026 19:10:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93C4C2F7F1C
+	for <linux-staging@lists.linux.dev>; Sat, 15 Aug 2026 20:37:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786821055; cv=none; b=JAzGJktU11sHLIzvXnauIhdTRd+E5Kmn+AqhtTqy7GV+VNElzRzc26FX6ol/iCnvjNas/kgPeeGllRVgi7r0fyTP7/XdWWKm6SiRBqLFvatO+m3x8BVpS8qrhU55ITM0RznymCs+AiewYg2+WgCM+fFqF/7ZTHv6F+fXHupubxQ=
+	t=1786826257; cv=none; b=CEJKqWJuPmkFNoZhy41+Y6gdrtostCkViJZbMl4LZz7fgqHiDveO9N5zvjWnEyC7dbW5w5Zp+kPRzA1bNx7KamN+qD5dzBeCKxfUVX3MTQkNPoYpuoGvL34w5bvOEpUxnyWNJKQMjkXG5sb6pPPpGB22XWnMdm/hTjhWBqV3BAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786821055; c=relaxed/simple;
-	bh=QE32OR0oQXdgtMaLWm4cpyPJcvVdIS2aGpfxMpDhJ3Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mGPTXSVBbVpdAD8f9YAin2g4X0rm2rbSi9mg/uPtaUAe/1O7f1Fu+VQ4Nbi8HO4XcuEwL16Y1dESCWAFbeZLLpV2nAaw4hp95OxZ57gnl8tJZYq5ORTjxRV7RUejLevCstSgPi0OM6IJbZz8UD0Ekxt5vRaSoG8bsMSxd/Dy67I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nBCepeXf; arc=none smtp.client-ip=209.85.214.180
+	s=arc-20240116; t=1786826257; c=relaxed/simple;
+	bh=jGdBot/ogw0rk0Z5KnGbtAuhPnyO90tt9SLnYTCs2pE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rurNCBiPUkl9fCJbVYX28YPBkXqvKMf0NeC0RArC7YYR5FDPAPSxfn6PpuX/uKy8vWn/2oIH4OGanJIbzyl9/2vNvDNB7zT0ypKWF9MmKY2Mka2lIMTCXzuz6CKual1jtgNEBrPz3smr/waVdgeZMUGBUemns6nBxtSO6IGk1tg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NRsnuu1E; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nBCepeXf"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2ce98cb8165so19941805ad.1
-        for <linux-staging@lists.linux.dev>; Sat, 15 Aug 2026 12:10:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NRsnuu1E"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4994c49f588so18037075e9.0
+        for <linux-staging@lists.linux.dev>; Sat, 15 Aug 2026 13:37:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786821053; x=1787425853; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1786826254; x=1787431054; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=dHmrTvziEMKVC+8ZKVEtuspT+lYTSpcVmcl9KWItzjw=;
-        b=nBCepeXf6/kkppFTXPNFbOiXmnNznIausFXb13SZEsSPJmO2+GW5AJNuhRxDIb4Mpk
-         XHtLJ6qvwCUHmOJvH/RGUoMCXPLonA6YDW6DKt5ktiVOjKy3uptsyV/536ek3n+ufbqy
-         bCUU5KWyz32vhAbRjm2O9UgG1kfXra2zvSMmRRME/YbLs8lgst7qF1mktsLqVa+dQkOh
-         BWHtDbKQZgzgMH3+IF6iUlcsa0QLAisy31fv+6lLSYRe5iKruAp4qNlB/y4nNmIR5IoL
-         zmX6/ZQwcyTbHdMqdb6S/eLPL//N1cjWIOyq+VefIvX9nZ8fYPuemcAZ1n6U/PjGJJ4q
-         CEvw==
+        bh=5i0OgMLNRVnAPLfnZ0d9k/CImptze9EYEWAsWU8dczY=;
+        b=NRsnuu1EkNxN5XaOXiEbvAYasAS4QEkpW9bnqXasrbDSnqelJ2HrVYJCuoSERa57KY
+         mkUXDVtjpk1EDVd6xPtTYSccago9GGO/KL1PQ8mA0cRP132OTZPIiMccbXyDF3LLVXU9
+         a7b6us9OR+mj9GIKAKmEqdhLNVQdyfNfF0A5jP9ss1LDKN3NK79Je5n5wUMS4OnXjnOe
+         Gkw1v4+IE3XR8LgLPBqJRmn7slSVay0F1akpbQc/bqk8nGIgPJ189AIrF5tNG3mh04d/
+         GITQRsjXdkMO9FioVoaBqnv9rKjGkaXnrl8K32sxWg8fTzeulBteYEtiYQFsPc8Q9YkT
+         5uCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786821053; x=1787425853;
+        d=1e100.net; s=20251104; t=1786826254; x=1787431054;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=dHmrTvziEMKVC+8ZKVEtuspT+lYTSpcVmcl9KWItzjw=;
-        b=d1Ji+SWRqlADH7qIByPwms+BGouWYYZB9CeZXN8FwYyJBy33g/RUZdozi8ZUOfkd8g
-         MXTVHA1h3gs1A1ovuBArg+mbNPXDmdE+9HIO/FtEtLRa7gQTkb4KVtuMm4coH3T6HANx
-         2u/6DwD3ckow9tgyNu1EcmjQlPiYd+CMwhTcD50Cy+IDBbGIJGAc1ah+0GZin2IvB6Yl
-         ALye0fguz5RGjNV96g67hOS8WXUJaAW2TxpWe4aZ89Oqrwt0MAlDUhwZvzLvX6kLiog3
-         W0bF0EneOEZLlzEkSu2omRpQV5RpHH2ShkBoVh5izbJsAbAVGtac+XMNHKZY7yaPt/9z
-         2Rjw==
-X-Gm-Message-State: AOJu0Yy8+eAUTYjxR3w/oZE4+gVq5Cl4Gx+BOTX3P+BO4E8/gr+e0bCM
-	qRn8xIEOYvqtZodQxBqZZqhsTAGeFikdBgovsgos04yacEWPcoAIhdYN
-X-Gm-Gg: AR+sD12l/dVdQ3zU6OtyfczOHZWQpzS41w8AznSZEnTQvN0IYtHeSUM/ZBgAQsRwcP7
-	Z34qauENEa5v0VQ1kvYKOltG9jIzCvtdh/kfww/PmW7t4xnn662489oH6mc8Bm6tnTSYoJ+iS54
-	GtYYd0zjgoHgZTk8DRctCM5UIhxSQehWzETNarERdCs/vYgaLriqcVKr7hCoQcvBWVwiSENQ/IK
-	UfSwbMHICqYHGxvQ5PLwdHw61zxk530mX05g5gOiHdT6lpaTE5oOYe2cjHavPQhbhVQsUSB0qm1
-	aMFf3UJDbslsAshKPKU2N4X2+hlNVrhztwhEu6jwKEnHOELLsxazEqQ866S1x+aVB1sjLILCl+k
-	13Q1KxZdkHQVrht7c9BHyBgYVHd1lGzPA60V/j6qU0YIB5U6eAL14XEcub8Cl4i1z5BbBX2Bedf
-	7DH2xJLrWbidaebZGsoahTEiXEbTMzhdMMW3SXIcNwq60yJaK7dagi+w==
-X-Received: by 2002:a17:903:1aa3:b0:2cc:89ce:2f07 with SMTP id d9443c01a7336-2d3afdacd25mr133307965ad.1.1786821052989;
-        Sat, 15 Aug 2026 12:10:52 -0700 (PDT)
-Received: from bloom.localdomain ([2604:3d09:178e:e100::6868])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d3aeb880a9sm20403305ad.64.2026.08.15.12.10.50
+        bh=5i0OgMLNRVnAPLfnZ0d9k/CImptze9EYEWAsWU8dczY=;
+        b=WxPJU66TrF9JIhT6vFV3wg8CkYJOQolmgN452c7At1V6Ob9SCsmopKT+kGO/zC8YH0
+         lxmwKlgflDmGbe7APr48pKAYwJW3IhE23KbVEQ9l+IYyFybVEfqVkFsxPi6GXoJqvap5
+         Jrd4i+3cE63zuHwnhiGjLd7CR5IKIWIyHSdTaZogXdAs+aGqOl8GjXTRnPWgrS1EfACH
+         e87dd3Ma/Xf5y7jbn9gSG08b0kwxZnnfCGQ0Om8yGKslrQ8VLTudT/Jpk5I4PQZ+GP//
+         mOPia3L7/npog02PSXYkPEcNaLSuNTWs8RX2gVEeldw4zmAu1NiifgPo4AwDLblXFs/J
+         /Ejw==
+X-Gm-Message-State: AOJu0YxpPR4INoxDug2hxXPFZmcak7RsrS34ME/z35hnbBrXlrsUDiNm
+	mvmYzQHWbDmbiVgQAsMbkW7J6rxaHK5p84IFYWOZfsG9V2x+YKE1dybt
+X-Gm-Gg: AR+sD13xRpp1xoD3Tz/fzJb3jR662Fk/2vVYE4BSlYzvpIXxNgfbVhg+hsJdBSJVzMN
+	ptqtZ1G+QeBKZU3wcnj4zLqM5j6p8N7LBO0BOjOc75+aFBHOiVDaweMFqr9te1QVrIwyVQzl+QL
+	jbBoeUiWNZsPOt3q1O7aCssNNcL9rYo+uhAjSuZSeP0ls/OWUGlzNhlJQgoHQ2VKwRpo5IIbP1f
+	oqQPpqbfDVPLcBKgZG34xodVoWTUCv3EISKgblyWeZon5sZMJkxx3kD1BUK2Rns28/TUaZb4RQz
+	BQ8IbzF8v9zOkDwTMZUWBeN9VF20qkrv0QtSVTu+QjoY11pJ3q7B68wUZiz99CiDCM68wYR2g8v
+	379g+UJ2dBEB2+Rekac6xWL3b6NUGZ1+8EWCs7mUoyQCkQfcBgwQelmPHUG9YiZ6sERT4pv4Brg
+	rEokzfpBjKdXwHhhK/KwfkiG0CP8k7daELy52irRi5JZYOlWXTRYSWZCNjXquCMq6YDQenYxywy
+	aot4JrQft9lyob62d+42Th8/GldbY7fEAvrcFSwtLMfvxs3tA==
+X-Received: by 2002:a05:600c:8119:b0:499:596b:2e91 with SMTP id 5b1f17b1804b1-49987a58078mr215994455e9.3.1786826253757;
+        Sat, 15 Aug 2026 13:37:33 -0700 (PDT)
+Received: from fedora (cpc106993-hali7-2-0-cust876.17-1.cable.virginm.net. [82.6.131.109])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49988adfbd5sm184091665e9.1.2026.08.15.13.37.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Aug 2026 12:10:51 -0700 (PDT)
-From: Ivy Lopez <skunkolee@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+        Sat, 15 Aug 2026 13:37:33 -0700 (PDT)
+From: Oliver Burns <oliverburns.kernel@gmail.com>
+To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Ivy Lopez <skunkolee@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: cast EEPROM_DEFAULT_DIFF to s8
-Date: Sat, 15 Aug 2026 13:10:30 -0600
-Message-ID: <20260815191030.24989-1-skunkolee@gmail.com>
+	Oliver Burns <oliverburns.kernel@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: remove CamelCase variable bAllow
+Date: Sat, 15 Aug 2026 21:37:11 +0100
+Message-ID: <20260815203711.36973-1-oliverburns.kernel@gmail.com>
 X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -72,40 +73,35 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-EEPROM_DEFAULT_DIFF is defined as the bare integer literal 0xFE
-(254) but is only ever assigned into s8 (signed char) fields used
-to store signed TX power calibration offsets. The implicit
-truncation to -2 is intentional. BW20/BW40/CCK/OFDM_Diff fields
-elsewhere in the same file already sign-extend 4-bit values into
-8-bit signed offsets by hand, so -2 is consistent with that
-existing pattern but the untyped macro doesn't communicate this,
-and triggers -Wconversion at every one of its 8 use sites in
-rtl8723b_hal_init.c.
+Fix a checkpatch.pl warning regarding CamelCase naming conventions.
+Change the variable 'bAllow' to 'allow' in rtw_cmd_filter() to
+conform with standard Linux kernel coding styles.
 
-Cast the macro to s8 at its definition so the sign truncation is
-explicit and documented in one place instead of relying on implicit
-conversion at each call site.
-
-No functional change.
-
-Signed-off-by: Ivy Lopez <skunkolee@gmail.com>
+Signed-off-by: Oliver Burns <oliverburns.kernel@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/hal_pg.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/rtl8723bs/core/rtw_cmd.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/hal_pg.h b/drivers/staging/rtl8723bs/include/hal_pg.h
-index 7cb9c441fc01..7f1f004ab817 100644
---- a/drivers/staging/rtl8723bs/include/hal_pg.h
-+++ b/drivers/staging/rtl8723bs/include/hal_pg.h
-@@ -40,7 +40,7 @@
- #define	EEPROM_RF_BT_SETTING_8723B		0xC3
- #define	EEPROM_VERSION_8723B			0xC4
- #define	EEPROM_CustomID_8723B			0xC5
--#define EEPROM_DEFAULT_DIFF			0XFE
-+#define EEPROM_DEFAULT_DIFF			((s8)0XFE)
+diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+index b932670f5d63..aa4a810d8322 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
++++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+@@ -299,12 +299,12 @@ void rtw_free_cmd_priv(struct	cmd_priv *pcmdpriv)
+ int rtw_cmd_filter(struct cmd_priv *pcmdpriv, struct cmd_obj *cmd_obj);
+ int rtw_cmd_filter(struct cmd_priv *pcmdpriv, struct cmd_obj *cmd_obj)
+ {
+-	u8 bAllow = false; /* set to true to allow enqueuing cmd when hw_init_completed is false */
++	u8 allow = false; /* set to true to allow enqueuing cmd when hw_init_completed is false */
  
- /* RTL8723BS */
- #define	EEPROM_MAC_ADDR_8723BS			0x11A
+ 	if (cmd_obj->cmdcode == GEN_CMD_CODE(_SetChannelPlan))
+-		bAllow = true;
++		allow = true;
+ 
+-	if ((!pcmdpriv->padapter->hw_init_completed && !bAllow) ||
++	if ((!pcmdpriv->padapter->hw_init_completed && !allow) ||
+ 	    !atomic_read(&pcmdpriv->cmdthd_running))	/* com_thread not running */
+ 		return _FAIL;
+ 
 -- 
 2.55.0
 
