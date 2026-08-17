@@ -1,71 +1,69 @@
-Received: from mail-pj2-f7.google.com (mail-pj2-f7.google.com [74.125.227.135])
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7ECF43FD2B
-	for <linux-staging@lists.linux.dev>; Mon, 17 Aug 2026 15:17:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.135
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60016442391
+	for <linux-staging@lists.linux.dev>; Mon, 17 Aug 2026 15:31:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786979854; cv=none; b=VHtV7F/wFrz+PgLHNLQkDu4oyRJLOXiYxl/q9qD/XvPUB73lSVxPAq2jFfvIH2uXviYK8m4C/r61i3OaxGR+GkepRf0Sr1gLc7oRA+WyHmq2EiMlSMuG3kx14r5snkEbBO81mn98Xjk7Ec51wd1s+iSwQnyysdaLnYZ98u52MfY=
+	t=1786980680; cv=none; b=Vp9ls39V9OAjwKvozD+WRgBGVIGDhgvvZNCystGdoP0aIfoPfPRrGP53SEaDOVEVHevfbtCqLuyXXjosRao3bhkNoXVIChuuc5z9Mi2arc7A13uXgKS3T0riSKmhQcRIi/UUb3Y16vRDEHydXTihDzCMTH8r6tVodv2FFDzcaa4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786979854; c=relaxed/simple;
-	bh=PnXURDT7TF7E+506PXiwQOaLGHxh0vguz1r+5WkZrfM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HIGMGXgZW3Vi/135pez1OgYEOtwJwbbNhRAJf+1zG6BlD2EkgFABxXG27D+EXag5KgoCy0umfAZgvQApz9KzGuTTdFrB/ZlVdQo7TW+7xTjlVZmbI8blXpULGtLRX+M1GxzoGIxtg9140GsOKemsUxzukalbQpT08RCqIycAelU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VCUW83/J; arc=none smtp.client-ip=74.125.227.135
+	s=arc-20240116; t=1786980680; c=relaxed/simple;
+	bh=C4arIdT+Md/eugbZ5imLgomw5bw1TQUJGazmQV+CfY0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VtqFUB5VqTZ0vQtlx2/tJssJn633JZ+52kuApQh+1//y7RCG4ITKSa1LuBYAJbOy2jMS/iscmlJRVzO2bg5W+WlKNa9n6gZkZFiQNiRnWJRVbDf1ltIAEsinG+T2w8gSEe4iN89qs/woSn1vDJfGw85hlYMqHW9YwvS6xj7VeZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BWj+DiGd; arc=none smtp.client-ip=209.85.210.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VCUW83/J"
-Received: by mail-pj2-f7.google.com with SMTP id 98e67ed59e1d1-3952813fb92so496271a91.0
-        for <linux-staging@lists.linux.dev>; Mon, 17 Aug 2026 08:17:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BWj+DiGd"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-84e27035206so715674b3a.3
+        for <linux-staging@lists.linux.dev>; Mon, 17 Aug 2026 08:31:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1786979850; x=1787584650; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1786980678; x=1787585478; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=3xmJpE2fneh7wGrqaQEZBQ9HCgMVcK1jLUppAI08kRg=;
-        b=VCUW83/Ji+Xy8fNqBO4ERhXBpe2x1ZDeTfwszKUePwT8jDzjYf+CLI/PxfrYgcA81O
-         iMAj5vWILQcgFRHZ+EshnF366FFj/kXPCZw97F5DcsCl6VrsGIq2gTluNM/xgOd2yLlP
-         NdMhKWzNZG+wGyW078a6BkbXZFMMSdq4Bhi54+3xBdvMc3K0UHyGEmhvpNpjhOE8Toif
-         xUruFb01CSiObpctKJI9+mu4lo3N+0TPUEZdxlYalwhVCdsrp35QJ4VZH+yvWlP3v665
-         hDUgPaGfeWYJgaKnAAqAMjRBjln5vgXB0fIA8CgYdrh6jKNx6igJaiMGNTzn9NENYDkj
-         +mTA==
+        bh=xWESBOj6gnzAYY8lBtR1WfrtkXfeTNWW4oedYJyMyOY=;
+        b=BWj+DiGdvM+8OoT7n9WgPag/YQNM5GVWq70dSs/tcWM0dX/zYViQQn6wfoqezPKy3e
+         HEA95jiORb3St7cWMrItkhaWcbmmj0nZSxcJehBkNJGoNfEjijk+9Pn3B6c0XNHywStz
+         kXJw5OOsnbyzwBJwBdiDkIwE5AuZY3B9H525OpKvkMbnh4q0s9EPvn56n84nBdjJ5Mbi
+         Djbq/qer3xqK0COjK5phGg+MvsKRyrA7aHw52zwSK7ZQBVN+RDuxyVIMeFVHFMhqAM8M
+         X0XBqSpxAG2ax6m63CuaAkK1jhHdhrQoBs4TBCZrkjLGNg8d2spLP+OWm1nGV11eqSw1
+         YXvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1786979850; x=1787584650;
+        d=1e100.net; s=20251104; t=1786980678; x=1787585478;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=3xmJpE2fneh7wGrqaQEZBQ9HCgMVcK1jLUppAI08kRg=;
-        b=WJgRrKleoT81/j9a5dXd9s2DFjxqlFHXP7LjAwV2h3VrMv0EdYeQmjkw/P1OAyLdRj
-         jYVMshm2pEbkNOMv+HZmdpZ21LkIEpye+W9utM1FaFbmdNM89M/9dWuQPHDb6Aj51WF+
-         LIkqIA7CsfR08UUJXYxGoLwaxR0synMKVOgtRLMBbPwFu4HUGH/sk/eu2hSyG/R7Gd5x
-         1GPzz32KmLd4AD84fTW6WXFXy9vAyTT23IEg0VeiffgBqiwGGtz6mq8TX8S2IGs0bMdB
-         Yi5VwIEWsjq5pUtTV90CLPBy9x7X728W646/Npr0xcoX2CgUiqAfZ4aduv9wc/q4T4dt
-         UqTA==
-X-Forwarded-Encrypted: i=1; AHgh+RpolkqCoo6JTNILtqej7MNS7pD0TIsXO/mCpviNDHew0hNz96nk0GkowlMYL7x73uwIhdDGSZhA7Ocq+ZLk@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy5KY54nJBvZXAgy5I7ED65ouLWFS0c8r/yAlRF5vYrv+aCxWDj
-	49bJACN5ImMJsy6lpBhceUPyqgQXwtjByQaDiBQ/TM2Im9bC6tsbmk0c
-X-Gm-Gg: AR+sD12ENOzjycyYdMtC9XNEz5xbr6C8ITnt9r1OGr4bc48zr/vmZsMIx9sUphqrH6v
-	nxX07BANdMaPbE64MFEveEsOoVmBxOdM+OFWaj1Ma7u+ahFImKBc8JWWM3iRIJN3/8BNhM+VPzq
-	9vqODgDkbrWk97+vc9SK/yNPnwVf+Sg06vcaJDm20+hh7HQDIbJHLClbfQG5PMKqF5ZKUQ2lnmr
-	WOxwwJ3skuBHLVAJt+488kb6pO2kRQCug7zMMwS1YQl/BJMVKQPWmR5mn2AgK3LAEQtJNwoSZ5u
-	MOvByF9COyVS6i9y2YSWLHgVpYZjE2yJetCKa7JwLNUvu4eODPCfSCWk7BR2BVZjlCIB3+cZJ5z
-	DrZqMP2xx1IoIzjye3DF7r5nhzzoAE9V8fnRv07yl5PeJ3L09KjekFhUXluKDmg/e5z3xwf44b9
-	lyVjLnoErj51lO9DWNiKxmnK6239aJm1PUcgMIHW93G6NwaqEsXyuOuYHgdzoLBxcg6bKPPdt41
-	HEFuG032CvJkthqn5BrES7ONAoejZ8oRFbVZpWwTgfSqRh7gQyu8VB6dyIKUNg=
-X-Received: by 2002:a17:90b:53c8:b0:392:c80b:8ef7 with SMTP id 98e67ed59e1d1-3955aa68f86mr1278380a91.18.1786979849772;
-        Mon, 17 Aug 2026 08:17:29 -0700 (PDT)
-Received: from localhost.localdomain (111-242-148-125.dynamic-ip.hinet.net. [111.242.148.125])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39531e84118sm5708876a91.5.2026.08.17.08.17.26
+        bh=xWESBOj6gnzAYY8lBtR1WfrtkXfeTNWW4oedYJyMyOY=;
+        b=Jv6Xhfsur9ce/Gseij3M0S5C/mcat1PBs+lAlg1ANt+Q7DZZT/AndFhXECw6hE+/aa
+         Xpir90GVzsdMTk8WmGbCAEacCPfggr7ISpuueSdrS5aCZfdVVbD4HkaEUs0DsJz1cAux
+         wuTZiC/ctV1YlENEuJ4WNUy5HIXP/Xd6lNrG+3xc777Kxof4Ox+q8fAWa9aMZyXJl8t4
+         G33rfigHTirfPO3E+aJwPax0Lb7v3fAXazPq2KWllNZeR+AswUs0OOpdJkYQmiFZ2mRY
+         Ph6tampA8VzR+YPkG2Y5LYd9KrygbI729bJL4yd2/GxU8gWx/VV3WPVmGBxB2IFEAVBM
+         aLzQ==
+X-Gm-Message-State: AOJu0YzRJ1uv2q0qauE224gvjL2WIT8OdtOs6P5ND6dvHyUZXxuqcfkX
+	/2QFZNFgc6cjTT6DCirjArMZaScMi9km36cpP0VIJA5QivCFJQAYtloy
+X-Gm-Gg: AR+sD10IQD5F073HeAu0uddXDbV2RfH+l0BFUNLsWNLe3K0/X4sIdrrtjkcpvaREsW0
+	crB/H6cSphQw/QVzTNMQXyuDPh8m6R+R73KK/KrjRC0wofq8Ogn4Z2AgaiP4TRT3CtQb2vUJU3F
+	2pijlLKJq6vnVNwtwm9U0MH0jb9Uji9sG8cslssaETpy7mtpvHAMZrbDFj8Mor/YeTCXPSfkdvq
+	qgl5A64G9qOnrcjprc7IJglwEAJvHkxye9Ps3HF3fPauf1b+LZ/AzcPKNquUD40iz2fs+xSMhmK
+	Ybr6edZqn7+NLfjQ623eim/9IlS/qNIfqiOASSoeOGWMJ8WHRaLgO+hMtiW+KyuaidgS0adSe7c
+	GU12Z+7kPrWA3EN1NWO2hMc+L7auW6E6C4vUFbnmGooO3/Lrd5wIAPJ4Xn56oybrav4CSvMCZui
+	op0l6lF198LCprpXokQy0zinXkMmOnOE5zEcnGrPNqTWB8ZpOyW/zua0jraaB0u5+ooXtxuRRoJ
+	kqaqKGl6kwQYbjF97EtqS2OHDbBBSSLvqXdtg==
+X-Received: by 2002:a05:6a00:3314:b0:848:2a71:a48a with SMTP id d2e1a72fcca58-851b877b4f2mr1592248b3a.13.1786980677512;
+        Mon, 17 Aug 2026 08:31:17 -0700 (PDT)
+Received: from DESKTOP-PKFJL56.localdomain (36-234-0-40.dynamic-ip.hinet.net. [36.234.0.40])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-851b6fc1740sm508416b3a.49.2026.08.17.08.31.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Aug 2026 08:17:29 -0700 (PDT)
-From: Hungyu Lin <dennylin0707@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Dan Carpenter <error27@gmail.com>,
-	linux-staging@lists.linux.dev,
+        Mon, 17 Aug 2026 08:31:16 -0700 (PDT)
+From: Hank Yang <s950343@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Hungyu Lin <dennylin0707@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: simplify rtw_free_xmitframe()
-Date: Mon, 17 Aug 2026 15:17:11 +0000
-Message-ID: <20260817151711.24385-1-dennylin0707@gmail.com>
+	Hank Yang <s950343@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: rename CamelCase variables in rtw_mlme.c
+Date: Mon, 17 Aug 2026 23:29:47 +0800
+Message-ID: <20260817152947.53607-1-s950343@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -75,79 +73,180 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-rtw_free_xmitframe() always returns _SUCCESS and the return value is
-not used by its callers.
+Rename several CamelCase variables to snake_case to comply with
+kernel coding style, as flagged by checkpatch.pl:
+  CHECK: Avoid CamelCase: <iEntry>
+  CHECK: Avoid CamelCase: <backupPMKIDList>
+  CHECK: Avoid CamelCase: <backupPMKIDIndex>
+  CHECK: Avoid CamelCase: <backupTKIPCountermeasure>
+  CHECK: Avoid CamelCase: <backupTKIPcountermeasure_time>
+  CHECK: Avoid CamelCase: <bHwLDPCSupport>
+  CHECK: Avoid CamelCase: <bHwSTBCSupport>
+  CHECK: Avoid CamelCase: <bHwSupportBeamformer>
+  CHECK: Avoid CamelCase: <bHwSupportBeamformee>
 
-Convert the function to return void and remove the redundant
-_SUCCESS return value. Also replace the goto used to skip the xmit
-frame queue handling with an early return.
-
-Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+Signed-off-by: Hank Yang <s950343@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_xmit.c    | 14 +++++++-------
- drivers/staging/rtl8723bs/include/rtw_xmit.h |  2 +-
- 2 files changed, 8 insertions(+), 8 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_mlme.c | 64 +++++++++++------------
+ 1 file changed, 32 insertions(+), 32 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-index 81d9e713fc12..230ae52ef04c 100644
---- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-@@ -1734,14 +1734,14 @@ struct xmit_frame *rtw_alloc_xmitframe_once(struct xmit_priv *pxmitpriv)
- 	return pxframe;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+index 10c50aa0b..415af0f1f 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+@@ -1084,12 +1084,12 @@ static void rtw_joinbss_update_network(struct adapter *padapter, struct wlan_net
+ 	rtw_update_ht_cap(padapter, cur_network->network.ies, cur_network->network.ie_length, (u8) cur_network->network.configuration.ds_config);
  }
  
--s32 rtw_free_xmitframe(struct xmit_priv *pxmitpriv, struct xmit_frame *pxmitframe)
-+void rtw_free_xmitframe(struct xmit_priv *pxmitpriv, struct xmit_frame *pxmitframe)
+-static struct rt_pmkid_list   backupPMKIDList[NUM_PMKID_CACHE];
++static struct rt_pmkid_list   backup_pmkid_list[NUM_PMKID_CACHE];
+ void rtw_reset_securitypriv(struct adapter *adapter)
  {
- 	struct __queue *queue = NULL;
- 	struct adapter *padapter = pxmitpriv->adapter;
- 	struct sk_buff *pndis_pkt = NULL;
+-	u8 backupPMKIDIndex = 0;
+-	u8 backupTKIPCountermeasure = 0x00;
+-	u32 backupTKIPcountermeasure_time = 0;
++	u8 backup_pmkid_index = 0;
++	u8 backup_tkip_countermeasure = 0x00;
++	u32 backup_tkip_countermeasure_time = 0;
+ 	/*  add for CONFIG_IEEE80211W, none 11w also can use */
+ 	struct mlme_ext_priv *pmlmeext = &adapter->mlmeextpriv;
  
- 	if (!pxmitframe)
--		return _SUCCESS;
-+		return;
+@@ -1103,10 +1103,10 @@ void rtw_reset_securitypriv(struct adapter *adapter)
+ 		/*  Backup the btkip_countermeasure information. */
+ 		/*  When the countermeasure is trigger, the driver have to disconnect with AP for 60 seconds. */
  
- 	if (pxmitframe->pkt) {
- 		pndis_pkt = pxmitframe->pkt;
-@@ -1750,7 +1750,11 @@ s32 rtw_free_xmitframe(struct xmit_priv *pxmitpriv, struct xmit_frame *pxmitfram
+-		memcpy(&backupPMKIDList[0], &adapter->securitypriv.PMKIDList[0], sizeof(struct rt_pmkid_list) * NUM_PMKID_CACHE);
+-		backupPMKIDIndex = adapter->securitypriv.PMKIDIndex;
+-		backupTKIPCountermeasure = adapter->securitypriv.btkip_countermeasure;
+-		backupTKIPcountermeasure_time = adapter->securitypriv.btkip_countermeasure_time;
++		memcpy(&backup_pmkid_list[0], &adapter->securitypriv.PMKIDList[0], sizeof(struct rt_pmkid_list) * NUM_PMKID_CACHE);
++		backup_pmkid_index = adapter->securitypriv.PMKIDIndex;
++		backup_tkip_countermeasure = adapter->securitypriv.btkip_countermeasure;
++		backup_tkip_countermeasure_time = adapter->securitypriv.btkip_countermeasure_time;
  
- 	if (pxmitframe->alloc_addr) {
- 		kfree(pxmitframe->alloc_addr);
--		goto check_pkt_complete;
-+
-+		if (pndis_pkt)
-+			rtw_os_pkt_complete(padapter, pndis_pkt);
-+
-+		return;
+ 		/* reset RX BIP packet number */
+ 		pmlmeext->mgnt_80211w_IPN_rx = 0;
+@@ -1115,10 +1115,10 @@ void rtw_reset_securitypriv(struct adapter *adapter)
+ 
+ 		/*  Added by Albert 2009/02/18 */
+ 		/*  Restore the PMK information to securitypriv structure for the following connection. */
+-		memcpy(&adapter->securitypriv.PMKIDList[0], &backupPMKIDList[0], sizeof(struct rt_pmkid_list) * NUM_PMKID_CACHE);
+-		adapter->securitypriv.PMKIDIndex = backupPMKIDIndex;
+-		adapter->securitypriv.btkip_countermeasure = backupTKIPCountermeasure;
+-		adapter->securitypriv.btkip_countermeasure_time = backupTKIPcountermeasure_time;
++		memcpy(&adapter->securitypriv.PMKIDList[0], &backup_pmkid_list[0], sizeof(struct rt_pmkid_list) * NUM_PMKID_CACHE);
++		adapter->securitypriv.PMKIDIndex = backup_pmkid_index;
++		adapter->securitypriv.btkip_countermeasure = backup_tkip_countermeasure;
++		adapter->securitypriv.btkip_countermeasure_time = backup_tkip_countermeasure_time;
+ 
+ 		adapter->securitypriv.ndisauthtype = Ndis802_11AuthModeOpen;
+ 		adapter->securitypriv.ndisencryptstatus = Ndis802_11WEPDisabled;
+@@ -2019,7 +2019,7 @@ static int SecIsInPMKIDList(struct adapter *Adapter, u8 *bssid)
+ /*  13th element in the array is the IE length */
+ /*  */
+ 
+-static int rtw_append_pmkid(struct adapter *Adapter, int iEntry, u8 *ie, uint ie_len)
++static int rtw_append_pmkid(struct adapter *Adapter, int pmkid_idx, u8 *ie, uint ie_len)
+ {
+ 	struct security_priv *psecuritypriv = &Adapter->securitypriv;
+ 
+@@ -2029,7 +2029,7 @@ static int rtw_append_pmkid(struct adapter *Adapter, int iEntry, u8 *ie, uint ie
+ 		ie_len++;
+ 		ie[ie_len] = 0;	/* PMKID count = 0x0100 */
+ 		ie_len++;
+-		memcpy(&ie[ie_len], &psecuritypriv->PMKIDList[iEntry].PMKID, 16);
++		memcpy(&ie[ie_len], &psecuritypriv->PMKIDList[pmkid_idx].PMKID, 16);
+ 		ie_len += 16;
+ 		ie[13] += 18;/* PMKID length = 2+16 */
+ 	}
+@@ -2073,7 +2073,7 @@ signed int rtw_restruct_sec_ie(struct adapter *adapter, u8 *in_ie, u8 *out_ie, u
+ {
+ 	u8 authmode = 0x0;
+ 	uint	ielength;
+-	int iEntry;
++	int pmkid_idx;
+ 
+ 	struct mlme_priv *pmlmepriv = &adapter->mlmepriv;
+ 	struct security_priv *psecuritypriv = &adapter->securitypriv;
+@@ -2098,12 +2098,12 @@ signed int rtw_restruct_sec_ie(struct adapter *adapter, u8 *in_ie, u8 *out_ie, u
+ 		rtw_report_sec_ie(adapter, authmode, psecuritypriv->supplicant_ie);
  	}
  
- 	if (pxmitframe->ext_tag == 0)
-@@ -1769,12 +1773,8 @@ s32 rtw_free_xmitframe(struct xmit_priv *pxmitpriv, struct xmit_frame *pxmitfram
+-	iEntry = SecIsInPMKIDList(adapter, pmlmepriv->assoc_bssid);
+-	if (iEntry < 0)
++	pmkid_idx = SecIsInPMKIDList(adapter, pmlmepriv->assoc_bssid);
++	if (pmkid_idx < 0)
+ 		return ielength;
  
- 	spin_unlock_bh(&queue->lock);
+ 	if (authmode == WLAN_EID_RSN)
+-		ielength = rtw_append_pmkid(adapter, iEntry, out_ie, ielength);
++		ielength = rtw_append_pmkid(adapter, pmkid_idx, out_ie, ielength);
  
--check_pkt_complete:
--
- 	if (pndis_pkt)
- 		rtw_os_pkt_complete(padapter, pndis_pkt);
--
--	return _SUCCESS;
+ 	return ielength;
+ }
+@@ -2207,8 +2207,8 @@ void rtw_ht_use_default_setting(struct adapter *padapter)
+ 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 	struct ht_priv *phtpriv = &pmlmepriv->htpriv;
+ 	struct registry_priv *pregistrypriv = &padapter->registrypriv;
+-	bool		bHwLDPCSupport = false, bHwSTBCSupport = false;
+-	bool		bHwSupportBeamformer = false, bHwSupportBeamformee = false;
++	bool		hw_ldpc_support = false, hw_stbc_support = false;
++	bool		hw_support_beamformer = false, hw_support_beamformee = false;
+ 
+ 	if (pregistrypriv->wifi_spec)
+ 		phtpriv->bss_coexist = 1;
+@@ -2219,39 +2219,39 @@ void rtw_ht_use_default_setting(struct adapter *padapter)
+ 	phtpriv->sgi_20m = TEST_FLAG(pregistrypriv->short_gi, BIT(0)) ? true : false;
+ 
+ 	/*  LDPC support */
+-	rtw_hal_get_def_var(padapter, HAL_DEF_RX_LDPC, (u8 *)&bHwLDPCSupport);
++	rtw_hal_get_def_var(padapter, HAL_DEF_RX_LDPC, (u8 *)&hw_ldpc_support);
+ 	CLEAR_FLAGS(phtpriv->ldpc_cap);
+-	if (bHwLDPCSupport) {
++	if (hw_ldpc_support) {
+ 		if (TEST_FLAG(pregistrypriv->ldpc_cap, BIT(4)))
+ 			SET_FLAG(phtpriv->ldpc_cap, LDPC_HT_ENABLE_RX);
+ 	}
+-	rtw_hal_get_def_var(padapter, HAL_DEF_TX_LDPC, (u8 *)&bHwLDPCSupport);
+-	if (bHwLDPCSupport) {
++	rtw_hal_get_def_var(padapter, HAL_DEF_TX_LDPC, (u8 *)&hw_ldpc_support);
++	if (hw_ldpc_support) {
+ 		if (TEST_FLAG(pregistrypriv->ldpc_cap, BIT(5)))
+ 			SET_FLAG(phtpriv->ldpc_cap, LDPC_HT_ENABLE_TX);
+ 	}
+ 
+ 	/*  STBC */
+-	rtw_hal_get_def_var(padapter, HAL_DEF_TX_STBC, (u8 *)&bHwSTBCSupport);
++	rtw_hal_get_def_var(padapter, HAL_DEF_TX_STBC, (u8 *)&hw_stbc_support);
+ 	CLEAR_FLAGS(phtpriv->stbc_cap);
+-	if (bHwSTBCSupport) {
++	if (hw_stbc_support) {
+ 		if (TEST_FLAG(pregistrypriv->stbc_cap, BIT(5)))
+ 			SET_FLAG(phtpriv->stbc_cap, STBC_HT_ENABLE_TX);
+ 	}
+-	rtw_hal_get_def_var(padapter, HAL_DEF_RX_STBC, (u8 *)&bHwSTBCSupport);
+-	if (bHwSTBCSupport) {
++	rtw_hal_get_def_var(padapter, HAL_DEF_RX_STBC, (u8 *)&hw_stbc_support);
++	if (hw_stbc_support) {
+ 		if (TEST_FLAG(pregistrypriv->stbc_cap, BIT(4)))
+ 			SET_FLAG(phtpriv->stbc_cap, STBC_HT_ENABLE_RX);
+ 	}
+ 
+ 	/*  Beamforming setting */
+-	rtw_hal_get_def_var(padapter, HAL_DEF_EXPLICIT_BEAMFORMER, (u8 *)&bHwSupportBeamformer);
+-	rtw_hal_get_def_var(padapter, HAL_DEF_EXPLICIT_BEAMFORMEE, (u8 *)&bHwSupportBeamformee);
++	rtw_hal_get_def_var(padapter, HAL_DEF_EXPLICIT_BEAMFORMER, (u8 *)&hw_support_beamformer);
++	rtw_hal_get_def_var(padapter, HAL_DEF_EXPLICIT_BEAMFORMEE, (u8 *)&hw_support_beamformee);
+ 	CLEAR_FLAGS(phtpriv->beamform_cap);
+-	if (TEST_FLAG(pregistrypriv->beamform_cap, BIT(4)) && bHwSupportBeamformer)
++	if (TEST_FLAG(pregistrypriv->beamform_cap, BIT(4)) && hw_support_beamformer)
+ 		SET_FLAG(phtpriv->beamform_cap, BEAMFORMING_HT_BEAMFORMER_ENABLE);
+ 
+-	if (TEST_FLAG(pregistrypriv->beamform_cap, BIT(5)) && bHwSupportBeamformee)
++	if (TEST_FLAG(pregistrypriv->beamform_cap, BIT(5)) && hw_support_beamformee)
+ 		SET_FLAG(phtpriv->beamform_cap, BEAMFORMING_HT_BEAMFORMEE_ENABLE);
  }
  
- void rtw_free_xmitframe_queue(struct xmit_priv *pxmitpriv, struct __queue *pframequeue)
-diff --git a/drivers/staging/rtl8723bs/include/rtw_xmit.h b/drivers/staging/rtl8723bs/include/rtw_xmit.h
-index 917e846e9ce2..28615fe72b80 100644
---- a/drivers/staging/rtl8723bs/include/rtw_xmit.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_xmit.h
-@@ -416,7 +416,7 @@ extern s32 rtw_put_snap(u8 *data, u16 h_proto);
- extern struct xmit_frame *rtw_alloc_xmitframe(struct xmit_priv *pxmitpriv);
- struct xmit_frame *rtw_alloc_xmitframe_ext(struct xmit_priv *pxmitpriv);
- struct xmit_frame *rtw_alloc_xmitframe_once(struct xmit_priv *pxmitpriv);
--extern s32 rtw_free_xmitframe(struct xmit_priv *pxmitpriv, struct xmit_frame *pxmitframe);
-+void rtw_free_xmitframe(struct xmit_priv *pxmitpriv, struct xmit_frame *pxmitframe);
- extern void rtw_free_xmitframe_queue(struct xmit_priv *pxmitpriv, struct __queue *pframequeue);
- struct tx_servq *rtw_get_sta_pending(struct adapter *padapter, struct sta_info *psta, signed int up, u8 *ac);
- int rtw_xmitframe_enqueue(struct adapter *padapter, struct xmit_frame *pxmitframe);
 -- 
 2.43.0
 
