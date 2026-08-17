@@ -1,61 +1,61 @@
 Received: from sonic.asd.mail.yahoo.com (sonic-euwe1-0017.asd.mail.yahoo.com [34.2.82.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5DB243F8C6
-	for <linux-staging@lists.linux.dev>; Mon, 17 Aug 2026 16:49:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9003379DA
+	for <linux-staging@lists.linux.dev>; Mon, 17 Aug 2026 17:00:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.2.82.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786985363; cv=none; b=VUadT9fkgbnCUI7mtBUggm9/fuxyHg7l+49bAqvItNN2o520Pkz4JVQeQuzAapSIIFtLXBGE96CHEKl3HzEQjxLpQnvBtiohdaPx1n0s9kFYIyWda0Q7wP0wGXOU8CUvQYSuJocX2oFiRE11wR1RuDMLn++8DI+zNj/k0q4DnSc=
+	t=1786986026; cv=none; b=Xc2kiGjhyNF+7CKL5tKPAT7t5k3ZzEtX6LjD7BUwOWcU1ebR2DKClu4Xd6zPJ7KKu6+oukMkh0FomrNm8Ssmv1TOeGYYOYzIN1Iuce1Ccrz6eyhQtXd9MZLZi3hBl+PachvStWTzT8xydAvjfOUDA+F+ZfQR+h/83t0+wPhqCHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786985363; c=relaxed/simple;
-	bh=6D+ljmrgmvLwaLG31zW6f6WG6Ur2RXShFysH6kV/r8Y=;
+	s=arc-20240116; t=1786986026; c=relaxed/simple;
+	bh=HigGiF9FX2B2ADeoYMONpPaPQPvBWbJsnU14m8E6Cfc=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc:
-	 References; b=areq+Xe/u/M09/AWmo4WoN19GoiVD+FZITUi/ou+t/s2irbItBWw6usvFGXGUFCjfW1kZYEoYbyl7S1dLVYJ+4bHxj0BA748YNN9vEIuNOVYgCrcrVi0x3wEcav+ccE2UOZkH2gHk2bZBNOCZ2TjwBed4/n9Ju0ojVJIs3u9n2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=jVHMruSl; arc=none smtp.client-ip=34.2.82.16
+	 References; b=KcrT1d5bt7WlltTyoGQSMl2VMMYZS+aIdGlX5HXlrCY/j6QfRpRJoMW1Co8U9RzZ3r8UJjcGUiLzX0u+HmnHG8DEVA0CDPeoHp5omVKa3zKer+1nLOnZiwz1FTK4+7EMkP9L8C5hD657fUy98bgeEz2fAajWLIIaptMCn6/oByE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=Fssj26aN; arc=none smtp.client-ip=34.2.82.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="jVHMruSl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1786985360; bh=f1TIex6BQas2WrC8FOVyYvOY4miGkikgJm3Ulp8LjJg=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=jVHMruSlHcyRPe0sK3pIyd9+rhuhmJt7ozvVs7tRskuewnFcHUQWZ91ykwqjP6kJN3xzuJqpcF2B3yscu4jte+i2OGaJxLnVlVYDRGWmN5/nQXTpMvFXkdQnKMggBddMD1YYRisyaJCh+bUeVVm3hzUwyo/XTuGGG87mL4EPMnOjTyKCD348gQx23XdsOAdYLddABATpKWGFjooxVS32f/MTYhLqkwRUfPKFRbMPOvF4fEzclY4LsWJq8xpz0qJcDZLfA8BCKVP1CVYmMN4wLz9mV3KlB6Z5PSK50kvP3IFGO0p0+iKVuNxmVw6iKd4sjNSyR96bdRCV4ovLcx9MqQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1786985360; bh=FFR6HCC06riA+37cBY5gCF9HtkAhbROdLjaSgW+idNH=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=PsGr98aY/ruQhpaNEaSmmooFReJDdvh6TIdDP329W34xDDVUh84Msmvk8wgQ5K3swF2NQ2VZreuInyI02tNNcmOpI5tyLYTghiCGofMWgNWhFMxKQ7UBIToPwtgGXkEIKermL2Cq0MljYK0s0Ek+gbE+PRAT26WzUKBU539vzjcD85c6+ZctxElwIkzG+lRIXk8wReJw3jj8eWHDqbN0wMPF50Y5HJitWyeHsZa6LhRW0MQ2g1dvjVPBcwnJBkTB5OKHdu/+yPJRmE4tOXtkKW2QEZwjn5PNBNauLbiTU9rA5vrHcReZxvWGtm6Jj9U01Q9ezgtGisFtjneKt2v/8A==
-X-YMail-OSG: Ev1uSDkVM1mGJUlcmSRmAWHHXb.ggRRjHJhEtvjRIDmRB2Kl6aDg.kQ8khKt8G9
- cFEb20VfFcTJ4K6HaYCFk5KcW.gT2fI8IuPMkEHtuDuD.ij7TdKwN2FuDeOQ69o35N6yz7btI41w
- LhXi0QljM3X47S_bVCTTikPkh7OQwrB9Joz94dbBvEqhr9KbPAOyFy5Olfaa.kfWXIMjmXOTDCRQ
- VqRTRijQvoUofHakSsjr5hNfsDwgyG71XkUj6lwhI0e80rFeDCV6uZUl5YZxpXmK888x4s4uSEH6
- 12kh0WNs3G0Xi2afUyTOQeC1bvKy1NCbPUb_U6eBswtfw9U5oNglGnCKc2WthZLd0XcRCgfjoYS_
- RrXYEd.QzKIxhzSfTyVG6rhuTDbTh29j15j92FIrJIQz7gp6a2eT2SR7rZ82YeQSqteFmVG7AAC6
- o1_s3xET45I6McLJSx6Je6a.IV6RK.gbsMKqZD1F_zDALyYMW2QrcuqyyLAakTZjMd0OcJd0jdJl
- wsl13hQ468y4X.fR50enu23tKf3lHxmuKtI9ub8HFqOGBu5HHFi6kfM4X3pfdhx46H2Dea8b95SU
- axnhM4ZRK5.QN_JTFs.Sz0rg_TaeZHWvp3Hbdc4.VZslH1CPV9GhwmJLj5niorEVwn91GEPhYelj
- hbZpgTYA9NC9Dpo8UFf8IIgDaUjo6rCIdlL.Sw2M5bkoVEyolzw0V79dFyB8OZExoM7VOLFRLrcy
- .7E3TJkwY6uF9u4C57.fe4_YYvDA5JoXUQdskkFl3ZLgpSxvCkrTtY0xO9yKYlu3hRiSKPf24J3C
- HJDgmTlFB8hiNynFRTcHDXIBcw5tvG5RHt5u0VUPuhQAb_qzBdcI1FYHk5iVbN0N0Ev7284LCnbC
- gfB2rt0jjKq44op1CoDu7qjrKKSNva.P2RcbNB4ochVrmpRq94jspXGpQtlv7kJDtubbPbvkyHGC
- quO6GpVkNqiywrMimWJDq0ZrAd7zQi8JneXqFa9TrrZjgOn_.nnwhSvOIHmIp5PDb9twORLeG.2A
- 5L09igBpMyc.hdphC5AoqAEg8OBNE3GOE2oUvpbmFRifH322G2wu7ZCaT1WQQJkKx.kUiX7iwbFG
- Z_PpE.SDJO6EU8arqXoseLMlR2cN9cXu5YPU7iUBqTFCrOb2bBD5TbrT7KmBqpF7XSfE1Yltav6A
- jqOOAWj1VNT4DsQw23Iub8tE4M84dlcX7sJGNBlbO7T0WI3gF0YJkNSImFvGvoXEyAngjvfE37rG
- MS8wCuFAqia9O4Vnb8krqBfTiKqMty39VxJPH5ObeU2axW.VsL2gnO6GJLUSA2v2jDIHe0YiQ0ND
- L24AQwCD_Q.LDKt8A5X6cqUUtWImBH3pdeW_Qi5vaM8.34COIq32fLg2Ycr7PfM7CErgJo6RTu48
- TyU2G9kO97wd8ar26GR0L42qmt97dG1kEePMAKvEzysaeaO_ziv63NBhI2V7yZ9FMVTYze15anz0
- t.eVllOBJ8WL6faoNY9muGKcQKy6nS.i72HmV.QZM8pwz4eliNtgB8eOEBk4FuSSlrIXO3xfw5Wy
- YxEgjRD5DK7r3epqKIZ3ZzWMvO4NM7yxWUIGKeX5IZ_lyVxZcZORpyrfpESUQ4UOtdYdA1nglSz7
- 2Pqnc8YF.qUZIUpGEEKT2ZuvyRH4wS9HgQxUdYocHMI1tMGA4Z7cO2vx5tlswojv4a3CPF5bG.J2
- YwAuTXPF_.D5qXgkqm7dc0TwE0MJzLnp4MmUmE7tiwFGvLoq2bC4nU2tEYqOyqb_nzeOJVvqYZbK
- 3R49o26FHjbKVaDfVCJfuVe__e8rGoLur4i4ufZw5XIJtUt7e1.88lTCc0IZYkKkwfHMvcg8LSnG
- 8SnYiVWEXn56IjsLuwGRL3U482FNzejewcZYet1c4GckpijPL0evD2J9dT7UqBTid_YvreLKBP7R
- pxcjvkABVIZ8pXWfqGMGsu_NzCsWdAiY8UhKRAlwUk2IQWnZf.JP_aAfg2UvQOyzSqKHv.E8pJM8
- 8Dk_uERkEOtNAa2h3fyalCMGCWj0dMxjfqTx2EE8ZfSPe._Pc272Ww3YZsmaK3Tg-
+	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="Fssj26aN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1786986016; bh=Z6Uop+8fmfCRKeqOVLKT82Goc5kLYRavluzw7xO28n4=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=Fssj26aNWPpqkFusViS8yiA/bBVpxCGiu0w/Z7LJrCnC4we6Fuqw2dISMsP8ut868fJsiUJOp5QUT3CB0AXKPr7dSSV44OYRqR2N33xSdZuhlQOmhchi56hp05R6IGbHULG1ornhwNtkFVER+42HAxaMlEvmTXRyVY8V5lGNUHf9NxcnQR72secHAGJVsbxgz4PmDlx1H6xrDzjbHbYzg8A8h5/ZtoUr+fhj7IJY1Ik9gFBtx27BaXbf3dI5eLS7Hls7KJHMVnNMby9zCqDTLWkeBCmjYh+WaHMiF/EChyhT19OS5wnxs7Im/sbAzbV84ocSYq/nuqkotLJ9z8I4oA==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1786986016; bh=x3vX18MuBY0Fxy1U34kzkhysWnHYTEbORQuXnQGIF88=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=JZlbjavOrjSyoCdg5aO8AT9W46iABBGRlUqHTBjgtGSFOLO6qjbeBNXFvvBbWjAnc0jFnJ1gMlki9ViClV3UcRoWVx0R0PHXmQcnOH7ySbZQMOcB4V/aP7awXPdNz22n4KcEC2QzqAAwVTInWBXycB8ImvNoglizf8HZ5GXy+1a4uAewacGWhu0F1bz+mjwuJWnW/xI/TOdiKVnD0l1JCFVj8UiB7PTrG+Jw6IPV3uGVAkZPP2aSylXFI2xb1RPj/FMperSZT9DveE+eG4SqvsS+RG4PifVfGhNiGSXkteNRBGEQxUBNB8KU44H/Xbql089pkUy4Z5FVUXwYFHND8Q==
+X-YMail-OSG: .DaAhXcVM1kJqYcTyiYnZ848.g0gQSVJrU7mGjZryyFkXcaG1V7JZ7Qp667e6yw
+ 57WGs7MvLP3G0WLcXyRZTvA6bcWT.FpciHGp3ApdogkxqSw7EKpLgVBl4Y_8cZ5audqIOXSXw30A
+ Zo4DGGTHKxQvI1G0t7RNkQw8sINpv8q4hCnMtD8etwo9hBGjlVmpiDWWsOEWgQC8NbfKHtD5WRud
+ GMqE5HsQJB7ePyqCzaVjTWOwAqE9cK1SEytwjokW2qhb3U73l6ntHyAu_6pv0ra61tH.53wbfWPM
+ tc9zJ5Wp46l8ldajiekvdEXmkpiqaW.AiQ574L88gfVgzN6a3HxSVwi73BvhDa72UwqZe5S9R11K
+ ZClO.SP8OA8OhkziXdpvyhHE7NOctcojPeNRFnkDZ8AjxH29OFhaPm9ps8isDcmQELNv6lJZGkqP
+ MY0uPRJITOjChIOLF7COnNQqP6zoKR1LDc0x2g7ThnLtYQRGvnswXHiwUJXyLRYWzwa9X1Pp6RBn
+ 8ov5vYDBkIFODIaCUaAddkJneJPsR5VBqk6QeW8Lg1Z9h_P1OSDRl_rpqzUpR6iBDjNUR35o3PPk
+ nmh3HCtWxerRlUdcuZYxwROYhpSG.g9HwAGq1mP6FNju09gCVovYLuH3vf544ks0qDX3aPWn0BPe
+ 7Q204L2F6w0kt98Nn2w.R8w9Et1syUtcKbLCONwVBGJFBAnJHyKzsAiMJ724ntuwXXqv1Xx1OZrR
+ upyvM_JmiW_SLZ2Wa0RlbL7mO0mUxw79SDEeTGHJkNGxbs30aPN66NCDa1XQeogkz1ZdeckHMsUV
+ JwCgSgN03wifOxOybCNc0nFDLKJ0PEOsPJuwuXOXhxALsc4OpGkXKQK7qmLmWan78kR1lFpNkrwZ
+ nTdKpbPnEtqN.jtVwbWHeUDLPNMs_ie6YrhlPHi38jWgyL22e6XInZf2wISvmTTlsL0iOiec0f0a
+ 2iX8SU2hXvreNHXuoLrEHML8Xok9r2mA67HDiixzKHb4cx7OQC.bxR.hwETn6QFYgyG.tC_AxiH8
+ TXKWzQktvTfya0NcygxbZ9n1PEu2l9n.q15i793MxZyr_DnzhZVTQA0yZVrmAA5nne2StpqB4jNb
+ fU0F.S_YcHYzEvSUuoJ7y6rddB47TOvvSj1mBkx_j9UVDA.5Evp1hzCy3qfaYFX3fKKXG82rIgWM
+ uaH0h1bNOMfG9XLD4It0.ZOXsHVPliTdrXiNKXv6kU1KE2NY8uTlvGAIGxKbdgGhjcctHZc_3pMg
+ 4nY5W8zp1GwQPurbBl6Er6AkxLrUYgcvqnjuFRUCZFk4KplYOMtCpkF6sEBQw9zoqmmqvoBrjudD
+ ata9UO88mEYXr2FZW5cHsXhoC5s7x.3vWbpB2s2RtzUouyxKVEnQQEyeRNd5HW2jchpGBumTFNO4
+ gqM5n4coXnOanlpHz5MB.Z2qcT3hOe.GjStJof8NF6awweq.K52W0VKKEAqd2Hekq9weUjY4a1i6
+ ZHYSQCfz4IY.nml.Kw71lV6QClE90BvPnTb7jb7.QZI_L3_IZ_AB_3l7Fjdosaoi62IAGle9pOoa
+ RkalMzPax682c2.MWEACZMKtRTSJgeSvjH8jRuEbp37gFoynJwpxyZsQVqZI8hzJ1juwbU4bnKrF
+ wqdWe9kmmoQ_rG_EKJsG3jVpkUHWNtG5s8Qk4PnNbgjLCnWmzs82qf2RyafmXDgsW.nd0f1R4rPg
+ U1PzKTQ1H4qow.pCpsB3sGE6hhX8FesuDwi8vj.XIIEJjWQiRl5T8HSc6f5DTe4irmFdPJEhWhSq
+ SnWKS4IUVZ.n0YWD1b3WpymnUz2iKqgpjNGetsy_qiVTUFOdgOCbMGhw_27G9NhS4l_eUvkvgF6I
+ hZMzZ2qYjSFP36JKegzMB9TDdT9mE9DlbtSARioOTiGDHklI1UjsecXOOlKNrjt6rfUAp9LYXV4D
+ QeetKlUU.WDt_qFxxw6yiW2CKHoUAbgjwhRNBkK4MoTlYXjDxX8pSbi9MIGI3D2fnBhk1wJEvxTN
+ rdS2uhz6iW12TeXFAa3g8DGy6vabOdWxQCbQHGwlnXilnH5fu2SjJHZaK4FU6VFM-
 X-Sonic-MF: <tomasz.unger@yahoo.pl>
-X-Sonic-ID: e2f15711-50da-4148-91d0-8d1d53e58171
-Received: from sonic.gate.mail.ne1.yahoo.com by mail-asdoutdeli-p-cin-euwe1-prod-sonicconsumer-svc-101 with HTTP; Mon, 17 Aug 2026 16:49:20 +0000
-Received: from dip162.lsn.ir2.yahoo.com ([87.248.99.171])
-          by hello (SMTP) with SMTP ID 85d7efd1dab39c8978a02e35ea7ce8f4;
-          Mon, 17 Aug 2026 16:49:16 +0000 (UTC)
+X-Sonic-ID: 935f2dd3-77e8-498b-af22-62e965cc64c6
+Received: from sonic.gate.mail.ne1.yahoo.com by mail-asdoutdeli-p-cin-euwe1-prod-sonicconsumer-svc-102 with HTTP; Mon, 17 Aug 2026 17:00:16 +0000
+Received: from dip154.lsn.ir2.yahoo.com ([87.248.99.163])
+          by hello (SMTP) with SMTP ID cdf1d7be6782685fc5ced18ff94570d8;
+          Mon, 17 Aug 2026 17:00:12 +0000 (UTC)
 From: Tomasz Unger <tomasz.unger@yahoo.pl>
-Date: Mon, 17 Aug 2026 18:49:14 +0200
+Date: Mon, 17 Aug 2026 19:00:09 +0200
 Subject: [PATCH] staging: rtl8723bs: remove unnecessary void * casts in
- odm_EdcaTurboCheck.c
+ odm_CfoTracking.c
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -64,23 +64,23 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260817-rtl8723bs-void-cast-edcaturbo-v1-1-78097864e35b@yahoo.pl>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMSwrCMBAA0KuUWTuQRGmCVxEX+Ux1RBqZSYtQe
- nejLt/mbaAkTArnYQOhlZXr3GEPA+R7nG+EXLrBGTeaYD1KewbvjklxrVwwR21IJce2SKoY7Gh
- OfsrRBQ/9eAlN/P79l+vfuqQH5fZNYd8/QVQUaYEAAAA=
-X-Change-ID: 20260817-rtl8723bs-void-cast-edcaturbo-816047fca287
+Message-Id: <20260817-rtl8723bs-void-cast-cfotracking-v1-1-36737b896865@yahoo.pl>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXNQQ6CMBBA0auQWTtJaQ1Ur2JYlGHAUdOaTiUmh
+ Ltbdfk2/2+gnIUVzs0GmVdRSbGiPTRA1xAXRpmqwRrbGd/2mMvD99aNimuSCSloQZpTyYHuEhc
+ 0gTvvyBzdiaBWnplnef8Ol+FvfY03pvLNwr5/AP9nmrSDAAAA
+X-Change-ID: 20260817-rtl8723bs-void-cast-cfotracking-0ae683c0439c
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
  Tomasz Unger <tomasz.unger@yahoo.pl>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1786985356; l=2221;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1786986011; l=3412;
  i=tomasz.unger@yahoo.pl; s=20260311; h=from:subject:message-id;
- bh=6D+ljmrgmvLwaLG31zW6f6WG6Ur2RXShFysH6kV/r8Y=;
- b=nIv2xhR95kbXw5QYNwjlItykUeKlB3FgsuXmghCAxZcxB4K2+6r9bItT2uCogZ+NKzxF3IC+C
- R/ZEeAwWR5rDwgRJBn9sroEiTXSRQzlBxeZV/hs7gwZRiUx0koq09Ts
+ bh=HigGiF9FX2B2ADeoYMONpPaPQPvBWbJsnU14m8E6Cfc=;
+ b=05+XATLqaOrQNs2onoRLXs7xeAn/ZodNiwhtH0sgC5wubziYuEq/HdtatKKsBSgN2S7zP8uYG
+ NCoO8FGav1SCJpZKJHVQHAXhW4J9LTCN80Uae542DYB34BFdElvaOLY
 X-Developer-Key: i=tomasz.unger@yahoo.pl; a=ed25519;
  pk=EPPsO91uz/0J2cTQ6ol+dgxYaieEc9dKSXWUb51n46c=
-References: <20260817-rtl8723bs-void-cast-edcaturbo-v1-1-78097864e35b.ref@yahoo.pl>
+References: <20260817-rtl8723bs-void-cast-cfotracking-v1-1-36737b896865.ref@yahoo.pl>
 
 The conversion from void pointer to any other pointer type is
 guaranteed by the C programming language, so the explicit casts
@@ -95,44 +95,80 @@ insmod and lsmod). This confirms the module loads cleanly but does
 not exercise the changed code path, which would require the actual
 RTL8723BS hardware.
 ---
- drivers/staging/rtl8723bs/hal/odm_EdcaTurboCheck.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/rtl8723bs/hal/odm_CfoTracking.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/odm_EdcaTurboCheck.c b/drivers/staging/rtl8723bs/hal/odm_EdcaTurboCheck.c
-index 578d5712645c..5760a65be164 100644
---- a/drivers/staging/rtl8723bs/hal/odm_EdcaTurboCheck.c
-+++ b/drivers/staging/rtl8723bs/hal/odm_EdcaTurboCheck.c
-@@ -31,7 +31,7 @@ static u32 edca_setting_DL[HT_IOT_PEER_MAX] = {
+diff --git a/drivers/staging/rtl8723bs/hal/odm_CfoTracking.c b/drivers/staging/rtl8723bs/hal/odm_CfoTracking.c
+index 7e6b49399abb..32590a2f642d 100644
+--- a/drivers/staging/rtl8723bs/hal/odm_CfoTracking.c
++++ b/drivers/staging/rtl8723bs/hal/odm_CfoTracking.c
+@@ -9,7 +9,7 @@
  
- void ODM_EdcaTurboInit(void *pDM_VOID)
+ static void odm_SetCrystalCap(void *pDM_VOID, u8 CrystalCap)
  {
 -	struct dm_odm_t *pDM_Odm = (struct dm_odm_t *)pDM_VOID;
 +	struct dm_odm_t *pDM_Odm = pDM_VOID;
- 	struct adapter *Adapter = pDM_Odm->Adapter;
+ 	struct cfo_tracking *pCfoTrack = &pDM_Odm->DM_CfoTrack;
  
- 	pDM_Odm->DM_EDCA_Table.bCurrentTurboEDCA = false;
-@@ -45,7 +45,7 @@ void odm_EdcaTurboCheck(void *pDM_VOID)
- 	 *  operate at the same time. In stage2/3, we need to prove universal
- 	 *  interface and merge all HW dynamic mechanism.
- 	 */
--	struct dm_odm_t *pDM_Odm = (struct dm_odm_t *)pDM_VOID;
-+	struct dm_odm_t *pDM_Odm = pDM_VOID;
+ 	if (pCfoTrack->CrystalCap == CrystalCap)
+@@ -29,7 +29,7 @@ static void odm_SetCrystalCap(void *pDM_VOID, u8 CrystalCap)
  
- 	if (!(pDM_Odm->SupportAbility & ODM_MAC_EDCA_TURBO))
- 		return;
-@@ -55,7 +55,7 @@ void odm_EdcaTurboCheck(void *pDM_VOID)
- 
- void odm_EdcaTurboCheckCE(void *pDM_VOID)
+ static u8 odm_GetDefaultCrytaltalCap(void *pDM_VOID)
  {
 -	struct dm_odm_t *pDM_Odm = (struct dm_odm_t *)pDM_VOID;
 +	struct dm_odm_t *pDM_Odm = pDM_VOID;
+ 
  	struct adapter *Adapter = pDM_Odm->Adapter;
- 	struct dvobj_priv *pdvobjpriv = adapter_to_dvobj(Adapter);
- 	struct recv_priv *precvpriv = &(Adapter->recvpriv);
+ 	struct hal_com_data *pHalData = GET_HAL_DATA(Adapter);
+@@ -39,7 +39,7 @@ static u8 odm_GetDefaultCrytaltalCap(void *pDM_VOID)
+ 
+ static void odm_SetATCStatus(void *pDM_VOID, bool ATCStatus)
+ {
+-	struct dm_odm_t *pDM_Odm = (struct dm_odm_t *)pDM_VOID;
++	struct dm_odm_t *pDM_Odm = pDM_VOID;
+ 	struct cfo_tracking *pCfoTrack = &pDM_Odm->DM_CfoTrack;
+ 
+ 	if (pCfoTrack->bATCStatus == ATCStatus)
+@@ -57,7 +57,7 @@ static void odm_SetATCStatus(void *pDM_VOID, bool ATCStatus)
+ static bool odm_GetATCStatus(void *pDM_VOID)
+ {
+ 	bool ATCStatus;
+-	struct dm_odm_t *pDM_Odm = (struct dm_odm_t *)pDM_VOID;
++	struct dm_odm_t *pDM_Odm = pDM_VOID;
+ 
+ 	ATCStatus = (bool)PHY_QueryBBReg(
+ 		pDM_Odm->Adapter,
+@@ -69,7 +69,7 @@ static bool odm_GetATCStatus(void *pDM_VOID)
+ 
+ void ODM_CfoTrackingReset(void *pDM_VOID)
+ {
+-	struct dm_odm_t *pDM_Odm = (struct dm_odm_t *)pDM_VOID;
++	struct dm_odm_t *pDM_Odm = pDM_VOID;
+ 	struct cfo_tracking *pCfoTrack = &pDM_Odm->DM_CfoTrack;
+ 
+ 	pCfoTrack->DefXCap = odm_GetDefaultCrytaltalCap(pDM_Odm);
+@@ -81,7 +81,7 @@ void ODM_CfoTrackingReset(void *pDM_VOID)
+ 
+ void ODM_CfoTrackingInit(void *pDM_VOID)
+ {
+-	struct dm_odm_t *pDM_Odm = (struct dm_odm_t *)pDM_VOID;
++	struct dm_odm_t *pDM_Odm = pDM_VOID;
+ 	struct cfo_tracking *pCfoTrack = &pDM_Odm->DM_CfoTrack;
+ 
+ 	pCfoTrack->DefXCap =
+@@ -92,7 +92,7 @@ void ODM_CfoTrackingInit(void *pDM_VOID)
+ 
+ void ODM_CfoTracking(void *pDM_VOID)
+ {
+-	struct dm_odm_t *pDM_Odm = (struct dm_odm_t *)pDM_VOID;
++	struct dm_odm_t *pDM_Odm = pDM_VOID;
+ 	struct cfo_tracking *pCfoTrack = &pDM_Odm->DM_CfoTrack;
+ 	int CFO_kHz_A, CFO_ave = 0;
+ 	int CFO_ave_diff;
 
 ---
 base-commit: 8d3ae59288f1e7d58d76558a6ee96d533bc5019f
-change-id: 20260817-rtl8723bs-void-cast-edcaturbo-816047fca287
+change-id: 20260817-rtl8723bs-void-cast-cfotracking-0ae683c0439c
 
 Best regards,
 --  
