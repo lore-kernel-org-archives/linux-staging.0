@@ -1,76 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA1F43A961B;
-	Sun, 16 Aug 2026 20:09:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FE9A24E4AF
+	for <linux-staging@lists.linux.dev>; Mon, 17 Aug 2026 07:36:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786910947; cv=none; b=rkodD/Bbo28HmShyn8OLmnvBaHcoQXmG754slxDXepXgmgzH2bxnxJWepkIZpjVmApUlZaJeDMWBjcruvyKbNiYa1mqitfBe7FoU4+ejdm4uw3lT3ROAe8Xk1EpE0Tn2RyZgx64PNf2wDdAqvpTsoZXlRt3FYA2IZw9FUOl8nTo=
+	t=1786952218; cv=none; b=VQTQIDDEe4Zr26FL+JmpiJRYyi7GbnA8FusdcCKa344imusPt1EZ3sY7BV/Lm+PbAwHdSwqUtKQAgOYFGIShpGSKLY/UH8GANVdaDay0j3OsWYFIDiCfkoYlzK7TH8yCACPthWn2ZkDMAc5YvdROdBBsPQegt1VtzeitE1bvVFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786910947; c=relaxed/simple;
-	bh=1RUqESLfyCLnumX0L0JtUcgmewXJXFBDnmm9hudNrwE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ba89OsjEDa5M91jRTMCfEBJbzD5wIjnAOOjdLSaw9qwCe+nwwfeYuhUfs09cpQVjFFfLCZrFTmCYAb2IJkk+om3O948bbDUVaYj/SUbDJelbpDyUMq5npVdOQY9izy683kEChwAgtPhAaCLH7bTCoDbrHld8pDnc/I6hLOlZclU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZBE1SzUr; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1786952218; c=relaxed/simple;
+	bh=qWKKqdIfuWeRKxCYXt/fCFAwVAR33Q7CTFRZIRLKafw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZkqvB+lZhy8kQvJdzJS7/csDbVHpgSxos+6P8v90k92/pcpYC7Et1WL5S2xNMmAoopqSxtkXiW5FxkywUeGeiOAxR9bcKodcqIiHK0POwhKbnjIKQ/jczydhkGJ+nidZ3fT2iLghJ0DhU1n51c1Mwf8sA/hJkySF+3Uash6Amgs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IsQAOe1w; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZBE1SzUr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 721161F000E9;
-	Sun, 16 Aug 2026 20:09:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1786910946;
-	bh=rncw3Mh1vYWtXSr8o1BuEq34sysukRkoilNd+fF7fOY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=ZBE1SzUray38dMIWAqFmHI+pd9sjMHIgmwI/tFxjiYxC0+TopX/Tdzs+eK4j8uKU/
-	 41CnCrBkiBFNst5XwAPyoVgYiN7A0xkreLKb4zLq1W3Td4mnLO/YRsENIDLbcytFvm
-	 ZiOCjZZLqSYETH7mmJHbjjIANnqHrXfSTQtPLPsfTD7OwmKVaky9lFHEdHNsCj1w6h
-	 68osRf3OvESPAr9/MS1oX2u2eV+LybuH4CwkZo+GDyKRAelzuDITpnX4n6uXsXWqxH
-	 WcJUKIeaXHi5ZsyRbIAJP+I8cUz1Y+f6kvZStxVJIPzqZX2z/ux8acGHWiDBA2kuUv
-	 EqM7jLRyC1nuQ==
-Date: Sun, 16 Aug 2026 21:09:01 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Mohamad Raizudeen <raizudeen.kerneldev@gmail.com>,
- dlechner@baylibre.com, andy@kernel.org, nuno.sa@analog.com,
- gregkh@linuxfoundation.org, joshua.crofts1@gmail.com,
- skhan@linuxfoundation.org, me@brighamcampbell.com, jkoolstra@xs4all.nl,
- linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] staging: iio: frequency: ad9832/ad9834: add comment
- explaining do_div usage
-Message-ID: <20260816210901.55959c11@jic23-huawei>
-In-Reply-To: <aneNtcyLLQjMmPA7@ashevche-desk.local>
-References: <20260807094704.5371-1-raizudeen.kerneldev@gmail.com>
-	<aneNtcyLLQjMmPA7@ashevche-desk.local>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IsQAOe1w"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1786952217; x=1818488217;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qWKKqdIfuWeRKxCYXt/fCFAwVAR33Q7CTFRZIRLKafw=;
+  b=IsQAOe1wV48w57gNcn9Q2grgu5vXr9lMeyOPvFfDGH50qlu10doAUlFD
+   4rbp6VrNEBSLt2R8xEu0Yc2a8FcDaSjCD91it78Q8pTpT3ohrCSlmjQdE
+   tnurHsOOsBkFtAXhhGnHniWk4Dh7nqrlXx6PcZbeCII0FS1w1tvPpwKjw
+   ck3EyrWyrOwpm3Sf+4aZmCoWMMCng91dftgm5kt1mv7dke+tIYm49DhDB
+   XWG41HoyAT4GQwySXdZckA1ulsDPtqx/ubBdBKAtvIY7rDMJCBgIgovmg
+   ubxW76tq3GzRWp822FsPhiemtaevIyrrLsXgmHkH3AMcGI9A0WMnS4jl9
+   g==;
+X-CSE-ConnectionGUID: zd/zAFEFS/OLcDQgIDiBFQ==
+X-CSE-MsgGUID: 7lU0c+EJSRmbeWNEsVfqaQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11877"; a="87437716"
+X-IronPort-AV: E=Sophos;i="6.25,228,1779174000"; 
+   d="scan'208";a="87437716"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2026 00:36:56 -0700
+X-CSE-ConnectionGUID: kiTIXR0qQeSgDEffe1212A==
+X-CSE-MsgGUID: YRWyijFbRQOPgOdjQEe42Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,228,1779174000"; 
+   d="scan'208";a="261100873"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.67])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2026 00:36:54 -0700
+Date: Mon, 17 Aug 2026 10:36:51 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Nikolay Kulikov <nikolayof23@gmail.com>
+Cc: Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH v4 0/5] staging: media: atomisp: cleanup pci/hmm/ code
+Message-ID: <aoK6E58VGAVRKuSZ@ashevche-desk.local>
+References: <20260814-atomisp_remove_hmm-v4-0-c3c954a12b51@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260814-atomisp_remove_hmm-v4-0-c3c954a12b51@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Sat, 8 Aug 2026 23:12:37 +0300
-Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
+On Fri, Aug 14, 2026 at 06:10:07PM +0300, Nikolay Kulikov wrote:
+> This series removes unused functions and replaces obscure
+> variable-checking macros with clear conditional statements.
 
-> On Fri, Aug 07, 2026 at 03:17:03PM +0530, Mohamad Raizudeen wrote:
-> > Previous attempts to change do_div() to div64_ul were rejected because
-> > mclk will always fit within 32 fits for this hardware, making do_div()
-> > safe to use.
-> > 
-> > However, Coccinelle continues to flag this as a false positive. To
-> > prevent future developers from submitting unnecessary fixes, add a
-> > comment explaining why do_div() is intentionally kept.  
-> 
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-> 
-Applied to the testing branch of iio.git.  That will become
-togreg and turn up in linux-next after I rebase on rc1 (in a few
-weeks time)
+> Nikolay Kulikov (5):
+>       staging: media: atomisp: remove unused functions from pci/hmm/
+>       staging: media: atomisp: inline macros for checking the bo/bodev pointer
+>       staging: media: atomisp: inline the check_bo_status_*() macros
+>       staging: media: atomisp: inline the var_equal_return*() macros
+>       staging: media: atomisp: remove hmm/hmm_common.h file
 
-Thanks,
+I don't know what the problem is, but in all four versions of this series
+I have never get patch 5 in my mailbox (yes, I can retrieve it from
+lore.kernel.org, but the thing is that either corporate spam-filter or
+something else gates the message to me).
 
-Jonathan
+Overall, LGTM, thanks for pursuing this!
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+for the entire series.
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
