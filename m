@@ -1,92 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 346DB3C3442
-	for <linux-staging@lists.linux.dev>; Mon, 17 Aug 2026 08:38:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 349683B05B0;
+	Mon, 17 Aug 2026 09:13:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1786955890; cv=none; b=r1KfStQAZPVTJ/PfuUxQ4eQxme2fmqHLIFciN74O+TNvqror99+u8r3S6lOX49m2UDLau5JCZHhcpLYSp0eV9RaIrVYOeO7NFUM1e1k7234rs37emXwnH1emMJcnM/5SPQgIbbASIVxRZf/xCTiYU8ZdOkKOGmrACwbbL1GzCEU=
+	t=1786958035; cv=none; b=WzuKUsXbZSCg+c+ajPXxEzbLDGnsGTkmuZ4L1WD5H+GEZkXg9F+winr8Rhk5x09qA0jHnNGCij3bXkX5CpdvKfBkuIK3DcnjS1aoFdBK7uJ2hJYXTC8WENKJLZe6S7RMJ6NjPjK/cJJConm6Zz9LGcpRJflFB9nTuS8CKvN9+r0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1786955890; c=relaxed/simple;
-	bh=MohaPOYo6YqA//fnjNroE2DN9sEHlbPjKqpujxMt4VQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UTyB+ycEH1B0dsJUj/zk4TFQkurfdJRU0XtrEFel85io5IZ/4vN4S2O9Aluyy4dxFWO/hTw6JWyrAt/ZvB7ne0SnUD/dR1schM/N8GGu+tn5pcpv0Z3nfeMZO1VHjP0AYTEaL72icrHDpgybQs6llzkn7Dl1uo13R47BzGIDm/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AqvP0k2+; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1786958035; c=relaxed/simple;
+	bh=5Om0KDafbxct0D1SbRb8mK7y4FLagftx9IrB+Xdqzks=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=uxUL15gdpovTaIWDmNvGKPMvEXicj8P9eYcl/cvAYlkpLsAEzUSCVaZ+tAv9dgPIjGpNWyqYB38OwgQtqxG+ZrgcsjSjJdMaIN7CJw4ck86RKPimDUNLLDBk4ywCA7dhtHh46aSEAGX0k+mJoTxiVSNTjGtXjVBiWb5hpuRT4rc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hq2Ov5UN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AqvP0k2+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1786955889; x=1818491889;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MohaPOYo6YqA//fnjNroE2DN9sEHlbPjKqpujxMt4VQ=;
-  b=AqvP0k2+wLUEXibPGDSEIx33ScECrPv2u2EO3HeHaxOLcMqhsukjf7W0
-   I8fyFxN1vGA2/C1LgTt12COyS/aiUNndmdWE3514uGN9DY9KfqYbDKdva
-   vZiW/224l7eouQTQVcmt2FVRwMtJ8WL5WQXigprnTq3a4TqoLfQ6nus0G
-   fZOXhLXYA1d1VicTr4gaJ/r5oSlFrnKDSpX40JW7Yepf712+JUwNnNuw0
-   IcWd1ezHp60qsMV/soeLCtjl2h99lX5XDyJuR83o897myPP6RKYLBZmLY
-   Gy2XvOs7sv8d1YzIWmPa857wJpImzdhlSVm8r8oxr/zPNKs9O175t7OV0
-   g==;
-X-CSE-ConnectionGUID: vYyYapydTXSmxrnyxehwGg==
-X-CSE-MsgGUID: dPPMVsfkRBmfFHDzEwcJgQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11877"; a="98088248"
-X-IronPort-AV: E=Sophos;i="6.25,228,1779174000"; 
-   d="scan'208";a="98088248"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2026 01:38:08 -0700
-X-CSE-ConnectionGUID: RaQmhmYYSh+zcdcbxZzEUA==
-X-CSE-MsgGUID: uy60/iCFRj+WrKMvJgFoEg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,228,1779174000"; 
-   d="scan'208";a="268697857"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.67])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Aug 2026 01:38:06 -0700
-Date: Mon, 17 Aug 2026 11:38:03 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Raushan Kumar <mitramaurya80@gmail.com>
-Cc: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: media: atomisp: remove unnecessary return in
- gdc_reg_store()
-Message-ID: <aoLIa8AaICrw_1Jk@ashevche-desk.local>
-References: <20260815070105.124813-1-mitramaurya80@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hq2Ov5UN"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B0012C2BCF4;
+	Mon, 17 Aug 2026 09:13:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1786958034;
+	bh=5Om0KDafbxct0D1SbRb8mK7y4FLagftx9IrB+Xdqzks=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=hq2Ov5UNVMJY+CGvqDvucK0CfSQhJb25EhSVg+3cmWSPgsivj+5fZleDPqPXWhDse
+	 ZKPzHLi7c96L0irooFzzPT84MHstnRvP1A4/Yh+gUJQOgY3U+RkX4UHUDuFzTBLc0s
+	 Hz1A1bg+gD0xHu7Ch4wHgFvHnQPqmofthLQ63B+jf3gtOjmDb5FThcX4L8lKN8Y/t/
+	 eJ+XkT84psx231pJbZt5VTtlyfDEmzS5JNTs2B7+p5jZDbCzOEk3PG6tPt3AVbV3U3
+	 LxRJyHyJohL9TgSK0nigqPxbqcaIqbbQDrr5oZMJLQfv0e4Tm6WnrLiuFU2porJPyB
+	 N0GaYJY3RRRNw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84581C5DF70;
+	Mon, 17 Aug 2026 09:13:54 +0000 (UTC)
+From: Junrui Luo via B4 Relay <devnull+moonafterrain.outlook.com@kernel.org>
+Date: Mon, 17 Aug 2026 17:13:53 +0800
+Subject: [PATCH] staging: sm750fb: do not program the PLL from an
+ uninitialized value
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260815070105.124813-1-mitramaurya80@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260817-sm750-fixes-v1-1-978c617e5a20@outlook.com>
+X-B4-Tracking: v=1; b=H4sIANDQgmoC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDC0Nz3eJcc1MD3bTMitRiXRMzMwsTy5TEtLTUZCWgjoKiVLAEUEN0bG0
+ tAHPAqKhdAAAA
+X-Change-ID: 20260817-sm750-fixes-466849daffec
+To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>, 
+ Teddy Wang <teddy.wang@siliconmotion.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, Yuhao Jiang <danisjiang@gmail.com>, 
+ stable@vger.kernel.org, Junrui Luo <moonafterrain@outlook.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2027;
+ i=moonafterrain@outlook.com; h=from:subject:message-id;
+ bh=HRMgLoAPLRsSpD1hPS4ZSJd8u0h8YfDKEqXGyACQ3KI=;
+ b=owJ4nJvAy8zAJVb4wiKgu++DA+NptSSGrKYLF7+ZplxYUJTrlGCg+81odz9f3BKDHbNut7Mu+
+ iG7vlOizryjlIVBjItBVkyR5XjBpW8Wvlt0t/hsSYaZw8oEMoSBi1MAJpJ4ipFhrV/XRqlP5zV/
+ r9CNe7M75Nnd6e+TVv6Y0lm4Ye6BTg51DUaG21+/N/kUh97OmvvB46iYR4ChVFHRtWVsnJNjd1U
+ J3JBnBwBydUz9
+X-Developer-Key: i=moonafterrain@outlook.com; a=openpgp;
+ fpr=C770D2F6384DB42DB44CB46371E838508B8EF040
+X-Endpoint-Received: by B4 Relay for moonafterrain@outlook.com/default with
+ auth_id=909
+X-Original-From: Junrui Luo <moonafterrain@outlook.com>
+Reply-To: moonafterrain@outlook.com
 
-On Sat, Aug 15, 2026 at 12:31:05PM +0530, Raushan Kumar wrote:
-> Remove the return statement at the end of the void function
-> gdc_reg_store(), as it's not needed since the function returns
-> implicitly, as flagged by checkpatch.pl.
+From: Junrui Luo <moonafterrain@outlook.com>
 
-Is it the only a single leftover in the entire driver?
+sm750_calc_pll_value() writes pll->M, N, OD and POD only when its search
+loop finds a divider combination with 0 < M < 256, and returns 0 when
+there is none. ddk750_set_mode_timing() discards that return value and
+calls program_mode_registers() regardless, so sm750_format_pll_reg()
+reads the four members uninitialized and pokes them into PANEL_PLL_CTRL
+or CRT_PLL_CTRL. Nothing bounds var->pixclock on the way in, so a mode
+set can ask for a clock the loop cannot represent.
 
-...
+Consume the return value and reject the mode; hw_sm750_crtc_set_mode()
+already propagates a non-zero return. Initialize the structure as well:
+sm750_calc_pll_value() returns early for SM750LE without writing the
+members, and returns non-zero on that path.
 
-Please, read lore.kernel.org linux-media@ archives against this driver to
-understand what to do with this patch.
+Fixes: 81dee67e215b ("staging: sm750fb: add sm750 to staging")
+Reported-by: Yuhao Jiang <danisjiang@gmail.com>
+Assisted-by: Claude:claude-opus-5
+Cc: stable@vger.kernel.org
+Signed-off-by: Junrui Luo <moonafterrain@outlook.com>
+---
+ drivers/staging/sm750fb/ddk750_mode.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-Also, if you are in a group that is mentored, tell to the mentors to stop
-looking into this driver by a newbie. This driver has much more urgent tasks
-to do and it's not trivial, it also requires a real HW to be at hand to test.
+diff --git a/drivers/staging/sm750fb/ddk750_mode.c b/drivers/staging/sm750fb/ddk750_mode.c
+index 7163232c0701..5ff5226fe77a 100644
+--- a/drivers/staging/sm750fb/ddk750_mode.c
++++ b/drivers/staging/sm750fb/ddk750_mode.c
+@@ -205,12 +205,14 @@ static void program_mode_registers(struct mode_parameter *mode_param,
+ 
+ int ddk750_set_mode_timing(struct mode_parameter *parm, enum clock_type clock)
+ {
+-	struct pll_value pll;
++	struct pll_value pll = {};
+ 
+ 	pll.input_freq = DEFAULT_INPUT_CLOCK;
+ 	pll.clock_type = clock;
+ 
+-	sm750_calc_pll_value(parm->pixel_clock, &pll);
++	if (!sm750_calc_pll_value(parm->pixel_clock, &pll))
++		return -EINVAL;
++
+ 	if (sm750_get_chip_type() == SM750LE) {
+ 		/* set graphic mode via IO method */
+ 		outb_p(0x88, 0x3d4);
 
+---
+base-commit: f5bbbfec59b4e2fb7520a91de3df8a6174325d6a
+change-id: 20260817-sm750-fixes-466849daffec
+
+Best regards,
 -- 
-With Best Regards,
-Andy Shevchenko
+Junrui Luo <moonafterrain@outlook.com>
 
 
