@@ -1,71 +1,71 @@
 Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 470EFEED8
-	for <linux-staging@lists.linux.dev>; Tue, 18 Aug 2026 15:13:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACE633563F6
+	for <linux-staging@lists.linux.dev>; Tue, 18 Aug 2026 15:21:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787065982; cv=none; b=OUCI5pZSLpFAO79pmcx3xmQE8grp9p8niESgs7kO3tNPkT3sNLja3Ij6E3GhUo920qCwx6kDXfWYbFiGVoUA59z5skKK8uaGXP+BBEPMtbLuhwlwUZIowLnCSUQOTY9kS4LtshwAHDjrAQ3QzYUkbBZlJFt2nkTV9u/N3xuURKA=
+	t=1787066467; cv=none; b=XnA1K2+XwJZP/cLvbKu2yhpdQX4a3crg1xikIE/L4wFl+pzoI2KEOySWOv9d5ZQiUjOMzhFdJzdxcezrf2GvHGemBOVWNGkKh5iQMMiWxuSLEwrJI7lMi+pEEPQ+NOxZgvHSp9A109DALCMrcfDFGcFUMwosZ/+qDlneL5E6aYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787065982; c=relaxed/simple;
+	s=arc-20240116; t=1787066467; c=relaxed/simple;
 	bh=6iWTKheDmg1MV1yYRyOscL873fveo2GgGfEg372xrrA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=A8U42sZbw+pXhyZxEvPbk1+VNAIC6nR+NUAnzzAHG+MFTORgSe4ecuWrwdGwebsvMiikAAARXQ/hRbv2nmjW6fK/h5eZq6fteFMSQWmuEIMpHkcvCg4FE/k8XaaFXIsmpY6rsbasZayljxzCZtQy+KQ7SpDgBsJMEGKZfzEYHbw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k8uV+ZkH; arc=none smtp.client-ip=209.85.216.54
+	 MIME-Version; b=hEo+PVJ4fg6NY/iXJZu/OfBs9muF5zvhUKC+dQN2rQFb1knSjIoMVByk7SkD53wJheX2sHJPG1uB9EicQBrpx1rih0Y/XVkATae5g1hTGipZkfNro0RUL/gFWUWBihYhXvlIx0ggLfeP7W5l9ExYYtQhmAtJ94ORO3Y6t9zZJ3k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qkc1fgN7; arc=none smtp.client-ip=209.85.216.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k8uV+ZkH"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-38fdeaed181so58976a91.1
-        for <linux-staging@lists.linux.dev>; Tue, 18 Aug 2026 08:13:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qkc1fgN7"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-38e07ebd263so37154a91.1
+        for <linux-staging@lists.linux.dev>; Tue, 18 Aug 2026 08:21:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787065980; x=1787670780; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1787066464; x=1787671264; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
         bh=eksSze08I842M0ZmbhXTUvz966ItUgJwf1eiDR5TTGU=;
-        b=k8uV+ZkHqu/PFzfAA6JpokE/i+7An0+LajP8X+YYHevffGGF/NKRCpbzL2dxGGIKIT
-         dWcqVCItK8Lg8MmL1jkf9NdCX4ZCMkV1Lo12eBN5ttoihG93k5cBnG+Kbsj0oU+E1LhU
-         ILfBqXL8klVLIIMU7bom5NinkV7WU6FiAcKGixmuMd37+mnZOnR03Ev1vxpwICZ+QY+4
-         WY/kG2ncSXsIxNbUbU+WITBLxULBhJeLjSJfcaXa2QysI48MotC1EuQNK6g5haZJoFm3
-         rDTL9nKYzjwQBd/UNjKHl6H2sMPqr2nekoj1M0ajm3mafyw8QVI6FzTm98WH6S/Oaq9P
-         BhaA==
+        b=Qkc1fgN7A0DtEjEsEdUa7hJzhmNLEvPaR1d2p+MKzTWgiUh0TaMLMtm0C5xuNdkaaq
+         TQdSZS+dGed+62kKcyq5Ey11MlzBTEMbRocaaGkxDiPpy4pk08XDOSa3Ep/GgpMowayc
+         FUFiFUKIgZD5bcuGKknJzo+trX6/dOppmurVPayAHmexz1HmPOrnJsGP94KU0Ne/D2s3
+         jfZkAc5glsMlNYKZq3XHAYyUxlUGDUxt8Tmh+gyYcehQdNa2ZJRriCkOT3Lb+ZNKgz/Y
+         PVAu5Nuk4EySNb5oaUfxajMrcbguu7sPlwaUIHNLU183GukfjmEmvw/jbusJiNiX+C6o
+         L1RQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787065980; x=1787670780;
+        d=1e100.net; s=20251104; t=1787066464; x=1787671264;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
         bh=eksSze08I842M0ZmbhXTUvz966ItUgJwf1eiDR5TTGU=;
-        b=RIFUW2kRJIWLEy44Wl8wITP1YHj4SmQLW7g+jTUgtZJ17j33xceiUGAl8jCvcCDRjU
-         3rMLCTwmRgFdeKj8IYU9VKU77JDoPdw61azGNnVwWLoq9HOYpNlZKCf2gy1PTSu/csoV
-         6zx/rZN2nNPLOJe70XKW18Rz7PMY7Fkt++GJP3cx4+bqWY2wrVe9uMqZ3PbcqYJWo31O
-         ps55QUc6I1jZ6/odw1iKlokf3MZX6K7J3lGUemffghvHBmfrpIqlEXiS77APUvtNHspA
-         h+AgiMulx0SyKmjdCxRVyJInp2lsIJmWZlPOHqXw8gKO+SIEYTVmwZk44/2SN3Z003Ti
-         2i/A==
-X-Gm-Message-State: AOJu0YwmyXgcEn2zE78oy83j9Hoz2mOq1ouGR9RNTVfOv+1681qWv5SY
-	+wWvzfICYmnhxQTesw9L2SI+akrlRFknvZExkGW+FeQ7UgCHq+jVdlnyHGqyx1x0
-X-Gm-Gg: AR+sD13UtLqBjy+IbBvL/sou8QYhmgtqhPaxr9Ci2mpU+EKd4LUXPRVja3zV6eQCKsv
-	6WOCSlwa7mqiuwz2vvD3Ejc9tlUwAgiuiiwuczZf7W7029NG+38j6XOazxYzDSy2W0d9wgiTtkE
-	iGGsBjgg0BO7VDn3HnxlBS0fJ+wTw4cXoAArj5vreDxvDcXibARYoZPuvOXjcyBIHSYv/8sEQ2L
-	BcG1fyw6T29XSmpEfmMagVycp9npR8LcSQgF8hP/bsAVBHx3bYj4vSeSpm3rXOcPjK6/IV3HRmx
-	mYyczUsxF3xSmnY6dG9yGpgxsua4gKAUhbYkQ8EMS8522trf+N1tkBdbAIGVvQDJ8iTrcs/XiYc
-	yDIo82Pl7JoiiK4/vEP0OuY3FEQkWz2WSyirZ4YAix1pktuxnnYKFpjgmghDcQ9TSeLVF+OnjOL
-	PPLTs6BQxj1d7czaxUAElRQooWLurJDYLZmAYOEWL0sdP9cqVxO2Hj4Pbpf52t+xJcNaB2Vp1Se
-	5Koq6avsEoCj4R2jw==
-X-Received: by 2002:a17:90b:2e42:b0:38e:6d4c:14e6 with SMTP id 98e67ed59e1d1-3955a5e114cmr13531696a91.3.1787065979242;
-        Tue, 18 Aug 2026 08:12:59 -0700 (PDT)
+        b=UrGF0w23eumQHMhgPROgwiuCe9qtx27x/ynETzwwghzbUN/IA2n+Yc7Ep1mkw0BnS5
+         PmIwv+NxvNsDXk2hP4o9M74V+yrsfiy2ZepaTpvKUk6+gTuJplvTLih5yDAWOfSFmbo3
+         K1K5xHqesveDiM9YBc8yDUDpuQjGM/6TRvqrxoxVYFdIxrpRsLjca7ttFOcT9rauPdOw
+         ZufZpsJ6YWThduMnIKcPN0f5DF9u04cJqLm/+H9ZJiqN0MgkDmGxBp5JKFRjzY5lBovu
+         Yolk4I4uVRdpaW6ZospdgQkZ5Vxun7s+3RCWB6rT/jSdDkFSFr9I+sCX+WDmotY28IqN
+         3kOw==
+X-Gm-Message-State: AOJu0Yw1mdSuWZrXCqNeHdWAAqDVFivefXtGTy6A24JeowdPOlbyC0Oz
+	hmAILF70XMErevYRQlikwm1lk7+kyT2cLHUyotlNyET0Q1178GGJzxP6/KA/0+z0
+X-Gm-Gg: AR+sD113vuLypeEXYNHBZ6GfaQKt/mHlrQ66tbtOz277k55996p14X+Zn2KC8qBaIn8
+	T+d/S6ooEPNR1gx/o7QPA0g/2Yz9i4UUeDO45Mt6zbW1PL7QbwVPbB6hryUttNaRUJfpUxSmBjl
+	boVbcm+ulUU5CvCfzHsROSmzEv2ddmjY5r1N4ixjSmGxWSw6NXG/jYz+Ur02ujVcgwmpkpAn2UY
+	zrinQHAzaBcmNmKEgr9Q99W6Bmh4mwuzWm+YOiHo3plaN+O0MOVjY7V8DTXCWLv1Exbu+z1+K2Y
+	M+jyQChvSuc4CVn43REa5P0z2AFgHuR8btjg92DexIQ7FhQwoXlVagYh8acQsX5x5PegRRFU12h
+	WWym9fim2ebtidIwhiB/vbosfBe5LbldzSiTWDeVvSwuooeEhSe2dZNAJaX35y9u0AhA7IjNXkB
+	rCrwXCAxw3k2AOHdTmD1Hboo//a2AWdddeWWMsMJDPJTwlxRtvmXOflpK3bBHLEGZd8rbqmK40r
+	LucKYKZI5bmJCQOwA==
+X-Received: by 2002:a17:90b:5606:b0:381:25ce:bcc2 with SMTP id 98e67ed59e1d1-3933b78b698mr37138792a91.6.1787066463531;
+        Tue, 18 Aug 2026 08:21:03 -0700 (PDT)
 Received: from COMLAP4774 ([2a09:bac0:1000:95d::2fd:42])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-326798cb9f5sm21851900eec.13.2026.08.18.08.12.56
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-326798cb9f5sm21912248eec.13.2026.08.18.08.21.00
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 18 Aug 2026 08:12:58 -0700 (PDT)
+        Tue, 18 Aug 2026 08:21:02 -0700 (PDT)
 From: Dhanush Muralidharan <dhanushmuralidharan@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Dhanush Muralidharan <dhanushmuralidharan@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: remove extern from function declarations in header files
-Date: Tue, 18 Aug 2026 20:42:50 +0530
-Message-ID: <20260818151250.99267-1-dhanushmuralidharan@gmail.com>
+Subject: [PATCH v2] staging: rtl8723bs: remove extern from function declarations in header files
+Date: Tue, 18 Aug 2026 20:50:55 +0530
+Message-ID: <20260818152055.486-1-dhanushmuralidharan@gmail.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260818131601.96509-1-dhanushmuralidharan@gmail.com>
 References: <20260818131601.96509-1-dhanushmuralidharan@gmail.com>
