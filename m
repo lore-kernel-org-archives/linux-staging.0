@@ -1,112 +1,86 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 982DB3ACF00
-	for <linux-staging@lists.linux.dev>; Mon, 17 Aug 2026 21:51:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E1EB1D7E5C
+	for <linux-staging@lists.linux.dev>; Tue, 18 Aug 2026 06:16:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787003518; cv=none; b=mG7fMsX57fJ+OVApc+x8uB+q2/PQHojNsZNsG4KjvdlQBm7Nm1JIHjxSlNPtJoL7hMiaPydOccR3NjSn06B7W8EhyWjYvvXgaYoQ/vylH7Ehj9wDhqqT1LqzgNfSjFZlXk3e7Mqs4oisGQOV6rh5nffvNZ2iUw7DoJFUl1bvE2s=
+	t=1787033806; cv=none; b=kYP0ml3uTJicAH3Gpe9gx2VRGeISe7m7emdPJdFG2eXszgaMYPAxGlc6BnUcIPhdyc/uj7vdSacEZuv/zGijYFE5qUg2cmvxFDxowATQ63UubUg8khMhii23RoXXx4cmnfl9iJ7X/zbfnSdB/DCcNFvDzJgXG5RCkWToXHeuLto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787003518; c=relaxed/simple;
-	bh=1OUwH3vpefuJTu+Cf5X1NgO2KYMRYxDAo1MiyQly/Go=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=Cw3VEGiEGhRkD3LWPklPjnqq3BLWQgii96tTrWLge4ibLIo7WcOsY+xPh2B+I0pdmyNU3KFu2zjlKwlR/Gj8z2cuaVYv49F1X3TuPY7XKY/1yWs6BwW9CT/BFhFaVaHipmXd+wq9X24/NRusuk2v55NrxR/7Oju22dyb63ID+U0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AfDH1snH; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1787033806; c=relaxed/simple;
+	bh=tHa36Yfnl5UloN6rbk9ub3AEIOz+RJGVbrm6QepGmto=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WKQ0IuyWtdu4XUQG7EKpFTqAyKrEchPMrKy1fGE7kOLZlOACd+piDYUNk13vRRYXyU9R7Rh7YTdC2bwSnZaX8KstKcFrVfmUfeWmnlYLaJBZ5ALsaeiwtFwpgXOj5ltSjPMnFD/7rUXrXwpm/55cdo2xqwKNZMKmP8L9dp8YBJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=bgM3TkTE; arc=none smtp.client-ip=117.135.210.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AfDH1snH"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-498028b3d5eso50107635e9.1
-        for <linux-staging@lists.linux.dev>; Mon, 17 Aug 2026 14:51:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787003513; x=1787608313; darn=lists.linux.dev;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=1OUwH3vpefuJTu+Cf5X1NgO2KYMRYxDAo1MiyQly/Go=;
-        b=AfDH1snHD93cGZ1A1a3NetLE9ffBErnqdWrkqUVf7fyy0oIOOMB+o11ITGhELg+XUZ
-         6waSycVNq5JTbB4q7eff44U4swf9xSqBSxguvw1aw2VnsY7rXSTsxvprmfhqTez59WUQ
-         OSdwrCcQ/3XLMHH/EUcXuFF8ni+DVxkEgLoQ/e+a7CdrKfOcvlCP3ymg1zG7Zn/FR1ZA
-         mGUiDHv7yHmErbWLPSYs3o3MznESm5cVBkF0PGSgmANu/pQoli6WuRYFef+vKhiHyj0R
-         1V6P+dOEa9Em+eOE6VAAEDi6xGUEm2f6zItdwhklJ9JxEeq3lgNuP4t2fTyHz9Uw1I8w
-         LmRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787003513; x=1787608313;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=1OUwH3vpefuJTu+Cf5X1NgO2KYMRYxDAo1MiyQly/Go=;
-        b=YQ3d7AnrxWzK43Iwg6wcJXCyHgk/kUmbquA8+hlCCGaGT1jWiT8JkwjQb0Ii8DfwRs
-         ers0d/A78GCbh6Ez1pHGgwbKl+Uv8bkIEOmn4fP5W48TdsuVappaQ0ZW/PWpKzDVfCXU
-         h7HoHe5dMdCVfzCU5mtu4IWl86Rsf5NluCWbjxgVzPNYxwhr7H3Tfo5cqHReHw2ojH1P
-         DC4yjoipnxVa3dkYnQJ88kwXzP0vp7DwtoP/HV3HYdOU62GXxQf5oopvE1R7TKFnjR7q
-         KqGWDwhBrsR/dfgz6gxxd+ygzGg1U+CcMFuk5/Exq3xTXZmrw0OD65EGdnTDnwGcVIkT
-         YQIQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqeZuHg7+euSyWOxVS0eH8PNpMWmC4J7i5Ys0G2qrmfK9mt29ypSCloMAxSKKnObM74T9L3lQk2z6AUq7+v@lists.linux.dev
-X-Gm-Message-State: AOJu0YyuQoaUqLCQqkT5/eddZPrNi4Hq+UA8JAi0F27V6RvUj7bKq7th
-	ZonKPP3hlAxAVl2gXmk2U3uqbn8eJgTjbbAisNKDTY2IaZQB5Ydh2ppx
-X-Gm-Gg: AR+sD116yBKCvgKdqMyT3WW6fMgZB0rCuLif4RksaTVzIgYysFzeqxawcMApyk5y9qe
-	Fe98+zWMjWkV+aXqGGoZsr/aLlznxj4gXjqRcdls6mUKslJ/LtCwkF7rqeOJzFcwFxoggz3sOFU
-	6xll8qywPRWkwrBZQk3zI1xSUQLYvyH/fiZHVm4e8qPJhJz6vyN2RJ0395s1YV2hziPYGHTg01/
-	QbUpYUqfyuAsIwBRC4aPA80QHHZyhgw1KVOuMDLaZ0EwTSvA6KjveT7JRszaBhPbtiXDo6aCfoF
-	z69OtaVnsUBKCZSrcZTMYc9dzqzOcTnzu7sbp64fMSQ7TIsFZEVcJ0lhACd67lVmVuaeLVZ0S5w
-	KGCg66FWvFv/W9vD7+1zYqYybxvtIJEP5FnJsh5l2inmf7McHkDA3SEFHa7oYLwmiMNVvBlV1/u
-	O8hAJjOaBoEXg3gEUCnuX6iWaf/OCzGpgk0TnG9XzjerKWfR5VgAxRpUs7zdHF6ddhX3HpEYRT7
-	VnLxmqduPLCQ/QSbduluZPnGETlo/r1vY/XfuKPteelprAKlCVNqCetjmlPhD1etlU=
-X-Received: by 2002:a05:600c:1546:b0:499:484a:98e7 with SMTP id 5b1f17b1804b1-49987974700mr415672585e9.14.1787003512692;
-        Mon, 17 Aug 2026 14:51:52 -0700 (PDT)
-Received: from localhost (178.43.142.119.ipv4.supernova.orange.pl. [178.43.142.119])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482a5a31572sm7076978f8f.5.2026.08.17.14.51.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Aug 2026 14:51:52 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="bgM3TkTE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=v9
+	QX9j0TTVmGsZ85673SILcfxQ1otXTH1rmjb7Kp8mg=; b=bgM3TkTE/LKJqKNubl
+	bnlx2o2VlgNKCOUm7l35iHRx7kNkvcH/x4xw4KP/+9v6+RTAjOTsCeAOVjLY2A+q
+	pD4zDnaG/89E1y3Kpow0TRtnUCF3R/pA0B9gs9mYcAerx4Ao6S3IzK5/cZay/1nG
+	EB1h71QMqulAf56srWdKuqjSc=
+Received: from fedora (unknown [])
+	by gzga-smtp-mtada-g1-3 (Coremail) with SMTP id _____wBXFV6E+INqKVsgOQ--.91S2;
+	Tue, 18 Aug 2026 14:15:45 +0800 (CST)
+From: huangjia2hi@163.com
+To: Vaibhav Agarwal <vaibhav.sr@gmail.com>,
+	Mark Greer <mgreer@animalcreek.com>
+Cc: Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jiazhi Huang <huangjia2hi@163.com>
+Subject: [PATCH] staging: greybus: audio: use dynamic vendor and product IDs
+Date: Tue, 18 Aug 2026 14:15:20 +0800
+Message-ID: <20260818061520.67387-1-huangjia2hi@163.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 17 Aug 2026 23:41:07 +0200
-Message-Id: <DKRJNC8R41H4.1TJ6IRW0XR5XP@gmail.com>
-Cc: <mitrutzceclan@gmail.com>, <linux-media@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-staging@lists.linux.dev>, <linux-gpio@vger.kernel.org>,
- =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
- "Martin Hecht" <Martin.Hecht@avnet.eu>, "Andrian Suciu"
- <Adrian.Suciu@analog.com>, "Tomi Valkeinen"
- <tomi.valkeinen@ideasonboard.com>, "Cosmin Tanislav"
- <demonsingur@gmail.com>, "Vivekananda Dayananda" <vivekana@amd.com>, "Cory
- Keitz" <ckeitz@amazon.com>
-Subject: Re: [PATCH v15 00/22] media: i2c: add Maxim GMSL2/3 serializer and
- deserializer drivers
-From: "Artur Andrzejczak" <andrzejczak.artur@gmail.com>
-To: "Dumitru Ceclan" <dumitru.ceclan@analog.com>, "Tomi Valkeinen"
- <tomi.valkeinen+renesas@ideasonboard.com>, "Mauro Carvalho Chehab"
- <mchehab@kernel.org>, "Sakari Ailus" <sakari.ailus@linux.intel.com>,
- "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>, "Julien Massot"
- <julien.massot@collabora.com>, "Rob Herring" <robh@kernel.org>,
- =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>
-X-Mailer: aerc 0.21.0
-References: <20260807-gmsl2-3_serdes-v15-0-7212e9e5156a@analog.com>
-In-Reply-To: <20260807-gmsl2-3_serdes-v15-0-7212e9e5156a@analog.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wBXFV6E+INqKVsgOQ--.91S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7JF43ZFyxAr1UJFyxuFy8Xwb_yoW8JrWfpr
+	Z0ka45Cr4DJ3W7Ja1vyw1xXFyFka4kG3yIka98Ww4S9F1FvF1ava18tFyYkwsxKF4rJw4U
+	GFZ0gryxZw4qyr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pizBT8UUUUU=
+X-CM-SenderInfo: xkxd0whmldjxrl6rljoofrz/xtbCxBHdFGqD+JFLogAA31
 
-On Fri Aug 7, 2026 at 3:02 PM CEST, Dumitru Ceclan wrote:
-> [...]
+From: Jiazhi Huang <huangjia2hi@163.com>
 
-Thanks for the patches, good to see the GMSL support integrated into a
-common framework.
+Replace hardcoded magic numbers for Vendor ID (vid) and Product ID (pid)
+in gb_audio_mgmt_node_desc with dynamic values obtained from the
+greybus interface.
 
-Small note: patch 16 adds a second config VIDEO_MAX96717 and a second
-max96717.o. The old driver is only removed in patch 21. One symbol then
-builds two max96717.o objects, which scripts/modules-check.sh rejects.
-Won't allmodconfig bisection be broken for patches 16..20? Both drivers
-also match maxim,max96717f in that window. The same overlap exists for
-maxim,max96712 (staging driver vs the new max96724 one, patches 17..19)
-and maxim,max96714f (18..21), where probing becomes order-dependent. Can
-the removals be reordered so that these windows close?
+This resolves the associated TODO comments by using the actual vendor and
+product IDs provided by the interface structure.
 
-Kind Regards,
-Artur Andrzejczak
+Signed-off-by: Jiazhi Huang <huangjia2hi@163.com>
+---
+ drivers/staging/greybus/audio_module.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/greybus/audio_module.c b/drivers/staging/greybus/audio_module.c
+index 4cd1f42c11f0..9eed3ac0c49d 100644
+--- a/drivers/staging/greybus/audio_module.c
++++ b/drivers/staging/greybus/audio_module.c
+@@ -358,8 +358,8 @@ static int gb_audio_probe(struct gb_bundle *bundle,
+ 	dev_dbg(dev, "Inform set_event:%d to above layer\n", 1);
+ 	/* prepare for the audio manager */
+ 	strscpy(desc.name, gbmodule->name, sizeof(desc.name));
+-	desc.vid = 2; /* todo */
+-	desc.pid = 3; /* todo */
++	desc.vid = bundle->intf->vendor_id;
++	desc.pid = bundle->intf->product_id;
+ 	desc.intf_id = gbmodule->dev_id;
+ 	desc.op_devices = gbmodule->op_devices;
+ 	desc.ip_devices = gbmodule->ip_devices;
+-- 
+2.55.0
+
