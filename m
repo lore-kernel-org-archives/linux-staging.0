@@ -1,119 +1,125 @@
-Received: from fout-a2-smtp.messagingengine.com (fout-a2-smtp.messagingengine.com [103.168.172.145])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5A263BE644
-	for <linux-staging@lists.linux.dev>; Tue, 18 Aug 2026 09:06:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 205624483A0
+	for <linux-staging@lists.linux.dev>; Tue, 18 Aug 2026 09:56:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787043993; cv=none; b=l/6+RNUrhmVMGRn54rWSL34YwSmhgB7IFcYorqy6FB53tAfPGgstug1IGvi8jlRCHFEc7+2nDyki4KYdINKNJOAQzCT9abkgjZpDWHfsKeK5hGgQF9BpJ09RvPnNiyOt/HKZG853oWPf+WodaE0mBIK9eF1CJWxtJGKXXXrJnmQ=
+	t=1787046972; cv=none; b=msY5tctvQNNTJJoJQKW5UPg+iXmJezm/HU8GaXR6TTLvYjjLgpjphQLYkyYoEm9yMNtPk1aa7c0OhiA5kgTOa/hms3USPI0WAAkP2HBcGPKLeVsO7v0EgfKaUccxIbP1c6Ug9MrdC+wrZKoSt/2kl/i+rxZt8Y84LdUgIs6c8D0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787043993; c=relaxed/simple;
-	bh=jw81VDThxX+SrgP9VRsZN83GJHGUG7SJ7cz98dplupU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EAaxW3KyWq1A4rgn+Q5qSdhBIgyuATQteaEGEu9zQfsKzbZUoath3rW6gXge7KQSaCGC5GljAkdL/57KkULtFGFEZ4842VZ0O45SPmNYNNCNg1OFGrRTXPp0Ynj1WUXFnmrQNKM/TehP6C50CSxa1q0rpQdERiLaoXoJ73js4bg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=eH4hBiMy; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=HDbRREX/; arc=none smtp.client-ip=103.168.172.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
+	s=arc-20240116; t=1787046972; c=relaxed/simple;
+	bh=8XgLnxnRBdHCLqPo2Z7m3y5H/VkuP3K8ulUiR4wLTS8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sXf5XhluvfkZ6X+/ayGUH9qO29B+Lq+keRVE8plFJkKtmL3EXrPaW3o3jwGhi5DkV35OOFNGB9jfQ76tO3cprKFYsU0LKHSuOYxrZjpE4OyoqRPtUb85nvWDJht976Qui2rRhThG0o/mrdPZ7T8X2sjYSAuRY67cXVHU9AdUxEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jrx9X5wc; arc=none smtp.client-ip=209.85.215.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="eH4hBiMy";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="HDbRREX/"
-Received: from phl-compute-11.internal (phl-compute-11.internal [10.202.2.51])
-	by mailfout.phl.internal (Postfix) with ESMTP id 26FFCEC00D2;
-	Tue, 18 Aug 2026 05:06:31 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-11.internal (MEProxy); Tue, 18 Aug 2026 05:06:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1787043991; x=1787130391; bh=Fo0jq9k8y+
-	8fLZVYzmfHE2hpYhUxIRqxjSyWCj0ZP7A=; b=eH4hBiMy8IGgTf/IOrQ8HeziOf
-	mZA9GhRhfuKi6yyrficPbokEB5N1nMjvLcD/g4WpBfcpPW4xQdtHFpccZVFnF7xG
-	jgKCKC0Ctm94I5PY6D/jBYC48Ng6GLczX26D+2IY03felhkV2wqfXE2Som5O0k80
-	uwMD2x1WYDQzgNLdopUGvGUFjcWfakNyu4AA1unyk/kK/jy8qd9yqjNwi+9E40bu
-	hf0If0cEsjGNrLkv5uRBqkD0hPWqc5zMvvoDlS+t95K+XglpnnQ3ECOUDSvVu9MI
-	V4+e3/1buMNT8uTxu5CLrZnvy1Y7nDlfgJ4pY6jbIzAc+h9PuVaM1sgo1cgA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1787043991; x=1787130391; bh=Fo0jq9k8y+8fLZVYzmfHE2hpYhUxIRqxjSy
-	WCj0ZP7A=; b=HDbRREX/lqJxVMMhOfZDxfUO8c1cP9DHgq7TgTVgiIvCb1iCj8P
-	3d6Ene+FIdsQiz2/mb4Sv3aSPMfP0kcn+Rv6Xg47T7fo508QxfTZwL3va1h+R2/m
-	Fom8krKZxWtCg72U/OiRFRWJUZ24LFvqQ7aWulIOMv+SpNumEhhsN1VDHg9Zay3d
-	gRdIS2F6hzw3K7CJB+XyCN/WjBfzJjJzmQXxsrxHrx5yBEkjA78NIkBMtazVL55o
-	c46CnIR8lE0S5uyQzBp6Z9RRXUrn9Nb67nCGBbt0y4hYuJjqmzHPVtDla+5Fg+tr
-	cynwsdR5jubTfxHnV+274J0HDFOZsLW8x0g==
-X-ME-Sender: <xms:lyCEak2bNN0mO5XFRdpJ_c0dx-wFMqYlWSo16Q2ytFL-nFR81oxjkQ>
-    <xme:lyCEanReWybFcSiDkddtfmZtXVOL5-AzdPWvDfZE3_HzL8td0Mn3KeWdTW2Wir232
-    APBkSWASQGsqK2WkwWND4baPulNLUsq9GKpxByzwkaCL7mUHfs>
-X-ME-Received: <xmr:lyCEaocxLqDIxMMe7JlpvHLusQFLviupVoX1P0V14FRDeFJq9ca_F7gIgCBbfdNmSDg1ua48VT1sQrlcQK949pwT5rCM0mLkL6AWV3k7zzE>
-X-ME-Proxy-Cause: dmFkZTFq6w9nPw3Q1kQ+E39VRqajdFljngqf/D8FTrQ+efI/MKuVLMhyGN90FqEYRGnrKq
-    fLbqi03RUy9Uhvs8U9XnlFIzxqEDPau62CpXVPXwiUTZinebpoVI/ENTzFBHl2iQYUXw/0
-    6Sc4M3VGW1Utv/v4ARi/ImMmHU0n6PJGE366HLL1TLpw8DPLHIAGLMjJf0EQZaFQG+dwKu
-    syyI6fNwWRAvpRlvlQhHPQdjTTHJn0up1xRdXfIQNhGmgELSIeCNS0xtaIkRGAlZXdBSrE
-    dXQYFiLXlSaUsoPM1EkKCaKGu257hDhp0I1SztMpURbNckdRaERG/Fr4OFM3nivaVQvjdO
-    d5mdC+c3niDH+Jr6+eMvEqTBlqimqXJbFCIKZ/BM48OBumGt4eDpPRnOQ2jbd+uGZqE88n
-    1j2XCuZpyaUtmXqS/DyXaCe9+uCfdjQx8zpHTQ2lFiFqVuUvmiNAUIF8Apm4e+7s/mhKKL
-    SpN/acuLl5Td/DLCwmjhXY/vBti3tYFAFYLa6rB2S3ZOdcRJE9J0Ue4jitvMgf5jlIR/N8
-    6VkjT2hAKm8pl0V2J3+T5LJHEYUR6slePQP6lRqvtAqA/w8OZ4ACAIOvaBfDJBN0HtMr21
-    lzdcoWrIjGiwuRu5TcHGAAj7U/Ms96qFBGkT17KNERb7zX0MLwqRxiCORc3g
-X-ME-Proxy: <xmx:lyCEaofmFtGKpiIiDrdenlXwUNCOd7ldgxto4c0XG9S4QP3LYZdbsg>
-    <xmx:lyCEai21nyeLOB6YJBEuStMHk0X_HYV5euSbYlRBJJLVU9n4WielIA>
-    <xmx:lyCEag9lJ15PvNILd3vsUtlMrPrfni0Fyn5fOyupIMoRekRRRRkKfg>
-    <xmx:lyCEan6cMHfLvFfa6SVVSWKSqgxOqZtQYF0upDpofQg80WvGceBuQg>
-    <xmx:lyCEagB0ZNCvJ680sw5oA95mnyXHbD-FKYBG-QvbZVzfXlVs0E8pZXME>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 18 Aug 2026 05:06:30 -0400 (EDT)
-Date: Tue, 18 Aug 2026 11:04:54 +0200
-From: Greg KH <greg@kroah.com>
-To: "Rork A." <qvkapp@gmail.com>
-Cc: Parthiban Veerasooran <parthiban.veerasoorian@microchip.com>,
-	Christian Gromm <christian.gromm@microchip.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: most: fix typos in driver_usage.txt
-Message-ID: <2026081853-anyplace-hypnosis-96c0@gregkh>
-References: <20260818082122.30038-1-qvkapp@gmail.com>
- <6a841eae.13e8e617.1ee83b.3070@mx.google.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jrx9X5wc"
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-c9eefcf9175so4139440a12.3
+        for <linux-staging@lists.linux.dev>; Tue, 18 Aug 2026 02:56:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787046970; x=1787651770; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=dbsLyQzTlx3K4qE/YdGkEmh0J6bIgZAvsjWc/qt5Ac4=;
+        b=Jrx9X5wcrkyXgVJlV7kZHArSLibDRAA0TLsBhL3zd2ccCVlHVOC+/r9pGVGrPS17ut
+         Kv+fHe/dA4ovdP6WVzU3JEALGzXvzOrriv+e46pEMAtueCkI8fVutD+0hzLcD8h10vSL
+         EspbydHh3jkWeCtxx7AYV6OV2BYwWrWtgv9ibPXlW5ESWw5k9w+jvc7CGajT0RBkazA2
+         v75GrBdbxL5jS1lzj4ePC/ETp5Ktsa2yMIOx6Ta8mRrlcnFz/5qYw/JUadDCh2QOEgFE
+         QlZGWYrLveVt6JIthaavOUVwm0xCC4ZGhz28MzoVcu0sjWj7CsDRaRTeqwRyR/nVL38I
+         Jc7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787046970; x=1787651770;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=dbsLyQzTlx3K4qE/YdGkEmh0J6bIgZAvsjWc/qt5Ac4=;
+        b=dmG0km0ZRTs/JFPntBgqk40ig7NhLES+pGVV7hfcXExDNo1ui+E2LfbpXFNNSm1NQm
+         z1apJjUG9spJG9o23jluMuOXjyofdFg/0L6ZBYE/wGxuP95Emedk69B4UyAsXgeFPoyg
+         cSN9V1GIQirC/EDKfqMuvedw6lIRmjScw1fxTARc7iQoJn/jXgzzz55AkSLECyKhh0w6
+         jvNjXP1l8r62cKj3qYBcMpjeh0euhw3AYB9w1uIyeULOSyOTDmUDqphp6uyTEEGmrBXo
+         MYCh31QNmdQo2MnnW6f2kNRG1PUh0sg9M4Q7Hgc6Vlz6XRKbNOw78q6SJHfhpLuVfncL
+         LRZw==
+X-Gm-Message-State: AOJu0YytvsCWN1cV5fucsxRCl0xxy5cd5Wzht5/iZKEEaxlB4ZynF+ho
+	fns8PA+n6grenG9cwE3JXV1+Ui6Hh0JORWCebKPb4nLfrJV39ure86pV
+X-Gm-Gg: AR+sD13pVX7f2CCX2jSrwLqhXMhYr2gxX9lYF0tvDh5Aumxq4kFcIBj6PH98FQsPHh9
+	C+DapWFMdm7vLNfcSiYeVYftQCkBvtEzpy5O/OIG96d6mOIzftasD8tKeFRtD1tJaGl7AMa7HP/
+	CIN2rvMUatsqYnv0L2gZQL5n7Jto2Y/kHRnykw0DEiQ8s8dUKz/8nZIsG7V5By/O8uLmK5WqDy7
+	VilIHXFNKpk8A09y2XJT3vkx5Buqvl8BsF7hic4pHGMiPpwtghvdfclT4ad8W/xcadZPFj1mYyi
+	rUUMMVdLgZrfvyVCdrJxfCq8+KtVqULTCLg2j6PVY+GQMYg4XnAzog/8buMhRV4e37+2kvcpQGf
+	I9dvxbeMDsp+9C4RRYL9v9MyQOcAZ+ekD8GqAnF54RoobY9z09ARfkjC2XJ3ghyzJNm0GMuDexm
+	vMqLHBgjHv0qOB2qtSPuMCx/+wafiDTn5simC2+uGPaZqx2/ep5k6zc4anxQo2FI8+6eHwprd1i
+	Gf/q5I6Bv4v1I73QZbmA1fMm4k=
+X-Received: by 2002:a05:6a21:3384:b0:3b2:8685:1473 with SMTP id adf61e73a8af0-3cc719c7356mr43935825637.7.1787046970367;
+        Tue, 18 Aug 2026 02:56:10 -0700 (PDT)
+Received: from amd.ban-spse ([165.204.217.251])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1415305a0afsm22096004c88.4.2026.08.18.02.56.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Aug 2026 02:56:09 -0700 (PDT)
+From: Malathi A <malathi.a2000@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Malathi A <malathi.a2000@gmail.com>
+Subject: [PATCH v2 1/2] staging: rtl8723bs: remove unused NDIS_802_11 typedefs
+Date: Tue, 18 Aug 2026 09:55:34 +0000
+Message-ID: <20260818095535.1230025-1-malathi.a2000@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6a841eae.13e8e617.1ee83b.3070@mx.google.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Aug 18, 2026 at 01:58:22AM -0700, Rork A. wrote:
-> >From 7b57ab25225268fce971508eb9055e61cd3f8c92 Mon Sep 17 00:00:00 2001
-> From: "Rork A." <qvkapp@gmail.com>
-> Date: Tue, 18 Aug 2026 11:57:43 +0300
-> Subject: [PATCH] staging: most: fix typos in driver_usage.txt
+The 'NDIS_802_11_RATES' and 'NDIS_802_11_PMKID_VALUE' types have no users
+anywhere in the tree, only their typedef declarations remain. Remove both,
+together with the 'NDIS_802_11_LENGTH_RATES' definition whose only user
+was the 'NDIS_802_11_RATES' typedef.
 
-Why is this here?
+This addresses part of the "convert any remaining unusual variable types"
+entry in the driver TODO.
 
-> Fix two typos in drivers/staging/most/Documentation/driver_usage.txt:
-> 
-> - "post-poned" should be "postponed" (appears twice)
-> - "access a MOST network" should be "access to a MOST network"
+Signed-off-by: Malathi A <malathi.a2000@gmail.com>
+---
+v2:
+ - Rebase onto staging-next. v1 was based on Linus' tree and did not
+   apply, as staging-next already reworks wlan_bssdef.h.
+ - Use my full name in From: and Signed-off-by:.
+---
+ drivers/staging/rtl8723bs/include/rtw_ioctl_set.h | 2 --
+ drivers/staging/rtl8723bs/include/wlan_bssdef.h   | 2 --
+ 2 files changed, 4 deletions(-)
 
-Why is this last change needed?  What grammer rule is wrong?
+diff --git a/drivers/staging/rtl8723bs/include/rtw_ioctl_set.h b/drivers/staging/rtl8723bs/include/rtw_ioctl_set.h
+index 768e4868ecfd..020b143f36be 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_ioctl_set.h
++++ b/drivers/staging/rtl8723bs/include/rtw_ioctl_set.h
+@@ -7,8 +7,6 @@
+ #ifndef __RTW_IOCTL_SET_H_
+ #define __RTW_IOCTL_SET_H_
+ 
+-typedef u8 NDIS_802_11_PMKID_VALUE[16];
+-
+ u8 rtw_set_802_11_authentication_mode(struct adapter *pdapter, enum ndis_802_11_authentication_mode authmode);
+ u8 rtw_set_802_11_add_wep(struct adapter *padapter, struct ndis_802_11_wep *wep);
+ u8 rtw_set_802_11_disassociate(struct adapter *padapter);
+diff --git a/drivers/staging/rtl8723bs/include/wlan_bssdef.h b/drivers/staging/rtl8723bs/include/wlan_bssdef.h
+index f4c1456f1476..ff2cee2f3b99 100644
+--- a/drivers/staging/rtl8723bs/include/wlan_bssdef.h
++++ b/drivers/staging/rtl8723bs/include/wlan_bssdef.h
+@@ -12,10 +12,8 @@
+ 
+ 
+ #define NDIS_802_11_LENGTH_SSID         32
+-#define NDIS_802_11_LENGTH_RATES        8
+ #define NDIS_802_11_LENGTH_RATES_EX     16
+ 
+-typedef unsigned char   NDIS_802_11_RATES[NDIS_802_11_LENGTH_RATES];        /*  Set of 8 data rates */
+ typedef unsigned char   NDIS_802_11_RATES_EX[NDIS_802_11_LENGTH_RATES_EX];  /*  Set of 16 data rates */
+ 
+ struct ndis_802_11_ssid {
+-- 
+2.43.0
 
-> Signed-off-by: Rork A. <qvkapp@gmail.com>
-
-As my bot said, full name please.
-
-> ---
->  drivers/staging/most/Documentation/driver_usage.txt | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-
-No version info?
-
-Please slow down, there's no rush here.  Read the documentation and wait
-a few days before resending a new version.
-
-thanks,
-
-greg k-h
