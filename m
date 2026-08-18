@@ -1,61 +1,61 @@
 Received: from sonic.asd.mail.yahoo.com (sonic-euwe1-0017.asd.mail.yahoo.com [34.2.82.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA7AD3D0930
-	for <linux-staging@lists.linux.dev>; Tue, 18 Aug 2026 17:04:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFB003E44F6
+	for <linux-staging@lists.linux.dev>; Tue, 18 Aug 2026 17:36:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.2.82.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787072679; cv=none; b=bZ/7/VYa1LgQjQJJxlB3gagQtv5o3hT077oXlAKQmCUsnry2uKw86pxAHIKlRfpEyjAhnFzo2Xo5YolVbA3nffm5e6OcCFbeX6SqmQI7zD7Q8c+766tJRrJtrjUUTZWXgs5d2XLjVtImLRmOCLx3Z3HiXtJsEBqN+Vy7RAwhvyg=
+	t=1787074564; cv=none; b=Ov7LGw9OpiciyViSZTvwy64lgxliljFuH2n0Ikdgn+xo04XdjhuV7NcUDZDjDk9qHRFORYpU8fc7slQ8hfJ4sGapgf61FsJzt3HHcR0v11Yg4pnm/RtO1cxhAgk4aLF6VWCP9cBmVlrsy9Jh6VOjUHpyNoSZoLdOdDOrVEqyNi4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787072679; c=relaxed/simple;
-	bh=oKkv4SbLX3OJDezMiJebs7emxruvJRhG1jhmMBFIxLw=;
+	s=arc-20240116; t=1787074564; c=relaxed/simple;
+	bh=mIuWZcLnOJNPVkb2Sl0U+n2jIHl25YEDK02mixiBr70=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc:
-	 References; b=OL9HwRVnuUprsx3KMpeO1IwpgLaoqYpYow0pfRRwlpaC73EI56bFSFrtNGq30XAGybkziwfaEzq7fqDDIvVQ5ZeEyxisBIenALORAP/abtMVakYQ84A0OXZLGuLkP/4UeM7ok0fMW+UXgYe9P7Zt2RLqn9EqWEY+XDoNQHlb4eQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=ipc42aIL; arc=none smtp.client-ip=34.2.82.16
+	 References; b=QMjTsghxkaDFRimxLHc5qaZu/vgJ4FcQaXHIuJG036Byts6DkPzrnJwqvm50qiY0F81bXonSZ2PQ/khNV5jOO7i6MA8MG6a8XLJD7GRGunZNIAPqrePtguRkXTiDkpLiVkRp1JjtshFzVFMCyTmgGPuA8G37uSkzNaWNSUAbPXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=rSORCHm2; arc=none smtp.client-ip=34.2.82.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="ipc42aIL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1787072675; bh=R80JT8/6n/sqseNeNdG+KZiFmjmSZ/Y0CnAQVwlA6v4=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=ipc42aILgL0j9dSu8nlf9yJgYMLrp5VFEKQ/OVqfA5HSvPScG9xO8I0x54x3wy8f72IkKdNcTP1fr3ssju7uofGpLzrCLa0KN9n0XUMCrwdp1OryWjwVQD/a1J626DbMpxZ/guiHEw971Tediu9e3VfHWUzhGOna62zFb8fzE+GTf1BhxBj3HWmOtT9hOhLRRs28+k17aDBGq4nTT7EqtpLz+Svuw+ig0xuFBZlWtz2QMufQD4JDYNFGlObbp4/sc7gLSzF2b+I5bghenXrUXJ0cC+Q1n4sEQj4iWNxuvNzJhhPragRxudzhT8bwltPYdZ45LkE8okQGLjjzs/tEvg==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1787072675; bh=onEYDnbzepDyP8Tjv0jB19Jy8Co6NTXJILzFGBJtda0=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=hZJ/ImZJYHByoDvtYpLVI8ZAUhCdoPIZWL3+xD96E2MT3PkcB+fVpR9oigekfbkcSVtNEs79tVNt4ejJ+x+btIKg+Uur1O4+catYPAztB8quGxkw+J4mfraefYpJl1S+pO3Vy6skZiJEr2VSIrlkt+DAlXM3CAKb7EBTn0KPn+nID4v+YsKnuzoyIizB9Lsg1jiRWnMEVdmriceNMofIsA4vPZzupJonrREAccb3jS2iS9zk/F7Dz16XjIoHglYZHxKxC/T3E6UpSi3lUbb5+tZy0fdBAS3KLI+lCo1LWDRPGy/Y+ZrQQNzuSWAFDmJJiSQx0VeltNnhN9buv5ww/w==
-X-YMail-OSG: mciCsDYVM1nuD4TcPiXuiWUnDhLdvfRZlH0nYuilEck57Q9Aa0TQ4mdRXDoCAeH
- 6adx.mv.wT2byBsnEpERjcaRcr2aQ354T1peChf6Jbkc_oLxXTiFyvEVoQXgT1v9OiheZAxdRXK1
- 0H_SzRP9eb1_hGGEp0PModmtFZFo2TwoQSwAifs_nY5aINedD.mVKN3Dn9l8JhH0P7UCprUNnEpq
- MWX22AIvzWnIXyR7pAPvkDWwsfDQnRPPVNd5M3PnEjvAsmWcQhCZ1_743pEI69UvJIYM8GBikRNi
- doVxa9gqFjinyREb9_Xzl5N9sAiWR.4EQAXM24dfTubiL0xk4B2IcsVt0_uRLGAkWqEeOhsfTY.s
- KMTXKWOS1sBJwvUnuCxwaZIf8mT8vEpI3kpNuI.FzlOBIU3AM04Byc9m5hgTJUs323lcNjQuEKGi
- FCapVA3mn_CMfLbMdvOZJqR5IqnwhPUseyJ20Kvupx2y8dXbPcAnSGHavYhGt98GLFagVmb5GK3v
- NcX49qr0qyVwGBlIENEt.KdYIoFAUuTIUiQaAIHlwCePbWMvr5CHXji8HjcXI3AvZgUBKKfYCmvp
- B6uO888.s157E3DvInrth1ho2NG_6I8OrWV9VTl9AE5.dxoXOtYSHCdskc84esmBgtPj3gxmLgIQ
- Org7b3kRLUUREHmcskOLfWIXk..t4UJPfH5dwHnp32DrB82F75bEwEp_RB_b8lxvpuL_U13FCgdv
- Wrseik63WponUTQznNVE1nOEQboVwysm6nphTUxfnaM80L3gf3EWy8SgfVXF1ZwqacVhkjCnbJ5P
- qgmHUeJpzXqJ6lf5StDeVCsgyp17V4j2m0YlSzpsHx7JCYLr_aw1kfeow8C3dMS6zvf4FWxc.ZxW
- LQA1bZBhA52rH0pzg_JV9DC_3YB_D0dUX7CLjygcXeMw3vMfv3RL_r9L4.HFroXnF1sLX9LitS.U
- e2W6QFIlQvj2fy6ph3OGi5uaGrgYqNS9O_1VRSuQHYEA3osWGXCruMOtVxeZzBuZA2Z28W8RCMY4
- KO1QtzCzkMGzR.0K9_lF81u1.JeadnXhzeQDUIz9CACALPWoR8CaHRxh9oTixyLvAtc31gV.Ph6V
- _YpRjhRswX.YEkY1zF3ipVY5BgKxa_gGPu25JouDcQQA2iVygVeyEznYU20fofTorsMXENZwrbEO
- TPJknx6jWigzQ_SoN_yMSzm1bTDRSPxAZf8d8qqYCqSN4he5C.i7Jc0hZ4zlooIRy3jBVmDhOx21
- OtvO2UN51bIpbH2dOVIikClmn4TX3F.UxXbIN2MYz_iVJxWfpB_C6LapRVHU3Zi.6aQf7yUysXb1
- E_tUEiYjZdtz8wZGwINJWi0puoZQSllxlzSZMDfLoGTEZ.4UeT8Z.Q556x5tJZBy4zGxSF.bSoVb
- iJ4Bid36h_LzLsqgWYGsFTzyarP73eMnSSf9.rtfnHMskgvYKq5lVjFg2xcA15K4.MCvmCU0pFGT
- MYWS_6sRJC56YI8ty7RFOS3oqSx.Y4OdeX34O9hT3c0m8.co1Xgr6NSlswHScOsjPYnnivfD2Cgc
- EfB8Ogdo0OwaWt9pvz.loWWtykGMIw2jqJ7cMxlzLcjkxop0EyUDlXxtv6ad4uAH95n0jMvQHeii
- l7LyQKvgvOBMUWqGZlaVb8I1bHbVJe6pUn1dyKVOq98YUiUPFfIIpTYN_5zbis2oSVpPbPLB50gA
- 5zDP8YABudWy2OlC5KGIpcaAa.FTIB2s1Bmg7GtyuKzGf3cOqw5F0a2Da_rR6ocnIdvSUAC9L04S
- oohBGWZAwBzoxYvuhijWGq5dz5Jc_5osO0_MX8va1bbqwTKmjUhIzamPcTUBD4m71jtHzCl6943l
- pchgD7mGuA65FZDtP73.IyuAKYBxt6p5I4lW6.xZfTRSDc4JgWPbYpB35CyPGu3gjTOv601UzEb4
- QH3cfpvNWYoATFFwPEHzndK5TW_l38kchhLI3H0pxyRrCXS6Si2hGyYP.uWHJI7nhly.SPyU7C.7
- Dac2m29bjytrlFBVmMnI3rFe.M4Ao5NYmCwn8Lj_NRYSDH4JiL7w-
+	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="rSORCHm2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1787074561; bh=IIaLeIKmR1BnQ8e5YMtP+xRkKX7gMhaSWzAFuWfY7P8=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=rSORCHm205BSjn5KqpOypAaT/Ole/fGL9lOfDqFipWLwUEkzfvvuyarzyf97sKjqYPDnHMdbbipoiJLciO5+aV9tRijEPpw0/iO8u6+N3Zd+UoJeVaaDAAbbKV7pHiwLEod5vcLfNLiRo7xD5d4msC8o7LmE61BCYunhyekCyLayLKWpuQDcBEfgdVIUVI0ZNKkF4BzfWgm8HaYsZBztD3GKpGQeTVTx2omzGTFJ9X3ihbVDIBBP2JqATgIoCBdQ5hgR9/bX8C/jTRBHf2QG7Ig2ufXp71v+kTsPAoPrKMp2FdR0nvKNJRQLxdn4aF+Lcz3o6AKEZ79+WcJ0mdhX7Q==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1787074561; bh=7EFerJWzRZB5Z3JKJQsUBsPy/rrdseMBWoGdK9cFY62=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=qL4JtB5TaUKYc8JY3lcRNGq3DNuU9bkJmaHCmis2a/1ITG6Wxpr4BJwOdVB3sN0ONZMeByQFe7SM+GbQXT/anlEabFCh2jmiflwlLqrR/JKhAUCPWfLbazn5A0NRjWKiA7hqB1JsqcX6DvVgDzoLV7ihJ0EElR4NmbHoVUszHXmnI70OCez3ElVPxAvepXGdc3WZjAlNoStsdZymaKfAH+6k8Q3Aj0ZmRkQwQVCDPpUmGQJIirqA8+HAkoVHbnukd9RKc6J6Vo1mfUnT0jc8iSnO8E7FN72KG8Tm3IaY6CJVfrYa98SEdGFO7S9ERwymA0+WczRdE7i04O8Du/Ewzg==
+X-YMail-OSG: wSSb0ZIVM1mBvGhNSiltGckiiRTjoKHg.RWwDJnG_dAKwXIer37PLvHY1x76A8c
+ Dr14sOmUCPIvNhcw.jCq1laRKUFjP6AxqCNXVuGweXfekFB9W_qPsVE9bE7fYt1_pN_l5_BGkwLe
+ bA9lVQP06902ThExg1CRdUljy14hxTMKhCwpIatHMRFuxwE0hOHgi_dxpW0eRstveeD24Er.YnG7
+ wk0pty6Flnnca6WqujpI5gna7HHn4JuuG4HYEX7uorA0SyhksFh4hyruWil6_9pUMvQri8g9lRHO
+ INF2.TLuhUBc1gZ7ZnLcHfY24vVHDkHREW4ok0BMTPrVrLyET7Jl6n_F_NP5JElOhibS_n1gaNIW
+ Mv3KQskWmetyw0HzWjx3dD3ZomuNH.4DkumWMjIp6OZRgijnJesH27DckaXGDWGA_EucpqZIErm1
+ ycj_hsmXTVF9wfymbisLiwY4NIB3qkRTsSFGcpvWoyDJPKjZXAoFsZfJvBd74XUrKZTgg0YG5vPi
+ 6Oc5.AUERX50.usvRffEdmxcoCqUN1hycoC2OJRJ3YEitbJKgQJlgB4J7hcQ4vtRDFnynpXdoNAb
+ _5484z9EESxpbGpjDR_gjININbdHDVyF.WDnP1_swnqSs36f6W3Uu4_PiVtOyz8e_DgeNnpA.0zy
+ YpMQlLmUBh3YHj70zdiTgLax93VptYvaLkytCJ1C5yTn0m6Lwh1g7csPbonlCkpVZ.cM3mW2jdUG
+ ZZvJfREjAiL_7hRBE6NzMyvnl5lwKOSAGL5jdkQjgaPHUTe4TmCVQO8OzXfpBmxTPzNZ_KJ.YI_U
+ UuyZ6xJooIpRSEGtJJU.zMP_.tZ9He4CP0MBYhoKEQVOiwK0S.HR6x73FoaNuz8ysz6g_mUEY5Nt
+ ZdD5xAp21QOU.95yqE59mnkR6Itdk7X1JjsfRrI80vvAGMA8JDr.Tp8hZHyo_IBW0M7je5zju4Ck
+ AscT.BVMhfZT1Ml0n4jvxPGxUCI2Q.pX3E8wk3vTBlRvE0.HvG7KuUODGONSZLqgooBJRTMsF3kb
+ hyyDpvtg5DU_kPWyCfasJZOUThk9vp9ROWHKe3SV7JVWSOnm9x4WEPNLPmMke8CgrHuJCHx3ZyMs
+ d2aSrRJFgPbV_oU78nFu4vKpeAwgbZ1eDZBPYAjgQ_VsO1UdXgq6grp53USEEfz_JKbnQGiFVwJg
+ SypTq4dAZ6A78NRl8hsLxIIqLxyJv4W4OTnccW.9VuCLnGYH00jD7lvIKAZpj88V4nL2j8rahMKN
+ R1pSlYrodUyMgWvfDc373tqu0vJwfEpRBASTJ0MktObtkSgIdP9t_5apsW0qoifH0gsWTrg.8zN6
+ Lfn1Usa2wDnQ7HzASUVJ.ZpVT2D8XbEeUH4R2a8b2J3Z4vCzQkYcmSAb_0VWRHcaAJ9sPHS_WLEr
+ ybmwFJ8oITv2c_J9XlYNC2x9wxUZCy8p5Y8npsoHIPLoBHsCNlcI8EvUjdP3OfHZBg.zYQ5nwcuz
+ owifUxEfmm3c25wiwxSDjCNXSjX.Es_AldGgIbNyJaPKyAue2BaKy2phoBeExBm.yBB.fD9PCs6I
+ WQHbnqgx.Uzt_B1dLQk3Ie0.ASTLRbINSxuPfecR29J9R5Q0XZXYK3MxiylLwIyycRpnY0i1NiPu
+ uHPA8A2f1fNVp3S7B6RuWxqJqSJBRlaU9AQmURStjEZ8S4Ti2ud0ioLq9pT2AzVfX2Hvyr9Ub7Lb
+ Xxa8GWIvV.XPjki1JUmMyadyg3GtxSkTxwr3JAsIFAI3boXA.ppBpsbd4CrAyswRnaMmW2unQxv7
+ Fo9MtlYcxTTlJpXzWEb4J_5wH8BRx7dbpgzI99ALYb7SbR8lCIvspVLBDX8M8LQQkijI9VonrkgG
+ KvHKLHgKgt.1MiqZCS8OeWsBWyxHmC71XPtOX4AxvUlaM2IYsSGMlZzzQELMgnNUUTOlJ4LghXLR
+ EgqH4EY0UeC4AyHc96JboYcA9W2X2cOkcASsDi1fvx5otI48J3.Whw6A1O9pFD6Op6gLauD0sf3y
+ hjh7nC3xvOK5RLBsKnzdkdaJ8NI0FPwrTWKiJDBZX8u56yh_LKCcEQnOoeGGDPg--
 X-Sonic-MF: <tomasz.unger@yahoo.pl>
-X-Sonic-ID: ec140948-1f05-4b61-b8fa-d520bb84707b
-Received: from sonic.gate.mail.ne1.yahoo.com by mail-asdoutdeli-p-cin-euwe1-prod-sonicconsumer-svc-101 with HTTP; Tue, 18 Aug 2026 17:04:35 +0000
-Received: from dip47.lsn.ir2.yahoo.com ([87.248.99.56])
-          by hello (SMTP) with SMTP ID 62249549a0826219c07fc95bc8b70caa;
-          Tue, 18 Aug 2026 17:04:30 +0000 (UTC)
+X-Sonic-ID: 0b676298-202f-4757-91e2-2eb23d56f863
+Received: from sonic.gate.mail.ne1.yahoo.com by mail-asdoutdeli-p-cin-euwe1-prod-sonicconsumer-svc-101 with HTTP; Tue, 18 Aug 2026 17:36:01 +0000
+Received: from dip90.lsn.ir2.yahoo.com ([87.248.99.99])
+          by hello (SMTP) with SMTP ID 143d56346fc65e28b44962d4fc52693f;
+          Tue, 18 Aug 2026 17:35:58 +0000 (UTC)
 From: Tomasz Unger <tomasz.unger@yahoo.pl>
-Date: Tue, 18 Aug 2026 19:04:27 +0200
-Subject: [PATCH] staging: vme_user: prefer snprintf over sprintf in
- vme_tsi148.c
+Date: Tue, 18 Aug 2026 19:35:54 +0200
+Subject: [PATCH] staging: greybus: use sysfs_emit instead of sprintf in
+ gbphy.c
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -64,62 +64,62 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260818-vme-tsi148-sprintf-v1-1-f48acadaa938@yahoo.pl>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQqDMBBA0avIrDuQRLGJVyldaBzrCEbJpCKId
- ze2y7f4/wChyCTQFAdE2lh4CRn6UYAf2/Ah5D4bjDK1striNhMmYV1ZlDVySAMqU7ZP52rltYM
- crpEG3n/T1/tv+XYT+XSf4Dwvvdk2P3YAAAA=
-X-Change-ID: 20260818-vme-tsi148-sprintf-023a79960c19
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
- Tomasz Unger <tomasz.unger@yahoo.pl>
+Message-Id: <20260818-greybus-gbphy-sysfs-emit-v1-1-cfc81322e727@yahoo.pl>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQ6CMBBG4auQWTsJrYqtVyEuLP6UMRFJB4wN4
+ e5WXX6L91ZSJIHSuVop4SUqz7HA7CrqhusYwXIrJlvbpnbGcUzIYVGOYRoya9ZeGQ+ZufGnvff
+ GHo4OVPIpoZf3b91e/tYl3NHN3x9t2we3DQfrfAAAAA==
+X-Change-ID: 20260818-greybus-gbphy-sysfs-emit-69739912458e
+To: Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, Tomasz Unger <tomasz.unger@yahoo.pl>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1787072670; l=1683;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1787074557; l=1644;
  i=tomasz.unger@yahoo.pl; s=20260311; h=from:subject:message-id;
- bh=oKkv4SbLX3OJDezMiJebs7emxruvJRhG1jhmMBFIxLw=;
- b=3/rHBV0RJpGk4ne5lkUZ2OIK1d1Vplp4yGyWg8OjP6IWjfjll4A3q2g1HPXiNRSdExPMRoLRN
- b0mU2bvFXSWDCSjwI0e4rsHgArxgExycZMq1Qs1sFoIyWskGdiD97ek
+ bh=mIuWZcLnOJNPVkb2Sl0U+n2jIHl25YEDK02mixiBr70=;
+ b=lXAGw7mxDmYbQn2+YL+M/IKfMAR06fZxT6IJ7MSjRuHZhAerdEktk0ksnJ4FKOeGatP69NumA
+ v2mFejaKGbABJoaju5Goam4mwVa1yEnLIga9d8s/m2wMu1FLpSw5ijy
 X-Developer-Key: i=tomasz.unger@yahoo.pl; a=ed25519;
  pk=EPPsO91uz/0J2cTQ6ol+dgxYaieEc9dKSXWUb51n46c=
-References: <20260818-vme-tsi148-sprintf-v1-1-f48acadaa938.ref@yahoo.pl>
+References: <20260818-greybus-gbphy-sysfs-emit-v1-1-cfc81322e727.ref@yahoo.pl>
 
-Using sprintf has potential for buffer overflows if the formatted
-string exceeds the destination buffer size. Replace it with
-snprintf, passing the exact buffer size (VMENAMSIZ + 3) that was
-allocated with kmalloc() a few lines above, so the write is
-always bounded to the actual buffer.
+Per Documentation/filesystems/sysfs.rst, new implementations of
+show() methods should only use sysfs_emit() or sysfs_emit_at()
+when formatting the value to be returned to user space, since it
+is aware of the sysfs PAGE_SIZE buffer and includes sanity checks
+that sprintf() lacks.
 
 Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
 ---
 Verified with checkpatch.pl - no errors or warnings.
-Compiled the vme_tsi148 module successfully with CONFIG_VME_TSI148=m
-(also required enabling CONFIG_VME_BUS=y, previously disabled).
-Module loads without errors in a QEMU environment (verified via
-insmod and lsmod, dmesg shows no errors). This confirms the module
-loads cleanly but does not exercise the changed code path, which
-would require the actual VME hardware.
+Compiled the gb-gbphy module successfully with CONFIG_GREYBUS=m
+and CONFIG_GREYBUS_BRIDGED_PHY=m (both previously disabled).
+Both greybus.ko and gb-gbphy.ko load without errors in a QEMU
+environment (verified via insmod and lsmod). This confirms the
+modules load cleanly but does not exercise the changed sysfs
+show() code path, which would require an actual Greybus device
+(or a userspace simulator such as gbsim) bound to the driver.
 ---
- drivers/staging/vme_user/vme_tsi148.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/greybus/gbphy.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/vme_user/vme_tsi148.c b/drivers/staging/vme_user/vme_tsi148.c
-index c695ad9b4ca2..bf3589118da9 100644
---- a/drivers/staging/vme_user/vme_tsi148.c
-+++ b/drivers/staging/vme_user/vme_tsi148.c
-@@ -744,8 +744,8 @@ static int tsi148_alloc_resource(struct vme_master_resource *image,
- 		}
- 	}
+diff --git a/drivers/staging/greybus/gbphy.c b/drivers/staging/greybus/gbphy.c
+index bdb0f5164a6f..bb9a5b538e6e 100644
+--- a/drivers/staging/greybus/gbphy.c
++++ b/drivers/staging/greybus/gbphy.c
+@@ -31,7 +31,7 @@ static ssize_t protocol_id_show(struct device *dev,
+ {
+ 	struct gbphy_device *gbphy_dev = to_gbphy_dev(dev);
  
--	sprintf((char *)image->bus_resource.name, "%s.%d", tsi148_bridge->name,
--		image->number);
-+	snprintf((char *)image->bus_resource.name, VMENAMSIZ + 3, "%s.%d", tsi148_bridge->name,
-+		 image->number);
+-	return sprintf(buf, "0x%02x\n", gbphy_dev->cport_desc->protocol_id);
++	return sysfs_emit(buf, "0x%02x\n", gbphy_dev->cport_desc->protocol_id);
+ }
+ static DEVICE_ATTR_RO(protocol_id);
  
- 	image->bus_resource.start = 0;
- 	image->bus_resource.end = (unsigned long)size;
 
 ---
 base-commit: 8d3ae59288f1e7d58d76558a6ee96d533bc5019f
-change-id: 20260818-vme-tsi148-sprintf-023a79960c19
+change-id: 20260818-greybus-gbphy-sysfs-emit-69739912458e
 
 Best regards,
 --  
