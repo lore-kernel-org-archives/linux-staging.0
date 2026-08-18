@@ -1,80 +1,74 @@
-Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ADA242123F
-	for <linux-staging@lists.linux.dev>; Tue, 18 Aug 2026 08:38:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 733F2420496
+	for <linux-staging@lists.linux.dev>; Tue, 18 Aug 2026 08:42:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787042336; cv=none; b=Zx0kHpbEwCrSOSIW8TGEIHF+8rc3pTlPZrAp2XYVOtiULUtWSw/1YhrwCot1xTHTXTK6vmKaZLN/BOX6pfz/RFO15BTTSjH88MAlaJgZL5Mhm0I0XXuhexOBtgNRhzxoJYYHqUr2J3iv9UaAo+24iMmQgZpHhuoGV8HFVM0Y0No=
+	t=1787042566; cv=none; b=i84c7wsZ/bJjFtuV/uhK47WHInFM0BZFNkY/NQBwJ4njVVPwTpwv2GQIL1o5yukbd0TcZC8XDxca/X3ByZPmgKqWzC8CE13OZEnX2UpI5NpxOkLo+FamluwKaQoTu/nGjJBi2o4vDyIQJIseQT7+0IrPHEcd7L6BKlpXbSqN2oA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787042336; c=relaxed/simple;
-	bh=TWc3sURKh4nI6UC6uz8V/Pe7xhJ7nTD4JzkHKRkHOpM=;
+	s=arc-20240116; t=1787042566; c=relaxed/simple;
+	bh=5XZe3NZLMgufTp3JCAAmwFymD3a/Xq1SRhcyproH2b8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q2JpCqfjkSssUKrvotn9uYUOanED1Gx/oNzxxSBLS3+ZPIdd+JBMU9UYsYK3l5xb1Sd5hInZP50WRb0fI6bdxPry4tv1pV2aGYpcAaB5WwDd8UFtZIwqntKh/muJzIWuRxcSTnbIiEoZ9yG26GVgNY02B/eqZkdJtNt+68jnxnY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=FGQZjOIQ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=eeowv9ki; arc=none smtp.client-ip=103.168.172.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y/F5PQ/gpZ1TX2VH72/FmTrzYDx/neQGMKOFgm8xjRcv/BpDLxvueDml09tKF9xE2Sp2Rm76uUjcGcafaD0y/4RT5IR/9HAIaqfW6IpIbtTkHtYKXK6KhwpoeXfZWxHaRP/qgsmVHILHk+9gYZYCGlaCfkTkEPg4tsPh3UIVIJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=r7JoZJC6; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="FGQZjOIQ";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="eeowv9ki"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 3F78C1400179;
-	Tue, 18 Aug 2026 04:38:53 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Tue, 18 Aug 2026 04:38:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm3; t=1787042333; x=1787128733; bh=WLecwbCeCC
-	ntmXLv5R5Gntk1q/p0Lv/rnZcsZLN4E1g=; b=FGQZjOIQalJc174UsRUVXtatwN
-	X62SIy1MOc/dQfw1G2kA06v9OV+jGZWCiHV+2Qb/ZJgiby15O4mZ97VMCrticGSH
-	GODJnICC+l584ocGTcBXVYdpaIe81la3s8b165EhAjVs1GLviQ3tHjSrtv0qt/mk
-	5nJkq+jPVgcav/Jz6XfX38E871kC4eas3YC+c4JD4QhENXJb85I5yHus505r+hi2
-	5Bm3aPNvRNeR/++ByRpTLSS6LycYOwjucHUuQCAGwI3Aq05Z/LSnixC1V5IYnhgN
-	F7x+cWkQXiV4/IBaZp73PYVmR4kmTSggrHDbRHJq7Pf2C1OdlkFVoCB8sUfA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1787042333; x=1787128733; bh=WLecwbCeCCntmXLv5R5Gntk1q/p0Lv/rnZc
-	sZLN4E1g=; b=eeowv9kif9Rd9rwPZfSFZwKDJL6VV9OBCMnBmSxObGNTIiDE/ZC
-	d5Vd9lYPmawiyPEMV9StOYrmm8XR9PyfAYUc4S/Ivb4OKa/2myq6Y/r6wvRcsfqX
-	gAXiHiUeuxsvi/b1G1e+sHLGRWOYuCb0RbADhLAIyXbRrr39q1h90qRKL/sIqZgr
-	wTFQVOwXVNLmEaACecqOtA3sgR5inaNWgJo/JyTbs5Wm7vFdaLpDmPsKorDU0/oS
-	9DwaT8L37h6fkUvoQRKQxsdE/BYVV/UmML+dmj2bT7tdeP1uUkYExRVWjCEfS8c9
-	MeBwiIb0vVVxcQj0cty0owy3tlUDo8qpArw==
-X-ME-Sender: <xms:HRqEanZsrf7ehI1BBENKHDUJY7ZjU8x16WbtSWakdadqnr5BRwv57A>
-    <xme:HRqEaulCg1KjH6VIEVuAzvjdWs2EEL6p-3-nL09aPfFBmoJNWJB_Fg0IRxzrtsCS3
-    lIrSqaKPTeGE5q3k_vOOSyMmCBetSoK0iiGwjtJYpljsx02PQ>
-X-ME-Received: <xmr:HRqEaliVR1bw_fTG4ypfNqV47KabhkA24eGRLFxTWTHTmFvo0C9DTUD1WDdlBbF8W0cieAEC6W5BnoiOSfhC4SKrX49ytOzBpKNXAsw1y_M>
-X-ME-Proxy-Cause: dmFkZTFqlW00ZvOfaDoVBkSt+LrBdEdSTEaY/VhOFioGS3tBhdLe8ijcJEYi8y0VNglA8m
-    YzBMPATlCoyT4QtWUEhX3Oy2G9ZjDwRyqtc0dZB6Nqg9fqr7caU/ntNu6gMKQmHtdDWXIN
-    OgGoQE8uK2X7GL8R66rH6ElEMk+rxFg7grht+m/RYy2YIraowMqxNTUhGgxCNYCcjzkU6r
-    6mq7W3IMsPOGAMeldRf2caNlqAE5lcSbqk2v0q05itsEVmX0nYc9s1SQ/juqvRPWoxLBcZ
-    ZZdBzR6Kr2hkfwFjO1VAsB89UrhKZejm+J8RWL46Gwd7fMOqrNdqmKJz2fatAZ0GRwf7sY
-    ZloTpu7Vei6YdbBh1yYzj58Pj1b5EqXpQCnVAMk8Oblixw1/HAcud3Nl59POHFmJXPiBPo
-    Y+F6/9B6FgEzE62aHKCfAhj8leOPC5rIK6CXjri4Djk7lGvoL6FXTCD1Yu8Yx8pwl+KISB
-    H9tQz22PKlAHFkYlXUezVAEGVwHXhWpZkD1UeWMzV/uuqvIJbaCAprzdE3sA5Vw3F+RKAv
-    1RecvOhA8zRBtmUGJxCrrj1nhwjc9LEgL5JjgpQo2Xf6wT56BTB1K6ejazvzxxixs/XWDs
-    bDVUrItyFGe3Fx+Vce0gW+/3z8njZhYo68+YKuqj/ht2pl0D4Dd4h80ip9cg
-X-ME-Proxy: <xmx:HRqEaoQsQGx24Hoa62e_S_8XD_yIJ7zEQONcAwJFxGQ-mYXgwNIv-g>
-    <xmx:HRqEaubPTzi0Z_BC7lThmRep9i4lvC7K8hYzThGIThGgwVuPCT6jfQ>
-    <xmx:HRqEatT7sMES93co02NDbf3uX2acAYnx5vKEhfC1pgyDec0PgeSjiA>
-    <xmx:HRqEal_M1kkJXDstIN753brd3ySEkpyFYb5cL3bjgKaqoblLPngLDA>
-    <xmx:HRqEahn2ytDqCPQHiUjQgiTSYFy2pIXgrHC7BHHfBEQoRQH9raAZy7oS>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 18 Aug 2026 04:38:52 -0400 (EDT)
-Date: Tue, 18 Aug 2026 10:37:16 +0200
-From: Greg KH <greg@kroah.com>
-To: qvkap <qvkapp@gmail.com>
-Cc: Parthiban Veerasooran <parthiban.veerasoorian@microchip.com>,
-	Christian Gromm <christian.gromm@microchip.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="r7JoZJC6"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-495437bb891so6801575e9.1
+        for <linux-staging@lists.linux.dev>; Tue, 18 Aug 2026 01:42:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787042562; x=1787647362; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=cXJNXcxC2Oi4PDZX2LMxQQZUAfuD4xaxdp0+jcGWDfo=;
+        b=r7JoZJC6t/kFZKo1zxkacI6H8a2R1OAdWdszeZnb6TnwWZuk9lPQ1rXtUZmwjnE9yt
+         1XJxW0qfml7OraVzegjoePwPfuxrPAg2fKEAPc/UUhNA8Cxp5yXvkIj9ImzpLNh89SpS
+         rxJMEyTZO+T5QDvBNkZ8AgH3fz5Okz58/xr2U1zSSP8o3XgCoVCmY2o8T7/b2CWdKVkB
+         J/TE0rBCdeoag1XMdAotBzczYbMHGehLex7kIDSHhdl7VbvvRdixE/37+tKNipPAwNqT
+         nNMPohpK4wbtYJlQZtXQg2fDo7daQ6cmyarslpcPShenFH6kWAh72reyZ7m3gNKa6qxd
+         H7gA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787042563; x=1787647363;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=cXJNXcxC2Oi4PDZX2LMxQQZUAfuD4xaxdp0+jcGWDfo=;
+        b=DK6IqiGRISwUKk/wZRmDrEsPyIkjRrck5YKbAcU61IUk/nv1BgtCRC6WPxE0C9bkvQ
+         Tb0UHCHBkW5B7xy0l3vR5b3Gf2d/7bQ2f8WMKfNj30VtHrQMrTJ+1tB4EsB+mL2P4Jpj
+         37w1WyRU1hqDpuJmTycg0d3mysZ9jJOEN1hPWR2QQEPV4Hw/JBvxQafmc98++9MtrQfY
+         YON/7D2LZIEv+G97/b2Wpo75CQwDEyi0UHNEtzLaCw2s+m70z0E2IYloH8cBC8QEabLh
+         uUaJh1YLE5HAcDyMLQ9dROgeMoodSUOwx44C42JTdOQ9L8oD9gxJ3lOFDT/zeS7C25QO
+         ZByA==
+X-Forwarded-Encrypted: i=1; AHgh+RqKR+Hqzd2EtPcJqDWToEeklEu71ViruVgvpd83QeIinDrAZAdSujJGD4QqNtMYqqCTU+JFcjZCbl8mxOFi@lists.linux.dev
+X-Gm-Message-State: AOJu0YzTRfb1W9omgdgG7wHa0y6OWKHwKX+vj26P6o3RkyXve4zk8d2g
+	YXcJwAkdWz4zQpxCgulrfK0a9fmNCSWzqg/C/DwW8PbWXONomTkdK3hF
+X-Gm-Gg: AR+sD129v8FkcuH+CsjVSQkHm1aFKsQuSsnsXZcOLu4L363NzUfarfPudI36c2u8Xut
+	VB14Umn2cLF4LLZYncOce5pnuPC1UZCOm7Lw00wK5R0xujy9/nS8ZxA8Of+c77mo7pPLQ+vmYTq
+	43V5Be97qNtMzGUGBoiXLxFoHbeLBtr6NOAUK+KsaT8fNdvP4uLITCl0HWtXzX2Zcxzhdg/u30B
+	YjJmpJgk3op3InsHNgMNBNJ+TRvaw0ajATl35iUO5jMZV4KhuKEJCICcPmZnbd3mekeZ2p2K0nj
+	P/De4eInneKNZhLtFvt2NbizjlMbXA2lmgE18WxT0V7RNyXIyG1Y8Dwx5PBf2KIqt9NC4jq5UV4
+	NMRNcTYobiqzCixpblpY8gd+8x/2izfIYTc9A8PkDoC2kQF93P4vi8dfrCZsWVoyl8En0VXJ8hU
+	vkYZ28zSlHhGVtCWibc6EaFz7CjhWGbwBYwMmAgn2U7OaHgaj2dEAoPGhKswNNMppLvyo=
+X-Received: by 2002:a05:600c:858e:b0:499:5f81:8ca1 with SMTP id 5b1f17b1804b1-499a08d2c5fmr79367705e9.6.1787042562460;
+        Tue, 18 Aug 2026 01:42:42 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4999d0876b8sm164833375e9.8.2026.08.18.01.42.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Aug 2026 01:42:40 -0700 (PDT)
+Date: Tue, 18 Aug 2026 11:42:37 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Malathi <malathi.a2000@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: most: fix typos in driver_usage.txt
-Message-ID: <2026081831-sappy-alongside-6d68@gregkh>
-References: <6a841634.1f5f34ed.15764c.8636@mx.google.com>
+Subject: Re: [PATCH 2/2] staging: rtl8723bs: remove unusual
+ 'NDIS_802_11_RATES_EX' type
+Message-ID: <aoQa_RWy2iBsLRZg@stanley.mountain>
+References: <20260818082622.1186194-1-malathi.a2000@gmail.com>
+ <20260818082622.1186194-2-malathi.a2000@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -83,50 +77,23 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6a841634.1f5f34ed.15764c.8636@mx.google.com>
+In-Reply-To: <20260818082622.1186194-2-malathi.a2000@gmail.com>
 
-On Tue, Aug 18, 2026 at 01:22:12AM -0700, qvkap wrote:
-> >From 1efeca4e18fb084e21e8b1719953b076305ade3b Mon Sep 17 00:00:00 2001
-> From: qvkap <qvkapp@gmail.com>
-> Date: Tue, 18 Aug 2026 10:59:21 +0300
-> Subject: [PATCH] staging: most: fix typos in driver_usage.txt
+On Tue, Aug 18, 2026 at 08:26:22AM +0000, Malathi wrote:
+> Remove the 'NDIS_802_11_RATES_EX' type and replace the variables of this
+> type with an array of 'u8', which makes the code more understandable and
+> gets rid of an unnecessary 'typedef'.
 > 
-> Signed-off-by: qvkap <qvkapp@gmail.com>
-> ---
->  drivers/staging/most/Documentation/driver_usage.txt | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+> 'u8' and the 'unsigned char' the typedef expanded to are the same type and
+> the array length is unchanged, so there is no functional change. Also
+> update the comment in wlan_bssdef.h that referred to the removed type.
 > 
+> Signed-off-by: Malathi <malathi.a2000@gmail.com>
 
-Hi,
+Do you sign legal documents with just the one name?
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+This doesn't apply.  Please, work against staging-devel or linux-next.
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+regards,
+dan carpenter
 
-- You did not specify a description of why the patch is needed, or
-  possibly, any description at all, in the email body.  Please read the
-  section entitled "The canonical patch format" in the kernel file,
-  Documentation/process/submitting-patches.rst for what is needed in
-  order to properly describe the change.
-
-- It looks like you did not use your "real" name for the patch on either
-  the Signed-off-by: line, or the From: line (both of which have to
-  match).  Please read the kernel file,
-  Documentation/process/submitting-patches.rst for how to do this
-  correctly.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
