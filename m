@@ -1,61 +1,61 @@
 Received: from sonic.asd.mail.yahoo.com (sonic-euwe1-0017.asd.mail.yahoo.com [34.2.82.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98C923AE713
-	for <linux-staging@lists.linux.dev>; Wed, 19 Aug 2026 15:45:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A500E48B369
+	for <linux-staging@lists.linux.dev>; Wed, 19 Aug 2026 16:45:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.2.82.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787154306; cv=none; b=VqoqEq/12m+Sz+Fnj1m3iLlOe+sNlOoHqI+tJw3ESnF3LkEB9FTVi2zBy4pl9zqTMUF/SZyc6cDpao9gt8QVXGQwCcD69izTtqw2FKT4NavIWzs9mdw2/k7uzDXmYUyq/x+yYEngd4d7EmQY1bnmgSP2lVeKB2RTz2Lzo1ZDwzo=
+	t=1787157904; cv=none; b=QCXEwDIYMLZTO3EQ/e7M3OQXhh+mh7Z8Vpg+dGJ/UCN/ZOWrt/iUZs7/J1zRaSz2RWG2lbuy4mesOsriAd2ZtLg1QsqWFSbPht1iVthzyAyo7O1x4k52353IU2pRbpFOLqcWBTvS06GEuC6ivIASaMIq0ODjLA6OfPOWoLtSx+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787154306; c=relaxed/simple;
-	bh=jiqnw6FUQrsZ0FRQBqGfQnQPHLpg4XhphZdoEhKXXHo=;
+	s=arc-20240116; t=1787157904; c=relaxed/simple;
+	bh=fAj/ZwZdDNIq6XPDw1CtOG2+/TZWCjN9a5TCWDhfr0I=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc:
-	 References; b=e2BUdWtrL0TIW+aLPxESh2Gj3MmPUfd556SwAQ5nW4hgYU7/+/CCY/7Xm2C7dz9HWPf17tsPcg1wZOqJSPgyrv+A8YuhK3+LZxCFxYFmJx8F8qgGm8WpeeF5sopFjViUwEeQaKROd7BRMjTdGiAaocl+0FrJWn18e9FKb8Ih4zg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=ZwWna0Dg; arc=none smtp.client-ip=34.2.82.16
+	 References; b=GpJQRNrYOS5TkvA9lOSJqiu9qlgq2ZT8cCtkFY9Fhwpyrag9uvKTQo4ieRboRLYfNgss2BCresjou4ieU6EEepzLziIucM7lGZ0Q4RnSM387E9L9wRpp7yg6LCBjbVj+tIin8+lWu9UssjhYDLE8e0oMUdiAgfJlNRCGs4blQJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=o1awkTT1; arc=none smtp.client-ip=34.2.82.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="ZwWna0Dg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1787154301; bh=u4lunKqr7eTEqlWk2hHKr9aS4Fq2chn+Xh9I7/AJIgw=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=ZwWna0DghM0LVlRllwamoo3T3bdF+hsSqZDJrES2hmYWlMYsDjorDO4Qxv4gUSaYSxs43BtNZNUCRGiMHGCFvWtHh1AzSA8XQZW30+HiFexbew9ip3jYEzE2Wdt1PL41Al9OAdoVKunFMvLrEc+VvccuuHoJVxera5zTx1lzIASkysAbBPbeXhSl//l4IweT2n+HW9mIFx4ZwGPnJCQVE7Z2JjDtFI6Tt4+hZinNviwnyiRWk00O96h8H1ALhjNTcJFupmIyWCpmzQ4xdRKvOn+zfSMTYA15qebGEoOHzujfDiYsvSEwsm8WAisyOfLLjbiSl3JQP1yUUre54I075g==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1787154301; bh=ticcv5ML5zjqaHv9P7sURF7yx3d5EFI80tAmJG2xMMq=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=PrFpVblSrI/5YBt+IIXXLvWAq3jJnvhLIY4zNXlGfyG6eZT9LdsdoHJNzezOFTzFbS4juvXLvDMuGVz1c7E5b8Dr3tXqwSR+4hIsh+fdKT2s9MB1undnNnEX7GMJBUbMQSgTEpJaRnHcG4SUMgp6CH0n8/mFlT5Vr7wTzibra/O8zTODwJw9yhi74a4/dfDIzpf19yM35Y7akWXntpJQr3VOHh7ZzM21SpU2+Q8jj2ua+0mwVrjAv3T3Xt4buOR1E+BK2GOoRQNSUsjarnwCi9TIYq+qHhYyYAgu5BJiODprGmvUucmhMn82dizUSHGopQNtQ9xcp3pwhMkWg+cygg==
-X-YMail-OSG: fJZX7pUVM1mfYwQQ11e9fCLIZU1cGWal.wqXMRz3VKeDQskeBW22y7fRGyGCwWG
- dLAkATMIAt9HSzYJB751WkKY0IBodOm1vAO0wC8riLqPmbSFGKVWKgCw.8TiPIzuRu.4Hh0qOdyd
- 0UU2.YGPYESRTiIywFm.OX4a9EY0OWzWq.DSTwI.8w4zOsWutBGLhCBb8_4Frk00zIwEK8Imktli
- qyJ0PLHFfwcQGKaoPfkXaxaGNZZbfBOnJ53mU4tMb7VQe7xwWiZ2f3qSIxDE9BE7h067DJBa091b
- vRJo0NSgszj0okeOtvDxH93GAyG8ipajv.8tLqeDsRoAtZB7QkF28DKbv5vZTnesdVEgF4Hf6VZR
- MkJI9X1TejPPUK2wLqDI3OksEBHxF90NoJIDH6hfIn1ZFGt0EFx0J29zF08kHjBaLhhAk73HXWCQ
- yuYh0t2xb3hqzqJEKExmT5r8Pf_USJ_07QbmINwyiR.Af20niOvInwbvi0ra0a.KGaP42KwLJvXP
- VmllJdzA1Tcu.18jZmGrlMBAoEW3889NyFUy4q.3zbZm8DluyJD0gN3c0JcGrqn3WCANPlluBjSt
- Y16ndO77UVVs5UMpW2KPnPlQSP0uGU9eJ.qIQ2QHSjUQIK8xtn0JVape03uggx4E1BjiTWg_mIo4
- 7GyJlSQes0T.0vyZJbHE9z9oYqZ0X7SpsZLAjrjl4KqOhPfB3r6f9A7dHOkl.rn04ZhoGZ6LMtyn
- EEcWRrELJBwPBVIQ7QQ..qRDuWA5y0oN51VRd_ivurCaLuBrg6o8imFIQ8vyzS2kMd9riFoR5_NU
- dowmBx69xB3BkW_PlV6IuLT6bNNr63TVWUR6ypt7ez9OIE7FZbkoxokIiLmsz_4CY2LgcmHh6Gt5
- vO9aDE9ntpLUbuzoawFKhYFOj3D6rsSLz4ZCrxkC0JC5Yk9vGzz_.GvCnbPWfoTxUPVZTOgAGGoV
- 2e.nsUXne39XujL9HNhiOEIPbaDvRuUuLh0ex118_4wocjCNyTI5UCc46Ujzoxpep8pmT0fq7UfX
- Jb4ZkFz7NMHtSppPeeaAoL5FTGYeE6piH4z0UbUg..NavPlPUbPFexCNOo9OLJgthTa7KYfbFhNr
- 6MSDpSdx_DHBrmxoCR.aULpZr6UqnWWBwU0WpNvM0k2PXPWjfDyCBkk31q6B6_bOv4RdpbaKl4_d
- Xlgl7sUwpCp7t1TNG.rUinwco9hYk5cFi8Sk8XBWty_is6RdUlmQeSfmuG3BoCTlOGoShRlhPb0B
- Zyk4X3wXjww2TOUAilAxf25uAypybMQT_muc9iP79cCSfjiqGFzMzfaxe1d3EPGaDsWcOnWwBl5N
- eFdKz1JU2E3UmKNbSl0xdQi8mHs6znVLfMlIPuLrA2Lx_2OgvpOhSeJENooG4_l8ykKgGNq8RSr1
- i5gDQOuv3xf4CQx1iZ_0IVGjb0fM5.ezVhJcYhOGfzBW4oH7DQl_J_5Vg_1fW7QKyAza.zh.UGxt
- 3_lWMJBaEKqCK9Zn5qfGKVmvPkFyzyDzR.IzxDJjjwU6In3c_AHNzYhLw_2u5npCjJW3c6qfD9zw
- yPLCh.Zw8zUaLIiuz4ZoGN0Pk.iLYsnkBOcrn9kEzL2zOngDAVpwE4nMOIMOrS_NzK7BgKz5c_uS
- br4ACDQESpMM7m4z6zmr17IMszS4M8cXCXvyRXrPSlojR7mxRDQZwBnLxh3tubHqdnKcB_fjRoQb
- EUhArYh9uCiAd68bNfeVMkh8n59HEPlm2SzpL8UoCxybwArtG7qc0BPMQzSGKWWmNXn7SQVeZ48j
- ze8mzlTKrHfS.3cKh6MolGyh0QHWrDMaa.aqzLzdbMjQughfLYdtkX0h5OmdV7VOu5arvmIfgkox
- 3oZiDjzb1tb7gEoyPOQokD7fE4PpxAYouyptxzHPiThoi415oZyQSYb7X0EsvO.7btV.MeLYxyqp
- GVBwlUGBfHqgcXMVYC_AsRnW0aaWinQUUNtrR1RKI3xSs2R.VczpwHoqolYuv4wd4_xdZnpZBYHM
- jlrDN_EOZKu.0Z1y6qDv9pplUj7czEuFojAjdoRtdcczFsY3ch5I-
+	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="o1awkTT1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1787157900; bh=fxgdbKZ4EVOmdlAegT37bG2gyo0fL7Bviv99W3LuWQE=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=o1awkTT1ZMgERffT/bNFTXmt4srItwfqLjThS6tZ0j2F9L+jh1yh/rnvoiLHHGbdYZolgacnBoP4RjVx/zG5P6LB1vFYmA/A3IbWZ5moqQV85d9TCh4F09qTPFej14dye0YhlXWCVcdLsJfaLitgOmu4EXr9izdTGvU4Rf4oDo1b8iWtAUh547IYp0FPhuY2GJvLvPdrIfOQ1DsV34rAnxwiq8bpFNY5Ih3hiUQ+SDz0vkHj3dt3cw23ox4Bsja3HMW7X2707Uf5FR7E6iB8GsBUDqqDqwl19tlFFQx1HyeWnDI/Ywj0m6329+paNrUfeiwtqAkQqE6uMRglp4adKw==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1787157900; bh=pzN0DZQZmmMdJVCkjXFx5oSOlXKWr/JYLwDlizRlkkm=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=CbJUbLY4KbTNunR4L4GMPHg6yLgWwfmAgKbrmso7cGJhw9pt3F0+J2c8yOUY7ye2mXvT2AZcw9ZsNvGgeMSdiPcVIXYGq3reRKl1c8IrHaJ6Jrt3+WncyTzxBPpWoouiSlKHF1asN7AfLIDqVgD2xewowexwCNVH/c5qxzns/svJhdFSwcZLiBtedwXkUCECLgy4V6kWHb5DxfDm2ilTEDDEk01mZ0spV4fyvK0ahsjaECHu50Bwjv7a0+pR83gFCM7hESnEWb8qmLQGcAYpbCf9SVQv8c+ZS2X4nZmcGGKrCkfX0AFe3k5btJcuoQIeBpKK2orKk8ZiwezuGnizQw==
+X-YMail-OSG: fbh0ObMVM1n3pFygdC3kO4_AYrlEibhGhL6U8lKaoUhMUShlpUAZ2QipvKAwrea
+ 8i.RNbhBiLnjN1qmm0yirK7Le3IFad.6Lq2ppf8P3o3sM5tUa17cprmmvV_CTJmtZF0xwNhibFsl
+ Xlp63X_R6xH_G0KO.ljVjEBFPTfmK.D6h2GIPIhtLfS7Qxx.bpU7Dfr7V8zKitbdifUVsW.WzI0H
+ 2UD1fgSgNzvW2ltGGWqfPiR7b1ynVvIzQfhsxX.w_zWfljQmwUa6_sVri0Brt902rgSW5TiKsQzK
+ BN_docpHXHld4GWmATRWokAAaFfaw48YVjq7OT.AqXaDA1qRst1ZLGVK.GOkG0LsN7UFt6trCUA3
+ W3mhbWKQf_p1bt2sFsTaMTRtovpstX6bo6yQlkDAUkvpVfXP5s3PnzffHkTsd4_dRI8ld1Iy2NeG
+ j0AF1sdjTAPBwo46LtLz6ZLJqZmVz2Aq9hW2aj68D5J0eknB9fbs9DoER_nlBEBSoVMwXg1M6UEL
+ PUBw5jXWg4d_AguUcPjBVEEoyF8wumDq8uqni.chP1e5YWSl37LrYuHyWAVJwuWkrUX9rj1z0F1Q
+ M.0KsmiYLlhK9ZwMt9AaxFXRUt1kyWjMKK5OXPErBMWysf3Q0F2Sgu49HL3udmmWTZS2P7_Mq6v2
+ 8ZvRIStcCfwQ8DniyIjvGZt8yEkxs3NjaXT2wUl.tKTVYeNGUP4gxJTbG15q5zrRIGsHbHKRUMLJ
+ Bfre6_70G53z9zLsAMiyD0.L6syfq.AXGBAhg26lUfb1R1Pfbst553feC3K3JQx45tYmwA23HcVp
+ q1r8UPfZuvALbnhNT_14lTpX00kcyPnrg4CMsY6GcLJo9VQ.kB0uoYjFDSBIU13ht2b9ditI5xrL
+ 7yu0EK178MbL_eUX8StYqxekkHNdtFrd2HA3dBZe6J7mLT78PYhqU6Tqpz4OPjfkH3IILxZcHa5l
+ QHuej6cTGD2JIr91JqiyBfXex3.Sidd4V9vY3hqgYDED.7eKIlQVrD5jjtesr7i9XZrexH_2dcpe
+ swr3lJUZDH4AQznavCJ4LFjYIJ7qq7Y2XXqHYkLvaRE0vFcQfemX6i8rZrFvzVAJpzeLZvadO6U7
+ CZYCTd5R4WaRGKe7AUIbEBuVoi7FXTqVU2EQP_kw4iuhdOBnSVN_nb8onsNlaleXQfkBao2SKvH.
+ 0n.9HWqgpmZ_nYkL6eOsAso36_vY_8xC9h9SEoBwHhxhRojHXjclVP6lMPR_H8rw.aHVYKJ2_3lB
+ X7CtRTcLsDspIKisB9gkcS1jiZcMKmQwqVRoj2TEQb9.8USuuoiGoC6EoCro7JocCwtJ4mvA_9xu
+ fIagAm5Cvdgu5D88ZahnEOM2u33ynWj45JGRuQPqrA2e5mkB60p5mKbMLlSzRxZUkvX.3BTWxDvh
+ xip0pfXUCRBlXbCtCmzxKilTMmsY3rzEOvKTWc76i66fQyZrXm3R6RnCliOjKb0tzT5NAzNPfnan
+ BSKpd.5VnmDee9cmbsU8VeyMMB1t2zRHGrSOULnMk0vsi0y0J2PT.VbC8fmQuROwMK4Q.o2x0gBV
+ A6wzQiiOcE7fESgIOFFZYYyxHZNaMMWkTn_mLC2Y..KpDrjvuZHbfiLjHkXERbSRM_wuEdO7mM4s
+ .BdY.JFLVL2CXk9P_TwoUNtrs2GAsh4GQQDRFEBmMSeXY84.abPmn3f8hhPPJ9kzoeAbqNSf_Heu
+ 61PqHuAD2AdQdeXmSIdf1dITuT5E13nNsY0.G7p3s6eKz.5DQ8LLkgStySTJ7IyZS25kXiFJRmrC
+ egfV5ufBTwTPcaWeX2qtLMpIix767xPOzjZAaOJX_LaC8j2W0CUOutTQLFdFJaOuQ7F7YKZc6oT2
+ G7AVMghh.1Z6HuieMVFVmrY.WdLQ7lHUVQi.hsBQJbp6i_pcjfnjbCTi4vh6MtTc.RkOv3QAlzke
+ pWw6TWQxIM5zaSGFUbqcbfHn8p3FEiPNpCDawTI6YHuWtudsAOXW5filWbTmXzP2jbN2jmcTFSe0
+ ie3WGZUGEBkP_cYcT7V689ysAI84U7yKHqSdbcwL_xAuoV1LAuTbvHfG.VWD9EQ--
 X-Sonic-MF: <tomasz.unger@yahoo.pl>
-X-Sonic-ID: 009fda8e-338b-41d8-871d-8e1eae65373f
-Received: from sonic.gate.mail.ne1.yahoo.com by mail-asdoutdeli-p-cin-euwe1-prod-sonicconsumer-svc-102 with HTTP; Wed, 19 Aug 2026 15:45:01 +0000
-Received: from dip107.lsn.ir2.yahoo.com ([87.248.99.116])
-          by hello (SMTP) with SMTP ID 967f650c72d009ff976bfe919548cc22;
-          Wed, 19 Aug 2026 15:44:58 +0000 (UTC)
+X-Sonic-ID: 9b716b9d-7246-472c-8d1e-624c7e58f7e5
+Received: from sonic.gate.mail.ne1.yahoo.com by mail-asdoutdeli-p-cin-euwe1-prod-sonicconsumer-svc-102 with HTTP; Wed, 19 Aug 2026 16:45:00 +0000
+Received: from dip105.lsn.ir2.yahoo.com ([87.248.99.114])
+          by hello (SMTP) with SMTP ID 5d5ae7f586cb629b9c02634e046e3739;
+          Wed, 19 Aug 2026 16:44:55 +0000 (UTC)
 From: Tomasz Unger <tomasz.unger@yahoo.pl>
-Date: Wed, 19 Aug 2026 17:44:55 +0200
-Subject: [PATCH] staging: greybus: use sysfs_emit instead of sprintf in
- light.c
+Date: Wed, 19 Aug 2026 18:44:44 +0200
+Subject: [PATCH] staging: fbtft: prefer scnprintf over sprintf in
+ fbtft-core.c
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -64,75 +64,76 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260819-greybus-light-sysfs-emit-v1-1-43c4b680de6a@yahoo.pl>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQ6CMBBG4auQWTsJEKLoVYwLpv4tYxRNpxAJ4
- e4WXH6L9xYyRIXRpVgoYlLT95BRHQpyfTcEsN6zqS7rY9lWZw4Rs4zGTw19YpvNG+OliRtpBZ2
- cGu8c5fwT4fW7r6+3v22UB1zafrSuPxRSOHB8AAAA
-X-Change-ID: 20260819-greybus-light-sysfs-emit-4b8beab74fcc
-To: Rui Miguel Silva <rmfrfs@gmail.com>, Johan Hovold <johan@kernel.org>, 
- Alex Elder <elder@kernel.org>, 
+Message-Id: <20260819-fbtft-core-scnprintf-v1-1-842c0603634c@yahoo.pl>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQ6CQAxA0auQrm0yMxKCXsW4kNJCXQykHY0J4
+ e4OunyL/zdwNmWHa7OB8Vtdl1wRTw3Q/MgTo47VkELqQh8vKEORgrQYo1NeTXMRjEIS2tRRf26
+ hpqux6Oe3vd3/9tfwZCrHC/b9C+QJjtF4AAAA
+X-Change-ID: 20260819-fbtft-core-scnprintf-1fcf0426c834
+To: Andy Shevchenko <andy@kernel.org>, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, 
- linux-kernel@vger.kernel.org, Tomasz Unger <tomasz.unger@yahoo.pl>
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Tomasz Unger <tomasz.unger@yahoo.pl>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1787154297; l=2283;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1787157894; l=2505;
  i=tomasz.unger@yahoo.pl; s=20260311; h=from:subject:message-id;
- bh=jiqnw6FUQrsZ0FRQBqGfQnQPHLpg4XhphZdoEhKXXHo=;
- b=MD12Jrn6GvSFdWlzPktsz3Wfk4e/DHZh6od5D/QOQaLl9BdX4+pUVYb6/E9+iZzO6jnEIO6L1
- 3F4dOr3JM+xBoELVwiQaQb1KKpoTSof0FILNLFQkX4dRTpow1SGPfbF
+ bh=fAj/ZwZdDNIq6XPDw1CtOG2+/TZWCjN9a5TCWDhfr0I=;
+ b=TOIBrdl31TNOG55V/dOQ/xIgEIbFBGWCGHNHXLhkT8N3LD6fK1YdGoZweUdcZ/b8YIoaZRts7
+ EWCkNIj+vgKCq+86Il/+GteuXyHTwjyqfHJe6MysIP1iAZCUWt1bOw/
 X-Developer-Key: i=tomasz.unger@yahoo.pl; a=ed25519;
  pk=EPPsO91uz/0J2cTQ6ol+dgxYaieEc9dKSXWUb51n46c=
-References: <20260819-greybus-light-sysfs-emit-v1-1-43c4b680de6a.ref@yahoo.pl>
+References: <20260819-fbtft-core-scnprintf-v1-1-842c0603634c.ref@yahoo.pl>
 
-Per Documentation/filesystems/sysfs.rst, new implementations of
-show() methods should only use sysfs_emit() or sysfs_emit_at()
-when formatting the value to be returned to user space, since it
-is aware of the sysfs PAGE_SIZE buffer and includes sanity checks
-that sprintf() lacks.
+Using sprintf has potential for buffer overflows if the formatted
+string exceeds the destination buffer size. Replace it with
+scnprintf, passing sizeof() of the fixed-size stack buffers
+(text1[50] and text2[50]) so the write is always bounded.
 
-This fixes fade_in_show() and fade_out_show() (both generated by
-the gb_lights_fade_attr() macro) and color_show().
+In practice an overflow is very unlikely here: text1 only needs
+room for a size_t value from an SPI TX buffer length, and text2
+formats three small integers (bus number, chip select, and
+frequency in MHz) that always come from real hardware ranges far
+below the theoretical worst case for their types. This is
+therefore a defense-in-depth hardening rather than a fix for an
+observed or easily triggered issue.
 
 Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
 ---
 Verified with checkpatch.pl - no errors or warnings.
-Compiled the gb-light module successfully with CONFIG_GREYBUS_LIGHT=m
-and CONFIG_LEDS_CLASS_FLASH=m (both previously disabled).
-greybus.ko, led-class-flash.ko and gb-light.ko all load without
-errors in a QEMU environment (verified via insmod and lsmod, dmesg
-shows no errors). This confirms the modules load cleanly but does
-not exercise the changed sysfs show() code paths, which would
-require an actual Greybus light device bound to the driver.
+Compiled the fbtft module successfully with CONFIG_FB_TFT=m
+(also required enabling CONFIG_FB=m, CONFIG_SPI=y and
+CONFIG_GPIOLIB=y, all previously disabled).
+fb.ko, syscopyarea.ko, sysimgblt.ko, sysfillrect.ko,
+fb_sys_fops.ko and fbtft.ko all load without errors in a QEMU
+environment (verified via insmod and lsmod). This confirms the
+modules load cleanly but does not exercise the changed code
+path, which would require an actual SPI-connected TFT display.
 ---
- drivers/staging/greybus/light.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/fbtft/fbtft-core.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/greybus/light.c b/drivers/staging/greybus/light.c
-index cab02b5da867..2689f9a7524a 100644
---- a/drivers/staging/greybus/light.c
-+++ b/drivers/staging/greybus/light.c
-@@ -173,7 +173,7 @@ static ssize_t fade_##__dir##_show(struct device *dev,			\
- 	struct led_classdev *cdev = dev_get_drvdata(dev);		\
- 	struct gb_channel *channel = get_channel_from_cdev(cdev);	\
- 									\
--	return sprintf(buf, "%u\n", channel->fade_##__dir);		\
-+	return sysfs_emit(buf, "%u\n", channel->fade_##__dir);		\
- }									\
- 									\
- static ssize_t fade_##__dir##_store(struct device *dev,			\
-@@ -220,7 +220,7 @@ static ssize_t color_show(struct device *dev, struct device_attribute *attr,
- 	struct led_classdev *cdev = dev_get_drvdata(dev);
- 	struct gb_channel *channel = get_channel_from_cdev(cdev);
+diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
+index ca0c38221c16..95c92ad55e98 100644
+--- a/drivers/staging/fbtft/fbtft-core.c
++++ b/drivers/staging/fbtft/fbtft-core.c
+@@ -784,10 +784,10 @@ int fbtft_register_framebuffer(struct fb_info *fb_info)
+ 	fbtft_sysfs_init(par);
  
--	return sprintf(buf, "0x%08x\n", channel->color);
-+	return sysfs_emit(buf, "0x%08x\n", channel->color);
- }
- 
- static ssize_t color_store(struct device *dev, struct device_attribute *attr,
+ 	if (par->txbuf.buf && par->txbuf.len >= 1024)
+-		sprintf(text1, ", %zu KiB buffer memory", par->txbuf.len >> 10);
++		scnprintf(text1, sizeof(text1), ", %zu KiB buffer memory", par->txbuf.len >> 10);
+ 	if (spi)
+-		sprintf(text2, ", spi%d.%d at %d MHz", spi->controller->bus_num,
+-			spi_get_chipselect(spi, 0), spi->max_speed_hz / 1000000);
++		scnprintf(text2, sizeof(text2), ", spi%d.%d at %d MHz", spi->controller->bus_num,
++			  spi_get_chipselect(spi, 0), spi->max_speed_hz / 1000000);
+ 	fb_dbg(fb_info,
+ 	       "%s frame buffer, %dx%d, %d KiB video memory%s, fps=%lu%s\n",
+ 	       fb_info->fix.id, fb_info->var.xres, fb_info->var.yres,
 
 ---
 base-commit: 8d3ae59288f1e7d58d76558a6ee96d533bc5019f
-change-id: 20260819-greybus-light-sysfs-emit-4b8beab74fcc
+change-id: 20260819-fbtft-core-scnprintf-1fcf0426c834
 
 Best regards,
 --  
