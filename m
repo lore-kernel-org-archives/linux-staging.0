@@ -1,98 +1,64 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail-m21471.qiye.163.com (mail-m21471.qiye.163.com [117.135.214.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66F5D39CCFE;
-	Wed, 19 Aug 2026 13:29:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A033F2D7DE9
+	for <linux-staging@lists.linux.dev>; Wed, 19 Aug 2026 13:44:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.214.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787146160; cv=none; b=VDT3z3HBuogtMDMLyLoE0asZWJWdlsXVxvs4ZQ3kXoSoWxczxYFMSTvq6HKLNGwSTVpOURHp9qKS1o9msArTMe3BE7RNmYltTmsxtmfXkIIvpyye+0G+GK/nYvfsY31leuaRQ8evJcJjOUQmrbroWvTyq9eghRCwM0cMIrKD5Hs=
+	t=1787147098; cv=none; b=g8UTi1QKDZCgh6qVChqqqYDxcp7epTsFe9L6TZqWlTSasUZPl1kEw+HYqNiAol517PZPEUTabaeYyXpJ20guhUKg+16fzymTJbi89dUfiLaey8cRA7dFqhAsgIM78Dn1PisMoQl4kouuetgpuYByNTmTVwQgJozDKCfZB226Fa8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787146160; c=relaxed/simple;
-	bh=haRWC4psyhMltn/wsNorx3Kjq0OaLhTYQtQUWf8vpuM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AcdqzilNjgdAxMqS1ngRoUo6VoT1YHMcNscH5qy9YcKUwwXIBjFwNVBjItUDGtjt9+Uw0LqSPUDzNsFX7kMlIviD/GP+nAjL9hA1RuuQcvTPjwRefxuqRLbDBJ1zYtVyh2eqpX0q9QKAAvJBS+B/Fnm7nypBdZEOyUbFLfsJDHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=wVRzToOk; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787147098; c=relaxed/simple;
+	bh=VFsaxfa/3SXEXjaUbP2jarq6ADpVtpdcFTYwnQzJFWU=;
+	h=Content-Type:Message-ID:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:From:Date; b=JKeNymWM8nVRou4tb0jlKikxsUGj0wkWHWCOAkirRsA/yaXPO3YfxhduWmzbOYGZfRyKOI4QToU/wqZpYsGmySQQ3t6KphqtbpvKgco5r5VEYG08+Z7dAEmpSZpMa5NEWOFcG4WP0Dk4KvNR9R/edyIP1b+hgDs0aMIOrFiFPkE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=CUAu/fj9; arc=none smtp.client-ip=117.135.214.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="wVRzToOk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 737CC1F00A3A;
-	Wed, 19 Aug 2026 13:29:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1787146156;
-	bh=HiVMVFLtnvkKMSi3UQoQGAcZOojEZFVZ6fBD5+YTYfk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=wVRzToOkjRIUnEC1HkgAl5wuKoeH7pPeXdi0xJQ3783UE7V6UzkOdEKCq+1mzwj/N
-	 S0QBjH7K8lvFwhhXGN/+iPnws3sUrkJBMYhcQoQilLQDjh/PWhjK2nwTdVMQKT24Oj
-	 AlnjqjiVjYFLKS1yY9RA96JrX9NWxVD6R7egtkX4=
-Date: Wed, 19 Aug 2026 15:29:11 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Runyu Xiao <runyu.xiao@seu.edu.cn>
-Cc: Rui Miguel Silva <rmfrfs@gmail.com>, Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Kris Huang <huang_kris@projectara.com>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: greybus: light: initialize channel lock before
- registration
-Message-ID: <2026081944-divisible-trodden-ab4b@gregkh>
-References: <20260818142020.1989539-1-runyu.xiao@seu.edu.cn>
- <2026081801-arguable-gosling-c590@gregkh>
- <ANAASQBEK9Ye2X-O4oze*arv.3.1787142765226.Hmail.220255722@seu.edu.cn>
- <2026081928-calzone-managing-4141@gregkh>
- <20260819132108.17767-1-runyu.xiao@seu.edu.cn>
+	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="CUAu/fj9"
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+Message-ID: <AHwATgDJK7Me8K54TPtxeqq0.3.1787146779806.Hmail.220255722@seu.edu.cn>
+To: Greg Kroah-Hartman  <gregkh@linuxfoundation.org>
+Cc: Rui Miguel Silva <rmfrfs@gmail.com>, Johan Hovold <johan@kernel.org>, 
+	Alex Elder <elder@kernel.org>, 
+	Kris Huang <huang_kris@projectara.com>, 
+	greybus-dev <greybus-dev@lists.linaro.org>, 
+	linux-staging <linux-staging@lists.linux.dev>, 
+	linux-kernel <linux-kernel@vger.kernel.org>
+Subject: =?UTF-8?B?UmU6IFtQQVRDSF0gc3RhZ2luZzogZ3JleWJ1czogbGlnaHQ6IGluaXRpYWxpemUgY2hhbm5lbCBsb2NrIGJlZm9yZSByZWdpc3RyYXRpb24=?=
+X-Priority: 3
+X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2016-163.com Sirius_WEB_WIN_1.66.1
+In-Reply-To: <2026081944-divisible-trodden-ab4b@gregkh>
+References: <20260818142020.1989539-1-runyu.xiao@seu.edu.cn> <2026081801-arguable-gosling-c590@gregkh> <ANAASQBEK9Ye2X-O4oze*arv.3.1787142765226.Hmail.220255722@seu.edu.cn> <2026081928-calzone-managing-4141@gregkh> <20260819132108.17767-1-runyu.xiao@seu.edu.cn> <2026081944-divisible-trodden-ab4b@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260819132108.17767-1-runyu.xiao@seu.edu.cn>
+Received: from 220255722@seu.edu.cn( [222.191.246.242] ) by ajax-webmail ( [127.0.0.1] ) ; Wed, 19 Aug 2026 21:39:39 +0800 (GMT+08:00)
+From: Runyu Xiao <runyu.xiao@seu.edu.cn>
+Date: Wed, 19 Aug 2026 21:39:39 +0800 (GMT+08:00)
+X-HM-Tid: 0aa01a3abc6002f2kunm8fc8cd0080bc
+X-HM-MType: 1
+X-HM-NTES-SC: AL0_4z5B86Wr4Tz9jdMF+bhXMTUS6Y2fHkyPT6dc03QDwVaZPGiA09TnwhbhTj
+	hLfuFZO94YXwX6xgvkjGVFFRKj5N5PAWIpdnz39bwj6LHyMTYY5fqHhlpqTKtW7ei57CCbwb8etZ
+	+m1ibwjT5tn8cJXX9p973O57zesRA/NATSajI=
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZQx0aVktPTExOTEsYQkhCQ1YVFA
+	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUlVSkJKVUlPTVVJT0lZV1kWGg8SFR0UWUFZT0tIVU
+	JCSU5LVUpLS1VKQktCWQY+
+DKIM-Signature: a=rsa-sha256;
+	b=CUAu/fj9krgtK6/L0kmJtsb10MZoqp4vLR3od2RrQZgKGvAk82ha7KmWVRxr7ngFxiPiacmoLVq1p0vJ3/HWqeSvGfZIlV7/EqPC2D1ipv9yIe5c+f4XAhqwt7IN+VaKwU4i9dWZVTVpI7jPYhPvq/xgQ41dpz6jYRpYbI2NR7o=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
+	bh=VFsaxfa/3SXEXjaUbP2jarq6ADpVtpdcFTYwnQzJFWU=;
+	h=date:mime-version:subject:message-id:from;
 
-On Wed, Aug 19, 2026 at 09:21:08PM +0800, Runyu Xiao wrote:
-> You're right, and "tested" was the wrong word in my reply.
-
-Sorry, I have no context :(
-
-Remember, some of us get thousands of emails a day.
-
-> The finding here is from code inspection, not from a runtime test. The
-> path I checked is:
-> 
->   gb_lights_channel_register()
->     -> led_classdev_register()
->        publishes cdev->brightness_set_blocking
->        (= gb_brightness_set()
->           -> __gb_lights_brightness_set()
->           -> __gb_lights_led_brightness_set()
->           -> mutex_lock(&channel->lock))
-> 
-> but mutex_init(&channel->lock) only runs after
-> gb_lights_channel_register() returns, and that is the only place where
-> channel->lock is initialized. So the lock is published before it is
-> initialized.
-> 
-> The QEMU module I mentioned does not exercise this driver. It only shows
-> that taking an uninitialized mutex triggers the expected
-> DEBUG_LOCKS_WARN_ON(lock->magic != lock), so I should not have described
-> it as driver testing or as a reproducer for this driver.
-> 
-> And yes, 6.1.66 was only the kernel version in that local QEMU setup. The
-> patch itself was made and compile-checked against current mainline, and
-> I'll keep validation against mainline for future submissions.
-
-Just build testing against a many-year-old kernel is a sure way to
-ensure that nothing will actually work at all :(
-
-> The initial report came from PatchProof, a static-analysis pipeline I am
-> building for lock-API misuse. It flagged this publish-before-init ordering,
-> and I then manually verified the call path above. I did use an LLM as an
-> assistant during the workflow, but the finding itself was from the checker
-> and the patch I sent was based on my manual review of the code.
-
-Please read the archives for why we don't take LLM patches for
-drivers/staging/ unless you can test the change on real hardware.
-
-thanks,
-
-greg k-h
+T24gV2VkLCBBdWcgMTksIDIwMjYgYXQgMDk6Mjk6MTFQTSArMDgwMCwgR3JlZyBLcm9haC1IYXJ0
+bWFuIHdyb3RlOgomZ3Q7IFBsZWFzZSByZWFkIHRoZSBhcmNoaXZlcyBmb3Igd2h5IHdlIGRvbid0
+IHRha2UgTExNIHBhdGNoZXMgZm9yCiZndDsgZHJpdmVycy9zdGFnaW5nLyB1bmxlc3MgeW91IGNh
+biB0ZXN0IHRoZSBjaGFuZ2Ugb24gcmVhbCBoYXJkd2FyZS4KClVuZGVyc3Rvb2Qg4oCUIEknbGwg
+ZHJvcCB0aGlzIHBhdGNoLCBhbmQgb25seSBzdWJtaXQgY2hhbmdlcyBJIGNhbiBidWlsZAphbmQg
+dGVzdCBhZ2FpbnN0IGN1cnJlbnQgbWFpbmxpbmUgKGFuZCBvbiByZWFsIGhhcmR3YXJlIHdoZXJl
+IHBvc3NpYmxlKQpnb2luZyBmb3J3YXJkLiBUaGFua3MgZm9yIHRoZSBndWlkYW5jZS4KClRoYW5r
+cywKUnVueXUgWGlhbw==
