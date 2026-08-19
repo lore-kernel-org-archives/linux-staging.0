@@ -1,64 +1,134 @@
-Received: from mail-m21471.qiye.163.com (mail-m21471.qiye.163.com [117.135.214.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-177.mta0.migadu.com [91.218.175.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A033F2D7DE9
-	for <linux-staging@lists.linux.dev>; Wed, 19 Aug 2026 13:44:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.214.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76F0734AB1D
+	for <linux-staging@lists.linux.dev>; Wed, 19 Aug 2026 14:22:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787147098; cv=none; b=g8UTi1QKDZCgh6qVChqqqYDxcp7epTsFe9L6TZqWlTSasUZPl1kEw+HYqNiAol517PZPEUTabaeYyXpJ20guhUKg+16fzymTJbi89dUfiLaey8cRA7dFqhAsgIM78Dn1PisMoQl4kouuetgpuYByNTmTVwQgJozDKCfZB226Fa8=
+	t=1787149372; cv=none; b=lXfhaxWGbnoKJVddyLub3dLsNAtF5Di7X0MLcS8Xjyc5/LcYvKGUZA1T/dVYCjhvkNRjj4ZomYR09x45XBvrO683NeHcnp8Sw76tfQZobecXh8pobwgL3fc3cvlChxWSRbaU9Q9ZPb42jHpB3GITFlDS5kqdAkzLrpRTEIhalAY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787147098; c=relaxed/simple;
-	bh=VFsaxfa/3SXEXjaUbP2jarq6ADpVtpdcFTYwnQzJFWU=;
-	h=Content-Type:Message-ID:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:From:Date; b=JKeNymWM8nVRou4tb0jlKikxsUGj0wkWHWCOAkirRsA/yaXPO3YfxhduWmzbOYGZfRyKOI4QToU/wqZpYsGmySQQ3t6KphqtbpvKgco5r5VEYG08+Z7dAEmpSZpMa5NEWOFcG4WP0Dk4KvNR9R/edyIP1b+hgDs0aMIOrFiFPkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=CUAu/fj9; arc=none smtp.client-ip=117.135.214.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
+	s=arc-20240116; t=1787149372; c=relaxed/simple;
+	bh=2fBSYq1/7vyUmZLkekPRDn1TZ7t/XU9YO1J7dxGDvMg=;
+	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc; b=Wm4UesUcfVWTQ9yNvdvgHDsyp+bbzGJ5cobZQQDpu0hiu5Narm9raft0kqyJqvM+kdkmQrmrdaS4f0O52dRQILbxg6GEzENQVNyA2ZUAWD15WarjUVr0FrepEznMt9E9uJtIsW7GA3yamRM//Y7Z+Vbz/UwwPqtlUa/iUSw7JmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=hEab06AP; arc=none smtp.client-ip=91.218.175.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="CUAu/fj9"
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-Message-ID: <AHwATgDJK7Me8K54TPtxeqq0.3.1787146779806.Hmail.220255722@seu.edu.cn>
-To: Greg Kroah-Hartman  <gregkh@linuxfoundation.org>
-Cc: Rui Miguel Silva <rmfrfs@gmail.com>, Johan Hovold <johan@kernel.org>, 
-	Alex Elder <elder@kernel.org>, 
-	Kris Huang <huang_kris@projectara.com>, 
-	greybus-dev <greybus-dev@lists.linaro.org>, 
-	linux-staging <linux-staging@lists.linux.dev>, 
-	linux-kernel <linux-kernel@vger.kernel.org>
-Subject: =?UTF-8?B?UmU6IFtQQVRDSF0gc3RhZ2luZzogZ3JleWJ1czogbGlnaHQ6IGluaXRpYWxpemUgY2hhbm5lbCBsb2NrIGJlZm9yZSByZWdpc3RyYXRpb24=?=
-X-Priority: 3
-X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2016-163.com Sirius_WEB_WIN_1.66.1
-In-Reply-To: <2026081944-divisible-trodden-ab4b@gregkh>
-References: <20260818142020.1989539-1-runyu.xiao@seu.edu.cn> <2026081801-arguable-gosling-c590@gregkh> <ANAASQBEK9Ye2X-O4oze*arv.3.1787142765226.Hmail.220255722@seu.edu.cn> <2026081928-calzone-managing-4141@gregkh> <20260819132108.17767-1-runyu.xiao@seu.edu.cn> <2026081944-divisible-trodden-ab4b@gregkh>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="hEab06AP"
+X-Envelope-To: linux-staging@lists.linux.dev
+DKIM-Signature: a=rsa-sha256; bh=2fBSYq1/7vyUmZLkekPRDn1TZ7t/XU9YO1J7dxGDvMg=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1787149368; v=1; x=1787754168;
+ b=hEab06APny5fyWiYy2W+TbSZuw5lAMlRn0/2bi5gwq4XFDPZV0MXjCf2+4Szf+pY0Aq6Otwt
+ aMIEAY9b4dc/M07dMP63+Xe02Ia1tVxAFgTUg+gBQD3UQ78s2jyeLJu7cVP2UA87syhJ5pBZE/U
+ P8cUX1I2Vw1wD2b8OaSyxHCc=
+X-Envelope-To: linux-staging@lists.linux.dev
+Received: from webmail.migadu.com (2001:41d0:303:fc7a::)
+	by smtp.migadu.com with ESMTPS id 424ff81d549fbe7a;
+	Wed, 19 Aug 2026 14:22:48 +0000
+X-Mizu-Trace-ID: 424ff81d549fbe7a
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Received: from 220255722@seu.edu.cn( [222.191.246.242] ) by ajax-webmail ( [127.0.0.1] ) ; Wed, 19 Aug 2026 21:39:39 +0800 (GMT+08:00)
-From: Runyu Xiao <runyu.xiao@seu.edu.cn>
-Date: Wed, 19 Aug 2026 21:39:39 +0800 (GMT+08:00)
-X-HM-Tid: 0aa01a3abc6002f2kunm8fc8cd0080bc
-X-HM-MType: 1
-X-HM-NTES-SC: AL0_4z5B86Wr4Tz9jdMF+bhXMTUS6Y2fHkyPT6dc03QDwVaZPGiA09TnwhbhTj
-	hLfuFZO94YXwX6xgvkjGVFFRKj5N5PAWIpdnz39bwj6LHyMTYY5fqHhlpqTKtW7ei57CCbwb8etZ
-	+m1ibwjT5tn8cJXX9p973O57zesRA/NATSajI=
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkZQx0aVktPTExOTEsYQkhCQ1YVFA
-	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUlVSkJKVUlPTVVJT0lZV1kWGg8SFR0UWUFZT0tIVU
-	JCSU5LVUpLS1VKQktCWQY+
-DKIM-Signature: a=rsa-sha256;
-	b=CUAu/fj9krgtK6/L0kmJtsb10MZoqp4vLR3od2RrQZgKGvAk82ha7KmWVRxr7ngFxiPiacmoLVq1p0vJ3/HWqeSvGfZIlV7/EqPC2D1ipv9yIe5c+f4XAhqwt7IN+VaKwU4i9dWZVTVpI7jPYhPvq/xgQ41dpz6jYRpYbI2NR7o=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
-	bh=VFsaxfa/3SXEXjaUbP2jarq6ADpVtpdcFTYwnQzJFWU=;
-	h=date:mime-version:subject:message-id:from;
+Date: Wed, 19 Aug 2026 14:22:47 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+From: "Tianchu Chen" <tianchu.chen@linux.dev>
+Message-ID: <f718ce8ebdf9fced440fb47bc921026bd24ca879@linux.dev>
+TLS-Required: No
+Subject: [PATCH] staging: rtl8723bs: fix protected RX frame validation in
+ decrypt path
+To: gregkh@linuxfoundation.org, hansg@kernel.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 
-T24gV2VkLCBBdWcgMTksIDIwMjYgYXQgMDk6Mjk6MTFQTSArMDgwMCwgR3JlZyBLcm9haC1IYXJ0
-bWFuIHdyb3RlOgomZ3Q7IFBsZWFzZSByZWFkIHRoZSBhcmNoaXZlcyBmb3Igd2h5IHdlIGRvbid0
-IHRha2UgTExNIHBhdGNoZXMgZm9yCiZndDsgZHJpdmVycy9zdGFnaW5nLyB1bmxlc3MgeW91IGNh
-biB0ZXN0IHRoZSBjaGFuZ2Ugb24gcmVhbCBoYXJkd2FyZS4KClVuZGVyc3Rvb2Qg4oCUIEknbGwg
-ZHJvcCB0aGlzIHBhdGNoLCBhbmQgb25seSBzdWJtaXQgY2hhbmdlcyBJIGNhbiBidWlsZAphbmQg
-dGVzdCBhZ2FpbnN0IGN1cnJlbnQgbWFpbmxpbmUgKGFuZCBvbiByZWFsIGhhcmR3YXJlIHdoZXJl
-IHBvc3NpYmxlKQpnb2luZyBmb3J3YXJkLiBUaGFua3MgZm9yIHRoZSBndWlkYW5jZS4KClRoYW5r
-cywKUnVueXUgWGlhbw==
+From: Tianchu Chen <flynnnchen@tencent.com>
+
+The RX software decrypt path mishandles crafted protected frames from a
+malicious AP in two ways:
+
+1) decryptor() never checks that a protected frame is long enough to
+hold the 802.11 header plus the per-cipher trailer(IV, ICV/MIC).
+
+Implementations like rtw_wep_decrypt() and rtw_aes_decrypt() all compute
+length =3D hdr.len - hdrlen - iv_len. and a shorter frame underflows the=
+=20
+unsigned=20subtraction, turning into OOB reads/writes.
+
+Reject such frames in decryptor() before touching the IV.
+
+2) validate_80211w_mgmt() uses the skb before checking whether
+decryptor() returned NULL. On decrypt failure the skb has been freed
+before being used.
+
+Bail out immediately when decryptor() fails.
+
+Discovered by Atuin - Automated Vulnerability Discovery Engine.
+
+Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Tianchu Chen <flynnnchen@tencent.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_recv.c | 21 ++++++++++++++++++---
+ 1 file changed, 18 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/=
+rtl8723bs/core/rtw_recv.c
+index 7568fc514d7ce..4756e0fedd46f 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_recv.c
++++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
+@@ -426,8 +426,21 @@ static union recv_frame *decryptor(struct adapter *p=
+adapter, union recv_frame *p
+ 	u32  res =3D _SUCCESS;
+=20
+=20	if (prxattrib->encrypt > 0) {
+-		u8 *iv =3D precv_frame->u.hdr.rx_data + prxattrib->hdrlen;
++		u8 *iv;
++		u32 min_len =3D prxattrib->hdrlen + prxattrib->iv_len + prxattrib->icv=
+_len;
+=20
++=09	/* TKIP appends an 8-byte Michael MIC that icv_len doesn't account f=
+or */
++		if (prxattrib->encrypt =3D=3D _TKIP_)
++			min_len +=3D 8;
++
++		/* a protected frame must be long enough to hold the IV and ICV/MIC */
++		if (precv_frame->u.hdr.len < min_len) {
++			rtw_free_recvframe(precv_frame,
++					   &padapter->recvpriv.free_recv_queue);
++			return NULL;
++		}
++
++		iv =3D precv_frame->u.hdr.rx_data + prxattrib->hdrlen;
+ 		prxattrib->key_index =3D (((iv[3]) >> 6) & 0x3);
+=20
+=20		if (prxattrib->key_index > WEP_KEYS) {
+@@ -1395,6 +1408,10 @@ static signed int validate_80211w_mgmt(struct adap=
+ter *adapter, union recv_frame
+ 			if (!mgmt_DATA)
+ 				goto validate_80211w_fail;
+ 			precv_frame =3D decryptor(adapter, precv_frame);
++			if (!precv_frame) {
++				kfree(mgmt_DATA);
++				goto validate_80211w_fail;
++			}
+ 			/* save actual management data frame body */
+ 			memcpy(mgmt_DATA, ptr + pattrib->hdrlen + pattrib->iv_len, data_len);
+ 			/* overwrite the iv field */
+@@ -1402,8 +1419,6 @@ static signed int validate_80211w_mgmt(struct adapt=
+er *adapter, union recv_frame
+ 			/* remove the iv and icv length */
+ 			pattrib->pkt_len =3D pattrib->pkt_len - pattrib->iv_len - pattrib->ic=
+v_len;
+ 			kfree(mgmt_DATA);
+-			if (!precv_frame)
+-				goto validate_80211w_fail;
+ 		} else if (is_multicast_ether_addr(GetAddr1Ptr(ptr)) &&
+ 			(subtype =3D=3D WIFI_DEAUTH || subtype =3D=3D WIFI_DISASSOC)) {
+ 			signed int BIP_ret =3D _SUCCESS;
+--=20
+2.51.0
