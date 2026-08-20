@@ -1,142 +1,113 @@
-Received: from sonic.asd.mail.yahoo.com (sonic-euwe1-0017.asd.mail.yahoo.com [34.2.82.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37DAE47DF90
-	for <linux-staging@lists.linux.dev>; Thu, 20 Aug 2026 16:58:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.2.82.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA33D472F86;
+	Thu, 20 Aug 2026 17:10:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787245106; cv=none; b=cA48zBo4FF9kzil/O3soD5FKGmNLroq2AzcAjdiVAjwZjFFyEqymQWLAAtknzQatUr4+e0aZp4zWxk3r5LlIKxvfLw2gj6MvxNvGvV5QLdbss0PWC5rzY5ffj0dV1KtGdR5aMBVnw6dKwDPLD7SdJFIW/SWbrsSVOz1eGP0RldI=
+	t=1787245828; cv=none; b=a75bv3yUEjcmnYySs4oJ08VRG6wIHfRE7VrBZI+PPyyq4Dvb8d21fY+2kU3g/8SjZePMh1s/w359jCtNQucYRqeTO4D8ueeNBSAjqMfd/OjHX/Z31OMFmlfc7tdw6fwMsaZccR2Z1YBk0f5lfO7g4X4oYp2gknRnYvzykrAWY70=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787245106; c=relaxed/simple;
-	bh=Vb6a0nlxcTQQQNTbxhFquNvqg+VCLZ0UAyF94lMD/Og=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc:
-	 References; b=PAU2Hp251f4g2JC9qtYR0pX0R/+UpDc+R6ss6BxNW0ifQH02rbkQW5GUn0uMKVvYDpfmxDxomxQp62HFmfsMJTCwyuxGYHUb6xsAVUSfOr06BFi6ufXquLuOnff9ASRklvbljojo7G74n+5VfOU2Kt2wur27SCgu3gZtnhX7TOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=IVuRbm2d; arc=none smtp.client-ip=34.2.82.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
+	s=arc-20240116; t=1787245828; c=relaxed/simple;
+	bh=jHkJipRGzn4N5TV62aHlYCj48Dhp5l7A4NoMYGXwcmQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dCVCsP+JfoxjBt17PHvd5ab1VaRX6TagNG76MuL2I+InmjBB2RlYJTwC2OcG8tOKa5c49aUfQ1sehkp40QQ7nCv6BZzfwnNuL42sN3FozfzctXbX84coPtEcixPkMeOf5IWOtfDHp8vCCF2UD8fkpdbynxKgwK5WpXhgBoJLeZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ERgxt67x; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="IVuRbm2d"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1787245100; bh=20T8mnv+fo+0/Ee4L8ZXZ+KnWYflUPcl5mZUhp2ixas=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=IVuRbm2dGqY6BEEL/vnxA0wcb26KcIUv9Hjphxx6fE2dvGKrQMC/T2kDGPJp2BvSLe1LwDisZwSyudRUl2yC/t0uvEXmMzr1t2N+WYFZ+SSukCWsBKdDMIAFKfbf1+M3fMUdWZPSYSpLYdQmFqTNm9qFrrONbXy8L3SygBGQomv7q99IoGGpwO/fNEYFYwkp7Fu8Z6JBSLpiHXcFRs2LzkQbESOwS/eq43FSMUQviT9ghl/2smuPUIB6WpVgz8NuXNwyPdiMFpsRTdETOagCw/ZZd6b3kmGEDKZubPVOCQXOTb4zbZOw2Xi7y48o6j/G4AMT+WPyslhWZK4wAULbOA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1787245100; bh=gE8N1VxA+5ErlNxa526OLY2U2sgwN7vvxkwH2J/sc2L=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=hGWmpPnV5KfMKBTYd1Y38gscH+41ZgE6JkwxX5fpZYhq3YlTHS0Uf50qrrTyWEYyJP5Fv2OufeZEWDjJgUVnlCksioD+q8v2gowwcnHc7Iq3fvB4qH9i+gkW4PJ80gcACplMq6p5193YCZ83vo8z+jdfjlo4WKaecywdpK0UBmpYqrOb1527JzSKuV6TbfN8tjDIht50usoh4HLLmeZC38NcWbgTS+dw61UmC0rqukPAVGRg9hZDVOA8x3K2XBjPfSMcitlCdDOcsQd1QFlTlGUDsAbD/V86BW1XU+pOHC1+7TZEkRnCavs6DsZz/M74885oURRatJ/ho+umLq75cg==
-X-YMail-OSG: DRhStrYVM1k048MDc.Ky8NnvQQIY0rRNKS3Y6kbs4riPy8utRc0KKFdvkqraSkb
- 8Bp448Vu6Dz35kLErW3_Xddn6NXDlQdAnpEG9GQ_f4s._s0qtaGydlcJmk5gKTr46o9Q01VgbSFm
- 5UyjSqkWSwX5yx_VoXauuHL9hzq.h2On7mDbwOGQ6wGIUf2tx5kwJtyJeN7KDeqr.pE4eldxkVW9
- Fpb0_4WkjlcFAVJwrXyC97T0sKetTumlqpHtXcCoJAfbWY8sUF0Q19XHXZsE8Gze6rFeIGj4g5OY
- BNqCsBPungBD46nOW3a0b6xqO4EFiw6rjfn_6NfwWHB6NLYkmuVlINy8DSbYZuXQhjlPt2JmNEe7
- t5ToJQGOc2GkNmVhXFfLU9pwXv1RuUk3icDVf.VWuvr1TNadOcUuHecxtHWAGcKEMgdpBf6znpxF
- hXyyySzzC0C3ehOzk0xRWcNt_VjBL5rDCQvpelPCYfO0ukE9AfKw6bVKV8bog9IDwk9NdFYEirFT
- Nyr05z8WyK8qgOK00fTW6Fh555I7QBCAb1c4A9Q3IwAILhgXzPBX_t8yonTLw4MF8hP9JT9Wr5V5
- G2p6OM8y8RymXYBbAN_4CKMDUvrFSuH6wsWpgSNWplMiWTn01jm3ECmLiaEOLPei3UJfKjgPn0cO
- ey_ekjm.kHSSpocTj6FnmmfqYKu462IXS4VYFR4Nh4iDBOaPuPxk7KNRLU3NIq_604MNRVI_uyOB
- JNTSh5Qk5PzBXskcqCLPnNAb8XPkYZy0GwgjHxBOGkb3AADNyCTIgpZvb2IS8w.ytp2_KE_ydQjL
- glmGyRkRAu4SbMPIZxGPqjG.PriRYl.jSTxrhCtQjgnuLucoghGF.KGg0hYo6Cx7BIDSEz_uWN0d
- YglG9q8EMDIC4YhYOFTl4lPUH6WIwa01FlrRZa96KRDWUy2TpPMw_GJirXeaf5D8azxoHJqVODD2
- zfoOXFH60WVGXQr_wR3V9ks09yo0GgV3F_KZ6Lliel2IfzQBfEymHs71pI4bwrujY8zZxLNwbruc
- Lro1prd1VSGS5JA_GVefTcMNfDsRIfqjA2g1LbS9jawGd3Pnpp5eMQ7E0Vf1BV0u1o8YF_uKGNYg
- 3qWpVkOVANQJpe1JV3k8Wjce2tIjFeojqFemXUSZ9fK_U58FQY9_CKia4wUGeLRdsCYqL8WmHmZm
- 0FH4lWSyr8hIwllZXrMWXlF4z3t.khKnCzDRO79TgJCmks8ewcHxCPx_r3ZrQVPSnI9Q3BZFu65X
- 11FVjVjNhYxB4bwwx.BSSvUnI9gYKLSgfbTbR7nw.anvKVZQRhGYq7hO20FTHxhvE6AniAQPX79t
- 0FGAPLojAqttJpvdRCOQ2Hpf_oNe3gHuUdZwsQY8mRyEMl7i.TC0yZUPOtvFFI42rAAIWV4VAqOz
- ieNStF4ds_sc78sPVkKmOLpVwlBJnHajL1J9CJlMgv1z2m94yY63OsByKmb33A.J56eG7vKUyden
- 4yEOofiMSCZWy_WzrkOkfHVapB5YCgjB2mLRhWQ1KgJz4cKhRZNxZpoGJkQ5wU0p8W.u9k8pPHjU
- 9QPuSjRyQ0HmrxD5pmRwCWcJFs9pu7zRBgQMjcL.QVHxjKq8qLrWJsLZQ3q5bJoQoD7lc1p2_3is
- yLfoZtNObXyKkO7fy9pm9dzXPOCFqYCir_QrEwk46VrZuFryRm..IoyCRThHMZyu23CWLR9eNJiS
- iBkvULUCT2.LDIl9RLeO2RSwJzrKwXFjaf43RTBT_s1VjHKAcB1ukVkznFK2BZ6RumOwGD9hktr8
- zwq3qjb6328JCf_wO21IBlHRMRExZCjMkyl3OulS_.8aq64JYg9LvkYhDAxAdMF17Jb.AM9Z3W4X
- _OPQYHhdbTY.IyNf.LMrpUFLuEof5u.pnXCu37NdyCLN2KcMgcA17VEv70ke67tSf9Z51MpZJzt4
- KdnQiQFliktS7eVbypR1UWfbKabYRITY1OIC5tlGn.w1m6xn64JKZY0wQu2deuTLjJGOKihmQz1T
- PO8_8QxiIkVhmlYL6KbFDBx.Hd1jm69Jn7HDSkAYKkQ--
-X-Sonic-MF: <tomasz.unger@yahoo.pl>
-X-Sonic-ID: 190d7c3d-2ca3-47dd-a859-4ff0c5f6b921
-Received: from sonic.gate.mail.ne1.yahoo.com by mail-asdoutdeli-p-cin-euwe1-prod-sonicconsumer-svc-101 with HTTP; Thu, 20 Aug 2026 16:58:20 +0000
-Received: from dip154.lsn.ir2.yahoo.com ([87.248.99.163])
-          by hello (SMTP) with SMTP ID 8cc8ace8c40ab7de35cb50eca70dcdbd;
-          Thu, 20 Aug 2026 16:58:15 +0000 (UTC)
-From: Tomasz Unger <tomasz.unger@yahoo.pl>
-Date: Thu, 20 Aug 2026 18:58:12 +0200
-Subject: [PATCH v2] staging: fbtft: prefer snprintf over sprintf in
- fbtft-core.c
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ERgxt67x"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28A3E1F000E9;
+	Thu, 20 Aug 2026 17:10:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1787245827;
+	bh=fWaWsgKNQBZCRBOmoYgC67/R3VvxXMHMW75P473kMyM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ERgxt67x/5XyCiYsMHcXZC2h28lBbomvVEIZJxQX4rLqAOtlEywg5rEfroaEeBRl+
+	 mIKnRJSIOcXF6DDm/43M3iCYpS4IIAAqAjvcT8Xx6M+K6LpM2JpCcOcdeednex1lVR
+	 YOH2BsbKyIkNhRiRRCcMFDAIP3zXK5ZwBTh7SjPs=
+Date: Thu, 20 Aug 2026 19:10:16 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: "myeonghyeon.park" <myeonghyeon.park@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: reorder conditions to avoid else
+ branch
+Message-ID: <2026082057-pastrami-juncture-7030@gregkh>
+References: <20260820162601.74952-1-myeonghyeon.park@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260820-fbtft-v2-final-v2-1-44d107b04634@yahoo.pl>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMwQ5FMBBA0V+RWZukZkH5FbFAp4xISdsnLxH/r
- liexb0nBPbCAZrsBM+HBNlcAuUZjHPvJkYxyUCKSqVJoR2ijXgQWnH9ipWuCzamMLpiSNHu2cr
- /Hbbd5/AbFh7jc4HrugHuaWz/cgAAAA==
-X-Change-ID: 20260820-fbtft-v2-final-7891edd1d87e
-To: Andy Shevchenko <andy@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Dan Carpenter <error27@gmail.com>, Tomasz Unger <tomasz.unger@yahoo.pl>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1787245094; l=2352;
- i=tomasz.unger@yahoo.pl; s=20260311; h=from:subject:message-id;
- bh=Vb6a0nlxcTQQQNTbxhFquNvqg+VCLZ0UAyF94lMD/Og=;
- b=3b9EtNix8VYT957kW4pB9zzHtHrNt4t4E3UKE8alsCVDA4txh9vZLbGalXj3DxNQSdGg1lsEV
- xjLWB+So9s7CLnmCLQeEcjRRooDjIKAl/K+75NkYzGYu08w3QnAx7tU
-X-Developer-Key: i=tomasz.unger@yahoo.pl; a=ed25519;
- pk=EPPsO91uz/0J2cTQ6ol+dgxYaieEc9dKSXWUb51n46c=
-References: <20260820-fbtft-v2-final-v2-1-44d107b04634.ref@yahoo.pl>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260820162601.74952-1-myeonghyeon.park@gmail.com>
 
-Using sprintf has potential for buffer overflows if the formatted
-string exceeds the destination buffer size. Replace it with
-snprintf, passing sizeof() of the fixed-size stack buffers
-(text1[50] and text2[50]) so the write is always bounded.
+On Fri, Aug 21, 2026 at 01:26:01AM +0900, myeonghyeon.park wrote:
+> Fix the checkpatch.pl warning:
+> 
+> "WARNING: else is not generally useful after a break or return"
+> 
+> in core/rtw_recv.c.
+> 
+> Return early when the SN_EQUAL() condition is met and break when
+> SN_LESS() condition is false to eliminate the unnecessary else branch.
+> 
+> Signed-off-by: myeonghyeon.park <myeonghyeon.park@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_recv.c | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
 
-An overflow is impossible here: even the worst case for the
-argument types (size_t for text1, three ints for text2) still
-fits within 50 bytes. Use snprintf() rather than scnprintf()
-since the return value is not used here.
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
+> index 7568fc514d7c..5776d0212ab8 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_recv.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
+> @@ -1782,14 +1782,15 @@ static int enqueue_reorder_recvframe(struct recv_reorder_ctrl *preorder_ctrl, un
+>  		pnextrframe = (union recv_frame *)plist;
+>  		pnextattrib = &pnextrframe->u.hdr.attrib;
+>  
+> -		if (SN_LESS(pnextattrib->seq_num, pattrib->seq_num))
+> -			plist = get_next(plist);
+> -		else if (SN_EQUAL(pnextattrib->seq_num, pattrib->seq_num))
+> +		if (SN_EQUAL(pnextattrib->seq_num, pattrib->seq_num))
+>  			/* Duplicate entry is found!! Do not insert current entry. */
+>  			/* spin_unlock_irqrestore(&ppending_recvframe_queue->lock, irql); */
+>  			return false;
+> -		else
+> +
+> +		if (!SN_LESS(pnextattrib->seq_num, pattrib->seq_num))
+>  			break;
+> +
+> +		plist = get_next(plist);
+>  	}
+>  
+>  	/* spin_lock_irqsave(&ppending_recvframe_queue->lock, irql); */
+> -- 
+> 2.52.0
+> 
 
-Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
----
-Changes in v2 (per Dan Carpenter's review):
-- Switched from scnprintf() to snprintf(), since the return
-  value is unused.
-- Reworded the commit message: overflow is impossible, not
-  merely unlikely, and dropped detail about where the values
-  come from.
+Hi,
 
-Verified with checkpatch.pl - no errors or warnings.
-Compiled the fbtft module successfully with CONFIG_FB_TFT=m.
-fb.ko, syscopyarea.ko, sysimgblt.ko, sysfillrect.ko,
-fb_sys_fops.ko and fbtft.ko all load without errors in a QEMU
-environment (verified via insmod and lsmod, dmesg shows no
-errors).
----
- drivers/staging/fbtft/fbtft-core.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-index ca0c38221c16..9ea0442a337e 100644
---- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -784,10 +784,10 @@ int fbtft_register_framebuffer(struct fb_info *fb_info)
- 	fbtft_sysfs_init(par);
- 
- 	if (par->txbuf.buf && par->txbuf.len >= 1024)
--		sprintf(text1, ", %zu KiB buffer memory", par->txbuf.len >> 10);
-+		snprintf(text1, sizeof(text1), ", %zu KiB buffer memory", par->txbuf.len >> 10);
- 	if (spi)
--		sprintf(text2, ", spi%d.%d at %d MHz", spi->controller->bus_num,
--			spi_get_chipselect(spi, 0), spi->max_speed_hz / 1000000);
-+		snprintf(text2, sizeof(text2), ", spi%d.%d at %d MHz", spi->controller->bus_num,
-+			 spi_get_chipselect(spi, 0), spi->max_speed_hz / 1000000);
- 	fb_dbg(fb_info,
- 	       "%s frame buffer, %dx%d, %d KiB video memory%s, fps=%lu%s\n",
- 	       fb_info->fix.id, fb_info->var.xres, fb_info->var.yres,
+You are receiving this message because of the following common error(s)
+as indicated below:
 
----
-base-commit: 8d3ae59288f1e7d58d76558a6ee96d533bc5019f
-change-id: 20260820-fbtft-v2-final-7891edd1d87e
+- It looks like you did not use your "real" name for the patch on either
+  the Signed-off-by: line, or the From: line (both of which have to
+  match).  Please read the kernel file,
+  Documentation/process/submitting-patches.rst for how to do this
+  correctly.
 
-Best regards,
---  
-Tomasz Unger <tomasz.unger@yahoo.pl>
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
 
+thanks,
+
+greg k-h's patch email bot
