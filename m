@@ -1,36 +1,73 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA33D472F86;
-	Thu, 20 Aug 2026 17:10:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1102C390600
+	for <linux-staging@lists.linux.dev>; Thu, 20 Aug 2026 18:48:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787245828; cv=none; b=a75bv3yUEjcmnYySs4oJ08VRG6wIHfRE7VrBZI+PPyyq4Dvb8d21fY+2kU3g/8SjZePMh1s/w359jCtNQucYRqeTO4D8ueeNBSAjqMfd/OjHX/Z31OMFmlfc7tdw6fwMsaZccR2Z1YBk0f5lfO7g4X4oYp2gknRnYvzykrAWY70=
+	t=1787251701; cv=none; b=bQWifCeDqgTHRgxY52ok6ywoRIDaeRN4K1nwq1OLO+OgunpZVdEBcrCIJ1Qn0yV9RQ3th7txkQuNnf9X2WVEhx5/GktsMTjDP+YHXDLe4SBcxoFS+x+6HPEkmUmMIw3d1rlfUs3jRwkzX45nCaLqlJro1zi4fO9xpJ2Nb3Z9xd0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787245828; c=relaxed/simple;
-	bh=jHkJipRGzn4N5TV62aHlYCj48Dhp5l7A4NoMYGXwcmQ=;
+	s=arc-20240116; t=1787251701; c=relaxed/simple;
+	bh=DagOCJfxBXNwljrYC665sUjHBiesPxZrZUo+2adcKXg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dCVCsP+JfoxjBt17PHvd5ab1VaRX6TagNG76MuL2I+InmjBB2RlYJTwC2OcG8tOKa5c49aUfQ1sehkp40QQ7nCv6BZzfwnNuL42sN3FozfzctXbX84coPtEcixPkMeOf5IWOtfDHp8vCCF2UD8fkpdbynxKgwK5WpXhgBoJLeZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ERgxt67x; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=briG1x25D8FncC8X/9fpWL8NBCe1OCTkd/Nh4Qp5e3hfzCuKd71VDTuacH9VH1KzRzgaX5AyOzpP5aXruphHSWTzSDZDLy+LmKQxzX6PJShteUPXQpd0s8mTC41PELIDhHAVVTAc9Co6rxdrSg/OIK2/FomjoP39F7MDKY+KZpI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TYinYpRp; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ERgxt67x"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28A3E1F000E9;
-	Thu, 20 Aug 2026 17:10:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1787245827;
-	bh=fWaWsgKNQBZCRBOmoYgC67/R3VvxXMHMW75P473kMyM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ERgxt67x/5XyCiYsMHcXZC2h28lBbomvVEIZJxQX4rLqAOtlEywg5rEfroaEeBRl+
-	 mIKnRJSIOcXF6DDm/43M3iCYpS4IIAAqAjvcT8Xx6M+K6LpM2JpCcOcdeednex1lVR
-	 YOH2BsbKyIkNhRiRRCcMFDAIP3zXK5ZwBTh7SjPs=
-Date: Thu, 20 Aug 2026 19:10:16 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: "myeonghyeon.park" <myeonghyeon.park@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: reorder conditions to avoid else
- branch
-Message-ID: <2026082057-pastrami-juncture-7030@gregkh>
-References: <20260820162601.74952-1-myeonghyeon.park@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TYinYpRp"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-47f633e6058so239024f8f.0
+        for <linux-staging@lists.linux.dev>; Thu, 20 Aug 2026 11:48:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787251698; x=1787856498; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=VHzC+rmY032qjqVbZyRDQwA9P9FdJrsCi8GUAUfuieY=;
+        b=TYinYpRpcNa3I7KGolR24MLi8EtOWFVVxGCwUO9cxWl8Gth3XZ650srwGm3Pqy7/dN
+         kHx40s+T2rUyH2xpi87zFWrWpoyMco3AfblD/UGfqgscIwrhZdvPy29DP5zS9PdKqjKz
+         H2I0hkKuBShwZ74KwcJLntdJxgy5usmq2QeUmOtbkDheldzdpSAZx2yB1bB6apIPFYeR
+         L26MIvFQCzQgBw6v5p8Nx6F3pUkl5mwldLMiV95ubHqh6NCU9u45NPbvFWmxjMkpmHR4
+         np06DEUBvpasBES0Ohr3sPSXI43BnzQaXBDB+jTl38nutCDNt/J+WAsXFoYYhmxL7jsj
+         tSAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787251698; x=1787856498;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=VHzC+rmY032qjqVbZyRDQwA9P9FdJrsCi8GUAUfuieY=;
+        b=NtglLrtR/prVsHeAySzkjKkWjViydny3MrUBzYNgyh7C1hbDZmWt+0BDyVH0t8a60h
+         UaQDk+CVe6ruRRk+LubDfZ6ZacUPSzNuiTDQDKssg7Ssjb0p/+hqp1F4tP7sQXIxXKD0
+         85pjVb2Oy6Aw4iHwwfMaNSERIG9MssETS1Zx5Ladi2Dx9GpYlkcVY8JZF1aOoZcbccod
+         VIF97/9SkkPQdNh9tZr40LmQVdYJ1vWlkEv9SPAY4LiZ5wJNk0hRghHMIk1q6QqJKytv
+         uNmMYvDRi9Anlejijwa9sWpoSmC7bCdq+lo5RLFcQddVc6uYJWCcVVQndnNF93apwG3S
+         pzfw==
+X-Forwarded-Encrypted: i=1; AHgh+RrRHbzJfQAqdpyMyNlPZ1zlKWGVsZKmgk2LBWejJwev71OeaMi6xs5eQ/LMv6ul6HUJZIrSGrRLiG/Gpfbk@lists.linux.dev
+X-Gm-Message-State: AFuF++nuM/nRRCnVWTM2dZs8POk3KpqEkGIuMzYPmqeiBGOhHYhzQ592
+	oz8nRW70fbNGUracxfk3CKRsKFtyS4jvWg5QoQb0w6jSInYEar4uNykwDBK6C7OucGKcJzmx
+X-Gm-Gg: AR+sD133bkLmGD91d6GFg+3sQSIQEnG2MIXch4cqafi2/f8xZm4nRhDkxlCeW2vqG+8
+	Vv5eqRkF3q2i2BasaJEDfg2F22zPHtYeRYEC3csGTVBsC+bVe9UZNGHJcu+NkL3xe2ZPwfJ6snp
+	5/Y8WTju4Ve62JJAPKWBWuc0uzet2Lmr7le+rBTW7qwosr30mL9/6mvC4gSbYwtym+qcx1u8geK
+	PAf7ZOT0Uh7c48SNuPwL7CXYRhfYMUGKN7MPzqCFsf/e2qSd+UMjomuO+2ziv0nyb9cp+YFzKrW
+	05H0BpthURsG4bnOcI4Xx00hdHjbxN1f7DiG9/NYo0KiO84psn5Nvkllhm8PjD1SUUkompWVUYB
+	Ywc1kMMZ+7GTWgtEdu9/P9wmmbtvVjbrxWccHo8F8OLKi+DMtIqvKl2/0u4YSPF1qvH6MIY33fl
+	5wTL9S61IEFyfRfuIrWElBmLWv6O44nF2HEMVYfR3NG+nONgGh8xlZrUD2LtXvYvqKjXo=
+X-Received: by 2002:a05:6000:22c6:b0:481:5021:33cd with SMTP id ffacd0b85a97d-482c0b5482cmr1235545f8f.3.1787251698182;
+        Thu, 20 Aug 2026 11:48:18 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482b14d05a6sm15912182f8f.35.2026.08.20.11.48.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Aug 2026 11:48:17 -0700 (PDT)
+Date: Thu, 20 Aug 2026 21:48:13 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Orgad Shaneh <orgads@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: octeon: schedule the TX cleanup tasklet every
+ 1024th packet
+Message-ID: <aodL7aKfBYqNQig4@stanley.mountain>
+References: <20260820113239.8169-1-orgads@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,75 +76,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260820162601.74952-1-myeonghyeon.park@gmail.com>
+In-Reply-To: <20260820113239.8169-1-orgads@gmail.com>
 
-On Fri, Aug 21, 2026 at 01:26:01AM +0900, myeonghyeon.park wrote:
-> Fix the checkpatch.pl warning:
+On Thu, Aug 20, 2026 at 02:32:39PM +0300, Orgad Shaneh wrote:
+> cvm_oct_xmit() means to schedule the cleanup tasklet once every 1024
+> packets, as its comment says, to cover the pathological case of heavy
+> traffic on one port delaying the cleanup of another port blocked
+> waiting for it.
 > 
-> "WARNING: else is not generally useful after a break or return"
+> The test is inverted: total_to_clean & 0x3ff is true for 1023 of every
+> 1024 values, and false only on the multiples of 1024. So the tasklet is
+> scheduled on nearly every packet, and skipped on exactly the packet the
+> comment wants. That costs one TASKLET softirq per transmitted packet,
+> each walking every port and doing an FAU fetch-and-add per non-empty
+> queue, and it buys nothing for this port, which already frees its
+> completed skbs inline from the skb_to_free value it reads out of the
+> FAU.
 > 
-> in core/rtw_recv.c.
+> Test the mask against zero. On a CN50XX board (2 cores at 300MHz)
+> carrying ~6.9k transmitted packets/s, TASKLET softirqs drop from 7133/s
+> to 597/s with no throughput change; the freeing work is conserved, so
+> this removes softirq entries, not work.
 > 
-> Return early when the SN_EQUAL() condition is met and break when
-> SN_LESS() condition is false to eliminate the unnecessary else branch.
-> 
-> Signed-off-by: myeonghyeon.park <myeonghyeon.park@gmail.com>
+> Fixes: 4898c560103f ("Staging: Octeon: Free transmit SKBs in a timely manner")
+> Signed-off-by: Orgad Shaneh <orgads@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/core/rtw_recv.c | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
-> index 7568fc514d7c..5776d0212ab8 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_recv.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
-> @@ -1782,14 +1782,15 @@ static int enqueue_reorder_recvframe(struct recv_reorder_ctrl *preorder_ctrl, un
->  		pnextrframe = (union recv_frame *)plist;
->  		pnextattrib = &pnextrframe->u.hdr.attrib;
->  
-> -		if (SN_LESS(pnextattrib->seq_num, pattrib->seq_num))
-> -			plist = get_next(plist);
-> -		else if (SN_EQUAL(pnextattrib->seq_num, pattrib->seq_num))
-> +		if (SN_EQUAL(pnextattrib->seq_num, pattrib->seq_num))
->  			/* Duplicate entry is found!! Do not insert current entry. */
->  			/* spin_unlock_irqrestore(&ppending_recvframe_queue->lock, irql); */
->  			return false;
-> -		else
-> +
-> +		if (!SN_LESS(pnextattrib->seq_num, pattrib->seq_num))
->  			break;
-> +
-> +		plist = get_next(plist);
->  	}
->  
->  	/* spin_lock_irqsave(&ppending_recvframe_queue->lock, irql); */
-> -- 
-> 2.52.0
-> 
+Reviewed-by: Dan Carpenter <error27@gmail.com>
 
-Hi,
+regards,
+dan carpenter
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- It looks like you did not use your "real" name for the patch on either
-  the Signed-off-by: line, or the From: line (both of which have to
-  match).  Please read the kernel file,
-  Documentation/process/submitting-patches.rst for how to do this
-  correctly.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
