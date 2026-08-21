@@ -1,73 +1,69 @@
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 192F14CA26D
-	for <linux-staging@lists.linux.dev>; Fri, 21 Aug 2026 15:15:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A99B3DAACF
+	for <linux-staging@lists.linux.dev>; Fri, 21 Aug 2026 19:58:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787325350; cv=none; b=GnNFT8RPXmyWILFoImWHC7A/7ihODxzMa7Pi7vr55O1qTTNa0D8uFQnGijDCX0juMfiRx/A3RptOY3PUaMWhqoy/AKK6N01E0MBpsbGbbPgu/AinThD4qK7sjk/cKqM+9+mFNyzPY/kmloZ9d1UUsFZKhnShzcJvmUBm/jRF/jw=
+	t=1787342315; cv=none; b=jrrGggZN3xjWQ3n33iH0BC9CzRW6s2quTpgKVpXKnWDShgCQMmxdsJe5jXs/Dhf4eub5rRiVK1sgGJYDsFs8f5WUf6v0xgZfAxCyzquvErE8wYhvtomcgbBf7TXo6cfi4gniapYcdUPqdxMdrJcxMbSsgIJKhX/0R2PqpXBCV/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787325350; c=relaxed/simple;
-	bh=VWprNmqQgfznUUymEi7MLyrplr+mofikIGdmMHvaI5g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NCfvR7Xv9IPZMUudinfLdM7ll5Cm1mxZjZJ7NxG/ZmBaIcxz3SYasQK4vGznGoZRjqo4e/OFba5pIabLphlrvIraljMr8XR+Af/sXx6nkq6KwV571I2TlUFvHOu3Xjpu7yRYGf10pjg/hEmDnb+EifotFfnmzsuhr7bQIBFPX1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FxSUyyAI; arc=none smtp.client-ip=209.85.222.180
+	s=arc-20240116; t=1787342315; c=relaxed/simple;
+	bh=XWdAnpD1UVvL/3vBi68hi9najhLcv9/0bQglBrFwppI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rH5KTPsHNaNEAhWeip4Vyq22RgNYUlxlHdcC6vpwwGgEQ0ybVEV9dDh8cULSmCtidrJSKA6FzAxh6mnBGFzgI7eLKDrU1VNBXYD3Sds79b/eg+DvI6ALErIK4nc2mY9HMDBShmEe5XHVrT3qDKwA6eaTrSyWMrKMsAzqhyfYlRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PolnmDbw; arc=none smtp.client-ip=209.85.218.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FxSUyyAI"
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-92e6391b114so82304885a.3
-        for <linux-staging@lists.linux.dev>; Fri, 21 Aug 2026 08:15:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PolnmDbw"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-c207cb16cf5so230793766b.1
+        for <linux-staging@lists.linux.dev>; Fri, 21 Aug 2026 12:58:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787325348; x=1787930148; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1787342312; x=1787947112; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=FpgB6bU5DPvqDeHFBiZr0voqp9OUP9pmguygZ0b0Ukw=;
-        b=FxSUyyAIv/QgCuwqGZfDhJXFNd25ZY/hfywix7h2JOxq3x001IX5491Fd5w3JoamVZ
-         lsuGvxdXbcsJAdLym0uxHi2Ai57HiRFQXZyhWQGPNGWcq1Eg20U7sr0GAgw+/EDpH5y/
-         wugbVFu3GRxKTJmAvrhFnuipRsdAsCTviZJzyOlEXwu3zcIOj8MgGol6R9pY9fXBREPn
-         MEA6I/sB5SbrMQZG7+pKb38IWYl2CMDa7H/IkjerIFiR5tVteoE/Pwniy2OyugyfOcob
-         bPr4cYCnzq50Xtci3ZtSGI1H6Kbi9kTTMpUQotjBNWhGE4wM41cwjfunn9H0T2kP7kt/
-         FASQ==
+        bh=JFbkqHCSmGLZ1EGC1aGF25xj/3DcMpctUOzZEm7ehHk=;
+        b=PolnmDbwxumJ+fE3RMN4cKYIWCe/+RnkmTClCFIvjD1XU5suHNse3jojgkqJW2LBxx
+         8zWhAxbQ8krx9IoGQjJFq80SOOurvUMvQh6qdLUqh/EgLUDVtS6+5O+ufIvGUKs7gxHI
+         qK1nxvlIBFeuX3gpo5TVcu7RaZe10NRGGN/Yti1YB6jXsczDctm5jBppgQglO8q7LNZv
+         8mKXB2Qtq3SbyKbcfkKUepLJUqfCaYRC46NSQ+iec+tHfD5Iz83UKnC6/ZKoykDuR86y
+         jfQA84XSWK2Fb//SdD+zN4s8RYYwqBqSxbDSjyTF3XTt1SSruaAMwpLRkiBoSl+Jc5B3
+         Ct/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787325348; x=1787930148;
+        d=1e100.net; s=20251104; t=1787342312; x=1787947112;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=FpgB6bU5DPvqDeHFBiZr0voqp9OUP9pmguygZ0b0Ukw=;
-        b=ZsBPtdfFn32VIVpENQz3Ddmg8/3schp3nVQZAZK9U9pEOXX8+YCMVhRWYQWDCz0ESy
-         mmArwcKZ9X0bszGgPtmvzFbki3q33mS69FD5+4x1x5wO9P0cV+YqxGh7JwrKqm2LMGY2
-         /m5qErIxHR9eGdXhokFjNLqLuNQ3kihuhkk5lCDIM/KdMr/F1UJ0fZNZaoHS5o+v6P3O
-         czg5+X7ln+vRRlu1lJdKWn0oLgdmAUi/bxsRYSi1qMBbw3P+lYSGrRim1h9czUl7drT5
-         2ox4Vz+NT8wc24IeA71DCMym1JLRXnBxXr/6clo0YCNIt2X4Bo4XKxbNBdVVTUneIMf6
-         b54Q==
-X-Forwarded-Encrypted: i=1; AHgh+RrfkuCaPCe06l3iVCB2Qcgi9jplXmsZisgopZthCGUWrroC6aEWV1GsOhnJtLloZdfkdHY4hYAGzhz54ekT@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy/4x3ZCSc94WItLiLKAr7mc6C0/ljWWz590N6HdYw/V88+kgFg
-	Ugt0iq410MzvJqonGYk60Al/kjbKy0FQh9+TBPkvMRRVHQ0ggCBbg7Ea
-X-Gm-Gg: AR+sD131ABY0prJ3iG1gxTSTJSVEIR0zLEhOqUWBY8+XpxO1JOaA5pF9dd4WKC8W9xF
-	EPhDJlYeZmeB+5DCnu2rZ4SGz7WcDPjtb1FVc4Dq4ZWRLycByOQMs2qevretJWjpBzobrf5eIoe
-	JZPzDiZl/907qRttbnU0qhJtI88bmys3pfAeu2cU6ZiYJxPh9VkAqb7V0L4y2RuIhoCqMNPMDl0
-	5IKAXlxQ9VbeQrrmwbP+ScqCVuYAsV7heMqnDrlqkJtGhX+aBwnsTrdLTEUqTmBOE2rKq2rC03C
-	ujauVzMcIUp7dpR9atP5S0XEhRfH+hdVqtIDpJDaIHEcNDwXL/AqRG8I1/ea3wysGnfMnIFVs3H
-	SkvYl8shXkK8Tj+MwVDIODe4sDjIfuxgWdcOcs6zVMLA8qdq0KXJVrhV27csrQNPmIbhJs1e79w
-	6a+KWSA3+WopAunrc8bvdsaUAztgGOXfeZTRFM8ELPgg==
-X-Received: by 2002:a05:620a:f0d:b0:936:48f2:b04f with SMTP id af79cd13be357-93739432247mr652456285a.6.1787325347871;
-        Fri, 21 Aug 2026 08:15:47 -0700 (PDT)
-Received: from fedora ([2601:5c2:8600:6e00::18ef])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-93720493f35sm614552785a.9.2026.08.21.08.15.47
+        bh=JFbkqHCSmGLZ1EGC1aGF25xj/3DcMpctUOzZEm7ehHk=;
+        b=W3INDjR4kW4FrvSSblVG2sD0pFNdxZqR9WBMLh+LQgMLr5IfpygDMoJ9gxkWc2y/18
+         6CLrTS7u3VAAKHg3kbOzUySN1QeafjITcG3ZrkbbxOhfddkmS0c2xN7/cTSEMj3CTMX2
+         6ws0cs3jpmXT6VZl46YcYCTqPWO+5XRny+823dIKZUQYkLYxFWHyttesQ+39UCqtF9oI
+         9Co6aLsAZHJ/aE8XgCCJVZlmtgM2vlEvVRsq2lrIGqO5y+SY5Dom+3GcAok7ifmrIe+D
+         rX7QsOPUnvTUeWmE4/yfSVVteQPXGMuINqaBvSPcx8BGAjFkw7r4t9xt7zjYfOTiQBjW
+         emxg==
+X-Gm-Message-State: AFuF++ni4URxCjyJzOelNfHESgbXbuAcD/TRjFO94+S3rVs56M3hR/g+
+	sia0SL3HzgcVNvqhHFMrKKEafLmhY28jpCG9uCq91iq0uEvM4LXrVhek
+X-Gm-Gg: AR+sD114DhZDfu9aqwR0WcZ8mqv/VsJp0QvYLe73D3cdtYxdTVwoLpyiB06TSerb/B/
+	aMpF1qOjZQduDT1ye5aV9Iry34yTuND+Sn3lJQYW+DPIq5c7gYta0HxCYpliwMybdEbJ6G6b/JK
+	XssdKWD05kSNb5J5Q8EOh7prD+5bFlpGYIjrOElVnPalJuUWpfz1xn7K78+ZbjhlCZf1ApTc4H0
+	ntN8SWG3gFB+AIXzWWV0OEi9HGUwxrSPpUBMmQh7Qawv4t6PNyy5xIV0wS+E+FO6WISQCGpzHTl
+	EM4r6qnVYlbFCMslHuTUU09oXyo6FF9VvvtR2DdZQ9hvKuL+2/2NicOwpOJCdDr7Sm+XU3+gmYs
+	rj6vyxdWW+lNFdp2MeSAFZHtaaFfWS7Msm7vQPt9vhfq0AyILEtrTn0/fSzJfU53ZUvis5kI7bq
+	Rd07HQFGf2fGoRgbuRkbtkoZwjJfVjmKrUFeS8XyYXJloqkvkYzA5NSEB2/JI=
+X-Received: by 2002:a17:906:f58b:b0:c1f:8021:deef with SMTP id a640c23a62f3a-c246a390c73mr791125966b.10.1787342311751;
+        Fri, 21 Aug 2026 12:58:31 -0700 (PDT)
+Received: from potato ([31.176.173.93])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a3fec280e9sm8887970a12.0.2026.08.21.12.58.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Aug 2026 08:15:47 -0700 (PDT)
-From: jaiden.linux@gmail.com
-To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>,
-	Sudip Mukherjee <sudip.mukherjee@codethink.co.uk>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Jaiden Magnan <jaiden.linux@gmail.com>
-Subject: [PATCH] staging: sm750fb: rename CamelCase variable pvReg to vreg
-Date: Fri, 21 Aug 2026 11:15:25 -0400
-Message-ID: <20260821151525.54751-1-jaiden.linux@gmail.com>
-X-Mailer: git-send-email 2.55.0
+        Fri, 21 Aug 2026 12:58:31 -0700 (PDT)
+From: Omer El Idrissi <omer.e.idrissi@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Omer El Idrissi <omer.e.idrissi@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: modify misleading comment
+Date: Fri, 21 Aug 2026 21:58:23 +0200
+Message-ID: <20260821195823.87471-1-omer.e.idrissi@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -76,92 +72,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Jaiden Magnan <jaiden.linux@gmail.com>
+The comment suggests that rtw_unregister_cmd_alive is called
+by the ISR, while it's called by function rtw_cmd_thread which runs in
+the kernel thread context.
 
-Rename CamelCase variable pvReg to vreg. This is to fix the following:
-
-CHECK: Avoid CamelCase <pvReg>
-
-Assisted-by: LLM
-Signed-off-by: Jaiden Magnan <jaiden.linux@gmail.com>
+Signed-off-by: Omer El Idrissi <omer.e.idrissi@gmail.com>
 ---
- drivers/staging/sm750fb/sm750.c    |  4 ++--
- drivers/staging/sm750fb/sm750.h    |  2 +-
- drivers/staging/sm750fb/sm750_hw.c | 12 ++++++------
- 3 files changed, 9 insertions(+), 9 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_pwrctrl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index 89c811e0806c..0bfda7508bb5 100644
---- a/drivers/staging/sm750fb/sm750.c
-+++ b/drivers/staging/sm750fb/sm750.c
-@@ -743,7 +743,7 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
- 	 * must be set after crtc member initialized
- 	 */
- 	crtc->cursor.offset = crtc->o_screen + crtc->vidmem_size - 1024;
--	crtc->cursor.mmio = sm750_dev->pvReg +
-+	crtc->cursor.mmio = sm750_dev->vreg +
- 		0x800f0 + (int)crtc->channel * 0x140;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+index b9f8cf1014ed..a4831dc145eb 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
++++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+@@ -891,7 +891,7 @@ void rtw_unregister_tx_alive(struct adapter *padapter)
+ }
  
- 	crtc->cursor.max_h = 64;
-@@ -1047,7 +1047,7 @@ static void lynxfb_pci_remove(struct pci_dev *pdev)
- 	sm750fb_framebuffer_release(sm750_dev);
- 	arch_phys_wc_del(sm750_dev->mtrr.vram);
- 
--	iounmap(sm750_dev->pvReg);
-+	iounmap(sm750_dev->vreg);
- 	iounmap(sm750_dev->vmem);
- 	pci_release_region(pdev, 1);
- 	kfree(g_settings);
-diff --git a/drivers/staging/sm750fb/sm750.h b/drivers/staging/sm750fb/sm750.h
-index d2c522e67f26..a40dbcc2e6c8 100644
---- a/drivers/staging/sm750fb/sm750.h
-+++ b/drivers/staging/sm750fb/sm750.h
-@@ -97,7 +97,7 @@ struct sm750_dev {
- 	unsigned long vidreg_start;
- 	__u32 vidmem_size;
- 	__u32 vidreg_size;
--	void __iomem *pvReg;
-+	void __iomem *vreg;
- 	unsigned char __iomem *vmem;
- 	/* locks*/
- 	spinlock_t slock;
-diff --git a/drivers/staging/sm750fb/sm750_hw.c b/drivers/staging/sm750fb/sm750_hw.c
-index 34a837fb4b64..03c951619c70 100644
---- a/drivers/staging/sm750fb/sm750_hw.c
-+++ b/drivers/staging/sm750fb/sm750_hw.c
-@@ -23,18 +23,18 @@ int hw_sm750_map(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
- 	}
- 
- 	/* now map mmio and vidmem */
--	sm750_dev->pvReg =
-+	sm750_dev->vreg =
- 		ioremap(sm750_dev->vidreg_start, sm750_dev->vidreg_size);
--	if (!sm750_dev->pvReg) {
-+	if (!sm750_dev->vreg) {
- 		dev_err(&pdev->dev, "mmio failed\n");
- 		ret = -EFAULT;
- 		goto err_release_region;
- 	}
- 
--	sm750_dev->accel.dpr_base = sm750_dev->pvReg + DE_BASE_ADDR_TYPE1;
--	sm750_dev->accel.dp_port_base = sm750_dev->pvReg + DE_PORT_ADDR_TYPE1;
-+	sm750_dev->accel.dpr_base = sm750_dev->vreg + DE_BASE_ADDR_TYPE1;
-+	sm750_dev->accel.dp_port_base = sm750_dev->vreg + DE_PORT_ADDR_TYPE1;
- 
--	mmio750 = sm750_dev->pvReg;
-+	mmio750 = sm750_dev->vreg;
- 	sm750_set_chip_type(sm750_dev->devid, sm750_dev->revid);
- 
- 	sm750_dev->vidmem_start = pci_resource_start(pdev, 0);
-@@ -58,7 +58,7 @@ int hw_sm750_map(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
- 	return 0;
- 
- err_unmap_reg:
--	iounmap(sm750_dev->pvReg);
-+	iounmap(sm750_dev->vreg);
- err_release_region:
- 	pci_release_region(pdev, 1);
- 	return ret;
+ /*
+- * Caller: ISR
++ * Caller: not ISR
+  *
+  * If all commands have been done,
+  * and no more command to do,
 -- 
-2.55.0
+2.53.0
 
