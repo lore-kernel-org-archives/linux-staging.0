@@ -1,99 +1,108 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A99B3DAACF
-	for <linux-staging@lists.linux.dev>; Fri, 21 Aug 2026 19:58:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CCFE3AA4F1
+	for <linux-staging@lists.linux.dev>; Fri, 21 Aug 2026 20:53:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787342315; cv=none; b=jrrGggZN3xjWQ3n33iH0BC9CzRW6s2quTpgKVpXKnWDShgCQMmxdsJe5jXs/Dhf4eub5rRiVK1sgGJYDsFs8f5WUf6v0xgZfAxCyzquvErE8wYhvtomcgbBf7TXo6cfi4gniapYcdUPqdxMdrJcxMbSsgIJKhX/0R2PqpXBCV/U=
+	t=1787345641; cv=none; b=dfrTgG4ormsfp+mLFy1wIZmLEH3XDV/BC4AunYerFqHS9g+Rgi1AhlVsVJt30wZwrjQ3l/UVu1JjEGQ0YqLaBsUoPJbtgRDGjBWI9e1qwO8PHPNLezHCBvdZ/RyrB1dNo7e3TydUq9BdgzupbtK21XpONRP43cw5gUvT/o0tCaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787342315; c=relaxed/simple;
-	bh=XWdAnpD1UVvL/3vBi68hi9najhLcv9/0bQglBrFwppI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rH5KTPsHNaNEAhWeip4Vyq22RgNYUlxlHdcC6vpwwGgEQ0ybVEV9dDh8cULSmCtidrJSKA6FzAxh6mnBGFzgI7eLKDrU1VNBXYD3Sds79b/eg+DvI6ALErIK4nc2mY9HMDBShmEe5XHVrT3qDKwA6eaTrSyWMrKMsAzqhyfYlRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PolnmDbw; arc=none smtp.client-ip=209.85.218.50
+	s=arc-20240116; t=1787345641; c=relaxed/simple;
+	bh=gwGR5P/wPJadpoIZc/58/Hx7++PsDwXoa5PnmMzpgAg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sLHQy6Q6/oSmP3zGNCHRuZ2iGJih1lfTHKVHNyBl3iu/6ck3c3HDkN71OFuy1v/XB0ReEJvG8sJm+zIrSnQo02DQ/I9Tf/AlgBX3eTf9ZAsl8ei/m/nbYOiNWj3DWFvJa+LCt+QtlsTSYj1Q4bY6tjB8X9yvNcs4dPcPPW+Kq1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WFEPA4yE; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PolnmDbw"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-c207cb16cf5so230793766b.1
-        for <linux-staging@lists.linux.dev>; Fri, 21 Aug 2026 12:58:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WFEPA4yE"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-49954b88fffso12507015e9.0
+        for <linux-staging@lists.linux.dev>; Fri, 21 Aug 2026 13:53:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787342312; x=1787947112; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=JFbkqHCSmGLZ1EGC1aGF25xj/3DcMpctUOzZEm7ehHk=;
-        b=PolnmDbwxumJ+fE3RMN4cKYIWCe/+RnkmTClCFIvjD1XU5suHNse3jojgkqJW2LBxx
-         8zWhAxbQ8krx9IoGQjJFq80SOOurvUMvQh6qdLUqh/EgLUDVtS6+5O+ufIvGUKs7gxHI
-         qK1nxvlIBFeuX3gpo5TVcu7RaZe10NRGGN/Yti1YB6jXsczDctm5jBppgQglO8q7LNZv
-         8mKXB2Qtq3SbyKbcfkKUepLJUqfCaYRC46NSQ+iec+tHfD5Iz83UKnC6/ZKoykDuR86y
-         jfQA84XSWK2Fb//SdD+zN4s8RYYwqBqSxbDSjyTF3XTt1SSruaAMwpLRkiBoSl+Jc5B3
-         Ct/w==
+        d=gmail.com; s=20251104; t=1787345636; x=1787950436; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=AHy6QNmeSnh9146Xv0VjFDiALvnInlM5eLCi0r12Lnc=;
+        b=WFEPA4yEtPCux763nSyebAwHoVwfms52d4CmU8Orq59gNOCC0Ln3hAaEuzUe2bHWIm
+         A1/w9Mjs/eGLRxVWzttFLzCREyId8DsWqEDmQ99eRRGNLk+MWiya75kHdjymaGb5sBtM
+         Hr93kkwx6WyOfvyMI/5bDU2ilSvdFUTkCa3bzHpMd66pgDE4iAUP3T3Dl96XuW64YQTc
+         Ij4Vcszjtou0+RYjEUztrrqtUNGCy9u+mNfEJ79kRzsSIH9/Np0qpKYUGXeqteQ9luWn
+         lwQkPv8RVXVNHozgQqm4C3RKnRm/C/jubQysux1gtzMZWLPtezH4oXsKhcyGMQMC0o0G
+         j/yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787342312; x=1787947112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=JFbkqHCSmGLZ1EGC1aGF25xj/3DcMpctUOzZEm7ehHk=;
-        b=W3INDjR4kW4FrvSSblVG2sD0pFNdxZqR9WBMLh+LQgMLr5IfpygDMoJ9gxkWc2y/18
-         6CLrTS7u3VAAKHg3kbOzUySN1QeafjITcG3ZrkbbxOhfddkmS0c2xN7/cTSEMj3CTMX2
-         6ws0cs3jpmXT6VZl46YcYCTqPWO+5XRny+823dIKZUQYkLYxFWHyttesQ+39UCqtF9oI
-         9Co6aLsAZHJ/aE8XgCCJVZlmtgM2vlEvVRsq2lrIGqO5y+SY5Dom+3GcAok7ifmrIe+D
-         rX7QsOPUnvTUeWmE4/yfSVVteQPXGMuINqaBvSPcx8BGAjFkw7r4t9xt7zjYfOTiQBjW
-         emxg==
-X-Gm-Message-State: AFuF++ni4URxCjyJzOelNfHESgbXbuAcD/TRjFO94+S3rVs56M3hR/g+
-	sia0SL3HzgcVNvqhHFMrKKEafLmhY28jpCG9uCq91iq0uEvM4LXrVhek
-X-Gm-Gg: AR+sD114DhZDfu9aqwR0WcZ8mqv/VsJp0QvYLe73D3cdtYxdTVwoLpyiB06TSerb/B/
-	aMpF1qOjZQduDT1ye5aV9Iry34yTuND+Sn3lJQYW+DPIq5c7gYta0HxCYpliwMybdEbJ6G6b/JK
-	XssdKWD05kSNb5J5Q8EOh7prD+5bFlpGYIjrOElVnPalJuUWpfz1xn7K78+ZbjhlCZf1ApTc4H0
-	ntN8SWG3gFB+AIXzWWV0OEi9HGUwxrSPpUBMmQh7Qawv4t6PNyy5xIV0wS+E+FO6WISQCGpzHTl
-	EM4r6qnVYlbFCMslHuTUU09oXyo6FF9VvvtR2DdZQ9hvKuL+2/2NicOwpOJCdDr7Sm+XU3+gmYs
-	rj6vyxdWW+lNFdp2MeSAFZHtaaFfWS7Msm7vQPt9vhfq0AyILEtrTn0/fSzJfU53ZUvis5kI7bq
-	Rd07HQFGf2fGoRgbuRkbtkoZwjJfVjmKrUFeS8XyYXJloqkvkYzA5NSEB2/JI=
-X-Received: by 2002:a17:906:f58b:b0:c1f:8021:deef with SMTP id a640c23a62f3a-c246a390c73mr791125966b.10.1787342311751;
-        Fri, 21 Aug 2026 12:58:31 -0700 (PDT)
-Received: from potato ([31.176.173.93])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a3fec280e9sm8887970a12.0.2026.08.21.12.58.30
+        d=1e100.net; s=20251104; t=1787345636; x=1787950436;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=AHy6QNmeSnh9146Xv0VjFDiALvnInlM5eLCi0r12Lnc=;
+        b=rJXymsy0n5dQoGTpr7rIRr/6e/JXyJisBx7WeEYBIJft3fTyI7L1iOM3ywmFyNH7iR
+         yH24mAvDZVa94+W4bs6HUJ/e0ZjgHZQpUH0lljXa5wVPdHjg7/g6TuYjf5qcEgLkcTMG
+         RWCrBjFZfpbUCSE/I4GPAWWx34xkl7eEzuG1e92UwBfS+Xs2HONadnfWGtTS1FN6aI4L
+         IJ9ZF+Z2Ip99+gfqoxeG0oSAgAql9kEAEtE8L/eBhYeBPz1sCRdQE8JSQJ3jfoRPecs9
+         r0BU0MXdC6I3R8Vdf6P/1w0Zo+gZN8w6q9OblekZR5h76TlJ3eswCJeCVEmX5h5lwXR+
+         WM6Q==
+X-Forwarded-Encrypted: i=1; AHgh+RpK48na0Z8smMIiy8F9y9OSwGim76nmv/sUQNNAGywU2PsyU3yrMpODEF4uumsa9OWmiSk773Rnw28YEXm9@lists.linux.dev
+X-Gm-Message-State: AFuF++lN70OQ6j8Q+r4orYFsXiiWtqulvzRD/mFJm7rSHbwaNsLqydBV
+	73B3VTLJ6rCNq3PzzA5CXrLiPyfwwQ1LtVuZH2KVJuN2qvMQwxRkVCyZ
+X-Gm-Gg: AR+sD10FGMpZJFXMtgJDJSu9lR33Xzfi/hdPCbZpWINt7nQqARqZnnTfL8ukk58ZOFP
+	2meNyWet3WQmOsKLzJg8m6P6/aXzw4rTK8xkifcMWNmROdmrgKrfKS8tPirMMnWFRHNcbj6PS9F
+	0Y7VHj+6hRwcC++m8nR8IcU1+7LFU4HqQptIwwjS5lbcd83tEFwUaJf20/U3sM8r942z7tL8E6X
+	IrlOMz1kED94USVToTksdU9K2B3j/mEv3SDJ19N1SGj4COtqo2xIW4tWjAp5S8KcE2EruN8YYCK
+	jM7yVGbURomCBqN55V3X3neIggP+mW3RepT4QUAffyPQoJBGP7QArf3E8bn/XL6XexZuVkEFoqJ
+	3a+heYhsU9XvxP12BlFn96NHCmAQIome8iwMcWmMEaSKWuhRoMiiTBU0Wb8rDzIe8oRqsSxzXhL
+	Y5ZqYRzz+4R2+JLw7XzwSuxCRcX6ViIuYV1TzMYSgYNY0eEcVGUiBvb8+D
+X-Received: by 2002:a05:600c:a01:b0:499:795a:c5fc with SMTP id 5b1f17b1804b1-499c19bd3d7mr11744495e9.7.1787345636011;
+        Fri, 21 Aug 2026 13:53:56 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499ba31efadsm36328525e9.3.2026.08.21.13.53.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Aug 2026 12:58:31 -0700 (PDT)
-From: Omer El Idrissi <omer.e.idrissi@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Omer El Idrissi <omer.e.idrissi@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: modify misleading comment
-Date: Fri, 21 Aug 2026 21:58:23 +0200
-Message-ID: <20260821195823.87471-1-omer.e.idrissi@gmail.com>
-X-Mailer: git-send-email 2.53.0
+        Fri, 21 Aug 2026 13:53:54 -0700 (PDT)
+Date: Fri, 21 Aug 2026 23:53:50 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Omer El Idrissi <omer.e.idrissi@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: modify misleading comment
+Message-ID: <aoi63mXmusBP-Wy3@stanley.mountain>
+References: <20260821195823.87471-1-omer.e.idrissi@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260821195823.87471-1-omer.e.idrissi@gmail.com>
 
-The comment suggests that rtw_unregister_cmd_alive is called
-by the ISR, while it's called by function rtw_cmd_thread which runs in
-the kernel thread context.
+On Fri, Aug 21, 2026 at 09:58:23PM +0200, Omer El Idrissi wrote:
+> The comment suggests that rtw_unregister_cmd_alive is called
+> by the ISR, while it's called by function rtw_cmd_thread which runs in
+> the kernel thread context.
+> 
+> Signed-off-by: Omer El Idrissi <omer.e.idrissi@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_pwrctrl.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+> index b9f8cf1014ed..a4831dc145eb 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+> @@ -891,7 +891,7 @@ void rtw_unregister_tx_alive(struct adapter *padapter)
+>  }
+>  
+>  /*
+> - * Caller: ISR
+> + * Caller: not ISR
 
-Signed-off-by: Omer El Idrissi <omer.e.idrissi@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_pwrctrl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The original comment is obviously wrong, and that's bad.  But is "not ISR"
+useful?  Probably we might as well just delete the comment.  It's not
+like people don't have ctags.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-index b9f8cf1014ed..a4831dc145eb 100644
---- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-@@ -891,7 +891,7 @@ void rtw_unregister_tx_alive(struct adapter *padapter)
- }
- 
- /*
-- * Caller: ISR
-+ * Caller: not ISR
-  *
-  * If all commands have been done,
-  * and no more command to do,
--- 
-2.53.0
+regards,
+dan carpenter
+
 
