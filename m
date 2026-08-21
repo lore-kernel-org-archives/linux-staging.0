@@ -1,62 +1,62 @@
 Received: from CP3P284CU006.outbound.protection.outlook.com (mail-brazilsouthazolkn19012055.outbound.protection.outlook.com [52.103.21.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A462837703B
-	for <linux-staging@lists.linux.dev>; Fri, 21 Aug 2026 04:13:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C1CE37703B
+	for <linux-staging@lists.linux.dev>; Fri, 21 Aug 2026 04:13:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.21.55
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787285588; cv=fail; b=T2udxqKpmaCgZevVZmFrBq6Y/AXHHvmUvY3Ln/svEa82kM8Ai+XOZ8dH8syh8x2xFgfZG4hdDRA+lgjL5LMyPHrjCp4O440cuIciulBsQMI7qMk4gUeC9b65ca1GQOsDHFjMqpMYRdGiUY1sk9D4QqJZOnLcvvFu1pmdTpnqVvY=
+	t=1787285590; cv=fail; b=UJSC5wro0wzq09nMtgzDZUR1AgV/Jc7WmIlPq7c1NFBrIjwzGSRXpuLqEX9MC9amLPX166BK9wizeizGU0AxCEf3Y5AG7S3VW/tE692gzkh3V56ClGYHynPJ2LcEb4D050RECxuASls1ZONsZCkHn0s0rEcfR5ov/rVLXSd8+vs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787285588; c=relaxed/simple;
-	bh=JDkCicDO6Mj9sddVOktVZVdOpL1EgrIsnl4mOgZ6BM4=;
+	s=arc-20240116; t=1787285590; c=relaxed/simple;
+	bh=5AWDHoCLKDGvKqIMFj9SSaEAKw6XQfdwTu0o1MasnEQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=G13xWRAnLpYaSSSR9YrGPYnmspswZgP+hgzA4+kNBb+jpqYq68mOrYY/thhUXCVAwXZ3QKzf7Uy4OZa0WPKNjjPE2LzZ7+UOlJYF839/ysqFsAgQ0oVb0bT/lIDWOAlocX+em50Kc2AVq9R0GQ+mSlh9+YGBo1tlkyyPonCKXPk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com; spf=pass smtp.mailfrom=hotmail.com; dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b=N9/uJc8E; arc=fail smtp.client-ip=52.103.21.55
+	 Content-Type:MIME-Version; b=E9uYuaHcpAXd3Kd/UiETXfP5YDri2sWjfeKc7KBQm5adORAoKdttqFr51VJWqVuHC/XmmHn6ayvMgAdggBgCtpVe2zLxieHdSiDHhfCCmpMJZ7EzaSHX1oYrHYoAmVVDj7vTuwXGTxi+OLRjTXVXJRqFiS055iZgrLJQVciZKDA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com; spf=pass smtp.mailfrom=hotmail.com; dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b=oVumV+1P; arc=fail smtp.client-ip=52.103.21.55
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hotmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b="N9/uJc8E"
+	dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b="oVumV+1P"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WQ9mnUJO65K9lGgj8tGh2b6YYdomyytr7WrlFbJj6Hy6CmM/zeXERke7mE9WJ3HRFl+nbql1JT3YvvpEIflBliPYteCQchjwc3BT/U/m4Zy8rVksKlgXLqjfqg4AAO8I7FqnAH0iNkm2rPmLwmZOvIYB3rtmh9/6/0HQmXA83NzAfTSNvSEe4/7ETVz+uKcmW5jemtKQJE45Bjywp9f6uoGYc42CVMUIbPiG4PL6FO6uKAwBvycXAr5cYMBUwDPhrJi9acydRssUT1X/zAf9Zdnnk4q22TXHxhZe83FDjZxWlIHtlqhm34VyZZ1WwmE8ypasb8n0J4YwyuWdeD6NPw==
+ b=olN2wAqN74uopZBUHiI9JtBUKozgkEf2ETqA9J2jh85aBsC1pTMpvcByWPUwvYiXeAU4roOfQQghZrCeJ8Ess2rpcZzrmmKRgRiCt0SyaVpRon3P8/cKSQrIw1aZgmWOrrlQ0qCbC858nUUDr+xLZhR/5xdv9TR9d3aV1eKz3Yz/wwecE7aDXKi2D3vrgJAjWUbqEsPspAlublk+J6Vonkvb9SHLU4okNBZwv8XpvVMI+NueONSkBSqm0dsSHtRBB9YbvNPE3Xy67jWe+tC5aaBVUcVWajovkQABPw804IwsGe+Bq37V2F7gVV25scO3qXF5QdkXxEHiVLwcPWlbzw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iqBH/YayStua+cuPALuNeP9hh1fkiZfTIHFqg6hpCw4=;
- b=eDlNyT0BuzgPGJmV05aXaXqp8XUZ28wOYYcBOF0ZLD/soofZ1iLMXIWSmidqjVufDgKYHRLcbkpfKf7rApTXhbzauOdpx7V8oF7rG+ASWwJ+TJ63mZcJXbFNeCqf+2m1XAfgpS1+Ig1PmzVQA4ABvW1bcH2eujcvK7De/EOLJWkNBf+WL8zpeYGJVtgpr2VdpEThuEa7N0cfP0Eq0BU1b7oecHJcmzsuS9wh/8y1RywbS9AAUegE2Ghx9wHLl2bhAHizfVcV8d62AUHP98bVkCKBKdM6Ry5/bMWRyFqURRJ1w4yq+2wKgGDJotwCarwVfqpqczIPpgCZkCsXx/WY0Q==
+ bh=9pc3kTTbZ2Yr6cN9H3/gyBUnAD/Zvb4RMrWcn2eYaSg=;
+ b=QDWVrlj/kY5z3fso928JOXphn04nAY5IzAvfQtacDeUv6sNuweXZidtFGxJ1A3yQqKaomM1n/fDbrTtDcAl/hWwGj++tD2l3HvjQ0+FHUnYUi05LBW4GiumRQN0jYBu1U5TzjrRZdKgfTifelPrzTL9phd4zt9nwmILlB4od1M/o0YApnRnvAB93tg+bAXLWsRXeAhe4Bf1X+UcDjHbyDp9NivOeBH8/KVFKqk4X29eUjX1ApqlECXutcd8p1RbK7WC3x0s9eEEhBmWvuYkdIoAoRP+YqpZHPSh/ebxe5wqiLEJtfLGvH3r3DcacjNSirfK/LqDQwiNzWP6gz+GGDg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iqBH/YayStua+cuPALuNeP9hh1fkiZfTIHFqg6hpCw4=;
- b=N9/uJc8ExSYtDFc4GuNrrtzcqe+FYSk6d/OydUrLQ4oL3TOX7grKs9e/iiZ7wB0IWFdOJdQOvlC0iy7zRVmH4IY1idUIZ6LBa9UmLFKmAJSKF4asaqxxP6t3NTZVrzgHvR1x5Q2/IMSkegJg8Apq0WwcAf92gVEvf96QerDxox2HxjfmTLrwv2wpZcNdouO8HC/mjoiH7AL/qkcHr3B0EZo7dIurVFKGLBtkwMMokl0Qsaw2OKhJ11ou1zUVz2uHBae8+dDEvrunBab09sasLs4CNdNrfFeC93xt+jw3jWnLxw7W2ehCpwdgWv7zBAiT+keHj9WuyOISJ8cb35NFTw==
+ bh=9pc3kTTbZ2Yr6cN9H3/gyBUnAD/Zvb4RMrWcn2eYaSg=;
+ b=oVumV+1PZ7MSOPoRxpOoy076YJvcH27TOSqJgf8qvujVOzWxRBcJUka+wgvaQuQh41XEaf/XxHHQD/DsA5dLbRanVJRh1iXhcHGNZLFRjaQxcgQ0JPF1PLKaKIQScQP4ly2JC5TxCq/skIFgD3c8+yQz69RfXcsOQFBE28MKYv2woHgaeO7iGvdoDsc/t31qLehCU2wReAfSrUefS0qTgNM/Gu1fmVsXwj+yFd/umuK7LYKND3prdfW7j7vsHmiUCM6A6v+nR3Bfo0l8kk1UqbZ4tsVm0+d3/Ey8/xT0OWyGE+zOuUsxzLUvMv6Wu4mr+beyMBprkhekjT4XxFlHNg==
 Received: from CPYP284MB0854.BRAP284.PROD.OUTLOOK.COM (2603:10d6:103:9c::8) by
  CP8P284MB2735.BRAP284.PROD.OUTLOOK.COM (2603:10d6:103:2e0::5) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.339.11; Fri, 21 Aug 2026 04:13:04 +0000
+ 15.21.339.11; Fri, 21 Aug 2026 04:13:05 +0000
 Received: from CPYP284MB0854.BRAP284.PROD.OUTLOOK.COM
  ([fe80::8363:d684:fb6b:3c9f]) by CPYP284MB0854.BRAP284.PROD.OUTLOOK.COM
  ([fe80::8363:d684:fb6b:3c9f%6]) with mapi id 15.21.0339.010; Fri, 21 Aug 2026
- 04:13:04 +0000
+ 04:13:05 +0000
 From: Tiago Panizio Gottardo <tiago.panizio@hotmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Tiago Panizio Gottardo <tiago.panizio@hotmail.com>
-Subject: [PATCH 1/3] staging: octeon: fix style issues in ethernet.c
-Date: Fri, 21 Aug 2026 01:12:53 -0300
+Subject: [PATCH 2/3] staging: octeon: fix RGMII condition formatting
+Date: Fri, 21 Aug 2026 01:12:54 -0300
 Message-ID:
- <CPYP284MB085499A0F516D64E9596B9B6FFA32@CPYP284MB0854.BRAP284.PROD.OUTLOOK.COM>
+ <CPYP284MB085494E6AFD263CF9BC8E9FBFFA32@CPYP284MB0854.BRAP284.PROD.OUTLOOK.COM>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260821041255.1616843-1-tiago.panizio@hotmail.com>
 References: <20260821041255.1616843-1-tiago.panizio@hotmail.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: CP5P284CA0016.BRAP284.PROD.OUTLOOK.COM
- (2603:10d6:103:95::21) To CPYP284MB0854.BRAP284.PROD.OUTLOOK.COM
+X-ClientProxiedBy: CP5P284CA0113.BRAP284.PROD.OUTLOOK.COM
+ (2603:10d6:103:228::14) To CPYP284MB0854.BRAP284.PROD.OUTLOOK.COM
  (2603:10d6:103:9c::8)
 X-Microsoft-Original-Message-ID:
- <20260821041255.1616843-2-tiago.panizio@hotmail.com>
+ <20260821041255.1616843-3-tiago.panizio@hotmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -66,60 +66,60 @@ MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CPYP284MB0854:EE_|CP8P284MB2735:EE_
-X-MS-Office365-Filtering-Correlation-Id: 337d24b2-85b6-4cfa-076a-08deff3a7d39
+X-MS-Office365-Filtering-Correlation-Id: 741f0e11-ca68-4e18-69bf-08deff3a7e9f
 X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|19110799012|8060799015|15080799012|24021099003|23021999003|8022599003|41001999006|25010399006|5072599009|2607281247196008|3071699003|12091999003|3412199025|440099028|1710799026;
+	BCL:0;ARA:14566002|19110799012|8060799015|15080799012|12121999013|24021099003|23021999003|8022599003|25010399006|5072599009|2607281247196008|3071699003|3412199025|440099028|1710799026;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?mY+5GXouRgfGgen4iwtNgiYSBDbW7Nkg/W6UwrzlBGRUfHsvZoK/2APxiTLN?=
- =?us-ascii?Q?QpAm6OmCCds9xy4wlEuNoEhK4fCievfwm9T/gTkENHUbX77lUK5jDkojT6+3?=
- =?us-ascii?Q?oLWp+ZZwBYydurfUt5Eae1HS5Z11VM6a1UwPyjswUktdvxIJq7A2jKTzOGhu?=
- =?us-ascii?Q?yNQizHGxB4NnplLFPcU8xXRZSEpdV93WbGsPIoMHWV7JnumG2N/I8Oa22TZ/?=
- =?us-ascii?Q?qBjRfpzsqOccsVBiLKKbSc+6vs1Ie9O9mhTW7nCTStaGOcoQFhU2oULTIqOl?=
- =?us-ascii?Q?8MEhV7BcgOVjW6s+CbWuulTLD2/wpOlmh4Y5O7n4KdXPuxzaU1G5WWrp7/oz?=
- =?us-ascii?Q?3KZblm0BTjqw2MN+DYnORI/5roNykxWUXRjovmVZPdMRnVhqIDVtRXL3dSch?=
- =?us-ascii?Q?c3Ob0OuKpfJtMTu3f9Gr7eQM+MGIO0nJUKUqsDOGnSO5RuV5YtM0VmAVVF1h?=
- =?us-ascii?Q?QKDxz3+mN7UHHJ8Jph1hyjmEqh/HUHF7fPI4HhkU6OH6luUPGouVbvJnBzcJ?=
- =?us-ascii?Q?aGwktIoBEnV61tDJLet/O8+ID1yBEH5Ehy765kwGDaxCh6iBZ63zJavzZPrH?=
- =?us-ascii?Q?V2jHuQIxz/SiUEuj5f2WnHgffoz2elFN05ZW60j2H6sUL/4WkD1J00jJeEMB?=
- =?us-ascii?Q?5YRaCnzlAJsLinuMugA28SmZYi9dsLRE7NbJ4eg9cEtz6YbOUwsmOupQf7mA?=
- =?us-ascii?Q?4XGtyj3xX6qDWZ54+d0A67OTDItLiOT+/caDcC21rlUTU+qiHb3oQZopfnep?=
- =?us-ascii?Q?LUlZaU+i4y9XrbT/tkhTE/Sx8i3dgCLa8yupRgFhrx9MBFIxBwSjEDMIuJ+v?=
- =?us-ascii?Q?6XYh16Xqi8HjLQuDdFSpwp8KN3E3JX4Zy/8dIjg+b4DeF1cSMxl3EiXqc1eO?=
- =?us-ascii?Q?qdJzS6Uw21qls4DsIJqa/bErfTmW7rNEdzM4ZnfrP+iaOZPCOJyY+rOnxOER?=
- =?us-ascii?Q?ZRv43XyBhciUUebBdyP/XiRub3W6Z5yZcA8+jr8WEbFhaI1L9dIPzEhuFsu+?=
- =?us-ascii?Q?48B+okr14DXyUK8wSLngKVF/Rw=3D=3D?=
+	=?us-ascii?Q?haJ2PSwg4t5wklZJspmHZlkNnhxv2+RSjwh3NpwiEzg5bjh5mMf1J0HqSZVr?=
+ =?us-ascii?Q?2ktvsPpn+wfh85INJDi2vTPlK5cV3sAYVcCMaQHPaXDrS9iUX/O/yyr/urnQ?=
+ =?us-ascii?Q?m7XN4n5hAqReeM+8jkw2x0gODxUJI8uCzh1eX5aQVXm3lUfLCxIzNyiv40Hd?=
+ =?us-ascii?Q?09qWdGC/FPXOJfyVZtiYZLed0db5v5geuaQHaqD1F2bD+MiHVfQd1vp7SYon?=
+ =?us-ascii?Q?kpf/+XXOJQpBR+h91uXqv12BxZ5fpKD8iooVii1+QaxjltdmyTXLYCU6W4R3?=
+ =?us-ascii?Q?t4ZAFTNL1chvAbHP7udKOGro7w6iafGetqY/kfqtUZ3c69yJLEC0kqbJyg+r?=
+ =?us-ascii?Q?3AIGPGkuToIfPzcb+WYYrP+rdLgniR345/nioJEso1gWZBEz5ndv9itSO8e5?=
+ =?us-ascii?Q?YFyhfl3OcXQIahl+2G/EZw66VTIzK612MEl91Vm140zNIafkQcu8kPFUy1bU?=
+ =?us-ascii?Q?hVZEKDuvNnsKgnBwidpXe02SSf57N6FVAPBAo/PRmcQFPyoPq2N8zTWA24vi?=
+ =?us-ascii?Q?huNph8z5A70Sv+Hca6fOaRXYXbhauOkqCNjoTCzYu2+MebC7gD5J7HexynAo?=
+ =?us-ascii?Q?ycDt1K3VMRG3OzA0csM31WtM1QObmd+BHYejtdef1bzDtoz+8gPfSV8AMn3k?=
+ =?us-ascii?Q?LbWxpH64stlHrXZqMkya1GbKgOKnAMqjVTCTFei2YnqKPSZydI0NX+uE7KU7?=
+ =?us-ascii?Q?0c5G8q7pttVmZBqlZlFWkn/e2f9nSIq6JfhP26wb/EnSRY8gmchtG0YcAAo7?=
+ =?us-ascii?Q?hHLAd4jWnRLg57G8ysusROo71xEFzQ6ssO3FzLuwj006mnQauNFuI9+tN4ot?=
+ =?us-ascii?Q?WRQO1o6ig3mZkXmzlCbWNLBqTyoEmLjok5NSE/y9IzJcumBTdDysKkJxZYzA?=
+ =?us-ascii?Q?xR3sYTyk/Zd7qx+skaCVPCDPbwHjQNNLJ46mqjrMBy/HlvAIrXQvFPQ4DXFl?=
+ =?us-ascii?Q?YdxTy02P/uLebh76EDefRa5yB2PxICURnBuRa0TzbskJEPfpLoEYpLZRT99h?=
+ =?us-ascii?Q?kkrU?=
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?OH7pjgG4v90CywNuAsJ0vYsEcOtp7SFX1ey57vvFElf1XHFQl10oQKELWmKg?=
- =?us-ascii?Q?FkHwOwb1/9NenLzdb/Qm/uL0sYwrGzIvJ8B0AHulCct+1ffYENAVq+e5hzq1?=
- =?us-ascii?Q?6IWOwcFRu4xPjRhuUIk9MsHsCzP7lrp4Agd4bHJzSEt7nj6gNa+ZGKcxgJnm?=
- =?us-ascii?Q?lPa0Fs4iJg5T2vx3N/kosyxDu8sG/+t41ykWPqSgGWTlU2WjU8FprVK5nDeU?=
- =?us-ascii?Q?6AdzSChdtRe8gzv21GAKtpsdNz7SZC1pVUGxwk3b/hnW75sfUCMdcJAQ6W7M?=
- =?us-ascii?Q?y9dX8WVbsi1RbH1XdpMkNVFVzuzqUCwsjH0gglQAmreND54Ogar8Fpw1qTsR?=
- =?us-ascii?Q?yGPi9jsCentDMMeBWgiU6y29Y6hxgobK21QQZxpgtkE++alNmbPyjFDd/UFL?=
- =?us-ascii?Q?hjPQpU7KuqSBw4joCSgF4m9pyo+lEL/HG2g1bceydVp+O22wyJ9lLiY++TUG?=
- =?us-ascii?Q?7DiaiBi6+hpZcZpj/e/TdmnEA6AkRpD4s4ZJ6bI1r8ERl25AmW7zQtdAbg5q?=
- =?us-ascii?Q?lSN6+JzMetTUCkr4g5/8jHRUo5gv+MFt24SAoWuHk8+zB7kcJ28Eo8V3V7Co?=
- =?us-ascii?Q?RPFqUVz3bT/pj0Zkmk+H2bf3xAxd2gQeP6WBkDNRu3QGn9p1KcJKWqZtdkri?=
- =?us-ascii?Q?jZAkKIAROIRbWM1jr/UwrXbKcCnzmmFhVSup5O9wNnjnkxJuTWBBcQq+f3c2?=
- =?us-ascii?Q?wQqkkejYvVvg0tAZWG2bH8Jtym/+5JX9R57WL0dpzqFAGWLm+LwNasD6JwGg?=
- =?us-ascii?Q?MbToK1GND6bgpa2cGELfnAvhoecYNSzMt2IckQQfgx6Zsms5wGi9zKstCcWb?=
- =?us-ascii?Q?ZsJuAdC+zjC7cQarLKnpxGiG8zrkgoGj/2aFmd58f+QHWtuEXTeIJHQ0i16x?=
- =?us-ascii?Q?jFm8rJZj+0rrSCQNETYN3mwAVMNbtG0BY6wEkzrU7qFHWy+1LkRtRzneMVkT?=
- =?us-ascii?Q?nWq5cbq9QKStXpKloFCqZrdcmaVzx8AuM2Yv0rhsFSJoQ80eoKp67tTK5LeS?=
- =?us-ascii?Q?V5OJcd0MPZicDRH7HzRJ31EekBPsbD7hehsoDhlmnj8KnUf7qrNIQVA0tr9S?=
- =?us-ascii?Q?QSrWjKk5mZzImqwdgwKh67bh59BtDoy3lh46QcmDDiakzSwoOwWAm46eoqVT?=
- =?us-ascii?Q?WxA2q9ml1KNLUr++WLBeN/jctyYBFPfsoPWJQI84fqt5+dMTBGNTbrDhbaR3?=
- =?us-ascii?Q?rOLRZcu6IGRrC8hrNekKXFsp1athe/jl6OWY7gxINsKtF1N5Vt8mgCJVnM/E?=
- =?us-ascii?Q?5KeScgs651ggaewjEQD6esEDCC7krT1wsTs3+ItpQKhG6mnJUW98sB6xxxpE?=
- =?us-ascii?Q?JBYyc6++K0hGudOxYOt8/R6aSLAhO9+J1moKmnOMyZkI8phryRzAji58Wo9b?=
- =?us-ascii?Q?TvgmNigsxOPFq11zHs+1ZnSXMj0w8FYEroJgTS0/U3Iv8ExFYzV4DqVove/e?=
- =?us-ascii?Q?A3bhgalzJi9fkc+SzwTfOofS5hrg++FCTV0LNE7/HhBQ4F8RBPSDOg=3D=3D?=
+	=?us-ascii?Q?Dlh7Rhda0jRDSSi3usG9uxt5lUoVIf90DIC0HSaVVz1pOa/KMMB4Q/TNNsQw?=
+ =?us-ascii?Q?gHO6ieTBMSMg7iStCY0wkf97ZL4XLQwiaShyGbWhkJItL5//1AVx7QaRN1TZ?=
+ =?us-ascii?Q?/5D7cJUsTHWDoaFTfwz5EBnMSGmD/4w+4hjKYymJ5yKG8lih8dNpT7XBo0lE?=
+ =?us-ascii?Q?vpp/6yCD8wDKS0Tm+njgfabIHU7vFW9Ow3PYu7ZNddVw0Mn0ecTUWdl2bxh0?=
+ =?us-ascii?Q?hQB2Tjodx1MSks3F68d5YRUdP0IwEMTyxM2So9GpEz5fPkZXITK67jTpxkDX?=
+ =?us-ascii?Q?gzna83zMkihVi+VqIjf0YfB0ywwDPG6sbG9cTFTzN/KkPpi0OGEkjQ9dUshK?=
+ =?us-ascii?Q?GUSn9K+azZnO8dDMD4VWwq/WIKOwEZeADs5qzuf/UmgExd58bA5HtWhOsYg+?=
+ =?us-ascii?Q?LgkAInNC2+D/xrTQVHo/i91UY23jxlIV75xBX3bRZs7GNfQGIt46YxhJp6k5?=
+ =?us-ascii?Q?Qcm7E6dJDDONIgyKv/mB33dqLKmO10pGmFFXe1txFFKihBG6isJ+BXeLtKWM?=
+ =?us-ascii?Q?bdKLOf3+Inz5Q9xC7jrtkgyNTQtIKBj9OD7xCFq5eJQKcgQL6aRtgXNuMAD6?=
+ =?us-ascii?Q?Y22fFVNG8MXEFYCNf/EKkX27oJumu/pO2Y5r+eYYu5L1HrXIV4OvB4hHSJ7/?=
+ =?us-ascii?Q?VjEqThMMVxvzyhjt+BqvyCzeVpdwMUXryYZ5YNoVUyhRyc2nhQAaN/JVWW5i?=
+ =?us-ascii?Q?KOdrEQCXzf3M3X1eLGVec4U/jTrakLvSM6ZDQ4+gQLqHXDk0eWmp+RNhwaXh?=
+ =?us-ascii?Q?MeBrufsbQQbsrEZoI5QCanYytQdG4MhwxRmkDbU5ua1tJK9NEzyBYz8K54qA?=
+ =?us-ascii?Q?9aEFt1MbmFyW7nkyTnLgTcLG+cl3Nn4076YRHk3bKmdR4fZn5AsTFZO4g5ZD?=
+ =?us-ascii?Q?SfMLvVcUQy8FEvDXXNrc36m9P4z/QpHaVm1X2t1uZ6naeBq9Cmf0ZcJNteo7?=
+ =?us-ascii?Q?hIxStHKLAy16ZLGoKqlLVps/rxTDbX7mkGJee3qbecPRmdw9Se5fP2N6fM4h?=
+ =?us-ascii?Q?FZxmsO+if/F4zOFVcMds14eXYWEYTf7PXpVEGLGRRBIKTEirOC0pGytY6RpJ?=
+ =?us-ascii?Q?DDkVcz9vY4iRZ5iwKaqwISj722RFf9O4SiUvvcgK1peT9IV9gEYklTyOlbWE?=
+ =?us-ascii?Q?dwDovq7kqNVgKtwe4pCWlKg6TenXh75kWwLmDXIqcrifxVXQ8Elqq8f0hizw?=
+ =?us-ascii?Q?upY4p3BnadL/r2HFEEQhqpCEvk+Er2g3bw0j2q+UL5XB2zm4zpZtUOuhbPYG?=
+ =?us-ascii?Q?qCLxf5Qvylp3N0NIctYDkoQGYueqClX+byBIbN5Fu24f7qYPWzOurzLYIZk8?=
+ =?us-ascii?Q?VeHri8wFxa74xaqJpxGggyVx6foZaoftrcTpzNnzWtzD/6inDj7ZXxSVlyM5?=
+ =?us-ascii?Q?sk5ua86Waha1WHkYGk9nbLz6+DV3j3kw1zUUenbiExeKTwNhMCupF2XgjClk?=
+ =?us-ascii?Q?EnJN/U49I2ashppZe4IXqvSLvTYcbGZ8LYGstSkDNZhW0FOu5YWHNQ=3D=3D?=
 X-OriginatorOrg: sct-15-20-9412-4-msonline-outlook-da224.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 337d24b2-85b6-4cfa-076a-08deff3a7d39
+X-MS-Exchange-CrossTenant-Network-Message-Id: 741f0e11-ca68-4e18-69bf-08deff3a7e9f
 X-MS-Exchange-CrossTenant-AuthSource: CPYP284MB0854.BRAP284.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2026 04:13:01.5694
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2026 04:13:03.3815
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
@@ -127,527 +127,29 @@ X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
 	00000000-0000-0000-0000-000000000000
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CP8P284MB2735
 
-Fix several coding style issues in ethernet.c, including line wrapping,
-continuation alignment and function declaration formatting.
+Adjust the RGMII open condition formatting to match kernel style while
+keeping the existing boolean grouping clear.
 
 No functional changes intended.
 
 Signed-off-by: Tiago Panizio Gottardo <tiago.panizio@hotmail.com>
 ---
- drivers/staging/octeon/ethernet.c | 308 +++++++++++++++---------------
- 1 file changed, 157 insertions(+), 151 deletions(-)
+ drivers/staging/octeon/ethernet-rgmii.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
-index 42ec4b8324a8..4557893bbba4 100644
---- a/drivers/staging/octeon/ethernet.c
-+++ b/drivers/staging/octeon/ethernet.c
-@@ -32,55 +32,61 @@
- 
- static int num_packet_buffers = 1024;
- module_param(num_packet_buffers, int, 0444);
--MODULE_PARM_DESC(num_packet_buffers, "\n"
--	"\tNumber of packet buffers to allocate and store in the\n"
--	"\tFPA. By default, 1024 packet buffers are used.\n");
-+MODULE_PARM_DESC(num_packet_buffers,
-+		 "\n"
-+		 "\tNumber of packet buffers to allocate and store in the\n"
-+		 "\tFPA. By default, 1024 packet buffers are used.\n");
- 
- static int pow_receive_group = 15;
- module_param(pow_receive_group, int, 0444);
--MODULE_PARM_DESC(pow_receive_group, "\n"
--	"\tPOW group to receive packets from. All ethernet hardware\n"
--	"\twill be configured to send incoming packets to this POW\n"
--	"\tgroup. Also any other software can submit packets to this\n"
--	"\tgroup for the kernel to process.");
-+MODULE_PARM_DESC(pow_receive_group,
-+		 "\n"
-+		 "\tPOW group to receive packets from. All ethernet hardware\n"
-+		 "\twill be configured to send incoming packets to this POW\n"
-+		 "\tgroup. Also any other software can submit packets to this\n"
-+		 "\tgroup for the kernel to process.");
- 
- static int receive_group_order;
- module_param(receive_group_order, int, 0444);
--MODULE_PARM_DESC(receive_group_order, "\n"
--	"\tOrder (0..4) of receive groups to take into use. Ethernet hardware\n"
--	"\twill be configured to send incoming packets to multiple POW\n"
--	"\tgroups. pow_receive_group parameter is ignored when multiple\n"
--	"\tgroups are taken into use and groups are allocated starting\n"
--	"\tfrom 0. By default, a single group is used.\n");
-+MODULE_PARM_DESC(receive_group_order,
-+		 "\n"
-+		 "\tOrder (0..4) of receive groups to take into use. Ethernet hardware\n"
-+		 "\twill be configured to send incoming packets to multiple POW\n"
-+		 "\tgroups. pow_receive_group parameter is ignored when multiple\n"
-+		 "\tgroups are taken into use and groups are allocated starting\n"
-+		 "\tfrom 0. By default, a single group is used.\n");
- 
- int pow_send_group = -1;
- module_param(pow_send_group, int, 0644);
--MODULE_PARM_DESC(pow_send_group, "\n"
--	"\tPOW group to send packets to other software on. This\n"
--	"\tcontrols the creation of the virtual device pow0.\n"
--	"\talways_use_pow also depends on this value.");
-+MODULE_PARM_DESC(pow_send_group,
-+		 "\n"
-+		 "\tPOW group to send packets to other software on. This\n"
-+		 "\tcontrols the creation of the virtual device pow0.\n"
-+		 "\talways_use_pow also depends on this value.");
- 
- int always_use_pow;
- module_param(always_use_pow, int, 0444);
--MODULE_PARM_DESC(always_use_pow, "\n"
--	"\tWhen set, always send to the pow group. This will cause\n"
--	"\tpackets sent to real ethernet devices to be sent to the\n"
--	"\tPOW group instead of the hardware. Unless some other\n"
--	"\tapplication changes the config, packets will still be\n"
--	"\treceived from the low level hardware. Use this option\n"
--	"\tto allow a CVMX app to intercept all packets from the\n"
--	"\tlinux kernel. You must specify pow_send_group along with\n"
--	"\tthis option.");
-+MODULE_PARM_DESC(always_use_pow,
-+		 "\n"
-+		 "\tWhen set, always send to the pow group. This will cause\n"
-+		 "\tpackets sent to real ethernet devices to be sent to the\n"
-+		 "\tPOW group instead of the hardware. Unless some other\n"
-+		 "\tapplication changes the config, packets will still be\n"
-+		 "\treceived from the low level hardware. Use this option\n"
-+		 "\tto allow a CVMX app to intercept all packets from the\n"
-+		 "\tlinux kernel. You must specify pow_send_group along with\n"
-+		 "\tthis option.");
- 
- char pow_send_list[128] = "";
- module_param_string(pow_send_list, pow_send_list, sizeof(pow_send_list), 0444);
--MODULE_PARM_DESC(pow_send_list, "\n"
--	"\tComma separated list of ethernet devices that should use the\n"
--	"\tPOW for transmit instead of the actual ethernet hardware. This\n"
--	"\tis a per port version of always_use_pow. always_use_pow takes\n"
--	"\tprecedence over this list. For example, setting this to\n"
--	"\t\"eth2,spi3,spi7\" would cause these three devices to transmit\n"
--	"\tusing the pow_send_group.");
-+MODULE_PARM_DESC(pow_send_list,
-+		 "\n"
-+		 "\tComma separated list of ethernet devices that should use the\n"
-+		 "\tPOW for transmit instead of the actual ethernet hardware. This\n"
-+		 "\tis a per port version of always_use_pow. always_use_pow takes\n"
-+		 "\tprecedence over this list. For example, setting this to\n"
-+		 "\t\"eth2,spi3,spi7\" would cause these three devices to transmit\n"
-+		 "\tusing the pow_send_group.");
- 
- int rx_napi_weight = 32;
- module_param(rx_napi_weight, int, 0444);
-@@ -122,7 +128,8 @@ static void cvm_oct_remove_device(int port)
- static void cvm_oct_rx_refill_worker(struct work_struct *work)
- {
- 	struct octeon_ethernet_platform *plat = container_of(work,
--		struct octeon_ethernet_platform, rx_refill_work.work);
-+							     struct octeon_ethernet_platform,
-+							     rx_refill_work.work);
- 	/*
- 	 * FPA 0 may have been drained, try to refill it if we need
- 	 * more than num_packet_buffers / 2, otherwise normal receive
-@@ -145,8 +152,7 @@ static void cvm_oct_periodic_worker(struct work_struct *work)
- 	if (priv->poll)
- 		priv->poll(cvm_oct_device[priv->port]);
- 
--	cvm_oct_device[priv->port]->netdev_ops->ndo_get_stats
--						(cvm_oct_device[priv->port]);
-+	cvm_oct_device[priv->port]->netdev_ops->ndo_get_stats(cvm_oct_device[priv->port]);
- 
- 	if (!atomic_read(&cvm_oct_poll_queue_stopping))
- 		schedule_delayed_work(&priv->port_periodic_work, HZ);
-@@ -156,8 +162,8 @@ static void cvm_oct_configure_common_hw(struct platform_device *pdev)
- {
- 	/* Setup the FPA */
- 	cvmx_fpa_enable();
--	cvm_oct_mem_fill_fpa(pdev, CVMX_FPA_PACKET_POOL, CVMX_FPA_PACKET_POOL_SIZE,
--			     num_packet_buffers);
-+	cvm_oct_mem_fill_fpa(pdev, CVMX_FPA_PACKET_POOL,
-+			     CVMX_FPA_PACKET_POOL_SIZE, num_packet_buffers);
- 	cvm_oct_mem_fill_fpa(pdev, CVMX_FPA_WQE_POOL, CVMX_FPA_WQE_POOL_SIZE,
- 			     num_packet_buffers);
- 	if (CVMX_FPA_OUTPUT_BUFFER_POOL != CVMX_FPA_PACKET_POOL)
-@@ -193,8 +199,8 @@ int cvm_oct_free_work(void *work_queue_entry)
- 	union cvmx_buf_ptr segment_ptr = work->packet_ptr;
- 
- 	while (segments--) {
--		union cvmx_buf_ptr next_ptr = *(union cvmx_buf_ptr *)
--			cvmx_phys_to_ptr(segment_ptr.s.addr - 8);
-+		union cvmx_buf_ptr next_ptr =
-+			*(union cvmx_buf_ptr *)cvmx_phys_to_ptr(segment_ptr.s.addr - 8);
- 		if (unlikely(!segment_ptr.s.i))
- 			cvmx_fpa_free(cvm_oct_get_buffer_ptr(segment_ptr),
- 				      segment_ptr.s.pool,
-@@ -262,9 +268,8 @@ static int cvm_oct_common_change_mtu(struct net_device *dev, int new_mtu)
- 
- 	dev->mtu = new_mtu;
- 
--	if ((interface < 2) &&
--	    (cvmx_helper_interface_get_mode(interface) !=
--		CVMX_HELPER_INTERFACE_MODE_SPI)) {
-+	if (interface < 2 && cvmx_helper_interface_get_mode(interface) !=
-+				     CVMX_HELPER_INTERFACE_MODE_SPI) {
- 		int index = INDEX(priv->port);
- 		/* Add ethernet header and FCS, and VLAN if configured. */
- 		int max_packet = new_mtu + mtu_overhead;
-@@ -308,14 +313,13 @@ static void cvm_oct_common_set_multicast_list(struct net_device *dev)
- 	struct octeon_ethernet *priv = netdev_priv(dev);
- 	int interface = INTERFACE(priv->port);
- 
--	if ((interface < 2) &&
--	    (cvmx_helper_interface_get_mode(interface) !=
--		CVMX_HELPER_INTERFACE_MODE_SPI)) {
-+	if (interface < 2 && cvmx_helper_interface_get_mode(interface) !=
-+				CVMX_HELPER_INTERFACE_MODE_SPI) {
- 		union cvmx_gmxx_rxx_adr_ctl control;
- 		int index = INDEX(priv->port);
- 
- 		control.u64 = 0;
--		control.s.bcst = 1;	/* Allow broadcast MAC addresses */
-+		control.s.bcst = 1; /* Allow broadcast MAC addresses */
- 
- 		if (!netdev_mc_empty(dev) || (dev->flags & IFF_ALLMULTI) ||
- 		    (dev->flags & IFF_PROMISC))
-@@ -336,18 +340,16 @@ static void cvm_oct_common_set_multicast_list(struct net_device *dev)
- 			control.s.cam_mode = 1;
- 
- 		gmx_cfg.u64 =
--		    cvmx_read_csr(CVMX_GMXX_PRTX_CFG(index, interface));
-+			cvmx_read_csr(CVMX_GMXX_PRTX_CFG(index, interface));
- 		cvmx_write_csr(CVMX_GMXX_PRTX_CFG(index, interface),
- 			       gmx_cfg.u64 & ~1ull);
- 
- 		cvmx_write_csr(CVMX_GMXX_RXX_ADR_CTL(index, interface),
- 			       control.u64);
- 		if (dev->flags & IFF_PROMISC)
--			cvmx_write_csr(CVMX_GMXX_RXX_ADR_CAM_EN
--				       (index, interface), 0);
-+			cvmx_write_csr(CVMX_GMXX_RXX_ADR_CAM_EN(index, interface), 0);
- 		else
--			cvmx_write_csr(CVMX_GMXX_RXX_ADR_CAM_EN
--				       (index, interface), 1);
-+			cvmx_write_csr(CVMX_GMXX_RXX_ADR_CAM_EN(index, interface), 1);
- 
- 		cvmx_write_csr(CVMX_GMXX_PRTX_CFG(index, interface),
- 			       gmx_cfg.u64);
-@@ -360,9 +362,8 @@ static int cvm_oct_set_mac_filter(struct net_device *dev)
- 	union cvmx_gmxx_prtx_cfg gmx_cfg;
- 	int interface = INTERFACE(priv->port);
- 
--	if ((interface < 2) &&
--	    (cvmx_helper_interface_get_mode(interface) !=
--		CVMX_HELPER_INTERFACE_MODE_SPI)) {
-+	if (interface < 2 && cvmx_helper_interface_get_mode(interface) !=
-+				CVMX_HELPER_INTERFACE_MODE_SPI) {
- 		int i;
- 		const u8 *ptr = dev->dev_addr;
- 		u64 mac = 0;
-@@ -372,7 +373,7 @@ static int cvm_oct_set_mac_filter(struct net_device *dev)
- 			mac = (mac << 8) | (u64)ptr[i];
- 
- 		gmx_cfg.u64 =
--		    cvmx_read_csr(CVMX_GMXX_PRTX_CFG(index, interface));
-+			cvmx_read_csr(CVMX_GMXX_PRTX_CFG(index, interface));
- 		cvmx_write_csr(CVMX_GMXX_PRTX_CFG(index, interface),
- 			       gmx_cfg.u64 & ~1ull);
- 
-@@ -533,96 +534,96 @@ static int cvm_oct_xaui_open(struct net_device *dev)
- }
- 
- static const struct net_device_ops cvm_oct_npi_netdev_ops = {
--	.ndo_init		= cvm_oct_common_init,
--	.ndo_uninit		= cvm_oct_common_uninit,
--	.ndo_start_xmit		= cvm_oct_xmit,
--	.ndo_set_rx_mode	= cvm_oct_common_set_multicast_list,
--	.ndo_set_mac_address	= cvm_oct_common_set_mac_address,
--	.ndo_eth_ioctl		= cvm_oct_ioctl,
--	.ndo_change_mtu		= cvm_oct_common_change_mtu,
--	.ndo_get_stats		= cvm_oct_common_get_stats,
-+	.ndo_init = cvm_oct_common_init,
-+	.ndo_uninit = cvm_oct_common_uninit,
-+	.ndo_start_xmit = cvm_oct_xmit,
-+	.ndo_set_rx_mode = cvm_oct_common_set_multicast_list,
-+	.ndo_set_mac_address = cvm_oct_common_set_mac_address,
-+	.ndo_eth_ioctl = cvm_oct_ioctl,
-+	.ndo_change_mtu = cvm_oct_common_change_mtu,
-+	.ndo_get_stats = cvm_oct_common_get_stats,
- #ifdef CONFIG_NET_POLL_CONTROLLER
--	.ndo_poll_controller	= cvm_oct_poll_controller,
-+	.ndo_poll_controller = cvm_oct_poll_controller,
- #endif
- };
- 
- static const struct net_device_ops cvm_oct_xaui_netdev_ops = {
--	.ndo_init		= cvm_oct_common_init,
--	.ndo_uninit		= cvm_oct_common_uninit,
--	.ndo_open		= cvm_oct_xaui_open,
--	.ndo_stop		= cvm_oct_common_stop,
--	.ndo_start_xmit		= cvm_oct_xmit,
--	.ndo_set_rx_mode	= cvm_oct_common_set_multicast_list,
--	.ndo_set_mac_address	= cvm_oct_common_set_mac_address,
--	.ndo_eth_ioctl		= cvm_oct_ioctl,
--	.ndo_change_mtu		= cvm_oct_common_change_mtu,
--	.ndo_get_stats		= cvm_oct_common_get_stats,
-+	.ndo_init = cvm_oct_common_init,
-+	.ndo_uninit = cvm_oct_common_uninit,
-+	.ndo_open = cvm_oct_xaui_open,
-+	.ndo_stop = cvm_oct_common_stop,
-+	.ndo_start_xmit = cvm_oct_xmit,
-+	.ndo_set_rx_mode = cvm_oct_common_set_multicast_list,
-+	.ndo_set_mac_address = cvm_oct_common_set_mac_address,
-+	.ndo_eth_ioctl = cvm_oct_ioctl,
-+	.ndo_change_mtu = cvm_oct_common_change_mtu,
-+	.ndo_get_stats = cvm_oct_common_get_stats,
- #ifdef CONFIG_NET_POLL_CONTROLLER
--	.ndo_poll_controller	= cvm_oct_poll_controller,
-+	.ndo_poll_controller = cvm_oct_poll_controller,
- #endif
- };
- 
- static const struct net_device_ops cvm_oct_sgmii_netdev_ops = {
--	.ndo_init		= cvm_oct_sgmii_init,
--	.ndo_uninit		= cvm_oct_common_uninit,
--	.ndo_open		= cvm_oct_sgmii_open,
--	.ndo_stop		= cvm_oct_common_stop,
--	.ndo_start_xmit		= cvm_oct_xmit,
--	.ndo_set_rx_mode	= cvm_oct_common_set_multicast_list,
--	.ndo_set_mac_address	= cvm_oct_common_set_mac_address,
--	.ndo_eth_ioctl		= cvm_oct_ioctl,
--	.ndo_change_mtu		= cvm_oct_common_change_mtu,
--	.ndo_get_stats		= cvm_oct_common_get_stats,
-+	.ndo_init = cvm_oct_sgmii_init,
-+	.ndo_uninit = cvm_oct_common_uninit,
-+	.ndo_open = cvm_oct_sgmii_open,
-+	.ndo_stop = cvm_oct_common_stop,
-+	.ndo_start_xmit = cvm_oct_xmit,
-+	.ndo_set_rx_mode = cvm_oct_common_set_multicast_list,
-+	.ndo_set_mac_address = cvm_oct_common_set_mac_address,
-+	.ndo_eth_ioctl = cvm_oct_ioctl,
-+	.ndo_change_mtu = cvm_oct_common_change_mtu,
-+	.ndo_get_stats = cvm_oct_common_get_stats,
- #ifdef CONFIG_NET_POLL_CONTROLLER
--	.ndo_poll_controller	= cvm_oct_poll_controller,
-+	.ndo_poll_controller = cvm_oct_poll_controller,
- #endif
- };
- 
- static const struct net_device_ops cvm_oct_spi_netdev_ops = {
--	.ndo_init		= cvm_oct_spi_init,
--	.ndo_uninit		= cvm_oct_spi_uninit,
--	.ndo_start_xmit		= cvm_oct_xmit,
--	.ndo_set_rx_mode	= cvm_oct_common_set_multicast_list,
--	.ndo_set_mac_address	= cvm_oct_common_set_mac_address,
--	.ndo_eth_ioctl		= cvm_oct_ioctl,
--	.ndo_change_mtu		= cvm_oct_common_change_mtu,
--	.ndo_get_stats		= cvm_oct_common_get_stats,
-+	.ndo_init = cvm_oct_spi_init,
-+	.ndo_uninit = cvm_oct_spi_uninit,
-+	.ndo_start_xmit = cvm_oct_xmit,
-+	.ndo_set_rx_mode = cvm_oct_common_set_multicast_list,
-+	.ndo_set_mac_address = cvm_oct_common_set_mac_address,
-+	.ndo_eth_ioctl = cvm_oct_ioctl,
-+	.ndo_change_mtu = cvm_oct_common_change_mtu,
-+	.ndo_get_stats = cvm_oct_common_get_stats,
- #ifdef CONFIG_NET_POLL_CONTROLLER
--	.ndo_poll_controller	= cvm_oct_poll_controller,
-+	.ndo_poll_controller = cvm_oct_poll_controller,
- #endif
- };
- 
- static const struct net_device_ops cvm_oct_rgmii_netdev_ops = {
--	.ndo_init		= cvm_oct_common_init,
--	.ndo_uninit		= cvm_oct_common_uninit,
--	.ndo_open		= cvm_oct_rgmii_open,
--	.ndo_stop		= cvm_oct_common_stop,
--	.ndo_start_xmit		= cvm_oct_xmit,
--	.ndo_set_rx_mode	= cvm_oct_common_set_multicast_list,
--	.ndo_set_mac_address	= cvm_oct_common_set_mac_address,
--	.ndo_eth_ioctl		= cvm_oct_ioctl,
--	.ndo_change_mtu		= cvm_oct_common_change_mtu,
--	.ndo_get_stats		= cvm_oct_common_get_stats,
-+	.ndo_init = cvm_oct_common_init,
-+	.ndo_uninit = cvm_oct_common_uninit,
-+	.ndo_open = cvm_oct_rgmii_open,
-+	.ndo_stop = cvm_oct_common_stop,
-+	.ndo_start_xmit = cvm_oct_xmit,
-+	.ndo_set_rx_mode = cvm_oct_common_set_multicast_list,
-+	.ndo_set_mac_address = cvm_oct_common_set_mac_address,
-+	.ndo_eth_ioctl = cvm_oct_ioctl,
-+	.ndo_change_mtu = cvm_oct_common_change_mtu,
-+	.ndo_get_stats = cvm_oct_common_get_stats,
- #ifdef CONFIG_NET_POLL_CONTROLLER
--	.ndo_poll_controller	= cvm_oct_poll_controller,
-+	.ndo_poll_controller = cvm_oct_poll_controller,
- #endif
- };
- 
- static const struct net_device_ops cvm_oct_pow_netdev_ops = {
--	.ndo_init		= cvm_oct_common_init,
--	.ndo_start_xmit		= cvm_oct_xmit_pow,
--	.ndo_set_rx_mode	= cvm_oct_common_set_multicast_list,
--	.ndo_set_mac_address	= cvm_oct_common_set_mac_address,
--	.ndo_eth_ioctl		= cvm_oct_ioctl,
--	.ndo_change_mtu		= cvm_oct_common_change_mtu,
--	.ndo_get_stats		= cvm_oct_common_get_stats,
-+	.ndo_init = cvm_oct_common_init,
-+	.ndo_start_xmit = cvm_oct_xmit_pow,
-+	.ndo_set_rx_mode = cvm_oct_common_set_multicast_list,
-+	.ndo_set_mac_address = cvm_oct_common_set_mac_address,
-+	.ndo_eth_ioctl = cvm_oct_ioctl,
-+	.ndo_change_mtu = cvm_oct_common_change_mtu,
-+	.ndo_get_stats = cvm_oct_common_get_stats,
- #ifdef CONFIG_NET_POLL_CONTROLLER
--	.ndo_poll_controller	= cvm_oct_poll_controller,
-+	.ndo_poll_controller = cvm_oct_poll_controller,
- #endif
- };
- 
--static struct device_node *cvm_oct_of_get_child
--				(const struct device_node *parent, int reg_val)
-+static struct device_node *
-+cvm_oct_of_get_child(const struct device_node *parent, int reg_val)
- {
- 	struct device_node *node;
- 	const __be32 *addr;
-@@ -737,7 +738,7 @@ static int cvm_oct_probe(struct platform_device *pdev)
- 			union cvmx_pip_prt_tagx pip_prt_tagx;
- 
- 			pip_prt_tagx.u64 =
--			    cvmx_read_csr(CVMX_PIP_PRT_TAGX(port));
-+				cvmx_read_csr(CVMX_PIP_PRT_TAGX(port));
- 
- 			if (receive_group_order) {
- 				int tag_mask;
-@@ -750,23 +751,23 @@ static int cvm_oct_probe(struct platform_device *pdev)
- 					pip_prt_tagx.u64 |= 0x3ull << 44;
- 
- 				tag_mask = ~((1 << receive_group_order) - 1);
--				pip_prt_tagx.s.grptagbase	= 0;
--				pip_prt_tagx.s.grptagmask	= tag_mask;
--				pip_prt_tagx.s.grptag		= 1;
--				pip_prt_tagx.s.tag_mode		= 0;
--				pip_prt_tagx.s.inc_prt_flag	= 1;
--				pip_prt_tagx.s.ip6_dprt_flag	= 1;
--				pip_prt_tagx.s.ip4_dprt_flag	= 1;
--				pip_prt_tagx.s.ip6_sprt_flag	= 1;
--				pip_prt_tagx.s.ip4_sprt_flag	= 1;
--				pip_prt_tagx.s.ip6_dst_flag	= 1;
--				pip_prt_tagx.s.ip4_dst_flag	= 1;
--				pip_prt_tagx.s.ip6_src_flag	= 1;
--				pip_prt_tagx.s.ip4_src_flag	= 1;
--				pip_prt_tagx.s.grp		= 0;
-+				pip_prt_tagx.s.grptagbase = 0;
-+				pip_prt_tagx.s.grptagmask = tag_mask;
-+				pip_prt_tagx.s.grptag = 1;
-+				pip_prt_tagx.s.tag_mode = 0;
-+				pip_prt_tagx.s.inc_prt_flag = 1;
-+				pip_prt_tagx.s.ip6_dprt_flag = 1;
-+				pip_prt_tagx.s.ip4_dprt_flag = 1;
-+				pip_prt_tagx.s.ip6_sprt_flag = 1;
-+				pip_prt_tagx.s.ip4_sprt_flag = 1;
-+				pip_prt_tagx.s.ip6_dst_flag = 1;
-+				pip_prt_tagx.s.ip4_dst_flag = 1;
-+				pip_prt_tagx.s.ip6_src_flag = 1;
-+				pip_prt_tagx.s.ip4_src_flag = 1;
-+				pip_prt_tagx.s.grp = 0;
- 			} else {
--				pip_prt_tagx.s.grptag	= 0;
--				pip_prt_tagx.s.grp	= pow_receive_group;
-+				pip_prt_tagx.s.grptag = 0;
-+				pip_prt_tagx.s.grp = pow_receive_group;
- 			}
- 
- 			cvmx_write_csr(CVMX_PIP_PRT_TAGX(port),
-@@ -807,23 +808,25 @@ static int cvm_oct_probe(struct platform_device *pdev)
- 			dev->max_mtu = OCTEON_MAX_MTU - mtu_overhead;
- 
- 			if (register_netdev(dev) < 0) {
--				netdev_err(dev, "Failed to register ethernet device for POW\n");
-+				netdev_err(dev,
-+					   "Failed to register ethernet device for POW\n");
- 				free_netdev(dev);
- 			} else {
- 				cvm_oct_device[CVMX_PIP_NUM_INPUT_PORTS] = dev;
--				netdev_info(dev, "POW send group %d, receive group %d\n",
--					    pow_send_group,
--					    pow_receive_group);
-+				netdev_info(dev,
-+					    "POW send group %d, receive group %d\n",
-+					    pow_send_group, pow_receive_group);
- 			}
- 		} else {
--			dev_err(&pdev->dev, "Failed to allocate ethernet device for POW\n");
-+			dev_err(&pdev->dev,
-+				"Failed to allocate ethernet device for POW\n");
+diff --git a/drivers/staging/octeon/ethernet-rgmii.c b/drivers/staging/octeon/ethernet-rgmii.c
+index 0c4fac31540a..909af74c99bd 100644
+--- a/drivers/staging/octeon/ethernet-rgmii.c
++++ b/drivers/staging/octeon/ethernet-rgmii.c
+@@ -148,7 +148,7 @@ int cvm_oct_rgmii_open(struct net_device *dev)
+ 		 */
+ 		if ((priv->imode == CVMX_HELPER_INTERFACE_MODE_GMII &&
+ 		     priv->port  == 0) ||
+-		    (priv->imode == CVMX_HELPER_INTERFACE_MODE_RGMII)) {
++		     priv->imode == CVMX_HELPER_INTERFACE_MODE_RGMII) {
+ 			priv->poll = cvm_oct_check_preamble_errors;
+ 			cvm_oct_check_preamble_errors(dev);
  		}
- 	}
- 
- 	num_interfaces = cvmx_helper_get_number_of_interfaces();
- 	for (interface = 0; interface < num_interfaces; interface++) {
- 		enum cvmx_helper_interface_mode imode =
--		    cvmx_helper_interface_get_mode(interface);
-+			cvmx_helper_interface_get_mode(interface);
- 		int num_ports = cvmx_helper_ports_on_interface(interface);
- 		int port;
- 		int port_index;
-@@ -834,9 +837,10 @@ static int cvm_oct_probe(struct platform_device *pdev)
- 		     port_index++, port++) {
- 			struct octeon_ethernet *priv;
- 			struct net_device *dev =
--			    alloc_etherdev(sizeof(struct octeon_ethernet));
-+				alloc_etherdev(sizeof(struct octeon_ethernet));
- 			if (!dev) {
--				dev_err(&pdev->dev, "Failed to allocate ethernet device for port %d\n",
-+				dev_err(&pdev->dev,
-+					"Failed to allocate ethernet device for port %d\n",
- 					port);
- 				continue;
- 			}
-@@ -910,9 +914,11 @@ static int cvm_oct_probe(struct platform_device *pdev)
- 				break;
- 			}
- 
--			if (priv->of_node && of_phy_is_fixed_link(priv->of_node)) {
-+			if (priv->of_node &&
-+			    of_phy_is_fixed_link(priv->of_node)) {
- 				if (of_phy_register_fixed_link(priv->of_node)) {
--					netdev_err(dev, "Failed to register fixed link for interface %d, port %d\n",
-+					netdev_err(dev,
-+						   "Failed to register fixed link for interface %d, port %d\n",
- 						   interface, priv->port);
- 					dev->netdev_ops = NULL;
- 				}
-@@ -921,14 +927,14 @@ static int cvm_oct_probe(struct platform_device *pdev)
- 			if (!dev->netdev_ops) {
- 				free_netdev(dev);
- 			} else if (register_netdev(dev) < 0) {
--				netdev_err(dev, "Failed to register ethernet device for interface %d, port %d\n",
-+				netdev_err(dev,
-+					   "Failed to register ethernet device for interface %d, port %d\n",
- 					   interface, priv->port);
- 				free_netdev(dev);
- 			} else {
- 				cvm_oct_device[priv->port] = dev;
--				fau -=
--				    cvmx_pko_get_num_queues(priv->port) *
--				    sizeof(u32);
-+				fau -= cvmx_pko_get_num_queues(priv->port) *
-+				       sizeof(u32);
- 				schedule_delayed_work(&priv->port_periodic_work,
- 						      HZ);
- 			}
-@@ -1003,8 +1009,8 @@ static void cvm_oct_remove(struct platform_device *pdev)
- 	cvmx_ipd_free_ptr();
- 
- 	/* Free the HW pools */
--	cvm_oct_mem_empty_fpa(pdev, CVMX_FPA_PACKET_POOL, CVMX_FPA_PACKET_POOL_SIZE,
--			      num_packet_buffers);
-+	cvm_oct_mem_empty_fpa(pdev, CVMX_FPA_PACKET_POOL,
-+			      CVMX_FPA_PACKET_POOL_SIZE, num_packet_buffers);
- 	cvm_oct_mem_empty_fpa(pdev, CVMX_FPA_WQE_POOL, CVMX_FPA_WQE_POOL_SIZE,
- 			      num_packet_buffers);
- 	if (CVMX_FPA_OUTPUT_BUFFER_POOL != CVMX_FPA_PACKET_POOL)
 -- 
 2.55.0
 
