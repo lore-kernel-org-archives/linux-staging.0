@@ -1,131 +1,109 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C09A47FAE0
-	for <linux-staging@lists.linux.dev>; Fri, 21 Aug 2026 11:35:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C72163C09E9
+	for <linux-staging@lists.linux.dev>; Fri, 21 Aug 2026 11:53:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787312156; cv=none; b=jsw9hiEJ70XN5SYRmTZ1Lnkj9WxFgftfs59OVEFCklovF/skhHcbRjs+sssXGKFje/K3NYP54tuW/XYaft81FcxKEjj0wGSEJ8E5uRF0eYT0L3VpwQTJ4zQEjp9IjAbSU1XRHfC/qHoMiOdGvo/kYf/EJflrKK1FVt3T5KyZMdM=
+	t=1787313203; cv=none; b=t44pA7QqCO0WBG1F4AfHl7gV8F5rd/H7lZsx+pCN/S45F4BpGTFSXeGsmdKh4SddnYt7fNDw35Ym2PDV+m45xvZi/InVXYYkEbSL/XjMzj06y1uVYi0yYw2RTuLZtq3Q5/7Aq1PiW5XV3XwZuNFqNX0NG2wdSEJJaXzowhuW1+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787312156; c=relaxed/simple;
-	bh=f4b6Z14LwAUVlBtVHyCQvaZ0gVyjp7iu6GQO8lPI2Rc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nJ3XEe2429cp+6bt1MbTVF/oBCMF2xBv3KEWWF0WZmGCy2CqfxOd8zi/JAlo0iP2w+hdsToINEUarDnNhZ/Yu5ShtcGVxhPyxNRSg6P3wMm4mwBsiDGXMZVy/1PLVqvSn9yhLRjl7kLKRR1H+xAwf9rPLvReTS00uD+2pQfd5+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YgKD68fn; arc=none smtp.client-ip=209.85.214.179
+	s=arc-20240116; t=1787313203; c=relaxed/simple;
+	bh=twJtsqkg53bpD4bVrRNiLIZX920vdyn30TopGVNGaE8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wc+Ge18ZghvZZQgQ+R9UoynVbzbLEBPom0EuISVaeS5w6FxO9VK/vEzYLlrKDAJ0sX2CYEpF3hRZJcchVM0wvBenGPpzsWAxBCveDUQSNBGCPVK4z1bLWYbkjTZUwnuzZKP71OIsO16yxIjuy1iHuIc9NGIGkpwZB4swbhw9SDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=URSmG8aR; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YgKD68fn"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2cfbbdfa60bso6868005ad.3
-        for <linux-staging@lists.linux.dev>; Fri, 21 Aug 2026 04:35:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="URSmG8aR"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-495437bb891so4577455e9.1
+        for <linux-staging@lists.linux.dev>; Fri, 21 Aug 2026 04:53:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787312154; x=1787916954; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=NrMxw7QdyXXxUtL5k1Ui0hoJIKBHXT1pSk1NNI967cw=;
-        b=YgKD68fnmHZFUaPOgCZIQqrH7uaig6GnFiDtL/gkbDwHuW3sRKBFSb4Sb51gblXq3f
-         eG0Knj1yuJvfiiLnoL3hHBMi0zetfdYc9N2J933xWmDAtHL3OIU6zBi0feAfU0IMvWgq
-         N6lzZbomDp8QHGtk1lMBLXd4zJ1gh3RMLaYS+lt3Y9jXki1x7aLvduh+2OWE36lySgvX
-         4ulyryjJXTCnXLFqG59HhCL1y7tv+1K8M/YHi+9jiTcOOQG/Yvfn8MN61YdRS4/HChkc
-         kwtbWWxdzwIxMuhYCsKGoIawOQsjeIcd0DHtDrgtGm8IeVgQJyQbp1zuLk21DEqJcy1w
-         VORw==
+        d=gmail.com; s=20251104; t=1787313198; x=1787917998; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=vEGJVYFUVUAeETEsjFVbgJcz6cD970D0BMiWavG2Bfs=;
+        b=URSmG8aRukYHOq/ZY2xgOJhE7qhhXJe8PAIizWbxK7vgl4pZLz5cjxh4ZjSQiGrloP
+         8dKtSJO1RZLh+NwB7wsAclBTl/YfYthTn0wzwr4O+etpOkoarz/xqApEtgY+xvQdQVnd
+         vmrpx1lhSPSMVXNphy6e9/tF5fr+DKvsI9n8Kqcf3QtySnBTud5z0AAhqR+WS6q37wc2
+         mLGG0eZVIL9eN67fnbenr3T+XV5LK3T3wmJMPQp+PY0u0mWf/rRADbPFLq9773tlH3Xg
+         r/Ee9VyR8afV3MbZ+sSjcyqeLVKpWL4DExOksZVRgYF7eT9Qj6QEGXTLYrR/L/pVyXjn
+         UpCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787312154; x=1787916954;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=NrMxw7QdyXXxUtL5k1Ui0hoJIKBHXT1pSk1NNI967cw=;
-        b=paldeqetVFMOaPc0+cKthDJNEYWZvKNpiGkprFu2V8HJY7OZYcretT938c4cCnGZS4
-         gRdadUVVcieHlihW8y6iQpv+z2Df6Qkaan0z6qKLqCWTuTdRYIxU/lYuvSqPOFvOBH9t
-         tq/tYv8YJ0edb9GAr6u16VxWoNOYksawg7ST7S4xokR/GWZYdjptwz4/LQYSI+7BepAP
-         3b45tk97rjM+adT1n0siOAbZPoY4R10z6Wb1jc5bFf/yk4xBuSs/jtDUP+s2LIg2uORS
-         I5BeZOBz73lvbGp8tNuMIDyMwOG/jAZwV3DtCVpuXCXs4rbpifqVfuI8KI97LQcH2oxB
-         B/Ug==
-X-Forwarded-Encrypted: i=1; AHgh+Rq4NdRYXYHJynV9Qj5fm3Uo4gVhB2Fr00G9st7+Ew2SOBqRrM41JTJw+ftHWy9c/qsSeRF5rfMgOjaYrKLo@lists.linux.dev
-X-Gm-Message-State: AFuF++lbPaF1Of8vnMJlQXsqUxNMZpA+zYGNSwXotT8Vs1uJKxZQG71l
-	XiduHP0hK/FOtBw8EZrqusfqOv/WMI5pZn0cCMAieS19iOvrgfN7bjWi
-X-Gm-Gg: AR+sD13HMZ5pvNwusslKiHI6yTHGDU+W15fw9Js7+C7s8O7Dhv/m0uo0ie2kNv38QT2
-	J3t6uiloBvbFiDfjL5mzGlnEdOcjpR62M5iKZalNJuOukzm3+Ly9ZK/3eU4sQkVNbMxFA8u6IjG
-	Q5/eRPC07l34hc7E8+aLFDJBE/gvJME+MJwy5ad45Z0/472v1gzfjk4GnYx8le0nxyOqmaNg71d
-	wxgK9Q1p977GnBwQgGBm+vkmBhcdITzPGsJN2furZub+zCpinIGHAVq31mLdm3FJkD8zndsk+oJ
-	Gt/903YybkOaIQ7ehKIGswIOW37b48pLYd6zHoWTqkQovG2x/nvz825M8J4tuLvYJa+EAnhQaWw
-	x+vPjg5OxKXnFTxIAxHkCztgeL1n7bRG5KFOSInQi2FP3EfRQKIvaqKLk8YNzSasx01HTvsM7Z9
-	uarJlvcz33qXTNbDPG5WC5WqXFg14kKM8cGg6MIcmrnnD/j3uHXOA0Tn3ez3KGAvssVjiUQcCbO
-	UnpOgDI6XoQ8xOd9icapDfpFdsWuNan7+bnso1Xg+mJ9MkDm2rg
-X-Received: by 2002:a17:902:f70e:b0:2cf:afa5:b19a with SMTP id d9443c01a7336-2d64afd7c86mr121829745ad.11.1787312154155;
-        Fri, 21 Aug 2026 04:35:54 -0700 (PDT)
-Received: from hanzj-mi.. (ec2-99-79-140-187.ca-central-1.compute.amazonaws.com. [99.79.140.187])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d62d5ae489sm18261655ad.33.2026.08.21.04.35.47
+        d=1e100.net; s=20251104; t=1787313198; x=1787917998;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=vEGJVYFUVUAeETEsjFVbgJcz6cD970D0BMiWavG2Bfs=;
+        b=CB5DD+3Fus4EDP+D3qhBpdOncjstAxb34+J1ismJ0fJ6RoaPIzQKyO95dKpYzFw6m2
+         aQd2vcGGgtbf1HK0JZS8BgdUdf2ofhsmqh4J7lWZA8sEmbewWsbm5fHldxW55Z/Fz7UJ
+         RUdNHPMIvef2WX/0CfiwuUgEHiK2aM1aNK05ZBDVjhEHB61yWFR5BPeaO8SDPs3lufkM
+         6rcKCzPUKH03cGj1wFmjR6OrFIQhCnPlu/XLPn5l1oqjOsG809zOXmVO4Nurld8YJaTj
+         ak30WFYkoRbT8RsJOyEz5lkTb6XCdU3G3EsvUMwBaZ40iHWscmeCypfsbsW16YDVH2RC
+         tBxQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rr07w/qib2EYSEwk9bBGo2iNStbAQcp0eUUUMv9Iwxul4SPt1icRHC4XcI8H75nHBX1FOT/Rs7XVW9nrweM@lists.linux.dev
+X-Gm-Message-State: AOJu0YxmkQV+v+/RBrULox0w9osWmbEJLTs+x1aj6L2NF3k4qjvzRUhl
+	fuxzuUZACVfvxCfG29BFqgG5Dt3dQJ9ActK4TOw07XYaHFyoIVxRAFxT
+X-Gm-Gg: AR+sD10Hb8+MfaNEISQu6skHA4rjR4ZfTdS5Mhkjk4jRI5EOaAi/R0SXBK6tJYTAS4T
+	In8LXiBLTFa+QfN6/6BtV8yuhJCe2cLM7jtEx1gBkWwokdN6VY8jDE6igkKSlZopTh4pYgUVK33
+	wSZRx0DtLmL5+02i1agPeAmq5SnHgK7k5c9e6Y/kxKr/2FLwFUk1rrCXtBegrk7p4ffsxsoWKDj
+	7j0k0lpO991rHR6odZbRDL7G0tSPKYBzeWs66Fv+R89hPfJe+iF/tcYklCMc5lMCd/XQbmayRu1
+	tVze/kiN+ST7Wsfapba5meA1POMLVsATkZAjTXpNVumnUa07pvEn9HoKaqtHi6rOrLrofKmKC5k
+	OHGSs/KTQ5Z6IcDlXmLfRAEiZlB3gss99+9tfCsRSO0r9AtjmAoPjLpBC93It05Z4xdqlb4DHjp
+	xBLE3nlBwOh5ngvtj1WiJvlAnWYg37HE0/G3/Xkz1EPTuFCXbndCQyyccE
+X-Received: by 2002:a05:600c:1912:b0:499:8d9b:832c with SMTP id 5b1f17b1804b1-499b9182141mr49688785e9.4.1787313197554;
+        Fri, 21 Aug 2026 04:53:17 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499b9b81602sm16565645e9.3.2026.08.21.04.53.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Aug 2026 04:35:53 -0700 (PDT)
-From: hanzhijian <hanzhijian1991@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Viresh Kumar <vireshk@kernel.org>,
-	Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	hanzhijian <hanzhijian1991@gmail.com>
-Subject: [PATCH] staging: greybus: bootrom: fix potential NULL dereference
-Date: Fri, 21 Aug 2026 19:35:40 +0800
-Message-ID: <20260821113540.1989561-1-hanzhijian1991@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Fri, 21 Aug 2026 04:53:16 -0700 (PDT)
+Date: Fri, 21 Aug 2026 14:53:13 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: hanzhijian <hanzhijian1991@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>, greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: greybus: bootrom: fix potential NULL dereference
+Message-ID: <aog8KROHA18VIZtm@stanley.mountain>
+References: <20260821113540.1989561-1-hanzhijian1991@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260821113540.1989561-1-hanzhijian1991@gmail.com>
 
-In gb_bootrom_get_firmware(), the queue_work label dereferences fw->size
-on a path where fw may have been set to NULL via the "if (!fw) goto
-unlock" path.  This is currently masked at runtime by the !ret
-short-circuit (ret is non-zero on every path where fw can be NULL), but
-it relies on an implicit invariant that is fragile and hard to follow.
+You're using the word "potential" but the commit message correctly
+explains why a NULL dereference is impossible.  Don't say potentially
+for things which are impossible.
 
-Move the next_request calculation into the mutex-protected region where
-fw is known to be non-NULL, and initialize next_request to
-NEXT_REQ_GET_FIRMWARE so the queue_work label no longer dereferences fw.
+On Fri, Aug 21, 2026 at 07:35:40PM +0800, hanzhijian wrote:
+> In gb_bootrom_get_firmware(), the queue_work label dereferences fw->size
+> on a path where fw may have been set to NULL via the "if (!fw) goto
+> unlock" path.  This is currently masked at runtime by the !ret
+> short-circuit (ret is non-zero on every path where fw can be NULL), but
+> it relies on an implicit invariant that is fragile and hard to follow.
 
-Signed-off-by: hanzhijian <hanzhijian1991@gmail.com>
----
- drivers/staging/greybus/bootrom.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+A lot of people would argue that the original code is easy to follow.  In
+your code, to see what is passed on error you have to scroll all the way
+to the top of the function to see the "next_request =
+NEXT_REQ_GET_FIRMWARE;" assignment.  In the existing code, it's clear,
+this is what we pass on error, this is what we pass on success.
 
-diff --git a/drivers/staging/greybus/bootrom.c b/drivers/staging/greybus/bootrom.c
-index 83921d90c..289c9e957 100644
---- a/drivers/staging/greybus/bootrom.c
-+++ b/drivers/staging/greybus/bootrom.c
-@@ -245,7 +245,7 @@ static int gb_bootrom_get_firmware(struct gb_operation *op)
- 	struct gb_bootrom_get_firmware_request *firmware_request;
- 	struct device *dev = &op->connection->bundle->dev;
- 	unsigned int offset, size;
--	enum next_request_type next_request;
-+	enum next_request_type next_request = NEXT_REQ_GET_FIRMWARE;
- 	u8 *firmware_response;
- 	int ret = 0;
- 
-@@ -293,16 +293,14 @@ static int gb_bootrom_get_firmware(struct gb_operation *op)
- 	dev_dbg(dev, "responding with firmware (offs = %u, size = %u)\n",
- 		offset, size);
- 
-+	if (offset + size == fw->size)
-+		next_request = NEXT_REQ_READY_TO_BOOT;
-+
- unlock:
- 	mutex_unlock(&bootrom->mutex);
- 
- queue_work:
- 	/* Refresh timeout */
--	if (!ret && (offset + size == fw->size))
--		next_request = NEXT_REQ_READY_TO_BOOT;
--	else
--		next_request = NEXT_REQ_GET_FIRMWARE;
--
- 	gb_bootrom_set_timeout(bootrom, next_request, NEXT_REQ_TIMEOUT_MS);
- 
- 	return ret;
--- 
-2.43.0
+It's not really fragile either.  If we screwed up and forgot to set the
+error code or something then Smatch would warn about that.
+
+drivers/staging/greybus/bootrom.c:300 gb_bootrom_get_firmware() error: we previously assumed 'fw' could be null (see line 266)
+
+Or on the earlier paths, we would get an uninitialized variable
+warning.
+
+regards,
+dan carpenter
 
