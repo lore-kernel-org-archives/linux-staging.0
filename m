@@ -1,60 +1,60 @@
 Received: from sonic.asd.mail.yahoo.com (sonic-euwe1-0017.asd.mail.yahoo.com [34.2.82.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA3712F8E98
-	for <linux-staging@lists.linux.dev>; Sun, 23 Aug 2026 10:18:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0F65274B39
+	for <linux-staging@lists.linux.dev>; Sun, 23 Aug 2026 15:01:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.2.82.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787480318; cv=none; b=GLONZsc9et6f693bkRYa0s9xdyVOYHsPFMpAVNIH+hZR0C6LFJDUuWrWBy1GJGjmo0HCJVxIcmixDBoL1/20BHBBgZLiUQxK8bFZ8gImOby2FGhOmmW9OwsbA8Z1rXs4wTsh+cKzr8HUtAmfFCy/cu5B5A3EkcQCXdi0pCSosLg=
+	t=1787497271; cv=none; b=mMM7PW1/YA0LcwDJQES9ixgXmugo0XXBTmpE/1uQgdgVg+IZkntw2nOy0hj/o/JyTqEfHXoRnNWKkP4oDWfloIeEBjhlE/6UgAnLlzqJMqnIYMML6I+QIEk/UMWuqgyEdUkwUS8BV4Y+j2tTe7ddpK9g7hT7urEeHRGjfHxqZtA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787480318; c=relaxed/simple;
-	bh=g276pUyqZAjECU33DAGrzwCd6z0lbj4xBFUxYuKx2iw=;
+	s=arc-20240116; t=1787497271; c=relaxed/simple;
+	bh=YwEYvpebI/1WIIKKjcjIoFVYKep+fz5A/xPQ2iQqK/M=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc:
-	 References; b=hbloQzALWzoKCfCvCyHsYxelgWg5j6NJ22ypom4FKaCz6Om/aa0ujDAC806KcubINT8JNRNrIXMktx0Q85voyiVNiJWxMc+quMF4ncrxblMllP31dCq7Mkw9+K7HfXVk6gWYvn3XhDzbVVmA79tUZzMNEFAQTuj0GfJRDqYuil0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=CckAAgi7; arc=none smtp.client-ip=34.2.82.16
+	 References; b=qxpVNmjk5CM6UT2iI3DE/VJ+Rcxo1n4z6ejj1oddzC/7TzdISCpy9JnAWrpx9kT2BBoFLzI1Pbf8kN2+XhuHgVD0N7Xh7DMAq01yghgHLdsthVcQoGSwYwPhogQ2G3MuriUSmyfeYVeSUy2bCItDzedvvIknq8ZVLNPJRHnHJuw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=LDwRkfpY; arc=none smtp.client-ip=34.2.82.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="CckAAgi7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1787480315; bh=awD/8u/OEK36pIMmelPOEXf66nP9cTIx6cTh7X87uKI=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=CckAAgi7xPdGEXqfNGDiLfrmgvGy1g3pS+NpE1vBIVlrEaNcHd3QqMfXWZhCgqbzltSSSbMQlpta8k0KiHcyDnN8orRmEqyRIx5rb+qOfRNMXJOpepOIZRj633zWRQP68hLWbE/aRF9uQehCXaB/xtZKfBstMgfwHlVeLOzw2jerUKakhCisuCg6aoN3t+5F7yrJYqROsR45yiF0GdDh1nkOqchlWBrorasPvCR3Ir0kdP0oYVpWWnov+Sv5ALs3cbgulXrKmujEC22I35FN2wtuWRgj9M8lVCVcfCV1xawL+MSH8IJKIiIfKcCHRGxkkW9r0LkGNpemgo7yzuM1rw==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1787480315; bh=kHUfeofvhSiN+CKu4zEKd+83/T9v8zr6SCkVRflwHva=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=lNWy1szpAEZ2zV8SuZYAOjlIYkHxjKm3ly8Si+O4e0I+9z7YhggsODkxu0u1JEg6x8dua6wkrfMgP8/SuLg4epoIda++bw35Es2gMpRtSdhLx3heS6mLi3stOW6k1ctzUBFEJCbPoIVZ6fYBCtA9JgwMXC2G8LFlz8y8wmoegGbHuhhrF+nwsPTjc35hdIrdD0v2RyItkC7MT9zlFho3OOPesLJeNhNy9JDUzEgYozynWYptBUsXEtZBtN6ExgBG0NdYL2HO+uKd8Pj1lSIp+iz9G/8Ap5vpvb8TY3/nif5b/Jih+XjhDJU8MLE2i3HnlB7iCqnSa1a6aAu7xZ1+oA==
-X-YMail-OSG: UdDxVSgVM1m66LbSF6z0e1UavVsMdmOXWASCCj2zgPfnB93dNJ5dU09fLSsDdYP
- BJ4yYJKT7jjuRCaoteRmOXnuZsnebr7Cbn_r_oH_p7ce22lXosJVIQushBI21LsvVCZVfLtQ5EJV
- Ke.f99_2.OGNNOezZteQsnno_rd_HhkBaRGPxpqUNB3vOY9J28qGwAGqLZ.8ayp5kd5MV0v7GjE_
- XBxddgnymjLvvPXyEpZMn55_TwJFQZ.BHShGBjiaOP4TlV6oVktkAVh_jn7QMmhoI990m1InIUFk
- cDkvxCP1P0QHfEkfL6dRZcBPFD9NgaBtALhLYO2uEpcT3hYe4w5y7CvpT7bAKNcmyfOTgVTXn20t
- lrZz13n6J7YVrAc14uxTY_ESR4f.Ar2N..7P69Rk_7UKq8CYafhUXj7Hbcdz3gDknaHOzq0pjBPZ
- ggo4z_CcgdvwaO_5bV0Vhgryqmoatc2QChzXI_SeiuxTVXW9RSEBLgWztj3pP7nFGCNjlphX62KI
- Wkyc348Htcg0qJvPIwpflAFAMqM_OuB7_R6jpowrQo0BXX6wBgc0.PzNQ_U7sa3m6eahgJTrigvC
- i9jnVVgOoL6cAjV1qDGFqaxo6_to2I1PyTBLv2TMeDIoSreXMGdY4ibu4rPsUVioi1suO5Ck_4Jg
- ZGSGIFX7AlluaucDu7sDc_h17128N3NLrQmLlN8oOuF0s0Fzb.LPNjjo_JiY780e8NinzHpM1eoq
- 3JyefvZxLm00ywsacAzfQ2ovKBn.RZ.8L9q2LZauF6xrs9o0LUTp7R4hoddK7VSbx.mV0_JUr6wO
- DYwFRezgO5vwPNJuTTgry1Zzze3uL2J92Z5spJtddlc7Zxd7Y2to_51tBK7jgM3GnhapFuu7T0XI
- Tmwm7SC_Qrt0ApEuT.Nf5W4JHUArAr9n5L9olAzGVr_Y44Hj1TKj2VGm_blYcFslTRkdivRNhj_z
- aKJrxS53tDZGbzb..y73DCHiAWe0MHCwl1i0rGkEiRXXN1DnkVqHCW6zKh8582CpGpltMgrlQKrs
- UsauFxSXMJrI81eKeMMYOWzoNi1sTdsaZ4ENdCvEAtYOnf9S77r8na2k0SXVq3NQ1pZWmn4cIjuC
- WIeCn.8GKyJzablj_PT3QiyKTw6M4xKgGZy5YWuQOjT63c2OBkV_V7RnNY37UyTZQ2Lyq7L0.Tg6
- wd5E6HS26PVggUh6Bb_LqMqCGS.k9WWqG900aCj9nzkSHoi4M538zz5yLM4WuqZIZBV.Z9dy3Zdj
- MIUal761MaoP8_JqYLthn6BcTpoKNW_Pv3WA2FgiZ.5yrGWO6dffTbO8ZsHDQPEur7zEHBfMP5yW
- Sa1kJtndvQIchvFo2IKHmerWTRwg5nTjo2rDyXHz2mKP4kIBzHfjTZ0d7aHbm2cT_ONsmihBEtb_
- mwfUi8L4XX082D7wUkziTUFK.KA9Msb1s7phf6VMiGr1.nKJQyuy9N8YyQrgD6u9P_V6KSJ2bKwB
- hQbw5l2zlnT1k8voYQjodKHnKLm_rinAQplrOuqJj36hro2Lz_6IHaKNqQSxWbwLrT9Xqu2KL1TL
- 6MkiT8pOHur1kFq_X4CCIz9D8iM3PNC.dkNeRf0eSSeixg3SlRvze.22RiAXvMHCJr.Wr6vl8BuZ
- _DGexugVXjhEelTBstZfpbY6rL9g0jGskNmfjTffmxamjpr8lzjxbnuFp5LYSkh5Ud7MfNZUgj4I
- 9RGUa0hwy2LjfHU0qRVmS3pId_cVtF88U6bxT1DRJATX3TxwFjDJawZPsq7nYlabmxk2HMmDCUWu
- Erhn2VeWLDf7Kq7Ym.zcP7WZsehlTmNEzoO6JNi1sLewZcna0IZGRE8kHa.Aod4zY8ZjsYp..dF4
- 2zKQHJyQZt5WB01qrVAMf16dSWcIFn99aNuDgJlDdGxu8QpJgMmVsHVo.t5n9eF3BynVWtSn.Nez
- bAPsYfuejVXHlPDyLweD7zHqdQy6AkAhaLBBpyQgpFZsrHlj8rXIbTFVJl4aZe_T8KFg2zO.vSjn
- DVY4nY_yyfvgJHG0k51wOGRow9fuweJq5
+	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="LDwRkfpY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1787497267; bh=pxmn7zPtl6Fo+g1JipPiUPK2Jnhj7sB72FmzABEcSDI=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=LDwRkfpY+1jEHD4XeypYXrNnVhEYFLh8o08GivtP5bx0IPTBbLXfFkbXYUmy/JJHuSVJbXe25wUCL8MVxQoYV043SIMoidX0EJoXAgUF5RIhDKDEs0K7TLf3Pa7QSOn0ad9Z63CMj8YfLquoK1Y4ye3m8KW3/jClPIs6Tu2fTBqDpJvSebTWTNenQzyjVEu5275YzjeYH4mryZ7sdlqbB+ZFdiTa1jq6T/DTe/g9BeRjkuKu5ZVuqHOiqcZPBZLG62Z9BU8Q0bMUt0UQTqL/5GitNzVAKrBbZakGXHHELH3SppTEGA5hiDMXpjNVZkj1q+n5h1O9iqAYeuZYXAhrbQ==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1787497267; bh=EKBABn9zV6y57CWG/+vuFKu9cP8IkMVvwu3Hw3vfBGQ=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=BE/RjSnIQIgPNwWdfmwZWriqC1JMLmsVp5RB1T8y18J8GrvYvWx3wUM0Ph8TESIzz/avRba735CQm3DNBLPbw9O2TQ+Qlt2ha/rLq0pyxamBrYRTlMb0f51lKuFdFT8bL3lYsmWzaMwmTKvXau1QssWOEWIH8aZ7d7cMtPJsL5pW4dm9+J2EYDqOWHwE/o+cDt+ZN32P8i2HxJsQiXhEPSowqiK+xnsgIkGsK2DGWyCX3zsOSiSCDX0C1epMIvgxcZiiJsVpXQJ/1yyuV4B6H/MkbUhcrT3DUR9Bm1bJTlzwFwsKQNuFM+PVJEaTcHW2AqpUXzi1pQIVcROpTLqp9w==
+X-YMail-OSG: 5DrUxnAVM1kchKrQnU_GDKjsaPYSNOHgGdbspcZf2cAi4imoMmBC8sB1Ao9VBeP
+ 0GigHNcvsCnKg2iKOrDvLu1LIkAt_X7F0HIU.BhidB2gMZtdx1GIhJGmvbX2HaLI6HejV7D7NXgk
+ 6BQCYtdFfC_eJ7V.jMdFefsCcx3vEG9GD.gklh_Zzx3ATdz.QdGXC4Ph1bkscxJmjc.UDeUikMu0
+ voREDn2l0flkY3NqN1GOLLqq1o_BN4tSkmJ6BKcDjpIPspylG3.5_PA.REz6JYXBIlrCa5aXotUQ
+ _RajgmYmMQdrbnuCP3CrA1jVHSKMpr4V23z9SKvleSe.YZpbYXpy608lqNdFEDNEKyYKR3_sMo0E
+ uI9qEb2Q4rUsqsuJcWxyZkrbDmRqCerEK6hkm8f33UmJXhZbjADKuXXx4AlVW7eRepCpJGfm_saW
+ TTy5FvMhZp5sLuuYEjnAML6PL7eixMCc.VSC0CwV9zimP3uJV68BG7Yw2uw.GuQuwMGeMDiUt7Bv
+ avZG0LDrSr_BhtsjjOnNRkGmiBLX4FBufJOw5lARqhLjW7fazAqfr0nCLIkCx3I_OM3VLvPoVN_X
+ pBzGQpIITuLOg9wrVERjIljnESd0K_ClIDoBvEeVFBZVRDXPWIRR4l_hPfoFA9XuUNefW0Qg0eiS
+ YjZaLMMwRN7x_ucKjSyf0_Z2YZo60QFAEHCAY8EYpX9N5K14.0ugPHzribi35BGqbbxLYfNgT7M7
+ 4P57Dz5vl5yuLzU4Tz5XHzm0sLPcvq2eaC75bcKvbz0GDSBhc5PtpjeyoomM_m5FJuccEWNjPoSe
+ ca1EuMd64o8vGNPOPhuDvAyR4_3Cr0loUGwLleajfAVY7KLw3NyQwleebkWrDZub43r8npJslqXi
+ iXHV970vea8iS.dwSd_st3WShh.VyvTjapZZTwlqcq2KXperotDTgdAtFnb9kM.lWmrIpAFlhqmJ
+ NvI00whk1nddCVm0HmIbykn5zgO6AAUKmpnQYvArGFDm8.G2G33ONq98V48.FYPH8h5snv4Q044N
+ SYs7in3zJHK8siXF5S.pu0ndGYXc4_byeNth5YV0ZOVtGx1GdhuwcCWKJeg4G.v5dbX3AX8rLCoR
+ 5e3RRKyJOOFQAUUZPFbuTVVNTYFMrijIe67Kg1WFmih2J9Xfvpmj6B.RJ68LUFGKWBVGQ2axtwKq
+ IvitypDeUNSKxMdPvYp8osKmIqe5XDrv8msBFEzen0vm.aHrNwrvW2x0FPV_L9VRHigzwC56fVNX
+ .GRgZ7zc0JAwPeAxMkBjusFaf28AHA2y_H2oRoVA1tXS7MjmhUC9nk7X3F8.fPSE3ZLAwAUBKZOk
+ kNKWypMMgWOl8Wx0GuqYx.vVT8A4IpEBEPvooI7qVQqB69rZmug3i4PqAJYbE8mqowOfY.QqNCh8
+ mRblNfZ9bnTMuAulwB6ZjTJc8MF_oWEnEwHKUqB1zzadSQjJ2sPMSUpqRVRPFNTk4rpSLv1d87Yx
+ hEJ4UUreZkkOd1MWD2hQxz5OmKEGhFZ5Q5YbOzg0YboP5Nn41ns1aBP0dP_y6amF_kh4DSsXPDXd
+ ZgvQp9p7MOAXJmmgTZRn02uMZYqQ2Xc7_Cakt1K7N50tduOzmuHnT9lKhcFvNv9BupVyn0REa9e4
+ ryWqROzxk.4xC8hPQmYxyFgZNDh1IJoEa8vv4h2AR6TxsfdtqyNWj2bbzXocQQJaEIurvarm8zqk
+ PRQ8NStuKM4.Hw_HIoPsh21yDfPdxcs_Sb70V.m0QBmn14MSbgWmpovARfKraMxDM_h34AfsINst
+ KM9TWwb1EZCI6TjxUGRhyCWx90m3zqtbDkGt9OqqDvNeiDG5vYzD7o_sU7FxgLsz9nlrr6sL_QpE
+ fPhd0lku3q46BDjRKRsL7Oncn004UYIR5EHmBL3f_WhIQwKB64iXYj0Iq.PMYHKXFaCn2HOXJYyM
+ oiU0uNJArvPdgVsIhndgrj9iAsPnqQ8q5eUm8M7WVGqg6zPsLWYDXQAse1r5Xs7RljzuO8ryvzNi
+ rcCxee4KuROc.4I9zGDLW2ieAcrweCKlK
 X-Sonic-MF: <tomasz.unger@yahoo.pl>
-X-Sonic-ID: c22a5d94-8396-4f64-9f4e-c4ea92700c6e
-Received: from sonic.gate.mail.ne1.yahoo.com by mail-asdoutdeli-p-cin-euwe1-prod-sonicconsumer-svc-102 with HTTP; Sun, 23 Aug 2026 10:18:35 +0000
-Received: from dip162.lsn.ir2.yahoo.com ([87.248.99.171])
-          by hello (SMTP) with SMTP ID 4cb6950c4cfda6384655f946b591cb65;
-          Sun, 23 Aug 2026 10:18:29 +0000 (UTC)
+X-Sonic-ID: bd8ae101-839c-467d-bc53-dd4b1dae51cc
+Received: from sonic.gate.mail.ne1.yahoo.com by mail-asdoutdeli-p-cin-euwe1-prod-sonicconsumer-svc-101 with HTTP; Sun, 23 Aug 2026 15:01:07 +0000
+Received: from dip199.lsn.ir2.yahoo.com ([87.248.99.208])
+          by hello (SMTP) with SMTP ID 1a42a50086db3c12e8fcd5319afbe518;
+          Sun, 23 Aug 2026 15:01:02 +0000 (UTC)
 From: Tomasz Unger <tomasz.unger@yahoo.pl>
-Date: Sun, 23 Aug 2026 12:18:28 +0200
-Subject: [PATCH] staging: media: ipu3: fix typo in comment
+Date: Sun, 23 Aug 2026 17:01:01 +0200
+Subject: [PATCH] staging: rtl8723bs: fix space before tab in odm.h comment
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -63,54 +63,50 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260823-b4-ipu3-mmu-typo-fix-v1-1-3e5589232b18@yahoo.pl>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXM3Q5EMBCG4VuROTYJra2fWxEHZQcjQdOq7Ebcu
- +Lw+ZLvPcCRZXJQRQdY2tnxugSkcQTdqJeBkL/BIBKhkkJIbDNk4yXOs8ftb1bs+YdafJTUZZ6
- rooRwNZbC/GTr5rXz7UTddrfgPC8Pqn3KeAAAAA==
-X-Change-ID: 20260823-b4-ipu3-mmu-typo-fix-a2563a977689
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Tianshu Qiu <tian.shu.qiu@intel.com>, linux-media@vger.kernel.org, 
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+Message-Id: <20260823-rtl8723bs-odm-space-before-tab-fix-v1-1-aa4a5b255a5b@yahoo.pl>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXNQQ6CMBCF4auQWTtJKQYar2JctGWqY5SSmWJMC
+ He34PJ7i/+toCRMCpdmBaEPK+epoj01EB9+uhPyWA3W2N4426GUlxtsFxTz+EadfSQMlLIQFh8
+ w8Rd7O6TYunROZKCGZqE6HyfX29+6hCfFspdh235Lz3KGhgAAAA==
+X-Change-ID: 20260823-rtl8723bs-odm-space-before-tab-fix-627fc18f4fe0
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
  Tomasz Unger <tomasz.unger@yahoo.pl>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1787480308; l=1098;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1787497262; l=958;
  i=tomasz.unger@yahoo.pl; s=20260311; h=from:subject:message-id;
- bh=g276pUyqZAjECU33DAGrzwCd6z0lbj4xBFUxYuKx2iw=;
- b=fFY9HMu4h6X2wyU2LtStRg313gPp6Q4RkFOgSCu0v91rk9jHsiUMl3AlUQ+oYcQ+VYQ4T5a56
- 9NqP67cpGPbBZvvYj1E/b2QkfrcIC/f0XPXc3YevQFH3hHewoioFCnz
+ bh=YwEYvpebI/1WIIKKjcjIoFVYKep+fz5A/xPQ2iQqK/M=;
+ b=bAgxE1IhB2je9elWR28HHUDlQbSY691u/8Pti7NSnYWHyDPDDYBrFbkEJZNMW1bW/M+uXOLMW
+ tvPc+hohbnYAPvQpq5CM/jUys18ZvGYXsdCbKyemIKY2lRq3i3wj36R
 X-Developer-Key: i=tomasz.unger@yahoo.pl; a=ed25519;
  pk=EPPsO91uz/0J2cTQ6ol+dgxYaieEc9dKSXWUb51n46c=
-References: <20260823-b4-ipu3-mmu-typo-fix-v1-1-3e5589232b18.ref@yahoo.pl>
+References: <20260823-rtl8723bs-odm-space-before-tab-fix-v1-1-aa4a5b255a5b.ref@yahoo.pl>
 
-Fix a spelling mistake in a comment: "singlely" should be "singly".
-Found using codespell.
+Remove a stray space before a tab in a comment.
 
 Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
 ---
-Verified with checkpatch.pl - no new warnings.
+Verified with checkpatch.pl - no new warnings introduced by this change.
 ---
- drivers/staging/media/ipu3/ipu3-mmu.c | 2 +-
+ drivers/staging/rtl8723bs/hal/odm.h | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/ipu3/ipu3-mmu.c b/drivers/staging/media/ipu3/ipu3-mmu.c
-index b196a5815903..4595e3749e7d 100644
---- a/drivers/staging/media/ipu3/ipu3-mmu.c
-+++ b/drivers/staging/media/ipu3/ipu3-mmu.c
-@@ -313,7 +313,7 @@ size_t imgu_mmu_map_sg(struct imgu_mmu_info *info, unsigned long iova,
- 		if (!IS_ALIGNED(s->offset, IPU3_PAGE_SIZE))
- 			goto out_err;
+diff --git a/drivers/staging/rtl8723bs/hal/odm.h b/drivers/staging/rtl8723bs/hal/odm.h
+index a20b48660e63..43d37e149492 100644
+--- a/drivers/staging/rtl8723bs/hal/odm.h
++++ b/drivers/staging/rtl8723bs/hal/odm.h
+@@ -379,7 +379,7 @@ enum { /* _ODM_Support_Ability_Definition */
+ 	ODM_RF_CALIBRATION		= BIT(26),
+ };
  
--		/* must be IPU3_PAGE_SIZE aligned to be mapped singlely */
-+		/* must be IPU3_PAGE_SIZE aligned to be mapped singly */
- 		if (i == nents - 1 && !IS_ALIGNED(s->length, IPU3_PAGE_SIZE))
- 			s_length = PAGE_ALIGN(s->length);
- 
+-/* 	ODM_CMNINFO_INTERFACE */
++/* ODM_CMNINFO_INTERFACE */
+ enum { /* tag_ODM_Support_Interface_Definition */
+ 	ODM_ITRF_SDIO	=	0x4,
+ 	ODM_ITRF_ALL	=	0x7,
 
 ---
 base-commit: c6eb4dc5964fdf4086b73b7f0f5dc0d595fb5cf3
-change-id: 20260823-b4-ipu3-mmu-typo-fix-a2563a977689
+change-id: 20260823-rtl8723bs-odm-space-before-tab-fix-627fc18f4fe0
 
 Best regards,
 --  
