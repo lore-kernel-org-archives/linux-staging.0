@@ -1,153 +1,118 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from sonic.asd.mail.yahoo.com (sonic-euwe1-0017.asd.mail.yahoo.com [34.2.82.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15B6423BD1D
-	for <linux-staging@lists.linux.dev>; Sun, 23 Aug 2026 01:14:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA3712F8E98
+	for <linux-staging@lists.linux.dev>; Sun, 23 Aug 2026 10:18:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.2.82.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787447699; cv=none; b=AvdZc8mYl2p55ZPRrqFf8+yyB0js/BaWOTw5aS5eBOPINb95r2LjQMzmjw8oMcAEdvDjZX3M9Jag5NANAobgF0sXxtJh25t9wXcyjE5RJA9Cp/sdY4eziqlPr7jXeu3Yi/ZUU9bLyUxTaS2CXpiMS97NNwWITSeAkZTdwSnu7a0=
+	t=1787480318; cv=none; b=GLONZsc9et6f693bkRYa0s9xdyVOYHsPFMpAVNIH+hZR0C6LFJDUuWrWBy1GJGjmo0HCJVxIcmixDBoL1/20BHBBgZLiUQxK8bFZ8gImOby2FGhOmmW9OwsbA8Z1rXs4wTsh+cKzr8HUtAmfFCy/cu5B5A3EkcQCXdi0pCSosLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787447699; c=relaxed/simple;
-	bh=tT4yBBQ3etUBJphKDsvz9pg87jTHp1Qblxy/JC33qJc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SKcq67w3WEPLADaQhbNOtWVgH9HOoFzTciz1Tn8LjPXXwXg298tTkCzSr/idrx8V51YQDJCid/KjyUEB+Df/WgrgRBsf5SuVihcBOPDB85A18P1qLM+m9j8++pmmSP+HYPaQuWIvGqSZzmcAhEYDhskqQUeR+dnFTed0k4EzWsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AIEnZB7m; arc=none smtp.client-ip=209.85.210.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1787480318; c=relaxed/simple;
+	bh=g276pUyqZAjECU33DAGrzwCd6z0lbj4xBFUxYuKx2iw=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc:
+	 References; b=hbloQzALWzoKCfCvCyHsYxelgWg5j6NJ22ypom4FKaCz6Om/aa0ujDAC806KcubINT8JNRNrIXMktx0Q85voyiVNiJWxMc+quMF4ncrxblMllP31dCq7Mkw9+K7HfXVk6gWYvn3XhDzbVVmA79tUZzMNEFAQTuj0GfJRDqYuil0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=CckAAgi7; arc=none smtp.client-ip=34.2.82.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AIEnZB7m"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-84faf0fa17eso2316208b3a.2
-        for <linux-staging@lists.linux.dev>; Sat, 22 Aug 2026 18:14:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787447697; x=1788052497; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=icfwprUEUanikdJMBWuOf1YPxovprj8GA3Z2Thb9FHc=;
-        b=AIEnZB7mDjXqOhA/cwj6sIBfSjhzuinlhLFrQJo6iM4ZFLg1vnYFTRI3uPXoYZupVE
-         QuLuUtuf9DfyV8kAbYAg/gLumk2fBu94i3wkNjbVxhEIO0L7EsxOUUXdFgl7DLOGgaB0
-         +eCghlVe4igzfYAtCCeePngB223BS4TjiAtb0KlEyrrudZcThAZ38vTKuZ2Z5o8K+bba
-         pi4YSnXhVgPZMoOJP9L0NOSyu6MiWfuN3//SOH8CDxZJwV18RP92EMMjTg6ulkeqkkCC
-         /R8UZjQz7d3ERTbuSo6y00ZJRw1Cl15bTVAsyXYFU26C56QIpV638hUkSS+tnmk0wspI
-         egWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787447697; x=1788052497;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=icfwprUEUanikdJMBWuOf1YPxovprj8GA3Z2Thb9FHc=;
-        b=sFmlQohhlGL6evZ2kiPwNV427zkMgZOEf+NgCbZwXMxQLIMwZiEH6Bbpurmf2sJLmf
-         NJZ8HRxgHwQVNqgwj+oV1Hfc5HNZH2RBTVwdLDKeMo7hvRqQ4mzemC8dBeWEWP2cEH8C
-         ZC7cruqa9TXwVq5v0VXUuVawL1/WLmbWlRAoLImSu4nXb/u0+GfeCssQA/aV4YCYEFrp
-         Hxy7aM3SINrW/qYvTONBYyxySAPNBSFXxbswXS8wHYOdbxyTJa+okV/HCLunOQkXeOkg
-         xiIEdG6SY6x3ka69HEzfSlyjV/CdRRLM+k2MiZVLJh23mLfZyjLGd5fC70PYva7FBUYo
-         JKhA==
-X-Forwarded-Encrypted: i=1; AHgh+RppABECL1PVXlX1xsk5pPs7ysB1nIr+WEo85EEC1u1HKicm+EvKhxQWHWLoCoM12HDCd5Mk3qXb4P6QTQbO@lists.linux.dev
-X-Gm-Message-State: AFuF++kMAJ9h/ENr58ZN5U8EBAdwxDBR/mc259xvw2rdUEaGxxKngc6r
-	lkjsP0IGqCT3wEoU+NjvQVtof1ZDB3Zt0SrLN8ez8P9eYIkEag3corPz
-X-Gm-Gg: AR+sD11zdDV/AO/DpjxLCq6UBoZRv8P6FdMKPXHrj14jjlKXGjr1JwQnVjbxGSPu1Sv
-	sw5f5DOv5wUAxJbV/MEOy25Bu863XdkC3ItBcjWE79awBFUqB6uBxLcAaZ75LZXbdkeNwKxTKAu
-	o1+OyEx0+UQPU5lr/Xnb5e8TMBgfSd151/X1ABEv2gb7kE3kr7GAD+DCaz1iUG/ploPY58AiaF7
-	8Mx1l2jVeN8OlCbRpwHrA+ymd/J2iABY4roHL+F9Nw4dEAl069Jooc9CoIqX4qFvbJKO7oSgR08
-	qeXMHQMctRZ9uLo1PhybtHPyBUtp5F0MUxR5Tcm/qKKzMq8FCI+wXFY8iNow7d2R+kuDg0phwUk
-	N/Tmr4UeVSer9sa/kPErcvaxP/gsVRZQ9BoDgiK5C1G3ZhG/wP2Vo/+sOOMtOaDkkODD6vZjO5F
-	ENqKH3WGWtNIUzI7RLA6Anw6OO/XYZL/vpBauZ6TYjxZLQf9g7ixjmwrdy/rhlqCyTuXvORVvFG
-	sBq+7y7/JlqBkVc8VEw08XcOaGhjgy04j0LhuTH66VHAqrFdVPdlPc=
-X-Received: by 2002:a05:6a00:c488:b0:852:131f:b9d2 with SMTP id d2e1a72fcca58-852131fbcccmr8492487b3a.2.1787447697323;
-        Sat, 22 Aug 2026 18:14:57 -0700 (PDT)
-Received: from kosugisouta-ThinkPad-X13-Gen-6 ([2409:11:3cc0:3700:3766:31a2:df7a:f8f3])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8520ef09489sm918903b3a.15.2026.08.22.18.14.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Aug 2026 18:14:56 -0700 (PDT)
-From: Kosugi Souta <k.souta0926@gmail.com>
-To: Vaibhav Agarwal <vaibhav.sr@gmail.com>,
-	Mark Greer <mgreer@animalcreek.com>,
-	Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Kosugi Souta <k.souta0926@gmail.com>
-Subject: [PATCH] staging: greybus: audio_manager: add missing newlines in sysfs show
-Date: Sun, 23 Aug 2026 10:14:24 +0900
-Message-ID: <20260823011424.30697-1-k.souta0926@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="CckAAgi7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1787480315; bh=awD/8u/OEK36pIMmelPOEXf66nP9cTIx6cTh7X87uKI=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=CckAAgi7xPdGEXqfNGDiLfrmgvGy1g3pS+NpE1vBIVlrEaNcHd3QqMfXWZhCgqbzltSSSbMQlpta8k0KiHcyDnN8orRmEqyRIx5rb+qOfRNMXJOpepOIZRj633zWRQP68hLWbE/aRF9uQehCXaB/xtZKfBstMgfwHlVeLOzw2jerUKakhCisuCg6aoN3t+5F7yrJYqROsR45yiF0GdDh1nkOqchlWBrorasPvCR3Ir0kdP0oYVpWWnov+Sv5ALs3cbgulXrKmujEC22I35FN2wtuWRgj9M8lVCVcfCV1xawL+MSH8IJKIiIfKcCHRGxkkW9r0LkGNpemgo7yzuM1rw==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1787480315; bh=kHUfeofvhSiN+CKu4zEKd+83/T9v8zr6SCkVRflwHva=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=lNWy1szpAEZ2zV8SuZYAOjlIYkHxjKm3ly8Si+O4e0I+9z7YhggsODkxu0u1JEg6x8dua6wkrfMgP8/SuLg4epoIda++bw35Es2gMpRtSdhLx3heS6mLi3stOW6k1ctzUBFEJCbPoIVZ6fYBCtA9JgwMXC2G8LFlz8y8wmoegGbHuhhrF+nwsPTjc35hdIrdD0v2RyItkC7MT9zlFho3OOPesLJeNhNy9JDUzEgYozynWYptBUsXEtZBtN6ExgBG0NdYL2HO+uKd8Pj1lSIp+iz9G/8Ap5vpvb8TY3/nif5b/Jih+XjhDJU8MLE2i3HnlB7iCqnSa1a6aAu7xZ1+oA==
+X-YMail-OSG: UdDxVSgVM1m66LbSF6z0e1UavVsMdmOXWASCCj2zgPfnB93dNJ5dU09fLSsDdYP
+ BJ4yYJKT7jjuRCaoteRmOXnuZsnebr7Cbn_r_oH_p7ce22lXosJVIQushBI21LsvVCZVfLtQ5EJV
+ Ke.f99_2.OGNNOezZteQsnno_rd_HhkBaRGPxpqUNB3vOY9J28qGwAGqLZ.8ayp5kd5MV0v7GjE_
+ XBxddgnymjLvvPXyEpZMn55_TwJFQZ.BHShGBjiaOP4TlV6oVktkAVh_jn7QMmhoI990m1InIUFk
+ cDkvxCP1P0QHfEkfL6dRZcBPFD9NgaBtALhLYO2uEpcT3hYe4w5y7CvpT7bAKNcmyfOTgVTXn20t
+ lrZz13n6J7YVrAc14uxTY_ESR4f.Ar2N..7P69Rk_7UKq8CYafhUXj7Hbcdz3gDknaHOzq0pjBPZ
+ ggo4z_CcgdvwaO_5bV0Vhgryqmoatc2QChzXI_SeiuxTVXW9RSEBLgWztj3pP7nFGCNjlphX62KI
+ Wkyc348Htcg0qJvPIwpflAFAMqM_OuB7_R6jpowrQo0BXX6wBgc0.PzNQ_U7sa3m6eahgJTrigvC
+ i9jnVVgOoL6cAjV1qDGFqaxo6_to2I1PyTBLv2TMeDIoSreXMGdY4ibu4rPsUVioi1suO5Ck_4Jg
+ ZGSGIFX7AlluaucDu7sDc_h17128N3NLrQmLlN8oOuF0s0Fzb.LPNjjo_JiY780e8NinzHpM1eoq
+ 3JyefvZxLm00ywsacAzfQ2ovKBn.RZ.8L9q2LZauF6xrs9o0LUTp7R4hoddK7VSbx.mV0_JUr6wO
+ DYwFRezgO5vwPNJuTTgry1Zzze3uL2J92Z5spJtddlc7Zxd7Y2to_51tBK7jgM3GnhapFuu7T0XI
+ Tmwm7SC_Qrt0ApEuT.Nf5W4JHUArAr9n5L9olAzGVr_Y44Hj1TKj2VGm_blYcFslTRkdivRNhj_z
+ aKJrxS53tDZGbzb..y73DCHiAWe0MHCwl1i0rGkEiRXXN1DnkVqHCW6zKh8582CpGpltMgrlQKrs
+ UsauFxSXMJrI81eKeMMYOWzoNi1sTdsaZ4ENdCvEAtYOnf9S77r8na2k0SXVq3NQ1pZWmn4cIjuC
+ WIeCn.8GKyJzablj_PT3QiyKTw6M4xKgGZy5YWuQOjT63c2OBkV_V7RnNY37UyTZQ2Lyq7L0.Tg6
+ wd5E6HS26PVggUh6Bb_LqMqCGS.k9WWqG900aCj9nzkSHoi4M538zz5yLM4WuqZIZBV.Z9dy3Zdj
+ MIUal761MaoP8_JqYLthn6BcTpoKNW_Pv3WA2FgiZ.5yrGWO6dffTbO8ZsHDQPEur7zEHBfMP5yW
+ Sa1kJtndvQIchvFo2IKHmerWTRwg5nTjo2rDyXHz2mKP4kIBzHfjTZ0d7aHbm2cT_ONsmihBEtb_
+ mwfUi8L4XX082D7wUkziTUFK.KA9Msb1s7phf6VMiGr1.nKJQyuy9N8YyQrgD6u9P_V6KSJ2bKwB
+ hQbw5l2zlnT1k8voYQjodKHnKLm_rinAQplrOuqJj36hro2Lz_6IHaKNqQSxWbwLrT9Xqu2KL1TL
+ 6MkiT8pOHur1kFq_X4CCIz9D8iM3PNC.dkNeRf0eSSeixg3SlRvze.22RiAXvMHCJr.Wr6vl8BuZ
+ _DGexugVXjhEelTBstZfpbY6rL9g0jGskNmfjTffmxamjpr8lzjxbnuFp5LYSkh5Ud7MfNZUgj4I
+ 9RGUa0hwy2LjfHU0qRVmS3pId_cVtF88U6bxT1DRJATX3TxwFjDJawZPsq7nYlabmxk2HMmDCUWu
+ Erhn2VeWLDf7Kq7Ym.zcP7WZsehlTmNEzoO6JNi1sLewZcna0IZGRE8kHa.Aod4zY8ZjsYp..dF4
+ 2zKQHJyQZt5WB01qrVAMf16dSWcIFn99aNuDgJlDdGxu8QpJgMmVsHVo.t5n9eF3BynVWtSn.Nez
+ bAPsYfuejVXHlPDyLweD7zHqdQy6AkAhaLBBpyQgpFZsrHlj8rXIbTFVJl4aZe_T8KFg2zO.vSjn
+ DVY4nY_yyfvgJHG0k51wOGRow9fuweJq5
+X-Sonic-MF: <tomasz.unger@yahoo.pl>
+X-Sonic-ID: c22a5d94-8396-4f64-9f4e-c4ea92700c6e
+Received: from sonic.gate.mail.ne1.yahoo.com by mail-asdoutdeli-p-cin-euwe1-prod-sonicconsumer-svc-102 with HTTP; Sun, 23 Aug 2026 10:18:35 +0000
+Received: from dip162.lsn.ir2.yahoo.com ([87.248.99.171])
+          by hello (SMTP) with SMTP ID 4cb6950c4cfda6384655f946b591cb65;
+          Sun, 23 Aug 2026 10:18:29 +0000 (UTC)
+From: Tomasz Unger <tomasz.unger@yahoo.pl>
+Date: Sun, 23 Aug 2026 12:18:28 +0200
+Subject: [PATCH] staging: media: ipu3: fix typo in comment
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260823-b4-ipu3-mmu-typo-fix-v1-1-3e5589232b18@yahoo.pl>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXM3Q5EMBCG4VuROTYJra2fWxEHZQcjQdOq7Ebcu
+ +Lw+ZLvPcCRZXJQRQdY2tnxugSkcQTdqJeBkL/BIBKhkkJIbDNk4yXOs8ftb1bs+YdafJTUZZ6
+ rooRwNZbC/GTr5rXz7UTddrfgPC8Pqn3KeAAAAA==
+X-Change-ID: 20260823-b4-ipu3-mmu-typo-fix-a2563a977689
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Tianshu Qiu <tian.shu.qiu@intel.com>, linux-media@vger.kernel.org, 
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Tomasz Unger <tomasz.unger@yahoo.pl>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1787480308; l=1098;
+ i=tomasz.unger@yahoo.pl; s=20260311; h=from:subject:message-id;
+ bh=g276pUyqZAjECU33DAGrzwCd6z0lbj4xBFUxYuKx2iw=;
+ b=fFY9HMu4h6X2wyU2LtStRg313gPp6Q4RkFOgSCu0v91rk9jHsiUMl3AlUQ+oYcQ+VYQ4T5a56
+ 9NqP67cpGPbBZvvYj1E/b2QkfrcIC/f0XPXc3YevQFH3hHewoioFCnz
+X-Developer-Key: i=tomasz.unger@yahoo.pl; a=ed25519;
+ pk=EPPsO91uz/0J2cTQ6ol+dgxYaieEc9dKSXWUb51n46c=
+References: <20260823-b4-ipu3-mmu-typo-fix-v1-1-3e5589232b18.ref@yahoo.pl>
 
-sysfs show functions should terminate output with a trailing
-newline. Add the missing '\n' to the six show functions in
-audio_manager_module.c.
+Fix a spelling mistake in a comment: "singlely" should be "singly".
+Found using codespell.
 
-Compile tested only.
-
-Signed-off-by: Kosugi Souta <k.souta0926@gmail.com>
+Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
 ---
- drivers/staging/greybus/audio_manager_module.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+Verified with checkpatch.pl - no new warnings.
+---
+ drivers/staging/media/ipu3/ipu3-mmu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/greybus/audio_manager_module.c b/drivers/staging/greybus/audio_manager_module.c
-index dc90cc2d2308..5737f2a32f5a 100644
---- a/drivers/staging/greybus/audio_manager_module.c
-+++ b/drivers/staging/greybus/audio_manager_module.c
-@@ -75,7 +75,7 @@ static void gb_audio_module_release(struct kobject *kobj)
- static ssize_t gb_audio_module_name_show(struct gb_audio_manager_module *module,
- 					 struct gb_audio_manager_module_attribute *attr, char *buf)
- {
--	return sysfs_emit(buf, "%s", module->desc.name);
-+	return sysfs_emit(buf, "%s\n", module->desc.name);
- }
+diff --git a/drivers/staging/media/ipu3/ipu3-mmu.c b/drivers/staging/media/ipu3/ipu3-mmu.c
+index b196a5815903..4595e3749e7d 100644
+--- a/drivers/staging/media/ipu3/ipu3-mmu.c
++++ b/drivers/staging/media/ipu3/ipu3-mmu.c
+@@ -313,7 +313,7 @@ size_t imgu_mmu_map_sg(struct imgu_mmu_info *info, unsigned long iova,
+ 		if (!IS_ALIGNED(s->offset, IPU3_PAGE_SIZE))
+ 			goto out_err;
  
- static struct gb_audio_manager_module_attribute gb_audio_module_name_attribute =
-@@ -84,7 +84,7 @@ static struct gb_audio_manager_module_attribute gb_audio_module_name_attribute =
- static ssize_t gb_audio_module_vid_show(struct gb_audio_manager_module *module,
- 					struct gb_audio_manager_module_attribute *attr, char *buf)
- {
--	return sysfs_emit(buf, "%d", module->desc.vid);
-+	return sysfs_emit(buf, "%d\n", module->desc.vid);
- }
+-		/* must be IPU3_PAGE_SIZE aligned to be mapped singlely */
++		/* must be IPU3_PAGE_SIZE aligned to be mapped singly */
+ 		if (i == nents - 1 && !IS_ALIGNED(s->length, IPU3_PAGE_SIZE))
+ 			s_length = PAGE_ALIGN(s->length);
  
- static struct gb_audio_manager_module_attribute gb_audio_module_vid_attribute =
-@@ -93,7 +93,7 @@ static struct gb_audio_manager_module_attribute gb_audio_module_vid_attribute =
- static ssize_t gb_audio_module_pid_show(struct gb_audio_manager_module *module,
- 					struct gb_audio_manager_module_attribute *attr, char *buf)
- {
--	return sysfs_emit(buf, "%d", module->desc.pid);
-+	return sysfs_emit(buf, "%d\n", module->desc.pid);
- }
- 
- static struct gb_audio_manager_module_attribute gb_audio_module_pid_attribute =
-@@ -103,7 +103,7 @@ static ssize_t gb_audio_module_intf_id_show(struct gb_audio_manager_module *modu
- 					    struct gb_audio_manager_module_attribute *attr,
- 					    char *buf)
- {
--	return sysfs_emit(buf, "%d", module->desc.intf_id);
-+	return sysfs_emit(buf, "%d\n", module->desc.intf_id);
- }
- 
- static struct gb_audio_manager_module_attribute
-@@ -114,7 +114,7 @@ static ssize_t gb_audio_module_ip_devices_show(struct gb_audio_manager_module *m
- 					       struct gb_audio_manager_module_attribute *attr,
- 					       char *buf)
- {
--	return sysfs_emit(buf, "0x%X", module->desc.ip_devices);
-+	return sysfs_emit(buf, "0x%X\n", module->desc.ip_devices);
- }
- 
- static struct gb_audio_manager_module_attribute
-@@ -125,7 +125,7 @@ static ssize_t gb_audio_module_op_devices_show(struct gb_audio_manager_module *m
- 					       struct gb_audio_manager_module_attribute *attr,
- 					       char *buf)
- {
--	return sysfs_emit(buf, "0x%X", module->desc.op_devices);
-+	return sysfs_emit(buf, "0x%X\n", module->desc.op_devices);
- }
- 
- static struct gb_audio_manager_module_attribute
--- 
-2.53.0
+
+---
+base-commit: c6eb4dc5964fdf4086b73b7f0f5dc0d595fb5cf3
+change-id: 20260823-b4-ipu3-mmu-typo-fix-a2563a977689
+
+Best regards,
+--  
+Tomasz Unger <tomasz.unger@yahoo.pl>
 
