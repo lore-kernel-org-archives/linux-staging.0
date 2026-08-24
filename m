@@ -1,86 +1,89 @@
-Received: from mxd.seznam.cz (mxd.seznam.cz [77.75.76.210])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 930EF4302FC
-	for <linux-staging@lists.linux.dev>; Mon, 24 Aug 2026 14:05:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.75.76.210
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D52F738643B
+	for <linux-staging@lists.linux.dev>; Mon, 24 Aug 2026 20:24:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787580304; cv=none; b=ELc6R/sh3yjWuzZlxcOP+nJGCc75sdDz/BD9QO1mlFh5GGAYnImWJMX0uL9gKoK3VgMB6046CEpWL2h77CW76vkFihnoJls1X4dnPUqOMoZeb+WNQQpfLfAw6VPt5HVAqz7cNZGaizTl1+JSX9ECvmcekM59k61AUvROFs8yB0I=
+	t=1787603054; cv=none; b=EzpG7KYiwslhMdopxhhwfAd/FgJ71tyaXX9ZB5I+tniL3ETZrkWTHzhz1xz66p6l6/ggg3394kwLA8ZZKO9XZy1adXXUSEfTypjMZBbEC39FFpkwqz+DuvPW60SYrhw98Nzypsiqh2xKDvyv4ZLqo6HlmwLk+BQcxs+NloCEZZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787580304; c=relaxed/simple;
-	bh=i0CgCXqu33TmRa2bbFb1zGywoIksjg7kwqufczincbg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=oFyCecXzgRiY0O4AMTqRU2myHmNuo86qEwyeyolwfxww96X3N7q0OLghZF1LsLLtGNawZ4ZZcLslMEFUAx1ZQP9gC+ubBcmjVp+H+IfwWPM6eXDbgQfz+Iw+hSv4UTWBSFYRKw1hI03oJx6RG0PQAfCQCeEBOCj5ylY1wqDlwUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=post.cz; spf=pass smtp.mailfrom=post.cz; dkim=pass (2048-bit key) header.d=post.cz header.i=@post.cz header.b=N9az7CAU; arc=none smtp.client-ip=77.75.76.210
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=post.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=post.cz
+	s=arc-20240116; t=1787603054; c=relaxed/simple;
+	bh=fiSs8oR/D4/BitaupT5YHmHxn1SU7YiJrGwTZoQ2YCI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=I+G+lAq2kh9MQxdbKzftmrgn1+rQujR3vB17+qarAxIdrkbHmB50dzwzmz7g3xecrOvDtYp9fYQ2jZ0iBO1D6pjTxZ32cXfQjGroSZ1lUkiCJmIiyHm48ulgGynFa21Vpq5tj7iG3RFF19DSd1sTD/IJUr9/yU9ZzdITP0MtJPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WMo8OSdx; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=post.cz header.i=@post.cz header.b="N9az7CAU"
-Received: from email.seznam.cz
-	by smtpc-mxd-fc6854d64-wssh9
-	(smtpc-mxd-fc6854d64-wssh9 [2a02:598:96:8a00::1200:701])
-	id 5ed62db9fcf777e84dac20d6;
-	Mon, 24 Aug 2026 16:04:54 +0200 (CEST)
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed; d=post.cz; s=szn1;
-	t=1787580294; bh=8OatC7/MgoGyXPrU57uKzaVG6jKfmnzK5h4DJItZMsA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:
-	 Content-Transfer-Encoding;
-	b=N9az7CAU/Aj/hDeBzUFxg72pbY+ykQ7VA/ruRZ2+1VIT/7shwNkb2o82PrSQkCZbe
-	 f8koN0OYawcC5f/eSTE6zNnQC7jJ0mWhqsyZNhtjmr18jp8cKrJvhjuX3pFa6/PZJI
-	 A2wT/OmHUvX6ELtdXHYmALBBFTWwzbx6E72ouAYRN8KXpHvifjoZ08mIekoBKV9cpg
-	 KysP12vgjzYVmfUXxI+HTeISrxtQAwilTYTgY83VIl0ZH9yR4l1Uozz0XlyGjO4dgf
-	 In/8FIVeaKA9siWi1RiTbp+QFgUEZDd8BnmkUs9FTIG8muAUM1k5uHhChyI6tE9+mh
-	 IXZYivEchiDOw==
-Received: from raspberrypi.tailf05c2d.ts.net ([185.155.34.10])
-	by smtpd-relay-86c88674d5-sfjfn (szn-email-smtpd/2.0.80) with ESMTPA
-	id 527a0abf-1a69-4afe-b175-264f009bf8c1;
-	Mon, 24 Aug 2026 16:04:07 +0200
-From: Matthew Zvolsky <matthew-kernel@post.cz>
-To: gregkh@linuxfoundation.org
-Cc: hansg@kernel.org,
-	mchehab@kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-media@vger.kernel.org,
-	Matthew Zvolsky <matthew-kernel@post.cz>
-Subject: [PATCH v3] staging: media: atomisp: remove unnecessary void function return
-Date: Mon, 24 Aug 2026 16:03:58 +0200
-Message-Id: <20260824140358.22379-1-matthew-kernel@post.cz>
-X-Mailer: git-send-email 2.39.5
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WMo8OSdx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1787603053; x=1819139053;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fiSs8oR/D4/BitaupT5YHmHxn1SU7YiJrGwTZoQ2YCI=;
+  b=WMo8OSdx0IqoY4HHgo1k62PkKzD5KyzESI8X7GGthzGrqYBK+1QJ/UIQ
+   fA+JnOi/G7QmcKqoCj5BgR8kS6LsIVhsuG8FZQjuyx52UuZ2kBDiIe4P6
+   txH6XuOzRcexdZFm9Ff5wkqJCvWzCcdkHo2frTq0jsOIdc9xoScsex7RK
+   1U5yDmtJ4kjkBPEZc1AtvdGvlZDQENmLULCjyoh18nvqurOLGpXCKz91p
+   nnlqAMWZeQo+qu1qwRuIp3WvuCmmnTvMgGfET5Q3ACxhqi8ZzLIFs2O22
+   crcnsgpB18Vb9vta7q+6/t/rfVt1z3j6MG6oI6qyousHNHT4/LOWA+jle
+   g==;
+X-CSE-ConnectionGUID: 5fBQVdZbS1SNAQ+SDcX8Qw==
+X-CSE-MsgGUID: WSrzQaaoSO+IXfHpluy5Yw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11885"; a="87187997"
+X-IronPort-AV: E=Sophos;i="6.25,241,1779174000"; 
+   d="scan'208";a="87187997"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 13:24:12 -0700
+X-CSE-ConnectionGUID: SAuD+I38T5Win4cxeXdb4Q==
+X-CSE-MsgGUID: uK66tTaLSECWNb/QbHG+0Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,241,1779174000"; 
+   d="scan'208";a="291948245"
+Received: from ettammin-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.9])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 13:24:10 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 3C2FC11FC35;
+	Mon, 24 Aug 2026 23:24:21 +0300 (EEST)
+Date: Mon, 24 Aug 2026 23:24:21 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Tomasz Unger <tomasz.unger@yahoo.pl>
+Cc: Bingbu Cao <bingbu.cao@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: media: ipu7: fix typo in comment
+Message-ID: <aoyodTb0CsV5D1zt@kekkonen.localdomain>
+References: <20260822-ipu7-utlization-typo-fix-v1-1-d1e551420be5.ref@yahoo.pl>
+ <20260822-ipu7-utlization-typo-fix-v1-1-d1e551420be5@yahoo.pl>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260822-ipu7-utlization-typo-fix-v1-1-d1e551420be5@yahoo.pl>
 
-Remove an unneeded return statement at the end of a void function
-in atomisp_cmd.c. This cleans up the code and fixes a checkpatch.pl
-warning: "void function return statements are not generally useful".
+Hi Tomasz,
 
-Signed-off-by: Matthew Zvolsky <matthew-kernel@post.cz>
----
-Changes in v3:
-- No code changes, just resubmitting under v3 prefix to ensure proper delivery.
+On Sat, Aug 22, 2026 at 06:26:59PM +0200, Tomasz Unger wrote:
+> Fix a typo in a comment: "utlization" should be "utilization".
+> 
+> Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
+> ---
+> Verified with checkpatch.pl - no new warnings introduced by this change.
 
-Changes in v2:
-- Fixed author name and Signed-off-by identity to use real full name.
-- Removed duplicate Signed-off-by tags from previous local attempts.
+The patch is fine but we're about to remove this driver. Therefore I'm not
+applying it.
 
- drivers/staging/media/atomisp/pci/atomisp_cmd.c | 1 -
- 1 file changed, 1 deletion(-)
+Thanks.
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 6cd500d9fd26..81d0afae8041 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -1419,7 +1419,6 @@ static void atomisp_update_grid_info(struct atomisp_sub_device *asd,
- 
- err:
- 	atomisp_css_free_stat_buffers(asd);
--	return;
- }
- 
- static void atomisp_curr_user_grid_info(struct atomisp_sub_device *asd,
 -- 
-2.39.5
+Kind regards,
 
+Sakari Ailus
