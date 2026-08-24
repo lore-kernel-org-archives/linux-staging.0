@@ -1,99 +1,79 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mxd.seznam.cz (mxd.seznam.cz [77.75.76.210])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 318583EC836
-	for <linux-staging@lists.linux.dev>; Mon, 24 Aug 2026 08:59:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A11FA429CCE
+	for <linux-staging@lists.linux.dev>; Mon, 24 Aug 2026 13:46:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.75.76.210
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787561982; cv=none; b=aeb01dVg1qoSeh/TOMyaGIHnf2J1QT4dFP/7c4O3srRpvS2penTIi3X/tJHA/qbmG8e48JqyubsAaHXq1TS3K6oYiuNqwRHk2V2HAFNyQKVzAL3NZ0wUyf1EUV0a4fFjsM86r4Ty/sjiPJ+F+V6dTYOGFtY33RpvhlR+lVAnWAU=
+	t=1787579168; cv=none; b=c8pJk9aYG52168I/pjJyNN970jHhwgzFZMUau1Bm1Ec2EBf5PTz9SldUBDju0Tvzf40qgx1BerLpMHIeizPW44dkM2fGT2kNbLxBKzz+C1adxn6zKjAnEKDYJuEuKdNVFP6sv+yGgyNKJV/HbENVxkLuoL+fF4aNlDv/it+FIVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787561982; c=relaxed/simple;
-	bh=xD3ZVhiv3S6/xvTY/hQeH/RBQov8u8bAVX39CY321XY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pToxydaVZRPZZ2sfXWzVoPjB4cCGrFgPTRSwGySla0KEC4nTTfMqGZ/DAMQDjYREhxMmESMDCHBkzBpoFFA7xQJVSGqodMm2rQCeWJBMHRzhk4xP05ltEtd77PG+4r8xKZBuPMYC8c5O7acWgYEUGBN8vrcb/xrl4G3uwReFGwk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gr8yjHUE; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1787579168; c=relaxed/simple;
+	bh=RRf1kpS+HYu095aWYVJLj7vLW/tCFRVRUVVgldeGmyo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=lYN+aIjWYqQeEMpHPJHiHGnpsnETDvohCcr4YvSRrtEJE7Xmfqvq4A6S01LDAP5aft1+PCCsLCVNXkQQFdzP0D0QPIpnlqAPY76wS/yh+7pWGcigPxxJIl2ZneSsJ5Ln5spH3GzeLXy/WMn36SDbgb8XhUHG6xGcQZ0j/h59hkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=post.cz; spf=pass smtp.mailfrom=post.cz; dkim=pass (2048-bit key) header.d=post.cz header.i=@post.cz header.b=vSgae4pF; arc=none smtp.client-ip=77.75.76.210
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=post.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=post.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gr8yjHUE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787561979; x=1819097979;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xD3ZVhiv3S6/xvTY/hQeH/RBQov8u8bAVX39CY321XY=;
-  b=Gr8yjHUEZDRQu/n++dtMscs4GW+yAZZxrlwQL+ShWEGUOVbuLc3WVhlo
-   HrgqYSLvtIhTR6Jukhv4iyfhQEGGl8t9yRLQddl/ko65+I4By0hZE0Dh7
-   R6P5JV/nVLlFvFX06O+lQKcVh5eLSKMSXt8SQCdGYTlTWq8QnY46GXIyW
-   1cJaMyM17n40wiNnVJIFIkCNFuIJm7E0zJo/ON5sayKyUdBZhs8CZq+5f
-   r2SRs89cJOmjv4E9uojq7zKXO8kMMBNN9kPO06VmkV5uLVCRAkeG2wrs1
-   hRhVLvp7qPXCOLN2kAEQMojT9OlBDUIMMeeGA6lm7xIyJvGM8Vw40whmP
-   Q==;
-X-CSE-ConnectionGUID: 3hJ7MP0/TKKhoofqYDD9lQ==
-X-CSE-MsgGUID: cIxJaZQGQvmJPj8kgIluqQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11884"; a="88022797"
-X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
-   d="scan'208";a="88022797"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 01:59:36 -0700
-X-CSE-ConnectionGUID: Y7/NezxmSk60n3rVoTSsvA==
-X-CSE-MsgGUID: RFwQHik+TO6IgBDv0RjAJw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
-   d="scan'208";a="268904673"
-Received: from conormcd-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.244.130])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 01:59:31 -0700
-Date: Mon, 24 Aug 2026 11:59:29 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Tomasz Unger <tomasz.unger@yahoo.pl>
-Cc: Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Dan Carpenter <error27@gmail.com>
-Subject: Re: [PATCH v2] staging: fbtft: prefer snprintf over sprintf in
- fbtft-core.c
-Message-ID: <aowH8YrNTzAJYRa9@ashevche-desk.local>
-References: <20260820-fbtft-v2-final-v2-1-44d107b04634.ref@yahoo.pl>
- <20260820-fbtft-v2-final-v2-1-44d107b04634@yahoo.pl>
+	dkim=pass (2048-bit key) header.d=post.cz header.i=@post.cz header.b="vSgae4pF"
+Received: from email.seznam.cz
+	by smtpc-mxd-fc6854d64-wssh9
+	(smtpc-mxd-fc6854d64-wssh9 [2a02:598:96:8a00::1200:701])
+	id 7addec07d8fcb65669a7e168;
+	Mon, 24 Aug 2026 15:45:54 +0200 (CEST)
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed; d=post.cz; s=szn1;
+	t=1787579154; bh=2q1Vzl6NudYGyhDNIyN1wV9JtRWeXY1lb0L4efFYQbk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:
+	 Content-Transfer-Encoding;
+	b=vSgae4pFUQQkEkP8BrTCUM+ZOPBWKJ2623JhPqlWDAyb6v42F2bjJDGKtFBG0+rrb
+	 yklKwMB5Q3/33ZsSzWLdwsQ7zcLX9CFH76O+wGywLRuGEA+WMWCxw0Ig1HjLyv0Z3t
+	 t69wSeBHJ2HTCSo2EJBDdz3sTMuA4zprQewnmR5rH2qtD7NnQztrx9s8PyeYnYvMy4
+	 uDfJKLjcToi4dldLQPXl8h8UdxfO90rd2W4i4XOnt/S1s64NxocC5GiaSI2FiCLGCk
+	 M4fhsyKw3gXLDnkT9O4MFGAsABrR+8bT7kn63I3Zqgo6VR+OTH4EvXaiU4PDtC7T17
+	 3HVbW00NORlgA==
+Received: from raspberrypi.tailf05c2d.ts.net ([185.155.34.10])
+	by smtpd-relay-86c88674d5-v9m66 (szn-email-smtpd/2.0.80) with ESMTPA
+	id ce916720-b83a-464f-a60a-6c20e3c1b4ba;
+	Mon, 24 Aug 2026 15:45:36 +0200
+From: Matthew Zvolsky <matthew-kernel@post.cz>
+To: gregkh@linuxfoundation.org
+Cc: hansg@kernel.org,
+	mchehab@kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-media@vger.kernel.org,
+	Matthew Zvolsky <matthew-kernel@post.cz>
+Subject: [PATCH v2] staging: media: atomisp: remove unnecessary void function return
+Date: Mon, 24 Aug 2026 15:45:25 +0200
+Message-Id: <20260824134525.11509-1-matthew-kernel@post.cz>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260820-fbtft-v2-final-v2-1-44d107b04634@yahoo.pl>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Thu, Aug 20, 2026 at 06:58:12PM +0200, Tomasz Unger wrote:
-> Using sprintf has potential for buffer overflows if the formatted
+Remove an unneeded return statement at the end of a void function
+in atomisp_cmd.c. This cleans up the code and fixes a checkpatch.pl
+warning: "void function return statements are not generally useful".
 
-sprintf()
+Signed-off-by: Matthew Zvolsky <matthew-kernel@post.cz>
+---
+ drivers/staging/media/atomisp/pci/atomisp_cmd.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-> string exceeds the destination buffer size. Replace it with
-> snprintf, passing sizeof() of the fixed-size stack buffers
-
-snprintf()
-
-> (text1[50] and text2[50]) so the write is always bounded.
-> 
-> An overflow is impossible here: even the worst case for the
-> argument types (size_t for text1, three ints for text2) still
-> fits within 50 bytes. Use snprintf() rather than scnprintf()
-> since the return value is not used here.
-
-Then why the patch is needed at all? Do you have any compiler that warns
-you about something?
-
-...
-
-It looks like you ignored all my comments against v1...
-
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index 6cd500d9fd26..81d0afae8041 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -1419,7 +1419,6 @@ static void atomisp_update_grid_info(struct atomisp_sub_device *asd,
+ 
+ err:
+ 	atomisp_css_free_stat_buffers(asd);
+-	return;
+ }
+ 
+ static void atomisp_curr_user_grid_info(struct atomisp_sub_device *asd,
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.39.5
 
