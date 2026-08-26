@@ -1,57 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 966CE2066DE;
-	Wed, 26 Aug 2026 06:08:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 790743B7B91
+	for <linux-staging@lists.linux.dev>; Wed, 26 Aug 2026 10:15:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787724536; cv=none; b=Cn7Ev7pJnTR+3x+ggj0gsddCrpTnsVJbx8qP3Cs23l7SzeR8qKlD4N9zafyFpfBTyGPX3QHE2V5RapMXEJZ8BCGf8h1xmdBfUmip28AhZ+pbDhjI0Q+MOXwByNLq9xidgeZDVmjewiGuMg0SL5htpRpMutVH0R5s5mLoyuSTW24=
+	t=1787739312; cv=none; b=Fwdvp9g76nn9e41nV5TLQUF+ZBB6RaupJcC9JWqdOA6rI7XimRIFUWF4bov0wPZ9nDE3c8lPc+cte2D60MD/QroJIpSDpxzZnD0DGyE3drJVsWO1ObT/shpmTdgrSQVrCzdG6lvqz9/f2p7FRrdoraPANgwtfx8qa9lL0S3JdH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787724536; c=relaxed/simple;
-	bh=aO42dyPevfcf6LTtRFpUHXwyOVgJEp0ttSCHcV/vxLM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=raedH53Uin94ClpjGP+1404bMMX+HpWbCU76caLXO6EuPiuBGdZ8uUVZjGMn4NdIUeoEYaZmAycaqHK/vad0+TYL6vlPahs/dGsM95dSuhl/Pwnsvw99ZEQpN5sIpxrsm/ai6Ru1NFXDRDNNkFNH7HJj2ZF9CXeiak26CaeS6o8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=rVUzUX7U; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787739312; c=relaxed/simple;
+	bh=vM5HfCdIN0W+FC2oAjmuQ7NPe4fDOvQMnI7qeQBPfDQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=POsZPMx8c5hh4KPQK51GPbZItBk41gzj54Yc0K6WylE2F1/uTYJcHIKQRQAAfIR+bXAXQLY6yzT09GCV5Hx+zEtXsB7JhZ5ypgkugNx0JhaFktS2iOZ1shLOmyO6gXD7gigN0gpGYKwbyerjuSo0nxk5vwKedVOTCvAIgyyPjQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=YGtPOTFw; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="rVUzUX7U"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B00AA1F000E9;
-	Wed, 26 Aug 2026 06:08:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1787724535;
-	bh=aO42dyPevfcf6LTtRFpUHXwyOVgJEp0ttSCHcV/vxLM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=rVUzUX7Un9zsMLT8MWv1M28VSHLv5B5XLBJsTKvnUQwf8PJRWF1MBLMlMFy4EMPkv
-	 kRLLfmw9feiREXQAb4LB8L6QwR6vR/E+/Xn1Q78pVPcRJUN0d9ZTZZQzdrZ4UvDq+U
-	 tSO43hnbMwTpZ2NS3J00hIKJKynvmV5iwig8RAXY=
-Date: Wed, 26 Aug 2026 08:07:13 +0200
-From: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-To: William Hutton <TheWilliamHutton@outlook.com>
-Cc: "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] staging: rtl8723bs: fix checkpatch whitespace and
- indentation errors
-Message-ID: <2026082630-union-width-1296@gregkh>
-References: <MA4P292MB014947C54E25163A32A627F9C2AF2@MA4P292MB0149.ESPP292.PROD.OUTLOOK.COM>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YGtPOTFw"
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C77FD19C;
+	Wed, 26 Aug 2026 12:13:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1787739221;
+	bh=vM5HfCdIN0W+FC2oAjmuQ7NPe4fDOvQMnI7qeQBPfDQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=YGtPOTFwZw41YbmWfHk17StA48t6cYc51KF8Dv++tFv1R6cB/Sai79pf3bxqTGY70
+	 5itE0iTZ/ymVMUezH57ZumhpxEMX14xYXQxd8LVjtwE2VWXWurfKESQ0S4JUh5Koe5
+	 xYp/0hfhf1x7YXyRrT88G2JFpXkq+l1wIOiA/WeU=
+Message-ID: <d0537d7f-6e74-4cca-93ae-398530c5cd51@ideasonboard.com>
+Date: Wed, 26 Aug 2026 13:15:03 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <MA4P292MB014947C54E25163A32A627F9C2AF2@MA4P292MB0149.ESPP292.PROD.OUTLOOK.COM>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v15 00/22] media: i2c: add Maxim GMSL2/3 serializer and
+ deserializer drivers
+To: dumitru.ceclan@analog.com
+Cc: mitrutzceclan@gmail.com, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-gpio@vger.kernel.org,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ Martin Hecht <Martin.Hecht@avnet.eu>, Andrian Suciu
+ <Adrian.Suciu@analog.com>, Cosmin Tanislav <demonsingur@gmail.com>,
+ Vivekananda Dayananda <vivekana@amd.com>, Cory Keitz <ckeitz@amazon.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Julien Massot <julien.massot@collabora.com>, Rob Herring <robh@kernel.org>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+References: <20260807-gmsl2-3_serdes-v15-0-7212e9e5156a@analog.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Content-Language: en-US
+In-Reply-To: <20260807-gmsl2-3_serdes-v15-0-7212e9e5156a@analog.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Aug 25, 2026 at 09:55:18PM +0000, William Hutton wrote:
-> Hi Greg,
-> This patch fixes checkpatch whitespace and indentation errors in the rtl8723bs staging driver.
-> Thank you,
-> William Hutton
+Hi,
 
-Please take the "how to write your first kernel patch" tutorial at
-kernenlnewbies.org, as the file you attached is not a valid patch at all
-(hint, try applying it yourself.)
+On 07/08/2026 16:02, Dumitru Ceclan via B4 Relay wrote:
+> This series adds new drivers for multiple Maxim GMSL2 and GMSL3 devices,
+> replacing the few GMSL2 drivers already in upstream, and introducing a
+> common framework that can be used to implement such GMSL chips, which
+> avoids code duplication while also adding support for previously
+> unsupported features.
+If you send a series, it needs your Signed-off-by.
 
-thanks,
+This series also depends on the internal pad, which is not upstream and 
+is not just a straightforward add-a-define case. Sakari's "[PATCH v12 
+00/86] Generic line based metadata support, internal pads" has it, and 
+additional patches around it. For the time being, I think the internal 
+pad unfortunately blocks merging this.
 
-greg k-h
+However, (correct me if I'm wrong) the internal pad is only required for 
+TPG. An option would be to remove the TPG support (or at least the parts 
+that make it visible, i.e. you could keep the internal functionality), 
+thus removing the blocker. The TPG could be added later on top.
+
+I tested the series on Xilinx Kria KV260 and on TI AM62A SK, both with
+max96716 deserializer and two max96717 serializers with imx219. On 
+Xilinx I used RAW8, with and without embedded data. On AM62A I used RAW8 
+and RAW10.
+
+The deserializer TPG gives me no frames at all. I recall the clocking 
+for the TPG was quite a challenge on at least some max96 serializers, so 
+maybe it's related to that.
+
+The serializer TPG worked, although I think there's something funny with 
+it: the initial frames (maybe just the first one) seem to be truncated a 
+bit, there's black at the bottom. Another, a bit more unclear, is that 
+sometimes ser tpg stops working. If I'm not mistaken, what I did was run 
+cam0-tpg + cam1-tpg. Then I tried des tpg. Then cam0-tpg, but it gives 
+me nothing. Streaming with cam0+cam1 video "resets" things and it all 
+works again. I've seen this a few times, but there seems to be some 
+randomness so I haven't been able to pinpoint it, but feels like there's 
+some extra state that's left behind into the HW.
+
+All in all, the normal case (non-tpg) works ok for me:
+
+Tested-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
+  Tomi
+
