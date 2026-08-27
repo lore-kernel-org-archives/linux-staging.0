@@ -1,64 +1,64 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA644DA541
-	for <linux-staging@lists.linux.dev>; Thu, 27 Aug 2026 18:18:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91BC84C954E
+	for <linux-staging@lists.linux.dev>; Thu, 27 Aug 2026 18:18:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787854704; cv=none; b=cA5rl55W9mUqhmexY9Dg5CKTXiIDNClQvpuSJQbZkh95riRnF75SfcYY1JmEDn7pzbr1mtnJaT+0WPt2JHhkQ235bBqMXj9Ue6uhb9+qmz3C/LNVmqpW01sCIE7vTcxW2wF/ImZUQSj+/ENOQCOtwrl6pudDjTRVb+jxBPLFR2o=
+	t=1787854706; cv=none; b=LwfhPZSL0ELxyYioiFzFwjNNi6lJif/QR+zU7VwTPz7OMTO2TeId/QPxnbYO7Bkx02HFfcIDxpetm3X28pjdYlkPB0LvtICuT+aJJAyDqfo4Cwg+CX9opWy/GugsOYqz8hkKWtEuz91cuUrUkFgoQRrY5+Tft615Ma0FDAndkC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787854704; c=relaxed/simple;
-	bh=q4QyCAxtft+YL/amDh4uvcwfSmyXggOPe+Bo7Y39AoE=;
+	s=arc-20240116; t=1787854706; c=relaxed/simple;
+	bh=RYdrLwH4h+db+xtAWeNMl52pZgc+y52f5gMk/8n3UwI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rT9E7d4FBt3UCq7SEBbj+sRXsvNCjzlAtYf4KpWEI8p6lCF0Ey7Zr7G6XPeFTZgYNblHA0ljZCjfOYRI1FoWHOjFvUoxFAHg9VmoGkebZMvCv/d6CN+s1wSTFt7ITlwapM/DTpgdgOYRCu9P9rWGJA5PJm6hg9JyJAs7Sx1EjaQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d7MHiRxS; arc=none smtp.client-ip=209.85.128.53
+	 MIME-Version; b=IlqfBgiSMl8YPNkHzKYR4JSTn/j+bYkEeQU+0oE0A7qqAFbrVxIKtmpcXbts740yVmr/Cm8ebno+EmvYPHgYmNoeAI2muTOnP5mt7F6lTOwWqfF0qbf+9QkOBqjZur5MMNx+dpcxhw1NwWLe1fCA0SlcjNqUpNhBtFOHdlByO/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d8/yrmwG; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d7MHiRxS"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4998b5a63e2so539025e9.1
-        for <linux-staging@lists.linux.dev>; Thu, 27 Aug 2026 11:18:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d8/yrmwG"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-49556f97a9dso383285e9.1
+        for <linux-staging@lists.linux.dev>; Thu, 27 Aug 2026 11:18:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787854700; x=1788459500; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1787854703; x=1788459503; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Hgz0BB40fX6hY+eQd47OjT3VIMJyYIXbhigyIL4PMGo=;
-        b=d7MHiRxSzv7w6ti8Hjm4LHYvvZmxrDEqm2HgM/KTiphhsFb0v9yx8uZBM9X4Fm35vu
-         nSi94n9tfTOqyJiUM8Bs+xwnpCVopqCUh4f1dBmEPcxcay5NvvTDXawZPdRV5Ye4Gs2Y
-         MNm9nKWtZIDCWYG/c0Gy+UMcXvU7qVgdALctIp60Q4hM3sj3tInJp4+484ABBxbHvw2u
-         PrZPUKATKdrtCftLR5hTAWIwFLuHgw8b+3MYFrZg1JsrAvvT66H43Px2enlwnGBC7DNL
-         UC0UHqxndbNc53HaEpNke3bT236FhY2Yy6dh4Zpc34FsXMiEeWfc1LRK1TkfP6PnCN8b
-         HD2w==
+        bh=PdfQB75hwQ5O/YIBlhw3RWCBdEtxxEHY16kGD6NRP9U=;
+        b=d8/yrmwGDG9LY4svwfLia3U8CHHr1drtjcIFEDuGx0gbd5ghjCHTwk70Zzs2JsSP+p
+         Ja+T31cef4aXR9VRiUNwnL7ZFT1Wjm/7dx3spBiUi2aV5oxWxn5XcmPvsf+Mp+Ek/u10
+         kfM7JWuDe7BEM6nEIh33Zn2X3XxckepghJJdN1h+m35XwmzwcnkLJjtyoa17tmBhpTNG
+         rENumZ+YOCvrsfeu6FnQXKvcpYRwWAzcVWX+eghhiaZSM+SdO7Gm2XFWvPHQvbsU8FCG
+         Mms1WpChCGRpeom1ismUAHRgb3kwGAPryocijwMtCaEWf3S6QW6NbLDMZvyPk52tNsRR
+         8Kuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787854700; x=1788459500;
+        d=1e100.net; s=20251104; t=1787854703; x=1788459503;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Hgz0BB40fX6hY+eQd47OjT3VIMJyYIXbhigyIL4PMGo=;
-        b=gZUlpHh6BONVKGftDzF2VPM4OcHQZJWpm24Na2rXt9Npk4ZbxKtZddI+b+CsSXrCpl
-         ll6JPV3KGMmpVJUU2B7OJRXLwqWCtg8E6+yLv0DI4r/kiB+NLtXSZs1QVkaVFFDzfxye
-         sAla8qS1YbZToa4OjjkALqJBnwo7O7/J0kSYFwB2N1RMajLkhzvSjypjiQFjeBe5bB/1
-         zr5c7296JmX6qCvxg76Phte4KZHkNybou8cZiqJW5V1wEk66cqLhhFVXAOM7lVgu06i2
-         +vo4aLKa8DhDEZ0ET/l+a7lFWCy711phZX//TWkj9IsMR5XOG2ztp+8cVv2CBm7ecJau
-         Oghg==
-X-Forwarded-Encrypted: i=1; AHgh+RoNEsvHVEgKg55GbFn69wZ3aWubgMdnGBwkzdOu1KuYM0z7Jq4kRQa9OWxWOIm3P0FRuRZaO0ZI+3QGWeQg@lists.linux.dev
-X-Gm-Message-State: AFuF++kYKaZD2ArkEAbaPC0s5WsJjfwuflmgoECs77lhmrZ0s7m8MjLp
-	yUl6rt+upcCw1CLOMH2TdN/CQKiyPq37+VfdYLrDQOwUeDgnr4SC9xPH
-X-Gm-Gg: AR+sD124qsZsGqKemx2HG/oAy3CnWOVf96RXXIyeA10yMstnBJwybLcpFDVML9avlFw
-	cV8oL+hOsNPWhQMrVRJN57cmBTP8Zn1EedLMklAlBZ6MPKIYijxuRrXXL2yNH4I94NRuBfCV0Ab
-	NDZVSmGdBTnWx7tiC5TWe8Tiq6FdOIWqXzEJy5J0E/7BLp3dkCcZPbHEnfAupsCB2uVkJYX+etS
-	MFESpW1Gv2a28oV+iP8Vg2C5I2E9c0MH6fn6NKieYplBrGI7NAIvFBHLtU8jfZvIsj8r/QCoMLs
-	vHx80QwxW18coKJ2LdAIsM0aciei++iPQipLkcLPSav6JHDmT7mncUFMQL4z3pjTzKd8BVsGLae
-	tJ1k/DmCXZvjVAZVI/Cl3bhSVUk3pDLEU1+9RR0KIjRZ8YF2ZZmL4tZrGcSrTpdKgXfkXFlF4X3
-	zdVwh2SYzPO/j6nPu2jYNrrDd7W6Yv2moD1d0jFHlxAdHyV9br5Dt8zed2xq7RfqMSqUoBOTtQK
-	v8/Bc9jS3Zsh3pTlBHO9HLmEc8+oGFphtgplslO8yPS
-X-Received: by 2002:a05:600c:1d8c:b0:49b:916f:1471 with SMTP id 5b1f17b1804b1-49b91c1df21mr13112225e9.3.1787854700424;
-        Thu, 27 Aug 2026 11:18:20 -0700 (PDT)
+        bh=PdfQB75hwQ5O/YIBlhw3RWCBdEtxxEHY16kGD6NRP9U=;
+        b=C2MBnLVd7sDtc+I5xAMp3T3cgWbkkt/LQQ9gPQekxLQNHyUjza6gEsVPdAF82wUwEw
+         COOW0mGnm4LkO1j2rh9yvxvooGmTeKsXiTpP8tjAsNSUjiWf0WeOpWeEb8ejtbRoR5xE
+         M8lOZB2HwpfU5OqrClLlSa5d4SQO4u2mGIiHCC7efa4MbNKRgugcP9D0bg/oQbI30pc7
+         hb+zctByNZthcbHZliJ//Ow7PbPKg2ggUBcH+xBcdzNn6sXFJzTB0Av59Fv5Dinvdbvc
+         cM7zg+XQIhQRqEVIUI10mu5Q9IFpk8hArHavUJyMpoQa4AyGeomuLQgEuiOHeFtWX0E6
+         edGg==
+X-Forwarded-Encrypted: i=1; AHgh+Rrk4hDVMKQgK+58KGE2+BhDSbLj5IdZp6e6kQjKNzh6Jh3ZNxZa1a+80S2nbrC/m6UVJoo7mLRLJiGWwFRN@lists.linux.dev
+X-Gm-Message-State: AFuF++k3tcnL3mHVDMYIlrap+KAc1h2gW5g8FifB4dZT07I6RBRximeq
+	QEZnE28OtcMJ2Ko/pPUsrUiPF/74CK0er96Gl53o46ZqEGUWvvN1MGSK
+X-Gm-Gg: AR+sD10UUhfMLJ5kbm43ARNZya2b7oG1H1n8JY9P6DVOafyI4xByYBF1KwjJqw3JgxQ
+	DpvbUoHBj7X927zSyt5vYFg2D/GIOClu2MXNJ1BqXWQceM3V/o7rlmW0QpfeD96RVjihlApjbUM
+	YYyXdK99/jlg3ODaq6b/3pzS3ZMHJdhbaPQUeLxeMvK+D4usGQfC7h7MKetoHC0a1xvvIddqdDF
+	lua4gJiKOM3Wk504rEoZevC0na1/iQog5R8ML26qTSQ7Gs/N5dRdtmD/gzgOigE1K6pb4bzh3zl
+	pSoA0VLjl/XLx7rVjFJgprUiflDmtPVR3iwNUUYl3W04DtHszSDP09rK8Ijdlmmzp5kw34vIkzq
+	NLBkU1plmgqxdEx1AnRWqeadPiUNwCvReXeWdiRPnXMP8tWkxUq3V64wNfhoRgVmeOknlyfapkw
+	CY1C5Ko+S0PtTpUh+iEyTLAKmNtVOKprUNOZv+tjJlERaJMEo9EiNC4GwsroOfQ89FrydW27Ixt
+	8YZ/jr5KERIq04/0FQ0L4bjonUR46OOPLh2ri9h5caY
+X-Received: by 2002:a05:600c:4ecb:b0:499:d95a:44d with SMTP id 5b1f17b1804b1-49b91bd885fmr17247855e9.0.1787854702790;
+        Thu, 27 Aug 2026 11:18:22 -0700 (PDT)
 Received: from 1Z10 ([78.213.170.242])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49b497fa9c5sm66270655e9.4.2026.08.27.11.18.17
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49b497fa9c5sm66270655e9.4.2026.08.27.11.18.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Aug 2026 11:18:19 -0700 (PDT)
+        Thu, 27 Aug 2026 11:18:22 -0700 (PDT)
 From: Maurizio Casciano <mauriziocasciano7@gmail.com>
 To: linux-media@vger.kernel.org
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -75,9 +75,9 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Maurizio Casciano <mauriziocasciano7@gmail.com>
-Subject: [PATCH v2 09/11] media: ov2740: add manual white balance controls
-Date: Thu, 27 Aug 2026 20:17:54 +0200
-Message-ID: <20260827181756.2430054-10-mauriziocasciano7@gmail.com>
+Subject: [PATCH v2 10/11] media: atomisp: allow raw Bayer capture
+Date: Thu, 27 Aug 2026 20:17:55 +0200
+Message-ID: <20260827181756.2430054-11-mauriziocasciano7@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260827181756.2430054-1-mauriziocasciano7@gmail.com>
 References: <20260826132256.3343451-1-mauriziocasciano7@gmail.com>
@@ -90,144 +90,207 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The sensor has separate red, green and blue manual white-balance gain
-registers, but the driver currently writes the same digital-gain value
-to all three channels. This prevents userspace from correcting the
-strong color cast of raw Bayer capture.
+AtomISP currently rejects all raw formats and silently substitutes
+YUV420. This prevents userspace camera processing stacks from obtaining
+unprocessed sensor frames.
 
-Expose red- and blue-balance controls relative to the digital gain,
-update all three channels under group hold, and always release and
-launch the group even when a channel write fails.
+Enumerate only the raw format matching the sensor media-bus code and
+reconcile raw format requests with the code selected by the sensor.
+Userspace explicitly opts into raw capture by selecting that raw V4L2
+pixel format with VIDIOC_S_FMT; no separate module parameter is needed.
 
-Tested on the Yoga Book OV2740 with live gain changes and continuous raw
-capture.
+Also apply the per-sensor padding discovered by the CSI-2 bridge when
+enumerating and negotiating processed frame sizes. Raw formats expose
+the full sensor transport frame so ISP2401 can use its copy pipeline.
+Existing systems retain the global padding defaults.
+
+Tested on a Lenovo Yoga Book YB1-X91L with raw capture from its OV2740
+and OV8858 sensors.
 
 Signed-off-by: Maurizio Casciano <mauriziocasciano7@gmail.com>
 Assisted-by: Codex:gpt-5.6-sol sparse
 ---
- drivers/media/i2c/ov2740.c | 68 ++++++++++++++++++++++++++------------
- 1 file changed, 47 insertions(+), 21 deletions(-)
+ .../staging/media/atomisp/pci/atomisp_cmd.c   | 33 +++++++++++++++----
+ .../media/atomisp/pci/atomisp_internal.h      |  3 ++
+ .../staging/media/atomisp/pci/atomisp_ioctl.c | 22 +++++++++++--
+ .../staging/media/atomisp/pci/atomisp_v4l2.c  |  9 +++++
+ 4 files changed, 57 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
-index 6083dd28e4ad..2d46d8685971 100644
---- a/drivers/media/i2c/ov2740.c
-+++ b/drivers/media/i2c/ov2740.c
-@@ -608,6 +608,9 @@ struct ov2740 {
- 	struct v4l2_ctrl *vblank;
- 	struct v4l2_ctrl *hblank;
- 	struct v4l2_ctrl *exposure;
-+	struct v4l2_ctrl *digital_gain;
-+	struct v4l2_ctrl *red_balance;
-+	struct v4l2_ctrl *blue_balance;
- 
- 	/* GPIOs, clocks, regulators */
- 	struct gpio_desc *reset_gpio;
-@@ -737,35 +740,42 @@ static int ov2740_identify_module(struct ov2740 *ov2740)
- 	return 0;
- }
- 
--static int ov2740_update_digital_gain(struct ov2740 *ov2740, u32 d_gain)
-+static int ov2740_update_mwb_gains(struct ov2740 *ov2740)
- {
--	int ret;
-+	u32 blue_gain, green_gain, red_gain;
-+	int end_ret, launch_ret, ret;
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index 6cd500d9fd26..70ff9b55b52e 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -3572,10 +3572,17 @@ void atomisp_get_padding(struct atomisp_device *isp, u32 width, u32 height,
+ 	u32 min_pad_w = ISP2400_MIN_PAD_W;
+ 	u32 min_pad_h = ISP2400_MIN_PAD_H;
+ 	struct v4l2_mbus_framefmt *sink;
++	u32 input_padding_w = pad_w;
++	u32 input_padding_h = pad_h;
 +
-+	/* Balance controls use 1024 as unity relative to the digital gain. */
-+	green_gain = ov2740->digital_gain->val;
-+	red_gain = DIV_ROUND_CLOSEST(green_gain * ov2740->red_balance->val,
-+				     OV2740_DGTL_GAIN_DEFAULT);
-+	red_gain = min(red_gain, OV2740_DGTL_GAIN_MAX);
-+	blue_gain = DIV_ROUND_CLOSEST(green_gain * ov2740->blue_balance->val,
-+				      OV2740_DGTL_GAIN_DEFAULT);
-+	blue_gain = min(blue_gain, OV2740_DGTL_GAIN_MAX);
++	if (input->padding_override) {
++		input_padding_w = input->padding.width;
++		input_padding_h = input->padding.height;
++	}
  
- 	ret = ov2740_write_reg(ov2740, OV2740_REG_GROUP_ACCESS, 1,
- 			       OV2740_GROUP_HOLD_START);
- 	if (ret)
- 		return ret;
+ 	if (!input->crop_support) {
+-		*padding_w = pad_w;
+-		*padding_h = pad_h;
++		*padding_w = input_padding_w;
++		*padding_h = input_padding_h;
+ 		return;
+ 	}
  
--	ret = ov2740_write_reg(ov2740, OV2740_REG_MWB_R_GAIN, 2, d_gain);
-+	ret = ov2740_write_reg(ov2740, OV2740_REG_MWB_R_GAIN, 2, red_gain);
- 	if (ret)
--		return ret;
-+		goto release_group;
+@@ -3588,8 +3595,10 @@ void atomisp_get_padding(struct atomisp_device *isp, u32 width, u32 height,
+ 		native_rect.height /= 2;
+ 	}
  
--	ret = ov2740_write_reg(ov2740, OV2740_REG_MWB_G_GAIN, 2, d_gain);
-+	ret = ov2740_write_reg(ov2740, OV2740_REG_MWB_G_GAIN, 2, green_gain);
- 	if (ret)
--		return ret;
-+		goto release_group;
+-	*padding_w = min_t(u32, (native_rect.width - width) & ~1, pad_w);
+-	*padding_h = min_t(u32, (native_rect.height - height) & ~1, pad_h);
++	*padding_w = min_t(u32, (native_rect.width - width) & ~1,
++			   input_padding_w);
++	*padding_h = min_t(u32, (native_rect.height - height) & ~1,
++			   input_padding_h);
  
--	ret = ov2740_write_reg(ov2740, OV2740_REG_MWB_B_GAIN, 2, d_gain);
--	if (ret)
--		return ret;
-+	ret = ov2740_write_reg(ov2740, OV2740_REG_MWB_B_GAIN, 2, blue_gain);
- 
--	ret = ov2740_write_reg(ov2740, OV2740_REG_GROUP_ACCESS, 1,
--			       OV2740_GROUP_HOLD_END);
--	if (ret)
--		return ret;
-+release_group:
-+	end_ret = ov2740_write_reg(ov2740, OV2740_REG_GROUP_ACCESS, 1,
-+				   OV2740_GROUP_HOLD_END);
-+	launch_ret = ov2740_write_reg(ov2740, OV2740_REG_GROUP_ACCESS, 1,
-+				      OV2740_GROUP_HOLD_LAUNCH);
- 
--	ret = ov2740_write_reg(ov2740, OV2740_REG_GROUP_ACCESS, 1,
--			       OV2740_GROUP_HOLD_LAUNCH);
--	return ret;
-+	return ret ?: end_ret ?: launch_ret;
- }
- 
- static int ov2740_test_pattern(struct ov2740 *ov2740, u32 pattern)
-@@ -806,7 +816,9 @@ static int ov2740_set_ctrl(struct v4l2_ctrl *ctrl)
- 		break;
- 
- 	case V4L2_CID_DIGITAL_GAIN:
--		ret = ov2740_update_digital_gain(ov2740, ctrl->val);
-+	case V4L2_CID_RED_BALANCE:
-+	case V4L2_CID_BLUE_BALANCE:
-+		ret = ov2740_update_mwb_gains(ov2740);
- 		break;
- 
- 	case V4L2_CID_EXPOSURE:
-@@ -847,7 +859,7 @@ static int ov2740_init_controls(struct ov2740 *ov2740)
+ 	/* The below minimum padding requirements are for BYT / ISP2400 only */
+ 	if (IS_ISP2401)
+@@ -3804,8 +3813,7 @@ int atomisp_try_fmt(struct atomisp_device *isp, struct v4l2_pix_format *f,
  	int ret;
  
- 	ctrl_hdlr = &ov2740->ctrl_handler;
--	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 10);
-+	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 12);
+ 	fmt = atomisp_get_format_bridge(f->pixelformat);
+-	/* Currently, raw formats are broken!!! */
+-	if (!fmt || fmt->sh_fmt == IA_CSS_FRAME_FORMAT_RAW) {
++	if (!fmt) {
+ 		f->pixelformat = V4L2_PIX_FMT_YUV420;
+ 
+ 		fmt = atomisp_get_format_bridge(f->pixelformat);
+@@ -3827,7 +3835,13 @@ int atomisp_try_fmt(struct atomisp_device *isp, struct v4l2_pix_format *f,
+ 	 * resolution + padding. Add padding here and remove it again after
+ 	 * the set_fmt call, like atomisp_set_fmt_to_snr() does.
+ 	 */
+-	atomisp_get_padding(isp, f->width, f->height, &padding_w, &padding_h);
++	if (fmt->sh_fmt == IA_CSS_FRAME_FORMAT_RAW) {
++		padding_w = 0;
++		padding_h = 0;
++	} else {
++		atomisp_get_padding(isp, f->width, f->height,
++				    &padding_w, &padding_h);
++	}
+ 	v4l2_fill_mbus_format(&ffmt, f, fmt->mbus_code);
+ 	ffmt.width += padding_w;
+ 	ffmt.height += padding_h;
+@@ -3846,6 +3860,11 @@ int atomisp_try_fmt(struct atomisp_device *isp, struct v4l2_pix_format *f,
+ 			ffmt.code);
+ 		return -EINVAL;
+ 	}
++	if (fmt->sh_fmt == IA_CSS_FRAME_FORMAT_RAW &&
++	    fmt->mbus_code != snr_fmt->mbus_code) {
++		fmt = snr_fmt;
++		f->pixelformat = fmt->pixelformat;
++	}
+ 
+ 	f->width = ffmt.width - padding_w;
+ 	f->height = ffmt.height - padding_h;
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_internal.h b/drivers/staging/media/atomisp/pci/atomisp_internal.h
+index 5a69580b8251..66b12461bd40 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_internal.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_internal.h
+@@ -98,6 +98,7 @@
+ #define ATOMISP_CSS_SUPPORT_YUVPP     1
+ 
+ #define ATOMISP_CSS_OUTPUT_SECOND_INDEX     1
++
+ #define ATOMISP_CSS_OUTPUT_DEFAULT_INDEX    0
+ 
+ /* ISP2401 */
+@@ -116,6 +117,8 @@
+ struct atomisp_input_subdev {
+ 	enum atomisp_camera_port port;
+ 	u32 code; /* MEDIA_BUS_FMT_* */
++	struct v4l2_area padding;
++	bool padding_override;
+ 	bool binning_support;
+ 	bool crop_support;
+ 	bool sensor_on;
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+index 50366bf10f32..cf3e68983e0d 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+@@ -536,11 +536,19 @@ static int atomisp_enum_framesizes(struct file *file, void *priv,
+ 		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+ 		.code = input->code,
+ 	};
++	const struct atomisp_format_bridge *format;
+ 	struct v4l2_subdev_state *act_sd_state;
++	struct v4l2_area padding = {
++		.width = pad_w,
++		.height = pad_h,
++	};
+ 	int ret;
+ 
+ 	if (!input->sensor)
+ 		return -EINVAL;
++	format = atomisp_get_format_bridge(fsize->pixel_format);
++	if (!format)
++		return -EINVAL;
+ 
+ 	if (input->crop_support)
+ 		return atomisp_enum_framesizes_crop(isp, fsize);
+@@ -553,9 +561,16 @@ static int atomisp_enum_framesizes(struct file *file, void *priv,
  	if (ret)
  		return ret;
  
-@@ -882,9 +894,23 @@ static int ov2740_init_controls(struct ov2740 *ov2740)
- 	v4l2_ctrl_new_std(ctrl_hdlr, &ov2740_ctrl_ops, V4L2_CID_ANALOGUE_GAIN,
- 			  OV2740_ANAL_GAIN_MIN, OV2740_ANAL_GAIN_MAX,
- 			  OV2740_ANAL_GAIN_STEP, OV2740_ANAL_GAIN_MIN);
--	v4l2_ctrl_new_std(ctrl_hdlr, &ov2740_ctrl_ops, V4L2_CID_DIGITAL_GAIN,
--			  OV2740_DGTL_GAIN_MIN, OV2740_DGTL_GAIN_MAX,
--			  OV2740_DGTL_GAIN_STEP, OV2740_DGTL_GAIN_DEFAULT);
-+	ov2740->digital_gain =
-+		v4l2_ctrl_new_std(ctrl_hdlr, &ov2740_ctrl_ops,
-+				  V4L2_CID_DIGITAL_GAIN,
-+				  OV2740_DGTL_GAIN_MIN, OV2740_DGTL_GAIN_MAX,
-+				  OV2740_DGTL_GAIN_STEP,
-+				  OV2740_DGTL_GAIN_DEFAULT);
-+	ov2740->red_balance =
-+		v4l2_ctrl_new_std(ctrl_hdlr, &ov2740_ctrl_ops,
-+				  V4L2_CID_RED_BALANCE,
-+				  1, OV2740_DGTL_GAIN_MAX, 1,
-+				  OV2740_DGTL_GAIN_DEFAULT);
-+	ov2740->blue_balance =
-+		v4l2_ctrl_new_std(ctrl_hdlr, &ov2740_ctrl_ops,
-+				  V4L2_CID_BLUE_BALANCE,
-+				  1, OV2740_DGTL_GAIN_MAX, 1,
-+				  OV2740_DGTL_GAIN_DEFAULT);
-+	v4l2_ctrl_cluster(3, &ov2740->digital_gain);
- 	exposure_max = ov2740->cur_mode->vts_def - OV2740_EXPOSURE_MAX_MARGIN;
- 	ov2740->exposure = v4l2_ctrl_new_std(ctrl_hdlr, &ov2740_ctrl_ops,
- 					     V4L2_CID_EXPOSURE,
++	if (format->sh_fmt == IA_CSS_FRAME_FORMAT_RAW) {
++		padding.width = 0;
++		padding.height = 0;
++	} else if (input->padding_override) {
++		padding = input->padding;
++	}
++
+ 	fsize->type = V4L2_FRMSIZE_TYPE_DISCRETE;
+-	fsize->discrete.width = fse.max_width - pad_w;
+-	fsize->discrete.height = fse.max_height - pad_h;
++	fsize->discrete.width = fse.max_width - padding.width;
++	fsize->discrete.height = fse.max_height - padding.height;
+ 
+ 	return 0;
+ }
+@@ -629,7 +644,8 @@ static int atomisp_enum_fmt_cap(struct file *file, void *fh,
+ 		 *
+ 		 * FIXME: fix the pipeline to allow sensor format too.
+ 		 */
+-		if (format->sh_fmt == IA_CSS_FRAME_FORMAT_RAW)
++		if (format->sh_fmt == IA_CSS_FRAME_FORMAT_RAW &&
++		    format->mbus_code != code.code)
+ 			continue;
+ 
+ 		/* Found a match. Now let's pick f->index'th one. */
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+index 812230397409..7b4c1c6c1295 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+@@ -25,6 +25,7 @@
+ 
+ #include "atomisp_cmd.h"
+ #include "atomisp_common.h"
++#include "atomisp_csi2.h"
+ #include "atomisp_fops.h"
+ #include "atomisp_ioctl.h"
+ #include "atomisp_internal.h"
+@@ -889,6 +890,14 @@ static void atomisp_init_sensor(struct atomisp_input_subdev *input)
+ 	struct v4l2_subdev_state *try_sd_state, *act_sd_state;
+ 	int i, err;
+ 
++	input->padding_override =
++		atomisp_csi2_get_sensor_padding(input->sensor->dev,
++						&input->padding);
++	if (input->padding_override)
++		dev_info(input->sensor->dev,
++			 "using ISP input padding %ux%u\n",
++			 input->padding.width, input->padding.height);
++
+ 	/*
+ 	 * FIXME: Drivers are not supposed to use __v4l2_subdev_state_alloc()
+ 	 * but atomisp needs this for try_fmt on its /dev/video# node since
 -- 
 2.53.0
 
