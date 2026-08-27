@@ -1,58 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3866F2D0C7E;
-	Thu, 27 Aug 2026 05:06:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6661F3537E5
+	for <linux-staging@lists.linux.dev>; Thu, 27 Aug 2026 06:25:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787807178; cv=none; b=qEPO+Wtti7k4Tb0DEm8iy70oBqlDhZ+YggN3v3YZT+IC0UsdMCWgIGh5q/WhRqDc7Pmm090RqtvjFXeCGTfAgOb3d5JKqscdy0HtRqRikNsx4sGaggaG9Z70ap27weuoLWa/OKv5oNehsa7ylVfoWHKvQVUXrRpaEJlgh64xpuQ=
+	t=1787811946; cv=none; b=igJP6FwB2g1fwmLxtJvn49ZwDujQPJ/9hBnTb24twIrNUHjhGsnIl5arNSG6PwjjfGHiJuUbVpFCLI7HfZcT33Kp0lgFcS/54NOqJjSE7l+AV21bkWALtQk79/wDNMDdMmnzbgG2yYCWzka0kxnEhv7bmgjaVeFuxfoxtOGu934=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787807178; c=relaxed/simple;
-	bh=0SbWVk81NSvWiVEymtaQC9KkKcEe1BhdRuENR95FLIs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ckuc7EX+1KbNx/hYQ4Rjw9XON74hvSQlUv0wuzrfTCknFthl2nvR9H8lUmIiBJYAEeIAbhlpcigWEhvslmftKbtAVerwdX7q3lKosk3FQFYgudpuE6gbXq/7PdvhiZS6bl28k8ckUx/E/2pjBPKWe64v15oZDpXGt3VHbVibESo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=LLgSx9Eo; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1787811946; c=relaxed/simple;
+	bh=aHTSRDVJrAGh0+hItG8JMYF00k9u0CCqZJdDSAjkTUQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nT3EXRvTy+qJst5m58LLKmkprNSazWJOQAXDds5DjAJsGZxYRe3lQqg5JcdV1ruVQma+p+wKjrY8vA/ofM+paBN0uyiOCjC6vhoxdMOtnVzBK49+1HmfWBQNO/HjR82n7TFb0Z4wMs7ILJizFd2Kr38OUYLg1Xbprxj3+JthYp4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aXPc97Rs; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="LLgSx9Eo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45BD51F000E9;
-	Thu, 27 Aug 2026 05:06:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1787807176;
-	bh=DE34z+US3g6UhDyZ+cyjk0YKv5xtZEJ59OP0oiZT5qA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=LLgSx9EosB4UIXG0raO6bnu8dmRqt5ElZDtbf69oDBw5wFbEwoWXb8y6PUn5boLRc
-	 OWIKmy/fe3LIdkSQ7GeaAYBNANhuflmjv7t/K58ByzHRqBEhq7rF/KI4RgwWj7KX3L
-	 dlGKrxYIMwvV/I3rkUw6rkdCSPdGyQt2hAmjB9dQ=
-Date: Thu, 27 Aug 2026 07:06:14 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Godana Emiru <godanaemiru@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: fix coding style issues in
- xmit_linux.c
-Message-ID: <2026082744-decorated-turban-7e67@gregkh>
-References: <20260826194059.12003-1-godanaemiru@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aXPc97Rs"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-482e4998d28so812706f8f.2
+        for <linux-staging@lists.linux.dev>; Wed, 26 Aug 2026 23:25:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787811942; x=1788416742; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=H275nmNZhuFySBcS9gUpFxagGHoU0ikfQIf/QoCidkU=;
+        b=aXPc97RsDnuGrKb6mfbUPhnC7Y77U6DIB/2ViqPGCRTUjlVi9pUMjR9P2urqC4247I
+         3ptF5chCakcFWdb2hQuar4ZVHlFEhcgs+WvbL+ytozDCY2cBib0hG+TPRxGQ9+ooA0n6
+         T38o+XHBUgIqBy12EwIXxtCe55CkKuV+1jxBFu5vxFJZaipUpyVM352hSABsFo/xU68C
+         V30w67W353Em8eRdliHOkOODCcbobZSgHJfde14ryjlzTuOD2lnigygkcsnxjZS0vFjH
+         ka9maAwmnbuLwO9vFfpV1x96bU5ydTShzaBxm3UHujBrGT5/wVDw9EVLjhmJEvDMsJVN
+         qxbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787811942; x=1788416742;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=H275nmNZhuFySBcS9gUpFxagGHoU0ikfQIf/QoCidkU=;
+        b=mA8JnGZez6UKTXrRi8oClK3QFiOryPOEraOymFns5CdSQcAIZx3TyjfEqRSuFQqmPN
+         vCKY99hKF7kWrUbFgFSu/vpcQquQr9QbkLvShAw+KoWhZ95InmFZSIQ8cqyZc6q2pOk4
+         WQ5Y+20DoZuD3BODvwALfqRI8QrMKH1gRBNKdTAa1kxH5dtwBt89E/2SbYYSXr3tXtYD
+         qftMXSiZxhx3Wjs4Kc9NFPB7yHon3gPo5LstgoFlkAfA6El7EGCfofIhQ4HPkdG1LJLK
+         kz48LG1uM3WHghs1Ae9qBRXYc8JzRs39+eSx1+8EBHm68+edUAM+UPFMiYlx7c+vcDUN
+         5SjQ==
+X-Gm-Message-State: AFuF++m3h2cPi5H8SnSBOMWccmBUu5lHgbt0JgT/ee0DGKF+R1HkuS1I
+	0+Dn94IargZXx2I7Wrz8lSSvuuC41hT+tKvr3u/amZytsS15Dy2iRM7a
+X-Gm-Gg: AR+sD12OvulJ1QpgcqMXjw5y1YUq6gLKZBpqN5ArvEWJIYfvVpoguEe4ovW1Jr0RSAL
+	zufqLk62ES5PcJdE+XyJkpjt+YSZqDtmEA+GWyqllP0IVgMOHtG2tch68ZmeTHPeD14rEvXhNlO
+	rv9IH1NAW90tRbmALnvO5SqtA0StQc70LmhNoHJ09OpVK+10Du84NF14DbFO5hPKKvN/CxWcyVo
+	teY/cn33LJfCS0+V+AFyyEux+e1k7BXL6RZcXeAIqa04A4y68sK+Tt7s6odDHpSuCMs84Wzru9E
+	+Ffxj7AhXq9hi/AKbI0cRQ/NDCpDdvHgv7MiktLB+gZcQT76JytN/BdajG8qnWRRG9AosrcDcCX
+	HBHsvxDZakXPStAs6d7Rom6207xk+fbGDibk4MgmdHqx5BLpIZ6msOF81hb1h3wWPvXjkaqJ07b
+	Z/JiR14aF1L1oNb8FeYXH3hMVQMXYcAhgG24x0ltJZg8roKpQStsXDj35iD9fizycuGkXoIvwd3
+	tvfujqTsb+hQXdWtsTDCX2E8RvFoY3D22P2eA4TKDkgg62RwEUB1A==
+X-Received: by 2002:a05:600c:a315:b0:499:84fe:5f3e with SMTP id 5b1f17b1804b1-499dc81cd8emr110986595e9.9.1787811942355;
+        Wed, 26 Aug 2026 23:25:42 -0700 (PDT)
+Received: from DESKTOP-EHH7ATM.localdomain ([102.203.209.200])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49b4d08d86dsm24536605e9.12.2026.08.26.23.25.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Aug 2026 23:25:41 -0700 (PDT)
+From: Godana Emiru <godanaemiru@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Godana Emiru <godanaemiru@gmail.com>
+Subject: [PATCH 1/3] staging: rtl8723bs: remove a stray blank line in xmit_linux.c
+Date: Thu, 27 Aug 2026 09:21:35 +0300
+Message-ID: <20260827062137.12937-1-godanaemiru@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260826194059.12003-1-godanaemiru@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Aug 26, 2026 at 10:40:59PM +0300, Godana Emiru wrote:
-> Fix a handful of coding style issues in xmit_linux.c:
-> 
-> - Remove a stray extra blank line after the include.
-> - Split two chained assignments in _rtw_open_pktfile() into
->   separate statements, one variable per line.
-> - Wrap the long rtw_os_xmit_resource_free() prototype so it fits
->   within the column limit, aligned to the open parenthesis.
+There are two consecutive blank lines after the #include. Remove the
+extra one.
 
-These are different things, so this should be a patch series, each doing
-only one logical thing.
+No functional change.
 
-thanks,
+Signed-off-by: Godana Emiru <godanaemiru@gmail.com>
+---
+ drivers/staging/rtl8723bs/os_dep/xmit_linux.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-greg k-h
+diff --git a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
+index 4260ed5f4..7a9d2fabc 100644
+--- a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
++++ b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
+@@ -6,7 +6,6 @@
+  ******************************************************************************/
+ #include <drv_types.h>
+ 
+-
+ uint rtw_remainder_len(struct pkt_file *pfile)
+ {
+ 	return (pfile->buf_len - ((SIZE_PTR)(pfile->cur_addr) - (SIZE_PTR)(pfile->buf_start)));
+-- 
+2.53.0
+
