@@ -1,49 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1378235C01
-	for <linux-staging@lists.linux.dev>; Thu, 27 Aug 2026 14:32:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB8433806C5
+	for <linux-staging@lists.linux.dev>; Thu, 27 Aug 2026 14:43:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787841172; cv=none; b=PnPNZgrDi4WD/o8IcTTsgcqSKUZEaCvfhL/keNVJKWiVXY1joLj6zurIDZpn4adIc/P11fNtun4uLRurBVUFvPcixyMH2bVScrkiTn6vEJRWosrHFcLnBvVebRPdF82WBCUkkgRupgWJwH7rWyJse2ZE8v5ihUcX17KzxFrzxAs=
+	t=1787841796; cv=none; b=TGwgviaVtcnN6urpt0YguPNWpMDGSvyPH9OhwXarMpU0PLmatgsbn+4phCpWs7uVtRzsy3QvUe5r7hGSYlDyKOhafLrOuDMyKCAhGPCi5Isj3mEB983RLfhnBeNEhav+755XdfZaLLStfiO/R4J1WhDK3ho+Xg7quhCSMKlKwjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787841172; c=relaxed/simple;
-	bh=z5Pi0VPfTvC7nqMX0V205C3Qmo8YbY5AiDLIxa9ThB4=;
+	s=arc-20240116; t=1787841796; c=relaxed/simple;
+	bh=85lSA4egJYDDfc9Gc1dIksNdWPK6UdxCiBDoQ/skJR4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n10GZ1WEJWuRm4JxHqS6P6WQiSOxGT5MeF5H/nBPHc2VLHIuYU3lR19nWMP+HVinUHUgeNTAg3nYFK6X3/SeYXKunbA/hnALvv8pCwacOmndiWHYweqYXXit6MLtoQZoU6qK4kR1JhYXftSSFMjNXWQPtl+/GD+XchG3n7/FN1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W8Asmg2K; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=O/P9ihEVECpY4zGfh3j4an8ZnmXkGus7XdyPloaFW7oJY/KQQlqwxBU/ZnYBw+l+s4esa1KKN+C7g4eCM8orgLvtwSOojO9DHjMX2mwS2Q8pPDzPlAXiRVL6x2TVsz1GOpA7XrHU9Tqqg3ZMAQjZ4Jq/BTf21vCdSTKDhCSRtuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IBhQnVyh; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W8Asmg2K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IBhQnVyh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787841170; x=1819377170;
+  t=1787841795; x=1819377795;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=z5Pi0VPfTvC7nqMX0V205C3Qmo8YbY5AiDLIxa9ThB4=;
-  b=W8Asmg2KtvuQwfsnEZ61gOf5i2ttia48PDuBczkZmPq0N4YX97fTRkED
-   MP4zrS6k1aSzksBTtcOTeCjaGCiQiVyQMmCS/tSX1bCTJaMp1Pw2r5d+J
-   mdjy1VoMnv4ZRHmWxDBll8Y5EmspWE47eRu6L0SWZ2Bd9j2aptElv1/E0
-   rc6qSqvH50XK8THYJKpDOmNS/Sooee1Ed45FELZ9VoK8ki/YT7s7g5owy
-   VPVOsxLDoQn7+wNYbmJ6Vfut4ouNFuUkOzcGO/hgCOu4vMC4i7zXxwVAB
-   PAP0nJFCuMKbQfn+kI8p0gbRtC9IfKZo/dZ+BeslaF06wUIXP+YuEz1t4
+  bh=85lSA4egJYDDfc9Gc1dIksNdWPK6UdxCiBDoQ/skJR4=;
+  b=IBhQnVyhgyl2zfqLf9NPr9VjJD9MDisW/oqLCQ0qmtSkc30S2dED/qQ/
+   /TJ+KSIqlH1JllSaQ75MfHE2FBs+t7GajEDRl0nuNI19mwfCre1jcivle
+   dxFxvNg5ETcEkqM6cmGLax+ng8xejLafDQ3KP4QBVA0Yc6dVCQ9h8ec0Y
+   uXBsvrs1dfUZl1wjDJy1Qw6SzJCUVr6hAj4kICLx+nG6ZcxZL+q7RfOjA
+   ilXznxqIROZ/GCj3cxI38WtRcu6VCIPNis9+TZbSyzRdwyxyZu+4K3c+V
+   u4r5WzI1tpkflqjL89XHAqdt2GcQ0otgs38Bzwjm6UFrDHbks/VBS493H
    A==;
-X-CSE-ConnectionGUID: FLotS3u/QLKmreuswq9uWw==
-X-CSE-MsgGUID: DESDW+4FRIyjIuBGCUbLzQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11887"; a="98676608"
+X-CSE-ConnectionGUID: rEFqiE42QCOAioV7FTjn+w==
+X-CSE-MsgGUID: kzuGleoIQ7qQXttYL7/qmw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11887"; a="99861131"
 X-IronPort-AV: E=Sophos;i="6.25,246,1779174000"; 
-   d="scan'208";a="98676608"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2026 07:32:49 -0700
-X-CSE-ConnectionGUID: jAfuLjBxS5K96+QewPIuag==
-X-CSE-MsgGUID: Yteh2gwlQeOPIesoS59t8w==
+   d="scan'208";a="99861131"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2026 07:43:14 -0700
+X-CSE-ConnectionGUID: zqbfjTjlRiaVGnjSMwgsJw==
+X-CSE-MsgGUID: Ard5BamOQXaxnW8f2ZI3jg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,246,1779174000"; 
-   d="scan'208";a="266095813"
+   d="scan'208";a="291389341"
 Received: from fpallare-mobl4.ger.corp.intel.com (HELO localhost) ([10.245.244.125])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2026 07:32:46 -0700
-Date: Thu, 27 Aug 2026 17:32:43 +0300
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2026 07:43:11 -0700
+Date: Thu, 27 Aug 2026 17:43:08 +0300
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
 To: Maurizio Casciano <mauriziocasciano7@gmail.com>
 Cc: linux-media@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -55,10 +55,10 @@ Cc: linux-media@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Jose Maria Martin <jmmartinf@hotmail.com>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 6/8] media: ov2740: add manual white balance controls
-Message-ID: <apBKi1MJI5pMwPUh@ashevche-desk.local>
+Subject: Re: [PATCH 7/8] media: atomisp: allow opt-in raw Bayer capture
+Message-ID: <apBM_BTkHcTgM8m_@ashevche-desk.local>
 References: <20260826132256.3343451-1-mauriziocasciano7@gmail.com>
- <20260826132256.3343451-7-mauriziocasciano7@gmail.com>
+ <20260826132256.3343451-8-mauriziocasciano7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,99 +67,119 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260826132256.3343451-7-mauriziocasciano7@gmail.com>
+In-Reply-To: <20260826132256.3343451-8-mauriziocasciano7@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Wed, Aug 26, 2026 at 03:22:54PM +0200, Maurizio Casciano wrote:
-> The sensor has separate red, green and blue manual white-balance gain
-> registers, but the driver currently writes the same digital-gain value
-> to all three channels. This prevents userspace from correcting the
-> strong color cast of raw Bayer capture.
+On Wed, Aug 26, 2026 at 03:22:55PM +0200, Maurizio Casciano wrote:
+> AtomISP currently rejects all raw formats and silently substitutes
+> YUV420. This prevents userspace camera processing stacks from obtaining
+> unprocessed sensor frames.
 > 
-> Expose red- and blue-balance controls relative to the digital gain,
-> update all three channels under group hold, and always release and
-> launch the group even when a channel write fails.
+> Add an allow_raw_output module parameter, disabled by default. When it is
+> enabled, enumerate only the raw format matching the sensor media-bus code
+> and reconcile raw format requests with the code selected by the sensor.
 > 
-> Tested on the Yoga Book OV2740 with live gain changes and continuous raw
-> capture.
+> Also apply the per-sensor padding discovered by the CSI-2 bridge when
+> enumerating and negotiating frame sizes. Existing systems retain the
+> global padding and raw-output defaults.
+> 
+> Tested on a Lenovo Yoga Book YB1-X91L with raw capture from its OV2740
+> and OV8858 sensors.
 
 ...
 
-> -static int ov2740_update_digital_gain(struct ov2740 *ov2740, u32 d_gain)
-> +static int ov2740_update_mwb_gains(struct ov2740 *ov2740)
->  {
-> -	int ret;
-> +	u32 green_gain = ov2740->digital_gain->val;
-> +	u32 red_gain, blue_gain;
+>  	u32 min_pad_w = ISP2400_MIN_PAD_W;
+>  	u32 min_pad_h = ISP2400_MIN_PAD_H;
+>  	struct v4l2_mbus_framefmt *sink;
+> +	u32 input_padding_w = input->padding_override ?
+> +			      input->padding_w : pad_w;
+> +	u32 input_padding_h = input->padding_override ?
+> +			      input->padding_h : pad_h;
 
-Split assignment and combine all three on a single line.
-Also, why not u64 from the start?
+It's the same condition, split to if-else.
 
-> +	int end_ret, launch_ret, ret;
+	if (input->padding_override) {
+		input_padding_w = input->padding_w;
+		input_padding_h = input->padding_h;
+	} else {
+		input_padding_w = pad_w;
+		input_padding_h = pad_h;
+	}
+
+>  	if (!input->crop_support) {
+> -		*padding_w = pad_w;
+> -		*padding_h = pad_h;
+> +		*padding_w = input_padding_w;
+> +		*padding_h = input_padding_h;
+>  		return;
+>  	}
+
+Or maybe you can update pad_w and pad_h instead and leave this and might be
+other code alone?
+
+...
+
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_internal.h
+
+>  #define ATOMISP_CSS_SUPPORT_YUVPP     1
+>  
+>  #define ATOMISP_CSS_OUTPUT_SECOND_INDEX     1
 > +
-> +	/* Balance controls use 1024 as unity relative to the digital gain. */
-> +	red_gain = min_t(u64,
+> +extern bool atomisp_allow_raw_output;
+> +
 
-No min_t() in the new code. This macro is very exceptional.
+Location of this doesn't look right. Find a better one.
 
-> +			 DIV_ROUND_CLOSEST_ULL((u64)green_gain *
-> +					       ov2740->red_balance->val,
-> +					       OV2740_DGTL_GAIN_DEFAULT),
+>  #define ATOMISP_CSS_OUTPUT_DEFAULT_INDEX    0
 
-Is _ULL variant really required? What are the ranges of the _gain and ->val?
+...
 
-> +			 OV2740_DGTL_GAIN_MAX);
-> +	blue_gain = min_t(u64,
-> +			  DIV_ROUND_CLOSEST_ULL((u64)green_gain *
-> +						ov2740->blue_balance->val,
-> +						OV2740_DGTL_GAIN_DEFAULT),
-> +			  OV2740_DGTL_GAIN_MAX);
->  
->  	ret = ov2740_write_reg(ov2740, OV2740_REG_GROUP_ACCESS, 1,
->  			       OV2740_GROUP_HOLD_START);
->  	if (ret)
->  		return ret;
->  
-> -	ret = ov2740_write_reg(ov2740, OV2740_REG_MWB_R_GAIN, 2, d_gain);
-> +	ret = ov2740_write_reg(ov2740, OV2740_REG_MWB_R_GAIN, 2, red_gain);
->  	if (ret)
-> -		return ret;
-> +		goto release_group;
->  
-> -	ret = ov2740_write_reg(ov2740, OV2740_REG_MWB_G_GAIN, 2, d_gain);
-> +	ret = ov2740_write_reg(ov2740, OV2740_REG_MWB_G_GAIN, 2, green_gain);
->  	if (ret)
-> -		return ret;
-> +		goto release_group;
->  
-> -	ret = ov2740_write_reg(ov2740, OV2740_REG_MWB_B_GAIN, 2, d_gain);
-> -	if (ret)
-> -		return ret;
-> +	ret = ov2740_write_reg(ov2740, OV2740_REG_MWB_B_GAIN, 2, blue_gain);
->  
-> -	ret = ov2740_write_reg(ov2740, OV2740_REG_GROUP_ACCESS, 1,
-> -			       OV2740_GROUP_HOLD_END);
-> -	if (ret)
-> -		return ret;
-> +release_group:
-> +	end_ret = ov2740_write_reg(ov2740, OV2740_REG_GROUP_ACCESS, 1,
-> +				   OV2740_GROUP_HOLD_END);
-> +	launch_ret = ov2740_write_reg(ov2740, OV2740_REG_GROUP_ACCESS, 1,
-> +				      OV2740_GROUP_HOLD_LAUNCH);
->  
-> -	ret = ov2740_write_reg(ov2740, OV2740_REG_GROUP_ACCESS, 1,
-> -			       OV2740_GROUP_HOLD_LAUNCH);
-> -	return ret;
-> +	return ret ?: end_ret ?: launch_ret;
+>  struct atomisp_input_subdev {
 
-To make this looking better it might be good to convert the driver to use CCI
-accessors [1]. Maybe Hans knows more about this as he worked a lot on this drivers
-and sensors in the past.
+>  	enum atomisp_camera_port port;
+>  	u32 code; /* MEDIA_BUS_FMT_* */
 
->  }
+> +	u32 padding_w;
+> +	u32 padding_h;
 
-[1]: include/media/v4l2-cci.h
+Why not struct v4l2_area?
+
+> +	bool padding_override;
+>  	bool binning_support;
+>  	bool crop_support;
+>  	bool sensor_on;
+
+...
+
+> -		if (format->sh_fmt == IA_CSS_FRAME_FORMAT_RAW)
+> -			continue;
+> +		if (format->sh_fmt == IA_CSS_FRAME_FORMAT_RAW) {
+> +			if (!atomisp_allow_raw_output ||
+> +			    format->mbus_code != code.code)
+> +				continue;
+> +		}
+
+  if (a) { if (b) { ... }} is equivalent to if (a && b) { ... }.
+
+...
+
+> +bool atomisp_allow_raw_output;
+> +module_param_named(allow_raw_output, atomisp_allow_raw_output, bool, 0644);
+> +MODULE_PARM_DESC(allow_raw_output,
+> +		 "allow experimental raw Bayer output (default:false)");
+
+Why do we need this? Can it be enabled a run-time via IOCTL or other means
+of ABI?
+
+...
+
+> +	input->padding_override =
+> +		atomisp_csi2_get_sensor_padding(input->sensor->dev,
+> +						&input->padding_w,
+> +						&input->padding_h);
+
+Make a pointer to a struct v4l2_area to be filled by this function.
 
 -- 
 With Best Regards,
