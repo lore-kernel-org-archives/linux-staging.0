@@ -1,228 +1,250 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f11.google.com (mail-pj2-f11.google.com [74.125.227.139])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CA3E184540
-	for <linux-staging@lists.linux.dev>; Thu, 27 Aug 2026 20:31:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B316A36923F
+	for <linux-staging@lists.linux.dev>; Thu, 27 Aug 2026 21:47:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787862680; cv=none; b=NoiyOLxxvE6rgcn9ZyksoRjx8Ko5Lb4PaWG1Fn8o5e6gEtHDaOZv6nqj2qRTsIXyYZNf8HKjkB5zfJB0sknZhHyuVhd0s0Jqi3eDBPn+W430MQUkUWrrSBF5p/Iak9w+OvN/sJ5o7chW4qJMA5LYhZjNXLT4RAXYBB4agy7Rqbg=
+	t=1787867266; cv=none; b=sOTa+eLJOfTPRRWV7JIaC3E4OElLA/L+wO/+t1xWdkzFm7OA0Q/B/+E57a5/pheSUUWpNJCergDLY9sRnF9AGURfprFt14tq/JYEH0vqdDUwNk19mH5xbmOpVQmPZINR19dLIcM4aE6VgFFPXneTsEaBXqECwQH55Z4vvsaansc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787862680; c=relaxed/simple;
-	bh=o9ZLn4/k+h2TeWv1kAj7lq3icvlpy8dz5ikG0lg5Kfo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e91Y3ikpyaKWAKsKQV3psJqayop5SaiVp4Jrpp06QsegiWGm2dYCO7Ony/P/l+JOZI3t/Hq9nPcncvzxJWLnzsr1VDPbQS9Lqu/Fb56NkXUgbSeLDdsglpYLyTYGcSkm0h4AFuyaE6XtzxyUmHRAwtiGHdwQ1Wv0KJF/UbgXrdY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Omx4iszI; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1787867266; c=relaxed/simple;
+	bh=lCKmYmW8yf2l0SbBLQAKvKdKNtanvhtCwPx2DZVPfFA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=OBbneR6TOt55xSwUeLcGDz9Xg057iVIKtfASuBPQABacRULwynNJqyhmZzFgq6Cf47CN5IY0J/ebsUMrLn4VCvVNZVRAgZ0mnYu6/cpR+l6EhMcKO0ADJPY5c8Zx7XzEMiy0GtZgsnnuhmThd0hdxhKMgBooRsCgH6SbnuyijuA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UrHzvSP2; arc=none smtp.client-ip=74.125.227.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Omx4iszI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787862678; x=1819398678;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=o9ZLn4/k+h2TeWv1kAj7lq3icvlpy8dz5ikG0lg5Kfo=;
-  b=Omx4iszIxOOh+srT7ctxHLTnrHSP2XNn8CHD2qjcfqZtrJRe0NTdXLzD
-   1ux0b1jtmmXqy7D2U6KWnt9YeTEMxiOAp22qnwx+u6AfEOsL2Gjn30hCV
-   abZH0H1dqwPlHSCwHI9IjbTi7GyQiUnixJlM6RyKBS2s16UIMUL+yqiAl
-   WFqaHRfiLVlrfyIurNBScwMu9HmZigEBzMyzu6S7yQlCj1BEW8XsCMgZk
-   1kU/boERAnsY6mROLq47OsKmkwXQYUUAIvVae/c//3TA1N74UfwejLaeF
-   0kCi9ZlkiHmf5ZiSAhPWkagpNtZYTf1zGjpf7tM3xugOkvGFIfmEhezKc
-   g==;
-X-CSE-ConnectionGUID: K8sgGlD5Q3OnomoTnJCyHQ==
-X-CSE-MsgGUID: RDJCw0hcRNymVZVaZXwM1w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11888"; a="88389839"
-X-IronPort-AV: E=Sophos;i="6.25,247,1779174000"; 
-   d="scan'208";a="88389839"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2026 13:31:18 -0700
-X-CSE-ConnectionGUID: XB7kHFKqTkajqiVvOG+zOQ==
-X-CSE-MsgGUID: XSFR7SFySPaYZxMzMnGBEA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,247,1779174000"; 
-   d="scan'208";a="272192126"
-Received: from fpallare-mobl4.ger.corp.intel.com (HELO localhost) ([10.245.244.125])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2026 13:31:14 -0700
-Date: Thu, 27 Aug 2026 23:31:12 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Maurizio Casciano <mauriziocasciano7@gmail.com>
-Cc: linux-media@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bingbu Cao <bingbu.cao@amd.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Nicholas Roth <nicholas@rothemail.net>,
-	Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jose Maria Martin <jmmartinf@hotmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 11/11] media: i2c: Add WV517S lens actuator driver
-Message-ID: <apCekMRvLJ1BPo4Q@ashevche-desk.local>
-References: <20260826132256.3343451-1-mauriziocasciano7@gmail.com>
- <20260827181756.2430054-1-mauriziocasciano7@gmail.com>
- <20260827181756.2430054-12-mauriziocasciano7@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UrHzvSP2"
+Received: by mail-pj2-f11.google.com with SMTP id d9443c01a7336-2cf02ecb572so1538975ad.1
+        for <linux-staging@lists.linux.dev>; Thu, 27 Aug 2026 14:47:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787867264; x=1788472064; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=IdbGRL67qpRJE5R55Xlt5nL99zqk3FRNJhY4AvBB8oU=;
+        b=UrHzvSP2238OvQ12FwdIf+dkJBBBZwoGr/iLeNUQmKJK8s66ISgSwHxBzYyO23e8Bk
+         u12qVIe+65ZhbpdygYTUjX/si6kY+/3KNO98TSSMeQGahJ19kcb3jb7itVmzoaqTS0TD
+         pg/8j9XsIaX5fTDNyVJ2i+Rt6NNezVqG7YtNi4VwZ/JdF7n0GZtbFEI9IJwW9swL+utr
+         P/t89nQkPI4/Wik2AlNpdi6izc6yXPA/9cQYlLFho91zESXChwd7DCTxi7J30qEFr24c
+         pqBcvyIumo/zpSAGVj+TmQ/y4ez9cz95rhnV77/nZMCSX35pAI2GZ1vSvBmLdWMJ4O9G
+         B57A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787867264; x=1788472064;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=IdbGRL67qpRJE5R55Xlt5nL99zqk3FRNJhY4AvBB8oU=;
+        b=Gd4IDwzJfmQNoGsiFjsPgVmgdCcVndma6GdSL7eIQ+I6AmFwiDa1FA0JvvQ0V+geJt
+         jUp2dK+QgMLKfUULAPnzAbgod8uWfnERYVXH72zJmnbTaiQiVoMv5+f3SSp8m1eti9FN
+         TDu8qnUhYBBbVNy2QXog6vh1/jjjwt8vfMCDlZ5fkITYuK/ItOKTO+UHPtLzRqY8qlH9
+         X9WbBa2EL1nYmcgsX44229q77CMb38mCQ227+dpyaO9+lEv/J/iwHQ7EVHM5FD7T5+kr
+         +Ks8rHuuERG+46louokmaogz0z7vitRdJ6GD/JYyFHxROaxz9boEQd6qqC4/Isq86P+i
+         fC5w==
+X-Forwarded-Encrypted: i=1; AHgh+RqCRzezkkx8jIGtQuJrND44qJy+zg7G1nyBqj6ln0fAL2fn+VDEB+VQXV6rmdLmhKSQzrn9O7P2ZRV2biR8@lists.linux.dev
+X-Gm-Message-State: AFuF++kaLd1XCpBXx6qy/HfTq5mSPB3FqA36R8N7/50WJbvNM5FoGZ5o
+	e7XGIJB2NSR3qshXdYEZ7yHfSK0YojPkExoxLIuSCXSCXKdJpjlccRCN
+X-Gm-Gg: AR+sD11ivs5NnckBWrrWUI/KnT3lx8PKOR78mR1mIFIJ2XPlBx4v6MjSFYqYQl2Ww2h
+	EsfzsTnMlHr6Uf2qc3usd9d+GdAZkCWsm7VAaose1NybCoB7QuOkCOVpUvpKb9hqPRXQUZmabi3
+	D8CgI97q2jwqiuZ5C8qbZWKre+LA/E97V9YtueYWlXk+Wrz7fV8O4sU9Ri6v/VGDJVc267WbVMe
+	zOpUGlIt/m/hL7KQkeap/IRV318sY8ZTVwsxAeww2s61je60DSlgDssKVcvzVvPIMj5LwgyFMVx
+	hwcDQJFTpBs0Wdm03PvIqOHes320dOk4zor3YHlUgX0MzeIYTCUAiD/sd0WypLG3HySOYoR+HSQ
+	c7nr8eIdZu2K1VW1hc28OUDeQESD+YL275JSpSONXRXB6uzZUw3pISdJo4hJXR1F7gCINKKeaVL
+	1w1l1W3Yfz8A6/+XIvbmNO6y5Hj3EGEAn+q4m6RLc2DrxkqwhRMdQ3Mt+Sr2kktRxvjQRqFw26
+X-Received: by 2002:a17:903:2a90:b0:2d7:1bfd:b240 with SMTP id d9443c01a7336-2d74dc4c2a1mr37262975ad.4.1787867264061;
+        Thu, 27 Aug 2026 14:47:44 -0700 (PDT)
+Received: from Mahmudul.. ([103.139.196.183])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3283d8bc3d2sm25212613eec.21.2026.08.27.14.47.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Aug 2026 14:47:43 -0700 (PDT)
+From: "Md. Mahmudul Hasan Mabud" <mdmahmudulhasan1511@gmail.com>
+To: jic23@kernel.org,
+	nuno.sa@analog.com,
+	Michael.Hennerich@analog.com,
+	gregkh@linuxfoundation.org
+Cc: andy@kernel.org,
+	dlechner@baylibre.com,
+	linux@analog.com,
+	linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	"Md. Mahmudul Hasan Mabud" <mdmahmudulhasan1511@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@intel.com>
+Subject: [PATCH v6] staging: iio: adc: ad7816: Use modern IIO attribute macros
+Date: Fri, 28 Aug 2026 03:47:21 +0600
+Message-Id: <20260827214721.19395-1-mdmahmudulhasan1511@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260827181756.2430054-12-mauriziocasciano7@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Thu, Aug 27, 2026 at 08:17:56PM +0200, Maurizio Casciano wrote:
-> The Lenovo Yoga Book YB1-X91 rear camera contains a WV517S voice-coil
-> actuator. Add a V4L2 lens subdevice exposing the standard 10-bit
-> FOCUS_ABSOLUTE control and the device ringing-control mode.
-> 
-> Use regmap for register access and tie control updates to runtime PM so
-> the IPU bridge sensor link keeps shared power resources active. Propagate
-> PM acquisition failures and restore the drive mode and controls after
-> resume.
-> 
-> The register addresses and drive-mode value are derived from Intel's
-> GPL-2.0 WV517 driver. Retain the Intel copyright notice and document the
-> 2026 copyright for this V4L2/regmap implementation.
+Replace the legacy IIO_DEVICE_ATTR() macros with the modern
+IIO_DEVICE_ATTR_RW() and IIO_DEVICE_ATTR_RO() macros.
 
-...
+This includes renaming driver-specific callback functions to
+standard <name>_show() and <name>_store() formats.
 
-+ container_of.h
-+ device.h // dev_get_drvdata()
+Signed-off-by: Md. Mahmudul Hasan Mabud <mdmahmudulhasan1511@gmail.com>
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+---
+v6:
+  -Dropped extra blank lines based on Andy Shevchenko's feedback.
+v5:
+  - Converted to a standalone single patch (previously part of the v3/v4 series).
+  - Updated commit message and fixed function header line lengths and wrapping based on Andy Shevchenko's feedback on v3.
+    Link: https://lore.kernel.org/linux-iio/act9ovNVsJvWO6Cx@ashevche-desk.local/
+v4:
+  - Sent by mistake without updates.
+v3:
+  - Initial version (as patch 4/4 of the series).
+ drivers/staging/iio/adc/ad7816.c | 69 +++++++++++---------------------
+ 1 file changed, 24 insertions(+), 45 deletions(-)
 
-> +#include <linux/i2c.h>
-> +#include <linux/module.h>
-> +#include <linux/pm_runtime.h>
-> +#include <linux/regmap.h>
-
-+ types.h // true, false
-
-> +#include <media/v4l2-ctrls.h>
-> +#include <media/v4l2-device.h>
-
-...
-
-> +static int wv517s_set_ctrl(struct v4l2_ctrl *ctrl)
-> +{
-> +	struct wv517s_device *wv517s = container_of(ctrl->handler,
-> +						      struct wv517s_device,
-> +						      ctrl_handler);
-
-	struct wv517s_device *wv517s =
-		container_of(ctrl->handler, struct wv517s_device, ctrl_handler);
-
-> +	struct device *dev = wv517s->sd.dev;
-> +	int pm_ret;
-> +	int ret;
-> +
-> +	/* Runtime resume restores controls while the PM state is RPM_RESUMING. */
-> +	pm_ret = pm_runtime_get_if_active(dev);
-> +	if (!pm_ret && !wv517s->resuming)
-> +		return 0;
-> +	if (pm_ret < 0)
-> +		return pm_ret;
-
-> +	if (ctrl->id == V4L2_CID_FOCUS_ABSOLUTE)
-> +		ret = regmap_write(wv517s->regmap, WV517S_REG_FOCUS,
-> +				   ctrl->val);
-> +	else
-> +		ret = -EINVAL;
-
-The else branch can be done before even trying runtime PM.
-
-> +	if (pm_ret > 0)
-> +		pm_runtime_put(dev);
-> +
-> +	return ret;
-> +}
-
-...
-
-> +static int wv517s_probe(struct i2c_client *client)
-> +{
-
-	struct device *dev = &client->dev;
-
-> +	struct wv517s_device *wv517s;
-> +	int ret;
-> +
-> +	wv517s = devm_kzalloc(&client->dev, sizeof(*wv517s), GFP_KERNEL);
-
-	wv517s = devm_kzalloc(dev, sizeof(*wv517s), GFP_KERNEL);
-
-and so on...
-
-> +	if (!wv517s)
-> +		return -ENOMEM;
-> +
-> +	wv517s->regmap = devm_regmap_init_i2c(client, &wv517s_regmap_config);
-> +	if (IS_ERR(wv517s->regmap))
-> +		return dev_err_probe(&client->dev, PTR_ERR(wv517s->regmap),
-> +				     "failed to initialize regmap\n");
-> +
-> +	v4l2_i2c_subdev_init(&wv517s->sd, client, &wv517s_subdev_ops);
-> +	wv517s->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> +	wv517s->sd.internal_ops = &wv517s_internal_ops;
-> +	wv517s->sd.entity.function = MEDIA_ENT_F_LENS;
-> +
-> +	v4l2_ctrl_handler_init(&wv517s->ctrl_handler, 1);
-> +	v4l2_ctrl_new_std(&wv517s->ctrl_handler, &wv517s_ctrl_ops,
-> +			  V4L2_CID_FOCUS_ABSOLUTE, 0,
-> +			  WV517S_MAX_FOCUS_POSITION, 1,
-> +			  WV517S_DEFAULT_FOCUS_POSITION);
-> +	if (wv517s->ctrl_handler.error) {
-> +		ret = wv517s->ctrl_handler.error;
-> +		goto err_free_ctrl_handler;
-> +	}
-> +	wv517s->sd.ctrl_handler = &wv517s->ctrl_handler;
-> +
-> +	ret = media_entity_pads_init(&wv517s->sd.entity, 0, NULL);
-> +	if (ret)
-> +		goto err_free_ctrl_handler;
-> +
-> +	pm_runtime_set_active(&client->dev);
-> +	pm_runtime_enable(&client->dev);
-> +
-> +	ret = wv517s_resume(&client->dev);
-> +	if (ret)
-> +		goto err_disable_pm;
-> +
-> +	ret = v4l2_async_register_subdev(&wv517s->sd);
-> +	if (ret)
-> +		goto err_disable_pm;
-> +
-> +	pm_runtime_idle(&client->dev);
-> +
-> +	return 0;
-> +
-> +err_disable_pm:
-> +	pm_runtime_disable(&client->dev);
-> +	media_entity_cleanup(&wv517s->sd.entity);
-> +err_free_ctrl_handler:
-> +	v4l2_ctrl_handler_free(&wv517s->ctrl_handler);
-> +
-> +	return ret;
-> +}
-
-...
-
-> +static const struct i2c_device_id wv517s_id_table[] = {
-> +	{ "wv517s" },
-
-Use C99 initialisers.
-
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(i2c, wv517s_id_table);
-
-> +static DEFINE_RUNTIME_DEV_PM_OPS(wv517s_pm_ops, NULL, wv517s_resume, NULL);
-
-Move it up, closer to the implementation of the resume callback.
-
+diff --git a/drivers/staging/iio/adc/ad7816.c b/drivers/staging/iio/adc/ad7816.c
+index 30644d2d7..e8c2c1bfe 100644
+--- a/drivers/staging/iio/adc/ad7816.c
++++ b/drivers/staging/iio/adc/ad7816.c
+@@ -116,9 +116,8 @@ static int ad7816_spi_write(struct ad7816_chip_info *chip, u8 data)
+ 	return ret;
+ }
+ 
+-static ssize_t ad7816_show_mode(struct device *dev,
+-				struct device_attribute *attr,
+-				char *buf)
++static ssize_t mode_show(struct device *dev, struct device_attribute *attr,
++			 char *buf)
+ {
+ 	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
+ 	struct ad7816_chip_info *chip = iio_priv(indio_dev);
+@@ -128,10 +127,8 @@ static ssize_t ad7816_show_mode(struct device *dev,
+ 	return sysfs_emit(buf, "full\n");
+ }
+ 
+-static ssize_t ad7816_store_mode(struct device *dev,
+-				 struct device_attribute *attr,
+-				 const char *buf,
+-				 size_t len)
++static ssize_t mode_store(struct device *dev, struct device_attribute *attr,
++			  const char *buf, size_t len)
+ {
+ 	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
+ 	struct ad7816_chip_info *chip = iio_priv(indio_dev);
+@@ -146,25 +143,18 @@ static ssize_t ad7816_store_mode(struct device *dev,
+ 
+ 	return len;
+ }
++static IIO_DEVICE_ATTR_RW(mode, 0);
+ 
+-static IIO_DEVICE_ATTR(mode, 0644,
+-		ad7816_show_mode,
+-		ad7816_store_mode,
+-		0);
+-
+-static ssize_t ad7816_show_available_modes(struct device *dev,
+-					   struct device_attribute *attr,
+-					   char *buf)
++static ssize_t available_modes_show(struct device *dev,
++				    struct device_attribute *attr,
++				    char *buf)
+ {
+ 	return sysfs_emit(buf, "full\npower-save\n");
+ }
++static IIO_DEVICE_ATTR_RO(available_modes, 0);
+ 
+-static IIO_DEVICE_ATTR(available_modes, 0444, ad7816_show_available_modes,
+-			NULL, 0);
+-
+-static ssize_t ad7816_show_channel(struct device *dev,
+-				   struct device_attribute *attr,
+-				   char *buf)
++static ssize_t channel_show(struct device *dev, struct device_attribute *attr,
++			    char *buf)
+ {
+ 	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
+ 	struct ad7816_chip_info *chip = iio_priv(indio_dev);
+@@ -172,10 +162,8 @@ static ssize_t ad7816_show_channel(struct device *dev,
+ 	return sysfs_emit(buf, "%d\n", chip->channel_id);
+ }
+ 
+-static ssize_t ad7816_store_channel(struct device *dev,
+-				    struct device_attribute *attr,
+-				    const char *buf,
+-				    size_t len)
++static ssize_t channel_store(struct device *dev, struct device_attribute *attr,
++			     const char *buf, size_t len)
+ {
+ 	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
+ 	struct ad7816_chip_info *chip = iio_priv(indio_dev);
+@@ -204,15 +192,10 @@ static ssize_t ad7816_store_channel(struct device *dev,
+ 
+ 	return len;
+ }
++static IIO_DEVICE_ATTR_RW(channel, 0);
+ 
+-static IIO_DEVICE_ATTR(channel, 0644,
+-		ad7816_show_channel,
+-		ad7816_store_channel,
+-		0);
+-
+-static ssize_t ad7816_show_value(struct device *dev,
+-				 struct device_attribute *attr,
+-				 char *buf)
++static ssize_t value_show(struct device *dev, struct device_attribute *attr,
++			  char *buf)
+ {
+ 	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
+ 	struct ad7816_chip_info *chip = iio_priv(indio_dev);
+@@ -235,8 +218,7 @@ static ssize_t ad7816_show_value(struct device *dev,
+ 	}
+ 	return sysfs_emit(buf, "%u\n", data);
+ }
+-
+-static IIO_DEVICE_ATTR(value, 0444, ad7816_show_value, NULL, 0);
++static IIO_DEVICE_ATTR_RO(value, 0);
+ 
+ static struct attribute *ad7816_attributes[] = {
+ 	&iio_dev_attr_available_modes.dev_attr.attr,
+@@ -266,9 +248,8 @@ static irqreturn_t ad7816_event_handler(int irq, void *private)
+ 	return IRQ_HANDLED;
+ }
+ 
+-static ssize_t ad7816_show_oti(struct device *dev,
+-			       struct device_attribute *attr,
+-			       char *buf)
++static ssize_t oti_show(struct device *dev, struct device_attribute *attr,
++			char *buf)
+ {
+ 	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
+ 	struct ad7816_chip_info *chip = iio_priv(indio_dev);
+@@ -286,10 +267,10 @@ static ssize_t ad7816_show_oti(struct device *dev,
+ 	return sysfs_emit(buf, "%u\n", chip->oti_data[chip->channel_id]);
+ }
+ 
+-static inline ssize_t ad7816_set_oti(struct device *dev,
+-				     struct device_attribute *attr,
+-				     const char *buf,
+-				     size_t len)
++static inline ssize_t oti_store(struct device *dev,
++				struct device_attribute *attr,
++				const char *buf,
++				size_t len)
+ {
+ 	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
+ 	struct ad7816_chip_info *chip = iio_priv(indio_dev);
+@@ -326,9 +307,7 @@ static inline ssize_t ad7816_set_oti(struct device *dev,
+ 
+ 	return len;
+ }
+-
+-static IIO_DEVICE_ATTR(oti, 0644,
+-		       ad7816_show_oti, ad7816_set_oti, 0);
++static IIO_DEVICE_ATTR_RW(oti, 0);
+ 
+ static struct attribute *ad7816_event_attributes[] = {
+ 	&iio_dev_attr_oti.dev_attr.attr,
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.34.1
 
