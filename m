@@ -1,49 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6299F30F80C
-	for <linux-staging@lists.linux.dev>; Thu, 27 Aug 2026 19:57:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C005E368D5F
+	for <linux-staging@lists.linux.dev>; Thu, 27 Aug 2026 20:04:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787860675; cv=none; b=YOXuJrJJ5MHIMr1OT0n6D21PzZyHWrTCVkfh0A8HoRUoNDZgFMybWUT86FfvsBtLhaqmrTLOhMDetizq8Ah/eSGcfV6GHmaNjDkNUJyXBJmcjskyxoKqoTa2J8J882ryo53cRWR8uoSU0MsZhm4Wfm2tcS+LJPowifGIzjpfEHk=
+	t=1787861045; cv=none; b=QU23NP5ttMHLZeW6Us/47VHc55/HBlIVun20z0GchOLkGBrsffJ+X8KrK3wP5YCrVOByruH7e1kdZnS6ThQ04/H+bq02KVtcx1jx1d4GtXfplnNN3xILovLe2Zldat5sI7o9Lnr2IlHO+na1e424l1HJCuj2yz+byPNgmW8/gS0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787860675; c=relaxed/simple;
-	bh=ajAxoWIobwgQscpuArJ/krQ3ZLgy0OXSTtD4fo/i3Ko=;
+	s=arc-20240116; t=1787861045; c=relaxed/simple;
+	bh=m5EnKMuWOjf0Ww6jocuZe0jZTZlfTK2Vpjk68B3mk1w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qO1+RoD1IzDxN5KEk3iY/pLqGu8/iOVtidsWC1ptuZ33hSos8DdM6HpOHQ/MzpbdU2vBwFnSQCmzPeZezE6ZJDBnRLs1esLSMpFN4nTj4WYv3t6EUVl3H16slEnTFgV0B6dkbC+9hGMU35kKtQmyWDtRENf5U+kQM6G7piMsdo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f8KhKgXw; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q9Y+RVY6pxgswot3edMZ9tmvY20fFSbmlv9J1NKS4YmppO1SIL4POL9jrYulAMWb+VfpG7qAH1Bqibnh0Wosz0HqM/zZ2etU2r+lhLkyXwBnzSeVG8PQ6x+br1tgzDllcWxn87TeRcbdOAyY5Jsd0hoQqSAetm8GyNW8wgphMmU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h4RQLR8r; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f8KhKgXw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h4RQLR8r"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787860675; x=1819396675;
+  t=1787861044; x=1819397044;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ajAxoWIobwgQscpuArJ/krQ3ZLgy0OXSTtD4fo/i3Ko=;
-  b=f8KhKgXweHqAXAamYW5MrdB2Q6ICtnNF0PSFbo0OEUq8QSwJu3L0JLTu
-   k+c1H6hps3IVy9J/tYFP6DTqKK2NsMI4GTCJES909BNXcjCUUd97DPlU4
-   /6UPOHtkoXT6QJ+GF/oj4Y2Gt4xhB8ZyS90YO8stCEc7ZsrEV8u3AH9PC
-   UEzdfzJN6VNG4h4ENHLEYZVXMBrdKgunXC1n1AbB4nfnCCjPNcV3wpFQ2
-   msd7OxXqS1EfwAoMnV2vXHsVo2pcvhlHCfiZNnP/gdGfGo5WxWv6POVfE
-   dpL6JJ6GRV+sL+ssMvBpep187tBnpYyRxivS0/nN888t4BfUFvjZLTmV0
-   g==;
-X-CSE-ConnectionGUID: yFEszjFPRBCglbsFF1UvAA==
-X-CSE-MsgGUID: nOZpbrsTTZa6S1fgZTfEUA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11888"; a="87503985"
+  bh=m5EnKMuWOjf0Ww6jocuZe0jZTZlfTK2Vpjk68B3mk1w=;
+  b=h4RQLR8rOiGbk6gUWSfIq8Fnk91b+91b/AxH5pvplHm0TpwCPhu362+q
+   EU6U6Y8kXGmnFEa3pXvUR1bppzto0GOZRVNq3oAr414jQiI7GwofhIBwh
+   K/8Rkrof0FWJkQsSKGeG9ongk4i74CkDl9gjdBxlz+k8boQlZuYUlpOEt
+   TSAG9PfWKf/8Tp0Tfpbb6bDnG7keRykJPz/1rgCpU4B9PiWjt2E3Mm8QB
+   CnYthlblH/9iynLQBILnc79W5tXvOJfzTDJxngY98rYxUJqCFblngogQY
+   tIQWlw8FiptHRmJknPGI6po0Wo95rD7BRI1hj06MeW865unWG6FVInllL
+   Q==;
+X-CSE-ConnectionGUID: 4qtjxzxuQJehUQVPvpdQjw==
+X-CSE-MsgGUID: 9XtDf5GzT0OeVoMtyL4acg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11888"; a="88494745"
 X-IronPort-AV: E=Sophos;i="6.25,247,1779174000"; 
-   d="scan'208";a="87503985"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2026 12:57:54 -0700
-X-CSE-ConnectionGUID: +qBX4yjbQQGU16efcUNBWw==
-X-CSE-MsgGUID: B2ZQmp6AS4K+fcOn1sb+MA==
+   d="scan'208";a="88494745"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2026 13:04:03 -0700
+X-CSE-ConnectionGUID: LgLa3mGxR2S8tCZRWcGDVw==
+X-CSE-MsgGUID: VxgCP+BMRYWxnrDZ1O/gQQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,247,1779174000"; 
-   d="scan'208";a="261825373"
+   d="scan'208";a="267367051"
 Received: from fpallare-mobl4.ger.corp.intel.com (HELO localhost) ([10.245.244.125])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2026 12:57:50 -0700
-Date: Thu, 27 Aug 2026 22:57:48 +0300
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2026 13:04:00 -0700
+Date: Thu, 27 Aug 2026 23:03:57 +0300
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
 To: Maurizio Casciano <mauriziocasciano7@gmail.com>
 Cc: linux-media@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -56,12 +56,11 @@ Cc: linux-media@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Jose Maria Martin <jmmartinf@hotmail.com>,
 	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 08/11] media: atomisp: support the Yoga Book OV2740
- link
-Message-ID: <apCWvGDbr8KxrqMw@ashevche-desk.local>
+Subject: Re: [PATCH v2 09/11] media: ov2740: add manual white balance controls
+Message-ID: <apCYLROF4NNMQgW3@ashevche-desk.local>
 References: <20260826132256.3343451-1-mauriziocasciano7@gmail.com>
  <20260827181756.2430054-1-mauriziocasciano7@gmail.com>
- <20260827181756.2430054-9-mauriziocasciano7@gmail.com>
+ <20260827181756.2430054-10-mauriziocasciano7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -70,76 +69,99 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260827181756.2430054-9-mauriziocasciano7@gmail.com>
+In-Reply-To: <20260827181756.2430054-10-mauriziocasciano7@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Thu, Aug 27, 2026 at 08:17:53PM +0200, Maurizio Casciano wrote:
-> The YB1-X91L firmware does not describe the complete camera link. Its
-> front OV2740 uses two CSI-2 lanes at a 288 MHz link frequency and sends
-> a 1932x1092 BGGR transport frame with 12 pixels of horizontal and
-> vertical padding around the 1920x1080 image.
+On Thu, Aug 27, 2026 at 08:17:54PM +0200, Maurizio Casciano wrote:
+> The sensor has separate red, green and blue manual white-balance gain
+> registers, but the driver currently writes the same digital-gain value
+> to all three channels. This prevents userspace from correcting the
+> strong color cast of raw Bayer capture.
 > 
-> Allow the AtomISP bridge to provide per-sensor link frequencies and
-> padding, add the matching OV2740 mode, and derive ISP2401 D-PHY timing
-> from the sensor link-frequency control.
+> Expose red- and blue-balance controls relative to the digital gain,
+> update all three channels under group hold, and always release and
+> launch the group even when a channel write fails.
 > 
-> The register values are hardware configuration facts checked against
-> the Lenovo YB1-X91L configuration and physical captures; no proprietary
-> driver code or tuning binary is included.
-> 
-> Tested on a Lenovo Yoga Book YB1-X91L with continuous front-camera raw
+> Tested on the Yoga Book OV2740 with live gain changes and continuous raw
 > capture.
 
 ...
 
-> +bool atomisp_csi2_get_sensor_padding(struct device *dev,
-> +				     struct v4l2_area *padding)
-> +{
-> +	struct acpi_device *adev;
+> -static int ov2740_update_digital_gain(struct ov2740 *ov2740, u32 d_gain)
+> +static int ov2740_update_mwb_gains(struct ov2740 *ov2740)
+>  {
+> -	int ret;
+> +	u32 blue_gain, green_gain, red_gain;
+> +	int end_ret, launch_ret, ret;
 > +
-> +	padding->width = pad_w;
-> +	padding->height = pad_h;
-> +
-> +	adev = ACPI_COMPANION(dev);
-> +	if (!adev)
-> +		return false;
+> +	/* Balance controls use 1024 as unity relative to the digital gain. */
+> +	green_gain = ov2740->digital_gain->val;
+> +	red_gain = DIV_ROUND_CLOSEST(green_gain * ov2740->red_balance->val,
+> +				     OV2740_DGTL_GAIN_DEFAULT);
+> +	red_gain = min(red_gain, OV2740_DGTL_GAIN_MAX);
+> +	blue_gain = DIV_ROUND_CLOSEST(green_gain * ov2740->blue_balance->val,
+> +				      OV2740_DGTL_GAIN_DEFAULT);
+> +	blue_gain = min(blue_gain, OV2740_DGTL_GAIN_MAX);
 
-> +	padding->width = atomisp_csi2_get_padding_value(adev,
-> +							"CsiPaddingWidth", pad_w);
+Move each of them closer to their first user(s) respectively.
 
-	padding->width =
-		atomisp_csi2_get_padding_value(adev, "CsiPaddingWidth", pad_w);
+>  	ret = ov2740_write_reg(ov2740, OV2740_REG_GROUP_ACCESS, 1,
+>  			       OV2740_GROUP_HOLD_START);
+>  	if (ret)
+>  		return ret;
+
+red is here
+
+	red_gain = DIV_ROUND_CLOSEST(d_gain * ov2740->red_balance->val,
+				     OV2740_DGTL_GAIN_DEFAULT);
+	red_gain = min(red_gain, OV2740_DGTL_GAIN_MAX);
+
+> -	ret = ov2740_write_reg(ov2740, OV2740_REG_MWB_R_GAIN, 2, d_gain);
+> +	ret = ov2740_write_reg(ov2740, OV2740_REG_MWB_R_GAIN, 2, red_gain);
+>  	if (ret)
+> -		return ret;
+> +		goto release_group;
+
+green is here
+
+Perhaps leave d_gain as local variable and assign it with
+ov2740->digital_gain->val.
+
+	/* Balance controls use 1024 as unity relative to the digital gain. */
+	u32 d_gain = ov2740->digital_gain->val;
+	u32 blue_gain, green_gain, red_gain;
+	int end_ret, launch_ret, ret;
 
 
-> +	padding->height = atomisp_csi2_get_padding_value(adev,
-> +							 "CsiPaddingHeight", pad_h);
+> -	ret = ov2740_write_reg(ov2740, OV2740_REG_MWB_G_GAIN, 2, d_gain);
+> +	ret = ov2740_write_reg(ov2740, OV2740_REG_MWB_G_GAIN, 2, green_gain);
+>  	if (ret)
+> -		return ret;
+> +		goto release_group;
 
-In the similar way.
+blue is here
 
-> +	return padding->width != pad_w || padding->height != pad_h;
-> +}
-
-...
-
-> -	ATOMISP_SENSOR_CONFIG("INT33BE", 2, false),	/* OV5693 */
-> -	ATOMISP_SENSOR_CONFIG("INT3477", 4, true),	/* OV8858 */
-> -	ATOMISP_SENSOR_CONFIG("OVTI2740", 2, false),	/* OV2740 */
-> +	ATOMISP_SENSOR_CONFIG("INT33BE", 2, false, 0),	/* OV5693 */
-> +	ATOMISP_SENSOR_CONFIG("INT3477", 4, true, 0),	/* OV8858 */
-> +	/* OV2740 */
-> +	ATOMISP_SENSOR_CONFIG("OVTI2740", 2, false, 288 * HZ_PER_MHZ),
-
-It's better to keep style
-
-	/* OV5693 */
-	ATOMISP_SENSOR_CONFIG("INT33BE", 2, false, 0),
-	/* OV8858 */
-	ATOMISP_SENSOR_CONFIG("INT3477", 4, true, 0),
-	/* OV2740 */
-	ATOMISP_SENSOR_CONFIG("OVTI2740", 2, false, 288 * HZ_PER_MHZ),
-
-Check if that can be done in the previous patch(es) already.
+> -	ret = ov2740_write_reg(ov2740, OV2740_REG_MWB_B_GAIN, 2, d_gain);
+> -	if (ret)
+> -		return ret;
+> +	ret = ov2740_write_reg(ov2740, OV2740_REG_MWB_B_GAIN, 2, blue_gain);
+>  
+> -	ret = ov2740_write_reg(ov2740, OV2740_REG_GROUP_ACCESS, 1,
+> -			       OV2740_GROUP_HOLD_END);
+> -	if (ret)
+> -		return ret;
+> +release_group:
+> +	end_ret = ov2740_write_reg(ov2740, OV2740_REG_GROUP_ACCESS, 1,
+> +				   OV2740_GROUP_HOLD_END);
+> +	launch_ret = ov2740_write_reg(ov2740, OV2740_REG_GROUP_ACCESS, 1,
+> +				      OV2740_GROUP_HOLD_LAUNCH);
+>  
+> -	ret = ov2740_write_reg(ov2740, OV2740_REG_GROUP_ACCESS, 1,
+> -			       OV2740_GROUP_HOLD_LAUNCH);
+> -	return ret;
+> +	return ret ?: end_ret ?: launch_ret;
+>  }
 
 -- 
 With Best Regards,
