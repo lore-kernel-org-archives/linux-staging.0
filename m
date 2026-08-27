@@ -1,106 +1,150 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B63135E1B0
-	for <linux-staging@lists.linux.dev>; Thu, 27 Aug 2026 06:26:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4F9F3F8717
+	for <linux-staging@lists.linux.dev>; Thu, 27 Aug 2026 08:45:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787812009; cv=none; b=VicVJTjh2xqBwgnbBFhgPreiuEDLVW7OgviiNdydDog3Ga5Kab4HIeKjj1qvdg7csRRG64vYByxqdPjXJ2Wogj6I7LI7+FnQ61hPEmKDQiPz8Xub3yWp5ZD632HVJY/ZJUMtLP3tJxbPgwJPLNM+oeGDgEekHU0S+rEi/tKqz58=
+	t=1787820342; cv=none; b=QLDrMiwHRD08YlyGzhcw1DNwkQlmdDIwxLPHs+RSyZf0y4n/1l23Our5z53P1UZ5qsC7pqoxDUJAanWmgVHmwm255sNKRog0U3lXULNRahmpgJ9D85CwjphunTIj5tYSVwxqdrAiVP1E+tE19C1SyfY3wqTg2YOR1A7cWH4sCb4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787812009; c=relaxed/simple;
-	bh=oMjEaxWaK8GzABw78h9GyDd1f2Y1YM4x0/BHkzyxhuo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=o6tLT9e9I8N4fHaTfCF1zAm67kgGWdXXDnIydvcERJ7XAdC1JDt0t4ku3fDd9Qv02WVgNoTgKIon+giO6riLqblbImvg7bNfSzFW6AksB5G2uoVpsvh+Vzt69J5sm3nnaVS4Dwvir1l6A3v9dplANMzpU+q87BDPbD3AZCkZtAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MQSXfPlD; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1787820342; c=relaxed/simple;
+	bh=Bun68MjdXjqcRgCBPm51Kng9cowX31nQxyMJXlq0bt0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QH79QzwDSdlJfuetMx7cZd8kcFxn1ciewMOk0fBFTNekTEcMi88e9RXRkQ49KdepdSSc3oQf7uuv7OXMt0VhMt4TwKTprCOdN4Xf6rnR2MEgxQh0q/t+Pnb84VvST6Aqzd4TpDNYtJRl1fj/Wn/2hIVn3NbQ5NjbVZDSQsZEams=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ad90LDso; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MQSXfPlD"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-47f84023916so253910f8f.3
-        for <linux-staging@lists.linux.dev>; Wed, 26 Aug 2026 23:26:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787812005; x=1788416805; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=5cEA9sV0tiBsNi9eOekk/Eu572vric8jOLL/+Ez3K3Y=;
-        b=MQSXfPlDC7/TCU8318YmfdR1WtC9v9FUkWKJcWt58PDrPV95hhBUdaP0JRqBzEGPd0
-         XGDEnZHPIRP6Ef1jjUeFZnESImmXo1kvXFVvfCaS1+b3+nnL8EH659Ba9Mf4NCgoUo+Z
-         M68v5uN3qoJVrmxG6nJbhescJuMqdhr0PYCZ8hJgaifPnUCG/fNnnB1zl+T1VlfENmSN
-         KmUZXNKOlqXXJgBukBbd51lxgqEit1OWG7oxDMMDEoAGAj/7RkMySfLRC0EHays59eN3
-         JNpZdpZ7EIvcphloy+r3ukGCcb8pCs8Gt9jEf3idygfnYSojKRcGB2RC9uQEj7V97NA8
-         /v0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787812005; x=1788416805;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=5cEA9sV0tiBsNi9eOekk/Eu572vric8jOLL/+Ez3K3Y=;
-        b=Bu/j7mZIMO5zUTIF9+SY4ihqy7rgs96eVD93cQD5HStm/QdHX9tMiRc6iFcUMsW0F6
-         Flmp0Gfam6DJkGQaGfSv6tUhkSCSfKzuztp6ZbCl5RWOG63wklgg3B0Oc6masl+QvmJz
-         qr/Mx+r29g+NXwnPBbNSmf9QYIjlgU7fDQc3iSEEq3Y3T8vTO7OICXJBeYZAXMo3a5Ly
-         g0HCZd5GQKla6lv5db5CH0RSlYFIPiDqxSFNfT5NRhVMZRlodbJS7rYwxamuiabyrBhx
-         Z/LzpkqLpUHD3yp31oeLz5W1Ql2rUjtn7+PyejEVWegdlkIDUCbuFbl+pxhDZ+DuQwgM
-         OERg==
-X-Gm-Message-State: AFuF++nZ90iJSuoYL7ezYlCznQrrWDdF8+cOVHjFPCLthccp1i6Fd34l
-	j7Wpeh6xx82Ni6llqIB86WvHhgMIq+e26db2zu/UDkOs0kAv3JqkbqoQ
-X-Gm-Gg: AR+sD12DGXv7+teSvi1jqDdS04YK+Q9D5Ssk/xMNQMqPS7ZvFw4KLiLinRMeGdwjkH3
-	ic614CjS9U1/DyKXA5IjOjjoXznAg8FMNF96wQfMQu+5QPWMOJvpEtxr9jupvsiOMDc47j3HQ1J
-	WoNwuumUxNBivUKlGO+2AKDS+D0TVvYZygMmSU5VHDxkI2Xji/9NqDyQF3rOMEiTCmaWVKg4KXW
-	8PFRSPYC+43r3QNVMBLSrJUInrYJATAZjl2Kc6wTUpwe1RS8YIrqJpOvLpCcQqS+x7d2rHNHhcl
-	zifxlwHbXHxPGhE7/Nu1Y4QbLE/654xr38vaDNM2DnVAhvNXx7/hg+RZNve6rnoIbpRM0Qb9+hU
-	OVEzx3mdrekH9S3Z/yWtr0WuONITT0sz6Sd1566GJeQkS9cCUs6SY4Hbr6Wp7hqYXkgJwI9qA7F
-	A6UXrSfBwOC44BWZmaTtjr6RoB2pwJHT6LK44LKpXSHZvw/rUyH7/mOkhb/fBgZ0oiHPTvuz2hM
-	w/wm3deX/jH5FVBQ+aqAjp4dsbesUY/h1yQdFY5rK0=
-X-Received: by 2002:a05:600c:1382:b0:493:f140:c3fb with SMTP id 5b1f17b1804b1-499dc70b76dmr120592805e9.7.1787812005535;
-        Wed, 26 Aug 2026 23:26:45 -0700 (PDT)
-Received: from DESKTOP-EHH7ATM.localdomain ([102.203.209.200])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49b4d08d86dsm24536605e9.12.2026.08.26.23.26.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Aug 2026 23:26:43 -0700 (PDT)
-From: Godana Emiru <godanaemiru@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Godana Emiru <godanaemiru@gmail.com>
-Subject: [PATCH 3/3] staging: rtl8723bs: wrap long prototype of rtw_os_xmit_resource_free()
-Date: Thu, 27 Aug 2026 09:21:37 +0300
-Message-ID: <20260827062137.12937-3-godanaemiru@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260827062137.12937-1-godanaemiru@gmail.com>
-References: <20260827062137.12937-1-godanaemiru@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ad90LDso"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1787820340; x=1819356340;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Bun68MjdXjqcRgCBPm51Kng9cowX31nQxyMJXlq0bt0=;
+  b=ad90LDsoJdhSGLyhsjnRkVPV4JWmgSTjPpSLhIx2uGbopF63nYF2N9TL
+   3yjuDa0PrBv44XmhDZQ/2eq2KgukqwnvTJKjc17Llmvz6vLOAjPxNBFjw
+   elRdMg0Wej97KUw1QwYXU7wxfvDS1BjgeJXjI1T05+XC1VVY4heR1aozO
+   MXYOPCPct9kaGBEsMi4PlwAaAsG7rGx3PgWMXX0ETF/czvnpRx6IbEY8B
+   XuqpSDLnYBAROZECkGLsf6mHxNEhgKUyaeNUzn2SdKKbwhiLlUWHk+cm0
+   cdyXTy7e5/2KCCcrMAUG8AqA7cGqdIkN2d/nZAWPCg2CTWnb0OaMiMYz1
+   w==;
+X-CSE-ConnectionGUID: d9WO0OrgRvycAH7Ig4nuXQ==
+X-CSE-MsgGUID: Ce2llXYcRWOJitIANeRZGA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11887"; a="88235712"
+X-IronPort-AV: E=Sophos;i="6.25,246,1779174000"; 
+   d="scan'208";a="88235712"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2026 01:45:39 -0700
+X-CSE-ConnectionGUID: l6yvOl/tRBClXA/x6DaMPQ==
+X-CSE-MsgGUID: zHoUCxLMRBOEJZKFuX2TIA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,246,1779174000"; 
+   d="scan'208";a="266513466"
+Received: from amilburn-desk.amilburn-desk (HELO kekkonen.fi.intel.com) ([10.245.244.174])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2026 01:45:34 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 2F24B120C1D;
+	Thu, 27 Aug 2026 11:45:32 +0300 (EEST)
+Date: Thu, 27 Aug 2026 11:45:32 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: dumitru.ceclan@analog.com, mitrutzceclan@gmail.com,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-gpio@vger.kernel.org,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Martin Hecht <Martin.Hecht@avnet.eu>,
+	Andrian Suciu <Adrian.Suciu@analog.com>,
+	Cosmin Tanislav <demonsingur@gmail.com>,
+	Vivekananda Dayananda <vivekana@amd.com>,
+	Cory Keitz <ckeitz@amazon.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Julien Massot <julien.massot@collabora.com>,
+	Rob Herring <robh@kernel.org>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v15 00/22] media: i2c: add Maxim GMSL2/3 serializer and
+ deserializer drivers
+Message-ID: <ao_5LDgGjzvPZVXU@kekkonen.localdomain>
+References: <20260807-gmsl2-3_serdes-v15-0-7212e9e5156a@analog.com>
+ <d0537d7f-6e74-4cca-93ae-398530c5cd51@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d0537d7f-6e74-4cca-93ae-398530c5cd51@ideasonboard.com>
 
-The function prototype exceeds the column limit. Wrap it onto two
-lines, aligned to the open parenthesis.
+Hei Tomi,
 
-No functional change.
+On Wed, Aug 26, 2026 at 01:15:03PM +0300, Tomi Valkeinen wrote:
+> Hi,
+> 
+> On 07/08/2026 16:02, Dumitru Ceclan via B4 Relay wrote:
+> > This series adds new drivers for multiple Maxim GMSL2 and GMSL3 devices,
+> > replacing the few GMSL2 drivers already in upstream, and introducing a
+> > common framework that can be used to implement such GMSL chips, which
+> > avoids code duplication while also adding support for previously
+> > unsupported features.
+> If you send a series, it needs your Signed-off-by.
 
-Signed-off-by: Godana Emiru <godanaemiru@gmail.com>
----
- drivers/staging/rtl8723bs/os_dep/xmit_linux.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Thanks for testing this. It's been out for review for long but without much
+attention. :-\
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-index c5f90a906..4a3c3df5a 100644
---- a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-+++ b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-@@ -49,7 +49,8 @@ signed int rtw_endofpktfile(struct pkt_file *pfile)
- 	return false;
- }
- 
--void rtw_os_xmit_resource_free(struct adapter *padapter, struct xmit_buf *pxmitbuf, u32 free_sz, u8 flag)
-+void rtw_os_xmit_resource_free(struct adapter *padapter, struct xmit_buf *pxmitbuf,
-+			       u32 free_sz, u8 flag)
- {
- 	if (free_sz > 0)
- 		kfree(pxmitbuf->pallocated_buf);
+> 
+> This series also depends on the internal pad, which is not upstream and is
+> not just a straightforward add-a-define case. Sakari's "[PATCH v12 00/86]
+> Generic line based metadata support, internal pads" has it, and additional
+> patches around it. For the time being, I think the internal pad
+> unfortunately blocks merging this.
+
+I've briefly discussed this with Laurent and it seems we both think the
+internal pads could be introduced for this purpose. I don't see this being
+an issue; we still need to pay attention to how they are used which we'd
+need to do in any case.
+
+> 
+> However, (correct me if I'm wrong) the internal pad is only required for
+> TPG. An option would be to remove the TPG support (or at least the parts
+> that make it visible, i.e. you could keep the internal functionality), thus
+> removing the blocker. The TPG could be added later on top.
+
+That's an option, yes, but I'd just merge the internal pad patch.
+
+> 
+> I tested the series on Xilinx Kria KV260 and on TI AM62A SK, both with
+> max96716 deserializer and two max96717 serializers with imx219. On Xilinx I
+> used RAW8, with and without embedded data. On AM62A I used RAW8 and RAW10.
+> 
+> The deserializer TPG gives me no frames at all. I recall the clocking for
+> the TPG was quite a challenge on at least some max96 serializers, so maybe
+> it's related to that.
+> 
+> The serializer TPG worked, although I think there's something funny with it:
+> the initial frames (maybe just the first one) seem to be truncated a bit,
+> there's black at the bottom. Another, a bit more unclear, is that sometimes
+> ser tpg stops working. If I'm not mistaken, what I did was run cam0-tpg +
+> cam1-tpg. Then I tried des tpg. Then cam0-tpg, but it gives me nothing.
+> Streaming with cam0+cam1 video "resets" things and it all works again. I've
+> seen this a few times, but there seems to be some randomness so I haven't
+> been able to pinpoint it, but feels like there's some extra state that's
+> left behind into the HW.
+> 
+> All in all, the normal case (non-tpg) works ok for me:
+
+I'd indeed either fix the TPG before merging the set or postpone adding it
+for this reason. :-)
+
+> 
+> Tested-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
 -- 
-2.53.0
+Terveisin,
 
+Sakari Ailus
