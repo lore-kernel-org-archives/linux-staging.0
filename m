@@ -1,58 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B19A03B2FD6
-	for <linux-staging@lists.linux.dev>; Thu, 27 Aug 2026 11:59:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03F404477E8
+	for <linux-staging@lists.linux.dev>; Thu, 27 Aug 2026 12:13:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787831955; cv=none; b=NXRmSDGfjtQyWfQDnIdDp93VKbYs5DLM6sew3dkimkE/2hYAdUw73r0/QvL3GL/9cKJ8hS84MJuq7ENPKKZ1UrkfN1/cUlwgIe0k/+axfy47V+jTQoSiVyjnaFaB6p/3u+uUH2oK3aZW+uXMCoozA4D6knal+w3+BjNSjutduFw=
+	t=1787832792; cv=none; b=kZg3ERYrlAPIZY2nXlGWjBR5et0UtRoZ6qVBHKbUaHa5sZNQ8uJMOfJcDQykRfaPVpcebY/SFYOhiieT8YpphD6znmIu7zQAIZkzKldVHL9MYeEJ16qvigRRjpNWKO0/8bj2H8eLo+MtnuJdalAHvdeScNGo56zCETSg4lAgDnQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787831955; c=relaxed/simple;
-	bh=gl7Ypggdt6+OInYK5seGvYHZ3ns4wQAaeLb/KQCSOfw=;
+	s=arc-20240116; t=1787832792; c=relaxed/simple;
+	bh=fdo2s9XGyXvtpwE9ycsOJ89ZJGa5LDXmxDbSXQ/Ly3I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pk8OETrGbV6KdnTBWiI/SWcviIrUh6F9Cqc2NFgTPjLV/L1brK9lDR8VERenNc9lNeE9iK27GF6H4+DOyxEjuuJXkrOFgdAgL4ih1vnUJw3UkaVessM0ZSwnEvh6I8v+2BCeP5FewfKKn7pr+GGNG7xx5nYRHEr/dWB9psNlxDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mMCare4E; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=A12xJErrn/WH+q9NBYnV0Xg7IidEglTjtxNe6VtNfmG5aGiTVqfdeAj2ZnI8nO4lFQAxDdXyMRiwfrx0mzTMpjHFw6ltPYy3vROhlG9k4GMjJnLdWc5v2T1FWGIyknN2X5ABrbYaOpo8KFMsPcQmNZWFfJrmpN/A533gtdBg4ps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fwb8maPS; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mMCare4E"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fwb8maPS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787831954; x=1819367954;
+  t=1787832790; x=1819368790;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=gl7Ypggdt6+OInYK5seGvYHZ3ns4wQAaeLb/KQCSOfw=;
-  b=mMCare4E9c8zGSJW0bzv6f3tESo0YDlEOgs+PpKt9Vg7PXK6xLIgePMg
-   CB3UQNFnPM+J1FrhqFxEA6ekTSlsd+D657J+2YsxbPdDDWZ0w2jVK9Ksd
-   wM+2R+2cLC7gmVwPUiJKvFdE4M/htAQTf904ix/rLBBDoWrU3m1ZSJagI
-   uqMPIZYAhK7mH1qEAWvE+KLZ/hhud43EpwaEGaY7eqHvgktpUIEVKyH8C
-   EUxyACMOEF6bEMH+rs35LEKz2PFEuEcwCz477vRDLS7jt8xqmerwlifSm
-   VrqjM0AVDWh0y01jE3BttcPFKfl/x8CWT8PE0o3hph48RSgph95j4CcWA
-   A==;
-X-CSE-ConnectionGUID: 0helL3kaSN+QTXkmXDJJPw==
-X-CSE-MsgGUID: fFpsIWVNSu+EPuF3PCOwpw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11887"; a="105704517"
+  bh=fdo2s9XGyXvtpwE9ycsOJ89ZJGa5LDXmxDbSXQ/Ly3I=;
+  b=Fwb8maPSHI35ij7mf2uPsFF59CDPIPKiODY5LjshJvTbkZUdcbVjJyWF
+   IIu6k+QwB+n2OGdTWwCzCRmkksKnfr+a53gmspjM5ivP5XCjdmXvrzOSo
+   G6FqKTyUYM9hMXi5hfXJXMz5vYOjzCz/AW090UvVhfPvsfqTQFzea6/Qr
+   INPcHAf22L25+SDbDz3E09jht4Zh+pfJrAie/iYWZuxsMMzR9vAtW37Cc
+   AsZt1NTfnDBwgCl16WcXKAGyeNAwt/pN26ziqYIFzMZDMyQ59wZ4nt58H
+   SsB9E5/zjtwZpdW78Qn7ULSdw9+IeIc2TwNNjaU2hzqGLma0g1zXTNO4B
+   w==;
+X-CSE-ConnectionGUID: 63CBa1aTT02/1grCs6tsnQ==
+X-CSE-MsgGUID: rNBshxOmSSedPy1k3+jt8A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11887"; a="111113637"
 X-IronPort-AV: E=Sophos;i="6.25,246,1779174000"; 
-   d="scan'208";a="105704517"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2026 04:59:14 -0700
-X-CSE-ConnectionGUID: T5mZF9iCT9KzrcrE8fY1yQ==
-X-CSE-MsgGUID: eAYSQsFJQgm/QV5Io8v0Lw==
+   d="scan'208";a="111113637"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2026 05:13:09 -0700
+X-CSE-ConnectionGUID: IINibmaPSI+uWTXXLODgrw==
+X-CSE-MsgGUID: kYbk+smzSI6pA0J1YAe0Ig==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,246,1779174000"; 
-   d="scan'208";a="271652792"
+   d="scan'208";a="292694497"
 Received: from amilburn-desk.amilburn-desk (HELO kekkonen.fi.intel.com) ([10.245.244.174])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2026 04:59:10 -0700
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Aug 2026 05:13:05 -0700
 Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id F28C7120DF1;
-	Thu, 27 Aug 2026 14:59:06 +0300 (EEST)
-Date: Thu, 27 Aug 2026 14:59:06 +0300
+	by kekkonen.fi.intel.com (Postfix) with SMTP id C6C83120DF1;
+	Thu, 27 Aug 2026 15:13:02 +0300 (EEST)
+Date: Thu, 27 Aug 2026 15:13:02 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Maurizio Casciano <mauriziocasciano7@gmail.com>,
-	linux-media@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
+To: Maurizio Casciano <mauriziocasciano7@gmail.com>
+Cc: linux-media@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Bingbu Cao <bingbu.cao@amd.com>,
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Nicholas Roth <nicholas@rothemail.net>,
@@ -60,12 +58,10 @@ Cc: Maurizio Casciano <mauriziocasciano7@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Jose Maria Martin <jmmartinf@hotmail.com>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/8] media: ov8858: support 19.2 MHz clock and CHT gain
- setup
-Message-ID: <apAmisduSqFoTrpG@kekkonen.localdomain>
+Subject: Re: [PATCH 2/8] media: i2c: Add Yoga Book camera ACPI IDs
+Message-ID: <apApzsTjVmiWWc-w@kekkonen.localdomain>
 References: <20260826132256.3343451-1-mauriziocasciano7@gmail.com>
- <20260826132256.3343451-2-mauriziocasciano7@gmail.com>
- <apAGGD27ZUFHQ6Aa@ashevche-desk.local>
+ <20260826132256.3343451-3-mauriziocasciano7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -74,35 +70,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <apAGGD27ZUFHQ6Aa@ashevche-desk.local>
+In-Reply-To: <20260826132256.3343451-3-mauriziocasciano7@gmail.com>
 
-On Thu, Aug 27, 2026 at 12:40:40PM +0300, Andy Shevchenko wrote:
-> > static int ov8858_init_ctrls(struct ov8858 *ov8858)
-> 
-> >  	struct v4l2_ctrl_handler *handler = &ov8858->ctrl_handler;
-> >  	const struct ov8858_mode *mode = &ov8858_modes[0];
-> >  	struct v4l2_fwnode_device_properties props;
-> > +	u32 digital_gain_default = OV8858_LONG_DIGIGAIN_DEFAULT;
-> > +	u32 digital_gain_max = OV8858_LONG_DIGIGAIN_MAX;
-> > +	u32 digital_gain_min = OV8858_LONG_DIGIGAIN_MIN;
-> >  	s64 exposure_max, vblank_def;
-> >  	unsigned int pixel_rate;
-> >  	struct v4l2_ctrl *ctrl;
-> 
-> >  			  OV8858_LONG_GAIN_MIN, OV8858_LONG_GAIN_MAX,
-> >  			  OV8858_LONG_GAIN_STEP, OV8858_LONG_GAIN_DEFAULT);
-> >  
-> > +	if (ov8858->xvclk_rate == OV8858_XVCLK_FREQ_19_2MHZ) {
-> > +		digital_gain_min = OV8858_MWB_GAIN_MIN;
-> > +		digital_gain_max = OV8858_MWB_GAIN_MAX;
-> > +		digital_gain_default = OV8858_MWB_GAIN_DEFAULT;
-> > +	}
-> 
-> Instead, use 'else' branch so all assignments are close to each other.
-> Also possible to avoid adding local variables.
+Hi Maurizio,
 
-Or better yet, put them into an array and pick and index based on the
-frequency of the clock.
+Thank you for the set.
+
+On Wed, Aug 26, 2026 at 03:22:50PM +0200, Maurizio Casciano wrote:
+> The Lenovo Yoga Book YB1-X91 firmware enumerates the front OV2740 as
+> OVTI2740 and the rear OV8858 as INT3477. Neither ID currently matches
+> its sensor driver, so both I2C devices remain unbound.
+> 
+> Add the IDs to the corresponding ACPI match tables. Sensor
+> configuration and CSI lane quirks are kept in later patches.
+> 
+> Signed-off-by: Maurizio Casciano <mauriziocasciano7@gmail.com>
+> Assisted-by: Codex:gpt-5.6-sol sparse
+
+Please split this into two, a patch per driver.
+
+What is relevant here that ACPI IDs are added, not so much where these IDs
+are being used (that goes to the cover letter).
 
 -- 
+Regards,
+
 Sakari Ailus
