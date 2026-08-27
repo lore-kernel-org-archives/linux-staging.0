@@ -1,69 +1,82 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18BCA3D1A82
-	for <linux-staging@lists.linux.dev>; Thu, 27 Aug 2026 22:27:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF1E63D75C2
+	for <linux-staging@lists.linux.dev>; Thu, 27 Aug 2026 23:17:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787869688; cv=none; b=i51cZ0pJ0ocLv1eOE9dpcYXYV1t8iG/J2yMGkPXLqhD8/XM0bhLHsBNRwbBMmKetoGJwXdwGh11d+57uhCKMyk6isgJumYPK1CiMXCRwFhM7LxzdsjSKR0uXpGX3YsUQuKMUmYl563kYd2DVHBUGmdhJu6iaKazkTOsON/aLnTg=
+	t=1787872659; cv=none; b=AsY1aq24Q084ww56BcN2c+OXCUldwApyheYE87pgu9aIu/bsdhIrNnbJzgYc2f7Z9OPBtVRT0cg2rmPHmFlVBenpiicBLLVeA3NPJGrWuJ6rOSkjTCDhIo7L9AbFjKx6CDddtJwJHKe3fakheHAJ06Og01PNy+0Dqb/qoQ/g6U8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787869688; c=relaxed/simple;
-	bh=18llIs05IJKa1HdLCnkckJCFlXCUQmYfVtPGNSS1Gag=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=D5bwvps9zGnYC2d8Angzcz5H+u81P3NISqtMMarSdZdOAsPoXuryQX3ISkKbmuq1VJbdIBK1sBEu58T7LVMdWhgqysGhWu6SdUHXnc7H9gv641c7n8/Z82lANxOQ1swvRZRKGZ+IT5zNcEmoC5lxouXO7lTUM94HIvWLEtS5AJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CNQhZRqn; arc=none smtp.client-ip=209.85.128.42
+	s=arc-20240116; t=1787872659; c=relaxed/simple;
+	bh=MwWzWBjcOKzlFiXSr1ZA1u0vpHVMBe5FpwqFUu5lRpg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=i3Gngyoa3KSe00EVU2flQqPe+7BH0bjbbuqvQTlpqtL2l9cKVcDoOQK4nzU88oWA71iROExNThN2rHYIS0ElQd1TaQyfHnzxSrztnn6o1E1JZxI7/UHeR22xo5bxlRtOcwAl9NVFfpHycBZ0ZKiVasg3JZVEubB4GDhq7v3Wz4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hVG37YM+; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CNQhZRqn"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-490cf322ed0so2594605e9.1
-        for <linux-staging@lists.linux.dev>; Thu, 27 Aug 2026 15:27:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hVG37YM+"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-49557167508so3193365e9.1
+        for <linux-staging@lists.linux.dev>; Thu, 27 Aug 2026 16:17:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787869676; x=1788474476; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1787872656; x=1788477456; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=fS7Yp6zONpDID8iVF6b0Hkrhoh2u+ZSy86K9wN/lMH8=;
-        b=CNQhZRqnFjVVn5uMo+PzsOptDD6dzDIZu2Vail/PHkeBkjSpSdua2AuPW7hgClgn/0
-         afkSfXlo1YaOcA7weGdM1tdi6+hTkyQEAVYEcUrim5lGzmylT1aYS5OPJpfdt/EVCmtT
-         5StsgR+KJP+Dhl2+6mOl3hXQ/Oy1jK7R2k2j0LqXlLuRBnHNRQJUteDSIKVfyLb+nUo+
-         mRlTfVEk17d0PQRM3XXYQWUwasR9P0VTpkLMHOSwnG+tfAjOa/u0G6tE4YyGFZbZxsws
-         S+TYgdjfZ7OW5Hir/kHdZP/NLrlHNSOmdbmQITh4iFY+GKaI8J6aElK3QcniHhiTlPtQ
-         UJMA==
+        bh=nWY2lHIS8jp7Db/2xhAjtyDU3H6HPVlMDPrbkzWj6L4=;
+        b=hVG37YM+8faQ3bprRlun2CQUIhAyBaY5tfctkjWLngk6taFxJMggRYMISxtlaxA6cV
+         ayNk1OseqkCAIH+3FYRK7NVYpMPFfw01zmwVK1NbKNwXRUhwjJTT3tQLwy0FdSVzez7+
+         EJzeJOQg5tzwrPy4r2/Px1il4ojcBSiub9QIhgoMCcIOMmMFeHQzTL7m95E1sUQ921aC
+         eLPzJhueJGRgkfxn/rnOJICIaa3jUi2ue0xPU7fNCN4UC0uxyiHgWJx5cYPnvEMJ9FWu
+         v71UPg4blRh90T4AsuNMkqSw1kSufgXsdcWa7RU/LL508L93Fk6pB6GhZSiQ2ArKyMdF
+         jxTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787869676; x=1788474476;
+        d=1e100.net; s=20251104; t=1787872656; x=1788477456;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=fS7Yp6zONpDID8iVF6b0Hkrhoh2u+ZSy86K9wN/lMH8=;
-        b=fx2bAEIYJSpNFhcX0+vzIm1Cq6f0VW4PLMapICsd2o+cHI52dkkOk4zMPtJCEnSiwB
-         gGh1dPMutejyQqeo+u/M2WfILJmlmNEV/Kv1dyCC2u3ltCRR6MC8CuuHpLHb8LJz32ku
-         G/2bkq1ZLd3Rl13k5YfgyiaY/5QUpbhsZVdIGfqMN6M6a1eKpLjDw1YfXQ1TwHWBRhC8
-         kiP7QkEZqHTLG8aqlO9HJmVNCf+J7B8CwYz6Nd8BcIyiwKcbajhFpYwBKR7/6mOD7kCi
-         3s+5aQcead0FrkDf0EYNxxL5aP4dh8ABTJGZ9ziJ2P/uas7clYV8sUhEmH876uC0R/zO
-         Yt+g==
-X-Gm-Message-State: AFuF++mOo6xdV3EcvLJ45leD0EE+ZPuoEuvlCw+tGjJ1cwQowIpD2mNZ
-	9xb+3/6UjTpxy6hxY5y5YGIolRVMooYoqscqiRr8yjcHaFW0iWrSAbcZ
-X-Gm-Gg: AR+sD13HWD/N1XK8/h/2y2lVP7Y20ed615xiSmPqFEMtIt5U2AF5EPtmWuoM3FtQ1SE
-	lv8oGsqlEOYnvchgoI9P1d+wPXdxKUuUdhtlitWIQjDtjkaWvOjrzbNH9Avvu9g7nKo67R5KRFT
-	YS+kbbfiqIJzAngcSq1qK4tDI7Ebnc+jcs66FCGeHnoO+Kz8Hnx3Qptvyb2ZviDsw57XsuPKjt3
-	Pwwkn+EZPMHRX78DDat41n5ABnS5J4qXp7xB5bmYYSpqulfO+rBJLVS37Pe81oIoIiT6lIWkhsM
-	PrgiykEkFvodFs0+YXZ7s3a5U4FDYSeCW5pMMrBiUcDWluMtoMvSBElolaBKflNrKPx1Bhag+qP
-	4+jLGyU+zYTYehTeuC/KqKWG6DK7+lFUa9H80z7ds7BcNQMwDE6sKY3AKyUEeSxoqhQzls45FLa
-	Yn8tK0TwUwk1fNXk6nbNXrPh43xk5BDQsBfa/meIdkZHAyY/KAcZaCpaqbKtn2C+0=
-X-Received: by 2002:a05:600c:a03:b0:499:a8bd:1930 with SMTP id 5b1f17b1804b1-49b91c20ba0mr29526265e9.5.1787869676291;
-        Thu, 27 Aug 2026 15:27:56 -0700 (PDT)
-Received: from xerxes ([2001:8a0:ee6f:5800:65bf:d008:6bb6:cf89])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49b94dc103dsm3174345e9.1.2026.08.27.15.27.55
+        bh=nWY2lHIS8jp7Db/2xhAjtyDU3H6HPVlMDPrbkzWj6L4=;
+        b=rcp44C1rpFdpcZBm0VIcvvzk3qEwVQBXb+2+QD5Bpjf08HGEB+M3h/KxWmjWMMzJjN
+         u4cpx0992ORjKpf8a1F4fsYopm0WW9UVlKHUQvEjfQH4G1EgNySc7GIwy+V0+ufcbpjE
+         minokSIoctP82+1rrngD5isv6rdS0w4Ere9SEgSrd2N2K7AILL5fe5HM7CYpqbborbjx
+         lzss41ngN+lvryhNrFify3sNbG6ZfIYMOJZl547ecAA2wH4gXmfDFQ6lPMvED5BopJvD
+         5wvcs2TGnt0uqkWhrHuIlsaDyqeplTh4xNw7DrsDQpBGDXO6o+VdqQYbBI3PQeENSLUM
+         cYMw==
+X-Forwarded-Encrypted: i=1; AHgh+RrNyhyAKJNV+kpINce8pLsJo8EOyjBM23cZj60rUdG0QyYgviVxDEbFv6msmPwpgul85Wcyc4r9gzR3U6Ca@lists.linux.dev
+X-Gm-Message-State: AFuF++k1b050oEofDT0CfZWVUW4ZwAZr4u5kRLyO8xX1WPrrnauQfHyv
+	T7TOYeZrtlHwVst2pqTHSFTzYA7tKUqbQdWB/BKm0ecBCqroBQDl3jhS
+X-Gm-Gg: AR+sD12a6IQZEIAp+nI67fZFHd+CQFLV7US7EoYxdZU+uWPOyTZ60JAOYh5gmmZnfYO
+	gM+8U7wcK1FkNR/9OH1pSmrhteRiHD1ghDmEx1uf78E1F3rItIepcl2Omvw5TOFtnPrrT6jPdSQ
+	Cbqo/D2aPFZkZejp8vXPRNC05uB4AbVFMKqYH8bPpAUu/+lJxrc8aw+6jEfIIHaMY2m/RG0tenT
+	Lj9j3fLnem1+Qowsn9d9fl2ZOY487hCZHS50+h2GH8XvylwWqyxsZjE+n7EMY51CcCV7TJWRizP
+	3kO6fyO92xWo0EVKN/lKkwhT7U8Q4+Pz2t2Owuqlyec3qkEiAkBnTCdXcPo6DROoL7Ai6A0Yozb
+	uy+eDipG3oN6+C5cqiR12o+b7hn78YtJYc4KbgTkd9SNMUVkBYvX7bXLY+I3vm23aTwH8hDzeDT
+	uV3ihOOe/ZhZ/RL0guDFVfYNHcLSUgOal/fUaFW7MbICf4uCq3wwyIB3be7wToyrJ1AOJz1wFmP
+	NI6gTPL8T+c+QF5RaBguuiXHLR/0ZW+9jcwLreq3Q2w
+X-Received: by 2002:a05:600c:3493:b0:499:b65e:49c9 with SMTP id 5b1f17b1804b1-49b91c4792bmr32163815e9.10.1787872656143;
+        Thu, 27 Aug 2026 16:17:36 -0700 (PDT)
+Received: from 1Z10 ([78.213.170.242])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49b94dc0f57sm7157765e9.2.2026.08.27.16.17.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Aug 2026 15:27:56 -0700 (PDT)
-From: Romeu G <asm.artisan256@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
+        Thu, 27 Aug 2026 16:17:35 -0700 (PDT)
+From: Maurizio Casciano <mauriziocasciano7@gmail.com>
+To: linux-media@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@amd.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Nicholas Roth <nicholas@rothemail.net>,
+	Andy Shevchenko <andy@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@intel.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jose Maria Martin <jmmartinf@hotmail.com>,
+	Uwe Kleine-Koenig <ukleinek@kernel.org>,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Romeu G <asm.artisan256@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: remove unnecessary parentheses in ioctl_cfg80211.c
-Date: Thu, 27 Aug 2026 23:27:52 +0100
-Message-ID: <20260827222752.122457-1-asm.artisan256@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	Maurizio Casciano <mauriziocasciano7@gmail.com>
+Subject: [PATCH v3 00/12] media: Add Lenovo Yoga Book YB1-X91 camera support
+Date: Fri, 28 Aug 2026 01:17:18 +0200
+Message-ID: <cover.1787872237.git.mauriziocasciano7@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -72,270 +85,110 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove unnecessary parentheses around the right-hand side of
-assignments and around function arguments. This clears up all
-"Unnecessary parentheses" warnings reported by checkpatch.pl.
+The Lenovo Yoga Book YB1-X91L exposes an OV2740 front sensor and an
+OV8858 rear sensor through the Cherry Trail AtomISP. Its firmware does
+not provide enough information for the existing sensor and IPU bridge
+drivers to construct the complete camera links.
 
-Signed-off-by: Romeu G <asm.artisan256@gmail.com>
----
- .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 70 +++++++++----------
- 1 file changed, 35 insertions(+), 35 deletions(-)
+Add the ACPI IDs and bridge data, describe both AtomISP camera links,
+support the Yoga Book sensor clocks and modes, expose raw Bayer capture,
+add per-channel white-balance controls, and add the WV517S rear-camera
+lens actuator.
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index 3468d4114f60..a40d8886e233 100644
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -216,7 +216,7 @@ struct cfg80211_bss *rtw_cfg80211_inform_bss(struct adapter *padapter, struct wl
+Raw capture is selected through the normal V4L2 raw pixel formats. There
+is no module parameter or separate private ABI. Processed formats retain
+the existing behavior, while raw formats expose the complete CSI-2
+transport frames required by the ISP2401 copy pipeline.
 
- 	struct wireless_dev *wdev = padapter->rtw_wdev;
- 	struct wiphy *wiphy = wdev->wiphy;
--	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
-+	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+Changes since v2:
 
- 	bssinf_len = pnetwork->network.ie_length + sizeof(struct ieee80211_hdr_3addr);
- 	if (bssinf_len > MAX_BSSINFO_LEN)
-@@ -281,7 +281,7 @@ struct cfg80211_bss *rtw_cfg80211_inform_bss(struct adapter *padapter, struct wl
- 	pbuf = buf;
+- preserve the OV8858 digital-gain explanation and keep separate helpers
+  for the existing long-gain and new manual-white-balance paths;
+- move OV2740 gain variables next to their first uses and retain the
+  three-control cluster requested during review;
+- add a preparatory conversion of atomisp_get_padding() and its callers
+  to struct v4l2_area, then use that type throughout the raw-capture
+  change;
+- deduplicate AtomISP padding parsing with gmin_cfg_get_int(), clean up
+  declaration ordering and keep sensor configuration comments adjacent;
+- use direct WV517S dependency headers, handle inactive Runtime PM before
+  acquiring a reference, use a local device pointer and C99 I2C IDs, and
+  place the PM operations beside the resume callback; and
+- use <linux/acpi.h> for OV8858 because the media CI base used for v2
+  does not provide <linux/device-id/acpi.h>; this caused the v2 bisect,
+  x86/x86_64 build, smatch and sparse jobs to fail before compilation.
 
- 	pwlanhdr = (struct ieee80211_hdr *)pbuf;
--	fctrl = &(pwlanhdr->frame_control);
-+	fctrl = &pwlanhdr->frame_control;
- 	*(fctrl) = 0;
+The tablet DSDT contains the sensor objects requested during review:
 
- 	SetSeqNum(pwlanhdr, 0/*pmlmeext->mgnt_seq*/);
-@@ -291,7 +291,7 @@ struct cfg80211_bss *rtw_cfg80211_inform_bss(struct adapter *padapter, struct wl
- 		eth_broadcast_addr(pwlanhdr->addr1);
- 		SetFrameSubType(pbuf, WIFI_BEACON);
- 	} else {
--		memcpy(pwlanhdr->addr1, myid(&(padapter->eeprompriv)), ETH_ALEN);
-+		memcpy(pwlanhdr->addr1, myid(&padapter->eeprompriv), ETH_ALEN);
- 		SetFrameSubType(pbuf, WIFI_PROBERSP);
- 	}
+    Device (CA11)
+    {
+        Name (_HID, "INT3477")
+        Name (_CID, "OVTI8858")
+        Name (_DDN, "OV8858")
+    }
 
-@@ -328,7 +328,7 @@ struct cfg80211_bss *rtw_cfg80211_inform_bss(struct adapter *padapter, struct wl
-  */
- int rtw_cfg80211_check_bss(struct adapter *padapter)
- {
--	struct wlan_bssid_ex  *pnetwork = &(padapter->mlmeextpriv.mlmext_info.network);
-+	struct wlan_bssid_ex  *pnetwork = &padapter->mlmeextpriv.mlmext_info.network;
- 	struct cfg80211_bss *bss = NULL;
- 	struct ieee80211_channel *notify_channel = NULL;
- 	u32 freq;
-@@ -352,7 +352,7 @@ int rtw_cfg80211_check_bss(struct adapter *padapter)
- void rtw_cfg80211_ibss_indicate_connect(struct adapter *padapter)
- {
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
--	struct wlan_network  *cur_network = &(pmlmepriv->cur_network);
-+	struct wlan_network  *cur_network = &pmlmepriv->cur_network;
- 	struct wireless_dev *pwdev = padapter->rtw_wdev;
- 	struct wiphy *wiphy = pwdev->wiphy;
- 	int freq = (int)cur_network->network.configuration.ds_config;
-@@ -362,7 +362,7 @@ void rtw_cfg80211_ibss_indicate_connect(struct adapter *padapter)
- 		return;
+    Device (CA01)
+    {
+        Name (_HID, "OVTI2740")
+        Name (_CID, "OVTI2740")
+        Name (_DDN, "OV2740")
+    }
 
- 	if (!rtw_cfg80211_check_bss(padapter)) {
--		struct wlan_bssid_ex  *pnetwork = &(padapter->mlmeextpriv.mlmext_info.network);
-+		struct wlan_bssid_ex  *pnetwork = &padapter->mlmeextpriv.mlmext_info.network;
- 		struct wlan_network *scanned = pmlmepriv->cur_network_scanned;
+Pahole reports struct ov2740_mode as 64 bytes, exactly one cacheline,
+with no holes or padding. Struct ov8858 is 792 bytes, naturally aligned
+to 8 bytes, with 4 bytes of tail padding.
 
- 		if (check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE)) {
-@@ -394,7 +394,7 @@ void rtw_cfg80211_ibss_indicate_connect(struct adapter *padapter)
- void rtw_cfg80211_indicate_connect(struct adapter *padapter)
- {
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
--	struct wlan_network  *cur_network = &(pmlmepriv->cur_network);
-+	struct wlan_network  *cur_network = &pmlmepriv->cur_network;
- 	struct wireless_dev *pwdev = padapter->rtw_wdev;
+All twelve patches pass strict checkpatch. The touched Media objects at
+the exact v3 tip pass W=1 and sparse v0.6.5-rc1. A clean 20-job
+bindeb-pkg build containing the same functional camera changes completed
+successfully.
 
- 	if (pwdev->iftype != NL80211_IFTYPE_STATION
-@@ -407,7 +407,7 @@ void rtw_cfg80211_indicate_connect(struct adapter *padapter)
- 		return;
+Runtime testing used a Lenovo Yoga Book YB1-X91L. Both sensors, AtomISP
+and WV517S bound, and both cameras worked after suspend and resume.
+Captures passed with:
 
- 	{
--		struct wlan_bssid_ex  *pnetwork = &(padapter->mlmeextpriv.mlmext_info.network);
-+		struct wlan_bssid_ex  *pnetwork = &padapter->mlmeextpriv.mlmext_info.network;
- 		struct wlan_network *scanned = pmlmepriv->cur_network_scanned;
+- front raw BG10: 1932x1092, 4472832 bytes;
+- rear raw BG10: 3264x2448, 16293888 bytes;
+- front processed YU12: 1920x1080; and
+- rear processed JPEG: 3248x2432, 1530647 bytes.
 
- 		if (!scanned) {
-@@ -493,7 +493,7 @@ static int rtw_cfg80211_ap_set_encryption(struct net_device *dev, struct ieee_pa
- 	struct sta_info *psta = NULL, *pbcmc_sta = NULL;
- 	struct adapter *padapter = rtw_netdev_priv(dev);
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
--	struct security_priv *psecuritypriv =  &(padapter->securitypriv);
-+	struct security_priv *psecuritypriv =  &padapter->securitypriv;
- 	struct sta_priv *pstapriv = &padapter->stapriv;
- 	char *grpkey = padapter->securitypriv.dot118021XGrpKey[param->u.crypt.idx].skey;
- 	char *txkey = padapter->securitypriv.dot118021XGrptxmickey[param->u.crypt.idx].skey;
-@@ -552,7 +552,7 @@ static int rtw_cfg80211_ap_set_encryption(struct net_device *dev, struct ieee_pa
- 			psecuritypriv->dot11PrivacyKeyIndex = wep_key_idx;
- 		}
+With Best Regards,
+Maurizio Casciano
 
--		memcpy(&(psecuritypriv->dot11DefKey[wep_key_idx].skey[0]), param->u.crypt.key, wep_key_len);
-+		memcpy(&psecuritypriv->dot11DefKey[wep_key_idx].skey[0], param->u.crypt.key, wep_key_len);
+Maurizio Casciano (12):
+  media: ov8858: Extract digital gain programming
+  media: ov8858: support 19.2 MHz clock and CHT gain setup
+  media: ov2740: Use C99 initializers for ACPI IDs
+  media: ov2740: Add OVTI2740 ACPI ID
+  media: ov8858: Add INT3477 ACPI ID
+  media: intel: ipu-bridge: Add Yoga Book camera sensors
+  media: atomisp: Add Yoga Book camera configuration
+  media: atomisp: support the Yoga Book OV2740 link
+  media: ov2740: add manual white balance controls
+  media: atomisp: Use struct v4l2_area for padding
+  media: atomisp: allow raw Bayer capture
+  media: i2c: Add WV517S lens actuator driver
 
- 		psecuritypriv->dot11DefKeylen[wep_key_idx] = wep_key_len;
+ MAINTAINERS                                   |   1 +
+ drivers/media/i2c/Kconfig                     |  11 +
+ drivers/media/i2c/Makefile                    |   1 +
+ drivers/media/i2c/ov2740.c                    | 174 ++++++++++++---
+ drivers/media/i2c/ov8858.c                    | 167 ++++++++++++--
+ drivers/media/i2c/wv517s.c                    | 206 ++++++++++++++++++
+ drivers/media/pci/intel/ipu-bridge.c          |  19 +-
+ .../staging/media/atomisp/pci/atomisp_cmd.c   |  71 ++++--
+ .../staging/media/atomisp/pci/atomisp_cmd.h   |   6 +-
+ .../staging/media/atomisp/pci/atomisp_csi2.c  |  17 +-
+ .../staging/media/atomisp/pci/atomisp_csi2.h  |   2 +
+ .../media/atomisp/pci/atomisp_csi2_bridge.c   |  67 +++++-
+ .../media/atomisp/pci/atomisp_internal.h      |   3 +
+ .../staging/media/atomisp/pci/atomisp_ioctl.c |  35 ++-
+ .../staging/media/atomisp/pci/atomisp_v4l2.c  |   9 +
+ include/media/ipu-bridge.h                    |   2 +
+ 16 files changed, 694 insertions(+), 97 deletions(-)
+ create mode 100644 drivers/media/i2c/wv517s.c
 
-@@ -578,8 +578,8 @@ static int rtw_cfg80211_ap_set_encryption(struct net_device *dev, struct ieee_pa
- 				memcpy(grpkey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
 
- 				/* set mic key */
--				memcpy(txkey, &(param->u.crypt.key[16]), 8);
--				memcpy(rxkey, &(param->u.crypt.key[24]), 8);
-+				memcpy(txkey, &param->u.crypt.key[16], 8);
-+				memcpy(rxkey, &param->u.crypt.key[24], 8);
-
- 				psecuritypriv->busetkipkey = true;
-
-@@ -622,8 +622,8 @@ static int rtw_cfg80211_ap_set_encryption(struct net_device *dev, struct ieee_pa
- 					psta->dot118021XPrivacy = _TKIP_;
-
- 					/* set mic key */
--					memcpy(psta->dot11tkiptxmickey.skey, &(param->u.crypt.key[16]), 8);
--					memcpy(psta->dot11tkiprxmickey.skey, &(param->u.crypt.key[24]), 8);
-+					memcpy(psta->dot11tkiptxmickey.skey, &param->u.crypt.key[16], 8);
-+					memcpy(psta->dot11tkiprxmickey.skey, &param->u.crypt.key[24], 8);
-
- 					psecuritypriv->busetkipkey = true;
-
-@@ -652,8 +652,8 @@ static int rtw_cfg80211_ap_set_encryption(struct net_device *dev, struct ieee_pa
- 					memcpy(grpkey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
-
- 					/* set mic key */
--					memcpy(txkey, &(param->u.crypt.key[16]), 8);
--					memcpy(rxkey, &(param->u.crypt.key[24]), 8);
-+					memcpy(txkey, &param->u.crypt.key[16], 8);
-+					memcpy(rxkey, &param->u.crypt.key[24], 8);
-
- 					psecuritypriv->busetkipkey = true;
-
-@@ -748,7 +748,7 @@ static int rtw_cfg80211_set_encryption(struct net_device *dev, struct ieee_param
- 			psecuritypriv->dot11PrivacyKeyIndex = wep_key_idx;
- 		}
-
--		memcpy(&(psecuritypriv->dot11DefKey[wep_key_idx].skey[0]), param->u.crypt.key, wep_key_len);
-+		memcpy(&psecuritypriv->dot11DefKey[wep_key_idx].skey[0], param->u.crypt.key, wep_key_len);
-
- 		psecuritypriv->dot11DefKeylen[wep_key_idx] = wep_key_len;
-
-@@ -778,8 +778,8 @@ static int rtw_cfg80211_set_encryption(struct net_device *dev, struct ieee_param
- 					memcpy(psta->dot118021x_UncstKey.skey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
-
- 					if (strcmp(param->u.crypt.alg, "TKIP") == 0) { /* set mic key */
--						memcpy(psta->dot11tkiptxmickey.skey, &(param->u.crypt.key[16]), 8);
--						memcpy(psta->dot11tkiprxmickey.skey, &(param->u.crypt.key[24]), 8);
-+						memcpy(psta->dot11tkiptxmickey.skey, &param->u.crypt.key[16], 8);
-+						memcpy(psta->dot11tkiprxmickey.skey, &param->u.crypt.key[24], 8);
-
- 						padapter->securitypriv.busetkipkey = false;
- 						/* _set_timer(&padapter->securitypriv.tkip_timer, 50); */
-@@ -789,8 +789,8 @@ static int rtw_cfg80211_set_encryption(struct net_device *dev, struct ieee_param
- 				} else { /* group key */
- 					if (strcmp(param->u.crypt.alg, "TKIP") == 0 || strcmp(param->u.crypt.alg, "CCMP") == 0) {
- 						memcpy(padapter->securitypriv.dot118021XGrpKey[param->u.crypt.idx].skey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
--						memcpy(padapter->securitypriv.dot118021XGrptxmickey[param->u.crypt.idx].skey, &(param->u.crypt.key[16]), 8);
--						memcpy(padapter->securitypriv.dot118021XGrprxmickey[param->u.crypt.idx].skey, &(param->u.crypt.key[24]), 8);
-+						memcpy(padapter->securitypriv.dot118021XGrptxmickey[param->u.crypt.idx].skey, &param->u.crypt.key[16], 8);
-+						memcpy(padapter->securitypriv.dot118021XGrprxmickey[param->u.crypt.idx].skey, &param->u.crypt.key[24], 8);
- 						padapter->securitypriv.binstallGrpkey = true;
-
- 						padapter->securitypriv.dot118021XGrpKeyid = param->u.crypt.idx;
-@@ -981,7 +981,7 @@ static int cfg80211_rtw_get_station(struct wiphy *wiphy,
- 	/* for infra./P2PClient mode */
- 	if (check_fwstate(pmlmepriv, WIFI_STATION_STATE)
- 		&& check_fwstate(pmlmepriv, _FW_LINKED)) {
--		struct wlan_network  *cur_network = &(pmlmepriv->cur_network);
-+		struct wlan_network  *cur_network = &pmlmepriv->cur_network;
-
- 		if (memcmp((u8 *)mac, cur_network->network.mac_address, ETH_ALEN)) {
- 			ret = -ENOENT;
-@@ -1022,7 +1022,7 @@ static int cfg80211_rtw_change_iface(struct wiphy *wiphy,
- 	enum nl80211_iftype old_type;
- 	struct adapter *padapter = rtw_netdev_priv(ndev);
- 	struct wireless_dev *rtw_wdev = padapter->rtw_wdev;
--	struct mlme_ext_priv *pmlmeext = &(padapter->mlmeextpriv);
-+	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
- 	int ret = 0;
-
- 	if (adapter_to_dvobj(padapter)->processing_dev_remove) {
-@@ -1111,11 +1111,11 @@ void rtw_cfg80211_unlink_bss(struct adapter *padapter, struct wlan_network *pnet
- void rtw_cfg80211_surveydone_event_callback(struct adapter *padapter)
- {
- 	struct list_head					*plist, *phead;
--	struct	mlme_priv *pmlmepriv = &(padapter->mlmepriv);
--	struct __queue *queue	= &(pmlmepriv->scanned_queue);
-+	struct	mlme_priv *pmlmepriv = &padapter->mlmepriv;
-+	struct __queue *queue	= &pmlmepriv->scanned_queue;
- 	struct	wlan_network	*pnetwork = NULL;
-
--	spin_lock_bh(&(pmlmepriv->scanned_queue.lock));
-+	spin_lock_bh(&pmlmepriv->scanned_queue.lock);
-
- 	phead = get_list_head(queue);
- 	list_for_each(plist, phead)
-@@ -1124,13 +1124,13 @@ void rtw_cfg80211_surveydone_event_callback(struct adapter *padapter)
-
- 		/* report network only if the current channel set contains the channel to which this network belongs */
- 		if (rtw_ch_set_search_ch(padapter->mlmeextpriv.channel_set, pnetwork->network.configuration.ds_config) >= 0
--			&& true == rtw_validate_ssid(&(pnetwork->network.ssid))) {
-+			&& true == rtw_validate_ssid(&pnetwork->network.ssid)) {
- 			/* ev =translate_scan(padapter, a, pnetwork, ev, stop); */
- 			rtw_cfg80211_inform_bss(padapter, pnetwork);
- 		}
- 	}
-
--	spin_unlock_bh(&(pmlmepriv->scanned_queue.lock));
-+	spin_unlock_bh(&pmlmepriv->scanned_queue.lock);
- }
-
- static int rtw_cfg80211_set_probe_req_wpsp2pie(struct adapter *padapter, char *buf, int len)
-@@ -1138,7 +1138,7 @@ static int rtw_cfg80211_set_probe_req_wpsp2pie(struct adapter *padapter, char *b
- 	int ret = 0;
- 	unsigned int wps_ielen = 0;
- 	u8 *wps_ie;
--	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
-+	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
-
- 	if (len > 0) {
- 		wps_ie = rtw_get_wps_ie(buf, len, NULL, &wps_ielen);
-@@ -2058,8 +2058,8 @@ static netdev_tx_t rtw_cfg80211_monitor_if_xmit_entry(struct sk_buff *skb, struc
- 		/* u8 category, action, OUI_Subtype, dialogToken = 0; */
- 		/* unsigned char *frame_body; */
- 		struct ieee80211_hdr *pwlanhdr;
--		struct xmit_priv *pxmitpriv = &(padapter->xmitpriv);
--		struct mlme_ext_priv *pmlmeext = &(padapter->mlmeextpriv);
-+		struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
-+		struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
- 		u8 *buf = skb->data;
- 		u32 len = skb->len;
- 		u8 category, action;
-@@ -2244,7 +2244,7 @@ static int rtw_add_beacon(struct adapter *adapter, const u8 *head, size_t head_l
- 	int ret = 0;
- 	u8 *pbuf = NULL;
- 	unsigned int len, wps_ielen = 0;
--	struct mlme_priv *pmlmepriv = &(adapter->mlmepriv);
-+	struct mlme_priv *pmlmepriv = &adapter->mlmepriv;
-
- 	if (!check_fwstate(pmlmepriv, WIFI_AP_STATE))
- 		return -EINVAL;
-@@ -2336,7 +2336,7 @@ static int cfg80211_rtw_del_station(struct wiphy *wiphy,
- 	u8 updated = false;
- 	struct sta_info *psta = NULL;
- 	struct adapter *padapter = rtw_netdev_priv(wdev->netdev);
--	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
-+	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 	struct sta_priv *pstapriv = &padapter->stapriv;
- 	const u8 *mac = params->mac;
-
-@@ -2461,8 +2461,8 @@ static int _cfg80211_rtw_mgmt_tx(struct adapter *padapter, u8 tx_ch, const u8 *b
- 	int ret = _FAIL;
- 	bool __maybe_unused ack = true;
- 	struct ieee80211_hdr *pwlanhdr;
--	struct xmit_priv *pxmitpriv = &(padapter->xmitpriv);
--	struct mlme_ext_priv *pmlmeext = &(padapter->mlmeextpriv);
-+	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
-+	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
-
- 	rtw_set_scan_deny(padapter, 1000);
-
---
-2.55.0
+base-commit: 73e3f0710014fe6d4ed98cfc02292f6121db7558
+-- 
+2.53.0
