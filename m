@@ -1,70 +1,74 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6661F3537E5
-	for <linux-staging@lists.linux.dev>; Thu, 27 Aug 2026 06:25:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81ACE35CB9C
+	for <linux-staging@lists.linux.dev>; Thu, 27 Aug 2026 06:26:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787811946; cv=none; b=igJP6FwB2g1fwmLxtJvn49ZwDujQPJ/9hBnTb24twIrNUHjhGsnIl5arNSG6PwjjfGHiJuUbVpFCLI7HfZcT33Kp0lgFcS/54NOqJjSE7l+AV21bkWALtQk79/wDNMDdMmnzbgG2yYCWzka0kxnEhv7bmgjaVeFuxfoxtOGu934=
+	t=1787811986; cv=none; b=j9Jnckp8MCXEjqL8VB8dglkGAY5W7VWWsUAhotkvsXAfjIj57t9Mc6sE8UKqdHJGZmfPOUF42khWU7uQcc6m39pv9atP7//kiDyccArvY1o9UoKvHS3ct37MhAW4DkwrQxTaTlL0k2dzp2JsXIl1+ISLa53Gz+co2W8O0rtyPoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787811946; c=relaxed/simple;
-	bh=aHTSRDVJrAGh0+hItG8JMYF00k9u0CCqZJdDSAjkTUQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nT3EXRvTy+qJst5m58LLKmkprNSazWJOQAXDds5DjAJsGZxYRe3lQqg5JcdV1ruVQma+p+wKjrY8vA/ofM+paBN0uyiOCjC6vhoxdMOtnVzBK49+1HmfWBQNO/HjR82n7TFb0Z4wMs7ILJizFd2Kr38OUYLg1Xbprxj3+JthYp4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aXPc97Rs; arc=none smtp.client-ip=209.85.221.54
+	s=arc-20240116; t=1787811986; c=relaxed/simple;
+	bh=jEstMRNig94iOnFnqSUINlg8AZr6PTalxNt8T4deVsc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Cbr3dokEbgNNlqucjD2L5LSRzPy/e0itjk+EVszmS49ztej7AZnAlQpnmzHZAq1ZbDABmWltrTVyg5yeG5dn4IHxQbfAX55Wlel2E+UOVyjaaQDuzh6Szh6P5Lt0c2Ugb9Qybwt8k8xiWyC2gP9DI9FUz09LqBiCCk1xJekKwmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HXamm5sO; arc=none smtp.client-ip=209.85.221.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aXPc97Rs"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-482e4998d28so812706f8f.2
-        for <linux-staging@lists.linux.dev>; Wed, 26 Aug 2026 23:25:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HXamm5sO"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-482f413a232so68273f8f.2
+        for <linux-staging@lists.linux.dev>; Wed, 26 Aug 2026 23:26:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787811942; x=1788416742; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=H275nmNZhuFySBcS9gUpFxagGHoU0ikfQIf/QoCidkU=;
-        b=aXPc97RsDnuGrKb6mfbUPhnC7Y77U6DIB/2ViqPGCRTUjlVi9pUMjR9P2urqC4247I
-         3ptF5chCakcFWdb2hQuar4ZVHlFEhcgs+WvbL+ytozDCY2cBib0hG+TPRxGQ9+ooA0n6
-         T38o+XHBUgIqBy12EwIXxtCe55CkKuV+1jxBFu5vxFJZaipUpyVM352hSABsFo/xU68C
-         V30w67W353Em8eRdliHOkOODCcbobZSgHJfde14ryjlzTuOD2lnigygkcsnxjZS0vFjH
-         ka9maAwmnbuLwO9vFfpV1x96bU5ydTShzaBxm3UHujBrGT5/wVDw9EVLjhmJEvDMsJVN
-         qxbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787811942; x=1788416742;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1787811984; x=1788416784; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=H275nmNZhuFySBcS9gUpFxagGHoU0ikfQIf/QoCidkU=;
-        b=mA8JnGZez6UKTXrRi8oClK3QFiOryPOEraOymFns5CdSQcAIZx3TyjfEqRSuFQqmPN
-         vCKY99hKF7kWrUbFgFSu/vpcQquQr9QbkLvShAw+KoWhZ95InmFZSIQ8cqyZc6q2pOk4
-         WQ5Y+20DoZuD3BODvwALfqRI8QrMKH1gRBNKdTAa1kxH5dtwBt89E/2SbYYSXr3tXtYD
-         qftMXSiZxhx3Wjs4Kc9NFPB7yHon3gPo5LstgoFlkAfA6El7EGCfofIhQ4HPkdG1LJLK
-         kz48LG1uM3WHghs1Ae9qBRXYc8JzRs39+eSx1+8EBHm68+edUAM+UPFMiYlx7c+vcDUN
-         5SjQ==
-X-Gm-Message-State: AFuF++m3h2cPi5H8SnSBOMWccmBUu5lHgbt0JgT/ee0DGKF+R1HkuS1I
-	0+Dn94IargZXx2I7Wrz8lSSvuuC41hT+tKvr3u/amZytsS15Dy2iRM7a
-X-Gm-Gg: AR+sD12OvulJ1QpgcqMXjw5y1YUq6gLKZBpqN5ArvEWJIYfvVpoguEe4ovW1Jr0RSAL
-	zufqLk62ES5PcJdE+XyJkpjt+YSZqDtmEA+GWyqllP0IVgMOHtG2tch68ZmeTHPeD14rEvXhNlO
-	rv9IH1NAW90tRbmALnvO5SqtA0StQc70LmhNoHJ09OpVK+10Du84NF14DbFO5hPKKvN/CxWcyVo
-	teY/cn33LJfCS0+V+AFyyEux+e1k7BXL6RZcXeAIqa04A4y68sK+Tt7s6odDHpSuCMs84Wzru9E
-	+Ffxj7AhXq9hi/AKbI0cRQ/NDCpDdvHgv7MiktLB+gZcQT76JytN/BdajG8qnWRRG9AosrcDcCX
-	HBHsvxDZakXPStAs6d7Rom6207xk+fbGDibk4MgmdHqx5BLpIZ6msOF81hb1h3wWPvXjkaqJ07b
-	Z/JiR14aF1L1oNb8FeYXH3hMVQMXYcAhgG24x0ltJZg8roKpQStsXDj35iD9fizycuGkXoIvwd3
-	tvfujqTsb+hQXdWtsTDCX2E8RvFoY3D22P2eA4TKDkgg62RwEUB1A==
-X-Received: by 2002:a05:600c:a315:b0:499:84fe:5f3e with SMTP id 5b1f17b1804b1-499dc81cd8emr110986595e9.9.1787811942355;
-        Wed, 26 Aug 2026 23:25:42 -0700 (PDT)
+        bh=E49tYna2k9EalO9qZ5zTtyDSoIWGyMcB3eAoM0LyPd4=;
+        b=HXamm5sOaVmewZPH23rZAR5VMwzK3xYTB9ZUmJK7r9vfnDKB6vGQT2tZiFshzHZdEv
+         vvEy9d5jR9AnU3fU/gTNs4Rj46v+xpDsqDzdbwuWTST0vMQ2a4aASVWwrSxklzAUSI6T
+         bTgggHKA/6i54PTtvCm5MEBrFjIsCDmQ1Rb7w+fzvi6e9Ee9mV2c1kcmSbTqE+3g0hKb
+         nuhJK049mHUviP3CWQFoAOYOeBCAbsuyHBHi7GLX33XN0ofCi4bqs8+jsWfv1NSbt1pt
+         elRW1Ev4kYD49epiMbrZqHiVCsZzSLvozm0Ni9RLtja+ZnlcwOBgycwXyvXWoDqWpI64
+         lrMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787811984; x=1788416784;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=E49tYna2k9EalO9qZ5zTtyDSoIWGyMcB3eAoM0LyPd4=;
+        b=NNE5VXZ0JQheTdjatxCUZvtWKDLcN96izXxvZzHyKAljiL6YOfin53QOnP8MvUxLfR
+         5+4Q9POjvKj/KATBoeAlxDYSNPogg0XgDM0UTjt02WuuCgqHYlaXPDQyHDs5jBXlrI1h
+         J6HQQde7FlKLDQCbK/B9lpCZLtxof1Jor+emcUYenCLpGBiB9ZidOTVvFlad6hcmXwI/
+         oZGzZS2Xtfl8or5vktgZd+mBDscZd9T8gkBWa++72m/NxAqUEnKs6RHSqneCjby1M7xo
+         yYf9l2JP+57YP9vaIyZmeKgoHu7IM23v/7AstteXhJsnTsgACGsZ/mUAoP1ybLPKs+Ix
+         9xww==
+X-Gm-Message-State: AFuF++kzNageOebfnEXZ/bDTsatNGxGqT1N33NpzAe3gagPj/PIjE8yj
+	TbnNLgWQsVI2lMYYLMeOF5AiiTDZ08kc1Vl2pnLhA89H3Ti6yWjUc4dpg69XbhdhHNg=
+X-Gm-Gg: AR+sD13Wjn4QX+mG8Op4bZLX2QgGehJ+jilYkeJqUQbXtoovMkdFqTJR2Tr2hTaFCqo
+	t8ur5jAA315W+UZGMIFo/myed1qZSMkCmmJU+GgOF554By1BR2jLBKPh9xmH4qpeRIeSHY1ZPSr
+	2jW1nxxCFrOQYWgYFgDKKGWMqmXnxWTP2ToAC3ntvCD5AHjp/npPc6o1VvUj2zfxpGo6Rj7WY35
+	x+2BDBn6INemSBsJv16z6+r73/SyJuX/MD8henQ9wIYLaElCiaYVmQRYXCC7y3vdblD1GoJ8VVW
+	N0zAzXHdgwb19+Q9iTWzI6nHVPFn2AcYoEDOKQKUFd7GHYe9xXAngpb9DFxEVuvtHim3GkkqubY
+	4RqEgb9XRU2J3Lw+uLFmUpXWA2l2pp1O2cSD/KT8Fi7orNt71Mk59FJ1Efvz5BLdIwjzp5tu6o1
+	PikWsUjuYHRZhzQNyga9x0vc46uGjJGm7OO0sW7smO3DsLdrcdssRWsxtoFHCE0qi3TCUseVCuu
+	fPuSXY3oPp0uoxdhyu1tRc8jkdYapgmOcbCC4sR9Qs=
+X-Received: by 2002:a05:600c:3b0c:b0:499:b01e:911c with SMTP id 5b1f17b1804b1-499dc6ea9f4mr136989275e9.2.1787811983342;
+        Wed, 26 Aug 2026 23:26:23 -0700 (PDT)
 Received: from DESKTOP-EHH7ATM.localdomain ([102.203.209.200])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49b4d08d86dsm24536605e9.12.2026.08.26.23.25.40
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49b4d08d86dsm24536605e9.12.2026.08.26.23.26.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Aug 2026 23:25:41 -0700 (PDT)
+        Wed, 26 Aug 2026 23:26:22 -0700 (PDT)
 From: Godana Emiru <godanaemiru@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Godana Emiru <godanaemiru@gmail.com>
-Subject: [PATCH 1/3] staging: rtl8723bs: remove a stray blank line in xmit_linux.c
-Date: Thu, 27 Aug 2026 09:21:35 +0300
-Message-ID: <20260827062137.12937-1-godanaemiru@gmail.com>
+Subject: [PATCH 2/3] staging: rtl8723bs: split chained assignments in _rtw_open_pktfile()
+Date: Thu, 27 Aug 2026 09:21:36 +0300
+Message-ID: <20260827062137.12937-2-godanaemiru@gmail.com>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260827062137.12937-1-godanaemiru@gmail.com>
+References: <20260827062137.12937-1-godanaemiru@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -73,28 +77,33 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-There are two consecutive blank lines after the #include. Remove the
-extra one.
+Split the two chained assignments into separate statements, one
+variable per line, preserving the original assignment order.
 
 No functional change.
 
 Signed-off-by: Godana Emiru <godanaemiru@gmail.com>
 ---
- drivers/staging/rtl8723bs/os_dep/xmit_linux.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/staging/rtl8723bs/os_dep/xmit_linux.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-index 4260ed5f4..7a9d2fabc 100644
+index 7a9d2fabc..c5f90a906 100644
 --- a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
 +++ b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-@@ -6,7 +6,6 @@
-  ******************************************************************************/
- #include <drv_types.h>
- 
--
- uint rtw_remainder_len(struct pkt_file *pfile)
+@@ -14,8 +14,10 @@ uint rtw_remainder_len(struct pkt_file *pfile)
+ void _rtw_open_pktfile(struct sk_buff *pktptr, struct pkt_file *pfile)
  {
- 	return (pfile->buf_len - ((SIZE_PTR)(pfile->cur_addr) - (SIZE_PTR)(pfile->buf_start)));
+ 	pfile->pkt = pktptr;
+-	pfile->cur_addr = pfile->buf_start = pktptr->data;
+-	pfile->pkt_len = pfile->buf_len = pktptr->len;
++	pfile->buf_start = pktptr->data;
++	pfile->cur_addr = pfile->buf_start;
++	pfile->buf_len = pktptr->len;
++	pfile->pkt_len = pfile->buf_len;
+ 
+ 	pfile->cur_buffer = pfile->buf_start;
+ }
 -- 
 2.53.0
 
