@@ -1,78 +1,69 @@
-Received: from mail-pj2-f11.google.com (mail-pj2-f11.google.com [74.125.227.139])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B316A36923F
-	for <linux-staging@lists.linux.dev>; Thu, 27 Aug 2026 21:47:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18BCA3D1A82
+	for <linux-staging@lists.linux.dev>; Thu, 27 Aug 2026 22:27:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787867266; cv=none; b=sOTa+eLJOfTPRRWV7JIaC3E4OElLA/L+wO/+t1xWdkzFm7OA0Q/B/+E57a5/pheSUUWpNJCergDLY9sRnF9AGURfprFt14tq/JYEH0vqdDUwNk19mH5xbmOpVQmPZINR19dLIcM4aE6VgFFPXneTsEaBXqECwQH55Z4vvsaansc=
+	t=1787869688; cv=none; b=i51cZ0pJ0ocLv1eOE9dpcYXYV1t8iG/J2yMGkPXLqhD8/XM0bhLHsBNRwbBMmKetoGJwXdwGh11d+57uhCKMyk6isgJumYPK1CiMXCRwFhM7LxzdsjSKR0uXpGX3YsUQuKMUmYl563kYd2DVHBUGmdhJu6iaKazkTOsON/aLnTg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787867266; c=relaxed/simple;
-	bh=lCKmYmW8yf2l0SbBLQAKvKdKNtanvhtCwPx2DZVPfFA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=OBbneR6TOt55xSwUeLcGDz9Xg057iVIKtfASuBPQABacRULwynNJqyhmZzFgq6Cf47CN5IY0J/ebsUMrLn4VCvVNZVRAgZ0mnYu6/cpR+l6EhMcKO0ADJPY5c8Zx7XzEMiy0GtZgsnnuhmThd0hdxhKMgBooRsCgH6SbnuyijuA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UrHzvSP2; arc=none smtp.client-ip=74.125.227.139
+	s=arc-20240116; t=1787869688; c=relaxed/simple;
+	bh=18llIs05IJKa1HdLCnkckJCFlXCUQmYfVtPGNSS1Gag=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=D5bwvps9zGnYC2d8Angzcz5H+u81P3NISqtMMarSdZdOAsPoXuryQX3ISkKbmuq1VJbdIBK1sBEu58T7LVMdWhgqysGhWu6SdUHXnc7H9gv641c7n8/Z82lANxOQ1swvRZRKGZ+IT5zNcEmoC5lxouXO7lTUM94HIvWLEtS5AJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CNQhZRqn; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UrHzvSP2"
-Received: by mail-pj2-f11.google.com with SMTP id d9443c01a7336-2cf02ecb572so1538975ad.1
-        for <linux-staging@lists.linux.dev>; Thu, 27 Aug 2026 14:47:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CNQhZRqn"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-490cf322ed0so2594605e9.1
+        for <linux-staging@lists.linux.dev>; Thu, 27 Aug 2026 15:27:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787867264; x=1788472064; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1787869676; x=1788474476; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=IdbGRL67qpRJE5R55Xlt5nL99zqk3FRNJhY4AvBB8oU=;
-        b=UrHzvSP2238OvQ12FwdIf+dkJBBBZwoGr/iLeNUQmKJK8s66ISgSwHxBzYyO23e8Bk
-         u12qVIe+65ZhbpdygYTUjX/si6kY+/3KNO98TSSMeQGahJ19kcb3jb7itVmzoaqTS0TD
-         pg/8j9XsIaX5fTDNyVJ2i+Rt6NNezVqG7YtNi4VwZ/JdF7n0GZtbFEI9IJwW9swL+utr
-         P/t89nQkPI4/Wik2AlNpdi6izc6yXPA/9cQYlLFho91zESXChwd7DCTxi7J30qEFr24c
-         pqBcvyIumo/zpSAGVj+TmQ/y4ez9cz95rhnV77/nZMCSX35pAI2GZ1vSvBmLdWMJ4O9G
-         B57A==
+        bh=fS7Yp6zONpDID8iVF6b0Hkrhoh2u+ZSy86K9wN/lMH8=;
+        b=CNQhZRqnFjVVn5uMo+PzsOptDD6dzDIZu2Vail/PHkeBkjSpSdua2AuPW7hgClgn/0
+         afkSfXlo1YaOcA7weGdM1tdi6+hTkyQEAVYEcUrim5lGzmylT1aYS5OPJpfdt/EVCmtT
+         5StsgR+KJP+Dhl2+6mOl3hXQ/Oy1jK7R2k2j0LqXlLuRBnHNRQJUteDSIKVfyLb+nUo+
+         mRlTfVEk17d0PQRM3XXYQWUwasR9P0VTpkLMHOSwnG+tfAjOa/u0G6tE4YyGFZbZxsws
+         S+TYgdjfZ7OW5Hir/kHdZP/NLrlHNSOmdbmQITh4iFY+GKaI8J6aElK3QcniHhiTlPtQ
+         UJMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787867264; x=1788472064;
+        d=1e100.net; s=20251104; t=1787869676; x=1788474476;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=IdbGRL67qpRJE5R55Xlt5nL99zqk3FRNJhY4AvBB8oU=;
-        b=Gd4IDwzJfmQNoGsiFjsPgVmgdCcVndma6GdSL7eIQ+I6AmFwiDa1FA0JvvQ0V+geJt
-         jUp2dK+QgMLKfUULAPnzAbgod8uWfnERYVXH72zJmnbTaiQiVoMv5+f3SSp8m1eti9FN
-         TDu8qnUhYBBbVNy2QXog6vh1/jjjwt8vfMCDlZ5fkITYuK/ItOKTO+UHPtLzRqY8qlH9
-         X9WbBa2EL1nYmcgsX44229q77CMb38mCQ227+dpyaO9+lEv/J/iwHQ7EVHM5FD7T5+kr
-         +Ks8rHuuERG+46louokmaogz0z7vitRdJ6GD/JYyFHxROaxz9boEQd6qqC4/Isq86P+i
-         fC5w==
-X-Forwarded-Encrypted: i=1; AHgh+RqCRzezkkx8jIGtQuJrND44qJy+zg7G1nyBqj6ln0fAL2fn+VDEB+VQXV6rmdLmhKSQzrn9O7P2ZRV2biR8@lists.linux.dev
-X-Gm-Message-State: AFuF++kaLd1XCpBXx6qy/HfTq5mSPB3FqA36R8N7/50WJbvNM5FoGZ5o
-	e7XGIJB2NSR3qshXdYEZ7yHfSK0YojPkExoxLIuSCXSCXKdJpjlccRCN
-X-Gm-Gg: AR+sD11ivs5NnckBWrrWUI/KnT3lx8PKOR78mR1mIFIJ2XPlBx4v6MjSFYqYQl2Ww2h
-	EsfzsTnMlHr6Uf2qc3usd9d+GdAZkCWsm7VAaose1NybCoB7QuOkCOVpUvpKb9hqPRXQUZmabi3
-	D8CgI97q2jwqiuZ5C8qbZWKre+LA/E97V9YtueYWlXk+Wrz7fV8O4sU9Ri6v/VGDJVc267WbVMe
-	zOpUGlIt/m/hL7KQkeap/IRV318sY8ZTVwsxAeww2s61je60DSlgDssKVcvzVvPIMj5LwgyFMVx
-	hwcDQJFTpBs0Wdm03PvIqOHes320dOk4zor3YHlUgX0MzeIYTCUAiD/sd0WypLG3HySOYoR+HSQ
-	c7nr8eIdZu2K1VW1hc28OUDeQESD+YL275JSpSONXRXB6uzZUw3pISdJo4hJXR1F7gCINKKeaVL
-	1w1l1W3Yfz8A6/+XIvbmNO6y5Hj3EGEAn+q4m6RLc2DrxkqwhRMdQ3Mt+Sr2kktRxvjQRqFw26
-X-Received: by 2002:a17:903:2a90:b0:2d7:1bfd:b240 with SMTP id d9443c01a7336-2d74dc4c2a1mr37262975ad.4.1787867264061;
-        Thu, 27 Aug 2026 14:47:44 -0700 (PDT)
-Received: from Mahmudul.. ([103.139.196.183])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3283d8bc3d2sm25212613eec.21.2026.08.27.14.47.38
+        bh=fS7Yp6zONpDID8iVF6b0Hkrhoh2u+ZSy86K9wN/lMH8=;
+        b=fx2bAEIYJSpNFhcX0+vzIm1Cq6f0VW4PLMapICsd2o+cHI52dkkOk4zMPtJCEnSiwB
+         gGh1dPMutejyQqeo+u/M2WfILJmlmNEV/Kv1dyCC2u3ltCRR6MC8CuuHpLHb8LJz32ku
+         G/2bkq1ZLd3Rl13k5YfgyiaY/5QUpbhsZVdIGfqMN6M6a1eKpLjDw1YfXQ1TwHWBRhC8
+         kiP7QkEZqHTLG8aqlO9HJmVNCf+J7B8CwYz6Nd8BcIyiwKcbajhFpYwBKR7/6mOD7kCi
+         3s+5aQcead0FrkDf0EYNxxL5aP4dh8ABTJGZ9ziJ2P/uas7clYV8sUhEmH876uC0R/zO
+         Yt+g==
+X-Gm-Message-State: AFuF++mOo6xdV3EcvLJ45leD0EE+ZPuoEuvlCw+tGjJ1cwQowIpD2mNZ
+	9xb+3/6UjTpxy6hxY5y5YGIolRVMooYoqscqiRr8yjcHaFW0iWrSAbcZ
+X-Gm-Gg: AR+sD13HWD/N1XK8/h/2y2lVP7Y20ed615xiSmPqFEMtIt5U2AF5EPtmWuoM3FtQ1SE
+	lv8oGsqlEOYnvchgoI9P1d+wPXdxKUuUdhtlitWIQjDtjkaWvOjrzbNH9Avvu9g7nKo67R5KRFT
+	YS+kbbfiqIJzAngcSq1qK4tDI7Ebnc+jcs66FCGeHnoO+Kz8Hnx3Qptvyb2ZviDsw57XsuPKjt3
+	Pwwkn+EZPMHRX78DDat41n5ABnS5J4qXp7xB5bmYYSpqulfO+rBJLVS37Pe81oIoIiT6lIWkhsM
+	PrgiykEkFvodFs0+YXZ7s3a5U4FDYSeCW5pMMrBiUcDWluMtoMvSBElolaBKflNrKPx1Bhag+qP
+	4+jLGyU+zYTYehTeuC/KqKWG6DK7+lFUa9H80z7ds7BcNQMwDE6sKY3AKyUEeSxoqhQzls45FLa
+	Yn8tK0TwUwk1fNXk6nbNXrPh43xk5BDQsBfa/meIdkZHAyY/KAcZaCpaqbKtn2C+0=
+X-Received: by 2002:a05:600c:a03:b0:499:a8bd:1930 with SMTP id 5b1f17b1804b1-49b91c20ba0mr29526265e9.5.1787869676291;
+        Thu, 27 Aug 2026 15:27:56 -0700 (PDT)
+Received: from xerxes ([2001:8a0:ee6f:5800:65bf:d008:6bb6:cf89])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49b94dc103dsm3174345e9.1.2026.08.27.15.27.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Aug 2026 14:47:43 -0700 (PDT)
-From: "Md. Mahmudul Hasan Mabud" <mdmahmudulhasan1511@gmail.com>
-To: jic23@kernel.org,
-	nuno.sa@analog.com,
-	Michael.Hennerich@analog.com,
-	gregkh@linuxfoundation.org
-Cc: andy@kernel.org,
-	dlechner@baylibre.com,
-	linux@analog.com,
-	linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev,
+        Thu, 27 Aug 2026 15:27:56 -0700 (PDT)
+From: Romeu G <asm.artisan256@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	"Md. Mahmudul Hasan Mabud" <mdmahmudulhasan1511@gmail.com>,
-	Andy Shevchenko <andriy.shevchenko@intel.com>
-Subject: [PATCH v6] staging: iio: adc: ad7816: Use modern IIO attribute macros
-Date: Fri, 28 Aug 2026 03:47:21 +0600
-Message-Id: <20260827214721.19395-1-mdmahmudulhasan1511@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	Romeu G <asm.artisan256@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: remove unnecessary parentheses in ioctl_cfg80211.c
+Date: Thu, 27 Aug 2026 23:27:52 +0100
+Message-ID: <20260827222752.122457-1-asm.artisan256@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -81,170 +72,270 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace the legacy IIO_DEVICE_ATTR() macros with the modern
-IIO_DEVICE_ATTR_RW() and IIO_DEVICE_ATTR_RO() macros.
+Remove unnecessary parentheses around the right-hand side of
+assignments and around function arguments. This clears up all
+"Unnecessary parentheses" warnings reported by checkpatch.pl.
 
-This includes renaming driver-specific callback functions to
-standard <name>_show() and <name>_store() formats.
-
-Signed-off-by: Md. Mahmudul Hasan Mabud <mdmahmudulhasan1511@gmail.com>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+Signed-off-by: Romeu G <asm.artisan256@gmail.com>
 ---
-v6:
-  -Dropped extra blank lines based on Andy Shevchenko's feedback.
-v5:
-  - Converted to a standalone single patch (previously part of the v3/v4 series).
-  - Updated commit message and fixed function header line lengths and wrapping based on Andy Shevchenko's feedback on v3.
-    Link: https://lore.kernel.org/linux-iio/act9ovNVsJvWO6Cx@ashevche-desk.local/
-v4:
-  - Sent by mistake without updates.
-v3:
-  - Initial version (as patch 4/4 of the series).
- drivers/staging/iio/adc/ad7816.c | 69 +++++++++++---------------------
- 1 file changed, 24 insertions(+), 45 deletions(-)
+ .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 70 +++++++++----------
+ 1 file changed, 35 insertions(+), 35 deletions(-)
 
-diff --git a/drivers/staging/iio/adc/ad7816.c b/drivers/staging/iio/adc/ad7816.c
-index 30644d2d7..e8c2c1bfe 100644
---- a/drivers/staging/iio/adc/ad7816.c
-+++ b/drivers/staging/iio/adc/ad7816.c
-@@ -116,9 +116,8 @@ static int ad7816_spi_write(struct ad7816_chip_info *chip, u8 data)
- 	return ret;
- }
- 
--static ssize_t ad7816_show_mode(struct device *dev,
--				struct device_attribute *attr,
--				char *buf)
-+static ssize_t mode_show(struct device *dev, struct device_attribute *attr,
-+			 char *buf)
- {
- 	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
- 	struct ad7816_chip_info *chip = iio_priv(indio_dev);
-@@ -128,10 +127,8 @@ static ssize_t ad7816_show_mode(struct device *dev,
- 	return sysfs_emit(buf, "full\n");
- }
- 
--static ssize_t ad7816_store_mode(struct device *dev,
--				 struct device_attribute *attr,
--				 const char *buf,
--				 size_t len)
-+static ssize_t mode_store(struct device *dev, struct device_attribute *attr,
-+			  const char *buf, size_t len)
- {
- 	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
- 	struct ad7816_chip_info *chip = iio_priv(indio_dev);
-@@ -146,25 +143,18 @@ static ssize_t ad7816_store_mode(struct device *dev,
- 
- 	return len;
- }
-+static IIO_DEVICE_ATTR_RW(mode, 0);
- 
--static IIO_DEVICE_ATTR(mode, 0644,
--		ad7816_show_mode,
--		ad7816_store_mode,
--		0);
--
--static ssize_t ad7816_show_available_modes(struct device *dev,
--					   struct device_attribute *attr,
--					   char *buf)
-+static ssize_t available_modes_show(struct device *dev,
-+				    struct device_attribute *attr,
-+				    char *buf)
- {
- 	return sysfs_emit(buf, "full\npower-save\n");
- }
-+static IIO_DEVICE_ATTR_RO(available_modes, 0);
- 
--static IIO_DEVICE_ATTR(available_modes, 0444, ad7816_show_available_modes,
--			NULL, 0);
--
--static ssize_t ad7816_show_channel(struct device *dev,
--				   struct device_attribute *attr,
--				   char *buf)
-+static ssize_t channel_show(struct device *dev, struct device_attribute *attr,
-+			    char *buf)
- {
- 	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
- 	struct ad7816_chip_info *chip = iio_priv(indio_dev);
-@@ -172,10 +162,8 @@ static ssize_t ad7816_show_channel(struct device *dev,
- 	return sysfs_emit(buf, "%d\n", chip->channel_id);
- }
- 
--static ssize_t ad7816_store_channel(struct device *dev,
--				    struct device_attribute *attr,
--				    const char *buf,
--				    size_t len)
-+static ssize_t channel_store(struct device *dev, struct device_attribute *attr,
-+			     const char *buf, size_t len)
- {
- 	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
- 	struct ad7816_chip_info *chip = iio_priv(indio_dev);
-@@ -204,15 +192,10 @@ static ssize_t ad7816_store_channel(struct device *dev,
- 
- 	return len;
- }
-+static IIO_DEVICE_ATTR_RW(channel, 0);
- 
--static IIO_DEVICE_ATTR(channel, 0644,
--		ad7816_show_channel,
--		ad7816_store_channel,
--		0);
--
--static ssize_t ad7816_show_value(struct device *dev,
--				 struct device_attribute *attr,
--				 char *buf)
-+static ssize_t value_show(struct device *dev, struct device_attribute *attr,
-+			  char *buf)
- {
- 	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
- 	struct ad7816_chip_info *chip = iio_priv(indio_dev);
-@@ -235,8 +218,7 @@ static ssize_t ad7816_show_value(struct device *dev,
+diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+index 3468d4114f60..a40d8886e233 100644
+--- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
++++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+@@ -216,7 +216,7 @@ struct cfg80211_bss *rtw_cfg80211_inform_bss(struct adapter *padapter, struct wl
+
+ 	struct wireless_dev *wdev = padapter->rtw_wdev;
+ 	struct wiphy *wiphy = wdev->wiphy;
+-	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
++	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+
+ 	bssinf_len = pnetwork->network.ie_length + sizeof(struct ieee80211_hdr_3addr);
+ 	if (bssinf_len > MAX_BSSINFO_LEN)
+@@ -281,7 +281,7 @@ struct cfg80211_bss *rtw_cfg80211_inform_bss(struct adapter *padapter, struct wl
+ 	pbuf = buf;
+
+ 	pwlanhdr = (struct ieee80211_hdr *)pbuf;
+-	fctrl = &(pwlanhdr->frame_control);
++	fctrl = &pwlanhdr->frame_control;
+ 	*(fctrl) = 0;
+
+ 	SetSeqNum(pwlanhdr, 0/*pmlmeext->mgnt_seq*/);
+@@ -291,7 +291,7 @@ struct cfg80211_bss *rtw_cfg80211_inform_bss(struct adapter *padapter, struct wl
+ 		eth_broadcast_addr(pwlanhdr->addr1);
+ 		SetFrameSubType(pbuf, WIFI_BEACON);
+ 	} else {
+-		memcpy(pwlanhdr->addr1, myid(&(padapter->eeprompriv)), ETH_ALEN);
++		memcpy(pwlanhdr->addr1, myid(&padapter->eeprompriv), ETH_ALEN);
+ 		SetFrameSubType(pbuf, WIFI_PROBERSP);
  	}
- 	return sysfs_emit(buf, "%u\n", data);
- }
--
--static IIO_DEVICE_ATTR(value, 0444, ad7816_show_value, NULL, 0);
-+static IIO_DEVICE_ATTR_RO(value, 0);
- 
- static struct attribute *ad7816_attributes[] = {
- 	&iio_dev_attr_available_modes.dev_attr.attr,
-@@ -266,9 +248,8 @@ static irqreturn_t ad7816_event_handler(int irq, void *private)
- 	return IRQ_HANDLED;
- }
- 
--static ssize_t ad7816_show_oti(struct device *dev,
--			       struct device_attribute *attr,
--			       char *buf)
-+static ssize_t oti_show(struct device *dev, struct device_attribute *attr,
-+			char *buf)
- {
- 	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
- 	struct ad7816_chip_info *chip = iio_priv(indio_dev);
-@@ -286,10 +267,10 @@ static ssize_t ad7816_show_oti(struct device *dev,
- 	return sysfs_emit(buf, "%u\n", chip->oti_data[chip->channel_id]);
- }
- 
--static inline ssize_t ad7816_set_oti(struct device *dev,
--				     struct device_attribute *attr,
--				     const char *buf,
--				     size_t len)
-+static inline ssize_t oti_store(struct device *dev,
-+				struct device_attribute *attr,
-+				const char *buf,
-+				size_t len)
- {
- 	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
- 	struct ad7816_chip_info *chip = iio_priv(indio_dev);
-@@ -326,9 +307,7 @@ static inline ssize_t ad7816_set_oti(struct device *dev,
- 
- 	return len;
- }
--
--static IIO_DEVICE_ATTR(oti, 0644,
--		       ad7816_show_oti, ad7816_set_oti, 0);
-+static IIO_DEVICE_ATTR_RW(oti, 0);
- 
- static struct attribute *ad7816_event_attributes[] = {
- 	&iio_dev_attr_oti.dev_attr.attr,
--- 
-2.34.1
 
+@@ -328,7 +328,7 @@ struct cfg80211_bss *rtw_cfg80211_inform_bss(struct adapter *padapter, struct wl
+  */
+ int rtw_cfg80211_check_bss(struct adapter *padapter)
+ {
+-	struct wlan_bssid_ex  *pnetwork = &(padapter->mlmeextpriv.mlmext_info.network);
++	struct wlan_bssid_ex  *pnetwork = &padapter->mlmeextpriv.mlmext_info.network;
+ 	struct cfg80211_bss *bss = NULL;
+ 	struct ieee80211_channel *notify_channel = NULL;
+ 	u32 freq;
+@@ -352,7 +352,7 @@ int rtw_cfg80211_check_bss(struct adapter *padapter)
+ void rtw_cfg80211_ibss_indicate_connect(struct adapter *padapter)
+ {
+ 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+-	struct wlan_network  *cur_network = &(pmlmepriv->cur_network);
++	struct wlan_network  *cur_network = &pmlmepriv->cur_network;
+ 	struct wireless_dev *pwdev = padapter->rtw_wdev;
+ 	struct wiphy *wiphy = pwdev->wiphy;
+ 	int freq = (int)cur_network->network.configuration.ds_config;
+@@ -362,7 +362,7 @@ void rtw_cfg80211_ibss_indicate_connect(struct adapter *padapter)
+ 		return;
+
+ 	if (!rtw_cfg80211_check_bss(padapter)) {
+-		struct wlan_bssid_ex  *pnetwork = &(padapter->mlmeextpriv.mlmext_info.network);
++		struct wlan_bssid_ex  *pnetwork = &padapter->mlmeextpriv.mlmext_info.network;
+ 		struct wlan_network *scanned = pmlmepriv->cur_network_scanned;
+
+ 		if (check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE)) {
+@@ -394,7 +394,7 @@ void rtw_cfg80211_ibss_indicate_connect(struct adapter *padapter)
+ void rtw_cfg80211_indicate_connect(struct adapter *padapter)
+ {
+ 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+-	struct wlan_network  *cur_network = &(pmlmepriv->cur_network);
++	struct wlan_network  *cur_network = &pmlmepriv->cur_network;
+ 	struct wireless_dev *pwdev = padapter->rtw_wdev;
+
+ 	if (pwdev->iftype != NL80211_IFTYPE_STATION
+@@ -407,7 +407,7 @@ void rtw_cfg80211_indicate_connect(struct adapter *padapter)
+ 		return;
+
+ 	{
+-		struct wlan_bssid_ex  *pnetwork = &(padapter->mlmeextpriv.mlmext_info.network);
++		struct wlan_bssid_ex  *pnetwork = &padapter->mlmeextpriv.mlmext_info.network;
+ 		struct wlan_network *scanned = pmlmepriv->cur_network_scanned;
+
+ 		if (!scanned) {
+@@ -493,7 +493,7 @@ static int rtw_cfg80211_ap_set_encryption(struct net_device *dev, struct ieee_pa
+ 	struct sta_info *psta = NULL, *pbcmc_sta = NULL;
+ 	struct adapter *padapter = rtw_netdev_priv(dev);
+ 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+-	struct security_priv *psecuritypriv =  &(padapter->securitypriv);
++	struct security_priv *psecuritypriv =  &padapter->securitypriv;
+ 	struct sta_priv *pstapriv = &padapter->stapriv;
+ 	char *grpkey = padapter->securitypriv.dot118021XGrpKey[param->u.crypt.idx].skey;
+ 	char *txkey = padapter->securitypriv.dot118021XGrptxmickey[param->u.crypt.idx].skey;
+@@ -552,7 +552,7 @@ static int rtw_cfg80211_ap_set_encryption(struct net_device *dev, struct ieee_pa
+ 			psecuritypriv->dot11PrivacyKeyIndex = wep_key_idx;
+ 		}
+
+-		memcpy(&(psecuritypriv->dot11DefKey[wep_key_idx].skey[0]), param->u.crypt.key, wep_key_len);
++		memcpy(&psecuritypriv->dot11DefKey[wep_key_idx].skey[0], param->u.crypt.key, wep_key_len);
+
+ 		psecuritypriv->dot11DefKeylen[wep_key_idx] = wep_key_len;
+
+@@ -578,8 +578,8 @@ static int rtw_cfg80211_ap_set_encryption(struct net_device *dev, struct ieee_pa
+ 				memcpy(grpkey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
+
+ 				/* set mic key */
+-				memcpy(txkey, &(param->u.crypt.key[16]), 8);
+-				memcpy(rxkey, &(param->u.crypt.key[24]), 8);
++				memcpy(txkey, &param->u.crypt.key[16], 8);
++				memcpy(rxkey, &param->u.crypt.key[24], 8);
+
+ 				psecuritypriv->busetkipkey = true;
+
+@@ -622,8 +622,8 @@ static int rtw_cfg80211_ap_set_encryption(struct net_device *dev, struct ieee_pa
+ 					psta->dot118021XPrivacy = _TKIP_;
+
+ 					/* set mic key */
+-					memcpy(psta->dot11tkiptxmickey.skey, &(param->u.crypt.key[16]), 8);
+-					memcpy(psta->dot11tkiprxmickey.skey, &(param->u.crypt.key[24]), 8);
++					memcpy(psta->dot11tkiptxmickey.skey, &param->u.crypt.key[16], 8);
++					memcpy(psta->dot11tkiprxmickey.skey, &param->u.crypt.key[24], 8);
+
+ 					psecuritypriv->busetkipkey = true;
+
+@@ -652,8 +652,8 @@ static int rtw_cfg80211_ap_set_encryption(struct net_device *dev, struct ieee_pa
+ 					memcpy(grpkey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
+
+ 					/* set mic key */
+-					memcpy(txkey, &(param->u.crypt.key[16]), 8);
+-					memcpy(rxkey, &(param->u.crypt.key[24]), 8);
++					memcpy(txkey, &param->u.crypt.key[16], 8);
++					memcpy(rxkey, &param->u.crypt.key[24], 8);
+
+ 					psecuritypriv->busetkipkey = true;
+
+@@ -748,7 +748,7 @@ static int rtw_cfg80211_set_encryption(struct net_device *dev, struct ieee_param
+ 			psecuritypriv->dot11PrivacyKeyIndex = wep_key_idx;
+ 		}
+
+-		memcpy(&(psecuritypriv->dot11DefKey[wep_key_idx].skey[0]), param->u.crypt.key, wep_key_len);
++		memcpy(&psecuritypriv->dot11DefKey[wep_key_idx].skey[0], param->u.crypt.key, wep_key_len);
+
+ 		psecuritypriv->dot11DefKeylen[wep_key_idx] = wep_key_len;
+
+@@ -778,8 +778,8 @@ static int rtw_cfg80211_set_encryption(struct net_device *dev, struct ieee_param
+ 					memcpy(psta->dot118021x_UncstKey.skey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
+
+ 					if (strcmp(param->u.crypt.alg, "TKIP") == 0) { /* set mic key */
+-						memcpy(psta->dot11tkiptxmickey.skey, &(param->u.crypt.key[16]), 8);
+-						memcpy(psta->dot11tkiprxmickey.skey, &(param->u.crypt.key[24]), 8);
++						memcpy(psta->dot11tkiptxmickey.skey, &param->u.crypt.key[16], 8);
++						memcpy(psta->dot11tkiprxmickey.skey, &param->u.crypt.key[24], 8);
+
+ 						padapter->securitypriv.busetkipkey = false;
+ 						/* _set_timer(&padapter->securitypriv.tkip_timer, 50); */
+@@ -789,8 +789,8 @@ static int rtw_cfg80211_set_encryption(struct net_device *dev, struct ieee_param
+ 				} else { /* group key */
+ 					if (strcmp(param->u.crypt.alg, "TKIP") == 0 || strcmp(param->u.crypt.alg, "CCMP") == 0) {
+ 						memcpy(padapter->securitypriv.dot118021XGrpKey[param->u.crypt.idx].skey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
+-						memcpy(padapter->securitypriv.dot118021XGrptxmickey[param->u.crypt.idx].skey, &(param->u.crypt.key[16]), 8);
+-						memcpy(padapter->securitypriv.dot118021XGrprxmickey[param->u.crypt.idx].skey, &(param->u.crypt.key[24]), 8);
++						memcpy(padapter->securitypriv.dot118021XGrptxmickey[param->u.crypt.idx].skey, &param->u.crypt.key[16], 8);
++						memcpy(padapter->securitypriv.dot118021XGrprxmickey[param->u.crypt.idx].skey, &param->u.crypt.key[24], 8);
+ 						padapter->securitypriv.binstallGrpkey = true;
+
+ 						padapter->securitypriv.dot118021XGrpKeyid = param->u.crypt.idx;
+@@ -981,7 +981,7 @@ static int cfg80211_rtw_get_station(struct wiphy *wiphy,
+ 	/* for infra./P2PClient mode */
+ 	if (check_fwstate(pmlmepriv, WIFI_STATION_STATE)
+ 		&& check_fwstate(pmlmepriv, _FW_LINKED)) {
+-		struct wlan_network  *cur_network = &(pmlmepriv->cur_network);
++		struct wlan_network  *cur_network = &pmlmepriv->cur_network;
+
+ 		if (memcmp((u8 *)mac, cur_network->network.mac_address, ETH_ALEN)) {
+ 			ret = -ENOENT;
+@@ -1022,7 +1022,7 @@ static int cfg80211_rtw_change_iface(struct wiphy *wiphy,
+ 	enum nl80211_iftype old_type;
+ 	struct adapter *padapter = rtw_netdev_priv(ndev);
+ 	struct wireless_dev *rtw_wdev = padapter->rtw_wdev;
+-	struct mlme_ext_priv *pmlmeext = &(padapter->mlmeextpriv);
++	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+ 	int ret = 0;
+
+ 	if (adapter_to_dvobj(padapter)->processing_dev_remove) {
+@@ -1111,11 +1111,11 @@ void rtw_cfg80211_unlink_bss(struct adapter *padapter, struct wlan_network *pnet
+ void rtw_cfg80211_surveydone_event_callback(struct adapter *padapter)
+ {
+ 	struct list_head					*plist, *phead;
+-	struct	mlme_priv *pmlmepriv = &(padapter->mlmepriv);
+-	struct __queue *queue	= &(pmlmepriv->scanned_queue);
++	struct	mlme_priv *pmlmepriv = &padapter->mlmepriv;
++	struct __queue *queue	= &pmlmepriv->scanned_queue;
+ 	struct	wlan_network	*pnetwork = NULL;
+
+-	spin_lock_bh(&(pmlmepriv->scanned_queue.lock));
++	spin_lock_bh(&pmlmepriv->scanned_queue.lock);
+
+ 	phead = get_list_head(queue);
+ 	list_for_each(plist, phead)
+@@ -1124,13 +1124,13 @@ void rtw_cfg80211_surveydone_event_callback(struct adapter *padapter)
+
+ 		/* report network only if the current channel set contains the channel to which this network belongs */
+ 		if (rtw_ch_set_search_ch(padapter->mlmeextpriv.channel_set, pnetwork->network.configuration.ds_config) >= 0
+-			&& true == rtw_validate_ssid(&(pnetwork->network.ssid))) {
++			&& true == rtw_validate_ssid(&pnetwork->network.ssid)) {
+ 			/* ev =translate_scan(padapter, a, pnetwork, ev, stop); */
+ 			rtw_cfg80211_inform_bss(padapter, pnetwork);
+ 		}
+ 	}
+
+-	spin_unlock_bh(&(pmlmepriv->scanned_queue.lock));
++	spin_unlock_bh(&pmlmepriv->scanned_queue.lock);
+ }
+
+ static int rtw_cfg80211_set_probe_req_wpsp2pie(struct adapter *padapter, char *buf, int len)
+@@ -1138,7 +1138,7 @@ static int rtw_cfg80211_set_probe_req_wpsp2pie(struct adapter *padapter, char *b
+ 	int ret = 0;
+ 	unsigned int wps_ielen = 0;
+ 	u8 *wps_ie;
+-	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
++	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+
+ 	if (len > 0) {
+ 		wps_ie = rtw_get_wps_ie(buf, len, NULL, &wps_ielen);
+@@ -2058,8 +2058,8 @@ static netdev_tx_t rtw_cfg80211_monitor_if_xmit_entry(struct sk_buff *skb, struc
+ 		/* u8 category, action, OUI_Subtype, dialogToken = 0; */
+ 		/* unsigned char *frame_body; */
+ 		struct ieee80211_hdr *pwlanhdr;
+-		struct xmit_priv *pxmitpriv = &(padapter->xmitpriv);
+-		struct mlme_ext_priv *pmlmeext = &(padapter->mlmeextpriv);
++		struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
++		struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+ 		u8 *buf = skb->data;
+ 		u32 len = skb->len;
+ 		u8 category, action;
+@@ -2244,7 +2244,7 @@ static int rtw_add_beacon(struct adapter *adapter, const u8 *head, size_t head_l
+ 	int ret = 0;
+ 	u8 *pbuf = NULL;
+ 	unsigned int len, wps_ielen = 0;
+-	struct mlme_priv *pmlmepriv = &(adapter->mlmepriv);
++	struct mlme_priv *pmlmepriv = &adapter->mlmepriv;
+
+ 	if (!check_fwstate(pmlmepriv, WIFI_AP_STATE))
+ 		return -EINVAL;
+@@ -2336,7 +2336,7 @@ static int cfg80211_rtw_del_station(struct wiphy *wiphy,
+ 	u8 updated = false;
+ 	struct sta_info *psta = NULL;
+ 	struct adapter *padapter = rtw_netdev_priv(wdev->netdev);
+-	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
++	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 	struct sta_priv *pstapriv = &padapter->stapriv;
+ 	const u8 *mac = params->mac;
+
+@@ -2461,8 +2461,8 @@ static int _cfg80211_rtw_mgmt_tx(struct adapter *padapter, u8 tx_ch, const u8 *b
+ 	int ret = _FAIL;
+ 	bool __maybe_unused ack = true;
+ 	struct ieee80211_hdr *pwlanhdr;
+-	struct xmit_priv *pxmitpriv = &(padapter->xmitpriv);
+-	struct mlme_ext_priv *pmlmeext = &(padapter->mlmeextpriv);
++	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
++	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+
+ 	rtw_set_scan_deny(padapter, 1000);
+
+--
+2.55.0
