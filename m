@@ -1,103 +1,199 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65EDA304BB3
-	for <linux-staging@lists.linux.dev>; Fri, 28 Aug 2026 13:32:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D928D37E5D0
+	for <linux-staging@lists.linux.dev>; Fri, 28 Aug 2026 16:15:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787923922; cv=none; b=H+kCTu8Z1DH7++Vzi3Fn8pvbQmE+aPcaUHTetoddW/+renKA887IuVfwgTmaowTysYtrtu2BbUxNf98r/6J8A2P3BCR/JkZTu6/SlL9feKoZkRTRbYCtjUUjENI9I3x2XQbtQK1qltLzsE9lSPCIUgMR1+aec0RdhbEXgsYBkeE=
+	t=1787933704; cv=none; b=HRK5/quOfjRsEWkdHxSzha0318zeRYx3hDhykhqQ3RIQddxwRZwoRKN9vSb9hKvY0Zc0kPpxD/eznT1x9M4VzKvgLNKmqQeVyxMNEH0rkDU5aO970gxYjysY3+1tQ1PCblGj0I1CbQQAea8r+ettIyinuklv8q7GeFyIb9b3fw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787923922; c=relaxed/simple;
-	bh=vP5V+pCuyFgveglxjmlFRA86XFPdwRTLBpPd1GdcEhQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=enJGZ1f/Dh5XbaDlxkf9/X8mBh6iRvQp9/NJHCt65OA5KaYQ3OjmIuMKVB4Zlz6Bgea9hrYc0VKuw0loEBT1s3joULBLUtaQmhy8SSr2PAVvefL6Qa/ejmiS30KScw9ecZp71NjQiaV+fz8+gp8uUBRk9JBmj5YG6EtS8E0xtf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mZrdan3r; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1787933704; c=relaxed/simple;
+	bh=3kVaLsENVzCA0MKHItsT8KdlkzDfudPfKLD+VfaEPg0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=prWqBnBUlIsfs0w6qPvH05RFLxpL1UO+D33Foc4Nx3ZKsiL8HlE3ciMHuUWWhZlQITE3LoPmVoWT9JfffIn4oi8XlzmZWr3Km1OfF+qJ0Fue4tvyAHiHUu20d/rZutgcWi91dUyqY5OH8bLmYs5dWK1JptSmuy9w2rZ32DY2qmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IZsA9qdR; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mZrdan3r"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787923920; x=1819459920;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=vP5V+pCuyFgveglxjmlFRA86XFPdwRTLBpPd1GdcEhQ=;
-  b=mZrdan3rYIMqbUJF6eeaQ5MLinOsmna8/+nvKuL3JU8y2YZRddfFKV3t
-   BMuvkm0kn0iV6tJEulUGI15aArkf+InyZ+eqr/TCfrWTKsC7TeUZhaDs6
-   QfCVhbIzsFLyIbyCa8u+GTMmvEzZ2l6bzp0NLsWWqv+V+4q0cCe7QN7l8
-   TQm//TWOG8E73Ub6NGEoZqNsR4y0CEiAKg7fGJZXHH4zHg5Rz0ElTbSYA
-   KIXpSIJmH6m+XKpKN6GfiL5zGlX0lVWt/xOS3QEcL5jMfubFfJn/w+fBb
-   wjjW7Ag+gXPLL83rDOz683o2HKprgMRWmg16m7rNk1E07dapD93bGe5YD
-   g==;
-X-CSE-ConnectionGUID: ixxZGl1UTbm6k8Dfw8zDRQ==
-X-CSE-MsgGUID: NjAlkUrnSyelLuWJu+rdvQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11888"; a="75976719"
-X-IronPort-AV: E=Sophos;i="6.25,248,1779174000"; 
-   d="scan'208";a="75976719"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2026 06:31:58 -0700
-X-CSE-ConnectionGUID: SxQnCkggQ8G+eE8124Y2RA==
-X-CSE-MsgGUID: +1ynk+76QHi0F6gE7/DNoA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,248,1779174000"; 
-   d="scan'208";a="272382258"
-Received: from fpallare-mobl4.ger.corp.intel.com (HELO localhost) ([10.245.245.167])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2026 06:31:55 -0700
-Date: Fri, 28 Aug 2026 16:31:52 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Maurizio Casciano <mauriziocasciano7@gmail.com>,
-	linux-media@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IZsA9qdR"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-482f9309813so641056f8f.1
+        for <linux-staging@lists.linux.dev>; Fri, 28 Aug 2026 09:15:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787933701; x=1788538501; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=4ZptsHb/UWruuO/ahO6Igs1sBi59ogcVWq9/GJG1KZM=;
+        b=IZsA9qdR+0a0TRN3IijTyzwSo05VUahmZth3Bzrqe7rt/Clc4EynYyyXV9U8VBHyzc
+         X9pxUDjP4yrudPfHIDeorHlugT5Ra+ccjOSQ2KlUnaz1e7xw6WxVderFx+1wZ9nnrbDm
+         lxzXK3wPzYh7F8Lm+opka81LrSedxmnJR3lT2JbgatEJR6XF8Vxm6Z/pcOT4oIs3VdQo
+         xVT2W7+BYIV1FB9WyCDEd5lIGeGApPCMc/Lup2IDRuJlQ7xHFAk8vXk3vswvjssBkwXh
+         8VZzyTJqAZvTZF0g50YoFRtM7vBBqlaCEIwNYV+mvY2D23cBEL1hzAkTA3ATUjNEl+1b
+         K0mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787933701; x=1788538501;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=4ZptsHb/UWruuO/ahO6Igs1sBi59ogcVWq9/GJG1KZM=;
+        b=UfnnbqPA/ttHF1b+Hl38fb/B0v49UlcUauRFBfjNXBCmEcuSKKQDWIdaPnSqvsTRaz
+         0wGhCTy/2rOdqLYM9Rj+maMbuGmYSd89IEBWxUsIN7JhP6/Khir+pG5PmH1uEQ+/Ixle
+         nzqkBiZ29SoqUmXgE6yjwFIXPbf93afYuGz/WHdV3ZhRwrVJfOyoECje2M8oxWECyWKh
+         Y9Zg0Wal23GyKDISYehC/pPcXYErytF1BgBxxLejG5gQGKZXugvqgQ4KL8foz40wr4o7
+         1n+kcP5OIyo41qqvcUx3doSewK4ZnUC3bz/Acouqtl1cN/kyu1FBz1EMcF1Cue+kXJy0
+         xPSQ==
+X-Forwarded-Encrypted: i=1; AHgh+Rq/Mn6ivGN2dAld1CzPjv2+ABGJoVGA9RugxlOgByLkvD71VV01ZLiMZ2YMbEF2MQmD1e0U6CEg7/QtlGY8@lists.linux.dev
+X-Gm-Message-State: AFuF++nv0Rb8vlJiTrYiJYxUzCIMuqL2zhZ5pJED1ZzpUSQ2GuuO/i+Q
+	2/Am3OC3o9stK1Hmiki0MUQIqbmCIlfzROzMsXNcCCRTg4SUiFjpKzTw
+X-Gm-Gg: AR+sD130XJU93eCkoTJR5rnRPt0/yMpn1huZJP/kpzN3bOMVBr3IK5ZmNe86gqcrVsa
+	TdHXZxxNPEKwOBywugxWRg2tc+cdPhCn2u1SfavjfAqzxJxsLKchVwcj2l/fRl/5S1tZzYA/8Rw
+	FiPsgfbvYzpY+oaJNU1umb5P4KwVnI8pvP0LyU8mpDLLDHWMzImzPGBesh6pNyZ0CrLG1KSFHlr
+	eUpP78yxrGoYwXiix8zt3SGp/498MLYRIaCB8Alo1FQz0bHPFyRHrcXZ+hi/RFyVDZqgmwexOfv
+	znupNFRrKsynpxZi7CRHu93aFwJ1Mb4/XNFnfTtrx+QfHAU41DSYGB4S4+LR1xheM4TZvkLcRKd
+	khTUwdbRwH8lXfsPgXavBHBRNT8exheZVQphrmbpDiP9rYS5n+VhKlXmNlWYVCeHs3FsIriJTSD
+	kVMNZ1unpqIANS5/uXMCAO+cwgxkmS0IoH3i3S1EbRQfXXoCJnZzp5OrRoNqoVRfnD8gMQSBm93
+	K7bR9bk1fxElZmQ5EdtEOeFq6bZG29OzQp8aNSenXNSpV7Cr3Zd
+X-Received: by 2002:a05:6000:4715:b0:47f:c648:e265 with SMTP id ffacd0b85a97d-482f79bf064mr15006951f8f.17.1787933700887;
+        Fri, 28 Aug 2026 09:15:00 -0700 (PDT)
+Received: from 1Z10 ([78.213.5.213])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482fbab3f45sm7629739f8f.7.2026.08.28.09.14.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Aug 2026 09:15:00 -0700 (PDT)
+From: Maurizio Casciano <mauriziocasciano7@gmail.com>
+To: linux-media@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Bingbu Cao <bingbu.cao@amd.com>,
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Nicholas Roth <nicholas@rothemail.net>,
-	Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>,
+	Andy Shevchenko <andy@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@intel.com>,
+	Hans de Goede <hansg@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Jose Maria Martin <jmmartinf@hotmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 05/11] media: ov8858: Add INT3477 ACPI ID
-Message-ID: <apGNyISEGM3vx3d2@ashevche-desk.local>
-References: <20260826132256.3343451-1-mauriziocasciano7@gmail.com>
- <20260827181756.2430054-1-mauriziocasciano7@gmail.com>
- <20260827181756.2430054-6-mauriziocasciano7@gmail.com>
- <apFvSlkU9V1f1mrZ@kekkonen.localdomain>
- <CAHp75VfOba8pSw-4NhTOyzJxjEB97qfE+w+RjXEtdMrNEZMOOw@mail.gmail.com>
+	Uwe Kleine-Koenig <ukleinek@kernel.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Maurizio Casciano <mauriziocasciano7@gmail.com>
+Subject: [PATCH v4 00/15] media: Add Lenovo Yoga Book YB1-X91 camera support
+Date: Fri, 28 Aug 2026 18:14:42 +0200
+Message-ID: <cover.1787933456.git.mauriziocasciano7@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHp75VfOba8pSw-4NhTOyzJxjEB97qfE+w+RjXEtdMrNEZMOOw@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Fri, Aug 28, 2026 at 04:24:38PM +0300, Andy Shevchenko wrote:
-> On Fri, Aug 28, 2026 at 2:21 PM Sakari Ailus
-> <sakari.ailus@linux.intel.com> wrote:
-> > On Thu, Aug 27, 2026 at 08:17:50PM +0200, Maurizio Casciano wrote:
+The Lenovo Yoga Book YB1-X91L exposes an OV2740 front sensor and an
+OV8858 rear sensor through the Cherry Trail AtomISP. Its firmware does
+not provide enough information for the existing sensor and IPU bridge
+drivers to construct the complete camera links.
 
-...
+Add the ACPI IDs and bridge data, describe both AtomISP camera links,
+support the Yoga Book sensor clocks and modes, expose raw Bayer capture,
+add per-channel white-balance controls, and add the WV517S rear-camera
+lens actuator.
 
-> > > +             .acpi_match_table = ov8858_acpi_match,
-> >
-> > Please use ACPI_PTR() for this one. (Also see
-> > <URL:https://lore.kernel.org/linux-media/20260828084328.257703-1-sakari.ailus@linux.intel.com/T/#t>;
-> > this won't produce a compiler warning then.)
-> 
-> Why?! What's the point in having this?
+Raw capture is selected through the normal V4L2 raw pixel formats. There
+is no module parameter or separate private ABI. Raw formats expose the
+complete sensor transport frame required by the ISP2401 copy pipeline;
+selecting a smaller crop remains a userspace decision.
 
-For the record, while the first patches are okay there, I definitely NAKed
-the last one. It's quite controversial.
+Changes since v3:
 
--- 
+- use ACPI_PTR() for the new OV8858 ACPI match table;
+- split the Yoga Book OV2740 link support into sensor, IPU bridge,
+  AtomISP timing and device-specific frequency patches;
+- reuse the existing OV2740 1932x1092 mode register list and SGRBG10
+  Bayer order for the 288 MHz link frequency;
+- carry per-sensor link frequencies through the IPU bridge and use
+  v4l2_get_link_freq() with s64 arithmetic for AtomISP D-PHY timing;
+- remove the sensor-specific kernel padding override: raw capture exposes
+  the full transport frame and userspace owns the centered crop;
+- keep struct v4l2_area for the existing AtomISP padding interface without
+  adding per-sensor padding state; and
+- add review links to the commits that address the requested changes.
+
+v3:
+https://lore.kernel.org/linux-media/cover.1787872237.git.mauriziocasciano7@gmail.com/
+
+The tablet DSDT contains the sensor objects requested during review:
+
+    Device (CA11)
+    {
+        Name (_HID, "INT3477")
+        Name (_CID, "OVTI8858")
+        Name (_DDN, "OV8858")
+    }
+
+    Device (CA01)
+    {
+        Name (_HID, "OVTI2740")
+        Name (_CID, "OVTI2740")
+        Name (_DDN, "OV2740")
+    }
+
+Pahole reports struct ov2740_mode as 64 bytes, exactly one cacheline,
+with no holes or padding. Struct ov8858 is 792 bytes, naturally aligned
+to 8 bytes, with 4 bytes of tail padding. Struct ipu_sensor is 2096 bytes
+in v4, reduced from 2104 bytes during review.
+
+All fifteen patches pass strict checkpatch. The touched Media objects at
+the exact v4 tip pass W=1 and sparse v0.6.5-rc1. A clean 20-job full
+kernel package build containing the patch-equivalent v4 series completed
+successfully.
+
+Runtime testing used a Lenovo Yoga Book YB1-X91L booted with
+7.2.0-yogabook-20260828-163827 from integration commit
+907805589733fd2e9112118314ac811361afdcd2. Both sensors, AtomISP and
+WV517S bound. The OV2740 exposed its full 1932x1092 SGRBG10 transport and
+completed three consecutive direct raw captures at approximately 30 fps.
+The camera userspace consumed that interface with a centered 1920x1080
+crop, and the rear OV8858 preview consumed its SBGGR10 transport.
+
+The 1280x720 YUYV rear endpoint completed a bounded 90-frame capture,
+then switched automatically to a bounded 150-frame front capture. Both
+physical camera images and front/rear switching were tested successfully
+in Cheese. Speakers, microphone, Halo keyboard haptics and pen mode were
+also retested on the same integrated kernel without regressions.
+
 With Best Regards,
-Andy Shevchenko
+Maurizio Casciano
 
+Maurizio Casciano (15):
+  media: ov8858: Extract digital gain programming
+  media: ov8858: support 19.2 MHz clock and CHT gain setup
+  media: ov2740: Use C99 initializers for ACPI IDs
+  media: ov2740: Add OVTI2740 ACPI ID
+  media: ov8858: Add INT3477 ACPI ID
+  media: intel: ipu-bridge: Add Yoga Book camera sensors
+  media: atomisp: Add Yoga Book camera configuration
+  media: ov2740: support 288 MHz link frequency
+  media: intel: ipu-bridge: allow sensor-specific link frequencies
+  media: atomisp: derive CSI-2 timing from sensor link frequency
+  media: atomisp: provide Yoga Book OV2740 link frequency
+  media: ov2740: add manual white balance controls
+  media: atomisp: Use struct v4l2_area for padding
+  media: atomisp: allow raw Bayer capture
+  media: i2c: Add WV517S lens actuator driver
 
+ MAINTAINERS                                   |   1 +
+ drivers/media/i2c/Kconfig                     |  11 +
+ drivers/media/i2c/Makefile                    |   1 +
+ drivers/media/i2c/ov2740.c                    | 116 +++++++---
+ drivers/media/i2c/ov8858.c                    | 167 ++++++++++++--
+ drivers/media/i2c/wv517s.c                    | 206 ++++++++++++++++++
+ drivers/media/pci/intel/ipu-bridge.c          |  19 +-
+ .../staging/media/atomisp/pci/atomisp_cmd.c   |  64 ++++--
+ .../staging/media/atomisp/pci/atomisp_cmd.h   |   6 +-
+ .../staging/media/atomisp/pci/atomisp_csi2.c  |  20 +-
+ .../media/atomisp/pci/atomisp_csi2_bridge.c   |  30 ++-
+ .../staging/media/atomisp/pci/atomisp_ioctl.c |  33 ++-
+ include/media/ipu-bridge.h                    |   2 +
+ 13 files changed, 578 insertions(+), 98 deletions(-)
+ create mode 100644 drivers/media/i2c/wv517s.c
+
+base-commit: 73e3f0710014fe6d4ed98cfc02292f6121db7558
+-- 
+2.53.0
