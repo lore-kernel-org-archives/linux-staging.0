@@ -1,55 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CEC03D9DB3
-	for <linux-staging@lists.linux.dev>; Fri, 28 Aug 2026 07:28:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B41833C3C14
+	for <linux-staging@lists.linux.dev>; Fri, 28 Aug 2026 07:48:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787902136; cv=none; b=K8CVGusi3QUhcdexZK+W1sbvemQ8T14Bl0LVFh+lPIlUqa4ndYZJM0rcHe2Is0ZzCSNt1OwPcxItOkfq+b3FR5PDcL7UbnzPtBjdQCmKLcHWM2ZP9LI/hrYtbeo0qofBSCxJOzB0JXkOAXerIc/joidYe2dxmH66FWpHCligQoU=
+	t=1787903326; cv=none; b=CjC/uLhlco7haujuvxAeXs6aAgZIH3lW30ENMBKV4ZzzNd3RgTGyPmveU5cT24gj4cN0hMWp8xBRi9jB3m8i+lyN4TkCceIPuNPJxgnq5mJT/Q3jFPsUsjfuzCZYuoxyFJgYgPyrf1MNymH+9H25OCmwgF0hcCAP1kL6UIS7gJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787902136; c=relaxed/simple;
-	bh=XwJl0gxDY7xCu0UxsNKq6Cviiw1BtSgyXNf8lyTcOeE=;
+	s=arc-20240116; t=1787903326; c=relaxed/simple;
+	bh=0fLlgjvAfU0Fr/nyEsISrJYNBRB/GNjWdODVOEBs8/c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ROHtyf+0+vhBeKiy1XkM5lAIKM3pROLTLUoBrsTROHtYEYda7z3w+pFnme66RZ17pBMYv65YdLD2mw0dyAHiQV5/4ELkJkm19mfz075f4uwsHoTM3Yo5uZBTuhrlxww6SjNvY6XROW7mTclpGid7x//hBfGhScZPkSHSEP6CY/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hyqSqMnx; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=laQqncUCdytCa+B4UufPBFzHQPBXHFWhhAMMB9aKLWBmjUwGtMUd5rui9ZW8OWYTc6uqCVqFVRKS7G1wzp0stb69ovpmrNmrt2C+35gFHDOS6xoRHiLLg1TcePP5SSc0vs2o0qbg8izukjeUlcK+NKZrul+Y6BeHalOak0I5O1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X4ueB+w3; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hyqSqMnx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X4ueB+w3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787902134; x=1819438134;
+  t=1787903325; x=1819439325;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=XwJl0gxDY7xCu0UxsNKq6Cviiw1BtSgyXNf8lyTcOeE=;
-  b=hyqSqMnx/+0NRj7eWk80WQpagS5Mn5fHpfhndV08VFMNIFi9gpjRpJT9
-   2PpWH9+Ad6GokEIhL8XTMhTAFHz/kTftD4KsfIY3plzeOukTvuXuke2gq
-   W3XflyspVHZ443EqNsdTjtv7SEXfz1BB6a+WCv/fEqjAdkNMqklY9KV0Z
-   V4XB7tM8uxXpGjL6U7KDxX3489OjKirn369YVL0bWrFjSENppd3NNPoxc
-   ys1iMaprs4C1V1FtuNCJuX7M43RcjQ9ZOq/NxJ/iE4O3g7cXGF6bGYXQH
-   GxFbsQ44QmAUuOt3kAgw0R3J5rdniwsfTdGBkm+SdViMqLxNIlC9fKD4X
-   Q==;
-X-CSE-ConnectionGUID: dgouxASQSa2DtD0vVItt9w==
-X-CSE-MsgGUID: NQiAh+02SK2l67LX6amhag==
-X-IronPort-AV: E=McAfee;i="6800,10657,11888"; a="88613154"
+  bh=0fLlgjvAfU0Fr/nyEsISrJYNBRB/GNjWdODVOEBs8/c=;
+  b=X4ueB+w3Xv87tSbGIGm12OXnl4umrR28wBUIPDZ41mdmssJ/t7JNs3zV
+   9CC9unI8jQJ61deqM9gJigs3cm2NDFcjOVKp64o8aAJrKncMH4z+6IGP7
+   i7EjNjAHKc2LAnV4NsuAykWgbKVRnGMg2YTG4xV0rSmNYdYjquskRJ43d
+   AAujhw4EuTVXNqrfZv2ZBaMcPIN2fqdwY6OcWfnUN7TsECIwRvkyvt0C8
+   jnIQoMP140Gqn2Al9jgVLTO4WgEdEHs9ZpyqE4ad7dVZWbulLe1zbHt83
+   lkVgJgxIDBfkrqgb87KdXc98lenPYZK2TnODD+UIIP69k1Zp9eY9jsl3Q
+   w==;
+X-CSE-ConnectionGUID: IdhDnNCIQGCPjOoBP+LjBA==
+X-CSE-MsgGUID: xzaLyxbvTJOL/QfTP+30BQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11888"; a="88174102"
 X-IronPort-AV: E=Sophos;i="6.25,248,1779174000"; 
-   d="scan'208";a="88613154"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2026 00:28:47 -0700
-X-CSE-ConnectionGUID: /N1cfWzdTfO8oVIrhWMFNQ==
-X-CSE-MsgGUID: QN9CT17nTh+TV6FRQP7uzw==
+   d="scan'208";a="88174102"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2026 00:48:45 -0700
+X-CSE-ConnectionGUID: B4ptl+ICSQOdGxKd48lREg==
+X-CSE-MsgGUID: oHXseKQySJ2sQPOZBpOwyQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,248,1779174000"; 
-   d="scan'208";a="263799695"
-Received: from rvuia-mobl.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.92])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2026 00:28:44 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id A5C86121505;
-	Fri, 28 Aug 2026 10:28:39 +0300 (EEST)
-Date: Fri, 28 Aug 2026 10:28:39 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
+   d="scan'208";a="297981591"
+Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.34])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2026 00:48:41 -0700
+Date: Fri, 28 Aug 2026 10:48:38 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: Maurizio Casciano <mauriziocasciano7@gmail.com>,
 	linux-media@vger.kernel.org,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -63,11 +59,12 @@ Cc: Maurizio Casciano <mauriziocasciano7@gmail.com>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2 02/11] media: ov8858: support 19.2 MHz clock and CHT
  gain setup
-Message-ID: <apE4pzPqsjmQW-6J@kekkonen.localdomain>
+Message-ID: <apE9VnQoWHk0PIXo@ashevche-desk.local>
 References: <20260826132256.3343451-1-mauriziocasciano7@gmail.com>
  <20260827181756.2430054-1-mauriziocasciano7@gmail.com>
  <20260827181756.2430054-3-mauriziocasciano7@gmail.com>
  <apCUKIgOZMoeSAP1@ashevche-desk.local>
+ <apE4pzPqsjmQW-6J@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -76,20 +73,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <apCUKIgOZMoeSAP1@ashevche-desk.local>
+In-Reply-To: <apE4pzPqsjmQW-6J@kekkonen.localdomain>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Hi Andy, Maurizio,
+On Fri, Aug 28, 2026 at 10:28:39AM +0300, Sakari Ailus wrote:
 
-On Thu, Aug 27, 2026 at 10:46:48PM +0300, Andy Shevchenko wrote:
-> > +#define OV8858_XVCLK_FREQ_19_2MHZ	(192 * HZ_PER_MHZ / 10)
+> On Thu, Aug 27, 2026 at 10:46:48PM +0300, Andy Shevchenko wrote:
 
-You can do:
+...
 
-#define OV8858_XVCLK_FREQ_19_2MHZ	(19.2 * HZ_PER_MHZ)
+> > > +#define OV8858_XVCLK_FREQ_19_2MHZ	(192 * HZ_PER_MHZ / 10)
+> 
+> You can do:
+> 
+> #define OV8858_XVCLK_FREQ_19_2MHZ	(19.2 * HZ_PER_MHZ)
+> 
+> i.e. no need for a division, the compiler can handle it.
 
-i.e. no need for a division, the compiler can handle it.
+Yes, but that feels not right (converting float to integer at compile-time).
+As I said, I think my suggestion _in this case_ was wrong, let leave them
+as they are now defined.
 
 -- 
-Regards,
+With Best Regards,
+Andy Shevchenko
 
-Sakari Ailus
+
