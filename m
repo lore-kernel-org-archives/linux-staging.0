@@ -1,102 +1,84 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B41833C3C14
-	for <linux-staging@lists.linux.dev>; Fri, 28 Aug 2026 07:48:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 287D93B4E9A
+	for <linux-staging@lists.linux.dev>; Fri, 28 Aug 2026 09:43:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1787903326; cv=none; b=CjC/uLhlco7haujuvxAeXs6aAgZIH3lW30ENMBKV4ZzzNd3RgTGyPmveU5cT24gj4cN0hMWp8xBRi9jB3m8i+lyN4TkCceIPuNPJxgnq5mJT/Q3jFPsUsjfuzCZYuoxyFJgYgPyrf1MNymH+9H25OCmwgF0hcCAP1kL6UIS7gJQ=
+	t=1787910221; cv=none; b=B3ncNxv5eVhtULHqYVTiGvJzfbtZqfddqZ0Xo5Bn9ecNH4wj9Gc1O3aPamardMnvUw0fyjPZHNnyR5bk7MKHbWDOIvAGmMzB3leqrnilrGxTSuQUaaLkHPQ+YSXUrJpWyA7QAMFIzyW80f+gs3MD/H+Gn89bdJNek+Z/O+kcqm0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1787903326; c=relaxed/simple;
-	bh=0fLlgjvAfU0Fr/nyEsISrJYNBRB/GNjWdODVOEBs8/c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=laQqncUCdytCa+B4UufPBFzHQPBXHFWhhAMMB9aKLWBmjUwGtMUd5rui9ZW8OWYTc6uqCVqFVRKS7G1wzp0stb69ovpmrNmrt2C+35gFHDOS6xoRHiLLg1TcePP5SSc0vs2o0qbg8izukjeUlcK+NKZrul+Y6BeHalOak0I5O1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X4ueB+w3; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1787910221; c=relaxed/simple;
+	bh=aDfN8/s4zfX+U+oRqYBBi69jelTKiu7EYm8vL0GKwxM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=jwzhKqxPRYJWtvdeZ21iICFTPOTLvFXy9whQBPmVOGwqTrQ18hGxEbjkoGXNsA9RuhsiMpptMx9DSig7Hi7Fky27ggIFqI2gcSmMqNfoe/Vw0jIcYJWRJ9ozL24xbP19OeidsZiGKWPr6WddPpnMtjXXClxFDlPmPNeywxO933Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VYf9mSGc; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X4ueB+w3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1787903325; x=1819439325;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0fLlgjvAfU0Fr/nyEsISrJYNBRB/GNjWdODVOEBs8/c=;
-  b=X4ueB+w3Xv87tSbGIGm12OXnl4umrR28wBUIPDZ41mdmssJ/t7JNs3zV
-   9CC9unI8jQJ61deqM9gJigs3cm2NDFcjOVKp64o8aAJrKncMH4z+6IGP7
-   i7EjNjAHKc2LAnV4NsuAykWgbKVRnGMg2YTG4xV0rSmNYdYjquskRJ43d
-   AAujhw4EuTVXNqrfZv2ZBaMcPIN2fqdwY6OcWfnUN7TsECIwRvkyvt0C8
-   jnIQoMP140Gqn2Al9jgVLTO4WgEdEHs9ZpyqE4ad7dVZWbulLe1zbHt83
-   lkVgJgxIDBfkrqgb87KdXc98lenPYZK2TnODD+UIIP69k1Zp9eY9jsl3Q
-   w==;
-X-CSE-ConnectionGUID: IdhDnNCIQGCPjOoBP+LjBA==
-X-CSE-MsgGUID: xzaLyxbvTJOL/QfTP+30BQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11888"; a="88174102"
-X-IronPort-AV: E=Sophos;i="6.25,248,1779174000"; 
-   d="scan'208";a="88174102"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2026 00:48:45 -0700
-X-CSE-ConnectionGUID: B4ptl+ICSQOdGxKd48lREg==
-X-CSE-MsgGUID: oHXseKQySJ2sQPOZBpOwyQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,248,1779174000"; 
-   d="scan'208";a="297981591"
-Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.34])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2026 00:48:41 -0700
-Date: Fri, 28 Aug 2026 10:48:38 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Maurizio Casciano <mauriziocasciano7@gmail.com>,
-	linux-media@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Bingbu Cao <bingbu.cao@amd.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Nicholas Roth <nicholas@rothemail.net>,
-	Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jose Maria Martin <jmmartinf@hotmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 02/11] media: ov8858: support 19.2 MHz clock and CHT
- gain setup
-Message-ID: <apE9VnQoWHk0PIXo@ashevche-desk.local>
-References: <20260826132256.3343451-1-mauriziocasciano7@gmail.com>
- <20260827181756.2430054-1-mauriziocasciano7@gmail.com>
- <20260827181756.2430054-3-mauriziocasciano7@gmail.com>
- <apCUKIgOZMoeSAP1@ashevche-desk.local>
- <apE4pzPqsjmQW-6J@kekkonen.localdomain>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VYf9mSGc"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-47f71156e1aso243996f8f.3
+        for <linux-staging@lists.linux.dev>; Fri, 28 Aug 2026 02:43:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787910218; x=1788515018; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=aDfN8/s4zfX+U+oRqYBBi69jelTKiu7EYm8vL0GKwxM=;
+        b=VYf9mSGcVeR4C1FhrbYDWX9uF+z962M1zKyK+qnN2zrM9kac44poSyyqiOyVUwXd/5
+         hgzQTk+yliKzQd/nUcd7M7BTUZIVBl4NN+7Zni+Wznn0qvVn06jN43ZNnmQUaSMWejRI
+         UJlzIkoacQ194nnrucKKWmhcy90ROJObgMFiNRNWcMl0T7OPwsJApcAf5B0vBKf5AM9a
+         pWwM6g861H+Vqz0g/TFyLz8SJYflVHmO2WzLGJpkeA2AXtn3akO9QZ1OpKhF62s2dtlC
+         Bbqt904GovawSmkprmTdxPK1fDjE4/pwRLXS88wNRH7qz2QkuHT7cycwUoKm1RIQB9Xd
+         V3WA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787910218; x=1788515018;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=aDfN8/s4zfX+U+oRqYBBi69jelTKiu7EYm8vL0GKwxM=;
+        b=TzDrtXd+OPQ8q7fGthxjvtDIYxv01PVORbeu4ir3sC2HRrvRArw3SqBA+kk9GBpcQl
+         1AlUrO0JdJXJWmryR6uljIKef22Gx6tgvaiuGuN18Q6XZpPF2RqVNduOnuD2dnn1iPs8
+         DUnQ8vFSUA7vsfBZazoRaNr88hoytcJ9BFGtx+eAOsPAZ0xzs6si+2ImEs7FADVCf/8s
+         EoKL9AIcCNWOsXvauRh3nihpZG9uNKwyKgBH7f0PDIBBvzx4ZcfxDCJ2EEku6g1ybBK7
+         jM9CCkpPiTFmSvlmNvlX0APJKl3p5Equ4fBk1at/Nqcal5YdeLQ5Ayuc/2U5sEDRlJ7a
+         x4dA==
+X-Forwarded-Encrypted: i=1; AHgh+RrdXcn2sA414Lzvo+YrOfAr5J2zTuswsTIrS4S7AlOUxbieTzwdo1KjoqEwaO6CSjL4Mg1ICApb4GjBuI4M@lists.linux.dev
+X-Gm-Message-State: AFuF++loNB7H7d9e8Tt9dvEbd3EGgjbC+uoCVeiMSSsC5rgb/F9P2rcC
+	9dFd1zqgMEGNaFW7UoVAsSYtIeQt88jp+0NxAUkgp15nrR6rq8jQjH/D
+X-Gm-Gg: AR+sD13ip8xasYFpLqiKI2jpg+ZhjtWeTvCjXEGxapXAhQgQ/jomM0wGAs/NtV41fH+
+	1f0IarwUxWVFHNFuIgPsAFz83t0Qxj76QHqet4D360n5t8Zj7WFIUcPnxeXae6fItcE431OCycb
+	R480pmi+rqeDy5oAuBJd2cRkpFSTlCwfBIkssibnL9pqS6nnYOVFMMNRdaqHkbj46/eYU6YaHgR
+	Gs3qM+56bNSIqW/wrniq1EK4Xe+W2ilB87rgXSOhs8naXN96L1g31Twu51D2QSgMiy8wmhZcfIT
+	VbA5uvmO6CRN++1MGAqCUpHzAuE6kCb61ySFU5CD1HSe+bfdgq1DG7+wRQtX2ZlWvUTE66SQ9aC
+	zOjAqbmQGK6e6c0rkCQlpS0eVX5Gah3JjwCaQEKh2RcI7iPMo0glDLXd6Dho7hLrx11bAo/0yKC
+	wAXXedjvl71GorHwv1wIJpAAnyGLwhf6WBJTiSSv777RFMhRb2AcG0rR1z4Pp3iPg=
+X-Received: by 2002:a5d:64c5:0:b0:47f:f3d4:26da with SMTP id ffacd0b85a97d-482f79c1888mr6743142f8f.11.1787910218168;
+        Fri, 28 Aug 2026 02:43:38 -0700 (PDT)
+Received: from xerxes ([2001:8a0:ee6f:5800:65bf:d008:6bb6:cf89])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482fbb28492sm2633696f8f.31.2026.08.28.02.43.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Aug 2026 02:43:37 -0700 (PDT)
+From: Romeu Gomes <asm.artisan256@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: rtl8723bs: remove unnecessary parentheses in ioctl_cfg80211.c
+Date: Fri, 28 Aug 2026 10:43:36 +0100
+Message-ID: <20260828094336.13299-1-asm.artisan256@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <2026082812-award-service-889d@gregkh>
+References: <2026082812-award-service-889d@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <apE4pzPqsjmQW-6J@kekkonen.localdomain>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Fri, Aug 28, 2026 at 10:28:39AM +0300, Sakari Ailus wrote:
+Hi Greg,
 
-> On Thu, Aug 27, 2026 at 10:46:48PM +0300, Andy Shevchenko wrote:
+Thanks. I will resend this with my full name.
 
-...
-
-> > > +#define OV8858_XVCLK_FREQ_19_2MHZ	(192 * HZ_PER_MHZ / 10)
-> 
-> You can do:
-> 
-> #define OV8858_XVCLK_FREQ_19_2MHZ	(19.2 * HZ_PER_MHZ)
-> 
-> i.e. no need for a division, the compiler can handle it.
-
-Yes, but that feels not right (converting float to integer at compile-time).
-As I said, I think my suggestion _in this case_ was wrong, let leave them
-as they are now defined.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Thanks,
+Romeu Gomes
