@@ -1,49 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60AF53B42EB
-	for <linux-staging@lists.linux.dev>; Mon, 31 Aug 2026 09:38:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7AD43B42EB
+	for <linux-staging@lists.linux.dev>; Mon, 31 Aug 2026 09:39:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788169115; cv=none; b=bXyp1VFWsbsOvPM63ZqLv+GS4letlYTyKRFwJaAEdb2CDKgyWdAxn4pf9F+lo8cAxzQ+zzdaIyG4X9tG5phwrE1pPkU/io3bhhOXQzy+xg3DVm+h/M74AFEKk8RXTW8baJ6OZydngRDs4sQ390owtrNVBIfP9HElsBAnVy/wdKI=
+	t=1788169161; cv=none; b=I2OCpabDegzjrou6O4ZbAicFQZAMBw2EA6fNQhLJ219dpTXl3zp8icvp0a9Y//3IQFzSPTfEnjDFZqp+TA+jZBkXZpH/NcS9qL/dYB08CBdM529YsXrNC3N0EHN/AedWrEM6W562posw7gFGO35DZ4cr6EsrbvaYidIr3MqV71A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788169115; c=relaxed/simple;
-	bh=UX0cTnp/7eBM7a7SaTtkUnd+VLDmCj+L4RlAfCiCw/U=;
+	s=arc-20240116; t=1788169161; c=relaxed/simple;
+	bh=YVMrzXsIcQC9sceVcl9Un//g4fBKPLsuMDMdJ3boRY0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ij3x4haY81MJLTKlH75Lz27rcxjKniEH1+hqgUSWo8DuLJZ+axtqLYWY6/Q1I7jXWAD5/8+rlWnb5mh9wJVJ8lX5qlSI7XJIB1wGcLQOgvUPWfcPuKpVxoQ369KbQKXsGDfpH6eisrvEkkFUXxHJLOfH0BlHcQWaGSuip9398h0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZVoY2V0O; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z2W3Aw0PxuC/ZF45HKsj9hwqXt/Jz8/vzT0SsLXtdgFuaPoRLp89JcInGejbzzyLax7ZiFKDC0JjGIu/x+HSW1skcoVFMuP0t67f8kysfI6R0G/O30fl73AfXm0BZqYhRuo7lGddo1z2Joatvr/EXHNTTEejcDOoeLzM1YOoYMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cf1hGVaW; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZVoY2V0O"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cf1hGVaW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788169114; x=1819705114;
+  t=1788169158; x=1819705158;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=UX0cTnp/7eBM7a7SaTtkUnd+VLDmCj+L4RlAfCiCw/U=;
-  b=ZVoY2V0OuxKR0PP+CBnaCEPPz9qpEmvs+29meycGOijHNJdunyoIHNvh
-   +JTL3FpOsCdDX+epnhz3kJbeTARSNLp8GidXXz0H6J+JCXCH+Gcti/9OC
-   9JixOtXq4DWA+4AcbSZjEd0Bca6AG/2KaQL1laYY0kp5kAo/KmoehLb0w
-   t2XbicMK+yJc5E2Sn5WeCt6Egw7vlppuq5Qh+wgESxBcoW5KRX7NynMnK
-   x6s07pqcQ4c4Ok+pZdCW/Hfu0V/lty1KKpnNcK58fFQCtPyI8k3/6sPbw
-   a6DyIvhxjWhCJGdMaJrVg4St1RnfMTw5MbtfJHhfxOIKYb6y/Ohtx6v4/
-   Q==;
-X-CSE-ConnectionGUID: PbOBIWKSQ/iCRRUAA3qqmA==
-X-CSE-MsgGUID: myU/7HlqSuiM1FUvfIu9Ng==
-X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="98908797"
+  bh=YVMrzXsIcQC9sceVcl9Un//g4fBKPLsuMDMdJ3boRY0=;
+  b=Cf1hGVaWSXWvSBsrxkPnWHKdPS35bjKRelnG3bllWdiZkCuJteX437C8
+   F7xw/to9/2Je1kIRp2buZRoeMN7TI5xhSdi31RF2qjjvjSbxnBrtEGmNh
+   Y+IZOqIHEswdtKIttHIIO/G/rySlF/okBqFmFhZeLKb8AnqnZcPehS1Ht
+   pLUTCWdLyaiC7E6Vwn6sEx6xQcmM3vEFnTzBMXpUCyaEj8E8o2I2imT5e
+   VBQ4RHNgCpHyoxt71X3AqpdI97bQz8aq07IH1qGIywDtzbfMdF53v/DXL
+   ZX2czjN2YIqXMy3+KNhHtoYAZNMvWL7hNEfPBVtrFVk5s1llxheMoDr9h
+   A==;
+X-CSE-ConnectionGUID: fzSJgKETRua6K04AoF15KA==
+X-CSE-MsgGUID: Gtgvz9WvQ4u7BiC/FPcsmQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="88333839"
 X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="98908797"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 02:38:34 -0700
-X-CSE-ConnectionGUID: oDeBqC2LQp254eXNNDlxVw==
-X-CSE-MsgGUID: nNVW0wOtQeW3vgTfIRmThg==
+   d="scan'208";a="88333839"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 02:39:17 -0700
+X-CSE-ConnectionGUID: XsV23mneSXWX+1ROF2DT8Q==
+X-CSE-MsgGUID: MpwL1+WeR5uH8CBcm10XzA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="292251749"
+   d="scan'208";a="274018769"
 Received: from fpallare-mobl4.ger.corp.intel.com (HELO localhost) ([10.245.244.21])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 02:38:30 -0700
-Date: Mon, 31 Aug 2026 12:38:27 +0300
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 02:39:13 -0700
+Date: Mon, 31 Aug 2026 12:39:11 +0300
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
 To: Maurizio Casciano <mauriziocasciano7@gmail.com>
 Cc: linux-media@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -56,11 +56,10 @@ Cc: linux-media@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Jose Maria Martin <jmmartinf@hotmail.com>,
 	Uwe Kleine-Koenig <ukleinek@kernel.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 02/15] media: ov8858: support 19.2 MHz clock and CHT
- gain setup
-Message-ID: <apVLky0JxI2nyQAo@ashevche-desk.local>
+Subject: Re: [PATCH v4 04/15] media: ov2740: Add OVTI2740 ACPI ID
+Message-ID: <apVLv4E542FenS30@ashevche-desk.local>
 References: <cover.1787933456.git.mauriziocasciano7@gmail.com>
- <017d1719d7fe132273f818cf7e20d93ce3e2c9c9.1787933456.git.mauriziocasciano7@gmail.com>
+ <a04beb60575ccee57bf0a6079473df7bf735e145.1787933456.git.mauriziocasciano7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -69,54 +68,15 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <017d1719d7fe132273f818cf7e20d93ce3e2c9c9.1787933456.git.mauriziocasciano7@gmail.com>
+In-Reply-To: <a04beb60575ccee57bf0a6079473df7bf735e145.1787933456.git.mauriziocasciano7@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Fri, Aug 28, 2026 at 06:14:44PM +0200, Maurizio Casciano wrote:
-> The Yoga Book drives its OV8858 from a 19.2 MHz platform clock, while
-> the existing mode tables program the sensor PLL for 24 MHz. Reusing
-> those settings produces incorrect internal and CSI-2 clocks.
-> 
-> Accept both input rates and use the actual rate for the reset delay. For
-> 19.2 MHz, apply the Cherry Trail MRD PLL and black-level settings after
-> the generic mode table.
-> 
-> The 19.2 MHz platform uses the per-channel manual white-balance
-> registers for digital gain. Program registers 0x5032, 0x5034 and 0x5036
-> and expose their 1x-to-4x range, while retaining the existing
-> long-exposure gain block for 24 MHz systems.
-> 
-> The manual white-balance register definitions and programming follow
-> the GPL-2.0 Intel OV5670 driver, so retain its 2017 Intel copyright
-> notice in this file. No proprietary source or tuning binary is included.
-> 
-> Tested on the Lenovo Yoga Book YB1-X91L OV8858 with full-range test bars
-> and real 10-bit Bayer frames.
+On Fri, Aug 28, 2026 at 06:14:46PM +0200, Maurizio Casciano wrote:
+> Firmware may enumerate OV2740 image sensors using the OVTI2740 ACPI ID.
+> Add it to the existing ACPI match table.
 
-...
-
-> -#define OV8858_LINK_FREQ		360000000U
-> -#define OV8858_XVCLK_FREQ		24000000
-> +#define OV8858_LINK_FREQ		(360 * HZ_PER_MHZ)
-> +#define OV8858_XVCLK_FREQ_19_2MHZ	(192 * HZ_PER_MHZ / 10)
-> +#define OV8858_XVCLK_FREQ_24MHZ		(24 * HZ_PER_MHZ)
-
-I believe the idea was not to touch these. Again I haven't seen the reply on
-why both comments (Sakari's and mine) were ignored.
-
-...
-
-> -	return ov8858_write(ov8858, OV8858_REG_LONG_DIGIGAIN, long_gain, NULL);
-> +	return ov8858_write(ov8858, OV8858_REG_LONG_DIGIGAIN,
-> +			    long_gain, NULL);
-
-Stray change.
-
-...
-
-I stopped here, Please, give a full reply to *each* of the comments you
-disagree with.
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
 
 -- 
 With Best Regards,
