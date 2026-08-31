@@ -1,49 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADCC83D810C
-	for <linux-staging@lists.linux.dev>; Mon, 31 Aug 2026 09:41:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C50DE3DD525
+	for <linux-staging@lists.linux.dev>; Mon, 31 Aug 2026 09:43:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788169262; cv=none; b=lampZ98rw8sQNMf3qPg7lZHObvNfTfLFamALb5pVcTPsGJgrnDmEJuGlT9SykFCWNZED1nyqPK5AS9Fbb76uZn75WlerktFoeCYenwby+DfCJc2zH8s9D1RhUph43MDfs23QV2doEE3ssVXDhHoCIVvlzDyPSr8gUHO4aGMXblA=
+	t=1788169382; cv=none; b=FMY2QfZ2Jm2548KsoRJnu3wgNSa1b2wiDdeYTNFiiP0xBTB1z0vMGilQYYMJEk6FlLqNRs2e1kqCNBD7BkYieWw6kt5AbiYmBwebHV14ykNXHgakLaOE9wM7M6mkqM6wab51hiOtWtXQ2M+yeMJNvVsk5qm3jsfwsYN6ciDCvtc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788169262; c=relaxed/simple;
-	bh=A+1AuWH5q4++i7fiJolixzCdgay7Ft04qAqgv4KHHes=;
+	s=arc-20240116; t=1788169382; c=relaxed/simple;
+	bh=3/tXDUdRaV0FDrFDg0aDG4jm0/dqKkyQ2SqvqZilTrc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CPwWoFMTuUmy7IYfSTqjS91qGcNhrYNychHjpNaY8SRyM1dk3FY81jcLVMu68Ey3mwSkuMn7ksEiMHr/sxHeQaMmu7mP8PfLDPYej8s+axU7JOLtOWwjpP6bKyAVHa/agfcVlFGgMu33VjidgR67GO9XZyrLPW2FQ66d+o4wxg0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XplwX/O/; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=GH1viraW9MoxJc6P5Mqo8cS6Gg6WuXygrcq66lr1Adty7TOfyqj0vhg/Uni+NL5RYBXn1wgb82+wZHoWFK0pzp1s1PvJAKCEMfSlbdY9tVA6sTznsRvEKS4gXUadNft31yKB31ZGoihqiDqkGc/tXjmSZ7RTBUYKcSHZdf4o3NI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QuMGEqtk; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XplwX/O/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QuMGEqtk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788169262; x=1819705262;
+  t=1788169381; x=1819705381;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=A+1AuWH5q4++i7fiJolixzCdgay7Ft04qAqgv4KHHes=;
-  b=XplwX/O/oofRa5VpsVZ9TvEXkyrGfaf+3aaqIx1hfQ+I88jIo40PB698
-   DR1ys1qiEPu0XX88aQhDYrg+VU5PuZEx+1/cizYIpYqQbVxjs+V0gXKGj
-   gL04K0qmolbofo3gBpPx1xBrcqbrHXBD/KDNy3qKE/l6hYH9kHWSY1RRZ
-   VJhlq+VPyP8q9Pjy5VvyPBW6JWD/rVkaBlT7A1zmdDKwyw6/ecrO16Qn1
-   M+Mc6d6uUrwZd8Fw0Y4ikazlF4dR4Rj/icx8lCP7rheBEUoXMEdilnKdv
-   Nc164PlCvQKWVQX+UH1yEMcjaUKyDDE+A4PY7Q1jqYnw7ITi4yGPt6FX1
-   Q==;
-X-CSE-ConnectionGUID: 0AClrJYYRNSdiDaE8ywXSA==
-X-CSE-MsgGUID: KHYyyJ7tQCyyHCmrgvJqIA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="92437290"
+  bh=3/tXDUdRaV0FDrFDg0aDG4jm0/dqKkyQ2SqvqZilTrc=;
+  b=QuMGEqtkdjf12B47E/8ozDRBHUqgMbdPlHP/Dl5Bt1RloxZpZc/jjD6D
+   EL0bcApLx8ZsC+reJxTil0WvaoHvPwarxr8UG5LtJQutcD4DXX/NTva1N
+   hQ3eTM5SsFeFwHbGqp7Xn3MZB8HD2YVOghw6VgHtbyyca4UVWadcqdLqX
+   QoaMB3/5bN7NzUjaOI5A+mv+xbDHPGJhJz9YPm1jSY/211LoIzdV6yknB
+   V/gBaZbQQDq7sbgpjaFvGXc1vGfuyhIz3mQVMuFeBayUr1d9p/OtXzPQe
+   Hqwz8P9U/Nc3IlOXk9GrhwEQGHhrVea8Wv362QwTMwvi8IMFup3j2nr8T
+   g==;
+X-CSE-ConnectionGUID: gGsNf4V1SZm7qDE7ZFKDxg==
+X-CSE-MsgGUID: LR1n1IF6RYqRTTISOK2+7Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="88499138"
 X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="92437290"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 02:41:01 -0700
-X-CSE-ConnectionGUID: 3y8zlOlBSeWDNS1l9+g6tw==
-X-CSE-MsgGUID: qjjYhMTGR0OOgYngYInIZQ==
+   d="scan'208";a="88499138"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 02:43:00 -0700
+X-CSE-ConnectionGUID: oPcOQnMLSGeYW0ZjRuWk3A==
+X-CSE-MsgGUID: Fcepfy/VQ9GNqrysKzqsDA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="270676365"
+   d="scan'208";a="268797768"
 Received: from fpallare-mobl4.ger.corp.intel.com (HELO localhost) ([10.245.244.21])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 02:40:56 -0700
-Date: Mon, 31 Aug 2026 12:40:54 +0300
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 02:42:56 -0700
+Date: Mon, 31 Aug 2026 12:42:54 +0300
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
 To: Maurizio Casciano <mauriziocasciano7@gmail.com>
 Cc: linux-media@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -56,11 +56,11 @@ Cc: linux-media@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Jose Maria Martin <jmmartinf@hotmail.com>,
 	Uwe Kleine-Koenig <ukleinek@kernel.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 06/15] media: intel: ipu-bridge: Add Yoga Book camera
- sensors
-Message-ID: <apVMJkJCO__onNqV@ashevche-desk.local>
+Subject: Re: [PATCH v4 07/15] media: atomisp: Add Yoga Book camera
+ configuration
+Message-ID: <apVMnkuA94Zx9r85@ashevche-desk.local>
 References: <cover.1787933456.git.mauriziocasciano7@gmail.com>
- <9b618d8076337f8129e235313cce90d86f95fc4c.1787933456.git.mauriziocasciano7@gmail.com>
+ <445158bc6dd99ea11806d68b6d1873a2d0bfdd92.1787933456.git.mauriziocasciano7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -69,18 +69,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9b618d8076337f8129e235313cce90d86f95fc4c.1787933456.git.mauriziocasciano7@gmail.com>
+In-Reply-To: <445158bc6dd99ea11806d68b6d1873a2d0bfdd92.1787933456.git.mauriziocasciano7@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Fri, Aug 28, 2026 at 06:14:48PM +0200, Maurizio Casciano wrote:
-> The Yoga Book YB1-X91 uses INT3477 for its OV8858 rear sensor and
-> OVTI2740 for its OV2740 front sensor. Add link frequencies consumed by
-> the sensor drivers when the IPU bridge constructs software endpoints.
+On Fri, Aug 28, 2026 at 06:14:49PM +0200, Maurizio Casciano wrote:
+> The Yoga Book YB1-X91 firmware lacks usable AtomISP configuration for
+> both cameras. Rear INT3477 OV8858 uses four CSI-2 lanes and a WV517S
+> actuator, while the front OVTI2740 firmware reports the wrong lane
+> count.
 > 
-> This supplies endpoint data only; it does not establish that either
-> sensor can stream on the Yoga Book hardware.
+> Add the rear sensor configuration and a DMI-scoped two-lane override
+> for OVTI2740:00. Add the front sensor configuration separately once
+> its link frequency can be supplied at the same time.
 
+...
+
+> Link: https://lore.kernel.org/linux-media/apFzAc5XfV9gQpXS@kekkonen.localdomain/
+
+What is this for?
+
+...
+
+With the stray Link tag dropped you may add my
 Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
 
 -- 
