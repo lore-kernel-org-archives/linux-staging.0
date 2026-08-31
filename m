@@ -1,73 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12AB32F84F;
-	Sun, 30 Aug 2026 23:09:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B5AE357CE8
+	for <linux-staging@lists.linux.dev>; Mon, 31 Aug 2026 02:06:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788131401; cv=none; b=IzDryKioeKImTSj85ygn2x60Z5446VuYNCfAjbCRfvWwUJP0yL7lPmicEJJC34gNKS1I8cZu/7c1cF3FzytsR/g6gdMfSRZZniu9RWG/cj2qQ8JiM+XD0yybi0rekT1EuAeWtY3Y2brAsDQoLC2F1sh+SyUR7Xx96EzRdoci3Lc=
+	t=1788141969; cv=none; b=kYVs22GDVTqI6U5V3lm0bvXSMAwigmMwGFwZCkv/wtc3pfpG9T+YbM8I0LSYHwZuANiY5RE6fyHrHZalV3Yyzwek9D4JraH4vwoXh0XuTcfJfIOEaG0U7XBfiOQJ0YlP8G1w+cxTR8/9VuXFybx/RFg3UNq7GDeB2VK1+nmIBC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788131401; c=relaxed/simple;
-	bh=o6ncAKp/agJGNkrGUyrWfgbBSyM3bYMPCVhvmW1f0IE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OHk9pJgYfxYMpA3Ix92rtBBiIK6seLXy+9ulmb87Czq36Rw81gB/Qg3/8KG8eHAMR3t+Rzp6aSQ6S5ZgG18ML2Nt0F9UiwwMaBkAKXq859t1pLzWzDt0KaY7BR2tkoOiwYPVfd3ktGF6ZX7MuVhHB18wU5iS5oZA/yx+M5RlwI0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gFCWqDkp; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788141969; c=relaxed/simple;
+	bh=MQrMhcoX0T53A/BolDIrghwROp+RXFXDcVM837v9P+M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=k2HwFWIYo6BHlxeyqqCZElBa1gmIiElzgnoO9n5Up8m+p8uzWvhG/R2rnjEpSJ8n7fSIKlY6uQvybPwpjfRReHcqjNwxuHfvGaNlwNeEXaGdoZmukr4VG/+9mitXZAAfwedwdvOSsGx75aYfbXW63I+LCu/c3ZjyjNuy4ZGJJec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k4Z7RlNc; arc=none smtp.client-ip=209.85.217.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gFCWqDkp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 324F81F000E9;
-	Sun, 30 Aug 2026 23:09:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788131399;
-	bh=Y2+RUgZrSo8A0xYY02q8FLLQK1+w51/yo43MrMap1QE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=gFCWqDkp4rRxyow5uYQLVnMzj7/NWCtrD46Jwgfu2O+U5lICzmT4byKo2lp9AmRDy
-	 vzxGFUs053BLIvSJdLqjvaeACJBqikYlF3uTTbvMi5nDY19vj4D/MmJOley+670mPB
-	 x0mU91vHiKOV98UBdZIiXbacEUK+BDUHfHIkM/O5/hWVbYq7umfzVe9eSZMsdIHEMI
-	 p0K9mOOU2DQuNIGt2E6UVGuIv+imuQlzNgqzVn0zSu2LcCXnSWHSmqc3npVRw+VGxX
-	 N4emXJYoWich7jIf/sKfKDOx0Hvjs0tllTYrIm/z1jPigefxWNJzqgewL2ToSwmywh
-	 WqLVby2cyBuWw==
-Date: Mon, 31 Aug 2026 00:09:54 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: "Md. Mahmudul Hasan Mabud" <mdmahmudulhasan1511@gmail.com>
-Cc: nuno.sa@analog.com, Michael.Hennerich@analog.com,
- gregkh@linuxfoundation.org, andy@kernel.org, dlechner@baylibre.com,
- linux@analog.com, linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, Andy Shevchenko <andriy.shevchenko@intel.com>
-Subject: Re: [PATCH v6] staging: iio: adc: ad7816: Use modern IIO attribute
- macros
-Message-ID: <20260831000954.634dc435@jic23-huawei>
-In-Reply-To: <20260827214721.19395-1-mdmahmudulhasan1511@gmail.com>
-References: <20260827214721.19395-1-mdmahmudulhasan1511@gmail.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k4Z7RlNc"
+Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-7564b7a9490so3184401137.1
+        for <linux-staging@lists.linux.dev>; Sun, 30 Aug 2026 19:06:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788141967; x=1788746767; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=BoQQIG4yLqzMLHAsbkE5MbCHxuyB8pPqP+IrTjJWJTE=;
+        b=k4Z7RlNclSxENURoD0uqB+y9EHoq0SupawxGl+f7uwZCt0O0dXaGB138BWBf2SgNDM
+         6WtqvjiAeazuocVQMImb4KbU6rLwg3C6NTg84NUjZ5VnZeJ18MSGggbnXXer5OblBMX0
+         mI/DqCtn7jmmbmsBu0Ox80RGizjKnvqWPHD3go4tpNXtBZabFPOi8dpeUdthtI29eFUA
+         Fw4eTLhCvilhjIyEVgvN3CxlbSc6svFYBVl+0pvC3zSwyk9tghLI5tu9xJ3Vm86IfWK7
+         yo2XrbqvjCOQ5ajFTIZlRtHkgx31XZ5y1PLwsmkkCzcl2eVEfzgZeC1H1EJ9GCZcfMrG
+         QquQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788141967; x=1788746767;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=BoQQIG4yLqzMLHAsbkE5MbCHxuyB8pPqP+IrTjJWJTE=;
+        b=kTfINRMoYiOToK1hpzbPtMmy6AyTd07NgaqZwe3zUBPrEVoBnrm1ziKGdgTCDZAuZZ
+         yIm/T9IEqF3NpZAHCn8R7ZfnMqpQNV6k2m1yqLIVvV/HHM3F7RoeWMdhQ8oGYYco1L00
+         yOSLytkwJgcrozcTvltjsEYpC4thsMS5VM7PW4WnVu42mTKrnqbeODzaXC8/yB5SRJEK
+         1kVLRi5GZZW5qrOpzjxA1DLbQDfQlQ6kib6G5RT316VkV95Q+lbcQtAM9Ib2RWV8AZLx
+         aSMVWKSu7CrJ4dzhm4K//ngr7FQixJxx6aUL6gRCm38BZcEAakbqHRNgZzoX8sGjNANd
+         mEUA==
+X-Gm-Message-State: AFuF++lh3PU2CgnRWVqV9KdYFZx8oAonLNCkCjKbLbVwO8+jXv8e8BXv
+	+fTN5A1tymvjt5DaafbENxbBMJwmp3Hjgi0rwjOHy0OhxXWZZtbj9INo
+X-Gm-Gg: AR+sD10QQeyFUz9VJZYzs6FifMbJ5KGpRSixaykCVhrMdtW6vRD0ENa77MmkuXUM5p3
+	BTg8gelivh8Ng0YTDzE8wbnvKpLLIMbS/VZCdahlQwaG4aX3gOKypQwDG/GC/FGwUEuiQuDvB7n
+	kveggcxT2A5h87mxlwc+UNVhnBIAtqLHFRIuBFIx9D/78n1QG1umsh9DqdpAdnqEm6C0WtazSW2
+	6TxyRvY/tChEpSgbFgfOTM1tuLQ5JYyL7UkY/EC6sdTBc/OVHuYnJTEL8wurYzAkAYFNJ0V3tBO
+	nbM+bOmlRsj7sKKnvnY3WtAaRbraGxnIWz6WNzXjdkJjOBOgf9TwvZXH9X7taz0Vk8nnH+E0/Mu
+	J7DifK9zBkvFmeJEegQauTxSoNmpp+Gv7M3SMk7cStQvMIISY1Hro7c33EVxWzof3w8RioPKWGI
+	HtPP8xY+0bXQeoBf9BjEEBGgdm5ENaT7s37DiyiooJLD35pTaZjuv/
+X-Received: by 2002:a05:6102:809c:b0:785:8ad4:57f2 with SMTP id ada2fe7eead31-789da793e3emr1242175137.2.1788141967139;
+        Sun, 30 Aug 2026 19:06:07 -0700 (PDT)
+Received: from adriano ([190.215.95.120])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-785f532aafcsm5875214137.1.2026.08.30.19.06.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 30 Aug 2026 19:06:06 -0700 (PDT)
+From: Adriano Cordova <adrianox@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Adriano Cordova <adrianox@gmail.com>
+Subject: [PATCH 0/2] staging: rtl8723bs: remove dead chip code
+Date: Sun, 30 Aug 2026 22:05:55 -0400
+Message-ID: <20260831020557.1235504-1-adrianox@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Fri, 28 Aug 2026 03:47:21 +0600
-"Md. Mahmudul Hasan Mabud" <mdmahmudulhasan1511@gmail.com> wrote:
+These two patches remove code in the rtl8723bs driver that is never
+compiled or never referenced, with no change in behavior.
 
-> Replace the legacy IIO_DEVICE_ATTR() macros with the modern
-> IIO_DEVICE_ATTR_RW() and IIO_DEVICE_ATTR_RO() macros.
-> 
-> This includes renaming driver-specific callback functions to
-> standard <name>_show() and <name>_store() formats.
-> 
-> Signed-off-by: Md. Mahmudul Hasan Mabud <mdmahmudulhasan1511@gmail.com>
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+The first patch removes declarations guarded by BEAMFORMING_SUPPORT,
+which is defined to 0, so they never reach the compiler. Preprocessing
+the driver confirms the symbols are absent from the preprocessed output.
 
-How did we end up even looking at these?  This is converting attributes
-that would most likely go away in any attempt to bring this driver out of staging.
-I'd much rather see the major surgery needed than tidying up around the edges.
+The second patch removes enums and defines left over from other Realtek
+chips that are not referenced anywhere in the driver.
 
-I'm not particularly keen on any effort being expended in this direction
-without substantially more justification. 
+Compile-tested on x86. Rebuilding drivers/staging/rtl8723bs/ and
+comparing all 55 '.o' files against the pre-change build shows every
+object file is byte-for-byte identical.
 
-So as this stands I'm going to ignore this one.
+Adriano Cordova <adrianox@gmail.com>
 
-Jonathan
+Adriano Cordova (2):
+  staging: rtl8723bs: remove dead beamforming code
+  staging: rtl8723bs: remove unused chip-type enums and defines
+
+ drivers/staging/rtl8723bs/hal/odm.h              |  9 ---------
+ .../staging/rtl8723bs/hal/odm_DynamicTxPower.h   |  1 -
+ drivers/staging/rtl8723bs/hal/odm_precomp.h      |  1 -
+ drivers/staging/rtl8723bs/include/hal_phy.h      | 16 ----------------
+ 4 files changed, 27 deletions(-)
+
+-- 
+2.51.0
 
