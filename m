@@ -1,49 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C50DE3DD525
-	for <linux-staging@lists.linux.dev>; Mon, 31 Aug 2026 09:43:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11A9D3B6366
+	for <linux-staging@lists.linux.dev>; Mon, 31 Aug 2026 09:45:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788169382; cv=none; b=FMY2QfZ2Jm2548KsoRJnu3wgNSa1b2wiDdeYTNFiiP0xBTB1z0vMGilQYYMJEk6FlLqNRs2e1kqCNBD7BkYieWw6kt5AbiYmBwebHV14ykNXHgakLaOE9wM7M6mkqM6wab51hiOtWtXQ2M+yeMJNvVsk5qm3jsfwsYN6ciDCvtc=
+	t=1788169522; cv=none; b=FBUDim5qVGdjGp09ReI4MN4p77hF0RM/sjpAx4rNFoIxs832MzHkeWHQbK4FMOxloTUmou9qvscuboxKR1qZ82nlfUUwQWpQPVX0pJdm+u14zFfqMyf8s1jemWyOaCuMzJmmu1UBPhWKgHseVjFAsRUyjSjYaeJoyKA2mIrHbMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788169382; c=relaxed/simple;
-	bh=3/tXDUdRaV0FDrFDg0aDG4jm0/dqKkyQ2SqvqZilTrc=;
+	s=arc-20240116; t=1788169522; c=relaxed/simple;
+	bh=gQzwm5noWbz01jvLjFXEAsShIdISx+9ix3zb5X2dSrE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GH1viraW9MoxJc6P5Mqo8cS6Gg6WuXygrcq66lr1Adty7TOfyqj0vhg/Uni+NL5RYBXn1wgb82+wZHoWFK0pzp1s1PvJAKCEMfSlbdY9tVA6sTznsRvEKS4gXUadNft31yKB31ZGoihqiDqkGc/tXjmSZ7RTBUYKcSHZdf4o3NI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QuMGEqtk; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=f671ldnmLr+Hlz4xPgKSPvJKmk3cCUZwILGMzWS1cZ4wdp1b2vMb7WIvdEiakT0XIUmh/cJR5MOZ6gxE5f6oWCbfwcus3I2gzBUZsi907PuhT18kPYofiV4Rd1paz46DjYld0cFVw7+kNcBCNTipMVk1TSz34w+QmEgjW2A0gSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M2LYsv7l; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QuMGEqtk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M2LYsv7l"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788169381; x=1819705381;
+  t=1788169521; x=1819705521;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=3/tXDUdRaV0FDrFDg0aDG4jm0/dqKkyQ2SqvqZilTrc=;
-  b=QuMGEqtkdjf12B47E/8ozDRBHUqgMbdPlHP/Dl5Bt1RloxZpZc/jjD6D
-   EL0bcApLx8ZsC+reJxTil0WvaoHvPwarxr8UG5LtJQutcD4DXX/NTva1N
-   hQ3eTM5SsFeFwHbGqp7Xn3MZB8HD2YVOghw6VgHtbyyca4UVWadcqdLqX
-   QoaMB3/5bN7NzUjaOI5A+mv+xbDHPGJhJz9YPm1jSY/211LoIzdV6yknB
-   V/gBaZbQQDq7sbgpjaFvGXc1vGfuyhIz3mQVMuFeBayUr1d9p/OtXzPQe
-   Hqwz8P9U/Nc3IlOXk9GrhwEQGHhrVea8Wv362QwTMwvi8IMFup3j2nr8T
-   g==;
-X-CSE-ConnectionGUID: gGsNf4V1SZm7qDE7ZFKDxg==
-X-CSE-MsgGUID: LR1n1IF6RYqRTTISOK2+7Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="88499138"
+  bh=gQzwm5noWbz01jvLjFXEAsShIdISx+9ix3zb5X2dSrE=;
+  b=M2LYsv7lNV9FNtMagvDPoef9+XncfblZQ4q5YmX4pSqaSv/X7D/a/73l
+   KkCJf3IHGI57c4zvLDPBG8H4TzlYbUz+vX9ivmn3ulHM0i2qFiJ5CIELP
+   5ezojDg0e06D+LGuTJXRzzlDP74Avfmlbnx/vdB28IY8OTWCA6ItLQ1kO
+   CcBY/GUz4eMCgTvfNJ+HqZ8h3fw3aEiGFSc2fDC6ntp+vjG2dSCPlYlWy
+   45I3+oNhxBsYz+sUm+wscAm/i2SqIJiboK+ydkTzDewYY+tQEEq0SX6ID
+   P6Nl+CVNQAwJyRSulJCX6hNOU032gZJqFissYgajL2zdajjlCfkpnBm7V
+   Q==;
+X-CSE-ConnectionGUID: LKVZee5zSTiiqrgGp+VN0A==
+X-CSE-MsgGUID: KyRFfj4JQHeQUXcaSZeT2A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="88777425"
 X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="88499138"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 02:43:00 -0700
-X-CSE-ConnectionGUID: oPcOQnMLSGeYW0ZjRuWk3A==
-X-CSE-MsgGUID: Fcepfy/VQ9GNqrysKzqsDA==
+   d="scan'208";a="88777425"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 02:45:21 -0700
+X-CSE-ConnectionGUID: BNZz5EiFTC+iTEauNgBqDg==
+X-CSE-MsgGUID: vOpY7dZkQvKpgiPqmadaDA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="268797768"
+   d="scan'208";a="266170805"
 Received: from fpallare-mobl4.ger.corp.intel.com (HELO localhost) ([10.245.244.21])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 02:42:56 -0700
-Date: Mon, 31 Aug 2026 12:42:54 +0300
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 02:45:17 -0700
+Date: Mon, 31 Aug 2026 12:45:15 +0300
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
 To: Maurizio Casciano <mauriziocasciano7@gmail.com>
 Cc: linux-media@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -56,11 +56,10 @@ Cc: linux-media@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Jose Maria Martin <jmmartinf@hotmail.com>,
 	Uwe Kleine-Koenig <ukleinek@kernel.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 07/15] media: atomisp: Add Yoga Book camera
- configuration
-Message-ID: <apVMnkuA94Zx9r85@ashevche-desk.local>
+Subject: Re: [PATCH v4 08/15] media: ov2740: support 288 MHz link frequency
+Message-ID: <apVNK1OpZewyp2zM@ashevche-desk.local>
 References: <cover.1787933456.git.mauriziocasciano7@gmail.com>
- <445158bc6dd99ea11806d68b6d1873a2d0bfdd92.1787933456.git.mauriziocasciano7@gmail.com>
+ <8ad0d4958d140486e69c05e55865df49e55cd5b9.1787933456.git.mauriziocasciano7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -69,30 +68,38 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <445158bc6dd99ea11806d68b6d1873a2d0bfdd92.1787933456.git.mauriziocasciano7@gmail.com>
+In-Reply-To: <8ad0d4958d140486e69c05e55865df49e55cd5b9.1787933456.git.mauriziocasciano7@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Fri, Aug 28, 2026 at 06:14:49PM +0200, Maurizio Casciano wrote:
-> The Yoga Book YB1-X91 firmware lacks usable AtomISP configuration for
-> both cameras. Rear INT3477 OV8858 uses four CSI-2 lanes and a WV517S
-> actuator, while the front OVTI2740 firmware reports the wrong lane
-> count.
+On Fri, Aug 28, 2026 at 06:14:50PM +0200, Maurizio Casciano wrote:
+> The Lenovo Yoga Book YB1-X91 front camera uses two CSI-2 lanes at a
+> 288 MHz link frequency. Add the matching PLL configuration and mode
+> timing.
 > 
-> Add the rear sensor configuration and a DMI-scoped two-lane override
-> for OVTI2740:00. Add the front sensor configuration separately once
-> its link frequency can be supplied at the same time.
-
-...
+> Reuse the existing 1932x1092 crop and mode register list so the Bayer
+> order remains SGRBG across link frequencies. Cropping the CSI-2
+> receiver output to a smaller processed frame is a userspace pipeline
+> decision.
 
 > Link: https://lore.kernel.org/linux-media/apFzAc5XfV9gQpXS@kekkonen.localdomain/
+> Link: https://lore.kernel.org/linux-media/apF0Cds9fnqQ7XRg@kekkonen.localdomain/
 
-What is this for?
+No, you shouldn't add these tags. You can refer to the URLs in a free form in
+the comment block, and not in the commit message.
+
+> Assisted-by: Codex:gpt-5.6-sol sparse
+> ---
+
+Comment block is here.
 
 ...
 
-With the stray Link tag dropped you may add my
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+>  #define OV2740_SCLK			72000000LL
+> -#define OV2740_MCLK			19200000
+> +#define OV2740_MCLK			(192 * HZ_PER_MHZ / 10)
+
+720 is left untouched so should this.
 
 -- 
 With Best Regards,
