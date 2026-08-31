@@ -1,49 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09C043E0724
-	for <linux-staging@lists.linux.dev>; Mon, 31 Aug 2026 11:30:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92212346ADA
+	for <linux-staging@lists.linux.dev>; Mon, 31 Aug 2026 11:41:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788175804; cv=none; b=HNRxfAE41QuQvFRH8UHxpZ/bsRpdBCnaXBWMoab/vTbrDYS81fq0A39a3Y+U/kSFETjVghTKM6xD56phUN0INRZ6SpDPERTt52l2ALiOnU9nUcCWD4axp9cBH81wpJVKCI5LmjXiRI9Ot/Uqio5pbeqwxemkPpF5ITdVksWVNP8=
+	t=1788176465; cv=none; b=rmWtjQYJ3T0owMAfUBAGPSPQ41m/vc0D6ykghqZRGt7ExAc/JYeNmfB7Ovw0b9NIAHGirdif50S7V+Ts64i4ZM8gJZFbB6YVHUePqhGCcJhhrREYmAo7wVG7KLLUtuU8ZGD9dLhcpeUqao1elnxk6AhbeN/rYXxzAbuZDdIREWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788175804; c=relaxed/simple;
-	bh=lKasAdRtT2HAE+aSbcSr7+wbukXKX1+x7ACJ76E/IHo=;
+	s=arc-20240116; t=1788176465; c=relaxed/simple;
+	bh=ZeT20xbb5bL7TplofppYhDK79ecsWSJb+W4FXpiOsvc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eSPXhvu0R6oUdUCLx9ieR/2jgTlWg/r8kMXfCY51B3RqdFU/AkYOGFw7NyvzLRmpoFJ15sJ68S7pWS69lJRKghyFhRyXtf8z7/NkbpVdyal8O+S0RR3Mxo67rvJ8RuU4h5xyZoX2vFLQTDelVFNJFKDhVRE/UpTGOCamPoi+4Rw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m/bJf19F; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=qlJAtJmRn7kp/Xh4CBTj6ZLmZThlk8ZDzSkizsAKes6gobriOPACjatqCaOY0R/aYj/r+lamNYs6rULDPXeKvLigqPymsSBxzMIy4xcSD0puGHq96jZNTqPK4zPVlaLEqtPKGCbfbJjOfg+r84+fohZZY6aEGgYVD1qb2+e+/9g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DjZDrx3Z; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m/bJf19F"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DjZDrx3Z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788175802; x=1819711802;
+  t=1788176464; x=1819712464;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=lKasAdRtT2HAE+aSbcSr7+wbukXKX1+x7ACJ76E/IHo=;
-  b=m/bJf19F6VQdZlAfuZfrmXfNYXkqKQ/snO1gavdIotjxcqMvzlX68enc
-   2z9xzvHWvazwCt3gWdqbNNu28mzkNNiMDQ0Y1ZAgHcREovpK2a6Hkv0bR
-   7wzIB7P0oTFvW62kS4sLXaQ0icEdx2KwKe6F4TPEuhmzi9q29O+PUzQdJ
-   Qm6RX5q7sKjWAnwRjXUbpX8KY+Sw0HN9IjPBqDptB8DwM5CtdX6XgwRCE
-   7RHHKrsLu0RZB7UE4sH9XOgCiamsgnZAZAVRivPKHjLARr9nvgJveZmc2
-   TPMa6o4py2dbiMv7ydRZMfggmiOaXCUpd657YdxyPh6RaIQOrzatV0yx3
-   g==;
-X-CSE-ConnectionGUID: cIC3N6ZBQje6itRavuBSQg==
-X-CSE-MsgGUID: myzpB4S2QhGDS/Vg1dho6w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="88705555"
-X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="88705555"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 04:27:31 -0700
-X-CSE-ConnectionGUID: /CNjfDa/QXGZfymwy3T0qg==
-X-CSE-MsgGUID: 1nv0Y78sSxWvTks0hqyGLg==
+  bh=ZeT20xbb5bL7TplofppYhDK79ecsWSJb+W4FXpiOsvc=;
+  b=DjZDrx3ZaFAELPejL/sD+wKzeRX243K1NLZh0GuJ8YLS+w6l+TWycWkA
+   zUNYThyGxJUiEL+nz3ud2yDjXSe5RnIOi5NkigKbetqzV3PZ8JhOmTqH5
+   n0GIw6EZfGTThUNDwe2bSxXCpoxwfbCX9D4D0wUhrYnDV0AdLEuV9xomc
+   vuGaDti+ax1zVZBGSc5q17fokJbwdDbZc0MduPbfiODM18d3V1gsn5p/I
+   Sj6zX6oTyjfZ76aSyIko7k8U4jJVtsK9egQ+63ySJnsihYzmKaEFl3T32
+   pOXlEkiDQ+qSohYpZxTgyQB2MEo+2LBgbFN3uxFdnZH+26DhnqqdJJEWR
+   Q==;
+X-CSE-ConnectionGUID: GqnU1kvLTXCN4pwF08QC5w==
+X-CSE-MsgGUID: 4q0AzBmwSwWZUkmk7xoFsQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="99932564"
+X-IronPort-AV: E=Sophos;i="6.25,254,1779174000"; 
+   d="scan'208";a="99932564"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 04:41:03 -0700
+X-CSE-ConnectionGUID: dshwJhBGRMqUMnjTrHn9oA==
+X-CSE-MsgGUID: iu7uMzrXSxq2MSQJmu5VMg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="307008091"
 Received: from fpallare-mobl4.ger.corp.intel.com (HELO localhost) ([10.245.244.21])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 04:27:28 -0700
-Date: Mon, 31 Aug 2026 14:27:25 +0300
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 04:41:00 -0700
+Date: Mon, 31 Aug 2026 14:40:57 +0300
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
 To: Maurizio Casciano <mauriziocasciano7@gmail.com>
 Cc: linux-media@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -56,10 +54,10 @@ Cc: linux-media@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Jose Maria Martin <jmmartinf@hotmail.com>,
 	Uwe Kleine-Koenig <ukleinek@kernel.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 13/15] media: atomisp: Use struct v4l2_area for padding
-Message-ID: <apVlHeS6OWlhkkPE@ashevche-desk.local>
+Subject: Re: [PATCH v4 14/15] media: atomisp: allow raw Bayer capture
+Message-ID: <apVoSXcirnD2A7-d@ashevche-desk.local>
 References: <cover.1787933456.git.mauriziocasciano7@gmail.com>
- <d75701c5a72daf6b36305297a44e925e5ed6b935.1787933456.git.mauriziocasciano7@gmail.com>
+ <749f33adb08c4b311aec241c0bdcc455fcdc0a3c.1787933456.git.mauriziocasciano7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -68,131 +66,87 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d75701c5a72daf6b36305297a44e925e5ed6b935.1787933456.git.mauriziocasciano7@gmail.com>
+In-Reply-To: <749f33adb08c4b311aec241c0bdcc455fcdc0a3c.1787933456.git.mauriziocasciano7@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Fri, Aug 28, 2026 at 06:14:55PM +0200, Maurizio Casciano wrote:
-> The padding helper passes width and height as four separate scalar
-> arguments even though they form two logical dimensions.
+On Fri, Aug 28, 2026 at 06:14:56PM +0200, Maurizio Casciano wrote:
+> AtomISP currently rejects all raw formats and silently substitutes
+> YUV420. This prevents userspace camera processing stacks from obtaining
+> unprocessed sensor frames.
 > 
-> Pass the requested size and returned padding as struct v4l2_area values.
-> This makes the dimensions explicit and simplifies all three callers.
+> Enumerate only the raw format matching the sensor media-bus code and
+> reconcile raw requests with the code selected by the sensor. Userspace
+> opts in by selecting that raw V4L2 pixel format with VIDIOC_S_FMT.
+> 
+> Raw formats expose the full sensor transport frame so ISP2401 can use
+> its copy pipeline. Processed formats retain the existing global padding
+> behavior; selecting a smaller receiver crop remains a userspace pipeline
+> decision.
 
-> Suggested-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-
-This is fine...
+...
 
 > Link: https://lore.kernel.org/linux-media/apCc_pt5dDxGJrei@ashevche-desk.local/
+> Link: https://lore.kernel.org/linux-media/apF0Cds9fnqQ7XRg@kekkonen.localdomain/
 
-...but drop this one. No need to have it in the commit message even if
-there is an accompanying Suggested-by tag.
-
-...
-
-> int atomisp_try_fmt(struct atomisp_device *isp, struct v4l2_pix_format *f,
-
->  	const struct atomisp_format_bridge *fmt, *snr_fmt;
->  	struct atomisp_sub_device *asd = &isp->asd;
->  	struct v4l2_mbus_framefmt ffmt = { };
-> -	u32 padding_w, padding_h;
-> +	struct v4l2_area padding;
-> +	struct v4l2_area size;
->  	int ret;
->  
->  	fmt = atomisp_get_format_bridge(f->pixelformat);
-
->  	 * resolution + padding. Add padding here and remove it again after
->  	 * the set_fmt call, like atomisp_set_fmt_to_snr() does.
->  	 */
-> -	atomisp_get_padding(isp, f->width, f->height, &padding_w, &padding_h);
-> +	size.width = f->width;
-> +	size.height = f->height;
-> +	atomisp_get_padding(isp, size, &padding);
->  	v4l2_fill_mbus_format(&ffmt, f, fmt->mbus_code);
-> -	ffmt.width += padding_w;
-> -	ffmt.height += padding_h;
-> +	ffmt.width += padding.width;
-> +	ffmt.height += padding.height;
-
-Add a wrapper that takes struct v4l2_pix_format
-
-static inline void atomisp_get_pix_padding(struct atomisp_device *isp,
-					   struct v4l2_pix_format *f,
-					   struct v4l2_area *pad)
-{
-	struct v4l2_area size = { .width = f->width, .height = f->height };
-
-	atomisp_get_padding(isp, size, pad);
-}
-
-So it will become here as
-
-	atomisp_get_pix_padding(isp, f, &padding);
+Drop these.
 
 ...
 
->  	if (atomisp_subdev_format_conversion(asd)) {
-> -		atomisp_get_padding(isp, f->fmt.pix.width, f->fmt.pix.height,
-> -				    &asd->sink_pad_padding_w, &asd->sink_pad_padding_h);
-> +		size.width = f->fmt.pix.width;
-> +		size.height = f->fmt.pix.height;
+> void atomisp_get_padding(struct atomisp_device *isp, struct v4l2_area size,
+
+>  	u32 min_pad_w = ISP2400_MIN_PAD_W;
+>  	u32 min_pad_h = ISP2400_MIN_PAD_H;
+>  	struct v4l2_mbus_framefmt *sink;
+> -
+>  	if (!input->crop_support) {
+>  		pad->width = pad_w;
+>  		pad->height = pad_h;
+
+Stray change.
+
+...
+
+> -	size.width = f->width;
+> -	size.height = f->height;
+> -	atomisp_get_padding(isp, size, &padding);
+> +	if (fmt->sh_fmt == IA_CSS_FRAME_FORMAT_RAW) {
+> +		padding = (struct v4l2_area) { };
+> +	} else {
+> +		size.width = f->width;
+> +		size.height = f->height;
 > +		atomisp_get_padding(isp, size, &padding);
-> +		asd->sink_pad_padding_w = padding.width;
-> +		asd->sink_pad_padding_h = padding.height;
+> +	}
 
-And respectively here
+Compound literal is not needed here. With the previous suggestions this becomes
 
-		atomisp_get_pix_padding(isp, &f->fmt.pix, &padding);
-
->  	} else {
->  		asd->sink_pad_padding_w = 0;
->  		asd->sink_pad_padding_h = 0;
-
-Looking at this, I would also replace these two in asd to be struct v4l2_area.
-There are only three users.
-
-With that this becomes
-
-	if (atomisp_subdev_format_conversion(asd))
-		atomisp_get_pix_padding(isp, &f->fmt.pix, &asd->sink_pad_padding);
+	if (fmt->sh_fmt == IA_CSS_FRAME_FORMAT_RAW)
+		padding = {};
 	else
-		asd->sink_pad_padding = {};
-
+		atomisp_get_padding(isp, f, &padding);
 
 ...
 
-> static int atomisp_enum_framesizes_crop_inner(struct atomisp_device *isp,
+>  			ffmt.code);
+>  		return -EINVAL;
+>  	}
 
->  		{  800,  600 },
->  		{  640,  480 },
->  	};
-> -	u32 padding_w, padding_h;
->  	int i;
->  
->  	for (i = 0; i < ARRAY_SIZE(frame_sizes); i++) {
-> -		atomisp_get_padding(isp, frame_sizes[i].width, frame_sizes[i].height,
-> -				    &padding_w, &padding_h);
-> +		struct v4l2_area size = {
-> +			.width = frame_sizes[i].width,
-> +			.height = frame_sizes[i].height,
-> +		};
+Not enough context, but I assume a blank line is good to have here.
 
-Just convert frame_sizes to be of struct v4l2_area type.
+> +	if (fmt->sh_fmt == IA_CSS_FRAME_FORMAT_RAW &&
+> +	    fmt->mbus_code != snr_fmt->mbus_code) {
+> +		fmt = snr_fmt;
+> +		f->pixelformat = fmt->pixelformat;
+> +	}
 
-> +		struct v4l2_area padding;
->  
-> -		if ((frame_sizes[i].width + padding_w) > native->width ||
-> -		    (frame_sizes[i].height + padding_h) > native->height)
-> +		atomisp_get_padding(isp, size, &padding);
-> +
-> +		if ((frame_sizes[i].width + padding.width) > native->width ||
-> +		    (frame_sizes[i].height + padding.height) > native->height)
->  			continue;
+...
 
+> +	if (format->sh_fmt == IA_CSS_FRAME_FORMAT_RAW)
+> +		padding = (struct v4l2_area) { };
 
-Then only fsize->discrete = frame_sizes[i]; will require the member-to-member
-assignment.
+		padding = {};
+
+should suffice.
 
 -- 
 With Best Regards,
