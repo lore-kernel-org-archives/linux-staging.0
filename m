@@ -1,147 +1,210 @@
-Received: from fout-a2-smtp.messagingengine.com (fout-a2-smtp.messagingengine.com [103.168.172.145])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D53F94582DC
-	for <linux-staging@lists.linux.dev>; Mon, 31 Aug 2026 17:03:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F183F35C681
+	for <linux-staging@lists.linux.dev>; Mon, 31 Aug 2026 18:01:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788195790; cv=none; b=T5W6Fl8Bd0TsZjfaCKxSDX6AxwUrp5x4dUB2PdGD0MpvBYSdvehoFLKUVSBv2psGR0xg2iTgBbbCubAVq1/fQEcB533CnD3NC7byXCW4itu/IpzSeLOpj8fe3ACf//GAkLNi5OLTal/MgWy80r+HP31LkqhpxqrEv05/zkLfhR0=
+	t=1788199268; cv=none; b=oUO4cM29UIhv7ebHmF7ryQpaLtO1LewG0rw2NA6XVzpPxCooBcA6jyQ+QVunVEteComqUPAXx7LaOSgesemrCglTRWjDDtPWRErQFpgMOt22SyzeCIhBpEYGM+jX5t/YX/vAHVqXKvfnXXVnZrygoInx+NE40UFjMRrNLsIgyA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788195790; c=relaxed/simple;
-	bh=x8pyfOFgSkKTlAfiLszTEL4H/BxUyTuFtU+ZXQQky9U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oSXmhapGYMfOBgFsXgoJu/yifCl7noXzjHYa2nu9aFQAw9BCNfI2TAd1E0TZKZE5PoKFF5CRUW69t3VLAWPmudS2d8QrMUhJ8r6NtSvv0UsfcDXfI20ewLqJYgnM6uLqnOBMfUUvXLMvrUz/hkc78SBLls8+uUi+x/zAqlx4nxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=AP2QtpsK; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=a8GhFhFa; arc=none smtp.client-ip=103.168.172.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+	s=arc-20240116; t=1788199268; c=relaxed/simple;
+	bh=mL2Lwg9oxsZdUTlykc/2+ON97/E/5LXM0vSR6z8oHgg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Zn4h/oxJL4KfioJ/YzQtsfhele95FsfhYxrr2NlaiRn1zyKCBVp+3cYejNIY9AxRZ4KtvY8PLZ04Fy+YR67SX3wJ6lmrXuk8/qUMA7bRnXf8mc1jIl9Z5+E5nJcqAWRpr42eTkwrtubk68kBP5gvqfq7SXe/ztpyEtm3D7wehS8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E41/UmO/; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="AP2QtpsK";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="a8GhFhFa"
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfout.phl.internal (Postfix) with ESMTP id D9570EC018B;
-	Mon, 31 Aug 2026 13:03:07 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-03.internal (MEProxy); Mon, 31 Aug 2026 13:03:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1788195787;
-	 x=1788282187; bh=F0PGnQWaLIQjLgUONrZVx24rLLeTQOG0W5RZFIJrJKU=; b=
-	AP2QtpsK5aOcZr/rrUSARIiReC0Ublypx0eTJneMRZgE+Ic7l1kQr4+6tDAhgJVZ
-	276PX6q23xuk+yWVwy5zVpHX7kEVPAA1gOmBPqekG1Isa8W51k6Cv4XZ3VdcWJnq
-	Zirn02xzkMUJ7AynVeFCFTW2OtaJLG/ZGX46xc/yNRHkMmOC3b2SLJEGi0Fw2pAv
-	JhsYyeU5IsriZhNy9q9WsAHVksMnyEZE6QG8wi/H62b3cQpG84Z9H/C7HSKxA18Y
-	zFwyfeWOwWqW8Wr0UIhd2yqq7qTsnT7hUpRt7NXmycX5R4Wg70QolyekK40ugsyq
-	P4oMw2wht7ivKE2g0ZT0Iw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1788195787; x=
-	1788282187; bh=F0PGnQWaLIQjLgUONrZVx24rLLeTQOG0W5RZFIJrJKU=; b=a
-	8GhFhFa+ruyQDY2Psr/yBZ7Nr9NfVLST5kSr+a17EZtUb0SDIUEh/TUME2DQOKmN
-	B4W96Wf4F5CsX3NY3VF0yFMDzcfRWYmNeiopxF0GDd27R1Cwj3eiELXnVYAcGuG7
-	VW82ohL76VXl5xjlrPSyVfGTGys6KTT6Uay9t1vx3HziJibO/cbLlMWhf9ZjALf3
-	/bOv4q1Y1BepyumfeJaKbQc+BKwHfwgmeOjO8RfT92BUWaD7R1o7ayHUXNLvnHaT
-	7KRY8tffDK2HTzc5w0XUt3L9/1AvNVPdfpU4DsFSlam7+TolR+UH6jWWfx7EBz0i
-	Ld5AYKGdMW6UCcGiiEMZg==
-X-ME-Sender: <xms:yrOVaiO8F-utIg5VUER89kACm2HzIr7aE-SRJfcNDyIBrofS7KYbCw>
-    <xme:yrOVaoAjwvZKGuTqfnP-1AfutEdjsbt4rqLYnux7tgC6iQVZPjFKBfsj8bjC3ko-t
-    Jo-P2n80NnsbaJxIfz3RtefzYQ8Dkdm-7f8cDG11gngnAErzyIJ5JIG>
-X-ME-Received: <xmr:yrOVag8_WEAbLI6rtKtlzzqPPaNqNuE77YQuKnHJmGDRamIjQlrFMD7mG3dQqB4aFoA-CsmXqfB_YVwkk40dzBdi5hxfKB4>
-X-ME-Proxy-Cause: dmFkZTGUrQUCuUEYWyf5eaq32XTaxIkIe9jIJi28PlCA7ffFYlgodbkNN/nBhdnOiUg6Nm
-    NU8srThnTkQVEXpH1B4GePx0lxalApr7949A3YGNhP1In4d71MS+sgOpTkQWMfyDNgYFli
-    mRKetbDnkRJRvksrq0wsF5rlhd9MxoplaXDJ8a8Djlwl5cB8rvhTQo3p1sjbs8qe4oFRCq
-    d2pz6FUP8xrNya1wpXlSO21SnB/QaPXbAPbWJlluYnPbnpts3MVK7+U1DkhCgU4RL9p3Uv
-    HJDC2hkNx4xW3Puux6CASTL+I7JXHxcDrk2tZXC7Ke3fz1k5oI/xMl66ywPlwEIIyyWLbF
-    fLb4uxG8DwOmRywTylH0WuDIcYjihU51Xwm6B5jzesfK1HR+CSfyvLI9M8LoIlimtFBK3c
-    OTpn2XdI3WQYnYmypnPTSaZDbSuwnt2NCEVdjbRZwLceFTXGKw/EgjIxOda+0ITemj7Y3m
-    cj/b1Z+JBSPI3hfrzi4Yn7SrvAc/nOCsvszK2flf3UHzQVSNQp+mSmINCWztirL5Df3VBB
-    +BcTqMNg8cJCW3c7R18OTbTTotmjm5/ICSeKMCmgIidjpxSoz5RPQfRhC12izSyRba/Mja
-    +r+NPRGeiqIqKSsp5BVjlzpGqW4cp5jKJI+/8FZzw9o8NDCOBkuCeM1eCsWg
-X-ME-Proxy: <xmx:yrOVapEHHZxqvif6osI7rWm8XOzz61lkgQzNAzu-mR-5nNMdV8FPSw>
-    <xmx:yrOVanKMjsOS02T84S-6tFwpmO9Dfd4ds3vzaCShH78X0ichQBOAYQ>
-    <xmx:yrOVasfpyUjIFj1TgNyhZpZYOsP4Rxq04SVtVsBanjkjpOMSYGVglg>
-    <xmx:yrOVakVYpBbYQkAwTajMS8HHPrmszfvf9xOu_M-kRNVo16BgspJ6pQ>
-    <xmx:y7OVasP86tyt9IIm-0TGL0Q8Lh5fltDRWk55xoar90CQjDFWjYeA6Lwi>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 31 Aug 2026 13:03:05 -0400 (EDT)
-Date: Mon, 31 Aug 2026 19:03:03 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: dumitru.ceclan@analog.com
-Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E41/UmO/"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-4843750de83so381021f8f.1
+        for <linux-staging@lists.linux.dev>; Mon, 31 Aug 2026 11:01:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788199265; x=1788804065; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=+0qBzso0OAfsRTBs2l98+2UL/lhWr7wMk6D2o/FrLpA=;
+        b=E41/UmO/DoI5WCNVdOS5Q5E83PAfIXFAa3ij0uyALzphhdSG484tyktfavTg2TgamG
+         ej2r8ASE2F1ZWELp+maaSWP7BVqon42dMIHc49cmWyXIaDrRaMb1vN2VvIxTaLEAjqE9
+         evEDNtjwj1T8wFgkWgtStmU3774xED/AzuasKMRWcp/28/gOPWr9CYVVxTA2odTh3EwN
+         AFUyfS3lFfIVkSvfafhX5P9mUhA+QcBPf+OpcGgJx6T7QZURWOvMzb/cqdlS7W5eDzg+
+         I8CefzBfXd7jHHpNlcMVB91Oc5kttomhwEF8Vx8+DZVflZb7RGNg8R0fxff58vKYbnou
+         +sug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788199265; x=1788804065;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=+0qBzso0OAfsRTBs2l98+2UL/lhWr7wMk6D2o/FrLpA=;
+        b=h5gR6adjuNRTOwRnzLviZsHf9ogKepDXVLBkPAEB37jzntJ5HRAoIg0nUchufdVQPP
+         5SliN931qRhFBXqxLcA15yDSzQMHkhX9t6T61DeuZSS1FTII/Uqpk9Ske3vfx7MvNLIG
+         SKDdX8qKnS6HyPnq/K4DbHJ8PoaNJlD9n9rEcV4iJ9G6R/XbiUkakSrPgx2gJBPyUfYi
+         x4XpyUVszVDsJswAUkqU380jj5GKU0D872jcs5fv9U7CfU8uJi0Xh2+2UFxuLI5XKpK9
+         tfiiYOM6gApKRkGf2zDSW/D//amBGRtTFsrqS0anbft8/AhNzwMGKJ2M9cCnbguMG/Yt
+         3F5w==
+X-Forwarded-Encrypted: i=1; AKwUvByBDCl23GcTN6cy0adAQclb3H1brUWkbswcd5kVYtkuVY/ANjPF7V4EKtFF0RkYGth36aNPWaxHijFzsYmv@lists.linux.dev
+X-Gm-Message-State: AFuF++mHH4pqudg42PNljkGP1Eco/Y66vKdRwCiRdtSQaoLKy5ZVD4dA
+	T3KSPb2CAw3CybD2pLXcG8XsB57w65JuIFbIiEwwpnTNnYn5RqdlpC01
+X-Gm-Gg: AYBFou1M2ZzYocTWXvbr9RF+zJrwlmkVbV8/RN3p3frMoYqCLCwTRDmkqGz/gxchJTZ
+	CeGYgvNmsL2Tp2lJfar5HEJVA7kn8ScLO2PL6qwUasYxhYsAG4P+19OkiAUCnBz4MAMo1atgQ+j
+	Rh8k8XcBtlijFSkAUW7BKriLVzUAHdMDkGceczwHBzrgyMA6199hy+xYpknwlM4OiqWi+o3JmqJ
+	r8QkI3kls15fkPoPA74ROaytB9uwN0dzPDTTBaLDDHz390UZv0ydZZ6p/2UJAnW1k4Fp4HTPnYY
+	ztaAxcCmKe319yrwMqmvx7R8EntlCsZKCP/xqp4x70b6yI6qHPxhheaQ0rlFLKXCx1LiC6OVEJ4
+	JZRfJdYYP/A1fDlNSSi2T+Fl9f/AjJ+kLCBLM5gLaXBn2sdVvsO1jworaLMl9N5NkMWWhWfoC4b
+	5JUV47edcWzJnGSAhY2Tajm6PVE5EP5KHDBgdjHDhKGfZy5jwRB9ZggB8utRR1f39Yp+2BQ5f++
+	1fUoQ0xtbcGGI8idrlLpjIhLVbCqTmWR9fvpe/XCyQ=
+X-Received: by 2002:a5d:6e58:0:b0:484:3f43:4914 with SMTP id ffacd0b85a97d-4844101e5cfmr3872253f8f.20.1788199264958;
+        Mon, 31 Aug 2026 11:01:04 -0700 (PDT)
+Received: from 1Z10 ([78.213.92.213])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482fbab3fcesm22861530f8f.5.2026.08.31.11.01.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Aug 2026 11:01:04 -0700 (PDT)
+From: Maurizio Casciano <mauriziocasciano7@gmail.com>
+To: linux-media@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Julien Massot <julien.massot@collabora.com>,
-	Rob Herring <robh@kernel.org>,
+	Bingbu Cao <bingbu.cao@amd.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Nicholas Roth <nicholas@rothemail.net>,
+	Andy Shevchenko <andy@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@intel.com>,
+	Hans de Goede <hansg@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	mitrutzceclan@gmail.com, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-gpio@vger.kernel.org,
-	Martin Hecht <Martin.Hecht@avnet.eu>,
-	Andrian Suciu <Adrian.Suciu@analog.com>,
-	Cosmin Tanislav <demonsingur@gmail.com>,
-	Vivekananda Dayananda <vivekana@amd.com>,
-	Cory Keitz <ckeitz@amazon.com>
-Subject: Re: [PATCH v16 00/22] media: i2c: add Maxim GMSL2/3 serializer and
- deserializer drivers
-Message-ID: <20260831170303.GB1116206@ragnatech.se>
-References: <20260831-gmsl2-3_serdes-v16-0-4fa6e08bb514@analog.com>
+	Jose Maria Martin <jmmartinf@hotmail.com>,
+	Uwe Kleine-Koenig <ukleinek@kernel.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Maurizio Casciano <mauriziocasciano7@gmail.com>
+Subject: [PATCH v5 00/16] media: Add Lenovo Yoga Book YB1-X91 camera support
+Date: Mon, 31 Aug 2026 20:00:45 +0200
+Message-ID: <20260831180101.3109854-1-mauriziocasciano7@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <cover.1787933456.git.mauriziocasciano7@gmail.com>
+References: <cover.1787933456.git.mauriziocasciano7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260831-gmsl2-3_serdes-v16-0-4fa6e08bb514@analog.com>
 
-Hello,
+The Lenovo Yoga Book YB1-X91L exposes an OV2740 front sensor and an
+OV8858 rear sensor through the Cherry Trail AtomISP. Its firmware does
+not provide enough information for the existing sensor and IPU bridge
+drivers to construct the complete camera links.
 
-Thanks for  your continued effort pushing this work forward!
+Add the ACPI IDs and bridge data, describe both AtomISP camera links,
+support the Yoga Book sensor clocks and modes, expose raw Bayer capture,
+add per-channel white-balance controls, and add the WV517S rear-camera
+lens actuator.
 
-On 2026-08-31 16:21:19 +0300, Dumitru Ceclan via B4 Relay wrote:
-> This series adds new drivers for multiple Maxim GMSL2 and GMSL3 devices,
-> replacing the few GMSL2 drivers already in upstream, and introducing a
-> common framework that can be used to implement such GMSL chips, which
-> avoids code duplication while also adding support for previously
-> unsupported features.
-> 
-> While the normally acceptable and polite way would be to extend the
-> current mainline drivers, the choice was made here to add a totally new
-> set of drivers. The current drivers support only a small subset of the
-> possible features, and only a few devices, so the end result after
-> extending them would in any case be essentially fully rewritten, new
-> drivers.
-> 
-> This series depends on support for internal pads, for which a patch has
-> been added.
+Raw capture is selected through the normal V4L2 raw pixel formats. There
+is no module parameter or separate private ABI. Raw formats expose the
+complete sensor transport frame required by the ISP2401 copy pipeline;
+selecting a smaller crop remains a userspace decision.
 
-It also depends on enabling the streams API right? At least I need to do 
-so to be able to use the TPG. Out of curiosity do you know the plan to 
-enable it by default upstream?
+Changes since v4:
 
-> The drivers have been tested on the following hardware combinations, 
-> but
-> further testing is welcome to ensure no / minimal breakage:
-> * Raspberry Pi 5 + MAX9296A + 2xMAX96717 + 2xIMX219
-> * Raspberry Pi 5 + MAX96714 + 1xMAX96717 + 1xIMX219
-> * Raspberry Pi 5 + MAX96716A + 2xMAX96717 + 2xIMX219
-> * Raspberry Pi 5 + MAX96712 + 4xMAX96717 + 4xIMX219
-> * Raspberry Pi 5 + MAX96724 + 4xMAX96717 + 4xIMX219
-> * Raspberry Pi 5 + MAX96792A + 1xMAX96793 + 1xMAX96717 + 2xIMX219
-> * Raspberry Pi 5 + MAX96792A + 2xMAX96717 + 2xIMX219
-> * Renesas V4H + MAX96712 + 2xMAX96717 + 2xIMX219
+- retain the HZ_PER_MHZ conversions requested during review, including
+  the canonical 24 MHz OV8858 clock constant;
+- retain ACPI_PTR() for the OV8858 match table as Sakari requested; Andy
+  subsequently confirmed that Sakari's media-maintainer guidance should
+  decide this point;
+- add Andy's Reviewed-by tags to the unchanged patches he accepted;
+- move the existing OV2740 group-hold error-unwinding correction into a
+  separate preparatory patch before the white-balance controls;
+- complete the AtomISP struct v4l2_area conversion for persistent sink
+  padding, padding helpers, frame-size tables and all callers;
+- keep the OV8858 digital-gain extraction a pure refactoring, preserving
+  the original register packing and explanatory comment;
+- use the existing OV8858_XVCLK_FREQ name for 24 MHz and keep a distinct
+  constant only for 19.2 MHz; and
+- standardize the Assisted-by trailers without changing authorship or
+  Signed-off-by certification.
 
-I tested the TPG on Renesas V3U + MAX96712 and it works as just as good 
-or better then the staging driver this work makes obsolete.
+v4:
+https://lore.kernel.org/linux-media/cover.1787933456.git.mauriziocasciano7@gmail.com/
+
+The tablet DSDT contains the sensor objects requested during review:
+
+    Device (CA11)
+    {
+        Name (_HID, "INT3477")
+        Name (_CID, "OVTI8858")
+        Name (_DDN, "OV8858")
+    }
+
+    Device (CA01)
+    {
+        Name (_HID, "OVTI2740")
+        Name (_CID, "OVTI2740")
+        Name (_DDN, "OV2740")
+    }
+
+All sixteen patches pass strict checkpatch. Integration commit
+780663f0af3b contains the exact v5 media series and passed olddefconfig,
+focused W=1 C=2 CHECK=sparse builds, and a full x86_64 Debian package
+build. The full build log contains no warning in a touched file.
+
+Runtime testing used a Lenovo Yoga Book YB1-X91L booted with
+7.2.0-yogabook-20260831-153058. OV2740, OV8858, WV517S and AtomISP bound,
+and AtomISP reported two connected cameras. Processed front and rear
+streams completed and actual switching was confirmed through distinct
+BA10/GRBG and BG10/BGGR sensor paths.
+
+Direct raw capture produced five complete OV2740 BA10 frames
+(22,364,160 bytes) and five complete OV8858 BG10 frames (20,377,600
+bytes). The OV2740 red/blue balance controls were set to 1200/1300,
+read back and exercised during a five-frame raw capture, then restored to
+1024/1024. WV517S focus was set to 448 during rear raw streaming and
+restored to 300.
+
+During rear streaming, OV8858 and AtomISP were runtime active while
+OV2740 remained suspended; all returned to runtime suspended after idle.
+A 15-second s2idle cycle with RTC wake resumed successfully on the same
+kernel. Front processed capture, SOF playback/capture, and both DRV2604
+force-feedback devices were rechecked after resume without regression.
+
+With Best Regards,
+Maurizio Casciano
+
+Maurizio Casciano (16):
+  media: ov8858: Extract digital gain programming
+  media: ov8858: support 19.2 MHz clock and CHT gain setup
+  media: ov2740: Use C99 initializers for ACPI IDs
+  media: ov2740: Add OVTI2740 ACPI ID
+  media: ov8858: Add INT3477 ACPI ID
+  media: intel: ipu-bridge: Add Yoga Book camera sensors
+  media: atomisp: Add Yoga Book camera configuration
+  media: ov2740: support 288 MHz link frequency
+  media: intel: ipu-bridge: allow sensor-specific link frequencies
+  media: atomisp: derive CSI-2 timing from sensor link frequency
+  media: atomisp: provide Yoga Book OV2740 link frequency
+  media: ov2740: release group hold after gain write errors
+  media: ov2740: add manual white balance controls
+  media: atomisp: Use struct v4l2_area for padding
+  media: atomisp: allow raw Bayer capture
+  media: i2c: Add WV517S lens actuator driver
+
+ MAINTAINERS                                   |   1 +
+ drivers/media/i2c/Kconfig                     |  11 +
+ drivers/media/i2c/Makefile                    |   1 +
+ drivers/media/i2c/ov2740.c                    | 114 +++++++---
+ drivers/media/i2c/ov8858.c                    | 166 ++++++++++++--
+ drivers/media/i2c/wv517s.c                    | 206 ++++++++++++++++++
+ drivers/media/pci/intel/ipu-bridge.c          |  19 +-
+ .../staging/media/atomisp/pci/atomisp_cmd.c   |  80 ++++---
+ .../staging/media/atomisp/pci/atomisp_cmd.h   |   6 +-
+ .../staging/media/atomisp/pci/atomisp_csi2.c  |  20 +-
+ .../media/atomisp/pci/atomisp_csi2_bridge.c   |  30 ++-
+ .../staging/media/atomisp/pci/atomisp_ioctl.c |  34 ++-
+ .../media/atomisp/pci/atomisp_subdev.c        |   4 +-
+ .../media/atomisp/pci/atomisp_subdev.h        |   3 +-
+ include/media/ipu-bridge.h                    |   3 +
+ 15 files changed, 588 insertions(+), 110 deletions(-)
+ create mode 100644 drivers/media/i2c/wv517s.c
 
 -- 
-Kind Regards,
-Niklas Söderlund
+With Best Regards,
+Maurizio Casciano
