@@ -1,61 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D42C242D9B
-	for <linux-staging@lists.linux.dev>; Mon, 31 Aug 2026 07:07:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B0C63D967A
+	for <linux-staging@lists.linux.dev>; Mon, 31 Aug 2026 09:32:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788160080; cv=none; b=EojIWiUjK/0iZ4l/lKikl/nSH4gfAqdPoeRbJenzl+CzgdIdcGoLAu7066fSJhnl9nDsVn9nuDos0s9nV91bn3EQhgt0/OSleRogsvZc8LAPl+ey6lGDFZbk7ln123Nz7OfFwoFl4JHrJeZJG26mYHgg0J+8AZyq6i0iQzR7OsM=
+	t=1788168735; cv=none; b=FDyLj31Zm5Fgc6EWvvnkO3F4hfZWOWU2Q/qDMDNkME4oppKzCtduwBrO9z0GDW9hmSELuQ5zERs29QWvj/wHn+3ttLF22CkOO22u+DAKQwst1mOGgNXE7Wzje+AYL8bL2k40mHXQ1hr57FuBvJJH3+dlNxZxBO+yQ4Vq/FJ0/PA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788160080; c=relaxed/simple;
-	bh=LQ+4OhaYzUwnVEtdYOy2ARxZkEO72ficOARdW/upaNw=;
+	s=arc-20240116; t=1788168735; c=relaxed/simple;
+	bh=kYFY1a0Km/MA/WbUGgeqey1AxwgJqE9ciOIuHC/0EBM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JMC+roK3Kvc2CAbZ9DfitZ4fq6gO22WKRcS+/67pO6V326GL8vPnRPQtjRGKKgXhsQrlyBsaahMRVjbd689jl74CQ+gDIUmjkOewPFYodkKtPh/KAyU6wcXo9M4l8cv9twfD49aHKte12ytNwWDyiT6hDXAPIdPvhKwQjBVd5D0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q9yX6yi0; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ln3t544umfwu6J1ycfG2q8fRrfsLK6bUF6gpRaijma3Ie7p6d4qIFGEEpbeNxQb9z/DZ2nA+x6IbVy4H61+I8SG6EzizfKynbydH07CZhWNekGwIBnJNN1fVcOrxk4c7SClI3wQWQYCuUTShQtWQJLLB26OnNYMlgdvWLzzQFv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lgfcXBv+; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q9yX6yi0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lgfcXBv+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788160078; x=1819696078;
+  t=1788168733; x=1819704733;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=LQ+4OhaYzUwnVEtdYOy2ARxZkEO72ficOARdW/upaNw=;
-  b=Q9yX6yi0wj3MS4Spqt1tSqB05ccv+jc8bXdyUkm+8OjUxp4J4wJSTJan
-   bvP6uX038G0bwCO0srZd0vQPRdLGyuiqJWGLDJfs7tv9iS159QMWlWScL
-   uG4dV0WTJnokWlp3CltFRQsJt4R19ocutsXxoMQt+Uv2lnvFQaj92fhLV
-   lz9CF5TcBPYHwX2yG6zwvSdMbT1V69Bb0QyatxjYinICJb3Hn3oCr/sKG
-   18WUzlzq1gMp+91J85Wm1/pk9EO6muHttgA07qHoSWawizimZeMFabZee
-   ZF7fGrKgjBF1dpghoXxJ9s3yVNUOgcoc1UnQd60Yuet7h5QC1vfb7LYdN
+  bh=kYFY1a0Km/MA/WbUGgeqey1AxwgJqE9ciOIuHC/0EBM=;
+  b=lgfcXBv+VTb9Wpy/HPr4S6xqYAzT+6ZDoZHmIhtoDRh+wmR7dhtko9FW
+   dx52bXoybamkMQaLZpb067f1vLfbpb7xunwKuPB8+BdqGS7pXDe4jkCke
+   92CGlosUitxMji/er7iO3tvp6IE0xWJQ6FUrTpJvDANV3KCwaGTh7nrpS
+   8QbLaFJziyXTZNl9roE5zNX/UHuSyrIAt818kO47ASPzb31wUlJWX4Kco
+   JTHT2ZrAOvltuZ2KEeBt5jkgrOPLOjpLO4Np/j2/8dcZcCzgzjBQ5cJ5A
+   K0UpbNCkl8VyZjgsKD9LkUUdA/WtCKt8AWUI2YiiqKyz5xPNb+XkSa3JJ
    w==;
-X-CSE-ConnectionGUID: CcxnzEgJT7+jByU44hf3Yw==
-X-CSE-MsgGUID: quSvKB9zQI2E73Kss0oVWw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="114095636"
+X-CSE-ConnectionGUID: uMWo8e8CSa+ArT9bSMiSCw==
+X-CSE-MsgGUID: aFdp0GdYTLizNcONLkMd8Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="98908155"
 X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="114095636"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 00:07:56 -0700
-X-CSE-ConnectionGUID: RzGgLUw9S4WC57mjag1C5Q==
-X-CSE-MsgGUID: uvPRPilMRKOYRHBD2StDqQ==
+   d="scan'208";a="98908155"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 02:32:06 -0700
+X-CSE-ConnectionGUID: ZelpqDcMT/a4r/B7IsNdVw==
+X-CSE-MsgGUID: H9UWajU5TtuPmfLtlYReUg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="266141700"
+   d="scan'208";a="272941824"
 Received: from fpallare-mobl4.ger.corp.intel.com (HELO localhost) ([10.245.244.21])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 00:07:53 -0700
-Date: Mon, 31 Aug 2026 10:07:51 +0300
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 02:32:03 -0700
+Date: Mon, 31 Aug 2026 12:32:00 +0300
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: "Md. Mahmudul Hasan Mabud" <mdmahmudulhasan1511@gmail.com>,
-	nuno.sa@analog.com, Michael.Hennerich@analog.com,
-	gregkh@linuxfoundation.org, andy@kernel.org, dlechner@baylibre.com,
-	linux@analog.com, linux-iio@vger.kernel.org,
+To: Maurizio Casciano <mauriziocasciano7@gmail.com>
+Cc: linux-media@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@amd.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Nicholas Roth <nicholas@rothemail.net>,
+	Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jose Maria Martin <jmmartinf@hotmail.com>,
+	Uwe Kleine-Koenig <ukleinek@kernel.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6] staging: iio: adc: ad7816: Use modern IIO attribute
- macros
-Message-ID: <apUoR0ngw-sfkakJ@ashevche-desk.local>
-References: <20260827214721.19395-1-mdmahmudulhasan1511@gmail.com>
- <20260831000954.634dc435@jic23-huawei>
+Subject: Re: [PATCH v4 01/15] media: ov8858: Extract digital gain programming
+Message-ID: <apVKEJ63Ew6qDWrn@ashevche-desk.local>
+References: <cover.1787933456.git.mauriziocasciano7@gmail.com>
+ <1a7c8fba6835b2191b71ae1d903734621626e1f6.1787933456.git.mauriziocasciano7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -64,39 +68,37 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260831000954.634dc435@jic23-huawei>
+In-Reply-To: <1a7c8fba6835b2191b71ae1d903734621626e1f6.1787933456.git.mauriziocasciano7@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Mon, Aug 31, 2026 at 12:09:54AM +0100, Jonathan Cameron wrote:
-> On Fri, 28 Aug 2026 03:47:21 +0600
-> "Md. Mahmudul Hasan Mabud" <mdmahmudulhasan1511@gmail.com> wrote:
-> 
-> > Replace the legacy IIO_DEVICE_ATTR() macros with the modern
-> > IIO_DEVICE_ATTR_RW() and IIO_DEVICE_ATTR_RO() macros.
-> > 
-> > This includes renaming driver-specific callback functions to
-> > standard <name>_show() and <name>_store() formats.
-> > 
-> > Signed-off-by: Md. Mahmudul Hasan Mabud <mdmahmudulhasan1511@gmail.com>
-> > Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-> 
-> How did we end up even looking at these?  This is converting attributes
-> that would most likely go away in any attempt to bring this driver out of staging.
-> I'd much rather see the major surgery needed than tidying up around the edges.
-> 
-> I'm not particularly keen on any effort being expended in this direction
-> without substantially more justification. 
+On Fri, Aug 28, 2026 at 06:14:43PM +0200, Maurizio Casciano wrote:
+> Move the existing packed digital-gain register programming into a helper so
+> clock-specific gain handling can be added separately.
 
-Even though, I would consider this as a good cleanup from two perspectives:
-- reducing the current code base, id est makes easier to get current state
-of affairs
-- educating people to use better alternatives (in case that's unavoidable)
-in their code
+My comment was ignored, I am not sure why...
 
-> So as this stands I'm going to ignore this one.
+...
 
-This is fine!
+> +static int ov8858_set_long_digital_gain(struct ov8858 *ov8858, u32 gain)
+> +{
+> +	u16 long_gain;
+> +
+> +	/*
+> +	 * Digital gain is assembled as:
+> +	 * 0x350a[7:0] = dgain[13:6]
+> +	 * 0x350b[5:0] = dgain[5:0]
+
+This comment most likely has a typo as I pointed out earlier.
+
+> +	 * Reassemble the control value to write it in one go.
+> +	 */
+> +	long_gain = (gain & OV8858_LONG_DIGIGAIN_L_MASK) |
+> +		    ((gain & OV8858_LONG_DIGIGAIN_H_MASK) <<
+> +		     OV8858_LONG_DIGIGAIN_H_SHIFT);
+> +
+> +	return ov8858_write(ov8858, OV8858_REG_LONG_DIGIGAIN, long_gain, NULL);
+> +}
 
 -- 
 With Best Regards,
