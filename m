@@ -1,38 +1,61 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CB663264FB;
-	Mon, 31 Aug 2026 05:48:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D42C242D9B
+	for <linux-staging@lists.linux.dev>; Mon, 31 Aug 2026 07:07:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788155327; cv=none; b=pYVAl9YCJvhImdr2l0NUwe4hMWFtoZk9u2uZ8HlmWjFKct9IORNPv6kfbMbnFzpTtk07Bl0W3Cu/H2I6GwcWuT6vIEJ3Ext/V02YbhmN4+EtVhP4jUzF/bEiYK1G8Zmpi7+yzwXsPgrFvegXWJV3B5n5ILqqNGRFKkkEBMAjlxA=
+	t=1788160080; cv=none; b=EojIWiUjK/0iZ4l/lKikl/nSH4gfAqdPoeRbJenzl+CzgdIdcGoLAu7066fSJhnl9nDsVn9nuDos0s9nV91bn3EQhgt0/OSleRogsvZc8LAPl+ey6lGDFZbk7ln123Nz7OfFwoFl4JHrJeZJG26mYHgg0J+8AZyq6i0iQzR7OsM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788155327; c=relaxed/simple;
-	bh=kQtWvzDxvct6d43ExnmK/y3+kXxwPc5INILG8n+/TEg=;
+	s=arc-20240116; t=1788160080; c=relaxed/simple;
+	bh=LQ+4OhaYzUwnVEtdYOy2ARxZkEO72ficOARdW/upaNw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fHbROwt8h84Gi3tVuBvNHbRtjaDJncS5F4I8kADzfE3cr7wJGFyJGzVKLO14OXuKrfe0hZW5v9spf8LJamNEF3vkCjYiNn7AX0E0D8RCzArfNtlxMj9vHvEYQ3i446L5a5cNgJttbmAjKSB8ul228AJGdBMFfSC5lB+FKL1sI4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Lr+BFI9P; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=JMC+roK3Kvc2CAbZ9DfitZ4fq6gO22WKRcS+/67pO6V326GL8vPnRPQtjRGKKgXhsQrlyBsaahMRVjbd689jl74CQ+gDIUmjkOewPFYodkKtPh/KAyU6wcXo9M4l8cv9twfD49aHKte12ytNwWDyiT6hDXAPIdPvhKwQjBVd5D0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q9yX6yi0; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Lr+BFI9P"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 254AC1F000E9;
-	Mon, 31 Aug 2026 05:48:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1788155325;
-	bh=2IzguYBaGHJrEbcQ6FGsHCrrRCuT3Z1+IowBs9KVDCE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Lr+BFI9P67qwYhc3fFJ+jIztr9OijPdIY52YidjuKz0yARTC20RhwsgLG0sZllZsi
-	 lGaG4lZZLGNMZcM+FtRZIStBqDGoyNMFDHyo8weEhZme2JGMrLgWtyKbHlGCpCrkW9
-	 3ZCN/kyCyEwiMQ5rCqIFbLnPKmjpvNPB+Cg5RRxA=
-Date: Mon, 31 Aug 2026 07:47:02 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: anshika <anshikajain196872@gmail.com>
-Cc: Andy Shevchenko <andy@kernel.org>, Dan Carpenter <error27@gmail.com>,
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: fbtft: name the no-op endian modifier in
- define_fbtft_write_reg()
-Message-ID: <2026083121-suspend-constable-9e1a@gregkh>
-References: <20260830161529.14500-1-anshikajain196872@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q9yX6yi0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788160078; x=1819696078;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LQ+4OhaYzUwnVEtdYOy2ARxZkEO72ficOARdW/upaNw=;
+  b=Q9yX6yi0wj3MS4Spqt1tSqB05ccv+jc8bXdyUkm+8OjUxp4J4wJSTJan
+   bvP6uX038G0bwCO0srZd0vQPRdLGyuiqJWGLDJfs7tv9iS159QMWlWScL
+   uG4dV0WTJnokWlp3CltFRQsJt4R19ocutsXxoMQt+Uv2lnvFQaj92fhLV
+   lz9CF5TcBPYHwX2yG6zwvSdMbT1V69Bb0QyatxjYinICJb3Hn3oCr/sKG
+   18WUzlzq1gMp+91J85Wm1/pk9EO6muHttgA07qHoSWawizimZeMFabZee
+   ZF7fGrKgjBF1dpghoXxJ9s3yVNUOgcoc1UnQd60Yuet7h5QC1vfb7LYdN
+   w==;
+X-CSE-ConnectionGUID: CcxnzEgJT7+jByU44hf3Yw==
+X-CSE-MsgGUID: quSvKB9zQI2E73Kss0oVWw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="114095636"
+X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
+   d="scan'208";a="114095636"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 00:07:56 -0700
+X-CSE-ConnectionGUID: RzGgLUw9S4WC57mjag1C5Q==
+X-CSE-MsgGUID: uvPRPilMRKOYRHBD2StDqQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
+   d="scan'208";a="266141700"
+Received: from fpallare-mobl4.ger.corp.intel.com (HELO localhost) ([10.245.244.21])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 00:07:53 -0700
+Date: Mon, 31 Aug 2026 10:07:51 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: "Md. Mahmudul Hasan Mabud" <mdmahmudulhasan1511@gmail.com>,
+	nuno.sa@analog.com, Michael.Hennerich@analog.com,
+	gregkh@linuxfoundation.org, andy@kernel.org, dlechner@baylibre.com,
+	linux@analog.com, linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6] staging: iio: adc: ad7816: Use modern IIO attribute
+ macros
+Message-ID: <apUoR0ngw-sfkakJ@ashevche-desk.local>
+References: <20260827214721.19395-1-mdmahmudulhasan1511@gmail.com>
+ <20260831000954.634dc435@jic23-huawei>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -41,26 +64,42 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260830161529.14500-1-anshikajain196872@gmail.com>
+In-Reply-To: <20260831000954.634dc435@jic23-huawei>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Sun, Aug 30, 2026 at 09:45:29PM +0530, anshika wrote:
-> Two of the three define_fbtft_write_reg() instantiations pass an empty
-> modifier argument, which checkpatch flags as a fragile empty macro
-> argument. Give the no-op case an explicit name instead of leaving it
-> blank.
-
-Checkpatch is wrong.
-
-> No functional change.
+On Mon, Aug 31, 2026 at 12:09:54AM +0100, Jonathan Cameron wrote:
+> On Fri, 28 Aug 2026 03:47:21 +0600
+> "Md. Mahmudul Hasan Mabud" <mdmahmudulhasan1511@gmail.com> wrote:
 > 
-> Link: https://lkml.iu.edu/hypermail/linux/kernel/2602.0/01917.html
+> > Replace the legacy IIO_DEVICE_ATTR() macros with the modern
+> > IIO_DEVICE_ATTR_RW() and IIO_DEVICE_ATTR_RO() macros.
+> > 
+> > This includes renaming driver-specific callback functions to
+> > standard <name>_show() and <name>_store() formats.
+> > 
+> > Signed-off-by: Md. Mahmudul Hasan Mabud <mdmahmudulhasan1511@gmail.com>
+> > Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
 > 
-> Signed-off-by: anshika <anshikajain196872@gmail.com>
+> How did we end up even looking at these?  This is converting attributes
+> that would most likely go away in any attempt to bring this driver out of staging.
+> I'd much rather see the major surgery needed than tidying up around the edges.
+> 
+> I'm not particularly keen on any effort being expended in this direction
+> without substantially more justification. 
 
-We would need a full name anyway.
+Even though, I would consider this as a good cleanup from two perspectives:
+- reducing the current code base, id est makes easier to get current state
+of affairs
+- educating people to use better alternatives (in case that's unavoidable)
+in their code
 
-Just leave this as-is please, it's fine.
+> So as this stands I'm going to ignore this one.
 
-thanks,
+This is fine!
 
-greg k-h
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
