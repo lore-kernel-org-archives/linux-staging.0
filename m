@@ -1,49 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7AD43B42EB
-	for <linux-staging@lists.linux.dev>; Mon, 31 Aug 2026 09:39:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A03A93DE43B
+	for <linux-staging@lists.linux.dev>; Mon, 31 Aug 2026 09:40:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788169161; cv=none; b=I2OCpabDegzjrou6O4ZbAicFQZAMBw2EA6fNQhLJ219dpTXl3zp8icvp0a9Y//3IQFzSPTfEnjDFZqp+TA+jZBkXZpH/NcS9qL/dYB08CBdM529YsXrNC3N0EHN/AedWrEM6W562posw7gFGO35DZ4cr6EsrbvaYidIr3MqV71A=
+	t=1788169224; cv=none; b=bfBfRC1brYtWpWRXBVz5wO5W4dezsj6S/oQWvHGmhH3arSChlQ9XXUCaVPWinVULziFpQeoRrcRADSuIlSm15nqlvQ623MMLYqmPCyTEkm2SnFQieEAo3BCJkB8dT39gnGoFbhVmxSxyYaYwtlLa5ntiYRVW+fz7Bs1ymjXOvAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788169161; c=relaxed/simple;
-	bh=YVMrzXsIcQC9sceVcl9Un//g4fBKPLsuMDMdJ3boRY0=;
+	s=arc-20240116; t=1788169224; c=relaxed/simple;
+	bh=VjLEjM6LkwV7lOQjptYA0xDcE7nm3b3xsOKZXYEGpGM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z2W3Aw0PxuC/ZF45HKsj9hwqXt/Jz8/vzT0SsLXtdgFuaPoRLp89JcInGejbzzyLax7ZiFKDC0JjGIu/x+HSW1skcoVFMuP0t67f8kysfI6R0G/O30fl73AfXm0BZqYhRuo7lGddo1z2Joatvr/EXHNTTEejcDOoeLzM1YOoYMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cf1hGVaW; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=lUBbqW6NtQhD4q+ABgykHhOIMSyyjvJj7MxuV4pKP55RttAnoPrw9R4/nk42+IlYd2YJUhZaX0/9UwDidbO7pWM/uqbmKWR/29KbacdHy+HpnsmpiRf2GOlzNcw3mq3aWyFfc8qaybTHHTlU6PaZk9/OHvdTOwBsiQPpRM7fK4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H5CuliNC; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cf1hGVaW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H5CuliNC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788169158; x=1819705158;
+  t=1788169223; x=1819705223;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=YVMrzXsIcQC9sceVcl9Un//g4fBKPLsuMDMdJ3boRY0=;
-  b=Cf1hGVaWSXWvSBsrxkPnWHKdPS35bjKRelnG3bllWdiZkCuJteX437C8
-   F7xw/to9/2Je1kIRp2buZRoeMN7TI5xhSdi31RF2qjjvjSbxnBrtEGmNh
-   Y+IZOqIHEswdtKIttHIIO/G/rySlF/okBqFmFhZeLKb8AnqnZcPehS1Ht
-   pLUTCWdLyaiC7E6Vwn6sEx6xQcmM3vEFnTzBMXpUCyaEj8E8o2I2imT5e
-   VBQ4RHNgCpHyoxt71X3AqpdI97bQz8aq07IH1qGIywDtzbfMdF53v/DXL
-   ZX2czjN2YIqXMy3+KNhHtoYAZNMvWL7hNEfPBVtrFVk5s1llxheMoDr9h
-   A==;
-X-CSE-ConnectionGUID: fzSJgKETRua6K04AoF15KA==
-X-CSE-MsgGUID: Gtgvz9WvQ4u7BiC/FPcsmQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="88333839"
+  bh=VjLEjM6LkwV7lOQjptYA0xDcE7nm3b3xsOKZXYEGpGM=;
+  b=H5CuliNCd/TOwijduqvNaJBpAn2bRQ8gVSQ5Mck8cnTkmB9UIWlmHSl2
+   5IyXbuyt1bgpDnSQZOr2BO9jsmSNFLVzVB/qjkYilmHuMSR7TUHt0vLn+
+   /v3dV3A7KPsBW15lFo1XYXf7UUlDiEmmL34cPs0jmDZrb/8tHv1qJ61Np
+   pEvPT2lL28mXxjktxy6anZAeO1s8/1bkoYcqFBGo+1glr5UNBAHXGZtkK
+   neSDpalyqlDvqBBf7/wOozdf92W8AEwwtS3CCFu2udsSHKtNpLLNXjYYi
+   sBp5pi+Q9uVYSxZAsJI/vTTFZ/S36EW0KKPOTfXoS0CNcl+HdfciwVmSC
+   g==;
+X-CSE-ConnectionGUID: H5CupshZQUSk2HUxWk0XTg==
+X-CSE-MsgGUID: IvvH5rkXSuam8aLOcaOdtQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11891"; a="88777188"
 X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="88333839"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 02:39:17 -0700
-X-CSE-ConnectionGUID: XsV23mneSXWX+1ROF2DT8Q==
-X-CSE-MsgGUID: MpwL1+WeR5uH8CBcm10XzA==
+   d="scan'208";a="88777188"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 02:40:22 -0700
+X-CSE-ConnectionGUID: 4/Uu2UScSFe63kvjtNq1cg==
+X-CSE-MsgGUID: /Jdz5sBLRhGfa4a5K3OO/Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,252,1779174000"; 
-   d="scan'208";a="274018769"
+   d="scan'208";a="266947502"
 Received: from fpallare-mobl4.ger.corp.intel.com (HELO localhost) ([10.245.244.21])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 02:39:13 -0700
-Date: Mon, 31 Aug 2026 12:39:11 +0300
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Aug 2026 02:40:19 -0700
+Date: Mon, 31 Aug 2026 12:40:16 +0300
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
 To: Maurizio Casciano <mauriziocasciano7@gmail.com>
 Cc: linux-media@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -56,10 +56,10 @@ Cc: linux-media@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Jose Maria Martin <jmmartinf@hotmail.com>,
 	Uwe Kleine-Koenig <ukleinek@kernel.org>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 04/15] media: ov2740: Add OVTI2740 ACPI ID
-Message-ID: <apVLv4E542FenS30@ashevche-desk.local>
+Subject: Re: [PATCH v4 05/15] media: ov8858: Add INT3477 ACPI ID
+Message-ID: <apVMALyPsJSsB5BR@ashevche-desk.local>
 References: <cover.1787933456.git.mauriziocasciano7@gmail.com>
- <a04beb60575ccee57bf0a6079473df7bf735e145.1787933456.git.mauriziocasciano7@gmail.com>
+ <fb26c4cb3dae5d87ee877dd558d6ea5e0b3926fd.1787933456.git.mauriziocasciano7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -68,15 +68,16 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a04beb60575ccee57bf0a6079473df7bf735e145.1787933456.git.mauriziocasciano7@gmail.com>
+In-Reply-To: <fb26c4cb3dae5d87ee877dd558d6ea5e0b3926fd.1787933456.git.mauriziocasciano7@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Fri, Aug 28, 2026 at 06:14:46PM +0200, Maurizio Casciano wrote:
-> Firmware may enumerate OV2740 image sensors using the OVTI2740 ACPI ID.
-> Add it to the existing ACPI match table.
+On Fri, Aug 28, 2026 at 06:14:47PM +0200, Maurizio Casciano wrote:
+> Firmware may use INT3477 as the ACPI hardware ID for an OV8858 image
+> sensor. Add an ACPI match table for that ID.
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+No tag here from me because I strongly disagree on usage of ACPI_PTR().
+But I'm not a media maintainer :-)
 
 -- 
 With Best Regards,
