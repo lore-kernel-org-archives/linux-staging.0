@@ -1,144 +1,179 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77513361952
-	for <linux-staging@lists.linux.dev>; Tue,  1 Sep 2026 11:31:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788262297; cv=none; b=lHtGMvFH0SPXiFHlu0dUZJvjRZ8Hy2oLJ2QFJ5ASaJy0W/tCvu6ZFOu8MxNPFv4LmXB0ChWb6XZDT+d0Mlw28tOKsBYQC0Xf8AZFhSjT+Z1SuCQhSQ9gG2i4E13UyYfGOa3poXSMd54BAy6nx6wwtBFaYqA1NZZwHegxTE8yYhI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788262297; c=relaxed/simple;
-	bh=dpUUXhGrTwOOr6MTfDNkGq3Gdc6J6xFB1ifGJI77iUo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SnpotAjSJrwH2k9OVEKMhsVlyTjuO6hcVqj4kmTil5hUkxEpTWywaPd+JtsRikL4UC/16CNTPlHd7Ckv2l3rbittNCuGWyq8+gutx5NYvi1iPxG/UHWV77rBJyYdmrIMg1cETSLyYSYGmbV08viM5wTJAgETHcNGzwDCdMK8dM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U6Ap+ZzC; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDC8E3B0AEA
+	for <linux-staging@lists.linux.dev>; Tue,  1 Sep 2026 11:47:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788263232; cv=pass; b=icXZqpWjvspje9cuiyvrVJylyGqwx4vT+Xw7ic5SWUwVGPcudaPLYq/wWmlx6RMzS748qcJL9V40mpz8JJU+OwGeaV7ri/dj+J36rbH4JRoWWvyTbnmGdUKFiywnrvlfzsonh1OTbylEHyNZBQIrQh6OVhC5g4AYawpKN0BxVVs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788263232; c=relaxed/simple;
+	bh=WkEWz4mj8V/La5ibN5ZGxZHCQujl3YdUwyDFz4ro5gQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PAgQBG3rr1iwgCAPgkqns709pA96cXPrptF+jZZx3QqboV4jhUKpiEm8usxd7n8m4Ox5ASA50AblAeE61cPhKkTKgaDqpx6E/Jyb/2ck5g1TOBf0Y/5tZVg37pXymttcpefZWDM46EoJNHkl4mRTNMFEPJhZJc9HwM9ADvTRihk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LWjaA97/; arc=pass smtp.client-ip=209.85.208.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U6Ap+ZzC"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2ce98cb8165so10164335ad.1
-        for <linux-staging@lists.linux.dev>; Tue, 01 Sep 2026 04:31:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LWjaA97/"
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-69fab5a852cso1214489a12.0
+        for <linux-staging@lists.linux.dev>; Tue, 01 Sep 2026 04:47:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788263229; cv=none;
+        d=google.com; s=arc-20260327;
+        b=atmlDOow75oIZ1EmYrvDJi8sRvjudeBeAPQaxHE9XXbxdM2PYIMAvSIqWf3Rb3vC18
+         J/Qax5fSR5hS43rX5MYSc5W2u5RLYkACd/ypemVzZsVLpMwiINSmBzunuck36PLqt07r
+         8jrQaI3q4MzbpptaZFLTCHy3MMklkgxLEr0w+uxLkgsBKvYe/RJnkGIVx37s3PuRkDdJ
+         +rabnMVdzUNiSiv5+TH/ydC0YNQ5jF9XlTI6W45ilQCUSfS5dk4in40X/KelFaECb4J9
+         XyakPQXSwzbIpRhuE9gKvscWiqntZ6yxzK9XtfPXZOjIL5JsRoLAO1S5sTePq9e0RClO
+         9q3g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ai8hKQw9ceu4/718ljCxu801NyMv3a5qOhxDkpE5Xpg=;
+        fh=J8XNUBYamNkLyLTg2UBlrnwPjOEJkgRlC1VzxnpGKhk=;
+        b=VUmfNBm6gTtSs6Zoa0QPdbC6giTwmuP47frLhYxM7pOUpuIHxcdZ4XJJpIApzrnPOU
+         riEa7UNLr68YZiI56bZqX5x79wWzJIsV4JYo04GBG0iyyyQteTCe7Ywfi3qB8lunA0pV
+         VhcqNdyILh8wYgR8hfN53LjVySZOqhkOwHIWFKyRmxR/pXnybw/LXLKLWwjOCktv4gsl
+         6sgYZBPLDINjM0CQ9NAmPZ3js3g6rXyabkpZnkkzkOWJKfKEt8co4BbUETJft1xEhNus
+         biLfouRlk/ntG9csu6KMSNY/kPBbSWrTsmKJNFaaLO5+Qj56MXtz1XRTpCuDhetrcze4
+         zuig==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788262296; x=1788867096; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1788263229; x=1788868029; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=aKwDzY/mc5JLXQgUwalukrAvwZdlGt9fYkaqxqR1Bbs=;
-        b=U6Ap+ZzCWNK1/IuyDscUvYYUXQO/OdNU4olHmvmlmNZ0cp9jT6ZuHNI/tyYBXkJkFg
-         P5lsYklcgeKrCCu+LgUhGTTSRU9ey3+vue+MgZkUjX4FIeB9LUFT6aav6gQrfgLVGLcS
-         EBcmdiyBNsJ8TFEulamNLcvRs7+/FguAD1J772ajgkLNK/ChqC7zwGTS9AKyozcHo1j7
-         d5lqlCp43CeZA3SMBcNNZKkZj1GzicIqmVqtvhbUYZl+31PSKxNNbJNbdxO5vuayJI5S
-         tFMgjMI0qPnaKZobZd/Qd9SrFf8UDJgfTRN1DLYsJzxaMGTtrU9pEM6CPSIDfAVc/z4T
-         bMmg==
+        bh=ai8hKQw9ceu4/718ljCxu801NyMv3a5qOhxDkpE5Xpg=;
+        b=LWjaA97/Bqbf1J+br4Ljf5hhqTcjBR0SzZpulvz+GQjbpYM+WIJ6jD/yrM+zj272Mp
+         ipMr4k8CaEYBOW+T0riPHvbkaCSfg9zx7OBog1yCBDgPOl2ALkKIf73nObmVnBMnqsdu
+         hpUZROmPSl6u8fL2wIHi3e7zXnE38iYJoqeFKcz2RWUwOZHAanUfvtKW/xPTKyqtcPqz
+         cELc08TybJMpH3+01fDkn1PTZKSui0jN+cnZCe0+f+ByJ5J2nl3CieEovlQkHZ7k/2Of
+         +0pOGmeAynqo+lpoihI1KU9aRF3AxBySlwy61tGMqQ4ofLRp6zRC+ToRjyhvkC0eZsYe
+         LQcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788262296; x=1788867096;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20251104; t=1788263229; x=1788868029;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=aKwDzY/mc5JLXQgUwalukrAvwZdlGt9fYkaqxqR1Bbs=;
-        b=MvdUTQ2cy59JeKh0tUhQRKHyVq8WbjOiieeCL+1MOvPCx10UkjOVFGTJbhzqurRQS9
-         UvMMI+YA+nX8xbj8R4axPtVz8X+b/A2nBNWsV81UR9KpH7KZmwRXUufTp/r+2Zu7az9+
-         pWNFOcM+Tk27Wgz8tQDqYi8KotQsjkYcZ0SE+Rcpv+N9Y2rLjW/nceJi+Z8Er5hSFYnb
-         EkD0QorRw1W/i7wmLSMKRybBsQ/sSIdYQ2lusi2oEOFIjT2NS6Lvn1n8UbcTBUTvqTmF
-         WeL1Ok3KuLFLbeXLkHbcqPEv9J1zWEavBqa12wY0Y0Xi3IgeRbc9r42JbynNoKrL6gjv
-         n93w==
-X-Forwarded-Encrypted: i=1; AKwUvBw2uafGYDhbJWzLxv/EB3rUTBH/ETikM5bvyQKqIb7agBtc3akyHhGo2N7suKZJmQU3gpX8V5p/71w8WA9K@lists.linux.dev
-X-Gm-Message-State: AFuF++kR4bTEyrNJ6zMKQXUuQ7xYFGw39Dv1bo72zSUfIhSSlPURUCwX
-	EIgQv6rfA9o0/j5C4hcArDeLnOE6xTX74S1DTHeOTm4wMABxgtGxRx5N
-X-Gm-Gg: AYBFou1/VzQkFIcgjhT9c1UjoBcZPPaFvl5lH6a5aCSd1htgITDcFQ6Aa6QFhLaV1Ay
-	gUcOsNpOjRvP5qY8QROw4/MvCuhkhLmCWwQ33iG5dzzEZYmG65nAWs/z/6DfPjtJcDQyexinwS6
-	cNdWAQP0vBwW13iv8O10wOIwI57ZhRYQ4aPh1bU9eGd5ew/Ngk/JvzFq+G/46ly+EcKCkGL7AIh
-	dbWzQQ5T2Q9ALfJ+0zwGeLhJht2CGeQb4ypT+yINecgpU0Ui8OxFmDYm4u8dA1M8ckEBKGaWtru
-	XJtmTCqbb4rFPDJ1d2TY6GwXESORZalC2y37oBfDZ3KeCUeBEHqAPf7vfsmcdkY5cmPZvvtOoGW
-	tvsXYuT03AR9eVmm9VmwsoDHs63s2cHUSE7wGk/hoF/9uicQ8k/3DpbK9kpeb964s2We68Cm8/s
-	Z8LnND3KP4Qz+D9uIHMg50r7C5RoQvNJ28ePp+Tl1NrZL5A5ZhYhV3Q5ASe+xY0AMRO3JW
-X-Received: by 2002:a17:902:f689:b0:2cf:7ea3:7cf1 with SMTP id d9443c01a7336-2d95268ac2amr48470875ad.5.1788262295659;
-        Tue, 01 Sep 2026 04:31:35 -0700 (PDT)
-Received: from dio ([103.161.231.157])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2d759869cfdsm49632265ad.51.2026.09.01.04.31.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Sep 2026 04:31:35 -0700 (PDT)
-Date: Tue, 1 Sep 2026 17:01:28 +0530
-From: Supreet Singh <singh.supreet14@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Viresh Kumar <vireshk@kernel.org>, Rui Miguel Silva <rmfrfs@gmail.com>, 
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, greybus-dev@lists.linaro.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: greybus: spilib: Handle SPI device types
- with a switch statement
-Message-ID: <apa3N5Z7VCWMSZju@dio>
-References: <20260806101118.146685-1-singh.supreet14@gmail.com>
- <20260807071542.200192-1-singh.supreet14@gmail.com>
- <2026090143-skincare-slacks-540b@gregkh>
+        bh=ai8hKQw9ceu4/718ljCxu801NyMv3a5qOhxDkpE5Xpg=;
+        b=ack7qQqcSraef38Uao6M5bOWQ5Eb/5dH0XM8UW5m6RYSwufy6wgTJdfcmtLn/1thFK
+         W1g+ek1aawvFeahqSspSNUGKUlUQ9GzJ4gcPgwUoegIDN+BPqDHj41e7qGvNPyllnEDJ
+         4GtdUwHCybM2c4rhff7RhaDO6gzoOUuypANf+ynRBzfFxISkg+eP001Dn5O9x/+x/MxB
+         tI5VLaGvYbuIH1N9x66U2k9HjsZKN6MecKT9QOODaetrRaUr3AfZWXCzGO3/YRTEwg9t
+         01suqC/sCaUGPMzq8R1Gw0k2aTa3DcRiU3/9wW73vx0qJbD4RdTqk70GA6WSy68S0QId
+         2d0A==
+X-Forwarded-Encrypted: i=1; AKwUvBz5V8MW0XQiG+U5eXzGGES6nf6JDPMZAyKgyrAu2x/mZRJet6n/qhG0iHL2uy12v1N2boOV3PG7lq3BynvZ@lists.linux.dev
+X-Gm-Message-State: AFuF++lzBidl8tSSoPvjPXlSos+7+EX6Sulv5MYzgZwMGokWmJuC7r6P
+	HF5Vqsmqc1nKYXLWMJ+9KDZd67KRYn3CwllY9TaZ5s37tPPOGnLXN5SlKTmAwR1TUqjK/3xQpzg
+	mnb0jX10uoehDHyGoydETVuQCdb8Y0jI=
+X-Gm-Gg: AYBFou3Fhgv4hgVExLy7VZmqnKSqdwxz4zh4RAxEI5r4E4Vsv0TzRo/QdMu7WfAvR29
+	35fZNXozxc6A/be0wSY5pbrv17Vt/2BfRy1rYz4Q7ezTcdR9OKLHNIEzDoGiKvgxGfFzYplduPQ
+	1upjqmjkFASpwustOnQqYP8nvSxNAab1jwDzgIieu/H3EYULadGM/0N9HfmwLGY1Kt79Gle8cfa
+	068b3dctmfrNEO9/HRB7qd1hP2ed52f6BpH5ncGSyijZ4DCXJ2TVOmMMsxhfsD1LZGPi8MJ7jTT
+	JeqERYthKcrChW95qRgpViwdwHm8LonralJfrkaK0WTz9RsHzEC3wIvWD5+4CKKwSgVTFUDJDDb
+	XnkZCsVG+IOolPELr4Q68mKafsEVg
+X-Received: by 2002:a05:6402:20d4:20b0:6a6:35ca:af8f with SMTP id
+ 4fb4d7f45d1cf-6a635cab01emr9499959a12.16.1788263228730; Tue, 01 Sep 2026
+ 04:47:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2026090143-skincare-slacks-540b@gregkh>
+References: <20260728131050.37032-1-meatuni001@gmail.com> <2026090151-nutrient-clay-c53e@gregkh>
+In-Reply-To: <2026090151-nutrient-clay-c53e@gregkh>
+From: Muhammad Bilal <meatuni001@gmail.com>
+Date: Tue, 1 Sep 2026 16:46:55 +0500
+X-Gm-Features: AcwNN1V9ueymiP7ruql3Mjh2nKm8Knc4dBzDaOwVce9PaTuiK_XJMOgz4bU3x60
+Message-ID: <CADqcGBkjYpLko0EF9BgyApg6LrhA+cR_Cbg5A=4AE81pN4rRSw@mail.gmail.com>
+Subject: Re: [PATCH v3] staging: sm750fb: fix mono image source stride
+ mismatch in lynxfb_ops_imageblit()
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com, 
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Understandable. Thanks for your time and review.
+Sent v4, rebased on current staging-testing and applies cleanly:
 
-Thanks
-Supreet
+Link: https://lore.kernel.org/all/20260901113031.161610-1-meatuni001@gmail.=
+com/
 
-On Tue, Sep 01, 2026 at 11:44:26AM +0200, Greg Kroah-Hartman wrote:
-> On Fri, Aug 07, 2026 at 12:45:42PM +0530, singh.supreet14@gmail.com wrote:
-> > From: Supreet Singh <singh.supreet14@gmail.com>
-> > 
-> > Replace the if/else chain that selects the SPI device type with a switch
-> > statement. This makes the code easier to extend when additional device
-> > types are introduced and improves readability.
-> 
-> But let's deal with that when it happens, you are adding more code here
-> than removing:
-> 
-> > 
-> > Signed-off-by: Supreet Singh <singh.supreet14@gmail.com>
+Thanks,
+Bilal
+
+
+On Tue, Sep 1, 2026 at 3:15=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org>=
+ wrote:
+>
+> On Tue, Jul 28, 2026 at 06:10:50PM +0500, Muhammad Bilal wrote:
+> > sm750_hw_imageblit() advances its monochrome source pointer by
+> > src_delta per scanline, and computes the correct rounded-up stride
+> > internally as:
+> >
+> >         bytes_per_scan =3D (width + start_bit + 7) / 8;
+> >
+> > Its only caller, lynxfb_ops_imageblit(), instead passed src_delta as
+> > image->width >> 3. For widths not a multiple of 8 this under-counted
+> > the stride, so the source pointer fell further behind the real
+> > per-scanline layout on every line, corrupting the rendered image.
+> >
+> > Rather than just fixing the caller's calculation, remove src_delta
+> > as a parameter entirely and have sm750_hw_imageblit() advance by the
+> > bytes_per_scan it already computes for itself. There has only ever
+> > been one caller, and that caller was passing an out-of-sync
+> > derivative of the same width/start_bit values sm750_hw_imageblit()
+> > already has, so keeping stride as a separate parameter served no
+> > purpose beyond letting the two calculations drift apart, which is
+> > exactly what happened here.
+> >
+> > Rounding up, rather than down, is the direction consistent with the
+> > rest of the fbdev core: struct fb_image mono bitmap data (the same
+> > image->data this driver receives) is walked elsewhere with byte
+> > strides derived from a ceiling division of width by 8. The generic
+> > mono bit iterator in drivers/video/fbdev/core/fb_imageblit.h advances
+> > scanlines with "iter->data +=3D BITS_TO_BYTES(iter->width)", and
+> > BITS_TO_BYTES() (include/linux/bitops.h) is a ceiling division.
+> > sm750_hw_imageblit()'s own "(width + start_bit + 7) / 8" is that same
+> > ceiling division with an added start_bit offset, so the caller's
+> > ">> 3" (floor) was the one calculation out of step with how this data
+> > layout is handled everywhere else.
+> >
+> > Found by code review of sm750_hw_imageblit()'s internal stride
+> > calculation against what its only caller was passing in, and
+> > confirmed with a clean -Werror build. I do not have this hardware,
+> > so this has not been exercised at runtime on real sm750 silicon.
+> >
+> > Fixes: 81dee67e215b2 ("staging: sm750fb: add sm750 to staging")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Muhammad Bilal <meatuni001@gmail.com>
 > > ---
-> > Changes in v3:
-> > - Fixed the memcpy indentation issue
-> > - Removed the extra blank line in the commit message
-> > 
-> >  drivers/staging/greybus/spilib.c | 13 +++++++++----
-> >  1 file changed, 9 insertions(+), 4 deletions(-)
-> 
-> So it's not really a benefit overall, right?
-> 
-> > 
-> > diff --git a/drivers/staging/greybus/spilib.c b/drivers/staging/greybus/spilib.c
-> > index e4d1ae8308aa..39d5bf234c61 100644
-> > --- a/drivers/staging/greybus/spilib.c
-> > +++ b/drivers/staging/greybus/spilib.c
-> > @@ -458,17 +458,22 @@ static int gb_spi_setup_device(struct gb_spilib *spi, u8 cs)
-> >  
-> >  	dev_type = response.device_type;
-> >  
-> > -	if (dev_type == GB_SPI_SPI_DEV)
-> > +	switch (dev_type) {
-> > +	case GB_SPI_SPI_DEV:
-> >  		strscpy(spi_board.modalias, "spidev",
-> >  			sizeof(spi_board.modalias));
-> > -	else if (dev_type == GB_SPI_SPI_NOR)
-> > +		break;
-> > +	case GB_SPI_SPI_NOR:
-> >  		strscpy(spi_board.modalias, "spi-nor",
-> >  			sizeof(spi_board.modalias));
-> > -	else if (dev_type == GB_SPI_SPI_MODALIAS)
-> > +		break;
-> > +	case GB_SPI_SPI_MODALIAS:
-> >  		memcpy(spi_board.modalias, response.name,
-> >  		       sizeof(spi_board.modalias));
-> > -	else
-> > +		break;
-> > +	default:
-> >  		return -EINVAL;
-> > +	}
-> 
+> > v3: Added the version notes below, which Dan pointed out were
+> >     missing from v2. Added Cc: stable@vger.kernel.org, flagged by
+> >     Greg's patch-bot since the Fixes: tag targets an old (2015)
+> >     commit. Added the rounding-direction justification Dan asked
+> >     about, citing fb_imageblit.h's BITS_TO_BYTES() as the existing
+> >     kernel-wide convention for this same struct fb_image layout.
+> >     Moved the "no hardware" disclosure from an email reply into the
+> >     commit message itself, per Dan's request.
+> > v2: Added a Fixes tag. Moved the src_delta calculation into
+> >     sm750_hw_imageblit() itself and dropped it as a parameter, per
+> >     Dan Carpenter's review.
+> >
+> >  drivers/staging/sm750fb/sm750.c       | 2 +-
+> >  drivers/staging/sm750fb/sm750.h       | 2 +-
+> >  drivers/staging/sm750fb/sm750_accel.c | 6 ++----
+> >  drivers/staging/sm750fb/sm750_accel.h | 4 +---
+> >  4 files changed, 5 insertions(+), 9 deletions(-)
+> >
+>
+> Does not apply to 7.3-rc1 :(
+>
+> Can you please rebase and resend?
+>
 > thanks,
-> 
 > greg k-h
