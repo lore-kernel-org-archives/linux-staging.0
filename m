@@ -1,189 +1,130 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E827148C8A9
-	for <linux-staging@lists.linux.dev>; Tue,  1 Sep 2026 17:40:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA754494829;
+	Tue,  1 Sep 2026 18:05:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788284420; cv=none; b=jbbL+fdqtgnDNUpKtnY/+/uJ43SmnhU72m1FxQhjjVi+1iPM51yidyR+4UqSOQNf8jOeVAcHnYI3XrMA20IJlsmIed2bf/LImnDAXuE7+P/WH26L8dZfwn4ixnAis2VCPx3FbAqmbuowLvOqVDFtf4UltdYJ6AucuAq1V/U6kDQ=
+	t=1788285910; cv=none; b=rhEOCqjvMleweKCWB1aEehB5xbV1PK3/DYqnyfQImP3VNuKpc7ea9I4ttBFdT8vSnEh8QPazdJWKSsbWnSSOs9tj0S+S9LHkBtrnBGPzwg4eW8orks9IUPhqUWMjW5Djy0AqB7d+7Q5joB+P/4DIG9px7zYlzavz2yC4KfH+9Qk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788284420; c=relaxed/simple;
-	bh=gzfgO2xtv31hW5lK2wNpf1w8pKkDlPNagKjv1v5sCsY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YWy6ayFjPATUyipyvZqyz3XHC91F+2iS9mK6gMWVaMq2TraSdAtzm3ZYHV4dZ1P0pnGvI/WeiM8xBqQCqA+i0+s2RhgtS2bKDk0/cWCGXC3RXAPvQUyGhuiXYmM4440QT32KyTj/Sk9vJLlnQ3xvkmTyDpNmfqNhcojhUQpq6/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sI2tivyG; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788285910; c=relaxed/simple;
+	bh=iWGNiDS8ZCSgb2W9PN+r8+jRy+ytgHRSpAHm+4BsZDs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HUyYpb43VaBV3beIK2JCyeNaU01yesZI7saX0wVxeniPI/jaI+X3WMauW5grbEd3XrQGxZzB09o6xn1D2/L/SmYkiK0mgTxXO3GnIsy9DB1hdna44gjqFYxqwFrLBA/aYsuzvsdlNG2EQfkDpX4PoLwTRW3aupKUSapbclq8yqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JUxnMkoA; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sI2tivyG"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-49b0eab380eso1125425e9.0
-        for <linux-staging@lists.linux.dev>; Tue, 01 Sep 2026 10:40:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788284416; x=1788889216; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=rBqsdCv0PKAGwqJspHCwLqZLgeNbrWJRtBR7BmnZ5Z0=;
-        b=sI2tivyGMfkVzaOeayOUB7iI88r5HvxpFujQWfWK7qTXPF75WfMT28uoLw3up4+pE5
-         QK3isVMV1o9Gw2O5ZRV0Y1g7eFn3THMvFSKzByy55vxs+6RC+k3RliR2IbQhpRI0diyQ
-         CcKQDxwLOU4HKb32By+i1FjdniElbqkO9lvwz9cCPZiYZKdRHk1vFyZUAJtcK02O4Y5r
-         PzsFPOoIkQ42crZDtwfULNNnrw61ssFB3zoGDbbqqlz+biGNOA0ea/1JiiuCjn+QWmfy
-         LlOEDXUWCtbRk//blh+JrIUzrpYcrzAjEDY7GjqR9WGiXz/yeb19+rNjesc+r30uRBsN
-         qupA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788284416; x=1788889216;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=rBqsdCv0PKAGwqJspHCwLqZLgeNbrWJRtBR7BmnZ5Z0=;
-        b=L1D9pPAGcgwDEaLsJPiUWh/qdrJm3q87fnKYxsl/mnt7PTS/zxU45FY6xOgiROGki4
-         M9Rn9nnXSpBEM5OgalWCZMehM4CqQcAhqW1Kp1mBnH1ycW0JI0LQ7r5gzeA0rvyD4dry
-         ZRb+XsHORJ4ElpQCXs2t/yJdBErEKG+DG/IB6S5Sr19Kd8RXm+/4UAZjJvJFdVCek8r9
-         XkTioIFoArtotVl7KMq6Nq5VZl1ODqSeN1X0hMVubhqF6rx3WoK6icd0B/ojxvgtYxBK
-         rFWxPPJhDez2Nuq9ceLGEjGU+V+FPDvuIageUpb8BAG0wJflUTiSJB+NzwKaNxKtJdfW
-         5W5w==
-X-Gm-Message-State: AFuF++lwTa91y5dMOiP6TXtMaKl0snRfar07+Y6I5GDNO5PUO34X94IO
-	UBK9qvg4gSHnq73G8nvAg3JSElInyc4c/XFipOT7fnKCv5uGGyvHgh5n
-X-Gm-Gg: AR+sD11MCk1QHl+tYEvhjQrOfq5C54/Tcp9492Q5rOQy8YqdkbfdvPqjVsqYV+7ZWUc
-	VLacZHc8zYuQabqpCJvlWczuyHzdHYNGas8a2a7XzAlwRsEo7Gfgy/6LdS+Digh5aDZlx1KpA5T
-	Qal0attGssYpjfmm4wjW9vAPo+K+pE78J5qHjv6TJmRD5nNBTmPfEzPEGIXDWsa5sEYAod+0PJj
-	ubZE0S6jCpuKJCmldPeIm3v1mOEy+S35trCIh4DmBmFgW++1EbDSXUcvuvf+vXWe9CLWbFTGwtQ
-	14WaPceg5zE/YHpbMhqHi6IV4B8+sIJlT4s3z11e9kED0Bsq4/9dJZ4mk/It8sKzQpEMo6CiU/4
-	ixPPJmHFjBsuMHV9AH4W6XzmmLYiditUi/IcUB7nRJu1AsWxN3HPn54p/vEvw6KCDtSv9OwiNOT
-	CZ6CxZ13gGZk0Xq/+2GvZfDOJt6JRQC3sAfx0kgboUCKyz0oWwy2DxLN8JWyZ7WQ7oQ/lyTiySe
-	F563+Tgt3QY/I/6fhpTJsOyJ9LJ3i+BN58=
-X-Received: by 2002:a05:600c:6819:b0:493:f783:c46a with SMTP id 5b1f17b1804b1-49cdd41ca5amr131704235e9.6.1788284415719;
-        Tue, 01 Sep 2026 10:40:15 -0700 (PDT)
-Received: from localhost.localdomain (s052.imperial.net.ua. [195.149.108.52])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49ce3c86a0asm12959855e9.9.2026.09.01.10.40.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Sep 2026 10:40:15 -0700 (PDT)
-From: Svyatoslav Nikolenko <nsvatoslav515@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Svyatoslav Nikolenko <nsvatoslav515@gmail.com>
-Subject: [PATCH v2] staging: rtl8723bs: Remove manual ifname allocation
-Date: Tue,  1 Sep 2026 20:39:22 +0300
-Message-ID: <20260901173923.4810-1-nsvatoslav515@gmail.com>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JUxnMkoA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 355231F000E9;
+	Tue,  1 Sep 2026 18:05:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788285909;
+	bh=BBpsF2dg6Vi508P3YPVHwpdk4fG6Hs4x5J/YjvAMH3E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=JUxnMkoAN0LATLcDRxh1ClGduoMWsqrBcLKwxGnCVCOl7Fq0hTCeoylSJqS0C7tDl
+	 8kcxAynyY6czTIht1Q01S4LJkfFRNOvQSkEq++5Refek8Bl0aJE+9A2mBbaAaeTAh9
+	 69x94vXVmayPJg6OGLes8i4YLvGxCKNLzaTxQPikm/qvKVDlSL1/Ey87NGueG00HNj
+	 9scvlxenR9g9dvOZH8qqhXf9hZ3Wk3KsAhVCgh0xVPTDwF6byD1Z2/n9+qDGU37eSl
+	 TrLmQtXqeLTd2Sl9uBE1J2amEFcN2eBqRD4B/7UT9Ux3ikX8le3OvO9uzNWx4fD/Kl
+	 xZ2G+1xBxzB6g==
+Date: Tue, 1 Sep 2026 19:05:04 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Shehryar Ahmad <shehryar.amd@gmail.com>
+Cc: jic23@kernel.org, nuno.sa@analog.com, Michael.Hennerich@analog.com,
+	dlechner@baylibre.com, andy@kernel.org, gregkh@linuxfoundation.org,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	linux@analog.com, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	devicetree@vger.kernel.org, marcelo.schmitt1@gmail.com,
+	danascape@gmail.com
+Subject: Re: [PATCH 3/3] dt-bindings: iio: accel: adi,adis16201: add
+ adis16203 compatible
+Message-ID: <20260901-ambitious-eloquent-7dcb297a9e6a@spud>
+References: <20260831184201.34416-1-shehryar.amd@gmail.com>
+ <20260831184201.34416-4-shehryar.amd@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ZZpjyQTJecju7TVT"
+Content-Disposition: inline
+In-Reply-To: <20260831184201.34416-4-shehryar.amd@gmail.com>
 
-The manual ifname allocation via dev_alloc_name() is redundant because
-the networking core handles interface naming automatically during
-register_netdev().
+--ZZpjyQTJecju7TVT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Remove the ifname module parameter, the corresponding field from
-struct registry_priv, and the rtw_init_netdev_name() callpath.
+On Mon, Aug 31, 2026 at 11:42:01PM +0500, Shehryar Ahmad wrote:
+> The ADIS16203 has the same external interface as the already documented
+> ADIS16201/ADIS16209, for the properties covered by this binding
+> (compatible/reg, the DIO-based interrupt pin, and VDD supply), verified
+> by datasheets Table 5, Pin Function Descriptions, in the respective
+> Analog Devices datasheets. Some Auxiliary pins differ (e.g. adis16209
+> marks a few pins DNC where adis16201/adis16203 use them as AUX COM), but
+> these are not represented in this binding.  Add adis16203 to the
+> existing enum rather than creating a separate file.
+>=20
+> Signed-off-by: Shehryar Ahmad <shehryar.amd@gmail.com>
+> ---
+> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
-Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Svyatoslav Nikolenko <nsvatoslav515@gmail.com>
----
- drivers/staging/rtl8723bs/include/drv_types.h |  2 --
- .../staging/rtl8723bs/include/osdep_intf.h    |  1 -
- drivers/staging/rtl8723bs/os_dep/os_intfs.c   | 27 +++----------------
- 3 files changed, 3 insertions(+), 27 deletions(-)
+Why is this below the --- line (IOW it won't appear when the patch is
+applied)?
 
-diff --git a/drivers/staging/rtl8723bs/include/drv_types.h b/drivers/staging/rtl8723bs/include/drv_types.h
-index 552d0c5fa47f..5837c51ac2f5 100644
---- a/drivers/staging/rtl8723bs/include/drv_types.h
-+++ b/drivers/staging/rtl8723bs/include/drv_types.h
-@@ -151,8 +151,6 @@ struct registry_priv {
- 
- 	u8 enable80211d;
- 
--	u8 ifname[16];
--
- 	u8 notch_filter;
- 
- 	/* define for tx power adjust */
-diff --git a/drivers/staging/rtl8723bs/include/osdep_intf.h b/drivers/staging/rtl8723bs/include/osdep_intf.h
-index 83a25598e962..f1e7a303a286 100644
---- a/drivers/staging/rtl8723bs/include/osdep_intf.h
-+++ b/drivers/staging/rtl8723bs/include/osdep_intf.h
-@@ -20,7 +20,6 @@ u32 rtw_start_drv_threads(struct adapter *padapter);
- void rtw_stop_drv_threads(struct adapter *padapter);
- void rtw_cancel_all_timer(struct adapter *padapter);
- 
--int rtw_init_netdev_name(struct net_device *pnetdev, const char *ifname);
- struct net_device *rtw_init_netdev(struct adapter *padapter);
- void rtw_unregister_netdevs(struct dvobj_priv *dvobj);
- 
-diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-index dd0c5fc813c8..5659d67a32f4 100644
---- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-+++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-@@ -109,10 +109,6 @@ static int rtw_80211d;
- static int rtw_qos_opt_enable;/* 0: disable, 1:enable */
- module_param(rtw_qos_opt_enable, int, 0644);
- 
--static char *ifname = "wlan%d";
--module_param(ifname, charp, 0644);
--MODULE_PARM_DESC(ifname, "The default name to allocate for first interface");
--
- char *rtw_initmac;  /*  temp mac address if users want to use instead of the mac address in Efuse */
- 
- module_param(rtw_initmac, charp, 0644);
-@@ -256,8 +252,6 @@ static void loadparam(struct adapter *padapter, struct net_device *pnetdev)
- 
- 	registry_par->enable80211d = (u8)rtw_80211d;
- 
--	strscpy(registry_par->ifname, ifname, sizeof(registry_par->ifname));
--
- 	registry_par->notch_filter = (u8)rtw_notch_filter;
- 
- 	registry_par->reg_enable_tx_power_limit = (u8)rtw_tx_pwr_lmt_enable;
-@@ -405,18 +399,6 @@ static const struct net_device_ops rtw_netdev_ops = {
- 	.ndo_get_stats = rtw_net_get_stats,
- };
- 
--int rtw_init_netdev_name(struct net_device *pnetdev, const char *ifname)
--{
--	if (dev_alloc_name(pnetdev, ifname) < 0) {
--		pr_err("dev_alloc_name, fail for %s\n", ifname);
--		return 1;
--	}
--	netif_carrier_off(pnetdev);
--	/* rtw_netif_stop_queue(pnetdev); */
--
--	return 0;
--}
--
- struct net_device *rtw_init_netdev(struct adapter *old_padapter)
- {
- 	struct adapter *padapter;
-@@ -752,14 +734,12 @@ u8 rtw_free_drv_sw(struct adapter *padapter)
- 	return _SUCCESS;
- }
- 
--static int _rtw_drv_register_netdev(struct adapter *padapter, char *name)
-+static int _rtw_drv_register_netdev(struct adapter *padapter)
- {
- 	int ret = _SUCCESS;
- 	struct net_device *pnetdev = padapter->pnetdev;
- 
--	/* alloc netdev name */
--	if (rtw_init_netdev_name(pnetdev, name))
--		return _FAIL;
-+	netif_carrier_off(pnetdev);
- 
- 	eth_hw_addr_set(pnetdev, padapter->eeprompriv.mac_addr);
- 
-@@ -784,9 +764,8 @@ int rtw_drv_register_netdev(struct adapter *if1)
- {
- 	struct dvobj_priv *dvobj = if1->dvobj;
- 	struct adapter *padapter = dvobj->padapters;
--	char *name = if1->registrypriv.ifname;
- 
--	return _rtw_drv_register_netdev(padapter, name);
-+	return _rtw_drv_register_netdev(padapter);
- }
- 
- static int _netdev_open(struct net_device *pnetdev)
--- 
-2.47.3
+>=20
+> Previously reviewed at:
+> https://lore.kernel.org/all/20260812043506.456ced6d@jic23-huawei/
+>=20
+>  .../devicetree/bindings/iio/accel/adi,adis16201.yaml        | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/iio/accel/adi,adis16201.ya=
+ml b/Documentation/devicetree/bindings/iio/accel/adi,adis16201.yaml
+> index b6ba7ad1a..3ce5fb1be 100644
+> --- a/Documentation/devicetree/bindings/iio/accel/adi,adis16201.yaml
+> +++ b/Documentation/devicetree/bindings/iio/accel/adi,adis16201.yaml
+> @@ -4,21 +4,23 @@
+>  $id: http://devicetree.org/schemas/iio/accel/adi,adis16201.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+> =20
+> -title: ADIS16201 Dual Axis Inclinometer and similar
+> +title: ADIS16201 Inclinometer and similar
+> =20
+>  maintainers:
+>    - Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> =20
+>  description: |
+> -  Two similar parts from external interface point of view.
+> +  Three similar parts from external interface point of view.
+>    SPI interface.
+>      https://www.analog.com/en/products/adis16201.html
+> +    https://www.analog.com/en/products/adis16203.html
+>      https://www.analog.com/en/products/adis16209.html
+> =20
+>  properties:
+>    compatible:
+>      enum:
+>        - adi,adis16201
+> +      - adi,adis16203
+>        - adi,adis16209
+> =20
+>    reg:
+> --=20
+> 2.43.0
+>=20
 
+--ZZpjyQTJecju7TVT
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCapcT0AAKCRB4tDGHoIJi
+0tvPAP45Wmq5LZYcSkWoAbFDkgmxpROzXFrfYtlKu2EXOWtePgEA/BVpsZIUconw
+AZI0y8fAA+PuagsZaCPFfFJ6nILeDAk=
+=Ft30
+-----END PGP SIGNATURE-----
+
+--ZZpjyQTJecju7TVT--
