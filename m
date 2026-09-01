@@ -1,130 +1,166 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA754494829;
-	Tue,  1 Sep 2026 18:05:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788285910; cv=none; b=rhEOCqjvMleweKCWB1aEehB5xbV1PK3/DYqnyfQImP3VNuKpc7ea9I4ttBFdT8vSnEh8QPazdJWKSsbWnSSOs9tj0S+S9LHkBtrnBGPzwg4eW8orks9IUPhqUWMjW5Djy0AqB7d+7Q5joB+P/4DIG9px7zYlzavz2yC4KfH+9Qk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788285910; c=relaxed/simple;
-	bh=iWGNiDS8ZCSgb2W9PN+r8+jRy+ytgHRSpAHm+4BsZDs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HUyYpb43VaBV3beIK2JCyeNaU01yesZI7saX0wVxeniPI/jaI+X3WMauW5grbEd3XrQGxZzB09o6xn1D2/L/SmYkiK0mgTxXO3GnIsy9DB1hdna44gjqFYxqwFrLBA/aYsuzvsdlNG2EQfkDpX4PoLwTRW3aupKUSapbclq8yqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JUxnMkoA; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 156234A2605
+	for <linux-staging@lists.linux.dev>; Tue,  1 Sep 2026 18:55:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788288930; cv=pass; b=m8raIVn5A+jDg4PNlMltrloEBs0z9QOlbOxENmW4m1iX6z1/VDySL2HycdtySqdMsyGqsy3t0+RDNIkamnox3Ip9xF55jAyJuSXoyf1Ln/0evW61++JDjAp8hsLJ9DkVAym+hr2aq705+R96EM+ZCxljbczl3YkJiXzJiW3EMHI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788288930; c=relaxed/simple;
+	bh=ErHO/v0ROpELW5A1Raz+ryY+dtx1QI0IBK81suK6/ZU=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=NPpLvWG5OGybvhuaLdujQPYXvZ6TsZ8J3iVeBeMCyCLNe4ycaAPGVVzj6+GyVJkLYZJbmNyVdhEsoENcpODz0EH+JATki+G6+IMQGqepkTFcqbleGe0p6EeJW/690AbHkJyv80F4i3TtEl1fvyPqmneo9lSm6mOZ3G79L3G2nO4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KcqoCYBq; arc=pass smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JUxnMkoA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 355231F000E9;
-	Tue,  1 Sep 2026 18:05:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1788285909;
-	bh=BBpsF2dg6Vi508P3YPVHwpdk4fG6Hs4x5J/YjvAMH3E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=JUxnMkoAN0LATLcDRxh1ClGduoMWsqrBcLKwxGnCVCOl7Fq0hTCeoylSJqS0C7tDl
-	 8kcxAynyY6czTIht1Q01S4LJkfFRNOvQSkEq++5Refek8Bl0aJE+9A2mBbaAaeTAh9
-	 69x94vXVmayPJg6OGLes8i4YLvGxCKNLzaTxQPikm/qvKVDlSL1/Ey87NGueG00HNj
-	 9scvlxenR9g9dvOZH8qqhXf9hZ3Wk3KsAhVCgh0xVPTDwF6byD1Z2/n9+qDGU37eSl
-	 TrLmQtXqeLTd2Sl9uBE1J2amEFcN2eBqRD4B/7UT9Ux3ikX8le3OvO9uzNWx4fD/Kl
-	 xZ2G+1xBxzB6g==
-Date: Tue, 1 Sep 2026 19:05:04 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Shehryar Ahmad <shehryar.amd@gmail.com>
-Cc: jic23@kernel.org, nuno.sa@analog.com, Michael.Hennerich@analog.com,
-	dlechner@baylibre.com, andy@kernel.org, gregkh@linuxfoundation.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	linux@analog.com, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	devicetree@vger.kernel.org, marcelo.schmitt1@gmail.com,
-	danascape@gmail.com
-Subject: Re: [PATCH 3/3] dt-bindings: iio: accel: adi,adis16201: add
- adis16203 compatible
-Message-ID: <20260901-ambitious-eloquent-7dcb297a9e6a@spud>
-References: <20260831184201.34416-1-shehryar.amd@gmail.com>
- <20260831184201.34416-4-shehryar.amd@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KcqoCYBq"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-38759bcd877so208537a91.2
+        for <linux-staging@lists.linux.dev>; Tue, 01 Sep 2026 11:55:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788288928; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Uqq2O+zwsZMDFMnC4qdyfwVoXgnFWMr9psBsvWwZayiq6yc26kh3IqA99LKQo8TNNo
+         bfcjuo1JfqtOkWc5QYe7ZfC9Imj83t0XwQUAtNZGg2MRIBz51cE6dtqIxJBF/iZzO7bS
+         OUGwMkQnzAtR95nOpKWOd5EmwxMOGYPeK1QxhwwSxqiqu5wLa3ARrLI0wnB74zz6y1+E
+         bn41yHaCohMAfVFuh2MuWB5mwjMD6ZRJSq8z5Ppo+c6xaP7N713h9Eb0k8DzspoNXLp0
+         yLQtnZtee9s7C/ZfuNlhS1N/yOg3BFMho8CXRZ0aYKU1ABHdtQujWCwJ3ZPdCDbSWvlV
+         otBg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=nxE3PGolTbb10HX/XollRxz2M4ecYtyre/o2ctViDic=;
+        fh=GDIHkxDJEgNc7UxJ+Erulb8fVXkAj3ZYksP9aACpoy4=;
+        b=iXQwSMtjvvp2oqMeMmG+v6btSrekLZa1642Xd5PNthsV1eOoPpKNQQ4oLEaewpw7QH
+         BSFncP85HF3ZtU1rt4ASNPM4iOmAyphywMQuACKfjYXM+v2W/yyqEVH+JNeicncDbeJL
+         RsIW2pFtE7XIwGdZQ1VFQ47kWWPnvtytkY01EsbB2+BMb3X5jsrsI+fPIkQmRWESY+5r
+         NIw1qekY3jwnmygssJl6caITMD0cceLHtKppIFWCNwiNgf0voERTt5njagD6xHoyFWRd
+         2SvMY0pvyD03uZwQ0nEnl0nBQ/EQ2hWJFIgo2qsU2//z7mv+pIGMxmEaN4QZwmrwPNGi
+         uOIw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788288928; x=1788893728; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=nxE3PGolTbb10HX/XollRxz2M4ecYtyre/o2ctViDic=;
+        b=KcqoCYBqcPVm74005dTQktgvHx8y7ITYol3Qcca8whtaMmUoL2gtJ0QBLSScng6zs/
+         wLjiCfKV+8YGuAo4crMEthyw1yoWx0eC0qxQzII52a7/Wfz7Zea/X3bZJH72aszrLIx+
+         YSImtnr2tHHFPgRdkubOeNAznw0QJNZTli/HgyspJrPA2Y36PR9q6YAd6QiIfj6E3Cwg
+         dMCefLzSGpVvDBZ9QUykodCmOQSud/DmM8R9ODVwCYTysUZO/RkwJDn7W05oxj+GlL0K
+         CGgvE67+l2rp6P3aFC72xVidkYSg1vGuvGBUOgnZdLNFAwDs4UjBcqdyHaHPr0qIH9Rj
+         wMCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788288928; x=1788893728;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=nxE3PGolTbb10HX/XollRxz2M4ecYtyre/o2ctViDic=;
+        b=OTqUaHaXYISt0XBnZJLT2WUx9frimLN1Pw4omhlIm88VZytsYS06IJ+rbjxQaoDB3h
+         e42i34x31xk4xM6Mij02EfNJqgIdtIn8/cUxYgAQs9kmVbg12q0mQKpoLw8TMFxGXtv8
+         MTEGPBheeQp6ru4z8uca2CNjfXZie+enaMpbLQA5b8alHzpbveFckF7dWClBaPu8m0Sj
+         O4tC9JILQJHYoqJQj4SSdpAtUx4J4LJtawys0ujQ4d4iMVfmLBOqDWHKxWGhcVfPBYmv
+         114OMEjiY6lMNEitp9DAF8CULapki8WaQlvsBR+ET/TJma6PwfiA8KI8SyRfb8cn33IE
+         oGZA==
+X-Forwarded-Encrypted: i=1; AKwUvByUSu1wq5jauy18kKVhNjPTcyzgTk3bPkUQBFz5EXULimUzxF0X3njObGNV2VvBtFMm5a7Mgff/LsSMV3Wo@lists.linux.dev
+X-Gm-Message-State: AFuF++meKAfEuKMjNkvdgC4Eoub+bKNZ8rjPv6/ep+HTy/W9CrfjodZe
+	wbpXw/bCJ4m3Fqpy505/wyT0oSfPVdb1hvk0P/yMSFbGnxS8RexyKH5D8HI6F7Lke0Q0RbXLt3m
+	U2DgaaSL8ugbliXHWJd64MgF4OD3yEt4=
+X-Gm-Gg: AYBFou0uueQq4uvHpnezVmfIqu0oREfhuxtQQtqKkx15uIQgASOtlPtQlvjYFXnV/In
+	lOEaFvIRY30OyM2Y8fGOdClwqUbx3uh6AV2llT/SfcFIiHjWjwVV/B1y2j03H3NYSYwlVJ6LFX5
+	oLu2wAnpaIIEbSxD06uHaMe4g3CIDNeGPBIX+f2/CPZ5XmRMzgl33GiSqzotXerY79w0F6W/ufP
+	Lai8oAxEta6zVtXx8v1Y4zFaNvOI/eh+gzJ/F7dw7g4nviPJThwB2r4CpSk/PePlLXFDM4LdWO5
+	vvutmMvYf+F4rwH1S6utRcVHAFrxiYeNl376o9MU7NUYwBB/zJuDES90vmnhy+cGALxKguYHV/D
+	/JU51jqs21Yez/vp3/Jw7JsQUnpZXTRT2nHzkYkIR9eXSDZR3iMxo4e5TBIEkDa7Xcd2kqiY4tS
+	qkmQegM5irbEiUsibB
+X-Received: by 2002:a17:90b:3c05:b0:381:cef1:11ac with SMTP id
+ 98e67ed59e1d1-39ae82c833fmr237250a91.10.1788288928196; Tue, 01 Sep 2026
+ 11:55:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ZZpjyQTJecju7TVT"
-Content-Disposition: inline
-In-Reply-To: <20260831184201.34416-4-shehryar.amd@gmail.com>
+From: Raphael <zanarelli.dev@gmail.com>
+Date: Tue, 1 Sep 2026 15:55:16 -0300
+X-Gm-Features: AcwNN1WuJRLfQdGSa-3p8s9a665DC0XaB7WJ5wguH6OtylKYxXqXiC6_1oCOcO8
+Message-ID: <CALVpWBsXgOYSeTH6omxbfcwfrEg0kEv=cQ+Z8nRjksFBvHaSaw@mail.gmail.com>
+Subject: [PATCH] media: staging: max96712: fix cleanup in remove and error paths
+To: niklas.soderlund@ragnatech.se
+Cc: mchehab@kernel.org, gregkh@linuxfoundation.org, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
---ZZpjyQTJecju7TVT
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+When max96712_v4l2_register() succeeds in finalizing subdev
+    initialization, v4l2_subdev_cleanup(), media_entity_cleanup(), and
+    v4l2_ctrl_handler_free() must be called during error unwinding and
+    driver removal to prevent resource leaks. Also pass the array directly
+    instead of address-of array in max96712_write_bulk_value().
 
-On Mon, Aug 31, 2026 at 11:42:01PM +0500, Shehryar Ahmad wrote:
-> The ADIS16203 has the same external interface as the already documented
-> ADIS16201/ADIS16209, for the properties covered by this binding
-> (compatible/reg, the DIO-based interrupt pin, and VDD supply), verified
-> by datasheets Table 5, Pin Function Descriptions, in the respective
-> Analog Devices datasheets. Some Auxiliary pins differ (e.g. adis16209
-> marks a few pins DNC where adis16201/adis16203 use them as AUX COM), but
-> these are not represented in this binding.  Add adis16203 to the
-> existing enum rather than creating a separate file.
->=20
-> Signed-off-by: Shehryar Ahmad <shehryar.amd@gmail.com>
-> ---
-> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+    Signed-off-by: Raphael Zanarelli <zanarelli.dev@gmail.com>
+    ---
+     drivers/staging/media/max96712/max96712.c | 18 +++++++++++++-----
+     1 file changed, 13 insertions(+), 5 deletions(-)
 
-Why is this below the --- line (IOW it won't appear when the patch is
-applied)?
+    diff --git a/drivers/staging/media/max96712/max96712.c
+b/drivers/staging/media/max96712/max96712.c
+    index 0751b2e04..852a1a7a3 100644
+    --- a/drivers/staging/media/max96712/max96712.c
+    +++ b/drivers/staging/media/max96712/max96712.c
+    @@ -92,7 +92,7 @@ static int max96712_write_bulk_value(struct
+max96712_priv *priv,
+         for (i = 1; i <= val_count; i++)
+             values[i - 1] = (val >> ((val_count - i) * 8)) & 0xff;
 
->=20
-> Previously reviewed at:
-> https://lore.kernel.org/all/20260812043506.456ced6d@jic23-huawei/
->=20
->  .../devicetree/bindings/iio/accel/adi,adis16201.yaml        | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
->=20
-> diff --git a/Documentation/devicetree/bindings/iio/accel/adi,adis16201.ya=
-ml b/Documentation/devicetree/bindings/iio/accel/adi,adis16201.yaml
-> index b6ba7ad1a..3ce5fb1be 100644
-> --- a/Documentation/devicetree/bindings/iio/accel/adi,adis16201.yaml
-> +++ b/Documentation/devicetree/bindings/iio/accel/adi,adis16201.yaml
-> @@ -4,21 +4,23 @@
->  $id: http://devicetree.org/schemas/iio/accel/adi,adis16201.yaml#
->  $schema: http://devicetree.org/meta-schemas/core.yaml#
-> =20
-> -title: ADIS16201 Dual Axis Inclinometer and similar
-> +title: ADIS16201 Inclinometer and similar
-> =20
->  maintainers:
->    - Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> =20
->  description: |
-> -  Two similar parts from external interface point of view.
-> +  Three similar parts from external interface point of view.
->    SPI interface.
->      https://www.analog.com/en/products/adis16201.html
-> +    https://www.analog.com/en/products/adis16203.html
->      https://www.analog.com/en/products/adis16209.html
-> =20
->  properties:
->    compatible:
->      enum:
->        - adi,adis16201
-> +      - adi,adis16203
->        - adi,adis16209
-> =20
->    reg:
-> --=20
-> 2.43.0
->=20
+    -    return max96712_write_bulk(priv, reg, &values, val_count);
+    +    return max96712_write_bulk(priv, reg, values, val_count);
+     }
 
---ZZpjyQTJecju7TVT
-Content-Type: application/pgp-signature; name=signature.asc
+     static void max96712_reset(struct max96712_priv *priv)
+    @@ -329,23 +329,28 @@ static int max96712_v4l2_register(struct
+max96712_priv *priv)
+         priv->pads[0].flags = MEDIA_PAD_FL_SOURCE;
+         ret = media_entity_pads_init(&priv->sd.entity, 1, priv->pads);
+         if (ret)
+    -        goto error;
+    +        goto err_ctrl;
 
------BEGIN PGP SIGNATURE-----
+         v4l2_set_subdevdata(&priv->sd, priv);
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCapcT0AAKCRB4tDGHoIJi
-0tvPAP45Wmq5LZYcSkWoAbFDkgmxpROzXFrfYtlKu2EXOWtePgEA/BVpsZIUconw
-AZI0y8fAA+PuagsZaCPFfFJ6nILeDAk=
-=Ft30
------END PGP SIGNATURE-----
+         priv->sd.state_lock = priv->ctrl_handler.lock;
+         ret = v4l2_subdev_init_finalize(&priv->sd);
+         if (ret)
+    -        goto error;
+    +        goto err_entity;
 
---ZZpjyQTJecju7TVT--
+         if (ret < 0) {
+         ret = v4l2_async_register_subdev(&priv->sd);
+             dev_err(&priv->client->dev, "Unable to register subdevice\n");
+    -        goto error;
+    +        goto err_subdev;
+         }
+
+         return 0;
+    -error:
+    +
+    +err_subdev:
+    +    v4l2_subdev_cleanup(&priv->sd);
+    +err_entity:
+    +    media_entity_cleanup(&priv->sd.entity);
+    +err_ctrl:
+         v4l2_ctrl_handler_free(&priv->ctrl_handler);
+
+         return ret;
+    @@ -451,6 +456,9 @@ static void max96712_remove(struct i2c_client *client)
+         struct max96712_priv *priv = container_of(sd, struct
+max96712_priv, sd);
+
+         v4l2_async_unregister_subdev(&priv->sd);
+    +    v4l2_subdev_cleanup(&priv->sd);
+    +    media_entity_cleanup(&priv->sd.entity);
+    +    v4l2_ctrl_handler_free(&priv->ctrl_handler);
+
+         gpiod_set_value_cansleep(priv->gpiod_pwdn, 0);
+     }
+    --
+    2.50.1 (Apple Git-155)
