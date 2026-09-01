@@ -1,115 +1,94 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62D2E3B14A5
-	for <linux-staging@lists.linux.dev>; Tue,  1 Sep 2026 12:52:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B70B0279DAF;
+	Tue,  1 Sep 2026 13:53:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788267125; cv=none; b=dXN9nMecjQ//W6bYQGJRVwljJrBQ3NEEvVJ1u/HPQm6qZEuynibZcmYC1P+b+1bPfuV9Bq4t3p9Ld6RZFLmhNUPQiOXliEgYnoSnWpzEyPHp25KGmk3zMubJ0Dk70YYl73HZ/zWvpmwh1/muB/7oUX5gOOYXRlfTQmHljBuSu5w=
+	t=1788270834; cv=none; b=BPeC2J3eIBkEry6KoBNMPhmm7/MCIfkXHBMR6zG1g/xwFdI84DCgkxsHob0UCuppVZau1qEynW38oTPOqzx+Gas+Dnm4yCNsGa+jht9X3tR41SwtYgnWJGYxIwU9zZgG5g5vPn9X6o6oGyH31ViDxDLg8EiWc9B3ZrpvneHR0Yo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788267125; c=relaxed/simple;
-	bh=FoHZTB9cnvppjq0kX629ApVhBBw1l7eB1Aok6qcffPQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oqYuRAEVpBBdaP0XlJH2x8eR2R9ildED2NvGB9YPnLfcEdnGHurPY9uo53EzRqobZ6Kp0jfSYKP5g20WnvGt6JtXczObIyhFyMNtVNs2TbN7tryhDbcCrmAUiLAPSfJrVgjmM1SaoWATqkGj4HbK0K0Wn/KUn6UwJaY6ZSQEZ54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lu+07G+M; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788270834; c=relaxed/simple;
+	bh=OldaB7H2UR+Rag5ACGkbTma3E46xEDBNJpnXjcrHyIo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HiRafPKp7CIUIkujZbSCRB2ZSW63U2YCvcjDxbe86V5/kr/Dd17y2kcQoyL/1A240zkQFIEoSq8JdfhYPW2oUa7ZsJ9I1FWRHSZARLJOMudO2KFqj1iKO78OO+9DwgnnsWnsoWo5VxH6a0ijbGd4I61FxR6lswzh21vCN1CVsNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=WJule4/X; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lu+07G+M"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-6a051b737d8so945962a12.1
-        for <linux-staging@lists.linux.dev>; Tue, 01 Sep 2026 05:52:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788267121; x=1788871921; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=3ro4d/Tm6ZUdjMArZWZHciQyr6YK8EIE6H0sDY06CCw=;
-        b=lu+07G+MDQHaYLq6mXbqYkrMIDPyK/ti0NYyWRabVVVg9U6J3eiDzj5BoPDiIcqNtC
-         9xQFwpl+vYRD0ffFs8El6HwfykjMnVEEofLikXQ47lTkm/gociBdHLRTD59QShvhDTHu
-         imF0IAybvcJviizI0DVn2bdIQRFblNWtqCMtHXlJw5hOfA6ad+nGSG2zcURA9yj8ehcc
-         8LNCBQGPi9ffgLNKbgZ896pU3tJzoQeBHNq5QnbXQ1DqpqXPr4bsWCEdY1c7VUVU4wuV
-         oIvIHbEQlXF3sveCsUce7ww91LsXbPAgWsertpUJUDMm1TFSDNSKuiTxHVHZzIxqxcgF
-         reLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788267121; x=1788871921;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=3ro4d/Tm6ZUdjMArZWZHciQyr6YK8EIE6H0sDY06CCw=;
-        b=dylZe6prxrBIvl8BsEgTnwjHzV37YTWzIxGf6dDd2bUw3dtp7x9L/VQqJCtLsSOges
-         h0/yu9BHqsPiKj47GflmmHP+CfvwNqhnvlpeF5VeuOONTUXAhF3TNF5e/Z/C/l1JOibS
-         gtrIhkqJF7UaIGSgkHUurQe4dD0T3Hj/9xIfX6ebAX486jVrdflZL0SDq4ZNGYIEJjQ3
-         XyU9iaWWX0E07DeXW3OMi/DDrQOkwEVrL9pS/xYHr0fg1ReLnYLV5wE6ncWWjm1ulEde
-         tjudiz5xp90Ze4FUM3owiDIgjmzeMklE9FChNfqnjch1i9aZlWio+WTfEzHCMzApMZFA
-         Ei5Q==
-X-Forwarded-Encrypted: i=1; AKwUvBzVFtsSdo9FX9aAVPaKhCOpQ4LvEXR6fxxc23KM+h7ceLv1912e8DzhpJW9q0mY16PgTv+jIJEpfW5qsBuZ@lists.linux.dev
-X-Gm-Message-State: AFuF++mUqalqjg7XDzDhN27KLqTSrrpPsP0L0lqccTtl6kA2jnsrujaN
-	2LO1G/mHsS/k75apzbtYAfw82v3hp8NFPdqeygFCD5BwTfpauGSStZ/A0qCkrFSQ
-X-Gm-Gg: AYBFou2tCFzA88PnH6oAJF+SIKAvUO3K/RQyovhNZkDvqucUjF5GB9B/NBliZdbHePM
-	X6Olkm/i/soIV0ig0x9AjqqdnlhznnSg32Amw+lTNOjEtxmr2dNVGAkkvv7eG35eb77/K7VLs6P
-	Qy/rw+F/figrmNalkw8bWoisEz3UTL0XMFygU3jvLU0ScD6jnVkF0JZgGpWv8I40BBJwsp79xVd
-	swX4WOzJUv0sGNBmQIcwl3EAmBpaj95s/Pov4WbSez2NcH3+4a2e650LWxqlnuXkfNd/hDnShQL
-	ZkOizcCk/pzOEa6sRxBZuNvLHqm7X//5XVBNgG5PZJXSdGfZX4RpfzLrt9yCRLrMx+C4Hl0TFU7
-	vu2qClltmOeC2csm4VjpoCtimHsezPzUrNbgjvXdyPco/kGQlK4IwL6jwEqS6mBFsSderTeeR5M
-	0dvVFXT2/p3xN/hUlXGooyZKw24PBmchFKLvGWqqUxPiCZ5Ov5HzmcWhIiGWmhIyq77bekMuTbd
-	AQWRQP6JKGG2jOo3TOiKRoBWg==
-X-Received: by 2002:a05:6402:44d7:b0:6a3:87b7:b5a9 with SMTP id 4fb4d7f45d1cf-6a60d3b4e36mr16460049a12.12.1788267120995;
-        Tue, 01 Sep 2026 05:52:00 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a66ccb6c1csm684717a12.6.2026.09.01.05.52.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Sep 2026 05:52:00 -0700 (PDT)
-Date: Tue, 1 Sep 2026 13:51:59 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Mohit Mishra <mishraloopmohit@gmail.com>, Dan Carpenter
- <dan.carpenter@linaro.org>, Nikolay Kulikov <nikolayof23@gmail.com>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: rtl8723bs: convert swing index variables
- from u8 to int
-Message-ID: <20260901135159.5417b6b5@pumpkin>
-In-Reply-To: <2026090155-cruelness-plus-404c@gregkh>
-References: <YOUR-ORIGINAL-MESSAGE-ID>
-	<20260804170137.20708-1-mishraloopmohit@gmail.com>
-	<2026090155-cruelness-plus-404c@gregkh>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="WJule4/X"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8B2A1F000E9;
+	Tue,  1 Sep 2026 13:53:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1788270832;
+	bh=qfmRFBs8rpVmdCREt9mjtCanxBp2gr59HJ2Ln8qZ0GE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=WJule4/XcNIV56Sas0fFE5xG5tPlFlE9Wz4AqXf12TfnF9uYeuE2lbHXnD84Xnlhp
+	 pOQyon3vt9JbLVYCmn4RxBwaE6Ieq+Skq/aAYFeEYkt11XJA29U/zgfM0QzVrwHkEx
+	 MKW8Oi7SWvAA5wfluI8lGLc2tvjrzumF6nAQjnrY=
+Date: Tue, 1 Sep 2026 15:53:48 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Godana Emiru <godanaemiru@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: rtl8723bs: split chained assignments in
+ _rtw_open_pktfile()
+Message-ID: <2026090109-stoppable-mockup-b819@gregkh>
+References: <20260827062137.12937-2-godanaemiru@gmail.com>
+ <20260901110437.37588-1-godanaemiru@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260901110437.37588-1-godanaemiru@gmail.com>
 
-On Tue, 1 Sep 2026 11:43:11 +0200
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+On Tue, Sep 01, 2026 at 02:04:37PM +0300, Godana Emiru wrote:
+> Fix a checkpatch CHECK ("multiple assignments should be avoided") by
+> splitting the two chained assignments into separate statements.
+> 
+> Assign cur_addr and buf_start directly from pktptr->data, and pkt_len
+> and buf_len directly from pktptr->len, rather than chaining one field
+> through the other. This avoids making the reader trace a dependency
+> between the two assignments to see that they end up with the same
+> value.
+> 
+> No functional change.
+> 
+> Signed-off-by: Godana Emiru <godanaemiru@gmail.com>
+> ---
+> v2: Assign each field directly from its source value (pktptr->data /
+>     pktptr->len) instead of chaining one field's assignment through
+>     the other, per Greg's review comment that the v1 split was harder
+>     to read than the original.
+> 
+>  drivers/staging/rtl8723bs/os_dep/xmit_linux.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
+> index 7a9d2fabc..9f0d84e2e 100644
+> --- a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
+> +++ b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
+> @@ -14,8 +14,10 @@ uint rtw_remainder_len(struct pkt_file *pfile)
+>  void _rtw_open_pktfile(struct sk_buff *pktptr, struct pkt_file *pfile)
+>  {
+>  	pfile->pkt = pktptr;
+> -	pfile->cur_addr = pfile->buf_start = pktptr->data;
+> -	pfile->pkt_len = pfile->buf_len = pktptr->len;
+> +	pfile->buf_start = pktptr->data;
+> +	pfile->cur_addr = pktptr->data;
+> +	pfile->buf_len = pktptr->len;
+> +	pfile->pkt_len = pktptr->len;
+>  
+>  	pfile->cur_buffer = pfile->buf_start;
+>  }
+> -- 
+> 2.53.0
+> 
 
-> On Tue, Aug 04, 2026 at 10:31:37PM +0530, Mohit Mishra wrote:
-> > In ODM_TxPwrTrackSetPwr_8723B(), Final_OFDM_Swing_Index and
-> > Final_CCK_Swing_Index are declared as u8. Using u8 for variables involved
-> > in arithmetic calculations and lower-bound comparisons (<= 0) is unusual
-> > and triggers static analysis warnings.  
-> 
-> What warnings?
-> 
-> > Convert both variables from u8 to int to clean up the variable types,
-> > aligning with the TODO item to "convert any remaining unusual variable
-> > types".  
-> 
-> u8 is NOT an unusual variable type at all.
+This was already done in the 7.3-rc1 kernel release in commit
+cb08dcd0a896 ("staging: rtl8723bs: Split multiple assignments in
+_rtw_open_pktfile"), sorry.
 
-Indeed, but doing arithmetic on u6 and u16 is likely to be less efficient
-because the compiler has to mask the results (on pretty much all architectures
-except x86 and m68k).
-But that isn't the reason given.
+thanks,
 
-David
-
-> 
-> thanks,
-> 
-> greg k-h
-> 
-
+greg k-h
