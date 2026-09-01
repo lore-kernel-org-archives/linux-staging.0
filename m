@@ -1,36 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D746347F2EE
-	for <linux-staging@lists.linux.dev>; Tue,  1 Sep 2026 09:40:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A92047DD50;
+	Tue,  1 Sep 2026 09:40:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788255632; cv=none; b=B9uB3wRWdwByW3Rp2awEULspljd9Qdtv7+LvtqMjojXzZvZihZd5vU2tz04L4LKcw597BiipRQdi3XyVW8PK7VvcD8LGXr7PbYHavGcN513gV2njbAfIgRhig6aSZFQfz3iDdR/QFO919gpu6CCockIGmJpBHuQArCKe4pSfoUI=
+	t=1788255650; cv=none; b=uE7XqxOxOlgfXR3ACWYbMiytI38f9ovZniVmtIfhY5JdEmIHbgwoqGlgO907NhCxyzF2gcQ5gNwVFTAEjzfVVJXTOGXeZfpMMc7G78rd7u0ND6Yb6ZByINKlWPrtEeP51WDBFP5uAaC9pDtOfwIwFGlucepRDhdF7ZL/+89S+6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788255632; c=relaxed/simple;
-	bh=j2KUNNjAO6k6s3Ed07hC4PhFOqZ62ANAmWIS37Zb6cI=;
+	s=arc-20240116; t=1788255650; c=relaxed/simple;
+	bh=u8zg0kxXO5dNcshMD/1vHepH7WIKo3/XSNJN88jaGg8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uL+xW9i7TAlq0rrzxFjo4E0VFwGtSAKOonwi/U0QJfvd8SsUZJE1X9vFprfy3bbigsPihC+3TeE96V674HMXaQgo53AILEq15vlCiV9y2RnnM5/T3Sj19btwuVzt/N/HBLd3ksDJKPFBxlI2606aJhy2Suy1hgJH/Mqa5INEt4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=XBodcIHN; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=sWQt3WSf17cn/R8DNsQ7/mWRFWSQ+hAvCoiTIhPfIZJxWxrik1VkkFbHHuOHqfz0PWW81koOVVEZG0KaMONNH0lRD6B99kibWYfbppX/R/cbA/uK/EhB01xBcOMoG16ZPUUaYGT71GiniJmfng4RLw1S7jOdibvYzHsNxTJnpO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=e3HiFpI+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="XBodcIHN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86F671F000E9;
-	Tue,  1 Sep 2026 09:40:18 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="e3HiFpI+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1746A1F000E9;
+	Tue,  1 Sep 2026 09:40:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1788255619;
-	bh=QTv9mLre2ppynOPt5ytFq++ksWegRk+YtDRWCfHasfw=;
+	s=korg; t=1788255639;
+	bh=SsNgKLbJLb9DwPD9hkfdr6aYypQHtyGtr4Bb4ouAYKo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=XBodcIHNbmeot3RfNMDmoDcfCLg9kute2NDDQLugVN6Hg2qPzDy1W4WvcgcN73NUv
-	 uHTlbZjK7xgwikmZCaSyKd+ycsYwbrPrN6O9BgaZIrc/BNXSCza0UpRoW3aXFH8UhS
-	 zbx4eUwgipEwi4Q8e9qef88rOp97a/lYFrShYDdw=
-Date: Tue, 1 Sep 2026 11:40:15 +0200
+	b=e3HiFpI+Yu6DFwGPpNzz81xBw0iRGkU0Y3akZQ/5ye9c1DrL0ztgjhkx6AKsyKcJM
+	 APvcSqdz1oaYgI3YWVoPIVh9qliEyXPc4ofqGUZ4Mq17Addg/DtmhG99WqgfHvBdg3
+	 Z45diSo+CLy+YGFfs1c+Vn8+0CVjux7DueoE1QWw=
+Date: Tue, 1 Sep 2026 11:40:35 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Noah Techoueyres <noahtechoueyres@gmail.com>
-Cc: pure.logic@nexus-software.ie, johan@kernel.org, elder@kernel.org,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: greybus: loopback: Fix argument alignment
-Message-ID: <2026090156-effective-anybody-a347@gregkh>
-References: <20260803015022.534-1-noahtechoueyres@gmail.com>
+To: Lucas Jeffrey <luquijeffrey@gmail.com>
+Cc: florian.fainelli@broadcom.com, rjui@broadcom.com, sbranden@broadcom.com,
+	bcm-kernel-feedback-list@broadcom.com,
+	linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: vc04_services: preserve bcm2835_audio_write
+ errors
+Message-ID: <2026090127-unafraid-vantage-966f@gregkh>
+References: <20260803040928.12453-1-luquijeffrey@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,30 +42,40 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260803015022.534-1-noahtechoueyres@gmail.com>
+In-Reply-To: <20260803040928.12453-1-luquijeffrey@gmail.com>
 
-On Sun, Aug 02, 2026 at 09:50:22PM -0400, Noah Techoueyres wrote:
-> Align function arguments to match the open parenthesis
-> per the kernel coding style guidelines.
+On Mon, Aug 03, 2026 at 01:09:28AM -0300, Lucas Jeffrey wrote:
+> When sending audio data in multiple packets, a successful later packet
+> could overwrite an earlier failure in status. This caused the function
+> to report success even if one packet was not queued.
 > 
-> Signed-off-by: Noah Techoueyres <noahtechoueyres@gmail.com>
+> Stop sending packets after the first failure to preserve the error.
+> 
+> Signed-off-by: Lucas Jeffrey <luquijeffrey@gmail.com>
 > ---
->  drivers/staging/greybus/loopback.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
-> diff --git a/drivers/staging/greybus/loopback.c b/drivers/staging/greybus/loopback.c
-> index ea57b1f5d156..c33b8aa5871c 100644
-> --- a/drivers/staging/greybus/loopback.c
-> +++ b/drivers/staging/greybus/loopback.c
-> @@ -679,7 +679,7 @@ static int gb_loopback_request_handler(struct gb_operation *operation)
->  		}
+> diff --git a/drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c b/drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c
+> index 3156cb8392f4..5ac23cfa7983 100644
+> --- a/drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c
+> +++ b/drivers/staging/vc04_services/bcm2835-audio/bcm2835-vchiq.c
+> @@ -365,6 +365,9 @@ int bcm2835_audio_write(struct bcm2835_alsa_stream *alsa_stream,
 >  
->  		if (!gb_operation_response_alloc(operation,
-> -				len + sizeof(*response), GFP_KERNEL)) {
-> +						 len + sizeof(*response), GFP_KERNEL)) {
+>  			status = vchiq_queue_kernel_message(vchiq_instance,
+>  							    instance->service_handle, src, bytes);
+> +			if (status)
+> +				break;
+> +
+>  			src += bytes;
+>  			count -= bytes;
+>  		}
+> -- 
+> 2.43.0
+> 
+> 
 
-Now you are over 80 columns, this keeps going back and forth.  It's fine
-as-is.
+Was this tested on the real hardware?
 
 thanks,
 
