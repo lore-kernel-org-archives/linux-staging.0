@@ -1,36 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBE89470EA8;
-	Tue,  1 Sep 2026 09:46:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A5A9377553
+	for <linux-staging@lists.linux.dev>; Tue,  1 Sep 2026 09:46:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788255988; cv=none; b=Sp+qteT3p56q9G+bHrBNxlpD1T+5qQTJSP3PrOkl5Zr0pGLig8SirwK+Ngl1QVDjVO81ucQb2H/2aA9lHltv7TDNNa/KLZSmaMy50ZLYgMr0sUSFXSTPmdvH14FVw0hjHhJpb6z0WJv4QXh6RqxrPWw1GUGgaNgWnStphjikFfw=
+	t=1788256009; cv=none; b=Exq0H0U8eV4zglruHKFoHZbEmFPQV2g2gWwQ3pgtNXAtgUVfjLn415KSyHGo0iR1GA2z/F0zn1DtzE7DlnJHdjQWdjNrgVXSQSg+etyJGWCjz4k5Gohaf6XCEpILTFu72MKMVuCS/QcN+XzpRzZJWLAvEixRIpaexsNvM0fgojM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788255988; c=relaxed/simple;
-	bh=4C5RnHT6lscVJ9vJ4UbWcjYCO3BacG5iWgoyOwNaWCs=;
+	s=arc-20240116; t=1788256009; c=relaxed/simple;
+	bh=gU2+NL8Z+nDchORsWRzyBHiWGjLHIWdskRkOv+Enwwc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hwe7fiWSXTS5bewx35lThSHNQhN/ChIg02u50DmE1m2I7pn+LLz3V+FkMMR4Gmsn50LzrdiMjqsJEVnzE/C0Jwdt914FjkGkymEYsTyEMH7akWbJOmvWBHCD1pYIIOpI9F0ALXeTOboakpH8RZ6GovWWj3f+1po2bxo73GgfIA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ybV6aofO; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=jOKN2rltONhTXfRNI7hibOIm4U25r5Mm9pPY6ZJ2ByM5cy7MeNZImIBwT4o/am2u0nZG76wwKb+bbxQjkFaDPEKVhcV2aaf1YAj4wTwuRoTIlt0WpySy+EbhAiU90/xq+sHWlJ4aLb6ZgqGu/bnQe10Wcy8sBxs3LLw7kVsjEb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Ao3HEpBy; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ybV6aofO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85BA71F000E9;
-	Tue,  1 Sep 2026 09:46:25 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Ao3HEpBy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C26E1F000E9;
+	Tue,  1 Sep 2026 09:46:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1788255986;
-	bh=5ziELb1JX9+0BuCz0vMtvJY4vBcPqiv0MfkE4YLMxrU=;
+	s=korg; t=1788256008;
+	bh=l0DAbzdmo+sgSq6SrmoCELDhn5hTISueF+lNNNTbQV0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ybV6aofO+6A2ukGzOhn23czb7tLd08UaLjcz7SnfyPRHPXA5tTF5CkiNkv9uQP3vF
-	 q72FokdEwfDhXlXduMh/6h1cIOkyrzuf97IwhKCcUunf3xoghb6CtrLe+KPeyhKhRg
-	 maWryBDei4kUvZ0KpwaG8s47J22gjPw5D+4R7RNw=
-Date: Tue, 1 Sep 2026 11:46:14 +0200
+	b=Ao3HEpByQWUZKkng/SYJzOjdpIQSTZIVye39MfRnS1YIUBArDP2ccVrsbAwlcVgzr
+	 vV0yS/3If4OTeaNlvkmSGwHegaLjYKyFQoQT3JOUFM5yKJ3a/ABI+JJ13MWNiwQJo3
+	 1joAFw1Sgfoh0Lwu9hc5VgRBaCLj1G7qgoVJ3PLk=
+Date: Tue, 1 Sep 2026 11:46:44 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Dalvin-Ehinoma Noah Aiguobas <fliegbert2@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v3 0/2] staging: rtl8723bs: Changing two struct members
-Message-ID: <2026090103-spinal-revisable-990f@gregkh>
-References: <20260715171634.1550-1-fliegbert2@gmail.com>
- <20260731142004.15281-1-fliegbert2@gmail.com>
+To: Wu Yifan <nickwu13@yeah.net>
+Cc: linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: rtl8723bs: remove extra blank lines
+Message-ID: <2026090136-sprung-preoccupy-ca1d@gregkh>
+References: <20260804064804.9205-1-nickwu13@yeah.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,48 +38,15 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260731142004.15281-1-fliegbert2@gmail.com>
+In-Reply-To: <20260804064804.9205-1-nickwu13@yeah.net>
 
-On Fri, Jul 31, 2026 at 02:20:02PM +0000, Dalvin-Ehinoma Noah Aiguobas wrote:
-> This patch changes two members of the struct adapter.
-> Two additional patches ar made to fix some checkpatch warnings.
+On Tue, Aug 04, 2026 at 06:48:04AM +0000, Wu Yifan wrote:
+> Remove the redundant blank lines in os_intfs.c to comply with the
+> kernel coding style. No functional changes.
 > 
-> Changes in v3:
-> - Rebased against staging-testing
-> - Fixed building error
-> 
-> Changes in v2:
-> - Rebased against staging-testing
-> 
-> Dalvin-Ehinoma Noah Aiguobas (2):
->   staging: rtl8723bs: change struct member bSurpriseRemoved
->   staging: rtl8723bs: fix Alignment should match open parenthesis in
->     rtw_mlme_ext.c
-> 
->  drivers/staging/rtl8723bs/core/rtw_btcoex.c   |  2 +-
->  drivers/staging/rtl8723bs/core/rtw_cmd.c      |  8 +-
->  drivers/staging/rtl8723bs/core/rtw_mlme.c     |  8 +-
->  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 80 +++++++++----------
->  drivers/staging/rtl8723bs/core/rtw_pwrctrl.c  | 12 +--
->  drivers/staging/rtl8723bs/core/rtw_recv.c     | 10 +--
->  drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c  | 12 +--
->  .../staging/rtl8723bs/hal/rtl8723b_hal_init.c |  8 +-
->  .../staging/rtl8723bs/hal/rtl8723b_phycfg.c   |  4 +-
->  .../staging/rtl8723bs/hal/rtl8723bs_xmit.c    |  8 +-
->  drivers/staging/rtl8723bs/hal/sdio_ops.c      |  2 +-
->  drivers/staging/rtl8723bs/include/drv_types.h |  8 +-
->  drivers/staging/rtl8723bs/os_dep/os_intfs.c   | 10 +--
->  drivers/staging/rtl8723bs/os_dep/sdio_intf.c  |  4 +-
->  .../staging/rtl8723bs/os_dep/sdio_ops_linux.c | 32 ++++----
->  15 files changed, 104 insertions(+), 104 deletions(-)
-> 
-> -- 
-> 2.55.0
-> 
-> 
+> Signed-off-by: Wu Yifan <nickwu13@yeah.net>
+> ---
+>  drivers/staging/rtl8723bs/os_dep/os_intfs.c | 4 ----
+>  1 file changed, 4 deletions(-)
 
-No longer applies, can you rebase again?
-
-thanks,
-
-greg k-h
+Does not apply against the latest tree :(
