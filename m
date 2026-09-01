@@ -1,35 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E71CF4749E9;
-	Tue,  1 Sep 2026 10:12:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70744471D03;
+	Tue,  1 Sep 2026 10:13:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788257545; cv=none; b=YQZ1E1akqp9ekOplDglQyi87f7i5C/fzu1pj7Ujx+7C/hRt9xR7EwOJwHSTF0z1wqg8HttByvKt0xnwk2dXjoCXtVVvZyYaiAp6hDnzFAXY7o30yiZkfQBJqq3JowGAxEO5xOHwgFa8BHkn4E/Hho4fiil6dYUVzTNuOApvh76I=
+	t=1788257607; cv=none; b=dmyHxXO/26ucnmKoy4Bc/k2PucKZmMMS2y8CUj0J60Qm3Dc+e+/3IxQB4RmntKAqV7/H4Wie6UkfQrVSRjuC3FNYiAv/jj+ad7I3fTdTkrUmrh5Vz4Bljwkn9GwZImWS9YwZpZWJYIvKxxUx2djQ6EDr2ssIIJge7sdC41/+9pI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788257545; c=relaxed/simple;
-	bh=3kWzb6XpeMS1qfp2L9E8YIkxSPtEam/WpQ8iFf+w1Sk=;
+	s=arc-20240116; t=1788257607; c=relaxed/simple;
+	bh=2pq+Aqq4jYZvFwNTDsWbLrV7Cf3s6mybBSFyHKXU33g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cGuO88JHNRI1sOoy2dZXU/JJfPTAW/gTKW6bDdgHJOh/9gtQDqaugNIxH79cniNMg6Hrb+Do4AJNzd4dxLkPXU2KjLBvr/YJjXz6jNa9bVs2mYh8aMyoCpKAUjlt2rknO7+5eB9Wu3M4x7x7skC/wF/6ejqiam5KKxwVRpTqzUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=lK43yXZI; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=PAeRL2FBI1U9Pz4pBGdf7SuBLEEshIiMPBIVTNZOxVImPtNe4UVSDtK/vWYNG1WXbT+eOeKYWLDbH5c8T2o2sKvRYzQMgrwxvuMpKsTej5uR1ozWKt6teAlyjTqHaliWCtaJD0SPKwAQUObmFEyxREiskCj5zt2KvGZT9qWXeRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=bcCzaOcH; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="lK43yXZI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F18BC1F000E9;
-	Tue,  1 Sep 2026 10:12:21 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="bcCzaOcH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63E511F000E9;
+	Tue,  1 Sep 2026 10:13:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1788257542;
-	bh=gvhrS3UEtB8hmGHL7ZQkcK6748LNRLycToVX0QTx4DE=;
+	s=korg; t=1788257605;
+	bh=hdySn/5UrvLE5Z25ojJOkbvNgQ35SLR6YKvo9YbuP98=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=lK43yXZI5EbmXKfcAhtIWXDQ1/XQMBwkcypg9HFblD5lkbsBjOZwguIs0not99TcM
-	 qPdW/cI6JzLffB/WZmGQpOcWcZQLTxfiJ3RThgInddAJeerQMjaFbZ8INy5WDjCeVH
-	 7x0+tmMBpBZuO67c85FXdxwXZg3em0+DZbiz5m6o=
-Date: Tue, 1 Sep 2026 12:12:18 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Svyatoslav Nikolenko <nsvatoslav515@gmail.com>
+	b=bcCzaOcHSwGOLMHKc18uaSVDrBs3MFJhQOjxyZAQglRN/FEZAOdBDC7e1J/TP76zr
+	 30okywR37FYhaV0Vl4nFqY/QEhvsp+rd6MgaGzkvrofFXYUDptdq9SG0ZlzPuRAFHd
+	 ydKb9wRx0k1/NGzNS27QS7AKNQDotfPYp0AtJV+0=
+Date: Tue, 1 Sep 2026 12:13:21 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Godana Emiru <godanaemiru@gmail.com>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: Remove unnecessary braces
-Message-ID: <2026090107-sadly-exterior-e456@gregkh>
-References: <20260825123037.11779-1-nsvatoslav515@gmail.com>
+Subject: Re: [PATCH 2/3] staging: rtl8723bs: split chained assignments in
+ _rtw_open_pktfile()
+Message-ID: <2026090102-scrap-scribble-a9ae@gregkh>
+References: <20260827062137.12937-1-godanaemiru@gmail.com>
+ <20260827062137.12937-2-godanaemiru@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -38,37 +40,37 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260825123037.11779-1-nsvatoslav515@gmail.com>
+In-Reply-To: <20260827062137.12937-2-godanaemiru@gmail.com>
 
-On Tue, Aug 25, 2026 at 03:30:37PM +0300, Svyatoslav Nikolenko wrote:
-> Fix a checkpatch.pl warning by removing unnecessary braces around a single
-> statement block in the rtw_set_oper_ch() function.
+On Thu, Aug 27, 2026 at 09:21:36AM +0300, Godana Emiru wrote:
+> Split the two chained assignments into separate statements, one
+> variable per line, preserving the original assignment order.
 > 
-> Signed-off-by: Svyatoslav Nikolenko <nsvatoslav515@gmail.com>
+> No functional change.
+> 
+> Signed-off-by: Godana Emiru <godanaemiru@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/core/rtw_wlan_util.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+>  drivers/staging/rtl8723bs/os_dep/xmit_linux.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-> index c614c0b4c792..d900b946908e 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-> @@ -256,9 +256,8 @@ inline void rtw_set_oper_ch(struct adapter *adapter, u8 ch)
+> diff --git a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
+> index 7a9d2fabc..c5f90a906 100644
+> --- a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
+> +++ b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
+> @@ -14,8 +14,10 @@ uint rtw_remainder_len(struct pkt_file *pfile)
+>  void _rtw_open_pktfile(struct sk_buff *pktptr, struct pkt_file *pfile)
 >  {
->  	struct dvobj_priv *dvobj = adapter_to_dvobj(adapter);
->  
-> -	if (dvobj->oper_channel != ch) {
-> +	if (dvobj->oper_channel != ch)
->  		dvobj->on_oper_ch_time = jiffies;
-> -	}
->  
->  	dvobj->oper_channel = ch;
->  }
-> -- 
-> 2.47.3
-> 
-> 
+>  	pfile->pkt = pktptr;
+> -	pfile->cur_addr = pfile->buf_start = pktptr->data;
+> -	pfile->pkt_len = pfile->buf_len = pktptr->len;
+> +	pfile->buf_start = pktptr->data;
+> +	pfile->cur_addr = pfile->buf_start;
+> +	pfile->buf_len = pktptr->len;
+> +	pfile->pkt_len = pfile->buf_len;
 
-Someone sent the same change before you, sorry.
+This is harder to read now, right?  Please see the archives for a
+suggestion as to how to make this more understandable.
+
+thanks,
 
 greg k-h
