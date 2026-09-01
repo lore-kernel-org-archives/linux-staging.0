@@ -1,94 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B70B0279DAF;
-	Tue,  1 Sep 2026 13:53:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FD1A367B61
+	for <linux-staging@lists.linux.dev>; Tue,  1 Sep 2026 14:20:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788270834; cv=none; b=BPeC2J3eIBkEry6KoBNMPhmm7/MCIfkXHBMR6zG1g/xwFdI84DCgkxsHob0UCuppVZau1qEynW38oTPOqzx+Gas+Dnm4yCNsGa+jht9X3tR41SwtYgnWJGYxIwU9zZgG5g5vPn9X6o6oGyH31ViDxDLg8EiWc9B3ZrpvneHR0Yo=
+	t=1788272410; cv=none; b=NfRlsmNxprOLRKGN0KNtpX2QYTsV1r13JUJtRv/2FgtVIDntqHULl6xkR88Xnuw5r6TlDOGPBFhS/YU6x46UevJTF1fRRRNxjbuZsM7HIVLf1rTfrxLN8U1hsO+KTE1fhbzZHTGKEaKgbKgeQdx4HGrYmky6iizZG0RZEOMjTj8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788270834; c=relaxed/simple;
-	bh=OldaB7H2UR+Rag5ACGkbTma3E46xEDBNJpnXjcrHyIo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HiRafPKp7CIUIkujZbSCRB2ZSW63U2YCvcjDxbe86V5/kr/Dd17y2kcQoyL/1A240zkQFIEoSq8JdfhYPW2oUa7ZsJ9I1FWRHSZARLJOMudO2KFqj1iKO78OO+9DwgnnsWnsoWo5VxH6a0ijbGd4I61FxR6lswzh21vCN1CVsNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=WJule4/X; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788272410; c=relaxed/simple;
+	bh=sI3arS1m5ClcMAlmrPv7uI+K1rcejtMI2bAVU044Ygc=;
+	h=Message-ID:MIME-Version:From:To:Cc:Date:Subject:Content-Type; b=hoVIpdxZUuEeBnWUZNGrlRVn9tWPOwFWopfpURuVWFQUdXHfpMAVAnj1xPCT18TGrR1AEJZKtgSHehMd6/hNxvmNv5x3t9ePCDGr3aMQLAyb2cTY06jULjLKHpmvDVk67xRI5zqshS4opLgkCSqcx4mm5WKMhZEOeb2/zZM69aA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ASl2hYaG; arc=none smtp.client-ip=209.85.215.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="WJule4/X"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8B2A1F000E9;
-	Tue,  1 Sep 2026 13:53:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1788270832;
-	bh=qfmRFBs8rpVmdCREt9mjtCanxBp2gr59HJ2Ln8qZ0GE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=WJule4/XcNIV56Sas0fFE5xG5tPlFlE9Wz4AqXf12TfnF9uYeuE2lbHXnD84Xnlhp
-	 pOQyon3vt9JbLVYCmn4RxBwaE6Ieq+Skq/aAYFeEYkt11XJA29U/zgfM0QzVrwHkEx
-	 MKW8Oi7SWvAA5wfluI8lGLc2tvjrzumF6nAQjnrY=
-Date: Tue, 1 Sep 2026 15:53:48 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Godana Emiru <godanaemiru@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: rtl8723bs: split chained assignments in
- _rtw_open_pktfile()
-Message-ID: <2026090109-stoppable-mockup-b819@gregkh>
-References: <20260827062137.12937-2-godanaemiru@gmail.com>
- <20260901110437.37588-1-godanaemiru@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ASl2hYaG"
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-cc1bcdb3c4cso3735073a12.2
+        for <linux-staging@lists.linux.dev>; Tue, 01 Sep 2026 07:20:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788272409; x=1788877209; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:subject:date:cc:to:from
+         :mime-version:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=sI3arS1m5ClcMAlmrPv7uI+K1rcejtMI2bAVU044Ygc=;
+        b=ASl2hYaGJhSnLoQYHnMG1eokx8QCemUZ8r2wvN84HCfhxi7iRjCIVDnPvgYCjyqCqH
+         Bom/tgPMgju35POUQ5Ie/gigbxnt6u/lg9nP97r1xNd5pVQTJZ67c+ToIAtLjvYJ/qHF
+         WjUr4cMcW61Fz3MUiB8N+SnjSDk1NPDRP/JjwQpKkq69Jzu17JVqw28718JkRFmHAqYH
+         06CqXt76ao3nSVVdxo480DaB9YaAnbzjQlahpPBssjGA/wVGlQC5i5A14bMdAYf+Xw5H
+         Ac4P/3paI7HEo9uc7t/WbYcj7q4VOd0dov0F3Yh40mn4QpXJtrWSRF9XniFUbo4Vp9Oa
+         rubw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788272409; x=1788877209;
+        h=content-transfer-encoding:content-type:subject:date:cc:to:from
+         :mime-version:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=sI3arS1m5ClcMAlmrPv7uI+K1rcejtMI2bAVU044Ygc=;
+        b=MAsuw09NlXnBQZJ75Gu9nPQGulB0vqAgSkL4frByA/zXW503TmWsOMv6BWC8Cuwu03
+         v496IY3CjbkJVoGGTOrg0ieuBa3/zLFUXYMLhGak7wftdVPhF+qaexherA/Y6dPC88cU
+         d4zyn0cSDyImDOs83S0FV1cKc9YbaKzK24GCCSN5/wz10yj1qIq0CdCIFsGLnsyv+hAj
+         n6C7BtyHcqnG2pbw7vdMiCttd1iR7OJnnq2ZXN/xLcjnjfQOTLEFDhiqefj2aBO9iOXS
+         LDz1Z9EDBn6MTkTUZclvT7HXkpF/T2UzEkAGxT03NZYMGFkI+y5WKb+GkVB+oxNAygum
+         3UoQ==
+X-Gm-Message-State: AFuF++mRGRY1G1w/snI5zsdpIUsmwO9qIZCyLR4EFoiVvrizI7VgF+db
+	mTwMa8JFBbC5UQycCTAMEyC+UWJ+QqveV1ManFxDvLZTqwS37D/Xi8Ko
+X-Gm-Gg: AYBFou1LxzOd248a3ms+yiXwa2+5Nfotx90CYTyeRSvjEVt75VxhG7s9MWSa5tlEZuu
+	P8f2xYbhk1d8z+4qxbP6tTX40MiWIBaNGHI8R/IGKEQHxSHeINrSzB6uCiLcSfPaAg5QXo7Zqrp
+	85R0EZCEmEPGZE8uShTi0+4t3yV35sRFtsdIlPbW4f/kbtjjPknfnN52f7E0LiUWT3SDYZjvWRz
+	NcwHzEf5mT0dXps/p+UUUFEj8S9imWqtFUv+JQvJShkWhvPhF5njgRhaH7bjm8SN5iHDllgoBI3
+	t0k6sPF35Datijlmv3Yx5daVQHP581JnvJQPrlr3GP8jANKtNttB3PPnnmkttHBgtZhSlYIV2dj
+	QSA/DC1Wgzu7ckZ/0O2H68VfDIcfURU4UKwvCKMfHZrk7BjMbuX+2+qtn3lLjpkToxeR7RqKWC1
+	SnRr7cBD1E7bJ2fTT/L6AqyNfLy599q01HMBzkq6+WEJbBCZIllXvN0X/UjE7RnG3jh0EKSjmcG
+	xAMoxSc13NTa4Wltu2yisu2ASjRMAetYNj2vPI0bTVemITixsfDggrqqw==
+X-Received: by 2002:a17:90b:2888:b0:37f:e326:6557 with SMTP id 98e67ed59e1d1-39907ab0ea1mr12700245a91.4.1788272408748;
+        Tue, 01 Sep 2026 07:20:08 -0700 (PDT)
+Received: from manush ([2406:7400:94:7a79:f149:be84:942d:9300])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-142e0d4b336sm37722217c88.8.2026.09.01.07.20.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Sep 2026 07:20:08 -0700 (PDT)
+Message-ID: <6a96df18.ba0ac10c.150968.da3c@mx.google.com>
+X-Mailer: git-send-email 2.46.2.windows.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260901110437.37588-1-godanaemiru@gmail.com>
+From: "Manush Prajwal" <manushprajwal555@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Date: 1 Sep 2026 19:50:09 +0530
+Subject: Re: [PATCH] staging: axis-fifo: fix underflow of tx_fifo_depth in
+ size check
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 01, 2026 at 02:04:37PM +0300, Godana Emiru wrote:
-> Fix a checkpatch CHECK ("multiple assignments should be avoided") by
-> splitting the two chained assignments into separate statements.
-> 
-> Assign cur_addr and buf_start directly from pktptr->data, and pkt_len
-> and buf_len directly from pktptr->len, rather than chaining one field
-> through the other. This avoids making the reader trace a dependency
-> between the two assignments to see that they end up with the same
-> value.
-> 
-> No functional change.
-> 
-> Signed-off-by: Godana Emiru <godanaemiru@gmail.com>
-> ---
-> v2: Assign each field directly from its source value (pktptr->data /
->     pktptr->len) instead of chaining one field's assignment through
->     the other, per Greg's review comment that the v1 split was harder
->     to read than the original.
-> 
->  drivers/staging/rtl8723bs/os_dep/xmit_linux.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-> index 7a9d2fabc..9f0d84e2e 100644
-> --- a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-> +++ b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
-> @@ -14,8 +14,10 @@ uint rtw_remainder_len(struct pkt_file *pfile)
->  void _rtw_open_pktfile(struct sk_buff *pktptr, struct pkt_file *pfile)
->  {
->  	pfile->pkt = pktptr;
-> -	pfile->cur_addr = pfile->buf_start = pktptr->data;
-> -	pfile->pkt_len = pfile->buf_len = pktptr->len;
-> +	pfile->buf_start = pktptr->data;
-> +	pfile->cur_addr = pktptr->data;
-> +	pfile->buf_len = pktptr->len;
-> +	pfile->pkt_len = pktptr->len;
->  
->  	pfile->cur_buffer = pfile->buf_start;
->  }
-> -- 
-> 2.53.0
-> 
+On Tue, Sep 01, 2026 at 10:06:00AM +0530, Greg KH wrote:=0D=0A> S=
+o this is just a bug in the device tree?=0D=0A>=0D=0A> How was th=
+is found and tested?=0D=0A=0D=0AYou're right, and I should have s=
+aid this up front instead of making=0D=0Ayou ask.=0D=0A=0D=0AThis=
+ was found by static source review with AI assistance (Claude),=0D=0A=
+not from a real fault report, fuzzing, or anything hit on actual=0D=0A=
+hardware. It was checked with checkpatch --strict and verified to=
+=0D=0Aapply cleanly against a fresh clone, but it was never build=
+-tested=0D=0Aagainst a real kernel build or run on axis-fifo hard=
+ware.=0D=0A=0D=0AOn reflection your first question is the real is=
+sue: tx-fifo-depth=0D=0Acomes from the devicetree, which is trust=
+ed input describing the=0D=0Ahardware, not attacker-controlled da=
+ta crossing a security boundary.=0D=0AA DT that lies about the FI=
+FO depth is a bug in that DT, not=0D=0Asomething the driver needs=
+ to defend against. I don't think this=0D=0Apatch is worth carryi=
+ng -- happy to drop it.=0D=0A=0D=0A> Did you forget to add an Ass=
+isted-by: tag for this patch?=0D=0A=0D=0AYes -- I should have dis=
+closed the AI assistance in the commit=0D=0Amessage itself rather=
+ than leaving it for you to notice and ask=0D=0Aabout. Apologies =
+for that, and thank you for calling it out=0D=0Adirectly.=0D=0A=0D=0A=
+Manush
 
-This was already done in the 7.3-rc1 kernel release in commit
-cb08dcd0a896 ("staging: rtl8723bs: Split multiple assignments in
-_rtw_open_pktfile"), sorry.
-
-thanks,
-
-greg k-h
