@@ -1,36 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12171352002
-	for <linux-staging@lists.linux.dev>; Tue,  1 Sep 2026 10:07:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74E5D313543;
+	Tue,  1 Sep 2026 10:09:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788257237; cv=none; b=EYw2iPzfOhhUy5izYRhQfGhE9t01InLtzgOoxmZVlXxah09uOaR/e9RSzUIxAQ/ahYF2OOnVhOEPKUhTYkwhvB4drYF9qVcrUY3HX4QVeU5uwaHXp2NEF2OaV3hawP9UjjoQKj1oe0W4yEhpRwXlegxAT5ARvcuu4N0ap1eCQB0=
+	t=1788257352; cv=none; b=NXZq01F1/8RevLEBKYbisyD6kJr17cZ5b/pCmCKA9Ogz2flX7pJOGvDRRCb9iDxvoMGPXXYsGsEB21fk+M2WATJTh+1bXovKIDjUmBJ0dSjxRutaPTprNjM1qQaHwnS/PaHsRAVwgzElc+SG5SAkjn5O559Okw6/YWTIVwvEHIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788257237; c=relaxed/simple;
-	bh=Y4MxnBJ9m+O4DlD7p5xVg++CCt9kqOVrCPhTVBLWUL0=;
+	s=arc-20240116; t=1788257352; c=relaxed/simple;
+	bh=lBvRvUx38NoGosjNGpx7o+KN31KUtj0kc3nvz84NAvE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XxneTq/8lvvpDAo/5H7pYnIHf1bPkKPYGAMC7n9Y8xPyYjYm0qRAFrTpwL2kJGl8n6dbGruaHg80EbT87H6R/U2shtFZTYFmDffAbUnRCgiS7SDDjnxu6zFj8Dr5Z/ZIPdorZzfOFFyW7ftUP7PVAPYdQPJoiHl7VKjNXhtQWKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=zlFJAMTB; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=U2KlFr9ORQRVISBUF5nHKy5dkljQ4HZaIaIu8O9zx3SZXwSayLTPy3J3gHj2iBUoe9uL64XtAQ9MpHh6r7B3I1zE8xoGKFIIT6PKFBWC3B/u8QiP6ayFlwL8IpKRUdJ/gUU9M4k6ClsKv7dMBPbQc7vVajNjdZV6WLPtpGWJVA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=GWhLLNZq; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="zlFJAMTB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CAA01F000E9;
-	Tue,  1 Sep 2026 10:07:14 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="GWhLLNZq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BC281F000E9;
+	Tue,  1 Sep 2026 10:09:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1788257235;
-	bh=clSLYp/Uct6XkiW+Jk5tzOAoq9Zk/PgiDUzAfoHxKzI=;
+	s=korg; t=1788257351;
+	bh=XOh5n9kE//yjlx3OBC2EABNkxL//DPBNHqP9vmJhGPM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=zlFJAMTB1AAT2ZL+MGhaWowfHNkYesTVL+yjNYqWL0m+i8g03moir33DKuTn34pdO
-	 do6VUpQRQnANCrWmE9cUPmoAFMXr1BWEavSYCUw/PAgK1ccy67jL+OJgMmU4sZeQHQ
-	 Srni5uLonFjUnD8H5XoL+M8eaMp4KdEP+VMINcNg=
-Date: Tue, 1 Sep 2026 12:07:11 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: alwaystabs <reservedstep@gmail.com>
-Cc: linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: rtl8723bs: remove unnecessary parentheses in
- rtw_ioctl_set.c
-Message-ID: <2026090154-spindle-silly-e962@gregkh>
-References: <20260820195458.11689-1-reservedstep@gmail.com>
+	b=GWhLLNZqcGW0PApwuFD+EGiPFHBroMH2lju7n8Gg0T6dBL2GvA/0iGPeZhT5nB2PF
+	 R5/JToWnqzXkOjv0/4JbyXiMfkU2L8uYGBNZG6QU4lN329qlmDxTQiS52BQPML+vHQ
+	 PGJBygO3bJuVWr2AZ4xW5fbUk21rXWH5cZpwbNR4=
+Date: Tue, 1 Sep 2026 12:09:07 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Svyatoslav Nikolenko <nsvatoslav515@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: use strscpy() for ifname copy
+Message-ID: <2026090141-revenue-crawfish-0f8d@gregkh>
+References: <20260826143418.5713-1-nsvatoslav515@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,42 +38,33 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260820195458.11689-1-reservedstep@gmail.com>
+In-Reply-To: <20260826143418.5713-1-nsvatoslav515@gmail.com>
 
-On Thu, Aug 20, 2026 at 10:54:58PM +0300, alwaystabs wrote:
-> Remove unnecessary parentheses around variables in rtw_ioctl_set.c
-> to fix checkpatch CHECK messages.
+On Wed, Aug 26, 2026 at 05:34:18PM +0300, Svyatoslav Nikolenko wrote:
+> Replace snprintf() with strscpy() when copying ifname into registry_par
+> to avoid unnecessary format specifier parsing.
 > 
-> Signed-off-by: alwaystabs <reservedstep@gmail.com>
+> Signed-off-by: Svyatoslav Nikolenko <nsvatoslav515@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/core/rtw_ioctl_set.c | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
+>  drivers/staging/rtl8723bs/os_dep/os_intfs.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+> index f31196f54b3e..dd0c5fc813c8 100644
+> --- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+> +++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+> @@ -256,7 +256,7 @@ static void loadparam(struct adapter *padapter, struct net_device *pnetdev)
+>  
+>  	registry_par->enable80211d = (u8)rtw_80211d;
+>  
+> -	snprintf(registry_par->ifname, 16, "%s", ifname);
+> +	strscpy(registry_par->ifname, ifname, sizeof(registry_par->ifname));
+>  
+>  	registry_par->notch_filter = (u8)rtw_notch_filter;
 
-
-Hi,
-
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- It looks like you did not use your "real" name for the patch on either
-  the Signed-off-by: line, or the From: line (both of which have to
-  match).  Please read the kernel file,
-  Documentation/process/submitting-patches.rst for how to do this
-  correctly.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+the ifname module option, and field, should just be removed from this
+driver entirely.  Can you do that instead?
 
 thanks,
 
-greg k-h's patch email bot
+greg k-h
