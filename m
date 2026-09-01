@@ -1,38 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 526E847A87D;
-	Tue,  1 Sep 2026 09:43:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1457647AF6B;
+	Tue,  1 Sep 2026 09:44:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788255822; cv=none; b=I2FsURJQv4/z0aVrV/qZ54G0ell+SZ4IfwZk/xTb4FtcQK0j1Yb95e/ZvPXXvfLpF/Mvgw8fzpFancEbTbNhchlRFtAE5XgO7RprJuYmInBjjhKhH914rPwCS14ztreQyQ2QMMb3v/q6mVkeUjZlu+lc5iBC9aIc9nsXNy32leg=
+	t=1788255872; cv=none; b=KoPXFRiEGvpHh0ztucYIwi9T5tiII6RIlfVceDjsHACKD2lSSlgz31z6hzwutmtipvBFDOW70BTzEaVE+Or7kaqD0LogbdAxr+vJwbQmI4QJL11uxkJ1BhMmU8NIPe6K0ajlkjL0VoH1N6U+jHLoKTY3HVZ5AYLQah/u5BOUshY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788255822; c=relaxed/simple;
-	bh=7HapLf1+R4Vm3KLbYXKcq4W/hYH5/TFMYsPShNihSgw=;
+	s=arc-20240116; t=1788255872; c=relaxed/simple;
+	bh=5C/+OtkBtARziD6KBU14ZJZloWoQmUFCnKqss1jNyz8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Sc3EbzFS+Kdz0ueHJES9G9Lbki8T1NPjw6n90hDa6iSIrcz+28CVMUzXupQdakYJ3cBoYNZXW2zdbAH6uKZ9XHYME/7I1wJ8x8FBvaUODpns4m2o3zKL82ALr68LFLi4jINcWEEwdJ5qhUnT2JUsanh0VLZ/llxvWg0TnwnKdsw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=C6lhCvoQ; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZnP1rZcUfV6YgJxaooOTbOIKwze5MigTSddMkNqFukxJLoqN/1Z80ZNJyEvABRjXoVx/tzZdj+ZwyoWQLwDMmFzevAZfqOXCnbeKlOkc0ylPpg3oaCLipC2gntjagVgnFVgj3BeojeHXqiF8RdSg3TpnNuP7J8YFwb5a8LM0t6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=UK8SbdEg; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="C6lhCvoQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D654C1F000E9;
-	Tue,  1 Sep 2026 09:43:31 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="UK8SbdEg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18A381F000E9;
+	Tue,  1 Sep 2026 09:44:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1788255812;
-	bh=v5CYzTESfIeAUHNBPjVk818TqfTYTSBhCDiiCAvWge8=;
+	s=korg; t=1788255870;
+	bh=J3roHY+8j8dz6G+zhTJKPQ3Lehz65popD+XlPx0oLw4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=C6lhCvoQjqav7lw2Bhfta3Hma93O1cYO2Ak8e907qoxRDDRdMd9aszC/CKQU+ot3X
-	 LW00sAAJM7bynLQlGu/8EuzNe7RrIfttWvFJ/Z6S81CyxmUASLEmwYC5fvOp9A74+O
-	 etxr6d4z5+DCuGmYBJRFKNn7pWp9gp9+apptKms8=
-Date: Tue, 1 Sep 2026 11:43:28 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Ivy Lopez <skunkolee@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	error27@gmail.com
-Subject: Re: [PATCH v2] staging: rtl8723bs: use kfree_sensitive() for key
- material in rtw_set_key()
-Message-ID: <2026090117-apron-posing-5434@gregkh>
-References: <20260730231315.79688-1-skunkolee@gmail.com>
- <20260804200540.78104-1-skunkolee@gmail.com>
+	b=UK8SbdEglVPb4Y08O373Qa8X4dllPaUbtxPMdmtvkC2bewhA2O+PIlPc/fFi1jI39
+	 HcfzPqFIGxu6sjmS/Sqo2LOgSZ0hYWYAKPuiHhqDFMYKo5yRWyOXkKN9jNr7wZaI5W
+	 J6Rk4CcCqrpvdGpR+P2hskO0QcjWbDkOxTROHxBc=
+Date: Tue, 1 Sep 2026 11:44:26 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: singh.supreet14@gmail.com
+Cc: Viresh Kumar <vireshk@kernel.org>, Rui Miguel Silva <rmfrfs@gmail.com>,
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] staging: greybus: spilib: Handle SPI device types
+ with a switch statement
+Message-ID: <2026090143-skincare-slacks-540b@gregkh>
+References: <20260806101118.146685-1-singh.supreet14@gmail.com>
+ <20260807071542.200192-1-singh.supreet14@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -41,81 +43,60 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260804200540.78104-1-skunkolee@gmail.com>
+In-Reply-To: <20260807071542.200192-1-singh.supreet14@gmail.com>
 
-On Tue, Aug 04, 2026 at 02:05:40PM -0600, Ivy Lopez wrote:
-> psetkeyparm holds WEP/TKIP/AES key material copied in via memcpy
-> from psecuritypriv before being freed. Use kfree_sensitive() instead
-> of kfree() so the key bytes are zeroed before the memory is released,
-> consistent with how psetstakey_para is already handled elsewhere in
-> this driver.
+On Fri, Aug 07, 2026 at 12:45:42PM +0530, singh.supreet14@gmail.com wrote:
+> From: Supreet Singh <singh.supreet14@gmail.com>
 > 
-> Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
+> Replace the if/else chain that selects the SPI device type with a switch
+> statement. This makes the code easier to extend when additional device
+> types are introduced and improves readability.
+
+But let's deal with that when it happens, you are adding more code here
+than removing:
+
 > 
-> Signed-off-by: Ivy Lopez <skunkolee@gmail.com>
+> Signed-off-by: Supreet Singh <singh.supreet14@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/core/rtw_mlme.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+> Changes in v3:
+> - Fixed the memcpy indentation issue
+> - Removed the extra blank line in the commit message
 > 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> index 1196ec011455..fb45f7295386 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> @@ -1926,14 +1926,14 @@ signed int rtw_set_key(struct adapter *adapter, struct security_priv *psecurityp
->  		break;
->  	default:
->  		res = _FAIL;
-> -		kfree(psetkeyparm);
-> +		kfree_sensitive(psetkeyparm);
->  		goto exit;
->  	}
+>  drivers/staging/greybus/spilib.c | 13 +++++++++----
+>  1 file changed, 9 insertions(+), 4 deletions(-)
+
+So it's not really a benefit overall, right?
+
+> 
+> diff --git a/drivers/staging/greybus/spilib.c b/drivers/staging/greybus/spilib.c
+> index e4d1ae8308aa..39d5bf234c61 100644
+> --- a/drivers/staging/greybus/spilib.c
+> +++ b/drivers/staging/greybus/spilib.c
+> @@ -458,17 +458,22 @@ static int gb_spi_setup_device(struct gb_spilib *spi, u8 cs)
 >  
->  	if (enqueue) {
->  		pcmd = kzalloc_obj(*pcmd);
->  		if (!pcmd) {
-> -			kfree(psetkeyparm);
-> +			kfree_sensitive(psetkeyparm);
->  			res = _FAIL;  /* try again */
->  			goto exit;
->  		}
-> @@ -1949,7 +1949,7 @@ signed int rtw_set_key(struct adapter *adapter, struct security_priv *psecurityp
->  		res = rtw_enqueue_cmd(pcmdpriv, pcmd);
->  	} else {
->  		setkey_hdl(adapter, (u8 *)psetkeyparm);
-> -		kfree(psetkeyparm);
-> +		kfree_sensitive(psetkeyparm);
->  	}
->  exit:
->  	return res;
-> -- 
-> 2.55.0
-> 
-> 
-
-Hi,
-
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+>  	dev_type = response.device_type;
+>  
+> -	if (dev_type == GB_SPI_SPI_DEV)
+> +	switch (dev_type) {
+> +	case GB_SPI_SPI_DEV:
+>  		strscpy(spi_board.modalias, "spidev",
+>  			sizeof(spi_board.modalias));
+> -	else if (dev_type == GB_SPI_SPI_NOR)
+> +		break;
+> +	case GB_SPI_SPI_NOR:
+>  		strscpy(spi_board.modalias, "spi-nor",
+>  			sizeof(spi_board.modalias));
+> -	else if (dev_type == GB_SPI_SPI_MODALIAS)
+> +		break;
+> +	case GB_SPI_SPI_MODALIAS:
+>  		memcpy(spi_board.modalias, response.name,
+>  		       sizeof(spi_board.modalias));
+> -	else
+> +		break;
+> +	default:
+>  		return -EINVAL;
+> +	}
 
 thanks,
 
-greg k-h's patch email bot
+greg k-h
