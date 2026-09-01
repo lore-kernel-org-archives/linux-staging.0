@@ -1,39 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 849E7471279;
-	Tue,  1 Sep 2026 10:06:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12171352002
+	for <linux-staging@lists.linux.dev>; Tue,  1 Sep 2026 10:07:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788257189; cv=none; b=YLwAq/l5xXHpTN5Yl2cUkf1uenZZrKMSvt0hHIl70mSWPDWrSEyksd6SIXsMNLUZcNLYebOUMP3mnnJhM5icnj/9G051fFGIcTZH0RVMGhFDMrEaNXTYnjcguYQbjgIgmh3edoNC3KIwQ/qHn/m2U2xb0tTwh7TTuHkdq24PDw4=
+	t=1788257237; cv=none; b=EYw2iPzfOhhUy5izYRhQfGhE9t01InLtzgOoxmZVlXxah09uOaR/e9RSzUIxAQ/ahYF2OOnVhOEPKUhTYkwhvB4drYF9qVcrUY3HX4QVeU5uwaHXp2NEF2OaV3hawP9UjjoQKj1oe0W4yEhpRwXlegxAT5ARvcuu4N0ap1eCQB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788257189; c=relaxed/simple;
-	bh=Q3ZCEwMr1dEmLD1Z0zHurk9SDakZFZ4ayQKgmSqlCTM=;
+	s=arc-20240116; t=1788257237; c=relaxed/simple;
+	bh=Y4MxnBJ9m+O4DlD7p5xVg++CCt9kqOVrCPhTVBLWUL0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KduhTQGTiRlIgjSCmG/42m355xy6X0zaqfkurEEzi4i8l9b6KE2iSwD/OBC/DPD8LoGVMz3bFpD7DmrYteFedqGVexEsQ1Ts2ETS0/o9FM2J9VJ/akijpmoR7mX+Kxz8rp3hQIrNql+VrbrDcYjIInXFK/GjMWZRIGAClTZpLeg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ljIZ//55; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=XxneTq/8lvvpDAo/5H7pYnIHf1bPkKPYGAMC7n9Y8xPyYjYm0qRAFrTpwL2kJGl8n6dbGruaHg80EbT87H6R/U2shtFZTYFmDffAbUnRCgiS7SDDjnxu6zFj8Dr5Z/ZIPdorZzfOFFyW7ftUP7PVAPYdQPJoiHl7VKjNXhtQWKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=zlFJAMTB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ljIZ//55"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCF8A1F000E9;
-	Tue,  1 Sep 2026 10:06:27 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="zlFJAMTB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CAA01F000E9;
+	Tue,  1 Sep 2026 10:07:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1788257188;
-	bh=l+V8ErxdIklyMFU5MbT0B2m95erwa8dF5k0IfBQxeZQ=;
+	s=korg; t=1788257235;
+	bh=clSLYp/Uct6XkiW+Jk5tzOAoq9Zk/PgiDUzAfoHxKzI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ljIZ//55T/3AVzB3RhNS2UgKKYZSd7WWusn3AdLEDMJtdA3XzKtR6svhPcXy5FeTH
-	 86Gc+/FxZide4PAZ/8cFrObR4zhFeWit/WpOf4jTvLhF1Mpm31ntJJMogEilYiOzOz
-	 BuQpAQXOS8un0kEqChHjrvpHhvu9Q9tnelmIxgrY=
-Date: Tue, 1 Sep 2026 12:06:24 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Tomasz Unger <tomasz.unger@yahoo.pl>
-Cc: Rui Miguel Silva <rmfrfs@gmail.com>, Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>, greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: greybus: use sysfs_emit instead of sprintf in
- light.c
-Message-ID: <2026090110-storewide-briar-b062@gregkh>
-References: <20260819-greybus-light-sysfs-emit-v1-1-43c4b680de6a.ref@yahoo.pl>
- <20260819-greybus-light-sysfs-emit-v1-1-43c4b680de6a@yahoo.pl>
+	b=zlFJAMTB1AAT2ZL+MGhaWowfHNkYesTVL+yjNYqWL0m+i8g03moir33DKuTn34pdO
+	 do6VUpQRQnANCrWmE9cUPmoAFMXr1BWEavSYCUw/PAgK1ccy67jL+OJgMmU4sZeQHQ
+	 Srni5uLonFjUnD8H5XoL+M8eaMp4KdEP+VMINcNg=
+Date: Tue, 1 Sep 2026 12:07:11 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: alwaystabs <reservedstep@gmail.com>
+Cc: linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: rtl8723bs: remove unnecessary parentheses in
+ rtw_ioctl_set.c
+Message-ID: <2026090154-spindle-silly-e962@gregkh>
+References: <20260820195458.11689-1-reservedstep@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -42,35 +39,42 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260819-greybus-light-sysfs-emit-v1-1-43c4b680de6a@yahoo.pl>
+In-Reply-To: <20260820195458.11689-1-reservedstep@gmail.com>
 
-On Wed, Aug 19, 2026 at 05:44:55PM +0200, Tomasz Unger wrote:
-> Per Documentation/filesystems/sysfs.rst, new implementations of
-> show() methods should only use sysfs_emit() or sysfs_emit_at()
-> when formatting the value to be returned to user space, since it
-> is aware of the sysfs PAGE_SIZE buffer and includes sanity checks
-> that sprintf() lacks.
+On Thu, Aug 20, 2026 at 10:54:58PM +0300, alwaystabs wrote:
+> Remove unnecessary parentheses around variables in rtw_ioctl_set.c
+> to fix checkpatch CHECK messages.
 > 
-> This fixes fade_in_show() and fade_out_show() (both generated by
-> the gb_lights_fade_attr() macro) and color_show().
-> 
-> Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
+> Signed-off-by: alwaystabs <reservedstep@gmail.com>
 > ---
-> Verified with checkpatch.pl - no errors or warnings.
-> Compiled the gb-light module successfully with CONFIG_GREYBUS_LIGHT=m
-> and CONFIG_LEDS_CLASS_FLASH=m (both previously disabled).
-> greybus.ko, led-class-flash.ko and gb-light.ko all load without
-> errors in a QEMU environment (verified via insmod and lsmod, dmesg
-> shows no errors). This confirms the modules load cleanly but does
-> not exercise the changed sysfs show() code paths, which would
-> require an actual Greybus light device bound to the driver.
-> ---
->  drivers/staging/greybus/light.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/staging/rtl8723bs/core/rtw_ioctl_set.c | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
 
-Please see the archives for why this patch has been rejected in the
-past.
 
-sorry,
+Hi,
 
-greg k-h
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
+
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- It looks like you did not use your "real" name for the patch on either
+  the Signed-off-by: line, or the From: line (both of which have to
+  match).  Please read the kernel file,
+  Documentation/process/submitting-patches.rst for how to do this
+  correctly.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
