@@ -1,77 +1,79 @@
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5657349B1ED
-	for <linux-staging@lists.linux.dev>; Tue,  1 Sep 2026 18:56:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEF2537A488
+	for <linux-staging@lists.linux.dev>; Tue,  1 Sep 2026 19:04:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788288995; cv=none; b=qioG1mmfhni9oXsDT8+3Awwgdr5xAiOFgpVqH/clFY/B6YnKMf9BpmZYb29r8Nx/jNWdtgTfRumBu9bhGsLvS3MrDNyo7vee/7dRf/lCahy0AHaZEo8yTlWdx4QOw+zqWn9wu1yQG1m5KeKAfg6Cr7bpoZFGZ1oeaXU++WPRfX0=
+	t=1788289484; cv=none; b=HtHEnuDr+nLAqZbIsCuqlRtvK3ZaTFq9QrlBwBn9DrcQd4MTuDnpLL1yLasrdcrMb7D8xyPTE7ci5X6m5KoaJVnrb3Qv10rBcwmSmPuB/hlvDoqpVc5D547cp1bIWiOB6v1B76eTbunTrFrN0oixxCol/TIAGncKPG6LMEIE6E8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788288995; c=relaxed/simple;
-	bh=7KrXHOp6zx7Jw6ThttjXtk/cJjaQTyVHIQRYMzgXhRA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EyyEm6oGn6HjXIeNJrZRK+HisGrBzE328tGR46mGQfbwi8od/LLQwFe2/1900A1Zl1te9KHXfwGtoDcONY8Ll9NBln2S/BoF0XgW87YG/Un8Y8tDZDzsN9u+4tGK9BGbUiZLcz952qzWeK4bpPghT+yVDp9KNV5zbi4Vt6RmbQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cQbAakuF; arc=none smtp.client-ip=209.85.160.48
+	s=arc-20240116; t=1788289484; c=relaxed/simple;
+	bh=gzIQy72QBFoZIr/pfo2orqCu1axS9UAIZzvLJ4iyoVQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Y8ifL+keI38EM2DgZee58eOVvi1uTgYCEpIzyTR5dRpKdgU8xGq8QvDSK0pjuOF7UqSEO+sTK2MN+mDY67wGIvONJB9bJ2mNTEtAN0o83aIsurrgtde9G4AUWrSDhTW6M4yKtRRvTDEUmJ1NHABA4k9bi78AvvnblfhJ4eTZCSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TlGUQE6E; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cQbAakuF"
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-45837e52d8aso220073fac.0
-        for <linux-staging@lists.linux.dev>; Tue, 01 Sep 2026 11:56:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TlGUQE6E"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-49a97714f5dso1204655e9.0
+        for <linux-staging@lists.linux.dev>; Tue, 01 Sep 2026 12:04:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788288993; x=1788893793; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1788289481; x=1788894281; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=NDIKr9yFcCSAzvW2dhM+SCgv0HZ3qnZUYRj5rrauH8A=;
-        b=cQbAakuFxxw6v+o6U24a2Hutjj84JJ9MsaP4oOkX+cK/ACDztoGKzf7BMMXw/RqVFU
-         YNHeRRBgHQSb397esCKnt8bawtq0J/NzShodOD7yOV1gsMInXY3zXI0KkUNs2SfJtqya
-         kXXpx/9a5CYeTFOxz3qK/6tBlONK8/zD3gLSHo5I/7AtT3df3mbeTlEh2KNGNto0I7tG
-         R3dK0WEJGFpHffaTIyr3z6ZhHgoDY0quSHb3O/J45agHLcAtWENI7iXNYN+s5fRSiANp
-         X9/eLD3vc90O5qAn+NVqvkAmSGL9G0lz0QLKyAzRjY+RQu6YFw81uu0MgqsnUCK2qW3o
-         HtxA==
+        bh=9fdaCTkKj4WNIMNGeorqq84Uvidoc3ziXoB8yKwkBTU=;
+        b=TlGUQE6E1V3SF1mvvvZjJaLXHhMf8/nCzFZS00D26oWA8m/LsxqVX/6UG9GwBaOmnW
+         Z/KzWALQ+YYk+o6X7jFUMbsv+m/Hqeiy2taPsM/AC8SSXmjnzNwonaxGZsOpxwMUdWkS
+         Fb6DXzmOXD6SSXhJ9MHRESkM3F3eXEednPIEVcFZTwlaQ2joyFQqd+f4Qik9PTJvmDA2
+         IHCO4M0cyWgELPeItq/GCisV9DyhdCwyP+E4airpJ60L4K0i56Ilawgz+z+JCBqjVPyP
+         YON7RVklagaEyXLjl16TFyycTVRfFyXUkj/vC6tbLlZdH7jYYSaC9h2k4juRne7ew29G
+         JsOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788288993; x=1788893793;
+        d=1e100.net; s=20251104; t=1788289481; x=1788894281;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=NDIKr9yFcCSAzvW2dhM+SCgv0HZ3qnZUYRj5rrauH8A=;
-        b=onrDZIBRDMVPE1gEumOttRScupXx3g79PufkjD7M2Sx3a3B4Wd7qxT7Jd0Dc8dS1Oe
-         ljMzHe/rEglaAfb56qn+0fc6Z1udUgbywq+g+gbgg9J2QKvaXygttS8sCa23zVzkjg8H
-         epevfNdBaK9uTpYFRL8OUi3mfIPUJHwxa0jdzs40yq25V0undzk4BMz3EJzSwo2sNb5N
-         hiFdczafgqYvS5UvfZp5gSoCFyijtclP18msdGrLbYCNah9Hxr/fOZgRz3kbvAx6jykU
-         cnscWvd/HVs4znzHHZTenX6id5hreAtFiDvNdfWID7qbV/TZgi0tfqmvTLtpnKdKrjpS
-         zWlA==
-X-Forwarded-Encrypted: i=1; AKwUvByEqg2VCLKsM/5xLTMkSZ7pgl0zYdkrky4y9MuGKVY1Ed1dslaCN0MtwGVhs9BFyrsVD4yADw5FkZ7sDK9A@lists.linux.dev
-X-Gm-Message-State: AFuF++lM0ZdJtoLoD8SRg0c1Fqjk+M+gyOsBlAVXflnwiUl6RZLXqy3o
-	7pCBlO0otP47Ez7BPydijJN5rbVfFbJ49HJxT7pUgRXI4fv776Sqe6Z5
-X-Gm-Gg: AYBFou3g0O3jmQa9FCApCaqQdZI9GnodjIEi08hs9xJGxTk1CIl3lqoHK11cG0GDrhv
-	yDndvIHsX4aKZf9eRmH2akZRiPkRq+H6LtnWJp4C+HlEEYEkeHu0cJL3DVkdyTUgEfU32F/2wkB
-	LizsgNLvRk9mQBgfpg9eEOKh9aMqL93eqAlWQuLFe7D7qYmzJnkxDHUXXjv9B6am1UNtdcyLedB
-	YqMtkFVX4tog2Igo7rQB0isCmjOB5kB6fg/N1zJkALKH7X1LXaPXvhDDstjvfCPRYTQD3BScGgm
-	fWD0cqhbrUqKCq10cds65DlsYlHsru7dcD6OljbLJyE08zOhbN/htKW3LRyfLwqVXp2S0wYdGGQ
-	GqeM+Hii5nPMrQRRmIE77EUqPCkei9aaaTFuGoAPhtg64D/csvPAnlGJEsgtnRAQBaXKBDm41dc
-	oroQO/89fADp4RKkj/GD55Eqws/VLwiSGZ6FaV14xiz9iDzBdWHiuh5H30os4H3SWH8y6FpH9XS
-	Fzqq1kxRWT8bcU4lNX2LyasE7YxG+kS/loSFP2ygtr28iA=
-X-Received: by 2002:a05:6870:c20a:b0:44a:e965:b9cf with SMTP id 586e51a60fabf-46af57240c0mr10645373fac.14.1788288993098;
-        Tue, 01 Sep 2026 11:56:33 -0700 (PDT)
-Received: from memorizer.localdomain (47-163-111-11.bng01.bytw.tx.frontiernet.net. [47.163.111.11])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-46f30baa0d4sm778124fac.6.2026.09.01.11.56.32
+        bh=9fdaCTkKj4WNIMNGeorqq84Uvidoc3ziXoB8yKwkBTU=;
+        b=RaN1dZU+ZZZhkka5NJ49rCYxj1x764s2Yo/ady1E1ZNpNaTbZIBWfP8Zm0r7kjymaS
+         sebtcm0khVtGltcupP1z4GISJlx7JwHldZUsIJwFxTBH6wsbFzkxjyRZJv647pX90BAy
+         SRqq90p8J5W6hH/890xBf/uaZ5puQD8Fn1rJo+NrCydej/QPOf+bRQuOrnCrHNOYDghP
+         NZf3DwxMqOshinRWsETlclcSBQlfD0ZeVq9jGOBcQW4j3r1Pkt2yIjxDV4P9vXJ4XwdO
+         zGQrzBGtM8ZAowuhVgC9KYjiiuezqe+OHBVeZIHPqVukrlsQo6IuCYg5riF2JJH8umtf
+         lo3g==
+X-Forwarded-Encrypted: i=1; AHgh+RoGOeaUxrbwgypeRecUi0B6RMktmxZLFKM5Pwymc74N2+9qEcCZorPpxSBnaf+nDbobtbruIzFzBZEiGTty@lists.linux.dev
+X-Gm-Message-State: AFuF++nyS7MEJJxdj93WVb+qNKRH/VYWYttx/12rowrA0fEjI0/rK6um
+	B1fZAe39fj2L3ettl9hB8/MXKqTzDQgsP/KSwKO4GxpSOl8RCFAsV8sA
+X-Gm-Gg: AR+sD10vcPLKC7k1XBN+J+7lUtBMPzMnExGwEhydvOb57OyZoZY01E7pxDUQwlOHVnk
+	q1voHQla66j0XlkaoLr9Pu7+CGO5neXIcR+uUUXOZr31RyCCecSPQSILT1PnBdmvio8CRyETycw
+	ESuGJAynKRc9BsJqIv9XVtnImvMLYPWnq5/iZ3WTtah86ERv9M0ZDEUyGt5pXtn2PsL/4IDILyw
+	Cxt3NSQGS1Y6sA+lunJE++krqnx2I++ggcdJx1m57WKaWLzCwLOsDgvcoJI/0jkMBFI5z5R/qWD
+	cyCogTISc5V9TUH5KubH8OYSI1PVEbnFse5X/4DCT3V0PiHlRK4TE7YikzNHwqT2uom642OWp8j
+	YJubiKB6uFWHs2hETmNLlvqdZWVhRwhBfb68ZWKmgUH9bpttMy98hXFK3p7Jo3oA9sD03Mt1nr6
+	J/tul7bfGBTvy2zKDAz+PBtzTsOzSWFJkyeLHKMZJ88aDlIDEV1UXXJ8FNqAm0RMRqfVJxPadV2
+	UApJeYwnRCzpM+C89fWI/OrDByWHcswRDbVJ0cOpY8XaR80Hfk9DA==
+X-Received: by 2002:a05:600c:3546:b0:499:bdf1:7578 with SMTP id 5b1f17b1804b1-49b91c19d68mr485874005e9.3.1788289481032;
+        Tue, 01 Sep 2026 12:04:41 -0700 (PDT)
+Received: from 1Z10 ([78.213.73.56])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cdce10148sm85481985e9.5.2026.09.01.12.04.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Sep 2026 11:56:32 -0700 (PDT)
-From: Yudi Yang <2000jedi@gmail.com>
-To: vaibhav.sr@gmail.com,
-	mgreer@animalcreek.com
-Cc: johan@kernel.org,
-	elder@kernel.org,
+        Tue, 01 Sep 2026 12:04:40 -0700 (PDT)
+From: Maurizio Casciano <mauriziocasciano7@gmail.com>
+To: mchehab@kernel.org,
+	linux-media@vger.kernel.org
+Cc: sakari.ailus@linux.intel.com,
+	bingbu.cao@amd.com,
+	jacopo.mondi@ideasonboard.com,
+	nicholas@rothemail.net,
+	andy@kernel.org,
+	andriy.shevchenko@intel.com,
+	hansg@kernel.org,
 	gregkh@linuxfoundation.org,
-	greybus-dev@lists.linaro.org,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Yudi Yang <2000jedi@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] staging: greybus: audio_codec: fix stack overflow in stream name parsing
-Date: Tue,  1 Sep 2026 13:56:00 -0500
-Message-ID: <20260901185600.2725678-1-2000jedi@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v6 00/16] media: Add Yoga Book camera support
+Date: Tue,  1 Sep 2026 21:04:22 +0200
+Message-ID: <cover.1788286339.git.mauriziocasciano7@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -80,30 +82,68 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-intf_name and dir are 32-byte buffers. Parsing a module-provided AIF
-stream name with unbounded %s conversions can cause buffer-overwrites.
-Limit each conversion to 31 characters.
+Hi,
 
-Fixes: 60e7327d54b2 ("greybus: audio: Find data connection based on id")
-Cc: stable@vger.kernel.org
-Signed-off-by: Yudi Yang <2000jedi@gmail.com>
----
- drivers/staging/greybus/audio_codec.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This series adds the sensor, bridge, AtomISP and lens-actuator support
+needed by the front and rear cameras of the Lenovo Yoga Book YB1-X91.
 
-diff --git a/drivers/staging/greybus/audio_codec.c b/drivers/staging/greybus/audio_codec.c
-index 6daa4e706792..c3fefe1414f9 100644
---- a/drivers/staging/greybus/audio_codec.c
-+++ b/drivers/staging/greybus/audio_codec.c
-@@ -311,7 +311,7 @@ int gbaudio_module_update(struct gbaudio_codec_info *codec,
- 	}
- 
- 	/* parse dai_id from AIF widget's stream_name */
--	if (sscanf(w->sname, "%s %d %s", intf_name, &dai_id, dir) != 3) {
-+	if (sscanf(w->sname, "%31s %d %31s", intf_name, &dai_id, dir) != 3) {
- 		dev_err(codec->dev, "Error while parsing dai_id for %s\n", w->name);
- 		return -EINVAL;
- 	}
+It covers the OV8858 19.2 MHz clock and Cherry Trail gain programming,
+OV2740 288 MHz link frequency and manual white balance, firmware IDs and
+IPU bridge data, AtomISP raw capture and CSI-2 timing, and the WV517S lens
+actuator.
+
+Changes in v6:
+- In patch 2, replace the arithmetic MHz expressions with direct Hz
+  constants, as requested by Andy Shevchenko.
+- Give the supported input clocks distinct names:
+  OV8858_XVCLK_FREQ_24MHZ and OV8858_XVCLK_FREQ_19_2MHZ.
+- No other code changes from v5.
+
+Validation:
+- Strict checkpatch over all 16 patches: no errors or warnings.
+- W=1 object build of drivers/media/i2c/ov8858.o.
+- Sparse C=2 check of drivers/media/i2c/ov8858.c.
+- Front and rear cameras previously validated on the Yoga Book with real
+  raw Bayer capture.
+
+Maurizio Casciano (16):
+  media: ov8858: Extract digital gain programming
+  media: ov8858: support 19.2 MHz clock and CHT gain setup
+  media: ov2740: Use C99 initializers for ACPI IDs
+  media: ov2740: Add OVTI2740 ACPI ID
+  media: ov8858: Add INT3477 ACPI ID
+  media: intel: ipu-bridge: Add Yoga Book camera sensors
+  media: atomisp: Add Yoga Book camera configuration
+  media: ov2740: support 288 MHz link frequency
+  media: intel: ipu-bridge: allow sensor-specific link frequencies
+  media: atomisp: derive CSI-2 timing from sensor link frequency
+  media: atomisp: provide Yoga Book OV2740 link frequency
+  media: ov2740: release group hold after gain write errors
+  media: ov2740: add manual white balance controls
+  media: atomisp: Use struct v4l2_area for padding
+  media: atomisp: allow raw Bayer capture
+  media: i2c: Add WV517S lens actuator driver
+
+ MAINTAINERS                                   |   1 +
+ drivers/media/i2c/Kconfig                     |  11 +
+ drivers/media/i2c/Makefile                    |   1 +
+ drivers/media/i2c/ov2740.c                    | 114 +++++++---
+ drivers/media/i2c/ov8858.c                    | 166 ++++++++++++--
+ drivers/media/i2c/wv517s.c                    | 206 ++++++++++++++++++
+ drivers/media/pci/intel/ipu-bridge.c          |  19 +-
+ .../staging/media/atomisp/pci/atomisp_cmd.c   |  80 ++++---
+ .../staging/media/atomisp/pci/atomisp_cmd.h   |   6 +-
+ .../staging/media/atomisp/pci/atomisp_csi2.c  |  20 +-
+ .../media/atomisp/pci/atomisp_csi2_bridge.c   |  30 ++-
+ .../staging/media/atomisp/pci/atomisp_ioctl.c |  34 ++-
+ .../media/atomisp/pci/atomisp_subdev.c        |   4 +-
+ .../media/atomisp/pci/atomisp_subdev.h        |   3 +-
+ include/media/ipu-bridge.h                    |   3 +
+ 15 files changed, 588 insertions(+), 110 deletions(-)
+ create mode 100644 drivers/media/i2c/wv517s.c
+
+With Best Regards,
+Maurizio Casciano
+
 -- 
-2.43.0
-
+2.53.0
