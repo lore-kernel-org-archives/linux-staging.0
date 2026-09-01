@@ -1,38 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67832470EA8;
-	Tue,  1 Sep 2026 09:36:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EBAA47ECDE;
+	Tue,  1 Sep 2026 09:37:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788255402; cv=none; b=KbSdm0ZpZYww1nKPLYwTiti+RT+WHZ4wds6MPEZCGusRXOuFa1WpEOitcJdsolz6jPgb0voS9oOGg2guVujhdA4SYE3fq7hhgNEQIMX6jJaNnMcLVFZbKzedfTSAmKrTHVdSr9XevLp60L1G10FbKI+diyJwfnBuuw/cRmvRmcI=
+	t=1788255448; cv=none; b=fN06f5yAxbTykLIlutaRele5RQM8MwaDhlQSO7LD6IQlcTPUZsAjY+4gY2060zsWWzTl/Y/DvXY2Komek9c3+i53HqX6yzOtVjYobkPa+4lJD8xjG6/voRvF1od2HSMOXvB4KZjquWSmKrT2LR7HOzKmajagcDrNTLcRPO6q8xw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788255402; c=relaxed/simple;
-	bh=BNIk1/0Nivps9zqYv38le8dQlnbkCDCzNAd1E5wM1h8=;
+	s=arc-20240116; t=1788255448; c=relaxed/simple;
+	bh=jjavbadHTf14+LeC1ouaYn5hq7ulL5EH4XUZNT8yWY4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=imh7oP3a0a3leZg5XtUy/nrAWrlPG0sea77Jc2l5/3AghgoBW7InlzvEO28e1TiZR7VXwg5BfPn5xjf0g6Fa5cJ8Si4KA5uaS5mxJ5GJ8Fg68paMGASukNfOeyEBpnf4cClV2w0cBH3QO6GptlWGp7vqQD8xgXAwhPYlU1/rp/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=HMeV6XQk; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jvzi/zXZEO32qPk5Sw9rPwGGjJOJHperL3h4blpoR6VEOVscx6Z4/T+rNtXW3mSEroRj42dXrQWAMvyGMA6TQ3WFz0dzt0eYcswnplgJ4ZOTgDPK12q0Giakdxyv3xViWdok7mi74UCAo0C9ncZSmqMJKj7028GWqJE4BC6G1TI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=0r14RFPE; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="HMeV6XQk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77B591F000E9;
-	Tue,  1 Sep 2026 09:36:16 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="0r14RFPE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A6C41F000E9;
+	Tue,  1 Sep 2026 09:37:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1788255377;
-	bh=5jgcT3Yq7lUVoqN4EhxE1/y2qTwdMpwg9lXcUmwROaE=;
+	s=korg; t=1788255431;
+	bh=6c1KQaRanR4WpvgAlQ8rpvONZW8EuIs4jmD5HxHYM0I=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=HMeV6XQkiXsF6YNxyQukaRj9MhfTg5Z0gvrVUAK6TIKpwvT3MpCd3vyE7ZcpyiG79
-	 tyDokR7KUTEb2HuEn1UNeSG31rxqmxcFzdPfqsIyznaNw9mKMyG8R/px7MHNkHGGdD
-	 ySSDJiDgJXb2RGAriZb9MZebKW3sCn7drPWexqN8=
-Date: Tue, 1 Sep 2026 11:36:12 +0200
+	b=0r14RFPEEqqpzkDbxXcBzApFtUauguB9Wg7oukydCDC1QHdDdjxfjnBWiLEZGoh7L
+	 oyEg4BH+X+aQGDWGjrr+wPKRjl2uXNU8QnPRHGNo/nGZjGCRrmcb92dSozxkon6mGl
+	 yyxsfd8UftvuGlpCPEH9VtiOZV3bc+hdBdkGphKU=
+Date: Tue, 1 Sep 2026 11:37:08 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: jaiden.linux@gmail.com
-Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>,
-	Sudip Mukherjee <sudip.mukherjee@codethink.co.uk>,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: sm750fb: rename CamelCase variable pvReg to vreg
-Message-ID: <2026090141-wooing-outward-ef9b@gregkh>
-References: <20260821151525.54751-1-jaiden.linux@gmail.com>
+To: Cong Nguyen <congnt264@gmail.com>
+Cc: Rui Miguel Silva <rmfrfs@gmail.com>, Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>, greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: greybus: light: fix leak of cdev->name
+Message-ID: <2026090158-uplifting-proving-9fb0@gregkh>
+References: <20260802060149.3803224-1-congnt264@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -41,16 +40,52 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260821151525.54751-1-jaiden.linux@gmail.com>
+In-Reply-To: <20260802060149.3803224-1-congnt264@gmail.com>
 
-On Fri, Aug 21, 2026 at 11:15:25AM -0400, jaiden.linux@gmail.com wrote:
-> From: Jaiden Magnan <jaiden.linux@gmail.com>
+On Sun, Aug 02, 2026 at 01:01:49PM +0700, Cong Nguyen wrote:
+> gb_lights_channel_config() builds the LED classdev name with kasprintf()
+> and stores it in cdev->name for every channel during the configuration
+> phase, which runs before the channel is registered.
 > 
-> Rename CamelCase variable pvReg to vreg. This is to fix the following:
+> That name was only released by __gb_lights_led_unregister(), i.e. only for
+> a normal LED channel that was actually registered. It was therefore leaked
+> in two cases:
+> 
+>   - a channel that is configured but never registered, e.g.
+>     channel_attr_groups_set() fails, the flash configuration fails, or a
+>     later channel in the same light fails to configure and the whole light
+>     is torn down; the release path calls gb_lights_channel_unregister()
+>     (which returns early because the channel is not registered) and then
+>     gb_lights_channel_free();
+> 
+>   - a flash, torch or indicator channel, whose unregister path
+>     (__gb_lights_flash_led_unregister()) never releases cdev->name at all,
+>     so the name leaks even on a successful teardown.
+> 
+> cdev->name is a configuration-phase allocation, like channel->color_name
+> and channel->mode_name. Free it in gb_lights_channel_free() next to
+> those, since that runs unconditionally on every teardown path, and drop
+> the special case free from __gb_lights_led_unregister().
+> gb_lights_channel_unregister() is only ever called from
+> gb_lights_channel_release(), immediately followed by
+> gb_lights_channel_free(), so the name is still released on the registered
+> path and is freed exactly once.
+> 
+> Commit 04820da21050 ("staging: greybus: light: Release memory obtained by
+> kasprintf") fixed the leak for the registered normal-LED path only; this
+> covers the remaining cases.
+> 
+> Fixes: 2870b52bae4c ("greybus: lights: add lights implementation")
+> Assisted-by: Claude:claude-opus-4
+> Signed-off-by: Cong Nguyen <congnt264@gmail.com>
+> ---
+> Changes in v2:
+> - Add Assisted-by: tag to document AI assistance, per
+>   Documentation/process/coding-assistants.rst (Greg KH).
+> - No functional change.
 
-Why "vreg"?  Shouldn't it just be "reg"?  The "v" means "void" which is
-what you are not needing anymore, as that's known by the compiler.
+Please see https://lore.kernel.org/r/2026080354-skater-urgent-31b2@gregkh
 
-thanks,
+sorry,
 
 greg k-h
