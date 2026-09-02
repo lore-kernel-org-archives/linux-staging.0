@@ -1,783 +1,132 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74AD24A49AD
-	for <linux-staging@lists.linux.dev>; Wed,  2 Sep 2026 15:08:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788361708; cv=none; b=LOaaoDbjKtNPROGk/0S3tO+1r9kjH5kwjawlJ9sr2VNoZHiaEi1yd8ckTxJ+KcSuj+hI/2nIS+5dALJYFBdx0QxO2WKD5p0bPL0lTfuaWpWIPvOcEVasavTrEtgTavp3KZiojYC36RuGj3y+e+3E7qvbSRI5HO2SBKS3J2VHqYg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788361708; c=relaxed/simple;
-	bh=/HKgCiJN5fApcjoYOWUqya6eaxeq86J2EHBdERMhcXE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BZrbtvIyb6lN8NJjSGX6G+8e86S/b/HHqsid+MbIviLVLGeTP7fLRKczjX7jmo2kXaJJnI5rVLRFMp9U5clmsHv2lLKLAFHuGY2lkAOGlwbg6fRqyTH7U/EfiLDH+IKkepiu+PmWmGke8Y0GiYq39OJyiBJb6TdYofNnUHZyJC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NR/0KtDE; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3254C4A49AD
+	for <linux-staging@lists.linux.dev>; Wed,  2 Sep 2026 15:17:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788362236; cv=pass; b=k0t2ZawFTpbc9tuv3j4G85Ri9ICmB7Xy0E5pFxC/BX2ZIJGm9N3xP1zeU97zCD6fs2PSPTlMXkWN8OYNlxDmgZgqMyTw7YLLI4OvMvAgUJ91CjNS7kfgdwa9TR+F2tVZd9mbbfhE/WAtwEYp8MiRi/1cpNdx/IaCYoDaXLyWabk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788362236; c=relaxed/simple;
+	bh=HCC/6KFEAMm4V1Cz9W4xpNmgiWKlwwdYoylYCLylISI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oFTp+OIseHGg9ydYl/QKQQ7Hu6Nbwidw9rv6yDPTnBOxkNH5ElNgzVhmCgMc+OFbcM111++HOBrvts0CfwFbBzO9WoNsqNn8Gih3D1HzKptKCzN2r08YZGEl4O9uT+ovHrrSYavI8/pd6z+4L9G2cNAvoemlTEIC1sNuCaK2ynw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UpfdBm41; arc=pass smtp.client-ip=209.85.208.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NR/0KtDE"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-49b0d8bc2aaso10905275e9.0
-        for <linux-staging@lists.linux.dev>; Wed, 02 Sep 2026 08:08:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UpfdBm41"
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-6a38098734bso2329225a12.1
+        for <linux-staging@lists.linux.dev>; Wed, 02 Sep 2026 08:17:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788362232; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Kh9bHW6I23RUYXALGL/0MJzBmS7F111DHg6ftNYulOrVExrCPyWSHudRGd4eqNRugr
+         MDemmcHA5uBYldUccZbW1EfCvAprTfQZZrDC2T8IL6hZWaJ2JPCE7F4UGlIVvuhl1CCU
+         8ESmrG2+B2YEKZnpkij1HPqgXa/JAtQJ6DiAwBN3crfP15UunCfDzN2EOPSsLWJ6APpu
+         8eO4vC8/MeJpe14AwL4T+S1DmuflFXKqbwAsikKh9wLTFod/COcIqo0TW3puF9i/ZKtx
+         9WKQp1scrR5LvyycL4UeRRfwJ0L30XUl956PIB7ARHMMYaFKicWPbqpQtQevsgX9duhG
+         ihSQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=tTGWO4BQiMMCPhl0MvJ6+ZmQ9g+J0+MwZKIZjv1m17c=;
+        fh=8Zw8MYFMp9RwXAbbvQykthDIeWJ4Rm2FqIl9cFG4XAs=;
+        b=l1lILdvUcJmzM+oxCkg/IO7qlAbs2lFJQQi3pbAs5mGu/303khzxK5CEbdU5mc+B6/
+         8pdPfsT3UaSeAASErMArlnKUBymtCjmbupBjXYTdUsX2av4tP/gxmGie3C8SqGvAFj1I
+         QWh6H4iDN8hOttlKyzr9qWBvO8DZYG6fzJWX6aIIdBHO8hJlqMUwUQw+wuqS4S+uMbfN
+         rgBX9xj94Tain3Ob5mJZYoA3JKVoJlAJ9bMiLcLLjEojHj64jV+U4Tk8TIfBLSx3kU4h
+         K2eRSYQCwtk9SkswrotVRQThUnkm5r53ePSeXdVv2M19TMwozWU45t3BOR8vAZF2rMiF
+         fbeg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788361702; x=1788966502; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=dIdHMopzum3T1T5pILtPCf6cLbfxy4UO4dLC+zmw/HI=;
-        b=NR/0KtDEhL9pvndyiDYG8pQ78sTbYNGFPOyqT/R26jPF97qRMyo3hIYKXyPPi3STdQ
-         /lApvqN3deSIo36gD7eTVMxDpHnzQfaHxsrcu2RZ441Rv8o4eSc9+JVw4jzxqriKDs8c
-         ny39lfybV7A0MTSPMIHQd1NsT6flAHe4H9y3Ug4GfPfPoDTZbOp6PUA5OrPv/ymEPFp7
-         1hxxusybVK/bf8y7bB8fmgC32S22/WM05G2F1dE6auDs9XKgKx+KDo12SPsXD+IT1pvU
-         W6WFoQuZrQiqrRuoe/GGpksutgKHGtNe369oAfeQNTmrvtJFskpQnFTrnx/NVEGcUF7O
-         jqCQ==
+        d=gmail.com; s=20251104; t=1788362232; x=1788967032; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=tTGWO4BQiMMCPhl0MvJ6+ZmQ9g+J0+MwZKIZjv1m17c=;
+        b=UpfdBm411komqFk+pC2z7DUlR6Gph4LqCq20tpMDa04adjFo/wTpBqVZ5pzFRDFDXg
+         Isd8DE3k8iWjxcGYfZZWFJPeNAc/+HeDTlECJTdwLjrTkEOSkwyeyog1b+n5d6ogbKdG
+         mtzaZXGYFrlzuE3SQ7lWcPQBw7P0yamo9qHczN5fFcve1YMLnTIqvTCtuNGpPh3EGcLP
+         4tSQ0HV3dUf2RnQULp2bTwMUXN5doxVYZEzwFO9FJfDw7+bA9JRZmaK4dpB6RIGBu4z7
+         i9L3zp55JdSSL3MZ+lYU3iGyohPQIBHCV2PuzjdpCx6tolEFsMqDknJmur0+olrHPHeo
+         HIVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788361702; x=1788966502;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=dIdHMopzum3T1T5pILtPCf6cLbfxy4UO4dLC+zmw/HI=;
-        b=cak8G2bxuQr7SItqH+uneHZZn2iEOeeiLSD2qyrFandqt0tF3Z4TWACX64QMPzvMG/
-         8sFbtrJMjsdXlnPxYk6yA3pmPG8uELZJOgrRT+Lg95JTgPY7EhFY6/C/6CMfuvhmDftn
-         c3G8KHHmrUHkutYN3JjhpQmgkeyMjcgmgpobdFheUkTJU4Q1SG0DiJ2+wYYk/NOGoXXP
-         I+Psr9XFlQQ989DkOxudktmPhxi09C6GuJSOqrpKjKQJ1mO70JXpC9+KBiAnL2JH/uGV
-         qxTckpQYzwwoD37fhwotwnGYcB5/EgI8jmqfWFnliBzysoPy2/cDlMbyaOnifFiu5vIe
-         o0uw==
-X-Forwarded-Encrypted: i=1; AHgh+RoANLm6PUa7U+qJrYwK8aZm/l9u573hcndrQibkpnCuJlHgoskZZE0+gzLPsnZ8SRdQIqFp5zTbGlkQIicE@lists.linux.dev
-X-Gm-Message-State: AFuF++lLAlXOigH4R+QI9ZBwsXv15/B5qd1PtBhA29R1F8y1kFtzaVB8
-	04hGmKfsFhPR3Vd5HlV+fpxCm8ysbf2a9vHSfJbeWmtdGSP2mGmnvEWc
-X-Gm-Gg: AR+sD10M7DYDrQj8Jg+QwSSnoanrM43c/s2pxnWUMcjsGps2EJLuYD/zcctSR6OHpDR
-	08v3pCx9yK/Qhq6yU5qVAfQ/Ga+rP8svXcMoKKKfG5Gc4jNFRXgT1YirDiIwKk5WOu43zAoDYeX
-	0TUIbzoySBMjLJjjGRVOEdXi9u5ALdQT6vjdhgSqhnboUlBejdyAp34TxMdZ6ijWCcg3xt8vN3H
-	q0pK6ko177Hv4nAlMm8v6zvDAPoD6L9ksSKaKAdLVr5Yjs7ZNzFBdAIg0zw2327DtbMctGfMQNL
-	0RhNLM99B3nobSFSD3rcOPiIRxoJm2wocvJFhLcSL6mFFZd1/1/B4KKWrJbKwtXAf8lfSokaS+7
-	f8/8LS6XM4ySgfIzEDh1dMFVwHsh6qGE9/V+e3KcDtzr5RS1zHOyRYHhPmQEmCL0LghBbOtDovL
-	hH87kD5Wsn3U+BSCxu9WymsEEvh3KkRc9ly+4RyfEsuds1X/e4IvsdvcMNdg3xNHU68FJ+ELTTD
-	dGHCeT8ykbNq0y2SnD283HBZLllMGFxAC/s6Pn+t8xynpsUpkdBktbQQnegACfYG1zvC5ElfpNk
-	BfDbkZvSEvpfvz0RJI4=
-X-Received: by 2002:a05:600d:19:b0:49c:edd8:ba35 with SMTP id 5b1f17b1804b1-49cedd8ba5emr22944955e9.6.1788361702006;
-        Wed, 02 Sep 2026 08:08:22 -0700 (PDT)
-Received: from koolguy.fritz.box (dynamic-2a02-3100-1a72-6e00-ef52-6b66-008c-4439.310.pool.telefonica.de. [2a02:3100:1a72:6e00:ef52:6b66:8c:4439])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cdce3e0desm167404405e9.11.2026.09.02.08.08.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Sep 2026 08:08:21 -0700 (PDT)
-From: Dalvin-Ehinoma Noah Aiguobas <fliegbert2@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Dalvin-Ehinoma Noah Aiguobas <fliegbert2@gmail.com>
-Subject: [PATCH v4 1/2] staging: rtl8723bs: change struct member bSurpriseRemoved
-Date: Wed,  2 Sep 2026 15:05:41 +0000
-Message-ID: <20260902150542.2746-2-fliegbert2@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260902150542.2746-1-fliegbert2@gmail.com>
-References: <20260715171634.1550-1-fliegbert2@gmail.com>
- <20260902150542.2746-1-fliegbert2@gmail.com>
+        d=1e100.net; s=20251104; t=1788362232; x=1788967032;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=tTGWO4BQiMMCPhl0MvJ6+ZmQ9g+J0+MwZKIZjv1m17c=;
+        b=hHZYOV/cb5Nm8KyWDyLdjJWfKcXGWFdSRjmjJ03/amW6mdOzSrdlleDZElZck1yZ0w
+         8HJY1iOXMaGgAyPqM5lDkGSMe5QJRUF/EjRJU8qEsP8ckKNFIngQTH7S/Wfu11EVWmBf
+         cUCCoWU/e0IfWhjNqr3SVPmLBeNjFaOH6Sm9IYuT6OFDmRicQzIJlkQl04/zfkJ5ikzz
+         FSPtsbGD1FOPn2o4T45ewPMQx99n53FiLxGk2sUJmwGqXBBhsiQL79Rjr2LnZDYqiiay
+         I95ApzabZZYU4+mXmYurpf3wDYcioP2H0gR3QMF+Kuy2DrWzwSG+neWvOUJ2V3WEA8mL
+         CyJw==
+X-Forwarded-Encrypted: i=1; AKwUvBzcOJWxNyPjVqRA3fMRnKj3aI1ye2cyn4oKCU9UPisd9+rZKRAfx/P5/Yk0E12TliIKIwOnTIg0i+mqHFL2@lists.linux.dev
+X-Gm-Message-State: AFuF++nLpqf6YiExtqtJyVVTz8zYOSBJM9Gcy01Otiyzmwu7fhLBoCqF
+	BClAlW507UwVVpFCA79IDF8aHjzw6tUH/XhFRpu03KOYAoEJDMnrUk67rmq0nX0iSrbXCWKyS92
+	J1fKqa3XgbUXBvvplsIdKZzzcnDCWQ3M=
+X-Gm-Gg: AYBFou1fL72s3WNms2L/4P0DO7h7Z2Lge5LLvOO2MLoH4/HgWnfyZLQ2dLOBI/702Yv
+	syfjtmprnzeUOkwbzXpz7SvNvmt72nqb3anV64N6vuQQ38p3J5euvE+R+QP7fOeIEATHd+jucMJ
+	WIEdoim+BllTIdDx9gTvJxZ9dVGUNYbSsDtXaNYk7//VTrt45qHBIJ6yjuC+ojfClArgMKeA0yd
+	L66cqdol2I+XbPeRsGu4lI9ShiGQvzH8WdaRBfAiJXbOEL2760ojnqfxFqttpsbsz/hxP2vMFme
+	vflwbq5VP4UZHvKW7M+4IEt/AKFUIOHHWUAoS6tBfs1s/u36PEjab2Q9p4VblXNxFkUC+RI73id
+	vcQ==
+X-Received: by 2002:a05:6402:3216:b0:6a4:ae1:333a with SMTP id
+ 4fb4d7f45d1cf-6a682799fb3mr4537168a12.12.1788362232011; Wed, 02 Sep 2026
+ 08:17:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260901185600.2725678-1-2000jedi@gmail.com> <2026090219-democracy-chip-87fd@gregkh>
+In-Reply-To: <2026090219-democracy-chip-87fd@gregkh>
+From: Yudi Yang <2000jedi@gmail.com>
+Date: Wed, 2 Sep 2026 10:17:00 -0500
+X-Gm-Features: AcwNN1VqxlHP_AWnjy_mt0418fNXAxgUYvArTOP4_3ID-w8R8wzD-318rfyEZwc
+Message-ID: <CAN3V2YU0a7Mj_Sdv5VLLO6AOCbTYXJZkRwfKKyZtB-yPb5COOw@mail.gmail.com>
+Subject: Re: [PATCH] staging: greybus: audio_codec: fix stack overflow in
+ stream name parsing
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: vaibhav.sr@gmail.com, mgreer@animalcreek.com, johan@kernel.org, 
+	elder@kernel.org, greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Member name does not adhere to linux coding style.
-Changed type as well since b indicates a boolean type and in every
-instance of setting the variable the values true and false are used.
-bSurpriseRemoved -> surprise_removed
+I found this with an internal program-analysis tool that I cannot disclose
+yet, then manually verified the finding. intf_name and dir are 32-byte
+arrays, while the unbounded %s conversions allow tokens from w->sname
+longer than 31 characters to overflow them. Using %31s limits each
+conversion to 31 characters.
 
-Signed-off-by: Dalvin-Ehinoma Noah Aiguobas <fliegbert2@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_btcoex.c   |  2 +-
- drivers/staging/rtl8723bs/core/rtw_cmd.c      |  8 ++---
- drivers/staging/rtl8723bs/core/rtw_mlme.c     |  8 ++---
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 20 ++++++------
- drivers/staging/rtl8723bs/core/rtw_pwrctrl.c  | 12 +++----
- drivers/staging/rtl8723bs/core/rtw_recv.c     | 10 +++---
- drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c  | 12 +++----
- .../staging/rtl8723bs/hal/rtl8723b_hal_init.c |  8 ++---
- .../staging/rtl8723bs/hal/rtl8723b_phycfg.c   |  4 +--
- .../staging/rtl8723bs/hal/rtl8723bs_xmit.c    |  8 ++---
- drivers/staging/rtl8723bs/hal/sdio_ops.c      |  2 +-
- drivers/staging/rtl8723bs/include/drv_types.h |  8 ++---
- drivers/staging/rtl8723bs/os_dep/os_intfs.c   | 10 +++---
- drivers/staging/rtl8723bs/os_dep/sdio_intf.c  |  4 +--
- .../staging/rtl8723bs/os_dep/sdio_ops_linux.c | 32 +++++++++----------
- 15 files changed, 74 insertions(+), 74 deletions(-)
+I do not have Greybus hardware, so testing was limited to building the
+affected object and running checkpatch.pl
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_btcoex.c b/drivers/staging/rtl8723bs/core/rtw_btcoex.c
-index 9e00424d00bd..24b6742509d8 100644
---- a/drivers/staging/rtl8723bs/core/rtw_btcoex.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_btcoex.c
-@@ -23,7 +23,7 @@ void rtw_btcoex_halt_notify(struct adapter *padapter)
- 	if (!padapter->bup)
- 		return;
- 
--	if (padapter->bSurpriseRemoved)
-+	if (padapter->surprise_removed)
- 		return;
- 
- 	hal_btcoex_HaltNotify(padapter);
-diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-index 59f13f6b85ad..9672367c1f5a 100644
---- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-@@ -396,11 +396,11 @@ int rtw_cmd_thread(void *context)
- 			break;
- 		}
- 
--		if (padapter->driver_stopped || padapter->bSurpriseRemoved) {
-+		if (padapter->driver_stopped || padapter->surprise_removed) {
- 			netdev_dbg(padapter->pnetdev,
- 				   "%s: DriverStopped(%d) SurpriseRemoved(%d) break at line %d\n",
- 				   __func__, padapter->driver_stopped,
--				   padapter->bSurpriseRemoved, __LINE__);
-+				   padapter->surprise_removed, __LINE__);
- 			break;
- 		}
- 
-@@ -419,11 +419,11 @@ int rtw_cmd_thread(void *context)
- 			continue;
- 
- _next:
--		if (padapter->driver_stopped || padapter->bSurpriseRemoved) {
-+		if (padapter->driver_stopped || padapter->surprise_removed) {
- 			netdev_dbg(padapter->pnetdev,
- 				   "%s: DriverStopped(%d) SurpriseRemoved(%d) break at line %d\n",
- 				   __func__, padapter->driver_stopped,
--				   padapter->bSurpriseRemoved, __LINE__);
-+				   padapter->surprise_removed, __LINE__);
- 			break;
- 		}
- 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index 179061239a6f..a6e7b57697a1 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -264,7 +264,7 @@ void rtw_free_network_queue(struct adapter *adapter, u8 isfreeall)
- 
- bool rtw_if_up(struct adapter *adapter)
- {
--	if (adapter->driver_stopped || adapter->bSurpriseRemoved ||
-+	if (adapter->driver_stopped || adapter->surprise_removed ||
- 	    !check_fwstate(&adapter->mlmepriv, _FW_LINKED))
- 		return false;
- 
-@@ -934,7 +934,7 @@ void rtw_scan_abort(struct adapter *adapter)
- 	pmlmeext->scan_abort = true;
- 	while (check_fwstate(mlme_priv, _FW_UNDER_SURVEY)
- 	       && jiffies_to_msecs(start) <= 200) {
--		if (adapter->driver_stopped || adapter->bSurpriseRemoved)
-+		if (adapter->driver_stopped || adapter->surprise_removed)
- 			break;
- 
- 		msleep(20);
-@@ -1506,7 +1506,7 @@ void _rtw_join_timeout_handler(struct timer_list *t)
- 						     mlmepriv.assoc_timer);
- 	struct mlme_priv *mlme_priv = &adapter->mlmepriv;
- 
--	if (adapter->driver_stopped || adapter->bSurpriseRemoved)
-+	if (adapter->driver_stopped || adapter->surprise_removed)
- 		return;
- 
- 	spin_lock_bh(&mlme_priv->lock);
-@@ -1608,7 +1608,7 @@ void rtw_dynamic_check_timer_handler(struct adapter *adapter)
- 	if (!adapter->hw_init_completed)
- 		return;
- 
--	if (adapter->driver_stopped || adapter->bSurpriseRemoved)
-+	if (adapter->driver_stopped || adapter->surprise_removed)
- 		return;
- 
- 	if (adapter->net_closed)
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index 0c00be09fbf3..fa8a83f5d3cb 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -1961,7 +1961,7 @@ void update_mgntframe_attrib_addr(struct adapter *padapter, struct xmit_frame *p
- 
- void dump_mgntframe(struct adapter *padapter, struct xmit_frame *pmgntframe)
- {
--	if (padapter->bSurpriseRemoved ||
-+	if (padapter->surprise_removed ||
- 		padapter->driver_stopped) {
- 		rtw_free_xmitbuf(&padapter->xmitpriv, pmgntframe->pxmitbuf);
- 		rtw_free_xmitframe(&padapter->xmitpriv, pmgntframe);
-@@ -1978,7 +1978,7 @@ void dump_mgntframe_and_wait(struct adapter *padapter, struct xmit_frame *pmgntf
- 	struct xmit_buf *pxmitbuf = pmgntframe->pxmitbuf;
- 	struct submit_ctx sctx;
- 
--	if (padapter->bSurpriseRemoved ||
-+	if (padapter->surprise_removed ||
- 		padapter->driver_stopped) {
- 		rtw_free_xmitbuf(&padapter->xmitpriv, pmgntframe->pxmitbuf);
- 		rtw_free_xmitframe(&padapter->xmitpriv, pmgntframe);
-@@ -2003,7 +2003,7 @@ s32 dump_mgntframe_and_wait_ack(struct adapter *padapter, struct xmit_frame *pmg
- 	u32 timeout_ms = 500;/*   500ms */
- 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
- 
--	if (padapter->bSurpriseRemoved ||
-+	if (padapter->surprise_removed ||
- 		padapter->driver_stopped) {
- 		rtw_free_xmitbuf(&padapter->xmitpriv, pmgntframe->pxmitbuf);
- 		rtw_free_xmitframe(&padapter->xmitpriv, pmgntframe);
-@@ -2511,7 +2511,7 @@ int issue_probereq_ex(struct adapter *padapter, struct ndis_802_11_ssid *pssid,
- 
- 		i++;
- 
--		if (padapter->driver_stopped || padapter->bSurpriseRemoved)
-+		if (padapter->driver_stopped || padapter->surprise_removed)
- 			break;
- 
- 		if (i < try_cnt && wait_ms > 0 && ret == _FAIL)
-@@ -3059,7 +3059,7 @@ int issue_nulldata(struct adapter *padapter, unsigned char *da, unsigned int pow
- 
- 		i++;
- 
--		if (padapter->driver_stopped || padapter->bSurpriseRemoved)
-+		if (padapter->driver_stopped || padapter->surprise_removed)
- 			break;
- 
- 		if (i < try_cnt && wait_ms > 0 && ret == _FAIL)
-@@ -3191,7 +3191,7 @@ int issue_qos_nulldata(struct adapter *padapter, unsigned char *da, u16 tid, int
- 
- 		i++;
- 
--		if (padapter->driver_stopped || padapter->bSurpriseRemoved)
-+		if (padapter->driver_stopped || padapter->surprise_removed)
- 			break;
- 
- 		if (i < try_cnt && wait_ms > 0 && ret == _FAIL)
-@@ -3284,7 +3284,7 @@ int issue_deauth_ex(struct adapter *padapter, u8 *da, unsigned short reason, int
- 
- 		i++;
- 
--		if (padapter->driver_stopped || padapter->bSurpriseRemoved)
-+		if (padapter->driver_stopped || padapter->surprise_removed)
- 			break;
- 
- 		if (i < try_cnt && wait_ms > 0 && ret == _FAIL)
-@@ -3712,13 +3712,13 @@ unsigned int send_beacon(struct adapter *padapter)
- 			rtw_hal_get_hwreg(padapter, HW_VAR_BCN_VALID, (u8 *)(&bxmitok));
- 			poll++;
- 		} while ((poll % 10) != 0 && !bxmitok &&
--			 !padapter->bSurpriseRemoved &&
-+			 !padapter->surprise_removed &&
- 			 !padapter->driver_stopped);
- 
--	} while (false == bxmitok && issue < 100 && !padapter->bSurpriseRemoved &&
-+	} while (false == bxmitok && issue < 100 && !padapter->surprise_removed &&
- 		 !padapter->driver_stopped);
- 
--	if (padapter->bSurpriseRemoved || padapter->driver_stopped)
-+	if (padapter->surprise_removed || padapter->driver_stopped)
- 		return _FAIL;
- 
- 	if (!bxmitok)
-diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-index 448611ad8237..fa47c6dd7988 100644
---- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-@@ -237,7 +237,7 @@ void rtw_set_rpwm(struct adapter *padapter, u8 pslv)
- 			return;
- 	}
- 
--	if ((padapter->bSurpriseRemoved) || !(padapter->hw_init_completed)) {
-+	if ((padapter->surprise_removed) || !(padapter->hw_init_completed)) {
- 		pwrpriv->cpwm = PS_STATE_S4;
- 		return;
- 	}
-@@ -404,7 +404,7 @@ int LPS_RF_ON_check(struct adapter *padapter, u32 delay_ms)
- 		if (bAwake)
- 			return 0;
- 
--		if (padapter->bSurpriseRemoved)
-+		if (padapter->surprise_removed)
- 			return -ENODEV;
- 
- 		if (jiffies_to_msecs(jiffies - start_time) > delay_ms)
-@@ -480,7 +480,7 @@ void LeaveAllPowerSaveModeDirect(struct adapter *Adapter)
- 	struct mlme_priv *pmlmepriv = &Adapter->mlmepriv;
- 	struct pwrctrl_priv *pwrpriv = adapter_to_pwrctl(Adapter);
- 
--	if (Adapter->bSurpriseRemoved)
-+	if (Adapter->surprise_removed)
- 		return;
- 
- 	if (check_fwstate(pmlmepriv, _FW_LINKED)) { /* connect */
-@@ -514,7 +514,7 @@ void LeaveAllPowerSaveMode(struct adapter *Adapter)
- 	if (!Adapter->bup)
- 		return;
- 
--	if (Adapter->bSurpriseRemoved)
-+	if (Adapter->surprise_removed)
- 		return;
- 
- 	if (check_fwstate(&dvobj->padapters->mlmepriv, WIFI_ASOC_STATE))
-@@ -548,7 +548,7 @@ void LPS_Leave_check(struct adapter *padapter)
- 	while (1) {
- 		mutex_lock(&pwrpriv->lock);
- 
--		if (padapter->bSurpriseRemoved ||
-+		if (padapter->surprise_removed ||
- 		    !(padapter->hw_init_completed) ||
- 		    (pwrpriv->pwr_mode == PS_MODE_ACTIVE))
- 			bReady = true;
-@@ -1089,7 +1089,7 @@ int rtw_pm_set_ips(struct adapter *padapter, u8 mode)
- 		return 0;
- 	} else if (mode == IPS_NONE) {
- 		rtw_ips_mode_req(pwrctrlpriv, mode);
--		if ((padapter->bSurpriseRemoved == 0) && (rtw_pwr_wakeup(padapter) == _FAIL))
-+		if ((padapter->surprise_removed == 0) && (rtw_pwr_wakeup(padapter) == _FAIL))
- 			return -EFAULT;
- 	} else {
- 		return -EINVAL;
-diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
-index 3c82012fdc6c..8086a0602c0d 100644
---- a/drivers/staging/rtl8723bs/core/rtw_recv.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
-@@ -1894,7 +1894,7 @@ static int recv_indicatepkts_in_order(struct adapter *padapter, struct recv_reor
- 			/* indicate this recv_frame */
- 			if (!pattrib->amsdu) {
- 				if (!padapter->driver_stopped &&
--				    !padapter->bSurpriseRemoved)
-+				    !padapter->surprise_removed)
- 					rtw_recv_indicatepkt(padapter, prframe);/* indicate this recv_frame */
- 
- 			} else if (pattrib->amsdu == 1) {
-@@ -1933,7 +1933,7 @@ static int recv_indicatepkt_reorder(struct adapter *padapter, union recv_frame *
- 
- 		if (pattrib->qos != 1) {
- 			if (!padapter->driver_stopped &&
--			    !padapter->bSurpriseRemoved) {
-+			    !padapter->surprise_removed) {
- 				rtw_recv_indicatepkt(padapter, prframe);
- 				return _SUCCESS;
- 			}
-@@ -2010,7 +2010,7 @@ void rtw_reordering_ctrl_timeout_handler(struct timer_list *t)
- 	struct adapter *padapter = preorder_ctrl->padapter;
- 	struct __queue *ppending_recvframe_queue = &preorder_ctrl->pending_recvframe_queue;
- 
--	if (padapter->driver_stopped || padapter->bSurpriseRemoved)
-+	if (padapter->driver_stopped || padapter->surprise_removed)
- 		return;
- 
- 	spin_lock_bh(&ppending_recvframe_queue->lock);
-@@ -2035,7 +2035,7 @@ static int process_recv_indicatepkts(struct adapter *padapter, union recv_frame
- 		if (recv_indicatepkt_reorder(padapter, prframe) != _SUCCESS) { /*  including perform A-MPDU Rx Ordering Buffer Control */
- 
- 			if (!padapter->driver_stopped &&
--			    !padapter->bSurpriseRemoved) {
-+			    !padapter->surprise_removed) {
- 				retval = _FAIL;
- 				return retval;
- 			}
-@@ -2045,7 +2045,7 @@ static int process_recv_indicatepkts(struct adapter *padapter, union recv_frame
- 		if (retval != _SUCCESS)
- 			return retval;
- 
--		if (!padapter->driver_stopped && !padapter->bSurpriseRemoved) {
-+		if (!padapter->driver_stopped && !padapter->surprise_removed) {
- 			/* indicate this recv_frame */
- 			rtw_recv_indicatepkt(padapter, prframe);
- 		} else {
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
-index d2b44ad60a4c..858471b8d65a 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
-@@ -59,7 +59,7 @@ s32 FillH2CCmd8723B(struct adapter *padapter, u8 ElementID, u32 CmdLen, u8 *pCmd
- 	if (CmdLen > RTL8723B_MAX_CMD_LEN)
- 		goto exit;
- 
--	if (padapter->bSurpriseRemoved)
-+	if (padapter->surprise_removed)
- 		goto exit;
- 
- 	/* pay attention to if  race condition happened in  H2C cmd setting. */
-@@ -639,13 +639,13 @@ void rtl8723b_download_rsvd_page(struct adapter *padapter, u8 mstatus)
- 				/*  check rsvd page download OK. */
- 				rtw_hal_get_hwreg(padapter, HW_VAR_BCN_VALID, (u8 *)(&bcn_valid));
- 				poll++;
--			} while (!bcn_valid && (poll % 10) != 0 && !padapter->bSurpriseRemoved &&
-+			} while (!bcn_valid && (poll % 10) != 0 && !padapter->surprise_removed &&
- 				 !padapter->driver_stopped);
- 
--		} while (!bcn_valid && DLBcnCount <= 100 && !padapter->bSurpriseRemoved &&
-+		} while (!bcn_valid && DLBcnCount <= 100 && !padapter->surprise_removed &&
- 			 !padapter->driver_stopped);
- 
--		if (padapter->bSurpriseRemoved || padapter->driver_stopped) {
-+		if (padapter->surprise_removed || padapter->driver_stopped) {
- 		} else {
- 			struct pwrctrl_priv *pwrctl = adapter_to_pwrctl(padapter);
- 
-@@ -899,9 +899,9 @@ void rtl8723b_download_BTCoex_AP_mode_rsvd_page(struct adapter *padapter)
- 			/*  check rsvd page download OK. */
- 			rtw_hal_get_hwreg(padapter, HW_VAR_BCN_VALID, &bcn_valid);
- 			poll++;
--		} while (!bcn_valid && (poll % 10) != 0 && !padapter->bSurpriseRemoved &&
-+		} while (!bcn_valid && (poll % 10) != 0 && !padapter->surprise_removed &&
- 			 !padapter->driver_stopped);
--	} while (!bcn_valid && (DLBcnCount <= 100) && !padapter->bSurpriseRemoved &&
-+	} while (!bcn_valid && (DLBcnCount <= 100) && !padapter->surprise_removed &&
- 		 !padapter->driver_stopped);
- 
- 	if (bcn_valid) {
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-index 6a4a13544ca1..e7721a77039b 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-@@ -189,7 +189,7 @@ static s32 polling_fwdl_chksum(
- 	do {
- 		cnt++;
- 		value32 = rtw_read32(adapter, REG_MCUFWDL);
--		if (value32 & FWDL_ChkSum_rpt || adapter->bSurpriseRemoved ||
-+		if (value32 & FWDL_ChkSum_rpt || adapter->surprise_removed ||
- 		    adapter->driver_stopped)
- 			break;
- 		yield();
-@@ -230,7 +230,7 @@ static s32 _FWFreeToGo(struct adapter *adapter, u32 min_cnt, u32 timeout_ms)
- 	do {
- 		cnt++;
- 		value32 = rtw_read32(adapter, REG_MCUFWDL);
--		if (value32 & WINTINI_RDY || adapter->bSurpriseRemoved || adapter->driver_stopped)
-+		if (value32 & WINTINI_RDY || adapter->surprise_removed || adapter->driver_stopped)
- 			break;
- 		yield();
- 	} while (jiffies_to_msecs(jiffies - start) < timeout_ms || cnt < min_cnt);
-@@ -386,7 +386,7 @@ s32 rtl8723b_FirmwareDownload(struct adapter *padapter, bool  bUsedWoWLANFw)
- 	fwdl_start_time = jiffies;
- 	while (
- 		!padapter->driver_stopped &&
--		!padapter->bSurpriseRemoved &&
-+		!padapter->surprise_removed &&
- 		(write_fw++ < 3 || jiffies_to_msecs(jiffies - fwdl_start_time) < 500)
- 	) {
- 		/* reset FWDL chksum */
-@@ -2697,7 +2697,7 @@ void GetHwReg8723B(struct adapter *padapter, u8 variable, u8 *val)
- 			u32 valRCR;
- 
- 			if (
--				padapter->bSurpriseRemoved  ||
-+				padapter->surprise_removed ||
- 				(adapter_to_pwrctl(padapter)->rf_pwrstate == rf_off)
- 			) {
- 				/*  If it is in HW/SW Radio OFF or IPS state, we do not check Fw LPS Leave, */
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c b/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c
-index 737e2a818c18..2120d8c3e8ab 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c
-@@ -658,7 +658,7 @@ static void phy_SwChnlAndSetBwMode8723B(struct adapter *Adapter)
- {
- 	struct hal_com_data *pHalData = GET_HAL_DATA(Adapter);
- 
--	if (Adapter->driver_stopped || Adapter->bSurpriseRemoved)
-+	if (Adapter->driver_stopped || Adapter->surprise_removed)
- 		return;
- 
- 	if (pHalData->bSwChnl) {
-@@ -724,7 +724,7 @@ static void PHY_HandleSwChnlAndSetBW8723B(
- 	}
- 
- 	/* Switch workitem or set timer to do switch channel or setbandwidth operation */
--	if ((!Adapter->driver_stopped) && (!Adapter->bSurpriseRemoved)) {
-+	if ((!Adapter->driver_stopped) && (!Adapter->surprise_removed)) {
- 		phy_SwChnlAndSetBwMode8723B(Adapter);
- 	} else {
- 		if (pHalData->bSwChnl) {
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-index 7f55448d544e..f611442eaca5 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-@@ -15,7 +15,7 @@ static u8 rtw_sdio_wait_enough_TxOQT_space(struct adapter *padapter, u8 agg_num)
- 
- 	while (pHalData->SdioTxOQTFreeSpace < agg_num) {
- 		if (
--			(padapter->bSurpriseRemoved) ||
-+			(padapter->surprise_removed) ||
- 			(padapter->driver_stopped)
- 		)
- 			return false;
-@@ -88,7 +88,7 @@ static s32 rtl8723_dequeue_writeport(struct adapter *padapter)
- 	}
- 
- 	if (
--		(padapter->bSurpriseRemoved) ||
-+		(padapter->surprise_removed) ||
- 		(padapter->driver_stopped)
- 	)
- 		goto free_xmitbuf;
-@@ -130,7 +130,7 @@ s32 rtl8723bs_xmit_buf_handler(struct adapter *padapter)
- 		return _FAIL;
- 	}
- 
--	ret = (padapter->driver_stopped) || (padapter->bSurpriseRemoved);
-+	ret = (padapter->driver_stopped) || (padapter->surprise_removed);
- 	if (ret)
- 		return _FAIL;
- 
-@@ -363,7 +363,7 @@ static s32 rtl8723bs_xmit_handler(struct adapter *padapter)
- next:
- 	if (
- 		(padapter->driver_stopped) ||
--		(padapter->bSurpriseRemoved)
-+		(padapter->surprise_removed)
- 	)
- 		return _FAIL;
- 
-diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-index da2d9088ab5a..ca50f8a5c32e 100644
---- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
-+++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-@@ -803,7 +803,7 @@ void sd_int_hdl(struct adapter *adapter)
- 	struct hal_com_data *hal;
- 
- 	if (
--		(adapter->driver_stopped) || (adapter->bSurpriseRemoved)
-+		(adapter->driver_stopped) || (adapter->surprise_removed)
- 	)
- 		return;
- 
-diff --git a/drivers/staging/rtl8723bs/include/drv_types.h b/drivers/staging/rtl8723bs/include/drv_types.h
-index 20265770ed77..502da503c99b 100644
---- a/drivers/staging/rtl8723bs/include/drv_types.h
-+++ b/drivers/staging/rtl8723bs/include/drv_types.h
-@@ -295,7 +295,7 @@ struct adapter {
- 	u32 hal_data_sz;
- 
- 	bool driver_stopped;
--	s32	bSurpriseRemoved;
-+	bool surprise_removed;
- 	s32  bCardDisableWOHSM;
- 
- 	u32 IsrContent;
-@@ -397,17 +397,17 @@ static inline void RTW_ENABLE_FUNC(struct adapter *padapter, int func_bit)
- #define RTW_IS_FUNC_DISABLED(padapter, func_bit) (atomic_read(&adapter_to_dvobj(padapter)->disable_func) & (func_bit))
- 
- #define RTW_CANNOT_IO(padapter) \
--			((padapter)->bSurpriseRemoved || \
-+			((padapter)->surprise_removed || \
- 			 RTW_IS_FUNC_DISABLED((padapter), DF_IO_BIT))
- 
- #define RTW_CANNOT_RX(padapter) \
- 			((padapter)->driver_stopped || \
--			 (padapter)->bSurpriseRemoved || \
-+			 (padapter)->surprise_removed || \
- 			 RTW_IS_FUNC_DISABLED((padapter), DF_RX_BIT))
- 
- #define RTW_CANNOT_TX(padapter) \
- 			((padapter)->driver_stopped || \
--			 (padapter)->bSurpriseRemoved || \
-+			 (padapter)->surprise_removed || \
- 			 RTW_IS_FUNC_DISABLED((padapter), DF_TX_BIT))
- 
- static inline u8 *myid(struct eeprom_priv *peepriv)
-diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-index c15056ee207c..52db657e1aa1 100644
---- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-+++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-@@ -799,7 +799,7 @@ static int _netdev_open(struct net_device *pnetdev)
- 
- 	if (!padapter->bup) {
- 		padapter->driver_stopped = false;
--		padapter->bSurpriseRemoved = false;
-+		padapter->surprise_removed = false;
- 		padapter->bCardDisableWOHSM = false;
- 
- 		status = rtw_hal_init(padapter);
-@@ -902,7 +902,7 @@ void rtw_ips_pwr_down(struct adapter *padapter)
- 
- void rtw_ips_dev_unload(struct adapter *padapter)
- {
--	if (!padapter->bSurpriseRemoved)
-+	if (!padapter->surprise_removed)
- 		rtw_hal_deinit(padapter);
- }
- 
-@@ -1000,13 +1000,13 @@ void rtw_dev_unload(struct adapter *padapter)
- 				   "%s: driver not in IPS\n", __func__);
- 		}
- 
--		if (!padapter->bSurpriseRemoved) {
-+		if (!padapter->surprise_removed) {
- 			hal_btcoex_IpsNotify(padapter, pwrctl->ips_mode_req);
- 
- 			/* amy modify 20120221 for power seq is different between driver open and ips */
- 			rtw_hal_deinit(padapter);
- 
--			padapter->bSurpriseRemoved = true;
-+			padapter->surprise_removed = true;
- 		}
- 
- 		padapter->bup = false;
-@@ -1088,7 +1088,7 @@ void rtw_suspend_common(struct adapter *padapter)
- 	while (pwrpriv->bips_processing)
- 		msleep(1);
- 
--	if ((!padapter->bup) || (padapter->driver_stopped) || (padapter->bSurpriseRemoved))
-+	if ((!padapter->bup) || (padapter->driver_stopped) || (padapter->surprise_removed))
- 		return;
- 
- 	rtw_ps_deny(padapter, PS_DENY_SUSPEND);
-diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-index 6ef3a7198533..8d917e69ca0c 100644
---- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-+++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-@@ -385,7 +385,7 @@ static void rtw_dev_remove(struct sdio_func *func)
- 
- 	rtw_unregister_netdevs(dvobj);
- 
--	if (!padapter->bSurpriseRemoved) {
-+	if (!padapter->surprise_removed) {
- 		int err;
- 
- 		/* test surprise remove */
-@@ -393,7 +393,7 @@ static void rtw_dev_remove(struct sdio_func *func)
- 		sdio_readb(func, 0, &err);
- 		sdio_release_host(func);
- 		if (err == -ENOMEDIUM)
--			padapter->bSurpriseRemoved = true;
-+			padapter->surprise_removed = true;
- 	}
- 
- 	rtw_ps_deny(padapter, PS_DENY_DRV_REMOVE);
-diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c b/drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c
-index e9a2f3f7ec74..71d3e4babd31 100644
---- a/drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c
-+++ b/drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c
-@@ -42,7 +42,7 @@ s32 _sd_cmd52_read(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *pdata)
- 	psdiodev = pintfhdl->pintf_dev;
- 	psdio = &psdiodev->intf_data;
- 
--	if (padapter->bSurpriseRemoved)
-+	if (padapter->surprise_removed)
- 		return err;
- 
- 	func = psdio->func;
-@@ -74,7 +74,7 @@ s32 sd_cmd52_read(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *pdata)
- 	psdiodev = pintfhdl->pintf_dev;
- 	psdio = &psdiodev->intf_data;
- 
--	if (padapter->bSurpriseRemoved)
-+	if (padapter->surprise_removed)
- 		return err;
- 
- 	func = psdio->func;
-@@ -106,7 +106,7 @@ s32 _sd_cmd52_write(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *pdata)
- 	psdiodev = pintfhdl->pintf_dev;
- 	psdio = &psdiodev->intf_data;
- 
--	if (padapter->bSurpriseRemoved)
-+	if (padapter->surprise_removed)
- 		return err;
- 
- 	func = psdio->func;
-@@ -138,7 +138,7 @@ s32 sd_cmd52_write(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *pdata)
- 	psdiodev = pintfhdl->pintf_dev;
- 	psdio = &psdiodev->intf_data;
- 
--	if (padapter->bSurpriseRemoved)
-+	if (padapter->surprise_removed)
- 		return err;
- 
- 	func = psdio->func;
-@@ -166,7 +166,7 @@ u8 sd_read8(struct intf_hdl *pintfhdl, u32 addr, s32 *err)
- 	psdiodev = pintfhdl->pintf_dev;
- 	psdio = &psdiodev->intf_data;
- 
--	if (padapter->bSurpriseRemoved)
-+	if (padapter->surprise_removed)
- 		return v;
- 
- 	func = psdio->func;
-@@ -193,7 +193,7 @@ u32 sd_read32(struct intf_hdl *pintfhdl, u32 addr, s32 *err)
- 	psdiodev = pintfhdl->pintf_dev;
- 	psdio = &psdiodev->intf_data;
- 
--	if (padapter->bSurpriseRemoved)
-+	if (padapter->surprise_removed)
- 		return v;
- 
- 	func = psdio->func;
-@@ -222,10 +222,10 @@ u32 sd_read32(struct intf_hdl *pintfhdl, u32 addr, s32 *err)
- 			}
- 
- 			if ((-ESHUTDOWN == *err) || (-ENODEV == *err))
--				padapter->bSurpriseRemoved = true;
-+				padapter->surprise_removed = true;
- 
- 			if (rtw_inc_and_chk_continual_io_error(psdiodev)) {
--				padapter->bSurpriseRemoved = true;
-+				padapter->surprise_removed = true;
- 				break;
- 			}
- 		}
-@@ -245,7 +245,7 @@ void sd_write8(struct intf_hdl *pintfhdl, u32 addr, u8 v, s32 *err)
- 	psdiodev = pintfhdl->pintf_dev;
- 	psdio = &psdiodev->intf_data;
- 
--	if (padapter->bSurpriseRemoved)
-+	if (padapter->surprise_removed)
- 		return;
- 
- 	func = psdio->func;
-@@ -270,7 +270,7 @@ void sd_write32(struct intf_hdl *pintfhdl, u32 addr, u32 v, s32 *err)
- 	psdiodev = pintfhdl->pintf_dev;
- 	psdio = &psdiodev->intf_data;
- 
--	if (padapter->bSurpriseRemoved)
-+	if (padapter->surprise_removed)
- 		return;
- 
- 	func = psdio->func;
-@@ -298,10 +298,10 @@ void sd_write32(struct intf_hdl *pintfhdl, u32 addr, u32 v, s32 *err)
- 			}
- 
- 			if ((-ESHUTDOWN == *err) || (-ENODEV == *err))
--				padapter->bSurpriseRemoved = true;
-+				padapter->surprise_removed = true;
- 
- 			if (rtw_inc_and_chk_continual_io_error(psdiodev)) {
--				padapter->bSurpriseRemoved = true;
-+				padapter->surprise_removed = true;
- 				break;
- 			}
- 		}
-@@ -336,7 +336,7 @@ s32 _sd_read(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, void *pdata)
- 	psdiodev = pintfhdl->pintf_dev;
- 	psdio = &psdiodev->intf_data;
- 
--	if (padapter->bSurpriseRemoved)
-+	if (padapter->surprise_removed)
- 		return err;
- 
- 	func = psdio->func;
-@@ -386,7 +386,7 @@ s32 sd_read(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, void *pdata)
- 	psdiodev = pintfhdl->pintf_dev;
- 	psdio = &psdiodev->intf_data;
- 
--	if (padapter->bSurpriseRemoved)
-+	if (padapter->surprise_removed)
- 		return err;
- 
- 	func = psdio->func;
-@@ -429,7 +429,7 @@ s32 _sd_write(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, void *pdata)
- 	psdiodev = pintfhdl->pintf_dev;
- 	psdio = &psdiodev->intf_data;
- 
--	if (padapter->bSurpriseRemoved)
-+	if (padapter->surprise_removed)
- 		return err;
- 
- 	func = psdio->func;
-@@ -480,7 +480,7 @@ s32 sd_write(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, void *pdata)
- 	psdiodev = pintfhdl->pintf_dev;
- 	psdio = &psdiodev->intf_data;
- 
--	if (padapter->bSurpriseRemoved)
-+	if (padapter->surprise_removed)
- 		return err;
- 
- 	func = psdio->func;
--- 
-2.55.0
+Yudi
 
+On Wed, Sep 2, 2026 at 12:55=E2=80=AFAM Greg KH <gregkh@linuxfoundation.org=
+> wrote:
+>
+> On Tue, Sep 01, 2026 at 01:56:00PM -0500, Yudi Yang wrote:
+> > intf_name and dir are 32-byte buffers. Parsing a module-provided AIF
+> > stream name with unbounded %s conversions can cause buffer-overwrites.
+> > Limit each conversion to 31 characters.
+> >
+> > Fixes: 60e7327d54b2 ("greybus: audio: Find data connection based on id"=
+)
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Yudi Yang <2000jedi@gmail.com>
+> > ---
+> >  drivers/staging/greybus/audio_codec.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> How was this found and tested?
+>
+> thanks,
+>
+> greg k-h
