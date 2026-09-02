@@ -1,132 +1,98 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3254C4A49AD
-	for <linux-staging@lists.linux.dev>; Wed,  2 Sep 2026 15:17:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788362236; cv=pass; b=k0t2ZawFTpbc9tuv3j4G85Ri9ICmB7Xy0E5pFxC/BX2ZIJGm9N3xP1zeU97zCD6fs2PSPTlMXkWN8OYNlxDmgZgqMyTw7YLLI4OvMvAgUJ91CjNS7kfgdwa9TR+F2tVZd9mbbfhE/WAtwEYp8MiRi/1cpNdx/IaCYoDaXLyWabk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788362236; c=relaxed/simple;
-	bh=HCC/6KFEAMm4V1Cz9W4xpNmgiWKlwwdYoylYCLylISI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oFTp+OIseHGg9ydYl/QKQQ7Hu6Nbwidw9rv6yDPTnBOxkNH5ElNgzVhmCgMc+OFbcM111++HOBrvts0CfwFbBzO9WoNsqNn8Gih3D1HzKptKCzN2r08YZGEl4O9uT+ovHrrSYavI8/pd6z+4L9G2cNAvoemlTEIC1sNuCaK2ynw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UpfdBm41; arc=pass smtp.client-ip=209.85.208.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB5D5445AFB
+	for <linux-staging@lists.linux.dev>; Wed,  2 Sep 2026 15:21:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788362476; cv=none; b=GHsbchN3x199fXjHGsACpbr0aLecLY8+ciqLAmM7sGq1isXX37Dx78YsfFsnFr1DHIjdHM7tEhXXRoQQ0AfezvOf4tCLFF3+HOxqxsMVqWoh+qbaINRtlbPfVozsARvTy0lli3jsZXnwLUCq7ZbT9ghYBUX3xOpXCM8Aag7v0/A=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788362476; c=relaxed/simple;
+	bh=/Rwo4LDhZUjIbFRPjUjS6LJ+Dmkr6YTUn1svaPRl70c=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=kUAxWxn/COhtneah9jlDVD2zJb9+/B3VI4oOoGMS9uBGZpp89HsvTQaG8oHzA5kEDwEL/qP26nu36FSL/Yh21QO3TAgj4Zl1Til+nIyhtYsPxrnr9UAy3gqggm42N4BX3I4A9z/JW9zO0d5EZIQd6CYO3C6npHkMM9b0/PsOdZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SxiqQqLi; arc=none smtp.client-ip=209.85.167.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UpfdBm41"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-6a38098734bso2329225a12.1
-        for <linux-staging@lists.linux.dev>; Wed, 02 Sep 2026 08:17:13 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788362232; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Kh9bHW6I23RUYXALGL/0MJzBmS7F111DHg6ftNYulOrVExrCPyWSHudRGd4eqNRugr
-         MDemmcHA5uBYldUccZbW1EfCvAprTfQZZrDC2T8IL6hZWaJ2JPCE7F4UGlIVvuhl1CCU
-         8ESmrG2+B2YEKZnpkij1HPqgXa/JAtQJ6DiAwBN3crfP15UunCfDzN2EOPSsLWJ6APpu
-         8eO4vC8/MeJpe14AwL4T+S1DmuflFXKqbwAsikKh9wLTFod/COcIqo0TW3puF9i/ZKtx
-         9WKQp1scrR5LvyycL4UeRRfwJ0L30XUl956PIB7ARHMMYaFKicWPbqpQtQevsgX9duhG
-         ihSQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=tTGWO4BQiMMCPhl0MvJ6+ZmQ9g+J0+MwZKIZjv1m17c=;
-        fh=8Zw8MYFMp9RwXAbbvQykthDIeWJ4Rm2FqIl9cFG4XAs=;
-        b=l1lILdvUcJmzM+oxCkg/IO7qlAbs2lFJQQi3pbAs5mGu/303khzxK5CEbdU5mc+B6/
-         8pdPfsT3UaSeAASErMArlnKUBymtCjmbupBjXYTdUsX2av4tP/gxmGie3C8SqGvAFj1I
-         QWh6H4iDN8hOttlKyzr9qWBvO8DZYG6fzJWX6aIIdBHO8hJlqMUwUQw+wuqS4S+uMbfN
-         rgBX9xj94Tain3Ob5mJZYoA3JKVoJlAJ9bMiLcLLjEojHj64jV+U4Tk8TIfBLSx3kU4h
-         K2eRSYQCwtk9SkswrotVRQThUnkm5r53ePSeXdVv2M19TMwozWU45t3BOR8vAZF2rMiF
-         fbeg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SxiqQqLi"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5b5607bd3b5so1080226e87.3
+        for <linux-staging@lists.linux.dev>; Wed, 02 Sep 2026 08:21:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788362232; x=1788967032; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=tTGWO4BQiMMCPhl0MvJ6+ZmQ9g+J0+MwZKIZjv1m17c=;
-        b=UpfdBm411komqFk+pC2z7DUlR6Gph4LqCq20tpMDa04adjFo/wTpBqVZ5pzFRDFDXg
-         Isd8DE3k8iWjxcGYfZZWFJPeNAc/+HeDTlECJTdwLjrTkEOSkwyeyog1b+n5d6ogbKdG
-         mtzaZXGYFrlzuE3SQ7lWcPQBw7P0yamo9qHczN5fFcve1YMLnTIqvTCtuNGpPh3EGcLP
-         4tSQ0HV3dUf2RnQULp2bTwMUXN5doxVYZEzwFO9FJfDw7+bA9JRZmaK4dpB6RIGBu4z7
-         i9L3zp55JdSSL3MZ+lYU3iGyohPQIBHCV2PuzjdpCx6tolEFsMqDknJmur0+olrHPHeo
-         HIVA==
+        d=gmail.com; s=20251104; t=1788362473; x=1788967273; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=LZnwvwUXRAcxB5889VVTWnxerlefp4zNk2iq52AaEUg=;
+        b=SxiqQqLi+Ac2YJximgAcM1b59/iokhEU6fDL6XAdHTi85CBI3raQTxSY1lxyFXunCE
+         rPJIOMBqtev0kYKsUpYOIJBdAzFNpXWXoE2W7L5JhtGeMb47VG9txY9NltzvO9f71QrZ
+         T7XPmInfYMnEjqMJ4qI+4/Kzs0Q0Ns3EsHQeslt+3FPYlWdpXOGkSu29r89BnHwCP4dh
+         sEqJO1f2+BplSvkGSHJ3d6i9AZ0PsXSUQ1DLyXPBZlrm8f/oFC4VldvjAvw3iPIPubho
+         IXFKbUudEu7/iRuO6eTWq0ZtTU5KEG4qkNMg1+1vGGn1cKICZsvHoJFOXavS73mESYIY
+         vAIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788362232; x=1788967032;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=tTGWO4BQiMMCPhl0MvJ6+ZmQ9g+J0+MwZKIZjv1m17c=;
-        b=hHZYOV/cb5Nm8KyWDyLdjJWfKcXGWFdSRjmjJ03/amW6mdOzSrdlleDZElZck1yZ0w
-         8HJY1iOXMaGgAyPqM5lDkGSMe5QJRUF/EjRJU8qEsP8ckKNFIngQTH7S/Wfu11EVWmBf
-         cUCCoWU/e0IfWhjNqr3SVPmLBeNjFaOH6Sm9IYuT6OFDmRicQzIJlkQl04/zfkJ5ikzz
-         FSPtsbGD1FOPn2o4T45ewPMQx99n53FiLxGk2sUJmwGqXBBhsiQL79Rjr2LnZDYqiiay
-         I95ApzabZZYU4+mXmYurpf3wDYcioP2H0gR3QMF+Kuy2DrWzwSG+neWvOUJ2V3WEA8mL
-         CyJw==
-X-Forwarded-Encrypted: i=1; AKwUvBzcOJWxNyPjVqRA3fMRnKj3aI1ye2cyn4oKCU9UPisd9+rZKRAfx/P5/Yk0E12TliIKIwOnTIg0i+mqHFL2@lists.linux.dev
-X-Gm-Message-State: AFuF++nLpqf6YiExtqtJyVVTz8zYOSBJM9Gcy01Otiyzmwu7fhLBoCqF
-	BClAlW507UwVVpFCA79IDF8aHjzw6tUH/XhFRpu03KOYAoEJDMnrUk67rmq0nX0iSrbXCWKyS92
-	J1fKqa3XgbUXBvvplsIdKZzzcnDCWQ3M=
-X-Gm-Gg: AYBFou1fL72s3WNms2L/4P0DO7h7Z2Lge5LLvOO2MLoH4/HgWnfyZLQ2dLOBI/702Yv
-	syfjtmprnzeUOkwbzXpz7SvNvmt72nqb3anV64N6vuQQ38p3J5euvE+R+QP7fOeIEATHd+jucMJ
-	WIEdoim+BllTIdDx9gTvJxZ9dVGUNYbSsDtXaNYk7//VTrt45qHBIJ6yjuC+ojfClArgMKeA0yd
-	L66cqdol2I+XbPeRsGu4lI9ShiGQvzH8WdaRBfAiJXbOEL2760ojnqfxFqttpsbsz/hxP2vMFme
-	vflwbq5VP4UZHvKW7M+4IEt/AKFUIOHHWUAoS6tBfs1s/u36PEjab2Q9p4VblXNxFkUC+RI73id
-	vcQ==
-X-Received: by 2002:a05:6402:3216:b0:6a4:ae1:333a with SMTP id
- 4fb4d7f45d1cf-6a682799fb3mr4537168a12.12.1788362232011; Wed, 02 Sep 2026
- 08:17:12 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1788362473; x=1788967273;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=LZnwvwUXRAcxB5889VVTWnxerlefp4zNk2iq52AaEUg=;
+        b=C/Utt0i48jMoLYApmjTnC+VCASWX1FgW9h6h6ZCPMiaKgX5rH6+G3TfUc9QnRBOOUX
+         c0KnbXxOFxK/E8F3kCYFOKTEAwcmBi5iXShrWVB36jMuZfeIWhe+mXSzvmXyzzzf5Koy
+         jDpCq/te8ir1lra6Bpbe8mmW2kAAawKaSZue4O1FeuG7SF67vuQKeuM96WHfnHt3BCfc
+         qUpPWvGyZoJYH/cmZxg6FwF4RbAqVI6nZ4WvmSpjqV3juqByYPkIXoKV/rVA8KiKfLVs
+         tv6b1cK7m48atFww7PEzEj+VlOYx9xLWrzpd8vmjw+U+P34bs0YkExtChlYv8E+kc1oX
+         Z+QQ==
+X-Gm-Message-State: AFuF++nmSdp9n9SZsRWrfsXfGK6Nx+WTyavwnKB5XDq2EFcb0s8Eov9H
+	tk0pJdVSuNF/R4ij8JJpSBj+CuFqJmbVtmVUiPMAoy+XrpViet+8juN/
+X-Gm-Gg: AYBFou1povxdRtZ1gvqG16/7TouA2sV7UhHUh37UTIGyYP/YItjsCVX3ZrZ2eAzxSX0
+	jQLULlaV2BmLucv04NruYND2n+oKTtpSo6MZ+Wr1YdzUPJ3pdjVNt99HWxC8h69OqUfLIUxkZqG
+	u4TobOMTIEJA5cm0A625cX7Sc1S/doK8UeDMFhpiSTQImtpvgu0fbR7eODWK2iyK+2Aue/8QNqW
+	r08pe2fZNm9qc0J/NDUccCqGm6jvzH64qDQ6sMp/VpXRxZB5FN2xINS+vjHb1klODlFtFwPPSqj
+	14O7XKOoD350ejbr6ahbmJoxZKj6paZoK1JK/4b4Dff/t689hUNNqVrtdv7Gvjliqs2j1U3OxPR
+	M8/4oCcCOCDl6TojQTGmew1vngazzIY0g+rAfvJxXuu0JSeSoYjuqSN+3r2WcQBdQ1yf2buTXYZ
+	+Sp+gtf3gj7NBvb5u7dDjm9kGlY1ZU6tAuPWx6KAvhM+iCMY0U2XzyobBSmsYh2a/s/jtW5rO85
+	dcFyg==
+X-Received: by 2002:a05:6512:6d4:b0:5b6:4ae:3ff2 with SMTP id 2adb3069b0e04-5b6095ff621mr1814965e87.26.1788362472358;
+        Wed, 02 Sep 2026 08:21:12 -0700 (PDT)
+Received: from localhost.localdomain ([195.149.108.52])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b606b23fa3sm688086e87.32.2026.09.02.08.21.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Sep 2026 08:21:10 -0700 (PDT)
+From: Svyatoslav Nikolenko <nsvatoslav515@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] staging: rtl8723bs: Remove manual ifname allocation
+Date: Wed,  2 Sep 2026 18:20:50 +0300
+Message-ID: <20260902152051.2661-1-nsvatoslav515@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <2026090252-reformer-kosher-c6b5@gregkh>
+References: <2026090252-reformer-kosher-c6b5@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260901185600.2725678-1-2000jedi@gmail.com> <2026090219-democracy-chip-87fd@gregkh>
-In-Reply-To: <2026090219-democracy-chip-87fd@gregkh>
-From: Yudi Yang <2000jedi@gmail.com>
-Date: Wed, 2 Sep 2026 10:17:00 -0500
-X-Gm-Features: AcwNN1VqxlHP_AWnjy_mt0418fNXAxgUYvArTOP4_3ID-w8R8wzD-318rfyEZwc
-Message-ID: <CAN3V2YU0a7Mj_Sdv5VLLO6AOCbTYXJZkRwfKKyZtB-yPb5COOw@mail.gmail.com>
-Subject: Re: [PATCH] staging: greybus: audio_codec: fix stack overflow in
- stream name parsing
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: vaibhav.sr@gmail.com, mgreer@animalcreek.com, johan@kernel.org, 
-	elder@kernel.org, greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-I found this with an internal program-analysis tool that I cannot disclose
-yet, then manually verified the finding. intf_name and dir are 32-byte
-arrays, while the unbounded %s conversions allow tokens from w->sname
-longer than 31 characters to overflow them. Using %31s limits each
-conversion to 31 characters.
+On Wed, Sep 02, 2026 at 14:40, Greg KH wrote:
+> After this patch is applied, what is the network device name?  Are you
+> able to test it?
 
-I do not have Greybus hardware, so testing was limited to building the
-affected object and running checkpatch.pl
+I don't have the physical rtl8723bs hardware to run a runtime ping
+test or check 'ip link'. Sorry.
 
-Yudi
+Based on the code path, since the driver allocates the net_device
+using alloc_etherdev_mqs() (which sets the "eth%d" template),
+register_netdev() will initially resolve it to eth0. From there,
+standard user-space tools (udev/systemd) will take over via
+predictable network interface naming and rename the interface
+automatically based on system rules and hardware topology.
 
-On Wed, Sep 2, 2026 at 12:55=E2=80=AFAM Greg KH <gregkh@linuxfoundation.org=
-> wrote:
->
-> On Tue, Sep 01, 2026 at 01:56:00PM -0500, Yudi Yang wrote:
-> > intf_name and dir are 32-byte buffers. Parsing a module-provided AIF
-> > stream name with unbounded %s conversions can cause buffer-overwrites.
-> > Limit each conversion to 31 characters.
-> >
-> > Fixes: 60e7327d54b2 ("greybus: audio: Find data connection based on id"=
-)
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Yudi Yang <2000jedi@gmail.com>
-> > ---
-> >  drivers/staging/greybus/audio_codec.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> How was this found and tested?
->
-> thanks,
->
-> greg k-h
+By removing the manual renaming, we stop fighting the core system and
+let standard networking and user-space rules handle the final naming.
+
+thanks,
+
+svyatoslav
