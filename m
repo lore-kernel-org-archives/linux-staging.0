@@ -1,121 +1,375 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 721693A16BA
-	for <linux-staging@lists.linux.dev>; Wed,  2 Sep 2026 09:57:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C944145DF4B
+	for <linux-staging@lists.linux.dev>; Wed,  2 Sep 2026 10:33:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788343066; cv=none; b=ujip/q72brAmjPKdEplWDvMiio+1WJkaXexzAAtkf4q1NAQbEoEuyhRDQ8la8OznFCgN5zf1Nb0pJHyX3ti9qOQENNfbyHxjhNp61K87mU8m8soxqrQbRok6MZJwH7H8rRYzkwTFkbo0Z6O9D6HNh+unAbdINMA+KYafyxt8/LA=
+	t=1788345210; cv=none; b=I456JAv3OOpOS2XIrsnRacv9/qwEDKDWHCKilIT2B7a1W/OqAac1p1DGQB2EI4jmWcaVdqkpuQQWBEjOozJh8KJSi38WTQm56YhVqgeCSlL7Ljk7XOWsSt9jECqv7kbjxZFf4P5CYiu+qSgkr7PEZT8zhwrHVeslY59JJf7Q1Sk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788343066; c=relaxed/simple;
-	bh=9j2Ki5GPWGYkmeARIMt8ZvDgPX6hctJeBXHPtQmb6e8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RCfku/C7hzdCC5nyGAUCsxjJCyKb/Rnd9Gm86HY8hqueaYU83Hr0ZAkEYYrJassqiWdM3WAXACB/DBCJ80oOIFVevIxPYIkRoNSGnaLKIf2QyEYlUWEcXSMlUXB3iQQGUaqWnnUIcSUHU/5hc37nPPbtNabLJ41Tq/4S4oNnc/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vj+5c9vx; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1788345210; c=relaxed/simple;
+	bh=wJoiUDzqgCau6bE4gj+OL8YxHLjJ0Bs3rQBGQIVEI/8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jAo1nVZ66KVc6h1h4t1+1+Ad78oRIhahibvHjsSZoecx6vVjO+2lEsbmKioSbvAjx1D4FZFpP0Qq5+fmXjGiur3SnlitpDycFKzUltsc0JQ5icYWQJa+SrRocly1hHIDrR4BiHjiMlb+EvXNVUu2tD/tTmI75Myp6601HFiFHQE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cWhM0KzC; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vj+5c9vx"
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D21071F8;
-	Wed,  2 Sep 2026 11:56:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1788342971;
-	bh=9j2Ki5GPWGYkmeARIMt8ZvDgPX6hctJeBXHPtQmb6e8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=vj+5c9vxvm1NYRM8prIdCcKaN5O+Jh8/21rrP7zR0b2x2JlyX9TxlROE5P8tlgiE6
-	 AmRETcC90lo0IC+tdBHSLnOOGiJTZNWiSqYbekvLDi2O0ZA4N+J7xHfS8yE8/6X9mw
-	 WRIsZ65ar2K9BlASHgFy9v3Va3XSfOkFNtRHoAmY=
-Message-ID: <91be6238-0379-4c3e-b617-f0e1c4ed5cf7@ideasonboard.com>
-Date: Wed, 2 Sep 2026 12:57:37 +0300
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cWhM0KzC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1788345208; x=1819881208;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wJoiUDzqgCau6bE4gj+OL8YxHLjJ0Bs3rQBGQIVEI/8=;
+  b=cWhM0KzCUxnakJNvH6rt8CWJ1EAv+J+AzbdXTfZ7hcIwJB5cRpUPpjoB
+   kWwF266UgfNdwNtmkeJeeEtIQCiHuOpVqC62+YVznHxfyIH714N9iX+wl
+   +7LKlcoR60OZ/RW9RUW9cggk9tkoJQAjpktgMD57Ud6ZBsk+zCsrfbpuu
+   mVpKd5ZgJFj5xRSKQoOgfWiGK0KDZze4BRmXVnwHwILRbn2/8oHvp9zcX
+   PScyVHep3nBzkB+blWTJte5da/TkvgyCrCcvcYB+eewAp1KQUpuAdaLUx
+   iW9zhhjUrFtrvyo2iiNCLG6aRl9H0El+pydbJgRjcmeAAQa13wjIou1tn
+   w==;
+X-CSE-ConnectionGUID: 15rl6v6XT9yax6T9KqiuYg==
+X-CSE-MsgGUID: 3UtaEt27RxOf7Xnxv5ZjKw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11893"; a="88828220"
+X-IronPort-AV: E=Sophos;i="6.25,257,1779174000"; 
+   d="scan'208";a="88828220"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 03:33:27 -0700
+X-CSE-ConnectionGUID: S1mwy3iKSLmPOoDYrOHecQ==
+X-CSE-MsgGUID: dyAtE+jaRKa34G5/Qb3bOQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.25,257,1779174000"; 
+   d="scan'208";a="268831509"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.129])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 03:33:24 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 5FC48120EB7;
+	Wed, 02 Sep 2026 13:33:20 +0300 (EEST)
+Date: Wed, 2 Sep 2026 13:33:20 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Maurizio Casciano <mauriziocasciano7@gmail.com>
+Cc: mchehab@kernel.org, linux-media@vger.kernel.org, bingbu.cao@amd.com,
+	jacopo.mondi@ideasonboard.com, nicholas@rothemail.net,
+	andy@kernel.org, andriy.shevchenko@intel.com, hansg@kernel.org,
+	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 02/16] media: ov8858: support 19.2 MHz clock and CHT
+ gain setup
+Message-ID: <apf7cJOoXrl_wZfr@kekkonen.localdomain>
+References: <cover.1788286339.git.mauriziocasciano7@gmail.com>
+ <bfa79097b66fc3ed6155c7b8c5368b2e0fe9e882.1788286339.git.mauriziocasciano7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v16 00/22] media: i2c: add Maxim GMSL2/3 serializer and
- deserializer drivers
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Cc: Ceclan Dumitru <mitrutzceclan@gmail.com>, dumitru.ceclan@analog.com,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Julien Massot <julien.massot@collabora.com>, Rob Herring <robh@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-gpio@vger.kernel.org, Martin Hecht <Martin.Hecht@avnet.eu>,
- Andrian Suciu <Adrian.Suciu@analog.com>,
- Cosmin Tanislav <demonsingur@gmail.com>,
- Vivekananda Dayananda <vivekana@amd.com>, Cory Keitz <ckeitz@amazon.com>
-References: <20260831-gmsl2-3_serdes-v16-0-4fa6e08bb514@analog.com>
- <20260831170303.GB1116206@ragnatech.se>
- <65b703e7-e4a0-4046-9d35-7d0ff1057f96@gmail.com>
- <16626ec7-d1ec-4a54-ad1b-a59790cd33e8@ideasonboard.com>
- <20260902083750.GC1116206@ragnatech.se>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Content-Language: en-US
-In-Reply-To: <20260902083750.GC1116206@ragnatech.se>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bfa79097b66fc3ed6155c7b8c5368b2e0fe9e882.1788286339.git.mauriziocasciano7@gmail.com>
 
-Hi,
+Hi Maurizio,
 
-On 02/09/2026 11:37, Niklas Söderlund wrote:
-> On 2026-09-01 10:43:44 +0300, Tomi Valkeinen wrote:
->> Hi,
->>
->> On 01/09/2026 10:39, Ceclan Dumitru wrote:
->>>
->>>
->>> On 8/31/26 8:03 PM, Niklas Söderlund wrote:
->>>> Hello,
->>>>
->>>> Thanks for  your continued effort pushing this work forward!
->>>>
->>>> On 2026-08-31 16:21:19 +0300, Dumitru Ceclan via B4 Relay wrote:
->>>>> This series adds new drivers for multiple Maxim GMSL2 and GMSL3 devices,
->>>>> replacing the few GMSL2 drivers already in upstream, and introducing a
->>>>> common framework that can be used to implement such GMSL chips, which
->>>>> avoids code duplication while also adding support for previously
->>>>> unsupported features.
->>>>>
->>>>> While the normally acceptable and polite way would be to extend the
->>>>> current mainline drivers, the choice was made here to add a totally new
->>>>> set of drivers. The current drivers support only a small subset of the
->>>>> possible features, and only a few devices, so the end result after
->>>>> extending them would in any case be essentially fully rewritten, new
->>>>> drivers.
->>>>>
->>>>> This series depends on support for internal pads, for which a patch has
->>>>> been added.
->>>>
->>>> It also depends on enabling the streams API right? At least I need to do
->>>> so to be able to use the TPG. Out of curiosity do you know the plan to
->>>> enable it by default upstream?
->>>>
->>>
->>> I do not know when default enable is planned, but series could make it
->>> so VIDEO_MAXIM_SERDES selection causes v4l2_subdev_enable_streams_api=1.
->>>     I am not sure that such a hack would be acceptable by Sakari or
->>> upstream in general.
->> I haven't tested with this driver, but in theory these kind of drivers
->> should work with the Streams API still disabled. The Streams API is a uAPI,
->> so the driver itself works without it. If the default routing for the
->> drivers provides a sensible single route, one can use the drivers with a
->> single camera. This is what the FPD-Link drivers do (although it's been a
->> long time since I verified it with Streams API disabled).
+On Tue, Sep 01, 2026 at 09:04:24PM +0200, Maurizio Casciano wrote:
+> The Yoga Book drives its OV8858 from a 19.2 MHz platform clock, while
+> the existing mode tables program the sensor PLL for 24 MHz. Reusing
+> those settings produces incorrect internal and CSI-2 clocks.
 > 
-> Indeed, but to enable the TPG I need to non-default routing ;-) Nothing
-> big I'm just impatient for the streams API to be enabled by default in
-> general.
-Yes, that is true. And annoying, if TPG is your main use case ;).
+> Accept both input rates and use the actual rate for the reset delay. For
+> 19.2 MHz, apply the Cherry Trail MRD PLL and black-level settings after
+> the generic mode table.
+> 
+> The 19.2 MHz platform uses the per-channel manual white-balance
+> registers for digital gain. Program registers 0x5032, 0x5034 and 0x5036
+> and expose their 1x-to-4x range, while retaining the existing
+> long-exposure gain block for 24 MHz systems.
 
-The FPD-Link drivers don't have TPG in upstream. I have patches in my 
-local branch, waiting for internal pads.
+Could these be exposed as separate controls? The available controls
+shouldn't be dependent on the external clock frequency.
 
-  Tomi
+> 
+> The manual white-balance register definitions and programming follow
+> the GPL-2.0 Intel OV5670 driver, so retain its 2017 Intel copyright
+> notice in this file. No proprietary source or tuning binary is included.
+> 
+> Tested on the Lenovo Yoga Book YB1-X91L OV8858 with full-range test bars
+> and real 10-bit Bayer frames.
+> 
+> Signed-off-by: Maurizio Casciano <mauriziocasciano7@gmail.com>
+> Assisted-by: LLM sparse
 
+Sparse isn't an LLM AFAIK, or is it?
+
+> ---
+>  drivers/media/i2c/ov8858.c | 130 +++++++++++++++++++++++++++++++++----
+>  1 file changed, 118 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/ov8858.c b/drivers/media/i2c/ov8858.c
+> index d95f034de752..8d697b8d11c6 100644
+> --- a/drivers/media/i2c/ov8858.c
+> +++ b/drivers/media/i2c/ov8858.c
+> @@ -3,10 +3,9 @@
+>   * Copyright (C) 2023 Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+>   * Copyright (C) 2022 Nicholas Roth <nicholas@rothemail.net>
+>   * Copyright (C) 2017 Fuzhou Rockchip Electronics Co., Ltd.
+> + * Copyright (c) 2017 Intel Corporation.
+>   */
+>  
+> -#include <linux/unaligned.h>
+> -
+>  #include <linux/clk.h>
+>  #include <linux/delay.h>
+>  #include <linux/device.h>
+> @@ -18,6 +17,8 @@
+>  #include <linux/property.h>
+>  #include <linux/regulator/consumer.h>
+>  #include <linux/slab.h>
+> +#include <linux/unaligned.h>
+> +#include <linux/units.h>
+>  
+>  #include <media/media-entity.h>
+>  #include <media/v4l2-async.h>
+> @@ -28,8 +29,9 @@
+>  #include <media/v4l2-mediabus.h>
+>  #include <media/v4l2-subdev.h>
+>  
+> -#define OV8858_LINK_FREQ		360000000U
+> -#define OV8858_XVCLK_FREQ		24000000
+> +#define OV8858_LINK_FREQ		(360 * HZ_PER_MHZ)
+> +#define OV8858_XVCLK_FREQ_24MHZ		24000000
+> +#define OV8858_XVCLK_FREQ_19_2MHZ	19200000
+>  
+>  #define OV8858_REG_SIZE_SHIFT		16
+>  #define OV8858_REG_ADDR_MASK		0xffff
+> @@ -59,6 +61,14 @@
+>  #define OV8858_LONG_GAIN_STEP		1
+>  #define OV8858_LONG_GAIN_DEFAULT	0x80
+>  
+> +#define OV8858_REG_MWB_RED_GAIN		OV8858_REG_16BIT(0x5032)
+> +#define OV8858_REG_MWB_GREEN_GAIN	OV8858_REG_16BIT(0x5034)
+> +#define OV8858_REG_MWB_BLUE_GAIN	OV8858_REG_16BIT(0x5036)
+> +#define OV8858_MWB_GAIN_MIN		0x400
+> +#define OV8858_MWB_GAIN_MAX		0xfff
+> +#define OV8858_MWB_GAIN_STEP		1
+> +#define OV8858_MWB_GAIN_DEFAULT		0x400
+> +
+>  #define OV8858_REG_LONG_DIGIGAIN	OV8858_REG_16BIT(0x350a)
+>  #define OV8858_LONG_DIGIGAIN_H_MASK	0x3fc0
+>  #define OV8858_LONG_DIGIGAIN_L_MASK	0x3f
+> @@ -93,6 +103,33 @@ struct regval_modes {
+>  	const struct regval *mode_4lanes;
+>  };
+>  
+> +struct ov8858_gain_range {
+> +	u32 min;
+> +	u32 max;
+> +	u32 step;
+> +	u32 def;
+> +};
+> +
+> +enum ov8858_xvclk_index {
+> +	OV8858_XVCLK_24MHZ,
+> +	OV8858_XVCLK_19_2MHZ,
+> +};
+> +
+> +static const struct ov8858_gain_range ov8858_digital_gain_ranges[] = {
+> +	[OV8858_XVCLK_24MHZ] = {
+> +		.min = OV8858_LONG_DIGIGAIN_MIN,
+> +		.max = OV8858_LONG_DIGIGAIN_MAX,
+> +		.step = OV8858_LONG_DIGIGAIN_STEP,
+> +		.def = OV8858_LONG_DIGIGAIN_DEFAULT,
+> +	},
+> +	[OV8858_XVCLK_19_2MHZ] = {
+> +		.min = OV8858_MWB_GAIN_MIN,
+> +		.max = OV8858_MWB_GAIN_MAX,
+> +		.step = OV8858_MWB_GAIN_STEP,
+> +		.def = OV8858_MWB_GAIN_DEFAULT,
+> +	},
+> +};
+> +
+>  struct ov8858_mode {
+>  	u32 width;
+>  	u32 height;
+> @@ -104,6 +141,7 @@ struct ov8858_mode {
+>  
+>  struct ov8858 {
+>  	struct clk		*xvclk;
+> +	unsigned long		xvclk_rate;
+>  	struct gpio_desc	*reset_gpio;
+>  	struct gpio_desc	*pwdn_gpio;
+>  	struct regulator_bulk_data supplies[ARRAY_SIZE(ov8858_supply_names)];
+> @@ -121,6 +159,41 @@ struct ov8858 {
+>  	unsigned int		num_lanes;
+>  };
+>  
+> +/*
+> + * Cherry Trail MRD production settings for a 19.2 MHz input and 360 MHz
+> + * CSI-2 link. Apply these after the otherwise reusable 24 MHz mode table.
+
+Please move the registers related to the 24 MHz configuration to another
+array, which is written to the device in the 24 MHz case.
+
+> + *
+> + * Besides the corrected sensor/MIPI PLL divisors, keep the final common
+> + * black-level settings here. The per-mode tables retain their resolution
+> + * dependent black-column anchors and window sizes.
+> + */
+> +static const struct regval ov8858_cht_mrd_19_2mhz[] = {
+> +	{0x0300, 0x00},
+> +	{0x0302, 0x27},
+> +	{0x0303, 0x00},
+> +	{0x0304, 0x03},
+> +	{0x030b, 0x00},
+> +	{0x030d, 0x27},
+> +	{0x030e, 0x00},
+> +	{0x030f, 0x04},
+> +	{0x0312, 0x01},
+> +	{0x031e, 0x0c},
+> +	{0x3f08, 0x08},
+> +	{0x400a, 0x01},
+> +	{0x400d, 0x10},
+> +	{0x4011, 0x20},
+> +	{0x403e, 0x08},
+> +	{0x4040, 0x07},
+> +	{0x4041, 0xc6},
+> +	{0x4202, 0x00},
+> +	{0x4500, 0x58},
+> +	{0x470b, 0x28},
+> +	{0x4837, 0x15},
+> +	{0x58f4, 0x32},
+> +	{0x58f8, 0x3d},
+> +	{REG_NULL, 0x00},
+> +};
+> +
+>  static inline struct ov8858 *sd_to_ov8858(struct v4l2_subdev *sd)
+>  {
+>  	return container_of(sd, struct ov8858, subdev);
+> @@ -1345,6 +1418,13 @@ static int ov8858_start_stream(struct ov8858 *ov8858,
+>  	if (ret)
+>  		return ret;
+>  
+> +	/* The mode tables contain PLL settings for a 24 MHz input clock. */
+> +	if (ov8858->xvclk_rate == OV8858_XVCLK_FREQ_19_2MHZ) {
+> +		ret = ov8858_write_array(ov8858, ov8858_cht_mrd_19_2mhz);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+>  	/* 200 usec max to let PLL stabilize. */
+>  	fsleep(200);
+>  
+> @@ -1540,6 +1620,21 @@ static int ov8858_set_long_digital_gain(struct ov8858 *ov8858, u32 gain)
+>  	return ov8858_write(ov8858, OV8858_REG_LONG_DIGIGAIN, long_gain, NULL);
+>  }
+>  
+> +static int ov8858_set_mwb_digital_gain(struct ov8858 *ov8858, u32 gain)
+> +{
+> +	int ret;
+> +
+> +	ret = ov8858_write(ov8858, OV8858_REG_MWB_RED_GAIN, gain, NULL);
+> +	if (ret)
+> +		return ret;
+
+You can do:
+
+	int ret = 0;
+
+	ov8858_write(ov8858, OV8858_REG_MWB_RED_GAIN, gain, &ret);
+	...;
+
+	return ret;
+
+> +
+> +	ret = ov8858_write(ov8858, OV8858_REG_MWB_GREEN_GAIN, gain, NULL);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return ov8858_write(ov8858, OV8858_REG_MWB_BLUE_GAIN, gain, NULL);
+> +}
+> +
+>  static int ov8858_set_ctrl(struct v4l2_ctrl *ctrl)
+>  {
+>  	struct ov8858 *ov8858 = container_of(ctrl->handler,
+> @@ -1586,7 +1681,10 @@ static int ov8858_set_ctrl(struct v4l2_ctrl *ctrl)
+>  				   ctrl->val, NULL);
+>  		break;
+>  	case V4L2_CID_DIGITAL_GAIN:
+> -		ret = ov8858_set_long_digital_gain(ov8858, ctrl->val);
+> +		if (ov8858->xvclk_rate == OV8858_XVCLK_FREQ_19_2MHZ)
+> +			ret = ov8858_set_mwb_digital_gain(ov8858, ctrl->val);
+> +		else
+> +			ret = ov8858_set_long_digital_gain(ov8858, ctrl->val);
+
+Why does this configuration depend on 
+
+>  		break;
+>  	case V4L2_CID_VBLANK:
+>  		ret = ov8858_write(ov8858, OV8858_REG_VTS,
+> @@ -1622,9 +1720,6 @@ static int ov8858_power_on(struct ov8858 *ov8858)
+>  	unsigned long delay_us;
+>  	int ret;
+>  
+> -	if (clk_get_rate(ov8858->xvclk) != OV8858_XVCLK_FREQ)
+> -		dev_warn(dev, "xvclk mismatched, modes are based on 24MHz\n");
+> -
+>  	ret = clk_prepare_enable(ov8858->xvclk);
+>  	if (ret < 0) {
+>  		dev_err(dev, "Failed to enable xvclk\n");
+> @@ -1643,7 +1738,7 @@ static int ov8858_power_on(struct ov8858 *ov8858)
+>  	 * transaction, but a double sleep between the release of gpios
+>  	 * helps with sporadic failures observed at probe time.
+>  	 */
+> -	delay_us = DIV_ROUND_UP(8192, OV8858_XVCLK_FREQ / 1000 / 1000);
+> +	delay_us = DIV_ROUND_UP(8192, ov8858->xvclk_rate / HZ_PER_MHZ);
+>  
+>  	gpiod_set_value_cansleep(ov8858->reset_gpio, 0);
+>  	fsleep(delay_us);
+> @@ -1701,9 +1796,11 @@ static int ov8858_init_ctrls(struct ov8858 *ov8858)
+>  {
+>  	struct i2c_client *client = v4l2_get_subdevdata(&ov8858->subdev);
+>  	struct v4l2_ctrl_handler *handler = &ov8858->ctrl_handler;
+> +	const struct ov8858_gain_range *digital_gain_range;
+>  	const struct ov8858_mode *mode = &ov8858_modes[0];
+>  	struct v4l2_fwnode_device_properties props;
+>  	s64 exposure_max, vblank_def;
+> +	unsigned int xvclk_index;
+>  	unsigned int pixel_rate;
+>  	struct v4l2_ctrl *ctrl;
+>  	u32 h_blank;
+> @@ -1746,10 +1843,12 @@ static int ov8858_init_ctrls(struct ov8858 *ov8858)
+>  			  OV8858_LONG_GAIN_MIN, OV8858_LONG_GAIN_MAX,
+>  			  OV8858_LONG_GAIN_STEP, OV8858_LONG_GAIN_DEFAULT);
+>  
+> +	xvclk_index = ov8858->xvclk_rate == OV8858_XVCLK_FREQ_19_2MHZ ?
+> +		OV8858_XVCLK_19_2MHZ : OV8858_XVCLK_24MHZ;
+> +	digital_gain_range = &ov8858_digital_gain_ranges[xvclk_index];
+>  	v4l2_ctrl_new_std(handler, &ov8858_ctrl_ops, V4L2_CID_DIGITAL_GAIN,
+> -			  OV8858_LONG_DIGIGAIN_MIN, OV8858_LONG_DIGIGAIN_MAX,
+> -			  OV8858_LONG_DIGIGAIN_STEP,
+> -			  OV8858_LONG_DIGIGAIN_DEFAULT);
+> +			  digital_gain_range->min, digital_gain_range->max,
+> +			  digital_gain_range->step, digital_gain_range->def);
+>  
+>  	v4l2_ctrl_new_std_menu_items(handler, &ov8858_ctrl_ops,
+>  				     V4L2_CID_TEST_PATTERN,
+> @@ -1887,6 +1986,13 @@ static int ov8858_probe(struct i2c_client *client)
+>  		return dev_err_probe(dev, PTR_ERR(ov8858->xvclk),
+>  				     "Failed to get xvclk\n");
+>  
+> +	ov8858->xvclk_rate = clk_get_rate(ov8858->xvclk);
+> +	if (ov8858->xvclk_rate != OV8858_XVCLK_FREQ_19_2MHZ &&
+> +	    ov8858->xvclk_rate != OV8858_XVCLK_FREQ_24MHZ)
+> +		return dev_err_probe(dev, -EINVAL,
+> +				     "Unsupported xvclk rate %lu Hz\n",
+> +				     ov8858->xvclk_rate);
+> +
+>  	ov8858->reset_gpio = devm_gpiod_get_optional(dev, "reset",
+>  						     GPIOD_OUT_HIGH);
+>  	if (IS_ERR(ov8858->reset_gpio))
+
+-- 
+Regards,
+
+Sakari Ailus
