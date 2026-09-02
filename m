@@ -1,66 +1,73 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B59D468C37;
-	Wed,  2 Sep 2026 11:40:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59B2B480353
+	for <linux-staging@lists.linux.dev>; Wed,  2 Sep 2026 12:25:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788349220; cv=none; b=GscXlHAt307s00RqXRZh/q1y2NShE/u9qe4eK4R1PhWW+u2s9vcNESryaUSXJWoKnc6dLMIYLRVMFkiAYioH/qxwWWmTWShEvco0RTr075Y23twyLTukJx65cstmnx64BxI5dHe0tIvzPD3ZnCSNFlEatZLd4m4n6YmrdECmbjY=
+	t=1788351950; cv=none; b=cQyiMuIMNN0Nbg8DR+Na7H16KdwGrln/5VYmPvwUabktsMKwskOIgi0nJQEL8jYN4AuAPdE/JS/leP3eLanHO/7runq/0LH9/U2myEg600TfjucF8WSqV1qDrsFbwhjaTRPtowtDYBaPJbIIj71xOq8pmymOr6OEJ9u7PUhwQfU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788349220; c=relaxed/simple;
-	bh=euahzbTgRyKFcJtkykzjVz23UGcDO1rLyZexs8BshWw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UpHflAMjWTzKmGvbsqgXLmIls+tuEiCHc4Rjle9a4m+/4lrF6wQ9oop305x++r8BYrY8xwFeqIOqnl5UXQenyN9tHlkbnBB8jzEm9AKyaLTuNOMSgizoZ/cYly5XxSNHigyNdEjUMyQN4ay00Mj4Qk8CQfjJfqVByPy2KAs7d5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=cXH3MV/N; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1788351950; c=relaxed/simple;
+	bh=/C5jHO5KGjc1uyhBAXwASd+Pv7sP5Fby0HfqQuui0CE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=teBBON3K7rCYISbjRwUdVc7kocRggfN1Nr3U04rwGLQk91Jc57KfKtlhed+MZ5edpHxzIXYxIXXXSLOdm9vZdRoYp4IC1Dv3dx0yW2qXhGCRvC2MVSLH9CBml1WWd7YuW72qfx0+Eg2Pj2xc0g/S7MFOa/vFuzjD3Qrhdp0/4+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Jd4MAbsr; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=fCjSrcyN; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="cXH3MV/N"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6FA51F00A3A;
-	Wed,  2 Sep 2026 11:40:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1788349219;
-	bh=Umus33Kne99Ryme3HaczPzLK51JQyS0R64k9efckQg8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=cXH3MV/NMZavO5stNL9kcpTTNtC0+3XmbsV2A62SLKU3XuG4iSn93jp5shTT4tzK9
-	 fReXOs8iPrN16HxzNU0LxfFE+DfYACNu2cp1PI6Q2PqFrCCjeRwPZUyhrvUa9CK4rT
-	 X1NEm6LGfEiK0qmEG+8dZ29eeZ6XqApkV9qolgJE=
-Date: Wed, 2 Sep 2026 13:40:15 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Svyatoslav Nikolenko <nsvatoslav515@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: rtl8723bs: Remove manual ifname allocation
-Message-ID: <2026090252-reformer-kosher-c6b5@gregkh>
-References: <20260902105004.1935-1-nsvatoslav515@gmail.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Jd4MAbsr";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="fCjSrcyN"
+From: Nam Cao <namcao@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1788351947;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/C5jHO5KGjc1uyhBAXwASd+Pv7sP5Fby0HfqQuui0CE=;
+	b=Jd4MAbsrMX51++xbiIcBBT3jkVzbG7sssQ8C39uuRgS1rrFyQpwkuMyfLr5NuXRo66t9CZ
+	NZVIs/H4S4AKfsPybOTBOXepvvLVnDwLfKiBKS+bIdTEMxl2WfqO9vopG9fIjTazdnIB8D
+	fMlF0tfqyKEDq4JNuSbh1poBNyd7f8JMA0rrO6pUJ6E/s7dc99bbKCS7ZjMxA6rjrFTemw
+	lPDYKSMoY03Y2uCIpdtaB8feXnoJw0H0MN8MJtTNO8LJtTqzAzWsDWInehkC5I0Wu1IVIv
+	gIAAgM6WC+Ox4gUggzyoDDvt+JMgCm3uF3TQaJa7KjWMR/3WyJqJRqXQE8vSlg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1788351947;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/C5jHO5KGjc1uyhBAXwASd+Pv7sP5Fby0HfqQuui0CE=;
+	b=fCjSrcyNnRY78KBlVexoMvhb9JK3qVVVKxn8N5W9rvlfnm4A/CM7mM70PfenD8qStnQ3Gy
+	Xt/jps03OVFHcTBA==
+To: Anshika Jain <anshikajain196872@gmail.com>, Andy Shevchenko
+ <andy@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, sashiko-bot@kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, Anshika Jain <anshikajain196872@gmail.com>
+Subject: Re: [PATCH] staging: fbtft: fix len<=0 buffer overflow in
+ define_fbtft_write_reg()
+In-Reply-To: <20260902045026.7442-1-anshikajain196872@gmail.com>
+References: <20260902045026.7442-1-anshikajain196872@gmail.com>
+Date: Wed, 02 Sep 2026 14:25:46 +0200
+Message-ID: <87wlt3vnzp.fsf@yellow.woof>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260902105004.1935-1-nsvatoslav515@gmail.com>
+Content-Type: text/plain
 
-On Wed, Sep 02, 2026 at 01:50:03PM +0300, Svyatoslav Nikolenko wrote:
-> The manual ifname allocation via dev_alloc_name() is redundant because
-> the networking core handles interface naming automatically during
-> register_netdev().
-> 
-> Remove the ifname module parameter, the corresponding field from
-> struct registry_priv, and the rtw_init_netdev_name() callpath.
-> 
-> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Signed-off-by: Svyatoslav Nikolenko <nsvatoslav515@gmail.com>
-> ---
-> Changes in v3:
-> - Added missing changelog.
-> 
-> Changes in v2:
-> - Removed rtw_init_netdev_name() and the entire manual naming callpath 
->   instead of hardcoding "wlan%d", as suggested by Greg KH.
+Anshika Jain <anshikajain196872@gmail.com> writes:
+> This is a latent bug: nothing in the current code prevents
+> two adjacent negative values in an init_sequence from producing len=0,
 
-After this patch is applied, what is the network device name?  Are you
-able to test it?
+Can you elaborate what you mean by "two adjacent negative values in an
+init_sequence from producing len=0"? How is it possible that negative
+values in the init sequence causing len to be zero?
 
-thanks,
+> and there is no guarantee future or out-of-tree panel definitions
+> won't do so.
 
-greg k-h
+Basic testing of future drivers would prevent such bug. It is not on any
+rarely-executed code path.
+
+Nam
