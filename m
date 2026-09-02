@@ -1,64 +1,64 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90ABC4A5C42
-	for <linux-staging@lists.linux.dev>; Wed,  2 Sep 2026 14:54:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBDC34A64D9
+	for <linux-staging@lists.linux.dev>; Wed,  2 Sep 2026 14:54:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788360851; cv=none; b=rsjgk/2FpwrPs8/erPi/gIWq8A/fpNTYRqp+CLS9tKFkLaPx4gD6x3G0XuOblBnN0tFqarXZ9kOPszX2ThJyyhIdQvVSOl+HkKtUKwUo2ZtqBkqxYDQI/PVuI5t3oUre4y7v7Mtrs0MsCOHly3llsC03M3kgHxDtI3CVyFtKcYw=
+	t=1788360852; cv=none; b=l9eVnrtowIdE4ctCNqz9oL7huHsZdctZxEUuxkrq9/8oX0CHbTe3Rk0/qUN2UZ+toyh35/8Gy0WyRRIGcJfh4+AUkKSUDx5VTJkcTRwlo5r2ARrUGIyx/zA/nim+2trBoDQpTQcvx+4rfdzmYFL8RO9xghJuNTwdIXHKz73FQEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788360851; c=relaxed/simple;
-	bh=Bc5RyoPyL8jsNo0TXqrSYlmk5vjAHujKpDa9NlkLa3Q=;
+	s=arc-20240116; t=1788360852; c=relaxed/simple;
+	bh=nDjXt+isRGGooTXCaWuWnqb5pe5EC5+ZCK79Vbzm3eg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZkjvNCz9EUpXFmJ6dkcgfVVvDgXnmdMeRV3aoGKod0vnPOgLXPxvzIXiDBiXjDoSg5x4V7deTT1yFwPs/siQ8mCdhPmty0Yn7HVs23ndxsBTx8BEZe8rC6zp5TaNR/MWadB37xLwumbyKHnpm1b+uLhMtulggF2qTyUyWK+Djdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lrsO9hGh; arc=none smtp.client-ip=209.85.221.51
+	 MIME-Version; b=YGHXJAtyFm4thUoKEHmb3dmh2rpXleo3947Hh6u7lBmqP+WdyWHbKJVMnzSW0BJQeg158WYtIwS0dW28SQEIcZAm2nYLuY/nEsbGBIkWz0hzvzBgTshQXvSHmGCiIOJaedAa55z+8GoUtQxzBrppcm4WvZaGeI9IOoP62j6OI/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mOu0g59L; arc=none smtp.client-ip=209.85.221.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lrsO9hGh"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-48444eff835so307368f8f.3
-        for <linux-staging@lists.linux.dev>; Wed, 02 Sep 2026 07:54:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mOu0g59L"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-47fe89fb333so752010f8f.3
+        for <linux-staging@lists.linux.dev>; Wed, 02 Sep 2026 07:54:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788360846; x=1788965646; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1788360848; x=1788965648; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Z6E5NgofUMoTlxAp6O0bNxVMULKG1XOVZoONL4mrJbw=;
-        b=lrsO9hGh5VudLC1biW/GlbO6/4iY+Be9bky3XsUOS2T6av20tw88omeWwSV2rmDV0Q
-         opHHlRYtdDL3qbhVK8nfgleaBxlANbdO4fbStfSoN/fHStU7O4aVwxtr9WNVdtnS7AVc
-         oLEFnnnsrX8BwxrnZpU280ALZ2DvWXl2x3vJzcd7iqUztkVVPVewgLtYm+4y5VnwFJ9n
-         Z8SM/GBz/q4IlS53VQZQmHgvUoYDzhU2G5+aBIIuWxDsOhVYBOjT4cEmy+Cn2WRNLDKK
-         DHU7bYs2t91IUDxCfSfQjRYw+vd6hQAR1CthUhcft9942AeRLV7fnp5WRtaXkPK5Hrfx
-         iYJg==
+        bh=FYj9gMNKBj9PIheDoD5f1AO5Yajaqc9NTnFS3lh/Ezo=;
+        b=mOu0g59LQ3h9/V+P1evwcp6LrhoWjMLv9JLt8X2qnoWWGdH3V2Poh6670Er/BAPi6k
+         3Z4DuMOW/A27F8b2ONkgrLEdVkWxjPTfk+QiyUSrjOXyaneJGT8+TmuPrfVoohnZFhO4
+         BhK3Qo+zHV0wRPM/hsD+4mtm9Dlf89naD9ITdJR2dqt30lYDtBTQec4GOmJyh0hX1BLE
+         UkCirtxyGe0tpxaF5IToZNpcyJb7Y+IFLUZDU9G8IjeQzR7uljH591O6g5Np6rcJRHL2
+         q8wYQxySXRdrc9Evy6PKvziSTuXQkYDZK7TxRasMTq4nEzpa3ibSpdUIwBMwec85tpkM
+         ts1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788360846; x=1788965646;
+        d=1e100.net; s=20251104; t=1788360848; x=1788965648;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Z6E5NgofUMoTlxAp6O0bNxVMULKG1XOVZoONL4mrJbw=;
-        b=Szt2hvw758I/SEfxCEbO1AB3e+byNswkQLofHHo7yLIOM4S80LY/d+GQQksnBV+sXL
-         jeM5D28/NlBWLAyKN7Aw0lXjISA2O1QrbiV7P3S99M97eo+MV6BUrLuRmJscI3Zyu61v
-         4J4psuw/Ao1Mi3GsPKFP6ZxSlIxZqYhFR4gaqFGh9NL+bEndwAbdnuTM0tAR6QrEM+dd
-         qNp3Jc9FsQoD0PDIODh00bCFvwX/7gcMfOsJPlLlIoCPPG4pT2qA1tqzbiFihczdDHMr
-         +M5HTBN8kWDet6uLwMbSgeCz4Ihzrc0Cu1C99MwOeUrZCY2i08HRIREC8Tfzo7XCCY4S
-         wkJQ==
-X-Forwarded-Encrypted: i=1; AKwUvBw9J/cL5vNGD9nAvs11YOtFH1OAU3nk3d9NrcsO1y4UucpxwgnGz13yp4Zu2jRX1DH9FjanwZQ2vPyQzJ4T@lists.linux.dev
-X-Gm-Message-State: AFuF++mRXyqIu5BxRYtkVjJTRDl2H/t91hneOnWRkfpy38Lcm4+85Agd
-	XkL33H+aUHrd76FClpL/ktXhRBAZm1w1hTcPqs2ygS/63DCWooJjAska
-X-Gm-Gg: AYBFou33PNrEgLrVsrswxtymi36jEgU5m6oTKw9iKc1J4PthDW/4K+LTB8STQspbi4U
-	rGYb0Ngq7pvQPBP1t0KdFgAlMBIlySYhy2K3RHPyS/xK+NzxPAd+Fb15z3RlwNNl1WCja0Smomb
-	eYPg2LBcG87JHo0fRPhtGz7/d/pvE+7OKQ0In9pVWsPXhACCbmG8SF2IKVazxexUoHe08FDNKY9
-	qgmEXoIm15WvgHOUSxEF60FNCQrNhVmaqDuQBQYdDWuvdottXxGCRG0ermvY3kQTCz7zuSfp9OT
-	vHoJPYyMrp1ilcINZ4lAHiQhx0vOEO8tbhGOI66ESTtdY3Gf5odPtXl3YGy2ZsGCgEbjNqxUlKM
-	bx5uhlvxkX4YBPGwK8CTomXG9hpZCv9T91jVG8OVawju4ilRh46/X3wNnXCcnB2vk0p9Sh9N4zg
-	2ntamRDzgon98uyMwxYPbjUAr42AxZYRjPrUXBR8p0blONy07DCD/rL+FNKD2HPdwf0y+6KkGQg
-	dA2EqWhiHKhI81ZrwW4mH/Bhyf2Mpuz8i+c6kiTHSQQPjMNwxXQRLs=
-X-Received: by 2002:a5d:591b:0:b0:47f:8d71:210a with SMTP id ffacd0b85a97d-484913b978amr7666724f8f.15.1788360845742;
-        Wed, 02 Sep 2026 07:54:05 -0700 (PDT)
+        bh=FYj9gMNKBj9PIheDoD5f1AO5Yajaqc9NTnFS3lh/Ezo=;
+        b=Lh5Oh1kBwXwTKylP8cYbv/NUQ8G7mxgMn1e99MzSgJ8metjdz5d+3RtPtbr7Jm9XKU
+         vMUDmCf3ecilX5l2V25vCkn/jHZpBKkkO6yWeYz0immQfs+Bq3H/aP85ZE6Tt36BjoIk
+         NvJSp2HARMf0jwiMSTJLK2Ui8yJcekLhebONS3i89wMn35PAlmGpT6DUZkWZEOZ+jizH
+         o3azEvJlgdA703KINrmCoMPRaCEpZrfJl1qYDPb9H91TRz+T4lgYq9bD4DNOgEvNdnm4
+         2Qv+GTGJNspo3FdIBDSut/hDRs4POh7mYWUx7c/Q2aNGICUT3MGP+fblsyBJfB/DKrix
+         9JPg==
+X-Forwarded-Encrypted: i=1; AKwUvBwidQprubfI3mBWoBXhYwMwzgwAQG2TMxVDpMYEr02VyoiP/9hOpS6qP0MifMY6Tcy9oYr1VKeq8cyOsCHr@lists.linux.dev
+X-Gm-Message-State: AFuF++kXWbviSMkjqvsYE7n+EUX1k2FnM1tIiYHtqUFhDNkuA3j0bn/g
+	3MHE9+dlBALaf/LUdOltm3YR4MGIVV24gdrDXDXMDFH5VSbkBFBCLU4F
+X-Gm-Gg: AYBFou3plRJc4e+UCMYBRqxrdbJtz6rcggnkV1hXeXRHik4ZqRiwG5tgC75mBYb3K3K
+	m1JQGr3tk5k8OIEukm/ela2WNiqs78kwwrlIDtZdHhi/rR1EuvCZxYnGTqeSVQu/hvRqLip8ulI
+	cjxjZxshvrpH1sD9TdL9ytl8iD9fmsgEdihRf/HOpnHMDccCKzR21p8Akg/d97XksA36OqCLjHS
+	u1lmdEnTUSEnzqtS8+eY5zch759TqVVxzXACbGsJYzOAgW9Ncxl7LBq5RNt8CVrSgOM4H9KXZd5
+	oUWxcZV4Mj7fn+U3a0NZU+M7dScCj+avKU4nunUncoiDHmBEJxS67ybnvIJABFdmiu/rZOBJDWK
+	ONJw9+H2yejRVOAbung6adwB+t1q+vw+czY5jeqYflyflswPMU/ilqCor9Gysmdd3hkp6b9oKKz
+	3AONGPthTtAgLActNV2kZdIVaVOJ9POXCSOOhMNgwLJ5V5D9WiAMUM8wHqs/DiT5/VnjaPsNwLp
+	hE+DM8KDlKRxOUgzTVIGVN+qXUKW4ViEkA/DH/RID1p
+X-Received: by 2002:a05:6000:4b19:b0:482:e4bc:51a8 with SMTP id ffacd0b85a97d-48488f07a87mr9665454f8f.7.1788360847525;
+        Wed, 02 Sep 2026 07:54:07 -0700 (PDT)
 Received: from 1Z10 ([37.163.216.116])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48448e81718sm6942012f8f.16.2026.09.02.07.54.04
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48448e81718sm6942012f8f.16.2026.09.02.07.54.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Sep 2026 07:54:05 -0700 (PDT)
+        Wed, 02 Sep 2026 07:54:07 -0700 (PDT)
 From: Maurizio Casciano <mauriziocasciano7@gmail.com>
 To: mchehab@kernel.org,
 	linux-media@vger.kernel.org
@@ -73,9 +73,9 @@ Cc: Maurizio Casciano <mauriziocasciano7@gmail.com>,
 	gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v7 09/16] media: intel: ipu-bridge: allow sensor-specific link frequencies
-Date: Wed,  2 Sep 2026 16:53:38 +0200
-Message-ID: <dd8bcb40575bfcb11e92d976bec7f2b26cb95ca5.1788360629.git.mauriziocasciano7@gmail.com>
+Subject: [PATCH v7 10/16] media: atomisp: derive CSI-2 timing from sensor link frequency
+Date: Wed,  2 Sep 2026 16:53:39 +0200
+Message-ID: <2fab63a3719391b1a37a8937d5a37d9150c64819.1788360629.git.mauriziocasciano7@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <cover.1788360629.git.mauriziocasciano7@gmail.com>
 References: <cover.1788360629.git.mauriziocasciano7@gmail.com>
@@ -87,61 +87,79 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-A bridge-specific firmware parser may have more accurate link-frequency
-information than the generic ACPI hardware-ID table. Let it store link
-frequencies in the per-sensor bridge data and prefer those values when
-constructing the endpoint software node.
+The ISP2401 CSI-2 receiver timing depends on the sensor link frequency.
+Query it through v4l2_get_link_freq() instead of reading a 32-bit
+control value directly.
 
-Existing bridges continue to use the hardware-ID table when no
-sensor-specific frequencies are supplied.
+Keep the frequency as s64 throughout the calculation so valid link
+frequencies do not require an arbitrary S32_MAX limit. Fall back to the
+existing default timings when the frequency query fails.
 
 Signed-off-by: Maurizio Casciano <mauriziocasciano7@gmail.com>
 Assisted-by: LLM sparse
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
 ---
- drivers/media/pci/intel/ipu-bridge.c | 15 ++++++++++-----
- include/media/ipu-bridge.h           |  3 +++
- 2 files changed, 13 insertions(+), 5 deletions(-)
+ .../staging/media/atomisp/pci/atomisp_csi2.c  | 20 ++++++++++++-------
+ 1 file changed, 13 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/media/pci/intel/ipu-bridge.c b/drivers/media/pci/intel/ipu-bridge.c
-index 47317c423fad..5730a95767a2 100644
---- a/drivers/media/pci/intel/ipu-bridge.c
-+++ b/drivers/media/pci/intel/ipu-bridge.c
-@@ -520,11 +520,16 @@ static void ipu_bridge_create_fwnode_properties(
- 					sensor->prop_names.remote_endpoint,
- 					sensor->local_ref);
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_csi2.c b/drivers/staging/media/atomisp/pci/atomisp_csi2.c
+index 95b9113d75e9..5cd285fab742 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_csi2.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_csi2.c
+@@ -5,6 +5,7 @@
+  * Copyright (c) 2010 Intel Corporation. All Rights Reserved.
+  */
  
--	if (cfg->nr_link_freqs > 0)
--		sensor->ep_properties[3] = PROPERTY_ENTRY_U64_ARRAY_LEN(
--			sensor->prop_names.link_frequencies,
--			cfg->link_freqs,
--			cfg->nr_link_freqs);
-+	if (sensor->nr_link_freqs > 0)
-+		sensor->ep_properties[3] =
-+			PROPERTY_ENTRY_U64_ARRAY_LEN(names->link_frequencies,
-+						     sensor->link_freqs,
-+						     sensor->nr_link_freqs);
-+	else if (cfg->nr_link_freqs > 0)
-+		sensor->ep_properties[3] =
-+			PROPERTY_ENTRY_U64_ARRAY_LEN(names->link_frequencies,
-+						     cfg->link_freqs,
-+						     cfg->nr_link_freqs);
++#include <media/v4l2-common.h>
+ #include <media/v4l2-event.h>
+ #include <media/v4l2-mediabus.h>
+ #include "atomisp_cmd.h"
+@@ -209,7 +210,7 @@ int atomisp_mipi_csi2_register_entities(struct atomisp_mipi_csi2_device *csi2,
+ static const int LIMIT_SHIFT = 6;	/* Limit numeric range into 31 bits */
  
- 	sensor->ipu_properties[0] = PROPERTY_ENTRY_U32_ARRAY_LEN(
- 					sensor->prop_names.data_lanes,
-diff --git a/include/media/ipu-bridge.h b/include/media/ipu-bridge.h
-index 16fac765456e..81645a5f8709 100644
---- a/include/media/ipu-bridge.h
-+++ b/include/media/ipu-bridge.h
-@@ -133,6 +133,9 @@ struct ipu_sensor {
- 	struct software_node swnodes[SWNODE_COUNT];
- 	struct ipu_node_names node_names;
+ static int
+-atomisp_csi2_configure_calc(const short int coeffs[2], int mipi_freq, int def)
++atomisp_csi2_configure_calc(const short int coeffs[2], s64 mipi_freq, int def)
+ {
+ 	/* Delay counter accuracy, 1/0.0625 for ANN/CHT, 1/0.125 for BXT */
+ 	static const int accinv = 16;		/* 1 / COUNT_ACC */
+@@ -288,18 +289,18 @@ static void atomisp_csi2_configure_isp2401(struct atomisp_sub_device *asd)
+ 	int dat_termen;
+ 	int dat_settle;
  
-+	u64 link_freqs[MAX_NUM_LINK_FREQS];
-+	u8 nr_link_freqs;
+-	struct v4l2_control ctrl;
+ 	struct atomisp_device *isp = asd->isp;
+-	int mipi_freq = 0;
+ 	enum atomisp_camera_port port;
++	struct v4l2_subdev *sensor;
++	s64 mipi_freq;
+ 	int n;
+ 
+ 	port = isp->inputs[asd->input_curr].port;
+ 
+-	ctrl.id = V4L2_CID_LINK_FREQ;
+-	if (v4l2_g_ctrl
+-	    (isp->inputs[asd->input_curr].sensor->ctrl_handler, &ctrl) == 0)
+-		mipi_freq = ctrl.value;
++	sensor = isp->inputs[asd->input_curr].sensor;
++	mipi_freq = v4l2_get_link_freq(&sensor->entity.pads[0], 0, 0);
++	if (mipi_freq < 0)
++		mipi_freq = 0;
+ 
+ 	clk_termen = atomisp_csi2_configure_calc(coeff_clk_termen, mipi_freq,
+ 						 TERMEN_DEFAULT);
+@@ -310,6 +311,11 @@ static void atomisp_csi2_configure_isp2401(struct atomisp_sub_device *asd)
+ 	dat_settle = atomisp_csi2_configure_calc(coeff_dat_settle, mipi_freq,
+ 						 SETTLE_DEFAULT);
+ 
++	dev_dbg(isp->dev,
++		"CSI port %u link frequency %lld Hz, clk timing %d/%d, data timing %d/%d\n",
++		port, mipi_freq, clk_termen, clk_settle,
++		dat_termen, dat_settle);
 +
- 	u8 link;
- 	u8 lanes;
- 	u32 mclkspeed;
+ 	for (n = 0; n < csi2_port_lanes[port] + 1; n++) {
+ 		hrt_address base = csi2_port_base[port] + csi2_lane_base[n];
+ 
 -- 
 2.53.0
 
