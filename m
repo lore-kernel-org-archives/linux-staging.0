@@ -1,49 +1,49 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A736349CFF
-	for <linux-staging@lists.linux.dev>; Thu,  3 Sep 2026 05:37:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 709853FE344
+	for <linux-staging@lists.linux.dev>; Thu,  3 Sep 2026 07:02:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788413834; cv=none; b=YzMvN7pzC/2byz6aE/Zd03SQrx8XKr0OOVnv9iLjRa6MbpzNzEGUw+oNx69hvpl8hI9UVxoiLgTJX+6BYtvN6RGk9wtsC3Twmnejdb6VhitT+vtbpkL07rzmp6yGotHoiX7QGxSpFXWoq8Xc7/uBUQMVStj2hFm+vEqkqAq6cp4=
+	t=1788418925; cv=none; b=jbapK7knPFqbHV3cafJZQoCXiXJ1rKU/r6QvtSYLC+Fn4Ww3WsDNN6q5ofMBsLNkE3cwtFCztC8KftNoRMrVmwjKgAsl5RyW3itnG3c2bcim4EbzJVsqJ8Qpip/cmPJhAYEWAUauUrILdYq8QFM3cX1V4S7MyKbVrERu37FM2tA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788413834; c=relaxed/simple;
-	bh=Z8tTZlVgL94I8CKtvPZwYNu164VkXj+v272ZBtYpEVI=;
+	s=arc-20240116; t=1788418925; c=relaxed/simple;
+	bh=p0DLqGocHqpfSAmGIsGAVaS8fpSkr8z/3oF4Pd1J1vQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UfMn1CkDQccdt2zyXxc+s8C4Guqs1i5+tqaFgAxnKmzkBZz4bqqX6peddgD5d2uq6SVmxsCyCw7kRIMRUHHyo5GCjno1DMTrhusvOkN1DLts/YM7i4Epm8VR+VIqnTejgnHeROC5yHPYY8NckKGRPvxUXYGpQXr4zM865H2DNAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S9cPRXCR; arc=none smtp.client-ip=192.198.163.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=aMBj1bLsU3aS9xzsABH/iQQSdZ0GPouOVXtJQT/zkxO3RInIlCmsSdDyVBLSVGRi2cl6PX1m0gjnwkPVlsLD/Un8mwfqZSPDrd8PyMORP9X5I9s7R6CHtfXTKXflhKmVZrwR76vyQVls8tQUOKRLkeqKTuQLEtYpYTvB7ps+jEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bam/6/l+; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S9cPRXCR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bam/6/l+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1788413833; x=1819949833;
+  t=1788418923; x=1819954923;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Z8tTZlVgL94I8CKtvPZwYNu164VkXj+v272ZBtYpEVI=;
-  b=S9cPRXCRWdyDIFJWmuz8/S9D6dNNcvnja/ODkYZ1pWZx/47hVyz50q+y
-   ULZ/7jxE21I1KleXiBYfV650S5ks3zFfameKiWMCmdn0n9qNhj24gF9/u
-   mMkvM4dzjblw0qRPLe0D3aSeExa2mOIet6dNskzHzzbCGh5vphsmEEQ+l
-   kv4t0MO7unqN9T3s+Q2fwKD+XByB76dy5S6wmSNzefNdc71jB4aDrplU6
-   foCptiea3AgOcuJretWVZwvQ9wSf79bEcNYSVsBlSEzF/aWojhx0O0lUj
-   dZkx0VHepR67YFsiCIP1DxB/dvdVIm4NiVQRm1ykydidO1CMj707uaeZb
-   A==;
-X-CSE-ConnectionGUID: DHYMDC9xTxGShbd3WoltSw==
-X-CSE-MsgGUID: YlNQeBxSQOut9N5M9+3+KA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11894"; a="99481578"
+  bh=p0DLqGocHqpfSAmGIsGAVaS8fpSkr8z/3oF4Pd1J1vQ=;
+  b=Bam/6/l+CM1anbaDggDJh0nTT/Q+UZUFvLI4h4TECU5+IwU+OcGk2hwA
+   mw+1oiPdyy22yjX61An3g/u/vvgApFFhexvnibtQS8AhM/REJ2d8fPpxm
+   ZXHxdgR4R3w6NayeN99u4I/gKJkgjUf/iQyombVWLacxmd1wfPqnPus+H
+   f0s0IqSJIZnOKgMO2ABALFpkCkyL9b0Nhs9ML1iTdkNp4+8QONwJzXFBR
+   Y9ELTiseapF8Oc1CSqKwK8UhqcdlGjt18xRr0zGtSqxmagI1aXv6EdKig
+   6Cs5UdoQyWVavaAnLG7JgBf8vnthwPlasnpYwB7PYXYtX+tA2eSDv0IFv
+   Q==;
+X-CSE-ConnectionGUID: HNtwAJ3WRBGdUN456s2abw==
+X-CSE-MsgGUID: TCvnCAiTT6CU+S0p2zK/4A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11894"; a="106255530"
 X-IronPort-AV: E=Sophos;i="6.25,258,1779174000"; 
-   d="scan'208";a="99481578"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 22:37:12 -0700
-X-CSE-ConnectionGUID: oOHZDl1MSbyzQWqEsSxWtw==
-X-CSE-MsgGUID: Zi7mP9elRdGdQNg5DAAXmg==
+   d="scan'208";a="106255530"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2026 00:02:02 -0700
+X-CSE-ConnectionGUID: QP6q0fThS3yy5lmNQ4V5BQ==
+X-CSE-MsgGUID: dl65pcGOQhetlwaGG0rwdg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.25,258,1779174000"; 
-   d="scan'208";a="266365243"
+   d="scan'208";a="273130429"
 Received: from smoticic-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.28])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2026 22:37:10 -0700
-Date: Thu, 3 Sep 2026 08:37:07 +0300
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2026 00:01:58 -0700
+Date: Thu, 3 Sep 2026 10:01:56 +0300
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
 To: Maurizio Casciano <mauriziocasciano7@gmail.com>
 Cc: mchehab@kernel.org, linux-media@vger.kernel.org,
@@ -51,10 +51,11 @@ Cc: mchehab@kernel.org, linux-media@vger.kernel.org,
 	jacopo.mondi@ideasonboard.com, nicholas@rothemail.net,
 	andy@kernel.org, hansg@kernel.org, gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 00/16] media: Add Yoga Book camera support
-Message-ID: <apkHg_No1Dwtn6jB@ashevche-desk.local>
+Subject: Re: [PATCH v7 09/16] media: intel: ipu-bridge: allow sensor-specific
+ link frequencies
+Message-ID: <apkbZKMDcOceI11m@ashevche-desk.local>
 References: <cover.1788360629.git.mauriziocasciano7@gmail.com>
- <apj7LiYzFEIByPvV@ashevche-desk.local>
+ <dd8bcb40575bfcb11e92d976bec7f2b26cb95ca5.1788360629.git.mauriziocasciano7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -63,42 +64,20 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <apj7LiYzFEIByPvV@ashevche-desk.local>
+In-Reply-To: <dd8bcb40575bfcb11e92d976bec7f2b26cb95ca5.1788360629.git.mauriziocasciano7@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Thu, Sep 03, 2026 at 07:44:30AM +0300, Andy Shevchenko wrote:
-> On Wed, Sep 02, 2026 at 04:53:29PM +0200, Maurizio Casciano wrote:
-> > 
-> > This series adds the sensor, bridge, AtomISP and lens-actuator support
-> > needed by the front and rear cameras of the Lenovo Yoga Book YB1-X91.
-> > 
-> > It covers the OV8858 19.2 MHz clock and Cherry Trail gain programming,
-> > OV2740 288 MHz link frequency and manual white balance, firmware IDs and
-> > IPU bridge data, AtomISP raw capture and CSI-2 timing, and the WV517S lens
-> > actuator.
+On Wed, Sep 02, 2026 at 04:53:38PM +0200, Maurizio Casciano wrote:
+> A bridge-specific firmware parser may have more accurate link-frequency
+> information than the generic ACPI hardware-ID table. Let it store link
+> frequencies in the per-sensor bridge data and prefer those values when
+> constructing the endpoint software node.
 > 
-> > Changes in v7:
-> > - In patch 2, keep digital gain independent of the external clock and
-> >   expose the manual red and blue gains as separate controls, as requested
-> >   by Sakari Ailus. Keep green at unity and accumulate register-write
-> >   errors across the three manual white-balance channels.
-> > - Move the 24 MHz PLL and global timing registers out of the common mode
-> >   tables into revision- and lane-specific arrays. Select both 19.2 MHz and
-> >   24 MHz clock programming explicitly when starting a stream.
-> > - Clarify the patch 2 assistance disclosure as
-> >   `Assisted-by: LLM [Codex] [Sparse]`.
-> > - No changes to patches 1 and 3 through 16.
-> 
-> Wait at least a few days before sending a new version.
-> 
-> There will be a v8 as far as I can tell, but send it next week after all comments
-> were addressed (or settled down).
+> Existing bridges continue to use the hardware-ID table when no
+> sensor-specific frequencies are supplied.
 
-To collect given tags use `b4` tool.
-
-And general comment about AI, try to do some work yourself, AI does not
-guarantee 100% correct results.
+My tag?
 
 -- 
 With Best Regards,
