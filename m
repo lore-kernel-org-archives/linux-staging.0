@@ -1,107 +1,118 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0850C4DF4B3
-	for <linux-staging@lists.linux.dev>; Thu,  3 Sep 2026 15:34:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5782F37187E;
+	Thu,  3 Sep 2026 20:31:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788449672; cv=none; b=VB3p2MAowY4Ycy97K5EsFS3aqfB/yfM+B6wCgqSlnBrMaPzpMmk78h03+32LkJOM+PyGBQKEYpZfaYK3ru1tdGo66RJEcJEBT6iFPaXXJ6wbOiCgm/o3wXKgIGwXIuq5xuUB3zXRhAgYMQrVlLhknKeJfPk+E1I9RwpfQEesS7E=
+	t=1788467520; cv=none; b=hFdYuKxbowialvMKpPKKEmICgclNOrEFU8iwWuFOEkA2MV90Qg0ubukL2yKfKPsLaupHyGVhu8COWHurVekbnzzSZR5DjsHG8p67+jxwyligD0so7cYKb0DszTf1SlSjy8eR769nveF1T5tJTsti1olpxxqw58Pt7h0S4dIZiec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788449672; c=relaxed/simple;
-	bh=goQu9Jgo/wzgznFj295FQUjpYm7lou0KSDavxxBHM4o=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nhb3B5WcgjrtSvGrqIKes/nz+Bzjpvx/qtR3HNP51uVsqWT7phV48WSQnqN/7U3On5Oqc82WI01fh1I9NLGtuFXGiN4MKQAmllXACTwSpiiznoc5wIbWuUGXeWSYHtT9rDIGzMY6+zD0LrUK8VBAaABOeDDkrh5NLwb4XFei3Mk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OnthqoEG; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1788467520; c=relaxed/simple;
+	bh=x2V5V68A4z540h30K15Q9BAgornczg2Z+qBg3S3fJ4E=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=NyJqgDkaAB851aUFxHUj7U6mapE9DYLDkp3XW4QUJVNUF7fYXBhOxE2i1Um0vMWlZLWoYSGBPP/EwGl7QE/3QL7jLrRGKwwqAJuHZyxv7kYy0D6pZIwLHjbN/Ay3s31y+RZh6uiErvAF/GpVQ+1YMRGibRbP6qigw5nSH50d9YU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yn8Lbc9e; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OnthqoEG"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4994d41ceb9so1870665e9.2
-        for <linux-staging@lists.linux.dev>; Thu, 03 Sep 2026 08:34:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788449669; x=1789054469; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=PkuD/BaHiKXvm0lMtMhPcQ74061Sh7KqlPSpTfAlPBU=;
-        b=OnthqoEGak2+byBA+Yvc+ShEZjs38YzRS2yn0D2S8R0+4z5fdfr2upHZGgBGREeT5E
-         xXlDi1tDTxzAqCnwlbWn7nJxRQVdndUqHO7YNyPotY572gWBCTBczi5h4wSyIptHt/9i
-         nFUgEO01IA+A6qh0H0mmGsAJMOgnbSQaXdImxz5E6qITGWYD2gYGsslx6+iXUAtQWF/t
-         vEhb1viC+l08H4Ht57w17B6txj7QfyJqEjqNeP0/ZEaKDdDhpDVAr02c6s9Qxqom73o9
-         eqeEQjH3/9lTsBPePuu+x35uh0v84gHwwPLIZwHYD8L0gPpkhimSgPN/+uR6Ww5V+hds
-         0YDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788449669; x=1789054469;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=PkuD/BaHiKXvm0lMtMhPcQ74061Sh7KqlPSpTfAlPBU=;
-        b=hWgphaVeVBHAgzcuSozAP9C9/OsyYFafNqZNNLjBgxyPLjuyA+dhayGW+TuCwBc/xn
-         gUnk2TPvKRU2KpynmXRzjPjDeAu9xZDnB6mnI/VVcH4jN7TjOU8zUBBvkJM1GWnjNCP6
-         lIjoMkG3XrkFHlAMi5YjwiAeZABzyg44vTVK0Yp9VC0u+V+o7wjD2781j1R/fnRohIqb
-         Q8b6mJh7s1+UoSFIvrymHfbZhDdZUl6Fkd8D7U7eJBPHX8VndU+qIeSpnAkyL1j4Bxa4
-         9lmoq8cBHfX5fFgks+ucjMxKN54obgidrR3hri/LYAsn0K1ypqUUi4adKupwDOIrFJNY
-         kwrA==
-X-Forwarded-Encrypted: i=1; AKwUvBxicgJvgQ17KKlkky9DxSFYNwRG5eIMFXHW7gwV4PBWiCKiscpgp4homdQBAvhWUCB7t/y10WP+++MLv6px@lists.linux.dev
-X-Gm-Message-State: AFuF++ks4kHw+9JhWZRtmrWhRvTyUOvuih6h2I3G5pFHCPiccVs94W34
-	+RF+m+0La+aqjPA0D0fRDaSmEkEYKmbm4fpkrR+X69RvWf32ZqpgM64s
-X-Gm-Gg: AYBFou2Ko7FARVDlKBtohGuw+851arWEivmSGFsTPxXfEZ2/XXmKRogcttH4AwLpIyl
-	AWhNKRwclrq/FD8HTmZmraPzunkW+cT4lb8EnXjGY0RwgPUGoP6dy92TSdmS98MtpM+EuUZFAV1
-	4c+gw9pj2aZ51PCY87/wL+5fmKdJhODOxgNa5tsaQFMbsXST29RYlfLf7Jb25EHcO5zEBwOAvbo
-	OCbBFfdzmAkOBWuaWdhCzxapsQ4ueZNiIipgzL1SAH0g6JfFEbAe9xxc8geppJCHFPCFk6XkcBB
-	aofqE9JQY9aX38UaAW+lEsnwh0Aq1kaL2qBzl9f4JpXmJHqwgRHUxb0Gc+Qijtjy6Gm8U8WS8oo
-	rXKEMuI38cZMyVys+EXr84/JhPC1xA9aVXuQdO4XpG6AzKhBNKCt4uiMC7mPV7G51RR8mZwNeJU
-	rtvjFQtoKVhVJvv4xk8lWmQCPzMjbzyzZITOtAeMBcXnnVyo73/e62AxEZj4SWZwZGgJBk2G7Ay
-	FrwdBnfVpfDwqxW6yeOlWW5CTJd/NiYIcjzCd7wHs2o4jfX9WGqbny3vn7iOs6qKy/EZC7N2dKt
-	3XY6NdQBgqzc5XjhAYo3Loli
-X-Received: by 2002:a05:600c:83c4:b0:49c:e363:c66e with SMTP id 5b1f17b1804b1-49ce580365emr105280595e9.1.1788449669019;
-        Thu, 03 Sep 2026 08:34:29 -0700 (PDT)
-Received: from pop-os.. (98.102.222.87.dynamic.jazztel.es. [87.222.102.98])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cee5d476esm87754845e9.1.2026.09.03.08.34.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Sep 2026 08:34:28 -0700 (PDT)
-From: Miguel Garcia <miguelgarciaroman8@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: hdegoede@redhat.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8723bs: remove unused phal variable
-Date: Thu,  3 Sep 2026 17:34:23 +0200
-Message-ID: <20260903153423.1814932-1-miguelgarciaroman8@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yn8Lbc9e"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A004EC2BCB8;
+	Thu,  3 Sep 2026 20:31:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1788467519;
+	bh=x2V5V68A4z540h30K15Q9BAgornczg2Z+qBg3S3fJ4E=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=Yn8Lbc9eELXbGR3lMdBtPNSA/bwrHV2H7nX3gXHNt1gF6uYNF2OMK+mXUB3Qa3sTK
+	 vMjFXk0JV+w4JyQCFJZRxj9bbzKsUXRQ8KG1SK0WSB/D9Ku/WDvmdsGY+czuXVnpCs
+	 +KkDfcc7SF6wZpvctHpuo8cb89Qxn4ih1A8RVTVTQrZUy6T3gBGxVzKqZHxSum1YmB
+	 n/zogB+hZZErsm1kNdUnZ2hxogEXroJd1sZwvg2pCbdisL4LVZkXkutDaNl3aM4Hsc
+	 lLqGnYJ2flCDkzifY4JxI6wE69j1137J0Bien5XiH8bS5vd/QMPhXDgPf2xWMHzsM4
+	 vKweoEx/V9rcQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E2A7C624DB;
+	Thu,  3 Sep 2026 20:31:59 +0000 (UTC)
+From: Nicolas Giuliani via B4 Relay <devnull+nicolas.giuliani.hotmail.com@kernel.org>
+Date: Thu, 03 Sep 2026 22:31:46 +0200
+Subject: [PATCH] staging: rtl8723bs: use unsigned int in
+ rtw_get_rateset_len
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260903-send-final-v1-1-e72dd23d65f2@hotmail.com>
+X-B4-Tracking: v=1; b=H4sIADHZmWoC/x3MQQrCQAyF4auUrA1Op1itVxEXaSczDUgqkyKF0
+ rsbXT2+xft3MK7CBvdmh8ofMVnU0Z4amGbSwijJDTHEPgyhQ2NNmEXphW3Mly4PN+qvCfzwrpx
+ l+8ceT/dIxjhW0mn+JZYqRfRsK/kUVN5WOI4vSrYTOIIAAAA=
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Nicolas Giuliani <nicolas.giuliani@hotmail.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1788467518; l=1893;
+ i=nicolas.giuliani@hotmail.com; s=default; h=from:subject:message-id;
+ bh=yzibu705xasWBwsTRqp/0Aaw3bazN0NuQTOEDempaJk=;
+ b=d2HcfVqHrHqQY9mq6AR0LFZNjY2wk1086j03Gug2e2dlY0bxZhN0tpb8g3l666lQ8KJa45qsd
+ PU5/LWRAhjjCADFtO2Q59x4vfnWm1O7RK2mXAdwaUXqMUCqxNE3zD/I
+X-Developer-Key: i=nicolas.giuliani@hotmail.com; a=ed25519;
+ pk=rNNxmS9TbBXKwfX1dwZ1c+DGVtBOSY1rgDwqf9Ecog4=
+X-Endpoint-Received: by B4 Relay for nicolas.giuliani@hotmail.com/default
+ with auth_id=1000
+X-Original-From: Nicolas Giuliani <nicolas.giuliani@hotmail.com>
+Reply-To: nicolas.giuliani@hotmail.com
 
-Removing SdioTxFIFOFreePageLock also removed the only use of phal in
-rtl8723bs_init_xmit_priv(), leaving the variable set but unused.
+From: Nicolas Giuliani <nicolas.giuliani@hotmail.com>
 
-Remove the dead declaration and assignment.
+Replace the uint typedef with unsigned int in rtw_get_rateset_len()
+and its declaration.
 
-Fixes: e9b50a2821bb ("staging: rtl8723bs: remove unused spinlock 'SdioTxFIFOFreePageLock'")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202608310749.mheatdIW-lkp@intel.com/
-Signed-off-by: Miguel Garcia <miguelgarciaroman8@gmail.com>
+This addresses the rtl8723bs TODO item to convert remaining unusual
+variable types. No functional change intended.
+
+Assisted-by: LLM
+Signed-off-by: Nicolas Giuliani <nicolas.giuliani@hotmail.com>
 ---
- drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c | 3 ---
- 1 file changed, 3 deletions(-)
+staging: rtl8723bs: use unsigned int in rtw_get_rateset_len
+---
+ drivers/staging/rtl8723bs/core/rtw_ieee80211.c | 4 ++--
+ drivers/staging/rtl8723bs/include/ieee80211.h  | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-index 7f55448d544e8..0441e84ea87da 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-@@ -525,9 +525,6 @@ s32	rtl8723bs_hal_xmitframe_enqueue(
- s32 rtl8723bs_init_xmit_priv(struct adapter *padapter)
- {
- 	struct xmit_priv *xmitpriv = &padapter->xmitpriv;
--	struct hal_com_data *phal;
--
--	phal = GET_HAL_DATA(padapter);
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+index 66f476a46a..8c20609fc3 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+@@ -278,9 +278,9 @@ void rtw_set_supported_rate(u8 *supported_rates, uint mode)
+ 	}
+ }
  
- 	init_completion(&xmitpriv->SdioXmitStart);
- 	init_completion(&xmitpriv->SdioXmitTerminate);
+-uint rtw_get_rateset_len(u8 *rateset)
++unsigned int rtw_get_rateset_len(u8 *rateset)
+ {
+-	uint i;
++	unsigned int i;
+ 
+ 	for (i = 0; i < 13; i++)
+ 		if (rateset[i] == 0)
+diff --git a/drivers/staging/rtl8723bs/include/ieee80211.h b/drivers/staging/rtl8723bs/include/ieee80211.h
+index 9f421e4875..e8f99e700c 100644
+--- a/drivers/staging/rtl8723bs/include/ieee80211.h
++++ b/drivers/staging/rtl8723bs/include/ieee80211.h
+@@ -722,7 +722,7 @@ u8 *rtw_get_wps_attr_content(u8 *wps_ie, uint wps_ielen, u16 target_attr_id, u8
+ 	for (ie = (void *)buf; (((u8 *)ie) - ((u8 *)buf) + 1) < buf_len; \
+ 		ie = (void *)(((u8 *)ie) + *(((u8 *)ie) + 1) + 2))
+ 
+-uint	rtw_get_rateset_len(u8 *rateset);
++unsigned int	rtw_get_rateset_len(u8 *rateset);
+ 
+ struct registry_priv;
+ int rtw_generate_ie(struct registry_priv *pregistrypriv);
+
+---
+base-commit: 758be99c46265b74476d5e1173d781abe325533e
+change-id: 20260903-send-final-12f53f98a67d
+
+Best regards,
 -- 
-2.43.0
+Nicolas Giuliani <nicolas.giuliani@hotmail.com>
+
 
