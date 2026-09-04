@@ -1,39 +1,39 @@
-Received: from mail-4325.protonmail.ch (mail-4325.protonmail.ch [185.70.43.25])
+Received: from mail-24425.protonmail.ch (mail-24425.protonmail.ch [109.224.244.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5581138AC65
-	for <linux-staging@lists.linux.dev>; Fri,  4 Sep 2026 05:48:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E455118D636
+	for <linux-staging@lists.linux.dev>; Fri,  4 Sep 2026 05:56:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788500900; cv=none; b=GDWfgNXimNaRKa2/4JUX9AfmAtqBzAyX10YwpfUkUS5RLDxnqkYjxl5rZ4rnCF9eJixOGwcFW1BK3j1gL4TSZNWilIyrIxfXiMZzdtcd8FrqRsD76xcukEdCJE9HyoZ5/M/oUJVV3KMzoiU/yvWKUhd18tJIkV5ENj6kibGJ2nk=
+	t=1788501394; cv=none; b=GBrSV8n+G8vnYA4nwyqUFs4fJMeev6mi6atsN9itzeRwIyEhY/gPEFDglDrWPGuGvs8v3hA5hJEXV1w9vucMYbMPJeIfJDFp7/8ytdQ6rQt9ZRH3w2AxIrEXXXwD+UBGLx7rGNKRdrrw9fqxhRj2mcmXUGpRYlA02krvYB0y8zo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788500900; c=relaxed/simple;
-	bh=nTRG8ZSZ4H/hiNYQ88c54TfPICLXerjHa8lyT2x1eog=;
-	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=SquGRE1R4YqvdQAAaJ7IK2S7ovHsx5Ff4gRnsmsFFrxqycVJSxdjPACda+zOig9Y3KS6s5z5L2XbwtO3PdMsRKzb1z9UX1UUS1+dGSuwJWfWMEwiOYQZ0EZmvlDNb9N7I2/whXCwl1f4aF8bK4VU1lOBqnKhJtruzx7c8hPDd9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=iG/nZC+r; arc=none smtp.client-ip=185.70.43.25
+	s=arc-20240116; t=1788501394; c=relaxed/simple;
+	bh=7Xt7Kn8kJF6lxMVlOVyIM3tORKDbc4KAs/7sPreRJc8=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=WD3xnMXy0YqLasOGgACVQrT5C3YeCt2fmv4/HEGqDYB6ZniokW5JjGweODgiT0zBf8li63ua1dWjzCiVvVMGuPwcNsEPvDn5ralEZnCqndgwX7hLSgP17o6oU/gh9sOrrnaEkR7lvLlPmTmiiwBjVBR4WNG8nh0PwlueNpqVcVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=N1xeDrO8; arc=none smtp.client-ip=109.224.244.25
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="iG/nZC+r"
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="N1xeDrO8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1788500887; x=1788760087;
-	bh=kEUTSb9f+CkR7/rItg94sgkcqIObQKv/H0yUJzqRSp0=;
+	s=ywveyr33ezbgrmu2ki7gud7ety.protonmail; t=1788501389; x=1788760589;
+	bh=yA8mtXglU3dreRpjVd89aIiFhuD4odifB155h7kVRtE=;
 	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
 	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=iG/nZC+rYj50IwFjr37KRIVc7vj8CATlrdlBzzBbKXaoNqMibXhrU4brpIwWgqJxX
-	 fgMZETyDf3egWQPe5Cpuy7wo4sXguFnNEh+5+QE5hXoVX+T3blDvdzmzniInnA5v3N
-	 VojCyF1txLU5NkKHDH+Ivn8Hv1HCxMfCmAQGPEUTyT8y4W9pvwH/pr5ZMPL/cu0JVj
-	 xMzVIk02XBDRXzLmgEt1DYgoiwlHva5RKlrOID77Mx/5/fg87MH65oRQ1optLKRicu
-	 fmtEEJhco0fyHY0ErZOQAhXBkSlZvsUmpnnDn57URiuztts9TSkeXbp2ig402oaTjX
-	 Mro7sj3AYK5Wg==
-Date: Fri, 04 Sep 2026 05:48:04 +0000
+	b=N1xeDrO8KWYsRTCr7wpc8WBGtV1qapgC6X6KwAGZ/7GIwa/Yn5QqvWMSd4IlY36qo
+	 fL367scAQEzkSAfjvuyoid5FY+rNlkzSi9E40jKg8FqUiUNOM/ixBedTb5G9/4z8Hk
+	 5tf0L+Y5sptDCxfnZp9Apb+aIoDBGwjcepDvFpHzR2K6VvhBpgNsI7kpgRURwjc/0b
+	 uavCpNpMmcaFUVpO6yTCt4KKi8Nh0NzwMrO+fbMINFBTqrEFOqMrzu94ZpL8ZwMEVE
+	 0A4ktfjZfOZnuv95c3eYVu+Ke6r1+ejHTP2bPLEO3qJW2mi/GQxvuu+mo71anlHGNM
+	 jZU2lwSuEVOvQ==
+Date: Fri, 04 Sep 2026 05:56:25 +0000
 To: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
 From: contectforbusiness@proton.me
-Cc: "sudipm.mukherjee@gmail.com" <sudipm.mukherjee@gmail.com>, "teddy.wang@siliconmotion.com" <teddy.wang@siliconmotion.com>, "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>, "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: [PATCH 1/2] staging: sm750fb: make g_fbmode const to fix checkpatch warning
-Message-ID: <KW1s60gR5As9PdhLGq5MQYR9QPxr-tCZUn_dxvjME1PM6lW4ilRIG0gq8mbir7y9oBSlnEIhPq-EkEjHkruVnDNZpsJ-2OF2OIAEZLEZs7E=@proton.me>
+Cc: "rmfrfs@gmail.com" <rmfrfs@gmail.com>, "johan@kernel.org" <johan@kernel.org>, "elder@kernel.org" <elder@kernel.org>, "greybus-dev@lists.linaro.org" <greybus-dev@lists.linaro.org>, "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: [PATCH 2/2] staging: greybus: light: add comments to mutex definitions
+Message-ID: <PqjvDjNm1A3nH3BCu_rlHx6YLIzrr0r8McQL1Xbg5GX6VcF6GW49nKPhkTIcHashk4ktOEARq8_izQ6xyFqeWAliK0JqQ8MMPOrFIXSowcw=@proton.me>
 Feedback-ID: 147676893:user:proton
-X-Pm-Message-ID: f04f51274e6fa22ad2180c7eebb231b8a723548c
+X-Pm-Message-ID: 122e5c71d7d6b4f83da2ff1e4883039d31cf7c84
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -43,32 +43,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-checkpatch reports:
+checkpatch complains about:
 
-  WARNING: static const char * array should probably be
-  static const char * const
+  CHECK: struct mutex definition without comment
 
-g_fbmode is never modified, so make the pointers const as well.
-This quiets the warning and makes the intent clearer.
+Add short comments describing what each mutex protects. The
+channel lock protects the channel state and lights_lock protects
+the lights array.
 
-No functional change.
+No functional change, just quiets checkpatch.
 
 Signed-off-by: Vaibhav <contectforbusiness@proton.me>
 ---
- drivers/staging/sm750fb/sm750.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/greybus/light.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm75=
-0.c
-index 039e2033f..f731ef53e 100644
---- a/drivers/staging/sm750fb/sm750.c
-+++ b/drivers/staging/sm750fb/sm750.c
-@@ -12,7 +12,7 @@
- static int g_hwcursor =3D 1;
- static int g_noaccel __ro_after_init;
- static int g_nomtrr __ro_after_init;
--static const char *g_fbmode[] =3D {NULL, NULL};
-+static const char * const g_fbmode[] =3D {NULL, NULL};
- static const char *g_def_fbmode =3D "1024x768-32@60";
- static char *g_settings;
- static int g_dualview __ro_after_init;
+diff --git a/drivers/staging/greybus/light.c b/drivers/staging/greybus/ligh=
+t.c
+index cab02b5da..a036fa2a0 100644
+--- a/drivers/staging/greybus/light.c
++++ b/drivers/staging/greybus/light.c
+@@ -37,7 +37,7 @@ struct gb_channel {
+ =09bool=09=09=09=09releasing;
+ =09bool=09=09=09=09strobe_state;
+ =09bool=09=09=09=09active;
+-=09struct mutex=09=09=09lock;
++=09struct mutex=09=09=09lock; /* protects channel */
+ };
+=20
+ struct gb_light {
+@@ -59,7 +59,7 @@ struct gb_lights {
+ =09struct gb_connection=09*connection;
+ =09u8=09=09=09lights_count;
+ =09struct gb_light=09=09*lights;
+-=09struct mutex=09=09lights_lock;
++=09struct mutex=09=09lights_lock; /* protects lights */
+ };
+=20
+ static void gb_lights_channel_free(struct gb_channel *channel);
