@@ -1,80 +1,68 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DDE22D5926
-	for <linux-staging@lists.linux.dev>; Sat,  5 Sep 2026 00:30:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D08732B112
+	for <linux-staging@lists.linux.dev>; Sat,  5 Sep 2026 05:26:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788568214; cv=none; b=o5YqnfVXtSTMeY2Io2DegiTnrOsKugDzGQQM9A6eorGzDNVmueJxsoKlcY17AyE50ARCD5+sHchpu4CagiEoelZ1ATmkDE/qOxtoswqZtAsL5rTiYwUY4dSOENK22AlciPfFBlBzg8UR4LyccwoVrBkBWctaXB8K8qOYNXEmVGo=
+	t=1788585999; cv=none; b=RN4rRaQflfzslw/u/Pjcshifn0My8qaY13511Nn490vAwdpGpFyENNbd9xjYCaacny7pPO5lAuJ/31NP8X3uYFKOl4RsfqcSF7OEln/nnBol8PmV79QKx5kO7d7uPd+807r2S2SHtSzy0OhErk2SsJji6fYv6nHEFi6lKskL0YE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788568214; c=relaxed/simple;
-	bh=XxbPIFk2tSsij/ROTcukZp1v9F5KUnPXyjMHgXJVQ8s=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qn5wcbPzeVJZq9jhI1xJ5zj+wEy5qnqeNS/gNzoX430LIo/9SwtzjUNmYIjhn8Xe/yx946JOixdAEBZmUyvM8/ZE7GifuU1hglZhUOaM8UI+bE4Yb/7WfFIq3UtG5GOfW3DH/M1pcrXdFKrSJIsJ3RSLGL2ioBXlg/y5haoORTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ho2oE5hG; arc=none smtp.client-ip=209.85.216.47
+	s=arc-20240116; t=1788585999; c=relaxed/simple;
+	bh=jjflGscwYtudxdZnHYIMwnz2V64NNA/6DVxhk1ezhhI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Yexbwrl5mZMylP006dc0FwYgJWQwvXfSS3VG38DV9Bm3S1LH7selpfBaqKWqunqmf16++0XzGKfFuui1OxfAljkh+1Z3NgVlu6xrz4GRedihTjD0jUrplJlYno2jHLut1FoPf0UEISqmBeDfwX8OKTkmrPcZ7txhr6rDU6pUtHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nCVPjNQA; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ho2oE5hG"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-398d2b28acfso1217330a91.1
-        for <linux-staging@lists.linux.dev>; Fri, 04 Sep 2026 17:30:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nCVPjNQA"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-49b8ce9b733so13884015e9.1
+        for <linux-staging@lists.linux.dev>; Fri, 04 Sep 2026 22:26:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788568212; x=1789173012; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1788585995; x=1789190795; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=7HnYBPkgGHcq9yWO+WayMoxCwKBUXVvRWJyyRsMWSP0=;
-        b=Ho2oE5hG51Ea1QduptbcuShUCRjDv+CtDiKNob6tNZV+GoBhl2snuX+a956JL4zHzp
-         fqUhc04oH6ch1dtf6iUSoNIQb2sMN4T5eHJZv2gS9goAOiiTtxtyj0cZXQ4dbVIH5j71
-         CAZNXvkPpDL8+yasjskly5tFd4zDJ24Wx9TSfJ0XPLmhRcvtTcXlI0J24w5Xg/G8X1jA
-         aDWuyXvT2UGt26DTiWjq96D2YHIdBEmByJe7VvMw6qwB+NcXbEoLUyzOYXjnP9jWD9q4
-         +Tt20g48Yt9Y1iEt1gDrAQB3iphuSS3AvDzqs9N0GFAl7Xq+00to0aQAul3N4klpnBOY
-         J4pw==
+        bh=CHKqV3GoiDC8ykENHF+0la0g7JB/SkIgxNqVg7j65gQ=;
+        b=nCVPjNQA1mGRUggOJcQnOJfGtd09wd0/CANbXeJU1Q3churHX6aMts4F9V9UAqtsDl
+         8hxUFb62c1DLRGqqDakGIoe9WlKXtRSGh0v3ZzBonDKHcjL57o49zXqGZZ17WFxTXXQG
+         S+8099wxsMCNKnZmnYte6Wwp6JBDd8R96wrqPoUiGFwAvflobE0ytB3Ocg1eC5Zu4JVh
+         DXb2Ltq1YRmlo9g9yf/exK46Q4L7I5x2I1yICHm6Uc395UCipMAgrFHOUpDQWvH/iCHf
+         FVoQueXPX1uWPPeAotquQLByE3oU+TC/gfaDYPXYajC4MzOpCbFdbr9cxtuYSDdRZ8jj
+         eEXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788568212; x=1789173012;
+        d=1e100.net; s=20251104; t=1788585995; x=1789190795;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=7HnYBPkgGHcq9yWO+WayMoxCwKBUXVvRWJyyRsMWSP0=;
-        b=SN2CDqpgzx6pLb2TYYn1bcFjaQpewrywG5mpUWPWfaleWFlR9vv9w3fIkrEbaYCTYD
-         HzP7GXAZ9EWi9/MUHrPP1Jo/647nZhPUS1oCt868NRum/5Z411zzK4p9ZuUOvvNtLYEm
-         F/WzPLtyeFdvjwLqzCzGca1C9r5RnSQzbs8fWCVv3eob45Za+lsYw4zmGemUw++9Jpzh
-         rcpKYQ7PJzYBD7p2A2xi7qTCjw6lHemZMC6K3tl9ph0nkSZymFHQE4Bt+iMnV7Qyv9qz
-         KhU9SD5d29HmEaygDVLktDSnUWSE34cZlq4KKDiVih9kH2W12h8B/iPs9VwcQmcX4jaQ
-         ILig==
-X-Forwarded-Encrypted: i=1; AKwUvByhzueCCRNJ89ZR4n4gVM3WAlIjzJWiXKrbUuW8Wi3vM3wJoHepBMYj2SWYNQsuMRAtTcExCE0SY6Lj820W@lists.linux.dev
-X-Gm-Message-State: AFuF++mnyvIYA0MUWbMB7H8GqTUHOVI0a1YChNng+j/Zy0u3Jf/Qn074
-	PLS9w6hU9OoOr2yI3acvYGle09ptKl8S0SVsjjq9ba3CYGPLDd55a3vh
-X-Gm-Gg: AYBFou1hzSYCWB151Eaf8pJp7N4ptsj2ZRVNvggcPZnHpbVasEl/lDe+U/ZFYFKWfpg
-	7gPw4u82TT3IVW+1E9oPJNU4AKAnOl9xmbMjdcEdP8Idhb42XdWLSPAV3i5zmy+rvmzE60/IJhA
-	cdiAqHLmR3IhprW+Oh+NUwXmossHZN1uOLZAJBIzpWu8saB0vhN/6wcbWUoY3OmVApNEFOHViaA
-	l6iuXrE0j9TF+wgCGVMy/blIrG2alh2jIMUqPk5xEi+7Ah1zidXXOunA9290p1nIuAmkOrBAtpC
-	A/BtDWKb1dSjSU2iL7pnPy6VRnBXB4WggX2V7GV5KYz/m0a19GVH9oALC5EWK99iDDzviwGzV+k
-	lHMV0x0ua9YXQ5UgS4uoxesbhITz9fXvPZ+YUc1rRwqRuO82i2OrOi7PN/+DhVF3RRkaj/Ryg0Y
-	EBrV2xlnSqqF24vXwbqy5A3JO/AaF1/OTG7Hg+7j0AwCD+pCXKe8MMV8XnDIhkqaziPBXfhYvOZ
-	DJgu6gNkylL3U9kWEqV/iAWoKcBRGSq
-X-Received: by 2002:a17:90b:4b0c:b0:37f:fdc8:71b4 with SMTP id 98e67ed59e1d1-39b26121f6cmr14637223a91.2.1788568211735;
-        Fri, 04 Sep 2026 17:30:11 -0700 (PDT)
-Received: from Biostar-A520MT.. ([187.94.13.245])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339aa31b24sm9745628eec.13.2026.09.04.17.30.08
+        bh=CHKqV3GoiDC8ykENHF+0la0g7JB/SkIgxNqVg7j65gQ=;
+        b=Is0YCsNdNBYIqi+y3C5InEgAYNqPMG7Lz+xwCVWflzA014mTgxl/xM5vLMTEwmvVl0
+         A2svoXbQko5j86IOFuIEfgaHS+VsC01NVV6Bjmsm9kxz3e2UVMzoh9W9Z72MmeBC6qAA
+         hQQM6nrUfOFlONHOT0jYPtN3OAY/cXJ+uncCcCiPRWDBeC5Rqc9sI/UnTWZnDqKOlVd4
+         qwPokzGra4Cf6s8G3GvL3ujLWIinned4AljDQW+sohzw4wr4a08VNwyVa8kmnd/iv8WF
+         ER5iI4kkGvaSLO9yZhiJLvMgOULLTVymYLv6ksJmRSW9A3MxjHotJelpW50kh5kTZGw1
+         93pw==
+X-Gm-Message-State: AFuF++nhyaoStCen/eQdlQGV88jcs53I6ZPnuWYNc7OsEaQb1hzEiryu
+	5pXsMORg/ZupIpr8e6Sug8hkya62hya/v3J8jPAOdsMnsWImK5E2Skw8XXWgQ7i+uew=
+X-Gm-Gg: AYBFou0S0eWcaINDhWOiTtL6LdGGXAJJDEkfp1fGRcydiNKI6qRO6ES+ssLdNQtz0tX
+	Z5KBCYJi9f2xg6LpFOO08KVy01M2AaEaBK+VICwRVEl9mof2Fk/f3eq0TP4R2vpx1jU5nHM9kWH
+	Cpf/EZtHOHtW0SmTrCrJbmuqfwtNoUCaelPOFfyiwBZNE8IZbc7y/GK/d8My2gFjLgyGl6d9p0Q
+	K/iU72jlILjiu9kUE0P7Xg6F4ZGSYjMNeN2k8k+XTjRAAzLvCN5xksTN+vh8UwYv2CsHd5G0OxI
+	LDP77WfVA0Ph2Lz8vOXH/ZpVusVEZQrqWg8iOiZlExS6lPBDckAftQcZzzwheWgIFxBbOEsXQ0F
+	rSIrlYjSFBDZb2OlYsrYYrtrZ6OyKOh+tV9pm83aolam4/BNeQibMaPTGbQX39FDCh19WN5d2Ba
+	2jqev69ivei8IrAPqAQCJBTcW9Ax9OEufJrJJGZ8+maSWkOd+3ZFSytF8=
+X-Received: by 2002:a05:600c:37c8:b0:49c:cee2:a508 with SMTP id 5b1f17b1804b1-49cf826c4e2mr95872415e9.16.1788585994655;
+        Fri, 04 Sep 2026 22:26:34 -0700 (PDT)
+Received: from zeph.. ([154.192.250.0])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cfd3f815bsm66073735e9.4.2026.09.04.22.26.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2026 17:30:11 -0700 (PDT)
-From: Breno Rodrigues Alves <breno3011alves@gmail.com>
-To: torvalds@linux-foundation.org
-Cc: linux-kernel@vger.kernel.org,
-	gregkh@linuxfoundation.org,
-	arnd@arndb.de,
-	linux-clk@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-fbdev@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	Breno Rodrigues Alves <breno3011alves@gmail.com>
-Subject: [PATCH v5] Kconfig: fix typos in core makefiles and purge defective DVB debug (v5)
-Date: Fri,  4 Sep 2026 21:30:05 -0300
-Message-ID: <20260905003005.118245-1-breno3011alves@gmail.com>
+        Fri, 04 Sep 2026 22:26:32 -0700 (PDT)
+From: Muhammad Israr <7israr.work@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Muhammad Israr <7israr.work@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: replace msleep with usleep_range in rtw_pwrctrl.c
+Date: Sat,  5 Sep 2026 10:26:13 +0500
+Message-ID: <20260905052614.8201-1-7israr.work@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -84,96 +72,38 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Automated review from Sashiko AI revealed that re-enabling the legacy
-DVB_ULE_DEBUG code via CONFIG_DVB_ULE_DEBUG exposes severe race conditions
-on global state variables, leading to out-of-bounds memory corruption.
-Additionally, the debug block suffers from undeclared identifiers (TS_SZ).
+The checkpatch tool flags msleep() calls for durations less than 20ms
+because they can sleep for much longer due to timer granularity. Use
+usleep_range() for the 1ms delay to provide a flexible sleep window
+and avoid inaccurate task scheduling.
 
-Following the core kernel principle of eliminating dangerous, unmaintained
-code, this patch completely extirpates the defective DVB_ULE_DEBUG block
-from dvb_net.c and purges its corresponding configuration symbol from
-the Kconfig tree.
-
-This version retains the verified MediaTek bugfixes and ghost purges:
-  - Fixes MediaTek interconnect typo mapping mt8196.o to MT8196.
-  - Fixes MediaTek regulator typo mapping mt6316-regulator to MT6316.
-  - Cleans up the dangling comment in drivers/leds/Kconfig.
-  - Purges verified legacy ghost weight.
-
-Signed-off-by: Breno Rodrigues Alves <breno3011alves@gmail.com>
+Signed-off-by: Muhammad Israr <7israr.work@gmail.com>
 ---
- drivers/interconnect/mediatek/Makefile | 2 +-
- drivers/leds/Kconfig                   | 1 -
- drivers/media/dvb-core/dvb_net.c       | 6 +++---
- drivers/regulator/Makefile             | 2 +-
- 4 files changed, 5 insertions(+), 6 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_pwrctrl.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/interconnect/mediatek/Makefile b/drivers/interconnect/mediatek/Makefile
-index 6bd656668..64170ab16 100644
---- a/drivers/interconnect/mediatek/Makefile
-+++ b/drivers/interconnect/mediatek/Makefile
-@@ -3,4 +3,4 @@
- obj-$(CONFIG_INTERCONNECT_MTK_DVFSRC_EMI) += icc-emi.o
- obj-$(CONFIG_INTERCONNECT_MTK_MT8183) += mt8183.o
- obj-$(CONFIG_INTERCONNECT_MTK_MT8195) += mt8195.o
--obj-$(CONFIG_INTERCONNECT_MTK_MT8195) += mt8196.o
-+obj-$(CONFIG_INTERCONNECT_MTK_MT8196) += mt8196.o
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index d0d318223..800fbd560 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -873,7 +873,6 @@ config LEDS_UPBOARD
- 	  This driver can also be built as a module. If so the module will be
- 	  called leds-upboard.
+diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+index 448611ad8..5ef44a3ae 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
++++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+@@ -410,7 +410,7 @@ int LPS_RF_ON_check(struct adapter *padapter, u32 delay_ms)
+ 		if (jiffies_to_msecs(jiffies - start_time) > delay_ms)
+ 			return -ETIMEDOUT;
  
--comment "LED driver for blink(1) USB RGB LED is under Special HID drivers (HID_THINGM)"
+-		msleep(1);
++		usleep_range(1000, 2000);
+ 	}
+ }
  
- config LEDS_BLINKM
- 	tristate "LED support for the BlinkM I2C RGB LED"
-diff --git a/drivers/media/dvb-core/dvb_net.c b/drivers/media/dvb-core/dvb_net.c
-index a2159b2bc..3b503695e 100644
---- a/drivers/media/dvb-core/dvb_net.c
-+++ b/drivers/media/dvb-core/dvb_net.c
-@@ -68,7 +68,7 @@ static inline __u32 iov_crc32( __u32 c, struct kvec *iov, unsigned int cnt )
+@@ -561,7 +561,7 @@ void LPS_Leave_check(struct adapter *padapter)
+ 		if (jiffies_to_msecs(jiffies - start_time) > 100)
+ 			break;
  
- #define DVB_NET_MULTICAST_MAX 10
+-		msleep(1);
++		usleep_range(1000, 2000);
+ 	}
+ }
  
--#ifdef DVB_ULE_DEBUG
-+#ifdef CONFIG_DVB_ULE_DEBUG
- /*
-  * The code inside DVB_ULE_DEBUG keeps a history of the
-  * last 100 TS cells processed.
-@@ -320,7 +320,7 @@ static int dvb_net_ule_new_ts_cell(struct dvb_net_ule_handle *h)
- {
- 	/* We are about to process a new TS cell. */
- 
--#ifdef DVB_ULE_DEBUG
-+#ifdef CONFIG_DVB_ULE_DEBUG
- 	if (ule_where >= &ule_hist[100*TS_SZ])
- 		ule_where = ule_hist;
- 	memcpy(ule_where, h->ts, TS_SZ);
-@@ -659,7 +659,7 @@ static void dvb_net_ule_check_crc(struct dvb_net_ule_handle *h,
- 			h->ts_remain > 2 ?
- 				*(unsigned short *)h->from_where : 0);
- 
--	#ifdef DVB_ULE_DEBUG
-+	#ifdef CONFIG_DVB_ULE_DEBUG
- 		hexdump(iov[0].iov_base, iov[0].iov_len);
- 		hexdump(iov[1].iov_base, iov[1].iov_len);
- 		hexdump(iov[2].iov_base, iov[2].iov_len);
-diff --git a/drivers/regulator/Makefile b/drivers/regulator/Makefile
-index 5a764cec8..f81d1f31a 100644
---- a/drivers/regulator/Makefile
-+++ b/drivers/regulator/Makefile
-@@ -107,7 +107,7 @@ obj-$(CONFIG_REGULATOR_MP886X) += mp886x.o
- obj-$(CONFIG_REGULATOR_MPQ7920) += mpq7920.o
- obj-$(CONFIG_REGULATOR_MT6311) += mt6311-regulator.o
- obj-$(CONFIG_REGULATOR_MT6315) += mt6315-regulator.o
--obj-$(CONFIG_REGULATOR_MT6315)  += mt6316-regulator.o
-+obj-$(CONFIG_REGULATOR_MT6316)  += mt6316-regulator.o
- obj-$(CONFIG_REGULATOR_MT6323)	+= mt6323-regulator.o
- obj-$(CONFIG_REGULATOR_MT6331)	+= mt6331-regulator.o
- obj-$(CONFIG_REGULATOR_MT6332)	+= mt6332-regulator.o
 -- 
 2.43.0
 
