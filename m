@@ -1,62 +1,62 @@
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5DB31A6839
-	for <linux-staging@lists.linux.dev>; Sat,  5 Sep 2026 00:07:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 697E324A047
+	for <linux-staging@lists.linux.dev>; Sat,  5 Sep 2026 00:16:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788566825; cv=none; b=tVX3POUWkaKdA0x11KfxP7B0OnyifgTu+kEuJ0C55R8QRXhUQsqjC38+8P1m8nVjKzh7MaXyD2ufzrurEE6L/8TBTnAeWzARfZsOozD4F9Rmrn1Fuy6Kk4gQZY0K33eDX/QI8hGnog2gx0/Ewlj8jAdjFOi7xrJdje4jxWq5/QE=
+	t=1788567404; cv=none; b=IZXpdZVwshljlBzRy1G3ra3EaxDorRNZaIitUCG/L/Uztn1iu7AD2LjPabThSjNyUcyv5dxz7wT4DQACOr8cHjEhhJNhNiUZPPmwfqairZi+94iLEyMWDHqerVZwidss8XNrzio2uGcs6nVGRORurCSiXjVSygALRiRF22HL7rA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788566825; c=relaxed/simple;
-	bh=AbGCPD867X/zR4JWWABXmcYRuDetze/f0050Gy5ULXM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=prNx+5OY9eVpNo7/aL8PjQRnoIvUhtJ0Uo0vK0Lueu/SSsOfRR6y+uYXH6KNRy2ZpDUiFRZB5SshMnU9KT2oQ0gGzKbwtAB7mxjlKNvouPBfLrSPEDJmPXKepqFwRux/9Lu0ZBuogjEBz09SnIWcgNG7TLtooHJ+LO18hT4n5VI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hhTzAEo/; arc=none smtp.client-ip=209.85.217.52
+	s=arc-20240116; t=1788567404; c=relaxed/simple;
+	bh=cP+4U9AC/n7DQ4j6Q+01Y8jJOSjSG1IbtukTRFC96co=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GhjvzmcGE/znwje85gDf0JUxSnDOlCr6EoAQpeLACjIHyzi4yaHNXvX3xeGwItXhtiAYsyo6Tdw1n/MaTc621UbwxGFSPinSa3g6H+myiwTtY6a+JBvPaRPAYZlKcF3ivzFWDDk6bC3+By2kM8NdTBKkze1DHX7/dTpAHgNKmPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oPCmuZzK; arc=none smtp.client-ip=209.85.221.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hhTzAEo/"
-Received: by mail-vs1-f52.google.com with SMTP id ada2fe7eead31-784a1696a21so1203045137.2
-        for <linux-staging@lists.linux.dev>; Fri, 04 Sep 2026 17:07:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oPCmuZzK"
+Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-5c67175d176so741207e0c.0
+        for <linux-staging@lists.linux.dev>; Fri, 04 Sep 2026 17:16:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788566823; x=1789171623; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1788567401; x=1789172201; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ySdxtd2OOrMzj1/M4oljubzNlyC8qvGXvin601ESwdY=;
-        b=hhTzAEo/Y4Z7ot6JV41ptSvbuchPcAuMu8NVtTSMpwcbOK7YNC1lM/deF9+jyRDy0J
-         CNAOkvWmvd5lBin5DABcphpD4ViEn9q2lshyrtBnTCRj4/6O5viWXKq90mDUGVbUqrc1
-         H3563iTXKP4WlYizlUYkPTP/KCszXZsCohDbqvY7KntbnMMTP8mipB2oWo8bGAXA3+xG
-         7pr7BmwMeeshDetieCOHgC4IgaQED3uYmlo65mT7M+s0x3vEkTdwtl/bbHZlFM9ylInS
-         eCn0OecOt2aFq6pN0qrUrsYHiJY83SMaAxd/ho/4J6QtN/exegOoCWlaZqCiIER9fOCG
-         zpTw==
+        bh=wFPE/GeLZQJNUjlVPHTUrDmhgIqHfBgziOiwOmM9ZNo=;
+        b=oPCmuZzKFW29Sx7BS/DQachGokm7AqZ0T4ZpuWSULyprO8QGZAqfGGUbexEjLwHmOB
+         +DIMANwaQ4oLl7uZjyoy4+SFMjCdCkbDkF3VO/ePa2megu1pCACh4WLbLsauARg6nZM9
+         8dDDn6FNxu7cDEGUJXxcwXow2gywojREuXGbP7c7IMtQRyN07em7mDwBeEVOfiRCDuVx
+         FFg7eXAXMfhAatg56uPoB1klDONbOjTYWAteIZfddDiDTLcnUTDa3+V5P0XrqGALGOnL
+         gH7SWizzjTUFCBCey/9SFcIX4AcHuVKbd3baGtRFqU2fx7c0XG9sOY90dDGkEgfqocR+
+         aimw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788566823; x=1789171623;
+        d=1e100.net; s=20251104; t=1788567401; x=1789172201;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=ySdxtd2OOrMzj1/M4oljubzNlyC8qvGXvin601ESwdY=;
-        b=eEzXWZYTQJIMUFrVTBxkIHNkzJrofW7m6dygY3kqFZNG1nyarEwbQj2SUBuAFPGWOQ
-         rypV17aW3C9/Qp4a3eH4z9bvUU4eml+abW3Y1n481Wc1VYMKKl4RgpcOTpmEB332MFxM
-         1ce92Jdu/pC57xI4mYxhX1qDRNjIOyc8AHGwY5+OiEJWn3qAOGgrFmbhv/xzaB4XHWhy
-         E0VZFbNZmgxG0M0diQUrU18BBwhT5F+3aEu7Nn3qArVqxB1B7WU8FX0iudAxwJsjB1qi
-         YdnHP2C6bw0HM3wb8TutrbNNigfC/6muq0SGL2r8zMXYh+ZnTuJSZrpIRmla+EGZT8X2
-         NVjw==
-X-Forwarded-Encrypted: i=1; AKwUvBzrVVmONJ+sVNbYQ7UZXOb3tfbxNH9Dld3Ctu0hTC0TtiOeULlgysYkRfR1300lJNmpvJ2xzV+biZUWwx61@lists.linux.dev
-X-Gm-Message-State: AFuF++ldFHRXqDzrxnbIBHpNtRuHv+4uX/jm16fj4SWy0DDf49Lt+EJF
-	4SyvXio3Lx6suQH5xNV7TxDBa/dmdcQ5Nfei9bu7EXj2QAqA+yeymqQX
-X-Gm-Gg: AYBFou1rXAzEL40ChZGHao9oOnIRPtwtJbjy7j7V3mOU2l1iXb7A4ZOm55nxvnIMC/b
-	/EDXygt0Ds02wd4xfwKthjVAV0yUBfHFYmIbJ0fdC4HjmzgLaqkmPPqsFBTYeQmh3rYn7lppQzP
-	l5uA7eWh53xGjmwcXH1/bALvsbseLRh0MbxUF0DfVuBY92UvmfBHxnsk7KDLtS7yWBvWZMuCzGC
-	JnvDV2WXA0uyAaj5nxDu8GofBHNO41oMQbomhWyFLjjJNBFdGE2ebzfWtSiR+X8JHcdhCPzF/jJ
-	rsdY8qAGnhoB/vk6CsJ02VFXO4h/4fjI1oiocXC+Bhafd+PV4DRdGJUVKJ8MgxykIlxiryFgbl9
-	I4/gyvY4Aqc5+lvrTzmi1/1cGTbwYwkSMkm8G/NsZeOQasRMi4782v+5ALWo2KIgUh8nlDxqn0I
-	pWcnt1BFFetbjbH0/q5sG6Z8mI/UlPllblZfAmPef3vneOd3eXUWY+cCcb610oCErSX8bUCKC8A
-	9UVikiFoqJi7A0TpPzysSL2b80AVl84
-X-Received: by 2002:a05:6102:554b:b0:786:4607:bdaa with SMTP id ada2fe7eead31-78a4a8983c7mr3967271137.4.1788566822540;
-        Fri, 04 Sep 2026 17:07:02 -0700 (PDT)
+        bh=wFPE/GeLZQJNUjlVPHTUrDmhgIqHfBgziOiwOmM9ZNo=;
+        b=lBl5bMLNdilS4qIdRJ01HRsWODnQYsqCEzCg1J23L6UYuUW/TwFkjs/Mh0RRKv/i2H
+         ccFzV1rOmvHzu/jDzLeIHug002lzmZ2QW32phE5J126anDtViZJFe7O2aaDI3sa7tkdp
+         mNG3ceCODmskxj13cbGGeswCx5j3CsdW2IROnMtsL2+ySSpT5JsADIOZhqwR6O7tUjkW
+         aDBxH1Iz2Q2b/fmy7B3JoG0NYhFgRpbKP6Gmv/b+Hfatl5FijlMD7yy60qxypzcoUhNs
+         BJmcu13wPR09kqgKgOxXp8K0MLrHJSCCNPshpjaO1QWltIqkHHirp+bMDi5UY94zUtab
+         sOgg==
+X-Forwarded-Encrypted: i=1; AKwUvBzgjBzEvjjrxTLJWoqMeCCBEfGFaFNB3cbS/1Yv70hFwunn4INcYPPUNIR8dzZA2lzr1HPHWO2YytydHce1@lists.linux.dev
+X-Gm-Message-State: AFuF++kWdz5AUGp6zA40qY998NBxUb+GaU0QrFNzEAKW1PBwzh0CUTCR
+	sgg5Wc2jVokxREqY7r3WCoNxBYuGJ2ZagGuAtKqaIcYMeEgb5ICi3oP7
+X-Gm-Gg: AYBFou33/hwrGdrOdPMNEwjuHPw6k0JXkRgnHrB7/aa3KJ947s4Uv2RzGSTWWYpVEmz
+	q9QBaEfr79sRZSnN2Gu4pa4mzXY4dIY2vyqoJoLprZsIWBGFecKe1IkWOltCS7E099dZLRrt6wJ
+	87p1aRlDEfaGddZMEpASrM3fWXUk0st1sBUOye4He0ulnNOt34rNf71uuIWudCGguTVsgGSsHPD
+	SqAjK3fkTTUxCSEoytgcTM3d5rIwVRSmr0vfen3mvZrDWfOzQXtRavI0NSDGRCi4MRsIqy/9dXE
+	4Zfjree/j4K4mxqYDNlSkHi5xvY6y9JBmD93R4Vcomiqi28Dec2kNqMxcrRQmBwaLoNIJPzmGr6
+	sbN4Ej3NA54y1+LK0K45MChOUStw7pE/OFEMumPbvEV6jPupnPgG8jmnjTBabbvyyVE5AnlvHuK
+	W8J9TW1zdaw8n9iBR/Y3S02fix4qIIGinUGaiqsi19ozJ4IaNPdv2tZeUO2nm7yJuON5VrR4err
+	+4IfxF1R2b8tohCKIJOuQNCymKUabaD
+X-Received: by 2002:a05:6122:4f82:b0:5c2:ac92:eb18 with SMTP id 71dfb90a1353d-5c7ed3f6d2amr4275904e0c.7.1788567401218;
+        Fri, 04 Sep 2026 17:16:41 -0700 (PDT)
 Received: from Biostar-A520MT.. ([187.94.13.245])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-9808eec7c37sm2735870241.13.2026.09.04.17.06.58
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5c7ecac1033sm3210562e0c.18.2026.09.04.17.16.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Sep 2026 17:07:02 -0700 (PDT)
+        Fri, 04 Sep 2026 17:16:39 -0700 (PDT)
 From: Breno Rodrigues Alves <breno3011alves@gmail.com>
 To: torvalds@linux-foundation.org
 Cc: linux-kernel@vger.kernel.org,
@@ -72,9 +72,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-fbdev@vger.kernel.org,
 	linux-security-module@vger.kernel.org,
 	Breno Rodrigues Alves <breno3011alves@gmail.com>
-Subject: [PATCH v3] Kconfig: fix typos in core makefiles/code and purge remaining ghosts (v3)
-Date: Fri,  4 Sep 2026 21:06:55 -0300
-Message-ID: <20260905000655.103429-1-breno3011alves@gmail.com>
+Subject: [PATCH v4] Kconfig: fix typos in core makefiles/code and purge remaining ghosts (v4)
+Date: Fri,  4 Sep 2026 21:16:31 -0300
+Message-ID: <20260905001631.108652-1-breno3011alves@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -84,71 +84,91 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Analysis from Sashiko AI revealed that several legacy options were not
-true dead weight, but rather victims of pre-existing copy-paste typos
-in Makefiles and C code.
+Following precise automated feedback from Sashiko AI, the active
+lcd-panel-cgram documentation has been completely retained to prevent
+UAPI/Sphinx tree-wide translation breaks.
 
-This patch:
-  - Fixes MediaTek interconnect typo mapping mt8196.o to MT8195.
-  - Fixes MediaTek regulator typo mapping mt6316-regulator to MT6315.
+This version properly stages and includes the intended bugfixes:
+  - Fixes MediaTek interconnect typo mapping mt8196.o to MT8196.
+  - Fixes MediaTek regulator typo mapping mt6316-regulator to MT6316.
   - Fixes missing CONFIG_ prefix on DVB_ULE_DEBUG macro in dvb_net.c.
-  - Retains critical PCI_IMX6_EP and Tegra audio prompts to keep hidden
-    symbols selectable.
   - Cleans up the dangling comment in drivers/leds/Kconfig.
   - Purges the remaining verified ghost weight.
 
 Signed-off-by: Breno Rodrigues Alves <breno3011alves@gmail.com>
 ---
- Documentation/admin-guide/index.rst           |  1 -
- Documentation/admin-guide/lcd-panel-cgram.rst | 27 -------------------
- 2 files changed, 28 deletions(-)
- delete mode 100644 Documentation/admin-guide/lcd-panel-cgram.rst
+ drivers/interconnect/mediatek/Makefile | 2 +-
+ drivers/leds/Kconfig                   | 1 -
+ drivers/media/dvb-core/dvb_net.c       | 6 +++---
+ drivers/regulator/Makefile             | 2 +-
+ 4 files changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
-index cd28dfe91..70c0bbc87 100644
---- a/Documentation/admin-guide/index.rst
-+++ b/Documentation/admin-guide/index.rst
-@@ -152,7 +152,6 @@ How to configure your hardware within your Linux system.
-    gpio/index
-    hw_random
-    laptops/index
--   lcd-panel-cgram
-    media/index
-    nvme-multipath
-    parport
-diff --git a/Documentation/admin-guide/lcd-panel-cgram.rst b/Documentation/admin-guide/lcd-panel-cgram.rst
-deleted file mode 100644
-index a3eb00c62..000000000
---- a/Documentation/admin-guide/lcd-panel-cgram.rst
-+++ /dev/null
-@@ -1,27 +0,0 @@
--======================================
--Parallel port LCD/Keypad Panel support
--======================================
--
--Some LCDs allow you to define up to 8 characters, mapped to ASCII
--characters 0 to 7. The escape code to define a new character is
--'\e[LG' followed by one digit from 0 to 7, representing the character
--number, and up to 8 couples of hex digits terminated by a semi-colon
--(';'). Each couple of digits represents a line, with 1-bits for each
--illuminated pixel with LSB on the right. Lines are numbered from the
--top of the character to the bottom. On a 5x7 matrix, only the 5 lower
--bits of the 7 first bytes are used for each character. If the string
--is incomplete, only complete lines will be redefined. Here are some
--examples::
--
--  printf "\e[LG0010101050D1F0C04;"  => 0 = [enter]
--  printf "\e[LG1040E1F0000000000;"  => 1 = [up]
--  printf "\e[LG2000000001F0E0400;"  => 2 = [down]
--  printf "\e[LG3040E1F001F0E0400;"  => 3 = [up-down]
--  printf "\e[LG40002060E1E0E0602;"  => 4 = [left]
--  printf "\e[LG500080C0E0F0E0C08;"  => 5 = [right]
--  printf "\e[LG60016051516141400;"  => 6 = "IP"
--
--  printf "\e[LG00103071F1F070301;"  => big speaker
--  printf "\e[LG00002061E1E060200;"  => small speaker
--
--Willy
+diff --git a/drivers/interconnect/mediatek/Makefile b/drivers/interconnect/mediatek/Makefile
+index 6bd656668..64170ab16 100644
+--- a/drivers/interconnect/mediatek/Makefile
++++ b/drivers/interconnect/mediatek/Makefile
+@@ -3,4 +3,4 @@
+ obj-$(CONFIG_INTERCONNECT_MTK_DVFSRC_EMI) += icc-emi.o
+ obj-$(CONFIG_INTERCONNECT_MTK_MT8183) += mt8183.o
+ obj-$(CONFIG_INTERCONNECT_MTK_MT8195) += mt8195.o
+-obj-$(CONFIG_INTERCONNECT_MTK_MT8195) += mt8196.o
++obj-$(CONFIG_INTERCONNECT_MTK_MT8196) += mt8196.o
+diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
+index d0d318223..800fbd560 100644
+--- a/drivers/leds/Kconfig
++++ b/drivers/leds/Kconfig
+@@ -873,7 +873,6 @@ config LEDS_UPBOARD
+ 	  This driver can also be built as a module. If so the module will be
+ 	  called leds-upboard.
+ 
+-comment "LED driver for blink(1) USB RGB LED is under Special HID drivers (HID_THINGM)"
+ 
+ config LEDS_BLINKM
+ 	tristate "LED support for the BlinkM I2C RGB LED"
+diff --git a/drivers/media/dvb-core/dvb_net.c b/drivers/media/dvb-core/dvb_net.c
+index a2159b2bc..3b503695e 100644
+--- a/drivers/media/dvb-core/dvb_net.c
++++ b/drivers/media/dvb-core/dvb_net.c
+@@ -68,7 +68,7 @@ static inline __u32 iov_crc32( __u32 c, struct kvec *iov, unsigned int cnt )
+ 
+ #define DVB_NET_MULTICAST_MAX 10
+ 
+-#ifdef DVB_ULE_DEBUG
++#ifdef CONFIG_DVB_ULE_DEBUG
+ /*
+  * The code inside DVB_ULE_DEBUG keeps a history of the
+  * last 100 TS cells processed.
+@@ -320,7 +320,7 @@ static int dvb_net_ule_new_ts_cell(struct dvb_net_ule_handle *h)
+ {
+ 	/* We are about to process a new TS cell. */
+ 
+-#ifdef DVB_ULE_DEBUG
++#ifdef CONFIG_DVB_ULE_DEBUG
+ 	if (ule_where >= &ule_hist[100*TS_SZ])
+ 		ule_where = ule_hist;
+ 	memcpy(ule_where, h->ts, TS_SZ);
+@@ -659,7 +659,7 @@ static void dvb_net_ule_check_crc(struct dvb_net_ule_handle *h,
+ 			h->ts_remain > 2 ?
+ 				*(unsigned short *)h->from_where : 0);
+ 
+-	#ifdef DVB_ULE_DEBUG
++	#ifdef CONFIG_DVB_ULE_DEBUG
+ 		hexdump(iov[0].iov_base, iov[0].iov_len);
+ 		hexdump(iov[1].iov_base, iov[1].iov_len);
+ 		hexdump(iov[2].iov_base, iov[2].iov_len);
+diff --git a/drivers/regulator/Makefile b/drivers/regulator/Makefile
+index 5a764cec8..f81d1f31a 100644
+--- a/drivers/regulator/Makefile
++++ b/drivers/regulator/Makefile
+@@ -107,7 +107,7 @@ obj-$(CONFIG_REGULATOR_MP886X) += mp886x.o
+ obj-$(CONFIG_REGULATOR_MPQ7920) += mpq7920.o
+ obj-$(CONFIG_REGULATOR_MT6311) += mt6311-regulator.o
+ obj-$(CONFIG_REGULATOR_MT6315) += mt6315-regulator.o
+-obj-$(CONFIG_REGULATOR_MT6315)  += mt6316-regulator.o
++obj-$(CONFIG_REGULATOR_MT6316)  += mt6316-regulator.o
+ obj-$(CONFIG_REGULATOR_MT6323)	+= mt6323-regulator.o
+ obj-$(CONFIG_REGULATOR_MT6331)	+= mt6331-regulator.o
+ obj-$(CONFIG_REGULATOR_MT6332)	+= mt6332-regulator.o
 -- 
 2.43.0
 
