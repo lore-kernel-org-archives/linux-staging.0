@@ -1,62 +1,61 @@
 Received: from sonic.asd.mail.yahoo.com (sonic-euwe1-0017.asd.mail.yahoo.com [34.2.82.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18599345EA8
-	for <linux-staging@lists.linux.dev>; Sat,  5 Sep 2026 17:19:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3D43380FC3
+	for <linux-staging@lists.linux.dev>; Sat,  5 Sep 2026 17:23:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.2.82.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788628769; cv=none; b=RCJp0l8PyDnNgKEOhkP9mqtZ8uQhjgel14teOSM6RBeRpypc+U0xmKR5q5Rn9osTRKnsWpasZK0q7nSgQ4j+5lGY+YywHU0CPgIuac0FfsTTov8lzp/lFxkG+LOUhlpjJDBRzNOXbL0EmovUTTPygghorD6i7qUXTxwS9ePTfNo=
+	t=1788629034; cv=none; b=hH6GA8SDhIoJNk1hiXnuTK07uW3F3/uoOHpyz0B7FS48VIszJuv+ZU/rq6slqAcx31Pi1sn6qfnRhhTZ4+7woMcH0ufvyUTVVtWfHYA+EJasbqNV4K4LuTV4b02VgsOi2cL3wrEaBa85UxQBgbUJLlnCng150LdsFjJcxGyI2xM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788628769; c=relaxed/simple;
-	bh=L5X60tDzwdlPbgo2/TkEhKnyTPonOo4bDVkqRQ2shIM=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc:
-	 References; b=iX9mQoBsQNIlDJvA1SBXRlCeEPDyodCTnQQ8rhZ3R4DhWFbFdRkx6sX7jY6XClDckh+EekO+NSukJuv93G/k2L2kuoNL8C5cdxaNNGficQ/PTUaF6iSH9mGFuX4tYOCEY4XnFFNze5C4dCI1o8nZmW2Pim/m/vz1I8/2lCKT83U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=YTkrTgY2; arc=none smtp.client-ip=34.2.82.16
+	s=arc-20240116; t=1788629034; c=relaxed/simple;
+	bh=yWZPLYEyGfP0HHe67FDBqXKi4TyGTcrHZJvf97kZk9c=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc:
+	 References; b=ha/3k/ywXMQZGlF40teuMDghsoPab6NwfRHtEWEI9lUvDL5pEnUaQ+zkUeWrBDIa75S1wVmklk/iDUMeq0QDMWZ5Mw7lZ5F8q2NlAkNV3C0t1vZTa5rxN00bMOxaBodCkaHDQLJKIi9mnAQQkStFgRu79PbVOAo2n/MaJioMSg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl; spf=pass smtp.mailfrom=yahoo.pl; dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b=cVilCsVX; arc=none smtp.client-ip=34.2.82.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.pl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="YTkrTgY2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1788628765; bh=I8sDhOx8DNqEto8aArvO+O2Sfsozjh+/Wz3BZg/iW7w=; h=From:Subject:Date:To:Cc:References:From:Subject:Reply-To; b=YTkrTgY2PjFE8YZAnQrph3I9ahNG+R0nz4NS8ctBfTfMEPtKMTRJ+A3ksegnT3VPbAjJ/KthJqFIrbKfHQU/5NK/N9aXfYNLLCcWNcM7XtLOOx0Wv18USPpqyVYyedpwOfPG4QYlOXHN49ggks/auuH0z3dNBaD4sETTkfuXqxrgJa8LbpNBcHgsE8NC2ELNW4jxvfG/mmHe8jXpqIWe0BIN54yGeO81ft1lSs8CXOuQ42oQ2gvCwoSDfLuBxZQfm0MslFlseA+B5PWBzODOmA8+d9c32+Zbi6Toz/h3n+I8SxGqMY5gGOm7g+5PHQdrpO+pG4TlpYorsiMUODvUpA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1788628765; bh=rXdYKfLfe6k45q/yZA8/ciED1gdU8h3I+9r1v8Y/1wi=; h=X-Sonic-MF:From:Subject:Date:To:From:Subject; b=Nn0JRftzTL5t4it/XPm30NW2c0dKax/tBYbRjOgZbC/aO4zCg24MUruth837HR2JEJg81UubTxc21mAjM2d37XiAJVbQF/u6n3jHPH+nmYX1MCeKnQOysVpRhb7cPTv+rwse/N4EBvDHIbbXETws63sXPDP8ESFIP3YJ1QynyS22tf/GzCAV55XBni03qMAhaNZ5HR/MIlpmzy99sK5a+Kmv+DWQhsebh2JaESP1Ogr54GsHUrjKV3FHqLtMh4qlvhJEyP0zNP5QIa3TxFOiVp+bY3H8f7N8net+aTcm4jlrSzj7LSbhWjJZCIm2+nYAbhj3nj6Sv0IrYLPgVbVRBA==
-X-YMail-OSG: GkHuoDwVM1kBnv9s1wl8fzUlG67NW5AyxY1dkU.1XH12MfwK6_NNHIl.Q9fqIzs
- tZT6h2Pa9ttWvWCa1swYVlhID_aLJUTAbdbv1CgrtXgBFQaYuAtOW79uooNY8Bq.7ha6xfbO8QLA
- XBDM1yWBsEANxXytINSZczQthXKeZ0Xr_JIsBVn0MVDvJy78lFlHNACP9Hn0okLYwne1.WLrvGD3
- RMlR_X1HUvNLlRvOO0hLFBE52W77k9aN8OdcdIvVZ1qE0YWWnnopBD5tniQF6yadzxoj4vdH1JUS
- 8eNiv59tenVcA_X8bAfPi5QAFHEd59xEHxLg6jAte5JApW23vHgootXGj9XzAClRBGLv5EeKQnVi
- uRpmBr_zwm60te7.WcdPe_HljbOte3lTrDn33Csp8xgUX35KxH28jo.LTrPwnopWea3FKo9NC1FP
- QrU499Ig2fbZGmm1DCTOEGYFQ_2euF1mv08klCK66zqGG.SqbgQX8p3t3zpyrVWopRRTwXFQKrq5
- nmzgctjJyLl_jEVoFOcuTorn5D0GD_MfDQCc8J0IU9I3JWC.EfjFa.1ZRflEAdSkdDDbsmBkG56f
- hyRwPMVhTvATv01O9uQ1NiLhBY8wF6zDOI2FhIWVMtYHFinsUQOgOMU3qwh0_Yza0sWZnyPpHRCr
- hj3MiMnf6bq7U_VjCQT1MqWMeMhpHjbNkfWtIIszApz_8g4A36_hnqaRkwS03wtEVm5i1JH1J33x
- EX1JpJgU2Za8Lmwtslx8WyqExA5WvEj88wJ7Z.ul5iwn5bzgtTbFwz96Ec3N_JaaM5ekKIdA5Woa
- sDCQSMQF5ptNHnuZjZa4nzoNWlM25IxNCQuxnQP5wAH0LqwL453WGXTH5sSfjSk7qO7S.82HuRGq
- ivUXW98dot.8y_ocbaoGR1s1hXl_qH678P5bRJov6GWwDR6YJsCeRUOpbsmCBZZdDcLz_c8KmNk3
- ZYbgOoy6sid1oD9Q_P2SeZQKLmlo._zT7WyRaONE7P6hCCUoy8narhJ2NakLiVXq4H6XKugzqi6K
- T4f29KbbLShly0sGUxYMrX82Oyv7mqp28Xt7pf90ihNRRzWVDYl8kauojQMoN8R4wLqARyltjQeT
- MRCQyJy4yP0yqXE3OI4xSrATWUOAHYvfP2Daj8PaoZQEeSfCQLzLg8w41SRC2WdkSXp_9GRAKkay
- QqH26b6pLgqv.65jxhGZPpwA_VItNlImUs9Njhl1yWqhGpq5p59jJ8N3A2khjC8dmarbSWd4WYBs
- Z3IdUGGDdS_YbcXuDE_OYTM7cN3jYYNB5Zz4c592yYX8s3v7nT4xuytj0AFOJJXRI.N71T8lwakG
- PiaP0dXM9sm7Tb6d9Pu1K2u19csayY0IIgaRJ4lOYUjs3d6dZb_blJdTA5NiFxnElx0tdvIbqjZB
- IkROIsfYN.5oyiX4jyi2ekUsQqhmBOeJvNGd_uy1wyx0s8PnY7vrF5FwCStCog3uQQjsfOIsSGFB
- e9Ps2Dls6CnFXYGBoFts0dGj12i8bzk236iMJ0oSuhJZkKzE2o2VChelWxIPn4UxJMz7cgHM2KNZ
- CygTamh_jK3HmA3SjTY6uuVSCyKIMLx1mVCTKGEB3s07Oz0jEjZ60D3BS6o54JJh6vQ9z5dTQluz
- XumVEfOr6RKq1vSeZd7R4W4SQ3CE.B1aVZpTq9wBRxfhh7x_EH9zuIz0MXZpeROkdyBFBKWtFxWy
- fmVp918UCa_Eir3gY4uXulN9k.Dln7Lrw4e6BrL0s9iimSv_ICNh93dT3nPr7mZ5C.30ZwTMA4es
- DP8J7lE3SBHwDSGF9wvhzCnHSyGra7meRLOEB7CURU9XSWjWxKCOR0XDiyp99OkjqlASiZB5bBVe
- sIjMWL8jbxJTGctATQZyj4QP1jYvcXRoyfni3gsXd0quimqn1TbMJBkEKVO7isjLMAYBIBi8Y_rk
- _IJVZ5STXPW.J_o9.vPERiOAyND_IzexTbIS1bUrvynGM9fVeUEV0MB4XN6oYNVCO.KcGPqxXYHg
- kW24JdWkPEVc__ompoekm7zU-
+	dkim=pass (2048-bit key) header.d=yahoo.pl header.i=@yahoo.pl header.b="cVilCsVX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.pl; s=s2048; t=1788629031; bh=R0oa9KbHeZZiYIYBgdbtFmS+LAlM9b3g1zxDXiDvJfA=; h=From:Date:Subject:To:Cc:References:From:Subject:Reply-To; b=cVilCsVX38qzkR2o7wi+sowqTMnTKyrdklPR6fIKp7SDZH33y6qE749Mmc3O7AEvLdt03N/3XeAEEhcOxdmvDdWp+yaik62fACemKlmR7Usgsmg6vtMlejDDVULxcezmALLL0fd5IOq9WW4TrPz7p1pTIkk/RuLZknXAx3ki6kNx+O8q5CZrZdKZBXR3Q0uMLVRwTwytEsLgVSAV+D/tXcQrLnp3OygitEmJnWRcODxrearnwfsO8kTQBECFFQcv6pUcoj+6iiRVLNdBWEMpinw8le1h+0E26/bd4hv3kpE/E1cdVqbFWZUoYwAJHVHnzuH4CsN4zXZKqyJ8z9RMhA==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1788629031; bh=AthzvnOu5O25dYL+t9X1iWAP2jwZuEIpZgvQWnURKIA=; h=X-Sonic-MF:From:Date:Subject:To:From:Subject; b=e20urrqw0XfQDUObWpAB5Pbe4ATCM5aU/2QtT+bvun9Jzx4vZ9BZrTvQqtSznfnxsywhqdkJADnOMs/rai6TlArPqFKWKt0lSvAaWKBgGG/4RmSX1PSC0HhVYt19+rVTh7cuWouv21lKstxFQK0ywV9VDKKGOaI9l133kf0EEmGN/ei6i8dYKg6cHE26OKFH6eA1C06Yw92OVIDNVsCb4zFcXwf6cCXaV774gZ3m1aFDygUuEMH6SqWCBPd05mFqNTpm6gHJrZWW+vmfYZtYDDECqNF7pMlq3kN4GU2aT5AYUHJo0yg0tgzRoKfJGIbrq/xcjJC3ulj224IDAjku+A==
+X-YMail-OSG: ZK_aG.YVM1la_ZVZn8JUNE8ihaCq.Jg6Kwy_hY6cQPHIFAdIDZ2uYLSuLC_QOps
+ ymeh9pRwtV5DTDSBFifdobN1h.V_1C_oD17D3Nzi5.Yx7RgHSU6rRaZWaOW5q1NJBqlO4j_kmi99
+ 9Imuv9vmvtvM75CwfASLHC61bypbvFsvdiQNmPf1IFeiY8Q1FX_pkkqV0OP_QvZ8dt7PeFcJfzvW
+ ioi_4HjSm0iFvLMsv3VF7FCSx9O_dZLc6sqaMxURwIS4fVPSjdcYVcRX2rtKdvvP2LUxd_gEquAU
+ iYbGFn.vBNfAuyDTcZ6Ldc.tgbBJT__yuxw316syk56nDmZ8eRsXIe68lzWUvULZrEyYgr311ZGL
+ UOrf5hYu9ULbVdtVkhlgQTQqRLH3PxQKitfiTZQevLHZpazZDZSnOgleZ7YEIJxl3Fv_3p5Z0SPY
+ TnaLvWIVK4qwtJkvoEi8kqr1kjxCIixeNjuC2Z1nPZUozSOBAgUa_7k.pFdovO5lUKYBrAI2_wvZ
+ a.WVnqPnLgRNqXmQIlkMN0Y3ibVhsAx9Pk5XjektubQgrDXIPPEwhoYS9vGcMiozH.ObyH5vIP0L
+ 8_lenbvSD6.KUz3FQy2iwtoF6wPmvmgA4Z94qOHaNNF85KiXa4qBAqcWRLjkCPm3tx9RPvwf.Jq4
+ YJPt2SJXGlAxfz7uczecohb.zUWibsKbEIsXjY_XQYYGzSJVs5rpkV7qJPSlSl94lA761Tzdju.H
+ AVk0zcAU7YXnwgll9nHPv0mrHs5NITyQot9TzOJwZAlTa7AjIKLV8oUoIvxHAReblYokyaub5oRV
+ eACc3qv73TkCVuEU0VnqhcuzOZfTNH3lcOAEuKKunx9wGmM1t8dtKpo3zl4h6DpnLd0iyjsqUUZZ
+ 9Cbz0Uca8cE0N8SV5Qe31kOxIai0LQIw0aw2dOp8QzQ8rXJJdJERDmJ_dj41IMMfH1GhS4IdHQNG
+ RSdLfNyF0TM8ZD6Rw_cUokGm6__1jQLCIFPlqiZZI5czTDywo5AxYHWoK8kfYXTKBNOGm0kycVkL
+ KyF4bmPopf8DRGK1a9G5zX2RhxV4.4FBHVewOaoQZEc6I8RKZtKwgoPfNzF7_G3AoUpElVLCBpYB
+ d_8IHK.R56BDken4ijw_061RRWOG2Jh4pTwBJjD8PD5e8PL_HayCu1v8kNZrfp5s4oje9nldwByj
+ KpBMqe_xFqdlSdMwBhleEPhuX666.kzW5c6JQPhq1LVvfGyw9LBwChJpk46E6SOCjvurY.Ef8icj
+ lG6Iff_YwgsgxCOYF6Hy1sHnbhtAX2cvU19WbTi1b45uo2Lw9uWZ0OgnFAETlKOlfxPObjfVi_wr
+ N2A9c64XYYPshIZp9peEu7YWIq21T28HHTJwCh0e7RekTEaGmLVfeFxwhvgXd0Mu5XjTNKQFT0_m
+ eUngsslOSnKdLR0mlXD2Ggi9KL95nbZZ.zH9wW5bNRCHN3nwbmXWlGApDtHa1wAUFBHc.p6ndRrO
+ Ga9WxO8CN9Lf4Op9zo62OQ83qXIjFWeGMM7UoxPKJXuoD3BbHPYAxlgZlxTkFLgWfQ0lwNAlgbsz
+ zOyh1RhI4QpWxm7KenOgqpHZo6bg_raceYVUXYSQ6cKKiwgK8F992gIZ97L912qHMqsG4WzupwIt
+ Hww8Fzy._x4vr8pZy67gJyyDcB9gm0hPwvHtt1NdA8KOCbS2lt7AbDFHiaLXF4W4iHXD.cWmltSJ
+ z.lVmYIzxxyL3raaeEfCQgDM9wK5rhmi9zvWcmV8783hITTK58ofoHl.fayQqIEaadVo4JGPK1o6
+ S6iZiK5hnTVf0GPizMTyV6xKKYK6fgj5LaLhD2D3B0CRyJW97sTImJ0v2NPcABgCBtI44bsQNaVG
+ FI7CrJPrY0v2A30UhzCu.Sv8_Tdet71F3nmozhI01w8_sxzYiZP5s0Ewk6jlbk1_fVC1GKQUiPhA
+ jxUsyMilo2ndd9gjeUcJK_PYpNhAqmsM9OF.pMS0O9qlNHuWnKghe_E_oqKt8Ng6uZLTf641v5nv
+ Gax_ZIzcoB5cRvYRgem0TNUieVgNSxuFMzuEQ2TbTotWF
 X-Sonic-MF: <tomasz.unger@yahoo.pl>
-X-Sonic-ID: b7cc6fa9-e8f3-447c-85e4-719e755df6fe
-Received: from sonic.gate.mail.ne1.yahoo.com by mail-asdoutdeli-p-cin-euwe1-prod-sonicconsumer-svc-102 with HTTP; Sat, 5 Sep 2026 17:19:25 +0000
-Received: from dip195.lsn.ir2.yahoo.com ([87.248.99.204])
-          by hello (SMTP) with SMTP ID b05c3f01957e7b76b0689228583129d6;
-          Sat, 05 Sep 2026 17:19:21 +0000 (UTC)
+X-Sonic-ID: ddc04572-35e9-45a4-8dde-977e2ee764ac
+Received: from sonic.gate.mail.ne1.yahoo.com by mail-asdoutdeli-p-cin-euwe1-prod-sonicconsumer-svc-101 with HTTP; Sat, 5 Sep 2026 17:23:51 +0000
+Received: from dip26.lsn.ir2.yahoo.com ([87.248.99.35])
+          by hello (SMTP) with SMTP ID 5a1964415642f1a1c1a51f671a4d8acf;
+          Sat, 05 Sep 2026 17:23:46 +0000 (UTC)
 From: Tomasz Unger <tomasz.unger@yahoo.pl>
-Subject: [PATCH v2 0/2] staging: rtl8723bs: address Dan Carpenter's review
- of comment fixes
-Date: Sat, 05 Sep 2026 19:19:19 +0200
-Message-Id: <20260905-rtl8723bs-cmd-xmit-dead-code-v2-v2-0-07d433523872@yahoo.pl>
+Date: Sat, 05 Sep 2026 19:23:45 +0200
+Subject: [PATCH v2] staging: rtl8723bs: fix comment formatting for
+ pintf_dev in rtw_io.h
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -65,43 +64,69 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXNTQ6CQAxA4auQrm0yFHDUqxgX0FatkZ/MDISEc
- HdHXX6b9zaIGkwjXIoNgi4WbRwy6FAAP9vhoWiSDeTo6M6uwZDeJ09VF5F7wbW3hKKtII+iuBD
- 6unQV+aZUYsiVKejd1t/hevs7zt1LOX2zsO8fHJ4LHoMAAAA=
-X-Change-ID: 20260905-rtl8723bs-cmd-xmit-dead-code-v2-741032751e2c
+Message-Id: <20260905-rtl8723bs-rtw-io-comment-v2-v2-1-ee5791206cdb@yahoo.pl>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMTQ6CQAxA4auQrm1Sivh3FcOCGavWyIyZDmhCu
+ Lsj7t63eTOYJBWDUzVDkklNYyjgTQX+3oeboF6KgYl3dKQWU34e9tw4K/VGjejjMEjIODE6Yl+
+ 7LRNJDeXwSnLVz3o/d3/b6B7i828Jy/IFM6M9eX8AAAA=
+X-Change-ID: 20260905-rtl8723bs-rtw-io-comment-v2-b02c1b4200e1
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
  Tomasz Unger <tomasz.unger@yahoo.pl>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1788628760; l=966;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1788629025; l=1860;
  i=tomasz.unger@yahoo.pl; s=20260311; h=from:subject:message-id;
- bh=L5X60tDzwdlPbgo2/TkEhKnyTPonOo4bDVkqRQ2shIM=;
- b=7nRijubw9uQN9Ps8BBuP1aZ1wgfpDm/vqCESdSTU4wjq6+kE7q4kTTLj8l10G2Lz2WECKKVlL
- IqkgcrJ/+1gDTWod+ELL84yaMgrATOCJOPk3HSjXU+aIA60wBIkRb1H
+ bh=yWZPLYEyGfP0HHe67FDBqXKi4TyGTcrHZJvf97kZk9c=;
+ b=qY5PDkSSPBazhfQa+60R53tElOdrR9tQho+GO7HjinCfDDoa+wRAtqNcYcwn5FFtvwvcE5X9A
+ Q2nrD8AGk6xBBgms7D4Zc7aDgnHxit1/LEAorY9ouUnMR8XefQCcnVb
 X-Developer-Key: i=tomasz.unger@yahoo.pl; a=ed25519;
  pk=EPPsO91uz/0J2cTQ6ol+dgxYaieEc9dKSXWUb51n46c=
-References: <20260905-rtl8723bs-cmd-xmit-dead-code-v2-v2-0-07d433523872.ref@yahoo.pl>
+References: <20260905-rtl8723bs-rtw-io-comment-v2-v2-1-ee5791206cdb.ref@yahoo.pl>
 
-Dan Carpenter reviewed the previous "space before tab" comment fixes
-for rtl8723b_cmd.c and rtl8723b_xmit.h and suggested going further:
-deleting the dead commented-out mdelay(10) call outright instead of
-just reformatting it, and questioned whether the duplicated blank
-comment lines in the "Rate" banner add any value.
-
-This v2 addresses both points directly.
+Add a space before the comment, remove the stray space before a tab
+inside it, and drop the unnecessary parentheses around
+&padapter->dvobjpriv.
 
 Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
 ---
-Tomasz Unger (2):
-      staging: rtl8723bs: remove dead code in rtl8723b_download_BTCoex_AP_mode_rsvd_page
-      staging: rtl8723bs: fix Rate comment banner in rtl8723b_xmit.h
+Dan Carpenter reviewed the previous "space before tab" comment fix
+for rtw_io.h and pointed out two more issues in the same comment: a
+missing space before the comment itself, and unnecessary parentheses.
 
- drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c      | 1 -
- drivers/staging/rtl8723bs/include/rtl8723b_xmit.h | 4 +---
- 2 files changed, 1 insertion(+), 4 deletions(-)
+This v2 fixes both, per his review.
+---
+Changes in v2 (per Dan Carpenter's review):
+- Dan noted there should be a space before the comment, and that the
+  parentheses around &(padapter->dvobjpriv) are unnecessary. Both are
+  fixed here, in addition to the original space-before-tab fix.
+- Add an Assisted-by: trailer disclosing AI assistance, per
+  Documentation/process/coding-assistants.rst (the original v1 had no
+  such disclosure).
+
+Verified with checkpatch.pl - no new warnings introduced by this change
+(and removes a pre-existing "space before tabs" warning on the modified line).
+
+Assisted-by: Claude:claude-sonnet-5
+---
+ drivers/staging/rtl8723bs/include/rtw_io.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/rtl8723bs/include/rtw_io.h b/drivers/staging/rtl8723bs/include/rtw_io.h
+index 3c99a2bc19bd..a613db80d349 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_io.h
++++ b/drivers/staging/rtl8723bs/include/rtw_io.h
+@@ -24,7 +24,7 @@ struct _io_ops {
+ 
+ struct	intf_hdl {
+ 	struct adapter *padapter;
+-	struct dvobj_priv *pintf_dev;/* 	pointer to &(padapter->dvobjpriv); */
++	struct dvobj_priv *pintf_dev; /* pointer to &padapter->dvobjpriv */
+ 
+ 	struct _io_ops	io_ops;
+ };
+
 ---
 base-commit: c6eb4dc5964fdf4086b73b7f0f5dc0d595fb5cf3
-change-id: 20260905-rtl8723bs-cmd-xmit-dead-code-v2-741032751e2c
+change-id: 20260905-rtl8723bs-rtw-io-comment-v2-b02c1b4200e1
 
 Best regards,
 --  
