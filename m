@@ -1,85 +1,75 @@
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D44203911C5
-	for <linux-staging@lists.linux.dev>; Sat,  5 Sep 2026 14:01:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 590C53002AB
+	for <linux-staging@lists.linux.dev>; Sat,  5 Sep 2026 15:35:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788616921; cv=none; b=oJvKgOqtSG9Oa6A4y3CRs7FlYX9kYKSUSzqFx8BLwAZkC5FqAP0rGgDrzDLTwOrlvwRgZcAC7Y4M1MLCOloKa5Qijp8OzsWgt94rzrOD39/IWDiTpULw7mkqwEXRBO8nkT7w8AwvHjBoGzC51dVyM0rwC1hOgyqfWLzRIYdXgyg=
+	t=1788622542; cv=none; b=AAnY7D/FxwcvQ35u0dZWronOSQJRfKVQVSXbrugBnLey2l1rv7+spxuwEMU32eLtIyPNtQyUiHrWaKUIm+LWwhccl90qlO9Xc9NjIw5MImULKcRUz0CvHRVfJbEI0vpBC/IpglbRGHpgFq7rZAR6rn54cGFtZ544OChvGFuN+Hs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788616921; c=relaxed/simple;
-	bh=onVBlW7MOcXY/4u/1wLc1luNV8JQgXpPbl+Dwq4jXa0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UFhuL3RGgKlGqisGx3KMk32zqkBPbuDfo5Qql1QicP1tWet+3RcZfFV8ebWZnm1TION7b/s2HdGwD6IwAUQ+JNrI8fyuN3ZBul9+uibPiuLoiWKW5ZHcjSzvdxURSpAJTnvX24H7+Nl8jcvCriueFGxDJ8uLD3kthvrm+v2OA34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gjbK8zn1; arc=none smtp.client-ip=209.85.222.43
+	s=arc-20240116; t=1788622542; c=relaxed/simple;
+	bh=gFFdN1ha8Tp79B1B3Zl2oM554MhbhbybYNUFrHskT80=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rZmEGcpfyFAk7TYO2SxApCMybU18cYHPQtGKK8JW+nZY1UtdzXiUDeoYGNmKhjp1+5ZGKTr5cp4VVvyQUOgqGaAzIA7FB/gZ2cy99jYK0Vr18kA9tikQiu7Ebrm89Q0bOCo1K9Uin/YkLdJ6/j6RtIOTrMJ4WvJXaUwZZ16By+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b+PIqMEe; arc=none smtp.client-ip=74.125.227.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gjbK8zn1"
-Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-97c7afa485bso1235755241.3
-        for <linux-staging@lists.linux.dev>; Sat, 05 Sep 2026 07:01:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b+PIqMEe"
+Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-39666e7c9efso91029a91.3
+        for <linux-staging@lists.linux.dev>; Sat, 05 Sep 2026 08:35:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788616896; x=1789221696; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=005z03CIhBd04YrgIq3DK9hNQnxi1U/rfpjn1baG6tI=;
-        b=gjbK8zn1vgd80qNi4B0qVPGOYRtkG/v15RIgpAsWK6QUqAVHBLp6JOeU2cH+53nicx
-         ZuM8Y8ghKzgJqBndVjPwd/pR6C3GMQYLbgf3mpQIrk3LsjpU3wa8CJdswaja7oL+u0gk
-         5Pmr1g4DkUEQQly3Rw4WIx7njbqaqs53Vjlsp+Wpob85XLFdK3TOGkgebx4/bNcjESNY
-         +LeJA79c4KAjI8h/exqRGwmIwUfKJJnPeoLR1gPqOE4dhRgmIaoCrxL6rAqOvtyAcjyE
-         L4H+E92X9bRUIzFdk+Fx3nrp3LbxmvZSswnA7RsYRWGFjJXe38DzECPYEdrkSwhOQ0jX
-         0nrg==
+        d=gmail.com; s=20251104; t=1788622541; x=1789227341; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=LAz1FDbqTt7J5VIP7BaX6RtKlr+dOf12zCQcqewm6No=;
+        b=b+PIqMEeJdGgTtL6RXHqnBVh3rO7SZWPlMOm3/zXtQmWYQNuANM5f4D1vd6UBW59P7
+         M1813E73/536npNQr8qvA05czmWnocwVcaK8b6SZvIDch8Tkr3VD1VLY5c/J0Ix6TbwD
+         Y9uXrD5bLgb3AKeUM87CQ+XF93NGN619QktswTrUxLZNW8rAZFwSYL0FSAaxXJA/ackw
+         RhJLRmZNyGe7lhVNp3tiKc+KvGWW9cD7VVqF9mdxZeVxiIptXg6oOQS5BXiaatHD0FQQ
+         znaMJNlFfk38a5PcvY+5bIyB+9aDFBvHqNESkwXhVNq+pJBFStWA0eVMdDJ6n40BKfoc
+         PlAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788616896; x=1789221696;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=005z03CIhBd04YrgIq3DK9hNQnxi1U/rfpjn1baG6tI=;
-        b=iPGc4vKzivW0vh7tTi6yCH43jR54XtKCGPS4e7/lZKyFyzzCN8NTt5hLIb6kHVRucM
-         f/N2XMDtt+lltcGAXeU+FkbogLg58AB3lwHqbJMxpn0RZqudmIakTFptOT3MM4OKLNh6
-         uZrGNyCDZINeZEpIT1yuRAQF+W/qHhjI6OxGaue4cPknU09egTUWJBsrh88dy2x8fEv0
-         Dgf893zR4uNpzR4eNP5CKPrDSMvAJyKko3QM7KWhw/4m2i+MM6I+9NSfgGbPQ71JXs9C
-         BXE68cdg1Z9NAYPrlCOu4/vAKPXXWMr6h7FZLDlwikBIYCsz/N4K+1oQlkyOWvgs4Rl/
-         snQQ==
-X-Forwarded-Encrypted: i=1; AKwUvByLLAlwFUTbEy/WkqGpHUntg4Fc0aYvUso35jLYtKfMOliY5G9qLxwWOqRT0L96iMONLtx3sb8g4sqTPttv@lists.linux.dev
-X-Gm-Message-State: AFuF++kaKnyzkvXZQLnj/VezpS5fcb3EoiHCdtEsDghJwDrnb/bWnA32
-	jrUzSGYJ5qomd2wo1Cz4yAIE5Jo0zQZcbU7IFrJjcHS97dn3pJzdM31/
-X-Gm-Gg: AYBFou0yFM95GlIbJPlG0mhrJn7bwQzoXsogxIzdVujHlEn7HT+YC0OtZ5Tz6EXjqE5
-	tkPwwpBSdKToUuwfuxw66dbKymfppQVqsqSzu4LVR/WjfgbU7oCSYRUuK8v+MIqA6MYm+c0/d4H
-	cyOIQmGBYKYlOCuutB8cX57FQCmlffIA7xbrXgfDroMI+FHg0uZ93pxrEy8rblMTigJoXuiX81I
-	YDeRvOTHJiSIfxfkxQRii/6H9V2ra79m+RInoLazMAALIVXNWcELgKwPM2lw0vnbRJL/bX6CLth
-	npYr/thZTiHXJKZalEuym4r/igiKLDS0FmnM/6HKQSPFQXvH3OQv/cxfk5y6W9I7jiTwQxgnDqk
-	bMfICqJ61km1H2VFUYLtVPi5A05rHwx38dq2YUh0lSje8KzWZtMQ7qvpFT4+uroZzcUkLGt1Woy
-	O04ocXOUCS2L46ajsWj8xJTWskH/uEGkouGJHSa1xfOXA93EfTqjz7YqFXm44NR/LJOUO5zoS0M
-	G/GKiQzpZiNyA/qhRnmRURdsclS9inN
-X-Received: by 2002:a05:6102:3a0e:b0:786:c223:ad84 with SMTP id ada2fe7eead31-78a4a9c39cfmr5025994137.9.1788616895319;
-        Sat, 05 Sep 2026 07:01:35 -0700 (PDT)
-Received: from Biostar-A520MT.. ([187.94.13.245])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-9808ee4d743sm3706877241.9.2026.09.05.07.01.28
+        d=1e100.net; s=20251104; t=1788622541; x=1789227341;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=LAz1FDbqTt7J5VIP7BaX6RtKlr+dOf12zCQcqewm6No=;
+        b=XkwB5EkhY62D+wB8mb28zPKMIIqweKIUpA65CzULwclSNAxJvFblP+aoMSCTMvYr1l
+         UUkR9sUy9KQUDzB330yBuvYlO6tXuAWcrj1OS8g/taCTifUbuYOuULO3EjePtydJvUjk
+         6R8fvZ7oXPhLiMaF8ZTPyXORM0kohToF+H49Xd4IbL2koL/Of9ToVJ3g0eXRjp85FA0d
+         W0pNH8p16j5Mv0+QED+4yqwaBpeT1q0CSOP5WgTSNwLWLliiGtvRIm+vBP96X52+lSIi
+         6WlNCXa+JwdpGmYIVDY1G1km0DBJp/UpVz3qe5+MFO6b2ziDtP/TjSAD5iyFyOiwiipv
+         wjjw==
+X-Forwarded-Encrypted: i=1; AKwUvBxxMl8Lh3o1pWW7yIQb+iBT0GkYJOKUxvFmsuCKl68t1X29RT/KBi2I6vegyoFS72ajgjpWjsuEENyGnYlO@lists.linux.dev
+X-Gm-Message-State: AFuF++lu60+HvBUmnwMu5c4kNhM6KAhTS4cOwC0mLE4t23O1e9QOACb+
+	On51zHGLalq8cs9M7FQvIFZ6OACxLt9yEppiy6gTFQm3rIYWtAQk1WsP
+X-Gm-Gg: AYBFou1zb5b7HVTnwHKI1uLfBnMWBL0iALOSZilXKNG8KYz+jp7B1JIhGO6eYvIPuzd
+	N7OZKolAQaj3HWFQ5/We0ZiD2sJ/9uO/QtEovjR6/SbLyBMy8bQM8zVGFso45coF2OzBWCIlxvT
+	s4ebnr9X0z6Devci1iMKh5ZbNV6fHulIH//H3B/TEDOe5aa++DoOax7I2yN61ZEXJ3hsh7ZBFst
+	qPi0GsDVanW7wsK1AZTXTyfeKps5RGfUhdLqc1ZOFGjfEkPNTw+WLzVbig9lImfK60Yzr4fi0mp
+	8kuMI8i55Ofnbi0FqP5FAyHB1L44oquPYPKivo//z7frXoHy7e2i324uBJ31W7Bqf+Sc57yLPtR
+	c8I5mE4zmK7gu4raan+O9kzAH4OwRFyGWaM0/PdAJ1SrRg6RfpF3QGdtQb3jm8JSY4RkxdqfV40
+	0vwoWGO8c/sFvWvzLLmzSl1CQd/f9vCAmMNKefhsRyN0OqYgA6CCaoDCM1WpUtQkl3+Ub9Fle2Z
+	cXrHUvzc3y6/UYMyqmsnrqLx7wSAaw1+bbeCkn4VhJ7owxdVD6UW6C+/bygAk4WMNY=
+X-Received: by 2002:a17:90b:562b:b0:396:d27b:86a4 with SMTP id 98e67ed59e1d1-39b3d5f2c09mr6126052a91.2.1788622540707;
+        Sat, 05 Sep 2026 08:35:40 -0700 (PDT)
+Received: from fedora.iiita.ac.in ([103.119.35.125])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39b26123c99sm10493484a91.11.2026.09.05.08.35.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Sep 2026 07:01:33 -0700 (PDT)
-From: Breno Rodrigues Alves <breno3011alves@gmail.com>
+        Sat, 05 Sep 2026 08:35:40 -0700 (PDT)
+From: Ayush Mukkanwar <ayushmukkanwar@gmail.com>
 To: gregkh@linuxfoundation.org
-Cc: torvalds@linux-foundation.org,
-	linux-kernel@vger.kernel.org,
-	arnd@arndb.de,
-	linux-clk@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-sound@vger.kernel.org,
+Cc: error27@gmail.com,
 	linux-staging@lists.linux.dev,
-	linux-fbdev@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	Breno Rodrigues Alves <breno3011alves@gmail.com>
-Subject: [PATCH v11 3/3] media: dvb-core: extirpate defective and unsafe ULE debug block
-Date: Sat,  5 Sep 2026 11:01:13 -0300
-Message-ID: <20260905140113.21638-3-breno3011alves@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260905140113.21638-1-breno3011alves@gmail.com>
-References: <20260905140113.21638-1-breno3011alves@gmail.com>
+	linux-kernel@vger.kernel.org,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	skhan@linuxfoundation.org,
+	ayushmukkanwar@gmail.com,
+	sashiko-bot@kernel.org
+Subject: [PATCH 1/2] staging: octeon: fix use-after-free in tasklet teardown
+Date: Sat,  5 Sep 2026 21:05:29 +0530
+Message-ID: <20260905153530.36693-1-ayushmukkanwar@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -88,110 +78,87 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Completely purge the unmaintained DVB_ULE_DEBUG code block from
-dvb_net.c and its Kconfig definition to eliminate severe lockless race
-conditions and clean up the unused function signature parameter.
+cvm_oct_tx_shutdown() kills the tx cleanup tasklet while
+the net devices are still registered. This could lead
+to use-after-free when a tasklet is scheduled after the
+tasklet_kill() is called which might run after the net
+devices are freed.
+Fix it by unregistering the net devices before the tasklet
+is killed.
 
-Assisted-by: OpenCode AI
-Signed-off-by: Breno Rodrigues Alves <breno3011alves@gmail.com>
+Fixes: 4898c560103f ("Staging: Octeon:  Free transmit SKBs in a timely manner")
+Reported-by: Sashiko <sashiko-bot@kernel.org>
+Closes: https://sashiko.dev/#/message/20260615172734.42038-1-ayushmukkanwar%40gmail.com
+Signed-off-by: Ayush Mukkanwar <ayushmukkanwar@gmail.com>
 ---
- drivers/media/dvb-core/Kconfig   | 11 ---------
- drivers/media/dvb-core/dvb_net.c | 42 +-------------------------------
- 2 files changed, 1 insertion(+), 52 deletions(-)
+Note: This patch has only been compile tested. No runtime testing was
+performed as I do not have access to Octeon hardware.
 
-diff --git a/drivers/media/dvb-core/Kconfig b/drivers/media/dvb-core/Kconfig
-index 8b3f2d53c..c6a97add8 100644
---- a/drivers/media/dvb-core/Kconfig
-+++ b/drivers/media/dvb-core/Kconfig
-@@ -67,14 +67,3 @@ config DVB_DEMUX_SECTION_LOSS_LOG
+ drivers/staging/octeon/ethernet.c | 21 +++++++++++++++++++--
+ 1 file changed, 19 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
+index 42ec4b8324a8..98d4e025c301 100644
+--- a/drivers/staging/octeon/ethernet.c
++++ b/drivers/staging/octeon/ethernet.c
+@@ -113,7 +113,6 @@ static void cvm_oct_remove_device(int port)
+ 		cancel_delayed_work_sync(&priv->port_periodic_work);
  
- 	  If you are unsure about this, say N here.
+ 		cvm_oct_tx_shutdown_dev(dev);
+-		unregister_netdev(dev);
+ 		free_netdev(dev);
+ 		cvm_oct_device[port] = NULL;
+ 	}
+@@ -694,6 +693,7 @@ static int cvm_oct_probe(struct platform_device *pdev)
+ 	struct device_node *pip;
+ 	int mtu_overhead = ETH_HLEN + ETH_FCS_LEN;
+ 	struct octeon_ethernet_platform *plat;
++	int port;
  
--config DVB_ULE_DEBUG
--	bool "Enable DVB net ULE packet debug messages"
--	depends on DVB_CORE
--	help
--	  Enable extra log messages meant to detect problems while
--	  handling DVB network ULE packet loss inside the Kernel.
--
--	  Should not be enabled on normal cases, as logs can
--	  be very verbose.
--
--	  If you are unsure about this, say N here.
-diff --git a/drivers/media/dvb-core/dvb_net.c b/drivers/media/dvb-core/dvb_net.c
-index a2159b2bc..5060b8866 100644
---- a/drivers/media/dvb-core/dvb_net.c
-+++ b/drivers/media/dvb-core/dvb_net.c
-@@ -68,19 +68,6 @@ static inline __u32 iov_crc32( __u32 c, struct kvec *iov, unsigned int cnt )
+ 	plat = devm_kzalloc(&pdev->dev, sizeof(*plat), GFP_KERNEL);
+ 	if (!plat)
+@@ -729,7 +729,6 @@ static int cvm_oct_probe(struct platform_device *pdev)
+ 	num_interfaces = cvmx_helper_get_number_of_interfaces();
+ 	for (interface = 0; interface < num_interfaces; interface++) {
+ 		int num_ports = cvmx_helper_ports_on_interface(interface);
+-		int port;
  
- #define DVB_NET_MULTICAST_MAX 10
+ 		for (port = cvmx_helper_get_ipd_port(interface, 0);
+ 		     port < cvmx_helper_get_ipd_port(interface, num_ports);
+@@ -953,8 +952,21 @@ static int cvm_oct_probe(struct platform_device *pdev)
+ 	return 0;
  
--#ifdef DVB_ULE_DEBUG
--/*
-- * The code inside DVB_ULE_DEBUG keeps a history of the
-- * last 100 TS cells processed.
-- */
--static unsigned char ule_hist[100*TS_SZ] = { 0 };
--static unsigned char *ule_where = ule_hist, ule_dump;
--
--static void hexdump(const unsigned char *buf, unsigned short len)
--{
--	print_hex_dump_debug("", DUMP_PREFIX_OFFSET, 16, 1, buf, len, true);
--}
--#endif
+ err_rx:
++	/* Unregister ethernet devices */
++	for (port = 0; port < TOTAL_NUMBER_OF_PORTS; port++)
++		if (cvm_oct_device[port])
++			unregister_netdev(cvm_oct_device[port]);
++
+ 	cvm_oct_tx_shutdown();
++	goto disable_ipd;
++
+ err_tx:
++	/* Unregister ethernet devices */
++	for (port = 0; port < TOTAL_NUMBER_OF_PORTS; port++)
++		if (cvm_oct_device[port])
++			unregister_netdev(cvm_oct_device[port]);
++
++disable_ipd:
+ 	cvmx_ipd_disable();
  
- struct dvb_net_priv {
- 	int in_use;
-@@ -320,16 +307,6 @@ static int dvb_net_ule_new_ts_cell(struct dvb_net_ule_handle *h)
- {
- 	/* We are about to process a new TS cell. */
+ 	atomic_inc_return(&cvm_oct_poll_queue_stopping);
+@@ -984,6 +996,11 @@ static void cvm_oct_remove(struct platform_device *pdev)
+ 	struct octeon_ethernet_platform *plat = platform_get_drvdata(pdev);
+ 	int port;
  
--#ifdef DVB_ULE_DEBUG
--	if (ule_where >= &ule_hist[100*TS_SZ])
--		ule_where = ule_hist;
--	memcpy(ule_where, h->ts, TS_SZ);
--	if (ule_dump) {
--		hexdump(ule_where, TS_SZ);
--		ule_dump = 0;
--	}
--	ule_where += TS_SZ;
--#endif
++	/* Unregister ethernet devices */
++	for (port = 0; port < TOTAL_NUMBER_OF_PORTS; port++)
++		if (cvm_oct_device[port])
++			unregister_netdev(cvm_oct_device[port]);
++
+ 	cvmx_ipd_disable();
  
- 	/*
- 	 * Check TS h->error conditions: sync_byte, transport_error_indicator,
-@@ -659,23 +636,6 @@ static void dvb_net_ule_check_crc(struct dvb_net_ule_handle *h,
- 			h->ts_remain > 2 ?
- 				*(unsigned short *)h->from_where : 0);
- 
--	#ifdef DVB_ULE_DEBUG
--		hexdump(iov[0].iov_base, iov[0].iov_len);
--		hexdump(iov[1].iov_base, iov[1].iov_len);
--		hexdump(iov[2].iov_base, iov[2].iov_len);
--
--		if (ule_where == ule_hist) {
--			hexdump(&ule_hist[98*TS_SZ], TS_SZ);
--			hexdump(&ule_hist[99*TS_SZ], TS_SZ);
--		} else if (ule_where == &ule_hist[TS_SZ]) {
--			hexdump(&ule_hist[99*TS_SZ], TS_SZ);
--			hexdump(ule_hist, TS_SZ);
--		} else {
--			hexdump(ule_where - TS_SZ - TS_SZ, TS_SZ);
--			hexdump(ule_where - TS_SZ, TS_SZ);
--		}
--		ule_dump = 1;
--	#endif
- 
- 		h->dev->stats.rx_errors++;
- 		h->dev->stats.rx_crc_errors++;
-@@ -843,7 +803,7 @@ static void dvb_net_ule(struct net_device *dev, const u8 *buf, size_t buf_len)
- 				       *(tail - 2) << 8 |
- 				       *(tail - 1);
- 
--			dvb_net_ule_check_crc(&h, iov, ule_crc, expected_crc);
-+			dvb_net_ule_check_crc(&h, ule_crc, expected_crc);
- 
- 			/* Prepare for next SNDU. */
- 			reset_ule(h.priv);
+ 	atomic_inc_return(&cvm_oct_poll_queue_stopping);
 -- 
-2.43.0
+2.54.0
 
