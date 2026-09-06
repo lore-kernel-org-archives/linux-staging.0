@@ -1,111 +1,104 @@
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EB9F3BAD81
-	for <linux-staging@lists.linux.dev>; Sun,  6 Sep 2026 16:25:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788711948; cv=pass; b=YmZB2pRRLGE607tjkLcSGdKsnqosgWNZFFcUKbuO7QWkacLxAs8Tqw6Zef2Uivx2wd6hcxRrFhM5Zg+m+dQeSsojeqochV+rirFftWw+dV6DM4kJIggw3RbRZjbeQBh2V6T0JQP93ylxnfb02Z9hWgbdd79XxGplqQVaonAvTQQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788711948; c=relaxed/simple;
-	bh=674vgAKd/RTrOQNbWGbCczHU/j07DbjYq/3YPxgjVqo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SqsNK1ZH+Dm/ZtC1bqlSRXDvn5Dlk+L134wL8WrjneZqxDeI4/yHDlxQ+AUF2zBu57hHam/liioJGocirLa21xeLPlM6aD9WRtI9z/d0yS36ZF4MA81ylqYCphzPyp3aZWI5qhRPI2fMyLEaG0O+MJHdOW3VhWWpEjuSPa9/JBU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HKi2j1br; arc=pass smtp.client-ip=209.85.160.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B60BC31715F;
+	Sun,  6 Sep 2026 17:47:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1788716853; cv=none; b=pvztBELIuu5f6/QMvWAHAqK5SaFK6GBSXAf6gvQJCd1K2NNN2ZmQOJCu4Ip7f6+t/L9H5Z9O0qpR4Y9F0RCsjajk3FhupbBT2+wZKaGl4ID1x4P/UBg70Dg+gjvyA8FTi4tMPhCIiffOe2NRjxEBdA60jH8skv0mz+Cwu+zD3sE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1788716853; c=relaxed/simple;
+	bh=0O0ypgaT/G2VcYjKN+21o3nWpsP/Qr/0kc23poOV1N0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=BhGgilVN2R3+oP8Xx0sqb7rZRJqXJDoY8N/zxYFW/h5vc57Ch4ysxWDTbqHrk0MuIVy+hURkjMbFnF90D1SjHRfqRuisIChr26FF0sTlH9d/cSZwkh9LP3vuihvrn8Fddbch+2MweDW4XQlRT8pOTgvIIRdQkuvI8mRFVKDRcnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EEwyFdly; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HKi2j1br"
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-46aef784ddcso978315fac.2
-        for <linux-staging@lists.linux.dev>; Sun, 06 Sep 2026 09:25:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788711943; cv=none;
-        d=google.com; s=arc-20260327;
-        b=jaU0TPg86yjfRuLKfw7KQtgrIKch9ql2O4CmG89FWPnQH2eWHdBUwE99FUK2rgAFw6
-         UsyRNt4z1LAko/737EWRlliTL+6KYJfpmbV0VQNXiJmSq/4M9zGAorsrgOj975g0uriJ
-         G/mSjhJy4l8kSXxXEzGJC+idi2yY8mdJeQGlGa8I3J29cF11mAJyKJVgw5tO7Lw+PpE9
-         u/TTVQsd4vFpyrlDexS89boMyg1+8KMpM2/HEzdZUJHNfC3jpfQTQe/Epv8RmN4cBWbf
-         mWLBddVoLx4zIeoGHYpkDhpURjKnzcjqGJiD5W66vTNhwEGcSOqteF1B6v+sW9aIWLKP
-         GX1w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=674vgAKd/RTrOQNbWGbCczHU/j07DbjYq/3YPxgjVqo=;
-        fh=4f14GSXcmhcYUmHyKblBLOQxcBH0gmd5UB7d3J6X+aA=;
-        b=CO0gh2KoBXmoSG6guedcaLi+ufcx3i1+8OlkGH3b8aLw/su3sJZoF27pnwgcyRqlPF
-         QI9GleT2Zuj8JV/67i5IYp0ja+8p1d90oj8XJE96lqZfYkfK4v/M122Z5L2YDQzRpk8N
-         g7ivsf55OPP3X8F4X+qUvwAa3+E42e43XKEvorLvjoZ+NZ4L7RSDcRpTD8czbnT6Z3iO
-         R48ENs5BnXikJkYwE7kqfq+6Aq5SC0xv7HnbPAEUIXt9z+hkD/6WgnCVE+CobH7F2A6b
-         9vxLSoewjC/8j67B3uWcT6WNVum9++4B9JC07AHh4bP8KrPDWofD0MIA+YfMSmbANbAB
-         g0dg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788711943; x=1789316743; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=674vgAKd/RTrOQNbWGbCczHU/j07DbjYq/3YPxgjVqo=;
-        b=HKi2j1brWRsMppyRdw7bQyy2E1eAWG2oeWBAvMZqeyrkA3ZVsOiW3vuehypgV7ViMO
-         4stdm/vht3byL3aj2NIAFTN2/Q7OQdgdUcJIfnf6xDnX1m8n9Xjo7GpWhg6UdkXpCNCG
-         ovgle0tHtXW4htFNBwMTNmC/LMpQ6qwB5/O5c+Sg2Co/NklaGv5I3H/2v5XtvFgS1okp
-         YvUQVq3cO8uEW+3QX7T0Q1u4go7JN4q+VMxryIj2V7w4kmJ0dmcLzl4EYt//q0PWBVKK
-         ouN4SPA4smE2+a78WUmpTgaxCjEZ4m6KazIhJuGdk+zDMtOD1fwLTfrGrgFAJXihK4yM
-         FvYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788711943; x=1789316743;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=674vgAKd/RTrOQNbWGbCczHU/j07DbjYq/3YPxgjVqo=;
-        b=sUChAbNNopSkxTsW63py4WBZCyZ9RX+Nr5SfY/lCjrzT9yjUsPdInjfnz9ou2TnkuU
-         mQnb8jcuFQZPSSCg5BDzquXPG2TVPcdxH7J7o4aubq4908+u0uuNAjuT5cKYAeoPaxV5
-         PjZYn+/3fahq8dP5bsA01JpeIOWOdG3WdNzyav4v3orllcXLHXrb9XhEDI5bd6z5uItH
-         exm6VI+r/ZOaBZf8KPJlcfOAsouzG29mrL7r6g6XmKTVmHfSIdR0Ckyvv4BNngw1COm8
-         E97EQPAVJif5eK66oSLF0cmeE1wiz8ocZsz80Ki6+Kvi3FIcJcYzgJCeGi5cwcHwIvuj
-         fDZA==
-X-Forwarded-Encrypted: i=1; AKwUvByEubDlu0mFkUkrNQoUxm5nPiuhJ+P244SR0SAJWSTDPsD3gAVkpxDOI0X4wcyr9Kdn7BFgmGivoFaUej8L@lists.linux.dev
-X-Gm-Message-State: AFuF++m2HOO/U7oB2PlmMJ53OgIj8LbLvJryE693/Kl6SkEY/6quvO2X
-	NDa032xI0DtLjvlBZ2I0aLaZms0zih2DtelX6afchVd4nOnVUaqchTZO8LV+9itD9RtrZEUGyIC
-	npr684/76QV4xhrbt+xvT2vBR+Saypa0=
-X-Gm-Gg: AYBFou0hsLweS2n2/+MQoOVU3laxSxZp8AxK+lWiBRzfZdP4c30w6cfAKNN3s9u96XA
-	94wq7FM2iwNO/I2v6QtIhuiS9/ngnCgtJ29N1CmhkMRZNhxrXuF+GoxWdjEmMeeRJuKVxq6OqHN
-	HdgIO7vkO7iVT54Z9BerWWKL5st7brDXFQoNxbSucsiXofXPB0k4BFkC5Ffu6RDYDG5LL3Neqrx
-	zNbNcmWnGLkkia/kZfDBiW9xX68vbcD7sh0HCnxLasBBWMFFHhPl5FDeEFFeIFfuEh5nFUsDp67
-	3KoElKmNaWOknMTVOF6SaulIUMH+qIAuHTXhlDTYBn30hsjAVLVPbxj1
-X-Received: by 2002:a05:6870:aa9a:b0:449:bccf:bb67 with SMTP id
- 586e51a60fabf-4755157d71amr13380565fac.5.1788711943580; Sun, 06 Sep 2026
- 09:25:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EEwyFdly"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F77F1F00A3A;
+	Sun,  6 Sep 2026 17:47:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1788716852;
+	bh=WDqUTqfuwYGhUEA2KOT3qieNopzvD2G9zWZFnbpim1U=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=EEwyFdlyoWq//0zNaRP81bfg9KIfBqilTgOFPaxpxrOathjm7yXuoghcBAMdPvnc2
+	 ZsN5bgInsm2eLG5fUVahqNQcxT3ae5iS0nkOewx1K5dOf60D73zufuqLle8KktzYG+
+	 50ofzidZVCp1JXf/Zc04EBPji07w3ZV7EqXZIhQw+9/WnET6GMlnxvz/FUts5WXxqf
+	 VEoHPPjgh16LIoVKPP6kmpkzJf93QCBoDXXytIUjhV1MNwBHX5eUKXPIXhHAyENXT6
+	 kbDDAuU5nd0KkoTrsHW64oDSdHM8MoHB8Tb+hrZfcyI/WjY63Shmo0jHnJuxa/YB1q
+	 FugIbEl63W3Aw==
+Date: Sun, 6 Sep 2026 18:47:28 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
+Cc: gregkh@linuxfoundation.org, nuno.sa@analog.com,
+ Michael.Hennerich@analog.com, dlechner@baylibre.com, andy@kernel.org,
+ linux@analog.com, linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 1/2] staging: iio: adc: ad7816: Serialize SPI read
+ operations
+Message-ID: <20260906184728.22b256d6@jic23-huawei>
+In-Reply-To: <20260906114049.32912-2-abdelnasserhussein11@gmail.com>
+References: <20260906114049.32912-1-abdelnasserhussein11@gmail.com>
+	<20260906114049.32912-2-abdelnasserhussein11@gmail.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260906114049.32912-1-abdelnasserhussein11@gmail.com> <20260906162010.07781ebe@systembl0wer>
-In-Reply-To: <20260906162010.07781ebe@systembl0wer>
-From: nasser <abdelnasserhussein11@gmail.com>
-Date: Sun, 6 Sep 2026 19:25:10 +0300
-X-Gm-Features: AcwNN1W60xdRW7NqkHxR6ohHNio2xhsVYb3KM6Hg5RkJycqi7OOnjevUnUQBUhM
-Message-ID: <CANpqX3aFVx1KgF_THty7ba_DVZf869cto1F=qkikjjSCjkueEQ@mail.gmail.com>
-Subject: Re: [PATCH v4 0/2] staging: iio: adc: ad7816: Fix SPI read operations
- and VMAP_STACK issue
-To: Joshua Crofts <joshua.crofts1@gmail.com>
-Cc: gregkh@linuxfoundation.org, jic23@kernel.org, nuno.sa@analog.com, 
-	Michael.Hennerich@analog.com, dlechner@baylibre.com, andy@kernel.org, 
-	linux@analog.com, linux-iio@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-hi Joshua,
+On Sun,  6 Sep 2026 14:40:48 +0300
+Abdelnasser Hussein <abdelnasserhussein11@gmail.com> wrote:
 
-Thanks a lot for the detailed review and for catching these issues.
-i apologize for the bisectability breakage. I now realize that
-removing buf and missing the lock declaration in patch 1 caused the
-build errors.
-I will fix the commit splitting, adjust the commit message wrapping,
-sort the includes correctly, and add a proper cover letter
-description.
-I will test each commit separately and send v5 shortly.
+> Add a mutex to serialize SPI read operations and prevent data corruption. Used guard(mutex) and devm_mutex_init() for safer and automatic cleanup.
+Check submitting patches, this is not well formatted.
 
-Thanks,
-Abdelnasser
+> Signed-off-by: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
+
+Alongside the comments Joshua had I'd expect to see a description of what
+the race you are preventing is and if you are going to say things like
+data corruption, an illustration of what gets corrupted and how.
+
+Jonathan
+
+> ---
+>  drivers/staging/iio/adc/ad7816.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/iio/adc/ad7816.c b/drivers/staging/iio/adc/ad7816.c
+> index 0e32a2295990..ab80b3a889bb 100644
+> --- a/drivers/staging/iio/adc/ad7816.c
+> +++ b/drivers/staging/iio/adc/ad7816.c
+> @@ -14,6 +14,8 @@
+>  #include <linux/list.h>
+>  #include <linux/spi/spi.h>
+>  #include <linux/module.h>
+> +#include <linux/mutex.h>
+> +#include <linux/cleanup.h>
+>  
+>  #include <linux/iio/iio.h>
+>  #include <linux/iio/sysfs.h>
+> @@ -65,7 +67,8 @@ static int ad7816_spi_read(struct ad7816_chip_info *chip, u16 *data)
+>  {
+>  	struct spi_device *spi_dev = chip->spi_dev;
+>  	int ret;
+> -	__be16 buf;
+> +
+> +	guard(mutex)(&chip->lock);
+>  
+>  	gpiod_set_value(chip->rdwr_pin, 1);
+>  	gpiod_set_value(chip->rdwr_pin, 0);
+> @@ -360,6 +363,10 @@ static int ad7816_probe(struct spi_device *spi_dev)
+>  		return -ENOMEM;
+>  	chip = iio_priv(indio_dev);
+>  
+> +	ret = devm_mutex_init(&spi_dev->dev, &chip->lock);
+> +	if (ret)
+> +		return ret;
+> +
+>  	chip->spi_dev = spi_dev;
+>  	for (i = 0; i <= AD7816_CS_MAX; i++)
+>  		chip->oti_data[i] = 203;
+
