@@ -1,68 +1,69 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 722C338DC56
-	for <linux-staging@lists.linux.dev>; Sun,  6 Sep 2026 14:06:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E58F1154425
+	for <linux-staging@lists.linux.dev>; Sun,  6 Sep 2026 14:11:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788703583; cv=none; b=keV6pR//mrkskqMXkuPVL3Jm/878q/U8C5TdRHezgzMvzhQwe72M1GCzr85OVqLqB6q460ogesaOVHmS5ONYkqTCpUGIGWWNquh73R9L8Hu14Smh193+f2gun1GJCGCnXJ1bTF/DhNhPtpOVEGxk4BGSMDlC+EJh1w6Jeax54wU=
+	t=1788703873; cv=none; b=qbkJt/1EfE9OwO6nLkoxphrelLVgRy4MKh/9bfFh6ts1SDn00zGky/v9Sc4mly6tyB/6WtH9KIC98V1VSPE3tDptA992MUr8Xc8QDSafjHcAl+VYqMEU+desX3G76KPv1vavsYYJ+Pi0hn1Fx4Nn1fbybefUcXrzqWy3fogfMw8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788703583; c=relaxed/simple;
-	bh=tI9FVh3+xvu74Y2zPQNif4JKysfG1IXGu46QtIN+5WI=;
+	s=arc-20240116; t=1788703873; c=relaxed/simple;
+	bh=nvcJJRSUOa2J+QR8VtuE7j7k9G8B5Cpno8sTQYkYEPU=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QQ3KFoZYAWFUfYOtAKRx8biGYvPwZCXSZ/fojlLTLIkRo31KltKMQXJ/0+nD7HSW1Kvxt3N9gb5nQc28zgrn0nIItTAvJB601J4oJI/O9/1CN9wJt/hoYPF0DdUuxOMTV16CL21TRJ4gDFB4xcSVbIO3Z8jejY+H2vtyAfhw8m4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AYJytnez; arc=none smtp.client-ip=209.85.221.51
+	 MIME-Version:Content-Type; b=mcryPwQHHlNUhhMHshA2Dm63nB8zUzOnHWpiPq1C9Le2ny/Qce9FXprM0WemsoBdVKx8XZ5OVrK3ytT4TT0AjI5MlXcUB+/ktDO8b416E31nDrbjLLMWGxQkRYchfRJAnPXqPcKCmgolfwkhxKj7qzOhXmsq8FydNOPftr+u4vI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sJJGlMPI; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AYJytnez"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-4858595f997so1463346f8f.1
-        for <linux-staging@lists.linux.dev>; Sun, 06 Sep 2026 07:06:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sJJGlMPI"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-49b8e527d63so31960935e9.2
+        for <linux-staging@lists.linux.dev>; Sun, 06 Sep 2026 07:11:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788703581; x=1789308381; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1788703870; x=1789308670; darn=lists.linux.dev;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=gs6/YbhXKRDZGsRYZYKBM+a3pqzRoKUz45XvXh/D/hk=;
-        b=AYJytnezeWTo4F0rpzm0wXHC3IFnQag33xYFHGXlecrMXsArkPcPtZg0977t5NvO7U
-         OTfpdpUpF8Nb8q78kueF2hN0dbXbXU2Js5PKUffqYay/TVaEaNXpIK6Zp+HEgxRxTZz+
-         vDtmy5eQwT91aGEmHzVKlGVWzw7oLizcIiW/kf+GPFyVjVEIspJoUp9Bk8RFfTNZhuwv
-         +z+7iDOIxa2MK7NupV6ZthBbriY0WSsJWIBQVpmfScQMBrhFUbMGAfKbsIGJ/1DT3OPS
-         IlGt3E3jAVWCRqYFsTAHnO4vQFL0zvS2zjodLGVuwsT84Hvytah2idOOSiWVu8v44vl6
-         fb6A==
+        bh=f9p7U9U8tA55nei6POZ9glY9rrUZkZ5+MlV33iQ8GuQ=;
+        b=sJJGlMPIU8bofqFxyYnmgRimqTW5Q9Ft6eSzMGXKxISECwpjpTmgFQ0qBgtIdc0k52
+         A5qaOcxEZRs6Rt20gy4TWoIYjDRsDYVWZwprO0Q4kPQLlcGvXfd/NbeiHgcixsMAXZny
+         5i4YALocGLWAgk26zssn9tdDambh9nDp17gGhaHEJtKNHivNudJ0eGgl8CFVhYmT5Q2R
+         hoh45ulRoDxOgFANZ6Pi/+pTtarXYhzy+HRU8Il+71Dq6eaQMI23ALhVT38Ta1bfetCZ
+         VUZ1Or5sZwUyA0AztGGXK/YplfHi1M78jLuQELmgwXWQdPTXLodm+9uyTEw0gyADRO2a
+         zh5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788703581; x=1789308381;
+        d=1e100.net; s=20251104; t=1788703870; x=1789308670;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=gs6/YbhXKRDZGsRYZYKBM+a3pqzRoKUz45XvXh/D/hk=;
-        b=GMS51PgaFc34v1ptJCcwjGQMPRLxf+zjgYc/zaAlH6qN9MPEgvoOtNxKsApltQRw/7
-         qveej6yP8xxCwUZZMP/dCcllBWCgVQh/JrvPevMpvbkFnFlDHDIMuWOrKOqG0Ni/mTCN
-         PZhCROWtbbvsPFutxCxZymBMlvxCjN2w27IeDiwIvz33LMTfovye1gkxSt0zsUTtaQKU
-         5JdSLvIoS3ZUhg9rNkuPCUaseWvmmX6eoJypc8C5GukibYP6Z8RGjoese/o+q8+qQkZ6
-         WG7tux/JuOkhb7V+s/o1Pt7iK2bZy25m9whEFymPUpmLo8ZiaOejxTeLncV8oVMQSdvN
-         0h8w==
-X-Forwarded-Encrypted: i=1; AKwUvBygM8eQl4mzS1nSM9TWRqXrotTOata8+HgByw135HQ7NbuDG+lteAuY6NKKksrgCnN1evuLrhYYLs4VroD+@lists.linux.dev
-X-Gm-Message-State: AFuF++kLBd6G4WOE6hDpSbiJmnOoDTPvC7E5sg+0COJkkl/ktuXPjwnq
-	lRJShYvU/chj9xQpxjf+BNGbiKFABYUZOLjJPkeDv0nNQqBgKYkDaGO2
-X-Gm-Gg: AYBFou2ANfKVcophZFRq7fF5DJo1AOl8YuRUNKENA7jDytJOi6uJ5APYh8J5MqfdwV+
-	MWv/ECN0N3cFiEEhm9k6R9VDYCGl5Qr9aM5kBOwe8CC0yyfJRbGh30sYn0wkFTUekUHbrgY3hys
-	8moXmrJMAdwfIbRL4l36bh+0wBaUeKgWLLt0L4QqcVHy8WI8vXoxgEvRUKuQO5OdXUQP1evHZ71
-	VDk0pxa3zqpoRRmE9CdqyQFqBaELw9yw4kGPgbwS+XfbDlvbVr2EnFubaIZnDe8zPvP5x47F3/c
-	V3hGFVUrW9ZHVgbg2YS05sPN/D6LvAT/a+Xm9sHtUHGP2nP05r1SJZf1OMBDat6TsrpOVUWaEpd
-	R+lZpw5Xxiu6e/+iiyFAjUmBVlAD5GmJa+uvzgVn37UxXTL3iFgZPLuSl3Tscv3/c6IOpduYCiO
-	m1gP+pqG3rCvgvVu0WFzlik+4VbuNCNtRx0ZoTNRXcCrQV3uQuYhUPhMXeUgyRn5HiOn/uyMbOZ
-	ThY/DzWllcegbtXT/s1tdoTr7dG63bHbzvt0beQmjPld/ms0nFr4DkXEkL6qUkefcELHF4RO7mJ
-	0GEMmQisO0dLc2aikjrddhd2ps8wLp8E2PvpWwPkzxhEngS1TLxGexK97d6zbUhlnbnduNj93hI
-	Wf1kjiWuiKOFc4ehbojh3IyKonQowTeVDzn42w+Oo1lU7EEW/zeW+MqWsFDMgShSY0U6z
-X-Received: by 2002:a05:6000:29d9:b0:484:3310:710f with SMTP id ffacd0b85a97d-485872934dcmr27595134f8f.27.1788703580544;
-        Sun, 06 Sep 2026 07:06:20 -0700 (PDT)
+        bh=f9p7U9U8tA55nei6POZ9glY9rrUZkZ5+MlV33iQ8GuQ=;
+        b=GPRxo/t0yaD9+Fuwz6JtuAZL+qb4I5XVI3Gr39Guq4LFx6TnW5IJIg4krwoR5S9Gxa
+         icyh2Ui67jH2uUvjhmYEWbev7v7an2AeTjClHztwCrWTNdgCiRZMPz3wO0kPQZ1GwDSg
+         mu+vRfxX/X6KemHX/AVE1md/Zo2NZZgZogcl76hpGdELOy4XNwn2mRIFfuGmOoUf6FWJ
+         ZOpVO2r4Q2kSlTbJhI4e7ni7oIsUCMcA2ukd2hQ1lNR/dqnwISAIoIfGv5AacUjv9HfZ
+         7LrsLOa+YlR3wrQWm7IDZL4y1eBEMsAyVIa822Pv1hm/H1lMVUa3IBBjFFF/SPFsp5Ke
+         XwyA==
+X-Forwarded-Encrypted: i=1; AKwUvBz8LMmn/GM1dPrD8OzMuGASZwecpag0XcccswfTUvjJuDzJshry+xE5ZTK+BleJJVSRPh4Ah6ZBMy//Oe2+@lists.linux.dev
+X-Gm-Message-State: AFuF++kiffeuOBRnidI2YJ931rbhDh5W1/niFSwIxBOxYRf5of2j9D0g
+	7QApEDsj1KUvowF6BS+Ji5H/ji94XoEskkaR6O066K1NWCo7xsIc0SH/
+X-Gm-Gg: AYBFou3nzaicvm619rUnDAmsfDuu3bgh+r9+Qwlds2sMRZijeSZaatx2yyeCQvkc5c7
+	QxECB1ZDr/Wsoq0EBVdAIt6CzX+9n+ixTG6I7ggn11uzDW05zeM3c6ux1uL5p8vx3O1Pn16b5u/
+	h1ZYNZUle7ePGQPEXGFUIzoF4MzqOz5zb8RnHsEJfaodgrv567C6OKuzj49fNthbFRyb5nqfbrf
+	+CXPgRpyFb3Jn+d2s0LRU1k0lPLlJ9cq7EZHiWIJ7kTFiRmFerGAucswvT6xvWc1P0y2XNaS54t
+	h8NxFb5HL32bocV3gkv/nCwwz+2BQl+rm5ZIeMG3i+1Hb2YQYtY66pFgtgf3xEd3KkHY7I5YI3J
+	7cLLku79cyHWd7OTnO9MtJR0XG6j/sbbJ2pKeI37ged/mRdKNocktpjYp3OC7RDbZNpIZq+V8s5
+	0qRrsoTasibFYz3aAErVHOOwezewtQW4zUtCZxAtS/fQJTkFiEvnXLKu/NdQOd7qHB2dw/clUUR
+	xLdbWSOVxMhZzkJiPv4f5TnKZs4y72PVcDK+JZOYVM7oUWMEWKjreuLVHcRLHQYuuVnEDvA2AVE
+	aHcNz1fknSVMrxvVkTIFPSCBbyFMX+mUiP9UsWX1kEY4UdtE+eoKl+zdJvq4SkghT/6N6LIOhCI
+	lD7MtR98fPQ7nso/szJuSdNoOz6ULlY4mgERyziRQ+bXp1C6NdQ7+z0/lbsSi0wblVIH6LfjnOR
+	iEiDg=
+X-Received: by 2002:a05:600c:19d1:b0:49c:fc6e:8cbb with SMTP id 5b1f17b1804b1-49cfc6e8e05mr171160915e9.31.1788703869883;
+        Sun, 06 Sep 2026 07:11:09 -0700 (PDT)
 Received: from systembl0wer (78-80-112-223.customers.tmcz.cz. [78.80.112.223])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485883927a3sm16599300f8f.11.2026.09.06.07.06.19
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49ce5927b68sm330420775e9.1.2026.09.06.07.11.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Sep 2026 07:06:20 -0700 (PDT)
-Date: Sun, 6 Sep 2026 16:06:15 +0200
+        Sun, 06 Sep 2026 07:11:09 -0700 (PDT)
+Date: Sun, 6 Sep 2026 16:11:05 +0200
 From: Joshua Crofts <joshua.crofts1@gmail.com>
 To: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
 Cc: gregkh@linuxfoundation.org, jic23@kernel.org, nuno.sa@analog.com,
@@ -71,7 +72,7 @@ Cc: gregkh@linuxfoundation.org, jic23@kernel.org, nuno.sa@analog.com,
  linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v4 1/2] staging: iio: adc: ad7816: Serialize SPI read
  operations
-Message-ID: <20260906160615.2fb5555d@systembl0wer>
+Message-ID: <20260906161105.61ac32b7@systembl0wer>
 In-Reply-To: <20260906114049.32912-2-abdelnasserhussein11@gmail.com>
 References: <20260906114049.32912-1-abdelnasserhussein11@gmail.com>
 	<20260906114049.32912-2-abdelnasserhussein11@gmail.com>
@@ -89,9 +90,6 @@ On Sun,  6 Sep 2026 14:40:48 +0300
 Abdelnasser Hussein <abdelnasserhussein11@gmail.com> wrote:
 
 > Add a mutex to serialize SPI read operations and prevent data corruption. Used guard(mutex) and devm_mutex_init() for safer and automatic cleanup.
-
-Please wrap your commit message to ~75 characters per line.
-
 > Signed-off-by: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
 > ---
 >  drivers/staging/iio/adc/ad7816.c | 9 ++++++++-
@@ -107,11 +105,6 @@ Please wrap your commit message to ~75 characters per line.
 >  #include <linux/module.h>
 > +#include <linux/mutex.h>
 > +#include <linux/cleanup.h>
-
-Even if the header list isn't sorted, try to add the headers
-in the approximate location if the list were sorted. Better yet, 
-you could send a patch that orders and cleans up the include list.
-
 >  
 >  #include <linux/iio/iio.h>
 >  #include <linux/iio/sysfs.h>
@@ -120,26 +113,15 @@ you could send a patch that orders and cleans up the include list.
 >  	struct spi_device *spi_dev = chip->spi_dev;
 >  	int ret;
 > -	__be16 buf;
-
-Stray change? I believe this goes into patch 2.
-
 > +
 > +	guard(mutex)(&chip->lock);
->  	gpiod_set_value(chip->rdwr_pin, 1);
->  	gpiod_set_value(chip->rdwr_pin, 0);
-> @@ -360,6 +363,10 @@ static int ad7816_probe(struct spi_device *spi_dev)
->  		return -ENOMEM;
->  	chip = iio_priv(indio_dev);
->  
-> +	ret = devm_mutex_init(&spi_dev->dev, &chip->lock);
-> +	if (ret)
-> +		return ret;
-> +
->  	chip->spi_dev = spi_dev;
->  	for (i = 0; i <= AD7816_CS_MAX; i++)
->  		chip->oti_data[i] = 203;
 
+Actually, I thought I was going crazy when this compiled, only to realize
+you added the mutex in patch 2. Compiling with only this patch applied yields
+10+ errors. Each patch must be atomic and cannot break the build, even if the
+entire applied series compiles correctly.
 
+Please revisit this.
 
 -- 
 Kind regards,
