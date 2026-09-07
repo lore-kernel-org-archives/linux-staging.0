@@ -1,72 +1,70 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8AF03CC9E9;
-	Mon,  7 Sep 2026 16:31:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 059ED519911;
+	Mon,  7 Sep 2026 16:35:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788798713; cv=none; b=OIpuIVlRgDGDmy8NXsPRLWp13pKGDoaLOu6Imud0Z1q7D8aj2/5iHqpHMXGqX+Uw2fVSIwWXppldmm+J2wtXS6yIt1HavAEdU44yUhiAqwmA4XXAV20NpohWRLGgCpeFfxIx7eMBVvHWnXEdQR9y1/ImYq81lJlMRdOcagZYjoE=
+	t=1788798923; cv=none; b=N0yp7dGbyH5Ux8GRHwKJLs9SJHhPqecMRZqi49nMdTh8lH9bMgsev5LgXLU6PhhGh8WwpHlbaRhrQRg4PqbsvoGB+bIlt3KX5ZNpi81zckIa7umwBtotb41t4bT7pMRIX69T9eJTdXLcx3/o+wUue1kQ0RATrFiJZxqO1an8n4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788798713; c=relaxed/simple;
-	bh=eZXD/P9LluAzOazUf6+h6XyGb8Ys8HHx+knkE1GhQSg=;
+	s=arc-20240116; t=1788798923; c=relaxed/simple;
+	bh=2R4Duxrc82unDSDFyDHaSPTI7wpj/vmuf02OoKJA+H8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TWWWkSO1IaKDPWp2S7PGq2kyjeHLpbJ8hstiklmAGQawOnCG7fhEvXSfWkQKkqqvaN4nbKWOntn0lViXEoJIzYucca83NTYuKnb+zu5tOhzSP9X6Aj1WymqYUeGaFJuPTApN+4TuAcY5FhEDRFMcC7kg4KRdUgukLznZQhsT2aI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=XjYB9khp; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ug7H4Ij9P7TLf3URaFk2+OJWR/ltoJfFXhfq941whOEuqr7YARJFwlJJIATxt6Pmx7BQDcZtgYI0J1IFAM8pOM4Et55rLdjtnpclJZ6el4FOAfHzjP/7pVQEwMuw2yVhOjZ7nZkJkYRFxN4D6ZUf1jVNaD7cGcQDqyfepzXGe5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=xZgOQf5q; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="XjYB9khp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0A321F00A3A;
-	Mon,  7 Sep 2026 16:31:50 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="xZgOQf5q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D08741F00A3A;
+	Mon,  7 Sep 2026 16:35:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1788798711;
-	bh=TjyaUJiP3lg09Bx1f6CD0MRFIthZ/KH570FKw2fR5bg=;
+	s=korg; t=1788798921;
+	bh=tEhSXVseIby0wkA2SB/062DM3+hbFvu5KPw00K39le0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=XjYB9khpM+XIwt0WP6ZMHHayw2AjN+zdKDtfZtHaEu4lUaTJ5RpUy2B3pVAwvYOHj
-	 d5+c0tfxn3SKZXnq8wbuKRlie13m1I60O9/iejap0vpJUkB7DfElalXS/ruH81jodE
-	 Wuu/oexNY/mgw2kPzWupsj8lw+/eu8izwm/tiyGo=
-Date: Mon, 7 Sep 2026 18:30:04 +0200
+	b=xZgOQf5qTC+mOMj0xCPYeM6dxi2NnDlaatXqq07sk568Sm9Z1gUlupLoR55VE+s7k
+	 L6JeXQ2iDeLHj3cuGGadbrks4gomZk5bMuF5XwvlixgiukHvnlzIPkTMR8ZSmRe1AX
+	 z0qe91x4TqzRQE+bO/GWKUKykovsI3rXz8hEO9xA=
+Date: Mon, 7 Sep 2026 18:33:18 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Tomasz Unger <tomasz.unger@yahoo.pl>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: rtl8723bs: fix comment formatting for
- pintf_dev in rtw_io.h
-Message-ID: <2026090744-jolt-unnamed-8d58@gregkh>
-References: <20260905-rtl8723bs-rtw-io-comment-v2-v2-1-ee5791206cdb.ref@yahoo.pl>
- <20260905-rtl8723bs-rtw-io-comment-v2-v2-1-ee5791206cdb@yahoo.pl>
+To: tuxdevv <denizgozen61@gmail.com>
+Cc: linux-staging@lists.linux.dev, greybus-dev@lists.linaro.org,
+	linux-kernel@vger.kernel.org,
+	Vaibhav Agarwal <vaibhav.sr@gmail.com>,
+	Mark Greer <mgreer@animalcreek.com>,
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>
+Subject: Re: [PATCH] staging: greybus: fix missing newline in sysfs_emit()
+ format strings
+Message-ID: <2026090758-conjure-parole-ccb1@gregkh>
+References: <20260907071525.43505-1-denizgozen61@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260905-rtl8723bs-rtw-io-comment-v2-v2-1-ee5791206cdb@yahoo.pl>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260907071525.43505-1-denizgozen61@gmail.com>
 
-On Sat, Sep 05, 2026 at 07:23:45PM +0200, Tomasz Unger wrote:
-> Add a space before the comment, remove the stray space before a tab
-> inside it, and drop the unnecessary parentheses around
-> &padapter->dvobjpriv.
+On Mon, Sep 07, 2026 at 10:15:25AM +0300, tuxdevv wrote:
+> From: Deniz Gözen <denizgozen61@gmail.com>
 > 
-> Signed-off-by: Tomasz Unger <tomasz.unger@yahoo.pl>
+> The show functions for the audio module's name, vid, pid, intf_id,
+> ip_devices and op_devices sysfs attributes pass format strings to
+> sysfs_emit() without a trailing newline. Per sysfs conventions each
+> attribute should return content terminated by '\n', and checkpatch.pl
+> flags all six calls as missing the terminator.
+> 
+> Add the missing '\n' to each format string.
+> 
+> Signed-off-by: Deniz Gözen <denizgozen61@gmail.com>
 > ---
-> Dan Carpenter reviewed the previous "space before tab" comment fix
-> for rtw_io.h and pointed out two more issues in the same comment: a
-> missing space before the comment itself, and unnecessary parentheses.
-> 
-> This v2 fixes both, per his review.
-> ---
-> Changes in v2 (per Dan Carpenter's review):
-> - Dan noted there should be a space before the comment, and that the
->   parentheses around &(padapter->dvobjpriv) are unnecessary. Both are
->   fixed here, in addition to the original space-before-tab fix.
-> - Add an Assisted-by: trailer disclosing AI assistance, per
->   Documentation/process/coding-assistants.rst (the original v1 had no
->   such disclosure).
-> 
-> Verified with checkpatch.pl - no new warnings introduced by this change
-> (and removes a pre-existing "space before tabs" warning on the modified line).
-> 
-> Assisted-by: Claude:claude-sonnet-5
+>  drivers/staging/greybus/audio_manager_module.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
 
-Please see:
-	https://lore.kernel.org/r/2026080354-skater-urgent-31b2@gregkh
+Please see the mailing list archives for why this change can't be
+accepted at the moment.
+
+thanks,
+
+greg k-h
