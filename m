@@ -1,67 +1,67 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC87C35DA47
-	for <linux-staging@lists.linux.dev>; Mon,  7 Sep 2026 18:35:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BCAC443A84
+	for <linux-staging@lists.linux.dev>; Mon,  7 Sep 2026 19:35:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788806136; cv=none; b=ltNq91zL/oUYjTyOST2Rjs+jEYNlRj4w6zMkoWZjmZqVDqptH53LaeQGEpfLGtdXFVO/AUGLR5x90NfKDxyZS98nPJMpSslrj09HUK7OUHbojaSfmRtxkOdwDz9u2204/dMxahwWzdiiimTqEXKuimzrED1zzCarDc7WKKZDA8A=
+	t=1788809734; cv=none; b=seUGDuH5hZXllbVyEhjChHsV2W7iLG7w+XvgJkCYm9AMUMVgY6tQzfoYiqHRML/krOhewu9A20yMEOWpicGqd7tVsgK9Mlg6C6fHUpJlJnD5LY9gV8X+MpHsHhGUhqgelQAd4pz8cLOQyBiXMXAY9/uByW7z0e5WFEv32u79/UE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788806136; c=relaxed/simple;
-	bh=IGeItGdIDZiozvaDAsFsvWwALEZKOuhDNK0k0jmGFVc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=E1rrtkABNP4KlFP4B+5xfh7scFxsC6MsatdWg7AdmLVxUCRyOrMweDR7kPGChc6eJ3UHtLG3uP0hAJ96DKi+BN7xP2hze9ucIRe9sOshgbnsnmSfCuCFUp1GnazWn1uYEksFNSQ1x4YJS6TVNEEtwWtG78CEwUENb+loKSlVkaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eJDEIB9j; arc=none smtp.client-ip=209.85.214.175
+	s=arc-20240116; t=1788809734; c=relaxed/simple;
+	bh=3ZM9lIyrtaQGM0ODDjuRobADx7AVEM62g6Xzsy2h0NY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=HHFA8PHoPvLxHwcOvL7dZUpbGtMEQe1oK5UyQKyiSiRdZ6ekh8X60DNw9I2RGPbsmiqI7sZK9CeNAH97knwvNQzdF0NZzzm0HIfoYPpJVOnGh8D8Cn01j/u6nnAassL5PWw0+wZRny4noOr5R/vU076pXnIoWoSJOwXBRRNQvhc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UvhEnmZF; arc=none smtp.client-ip=209.85.215.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eJDEIB9j"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2d9004f39d3so46171635ad.2
-        for <linux-staging@lists.linux.dev>; Mon, 07 Sep 2026 11:35:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UvhEnmZF"
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-cc1bc88a20eso4546908a12.3
+        for <linux-staging@lists.linux.dev>; Mon, 07 Sep 2026 12:35:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788806134; x=1789410934; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1788809731; x=1789414531; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=8YM6m6xOV9uw11mc8TmjiFLP42F3JIT82VmXlnuJ/MQ=;
-        b=eJDEIB9jCX1BKcLS8DL1Yp2cDP5p9UY9XhTLIvOeeHJIsBkbaSkKDNi1h8KaYD5xZv
-         8vL5NAbaYjzzOkfb+UTI7+9AUH0OWmadkoleQ217f2FH365osbz9MsxGWnsGbajLGeMI
-         wZUYiDSa9yMubmxnOMkX32gbMRQ8PpIrmLiTAcQapoBbL6XJllMAGMLmmvFwFpYHJKA3
-         7anKo8lj1JP09m/IetLdKjbIX715/PDOirzcPVeqFtjln7aeeS2Z95WHtOqQnrA1XtLC
-         vNgSUUHFlXt2zWlj/9yLE/EUgMUZE9VAv2HMB+MD2WiFOvUF/Np/OstzPsNEp1L9DIUe
-         /e+w==
+        bh=6MP+vsKEex/aQk5jpDvOuLFWxHlKHoQiANV5ptrVO5k=;
+        b=UvhEnmZFj9q9RHnNDEnj35BtQ8bjSRqNlPZcyaP1aEzOE5rIQNYCHMhZTYIwJPN4Hp
+         a8P5sb8LWI8FpiaIVUGdeZ1Ix9cL9aMeMHZbz173+yAOFjC+HIc8s8dvwWm7V1kM21fz
+         tEks3hvAoCrW8NDGEUpkjm11BTTp2k4IhYO50HtT39DDu92Wz39uFT3h6PLWAZWWL3Vl
+         5AMboOSfbXxNsUOxJbWVomSWnKyIeCfv4kcgRcbmmQENpCxYNqtcn2gDH+MPSaidUMYu
+         G38RpfjlchM58ckn1flgJ5M5byRXDe8m3qK7mfD0apWinLH9AakOgCiypRG14+2SP7fO
+         4VDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788806134; x=1789410934;
+        d=1e100.net; s=20251104; t=1788809731; x=1789414531;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=8YM6m6xOV9uw11mc8TmjiFLP42F3JIT82VmXlnuJ/MQ=;
-        b=mFRRTazf8adDq7OgmUph68fyngMF+HJdV6oH3OwE66PEVGk7fsfDsyCBmp6aZFPqEf
-         OuovkjD+auRUs7dfmD4WKKjYTpDCQ++YXD+IA/cl9AxAaECbrEQFhqQV03yVnD09TcK5
-         9cukizbgpb2qh0GS4dyNqEBLz0CjWJvjokZU5EFaK3la7xt8IFXYdrChr84WO+KzvK59
-         eOWvJGT6TK0ZQxZFnvjaHWtt1dbHjoSspabXhHliRXuW06EtY4pghEyVIQXBQN4oL0Jq
-         GPKkMRP1hGwxVdxz0i0BVCIphnd6ca59S4/3yo+k/RS2lg2/lQWsuzKQ65VHsqcmSWOP
-         Z4sg==
-X-Gm-Message-State: AFuF++nVcnrNN//QV/KmaiCVXqOWkRr3SvUwnPXsfNI3G/r0EHKyuTYW
-	VK4OHcOV0VT3e+DjbnJ4VeboRbLaFjJ1cTZMaBxjWgSCX8wJxOoc5IxREper7Q==
-X-Gm-Gg: AYBFou1jLaJzg4cpIwxxbyhOc/Y06bABMO2KvyAouxJ1Te0ydRv9liy32T1VS6BQAxd
-	eHrz3/kMa+IGtpcazK6COtdQhPTabetTIJ7CBxaj5spQj9f6FlkNGcTLCpWLguBXExsjn1ezjMT
-	P/26sY2QYRzKGpEF1K8J9PvE+OtggFzepFeD7j2X+QMBCIerbjML2Osr2INyOwP/WrI9lmleIx5
-	YJuzYMoGPns0h1Ep5VoZFfne55JRGgfJkFLwDVDh9Yvc7aXIcp+Kvd6mlmARy411OzgGDb9gQbp
-	IWdY5PyLOTIXW1bepgcOz2R4x92QhzpXODihcnOWzxtngAVVLCIylCIimBkGphpR1Fhqs1o3Nso
-	7a8kdh6aj3IFYa2wKaOMaJ5GemJUHF/Wel+kZfH/b0ZEKOdgaYtuOnirwWKGFPH0CdQZo9mQEI1
-	XGXXKB0lXDN0KpWLFTCRJQ5H4+/iA9CGyvg2AYHVvG/4kHhxhdtX2WVzpggTQDhBrXGye2sx4=
-X-Received: by 2002:a17:90b:4c51:b0:38e:57a3:f218 with SMTP id 98e67ed59e1d1-39b26204e5bmr34222765a91.13.1788806133766;
-        Mon, 07 Sep 2026 11:35:33 -0700 (PDT)
+        bh=6MP+vsKEex/aQk5jpDvOuLFWxHlKHoQiANV5ptrVO5k=;
+        b=s6Nj36+ekckkgmeDtfF+rpvk8KqKozS7VvUBQWXtc65uaZo2i9doL0+UaT7TWR1DZ3
+         D8Sy0ycD7SZi/ppbQrPSveBuI+KKkq+hZjb8Yldg4OPszjroFBwfGOXQPX8A2NNjsbGQ
+         vOe/e2V9gH92+n60RxYp5gyEywDavqnbMNqONGPGrVX0K0ovGTJAgtr2W6tyeOEglvtl
+         oebxuSbJVZ4BiL/mQgnbBLfA1BJhGpkwXqNRK4+dzXJoXn91YlFOvFLOY2U6Z70fxvCd
+         38ngFKwRpqWXxPp+02VWRFFuQp7lAlVmAL3ZJ+MY8zTcCdi+bt1MYgEoSTO9ERWNyT3r
+         Pc9A==
+X-Gm-Message-State: AFuF++kTbq+LU1BFZPDgwk8cxUAYSKytYrPe31KcvBwUzThm3MyAXKRe
+	yyRXyK2e8YIzVkjlTMgBt/4LtLwrP+UuxU5oO52o4OA3IvHpxwOWcGKFv1md3A==
+X-Gm-Gg: AYBFou32EZ4Zkum47LgA880l8ekyNBxZAvyk3iGY3dsL4jy6M0YdpUvJ4APdhoDaT04
+	XvLZx0xwsKI7isP+e4h9LNou0XiQB7kEffOsfQ3Fw9QHrssQO7AiicyTcJ0AFJB9+CuECDX65o5
+	xRhtfMxIDylqccVESE6Ts42jwl4rnKBiLM8lsQzLB6OaFEDW959gB6o1QWbySk64bc0FRUXn2h7
+	4LB3UG1N8w/JyLBMIcdwI+RVXu6Jch2KZK4RDpMYEOqlkCIvD4U2H8n79SrgkkdnfePdUL1Zj0F
+	fVd4m/b6iyslRPJWQH1BR6hGMrjyqu/I6wOFwIInC/azyJIQv8gkY7daVlnF8mDpnQ+N2s24HeU
+	GiuWr2YHXFd/K0O6TnC85C2G1Q5yEv+fFZavtscTBVDi3xGnu5+r8/LXj5nrPkHT95hxfY7XSHA
+	+/O8OKx6nW1pzCc9pyEoNXUF1u9Ku6zfNEgQsTbt4zKnVPwstqzs8pbdvn5e19f5DPqt/S0zU=
+X-Received: by 2002:a17:90b:3943:b0:398:d8eb:cb2a with SMTP id 98e67ed59e1d1-39b26273e31mr40169048a91.23.1788809730823;
+        Mon, 07 Sep 2026 12:35:30 -0700 (PDT)
 Received: from TestUbuntu22.. ([67.169.161.65])
-        by smtp.googlemail.com with ESMTPSA id 5a478bee46e88-3339b123731sm28185174eec.18.2026.09.07.11.35.32
+        by smtp.googlemail.com with ESMTPSA id a92af1059eb24-14344a86512sm5944409c88.10.2026.09.07.12.35.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Sep 2026 11:35:33 -0700 (PDT)
+        Mon, 07 Sep 2026 12:35:30 -0700 (PDT)
 From: Jennifer Guo <guojy.bj@gmail.com>
 To: linux-staging@lists.linux.dev
 Cc: gregkh@linuxfoundation.org,
 	guojy.bj@gmail.com
-Subject: [PATCH] staging: rtl8723bs: remove commented out code in rtw_mlme_ext.c
-Date: Mon,  7 Sep 2026 11:35:21 -0700
-Message-Id: <20260907183521.68630-1-guojy.bj@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: remove commented out code in core/ files.
+Date: Mon,  7 Sep 2026 12:34:58 -0700
+Message-Id: <20260907193458.70319-1-guojy.bj@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -71,454 +71,555 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove all commented-out code in this file.
+Remove commented-out code in a bunch of files in core/
 Remove adjacent comment where applicable.
 
 Signed-off-by: Jennifer Guo <guojy.bj@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 89 -------------------
- 1 file changed, 89 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_cmd.c      | 19 -----------
+ drivers/staging/rtl8723bs/core/rtw_efuse.c    |  3 --
+ .../staging/rtl8723bs/core/rtw_ieee80211.c    |  8 -----
+ .../staging/rtl8723bs/core/rtw_ioctl_set.c    |  3 --
+ drivers/staging/rtl8723bs/core/rtw_pwrctrl.c  |  1 -
+ drivers/staging/rtl8723bs/core/rtw_security.c |  8 -----
+ drivers/staging/rtl8723bs/core/rtw_sta_mgt.c  | 32 -------------------
+ .../staging/rtl8723bs/core/rtw_wlan_util.c    | 17 ----------
+ drivers/staging/rtl8723bs/core/rtw_xmit.c     |  4 ---
+ 9 files changed, 95 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index c39fb142302e..7622f0ef0aba 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -384,8 +384,6 @@ void init_mlme_ext_priv(struct adapter *padapter)
+diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+index 59f13f6b85ad..267901cc5bf8 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
++++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+@@ -252,12 +252,10 @@ static int _rtw_enqueue_cmd(struct __queue *queue, struct cmd_obj *obj)
+ 	if (!obj)
+ 		return 0;
  
- 	pmlmeext->padapter = padapter;
+-	/* spin_lock_bh(&queue->lock); */
+ 	spin_lock_irqsave(&queue->lock, irqL);
  
--	/* fill_fwpriv(padapter, &(pmlmeext->fwpriv)); */
--
- 	init_mlme_ext_priv_value(padapter);
- 	pmlmeinfo->accept_addba_req = pregistrypriv->accept_addba_req;
+ 	list_add_tail(&obj->list, &queue->queue);
  
-@@ -411,7 +409,6 @@ void free_mlme_ext_priv(struct mlme_ext_priv *pmlmeext)
- 	if (padapter->driver_stopped) {
- 		timer_delete_sync(&pmlmeext->survey_timer);
- 		timer_delete_sync(&pmlmeext->link_timer);
--		/* timer_delete_sync(&pmlmeext->ADDBA_timer); */
+-	/* spin_unlock_bh(&queue->lock); */
+ 	spin_unlock_irqrestore(&queue->lock, irqL);
+ 
+ 	return 0;
+@@ -268,7 +266,6 @@ struct	cmd_obj	*_rtw_dequeue_cmd(struct __queue *queue)
+ 	unsigned long irqL;
+ 	struct cmd_obj *obj;
+ 
+-	/* spin_lock_bh(&(queue->lock)); */
+ 	spin_lock_irqsave(&queue->lock, irqL);
+ 	if (list_empty(&queue->queue)) {
+ 		obj = NULL;
+@@ -277,7 +274,6 @@ struct	cmd_obj	*_rtw_dequeue_cmd(struct __queue *queue)
+ 		list_del_init(&obj->list);
  	}
+ 
+-	/* spin_unlock_bh(&(queue->lock)); */
+ 	spin_unlock_irqrestore(&queue->lock, irqL);
+ 
+ 	return obj;
+@@ -546,7 +542,6 @@ u8 rtw_sitesurvey_cmd(struct adapter  *padapter, struct ndis_802_11_ssid *ssid,
+ 
+ 	init_h2fwcmd_w_parm_no_rsp(ph2c, survey_para, SITE_SURVEY_CMD);
+ 
+-	/* psurveyPara->bsslimit = 48; */
+ 	survey_para->scan_mode = pmlmepriv->scan_mode;
+ 
+ 	/* prepare ssid list */
+@@ -588,7 +583,6 @@ u8 rtw_sitesurvey_cmd(struct adapter  *padapter, struct ndis_802_11_ssid *ssid,
+ 
+ void rtw_getbbrfreg_cmdrsp_callback(struct adapter *padapter,  struct cmd_obj *pcmd)
+ {
+-	/* rtw_free_cmd_obj(pcmd); */
+ 	kfree(pcmd->parmbuf);
+ 	kfree(pcmd);
+ }
+@@ -1000,7 +994,6 @@ u8 rtw_addbareq_cmd(struct adapter *padapter, u8 tid, u8 *addr)
+ 
+ 	init_h2fwcmd_w_parm_no_rsp(ph2c, paddbareq_parm, ADD_BA_REQ_CMD);
+ 
+-	/* rtw_enqueue_cmd(pcmdpriv, ph2c); */
+ 	res = rtw_enqueue_cmd(pcmdpriv, ph2c);
+ 
+ exit:
+@@ -1034,7 +1027,6 @@ u8 rtw_reset_securitypriv_cmd(struct adapter *padapter)
+ 
+ 	init_h2fwcmd_w_parm_no_rsp(ph2c, pdrvextra_cmd_parm, SET_DRV_EXTRA_CMD);
+ 
+-	/* rtw_enqueue_cmd(pcmdpriv, ph2c); */
+ 	res = rtw_enqueue_cmd(pcmdpriv, ph2c);
+ exit:
+ 	return res;
+@@ -1067,7 +1059,6 @@ u8 rtw_free_assoc_resources_cmd(struct adapter *padapter)
+ 
+ 	init_h2fwcmd_w_parm_no_rsp(ph2c, pdrvextra_cmd_parm, SET_DRV_EXTRA_CMD);
+ 
+-	/* rtw_enqueue_cmd(pcmdpriv, ph2c); */
+ 	res = rtw_enqueue_cmd(pcmdpriv, ph2c);
+ exit:
+ 	return res;
+@@ -1100,7 +1091,6 @@ u8 rtw_dynamic_chk_wk_cmd(struct adapter *padapter)
+ 	pdrvextra_cmd_parm->pbuf = NULL;
+ 	init_h2fwcmd_w_parm_no_rsp(ph2c, pdrvextra_cmd_parm, SET_DRV_EXTRA_CMD);
+ 
+-	/* rtw_enqueue_cmd(pcmdpriv, ph2c); */
+ 	res = rtw_enqueue_cmd(pcmdpriv, ph2c);
+ exit:
+ 	return res;
+@@ -1249,18 +1239,13 @@ static void dynamic_chk_wk_hdl(struct adapter *padapter)
+ 
+ 	/* for debug purpose */
+ 	_linked_info_dump(padapter);
+-	/* if (check_fwstate(pmlmepriv, _FW_UNDER_LINKING|_FW_UNDER_SURVEY) ==false) */
+ 	{
+ 		linked_status_chk(padapter);
+ 		traffic_status_watchdog(padapter, false);
+ 	}
+ 	rtw_hal_dm_watchdog(padapter);
+ 
+-	/* check_hw_pbc(padapter, pdrvextra_cmd->pbuf, pdrvextra_cmd->type); */
+-
+-	/*  */
+ 	/*  BT-Coexist */
+-	/*  */
+ 	hal_btcoex_Handler(padapter);
+ 
+ 	/* always call rtw_ps_processor() at last one. */
+@@ -1325,7 +1310,6 @@ u8 rtw_lps_ctrl_wk_cmd(struct adapter *padapter, u8 lps_ctrl_type, u8 enqueue)
+ 	struct cmd_obj	*ph2c;
+ 	struct drvextra_cmd_parm *pdrvextra_cmd_parm;
+ 	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
+-	/* struct pwrctrl_priv *pwrctrlpriv = adapter_to_pwrctl(padapter); */
+ 	u8 res = _SUCCESS;
+ 
+ 	if (enqueue) {
+@@ -1877,9 +1861,6 @@ void rtw_createbss_cmd_callback(struct adapter *padapter, struct cmd_obj *pcmd)
+ 
+ 		pnetwork->length = get_wlan_bssid_ex_sz(pnetwork);
+ 		memcpy(&pwlan->network, pnetwork, pnetwork->length);
+-		/* pwlan->fixed = true; */
+-
+-		/* list_add_tail(&(pwlan->list), &pmlmepriv->scanned_queue.queue); */
+ 
+ 		/*  copy pdev_network information to	pmlmepriv->cur_network */
+ 		memcpy(&tgt_network->network, pnetwork, (get_wlan_bssid_ex_sz(pnetwork)));
+diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c b/drivers/staging/rtl8723bs/core/rtw_efuse.c
+index b2d22307b115..d5bf8f17b9ff 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
++++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
+@@ -87,7 +87,6 @@ u8 rtw_efuse_one_byte_read(struct adapter *padapter, u16 addr, u8 *data)
+ 
+ 	/*  <20130121, Kordan> For SMIC EFUSE specificatoin. */
+ 	/* 0x34[11]: SW force PGMEN input of efuse to high. (for the bank selected by 0x34[9:8]) */
+-	/* PHY_SetMacReg(padapter, 0x34, BIT11, 0); */
+ 	rtw_write16(padapter, 0x34, rtw_read16(padapter, 0x34) & (~BIT(11)));
+ 
+ 	/*  -----------------e-fuse reg ctrl --------------------------------- */
+@@ -173,6 +172,4 @@ void rtw_efuse_shadow_map_update(struct adapter *padapter, u8 efuse_type)
+ 	else
+ 		efuse_read_all_map(padapter, efuse_type, eeprom->efuse_eeprom_data);
+ 
+-	/* PlatformMoveMemory((void *)&pHalData->EfuseMap[EFUSE_MODIFY_MAP][0], */
+-	/* void *)&pHalData->EfuseMap[EFUSE_INIT_MAP][0], map_len); */
+ } /*  rtw_efuse_shadow_map_update */
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+index 4d211711f2ba..f7348d135f81 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+@@ -330,7 +330,6 @@ int rtw_generate_ie(struct registry_priv *pregistrypriv)
+ 
+ 	if (rate_len > 8) {
+ 		ie = rtw_set_ie(ie, WLAN_EID_SUPP_RATES, 8, pdev_network->supported_rates, &sz);
+-		/* ie = rtw_set_ie(ie, WLAN_EID_EXT_SUPP_RATES, (rate_len - 8), (pdev_network->supported_rates + 8), &sz); */
+ 	} else {
+ 		ie = rtw_set_ie(ie, WLAN_EID_SUPP_RATES, rate_len, pdev_network->supported_rates, &sz);
+ 	}
+@@ -351,10 +350,6 @@ int rtw_generate_ie(struct registry_priv *pregistrypriv)
+ 		/* todo: */
+ 	}
+ 
+-	/* pdev_network->ie_length =  sz; update ie_length */
+-
+-	/* return _SUCCESS; */
+-
+ 	return sz;
  }
  
-@@ -483,7 +480,6 @@ void mgt_dispatcher(struct adapter *padapter, union recv_frame *precv_frame)
- 		_mgt_dispatcher(padapter, ptable, precv_frame);
- 		break;
- 	case WIFI_ACTION:
--		/* if (check_fwstate(pmlmepriv, WIFI_AP_STATE) == true) */
- 		_mgt_dispatcher(padapter, ptable, precv_frame);
- 		break;
- 	default:
-@@ -743,9 +739,6 @@ unsigned int OnAuth(struct adapter *padapter, union recv_frame *precv_frame)
+@@ -481,7 +476,6 @@ int rtw_parse_wpa_ie(u8 *wpa_ie, int wpa_ie_len, int *group_cipher, int *pairwis
  
- 		pstat->state = WIFI_FW_AUTH_NULL;
- 		pstat->auth_seq = 0;
--
--		/* pstat->flags = 0; */
--		/* pstat->capability = 0; */
- 	} else {
- 		spin_lock_bh(&pstapriv->asoc_list_lock);
- 		if (!list_empty(&pstat->asoc_list)) {
-@@ -872,7 +865,6 @@ unsigned int OnAuthClient(struct adapter *padapter, union recv_frame *precv_fram
- 				pmlmeinfo->auth_algo = dot11_auth_algrthm_open;
- 			else
- 				pmlmeinfo->auth_algo = dot11_auth_algrthm_shared;
--			/* pmlmeinfo->reauth_count = 0; */
+ 	/* pairwise_cipher */
+ 	if (left >= 2) {
+-		/* count = le16_to_cpu(*(u16*)pos); */
+ 		count = get_unaligned_le16(pos);
+ 		pos += 2;
+ 		left -= 2;
+@@ -543,7 +537,6 @@ int rtw_parse_wpa2_ie(u8 *rsn_ie, int rsn_ie_len, int *group_cipher, int *pairwi
+ 
+ 	/* pairwise_cipher */
+ 	if (left >= 2) {
+-	  /* count = le16_to_cpu(*(u16*)pos); */
+ 		count = get_unaligned_le16(pos);
+ 		pos += 2;
+ 		left -= 2;
+@@ -1074,7 +1067,6 @@ void rtw_get_bcn_info(struct wlan_network *pnetwork)
+ {
+ 	unsigned short cap = 0;
+ 	u8 bencrypt = 0;
+-	/* u8 wpa_ie[255], rsn_ie[255]; */
+ 	u16 wpa_len = 0, rsn_len = 0;
+ 	struct HT_info_element *pht_info = NULL;
+ 	struct ieee80211_ht_cap *pht_cap = NULL;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
+index 2739d0e99098..b82c1e3572c0 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ioctl_set.c
+@@ -322,7 +322,6 @@ u8 rtw_set_802_11_infrastructure_mode(struct adapter *padapter,
+ 		case NL80211_IFTYPE_AP:
+ 			set_fwstate(pmlmepriv, WIFI_AP_STATE);
+ 			start_ap_mode(padapter);
+-			/* rtw_indicate_connect(padapter); */
+ 
+ 			break;
+ 
+@@ -330,8 +329,6 @@ u8 rtw_set_802_11_infrastructure_mode(struct adapter *padapter,
+ 			break;
  		}
  
- 		set_link_timer(pmlmeext, 1);
-@@ -915,8 +907,6 @@ unsigned int OnAuthClient(struct adapter *padapter, union recv_frame *precv_fram
- 
- authclnt_fail:
- 
--	/* pmlmeinfo->state &= ~(WIFI_FW_AUTH_STATE); */
+-		/* SecClearAllKeys(adapter); */
 -
- 	return _FAIL;
+ 		spin_unlock_bh(&pmlmepriv->lock);
+ 	}
+ 	return true;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+index 448611ad8237..9aeaad223f2f 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
++++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+@@ -210,7 +210,6 @@ void traffic_check_for_leave_lps(struct adapter *padapter, u8 tx, u32 tx_packets
+ 	}
+ 
+ 	if (bLeaveLPS)
+-		/* rtw_lps_ctrl_wk_cmd(padapter, LPS_CTRL_LEAVE, 1); */
+ 		rtw_lps_ctrl_wk_cmd(padapter, LPS_CTRL_LEAVE, tx ? 0 : 1);
  }
  
-@@ -961,7 +951,6 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
- 	}
+diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
+index 3de102a27517..310555657302 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_security.c
++++ b/drivers/staging/rtl8723bs/core/rtw_security.c
+@@ -108,11 +108,9 @@ void rtw_wep_decrypt(struct adapter  *padapter, u8 *precvframe)
+ 	/* start to decrypt recvframe */
+ 	if ((prxattrib->encrypt == _WEP40_) || (prxattrib->encrypt == _WEP104_)) {
+ 		iv = pframe + prxattrib->hdrlen;
+-		/* keyindex =(iv[3]&0x3); */
+ 		keyindex = prxattrib->key_index;
+ 		keylength = psecuritypriv->dot11DefKeylen[keyindex];
+ 		memcpy(&wepkey[0], iv, 3);
+-		/* memcpy(&wepkey[3], &psecuritypriv->dot11DefKey[psecuritypriv->dot11PrivacyKeyIndex].skey[0], keylength); */
+ 		memcpy(&wepkey[3], &psecuritypriv->dot11DefKey[keyindex].skey[0], keylength);
+ 		length = ((union recv_frame *)precvframe)->u.hdr.len - prxattrib->hdrlen - prxattrib->iv_len;
  
- 	capab_info = get_unaligned_le16(pframe + WLAN_HDR_A3_LEN);
--	/* capab_info = le16_to_cpu(*(unsigned short *)(pframe + WLAN_HDR_A3_LEN)); */
+@@ -922,9 +920,6 @@ static signed int aes_cipher(u8 *key, uint hdrlen,
+ u32 rtw_aes_encrypt(struct adapter *padapter, u8 *pxmitframe)
+ {	/*  exclude ICV */
  
- 	left = pkt_len - (sizeof(struct ieee80211_hdr_3addr) + ie_offset);
- 	pos = pframe + (sizeof(struct ieee80211_hdr_3addr) + ie_offset);
-@@ -1013,10 +1002,6 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
- 	/*  check if the supported rate is ok */
- 	p = rtw_get_ie(pframe + WLAN_HDR_A3_LEN + ie_offset, WLAN_EID_SUPP_RATES, &ie_len, pkt_len - WLAN_HDR_A3_LEN - ie_offset);
- 	if (!p) {
--		/*  use our own rate set as statoin used */
--		/* memcpy(supportRate, AP_BSSRATE, AP_BSSRATE_LEN); */
--		/* support_rate_num = AP_BSSRATE_LEN; */
+-	/*static*/
+-	/* unsigned char message[MAX_MSG_SIZE]; */
 -
- 		status = WLAN_STATUS_CHALLENGE_FAIL;
- 		goto OnAssocReqFail;
- 	} else {
-@@ -1037,7 +1022,6 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
+ 	/* Intermediate Buffers */
+ 	signed int curfragnum, length;
+ 	u8 *pframe, *prwskey;	/*  *payload,*iv */
+@@ -1167,9 +1162,6 @@ static signed int aes_decipher(u8 *key, uint	hdrlen,
+ u32 rtw_aes_decrypt(struct adapter *padapter, u8 *precvframe)
+ {	/*  exclude ICV */
+ 
+-	/*static*/
+-	/* unsigned char message[MAX_MSG_SIZE]; */
+-
+ 	/* Intermediate Buffers */
+ 
+ 	signed int length;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c b/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
+index 6d014bf8fa96..11351aa4f4d0 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
++++ b/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
+@@ -14,9 +14,6 @@ void _rtw_init_stainfo(struct sta_info *psta)
+ 	spin_lock_init(&psta->lock);
+ 	INIT_LIST_HEAD(&psta->list);
+ 	INIT_LIST_HEAD(&psta->hash_list);
+-	/* INIT_LIST_HEAD(&psta->asoc_list); */
+-	/* INIT_LIST_HEAD(&psta->sleep_list); */
+-	/* INIT_LIST_HEAD(&psta->wakeup_list); */
+ 
+ 	INIT_LIST_HEAD(&psta->sleep_q.queue);
+ 	spin_lock_init(&psta->sleep_q.lock);
+@@ -171,7 +168,6 @@ u32 _rtw_free_sta_priv(struct	sta_priv *pstapriv)
+ 	return _SUCCESS;
+ }
+ 
+-/* struct	sta_info *rtw_alloc_stainfo(_queue *pfree_sta_queue, unsigned char *hwaddr) */
+ struct	sta_info *rtw_alloc_stainfo(struct	sta_priv *pstapriv, u8 *hwaddr)
+ {
+ 	s32	index;
+@@ -184,10 +180,8 @@ struct	sta_info *rtw_alloc_stainfo(struct	sta_priv *pstapriv, u8 *hwaddr)
+ 
+ 	pfree_sta_queue = &pstapriv->free_sta_queue;
+ 
+-	/* spin_lock_bh(&(pfree_sta_queue->lock)); */
+ 	spin_lock_bh(&pstapriv->sta_hash_lock);
+ 	if (list_empty(&pfree_sta_queue->queue)) {
+-		/* spin_unlock_bh(&(pfree_sta_queue->lock)); */
+ 		spin_unlock_bh(&pstapriv->sta_hash_lock);
+ 		return NULL;
  	}
+@@ -195,8 +189,6 @@ struct	sta_info *rtw_alloc_stainfo(struct	sta_priv *pstapriv, u8 *hwaddr)
  
- 	/* todo: mask supportRate between AP & STA -> move to update raid */
--	/* get_matched_rate(pmlmeext, supportRate, &support_rate_num, 0); */
+ 	list_del_init(&psta->list);
  
- 	/* update station supportRate */
- 	pstat->bssratelen = support_rate_num;
-@@ -1232,8 +1216,6 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
- 	if ((pstat->flags & WLAN_STA_HT) &&
- 		    ((pstat->wpa2_pairwise_cipher & WPA_CIPHER_TKIP) ||
- 		      (pstat->wpa_pairwise_cipher & WPA_CIPHER_TKIP))) {
--		/* status = WLAN_STATUS_CIPHER_SUITE_REJECTED; */
--		/* goto OnAssocReqFail; */
+-	/* spin_unlock_bh(&(pfree_sta_queue->lock)); */
+-
+ 	_rtw_init_stainfo(psta);
+ 
+ 	psta->padapter = pstapriv->padapter;
+@@ -212,14 +204,10 @@ struct	sta_info *rtw_alloc_stainfo(struct	sta_priv *pstapriv, u8 *hwaddr)
  	}
- 	pstat->flags |= WLAN_STA_NONERP;
- 	for (i = 0; i < pstat->bssratelen; i++) {
-@@ -1260,7 +1242,6 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
- 			if (!pstapriv->sta_aid[pstat->aid - 1])
- 				break;
+ 	phash_list = &pstapriv->sta_hash[index];
  
--		/* if (pstat->aid > NUM_STA) { */
- 		if (pstat->aid > pstapriv->max_num_sta) {
- 			pstat->aid = 0;
+-	/* spin_lock_bh(&(pstapriv->sta_hash_lock)); */
+-
+ 	list_add_tail(&psta->hash_list, phash_list);
  
-@@ -1344,7 +1325,6 @@ unsigned int OnAssocRsp(struct adapter *padapter, union recv_frame *precv_frame)
+ 	pstapriv->asoc_sta_count++;
+ 
+-	/* spin_unlock_bh(&(pstapriv->sta_hash_lock)); */
+-
+ 	/*  Commented by Albert 2009/08/13 */
+ 	/*  For the SMC router, the sequence number of first packet of WPS handshake will be 0. */
+ 	/*  In this case, this packet will be dropped by recv_decache function if we use the 0x00 as the default value for tid_rxseq variable. */
+@@ -240,7 +228,6 @@ struct	sta_info *rtw_alloc_stainfo(struct	sta_priv *pstapriv, u8 *hwaddr)
+ 
+ 		preorder_ctrl->indicate_seq = 0xffff;
+ 		preorder_ctrl->wend_b = 0xffff;
+-		/* preorder_ctrl->wsize_b = (NR_RECVBUFF-2); */
+ 		preorder_ctrl->wsize_b = 64;/* 64; */
+ 
+ 		INIT_LIST_HEAD(&preorder_ctrl->pending_recvframe_queue.queue);
+@@ -287,50 +274,38 @@ u32 rtw_free_stainfo(struct adapter *padapter, struct sta_info *psta)
+ 
+ 	pstaxmitpriv = &psta->sta_xmitpriv;
+ 
+-	/* list_del_init(&psta->sleep_list); */
+-
+-	/* list_del_init(&psta->wakeup_list); */
+-
+ 	spin_lock_bh(&pxmitpriv->lock);
+ 
+ 	rtw_free_xmitframe_queue(pxmitpriv, &psta->sleep_q);
+ 	psta->sleepq_len = 0;
+ 
+ 	/* vo */
+-	/* spin_lock_bh(&(pxmitpriv->vo_pending.lock)); */
+ 	rtw_free_xmitframe_queue(pxmitpriv, &pstaxmitpriv->vo_q.sta_pending);
+ 	list_del_init(&pstaxmitpriv->vo_q.tx_pending);
+ 	phwxmit = pxmitpriv->hwxmits;
+ 	phwxmit->accnt -= pstaxmitpriv->vo_q.qcnt;
+ 	pstaxmitpriv->vo_q.qcnt = 0;
+-	/* spin_unlock_bh(&(pxmitpriv->vo_pending.lock)); */
+ 
+ 	/* vi */
+-	/* spin_lock_bh(&(pxmitpriv->vi_pending.lock)); */
+ 	rtw_free_xmitframe_queue(pxmitpriv, &pstaxmitpriv->vi_q.sta_pending);
+ 	list_del_init(&pstaxmitpriv->vi_q.tx_pending);
+ 	phwxmit = pxmitpriv->hwxmits + 1;
+ 	phwxmit->accnt -= pstaxmitpriv->vi_q.qcnt;
+ 	pstaxmitpriv->vi_q.qcnt = 0;
+-	/* spin_unlock_bh(&(pxmitpriv->vi_pending.lock)); */
+ 
+ 	/* be */
+-	/* spin_lock_bh(&(pxmitpriv->be_pending.lock)); */
+ 	rtw_free_xmitframe_queue(pxmitpriv, &pstaxmitpriv->be_q.sta_pending);
+ 	list_del_init(&pstaxmitpriv->be_q.tx_pending);
+ 	phwxmit = pxmitpriv->hwxmits + 2;
+ 	phwxmit->accnt -= pstaxmitpriv->be_q.qcnt;
+ 	pstaxmitpriv->be_q.qcnt = 0;
+-	/* spin_unlock_bh(&(pxmitpriv->be_pending.lock)); */
+ 
+ 	/* bk */
+-	/* spin_lock_bh(&(pxmitpriv->bk_pending.lock)); */
+ 	rtw_free_xmitframe_queue(pxmitpriv, &pstaxmitpriv->bk_q.sta_pending);
+ 	list_del_init(&pstaxmitpriv->bk_q.tx_pending);
+ 	phwxmit = pxmitpriv->hwxmits + 3;
+ 	phwxmit->accnt -= pstaxmitpriv->bk_q.qcnt;
+ 	pstaxmitpriv->bk_q.qcnt = 0;
+-	/* spin_unlock_bh(&(pxmitpriv->bk_pending.lock)); */
+ 
+ 	spin_unlock_bh(&pxmitpriv->lock);
+ 
+@@ -339,10 +314,6 @@ u32 rtw_free_stainfo(struct adapter *padapter, struct sta_info *psta)
+ 	pstapriv->asoc_sta_count--;
+ 	spin_unlock_bh(&pstapriv->sta_hash_lock);
+ 
+-	/*  re-init sta_info; 20061114 will be init in alloc_stainfo */
+-	/* _rtw_init_sta_xmit_priv(&psta->sta_xmitpriv); */
+-	/* _rtw_init_sta_recv_priv(&psta->sta_recvpriv); */
+-
+ 	timer_delete_sync(&psta->addba_retry_timer);
+ 
+ 	/* for A-MPDU Rx reordering buffer control, cancel reordering_ctrl_timer */
+@@ -410,9 +381,7 @@ u32 rtw_free_stainfo(struct adapter *padapter, struct sta_info *psta)
+ 
+ 	psta->under_exist_checking = 0;
+ 
+-	/* spin_lock_bh(&(pfree_sta_queue->lock)); */
+ 	list_add_tail(&psta->list, get_list_head(pfree_sta_queue));
+-	/* spin_unlock_bh(&(pfree_sta_queue->lock)); */
+ 
+ exit:
+ 	return _SUCCESS;
+@@ -493,7 +462,6 @@ u32 rtw_init_bcmc_stainfo(struct adapter *padapter)
+ 	u8 bcast_addr[ETH_ALEN] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+ 
+ 	struct	sta_priv *pstapriv = &padapter->stapriv;
+-	/* struct __queue	*pstapending = &padapter->xmitpriv.bm_pending; */
+ 
+ 	psta = rtw_alloc_stainfo(pstapriv, bcast_addr);
+ 
+diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+index 6d49dff616c2..9feab9ab7545 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
++++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+@@ -655,7 +655,6 @@ void flush_all_cam_entry(struct adapter *padapter)
+ 
+ int WMM_param_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE)
+ {
+-	/* struct registry_priv *pregpriv = &padapter->registrypriv; */
  	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
  	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
  	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
--	/* struct wlan_bssid_ex			*cur_network = &(pmlmeinfo->network); */
- 	u8 *pframe = precv_frame->u.hdr.rx_data;
- 	uint pkt_len = precv_frame->u.hdr.len;
+@@ -774,7 +773,6 @@ void WMMOnAssocRsp(struct adapter *padapter)
  
-@@ -1449,8 +1429,6 @@ unsigned int OnDeAuth(struct adapter *padapter, union recv_frame *precv_frame)
- 		struct sta_info *psta;
+ 			case 0x1:
+ 				rtw_hal_set_hwreg(padapter, HW_VAR_AC_PARAM_BK, (u8 *)(&acParm));
+-				/* acm_mask |= (ACM? BIT(0):0); */
+ 				edca[XMIT_BK_QUEUE] = acParm;
+ 				break;
+ 
+@@ -872,8 +870,6 @@ static void bwmode_update_check(struct adapter *padapter, struct ndis_80211_var_
+ 		struct wlan_bssid_ex	*cur_network = &pmlmeinfo->network;
  		struct sta_priv *pstapriv = &padapter->stapriv;
  
--		/* rtw_free_stainfo(padapter, psta); */
+-		/* set_channel_bwmode(padapter, pmlmeext->cur_channel, pmlmeext->cur_ch_offset, pmlmeext->cur_bwmode); */
 -
- 		netdev_dbg(padapter->pnetdev,
- 			   "ap recv deauth reason code(%d) sta:%pM\n", reason,
- 			   GetAddr2Ptr(pframe));
-@@ -1519,8 +1497,6 @@ unsigned int OnDisassoc(struct adapter *padapter, union recv_frame *precv_frame)
- 		struct sta_info *psta;
- 		struct sta_priv *pstapriv = &padapter->stapriv;
- 
--		/* rtw_free_stainfo(padapter, psta); */
--
- 		netdev_dbg(padapter->pnetdev,
- 			   "ap recv disassoc reason code(%d) sta:%pM\n",
- 			   reason, GetAddr2Ptr(pframe));
-@@ -1630,7 +1606,6 @@ unsigned int OnAction_back(struct adapter *padapter, union recv_frame *precv_fra
- 		case WLAN_ACTION_ADDBA_REQ: /* ADDBA request */
- 
- 			memcpy(&(pmlmeinfo->ADDBA_req), &(frame_body[2]), sizeof(struct ADDBA_request));
--			/* process_addba_req(padapter, (u8 *)&(pmlmeinfo->ADDBA_req), GetAddr3Ptr(pframe)); */
- 			process_addba_req(padapter, (u8 *)&(pmlmeinfo->ADDBA_req), addr);
- 
- 			if (pmlmeinfo->accept_addba_req)
-@@ -1915,8 +1890,6 @@ void update_mgntframe_attrib(struct adapter *padapter, struct pkt_attrib *pattri
- 	u8 wireless_mode;
- 	struct mlme_ext_priv *pmlmeext = &(padapter->mlmeextpriv);
- 
--	/* memset((u8 *)(pattrib), 0, sizeof(struct pkt_attrib)); */
--
- 	pattrib->hdrlen = 24;
- 	pattrib->nr_frags = 1;
- 	pattrib->priority = 7;
-@@ -2096,7 +2069,6 @@ void issue_beacon(struct adapter *padapter, int timeout_ms)
- 	memcpy(pwlanhdr->addr3, get_my_bssid(cur_network), ETH_ALEN);
- 
- 	SetSeqNum(pwlanhdr, 0/*pmlmeext->mgnt_seq*/);
--	/* pmlmeext->mgnt_seq++; */
- 	SetFrameSubType(pframe, WIFI_BEACON);
- 
- 	pframe += sizeof(struct ieee80211_hdr_3addr);
-@@ -2171,7 +2143,6 @@ void issue_beacon(struct adapter *padapter, int timeout_ms)
- 		u8 erpinfo = 0;
- 		u32 ATIMWindow;
- 		/*  IBSS Parameter Set... */
--		/* ATIMWindow = cur->configuration.ATIMWindow; */
- 		ATIMWindow = 0;
- 		pframe = rtw_set_ie(pframe, WLAN_EID_IBSS_PARAMS, 2, (unsigned char *)(&ATIMWindow), &pattrib->pktlen);
- 
-@@ -2381,7 +2352,6 @@ void issue_probersp(struct adapter *padapter, unsigned char *da, u8 is_valid_p2p
- 			u8 erpinfo = 0;
- 			u32 ATIMWindow;
- 			/*  IBSS Parameter Set... */
--			/* ATIMWindow = cur->configuration.ATIMWindow; */
- 			ATIMWindow = 0;
- 			pframe = rtw_set_ie(pframe, WLAN_EID_IBSS_PARAMS, 2, (unsigned char *)(&ATIMWindow), &pattrib->pktlen);
- 
-@@ -2679,7 +2649,6 @@ void issue_asocrsp(struct adapter *padapter, unsigned short status, struct sta_i
- 		uint ie_len = 0;
- 
- 		/* FILL HT CAP INFO IE */
--		/* p = hostapd_eid_ht_capabilities_info(hapd, p); */
- 		pbuf = rtw_get_ie(ie + _BEACON_IE_OFFSET_, WLAN_EID_HT_CAPABILITY, &ie_len, (pnetwork->ie_length - _BEACON_IE_OFFSET_));
- 		if (pbuf && ie_len > 0) {
- 			memcpy(pframe, pbuf, ie_len + 2);
-@@ -2688,7 +2657,6 @@ void issue_asocrsp(struct adapter *padapter, unsigned short status, struct sta_i
- 		}
- 
- 		/* FILL HT ADD INFO IE */
--		/* p = hostapd_eid_ht_operation(hapd, p); */
- 		pbuf = rtw_get_ie(ie + _BEACON_IE_OFFSET_, WLAN_EID_HT_OPERATION, &ie_len, (pnetwork->ie_length - _BEACON_IE_OFFSET_));
- 		if (pbuf && ie_len > 0) {
- 			memcpy(pframe, pbuf, ie_len + 2);
-@@ -2802,9 +2770,6 @@ void issue_assocreq(struct adapter *padapter)
- 	if (pmlmeext->cur_channel == 14) /*  for JAPAN, channel 14 can only uses B Mode(CCK) */
- 		sta_bssrate_len = 4;
- 
--	/* for (i = 0; i < sta_bssrate_len; i++) { */
--	/*  */
--
- 	for (i = 0; i < NDIS_802_11_LENGTH_RATES_EX; i++) {
- 		if (pmlmeinfo->network.supported_rates[i] == 0)
- 			break;
-@@ -3359,7 +3324,6 @@ void issue_action_BA(struct adapter *padapter, unsigned char *raddr, unsigned ch
- 	fctrl = &(pwlanhdr->frame_control);
- 	*(fctrl) = 0;
- 
--	/* memcpy(pwlanhdr->addr1, get_my_bssid(&(pmlmeinfo->network)), ETH_ALEN); */
- 	memcpy(pwlanhdr->addr1, raddr, ETH_ALEN);
- 	memcpy(pwlanhdr->addr2, myid(&(padapter->eeprompriv)), ETH_ALEN);
- 	memcpy(pwlanhdr->addr3, get_my_bssid(&(pmlmeinfo->network)), ETH_ALEN);
-@@ -3401,7 +3365,6 @@ void issue_action_BA(struct adapter *padapter, unsigned char *raddr, unsigned ch
- 			le_tmp = cpu_to_le16(BA_timeout_value);
- 			pframe = rtw_set_fixed_ie(pframe, 2, (unsigned char *)(&(le_tmp)), &(pattrib->pktlen));
- 
--			/* if ((psta = rtw_get_stainfo(pstapriv, pmlmeinfo->network.mac_address)) != NULL) */
- 			psta = rtw_get_stainfo(pstapriv, raddr);
- 			if (psta) {
- 				start_seq = (psta->sta_xmitpriv.txseq_tid[status & 0x07] % 4096u) + 1;
-@@ -3529,7 +3492,6 @@ static void issue_action_BSSCoexistPacket(struct adapter *padapter)
- 	pframe = rtw_set_fixed_ie(pframe, 1, &(category), &(pattrib->pktlen));
- 	pframe = rtw_set_fixed_ie(pframe, 1, &(action), &(pattrib->pktlen));
- 
--	/*  */
- 	if (pmlmepriv->num_FortyMHzIntolerant > 0) {
- 		u8 iedata = 0;
- 
-@@ -3538,7 +3500,6 @@ static void issue_action_BSSCoexistPacket(struct adapter *padapter)
- 		pframe = rtw_set_ie(pframe, WLAN_EID_BSS_COEX_2040,  1, &iedata, &(pattrib->pktlen));
- 	}
- 
--	/*  */
- 	memset(ICS, 0, sizeof(ICS));
- 	if (pmlmepriv->num_sta_no_ht > 0) {
- 		int i;
-@@ -3584,7 +3545,6 @@ static void issue_action_BSSCoexistPacket(struct adapter *padapter)
- 				continue;
- 
- 			InfoContent[k] = i;
--			/* SET_BSS_INTOLERANT_ELE_REG_CLASS(InfoContent, i); */
- 			k++;
- 
- 			for (j = 1; j <= 14; j++) {
-@@ -3593,7 +3553,6 @@ static void issue_action_BSSCoexistPacket(struct adapter *padapter)
- 
- 				if (k < 16) {
- 					InfoContent[k] = j; /* channel number */
--					/* SET_BSS_INTOLERANT_ELE_CHANNEL(InfoContent+k, j); */
- 					k++;
- 				}
- 			}
-@@ -3611,7 +3570,6 @@ unsigned int send_delba(struct adapter *padapter, u8 initiator, u8 *addr)
+ 		/* update ap's stainfo */
+ 		psta = rtw_get_stainfo(pstapriv, cur_network->mac_address);
+ 		if (psta) {
+@@ -984,7 +980,6 @@ void HTOnAssocRsp(struct adapter *padapter)
  {
- 	struct sta_priv *pstapriv = &padapter->stapriv;
- 	struct sta_info *psta = NULL;
--	/* struct recv_reorder_ctrl *preorder_ctrl; */
+ 	unsigned char max_AMPDU_len;
+ 	unsigned char min_MPDU_spacing;
+-	/* struct registry_priv  *pregpriv = &padapter->registrypriv; */
  	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
  	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 	u16 tid;
-@@ -3749,15 +3707,8 @@ void site_survey(struct adapter *padapter)
- 		{
- 			pmlmeext->sitesurvey_res.state = SCAN_COMPLETE;
  
--			/* switch back to the original channel */
--			/* SelectChannel(padapter, pmlmeext->cur_channel, pmlmeext->cur_ch_offset); */
--
- 			set_channel_bwmode(padapter, pmlmeext->cur_channel, pmlmeext->cur_ch_offset, pmlmeext->cur_bwmode);
- 
--			/* flush 4-AC Queue after site_survey */
--			/* val8 = 0; */
--			/* rtw_hal_set_hwreg(padapter, HW_VAR_TXPAUSE, (u8 *)(&val8)); */
--
- 			/* config MSR */
- 			set_msr(padapter, (pmlmeinfo->state & 0x3));
- 
-@@ -3765,7 +3716,6 @@ void site_survey(struct adapter *padapter)
- 			rtw_hal_set_hwreg(padapter, HW_VAR_INITIAL_GAIN, (u8 *)(&initialgain));
- 			/* turn on dynamic functions */
- 			restore_dm_func_flag(padapter);
--			/* switch_dm_func(padapter, DYNAMIC_ALL_FUNC_ENABLE, true); */
- 
- 			if (is_client_associated_to_ap(padapter))
- 				issue_nulldata(padapter, NULL, 0, 3, 500);
-@@ -3962,7 +3912,6 @@ void start_create_ibss(struct adapter *padapter)
- 		rtw_hal_set_hwreg(padapter, HW_VAR_SEC_CFG, (u8 *)(&val8));
- 
- 		/* switch channel */
--		/* SelectChannel(padapter, pmlmeext->cur_channel, HAL_PRIME_CHNL_OFFSET_DONT_CARE); */
- 		set_channel_bwmode(padapter, pmlmeext->cur_channel, HAL_PRIME_CHNL_OFFSET_DONT_CARE, CHANNEL_WIDTH_20);
- 
- 		beacon_timing_control(padapter);
-@@ -4259,8 +4208,6 @@ void report_survey_event(struct adapter *padapter, union recv_frame *precv_frame
- 	struct C2HEvent_Header *pc2h_evt_hdr;
- 	struct mlme_ext_priv *pmlmeext;
- 	struct cmd_priv *pcmdpriv;
--	/* u8 *pframe = precv_frame->u.hdr.rx_data; */
--	/* uint len = precv_frame->u.hdr.len; */
- 
- 	if (!padapter)
- 		return;
-@@ -4599,8 +4546,6 @@ static void rtw_mlmeext_disconnect(struct adapter *padapter)
- 	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 	struct wlan_bssid_ex		*pnetwork = (struct wlan_bssid_ex *)(&(pmlmeinfo->network));
- 
--	/* set_opmode_cmd(padapter, infra_client_with_mlme); */
--
- 	/* For safety, prevent from keeping macid sleep.
- 	 * If we can sure all power mode enter/leave are paired,
- 	 * this check can be removed.
-@@ -4706,8 +4651,6 @@ void mlmeext_joinbss_event_callback(struct adapter *padapter, int join_res)
- 	if ((pmlmeinfo->state & 0x03) == WIFI_FW_STATION_STATE) {
- 		/*  correcting TSF */
- 		correct_TSF(padapter, pmlmeext);
--
--		/* set_link_timer(pmlmeext, DISCONNECT_TO); */
- 	}
- 
- 	rtw_lps_ctrl_wk_cmd(padapter, LPS_CTRL_CONNECT, 0);
-@@ -4725,9 +4668,6 @@ void mlmeext_sta_add_event_callback(struct adapter *padapter, struct sta_info *p
- 
- 			/* nothing to do */
- 		} else { /* adhoc client */
--			/* update TSF Value */
--			/* update_TSF(pmlmeext, pframe, len); */
--
- 			/*  correcting TSF */
- 			correct_TSF(padapter, pmlmeext);
- 
-@@ -4921,8 +4861,6 @@ void linked_status_chk(struct adapter *padapter)
- 				}
- 			}
- 		}
--
--		/* set_link_timer(pmlmeext, DISCONNECT_TO); */
- 	}
- }
- 
-@@ -5043,7 +4981,6 @@ u8 setopmode_hdl(struct adapter *padapter, u8 *pbuf)
- 	if (psetop->mode == NL80211_IFTYPE_AP) {
- 		pmlmeinfo->state = WIFI_FW_AP_STATE;
- 		type = _HW_STATE_AP_;
--		/* start_ap_mode(padapter); */
- 	} else if (psetop->mode == NL80211_IFTYPE_STATION) {
- 		pmlmeinfo->state &= ~(BIT(0) | BIT(1));/*  clear state */
- 		pmlmeinfo->state |= WIFI_FW_STATION_STATE;/* set to	STATION_STATE */
-@@ -5055,7 +4992,6 @@ u8 setopmode_hdl(struct adapter *padapter, u8 *pbuf)
- 	}
- 
- 	rtw_hal_set_hwreg(padapter, HW_VAR_SET_OPMODE, (u8 *)(&type));
--	/* set_msr(padapter, type); */
- 
- 	if (psetop->mode == NL80211_IFTYPE_AP) {
- 		/*  Do this after port switch to */
-@@ -5072,7 +5008,6 @@ u8 createbss_hdl(struct adapter *padapter, u8 *pbuf)
- 	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 	struct wlan_bssid_ex	*pnetwork = (struct wlan_bssid_ex *)(&(pmlmeinfo->network));
- 	struct joinbss_parm *pparm = (struct joinbss_parm *)pbuf;
--	/* u32 initialgain; */
- 
- 	if (pmlmeinfo->state == WIFI_FW_AP_STATE) {
- 		start_bss_network(padapter);
-@@ -5097,10 +5032,6 @@ u8 createbss_hdl(struct adapter *padapter, u8 *pbuf)
- 		save_dm_func_flag(padapter);
- 		switch_dm_func(padapter, DYNAMIC_FUNC_DISABLE, false);
- 
--		/* config the initial gain under linking, need to write the BB registers */
--		/* initialgain = 0x1E; */
--		/* rtw_hal_set_hwreg(padapter, HW_VAR_INITIAL_GAIN, (u8 *)(&initialgain)); */
--
- 		/* cancel link timer */
- 		timer_delete_sync(&pmlmeext->link_timer);
- 
-@@ -5131,8 +5062,6 @@ u8 join_cmd_hdl(struct adapter *padapter, u8 *pbuf)
- 	struct wlan_bssid_ex		*pnetwork = (struct wlan_bssid_ex *)(&(pmlmeinfo->network));
- 	u32 i;
- 	u8 cbw40_enable = 0;
--	/* u32 initialgain; */
--	/* u32 acparm; */
- 	u8 ch, bw, offset;
- 
- 	/* check already connecting to AP or not */
-@@ -5147,7 +5076,6 @@ u8 join_cmd_hdl(struct adapter *padapter, u8 *pbuf)
- 		timer_delete_sync(&pmlmeext->link_timer);
- 
- 		/* set MSR to nolink -> infra. mode */
--		/* set_msr(padapter, _HW_STATE_NOLINK_); */
- 		set_msr(padapter, _HW_STATE_STATION_);
- 
- 		rtw_hal_set_hwreg(padapter, HW_VAR_MLME_DISCONNECT, NULL);
-@@ -5165,7 +5093,6 @@ u8 join_cmd_hdl(struct adapter *padapter, u8 *pbuf)
- 	pmlmeinfo->agg_enable_bitmap = 0;
- 	pmlmeinfo->candidate_tid_bitmap = 0;
- 	pmlmeinfo->bwmode_updated = false;
--	/* pmlmeinfo->assoc_AP_vendor = HT_IOT_PEER_MAX; */
- 	pmlmeinfo->VHT_enable = 0;
- 
- 	memcpy(pnetwork, pbuf, offsetof(struct wlan_bssid_ex, ie_length));
-@@ -5179,10 +5106,7 @@ u8 join_cmd_hdl(struct adapter *padapter, u8 *pbuf)
- 	pmlmeext->cur_channel = (u8)pnetwork->configuration.ds_config;
- 	pmlmeinfo->bcn_interval = get_beacon_interval(pnetwork);
- 
--	/* Check AP vendor to move rtw_joinbss_cmd() */
--	/* pmlmeinfo->assoc_AP_vendor = check_assoc_AP(pnetwork->ies, pnetwork->ie_length); */
- 
--	/* sizeof(struct ndis_802_11_fix_ie) */
- 	for (i = _FIXED_IE_LENGTH_; i < pnetwork->ie_length;) {
- 		if (i + sizeof(*pIE) > pnetwork->ie_length)
- 			break;
-@@ -5245,13 +5169,6 @@ u8 join_cmd_hdl(struct adapter *padapter, u8 *pbuf)
- 		return H2C_SUCCESS;
- 	}
- 
--	/* disable dynamic functions, such as high power, DIG */
--	/* switch_dm_func(padapter, DYNAMIC_FUNC_DISABLE, false); */
--
--	/* config the initial gain under linking, need to write the BB registers */
--	/* initialgain = 0x1E; */
--	/* rtw_hal_set_hwreg(padapter, HW_VAR_INITIAL_GAIN, (u8 *)(&initialgain)); */
--
- 	rtw_hal_set_hwreg(padapter, HW_VAR_BSSID, pmlmeinfo->network.mac_address);
- 	join_type = 0;
- 	rtw_hal_set_hwreg(padapter, HW_VAR_MLME_JOIN, (u8 *)(&join_type));
-@@ -5540,11 +5457,7 @@ u8 add_ba_hdl(struct adapter *padapter, unsigned char *pbuf)
- 
- 	if (((pmlmeinfo->state & WIFI_FW_ASSOC_SUCCESS) && (pmlmeinfo->HT_enable)) ||
- 		((pmlmeinfo->state & 0x03) == WIFI_FW_AP_STATE)) {
--		/* pmlmeinfo->ADDBA_retry_count = 0; */
--		/* pmlmeinfo->candidate_tid_bitmap |= (0x1 << pparm->tid); */
--		/* psta->htpriv.candidate_tid_bitmap |= BIT(pparm->tid); */
- 		issue_action_BA(padapter, pparm->addr, WLAN_ACTION_ADDBA_REQ, (u16)pparm->tid);
--		/* _set_timer(&pmlmeext->ADDBA_timer, ADDBA_TO); */
- 		_set_timer(&psta->addba_retry_timer, ADDBA_TO);
+@@ -992,7 +987,6 @@ void HTOnAssocRsp(struct adapter *padapter)
+ 		pmlmeinfo->HT_enable = 1;
  	} else {
- 		psta->htpriv.candidate_tid_bitmap &= ~BIT(pparm->tid);
-@@ -5702,7 +5615,6 @@ u8 chk_bmc_sleepq_hdl(struct adapter *padapter, unsigned char *pbuf)
- 	if ((pstapriv->tim_bitmap & BIT(0)) && (psta_bmc->sleepq_len > 0)) {
- 		msleep(10);/*  10ms, ATIM(HIQ) Windows */
+ 		pmlmeinfo->HT_enable = 0;
+-		/* set_channel_bwmode(padapter, pmlmeext->cur_channel, pmlmeext->cur_ch_offset, pmlmeext->cur_bwmode); */
+ 		return;
+ 	}
  
--		/* spin_lock_bh(&psta_bmc->sleep_q.lock); */
- 		spin_lock_bh(&pxmitpriv->lock);
- 
- 		xmitframe_phead = get_list_head(&psta_bmc->sleep_q);
-@@ -5726,7 +5638,6 @@ u8 chk_bmc_sleepq_hdl(struct adapter *padapter, unsigned char *pbuf)
- 			rtw_hal_xmitframe_enqueue(padapter, pxmitframe);
+@@ -1082,7 +1076,6 @@ int rtw_check_bcn_info(struct adapter *Adapter, u8 *pframe, u32 packet_len)
+ 	unsigned char *p;
+ 	unsigned short	val16, subtype;
+ 	struct wlan_network *cur_network = &Adapter->mlmepriv.cur_network;
+-	/* u8 wpa_ie[255], rsn_ie[255]; */
+ 	u16 wpa_len = 0, rsn_len = 0;
+ 	u8 encryp_protocol = 0;
+ 	struct wlan_bssid_ex *bssid;
+@@ -1154,7 +1147,6 @@ int rtw_check_bcn_info(struct adapter *Adapter, u8 *pframe, u32 packet_len)
+ 			cur_network->bcn_info.ht_info_infos_0 = ht_info_infos_0;
+ 			/* to do : need to check that whether modify related register of BB or not */
  		}
+-		/* goto _mismatch; */
+ 	}
  
--		/* spin_unlock_bh(&psta_bmc->sleep_q.lock); */
- 		spin_unlock_bh(&pxmitpriv->lock);
+ 	/* Checking for channel */
+@@ -1281,7 +1273,6 @@ void update_beacon_info(struct adapter *padapter, u8 *pframe, uint pkt_len, stru
+ 			break;
  
- 		/* check hi queue and bmc_sleepq */
+ 		case WLAN_EID_HT_OPERATION:	/* HT info */
+-			/* HT_info_handler(padapter, pIE); */
+ 			bwmode_update_check(padapter, pIE);
+ 			break;
+ 
+@@ -1392,10 +1383,7 @@ static u32 get_realtek_assoc_AP_vender(struct ndis_80211_var_ie *pIE)
+ 
+ 	if (pIE->length >= 5) {
+ 		if (pIE->data[4] == 1)
+-			/* if (pIE->data[5] & RT_HT_CAP_USE_LONG_PREAMBLE) */
+-			/* bssDesc->BssHT.RT2RT_HT_Mode |= RT_HT_CAP_USE_LONG_PREAMBLE; */
+ 			if (pIE->data[5] & RT_HT_CAP_USE_92SE)
+-				/* bssDesc->BssHT.RT2RT_HT_Mode |= RT_HT_CAP_USE_92SE; */
+ 				Vender = HT_IOT_PEER_REALTEK_92SE;
+ 
+ 		if (pIE->data[5] & RT_HT_CAP_USE_SOFTAP)
+@@ -1468,8 +1456,6 @@ void update_IOT_info(struct adapter *padapter)
+ 		switch_dm_func(padapter, ((u32)(~DYNAMIC_BB_DYNAMIC_TXPWR)), false);
+ 		break;
+ 	case HT_IOT_PEER_REALTEK:
+-		/* rtw_write16(padapter, 0x4cc, 0xffff); */
+-		/* rtw_write16(padapter, 0x546, 0x01c0); */
+ 		/* disable high power */
+ 		switch_dm_func(padapter, ((u32)(~DYNAMIC_BB_DYNAMIC_TXPWR)), false);
+ 		break;
+@@ -1666,16 +1652,13 @@ void adaptive_early_32k(struct mlme_ext_priv *pmlmeext, u8 *pframe, uint len)
+ 	tsf |= le32_to_cpu(*pbuf);
+ 
+ 	/* delay = (timestamp mod 1024*100)/1000 (unit: ms) */
+-	/* delay_ms = do_div(tsf, (pmlmeinfo->bcn_interval*1024))/1000; */
+ 	delay_ms = do_div(tsf, (pmlmeinfo->bcn_interval * 1024));
+ 	delay_ms = delay_ms / 1000;
+ 
+ 	if (delay_ms >= 8)
+ 		pmlmeext->bcn_delay_cnt[8]++;
+-		/* pmlmeext->bcn_delay_ratio[8] = (pmlmeext->bcn_delay_cnt[8] * 100) /pmlmeext->bcn_cnt; */
+ 	else
+ 		pmlmeext->bcn_delay_cnt[delay_ms]++;
+-		/* pmlmeext->bcn_delay_ratio[delay_ms] = (pmlmeext->bcn_delay_cnt[delay_ms] * 100) /pmlmeext->bcn_cnt; */
+ 	/* dump for  adaptive_early_32k */
+ 	if (pmlmeext->bcn_cnt > 100 && pmlmeext->adaptive_tsf_done) {
+ 		u8 ratio_20_delay, ratio_80_delay;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+index 95350fd6a94f..c0cb9973662f 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
++++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+@@ -392,7 +392,6 @@ static void update_attrib_vcs_info(struct adapter *padapter, struct xmit_frame *
+ {
+ 	u32 sz;
+ 	struct pkt_attrib	*pattrib = &pxmitframe->attrib;
+-	/* struct sta_info *psta = pattrib->psta; */
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+ 	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
+ 
+@@ -921,8 +920,6 @@ int rtw_make_wlanhdr(struct adapter *padapter, u8 *hdr, struct pkt_attrib *pattr
+ 
+ 	if (pattrib->subtype & WIFI_DATA_TYPE) {
+ 		if (check_fwstate(pmlmepriv, WIFI_STATION_STATE)) {
+-			/* to_ds = 1, fr_ds = 0; */
+-
+ 			{
+ 				/*  1.Data transfer to AP */
+ 				/*  2.Arp pkt will relayed by AP */
+@@ -935,7 +932,6 @@ int rtw_make_wlanhdr(struct adapter *padapter, u8 *hdr, struct pkt_attrib *pattr
+ 			if (pqospriv->qos_option)
+ 				qos_option = true;
+ 		} else if (check_fwstate(pmlmepriv, WIFI_AP_STATE)) {
+-			/* to_ds = 0, fr_ds = 1; */
+ 			SetFrDs(fctrl);
+ 			memcpy(pwlanhdr->addr1, pattrib->dst, ETH_ALEN);
+ 			memcpy(pwlanhdr->addr2, get_bssid(pmlmepriv), ETH_ALEN);
 -- 
 2.34.1
 
