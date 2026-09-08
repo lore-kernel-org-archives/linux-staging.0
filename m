@@ -1,173 +1,102 @@
-Received: from mta1.migadu.com (out-131.mta1.migadu.com [95.215.58.131])
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 684FF57981F
-	for <linux-staging@lists.linux.dev>; Tue,  8 Sep 2026 16:02:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8471555C1DE
+	for <linux-staging@lists.linux.dev>; Tue,  8 Sep 2026 16:39:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788883342; cv=none; b=P+flCEwW2QP2Ot3CGC5RCPYHoFrZJsEB5WEdRJ02TFdQE6gdMRRbJ5lzLAgRB66011oCSnNrbhykLLzZ/qevU3226yHe1E2fA8UABeZvdsUI38io5q20ToPKQSThPceI8+3tq2b+ujpM8oXLfV+1dNm2u45fSR/QNnKFyGSv91o=
+	t=1788885587; cv=none; b=O996gZ7DYPKagYLpvtyy08cCtKU3f5xdAMVTOJ3LoBYvCYndw+RuqfUuS5fe/1vQGVOTpycAreh4gDt8PIrA7xGivVliegqwMHLvUdAGb2SQDrjaroWgr/w7CyjOPJLG20LV7k7MQsXcVcgNR8S7Oy4f55ntB4AXcAMDST9oER4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788883342; c=relaxed/simple;
-	bh=KYOUd2P6kAd8a+UBCiIUa1mr5xWgXanrBxIfJjm/KtE=;
-	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc:
-	 In-Reply-To:References; b=EvnK8qNNAL5CdDq/T8CUxjn2rFBYWct0+D9ptg5lrhWxscsfgKtXt65tyF6Ssal3bwRBYL6R+mAWC2BSezKEWILEPUNw2fatazIRP/PNXZrgzFTuP3+N/kZ9nREefAUP/EbdKw9/krNPUdDLnoZaDWBtgh7cLlJWHw9koTFr2/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=BseIsBf1; arc=none smtp.client-ip=95.215.58.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1788885587; c=relaxed/simple;
+	bh=xDT6PoebuVpGyS35jPyWOudKZDZhPkRHwsmHIh3KHaA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=s0dvEiHHmpIW1CjfmMIbjbWFTraeDGe7PrZCmFM525Aj34RzeqwcWKKabr+CFVmafgIK/0s9hwb1B6dwcdcbQmLXVm2+AhIzg4HqxKEyD6FghVhyX7Q7C6cbeTyZPMoObvBYYPZGDu71aRRervuoxR9SgyfgALeUKfnPeHe3RoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F+D/kuKV; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="BseIsBf1"
-X-Envelope-To: linux-staging@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=KYOUd2P6kAd8a+UBCiIUa1mr5xWgXanrBxIfJjm/KtE=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788883337; v=1; x=1789488137;
- b=BseIsBf1mZc5LE0Qhdg7lDC08rjQinZD8wc1ByZBkezgrFOkadvKleNMILzb3DcbELI9+59q
- 2v2zRWccBMoW2edzdkg07hxRPWb5u0adJvvVOBibR2hke/UE4alJVRHONflMaDRpfp/FTpjYxPF
- GDpA8YfQ6wRAfBbX9qcrT53g=
-X-Envelope-To: linux-staging@lists.linux.dev
-Received: by smtp.migadu.com with ESMTPS id 2cc85f100057596d;
-	Tue, 08 Sep 2026 16:02:17 +0000
-X-Mizu-Trace-ID: 2cc85f100057596d
-X-Migadu-Flow: FLOW_OUT
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F+D/kuKV"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-cc147d86bebso3936527a12.0
+        for <linux-staging@lists.linux.dev>; Tue, 08 Sep 2026 09:39:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788885586; x=1789490386; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=oj6zG2m30S/Xd9xP+debY+X/WqSJ01mb1KyCz4EJ4HQ=;
+        b=F+D/kuKVvzXtrJxmm9DUH6t93EamHbo/HHeKVoD2NrOZUXMk9NcmV0alyGUCEEByQJ
+         8FZPVsGCtwvJtwjrPSt+PD2CAvmgcS0tCDKIVf74djpxzLhOF69Obv3rPqLDi0cOLPyb
+         yWgqbwZDYSPgaPemTvCk/B8wZd7027CjRNwFI69Z/St9DX77Xmq0yM5Aol8sxiEHQ8qc
+         /0A2QzvkVT9B7PRhMeXfGMLE9Emj5RQdbLWvHPxKOe9Ck6T6Ww9rq2ljSM6AGXgV7Pb8
+         1tqSID+it7IS/DxBvI8SgQGAW/5ocW9ksajsu2ew6HUmtEZoNpoFAM4hRBE5mV0EBUno
+         1njA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788885586; x=1789490386;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=oj6zG2m30S/Xd9xP+debY+X/WqSJ01mb1KyCz4EJ4HQ=;
+        b=kpccvtXD25d1sAd/afS+osZ44WKM9qSQ0ZpNpqMMnGgv48IiEFleri0LWBZEieL9YI
+         9ofw70xtEqfpi54kZovqMiMbZ5A66oLUfZwyH0LVjAw9t3Tw08ix5/txHmbNXheQt6tW
+         46vqV3NZ1jLWhlYoodz45tlKOHaZWe9eZM1505TfpcX0X5lGov5ijvcNg4aXKPZ35BY/
+         7mGZ9WIcIYjb+HjN6i7e+LLcT1lBJ1jjwOQv6al2nNJWXGB4HQLlhkw5wOfrWVIaf+qW
+         //hFsL86mgRxVcDuNNuI1r8qhn7vfU6GpD2/A/SexocI+4FsDoF7BRjiKaNi0khtL5j9
+         /PVA==
+X-Gm-Message-State: AFuF++lBvLWXjavaiIEiLRBc1GSFHBSwjBBehFYvkLMy/4cROEuA2faa
+	nBb/KkNDoHbk7BbrLnoERxJ4J4YliuBrW3XWKnpUXDKvlSIB9Jy11qwNvTZWGw==
+X-Gm-Gg: AYBFou1l7M554MW1o+ybF0gMX+cWZcYmZP11KgdgNvpDrNO4GRJJED1ucGNLefNmqdR
+	td4LEvxESWLjXzjdYlYFF5zEzSDeySxYbzpLNRW6OMascvRAgnNI4xtgvJ3biNi8AqhuO4UDVET
+	G+IzPpFseI5x7umHbJkmGSbCPLhxDYqELUtO7YWNUUY+GunSyZIzGPPu7eXN/3mOjBTJSZfmCT7
+	lCmndqJPUvGZyoB9uk988HSrnJvdwG4ERLbk+G8H/5D92EwCj2rShFPqmOJwyro5sy15A7lJheF
+	AliS3y6zBQkbxJlD365j543ihkJftXaw1bXmW6/kzQoG6jqpuidulv/BTfJAV3r+rUWcjgbKfDQ
+	Xjxmj3bJ498kal+d/yUJoA1meE9YO8eHDRCH99snFCTIwr2yxmPzG7KPVq4ifML4//DFNnOI/Bm
+	CisCLZm0jufVrj/RVy1b5DBMb0N/yCsYOTKsroFfViyi5cOU8U8j04X+K83hy8N54K2B7VnevnS
+	/m4JiQzug==
+X-Received: by 2002:a17:90b:4c4e:b0:38e:a52e:a3c9 with SMTP id 98e67ed59e1d1-39b07fe9dd8mr39531349a91.8.1788885585652;
+        Tue, 08 Sep 2026 09:39:45 -0700 (PDT)
+Received: from TestUbuntu22.. ([67.169.161.65])
+        by smtp.googlemail.com with ESMTPSA id 5a478bee46e88-3396e7e477csm5672357eec.29.2026.09.08.09.39.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Sep 2026 09:39:45 -0700 (PDT)
+From: Jennifer Guo <guojy.bj@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: gregkh@linuxfoundation.org,
+	guojy.bj@gmail.com
+Subject: [PATCH 0/3] staging: rtl8723bs: Cleanup of commented out code
+Date: Tue,  8 Sep 2026 09:39:16 -0700
+Message-Id: <20260908163919.72100-1-guojy.bj@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Tue, 08 Sep 2026 16:02:15 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-From: "Tianchu Chen" <tianchu.chen@linux.dev>
-Message-ID: <aa1496d71e0867c1e04f6442ab97520f531531ca@linux.dev>
-TLS-Required: No
-Subject: Re: [PATCH v2] staging: rtl8723bs: fix protected RX frame validation
-  in decrypt path
-To: "Greg KH" <gregkh@linuxfoundation.org>
-Cc: hansg@kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-In-Reply-To: <2026090714-sneezing-unrated-b0ef@gregkh>
-References: <7848fcb635963ddb8474924ed71fdd687b5d6ec7@linux.dev>
- <2026090714-sneezing-unrated-b0ef@gregkh>
+Content-Transfer-Encoding: 8bit
 
-September 8, 2026 at 12:13 AM, "Greg KH" <gregkh@linuxfoundation.org mail=
-to:gregkh@linuxfoundation.org?to=3D%22Greg%20KH%22%20%3Cgregkh%40linuxfou=
-ndation.org%3E > wrote:
+This patchset removes commented-out code from a bunch of source files in
+the rtl8723bs driver.
 
+Jennifer Guo (3):
+  staging: rtl8723bs: remove commented out code in rtw_recv.c
+  staging: rtl8723bs: remove commented out code in os_dep/ files
+  staging: rtl8723bs: remove commented out code in hal/ files
 
--snip-
+ drivers/staging/rtl8723bs/core/rtw_recv.c     | 69 -------------------
+ drivers/staging/rtl8723bs/hal/hal_btcoex.c    | 39 -----------
+ drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c  |  2 -
+ drivers/staging/rtl8723bs/hal/rtl8723b_dm.c   | 10 ---
+ .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 44 +-----------
+ .../staging/rtl8723bs/hal/rtl8723b_phycfg.c   |  2 -
+ .../staging/rtl8723bs/hal/rtl8723b_rf6052.c   |  8 +--
+ .../staging/rtl8723bs/hal/rtl8723b_rxdesc.c   |  6 --
+ .../staging/rtl8723bs/hal/rtl8723bs_recv.c    |  6 --
+ .../staging/rtl8723bs/hal/rtl8723bs_xmit.c    |  5 --
+ drivers/staging/rtl8723bs/hal/sdio_halinit.c  |  1 -
+ .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 19 -----
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c   | 29 +-------
+ .../staging/rtl8723bs/os_dep/sdio_ops_linux.c |  1 -
+ drivers/staging/rtl8723bs/os_dep/xmit_linux.c |  1 -
+ 15 files changed, 9 insertions(+), 233 deletions(-)
 
-> >=20=20
->=20>  drivers/staging/rtl8723bs/core/rtw_recv.c | 21 ++++++++++++++++++-=
---
-> >  1 file changed, 18 insertions(+), 3 deletions(-)
-> >=20=20
->=20>  diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/s=
-taging/rtl8723bs/core/rtw_recv.c
-> >  index 7568fc514d7ce..4756e0fedd46f 100644
-> >  --- a/drivers/staging/rtl8723bs/core/rtw_recv.c
-> >  +++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
-> >  @@ -426,8 +426,21 @@ static union recv_frame *decryptor(struct adapt=
-er *padapter, union recv_frame *p
-> >  u32 res =3D _SUCCESS;
-> >=20=20
->=20>  if (prxattrib->encrypt > 0) {
-> >  - u8 *iv =3D precv_frame->u.hdr.rx_data + prxattrib->hdrlen;
-> >  + u8 *iv;
-> >  + u32 min_len =3D prxattrib->hdrlen + prxattrib->iv_len + prxattrib-=
->icv_len;
-> >=20
->=20Why will this not overflow?
+-- 
+2.34.1
 
-The overflow(without this fix) happens inside the per-suite decrypt routi=
-nes
-when a received frame is shorter than this minimum. For example:
-
-rtw_aes_decrypt() computes length =3D len - hdrlen - iv_len, so a
-30-byte frame with hdrlen =3D 26 and iv_len =3D 8 wraps length to ~4GiB,
-and aes_decipher() then iterates num_blocks =3D (plen - 8) / 16 16-byte
-blocks, reading and writing gigabytes past the skb.
-
-The WEP and TKIP decryptors start from the same subtraction and
-underflow the same way.=20
-
-min_len=20is the minimum size of a legitimate protected frame: header +
-IV + ICV, plus the 8-byte Michael MIC for TKIP.
-
-The min_len computation itself cannot wrap either: all three
-addends are u8 fields, hdrlen is at most 36 and iv_len/icv_len are
-per-suite constants (max 18/16), so the sum stays below 80 even with
-the TKIP +8. A frame shorter than min_len cannot even hold its IV
-and ICV, so only malformed frames are dropped.
-
-
-> >=20
->=20> + /* TKIP appends an 8-byte Michael MIC that icv_len doesn't accoun=
-t for */
-> >  + if (prxattrib->encrypt =3D=3D _TKIP_)
-> >  + min_len +=3D 8;
-> >  +
-> >  + /* a protected frame must be long enough to hold the IV and ICV/MI=
-C */
-> >  + if (precv_frame->u.hdr.len < min_len) {
-> >  + rtw_free_recvframe(precv_frame,
-> >  + &padapter->recvpriv.free_recv_queue);
-> >  + return NULL;
-> >  + }
-> >  +
-> >  + iv =3D precv_frame->u.hdr.rx_data + prxattrib->hdrlen;
-> >=20
->=20What prevents this from overflowing?
-
-The check above keeps the offset within the frame: it guarantees
-len >=3D hdrlen + iv_len + icv_len, and iv_len >=3D 4 for every suite, so
-len >=3D hdrlen + 4 and both iv and the iv[3] dereference stay within the
-first len bytes ([rx_data, rx_data + len)).
-
-
-Those len bytes are in turn inside the allocation: hdr.len is set by
-recvframe_put() only after pkt_exceeds_tail() verified that pkt_len
-bytes were actually copied from the RX FIFO into an skb sized for
-them (rtl8723bs_recv.c), so any offset below len is inside the
-buffer.
-
-This is also why the iv assignment moved: the iv[3] read that follows
-it would otherwise be an out-of-bounds read when the frame is shorter
-than hdrlen + 4. The IV may only be examined once the frame is known
-to actually contain it.
-
-
->=20
->=20thanks,
->=20
->=20greg k-h
->
-
-Regarding the format issue being mentioned earlier, I can send a v3
-patch. Also, I believe decryptor() is also where this check should belong=
-s.=20
-
-It=20is the head of the whole post-handle pipeline
-(decryptor -> chk_defrag -> portctrl -> indicate, rtw_recv.c:2082+),
-so one check covers not just the three decrypt routines but every
-later consumer of hdrlen + iv_len offsets. For TKIP the invariant
-has to hold before both stages of the WPA model - decryption and
-the Michael MIC verification in recvframe_chkmic(), which subtracts
-8 more; the +8 in min_len exists for that second stage, and
-decryptor() is the only point preceding both.
-
-This matches the WPA model in mac80211: both
-ieee80211_crypto_tkip_decrypt() and ieee80211_crypto_ccmp_decrypt()
-reject frames too short for header + IV + ICV/MIC at their entry
-(net/mac80211/wpa.c).
-
-Since I have the real hardware, I can also verify the execution flow
-at runtime with a build that adds a temporary printk in this path if
-that would help.
-
-Please let me know if a v3 is needed, or if there is any further
-verification you would like me to do on my side.
-
-Best regards,
-
-Tianchu
