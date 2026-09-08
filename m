@@ -1,69 +1,69 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CE1C51476B
-	for <linux-staging@lists.linux.dev>; Tue,  8 Sep 2026 16:39:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F9EA57F733
+	for <linux-staging@lists.linux.dev>; Tue,  8 Sep 2026 16:39:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788885591; cv=none; b=lJJrWILXY2fnXGMUPki9BuTzJWHmTq9bWyfzb8YNH++qNmrnwLDtp55WRnDA4/X8E1Xg7iJpk/GhZdbCbywQP18VyPoCPrqXgOsyExnTGRCZTtKEKemowo1PMogcyLsI5mMa3Wc4oVnBGwHBuunh1uj4XXRsZ2XURf3EY4fCLhY=
+	t=1788885594; cv=none; b=cR+sJQ1fX/1IG3qL6/kTYAgeHG33a1O1kpNMcI6e/AjhfYNEQpDEtiLFGeRBTwVkYWjEeRmbU7w3mnfzSdWYnrQC9ff8t9v20d55DOVo0AL4Q9dC5S+MpdlJLe2esgIbh+HYIpqj7NX5ceHIBxjD2og8XrthB5kyt8FEsgBFKek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788885591; c=relaxed/simple;
-	bh=YPeIJsbR11gV3XfhcGkIq+UCiqTOp/TdtycL02N7M5I=;
+	s=arc-20240116; t=1788885594; c=relaxed/simple;
+	bh=SEvrKgPQsEB4xxPVz3ixYHLDs2imE17KTRmgx5Ucjpw=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Bdh3r8JuFwa/UvWzG2HL9w0zsMLg8SigRJ9/nGqxpY3edQjqcJcQrQvHRT8i5CFOONdAhZuKd/qemwPuiTv9ojBn7+xon1Cc566qtgd5BwbFk2qITV4d2m9hSOIHPDvDdlOXRIXxiOZUu3M1dnA0gfLljfT+8OOOnqSV1lbTUmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W1jpyZXT; arc=none smtp.client-ip=209.85.216.53
+	 MIME-Version; b=pvM8YjpSnAzMoP7p4X0+x0Mz9jUcn6kFJ9pmtkAlJDQNKt1h2IPbQSVqlsgOErg8Dc8SF73iLkp8BgDOEx50tNf9q48d1TcOVOmMiI1Rf/ASjvIOuPir143pgrMKtuDM4WG2lv8p4Q/10+vjUW42ol081yEUTL34yI+eg0jkWnM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gOThdUAf; arc=none smtp.client-ip=209.85.216.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W1jpyZXT"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-395cf2535acso4833534a91.1
-        for <linux-staging@lists.linux.dev>; Tue, 08 Sep 2026 09:39:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gOThdUAf"
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-38dc4553f62so4606564a91.0
+        for <linux-staging@lists.linux.dev>; Tue, 08 Sep 2026 09:39:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788885589; x=1789490389; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1788885592; x=1789490392; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=QzmWyJfpYoWlN2+UrsWP8FcbMUlPlOokN0Ecxog6OEM=;
-        b=W1jpyZXTrgR9DNTA1624yvtLPnO+7Pweg2SdHnacYjs/aplDR7KmT8n2xR1gKCJk/Y
-         ru66tI7cJP5DYlWLn0/cvrAIX2hc7Ejg3fiD8kM1J4IDZTGoL8S8uBOHY/U/EW9GehfR
-         9Xb7cJE2DUNwLqui2v1C8LxlWonAoR26h4YZmMun4J7gLvv1ZGq3lxjw87uiuRl+xiwN
-         RHF9dlBfGQVqFAI3heOT1O3AMcx1RB1pm3eMsb1lm1DFLr9mQ07QS1QlN5cLgaGgFfe8
-         ApVC7zz4lXcObUau9cC6Xb0/Bm6MRElCKXrr3XiioJnDZ1vMI33gwm9bxE8S59PWIrDy
-         9rvA==
+        bh=kKbaojXzm0DiqnekXTH/M8UduIHz4I4DfWkzhVidLvU=;
+        b=gOThdUAf+Hn0lE1rvaEVtbQ/X7HV4BKDCcWXSHWhER/TT4V5nDoAFgo/v/O3VynbJs
+         lD9oC2jV3yxpBxgp1ukSjFvRVj5WB7PIo9QBrr5Od9BK5VwrWPz1fZqlcBxX3NG41Aji
+         GedZbfKUQf5Gfe2ct9dw53qcd2ye7E+Dtd1AJrpOpUVvZB0XE4KZIuKuYvJW8WjaSwEq
+         PxbEd5xwtISTWKFWtKlonXTKeTGSPxkn3xp2BwnKgyGmBLNOKb9e/4/CoGeat7RaM2Oz
+         jg9S6W5cQdW9WvlcIY3UWlslfIzcI+M5anyVQQSP70GFeXlNHhDHlskmke+TkgpGTTAi
+         zVLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788885589; x=1789490389;
+        d=1e100.net; s=20251104; t=1788885592; x=1789490392;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=QzmWyJfpYoWlN2+UrsWP8FcbMUlPlOokN0Ecxog6OEM=;
-        b=PKxx6/9Ej43f4bWPm1eAMiUPdltBe2mLQ0lKifcVN+Comw+q2XdXWk5SBfHAbRu6+z
-         eP/P1FHFgjs84a+dXT3sFSvzwXv+Frct/oX9mz2cFXjbwYU799hogcxc1JuLE/Ty8T90
-         hLWy/wrT6RrKfR9k6Vi/WZm+7BS9yCwPVkttt+GlvGbk81Ul3i2qrwVrZZRVaI9WO99c
-         dnYqrhyl/h8R7rsmveBFiNcbNbR9p4Xi0aza4HBGPwdexOi3ReBpe5TbFRDqed3MXhhg
-         xWzaTRcJ45VD96nuBhnfLWnoB7HtIiYD0vyud68i+C0F9cUd0j+NTmCxgplvuSKEKdzf
-         iHgQ==
-X-Gm-Message-State: AFuF++l2TgCKIgYSku4Lo7PIgPe0boocr1CgEgNJaJHLrCWMRubP4Uoh
-	NdYOAl3dVh2QcESUO6mPMSieLcTitaOHzC2wR1U15+/PpxEkO+nQuZHNeFBzwA==
-X-Gm-Gg: AYBFou3J/5tBL1dLyiw7fAxAaxG2GxfaHEKHTuT2N/51GmMG9wzXHOAXtgXLmQaThpM
-	McSqVKCNwcUXrHeMQrhUxEucLn55u862yU7yPL6+wHpE9XlmqmnqG6yE+pWget3QRvmqU49Wo8g
-	XVmRiW+jqnJdi2ayxY5uEb5tbV5MXJRorwn0JfO5gcAx3eFCA9L1DR6CWrV6qO+hTLlKmFsnuba
-	wMnVWCkfumFIAW9YNyWSvJim9j7xpA22ZjYbbWAfDrN68P6020urh1vOZSfeIuZz5Y/bdjSGyBe
-	9ydmJNbpufchIDytMoWIEMF6MlWBaJih/qxmIRtaqj3dGx38cuVi4oJBvrAFRNOt3V43tDoq/6o
-	iPRahh3+A50m+HVd1LBCBVC5LYOnuM/h31vCjgWPgtwANKYn9lG5bQJdsmjIQF+9BphwPwjY74B
-	xA4DsI3GkP0ywEVZsQs6ZEwq29lYAmB6VcO54lwXwcXOJsqSxPJcXqK6la4uOajqZG3VGQeos=
-X-Received: by 2002:a17:90a:7784:b0:39b:2b1f:4511 with SMTP id 98e67ed59e1d1-39b2b1f52c4mr21130210a91.26.1788885588642;
-        Tue, 08 Sep 2026 09:39:48 -0700 (PDT)
+        bh=kKbaojXzm0DiqnekXTH/M8UduIHz4I4DfWkzhVidLvU=;
+        b=keDZ3CR/AoZ85LwAqY7Sm1A3Vp6R0NiJFcGzBPm/l1B1fn5N5lJ68SzgpqowGAqA/z
+         fpZt84c07kjzvIYW6LV8H9Blt9/RiMSFnwuVRIOq9dz572xxYxwtaG99A2A6X2N8QxWC
+         6YpNdrEoiVPRSjvhE04tYeMyKabu0Uy3jMjFCE8yZcZYK65xvk+RR4Or8daTVfv3jMeF
+         3Bu2l3XWxVBf8z1Vfl/M1jZKhOq9g7Qt9c1nsiIIOUsmxjEDYg6jS2gpUZmYSLGIRv4l
+         PSDHVBNDRGzVZODrC9pOppHhb78Fa7PGjL+dk6KjeXeq+VeIUONCKcZQG6eQse/iYcr9
+         ZS8Q==
+X-Gm-Message-State: AFuF++l60TZUBFOT98kWbSwUk9QF5dhIVGke0YR2Pg1zFuwCj4sXyKFj
+	uk6sti1QolI63nvzUBQXl2DS5hPDtXzM7ze5H6eCZy0K2FLnXmCqMFjxuUc0uQ==
+X-Gm-Gg: AYBFou2qA8tD/MBRi9YBIpqeUmmIZx/pePKe5Ohs5FB/EjeOdDv3LQWd13ltb7Iej7U
+	qzuA0LPZ1uqR4XhDMG5vGD6aBqAJzLNjZeFfV7eeVMoNLhOLBJuCGTPyKwTa4VxV94gz/cAzBS3
+	zst5K3Y5mS2fyUWJrq+VwknpZ1a3lePtNy44saoo/Ym3q4k15vlRWYuB5x8kGM1pwqsNcYzyptB
+	xDNktrF73pdKRa6e22G/hdXt3m2pKCVkMDjHJs7b+8Hh8eP1dHeW011F3v+xYJjoTiO98FImJJl
+	owMD+o3LlU5QmcX+obrz3cBafPZt81zuHLkNDKubhsSsWpGsnw+HVZywfz1mpLcUZRHsaoBbNb3
+	5FulvCQBKnsVBmNMrTLE1bIrGbH3Jywqx9X7NLtRbFbUag734ikAIiMWzqrxQrpypj19vPHoOs+
+	TrQP3KbROGS7M19FJZeHaylcifpfqOC33dEqWE07JlUmuzB1XbF7R3SY/7upxiYLonn6WRWy0=
+X-Received: by 2002:a17:90b:2d46:b0:38f:57f0:1f5d with SMTP id 98e67ed59e1d1-39b2620a25emr42313482a91.15.1788885592137;
+        Tue, 08 Sep 2026 09:39:52 -0700 (PDT)
 Received: from TestUbuntu22.. ([67.169.161.65])
-        by smtp.googlemail.com with ESMTPSA id 5a478bee46e88-3396e7e477csm5672357eec.29.2026.09.08.09.39.47
+        by smtp.googlemail.com with ESMTPSA id 5a478bee46e88-3396e7e477csm5672357eec.29.2026.09.08.09.39.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Sep 2026 09:39:48 -0700 (PDT)
+        Tue, 08 Sep 2026 09:39:51 -0700 (PDT)
 From: Jennifer Guo <guojy.bj@gmail.com>
 To: linux-staging@lists.linux.dev
 Cc: gregkh@linuxfoundation.org,
 	guojy.bj@gmail.com
-Subject: [PATCH 1/3] staging: rtl8723bs: remove commented out code in rtw_recv.c
-Date: Tue,  8 Sep 2026 09:39:17 -0700
-Message-Id: <20260908163919.72100-2-guojy.bj@gmail.com>
+Subject: [PATCH 2/3] staging: rtl8723bs: remove commented out code in os_dep/ files
+Date: Tue,  8 Sep 2026 09:39:18 -0700
+Message-Id: <20260908163919.72100-3-guojy.bj@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260908163919.72100-1-guojy.bj@gmail.com>
 References: <20260908163919.72100-1-guojy.bj@gmail.com>
@@ -75,297 +75,315 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove all commented-out code in this file.
+Remove commented out code in all source files in os_dep/
 Remove adjacent comment where applicable.
 
 Signed-off-by: Jennifer Guo <guojy.bj@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_recv.c | 69 -----------------------
- 1 file changed, 69 deletions(-)
+ .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 19 ------------
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c   | 29 ++-----------------
+ .../staging/rtl8723bs/os_dep/sdio_ops_linux.c |  1 -
+ drivers/staging/rtl8723bs/os_dep/xmit_linux.c |  1 -
+ 4 files changed, 2 insertions(+), 48 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
-index 3c82012fdc6c..dde66b68d5e3 100644
---- a/drivers/staging/rtl8723bs/core/rtw_recv.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
-@@ -54,8 +54,6 @@ signed int _rtw_init_recv_priv(struct recv_priv *precvpriv, struct adapter *pada
+diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+index 4416d0ec1db9..d94095cae0b4 100644
+--- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
++++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+@@ -204,7 +204,6 @@ struct cfg80211_bss *rtw_cfg80211_inform_bss(struct adapter *padapter, struct wl
+ {
+ 	struct ieee80211_channel *notify_channel;
+ 	struct cfg80211_bss *bss = NULL;
+-	/* struct ieee80211_supported_band *band; */
+ 	u16 channel;
+ 	u32 freq;
+ 	u64 notify_timestamp;
+@@ -232,7 +231,6 @@ struct cfg80211_bss *rtw_cfg80211_inform_bss(struct adapter *padapter, struct wl
  	}
  
- 	precvpriv->precv_frame_buf = PTR_ALIGN(precvpriv->pallocated_frame_buf, RXFRAME_ALIGN_SZ);
--	/* precvpriv->precv_frame_buf = precvpriv->pallocated_frame_buf + RXFRAME_ALIGN_SZ - */
--	/* ((SIZE_PTR) (precvpriv->pallocated_frame_buf) &(RXFRAME_ALIGN_SZ-1)); */
- 
- 	precvframe = (union recv_frame *)precvpriv->precv_frame_buf;
- 
-@@ -181,7 +179,6 @@ signed int _rtw_enqueue_recvframe(union recv_frame *precvframe, struct __queue *
- 	struct adapter *padapter = precvframe->u.hdr.adapter;
- 	struct recv_priv *precvpriv = &padapter->recvpriv;
- 
--	/* INIT_LIST_HEAD(&(precvframe->u.hdr.list)); */
- 	list_del_init(&(precvframe->u.hdr.list));
- 
- 	list_add_tail(&(precvframe->u.hdr.list), get_list_head(queue));
-@@ -197,10 +194,8 @@ signed int rtw_enqueue_recvframe(union recv_frame *precvframe, struct __queue *q
- {
- 	signed int ret;
- 
--	/* _spinlock(&pfree_recv_queue->lock); */
- 	spin_lock_bh(&queue->lock);
- 	ret = _rtw_enqueue_recvframe(precvframe, queue);
--	/* spin_unlock(&pfree_recv_queue->lock); */
- 	spin_unlock_bh(&queue->lock);
- 
- 	return ret;
-@@ -347,7 +342,6 @@ static signed int recvframe_chkmic(struct adapter *adapter,  union recv_frame *p
- 	u8 bmic_err = false, brpt_micerror = true;
- 	u8 *pframe, *payload, *pframemic;
- 	u8 *mickey;
--	/* u8 *iv, rxdata_key_idx = 0; */
- 	struct sta_info *stainfo;
- 	struct rx_pkt_attrib *prxattrib = &precvframe->u.hdr.attrib;
- 	struct security_priv *psecuritypriv = &adapter->securitypriv;
-@@ -361,13 +355,8 @@ static signed int recvframe_chkmic(struct adapter *adapter,  union recv_frame *p
- 		/* calculate mic code */
- 		if (stainfo) {
- 			if (is_multicast_ether_addr(prxattrib->ra)) {
--				/* mickey =&psecuritypriv->dot118021XGrprxmickey.skey[0]; */
--				/* iv = precvframe->u.hdr.rx_data+prxattrib->hdrlen; */
--				/* rxdata_key_idx =(((iv[3])>>6)&0x3) ; */
- 				mickey = &psecuritypriv->dot118021XGrprxmickey[prxattrib->key_index].skey[0];
- 
--				/* psecuritypriv->dot118021XGrpKeyid, pmlmeinfo->key_index, rxdata_key_idx); */
--
- 				if (!psecuritypriv->binstallGrpkey) {
- 					res = _FAIL;
- 					goto exit;
-@@ -531,16 +520,7 @@ static union recv_frame *portctrl(struct adapter *adapter, union recv_frame *pre
- 		} else {
- 			/* allowed */
- 			/* check decryption status, and decrypt the frame if needed */
--
- 			prtnframe = precv_frame;
--			/* check is the EAPOL frame or not (Rekey) */
--			/* if (ether_type == eapol_type) { */
--				/* check Rekey */
--
--			/* prtnframe =precv_frame; */
--			/*  */
--			/* else { */
--			/*  */
+ 	/* To reduce PBC Overlap rate */
+-	/* spin_lock_bh(&pwdev_priv->scan_req_lock); */
+ 	if (adapter_wdev_data(padapter)->scan_request) {
+ 		u8 *psr = NULL, sr = 0;
+ 		struct ndis_802_11_ssid *pssid = &pnetwork->network.ssid;
+@@ -258,7 +256,6 @@ struct cfg80211_bss *rtw_cfg80211_inform_bss(struct adapter *padapter, struct wl
+ 			}
  		}
+ 	}
+-	/* spin_unlock_bh(&pwdev_priv->scan_req_lock); */
+ 
+ 	channel = pnetwork->network.configuration.ds_config;
+ 	freq = rtw_ieee80211_channel_to_frequency(channel);
+@@ -285,7 +282,6 @@ struct cfg80211_bss *rtw_cfg80211_inform_bss(struct adapter *padapter, struct wl
+ 	*(fctrl) = 0;
+ 
+ 	SetSeqNum(pwlanhdr, 0/*pmlmeext->mgnt_seq*/);
+-	/* pmlmeext->mgnt_seq++; */
+ 
+ 	if (pnetwork->network.reserved[0] == 1) { /*  WIFI_BEACON */
+ 		eth_broadcast_addr(pwlanhdr->addr1);
+@@ -517,7 +513,6 @@ static int rtw_cfg80211_ap_set_encryption(struct net_device *dev, struct ieee_pa
  	} else {
- 		prtnframe = precv_frame;
-@@ -584,16 +564,10 @@ static void process_pwrbit_data(struct adapter *padapter, union recv_frame *prec
- 	if (psta) {
- 		if (pwrbit) {
- 			if (!(psta->state & WIFI_SLEEP_STATE)) {
--				/* psta->state |= WIFI_SLEEP_STATE; */
--				/* pstapriv->sta_dz_bitmap |= BIT(psta->aid); */
--
- 				stop_sta_xmit(padapter, psta);
- 			}
- 		} else {
- 			if (psta->state & WIFI_SLEEP_STATE) {
--				/* psta->state ^= WIFI_SLEEP_STATE; */
--				/* pstapriv->sta_dz_bitmap &= ~BIT(psta->aid); */
--
- 				wakeup_sta_to_xmit(padapter, psta);
- 			}
+ 		psta = rtw_get_stainfo(pstapriv, param->sta_addr);
+ 		if (!psta)
+-			/* ret = -EINVAL; */
+ 			goto exit;
+ 	}
+ 
+@@ -782,7 +777,6 @@ static int rtw_cfg80211_set_encryption(struct net_device *dev, struct ieee_param
+ 						memcpy(psta->dot11tkiprxmickey.skey, &param->u.crypt.key[24], 8);
+ 
+ 						padapter->securitypriv.busetkipkey = false;
+-						/* _set_timer(&padapter->securitypriv.tkip_timer, 50); */
+ 					}
+ 
+ 					rtw_setstakey_cmd(padapter, psta, true, true);
+@@ -846,8 +840,6 @@ static int cfg80211_rtw_add_key(struct wiphy *wiphy, struct wireless_dev *wdev,
+ 
+ 	switch (params->cipher) {
+ 	case IW_AUTH_CIPHER_NONE:
+-		/* todo: remove key */
+-		/* remove = 1; */
+ 		alg_name = "none";
+ 		break;
+ 	case WLAN_CIPHER_SUITE_WEP40:
+@@ -1125,7 +1117,6 @@ void rtw_cfg80211_surveydone_event_callback(struct adapter *padapter)
+ 		/* report network only if the current channel set contains the channel to which this network belongs */
+ 		if (rtw_ch_set_search_ch(padapter->mlmeextpriv.channel_set, pnetwork->network.configuration.ds_config) >= 0
+ 			&& true == rtw_validate_ssid(&pnetwork->network.ssid)) {
+-			/* ev =translate_scan(padapter, a, pnetwork, ev, stop); */
+ 			rtw_cfg80211_inform_bss(padapter, pnetwork);
  		}
-@@ -924,7 +898,6 @@ static signed int validate_recv_ctrl_frame(struct adapter *padapter, union recv_
- 	struct sta_priv *pstapriv = &padapter->stapriv;
- 	u8 *pframe = precv_frame->u.hdr.rx_data;
- 	struct sta_info *psta = NULL;
--	/* uint len = precv_frame->u.hdr.len; */
+ 	}
+@@ -1330,7 +1321,6 @@ static int rtw_cfg80211_set_auth_type(struct security_priv *psecuritypriv,
+ 		break;
+ 	default:
+ 		psecuritypriv->dot11_auth_algrthm = dot11_auth_algrthm_open;
+-		/* return -ENOTSUPP; */
+ 	}
  
- 	if (GetFrameType(pframe) != WIFI_CTRL_TYPE)
- 		return _FAIL;
-@@ -982,7 +955,6 @@ static signed int validate_recv_ctrl_frame(struct adapter *padapter, union recv_
- 			struct xmit_frame *pxmitframe = NULL;
- 			struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
+ 	return 0;
+@@ -1376,9 +1366,6 @@ static int rtw_cfg80211_set_cipher(struct security_priv *psecuritypriv, u32 ciph
  
--			/* spin_lock_bh(&psta->sleep_q.lock); */
- 			spin_lock_bh(&pxmitpriv->lock);
+ 	if (ucast) {
+ 		psecuritypriv->ndisencryptstatus = ndisencryptstatus;
+-
+-		/* if (psecuritypriv->dot11_privacy_algrthm >= _AES_) */
+-		/*	psecuritypriv->ndisauthtype = Ndis802_11AuthModeWPA2PSK; */
+ 	}
  
- 			xmitframe_phead = get_list_head(&psta->sleep_q);
-@@ -1010,15 +982,12 @@ static signed int validate_recv_ctrl_frame(struct adapter *padapter, union recv_
- 					pstapriv->tim_bitmap &= ~BIT(psta->aid);
+ 	return 0;
+@@ -1387,7 +1374,6 @@ static int rtw_cfg80211_set_cipher(struct security_priv *psecuritypriv, u32 ciph
+ static int rtw_cfg80211_set_key_mgt(struct security_priv *psecuritypriv, u32 key_mgt)
+ {
+ 	if (key_mgt == WLAN_AKM_SUITE_8021X)
+-		/* auth_type = UMAC_AUTH_TYPE_8021X; */
+ 		psecuritypriv->dot11_auth_algrthm = dot11_auth_algrthm_8021x;
+ 	else if (key_mgt == WLAN_AKM_SUITE_PSK) {
+ 		psecuritypriv->dot11_auth_algrthm = dot11_auth_algrthm_8021x;
+@@ -1752,8 +1738,6 @@ static int cfg80211_rtw_connect(struct wiphy *wiphy, struct net_device *ndev,
+ 	authmode = psecuritypriv->ndisauthtype;
+ 	rtw_set_802_11_authentication_mode(padapter, authmode);
  
- 					/* update BCN for TIM IE */
--					/* update_BCNTIM(padapter); */
- 					update_beacon(padapter, WLAN_EID_TIM, true);
- 				}
- 
--				/* spin_unlock_bh(&psta->sleep_q.lock); */
- 				spin_unlock_bh(&pxmitpriv->lock);
- 
- 			} else {
--				/* spin_unlock_bh(&psta->sleep_q.lock); */
- 				spin_unlock_bh(&pxmitpriv->lock);
- 
- 				if (pstapriv->tim_bitmap & BIT(psta->aid)) {
-@@ -1032,7 +1001,6 @@ static signed int validate_recv_ctrl_frame(struct adapter *padapter, union recv_
- 					pstapriv->tim_bitmap &= ~BIT(psta->aid);
- 
- 					/* update BCN for TIM IE */
--					/* update_BCNTIM(padapter); */
- 					update_beacon(padapter, WLAN_EID_TIM, true);
- 				}
- 			}
-@@ -1171,10 +1139,8 @@ static union recv_frame *recvframe_chk_defrag(struct adapter *padapter, union re
- 
- 			/* Then enqueue the 0~(n-1) fragment into the defrag_q */
- 
--			/* spin_lock(&pdefrag_q->lock); */
- 			phead = get_list_head(pdefrag_q);
- 			list_add_tail(&pfhdr->list, phead);
--			/* spin_unlock(&pdefrag_q->lock); */
- 
- 			prtnframe = NULL;
- 
-@@ -1189,10 +1155,8 @@ static union recv_frame *recvframe_chk_defrag(struct adapter *padapter, union re
- 		/* the last fragment frame */
- 		/* enqueue the last fragment */
- 		if (pdefrag_q) {
--			/* spin_lock(&pdefrag_q->lock); */
- 			phead = get_list_head(pdefrag_q);
- 			list_add_tail(&pfhdr->list, phead);
--			/* spin_unlock(&pdefrag_q->lock); */
- 
- 			/* call recvframe_defrag to defrag */
- 			precv_frame = recvframe_defrag(padapter, pdefrag_q);
-@@ -1320,8 +1284,6 @@ static signed int validate_recv_data_frame(struct adapter *adapter, union recv_f
+-	/* rtw_set_802_11_encryption_mode(padapter, padapter->securitypriv.ndisencryptstatus); */
+-
+ 	if (!rtw_set_802_11_connect(padapter, (u8 *)sme->bssid, &ndis_ssid)) {
+ 		ret = -1;
+ 		goto exit;
+@@ -2055,8 +2039,6 @@ static netdev_tx_t rtw_cfg80211_monitor_if_xmit_entry(struct sk_buff *skb, struc
+ 		struct xmit_frame		*pmgntframe;
+ 		struct pkt_attrib	*pattrib;
+ 		unsigned char *pframe;
+-		/* u8 category, action, OUI_Subtype, dialogToken = 0; */
+-		/* unsigned char *frame_body; */
+ 		struct ieee80211_hdr *pwlanhdr;
+ 		struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
+ 		struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+@@ -2476,7 +2458,6 @@ static int _cfg80211_rtw_mgmt_tx(struct adapter *padapter, u8 tx_ch, const u8 *b
+ 	/* starting alloc mgmt frame to dump it */
+ 	pmgntframe = alloc_mgtxmitframe(pxmitpriv);
+ 	if (!pmgntframe) {
+-		/* ret = -ENOMEM; */
+ 		ret = _FAIL;
  		goto exit;
  	}
+diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+index c15056ee207c..f8b0fc1c4bec 100644
+--- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
++++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+@@ -20,7 +20,6 @@ static int rtw_lbkmode;/* RTL8712_AIR_TRX; */
  
--	/* psta->rssi = prxcmd->rssi; */
--	/* psta->signal_quality = prxcmd->sq; */
- 	precv_frame->u.hdr.psta = psta;
  
- 	pattrib->amsdu = 0;
-@@ -1527,7 +1489,6 @@ static signed int wlanhdr_to_ethhdr(union recv_frame *precvframe)
- 	psnap = (struct ieee80211_snap_hdr *)(ptr + pattrib->hdrlen + pattrib->iv_len);
- 	psnap_type = ptr + pattrib->hdrlen + pattrib->iv_len + SNAP_SIZE;
- 	/* convert hdr + possible LLC headers into Ethernet header */
--	/* eth_type = (psnap_type[0] << 8) | psnap_type[1]; */
- 	if ((!memcmp(psnap, rfc1042_header, SNAP_SIZE) &&
- 		(memcmp(psnap_type, SNAP_ETH_TYPE_IPX, 2)) &&
- 		(memcmp(psnap_type, SNAP_ETH_TYPE_APPLETALK_AARP, 2))) ||
-@@ -1638,7 +1599,6 @@ static void rtw_recv_indicate_pkt(struct adapter *padapter, struct sk_buff *pkt,
+ static int rtw_network_mode = NL80211_IFTYPE_ADHOC;/* infra, ad-hoc, auto */
+-/* struct ndis_802_11_ssid	ssid; */
+ static int rtw_channel = 1;/* ad-hoc support requirement */
+ static int rtw_wireless_mode = WIRELESS_11BG_24N;
+ static int rtw_vrtl_carrier_sense = AUTO_VCS;
+@@ -31,7 +30,6 @@ static int rtw_preamble = PREAMBLE_LONG;/* long, short, auto */
+ static int rtw_scan_mode = 1;/* active, passive */
+ static int rtw_adhoc_tx_pwr = 1;
+ static int rtw_soft_ap;
+-/* int smart_ps = 1; */
+ static int rtw_power_mgnt = 1;
+ static int rtw_ips_mode = IPS_NORMAL;
+ module_param(rtw_ips_mode, int, 0644);
+@@ -48,7 +46,6 @@ static int rtw_radio_enable = 1;
+ static int rtw_long_retry_lmt = 7;
+ static int rtw_short_retry_lmt = 7;
+ static int rtw_busy_thresh = 40;
+-/* int qos_enable = 0; */
+ static int rtw_ack_policy = NORMAL_ACK;
  
- 				if (psta) {
- 					struct net_device *pnetdev = (struct net_device *)padapter->pnetdev;
--					/* skb->ip_summed = CHECKSUM_NONE; */
- 					pkt->dev = pnetdev;
- 					skb_set_queue_mapping(pkt, rtw_recv_select_queue(pkt));
+ static int rtw_software_encrypt;
+@@ -182,7 +179,6 @@ static void loadparam(struct adapter *padapter)
+ 	registry_par->chip_version = (u8)rtw_chip_version;
+ 	registry_par->rfintfs = (u8)rtw_rfintfs;
+ 	registry_par->lbkmode = (u8)rtw_lbkmode;
+-	/* registry_par->hci = (u8)hci; */
+ 	registry_par->network_mode  = (u8)rtw_network_mode;
  
-@@ -1773,9 +1733,6 @@ static int enqueue_reorder_recvframe(struct recv_reorder_ctrl *preorder_ctrl, un
- 	union recv_frame *pnextrframe;
- 	struct rx_pkt_attrib *pnextattrib;
+ 	memcpy(registry_par->ssid.ssid, "ANY", 3);
+@@ -207,7 +203,6 @@ static void loadparam(struct adapter *padapter)
+ 	registry_par->long_retry_lmt = (u8)rtw_long_retry_lmt;
+ 	registry_par->short_retry_lmt = (u8)rtw_short_retry_lmt;
+ 	registry_par->busy_thresh = (u16)rtw_busy_thresh;
+-	/* registry_par->qos_enable = (u8)rtw_qos_enable; */
+ 	registry_par->ack_policy = (u8)rtw_ack_policy;
+ 	registry_par->software_encrypt = (u8)rtw_software_encrypt;
+ 	registry_par->software_decrypt = (u8)rtw_software_decrypt;
+@@ -274,10 +269,7 @@ static int rtw_net_set_mac_address(struct net_device *pnetdev, void *p)
+ 	struct sockaddr *addr = p;
  
--	/* spin_lock_irqsave(&ppending_recvframe_queue->lock, irql); */
--	/* spin_lock(&ppending_recvframe_queue->lock); */
--
- 	phead = get_list_head(ppending_recvframe_queue);
- 	plist = get_next(phead);
- 
-@@ -1787,22 +1744,15 @@ static int enqueue_reorder_recvframe(struct recv_reorder_ctrl *preorder_ctrl, un
- 			plist = get_next(plist);
- 		else if (SN_EQUAL(pnextattrib->seq_num, pattrib->seq_num))
- 			/* Duplicate entry is found!! Do not insert current entry. */
--			/* spin_unlock_irqrestore(&ppending_recvframe_queue->lock, irql); */
- 			return false;
- 		else
- 			break;
+ 	if (!padapter->bup) {
+-		/* addr->sa_data[4], addr->sa_data[5]); */
+ 		memcpy(padapter->eeprompriv.mac_addr, addr->sa_data, ETH_ALEN);
+-		/* eth_hw_addr_set(pnetdev, addr->sa_data); */
+-		/* padapter->bset_hwaddr = true; */
  	}
  
--	/* spin_lock_irqsave(&ppending_recvframe_queue->lock, irql); */
--	/* spin_lock(&ppending_recvframe_queue->lock); */
--
- 	list_del_init(&(prframe->u.hdr.list));
- 
- 	list_add_tail(&(prframe->u.hdr.list), plist);
- 
--	/* spin_unlock(&ppending_recvframe_queue->lock); */
--	/* spin_unlock_irqrestore(&ppending_recvframe_queue->lock, irql); */
--
- 	return true;
- }
- 
-@@ -1848,22 +1798,16 @@ static int recv_indicatepkts_in_order(struct adapter *padapter, struct recv_reor
- 	struct list_head *phead, *plist;
- 	union recv_frame *prframe;
- 	struct rx_pkt_attrib *pattrib;
--	/* u8 index = 0; */
- 	int bPktInBuf = false;
+ 	return 0;
+@@ -289,8 +281,8 @@ static struct net_device_stats *rtw_net_get_stats(struct net_device *pnetdev)
+ 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
  	struct recv_priv *precvpriv = &padapter->recvpriv;
- 	struct __queue *ppending_recvframe_queue = &preorder_ctrl->pending_recvframe_queue;
  
--	/* spin_lock_irqsave(&ppending_recvframe_queue->lock, irql); */
--	/* spin_lock(&ppending_recvframe_queue->lock); */
--
- 	phead =	get_list_head(ppending_recvframe_queue);
- 	plist = get_next(phead);
- 
- 	/*  Handling some condition for forced indicate case. */
- 	if (bforced) {
- 		if (list_empty(phead)) {
--			/*  spin_unlock_irqrestore(&ppending_recvframe_queue->lock, irql); */
--			/* spin_unlock(&ppending_recvframe_queue->lock); */
- 			return true;
- 		}
- 
-@@ -1886,9 +1830,6 @@ static int recv_indicatepkts_in_order(struct adapter *padapter, struct recv_reor
- 			if (SN_EQUAL(preorder_ctrl->indicate_seq, pattrib->seq_num))
- 				preorder_ctrl->indicate_seq = (preorder_ctrl->indicate_seq + 1) % 4096u;
- 
--			/* Set this as a lock to make sure that only one thread is indicating packet. */
--			/* pTS->RxIndicateState = RXTS_INDICATE_PROCESSING; */
--
- 			/*  Indicate packets */
- 
- 			/* indicate this recv_frame */
-@@ -1914,9 +1855,6 @@ static int recv_indicatepkts_in_order(struct adapter *padapter, struct recv_reor
- 		}
+-	padapter->stats.tx_packets = pxmitpriv->tx_pkts;/* pxmitpriv->tx_pkts++; */
+-	padapter->stats.rx_packets = precvpriv->rx_pkts;/* precvpriv->rx_pkts++; */
++	padapter->stats.tx_packets = pxmitpriv->tx_pkts;
++	padapter->stats.rx_packets = precvpriv->rx_pkts;
+ 	padapter->stats.tx_dropped = pxmitpriv->tx_drop;
+ 	padapter->stats.rx_dropped = precvpriv->rx_drop;
+ 	padapter->stats.tx_bytes = pxmitpriv->tx_bytes;
+@@ -409,7 +401,6 @@ int rtw_init_netdev_name(struct net_device *pnetdev, const char *ifname)
+ 		return 1;
  	}
+ 	netif_carrier_off(pnetdev);
+-	/* rtw_netif_stop_queue(pnetdev); */
  
--	/* spin_unlock(&ppending_recvframe_queue->lock); */
--	/* spin_unlock_irqrestore(&ppending_recvframe_queue->lock, irql); */
--
- 	return bPktInBuf;
+ 	return 0;
  }
+@@ -431,11 +422,8 @@ struct net_device *rtw_init_netdev(struct adapter *old_padapter)
+ 	padapter = rtw_netdev_priv(pnetdev);
+ 	padapter->pnetdev = pnetdev;
  
-@@ -1971,8 +1909,6 @@ static int recv_indicatepkt_reorder(struct adapter *padapter, union recv_frame *
- 
- 	/* s3. Insert all packet into Reorder Queue to maintain its ordering. */
- 	if (!enqueue_reorder_recvframe(preorder_ctrl, prframe)) {
--		/* spin_unlock_irqrestore(&ppending_recvframe_queue->lock, irql); */
--		/* return _FAIL; */
- 		goto _err_exit;
- 	}
- 
-@@ -1986,7 +1922,6 @@ static int recv_indicatepkt_reorder(struct adapter *padapter, union recv_frame *
- 	/*  2. All packets with SeqNum larger than or equal to WinStart => Buffer it. */
- 	/*  */
- 
--	/* recv_indicatepkts_in_order(padapter, preorder_ctrl, true); */
- 	if (recv_indicatepkts_in_order(padapter, preorder_ctrl, false)) {
- 		_set_timer(&preorder_ctrl->reordering_ctrl_timer, REORDER_WAIT_TIME);
- 		spin_unlock_bh(&ppending_recvframe_queue->lock);
-@@ -2024,14 +1959,10 @@ void rtw_reordering_ctrl_timeout_handler(struct timer_list *t)
- static int process_recv_indicatepkts(struct adapter *padapter, union recv_frame *prframe)
- {
- 	int retval = _SUCCESS;
--	/* struct recv_priv *precvpriv = &padapter->recvpriv; */
--	/* struct rx_pkt_attrib *pattrib = &prframe->u.hdr.attrib; */
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 	struct ht_priv *phtpriv = &pmlmepriv->htpriv;
- 
- 	if (phtpriv->ht_option) { /* B/G/N Mode */
--		/* prframe->u.hdr.preorder_ctrl = &precvpriv->recvreorder_ctrl[pattrib->priority]; */
+-	/* pnetdev->init = NULL; */
 -
- 		if (recv_indicatepkt_reorder(padapter, prframe) != _SUCCESS) { /*  including perform A-MPDU Rx Ordering Buffer Control */
+ 	pnetdev->netdev_ops = &rtw_netdev_ops;
  
- 			if (!padapter->driver_stopped &&
+-	/* pnetdev->tx_timeout = NULL; */
+ 	pnetdev->watchdog_timeo = HZ * 3; /* 3 second timeout */
+ 
+ 	/* step 2. */
+@@ -512,7 +500,6 @@ static void rtw_init_default_value(struct adapter *padapter)
+ 	pxmitpriv->vcs_setting = pregistrypriv->vrtl_carrier_sense;
+ 	pxmitpriv->vcs = pregistrypriv->vcs_type;
+ 	pxmitpriv->vcs_type = pregistrypriv->vcs_type;
+-	/* pxmitpriv->rts_thresh = pregistrypriv->rts_thresh; */
+ 	pxmitpriv->frag_len = pregistrypriv->frag_thresh;
+ 
+ 	/* recv_priv */
+@@ -520,9 +507,6 @@ static void rtw_init_default_value(struct adapter *padapter)
+ 	/* mlme_priv */
+ 	pmlmepriv->scan_mode = SCAN_ACTIVE;
+ 
+-	/* qos_priv */
+-	/* pmlmepriv->qospriv.qos_option = pregistrypriv->wmm_enable; */
+-
+ 	/* ht_priv */
+ 	pmlmepriv->htpriv.ampdu_enable = false;/* set to disabled */
+ 
+@@ -659,9 +643,6 @@ u8 rtw_init_drv_sw(struct adapter *padapter)
+ 		goto free_xmit_priv;
+ 	spin_lock_init(&padapter->security_key_mutex);
+ 
+-	/*  We don't need to memset padapter->XXX to zero, because adapter is allocated by vzalloc(). */
+-	/* memset((unsigned char *)&padapter->securitypriv, 0, sizeof (struct security_priv)); */
+-
+ 	if (_rtw_init_sta_priv(&padapter->stapriv) == _FAIL)
+ 		goto free_recv_priv;
+ 
+@@ -730,8 +711,6 @@ u8 rtw_free_drv_sw(struct adapter *padapter)
+ 
+ 	rtw_free_pwrctrl_priv(padapter);
+ 
+-	/* kfree((void *)padapter); */
+-
+ 	rtw_hal_data_deinit(padapter);
+ 
+ 	/* free the old_pnetdev */
+@@ -862,13 +841,11 @@ int netdev_open(struct net_device *pnetdev)
+ static int  ips_netdrv_open(struct adapter *padapter)
+ {
+ 	int status = _SUCCESS;
+-	/* struct pwrctrl_priv *pwrpriv = adapter_to_pwrctl(padapter); */
+ 
+ 	padapter->net_closed = false;
+ 
+ 	padapter->driver_stopped = false;
+ 	padapter->bCardDisableWOHSM = false;
+-	/* padapter->bup = true; */
+ 
+ 	status = rtw_hal_init(padapter);
+ 	if (status == _FAIL)
+@@ -930,7 +907,6 @@ static int netdev_close(struct net_device *pnetdev)
+ 	struct pwrctrl_priv *pwrctl = adapter_to_pwrctl(padapter);
+ 
+ 	if (pwrctl->bInternalAutoSuspend) {
+-		/* rtw_pwr_wakeup(padapter); */
+ 		if (pwrctl->rf_pwrstate == rf_off)
+ 			pwrctl->ps_flag = true;
+ 	}
+@@ -1068,7 +1044,6 @@ static void rtw_suspend_normal(struct adapter *padapter)
+ 
+ 	rtw_dev_unload(padapter);
+ 
+-	/* sdio_deinit(adapter_to_dvobj(padapter)); */
+ 	if (padapter->intf_deinit)
+ 		padapter->intf_deinit(adapter_to_dvobj(padapter));
+ }
+diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c b/drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c
+index e9a2f3f7ec74..15a55c05bdb4 100644
+--- a/drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c
++++ b/drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c
+@@ -433,7 +433,6 @@ s32 _sd_write(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, void *pdata)
+ 		return err;
+ 
+ 	func = psdio->func;
+-/*	size = sdio_align_size(func, cnt); */
+ 
+ 	if (unlikely((cnt == 1) || (cnt == 2))) {
+ 		int i;
+diff --git a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
+index 3b6029c20d50..ad73b528d220 100644
+--- a/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
++++ b/drivers/staging/rtl8723bs/os_dep/xmit_linux.c
+@@ -165,7 +165,6 @@ static int rtw_mlcst2unicst(struct adapter *padapter, struct sk_buff *skb)
+ 			}
+ 		} else {
+ 			pxmitpriv->tx_drop++;
+-			/* dev_kfree_skb_any(skb); */
+ 			return false;	/*  Caller shall tx this multicast frame via normal way. */
+ 		}
+ 	}
 -- 
 2.34.1
 
