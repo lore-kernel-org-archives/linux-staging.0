@@ -1,69 +1,73 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E63F55C324
-	for <linux-staging@lists.linux.dev>; Tue,  8 Sep 2026 19:10:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EEB853CA99
+	for <linux-staging@lists.linux.dev>; Tue,  8 Sep 2026 19:10:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788894641; cv=none; b=CCNwSALVxf6YHG7pdnQfTOOYcGlYWg4wtb747V7jk3UXR6T1N1pQKh/SauDmo6ODSzbyYIv+eI7ZULYzOsGQ1eSdaZM9qazEcq93N9BtHngqtw1gM6rKxlVEtzeCXlJsYp6Myz+EQx8DIOUIW43dV9Ryrm6mEW3ZyMbiwP1LFWo=
+	t=1788894643; cv=none; b=jcEgSxhYEhvEtXUqC3Y5q0ZvpD89IWA0YGoP86yfUf3V1SpXemzplS6gSVzH2mqF//xQuu14m8uagmJHwlhfG5OcGNzZdqcMEWiFDW6yZPwb41yTSUVustlUfCBd1Tnz7zyEeL8p5rYOeREKvXyl/pBgRUfYUU00A+MxZJp8Sls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788894641; c=relaxed/simple;
-	bh=WBwiQBGR2LrtLFiA3Q1waD0ZFVGoS+U6TuCL2aPXlbA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hM7FrNHW6lXefpeG1IwfkLlzNAZ7kUIeYKwAflmwcL/DkqvZcOSIrX7/1Zyu7DYDOHxzkN4ZI9Of+xdiZ4nGUGxUxpbtx5rsNlgulMgroC7JQBOQEgqx1GY757KHSgK9FPYgPn4+ORjdNFmOIawKfHctaNnH2pxVZzkZFKGtMog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Sk4XdsPk; arc=none smtp.client-ip=209.85.221.48
+	s=arc-20240116; t=1788894643; c=relaxed/simple;
+	bh=/VPU7Rkj6vLIJ5qAiVTp1qZlJHmo5K0QLBH58A5WbIQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=rDmIckWfXazgwF2XicPR8UbMDtMhL/7yBxGYxDHECnuJVFpp8wp3NiwBQ50JCPuhCkdwXRDjW1IqjKoej3ctOa52tIqR1WJ6VItbD1byThPlTHeesc1BopuxPVGPqR4od0AmEQz+IQ0apxfwYRXrI7JbKqMFLOFuOiR7CT0BwWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J7ciwRfk; arc=none smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Sk4XdsPk"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-48584dc164fso4642829f8f.0
-        for <linux-staging@lists.linux.dev>; Tue, 08 Sep 2026 12:10:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J7ciwRfk"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-4843e397f74so5447942f8f.1
+        for <linux-staging@lists.linux.dev>; Tue, 08 Sep 2026 12:10:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788894637; x=1789499437; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Vnb4aPseUEV8ohWOu5ZBIl2b/oTVsHc7B+obgyi63Dg=;
-        b=Sk4XdsPkmo0FgVSXMlRmtgJ3ZBvRNQdQBJl9jJB7mgfPvNnxgPS+J3Ofc937ZPnijW
-         My/iGFap7vzcVcCvhV/rsjgrQ3iRVorK4KjSuo7uLCPJJMGhcdxg5f26tL0paAuJ9ivY
-         aj8ZIgv012GawcTpWd1vjynjCQAKKeGDj0uY/2p1/k9AYCjV8qq29fgC7qffwCOXkDrq
-         H4TwrBqU1xENI5w2Ri6NDmMgPMb8FPCkylhkGEPXJUAl3dO9zXG4kFRHZrRynwTkyN4C
-         7ZTACinpJ8pCavU2WWU7Vf4pn1iDlWFBgnpRCYgHm+zYJb7dvTvpHiY32nyKNcT+Oag+
-         0hVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788894637; x=1789499437;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1788894640; x=1789499440; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Vnb4aPseUEV8ohWOu5ZBIl2b/oTVsHc7B+obgyi63Dg=;
-        b=SMEFzyZTec15HzgWD6eAHAs4G7kqNCPdAbgOU2zpc0/M5o3YRx9NZD6VDKsWTtpmP1
-         Is4wEo5jVkphJ6uMkGROjlQfwbHNUqG/eX8KbviGs0GXMXY1mNDwKdK9pIl1Ah0z57H7
-         03uv6brZQ20aXsdoCqdCzg6MmEW/y8JVlUcv1018Lvs3CeFmA5dWKLkEZbmSHYGQEk8+
-         VAZxCqkhJqhjIT91MlmSDw2hlWnOMtT5PW6d0WMBy7SziE0XjH2fjHyV0U32BNAtYSRv
-         BEaFafNK7QIpAdNlL6Zst9U4UddHv3lo+lTKy620pv9RTHaWWzTYSLNqDS8x37L3YpYr
-         Qimw==
-X-Gm-Message-State: AFuF++mgNLOi8KZRsCNjGpyShIsSiPu6biSSwR2l0kx4uWYv5MgsbWD6
-	rX0Xw8DaTjXPhVgt6nBp+r6A7yLhZbQu3xK8BWYRkuFFefAfPBx56qOpF+Derg==
-X-Gm-Gg: AYBFou0LXGlwrHJkxHeZWMuTsSSRweers2z+X2SDeU2GFhf8vxKblH8bWzlaTxXdrpb
-	5CTo/WzvoOOSfTvivc6w9oVHu2Z9ww84+hnkF71P5eKjHRNZF+eyhBKXzLACuDIM99lSowzRxHb
-	o3WPrdgVXMexTvb4pFyYRfmrGCykd//Wdki/jK69jL2KD/TJ+hMPakOlrN2oo7uy9wKfqzKTu7G
-	XM1+fuNFm/H0899CbGLz1XvX98FpKl0qYNKwEbDJSQfBsFHN5F0L0zLGPP3TcvJnJWkgVPsSLLA
-	uEf5FpmPD8OAwQWFLVkTnDEpVBOxI71/q/uFGTNkEU2WCbIok1yZ37xQO1gTHF82Hxyfzg+OBSc
-	5o3gvj7a1tYzorjBKOnIM62RRM6qrY1C/+qqEYcy6Bx1L00Cq678b2hNGpXuPmAlHenJ/Tj7igX
-	tRMCI4l356ezqYvWrFP6LzQhVO1vsPLcGn0Ned6+jjURhOI5bvQ1WzqpcUcKCgxdxCgJY=
-X-Received: by 2002:a05:6000:1863:b0:485:8a46:704c with SMTP id ffacd0b85a97d-4858a46716bmr28866160f8f.30.1788894637018;
-        Tue, 08 Sep 2026 12:10:37 -0700 (PDT)
+        bh=NTTrZUFmF7kfstEYKrN0Z2rLRgXViJ8Jum7mn+JytIQ=;
+        b=J7ciwRfkVcpRUz+oXpKae7FRESnhRvyslVZwNTHEWDWWI/2v+rBr0j63Dmt+d4/VEU
+         mQrv4OmQsstVSyvjC/FIDmaTe/knU2Nc6sYhEmFiJrCNwAIJt5/ohNx8Sz+2gWbm8Ffs
+         w71J7LbNKS2Uwg+NpirELd45K6uYFPAKR70XOs3zJtHojvjG5e6ZcMhJDuP+hk3Cno8D
+         5sgZWwDWcAvzFL/eZ61HJPbvb2VfePL5p5Sx+oDlpzEkpWyZ1FYHUgIdm91SVaUAOXjD
+         IezPVZrg4frLwrnoJJRjhgWrgAiKCPmYGuvKzCkQw3OCWB2vHgyrEdeOy2b+o7y7fOue
+         ydZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788894640; x=1789499440;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=NTTrZUFmF7kfstEYKrN0Z2rLRgXViJ8Jum7mn+JytIQ=;
+        b=TQ29WPVRys+u+ZBuvAAqsu86rfcKtmCgGGlLYxgliiZ/7S/MHUAIhrjVAFT1mQ1Pcl
+         EVO2iFmzKSQR8IPp9us82y8z/qn4RdV3z0yEP8eB0xBY5ocbhm/7Iyr7/urEgZwpg/RG
+         ztG7dCeUYtKw0/K3TgXU0ogoQhwtF3F2Nqqif3FdU+I9m06GQ0tpcR74RcuxLLHBx8Vm
+         8flfVhBLoj+ZqDDvcT3tEcuYirBqAqUybndNJxAL152zHKM7rSZ4vQhQ//wzCj261G3I
+         TjQ37qzlQ0jh7nY53TXc+CdCD4GonNP9oMkmEA2Tp4XTf2AIpMlZXMxhCDj7SHd002w1
+         fXFQ==
+X-Gm-Message-State: AFuF++nTpGc53Gfw3LRndqM/AoyPg/32DFGQM5NFNllxLXbKQw6emGY5
+	kHxDyeCETirxuYPFYcBqAJey7/kalLBoepF7etYNJ/2ZAo0v91t6ytTg/vN2qQ==
+X-Gm-Gg: AYBFou3Kz3wYBRAn029CxnQX1frkwbcZl2cHzeq2AdfpdZxdi/ua013ynFC0cH//i9p
+	r0PeXMz6yEq4kiOPZuZ5eGLn4eR4bmjyGIJ/ptIqasDfPEGMSG3w6taMhUyQqAU+Nj0GmV6nbU5
+	urbjDbityF1ztm4Nk2Bl8oXDQ3rSKyp7TJRl42xfZzg8jcxdP+JewyHNP+yLHFbbDLlfWVkhMoR
+	49A8HAzQIrowhCvl530arFAAgM+qYHwk2nHpu8IpUL1lhi+vJxz6qg9Y27q07LI24k9HonAz43t
+	f81E56GAlkmZdxklcpvt0Y6j5fM/ggtqR4Ykqa6Pmpddm0EHFGrYNo+cyIv5/ldU8zkrniFlxdA
+	GeA3nzvx1MT/mn1lYKiT/Xkbr3QzEUvTviiWdD3ftjgeh6LXfsrOeBBX88iHFuYG6sdjetJQGzC
+	yy6k+Ynrp/FL5ZgG+grUYi485p6VcsecIm7tYsMpqcIFBYfkOpUI61IqiiiYYQ+qZCzQ==
+X-Received: by 2002:a05:6000:2008:b0:485:8226:c69d with SMTP id ffacd0b85a97d-4858226c991mr39156459f8f.28.1788894640245;
+        Tue, 08 Sep 2026 12:10:40 -0700 (PDT)
 Received: from predeASUS ([86.124.216.24])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4858ac2b4cdsm36778622f8f.16.2026.09.08.12.10.35
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4858ac2b4cdsm36778622f8f.16.2026.09.08.12.10.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Sep 2026 12:10:36 -0700 (PDT)
+        Tue, 08 Sep 2026 12:10:39 -0700 (PDT)
 From: AJ39210 <predescuciprian99@gmail.com>
 To: linux-staging@lists.linux.dev
 Cc: linux-kernel@vger.kernel.org,
 	gregkh@linuxfoundation.org,
 	AJ39210 <predescuciprian99@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: cleanup and style fixes
-Date: Tue,  8 Sep 2026 22:10:31 +0300
-Message-ID: <20260908191033.13798-1-predescuciprian99@gmail.com>
+Subject: [PATCH 1/4] staging: rtl8723bs: update TODO list for completed cleanups
+Date: Tue,  8 Sep 2026 22:10:32 +0300
+Message-ID: <20260908191033.13798-2-predescuciprian99@gmail.com>
 X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260908191033.13798-1-predescuciprian99@gmail.com>
+References: <20260908191033.13798-1-predescuciprian99@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -72,349 +76,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+Signed-off-by: AJ39210 <predescuciprian99@gmail.com>
 ---
- drivers/staging/rtl8723bs/TODO                | 27 ++++++++++-----
- .../staging/rtl8723bs/core/rtw_ieee80211.c    |  4 +--
- .../staging/rtl8723bs/hal/HalPhyRf_8723B.c    | 16 ++++-----
- drivers/staging/rtl8723bs/hal/odm_HWConfig.c  |  2 +-
- drivers/staging/rtl8723bs/hal/odm_HWConfig.h  |  2 +-
- .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 34 +++++++------------
- drivers/staging/rtl8723bs/include/hal_phy.h   |  5 ---
- drivers/staging/rtl8723bs/include/ieee80211.h |  2 +-
- .../staging/rtl8723bs/include/rtl8192c_recv.h | 33 ------------------
- .../staging/rtl8723bs/include/rtl8723b_recv.h | 16 ++++++++-
- drivers/staging/rtl8723bs/include/rtw_ht.h    |  1 -
- .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 19 +++++++----
- 12 files changed, 70 insertions(+), 91 deletions(-)
- delete mode 100644 drivers/staging/rtl8723bs/include/rtl8192c_recv.h
+ drivers/staging/rtl8723bs/TODO | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/TODO b/drivers/staging/rtl8723bs/TODO
-index 8de062b474d6..eb71453e2b63 100644
+index 34c216e6d..8de062b47 100644
 --- a/drivers/staging/rtl8723bs/TODO
 +++ b/drivers/staging/rtl8723bs/TODO
-@@ -1,10 +1,19 @@
+@@ -1,7 +1,10 @@
  TODO:
--- Partial: remove remaining code for other chips that is left over. Unused
--  non-8723B AMPDU burst enum values and unused 8188E ODM fields have been
--  removed, but more legacy code remains.
--- Partial: convert unusual variable types. The channel control APIs and rate
--  helpers now use kernel fixed-width types, but more legacy types remain.
--- Partial checkpatch.pl fixes: several overlong callback and scan-list lines
--  have been wrapped, but many warnings remain and will require refactoring.
--- Merge Realtek's bugfixes and new features into the driver.
--- Switch to use MAC80211.
-+- Partial: remove remaining code for other chips that is left over. Removed
-+  obsolete 8192C receive code, unused multi-chip constants, and an old 88C
-+  firmware exception; more compatibility code remains.
-+  
-+- Partial: convert unusual variable types. The rate-set length helper now uses
-+  kernel fixed-width types; channel-control APIs and more legacy types remain.
-+
-+- Partial checkpatch.pl fixes: the scan callback and scan-list operations have
-+  been wrapped and simplified, but many warnings remain and will require
-+  refactoring.
-+
-+- Merge Realtek's bugfixes and new features into the driver. This needs a
-+  specific upstream commit or feature target before it can be reviewed safely.
-+
-+- Switch to use MAC80211. This requires replacing the vendor-owned netdev,
-+  cfg80211 operations, MLME, Ethernet TX/RX conversion, and TX completion
-+  paths with mac80211 ownership; do not register a second wiphy/netdev until
-+  the station-mode TX/RX path has been ported.
-\ No newline at end of file
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-index 4d211711f2ba..efa454a0a5de 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-@@ -278,9 +278,9 @@ void rtw_set_supported_rate(u8 *supported_rates, uint mode)
- 	}
- }
- 
--uint rtw_get_rateset_len(u8 *rateset)
-+u8 rtw_get_rateset_len(u8 *rateset)
- {
--	uint i;
-+	u8 i;
- 
- 	for (i = 0; i < 13; i++)
- 		if (rateset[i] == 0)
-diff --git a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
-index 6c5f56d5a1f4..4d96b28e967b 100644
---- a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
-+++ b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
-@@ -23,14 +23,12 @@
- 
- /*---------------------------Define Local Constant---------------------------*/
- 
--/* In the case that we fail to read TxPowerTrack.txt, we use the table for
-- * 88E as the default table.
-- */
--static u8 DeltaSwingTableIdx_2GA_N_8188E[] = {
-+/* Default table used when TxPowerTrack.txt is unavailable. */
-+static u8 DeltaSwingTableIdx_2GA_N[] = {
- 	0, 0, 0, 2, 2, 3, 3, 4,  4,  4,  4,  5,  5,  6,  6,
- 	7, 7, 7, 7, 8, 8, 9, 9, 10, 10, 10, 11, 11, 11, 11
- };
--static u8 DeltaSwingTableIdx_2GA_P_8188E[] = {
-+static u8 DeltaSwingTableIdx_2GA_P[] = {
- 	0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 4, 4, 4,
- 	4, 4, 4, 5, 5, 7, 7, 8, 8, 8, 9, 9, 9, 9, 9
- };
-@@ -313,10 +311,10 @@ static void GetDeltaSwingTable_8723B(
- 			*TemperatureDOWN_B = pRFCalibrateInfo->DeltaSwingTableIdx_2GB_N;
- 		}
- 	} else {
--		*TemperatureUP_A   = (u8 *)DeltaSwingTableIdx_2GA_P_8188E;
--		*TemperatureDOWN_A = (u8 *)DeltaSwingTableIdx_2GA_N_8188E;
--		*TemperatureUP_B   = (u8 *)DeltaSwingTableIdx_2GA_P_8188E;
--		*TemperatureDOWN_B = (u8 *)DeltaSwingTableIdx_2GA_N_8188E;
-+		*TemperatureUP_A   = DeltaSwingTableIdx_2GA_P;
-+		*TemperatureDOWN_A = DeltaSwingTableIdx_2GA_N;
-+		*TemperatureUP_B   = DeltaSwingTableIdx_2GA_P;
-+		*TemperatureDOWN_B = DeltaSwingTableIdx_2GA_N;
- 	}
- }
- 
-diff --git a/drivers/staging/rtl8723bs/hal/odm_HWConfig.c b/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
-index 1716252641d3..324ab84f92ee 100644
---- a/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
-+++ b/drivers/staging/rtl8723bs/hal/odm_HWConfig.c
-@@ -107,7 +107,7 @@ static void odm_rx_phy_status_parsing(struct dm_odm_t *dm_odm,
- 	bool is_cck_rate = false;
- 	u8 rf_rx_num = 0;
- 	u8 lna_idx, vga_idx;
--	struct phy_status_rpt_8192cd_t *phy_sta_rpt = (struct phy_status_rpt_8192cd_t *)phy_status;
-+	struct phy_status_rpt_8723b_t *phy_sta_rpt = (struct phy_status_rpt_8723b_t *)phy_status;
- 
- 	is_cck_rate = pkt_info->data_rate <= DESC_RATE11M;
- 	phy_info->rx_mimo_signal_quality[RF_PATH_A] = -1;
-diff --git a/drivers/staging/rtl8723bs/hal/odm_HWConfig.h b/drivers/staging/rtl8723bs/hal/odm_HWConfig.h
-index 615145812ed2..358eb62df45f 100644
---- a/drivers/staging/rtl8723bs/hal/odm_HWConfig.h
-+++ b/drivers/staging/rtl8723bs/hal/odm_HWConfig.h
-@@ -20,7 +20,7 @@ struct phy_rx_agc_info_t {
- 	#endif
- };
- 
--struct phy_status_rpt_8192cd_t {
-+struct phy_status_rpt_8723b_t {
- 	struct phy_rx_agc_info_t path_agc[2];
- 	u8 ch_corr[2];
- 	u8 cck_sig_qual_ofdm_pwdb_all;
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-index 6a4a13544ca1..b3aff0dfdc62 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-@@ -250,34 +250,27 @@ static s32 _FWFreeToGo(struct adapter *adapter, u32 min_cnt, u32 timeout_ms)
- 	return ret;
- }
- 
--#define IS_FW_81xxC(padapter)	(((GET_HAL_DATA(padapter))->FirmwareSignature & 0xFFF0) == 0x88C0)
--
- void rtl8723b_FirmwareSelfReset(struct adapter *padapter)
- {
--	struct hal_com_data *pHalData = GET_HAL_DATA(padapter);
- 	u8 val;
- 	u8 Delay = 100;
- 
--	if (
--		!(IS_FW_81xxC(padapter) && ((pHalData->FirmwareVersion < 0x21) || (pHalData->FirmwareVersion == 0x21 && pHalData->FirmwareSubVersion < 0x01)))
--	) { /*  after 88C Fw v33.1 */
--		/* 0x1cf = 0x20. Inform 8051 to reset. 2009.12.25. tynli_test */
--		rtw_write8(padapter, REG_HMETFR+3, 0x20);
-+	/* 0x1cf = 0x20. Inform 8051 to reset. 2009.12.25. tynli_test */
-+	rtw_write8(padapter, REG_HMETFR+3, 0x20);
- 
-+	val = rtw_read8(padapter, REG_SYS_FUNC_EN + 1);
-+	while (val & BIT(2)) {
-+		Delay--;
-+		if (Delay == 0)
-+			break;
-+		udelay(50);
- 		val = rtw_read8(padapter, REG_SYS_FUNC_EN + 1);
--		while (val & BIT(2)) {
--			Delay--;
--			if (Delay == 0)
--				break;
--			udelay(50);
--			val = rtw_read8(padapter, REG_SYS_FUNC_EN + 1);
--		}
-+	}
- 
--		if (Delay == 0) {
--			/* force firmware reset */
--			val = rtw_read8(padapter, REG_SYS_FUNC_EN + 1);
--			rtw_write8(padapter, REG_SYS_FUNC_EN + 1, val & (~BIT(2)));
--		}
-+	if (Delay == 0) {
-+		/* force firmware reset */
-+		val = rtw_read8(padapter, REG_SYS_FUNC_EN + 1);
-+		rtw_write8(padapter, REG_SYS_FUNC_EN + 1, val & (~BIT(2)));
- 	}
- }
- 
-@@ -1903,7 +1896,6 @@ static void hw_var_set_opmode(struct adapter *padapter, u8 variable, u8 *val)
- 			rtw_write8(padapter, REG_BCN_CTRL, (DIS_TSF_UDT|EN_BCN_FUNCTION|EN_TXBCN_RPT|DIS_BCNQ_SUB));
- 
- 			/* SW_BCN_SEL - Port0 */
--			/* rtw_write8(Adapter, REG_DWBCN1_CTRL_8192E+2, rtw_read8(Adapter, REG_DWBCN1_CTRL_8192E+2) & ~BIT4); */
- 			rtw_hal_set_hwreg(padapter, HW_VAR_DL_BCN_SEL, NULL);
- 
- 			/*  select BCN on port 0 */
-diff --git a/drivers/staging/rtl8723bs/include/hal_phy.h b/drivers/staging/rtl8723bs/include/hal_phy.h
-index abc0f27fdaa4..a92ec3d0a34b 100644
---- a/drivers/staging/rtl8723bs/include/hal_phy.h
-+++ b/drivers/staging/rtl8723bs/include/hal_phy.h
-@@ -35,11 +35,6 @@ enum rf_path {
- 
- #define	TX_1S			0
- #define	TX_2S			1
--#define	TX_3S			2
--#define	TX_4S			3
--
--#define	RF_PATH_MAX_92C_88E		2
--#define	RF_PATH_MAX_90_8812		4	/* Max RF number 90 support */
- 
- enum wireless_mode {
- 	WIRELESS_MODE_UNKNOWN = 0x00,
-diff --git a/drivers/staging/rtl8723bs/include/ieee80211.h b/drivers/staging/rtl8723bs/include/ieee80211.h
-index 9f421e4875b7..710bf99bb542 100644
---- a/drivers/staging/rtl8723bs/include/ieee80211.h
-+++ b/drivers/staging/rtl8723bs/include/ieee80211.h
-@@ -722,7 +722,7 @@ u8 *rtw_get_wps_attr_content(u8 *wps_ie, uint wps_ielen, u16 target_attr_id, u8
- 	for (ie = (void *)buf; (((u8 *)ie) - ((u8 *)buf) + 1) < buf_len; \
- 		ie = (void *)(((u8 *)ie) + *(((u8 *)ie) + 1) + 2))
- 
--uint	rtw_get_rateset_len(u8 *rateset);
-+u8	rtw_get_rateset_len(u8 *rateset);
- 
- struct registry_priv;
- int rtw_generate_ie(struct registry_priv *pregistrypriv);
-diff --git a/drivers/staging/rtl8723bs/include/rtl8192c_recv.h b/drivers/staging/rtl8723bs/include/rtl8192c_recv.h
-deleted file mode 100644
-index b63625ab4e45..000000000000
---- a/drivers/staging/rtl8723bs/include/rtl8192c_recv.h
-+++ /dev/null
-@@ -1,33 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--/******************************************************************************
-- *
-- * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
-- *
-- ******************************************************************************/
--#ifndef _RTL8192C_RECV_H_
--#define _RTL8192C_RECV_H_
--
--#define MAX_RECVBUF_SZ (10240)
--
--struct phy_stat {
--	unsigned int phydw0;
--
--	unsigned int phydw1;
--
--	unsigned int phydw2;
--
--	unsigned int phydw3;
--
--	unsigned int phydw4;
--
--	unsigned int phydw5;
--
--	unsigned int phydw6;
--
--	unsigned int phydw7;
--};
--
--/*  Rx smooth factor */
--#define	Rx_Smooth_Factor (20)
--
--#endif
-diff --git a/drivers/staging/rtl8723bs/include/rtl8723b_recv.h b/drivers/staging/rtl8723bs/include/rtl8723b_recv.h
-index e9ebecb224a6..31ad1182f0cf 100644
---- a/drivers/staging/rtl8723bs/include/rtl8723b_recv.h
-+++ b/drivers/staging/rtl8723bs/include/rtl8723b_recv.h
-@@ -7,7 +7,21 @@
- #ifndef __RTL8723B_RECV_H__
- #define __RTL8723B_RECV_H__
- 
--#include <rtl8192c_recv.h>
-+#define MAX_RECVBUF_SZ (10240)
-+
-+struct phy_stat {
-+	unsigned int phydw0;
-+	unsigned int phydw1;
-+	unsigned int phydw2;
-+	unsigned int phydw3;
-+	unsigned int phydw4;
-+	unsigned int phydw5;
-+	unsigned int phydw6;
-+	unsigned int phydw7;
-+};
-+
-+/* Rx smooth factor */
-+#define Rx_Smooth_Factor (20)
- 
- struct rxreport_8723b {
- 	/* DWORD 0 */
-diff --git a/drivers/staging/rtl8723bs/include/rtw_ht.h b/drivers/staging/rtl8723bs/include/rtw_ht.h
-index da3efba7112a..326b43905f8e 100644
---- a/drivers/staging/rtl8723bs/include/rtw_ht.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_ht.h
-@@ -51,7 +51,6 @@ enum {
- 	RT_HT_CAP_USE_WOW = 0x8,
- 	RT_HT_CAP_USE_SOFTAP = 0x10,
- 	RT_HT_CAP_USE_92SE = 0x20,
--	RT_HT_CAP_USE_88C_92C = 0x40,
- 	RT_HT_CAP_USE_AP_CLIENT_MODE = 0x80,	/*  AP team request to reserve this bit, by Emily */
- };
- 
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index 3468d4114f60..596f3b169bca 100644
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -1160,8 +1160,8 @@ static int rtw_cfg80211_set_probe_req_wpsp2pie(struct adapter *padapter, char *b
- 	return ret;
- }
- 
--static int cfg80211_rtw_scan(struct wiphy *wiphy
--	, struct cfg80211_scan_request *request)
-+static int cfg80211_rtw_scan(struct wiphy *wiphy,
-+			     struct cfg80211_scan_request *request)
- {
- 	struct net_device *ndev = wdev_to_ndev(request->wdev);
- 	int i;
-@@ -1248,7 +1248,7 @@ static int cfg80211_rtw_scan(struct wiphy *wiphy
- 	}
- 
- 	/* parsing channels, n_channels */
--	memset(ch, 0, sizeof(struct rtw_ieee80211_channel) * RTW_CHANNEL_SCAN_AMOUNT);
-+	memset(ch, 0, sizeof(ch));
- 	for (i = 0; i < request->n_channels && i < RTW_CHANNEL_SCAN_AMOUNT; i++) {
- 		ch[i].hw_value = request->channels[i]->hw_value;
- 		ch[i].flags = request->channels[i]->flags;
-@@ -1257,13 +1257,18 @@ static int cfg80211_rtw_scan(struct wiphy *wiphy
- 	spin_lock_bh(&pmlmepriv->lock);
- 	if (request->n_channels == 1) {
- 		for (i = 1; i < survey_times_for_one_ch; i++)
--			memcpy(&ch[i], &ch[0], sizeof(struct rtw_ieee80211_channel));
--		_status = rtw_sitesurvey_cmd(padapter, ssid, RTW_SSID_SCAN_AMOUNT, ch, survey_times_for_one_ch);
-+			memcpy(&ch[i], &ch[0], sizeof(ch[0]));
-+		_status = rtw_sitesurvey_cmd(padapter, ssid,
-+					     RTW_SSID_SCAN_AMOUNT, ch,
-+					     survey_times_for_one_ch);
- 	} else if (request->n_channels <= 4) {
- 		for (j = request->n_channels - 1; j >= 0; j--)
- 			for (i = 0; i < survey_times; i++)
--				memcpy(&ch[j * survey_times + i], &ch[j], sizeof(struct rtw_ieee80211_channel));
--		_status = rtw_sitesurvey_cmd(padapter, ssid, RTW_SSID_SCAN_AMOUNT, ch, survey_times * request->n_channels);
-+				memcpy(&ch[j * survey_times + i], &ch[j],
-+				       sizeof(ch[0]));
-+		_status = rtw_sitesurvey_cmd(padapter, ssid,
-+					     RTW_SSID_SCAN_AMOUNT, ch,
-+					     survey_times * request->n_channels);
- 	} else {
- 		_status = rtw_sitesurvey_cmd(padapter, ssid, RTW_SSID_SCAN_AMOUNT, NULL, 0);
- 	}
+-- find and remove any code for other chips that is left over
+-- convert any remaining unusual variable types
+-- checkpatch.pl fixes - most of the remaining ones are lines too long. Many
+-  of them will require refactoring
+-- merge Realtek's bugfixes and new features into the driver
+-- switch to use MAC80211
++- Partial: remove remaining code for other chips that is left over. Unused
++  non-8723B AMPDU burst enum values and unused 8188E ODM fields have been
++  removed, but more legacy code remains.
++- Partial: convert unusual variable types. The channel control APIs and rate
++  helpers now use kernel fixed-width types, but more legacy types remain.
++- Partial checkpatch.pl fixes: several overlong callback and scan-list lines
++  have been wrapped, but many warnings remain and will require refactoring.
++- Merge Realtek's bugfixes and new features into the driver.
++- Switch to use MAC80211.
 -- 
 2.55.0
 
