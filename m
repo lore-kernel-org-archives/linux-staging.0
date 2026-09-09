@@ -1,43 +1,43 @@
-Received: from mail-24426.protonmail.ch (mail-24426.protonmail.ch [109.224.244.26])
+Received: from mail-4325.protonmail.ch (mail-4325.protonmail.ch [185.70.43.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A34C448F018
-	for <linux-staging@lists.linux.dev>; Wed,  9 Sep 2026 13:34:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.26
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 605825678DE
+	for <linux-staging@lists.linux.dev>; Wed,  9 Sep 2026 13:35:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788960881; cv=none; b=JIXI0SfTYGSp8pMHUhQIYLFSewqS/Z9mNwYJ9BVjw8IqmolWdrG5IkhNg7JU0HLyf3tMDqTDwjdvUEyGtLxeBlltTlF1lOjKW6PfHItkD5BUbTE+a5V9ypk9H2ZXHvZf0rQnvyjUpXDfefR77EN2Wdzi31q9n2NZSmbODbnF2ow=
+	t=1788960941; cv=none; b=F20K6oK+yhxN7NoyE1Cf2dnbHlxxzSRhzLePCxLj1vEKH9S5ZGpqFzBRN/XGVMV2/VlI89//sq6tEiSyfJGVjevH70ZDWpKO56DPXZm3J6z5JJkXYrK6E9ZjLMD+7hTzT1YK+nhyyUNBYKTHdAeml+d/KvCj06hTZE9NazZvF+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788960881; c=relaxed/simple;
-	bh=BloOMKHIN/KX5c3cWXn/N38e2N+NLd78K9oN4TTWCdU=;
+	s=arc-20240116; t=1788960941; c=relaxed/simple;
+	bh=UvIq/cjJV1hrTOlrWNf3iiQyvG0huFuuj7qysrrM2u8=;
 	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Dl6g59otua4SoplISSGOrvHA7rhvx5W8Xr28fU7exAmaxsFXXKUV1qgneJ2L/Slc08i1079MIvdaaZkEwpB4P0DbnnFlDoMOImOZvt14akoM/2DZDR/lgLNsq2jXTbJfScl+u1dwgSw6S1RDep9m8rLQvPGaplWm+yKsjVwNZoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=Yf31xWyh; arc=none smtp.client-ip=109.224.244.26
+	 MIME-Version:Content-Type; b=DsZqM10HSsXAnddBAoIUH8KvR9UAOtk6tGIna/+YJGVQYLQXQTfOy6+tE+KebaXPBN3FR75fwFFjNaiio6MqNaTZugp8f2cVXUOo5OhFFMnANucvyR4DLGzHvDO2UhyBI95CVPKJF2oS7IOngtDv9gNDUWkJXBdUD/7iikx2pE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=IsLU78/n; arc=none smtp.client-ip=185.70.43.25
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="Yf31xWyh"
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="IsLU78/n"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1788960869; x=1789220069;
-	bh=Tm20JErTb17gkaj6mhVlrMMtBoKmsO01Z2wpdn3c/cw=;
+	s=protonmail; t=1788960929; x=1789220129;
+	bh=8FP9wEWR+OQlwhcDhoPZ/PVqsFTANFAKvO8FGTeDz5s=;
 	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
 	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
 	 Message-ID:BIMI-Selector;
-	b=Yf31xWyhJZzHCbS0hOo2W32g1/LqflvyhaClukFlkvsluTRfQCBVyU/HYcM+qage8
-	 W1IwDF9Q9Dh3woyy9GR1AU/75FmpdX4xtSRBZnoYebZPPGeGFlxkRNLvf6huYHgrTR
-	 YbRyOVABWnqK36ynYmmlmz0aNDNY2/lhZLQ7XU9mLX3vAmk1fmlUewvMQ+9JuHqh/B
-	 5vkPBq0LaRuGU1DpqBH2sNmWEPU8CxzgyUIuOCjHgGvEAkTFjdjFHVFB4sQpYgx0o2
-	 AGouPiyi5nOyf/CxsEq3lgBT9lK8aC9DQuwgwLWLH/h1GFVWo0ckoO6RTz9nY/jWqz
-	 bPEyWwyDc5e/g==
-Date: Wed, 09 Sep 2026 13:34:25 +0000
+	b=IsLU78/nM9lNpcWcpMwTAnDNWCElDiEwffkCVgRIlLxY+ydaX3ujG/Jn2RkgzL1RR
+	 OGvyg3Euo6jRpusAnLX/2f8npgfJrIBzDY+KfffjCPgsdJ9/q0OTlCbiYIU5z/J/XH
+	 HGvp/n8XCPpg6Si3CqoLAoy4m7LridPSe7iktxNZhFKKn+zTWqqdgJtwQF0CLOmL7J
+	 t+BElI4ppSVVzYWzhyJ1vXThJGxqH+9hBy+fXxIz03TQfT9ozGpJjrYKSPZvbbqFA2
+	 gnqG2pV3HaKkqbWz4/zhHcMVZ0uf5RWCfCVOD7lE+ICfdPjPDHxRa7u+v20ceIkPe2
+	 fC855vEIag/Fw==
+Date: Wed, 09 Sep 2026 13:35:23 +0000
 To: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
 From: contectforbusiness@proton.me
-Cc: "rmfrfs@gmail.com" <rmfrfs@gmail.com>, "johan@kernel.org" <johan@kernel.org>, "elder@kernel.org" <elder@kernel.org>, "greybus-dev@lists.linaro.org" <greybus-dev@lists.linaro.org>, "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/2] staging: greybus: light: add comments to mutex definitions
-Message-ID: <82IpRn2GeeiiJ7A0nu21Sh7caAUbiZ4W3Nu0hTGr5akY0RN5Z4iyzDsDe-AVuoVX73apT9o-1zS1fSZnluND46kDGLnMc-qa8gFPSwscpMk=@proton.me>
-In-Reply-To: <PqjvDjNm1A3nH3BCu_rlHx6YLIzrr0r8McQL1Xbg5GX6VcF6GW49nKPhkTIcHashk4ktOEARq8_izQ6xyFqeWAliK0JqQ8MMPOrFIXSowcw=@proton.me>
-References: <PqjvDjNm1A3nH3BCu_rlHx6YLIzrr0r8McQL1Xbg5GX6VcF6GW49nKPhkTIcHashk4ktOEARq8_izQ6xyFqeWAliK0JqQ8MMPOrFIXSowcw=@proton.me>
+Cc: "sudipm.mukherjee@gmail.com" <sudipm.mukherjee@gmail.com>, "teddy.wang@siliconmotion.com" <teddy.wang@siliconmotion.com>, "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>, "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/2] staging: sm750fb: make g_fbmode const to fix checkpatch warning
+Message-ID: <z52NAZ-Y9CZbDesqE3fyIEJdUIJnqeIXj6HhArNIjnT8tw7wQcT6uhT7KdZlC7h11AB5X8AQG1EG96GalUwNUGtCy6XFKqCkeazSTpmEzPk=@proton.me>
+In-Reply-To: <KW1s60gR5As9PdhLGq5MQYR9QPxr-tCZUn_dxvjME1PM6lW4ilRIG0gq8mbir7y9oBSlnEIhPq-EkEjHkruVnDNZpsJ-2OF2OIAEZLEZs7E=@proton.me>
+References: <KW1s60gR5As9PdhLGq5MQYR9QPxr-tCZUn_dxvjME1PM6lW4ilRIG0gq8mbir7y9oBSlnEIhPq-EkEjHkruVnDNZpsJ-2OF2OIAEZLEZs7E=@proton.me>
 Feedback-ID: 147676893:user:proton
-X-Pm-Message-ID: 3d02291fe725664cbdf4922232a49172afb0aaf9
+X-Pm-Message-ID: d48efaa0481a959b39cf2c693198d246cb67d856
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,41 +47,33 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-checkpatch complains about:
+checkpatch reports:
 
-  CHECK: struct mutex definition without comment
+  WARNING: static const char * array should probably be
+  static const char * const
 
-Add short comments describing what each mutex protects. The
-channel lock protects the channel state and lights_lock protects
-the lights array.
+g_fbmode is never modified, so make the pointers const as well.
+This quiets the warning and makes the intent clearer.
 
-No functional change, just quiets checkpatch.
+No functional change.
 
 Signed-off-by: Vaibhav Agarwal <contectforbusiness@proton.me>
 ---
- drivers/staging/greybus/light.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/sm750fb/sm750.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/greybus/light.c b/drivers/staging/greybus/ligh=
-t.c
-index cab02b5da..a036fa2a0 100644
---- a/drivers/staging/greybus/light.c
-+++ b/drivers/staging/greybus/light.c
-@@ -37,7 +37,7 @@ struct gb_channel {
- =09bool=09=09=09=09releasing;
- =09bool=09=09=09=09strobe_state;
- =09bool=09=09=09=09active;
--=09struct mutex=09=09=09lock;
-+=09struct mutex=09=09=09lock; /* protects channel */
- };
-=20
- struct gb_light {
-@@ -59,7 +59,7 @@ struct gb_lights {
- =09struct gb_connection=09*connection;
- =09u8=09=09=09lights_count;
- =09struct gb_light=09=09*lights;
--=09struct mutex=09=09lights_lock;
-+=09struct mutex=09=09lights_lock; /* protects lights */
- };
-=20
- static void gb_lights_channel_free(struct gb_channel *channel);
+diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm75=
+0.c
+index 039e2033f..f731ef53e 100644
+--- a/drivers/staging/sm750fb/sm750.c
++++ b/drivers/staging/sm750fb/sm750.c
+@@ -12,7 +12,7 @@
+ static int g_hwcursor =3D 1;
+ static int g_noaccel __ro_after_init;
+ static int g_nomtrr __ro_after_init;
+-static const char *g_fbmode[] =3D {NULL, NULL};
++static const char * const g_fbmode[] =3D {NULL, NULL};
+ static const char *g_def_fbmode =3D "1024x768-32@60";
+ static char *g_settings;
+ static int g_dualview __ro_after_init;
+
