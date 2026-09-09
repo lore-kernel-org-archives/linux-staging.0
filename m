@@ -1,253 +1,112 @@
-Received: from mta1.migadu.com (out-3.mta1.migadu.com [95.215.58.3])
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 114B7471425
-	for <linux-staging@lists.linux.dev>; Wed,  9 Sep 2026 08:06:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 915AB471246
+	for <linux-staging@lists.linux.dev>; Wed,  9 Sep 2026 08:30:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1788941193; cv=none; b=VJEiaZXgre3HODdEBv8I8ThSb7bOyKfMf+3pFdCenX34sNSqUATE7oFYVwN1UofuYxHD7MDiVaZP4CHmeKKaROC6bpJ88GnrxuIGw6+uX3tGdX2/N09mIgX3h3EvL83W/UnqeBo8ITskA9wqrooWDWEcLH55yDMvAFcBBPqOYDg=
+	t=1788942645; cv=none; b=A2/1lggz0FUp9wo/munmej3+4Qu11lLqjNyVVuSPVLal3NYpooZE2MlrFe7wuzFPJZSMqcggPuNN8zzqVsl/8JsN40q7g5lbZHiuALY2lcL7PLhHaXTZKYK+4dNzSm7nUzkjiMRuYAloddMUY7jUxBDrn3vxuQ5l26Xb9PePhlk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1788941193; c=relaxed/simple;
-	bh=X0VVMqtqhabg0hwIACKcoi18owcvsnF4Ppg5xDj9FAs=;
-	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc; b=KSwMc0xfDxsJOke4nBT77vrPC/Pw35qxESRzyTsFdQlcB2rb+xb58WQL990QovS/WlE01XSC9LV5Zc7W+V7RAp/c8HMrxd+4QQIE1Cdyx23hxMn3qqxfMvxsyczsv/LP/r6jR+QZPsennxb3c0tvIyV1ZygFmZf62MAfe+JNNXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=vxHcvEaV; arc=none smtp.client-ip=95.215.58.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1788942645; c=relaxed/simple;
+	bh=83UV4H5oW9GOVXeVr5VHR3mV8RREjaWoBNG1Uyn41Ew=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=W7Ixgj09nBJrPM+Da6EwStphS0t5vODq+tMvlVIgBeWKnVPpmbeikyW4IZ2qdPlTB29c3PGo+hkkiGAuJiDgCCk/cmE9rRSUhILMUTCGjMkU80qwnkB+LRHpyGtHMJUa/VKnNxfTuG2AmYE75ynsdSEcJTSMRdcT+4P59JRxOZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X1ECGomc; arc=none smtp.client-ip=209.85.216.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="vxHcvEaV"
-X-Envelope-To: linux-staging@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=X0VVMqtqhabg0hwIACKcoi18owcvsnF4Ppg5xDj9FAs=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1788941188; v=1; x=1789545988;
- b=vxHcvEaVnh3m2vSNW+TFY2FAogd/6rE2Uwfbx0x7ZjeQHsBe+NGmQa+qBfSn9KNKAucB7JzE
- 9/Q+MEA66vBA1rcDpIxycJz5Jn+7shwycOU/rawBLu9W+H7cS87gRHZkIzUBompxnQqKAP5faTp
- H+HP49JgrCMftM19ROkTx5n4=
-X-Envelope-To: linux-staging@lists.linux.dev
-Received: by smtp.migadu.com with ESMTPS id 59050e53383ca244;
-	Wed, 09 Sep 2026 08:06:27 +0000
-X-Mizu-Trace-ID: 59050e53383ca244
-X-Migadu-Flow: FLOW_OUT
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X1ECGomc"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-39b24d114d4so5934583a91.3
+        for <linux-staging@lists.linux.dev>; Wed, 09 Sep 2026 01:30:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788942639; x=1789547439; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=fHN/SN9hwaOzGl3hreMqIt0mqEZ3PQOgvVl19lBg7Nw=;
+        b=X1ECGomcthQTeCfmmohbMaxmEm//Pw3f1L+v8E759QdX7LbdHhUHDqsx/Bo5CEgiZ5
+         ukKqsB2ZbqTpfTVR5snEkBtVFpLys3XPYhr13CBXGd/JFp3JxKmHKosciF/3FduiSp/F
+         zO/8By4+gBPozh54aJOFJ8XAHRPiIRITQwpUK+HEqy7+GyqCWiYSdGY2ikQv/VqqyT/1
+         Jn+M+G54MneBlT1SYS+TLanZhasFw7WII3u93LTPgdd5IFhqZxqemesifSp9VR6FDhwg
+         b/1paFTxLe4Zk7u4Lz8jkHag7Oft3IV52L4hnw4xrVwMv+EAe+HM5oiCmsFLfAFTvD4o
+         RKGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788942639; x=1789547439;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=fHN/SN9hwaOzGl3hreMqIt0mqEZ3PQOgvVl19lBg7Nw=;
+        b=gZo+LN2Ih3wSvEL9ZOZzqzvxA8KxhyYuI3VevT9PKjjGXBIlAYlDDPMQOiMJGMmzRj
+         qEncH27WsaYlBUWDYLYy3InhsL+c5GXfTF+fJmBmr5yc1P0DKZsJ0IveAIrZI6milN9H
+         +xzMKjWw11m5JxPjU4iNQkIaMKB8tLGRaLSHhoEXfITv69FhgQYhf5p4aa8R94p5/fMx
+         flG4qePiue5cxZHRECYkHYZk23JRTHdu6Dr2ObBfxXo18GM0DmSptLMtsg/6zJw7i7TF
+         tvObm51xHFjiyDyDr7/HVXTEqJM4jMM0uxl5rlCBd6LhHc4cL+DaNrg+MAzl0nur/sQ4
+         Fmsw==
+X-Forwarded-Encrypted: i=1; AKwUvBwK7iEy+n9K2I0rGxjIykn4yv1xqyx5EWE0T0DB6HF5zygEO5Rj0Ajgd5GOouaIOhFSmjcRX8NvAmNWrvtV@lists.linux.dev
+X-Gm-Message-State: AFuF++mQmpjJ7v5BJT4+rSCvUhUo2hO8j2RKVmO8rlmXrtH9c+OID1mo
+	uz89YsEAZoYjL/K2qeuxzJCjDIA3RWL0PMZNe8CC3YEqcG+UAxGe98wh
+X-Gm-Gg: AYBFou3geSzcllrSOO2VBT3gkAByQDj5PF76jvPXTB4kjkTNhy9uiFVHGeZ/YwzZJx8
+	vPodKD/6y0+Szb+/qo0Ug2mMPXKrivUDb9IpNgtipaevTg0b27P3D5yK4JAPNiSYIC3E92Hi0Di
+	ZW3yGN/1nQZS6OBLNAwUidIiI36pbFPCWXVBo5e7VTMPcjBvgsW6zj6Y5/VMdWlzB1G3Ff7q3zf
+	W8sp8QU5bWlu7wAzuJRPGHIB0tyuWIPYfNfA1WWD150YTmXyWUjTeXRpX+frqk5ZEsK/IprTWgY
+	vKhZWJJleB4x50Im4ztjOHx+3tx9VF2+3LG4L+YCsp8l8/TwuTAEyeFurVUPDu05maGvPM4WPdk
+	hIm2e1k8I2ukxGSML9YLXmkEAAJZ2EVYTCxPrmQ/tmAByDBVDG685Kx4b/TRmq6q16HVDpI8RYd
+	OWjybi1RMgOVYMq/Nf6HtNSrBGznd8VD8Hb+1rkch1acGAHELh6XZ6oHczvYFT+tu8ht/ZdVGEa
+	3BVav3S0DuHpRs=
+X-Received: by 2002:a17:90b:2ccd:b0:398:9c00:29f0 with SMTP id 98e67ed59e1d1-39b2628fc25mr54300617a91.24.1788942638681;
+        Wed, 09 Sep 2026 01:30:38 -0700 (PDT)
+Received: from isaac-aneek-MS-7C52 ([103.74.86.148])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33987ccf483sm1439095eec.20.2026.09.09.01.30.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Sep 2026 01:30:38 -0700 (PDT)
+From: Isaac Aneek Sarker <alvasarker2004@gmail.com>
+To: 
+Cc: alvasarker2004@gmail.com,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Nikolay Kulikov <nikolayof23@gmail.com>,
+	Andrei Khomenkov <khomenkov@mailbox.org>,
+	Dalvin-Ehinoma Noah Aiguobas <fliegbert2@gmail.com>,
+	Khushal Chitturi <khushalchitturi@gmail.com>,
+	Minu Jin <s9430939@naver.com>,
+	Anirban Bose <boses156@gmail.com>,
+	Khasar Munkh-Erdene <02khasar@gmail.com>,
+	Jennifer Guo <guojy.bj@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rtl8723bs: fix unnecessary else block with only a break statement
+Date: Wed,  9 Sep 2026 14:29:38 +0600
+Message-ID: <20260909083010.13064-1-alvasarker2004@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Wed, 09 Sep 2026 08:06:26 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-From: "Tianchu Chen" <tianchu.chen@linux.dev>
-Message-ID: <8ee3bdd1c45034200cb1aa9a7e9b575b9584643a@linux.dev>
-TLS-Required: No
-Subject: [PATCH v3] staging: rtl8723bs: fix protected RX frame validation in 
- decrypt path
-To: gregkh@linuxfoundation.org, hansg@kernel.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: 8bit
 
-From: Tianchu Chen <flynnnchen@tencent.com>
+Warning found by checkpatch.pl : else is not generally useful after a
+break or return. The function would reach the break statement after
+if-elseif block even if the else block is not used.
 
-The RX software decrypt path mishandles crafted protected frames from a
-malicious AP in two ways:
-
-1) decryptor() never checks that a protected frame is long enough to
-hold the 802.11 header plus the per-cipher trailer.  All of
-rtw_wep_decrypt(), rtw_tkip_decrypt() and rtw_aes_decrypt() compute
-
-	length =3D hdr.len - hdrlen - iv_len;
-
-and act on the result, and recvframe_chkmic() similarly computes
-
-	datalen =3D hdr.len - hdrlen - iv_len - icv_len - 8;
-
-for TKIP (the 8-byte Michael MIC is not accounted for in icv_len).
-A frame shorter than hdrlen + iv_len + icv_len (+ 8 for TKIP) underflows
-these unsigned subtractions, turning into a ~4 GiB iteration count in
-aes_decipher()/arc4_crypt()/rtw_seccalctkipmic() or a ~4 GiB crc32_le()
-length, causing out-of-bounds reads/writes of up to ~4 GiB starting from
-the rx skb.  Reject such frames in decryptor() before touching the IV;
-this covers all three ciphers and the TKIP MIC check, and also keeps the
-unconditional iv[3] access within the frame.
-
-2) validate_80211w_mgmt() keeps using the frame - two memcpys through
-the stale rx_data pointer and a pkt_len update - before checking
-whether decryptor() returned NULL.  On decrypt failure (e.g. a unicast
-protected deauth/disassoc/action frame with a bad MIC, which this path
-always software-decrypts) the skb has already been freed, so this is a
-use-after-free read/write, and the caller's error path frees the frame
-a second time, drifting free_recvframe_cnt.  Bail out immediately when
-decryptor() fails, freeing the temporary mgmt_DATA buffer first.
-
-Discovered by Atuin - Automated Vulnerability Discovery Engine.
-
-Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
-Assisted-by: LLM
-Cc: stable@vger.kernel.org
-Signed-off-by: Tianchu Chen <flynnnchen@tencent.com>
+Signed-off-by: Isaac Aneek Sarker <alvasarker2004@gmail.com>
 ---
-v3: improve formatting.
-v2: no code change; adds the real-hardware test report requested for
-LLM-assisted staging patches.
+ drivers/staging/rtl8723bs/core/rtw_recv.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Test report
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D
-
-Victim:   Wintel CX-W8 mini PC (Atom Z3735F, on-board RTL8723BS chip, sta=
-ging r8723bs,
-          Debian 13.6.0/Kernel 6.12.94), bought from the second-hand mark=
-et for this
-          test.
-Attacker: ESP32-S3 dev board running custom firmware as a rogue AP. Patch=
-ing a proprietary
-          library is needed. Details available to reviewers upon request.
-
-The decryptor bug is reachable at the association stage: the vulnerable d=
-ecrypt
-path is taken before any key is installed, so the attacker never needs
-to pass key verification - the rogue AP's PSK does not need to match
-the victim's. Knowing an SSID the victim will auto-join is enough.
-
-Once the victim associates, the rogue AP send 802.11 data frames
-with FromDS + Protected bit set and a total length of 24..31 bytes,
-i.e. shorter than their own CCMP IV (hdrlen 24 + iv_len 8).  With no
-key in the HW CAM the frames reach decryptor() with bdecrypted =3D=3D 0,
-and rtw_aes_decrypt() computes length =3D (24..31) - 24 - 8, a ~4 GiB
-underflow fed straight into aes_decipher().
-
-Result: the victim kernel panics within seconds of association.
-Captured via netconsole:
-
-[  939.937797] Oops: general protection fault, probably for non-canonical=
- address 0x6de15a87d1c57856: 0000 [#1] PREEMPT SMP PTI
-[  939.938075] CPU: 3 UID: 0 PID: 1637 Comm: Xorg Tainted: G         C   =
-      6.12.94+deb13-amd64 #1  Debian 6.12.94-1
-[  939.938288] Tainted: [C]=3DCRAP
-[  939.938368] Hardware name: Insyde Intel CX-W8/Intel CX-W8, BIOS M.W8RA=
-AA01 04/17/2015
-[  939.938515] RIP: 0010:i915_gem_do_execbuffer+0xbd1/0x2950 [i915]
-[  939.939945] Code: e2 fe 48 89 50 20 48 8d 74 24 58 4c 89 e9 48 8d 7c 2=
-4 60 44 89 f2 e8 ce c2 ff ff 85 c0 0f 85 9d 03 00 00 49 8b bd b8 00 00 00=
- <48> 83 bf 50 04 00 00 00 74 31 e8 10 1b 01 00 85 c0 0f 85 91 18 00
-[  939.940255] RSP: 0018:ffffccdfc0b17788 EFLAGS: 00010246
-[  939.940382] RAX: 0000000000000000 RBX: 0000000000000009 RCX: 00000000f=
-ffffff5
-[  939.940524] RDX: 0000000000000001 RSI: ffff8c5aa8d4d800 RDI: 6de15a87d=
-1c57406
-[  939.940664] RBP: 00000000000001f8 R08: ffff8c5aa92e4a90 R09: ffff8c5aa=
-a953518
-[  939.940805] R10: 0000000000000000 R11: 0000000000000000 R12: 000000000=
-00003a9
-[  939.940942] R13: ffff8c5af99f1680 R14: 0000000000000009 R15: 000000000=
-0000000
-[  939.941081] FS:  00007f3856594b00(0000) GS:ffff8c5afb980000(0000) knlG=
-S:0000000000000000
-[  939.941238] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  939.941358] CR2: 00007f3856155770 CR3: 000000002b7e6000 CR4: 000000000=
-01026f0
-[  939.941500] Call Trace:
-[  939.941579]  <TASK>
-[  939.941702]  i915_gem_execbuffer2_ioctl+0x13b/0x260 [i915]
-[  939.943134]  ? __pfx_i915_gem_execbuffer2_ioctl+0x10/0x10 [i915]
-[  939.944543]  drm_ioctl_kernel+0xb0/0x100 [drm]
-[  939.945069]  drm_ioctl+0x277/0x4d0 [drm]
-[  939.945571]  ? __pfx_i915_gem_execbuffer2_ioctl+0x10/0x10 [i915]
-[  939.946997]  __x64_sys_ioctl+0x97/0xc0
-[  939.947119]  do_syscall_64+0x87/0x1b0
-[  939.947235]  ? timerqueue_del+0x2e/0x50
-[  939.947343]  ? tomoyo_init_request_info+0x99/0xc0
-[  939.947470]  ? tomoyo_path_number_perm+0x8c/0x1f0
-[  939.947589]  ? ww_mutex_lock_interruptible+0x18/0x80
-[  939.947725]  ? i915_gem_madvise_ioctl+0x239/0x340 [i915]
-[  939.949150]  ? __pfx_i915_gem_madvise_ioctl+0x10/0x10 [i915]
-[  939.950571]  ? drm_ioctl_kernel+0xb0/0x100 [drm]
-[  939.951086]  ? __check_object_size+0x50/0x210
-[  939.955215]  ? _copy_to_user+0x36/0x50
-[  939.959506]  ? drm_ioctl+0x2a1/0x4d0 [drm]
-[  939.964159]  ? __pfx_i915_gem_madvise_ioctl+0x10/0x10 [i915]
-[  939.969804]  ? arch_exit_to_user_mode_prepare.isra.0+0x16/0xa0
-[  939.974146]  ? syscall_exit_to_user_mode+0x37/0x1b0
-[  939.978488]  ? do_syscall_64+0x93/0x1b0
-[  939.982872]  ? arch_exit_to_user_mode_prepare.isra.0+0x16/0xa0
-[  939.987300]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-[  939.991768] RIP: 0033:0x7f385691491b
-[  939.996285] Code: 00 48 89 44 24 18 31 c0 48 8d 44 24 60 c7 04 24 10 0=
-0 00 00 48 89 44 24 08 48 8d 44 24 20 48 89 44 24 10 b8 10 00 00 00 0f 05=
- <89> c2 3d 00 f0 ff ff 77 1c 48 8b 44 24 18 64 48 2b 04 25 28 00 00
-[  940.001138] RSP: 002b:00007ffdb0cf6710 EFLAGS: 00000246 ORIG_RAX: 0000=
-000000000010
-[  940.006061] RAX: ffffffffffffffda RBX: 0000564e32defb08 RCX: 00007f385=
-691491b
-[  940.011048] RDX: 00007ffdb0cf6790 RSI: 0000000040406469 RDI: 000000000=
-0000013
-[  940.016090] RBP: 0000000000000000 R08: 0000000000000000 R09: 000000000=
-0000004
-[  940.021150] R10: 0000000000000020 R11: 0000000000000246 R12: 00007ffdb=
-0cf6790
-[  940.026256] R13: 0000564e32dc3a50 R14: 00000000000000dc R15: 000000000=
-0000013
-[  940.031431]  </TASK>
-
-The oops surfacing in i915 rather than in the driver is expected:
-A non-canonical garbage pointer in an unrelated subsystem is the expected
-signature of the multi-GB linear decipher starting from the rx skb.
-
- drivers/staging/rtl8723bs/core/rtw_recv.c | 21 ++++++++++++++++++---
- 1 file changed, 18 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/=
-rtl8723bs/core/rtw_recv.c
-index 7568fc514d7ce..4756e0fedd46f 100644
+diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
+index 3c82012fdc6c..a203ef8bd6f6 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_recv.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
-@@ -426,8 +426,21 @@ static union recv_frame *decryptor(struct adapter *p=
-adapter, union recv_frame *p
- 	u32  res =3D _SUCCESS;
-=20
-=20	if (prxattrib->encrypt > 0) {
--		u8 *iv =3D precv_frame->u.hdr.rx_data + prxattrib->hdrlen;
-+		u8 *iv;
-+		u32 min_len =3D prxattrib->hdrlen + prxattrib->iv_len + prxattrib->icv=
-_len;
-=20
-+=09	/* TKIP appends an 8-byte Michael MIC that icv_len doesn't account f=
-or */
-+		if (prxattrib->encrypt =3D=3D _TKIP_)
-+			min_len +=3D 8;
+@@ -1789,8 +1789,8 @@ static int enqueue_reorder_recvframe(struct recv_reorder_ctrl *preorder_ctrl, un
+ 			/* Duplicate entry is found!! Do not insert current entry. */
+ 			/* spin_unlock_irqrestore(&ppending_recvframe_queue->lock, irql); */
+ 			return false;
+-		else
+-			break;
 +
-+		/* a protected frame must be long enough to hold the IV and ICV/MIC */
-+		if (precv_frame->u.hdr.len < min_len) {
-+			rtw_free_recvframe(precv_frame,
-+					   &padapter->recvpriv.free_recv_queue);
-+			return NULL;
-+		}
-+
-+		iv =3D precv_frame->u.hdr.rx_data + prxattrib->hdrlen;
- 		prxattrib->key_index =3D (((iv[3]) >> 6) & 0x3);
-=20
-=20		if (prxattrib->key_index > WEP_KEYS) {
-@@ -1395,6 +1408,10 @@ static signed int validate_80211w_mgmt(struct adap=
-ter *adapter, union recv_frame
- 			if (!mgmt_DATA)
-=20				goto validate_80211w_fail;
- 			precv_frame =3D decryptor(adapter, precv_frame);
-+			if (!precv_frame) {
-+				kfree(mgmt_DATA);
-+				goto validate_80211w_fail;
-+			}
- 			/* save actual management data frame body */
- 			memcpy(mgmt_DATA, ptr + pattrib->hdrlen + pattrib->iv_len, data_len);
- 			/* overwrite the iv field */
-@@ -1402,8 +1419,6 @@ static signed int validate_80211w_mgmt(struct adapt=
-er *adapter, union recv_frame
- 			/* remove the iv and icv length */
- 			pattrib->pkt_len =3D pattrib->pkt_len - pattrib->iv_len - pattrib->ic=
-v_len;
- 			kfree(mgmt_DATA);
--			if (!precv_frame)
--				goto validate_80211w_fail;
- 		} else if (is_multicast_ether_addr(GetAddr1Ptr(ptr)) &&
- 			(subtype =3D=3D WIFI_DEAUTH || subtype =3D=3D WIFI_DISASSOC)) {
- 			signed int BIP_ret =3D _SUCCESS;
---=20
-2.51.0
++		break;
+ 	}
+ 
+ 	/* spin_lock_irqsave(&ppending_recvframe_queue->lock, irql); */
+-- 
+2.53.0
+
