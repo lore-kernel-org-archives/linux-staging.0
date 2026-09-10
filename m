@@ -1,185 +1,113 @@
-Received: from mta0.migadu.com (out-223.mta0.migadu.com [91.218.175.223])
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C16F3D0934
-	for <linux-staging@lists.linux.dev>; Thu, 10 Sep 2026 08:41:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.223
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48628488DAE
+	for <linux-staging@lists.linux.dev>; Thu, 10 Sep 2026 12:44:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789029688; cv=none; b=hdKCle6g8WsKjxgjZrcmtHaja4/GjEp/KaEA5+P7ZqrTSTlkuutzcwP/BcyrkG43iCLd2dw1gRxOsL4SJgMm6tAkIgqxfYzkqgyyafV78ZRfqLpDTHEWLrNMuaCs42bHNBxZcIC1yakHdcDOQOTbb/rFIyz7HVDYnpkB5GWjaMI=
+	t=1789044274; cv=none; b=bZg1e8TP5hrhFPUaRSdQaQTUywUafdNj0MnB+2f59IubwYPIHc2a4weIIxeaSLk9rwp0MrtKFfBfEeBuyd+XOymy++w1dfqw7vG2mzTlAh0YmzTuJRPzqYq+Z+mg0Bk0taMzXEvgQzLUvXFhQHbhI9qiCJHAuKXZ4Rt7OpH0mWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789029688; c=relaxed/simple;
-	bh=qylLZ1SIaMrhXfONKdy81GiXEDGBxa/m+KiPwamBoKg=;
-	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc:
-	 In-Reply-To:References; b=U4LqyymN9YpHONjKBT3RMPTAQXGOdbtxqxT276aTwLjQhMn3C6edbMjFM/UAf7r1q3OzaVJdWGY55l4RY2d4sqkPijM6bIFZv42zLQkQ5BYHnOBfPPgEfgNUdxKlkdaiAU5Qrf1k7XZhJgwHwyL7AUpYLJWdcn8rlFnKhaTyICk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=qobnmHrx; arc=none smtp.client-ip=91.218.175.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1789044274; c=relaxed/simple;
+	bh=R17Gb+XWftjBcYxyj0I2DLQIm3K0udyH9vg/SmozghE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=crXHJDs8ga5tiHIm2SWyWVOHyb+GFs8ALC0dBZSZuHs8BTp8JutMS61mkzYzMh8q7CHTjMV6bOTI23Krm9k5T4bvyJSCA0DiWSgc8tuez9EdVplx5s0BTMLXWj9YH23/yMg00NvraCe8mw3UJDhwmfpiTl4USllPipuDxGhNUoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P+eqDV2E; arc=none smtp.client-ip=74.125.225.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="qobnmHrx"
-X-Envelope-To: linux-staging@lists.linux.dev
-DKIM-Signature: a=rsa-sha256; bh=qylLZ1SIaMrhXfONKdy81GiXEDGBxa/m+KiPwamBoKg=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1789029677; v=1; x=1789634477;
- b=qobnmHrxMG+4H012iOBuF07zQsO4/TOO6UL9EFBAjwypFoxRq1A3MaGrCfB3YEKXOkmRbKlS
- z+wifzOWw3pNk6/R2C9bqC+fHLKitgVKYuR63G+2+UoKUdljTnOKlshI1UQ8YRJbPs29EPVv8ft
- Y7mtZoHxoGitX6Yx/dKKh5jI=
-X-Envelope-To: linux-staging@lists.linux.dev
-Received: by smtp.migadu.com with ESMTPS id 502bbddc9c24ce59;
-	Thu, 10 Sep 2026 08:41:17 +0000
-X-Mizu-Trace-ID: 502bbddc9c24ce59
-X-Migadu-Flow: FLOW_OUT
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P+eqDV2E"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49ccfd61ecaso14609305e9.3
+        for <linux-staging@lists.linux.dev>; Thu, 10 Sep 2026 05:44:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789044267; x=1789649067; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=1abMDSHbrc6CBNfufK1oYgsczusTwH0/aL3eMH7YTa4=;
+        b=P+eqDV2EfiITxZCwe+mw9mgcgOh9KbW3n1jS5ujPBuBGy3z38SaR2pU8VSTc5BTLnp
+         0ZhFh7kSdGh61ZPgTN4Ph/q69l5/tm/e34spiCKLhcKaMOn4Voe3FLstyrY2L031pk+C
+         dV9wPqY+UlnS7NSMhTuu2SRyXZL3S8CZS84tj6rNdK90KicfpxgTlzoDFwdzArFZnhkR
+         p8DOtayZ++QKdpqCCLB0s6WH4khWj1r6JBuz/cVl+2iEw6m76Bf/6Jq5j/vX9uC3SYbe
+         IZhOz+zgWGyxzuaLHsVG75LJANxxZsa2SV8Gf3JLW7c5A05yrzJTmiZlF6dLP/hnFSkR
+         6ATw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789044267; x=1789649067;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=1abMDSHbrc6CBNfufK1oYgsczusTwH0/aL3eMH7YTa4=;
+        b=SaFTXnZi9V0R0TQC83v+HoqPobexGi6slaMloAY/xuxXADbB4ecSx0yzyDEPeysC6b
+         LlO7ArTPZ5kXVkOY9ysHt8N5agPs7cmiZwYcgi83ImgtAHpaWol58SwZUX+PzGWDCjLr
+         /tyNmVr4WYjLQAvzSmkPCyDy1ZVSFqgyls4CgfHSGMnNdrTRxNQGkJd5S4rbkZ1B9+Re
+         g5liJSyzDF7MQ/yp8nMHQhZLpQuTRpGTWWb7ByDNZfjokb7QVJimYy8SNOH+pmFxBRd+
+         MyA66GJKS8LcGR8JKf6FXNFdW+L51LD8EIz9Zm6s3tBUItbhWHlTQzpiTmqVBFVwgzkk
+         Rlvw==
+X-Forwarded-Encrypted: i=1; AKwUvBw+Q0ycHrlStMcSkRQUPHjwFKVr45Yx10Xg++qxVDgGzuEDqCCF9PtoJwc6ivhYK8bOJORfkTRSF80s9wqU@lists.linux.dev
+X-Gm-Message-State: AFuF++kCjXMlZ9yEUT8b5zCAfsDq3P6V/94apyloXMwA8N52EGCQ6IXl
+	GWf6JDpXgiIF5yBddOjDy392HpB+9DPfYth/dUYdGqo3ow/b5/ie07Un
+X-Gm-Gg: AYBFou0IrXlyGRYw8mrz1Qp6MF4h8SqoCiCC4T6a8iHj+IuHohPp05csheAP/BWpVdz
+	LFtWmH9pSBqFUs8Sa3/Rm9ked4RtD+uzDvR7sbiMJs4tQv84Qg2Tt8LlXYSJesOXs2Lk6hySCko
+	y+ljaHzC5DyGFLBRx27oRDydeYPeixcSv6T0ky23k2e72LN0U/lt3zbDncy6KmJvu755HkNMPyb
+	UcCEZxjFxzqUIXO924nD483m3GVfwXvItcWSbQEOlvMMBiQf8VDIn5gpb/SZ7NHGqEWz3ZsCZW0
+	rmg3M1KnTlGy7aQvS0CJ0vWhibwQgfcZ86CSOheqU0jKFPARTSHMybzXdPgzdMeieItC5HklZff
+	YJ5PuR2dISeYeTsu711CkUzZGg7nDtB4AK65fnGkTlU7Gb+KZtaA11CRi0zg8mfFjEHXp5CujR7
+	bsoDR7k3EnEHuTYWUkY1yVThC2OL+WM+2J1HGwSPb340ip+/P0ne2Tv77ZmSfDfCzdkcY=
+X-Received: by 2002:a05:600c:4695:b0:499:9240:9a1c with SMTP id 5b1f17b1804b1-49d258e3ce3mr65429385e9.15.1789044266950;
+        Thu, 10 Sep 2026 05:44:26 -0700 (PDT)
+Received: from zephyr ([2407:d000:508:1732:c5ca:107f:bc81:7575])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d26be64a5sm69354095e9.6.2026.09.10.05.44.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Sep 2026 05:44:26 -0700 (PDT)
+From: Muhammad Israr <7israr.work@gmail.com>
+To: parthiban.veerasooran@microchip.com,
+	christian.gromm@microchip.com
+Cc: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Muhammad Israr <7israr.work@gmail.com>
+Subject: [PATCH] staging: most: video: add comments to mutex and spinlock definitions
+Date: Thu, 10 Sep 2026 17:44:03 +0500
+Message-ID: <20260910124403.95741-1-7israr.work@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Thu, 10 Sep 2026 08:41:17 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-From: "Tianchu Chen" <tianchu.chen@linux.dev>
-Message-ID: <7d58756ac12f7b324c2d8693b03287b786020fd6@linux.dev>
-TLS-Required: No
-Subject: Re: [PATCH v2] staging: rtl8723bs: fix protected RX frame validation
- in decrypt path
-To: "Greg KH" <gregkh@linuxfoundation.org>
-Cc: hansg@kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-In-Reply-To: <2026090919-stammer-outclass-5c6f@gregkh>
-References: <7848fcb635963ddb8474924ed71fdd687b5d6ec7@linux.dev>
- <2026090714-sneezing-unrated-b0ef@gregkh>
- <aa1496d71e0867c1e04f6442ab97520f531531ca@linux.dev>
- <2026090919-stammer-outclass-5c6f@gregkh>
+Content-Transfer-Encoding: 8bit
 
-September 9, 2026 at 3:44 PM, "Greg KH" <gregkh@linuxfoundation.org mailt=
-o:gregkh@linuxfoundation.org?to=3D%22Greg%20KH%22%20%3Cgregkh%40linuxfoun=
-dation.org%3E > wrote:
+Add comments describing what the list_lock spinlock and lock mutex
+in struct most_video_dev protect, per checkpatch.pl's
+"definition without comment" check.
 
+list_lock protects the pending_mbos list. The mutex is registered
+as vdev->lock and is used by the V4L2 core to serialize
+video_device ioctl calls; it is not locked directly in this file.
 
->=20
->=20On Tue, Sep 08, 2026 at 04:02:15PM +0000, Tianchu Chen wrote:
->=20
->=20>=20
->=20> September 8, 2026 at 12:13 AM, "Greg KH" <gregkh@linuxfoundation.or=
-g mailto:gregkh@linuxfoundation.org?to=3D%22Greg%20KH%22%20%3Cgregkh%40li=
-nuxfoundation.org%3E > wrote:
-> >=20=20
->=20>=20=20
->=20>  -snip-
-> >=20=20
->=20>  >=20
->=20>  > drivers/staging/rtl8723bs/core/rtw_recv.c | 21 +++++++++++++++++=
-+---
-> >  > 1 file changed, 18 insertions(+), 3 deletions(-)
-> >  >=20
->=20>  > diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers=
-/staging/rtl8723bs/core/rtw_recv.c
-> >  > index 7568fc514d7ce..4756e0fedd46f 100644
-> >  > --- a/drivers/staging/rtl8723bs/core/rtw_recv.c
-> >  > +++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
-> >  > @@ -426,8 +426,21 @@ static union recv_frame *decryptor(struct ada=
-pter *padapter, union recv_frame *p
-> >  > u32 res =3D _SUCCESS;
-> >  >=20
->=20>  > if (prxattrib->encrypt > 0) {
-> >  > - u8 *iv =3D precv_frame->u.hdr.rx_data + prxattrib->hdrlen;
-> >  > + u8 *iv;
-> >  > + u32 min_len =3D prxattrib->hdrlen + prxattrib->iv_len + prxattri=
-b->icv_len;
-> >  >=20
->=20>  Why will this not overflow?
-> >=20=20
->=20>  The overflow(without this fix) happens inside the per-suite decryp=
-t routines
-> >  when a received frame is shorter than this minimum. For example:
-> >=20=20
->=20>  rtw_aes_decrypt() computes length =3D len - hdrlen - iv_len, so a
-> >  30-byte frame with hdrlen =3D 26 and iv_len =3D 8 wraps length to ~4=
-GiB,
-> >  and aes_decipher() then iterates num_blocks =3D (plen - 8) / 16 16-b=
-yte
-> >  blocks, reading and writing gigabytes past the skb.
-> >=20=20
->=20>  The WEP and TKIP decryptors start from the same subtraction and
-> >  underflow the same way.=20
->=20>=20=20
->=20>  min_len is the minimum size of a legitimate protected frame: heade=
-r +
-> >  IV + ICV, plus the 8-byte Michael MIC for TKIP.
-> >=20=20
->=20>  The min_len computation itself cannot wrap either: all three
-> >  addends are u8 fields, hdrlen is at most 36 and iv_len/icv_len are
-> >  per-suite constants (max 18/16), so the sum stays below 80 even with
-> >  the TKIP +8. A frame shorter than min_len cannot even hold its IV
-> >  and ICV, so only malformed frames are dropped.
-> >=20=20
->=20>=20=20
->=20>  >=20
->=20>  > + /* TKIP appends an 8-byte Michael MIC that icv_len doesn't acc=
-ount for */
-> >  > + if (prxattrib->encrypt =3D=3D _TKIP_)
-> >  > + min_len +=3D 8;
-> >  > +
-> >  > + /* a protected frame must be long enough to hold the IV and ICV/=
-MIC */
-> >  > + if (precv_frame->u.hdr.len < min_len) {
-> >  > + rtw_free_recvframe(precv_frame,
-> >  > + &padapter->recvpriv.free_recv_queue);
-> >  > + return NULL;
-> >  > + }
-> >  > +
-> >  > + iv =3D precv_frame->u.hdr.rx_data + prxattrib->hdrlen;
-> >  >=20
->=20>  What prevents this from overflowing?
-> >=20=20
->=20>  The check above keeps the offset within the frame: it guarantees
-> >  len >=3D hdrlen + iv_len + icv_len, and iv_len >=3D 4 for every suit=
-e, so
-> >  len >=3D hdrlen + 4 and both iv and the iv[3] dereference stay withi=
-n the
-> >  first len bytes ([rx_data, rx_data + len)).
-> >=20=20
->=20>=20=20
->=20>  Those len bytes are in turn inside the allocation: hdr.len is set =
-by
-> >  recvframe_put() only after pkt_exceeds_tail() verified that pkt_len
-> >  bytes were actually copied from the RX FIFO into an skb sized for
-> >  them (rtl8723bs_recv.c), so any offset below len is inside the
-> >  buffer.
-> >=20=20
->=20>  This is also why the iv assignment moved: the iv[3] read that foll=
-ows
-> >  it would otherwise be an out-of-bounds read when the frame is shorte=
-r
-> >  than hdrlen + 4. The IV may only be examined once the frame is known
-> >  to actually contain it.
-> >=20=20
->=20>=20=20
->=20>=20=20
->=20>  thanks,
-> >=20=20
->=20>  greg k-h
-> >=20
->=20>=20=20
->=20>  Regarding the format issue being mentioned earlier, I can send a v=
-3
-> >  patch. Also, I believe decryptor() is also where this check should b=
-elongs.
-> >=20
->=20Please send a v3.
->=20
->=20thanks,
->=20
->=20greg k-h
->
+Signed-off-by: Muhammad Israr <7israr.work@gmail.com>
+---
+ drivers/staging/most/video/video.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
+diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
+index 3a0445ff62f4..41b617b553aa 100644
+--- a/drivers/staging/most/video/video.c
++++ b/drivers/staging/most/video/video.c
+@@ -33,6 +33,7 @@ struct most_video_dev {
+ 	bool mute;
+ 
+ 	struct list_head pending_mbos;
++	/* protects pending_mbos */
+ 	spinlock_t list_lock;
+ 
+ 	struct v4l2_device v4l2_dev;
+@@ -40,6 +41,7 @@ struct most_video_dev {
+ 	struct video_device *vdev;
+ 	unsigned int ctrl_input;
+ 
++	/* registered as vdev->lock; serializes video_device ioctls */
+ 	struct mutex lock;
+ 
+ 	wait_queue_head_t wait_data;
+-- 
+2.55.0
 
-Hi Greg,
-
-V3 has been sent: https://lore.kernel.org/all/8ee3bdd1c45034200cb1aa9a7e9=
-b575b9584643a@linux.dev/
-
-Best regards,
-
-Tianchu
