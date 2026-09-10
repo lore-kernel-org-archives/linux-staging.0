@@ -1,70 +1,70 @@
-Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1304149B5AF
-	for <linux-staging@lists.linux.dev>; Thu, 10 Sep 2026 22:04:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66B0A373BEC
+	for <linux-staging@lists.linux.dev>; Thu, 10 Sep 2026 22:04:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789077855; cv=none; b=emiZBF8xrdCfpzcVqK8+cZGOOKMcyTaifD5Kj9XkaS1DU+1EfDy2edA993hyEkbqn/y9tkAzzyHUwpg4D55LEui0TtaBCCe3oruFV+YXhp/+H4GhR4dcVCSZYG/7+JycTqHJUQ/ZY2y00+hbgJm6wNhe0RLXyZbzkS6h5sIsfvc=
+	t=1789077857; cv=none; b=VgITgDng8R1yt4KOpYQS5WXY75TWHkr0uAVhMvq/ZFtkdQ94ZWgQII11/3ygxLfOp2oTentK5p40MHvEcSk4G7P+GX4EYH/sZUelsq4Z7UWI+mKikiRR+1YW7zFdLNxwYTGAr+U4pM/VrA2qOZaHNw9o2QI8zTubwyvdoIGo98o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789077855; c=relaxed/simple;
-	bh=XZdqbLbxql8Jro5dhp/L/43SZ3BfueKPf/5qy4vKM/Y=;
+	s=arc-20240116; t=1789077857; c=relaxed/simple;
+	bh=4FqLIuzPCUJHLa7U9P39YyFwiO8mAamMdNyBeAXrZdQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=gPvlkPjpA8z7ZZBPJ1q0wymCX7msMSb3Dvr4/JLZoXcsAEwGaT1j/lkEtGQwj03c1Ww8ukIo7pO3p6kHh39Bnma3NgFhek1fXE3a48jGJjVRhHoYcHxZWjBz6yB7nojUbsbc3Tr/erxK05lNxtshT1sOcfsujWBY6Wr06X57xdI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NQSFjArw; arc=none smtp.client-ip=74.125.228.12
+	 MIME-Version; b=sUYBOeyxy9vi+LpqEJhaAfHaOkePjD23jSaTBgV/dNV+1coT/+6lvIOOZRIK8pwUsImt+rHWP+/eA5fN+WiCHLGFCERRussXGKithT2PBjl9VU45yx1BCwE6oN69c/KIh8NNDvNnG3WtmSZ3GsxLeTiBGLRCEIvLqODMHOHXuNE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YXDU7bS3; arc=none smtp.client-ip=209.85.215.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NQSFjArw"
-Received: by mail-pz2-f12.google.com with SMTP id d2e1a72fcca58-85469e25400so143517b3a.0
-        for <linux-staging@lists.linux.dev>; Thu, 10 Sep 2026 15:04:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YXDU7bS3"
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-cc1c9879395so240433a12.1
+        for <linux-staging@lists.linux.dev>; Thu, 10 Sep 2026 15:04:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789077853; x=1789682653; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1789077856; x=1789682656; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=rSyOWKQOPgAjIh/53MaEz1wLV0gXZsU6+Ahhp+CsTxA=;
-        b=NQSFjArwjyQnKptNMYnsDSkxiQgNTZdxEwECWEtQTrhAw9e8l4eECHdoZZzoFq7E42
-         DlSTrA9NaE0v5owZOdKokjahBI7KF5P8nujSnwkuK800Wk+/eUlm1mGDwXzKUB2ptHeg
-         6FX5aZS4EyJpX4u3JObro5jt1Voov+gvwGagXRpcto9t81GND9RAnH7jXG4AOUoaxPkn
-         Lbw8EsNd7CjWK6p8yP5+8YsrnkjaeY0817OYc7buuRvIjeTABnMlxw85zNOSwIX6lM69
-         bBDx5vRAR90RKxInCBNvn8iOUYiGRZ7m92/sSGAdng9T0Uf6s92yuMEvc+G0WIom/rAd
-         0ERA==
+        bh=haAUYv0adF2bWSJGhF0QNxV5fMREB6yRDDR4DGCp+IQ=;
+        b=YXDU7bS36cNvTs/iM6jSI5okJqXrKDgyIfJkg4PGx5rRgsFGHRDLaGAvkjfXg/xG28
+         sa9kwQzhE1NdLoXwNb/kfLuxsXORwyWq/2yl2BV3j8v951ubmZJPAPKsoILJlHRpZ4xG
+         iIc9aYEuVYnhRyD7cubxrIatzIfTz1NKKnub+W2BTKyKHYnFvCxQ1IAYp7akVxpHOBOc
+         QxR64qYHEq+wbUMc7diBA5+SaYxsv6feU4a3q89KC1P1UWHMvGE9rt2YMzu/EeOj0LER
+         L4VxrX1JB2ogDDdz0dhZFwnsWP7BUCVv2441g4hgeACIUpaxxNPXeyGhbl9D54+splAp
+         ZZ4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789077853; x=1789682653;
+        d=1e100.net; s=20251104; t=1789077856; x=1789682656;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=rSyOWKQOPgAjIh/53MaEz1wLV0gXZsU6+Ahhp+CsTxA=;
-        b=Il4SVJrA882+1ov9g+GoHXfcjGy3oUKhLuqy4C1VHL1AB2aUiU+QFEVUFzFvldZll2
-         ifwiF9Tq7W+lrSiHPRSZgrCQxejHBEcxy9PGpjTXW8nLezq3cz6dZtHopqTcc0xz1wtz
-         WQmi61+VUIcGV9aY4xupHqBd4qq9RFq9hODPQvdFa6NZPjHOEYzh1CU18n1WaWRJ3gK0
-         GLDZmJhXDqSRhuivwck9jPU5JuerfuNHETz3L2Y09HabaP/LZZ3J66v/UkMeu2b09ojb
-         sfbATEdau4Fg9QHfhXPCeuw6kg2aoyBEssLs0DAGNRUVKB67aJsqRIXacPEYdTc2S8ja
-         pKkQ==
-X-Gm-Message-State: AFuF++l3f5qudw6AZjhXWBnc8GDrplo+EmXelRJegbqS3p5MvnMN7Oag
-	zOex55YgpcETIQDY+s3Q73qYfGT8woRTVNBtpT1UxgVJe+Pxn4DK31XsgBOeZQ==
-X-Gm-Gg: AYBFou3SSjg52vN0MKpY4JjQjY0WJSzhl8TotsCuz4XpLRdbihzl/Eo2nk0C6y3zo4G
-	UF4hG61uRQTEI/8JsdG+il8zOMZ9cOvlSGcy0k4SzRpx+8oX46Ym9NpAPJu+aLC5JNe3o+HugWF
-	WVpS01y/zn9uuY2sGLAjMBzv7AeqLMFsDrv1tptnU13QsRJMJZub5L7/Y4ybMbG74+HmE56T05t
-	TzPUyE8REQppz314lSz+qtBGhgR8e9cv4Ot4OHE0gH9h9CdoVV8NQYWIsNYaBPtwykRauuHXqO2
-	oKYGYSGiuAUHuuCpPC2AdKRwS7E/9Yy0HLUrJ46DwExO7jUCaPPPmD4Uad3OMgdXqWs8sMxb3Ll
-	zZmX7ysQEkI7T9nLoQzLJUZmk9bu9CSv/vQQVjHOaoRTR0oRJGBLp61eRdbC4LACzedgtTOyS/S
-	j5LRXHC8+YbsUY+UZQCSPDVcoVRSiMbGkdB1jppSMQjDiOI5Q6Y2q9A2y1fFuiXODeSxIdBoIi+
-	ihwiKb541o=
-X-Received: by 2002:a05:6a20:3ca8:b0:3d0:868d:8ccb with SMTP id adf61e73a8af0-3daed418649mr1785856637.13.1789077852912;
-        Thu, 10 Sep 2026 15:04:12 -0700 (PDT)
+        bh=haAUYv0adF2bWSJGhF0QNxV5fMREB6yRDDR4DGCp+IQ=;
+        b=LJIKiTUVzSNIwWMoXuXu/jQTqwFCQhNuLc+/Mbu8rfss6dbDnh3aOBdF6PqGCbUHdF
+         p4B2Ok8WnWdiCiRu2YwItcbM/8h3RvgowABz5TCXSdF+2q4INB+QYIKgGC5NZ5ZL40wJ
+         mjhl0CGwaSR+PzPTF4pxmG0HSP6xPP+FZhnVQIL6jNl0/K1SrhcxPz+Eg49MwlSzQtQk
+         TE17ruqiYzFiIP408YBJwN/laMUlQivUXhV1QPCCLKLXKLRbPcN9v7gmDLJfvgPCMv2w
+         sT7CQm87ThsET/7MYXVsNGOMW3+vmUr8zprJezJvwwROLnY/sLcY+iS2tWLCquJVDgDw
+         wJgA==
+X-Gm-Message-State: AFuF++lO3ZwuUQPFqYlaTKDirI+jmg/CxmK5LgHVL7WK1ZoGo8/EkoMX
+	ssUCmad9seSH8mN0AP6zIK62LYYTuPDO8F0TquQfaxECAvefVjzuj8tSsR2DwQ==
+X-Gm-Gg: AYBFou24F47D+dmxn7A82dCP8jd093DotyLb3A6Qadmhn6YdNNmRrBS46PGg+6zVTgh
+	ekvMrfkG7822m3SKseD971/KLW0FtUPLdFVIiYvi3KJz7rMDv08FmKxvlwbDwJwvOvBwaz5oZXR
+	gs0+3Boog46yCdFr3gbQn6eYOoisPDVl4ZoqcoNPe8SWguEwFsow4d2niPNL/bSoZ2ABCBm/eZq
+	UMonLvny7HisXqwBUTBIHWG5hF7OoVbLpgJbmOC+OdkvYZRm5MGTMgiu0+h9V/7EkIjhZnamCgw
+	Jj/VLw/ol9/VqbmpOzpFIjhlD3Mw6Tdpgz76TexDlxR+Q9z8uP3GwiPo07lI1GtteBMFTI9A/WU
+	k/IJ8cIgaWQDG6gkcqMvb6uo0w5ZoTZNVSUkUQYTxW6VRApas5W/KsFKBpJd8HKW+pJ2XNVev4L
+	Gu2Cplr4BbyaW9aVeeCZnsM4xSKjtnpxlE6bbD+0tIeK2DheSRtmrJ1Metv3UTJ4w81U0B4Qm8B
+	UMUDq/LEw==
+X-Received: by 2002:a17:90b:4b0c:b0:398:dc16:3c29 with SMTP id 98e67ed59e1d1-39d9bc35bbbmr1334592a91.7.1789077855686;
+        Thu, 10 Sep 2026 15:04:15 -0700 (PDT)
 Received: from TestUbuntu22.. ([67.169.161.65])
-        by smtp.googlemail.com with ESMTPSA id 5a478bee46e88-33ba4ed64fcsm997755eec.16.2026.09.10.15.04.11
+        by smtp.googlemail.com with ESMTPSA id 5a478bee46e88-33ba4ed64fcsm997755eec.16.2026.09.10.15.04.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2026 15:04:12 -0700 (PDT)
+        Thu, 10 Sep 2026 15:04:15 -0700 (PDT)
 From: Jennifer Guo <guojy.bj@gmail.com>
 To: linux-staging@lists.linux.dev
 Cc: gregkh@linuxfoundation.org,
 	guojy.bj@gmail.com
-Subject: [PATCH 1/3] staging: rtl8723bs: delete empty comment lines in hal_com_reg.h
-Date: Thu, 10 Sep 2026 15:03:57 -0700
-Message-Id: <20260910220359.6683-2-guojy.bj@gmail.com>
+Subject: [PATCH 2/3] staging: rtl8723bs: delete empty comment lines in rtl8723b_*.h files
+Date: Thu, 10 Sep 2026 15:03:58 -0700
+Message-Id: <20260910220359.6683-3-guojy.bj@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260910220359.6683-1-guojy.bj@gmail.com>
 References: <20260910220359.6683-1-guojy.bj@gmail.com>
@@ -76,317 +76,306 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Delete all empty comment lines /*  */ in hal_com_reg.h as they are not
-serving any purpose. Add back a newline if needed for spacing, while
-avoiding multiple blank lines.
+Delete all empty comment lines /*  */  in
+include/rtl8723b_*.h header files as they are not serving any purpose.
+Add back a newline if needed for spacing, while avoiding multiple blank
+lines.
 
 Signed-off-by: Jennifer Guo <guojy.bj@gmail.com>
 ---
- .../staging/rtl8723bs/include/hal_com_reg.h   | 92 +------------------
- 1 file changed, 3 insertions(+), 89 deletions(-)
+ .../staging/rtl8723bs/include/rtl8723b_cmd.h  |  8 +--
+ .../staging/rtl8723bs/include/rtl8723b_dm.h   | 10 +--
+ .../staging/rtl8723bs/include/rtl8723b_hal.h  |  4 --
+ .../staging/rtl8723bs/include/rtl8723b_spec.h | 72 +------------------
+ .../staging/rtl8723bs/include/rtl8723b_xmit.h | 10 +--
+ 5 files changed, 7 insertions(+), 97 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/hal_com_reg.h b/drivers/staging/rtl8723bs/include/hal_com_reg.h
-index 4671fdfff916..352280ed3c56 100644
---- a/drivers/staging/rtl8723bs/include/hal_com_reg.h
-+++ b/drivers/staging/rtl8723bs/include/hal_com_reg.h
-@@ -7,11 +7,7 @@
- #ifndef __HAL_COMMON_REG_H__
- #define __HAL_COMMON_REG_H__
+diff --git a/drivers/staging/rtl8723bs/include/rtl8723b_cmd.h b/drivers/staging/rtl8723bs/include/rtl8723b_cmd.h
+index 6b2d79e19088..fb874971a2d4 100644
+--- a/drivers/staging/rtl8723bs/include/rtl8723b_cmd.h
++++ b/drivers/staging/rtl8723bs/include/rtl8723b_cmd.h
+@@ -7,9 +7,7 @@
+ #ifndef __RTL8723B_CMD_H__
+ #define __RTL8723B_CMD_H__
  
 -/*  */
+ /*     H2C CMD DEFINITION    ------------------------------------------------ */
 -/*  */
- /* 	0x0000h ~ 0x00FFh	System Configuration */
--/*  */
--/*  */
- #define REG_SYS_FUNC_EN				0x0002
- #define REG_APS_FSMCO					0x0004
- #define REG_SYS_CLKR					0x0008
-@@ -36,11 +32,7 @@
- #define REG_SYS_CFG						0x00F0
- #define REG_GPIO_OUTSTS				0x00F4	/*  For RTL8723 only. */
  
--/*  */
--/*  */
- /* 	0x0100h ~ 0x01FFh	MACTOP General Configuration */
--/*  */
--/*  */
- #define REG_CR							0x0100
- #define REG_PBP							0x0104
- #define REG_TRXDMA_CTRL				0x010C
-@@ -53,31 +45,18 @@
- #define REG_HMETFR						0x01CC
- #define REG_HMEBOX_0					0x01D0
- 
--/*  */
--/*  */
- /* 	0x0200h ~ 0x027Fh	TXDMA Configuration */
--/*  */
--/*  */
- #define REG_RQPN						0x0200
- #define REG_TDECTRL						0x0208
- #define REG_TXDMA_STATUS				0x0210
- #define REG_RQPN_NPQ					0x0214
- #define REG_AUTO_LLT					0x0224
- 
--
--/*  */
--/*  */
- /* 	0x0280h ~ 0x02FFh	RXDMA Configuration */
--/*  */
--/*  */
- #define REG_RXDMA_AGG_PG_TH			0x0280
- #define REG_RXPKT_NUM					0x0284
- 
--/*  */
--/*  */
- /* 	0x0400h ~ 0x047Fh	Protocol Configuration */
--/*  */
--/*  */
- #define REG_TXPKT_EMPTY				0x041A
- #define REG_FWHW_TXQ_CTRL				0x0420
- #define REG_HWSEQ_CTRL					0x0423
-@@ -92,11 +71,7 @@
- #define REG_MACID_SLEEP				0x04D4
- #define REG_NQOS_SEQ					0x04DC
- 
--/*  */
--/*  */
- /* 	0x0500h ~ 0x05FFh	EDCA Configuration */
--/*  */
--/*  */
- #define REG_EDCA_VO_PARAM				0x0500
- #define REG_EDCA_VI_PARAM				0x0504
- #define REG_EDCA_BE_PARAM				0x0508
-@@ -108,7 +83,7 @@
- #define REG_SLOT						0x051B
- #define REG_TXPAUSE						0x0522
- #define REG_RD_CTRL						0x0524
+ enum {
+ 	/* Common Class: 000 */
+@@ -71,9 +69,9 @@ enum {
+ 	H2C_8723B_RESET_TSF = 0xC0,
+ 	H2C_8723B_MAXID,
+ };
 -/*  */
 +
- /*  Format for offset 540h-542h: */
- /* 	[3:0]:   TBTT prohibit setup in unit of 32us. The time for HW getting beacon content before TBTT. */
- /* 	[7:4]:   Reserved. */
-@@ -122,7 +97,6 @@
- /*                TBTT */
- /*  Note: We cannot update beacon content to HW or send any AC packets during the time between Setup and Hold. */
- /*  Described by Designer Tim and Bruce, 2011-01-14. */
+ /*     H2C CMD CONTENT    -------------------------------------------------- */
 -/*  */
- #define REG_TBTT_PROHIBIT				0x0540
- #define REG_BCN_CTRL					0x0550
- #define REG_BCN_CTRL_1					0x0551
-@@ -137,11 +111,7 @@
- #define REG_TSFTR						0x0560
- #define REG_ACMHWCTRL					0x05C0
++
+ /* _RSVDPAGE_LOC_CMD_0x00 */
+ #define SET_8723B_H2CCMD_RSVDPAGE_LOC_PROBE_RSP(__pH2CCmd, __Value)			SET_BITS_TO_LE_1BYTE_8BIT(__pH2CCmd, 0, 8, __Value)
+ #define SET_8723B_H2CCMD_RSVDPAGE_LOC_PSPOLL(__pH2CCmd, __Value)				SET_BITS_TO_LE_1BYTE_8BIT((__pH2CCmd)+1, 0, 8, __Value)
+@@ -158,9 +156,7 @@ enum {
+ #define SET_8723B_H2CCMD_BT_FW_PATCH_ADDR2(__pH2CCmd, __Value)					SET_BITS_TO_LE_1BYTE((__pH2CCmd)+4, 0, 8, __Value)
+ #define SET_8723B_H2CCMD_BT_FW_PATCH_ADDR3(__pH2CCmd, __Value)					SET_BITS_TO_LE_1BYTE((__pH2CCmd)+5, 0, 8, __Value)
  
 -/*  */
+ /*     Function Statement     -------------------------------------------------- */
 -/*  */
- /* 	0x0600h ~ 0x07FFh	WMAC Configuration */
--/*  */
--/*  */
- #define REG_BWOPMODE					0x0603
- #define REG_TCR							0x0604
- #define REG_RCR							0x0608
-@@ -158,7 +128,6 @@
  
- #define REG_ACKTO						0x0640
- 
+ /*  host message to firmware cmd */
+ void rtl8723b_set_FwPwrMode_cmd(struct adapter *padapter, u8 Mode);
+diff --git a/drivers/staging/rtl8723bs/include/rtl8723b_dm.h b/drivers/staging/rtl8723bs/include/rtl8723b_dm.h
+index 50ab7aed079e..cc94edcaeb3c 100644
+--- a/drivers/staging/rtl8723bs/include/rtl8723b_dm.h
++++ b/drivers/staging/rtl8723bs/include/rtl8723b_dm.h
+@@ -6,21 +6,13 @@
+  ******************************************************************************/
+ #ifndef __RTL8723B_DM_H__
+ #define __RTL8723B_DM_H__
 -/*  */
- /*  Note: */
- /* 	The NAV upper value is very important to WiFi 11n 5.2.3 NAV test. The default value is */
- /* 	always too small, but the WiFi TestPlan test by 25, 000 microseconds of NAV through sending */
-@@ -166,7 +135,6 @@
- /* 	The offset of NAV_UPPER in 8192C Spec is incorrect, and the offset should be 0x0652. Commented */
- /* 	by SD1 Scott. */
- /*  By Bruce, 2011-07-18. */
++
+ /*  Description: */
 -/*  */
- #define REG_NAV_UPPER					0x0652	/*  unit of 128 */
- 
- /* WMA, BA, CCX */
-@@ -184,35 +152,25 @@
- #define REG_RXFLTMAP2					0x06A4
- #define REG_BCN_PSR_RPT				0x06A8
- 
+ /*  This file is for 8723B dynamic mechanism only */
 -/*  */
 -/*  */
- /* 	Redefine 8192C register definition for compatibility */
--/*  */
--/*  */
- #define EFUSE_CTRL				REG_EFUSE_CTRL		/*  E-Fuse Control. */
- #define EFUSE_TEST				REG_EFUSE_TEST		/*  E-Fuse Test. */
- #define MSR						(REG_CR + 2)		/*  Media Status register */
- 
- #define PBP						REG_PBP
- 
--/*  */
- /*  9. Security Control Registers	(Offset:) */
--/*  */
- #define RWCAM					REG_CAMCMD		/* IN 8190 Data Sheet is called CAMcmd */
- #define WCAMI					REG_CAMWRITE	/*  Software write CAM input content */
- 
--/*  */
- /*        8723/8188E Host System Interrupt Status Register (offset 0x5C, 32 byte) */
--/*  */
- #define HSISR_GPIO12_0_INT				BIT(0)
- #define HSISR_SPS_OCP_INT				BIT(5)
- #define HSISR_RON_INT					BIT(6)
- #define HSISR_PDNINT					BIT(7)
- #define HSISR_GPIO9_INT					BIT(25)
- 
--/*  */
- /*        Response Rate Set Register	(offset 0x440, 24bits) */
--/*  */
- #define RRSR_1M					BIT(0)
- #define RRSR_2M					BIT(1)
- #define RRSR_5_5M				BIT(2)
-@@ -223,9 +181,7 @@
- 
- #define RRSR_CCK_RATES (RRSR_11M|RRSR_5_5M|RRSR_2M|RRSR_1M)
- 
--/*  */
- /*        Rate Definition */
--/*  */
- /* CCK */
- #define RATE_1M					BIT(0)
- #define RATE_2M					BIT(1)
-@@ -247,14 +203,10 @@
- /*  Only use CCK 1M rate for ACK */
- #define RATE_RRSR_CCK_ONLY_1M		0xFFFF1
- 
--/*  */
- /*        BW_OPMODE bits				(Offset 0x603, 8bit) */
--/*  */
- #define BW_OPMODE_20MHZ			BIT(2)
- 
--/*  */
- /*        CAM Config Setting (offset 0x680, 1 byte) */
--/*  */
- #define CAM_VALID				BIT(15)
- 
- #define CAM_CONTENT_COUNT	8
-@@ -266,13 +218,9 @@
- #define CAM_WRITE				BIT(16)
- #define CAM_POLLINIG			BIT(31)
- 
--/*  */
- /*  12. Host Interrupt Status Registers */
 -/*  */
  
 -/*  */
- /*        8192C (RCR) Receive Configuration Register	(Offset 0x608, 32 bits) */
--/*  */
- #define RCR_APPFCS				BIT(31)	/*  WMAC append FCS after payload */
- #define RCR_APP_MIC				BIT(30)	/*  MACRX will retain the MIC at the bottom of the packet. */
- #define RCR_APP_ICV				BIT(29)	/*  MACRX will retain the ICV at the bottom of the packet. */
-@@ -289,11 +237,7 @@
- #define RCR_APM					BIT(1)		/*  Accept physical match packet */
- 
- 
--/*  */
--/*  */
- /* 	0x0000h ~ 0x00FFh	System Configuration */
--/*  */
+ /*  structure and define */
 -/*  */
  
- /* 2 SYS_FUNC_EN */
- #define FEN_BBRSTB				BIT(0)
-@@ -350,11 +294,7 @@
- /* 2 REG_GPIO_OUTSTS (For RTL8723 only) */
- #define RF_RL_ID					(BIT(31)|BIT(30)|BIT(29)|BIT(28))
+-/*  */
+ /*  function prototype */
+-/*  */
+ 
+ void rtl8723b_init_dm_priv(struct adapter *padapter);
+ 
+diff --git a/drivers/staging/rtl8723bs/include/rtl8723b_hal.h b/drivers/staging/rtl8723bs/include/rtl8723b_hal.h
+index 497b1cbc54c8..8d1d721a6d72 100644
+--- a/drivers/staging/rtl8723bs/include/rtl8723b_hal.h
++++ b/drivers/staging/rtl8723bs/include/rtl8723b_hal.h
+@@ -19,9 +19,7 @@
+ #include "Hal8192CPhyReg.h"
+ #include "hal_phy_cfg.h"
+ 
+-/*  */
+ /* RTL8723B From header */
+-/*  */
+ 
+ #define FW_8723B_SIZE          0x8000
+ #define FW_8723B_START_ADDRESS 0x1000
+@@ -150,9 +148,7 @@ struct rt_firmware_hdr {
+ #define EFUSE_ACCESS_ON  0x69 /* For RTL8723 only. */
+ #define EFUSE_ACCESS_OFF 0x00 /* For RTL8723 only. */
+ 
+-/*  */
+ /* EFUSE for BT definition */
+-/*  */
+ #define EFUSE_BT_REAL_BANK_CONTENT_LEN 512
+ #define EFUSE_BT_REAL_CONTENT_LEN      1536 /* 512*3 */
+ #define EFUSE_BT_MAP_LEN               1024 /* 1k bytes */
+diff --git a/drivers/staging/rtl8723bs/include/rtl8723b_spec.h b/drivers/staging/rtl8723bs/include/rtl8723b_spec.h
+index 7f749e32a5b9..a5ca5ae1a934 100644
+--- a/drivers/staging/rtl8723bs/include/rtl8723b_spec.h
++++ b/drivers/staging/rtl8723bs/include/rtl8723b_spec.h
+@@ -9,11 +9,7 @@
+ 
+ #define HAL_NAV_UPPER_UNIT_8723B		128		/*  micro-second */
  
 -/*  */
 -/*  */
- /* 	0x0100h ~ 0x01FFh	MACTOP General Configuration */
+ /*	0x0000h ~ 0x00FFh	System Configuration */
+-/*  */
+-/*  */
+ #define REG_RSV_CTRL_8723B				0x001C	/*  3 Byte */
+ #define REG_BT_WIFI_ANTENNA_SWITCH_8723B	0x0038
+ #define REG_HSISR_8723B					0x005c
+@@ -29,11 +25,7 @@
+ #define REG_HISR1_8723B					0x00BC
+ #define REG_PMC_DBG_CTRL2_8723B			0x00CC
+ 
+-/*  */
+-/*  */
+ /*	0x0100h ~ 0x01FFh	MACTOP General Configuration */
+-/*  */
+-/*  */
+ #define REG_C2HEVT_CMD_ID_8723B	0x01A0
+ #define REG_C2HEVT_CMD_LEN_8723B	0x01AE
+ #define REG_WOWLAN_WAKE_REASON 0x01C7
+@@ -45,25 +37,14 @@
+ #define REG_HMEBOX_EXT2_8723B			0x01F8
+ #define REG_HMEBOX_EXT3_8723B			0x01FC
+ 
+-/*  */
+-/*  */
+ /*	0x0200h ~ 0x027Fh	TXDMA Configuration */
 -/*  */
 -/*  */
  
- /* 2 Function Enable Registers */
- /* 2 CR */
-@@ -397,11 +337,8 @@
- #define QUEUE_NORMAL			2
- #define QUEUE_HIGH				3
- 
 -/*  */
 -/*  */
- /* 	0x0200h ~ 0x027Fh	TXDMA Configuration */
+ /*	0x0280h ~ 0x02FFh	RXDMA Configuration */
 -/*  */
 -/*  */
 +
- /* 2 RQPN */
- #define _HPQ(x)					((x) & 0xFF)
- #define _LPQ(x)					(((x) & 0xFF) << 8)
-@@ -413,11 +350,7 @@
- /* 2 AUTO_LLT */
- #define BIT_AUTO_INIT_LLT BIT(16)
+ #define REG_RXDMA_CONTROL_8723B		0x0286 /*  Control the RX DMA. */
+ #define REG_RXDMA_MODE_CTRL_8723B		0x0290
  
 -/*  */
 -/*  */
- /* 	0x0280h ~ 0x028Bh	RX DMA Configuration */
+ /*	0x0300h ~ 0x03FFh	PCIe */
+-/*  */
+-/*  */
+ #define	REG_PCIE_CTRL_REG_8723B		0x0300
+ #define	REG_INT_MIG_8723B				0x0304	/*  Interrupt Migration */
+ #define	REG_BCNQ_DESA_8723B			0x0308	/*  TX Beacon Descriptor Address */
+@@ -86,49 +67,27 @@
+ #define	REG_PCIE_HCPWM_8723B			0x0363	/* PCIe CPWM */
+ #define	REG_PCIE_MULTIFET_CTRL_8723B	0x036A	/* PCIE Multi-Fethc Control */
+ 
+-/*  */
+-/*  */
+ /*	0x0400h ~ 0x047Fh	Protocol Configuration */
+-/*  */
+-/*  */
+ #define REG_TXPKTBUF_BCNQ_BDNY_8723B	0x0424
+ #define REG_TXPKTBUF_MGQ_BDNY_8723B	0x0425
+ #define REG_TXPKTBUF_WMAC_LBK_BF_HD_8723B	0x045D
+ #define REG_AMPDU_BURST_MODE_8723B	0x04BC
+ 
+-/*  */
+-/*  */
+ /*	0x0500h ~ 0x05FFh	EDCA Configuration */
+-/*  */
+-/*  */
+ #define REG_SECONDARY_CCA_CTRL_8723B	0x0577
+ 
+-/*  */
+-/*  */
+ /*	0x0600h ~ 0x07FFh	WMAC Configuration */
 -/*  */
 -/*  */
  
- /* 2 REG_RXDMA_CONTROL, 0x0286h */
- /*  Write only. When this bit is set, RXDMA will decrease RX PKT counter by one. Before */
-@@ -435,11 +368,8 @@
- #define	RXDMA_IDLE				BIT(17)
- #define	RW_RELEASE_EN			BIT(18)
+-/*  */
+ /*  SDIO Bus Specification */
+-/*  */
+ 
+-/*  */
+ /*  SDIO CMD Address Mapping */
+-/*  */
+ 
+-/*  */
+ /*  I/O bus domain (Host) */
+-/*  */
+ 
+-/*  */
+ /*  SDIO register */
+-/*  */
+ #define SDIO_REG_HCPWM1_8723B	0x025 /*  HCI Current Power Mode 1 */
+ 
+-/*  */
+ /*	8723 Register Bit and Content definition */
+-/*  */
+ 
+ /* 2 HSISR */
+ /*  interrupt mask which needs to clear */
+@@ -138,54 +97,27 @@
+ 								HSISR_PDNINT |\
+ 								HSISR_GPIO9_INT)
  
 -/*  */
 -/*  */
- /* 	0x0400h ~ 0x047Fh	Protocol Configuration */
+ /*	0x0100h ~ 0x01FFh	MACTOP General Configuration */
+-/*  */
+-/*  */
+ 
+-/*  */
+-/*  */
+ /*	0x0200h ~ 0x027Fh	TXDMA Configuration */
+-/*  */
+-/*  */
+ 
+-/*  */
+-/*  */
+ /*	0x0280h ~ 0x02FFh	RXDMA Configuration */
+-/*  */
+-/*  */
+ #define BIT_USB_RXDMA_AGG_EN	BIT(31)
+ #define RXDMA_AGG_MODE_EN		BIT(1)
+ 
+-/*  */
+-/*  */
+ /*	0x0400h ~ 0x047Fh	Protocol Configuration */
+-/*  */
+-/*  */
+ 
+-/*  */
+ /*        8723B REG_CCK_CHECK						(offset 0x454) */
+-/*  */
++
+ #define BIT_BCN_PORT_SEL		BIT(5)
+ 
+-/*  */
+-/*  */
+ /*	0x0500h ~ 0x05FFh	EDCA Configuration */
+-/*  */
+-/*  */
+ 
+-/*  */
+-/*  */
+ /*	0x0600h ~ 0x07FFh	WMAC Configuration */
+-/*  */
+-/*  */
+ #define EEPROM_RF_GAIN_OFFSET			0xC1
+ #define EEPROM_RF_GAIN_VAL			0x1F6
+ 
+-/*  */
+ /*        8195 IMR/ISR bits						(offset 0xB0,  8bits) */
+-/*  */
+ #define	IMR_DISABLED_8723B					0
+ /*  IMR DW0(0x00B0-00B3) Bit 0-31 */
+ #define	IMR_TIMER2_8723B					BIT(31)		/*  Timeout interrupt 2 */
+diff --git a/drivers/staging/rtl8723bs/include/rtl8723b_xmit.h b/drivers/staging/rtl8723bs/include/rtl8723b_xmit.h
+index ddf868c7899b..d02ead67777a 100644
+--- a/drivers/staging/rtl8723bs/include/rtl8723b_xmit.h
++++ b/drivers/staging/rtl8723bs/include/rtl8723b_xmit.h
+@@ -7,9 +7,7 @@
+ #ifndef __RTL8723B_XMIT_H__
+ #define __RTL8723B_XMIT_H__
+ 
+-/*  */
+ /*  Queue Select Value in TxDesc */
+-/*  */
+ #define QSLT_BK							0x2/* 0x01 */
+ #define QSLT_BE							0x0
+ #define QSLT_VI							0x5/* 0x4 */
+@@ -56,9 +54,7 @@
+ /* OFFSET 20 */
+ #define SGI		BIT(6)
+ 
+-/*  */
+ /* defined for TX DESC Operation */
+-/*  */
+ struct txdesc_8723b {
+ 	/*  Offset 0 */
+ 	u32 pktlen:16;
+@@ -364,11 +360,9 @@ struct txdesc_8723b {
+ #define SET_EARLYMODE_LEN3_8723B(__pAddr, __Value)					SET_BITS_TO_LE_4BYTE(__pAddr+4, 17, 15, __Value)
+ 
+ #endif
 -/*  */
 -/*  */
 +
- /* 2 FWHW_TXQ_CTRL */
- #define EN_AMPDU_RTY_NEW			BIT(7)
- 
-@@ -452,11 +382,7 @@
- #define	RETRY_LIMIT_SHORT_SHIFT			8
- #define	RETRY_LIMIT_LONG_SHIFT			0
- 
+ /* 	Rate */
 -/*  */
 -/*  */
- /* 	0x0500h ~ 0x05FFh	EDCA Configuration */
--/*  */
--/*  */
- 
- #define _LRL(x)					((x) & 0x3F)
- #define _SRL(x)					(((x) & 0x3F) << 8)
-@@ -476,11 +402,7 @@
- #define AcmHw_ViqEn				BIT(2)
- #define AcmHw_VoqEn			BIT(3)
- 
--/*  */
--/*  */
- /* 	0x0600h ~ 0x07FFh	WMAC Configuration */
--/*  */
--/*  */
- 
- /* 2 TCR */
- #define TSFRST					BIT(0)
-@@ -497,11 +419,7 @@
- #define SCR_RXBCUSEDK			BIT(7)			/*  Force Rx Broadcast packets Use Default Key */
- #define SCR_CHK_KEYID			BIT(8)
- 
--/*  */
--/*  */
- /* 	SDIO Bus Specification */
--/*  */
--/*  */
- 
- /*  I/O bus domain address mapping */
- #define SDIO_LOCAL_BASE		0x10250000
-@@ -578,11 +496,7 @@
- /*  SDIO Tx FIFO related */
- #define SDIO_TX_FREE_PG_QUEUE			4	/*  The number of Tx FIFO free page */
- 
--/*  */
--/*  */
- /* 	0xFE00h ~ 0xFE55h	USB Configuration */
--/*  */
--/*  */
- 
- /* 2REG_C2HEVT_CLEAR */
- #define C2H_EVT_HOST_CLOSE		0x00	/*  Set by driver and notify FW that the driver has read the C2H command message */
++
+ /*  CCK Rates, TxHT = 0 */
+ #define DESC8723B_RATE1M				0x00
+ #define DESC8723B_RATE2M				0x01
 -- 
 2.34.1
 
