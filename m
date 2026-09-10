@@ -1,121 +1,105 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F1A044F56A
-	for <linux-staging@lists.linux.dev>; Thu, 10 Sep 2026 21:32:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789075973; cv=pass; b=sHduq1PjJOhkVk4EeUclstnoip2QcjfuPXt6vYVbZstJs0Z3UzhmyiQqaLl47LhkND363/fUToCE9PT1JKL5q0LlOkdX/uimtbuoN3qQEoqkNUN13a3OoKTLFfV8lefX7Y7sD2annT7uTQgdWjGOPkSynmnGOvFVWLGpyCjMBTk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789075973; c=relaxed/simple;
-	bh=ufzXj+hMnVisIYQm5mhRNXlmSHJ4HDjMJXpa9IW83P0=;
-	h=From:MIME-Version:Date:Message-ID:Subject:To:Cc:Content-Type; b=FSYnzXEjPNMkXe8wPvvbv0Ey7CPCbIsyBn8TtAELr97c7KHRFwG82Mz7HXB2ME/yYOjptI+ygYt0+PX8HS3FmRxQG8rfPTWR6mG2PnhA9Oz6do92RbXstOJQBE/bHno5+4SzIDh4HpSvBkfFIXtlR1vTPw32dy4PVkQh0EAZTKw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=berkeley.edu; spf=pass smtp.mailfrom=berkeley.edu; dkim=pass (2048-bit key) header.d=berkeley.edu header.i=@berkeley.edu header.b=JlQQ9Xl4; arc=pass smtp.client-ip=209.85.216.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=berkeley.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=berkeley.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16E8849B5CC
+	for <linux-staging@lists.linux.dev>; Thu, 10 Sep 2026 22:04:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789077852; cv=none; b=JKmIhf6pnAZ8sdI1MFoo7JjGghbXQDlsplAS8DWOK64oKz2oR3GTfelXkXRqTshA7MEclnZYzhHBFDAgggUUeWlxIMt6a5GiPAuryreZXtWkE0pSiP1KKPoJj8uqCRyrTxm9R2beMuadcR4C9nBJ0FRu4K7JLkGsIp3r1okKI30=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789077852; c=relaxed/simple;
+	bh=Cfs3++8j7nPgW/u4byiQeV05NU9BKXkdSObIUSiHc2M=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=SdXykNUIolNrFR0b6pIpJo8TIjhvsASGpK/Pxx1T9ZrLJsZSvHkiN0+uX4/5+2i934xVVD0TlUVEyaMAqXahpTs0WDRgJN+idPIVOHujKtCU8AKyC19zGn87OkuuTCLDuzpe7V/UM6T4rgqE7twMl/yLLWQlnOqITG77w8TyhrE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bg+y65xF; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=berkeley.edu header.i=@berkeley.edu header.b="JlQQ9Xl4"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-398b3d66515so271951a91.0
-        for <linux-staging@lists.linux.dev>; Thu, 10 Sep 2026 14:32:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789075970; cv=none;
-        d=google.com; s=arc-20260327;
-        b=R6HtBts7WgVZkCG9POeS21mQ4KQxM4NuKNYtMCOGHZSzMdCK9w6iI2u5dpN1aSBRGw
-         Gbo4n7zsVcJ06xglNfNU6d1F2c1qEuWRgdPIJRZ7/nrQwi3HamDLXteXV2eF39cbi24o
-         vYJsavxB8eOIqmM1sBbAa512t7QvQqNpIfTN8iBr+UfUAi+L7AKEIKo4F+pWaBGvJyk4
-         82g5JWpvmvqX3uFVVuamhlczXQjt6ZQ7KZ0ne5UmjUHaTwyb7Fhxx26hh3KcUyC2wQGz
-         pIoI3irQdv2meTMRwo5AVXeDm/E/obu/38VEycIKTf3BH4/tI85mLyol+eOmD/c/Jqm1
-         IByA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:mime-version:from:dkim-signature;
-        bh=9LB6NWq/tHXmFqInVJbuTy996SeIixGc0WUFWyc5Eps=;
-        fh=Iarq2NdK/pa8YKF2J1U/n78Kbh4XamPWgevgrisoHc4=;
-        b=XKq5NJpJ7f98LufWHmeSG3H7iUVohC9gFEvVzI2UEw0CNmiRn6w5XovJG9fyHPRcuS
-         XCbPsLnb9maj5cWpXBYhLAVkYmr0BS86i4hGc3tggYLJKWKwfOPIbyA28UGpFm1/hnDJ
-         0RVrvaVgC/5gTIBjs5GoJcHIzDWBR6zJPB4qQ0R6FT1eSPQy1sL6AFEDzHW4djh99F7d
-         pKgI5M5jNRgLoc04BQlltOFlJpcl3OcNA6U09DCft4tekIwCwT6gBCUWH/jSAnHadt3S
-         yHbCVEcsy+5a+yN3tGhHn6mgGQTV0BVuKzNJigi6ZzSHfRDikFrAh65SoAH0Oo0nb21E
-         cJWQ==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bg+y65xF"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2db18e5cb56so2376695ad.0
+        for <linux-staging@lists.linux.dev>; Thu, 10 Sep 2026 15:04:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=berkeley.edu; s=google; t=1789075970; x=1789680770; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:mime-version:from:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=9LB6NWq/tHXmFqInVJbuTy996SeIixGc0WUFWyc5Eps=;
-        b=JlQQ9Xl43W3qDjemGR9VBx0uMtUS55hY/65UvqVFjLbqjoCIEjes5ARKxQ/AeaFOZ/
-         k0RHWubDYB21zZuJ3jkQfXFzBsV6EEz5ly9KKxYG7uaTjj3i4Cl7svSQXWkjeq+IHpUi
-         YTT4jINTXb3106wWIE9EbO8x1uTzpyzhb6ROT1Km2oITegx1IGfQtG6v3zgmO7/jyIwF
-         iH934/58BW2ghhviaNam6Dxh9+t/cqE4DO+sLz+N7JNIip1EA8u01LqC7xYjjC3H3LzU
-         +Uw7Y+ULKkOZVtprrUlEE76wUdmcS2K0ICevFXOhBDzjSyY21q8V+/vIvOMcfRD8VqSs
-         S5mw==
+        d=gmail.com; s=20251104; t=1789077850; x=1789682650; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=yhJcJgWpQfK/ZjXxFl7DMf5xoOpby8bLFUBu6AdOvOQ=;
+        b=bg+y65xFip9dc0j62jnAYWkjpjzwwx3+J2wVQHsb6CqBJAhoTp2zq+8vJMG5TlNoWG
+         SWSiDsp8BOdqFOAmn/xmspMb1eGlE20+h9cqw0hXbUEtfKLUphW2OYbLZnUIBnE5eWzb
+         Q1+b/xi71sBPQa2oui4vx2fPZf9HbxHDrfTrn/CaJsCLYd7SeS+hfWyfEYGUkcDECCjI
+         ET1ii7ZSsxX3Fv9+yPYZ1EYOoLkCf3cV+VqblSFfrDrG9mMUXqxoM96hAqb7NL7eSAyt
+         x6wx7VfCpWOlee5BDZKhOCm+ekvIGBJhJSdM3Q1oLm6rqL0n35tH/cdSEN+fz1mA4RqX
+         GeXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789075970; x=1789680770;
-        h=content-type:cc:to:subject:message-id:date:mime-version:from
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=9LB6NWq/tHXmFqInVJbuTy996SeIixGc0WUFWyc5Eps=;
-        b=EEL/dwdFfpgFlYXaxDU5StjirmtBNs9zfMxEFGpZMXSrNuJv5zCJQrmyCFCALRamTy
-         rWkYgcgru47nkoqSENTLg3XUsmmOxHfDQ8MVF4uDrL5I8J+boqIr8sLtk8Lq3OEtLT/p
-         +I+6xq5wAedatua4mKU5s0M8NJqGPbAqXwtiW9xAAfdfOZrhIK1KBxMNvST8HvuhotLe
-         Bv/JzoAFx0R3OnQk6IZSY5vsW8j3RlBK3rYgr/MfVEAI9Al//OAYxix2WUoMgTjZEaAJ
-         8ex8fiJCtRpCm/qgSpzBrpPBl989hqOipUwf1DvDk5h/lZJc6s+b+5YZ3BBw37WZ2jnx
-         0Iog==
-X-Forwarded-Encrypted: i=1; AKwUvBxefBzN9QshcUa84yMZ8KmucDKQLt+9RcinJj/HoSuO41N6mvJeQsMlvibkAy5XIeANYg6IdHWvtMVcmuuE@lists.linux.dev
-X-Gm-Message-State: AFuF++nFw/NQk5JoDWi4byuWdtcM97GVikBodZ1KZMDIPmZ9uItNM1Tn
-	LZGEHucMXkmjffa/i1un+KkkGMMotPKOtJCqzW/gM9dr1LLntgpyMDI0rcf5cS6hGnsIvxdwn9e
-	Bk14Xzx3lATujKtiXE3+EO2W+a/IgDaFyPxHGGz8y
-X-Gm-Gg: AYBFou1UrjikFK/hyrATYQPhu11FvHCZ1oiLLPH7UPKyVhWr66qHzrCT6Asiu2JYGBD
-	Oag4jEZj7zJTnZvgCS2oB7ed36h3MixIEqKlqH2PgKjSpqulFT2G/ek1Tz9itZgw/+iVQz8o8LL
-	pgvcNXamlWlCo2kzs9VlzKdb/Gg5bNM9cockme+ki43laMcLlpPN0C3StcUH45F/YQsySAEmx8R
-	SsFZ7LKmKYO5Ba0ujAxKk4v9itzKoaLyw1PAmMjsfAFmEAoSV+/+z/wxJgEC4qVUfz2GLL+yZP/
-	4tyek0dHgLrncGzuc0pNa/OFgOX0FKICogwmbIXIQHoyUooKwp7+/Vroyy/hvAIMD15P6Yy7P+2
-	jxYMXVHJxo1HmcqQXCTw5MDac7uWRbsLMW6WTRpg6NTC46VSomjZb7A==
-X-Received: by 2002:a17:90b:2690:b0:398:9c00:29ec with SMTP id
- 98e67ed59e1d1-39d9c34b15fmr1113138a91.20.1789075968819; Thu, 10 Sep 2026
- 14:32:48 -0700 (PDT)
-Received: from 474444807712 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 10 Sep 2026 21:32:47 +0000
-Received: from 474444807712 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 10 Sep 2026 21:32:47 +0000
-From: Farhad Alemi <farhad.alemi@berkeley.edu>
-X-Mailer: git-send-email 2.53.0
+        d=1e100.net; s=20251104; t=1789077850; x=1789682650;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=yhJcJgWpQfK/ZjXxFl7DMf5xoOpby8bLFUBu6AdOvOQ=;
+        b=cutzYDFlVq3ZZvfNCyXuO5APPYJNYfGpsEl/7fJZhXIVTEmhh5/U5JzPr8lvQB44S/
+         WYumdA7tJX+vCr1y3nEsIsPCESdiP07NBfHKZvpZfIT8RLCvECYuU7S468nsvPyrLZ2L
+         KkwPfnuBGscv4Jn/aa5no7IXu8vxxXoK4u60Xjwd6Uwu+1hYOOVVxti9eaNURxRJgDS1
+         FsJshzo0MfKOlhrWwnrjdpka76rQEpkeEQ9trkXEb2c/93dIl/ad0WfoNVGKG9lL2rhy
+         p4swDHODReFotltPaS8O0++PtVxdqakhus/crzuTjl/obGkhD+Mfol5ShRG8JUjzo/WD
+         Fqmg==
+X-Gm-Message-State: AFuF++nb4PUHXWxUe2Kx5wE5clDF1wpZoe0FYC1MwmQXxd5uasc6IKr1
+	2QvHmu9mELhEMuIGTBu7W/Xf3YmLMvZmvxWXWtJpdnXehoM1RMDgMTK+XkwdPA==
+X-Gm-Gg: AYBFou3R4tcEhNDLXX1NmJlf8Pwc154yuS9ee+fJLCokYk2FaNSvjx2jlxwpxwNV733
+	bUlPTc9bewZrG9dVdaLoxMQLJEMmelRApRkRUPL3qRmd5W07gR8rQbczKzFPDSpizcWIySsl7dP
+	ZPsATxODIm5A52dEJfaUXATwNj6e2im9GqvOcYMDTUPtuRBfLjGv2Nrq9F/JlOvr/nlzY9iBeFh
+	y3rfW91+ikRWvM4rd8RpcBSB6+n5Vl8wAwMIh3H9wGUOmnwpDHG2NE6DikY9UyKTMkzPBRw/Skp
+	z1D0K6rqZnFbPuVjjocFnQX/Wtny9wJ53Bca1l+B6OIfLblrqbhorhNGE8cSRsVxuHiti2AeFeK
+	H1etdhhjmuIdq6EJaoAchABvHJ/GJtx/cfdai2NrZcFZ7iLRQa9okk2QvLTx9i51Siu1NV9Mrg6
+	WZ8zrcKNnBqlMxw09m3VOhMDcMHQ/h7S/HnIeZG0hrD937XM8l5wX1RRzxrXDqLWsB7Ez3iWTF3
+	/UCUyDh/E1i5i3pRMJg
+X-Received: by 2002:a17:90b:3dcf:b0:381:a766:efc9 with SMTP id 98e67ed59e1d1-39d9bc44857mr1455198a91.7.1789077850225;
+        Thu, 10 Sep 2026 15:04:10 -0700 (PDT)
+Received: from TestUbuntu22.. ([67.169.161.65])
+        by smtp.googlemail.com with ESMTPSA id 5a478bee46e88-33ba4ed64fcsm997755eec.16.2026.09.10.15.04.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Sep 2026 15:04:09 -0700 (PDT)
+From: Jennifer Guo <guojy.bj@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: gregkh@linuxfoundation.org,
+	guojy.bj@gmail.com
+Subject: [PATCH 0/3] staging: rtl8723bs: delete empty comment lines
+Date: Thu, 10 Sep 2026 15:03:56 -0700
+Message-Id: <20260910220359.6683-1-guojy.bj@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Thu, 10 Sep 2026 21:32:47 +0000
-X-Gm-Features: AcwNN1URJux_fomBEWD1vunfK0R38yI4yB1kHbbH6cW7X9Mqo9UdmM8PR6cgrpM
-Message-ID: <CA+0ovCirfyOhrXdxmM3ri9-cShD0mzPptO1qtsaboS1xscaM0Q@mail.gmail.com>
-Subject: [PATCH] staging: greybus: hid: fix off-by-one in SET_REPORT allocation
-To: Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>
-Cc: falemi@asu.edu, greybus-dev@lists.linaro.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-gb_hid_set_report() sizes its request payload as sizeof(*request) + len -
-1, but report[] in struct gb_hid_set_report_request is a flexible array
-member that sizeof() already excludes. The buffer is therefore one byte too
-small, so memcpy(request->report, buf, len) writes one byte past its end,
-which KASAN reports as a slab-out-of-bounds write. Drop the stray - 1 so
-the allocation covers the whole report.
+This patchset deletes all empty comment lines /*  */ from include/
+header files, and adds a newline back in where appropriate.
 
-Closes: https://lore.kernel.org/all/CA+0ovCgLrz4WhPKP5LGW5HZa8VOodgeo6pWuyQGgHE7UY57Oog@mail.gmail.com/
-Signed-off-by: Farhad Alemi <farhad.alemi@berkeley.edu>
----
-The device was emulated.
+Jennifer Guo (3):
+  staging: rtl8723bs: delete empty comment lines in hal_com_reg.h
+  staging: rtl8723bs: delete empty comment lines in rtl8723b_*.h files
+  staging: rtl8723bs: delete empty comment lines in header files
 
---- a/drivers/staging/greybus/hid.c
-+++ b/drivers/staging/greybus/hid.c
-@@ -97,7 +97,8 @@ static int gb_hid_set_report(struct gb_hid *ghid, u8
-report_type, u8 report_id,
- {
- 	struct gb_hid_set_report_request *request;
- 	struct gb_operation *operation;
--	int ret, size = sizeof(*request) + len - 1;
-+	/* report[] is a flexible array, so sizeof() already excludes it. */
-+	int ret, size = sizeof(*request) + len;
+ .../staging/rtl8723bs/include/HalPwrSeqCmd.h  |  2 -
+ .../staging/rtl8723bs/include/basic_types.h   |  2 -
+ drivers/staging/rtl8723bs/include/drv_types.h |  3 -
+ drivers/staging/rtl8723bs/include/hal_com.h   |  5 +-
+ .../staging/rtl8723bs/include/hal_com_h2c.h   |  2 -
+ .../staging/rtl8723bs/include/hal_com_reg.h   | 92 +------------------
+ drivers/staging/rtl8723bs/include/hal_data.h  |  1 -
+ drivers/staging/rtl8723bs/include/hal_phy.h   |  3 +-
+ .../staging/rtl8723bs/include/rtl8723b_cmd.h  |  8 +-
+ .../staging/rtl8723bs/include/rtl8723b_dm.h   | 10 +-
+ .../staging/rtl8723bs/include/rtl8723b_hal.h  |  4 -
+ .../staging/rtl8723bs/include/rtl8723b_spec.h | 72 +--------------
+ .../staging/rtl8723bs/include/rtl8723b_xmit.h | 10 +-
+ .../staging/rtl8723bs/include/rtw_eeprom.h    |  2 -
+ drivers/staging/rtl8723bs/include/rtw_efuse.h |  4 +-
+ .../staging/rtl8723bs/include/rtw_mlme_ext.h  |  2 -
+ drivers/staging/rtl8723bs/include/rtw_recv.h  |  2 -
+ drivers/staging/rtl8723bs/include/sta_info.h  |  7 +-
+ 18 files changed, 15 insertions(+), 216 deletions(-)
 
- 	ret = gb_pm_runtime_get_sync(ghid->bundle);
- 	if (ret)
+-- 
+2.34.1
+
