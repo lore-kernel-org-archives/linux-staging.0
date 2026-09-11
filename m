@@ -1,39 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B68F249E13D
-	for <linux-staging@lists.linux.dev>; Fri, 11 Sep 2026 05:58:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E72E49E150;
+	Fri, 11 Sep 2026 05:59:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789106296; cv=none; b=RW+1EwEOWzdaUvtM4Jvh/PN1Jau1/tQWRVeguAv1m38RubhekoGIw9lxVIwLf61rZBe8r9wecaiGA4swXujOkTKn6ERWlObrbmtggs67I3h5aCRlS2yYCdGRdgyt9re7taFoEwLYKkBygiRPjdKg8DhRSDjOBhM7c7ItiSBEjXo=
+	t=1789106390; cv=none; b=ekzukmi7LKwljyNgA1o0aS4UWuH/GEVC0wKKurfnXdFvJ6JJ+rT+7unlDDDDq7E1aO/VJ9s+TI8Mm9El0D+H5hIfi/O/vpC9Wlf6cNziQpQvoksF3LvcMHVf8GWQi7mJGj2luKQeSf6s/dVHkxFRvJJZC06mjXir3FCC6vB1X9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789106296; c=relaxed/simple;
-	bh=eXfu6BGHMmp/y+4vHOUwtXe3fwP7H3z1RPBy5jUqwyc=;
+	s=arc-20240116; t=1789106390; c=relaxed/simple;
+	bh=qfZ9WuDmhDepa2vK5KEtX89x+O1mA2Bimk/JSjDaAvs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iyZT8eel00S/x3CVw87yv1c8A/EvxvZ8deIuMmZwQYfTWM4W4wJEObuRfBe75H060pIF71yV9AFpgIxtwq5Xw4w6z7wBC/K54zkiLX5cDjiHm3L2cm1UAokgAHe9Gmiihj5qHAFmivyDhen0COa1BVPI8y+sF9Epw7Y6S7P7+CQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=wRnFfiaE; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=IXyI1U2l9qCTh+Q2YUm6CkYh/ZgnVaMpNRiSYif366tR7LedJhE8fa7azGdKIY93Aag0TcS44IBl0gS2hra+ZsZVtJjwsaHLzORYewr9D4SaV4aT71ZShjw5wUTxh+rXgaIcTQcJ/grRwe+3MnKT3znlGNr3Dr0QaITzsb+qrRQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=pFd+Qbzs; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="wRnFfiaE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1D871F000FF;
-	Fri, 11 Sep 2026 05:58:14 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="pFd+Qbzs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 636121F000FF;
+	Fri, 11 Sep 2026 05:59:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1789106295;
-	bh=1iRUcModynPW587XbXjOtYMqlYj/tHb3/rgHAAJyQJo=;
+	s=korg; t=1789106388;
+	bh=DAvdHo4esE2paXOUsMYX5v6CWwX+C3Tqkkc/L9+ZG88=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=wRnFfiaEf/wFjMFdCBCjPkcMEs1eqTVK8SKZRDHjThktcsrWQ8CzmJEW2Tg3yHbY+
-	 oEmyTB+s4rkYizMz3qAR+0Br455YAQgPbi7wJqjekxb+2WfiVWIUCu4pJTh+mvtczp
-	 HFiAYe+TNpK3auiBYvgpOvGBdAifvxrjYl58dsnU=
-Date: Fri, 11 Sep 2026 07:56:20 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: YiCheng Lu <01luyicheng@gmail.com>
-Cc: Vaibhav Agarwal <vaibhav.sr@gmail.com>,
-	Mark Greer <mgreer@animalcreek.com>,
-	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: greybus: audio_codec.c: remove unnecessary
- parentheses
-Message-ID: <2026091136-shortage-debate-050d@gregkh>
-References: <20260911051119.320619-1-01luyicheng@gmail.com>
+	b=pFd+QbzsYxxGGCAKMQ2Zpg2SuM2apDZsSID3SM69JhDYu3P5INpCUePOI7silSfaW
+	 85ZUgZR1q4xnL9GcDrZCVL7R984FNw/n6nrM7yE3Po4Te2xUy9iEBovLHVa1vhWhUo
+	 ue0MGdReG6qB/TojzkN8mPbllM+Q1Uk52jPcSFcU=
+Date: Fri, 11 Sep 2026 07:57:54 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Farhad Alemi <farhad.alemi@berkeley.edu>
+Cc: Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>, falemi@asu.edu,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: greybus: hid: fix off-by-one in SET_REPORT
+ allocation
+Message-ID: <2026091129-substance-carded-79c1@gregkh>
+References: <CA+0ovCirfyOhrXdxmM3ri9-cShD0mzPptO1qtsaboS1xscaM0Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -42,24 +42,26 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260911051119.320619-1-01luyicheng@gmail.com>
+In-Reply-To: <CA+0ovCirfyOhrXdxmM3ri9-cShD0mzPptO1qtsaboS1xscaM0Q@mail.gmail.com>
 
-On Fri, Sep 11, 2026 at 01:11:19PM +0800, YiCheng Lu wrote:
-> Remove unnecessary parentheses around simple boolean expressions in
-> the if condition. The kernel coding style prefers not to use
-> parentheses around simple conditions.
+On Thu, Sep 10, 2026 at 09:32:47PM +0000, Farhad Alemi wrote:
+> gb_hid_set_report() sizes its request payload as sizeof(*request) + len -
+> 1, but report[] in struct gb_hid_set_report_request is a flexible array
+> member that sizeof() already excludes. The buffer is therefore one byte too
+> small, so memcpy(request->report, buf, len) writes one byte past its end,
+> which KASAN reports as a slab-out-of-bounds write. Drop the stray - 1 so
+> the allocation covers the whole report.
 > 
-> Signed-off-by: YiCheng Lu <01luyicheng@gmail.com>
+> Closes: https://lore.kernel.org/all/CA+0ovCgLrz4WhPKP5LGW5HZa8VOodgeo6pWuyQGgHE7UY57Oog@mail.gmail.com/
+> Signed-off-by: Farhad Alemi <farhad.alemi@berkeley.edu>
+
+Did you forget an Assisted-by: tag?
+
 > ---
->  drivers/staging/greybus/audio_codec.c | 1100 +++++++++++++++++++++++++
->  1 file changed, 1100 insertions(+)
->  create mode 100644 drivers/staging/greybus/audio_codec.c
+> The device was emulated.
 
-Your patch just adds a whole new file :(
+emulated how?
 
-Please take a look at the kernelnewbies.org tutorial on how to make your
-first kernel patch, it should explain all of this.
-
-good luck!
+thanks,
 
 greg k-h
