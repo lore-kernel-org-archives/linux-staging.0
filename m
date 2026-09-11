@@ -1,145 +1,146 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58C8546982A
-	for <linux-staging@lists.linux.dev>; Fri, 11 Sep 2026 11:18:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C337844604E
+	for <linux-staging@lists.linux.dev>; Fri, 11 Sep 2026 12:14:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789125530; cv=none; b=DoeKjrGlJHpRfADVsihTgqXVgYE1/ydx/te1ptBD8COAlbKVpc9plRjihkBMSCQAA2xblt8PSETlOIuTnToodUEc+SxkefFoLc7+xos/823eFHNa4WSk5vJfzvztGpSchhpf90Xdust1LM131zWBEpzHXzB+vyFtBwPdqdXl+oI=
+	t=1789128883; cv=none; b=PwMWaQoVEz+47IqMjfZZddiKQx6C1kMQk4TAxNQsXeCI6gM6oTAIybbXtPZkSkUOAhtIQoOZaUVC1Up73xKuVu3tiXISVjmr9RjM9wdnN1pNUtqkixiF3+8FhvmZiNH6VyZ59GQEcz4Vdb3veZQMcpSt93x6f6MFRs+51zVnGUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789125530; c=relaxed/simple;
-	bh=wV3pBxQrqLKd1wlVew6gdqs8o3bVNN2kXSEU1dTZDR8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Y9prRqO5xqVCYfm4zf/gKaaKGtInrITX+5emfmAVo9spUIYk+zhcl/R4qlYr2pVNvda4+T/0/JxVD6b4sNPRb9KsUwyUMiuLQkths583TzK4VoSDrQl6YJiGw9DDvcaqZv4Ij8Kt2DXLp2z/GVa+k2k/jp7KhGJE+TGtZDbuUK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R6D0QjDd; arc=none smtp.client-ip=209.85.128.47
+	s=arc-20240116; t=1789128883; c=relaxed/simple;
+	bh=A0UudHQ9g83Wm57rKo2f+BNjYF2MbrMRmJA6qp13Uuk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pu1JDy9PAKypUaonRXnpdr0xJEUSHNYM0zGjVdXLsVCGzsqjsqG86o3gxou+AMyCRfm5paBWWe4v49l+l7ejabx0pXpRFr2Hs3QiCLY7yM0P6jaTjTlpk3xAlN7eAv5tYzu32tbG2Kq+Brn5W8CbU+OWh+q2RkZ2ysEVGi7ZoQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SaIlPvEn; arc=none smtp.client-ip=74.125.225.76
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R6D0QjDd"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-49b392ccaacso12088375e9.2
-        for <linux-staging@lists.linux.dev>; Fri, 11 Sep 2026 04:18:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SaIlPvEn"
+Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-482f6356f6bso603844f8f.2
+        for <linux-staging@lists.linux.dev>; Fri, 11 Sep 2026 05:14:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789125516; x=1789730316; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1789128877; x=1789733677; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=xHdOC9EWQWOJTpdYs0NFS1/xOzQRIwZJ+gUTthcv/kY=;
-        b=R6D0QjDdgJ14HABb4Z6Uiz8zDbNhkzo1PyDnZcuiKD9v0wb3yaEI7olamhNC4pZSx4
-         E0CMbajiAs0HAUTLn1neNdNpaymR0AIRWUoUG51L/OU2iKpBs4poCTl4GXy7yQlaJsG+
-         xjqxM+45dg/ydH9WHkoKBu8KaoL/KAE7I1hFtHChboWX6OLw/fQk/71ZvJhF6f0p4omX
-         4aQ3CK3kQkbpgrfkRxF1KaN+P0vUUSHSZ7AolPMxsGoj59XfvtC0B3HXXr8cJlJRclw5
-         oVdabaQrsDIO7pmkSxLKlkI7/VHye/H396TZNEWvC1yosjApuyEegOXUtpFRhJCsDhAY
-         wQIw==
+        bh=JFEgQptOfK2+BAsw9MPq5NVIYztFKbDcTNgt/rynjfE=;
+        b=SaIlPvEnkADItHxUbX45vWjLL5wByL/y8kNrWs1C1jgji02YIPi1UEOHsnTfhIbJqo
+         X6zgyFrnEgjC2M0J1NyIQ8qZtlr23YHhQx+VHcZluzajFQdtWbBagJTs7boMii7dxICs
+         tEEpVDdmBF+VgK3xSRhA43RAaOEBt272fu2N121pEQ548GstvtKMv0B9ynocoXzRRYRp
+         H8DSR/v5lx8K1G18vhZrNRrHlXUcJHWqviplhgNX4dgkzHcqhxYHP5rSaaY5JlvsDFtW
+         h2EkYI7NxzZlicaGG4DEoN9tgPjnAf4xtlq1JMQVozzbBS3eiUY+i3QJ/mPvVkLlO1yi
+         qFYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789125516; x=1789730316;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20251104; t=1789128877; x=1789733677;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=xHdOC9EWQWOJTpdYs0NFS1/xOzQRIwZJ+gUTthcv/kY=;
-        b=aViIjcXCHkp+IZiOc9JJCZbykjLtP/Xwd6/Hv4zj2CAtuKRR1racQEwv2bD0dcUnup
-         N/fWf5VId4Xjb0l696PlsVScwvb7ReRnrSn0pEV9fdM9dwGMTqwAsg34/W+iFNnIRYOB
-         e8joxxRc2828q1PmBSR6bruZsQ6bhEEUT5ky0ZLIyk9HzlgiRubDiB54IeituyNL2qRp
-         zscRJUgHN9TBzdJZ0fZYYAVM+hH6Ive3Os5FUVi0fPbKRfW0Ad42jLPl/7D6hOwKL2qH
-         rvx0+6QlJcJ9GYL40S86WuyP/9Pr6ZOdyWJ846JvnaQHp7edgENFKRAEktjE3fuXTKBd
-         FePg==
-X-Forwarded-Encrypted: i=1; AKwUvBx97Sihn2LkAB4GZA+Qq4OUsJ+SWQVAnJSTJnE9+oJtxk1ramjknSu4I4FtCZz8wCox5rAC36xZH3obwJ9M@lists.linux.dev
-X-Gm-Message-State: AFuF++mQSn9rUmKkfDq/+Gd94xy8thrlcd/6m/1VjN0TY+aHiUKelDeU
-	zo0j76goKNSUZ8ZWgfcFLnkViUgiqFVbfAHN94CbJgqaYrTrjtu2PX7R
-X-Gm-Gg: AYBFou2y//z7FmNJ/1aGGzwJSRoJGLa0P6B6Vm11cK8IeICnBl2txPTR4KOx53GVf4k
-	sx+rmiHvu5H50LApd4IFDQ/w3RMWqBAb9JdhLyibVmx7Rj8hPGrBzRKoqSkInU7MIb7ivBPBQ5y
-	ep5t/s4NvaHJ4Bp8gP4Vohbl7E9Ebs+2jktbkXWCSHLHNFEDuDKPsHzK87b1MrdFhmGJWSYF2GO
-	ex4jVl1sRZyvisGTzEUWSemzq6SiV8ur3cGsPN8YeQIszA0CzlzBa5t6wuJwqsTrNHCjAcz/+rH
-	5rQhLCGPuyGETGfXpdJPYsO/n/kVlFqacH7E4iDUWWE9fZ8QWh41yx8TTuu2v/z+zlIBXICIrap
-	Gxa12mVjv8YIsUqztx3jUUjbf8pRSO4Qi1vs2C3+F+9omQSBqJX6MI+DHZcebiPcsbsxIBA4yBR
-	TOzgS8ITS6PIragg0aNfx2ExVMvaVPLmXt5yUj7yo8c+s/cRg97/9qwCvotOgZGSu3Eq3ifnVzN
-	o3CVbtjuxvH7qqpXkeorjvMkJAwA7BfeFEf4ixDQFvzjnba2qJbUUwZuIRoZTgklT+M9hnlsmyz
-	c9KQglNjR95NwYBjtEkFlAqpvkLyQeD/PU4UCFabFLIKXdhktctsAci0cxR93yjInu8+/yDwDYs
-	omLPXdrGsRS+mVS0wt502ZX/CTvvt11li8PJnjvinWr6oYVVBtGbwbjh6uq/FQmsiaCANRz47oZ
-	YcwSrQ
-X-Received: by 2002:a05:600c:3f0d:b0:49c:fa21:1c86 with SMTP id 5b1f17b1804b1-49e619cee90mr36362105e9.27.1789125515648;
-        Fri, 11 Sep 2026 04:18:35 -0700 (PDT)
-Received: from localhost (90-182-112-124.rcp.o2.cz. [90.182.112.124])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-486eb33fd3bsm5335426f8f.19.2026.09.11.04.18.34
+        bh=JFEgQptOfK2+BAsw9MPq5NVIYztFKbDcTNgt/rynjfE=;
+        b=fm7wMdrtWp2iz5EmqHqI1m37a7G7Yt4iIjMAv3J8JqqmsygPDDP2rJ4bfZBpb/mhCm
+         CWSipBJKDUUhh5r3nn/cJIATUa3J7zJ6C3P13w0eFMQAE8P4rrcsr4WszQow1MotLu2d
+         x5lTbk0t21NF6TTd7mXg6EX0EQPUdafczr+JkEXO0cnbecnHopUVXrZmHx2nkGzlfpjy
+         Dv4VirHZNMyRRK7L31M8q30cN6K2suMgJYHuSoKOmCQGlqG9bDqb1Hh3IpyvFxywbAra
+         Fk5DyPYP5/pykCLC9NDByiOMqfs5/9TpHbE5LcbwGvv9BjOk6kEVjmr2wvYcqn3X8Pzu
+         ht2Q==
+X-Forwarded-Encrypted: i=1; AKwUvBwB/NjDhl6wxvZfsH7EAGVv+ag8bd0Rff/ottDeOdZbn5bdItc7j4F8NswUreHtit8auoh/91ubTTIAGlUc@lists.linux.dev
+X-Gm-Message-State: AFuF++n5ml7LcnRMpBd+RFUm4DcNtGtBC8X74g7l7l4GyrMDfRPSEYEv
+	0uaaHlbdjHomuMeM8dxErRYTvLb0sVvBcG5zS5ag12EWsS3Bpz6FBPR/
+X-Gm-Gg: AYBFou21CRunAoylXPVVUoIvDC7lzLfFYezUCB8vDXVkvaMT2SyPB/EggBXpa4mXaUf
+	HXfBAvs8fnOklgRm8+/2G9DhEvInDfYRTFNoP+PIgG3tpWsC32mXVdVeImFJhspJTq1oCdTSqkM
+	Lc4PKu3cNCJpM5KOty8mw6/w/gPI9dEKuzyyO6PBsiWJes+FZvdiTbSF/QYYLL7bpuo854kbLzE
+	gq8NTcDDqiBTGQTqqhY+2xOdeyyd1HNJbcxSTYvrFFUWFX/VUSHhMcM6bKc1f1uVyXecyLS9aE1
+	EEwDtkZHFgZitwvePD6gOEj+mQMnIDBxDbzFFSIlhPxAfKicMLNuVF6J0Y/QyhISCTjiwxuwI/g
+	SeMNuL3+mbNha0kqeMpMBZvtv10rBe/yOY2oTs5jiR5WBxGRTPWdszpgIicqh15rs0zHm0aMpsd
+	M6oE7OoDZQ8UPtilQVKcHSE7gK244lZxQbfT4Tqbu/ueH3E7QFSL8TyPrOm9E/+gzd7mKRaXSox
+	Nm9dA==
+X-Received: by 2002:adf:f9d2:0:b0:486:e6a2:2d7c with SMTP id ffacd0b85a97d-486eb31b1ccmr6917106f8f.15.1789128876620;
+        Fri, 11 Sep 2026 05:14:36 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-486eb35f3d9sm4982620f8f.35.2026.09.11.05.14.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Sep 2026 04:18:35 -0700 (PDT)
-Date: Fri, 11 Sep 2026 13:18:34 +0200
-From: Joshua Crofts <joshua.crofts1@gmail.com>
-To: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
-Cc: jic23@kernel.org, gregkh@linuxfoundation.org, nuno.sa@analog.com,
- Michael.Hennerich@analog.com, dlechner@baylibre.com, andy@kernel.org,
- linux@analog.com, linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 1/2] staging: iio: adc: ad7816: Serialize SPI read
- operations
-Message-ID: <20260911131834.0000514b@gmail.com>
-In-Reply-To: <20260911110456.24873-2-abdelnasserhussein11@gmail.com>
-References: <20260911110456.24873-1-abdelnasserhussein11@gmail.com>
-	<20260911110456.24873-2-abdelnasserhussein11@gmail.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
+        Fri, 11 Sep 2026 05:14:35 -0700 (PDT)
+Date: Fri, 11 Sep 2026 15:14:32 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Farhad Alemi <farhad.alemi@berkeley.edu>, Alex Elder <elder@kernel.org>
+Cc: Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>,
+	falemi@asu.edu, greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: greybus: hid: fix off-by-one in SET_REPORT
+ allocation
+Message-ID: <aqPwqFu0eFY4CSZ0@stanley.mountain>
+References: <CA+0ovCirfyOhrXdxmM3ri9-cShD0mzPptO1qtsaboS1xscaM0Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+0ovCirfyOhrXdxmM3ri9-cShD0mzPptO1qtsaboS1xscaM0Q@mail.gmail.com>
 
-On Fri, 11 Sep 2026 14:04:55 +0300
-Abdelnasser Hussein <abdelnasserhussein11@gmail.com> wrote:
+Alex, Greg isn't accepting AI patches for emulated devices.  Is this
+something you could approve?
 
-...
+On Thu, Sep 10, 2026 at 09:32:47PM +0000, Farhad Alemi wrote:
+> gb_hid_set_report() sizes its request payload as sizeof(*request) + len -
+> 1, but report[] in struct gb_hid_set_report_request is a flexible array
+> member that sizeof() already excludes.
 
-> -#include <linux/interrupt.h>
-> -#include <linux/gpio/consumer.h>
-> +#include <linux/cleanup.h>
->  #include <linux/device.h>
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/interrupt.h>
->  #include <linux/kernel.h>
-> -#include <linux/slab.h>
-> -#include <linux/sysfs.h>
->  #include <linux/list.h>
-> -#include <linux/spi/spi.h>
->  #include <linux/module.h>
-> +#include <linux/mutex.h>
-> +#include <linux/slab.h>
-> +#include <linux/spi/spi.h>
-> +#include <linux/sysfs.h>
->  
+I can't really understand this sentence.  What is excluded?
 
-Ideally the addition of new headers should go in a separate precursor patch.
-(excluding cleanup.h and mutex.h, you'd add those in this patch).
+> The buffer is therefore one byte too
+> small, so memcpy(request->report, buf, len) writes one byte past its end,
+> which KASAN reports as a slab-out-of-bounds write. Drop the stray - 1 so
+> the allocation covers the whole report.
 
->  #include <linux/iio/iio.h>
->  #include <linux/iio/sysfs.h>
-> @@ -50,6 +52,7 @@ struct ad7816_chip_info {
->  	u8  oti_data[AD7816_CS_MAX + 1];
->  	u8  channel_id;	/* 0 always be temperature */
->  	u8  mode;
-> +	struct mutex lock; /* protect device state during SPI transfers */
->  };
->  
->  enum ad7816_type {
-> @@ -67,6 +70,8 @@ static int ad7816_spi_read(struct ad7816_chip_info *chip, u16 *data)
->  	int ret;
->  	__be16 buf;
->  
-> +	guard(mutex)(&chip->lock);
-> +
->  	gpiod_set_value(chip->rdwr_pin, 1);
->  	gpiod_set_value(chip->rdwr_pin, 0);
->  	ret = spi_write(spi_dev, &chip->channel_id, sizeof(chip->channel_id));
-> @@ -91,7 +96,7 @@ static int ad7816_spi_read(struct ad7816_chip_info *chip, u16 *data)
->  
->  	gpiod_set_value(chip->rdwr_pin, 0);
->  	gpiod_set_value(chip->rdwr_pin, 1);
-> -	ret = spi_read(spi_dev, &buf, sizeof(*data));
-> +	ret = spi_read(spi_dev, &buf, sizeof(buf));
+I think a better commit message is.
 
-No, you're mixing changes again.
+  This "sizeof(*request) + len - 1" calculation is wrong.  It's unclear
+  where the "- 1" comes from.  Perhaps the request->report[] started as
+  a one element array before the driver was published?  That is something
+  that people used to do. Regardless, when we do the memcpy(),
 
--- 
-Kind regards,
-Joshua Crofts
+  memcpy(request->report, buf, len);
+
+  Then it will write one byte past the end of the buffer.
+
+> 
+> Closes: https://lore.kernel.org/all/CA+0ovCgLrz4WhPKP5LGW5HZa8VOodgeo6pWuyQGgHE7UY57Oog@mail.gmail.com/
+> Signed-off-by: Farhad Alemi <farhad.alemi@berkeley.edu>
+
+This needs a Fixes tag.
+
+Fixes: 96eab779e198 ("greybus: hid: add HID class driver")
+
+> ---
+> The device was emulated.
+> 
+> --- a/drivers/staging/greybus/hid.c
+> +++ b/drivers/staging/greybus/hid.c
+> @@ -97,7 +97,8 @@ static int gb_hid_set_report(struct gb_hid *ghid, u8
+> report_type, u8 report_id,
+
+The patch is corrupt and doesn't apply.  Read the first couple paragraphs
+of Documentation/process/email-clients.rst
+
+>  {
+>  	struct gb_hid_set_report_request *request;
+>  	struct gb_operation *operation;
+> -	int ret, size = sizeof(*request) + len - 1;
+> +	/* report[] is a flexible array, so sizeof() already excludes it. */
+
+AI always adds these pointless comments.  Only interesting lines of
+code need comments.  Imagine if every line of the kernel had comments.
+It would eventually turn into something like the Terms and Conditions
+where it would take more than a human lifetime to read all the things
+we agree to.  We need to create an AGENTS.md which tells AI this stuff.
+
+regards,
+dan carpenter
+
+> +	int ret, size = sizeof(*request) + len;
+> 
+>  	ret = gb_pm_runtime_get_sync(ghid->bundle);
+>  	if (ret)
