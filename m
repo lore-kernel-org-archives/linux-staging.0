@@ -1,120 +1,137 @@
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mxd.seznam.cz (mxd.seznam.cz [77.75.78.210])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCC3947CC80
-	for <linux-staging@lists.linux.dev>; Fri, 11 Sep 2026 13:21:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789132908; cv=pass; b=EhBbecZFLcqZClZ76/b2qqJdPmjFE7xpwuHhNLwCw7szJfPpgyXiFM6lkYr7UoTGlHNymtnRjfM5U/o52qBBryp3ID7s3cNpNTATOgSLTKMPD9huAjeJnqSRSkz8Nb6MjoM2heWdRdMY4FdH6XbqydAU7Ht8gLw/wKN7dQ0NCk0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789132908; c=relaxed/simple;
-	bh=5GSzj0e9Yb2VMZ3KqK3B/p1FAZi4+1j3IUEAn1TPPbE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IQUneO0ax1qArREUbFOhhYB1MqMF/hZANTBponGNGR0OFwoO7oe/LO2Q3uFaugg0E0gSMFQDMydBGEs3PjUxGwm4MfCjQJUvpgjvZ0tWmmo2Ly6O6eEaamH9LwnF2JNbzUb+DyuBLQoYbr3QHaC2JjdPR5GQhpCrShpHFKBrhr8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=svF8ivvD; arc=pass smtp.client-ip=209.85.160.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49D9940B6E2
+	for <linux-staging@lists.linux.dev>; Fri, 11 Sep 2026 19:05:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.75.78.210
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789153573; cv=none; b=iSITEs6v+XphB8lg9WexrXrdaRJ0VzwobmDnlNeC2ALn0dmJU9agT4zatUIulBe0F/WE8e4paWWvoA3HHA4Tin9QT7CY/9nsto4jQ525KcjymypePzwNhKTmI8h362FRXY+vu8O6psrNqA1LIIJZx/OwQ3RqVU62VnuuYYdnSt8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789153573; c=relaxed/simple;
+	bh=eZzOC6G4Op+65s6yYFOvGkIJFBiS7fkTUPl+gd8kLWg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=rduab70pPsl5OzXObZIxGVWh6ONFPwTTDXTbDKgi1lijB1t5LihS+YPYpekjgN40dLulAhGln2ZZnj7GqSI0/QBmhfy1SgNKiRbfD0NtBvxGaT225qkfTpX03Q8pxdS8wABC/RCCSSshFws4W9agOtqQ3Rzle+vJKDZytj5dNqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=post.cz; spf=pass smtp.mailfrom=post.cz; dkim=pass (2048-bit key) header.d=post.cz header.i=@post.cz header.b=Y+whA2UU; arc=none smtp.client-ip=77.75.78.210
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=post.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=post.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="svF8ivvD"
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-4765ce0573eso581524fac.0
-        for <linux-staging@lists.linux.dev>; Fri, 11 Sep 2026 06:21:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789132905; cv=none;
-        d=google.com; s=arc-20260327;
-        b=g12LBVQxkvjyKsM0+/a6joyxxml7HZYU9Z0eZAxADlaTRy/RN8wzeHXwwm2I9P/UCL
-         AugwevCKWbEJF6vBPqtJ5qXfUNWM6hqQ9VMhKxJrG4kKo/j7+h3mVHa7bAseB+QzoeNn
-         oGfRlZs6HEGXiVlbGtIIHRwzKfxApDSNid6ABAzj9kGfj56BNsxe/PWmUN/VT9ipQyD5
-         YqSSsa0L+PREplZwmHnFTi1dLolBDjim0Rp5jAL/K9ughjhwqoby7ClegtSFK7wKtLfP
-         UsX1VfT6L1kLzhbkBpBrY1h95ubMYJJ4A+QT+GC6GqwITzfn6zOeWO67cO/ouJGUXb8y
-         LumA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=5GSzj0e9Yb2VMZ3KqK3B/p1FAZi4+1j3IUEAn1TPPbE=;
-        fh=fWH+muhwFs6vx3iye76YkaCK5XVZNcdnAI5RP9Socrs=;
-        b=erOJwJM+utE6Au1zDmkmk7kvFajDscOyD9Ilv+NyQVZpeb+/It0GxYYiSs2Yu3pGlI
-         OpAzNVGkqtJenjCsNc9KDl2PMNCYw10PtbTCrH1AI6aAdgKSyZ2KuXUfaZdFaEubf70l
-         TivrF0fS948riHHuhcXFHXjQjNPAWNZUq/y/6Hl+XKOjWS//qR5zzef/NjQ1tLRsPNI4
-         woQEMkeWjAusHgqvq/mAohuye5R790CKeN8tKe0gq9XojSS/nkuNVfxFg7eNFEUMDlMg
-         QVwG7TvtjCgu74LtP9ANMWhaePsqVbkzvMFwvhs4gJvT2DuQ2Aah9kFWitgGSS8s+lnH
-         f+hA==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789132905; x=1789737705; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=5GSzj0e9Yb2VMZ3KqK3B/p1FAZi4+1j3IUEAn1TPPbE=;
-        b=svF8ivvDtb4muIEiCn9fKOeiihLzXzmpsWfirOKaeTQengPmS0yNawF89WpccRVBmb
-         dKT7EIh/eXPkZSP/BRXWEccx5frtqiO+AwN+UEFMfMSvhhDamqzqi7gvpBIi+fSKah0T
-         zILXGNMZOqOD9M0T614oreudk1EO/QTV/biUX0DRXzUn0jlJyf1e+MRFY8KMFI0af2gO
-         tNBMVBiVdn1ZYVNZoMtP/cTuvwTokTERrJSXLNX5Hlh7j1gYNeywDs8mlkqXqp0fTA5L
-         WHisKP6oIUbH+Uc81gTm4sdUamtnEXVo7E58HGv0B3kWGiUeHm9dFT9uVW+DgPTwYzK2
-         OuqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789132905; x=1789737705;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=5GSzj0e9Yb2VMZ3KqK3B/p1FAZi4+1j3IUEAn1TPPbE=;
-        b=VNB+Cc8Re1R5nFagECIWvzttIrgESVKrlGNgySemR/po3mn39+n5eqaSLhEr2ck3L3
-         6MsASj0G/LxBO62m9QRD0fxpSyeKqNbTjkyjiu8qexDA50JAKzEsNtn5mFott8G03VZt
-         /8qCpnck7TjSGlyITKZ1vQUcxK0UJo2g7mQsC3HExMTDaKi+G/oUifjr5WVMT/jl9YCh
-         zYiCC3Gjv2YMGe4PCK4YYLGTsBC0VDcWmAbFbgWiNE+7DyjLl29o7c5g/PyurTTs880z
-         iGnrHROBqFfo+HFNJejMhxDs/On4n+9WgO0UC4UcT0HIj40KH2QtdzzXgLIgQ4JTtef2
-         xH2w==
-X-Forwarded-Encrypted: i=1; AKwUvBy6Ofg9cstXSrlDI0VMV6om2BXhvKHYsOkDFKfJoEDXq5adJWzR0AUbAHscaqaZ28MIU4xjqNqBVQzjaW8F@lists.linux.dev
-X-Gm-Message-State: AFuF++lvQiTgVIADniPz753hDHYZGg3pyvvgz87xdQVJQ58lRu07lycb
-	2BC694+SskoJltwI09WTObBUUti+giKS+gRg1DeGj2Y4aDl8LhqiJ2kgaiML0yFl7D0SAbXZuOu
-	hD7vRA7PUX4s1PlMiLGlrKOB0AgeIxq4=
-X-Gm-Gg: AYBFou2LSnJny07R0HaXt8AEDy1gJ1D3msYWUlhm2eLgldbKPLdZLggr9pHlLzbgQl+
-	0jsYBmw1mHrzsspbkPtq1XlXQsso5GnkjH54tgUvAaMTxCxXPFgnZurMYh6bWlEG4ou03m13r44
-	DZ4n6r9qNnBz1iahIDPMiA4Lzi+SPCr6Yqmm9RvanWQbGQGUQ3rIEpX1KtHpQjworto4awaHsCF
-	lcWr8DhEYhPJ+LUPgyL04C9wZMgkPUvMWIQtXI7kziYdncFbka5q8ma82Mq6Dr5i4jbLO0J35/R
-	MbzgDN8Ljf4qgytrFSGFkidB6VHAAU8zTATMc2JC0h7Xp7BAlXsImCQeHYOqn/TCGUk=
-X-Received: by 2002:a05:6871:4082:b0:479:a30d:60e5 with SMTP id
- 586e51a60fabf-47deb6b21a2mr3169202fac.37.1789132905351; Fri, 11 Sep 2026
- 06:21:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=post.cz header.i=@post.cz header.b="Y+whA2UU"
+Received: from email.seznam.cz
+	by smtpc-mxd-59f5574d99-2hr9b
+	(smtpc-mxd-59f5574d99-2hr9b [2a02:598:64:8a00::1000:a0e])
+	id 2a26d92488078375395cd44b;
+	Fri, 11 Sep 2026 21:05:53 +0200 (CEST)
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed; d=post.cz; s=szn1;
+	t=1789153553; bh=GFp7BnLG/1x1xCdoSPZ7SXaqDjzPcY8Q+nSC2hvHHk4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:
+	 Content-Transfer-Encoding;
+	b=Y+whA2UU1alTa9mR48pb3CTmyr945r6pVOCR2E0lBhhgq/2fOX+2wt+D3Wl+Pcfdz
+	 sHRZZnHEKTwQPGh+Ss0PEyGiJTreC+foIT6G8bFZYGecC6wMIDm9VACKg6asg60WNC
+	 EisqYmjuwPL8Gim4OS6yT5uAc3SdnY/kf9NSemag6R0ClwxL+xONybI3s01uxnOceE
+	 ZJhzRwWSSzLQOT71eDLCzt0k4r+F0qtLtTy0q7s8R/wXNhnaHDTLde18LFR1b8uPqQ
+	 KQL0GVnS8ctglGbwnDFGylOSYAwDMQdbi9M3N4TvdSXMbECwe4HWHTAWYQ9EWgS6bG
+	 VR61YYEKv92xQ==
+Received: from raspberrypi.tailf05c2d.ts.net ([185.155.34.10])
+	by smtpd-relay-5d885666ff-7f2q2 (szn-email-smtpd/2.0.83) with ESMTPA
+	id 611123e7-6d0b-44af-879d-c6dd0c220d59;
+	Fri, 11 Sep 2026 21:03:03 +0200
+From: Matthew Zvolsky <matthew-kernel@post.cz>
+To: gregkh@linuxfoundation.org
+Cc: vaibhav.sr@gmail.com,
+	mgreer@animalcreek.com,
+	johan@kernel.org,
+	elder@kernel.org,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Matthew Zvolsky <matthew-kernel@post.cz>
+Subject: [PATCH] staging: greybus: add missing newlines to sysfs_emit
+Date: Fri, 11 Sep 2026 21:02:53 +0200
+Message-Id: <20260911190253.894650-1-matthew-kernel@post.cz>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260911110456.24873-1-abdelnasserhussein11@gmail.com>
- <20260911110456.24873-2-abdelnasserhussein11@gmail.com> <20260911131834.0000514b@gmail.com>
-In-Reply-To: <20260911131834.0000514b@gmail.com>
-From: nasser <abdelnasserhussein11@gmail.com>
-Date: Fri, 11 Sep 2026 16:21:33 +0300
-X-Gm-Features: AcwNN1V6XBqz-WHyitn1RiLjHTKAlPQpxveccB8dqCvxZHDUYuXYYdrHvshVrYM
-Message-ID: <CANpqX3YjCJCmvp98iymexGLvL0zLXvM_M1F1YypbMCUQA0BM-g@mail.gmail.com>
-Subject: Re: [PATCH v5 1/2] staging: iio: adc: ad7816: Serialize SPI read operations
-To: Joshua Crofts <joshua.crofts1@gmail.com>
-Cc: jic23@kernel.org, gregkh@linuxfoundation.org, nuno.sa@analog.com, 
-	Michael.Hennerich@analog.com, dlechner@baylibre.com, andy@kernel.org, 
-	linux@analog.com, linux-iio@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Joshua,
+Add terminating newlines to sysfs_emit format strings to conform with
+kernel sysfs guidelines. Also clean up envp array declaration to be
+static const char * const.
 
-Thank you very much for your continuous guidance and patience with my
-patches. I truly appreciate your feedback.
+Signed-off-by: Matthew Zvolsky <matthew-kernel@post.cz>
+---
+ drivers/staging/greybus/audio_manager_module.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-You are completely right. I mistakenly thought I could clean up and
-sort the headers alongside the mutex addition without needing to
-isolate it in a separate patch. I also apologize for letting the
-`sizeof(buf)` change slip into the mutex patch.
+diff --git a/drivers/staging/greybus/audio_manager_module.c b/drivers/staging/greybus/audio_manager_module.c
+index dc90cc2d2308..16b688cfac75 100644
+--- a/drivers/staging/greybus/audio_manager_module.c
++++ b/drivers/staging/greybus/audio_manager_module.c
+@@ -75,7 +75,7 @@ static void gb_audio_module_release(struct kobject *kobj)
+ static ssize_t gb_audio_module_name_show(struct gb_audio_manager_module *module,
+ 					 struct gb_audio_manager_module_attribute *attr, char *buf)
+ {
+-	return sysfs_emit(buf, "%s", module->desc.name);
++	return sysfs_emit(buf, "%s\n", module->desc.name);
+ }
+ 
+ static struct gb_audio_manager_module_attribute gb_audio_module_name_attribute =
+@@ -84,7 +84,7 @@ static struct gb_audio_manager_module_attribute gb_audio_module_name_attribute =
+ static ssize_t gb_audio_module_vid_show(struct gb_audio_manager_module *module,
+ 					struct gb_audio_manager_module_attribute *attr, char *buf)
+ {
+-	return sysfs_emit(buf, "%d", module->desc.vid);
++	return sysfs_emit(buf, "%d\n", module->desc.vid);
+ }
+ 
+ static struct gb_audio_manager_module_attribute gb_audio_module_vid_attribute =
+@@ -93,7 +93,7 @@ static struct gb_audio_manager_module_attribute gb_audio_module_vid_attribute =
+ static ssize_t gb_audio_module_pid_show(struct gb_audio_manager_module *module,
+ 					struct gb_audio_manager_module_attribute *attr, char *buf)
+ {
+-	return sysfs_emit(buf, "%d", module->desc.pid);
++	return sysfs_emit(buf, "%d\n", module->desc.pid);
+ }
+ 
+ static struct gb_audio_manager_module_attribute gb_audio_module_pid_attribute =
+@@ -103,7 +103,7 @@ static ssize_t gb_audio_module_intf_id_show(struct gb_audio_manager_module *modu
+ 					    struct gb_audio_manager_module_attribute *attr,
+ 					    char *buf)
+ {
+-	return sysfs_emit(buf, "%d", module->desc.intf_id);
++	return sysfs_emit(buf, "%d\n", module->desc.intf_id);
+ }
+ 
+ static struct gb_audio_manager_module_attribute
+@@ -114,7 +114,7 @@ static ssize_t gb_audio_module_ip_devices_show(struct gb_audio_manager_module *m
+ 					       struct gb_audio_manager_module_attribute *attr,
+ 					       char *buf)
+ {
+-	return sysfs_emit(buf, "0x%X", module->desc.ip_devices);
++	return sysfs_emit(buf, "0x%X\n", module->desc.ip_devices);
+ }
+ 
+ static struct gb_audio_manager_module_attribute
+@@ -125,7 +125,7 @@ static ssize_t gb_audio_module_op_devices_show(struct gb_audio_manager_module *m
+ 					       struct gb_audio_manager_module_attribute *attr,
+ 					       char *buf)
+ {
+-	return sysfs_emit(buf, "0x%X", module->desc.op_devices);
++	return sysfs_emit(buf, "0x%X\n", module->desc.op_devices);
+ }
+ 
+ static struct gb_audio_manager_module_attribute
+@@ -158,7 +158,7 @@ static void send_add_uevent(struct gb_audio_manager_module *module)
+ 	char ip_devices_string[64];
+ 	char op_devices_string[64];
+ 
+-	char *envp[] = {
++	static const char * const envp[] = {
+ 		name_string,
+ 		vid_string,
+ 		pid_string,
+-- 
+2.39.5
 
-I will prepare a v6 series shortly where I will:
-1. Add a separate precursor patch solely for sorting and cleaning up
-the headers.
-2. Keep the mutex patch strictly focused on serializing the read
-operations (adding only <linux/mutex.h> and <linux/cleanup.h>).
-3. Move the `sizeof()` argument change to the DMA buffer patch where
-it logically belongs.
-
-Thanks again for pointing these out.
-
-Best regards,
-Abdelnasser
