@@ -1,140 +1,219 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mta0.migadu.com (out-45.mta0.migadu.com [91.218.175.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD3C649E136
-	for <linux-staging@lists.linux.dev>; Fri, 11 Sep 2026 11:10:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FE4044C67C
+	for <linux-staging@lists.linux.dev>; Fri, 11 Sep 2026 11:10:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789125057; cv=none; b=lRnULecl5Ys3grnI4jIcatn7wLOZqorcXF71tmPA6TVSs+oC+UUUwhoudjJ58hsP8mnQnu2RVSDAt3b7WdlmM5IrU/6Qwyppg4C+VeaT04AUw/P5GaB3hWFz6TC0LS2EKioHEDAzVVP2d4JUDQn/9YePG8xL3WYZ37+EB5n5F1A=
+	t=1789125057; cv=none; b=U0GTEEoVont4q3qYRgF3W1s5ge2abIuPg0ksHkDAq4yo6299QgmWvhQZRltwvMcM3z0SKSigWEeA9j4KVsYzlOfYdt6txoztLCaX/uKKd0Tr7pcOGuSxgaEvNi/HwLVekFIECIAt3IWfqMwGoMUr/qIRhReG58ohjJfCABs6TV4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1789125057; c=relaxed/simple;
-	bh=pJ4vj8BCmfF1V31tX/wZS7//jdxk6ExCWx5LYoQItFw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mk/Q1y+/02PmsxjNN7D8ialFQgN9T04NmjTw7znQadvMcNeQKfZWJ+I/F0RYVA/TK+aKj5URPbK61+aGeBuu5m7J2GAuMw0aDI84gZL5QvXZ7IwfyTZ0lwuSaznNBvrTxbly3kXpmOCfpvLzvOCyxUJeq+Qe25mkmIyPwoEIAo4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Sl3yogaV; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	bh=wH7807qWO5kQg87Jj8j4ZCvElyELLtvRNqcUUS+EVPQ=;
+	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc; b=HqB8ttxFp/VPU4mhIa3w/ivwnAw+u1SppgzbUVN625ZUeZpeAEqL2DenVbXDtwb7Jw3OIP7jHfUan6zzKIzgtAPssNgogcBmPsI7PkZUYvJO9nIzvHf9EqMGHAuoSFyQELpRXbogc+lFqb4RR62+/XNHgiURBcinZkSS0NRwjw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ftOGxgcp; arc=none smtp.client-ip=91.218.175.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Sl3yogaV"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-49ccfbe062eso9043775e9.3
-        for <linux-staging@lists.linux.dev>; Fri, 11 Sep 2026 04:10:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789125049; x=1789729849; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=xWttpW5LjqZG6rptcoUTqVDa/t+6fdXdX2MvAK+JxuA=;
-        b=Sl3yogaVM/yjyRbT5rH6OY3mEXYg+mRKrX7k02YUyKYzpMXGKw3z/IgD0kKI+8a6/L
-         ZGtBSbJv7KNXngPt/nyjKHTzir4iZW449GrYMfUsnVc29jos45VkNUZAF6vHCFcM3Twg
-         hS4xHVsRUiwH1FpgN7XE1VPoOkvjkA/icUKTc3zeCPN7V3bQXxOxteDlLvJ7PgyaO8B7
-         wkMU9vyWcfCoooy2Jibp6I5KoUl6D/mtC5s4QeDBuk2qKHEKjoUTT+CUyrpfPx5JRtO0
-         OsLGld5JZxLeY0X22TJd0lk1faebKMMKVIfpcmyXrYLHP5LIqN6lRh/OmnT04Xi0ZWaX
-         6j3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789125049; x=1789729849;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=xWttpW5LjqZG6rptcoUTqVDa/t+6fdXdX2MvAK+JxuA=;
-        b=HgE2S2Jtk6f9i2aGu/I8Btn+++saxYlBWgm1tsMKFauee77TJvZRvN4gDPiTBiIXur
-         sF0z1yZt8WgImpB1QhpqRjGWkltWOCikuYRRukBk4udnHn1O7wdxWLrFPQSP3yfJJM6a
-         CuQRQ//JatKo6WxCdKs6Se4/n33mKHaDh48T5T1cvB/iboSrE9aZJdcxhzecjctIOitk
-         MQRgVQSt9zc3jAQwpG93ZTvHsjj5Bt7S7NHw2xUVEz/SDKOQc2fww+3qWLWpKpfvWyPs
-         Ojxg2AhiX282EvYMBu8CF/golGVRZVFZNY0GeGtceNu1eru1/s4/TMxZJ6Pwh0zOtfyn
-         ylUQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxl0kbO0v/Xwo0ZbLFdk2p29euAG1WMyQRdFc2zMO6Jceid2sTiXx/+LtW+DPqjJGWWuHOb4vtKSXe9ydpd@lists.linux.dev
-X-Gm-Message-State: AFuF++n/4RtTJ0eZJw1JU2iDuvmXAovV4AehfuWLcKgXT7Fcg9aou5nS
-	BWyvhMQC8jqKeeEYec2ZGUSbSMk9ujoMiFb9sI44hmS9kKFX3fJ6VUeP
-X-Gm-Gg: AYBFou0fWVboK74RLui4jbUCNuljkOwmyQNObMwiTfplczFotc/e2p6Db0pHVU17qSR
-	unR/ufRI9asYdYY9kGuwhXUdETrh6b3iixjyHUjf/uKeHeK17qqLDQmLGzRcQ198HNvCyV9ym4b
-	iItKaiIkc4Ap3f3wtKMy9IhMxSCX7RTZzfOk88q9UP+d4kfDpdOyaBMGTr7dbZFUlQthjeiGj7S
-	JXKBoW60nMSDbEWuhmR0ICC4aj1ssurGwjpE74ioHJ+G3xixarVDx9pDG7OEgXmJjAVF3tB6pV+
-	TMZUgAGojQuxkE4SKipZ5eR9/dJdc9H0RByT9k8W4WvG8svQ4RhZAa/28ax+xBLO0K8pPEPHMD+
-	wLc5ketl5RzxyRqvsWUWkRvitjqbLtYnQyADjmyUGmbtwBLHHbymxZy5RHZTjxgYkole8++mkxD
-	9MxZprB4tabsXR9pwc0vuCcVa9gFY+CbJ4G9AfIqDNf5T0+p74ZkNukmWHtA4R+bTMG8OK1vI28
-	7TUr1YHOjxUp+lshss=
-X-Received: by 2002:a05:600c:3b07:b0:49c:fa20:cbff with SMTP id 5b1f17b1804b1-49e619c18a3mr42351175e9.22.1789125048251;
-        Fri, 11 Sep 2026 04:10:48 -0700 (PDT)
-Received: from fedora ([154.182.82.204])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e60ac411asm66109065e9.8.2026.09.11.04.10.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Sep 2026 04:10:47 -0700 (PDT)
-From: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
-To: jic23@kernel.org,
-	gregkh@linuxfoundation.org,
-	nuno.sa@analog.com,
-	Michael.Hennerich@analog.com
-Cc: dlechner@baylibre.com,
-	andy@kernel.org,
-	linux@analog.com,
-	linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	joshua.crofts1@gmail.com,
-	Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
-Subject: [PATCH v5 2/2] staging: iio: adc: ad7816: Use DMA-safe buffer for SPI read
-Date: Fri, 11 Sep 2026 14:04:56 +0300
-Message-ID: <20260911110456.24873-3-abdelnasserhussein11@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260911110456.24873-1-abdelnasserhussein11@gmail.com>
-References: <20260911110456.24873-1-abdelnasserhussein11@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ftOGxgcp"
+X-Envelope-To: linux-staging@lists.linux.dev
+DKIM-Signature: a=rsa-sha256; bh=wH7807qWO5kQg87Jj8j4ZCvElyELLtvRNqcUUS+EVPQ=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1789125046; v=1; x=1789729846;
+ b=ftOGxgcpdBcSNbniPQ/OnUyl2lr79Y6SOmN1ZP+7yAWXUsEAcksSE3vkG97IKAhNmkggVn0q
+ o1uBXPvtNzWjg1xS44aeNfiUjf0entACyXiUDdmF5WzJuL6xuZvoSfROQ7BYWZSy3/1l1SWjiCv
+ hG9JYoEEPLc7AShIfb1kfDOQ=
+X-Envelope-To: linux-staging@lists.linux.dev
+Received: by smtp.migadu.com with ESMTPS id 0ef244dbc3a5c695;
+	Fri, 11 Sep 2026 11:10:46 +0000
+X-Mizu-Trace-ID: 0ef244dbc3a5c695
+X-Migadu-Flow: FLOW_OUT
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Date: Fri, 11 Sep 2026 11:10:42 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+From: "Tianchu Chen" <tianchu.chen@linux.dev>
+Message-ID: <8114c3adc1acaea78523cc0fb4d4b25f7665cee9@linux.dev>
+TLS-Required: No
+Subject: [PATCH] staging: rtl8723bs: fix RX buffer OOB write from
+ device-reported length
+To: gregkh@linuxfoundation.org, hansg@kernel.org
+Cc: linux-staging@lists.linux.dev
 
-Stack buffers are unsafe for DMA with VMAP_STACK enabled because
-they are not physically contiguous and can share cache lines. This
-causes data corruption.
+From: Tianchu Chen <flynnnchen@tencent.com>
 
-Fix this by using a dedicated rx_buf aligned with IIO_DMA_MINALIGN
-in the device state structure to ensure cache coherency.
+sd_recv_rxfifo() trusts the device-reported RX0_REQ_LEN value
+(hal->SdioRxFIFOSize, a u16 read from the card via CMD52) as the
+size of the next RX packet and passes it to sdio_read_port(), which
+copies that many bytes into the recvbuf skb whose data area is only
+MAX_RECVBUF_SZ (10240) bytes. A bogus device on SDIO can report up to
+65535 bytes, causing a heap overflow of up to ~55KB past the skb
+buffer.
 
-Fixes: 7024425db64a ("staging: iio: adc: new driver for AD7816 devices")
-Signed-off-by: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
+Bail out when the RX0_REQ_LEN exceeds MAX_RECVBUF_SZ. This is expected
+to keep behavior unchanged on normal devices.
+
+Discovered by Atuin - Automated Vulnerability Discovery Engine.
+
+Fixes: 554c0a3abf216 ("staging: Add rtl8723bs sdio wifi driver")
+Cc: stable@vger.kernel.org
+Assisted-by: LLM
+Signed-off-by: Tianchu Chen <flynnnchen@tencent.com>
 ---
- drivers/staging/iio/adc/ad7816.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/iio/adc/ad7816.c b/drivers/staging/iio/adc/ad7816.c
-index d0355763aa8f..19da164945c7 100644
---- a/drivers/staging/iio/adc/ad7816.c
-+++ b/drivers/staging/iio/adc/ad7816.c
-@@ -53,6 +53,7 @@ struct ad7816_chip_info {
- 	u8  channel_id;	/* 0 always be temperature */
- 	u8  mode;
- 	struct mutex lock; /* protect device state during SPI transfers */
-+	__be16 rx_buf __aligned(IIO_DMA_MINALIGN);
- };
- 
- enum ad7816_type {
-@@ -68,7 +69,6 @@ static int ad7816_spi_read(struct ad7816_chip_info *chip, u16 *data)
- {
- 	struct spi_device *spi_dev = chip->spi_dev;
- 	int ret;
--	__be16 buf;
- 
- 	guard(mutex)(&chip->lock);
- 
-@@ -96,13 +96,13 @@ static int ad7816_spi_read(struct ad7816_chip_info *chip, u16 *data)
- 
- 	gpiod_set_value(chip->rdwr_pin, 0);
- 	gpiod_set_value(chip->rdwr_pin, 1);
--	ret = spi_read(spi_dev, &buf, sizeof(buf));
-+	ret = spi_read(spi_dev, &chip->rx_buf, sizeof(chip->rx_buf));
- 	if (ret < 0) {
- 		dev_err(&spi_dev->dev, "SPI data read error\n");
- 		return ret;
- 	}
- 
--	*data = be16_to_cpu(buf);
-+	*data = be16_to_cpu(chip->rx_buf);
- 
- 	return ret;
- }
--- 
-2.54.0
+Test Report
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Device: Wintel CX-W8
 
+Cmdline: nokaslr no_hash_pointers randomize_kstack_offset=3D0 norandmaps
+mitigations=3Doff slub_debug=3DFZP=20
+
+Method:=20An oversized OOB RX packet filled with "RTL8723B-RXOVF" pattern=
+ has
+been sent via sdio bus.
+
+Result: Kernel reports object corruption on an unrelated RCU-reclaim path=
+:
+redzone and object-padding overwritten with the test pattern.
+
+[  973.253606] CPU: 1 UID: 0 PID: 54 Comm: kworker/u17:2 Tainted: G    B =
+  WC         6.12.94+deb13-amd64 #1  Debian 6.12.94-1
+[  973.253635] Tainted: [B]=3DBAD_PAGE, [W]=3DWARN, [C]=3DCRAP
+[  973.253651] Hardware name: Insyde Intel CX-W8/Intel CX-W8, BIOS M.W8RA=
+AA01 04/17/2015
+[  973.253668] Workqueue: kvfree_rcu_reclaim kfree_rcu_work
+[  973.253698] RIP: 0010:object_err+0x1d2/0x1df
+[  973.253722] Code: 1a 29 c1 48 8d 54 05 00 48 c7 c6 13 ba 4f 82 48 c7 c=
+7 fc 5f 4e 82 e8 6d fb ff ff be 01 00 00 00 bf 05 00 00 00 e8 de 60 40 ff=
+ <0f> 0b 5b 5d 41 5c 41 5d c3 cc cc cc cc 49 89 d7 48 8b 0c 24 4c 89
+[  973.253744] RSP: 0018:ffffc90000217be0 EFLAGS: 00010046
+[  973.253765] RAX: 0000000000000000 RBX: ffff888001045580 RCX: 000000000=
+0000027
+[  973.253783] RDX: 0000000000000000 RSI: 0000000000000001 RDI: ffff88807=
+b8a1780
+[  973.253800] RBP: ffff8880191c8040 R08: 0000000000000000 R09: ffffc9000=
+0217a60
+[  973.253816] R10: ffffffff82cb43c8 R11: 0000000000000003 R12: ffff88801=
+91c8000
+[  973.253832] R13: ffffea0000647200 R14: ffffea0000647200 R15: ffff88801=
+91c8040
+[  973.253849] FS:  0000000000000000(0000) GS:ffff88807b880000(0000) knlG=
+S:0000000000000000
+[  973.253867] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  973.253884] CR2: 00007ffff7dfe350 CR3: 0000000005622000 CR4: 000000000=
+01026f0
+[  973.253901] Call Trace:
+[  973.253918]  <TASK>
+[  973.253939]  check_bytes_and_report.cold+0x66/0x84
+[  973.253967]  check_object+0x17c/0x310
+[  973.253994]  free_to_partial_list+0x1cd/0x490
+[  973.254017]  ? kvfree_rcu_bulk+0x16a/0x1a0
+[  973.254040]  kmem_cache_free_bulk.part.0+0x3b1/0x3d0
+[  973.254064]  ? kvfree_rcu_bulk+0x16a/0x1a0
+[  973.254086]  ? update_entity_lag+0x1b/0x90
+[  973.254113]  kvfree_rcu_bulk+0x16a/0x1a0
+[  973.254137]  kfree_rcu_work+0x100/0x1b0
+[  973.254160]  ? __schedule+0x50d/0xc00
+[  973.254184]  process_one_work+0x174/0x330
+[  973.254210]  worker_thread+0x191/0x2f0
+[  973.254234]  ? __pfx_worker_thread+0x10/0x10
+[  973.254257]  kthread+0xcf/0x100
+[  973.254279]  ? __pfx_kthread+0x10/0x10
+[  973.254299]  ret_from_fork+0x31/0x50
+[  973.254322]  ? __pfx_kthread+0x10/0x10
+[  973.254343]  ret_from_fork_asm+0x1a/0x30
+[  973.254369]  </TASK>
+[  973.254385] ---[ end trace 0000000000000000 ]---
+[  973.254404] FIX kmalloc-cg-192: Restoring Left Redzone 0xffff8880191c8=
+000-0xffff8880191c803f=3D0xcc
+[  973.254426] [Right Redzone overwritten] 0xffff8880191c8100-0xffff88801=
+91c8107 @offset=3D256. First byte 0x2d instead of 0xcc
+[  973.254447] FIX kmalloc-cg-192: Restoring Right Redzone 0xffff8880191c=
+8100-0xffff8880191c8107=3D0xcc
+[  973.254465] [Object padding overwritten] 0xffff8880191c8110-0xffff8880=
+191c813f @offset=3D272. First byte 0x52 instead of 0x5a
+[  973.254485] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+[  973.254500] BUG kmalloc-cg-192 (Tainted: G    B   WC        ): Object =
+corrupt
+[  973.254517] ----------------------------------------------------------=
+-------------------
+[  973.254517]=20
+[=20 973.254560] Slab 0xffffea0000647200 objects=3D25 used=3D12 fp=3D0xff=
+ff8880191c9e40 flags=3D0xfffffc0000240(workingset|head|node=3D0|zone=3D1|=
+lastcpupid=3D0x1fffff)
+[  973.254587] Object 0xffff8880191c8040 @offset=3D64 fp=3D0xffff8880191c=
+8400
+[  973.254587]=20
+[=20 973.254606] Redzone  ffff8880191c8000: cc cc cc cc cc cc cc cc cc cc=
+ cc cc cc cc cc cc  ................
+[  973.254624] Redzone  ffff8880191c8010: cc cc cc cc cc cc cc cc cc cc c=
+c cc cc cc cc cc  ................
+[  973.254641] Redzone  ffff8880191c8020: cc cc cc cc cc cc cc cc cc cc c=
+c cc cc cc cc cc  ................
+[  973.254659] Redzone  ffff8880191c8030: cc cc cc cc cc cc cc cc cc cc c=
+c cc cc cc cc cc  ................
+[  973.254694] Object   ffff8880191c8050: 56 46 21 52 54 4c 38 37 32 33 4=
+2 2d 52 58 4f 56  VF!RTL8723B-RXOV
+[  973.254711] Object   ffff8880191c8060: 46 21 52 54 4c 38 37 32 33 42 2=
+d 52 58 4f 56 46  F!RTL8723B-RXOVF
+[  973.254728] Object   ffff8880191c8070: 21 52 54 4c 38 37 32 33 42 2d 5=
+2 58 4f 56 46 21  !RTL8723B-RXOVF!
+[  973.254745] Object   ffff8880191c8080: 52 54 4c 38 37 32 33 42 2d 52 5=
+8 4f 56 46 21 52  RTL8723B-RXOVF!R
+[  973.254762] Object   ffff8880191c8090: 54 4c 38 37 32 33 42 2d 52 58 4=
+f 56 46 21 52 54  TL8723B-RXOVF!RT
+[  973.254779] Object   ffff8880191c80a0: 4c 38 37 32 33 42 2d 52 58 4f 5=
+6 46 21 52 54 4c  L8723B-RXOVF!RTL
+[  973.254796] Object   ffff8880191c80b0: 38 37 32 33 42 2d 52 58 4f 56 4=
+6 21 52 54 4c 38  8723B-RXOVF!RTL8
+[  973.254812] Object   ffff8880191c80c0: 37 32 33 42 2d 52 58 4f 56 46 2=
+1 52 54 4c 38 37  723B-RXOVF!RTL87
+[  973.254829] Object   ffff8880191c80d0: 32 33 42 2d 52 58 4f 56 46 21 5=
+2 54 4c 38 37 32  23B-RXOVF!RTL872
+[  973.254846] Object   ffff8880191c80e0: 33 42 2d 52 58 4f 56 46 21 52 5=
+4 4c 38 37 32 33  3B-RXOVF!RTL8723
+[  973.254863] Object   ffff8880191c80f0: 42 2d 52 58 4f 56 46 21 52 54 4=
+c 38 37 32 33 42  B-RXOVF!RTL8723B
+[  973.254880] Redzone  ffff8880191c8100: cc cc cc cc cc cc cc cc        =
+                  ........
+[  973.254917] Padding  ffff8880191c8110: 52 58 4f 56 46 21 52 54 4c 38 3=
+7 32 33 42 2d 52  RXOVF!RTL8723B-R
+[  973.254953] Padding  ffff8880191c8130: 4f 56 46 21 52 54 4c 38 37 32 3=
+3 42 2d 52 58 4f  OVF!RTL8723B-RXO
+
+
+ drivers/staging/rtl8723bs/hal/sdio_ops.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c b/drivers/staging/r=
+tl8723bs/hal/sdio_ops.c
+index da2d9088ab5ac..b7a4ab0bedc90 100644
+--- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
++++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
+@@ -644,6 +644,13 @@ static struct recv_buf *sd_recv_rxfifo(struct adapte=
+r *adapter, u32 size)
+ 	struct recv_priv *recv_priv;
+ 	struct recv_buf	*recvbuf;
+=20
++=09/* RX0_REQ_LEN is device-reported; the skb buffer is only
++	 * MAX_RECVBUF_SZ bytes, reject bogus lengths instead of
++	 * overflowing past it.
++	 */
++	if (size > MAX_RECVBUF_SZ)
++		return NULL;
++
+ 	/*  Patch for some SDIO Host 4 bytes issue */
+ 	/*  ex. RK3188 */
+ 	readsize =3D round_up(size, 4);
+--=20
+2.51.0
