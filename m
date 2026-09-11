@@ -1,69 +1,78 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C4E52931C1
-	for <linux-staging@lists.linux.dev>; Fri, 11 Sep 2026 05:42:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5628649E13D
+	for <linux-staging@lists.linux.dev>; Fri, 11 Sep 2026 05:51:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789105339; cv=none; b=mu32o37JO2/b0dP7QAipivvzZw9Jgtq59cMxCQisA0Jq2IAYRD5JhDDPf2Hrfbm6us76aMDi2/ARgWFrAfQ/TvKFIBIxfVGT3YwjSSPr/V3yQYJuTIRGbH8tuvEwhI0cY0nQ7i7QRZMrEQpQ9d3PzQ0gC6fFEpTJ3jPeaZc3Wvg=
+	t=1789105861; cv=none; b=jF4oMAlTtlzJDvHtiOm+N7cSoC6JqL8Yy+KNxIdzsD/o9lvBMLz4j+ljKkkeX262ARMdUfhf4FJdrbF80k9vWba4RPRHUDRZdAkORBuz4GS9lThFnKxMqeLdtjEgV2xXmAI842ptgIEyjGmsmFL/UJ8fsVT4Bxy45/gTTIRLEPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789105339; c=relaxed/simple;
-	bh=FSOW3XQ124d9AuPuo2lHrOvFOmZ5xGChX+s2ElMPm/w=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MH2OoFdforZ08aJFjKCSYdYA6fmcbJ1hhupHQjlgzc6CYz4RTqO8h66aCXWR7hdg+HOZ6E1bg9xJGDiRCxAy/b7cEVe4W187VPNzA4xohffMeJUh+hOq2Y/bX2le5HwKocHOJ82dZF08ge02Y/pI5+K+rqJqLPr4j24SJr01/NI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CDExGv4J; arc=none smtp.client-ip=209.85.214.181
+	s=arc-20240116; t=1789105861; c=relaxed/simple;
+	bh=YYANp+TTBbv1WMDp1iZThDNlsZpqbDKkOkyykzla+ks=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ymhr+XAY2r2U5qgJR7psvTS0kqAhup9jVlBbz2w9EL7XZz6kiKJNGvSqS6YaaByTs+q5kGRlCiJmX5zLCyi6BhZlC1s4kiaky6qqSg2utZDVg0xpOadk6+x+Jy5i4ktDVIhrzDS9GM4Dz70ioQeImwLgxArlxxj4TqieiKnzi+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bNcZvWgf; arc=none smtp.client-ip=209.85.215.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CDExGv4J"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2d58efc7356so7181865ad.1
-        for <linux-staging@lists.linux.dev>; Thu, 10 Sep 2026 22:42:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bNcZvWgf"
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-ca12086c06eso580834a12.0
+        for <linux-staging@lists.linux.dev>; Thu, 10 Sep 2026 22:51:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789105337; x=1789710137; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1789105860; x=1789710660; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=cRgs9+dPln55W2sl+P5oYJbAmjCJr7uv3WHo/fKpiRY=;
-        b=CDExGv4JmKaAQppJRgbCcL67vhy9IcLP714tnBWi/Ji6IQ1CYtMpaIRx0kklIQi4tj
-         wJdd4TpEduOGxWE+Jz3zHgX7Cs/Kp0i9B8q2y8n8aoxx8tRluzCHKW5BKlLQN2wXvYsG
-         eDj+QnWPDoqMuWBGK3mr4qfFqEAsPaOWtNkpt/83gfXSOy7J1Tz1Gp/P76J9U7+DqFY1
-         hLu+RI82eTUubYLEYKP9wGvZiRUw15mWeAcwswa7PkZf0IXuYufb0L6/AstKmP/6zsgK
-         uo7sgEHv5qeHsrx8u0AxdUANbqabss3ZiKcMbFbEVxvO8vkgbeFGtYCZrfuT0/BSJDp5
-         X0vA==
+        bh=NUbgazg75ZGLlIe7ZATEFRlDmK/imdYnHRGcGwQ3xn4=;
+        b=bNcZvWgfO3wrwxJKnRaMNI3Qz2Z1zRIMtWxSyO6aVGgyf/KP9fEGnwovXlrfLhkKWY
+         9Ket8xXY9c5omzY5uSkwgldjT2rQyVl2WJI8WJ01thFCfyikWEb5malmWrauhGvo0NxE
+         qIPeR21fT1jMffvx6PZkRh3tMXDtQnnHtGHwIedO30UTqfOhBbLZwRD83BKUnc0tZfsX
+         yCLFR1GxjSpmu8HR9t5/Ix3X58x/VKehdByfB6pNXXo9A4d2vwihvV/2KYlAYkm0COs0
+         +QgKhme3IFgMP8OUEieeqjmGd4b9kN04euksn/VdbjNhnEaUnd+0+g3yZHStPa1/BJTF
+         +8Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789105337; x=1789710137;
+        d=1e100.net; s=20251104; t=1789105860; x=1789710660;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=cRgs9+dPln55W2sl+P5oYJbAmjCJr7uv3WHo/fKpiRY=;
-        b=aijwtDi5vtWEnoGHe4CjKT1d2ZTVXaST27nJvRNhgySfwOmPpTtu22EzWoEzpTxLlF
-         0G3gwDEWwrnfV7greiyz27KyR30Kx49945yyPjGmcvj9NE8yEMYGm4L9+QqM7KVRoP1j
-         z9/wW5LOUg5wETyqiUhDXkWYulSaL5pCTLZJ4kkiNAbQc4e+RHM8KszXQUdy5t5Bm670
-         9wzDD0eGau4x5a8JuAzPdpn7KOwZ40noxhCBCu9sJtszisCZMHucJJPwxquLUEWcvml8
-         bpXDGi0wo74e8hZpP/33rIS2PCW0Ouml7aAY0kCBcMR2eSKDZ3tuN0FCV0vhLz00i6m0
-         A68A==
-X-Gm-Message-State: AFuF++kfkWQfcZ/+4SX/G8Sd5dYske3Vc0hqhG0Pzp4XRugPwZGfnH/+
-	MEY5hKRG6J5ERTMQw9DQ6W5pu7O2nxk4YXl/Da9u8IjWYMIsJo/HEpHpo/ektg==
-X-Gm-Gg: AYBFou2JEW2xFpZIXlSA2BIDFp/PHnZ1UEP7FFqY6NXdDfW5PmKvqfsXE2tr+NTf0pR
-	50fpiO/fOS/RuPx9knESqbWmLFrH7PbBCkycJDBa4aCfEcX8LeY88D8ov88eejdDWjJDVo6cV9n
-	cf4c7WdeeXctrTMCcZdJh6FNj0+5E4HK5+xQ2GnXNcS42wGvZ318h4iFUfQLXd+S9BLK8KzIh+1
-	niQ3MxfUxP7ANY6wx42vPuejIaEcRD3ikPOKi6btnJXiuGw1qQ2yyYu1+WIwXEfa+CLN34wDE1y
-	6LKxzo0PoQLs5nzIx4OX9TCZQjl6rhbPVJz35pslw6fTItciy5L91zqe63hgnylKXHh+JNxjyNx
-	PzRs18HEwd+krDU8wRl+SxHmp6IcMtI9SIjPaXUhJmX8f0T6RaERko9FUIOek0t5AE/oalky+h3
-	dd6YdVMTUVCR9nSe09ZAftVnO13Slt/a2ZrOHBibsGDnWvMAr/UsoPHyT3FYyqktduF7iwXVSZv
-	8J1fyJrxRVAdN7RFTE3
-X-Received: by 2002:a17:90b:51c3:b0:398:9bd5:490c with SMTP id 98e67ed59e1d1-39d9c2276fdmr4869585a91.19.1789105337332;
-        Thu, 10 Sep 2026 22:42:17 -0700 (PDT)
-Received: from TestUbuntu22.. ([67.169.161.65])
-        by smtp.googlemail.com with ESMTPSA id 5a478bee46e88-33ba4efc398sm3525078eec.19.2026.09.10.22.42.15
+        bh=NUbgazg75ZGLlIe7ZATEFRlDmK/imdYnHRGcGwQ3xn4=;
+        b=QGD7esxyB6GPeEvZxp8mPcMhLAzBbkgVkKRs9tU54d6g0xo/FkooHFidjLcmSTXf4k
+         hNazbB7Nx9DsLxkdiMiQdqiNge1RMmh+AY+diuujzTZP1pT7up3q2EfkeEPlLqqTxzFu
+         2T6OB0I9aTTsExAxUxi0Qi+s6/tgBTkKOd7T02KRp94gqx6QvA1mNuXqpMd795uldmTG
+         fxEJNeDTeEiI/v+fXHBMsD6+V6Rb/4QkIdf6fW9u0yu4m/CjhvRYyeYVj6d1VzyLK+Be
+         6oc5fKHp+gtVRr0zrYRwS/bKu4qnrS9HOZMeexWCCC8bbMTnnmA/F+J7tu/eIq95jQId
+         r+cQ==
+X-Forwarded-Encrypted: i=1; AKwUvBywvdiOuwWevhGBAMlGQ9Ffmr5anQQkMkZyQKILf2nYFXKjVeApgypODHLlbaj3rSdkVwzHngG5tzm8FPfV@lists.linux.dev
+X-Gm-Message-State: AFuF++ls4DJI46UvnahfMXdx8AeKL1Ze7cKHV7opE/f3QQL4XIIXlK/S
+	sgX+8ZlZtX2ZKMuavv0PwYFjHNQF2k9eSloUQR9hcRiZtVbmUOskBiui
+X-Gm-Gg: AYBFou3aFXn0NEnaOF+tZm3zxrG/xa+YzDS97qZKimgKTDck/xGHuBOu+7cUeJboynJ
+	tBG3bTKWljYb4g4cruP/alkHmDmBhvEveTu44KUZhMBdA5XW/GR63J+xjrEINkmm/5dtyrMBz3Q
+	Z9AIejwhFkTGbThXR0qsaHclpp0zmzhYRK4Uh1F737emtdUIJqM0+3w3O62DGd8b/WdlXEf2Cdo
+	3EMrxFqNmJl5BeXmEydZfdzJZQ1HBR8/3kbJFnSe9vJCYBXYyeb2qxoEGllmpW7SDlkSAS+1MfE
+	Sg3ny7T8I81S+NAevgj39OyocWOK01kvNRmgkgOvwKZlySld5apuicZA2K6EmRk0RR8P0YOw+Wr
+	l78yJOtrihmGA/cba8G5z0cmEPIyidmenJ9vwM2P9ffnDi19PwGxvunhB82U5xEzngj7f0yHJP0
+	LWp7sfbD2D1BibSkEc1yFu6c6AI20QQmGAPfxpNHFDGH7dDDtX0YyLFOCSod7QK6PTlX37FqndG
+	llsfQ==
+X-Received: by 2002:a05:6300:618d:b0:3cc:f008:8123 with SMTP id adf61e73a8af0-3daed153d75mr5226302637.8.1789105859474;
+        Thu, 10 Sep 2026 22:50:59 -0700 (PDT)
+Received: from spidy ([2401:4900:55a2:c6fd:d9e0:3d5a:b05d:28e])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14365b5e1edsm3654993c88.6.2026.09.10.22.50.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2026 22:42:16 -0700 (PDT)
-From: Jennifer Guo <guojy.bj@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: gregkh@linuxfoundation.org,
-	guojy.bj@gmail.com
-Subject: [PATCH] staging: rtl8723bs: remove comment after function closing brace
-Date: Thu, 10 Sep 2026 22:42:11 -0700
-Message-Id: <20260911054211.7739-1-guojy.bj@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Thu, 10 Sep 2026 22:50:58 -0700 (PDT)
+From: Gowtham S Bhushan <gowtham398gs@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ethan Tidmore <ethantidmore06@gmail.com>,
+	Dan Carpenter <error27@gmail.com>,
+	Lin YuChen <starpt.official@gmail.com>,
+	Maksym Pikhotskyi <mpikhotskyi@gmail.com>,
+	Sameeksha Sankpal <sameekshasankpal@gmail.com>,
+	Artur Stupa <arthur.stupa@gmail.com>,
+	Archit Anant <architanant5@gmail.com>,
+	linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM),
+	linux-kernel@vger.kernel.org (open list)
+Cc: Gowtham S Bhushan <gowtham398gs@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: avoid linelength > 100 in rtw_security
+Date: Fri, 11 Sep 2026 11:19:02 +0530
+Message-ID: <20260911054908.37690-1-gowtham398gs@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -72,100 +81,121 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The codebase of this driver sometimes has the name of the function as a
-comment after the function closing brace. Find and clean up all
-occurrences in the rtl8723bs driver, as this is not necessary.
-
-To avoid introducing a new checkpatch CHECK:
-- Blank lines aren't necessary before a close brace '}'
-by this change, remove newline before function closing brace if needed.
-
-Signed-off-by: Jennifer Guo <guojy.bj@gmail.com>
+Signed-off-by: Gowtham S Bhushan <gowtham398gs@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_efuse.c         | 4 ++--
- drivers/staging/rtl8723bs/hal/odm.c                | 3 +--
- drivers/staging/rtl8723bs/hal/odm_EdcaTurboCheck.c | 4 ++--
- drivers/staging/rtl8723bs/hal/rtl8723b_rxdesc.c    | 5 ++---
- 4 files changed, 7 insertions(+), 9 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_security.c | 29 ++++++++++++-------
+ 1 file changed, 18 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-index b2d22307b115..9a47361ebe9c 100644
---- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-@@ -76,7 +76,7 @@ u8 rtw_efuse_read_1_byte(struct adapter *adapter, u16 address)
- 	} else {
- 		return 0xFF;
- 	}
--} /* rtw_efuse_read_1_byte */
-+}
+diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
+index 2217cffac5f2..e82392938805 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_security.c
++++ b/drivers/staging/rtl8723bs/core/rtw_security.c
+@@ -34,7 +34,7 @@ const char *security_type_str(u8 value)
  
- /*  11/16/2008 MH Read one byte from real efuse. */
- u8 rtw_efuse_one_byte_read(struct adapter *padapter, u16 addr, u8 *data)
-@@ -175,4 +175,4 @@ void rtw_efuse_shadow_map_update(struct adapter *padapter, u8 efuse_type)
+ /* Need to consider the fragment  situation */
+ void rtw_wep_encrypt(struct adapter *padapter, u8 *pxmitframe)
+-{																	/*  exclude ICV */
++{					/*  exclude ICV */
+ 	union {
+ 		__le32 f0;
+ 		unsigned char f1[4];
+@@ -64,7 +64,9 @@ void rtw_wep_encrypt(struct adapter *padapter, u8 *pxmitframe)
+ 		for (curfragnum = 0; curfragnum < pattrib->nr_frags; curfragnum++) {
+ 			iv = pframe + pattrib->hdrlen;
+ 			memcpy(&wepkey[0], iv, 3);
+-			memcpy(&wepkey[3], &psecuritypriv->dot11DefKey[psecuritypriv->dot11PrivacyKeyIndex].skey[0], keylength);
++			memcpy(&wepkey[3],
++			       &psecuritypriv->dot11DefKey[psecuritypriv->dot11PrivacyKeyIndex].skey[0],
++			       keylength);
+ 			payload = pframe + pattrib->iv_len + pattrib->hdrlen;
  
- 	/* PlatformMoveMemory((void *)&pHalData->EfuseMap[EFUSE_MODIFY_MAP][0], */
- 	/* void *)&pHalData->EfuseMap[EFUSE_INIT_MAP][0], map_len); */
--} /*  rtw_efuse_shadow_map_update */
-+}
-diff --git a/drivers/staging/rtl8723bs/hal/odm.c b/drivers/staging/rtl8723bs/hal/odm.c
-index d18df407e365..9a3a7050aba4 100644
---- a/drivers/staging/rtl8723bs/hal/odm.c
-+++ b/drivers/staging/rtl8723bs/hal/odm.c
-@@ -456,8 +456,7 @@ static void odm_RSSIMonitorCheck(struct dm_odm_t *pDM_Odm)
- 		return;
+ 			if ((curfragnum + 1) == pattrib->nr_frags) {	/* the last fragment */
+@@ -112,7 +114,10 @@ void rtw_wep_decrypt(struct adapter  *padapter, u8 *precvframe)
+ 		keyindex = prxattrib->key_index;
+ 		keylength = psecuritypriv->dot11DefKeylen[keyindex];
+ 		memcpy(&wepkey[0], iv, 3);
+-		/* memcpy(&wepkey[3], &psecuritypriv->dot11DefKey[psecuritypriv->dot11PrivacyKeyIndex].skey[0], keylength); */
++		/* memcpy(&wepkey[3],
++		 * &psecuritypriv->dot11DefKey[psecuritypriv->dot11PrivacyKeyIndex].skey[0],
++		 * *keylength);
++		 */
+ 		memcpy(&wepkey[3], &psecuritypriv->dot11DefKey[keyindex].skey[0], keylength);
+ 		length = ((union recv_frame *)precvframe)->u.hdr.len - prxattrib->hdrlen - prxattrib->iv_len;
  
- 	odm_RSSIMonitorCheckCE(pDM_Odm);
--
--}	/*  odm_RSSIMonitorCheck */
-+}
+@@ -157,7 +162,8 @@ void rtw_secmicappendbyte(struct mic_data *pmicdata, u8 b)
+ 		pmicdata->L ^= pmicdata->M;
+ 		pmicdata->R ^= ROL32(pmicdata->L, 17);
+ 		pmicdata->L += pmicdata->R;
+-		pmicdata->R ^= ((pmicdata->L & 0xff00ff00) >> 8) | ((pmicdata->L & 0x00ff00ff) << 8);
++		pmicdata->R ^= ((pmicdata->L & 0xff00ff00) >> 8) |
++				((pmicdata->L & 0x00ff00ff) << 8);
+ 		pmicdata->L += pmicdata->R;
+ 		pmicdata->R ^= ROL32(pmicdata->L, 3);
+ 		pmicdata->L += pmicdata->R;
+@@ -418,7 +424,7 @@ static void phase2(u8 *rc4key, const u8 *tk, const u16 *p1k, u16 iv16)
  
- /* 3 ============================================================ */
- /* 3 SW Antenna Diversity */
-diff --git a/drivers/staging/rtl8723bs/hal/odm_EdcaTurboCheck.c b/drivers/staging/rtl8723bs/hal/odm_EdcaTurboCheck.c
-index 9baca2aea80e..f59a6ebc773d 100644
---- a/drivers/staging/rtl8723bs/hal/odm_EdcaTurboCheck.c
-+++ b/drivers/staging/rtl8723bs/hal/odm_EdcaTurboCheck.c
-@@ -37,7 +37,7 @@ void ODM_EdcaTurboInit(void *pDM_VOID)
- 	pDM_Odm->DM_EDCA_Table.bCurrentTurboEDCA = false;
- 	pDM_Odm->DM_EDCA_Table.bIsCurRDLState = false;
- 	Adapter->recvpriv.bIsAnyNonBEPkts = false;
--}	/*  ODM_InitEdcaTurbo */
-+}
+ /* The hlen isn't include the IV */
+ u32 rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
+-{																	/*  exclude ICV */
++{								/*  exclude ICV */
+ 	u16 pnl;
+ 	u32 pnh;
+ 	u8 rc4key[16];
+@@ -491,7 +497,7 @@ u32 rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
  
- void odm_EdcaTurboCheck(void *pDM_VOID)
+ /* The hlen isn't include the IV */
+ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
+-{																	/*  exclude ICV */
++{						/*  exclude ICV */
+ 	u16 pnl;
+ 	u32 pnh;
+ 	u8   rc4key[16];
+@@ -747,7 +753,7 @@ static void construct_ctr_preload(u8 *ctr_preload,
+ 		ctr_preload[i] = 0x00;
+ 	i = 0;
+ 
+-	ctr_preload[0] = 0x01;                                  /* flag */
++	ctr_preload[0] = 0x01;                      /* flag */
+ 	if (qc_exists && a4_exists)
+ 		ctr_preload[1] = mpdu[30] & 0x0f;   /* QoC_Control */
+ 	if (qc_exists && !a4_exists)
+@@ -758,7 +764,7 @@ static void construct_ctr_preload(u8 *ctr_preload,
+ 		ctr_preload[1] |= BIT(4);
+ 
+ 	for (i = 2; i < 8; i++)
+-		ctr_preload[i] = mpdu[i + 8];                       /* ctr_preload[2:7] = A2[0:5] = mpdu[10:15] */
++		ctr_preload[i] = mpdu[i + 8];      /* ctr_preload[2:7] = A2[0:5] = mpdu[10:15] */
+ 	for (i = 8; i < 14; i++)
+ 		ctr_preload[i] =    pn_vector[13 - i];          /* ctr_preload[8:13] = PN[5:0] */
+ 	ctr_preload[14] = (unsigned char)(c / 256); /* Ctr */
+@@ -766,7 +772,7 @@ static void construct_ctr_preload(u8 *ctr_preload,
+ }
+ 
+ static signed int aes_cipher(u8 *key, uint	hdrlen,
+-			u8 *pframe, uint plen)
++			     u8 *pframe, uint plen)
  {
-@@ -51,7 +51,7 @@ void odm_EdcaTurboCheck(void *pDM_VOID)
- 		return;
+ 	uint	qc_exists, a4_exists, i, j, payload_remainder,
+ 		num_blocks, payload_index;
+@@ -967,7 +973,7 @@ u32 rtw_aes_encrypt(struct adapter *padapter, u8 *pxmitframe)
+ }
  
- 	odm_EdcaTurboCheckCE(pDM_Odm);
--}	/*  odm_CheckEdcaTurbo */
-+}
- 
- void odm_EdcaTurboCheckCE(void *pDM_VOID)
+ static signed int aes_decipher(u8 *key, uint	hdrlen,
+-			 u8 *pframe, uint plen)
++			       u8 *pframe, uint plen)
  {
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_rxdesc.c b/drivers/staging/rtl8723bs/hal/rtl8723b_rxdesc.c
-index ac1249676794..5c86fed43182 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_rxdesc.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_rxdesc.c
-@@ -24,8 +24,7 @@ static void process_rssi(struct adapter *padapter, union recv_frame *prframe)
- 		signal_stat->total_val  += pattrib->phy_info.SignalStrength;
- 		signal_stat->avg_val = signal_stat->total_val / signal_stat->total_num;
- 	}
--
--} /*  Process_UI_RSSI_8192C */
-+}
+ 	static u8 message[MAX_MSG_SIZE];
+ 	uint qc_exists, a4_exists, i, j, payload_remainder,
+@@ -1430,7 +1436,8 @@ void rtw_sec_restore_wep_key(struct adapter *adapter)
+ 	struct security_priv *securitypriv = &adapter->securitypriv;
+ 	signed int keyid;
  
- static void process_link_qual(struct adapter *padapter, union recv_frame *prframe)
- {
-@@ -47,7 +46,7 @@ static void process_link_qual(struct adapter *padapter, union recv_frame *prfram
- 	signal_stat->total_num++;
- 	signal_stat->total_val  += pattrib->phy_info.SignalQuality;
- 	signal_stat->avg_val = signal_stat->total_val / signal_stat->total_num;
--} /*  Process_UiLinkQuality8192S */
-+}
- 
- void rtl8723b_process_phy_info(struct adapter *padapter, void *prframe)
- {
+-	if ((securitypriv->dot11_privacy_algrthm == _WEP40_) || (securitypriv->dot11_privacy_algrthm == _WEP104_)) {
++	if ((securitypriv->dot11_privacy_algrthm == _WEP40_) ||
++	    (securitypriv->dot11_privacy_algrthm == _WEP104_)) {
+ 		for (keyid = 0; keyid < 4; keyid++) {
+ 			if (securitypriv->key_mask & BIT(keyid)) {
+ 				if (keyid == securitypriv->dot11PrivacyKeyIndex)
 -- 
-2.34.1
+2.55.0
 
