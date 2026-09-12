@@ -1,62 +1,64 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33E50477298
-	for <linux-staging@lists.linux.dev>; Sat, 12 Sep 2026 13:25:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B3EC47D444
+	for <linux-staging@lists.linux.dev>; Sat, 12 Sep 2026 13:25:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789219543; cv=none; b=hQhhN/JS91SP5Nm1kDLxUxaum51GLbkjwOJBvFnRCa+UqXqGb6aQQkfhf+tGWenmawAWnwsz/vQRK5iUptA1Z7aVFx572iRFJAkEypu7Hf8U4EjhDe8vLeaGEgNSjW+TCjH6wAQ8GokUOpezC/8Ol0+gxBvJuouF6DjvuaGjvks=
+	t=1789219555; cv=none; b=Qv0FFv6R9Q2nrVWhml3vNcpKM9Q3OPT051gsHnVrWCHR+q/1pNPLKtv/dL7Vo0dLEbG9W0EU8C2kHZlLNkJpj+3IHDRMP49iKOec5sHjEevCVqVy+pHpu3qD1MBwdcIvxZCLzrKrQvNHk+PHwJUWvYI/YOf5ExGIzw0Xr2e9sG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789219543; c=relaxed/simple;
-	bh=ra+nBxwYJ9Dt1/cxvZ0GNQZEo/hQ3YnP/tmoVkrBeEE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Xo0aAQpp7Hd6h9I0tEIKtUBPYCJnekl+O4goymEKnnKaNK5tTsfHblkihm5QBPw43mwwomO7Gg238c6b22NtWYpNy488PtNeWUO6Y2ICu9hrZF5u53bAdYM59P5pse0b2QmUb5CVJaSG92fw2/TKcGyhZ11rzZWL1b2YEAjAEXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PbQsD9Y4; arc=none smtp.client-ip=209.85.128.49
+	s=arc-20240116; t=1789219555; c=relaxed/simple;
+	bh=wFxXi8Z9WcIxFPd9fUaEH26jlrgztUaT4NJh8D572Es=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=twRdSW0T1YwuYn0yy10BKiUAllf7BeoEjxx5EGevXd6CBE3G5OXUe46u9zHImbcIL1V/Mc7uJqPP0vVzezYpL0ivclcPRUDpOShD8pxMH2cWMkEFDVln4PnVjQ/pkHYNjhRcf+AjLCRZT307mEHcK7Rnf8716coUqpJBxWpXqsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ItkpQ2yW; arc=none smtp.client-ip=74.125.225.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PbQsD9Y4"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-49e6e69d528so3908965e9.2
-        for <linux-staging@lists.linux.dev>; Sat, 12 Sep 2026 06:25:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ItkpQ2yW"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49ccf3ca626so1829645e9.0
+        for <linux-staging@lists.linux.dev>; Sat, 12 Sep 2026 06:25:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789219540; x=1789824340; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=kW/Q8SPmIwY6gpgjSddoHsXSzmBQy2ZAVo1h1jIxSwM=;
-        b=PbQsD9Y4aKXKjUGaBcECN2iJr+5UkDNFWDGnvJLbcgrpf59ECNahtnRQlHi+tdUEEY
-         hUGNDK2SZWuz30u6qVjE6Sqg3urwzKK583LL43dnh/2YJ1yi1VWCT4sjjxcK//JBuJ2R
-         8xzrc+6WLm8AK285cg1eNcT5fuQgaGljI00nlW9+xOqP0l1MvFeGIPLr0RPoE4A676Ss
-         PS5n7hGhjkZFlzNuQRjajxR1OtRpUVJ1TcMc1u20DiwLt83oImUB3XpJltMLPtDL76rW
-         mR91yIGltnwUtZZYt1AQAjOhDZRFKqrb+2SIPUjhJqKsZeE6Ai6U2MJnXQfxbQptHht5
-         /6MQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789219540; x=1789824340;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1789219551; x=1789824351; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=kW/Q8SPmIwY6gpgjSddoHsXSzmBQy2ZAVo1h1jIxSwM=;
-        b=JFpJzz0AZK7yb9lObETNoO4YPmL89xbDXQl/OwsO0uKN2KE5WngW0KfA16E0mbRxva
-         BY6ZOJyBIYWiqwR4jloLJQkwqS2dKWjQikN2TVxr8quzsY+nDmYyUU7HsG0wAaMmozV2
-         dLyZIEbpFMBi8P6PHpGp+YSD986t2PqsJYsYwydLVztGvds0mOGJquW7UVQcsdNeR+8i
-         ddY/FbZH8hwTDG6YrYhXpj9CrD0Kqk5RQ2DLLTV3Q+OMP177bi7Kx3hviOMn7t4AjbJQ
-         P6FeYwWfFvh0HL4KGsi9oDKPcOGCwOfhg5PiB0VZrqHyXCaAKbqwCSFXGVdecqzyjuId
-         iupg==
-X-Forwarded-Encrypted: i=1; AKwUvByn6QZIsKCd31e7sLSTZG7UZ4llYwsmK5VlsvFRXOGVrmano/HU7g9woAFKwAuGmbmLisy8yjOQcM5Xpqm0@lists.linux.dev
-X-Gm-Message-State: AFuF++lSQZMGuWNSOEkmqjO5TvxnF7ZnXp6C8G6Ug1Y6Q9UcHWPPL+Q1
-	t/pxDfznMttCzynEDe8fi1DSuJCbVMjgMAqPAjnXxmLxoUkRN4uw2dan
-X-Gm-Gg: AYBFou1cANcz8KM62hoKg4YYh8zxH81Fh+rDaH6C1ze3KV7VWw7Zpjo7aJOHuuGc8/E
-	8UrrzOxqajLQclGH0tXq1BBwdpObHxquwWNvmGoabyWmDm8iI46WmTzOZ42AADEMrWf1dBgMeLt
-	W/BXZb8a+8faJEP16cbK9Xu10QaHszdmZaa+CSE60mDftm+NKucH8JaAnxsZK68e7gy7ikdVjWA
-	UX+T/G2vsqG/uDGBH6rsdAmTESyDj5Pn66dDQTjLF4BKKIaZoL8qHXV+2FAL30WCpszb9eBKLib
-	sEuNnFgBlPaUnUqRks3MhrW1Nx2nM7gZ6qr3Fp/3WFFc9yjPTcuqRBlOH+pU8R19yUmKi9uBLTK
-	QNvSnAF5gLibGlbXG4RbyKPiCxgSqLs8sFkvHzWDm3wgyBbjk4pE7lJOuFavLYtd5V0eu4OdUfj
-	Q6dZyY1isJ21keh6mcAc8GVcsK6r/SuPG+VR5jsHDq6TitPFiZ595vz7aMYa9aF1rR5rqpdFPOe
-	gaFe0Nsq9YRH5zxlg==
-X-Received: by 2002:a05:600c:4714:b0:49c:c96a:d36b with SMTP id 5b1f17b1804b1-49e61988ce5mr95438225e9.12.1789219540215;
-        Sat, 12 Sep 2026 06:25:40 -0700 (PDT)
+        bh=PW1ixTgxWimSTTjdthxgReSlmPLPKmDhq2QrwAvzdaI=;
+        b=ItkpQ2yWOV49lOn+RZMQCVx+MBjArZsaBvITmP9X51o0K+uOjADBINIIjC+ebY4s28
+         RtxKStmHEbXy1zdBzn2cqH1cIcN6iBv4RZwjvM2Z4wBD/9v2Xh1Q8xVCAA8cGAojiy2J
+         kll3hywjIBFoNV4HfgvZ3PubnEZCZzR+dy03Ao2iSvny0RSXE+h2RpOI43U1LOpmoFxp
+         IfiDzDbxhaHgcxudu1/Ld6Wr3PNBy8FBLWeILZ/AnJOTOsF+qWpCyW5Mx5vJLTHuCxt8
+         qO8KnBQvaYxLIAspcLb5GrSJXL9kwb6+zW8SVwlypyHPRfyy8rbEXr6glfmyuG9qNE0h
+         8ajQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789219551; x=1789824351;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=PW1ixTgxWimSTTjdthxgReSlmPLPKmDhq2QrwAvzdaI=;
+        b=fhylfoKUo8S/M5fxKLW+xCw1i0aq/G0UQ2epULxY2mQK502YadD3h3axnsTVaRJ9E7
+         NBxpXOwmoh0iqhfAhNlExuAp034738mPQ8s/roIGKf0/nPF9JnybAB6y/YX4EmQakIfa
+         88FdpC8PZt1vT3ePokBfXtp0Y8Di0LUz0PhDARnToVdcM25nB5keOBXkbXIv+SMVuQQv
+         yNBwSb4NgQYCgEIO4vl7JPSc+x/a1/ISnW+wOCQUsqyK/tBjtLpky5Q+ra/Gpz1AhVwP
+         x8OWiHDpM2R7H7O+XqWhPU4utSzfDV+d4Lscd1OQZxNQgUfWqh7bzqsnL/oYyo/HLCyO
+         X+YQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwozxOT4tzdHk8JrIk10FifkdiDtdbOYVNmMRQ98YyUoywA+3/u0wxURbBCUcSnt2QwE2DGBHLNUwp278Li@lists.linux.dev
+X-Gm-Message-State: AFuF++n0jdI9e9S5Svun2oBAsdTmHWqAVB+8JGkIOgNb0m5scGrtrZV6
+	RgSg61A5hM/xNccwAmnDQW1inQO3bSzqR4tupHExh5zidRY9fK/afEol
+X-Gm-Gg: AYBFou1cUtIUaCeP7mJ3jrkZzfSQCzuDbuV9X5k/sNtXXgsCxe5hX4JTBKN4rS9VPG2
+	Ymf3rrYbvCQ+aiHDGhFo7B1k4XWpMefz8HqKVT1U8NxkEnCixTylkyTMIUoFl6cXaSnF34Wa48g
+	4K703CjbqlZq+iCe0UVLg+utvtrYZIGALDVbtGjwh272xtEEUzaX1+NBLmMksPaKzqVFJPGFoxw
+	sc7E+GSxmM4G8I/G8/xJEIH70oVWwHtDdvBw/pnFw4teZo213O+Qr+Gka+3nUtbV8dFKb96tz3Q
+	zMRal/YtuJsqpiVtE2+fEQnmWTKLUDffXC+T8B0V1l0d9Lk1ecAARNmYCrVxel0u0wp2z7Ukxx9
+	PX2eocMoFzjzD4TqR8PETJLaY1X1EgAmr3BNc7w8YNiaSv8UngVNeKshlLnkTW1+qbXyyCXRrkc
+	v8qOXnHjhNfwBy/gGV+lGg/4QjaxrNhCfNSdbGVxD9PJ9Fw2Itu4vdcbyegKybdBPAuWFIPkgLj
+	Zi6ThGSpd2s8u6Pbw==
+X-Received: by 2002:a05:600c:19c9:b0:49e:6683:d23c with SMTP id 5b1f17b1804b1-49e6ca4003cmr24788655e9.0.1789219551327;
+        Sat, 12 Sep 2026 06:25:51 -0700 (PDT)
 Received: from fedora ([154.182.88.3])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-486eb33ee8bsm12684503f8f.15.2026.09.12.06.25.37
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-486eb33ee8bsm12684503f8f.15.2026.09.12.06.25.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Sep 2026 06:25:39 -0700 (PDT)
+        Sat, 12 Sep 2026 06:25:50 -0700 (PDT)
 From: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
 To: jic23@kernel.org,
 	gregkh@linuxfoundation.org,
@@ -70,10 +72,12 @@ Cc: dlechner@baylibre.com,
 	linux-kernel@vger.kernel.org,
 	joshua.crofts1@gmail.com,
 	Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
-Subject: [PATCH v6 0/3] staging: iio: adc: ad7816: Fix SPI read race condition and DMA safety
-Date: Sat, 12 Sep 2026 16:25:14 +0300
-Message-ID: <20260912132517.55686-1-abdelnasserhussein11@gmail.com>
+Subject: [PATCH v6 1/3] staging: iio: adc: ad7816: Sort headers alphabetically
+Date: Sat, 12 Sep 2026 16:25:15 +0300
+Message-ID: <20260912132517.55686-2-abdelnasserhussein11@gmail.com>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260912132517.55686-1-abdelnasserhussein11@gmail.com>
+References: <20260912132517.55686-1-abdelnasserhussein11@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -82,32 +86,45 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series addresses two separate issues in the ad7816 driver:
-1. A race condition during SPI reads where multiple threads could
-   disrupt the GPIO state.
-2. A DMA safety issue caused by using a stack-allocated buffer for
-   SPI transfers.
+Sort the include directives alphabetically to improve readability and
+maintainability. This is a precursor cleanup patch to prepare for the
+addition of new headers in subsequent changes.
 
-Changes in v6:
-- Separated the alphabetical sorting of include headers into a dedicated
-  precursor patch (Patch 1).
-- Kept the mutex addition strictly focused on serializing the read
-  operations without modifying the sizeof() argument (Patch 2).
-- Moved the sizeof() argument fix to the DMA-safe buffer patch where
-  it logically belongs (Patch 3).
+Signed-off-by: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
+---
+ drivers/staging/iio/adc/ad7816.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-Changes in v5:
-- Split the changes into separate patches for bisectability.
-- Replaced stack buffer with a dedicated rx_buf aligned with
-  IIO_DMA_MINALIGN.
-Abdelnasser Hussein (3):
-  staging: iio: adc: ad7816: Sort headers alphabetically
-  staging: iio: adc: ad7816: Serialize SPI read operations
-  staging: iio: adc: ad7816: Use DMA-safe buffer for SPI read
-
- drivers/staging/iio/adc/ad7816.c | 27 ++++++++++++++++++---------
- 1 file changed, 18 insertions(+), 9 deletions(-)
-
+diff --git a/drivers/staging/iio/adc/ad7816.c b/drivers/staging/iio/adc/ad7816.c
+index 30644d2d7c54..9e43ce83e071 100644
+--- a/drivers/staging/iio/adc/ad7816.c
++++ b/drivers/staging/iio/adc/ad7816.c
+@@ -5,19 +5,19 @@
+  * Copyright 2010 Analog Devices Inc.
+  */
+ 
+-#include <linux/interrupt.h>
+-#include <linux/gpio/consumer.h>
+ #include <linux/device.h>
++#include <linux/gpio/consumer.h>
++#include <linux/interrupt.h>
+ #include <linux/kernel.h>
+-#include <linux/slab.h>
+-#include <linux/sysfs.h>
+ #include <linux/list.h>
+-#include <linux/spi/spi.h>
+ #include <linux/module.h>
++#include <linux/slab.h>
++#include <linux/spi/spi.h>
++#include <linux/sysfs.h>
+ 
++#include <linux/iio/events.h>
+ #include <linux/iio/iio.h>
+ #include <linux/iio/sysfs.h>
+-#include <linux/iio/events.h>
+ 
+ /*
+  * AD7816 config masks
 -- 
 2.54.0
 
