@@ -1,137 +1,114 @@
-Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com [74.125.228.140])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11CD5309F08
-	for <linux-staging@lists.linux.dev>; Sat, 12 Sep 2026 15:51:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6125A492E4A
+	for <linux-staging@lists.linux.dev>; Sat, 12 Sep 2026 19:12:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.49
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789228293; cv=pass; b=oQx/CeuyAp5F+lvIf4EsG9KMenHO7gyN3XRloKyuz2y2RwUIBHO/B2Hnr2xG0LDPgz5cTETv5Zdn7NALIPH11oPzqSjKExs+2lqUwR94QuV6reytnu/6Yqdhit97A5RTxxFedzqxD7Ik9w1R4AGzLhwS93CO3qZBxfMwov7brT4=
+	t=1789240344; cv=pass; b=tMU+AHuK3hn9JAUtT3UkYXnwv9eppYPcvQukh3x7mZkQ70m+MPwXKFxpWj7goVy+YTt4Na9yka3JTsa/FWeOrxrB2aTVv68ZXb78CgzGRXT9NODrBaU93wEfso6dQBqTWwHDuJsaOuot7g2ZBF8O8rMT5ykIpe8qsPTEhjKWLoE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789228293; c=relaxed/simple;
-	bh=SPedAVqPeiUb8NjiNxJnvdJv3qfQNNhKzjipm/j87EY=;
+	s=arc-20240116; t=1789240344; c=relaxed/simple;
+	bh=u+xWrGD8mImT1Cc4PS08HKI81seYVirb45TJpAtTjAQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=U5PLCz+XjybGu7IK5SSuF8fUDeXk5PbIJxqFZf4Wgevytme831dkq/fImqb3wYpe+eOFW8pSwX7BHgQS1/9mWzZLuspsm5yHjgzY4/IOX8eeOv1hDh5bgfFV5psgQT+AjH7V2+Dg/IAL833jxmoDVTlaUPKXbBmvHkN3u2sqoYo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BO3Sm9P1; arc=pass smtp.client-ip=74.125.228.140
+	 To:Cc:Content-Type; b=o45V6e2QV9b/e0AX57FJuNl0odUKknA1PUc4UKCz8v3TtBjTNubMOFcv1xtAr4G7/Lv4yaC+Mhd5SRJcX+OdrqfPFGX6AjMDZ3DzsBSDLA2/V3Yhc9gbbbP0yvlIpn/7IQZqcoxkxqHNlfJmmcxiWiGfvkrXppLXvucKFAqXlfA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G61IT2XK; arc=pass smtp.client-ip=209.85.216.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BO3Sm9P1"
-Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c254f705536so205812066b.1
-        for <linux-staging@lists.linux.dev>; Sat, 12 Sep 2026 08:51:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789228290; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G61IT2XK"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-38e42560ebcso2007120a91.1
+        for <linux-staging@lists.linux.dev>; Sat, 12 Sep 2026 12:12:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789240343; cv=none;
         d=google.com; s=arc-20260327;
-        b=L5U53krwDOzqANg1QpoYAtFaMxEuJ1nTUmy6JuQCI8pSHdYJVQ7gPchp5a/viH3sdA
-         RS5y8K8SLwmcLy+wlt//Nvk2ELgMwRYAjanCKfRzM9lo1MXu2pIJwAhoAgdHVDBfeEf5
-         pCIWDMH7QT0fyBt7JRJfS+n8HrlFTQzzIf1/faFbZBHjFJCizleoiA4TX+MTWyF191W0
-         1l+zcPZazPk+dHFDTDQVsz8RdrzexiouVW3DmdU+0evy9GxuSDKlyIAK6eamJckGCNRs
-         kYyV7Iwb+ffEfCe4rm6ZtOUfIfQDOxOdydnTIQGdDuR7fY2/xz3U0G/bgm0wAzQ3Ef9x
-         ZqgA==
+        b=W/9tEGdVfK5Qsy01SHfdLm7Baqeh63/V/pbJyHMps1AT56Pr4i0GAeClXIjd6xmqk2
+         nrLyA/1el34pUmiowdT1QvIQRJHMkVUeSOuvHqLTH/H0SxDzP+YD2s/l77ZLJW26l0z3
+         KhrMLNPHgK00mWe7uTZNeeigiwSIm8yzj/q/itvFUXgJqPxGV+nv5dPRZK/oiHFI1UT7
+         ikGk1PsPMCE17EV4Q6PQTc/OqLOCBhdU8xMJiCP5VuOvthC9MKubcYSTMtvn5HciPqFU
+         y/+0MOO9trZy9CxCdwzrmtQLDCJ0AvWdU8TLDYgmXThgNrLz7rw+iiDKDEZ+s/UUsq16
+         aXkg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=SPedAVqPeiUb8NjiNxJnvdJv3qfQNNhKzjipm/j87EY=;
-        fh=GEW+HRE+vElEzMR23Nnq6H/k00TzBHQnde0bt1DCPuQ=;
-        b=TMRlraBpgNHmWvPHJNH2CjbeEpM3/fFa9dZnKQ+nEuuziUzGgKAyPxMyprqOxNQnv4
-         dxtzgG3v8AAmipf2SmfR2Nd/QCNxhySUlsoDS0rfoz0E7Bhe2Y6XucdUFkXr31jkfP+w
-         D+1VcK1fN/BUDe91ROtM3LQU5+/pBBDNkAiBtBZLBz1dhh+bK4+4aH2XHjhIRrBU4oZq
-         Zz93L6sE9nQj6gDNsCLSFzDHOMIFwutGya09M2IE+XhCbRWnz9GpoqcC74GqXmGiqFmE
-         G9b0kLh/1FMUO3noTwT+6PDN7mfLnf0OMOCZHFaKBSi1Rnz4nNAwf9wnEydtijQfKMgE
-         zsWQ==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=/KtTlnq25tSukH1If3c69APSfMIY3/nD2byRCukec/E=;
+        fh=61Blt53wYSeNZGXbvzRoOtY2EZtLyjhc//zKc4K1EeY=;
+        b=QmQTXtgStlUSfY2/9699CRj0n+bx26/zp1+Zw67vHQIo7dosTT0VnidoiwXULyXuaP
+         ckE/NA3zhw9Ly5J14vmfSOIoJCRDR8PibQ0YsyikYGBjCpdkbpyfc0FK6/T2VIyowAcq
+         Cmgt7Ex0UtYRwZ+/MZPnksynvEom+r38NvoP06OMQF1BryQNNC3XV+JKjX8EC1GWuTD0
+         vEPDsofT0wKHZFyN7XSkr//zYWPI8O015ects5bhNixTygaeVPqm2YefCkoqQz5C7gc1
+         0yDU0lXr+GjtokL+SXd9VrRpm1bIwz2iOhsjzLftcY34vcBsiBms5Y9x4pvzkhLpaB5T
+         cD+g==;
         darn=lists.linux.dev
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789228290; x=1789833090; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=SPedAVqPeiUb8NjiNxJnvdJv3qfQNNhKzjipm/j87EY=;
-        b=BO3Sm9P15aTpMrma7KuSV04PIYo675fDadr+1bDqFEsvH8o+dp6nyuAJvCKB8k6aB2
-         ikm+Mfuu5MpGoNj+VK6bEtbha5vGe/Nken38kNj9dgPkbAZbY9WEz2T0hLvTgclaMJC0
-         ye6Y6q5HjlvRNE9ud5EzyRhi57rfFBqTdw3NKE3l+BCQ543d5wLs8ilQyhU91uW72Xkz
-         i7a6qcHmvQbfHGEf4mWIFR1+2W1Sl2uWH4c4BXsG6FpWu+7UUvP0VctAgnOdFTeTOTtL
-         oQnFFStlZAfqDKqrU73dXVQ2ZiN9nCZPfA3scFIJLtVdZfwOKNu7D9Ow5mm1pmj39sOW
-         hhUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789228290; x=1789833090;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1789240343; x=1789845143; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=SPedAVqPeiUb8NjiNxJnvdJv3qfQNNhKzjipm/j87EY=;
-        b=l+vBVHyVP1CNus9A4dcDSnZvZu4oMbc7Ux+aRtwu8dJyIpVVBrBQ8J7jpLRVXwcVuq
-         E75ASbe6+ic8aPHNxFGXtakov8TSJvcSfVTi2ZGi/t+Y5DkfLYXNeqyqyVvKYyVIgYO4
-         EEfBw/lBzhtUP0JSsXATVuSPOBpotWeNquZiiX+OQUK/fwGbYCnhLrMZ5hPRaxqeX/nG
-         5TP6f0QLvNaS2ksnp+275zAyR5bkRnTFarQFV41PdkrzyBOUaQvWZNjP5SbqL1hB9cFC
-         NMUGVg8pZdfFS5qP+1+MLL+Vh2H99H2e0lj6tqxbLDjjBrBnep8G+KawFFc52f33/QCF
-         ZfSw==
-X-Forwarded-Encrypted: i=1; AKwUvBwVbC7pLZ99YSwyYU1ckj2MQWJ4nGaBlsAopr4a1dQzii+s+uTcBllmt98DfnHW2900fW1hgbHZs1dWi4mA@lists.linux.dev
-X-Gm-Message-State: AFuF++k9nTKM/5ScEYwHqsYMZi36WjVWyKrEJXhLYnGuMoQ7SPV7wo18
-	8JiguMnbCo9LcoGAo48t2kRSWFNVwD00/eDsbKNTLFYIm6lfFZ528JIO5tPMzCjO8AFzzMAqX3j
-	D3J4TPFH1Fyf8KuZkoAKS9zxCvQol+lc=
-X-Gm-Gg: AYBFou3W2XlZLdL6lTvjiSsbIGXXBnNPJti1SvRbx5OroptkcE/m3gWBRFNXx/jy6z2
-	5zLCxUCEVpRsgEgdy8dsDryAQV+DOE+gsXk6SOPgB8yMalHHQjvRKjk7szpz4MQULimwj+ZKoyh
-	C1JbC7S/3W0kDI4jjTeJZwwP0poq9oWtzgGQDWQ98tj1RX7ahd485IhJFVt3/yUyyc5q6ZLKIZr
-	XbCJ3YJmwKxBMRRT0gwM2O83CY8sGXyDytwn7bw43/1EWDTwcFfe7dBTgoD7AoPqbxx7U+iMwMY
-	y+D0eCoG5QS5xM+gLUua11XzCKGTsi9lk/phWte7BD8C5SYuvE8WumvY8J4Fuv3OpkE+EDmCY14
-	HSJ4qV4eSCO+NnxjUkApL4to8KD43278FqkGy6NYKWWTp38SyQXUoiowSsWR0qvxc51qeJWzMGe
-	mRu8Nn2LDC54wnfF8XQ2k9/qPub1EEc0A9ok/MMDA78m+qrW+nTPI=
-X-Received: by 2002:a17:906:f585:b0:c26:1648:a075 with SMTP id
- a640c23a62f3a-c29667067c8mr442873366b.48.1789228290103; Sat, 12 Sep 2026
- 08:51:30 -0700 (PDT)
+        bh=/KtTlnq25tSukH1If3c69APSfMIY3/nD2byRCukec/E=;
+        b=G61IT2XKG78G1r91B7298ft9jHyyjG8EgOvK6+qxboX59594coc9Tnn8GSZzPLLqU3
+         yDHCW/8x7OzuSTU8A7T49TfLfRteBQkxH6k2U48SsSXwIqGMJu5Y+LMAIzcArNxMZ7A0
+         uoAwDKeiipj5lJfS7S04oVW4BKIYJ0w2sdizME56dalA/AyvufkC5ZTyk8D2Ug/dwdhW
+         cT6ZldKKSBGQhr/0FklzIfVgRvo0HB7dqoqD2K3aON1HWVyDub8QJB1toofcqZ23vx3/
+         iV3Fj3tIB+FzFsCgQKmZMuJFAHSYnRjQPI/a4Q0oZchPr7NeRs20KF6H+1t3upk46UdL
+         p6rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789240343; x=1789845143;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=/KtTlnq25tSukH1If3c69APSfMIY3/nD2byRCukec/E=;
+        b=hyqTXZhNJFiqG5Wi1zhzodfF7IgzUeQu+HyevI8/ZwTENC7GztiKOeUrd00b+PdtOU
+         RwQ+uTJg+AopQOURWE/C6ZDN+IGhdvB/CY/0RpH4fdyXBUl5ZDZXlR7yvFDdCfRTKqkW
+         jFYkIEwdJfnk3SJrSeHa8swKTmNEWS25IndTOynAtO2aDkX7Brc7fqsw0mf3fCSmSEW2
+         IkQOzG4BtOkPYUWH26m0DMgBdQR40hdAjS9EI7F8Th6AQTwhbNF3no6gpyITrtayjhWC
+         DfzFrChqhiELIB3GQp2AmmauIRYMbvOjo16WVsEFXKzq/IZcfyxOeQfzr5AhR4E1AtjK
+         36Kg==
+X-Forwarded-Encrypted: i=1; AKwUvBzZo43Vne2QhNp/t4cJ7VjEFTt41R46yXF/gfAPzC5lqLhL2fVhYbwgyOx5Ck7fafQnjNkIxIvzlbHY5DzV@lists.linux.dev
+X-Gm-Message-State: AFuF++nR8ctp/QjN5KIPxD6po3OIeM0GwlW4CxOP3yR4wCNRC/be2pWH
+	yntVM50C9+1EyhJEWkyfRvaXaX053yuSysUk9wg27DrH3xvwpDLR+T4UMW7BTlxcQMvduukY+oj
+	S+vyFeUJKfJ7Dqd9IuMh8OQuLnytzR+Y=
+X-Gm-Gg: AYBFou1tpXEcMsrFxnHH9PDHR5yuryqLmuBqsaow72Aa1ysGjbzB4r8RZr564D4zoEc
+	La5EHB20WUlMRW2VK6MG9afBKHsBmEGY8bkT7rxvTZJL7abnH5I7Ls1WO4AaRSAx/B2TGS3woer
+	lQURlkJ27z49zEiswB0TMHKYwPJzSuOoyQL50hItf0y1qTrbAfxQDyqpKvHDflWQRCmGtO641uY
+	teY2HdGJdaVJvHUnT+YzgMDNCt5+r8imUrVqxj/QuPO4m6DmFTVAI1BXTz7rDVXOQoun72vRGKg
+	Ev9usLOj6ENnEEubBjcgrSai9JJp1YDI6j5FNURx3bXOZmEa+sSmEHzsWco3dh6aDNNnOpy3SbH
+	eTnzQl/5AmGV69weujarKmHY=
+X-Received: by 2002:a17:90b:3885:b0:398:c794:ca26 with SMTP id
+ 98e67ed59e1d1-39d9c3944aamr16279860a91.25.1789240342643; Sat, 12 Sep 2026
+ 12:12:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260912010936.12832-1-ricardobarbosamscg@gmail.com>
- <CAHp75Vfpq7TXcqFfGfqBZSawSSyMdbCj_gdNRkarTHyzbkJL4w@mail.gmail.com> <CAOOzAW3+ySKGkSETW7knDLb7=aMTsgpJ4RSmRFcMjCb+gvaJuQ@mail.gmail.com>
-In-Reply-To: <CAOOzAW3+ySKGkSETW7knDLb7=aMTsgpJ4RSmRFcMjCb+gvaJuQ@mail.gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Sat, 12 Sep 2026 18:50:51 +0300
-X-Gm-Features: AcwNN1X5L6R8VeJmkjFevWlO1Zk9f-pg5FslM8lqB45lWu3P0SnHxHdoYHbt7ts
-Message-ID: <CAHp75VdKEzXDyUZbDwS-dGECjDXsosQ-62yVK9PasmjBBTEPoQ@mail.gmail.com>
-Subject: Re: [PATCH] staging: media: atomisp: remove duplicate blank line
-To: ricardo barbosa <ricardobarbosamscg@gmail.com>
-Cc: hansg@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org, 
-	andy@kernel.org, sakari.ailus@linux.intel.com, linux-staging@lists.linux.dev, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260910124403.95741-1-7israr.work@gmail.com> <aqKzBTM-CdBqQzXi@stanley.mountain>
+ <CAGKr8w2e4YGF41X5mv5Mf2FDvoezpzeKmFMKaHKf43eypCKdFg@mail.gmail.com> <aqVSfA_Ns_plwCpK@stanley.mountain>
+In-Reply-To: <aqVSfA_Ns_plwCpK@stanley.mountain>
+From: Muhammad Israr <7israr.work@gmail.com>
+Date: Sun, 13 Sep 2026 00:12:11 +0500
+X-Gm-Features: AcwNN1VUFJ5oW7vzR94ZpY5ACDu7fbIXWq2PXETpg099etoVmWp67h8nKH2Oho4
+Message-ID: <CAGKr8w2TSt0z2K5JDKViHVMf3fGpDtNEwqhedR10JoiXLB=MUw@mail.gmail.com>
+Subject: Re: [PATCH] staging: most: video: add comments to mutex and spinlock definitions
+To: Dan Carpenter <error27@gmail.com>
+Cc: parthiban.veerasooran@microchip.com, christian.gromm@microchip.com, 
+	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, Sep 12, 2026 at 6:44=E2=80=AFPM ricardo barbosa
-<ricardobarbosamscg@gmail.com> wrote:
+On Sat, Sep 13, 2026 at 12:09:00PM +0000, Dan Carpenter wrote:
+> Imagine one thread is calling get_top_mbo() which reads:
+> list_first_entry(&mdev->pending_mbos, struct mbo, list);
+> but the other thread is calling:
+> list_del(&mbo->list);
+> It's a race condition.
 
-Please, do not top-post!
+Right, that's the exact interleaving the mutex prevents  with
+read_lock held for the whole of comp_vdev_read(), a second thread
+can never be inside get_top_mbo() while a first is inside
+list_del(), since both calls happen inside the same
+mutex-protected function body.
+I'll write it up and send it as a patch.
 
-> Thanks for the feedback, Andy.
->
-> As a beginner taking the LFD103 course, my main goal with this
-> submission was simply to validate the workflow and git send-email
-> toolchain with a zero-risk change.
-
-Unfortunately this driver is not the best choice for a newbie. We
-prefer to see real work (likely by a contributor who has a hardware to
-test) on it first.
-
-> I'll look into more meaningful tasks for my next patch.
-
-Yes, it's still possible to submit some cleaning stuff, but do not
-expect it will be accepted or even reviewed, we lack the resources to
-handle that driver ourselves with all contributions it gets lately.
-Thanks for understanding.
-
-> On Sat, Sep 12, 2026 at 8:36=E2=80=AFAM Andy Shevchenko
-> <andy.shevchenko@gmail.com> wrote:
-> > On Sat, Sep 12, 2026 at 4:11=E2=80=AFAM Ricardo Barbosa Dias
-> > <ricardobarbosamscg@gmail.com> wrote:
-> > >
-> > > Remove an unnecessary extra blank line to clean up code style
-> > > and fix checkpatch CHECK warning.
-> >
-> > This is the lowest possible priority patch, if even considered. If you
-> > want to clean up this driver, there are more interesting tasks.
-
---=20
-With Best Regards,
-Andy Shevchenko
+regards,
+Muhammad Israr
