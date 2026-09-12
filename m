@@ -1,104 +1,496 @@
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sendmail.purelymail.com (sendmail.purelymail.com [34.202.193.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E47CD2ECD1D
-	for <linux-staging@lists.linux.dev>; Sat, 12 Sep 2026 01:11:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E1E038F92D
+	for <linux-staging@lists.linux.dev>; Sat, 12 Sep 2026 03:26:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.202.193.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789175466; cv=none; b=ApiiI5WNtNj3g3rTdShQJnW9jnwF8gu0Jz7GmbVhhJA+nI/3tzTxQdM1vYj8ne008PbhtNAHEfIJFg4fAQNrdY3v71OnIOcJ+u25MLlVvKF3vBFDfHB72l0ELFOfZVrZdieBSddRg1rLrR0S8o8TQDJukZ+UENEzDLO1V6ELfx8=
+	t=1789183612; cv=none; b=CWsF1Y463sP2+7c6aQFC6qW41XmGzrLgUQ6T5fwZaBtV3BzUJ08thZpHl9VmvY27gcKszEmkTIsWk6yFY72vqYSY/olCUq8C+DaFnKoh+eXSty24Vc6eFCCoaK8Eg3GRKw4AfVs8NvPSN2iieIVu8VUFkjrpUlsqbq6NPjayUHY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789175466; c=relaxed/simple;
-	bh=3swsNw31lSkMLciZcYqtrvV/YSRJx0HnmGQgeLeCvZ4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CRy12WQ5dU3Oj96stMjSAx8n3Uu8toZ+SsNYMCIBaBvwflPNHB8pIdZgIvrVh6qpKPe58pqPycEJ6DEjLOPk1J3cXqpRO41sEP3bskbomN8EOML9SCa5ubCEuRt696eGqPzb2WlSRUS+YJiS6/llTOhmSMJ8HQCRx2pmcCmqV7w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WCSLuN30; arc=none smtp.client-ip=209.85.217.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789183612; c=relaxed/simple;
+	bh=MPCNwBp5FkYDqs0V1o1Vs4fXd5IIRrTa+KavVBgYSR4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=g8UutAKB/Xz1dRqK/RdVSdmhAqzzuo2eGUUzVckFBee32QVn/dbBsScCx92F90F0DOq9NMXwx52W4PrbuxoLIPC83NNwbJxUeivk6N8jt0Vgyva8CANH6s3oXc2+75R8/WveuwuJZ4yMw05N4XohMmXSi3NpcxjEbpnh3kEqFZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=q-lab.dev; spf=pass smtp.mailfrom=q-lab.dev; dkim=pass (2048-bit key) header.d=q-lab.dev header.i=@q-lab.dev header.b=bumlszwb; dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b=QsIU2I1w; arc=none smtp.client-ip=34.202.193.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=q-lab.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=q-lab.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WCSLuN30"
-Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-791b0163eb3so1085176137.1
-        for <linux-staging@lists.linux.dev>; Fri, 11 Sep 2026 18:11:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789175462; x=1789780262; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=w/LDGqOYLFoK6KgWIPFbEeA32vwB4mka4PD8SBisxBU=;
-        b=WCSLuN30YXNKBvwfvKAdj/76gfyIsUAZpXo3D+iurvF8k++sRoxnoVY18xFMuTQQzE
-         FhMPaE6PeL4zad4/dMJtS2VfaBUes3M0wYCa0ecxo99MJ/WyuwOUbTGNtUhYtnMlH/+z
-         +FheOBWQtx9sJTmoEUS/oN0IGf3TTMUejpeHsn8CoeuNazYRvthJiYj2uLEoppVHNfxy
-         70mNJHhNBvCz+BbL4nTYGbr9dwuXvw8whWyBc0Exnacl3+JyNQIcV2QjzKn+IIsqw4Ho
-         QxJr9en1UxDgShWudVVsRkSTT0icjv2cSLC9ZDQI7Ssh5u6j4tSjFMClVdmlGmj3xtMr
-         JBOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789175462; x=1789780262;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=w/LDGqOYLFoK6KgWIPFbEeA32vwB4mka4PD8SBisxBU=;
-        b=lTOOPx0T649//mlQxfuzCV0r2jkVhK2ohVdM+g7HmsYuMUW4PZyMr3o3TboXG27SjH
-         JzTY3vxAcwrOuM1E5uX+KRWDjXI+Fbx9OvzoiG8ozYKn1ZpnKpkB1a8kmJkIp6kjHIE1
-         mNtx9fPYwNG2r6nIBqG/kzaOzzlnD4KmLyAA7NgCIhG8E2T0al4G2IrPsUAgV5+9Q3xJ
-         UAM1J0ULzi0h2lDcqPANAgi2i81Vjw9AOZNhpCMcp6I/7eLc6zG91w/K9u1G3B4ujvWv
-         W1aw3KIypYB+13xXy2+fzKyp/cYyCvWDDXS6CehNw7oTI0k31Cq7misqlY5aJ9S94kzC
-         racQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwRwyaDu64BRJHLDq5I4R2+c++Ci4L6UjB0LNOIvEqVEu71IyXMi1uQjGNFltpz37JZIS8s9mV57WkkIstY@lists.linux.dev
-X-Gm-Message-State: AFuF++nP9mMfBS/lwhh8tPN5ZHSu/fRO+QPkysEtdKo0vr1GYklzlsfR
-	CUjv9m+dboKPib1wyRnXOYxTY7Qzr8QVZocqKST61jAopzEtW03vJQ45
-X-Gm-Gg: AYBFou11fHHXKUrZIQ97tnGQ5ww4eX1d7ZNkRh3yXnfcZxrWxJiDj2P1xdYeBfActRd
-	3lT9pd0aA+WLRyCO4DTree2MzpckTeSoVZgg8WC2lTENzD1Ydq8fqei5f65tTZyU39TFB+/2clw
-	/DERz0DLSrNETU1TjOyMHlCoxEjihkMWVjARaGApX8/zrqMUKlFG7zF03N45a64fVzCWu9ku9+P
-	NEObYSZEmdcZevJElYqopCvG7a77ztgb3w7BtpyluKjhsrIjgvLyzVtpteGkM5pj5vELh14dMyM
-	mCzP0D7OQVZxCagEVFIC7Ril/VdGBATSoMXPoojdX8sWNsEjdgyPZ4yhH5RSR9+tXpmIPBjxSEr
-	mH55aiYcBh3BM5U0e+SzxB81ygpjfiPX65tZElnVu8HRWdbeOT3BVj9ZnKVI6nuDnWKWNKbRSnA
-	qCJ430vZ6SeGugVEvQHsrmDph6jKyP3ylSxSSE/6XyE/m6BONZ5hUoETJCw6B9VuZ+5pVPp2y7e
-	M6q0q+b+Jyx8NE81hJBb1pOJXZ7R7tuDNYH4Ng=
-X-Received: by 2002:a05:6102:32c6:b0:790:9e43:1236 with SMTP id ada2fe7eead31-792aad5521cmr8814389137.9.1789175462127;
-        Fri, 11 Sep 2026 18:11:02 -0700 (PDT)
-Received: from kernel-dev.servicos.capsula.corp ([177.105.242.194])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-982ba1105f6sm4625862241.11.2026.09.11.18.10.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Sep 2026 18:11:01 -0700 (PDT)
-From: Ricardo Barbosa Dias <ricardobarbosamscg@gmail.com>
-To: hansg@kernel.org,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: andy@kernel.org,
-	sakari.ailus@linux.intel.com,
-	linux-staging@lists.linux.dev,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Ricardo Barbosa Dias <ricardobarbosamscg@gmail.com>
-Subject: [PATCH] staging: media: atomisp: remove duplicate blank line
-Date: Sat, 12 Sep 2026 01:09:36 +0000
-Message-ID: <20260912010936.12832-1-ricardobarbosamscg@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=q-lab.dev header.i=@q-lab.dev header.b="bumlszwb";
+	dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b="QsIU2I1w"
+DKIM-Signature: a=rsa-sha256; b=bumlszwbiU/nL74wGeM1/hFZb7H/7FMLzG2fkzYdg2ezbeD5jUD/b+/a+6bBMjm3LoVo7qMj/Gm76OsJfIbBJ5baXrHRWdvlFwFTQfaFX8TNGvYNlCZCIe4n/jIQJWe57k9f5GHNUSOGZEu811HaoE7yekNq/FOJu8Mpw8VTtlumTE2wmkEa/mXOo8CyhPa6J6i4/5722VduPySIpEgmwmvD4N5TY37cN+xfwfZ01xEGYzhmY4RWK+e/ebA02jFj7yHUXh2OYvS3+L8yEvU5/ukU/gyYdF5b/t47yYSes2M7dES6HEq2VCrG849EIkxw12bQAWy57U/vphwmtdxKVw==; s=purelymail1; d=q-lab.dev; v=1; bh=MPCNwBp5FkYDqs0V1o1Vs4fXd5IIRrTa+KavVBgYSR4=; h=Received:Date:Subject:To:From;
+DKIM-Signature: a=rsa-sha256; b=QsIU2I1wMPOvjUiijhBV80LJ7qrEz+6niB3SHV9iMAOEPOWYU+NNTKO28k8WCjOwSRE6EvA2aeMTVCCHy24+VtMhIfHsME3Gi9Xv3kFVVIeqYwQk3jWHOgCWvk+5b7K9bxqTfZlFVFGr9lpiApGmZFrMsz8+yMEoNxDDisDAdKdHUDaIeWf5kWaqxKl+80xWAp4NgZ7hCXt+zPAwEsz4MfwKF1nxIbgJH8IHAdDAOI3AcbawFRw7Ew49oR88927L+M7c86Im4d7d6USHQS0XxqW4tYzHgr1QcU/aAhixvzWwt7rol5LdeKhi8cuH7ZjQpJJbXk/Ow/eSTpyUPgGaoQ==; s=purelymail1; d=purelymail.com; v=1; bh=MPCNwBp5FkYDqs0V1o1Vs4fXd5IIRrTa+KavVBgYSR4=; h=Feedback-ID:Received:Date:Subject:To:From;
+Feedback-ID: 284201:25281:null:purelymail
+X-Pm-Original-To: linux-staging@lists.linux.dev
+Received: by smtp.purelymail.com (Purelymail SMTP) with ESMTPSA id -1510296314;
+          (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+          Sat, 12 Sep 2026 03:26:22 +0000 (UTC)
+Message-ID: <76b9381d-dcd6-40d3-84f2-661413f56521@q-lab.dev>
+Date: Fri, 11 Sep 2026 20:26:20 -0700
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Betterbird (Windows)
+Subject: Re: [PATCH v17 15/22] media: i2c: add Maxim GMSL2/3 deserializer
+ framework
+To: dumitru.ceclan@analog.com,
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Julien Massot <julien.massot@collabora.com>, Rob Herring <robh@kernel.org>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ mitrutzceclan@gmail.com, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-gpio@vger.kernel.org,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+ Martin Hecht <Martin.Hecht@avnet.eu>, Andrian Suciu
+ <Adrian.Suciu@analog.com>, Cosmin Tanislav <demonsingur@gmail.com>
+References: <20260909-gmsl2-3_serdes-v17-0-002499e534e8@analog.com>
+ <20260909-gmsl2-3_serdes-v17-15-002499e534e8@analog.com>
+Content-Language: en-US
+From: Quentin Freimanis <quentin@q-lab.dev>
+In-Reply-To: <20260909-gmsl2-3_serdes-v17-15-002499e534e8@analog.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Remove an unnecessary extra blank line to clean up code style
-and fix checkpatch CHECK warning.
+Hi Dumitru,
 
-Signed-off-by: Ricardo Barbosa Dias <ricardobarbosamscg@gmail.com>
----
- .../staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c    | 1 -
- 1 file changed, 1 deletion(-)
+On 2026-09-09 6:27 a.m., Dumitru Ceclan via B4 Relay wrote:
+> From: Cosmin Tanislav <demonsingur@gmail.com>
+>
 
-diff --git a/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c b/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c
-index 8e8433f5b07a..370cd8cac43b 100644
---- a/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/isys/src/virtual_isys.c
-@@ -10,7 +10,6 @@
- 
- #include "system_global.h"
- 
--
- #include "ia_css_isys.h"
- #include "ia_css_debug.h"
- #include "virtual_isys.h"
--- 
-2.43.0
+<snip>
+
+> +static int max_des_init_link_ser_xlate(struct max_des_priv *priv,
+> +				       struct max_des_link *link,
+> +				       struct i2c_adapter *adapter,
+> +				       u8 power_up_addr, u8 new_addr)
+> +{
+> +	struct max_des *des = priv->des;
+> +	u8 addrs[] = { power_up_addr, new_addr };
+> +	u8 current_addr;
+> +	int ret;
+> +
+> +	if (des->ops->select_links) {
+> +		ret = des->ops->select_links(des, BIT(link->index));
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	ret = max_ser_wait_for_multiple(adapter, addrs, ARRAY_SIZE(addrs),
+> +					&current_addr);
+> +	if (ret) {
+> +		dev_err(priv->dev,
+> +			"Failed to wait for serializer at 0x%02x or 0x%02x: %d\n",
+> +			power_up_addr, new_addr, ret);
+> +		return ret;
+> +	}
+> +
+> +	ret = max_ser_reset(adapter, current_addr);
+> +	if (ret) {
+> +		dev_err(priv->dev, "Failed to reset serializer: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	ret = max_ser_wait(adapter, power_up_addr);
+> +	if (ret) {
+> +		dev_err(priv->dev,
+> +			"Failed to wait for serializer at 0x%02x: %d\n",
+> +			power_up_addr, ret);
+> +		return ret;
+> +	}
+> +
+> +	ret = max_ser_change_address(adapter, power_up_addr, new_addr);
+> +	if (ret) {
+> +		dev_err(priv->dev,
+> +			"Failed to change serializer from 0x%02x to 0x%02x: %d\n",
+> +			power_up_addr, new_addr, ret);
+> +		return ret;
+> +	}
+> +
+> +	ret = max_ser_wait(adapter, new_addr);
+> +	if (ret) {
+> +		dev_err(priv->dev,
+> +			"Failed to wait for serializer at 0x%02x: %d\n",
+> +			new_addr, ret);
+> +		return ret;
+> +	}
+> +
+> +	if (des->info->fix_tx_ids) {
+> +		ret = max_ser_fix_tx_ids(adapter, new_addr);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +static int max_des_init(struct max_des_priv *priv)
+> +{
+> +	struct max_des *des = priv->des;
+> +	unsigned int i;
+> +	int ret;
+> +
+> +	if (des->ops->init) {
+> +		ret = des->ops->init(des);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	if (des->ops->set_enable) {
+> +		ret = des->ops->set_enable(des, false);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	for (i = 0; i < des->info->num_phys; i++) {
+> +		struct max_des_phy *phy = &des->phys[i];
+> +
+> +		if (phy->enabled) {
+> +			ret = des->ops->init_phy(des, phy);
+> +			if (ret)
+> +				return ret;
+> +		}
+> +
+> +		ret = des->ops->set_phy_enable(des, phy, phy->enabled);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	for (i = 0; i < des->info->num_pipes; i++) {
+> +		struct max_des_pipe *pipe = &des->pipes[i];
+> +		struct max_des_link *link = &des->links[pipe->link_id];
+> +
+> +		ret = des->ops->set_pipe_enable(des, pipe, false);
+> +		if (ret)
+> +			return ret;
+> +
+> +		if (des->ops->set_pipe_tunnel_enable) {
+> +			ret = des->ops->set_pipe_tunnel_enable(des, pipe, false);
+> +			if (ret)
+> +				return ret;
+> +		}
+> +
+> +		if (des->ops->set_pipe_stream_id) {
+> +			ret = des->ops->set_pipe_stream_id(des, pipe, pipe->stream_id);
+> +			if (ret)
+> +				return ret;
+> +		}
+> +
+> +		if (des->ops->set_pipe_link) {
+> +			ret = des->ops->set_pipe_link(des, pipe, link);
+> +			if (ret)
+> +				return ret;
+> +		}
+> +
+> +		ret = max_des_set_pipe_remaps(priv, pipe, pipe->remaps,
+> +					      pipe->num_remaps);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	if (!des->ops->init_link)
+> +		return 0;
+> +
+> +	for (i = 0; i < des->info->num_links; i++) {
+> +		struct max_des_link *link = &des->links[i];
+> +
+> +		if (!link->enabled)
+> +			continue;
+> +
+> +		ret = des->ops->init_link(des, link);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static void max_des_ser_find_version_range(struct max_des *des, int *min, int *max)
+> +{
+> +	unsigned int i;
+> +
+> +	*min = MAX_SERDES_GMSL_MIN;
+> +	*max = MAX_SERDES_GMSL_MAX;
+> +
+> +	if (!des->info->needs_single_link_version)
+> +		return;
+> +
+> +	for (i = 0; i < des->info->num_links; i++) {
+> +		struct max_des_link *link = &des->links[i];
+> +
+> +		if (!link->enabled)
+> +			continue;
+> +
+> +		if (!link->ser_xlate.en)
+> +			continue;
+> +
+> +		*min = *max = link->version;
+> +
+> +		return;
+> +	}
+> +}
+> +
+> +static unsigned int max_des_enabled_links_mask(struct max_des *des)
+> +{
+> +	unsigned int mask = 0;
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < des->info->num_links; i++) {
+> +		struct max_des_link *link = &des->links[i];
+> +
+> +		if (link->enabled)
+> +			mask |= BIT(link->index);
+> +	}
+> +
+> +	return mask;
+> +}
+> +
+> +static int max_des_ser_attach_addr(struct max_des_priv *priv, u32 chan_id,
+> +				   u16 addr, u16 alias)
+> +{
+> +	struct max_des *des = priv->des;
+> +	struct max_des_link *link = &des->links[chan_id];
+> +	unsigned int mask;
+> +	int i, min, max;
+> +	int ret = -ENOENT;
+> +	int err;
+> +
+> +	max_des_ser_find_version_range(des, &min, &max);
+> +
+> +	if (link->ser_xlate.en) {
+> +		dev_err(priv->dev, "Serializer for link %u already bound\n",
+> +			link->index);
+> +		return -EINVAL;
+> +	}
+> +
+> +	for (i = max; i >= min; i--) {
+> +		if (!(des->info->versions & BIT(i)))
+> +			continue;
+> +
+> +		if (des->ops->set_link_version) {
+> +			ret = des->ops->set_link_version(des, link, i);
+> +			if (ret)
+> +				goto out_select_links;
+> +		}
+> +
+> +		ret = max_des_init_link_ser_xlate(priv, link, priv->client->adapter,
+> +						  addr, alias);
+> +		if (!ret)
+> +			break;
+> +	}
+> +
+> +	if (ret) {
+> +		dev_err(priv->dev, "Cannot find serializer for link %u\n",
+> +			link->index);
+> +		ret = -ENOENT;
+> +		goto out_select_links;
+> +	}
+> +
+> +	link->version = i;
+> +	link->ser_xlate.src = alias;
+> +	link->ser_xlate.dst = addr;
+> +	link->ser_xlate.en = true;
+> +
+> +out_select_links:
+> +	if (!des->ops->select_links)
+> +		return ret;
+> +
+> +	mask = max_des_enabled_links_mask(des);
+> +	err = des->ops->select_links(des, mask);
+> +	if (err)
+> +		dev_warn(priv->dev, "Failed to restore link selection: %d\n",
+> +			 err);
+> +
+> +	return ret;
+> +}
+> +
+> +static int max_des_ser_atr_attach_addr(struct i2c_atr *atr, u32 chan_id,
+> +				       u16 addr, u16 alias)
+> +{
+> +	struct max_des_priv *priv = i2c_atr_get_driver_data(atr);
+> +
+> +	return max_des_ser_attach_addr(priv, chan_id, addr, alias);
+> +}
+> +
+> +static void max_des_ser_atr_detach_addr(struct i2c_atr *atr, u32 chan_id, u16 addr)
+> +{
+> +	/* Don't do anything. */
+> +}
+> +
+> +static const struct i2c_atr_ops max_des_i2c_atr_ops = {
+> +	.attach_addr = max_des_ser_atr_attach_addr,
+> +	.detach_addr = max_des_ser_atr_detach_addr,
+> +};
+> +
+> +static void max_des_i2c_atr_deinit(struct max_des_priv *priv)
+> +{
+> +	struct max_des *des = priv->des;
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < des->info->num_links; i++) {
+> +		struct max_des_link *link = &des->links[i];
+> +
+> +		/* Deleting adapters that haven't been added does no harm. */
+> +		i2c_atr_del_adapter(priv->atr, link->index);
+> +	}
+> +
+> +	i2c_atr_delete(priv->atr);
+> +	priv->atr = NULL;
+> +}
+> +
+> +static int max_des_i2c_atr_init(struct max_des_priv *priv)
+> +{
+> +	struct max_des *des = priv->des;
+> +	unsigned int mask = 0;
+> +	unsigned int i;
+> +	int ret;
+> +
+> +	if (!i2c_check_functionality(priv->client->adapter,
+> +				     I2C_FUNC_SMBUS_WRITE_BYTE_DATA))
+> +		return -ENODEV;
+> +
+> +	priv->atr = i2c_atr_new(priv->client->adapter, priv->dev,
+> +				&max_des_i2c_atr_ops, des->info->num_links,
+> +				I2C_ATR_F_STATIC | I2C_ATR_F_PASSTHROUGH);
+> +	if (IS_ERR(priv->atr))
+> +		return PTR_ERR(priv->atr);
+> +
+> +	i2c_atr_set_driver_data(priv->atr, priv);
+> +
+> +	for (i = 0; i < des->info->num_links; i++) {
+> +		struct max_des_link *link = &des->links[i];
+> +		struct i2c_atr_adap_desc desc = {
+> +			.chan_id = i,
+> +		};
+> +
+> +		if (!link->enabled)
+> +			continue;
+> +
+> +		ret = i2c_atr_add_adapter(priv->atr, &desc);
+> +		if (ret)
+> +			goto err_add_adapters;
+> +	}
+> +
+> +	if (des->ops->select_links) {
+> +		mask = max_des_enabled_links_mask(des);
+> +
+> +		ret = des->ops->select_links(des, mask);
+> +		if (ret) {
+> +			dev_warn(priv->dev, "Failed to select links: %d\n", ret);
+> +
+> +			goto err_add_adapters;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +
+> +err_add_adapters:
+> +	max_des_i2c_atr_deinit(priv);
+> +
+> +	return ret;
+> +}
+> +
+
+I was able to create a race condition during driver probe when using i2c 
+ATR.
+
+My setup has 1x MAX96724 + 4x MAX96717 + 4x distinct camera sensors
+
+NOTE: I am using this series on an older kernel release, with my own 
+non-mainline camera drivers. Although as far as I can tell this can 
+still happen on the latest media.git with mainlined camera drivers.
+
+Here is an example I observed on my setup:
++------------------------------+------------------------------+
+| Thread 1                     | Thread 2                     |
++------------------------------+------------------------------+
+| deser probes                 |                              |
++------------------------------+------------------------------+
+| max_des_i2c_atr_init()       |                              |
++------------------------------+------------------------------+
+| first iteration of           |                              |
+| for (i = 0; i <              |                              |
+| des->info->num_links; i++)   |                              |
++------------------------------+------------------------------+
+| i2c_atr_add_adapter() called |                              |
+| on link 0                    |                              |
++------------------------------+------------------------------+
+| i2c_add_adapter() called for |                              |
+| link 0                       |                              |
++------------------------------+------------------------------+
+| max_des_ser_atr_attach_addr()|                              |
+| called for serializer 0      |                              |
++------------------------------+------------------------------+
+| all other links are          |                              |
+| disabled to change ser 0's   |                              |
+| address, then all re-        |                              |
+| enabled again in             |                              |
+| max_des_init_link_ser_xlate()|                              |
++------------------------------+------------------------------+
+| the seralizer is left unbound|                              |
+| because the module is not    |                              |
+| loaded yet                   |                              |
++------------------------------+------------------------------+
+| second iteration of          |                              |
+| for (i = 0; i <              |                              |
+| des->info->num_links; i++)   |                              |
++------------------------------+------------------------------+
+| i2c_atr_add_adapter called   |                              |
+| on link 1                    |                              |
++------------------------------+------------------------------+
+| i2c_add_adapter called for   |                              |
+| link 1                       |                              |
++------------------------------+------------------------------+
+| max_des_ser_atr_attach_addr()| max96717.ko loads, and the   |
+| called for serializer 1      | driver probes                |
++------------------------------+------------------------------+
+| all other links are          |                              |
+| disabled in                  |                              |
+| max_des_init_link_ser_xlate  |                              |
+| to change serializer 1's     |                              |
+| address                      |                              |
++------------------------------+------------------------------+
+| we write the new i2c         | camera 0 probes (module      |
+| address to serializer 1      | already loaded)              |
++------------------------------+------------------------------+
+|                              | camera driver requests a     |
+|                              | reset gpio on serializer 0   |
++------------------------------+------------------------------+
+|                              | max96717.ko does a i2c       |
+|                              | write on link 0, which       |
+|                              | fails since it was disabled  |
++------------------------------+------------------------------+
+|                              | -EIO                         |
++------------------------------+------------------------------+
+| all links re-enabled in      |                              |
+| max_des_init_link_ser_xlate  |                              |
++------------------------------+------------------------------+
+| max96717.ko is loaded so we  |                              |
+| probe serializer 1           |                              |
+| now                          |                              |
++------------------------------+------------------------------+
+| camera 1 probes              |                              |
+| (different driver)           |                              |
++------------------------------+------------------------------+
+
+As a quick hack I fixed this in my local tree by modifying i2c-atr.c to 
+lock atr->lock in i2c_atr_attach_addr() and i2c_atr_detach_addr().
+
+After writing this out I realized there might also be another way:
+In max_des_init_link_ser_xlate() skip disabling links that have already 
+had their serializer changed to a new, unique address. This would also 
+require changing select_links to not reset all links connected to the 
+deseralizer. Not sure if that is possible.
+
+- Quentin
+
+<snip>
+
+
 
