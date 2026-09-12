@@ -1,133 +1,141 @@
-Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64488376A18
-	for <linux-staging@lists.linux.dev>; Sat, 12 Sep 2026 05:27:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D7EF3C13E3;
+	Sat, 12 Sep 2026 07:10:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789190872; cv=none; b=XlhFQ9vBEimTuPWwDtPlRFAIBapxrQ/M91mq0k+zK8v3n7dPHpVebW4i5dHfwkeOkKCwgWImM8Hh74E69PzMEaui7xsuCVmlauXSmArrzdxyW6dYXFwePTUMp41HNjGNYntdtxmNSnZ1d31/0FnTevaEHnv35QP0aJrIL/kEpJ8=
+	t=1789197057; cv=none; b=Oq0vJxpNaRMe156k4wV8qFAsUmOPUjMBrkaT5ekyLnPUc3m4jDR8zfT5qFBRIBgGeucrjbjWpv4cLLDO/eQtCvMa2b0n0WZaS6y1e/IQg04h8JwI7dYpdAfeXheOvtxnTu1yhTeoPnSxA/1Oa+65YuGj58cBy8+wwpSks5REgMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789190872; c=relaxed/simple;
-	bh=9e3MoimqO18CLNKOqyXRMIUHKkz4UELWpbyKkfKkGQA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JORMxP8UuNf+xsnbauQQhc7mOJMgJ0J+oLPV8rVf1oHE+Luh2tp7VZtd+YaKhobpsR27fhTD5Jz7b+qoRvGEbClKaKS8ERbrxmyrS0nG+EPncNm1AkNmnZTJpuVBjpJgHlXYBohDZoomuhcpCIHDs2kWF3O/rXrWtVnNH5tIdtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RYiogYRK; arc=none smtp.client-ip=74.125.227.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789197057; c=relaxed/simple;
+	bh=LhMJ5Q0w4AuibpSNNo6FqxPoWu7m2sSZ6Y1XrpudYCY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mXB269AuUhzMiCGdSUSIpRchj5xLJ+LeTM5rPrA0SYxpR8GOl+d0lVy3A/sU5ox2HLO+6Uns6oLWC2edt0k5reTshQzhGCAytfXxVpF8lAo9kKXmICEhM0LgvSyqE9VvCZvK/tNym8fQB+3Mi/Ct/cCWkjWvVJ49u17/175wRT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lctKHlh6; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RYiogYRK"
-Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-398c066106cso342778a91.1
-        for <linux-staging@lists.linux.dev>; Fri, 11 Sep 2026 22:27:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789190871; x=1789795671; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=4CTLt0y61xRbyq35dXFUiInFGU1oqqBVvZP5/TpzPSo=;
-        b=RYiogYRK6BicRksVbMdNeJmdiRuwDYY0/CSOdhwFt3hwVMq7lMrpQHkg1TabFHFsXC
-         xUz28vwKc3eBGdawdSgWYynuMc9G5ti252A7L8DECdm4oyqzdn/jeiQtGzDwHOHF1fOU
-         kRZsK/r2k+L/DPtw/jDLlrvFfP4y7P7DYd0HATj4Uh+MJ1aI9TJprbmydpdMeMxQ+86+
-         yLEwuL63Q7jBs+PYwIIPinjTCydU1wE+/nTjNc425do82KGs9CcLzDsi636f0KRaVr+h
-         T8zuQnwV5xEByaNNd9RYIs1Wbw7+eaCbspUMep93II0UnQQqOSIAGrLZjEi7X/joRW6A
-         Esaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789190871; x=1789795671;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=4CTLt0y61xRbyq35dXFUiInFGU1oqqBVvZP5/TpzPSo=;
-        b=sj3v0YJQ27rNih1CHAEwU27da3QBHRcBxUXpTC6XJA7IMc2Sfr8r5hLFfrR0m3PDaL
-         Dt/ky/ySIYSo7hfau0jXiQZMg+FJk3CD84MxrP0YA1dC9lWFnV7OW3l+kRw3qrZZKOCS
-         f79NqNqzpsQljVMiUWLm4IeU8yVSc/Z375N/KqoziV/Su0kdrJJ2s4Qf+zaE2ha3DNWq
-         c/Y576ITsAW8n7H/ms1TyGlF2cUexth3WdEbg7Ux+FlIORnYop3xQfPA6okk6T43zdA1
-         WleEE0lKD3rfx48VWzD/bqyxFIvTTkgatTYASSQ519wlf1pxExw4DcSZ7X1B5+2avE73
-         fMkg==
-X-Forwarded-Encrypted: i=1; AKwUvBwztZqEVfAfFnCgjj7CA797RgRQRbm61fCFAPOHMVWPeYDH8VsAFWOo+AYeviKZBANDsFZ/Izo8SHhnD4oc@lists.linux.dev
-X-Gm-Message-State: AFuF++ky2YJI0YoYCRpT8yn4Ey3l5nQjBELK1UKdMP1fcgtzYvo7ZJ1E
-	5zdtHf97NEm2R3lbkCKEmtVLyRbQLEVAzt7ZhEiGITlA/4cSbAIqPupy
-X-Gm-Gg: AYBFou29CGwnOyI+4j5dYc1mYuRWAdAYfi9gXAhjZOfjnAU+vdRlIFeSs4YjnkOtuFm
-	iMKUhYFVmmR6wICHQiWzIbpQDYxn6GgBK/WsbnyW7wWpnVCzmzw31ElO1NUJulqHfhvG7Jl/wPU
-	IFFsn8DpmeRBXAHOH0Rc42IsH5wtdBVMs3AJrVxZ/dcKBNdKdSj2r5BKFhPAcHmpgXHTxOsU7EU
-	jE2SNA3QxYCQU0CqKL64wfqvUBvv7Azr2dlfEeIn0o65SqkwjZEF6NDV7UDwzAwnbmVSkDTV0B3
-	D27ry0SOGhY44JiRvECi2pzllX5/hKI+tXOTdrUjP/Ee2OBDRRJvDtz0Aw+Rp1vt7TcnwOE7JbD
-	6TCDb1hKoKsIchmCe52avbldynbrJvDvUQMQez5U3fjI5kRnWm1SaonsEnMhWMsLGcrDHrembTB
-	gcjUu3VnDIrzV65WN9Ew6U+hza3HiMJj86XGy2E24H6W2dVMJ8e1RJ317Xt2XJ6Fioqm/Tm7A9c
-	PVnCaKxInNqaU0=
-X-Received: by 2002:a17:90b:4fc5:b0:399:149a:3f27 with SMTP id 98e67ed59e1d1-39d9bd71246mr13414400a91.9.1789190870545;
-        Fri, 11 Sep 2026 22:27:50 -0700 (PDT)
-Received: from isaac-aneek-MS-7C52 ([103.74.86.148])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14365b8ead8sm10796737c88.10.2026.09.11.22.27.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Sep 2026 22:27:49 -0700 (PDT)
-From: Isaac Aneek Sarker <alvasarker2004@gmail.com>
-To: 
-Cc: alvasarker2004@gmail.com,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Ethan Tidmore <ethantidmore06@gmail.com>,
-	Jennifer Guo <guojy.bj@gmail.com>,
-	Luka Gejak <luka.gejak@linux.dev>,
-	Prithvi Tambewagh <activprithvi@gmail.com>,
-	Moksh Panicker <mokshpanicker.7@gmail.com>,
-	Andrei Khomenkov <khomenkov@mailbox.org>,
-	=?UTF-8?q?Bera=20Y=C3=BCzl=C3=BC?= <b9788213@gmail.com>,
-	Oskar Ray-Frayssinet <rayfraytech@gmail.com>,
-	Nikolay Kulikov <nikolayof23@gmail.com>,
-	Akiyoshi Kurita <weibu@redadmin.org>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8723bs: rename CamelCase variables in function paramater
-Date: Sat, 12 Sep 2026 11:26:44 +0600
-Message-ID: <20260912052648.12007-1-alvasarker2004@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lctKHlh6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789197055; x=1820733055;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LhMJ5Q0w4AuibpSNNo6FqxPoWu7m2sSZ6Y1XrpudYCY=;
+  b=lctKHlh6Rs7xmQcbhG4SG0z8zSKxp7trW8+XgGPQVQLSmP2/tcRaQ3uQ
+   FEJ/J0/UvQnw7MI/jKEucMdogEYPQJxh3emSmvqQ9QztD65mszhGztIwl
+   Zu1M55TXvJyVmRAMi16SNq4xKEheItFGFEB7DAR5TAZLCSU/rnKmvSPAi
+   4FsLIDKNlzlHxaTcW5WA57Z1/FhM97OHmd4idw5b8GdntLtE/vxtbOr2L
+   6Elm5N5z/1pIfmpBsblNhswQu/+c1hcSn9MPQLRss811zyqTsl8ZBrfSx
+   zMMJfeBsoLN6a0ikRH4nTvN0grpgw5IBHDAfN5mOew6eliHj/QpKCgkBz
+   w==;
+X-CSE-ConnectionGUID: xJ/Go2HuROmlxFIkvmNUAA==
+X-CSE-MsgGUID: ro/mEphGQbiDQ4vLiSIn7g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11902"; a="89776181"
+X-IronPort-AV: E=Sophos;i="6.27,98,1787036400"; 
+   d="scan'208";a="89776181"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2026 00:10:55 -0700
+X-CSE-ConnectionGUID: TvVwvoY2SLedwxS/IybF0A==
+X-CSE-MsgGUID: i707yAmbRmycIH45BZOsgw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,98,1787036400"; 
+   d="scan'208";a="268439045"
+Received: from lkp-server02.sh.intel.com (HELO 0a3643a6ed9d) ([10.239.97.151])
+  by fmviesa010.fm.intel.com with ESMTP; 12 Sep 2026 00:10:52 -0700
+Received: from kbuild by 0a3643a6ed9d with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1x5Hsv-000000002kF-2Dif;
+	Sat, 12 Sep 2026 07:10:49 +0000
+Date: Sat, 12 Sep 2026 15:10:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: Matthew Zvolsky <matthew-kernel@post.cz>, gregkh@linuxfoundation.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	vaibhav.sr@gmail.com, mgreer@animalcreek.com, johan@kernel.org,
+	elder@kernel.org, greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Matthew Zvolsky <matthew-kernel@post.cz>
+Subject: Re: [PATCH] staging: greybus: add missing newlines to sysfs_emit
+Message-ID: <202609121559.mKrcvsr6-lkp@intel.com>
+References: <20260911190253.894650-1-matthew-kernel@post.cz>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260911190253.894650-1-matthew-kernel@post.cz>
 
-As per the kernel style guidelines, and reported by checkpatch.pl
-rename CamelCase variable naming in function parameters and also inside
-the function
+Hi Matthew,
 
-Signed-off-by: Isaac Aneek Sarker <alvasarker2004@gmail.com>
----
- drivers/staging/rtl8723bs/hal/hal_com_phycfg.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+kernel test robot noticed the following build errors:
 
-diff --git a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
-index df0eaff4c841..3c3eb2790714 100644
---- a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
-+++ b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
-@@ -77,7 +77,7 @@ static void phy_StoreTxPowerByRateBase(struct adapter *padapter)
- }
- 
- u8 PHY_GetRateSectionIndexOfTxPowerByRate(
--	struct adapter *padapter, u32 RegAddr, u32 BitMask
-+	struct adapter *padapter, u32 reg_addr, u32 bit_mask
- )
- {
- 	struct hal_com_data	*pHalData = GET_HAL_DATA(padapter);
-@@ -85,7 +85,7 @@ u8 PHY_GetRateSectionIndexOfTxPowerByRate(
- 	u8	index = 0;
- 
- 	if (pDM_Odm->PhyRegPgVersion == 0) {
--		switch (RegAddr) {
-+		switch (reg_addr) {
- 		case rTxAGC_A_Rate18_06:
- 			index = 0;
- 			break;
-@@ -96,9 +96,9 @@ u8 PHY_GetRateSectionIndexOfTxPowerByRate(
- 			index = 6;
- 			break;
- 		case rTxAGC_B_CCK11_A_CCK2_11:
--			if (BitMask == bMaskH3Bytes)
-+			if (bit_mask == bMaskH3Bytes)
- 				index = 7;
--			else if (BitMask == 0x000000ff)
-+			else if (bit_mask == 0x000000ff)
- 				index = 15;
- 			break;
- 
--- 
-2.53.0
+[auto build test ERROR on staging/staging-testing]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Zvolsky/staging-greybus-add-missing-newlines-to-sysfs_emit/20260911-210253
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20260911190253.894650-1-matthew-kernel%40post.cz
+patch subject: [PATCH] staging: greybus: add missing newlines to sysfs_emit
+config: i386-randconfig-014-20260912 (https://download.01.org/0day-ci/archive/20260912/202609121559.mKrcvsr6-lkp@intel.com/config)
+compiler: clang version 22.1.3 (https://github.com/llvm/llvm-project e9846648fd6183ee6d8cbdb4502213fcf902a211)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260912/202609121559.mKrcvsr6-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609121559.mKrcvsr6-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/staging/greybus/audio_manager_module.c:162:3: error: initializer element is not a compile-time constant
+     162 |                 name_string,
+         |                 ^~~~~~~~~~~
+>> drivers/staging/greybus/audio_manager_module.c:180:46: error: passing 'const char *const[7]' to parameter of type 'char **' discards qualifiers in nested pointer types [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+     180 |         kobject_uevent_env(&module->kobj, KOBJ_ADD, envp);
+         |                                                     ^~~~
+   include/linux/kobject.h:283:10: note: passing argument to parameter 'envp' here
+     283 |                         char *envp[]);
+         |                               ^
+   2 errors generated.
+
+
+vim +162 drivers/staging/greybus/audio_manager_module.c
+
+8db00736d365b7 Svetlin Ankov    2016-01-13  151  
+8db00736d365b7 Svetlin Ankov    2016-01-13  152  static void send_add_uevent(struct gb_audio_manager_module *module)
+8db00736d365b7 Svetlin Ankov    2016-01-13  153  {
+8db00736d365b7 Svetlin Ankov    2016-01-13  154  	char name_string[128];
+8db00736d365b7 Svetlin Ankov    2016-01-13  155  	char vid_string[64];
+8db00736d365b7 Svetlin Ankov    2016-01-13  156  	char pid_string[64];
+d0af1bd5f6f449 Pankaj Bharadiya 2016-10-16  157  	char intf_id_string[64];
+a9234bfd6cec44 Vaibhav Agarwal  2016-03-30  158  	char ip_devices_string[64];
+a9234bfd6cec44 Vaibhav Agarwal  2016-03-30  159  	char op_devices_string[64];
+8db00736d365b7 Svetlin Ankov    2016-01-13  160  
+a33c60996e0881 Matthew Zvolsky  2026-09-11  161  	static const char * const envp[] = {
+8db00736d365b7 Svetlin Ankov    2016-01-13 @162  		name_string,
+8db00736d365b7 Svetlin Ankov    2016-01-13  163  		vid_string,
+8db00736d365b7 Svetlin Ankov    2016-01-13  164  		pid_string,
+d0af1bd5f6f449 Pankaj Bharadiya 2016-10-16  165  		intf_id_string,
+a9234bfd6cec44 Vaibhav Agarwal  2016-03-30  166  		ip_devices_string,
+a9234bfd6cec44 Vaibhav Agarwal  2016-03-30  167  		op_devices_string,
+8db00736d365b7 Svetlin Ankov    2016-01-13  168  		NULL
+8db00736d365b7 Svetlin Ankov    2016-01-13  169  	};
+8db00736d365b7 Svetlin Ankov    2016-01-13  170  
+8db00736d365b7 Svetlin Ankov    2016-01-13  171  	snprintf(name_string, 128, "NAME=%s", module->desc.name);
+8db00736d365b7 Svetlin Ankov    2016-01-13  172  	snprintf(vid_string, 64, "VID=%d", module->desc.vid);
+8db00736d365b7 Svetlin Ankov    2016-01-13  173  	snprintf(pid_string, 64, "PID=%d", module->desc.pid);
+d0af1bd5f6f449 Pankaj Bharadiya 2016-10-16  174  	snprintf(intf_id_string, 64, "INTF_ID=%d", module->desc.intf_id);
+a9234bfd6cec44 Vaibhav Agarwal  2016-03-30  175  	snprintf(ip_devices_string, 64, "I/P DEVICES=0x%X",
+a9234bfd6cec44 Vaibhav Agarwal  2016-03-30  176  		 module->desc.ip_devices);
+a9234bfd6cec44 Vaibhav Agarwal  2016-03-30  177  	snprintf(op_devices_string, 64, "O/P DEVICES=0x%X",
+a9234bfd6cec44 Vaibhav Agarwal  2016-03-30  178  		 module->desc.op_devices);
+8db00736d365b7 Svetlin Ankov    2016-01-13  179  
+8db00736d365b7 Svetlin Ankov    2016-01-13 @180  	kobject_uevent_env(&module->kobj, KOBJ_ADD, envp);
+8db00736d365b7 Svetlin Ankov    2016-01-13  181  }
+8db00736d365b7 Svetlin Ankov    2016-01-13  182  
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
