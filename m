@@ -1,63 +1,81 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BC33384CF6;
-	Sat, 12 Sep 2026 07:51:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E88F32C1586
+	for <linux-staging@lists.linux.dev>; Sat, 12 Sep 2026 11:36:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789199522; cv=none; b=s6Pg0duqypFa89ra+pvXN4t5Wke3gfONeBWgl0rxO2NKMp3xiIoQptFDVRSeK0DX0C6UhvydahStCJUE1ocUDVCDy0lOqFLIxxPaBbWJuiR5k9DgBgGIEENibOFHhgD+i+S4eP3uFiCDzA1CZm89tU/AXCgvla2nXxxYDLwsvYQ=
+	t=1789212996; cv=none; b=XCV0e6KEl5kWnMUW4YGpDdzOe4B6pnL3Jdb9CWT0etSeRkyS/Lp9UNgaY+0kVa5yi+BBbKcjr4r/wDbxrd1ttrRNdIijY2Gg7MaMHOJYVScdbd5XsPE6QHgD975Lpca6J3odjFqK1lZ+/CG4kAqFZSq473r3U7HXLXFvxY7+Kos=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789199522; c=relaxed/simple;
-	bh=46h7Icp07RcnbhVwELPuCNWFoOPP/0gHjr3jGpDE618=;
+	s=arc-20240116; t=1789212996; c=relaxed/simple;
+	bh=3UIwecDJsfS4ql3mhWCRI+wvBFP1eDHU45TLm8V5nlk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jPo2Te+B8KaNPeLxZgDFg/xPTrCv0M+Ttyme9UOIfmKfwf6bE5Aejf0Rbn3e+zSZBbrJSH5b+YBbirfVcvqnKIpwfn4S/UPYrX1ZbDG6tvecmucbtI2wquWdm+XVP1XZLmFcJT4C3K7/B227JW1JNWhoJC298lq4myMiNCMl0W8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ngA28xaK; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q6234Nhk+G/+dnpQsIESLv7LfjaUHTfuiurl6/0DqhzDpN+dKz86t+DnkdgximqTlPyI7u6Qtnm1Hk+a6vAt+09eq5JSrW2omikHJ/z04D/pZj3Tgt36wfPEunVMcUfLc+yvuzlKrhpDDmu3+15IlOz9DWZAhEqp7bnYWhfTtC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jJkK9nZx; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ngA28xaK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jJkK9nZx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789199520; x=1820735520;
+  t=1789212995; x=1820748995;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=46h7Icp07RcnbhVwELPuCNWFoOPP/0gHjr3jGpDE618=;
-  b=ngA28xaK5378vqVyvTjTsOb7mac1zJpIJ2+UIzDm+N8gt8RuS51vsiAi
-   MSf3H6eN0D5DYRnXpwqoe6p7ku0T4sWLMVXURjgpq3PKpi0G8P4x4YiAK
-   8X3uSQqpawUUmsjvR8g4hqxNFVUJ+YLd6seplxGALYnPM1kATgD3JDv5L
-   FaQKwJbj8MHMRJu+lmImKb5Jw+EBt7b2D+Ha/OwDWG8YPO3C4UC1fYIiz
-   3lTlkvew+oz7X4WcU3VrFocNu36pt/k7ZWKKarSpdKEjNWndbXvrYdNso
-   118l6IIj0Zf+OjHVV/CSFgIDQbzDcmerVIOv4LJ1/CUToJ0MZ9UFvrHN4
-   w==;
-X-CSE-ConnectionGUID: UlDKmr3+SCmR9GfcenCc4A==
-X-CSE-MsgGUID: mdaNAdbpRKW0jWSoBBjHrg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11902"; a="93346176"
-X-IronPort-AV: E=Sophos;i="6.27,98,1787036400"; 
-   d="scan'208";a="93346176"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2026 00:51:59 -0700
-X-CSE-ConnectionGUID: +YBMtQj6RHSU+ypduIdIFA==
-X-CSE-MsgGUID: iKsquZWoS76O59FE1JyNnw==
+  bh=3UIwecDJsfS4ql3mhWCRI+wvBFP1eDHU45TLm8V5nlk=;
+  b=jJkK9nZxZZpMp3PVDKb5wmOWqIp8sQJPc64O9orC+usTW9dhWl2vX+bc
+   nUO6JRYqrKt8jQHVYOBJRjvd/Y9Tk2On4ZLPHJw6fgwf3OB0JSQh/Jr3L
+   H/cd3xuiad/fcTyC8wNIRx1rDthocopZG2WIBeOd0de1DnYwLS2xG6Evh
+   1CjQKyA4oaesQaypbo0eDHhA8lwm4x8r7SaTv7HcbZN/MzMzOErvGVQkI
+   ysAiJNfVDeohpfM3LqiNIO+5pQaogdoKNiHYjEj5ZYtpolxbaDnfDfZXY
+   97cdjz0C+ZkrNvdfkTLG6uDHFFs7VzKLBonK+ojCRXkcy+S3dEKZYfaGK
+   A==;
+X-CSE-ConnectionGUID: voPlaRdCQYqej1oIqYWf7A==
+X-CSE-MsgGUID: 69muLvSCQzeHl5WsHsBj+g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11902"; a="89696632"
+X-IronPort-AV: E=Sophos;i="6.27,99,1787036400"; 
+   d="scan'208";a="89696632"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2026 04:36:34 -0700
+X-CSE-ConnectionGUID: LanRjFjZRtO2YDIcfnFfcQ==
+X-CSE-MsgGUID: 1VEMAkvyQBmHQuEtVyipDw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,98,1787036400"; 
-   d="scan'208";a="310395597"
-Received: from lkp-server02.sh.intel.com (HELO 0a3643a6ed9d) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 12 Sep 2026 00:51:57 -0700
-Received: from kbuild by 0a3643a6ed9d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1x5IWg-000000002lf-0mG2;
-	Sat, 12 Sep 2026 07:51:54 +0000
-Date: Sat, 12 Sep 2026 15:51:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Matthew Zvolsky <matthew-kernel@post.cz>, gregkh@linuxfoundation.org
-Cc: oe-kbuild-all@lists.linux.dev, vaibhav.sr@gmail.com,
-	mgreer@animalcreek.com, johan@kernel.org, elder@kernel.org,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Matthew Zvolsky <matthew-kernel@post.cz>
-Subject: Re: [PATCH] staging: greybus: add missing newlines to sysfs_emit
-Message-ID: <202609121553.VPi1qrGB-lkp@intel.com>
-References: <20260911190253.894650-1-matthew-kernel@post.cz>
+X-IronPort-AV: E=Sophos;i="6.27,99,1787036400"; 
+   d="scan'208";a="302061599"
+Received: from mkosciow-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.238])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Sep 2026 04:36:30 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id EA3C9120EA9;
+	Sat, 12 Sep 2026 14:36:32 +0300 (EEST)
+Date: Sat, 12 Sep 2026 14:36:32 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Ceclan Dumitru <mitrutzceclan@gmail.com>,
+	Dan Carpenter <error27@gmail.com>,
+	Ricardo Ribalda <ribalda@chromium.org>
+Cc: dumitru.ceclan@analog.com,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Julien Massot <julien.massot@collabora.com>,
+	Rob Herring <robh@kernel.org>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-gpio@vger.kernel.org,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Martin Hecht <Martin.Hecht@avnet.eu>,
+	Andrian Suciu <Adrian.Suciu@analog.com>,
+	Cosmin Tanislav <demonsingur@gmail.com>,
+	Vivekananda Dayananda <vivekana@amd.com>,
+	Cory Keitz <ckeitz@amazon.com>
+Subject: Re: [PATCH v16 00/22] media: i2c: add Maxim GMSL2/3 serializer and
+ deserializer drivers
+Message-ID: <aqU5QFGmYlCtbdiE@kekkonen.localdomain>
+References: <20260831-gmsl2-3_serdes-v16-0-4fa6e08bb514@analog.com>
+ <apqGlTiybdvQX3Ao@kekkonen.localdomain>
+ <eff6fe78-cc4b-4192-93ed-53a738fc3c3a@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -66,100 +84,38 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260911190253.894650-1-matthew-kernel@post.cz>
+In-Reply-To: <eff6fe78-cc4b-4192-93ed-53a738fc3c3a@gmail.com>
 
-Hi Matthew,
+Hi Dumitru, Dan, Ricardo,
 
-kernel test robot noticed the following build errors:
+On Tue, Sep 08, 2026 at 01:35:05PM +0300, Ceclan Dumitru wrote:
+> > Can you check this
+> > <URL:https://linux-media.pages.freedesktop.org/-/users/sailus/-/jobs/109521830/artifacts/junit/test-smatch.log.txt>
+> > please? If there's a single patch that needs to be modified, I can squash a
+> > patch into that, otherwise v17 it is.
+> > 
+> 
+> These are the same warns reported by Niklas in V13. Dan fixed them in
+> smatch in devel branch but fix is not in master. Testing with smatch on
+> that branch yields no warnings.
 
-[auto build test ERROR on staging/staging-testing]
+Dan: any plans to merge these things to master some time soon? Or:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Zvolsky/staging-greybus-add-missing-newlines-to-sysfs_emit/20260911-210253
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20260911190253.894650-1-matthew-kernel%40post.cz
-patch subject: [PATCH] staging: greybus: add missing newlines to sysfs_emit
-config: nios2-randconfig-001-20260912 (https://download.01.org/0day-ci/archive/20260912/202609121553.VPi1qrGB-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260912/202609121553.VPi1qrGB-lkp@intel.com/reproduce)
+Ricardo: could we use devel branch of smatch for some time?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202609121553.VPi1qrGB-lkp@intel.com/
+This driver has been waiting to be merged for quite some time so it'd be
+nice to get it to 7.4
 
-All errors (new ones prefixed by >>):
+> 
+> https://lore.kernel.org/all/ai_txjwLPHsSKsJI@stanley.mountain
+> https://repo.or.cz/smatch.git/commit/d12183645a31b737d7fb39cbefa589e34615e8f7
+> 
+> v17 is still needed to revert one breaking change introduced in v16 and
+> fix more findings from Sashiko.
 
-   drivers/staging/greybus/audio_manager_module.c: In function 'send_add_uevent':
->> drivers/staging/greybus/audio_manager_module.c:162:3: error: initializer element is not constant
-      name_string,
-      ^~~~~~~~~~~
-   drivers/staging/greybus/audio_manager_module.c:162:3: note: (near initialization for 'envp[0]')
-   drivers/staging/greybus/audio_manager_module.c:163:3: error: initializer element is not constant
-      vid_string,
-      ^~~~~~~~~~
-   drivers/staging/greybus/audio_manager_module.c:163:3: note: (near initialization for 'envp[1]')
-   drivers/staging/greybus/audio_manager_module.c:164:3: error: initializer element is not constant
-      pid_string,
-      ^~~~~~~~~~
-   drivers/staging/greybus/audio_manager_module.c:164:3: note: (near initialization for 'envp[2]')
-   drivers/staging/greybus/audio_manager_module.c:165:3: error: initializer element is not constant
-      intf_id_string,
-      ^~~~~~~~~~~~~~
-   drivers/staging/greybus/audio_manager_module.c:165:3: note: (near initialization for 'envp[3]')
-   drivers/staging/greybus/audio_manager_module.c:166:3: error: initializer element is not constant
-      ip_devices_string,
-      ^~~~~~~~~~~~~~~~~
-   drivers/staging/greybus/audio_manager_module.c:166:3: note: (near initialization for 'envp[4]')
-   drivers/staging/greybus/audio_manager_module.c:167:3: error: initializer element is not constant
-      op_devices_string,
-      ^~~~~~~~~~~~~~~~~
-   drivers/staging/greybus/audio_manager_module.c:167:3: note: (near initialization for 'envp[5]')
->> drivers/staging/greybus/audio_manager_module.c:180:46: error: passing argument 3 of 'kobject_uevent_env' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     kobject_uevent_env(&module->kobj, KOBJ_ADD, envp);
-                                                 ^~~~
-   In file included from drivers/staging/greybus/audio_manager.h:11,
-                    from drivers/staging/greybus/audio_manager_module.c:10:
-   include/linux/kobject.h:283:10: note: expected 'char **' but argument is of type 'const char * const*'
-       char *envp[]);
-       ~~~~~~^~~~~~
-   cc1: some warnings being treated as errors
+Ack.
 
+-- 
+Kind regards,
 
-vim +162 drivers/staging/greybus/audio_manager_module.c
-
-8db00736d365b75 Svetlin Ankov    2016-01-13  151  
-8db00736d365b75 Svetlin Ankov    2016-01-13  152  static void send_add_uevent(struct gb_audio_manager_module *module)
-8db00736d365b75 Svetlin Ankov    2016-01-13  153  {
-8db00736d365b75 Svetlin Ankov    2016-01-13  154  	char name_string[128];
-8db00736d365b75 Svetlin Ankov    2016-01-13  155  	char vid_string[64];
-8db00736d365b75 Svetlin Ankov    2016-01-13  156  	char pid_string[64];
-d0af1bd5f6f4497 Pankaj Bharadiya 2016-10-16  157  	char intf_id_string[64];
-a9234bfd6cec442 Vaibhav Agarwal  2016-03-30  158  	char ip_devices_string[64];
-a9234bfd6cec442 Vaibhav Agarwal  2016-03-30  159  	char op_devices_string[64];
-8db00736d365b75 Svetlin Ankov    2016-01-13  160  
-a33c60996e08817 Matthew Zvolsky  2026-09-11  161  	static const char * const envp[] = {
-8db00736d365b75 Svetlin Ankov    2016-01-13 @162  		name_string,
-8db00736d365b75 Svetlin Ankov    2016-01-13  163  		vid_string,
-8db00736d365b75 Svetlin Ankov    2016-01-13  164  		pid_string,
-d0af1bd5f6f4497 Pankaj Bharadiya 2016-10-16  165  		intf_id_string,
-a9234bfd6cec442 Vaibhav Agarwal  2016-03-30  166  		ip_devices_string,
-a9234bfd6cec442 Vaibhav Agarwal  2016-03-30  167  		op_devices_string,
-8db00736d365b75 Svetlin Ankov    2016-01-13  168  		NULL
-8db00736d365b75 Svetlin Ankov    2016-01-13  169  	};
-8db00736d365b75 Svetlin Ankov    2016-01-13  170  
-8db00736d365b75 Svetlin Ankov    2016-01-13  171  	snprintf(name_string, 128, "NAME=%s", module->desc.name);
-8db00736d365b75 Svetlin Ankov    2016-01-13  172  	snprintf(vid_string, 64, "VID=%d", module->desc.vid);
-8db00736d365b75 Svetlin Ankov    2016-01-13  173  	snprintf(pid_string, 64, "PID=%d", module->desc.pid);
-d0af1bd5f6f4497 Pankaj Bharadiya 2016-10-16  174  	snprintf(intf_id_string, 64, "INTF_ID=%d", module->desc.intf_id);
-a9234bfd6cec442 Vaibhav Agarwal  2016-03-30  175  	snprintf(ip_devices_string, 64, "I/P DEVICES=0x%X",
-a9234bfd6cec442 Vaibhav Agarwal  2016-03-30  176  		 module->desc.ip_devices);
-a9234bfd6cec442 Vaibhav Agarwal  2016-03-30  177  	snprintf(op_devices_string, 64, "O/P DEVICES=0x%X",
-a9234bfd6cec442 Vaibhav Agarwal  2016-03-30  178  		 module->desc.op_devices);
-8db00736d365b75 Svetlin Ankov    2016-01-13  179  
-8db00736d365b75 Svetlin Ankov    2016-01-13 @180  	kobject_uevent_env(&module->kobj, KOBJ_ADD, envp);
-8db00736d365b75 Svetlin Ankov    2016-01-13  181  }
-8db00736d365b75 Svetlin Ankov    2016-01-13  182  
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Sakari Ailus
