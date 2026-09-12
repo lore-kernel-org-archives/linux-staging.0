@@ -1,105 +1,121 @@
-Received: from mail-qk2-f7.google.com (mail-qk2-f7.google.com [74.125.230.199])
+Received: from mail-lf2-f12.google.com (mail-lf2-f12.google.com [74.125.229.204])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62FAC2FDC30
-	for <linux-staging@lists.linux.dev>; Sat, 12 Sep 2026 14:52:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.199
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789224725; cv=none; b=VIGIugG0p5v/gSdQTq7lPz2VB568u98jhZ/x24mhx19xR6BVD0OirA4H0DbdCpkc2J68SaIrbHIMjx0ahHE87sQzok8BDSCpd3XzD/UyPm+5FIfdnMOwqqAmLxqQYKcYvvTseT2nGoEXPTSuR5JHZTF/nW7dnTQKnRotIi1DN7E=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789224725; c=relaxed/simple;
-	bh=zh8dHW01c87BITuP7ex43rL4cqROpdyb4lP2uILz2Mo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=a/08lT488H4J3QZiWDSVqlIK6NOq4+Xfzl1ol8blCo5qztFcYWtA/hf31rBn1+1XMroaiOGAq1s5uGX+VDMZBpuIrpB9hHuQz1UvfGuHYzwjPLqT3evhsnQhvpHSaTx3RXWdD2pJR0NNUX+kz432NIkoW8WpzCRDkAo5kEtz04Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=matthewlavine.net; spf=pass smtp.mailfrom=matthewlavine.net; dkim=pass (2048-bit key) header.d=matthewlavine.net header.i=@matthewlavine.net header.b=d6oT6DqO; arc=none smtp.client-ip=74.125.230.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=matthewlavine.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=matthewlavine.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B48B031E84B
+	for <linux-staging@lists.linux.dev>; Sat, 12 Sep 2026 15:44:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.229.204
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789227867; cv=pass; b=hsGrfqvX8ELO0y9V2imuR52hO7t2G5Xhe036mqhBb3wt47mHKql1G+nKhcW+cRXyfunaNKNjQPNr5YyADe4WUMPd3FBoKios80mIzBGfQa6JlhLPE/C9oMfd+kw34cJy9MeNPOhXTX/NJsTU1L1LyF/41Zg8OYoibxM+LcabOKM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789227867; c=relaxed/simple;
+	bh=VIbgcSAZRfb3EMsaaEk0Cm7vGUjyRZyM9yj497f//O0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qvHIadqql/3JPA9kgYQctKgAddxWNwk7b74rti7ChvK6C4vLm5CyvJV3ljuAKXOS7q7TX+UxTbnUG8ws/a3ldrdVI4QdjTFcupwWcLy5Yoog72FAHTjzvMq1ZlaTSCGk/lfwWET95lBGOocCInVvZRKClKAshb+eXMy/U57/eKY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X2/MP3vd; arc=pass smtp.client-ip=74.125.229.204
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=matthewlavine.net header.i=@matthewlavine.net header.b="d6oT6DqO"
-Received: by mail-qk2-f7.google.com with SMTP id d75a77b69052e-52f64eb5a48so8242631cf.1
-        for <linux-staging@lists.linux.dev>; Sat, 12 Sep 2026 07:52:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X2/MP3vd"
+Received: by mail-lf2-f12.google.com with SMTP id 2adb3069b0e04-5b5e4f16f12so945408e87.1
+        for <linux-staging@lists.linux.dev>; Sat, 12 Sep 2026 08:44:25 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789227864; cv=none;
+        d=google.com; s=arc-20260327;
+        b=bn3+QrFgf2GKyMrD6uy650ljG0VGCxfj/gkrVohRuflNb2KY2gwsw/LWteaKkvDH6a
+         IJXmh1q5/PdcWT1QOqLfSGm8h0D40OGi2mgIroFV3UWR2QwvJhvoJaC6RzAj8z5ieU6m
+         ooaym3DHFl4RA/S/rM72jOeo2yv94DHcFlFjvthCRGlI3rAJ4XdQSlPYk8jj68SI7DdL
+         7LSOExjSxMcsmv6pxHfIeTV7lr2mt81wcCQq68VZjcQB+V96ouo9CVNnWJ1UrqB5mCPZ
+         rfi4B9TNiTqcnWp9fm5ddKLbNTaaubxrwT8j77MAPKXQF0p+bHHTmCv+XGDqhMuvZDln
+         2nTA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=VIbgcSAZRfb3EMsaaEk0Cm7vGUjyRZyM9yj497f//O0=;
+        fh=qU+eDUjFf5zIkcP4vte0akifxIvcjTiMNtitdh7yGk8=;
+        b=hDH6XWD9uPiNqpJiyYmNdvRHRcTvFCB/pYU9PzzNBeZvdJkZzj3Wc1UTuuGvcnZUg2
+         9PNnI5poxJwghEUoZLiPr8Y+kGEykGaX3DM7i4icuSAdrbk5loP6wVgnHx73nvPYmkcm
+         GzVWDGbQWR3VklhUFG5R6eGCZQimmV6YLH81PzDl3mZ5zXyx01caTxGXVQ1Zmsu/Z4aq
+         WMiYH0fvPckQeEjFVH8QbiYkf78LFM37E5lg2d4/ytbxoRNv+sDxMOE5M/7q+4YQ2wWK
+         RtgaX3+QaGEwxR7hZB3aqKo8wuLeQYwp7yRNWYihbWO0dVlGeGfKxSwdTmNyuRhOeeFA
+         dO3w==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=matthewlavine.net; s=google; t=1789224723; x=1789829523; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ujmQL3Kj1s7lhq2MzNKXV+x5e8Ji17sNWXaHh83QnX4=;
-        b=d6oT6DqOpK9zpnf5au6B6SQSIsNYXuSM6WaOrpoV8dFDM7R4Mq9fR6WymC12hpGlMV
-         VAVKcnrPL/vgo/M/gfDsXhFRWkiI3zXjBO0s62OTcBWfPXr0ww0ymW80+CksMDDfDycE
-         464WZkVJbYdVNTuEW/2EWe0S8h1kUGTpzUZMm92TiQRJZZbfH0fbzmd67/rTLnIMF7pa
-         Mh0ELBGdyfq/nWdh53JPeSBUQSSQYAs2wEFsPTju25qKNAacxwMKprN5701XXqFTD3vr
-         QxT0PWuQS1rd6h1awkxFTr3UkVgHd3f+/iuXFd7FiP46ZIKwJRlKjlm8PV5753UnvpNu
-         Xuog==
+        d=gmail.com; s=20251104; t=1789227864; x=1789832664; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=VIbgcSAZRfb3EMsaaEk0Cm7vGUjyRZyM9yj497f//O0=;
+        b=X2/MP3vdATKsY1b8cnexZK9yR+1/0qgqYMWiPRRbzS6CRBTO0XUDYHXhzjaEAevz0o
+         XokJ7LV+A/4krckjhHA4az6TMCCVyxL9LQCSEa5MRUC1oHjaHKUYnhxRTu+i0wITAlV5
+         5JHJED4Yeha1dnfnppL7CAEy5jdg2gPBg6cDhb2zi/LHCN0jCNcxSgssxAiG3ZDEYego
+         CvDUGsQZpBuSudgDC8Yklem6B9X4fNs+cdIz6MpTqAysVpBMJHl4rMPYqOke3LdOkNQ6
+         Y0l8YQACMRlNTps+cFJ2JAe3mvMDR19jZsk0Qhw/UmzGXjgPky6NbPQbgsa87EAyY7mD
+         SN9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789224723; x=1789829523;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ujmQL3Kj1s7lhq2MzNKXV+x5e8Ji17sNWXaHh83QnX4=;
-        b=BCfNQymWvwttDk2fY60mkF4vmu0JYDgq3xbCDYwetVFLG6G+axk7TTqSh3DspyMP16
-         jw3CV2o1Aeiq+YbGX9cambRJWvkYoEGZmGIj9wKmhNKm0+BXit5ty9On0cwkZq6+mDOI
-         n1jkPxqiZDd4/vJPpBPd2IvuWp9Cb1nipcoaJzsMv6xUzdJYhPWUzRaYIu9EqxcvgOyL
-         6xBtX5GhjYP7J/N4zePe6tiSrNKiiGkEjo8u55l390o9J7380kV9sZAi0Qu+bAxDgciN
-         cPM/HmasLcTB0/5y5Y0r+oBh6EjP3DDif9o+nQaCIIsciMR7/Hx/2SJb6iI8gKhsayFj
-         jNxQ==
-X-Gm-Message-State: AFuF++nMcXuzMkaXHYDqqnlH9c1yGegrtwumP+nbYJet+LSveFw8gKq7
-	GceOt+7jotwxNZ+zw6atPscVaG9ZsBbdfdxA5pQbl1vT3lOA2vV5RfGtyRhBHiI42DA=
-X-Gm-Gg: AYBFou3pb/EOGKQ8z3fk0OQetApTJzGA8CaIVsrmEZru8d3NtErU3Lx7gfTM4QpufVg
-	vabbIBZL8OyTVlRPqN+zzvMQDM+oEcmMKBsU5hmjDsf7akNu3CObi57jsRLYgNCiVq5rgMEFycC
-	ydtwTjjPcdgicE1h3fKPNj6XJZCTrdl5faqM1kL9tS4dfFVONdA0mw8wy8mlDx/0427LFrzRQXj
-	qZxu0CEEfxw6Cd/rsu5LbZ/d/swZ5XavVg8DqbVJlvOG0EdWLWiahLDPZRTAF+4iFZGg4XOAqIr
-	FX4Mk4xmeyC3CMbh+HFS9burTrBcrFQ9DX/gkZ5f5YJugUgWGhBqGh1zYbdiEc68cP0Oy60ACvw
-	m5/N77XFT0vWBDT4ZLsfyon45WeiZgwrKI6gKQ3GH2+jjU//vSvqxiC0neHJcl0KT5i93hJpN7j
-	o5Pif1ZMrdrBvmh5CKfAvyXDKHlk3G2eiq+btVJ8Feu0YGTr3u//1262v2P15ZYWccDI+vQFE1j
-	R74Bpo=
-X-Received: by 2002:a05:622a:13ca:b0:52b:4e1f:941d with SMTP id d75a77b69052e-530c84d6123mr143245091cf.6.1789224723200;
-        Sat, 12 Sep 2026 07:52:03 -0700 (PDT)
-Received: from trantor.lan ([2600:4040:974c:2a01:dd09:1051:7923:6fd7])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-530e64da059sm20457441cf.24.2026.09.12.07.52.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Sep 2026 07:52:02 -0700 (PDT)
-From: Matthew Lavine <matt@matthewlavine.net>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev,
-	Matthew Lavine <matt@matthewlavine.net>
-Subject: [PATCH] staging: octeon: correct parameter alignment
-Date: Sat, 12 Sep 2026 10:51:26 -0400
-Message-ID: <20260912145143.186527-1-matt@matthewlavine.net>
-X-Mailer: git-send-email 2.55.0
+        d=1e100.net; s=20251104; t=1789227864; x=1789832664;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=VIbgcSAZRfb3EMsaaEk0Cm7vGUjyRZyM9yj497f//O0=;
+        b=tTX1X5hQ3Vzwsy1F59Ui20gyXvdixtfte3VYn8mmv1ZTegZ0mn4jbBKGHrM/gsbSD8
+         Bj67o1DGskRSBx7krAW3yYXO9X3FIa1Aer27YWG2EOoEAkuqirisXlrmxmDoh1L6drWz
+         49XMtJwCNjpnv5qd1qXNEusmkmC5WbHvDuWeW2m3HUwxSNujyBQtPUhp4+qQyFw0Oblk
+         0SAfzmeDdx6qJ2MNyv8bKnAuugS15Z70TdOgn1CXf3M6ltlGhvcgb+RDTdmYzXScQ191
+         YXXQKruftpFWd6RLds8xG9EaG9cKXfOlieT+ZjqSlh2B4rh/ExNIipcvuvQUge1/TPfY
+         167Q==
+X-Forwarded-Encrypted: i=1; AKwUvBxhuiYgMUhqlXo02wnGI99CLSUYvamUBE9frOTcvSaBme/OAcOIXsqyw3PsCgpHSByLLAI/dZOp29Ub71/X@lists.linux.dev
+X-Gm-Message-State: AFuF++kgClhkRZ4rUBDgudZE+c27KXJlCgd1/rBVuTgZFZLghfZMqCnk
+	3gzInc+OTKj/NYv2qKWUFU2M0ONPIN9d3nhP0B78Pq4TPWnKnFwIHlt9+i3po+0ryPksHIFaBRm
+	hsMB78Wk9VNgW6egOJrNjc+eI1RFKsrQ=
+X-Gm-Gg: AYBFou3eeru80rGTaTVFvnnVDX4V3iKRfU81+FpK2QqsTZsOQC96F4i9gPdaMMPDi2f
+	gCiiToF9sCs+LWYMoFfKIfSCWIkr2N7eq+xUDulI4pIlLiqo/wOHIb03Vpavw8HHdezKeglcWAK
+	ApXjYvRA8+N41axRz8d1mER/IGI6Knc/PGHXvoWANXssSDr/T66xuBlhVGNwnzU6cB/Da5b1GL/
+	nyWBeC0cqu6x/abnBFDf4wXB69kyTpFG6BUfaokWoi3ZlhiksPH/m2A98PzXdnQCC1ftAqFa1Tz
+	SsX3Q0aRD8Ic/Wwru1QLoXEmCtmloDxK9T3jKmBRb7zFBMM5Flp34ik8fQ==
+X-Received: by 2002:a05:6512:318d:b0:5b6:423:7f0f with SMTP id
+ 2adb3069b0e04-5b8a0339cffmr4190697e87.29.1789227863611; Sat, 12 Sep 2026
+ 08:44:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260912010936.12832-1-ricardobarbosamscg@gmail.com> <CAHp75Vfpq7TXcqFfGfqBZSawSSyMdbCj_gdNRkarTHyzbkJL4w@mail.gmail.com>
+In-Reply-To: <CAHp75Vfpq7TXcqFfGfqBZSawSSyMdbCj_gdNRkarTHyzbkJL4w@mail.gmail.com>
+From: ricardo barbosa <ricardobarbosamscg@gmail.com>
+Date: Sat, 12 Sep 2026 11:44:12 -0400
+X-Gm-Features: AcwNN1XRfFcNPuNAyFywkEbj9gVFTQEx20WFI7Say6LdEin3F6clCr5L4UmHlTQ
+Message-ID: <CAOOzAW3+ySKGkSETW7knDLb7=aMTsgpJ4RSmRFcMjCb+gvaJuQ@mail.gmail.com>
+Subject: Re: [PATCH] staging: media: atomisp: remove duplicate blank line
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: hansg@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org, 
+	andy@kernel.org, sakari.ailus@linux.intel.com, linux-staging@lists.linux.dev, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Correct parameter alignment in cvmx_pko_send_packet_finish() while
-abiding by the column limit
+Thanks for the feedback, Andy.
 
-This addresses the "Alignment should match open parenthesis" check
-reported by checkpatch.pl
+As a beginner taking the LFD103 course, my main goal with this
+submission was simply to validate the workflow and git send-email
+toolchain with a zero-risk change.
 
-Signed-off-by: Matthew Lavine <matt@matthewlavine.net>
----
- drivers/staging/octeon/octeon-stubs.h | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+I'll look into more meaningful tasks for my next patch.
 
-diff --git a/drivers/staging/octeon/octeon-stubs.h b/drivers/staging/octeon/octeon-stubs.h
-index 9c1968b7e2d1..935ce6495f3b 100644
---- a/drivers/staging/octeon/octeon-stubs.h
-+++ b/drivers/staging/octeon/octeon-stubs.h
-@@ -1386,9 +1386,9 @@ static inline void cvmx_pko_send_packet_prepare(u64 port, u64 queue,
- 						enum cvmx_pko_lock use_locking)
- { }
- 
--static inline enum cvmx_pko_status cvmx_pko_send_packet_finish(u64 port,
--		u64 queue, union cvmx_pko_command_word0 pko_command,
--		union cvmx_buf_ptr packet, enum cvmx_pko_lock use_locking)
-+static inline enum cvmx_pko_status
-+cvmx_pko_send_packet_finish(u64 port, u64 queue, union cvmx_pko_command_word0 pko_command,
-+			    union cvmx_buf_ptr packet, enum cvmx_pko_lock use_locking)
- {
- 	return 0;
- }
--- 
-2.55.0
-
+On Sat, Sep 12, 2026 at 8:36=E2=80=AFAM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+>
+> On Sat, Sep 12, 2026 at 4:11=E2=80=AFAM Ricardo Barbosa Dias
+> <ricardobarbosamscg@gmail.com> wrote:
+> >
+> > Remove an unnecessary extra blank line to clean up code style
+> > and fix checkpatch CHECK warning.
+>
+> This is the lowest possible priority patch, if even considered. If you
+> want to clean up this driver, there are more interesting tasks.
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
