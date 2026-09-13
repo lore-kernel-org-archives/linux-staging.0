@@ -1,64 +1,64 @@
-Received: from mail-wm2-f11.google.com (mail-wm2-f11.google.com [74.125.225.139])
+Received: from mail-wr2-f11.google.com (mail-wr2-f11.google.com [74.125.225.75])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC53239B970
-	for <linux-staging@lists.linux.dev>; Sun, 13 Sep 2026 08:54:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B58BD39A067
+	for <linux-staging@lists.linux.dev>; Sun, 13 Sep 2026 08:54:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.75
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789289644; cv=none; b=TSJ0cbGfmApYi8X+lL2FgHXEx8hdb2CWHmS5gkqiq93Gy9xadygZ98C4gxGdsRVgFq66ajltqRy7J311LrOS2ssmTqcu7E48s74+/awMJtOVTWoTq2AhhUhbpk17MIW/5ON6PYzklCcZe0cajgeQtPN6WnZ2k3TaYJM/kNvdh2s=
+	t=1789289648; cv=none; b=Y//13CnnvMKoxVO30mlVqbZxlbpyKOv+WsdF/PHHazDjxGxx6G1ZMqqAwobdJz2Y9ibCvR9DUw+ArWNb/TuWtmt+jx1zqPmMYlnvipG8VuJeLaerT2ZKLU8yxT6XlGoyNcrR87oMmR0LvvDe7O5bWg14wKDvLKGZJqveRFogbmo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789289644; c=relaxed/simple;
-	bh=4qNDIkx2Z+sd0cRmZWMv6HPT0dpHS/9jEtFdCIxz8JE=;
+	s=arc-20240116; t=1789289648; c=relaxed/simple;
+	bh=VPxwzLREslsbpmwkvkwJ+oSeDvr9GufTBU2tE5gVVLk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RVgMZsA9UlqscBXgE58Qivy7mkO060R3SIRLcAQvf5sUP4ZJQEzODw+reNeDx+3QBKdMJQL0XHhkpzyrW/Idb+q1TPaCwWVMrM4KVhOia7yWsIr+coIZeU5APyDRKulJSJcSIH9fb7t/Ga1q/+ah4UvND43TOGrDM5d8Zf84+I4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cpXqTQpK; arc=none smtp.client-ip=74.125.225.139
+	 MIME-Version; b=BPeODKGXp7JNTrNeNunxXGYTReigPjrOFOb7Nw6sg0+dtc1AjNblTUceon4w8B0mFlVTmMnhDR/lfQfzj1F8gcZElhaBYJy0bjilPA9qYZL7v8eSMnRff8u+Lf4LKFtdsgL/mmVt9sKQdrFcsEpOwlY4E+LE7Gt1jaVW3FgZSPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lasl1N56; arc=none smtp.client-ip=74.125.225.75
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cpXqTQpK"
-Received: by mail-wm2-f11.google.com with SMTP id 5b1f17b1804b1-49ccea58fe3so6856865e9.1
-        for <linux-staging@lists.linux.dev>; Sun, 13 Sep 2026 01:54:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lasl1N56"
+Received: by mail-wr2-f11.google.com with SMTP id ffacd0b85a97d-48351e5bb47so816202f8f.1
+        for <linux-staging@lists.linux.dev>; Sun, 13 Sep 2026 01:54:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789289641; x=1789894441; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1789289645; x=1789894445; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=cr6uYpQbF5rfyq1VxaZzsHsqaGvyw37xfoh8fFiyzec=;
-        b=cpXqTQpKHUhXl8uL/SWaubA/w5gU9yvyY4Cc4IBhdFfKAkSv9I7lS233ZBanvh7HDW
-         VmaN+EahG55loGiU9ddoygX86DVizVWmL07myj4ZDKt/v1Ze8Xi7GIqQ7i/REKBNRQOO
-         lkbdJ+Lblhr1Vr88IiLg95i68Rq1xdB9CGFGIteE1z9PrA8978TVRiVHe2hbgrGSJsi+
-         y/d+nCL0odkR7MIK6qgk/x95SrDxqhzioDatvDeK7+5YZ3LR/PoAKJjoxXguf1+VRJmb
-         9wvvo+OWboA6tru3X6v0iAdPMfCm44FBHRDZhdUVOwbfuG7Zx8g7LFyEP6UxaL3jocre
-         mEQA==
+        bh=g0OWEY6i3wEnrwVt7jMGeVNMMCw4YyaXULhY7agaqrk=;
+        b=lasl1N56bKROkKszw6zrOmglo42MCB/bDktmT5Fwrp5wZMgaTS7wrwQDu5Y+IJwyjI
+         JyQncOWTmwgqSQ9qQrZy8O4We2FXaBXGp2wqX+1n0HhWDhcfRTW+4KscL3xp+7kQQr6H
+         Odau7O34wK6woYgjwusukRS3BhEEgs3EbgRIvaa8mBBzijXCTSocA2gTyB/qXGDBmABD
+         n1CWUpWJvJuvOqYU7SvEANkdo3psvnvH3KaZgImYY08BNd8P+4YhBtauQ0hsw+v+wJ1E
+         0kN49ZBVt5c33zPjlG/eWFVq9d9He2BY+IgzJIFpUvoX61s+yHFly72pXdWVwcVmeOLW
+         NwhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789289641; x=1789894441;
+        d=1e100.net; s=20251104; t=1789289645; x=1789894445;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=cr6uYpQbF5rfyq1VxaZzsHsqaGvyw37xfoh8fFiyzec=;
-        b=FlwwEBFCPsF6GDAqhtnTNqsl5rgaHezujW7uGNgoA7Uc+kW1hJ+GpY5DeYBBUoZQ5L
-         NXOn69pordxVn/9XfvCBB8V8bynIZ+qwA/c7tumuateX85OkXfJ1JDJbK2iY3nVX3q0g
-         n4f3SxOui15zLPtKXky5b2bB6Rb18MewagrKdXf0tP0XS1kF5KH1zv6xEpUHw+qVTbMO
-         wliwJUioOSe1HosT+sv4c3eiqtNH6BtFI/Yu6wrn+l2V5tDSwXX78JRALtJRj+5Betue
-         oai5vVlkkAnEfnfJbipf2C7SzLsHuo3b06SfkgXESVkveDHVC+N/2BZH456jWnOO6Pje
-         e1xA==
-X-Forwarded-Encrypted: i=1; AKwUvBw95JpglrxByPJLUIug6gGW3jak2KZoj1YyWcXnJV6bU5SDBB787Jih0me8s+jPsA+KcDxoX/oLlE7a1rCP@lists.linux.dev
-X-Gm-Message-State: AFuF++mFam+NJ6Yho6LyvGwig6JhqSJCcf2+SBkvEgqpIx6sMSU4TbJY
-	74bEaK+wd5xbR9bcSES37pMw/rgCHsXPMQ5FmbLefoXCKgobH3Zd5CKd
-X-Gm-Gg: AYBFou00wzWBnNU2Gxr0soWzca0H76bFnG1h9pYQggVDujfp1QjOYg27HFd8oGXmjM+
-	xREXbn+WctrGIxMGKd9mIjIuIKrTkVQ6rbst9Qi55ePJhlHM03TyvJAj97bbPs/m1JGlZ+KxtRF
-	LkFDnvNThIPqkecEyuTuFNA86VZFcMj5FXnUfDAwAdqv4j9NoBrubc7FGymYaqxjLX1g2ZXS4wa
-	cShoXTMubMdjEE5zH5Y/oXIMEzlcuD6gjjrHRZRDNE63fQ13vR8brfCrIMN5DpY1LzV6k/iy9EZ
-	0Yh7H4p9DB0or5Xa6ZeBMzhEY5H71nYsD34y6NOu6IcL2H1Hs8YPfiISD/ZTn2x+fRL45ZIojBT
-	IWBq3Nw+iYHIy3N4r+BeXkp9tIpGsmqWNR5qjRg/uYy8ccj1ZSvSrzyogDVX3k8met/eNH2hwEL
-	UWWXD5UQbJexChfBI2p1LrpGB6N4F6o3bNPkFb5ucrnJPyNQLH77meYgWlnXe/6wkAz6KoBGyuw
-	q8gfcCVxMUfnRM2hJLaKUGhr7THKg==
-X-Received: by 2002:a05:600c:3515:b0:49c:fc6c:be09 with SMTP id 5b1f17b1804b1-49e6cc0baccmr46185225e9.32.1789289641059;
-        Sun, 13 Sep 2026 01:54:01 -0700 (PDT)
+        bh=g0OWEY6i3wEnrwVt7jMGeVNMMCw4YyaXULhY7agaqrk=;
+        b=J8H5XVzZfu4qWbTSEY/zsDAczIh6cCQE11Osws/7P8bcDIV/v2ed4Nkh+OLP7la+Rq
+         XpzyrR5BrDEj8gEOE/17J1+Q3nmZMgnTQyb0AtTaG59lJQKVZhVKMeTfkQPdajxO/uIy
+         LgmRapl+HyH9320gGUF2JDOALGyFeYwwtdClqDDXSrFjh0P3vD9NwdOmsnkrxj9nCxSc
+         aafK8laTsIvNJdwR1XHAHhBvzxt73ZCp+dlcI8QXK03zgnXaMfDW79M652KaKYMxWOFd
+         V1GWv5zTmYpJuHK4vEpDtVbpHd2ojo2DiXI8NzEc2xhyrOeNC8LV4c1tXkBepnWl8hkg
+         ejaA==
+X-Forwarded-Encrypted: i=1; AKwUvBwZvifyKHG/xkKIecv9KPCksaHpbePMK5CMYbqeGWc5fxCGbVWS2ltkMoORuRpSOewb2mHLecVJC0TwtJNV@lists.linux.dev
+X-Gm-Message-State: AFuF++nMhTr5+UAzmU/shQ9ACDRahWC8OUCEQb1CFhDReDLowipQnaK4
+	C9m1BiY/32COLmfOM0uM+XIX5KPZH4gtjivNLuhR3k99qbHl0drUsx48
+X-Gm-Gg: AYBFou0MN/io7AqF4JFia143AngBLFJWg6+kCxUojP0HT/TQNhbHnnyDEBFjdWWHUwN
+	dlrHktBNeb2l9oGPkCSOTnWxtlcbzy8DNLLDmkOWTLunlhy7Chv8U7RVxil9NuQsOYBZJNqYaKC
+	l5RMA4vHRJ070jWMUDkfM6LzOjougspcamHUDtKRtyHhhHppN7EhzIbzS3A9bSpBCMJUbCoSE+w
+	tRPyQ1GlpwTE+3SYZLKU9sUjPMDIEQMF5OdVBTniV2O4YLFUPjkzq+Fj1EPuVOhss/hNPzFU0R7
+	jXqi/wMdwhs0wyOu0+WEj5MbxwBCoB0bcKezyAXPBbLAWSxsZ9UqC/t2JtDlx5JJsj/MJ4bDY5o
+	TCZk0C8QGKyAXfqsX1WI7/5PhjKMaT3TCGiUt4r5GnF1g7Ulqc/RQsfda2lJC3nnrQUr5+Kbn2h
+	dqRFR+hgkCAg23pG+GTMI6zPrqUHhUtPYe8EcDIxwjsxgSrhKwihD+e2gXzunWmU+VEAluIwmFt
+	p44QlW6gLdKruRL+QY=
+X-Received: by 2002:a5d:630b:0:b0:484:3604:c7bd with SMTP id ffacd0b85a97d-486eb31c4d4mr19672165f8f.17.1789289644914;
+        Sun, 13 Sep 2026 01:54:04 -0700 (PDT)
 Received: from DESKTOP-M0MLFVC.localdomain ([165.99.41.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-486eb32e7f5sm18228489f8f.9.2026.09.13.01.53.57
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-486eb32e7f5sm18228489f8f.9.2026.09.13.01.54.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Sep 2026 01:54:00 -0700 (PDT)
+        Sun, 13 Sep 2026 01:54:04 -0700 (PDT)
 From: Shehryar Ahmad <shehryar.amd@gmail.com>
 To: jic23@kernel.org
 Cc: nuno.sa@analog.com,
@@ -75,9 +75,9 @@ Cc: nuno.sa@analog.com,
 	linux-staging@lists.linux.dev,
 	devicetree@vger.kernel.org,
 	Shehryar Ahmad <shehryar.amd@gmail.com>
-Subject: [PATCH v2 3/6] iio: accel: adis16201: prepare driver to support additional parts
-Date: Sun, 13 Sep 2026 13:53:04 +0500
-Message-ID: <20260913085307.13846-4-shehryar.amd@gmail.com>
+Subject: [PATCH v2 4/6] iio: accel: adis16201: add ADIS16203 support
+Date: Sun, 13 Sep 2026 13:53:05 +0500
+Message-ID: <20260913085307.13846-5-shehryar.amd@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260913085307.13846-1-shehryar.amd@gmail.com>
 References: <20260913085307.13846-1-shehryar.amd@gmail.com>
@@ -89,201 +89,132 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Introduce adis16201_chip_info to hold per chip data and adis16201_state
-to wrap struct adis. Move adis16201 to this infrastructure. This
-prepares the driver to support additional chip variants by keeping
-chip-specific parameters in adis16201_chip_info. Additionally,
-adis16201_write_raw applies mask directly on value.
+Add ADIS16203 from staging to mainline ADIS16201. ADIS16203 shares same
+SPI protocol and register addresses. Differing parameters are handled by
+adis16201_chip_info structure.
+
+ADIS16203 specific support includes DIAG_STAT_SELFTEST_FAIL_BIT, which
+is supported only on ADIS16203, and a separate channel array.
+
+Kconfig is updated accordingly.
 
 Signed-off-by: Shehryar Ahmad <shehryar.amd@gmail.com>
 ---
- drivers/iio/accel/adis16201.c | 78 ++++++++++++++++++++++++-----------
- 1 file changed, 55 insertions(+), 23 deletions(-)
+ drivers/iio/accel/Kconfig     |  6 +++---
+ drivers/iio/accel/adis16201.c | 32 ++++++++++++++++++++++++++++++--
+ 2 files changed, 33 insertions(+), 5 deletions(-)
 
+diff --git a/drivers/iio/accel/Kconfig b/drivers/iio/accel/Kconfig
+index 4094299e2..f884ec66f 100644
+--- a/drivers/iio/accel/Kconfig
++++ b/drivers/iio/accel/Kconfig
+@@ -7,13 +7,13 @@
+ menu "Accelerometers"
+ 
+ config ADIS16201
+-	tristate "Analog Devices ADIS16201 Dual-Axis Digital Inclinometer and Accelerometer"
++	tristate "ADIS16201 Digital Inclinometer and similar"
+ 	depends on SPI
+ 	select IIO_ADIS_LIB
+ 	select IIO_ADIS_LIB_BUFFER if IIO_BUFFER
+ 	help
+-	  Say Y here to build support for Analog Devices adis16201 dual-axis
+-	  digital inclinometer and accelerometer.
++	  Say Y here to build support for Analog Devices adis16201 Digital
++	  Inclinometer and similar
+ 
+ 	  To compile this driver as a module, say M here: the module will
+ 	  be called adis16201.
 diff --git a/drivers/iio/accel/adis16201.c b/drivers/iio/accel/adis16201.c
-index 2ce5c409b..e0bf7df50 100644
+index e0bf7df50..8e8e612fd 100644
 --- a/drivers/iio/accel/adis16201.c
 +++ b/drivers/iio/accel/adis16201.c
-@@ -87,6 +87,22 @@ enum adis16201_scan {
- 	ADIS16201_SCAN_TEMP,
- };
- 
-+struct adis16201_chip_info {
-+	const char *name;
-+	const struct iio_chan_spec *arr_channels;
-+	unsigned int incli_scale_val2;
-+	u16 write_mask_incli;
-+	u16 diag_stat_mask;
-+	unsigned int read_bits_incli;
-+	unsigned int num_channels;
-+};
-+
-+struct adis16201_state {
-+	struct adis adis;
-+	const struct adis16201_chip_info *info;
-+	struct adis_data data;
-+};
-+
- static const u8 adis16201_addresses[] = {
- 	[ADIS16201_SCAN_ACC_X] = ADIS16201_XACCL_OFFS_REG,
- 	[ADIS16201_SCAN_ACC_Y] = ADIS16201_YACCL_OFFS_REG,
-@@ -99,7 +115,7 @@ static int adis16201_read_raw(struct iio_dev *indio_dev,
- 			      int *val, int *val2,
- 			      long mask)
- {
--	struct adis *st = iio_priv(indio_dev);
-+	struct adis16201_state *st = iio_priv(indio_dev);
- 	int ret;
- 	int bits;
- 	u8 addr;
-@@ -137,7 +153,7 @@ static int adis16201_read_raw(struct iio_dev *indio_dev,
- 			return IIO_VAL_INT_PLUS_NANO;
- 		case IIO_INCLI:
- 			*val = 0;
--			*val2 = 100000;
-+			*val2 = st->info->incli_scale_val2;
- 			return IIO_VAL_INT_PLUS_MICRO;
- 		default:
- 			return -EINVAL;
-@@ -157,13 +173,13 @@ static int adis16201_read_raw(struct iio_dev *indio_dev,
- 			bits = 12;
- 			break;
- 		case IIO_INCLI:
--			bits = 9;
-+			bits = st->info->read_bits_incli;
- 			break;
- 		default:
- 			return -EINVAL;
- 		}
- 		addr = adis16201_addresses[chan->scan_index];
--		ret = adis_read_reg_16(st, addr, &val16);
-+		ret = adis_read_reg_16(&st->adis, addr, &val16);
- 		if (ret)
- 			return ret;
- 
-@@ -180,25 +196,24 @@ static int adis16201_write_raw(struct iio_dev *indio_dev,
- 			       int val2,
- 			       long mask)
- {
--	struct adis *st = iio_priv(indio_dev);
--	int m;
-+	struct adis16201_state *st = iio_priv(indio_dev);
- 
- 	if (mask != IIO_CHAN_INFO_CALIBBIAS)
- 		return -EINVAL;
- 
- 	switch (chan->type) {
- 	case IIO_ACCEL:
--		m = GENMASK(11, 0);
-+		val &= GENMASK(11, 0);
- 		break;
- 	case IIO_INCLI:
--		m = GENMASK(8, 0);
-+		val &= st->info->write_mask_incli;
- 		break;
- 	default:
- 		return -EINVAL;
- 	}
- 
--	return adis_write_reg_16(st, adis16201_addresses[chan->scan_index],
--				 val & m);
-+	return adis_write_reg_16(&st->adis, adis16201_addresses[chan->scan_index],
-+				 val);
- }
- 
- static const struct iio_chan_spec adis16201_channels[] = {
-@@ -217,6 +232,20 @@ static const struct iio_chan_spec adis16201_channels[] = {
+@@ -1,6 +1,6 @@
+ // SPDX-License-Identifier: GPL-2.0-or-later
+ /*
+- * ADIS16201 Dual-Axis Digital Inclinometer and Accelerometer
++ * ADIS16201 Digital Inclinometer and similar
+  *
+  * Copyright 2010 Analog Devices Inc.
+  */
+@@ -63,6 +63,7 @@
+ #define ADIS16201_DIAG_STAT_REG				0x3C
+ #define  ADIS16201_DIAG_STAT_ALARM2			BIT(9)
+ #define  ADIS16201_DIAG_STAT_ALARM1			BIT(8)
++#define ADIS16203_DIAG_STAT_SELFTEST_FAIL_BIT		5	/* ADIS16203 only */
+ #define  ADIS16201_DIAG_STAT_SPI_FAIL_BIT		3
+ #define  ADIS16201_DIAG_STAT_FLASH_UPT_FAIL_BIT		2
+ /* Power supply above 3.625 V */
+@@ -232,6 +233,15 @@ static const struct iio_chan_spec adis16201_channels[] = {
  	IIO_CHAN_SOFT_TIMESTAMP(7)
  };
  
-+static const struct adis16201_chip_info adis16201_chip_data = {
-+	.arr_channels = adis16201_channels,
-+	.incli_scale_val2 = 100000,
-+	.write_mask_incli = GENMASK(8, 0),
++static const struct iio_chan_spec adis16203_channels[] = {
++	ADIS_SUPPLY_CHAN(ADIS16201_SUPPLY_OUT_REG, ADIS16201_SCAN_SUPPLY, 0, 12),
++	ADIS_TEMP_CHAN(ADIS16201_TEMP_OUT_REG, ADIS16201_SCAN_TEMP, 0, 12),
++	ADIS_AUX_ADC_CHAN(ADIS16201_AUX_ADC_REG, ADIS16201_SCAN_AUX_ADC, 0, 12),
++	ADIS_INCLI_CHAN(X, ADIS16201_XINCL_OUT_REG, ADIS16201_SCAN_INCLI_X,
++			BIT(IIO_CHAN_INFO_CALIBBIAS), 0, 14),
++	IIO_CHAN_SOFT_TIMESTAMP(7),
++};
++
+ static const struct adis16201_chip_info adis16201_chip_data = {
+ 	.arr_channels = adis16201_channels,
+ 	.incli_scale_val2 = 100000,
+@@ -246,6 +256,21 @@ static const struct adis16201_chip_info adis16201_chip_data = {
+ 	.name = "adis16201",
+ };
+ 
++static const struct adis16201_chip_info adis16203_chip_data = {
++	.arr_channels = adis16203_channels,
++	.incli_scale_val2 = 25000,
++	.write_mask_incli = GENMASK(13, 0),
 +	.diag_stat_mask =
++		BIT(ADIS16203_DIAG_STAT_SELFTEST_FAIL_BIT) |
 +		BIT(ADIS16201_DIAG_STAT_SPI_FAIL_BIT) |
 +		BIT(ADIS16201_DIAG_STAT_FLASH_UPT_FAIL_BIT) |
 +		BIT(ADIS16201_DIAG_STAT_POWER_HIGH_BIT) |
 +		BIT(ADIS16201_DIAG_STAT_POWER_LOW_BIT),
-+	.read_bits_incli = 9,
-+	.num_channels = ARRAY_SIZE(adis16201_channels),
-+	.name = "adis16201",
++	.read_bits_incli = 14,
++	.num_channels = ARRAY_SIZE(adis16203_channels),
++	.name = "adis16203",
 +};
 +
  static const struct iio_info adis16201_info = {
  	.read_raw = adis16201_read_raw,
  	.write_raw = adis16201_write_raw,
-@@ -248,16 +277,12 @@ static const struct adis_data adis16201_data = {
- 	.timeouts = &adis16201_timeouts,
- 
- 	.status_error_msgs = adis16201_status_error_msgs,
--	.status_error_mask = BIT(ADIS16201_DIAG_STAT_SPI_FAIL_BIT) |
--		BIT(ADIS16201_DIAG_STAT_FLASH_UPT_FAIL_BIT) |
--		BIT(ADIS16201_DIAG_STAT_POWER_HIGH_BIT) |
--		BIT(ADIS16201_DIAG_STAT_POWER_LOW_BIT),
+@@ -253,6 +278,7 @@ static const struct iio_info adis16201_info = {
  };
  
- static int adis16201_probe(struct spi_device *spi)
- {
- 	struct iio_dev *indio_dev;
--	struct adis *st;
-+	struct adis16201_state *st;
- 	int ret;
- 
- 	indio_dev = devm_iio_device_alloc(&spi->dev, sizeof(*st));
-@@ -266,22 +291,29 @@ static int adis16201_probe(struct spi_device *spi)
- 
- 	st = iio_priv(indio_dev);
- 
--	indio_dev->name = spi->dev.driver->name;
-+	st->info = spi_get_device_match_data(spi);
-+	if (!st->info)
-+		return -ENODATA;
-+
-+	indio_dev->name = st->info->name;
- 	indio_dev->info = &adis16201_info;
- 
--	indio_dev->channels = adis16201_channels;
--	indio_dev->num_channels = ARRAY_SIZE(adis16201_channels);
-+	indio_dev->channels = st->info->arr_channels;
-+	indio_dev->num_channels = st->info->num_channels;
- 	indio_dev->modes = INDIO_DIRECT_MODE;
- 
--	ret = adis_init(st, indio_dev, spi, &adis16201_data);
-+	st->data = adis16201_data;
-+	st->data.status_error_mask = st->info->diag_stat_mask;
-+
-+	ret = adis_init(&st->adis, indio_dev, spi, &st->data);
- 	if (ret)
- 		return ret;
- 
--	ret = devm_adis_setup_buffer_and_trigger(st, indio_dev, NULL);
-+	ret = devm_adis_setup_buffer_and_trigger(&st->adis, indio_dev, NULL);
- 	if (ret)
- 		return ret;
- 
--	ret = __adis_initial_startup(st);
-+	ret = __adis_initial_startup(&st->adis);
- 	if (ret)
- 		return ret;
- 
-@@ -289,14 +321,14 @@ static int adis16201_probe(struct spi_device *spi)
- }
+ static const char * const adis16201_status_error_msgs[] = {
++	[ADIS16203_DIAG_STAT_SELFTEST_FAIL_BIT] = "Self test failure",
+ 	[ADIS16201_DIAG_STAT_SPI_FAIL_BIT] = "SPI failure",
+ 	[ADIS16201_DIAG_STAT_FLASH_UPT_FAIL_BIT] = "Flash update failed",
+ 	[ADIS16201_DIAG_STAT_POWER_HIGH_BIT] = "Power supply above 3.625V",
+@@ -322,6 +348,7 @@ static int adis16201_probe(struct spi_device *spi)
  
  static const struct of_device_id adis16201_of_match[] = {
--	{ .compatible = "adi,adis16201" },
-+	{ .compatible = "adi,adis16201", .data = &adis16201_chip_data },
+ 	{ .compatible = "adi,adis16201", .data = &adis16201_chip_data },
++	{ .compatible = "adi,adis16203", .data = &adis16203_chip_data },
  	{ },
  };
  
- MODULE_DEVICE_TABLE(of, adis16201_of_match);
+@@ -329,6 +356,7 @@ MODULE_DEVICE_TABLE(of, adis16201_of_match);
  
  static const struct spi_device_id adis16201_ids[] = {
--	{ .name = "adis16201", 0 },
-+	{ .name = "adis16201", .driver_data = (kernel_ulong_t)&adis16201_chip_data },
+ 	{ .name = "adis16201", .driver_data = (kernel_ulong_t)&adis16201_chip_data },
++	{ .name = "adis16203", .driver_data = (kernel_ulong_t)&adis16203_chip_data },
  	{ },
  };
  
+@@ -345,6 +373,6 @@ static struct spi_driver adis16201_driver = {
+ module_spi_driver(adis16201_driver);
+ 
+ MODULE_AUTHOR("Barry Song <21cnbao@gmail.com>");
+-MODULE_DESCRIPTION("Analog Devices ADIS16201 Dual-Axis Digital Inclinometer and Accelerometer");
++MODULE_DESCRIPTION("Analog Devices ADIS16201 Inclinometer and similar");
+ MODULE_LICENSE("GPL v2");
+ MODULE_IMPORT_NS("IIO_ADISLIB");
 -- 
 2.43.0
 
