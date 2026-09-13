@@ -1,140 +1,126 @@
-Received: from mail-pz2-f43.google.com (mail-pz2-f43.google.com [74.125.228.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EBDF372ECE
-	for <linux-staging@lists.linux.dev>; Sat, 12 Sep 2026 21:23:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789248237; cv=pass; b=qMBimbeY3NMNobOlauoRfnUd35RyxSzstE3cO/BBLk0dxRpisNWTBAYJXZjQGxelzbtCYxTDvhpkvLgf5WdkyEEmZ3TZEj2VlT0BlCHpAQill0uVYHASgBmi9ThRicJYJDMPAwgdaqImox6+U0B3f6f0jvJIDNU2tD49Os95vLo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789248237; c=relaxed/simple;
-	bh=WgOhOFRovPEhiNXwXYyCOoiGvkZktGuhM4mSLhTmPvw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VcNmOXdRuVa5a+UTs5ezv26oSjiRZNzEQbWa/gBLyAuSf63phtthxard1ePfoI+BMwYiasGagEcxB3p6qXkcBNYzRBiQOVIKJ9R8bUk18Oy3iseKRZ5XF/r35rmIJBYaU+L3eywQlNqzqBSYokBPGvor0TLETkiGB5SkEJt256w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gZ+u2HdI; arc=pass smtp.client-ip=74.125.228.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 785202765D7;
+	Sun, 13 Sep 2026 03:00:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789268401; cv=none; b=Q60IZmctLbRolQsNbEKDK5af3UH5YZTEQHJQymF/myZKxq07RIlLtTKhYY34rasHDtDX+5nT5WcD8R9AfGrgUjtkyQr53JPoVq41HFwKQv0k60ExwxppyMRZzkAk1iL/OkV/Mgi4vlm3ehJMtYyafGmRXpzQ7QBb5WshZ2TEN9M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789268401; c=relaxed/simple;
+	bh=nebcldvjasnNIaE8xLDrcml/O7iGT6X4/ykys5IcfuQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=H6QuXWcaCbdCYL3vRYAec+nBhqyCHD/vCFEJoArQlSSbH+OJ4WLBuYQSuaneSFsWGNO+3LBe91+rCqWpiWJd8SaIKTGJKyUDE7rSoPqIF9FZ5s5a4jkdANKoWesK3EgPVL8opNarklnUeR3FUpK3Ti1vFQDyqw8t/cD+z9HeiRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AnNpgQFr; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gZ+u2HdI"
-Received: by mail-pz2-f43.google.com with SMTP id d2e1a72fcca58-8686f46e4adso1032394b3a.0
-        for <linux-staging@lists.linux.dev>; Sat, 12 Sep 2026 14:23:56 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789248236; cv=none;
-        d=google.com; s=arc-20260327;
-        b=VUwZVzaIWw/uZrDoqM2Nu2f2lx+uKIkiBOC5tapPKl60dZIpe3GALmdNSK1Q1f0YrL
-         7pfA2NL6tHJcSCSsgzBWvKyGWhLTvZpp8RjzM3kWl9OsCFqtutQkogm246SB54AHoc3K
-         hCJDxd5fS/hrA7SFVxkwb379/tMwXS2dpppgMdWP67VFZlNmDrxsDEO3D4vXNj7KJeaw
-         eUj9fjJiOFOXhkgJx9TuRx6d5XnilkA9sUE61+xhiUjw379u5VweJ2AlgQNctUbJdkE6
-         z9d6YNBN93WSWOhdeGdyoU6ix0JMGXTou52D/jFt3hxBm86qYdTRDw88dMqdsIWsng08
-         4YUg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=9vB62gwH0/QPgCAfrE86myNtpwICD7qvpc93MXHR/ew=;
-        fh=YCe77j9FQum4inG8IgQESY2lGNQ/wtcylJlUGTmfzbE=;
-        b=lO225o6LypW+yuHeJSVegmzakISytOZ1wVTlVIbm9uNs3WFBUjUlneFw1yPqQWp514
-         053Vpmy8cqQfoXn2XYURzZVEeNVu+qyaAiggf+4QZvR+ax5JR65nwYW8AFPCrzlK1DK/
-         btUggt5CP6h/PrCZyqZNI7LRgViXrcFKry56dyKUFMYnd29pUi7MoEIGP5YaAuwyQJ9S
-         CbBrJiDTJbwqTVfutL14ecQCeUe7NZtq29ir32yfJBukSQDcWxRKUGxUJMcmNL0ylTAE
-         YTMF2PjgEZJ+NMDV2frZOQpZPdwoy0pnI5xwkr2N6ORsMJZ2fcxJnwCVzYBFXdubY/Ar
-         eZDg==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789248236; x=1789853036; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=9vB62gwH0/QPgCAfrE86myNtpwICD7qvpc93MXHR/ew=;
-        b=gZ+u2HdI67Lvo+ikEkdbx1I6i3Jl3fm/QpL6f66lot+cf0vhBemcxwIXJ7ljN01jNJ
-         sQKivOl7PwExknjCwoaKS9q1hbDvqABSYYS+bs+ZYE71zMNlX9NqHXPFcpg/ddncRqAP
-         Jado7r3h52OeayW/qqaFoxTf7azOJCFHZRe5pWbMvZErEjPNauPQCG4SvkYflkGsY/A9
-         Ki4gNg55I0t2kquIz7KiLSjcwBMDsX/E6kMlk3P0TJ8gLnsRovxyiTh9RZQmpY0EwULt
-         9qmJjS6wzTaNr+LM2jt4N0PeeQN/bRiNg129YDVUE+1lg8wWYfZWp7hSoACY3lEGZ5Jx
-         wg5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789248236; x=1789853036;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=9vB62gwH0/QPgCAfrE86myNtpwICD7qvpc93MXHR/ew=;
-        b=o9r+eQZZ+gIaR9nDrWxYV9nTQfxwj5xOkYgR0fZjEJWfPJHzcW4UqqP2qz9bi4Wj65
-         g6A5HazTPKF4japF1Nw/KAsJemagt+eC01ky2GNf0rLUMFMmBD3uVtpwbWo8oiFS1ipt
-         F2Yi6xXucBzjgKEKlGoiS3ETQAb27g8ie9xSKm52uA9DOUrbhtgo9/cq4OQXQ65w7dSw
-         CT/K9QXO4pDZbTitg7eZhjykE9JPYsxWIVTosSJ8WPeLG3Y++YYvpr3XYV0++8pMRhcU
-         AQPft+qtdmMiDQhcDfPXvBITMbBXxbPnl3VvCfz9dnMjyIXodgvd9ms7BJJoK5UjU4Zv
-         sUVw==
-X-Forwarded-Encrypted: i=1; AKwUvBxLLOrX8fQ2HxNRhtQNxIRxmApAnNBq0HV/mKtjGq/szw4GG6WE8FQ7QPZ/o1PsW/4LIgajMPdmmMW8u8TN@lists.linux.dev
-X-Gm-Message-State: AFuF++nWbCXtbxIiOUkwdQwjdj3rBSG/87IwM+2obeR15cP46WzrZ41s
-	ZztBAklEAKKGOEkwcIs98FTqxTxOWROT5NIoo9sOqwH31i2LsCGQMTndWDLb/7Z5ULqh5G2n8Bh
-	vTYqjVk+NpA9R4n5rIK0J1YEyzdBN1As=
-X-Gm-Gg: AYBFou31EFhP6RsxBc9hZ47onNta2wBEJyyVYBw4+GQc7JNjRxYaZqQXcXdaxxfwpUL
-	eYQMTIgM553tMPCnXToX0yEw/65H8CUAAuiJ/5x6kUaMUkjwBIe7Ktn4RySRC1Q3iG9sy1fDhew
-	mXnEMW2XGwty7PQ2IRBMiqene+4gjGcy3v/oNVv8+dFwmIRY2e/rZMJsBC2p2hKX4OeN9Xk9oj9
-	NDnqoD00P9GpADPcVTBMojSeB77hN3O79zy/Dk0ZzCcI1CqPc1b8lYJjH2CS6WZhuHcQLOjBU6g
-	0jE8QyWPWu+LygAStDwzp+8vlzolbC9ETh4MCXixrnsAiAbu5XTo4jOE+h8wGggm2zSE+UyQ5IW
-	WmqsX3xujHDDIPg==
-X-Received: by 2002:a05:6a21:600c:b0:3d0:9164:98a7 with SMTP id
- adf61e73a8af0-3daed1a4911mr18953244637.11.1789248235623; Sat, 12 Sep 2026
- 14:23:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AnNpgQFr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9AD01F000FF;
+	Sun, 13 Sep 2026 02:59:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789268400;
+	bh=45E+0rPqi4Q5EA4SZ6KErOV5kKZDAlhBMi5yePEo1ZU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=AnNpgQFr54Usir0fOZgHzFHteOa78dYAJSQZGu+zwZcxDdPwy5OMReLp+WpoxnvhA
+	 VRElaRBM8vEG61jZM6hw4RduYsZAx9ZjvnSjsKLzlhhY48e2iTkOwtO67eFktwM+Q+
+	 xg+9ynaGLsdQoQDlktsi7mZoNE3X1K0HtNDgzD7IKfosSI29OtWeIpkJLowmkv7gLo
+	 l+SsEt7Qaw90TR2yl2wUpK7KNNJ+7+Ix/9hR4FS8xrrztqDUDl3HvHO2SyXxNH/zPl
+	 pcY2a8wmgfudp8Bg8/oPKIeVpLV9A4dENwIqyq3SYzejppkcHgM0DRqPC3zXNbDd+3
+	 5EYFRc7Eg5c0Q==
+Date: Sun, 13 Sep 2026 03:59:57 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
+Cc: gregkh@linuxfoundation.org, nuno.sa@analog.com,
+ Michael.Hennerich@analog.com, dlechner@baylibre.com, andy@kernel.org,
+ linux@analog.com, linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, joshua.crofts1@gmail.com
+Subject: Re: [PATCH v6 3/3] staging: iio: adc: ad7816: Use DMA-safe buffer
+ for SPI read
+Message-ID: <20260913035957.7eb0dd2b@jic23-hlaptop>
+In-Reply-To: <20260912132517.55686-4-abdelnasserhussein11@gmail.com>
+References: <20260912132517.55686-1-abdelnasserhussein11@gmail.com>
+	<20260912132517.55686-4-abdelnasserhussein11@gmail.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260910124403.95741-1-7israr.work@gmail.com> <aqKzBTM-CdBqQzXi@stanley.mountain>
- <CAGKr8w2e4YGF41X5mv5Mf2FDvoezpzeKmFMKaHKf43eypCKdFg@mail.gmail.com>
- <aqVSfA_Ns_plwCpK@stanley.mountain> <CAGKr8w2TSt0z2K5JDKViHVMf3fGpDtNEwqhedR10JoiXLB=MUw@mail.gmail.com>
-In-Reply-To: <CAGKr8w2TSt0z2K5JDKViHVMf3fGpDtNEwqhedR10JoiXLB=MUw@mail.gmail.com>
-From: Muhammad Israr <7israr.work@gmail.com>
-Date: Sun, 13 Sep 2026 02:23:44 +0500
-X-Gm-Features: AcwNN1XlHNmzcFazDP31zU94RhifNoUfTsEaJFMHZRfDYP5lRNqMTjTujOs1sNw
-Message-ID: <CAGKr8w30ZfgS6M0UteVO9HYcRCpbkg+4PgNE7DGpUtbxjyLjhg@mail.gmail.com>
-Subject: Re: [PATCH] staging: most: video: add comments to mutex and spinlock definitions
-To: Dan Carpenter <error27@gmail.com>
-Cc: parthiban.veerasooran@microchip.com, christian.gromm@microchip.com, 
-	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sat, Sep 13, 2026 at 01:09:00AM +0000, Dan Carpenter wrote:
-> [previous]
+On Sat, 12 Sep 2026 16:25:17 +0300
+Abdelnasser Hussein <abdelnasserhussein11@gmail.com> wrote:
 
-One thing before i go further is that the changes i am proposing i
-can't test it
-on a real MOST hardware as i don't have it i can only do a compile
-test  and i also did used LLM assistance in understanding
-code especially where the race problem happens so according to greg
-LLM policy i can't submit this is formal patch.
+> Stack buffers are unsafe for DMA with VMAP_STACK enabled because
+> they are not physically contiguous and can share cache lines. This
+> causes data corruption.
 
-The possible according me will be use another read->lock:
+This one has come up a few times as a false or at least misleading
+explanation.  It really doesn't have anything to do with VMAP_STACK
+as that only a most deals with pages and cachelines which matter here
+are much smaller.
 
-static ssize_t comp_vdev_read(struct file *filp, char __user *buf,
-     size_t count, loff_t *pos)
-{
-...
-mutex_lock(&mdev->read_lock);
-...
-while (count > 0) {
-spin_lock_irq(&mdev->list_lock);
-if (list_empty(&mdev->pending_mbos)) {
-spin_unlock_irq(&mdev->list_lock);
-break;
-}
-mbo = get_top_mbo(mdev);
-list_del(&mbo->list);
-spin_unlock_irq(&mdev->list_lock);
-...
-}
-mutex_unlock(&mdev->read_lock);
+Any stack variable is a problem simply because we don't control the
+data layout and pretty much anything else can end up in the same
+cache line. 
 
-}
+> 
+> Fix this by using a dedicated rx_buf aligned with IIO_DMA_MINALIGN
+> in the device state structure to ensure cache coherency. This also
+> corrects the size argument in spi_read() to match the new buffer.
 
-If either of you want to take the read_lock approach
-forward yourselves, you're welcome to otherwise I'll keep
-working on staging drivers I can actually test on real hardware.
+Make sure you understand why this alignment marking works to ensure
+the buffer is in a cache line on it's own.
 
-thanks
+However, don't do this for a single use small buffer.
+Use spi_write_then_read() (with 0 sized write) but also make
+sure you understand why that works.
 
-regards,
-Muhammad Israr
+Jonathan
+
+
+> 
+> Fixes: 7024425db64a ("staging: iio: adc: new driver for AD7816 devices")
+> Signed-off-by: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
+> ---
+>  drivers/staging/iio/adc/ad7816.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/staging/iio/adc/ad7816.c b/drivers/staging/iio/adc/ad7816.c
+> index acf26c5a267a..2fd2d6796603 100644
+> --- a/drivers/staging/iio/adc/ad7816.c
+> +++ b/drivers/staging/iio/adc/ad7816.c
+> @@ -53,6 +53,7 @@ struct ad7816_chip_info {
+>  	u8  channel_id;	/* 0 always be temperature */
+>  	u8  mode;
+>  	struct mutex lock; /* protect device state during SPI transfers */
+> +	__be16 rx_buf __aligned(IIO_DMA_MINALIGN);
+>  };
+>  
+>  enum ad7816_type {
+> @@ -68,7 +69,6 @@ static int ad7816_spi_read(struct ad7816_chip_info *chip, u16 *data)
+>  {
+>  	struct spi_device *spi_dev = chip->spi_dev;
+>  	int ret;
+> -	__be16 buf;
+>  
+>  	guard(mutex)(&chip->lock);
+>  
+> @@ -96,13 +96,13 @@ static int ad7816_spi_read(struct ad7816_chip_info *chip, u16 *data)
+>  
+>  	gpiod_set_value(chip->rdwr_pin, 0);
+>  	gpiod_set_value(chip->rdwr_pin, 1);
+> -	ret = spi_read(spi_dev, &buf, sizeof(*data));
+> +	ret = spi_read(spi_dev, &chip->rx_buf, sizeof(chip->rx_buf));
+>  	if (ret < 0) {
+>  		dev_err(&spi_dev->dev, "SPI data read error\n");
+>  		return ret;
+>  	}
+>  
+> -	*data = be16_to_cpu(buf);
+> +	*data = be16_to_cpu(chip->rx_buf);
+>  
+>  	return ret;
+>  }
+
