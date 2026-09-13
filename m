@@ -1,168 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi2-f13.google.com (mail-oi2-f13.google.com [74.125.231.205])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4AD53EC6AA;
-	Sun, 13 Sep 2026 12:54:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789304047; cv=none; b=RGqmuVceyGa4KemTXBt17mtn5IoOll1DIbK2wgzmc18OMTYmDRaONaPvXlRYbUjuHnK3EEr66jEwTYqlZ2ZkEhiAhI4/rKkTFofEWnBxl7G9bOqkahILgTN2rdd6rC3g0haSTr1xPixZi3/tiabZRXCsKOQPgLCDIYRdqj3RNps=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789304047; c=relaxed/simple;
-	bh=ay4qyJCaQmXveBRyHeoqGyCcwueesl6T2BFAs3f+Z7w=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eJ5tGSurmDNrreupcQhoRZTZBsv1BN+rxefXShz6qfAdzEVs8jXLBnV7y7kh6Y/RG8bnOQOHWpFwsD0sZXz6Ss0IuAoaUzWLCTp1N2cJFd+7u6rGdvuwGV5OpzIOQTqJmDtYPNsFkY0p0ybFHEVNBqTbbIKCQov6wj7e51CzbqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tnb4/6Zi; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 169863CC7D8
+	for <linux-staging@lists.linux.dev>; Sun, 13 Sep 2026 13:21:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.231.205
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789305682; cv=pass; b=pZGVcGG8f6KQaMFhyYkDEUec/ObggkOeMjSROKpDWgH/qd5pmEnIhOyQsyicbs12Jc/Htn9a5z2PyGvy+rxBbO729RgG4Ht/Zof1S5+IASSioDaS2I0hPX1+jSdm+Cq7rpKmvtc1hk6Jp9AHYQFWflrBa/nsyULhyw22XQyWA4o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789305682; c=relaxed/simple;
+	bh=qruS9RaFpfludketP5nShhhjtDemkZaJSSVTOVH8K1Y=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=K8AaDOAkxSl9S2cHycUW2o2QkmYZkckA+V2FzDv6eClhhNaOtRakcI94UXeqeTT5Am0Gk2ZdXLA5f5e7DVr+vLzm9SFOAcLkINtVIp+u9HDUmvRrUWu4aJoA03VfBnwbypz3mVEc9olrfAJcQCcEsGPEmpqPtwP7lU7v744tWjU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L24laIKm; arc=pass smtp.client-ip=74.125.231.205
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tnb4/6Zi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789304041; x=1820840041;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=ay4qyJCaQmXveBRyHeoqGyCcwueesl6T2BFAs3f+Z7w=;
-  b=Tnb4/6ZiKzvnrluYQKjpneE4mrZCXdZv5Cv8flpasfecXWh2glmO9ep4
-   85il0VTmbXINnW9kjp31GTehwb06A87b2IFRsY2peOIbtuLYTxG4gLFZ2
-   ikUl17LchDfJ1vLb+kgEGvQC4FSmBDOuLA7Te2/ighG/BmQ+TvEUycWeB
-   eYpQHDTOab+46vem6GFfHZwAJMrRGu/7hSQyToo18uSZetUuuydTfAFJu
-   EKk2YbHtkM25fCOJC/Iao0Bj2EznQQbn52VrKMeKz3/Q2nyw/y+ZPkJRE
-   DAVguX2tb6RXUgR92FCGp9JNHsVtoxMA2DTzG7ESqRApWiV3zuMD7T+c3
-   A==;
-X-CSE-ConnectionGUID: iqLLlX0bSwqhHUE0++Oe2g==
-X-CSE-MsgGUID: zJZUvdOKRNC/VcEytTMOHg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11903"; a="101041852"
-X-IronPort-AV: E=Sophos;i="6.27,100,1787036400"; 
-   d="scan'208";a="101041852"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2026 05:53:58 -0700
-X-CSE-ConnectionGUID: Pj3reVYjSiKANcJMJtEzoA==
-X-CSE-MsgGUID: 5YYtgwtCT2yF1d3eeh8Gqw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,100,1787036400"; 
-   d="scan'208";a="277638693"
-Received: from junjie-desk-dev.bj.intel.com ([10.238.152.71])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Sep 2026 05:53:54 -0700
-From: Junjie Cao <junjie.cao@intel.com>
-To: Miguel Vadillo <miguel.vadillo@intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Manuel Knitza <manuel.knitza@googlemail.com>,
-	Thorsten Leemhuis <regressions@leemhuis.info>,
-	Antti Laakso <antti.laakso@linux.intel.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	regressions@lists.linux.dev,
-	stable@vger.kernel.org
-Subject: [PATCH] media: i2c: cvs: Do not hide the option in the ancillary menu
-Date: Sun, 13 Sep 2026 20:53:45 +0800
-Message-ID: <20260913125345.588586-1-junjie.cao@intel.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L24laIKm"
+Received: by mail-oi2-f13.google.com with SMTP id 5614622812f47-4b37a2ffee6so299235b6e.2
+        for <linux-staging@lists.linux.dev>; Sun, 13 Sep 2026 06:21:20 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789305680; cv=none;
+        d=google.com; s=arc-20260327;
+        b=o117YBCcw40p+/czvETUoO0hq0OScvc37JwxSKpABwBStxP5FUNXByNUrNbfK6Qkef
+         4IcaqCaiE94ZZflOvH4NIVDAfY4cT7K3hqrdvFcV4H7Uz/UFXus8l08zYoSQjolR9ORK
+         I/NuHk82wR7e2PoFvuW63KOSse6eLZxCPGdZmd1Ct8Q9Qh//OoFXQr9YUQ/BVuzuqkez
+         OfmifU4CTTUVB09xMYhG1k9SEzi+3z+KZgc/5t3IN4mxPHBM0EcdpIi8cifU0YdUZsxx
+         mYqU9tXJNq/acc8NYdDlu5STzSbXAQUw/1vJGjavwAuzJXbkejOb5UY3rIgk/gpb7qkH
+         clDw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=qruS9RaFpfludketP5nShhhjtDemkZaJSSVTOVH8K1Y=;
+        fh=cBSlOCdUYWXKrv99rvxDYNyMpLmQJjrl9d/zPPBl430=;
+        b=W1aSOku7cuw+OHLkjhL6LGkc0fdLBiiDDyaZFdwUdqgfzT/lOPneBs/kuoPEaSPv7i
+         mfO+QStG83xrq7w/g9qIooM2Zzse8OOrtf8YRhDz+fr06HINEoGf9pJt0q/JNA3t9tBZ
+         wQkC8pZZb3riTQOTOiGFpmRbrhw/NyB0aUtBdLsLdU5GUvG19QpGUqAiwb/FsywipwLR
+         Mu698gXyyl3Qy511WpXoNzoT5N00hqCOyRXcA5JZe9ixkxjFtmuqZKoqx2ax2Px8/22F
+         Jj26m5qT79351UsJed5KE9NWmDV4bGa94HFPx1Mil60IwB01eNORRYh7Pl3sr8U/n/Ll
+         PSKg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789305680; x=1789910480; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=qruS9RaFpfludketP5nShhhjtDemkZaJSSVTOVH8K1Y=;
+        b=L24laIKmhuqGLCB2nOeNeruiPUj1w0+xCN1vOdXR35yCSm+co2F5mvDqbHorHR859s
+         Y1+Oeu85higHC3HOKJSrp9HHQIhSIaC8C037C3/+wcI0DQQaO8Z4UgVPCcZ0vC0DeQVi
+         WYGwmsX+1WEVrXbzuCtp5MIkfQHQ9S3OeOhIy9ecXfrQl9Tyiexz735YFEqXaDR4wKkM
+         2EmF5X9p2FBDP1GsoKxKjwb5uuNoDaJvfJTmJ92DSk/0XAHBWmjtXofeFGiV4GuN44OK
+         dviUsh8y9VWTtXh2Cx/hihRoO1x4Mtrb2rD4fqDUGVau8AQ2pSVAvSWwNTz0Hxe1klTt
+         kNkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789305680; x=1789910480;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=qruS9RaFpfludketP5nShhhjtDemkZaJSSVTOVH8K1Y=;
+        b=d690Q64Ci1d83mwqFMt1SqG9hqrNzVrOtS6HMAc8oyC1BXSEjXz0tdhi6n8/8rwsNx
+         /Y5uua7fv2I8KRlX6nDw5mOaJprMYWb/PK3ufh2DQhJK3cYU1EFONBTvFe/WhmzQfnT+
+         P1U0KPFB8+up52AcRYTQ4QquyEipsj/wJYltsi+sqTIdIq2jqzfL6t2AK5HNXBFfD/vs
+         RQAvhca8APFfKIXMYi8DQmumfO4GrjN7UGQJpFctSQH/8r7F0ycKuggixYwiAvcJM+em
+         AiEgPqQmg/YFJR45+2Uj9ncpR6ecYKFEYOllX9oFqXh9lQn62+C2wfCTKbE8EiROykul
+         lOZg==
+X-Forwarded-Encrypted: i=1; AKwUvByeiLZJC1s1oZRWh2uw3YzEpTM99fug7m7WHJpn1Uk2wTWFqoTMhC5S5s1sGaYYn/DpRz/4/GFa4R5rDaND@lists.linux.dev
+X-Gm-Message-State: AFuF++mPCd/YY93n/SeNpt5hYFo0TR/IEOoUg8z77nKVFVCEZWXLTz6w
+	JJXJEsxrcQD2WggFixaNByc+p9tbf0f0V+2CAuHtXe1ntOl3cW+GDuY63u/EmCqwJhDAWZ+3HnO
+	qlgH67LnS8atUTJ6QJYrTRB64wiRScoo=
+X-Gm-Gg: AYBFou2nBYVlUuEEa319jbj5xN82SnzAjgI1C0KaS3/d5xUSlWonHHqzPn9vjwz9EQJ
+	2c8WzmrGfWx+7207wBFEmrSACxZZ7JylgUTeM3rN1KQ0EGwoZskfNJcX5PfHj0yVLzA5Vektsj5
+	OlnJk1CDP29Jvd0D/VvXEHIfnapXq6egkycQ+QBKl1Rzvxt0xLZncTqEc821b0pedqzcOeeqI3G
+	Ifx7u0As/Ofpw7ssCPooXvwFASxI8qG0bVg9gcoBPWIU8sA5rmhnPflGcNJ15CkGHypS5OkXxTz
+	ZWTBHBXV72MROJ5ARcIP4ifCwVqMr+uTLCSb0PKDBtY3heeXzJMjOA==
+X-Received: by 2002:a05:6820:1886:b0:6b7:8396:f3e3 with SMTP id
+ 006d021491bc7-6c25003a9d1mr3486566eaf.69.1789305679912; Sun, 13 Sep 2026
+ 06:21:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260912132517.55686-1-abdelnasserhussein11@gmail.com>
+ <20260912132517.55686-3-abdelnasserhussein11@gmail.com> <aqZc3LR0s0I2S27b@ashevche-desk.local>
+In-Reply-To: <aqZc3LR0s0I2S27b@ashevche-desk.local>
+From: nasser <abdelnasserhussein11@gmail.com>
+Date: Sun, 13 Sep 2026 16:21:08 +0300
+X-Gm-Features: AcwNN1WsbiyGU7uP4XszH5roX0jEFpFRx8lXN2O10Txdr0UEK0yTaOMrsHkr1Cc
+Message-ID: <CANpqX3YgFne0HvC4n92R8URm3cC+gdRWsGo4=yRkXkXf1q5d-g@mail.gmail.com>
+Subject: Re: [PATCH v6 2/3] staging: iio: adc: ad7816: Serialize SPI read operations
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: jic23@kernel.org, gregkh@linuxfoundation.org, nuno.sa@analog.com, 
+	Michael.Hennerich@analog.com, dlechner@baylibre.com, andy@kernel.org, 
+	linux@analog.com, linux-iio@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, joshua.crofts1@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 
-A camera behind a CVS device needs intel_cvs bound: since commit
-c28527ce5d06 ("ACPI: scan: Honor _DEP for Intel CVS devices") the
-sensor is not enumerated until the driver's probe clears the _DEP, and
-since commit c6b1b34b5090 ("media: pci: intel: Add CVS support for IPU
-bridge driver") the IPU notifier waits for the "Intel CVS" sub-device.
-The option is sourced from the "Miscellaneous helper chips" menu, which
-MEDIA_HIDE_ANCILLARY_SUBDRV hides on any config with
-MEDIA_SUBDRV_AUTOSELECT=y and neither EXPERT nor COMPILE_TEST, and
-nothing selects or implies it, so olddefconfig on such a config does
-not write the symbol out at all.
+Hi Andy,
 
-Arch Linux's config.x86_64 for 7.2.4 is one: I2C, ACPI, VIDEO_DEV=m,
-IPU_BRIDGE=m, INTEL_VSC=m, VIDEO_INTEL_IPU6=m, VIDEO_INTEL_IPU7=m and
-no VIDEO_INTEL_CVS line. On such a kernel a Panther Lake laptop has
-either no CVS driver, so the sensor is never enumerated, or the
-out-of-tree intel_cvs from intel/vision-drivers, which registers no
-sub-device; the second Link shows the IPU notifier pending on
-INTC10E1-0/port@1/endpoint@0 on such a kernel. Both reports had a
-working camera on 7.1.
+Thanks for pointing this out
 
-Source the Kconfig from drivers/media/pci/intel/ next to INTEL_VSC and
-imply it from the IPU6 and IPU7 drivers, which are the IPUs the driver
-looks for, so that a config that has them picks up intel_cvs=m on the
-next olddefconfig.
+Placing the mutex after the `u8` variables introduces unnecessary
+padding/holes. I will move it up in the struct (right after the
+pointers) in v7 to ensure a proper memory layout without wasted space.
 
-Fixes: 8e2b43d2c10b ("media: i2c: cvs: Add driver of Intel Computer Vision Sensing Controller(CVS)")
-Cc: stable@vger.kernel.org
-Link: https://lore.kernel.org/linux-media/20260912185836.309071-1-manuel.knitza@googlemail.com/
-Link: https://github.com/omacom/omarchy/issues/10948
-Signed-off-by: Junjie Cao <junjie.cao@intel.com>
----
-Tested by running olddefconfig with Arch's config.x86_64 (7.2.4.arch1)
-on current mainline: before, no VIDEO_INTEL_CVS line; after,
-CONFIG_VIDEO_INTEL_CVS=m. With EXPERT=y alone the option only becomes
-"is not set". Not booted on CVS hardware.
+Thanks for the review
 
-For stable: a 7.2.y distro config with IPU6/IPU7 gains intel_cvs=m on
-its next olddefconfig; that is the intent. Sourcing from pci/intel/
-puts the option under MEDIA_PCI_SUPPORT like IPU_BRIDGE and INTEL_VSC,
-which a CVS system needs anyway.
-
- drivers/media/i2c/Kconfig            | 1 -
- drivers/media/pci/intel/Kconfig      | 1 +
- drivers/media/pci/intel/ipu6/Kconfig | 1 +
- drivers/staging/media/ipu7/Kconfig   | 1 +
- 4 files changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 5c52007f9cbeb..8573f27b907d9 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -1680,7 +1680,6 @@ endmenu
- menu "Miscellaneous helper chips"
- 	visible if !MEDIA_HIDE_ANCILLARY_SUBDRV
- 
--source "drivers/media/i2c/cvs/Kconfig"
- 
- config VIDEO_I2C
- 	tristate "I2C transport video support"
-diff --git a/drivers/media/pci/intel/Kconfig b/drivers/media/pci/intel/Kconfig
-index 3f14ca110d06c..dd8c990a0c294 100644
---- a/drivers/media/pci/intel/Kconfig
-+++ b/drivers/media/pci/intel/Kconfig
-@@ -3,6 +3,7 @@
- source "drivers/media/pci/intel/ipu3/Kconfig"
- source "drivers/media/pci/intel/ipu6/Kconfig"
- source "drivers/media/pci/intel/ivsc/Kconfig"
-+source "drivers/media/i2c/cvs/Kconfig"
- 
- config IPU_BRIDGE
- 	tristate "Intel IPU Bridge"
-diff --git a/drivers/media/pci/intel/ipu6/Kconfig b/drivers/media/pci/intel/ipu6/Kconfig
-index 1129e2beb4bec..54bd264f7ccd4 100644
---- a/drivers/media/pci/intel/ipu6/Kconfig
-+++ b/drivers/media/pci/intel/ipu6/Kconfig
-@@ -10,6 +10,7 @@ config VIDEO_INTEL_IPU6
- 	select MEDIA_CONTROLLER
- 	select VIDEOBUF2_DMA_SG
- 	select V4L2_FWNODE
-+	imply VIDEO_INTEL_CVS
- 	help
- 	  This is the 6th Gen Intel Image Processing Unit, found in Intel SoCs
- 	  and used for capturing images and video from camera sensors.
-diff --git a/drivers/staging/media/ipu7/Kconfig b/drivers/staging/media/ipu7/Kconfig
-index 7d831ba7501d4..c23a7844e15e2 100644
---- a/drivers/staging/media/ipu7/Kconfig
-+++ b/drivers/staging/media/ipu7/Kconfig
-@@ -11,6 +11,7 @@ config VIDEO_INTEL_IPU7
- 	select MEDIA_CONTROLLER
- 	select VIDEOBUF2_DMA_SG
- 	select V4L2_FWNODE
-+	imply VIDEO_INTEL_CVS
- 	help
- 	  This is the 7th Gen Intel Image Processing Unit, found in Intel SoCs
- 	  and used for capturing images and video from camera sensors.
--- 
-2.43.0
-
+Best regards,
+Abdelnasser
