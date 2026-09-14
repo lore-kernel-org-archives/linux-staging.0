@@ -1,61 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com [74.125.228.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 358873F1050
-	for <linux-staging@lists.linux.dev>; Mon, 14 Sep 2026 08:21:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B11D241228F
+	for <linux-staging@lists.linux.dev>; Mon, 14 Sep 2026 08:54:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789374114; cv=none; b=P4BGij1eUSTZK0/KaPgQMZanxK5GlOI2GvQmjZLPPuqlZLdNyrVNJ/APeXAQnCjOEHfCqwc0mbGJ8RiH10hKm6U+ohJaQuI9GZw63lgZpn0Slpn5rXzwtr8qL92gOhQK++LSgULUUBTxm+OX2LazasJofJmiZaopIC2Xo2a/5Sc=
+	t=1789376055; cv=none; b=u0f7JAA8KBu4z3zqv8SpkfmbC6krk8xmKgl1LnsfRurVyHy5KwpYOzeKIcDfeoy/Xt1akLx5DDfLuY4/Qzv0EseScHevMsek1fYDFEpy4UCtdxxY2rawbznhaFcGk9RYjFWBp0kS76tJcbzgdAP8pntx6iJybOCIdtTBWS9D9SU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789374114; c=relaxed/simple;
-	bh=h0ZDlCIpMnn4plv/EFe5DgntsyKiPCy62D+ewDEunGI=;
+	s=arc-20240116; t=1789376055; c=relaxed/simple;
+	bh=qFnrZ7EQGr/Nuy+M5wyfqqYr8TfZ+ni22DbJJQ8c36I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VQAoot3CjX/wdcs1LQkpcztWWiI0v7b8xZeMlTvahT9olM/LyH7uRveo6hfKot082RFhLJ98qDIFWG1ZmjQpADJ/QhKeufQQtTMl3lwZOpAUz0yxWoAWqSNI0JVtvaHe+jGfMqQppCP1YZTA6W1z/SppKzo1S5l2/rOcwWGSpS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GoTRunH5; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=VfEP8IBqbBvYfSLfOXS/X7fvQ9mfaekscoldRG62Xpp/hULriGw0aRd1sSWmNPJbLgcTAN+9olde5MXn3olU2uhEF4GNqQAy1oEEQwVSyBdKPoM+KP2uZSAT8ETLCEBLWddH4b5LFV4y6sqwbvP5StKK7279ebuvfaghwBbBNBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=p+/fhaE/; arc=none smtp.client-ip=74.125.228.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GoTRunH5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789374114; x=1820910114;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=h0ZDlCIpMnn4plv/EFe5DgntsyKiPCy62D+ewDEunGI=;
-  b=GoTRunH5b7c15sZI625TBu+zKDzRFgZqY0dQWt2CKFEaVvMbMR5c+hzk
-   w4+UEYczUiCWaDbzp+fSuhremDk5kzExxjIgfiigcoL6XmsC4y3Eu2k9A
-   XIZ0RfdwL85Qe1IOTbBq0Rhrcn2cwa2wxAX7YPBOPZAEqdVYzqobfD8nO
-   RQp6jo16eIDFziobK3qEUlps8jM0wDXCWkXQRDmvTpsAVpUVTdvMyYXed
-   ZkOMToJLXqqA2B8DjV5JzaPbgBat2Cal4nC+jd6+5Uc8mR9PTzcUe1c3d
-   CCYx15EG+wf3vwtt6MD30JZhtQY9axdymUkYfa3kafSBdNZZH4vgawLld
-   Q==;
-X-CSE-ConnectionGUID: wN6PRva8Tr2r7bO10j6+8w==
-X-CSE-MsgGUID: bXuO+vVGSzyHOpkwe4qqoQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11904"; a="107096468"
-X-IronPort-AV: E=Sophos;i="6.27,102,1787036400"; 
-   d="scan'208";a="107096468"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 01:21:53 -0700
-X-CSE-ConnectionGUID: CS5J1K11TlOhsEkDhiRgYA==
-X-CSE-MsgGUID: OE3KkhNuQJKXw3zNuDo7pg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,102,1787036400"; 
-   d="scan'208";a="276097317"
-Received: from ettammin-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.245.29])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 01:21:50 -0700
-Date: Mon, 14 Sep 2026 11:21:47 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Shehryar Ahmad <shehryar.amd@gmail.com>
-Cc: jic23@kernel.org, nuno.sa@analog.com, Michael.Hennerich@analog.com,
-	dlechner@baylibre.com, andy@kernel.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, gregkh@linuxfoundation.org,
-	linux@analog.com, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 4/6] iio: accel: adis16201: add ADIS16203 support
-Message-ID: <aqeum_w6AnMnuDsI@ashevche-desk.local>
-References: <20260913085307.13846-1-shehryar.amd@gmail.com>
- <20260913085307.13846-5-shehryar.amd@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="p+/fhaE/"
+Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c293c683202so227029766b.3
+        for <linux-staging@lists.linux.dev>; Mon, 14 Sep 2026 01:54:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789376048; x=1789980848; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=wa0N9b93v2KYOcx/Yzu42GebihJotfz/VPHeWZU/2n4=;
+        b=p+/fhaE/h2UBquEgQmnR2bRqdcOYOX5MY1EsSeplMO1iwbRe+lVYrNzlGqv1vBapDG
+         GkcZQt579xXwl112/riwe758pNpRk7Z/FjecqT+cdFBGU0JzED+RiANXarwJQsW12EY7
+         Lb6rlCUQd0fb9NgKqnCe3P8u2982Dd/27T6xnL08/8nvAvyfcuETTg7RYgU1fxfcGi/V
+         KLswaCc3U7DmXouVhuMm4tkYQR+90RErGKnJoEqRe4xFQX/4xLojjqO3jf7iz6wn2m0G
+         aRyvicORAxOVeVIK0lqbs2HBAMV3vUI06UEgvojQWsQcp3SYXX12v84YjvXGbOn0+IUW
+         m/Rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789376048; x=1789980848;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=wa0N9b93v2KYOcx/Yzu42GebihJotfz/VPHeWZU/2n4=;
+        b=IaAEe1S4h3+e/EEMn+vVozPnYAEBOEhJt4ZIGL0aWvluaKUwv+bOzHXdJ4o776CeMq
+         R40WQFo53zFaUnlq3+Nxqu5yHUmT70peZVuxhAvHhgIgWsBvQjzS3f7IOIIhAAB90O57
+         e+BsA6XvLorwaf39ajNUY850jrCJSqWa4lLVwWrRby7tS0Ruy3iHtkLDS9IJ214RmIvT
+         GXv87gIuW3nPEOmMhvjVvV1e21rP+JfhSkNcdxffAgjOrfIpMcavBz9grpqqYEdIZqHU
+         rvumP8q+lZCEfqcpnOBxRb//K0JR//9BYCmWQUsbzqoDiKyHnXnmXRQkEJJ7yFD7+QNR
+         R8xQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwgYxtG2bbueLvck3vIr2AmBs6i3ljbLrpUcuFtAcHeNvCLeL17vuoaVNs0TR1AeP1kbRTylrUgyLO/romX@lists.linux.dev
+X-Gm-Message-State: AFuF++lsRYO1vxaqN92QDZEwJXHXpr5bfKrPnuvIR0BIsVcEeDOklYgn
+	rhpm69Y8Z6mtMvlJdyE2j3FQhhMTMd4WTNTrTrC12c+ngPu8C/JrLa+N
+X-Gm-Gg: AYBFou0+rGX4+d1MSlLoXEIGGLEzga38z28/VZ6F8Wgede1E5C5NgNk7/paOvwiUiqa
+	Dtr8ozt8VU7v31V7c9uu5IjXDGWOneTOBxQYOqblYVLO5vVBYEU9xNK1LxekWnKZCiCTo5KmPUV
+	jqKsOqEz069dYwsliZmYUB2CWJuy5ggYzQVb3m2OmmCK2F/tquEC2dBtRFQqlSA/QE8IcVBN5xy
+	E+aQRCZ1qDsi9J5/DARQjUlpHiVxeRwtady8f7r3Nn2KwDJhGVd42erVnIhmu/LQnwjVFxZD2zX
+	1KwbK22+1M49G2pnEn924kVUa3BtrCbG3J5rCw8l1PDOzLNc7pOfKAzzXtdcqetgmjyap7rbw/B
+	rIu9SwuMrHrjYE8TdFZ7n8HvbohTwRzqkxNqcPKrZQQdROR4eCdivKRiBHuvDJvyx1UeKem9lLS
+	yN4KGGQCmILWK0sjYxhAdrunUW5JqL6f7HCsE7V5+s+v//Rx6M+NpHuiYMkWHMQMX4b7c1
+X-Received: by 2002:a17:907:7204:b0:c26:2751:3da4 with SMTP id a640c23a62f3a-c29b86141e3mr110973266b.13.1789376047594;
+        Mon, 14 Sep 2026 01:54:07 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c29660234dcsm394388366b.21.2026.09.14.01.54.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Sep 2026 01:54:07 -0700 (PDT)
+Date: Mon, 14 Sep 2026 11:54:03 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Gabriel Changamire <gaberashawn@gmail.com>
+Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] staging: sm750fb: remove unused definitions from
+ ddk750_reg.h
+Message-ID: <aqe2K0nVppBFSidV@stanley.mountain>
+References: <20260913040140.4517-1-gaberashawn@gmail.com>
+ <20260913040140.4517-2-gaberashawn@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -64,64 +80,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260913085307.13846-5-shehryar.amd@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20260913040140.4517-2-gaberashawn@gmail.com>
 
-On Sun, Sep 13, 2026 at 01:53:05PM +0500, Shehryar Ahmad wrote:
-> Add ADIS16203 from staging to mainline ADIS16201. ADIS16203 shares same
-> SPI protocol and register addresses. Differing parameters are handled by
-> adis16201_chip_info structure.
+On Sun, Sep 13, 2026 at 04:01:40AM +0000, Gabriel Changamire wrote:
+> The sm750fb TODO asks for unused code to be removed. Of the 1203
+> register and field definitions in ddk750_reg.h, 1046 are referenced
+> neither by the rest of the driver nor, transitively, by any definition
+> that is referenced.
 > 
-> ADIS16203 specific support includes DIAG_STAT_SELFTEST_FAIL_BIT, which
-> is supported only on ADIS16203, and a separate channel array.
+> Remove them, together with section comments that are left with no
+> content beneath them. The include guard and all VALIDATION_CHIP
+> conditional blocks are preserved.
 > 
-> Kconfig is updated accordingly.
+> Build-tested: all driver objects are byte-identical before and after
+> the change. No functional change.
+> 
+> Signed-off-by: Gabriel Changamire <gaberashawn@gmail.com>
+> ---
 
-...
+These macros are just documentation and they don't hurt readability.
+They probably improve readability.
 
->  #define ADIS16201_DIAG_STAT_REG				0x3C
->  #define  ADIS16201_DIAG_STAT_ALARM2			BIT(9)
->  #define  ADIS16201_DIAG_STAT_ALARM1			BIT(8)
-> +#define ADIS16203_DIAG_STAT_SELFTEST_FAIL_BIT		5	/* ADIS16203 only */
-
-Two issues with this:
-- indentation
-- useless comment (we may kinda deduct this from the prefix)
-
->  #define  ADIS16201_DIAG_STAT_SPI_FAIL_BIT		3
->  #define  ADIS16201_DIAG_STAT_FLASH_UPT_FAIL_BIT		2
-
-...
-
->  static const struct of_device_id adis16201_of_match[] = {
->  	{ .compatible = "adi,adis16201", .data = &adis16201_chip_data },
-> +	{ .compatible = "adi,adis16203", .data = &adis16203_chip_data },
->  	{ },
-
-We want to have the common style for the terminator entries. Perhaps you need
-an additional patch to fix that.
-
->  };
->  
-
-(this blank line included).
-
-...
-
->  static const struct spi_device_id adis16201_ids[] = {
->  	{ .name = "adis16201", .driver_data = (kernel_ulong_t)&adis16201_chip_data },
-> +	{ .name = "adis16203", .driver_data = (kernel_ulong_t)&adis16203_chip_data },
->  	{ },
->  };
->  
-
-Same as per above.
-
->  module_spi_driver(adis16201_driver);
-
--- 
-With Best Regards,
-Andy Shevchenko
-
+regards,
+dan carpenter
 
