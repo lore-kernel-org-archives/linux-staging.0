@@ -1,139 +1,152 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F01DB25B094
-	for <linux-staging@lists.linux.dev>; Mon, 14 Sep 2026 13:11:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAAAA3BBFD0
+	for <linux-staging@lists.linux.dev>; Mon, 14 Sep 2026 13:57:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789391466; cv=none; b=WBT4QGMqXKIOYL8jAWHi9Noca3r86bGfy3jyFxZUWdjocUyP2D7bDoUVltiuotPoDS0SLMf1XQuXrQp7dpCWsJGFMC4ckAznUEnyKywLkFKBzl/nUnpB5zkbgz6YQS2wt2gfxFdyj9U1rFQWVFAx09q3kLkaz+3TOVH+xprkbTo=
+	t=1789394270; cv=none; b=dyvulvuH0ycz9i4jpAQQGgHQLg515UrEsVXMQ/ft1ghpR0MB7ee26h9G6bvDts7h9O9R89+M/mIwB6RDwK6Tsb3OS+exMD1EpmR1Og7yWKJ+TTxKAOsK9WLIw+F8Yjw272S2XEFrDcSunjiRsYYI/NWLa2rfSmztQIletXTb+Oc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789391466; c=relaxed/simple;
-	bh=iwfdzr2iy+sC6+czneLHwr8xAhX/X+iDimNm1BSeY5U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hsKVnHw4jFWRMzAelHxeJaLindHKcXp4FeTLmrNohIiT9F3rVsp1oZG0Kf3CHNBTYxUvelr2DwPYBYgmniu+1YwmkBKVrjkLP9U5x1juKWLYU0lKuAtuWeEVCilwBDwnfd6Qi7KktGYDBz8s+ZzuzhrDV+LQVcHxDCMhEpuMd+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cDmVexJO; arc=none smtp.client-ip=209.85.218.54
+	s=arc-20240116; t=1789394270; c=relaxed/simple;
+	bh=duDW4MTgv9us/ONwJoTNsNlJr2TmZ9c/C+zVNu8JAhs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=i2a1i7AuTE5XqRdrr7G8d7A5CVPlcyRNj3j+63I8bf1gtUi1UWnRnGGtsSSw67tMIc4UZ0Ok9sxF2ds3ykhfAZF8blDbYHApgfmGMn+GHbeP90Aj76GhB5Ixjr4i6qukgLP7iuJp/u0Bt0ulHpN9cyr523k5bFrvIjJPDGVfGpY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fO1iXnsU; arc=none smtp.client-ip=74.125.225.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cDmVexJO"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c25420fe973so549745866b.0
-        for <linux-staging@lists.linux.dev>; Mon, 14 Sep 2026 06:11:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fO1iXnsU"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b965f447cso15614755e9.3
+        for <linux-staging@lists.linux.dev>; Mon, 14 Sep 2026 06:57:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789391462; x=1789996262; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=rHHo4dn4rFwPjLFZeXv9ABL/gp9nPfJCU+f+sXBzG+Y=;
-        b=cDmVexJONrrO+0bCmEQCoHGkRG5xBvVvC9X9fbZznsieSl3UC15Tqkh9nTNQJkYD6G
-         S7Ahl5brtVDq8wydB0A2oeKAjg3NU5ux8XEIBPavZOywzzdbJf0yqHzRWo3Kxbha1xQR
-         KcQMcjMIzM/nxhggmV4fdamLbO2YDIjrwqaC2vipWRScjPsq8yz6PF60HfMd+x0EmtTf
-         qiKTzXBg6tbr6De0wC4xveKKD+WurE31JPAJ9pspG+YXe5TFaCWioUUkuoDT7A4hlq0o
-         6l6AiI5udg/hAV4XrDotUVpbC2XRhosgHnZTeoJGeRlfCV2SQoCk/kd4/3zZVnBMr66Z
-         +3Jg==
+        d=gmail.com; s=20251104; t=1789394267; x=1789999067; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Pm6FQW4GbFGly5zHN646NB+7TgBYiGFIis+XHe7PrJM=;
+        b=fO1iXnsUouQw3wEdA/djFLvYz1TwVMqDn1q8gPor7jBMcwh/jAgaZ1CI1TKIIdj1Tw
+         qHmO2QxftRfwyK/pFo8apjxOT7wOT9PsgrdlUHmmOoGotpw/a13BBAhjWteSBnrtY/E4
+         gMaUBLh+4Wi3we3DvVp21xvTifDAwI+wWTQX5IY7EV7b1PCedOMXGwH/G1Q/8O7ikpnI
+         jEjlT08EXSWlYVJXsTRywlmzz/GN7o1VXdQXr49hfMOZOvDgWwC8VPdmV2LLpp1Pglyq
+         KqL8N75gmVoX66571uCL+qPdWszew6dj7nkKlNzYxDW0vivU8WTD0n8fJB8wUI26m9JY
+         fdxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789391462; x=1789996262;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=rHHo4dn4rFwPjLFZeXv9ABL/gp9nPfJCU+f+sXBzG+Y=;
-        b=EEFyAtvD06P+4d79Hl5A4OQssS2SzpkNHnSruom3iibzB5YIqPVWc68l6bMY3rqDbd
-         HIuLZXGY9z2UQEgiL1CrlDDEudy+6tVBcK3wP9j+hptG2AFvOIf1KxOGtkgv++DlEjcN
-         pnZ19ZEE58OBAbbjnVofsC39jvN4juosVYTUkQ6T6rSymy1ToDlJaOqpnNGyAtkEKwJL
-         gb5ZF42VRUbcp0gKIcPih7gXeULXMJjlbaA1pYKzubcqqqUt8dywNiGgLYMmZl2BY27u
-         cLKCMd9+92C9J2k5swUoA9AVayaLy/j/F0U6qgF+yDNYF7s9psyYZSwg8FfXsAX2VG34
-         XFbQ==
-X-Forwarded-Encrypted: i=1; AKwUvByPKeOiSHeF/HMRJRgftKRKkq478oZyzTh+l3xAgsryK1c31L+HQ/yfqgA0+elzx3dmFlLQwjA9VrSQrDG2@lists.linux.dev
-X-Gm-Message-State: AFuF++lOc4RI/paO0/TjeteZoru2EkEgoigIFLFiEjiDrJJ843BQaTC0
-	CoUFudWzXezJZmN68H3/DPAQ/KhASJcXP3APNI6uKRomWjMPnbc7s1tN
-X-Gm-Gg: AYBFou2rCf93FqSnjLtrV0F4zORvMYMfSqBAmFUjGYYHGXFf/fVI2+PEHGpVmFKoZqX
-	GuzPMBOTuWovZQ5eAzUpeveDFzbm70PbmJRdKs4R25aEZ8c9P8kZ3IAcEIhZWQSxQ0uH98UsOLp
-	RTknlm7V/YNOb79xNTYHmFezCytWPQ/k718gcOpBiCJiasqyBWKg2iQatb7SIu25AKGmfdWgA4f
-	/kNDtPJtHjwta+t1v+HJX8DY/ocHBnrQ3BNiDSsSf2/kqa3Rgm1IoPlTw8U66VyvN7kfAhvQKKC
-	XnkJhiv+Mh1nBH7Dd+KizDXPdl/Jt9hyiGRvUr083pP52MCOKEcSM0SItNcMnnG4cn4JjeA6xGI
-	G/tLWJi3SMg1o3L2b8gR2H99BmY3spt89I3eo9tKQEvJrcLr7HpejAhluK8vgIxx5hFDIxluCCK
-	b8hdRskKOmXxyzLOEAECtSU9AFfzeHVbnzodRG23gksPXZFacetwtyOM1YlSv45judB2bKpRSyD
-	mTJWw==
-X-Received: by 2002:a17:907:f497:b0:c26:19de:912c with SMTP id a640c23a62f3a-c29b86f1102mr156986966b.31.1789391461783;
-        Mon, 14 Sep 2026 06:11:01 -0700 (PDT)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2966021ae8sm429403566b.22.2026.09.14.06.11.00
+        d=1e100.net; s=20251104; t=1789394267; x=1789999067;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Pm6FQW4GbFGly5zHN646NB+7TgBYiGFIis+XHe7PrJM=;
+        b=cCFCSWw8F+8gWpugzjedBUqkGtB9aZAGTMJtJdIU3w6WD+Se6858vedu6XLvCE0Ufv
+         YEb+jCjJfPXhVPK8yzJZNs2Iuy8RrCe2kTUShZNdLtRm/Ny0hW8Db011Z069WGpJk9so
+         wpLmdpx3/iSGQaYsZt6bdgY0SPPQN1cMrujwOE8iuDqhfn97EQvbI+wKlLCXXs99/SjL
+         jwrW32+rYii3oTuq7Yhg4AmdOmSdyKGASrDTWY9tSIt9aqWDH7dCTAUOoW9zZ6y3SOMg
+         53tMgpeUVeMlWkw5ebCt+MA7JU6OUrm70FlAH2TUydchxisRoWkiiRrDIrHHT7cIzirs
+         diUA==
+X-Gm-Message-State: AFuF++kkGV6y0ZOAyfsd19IudmqKW3RDFC1i949mWfQP+DgWydoX3ETt
+	ByAGpJmhxps0IqHzTCmPOypFN5mGeDCJzC1abuJdlt8U/uDFTp3Zchbd
+X-Gm-Gg: AYBFou0++jUXuypawp0xewD01E9EdBtWK2rxZrNAdGd+ubT7/bQObc4fzUWN14kuXMN
+	P7fkpJzg2Du7mKgC3U/QFlY0cGatQFSAlKVibxg4+84JMo0dVnu54RjVP4mEyv8l+xGYtl+wIC1
+	HKoDdWg4q6Bm9FoI81e34WA6hLuUVeEVEqmwV9hA6OJDcT6MVwipnwv4+Czg0j0ZOnsLQtHCCcD
+	dK1eiK9AV+KTVR2vxJryRa+zUVRha5Xv5djs7rtL46YHBIvObHeATNHLH2EIVQ39MjWv8jqHvbw
+	gE5/SOW+dVxksbmBri9E8OBb+nBLwG/Ixwrzc3Ewl1yQ0+++8X1VQ+wNt5JbO7V7OI/H/FWOZup
+	EPfzu2IgEdcX9he7eaY+Pe1w6/1xFLI8Y4mbXJ1Sa66hM+nUM+1mOCPTVyjEHAwqyb5aa/Q/8PJ
+	7GllwFjzpow2tM5CuqADgqCLN/C/InvaeaW4naDmcFd6o02T2kmepD8c3cA2UwlXfYVYs=
+X-Received: by 2002:a05:600c:4f81:b0:49e:6683:d23c with SMTP id 5b1f17b1804b1-49e7a5edd99mr31944155e9.0.1789394266695;
+        Mon, 14 Sep 2026 06:57:46 -0700 (PDT)
+Received: from zephyr ([2407:d000:508:1732:c5ca:107f:bc81:7575])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d26c1bc5fsm382832675e9.3.2026.09.14.06.57.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2026 06:11:00 -0700 (PDT)
-Date: Mon, 14 Sep 2026 16:10:57 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Ceclan Dumitru <mitrutzceclan@gmail.com>, dumitru.ceclan@analog.com,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Julien Massot <julien.massot@collabora.com>,
-	Rob Herring <robh@kernel.org>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-gpio@vger.kernel.org,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Martin Hecht <Martin.Hecht@avnet.eu>,
-	Andrian Suciu <Adrian.Suciu@analog.com>,
-	Cosmin Tanislav <demonsingur@gmail.com>,
-	Vivekananda Dayananda <vivekana@amd.com>,
-	Cory Keitz <ckeitz@amazon.com>
-Subject: Re: [PATCH v16 00/22] media: i2c: add Maxim GMSL2/3 serializer and
- deserializer drivers
-Message-ID: <aqfyYSagcejWb4xD@stanley.mountain>
-References: <20260831-gmsl2-3_serdes-v16-0-4fa6e08bb514@analog.com>
- <apqGlTiybdvQX3Ao@kekkonen.localdomain>
- <eff6fe78-cc4b-4192-93ed-53a738fc3c3a@gmail.com>
- <aqU5QFGmYlCtbdiE@kekkonen.localdomain>
- <CANiDSCv=cwm=aHLfO_ccPfc-XyK3gS8Y+8DZpbb3gcXX0n8mqQ@mail.gmail.com>
+        Mon, 14 Sep 2026 06:57:45 -0700 (PDT)
+From: Muhammad Israr <7israr.work@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Muhammad Israr <7israr.work@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: add braces on all arms of if/else in rtw_mlme_ext.c
+Date: Mon, 14 Sep 2026 18:56:39 +0500
+Message-ID: <20260914135639.28269-1-7israr.work@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANiDSCv=cwm=aHLfO_ccPfc-XyK3gS8Y+8DZpbb3gcXX0n8mqQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Sep 14, 2026 at 02:10:10PM +0200, Ricardo Ribalda wrote:
-> Hi Sakari
-> 
-> On Sat, 12 Sept 2026 at 13:36, Sakari Ailus
-> <sakari.ailus@linux.intel.com> wrote:
-> >
-> > Hi Dumitru, Dan, Ricardo,
-> >
-> > On Tue, Sep 08, 2026 at 01:35:05PM +0300, Ceclan Dumitru wrote:
-> > > > Can you check this
-> > > > <URL:https://linux-media.pages.freedesktop.org/-/users/sailus/-/jobs/109521830/artifacts/junit/test-smatch.log.txt>
-> > > > please? If there's a single patch that needs to be modified, I can squash a
-> > > > patch into that, otherwise v17 it is.
-> > > >
-> > >
-> > > These are the same warns reported by Niklas in V13. Dan fixed them in
-> > > smatch in devel branch but fix is not in master. Testing with smatch on
-> > > that branch yields no warnings.
-> >
-> > Dan: any plans to merge these things to master some time soon? Or:
-> >
-> > Ricardo: could we use devel branch of smatch for some time?
-> 
-> Do you know what patch fixes it? If it is easy to cherry pick I can
-> add it to our list of smatch patches
-> https://gitlab.freedesktop.org/linux-media/media-ci/-/tree/main/third_party?ref_type=heads
-> 
+Fix checkpatch CHECKs: braces {} should be used on all arms of this
+statement, and Unbalanced braces around else statement.
 
-Commit d12183645a31 ("precedence: silence some false positives")
+i checked the kernel CodingStyle, when one branch of an if/else
+requires braces, both branches should use braces.
 
-Sorry, I felt like I was close to merging devel but then I started
-another major surgery to the core and got stuck.
+did not change any functionality
 
-regards,
-dan carpenter
+Signed-off-by: Muhammad Israr <7israr.work@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
 
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index c39fb142302e..e60b2c825162 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -356,9 +356,9 @@ static u8 init_channel_set(struct adapter *padapter, u8 ChannelPlan, struct rt_c
+ 					channel_set[chanset_size].scan_type = SCAN_ACTIVE;
+ 				else
+ 					channel_set[chanset_size].scan_type = SCAN_PASSIVE;
+-			} else
++			} else {
+ 				channel_set[chanset_size].scan_type = SCAN_ACTIVE;
+-
++			}
+ 			chanset_size++;
+ 		}
+ 	}
+@@ -1221,8 +1221,9 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
+ 
+ 		memcpy(&pstat->htpriv.ht_cap, elems.ht_capabilities, sizeof(struct ieee80211_ht_cap));
+ 
+-	} else
++	} else {
+ 		pstat->flags &= ~WLAN_STA_HT;
++	}
+ 
+ 	if (!pmlmepriv->htpriv.ht_option && (pstat->flags & WLAN_STA_HT)) {
+ 		status = WLAN_STATUS_CHALLENGE_FAIL;
+@@ -2838,9 +2839,9 @@ void issue_assocreq(struct adapter *padapter)
+ 	if (bssrate_len > 8) {
+ 		pframe = rtw_set_ie(pframe, WLAN_EID_SUPP_RATES, 8, bssrate, &(pattrib->pktlen));
+ 		pframe = rtw_set_ie(pframe, WLAN_EID_EXT_SUPP_RATES, (bssrate_len - 8), (bssrate + 8), &(pattrib->pktlen));
+-	} else
++	} else {
+ 		pframe = rtw_set_ie(pframe, WLAN_EID_SUPP_RATES, bssrate_len, bssrate, &(pattrib->pktlen));
+-
++	}
+ 	/* vendor specific IE, such as WPA, WMM, WPS */
+ 	for (i = sizeof(struct ndis_802_11_fix_ie); i < pmlmeinfo->network.ie_length;) {
+ 		if (i + sizeof(*pIE) > pmlmeinfo->network.ie_length)
+@@ -3848,9 +3849,9 @@ u8 collect_bss_info(struct adapter *padapter, union recv_frame *precv_frame, str
+ 
+ 		memcpy(bssid->ssid.ssid, (p + 2), *(p + 1));
+ 		bssid->ssid.ssid_length = *(p + 1);
+-	} else
++	} else {
+ 		bssid->ssid.ssid_length = 0;
+-
++	}
+ 	memset(bssid->supported_rates, 0, NDIS_802_11_LENGTH_RATES_EX);
+ 
+ 	/* checking rate info... */
+@@ -3928,8 +3929,9 @@ u8 collect_bss_info(struct adapter *padapter, union recv_frame *precv_frame, str
+ 
+ 			if (le16_to_cpu(pHT_caps->u.HT_cap_element.HT_caps_info) & BIT(14))
+ 				pmlmepriv->num_FortyMHzIntolerant++;
+-		} else
++		} else {
+ 			pmlmepriv->num_sta_no_ht++;
++		}
+ 	}
+ 
+ 	/*  mark bss info receiving from nearby channel as signal_quality 101 */
+-- 
+2.55.0
 
