@@ -1,147 +1,139 @@
-Received: from mail-oi2-f13.google.com (mail-oi2-f13.google.com [74.125.231.205])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B37F444701
-	for <linux-staging@lists.linux.dev>; Mon, 14 Sep 2026 12:10:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F01DB25B094
+	for <linux-staging@lists.linux.dev>; Mon, 14 Sep 2026 13:11:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789387831; cv=none; b=Ndg7EUzTBfZa7BYsfZNxmVKHgpdsyO6lkErLKqJtYuY0JUoJaS00v/Gs0fPj7Ssh7v/jro1tgKSpRc4QkU99EIa3g/EEAHr08x/ir3He41GqSZOzL8yOmvq0TdgqGHT75O8xi1imtHeBVuKQncQY7m9n5SOg0hj5HiR9QlHwBhs=
+	t=1789391466; cv=none; b=WBT4QGMqXKIOYL8jAWHi9Noca3r86bGfy3jyFxZUWdjocUyP2D7bDoUVltiuotPoDS0SLMf1XQuXrQp7dpCWsJGFMC4ckAznUEnyKywLkFKBzl/nUnpB5zkbgz6YQS2wt2gfxFdyj9U1rFQWVFAx09q3kLkaz+3TOVH+xprkbTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789387831; c=relaxed/simple;
-	bh=Se7NkzKRBbstIWMyWUOVe+AMD6O75GbMwW/t+1YRS3o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ODDSb/jjTKlMrwiPtglp9zOJ6DCn5q4o5dartKgCmRrrv8T4x2M2ICZqzClFbPRfpZ7Yy7Uvhoyec80qIBmhRYTdRK4cw/qsLE+GIAeRzKcf2b3HwbIdA9SI3MBm/YMlF0ytJd6r0QGhYwQhE7KUwEDqmQ7xzKgfon0n8ws8pDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=IVsRwUc2; arc=none smtp.client-ip=74.125.231.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1789391466; c=relaxed/simple;
+	bh=iwfdzr2iy+sC6+czneLHwr8xAhX/X+iDimNm1BSeY5U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hsKVnHw4jFWRMzAelHxeJaLindHKcXp4FeTLmrNohIiT9F3rVsp1oZG0Kf3CHNBTYxUvelr2DwPYBYgmniu+1YwmkBKVrjkLP9U5x1juKWLYU0lKuAtuWeEVCilwBDwnfd6Qi7KktGYDBz8s+ZzuzhrDV+LQVcHxDCMhEpuMd+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cDmVexJO; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="IVsRwUc2"
-Received: by mail-oi2-f13.google.com with SMTP id 5614622812f47-4b37a36887bso1025231b6e.2
-        for <linux-staging@lists.linux.dev>; Mon, 14 Sep 2026 05:10:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cDmVexJO"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c25420fe973so549745866b.0
+        for <linux-staging@lists.linux.dev>; Mon, 14 Sep 2026 06:11:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1789387828; x=1789992628; darn=lists.linux.dev;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=26Uw7zNV0CaU8mcuuO2rFoHLPl3S+teCO+5Ml7uyCio=;
-        b=IVsRwUc2Lxvrxh1ycV/aimkNIlAHy/Li9cRFjXDixCL4HkKt4MicVM2U25nLDSZH8/
-         EypapHo+VXCtHw0+X9/szRmVqk2kSd6zCF4z6g+IahF1+fgLw+A751HKfrGTD009An4P
-         YF4VnimJDfaKSmVNKcmdb161l+4wQhc61QeAk=
+        d=gmail.com; s=20251104; t=1789391462; x=1789996262; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=rHHo4dn4rFwPjLFZeXv9ABL/gp9nPfJCU+f+sXBzG+Y=;
+        b=cDmVexJONrrO+0bCmEQCoHGkRG5xBvVvC9X9fbZznsieSl3UC15Tqkh9nTNQJkYD6G
+         S7Ahl5brtVDq8wydB0A2oeKAjg3NU5ux8XEIBPavZOywzzdbJf0yqHzRWo3Kxbha1xQR
+         KcQMcjMIzM/nxhggmV4fdamLbO2YDIjrwqaC2vipWRScjPsq8yz6PF60HfMd+x0EmtTf
+         qiKTzXBg6tbr6De0wC4xveKKD+WurE31JPAJ9pspG+YXe5TFaCWioUUkuoDT7A4hlq0o
+         6l6AiI5udg/hAV4XrDotUVpbC2XRhosgHnZTeoJGeRlfCV2SQoCk/kd4/3zZVnBMr66Z
+         +3Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789387828; x=1789992628;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=26Uw7zNV0CaU8mcuuO2rFoHLPl3S+teCO+5Ml7uyCio=;
-        b=bhDMeLnuKCbpONQ61cLhH2w4KDjG0Fb3CU3+O8X9y+JA0TXLeSx1tr0VL9J/9/TONT
-         7462CL8h4tkLuJnc4rj5UY+So6DI+US0RArlSlx8/CCkFwushvkhi0eH80Inmpr95as3
-         Qv+0YFZZQbGXQpsC3dFdRAiY31TtjhwRP5LR1VYzFwRHJhNAinLwKSJLtHxlCoyRazkp
-         f8r8bTd7+hfsARBDtn3elgL+oD0vBYeVzjyXNnSfOunkcvs/HXl40tGB50Yi7q3hb4E7
-         6ixFFlaBuT2XT+NAeoZVIjPftLxdny4hEQDmCHrCZP+PjDvx/z+f+oFkuYfbJw811MRt
-         TEcA==
-X-Forwarded-Encrypted: i=1; AKwUvBzsQh3JN/CHscw2ZlENjmCj+qJSxtVcdi4mOE86EcdABhioDND0pR7UI8BYPCV7Z2G0D6nOi/6JRYJmwIGw@lists.linux.dev
-X-Gm-Message-State: AFuF++kPJKSAGngx2RFYPL72DwUYh1ino9K0P83YTSmhctXo+XBlB7Fg
-	i0BZLXtzs+vZN8KlEquytnfXQoS72iMWoLJNE8zhnM46HoN3HXOds8vQMZYpTak8IFx7DzqBdEW
-	zRN3Zg+5k
-X-Gm-Gg: AYBFou0PAjR3x87b+qfXjvcxTEIHyDft5sPfyRdeC2/C1Ll0MVoejf1t4kVXgWV74VC
-	XttfWckLarF5KOHdqC2rFa/OorfxPxGJiHFBTrwotnBMJtFMc0aBbAeTvlU/6hZhfeGrEodl6Od
-	mDTGuD3L+FdKChw65PZwXnYee6sDhOCOgnw7GdowECuWx5acKBQl1ibmEHxEbHWxZDfia7AZxYC
-	9jlF+bBXQoqcZRQ0EZnplYvFYrzFDRAhOqIn8Xd2xK4vX1NJEGKFmVHqbynoYrC/v1cWNSiUVG4
-	SGdOYOW1zjWoguOyBUUrkGxUTx5Dn4pIzfb67yHMSPSMtzP7V/x0hcLC+EinjK2wzNW8PpxisjK
-	QTbl7uzTqLtB/wG6Lvpjux1mtz4y6y7M+IbX92x85gbVTKiHzmZ8VdWmwzeshOU846p4sXUCw8C
-	zrCwaYXleUpvrbZu9i0VKb0MmdjF/MJtd5ZhKl0TR+n1PKlEKrAumLcIYKglSO6IoN4wfZZkfb9
-	mJGJNnVzOHJZJyWjqlbTxKlBj9nyPnPuymC
-X-Received: by 2002:a05:6808:30a2:b0:4b9:a8ac:47d with SMTP id 5614622812f47-4c7b57a0362mr1505216b6e.27.1789387827972;
-        Mon, 14 Sep 2026 05:10:27 -0700 (PDT)
-Received: from mail-oa2-f12.google.com (mail-oa2-f12.google.com. [74.125.231.76])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4c3320de954sm10124537b6e.14.2026.09.14.05.10.27
-        for <linux-staging@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Sep 2026 05:10:27 -0700 (PDT)
-Received: by mail-oa2-f12.google.com with SMTP id 586e51a60fabf-466cc9ab650so2160188fac.1
-        for <linux-staging@lists.linux.dev>; Mon, 14 Sep 2026 05:10:27 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBx9AwA+N4ctSgZSO59UCfHHsGmunP7smkgAcothNO+Usd5Q+Ca7qJeG3pxq+KJet8fM8Z0kCHR9X70FDoU+@lists.linux.dev
-X-Received: by 2002:a05:6820:1f10:b0:6bd:cd33:b885 with SMTP id
- 006d021491bc7-6c541b4585amr1031566eaf.42.1789387826624; Mon, 14 Sep 2026
- 05:10:26 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1789391462; x=1789996262;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=rHHo4dn4rFwPjLFZeXv9ABL/gp9nPfJCU+f+sXBzG+Y=;
+        b=EEFyAtvD06P+4d79Hl5A4OQssS2SzpkNHnSruom3iibzB5YIqPVWc68l6bMY3rqDbd
+         HIuLZXGY9z2UQEgiL1CrlDDEudy+6tVBcK3wP9j+hptG2AFvOIf1KxOGtkgv++DlEjcN
+         pnZ19ZEE58OBAbbjnVofsC39jvN4juosVYTUkQ6T6rSymy1ToDlJaOqpnNGyAtkEKwJL
+         gb5ZF42VRUbcp0gKIcPih7gXeULXMJjlbaA1pYKzubcqqqUt8dywNiGgLYMmZl2BY27u
+         cLKCMd9+92C9J2k5swUoA9AVayaLy/j/F0U6qgF+yDNYF7s9psyYZSwg8FfXsAX2VG34
+         XFbQ==
+X-Forwarded-Encrypted: i=1; AKwUvByPKeOiSHeF/HMRJRgftKRKkq478oZyzTh+l3xAgsryK1c31L+HQ/yfqgA0+elzx3dmFlLQwjA9VrSQrDG2@lists.linux.dev
+X-Gm-Message-State: AFuF++lOc4RI/paO0/TjeteZoru2EkEgoigIFLFiEjiDrJJ843BQaTC0
+	CoUFudWzXezJZmN68H3/DPAQ/KhASJcXP3APNI6uKRomWjMPnbc7s1tN
+X-Gm-Gg: AYBFou2rCf93FqSnjLtrV0F4zORvMYMfSqBAmFUjGYYHGXFf/fVI2+PEHGpVmFKoZqX
+	GuzPMBOTuWovZQ5eAzUpeveDFzbm70PbmJRdKs4R25aEZ8c9P8kZ3IAcEIhZWQSxQ0uH98UsOLp
+	RTknlm7V/YNOb79xNTYHmFezCytWPQ/k718gcOpBiCJiasqyBWKg2iQatb7SIu25AKGmfdWgA4f
+	/kNDtPJtHjwta+t1v+HJX8DY/ocHBnrQ3BNiDSsSf2/kqa3Rgm1IoPlTw8U66VyvN7kfAhvQKKC
+	XnkJhiv+Mh1nBH7Dd+KizDXPdl/Jt9hyiGRvUr083pP52MCOKEcSM0SItNcMnnG4cn4JjeA6xGI
+	G/tLWJi3SMg1o3L2b8gR2H99BmY3spt89I3eo9tKQEvJrcLr7HpejAhluK8vgIxx5hFDIxluCCK
+	b8hdRskKOmXxyzLOEAECtSU9AFfzeHVbnzodRG23gksPXZFacetwtyOM1YlSv45judB2bKpRSyD
+	mTJWw==
+X-Received: by 2002:a17:907:f497:b0:c26:19de:912c with SMTP id a640c23a62f3a-c29b86f1102mr156986966b.31.1789391461783;
+        Mon, 14 Sep 2026 06:11:01 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2966021ae8sm429403566b.22.2026.09.14.06.11.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Sep 2026 06:11:00 -0700 (PDT)
+Date: Mon, 14 Sep 2026 16:10:57 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Ceclan Dumitru <mitrutzceclan@gmail.com>, dumitru.ceclan@analog.com,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Julien Massot <julien.massot@collabora.com>,
+	Rob Herring <robh@kernel.org>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-gpio@vger.kernel.org,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Martin Hecht <Martin.Hecht@avnet.eu>,
+	Andrian Suciu <Adrian.Suciu@analog.com>,
+	Cosmin Tanislav <demonsingur@gmail.com>,
+	Vivekananda Dayananda <vivekana@amd.com>,
+	Cory Keitz <ckeitz@amazon.com>
+Subject: Re: [PATCH v16 00/22] media: i2c: add Maxim GMSL2/3 serializer and
+ deserializer drivers
+Message-ID: <aqfyYSagcejWb4xD@stanley.mountain>
+References: <20260831-gmsl2-3_serdes-v16-0-4fa6e08bb514@analog.com>
+ <apqGlTiybdvQX3Ao@kekkonen.localdomain>
+ <eff6fe78-cc4b-4192-93ed-53a738fc3c3a@gmail.com>
+ <aqU5QFGmYlCtbdiE@kekkonen.localdomain>
+ <CANiDSCv=cwm=aHLfO_ccPfc-XyK3gS8Y+8DZpbb3gcXX0n8mqQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260831-gmsl2-3_serdes-v16-0-4fa6e08bb514@analog.com>
- <apqGlTiybdvQX3Ao@kekkonen.localdomain> <eff6fe78-cc4b-4192-93ed-53a738fc3c3a@gmail.com>
- <aqU5QFGmYlCtbdiE@kekkonen.localdomain>
-In-Reply-To: <aqU5QFGmYlCtbdiE@kekkonen.localdomain>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 14 Sep 2026 14:10:10 +0200
-X-Gmail-Original-Message-ID: <CANiDSCv=cwm=aHLfO_ccPfc-XyK3gS8Y+8DZpbb3gcXX0n8mqQ@mail.gmail.com>
-X-Gm-Features: AcwNN1WrtThLwvG4t-JyEDTnuDjJJzAFO-QYuNebGgduCRp--_WjKNF02oVq8vc
-Message-ID: <CANiDSCv=cwm=aHLfO_ccPfc-XyK3gS8Y+8DZpbb3gcXX0n8mqQ@mail.gmail.com>
-Subject: Re: [PATCH v16 00/22] media: i2c: add Maxim GMSL2/3 serializer and
- deserializer drivers
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Ceclan Dumitru <mitrutzceclan@gmail.com>, Dan Carpenter <error27@gmail.com>, 
-	dumitru.ceclan@analog.com, 
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Julien Massot <julien.massot@collabora.com>, Rob Herring <robh@kernel.org>, 
-	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-gpio@vger.kernel.org, 
-	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
-	Martin Hecht <Martin.Hecht@avnet.eu>, Andrian Suciu <Adrian.Suciu@analog.com>, 
-	Cosmin Tanislav <demonsingur@gmail.com>, Vivekananda Dayananda <vivekana@amd.com>, Cory Keitz <ckeitz@amazon.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANiDSCv=cwm=aHLfO_ccPfc-XyK3gS8Y+8DZpbb3gcXX0n8mqQ@mail.gmail.com>
 
-Hi Sakari
-
-On Sat, 12 Sept 2026 at 13:36, Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
->
-> Hi Dumitru, Dan, Ricardo,
->
-> On Tue, Sep 08, 2026 at 01:35:05PM +0300, Ceclan Dumitru wrote:
-> > > Can you check this
-> > > <URL:https://linux-media.pages.freedesktop.org/-/users/sailus/-/jobs/109521830/artifacts/junit/test-smatch.log.txt>
-> > > please? If there's a single patch that needs to be modified, I can squash a
-> > > patch into that, otherwise v17 it is.
+On Mon, Sep 14, 2026 at 02:10:10PM +0200, Ricardo Ribalda wrote:
+> Hi Sakari
+> 
+> On Sat, 12 Sept 2026 at 13:36, Sakari Ailus
+> <sakari.ailus@linux.intel.com> wrote:
+> >
+> > Hi Dumitru, Dan, Ricardo,
+> >
+> > On Tue, Sep 08, 2026 at 01:35:05PM +0300, Ceclan Dumitru wrote:
+> > > > Can you check this
+> > > > <URL:https://linux-media.pages.freedesktop.org/-/users/sailus/-/jobs/109521830/artifacts/junit/test-smatch.log.txt>
+> > > > please? If there's a single patch that needs to be modified, I can squash a
+> > > > patch into that, otherwise v17 it is.
+> > > >
 > > >
+> > > These are the same warns reported by Niklas in V13. Dan fixed them in
+> > > smatch in devel branch but fix is not in master. Testing with smatch on
+> > > that branch yields no warnings.
 > >
-> > These are the same warns reported by Niklas in V13. Dan fixed them in
-> > smatch in devel branch but fix is not in master. Testing with smatch on
-> > that branch yields no warnings.
->
-> Dan: any plans to merge these things to master some time soon? Or:
->
-> Ricardo: could we use devel branch of smatch for some time?
-
-Do you know what patch fixes it? If it is easy to cherry pick I can
-add it to our list of smatch patches
-https://gitlab.freedesktop.org/linux-media/media-ci/-/tree/main/third_party?ref_type=heads
-
->
-> This driver has been waiting to be merged for quite some time so it'd be
-> nice to get it to 7.4
->
+> > Dan: any plans to merge these things to master some time soon? Or:
 > >
-> > https://lore.kernel.org/all/ai_txjwLPHsSKsJI@stanley.mountain
-> > https://repo.or.cz/smatch.git/commit/d12183645a31b737d7fb39cbefa589e34615e8f7
-> >
-> > v17 is still needed to revert one breaking change introduced in v16 and
-> > fix more findings from Sashiko.
->
-> Ack.
->
-> --
-> Kind regards,
->
-> Sakari Ailus
+> > Ricardo: could we use devel branch of smatch for some time?
+> 
+> Do you know what patch fixes it? If it is easy to cherry pick I can
+> add it to our list of smatch patches
+> https://gitlab.freedesktop.org/linux-media/media-ci/-/tree/main/third_party?ref_type=heads
+> 
+
+Commit d12183645a31 ("precedence: silence some false positives")
+
+Sorry, I felt like I was close to merging devel but then I started
+another major surgery to the core and got stuck.
+
+regards,
+dan carpenter
 
 
-
--- 
-Ricardo Ribalda
