@@ -1,152 +1,343 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAAAA3BBFD0
-	for <linux-staging@lists.linux.dev>; Mon, 14 Sep 2026 13:57:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46F134766AE
+	for <linux-staging@lists.linux.dev>; Mon, 14 Sep 2026 14:53:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789394270; cv=none; b=dyvulvuH0ycz9i4jpAQQGgHQLg515UrEsVXMQ/ft1ghpR0MB7ee26h9G6bvDts7h9O9R89+M/mIwB6RDwK6Tsb3OS+exMD1EpmR1Og7yWKJ+TTxKAOsK9WLIw+F8Yjw272S2XEFrDcSunjiRsYYI/NWLa2rfSmztQIletXTb+Oc=
+	t=1789397601; cv=none; b=mmeP8goOb9TxEEeziTOo0UQAQQpyNZNPGYCsxpouIL0RqcPac4qdbRQ7ZUovq/JmFP9Y+0MWe5zVvZe3PAret4CMfeANAL12rT2ArsgFj3Kwcl9BPeXrArAOT05QiGQ6knK+S1/MBsJ5Rxr7G+eCk7BzVcWVR/KilFH7ghcMPQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789394270; c=relaxed/simple;
-	bh=duDW4MTgv9us/ONwJoTNsNlJr2TmZ9c/C+zVNu8JAhs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=i2a1i7AuTE5XqRdrr7G8d7A5CVPlcyRNj3j+63I8bf1gtUi1UWnRnGGtsSSw67tMIc4UZ0Ok9sxF2ds3ykhfAZF8blDbYHApgfmGMn+GHbeP90Aj76GhB5Ixjr4i6qukgLP7iuJp/u0Bt0ulHpN9cyr523k5bFrvIjJPDGVfGpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fO1iXnsU; arc=none smtp.client-ip=74.125.225.140
+	s=arc-20240116; t=1789397601; c=relaxed/simple;
+	bh=N5IqWztkSD6d6jT8YO/ZSljhY36WERGkX/mWHbGSs8o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=sT5uM2oPXwXr8OtCOY4/g8sLhXwa5v+c5LT64wXEokGLMDR0e07EgbKsn66vl/EXaEA6TFzQ3KPQrBJC/7zx0I8BMoJfevgj19B0u6t/8vFd0RJHl+IPLfPPWoShxvfrPPVwyFE84HjdHsvKgyMffFI8fUtyEg2cCg3+79sJAQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VvnJp6AP; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fO1iXnsU"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b965f447cso15614755e9.3
-        for <linux-staging@lists.linux.dev>; Mon, 14 Sep 2026 06:57:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VvnJp6AP"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-495437bb891so19401295e9.1
+        for <linux-staging@lists.linux.dev>; Mon, 14 Sep 2026 07:53:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789394267; x=1789999067; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Pm6FQW4GbFGly5zHN646NB+7TgBYiGFIis+XHe7PrJM=;
-        b=fO1iXnsUouQw3wEdA/djFLvYz1TwVMqDn1q8gPor7jBMcwh/jAgaZ1CI1TKIIdj1Tw
-         qHmO2QxftRfwyK/pFo8apjxOT7wOT9PsgrdlUHmmOoGotpw/a13BBAhjWteSBnrtY/E4
-         gMaUBLh+4Wi3we3DvVp21xvTifDAwI+wWTQX5IY7EV7b1PCedOMXGwH/G1Q/8O7ikpnI
-         jEjlT08EXSWlYVJXsTRywlmzz/GN7o1VXdQXr49hfMOZOvDgWwC8VPdmV2LLpp1Pglyq
-         KqL8N75gmVoX66571uCL+qPdWszew6dj7nkKlNzYxDW0vivU8WTD0n8fJB8wUI26m9JY
-         fdxQ==
+        d=gmail.com; s=20251104; t=1789397596; x=1790002396; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Vi+kgOEwQ6B298JA+n1SDDNCDc6Yrj8qSoia7I1Zars=;
+        b=VvnJp6APpjN2EGtBzGQj7gGXnybmz3nf0RuIIJMArgpr3AcSj1vG45qmLc12oE+zdW
+         SFXtKADARxfPvWmYdguTEq0KCt97DqYm+33wWv2uru1ObsvQNu04U34Ret8188rljZgX
+         LWMfocVuY2XWUMSTLDhlCS5/kWOSUtpipv2SoPmcCyxQOfrlNLuY7krFKY5nD0tSRA0l
+         SJLqDwld0KQiZUr9lHaCcuLV56qOdoLxcKXXAf1dM2AYW9lwtw+QDamTB17Mdf2AFeY3
+         dgTFifRU/18ZMqhMKkSrFNW9cWynblraSH2sUnXc21VukCmOvMGQYKDcthmCaP4Gbt9+
+         E/oQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789394267; x=1789999067;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Pm6FQW4GbFGly5zHN646NB+7TgBYiGFIis+XHe7PrJM=;
-        b=cCFCSWw8F+8gWpugzjedBUqkGtB9aZAGTMJtJdIU3w6WD+Se6858vedu6XLvCE0Ufv
-         YEb+jCjJfPXhVPK8yzJZNs2Iuy8RrCe2kTUShZNdLtRm/Ny0hW8Db011Z069WGpJk9so
-         wpLmdpx3/iSGQaYsZt6bdgY0SPPQN1cMrujwOE8iuDqhfn97EQvbI+wKlLCXXs99/SjL
-         jwrW32+rYii3oTuq7Yhg4AmdOmSdyKGASrDTWY9tSIt9aqWDH7dCTAUOoW9zZ6y3SOMg
-         53tMgpeUVeMlWkw5ebCt+MA7JU6OUrm70FlAH2TUydchxisRoWkiiRrDIrHHT7cIzirs
-         diUA==
-X-Gm-Message-State: AFuF++kkGV6y0ZOAyfsd19IudmqKW3RDFC1i949mWfQP+DgWydoX3ETt
-	ByAGpJmhxps0IqHzTCmPOypFN5mGeDCJzC1abuJdlt8U/uDFTp3Zchbd
-X-Gm-Gg: AYBFou0++jUXuypawp0xewD01E9EdBtWK2rxZrNAdGd+ubT7/bQObc4fzUWN14kuXMN
-	P7fkpJzg2Du7mKgC3U/QFlY0cGatQFSAlKVibxg4+84JMo0dVnu54RjVP4mEyv8l+xGYtl+wIC1
-	HKoDdWg4q6Bm9FoI81e34WA6hLuUVeEVEqmwV9hA6OJDcT6MVwipnwv4+Czg0j0ZOnsLQtHCCcD
-	dK1eiK9AV+KTVR2vxJryRa+zUVRha5Xv5djs7rtL46YHBIvObHeATNHLH2EIVQ39MjWv8jqHvbw
-	gE5/SOW+dVxksbmBri9E8OBb+nBLwG/Ixwrzc3Ewl1yQ0+++8X1VQ+wNt5JbO7V7OI/H/FWOZup
-	EPfzu2IgEdcX9he7eaY+Pe1w6/1xFLI8Y4mbXJ1Sa66hM+nUM+1mOCPTVyjEHAwqyb5aa/Q/8PJ
-	7GllwFjzpow2tM5CuqADgqCLN/C/InvaeaW4naDmcFd6o02T2kmepD8c3cA2UwlXfYVYs=
-X-Received: by 2002:a05:600c:4f81:b0:49e:6683:d23c with SMTP id 5b1f17b1804b1-49e7a5edd99mr31944155e9.0.1789394266695;
-        Mon, 14 Sep 2026 06:57:46 -0700 (PDT)
-Received: from zephyr ([2407:d000:508:1732:c5ca:107f:bc81:7575])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d26c1bc5fsm382832675e9.3.2026.09.14.06.57.43
+        d=1e100.net; s=20251104; t=1789397596; x=1790002396;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Vi+kgOEwQ6B298JA+n1SDDNCDc6Yrj8qSoia7I1Zars=;
+        b=NCqSLUjbI0cE51fnnneOgw1Oe4dnyrPSpldpk7YD1dFOrGHpWkTPryoiMARbANoZ62
+         M0XpbjXzwfjyVVITYrSoMkUQL45p1iErjQ6uofSxBPK2LLfjIdIG+Du1cJcER2ulJppQ
+         MPyZGCvBmWUbUg5XL4mHBZYuQ1x+2kyOUJkfOyZ4TZq9vb+O0F6RuVoLLVUp0NWVw4eJ
+         AKNfKCEGhXHgURJqygHwgh3/GpwXsrzhykdXP0GeoL/GYKQhGFYUUEFB9I4kUoEOgfR4
+         gPr0QTmo35+kKxRC2cPwWuUe6YxT6uDJw3yRjY6aZtMp1H+8eoXstzir4uKKAlNfRtVp
+         0tPw==
+X-Gm-Message-State: AFuF++nGoNhxkMa95H/TmYFYjF2tTfwarj6dvWZsJyhKqumUa+3h35SU
+	opfVXNpV7PYx6IAMk04GGTaMrRBu99mk+RwnuB9vg8XmibUou1CkEWI0
+X-Gm-Gg: AYBFou0HQt62bI01yFkzUeMKNtExnmW6TrhJdRBnbM++Sw58CP/LgUvUa3DJLv3Zi+f
+	IrgwYM+84qovRJ6ihMtrfkMTsZej4I1nQ2UTjRkGaHWSJ7Xp/SCzn9mmlLXZDPbvM6VPFf6LXn+
+	LYPuqzyQvwOTqPG+XXjYNILTRwcjd//zmmhuxsblMUV5rbsOGDli9kuKS2J6kINBZHlXC69gDpp
+	GeXxLcU+WkUT12dRwWcexA6dCRK3WXDfo1MlTsDDVVThuiUIKBbWFVejRTDIbgI2OnywmdyftBA
+	Tz34C/MpWtk8qoq56vilqnUwBkMgvuW4xwHodAQEM/s1qeBRk2CUuZ3FlwNSifjsrYBrk3Pq2+k
+	PdznI6SCwgtDv9W5wrA4025E9mJzD7TEuC1ccioEge5yOHKr8aaFfi611DInBHml3qQxSGdkIBs
+	OqxBqRfYgli+EyoVFKQua9rNG841AIoPZ3YDOeBpCbANEAIy24G3KDiiovI5EXgYqHpkNghSi4k
+	X5SJuFq45dL6wN57hnTPA==
+X-Received: by 2002:a7b:cb87:0:b0:49e:718f:4f2e with SMTP id 5b1f17b1804b1-49e76021236mr55872585e9.3.1789397596079;
+        Mon, 14 Sep 2026 07:53:16 -0700 (PDT)
+Received: from ubuntu-4gb-nbg1-1.. ([2a01:4f8:1c19:b0ad::1])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-486eb32e6f1sm26812525f8f.6.2026.09.14.07.53.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2026 06:57:45 -0700 (PDT)
-From: Muhammad Israr <7israr.work@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+        Mon, 14 Sep 2026 07:53:15 -0700 (PDT)
+From: =?UTF-8?q?Rare=C8=99-Mihai=20Vladu?= <vladurares@gmail.com>
+To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Muhammad Israr <7israr.work@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: add braces on all arms of if/else in rtw_mlme_ext.c
-Date: Mon, 14 Sep 2026 18:56:39 +0500
-Message-ID: <20260914135639.28269-1-7israr.work@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	=?UTF-8?q?Rare=C8=99-Mihai=20Vladu?= <vladurares@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: fix lines exceeding 100 columns in rtw_security.c
+Date: Mon, 14 Sep 2026 14:52:56 +0000
+Message-ID: <20260914145256.996968-1-vladurares@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Fix checkpatch CHECKs: braces {} should be used on all arms of this
-statement, and Unbalanced braces around else statement.
+Reformat long lines in rtw_security.c to fit within the 100-column
+limit by splitting function arguments, expressions, and moving
 
-i checked the kernel CodingStyle, when one branch of an if/else
-requires braces, both branches should use braces.
-
-did not change any functionality
-
-Signed-off-by: Muhammad Israr <7israr.work@gmail.com>
+Signed-off-by: Rareș-Mihai Vladu <vladurares@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 18 ++++++++++--------
- 1 file changed, 10 insertions(+), 8 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_security.c | 94 +++++++++++++------
+ 1 file changed, 66 insertions(+), 28 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index c39fb142302e..e60b2c825162 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -356,9 +356,9 @@ static u8 init_channel_set(struct adapter *padapter, u8 ChannelPlan, struct rt_c
- 					channel_set[chanset_size].scan_type = SCAN_ACTIVE;
- 				else
- 					channel_set[chanset_size].scan_type = SCAN_PASSIVE;
--			} else
-+			} else {
- 				channel_set[chanset_size].scan_type = SCAN_ACTIVE;
--
-+			}
- 			chanset_size++;
- 		}
+diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
+index 2217cffac..208aa0f31 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_security.c
++++ b/drivers/staging/rtl8723bs/core/rtw_security.c
+@@ -34,7 +34,8 @@ const char *security_type_str(u8 value)
+ 
+ /* Need to consider the fragment  situation */
+ void rtw_wep_encrypt(struct adapter *padapter, u8 *pxmitframe)
+-{																	/*  exclude ICV */
++{
++	/*  exclude ICV */
+ 	union {
+ 		__le32 f0;
+ 		unsigned char f1[4];
+@@ -64,12 +65,17 @@ void rtw_wep_encrypt(struct adapter *padapter, u8 *pxmitframe)
+ 		for (curfragnum = 0; curfragnum < pattrib->nr_frags; curfragnum++) {
+ 			iv = pframe + pattrib->hdrlen;
+ 			memcpy(&wepkey[0], iv, 3);
+-			memcpy(&wepkey[3], &psecuritypriv->dot11DefKey[psecuritypriv->dot11PrivacyKeyIndex].skey[0], keylength);
++			int idx = psecuritypriv->dot11PrivacyKeyIndex;
++
++			memcpy(&wepkey[3],
++			       &psecuritypriv->dot11DefKey[idx].skey[0],
++			       keylength);
+ 			payload = pframe + pattrib->iv_len + pattrib->hdrlen;
+ 
+ 			if ((curfragnum + 1) == pattrib->nr_frags) {	/* the last fragment */
+ 
+-				length = pattrib->last_txcmdsz - pattrib->hdrlen - pattrib->iv_len - pattrib->icv_len;
++				length = pattrib->last_txcmdsz - pattrib->hdrlen -
++					 pattrib->iv_len - pattrib->icv_len;
+ 
+ 				crc.f0 = cpu_to_le32(~crc32_le(~0, payload, length));
+ 
+@@ -78,7 +84,8 @@ void rtw_wep_encrypt(struct adapter *padapter, u8 *pxmitframe)
+ 				arc4_crypt(ctx, payload + length, crc.f1, 4);
+ 
+ 			} else {
+-				length = pxmitpriv->frag_len - pattrib->hdrlen - pattrib->iv_len - pattrib->icv_len;
++				length = pxmitpriv->frag_len - pattrib->hdrlen -
++					 pattrib->iv_len - pattrib->icv_len;
+ 				crc.f0 = cpu_to_le32(~crc32_le(~0, payload, length));
+ 				arc4_setkey(ctx, wepkey, 3 + keylength);
+ 				arc4_crypt(ctx, payload, payload, length);
+@@ -112,9 +119,16 @@ void rtw_wep_decrypt(struct adapter  *padapter, u8 *precvframe)
+ 		keyindex = prxattrib->key_index;
+ 		keylength = psecuritypriv->dot11DefKeylen[keyindex];
+ 		memcpy(&wepkey[0], iv, 3);
+-		/* memcpy(&wepkey[3], &psecuritypriv->dot11DefKey[psecuritypriv->dot11PrivacyKeyIndex].skey[0], keylength); */
+-		memcpy(&wepkey[3], &psecuritypriv->dot11DefKey[keyindex].skey[0], keylength);
+-		length = ((union recv_frame *)precvframe)->u.hdr.len - prxattrib->hdrlen - prxattrib->iv_len;
++		/*
++		 *  memcpy(&wepkey[3],
++		 *         &psecuritypriv->dot11DefKey[psecuritypriv->dot11PrivacyKeyIndex].skey[0],
++		 *         keylength);
++		 */
++		memcpy(&wepkey[3],
++		       &psecuritypriv->dot11DefKey[keyindex].skey[0],
++		       keylength);
++		length = ((union recv_frame *)precvframe)->u.hdr.len -
++			 prxattrib->hdrlen - prxattrib->iv_len;
+ 
+ 		payload = pframe + prxattrib->iv_len + prxattrib->hdrlen;
+ 
+@@ -157,7 +171,8 @@ void rtw_secmicappendbyte(struct mic_data *pmicdata, u8 b)
+ 		pmicdata->L ^= pmicdata->M;
+ 		pmicdata->R ^= ROL32(pmicdata->L, 17);
+ 		pmicdata->L += pmicdata->R;
+-		pmicdata->R ^= ((pmicdata->L & 0xff00ff00) >> 8) | ((pmicdata->L & 0x00ff00ff) << 8);
++		pmicdata->R ^= ((pmicdata->L & 0xff00ff00) >> 8) |
++			 ((pmicdata->L & 0x00ff00ff) << 8);
+ 		pmicdata->L += pmicdata->R;
+ 		pmicdata->R ^= ROL32(pmicdata->L, 3);
+ 		pmicdata->L += pmicdata->R;
+@@ -418,7 +433,8 @@ static void phase2(u8 *rc4key, const u8 *tk, const u16 *p1k, u16 iv16)
+ 
+ /* The hlen isn't include the IV */
+ u32 rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
+-{																	/*  exclude ICV */
++{
++	/*  exclude ICV */
+ 	u16 pnl;
+ 	u32 pnh;
+ 	u8 rc4key[16];
+@@ -467,7 +483,8 @@ u32 rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
+ 		phase2(&rc4key[0], prwskey, (u16 *)&ttkey[0], pnl);
+ 
+ 		if ((curfragnum + 1) == pattrib->nr_frags) {	/* 4 the last fragment */
+-			length = pattrib->last_txcmdsz - pattrib->hdrlen - pattrib->iv_len - pattrib->icv_len;
++			length = pattrib->last_txcmdsz - pattrib->hdrlen -
++				 pattrib->iv_len - pattrib->icv_len;
+ 			crc.f0 = cpu_to_le32(~crc32_le(~0, payload, length));
+ 
+ 			arc4_setkey(ctx, rc4key, 16);
+@@ -475,7 +492,8 @@ u32 rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
+ 			arc4_crypt(ctx, payload + length, crc.f1, 4);
+ 
+ 		} else {
+-			length = pxmitpriv->frag_len - pattrib->hdrlen - pattrib->iv_len - pattrib->icv_len;
++			length = pxmitpriv->frag_len - pattrib->hdrlen -
++				 pattrib->iv_len - pattrib->icv_len;
+ 			crc.f0 = cpu_to_le32(~crc32_le(~0, payload, length));
+ 
+ 			arc4_setkey(ctx, rc4key, 16);
+@@ -491,7 +509,8 @@ u32 rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
+ 
+ /* The hlen isn't include the IV */
+ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
+-{																	/*  exclude ICV */
++{
++	/*  exclude ICV */
+ 	u16 pnl;
+ 	u32 pnh;
+ 	u8   rc4key[16];
+@@ -536,7 +555,8 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
+ 			if (jiffies_to_msecs(jiffies - start) > 1000) {
+ 				if (no_gkey_bc_cnt || no_gkey_mc_cnt) {
+ 					netdev_dbg(padapter->pnetdev,
+-						   FUNC_ADPT_FMT " no_gkey_bc_cnt:%u, no_gkey_mc_cnt:%u\n",
++						   FUNC_ADPT_FMT
++						   " no_gkey_bc_cnt:%u, no_gkey_mc_cnt:%u\n",
+ 						   FUNC_ADPT_ARG(padapter),
+ 						   no_gkey_bc_cnt,
+ 						   no_gkey_mc_cnt);
+@@ -550,7 +570,8 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
+ 
+ 		if (no_gkey_bc_cnt || no_gkey_mc_cnt) {
+ 			netdev_dbg(padapter->pnetdev,
+-				   FUNC_ADPT_FMT " gkey installed. no_gkey_bc_cnt:%u, no_gkey_mc_cnt:%u\n",
++				   FUNC_ADPT_FMT
++				   " gkey installed. no_gkey_bc_cnt:%u, no_gkey_mc_cnt:%u\n",
+ 				   FUNC_ADPT_ARG(padapter),
+ 				   no_gkey_bc_cnt,
+ 				   no_gkey_mc_cnt);
+@@ -566,7 +587,8 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
+ 
+ 	iv = pframe + prxattrib->hdrlen;
+ 	payload = pframe + prxattrib->iv_len + prxattrib->hdrlen;
+-	length = ((union recv_frame *)precvframe)->u.hdr.len - prxattrib->hdrlen - prxattrib->iv_len;
++	length = ((union recv_frame *)precvframe)->u.hdr.len -
++		 prxattrib->hdrlen - prxattrib->iv_len;
+ 
+ 	GET_TKIP_PN(iv, dot11txpn);
+ 
+@@ -757,10 +779,12 @@ static void construct_ctr_preload(u8 *ctr_preload,
+ 	if (frtype == WIFI_MGT_TYPE)
+ 		ctr_preload[1] |= BIT(4);
+ 
++	/* ctr_preload[2:7] = A2[0:5] = mpdu[10:15] */
+ 	for (i = 2; i < 8; i++)
+-		ctr_preload[i] = mpdu[i + 8];                       /* ctr_preload[2:7] = A2[0:5] = mpdu[10:15] */
++		ctr_preload[i] = mpdu[i + 8];
++	/* ctr_preload[8:13] = PN[5:0] */
+ 	for (i = 8; i < 14; i++)
+-		ctr_preload[i] =    pn_vector[13 - i];          /* ctr_preload[8:13] = PN[5:0] */
++		ctr_preload[i] =    pn_vector[13 - i];
+ 	ctr_preload[14] = (unsigned char)(c / 256); /* Ctr */
+ 	ctr_preload[15] = (unsigned char)(c % 256);
+ }
+@@ -952,11 +976,13 @@ u32 rtw_aes_encrypt(struct adapter *padapter, u8 *pxmitframe)
+ 
+ 	for (curfragnum = 0; curfragnum < pattrib->nr_frags; curfragnum++) {
+ 		if ((curfragnum + 1) == pattrib->nr_frags) {	/* 4 the last fragment */
+-			length = pattrib->last_txcmdsz - pattrib->hdrlen - pattrib->iv_len - pattrib->icv_len;
++			length = pattrib->last_txcmdsz - pattrib->hdrlen -
++				 pattrib->iv_len - pattrib->icv_len;
+ 
+ 			aes_cipher(prwskey, pattrib->hdrlen, pframe, length);
+ 		} else {
+-			length = pxmitpriv->frag_len - pattrib->hdrlen - pattrib->iv_len - pattrib->icv_len;
++			length = pxmitpriv->frag_len - pattrib->hdrlen -
++				 pattrib->iv_len - pattrib->icv_len;
+ 
+ 			aes_cipher(prwskey, pattrib->hdrlen, pframe, length);
+ 			pframe += pxmitpriv->frag_len;
+@@ -1205,7 +1231,8 @@ u32 rtw_aes_decrypt(struct adapter *padapter, u8 *precvframe)
+ 			if (jiffies_to_msecs(jiffies - start) > 1000) {
+ 				if (no_gkey_bc_cnt || no_gkey_mc_cnt) {
+ 					netdev_dbg(padapter->pnetdev,
+-						   FUNC_ADPT_FMT " no_gkey_bc_cnt:%u, no_gkey_mc_cnt:%u\n",
++						   FUNC_ADPT_FMT
++						   " no_gkey_bc_cnt:%u, no_gkey_mc_cnt:%u\n",
+ 						   FUNC_ADPT_ARG(padapter),
+ 						   no_gkey_bc_cnt,
+ 						   no_gkey_mc_cnt);
+@@ -1220,7 +1247,8 @@ u32 rtw_aes_decrypt(struct adapter *padapter, u8 *precvframe)
+ 
+ 		if (no_gkey_bc_cnt || no_gkey_mc_cnt) {
+ 			netdev_dbg(padapter->pnetdev,
+-				   FUNC_ADPT_FMT " gkey installed. no_gkey_bc_cnt:%u, no_gkey_mc_cnt:%u\n",
++				   FUNC_ADPT_FMT
++				   " gkey installed. no_gkey_bc_cnt:%u, no_gkey_mc_cnt:%u\n",
+ 				   FUNC_ADPT_ARG(padapter),
+ 				   no_gkey_bc_cnt,
+ 				   no_gkey_mc_cnt);
+@@ -1238,7 +1266,8 @@ u32 rtw_aes_decrypt(struct adapter *padapter, u8 *precvframe)
+ 		prwskey = &stainfo->dot118021x_UncstKey.skey[0];
  	}
-@@ -1221,8 +1221,9 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
  
- 		memcpy(&pstat->htpriv.ht_cap, elems.ht_capabilities, sizeof(struct ieee80211_ht_cap));
+-	length = ((union recv_frame *)precvframe)->u.hdr.len - prxattrib->hdrlen - prxattrib->iv_len;
++	length = ((union recv_frame *)precvframe)->u.hdr.len -
++		 prxattrib->hdrlen - prxattrib->iv_len;
  
--	} else
-+	} else {
- 		pstat->flags &= ~WLAN_STA_HT;
-+	}
+ 	res = aes_decipher(prwskey, prxattrib->hdrlen, pframe, length);
  
- 	if (!pmlmepriv->htpriv.ht_option && (pstat->flags & WLAN_STA_HT)) {
- 		status = WLAN_STATUS_CHALLENGE_FAIL;
-@@ -2838,9 +2839,9 @@ void issue_assocreq(struct adapter *padapter)
- 	if (bssrate_len > 8) {
- 		pframe = rtw_set_ie(pframe, WLAN_EID_SUPP_RATES, 8, bssrate, &(pattrib->pktlen));
- 		pframe = rtw_set_ie(pframe, WLAN_EID_EXT_SUPP_RATES, (bssrate_len - 8), (bssrate + 8), &(pattrib->pktlen));
--	} else
-+	} else {
- 		pframe = rtw_set_ie(pframe, WLAN_EID_SUPP_RATES, bssrate_len, bssrate, &(pattrib->pktlen));
--
-+	}
- 	/* vendor specific IE, such as WPA, WMM, WPS */
- 	for (i = sizeof(struct ndis_802_11_fix_ie); i < pmlmeinfo->network.ie_length;) {
- 		if (i + sizeof(*pIE) > pmlmeinfo->network.ie_length)
-@@ -3848,9 +3849,9 @@ u8 collect_bss_info(struct adapter *padapter, union recv_frame *precv_frame, str
+@@ -1269,9 +1298,14 @@ u32 rtw_BIP_verify(struct adapter *padapter, u8 *precvframe)
+ 	/* mapping to wlan header */
+ 	pwlanhdr = (struct ieee80211_hdr *)pframe;
+ 	/* save the frame body + MME */
+-	memcpy(BIP_AAD + BIP_AAD_SIZE, pframe + WLAN_HDR_A3_LEN, pattrib->pkt_len - WLAN_HDR_A3_LEN);
++	memcpy(BIP_AAD + BIP_AAD_SIZE,
++	       pframe + WLAN_HDR_A3_LEN,
++	       pattrib->pkt_len - WLAN_HDR_A3_LEN);
+ 	/* find MME IE pointer */
+-	p = rtw_get_ie(BIP_AAD + BIP_AAD_SIZE, WLAN_EID_MMIE, &len, pattrib->pkt_len - WLAN_HDR_A3_LEN);
++	p = rtw_get_ie(BIP_AAD + BIP_AAD_SIZE,
++		       WLAN_EID_MMIE,
++		       &len,
++		       pattrib->pkt_len - WLAN_HDR_A3_LEN);
+ 	/* Baron */
+ 	if (p) {
+ 		u16 keyid = 0;
+@@ -1300,8 +1334,10 @@ u32 rtw_BIP_verify(struct adapter *padapter, u8 *precvframe)
+ 		/* conscruct AAD, copy address 1 to address 3 */
+ 		memcpy(BIP_AAD + 2, &pwlanhdr->addrs, sizeof(pwlanhdr->addrs));
  
- 		memcpy(bssid->ssid.ssid, (p + 2), *(p + 1));
- 		bssid->ssid.ssid_length = *(p + 1);
--	} else
-+	} else {
- 		bssid->ssid.ssid_length = 0;
--
-+	}
- 	memset(bssid->supported_rates, 0, NDIS_802_11_LENGTH_RATES_EX);
+-		if (omac1_aes_128(padapter->securitypriv.dot11wBIPKey[padapter->securitypriv.dot11wBIPKeyid].skey
+-			, BIP_AAD, ori_len, mic))
++		int keyid = padapter->securitypriv.dot11wBIPKeyid;
++		u8 *bip_key = padapter->securitypriv.dot11wBIPKey[keyid].skey;
++
++		if (omac1_aes_128(bip_key, BIP_AAD, ori_len, mic))
+ 			goto BIP_exit;
  
- 	/* checking rate info... */
-@@ -3928,8 +3929,9 @@ u8 collect_bss_info(struct adapter *padapter, union recv_frame *precv_frame, str
+ 		/* MIC field should be last 8 bytes of packet (packet without FCS) */
+@@ -1430,7 +1466,8 @@ void rtw_sec_restore_wep_key(struct adapter *adapter)
+ 	struct security_priv *securitypriv = &adapter->securitypriv;
+ 	signed int keyid;
  
- 			if (le16_to_cpu(pHT_caps->u.HT_cap_element.HT_caps_info) & BIT(14))
- 				pmlmepriv->num_FortyMHzIntolerant++;
--		} else
-+		} else {
- 			pmlmepriv->num_sta_no_ht++;
-+		}
- 	}
+-	if ((securitypriv->dot11_privacy_algrthm == _WEP40_) || (securitypriv->dot11_privacy_algrthm == _WEP104_)) {
++	if ((securitypriv->dot11_privacy_algrthm == _WEP40_) ||
++	    (securitypriv->dot11_privacy_algrthm == _WEP104_)) {
+ 		for (keyid = 0; keyid < 4; keyid++) {
+ 			if (securitypriv->key_mask & BIT(keyid)) {
+ 				if (keyid == securitypriv->dot11PrivacyKeyIndex)
+@@ -1448,7 +1485,8 @@ u8 rtw_handle_tkip_countermeasure(struct adapter *adapter, const char *caller)
+ 	u8 status = _SUCCESS;
  
- 	/*  mark bss info receiving from nearby channel as signal_quality 101 */
+ 	if (securitypriv->btkip_countermeasure) {
+-		unsigned long passing_ms = jiffies_to_msecs(jiffies - securitypriv->btkip_countermeasure_time);
++		unsigned long elapsed = jiffies - securitypriv->btkip_countermeasure_time;
++		unsigned long passing_ms = jiffies_to_msecs(elapsed);
+ 
+ 		if (passing_ms > 60 * 1000) {
+ 			netdev_dbg(adapter->pnetdev,
 -- 
-2.55.0
+2.43.0
 
