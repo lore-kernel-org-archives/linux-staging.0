@@ -1,140 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8664F1E32D6;
-	Mon, 14 Sep 2026 00:56:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AFDC3E9C2B
+	for <linux-staging@lists.linux.dev>; Mon, 14 Sep 2026 08:18:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789347418; cv=none; b=gduUNjc/kqaxuWqjAWCGYAZ+ap0XMVZ+QPfohCdbjB3O4thW7ch+Yqv3tz3JvnAKIun63beEHdz0FOeBZhCPV3VOd1+2zbjPruFIHe9iy2JEjnLID04OgsFGbLmAL+ZMqhgIt7rSoaffEO5NVxiS2ET2v9J2pmLl27SGz/BZrzg=
+	t=1789373927; cv=none; b=S5/enQOdM8fzGrpLdiKx60019LtBJ+VZkuDEpxnEpcWo4Wdlkub2/gQslUwOMkgsFgYkv1B1jR8QMEeqKZ0Kgk/zpPsLEJ5uBt4VGORTp3Phlb3+Ujld4VJT8MLgBChEQecELlxdlI7dYWCt1gdIxFpZVXfWVQ/xIB0EWXgj4VA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789347418; c=relaxed/simple;
-	bh=+MkTzwfqhSJb/70CCTjbOLRTPi5UnSbW+UCf9mStgjw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZtJfIcvPI3EES6tdyQqvOY/GHciblwFL0A2VwBbyCOopERD/Rp2AnDQcGacemczISbWZ1avYEQ6a/COFZq/baxefInnxHl65S4Ehwbw1lfye7rahWAe3eBE3Ir3DFjEAr1yPNlszTb0twNjU+oX0Pgeq/aeYSMdYevwga887eWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lFrRgqhW; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789373927; c=relaxed/simple;
+	bh=HSTVGACL4y92fxENAWrSotM1ZWJTJr8vPVzH7e3JESo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HsFAYuHBvvvq+aZH4V4VmJaMVCl0xQVV/RK3DOsZM679pAVcitZH6Wl/mCeC5Alt7/XZxv9l2nC+nTzjp1Kpx1KPrjKNzoxHNveBOEgt504yqD3NKQviZWL30KcfbHppDwsTqZVzMaqUGvaUQ8u8ckziI1oUoZ6vqqMpHwGWqBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bGcBEmuW; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lFrRgqhW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D01B1F000FF;
-	Mon, 14 Sep 2026 00:56:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789347417;
-	bh=SlxlFkaqeMHSCNUNSGnnPjIslXu3RAAtVEoKqxRIKps=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=lFrRgqhWaKT5uM1mkwc3lhoZ3FkiK5wzDVJoqsUkSRO9IjY9k7UefKqGInfYqucVT
-	 3XXMotK4hFa2vH9hN/+y0B9sDSOe9nafdaTmL0Tt0r7jNrwYPJQadMcyBS5fbZ3EPj
-	 V8QYIzjksvWnfsEmho8Wl9+1t2oI0vzy8jDj5qJab0T28FjezcOVmeezwSgnXsKUFQ
-	 fNy0gbkc7c5yV11+OTs13WOtqBMBr6zUlUj5mzXvzGmAX6QPxRLNbQ3tcAAgRv3/Gs
-	 H/U0oRq1UoD9Ebi3jBANm3eCq6SD7LJ2xKU7wltNQROQO4aBHh/gw8kju9JCxLD02M
-	 r4mg2N6+Y+bIQ==
-Date: Mon, 14 Sep 2026 01:56:51 +0100
-From: Jonathan Cameron <jic23@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bGcBEmuW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789373926; x=1820909926;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HSTVGACL4y92fxENAWrSotM1ZWJTJr8vPVzH7e3JESo=;
+  b=bGcBEmuW9U+hyCDFnZsLPf/lrisM8lpoWJ8UFmQwJKBSWaGkemi4XP3Z
+   aky5F3CtIUaWiJgbQKZUrJohHboNTuiTWvMmywd1c7tjzAcO4H6XAsetN
+   hx3ERHlGsrZ4Bz7iCCBjwSYYXg980MinXd9frS6aeiYHYKxPfgqq60bhQ
+   m/92z4XmA7Gqmu1iwmcPwaP2rUeztNnxyAQhA6mxGYSI53AtV5Qy8M8nm
+   DPz4BixLxTOmTqNfiGyHi/mOTY40JWqGHLWTusN7Txi5igZOqprqSzh0T
+   XL04qpuewqeYeoVj7zerg4hPufBKgUYSyBRZNirfIWWixRnfK5jPjr1sC
+   Q==;
+X-CSE-ConnectionGUID: gjRZSvnqSDCj5Ido17ew1g==
+X-CSE-MsgGUID: etvwEtblS1y7Uqg6ns08Mg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11904"; a="112493231"
+X-IronPort-AV: E=Sophos;i="6.27,102,1787036400"; 
+   d="scan'208";a="112493231"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 01:18:45 -0700
+X-CSE-ConnectionGUID: wCTH24emS0O2A597s3NrpQ==
+X-CSE-MsgGUID: ZE2lm9ESRRC4sNw3twiUqw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,102,1787036400"; 
+   d="scan'208";a="276734201"
+Received: from ettammin-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.245.29])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Sep 2026 01:18:41 -0700
+Date: Mon, 14 Sep 2026 11:18:39 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
 To: Shehryar Ahmad <shehryar.amd@gmail.com>
-Cc: nuno.sa@analog.com, Michael.Hennerich@analog.com, dlechner@baylibre.com,
- andy@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- gregkh@linuxfoundation.org, linux@analog.com, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
- devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 4/6] iio: accel: adis16201: add ADIS16203 support
-Message-ID: <20260914015651.70277ca2@jic23-hlaptop>
-In-Reply-To: <20260913085307.13846-5-shehryar.amd@gmail.com>
+Cc: jic23@kernel.org, nuno.sa@analog.com, Michael.Hennerich@analog.com,
+	dlechner@baylibre.com, andy@kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, gregkh@linuxfoundation.org,
+	linux@analog.com, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 1/6] iio: accel: adis16201: add SPI device ID table
+Message-ID: <aqet3xwqe1jfhXpW@ashevche-desk.local>
 References: <20260913085307.13846-1-shehryar.amd@gmail.com>
-	<20260913085307.13846-5-shehryar.amd@gmail.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+ <20260913085307.13846-2-shehryar.amd@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260913085307.13846-2-shehryar.amd@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Sun, 13 Sep 2026 13:53:05 +0500
-Shehryar Ahmad <shehryar.amd@gmail.com> wrote:
+On Sun, Sep 13, 2026 at 01:53:02PM +0500, Shehryar Ahmad wrote:
+> Add spi_device_id table for ADIS16201. Replace MODULE_ALIAS()
+> with MODULE_DEVICE_TABLE() which automatically generates the same
+> module alias.
 
-> Add ADIS16203 from staging to mainline ADIS16201. ADIS16203 shares same
-> SPI protocol and register addresses. Differing parameters are handled by
-> adis16201_chip_info structure.
-> 
-> ADIS16203 specific support includes DIAG_STAT_SELFTEST_FAIL_BIT, which
-> is supported only on ADIS16203, and a separate channel array.
-> 
-> Kconfig is updated accordingly.
-> 
-> Signed-off-by: Shehryar Ahmad <shehryar.amd@gmail.com>
-> ---
->  drivers/iio/accel/Kconfig     |  6 +++---
->  drivers/iio/accel/adis16201.c | 32 ++++++++++++++++++++++++++++++--
->  2 files changed, 33 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/iio/accel/Kconfig b/drivers/iio/accel/Kconfig
-> index 4094299e2..f884ec66f 100644
-> --- a/drivers/iio/accel/Kconfig
-> +++ b/drivers/iio/accel/Kconfig
-> @@ -7,13 +7,13 @@
->  menu "Accelerometers"
->  
->  config ADIS16201
-> -	tristate "Analog Devices ADIS16201 Dual-Axis Digital Inclinometer and Accelerometer"
-> +	tristate "ADIS16201 Digital Inclinometer and similar"
->  	depends on SPI
->  	select IIO_ADIS_LIB
->  	select IIO_ADIS_LIB_BUFFER if IIO_BUFFER
->  	help
-> -	  Say Y here to build support for Analog Devices adis16201 dual-axis
-> -	  digital inclinometer and accelerometer.
-> +	  Say Y here to build support for Analog Devices adis16201 Digital
-> +	  Inclinometer and similar
-Here is where the names should be.
-	  Say Y here to build support for Analog Devices Digital Inclinometers:
-	  - ADIS16201
-	  - ADIS16203
+> +static const struct spi_device_id adis16201_ids[] = {
+> +	{ .name = "adis16201", 0 },
+> +	{ },
 
-or something like that.  Key is that a new device being supported is a single
-line added with no churn of the surrounding text.
-
->  
->  	  To compile this driver as a module, say M here: the module will
->  	  be called adis16201.
-> diff --git a/drivers/iio/accel/adis16201.c b/drivers/iio/accel/adis16201.c
-> index e0bf7df50..8e8e612fd 100644
-> --- a/drivers/iio/accel/adis16201.c
-> +++ b/drivers/iio/accel/adis16201.c
-> @@ -1,6 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0-or-later
->  /*
-> - * ADIS16201 Dual-Axis Digital Inclinometer and Accelerometer
-> + * ADIS16201 Digital Inclinometer and similar
->   *
->   * Copyright 2010 Analog Devices Inc.
->   */
-> @@ -63,6 +63,7 @@
->  #define ADIS16201_DIAG_STAT_REG				0x3C
->  #define  ADIS16201_DIAG_STAT_ALARM2			BIT(9)
->  #define  ADIS16201_DIAG_STAT_ALARM1			BIT(8)
-> +#define ADIS16203_DIAG_STAT_SELFTEST_FAIL_BIT		5	/* ADIS16203 only */
->  #define  ADIS16201_DIAG_STAT_SPI_FAIL_BIT		3
->  #define  ADIS16201_DIAG_STAT_FLASH_UPT_FAIL_BIT		2
->  /* Power supply above 3.625 V */
-> @@ -232,6 +233,15 @@ static const struct iio_chan_spec adis16201_channels[] = {
->  	IIO_CHAN_SOFT_TIMESTAMP(7)
->  };
->  
-> +static const struct iio_chan_spec adis16203_channels[] = {
-> +	ADIS_SUPPLY_CHAN(ADIS16201_SUPPLY_OUT_REG, ADIS16201_SCAN_SUPPLY, 0, 12),
-> +	ADIS_TEMP_CHAN(ADIS16201_TEMP_OUT_REG, ADIS16201_SCAN_TEMP, 0, 12),
-> +	ADIS_AUX_ADC_CHAN(ADIS16201_AUX_ADC_REG, ADIS16201_SCAN_AUX_ADC, 0, 12),
-> +	ADIS_INCLI_CHAN(X, ADIS16201_XINCL_OUT_REG, ADIS16201_SCAN_INCLI_X,
-> +			BIT(IIO_CHAN_INFO_CALIBBIAS), 0, 14),
-> +	IIO_CHAN_SOFT_TIMESTAMP(7),
-
-As per the sashiko feedback on previous, this needs reordering so they are
-in scan index ordering.
+Learn the style what we use (hint: check last max half a year old new code
+in IIO).
 
 > +};
-Otherwise this is coming together nicely.
+> +
 
-Thanks
+This blank line is also the subject of the common style.
 
-Jonathan
+> +MODULE_DEVICE_TABLE(spi, adis16201_ids);
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
