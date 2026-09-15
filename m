@@ -1,83 +1,70 @@
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55104190473
-	for <linux-staging@lists.linux.dev>; Tue, 15 Sep 2026 08:00:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C2841A795
+	for <linux-staging@lists.linux.dev>; Tue, 15 Sep 2026 10:11:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789459233; cv=none; b=ar/yu1quPjCZTQzDkFD+1S1HIEbAou3tZNu/wHn5JONiWwePuBP5aeR9az/xFa5WnYCoLuHk8F2aNVxQH+iHz73lkdXhhsuZjJzpKMsb4ZhKAp6AUKb7ZLpnM7CMFYFtIr3Rob0Km6KEHQJNm4itB7R0n62NEuPNg+gMcsRsZdQ=
+	t=1789467077; cv=none; b=p5BDAVAVUfziFnNl+eXEHAwPvkX67tWZmtj+Mz5vs8h2+7QzhmxGFHEOs64KiejbYPIo4T9Dy1nSjbBtumoIlAM2Gkz8lfdspYOFLyXUW4w/89eyD5SlqJ+4UclSde/tSs4SsUoUZmGcqQJyrYwPKz8mmuSA0PeWU/Q5sDX36Ac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789459233; c=relaxed/simple;
-	bh=KTgZMvg4dulJZHvYNEIoy011mnzTSGSayGEdve6hAJE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SKsdOzWDpqxOE5u/FPPJ+aznXasMkVwTq6hW3oJNNiwT0fgd6grNGuuM8waEQb/43yZD+YmsN1lTDVpll2l6RNmrX+i3hz/h+TMm/sZFGxigng5wHxbjrsbClJHPsYWn92peAQJkeq6i4AFOo6DXIrtgPFV7niKB1dJV9bvgd+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YhJT8F64; arc=none smtp.client-ip=74.125.225.141
+	s=arc-20240116; t=1789467077; c=relaxed/simple;
+	bh=CWjz01IGEO4DhBFkusR7Nz1l/h2qMp9orMij3MJtNgA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BhbbjFt9AFGeq9eo4n/oSed8zB0SZqATxP9sjqkPdHWElsz/wOWAZkT4QCylf16TPRBET56C3p35fOi4necJIM6Xh+N1uqwQFPfBHV463QQ7GKXDKLbVbRiqv2/dVal+1hiAIp1JpNfnT3H2VWVhN2HOLyvfqxXh9oISYWZWeCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rpHNdO+a; arc=none smtp.client-ip=74.125.228.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YhJT8F64"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49b965f447cso23071435e9.3
-        for <linux-staging@lists.linux.dev>; Tue, 15 Sep 2026 01:00:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rpHNdO+a"
+Received: by mail-pz2-f12.google.com with SMTP id 41be03b00d2f7-cc4bdf8acd6so2225120a12.1
+        for <linux-staging@lists.linux.dev>; Tue, 15 Sep 2026 03:11:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789459230; x=1790064030; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=xfw0WXqsQI2eC5dBxcA9xLNGEmKqYt2MXCmmX8Bocyo=;
-        b=YhJT8F64WUKDxXLdse+wtIYffADcGHEokdAQCllUAAoxichWcN8YnQe7hVFZoO4fDd
-         fbS84gG7ftrZc7kDVQMY806NPZ32Zk8kDsmQSxgKWIV7pYvbLO3v/8pPf2vNDOoNv919
-         E6dpRjgEuHj2FRZ34TSG8ldmUtAwK2t5czp5NLt1MJPCKjsSxc0udC0apTl/TQrMquTH
-         mEFYftBdd9htw3bC27VM6dNNqutURUXK6rqRmv8km243tzsjNpKoChJ9l/eHwW8mL84H
-         0okD2IWwkBKpzcRtK0ZGEYThb3OckWUvdZcozoz9bgyUua6R02fW1t8+r6BEAWU38o9X
-         VVag==
+        d=gmail.com; s=20251104; t=1789467075; x=1790071875; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Sq/lagHSdcuwlRE6xG/AIJTxTk05xbO2fOWH3pVtZM8=;
+        b=rpHNdO+aPlvlGx5oeMdZDgr0ED7l8/isHkyPoV0ID7bracmIzE+ggt6YRGMBHzi4JX
+         bn94x9UPmGL4PwevzVs1aLk1aJHS4d+X1L/QRTy93TuaJys4HDU6nB3LlRHVct8qf6A/
+         H43e7+EZncfGQcTrrH0ueOKn3x7C3xYeBpZVdpb8CpQ61Z37YD9dJkti6JgRs4jdIiIw
+         WR+P+sxQgVCAP/gcJoTX+w8mvvSL6ptPFe/xSSRWMxZW14kcrA86u1f1hyHDyL/HWKFq
+         NW8tMZmD9Mk3Q/XU2kOmghysRJg1xOn7jEaHZb7YssYvrIKneN3JPv88BRfOFxXB7uTS
+         I/JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789459230; x=1790064030;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=xfw0WXqsQI2eC5dBxcA9xLNGEmKqYt2MXCmmX8Bocyo=;
-        b=EzEa3Rdzexu9p7ory4MHxzgIVjC9InyjMxTEofyFLi1pPvL6Vq3tNBH4DV3JvlSF1Z
-         1JmUWYcaMbHqz4H0zNo6zXJ5v7vHCjO3wI6IT6o59a/dS5wShG1WQSId+NBSMCvmc8H9
-         8BpbmSzxkrNtrTIHrLGQKTjPvjRo9rZpZ8nK3KkC6RHWhWCo5XdV83tlR2QJoaM3LqCB
-         DsusxxYNGHRNdcJe0bifR9ABzOlhvoMlPhgyX36mZA6J4QknAmiP60KQgNIYOc8MwLpq
-         TYiWsaG+yQSEhlBF+9mxiQmw3fV0Kz+1SMOC2ZuXUj4OjmPo4qJ04pZhhuhAiG3ME7Xq
-         M5vw==
-X-Forwarded-Encrypted: i=1; AKwUvBzqzuUZIH1ZLQQpepdIfXBi8UifE9VkXGK02mmJSS7axT/ZyYAB9Y1tTdoT1vzuewiAIdVLr+mHJHOHswvR@lists.linux.dev
-X-Gm-Message-State: AFuF++m5tJybk3v4gdlevT7vXBaHzTJN6qQwTBD9ASmrpPRgxInrWbTr
-	BzVxipsthuKqL6QF0K5XnUCnBM/H/EasyTYZZxG0hSyrp56Xgzx+W84P
-X-Gm-Gg: AYBFou2LTO6m7R7KnFwWTEGOiwLp+9MlZmK/6YYckHxNjdhrF64YW0mrIUpZqc5jP7J
-	CAdjek8QTJtkF8itj9gRl424XgIcwakEjfWW468kAc7B8UJPZJhNkgq0dxltZuK2BO0NBBxoPFY
-	B6qKlY8nj6YLiP4osl3Fq4Qkf2XpRbqgP31oM8zw7wWesR9n48WWzzCQdBJA6+jO//K02MwnWgt
-	bm6mh1h0DM7oMzU62/Pv2aJWXqi8sqDtpUS0GG/HKYXIKXDApp81ndUNCUhu5zDDH7/uZL33tIG
-	G/6kSwqQ7u6Q4VqHPzVmrW6nIxf3GrE9Q0PdAkKM7COiaPbdGFXe2wsmTvJMwvEiGu3O8uz+VhZ
-	+H4sGJI5TM4oImlQxH3XBzBzCxzN+eWYQPQcvNwVtlPdyBaQKKu2b4sUvziY2Zol8jUShz91P/u
-	KnuJszPqZMiEOaaKspO0GPhHUmaMdE+YGDBaz/+69lAp3n+QM7Nh/ZrspzniOtQKlX6NJNuaxet
-	NkF7BuIy18ZKib2+gw=
-X-Received: by 2002:a05:600c:c8a:b0:493:aa0a:45ad with SMTP id 5b1f17b1804b1-49e7a6386d4mr71308795e9.2.1789459230005;
-        Tue, 15 Sep 2026 01:00:30 -0700 (PDT)
-Received: from fedora ([154.182.99.41])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e7d6bf4desm64112155e9.15.2026.09.15.01.00.28
+        d=1e100.net; s=20260707; t=1789467075; x=1790071875;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Sq/lagHSdcuwlRE6xG/AIJTxTk05xbO2fOWH3pVtZM8=;
+        b=M5qSuyeEXElYA/H4aw5yqrT347H3iK6MOY32uKRauWlRoKSzk7AydtYannVxcUoWnZ
+         pyVjAViwS5PiiuYgIWwsx6X2PMsPBo5df+4Kg5GGpR5fezJ5hnfr7oGiH8hDXeEm3JyN
+         sjW5ytnj8+7TFepq95xevdpYUhF9IFJZpOTUC+sE1g6iGdAHAFRnGc93HhsKUChDyC1T
+         voY2y21qWJdFzORnOK7pMLHDgbLink4TqnNuA4Ee31yNgf0ARGXx/xFVyYW9a7xv86nH
+         Pb1pxLt4pfv040hJ1EmLWA1A6jznulA9QN6DXtPQuLCA0uT2DKwi++OLB2Q0+P/w13zB
+         OBgg==
+X-Gm-Message-State: AFuF++lP0cWDFCXDzytyzS33Qf3rpS5k5scbN/C0SzZj4KnWRf9bC4RZ
+	/+nWakc2cTuDp4u6Sb9xf5xUY4O3CCNSaP2UmO9Ezw/T5/eDmXoFp8D4uAAHTA==
+X-Gm-Gg: AYBFou2Ckid0zfMj+V8cfHOe4x+Xq0i+o2nDUmOkWJMO+5w2dK58Ffqzx5Xsp0GmTdS
+	tJTEgy1fUvbrt7D36nFMX5zj3yQtVv3N1614EFHe7vnWKFxYV30yVW5kRB38wzYRsdgu9rDXp5o
+	cvLq68M2KvF0ZjIDZt9YW1cOj9MoaY5/oa9yCYcIjc9MhTRefvOsRYPgrdtmGDxkR9h3eTWydYS
+	zZ2iJ4L67wTHphjEfwq05Y6RwG+6Rz6oenGuJpEsOXN6JpYIcCmCBUaCLsA/ljP9pO2JXNP9yqW
+	WtR05eS274hDtrdvWpf8FL9k2o1tJBnGBc/LfbMJvyNxjRRqiH+oJSuW1QPYUyKLqiI2M0Y6eSk
+	9Jnumz3ru86bvKOiUNfuCVNsF/BcEmp/NvUjUrpdNv6Ht4FlZuFMZIzUX8+BNnWDY4fq9OyrPpu
+	fWiJoOY6p2I6MsqKjNW3BN7RAmX/9RPqvIWPYQNZQNSatF6MLK0ebgrzh372kpjH+U5tTPdKlFS
+	WW6DXN2+9oWVETZQqtmHvvYjM5kjXRNX2NYRlv/bjfuI883977zqpLBKdCiuPr2om92Zapkv6zU
+	/cq6KoVHI64lxgLt0r0gEWSo0xue92QhDZlKL221EtruolI=
+X-Received: by 2002:a17:90b:3b85:b0:366:3517:1aa2 with SMTP id 98e67ed59e1d1-39debdd9c94mr13483292a91.0.1789467074668;
+        Tue, 15 Sep 2026 03:11:14 -0700 (PDT)
+Received: from my-oracle-VirtualBox ([106.192.128.255])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33ba4f06423sm38610336eec.20.2026.09.15.03.11.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2026 01:00:29 -0700 (PDT)
-From: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
-To: jic23@kernel.org,
-	gregkh@linuxfoundation.org,
-	nuno.sa@analog.com,
-	Michael.Hennerich@analog.com
-Cc: dlechner@baylibre.com,
-	andy@kernel.org,
-	linux@analog.com,
-	linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	joshua.crofts1@gmail.com,
-	Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
-Subject: [PATCH v7 3/3] staging: iio: adc: ad7816: Fix DMA safety issues in SPI transfers
-Date: Tue, 15 Sep 2026 10:59:39 +0300
-Message-ID: <20260915075939.18180-4-abdelnasserhussein11@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260915075939.18180-1-abdelnasserhussein11@gmail.com>
-References: <20260915075939.18180-1-abdelnasserhussein11@gmail.com>
+        Tue, 15 Sep 2026 03:11:13 -0700 (PDT)
+From: Manish Shah <mshah3409@gmail.com>
+To: linux-fbdev@vger.kernel.org
+Cc: linux-staging@lists.linux.dev,
+	Manish Shah <mshah3409@gmail.com>
+Subject: [PATCH] staging: fbtft: remove prohibited spaces before closing parentheses
+Date: Tue, 15 Sep 2026 15:40:56 +0530
+Message-ID: <20260915101056.66210-1-mshah3409@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -86,56 +73,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The SPI operations in this driver are not DMA safe:
-1. spi_read() uses a stack-allocated buffer.
-2. spi_write() in ad7816_spi_read() uses a struct member that shares a
-   cacheline with other variables.
-3. spi_write() in ad7816_spi_write() passes a stack parameter by
-   reference.
+Remove space before closing parentheses in define_fbtft_write_reg
+macro invocations to fix checkpatch errors.
 
-Fix these violations by replacing all spi_read() and spi_write() calls
-with spi_write_then_read(). This safely handles DMA by internally
-allocating a bounce buffer for the transfers, avoiding cacheline
-sharing issues without needing dedicated aligned buffers.
-This implicitly corrects the size argument in read to sizeof(buf).
-
-Fixes: 7024425db64a ("staging: iio: adc: new driver for AD7816 devices")
-Signed-off-by: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
+Signed-off-by: Manish Shah <mshah3409@gmail.com>
 ---
- drivers/staging/iio/adc/ad7816.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/fbtft/fbtft-bus.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/iio/adc/ad7816.c b/drivers/staging/iio/adc/ad7816.c
-index c18093ca8a82..f76f0215119a 100644
---- a/drivers/staging/iio/adc/ad7816.c
-+++ b/drivers/staging/iio/adc/ad7816.c
-@@ -74,7 +74,7 @@ static int ad7816_spi_read(struct ad7816_chip_info *chip, u16 *data)
+diff --git a/drivers/staging/fbtft/fbtft-bus.c b/drivers/staging/fbtft/fbtft-bus.c
+index 30e436ff19e4..409770891c54 100644
+--- a/drivers/staging/fbtft/fbtft-bus.c
++++ b/drivers/staging/fbtft/fbtft-bus.c
+@@ -62,9 +62,9 @@ out:									      \
+ }                                                                             \
+ EXPORT_SYMBOL(func);
  
- 	gpiod_set_value(chip->rdwr_pin, 1);
- 	gpiod_set_value(chip->rdwr_pin, 0);
--	ret = spi_write(spi_dev, &chip->channel_id, sizeof(chip->channel_id));
-+	ret = spi_write_then_read(spi_dev, &chip->channel_id, sizeof(chip->channel_id), NULL, 0);
- 	if (ret < 0) {
- 		dev_err(&spi_dev->dev, "SPI channel setting error\n");
- 		return ret;
-@@ -96,7 +96,7 @@ static int ad7816_spi_read(struct ad7816_chip_info *chip, u16 *data)
+-define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8, )
++define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8)
+ define_fbtft_write_reg(fbtft_write_reg16_bus8, __be16, u16, cpu_to_be16)
+-define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16, )
++define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16)
  
- 	gpiod_set_value(chip->rdwr_pin, 0);
- 	gpiod_set_value(chip->rdwr_pin, 1);
--	ret = spi_read(spi_dev, &buf, sizeof(*data));
-+	ret = spi_write_then_read(spi_dev, NULL, 0, &buf, sizeof(buf));
- 	if (ret < 0) {
- 		dev_err(&spi_dev->dev, "SPI data read error\n");
- 		return ret;
-@@ -116,7 +116,7 @@ static int ad7816_spi_write(struct ad7816_chip_info *chip, u8 data)
- 
- 	gpiod_set_value(chip->rdwr_pin, 1);
- 	gpiod_set_value(chip->rdwr_pin, 0);
--	ret = spi_write(spi_dev, &data, sizeof(data));
-+	ret = spi_write_then_read(spi_dev, &data, sizeof(data), NULL, 0);
- 	if (ret < 0)
- 		dev_err(&spi_dev->dev, "SPI oti data write error\n");
- 
+ void fbtft_write_reg8_bus9(struct fbtft_par *par, int len, ...)
+ {
 -- 
-2.54.0
+2.53.0
 
