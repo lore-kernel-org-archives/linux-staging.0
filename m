@@ -1,159 +1,107 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+Received: from mail-oo2-f40.google.com (mail-oo2-f40.google.com [74.125.231.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC13D47124E
-	for <linux-staging@lists.linux.dev>; Tue, 15 Sep 2026 13:47:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789480057; cv=none; b=h6YjDEfwdj8Z1K7HSBoZzYVbWry49nAC7GkUgbFswD2/Glo1C4cIQJp3KXeZPCPms8dgf8CpDzbq8M6XqvbIRr8gIE155nI8sTg6YfZ3w2SU/BEQYmcK0iOjiER5Ivmb55vCfWzbwk+BWJJz1ts29T87dR34KTfYq2w0tWBCYfE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789480057; c=relaxed/simple;
-	bh=av0lgor5Cg046CEuwDXRsvCISYUzls8C5RMRjdAXTEM=;
-	h=From:Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:To:
-	 References:In-Reply-To; b=F6lpkRze3DMDfSyMLtC2SjXc9Xs5lgIjSMKtI8bEJNcQWfVTyFyGbmPOS2r579nkm2IGT5jpDgNgeiDzbUAmY4j+YKzY3LwMHposlR+9OvRCgJu3OkD6UAMC0zuZTqICIuwffnQB9JwKX1wlOtvRig51fKj1Mzpx+IbwcedzeDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=F2aRYEev; arc=none smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3228E47AF5D
+	for <linux-staging@lists.linux.dev>; Tue, 15 Sep 2026 13:51:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.231.168
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789480263; cv=pass; b=S1JqwFOpmP4xtUJLCaP2v5LV0IjV1MCOUEbz8Tnx5s3hi4ZSnUgQKPOrBO5phFBA4zXGOaVGRbXXzOzHcopWqii9fnNR0ste9bAkLkLEZsiTZUVqLf97lPDcqbbEcHlyRTKU5AlED8d//AE/QuEkgJuIsCtOCDLci9SLOCIzp5o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789480263; c=relaxed/simple;
+	bh=4wPcRrMFAq+5dln8/Xz92CdQ5x3DJk3HiLHlwR+yBQg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VQwmE7GC/+dctMXeXmO3LwQBdJSv9LWLpMOgjRPKc51zmrDJ5rdvks7F+G5s7rpx9vqziIpofdxXJacQatez4dmIEbVORAilKN3+UE4+YcpkriGrHqlqRTLT9vatcYHMvZJoAtNeoek+HR22dTTl3CB4SF3utOqmzVUl6pHPpLM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zon9aa7F; arc=pass smtp.client-ip=74.125.231.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="F2aRYEev"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912e4b11so2373245e9.3
-        for <linux-staging@lists.linux.dev>; Tue, 15 Sep 2026 06:47:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zon9aa7F"
+Received: by mail-oo2-f40.google.com with SMTP id 46e09a7af769-805440319deso205148a34.2
+        for <linux-staging@lists.linux.dev>; Tue, 15 Sep 2026 06:51:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789480261; cv=none;
+        d=google.com; s=arc-20260327;
+        b=DS4qbipyFAClYFdPmoFfXX54rm0dUBMKCO9eD0VpZu4lhs57n4X+t6fO0+r8Tqe/dd
+         r+52mQhfJZLo6MOu76buSJB4dTRCh9Q8HTrUwQEFkDOTCesjvC92OfOjcLfafgIwKTPw
+         QBEMqf4h7nMCwGXorkqPRAifIwzPFV1qtFKvVVtSQBKeWhjRW+tph42Lya0QEH3GxmP0
+         4oXb4ODF1x1Sm0PZmfZ/6sWrpxtIcLRyFJKRa37y2Q/gk1DLIahDK4LzsPDDERwGmnDB
+         4oumHDNDXY+8gRVdROR5AmikMffpXudClCcHZGdJ67tSPRF51dh6okB4HhGo3cYluPxE
+         CNOA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=4wPcRrMFAq+5dln8/Xz92CdQ5x3DJk3HiLHlwR+yBQg=;
+        fh=erKKmJhqb7J/8GJEK3XLFRPZTiCRWBiUQqvuIGttT3A=;
+        b=TZPEkz0qykGD+Ie4Gzi4I86OkpD2HcuR2UdLczLG0DY1+3w6fKaI0TYPVbdhfek5mh
+         gQHLWu9ql6K14PiSnFXnptrG1Bmg4VJi8jKbiLIV5+EcGalfCE65Eqca+cFr5KB8LIxq
+         NCYJiuT26y2WdavDxEx8SwQ1vcSUSk6M5PoBKk6/0ayk8ucluCmD4ur054P9XPy2h58l
+         JB3J0U8krfjsqlZumrQT6wJYYpz+2oEvcfqsNjyhQAiCDwJ7N0lzh+IEsO3VpVWjpaOS
+         CBoe1KxpX9KJAeeOzE64rLUbb2nZoQpA2HvQT1kWrlv6ueR59PT4ATibjqp8aNWmcnnd
+         NCng==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1789480054; x=1790084854; darn=lists.linux.dev;
-        h=in-reply-to:references:to:subject:cc:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=LnO/RFtPTLTuh551bJsP9vEYVlo8+tuse5zqKBb/5X4=;
-        b=F2aRYEevT4elaFy9QFAlFJd5LDr9Kf+h2/4bp1czYhOCOEX04SEhmq27OU+LZnrBWl
-         wJizryNU2aI5q645sYeifmkz674f6IgOyfvJLmh5qicfmGLpLfheeALsc2LJC8TbxiJa
-         ZO68GknbQETAKjtvGShLUen+Ufm1WOUmgLyYbEoV1P5L/ekmZdoYOJ3Er92f9UYI9uKO
-         DeBfAopPn/p91XkqOLAzuOW1pP3Q5xs63/l+wUGbjfxuyhJvmLEJDINoVcmL7CTLEAGy
-         cRj3OpjzH0av0+OJlLEkDIi30seAOQrBnkeaiZAPdfdBhtFoe/J4vgi+RlQkZn8p+kLW
-         hHdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789480054; x=1790084854;
-        h=in-reply-to:references:to:subject:cc:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1789480261; x=1790085061; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=LnO/RFtPTLTuh551bJsP9vEYVlo8+tuse5zqKBb/5X4=;
-        b=eW0M4T6xLmDKohPqOiQOqOKEYxHkJ7Z2nCDDBY2IgNh5eMBZ/tQC3A1vctKKUM1Q+R
-         pSuKEMNxDmRTxFdzvqvOcrWL8jVzhWZZgJQpqxCU7+Nl5PZvEOtx8f0t7PimeIs6osqR
-         O3a/m4vqcyUETL0j+8LkaxUz9kfI48sk3fMQn95oYoP1SfAJYhWemlk38Y6Uy38ZuXIc
-         QfTve0cKZiwXD3A75q6xuPWQmi23ybACSPJJNmBxXoK44uzcoCwqQs7uo71+46plbFnV
-         NahbotimWrB82tnqri7ko8P8BCgZUoLOhn+4mqIlTcr7L067GgdEO0U7UP6Fr921nsfz
-         DYVA==
-X-Forwarded-Encrypted: i=1; AKwUvBz787+InbManCRXoIV8aKJCI796xKEh22y3unxHJ6n/ULxLTd7WMRKUXOuJwKQA6DYr2wm4whyr99GswBFA@lists.linux.dev
-X-Gm-Message-State: AFuF++kvV+KnH3KQQjEPhuG/Dlf1EzHs5sNxuuLJGfPAwUnoG8GCMkNI
-	8z1nFifQ3nqPq62SwkPZRuJ2tYxlGJZuM4cpu0/bXBZX6faAPkwhcMWxjlafF6wwPlQ=
-X-Gm-Gg: AYBFou13a4S2no/XpOBQ8zpa29qXnTXKWqJHRsAiHvK50HgWRGSEfqJJdrji07MmpUh
-	xMlXtQ2LGtn5IUDI6CJiy4uVLDEirT27nniNJ/qt17KJgxymACfYm9XX+ILrBidZny4x9u8HrtJ
-	8Mtr9mxsNJaGQIDbxUl3J9Em1fv6leGsYZ5CSB286LWNy/UxXslSa73IulZv+c90hWqEJOUmxdw
-	umW1f1KzlsKSOvynJYxdnB3oICkSbiknVUzcffEL4lov54BuC6CtTw+IGfqQrk9Gpy6uCoS4kWY
-	uX2c1BS/58zAV3PJizhy4KtDuOe/r0Fwr9i/0+3POiSAOjPivTZS89q5w/TJ/tb1a8pw20fgfQT
-	pixGHv4fWRcfdbi2PB7bc8oyEk1bKl7wnSC+9vQF2RjXMBn+yO2lasvqxby4Ojz3gjBTSyvflwN
-	yPwKW42xEf3p40wQUgbgVn3HZDYYYrcOHmWaLkcGft1j1t0/7tdv97T3k10QhrDsw1TndVlDNbL
-	bhDi7Hf8w==
-X-Received: by 2002:a05:600c:b85:b0:49e:6bce:b0f9 with SMTP id 5b1f17b1804b1-49e8228f49fmr15817015e9.16.1789480053858;
-        Tue, 15 Sep 2026 06:47:33 -0700 (PDT)
-Received: from localhost ([2a01:11:8f11:bb70:17d2:d825:e2b8:2e8f])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e7ef6bc50sm67382035e9.3.2026.09.15.06.47.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2026 06:47:32 -0700 (PDT)
-From: Rui Miguel Silva <rui.silva@linaro.org>
-X-Google-Original-From: "Rui Miguel Silva" <rui.silva@linaro.com>
+        bh=4wPcRrMFAq+5dln8/Xz92CdQ5x3DJk3HiLHlwR+yBQg=;
+        b=Zon9aa7FeYdacbH5BKxXY7/RUrKcc8z51KpLOZiGlU4O2a7kYH0HQiiUMXIJoHY0IT
+         Fgsdq/mcQc60fW9e1Hp/5Ofy6JkghQ0ZJ3XmFK758u/K0KyU/iWme9mLL6mIQrEgVPPR
+         fz9GsusB9o8yVZJCWta4sD7yPGHL0qb13pUopGGOJ1tLl/RSnn4YT6Pw78ewzFm85tfs
+         BDeRUiAjCTcRGtQs+/BIFDzqHXLjxSjuMRH2koUk2RkeeWQOvy0c6oGp2bw4OM1eMLPr
+         g5BKUiwenLrfq9a1sTrH8GbVGcu6JPRcFU7K9MsL5Hi+rDQYpUIW9EWIPtBe+CdJQUNt
+         Yo1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789480261; x=1790085061;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=4wPcRrMFAq+5dln8/Xz92CdQ5x3DJk3HiLHlwR+yBQg=;
+        b=T1jqp3IS1wrkBSMrTTb8SWMuQxGwq2NW60hdd8XCRIKmu9VlFeuXzunNAYd5mvXaMy
+         Ppci+Ors47Sza5W7VizBDDEd6Q6UaKRLKCQU06w5CulLQ1kjkutlJ3bdflUmFcYH48el
+         HRX8pmm4VeKHVZ+Yx/JYaRnsyebUreiP++XoGS4RP18FA7K5VXC93G70+SVvzKfg9z5i
+         scnmk+jLEli+GXrsqvcD+d74GfKOXCVjRkmksyjkSMyY5qnFas3D4KYLlFaZ3uzAFvAL
+         /vSXYyh1OZrzH3H3HnQ5+CdoNVs8zAcVlD0HK5ggMNQZCGyf+Us2SGh5lG2m5YC4P0M4
+         edag==
+X-Forwarded-Encrypted: i=1; AKwUvBxFg+Zd0tqkJr2lhLKyNgALPK/HXex9zcslX7nXvFJ2jOyndWUkjn9U5qF1wlC3vNtDc+8vtcS1S5OxtuDZ@lists.linux.dev
+X-Gm-Message-State: AFuF++nlpj34xMdRKVRMH8+hac2h5J6c4WSKTwWMTtC0jPUAf7ej94ZO
+	LkF/eknHrmELn/uF5lqKbZLaQRTuZ/eUlC5o5isuwiFNjLjq1nkxsWDRVuWQdFVr2ky8qTUkPCD
+	+trg9E8MQZTb9NXNZ2d369YbrTHUUjHE=
+X-Gm-Gg: AYBFou2GoTcWuQIck+yNA+qwPpdSKgWAVYmQb0hMlq55DM8mcjbMJSc9E063MfMGX93
+	02tKMVcuMFpx8DxHDz++wwbcr8rDzT0JOefbBlYF2pS2ldZwbjHtV/Pzf88qqydHi4Z4Q6+5eY2
+	NwNT8KG/+yBhk2eZWQIG1AR6dXURBVtM81fj3VrtMS01OSLP9xxsuqcna1NWHPG87yiNbOieGC9
+	4sLyvrTZhtCc7NQY66NWMfH563yMJtKiKUQSBhGR5Kxtfpf+Tl96/uR5KTgr/SgRriDrdjSfeNk
+	tVNC9fF7YXrI1yreWFsKgmf2uF6FHdnLRbkkik9a2PAr4SgofNKr83M=
+X-Received: by 2002:a05:6820:4df2:b0:6be:dc4:13ea with SMTP id
+ 006d021491bc7-6c739c74aa0mr737467eaf.50.1789480260532; Tue, 15 Sep 2026
+ 06:51:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 15 Sep 2026 14:47:31 +0100
-Message-Id: <DLFXQIQX6Y6W.13CBS3NB0BTI4@linaro.com>
-Cc: "Rui Miguel Silva" <rmfrfs@gmail.com>, "Johan Hovold"
- <johan@kernel.org>, "Alex Elder" <elder@kernel.org>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, <greybus-dev@lists.linaro.org>,
- <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/2] staging: greybus: sdio: Convert to
- devm_mmc_alloc_host()
-To: "Ulf Hansson" <ulf.hansson@oss.qualcomm.com>,
- <linux-mmc@vger.kernel.org>, "Ulf Hansson" <ulfh@kernel.org>
-References: <20260915132052.273212-1-ulf.hansson@oss.qualcomm.com>
- <20260915132052.273212-2-ulf.hansson@oss.qualcomm.com>
-In-Reply-To: <20260915132052.273212-2-ulf.hansson@oss.qualcomm.com>
+MIME-Version: 1.0
+References: <20260915075939.18180-1-abdelnasserhussein11@gmail.com>
+ <20260915075939.18180-3-abdelnasserhussein11@gmail.com> <20260915151634.0000787e@gmail.com>
+In-Reply-To: <20260915151634.0000787e@gmail.com>
+From: nasser <abdelnasserhussein11@gmail.com>
+Date: Tue, 15 Sep 2026 16:50:46 +0300
+X-Gm-Features: AcwNN1VOemZ51WsQAP6jqp3alJcLgnYJqt7-z-lPu_slORPzqQPRWDZ6MAZ2e5Y
+Message-ID: <CANpqX3ZkzU=+qmd4RRwwBbX2UvJOzeLhRi-hfXRR=FyeH6yD5A@mail.gmail.com>
+Subject: Re: [PATCH v7 2/3] staging: iio: adc: ad7816: Serialize SPI operations
+To: Joshua Crofts <joshua.crofts1@gmail.com>
+Cc: jic23@kernel.org, gregkh@linuxfoundation.org, nuno.sa@analog.com, 
+	Michael.Hennerich@analog.com, dlechner@baylibre.com, andy@kernel.org, 
+	linux@analog.com, linux-iio@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hey Ulf,
-Thanks for the patch.
+hi Joshua,
 
-On Tue Sep 15, 2026 at 2:20 PM WEST, Ulf Hansson wrote:
+Thanks for the review and the great catch!
+I completely agree that securing the sysfs store functions against
+concurrent access is a logical next step.
+ I will prepare a separate follow-up patch
 
-> From: Ulf Hansson <ulfh@kernel.org>
->
-> Simplify the code by converting from mmc_alloc_host() to the resource
-> managed devm_mmc_alloc_host().
->
-> Signed-off-by: Ulf Hansson <ulfh@kernel.org>
-
-LGTM,
-
-Acked-by: Rui Miguel Silva <rui.silva@linaro.org>
-
-Cheers,
-    Rui
-> ---
->  drivers/staging/greybus/sdio.c | 11 +++--------
->  1 file changed, 3 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/staging/greybus/sdio.c b/drivers/staging/greybus/sdi=
-o.c
-> index 3952f3d225db..642d785fe918 100644
-> --- a/drivers/staging/greybus/sdio.c
-> +++ b/drivers/staging/greybus/sdio.c
-> @@ -767,17 +767,15 @@ static int gb_sdio_probe(struct gbphy_device *gbphy=
-_dev,
->  	struct gb_sdio_host *host;
->  	int ret =3D 0;
-> =20
-> -	mmc =3D mmc_alloc_host(sizeof(*host), &gbphy_dev->dev);
-> +	mmc =3D devm_mmc_alloc_host(&gbphy_dev->dev, sizeof(*host));
->  	if (!mmc)
->  		return -ENOMEM;
-> =20
->  	connection =3D gb_connection_create(gbphy_dev->bundle,
->  					  le16_to_cpu(gbphy_dev->cport_desc->id),
->  					  gb_sdio_request_handler);
-> -	if (IS_ERR(connection)) {
-> -		ret =3D PTR_ERR(connection);
-> -		goto exit_mmc_free;
-> -	}
-> +	if (IS_ERR(connection))
-> +		return PTR_ERR(connection);
-> =20
->  	host =3D mmc_priv(mmc);
->  	host->mmc =3D mmc;
-> @@ -835,8 +833,6 @@ static int gb_sdio_probe(struct gbphy_device *gbphy_d=
-ev,
->  	gb_connection_disable(connection);
->  exit_connection_destroy:
->  	gb_connection_destroy(connection);
-> -exit_mmc_free:
-> -	mmc_free_host(mmc);
-> =20
->  	return ret;
->  }
-> @@ -863,7 +859,6 @@ static void gb_sdio_remove(struct gbphy_device *gbphy=
-_dev)
->  	mmc_remove_host(mmc);
->  	gb_connection_disable(connection);
->  	gb_connection_destroy(connection);
-> -	mmc_free_host(mmc);
->  }
-> =20
->  static const struct gbphy_device_id gb_sdio_id_table[] =3D {
-> --=20
-> 2.43.0
-
-
-
+Best regards,
+Abdelnasser
