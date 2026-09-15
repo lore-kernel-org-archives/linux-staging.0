@@ -1,124 +1,158 @@
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 916082D77F7
-	for <linux-staging@lists.linux.dev>; Tue, 15 Sep 2026 15:38:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5095E3A8753
+	for <linux-staging@lists.linux.dev>; Tue, 15 Sep 2026 15:57:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789486728; cv=none; b=WGtrnsRG1wCTbDbdbH1Fyc6vRWDfl6t6AzHX4DJSpEg7OJh8ELn/6v5N5JVHrhPOfvHy5F4YezNsjkrN8Ljar3RIdjMWlB1f03H/Swcqqc8SBggfAZZu5Oz88/tPNC/CAnM951u2PPnLFf/Srgy4FeyyIS2VWqZG8Z0LsukR/Hk=
+	t=1789487821; cv=none; b=mFNLlkOn8nJR8PFLyZ53CGdwRgBi4JayM+60bCtd4HhbmYio7UWmDWpkl4rGTD8hfZSjrpP9qdVQ0GaqyPl62JaIn1eQbTLfe2ORYz6oGnK231vvtzgTOgl/Woo+NUL4c3e0AzZ7k8zaAEx0QV74tyAkeUndgPOfWG8u/UICtwI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789486728; c=relaxed/simple;
-	bh=+uXmbD88BiEUIkLs0C20M88JsOLHQcJbIINYHao3O00=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dRtNimgFW+yuEVPZJYQlVNI87pEDBYLsUYdrD9KvunHsE+Y/5pG5M+mMYc99Kvg9NY9QYEodyKUjnoKKhEGqZzrl75W5Dzlm3TmVNwWBddgioRxEjKE2/T02UIg73T+Q/QSYaZUUq0xm947mWki+aG8d1UpL4kt94U2kKedFJh4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bbQGdUit; arc=none smtp.client-ip=74.125.225.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789487821; c=relaxed/simple;
+	bh=QlBta+H5mNjq+dbHXbi+7XyTVzhQ/G0m8qgfcGULLxU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kHk8FbYAH3vami9mLtTXVfzpg/ozveaZxo/XxACp+Bg583HghI6h56sg3jNzKnR6YqsQljuqWAFuoHgOLKlMAXPLcuiRmOLC0GmgTxm1NiFIduOiGLuPX+MkLeyDdg+xavnFtsTmnbZyCNG/hmjHmkIUKFLXwWdD29Js+vRaU5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=SQ4NvnOG; arc=none smtp.client-ip=74.125.227.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bbQGdUit"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e83a388f8so719785e9.1
-        for <linux-staging@lists.linux.dev>; Tue, 15 Sep 2026 08:38:46 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="SQ4NvnOG"
+Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-398c066106cso2974756a91.1
+        for <linux-staging@lists.linux.dev>; Tue, 15 Sep 2026 08:57:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789486725; x=1790091525; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=0NDrDdvnRkf8oxzdqkBmS7w/O32Fpy9g/+yKR1PGh7M=;
-        b=bbQGdUite2p7wGB5znpf+oyCLv0xdyL8bspRtwRRsBr1G2PAb4xsSr875+wGNvxus7
-         2H+lam5TBOVMA/Zjkr4XFAOXA8h82VPiOnd+QnRbOZwwb8DCv7w3v4piV1MuSruSxA25
-         wjrOrp3PwS3tUPyqDaP+tHvXsIJIc6pBqnp1jvLjNkw0dTCD4uC0O2mTgNo1CMiv6ySc
-         JjEkfiFG5CjQ9Tkz9mbGE8lCf2yiPfzfRWjVAxNju8IQ4CK5CSRlSOVjpmjAGNB0ej8s
-         FDfs8308Ix2RXAp1sx8O2FOdaVTEuDINyrc5gdtowlz58OUZBGd1EOgYOrmC+WRm+0M9
-         qC4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789486725; x=1790091525;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=chromium.org; s=google; t=1789487819; x=1790092619; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=0NDrDdvnRkf8oxzdqkBmS7w/O32Fpy9g/+yKR1PGh7M=;
-        b=cGVeXpc/6AtjpTbWaxehZ3vDoHez00DsbqU2ERNOCkWwesuDQ5QwiGAf8pHhtmiOh9
-         7CXVaZGO8/GCjQdUfdpZm+P72dZ8Vvzy1UUuQNKPHvhjSItCEWlYg9l/GtlxeqFjz7oP
-         8M//Nr6/6l5b2g8eohZGwiAZnxOC+yoK03ajW5943qMSqivwUGJjmVZYseuJOYDn2BiX
-         461ft+qzsxMcxKDQFYWlpwrGgAStrd2RsxzSJbx2DwLBRqXXGd0C97Yi2/yekenQIHoM
-         +IXurGFJXBy5144Xm+cbKB25LeO99tNg+yfvoTxdMA4SOJbl+ZbyvOda/ZrdtyigjDzH
-         JZJg==
-X-Forwarded-Encrypted: i=1; AKwUvBz1+oiUlBWiSfH7QE25ZZU9Ou1lAPfw2cIzi9ir0q9Tx9l4OawaCPrrEAjkXrIa5c4V5T922bOAPlKIIBCn@lists.linux.dev
-X-Gm-Message-State: AFuF++kTUYRFawpxgyaaHKxdEUNmxSa3lOnOc0BuDUsQfWDx/jvkNrKd
-	2ysQwPYAk22znd6gtOnYBMpayvE2lZ7V9HG/IvYhyrs5jBJqCwBTJfc+pdVuG5q8iDCN1A==
-X-Gm-Gg: AYBFou2rYkC0JEMGXs0CwUrItZ5gDdw9MF8eks++XA3595NLepqDY0mBrdxzz4nvT2l
-	UhFQ2BSWBQhv8WAwUD3aAfxd55ETxG0uM36puJmsSaYJpzxvN12X9947PGHnB5J+j6Y9I+1p99c
-	jDNtfIQjEt1SKFrPo5+9cLyEz8qBJTVv2/Z7cwzccgujo6xHuSsKT8UASt9Y4OzM4k/pz34eCEJ
-	jjAT/FkSTj/opX4b7g0W6b2ddspoD+h80h+MAKKa9dr8mNGFkLJ8jxVnYKxIuNXw+Ep2HwfVJkC
-	oPMAPhDGzqCuaGZiQ8i4kbCF0z7EL8EepbkE5/P7nXK0VQEVz6f7+E/G9Ikq7K0maZky8/mWP60
-	SGcFbVfrW/U3fGTElFxTyLRrC53T+AltzYTGb/Gl+h6KhTSME/fcKIEVFhbg2O0JESKoDtdgX/a
-	CRvmcutcQLvLgrntmd3zhLoC/gZcdrfTCkaxDXJXdrbY2idlL1VZuHsus/UXHHHS8PPeq+oPa3f
-	Htaog==
-X-Received: by 2002:a05:600c:198f:b0:499:b65e:49c9 with SMTP id 5b1f17b1804b1-49e7a66b2c5mr160200285e9.10.1789486724578;
-        Tue, 15 Sep 2026 08:38:44 -0700 (PDT)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e83ac3c52sm4128355e9.13.2026.09.15.08.38.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2026 08:38:43 -0700 (PDT)
-Date: Tue, 15 Sep 2026 18:38:40 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Punnay Sharma <punnaysharma805@gmail.com>
-Cc: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] media: atomisp: ov2722: Return after failed pad
- initialization
-Message-ID: <aqlmgA3HNfxbvjXF@stanley.mountain>
-References: <20260915140828.25537-1-punnaysharma805@gmail.com>
+        bh=SNucMVkd678hHS4QioCaDYebjQk2vtrspVRirogiq3E=;
+        b=SQ4NvnOGZN48/tkV9NQjMx6onMHFcDwqWyFjOcPjOLQ/3avV/k8RuDSDpNPd0qTL0W
+         vuKPdLgk36taJXvymXeaUp2s25Kae03J1urgbm2ZckP+LRMGzds43yXAbNst6nxh1s/0
+         nKnrYLbMl68LrudmkqJfPmuKOQiOrgR/z2rb0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789487819; x=1790092619;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=SNucMVkd678hHS4QioCaDYebjQk2vtrspVRirogiq3E=;
+        b=CEsWS34buOj2rZIh9v2xcdy6DJgC7YxCrYR+E21Fz15dOiLW/bOnLvskHViglklb0F
+         Axe756g/i1Ewq/SvTD3HcjGeUzlCYgfiiftPOuTP1L/Efi6t7EYzjrVlPdUVGD551yhK
+         dMtwg+Do4e9wtHN17a7oAqmgRjoRJWrY13ChkuzeDNam2EmG/a+YfoL/q6USC0lmrY7y
+         r+0k3QH6kmaOnqXsXPNrVXAghq2yhfF5TN+vgWcL0OdAiBAPFMK3hI7zKS78yKipSfzy
+         1oRp29BQ8zda0xO6qMdkIFrWUxrd1V6uDjXOhS0GEGcR/a1ZEjCwtLIwbhuNbrLP9U4K
+         CQfQ==
+X-Forwarded-Encrypted: i=1; AKwUvBykga3oLKhfbZiO9Tg6PL/AFgXOgFehWa52nQlRacs1JqpjnIMP0iRuyisuR++WxJyXda184thrw/Xtzuop@lists.linux.dev
+X-Gm-Message-State: AFuF++lRvDf1SMBjHlJ50AHtRcjzsq3IfnHQdMcVy5hkTlXnf658SdlF
+	ToyPIiHrOcuN+NoPupc4wbTF4BfNPZdZST5BbN+bWmrhUvmvoGPW6y6uot/iEZsHGZeTsjf6y7M
+	9pL0=
+X-Gm-Gg: AYBFou0Dep6qw1iwPGY7ddbidmGH4/+heEW+WD5zbkNNWa0UwwGOmeEw19utXV3lm97
+	SvRLfs/BmIPrQaFipQdpBisQ4/LjmRbJStmTlTZzJDHtguyiHcw8+sF9CQXSKmPbIjIvw+t8QKI
+	wFTBKyYu84vvSp2C7Pl2gfGpbCR8X80KfzV8X67e82S+ko09SE3wag0kJ0ivZeuagNAAGEl4C6R
+	3YpfSig5yr5QH2DE8uCYrytU005HS2UMLSURHxEpC50hmM1nkx08MUpIQN7BgU76BRx62Cb34fM
+	2EOeJrBPiKRaA7AxyEGbnjBOLBMi8Ma6KFPsNFYv9d8Va6OY0IhOh8ipgXc3oVmTwwysKsEmb5n
+	jNWFuL2kwnuVGyRGExjm/grKT4tqyJi/z+ylaGCNxD+j71lIkPv26uN0yr7N9RuRnHD1P8lfzys
+	jH/4ssxu2/GSlI1Z/GxmeBm9X7Uk4fI5jgP9gdUA/xD0jN3kLvhrAso/I0DRp/AjeGAD0N8KxVb
+	75t9udWNA6mbb9909671ujdlH5tVGVEO7gONCdvuj+5X0Y=
+X-Received: by 2002:a17:90a:dfcb:b0:398:ba56:b926 with SMTP id 98e67ed59e1d1-39dec142834mr18152556a91.25.1789487819551;
+        Tue, 15 Sep 2026 08:56:59 -0700 (PDT)
+Received: from mail-pz2-f43.google.com (mail-pz2-f43.google.com. [74.125.228.43])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39dfbac5478sm2362462a91.2.2026.09.15.08.56.58
+        for <linux-staging@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 15 Sep 2026 08:56:59 -0700 (PDT)
+Received: by mail-pz2-f43.google.com with SMTP id d2e1a72fcca58-86b90133ae8so2726794b3a.1
+        for <linux-staging@lists.linux.dev>; Tue, 15 Sep 2026 08:56:58 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvByderUpYK9+ENGsC81aT5NcBDfECE+l2YWdNaA/KSx05/cl6IiA/9zZq4YevvVlTS0HiR8JfvVRa9uoboiJ@lists.linux.dev
+X-Received: by 2002:a05:6a21:3315:b0:3cc:3d08:da2b with SMTP id
+ adf61e73a8af0-3db405ca519mr21103752637.15.1789487816474; Tue, 15 Sep 2026
+ 08:56:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260915140828.25537-1-punnaysharma805@gmail.com>
+References: <20260831-gmsl2-3_serdes-v16-0-4fa6e08bb514@analog.com>
+ <apqGlTiybdvQX3Ao@kekkonen.localdomain> <eff6fe78-cc4b-4192-93ed-53a738fc3c3a@gmail.com>
+ <aqU5QFGmYlCtbdiE@kekkonen.localdomain> <CANiDSCv=cwm=aHLfO_ccPfc-XyK3gS8Y+8DZpbb3gcXX0n8mqQ@mail.gmail.com>
+ <aqfyYSagcejWb4xD@stanley.mountain>
+In-Reply-To: <aqfyYSagcejWb4xD@stanley.mountain>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Tue, 15 Sep 2026 17:56:43 +0200
+X-Gmail-Original-Message-ID: <CANiDSCtEmAZippX45kaxjWAHs+cd+vpFFtxOnnz00nmVnkgqzQ@mail.gmail.com>
+X-Gm-Features: AcwNN1VOeS6uL0_wTY-nR6d_j0OJAaYWMrSrW2geaFCqxnwzMq5M1mnIaCQWjMI
+Message-ID: <CANiDSCtEmAZippX45kaxjWAHs+cd+vpFFtxOnnz00nmVnkgqzQ@mail.gmail.com>
+Subject: Re: [PATCH v16 00/22] media: i2c: add Maxim GMSL2/3 serializer and
+ deserializer drivers
+To: Dan Carpenter <error27@gmail.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, Ceclan Dumitru <mitrutzceclan@gmail.com>, 
+	dumitru.ceclan@analog.com, 
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Julien Massot <julien.massot@collabora.com>, Rob Herring <robh@kernel.org>, 
+	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-gpio@vger.kernel.org, 
+	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+	Martin Hecht <Martin.Hecht@avnet.eu>, Andrian Suciu <Adrian.Suciu@analog.com>, 
+	Cosmin Tanislav <demonsingur@gmail.com>, Vivekananda Dayananda <vivekana@amd.com>, Cory Keitz <ckeitz@amazon.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Sep 15, 2026 at 07:38:28PM +0530, Punnay Sharma wrote:
-> If media_entity_pads_init() fails, ov2722_probe() calls
-> ov2722_remove(), which frees the device structure. The probe then
-> continues into atomisp_register_i2c_module() with a pointer to the
-> freed subdevice, causing a use-after-free.
-> 
-> Return the original error immediately after cleanup to prevent
-> registration from accessing the freed device.
-> 
-> Signed-off-by: Punnay Sharma <punnaysharma805@gmail.com>
+Hi Dan, Hi Sakari
 
-This needs a Fixes tag.
+On Mon, 14 Sept 2026 at 15:11, Dan Carpenter <error27@gmail.com> wrote:
+>
+> On Mon, Sep 14, 2026 at 02:10:10PM +0200, Ricardo Ribalda wrote:
+> > Hi Sakari
+> >
+> > On Sat, 12 Sept 2026 at 13:36, Sakari Ailus
+> > <sakari.ailus@linux.intel.com> wrote:
+> > >
+> > > Hi Dumitru, Dan, Ricardo,
+> > >
+> > > On Tue, Sep 08, 2026 at 01:35:05PM +0300, Ceclan Dumitru wrote:
+> > > > > Can you check this
+> > > > > <URL:https://linux-media.pages.freedesktop.org/-/users/sailus/-/jobs/109521830/artifacts/junit/test-smatch.log.txt>
+> > > > > please? If there's a single patch that needs to be modified, I can squash a
+> > > > > patch into that, otherwise v17 it is.
+> > > > >
+> > > >
+> > > > These are the same warns reported by Niklas in V13. Dan fixed them in
+> > > > smatch in devel branch but fix is not in master. Testing with smatch on
+> > > > that branch yields no warnings.
+> > >
+> > > Dan: any plans to merge these things to master some time soon? Or:
+> > >
+> > > Ricardo: could we use devel branch of smatch for some time?
+> >
+> > Do you know what patch fixes it? If it is easy to cherry pick I can
+> > add it to our list of smatch patches
+> > https://gitlab.freedesktop.org/linux-media/media-ci/-/tree/main/third_party?ref_type=heads
+> >
+>
+> Commit d12183645a31 ("precedence: silence some false positives")
+>
+> Sorry, I felt like I was close to merging devel but then I started
+> another major surgery to the core and got stuck.
 
-> ---
->  drivers/staging/media/atomisp/i2c/atomisp-ov2722.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> index 2c41c496daa6..0748247ca42c 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-> @@ -979,8 +979,10 @@ static int ov2722_probe(struct i2c_client *client)
->  	dev->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
->  
->  	ret = media_entity_pads_init(&dev->sd.entity, 1, &dev->pad);
-> -	if (ret)
-> +	if (ret) {
->  		ov2722_remove(client);
-> +		return ret;
-> +	}
->  
->  	return atomisp_register_i2c_module(&dev->sd, ovpdev);
+Thanks for the pointer. I have added the patch to media-ci
+https://gitlab.freedesktop.org/linux-media/media-ci/-/merge_requests/351
 
-The bug you are describing is real and your patch fixes it, but
-this isn't a complete fix.  For example, there is no cleanup if
-atomisp_register_i2c_module() fails.
+Now that I have your attention ... :P
 
-regards,
-dan carpenter
+May I ask you to look int
+https://lore.kernel.org/all/20260914-unqual-v2-0-60a1407a0cd4@chromium.org/
+in case you have missed it?
+
+Thanks a lot!
+
+
+>
+> regards,
+> dan carpenter
+>
+>
+
+
+-- 
+Ricardo Ribalda
