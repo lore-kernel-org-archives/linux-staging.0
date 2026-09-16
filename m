@@ -1,118 +1,198 @@
-Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 714134A0920
-	for <linux-staging@lists.linux.dev>; Wed, 16 Sep 2026 09:02:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789549332; cv=none; b=mOKsK9ChD6rnsvasSHR0t7HdMdusK/5830S9K4ryfeUVqeF+4lohh5GRWaGKFkKY9mpODmNfov+7KU69wNd5mKfuCajhiRvnoJjug1ntizG/bt0GEH8EHAnEhS/iUC+LjsquLmbhb6opsTDr4Ens/NKe9Uerg5TffjMh+QYb8fE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789549332; c=relaxed/simple;
-	bh=j5sbj2aiiq+G7EZlSbj67WaGpilF88mvU2dc4Sb1Ous=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GMQQQKdbn41ONuzxC0vjQnMVYj+Zqok5Mn71k3J8Ai8g93f/FQXT43VFWU0VpHFx41NzW3ZXqt3E9ZkNhXM3H8e/JcVmD4WfGTvDizm/kVtlK0mAUlQVMD/uvPZWfIUKxqfO4C/gSuybfCIHRzZA/ep9ladDlcTtez0852geZI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iW6itGbk; arc=none smtp.client-ip=74.125.225.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F9F249DBBA
+	for <linux-staging@lists.linux.dev>; Wed, 16 Sep 2026 09:36:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=205.220.168.131
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789551417; cv=pass; b=bMZO/b6ofIuBFp+GnBKbMELm8jiTRofFiz6lNCFOsZGEbdK3AWRo4KTBD6ju+XFYGtIa4mkz4EHuBFmCdHxs+2FqtzCxYYEjQJGHBDiM2Gld09ihUv1cJtNc4zQG8tUESV5+9lirvNK5KrLQAPFlmbv0i3blmhhhVcq6jM4cTAs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789551417; c=relaxed/simple;
+	bh=c4DGMrBsMajbdwdD2OhI60qkY8BD6VCk+Kt6O56KwVg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=irQnyPgs1Vyd29iKVmpITy23FmrndhwiBKyUD3XU81KBRC1VZbop70W2pta0fMwFsdY10OqrP+SHhwcpMUdTLh5qm4mOHv3sWzSuXI6VEhZebGC9v105nahJNnSYxrOVKMgvv7/OqLP3dSLZF4Tv3Kx8N7FCuE1UkU9KPNlRYF0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=T5b7xWUy; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=As7Y5FB4; arc=pass smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iW6itGbk"
-Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-485ac898fa4so406942f8f.0
-        for <linux-staging@lists.linux.dev>; Wed, 16 Sep 2026 02:02:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="T5b7xWUy";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="As7Y5FB4"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68G92sL41552927
+	for <linux-staging@lists.linux.dev>; Wed, 16 Sep 2026 09:36:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	c4DGMrBsMajbdwdD2OhI60qkY8BD6VCk+Kt6O56KwVg=; b=T5b7xWUyo3gy4Mx3
+	20mskpuJTgh7bxXdtlpKH51GqGVtfIjbL2kmUuHDlO0/r2MIShKC4HSc2oNWzVvq
+	YBHrhSJ7opl7EvI3AqgwPZMM5eFcY9xL/ioamRPTxFIoP1pt50KDzIG4xaM3H0Kk
+	sbd7If46Re8jAC7MEer5wfJkYyCgoBSygZdwXyQunmM3W5uI0oG9mgWNuEI8OVnN
+	0+m2W04sMDI5vG7dMHBPQ1ZvBpUIX1lR2zAaXZmWVIVdJvUyJsdOh9KVGw92rQDh
+	X4prYTP/uOmFbD8xg7RZjryF5cgIMV3psY9wdCA1Vl0fd2wpAxdDPL4ZxvXFsPzV
+	ZV4vuQ==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gq9n63wd3-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-staging@lists.linux.dev>; Wed, 16 Sep 2026 09:36:37 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2cc73f47bdcso72409165ad.3
+        for <linux-staging@lists.linux.dev>; Wed, 16 Sep 2026 02:36:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789551397; cv=none;
+        d=google.com; s=arc-20260327;
+        b=sw1sFpo6V/vGsHlL/Lbzqv+hePdXlpTyrehIFr2lAnSJwZgehCxrPlWPBynDz0LD9O
+         yn2dPwpXrXlxV4yKfUOhxn3hq3wPapZUfQJ2747E9nFdTJOqpVx/gRiNvBszu7bpe72p
+         Ex+b1xLMty8WU/51BYnHmL4oQwvnxA+tKTNtgWpIcv1fg0yKpA+TPbhZiA0rdNDXITzr
+         GjLXU/8+spOOVI/9pxvFnmrk0+Ed4Pcl/ymlaCmWuf7uXqx6GpKEmEpNWrJk/T2P4Xxy
+         Dh5Rfg6eKZ7fqDBC9yl5LNFgAHpvY5ifAOneWpsRjIh55zyR3I3hmh7sVW9C3Si7fBp5
+         EbQQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=c4DGMrBsMajbdwdD2OhI60qkY8BD6VCk+Kt6O56KwVg=;
+        fh=+VKFuSlWIjCoc3CKV65VpyX453eWdEmDjCvs2cPR8eE=;
+        b=pJtU+psd1eZ2pqEWQwtNREtfp+eAj38sBoLaPG0eeLgUXmrD7IClj37vRn8DQEDfht
+         Oz9N/mKNhtHSbuYAtJQJAvqnb75NhrGWMzbwU3MZoToysY9pH11QRzRRN2WjQf4QU9iP
+         b1kMILO/z9VN/73wCuVDBH7arJlZB+kCRoFLsJqaEclv9+gElgjgpfN+4+187CRBVdXP
+         91YtD1oggeoa4h4G5RxDTQCM7lJYft6MV3HIWAXpu4M6oDGU5ERJ0cUQ6cEvrvsCPD8l
+         aIl+H1lYBRXFEB3h8DkXqXVh22KJse8ETuj86Kpb86TffffC65pP83O1hVLfxz691f5p
+         YYmQ==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789549323; x=1790154123; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=mLpJwVn/HuZGfr8ir4XRFNtWV419k47czEV7zvOmQAU=;
-        b=iW6itGbkmq5Hvos1p4iLGxbWKB/jjkgvOjO21QQRPuoow27vTLv+dA7Hd9FGJtIX7M
-         tHL/0gDTH6tNmHoeD0lmG+FGcj1uMkO5Q/MzPXm4haFHZ1lrTbIymIQSRY/02XPV5i7Y
-         OqC+MlJzyIyv09xdfNL2PxpjJaf47F9//Jiw6Z/bEE/xYVAxQZgrg00Qw7gqUkdaakg5
-         zqYJhjIVQqdAjn2/A9n2o6QFie8ersY9isaVwugcqgnfU+6+yvQAJRjNJOFhQ/a8tv92
-         yqlZ0rCBXBWiS3AdmmWuBcy4EGLM+3/mCmR0OOvU8ATJKswwkFaP5jmKEtImGJ7U3yg4
-         xMlg==
+        d=oss.qualcomm.com; s=google; t=1789551397; x=1790156197; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=c4DGMrBsMajbdwdD2OhI60qkY8BD6VCk+Kt6O56KwVg=;
+        b=As7Y5FB40NhMBW3ioF6Gt3kEdK00FE4c0+lYPf6Vhv90EQwqjXyBM/VHmdv3S7l2Rm
+         jDNkj17m3DIhuqCQJLdU8+GXhFkz2NkvWToBvx6VdzBP1/ha32RUPvmUn6P6k41+ex9Q
+         0UovSZ/GvC8fduge8Qp85XCPG8oVijwfmk3t8Nryx46xFui+2pTYIshCZZf+BOZXJoIo
+         jLi2sCQPlYQZiuqe9GX8ae85LqgTXkrjC2NZQeIaRqRhKimjqXx03Mc0WwoYTUejPy8r
+         6/LKrAd3uMbQdWbz9Lsu5J4XBxreiiHj4DTYgQvRhjNVNkOlsvVqYkH2vRu8NSC5rJ1s
+         7jcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789549323; x=1790154123;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=mLpJwVn/HuZGfr8ir4XRFNtWV419k47czEV7zvOmQAU=;
-        b=Mr4MRRR0aLgZiRSXMoVPac+Vyt0j3JU82Zqn0Yx9eumuuCy7aeA9pzobrAl8lSWLWV
-         l6StO7WsjW/0PjlP3IAutHB1pxl0MNOwX6pNWCIJdui7af9Y73GcRdjuIv3GC1ZQnuzJ
-         Zw7g2aLSM87kEFBzPyPxtmfInFsIcS0EgXXYqRA5+7dvgwkT55h7pHHYSSxZjQMnRnRi
-         qQKUqW5SlCiTxtX1SVnlCRvlQBfTo39r39vGvdLyrw0UGSdNu8PWJ/2AmE2M9tk6Yo9/
-         umRPdw965RiZXe0Gd34833nUSA6+8NKr35Vbu/b0HUQq929SjSHeO3fXO4Whx2E3eeF6
-         qpEQ==
-X-Forwarded-Encrypted: i=1; AKwUvBznEq/FlLPVCobyFLnNhoE5xs8rzs6gnggnaNKD4pueDRXDmF1mAv5+vz6JxRPDX0l+KeA3OU1n+PRzB4pq@lists.linux.dev
-X-Gm-Message-State: AFuF++lH8JEFVcz2DhLbxkQujijaPISMQALLeldD8s8Bz4IaH5Fkv5Iw
-	keRaJJCF7x9E8/UfUnPj60CNjATNQT7UdOuGufJbg7aI78p8BLPvdX8Z
-X-Gm-Gg: AYBFou1V4bxMV3ErsluVm+2ayppAtcFCT4SBGaeqNdvZauRoNXQ9kGYZyDZHGVO9El7
-	5Ndg+mSeMaNOE2e6jQBIB34na8lSILgP0yONevhf7hKed+62jE+1G545sVs3QXpo4w22yrIVqct
-	cPY5D+BHIgn27gywUkRYkX/YUHRVzzxEQdUkNGn+VjFXEe5momdBISb5RurIMiAN08VUz0MluCK
-	ZxwRNvHXUh46StGGOHU2+q8kUhPAmJ/KgtOqiZu136l01sJQ+m7Ztb4jiMe3Zd2BCkEOg/BgyBK
-	VZGrt4SCUHleidgdxfrbCnKOHCdwrFAguFM/GUHQyTQtya/Zv4E1GQji9EW8fcY0aTTr0hSmipb
-	+umvDCbtLlNCRP+OQrgDmppZthCkJd6BBdGlTFz5WjvW0tx2/EqXMNO064njOzf24Ww/jxpttLK
-	fK1aqK8cm66EJqIY2oqM5EUrWQ67dLAEm89EOuJ+pijrXgspnZpbV4zMAMXY01Mde0
-X-Received: by 2002:a05:6000:1845:b0:487:370:d03b with SMTP id ffacd0b85a97d-4870cf201dbmr2386458f8f.19.1789549322496;
-        Wed, 16 Sep 2026 02:02:02 -0700 (PDT)
-Received: from omermac ([82.222.238.173])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4870bf4161fsm5229696f8f.34.2026.09.16.02.02.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Sep 2026 02:02:02 -0700 (PDT)
-From: Omer PALA <palaomer100@gmail.com>
-To: sudipm.mukherjee@gmail.com,
-	teddy.wang@siliconmotion.com,
-	gregkh@linuxfoundation.org
-Cc: linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: sm750fb: remove unnecessary parentheses
-Date: Wed, 16 Sep 2026 12:01:45 +0300
-Message-ID: <20260916090145.34881-1-palaomer100@gmail.com>
-X-Mailer: git-send-email 2.55.0
+        d=1e100.net; s=20260707; t=1789551397; x=1790156197;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=c4DGMrBsMajbdwdD2OhI60qkY8BD6VCk+Kt6O56KwVg=;
+        b=FTWEJIeJ2pjp/qUXiqSSlpY0T9EcvQqgKKj6zUragLfvJl2WAuxlMuFnUKP3tmgv2U
+         Micq3u0QYbVbStot8k/hr88w8kLvMYYXcYH7H/zK2r0Z4SIUmFSUzb1hSIKf+R+yaXNw
+         W0Gtal5JTJP/ZJdrNSdsSTkLSzwpeyhoY8aSt7KeQRM/ANy0SDQgcs7POKQ4cperqj1l
+         dwZgekL+sR0fMDdy3BNhoDQ4PESiMKrw3XE0XcOd4NZteJ/+sSPwMbxfYK7Iwp8erXhG
+         g207WHLTudL3dWrZpKRfLTODxoGGgFHkJtUong7IIdXZZQTNPPU09xGlUuiwYa103qv2
+         MxqA==
+X-Forwarded-Encrypted: i=1; AKwUvByOv8TtYHE6x9FJ0fw3XwjCUjp035B8ASeL7MrE3y4s/vaXzvxXkoh/t/mkR+dLrL+SiYcTG+Hu1LL7E+FF@lists.linux.dev
+X-Gm-Message-State: AFuF++mJoG7WGlQyCYTtkfO8siH7LNpAdstjbpTIOeKmtYwRQ+rHuwjp
+	bC53z0gUV0Sisqp/TpKGL6sLk2kMQ8/qNm+SIJOO6hiJR0u6Kz4POLqylWpJEBa6ly8DLJQxpRu
+	Ek8500T5iuMyUhcGH6kaRBNrv5ttWXqB7ITK/FuKQgvbKiuyz4YRcF4xsdwrziPAzHldyO6TnSc
+	4zEZeclV/NFBgYdqG+il74lhVdOCSBczRu/KOiK8Arbi0=
+X-Gm-Gg: AYBFou01uzLWGdP4RPxZVTqeqmBeKYDvMcjG8FPeG/WXvKsTqLEXRo4ZpY6L0nKAU5I
+	aKDf+lg0oin4fBAYbGYjvdzMcgJUARFJJPZ7YSeF18tieY4up5xoy2fzgKNvgash90bwMSiz5FU
+	9RDXEGOROZOdgQ+uZwbOs5EWJ04F+Nqd1GMYxeYJOANk/UwMDTwR6uBW6HRg==
+X-Received: by 2002:a17:903:22c2:b0:2d9:3083:a3ac with SMTP id d9443c01a7336-2dd8e52c3aamr36286965ad.15.1789551397185;
+        Wed, 16 Sep 2026 02:36:37 -0700 (PDT)
+X-Received: by 2002:a17:903:22c2:b0:2d9:3083:a3ac with SMTP id
+ d9443c01a7336-2dd8e52c3aamr36286545ad.15.1789551396701; Wed, 16 Sep 2026
+ 02:36:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260915132052.273212-1-ulf.hansson@oss.qualcomm.com>
+ <20260915132052.273212-3-ulf.hansson@oss.qualcomm.com> <aqpIl5NWCFiuKy9b@hovoldconsulting.com>
+In-Reply-To: <aqpIl5NWCFiuKy9b@hovoldconsulting.com>
+From: Ulf Hansson <ulf.hansson@oss.qualcomm.com>
+Date: Wed, 16 Sep 2026 11:36:25 +0200
+X-Gm-Features: AcwNN1URMFDti_qG_vPpRruVZwp168EX0dKhlyzlmVzuq_rdnS_nPLrIHlUnh0s
+Message-ID: <CAPx+jO86Sy+of41dw3Gi5CNfyc5+iOyDU4CZypz4YGzG27QW0A@mail.gmail.com>
+Subject: Re: [PATCH 2/2] mmc: core: Turn mmc_alloc|free_host() into static functions
+To: Johan Hovold <johan@kernel.org>
+Cc: linux-mmc@vger.kernel.org, Ulf Hansson <ulfh@kernel.org>,
+        Rui Miguel Silva <rmfrfs@gmail.com>, Alex Elder <elder@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Authority-Analysis: v=2.4 cv=BdVNQbt2 c=1 sm=1 tr=0 ts=6aaa6325 cx=c_pps
+ a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=YMgV9FUhrdKAYTUUvYB2:22 a=VwQbUJbxAAAA:8 a=NPqBZDST3jB2sRw4lm0A:9
+ a=QEXdDO2ut3YA:10 a=GvdueXVYPmCkWapjIL-Q:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE2MDEyNCBTYWx0ZWRfX4UBf76PUq1zl
+ lkwQX0+uTFsWcaQ8pP0+YIgFgjFPmgCR+L5g/jdTdpYuaT72p9i6jxOscjn3OssFWyaj5vFYKzx
+ BGvwDCctF1wKjsVe8UNPflGQKl5L38Q/VEe1j0ZG5b6D9Um/6oMJ39XnvvmFSOrrW8b/8G+iex/
+ IyjZ0xcaXskQz4JU1OSsHlSotQuJTydB0fLwTeWn/JzBY9CkAvY1kzPRvkH0hUCMuQwr0nyIKSw
+ zBcevV143BY6Ogssm48U4NKH9XgnP1adCQoW/wMpnASSQl+twS4xI6f0kM8Py8bfuUQ+mqnZFG9
+ I59QO9PFAIAGeaRVN7a+xX9283bURzeXWi3bAY9OIzZ0YhkZy5u9rQFvXVwsdGfnOm2kYajGvN/
+ VqFbJ2G9nc7/iTexdgJ0lFHDleg2o/Y8heTkgPLEjWW6mmau1Epmoru3I5hHn8dyTXOuARSxWvo
+ 3jik0yp9mMjYON8JHOQ==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE2MDEyNCBTYWx0ZWRfX1AQXVfnPjLiQ
+ Ir9nDkFgYECCAcowwH3ySTZvtGTKk2jADM3fWgGqcH4sjAo2joAhlglT1F0XZ7RXpnFaUxTlcp6
+ TuuW9hyUq60SsRe4Q3DQCbQGSKjXbTA=
+X-Proofpoint-GUID: 6KN60BxPl9SE8V86RcKIz-c9nDZMXnhg
+X-Proofpoint-ORIG-GUID: 6KN60BxPl9SE8V86RcKIz-c9nDZMXnhg
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-15_05,2026-09-15_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 priorityscore=1501 adultscore=0 spamscore=0 clxscore=1015
+ impostorscore=0 phishscore=0 lowpriorityscore=0 suspectscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609160124
 
-Remove unnecessary parentheses around equality checks in sm750_accel.c
+On Wed, Sep 16, 2026 at 9:43=E2=80=AFAM Johan Hovold <johan@kernel.org> wro=
+te:
+>
+> On Tue, Sep 15, 2026 at 03:20:46PM +0200, Ulf Hansson wrote:
+> > From: Ulf Hansson <ulfh@kernel.org>
+> >
+> > As there are no longer any users of these functions, let's make them
+> > internal to the mmc core.
+>
+> Why would you want to do that? The devres helpers should just be simple
+> wrappers around these and sometimes devres just isn't a good fit.
 
-and ddk750_swi2c.c to clear checkpatch.pl checks and improve code
+At the moment there seems to be no need for them. I would rather keep
+API/interfaces as simple as possible, so I prefer to remove them at
+this point.
 
-readability.
+If we see a need for them, we can always add them back.
 
-Signed-off-by: Omer PALA <palaomer100@gmail.com>
----
- drivers/staging/sm750fb/ddk750_swi2c.c | 2 +-
- drivers/staging/sm750fb/sm750_accel.c  | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> Especially with the work cancellations present in mmc_free_host() (which
+> I have pointed out elsewhere should not be there), a driver may need to
+> free the host before tearing down other non-devres managed resources
+> during unbind.
 
-diff --git a/drivers/staging/sm750fb/ddk750_swi2c.c b/drivers/staging/sm750fb/ddk750_swi2c.c
-index e63f3b00e..24ad58207 100644
---- a/drivers/staging/sm750fb/ddk750_swi2c.c
-+++ b/drivers/staging/sm750fb/ddk750_swi2c.c
-@@ -393,7 +393,7 @@ long sm750_sw_i2c_init(unsigned char clk_gpio, unsigned char data_gpio)
- 	 * Return 0 if the GPIO pins to be used is out of range. The
- 	 * range is only from [0..63]
- 	 */
--	if ((clk_gpio > 31) || (data_gpio > 31))
-+	if (clk_gpio > 31 || data_gpio > 31)
- 		return -1;
- 
- 	if (sm750_get_chip_type() == SM750LE)
-diff --git a/drivers/staging/sm750fb/sm750_accel.c b/drivers/staging/sm750fb/sm750_accel.c
-index bac9a2098..21aed73d8 100644
---- a/drivers/staging/sm750fb/sm750_accel.c
-+++ b/drivers/staging/sm750fb/sm750_accel.c
-@@ -202,7 +202,7 @@ int sm750_hw_copyarea(struct lynx_accel *accel,
- 		}
- 	}
- 
--	if ((direction == BOTTOM_TO_TOP) || (direction == RIGHT_TO_LEFT)) {
-+	if (direction == BOTTOM_TO_TOP || direction == RIGHT_TO_LEFT) {
- 		sx += width - 1;
- 		sy += height - 1;
- 		dx += width - 1;
--- 
-2.55.0
+Can you please point me to such an example so I can try to understand bette=
+r?
 
+>
+> This may even be needed for greybus which currently destroys the
+> connection before freeing the host.
+
+I looked closer at gb_sdio_remove() (the greybus sdio driver's
+->remove() callback) and I think the problem isn't about freeing the
+host.
+
+Instead it seems like the call to mmc_remove_host() is done too late.
+To me it looks like when the mmc core tries to power off the card
+gracefully, through mmc_remove_host() the driver has already moved
+into a state where it no longer accepts any requests.
+
+>
+> I suggest you just keep the non-devres interface around (after updating
+> the prototype).
+>
+> > While at it, let's also flip the order of the
+> > in-parameters to mmc_alloc_host() to be consistent with devm_alloc_host=
+().
+>
+> Johan
+
+Kind regards
+Uffe
