@@ -1,74 +1,75 @@
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E15794B405D
-	for <linux-staging@lists.linux.dev>; Wed, 16 Sep 2026 15:59:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C63B411F80
+	for <linux-staging@lists.linux.dev>; Wed, 16 Sep 2026 20:13:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789574360; cv=none; b=sqFtbgjLMfB5XdlcMAkApv6diFBX/ZDiCcAr938Nrr4baQqqEqma+DttgZwGfAftl6LokmO5RomMPVx2OrCU3RhENW4pIVtntPc2O4GwFo/zeEq+WxClZuhyp8QnkZ95+OL0dcqfMep9znd/hjGnCvQ5buabzZU11MVUqewtViw=
+	t=1789589598; cv=none; b=Gdo6GgLNwuz264WK8/t4qgz+DqGL81dvI6DQgOhD3uJBuPUUQ5gYR2pIIVHtaxcVm/TARCOdo5y2r40ArJNd0/zRKHUiVaxdU/Bz7ujHyh7xaxkfri7sRm0fFovSGeqOf7SarZJKjtzCp7MZG6A0V1KCwUa2Ikg52nM17yRhAfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789574360; c=relaxed/simple;
-	bh=kMWns+AkkV19g2ntJ9Bt4GZvg34B01WvXfsnBIlnUys=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=i8GF9XUPFZc/jQU3md/slmZJGmEP1Y7zkp4deWGtYSByaxipyQFjAlzv3+YCTzSMJyLmN4QAf/skj+MdESUxKmioFQne+hQ9Y5r+ZdSAhAlm2YF/U1wxEsVtQaFSW3KhsUSvXmRNq+A6bUv0URe2g3MmFom7rqMeZiTkCPPGqgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AC60oOOq; arc=none smtp.client-ip=74.125.225.141
+	s=arc-20240116; t=1789589598; c=relaxed/simple;
+	bh=uwMGDDuWtKUoJStwXibNUSxN2BNOlX8rRHbGS9jiREE=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=IBW6+ecDAkmEzh77Tco9T+u9oZs80v8I5t3B1JktACb87i3hI8XtkRfT8xKO5rK1dX+vjEQ4kCT+u6oDqdfj4DlFq8qy9rBfUj8NgSUZFCNynTebqxPa7IAc7XhBHMNF4mWr1QqRPrCoHGq0vkX/CLjZTWyrB1uLKPz0cywL5TQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DkE3W7Bo; arc=none smtp.client-ip=74.125.225.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AC60oOOq"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e7bcb94d3so8640795e9.2
-        for <linux-staging@lists.linux.dev>; Wed, 16 Sep 2026 08:59:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DkE3W7Bo"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49d097b4939so626145e9.0
+        for <linux-staging@lists.linux.dev>; Wed, 16 Sep 2026 13:13:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789574346; x=1790179146; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=50E3YuEZXofIUoMxdIwnwVu3+9GJoeNTgmZl7PziNLU=;
-        b=AC60oOOq04qcv/yeNBjli58s/LFCP7WycdubCl7Yu2xkJFo6W5WXdpbqL2zoIfJJp9
-         eNkgGyJZBlA4HT46QhJptSDXurzso2fx5T5Qsybz8dtutVtvAdRU3BsH3gU4ys3yMX9K
-         NB+IlfofE3iYmKHlgioYRu5h6qiYmaA8ZwzUhiZySXns+gXE4Rt90DGUADkfAAaxrLue
-         pRWSjkhB3YcsBnfdn+D+sunqdQZSS6bzRqzDrZ8r7sYbI8M755mTP6jM9GEIwNaigNEw
-         f/oU5ccGOBGfpJZUoWjyWtBMNPlemZ6jRsU1u9GU/gV25DbX6FrK3Cqq3j6cDMMeUR9j
-         Q0Lw==
+        d=gmail.com; s=20251104; t=1789589580; x=1790194380; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=aYhx8ZxTsScYWYyqDbVe9Rlssw/WyreTZuU/4EjcUrc=;
+        b=DkE3W7BoA2zSBB5Sp7GK6jqjCkhB/LZa9JabRmYpUq2EETBiE1DuL5HfUFq4rU7Bsz
+         c0D4OcgLGp8VX8/g3aSAnVVIKpo5FaQohD6/x5OqPLWfIHXh6ldmG2KYC9efdhHjN73x
+         SKgQHdNvcuGiA8C+yQIpwrGRt+mqLJY+ebG1IEcAdKuazneT47nRY9kfUZ4pisRLWCpy
+         bhniZiOyp12msy6iAN9fyQuaET0f8mjGtpuOVOf0bwvhhpQIol+SOKu5NfW6PviHEW6I
+         MRDdIzxW+2ZS8ORETw1Kb1RtKccOasoarLZQQrPXAbe6un0cQ6CGBb6K/VlzVl4c+AAE
+         omHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789574346; x=1790179146;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=50E3YuEZXofIUoMxdIwnwVu3+9GJoeNTgmZl7PziNLU=;
-        b=QEpqhGuopulh8/SZjLa6jGPR08gKkDLlutGpo/nA77tWkaT6PEqiwbQZvNKVnNjPIF
-         WLOLl3TgZtitjIAUESbed8YdgxnoXycYcJ6YLwBYMw6oCfKlO4rxtifcTPFdLaxM1oZ6
-         MEYV9kc6CzoI662cDv73MDykU+L5MU9jo+RBeFygB79g9nkmFpu6/QEKEQuBbpNuCIlF
-         ZMUYT2wbYxXbrlZ1SvDe0w8gbjIjWMKXw3mdxcyj/+dbYHeRRPINsUT3I+gVmhKTj45s
-         /X2Nl0+Rd+4ehfEYyVxi5eF1quu3yEAeDnGdXctd5DEDUrFkO8iuP4WdysTodDzRqdvG
-         0h1w==
-X-Forwarded-Encrypted: i=1; AKwUvBxS9xaMgbtObmDlOA113L8ZR2L1pinoGeJeKh5WKeGeB61p0UUxeovxWlkbv4oOCaXdX2v4EkkGQQECUjiX@lists.linux.dev
-X-Gm-Message-State: AFuF++mM7sMzyFttRRpj8/eupqxX0SF75N+29E0UdfGtDyIcL8dRsgKy
-	vOhRbZpHG3McRaMtTdW9Z7XKGXLOln9sWKXi/h3ZfsK8+B9UE3exVWon
-X-Gm-Gg: AYBFou3XOlfOrhU+C6FneKSWgg/QtspxxMFQYE0+n3jw0wWAfYAKb7wTgKAFH9ujv7m
-	hnQvR8xgzv98YGCpawlRm1UGvFkM9uFhfB3UFkHP4IMbGyssMx0EIPvIq+xhq7rHNFOb/PE5/EX
-	OhzGWvwYRorlGEQJepiV/VcZu3VhVgH2PGcaXDkb3zhKVaPsL1qBPoThsfTfa0lTR7lsyTngmvn
-	7lTeI2uW2WXhurokjqvKCmBRdenWUfXD1qt9IDcefC7+/guWoqULshQ9UPANs5oJDwUHUX78AgC
-	zW9lxxfXFr58s52tijPvlxtUhTMroBU+TN8phSxhgB49pYhNCksTf4B+PT5UunvsCnF3z53uIWi
-	5s7vK0zJUrVdeCVsqrobbLh3B6/KfZyxCW3HmMfameRoandfmF48Y5xlKIY4KUIihKqdgG5b36+
-	im8A3bCsCoHrtlrYlFnZq77W/N9rf90hrCImnRNBEjSqa+rBaQODP3PJajG/mg5is8ZFec
-X-Received: by 2002:a05:600c:4e48:b0:49e:663c:c67e with SMTP id 5b1f17b1804b1-49ebe991792mr42095035e9.25.1789574345830;
-        Wed, 16 Sep 2026 08:59:05 -0700 (PDT)
-Received: from omermac ([82.222.238.173])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fbd256105sm461075e9.14.2026.09.16.08.59.04
+        d=1e100.net; s=20260707; t=1789589580; x=1790194380;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=aYhx8ZxTsScYWYyqDbVe9Rlssw/WyreTZuU/4EjcUrc=;
+        b=THb1xFsNzd2jcpZBKAzEWPHKljAAY23pgVtPDDPlgUbjBzc0tsVPHFYMBYXqVDyaC8
+         w9TE77SsErJPGXddXvQqOccGSTEhj0LnKKHjDcNrjf1//NoF1hVasdpuil+qoBPbCjmU
+         HWaHykWYwvahHGMcNwMwjOdKL2LfGNRPg9Nu6BAQVPhNUGwDA7pFEgVHu2DJfoKMbH8o
+         etZdzHGrAnsPzrSEszmsTh0PO7JC8hC7cMXTiLMTM2Sx3DmLZfqAVoNyC1sXXdhT+aq+
+         s7w4HvqyJVLzsTOkvx1ReEAgGPnO260uTAVugiVuu+coU8tvvNcR+vdQedsB1kszNRKT
+         Sekw==
+X-Forwarded-Encrypted: i=1; AKwUvByyPEYhBi4DMgrC/VC483gshp216w1MwEPjw/tqSRj5bPnbMXtTTib9l+Da5x7sIvuMVRcic0VQleLhiAAk@lists.linux.dev
+X-Gm-Message-State: AFuF++mkb1la2E2E37LesLxVLiii0oGFg5MkYe8Q15BdC6TIlEEVh7jq
+	PNPmkX04Ig8ib8lS8/hEgLt3YCn0CEWU0sXdF0NoF6stP//ZUTAZ5Q8Y
+X-Gm-Gg: AYBFou0UbPAZ4iQ5kQCforjbMNLDgUHIJqA9cjrpmlR7FAHs/GUkq0Ig9Nau9FPt/XP
+	9lHQyQ+W1GBzWvKMJwHh0VBIY2c9QOehpgdNerOvcXlGgfXNvohob4IsxZ2nyUYDUaTecA2HY2M
+	o6CXXsUB2QVs8vw1/GSTG4sHu87k4nRUoNpkvhbxDR+KJfN1deFtErEwC+gww9r+NOUVyxKP9qc
+	cDcUyv+D5idZlj0Ncp2SL3Ni2V3A9koKi+9nvpztiOqWGjGOWdhV8AbOq5Qgs9nXPvJ9WYw5GXA
+	iJwRVNGJkoBeGiEgZgfRhBPtylb73iP2U8sTLK6FJQ86Hjt+pCLotQ2dHg3Lg0VS8f4bzfNWRqz
+	0o2mKP0+E9YW1WmL9XE1KPl6lxcufeYQcBqqR5JWguiI1VFVn90hEd8ZLUmF+reQoRBCx12/Csa
+	e8mRLtAx3/bYlP2KZGlyI8hKlKN7nhmCjItHXzhtdW5lRR8HBPTA7cP0qgbpz9ayMSLB7HcPqW2
+	rIZSMR2uY7SBS6G
+X-Received: by 2002:a05:600c:1f96:b0:49e:817a:ca7 with SMTP id 5b1f17b1804b1-49eb51902d9mr45307715e9.8.1789589580117;
+        Wed, 16 Sep 2026 13:13:00 -0700 (PDT)
+Received: from chicken.. ([2a02:2f02:5101:7300:ce1c:cd76:6ea7:d213])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fbda77d6fsm5484125e9.0.2026.09.16.13.12.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Sep 2026 08:59:05 -0700 (PDT)
-From: Omer PALA <palaomer100@gmail.com>
-To: vaibhav.sr@gmail.com,
-	mgreer@animalcreek.com,
-	johan@kernel.org,
-	elder@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: greybus: add newline to sysfs_emit return
-Date: Wed, 16 Sep 2026 18:58:55 +0300
-Message-ID: <20260916155855.9022-1-palaomer100@gmail.com>
-X-Mailer: git-send-email 2.55.0
+        Wed, 16 Sep 2026 13:12:59 -0700 (PDT)
+From: Daniel Matyas <matyasdaniel005@gmail.com>
+To: robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	matyasdaniel005@gmail.com,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH] dt-bindings: axis-fifo: Added missing binding
+Date: Wed, 16 Sep 2026 23:11:50 +0300
+Message-ID: <20260916201253.483877-1-matyasdaniel005@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,78 +78,279 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a terminating newline character to sysfs_emit() format strings in
-audio_manager_module.c.
+drivers/staging/axis-fifo/axis-fifo.txt file described how the
+devicetree of the driver should look like. Convert it to .yaml file.
+Issue found by checkpatch.
 
-Without a trailing newline, reading sysfs attributes directly from user
-space (e.g., using `cat`) appends the command prompt to the output string,
-leading to broken formatting. Including '\n' ensures compliance with
-sysfs single-value formatting standards and prevents parsing issues in
-user space tools and scripts.
-
-Signed-off-by: Omer PALA <palaomer100@gmail.com>
+Signed-off-by: Daniel Matyas <matyasdaniel005@gmail.com>
 ---
- drivers/staging/greybus/audio_manager_module.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ .../axis-fifo/xlnx,axi-fifo-mm-s.yaml         | 257 ++++++++++++++++++
+ 1 file changed, 257 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/axis-fifo/xlnx,axi-fifo-mm-s.yaml
 
-diff --git a/drivers/staging/greybus/audio_manager_module.c b/drivers/staging/greybus/audio_manager_module.c
-index dc90cc2d2..5737f2a32 100644
---- a/drivers/staging/greybus/audio_manager_module.c
-+++ b/drivers/staging/greybus/audio_manager_module.c
-@@ -75,7 +75,7 @@ static void gb_audio_module_release(struct kobject *kobj)
- static ssize_t gb_audio_module_name_show(struct gb_audio_manager_module *module,
- 					 struct gb_audio_manager_module_attribute *attr, char *buf)
- {
--	return sysfs_emit(buf, "%s", module->desc.name);
-+	return sysfs_emit(buf, "%s\n", module->desc.name);
- }
- 
- static struct gb_audio_manager_module_attribute gb_audio_module_name_attribute =
-@@ -84,7 +84,7 @@ static struct gb_audio_manager_module_attribute gb_audio_module_name_attribute =
- static ssize_t gb_audio_module_vid_show(struct gb_audio_manager_module *module,
- 					struct gb_audio_manager_module_attribute *attr, char *buf)
- {
--	return sysfs_emit(buf, "%d", module->desc.vid);
-+	return sysfs_emit(buf, "%d\n", module->desc.vid);
- }
- 
- static struct gb_audio_manager_module_attribute gb_audio_module_vid_attribute =
-@@ -93,7 +93,7 @@ static struct gb_audio_manager_module_attribute gb_audio_module_vid_attribute =
- static ssize_t gb_audio_module_pid_show(struct gb_audio_manager_module *module,
- 					struct gb_audio_manager_module_attribute *attr, char *buf)
- {
--	return sysfs_emit(buf, "%d", module->desc.pid);
-+	return sysfs_emit(buf, "%d\n", module->desc.pid);
- }
- 
- static struct gb_audio_manager_module_attribute gb_audio_module_pid_attribute =
-@@ -103,7 +103,7 @@ static ssize_t gb_audio_module_intf_id_show(struct gb_audio_manager_module *modu
- 					    struct gb_audio_manager_module_attribute *attr,
- 					    char *buf)
- {
--	return sysfs_emit(buf, "%d", module->desc.intf_id);
-+	return sysfs_emit(buf, "%d\n", module->desc.intf_id);
- }
- 
- static struct gb_audio_manager_module_attribute
-@@ -114,7 +114,7 @@ static ssize_t gb_audio_module_ip_devices_show(struct gb_audio_manager_module *m
- 					       struct gb_audio_manager_module_attribute *attr,
- 					       char *buf)
- {
--	return sysfs_emit(buf, "0x%X", module->desc.ip_devices);
-+	return sysfs_emit(buf, "0x%X\n", module->desc.ip_devices);
- }
- 
- static struct gb_audio_manager_module_attribute
-@@ -125,7 +125,7 @@ static ssize_t gb_audio_module_op_devices_show(struct gb_audio_manager_module *m
- 					       struct gb_audio_manager_module_attribute *attr,
- 					       char *buf)
- {
--	return sysfs_emit(buf, "0x%X", module->desc.op_devices);
-+	return sysfs_emit(buf, "0x%X\n", module->desc.op_devices);
- }
- 
- static struct gb_audio_manager_module_attribute
+diff --git a/Documentation/devicetree/bindings/axis-fifo/xlnx,axi-fifo-mm-s.yaml b/Documentation/devicetree/bindings/axis-fifo/xlnx,axi-fifo-mm-s.yaml
+new file mode 100644
+index 000000000000..ef1e6bcf782d
+--- /dev/null
++++ b/Documentation/devicetree/bindings/axis-fifo/xlnx,axi-fifo-mm-s.yaml
+@@ -0,0 +1,257 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/axis-fifo/xlnx,axi-fifo-mm-s.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Xilinx AXI-Stream FIFO v4.1 IP core
++
++maintainers:
++  - Daniel Matyas <matyasdaniel005@gmail.com>
++
++description: |
++  This IP core has read and write AXI-Stream FIFOs, the contents of which can
++  be accessed from the AXI4 memory-mapped interface. This is useful for
++  transferring data from a processor into the FPGA fabric. The driver creates
++  a character device that can be read/written to with standard
++  open/read/write/close.
++
++  See Xilinx PG080 document for IP details.
++
++  Currently supports only store-forward mode with a 32-bit AXI4-Lite
++  interface. DOES NOT support:
++    - cut-through mode
++    - AXI4 (non-lite)
++
++properties:
++  compatible:
++    enum:
++      - xlnx,axis-fifo-mm-s-4.1
++      - xlnx,axis-fifo-mm-s-4.2
++      - xlnx,axis-fifo-mm-s-4.3
++
++  interrupt-names:
++    const: interrupt
++
++  interrupts:
++    maxItems: 1
++
++  reg:
++    maxItems: 1
++
++  xlnx,axi-str-rxd-protocol:
++    $ref: /schemas/types.yaml#/definitions/string
++    const: XIL_AXI_STREAM_ETH_DATA
++    description: AXI4-Stream RX data protocol
++
++  xlnx,axi-str-rxd-tdata-width:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    const: 0x20
++    description: AXI4-Stream RX data width
++
++  xlnx,axi-str-txc-protocol:
++    $ref: /schemas/types.yaml#/definitions/string
++    const: XIL_AXI_STREAM_ETH_CTRL
++    description: AXI4-Stream TX control protocol
++
++  xlnx,axi-str-txc-tdata-width:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    const: 0x20
++    description: AXI4-Stream TX control data width
++
++  xlnx,axi-str-txd-protocol:
++    $ref: /schemas/types.yaml#/definitions/string
++    const: XIL_AXI_STREAM_ETH_DATA
++    description: AXI4-Stream TX data protocol
++
++  xlnx,axi-str-txd-tdata-width:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    const: 0x20
++    description: AXI4-Stream TX data width
++
++  xlnx,axis-tdest-width:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: AXI-Stream TDEST width (ignored by the driver)
++
++  xlnx,axis-tid-width:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: AXI-Stream TID width (ignored by the driver)
++
++  xlnx,axis-tuser-width:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: AXI-Stream TUSER width (ignored by the driver)
++
++  xlnx,data-interface-type:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    const: 0x0
++    description: ignored by the driver
++
++  xlnx,has-axis-tdest:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    const: 0x0
++    description: this feature isn't supported
++
++  xlnx,has-axis-tid:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    const: 0x0
++    description: this feature isn't supported
++
++  xlnx,has-axis-tkeep:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    const: 0x0
++    description: this feature isn't supported
++
++  xlnx,has-axis-tstrb:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    const: 0x0
++    description: this feature isn't supported
++
++  xlnx,has-axis-tuser:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    const: 0x0
++    description: this feature isn't supported
++
++  xlnx,rx-fifo-depth:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: Depth of RX FIFO in words
++
++  xlnx,rx-fifo-pe-threshold:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: RX programmable empty interrupt threshold
++                 (ignored by the driver)
++
++  xlnx,rx-fifo-pf-threshold:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: RX programmable full interrupt threshold
++                 (ignored by the driver)
++
++  xlnx,s-axi-id-width:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    const: 0x4
++    description: ignored by the driver
++
++  xlnx,s-axi4-data-width:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    const: 0x20
++    description: ignored by the driver
++
++  xlnx,select-xpm:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    const: 0x0
++    description: ignored by the driver
++
++  xlnx,tx-fifo-depth:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: Depth of TX FIFO in words
++
++  xlnx,tx-fifo-pe-threshold:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: TX programmable empty interrupt threshold
++                 (ignored by the driver)
++
++  xlnx,tx-fifo-pf-threshold:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: TX programmable full interrupt threshold
++                 (ignored by the driver)
++
++  xlnx,use-rx-cut-through:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    const: 0x0
++    description: this feature isn't supported
++
++  xlnx,use-rx-data:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    enum: [0x0, 0x1]
++    description: <0x1> if RX FIFO is enabled, <0x0> otherwise
++
++  xlnx,use-tx-ctrl:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    const: 0x0
++    description: this feature isn't supported
++
++  xlnx,use-tx-cut-through:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    const: 0x0
++    description: this feature isn't supported
++
++  xlnx,use-tx-data:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    enum: [0x0, 0x1]
++    description: <0x1> if TX FIFO is enabled, <0x0> otherwise
++
++required:
++  - compatible
++  - interrupt-names
++  - interrupts
++  - reg
++  - xlnx,axi-str-rxd-protocol
++  - xlnx,axi-str-rxd-tdata-width
++  - xlnx,axi-str-txc-protocol
++  - xlnx,axi-str-txc-tdata-width
++  - xlnx,axi-str-txd-protocol
++  - xlnx,axi-str-txd-tdata-width
++  - xlnx,axis-tdest-width
++  - xlnx,axis-tid-width
++  - xlnx,axis-tuser-width
++  - xlnx,data-interface-type
++  - xlnx,has-axis-tdest
++  - xlnx,has-axis-tid
++  - xlnx,has-axis-tkeep
++  - xlnx,has-axis-tstrb
++  - xlnx,has-axis-tuser
++  - xlnx,rx-fifo-depth
++  - xlnx,rx-fifo-pe-threshold
++  - xlnx,rx-fifo-pf-threshold
++  - xlnx,s-axi-id-width
++  - xlnx,s-axi4-data-width
++  - xlnx,select-xpm
++  - xlnx,tx-fifo-depth
++  - xlnx,tx-fifo-pe-threshold
++  - xlnx,tx-fifo-pf-threshold
++  - xlnx,use-rx-cut-through
++  - xlnx,use-rx-data
++  - xlnx,use-tx-ctrl
++  - xlnx,use-tx-cut-through
++  - xlnx,use-tx-data
++
++additionalProperties: false
++
++examples:
++  - |
++    axi_fifo_mm_s_0: axi_fifo_mm_s@43c00000 {
++      compatible = "xlnx,axi-fifo-mm-s-4.1";
++      interrupt-names = "interrupt";
++      interrupt-parent = <&intc>;
++      interrupts = <0 29 4>;
++      reg = <0x43c00000 0x10000>;
++      xlnx,axi-str-rxd-protocol = "XIL_AXI_STREAM_ETH_DATA";
++      xlnx,axi-str-rxd-tdata-width = <0x20>;
++      xlnx,axi-str-txc-protocol = "XIL_AXI_STREAM_ETH_CTRL";
++      xlnx,axi-str-txc-tdata-width = <0x20>;
++      xlnx,axi-str-txd-protocol = "XIL_AXI_STREAM_ETH_DATA";
++      xlnx,axi-str-txd-tdata-width = <0x20>;
++      xlnx,axis-tdest-width = <0x4>;
++      xlnx,axis-tid-width = <0x4>;
++      xlnx,axis-tuser-width = <0x4>;
++      xlnx,data-interface-type = <0x0>;
++      xlnx,has-axis-tdest = <0x0>;
++      xlnx,has-axis-tid = <0x0>;
++      xlnx,has-axis-tkeep = <0x0>;
++      xlnx,has-axis-tstrb = <0x0>;
++      xlnx,has-axis-tuser = <0x0>;
++      xlnx,rx-fifo-depth = <0x200>;
++      xlnx,rx-fifo-pe-threshold = <0x2>;
++      xlnx,rx-fifo-pf-threshold = <0x1fb>;
++      xlnx,s-axi-id-width = <0x4>;
++      xlnx,s-axi4-data-width = <0x20>;
++      xlnx,select-xpm = <0x0>;
++      xlnx,tx-fifo-depth = <0x8000>;
++      xlnx,tx-fifo-pe-threshold = <0x200>;
++      xlnx,tx-fifo-pf-threshold = <0x7ffb>;
++      xlnx,use-rx-cut-through = <0x0>;
++      xlnx,use-rx-data = <0x0>;
++      xlnx,use-tx-ctrl = <0x0>;
++      xlnx,use-tx-cut-through = <0x0>;
++      xlnx,use-tx-data = <0x1>;
++    };
++...
 -- 
-2.55.0
+2.43.0
 
