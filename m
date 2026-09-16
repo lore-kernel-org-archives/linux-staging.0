@@ -1,76 +1,84 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB556480951
-	for <linux-staging@lists.linux.dev>; Wed, 16 Sep 2026 21:26:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBB2A4B048F;
+	Wed, 16 Sep 2026 23:19:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789594024; cv=none; b=o0xHMxOWBYUJ0vu5aIuQfdcoTPx/sgXlUFekbDqoKxwB/GL7Gab+Q2XsN7UPkJEjAFPKfBK7Hsi3vtvcnhJO140va0ZD0KA0+TRIf41+oEq+gG9zx2HzH9wAdUuUstWFHAw0UjTBoHwqEoRfFDarwKhULYQ05tEZu9g/cJFctRQ=
+	t=1789600782; cv=none; b=irRaoDloeHUeOFduNgHdrnwZUZziIg6UxssZPH5TLvODRcYclVXHv+9IZwZ+HXhanYjWE3sAQdoq5nyAq/fe4KUf24oQaJRxDxyc4UA8K+RoB3Q+a8oRZn2IE/fwm5ccLZKm9QB3/1M7J1q4tlsJo0vXW5Tx9JCWJ2MsG6xqZTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789594024; c=relaxed/simple;
-	bh=PlFfEzaVTasB2l/UchoQeYFuUZR4yW+7bUjU2nGdbCU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=m+33N74VM/WXMShHoHKIh34x08bQE/VMflWwi+of8SdkagWJRL1fs2qD5poDo4XgJXgh4PKx6v3tH2ygYNZVhF1KYg4J+p1OQY0hx36RpRue89msNej/lRMMTltP4W/XAF9ujephiSLQaY8HtD8HhRTVO12yQw7gv0VNhoj+gys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=WyRhxXOc; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=O9Dw04yY; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1789600782; c=relaxed/simple;
+	bh=7HHMpzsFpMEJ8JTQtHgtQlHewJFS3wqe7kpsi7T9nKM=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=tiwiYQ3JhUmgW4jp6r4lMYy8mMIod91sgij6VLXnhf5+RMo1Z06HKMpOE7HC6JS984u732PZ6Dv4AONjO2IYDFro+4hQqO3+iuFAX49DROwQv4RffcoZf+Qi7SCe+3aaPsBLtXdn9vcaEYIOq539z0VixVCwSLkQgDKh+RrP1Tw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VaUUfSP2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="WyRhxXOc";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="O9Dw04yY"
-From: Nam Cao <namcao@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1789594010;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PlFfEzaVTasB2l/UchoQeYFuUZR4yW+7bUjU2nGdbCU=;
-	b=WyRhxXOcUFCd0h4fU5lFQe7O8CBeWWckaLrqqGeCacBRb6oWjyFiwJlSKUcsBfUyNSK++D
-	5G1X+2aO6U7lsOzeF5F6qqDJq82efqCyhBmDu343FYG2BhOaZdxcAdyv1rKj+d8zFGIy6Z
-	tNEXpErCMwISGZ68pjPkyltsuep7Ke9bjFlZOVUX4ifIo296mDlcrMY+IwzLm6eDRgyHbe
-	JvMHofTd86sZxUaxbd49DzQq/mi2V/zECtXCYdZ6LgU8PqGC3yF6RsIDlCuwCbXhDAWkHY
-	bxxkVDzPjHpGxuM3w3ULU1JOP6Wj11wt6DMBUp5Ydfwdc6yUHbfDfirzecaHgw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1789594010;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PlFfEzaVTasB2l/UchoQeYFuUZR4yW+7bUjU2nGdbCU=;
-	b=O9Dw04yYvPNf/0+PKUo4eQ3oB9NZaXQmZGmBES9dq3uQnfEtYSuwtNRg/mPAUa6jjTmQMm
-	H8nvAeup34PSs+Bw==
-To: Omer PALA <palaomer100@gmail.com>, vaibhav.sr@gmail.com,
- mgreer@animalcreek.com, johan@kernel.org, elder@kernel.org,
- gregkh@linuxfoundation.org
-Cc: greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: greybus: add newline to sysfs_emit return
-In-Reply-To: <20260916155855.9022-1-palaomer100@gmail.com>
-References: <20260916155855.9022-1-palaomer100@gmail.com>
-Date: Wed, 16 Sep 2026 23:26:49 +0200
-Message-ID: <87zexgyjja.fsf@yellow.woof>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VaUUfSP2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BDCC1F000FF;
+	Wed, 16 Sep 2026 23:19:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789600780;
+	bh=YXFygDh577wbxnlTwuGjiT8vlvDVLVhL7hPxlcWwhto=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject;
+	b=VaUUfSP2WDtkXF8gi1lcsqZeruGqVZLehYWuR6jrMs4k0zoSkkumEMHnwOvG/mCyV
+	 1SeQMu8xNE1r5urP5RTzNNV+Y7e6Kgmn8OPKovOlSI5p7oSNIwJWW7eaHL4Oxow6Qx
+	 6zmXwK5oYpjjLYdNHUMGSuPZgxESqe2DWlcs8jL0A1n298pV9fVi8EiSobzvEIgtUH
+	 3UyxGtSJHpfwo5Gd5rKhhiGhFXqjQ/r0dzc+GgqNolA05qVm+rGUcDWCp+HUcji+9p
+	 3wnvpNfq2RKmrrQtg0hIBwRgKrMrVwt/zAXYhGaLrCn1wKc9iBNnCeDqPULHj5WVU1
+	 fqI49/bljN2RQ==
+Date: Wed, 16 Sep 2026 18:19:38 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: conor+dt@kernel.org, gregkh@linuxfoundation.org, 
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
+ devicetree@vger.kernel.org, krzk+dt@kernel.org
+To: Daniel Matyas <matyasdaniel005@gmail.com>
+In-Reply-To: <20260916201253.483877-1-matyasdaniel005@gmail.com>
+References: <20260916201253.483877-1-matyasdaniel005@gmail.com>
+Message-Id: <178959747036.2021291.11640248030618302686.robh@kernel.org>
+Subject: Re: [PATCH] dt-bindings: axis-fifo: Added missing binding
 
-Omer PALA <palaomer100@gmail.com> writes:
-> Add a terminating newline character to sysfs_emit() format strings in
-> audio_manager_module.c.
->
-> Without a trailing newline, reading sysfs attributes directly from user
-> space (e.g., using `cat`) appends the command prompt to the output string,
-> leading to broken formatting. Including '\n' ensures compliance with
-> sysfs single-value formatting standards and prevents parsing issues in
-> user space tools and scripts.
->
-> Signed-off-by: Omer PALA <palaomer100@gmail.com>
 
-Also no, sorry. See:
-https://lore.kernel.org/linux-staging/anw3nOfSGKoq-1E_@stanley.mountain/
+On Wed, 16 Sep 2026 23:11:50 +0300, Daniel Matyas wrote:
+> drivers/staging/axis-fifo/axis-fifo.txt file described how the
+> devicetree of the driver should look like. Convert it to .yaml file.
+> Issue found by checkpatch.
+> 
+> Signed-off-by: Daniel Matyas <matyasdaniel005@gmail.com>
+> ---
+>  .../axis-fifo/xlnx,axi-fifo-mm-s.yaml         | 257 ++++++++++++++++++
+>  1 file changed, 257 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/axis-fifo/xlnx,axi-fifo-mm-s.yaml
+> 
 
-It is a good idea to look up the mailing list archive for other patches
-attempting to do the same thing.
+My bot found errors running 'make dt_binding_check' on your patch:
 
-Nam
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+Documentation/devicetree/bindings/axis-fifo/xlnx,axi-fifo-mm-s.example.dtb: /example-0/axi_fifo_mm_s@43c00000: failed to match any schema with compatible: ['xlnx,axi-fifo-mm-s-4.1']
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.kernel.org/project/devicetree/patch/20260916201253.483877-1-matyasdaniel005@gmail.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
