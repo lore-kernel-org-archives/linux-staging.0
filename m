@@ -1,139 +1,70 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47DBC4A014B
-	for <linux-staging@lists.linux.dev>; Wed, 16 Sep 2026 09:39:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9BE74BB29A
+	for <linux-staging@lists.linux.dev>; Wed, 16 Sep 2026 09:53:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789551597; cv=none; b=Yfhn3eDt6KzHcXT2Nihdw54JtpDES70U8Z9ynqJgwByT5XozUy4jxIhFwJWDOMbVNbEeY8PTXkC2EBZhnbYqYE51xW3wEwN5/rarWm6ge4W8OllNH6M+ZdCAX/9RnAYwo1OMMdYHCS4H/YcYGiDcrmYO3pWDTQtm1Xxw7Z7Mp9E=
+	t=1789552446; cv=none; b=jNVsJKQW4dAk6cR/VE7HYlzRZWKEODXMp8qecswRDE8Rua9/rkbqVxl5xcuHZdrsycrdM3HQOvJ6rWOd0KsDNA/RzgCpXkSYDTEaTmi1hQCB28wBuW+qTiyAOaYt/fQUlUj7Y8gQZpiaaQan86DPPS6xPvtDXkpOrdccuz7goQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789551597; c=relaxed/simple;
-	bh=b7fdcAmW6lzIWiw+Ww6DahHQLZ+/EizToms+bmRTlHE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bNxiEnr453eWwCK67FxXrn/zbJw+WHGJlYLgjfcNMcZlZiM8rVDRHZX5DduqOw4y10CKqe3QLeHEsMZW9z/VOS7n5+NHnkW2SjQw6mwF6YCDNdjraw2pRNacHZIR2DzpAhsH+3YdHIG/pOZVOhZCvtEK9uLo0rgnc/HzjI4olpM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=exCy+KYw; arc=none smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789552446; c=relaxed/simple;
+	bh=gU28K/TBmhCpoW3RpgGeEwSRVwR0d59zct58qf7aOmM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=hNklmmON2tBZEtQK86R/o+qu2u1heAgGy4uaDGGE0QFcXeVFSMNkNSNY+Yw402Pc/dlxaDMUZzN0CInHij7krziaxxAtOHr/7jRadokoQibvzlewG8+WorRo5YxM2qlg0D52arc2FLKQFGG+Ir/sy5sZIaG7zAuzAveCKW7wrSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=fINTCHd2; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=XTBEJa4S; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="exCy+KYw"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49e6598dd44so3869585e9.1
-        for <linux-staging@lists.linux.dev>; Wed, 16 Sep 2026 02:39:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789551579; x=1790156379; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=FK0BAI5zlwK5WHRW3pCb1OR6vOTCwaSaqw4lIuR/t0I=;
-        b=exCy+KYwHoD5lgNrHcl4WmYnx0WTdipeNHoOPPiZ0/0g3mu459BGApbdtmleZ+jOGO
-         8Yg+md06BZITf+XPbBlKHI8XY6iyMsV8D4PLnbiHQRv7VlFt9ioGCQPwOrV2cZZv8Un8
-         z5a4FaKj9VIJwuC0H9N1w3xkLvnywax3RqyY+cawus9BMSxC9ayMTuyA7BEu+P/lLeV2
-         T+eicsaamORdVwDUFUOUEvDYOCLpfCwAm3B2FxBAQ/a9pNB7yeES5m4QgBzdAaqEjfbL
-         dXw2+AC4p9fTKNd6dcgy6xIfhHcLMlxkoOVSzc88W/en8ruQR0Z7E9cGN2Yb8aPpuYR4
-         63Sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789551579; x=1790156379;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=FK0BAI5zlwK5WHRW3pCb1OR6vOTCwaSaqw4lIuR/t0I=;
-        b=GKHaQwYSc7SbzsYRLT+ooATHgf2WKrpRF8/5m6bmbdHJO9dJC0GOhO23X4CAM5lOyC
-         Q8loFRwkQ1WnQhY1uqCcf1i7+iE3jshAMSDRyNFgp9SezoZU7hk0KrKNdXZoy2Zdcasj
-         yzkGNmJwNX4fVrX7Zdl/2w4457e5JQ5iCXkqauxJTiYaYKVF6tXBpyMYhzk2jCkslozo
-         DK43N9bttib4fCW85Pl2YsPM6i9UtP0d2gvNpJVwbdRzkdtSkcapatWJIsum91NX4Q6B
-         adzIDWlUkpAXFbttErRG5bstm5NZ0A9AsPX1e4Ebkr1kjfKTvBbd606+RhoRPdWGEDzY
-         0Pmg==
-X-Forwarded-Encrypted: i=1; AKwUvBxE7frvhICFmPlMHRqp5Zc3+Dc0jMpVG3+ntcPS8xeH9N/Hpl9K6v2cE6VR+G2xdHeq8pD43jU5mDov+4NK@lists.linux.dev
-X-Gm-Message-State: AFuF++nEpo9IWessIbs4pA1dX+vrQtyrxzI7N5sDed74Mz2M/EpaxTh2
-	RrVzio2WidmhzFeYWZnrXF4UIODjTi0lV07rYy0F4YESJHZDiS5qwhJY
-X-Gm-Gg: AYBFou0LzynoiWVaQCo5kStb4jmpGiz9DXB2XBPo0gubgnL++8NrvDTd7PTcEnmMw0E
-	8SNN9y22anbMQ9lh+fshax+NapA4ad2bTyHEfDgWHwLtshcpEdrOKWqKBNEnOcS0MHxsoKBBBjd
-	OGbwQw6GTvDuxEecfMnD/m32lLBm/O9NgwjBvYkS0O6cW9Zy8KFLVky8SHPSTNSNN+w1hNrka8P
-	CV35gJ7SjWeVab+Ozc+Iyiv/rUZ6VFJhBWjTOYrYNJEcU7T6DB06jfNoofQEvm81/NJBtp2f8Gg
-	FUnOpyiL4m5Z+okHNNn0Irf/x19ct+17MBcv7gRBqkO9vZygzBizxHNU/YqbB2jxCKBfAq7ozLh
-	JQ6C8JgCrzb7ZSFV4ETFlbk/CQB2fYFqgqVE5D3NhFsrpIjhDB8fpKNN/5zl9SGUDavrEhY4iF6
-	WdkwOAwzuLrZ68fgtCOtTtanZe6x5VJdXYZT70eI49PocdjqbMa2H6EAbcq6M+zSWyjBOTr8nP6
-	nrm9tI=
-X-Received: by 2002:a05:600c:3596:b0:49c:dcec:bd27 with SMTP id 5b1f17b1804b1-49eb72f2c40mr23366615e9.8.1789551578513;
-        Wed, 16 Sep 2026 02:39:38 -0700 (PDT)
-Received: from omermac ([82.222.238.173])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e83da9a7csm61728415e9.11.2026.09.16.02.39.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Sep 2026 02:39:38 -0700 (PDT)
-From: Omer PALA <palaomer100@gmail.com>
-To: andy@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: fbtft: fb_upd161704: replace udelay with usleep_range
-Date: Wed, 16 Sep 2026 12:39:28 +0300
-Message-ID: <20260916093928.52057-1-palaomer100@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="fINTCHd2";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="XTBEJa4S"
+From: Nam Cao <namcao@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1789552436;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gU28K/TBmhCpoW3RpgGeEwSRVwR0d59zct58qf7aOmM=;
+	b=fINTCHd2rV5qr8hjmNiqsQ4kOatkIK9D9rw4UdLHoz2bQS/o6CllgkB3r7yfaRgZ8h8A/N
+	9ZWUJUXswF3y/wEMSvF97Bcyi5ijZpITTAFGs1xKXXZUn6JgFMLlQ4HY6hrY8Ak4c4wJ1R
+	HdOMPTC+Fm9QLPckwARGA0qcR6vSsJYONMDfHSOc9mAKt/0ceLsusKTE2zkREdEMfFRZax
+	VMAvNojX/ixR/MKY2wJiCqMZPv/zodO4iz8BgAN/6Q4H0UdFxOgNCoeYOGhE8CyFNDoyja
+	MGAcIOtkkok0yiGfD4arKl5sEkWhUsHG9KFJwKsp8HRhSCLSOq9a3W1lZ/ht6g==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1789552436;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gU28K/TBmhCpoW3RpgGeEwSRVwR0d59zct58qf7aOmM=;
+	b=XTBEJa4S1t4j/hKUlrlaaDS2takijVXH7QjcDoSKns0Jg3CN6SgDUy41SQB8W5H5heoKF3
+	zNiHzB2t8we1GiAg==
+To: Omer PALA <palaomer100@gmail.com>, andy@kernel.org,
+ gregkh@linuxfoundation.org
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: fbtft: fb_upd161704: replace udelay with
+ usleep_range
+In-Reply-To: <20260916093928.52057-1-palaomer100@gmail.com>
+References: <20260916093928.52057-1-palaomer100@gmail.com>
+Date: Wed, 16 Sep 2026 11:53:55 +0200
+Message-ID: <87ecet5xos.fsf@yellow.woof>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Replace udelay() calls with usleep_range()
-to avoid busy-waiting and allow the
-scheduler to sleep during delays.
+Omer PALA <palaomer100@gmail.com> writes:
+> Replace udelay() calls with usleep_range()
+> to avoid busy-waiting and allow the
+> scheduler to sleep during delays.
+>
+> Signed-off-by: Omer PALA <palaomer100@gmail.com>
 
-Signed-off-by: Omer PALA <palaomer100@gmail.com>
----
- drivers/staging/fbtft/fb_upd161704.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+This change cannot be accepted unless it has been validated with
+hardware.
 
-diff --git a/drivers/staging/fbtft/fb_upd161704.c b/drivers/staging/fbtft/fb_upd161704.c
-index 7288140e7..f66dfad1d 100644
---- a/drivers/staging/fbtft/fb_upd161704.c
-+++ b/drivers/staging/fbtft/fb_upd161704.c
-@@ -32,27 +32,27 @@ static int init_display(struct fbtft_par *par)
- 
- 	/* oscillator start */
- 	write_reg(par, 0x003A, 0x0001);	/*Oscillator 0: stop, 1: operation */
--	udelay(100);
-+	usleep_range(100, 200);
- 
- 	/* y-setting */
- 	write_reg(par, 0x0024, 0x007B);	/* amplitude setting */
--	udelay(10);
-+	usleep_range(10, 50);
- 	write_reg(par, 0x0025, 0x003B);	/* amplitude setting */
- 	write_reg(par, 0x0026, 0x0034);	/* amplitude setting */
--	udelay(10);
-+	usleep_range(10, 50);
- 	write_reg(par, 0x0027, 0x0004);	/* amplitude setting */
- 	write_reg(par, 0x0052, 0x0025);	/* circuit setting 1 */
--	udelay(10);
-+	usleep_range(10, 50);
- 	write_reg(par, 0x0053, 0x0033);	/* circuit setting 2 */
- 	write_reg(par, 0x0061, 0x001C);	/* adjustment V10 positive polarity */
--	udelay(10);
-+	usleep_range(10, 50);
- 	write_reg(par, 0x0062, 0x002C);	/* adjustment V9 negative polarity */
- 	write_reg(par, 0x0063, 0x0022);	/* adjustment V34 positive polarity */
--	udelay(10);
-+	usleep_range(10, 50);
- 	write_reg(par, 0x0064, 0x0027);	/* adjustment V31 negative polarity */
--	udelay(10);
-+	usleep_range(10, 50);
- 	write_reg(par, 0x0065, 0x0014);	/* adjustment V61 negative polarity */
--	udelay(10);
-+	usleep_range(10, 50);
- 	write_reg(par, 0x0066, 0x0010);	/* adjustment V61 negative polarity */
- 
- 	/* Basical clock for 1 line (BASECOUNT[7:0]) number specified */
-@@ -60,7 +60,7 @@ static int init_display(struct fbtft_par *par)
- 
- 	/* Power supply setting */
- 	write_reg(par, 0x0019, 0x0000);	/* DC/DC output setting */
--	udelay(200);
-+	usleep_range(200, 300);
- 	write_reg(par, 0x001A, 0x1000);	/* DC/DC frequency setting */
- 	write_reg(par, 0x001B, 0x0023);	/* DC/DC rising setting */
- 	write_reg(par, 0x001C, 0x0C01);	/* Regulator voltage setting */
--- 
-2.55.0
+Btw, I am curious why we have these udelay(). Can we remove them?
 
+Nam
