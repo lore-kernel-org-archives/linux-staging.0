@@ -1,288 +1,130 @@
-Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C8BE286409
-	for <linux-staging@lists.linux.dev>; Thu, 17 Sep 2026 10:03:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D0F44DAF8C;
+	Thu, 17 Sep 2026 11:48:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789639423; cv=none; b=F5fv+o+aLGlFnz016VPJ1KTNDhnz0sW+aINUtV9EFfzt2o9YCgDKDO9o+SlXu2gAfIs1YhUP++yx+UdNfLIwABiXeSKEEM+M8PwdVtid/PahnlLXvlR7A8APGgfc31NPbW9ZSB2B2hYJuQKBjVCEoMLHaE/nTFgV+uyi0RXBJOE=
+	t=1789645725; cv=none; b=WrNl0DFJtT09pt1L6WPHjyTIPwK+ALWgyZz4jDbGh0heUm1bGs1ELq1ymqqD6xBj0Edz8E9qcG2oTgz6IVEuKdTIBD+/wrVUD1K/0xKadiLa7BvM5Z687i4I/x5n41H4MyAICyt313TvrmvKHc15lxnJnBf2GceuOIogn8OO3+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789639423; c=relaxed/simple;
-	bh=PoNl5ra+f0U67tujIj1s8rXFEi7Km9LNlMg67/0AyWY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=am48jx/r1OkX/2pkGg3jAGnHw3kfSzrVslHaJiofrOVcSnRwY1CBnzfvFI42Gxf1fOqxyKeQgXZQXlzSZul5TpsO+zTkTGLfixZyThLPkLoBstICqjWFpjCLNhczUUIxA6no0GEOsWlhSDp7kXx3AGnNctVrT/z3pjkpx2DNKqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CZMADjeq; arc=none smtp.client-ip=74.125.225.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789645725; c=relaxed/simple;
+	bh=oIPgUxwSIorXzoJrCau0WJycmLIK5xU1/WW6WAWA7og=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ogr5OeXU6eYhYuZX+OAxdR3e7j0dWsixULLZwOMGLQs9uII5H0cH0iFHD/rXRyBdHWykEcUUKmgBMdxzaEtXEwgwrHt7kbzZ77rEuXww6lisVcPB8+jEMYPnYTGC5za9VVVXoLVjjgXX10zRL5RagXImebM2klErQM349EokWi8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g1WwyFp5; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CZMADjeq"
-Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-485ac898fa4so491500f8f.0
-        for <linux-staging@lists.linux.dev>; Thu, 17 Sep 2026 03:03:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789639403; x=1790244203; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=/J4Rp8eRnaPGbAZF8oVjd3+a9JLUxp/weesAB0KEsHI=;
-        b=CZMADjeqOcXvKruGtNpgk6d5vrhKVTFIwERxRuh+UCpw6gbRo3EYOpcVL8dxTgnmRm
-         cFl2Bzl7gGwjjhOLa+4zntpTioLVrUwT6hsTJ7OyihXgF//qds12w/9JI1b2y50cYd1P
-         v1SXZUwG2MFWw6Wb/wjXjrrXRGOxNOe63ulMav/KyDTMUGz3WXxcQnB8A9ufy+zVk6Ao
-         /WgomQlnBzh2qg0zCAK4OOe11I+Ftryu4CVBlQSGrI3BzTYzhIO5X4cupnsuHpOXb7HK
-         qh6N0pW+Y94tyMoHzWMeEreP2miXdVs/Mzl0/aphCCFkQodj+4O873yOiWGWaz9TuOk7
-         VoJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789639403; x=1790244203;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=/J4Rp8eRnaPGbAZF8oVjd3+a9JLUxp/weesAB0KEsHI=;
-        b=nnSixvvKaibJcKMDhjfYrRfwkhecMBz7w1fNVq7uyEXupOma+ErKVkO1FAfysR8PrD
-         PSRxyJxqIsRESQ26ktiqW2xq/HL4V7jAeSJTlFkDmQZPl0NZlOIFgKEvlmNQ46126g6t
-         aF0MeSBMl1yUgQZlfee4whFAGAoa0R7HVKZO0MpDnWLZDmxOsoKPLO30/8Fe2yb4nYZz
-         yAuIMGRt4WGqmQoR12OY++FOywENIFAftZy3eKaIOZGFRMsyq0x2a5OmaVpXxC+6K/Up
-         v5QPRwC5NLGkgEG+4ecAsbwoHhKf7Tg/fo9RlpzNTAdM4MduIgGSLPAMBMAA708BGhJx
-         C5bQ==
-X-Gm-Message-State: AFuF++nQDV/d7iBH/oQuwZqPg/CJH6TsbXg8Rj6HRWanoJpOxBDXOW+o
-	ubXySbtsuLbH/rtbwsyjo+HRANpptstPT2anE48XpZ4q2Jy25yPhcw70
-X-Gm-Gg: AYBFou2yi+LlRKFTnlYlWugWlRbNDK+eiDFBzngODGYXFAheelfTdPwMy4kwNz+BaTZ
-	Z/wuylZBkVgmRcB1EEnM0vJkAEKBeuFukJzsh7jD3oMQHeR9CuYt7LdTucOaPxTESNuyVFMKL03
-	Xrvxphjwx4uEtXjzwvIiEzeSLH6OLk6IwSbfqA0r3mdhukuw2U8+EnQAcayqFSu02udlbG0yHIx
-	h0cLcv9nEzpG89tFnQ+lyIt5UzXevMoYr0eJIWSSg6Ju9Cb7ZwPNye7oHj7ASmHhmKFSSH8Mhhd
-	j3DCQiNmGXYgJbx56RfGOvRp6lwGUADMKu22TvVl1ekqnzIs/UiWyQF+56yJ5wck6o0B+VnIWob
-	Qe589yJGf8q11D43Q+qjMknqaZ4tSXtx9tmx0k3c+lPCikSN2oeU9CDUxwXiL2r6HzbtDyNF9tH
-	uJqWN1Ogy85W1C4EdL5EDLkFpj3kuLoHcN6arXIGIddCcTn3uzQCMInrIxJvuX99uq9uy5kwBfF
-	8t+iYwcdciU/zfelGbfJA==
-X-Received: by 2002:a05:600c:1c0e:b0:499:79b9:e220 with SMTP id 5b1f17b1804b1-49eb72f382amr79104485e9.10.1789639402386;
-        Thu, 17 Sep 2026 03:03:22 -0700 (PDT)
-Received: from ubuntu-4gb-nbg1-1.. ([2a01:4f8:1c19:b0ad::1])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fbfd935cfsm27880785e9.0.2026.09.17.03.03.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Sep 2026 03:03:21 -0700 (PDT)
-From: =?UTF-8?q?Rare=C8=99-Mihai=20Vladu?= <vladurares@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Rare=C8=99-Mihai=20Vladu?= <vladurares@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: fix coding style issues in rtw_recv.c
-Date: Thu, 17 Sep 2026 10:02:54 +0000
-Message-ID: <20260917100254.1067839-1-vladurares@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g1WwyFp5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789645723; x=1821181723;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=oIPgUxwSIorXzoJrCau0WJycmLIK5xU1/WW6WAWA7og=;
+  b=g1WwyFp5gq74Su8TRDKTFizE142YTsdWZ4i8GSz5Cl2+BqoghhDdn/Md
+   tFi9qHqTLfWNNNK1YU+Q0btocy5VpYRtuoYiempcAcN2B8eZ9KSZRNfMD
+   dNpbVjeM+2HeLjuMfa7Na0x2Py0ocBxZEEAf5l77bp/w83IjN2yKk9p6R
+   omrVdCngxVFGXZJtaEL6ybrZgjhhgAUKCY0a0ElFPvIs2oEoNyTRGsovr
+   SaHuH+0dxUlTe0X5yeQy8jqON1Xgt1Kcgeo+jicuWDYvuLBCeRpo+Tt8s
+   6N4H4yyz/R0iswhgc4mQXeixI9nQYKIBgghf6IuLwQcHWLCujN03bngqY
+   g==;
+X-CSE-ConnectionGUID: S5H0croDS5CFbmAV3p+MHg==
+X-CSE-MsgGUID: WFgHhY2CTJux6oZ0/LrwCA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="90076028"
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="90076028"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2026 04:48:42 -0700
+X-CSE-ConnectionGUID: hhKhDru7R2arnMNkk5CEVw==
+X-CSE-MsgGUID: 3k1AwqgbTDes8po5vElcRA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="270441041"
+Received: from alekseim-mobl.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.32])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2026 04:48:39 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 2791911FB34;
+	Thu, 17 Sep 2026 14:48:36 +0300 (EEST)
+Date: Thu, 17 Sep 2026 14:48:36 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Junjie Cao <junjie.cao@intel.com>
+Cc: Miguel Vadillo <miguel.vadillo@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Manuel Knitza <manuel.knitza@googlemail.com>,
+	Thorsten Leemhuis <regressions@leemhuis.info>,
+	Antti Laakso <antti.laakso@linux.intel.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, regressions@lists.linux.dev,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] media: i2c: cvs: Do not hide the option in the ancillary
+ menu
+Message-ID: <aqvTlNnMw4FRqom_@kekkonen.localdomain>
+References: <20260913125345.588586-1-junjie.cao@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260913125345.588586-1-junjie.cao@intel.com>
 
-Remove unnecessary parentheses around arguments to list macros
-and the address-of operator. Fix alignment to match open
-parenthesis. Issues reported by checkpatch.
+Hi Junjie,
 
-Signed-off-by: Rare»ô-Mihai Vladu <vladurares@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_recv.c | 63 ++++++++++++-----------
- 1 file changed, 32 insertions(+), 31 deletions(-)
+Thanks for the patch.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
-index 7568fc514..fbb223288 100644
---- a/drivers/staging/rtl8723bs/core/rtw_recv.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
-@@ -59,9 +59,9 @@ signed int _rtw_init_recv_priv(struct recv_priv *precvpriv, struct adapter *pada
- 	precvframe = (union recv_frame *)precvpriv->precv_frame_buf;
- 
- 	for (i = 0; i < NR_RECVFRAME; i++) {
--		INIT_LIST_HEAD(&(precvframe->u.list));
-+		INIT_LIST_HEAD(&precvframe->u.list);
- 
--		list_add_tail(&(precvframe->u.list), &(precvpriv->free_recv_queue.queue));
-+		list_add_tail(&precvframe->u.list, &precvpriv->free_recv_queue.queue);
- 
- 		precvframe->u.hdr.pkt_newalloc = NULL;
- 		precvframe->u.hdr.pkt = NULL;
-@@ -161,11 +161,11 @@ int rtw_free_recvframe(union recv_frame *precvframe, struct __queue *pfree_recv_
- 
- 	spin_lock_bh(&pfree_recv_queue->lock);
- 
--	list_del_init(&(precvframe->u.hdr.list));
-+	list_del_init(&precvframe->u.hdr.list);
- 
- 	precvframe->u.hdr.len = 0;
- 
--	list_add_tail(&(precvframe->u.hdr.list), get_list_head(pfree_recv_queue));
-+	list_add_tail(&precvframe->u.hdr.list, get_list_head(pfree_recv_queue));
- 
- 	if (padapter) {
- 		if (pfree_recv_queue == &precvpriv->free_recv_queue)
-@@ -181,9 +181,9 @@ signed int _rtw_enqueue_recvframe(union recv_frame *precvframe, struct __queue *
- 	struct recv_priv *precvpriv = &padapter->recvpriv;
- 
- 	/* INIT_LIST_HEAD(&(precvframe->u.hdr.list)); */
--	list_del_init(&(precvframe->u.hdr.list));
-+	list_del_init(&precvframe->u.hdr.list);
- 
--	list_add_tail(&(precvframe->u.hdr.list), get_list_head(queue));
-+	list_add_tail(&precvframe->u.hdr.list, get_list_head(queue));
- 
- 	if (padapter)
- 		if (queue == &precvpriv->free_recv_queue)
-@@ -323,7 +323,7 @@ static void rtw_handle_tkip_mic_err(struct adapter *padapter, u8 bgroup)
- 		key_type |= NL80211_KEYTYPE_PAIRWISE;
- 
- 	cfg80211_michael_mic_failure(padapter->pnetdev, (u8 *)&pmlmepriv->assoc_bssid[0], key_type, -1,
--		NULL, GFP_ATOMIC);
-+				     NULL, GFP_ATOMIC);
- 
- 	memset(&ev, 0x00, sizeof(ev));
- 	if (bgroup)
-@@ -352,7 +352,7 @@ static signed int recvframe_chkmic(struct adapter *adapter,  union recv_frame *p
- 	struct security_priv *psecuritypriv = &adapter->securitypriv;
- 
- 	struct mlme_ext_priv *pmlmeext = &adapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	stainfo = rtw_get_stainfo(&adapter->stapriv, &prxattrib->ta[0]);
- 
-@@ -682,7 +682,7 @@ static void count_rx_stats(struct adapter *padapter, union recv_frame *prframe,
- }
- 
- static signed int sta2sta_data_frame(struct adapter *adapter, union recv_frame *precv_frame,
--			struct sta_info **psta)
-+				     struct sta_info **psta)
- {
- 	u8 *ptr = precv_frame->u.hdr.rx_data;
- 	signed int ret = _SUCCESS;
-@@ -768,7 +768,7 @@ static signed int sta2sta_data_frame(struct adapter *adapter, union recv_frame *
- }
- 
- static signed int ap2sta_data_frame(struct adapter *adapter, union recv_frame *precv_frame,
--		       struct sta_info **psta)
-+				    struct sta_info **psta)
- {
- 	u8 *ptr = precv_frame->u.hdr.rx_data;
- 	struct rx_pkt_attrib *pattrib = &precv_frame->u.hdr.attrib;
-@@ -866,7 +866,7 @@ static signed int ap2sta_data_frame(struct adapter *adapter, union recv_frame *p
- }
- 
- static signed int sta2ap_data_frame(struct adapter *adapter, union recv_frame *precv_frame,
--		       struct sta_info **psta)
-+				    struct sta_info **psta)
- {
- 	u8 *ptr = precv_frame->u.hdr.rx_data;
- 	struct rx_pkt_attrib *pattrib = &precv_frame->u.hdr.attrib;
-@@ -1059,7 +1059,7 @@ static union recv_frame *recvframe_defrag(struct adapter *adapter,
- 	plist = get_next(phead);
- 	prframe = (union recv_frame *)plist;
- 	pfhdr = &prframe->u.hdr;
--	list_del_init(&(prframe->u.list));
-+	list_del_init(&prframe->u.list);
- 
- 	if (curfragnum != pfhdr->attrib.frag_num) {
- 		/* the first fragment number must be 0 */
-@@ -1378,7 +1378,8 @@ static signed int validate_80211w_mgmt(struct adapter *adapter, union recv_frame
- 	    adapter->securitypriv.binstallBIPkey) {
- 		/* unicast management frame decrypt */
- 		if (pattrib->privacy && !(is_multicast_ether_addr(GetAddr1Ptr(ptr))) &&
--			(subtype == WIFI_DEAUTH || subtype == WIFI_DISASSOC || subtype == WIFI_ACTION)) {
-+		    (subtype == WIFI_DEAUTH || subtype == WIFI_DISASSOC ||
-+		     subtype == WIFI_ACTION)) {
- 			u8 *mgmt_DATA;
- 			u32 data_len = 0;
- 
-@@ -1420,10 +1421,10 @@ static signed int validate_80211w_mgmt(struct adapter *adapter, union recv_frame
- 			if (subtype == WIFI_ACTION) {
- 				/* according 802.11-2012 standard, these five types are not robust types */
- 				if (ptr[WLAN_HDR_A3_LEN] != RTW_WLAN_CATEGORY_PUBLIC          &&
--					ptr[WLAN_HDR_A3_LEN] != RTW_WLAN_CATEGORY_HT              &&
--					ptr[WLAN_HDR_A3_LEN] != RTW_WLAN_CATEGORY_UNPROTECTED_WNM &&
--					ptr[WLAN_HDR_A3_LEN] != RTW_WLAN_CATEGORY_SELF_PROTECTED  &&
--					ptr[WLAN_HDR_A3_LEN] != RTW_WLAN_CATEGORY_P2P) {
-+				    ptr[WLAN_HDR_A3_LEN] != RTW_WLAN_CATEGORY_HT              &&
-+				    ptr[WLAN_HDR_A3_LEN] != RTW_WLAN_CATEGORY_UNPROTECTED_WNM &&
-+				    ptr[WLAN_HDR_A3_LEN] != RTW_WLAN_CATEGORY_SELF_PROTECTED  &&
-+				    ptr[WLAN_HDR_A3_LEN] != RTW_WLAN_CATEGORY_P2P) {
- 					goto validate_80211w_fail;
- 				}
- 			} else if (subtype == WIFI_DEAUTH || subtype == WIFI_DISASSOC) {
-@@ -1452,7 +1453,7 @@ static signed int validate_recv_frame(struct adapter *adapter, union recv_frame
- 	struct rx_pkt_attrib *pattrib = &precv_frame->u.hdr.attrib;
- 
- 	u8 *ptr = precv_frame->u.hdr.rx_data;
--	u8  ver = (unsigned char) (*ptr) & 0x3;
-+	u8  ver = (unsigned char)(*ptr) & 0x3;
- 
- 	/* add version chk */
- 	if (ver != 0) {
-@@ -1528,10 +1529,10 @@ static signed int wlanhdr_to_ethhdr(union recv_frame *precvframe)
- 	/* convert hdr + possible LLC headers into Ethernet header */
- 	/* eth_type = (psnap_type[0] << 8) | psnap_type[1]; */
- 	if ((!memcmp(psnap, rfc1042_header, SNAP_SIZE) &&
--		(memcmp(psnap_type, SNAP_ETH_TYPE_IPX, 2)) &&
--		(memcmp(psnap_type, SNAP_ETH_TYPE_APPLETALK_AARP, 2))) ||
--		/* eth_type != ETH_P_AARP && eth_type != ETH_P_IPX) || */
--		 !memcmp(psnap, bridge_tunnel_header, SNAP_SIZE)) {
-+	     (memcmp(psnap_type, SNAP_ETH_TYPE_IPX, 2)) &&
-+	     (memcmp(psnap_type, SNAP_ETH_TYPE_APPLETALK_AARP, 2))) ||
-+	     /* eth_type != ETH_P_AARP && eth_type != ETH_P_IPX) || */
-+	     !memcmp(psnap, bridge_tunnel_header, SNAP_SIZE)) {
- 		/* remove RFC1042 or Bridge-Tunnel encapsulation and replace EtherType */
- 		bsnaphdr = true;
- 	} else {
-@@ -1593,9 +1594,9 @@ static struct sk_buff *rtw_alloc_msdu_pkt(union recv_frame *prframe, u16 subfram
- 	eth_type = get_unaligned_be16(&sub_skb->data[6]);
- 
- 	if (sub_skb->len >= 8 &&
--		((!memcmp(sub_skb->data, rfc1042_header, SNAP_SIZE) &&
--		eth_type != ETH_P_AARP && eth_type != ETH_P_IPX) ||
--		!memcmp(sub_skb->data, bridge_tunnel_header, SNAP_SIZE))) {
-+	    ((!memcmp(sub_skb->data, rfc1042_header, SNAP_SIZE) &&
-+	     eth_type != ETH_P_AARP && eth_type != ETH_P_IPX) ||
-+	     !memcmp(sub_skb->data, bridge_tunnel_header, SNAP_SIZE))) {
- 		/*
- 		 * remove RFC1042 or Bridge-Tunnel encapsulation and replace
- 		 * EtherType
-@@ -1670,7 +1671,7 @@ static int amsdu_to_msdu(struct adapter *padapter, union recv_frame *prframe)
- 	u8 *pdata;
- 	struct sk_buff *sub_pkt, *subframes[MAX_SUBFRAME_COUNT];
- 	struct recv_priv *precvpriv = &padapter->recvpriv;
--	struct __queue *pfree_recv_queue = &(precvpriv->free_recv_queue);
-+	struct __queue *pfree_recv_queue = &precvpriv->free_recv_queue;
- 
- 	nr_subframes = 0;
- 
-@@ -1795,9 +1796,9 @@ static int enqueue_reorder_recvframe(struct recv_reorder_ctrl *preorder_ctrl, un
- 	/* spin_lock_irqsave(&ppending_recvframe_queue->lock, irql); */
- 	/* spin_lock(&ppending_recvframe_queue->lock); */
- 
--	list_del_init(&(prframe->u.hdr.list));
-+	list_del_init(&prframe->u.hdr.list);
- 
--	list_add_tail(&(prframe->u.hdr.list), plist);
-+	list_add_tail(&prframe->u.hdr.list, plist);
- 
- 	/* spin_unlock(&ppending_recvframe_queue->lock); */
- 	/* spin_unlock_irqrestore(&ppending_recvframe_queue->lock, irql); */
-@@ -1812,8 +1813,8 @@ static int rtw_recv_indicatepkt(struct adapter *padapter, union recv_frame *prec
- 	struct sk_buff *skb;
- 	struct rx_pkt_attrib *pattrib = &precv_frame->u.hdr.attrib;
- 
--	precvpriv = &(padapter->recvpriv);
--	pfree_recv_queue = &(precvpriv->free_recv_queue);
-+	precvpriv = &padapter->recvpriv;
-+	pfree_recv_queue = &precvpriv->free_recv_queue;
- 
- 	skb = precv_frame->u.hdr.pkt;
- 	if (!skb)
-@@ -1880,7 +1881,7 @@ static int recv_indicatepkts_in_order(struct adapter *padapter, struct recv_reor
- 
- 		if (!SN_LESS(preorder_ctrl->indicate_seq, pattrib->seq_num)) {
- 			plist = get_next(plist);
--			list_del_init(&(prframe->u.hdr.list));
-+			list_del_init(&prframe->u.hdr.list);
- 
- 			if (SN_EQUAL(preorder_ctrl->indicate_seq, pattrib->seq_num))
- 				preorder_ctrl->indicate_seq = (preorder_ctrl->indicate_seq + 1) % 4096u;
+On Sun, Sep 13, 2026 at 08:53:45PM +0800, Junjie Cao wrote:
+> A camera behind a CVS device needs intel_cvs bound: since commit
+> c28527ce5d06 ("ACPI: scan: Honor _DEP for Intel CVS devices") the
+> sensor is not enumerated until the driver's probe clears the _DEP, and
+> since commit c6b1b34b5090 ("media: pci: intel: Add CVS support for IPU
+> bridge driver") the IPU notifier waits for the "Intel CVS" sub-device.
+> The option is sourced from the "Miscellaneous helper chips" menu, which
+> MEDIA_HIDE_ANCILLARY_SUBDRV hides on any config with
+> MEDIA_SUBDRV_AUTOSELECT=y and neither EXPERT nor COMPILE_TEST, and
+> nothing selects or implies it, so olddefconfig on such a config does
+> not write the symbol out at all.
+> 
+> Arch Linux's config.x86_64 for 7.2.4 is one: I2C, ACPI, VIDEO_DEV=m,
+> IPU_BRIDGE=m, INTEL_VSC=m, VIDEO_INTEL_IPU6=m, VIDEO_INTEL_IPU7=m and
+> no VIDEO_INTEL_CVS line. On such a kernel a Panther Lake laptop has
+> either no CVS driver, so the sensor is never enumerated, or the
+> out-of-tree intel_cvs from intel/vision-drivers, which registers no
+> sub-device; the second Link shows the IPU notifier pending on
+> INTC10E1-0/port@1/endpoint@0 on such a kernel. Both reports had a
+> working camera on 7.1.
+> 
+> Source the Kconfig from drivers/media/pci/intel/ next to INTEL_VSC and
+> imply it from the IPU6 and IPU7 drivers, which are the IPUs the driver
+> looks for, so that a config that has them picks up intel_cvs=m on the
+> next olddefconfig.
+> 
+> Fixes: 8e2b43d2c10b ("media: i2c: cvs: Add driver of Intel Computer Vision Sensing Controller(CVS)")
+> Cc: stable@vger.kernel.org
+> Link: https://lore.kernel.org/linux-media/20260912185836.309071-1-manuel.knitza@googlemail.com/
+> Link: https://github.com/omacom/omarchy/issues/10948
+> Signed-off-by: Junjie Cao <junjie.cao@intel.com>
+
+I agree there's a problem here with Kconfig but I don't think this is a
+proper fix for it: CVS is clearly an I≤C device and unrelated to IPU6 as
+such. (Well, you could claim this about IVSC, too, but we don't have MEI
+directory under media tree.)
+
+I any case I think the MEDIA_HIDE_ANCILLARY_SUBDRV option should go; it
+hides configuration options that should be selected for most distribution
+kernels while "autoselecting" the necessary drivers appears to be helpful
+while actually just selecting those that are mounted on actual devices,
+e.g. PCI cards.
+
+I'll post a patch for this.
+
 -- 
-2.43.0
+Kind regards,
 
+Sakari Ailus
