@@ -1,95 +1,99 @@
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+Received: from mail-oo2-f38.google.com (mail-oo2-f38.google.com [74.125.231.166])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E381B4973BF
-	for <linux-staging@lists.linux.dev>; Fri, 18 Sep 2026 12:18:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B74E34E4C49
+	for <linux-staging@lists.linux.dev>; Fri, 18 Sep 2026 12:19:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.166
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789733893; cv=none; b=UaXgQmhxakS5fca3rH98v75fZt8zT4XicnatXYRIrSqNSmIV0kgiIynyi3OpTj+hs2GFhXQ8Lzw3D8MxecjxryYItZKox0xjvbPmhYT/AIdq7VUfpvS/tz7DsFqST15OpfotkUZ4BukcAnkkUqfc530X88aLMyeXVFPYVByq8fQ=
+	t=1789733946; cv=none; b=eXGxL+POUb6P5KkCnG/NUncuuOfPVvqrQmYYjONmBHeJYilAsq18OiUh5RxzQQdxe9QfoSlKRp+tC/RMIZ0DC4C9/ViTFFyadTskNGEbNKQ3kwRgkkLMVYq4tGwhKAOwkjMBAtMrykeFG6daHILdoFotHQTYm+O/wy1JnXJtiHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789733893; c=relaxed/simple;
-	bh=GVsqfgiWc8eTZ6lOwVDgYX8+hEo0bQcqz2KYQ4hsFW8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V3OXBd9Em1pKbwqUfYwiX4mwi1LF31xmdsMxPFhBT95495fuO8QYfj3xMFVPleUJceCpbOh3EC+Y8qOSBW9QcFzah1MWFowThBdNi0HXnDT2rSfySOyabS69QbHoEhrpng/ivdLJAwVP0G0IK62m89fxrzMLKeY9sKOPaPFKWJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=baPRn82a; arc=none smtp.client-ip=74.125.225.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789733946; c=relaxed/simple;
+	bh=T5LKBNbvYR8NcQ1C35yVmY+2YpnZr6sgSZUAEEmtdLE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FPsZ7qcnG/mTRbjAkTN7IhjBLKXUouNxmGitRAOGqK+RWycA7aR6nyjUFZd0r3/O9OfSg6AobhvD87hhvmd+y2T98ZVDXGcqprWbaLLkdEfnjjObvc0yRT5EBhYpkPYotMLCPQ1w6+RQgMJPv2r3pw4nTOkW22sCC0L2E28PoPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ieee.org; spf=pass smtp.mailfrom=ieee.org; dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b=GzoWVp5Z; arc=none smtp.client-ip=74.125.231.166
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ieee.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="baPRn82a"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e69b9e16aso7322545e9.1
-        for <linux-staging@lists.linux.dev>; Fri, 18 Sep 2026 05:18:11 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b="GzoWVp5Z"
+Received: by mail-oo2-f38.google.com with SMTP id 006d021491bc7-6c901f4bfffso366410eaf.2
+        for <linux-staging@lists.linux.dev>; Fri, 18 Sep 2026 05:19:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789733890; x=1790338690; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=45onKwevpJeLdvAlZkmdd7zV/NiPer/Q7lLdr0dAxJ0=;
-        b=baPRn82a6qrf+047BrvEyKM9wrLoVpzwtVU0AKyWx4b/KJXaFGNvMoxFxssIr/UFG4
-         TwjdfEeXoxf8PvwDUGzQapvTNnG2QLOkgnnaqi0OO2O6lJlCxXrA8Yr2wFBoeZAtBspX
-         BF9zP1factZEVN2ldv5FWt7mHSwX6lPDZjtAh2pAAlVnPb4H0bSnJVfw/SgjIbG+GQ5s
-         lM55AK9zKaOCnEmCv7Xtr0nLxULLFfTUQsxj2bSm6ETVdOr13GODHzPvQWrVujFar2ve
-         UjSmeXbNcC0p2aonWhWEnXXaTGwfY4sNfoZ4lX8jRjueVJkRu1k9d00PPnXzX7lsU7Pe
-         jutg==
+        d=ieee.org; s=google; t=1789733941; x=1790338741; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=vsDoVpXxldUgmpDo2FIGPQNmvGEWxWO9/A1/cxllYOs=;
+        b=GzoWVp5ZQgOO8xIgqv86M0ajmWJSfTcsA2jM5RneWeKxOUjFJ/WKHE8f9nlHNdQKAA
+         DEfeUkhdd39MgDeWba8eSFvYp+itDgUsCoe/0z4OOkPDxOFjDzR+NxmYjVtGp0ms/6/H
+         lRYW0eOTflo9sE2uygGpM1kJEKkmSTs/HKXmo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789733890; x=1790338690;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=45onKwevpJeLdvAlZkmdd7zV/NiPer/Q7lLdr0dAxJ0=;
-        b=0IMShe5C3gCSaCSpPgcvQRsc6qFhpOHgJaq5qSBF/cjif1dT9NLA5BfNACPW/m5p23
-         XgN8ZSBAq0K6DByoKSj5eHBBO2ZrhCu155HfK4EmAR7t3cFvwIq2Iydl0jJJwdGUw35x
-         A2g36z6V7upinT806Y8dK0loW3kzB2geBD3cuNPGpk+JJ9z/vfXtPjhrhC+frlxuTLi6
-         PBMsVfdSB5XdS21Vnw4tCFScBo4ZnVOvJtjIGyxKv7HB61Waq3X+RPI0zWhCuH8iZ3sA
-         l5MZeENjiftwCeCRKbhLBiC3Ed5nL3X6UwIP3jqj0YroikQdL/i/RdzKTrxPOBnCj0Zv
-         F29w==
-X-Forwarded-Encrypted: i=1; AKwUvBy2fwl7ipqYBVxKYk3DWY+PL7dlmPDKMMm1qoVF3GoI6ATdJCbVbvuJVpsRtGQG5o2DbjKXu3hOOYHPXqsQ@lists.linux.dev
-X-Gm-Message-State: AFuF++m4MB+5iG8bonGbGQO8Rwp7mTHNGe9/b0+QmLU2MjP6Hl8JIAru
-	EC3kOLk1erLiUSsN7pjIl6RSDWLOTT8mzshVWvsv2bZoolRzniHlgTN6
-X-Gm-Gg: AYBFou082wrddCZAbN/fyc2NW3jHlAvUOJI02LEtb6FuRwOQBbg8xzwBbt3BColI0Bn
-	f6g77KX+qMnDmyp64gRNRSVzc6J7ztwQ1NVFOXMDZ+EVcz+Vqnn4Ty1F5OQHOjcfCA7VvxaFBF6
-	NWY4Ss7yzdPn1gwfVATGuiXvN/CxQfP/FYKPHBH44PT9LTllcHcw4qakPiW+VvzBjWfa6FELeLa
-	wAwdeU17jme4zruJFjS3m7VvUpD196wQUvzl/JuW1SBoQ8VGeKvhsbonwbZivY/+2IJ2m5nYQ0p
-	5zSLHPnQkSJZl1AWIOXEHXMlGvdA/aNRSlKkRHb0iu8l6scG2YVVrDT4HFS5NOVAvVMZD1QvL24
-	+JDfc2vJuBM3oIigWI0ZEsPV2QNbZXoLboYaDYKSqDRyHVKYr3/0PC9emZyhx3/jTUFoJ2bLfjT
-	fxE24pNjC4KDhEfxka7mlXmmXwg8V+X4HXMAmIB9K/2SKRfTFStF6AT7W8EK19k3j06oo=
-X-Received: by 2002:a05:600c:6206:b0:49c:fff9:f684 with SMTP id 5b1f17b1804b1-49fc5735339mr29623045e9.21.1789733889912;
-        Fri, 18 Sep 2026 05:18:09 -0700 (PDT)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fcab7e333sm33701115e9.7.2026.09.18.05.18.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Sep 2026 05:18:09 -0700 (PDT)
-Date: Fri, 18 Sep 2026 15:18:05 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: =?utf-8?Q?Rare=C8=99-Mihai?= Vladu <vladurares@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: replace msleep with usleep_range in
- rtw_mlme_ext.c
-Message-ID: <aq0r_XwNzLQBnDku@stanley.mountain>
-References: <20260918110821.1117935-1-vladurares@gmail.com>
+        d=1e100.net; s=20260707; t=1789733941; x=1790338741;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=vsDoVpXxldUgmpDo2FIGPQNmvGEWxWO9/A1/cxllYOs=;
+        b=Ifrgsbt4WIDOPLpCwfrHSJZxpRzEPASMrn22eZOENsPG9BuQzxAzyG2CTm0WpfYEO9
+         O1C5YnC3zwE0dh+K+0ojiZsUD5zViNBPJDir2NBxHPV3hFYhOvmJgY69dONrFGJJZf5f
+         jtwbf+UWi5JRoCW+uRZ3JR1yJp5Mjj3S/HlJmCoWw+sM84WGLOOSykmS5r1KJrVzZK1H
+         ZOc0w6ZMGICavAG5GzFn7jA6YR0gVnKi+XJF9rIJOydPXOu/PimCTpYn7e/kbEsn1cpH
+         KYa8GOR/RSaDhVUXsAKH/bdSJd4AVNoxNOYKsD7yj0u05ZsrNZ84dRQ/miVeHwRmfvFc
+         S9+Q==
+X-Forwarded-Encrypted: i=1; AKwUvBwwxHcZK/Mqr5BttrXrxktzlg0KCkOab6+LAPdUt60rmWWYqLncGVOlyDorpg0K3YPjkOOjT2PTPihEx9+b@lists.linux.dev
+X-Gm-Message-State: AFuF++macNhPb2Y9xPzUOH22JEd3iN25f/rNvS9JcbBvJYV0IWqOZRAZ
+	wjsiIThP8YXQZMuZyjpX5HtUNPYUSY7rcjGoidXS+OkT0o9LVecGqWGb/SCj4fhfwn2+0wRY1ir
+	dZRml+g==
+X-Gm-Gg: AYBFou0WlEjCm1aLxGyiES58/vfSGla6kmnLwpJHARTAiEt2zEYsB8Vl9uMw13EezzV
+	/gJiqLWKzLOebD6ImQSJCtticBDjRPejwlG8yWge0m7EA0Ygbyl2ljbDPH23nh2LoyYWx5vrPIX
+	Ap/NTSfgtitw12drUNdnAnKgVbO9S4LM/5HM5XQfaOMSAaIrerjGDuupD4CawOCra6C2bUa6Uk2
+	W0Mq/K2P4HNiJfIXhOcIexiUF1yLKQNVr0CzsJZdSPg+gW0vgc7FT1zeMl54X48z44Sq4KeVgqe
+	Znw70EolvAeHxRQ4CJb49DFr/d2dEB9ftJdU/F+pICFqw1kT0ys+akmj0MVd2DJANxwv0A50OGR
+	vCXiKN5riwVq4a3XSrkJ0PnivR/Qx6EFDyW1RQ7LmzNsSg7mRwfenmhMiVRMD//c9aGHWjCF99Z
+	FmKl9BIdYJb65ElEGMqiU2JTfP4Uud34io1uv8zvXMen3aCl61PGvZ/G4ulxcujeXTiw==
+X-Received: by 2002:a05:6820:628:b0:6ac:b6c0:2bf6 with SMTP id 006d021491bc7-6ca9a63c715mr2145626eaf.5.1789733941134;
+        Fri, 18 Sep 2026 05:19:01 -0700 (PDT)
+Received: from [172.22.22.28] ([73.62.185.64])
+        by smtp.googlemail.com with ESMTPSA id 586e51a60fabf-4873a2ea6b1sm730690fac.15.2026.09.18.05.18.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Sep 2026 05:18:57 -0700 (PDT)
+Message-ID: <d527cd2f-6a74-4bda-b84d-cffc523a861d@ieee.org>
+Date: Fri, 18 Sep 2026 07:18:56 -0500
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260918110821.1117935-1-vladurares@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: greybus: remove empty TODO file
+To: Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+ greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev
+Cc: Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+References: <20260918011654.115001-1-enelsonmoore@gmail.com>
+Content-Language: en-US
+From: Alex Elder <elder@ieee.org>
+In-Reply-To: <20260918011654.115001-1-enelsonmoore@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 18, 2026 at 11:08:21AM +0000, Rareș-Mihai Vladu wrote:
-> Replace msleep(10) with usleep_range(10000, 11000) for more
-> precise short sleep. msleep() can sleep up to 20ms for values
-> below 20ms due to timer granularity.
+On 9/17/26 8:16 PM, Ethan Nelson-Moore wrote:
+> drivers/staging/greybus/TODO has been empty since commit d85bef159923
+> ("staging: greybus: remove completed GPIO conversion task from TODO").
+> Remove it.
 > 
-> Signed-off-by: Rareș-Mihai Vladu <vladurares@gmail.com>
+> Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+> ---
+>   drivers/staging/greybus/TODO | 0
+>   1 file changed, 0 insertions(+), 0 deletions(-)
+>   delete mode 100644 drivers/staging/greybus/TODO
+> 
+> diff --git a/drivers/staging/greybus/TODO b/drivers/staging/greybus/TODO
+> deleted file mode 100644
+> index e69de29bb2d1..000000000000
 
-Better to search the archive to see if this has been proposed before.
+Looks good.
 
-https://lore.kernel.org/all/?q=chk_bmc_sleepq_hdl%20msleep
-
-regards,
-dan carpenter
-
+Reviewed-by: Alex Elder <elder@riscstar.com>
