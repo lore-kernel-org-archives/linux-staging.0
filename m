@@ -1,77 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A83AA39733E;
-	Fri, 18 Sep 2026 07:02:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10CD24C9E12
+	for <linux-staging@lists.linux.dev>; Fri, 18 Sep 2026 11:08:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789714950; cv=none; b=KX52zBGs9Vsmq3HTkDHZVuiGrkNNfYYgADJDUZqiGdbDBApJgPRKaXcYKvqv6UIM0RkkldLfXd8jhSFyqb7pN89w6QRQzMoUC8yKVLz7J5U2RpCz2MHJwvoCLFSLYbXHTVBmhWdzTEhSDfq7swPEekB9BDfiNE7A6rEWF5FH8r4=
+	t=1789729724; cv=none; b=JDgQvhvLuqtsr/aNIQaw2J/jjvRtWuhmkeNtAGlLkBGqDmU5hH042vEA9MD/EVF4QGfZwKlvl6lLFHVjlXHafttD58NtIB0spgSQQ5aEEJovdzunAc216uEsSwb4bEJsY0ObWfm1ywIbOQtEEAsNITZ83cjkhFl96BzyKCzK/zc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789714950; c=relaxed/simple;
-	bh=Ab57gbCozA0XCg2TAtvkerpNt0WPhCOtEoULJllt0vQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=heqhLwoMKhxA3C/iXZZIU53XArYTBGlA5zroF3ebV5Gm/Oza2rqL1N9T/Ddzwe/PPY5uTrZk5ZjSKFpNtgnOIOiL7X8Q89LHMLt5cR/mwH/eV2iO7Q3MRqLA7bSdTYWNouhVJ/IZhahsP7uMMCT9Zcotyr+UBV2ttwjuzX7QFPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HO3I+MCs; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1789729724; c=relaxed/simple;
+	bh=CTynR59BziX2J50wpNmLmLXJ3GpwJvm84Os5HZU24uE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ps4wFoQyf5O5RgZ46Rl2qE/I/Y+otg0L+DtWc5oNC1ASL21w/fQlYVlfeY9ocUwSQGSF0zZMexqNm8nlsJEij+Ko7Qeq1QsX97oNeWeLFt80Sd1UF8sLla2Eug/I0SaxyoOO/oCehJDL3Z/E3141sm5EXYqxCfVOe8fB8WDBDqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lP6ZvdL2; arc=none smtp.client-ip=74.125.225.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HO3I+MCs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789714946; x=1821250946;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Ab57gbCozA0XCg2TAtvkerpNt0WPhCOtEoULJllt0vQ=;
-  b=HO3I+MCsD9yCe3xADYPc0H+QlSbaAwKC3NaS6EWQ8mjt042C/2F0gpm6
-   pejZUngKgwpFd6iT7KJMsmZBYhC24gax544MSFPo/4PDexLXQrI5qF/0c
-   307TwWNecgtAdvGxEbb7xBQNgHZeRVqmC6eDFVQ5GfKY1tW4E/4qSLqcO
-   WIzYBUHplKHNJbVPIjKVa8co/teYMvLJ0De7xpK1cnK/bDpwtTVhaC/Am
-   ardZ4r/liPxF1jQyTQz4d0qUrCjek39jbeCupNcXmV9tK2HhrcP9DteJj
-   K8+5r5sT5cnSE2BKZsqs+wwgyB0rUvJ3KBZgW0dJINV7LhhE4HTXhlr11
-   w==;
-X-CSE-ConnectionGUID: PCecbUBaTlCnf5+98oAaGg==
-X-CSE-MsgGUID: m4JJGBuyS/CBlfGGlspPAw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="89336566"
-X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="89336566"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2026 00:02:23 -0700
-X-CSE-ConnectionGUID: bJAezRZrSSiXc334p5QXXw==
-X-CSE-MsgGUID: iOs0djwWSw64jUA+bjHBcA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="271582529"
-Received: from junjie-desk-dev.bj.intel.com ([10.238.152.71])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2026 00:02:19 -0700
-From: Junjie Cao <junjie.cao@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Miguel Vadillo <miguel.vadillo@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Manuel Knitza <manuel.knitza@googlemail.com>,
-	Thorsten Leemhuis <regressions@leemhuis.info>,
-	Antti Laakso <antti.laakso@linux.intel.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lP6ZvdL2"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912d37b6so2967315e9.0
+        for <linux-staging@lists.linux.dev>; Fri, 18 Sep 2026 04:08:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789729721; x=1790334521; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=GZN+e+voYt5PknARoCumXWZsLFyIMao9d8Ma+Y4jDI0=;
+        b=lP6ZvdL2vhQaGac3qi6ySwR+G5MaaEunfPbGsYHY8bm10SHwD8aqGIWYpdYMV+HHzv
+         h0W0KZ51N+nY2XAldae3WR/lFEBtBkRqI/fvPALIuQFeCjKtUgQ/K66bwJRnRvHM0sT+
+         u9MFbqTtlIB/8qyInoDsqlXu+GjRWZGHOo2ZmswBBl22zxQF7RGo/GuxlJUqManhJM8y
+         /MaOSXUJO4qKZYpkZ425tmGY3NxQV+2J+3BPEldKTaeOxjA+JOKw8MusYw1wmrinuBeQ
+         cjga4JaKbsNz6wQKGOAwA38BZA1WJ9Ir5XMOB7t4yuyRqXcqx1rnn3MJ+49xkz73okvv
+         cdxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789729721; x=1790334521;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=GZN+e+voYt5PknARoCumXWZsLFyIMao9d8Ma+Y4jDI0=;
+        b=133ZMEVTg4OGLZA8uJNrb5F+ZY0yK1Tt90oEYSFP/pKVGg9851FMpkRzL6yNLdBPKQ
+         CgH19ehBsfqU9J4PjJ9tEh+UHJjeFprxKJ6rKUR7AkVW7aZsIy633VdyD5mcmME9YvCE
+         jWE6nUDICH17+/8n0lNfqZBuGKcoxXJCxKpY8ClQh2Mx8ERWbPdOmxgukBAYNQGMk7SB
+         K8e+A/dTKl2Wf5ccrEZDNs1cuKXwt1A0TOl4ie5GHoll1N6L8/lu06xmJtqoHi8Bx8kh
+         AY12vU5CbXXQ/NFU+00Yodw/mlGt3gOHIkVrz0a6MJPpkXntfagN95MbeMESejWIipAM
+         oc5A==
+X-Gm-Message-State: AFuF++lpMfgYuBGC3Of0BetmkZCYOjFaGDHU1e15NtWpBgJhdpiY07+0
+	1t0zS94gmqcXn2YPuF89qc10oHhCzy+Ayxh0aYyhHxZ1POJqpP9z7TPi
+X-Gm-Gg: AYBFou0ZiLizo44Tz8iMMaProl2koKeMdzwpR9FoMAtTPd/6xiEnc+i1V1oR/IDi5q0
+	pHtpEkcWtuRtCuJzV7GHj8vdV7POLLY95pI3exX+Bjanpr6+zBGGN4Wm6gwK4vj+09vsFYcjPTc
+	H7CNfWep48P/sTj8qvX9Co/GyxxNAJeeYMfCWmn7HybRIXpiewrr7SFKL3p6KwUMV8icl7+jFte
+	ytvchKGF4xdOJW3IQv92f/rcQ43h+AbTgMJkEizyhTrA6RQd8mxPkyzPEclFgs28/IvUOvHPu1D
+	GpcG/Q0QaZfw7rK4tsw//zd6/ihxZlCuZ+BoMQN3uHUFJtqja11VPlXYlJQa6Nd+2hUMnaE0w44
+	y/Vg1IvilPyC1wuB0Jhe/CMZkEYym7tYPAEaUzsDaj+Ro5TCwhZZ3bFX2jWcDILkZpaXj4ODjby
+	/tqaHHOk1sC/LB8LusKNH/aTmZcUIaUxTttbLPwGeYFAstBtd9NJt0wreHCY2Rj/pfhzhyKsmfv
+	P24W712fIKvxiKmi00Iow==
+X-Received: by 2002:a05:600c:6211:b0:49f:bc28:e8b1 with SMTP id 5b1f17b1804b1-49fc5735be7mr54409315e9.14.1789729721115;
+        Fri, 18 Sep 2026 04:08:41 -0700 (PDT)
+Received: from ubuntu-4gb-nbg1-1.. ([2a01:4f8:1c19:b0ad::1])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fc7cfd3fcsm43592295e9.10.2026.09.18.04.08.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Sep 2026 04:08:40 -0700 (PDT)
+From: =?UTF-8?q?Rare=C8=99-Mihai=20Vladu?= <vladurares@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	regressions@lists.linux.dev,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] media: i2c: cvs: Do not hide the option in the ancillary menu
-Date: Fri, 18 Sep 2026 15:01:49 +0800
-Message-ID: <20260918070149.688376-1-junjie.cao@intel.com>
+	=?UTF-8?q?Rare=C8=99-Mihai=20Vladu?= <vladurares@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: replace msleep with usleep_range in rtw_mlme_ext.c
+Date: Fri, 18 Sep 2026 11:08:21 +0000
+Message-ID: <20260918110821.1117935-1-vladurares@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <aqvTlNnMw4FRqom_@kekkonen.localdomain>
-References: <aqvTlNnMw4FRqom_@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On Thu, Sep 17, 2026 at 02:48:36PM +0300, Sakari Ailus wrote:
-> I'll post a patch for this.
+Replace msleep(10) with usleep_range(10000, 11000) for more
+precise short sleep. msleep() can sleep up to 20ms for values
+below 20ms due to timer granularity.
 
-Sounds good, I'll drop this one. Thanks.
+Signed-off-by: Rareș-Mihai Vladu <vladurares@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index e965133d9..f59302802 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -5749,7 +5749,7 @@ u8 chk_bmc_sleepq_hdl(struct adapter *padapter, unsigned char *pbuf)
+ 		return H2C_SUCCESS;
+ 
+ 	if ((pstapriv->tim_bitmap & BIT(0)) && (psta_bmc->sleepq_len > 0)) {
+-		msleep(10);/*  10ms, ATIM(HIQ) Windows */
++		usleep_range(10000, 11000); /*  10ms, ATIM(HIQ) Windows */
+ 
+ 		/* spin_lock_bh(&psta_bmc->sleep_q.lock); */
+ 		spin_lock_bh(&pxmitpriv->lock);
+-- 
+2.43.0
+
