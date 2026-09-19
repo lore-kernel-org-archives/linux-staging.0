@@ -1,93 +1,90 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from smtp.inf.ufrgs.br (smtp.inf.ufrgs.br [143.54.11.23])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70B1429B77E
-	for <linux-staging@lists.linux.dev>; Sat, 19 Sep 2026 14:12:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EFD735DA65
+	for <linux-staging@lists.linux.dev>; Sat, 19 Sep 2026 16:39:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=143.54.11.23
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789827128; cv=none; b=fv7Z7EOGAysGxICgD2G67izm7us7jVIXVTGs1M7YzOEPprrv0mP66N+74XRCpn2o3PoBlMqPtVT3Oxm9RssUSJvd9ycgCuiXx9LE383GIXNUHSyepu4z7GV0bJ9QebJfepRDVVgRJ79nZYzrZ9C7vSIZsVDynG0eA4zdaM3Aehs=
+	t=1789835979; cv=none; b=kTMOZrf8lLVQ+V56gq10fwT4n3ik2eVA0Ta0MpeFnt4Eot1Uog7Ivvr6R0XtUjrc7l6sGMrbrez3OVKMyuApg7yuq8jnqTzn+C5LC/6hoapcfAtMMZf7tSsIi6A2wQRxno9lGzZ9YvDEIVb5iXNQMLWc1dBySTKS4g6L44NLio0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789827128; c=relaxed/simple;
-	bh=oiT2W7xC0aeEfU8Ej8FsqhEh28h2sQJqmSzuWMxFGqM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GvVoZddqKZxw33UnKU7OyLmjzHMyp5fVZjokxEoMZQVj2cb2xV+mm2cdkuMdPK5cP0BpTH+nAMD7G0lyiTkdLmpshebsTc7sl5E47BOvKbDcuzdwFm8+tDGCFNw+oIy8WLemghQbkt4+jlPfrEQ+FOLYbM/IWzYqI9Qo9uRDtyA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=COlwSANl; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1789835979; c=relaxed/simple;
+	bh=i3G2jf5tXlyz9D0tOx9MCJGy2wiS0fi0DZnIJuhmyhg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=g5YC7XLQuzCE4YuYOV2oMq7a8FwNLgGQmw0UFqYsXPkxp2FhqxQSdeQZiu/5I1zeD6ImYFbtcPVdlBAOIP4C/vhHH3KdWYir3Sv+5wIPP+CN48T/JRxrcLIGTgEJtROA6bLzjAs5HO1OKI1QM6nCzSDJV4rXcvtanvhajnIeFFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inf.ufrgs.br; spf=pass smtp.mailfrom=inf.ufrgs.br; dkim=pass (2048-bit key) header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.b=A43sFXvq; arc=none smtp.client-ip=143.54.11.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inf.ufrgs.br
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inf.ufrgs.br
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="COlwSANl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789827127; x=1821363127;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=oiT2W7xC0aeEfU8Ej8FsqhEh28h2sQJqmSzuWMxFGqM=;
-  b=COlwSANlB0Gu7ROhe91kuIjBhIQODr7Gotora/MP0VPD26T828d+zkha
-   USvGi+BHd4dSb/7GArK18sOpjT1khBh/vQYlR3a/vh+wM2zv5IZYcLjhC
-   zGK8xOOWJNV0HyPTWoomw4a17Alyq+R4XFIhwOpkYIgdU/UfmS+yCbCPA
-   FKOLwkKygeTi7f0tB/oiUGNWgMmTRhAwmSDGAX0Sd/PIxparmhTq5Qw9/
-   uO2NoyttyUhGu0OE573MMk5InMUcZW2d87SUMGhoSfygzUtcxsGJ0bFX4
-   /4MrsbcJ2GW20RGGainZ/DioExL+CZ8mxrhppyBujXuh+uYHwvPa6d3eq
-   Q==;
-X-CSE-ConnectionGUID: TY8S4T9tREGCMc7FVlYUGg==
-X-CSE-MsgGUID: ngpGR1KbTRehn29bxCpVOQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11910"; a="107858047"
-X-IronPort-AV: E=Sophos;i="6.27,111,1787036400"; 
-   d="scan'208";a="107858047"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2026 07:12:07 -0700
-X-CSE-ConnectionGUID: 1akxsCysT8a4UURBig5DGQ==
-X-CSE-MsgGUID: CWNV1mhdRZGJmmbfLFmvkg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,111,1787036400"; 
-   d="scan'208";a="268521340"
-Received: from conormcd-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.244.50])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2026 07:12:04 -0700
-Date: Sat, 19 Sep 2026 17:12:02 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: =?utf-8?Q?Rare=C8=99-Mihai?= Vladu <vladurares@gmail.com>
-Cc: andy@kernel.org, hansg@kernel.org, mchehab@kernel.org,
-	gregkh@linuxfoundation.org, sakari.ailus@linux.intel.com,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: media: atomisp: remove ia_css_circbuf_t typedef
-Message-ID: <aq6YMsRFmACGZUF-@ashevche-desk.local>
-References: <20260918214132.1135549-1-vladurares@gmail.com>
+	dkim=pass (2048-bit key) header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.b="A43sFXvq"
+Received: from LAPTOP-R01LEAQM.localdomain (unknown [189.112.72.190])
+	by smtp.inf.ufrgs.br (Postfix) with ESMTPSA id 6C28C12109D;
+	Sat, 19 Sep 2026 13:39:26 -0300 (-03)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inf.ufrgs.br;
+	s=dkim2026; t=1789835967;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=nIuxeQU38bmJqFWPhFJa4/OkmhYAv8xyY+EWoichy0o=;
+	b=A43sFXvqUfYBGljego8jRmH2N4DcaRguYxWplDcux/d0u47wt61VjJ4xFVPAuiG1EFejhg
+	UZAzBSzlRXku7h0y1+QjsnRYw150bHkYOrTNN5/BEJ5WDJZjvcdmXed/5mybW1h1tbw8HR
+	kB23R1Xdb8fLhwALzoW1hdpXn5CCujR+08VetEr2j3Bx8eheHzer9NwxR0u0e82Egp6d6m
+	zNS/n4GUUE+gRhxc5aR1e8xBRx0Z8mcKOWcDV3HQzbqehDtzR2j/Lqeq/CV4BZyQWKAJrZ
+	1aJrFfpewjW/CdU6nKHm7BGlvbNB6Z/xwesgabcB89qulEdtpgAgnTnqGF1FqQ==
+From: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
+Subject: [PATCH] rtl8723bs: return bool from check_pending_xmitbuf
+Date: Sat, 19 Sep 2026 13:38:57 -0300
+Message-ID: <20260919163857.23772-1-matheus.aalmeida@inf.ufrgs.br>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260918214132.1135549-1-vladurares@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Fri, Sep 18, 2026 at 09:41:32PM +0000, Rareș-Mihai Vladu wrote:
-> Remove typedef ia_css_circbuf_t and use struct ia_css_circbuf_s
-> directly, as per kernel coding style (chapter 5).
+check_pending_xmitbuf() returns only true or false. Use bool as its
+return type to accurately describe the function's behavior.
 
-...
+Signed-off-by: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
+---
+ drivers/staging/rtl8723bs/core/rtw_xmit.c    | 4 ++--
+ drivers/staging/rtl8723bs/include/rtw_xmit.h | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
->  void ia_css_circbuf_create(
-> -    ia_css_circbuf_t *cb,
-> +	struct ia_css_circbuf_s *cb,
->      ia_css_circbuf_elem_t *elems,
->      ia_css_circbuf_desc_t *desc);
-
-So, this is half baked patch. But even if it was the full one, the problem with
-it that it does nothing useful. The useful change here is to refactor this to
-use either circbuf or kfifo Linux kernel APIs.
-
-...
-
-TL;DR: Try more useful task first, please.
-
+diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+index 95350fd6a94fc..634320e53aabe 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
++++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+@@ -2469,10 +2469,10 @@ struct xmit_buf *dequeue_pending_xmitbuf_under_survey(struct xmit_priv *pxmitpri
+ 	return pxmitbuf;
+ }
+ 
+-signed int check_pending_xmitbuf(struct xmit_priv *pxmitpriv)
++bool check_pending_xmitbuf(struct xmit_priv *pxmitpriv)
+ {
+ 	struct __queue *pqueue;
+-	signed int	ret = false;
++	bool ret = false;
+ 
+ 	pqueue = &pxmitpriv->pending_xmitbuf_queue;
+ 
+diff --git a/drivers/staging/rtl8723bs/include/rtw_xmit.h b/drivers/staging/rtl8723bs/include/rtw_xmit.h
+index 873807fcd0dd0..7d429300323f9 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_xmit.h
++++ b/drivers/staging/rtl8723bs/include/rtw_xmit.h
+@@ -456,7 +456,7 @@ void enqueue_pending_xmitbuf(struct xmit_priv *pxmitpriv, struct xmit_buf *pxmit
+ void enqueue_pending_xmitbuf_to_head(struct xmit_priv *pxmitpriv, struct xmit_buf *pxmitbuf);
+ struct xmit_buf *dequeue_pending_xmitbuf(struct xmit_priv *pxmitpriv);
+ struct xmit_buf *dequeue_pending_xmitbuf_under_survey(struct xmit_priv *pxmitpriv);
+-signed int	check_pending_xmitbuf(struct xmit_priv *pxmitpriv);
++bool check_pending_xmitbuf(struct xmit_priv *pxmitpriv);
+ int	rtw_xmit_thread(void *context);
+ 
+ u32 rtw_get_ff_hwaddr(struct xmit_frame	*pxmitframe);
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.43.0
 
