@@ -1,121 +1,119 @@
-Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF3413B52F8
-	for <linux-staging@lists.linux.dev>; Sat, 19 Sep 2026 08:55:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D5153C3456
+	for <linux-staging@lists.linux.dev>; Sat, 19 Sep 2026 09:31:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789808134; cv=none; b=B04E0CebCThw6VOVUAn6dTyi0YAUJqSZXYzoPeD7GaT8pzNUYeBwY2oOm3G+xuxBJDHOZvkRAMqW6HPF5nn1ohnRrUZ89thHDC0NGDMHfBxxvureBs760RRGsoEHkbo+Z4LjLxHnMbL14y93Vg8JUrXiIfqSZ4E41OkF4prA3ks=
+	t=1789810286; cv=none; b=ln2fNPQUZIs9WDDIDkFxo6bBDiIsZBiYOdBJYrWGMWtBDxfAB+iwHA2zQAspCvSuXpfzC5QmbGQ8lksKU5EWUXcLhxEUTNYTwz36H5jjcWjaLRHSlli9rxAipxTBcgoGVQzVzd3WMQ6aUnaCubaNlukuE3/sTQZTYhyp68IbvIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789808134; c=relaxed/simple;
-	bh=+/9iF8Q/HzoQ9AXsjS629ikGCqE2KrlWmQsyKxS+xbc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rwm+OK0Pgp53Fva2aLeZ3TWl+XUuWtJU+XruGuSKCcE47k+xUK0A7GN9rOIkuN/qwlJ7fnexXujVysRsXQezhVwtGiXswZXEXF4kGp7yRxaVhp6NbxEB0slHcdYlVq5JlyOs04wxIUQXeLByMhaV/6NPJxKRKTXVIobVJlSqHPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K3EWhAuG; arc=none smtp.client-ip=74.125.225.76
+	s=arc-20240116; t=1789810286; c=relaxed/simple;
+	bh=SNfprDKeEAk5wYlgA1hVVVIHsXt+aVLRxcUxr1jrF80=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pq6kH9aYtlzOUkSn0Ab2m4nh72MvPirl4L0edsQrZ+H8jBmHZF+IahrYVyrqrqeBdo6CPNOpmduiNghrJIWfsXwyU6JuqRrkYZrcHs+y8dnw9XJNejzm8y8Gh7N2il1wb1S/KL/khFVuOXrqLP+nOtR8rJWvee2KBWSnj6lxkG4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YkArSiz7; arc=none smtp.client-ip=74.125.225.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K3EWhAuG"
-Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-48449f62b93so491871f8f.0
-        for <linux-staging@lists.linux.dev>; Sat, 19 Sep 2026 01:55:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YkArSiz7"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49ccff31419so12848165e9.3
+        for <linux-staging@lists.linux.dev>; Sat, 19 Sep 2026 02:31:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789808131; x=1790412931; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=04kbXYpwvydfIV09e+Yw8RNCO3EBvkyuMvNNxaqIlHg=;
-        b=K3EWhAuGKudnD4EE596a19ixbYjefrpSOQn8BJZlENvY3WZx6SPsd5eSuGf/wD3mJX
-         3vS62rJUdG8ApvpVnpjEJdNscpvbiRsrhvNiJN0ffkNlOuVyRV6YT04dKKuPVnZVBTzS
-         +rGNHlsRW2eehAoQKKYEyrDaPDC0WqeQAeal+6UD+sQckk71PLsZQP1DmjJPMTiTBVQX
-         yS2nvs7Ehgz0HBkH5dtYT13mtnnT91ThIZwwtjpxonROdTtEz972HqbwylXCVmlvaec7
-         3hFimG9VmU9DJ1SKAP+fssYNzLC7S8apy3Y6ooPXCG+yMVvQpVhUKCD+RfiooH/f26PQ
-         /E1g==
+        d=gmail.com; s=20251104; t=1789810281; x=1790415081; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=+PkC9L5fOjPL6sBbulqfAvEH4cZDiVNQRsYYaLvTHWM=;
+        b=YkArSiz7VsLuiCcQXmzQpMsBY2NzStCV0VKoUYL8IXaGnI46ReeLWTglDo37zNIGR0
+         2PM6xQNu1oVQOZHOZF9XL+muytC5rTaYlSjp2m25O9qoJPz3xVm7PWcddBR+SgUSnuDx
+         rLvVNRvnp1DXPRL0dN15BX2gbY3Iu4mUHCm8kOOFc1PjkZNWfX49+v4YjosRB9gMphJf
+         AHr8JNiTl1kHsm+JmbvP87lpwdGaogaadpNlkufmAcLd3gFgtsBYO0XafqaJHUlsVdwO
+         8MPZYwHPaPuSsR4MGGgRTwlELpxnr32/P0ApnyYq+jlsKo63F2k94746qpRfi3s9S+Hc
+         f4Vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789808131; x=1790412931;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=04kbXYpwvydfIV09e+Yw8RNCO3EBvkyuMvNNxaqIlHg=;
-        b=GCMeO4MZFRPN8x7b8DQPNDboq4M2oquMtIXOoWrz600w4l1n8/LxfSRG7fGm7JpAug
-         yMfQkAUob/piMcv2vX0lwZe+IU5a7KiJwsjRg9m3LGFRuOtqY7tT3ORiGf00bmTQRLcZ
-         gBtJ59UmxLHjUNeKBDEELy1hu3fS38HY6qLOR/NO/9FQNePftnyfX4APgNwAAE5dhXKh
-         Bq5pETCKjUnTN4Druuu+oVZUiziT70ZrhJG8zMF3ytYLERoDoumPj4nlJb6PArbStVIm
-         v2Yn8+YyRhAvDCsWFJ3gkd/ASMS4bGZnQHMFklKqOYZN3zHxZv+q2vB16M7SqDJg/mn4
-         ZjAQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwr354B5+0pMxHWlknqjPKv7CGGbb2cSrfDJ+xPK6M1I/LUOXsClhDb3ian2GPJW7WNj1XxQ5O4jqREuLW9@lists.linux.dev
-X-Gm-Message-State: AFuF++nsf/pgQGYq38qC/4g9iaC+CFBS4NWpLlxWstj6+GtWgoo995qz
-	h8DmzNKGV3K3BrN7ma9JvwiecOG9jW9sua6f/eRduI/5oz+xKbpxVQvs
-X-Gm-Gg: AYBFou2QBPF+x4UO0JHsy8Tm04OODWUPN7BmPnikJe0zZWeCgmHEwav6K76LhPQT5Xa
-	lWb3w16+2j6edSdU+E7BU1KzjoysoR1f7H5nzAgUK3nBcV6JWrZkjoB09Ot1XRrtNltvxzJJ4sH
-	1eW7R5jXjyQnVKNl/FURndp6NUBQY20Vp2TT8nIIOd2TQaOS4Anpk/Oyxw/2cxydmK08QBLL5a6
-	+yW61f6oEisVieZ3A4aE1YnHQSwN9ygTRGMc5WyAfO1vsPSi29faAvd6PmrnaOcBnK3nvh2x3v3
-	ir5ZY5h2Wy4sGP4WWXkr55N9FRs4Nn2SIL53/ZifGQezqqhQizuooFhjrDyzNtiQ1p7BDxEFPyX
-	J1xcJZoWEPouuTP3Y5HUhpXlRVxwuH06reOEW3+IMIk/8nm2143BnLaw/G0x5+8uXzE5zFo+TN6
-	jbRgnw2w8SQkvDnx2hfYFYsp9pE5lk4JrCGBBfHg+1Gay0vcjhLEb97l8MXmFZv2wHTfEms8e5u
-	B7/bq1IZySSFbDU6e/dn9I=
-X-Received: by 2002:a05:6000:2688:b0:487:146f:7c88 with SMTP id ffacd0b85a97d-4871d98cdcfmr7778873f8f.4.1789808131054;
-        Sat, 19 Sep 2026 01:55:31 -0700 (PDT)
-Received: from fedora ([154.182.123.247])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48724595289sm5574613f8f.29.2026.09.19.01.55.29
+        d=1e100.net; s=20260707; t=1789810281; x=1790415081;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=+PkC9L5fOjPL6sBbulqfAvEH4cZDiVNQRsYYaLvTHWM=;
+        b=KwhqhHsr62+uDaNZlVWqrQqcwHwoeDZodPbDbjp8t9JMX96Jekd4CzPxvl1+6NLr3P
+         kQAd0thZT64bMCZ8eBmnpR4p3tvtQ6ojV1Nn/nNp/Kxgq7wlxZGfOtaKRvDOl5irDPAw
+         UjdtTtWTTN8X90N9ulN1tyCJcgr1TfjYg5YBzjqbdjsI9acnkjcJHeyREv97k+RnY0y/
+         rGbKnjh6q7b5Hyb0TPfmOe8+8ZC7KSD+Q+V6RoxxsKh1YgX5O05zr7NJhSiSYsyBUyd6
+         fX8jc34P6z2JtBrxJ12JRfK8IFIcfQhRD57HAjWHk27DL45fTyt3QTiuKOmr2J0Ak0L3
+         CbxQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxDpFY7nJeqWhvjzJZyOPZfimFTbuSSQZhbGyy8JaG3UEMddCaP7RJPhxoKptBRgHRQPzDsHfqKluqE/KL5@lists.linux.dev
+X-Gm-Message-State: AFuF++n56tpwUCJ01kQRsXo78ea7a8kIDesLAkJF6vKDTfcjS1fbgA5X
+	0b2afhBKLXoj28VLIFYAqeRKF9miP2gFqCLKbtJCAy7W7XNIjvbobeAt
+X-Gm-Gg: AYBFou3WIbM9Rh7iYJChrwSIvbE1pi15BcpFd2SZCjdjGjnckJSoYRM9K/q2aPOsj2j
+	ue3bsQHAMoGUggbdlITZfFFndQ0M6cEuUsvWQtjYPnkmI4V4S32LDRqM7XdKeC+jn6SbE7tVTtf
+	JWVogItisxRAKdX0U+e7J4b/ncY5Ok5vsJC9MyCuF2E1Xat1M9Hewig/conWp2DHpH00ESIPuOH
+	4LQN7JUvvdAotY+82q2fvCEBbBMW/CM/+BDXUVYw/6WyMZZXL64KAl57h8hteJPDgMpS0mKi0se
+	/B97JuLETVihCM2aa3JSYR4c0wYf/2jfk5cR0wXx9cXbC/Q1pX0R0H3TaZAU+w9HJw9ixpN5qdL
+	2X0hHz8FUDcfeV8lNOtske6pnsTqxoUFRSRguUmYb/+SW/2Z99aCcVQbOuMfGHdN4YmO3fqMWw2
+	PTkVbZlvzy5Z2mb7B5V/n6IzBRYSlrYI5cRGVzCVU4m93YJeWkpPIwKg/N+hQSg9Wp1YwngyFRy
+	eL315aW91X0e/d+FBgvVEp2wQyqmb+Os+7riwVm2T5S3Cr1cBOrxElExEeOpVzec6jw6Xqa5SZH
+	EAu7V2BBQHMKbbens028FPXWd+h1mMp5ym/Z/Y8icm9J+MZ8iGGTOedjEbvh5YJvjRGNXTGZQfq
+	wdM0k9ziESGVQj1I8taUEWoYLhtUlH0o=
+X-Received: by 2002:a05:600c:8b61:b0:49e:69ff:c6b1 with SMTP id 5b1f17b1804b1-49fc5749edemr79130785e9.31.1789810281330;
+        Sat, 19 Sep 2026 02:31:21 -0700 (PDT)
+Received: from systembl0wer ([2a02:8308:4092:11f0::f9f])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fcd086ce9sm85591855e9.12.2026.09.19.02.31.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Sep 2026 01:55:30 -0700 (PDT)
-From: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
-To: jic23@kernel.org,
-	gregkh@linuxfoundation.org,
-	nuno.sa@analog.com,
-	Michael.Hennerich@analog.com
-Cc: dlechner@baylibre.com,
-	andy@kernel.org,
-	linux@analog.com,
-	linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	joshua.crofts1@gmail.com,
-	Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
-Subject: [PATCH] staging: iio: adc: ad7816: Protect sysfs attributes with mutex
-Date: Sat, 19 Sep 2026 11:55:13 +0300
-Message-ID: <20260919085513.9173-1-abdelnasserhussein11@gmail.com>
-X-Mailer: git-send-email 2.54.0
+        Sat, 19 Sep 2026 02:31:21 -0700 (PDT)
+Date: Sat, 19 Sep 2026 11:31:18 +0200
+From: Joshua Crofts <joshua.crofts1@gmail.com>
+To: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
+Cc: jic23@kernel.org, gregkh@linuxfoundation.org, nuno.sa@analog.com,
+ Michael.Hennerich@analog.com, dlechner@baylibre.com, andy@kernel.org,
+ linux@analog.com, linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: iio: adc: ad7816: Protect sysfs attributes
+ with mutex
+Message-ID: <20260919113118.51036850@systembl0wer>
+In-Reply-To: <20260919085513.9173-1-abdelnasserhussein11@gmail.com>
+References: <20260919085513.9173-1-abdelnasserhussein11@gmail.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-The sysfs store functions (ad7816_store_mode and ad7816_store_channel)
-modify the device state and toggle GPIO pins. If accessed concurrently
-by userspace during an ongoing SPI transfer, this could corrupt the
-SPI transaction.
+On Sat, 19 Sep 2026 11:55:13 +0300
+Abdelnasser Hussein <abdelnasserhussein11@gmail.com> wrote:
 
-Add the existing chip->lock guard to these functions to serialize
-access and prevent race conditions.
+...
 
-Suggested-by: Joshua Crofts <joshua.crofts1@gmail.com>
-Signed-off-by: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
----
- drivers/staging/iio/adc/ad7816.c | 2 ++
- 1 file changed, 2 insertions(+)
+> @@ -143,6 +143,7 @@ static ssize_t ad7816_store_mode(struct device *dev,
+>  	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
+>  	struct ad7816_chip_info *chip = iio_priv(indio_dev);
+>  
+> +	guard(mutex)(&chip->lock);
 
-diff --git a/drivers/staging/iio/adc/ad7816.c b/drivers/staging/iio/adc/ad7816.c
-index f76f0215119a..d8f4b1f79e2a 100644
---- a/drivers/staging/iio/adc/ad7816.c
-+++ b/drivers/staging/iio/adc/ad7816.c
-@@ -143,6 +143,7 @@ static ssize_t ad7816_store_mode(struct device *dev,
- 	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
- 	struct ad7816_chip_info *chip = iio_priv(indio_dev);
- 
-+	guard(mutex)(&chip->lock);
- 	if (strcmp(buf, "full") == 0) {
- 		gpiod_set_value(chip->rdwr_pin, 1);
- 		chip->mode = AD7816_FULL;
-@@ -207,6 +208,7 @@ static ssize_t ad7816_store_channel(struct device *dev,
- 		return -EINVAL;
- 	}
- 
-+	guard(mutex)(&chip->lock);
- 	chip->channel_id = data;
- 
- 	return len;
++ Blank line.
+
+>  	if (strcmp(buf, "full") == 0) {
+>  		gpiod_set_value(chip->rdwr_pin, 1);
+>  		chip->mode = AD7816_FULL;
+> @@ -207,6 +208,7 @@ static ssize_t ad7816_store_channel(struct device *dev,
+>  		return -EINVAL;
+>  	}
+>  
+> +	guard(mutex)(&chip->lock);
+
++ Blank line.
+
+>  	chip->channel_id = data;
+
+With these issues addressed,
+
+Reviewed-by: Joshua Crofts <joshua.crofts1@gmail.com>
+
 -- 
-2.54.0
-
+Kind regards,
+Joshua Crofts
