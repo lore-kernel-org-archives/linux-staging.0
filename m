@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59DB92E7387;
-	Sat, 19 Sep 2026 06:59:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95DE43A7F5F;
+	Sat, 19 Sep 2026 07:43:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789801194; cv=none; b=jzTeSl83WAzVLvpDfiYK4jAbsN9M9UJnimivasXBIBZDDR64vzLGrOtJcCnizlJVdQPOY9mv6FEJnVsh78JvNAzLXqP77act3f+q9MEprlmKwugf9qodsPZuctCMC3z3By1g8nPbopLZVkRYVYHMKdNes/PmH6N9D+M+rD3xpM0=
+	t=1789803800; cv=none; b=ZE3sl61l/3Uc4doQyAdPpdDYMWoJ0GJQtGVAlVmQuc5GE54w4djtV0ljxyEq1yJm5hSrB1c9p1v4E5Ug5M+ZP1m2w5Cmpxi4/exEiEwvYuu9OJcPy98REFp/raCYzIgDMAhbcYyeoxmsF/vk4qqBG+6uVmf0FpYbzRrZJXTglt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789801194; c=relaxed/simple;
-	bh=8SjGvr8/O2gclvrCAm4kDJBJai2iJMxC1yw/98CkclY=;
+	s=arc-20240116; t=1789803800; c=relaxed/simple;
+	bh=IexLrrRff9hKagSqJrz+H/zCddkfpT9KifW+aVvpHq4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LwjSBf7f7Y0pr2+v8rWo8NIGqe4AjmFReUW/EzNli+nXiPD7nI69oOlf+9LluJ1/98a2tiGfctO9lTiBftMdeZftt4jpS/naIC4g1mjbhIyEq2QALnbpYW+ZxfIoG3mKBTzGAr+sH+9zIekAdEVhSt3D9xt+BlavPKzi1eyO+IA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VNiIYoeW; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=Er3F6XA+Fmbk7kXsl7SHnNs7VQSe5z/uo3C4lA7mRqZ7oZunVj5GLEkpkuBi3IDQTzpAvdsGar3YcMCp+06N3rJD9SYB2MCmVmydSzdD5hFg3UvrQej9Mv8aCQ48LCZMZHtvBIO0XrdVPwBtjB3qPUBROrGvsGQAKcy2OboJphI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jCHTtfIC; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VNiIYoeW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1C7E1F000FF;
-	Sat, 19 Sep 2026 06:59:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jCHTtfIC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E75801F000FF;
+	Sat, 19 Sep 2026 07:43:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789801193;
-	bh=AcK3qN4mIQkoSdoSSWTxmWlqlNCPKjKRHTtUStmtPnM=;
+	s=k20260515; t=1789803797;
+	bh=N7mc7/6HczTlJSC1q5xfrSJci3D4A6PfMJ3uyu299Dw=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=VNiIYoeWtj7YxYLhvJbFkVg3+axpW7PcOropK3rWC136FGDhk6Sw/amyDY4neu6hF
-	 umi8OwoN67A40VUEk336XNWu/5ns2jc6AxyGTRQ5mPhamZ80W1jv/2z2UEUslYqrbl
-	 s4wDMzf2QWBneK10fmRGet3S8VMSNzYE9kdXsZyLOJb+V2xq0D6Jtobu2jZ3zTHYsD
-	 7zjM+DMOXTgvOeHN92IXyD8E5yIY39w3X2u5kCP/XHrnzANBgVZuZY/u7ms1NzJDZW
-	 cCdXj7WqjRuokKjU4uqPpw60FQzH31YoPP6i641ltydV1xcaLBPkk/cSkDnll0Xvsd
-	 dBpY2jXcpR+/Q==
-Message-ID: <4240bc80-4cde-4b19-8ed1-2e3d9a92537c@kernel.org>
-Date: Sat, 19 Sep 2026 08:59:45 +0200
+	b=jCHTtfICVlhFwL3ySjyZj/N+GKric09B6BFkWt8+F2TLet9qI7K1c50tZ1anAoIpT
+	 0QfE1d3dHMd7lpLRCwI+V2LyTqsXIftxBh7omyZNzJKVBn5DXxU5My3W9rfQ6mEysM
+	 rFaboQzdsXxgmt5vK06RJMfZw8Jzg1afVD2iT6ak/2MlN1k/rTfu9s1YNSHdp/N61b
+	 CrGR8r8kVUcqlRreq07RS9dEiaSXzGDyxOsy5Q5qI985mb/fD/DW+TDSiyM8lxWA20
+	 VoKmCsNCiLOSGM2yadb0LlJbcm/hj19hjt4/xWotYpqzbmcs2H/FX2nZFt0oiA4QfO
+	 6k8GgAYLwh/Rw==
+Message-ID: <8037e424-c642-4928-8381-2261f92bfffe@kernel.org>
+Date: Sat, 19 Sep 2026 09:43:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -35,15 +35,14 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] staging: axis-fifo: remove superseded text binding
-To: Daniel28972897 <danyboy28sep@gmail.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev
-References: <20260919011417.156828-1-danyboy28sep@gmail.com>
- <20260919025900.169703-1-danyboy28sep@gmail.com>
- <20260919025900.169703-3-danyboy28sep@gmail.com>
+Subject: Re: [PATCH] staging: rtl8723bs: replace msleep with usleep_range
+To: =?UTF-8?Q?=C3=96mer_PALA?= <palaomer100@gmail.com>,
+ Dan Carpenter <error27@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20260917071931.8063-1-palaomer100@gmail.com>
+ <aqubqzKGtpmDkX9W@stanley.mountain>
+ <CAKhZXnpwaZf3hF1XAbO6O4fJZFGoe5Lk5Qsck1N_TU-0B170fw@mail.gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -89,22 +88,44 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
  n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
  qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <20260919025900.169703-3-danyboy28sep@gmail.com>
+In-Reply-To: <CAKhZXnpwaZf3hF1XAbO6O4fJZFGoe5Lk5Qsck1N_TU-0B170fw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 19/09/2026 04:59, Daniel28972897 wrote:
-> This driver's devicetree binding has been converted to
-> Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s.yaml,
-> which supersedes and duplicates this file.
+On 17/09/2026 10:14, Ömer PALA wrote:
+> Dan Carpenter <error27@gmail.com> wrote:
+>> These kinds of changes need to be tested.
+>>
+>> I don't love this checkpatch warning because it we reject almost all
+>> these patches.  If it were new code, presumably the person sending the
+>> patch would be able to test it...  But I guess it serves as a kind of
+>> lesson to not listen to checkpatch and also to search lore before
+>> sending stuff.
+>> https://lore.kernel.org/all/?q=LPS_Leave_check%20msleep
+>>
+>> regards,
+>> dan carpenter
 > 
-> Signed-off-by: Daniel28972897 <danyboy28sep@gmail.com>
-> ---
->  drivers/staging/axis-fifo/axis-fifo.txt | 96 -------------------------
->  1 file changed, 96 deletions(-)
+> Sorry for wasting your time.
+> 
+> I thought it was an issue.
+> 
 
-Pointless commit on its own. Never should be split. Just look at history
-how it is done (`git log`) and do not do such work COMPLETELY different.
+I kind of told you to look up archives in other thread. Nam Cao told you
+this in other thread. Dan told you this in this thread.
+
+Yet, day later on 18th, you decided to send "dt-bindings: iio: adc: Add
+dt binding to xlnx,xadc" without checking in archives.
+
+And that one was even pure AI slop.
+
+Mistakes are fine, we all learn from them, but it seems that you are
+not. You are just acknowledging the comment and not taking it as anyhow
+learning thing, to change something.
+
+I find it not acceptable, because it means we need to repeat you THE
+SAME feedback all over again, because you will be always repeating the
+same mistake.
 
 Best regards,
 Krzysztof
