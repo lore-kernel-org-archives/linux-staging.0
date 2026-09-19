@@ -1,74 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF6CF3C09F5;
-	Sat, 19 Sep 2026 10:28:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 657EC403E8C
+	for <linux-staging@lists.linux.dev>; Sat, 19 Sep 2026 10:40:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789813718; cv=none; b=VTzD2BVUdY/LEQm5VjIS+V/wV5R1PXdDC0hBIx9/0tz9isYZOCabp4uU5aLrbCa0ZFv53Ikg4tmH4q5Zj8o/ejGE54emob5F+vKCxZ/QUb8vGYsldduWcK8MSGTqo6DHL0nREm1tRD8Wmv4nEFiXKL2ykvZwOZTrGNqZ8fBUxqI=
+	t=1789814433; cv=none; b=oMPsT+ihHB8g5F/Fia4TwJ+dQVKCycwjLq80yd2x9qiLDV/sSeuAIU+aj7K/6eBB/NzPptIqeDHQTIphYMZCjw8C5natcqPnXX9VfI74smDU1XCzDuVIutncDh3FlOwMaCfwLLSy6Iv5UQ7KmM6+WFfc3jWXRhG933+722dk++A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789813718; c=relaxed/simple;
-	bh=0HUYIsNCzNi749T9ihKTi0vEKHzX3ftVKm+K5IW40Cg=;
+	s=arc-20240116; t=1789814433; c=relaxed/simple;
+	bh=VIlPKBVlHgmbaZc9Wtvv51Izc2ziBzHYlBLpPbDty5E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s3QtYBXYoIuZKjDfClyTcZq2807VHpVz+rU5nnHu3LaxJ0FiUnpC6IpU2lCUn/+5JSXNI6H7xs199hksuCjh5yiES667s9aPeUJAgF1fA+ai0pF/NyG2dOKCAKEa6X+atdGABbY9ifyOw38cxolhny1cWBz9TNuZo8beS+P7RgQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=SyWK7RrP; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=FyoGSpPWnnZvGRdKm3Ato/SCMPaQLWP2j9cKTq+x5oM0yqFmhN3AkH0O+4QEZmPjzxCQ4SNvDAOpViZTGNla1owy0anj0VFYwOjA/kOVBVKfGNmzQn7atIKeUw57LCfeY98o2noBeYfVpcoQ39uZGZ7INgmuZTgAonlaCLcABBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IvYIx3On; arc=none smtp.client-ip=74.125.225.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="SyWK7RrP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 932BE1F00899;
-	Sat, 19 Sep 2026 10:28:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1789813716;
-	bh=ex51qjJIUiy+LT/b89tW+TB4nvEJbnYeZ+ussqasqO8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=SyWK7RrP/cV4a8W1T9L3LMiJ7Q8ai0M2AQqnD19khzEaHpEK7GTJL1Yc5po7bAhCE
-	 1CS4TGRNo743kYsCQAF9ErWD+nqRtgqx9/DK9EJZgAmEDUn+XstJ/pkb+CfVM22GND
-	 tkYWvbmnqnmc1MJoRJqCtpCxAQJQOB7VunpLonzw=
-Date: Sat, 19 Sep 2026 11:26:37 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: User <julianpoulainpro@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: axis-fifo: validate tx_fifo_depth in
- axis_fifo_parse_dt()
-Message-ID: <2026091948-stack-dupe-e9aa@gregkh>
-References: <20260919100511.16032-1-julianpoulainpro@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IvYIx3On"
+Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-484366874b0so865007f8f.2
+        for <linux-staging@lists.linux.dev>; Sat, 19 Sep 2026 03:40:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789814431; x=1790419231; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=kfnsloL/wCnbrkfyDwFsxsv9htsOG10LpVReejUHfY8=;
+        b=IvYIx3OnEWimH72S0gdETdSpZSW0Hr4nli1/yqTXYaMgO7/1G8pXvD5zLKPEoC2te/
+         VyaXC9u0wH/mOBYrNBFNqRVpe6sV3ySSih8A80n2F1hlpOFP68x8O8LGfRFOygYjLdyd
+         PKK88JHKi5SRlSjmYV+0K9WUO1sfOfOKsutQT5rSK+qmz6b2a4YwFvfXg8jkcSWZJc6H
+         CqQf/EUxg8Rwxs0m07u2aBo/XNtkiypVi4rnBM8fsfKZ+KRvv/P2nO5coP6nGe78dVnF
+         wyDR1hQI18W2uxl3bBN1hpe5KwxI2BwAWLX3bOitQcXfWn+Ta05NtmnMR/FS0fHbOqVV
+         WKaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789814431; x=1790419231;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=kfnsloL/wCnbrkfyDwFsxsv9htsOG10LpVReejUHfY8=;
+        b=fRlZGk/V4f1ZVxM8HLKwtA9ZzTRxaZSvFHrzav+u95J/W3v7EVSoMIsHkB32WTjdP1
+         a5hM8LDwVTygR0re+nwor2X1YkUgrw3+gV4AdEVpAa5x3+WtfnyRywFa2z0HHyGxRC6I
+         8hFIOFWm1o9UBwkobe6p4r0a2//0hefU1AF67ort3WKJvtOQqA7MJcGsCLlOXL0z4rfK
+         wX1iDy5SBQR4k16S/9OrJK4YMGngROvKJ+pMGmAiOoFPeByjGIvQ8E1xr2g+vmg7Kvk6
+         tCU+JgwYxgg4EBvLD4KrD9qmj8nUOc+0t/w4oNpcuc8rGurnDIoT387rS2k6pcXjACoU
+         qXVQ==
+X-Forwarded-Encrypted: i=1; AKwUvByNbQQ1CNXDx99gjUwznqD/1VnvpDBg9B3RHlTjcDmnmI2K3bqA6VAzCvJYw/zmiuPwTlNAmX/HYD7lnDcJ@lists.linux.dev
+X-Gm-Message-State: AFuF++nAZTggHGUtn0OlLcIhKxi1w7YwbmQ1i/Dx38BgUTvchUubBjJM
+	8SwibNrkAoGwMfN4asDjM2/eFGQQ9MxPkeqja4f7RrfxOHXdVJF1QDrL
+X-Gm-Gg: AYBFou2NkI/E94KHq+4jXLnObRgtmoEs0dKglsoaFnKoW4GcT9ObKzJtk6jSBEnvkFh
+	iu6NxCQFsGAOzUt0TziEI3JxnOyNvldwFmDxGf6kugbJYhXCQsgVgOmE9tFKBdAf5oH6SdYEkMU
+	lYmRTIz91q8/261OwFtmfALvKLRhsbjlWs0VvKfXGmkc4QbxYboUKps/gmOpbIzP5yMkcv5WXil
+	rlJCjMSW614Si2UNEbemLx5ekuxtadfpuhZd4DyCoC/o6QhhISdoaC9Ows7BSjLcTlnZABJ+v60
+	EuVBTCGucXdu17tv13qtnkJ+hgh/yVAA5vje8VPbj+XWmPyMiIYnUMk22FsdiQcdFDQQKYbuUc0
+	udXdf1iFUI+bwLLPr6/geBowqf6MHbBcUOZRxoMRC8qN+vcBLGaTgH9yRqhN3Q/Chhccp9GoYdr
+	u6WHWdX+Uvb3sNkcqFshuTNv9SJkqpZ4h1OUorWBL0jCIlAiWchRDfEiG09je+8s2m5dSMK9LFK
+	yXZYQ==
+X-Received: by 2002:a05:6000:178b:b0:487:27f6:a4d9 with SMTP id ffacd0b85a97d-48727f6a70fmr1482923f8f.41.1789814430518;
+        Sat, 19 Sep 2026 03:40:30 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-487244229d5sm6576617f8f.2.2026.09.19.03.40.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 19 Sep 2026 03:40:29 -0700 (PDT)
+Date: Sat, 19 Sep 2026 13:40:25 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: =?utf-8?Q?Rare=C8=99-Mihai?= Vladu <vladurares@gmail.com>
+Cc: andy@kernel.org, hansg@kernel.org, mchehab@kernel.org,
+	gregkh@linuxfoundation.org, sakari.ailus@linux.intel.com,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: media: atomisp: remove ia_css_circbuf_t typedef
+Message-ID: <aq5mmSZeWXYBrs0o@stanley.mountain>
+References: <20260918214132.1135549-1-vladurares@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260919100511.16032-1-julianpoulainpro@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260918214132.1135549-1-vladurares@gmail.com>
 
-On Sat, Sep 19, 2026 at 12:05:11PM +0200, User wrote:
-> tx_fifo_depth is read from the device tree as an unsigned int and
-> later used in axis_fifo_write() as:
-> 
->     words_to_write > (fifo->tx_fifo_depth - 4)
-> 
-> If tx_fifo_depth is <= 4, the unsigned subtraction wraps around to
-> a very large value, making the bounds check ineffective. This can
-> cause the calling process to block indefinitely waiting for a FIFO
-> vacancy that will never be reached.
-> 
-> Add a validation check in axis_fifo_parse_dt() to reject invalid
-> values at probe time with a clear error message.
+On Fri, Sep 18, 2026 at 09:41:32PM +0000, Rareș-Mihai Vladu wrote:
+> @@ -320,24 +319,24 @@ static inline uint32_t ia_css_circbuf_get_free_elems(
+>   * @brief Peek an element in Circular Buffer.
+>   *
+>   * @param cb	 The pointer to the circular buffer.
+> - * @param offset Offset to the element.
+> + * @param offset to the element.
 
-Please tell your LLM script that device tree values are "trusted".
+Don't make unrelated changes like this.  Also it's not really
+correct.  It's trying to describe "offset" using a sentence.
+"Offset to the element." is a sentence but "to the element."
+is not a sentence.
 
-> 
-> Compile-tested with:
->   make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- \
->        drivers/staging/axis-fifo/axis-fifo.o
-> 
-> Signed-off-by: User <julianpoulainpro@gmail.com>
+>   *
+>   * @return the elements value.
+>   */
+>  uint32_t ia_css_circbuf_peek(
+> -    ia_css_circbuf_t *cb,
+> +	struct ia_css_circbuf_s *cb,
+>      int offset);
+>  
+>  /*
+>   * @brief Get an element in Circular Buffer.
+>   *
+>   * @param cb	 The pointer to the circular buffer.
+> - * @param offset Offset to the element.
+> + * @param offset to the element.
+>   *
 
-Not a valid name, sorry.
+Same.
 
-And again, don't use LLMs on drivers/staging/ without reading the email
-archives first.
+regards,
+dan carpenter
 
-thanks,
-
-greg k-h
