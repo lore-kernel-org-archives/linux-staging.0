@@ -1,43 +1,70 @@
-Received: from smtp.inf.ufrgs.br (smtp.inf.ufrgs.br [143.54.11.23])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EFD735DA65
-	for <linux-staging@lists.linux.dev>; Sat, 19 Sep 2026 16:39:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=143.54.11.23
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69B7D345ED9
+	for <linux-staging@lists.linux.dev>; Sat, 19 Sep 2026 16:52:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789835979; cv=none; b=kTMOZrf8lLVQ+V56gq10fwT4n3ik2eVA0Ta0MpeFnt4Eot1Uog7Ivvr6R0XtUjrc7l6sGMrbrez3OVKMyuApg7yuq8jnqTzn+C5LC/6hoapcfAtMMZf7tSsIi6A2wQRxno9lGzZ9YvDEIVb5iXNQMLWc1dBySTKS4g6L44NLio0=
+	t=1789836738; cv=none; b=hW/eVeW29cFWcIidFh0hw/xHZ4XAnbhN6qyoEFz9tw+yq6TmcmGWR3g+RWKtIBslQsEBBYLjKbGqUAUk175SOXjqiM/oQJAxqyddrRdIlaZ0Pb9kiXE70smVYEcL88Y7uVAI13ZmqsUiA4fONTgaEWNG2aYFdvf0gq6mrJog8Ps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789835979; c=relaxed/simple;
-	bh=i3G2jf5tXlyz9D0tOx9MCJGy2wiS0fi0DZnIJuhmyhg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=g5YC7XLQuzCE4YuYOV2oMq7a8FwNLgGQmw0UFqYsXPkxp2FhqxQSdeQZiu/5I1zeD6ImYFbtcPVdlBAOIP4C/vhHH3KdWYir3Sv+5wIPP+CN48T/JRxrcLIGTgEJtROA6bLzjAs5HO1OKI1QM6nCzSDJV4rXcvtanvhajnIeFFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inf.ufrgs.br; spf=pass smtp.mailfrom=inf.ufrgs.br; dkim=pass (2048-bit key) header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.b=A43sFXvq; arc=none smtp.client-ip=143.54.11.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inf.ufrgs.br
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inf.ufrgs.br
+	s=arc-20240116; t=1789836738; c=relaxed/simple;
+	bh=FKmT0sInzGZ8xglTcpDpC+2cWv5nRkUqMW5XaUUWFgE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XzYVldQv2Ve8DbDhIxXnjLkx0YEawld5eJ36iGDQy82/gZuJWRYoVVIIdlbj9jCX6o9gAiDDAr6Ig0UX7qV0F3OGxE1vYrrYKW89y+bQxoWmxo0m0SEs0gpDXddu/kcblccCZTwDYbxJ340L0yAZdmoy3KLcK1pdZxfWFB/DqJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GodlwpL1; arc=none smtp.client-ip=74.125.227.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.b="A43sFXvq"
-Received: from LAPTOP-R01LEAQM.localdomain (unknown [189.112.72.190])
-	by smtp.inf.ufrgs.br (Postfix) with ESMTPSA id 6C28C12109D;
-	Sat, 19 Sep 2026 13:39:26 -0300 (-03)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inf.ufrgs.br;
-	s=dkim2026; t=1789835967;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=nIuxeQU38bmJqFWPhFJa4/OkmhYAv8xyY+EWoichy0o=;
-	b=A43sFXvqUfYBGljego8jRmH2N4DcaRguYxWplDcux/d0u47wt61VjJ4xFVPAuiG1EFejhg
-	UZAzBSzlRXku7h0y1+QjsnRYw150bHkYOrTNN5/BEJ5WDJZjvcdmXed/5mybW1h1tbw8HR
-	kB23R1Xdb8fLhwALzoW1hdpXn5CCujR+08VetEr2j3Bx8eheHzer9NwxR0u0e82Egp6d6m
-	zNS/n4GUUE+gRhxc5aR1e8xBRx0Z8mcKOWcDV3HQzbqehDtzR2j/Lqeq/CV4BZyQWKAJrZ
-	1aJrFfpewjW/CdU6nKHm7BGlvbNB6Z/xwesgabcB89qulEdtpgAgnTnqGF1FqQ==
-From: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GodlwpL1"
+Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-396ccd4f99cso1879710a91.0
+        for <linux-staging@lists.linux.dev>; Sat, 19 Sep 2026 09:52:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789836737; x=1790441537; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=efPfDfh6WJd7P8cYHSc3/SVG8GD/7sjcKyH8NOMuMCc=;
+        b=GodlwpL17A6Aq6RkCaXtYpRyjf7hCp03iubTwuWD8rorc48QqsuopvVz+18LpVwrpH
+         VCVizIYL+ZmKpqLSFjD8u5Tg8ve1P6MhsuZojgGlo0V8WODleAKd9dKWA5mcjB4M9Ey3
+         MBCU4MGxqwHjwRlpCsw784frLD+LuZN77K0fwRaFPVdXisMfsw/09GEUWAQf6eX915jY
+         RJNMYH6H0FFZBT8Qf9P8auLMCu2DC21FiuKZ7EPJtpYa/r4HSAIHeu0ckGgTCHaUd0E6
+         2wGFnalDftt0iTyL4alJBukBSLPdRmYJE3Ng1QDNM2T1XcFCAnNouVQWSb82HhWwIud8
+         pAcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789836737; x=1790441537;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=efPfDfh6WJd7P8cYHSc3/SVG8GD/7sjcKyH8NOMuMCc=;
+        b=dx/umcdOGFmd4amFMZ6rU/JOuboSuFp25OImeiWpLF5P4OuJfDVlyGn2UHmS+nQMxv
+         aClcrf8M1Y3R4SWMA0aqGxXOt1Udo9EjG0xtMj2mcZtVMmSMqVSP/euqquvo2ZuUuOnw
+         YDAmc5x3R1d5MMwg+Z3g8WrkW8Dtun3QWUAtCXDnC/+I1saMwIayFei5mJ/CXmqKLQ/b
+         amZYenrnKZ9CAJYU9D1vcmYui1T+ji6Y2Y9zC0EkkvL8kQBa7IytGcKQPDqZ2hd9CpWf
+         60V58BcdtJG7WufhrXUUTJkWITRlTOFj9PM/6ALrMCaaJ+64VesDRZw8rLxGKGULiCmF
+         8EwQ==
+X-Gm-Message-State: AFuF++lhEUjoWVj3p7ZjZ82iQK9j6OSXeq0+gyRAXPbXXbxekmgt7HVr
+	Cy/JTS9+h6175GyUYpexQDepFsyUIpwsQkF556bN2Och3EBSGsZWzAap
+X-Gm-Gg: AYBFou1A00P5FQ1JA+3RqvyueQw4SlU933bY3uKYz29lvdSqj2fdZv2hUQofOxjTKDC
+	EXBbz6PuMqH5XbLePeptt1AltQCzD/dMgFAaY2YSnSNQvvOluP+GkR/ejCnuNMiDCtKsQ09jgJ0
+	A7E38NsEp3n0jpnr8jMhCIBOb1mHN4IbGb3nwn7/IXOy8ymJ1ohNcJo+C2KgLDs9TQjV1s2Taxm
+	yIMnVVORZFostL7p4TWC4kmQDVjlFVo2CAFw/1lTKv3izZeSBAql7XE7aeD0s+CbOLiI1HWRNat
+	A0UtyHSQSeRh5K9wjZ192bCTC6mczXQ48bGikvFBb7RhMV6I8vXyI86fQcAhP0GhRL/kBCMoOl5
+	FxTk5FgOGMwR5yOPIIK9WSAsrR0NVOT0B4CgSZP+XiQ1L5jzufFvwhA6jaj9gMfkOYqJY1zbgvc
+	wbmAgrqmpePkaHZRpeJXMTQhGIC6Fb8DJL3ua0/5K1SF3jJv5XZ3ZmJpEMWm0rkJgZIAKHLns4V
+	G+J8kWIHyYlwBYXyMzUtg==
+X-Received: by 2002:a17:90a:d40f:b0:39e:6c69:9b8c with SMTP id 98e67ed59e1d1-39e6c69b291mr4591077a91.49.1789836736571;
+        Sat, 19 Sep 2026 09:52:16 -0700 (PDT)
+Received: from shaym ([223.181.116.106])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-144d55e8954sm13966859c88.14.2026.09.19.09.52.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 19 Sep 2026 09:52:16 -0700 (PDT)
+From: Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
+To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
-Subject: [PATCH] rtl8723bs: return bool from check_pending_xmitbuf
-Date: Sat, 19 Sep 2026 13:38:57 -0300
-Message-ID: <20260919163857.23772-1-matheus.aalmeida@inf.ufrgs.br>
-X-Mailer: git-send-email 2.43.0
+	Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: Remove redundant else block
+Date: Sat, 19 Sep 2026 16:52:04 +0000
+Message-ID: <20260919165205.9896-1-shyamsunderreddypadira@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -46,45 +73,33 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-check_pending_xmitbuf() returns only true or false. Use bool as its
-return type to accurately describe the function's behavior.
+When the if branch returns directly, the following else block is
+unnecessary. Remove the redundant else block to improve readability.
 
-Signed-off-by: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
+No functional change.
+
+Signed-off-by: Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_xmit.c    | 4 ++--
- drivers/staging/rtl8723bs/include/rtw_xmit.h | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/rtl8723bs/hal/odm.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-index 95350fd6a94fc..634320e53aabe 100644
---- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-@@ -2469,10 +2469,10 @@ struct xmit_buf *dequeue_pending_xmitbuf_under_survey(struct xmit_priv *pxmitpri
- 	return pxmitbuf;
+diff --git a/drivers/staging/rtl8723bs/hal/odm.c b/drivers/staging/rtl8723bs/hal/odm.c
+index d18df407e365..cd178ddfbd00 100644
+--- a/drivers/staging/rtl8723bs/hal/odm.c
++++ b/drivers/staging/rtl8723bs/hal/odm.c
+@@ -552,10 +552,9 @@ void ODM_TXPowerTrackingCheck(struct dm_odm_t *pDM_Odm)
+ 
+ 		pDM_Odm->RFCalibrateInfo.TM_Trigger = 1;
+ 		return;
+-	} else {
+-		ODM_TXPowerTrackingCallback_ThermalMeter(Adapter);
+-		pDM_Odm->RFCalibrateInfo.TM_Trigger = 0;
+ 	}
++	ODM_TXPowerTrackingCallback_ThermalMeter(Adapter);
++	pDM_Odm->RFCalibrateInfo.TM_Trigger = 0;
  }
  
--signed int check_pending_xmitbuf(struct xmit_priv *pxmitpriv)
-+bool check_pending_xmitbuf(struct xmit_priv *pxmitpriv)
- {
- 	struct __queue *pqueue;
--	signed int	ret = false;
-+	bool ret = false;
- 
- 	pqueue = &pxmitpriv->pending_xmitbuf_queue;
- 
-diff --git a/drivers/staging/rtl8723bs/include/rtw_xmit.h b/drivers/staging/rtl8723bs/include/rtw_xmit.h
-index 873807fcd0dd0..7d429300323f9 100644
---- a/drivers/staging/rtl8723bs/include/rtw_xmit.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_xmit.h
-@@ -456,7 +456,7 @@ void enqueue_pending_xmitbuf(struct xmit_priv *pxmitpriv, struct xmit_buf *pxmit
- void enqueue_pending_xmitbuf_to_head(struct xmit_priv *pxmitpriv, struct xmit_buf *pxmitbuf);
- struct xmit_buf *dequeue_pending_xmitbuf(struct xmit_priv *pxmitpriv);
- struct xmit_buf *dequeue_pending_xmitbuf_under_survey(struct xmit_priv *pxmitpriv);
--signed int	check_pending_xmitbuf(struct xmit_priv *pxmitpriv);
-+bool check_pending_xmitbuf(struct xmit_priv *pxmitpriv);
- int	rtw_xmit_thread(void *context);
- 
- u32 rtw_get_ff_hwaddr(struct xmit_frame	*pxmitframe);
+ /*  */
 -- 
-2.43.0
+2.53.0
 
