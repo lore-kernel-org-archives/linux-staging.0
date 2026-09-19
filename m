@@ -1,67 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa2-f26.google.com (mail-oa2-f26.google.com [74.125.231.90])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E52331B83B;
-	Sat, 19 Sep 2026 07:49:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789804197; cv=none; b=Fn8kf4YN0erdQRAWbtRiXeI5//znz8p98LMlj0fsQUkkHlTiS3Jmsd+zoz9slwbuunfkeqnxBFLfeCDSgDYkxjcTlrClXOQ3kkQI+t03PxZobQrxm8/EWxBY6CFIr6g+QqhjaV9iqke3EM1p374pUjN5v11GLltDyCD4QnxZjK4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789804197; c=relaxed/simple;
-	bh=ELXzxCSTDiJbizD9ly1Usu2o19JBDvo6ajRI2ntiTLY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h9BSj8XqWIAj7FRclzXHLKmke/0pVA7MgpUeWNrP3eY5L35Qq9Q+TzwYAQdrXstXKa+oC6c0H5CiZCwW/5yY8WNsu2WquOskUraToqSw2rYz45yO5/nxeHdd1/xRV1UuW1yoPixbO0EbulfXUDhsK8tNfTgaUi2tbWRdxcR40R0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=loWxG/OB; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED6622DFA2F
+	for <linux-staging@lists.linux.dev>; Sat, 19 Sep 2026 08:20:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.231.90
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789806054; cv=pass; b=UtZLJiFhI8Wq8tgoYuZvbGVnp4laONg7sjEexPAIMoTQ9yogBCBSqQa8a1hZl2XuzYVLsoVUmKS9FFM8jrPoDiurwrl3Og6b8xOejwiC4DjqjWo5ck22pgAxtvf5HmHfyvRv04x851110iXVZLHaw2fy+OyN8WCESXL4/mgY6xg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789806054; c=relaxed/simple;
+	bh=dRbSK/OKK8iimVXv289dck20Og0p7BV3a31l6knNHn0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=IyIA2NDuHcLRAD8fxjWFkFb6CtAPvyi3ppvysV/0EzMbsmztdHztOg0iC83TB5Sk4edqFgonG40V0Nxxw3MCHDr1DintHSuX1MjX44OGpEz29n/3evWY9VgTyY5ODF5WAFv+msSNLv85YaEwD2S3fesVMsDAqjH9nBuzIQ76QEo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BLNdzoDy; arc=pass smtp.client-ip=74.125.231.90
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="loWxG/OB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 065621F000FF;
-	Sat, 19 Sep 2026 07:49:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1789804196;
-	bh=rJZuiOmeWqVEWcvtVO1JNGWdZyt2t0Jw79Rx5eg+x3U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=loWxG/OBURGaKRvbFgJToMrkKwCXWIwaOT2x3q3RjqMpsJ1Ubypv0kYnTIyOOQHKj
-	 oUclMAtjEY+8NynZ5ZfQRw0kAXT/RF/Vd1uUvkCjAb86aP0dQ9MDYPNdwKlL5c3ixJ
-	 IP8uKCYVtfRKR+u0WhTOB5gD7GecKqK9x1PcPTfk=
-Date: Sat, 19 Sep 2026 08:47:57 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Daniel28972897 <danyboy28sep@gmail.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 0/2] dt-bindings: misc: convert axis-fifo binding to
- YAML
-Message-ID: <2026091930-resume-ascension-2fe2@gregkh>
-References: <20260919011417.156828-1-danyboy28sep@gmail.com>
- <20260919025900.169703-1-danyboy28sep@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BLNdzoDy"
+Received: by mail-oa2-f26.google.com with SMTP id 586e51a60fabf-466cc88a9b9so1101858fac.2
+        for <linux-staging@lists.linux.dev>; Sat, 19 Sep 2026 01:20:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789806052; cv=none;
+        d=google.com; s=arc-20260327;
+        b=PAhMmEHWmCvBCTW+GkP8JILZPMJd6FVvjneTW58suFAVsiXMYRNPksSMLoS8gdHkWF
+         jFfgKh01MO+X2txRshXKYRwgW3dSq7/9c7T4DWIpp8SDjQOMCPwk1uOANtNc3d3wFpsO
+         2fFmb/yr0xXbhgfHk5ANeXJsnQCS+PoYaBDbRInVoKL62kcUmxxLItK9yUfvWNsYJVzv
+         XhTGDknD7Q2tlgFX5ClpvzOBkm3rTpBgXGa0QouqH6xHjed1oQ7rXP90khQTyNl6+eP8
+         DtO/OWRny4XzqWTCAal22a/54oME3at2YRgZipEOfkD1q01fmiqfSvJ0Fqs9JjYDYSZq
+         OO+g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=dRbSK/OKK8iimVXv289dck20Og0p7BV3a31l6knNHn0=;
+        fh=4fnckGe3+Q3Tf2TD4+PmtSSh98XWrpf6Qx745bkJxJ0=;
+        b=ejbFDYb4HqrzP27YciCh1WUgbNOv8iVqqFmqoTImkpkInmKguIny+aN5Q+gKT6+dBZ
+         LtxtAwFA5NdoJrXXc96wJ127lmSUmIkWhazK+cLp5Aqr74dNPFrenPkYnRRd+2fViVXC
+         Ei7vsnEq0wp1O9saVXRKhobUNEvuNPUKs+JTfkmaPX7r2VsQoRk2zTrhrvzAxBlTLflM
+         D5gszd3hbwR2owHOfv4jct2aXSYB4gD8V1JBEltmb8KzRau7pbcl6am3CeYhmv3Q+u5/
+         /XqGn9vChaP50+m07iX/TWOKtIwtC/SKbpiAW4co9slhOOxm2oAQnLqsWGQv3lUVnujA
+         DNPw==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789806052; x=1790410852; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=dRbSK/OKK8iimVXv289dck20Og0p7BV3a31l6knNHn0=;
+        b=BLNdzoDyzmXODtLW8UQbWtdmBu4ygi8r1YtPDwYrDYvLc6i/I0ctNZ67YdG12X1eGa
+         ABRUy8C0/yTY8m3XX92pKoua6LpQtvDdyZs7DWnUZL89ctIT1ZNLWDJTZKSuKEP+Kk9c
+         aGuaaTpcUuc7x0qY1RiZIQjkb7c4jqC5P6zn1eCR3M4r/aHeEO8ndYCFsTCtbkT7t7qF
+         iwOEAaZfZ32Oy5vP6tesf1VxlABc6N96at1zelZTEzDqori8YsIVMb7Gq/G4AjVqO8sq
+         PCTgypljsc3t5af3Jtk0JW6T0hii4Cn2scpZGisLzVFh/I3bIRxTb9Jvk9+Q7DlU/JGt
+         FOEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789806052; x=1790410852;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=dRbSK/OKK8iimVXv289dck20Og0p7BV3a31l6knNHn0=;
+        b=V3MjHTci+eFMvnwsC/KzaejiNOfOwWzFYDNMm5Tostmfra10B+8Na5jd389sEFhb7C
+         nV/mkuxpIp2nwqGKr6zSXgZKlQNsonx1UAwpbtiwOhnvo2DH3GWjVGqWQlUUzYd0kMuK
+         saCyCW3ELHm0ww6La89OCFxmkIej24oMj+/ZjE6h1Ye80ogxoTkcbtDzX4CFEaX4UO3g
+         kgnLvJfgkZ0ZGNKHCDmMCuOTPHHHAmyvdCjofFeWt4MZpypprQBLQJ2+1L23JeofTXpz
+         gqN/utojLrop8D94vcqQvoGBDakooNpZ/RuPfNIjwGjtAmc/R1NjdNUvWmFmxuMHdjVR
+         P9xg==
+X-Forwarded-Encrypted: i=1; AKwUvBxWYaFI62MSsxkbjhVIjARilHtxjfkXkChAaxOyJNEsHhxuhIUjy7TJ6EDK05hk7g28d/XEKDQaO358OTJ9@lists.linux.dev
+X-Gm-Message-State: AFuF++lbDRfjlsJ1m7kANxJ2qRvfuJZdpxfXF4ZtWWsrlrZo2d/G1B6W
+	NfT3B1Ntw1kpi/xsl/8n8c9NDi+99VAJbq4F9Gu9XwJ5r9/kHlvV9JQaKr+emwaAAlm22Kz/iYH
+	g3CpdJaNK1+6kiaRZRjL/ATVNP8eto2Q=
+X-Gm-Gg: AYBFou3MJco3PPl1y+5sqPXllLZ9wG4KjqRDG0EjdBClMvn63BYIkdSludGNbv6K+tR
+	t3UDHn2c3SJHJQkDMHrDJp1+U0dktTrEqQuFE2sBBCHDNPByGOssfNuiAqAIuUQ5S4fiBIkNCP/
+	iNXyLjm1U1i4Zz2uHfa5PM7SFBg8iAL6YEegzwgNqIhsxitvI2oDay+N4Co+GRDsPlBtNlsoue/
+	pTyaq4/jdVlJ9XweuM5EXrsKl/mexs3AOy2RMRS7l5Cg373aid/5ETAx53Vea2z8W97/ZKqK0+4
+	5dDc4phkLWph/Jm0BeCHAaN19888ibf8gtfZYyb1JceHV8yS0odLWgx7vw==
+X-Received: by 2002:a05:6870:af94:b0:475:e235:904 with SMTP id
+ 586e51a60fabf-486e7d8d784mr5164669fac.34.1789806051717; Sat, 19 Sep 2026
+ 01:20:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260919025900.169703-1-danyboy28sep@gmail.com>
+References: <20260915075939.18180-1-abdelnasserhussein11@gmail.com>
+ <20260915075939.18180-4-abdelnasserhussein11@gmail.com> <20260917042241.05bc81a7@jic23-hlaptop>
+In-Reply-To: <20260917042241.05bc81a7@jic23-hlaptop>
+From: nasser <abdelnasserhussein11@gmail.com>
+Date: Sat, 19 Sep 2026 11:20:40 +0300
+X-Gm-Features: AcwNN1VPFhT8_U74Se6tKxB-Bhi_wWnDBf7t9r-mJewyfUCjrFEfyYR3Twb_qsA
+Message-ID: <CANpqX3ZUL4qhjKEx2DN8YOYrMMxe78w1O0E+aDGSR1NE3oprhg@mail.gmail.com>
+Subject: Re: [PATCH v7 3/3] staging: iio: adc: ad7816: Fix DMA safety issues
+ in SPI transfers
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: gregkh@linuxfoundation.org, nuno.sa@analog.com, 
+	Michael.Hennerich@analog.com, dlechner@baylibre.com, andy@kernel.org, 
+	linux@analog.com, linux-iio@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, joshua.crofts1@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Sep 18, 2026 at 08:58:58PM -0600, Daniel28972897 wrote:
-> This is v2 of the axis-fifo devicetree binding conversion, addressing
-> review feedback from the Sashiko AI bot on v1:
-> 
-> - The FIFO depth properties are documented in 32-bit words, not bytes,
->   matching the original text binding and the driver's own arithmetic.
-> - additionalProperties: false no longer rejects real-world devicetrees,
->   since all properties generated by the Xilinx IP integrator (even
->   ones the driver ignores) are now listed in the schema.
-> - The now-superseded drivers/staging/axis-fifo/axis-fifo.txt is
->   removed, split into its own patch per
->   Documentation/devicetree/bindings/submitting-patches.rst.
-> 
-> Daniel28972897 (2):
+Hi Jonathan,
 
-Again, you were told this type of change was not ok, please do not
-ignore review comments.  Also, this isn't a valid author name :)
+Yes, it was indeed a clumsy copy-paste error on my end. my apologies for that
 
-thanks,
+Thank you very much for fixing it up and for applying the series. I
+really appreciate your time and guidance throughout this process.
 
-greg k-h
+Best regards,
+Abdelnasser
