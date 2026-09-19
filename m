@@ -1,200 +1,123 @@
-Received: from mail-oa2-f12.google.com (mail-oa2-f12.google.com [74.125.231.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B6493A9018
-	for <linux-staging@lists.linux.dev>; Sat, 19 Sep 2026 02:59:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 737592C21FD;
+	Sat, 19 Sep 2026 06:58:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789786750; cv=none; b=T2jU46TG8MKOJKWnO3MLXvf66qZ7vpuYzPVwBiu4dIyKGFcwLEpt/nElFAivOm2IybyX6+JbZidFqVNxX0AajDJFOk33TUoPvdpMQxhnYnmfgH3a6J1YzT8plo9JYRmcRsI6Oz0HdOTJ636pdpkr41cFze9ORA1ktJhF2winnt8=
+	t=1789801116; cv=none; b=HzaQER3MVH0q8ClAdaqoW5XlwuRPYfmTt7vVRLcrOX2J/4J37LQmZs+faEG+MyOx1VEfGKDIXu5XcqzSNlUHIaWupFX1oatQe03Ce6b4BNfFycXQeWnS9mPo+Y2hXgaD9QhqLGWGAuvRuBRQvCx97qcUJhezcyoIiqBgvCrlZYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789786750; c=relaxed/simple;
-	bh=OX2iBFvUKqMiOeBJhI7wMw2/FMv/t5IiNryXV3FAp9w=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=C12e0iWuxtT/rZGdCxr1eCwDk4zTXuweNphhHL6LagfEUPEbsaeTqNasudafcX88C6Ulcbu6terqyHQ1lhs7jfTpSfxQqRgDjqf/8mQYKkperje98D6L1zH5w+CDqIqGylHsV1XwM+fG3yDBa6RGrVJ05BvOjt+5caClUpHSTic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XEnqH0+j; arc=none smtp.client-ip=74.125.231.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789801116; c=relaxed/simple;
+	bh=THpmH/26IM188XCXIApLqWOfX5I/Luc5E4FzoCBSzCk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=muDMrXQ9417HigVNoqVSfU5m1BtfU/71M26XBPZQcp0zrHt797zoP47kSsSzWLhDxctnVb9ZebaFSD4vz7tXtbvgKROoJbD0uY0dgiR7+9kU1V96e60+Scckl23xOhD+cK2y+7JkC0ZgOcmOqwD5VhTealYIvBL8delqCHocURI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EVVCPZju; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XEnqH0+j"
-Received: by mail-oa2-f12.google.com with SMTP id 586e51a60fabf-4788fe5736eso906347fac.2
-        for <linux-staging@lists.linux.dev>; Fri, 18 Sep 2026 19:59:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789786748; x=1790391548; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=TT/xR5ylfNVTPnp8ftKjtkmMqMs95XN+dF28ua8I7vo=;
-        b=XEnqH0+j1IuxieiDp7EjaE5QJBx19BeOyqTKmtqaUtdf2jxggLOBbNcBtBH8rUhw3d
-         LvcSEHc7SZHfbwz1Yqwzu1LrJuNUQdi3I0Fv7FDTvZ4jJ+aYGNg8WtRwYHAB9nz7ii42
-         tBolwaXjHqqfl0UkBGH6C4x+qb41ZHQEpk44G/S7LTLjfLVlHrwF+v6HNqAQvRX3UMoT
-         WugADvv971m+65tIY3tZO63Z2zKsfVD/CRsD5jRrzFjHhKLXpAni4tDpg/Cggke8e/vN
-         DBGJm3Cgt0QrY0pSWeIiQk7WYZ7nhgreag143aNfNMcZUPgPVOuKBJWRtWMfVMSBLiky
-         7TwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789786748; x=1790391548;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=TT/xR5ylfNVTPnp8ftKjtkmMqMs95XN+dF28ua8I7vo=;
-        b=EPfVDhpcefwWBXLhR46pr1V2Dfbq9Z5PvPlg64zm/NGEafdvlPmZ69U2E3nDrv+jWi
-         tKiNSB+osDQMFmjbKeBLx/vLRh5sEDVTrYvrve8ACSui+Ef6atsWNdvY+dLuFJJIdkYP
-         KReVNlLhOtABzSuVmKI3nM4SBhb3PAQ+kQN/sKKtPSZ8bY2exvrPhzdRA56WUkCY3RPF
-         HuZ0cFozO1j+xJ6kEw5Y3vd5HXOs9PDQXNZ4PIhm2BsTsYUh4oYqyG+q9I2hezyCZONQ
-         qjnZ2FRCIFRIHGdcXIwvlt2tMDh9JHtvD3dksagHKrBG1xeIQWw0i69Ekcxnfh3SO6e9
-         n4DA==
-X-Forwarded-Encrypted: i=1; AKwUvBzY1y5Jgo7mML+KUjyzQt2q4KAlTDme5G+vqCZVhQS3FflwJaaTtqfqoccQYUYdNpfyd9ruUk1i5jgDBSKO@lists.linux.dev
-X-Gm-Message-State: AFuF++kbl0ociNzYk2CkC9HtZe6YwFae+ExpXPGKaaYsd2IpHK5hKear
-	FRwADEMqMQVmf4Vc2u//YynCahfaE+36idO1M5LsQSO+Uom621LfrIZY
-X-Gm-Gg: AYBFou1xtBMeg1/LUN1xMWWeszDTmojgGn3UyGg0YDGSmRFA2SV59tFznVkWjuGtT0l
-	AAr6iMVBNoPH5B0AElVabJHTs0s2RKB4WpltfQQ6+AYbtD413K7QlGBHd5fPO2yyZySyXKeinXR
-	HosHcKhigfvk9K7y7fQwiV+YY1MwNPD6Nu9SZAQby/QGYG6OjEUkGcELc9AS6Vgw3KaY35SDhv3
-	DR+k6iFT6YDIinW3kxUQ/v1dnXRO3V/yc22Xx/hP8opLo+eS4IMuDXQ5wjwmTQ2dHGtEX7xxY0r
-	rVl3waXisEhsYg6fw0Pir9XHkU7qARUtxliQIqJgWFvc03Wi7994g9y9AV9FxwDNKn8OJmLkVT4
-	pwe/S6Q6kGrICs5aBKz8awL/BU2L9HybfA6uJyhvJNjjG5/tyCYmXWixWWC54uxBlL0IuzOScCi
-	dm83qU/Q5K5pkzwJt35QuwupDaHJs4gbqWiGLlTbx/xgpsfqgfhLCKwqTK0XJFhBAs8zrEcHK9j
-	pYbVRwo68PvDuwTn8xSWLxq0MVJhASbBR9/NJgvtidTLXa4+o33sgqeoQ1x7c4=
-X-Received: by 2002:a05:6820:4c08:b0:6b7:83c5:fde8 with SMTP id 006d021491bc7-6ca9bd48168mr4485117eaf.41.1789786747864;
-        Fri, 18 Sep 2026 19:59:07 -0700 (PDT)
-Received: from DESKTOP-FG7FD3B.localdomain (fixed-187-189-149-136.totalplay.net. [187.189.149.136])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6cd2ea874c3sm1904355eaf.0.2026.09.18.19.59.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Sep 2026 19:59:07 -0700 (PDT)
-From: Daniel28972897 <danyboy28sep@gmail.com>
-To: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Daniel28972897 <danyboy28sep@gmail.com>
-Subject: [PATCH v2 2/2] staging: axis-fifo: remove superseded text binding
-Date: Fri, 18 Sep 2026 20:59:00 -0600
-Message-Id: <20260919025900.169703-3-danyboy28sep@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260919025900.169703-1-danyboy28sep@gmail.com>
-References: <20260919011417.156828-1-danyboy28sep@gmail.com>
- <20260919025900.169703-1-danyboy28sep@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EVVCPZju"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BA091F000FF;
+	Sat, 19 Sep 2026 06:58:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789801115;
+	bh=yWPiYTCWkxEvhuQ3ZHXnB8M1VNaYfeBzDz5XHvNlJYg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=EVVCPZjuCB8az4e6+vCt8unTBwoKthRu+JRVGPFUkahSwad2RYnAD159sH7ha2WW4
+	 PWtapF+JvJ3Gg//L30le1dmlHr9e0MD7jslwB1QTiD38G3lelx87xzgAbepTeObHJU
+	 jmKegP8rX81GhUskrnwdYIfrtS3yRX/vDm5tSyyNT+V3KjhD2ukejU75+Hdrgb2XK7
+	 LUTzapdiuB7xFZi7Fvf71iE3uBzif4I/KftiivJY/hKSJxSWhz7jw4k7cgglWs3pYN
+	 VOOfgRBmtgQfV5QnpPbgMMfJd7iE2aEXF4C2GkjS1jO3K7+0k/WAU9nvscYwLgndZ5
+	 UsMASvc++FuKA==
+Message-ID: <61fd1bd2-d089-4604-a469-980a9bb813d0@kernel.org>
+Date: Sat, 19 Sep 2026 08:58:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] dt-bindings: misc: convert axis-fifo binding to
+ YAML
+To: Daniel28972897 <danyboy28sep@gmail.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev
+References: <20260919011417.156828-1-danyboy28sep@gmail.com>
+ <20260919025900.169703-1-danyboy28sep@gmail.com>
+ <20260919025900.169703-2-danyboy28sep@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <20260919025900.169703-2-danyboy28sep@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-This driver's devicetree binding has been converted to
-Documentation/devicetree/bindings/misc/xlnx,axi-fifo-mm-s.yaml,
-which supersedes and duplicates this file.
+On 19/09/2026 04:58, Daniel28972897 wrote:
+> Convert drivers/staging/axis-fifo/axis-fifo.txt to a YAML schema
+> under Documentation/devicetree/bindings/misc/, so it is checked by
+> dtbs_check and by checkpatch.pl's undocumented-compatible warning.
 
-Signed-off-by: Daniel28972897 <danyboy28sep@gmail.com>
----
- drivers/staging/axis-fifo/axis-fifo.txt | 96 -------------------------
- 1 file changed, 96 deletions(-)
- delete mode 100644 drivers/staging/axis-fifo/axis-fifo.txt
+So you fix not because it has to be fixed, but some tool told you?
 
-diff --git a/drivers/staging/axis-fifo/axis-fifo.txt b/drivers/staging/axis-fifo/axis-fifo.txt
-deleted file mode 100644
-index 413b81a53202..000000000000
---- a/drivers/staging/axis-fifo/axis-fifo.txt
-+++ /dev/null
-@@ -1,96 +0,0 @@
--Xilinx AXI-Stream FIFO v4.1 IP core
--
--This IP core has read and write AXI-Stream FIFOs, the contents of which can
--be accessed from the AXI4 memory-mapped interface. This is useful for
--transferring data from a processor into the FPGA fabric. The driver creates
--a character device that can be read/written to with standard
--open/read/write/close.
--
--See Xilinx PG080 document for IP details.
--
--Currently supports only store-forward mode with a 32-bit
--AXI4-Lite interface. DOES NOT support:
--	- cut-through mode
--	- AXI4 (non-lite)
--
--Required properties:
--- compatible: Should be one of:
--    "xlnx,axi-fifo-mm-s-4.1"
--    "xlnx,axi-fifo-mm-s-4.2"
--    "xlnx,axi-fifo-mm-s-4.3"
--- interrupt-names: Should be "interrupt"
--- interrupt-parent: Should be <&intc>
--- interrupts: Should contain interrupts lines.
--- reg: Should contain registers location and length.
--- xlnx,axi-str-rxd-protocol: Should be "XIL_AXI_STREAM_ETH_DATA"
--- xlnx,axi-str-rxd-tdata-width: Should be <0x20>
--- xlnx,axi-str-txc-protocol: Should be "XIL_AXI_STREAM_ETH_CTRL"
--- xlnx,axi-str-txc-tdata-width: Should be <0x20>
--- xlnx,axi-str-txd-protocol: Should be "XIL_AXI_STREAM_ETH_DATA"
--- xlnx,axi-str-txd-tdata-width: Should be <0x20>
--- xlnx,axis-tdest-width: AXI-Stream TDEST width (ignored by the driver)
--- xlnx,axis-tid-width: AXI-Stream TID width (ignored by the driver)
--- xlnx,axis-tuser-width: AXI-Stream TUSER width (ignored by the driver)
--- xlnx,data-interface-type: Should be <0x0> (ignored by the driver)
--- xlnx,has-axis-tdest: Should be <0x0> (this feature isn't supported)
--- xlnx,has-axis-tid: Should be <0x0> (this feature isn't supported)
--- xlnx,has-axis-tkeep: Should be <0x0> (this feature isn't supported)
--- xlnx,has-axis-tstrb: Should be <0x0> (this feature isn't supported)
--- xlnx,has-axis-tuser: Should be <0x0> (this feature isn't supported)
--- xlnx,rx-fifo-depth: Depth of RX FIFO in words
--- xlnx,rx-fifo-pe-threshold: RX programmable empty interrupt threshold
--	(ignored by the driver)
--- xlnx,rx-fifo-pf-threshold: RX programmable full interrupt threshold
--	(ignored by the driver)
--- xlnx,s-axi-id-width: Should be <0x4> (ignored by the driver)
--- xlnx,s-axi4-data-width: Should be <0x20> (ignored by the driver)
--- xlnx,select-xpm: Should be <0x0> (ignored by the driver)
--- xlnx,tx-fifo-depth: Depth of TX FIFO in words
--- xlnx,tx-fifo-pe-threshold: TX programmable empty interrupt threshold
--	(ignored by the driver)
--- xlnx,tx-fifo-pf-threshold: TX programmable full interrupt threshold
--	(ignored by the driver)
--- xlnx,use-rx-cut-through: Should be <0x0> (this feature isn't supported)
--- xlnx,use-rx-data: <0x1> if RX FIFO is enabled, <0x0> otherwise
--- xlnx,use-tx-ctrl: Should be <0x0> (this feature isn't supported)
--- xlnx,use-tx-cut-through: Should be <0x0> (this feature isn't supported)
--- xlnx,use-tx-data: <0x1> if TX FIFO is enabled, <0x0> otherwise
--
--Example:
--
--axi_fifo_mm_s_0: axi_fifo_mm_s@43c00000 {
--	compatible = "xlnx,axi-fifo-mm-s-4.1";
--	interrupt-names = "interrupt";
--	interrupt-parent = <&intc>;
--	interrupts = <0 29 4>;
--	reg = <0x43c00000 0x10000>;
--	xlnx,axi-str-rxd-protocol = "XIL_AXI_STREAM_ETH_DATA";
--	xlnx,axi-str-rxd-tdata-width = <0x20>;
--	xlnx,axi-str-txc-protocol = "XIL_AXI_STREAM_ETH_CTRL";
--	xlnx,axi-str-txc-tdata-width = <0x20>;
--	xlnx,axi-str-txd-protocol = "XIL_AXI_STREAM_ETH_DATA";
--	xlnx,axi-str-txd-tdata-width = <0x20>;
--	xlnx,axis-tdest-width = <0x4>;
--	xlnx,axis-tid-width = <0x4>;
--	xlnx,axis-tuser-width = <0x4>;
--	xlnx,data-interface-type = <0x0>;
--	xlnx,has-axis-tdest = <0x0>;
--	xlnx,has-axis-tid = <0x0>;
--	xlnx,has-axis-tkeep = <0x0>;
--	xlnx,has-axis-tstrb = <0x0>;
--	xlnx,has-axis-tuser = <0x0>;
--	xlnx,rx-fifo-depth = <0x200>;
--	xlnx,rx-fifo-pe-threshold = <0x2>;
--	xlnx,rx-fifo-pf-threshold = <0x1fb>;
--	xlnx,s-axi-id-width = <0x4>;
--	xlnx,s-axi4-data-width = <0x20>;
--	xlnx,select-xpm = <0x0>;
--	xlnx,tx-fifo-depth = <0x8000>;
--	xlnx,tx-fifo-pe-threshold = <0x200>;
--	xlnx,tx-fifo-pf-threshold = <0x7ffb>;
--	xlnx,use-rx-cut-through = <0x0>;
--	xlnx,use-rx-data = <0x0>;
--	xlnx,use-tx-ctrl = <0x0>;
--	xlnx,use-tx-cut-through = <0x0>;
--	xlnx,use-tx-data = <0x1>;
--};
--- 
-2.34.1
+> 
+> The FIFO depth properties are documented as being in 32-bit words,
+> matching the original text binding and the driver's own arithmetic
+> in axis_fifo_write(), not bytes as an earlier draft of this schema
+> incorrectly stated.
+> 
+> All properties from the original text binding are preserved,
+> including ones the driver itself ignores, since they are generated
+> unconditionally by the Xilinx IP integrator and may be present in
+> real-world devicetree sources.
+> 
+> Signed-off-by: Daniel28972897 <danyboy28sep@gmail.com>
 
+Another, third try this week? Is there some staging-checkpatch spree?
+
+Same comments as before, no. For explanations, just search:
+https://lore.kernel.org/all/
+
+Best regards,
+Krzysztof
