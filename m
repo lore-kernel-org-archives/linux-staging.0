@@ -1,112 +1,83 @@
-Received: from smtp.inf.ufrgs.br (smtp.inf.ufrgs.br [143.54.11.23])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96C26325495
-	for <linux-staging@lists.linux.dev>; Sat, 19 Sep 2026 21:31:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=143.54.11.23
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4891F29CE9;
+	Sun, 20 Sep 2026 01:05:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789853515; cv=none; b=Uf9452tadjcUvJdZYqmpXTmLD3yn63rKkKfHrpl5x5gx0TqzKp3S9r5P1cdwlfsNFCEZDmIs2w2nvLTBuHqpKAbK3Vs/C5mSIqlzTqW3Y9HxsirvqJ2XFmtOgbeph9XNdTx7YZd8gWTEcpv90uFHCCYguaKmc6of37VSrmgepqM=
+	t=1789866332; cv=none; b=EA4KMyHN51HYGigCfbeR6SFMTxXRIKlubOAJZ6um7tz1BdD3T5+cKerTZuu0Womd5e4nIuLKSBylI3yjKVo0Te7aORU2yL8D6jhuMJM6SDu8GztwgOspCXKHk6Urm+SzOUD+hn1MsFp4qm/6LOodg0San8UQg3lbm40ynUV1Zq4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789853515; c=relaxed/simple;
-	bh=FoV6jIHr7K1SoB58SmDvDSrO9MtxGkq70sQnKE17ygU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HboAByA9yFNn+mAy9L5fcgWfJNBEeOSpm00ebwp5NQWvurl5mSXmDXbsoNDICrNnn2JK0hsfynMwZl6Zzjs/V4XazojGVAeP64P03R3xDQY37RO6merEVzPrF+Wq9WjqJ6s54nbgYiotNlPuq17b7CmbOSDxr22ldptnWP630lE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inf.ufrgs.br; spf=pass smtp.mailfrom=inf.ufrgs.br; dkim=pass (2048-bit key) header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.b=EKCteWoR; arc=none smtp.client-ip=143.54.11.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inf.ufrgs.br
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inf.ufrgs.br
+	s=arc-20240116; t=1789866332; c=relaxed/simple;
+	bh=0m72n6E///O5GvMgCET1rmBGRpkAt9hzs/tGnpJiY3w=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=AGlAY9hfCwKK21Z8hGO+EnoXYvdQlFHg5vc+EnB/SE2Ry2vQS6ijEhzUR4spoGe4ZUD6hqThb/pQIaZytUpPJ4MARZxTqpTuNWP9JjBwLTcPCyrxD85qDd5an+vlJ0uNh7heWflhz4SQ3Q+11oueKQq0ytnlqsd6QKHhrbFi0EU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BIh1OFha; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=inf.ufrgs.br header.i=@inf.ufrgs.br header.b="EKCteWoR"
-Received: from LAPTOP-R01LEAQM.localdomain (unknown [189.112.72.190])
-	by smtp.inf.ufrgs.br (Postfix) with ESMTPSA id 490831203BC;
-	Sat, 19 Sep 2026 18:31:49 -0300 (-03)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inf.ufrgs.br;
-	s=dkim2026; t=1789853509;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=T4Z0u/veBPD8wWntRbxoooLXZ4W/MhyalF72g33QWYg=;
-	b=EKCteWoR9k+OE1hlf3mVS1SvfOmfzPM21QtREkrvvSZ/KcGROELZUVMmSlZ7t0aSiPkzPm
-	/sun+/tecbPNyV/ttpabzdw8imUQU3e4zjLoyQjL3VvnmEajMTuQaUQS1YuZY668NEtE+i
-	/W0sUZGBayDkp/PVqnwo29f2jzCSxJ58QAOvBN5FSSMh8HWOwZqR+toiKIihY2F0cLaT9+
-	9oz7DMfF9hgFLyNMQSsI2cYkEiYvYmkzho+4CoZ8WGjz9UeBjwe7MU3hF+FPIrzA24rrf4
-	5OwjFibRhgRkgxP2B50x774KlwzwnqNz+oifvxuduiGQq53hTzE9owwjLaX22A==
-From: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
-Subject: [PATCH] staging: rtl8723bs: remove reduntant externs in rtw_xmit.h
-Date: Sat, 19 Sep 2026 18:29:50 -0300
-Message-ID: <20260919212950.26636-1-matheus.aalmeida@inf.ufrgs.br>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BIh1OFha"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 967621F000FF;
+	Sun, 20 Sep 2026 01:05:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789866330;
+	bh=ji1AHJgbuJeJs6uzhIiDnd+GxiaFj52YxrCt7gJ/+zo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=BIh1OFhazskK+ZNZanrMThxqtwqkwrmxQqF8OTqisftZLgVWGxvNhTFH8YVj4bo9I
+	 roKSlGUVOtQWn8vT19yGpK+RclKUQRFCHtlSX+gjIP7+xnnCTgLXq5pSCppMDYo700
+	 2ezBq/V9NkkEzu6EPGFPxDIMrkpj7Q4CDK9cEZ3ek5we7/EEtEfISE1QU+XEdLPTOz
+	 RnvS1T8k2SKk+b//7q0ywnBrR0xSljO5sSTyh/2nSWyPJxrCGc0yk6sTCQMmqWP8EB
+	 Jvo9EdfN1/RKi+Rn4SfVZnIU35hhHX/Rjpcn4ZSyzy43lRWK3ArOZDG6yafuHG+y34
+	 G3v4gygyuTFHg==
+Date: Sun, 20 Sep 2026 02:05:27 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Dan Carpenter <error27@gmail.com>
+Cc: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>,
+ gregkh@linuxfoundation.org, nuno.sa@analog.com,
+ Michael.Hennerich@analog.com, dlechner@baylibre.com, andy@kernel.org,
+ linux@analog.com, linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, joshua.crofts1@gmail.com
+Subject: Re: [PATCH] staging: iio: adc: ad7816: Protect sysfs attributes
+ with mutex
+Message-ID: <20260920020527.2628cb3f@jic23-hlaptop>
+In-Reply-To: <aq5nnHPp-tg3C6k0@stanley.mountain>
+References: <20260919085513.9173-1-abdelnasserhussein11@gmail.com>
+	<aq5nnHPp-tg3C6k0@stanley.mountain>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Several function declarations in rtw_xmit.h are currently done with
-extern. This is not necessary, so remove the extern from them.
+On Sat, 19 Sep 2026 13:44:44 +0300
+Dan Carpenter <error27@gmail.com> wrote:
 
-Signed-off-by: Matheus Alves de Almeida <matheus.aalmeida@inf.ufrgs.br>
----
- drivers/staging/rtl8723bs/include/rtw_xmit.h | 26 +++++++++++---------
- 1 file changed, 14 insertions(+), 12 deletions(-)
+> On Sat, Sep 19, 2026 at 11:55:13AM +0300, Abdelnasser Hussein wrote:
+> > The sysfs store functions (ad7816_store_mode and ad7816_store_channel)
+> > modify the device state and toggle GPIO pins. If accessed concurrently
+> > by userspace during an ongoing SPI transfer, this could corrupt the
+> > SPI transaction.
+> > 
+> > Add the existing chip->lock guard to these functions to serialize
+> > access and prevent race conditions.
+> > 
+> > Suggested-by: Joshua Crofts <joshua.crofts1@gmail.com>
+> > Signed-off-by: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>  
+> 
+> Add a Fixes tag.
 
-diff --git a/drivers/staging/rtl8723bs/include/rtw_xmit.h b/drivers/staging/rtl8723bs/include/rtw_xmit.h
-index 873807fcd0dd0..6ebe24392c77d 100644
---- a/drivers/staging/rtl8723bs/include/rtw_xmit.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_xmit.h
-@@ -397,34 +397,36 @@ struct	xmit_priv {
- 	spinlock_t lock_sctx;
- };
- 
--extern struct xmit_frame *__rtw_alloc_cmdxmitframe(struct xmit_priv *pxmitpriv,
--		enum cmdbuf_type buf_type);
-+struct xmit_frame *__rtw_alloc_cmdxmitframe(struct xmit_priv *pxmitpriv,
-+					    enum cmdbuf_type buf_type);
- #define rtw_alloc_cmdxmitframe(p) __rtw_alloc_cmdxmitframe(p, CMDBUF_RSVD)
- #define rtw_alloc_bcnxmitframe(p) __rtw_alloc_cmdxmitframe(p, CMDBUF_BEACON)
- 
--extern struct xmit_buf *rtw_alloc_xmitbuf_ext(struct xmit_priv *pxmitpriv);
-+struct xmit_buf *rtw_alloc_xmitbuf_ext(struct xmit_priv *pxmitpriv);
- void rtw_free_xmitbuf_ext(struct xmit_priv *pxmitpriv, struct xmit_buf *pxmitbuf);
- 
--extern struct xmit_buf *rtw_alloc_xmitbuf(struct xmit_priv *pxmitpriv);
-+struct xmit_buf *rtw_alloc_xmitbuf(struct xmit_priv *pxmitpriv);
- void rtw_free_xmitbuf(struct xmit_priv *pxmitpriv, struct xmit_buf *pxmitbuf);
- 
- void rtw_count_tx_stats(struct adapter *padapter, struct xmit_frame *pxmitframe, int sz);
--extern void rtw_update_protection(struct adapter *padapter, u8 *ie, uint ie_len);
--extern int rtw_make_wlanhdr(struct adapter *padapter, u8 *hdr, struct pkt_attrib *pattrib);
--extern s32 rtw_put_snap(u8 *data, u16 h_proto);
-+void rtw_update_protection(struct adapter *padapter, u8 *ie, uint ie_len);
-+int rtw_make_wlanhdr(struct adapter *padapter, u8 *hdr, struct pkt_attrib *pattrib);
-+s32 rtw_put_snap(u8 *data, u16 h_proto);
- 
--extern struct xmit_frame *rtw_alloc_xmitframe(struct xmit_priv *pxmitpriv);
-+struct xmit_frame *rtw_alloc_xmitframe(struct xmit_priv *pxmitpriv);
- struct xmit_frame *rtw_alloc_xmitframe_ext(struct xmit_priv *pxmitpriv);
- struct xmit_frame *rtw_alloc_xmitframe_once(struct xmit_priv *pxmitpriv);
- void rtw_free_xmitframe(struct xmit_priv *pxmitpriv, struct xmit_frame *pxmitframe);
--extern void rtw_free_xmitframe_queue(struct xmit_priv *pxmitpriv, struct __queue *pframequeue);
-+void rtw_free_xmitframe_queue(struct xmit_priv *pxmitpriv, struct __queue *pframequeue);
- struct tx_servq *rtw_get_sta_pending(struct adapter *padapter, struct sta_info *psta, signed int up, u8 *ac);
- int rtw_xmitframe_enqueue(struct adapter *padapter, struct xmit_frame *pxmitframe);
- 
--extern u32 rtw_calculate_wlan_pkt_size_by_attribue(struct pkt_attrib *pattrib);
-+u32 rtw_calculate_wlan_pkt_size_by_attribue(struct pkt_attrib *pattrib);
- #define rtw_wlan_pkt_size(f) rtw_calculate_wlan_pkt_size_by_attribue(&f->attrib)
--extern int rtw_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, struct xmit_frame *pxmitframe);
--extern int rtw_mgmt_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, struct xmit_frame *pxmitframe);
-+int rtw_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt,
-+			   struct xmit_frame *pxmitframe);
-+int rtw_mgmt_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt,
-+				struct xmit_frame *pxmitframe);
- s32 _rtw_init_hw_txqueue(struct hw_txqueue *phw_txqueue, u8 ac_tag);
- void _rtw_init_sta_xmit_priv(struct sta_xmit_priv *psta_xmitpriv);
- 
--- 
-2.43.0
+Hmm - this is a follow up for a few missed cases. The original patch
+should probably have had a fixes tag as well even though it's in staging
+and the bug goes back probably a decade or more.  Ah well, Abdelnasser,
+ add one here anyway and send a v2 with the spacing Joshua asked for.
+
+Thanks,
+
+Jonathan
+
+> 
+> regards,
+> dan carpenter
+> 
 
