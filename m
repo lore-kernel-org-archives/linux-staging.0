@@ -1,83 +1,58 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4891F29CE9;
-	Sun, 20 Sep 2026 01:05:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E65743B0599;
+	Sun, 20 Sep 2026 05:18:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789866332; cv=none; b=EA4KMyHN51HYGigCfbeR6SFMTxXRIKlubOAJZ6um7tz1BdD3T5+cKerTZuu0Womd5e4nIuLKSBylI3yjKVo0Te7aORU2yL8D6jhuMJM6SDu8GztwgOspCXKHk6Urm+SzOUD+hn1MsFp4qm/6LOodg0San8UQg3lbm40ynUV1Zq4=
+	t=1789881511; cv=none; b=pArqpUX1y5lilNYtnVaeV6C4U332ZsBgjm3matR+6inJ32jk94ksk6kDmz4tfbGJIb5gTWvdJVOyNfoMgw05bDDmvNUdZ59N1vqbeS2PA3r/DLY97eSDieZM+EYc2V3Cah2QMQ47e3HN6l/DqGzcUsfH1T6RHYtRtUZaS88YR38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789866332; c=relaxed/simple;
-	bh=0m72n6E///O5GvMgCET1rmBGRpkAt9hzs/tGnpJiY3w=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AGlAY9hfCwKK21Z8hGO+EnoXYvdQlFHg5vc+EnB/SE2Ry2vQS6ijEhzUR4spoGe4ZUD6hqThb/pQIaZytUpPJ4MARZxTqpTuNWP9JjBwLTcPCyrxD85qDd5an+vlJ0uNh7heWflhz4SQ3Q+11oueKQq0ytnlqsd6QKHhrbFi0EU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BIh1OFha; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789881511; c=relaxed/simple;
+	bh=oxQhkzqwkx/4Z19Qxxrrn5gJJmSWzLDy8+saoX0ciQM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XXEXSPoW1qowsa7bB8sEmg+8sxAkup5SaymDieq0icAkNoaBjcr5LHbQiNQFRiozk69FZGGNCRE+UZXccKricyP23HveJhxtiLPMQkwjEEGLsjcR2eOAhGIaoHtAoRCDHi3Rzfk9Yn2wAK0ck/0SpFjf6EYvb3HwmRQTZBxBnwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=DufwMxt+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BIh1OFha"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 967621F000FF;
-	Sun, 20 Sep 2026 01:05:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789866330;
-	bh=ji1AHJgbuJeJs6uzhIiDnd+GxiaFj52YxrCt7gJ/+zo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=BIh1OFhazskK+ZNZanrMThxqtwqkwrmxQqF8OTqisftZLgVWGxvNhTFH8YVj4bo9I
-	 roKSlGUVOtQWn8vT19yGpK+RclKUQRFCHtlSX+gjIP7+xnnCTgLXq5pSCppMDYo700
-	 2ezBq/V9NkkEzu6EPGFPxDIMrkpj7Q4CDK9cEZ3ek5we7/EEtEfISE1QU+XEdLPTOz
-	 RnvS1T8k2SKk+b//7q0ywnBrR0xSljO5sSTyh/2nSWyPJxrCGc0yk6sTCQMmqWP8EB
-	 Jvo9EdfN1/RKi+Rn4SfVZnIU35hhHX/Rjpcn4ZSyzy43lRWK3ArOZDG6yafuHG+y34
-	 G3v4gygyuTFHg==
-Date: Sun, 20 Sep 2026 02:05:27 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Dan Carpenter <error27@gmail.com>
-Cc: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>,
- gregkh@linuxfoundation.org, nuno.sa@analog.com,
- Michael.Hennerich@analog.com, dlechner@baylibre.com, andy@kernel.org,
- linux@analog.com, linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, joshua.crofts1@gmail.com
-Subject: Re: [PATCH] staging: iio: adc: ad7816: Protect sysfs attributes
- with mutex
-Message-ID: <20260920020527.2628cb3f@jic23-hlaptop>
-In-Reply-To: <aq5nnHPp-tg3C6k0@stanley.mountain>
-References: <20260919085513.9173-1-abdelnasserhussein11@gmail.com>
-	<aq5nnHPp-tg3C6k0@stanley.mountain>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="DufwMxt+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2312D1F000FF;
+	Sun, 20 Sep 2026 05:18:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1789881509;
+	bh=Bz4a3q82FcxUOGi/13u2Aegz4MpJ+A5rvBednWkW6r0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=DufwMxt+pVdBoOJT0s8Ji8NA3UN+q82KhyEQxewHHysW1xfnejtU6YLqblZO0ChXL
+	 u344Z0312uMdZBKgMNEMMIcFD/qdUWAvj22nUTIorETPTUZGszDzNz+x1Rtjjd8dTA
+	 tb81vtQrL3EgLpWv2KK1cJ0tZiI1A3zozxAKDRc0=
+Date: Sun, 20 Sep 2026 06:16:31 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Omer PALA <palaomer100@gmail.com>
+Cc: "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] staging: rtl8723bs: Use guards for mutexes
+Message-ID: <2026092014-despair-secular-d579@gregkh>
+References: <20260919172419.60288-1-palaomer100@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260919172419.60288-1-palaomer100@gmail.com>
 
-On Sat, 19 Sep 2026 13:44:44 +0300
-Dan Carpenter <error27@gmail.com> wrote:
-
-> On Sat, Sep 19, 2026 at 11:55:13AM +0300, Abdelnasser Hussein wrote:
-> > The sysfs store functions (ad7816_store_mode and ad7816_store_channel)
-> > modify the device state and toggle GPIO pins. If accessed concurrently
-> > by userspace during an ongoing SPI transfer, this could corrupt the
-> > SPI transaction.
-> > 
-> > Add the existing chip->lock guard to these functions to serialize
-> > access and prevent race conditions.
-> > 
-> > Suggested-by: Joshua Crofts <joshua.crofts1@gmail.com>
-> > Signed-off-by: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>  
+On Sat, Sep 19, 2026 at 08:24:13PM +0300, Omer PALA wrote:
+> Simplify lock management across the rtl8723bs driver by replacing
+> manual spinlock and mutex acquire/release calls with scope-based
+> cleanup guards (guard() and scoped_guard()).
 > 
-> Add a Fixes tag.
-
-Hmm - this is a follow up for a few missed cases. The original patch
-should probably have had a fixes tag as well even though it's in staging
-and the bug goes back probably a decade or more.  Ah well, Abdelnasser,
- add one here anyway and send a v2 with the spacing Joshua asked for.
-
-Thanks,
-
-Jonathan
-
+> This reduces boilerplate code, removes redundant error-path unlock
+> logic, and prevents potential lock leaks on early return statements.
 > 
-> regards,
-> dan carpenter
-> 
+> Signed-off-by: Omer PALA <palaomer100@gmail.com>
 
+Please read the email archives for why we don't take patches like this.
+
+thanks,
+
+greg k-h
