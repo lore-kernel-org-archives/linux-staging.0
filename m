@@ -1,102 +1,65 @@
-Received: from cvsmtppost13.nm.naver.com (cvsmtppost13.nm.naver.com [114.111.35.31])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1785356748
-	for <linux-staging@lists.linux.dev>; Sun, 20 Sep 2026 13:58:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.31
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 094C1261B71;
+	Sun, 20 Sep 2026 14:03:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789912703; cv=none; b=ntORtqu4joRXTFAZJ4r/IX/iKHQQzvZt/LMHxswNvxsM1Xx5T1SsZfc/NNUEL+iVsCTz7LOACJiXLeOpRYrWjXOEG69xvF8D7TeEfB3ul8MC6+RJjV+KMo0B3qLJFULRPlUqqzr3ai3hS/Yffu8DRbulR/lj6wVLCEGyVZYwjdw=
+	t=1789913034; cv=none; b=Glaa4lDEweQEMfH8nka8BwHGmuTvIsD0UxkJdzxCaCOEGGR6ixJGabT/hth8nksDOJx5O4Xy3ZwVYb4wvn62FJExYOtDq2NqrtkXP1uHSflYeaV26anfY5/GOOhXkw3IJkIeeQlWgmbXtovah4+mJ6o7VtB+F80ZjT08fNdowbk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789912703; c=relaxed/simple;
-	bh=LJ6eEu31p7j1K8Wt9JFqtrb7eCGng0uHMbHr+GnZ8G8=;
-	h=Subject:From:Date:Message-ID:To:Cc:Content-Type:MIME-Version; b=qOGPpg0bUd96IkIIN94rZsFP/ztKEJH5sLveB3lnowpC2u50dNoIMlDaG5+2gUQMAu2ej43pAX/e4N2CRX6EDi4wTCNXc0E87SfgRWswQZlVS7ePF4e7xYfFSNQPSxZH18jhIZOQS8pAHKpnQzz4pju2GGTAit9vs1Gx7nplY4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=tHsikILS; arc=none smtp.client-ip=114.111.35.31
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
+	s=arc-20240116; t=1789913034; c=relaxed/simple;
+	bh=+dNyQZr/hF8TCcMxVYJcqLu1xYsWzf4A3phWn7ARN9E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FHtbPcDfLzjIWKGfF9CdUcSd/fIK5dodswb3y1nwh6zmoxNDwetK3y2mYDGZoLljx8fDtOyAGFjFClqR/YzJJcmZvu5mJQ4n4lpDbBmh4nQRu7MOypu/EoEICjjg14AZDZKRgM5BrzTUqdhsadn/EyfvOcbCbwyW5SLI2fm/sAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ZCvdCqBE; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="tHsikILS"
-Received: from cvsendbo009.nm ([10.112.18.55])
-  by cvsmtppost13.nm.naver.com with ESMTP id S-8oH75DRtezbPQEBHsE-Q
-  for <linux-staging@lists.linux.dev>;
-  Sun, 20 Sep 2026 13:38:05 -0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
-	t=1789911485; bh=LJ6eEu31p7j1K8Wt9JFqtrb7eCGng0uHMbHr+GnZ8G8=;
-	h=Subject:From:Date:Message-ID:To:From:Subject:Feedback-ID:
-	 X-Works-Security;
-	b=tHsikILSgzjKYEH6Tiyi3GV3RvJELs5IEmMYK9KVEBSsv5wflOinWvpzE9NIzhHjh
-	 H2cxW1WdYZc5ZYEDRknNuZptLbYQdBfCbh0PLAGSEEyAPbcaaNWG0xYo6h8Npv+h4b
-	 ET4l063BvPiLpcmqk6Y4MMBN+TFSW/NdDRJv8KB7P5EolXyi8f6EOhyxe+zTawf0pN
-	 cfmg4aPKo+uWLt0h+73M2duvdzseHIwxd656bzJSpmScBgdHVT5r6k41p2SYv6pB1P
-	 i2xNt6ydQLHXtHJeNa7EWXS8nqhQJQTAYKtnDqdb3qHTUIM//Yvj/e5x0ja7T1kTKf
-	 NSYbDw78T9xwg==
-X-Session-ID: JjO9X7IzSwigMDTZBvpPVQ
-X-Works-Send-Opt: 7mbqaBFdjHmwjA+YKHmmKqKwKqbqFxvwjJIFjAJYKg==
-X-Works-Smtp-Source: UdnXaAv/FqJZ+Hm9aAgl+6E=
-Received: from PC2. ([175.193.106.181])
-  by cvnsmtp003.nm.naver.com with ESMTP id JjO9X7IzSwigMDTZBvpPVQ
-  for <multiple recipients>
-  (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-  Sun, 20 Sep 2026 13:38:05 -0000
-Subject:
- [PATCH] staging: greybus: light: use sysfs_emit() instead of sprintf()
-From: ts930@naver.com
-Date: Sun, 20 Sep 2026 22:38:03 +0900
-Message-ID: <178991148304.29938.6850889942806082479@naver.com>
-Reply-To: Park Tae-sun <ts930@dgu.ac.kr>
-To: Rui Miguel Silva <rmfrfs@gmail.com>
-Cc: Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, greybus-dev@lists.linaro.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ZCvdCqBE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6C3D1F000FF;
+	Sun, 20 Sep 2026 14:03:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1789913032;
+	bh=R9XNxNb+W0NnslLs+eLtQl213DHz5FWWD2WFeRoeAGI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ZCvdCqBE+fFS9WdiJR2stXs/DKlz7Kju17IWmu4y75Jm5ZYnVGED2fsdRVVaMTMQ0
+	 gA7G9DbWS4sI5D7o60xORjllAZVakCggwqJzQG89OXK/xwomA0BiloEr+fJL1FhR0j
+	 r1pXTib/AFSSa8JNH9ZLnUt2T1fo9EozrdMZ3G0M=
+Date: Sun, 20 Sep 2026 16:03:48 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Park Tae-sun <ts930@dgu.ac.kr>
+Cc: Rui Miguel Silva <rmfrfs@gmail.com>, Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>, greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: greybus: light: use sysfs_emit() instead of
+ sprintf()
+Message-ID: <2026092047-dubbed-gracious-154c@gregkh>
+References: <178991148304.29938.6850889942806082479@naver.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <178991148304.29938.6850889942806082479@naver.com>
 
-From: Park Tae-sun <ts930@dgu.ac.kr>
+On Sun, Sep 20, 2026 at 10:38:03PM +0900, ts930@naver.com wrote:
+> From: Park Tae-sun <ts930@dgu.ac.kr>
+> 
+> The sysfs documentation (Documentation/filesystems/sysfs.rst) recommends
+> using sysfs_emit() instead of sprintf() in sysfs show() callbacks.
+> 
+> Replace the remaining sprintf() calls in the fade_##__dir##_show()
+> macro and color_show() callback with sysfs_emit().
+> 
+> This follows the standard kernel practice and existing use of
+> sysfs_emit() in other Greybus sysfs show functions.
+> 
+> No functional change.
 
-The sysfs documentation (Documentation/filesystems/sysfs.rst) recommends
-using sysfs_emit() instead of sprintf() in sysfs show() callbacks.
+How is this different from past patches that have attempted to change
+this?
 
-Replace the remaining sprintf() calls in the fade_##__dir##_show()
-macro and color_show() callback with sysfs_emit().
+thanks,
 
-This follows the standard kernel practice and existing use of
-sysfs_emit() in other Greybus sysfs show functions.
-
-No functional change.
-
-Signed-off-by: Park Tae-sun <ts930@dgu.ac.kr>
----
- drivers/staging/greybus/light.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/greybus/light.c b/drivers/staging/greybus/light.c
-index cab02b5da867..2689f9a7524a 100644
---- a/drivers/staging/greybus/light.c
-+++ b/drivers/staging/greybus/light.c
-@@ -173,7 +173,7 @@ static ssize_t fade_##__dir##_show(struct device *dev,			\
- 	struct led_classdev *cdev =3D dev_get_drvdata(dev);		\
- 	struct gb_channel *channel =3D get_channel_from_cdev(cdev);	\
- 									\
--	return sprintf(buf, "%u\n", channel->fade_##__dir);		\
-+	return sysfs_emit(buf, "%u\n", channel->fade_##__dir);		\
- }									\
- 									\
- static ssize_t fade_##__dir##_store(struct device *dev,			\
-@@ -220,7 +220,7 @@ static ssize_t color_show(struct device *dev, struct devi=
-ce_attribute *attr,
- 	struct led_classdev *cdev =3D dev_get_drvdata(dev);
- 	struct gb_channel *channel =3D get_channel_from_cdev(cdev);
-=20
--	return sprintf(buf, "0x%08x\n", channel->color);
-+	return sysfs_emit(buf, "0x%08x\n", channel->color);
- }
-=20
- static ssize_t color_store(struct device *dev, struct device_attribute *attr,
---=20
-2.43.0
-
+greg k-h
