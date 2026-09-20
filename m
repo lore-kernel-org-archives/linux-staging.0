@@ -1,84 +1,75 @@
-Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7AF039B49A
-	for <linux-staging@lists.linux.dev>; Sun, 20 Sep 2026 11:59:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFD5839A81B;
+	Sun, 20 Sep 2026 12:37:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789905595; cv=none; b=OfQybNmjCCSR3z3RpG8DcC3hrv2fRQQV5jxBqgWIwmOJL4WHCc/HVT3HAtc/0RI52WNZ56SwvCUx6wX7tkaAW+B9NNKYOnmiOBOTL9HgrN7oRvY9mcZXWrRIBugFfLE2srX9r10VXXKSStMC1VkTMbwkt/iUTPKw24JJ43mE5k4=
+	t=1789907875; cv=none; b=Qo4+J3LM1LwYrcLUloXc34lNkLi4S4MHmG/Cmi5Oh2qG1PGX7vlZsF6skKT3K6jkVQXqD370/+5lCFCLGXNwoRXWKzJ0aGo9pwrl/Ap3+a64tt3dbCNheilrsAZFSETegpTe06SZ97yKSK1Lw3nhOom0/UX8kjnM+2Fg0gC0dKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789905595; c=relaxed/simple;
-	bh=pxYPO61SLBpwlXPpx2HWl96/2rvjavXEyUVOu801jVI=;
-	h=Date:From:To:CC:Subject:In-Reply-To:Message-ID:MIME-Version:
-	 Content-Type; b=CBvn4hTjyTegc9HHvtgokKGU1cVVLRIv7l4KSamhLJ6LCqVZVII7T3vuW6gG5BFMGs45MEnCpErZ+1XBPHWtBBAWroFBZ/FI7yEceILyIPUIj57zljtGkFC/EI6MlAe3V2abbGROJzRZrPG0T4umvhRNf9ARFRhQ3+ISxRxhwrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=V1vetCDo; dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=Vpy7alpO; arc=none smtp.client-ip=5.75.144.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mainlining.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
+	s=arc-20240116; t=1789907875; c=relaxed/simple;
+	bh=35nNFJvTm6+ePCGJIPzqrEvVltPVCMsY28rjpiFDtdU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=r9TpV02PEZl6zSb/kfSiwFSfASr7sT1a+JACPTbfj+bNZ2V/LCaiG2htoPkjpqcWkrQtPMayHo2Jp1pFHuaxeVUor63VUjro7iYJSkh9RCeqkNnfbr7leRKniQx7EWh5QNQsP5Sc2IDslf0bBM/1/4A9ub+WoX+UMnUCDBSC5MA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=AIha8MxI; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="V1vetCDo";
-	dkim=permerror (0-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="Vpy7alpO"
-DKIM-Signature: v=1; a=rsa-sha256; s=202507r; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1789905574; bh=pxYPO61SLBpwlXPpx2HWl96
-	/2rvjavXEyUVOu801jVI=; b=V1vetCDo4Eqa+UyUsgWHZECxQS9D+GN6krgMwMwdq6MTZD748W
-	/8uhOZtqFsTkxjM9rhE/tJaAoEDPu70Bj1LWbfIG/VP8tJPa2oQPtikiTgdsbETOvFZucnnuox0
-	Gx/U+a3cTpvAg4lSpBP3YIlDBCaqFxx8Zxq7O7x2YLcK4hs27DB9m95myTiEEg58x+OeNqwG8bv
-	mes/djmlGAU8Y360tVK7AEPvVj0OnuZjLfzca9BtftxA7wA8cGNKzM7YkYZUSEnZ4hnlfY0Jx4w
-	dB28FR4kK1mTZPDvLXQPouqvI+yr+GX/RlO1ExaTsj6KJejoOXBnLQx4VxKFNOteG5Q==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202507e; d=mainlining.org; c=relaxed/relaxed;
-	h=Message-ID:Subject:To:From:Date; t=1789905574; bh=pxYPO61SLBpwlXPpx2HWl96
-	/2rvjavXEyUVOu801jVI=; b=Vpy7alpOdkfCN8SWrguhWIWcnlNIkq56sJD+auCLZ+5EpwjRXv
-	r2ImfpTEgmj00dELylEDgkGSUP0GhgTVZpDA==;
-Date: Sun, 20 Sep 2026 12:59:34 +0100
-From: Bradley Morgan <brads@mainlining.org>
-To: palaomer100@gmail.com
-CC: dtwlin@gmail.com, elder@kernel.org, gregkh@linuxfoundation.org,
- greybus-dev@lists.linaro.org, hvaibhav.linux@gmail.com, johan@kernel.org,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
- mgreer@animalcreek.com, pure.logic@nexus-software.ie, rmfrfs@gmail.com,
- vaibhav.sr@gmail.com, vireshk@kernel.org
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="AIha8MxI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40F561F000FF;
+	Sun, 20 Sep 2026 12:37:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1789907855;
+	bh=vXzep5Y0EBu3LAf+/uT7RDFqqEC/cL583FznQw/7nHA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=AIha8MxIiGm/i+QT+68mRvLq12tizmVVh48EKdEakAsi8ZOV9h3hRsUNIdLFUO+4E
+	 +TIimI+HV98ODTqfkiyNKMaX0APjggWCBSPAMtcsFCPOvpq4J16A8z9uJuTTXUmDzP
+	 pDBE62r1j8883zZoPz4N34qFv5kceaB+5C7pliqM=
+Date: Sun, 20 Sep 2026 14:37:29 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Omer PALA <palaomer100@gmail.com>
+Cc: Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+	Vaibhav Agarwal <vaibhav.sr@gmail.com>,
+	Mark Greer <mgreer@animalcreek.com>,
+	Viresh Kumar <vireshk@kernel.org>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Bryan O'Donoghue <pure.logic@nexus-software.ie>,
+	David Lin <dtwlin@gmail.com>,
+	"moderated list:GREYBUS SUBSYSTEM" <greybus-dev@lists.linaro.org>,
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+	open list <linux-kernel@vger.kernel.org>
 Subject: Re: [PATCH] staging: greybus: change mutexes to guard macros
-In-Reply-To: <DLK2TDB5QIUL.1X53SKJTROLDK@gmail.com>
-Message-ID: <33F62319-50BA-45F8-BEDA-75BC4AFBAC93@mainlining.org>
+Message-ID: <2026092049-ninja-marathon-7c24@gregkh>
+References: <20260920094058.9664-1-palaomer100@gmail.com>
+ <2026092039-greedily-jailer-80e5@gregkh>
+ <DLK2TDB5QIUL.1X53SKJTROLDK@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DLK2TDB5QIUL.1X53SKJTROLDK@gmail.com>
 
-On 20 September 2026 11:37:00 BST, Omer PALA <palaomer100@gmail.com> wrote:
->Hi Greg,
->
->I thought someone (not you) can allow this.
->
->I want to contribute kernel but i dont know what should i do.
->
->I wrote 3 devicetree schemas, 2 performance fixes, 2 mutex/spinlock
->fixes and 1 syntax fix.
->
->All of my work got NAK.
->
->Can you explain me what should i do?
->
->Best Regards,
->Omer PALA
+On Sun, Sep 20, 2026 at 01:37:00PM +0300, Omer PALA wrote:
+> Hi Greg,
+> 
+> I thought someone (not you) can allow this.
+> 
+> I want to contribute kernel but i dont know what should i do.
+> 
+> I wrote 3 devicetree schemas, 2 performance fixes, 2 mutex/spinlock
+> fixes and 1 syntax fix.
+> 
+> All of my work got NAK.
+> 
+> Can you explain me what should i do?
 
-Hi, I don't tend to jump into staging threads, because well I don't do
-staging and all that, but I'm sure I can help you here.
+Try to contribute "normal" coding style cleanups for staging drivers,
+ones that you know will be correct (because you can verify them), and
+NOT used with any LLM tool.
 
-From me looking in archives, you tend to use AI tools, which isn't allowed
-in staging as of right now.
+thanks,
 
-Staging is a learners playground, not a AI bot bug report thing.
-
-If you need any help you can contact me off list any time you need it, I
-do need to start mentoring people....
-
->
->
-
---- Thanks!
-"I'm not a very positive person" - Linus torvalds
+greg k-h
