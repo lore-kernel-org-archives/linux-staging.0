@@ -1,54 +1,54 @@
-Received: from cvsmtppost16.nm.naver.com (cvsmtppost16.nm.naver.com [114.111.35.234])
+Received: from cvsmtppost13.nm.naver.com (cvsmtppost13.nm.naver.com [114.111.35.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D84BA2EEE79
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1785356748
 	for <linux-staging@lists.linux.dev>; Sun, 20 Sep 2026 13:58:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.234
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.111.35.31
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789912703; cv=none; b=A+uoPp+8unAXg2WVvilW2RpHwPey/h/j8RL30NLb2zBo7AhW2Jp0HiX3zgOyglAUY7g1/gBZTmXXBKhDtfoH7UwCaGnfMlLpQH8FI6zF5ChxU+TG82jVPUI8Jt6VUUq0KyIZIIJXSGGp+rvqPCAb+n57e0k1QV2ma5NlYDMk7ZM=
+	t=1789912703; cv=none; b=ntORtqu4joRXTFAZJ4r/IX/iKHQQzvZt/LMHxswNvxsM1Xx5T1SsZfc/NNUEL+iVsCTz7LOACJiXLeOpRYrWjXOEG69xvF8D7TeEfB3ul8MC6+RJjV+KMo0B3qLJFULRPlUqqzr3ai3hS/Yffu8DRbulR/lj6wVLCEGyVZYwjdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1789912703; c=relaxed/simple;
-	bh=VC8vbT+0cXzLFnKMo4KP/MJ2YIhtNWWmdyV0W6R6R7c=;
-	h=Subject:From:Date:Message-ID:To:Cc:Content-Type:MIME-Version; b=bwz0Sgqn8uHRjVKJDQR/M/OjbTohHwc4WQQv0FkcPTLC7Eo+PDOxFZTI375JN5o8G/noPkVK/b7OwFHhs5j1jQVr2/OAL5rrUbK+yBpTSbUuWOdQiy4Fsi0UGZNRpwEmRPT8V7gg0lOjtMsU9NJm1p+vBYuYSyT8yVoFaBGbSeM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=iiridj/K; arc=none smtp.client-ip=114.111.35.234
+	bh=LJ6eEu31p7j1K8Wt9JFqtrb7eCGng0uHMbHr+GnZ8G8=;
+	h=Subject:From:Date:Message-ID:To:Cc:Content-Type:MIME-Version; b=qOGPpg0bUd96IkIIN94rZsFP/ztKEJH5sLveB3lnowpC2u50dNoIMlDaG5+2gUQMAu2ej43pAX/e4N2CRX6EDi4wTCNXc0E87SfgRWswQZlVS7ePF4e7xYfFSNQPSxZH18jhIZOQS8pAHKpnQzz4pju2GGTAit9vs1Gx7nplY4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com; spf=pass smtp.mailfrom=naver.com; dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b=tHsikILS; arc=none smtp.client-ip=114.111.35.31
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="iiridj/K"
-Received: from cvsendbo012.nm ([10.112.24.38])
-  by cvsmtppost16.nm.naver.com with ESMTP id zi7mM4EqTo2qXLAztdXIOQ
+	dkim=pass (2048-bit key) header.d=naver.com header.i=@naver.com header.b="tHsikILS"
+Received: from cvsendbo009.nm ([10.112.18.55])
+  by cvsmtppost13.nm.naver.com with ESMTP id S-8oH75DRtezbPQEBHsE-Q
   for <linux-staging@lists.linux.dev>;
   Sun, 20 Sep 2026 13:38:05 -0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
-	t=1789911485; bh=VC8vbT+0cXzLFnKMo4KP/MJ2YIhtNWWmdyV0W6R6R7c=;
+	t=1789911485; bh=LJ6eEu31p7j1K8Wt9JFqtrb7eCGng0uHMbHr+GnZ8G8=;
 	h=Subject:From:Date:Message-ID:To:From:Subject:Feedback-ID:
 	 X-Works-Security;
-	b=iiridj/K53tV+WYMYnJ4tDXElZv1Fuf+TqxWn9tYUL3ffuRCjOOq8J1EdCoAF49Md
-	 P40ouqT+jtfV7zn4MmR5m30+fylYmznO6JPSaZHHGGd9QOJFaq3m+3cv4WyO02iCB0
-	 h9LeO8fld2vawiJ+Z03pWxxGoE15uSlRJR4QuufoUHDTyBQL+rOzAYyATodkRH386l
-	 eci2l3XaL24jaT78Vx2EtFDqcfIC/0XA/m1wBg1JoKFVrliwsdVEpjGqDtRq71qyaI
-	 Gv77AWJXdlPMh/45++rgwayKmtv7IRune1RxGo1vYFCbTssF+wWFAfavdRhvrcnBJO
-	 RcE/Je8oGbaDg==
-X-Session-ID: 3hEAEuWZRT2xq+O2HmgHSQ
-X-Works-Send-Opt: 7mKqaBFdjHmwjApYKHmmKqKwKqbqFxvwjJIFjAJYKg==
-X-Works-Smtp-Source: UdbXaAv/FqJZ+HmdaAgl+6E=
+	b=tHsikILSgzjKYEH6Tiyi3GV3RvJELs5IEmMYK9KVEBSsv5wflOinWvpzE9NIzhHjh
+	 H2cxW1WdYZc5ZYEDRknNuZptLbYQdBfCbh0PLAGSEEyAPbcaaNWG0xYo6h8Npv+h4b
+	 ET4l063BvPiLpcmqk6Y4MMBN+TFSW/NdDRJv8KB7P5EolXyi8f6EOhyxe+zTawf0pN
+	 cfmg4aPKo+uWLt0h+73M2duvdzseHIwxd656bzJSpmScBgdHVT5r6k41p2SYv6pB1P
+	 i2xNt6ydQLHXtHJeNa7EWXS8nqhQJQTAYKtnDqdb3qHTUIM//Yvj/e5x0ja7T1kTKf
+	 NSYbDw78T9xwg==
+X-Session-ID: JjO9X7IzSwigMDTZBvpPVQ
+X-Works-Send-Opt: 7mbqaBFdjHmwjA+YKHmmKqKwKqbqFxvwjJIFjAJYKg==
+X-Works-Smtp-Source: UdnXaAv/FqJZ+Hm9aAgl+6E=
 Received: from PC2. ([175.193.106.181])
-  by cvnsmtp003.nm.naver.com with ESMTP id 3hEAEuWZRT2xq+O2HmgHSQ
+  by cvnsmtp003.nm.naver.com with ESMTP id JjO9X7IzSwigMDTZBvpPVQ
   for <multiple recipients>
   (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-  Sun, 20 Sep 2026 13:38:04 -0000
+  Sun, 20 Sep 2026 13:38:05 -0000
 Subject:
- [PATCH] staging: greybus: gbphy: use sysfs_emit() instead of sprintf()
+ [PATCH] staging: greybus: light: use sysfs_emit() instead of sprintf()
 From: ts930@naver.com
-Date: Sun, 20 Sep 2026 22:38:02 +0900
-Message-ID: <178991148260.29938.9272611738457436343@naver.com>
+Date: Sun, 20 Sep 2026 22:38:03 +0900
+Message-ID: <178991148304.29938.6850889942806082479@naver.com>
 Reply-To: Park Tae-sun <ts930@dgu.ac.kr>
-To: Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
+To: Rui Miguel Silva <rmfrfs@gmail.com>
+Cc: Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, greybus-dev@lists.linaro.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -61,7 +61,8 @@ From: Park Tae-sun <ts930@dgu.ac.kr>
 The sysfs documentation (Documentation/filesystems/sysfs.rst) recommends
 using sysfs_emit() instead of sprintf() in sysfs show() callbacks.
 
-Replace sprintf() with sysfs_emit() in the protocol_id_show() callback.
+Replace the remaining sprintf() calls in the fade_##__dir##_show()
+macro and color_show() callback with sysfs_emit().
 
 This follows the standard kernel practice and existing use of
 sysfs_emit() in other Greybus sysfs show functions.
@@ -70,22 +71,32 @@ No functional change.
 
 Signed-off-by: Park Tae-sun <ts930@dgu.ac.kr>
 ---
- drivers/staging/greybus/gbphy.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/greybus/light.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/greybus/gbphy.c b/drivers/staging/greybus/gbphy.c
-index bdb0f5164a6f..bb9a5b538e6e 100644
---- a/drivers/staging/greybus/gbphy.c
-+++ b/drivers/staging/greybus/gbphy.c
-@@ -31,7 +31,7 @@ static ssize_t protocol_id_show(struct device *dev,
- {
- 	struct gbphy_device *gbphy_dev = to_gbphy_dev(dev);
- 
--	return sprintf(buf, "0x%02x\n", gbphy_dev->cport_desc->protocol_id);
-+	return sysfs_emit(buf, "0x%02x\n", gbphy_dev->cport_desc->protocol_id);
+diff --git a/drivers/staging/greybus/light.c b/drivers/staging/greybus/light.c
+index cab02b5da867..2689f9a7524a 100644
+--- a/drivers/staging/greybus/light.c
++++ b/drivers/staging/greybus/light.c
+@@ -173,7 +173,7 @@ static ssize_t fade_##__dir##_show(struct device *dev,			\
+ 	struct led_classdev *cdev =3D dev_get_drvdata(dev);		\
+ 	struct gb_channel *channel =3D get_channel_from_cdev(cdev);	\
+ 									\
+-	return sprintf(buf, "%u\n", channel->fade_##__dir);		\
++	return sysfs_emit(buf, "%u\n", channel->fade_##__dir);		\
+ }									\
+ 									\
+ static ssize_t fade_##__dir##_store(struct device *dev,			\
+@@ -220,7 +220,7 @@ static ssize_t color_show(struct device *dev, struct devi=
+ce_attribute *attr,
+ 	struct led_classdev *cdev =3D dev_get_drvdata(dev);
+ 	struct gb_channel *channel =3D get_channel_from_cdev(cdev);
+=20
+-	return sprintf(buf, "0x%08x\n", channel->color);
++	return sysfs_emit(buf, "0x%08x\n", channel->color);
  }
- static DEVICE_ATTR_RO(protocol_id);
- 
--- 
+=20
+ static ssize_t color_store(struct device *dev, struct device_attribute *attr,
+--=20
 2.43.0
 
