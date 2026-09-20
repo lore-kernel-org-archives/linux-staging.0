@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE7E8440629;
-	Sun, 20 Sep 2026 13:22:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 553AB2D12EE;
+	Sun, 20 Sep 2026 13:26:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789910542; cv=none; b=iLXff5n1bysn7Vv1qDgL3UThTjMvP1sT650zFEe2EmuWX+d4difIn0Ptq3k1xBZboA2FEtZXHS/9+QcZ+G+GOp+KT2ZxiPEm9oXCn88YuAxRc8g0pLQvwVeI7wyV2xrJH8hvUw17VgkgDdfBY00jQZ00t2JpSCvvnNp2mph6EH0=
+	t=1789910776; cv=none; b=eJPOpycmRAQt3scvoWVAyFxK3JFZgjIbhLcDWI+A7NevwwEoImxnospsnPo6vROGTdrrmOdmEQPaNYPm12jnXiKbaF4/RmjDxzc0gR9vML+gj2o33pYR+HKyXMpftcYAfOFQ8n0jecxN8MiEJ17GHWOykjuGDmamkHx05h1axB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789910542; c=relaxed/simple;
-	bh=POlJBh9KNY1x3GbA33ud9kjtlw6cq5NbZpK+tcXj3sc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iSF9uh1MjCBYnEWXjKJd/WEGCp5GxLjkb/jxPIKFNtAEsb0uRPsq7Ic0S2hwBRqhL7NCMD8PJHaw2RK/ZLsXAHYz0gC+NwN72m1thO4tFdbCTccTd6p2VcSTFjD84kpO/yKbpa4bDNCV3258iRATE91O+V6bGrNSuJqKW1n6j2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c0ka+f6R; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789910776; c=relaxed/simple;
+	bh=/ZEc6dTc47pxn07NHPuUR6laqLgMTCP3lmnxbL8jDjs=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=oyN+YYJG3/F5uyi3LQAj8E+MEU8sLTWYTmXgsM4Cw9gtdZ1VvT2ukSmP4RYSvpFNzlOBUefaP+47YqEm+iRF2cqYYSzOEhyBTrOFfmKLBlACvtQSXdsk4OSomviA24gwwq54LwNPSX8NioIcc6uLRMrHn6PjTiCEyleZf9pgVL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UX76iND6; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c0ka+f6R"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED7931F000FF;
-	Sun, 20 Sep 2026 13:22:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UX76iND6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F7AF1F000FF;
+	Sun, 20 Sep 2026 13:26:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789910539;
-	bh=IgMdXzKyeuuhHNtFLFYrbZ8KZpxyweXgFtDLYNoIkw4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=c0ka+f6RjQ6ejFKxKSXAW+Q7GDWgOFdDDXGFUbhNC52Zb2CFvv+EghgnGDSeoFHnX
-	 wSvuMYaG7rd1wzBrvkWH2iRs3XuGjVi+fsK236+LH5qjucOTS0D4Os4XZxsxnM4f3F
-	 5V6Z3iz6g0MssFsyIwZ7feUA+byFKkFbySlSgImKLO+ZijSJ3oPNc/8jgk0BdLiVOP
-	 zdB969w1PUWziaGlZnGBaLxGqWab/c0N5xp568CLGQwJ5pzcp6DqwyAU8cndIv1ZQW
-	 H0Aw127TexajIyZZXHiUoOBETYFkwhm9yX/r7Vsb5BcOIjlvTCtSyCCZt0acAXJjur
-	 Xc8oW8LdtRimA==
-Message-ID: <ea6cf31e-0acd-4248-9359-5864bf8f6f94@kernel.org>
-Date: Sun, 20 Sep 2026 15:22:08 +0200
+	s=k20260515; t=1789910773;
+	bh=KRrkQIdjrWIlIYhi9X9np1NOOxNT7Z30QZ4mP4MCkvI=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To;
+	b=UX76iND6TxiIbbh+QmR+fJ6WG0yMc1o7yybcCVUa2BySZA0EFrWR92NL2TibVjV9k
+	 sjvBk0/jD0QB1BOnhGzwN4qn5Gc9KvLaos7JH6Y6RlJJ25mptX3znLUCVytaUzCaOg
+	 LgT1TH+3iwOyp+xQkfq8iucnU/yx18EATcgmueRYQmEjikoXlUZTNBlAg8U2FB46UX
+	 286ONK3JH7GlBZ6iWbT9IH5zsX5s7osErVfnULyw+CR7MqO68i2YehiqssiUsgI8RI
+	 bx1grVLyMmaIY9AZOMA2TqVH5njQLqxp3Ohw4CnQcpJnUaf4d19aoWGqgoWMLdZ1c/
+	 eD+MeVT87mP0Q==
+Message-ID: <b33efa2e-75e3-4163-ba1f-712227b438f8@kernel.org>
+Date: Sun, 20 Sep 2026 15:26:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -36,6 +36,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] staging: greybus: change mutexes to guard macros
+From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Omer PALA <palaomer100@gmail.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
@@ -50,7 +51,7 @@ Cc: Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
 References: <20260920094058.9664-1-palaomer100@gmail.com>
  <2026092039-greedily-jailer-80e5@gregkh>
  <DLK2TDB5QIUL.1X53SKJTROLDK@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <ea6cf31e-0acd-4248-9359-5864bf8f6f94@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -95,49 +96,66 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
  n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
  qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <DLK2TDB5QIUL.1X53SKJTROLDK@gmail.com>
+In-Reply-To: <ea6cf31e-0acd-4248-9359-5864bf8f6f94@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 20/09/2026 12:37, Omer PALA wrote:
-> Hi Greg,
+On 20/09/2026 15:22, Krzysztof Kozlowski wrote:
+> On 20/09/2026 12:37, Omer PALA wrote:
+>> Hi Greg,
+>>
+>> I thought someone (not you) can allow this.
 > 
-> I thought someone (not you) can allow this.
-
-So you received feedback from Greg, but tried on different part, hoping
-this time it will get accepted?
-
-This looks similar to you previous approaches, e.g. for DT bindings,
-where you received comments and repeated the same thing immediately.
-Three or four time.
-
+> So you received feedback from Greg, but tried on different part, hoping
+> this time it will get accepted?
 > 
-> I want to contribute kernel but i dont know what should i do.
-
-I suggest spend some time to actually read the archives when people
-point it.
-
-
+> This looks similar to you previous approaches, e.g. for DT bindings,
+> where you received comments and repeated the same thing immediately.
+> Three or four time.
 > 
-> I wrote 3 devicetree schemas, 2 performance fixes, 2 mutex/spinlock
-> fixes and 1 syntax fix.
+>>
+>> I want to contribute kernel but i dont know what should i do.
 > 
-> All of my work got NAK.
-
-One was pure AI slop, so what did you expect exactly? In all channels,
-fediverse, some technological news, open source projects complain about
-sent slop, they reject it and treat it as one of biggest time wasting
-thing contributor could do. It is not like we hide it, right? Actually
-opposite, everywhere we scream - don't send vibe coded stuff. And for
-learning or beginning this is even unacceptable waste of your time,
-because you will learn nothing. I was raising it for GSoC for example
-more than once and it is documented in their rules.
-
+> I suggest spend some time to actually read the archives when people
+> point it.
 > 
-> Can you explain me what should i do?
+> 
+>>
+>> I wrote 3 devicetree schemas, 2 performance fixes, 2 mutex/spinlock
+>> fixes and 1 syntax fix.
+>>
+>> All of my work got NAK.
+> 
+> One was pure AI slop, so what did you expect exactly? In all channels,
+> fediverse, some technological news, open source projects complain about
+> sent slop, they reject it and treat it as one of biggest time wasting
+> thing contributor could do. It is not like we hide it, right? Actually
+> opposite, everywhere we scream - don't send vibe coded stuff. And for
+> learning or beginning this is even unacceptable waste of your time,
+> because you will learn nothing. I was raising it for GSoC for example
+> more than once and it is documented in their rules.
+> 
+>>
+>> Can you explain me what should i do?
+> 
+> One idea would be to read more before you actually contribute.
 
-One idea would be to read more before you actually contribute.
+... and if you even asked your AI like I did now:
+"how linux kernel developers look at LLM contributions from beginners?"
+I got:
 
+"Linux kernel developers view unverified AI-generated code from
+beginners with heavy skepticism and frustration due to a massive influx
+of low-quality submissions that overwhelm maintainers."
+
+
+"Rejection of AI "slop": "
+
+"Staging area bans: Certain high-traffic areas prone to beginner
+contributions, such as the kernel's staging drivers (drivers/staging/),
+have implemented strict policies forbidding LLM-generated patches ...."
+
+Yet you did exactly what should not be done - were using LLM.
 
 Best regards,
 Krzysztof
