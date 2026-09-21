@@ -1,62 +1,62 @@
-Received: from mail-wm2-f5.google.com (mail-wm2-f5.google.com [74.125.225.133])
+Received: from mail-wr2-f11.google.com (mail-wr2-f11.google.com [74.125.225.75])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 436DB4E7817
-	for <linux-staging@lists.linux.dev>; Mon, 21 Sep 2026 18:14:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89E014F93DC
+	for <linux-staging@lists.linux.dev>; Mon, 21 Sep 2026 18:33:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.75
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790014479; cv=none; b=ePh4ypvaPBWLo4rKMie5Y9/RAFGxd+dqGNJc79jBh2q5GZ0pQQKr/jC0qkBdDPQXX0Cn3YBMlgLsjTZ/XXMZvu31bAC7GkZxlWQs9AI0eR0efRgkLHU5Oup5HymQpWsj0P5v82+rg207482iLZRWD3a58N5HHoG/dmrkotWW2Bg=
+	t=1790015619; cv=none; b=PCBE14D+ThI5HcwsY11cr6DoOYcl2WscPDhbzVKZXVlDQa5Cm9mtCdypEDq4eQvLkYOsBxWmdQPXb3hfaX09g0BPllbWt9QeLWLLzyvZ357EeafkIo/VCxz04V226OMkQCVUrfhIjdaW3W4P+JrdvjI3CyXXVUrVTSE3+1KKTBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790014479; c=relaxed/simple;
-	bh=BhklwgvkpUrE+CC+vXjr1M0j6bhRvxIIJDO2uMkw5I0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NJ247Vymx12lOMkr6h4hBeMNXD2VVYpVs2IAJZyZEOwHsQ8dOtMZdblDAM+se/ZWks9GSIrKhDkfYd/ycWhFY477aAswHMU1oe9Lbuuk3FSVcFAMZXK9QIF0Eg5hBMamtPb+qS2Vx8qqtvBPw3mO4A89VMzd+92H1bzCENT/RYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NmAJf4QE; arc=none smtp.client-ip=74.125.225.133
+	s=arc-20240116; t=1790015619; c=relaxed/simple;
+	bh=imLjrTU5t3+H3A0cVIp6sUg0tHEbyxjPqqF20TYdT/Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jEVk6bvH6holvHv9ub8fOE5o/aKQPDdhJCjJEzzC6+kCcXmNMME5NX+wiUFLgzXRZA5GMjgFvaoY3GYM1oIHDS9TtwAv9Mdr97hPOmh+BhLAS97GyASD5xT4+bWw8PpyD3EpmLfhVxFLRHp0QxEar0L3xgIQRI0Xv9lUNC86qSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JpSHTClg; arc=none smtp.client-ip=74.125.225.75
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NmAJf4QE"
-Received: by mail-wm2-f5.google.com with SMTP id 5b1f17b1804b1-49e667e3c45so5325495e9.1
-        for <linux-staging@lists.linux.dev>; Mon, 21 Sep 2026 11:14:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JpSHTClg"
+Received: by mail-wr2-f11.google.com with SMTP id ffacd0b85a97d-48351e5bb47so1121677f8f.1
+        for <linux-staging@lists.linux.dev>; Mon, 21 Sep 2026 11:33:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790014476; x=1790619276; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1790015615; x=1790620415; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=8njTdDuR2VjcLI0zLlnQh6RcubDIwEA0WzrR3t+nYKc=;
-        b=NmAJf4QEmVMOtUbADrc0OvO+wAhIQtWrb1GyNzQVJlW4lMmutHnqOT7gGkiywWQI9t
-         xnYGHYLfnwN6TxOfGtTK+Iq17DA+QgWTC62ADiRgA+L9HwoihnzuHGjW99WwtBhCYwrh
-         iQwJzeTzKrP3YZuMt8TfE+VfZ2hYzZp9HECW8ctUnfBDUFz/vffyoyvE4M4l+fUUsNjX
-         8crBRYRhM85x70A2qbho+URjCMtf2KpLVoQjMipS6HmQyc6xKCTsoqYVfoOxRU42EEZu
-         ES6GnPEOL37EhNc3u7N4WP55Ccss3Apd+oGvQn/Fsai6bkJkUw8i1pYzY/pnXbpMn8sH
-         sEEA==
+        bh=8qwDua38LIyW1TawgxN9o1m0hOow5CaSBoRxma0znMA=;
+        b=JpSHTClgSO1ogbwF8mihifnPwOocCuolL0Lfluu3nShf56Y9YUwHUSWIEa+8Ih56tA
+         jK8NWqaGGJr0Or68t5FuD6nbjxEvJw/2gZu10PqX/t73cUt9ralhFjHLNbeQJ2D5lCUm
+         RzkFhoziwnNdIaLYlytK81OIDtOWuGJWduE1uG3HqbMMEDbLbGjSQvA+CIzukRNM4NaM
+         61gdVjvBFJly7K4u/7Ti6npw1lZbvsuO6cJ3Gmj7z/8w/9egCFE0Ppe3w9PnuacEBNo3
+         BwZUUSAMK6Ihdle69gTGFR3ivAaBoSg7m9Ofr3ekwcT1B4NaloN9ljsdsGimVBRnNeG8
+         qPEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790014476; x=1790619276;
+        d=1e100.net; s=20260707; t=1790015615; x=1790620415;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=8njTdDuR2VjcLI0zLlnQh6RcubDIwEA0WzrR3t+nYKc=;
-        b=fmApgsNHqNOVABGGKTvclxGDzgRHA/5xMG80uGr7DG6EG5AXyGe6oWo1HbYFpLrLTR
-         0OfkL2bj8f5IBcGW3ChY64P0ZC78seuJ4Cgg/rm/lKhk8mI9Mst+RPfmC+9ZE8MpXmBA
-         h9jErE3vJatkwudg4swDTuEd4HGF2rhNtLivkI2z7Exdol3CSBveWamT21V2zeStIOEu
-         9TjW6B/31MgjFp3MbytwD1gaipjDWeFlotp+7VM5ZGLPB/x52xYHqOzN2aCHZqhzhPu2
-         5y9HgnWofPGHgNSPVOmkFYSblrDou+5y5ZXD99hwTmuKTa2bnN6TUSUY1DFzlrjoHsR2
-         xXaA==
-X-Forwarded-Encrypted: i=1; AKwUvByGAhqyH/oKW2ZyenePbNYuOt3maEmbtKAZERqnBeDLmpEDMlCcuBX0hdwkKgrDVKc445f2SBrI5qg47N22@lists.linux.dev
-X-Gm-Message-State: AFuF++mliefaex1eKO1/Eddn7UvVVupD2B15kLXk/T8umWlpQf+oEvI4
-	CviXljGCPAXIH1+W3Vqa8y+3kS0GLdof79eS5fjAi3jHNRdkfNjny86I
-X-Gm-Gg: AYBFou3AUQS7RHGv//KCK6+L+qi49eEzqb6p9756LxXb/O/MCefMtCwBode+TOFMLbu
-	ZnWpDcZXx6VuQLsTh8+FoQxs0roDZ3VuGvK9DWBQY9zxtU7Ap5lB0wu3aBqMJOekCyKLndPB129
-	3jPxEA2rgLUCBUYAyVRiXX5jmyJ2QQfKYQY70i5pSBWWXw4F/+KlyP5BcROlQ/ZXbtyNx3bTl3q
-	9Q/cqrhqpLiSTi/gvJrFt5orhbhb7wk8l01vvVXFglH5kmYM//DGt05PeevdWipcPRmvwl4F4Q6
-	t/YlXtuX98UemiseH5NJhZZL5NY8huuSB5fdUoPcoSWouCmqOWNL2Ls6Skt6k73F/03XWdAuBvP
-	DjZ/bFoc9VIOC+xkFszDLBlaMfyDonZF+BR09VR1IHZdv4EKFZb54zpIjJyG0bgMotDmIUUGcuo
-	JsjLa43Ufl1uWzX81+xyoLg0rGnbXESsD0OrYhLQ3krUilyvgVIkJvYXSYzgJuDw1rF+QVwuBln
-	C/hy0NSQJ4q5aJx
-X-Received: by 2002:a05:600c:4f8c:b0:49f:c18a:61c8 with SMTP id 5b1f17b1804b1-49fc573f858mr164351925e9.29.1790014476102;
-        Mon, 21 Sep 2026 11:14:36 -0700 (PDT)
+        bh=8qwDua38LIyW1TawgxN9o1m0hOow5CaSBoRxma0znMA=;
+        b=QzrUD45tMTB9HakCXZUXZecza9o0gS5apNpeps/Oc0MJ0X3NDE3xsx9BXF00VXNO6o
+         t0hwp0BCnsN2iA0VYq5cUsA5PxZh08sEoM0H4hI6SJc3PMh/TCsycVNcVpa/RoKrT+Uy
+         L5ur0jz47zHj3VLivdHp8cyxwhpGRzN22hL0YDc9llJ3EBnn0QUNvRV4UMMXdLj13PYc
+         W2VS+sXA5XuEs/kUEROxW7gn+Px8hUGQutJuKd2cssKaPGT8u0blwCrIp0Q5Vin/D+Kr
+         GHp7dVfqhTMkvWxHTch4YrkIEE9CruuofXY4BFbnb3nef+3ML9b9XNUst+pbT/4H5m8v
+         AUIA==
+X-Forwarded-Encrypted: i=1; AKwUvBwMSVYe5I61RFh/MNFn3g4H1s+vRAl88QSdH6nq5xiR30V9YdM2+LhvsAhkuKoD9ZWX/eCbQoKZ25PAiKNY@lists.linux.dev
+X-Gm-Message-State: AFuF++mxt31UgrSuKLDiyak2c2EDZ78dEqGx9gkUEsOupfJGSUPDh2dV
+	/Ac5WDxyGweZjkNK4vz7Z8fz9sBuIGaHOc1Xpx9PuGYSv3d+XblSLvFKzvKj8e1Krdeyhg==
+X-Gm-Gg: AYBFou0irwKubddZDXSq2V/myTwaMyYBw0IPx8m5oDBsYHr5MaiAABuMIDbSaXlZbT1
+	gjoMaXIHkX+dBFY5cuBK6PwJpsjWsPg9gvXQIQDb9d5SYstt0l15taIb0lXPLmJP+bn8vppnuSG
+	j5PnV4ZdCou8oO1i6KfbBFCsNIbbVMFL7rF+9saqPaP/mtXloAZxuTpQmXcUhUEfHItV0G23X1c
+	XBIENnF5JBCnYYJdxgwAZJqEAMiTz3E2CO58rM2W0b7sKg88DA71sBp0zytxZEQXKJUv9ivCmmo
+	Hhq+uSRJtCjIASgci0TsrCBQgL08X7CMtuXgokhXIyttkodpkruy3r5N4zeEud6Wkn8OU33iug8
+	ufuPn0Us7SMnc59HpSvjScXVZH9vYLKgsCSDLApem/fELgPl1YXtbhkTmEKD51UBLb5rYeI1T5c
+	S58VC2KzYiJ/rWRV+pg2Jw0RweCGhYW0PKqt098gQps5yI+tm4mbtdnNzAvNC6Q2KHpgrB3aoqc
+	XJpdXGA8DxKw+gn
+X-Received: by 2002:a05:6000:2584:b0:487:27f6:a4d5 with SMTP id ffacd0b85a97d-48727f6a645mr11933217f8f.37.1790015614392;
+        Mon, 21 Sep 2026 11:33:34 -0700 (PDT)
 Received: from gbox.chicasongroup.com ([197.210.105.26])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fd8a636d1sm10754875e9.0.2026.09.21.11.14.33
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4872456ee4esm23679114f8f.21.2026.09.21.11.33.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2026 11:14:35 -0700 (PDT)
+        Mon, 21 Sep 2026 11:33:32 -0700 (PDT)
 From: UgwuRhema <hikarialiyev@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: Andy Shevchenko <andy@kernel.org>,
@@ -64,9 +64,9 @@ Cc: Andy Shevchenko <andy@kernel.org>,
 	linux-fbdev@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: fbtft: fbtft-bus: remove space before close parenthesis
-Date: Mon, 21 Sep 2026 18:13:50 +0000
-Message-ID: <20260921181350.89925-1-hikarialiyev@gmail.com>
+Subject: [PATCH v2] staging: fbtft: fbtft-bus: remove space before close parenthesis
+Date: Mon, 21 Sep 2026 18:33:12 +0000
+Message-ID: <20260921183313.92795-1-hikarialiyev@gmail.com>
 X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -77,15 +77,19 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Fix checkpatch.pl errors regarding prohibited spaces before closing
-parentheses in fbtft-bus.c.
+parentheses in fbtft-bus.c while retaining trailing commas required
+by macro definitions.
 
 Signed-off-by: UgwuRhema <hikarialiyev@gmail.com>
+---
+v2: Keep trailing commas in define_fbtft_write_reg invocations to prevent
+    preprocessor build errors from missing macro arguments.
 ---
  drivers/staging/fbtft/fbtft-bus.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/staging/fbtft/fbtft-bus.c b/drivers/staging/fbtft/fbtft-bus.c
-index 30e436ff1..409770891 100644
+index 30e436ff1..38697992f 100644
 --- a/drivers/staging/fbtft/fbtft-bus.c
 +++ b/drivers/staging/fbtft/fbtft-bus.c
 @@ -62,9 +62,9 @@ out:									      \
@@ -93,10 +97,10 @@ index 30e436ff1..409770891 100644
  EXPORT_SYMBOL(func);
  
 -define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8, )
-+define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8)
++define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8,)
  define_fbtft_write_reg(fbtft_write_reg16_bus8, __be16, u16, cpu_to_be16)
 -define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16, )
-+define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16)
++define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16,)
  
  void fbtft_write_reg8_bus9(struct fbtft_par *par, int len, ...)
  {
