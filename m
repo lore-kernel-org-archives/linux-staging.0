@@ -1,74 +1,84 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 736365349CB
-	for <linux-staging@lists.linux.dev>; Tue, 22 Sep 2026 10:23:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB99453A387
+	for <linux-staging@lists.linux.dev>; Tue, 22 Sep 2026 11:17:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790072592; cv=none; b=d7VCSgee8Tf2j4JqFnpkz+e4Kz86nmNfIfmfi+5mZRq243lSkZ1ybD2oWypCfrdIApuJY10Gv5qTL4bXCzBPWX7VLt3pEa/rznO5p2PzNw6GjX+F6pNwYK7NEJGldS8PPWo6yhDzj4kUAnXFJw1G0bsiW6ERzEeKYfCZn91fqwk=
+	t=1790075853; cv=none; b=KMiReOVNBhgYcUNHgh1Uxxd4I2CYyXchn6z/mmcVk8b2R7XsehobzBRUGmhuYA4mFDpy45sSzww8UwBpwCq7yVCgnWVybaCcepVMUIRsre/yyExJR1s8WhAO+DBmhzo+72X77tYAUHPEEqPv5FGGCXeDwgAqkGKga4X+cUsgMhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790072592; c=relaxed/simple;
-	bh=q/ZtJSAeXkKY8cNGSGgRsE9cZAfPexEkd7ZIvSgC8ZY=;
+	s=arc-20240116; t=1790075853; c=relaxed/simple;
+	bh=XKGkk2a4PbnK5iwG44SFBmfr6vaqHlL0/4jYF4cmMbE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Jsx04sted4Um0SaIsZaHnP+brU1xb3H+83AqTYnPHxj5bWXhbCxzkhhbUTJptJB05Scvtkl7mff+E+57Pb+jRyKDbiTdNI2G7hn2NRN03FFmbZx1zpk/VpCayTANWUMkpBnuNPXU+f4okJ0L8YAoeRyvpMDdWz8rck+2fF0TmTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hk0yKQQ4; arc=none smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=UnnS+1rAjb3kyii3K8lDkGws34+dxTIskl98+dG9FpdiaWPvi2ACmGuaFFlTevZ+8Qpy2qZXuPMNTrIg0hI2niQaIND8GuwhqqoE6v4+63O829MsskwceZ3qeob+cQ/jaEOqZZaJJuNWRNVST0GrOvuXtcWqXWycjTxELw5nzhU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KsOyxUKg; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hk0yKQQ4"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912e4ad9so23098685e9.2
-        for <linux-staging@lists.linux.dev>; Tue, 22 Sep 2026 03:23:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790072584; x=1790677384; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=wznDZnYyXxoiahFqDu0EcYXg1rerGnqVJ/o+12P92BU=;
-        b=hk0yKQQ4IlTQVkrbxdNzW3755imhTRlD8FkxtPEUP2IZ1wyYzX2KQs2N17kciCrdAC
-         L0m2yjwWNvtpWCC5GLac1VkD4AHz93g6FhsphT2SaBxKcpN5DyycT/GkzujRExjhbwtG
-         Xxn1BUlemb/VK+WbnOs0BHdvzXI6EM0pBzz8yfbI+wQb0wSmJrih1HNbTWONXs4OVG2w
-         mOZ+4ZCLWtYlGL1xqLpTJPhogJhayLsvqRMgI41yQ6hBTj0tSTCKyag1gbfBlX6jqOOd
-         EYs/6Dx2RrAhuaJymG9ppzhMz1DdA+ZM+3Et0Ibme3t9kAVwTr1meqongDpVrdy4v3sr
-         CALQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790072584; x=1790677384;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=wznDZnYyXxoiahFqDu0EcYXg1rerGnqVJ/o+12P92BU=;
-        b=CjnKB/g7YsKIkstr+o1yVYLR2MVuCtizVaCMmHqNlxKAhEtbbeAyqOxiBZ2EiBI6nw
-         myw1YhgX5+7+4Yo/649+GLkWYym7K7JcEEmT5L5sJoUSd9/PGdvROkqgvH9p6ZONMllT
-         dj30yX8xPpxUSlGhY1pG3odxvaNYycgLcHeBHSSYpvXFc08AQWiiA29Wa54JzYvbzbWv
-         Yl9naHrPEBZadUbb1GnyvIjrXh13mrfbUdMieo6GBp4e1jJQQJ+rbDfD1vZfVQvnIwJR
-         WelDEVHC99voRaxIHEAh1hFxs6FRj2KuLnMIsOKKsMfrFVaFIvh8w82hPfGhfyhbMUU7
-         +WFA==
-X-Forwarded-Encrypted: i=1; AKwUvBzcFcA1wBm/dfsebnOQe5aVxwdTOhEKEHiy/TZsPO2EEMVZ521eLN7TIav9Us3bu1rrR/sZVS9D1mXdeplP@lists.linux.dev
-X-Gm-Message-State: AFuF++nDD2r/eH/J8m3utarzPfKfC6U3EINLVHS3ZuB9DOBCM8yGdim/
-	gMbcIHQCQWHk+suIr+oazrdpwV36pPuIEFQCWAsmvcISZ1OBOTjHB9pL
-X-Gm-Gg: AYBFou1zfDLjJ1PCPynGDQQ9PTLB5GuvsI+NzoR9zISEtmHDYlrVapHTDjII3z9mCj+
-	b/KTYuQzwcy73mSIBNvSBkyINwjnE9j9WcgsYAXqetVqykP0K21loNUiKIIx/eRBVlktNN1s/3D
-	AY47nCLs8m+afgzzrM/5jnelEIc4EARm6RWdQccM8ESu6cGPV8+u5/FxxdHc73Hu0Wg+gmwuTMK
-	Rqfe0crNeIfCTdTOXziAUH2qdfZ+outlDTjW4u5K6Re9X0yNRtRfsG2KO2cuYXDzv1Pguofo2iz
-	/8i9PRnTq40sjbGhZmdC0p+YuKx0PBsgslWTUA/GLlMwmmmCFn3xVigBjyY1xnbwKu1Za7Se0C2
-	vGuhJa8BRk58wsEQA+Wpz9JfsrPtFLZEK4TrKLOsdWbVx7LepJjBTDMmWAcYO0m8GIMOOnR0W3O
-	DhM7ksP5ZTnNyRIBzNlfB4D3EI/2F2kHSr0C4wtMnjgDzjgEQ1lNpNV6MRSlzfIlBkpzk=
-X-Received: by 2002:a05:600c:1da8:b0:49f:dc71:e609 with SMTP id 5b1f17b1804b1-49fdc71e72cmr8878355e9.20.1790072583857;
-        Tue, 22 Sep 2026 03:23:03 -0700 (PDT)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fdaa4e47csm81291145e9.1.2026.09.22.03.23.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Sep 2026 03:23:03 -0700 (PDT)
-Date: Tue, 22 Sep 2026 13:22:59 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Adi Prasan <itsadi2409@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: rtl8723bs: fix ie_length bound check in
- rtw_cfg80211_inform_bss
-Message-ID: <arJXA7q5a40jcASB@stanley.mountain>
-References: <20260920142849.294162-1-itsadi2409@gmail.com>
- <20260921165527.1379-1-itsadi2409@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KsOyxUKg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790075852; x=1821611852;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=XKGkk2a4PbnK5iwG44SFBmfr6vaqHlL0/4jYF4cmMbE=;
+  b=KsOyxUKgRjFmpGQDJaWiWx9odS3Z7+nN3hNv7S/mRLl3lMBsoSb9wVCk
+   TzHuGI6+lTZ1nCSJSOewxRr2FQIW+/L3yxtg4o85aHalempaZx+4nGuIF
+   PMh7LGrh6AKoXeJtTklOx91CVQLwEXUp50T3q5yatHrACesTQx8Gzod1i
+   IKHvI9EvRflEv1nrkgEKZDPpNR55jIontssNLf3tHaRiDQ5HUqG4pH3qP
+   L8Aj3yR0RacKnAgL47+VWwzP00P334zCpw92QWyUCY4c/8hRaPOnLEiIL
+   W8Vwj4lQQHDrLaWtSxdnDpvm+W81BcCgQ4PV90MvVMgkw9aHYEbK81j1V
+   g==;
+X-CSE-ConnectionGUID: s+WwqzEnSSSCtjyKwh5+MA==
+X-CSE-MsgGUID: 5a4sAVnMTwGC2e+4mwxdBw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11912"; a="89591594"
+X-IronPort-AV: E=Sophos;i="6.27,116,1787036400"; 
+   d="scan'208";a="89591594"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2026 04:17:31 -0700
+X-CSE-ConnectionGUID: cJps0dmSRQqUkwM/EQlb7Q==
+X-CSE-MsgGUID: Es88i5wjRt+YpNdkRUQhkA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,116,1787036400"; 
+   d="scan'208";a="273265359"
+Received: from carterle-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.41])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2026 04:17:26 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 0FA6E121B9F;
+	Tue, 22 Sep 2026 14:17:26 +0300 (EEST)
+Date: Tue, 22 Sep 2026 14:17:26 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Dan Carpenter <error27@gmail.com>,
+	Ricardo Ribalda <ribalda@chromium.org>
+Cc: Ceclan Dumitru <mitrutzceclan@gmail.com>, dumitru.ceclan@analog.com,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Julien Massot <julien.massot@collabora.com>,
+	Rob Herring <robh@kernel.org>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-gpio@vger.kernel.org,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Martin Hecht <Martin.Hecht@avnet.eu>,
+	Andrian Suciu <Adrian.Suciu@analog.com>,
+	Cosmin Tanislav <demonsingur@gmail.com>,
+	Vivekananda Dayananda <vivekana@amd.com>,
+	Cory Keitz <ckeitz@amazon.com>
+Subject: Re: [PATCH v16 00/22] media: i2c: add Maxim GMSL2/3 serializer and
+ deserializer drivers
+Message-ID: <arJjxjiWVlnHhioR@kekkonen.localdomain>
+References: <20260831-gmsl2-3_serdes-v16-0-4fa6e08bb514@analog.com>
+ <apqGlTiybdvQX3Ao@kekkonen.localdomain>
+ <eff6fe78-cc4b-4192-93ed-53a738fc3c3a@gmail.com>
+ <aqU5QFGmYlCtbdiE@kekkonen.localdomain>
+ <CANiDSCv=cwm=aHLfO_ccPfc-XyK3gS8Y+8DZpbb3gcXX0n8mqQ@mail.gmail.com>
+ <aqfyYSagcejWb4xD@stanley.mountain>
+ <CANiDSCtEmAZippX45kaxjWAHs+cd+vpFFtxOnnz00nmVnkgqzQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,28 +87,64 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260921165527.1379-1-itsadi2409@gmail.com>
+In-Reply-To: <CANiDSCtEmAZippX45kaxjWAHs+cd+vpFFtxOnnz00nmVnkgqzQ@mail.gmail.com>
 
-On Mon, Sep 21, 2026 at 04:55:27PM +0000, Adi Prasan wrote:
-> The buffer bound check in rtw_cfg80211_inform_bss() only verifies
-> that bssinf_len (ie_length + header size) does not exceed
-> MAX_BSSINFO_LEN (1000 bytes), but network.ies[] is only MAX_IE_SZ
-> (768) bytes. This allows ie_length values up to ~976 bytes to pass
-> the check while a subsequent memcpy() from network.ies still reads
-> only 768 valid bytes, and other paths that write to network.ies
-> consistently cap ie_length to MAX_IE_SZ.
+Hi Ricardo, Dan,
+
+On Tue, Sep 15, 2026 at 05:56:43PM +0200, Ricardo Ribalda wrote:
+> Hi Dan, Hi Sakari
 > 
-> Add an explicit check against MAX_IE_SZ so the bound matches the
-> actual size of network.ies.
+> On Mon, 14 Sept 2026 at 15:11, Dan Carpenter <error27@gmail.com> wrote:
+> >
+> > On Mon, Sep 14, 2026 at 02:10:10PM +0200, Ricardo Ribalda wrote:
+> > > Hi Sakari
+> > >
+> > > On Sat, 12 Sept 2026 at 13:36, Sakari Ailus
+> > > <sakari.ailus@linux.intel.com> wrote:
+> > > >
+> > > > Hi Dumitru, Dan, Ricardo,
+> > > >
+> > > > On Tue, Sep 08, 2026 at 01:35:05PM +0300, Ceclan Dumitru wrote:
+> > > > > > Can you check this
+> > > > > > <URL:https://linux-media.pages.freedesktop.org/-/users/sailus/-/jobs/109521830/artifacts/junit/test-smatch.log.txt>
+> > > > > > please? If there's a single patch that needs to be modified, I can squash a
+> > > > > > patch into that, otherwise v17 it is.
+> > > > > >
+> > > > >
+> > > > > These are the same warns reported by Niklas in V13. Dan fixed them in
+> > > > > smatch in devel branch but fix is not in master. Testing with smatch on
+> > > > > that branch yields no warnings.
+> > > >
+> > > > Dan: any plans to merge these things to master some time soon? Or:
+> > > >
+> > > > Ricardo: could we use devel branch of smatch for some time?
+> > >
+> > > Do you know what patch fixes it? If it is easy to cherry pick I can
+> > > add it to our list of smatch patches
+> > > https://gitlab.freedesktop.org/linux-media/media-ci/-/tree/main/third_party?ref_type=heads
+> > >
+> >
+> > Commit d12183645a31 ("precedence: silence some false positives")
+> >
+> > Sorry, I felt like I was close to merging devel but then I started
+> > another major surgery to the core and got stuck.
 > 
-> Signed-off-by: Adi Prasan <itsadi2409@gmail.com>
-> Fixes: 554c0a3abf216 ("staging: Add rtl8723bs sdio wifi driver")
+> Thanks for the pointer. I have added the patch to media-ci
+> https://gitlab.freedesktop.org/linux-media/media-ci/-/merge_requests/351
+> 
+> Now that I have your attention ... :P
+> 
+> May I ask you to look int
+> https://lore.kernel.org/all/20260914-unqual-v2-0-60a1407a0cd4@chromium.org/
+> in case you have missed it?
 
-Really do some more checking to see if we can use a more sensible
-limit instead of MAX_BSSINFO_LEN.  Also try figure out where
-pnetwork->network.ie_length is set and verify that it can be out
-out bounds.
+I understand the required commit is there and I tried to push the Maxim
+serdes driver again but I'm still getting
+<URL:https://gitlab.freedesktop.org/linux-media/users/sailus/-/jobs/110822240/artifacts/file/junit/test-smatch.log.txt>.
 
-regards,
-dan carpenter
+I wonder if we could have the devel branch there or some more commits...?
 
+-- 
+Regards,
+
+Sakari Ailus
