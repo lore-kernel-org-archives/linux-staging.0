@@ -1,109 +1,112 @@
-Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
+Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com [74.125.228.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CFD851EDE7
-	for <linux-staging@lists.linux.dev>; Tue, 22 Sep 2026 07:48:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790063301; cv=none; b=nOiONJHDL21dzeQhy5TnMOb813T89vUrjSC2jXNos1FP/ZaXBSCE2shf8L+K0U3K0eh5XIRXqjmffEwMvnV5GJYW0Nvb8VC0Ie5dPY1JzIoQzJPAHyFEoObq2wSM6vkQUvcsLS1DqO9qKHcNP4YTNvEDRQyfCX6B6Jh9+fkllZc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790063301; c=relaxed/simple;
-	bh=ZejWtrMd7d7zk/DfmXTbF2uTpVeSWdaH74FgmGezb/Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T6a4YTqtRaXklmSPWlkYAdm7wXwWs2CSxaWl1m+MheOKQkjx0hPcJEnKWI1BO0fXDDpjsRYa5lm1bDDUghJi+y6M8aRDZ7ecmz3O3lCVNhq/ELSmaR8efOXT2dB128GyysSXDN2stRw3UmzMGtNivpPfjXWZrbtl41q2Llzfuao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LQZwwCV2; arc=none smtp.client-ip=74.125.225.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 635E9526A90
+	for <linux-staging@lists.linux.dev>; Tue, 22 Sep 2026 09:05:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.140
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790067934; cv=pass; b=mcYW7hUkDbbkMKi7vN/PEs3FAF5/dTeJurtVvpZa7sWoARW8IFlqU2nvJ7/dY5Ev4Cxbn1WLRKZyZVZCztwOBAtG3TjlJNEJtHN6E1sZhYQRZCw8f5YL41zXIKLwwLp8SRPLZpNkDpx6osKnCnp7hhRsjPVwP14NK/ZD9fCFyzo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790067934; c=relaxed/simple;
+	bh=6VxrMknAVb1vDWNanfZgZOBYSwjkUtQT3TOXrqHvrks=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oQ8lUNVvakuhyQkrjs46uIImb3eEnmE/e2KW319ot+t1CNEgVYBN6SPfvIiBlfrgcySDDyz8qYd6h2CkvoleiW5oqJawL6M+kBvbmiv5586oMVBllXx6D/yPmyMoK1zu/0AqKntEzEYVt5CwPoop6eBGr21nWrattEv4oGjiZu8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VCmOEyxH; arc=pass smtp.client-ip=74.125.228.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LQZwwCV2"
-Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-485ac898fa4so3313121f8f.0
-        for <linux-staging@lists.linux.dev>; Tue, 22 Sep 2026 00:48:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VCmOEyxH"
+Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c29d50b7cf9so576444366b.2
+        for <linux-staging@lists.linux.dev>; Tue, 22 Sep 2026 02:05:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790067930; cv=none;
+        d=google.com; s=arc-20260327;
+        b=AAJxilBpvxFo3A9fV1hpo6xFT/aCUYJnESsEoSeRCmTHKyTCFgHCYrEqGQdkIHNqf5
+         XbE0ivb+mtSDW4xDSI//TPyLdfN7gdTdrCTrhGJROE6r75NwhDhbwh5TNYHb+QvRf7BF
+         4FxCBYn0+Jddi9LdKCJEDys9ENIHZ624Wa+5abL7+LOfhPIGJAHsgJQVq64Np1xy3YTV
+         B9gPV4Qqq9xgQFsc4GCOms8PTtvjDjQwg/Ff7ipNQgehfWNpTT8sWHjOHd30/Rf74RMj
+         VIOaL2BH70vdWxOvTNzlQZbIWr2S7cx77/rE80PzVnHi2QybnIUXBr31AdYd5IjEdVNE
+         3sRw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=6VxrMknAVb1vDWNanfZgZOBYSwjkUtQT3TOXrqHvrks=;
+        fh=P84bI1Zh6w7DDDA9t+2CJCO8bxTij9NErZFlfS7lFEg=;
+        b=JWTvPQ8e+drJjQHON0yQcD29Tz/WMWhAVFA8jN2ZmDt6ARGXuDIRF4HEgLmnpXqGIo
+         YEwQrCBkizcnYYVL0Cp8/OJ/vEjYhsQGf+P5DyXYC7NqId895f7LliiZC3IsJaISZ94b
+         EL3+ue4SDk7Q2ApHb1zb6hfJVX7UEjZi3p8oj92eWdokDVcMapCvd4Cg6Rq+0wLk56qi
+         Y1vnogF7MnOBdsEnz270Tz+XcPji2l8zCMu3pFzTbhtFLSzUblKeZycQrTo4ElFVJK5y
+         TF+38cJGiEF1rcaqLZUTiFJscowsEqsqFPRLRjUQ4xsmjybJZf0CCsa41fIkkjYwUj/Q
+         TYDg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790063293; x=1790668093; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1790067930; x=1790672730; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=Mjk7K+afSw9HdUE3zJGs7MlLHjf2HtEjytCSGhTjHcs=;
-        b=LQZwwCV2zpqKfmj79xIHUeiA9algsIg312ZXw2mW7rd60UfjaiOgrp7PnItCakIzL2
-         CheoprweuD1Qgv3jtzngL0Xh2/M8sL1b6rIDx/8whApuGeIaivUQR/ldmDtSULX4M6ZM
-         UTgd8rPdJZ5bgC/J82hZS7QzpWqEqy1zDjr8SVOEThSJZ1uRHLbYRg667rSlbdhiIkKw
-         KPTNB+lsJRuQZ6eLf94ejQATTPJutxdwkUZx953SV998ZxKzBplhMbKRjR0pUjMee2Kq
-         nmgzJzJ50BDyjfQg2QUYUnmAnExos1WA07w+Yx3sbvOKYewZu2iIyHfX0OvW6qKI/aE2
-         9G5Q==
+        bh=6VxrMknAVb1vDWNanfZgZOBYSwjkUtQT3TOXrqHvrks=;
+        b=VCmOEyxHm18lpbGaVzA7uWIHl97BXPcKnpex7Cp2rFfrpTRzO5SQwkiM6mw7PV/yfh
+         fkrXzvUTn74AopF/OwCYrjTorULBJa7GXog90cX4VNfLCG9Yirr0yiMAHWX68lKfz6ua
+         wEq3urwa5qThD7HmfONTUySi+oyx93cRcDCAPSRSUHFH0eMPIXDyzXAZ0w9wR5sWJ6E4
+         8A7xKpjIQeS/kCZuFNASIj2r5wT54aZtpcLGfl1mJEVGIgc8cC9H8hFKVSLlBL1dwqQH
+         xSPEaF+vksSqE39Adu+PAf8lduNmEBkKrX+vVV88r09NlTIFInQZywNlWjWMQeV8pYLm
+         IK0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790063293; x=1790668093;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20260707; t=1790067930; x=1790672730;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Mjk7K+afSw9HdUE3zJGs7MlLHjf2HtEjytCSGhTjHcs=;
-        b=LF97oeBweLCvxua2UZDS+aLdjv+vcD94R7O3adJWBNFu3aE4nsqu4aRymQODYz99tW
-         pXsA46uP8+rfG5xgKbb8vv2sW1K2T6sz3mEtooRwy2aOyznyij1xjYaGUNW/usUC1Z9J
-         sHKOVProm1i/Toses9KO84uOrnT0harRtikoG1pDcdAirhtExR0NGh0QUHRTq73fzksV
-         HnB2ikGOq6OYMXvu0/7tbVwS+gc8FtUihGBK/R2sVyFgkN7LsitZJkDuZwGwHCmTYekz
-         Z7SQj+BQ1RiPiXHNbjeChxUdD/Wdkd9JcD6y66zU28NPfRseATjm56R1wU6pXRn19aTe
-         SG5Q==
-X-Forwarded-Encrypted: i=1; AKwUvBx7duib87V827Lf9XRqxiY3aCuXceEmdrEwswXEv4yhO+aIaLxPY3dTqHqMEBunutKmK1mYEswUm2r3Npbr@lists.linux.dev
-X-Gm-Message-State: AFuF++lYNk81iKxdh/p1If9AlGsQ/JbD08T/Tdt1s+FX+XHlcANzfbx4
-	a+gQ0k7sUJXrpbpn9yA2xv5bgk4m+XZDnVQ6J9L303UvBlENvI/H97d8
-X-Gm-Gg: AYBFou2Izgo+s+676BxsAycT4+pGgh2zaz5ei507v6x64BTUEA2RazD+qgfRo9EEeyA
-	QJGjDMsWeUPOdBBc45hO8SVgSqRTEmxo5ein6R7WD5IGkqAGTKu3wooNptJ2MZjQPBSx8ayyLXW
-	6wqECWE8Oy0haLESNXZtOzHbdNXbGySxzV6YaNZlCF3XLJoM4LaUPla1RSSesrmO5eu+LJwCaYM
-	F9cQBsfJNtYpKakb+9hQEK4OqlI6AIkPS1FqCPKzzNG4L7djd6dvtRJfqgAbkW02bx6DLH71zSx
-	JAcHkp2BaT0SUX2FTBM5MtfgIuOVUDMPUe8vQ2Zrtd7EpVy28ixDl0sSJFCg4tZKMpRWnvHAgDY
-	Klii6I0h17vT23JFzcWc/XJqJtz1WiNkuB3+uvORscaCpHtFPIvhwdD6ynVPSl5I1RokPIs+PbW
-	zmsororRIcOqOxrf91nJnTSrt1JNhBIl+KBcOfZ3e1gGIgtCW31sJTM7lvEBkDkjz7JAw=
-X-Received: by 2002:a05:600c:a4c:b0:49f:d71f:9a39 with SMTP id 5b1f17b1804b1-49fd71f9a7bmr53039255e9.1.1790063293066;
-        Tue, 22 Sep 2026 00:48:13 -0700 (PDT)
-Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fda8f04f7sm48750945e9.0.2026.09.22.00.48.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Sep 2026 00:48:12 -0700 (PDT)
-Date: Tue, 22 Sep 2026 10:48:08 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Adi Prasan <itsadi2409@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: fix ie_length bound check in
- rtw_cfg80211_inform_bss
-Message-ID: <arIyuBbtRu2lwitr@stanley.mountain>
-References: <arFL5SLHwLflaONc@stanley.mountain>
- <20260921170339.1406-1-itsadi2409@gmail.com>
+        bh=6VxrMknAVb1vDWNanfZgZOBYSwjkUtQT3TOXrqHvrks=;
+        b=SYhVN7qxanH/vRQ7O3vf7DW318zjeoqEfMIa6oi5IZUy+0xjJqFpk7xYFkKrfCegSe
+         K8HZgmPwIES2MnM9cWCnWtXAELOwHJOQViN5BillgojRCzkImigDCpWUlBAuCLHRZfhb
+         MheP47XpHob6ilKz8iP9oH8Qj3A3kfZcg7Y416rQIqpBy2aOv6vNSr+4Nwo0l+Cmj6Nm
+         STBZK6P755fOCnWQP6MX8nguly29Fj21sCc5Vvf72vOv3p2xBNUp1gWG/uE+L2KFPZNb
+         Wo7pxL4pZGggCXXO8QvvVnQKzLezNTfUd5kDXJQF1YDfTgkIrNSqLIC22gNo3lENCn2i
+         QHuw==
+X-Forwarded-Encrypted: i=1; AKwUvBzeApQ+EwZOtoKztsp+9vGFIb1DAIVS7rlTadJAnHxMqo7yqNqYJ1IS5QiwhmrYzINwgzxqrqqgM4lSx884@lists.linux.dev
+X-Gm-Message-State: AFuF++mitt56nAUUQFM1cnqS+ODZT7jDSJ835cGBSsUFEnFsFVTFbTUj
+	qcuhwWEE+RaAklvC0X7croZOzltT5iPtpyrRChwJcBciGwJdma7l8FMVLkXUNqk/L/o5O7ym6En
+	yWfnKjfzx5q9WGFXZSMIlPTfbsNgKQwQ=
+X-Gm-Gg: AYBFou0LH8s6C58zYrgAD+MI2Uqs/5b6vRC5rtvZLUKBFFmp31LiWKrAXgwWEFqFkvu
+	+IGvRN5HhMGLf/ndwQQN4uLABkUQbcBF2GrhigQ5bnGJQgkikkaoyoFnAxPftxc5QxEU03sk2EC
+	14HNgG8Z6PrFhqWy8SWtGnvRsfrYGeJcUYCNKK6uhtoAfClfD8wS54M+9lE3S5QEax/3QK0DQOE
+	GOtuU21wVchV1UnVOmbe/U4qk6c2utUrEWH0NwZ7P/OpMtS/FEDSgCWBGLe3QEE17VnL2632+T4
+	wgPMZau+COOyC2ZgalaavtJRDobS9sOy1fwAT3yEZjqen0cC7Z4nhQhYKJDcXUngINRbF7JYUa4
+	ecYwphUFKhLBeXi6BktwOCZVyHiF+WaPGK8cyN7bM8k8x3fD1XNxteg7aUZ1E9JtwCj20afPh5b
+	EgJfmHG4QOJT8nvPXO80/SLrBFqJTwxVK/atTpAxnDwLzDocFloVQd
+X-Received: by 2002:a17:906:c10b:b0:c26:19de:9139 with SMTP id
+ a640c23a62f3a-c2a15cf8ea1mr1261725566b.44.1790067930361; Tue, 22 Sep 2026
+ 02:05:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260921170339.1406-1-itsadi2409@gmail.com>
+References: <20260921183313.92795-1-hikarialiyev@gmail.com>
+In-Reply-To: <20260921183313.92795-1-hikarialiyev@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Tue, 22 Sep 2026 11:04:53 +0200
+X-Gm-Features: AcwNN1X5O3CnNVl33I3dVh03PNniNtuSKukKjtL-OpPtcpVg5gCiGP8Rn-l-Dyo
+Message-ID: <CAHp75Ve=Wxe=2VjuEyMaeigskU=CmWDLN0baFbxwJ54pKDponw@mail.gmail.com>
+Subject: Re: [PATCH v2] staging: fbtft: fbtft-bus: remove space before close parenthesis
+To: UgwuRhema <hikarialiyev@gmail.com>
+Cc: gregkh@linuxfoundation.org, Andy Shevchenko <andy@kernel.org>, 
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 21, 2026 at 05:03:39PM +0000, Adi Prasan wrote:
-> Hi Dan,
-> 
-> Went and checked for the things you suggested.
-> 
-> Fixes tag: git blame shows this check hasn't been touched since the
-> original import, 554c0a3abf216 ("staging: Add rtl8723bs sdio wifi
-> driver"). Added that in v2.
-> 
-> On MAX_BSSINFO_LEN: I couldn't find any rationale for 1000 anywhere
-> in the history - it's exactly as it was in the 2017 import, no
-> comment, no commit explaining it. Header (24) + MAX_IE_SZ (768) =
-> 792, so there's already ~200 bytes of slack in the allocation beyond
-> what ies[] can actually hold. Looks like an arbitrary/conservative
-> number carried over from wherever this was ported from, not derived
-> from any struct size in this tree. My patch doesn't touch the
-> allocation, just tightens the check to match what ies[] can hold.
+On Mon, Sep 21, 2026 at 8:33=E2=80=AFPM UgwuRhema <hikarialiyev@gmail.com> =
+wrote:
+>
+> Fix checkpatch.pl errors regarding prohibited spaces before closing
+> parentheses in fbtft-bus.c while retaining trailing commas required
+> by macro definitions.
 
-Try to find a better limit.
+It makes no sense. It's a false positive of checkpatch.
 
-> 
-> On the timestamp write - I don't think it's corrupting IE data,
-
-Sorry, never mind.  I was looking at the wrong struct...
-
-regards,
-dan carpenter
-
+--=20
+With Best Regards,
+Andy Shevchenko
