@@ -1,139 +1,173 @@
-Received: from mail-wr2-f33.google.com (mail-wr2-f33.google.com [74.125.225.97])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE50437130
-	for <linux-staging@lists.linux.dev>; Wed, 23 Sep 2026 11:08:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.97
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F67451DAE6;
+	Wed, 23 Sep 2026 12:45:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790161683; cv=none; b=UvIBmgA+w91w3gN4P39gOgLB7iGf8AReu2ep28fUpjU/9Y40iRyg4apo+sUVPQa6gkuGIBJJk3H4YekAeskFQHLS4Eb+f+tNqilvgyKunYMu2E9vfSpUNi6m9c5i1i8ngFS8H2WOa2Y6TMH48OALwMgzYtVbf/EV5Yl7Wy7ZyOg=
+	t=1790167539; cv=none; b=XFWV1PzldQveMqaw/mBV694a6EUh9FPt6f+ND7gIQ+mv3cFPPm155DkulzQbcLUqtcuxoi3SxV5L6K91MmLJb+Z9hEj/6hR9eMMg8pC+LESqf7mB+6Z/0drYShWpUw3YYxuMVKaNW/Kgrqjy1raG/YJurW+syX3Jc29Ihy1jncI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790161683; c=relaxed/simple;
-	bh=uR9Z3Kd1DdLjQLugXepfRWORJuTo6E/tpSeDtpl+3q8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ty0xpmCP2IxuJqiqTgva3FiNNJhlZXjP7GIEnnHmRNRSfGHevzvLpGsHXDqZWaNI4YxRUs0hqH1QKCKBps9vWn4TC6OIHZ35NoD2MYMq8vDh0stR2kri8dnoE17DRvfk87ddRbzLpsHgMF0ylW1+mZ6/0abCJOCvZYHAH8j4FEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fnJAMmqi; arc=none smtp.client-ip=74.125.225.97
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790167539; c=relaxed/simple;
+	bh=srCTUfGk224K2epI4LhecoseeQTZJt7xRLCenRtI98c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SnhIe0pFLkvtP7K6Fw74likGcmTIaiQDJujVwfNQ3uzVEl4YpyzQD39H2Dq0CTu9YwLTyB7HoGOQbbdqf7oJKG1yaIy1oXhSsf4PsosNqFUYf7DPQ/fnxrG7jolA2wjx8LXSWJXWKtr9ebWDWGRmDtYyXX70gJw3GnwxRXEBPmw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RYFmIeTk; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fnJAMmqi"
-Received: by mail-wr2-f33.google.com with SMTP id ffacd0b85a97d-482f6351831so519253f8f.1
-        for <linux-staging@lists.linux.dev>; Wed, 23 Sep 2026 04:08:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790161680; x=1790766480; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=EH3XZfcX8POgQQ7VhCMA6/ybLgk3CMK1ox0kamnJcns=;
-        b=fnJAMmqiGcyREn/hVQ6YR3fvJkw0p87sOqM7m8MrwY3BFAaCNr4LQehNIhVh+s6HhI
-         vh3pZcP0E4+whqSKKs7W2CEQiyzQ/zqi9nvuZovobbuaXCyOVMwRKwHYeUIabOywgKKG
-         1L65+RpZ//jB4eXTBl1g3WAtm+YR3luXOCMXWzehAdkRITu9wCBOxv4fGK2RwZ1duUHG
-         Zr4mBh7u82yfcWYVczTNa+I3aY0WM0aKu3gDdF9ZvJrolEM8PD82bUHjnJHprBmkMgcq
-         PsktvprzuTBYnymGSk4ZXzv2brx6kyPUEmzdqy84OU5EI+YrjcWd0WdEYoXYH9ULcERl
-         hpCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790161680; x=1790766480;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=EH3XZfcX8POgQQ7VhCMA6/ybLgk3CMK1ox0kamnJcns=;
-        b=vhm5mJUrm2BjIh4XRrs0YsLa1Ns/LFXTUogpT9JSmY3QamZWCtaW+IwJBJyhZsjYkM
-         P1fhHzj7fYQqn9p9YlJhQnuNBSL6QwCGvaooPiRqjSJ3Ku44rg/VoApL/bqGuZUPX8Pa
-         HaqHeBgbJnikZumP7g/tf6tgGYjAuHNnuXUKWZupG6bCwOSsWqypba1+Y5NuKM43FRTC
-         HXHr78TT2KRxymGABfTHZsf/CZpCk2NP6YHvCfNoI41qQ0OqL94mlMADokaYy7p8DbKq
-         Bz5sMb5aGRBNTDr0Cg9WJjlHqHsRq+Hh7/SoiJwRSxtqXjxNwPYEq1+nqdKFDTnl5YMb
-         V4Gg==
-X-Forwarded-Encrypted: i=1; AKwUvByqUNAth/UBrVUi6cJJgq2TL00yZPYb1Rd36B2VbEc834CWfR7MjdpaJtwE1A+h07DudMxi/p+7V4o4okqT@lists.linux.dev
-X-Gm-Message-State: AFuF++lEHDn4hmpHICNcKbKHfmIelHnsgkLhdR/uDDLkz27hl/U/aFWS
-	huLoaOCN7gIUUIFssg0ql3geB+NdPabSWiONo74bLZ/KaRO9+aYlA4kV
-X-Gm-Gg: AYBFou1dDV339X7zD1tIv3pklrYvO0cOj6UB9LWvc1oD4I7MvkFpRQM2LKMa1yFsDYi
-	mca9TM4QPUay+xDrLMqYBlwhN55fglzKJMY0LDQXOS/ZzlaNraZuuo7Eun8k3YX1/AedRFwOOY3
-	XjXKJaUWB3aTeFdriUwkVxpTjO7uooxkVX+qIFhhizFGR7NLTtuJc51e8HQVJr1Bo1387uRnTHW
-	NjWOvlc+E0mjuINgVpjH4DZx23/9gf44U6P2UCfpfF8VZW4BJzXYxW62t9pV1BqUa6Fc1Yf6jd8
-	R7MAlTx1d6UwBNecAOnHYuvQmDweXRh8aJc9Dm8oludjBBqZdo0TcIxsQzcZt1N4YQXZfeWCVfs
-	NLmH+ZSklCHP8S9zTv1h1kpn2Hs27KuExo6cs/1BklWavJY7JPqajLoeQV9K6rzsZjoAK0k61fp
-	v9OEmnlvoOY+bJ7HozsUU1/DBTPIFHE+rVNzdNn9Hctz4cD7BEDYkjch4/nUXmiRVv8Ktng4uNP
-	UnqEhibB95Hd3mTJypwaA==
-X-Received: by 2002:a05:6000:144d:b0:487:342:d142 with SMTP id ffacd0b85a97d-48867099f4cmr4203461f8f.44.1790161680282;
-        Wed, 23 Sep 2026 04:08:00 -0700 (PDT)
-Received: from fedora ([154.182.121.200])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-488682676c7sm5892418f8f.3.2026.09.23.04.07.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2026 04:07:59 -0700 (PDT)
-From: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
-To: jic23@kernel.org,
-	gregkh@linuxfoundation.org,
-	nuno.sa@analog.com,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RYFmIeTk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790167537; x=1821703537;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=srCTUfGk224K2epI4LhecoseeQTZJt7xRLCenRtI98c=;
+  b=RYFmIeTkEB7lpf4D5RYumJnSuFj7+ZhwNbvN4leZBCSM4u4VpZTaSaSs
+   nHHryf1wS+dpUcsFzR0jpsVCXJwPaNhmt9uf5VUG9+QVCuEuSZPYNCBPb
+   w99sVBUuBrDzUz2qxIiiehnlPayllOLvqZEKhY5X927MFk/JabpaXf+Cn
+   JtuiNy4jI4dBmN1QoA2+ThZWA4yZ3Tw/ZdBHIKTWRHZ57IAb6vD28r23V
+   nFHw7g0oLettAp8On1bpQXzLCl+g9+42YrhmtLdkLrmE/n3O/lAEEom03
+   p8otoUcuIdpTcxcI7NmDchVDQcQvOK4qf5pOP2CFMrIrdhuTcJDRnOAv1
+   g==;
+X-CSE-ConnectionGUID: cus1lG/wR3mLFye0r0kVLw==
+X-CSE-MsgGUID: rCOtPvnJTtqiU5BcBI+PWQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11913"; a="90881972"
+X-IronPort-AV: E=Sophos;i="6.27,118,1787036400"; 
+   d="scan'208";a="90881972"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Sep 2026 05:45:36 -0700
+X-CSE-ConnectionGUID: Yu5aMw31QG+JaBjiPlYb+g==
+X-CSE-MsgGUID: albm4oKHT2uyANLH+mKeKg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,118,1787036400"; 
+   d="scan'208";a="281671148"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1bbc298b9a73) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 23 Sep 2026 05:45:33 -0700
+Received: from kbuild by 1bbc298b9a73 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1x9MLr-000000000g7-2OUk;
+	Wed, 23 Sep 2026 12:45:31 +0000
+Date: Wed, 23 Sep 2026 14:44:35 +0200
+From: kernel test robot <lkp@intel.com>
+To: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>, jic23@kernel.org,
+	gregkh@linuxfoundation.org, nuno.sa@analog.com,
 	Michael.Hennerich@analog.com
-Cc: dlechner@baylibre.com,
-	andy@kernel.org,
-	linux@analog.com,
-	linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	joshua.crofts1@gmail.com,
-	error27@gmail.com,
+Cc: oe-kbuild-all@lists.linux.dev, dlechner@baylibre.com, andy@kernel.org,
+	linux@analog.com, linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	joshua.crofts1@gmail.com, error27@gmail.com,
 	Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
-Subject: [PATCH v3] staging: iio: adc: ad7816: Protect sysfs attributes with mutex
-Date: Wed, 23 Sep 2026 14:07:45 +0300
-Message-ID: <20260923110745.3836-1-abdelnasserhussein11@gmail.com>
-X-Mailer: git-send-email 2.54.0
+Subject: Re: [PATCH v2] staging: iio: adc: ad7816: Protect sysfs attributes
+ with mutex
+Message-ID: <202609231453.RPvUxbGl-lkp@intel.com>
+References: <20260920091522.15507-1-abdelnasserhussein11@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260920091522.15507-1-abdelnasserhussein11@gmail.com>
 
-The sysfs store functions modify driver state that is critical during
-SPI transactions. ad7816_store_mode toggles hardware GPIO pins, while
-ad7816_store_channel updates the internal software state
-(chip->channel_id).
+Hi Abdelnasser,
 
-If these are modified concurrently by userspace while an SPI transfer
-is in progress, it could corrupt the hardware transaction or cause the
-driver to communicate with the wrong channel.
+kernel test robot noticed the following build errors:
 
-Add the existing chip->lock guard to these functions to serialize
-access and prevent these race conditions.
+[auto build test ERROR on staging/staging-testing]
 
-Fixes: 7924425db04a ("staging: iio: adc: new driver for AD7816 devices")
-Suggested-by: Joshua Crofts <joshua.crofts1@gmail.com>
-Reviewed-by: Joshua Crofts <joshua.crofts1@gmail.com>
-Signed-off-by: Abdelnasser Hussein <abdelnasserhussein11@gmail.com>
----
-Changes in v3:
-- Expanded commit message to accurately explain why ad7816_store_channel
-  needs locking to protect internal state, as pointed out by Jonathan.
+url:    https://github.com/intel-lab-lkp/linux/commits/Abdelnasser-Hussein/staging-iio-adc-ad7816-Protect-sysfs-attributes-with-mutex/20260920-121522
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20260920091522.15507-1-abdelnasserhussein11%40gmail.com
+patch subject: [PATCH v2] staging: iio: adc: ad7816: Protect sysfs attributes with mutex
+config: i386-randconfig-2102-20260923 (https://download.01.org/0day-ci/archive/20260923/202609231453.RPvUxbGl-lkp@intel.com/config)
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260923/202609231453.RPvUxbGl-lkp@intel.com/reproduce)
 
-Changes in v2:
-- Added a blank line after guard(mutex) statements as requested by Joshua.
-- Added Fixes tag as requested by Dan.
-- Collected Reviewed-by tag from Joshua.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202609231453.RPvUxbGl-lkp@intel.com/
 
- drivers/staging/iio/adc/ad7816.c | 4 ++++
- 1 file changed, 4 insertions(+)
+All errors (new ones prefixed by >>):
 
-diff --git a/drivers/staging/iio/adc/ad7816.c b/drivers/staging/iio/adc/ad7816.c
-index f76f0215119a..2a15d7598abb 100644
---- a/drivers/staging/iio/adc/ad7816.c
-+++ b/drivers/staging/iio/adc/ad7816.c
-@@ -143,6 +143,8 @@ static ssize_t ad7816_store_mode(struct device *dev,
- 	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
- 	struct ad7816_chip_info *chip = iio_priv(indio_dev);
- 
-+	guard(mutex)(&chip->lock);
-+
- 	if (strcmp(buf, "full") == 0) {
- 		gpiod_set_value(chip->rdwr_pin, 1);
- 		chip->mode = AD7816_FULL;
-@@ -207,6 +209,8 @@ static ssize_t ad7816_store_channel(struct device *dev,
- 		return -EINVAL;
- 	}
- 
-+	guard(mutex)(&chip->lock);
-+
- 	chip->channel_id = data;
- 
- 	return len;
--- 
-2.54.0
+>> drivers/staging/iio/adc/ad7816.c:139:22: error: no member named 'lock' in 'struct ad7816_chip_info'
+     139 |         guard(mutex)(&chip->lock);
+         |                       ~~~~  ^
+   include/linux/cleanup.h:423:2: note: expanded from macro 'guard'
+     423 |         CLASS(_name, __UNIQUE_ID(guard))
+         |         ^
+   include/linux/cleanup.h:303:3: note: expanded from macro 'CLASS'
+     303 |                 class_##_name##_constructor
+         |                 ^
+   <scratch space>:67:1: note: expanded from here
+      67 | class_mutex_constructor
+         | ^
+>> drivers/staging/iio/adc/ad7816.c:139:22: error: no member named 'lock' in 'struct ad7816_chip_info'
+     139 |         guard(mutex)(&chip->lock);
+         |                       ~~~~  ^
+   include/linux/cleanup.h:423:2: note: expanded from macro 'guard'
+     423 |         CLASS(_name, __UNIQUE_ID(guard))
+         |         ^
+   include/linux/cleanup.h:303:3: note: expanded from macro 'CLASS'
+     303 |                 class_##_name##_constructor
+         |                 ^
+   <scratch space>:67:1: note: expanded from here
+      67 | class_mutex_constructor
+         | ^
+   drivers/staging/iio/adc/ad7816.c:205:22: error: no member named 'lock' in 'struct ad7816_chip_info'
+     205 |         guard(mutex)(&chip->lock);
+         |                       ~~~~  ^
+   include/linux/cleanup.h:423:2: note: expanded from macro 'guard'
+     423 |         CLASS(_name, __UNIQUE_ID(guard))
+         |         ^
+   include/linux/cleanup.h:303:3: note: expanded from macro 'CLASS'
+     303 |                 class_##_name##_constructor
+         |                 ^
+   <scratch space>:107:1: note: expanded from here
+     107 | class_mutex_constructor
+         | ^
+   drivers/staging/iio/adc/ad7816.c:205:22: error: no member named 'lock' in 'struct ad7816_chip_info'
+     205 |         guard(mutex)(&chip->lock);
+         |                       ~~~~  ^
+   include/linux/cleanup.h:423:2: note: expanded from macro 'guard'
+     423 |         CLASS(_name, __UNIQUE_ID(guard))
+         |         ^
+   include/linux/cleanup.h:303:3: note: expanded from macro 'CLASS'
+     303 |                 class_##_name##_constructor
+         |                 ^
+   <scratch space>:107:1: note: expanded from here
+     107 | class_mutex_constructor
+         | ^
+   4 errors generated.
 
+
+vim +139 drivers/staging/iio/adc/ad7816.c
+
+   130	
+   131	static ssize_t ad7816_store_mode(struct device *dev,
+   132					 struct device_attribute *attr,
+   133					 const char *buf,
+   134					 size_t len)
+   135	{
+   136		struct iio_dev *indio_dev = dev_to_iio_dev(dev);
+   137		struct ad7816_chip_info *chip = iio_priv(indio_dev);
+   138	
+ > 139		guard(mutex)(&chip->lock);
+   140	
+   141		if (strcmp(buf, "full") == 0) {
+   142			gpiod_set_value(chip->rdwr_pin, 1);
+   143			chip->mode = AD7816_FULL;
+   144		} else {
+   145			gpiod_set_value(chip->rdwr_pin, 0);
+   146			chip->mode = AD7816_PD;
+   147		}
+   148	
+   149		return len;
+   150	}
+   151	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
