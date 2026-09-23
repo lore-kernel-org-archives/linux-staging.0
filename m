@@ -1,68 +1,71 @@
-Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
+Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 185C832E12E
-	for <linux-staging@lists.linux.dev>; Wed, 23 Sep 2026 01:05:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DAF935E1BD
+	for <linux-staging@lists.linux.dev>; Wed, 23 Sep 2026 01:36:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790125542; cv=none; b=gwaaMet1h7oIoZeCpSTDvrYIgpwYqVml532hPZSVlYFmfkHprezxhAadTnxDgNwoD9HySXCqbTTYhJLRyG+hcRplYjx3oxk2apr1cwkXjeUJvV7S5CiVBFMQKk/12xDbuL70/9xUJ8gz9p8zqj8Ku246caPiUeFht1sRD/nnm0M=
+	t=1790127365; cv=none; b=AoMOVlo6JUDbq1XiLJChGJFG4a6U0Yg8zE4+YQyp7mUtby15faYPBs+p+45pYMUo8WWesRwskpoVB6GXVmulS6CYfjZ2ZaSfozTWj/DAyeITu3rvYNm7NtzunNQ8dgiTL84w1klpR4dyvPXYdSIs46/aX0hpJwmmm2cZYUypz0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790125542; c=relaxed/simple;
-	bh=FjFRP0jJUcVLrPO8ZhYwaG5GZ5vnnMX50LSlCW6IYhI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dwjAxdMPNyQzYYOthMvXmuhjH5aJQ323hofAekYtlS1/TdbGuXBl4V7K3yp3ONJj8TP4GAaE+tMkWVuT/ytkxFzxCZDiV6VPLlz1sHimQSzIWV7X2QsjNlI3NJeVqOnyVro1fHXr+EL4i+u5ZoBdlnP0tx8U75uOYEHAM26FW5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B5NSaco9; arc=none smtp.client-ip=74.125.227.141
+	s=arc-20240116; t=1790127365; c=relaxed/simple;
+	bh=cdAjBeMlNMT+7+wm8ZCCKENLpx7+MxggMRqCiLWJKz4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KFdkbFtd1oyyxrfDIigV+XcM6hCdF5dLH61xokwqtQyDcqpfpyMiq7VCszFomjej0GN8VYqvUgSe7flZ4hr3BPRTsVY/GflvIPR2B8EsRtbYR/Y6Cfvz1bezWac32yyscELaLBbsblyKTnzO12DFnIzMVrf1NMSaq/7dc4uy+Cs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HAXBs2Dz; arc=none smtp.client-ip=74.125.228.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B5NSaco9"
-Received: by mail-pj2-f13.google.com with SMTP id 98e67ed59e1d1-39dbdfaef3cso269054a91.1
-        for <linux-staging@lists.linux.dev>; Tue, 22 Sep 2026 18:05:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HAXBs2Dz"
+Received: by mail-pz2-f12.google.com with SMTP id 41be03b00d2f7-cc1cea34f01so333672a12.1
+        for <linux-staging@lists.linux.dev>; Tue, 22 Sep 2026 18:36:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790125540; x=1790730340; darn=lists.linux.dev;
+        d=gmail.com; s=20251104; t=1790127364; x=1790732164; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=MXBcmQOVXFt2xi54w4xGq9/5w4oxNvJs4LX+noV2HQI=;
-        b=B5NSaco9tIgnooTOU/QC9zPrXJZwLC+F6T+NNErpsEWreqKhsmBd+fkehiKC0oZRu3
-         22AEXECJAQgQXQ7YKg0PFPNGTlBuDsgg3OZe4TwQh54aJHSmggC5/On7oQuYtxEokXqv
-         q7j/g9ZI2QmBA8fSZqQwmuDBPZkCEsoql47wIqamVp2x5uAIpE3AqK/oNBArhyKW3cl1
-         wtsQnCRitVZo7/jJQvDfwilwvcfEI4ZKQOzHJPhYMhOyGSTk2ViV9wTl7hZfL/dzFhZO
-         iklw3TCBIlLzvT/BNqXHF088dlPvbQc2agc2bNDZWjJR4tcnYWcJEvkI50yq9jUZiVUs
-         20IQ==
+        bh=00Mu3E316L50R7aKcX+ERjAkcdHIZ0M1oyJeJ9Yl1So=;
+        b=HAXBs2DzTLSWzzgaeiF5H0jTSoHEAuPG2Y/kay/bacKgHJ6BN3A0UhRwU7xE7xRpdC
+         t8GKgkjTXAgvrtzO7weRG9Ro4CouQQxnscpJCodnvWUw4bHK2FyOCgnGbsaCcvW6CE3W
+         kwq/ACxrQz5tjS8G4EWiNxGbYL7iBMDeNpsBdLYLNVYGv5qpz1AgJIdwlVVYGqRFg6uK
+         L0RTdDTcCO4YNypDmTmzRTQN/RolEXPjmLxLW6BT3ow9RWNpib0mxY4fdp0XL0qRZILp
+         6a8UKKuZF27Twv4wIIJ7rGQ6QKfU9IKgwIbLlsI56TKU/TiND+6Dp1YjKGttWTwwamEM
+         ddkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790125540; x=1790730340;
+        d=1e100.net; s=20260707; t=1790127364; x=1790732164;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=MXBcmQOVXFt2xi54w4xGq9/5w4oxNvJs4LX+noV2HQI=;
-        b=qugQZ8wRToHfp8a5yt8m60UJe1LUgx0+U39FKl3/tH/iNVwOBG1XXTjGfSU8N3WYlG
-         0tnKtyw+E75vOQ7PjCQ6wbbrcaFK1ORU3EWQzTWZvMpXpSVVoe8/ADQ1RYsC+1bRyLvt
-         TX0nXrROiXy2CZfM0288e3PG7ImreUXnEjki2zwH8fkAaPOQBHSAzaHexJZflRXILXtk
-         ShE6pdz1VilqWGK9N82Wlwjrl5TXNftY8m7xzOm5KyIbpi0sWzwqBTMPkFTTa6OjaDBo
-         3xwTotBkppVRrr81pkRzzTRVaxy9l6vNRmGf9RUHUo2rbXnEP+B/cITjnvguLioVp6lv
-         gslw==
-X-Gm-Message-State: AFuF++knggW88FD8POVTtOyA5OUbJcwAkv/8u1UlqRTErtxRB4XZs4af
-	PAzhOXHPbD5N4fBAcvlSRdTK+g/TGDjQ2qfJqEN4gGCHLIZ4arI0Bp5D
-X-Gm-Gg: AYBFou3tDPphXtrdq6ums37wXJjgxfWGmWZ/GiaIXmuumtv14FQF4Wi84OA3Wu5mJ5p
-	sfrY6iG++Jy54IO8DHexY9pA6NcdoYuf7E/yDsyttj3jD23RCvsRWVqaU+xk16AzfCIuvh2VQWB
-	O2mxhNcl0sos15uIzH6NzrzR0apzcQftjMLMsQo63Ag+wnccpvYqmcXw/fsKrHD8x+8j6zWpNg5
-	iEym9z/5ExnjFTUrGShQtxcXWWYuI40L1HyQSpiRjoVxz3RzyLi7myXuzS37y4KvMEVRjLxl5JH
-	qqs2cYe8q4V4mbxQpyK5osvoBE7ojEAHECKZMWe+ITocmFhKVeL+RGKSl3yrY2qwHTw3vC/lMKZ
-	YmBu6EkRg0tVWsKV8Gpcb5hIJEaa9cwDA1FSDlLIg1EFUO/uzEgRAJ8wjkGuWynogHO8itmcVtu
-	k8yZqKTLn5f3Qx5tVfVoJhx8BeNAGJGm0yRHZ8OvKdUhyxWJXT30GwUO+wuV1uotpw
-X-Received: by 2002:a17:90a:d64f:b0:3a0:7d88:c2ac with SMTP id 98e67ed59e1d1-3a07e65d0bemr822610a91.18.1790125540223;
-        Tue, 22 Sep 2026 18:05:40 -0700 (PDT)
+        bh=00Mu3E316L50R7aKcX+ERjAkcdHIZ0M1oyJeJ9Yl1So=;
+        b=WTY7+yoCtzigidgc4UJuJLApJwNgDAkFo+pSkgXakMHFNzY9Btxtn5jddSJCW4MRs/
+         cU1Lc+R1CQj2Ug+lTGhSj0QfBv1EPNFn0Ayh3rHQUkK1lGFOwRLrz6L49O39TKva+fzi
+         uTSQjYPw5+rCpN8RK9ePARpfTmmWtcDSQCO3pEy7q0xNmJ5wNh69udFSEJt5PTDLbsjJ
+         90vRlt5BdAlmH+NwliVVzudOMn4wZDCT+S1Xop+so2oCAAb3fgai/M65SohbDeoxgSyx
+         aDiAPuhuZAqoVgGFL9rmsqoJep/b6/1gocJalCJtuA97f5FMmxN7hd69dK+qgX1G4Caw
+         q6vA==
+X-Gm-Message-State: AFuF++nFVhXW1cBbSuOqO5lsxRSs4t6IW7U6T/dUVXt76kAHcb8AcJ/i
+	j+LQqgtaP8Y2O6Fv4KoSrXFTCm0ARfD2jZkSvOa6oF8s//udzhO+ZNugb/kZ1DxGlbc=
+X-Gm-Gg: AYBFou0sa4/Mj60P9RHNsCkHru7I8DZR8MvBvdGL0OOPIls8kBp8FjM/9nz9wiXe2DN
+	dlZGouUVqZrpt5K6S5/DqPDno/qZgRHjyqN2Lps1oXtESPwJw2BTQ+mUW7bA7X6ddgMOp31XoFM
+	Sv4SCv1afd7X3s644cNcmPNLWO7KyEixfd8+rKieHd8a7/DRZb7P2HtNUySdIpt+BlDGIz/dsKw
+	zBxNsrq/YpO0PlZOWZClcw8eV+CkYvrctMeNV/I2MugSqS4gZXkHgmovxaLrHb04VR2Rc53YxBB
+	DFpYz1FytOvnK5zY+iCOnlICrH/zCFGIXAXAoRLGwseammM4MPh1ZXqitsIs4DJnSY0G5NSblzJ
+	d291E8P4EaJ7q3VbUp2PEDrDDT5GReTVJqlypCQ7b1M1/hrD/xTZqkQ/3I6JGfXp7qfjA/nvE92
+	BZr/W+0F3TlE6wIVxvWqaTgsdvJfU+VsdTv6t91R6TTesdYZEIKETe2+qytCS0oJ5y
+X-Received: by 2002:a05:6a20:7faa:b0:3da:e1b5:2baa with SMTP id adf61e73a8af0-3ddf7e93850mr1125740637.2.1790127363814;
+        Tue, 22 Sep 2026 18:36:03 -0700 (PDT)
 Received: from linux ([205.237.104.28])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a0812a1eb2sm336539a91.4.2026.09.22.18.05.34
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-87d1afb99f0sm487569b3a.6.2026.09.22.18.35.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Sep 2026 18:05:39 -0700 (PDT)
+        Tue, 22 Sep 2026 18:36:03 -0700 (PDT)
 From: Eduard Zateev <hackerowskiy@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>
 Cc: linux-staging@lists.linux.dev,
+	linux-fbdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Eduard Zateev <hackerowskiy@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: remove unused variable 'phal'
-Date: Wed, 23 Sep 2026 03:04:23 +0200
-Message-ID: <20260923010423.6352-1-hackerowskiy@gmail.com>
+Subject: [PATCH] staging: sm750fb: remove unused variable 'tmp' in sw_i2c_wait
+Date: Wed, 23 Sep 2026 03:35:26 +0200
+Message-ID: <20260923013526.12225-1-hackerowskiy@gmail.com>
 X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -72,29 +75,36 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-phal is assigned but never used in rtl8723bs_init_xmit_priv(),
-which triggers a -Wunused-but-set-variable warning with W=1.
-Remove the unused variable and its assignment.
+The variable 'tmp' in sw_i2c_wait() is written but never read outside
+the loop, triggering a set-but-not-used warning with W=1. The loop
+itself is a fixed-count busy-wait with no side effects; remove the
+unused variable and keep the empty loop body.
 
 Signed-off-by: Eduard Zateev <hackerowskiy@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/staging/sm750fb/ddk750_swi2c.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-index 7f55448d544e..0441e84ea87d 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-@@ -525,9 +525,6 @@ s32	rtl8723bs_hal_xmitframe_enqueue(
- s32 rtl8723bs_init_xmit_priv(struct adapter *padapter)
- {
- 	struct xmit_priv *xmitpriv = &padapter->xmitpriv;
--	struct hal_com_data *phal;
--
--	phal = GET_HAL_DATA(padapter);
+diff --git a/drivers/staging/sm750fb/ddk750_swi2c.c b/drivers/staging/sm750fb/ddk750_swi2c.c
+index e63f3b00ec4c..55623ad35be2 100644
+--- a/drivers/staging/sm750fb/ddk750_swi2c.c
++++ b/drivers/staging/sm750fb/ddk750_swi2c.c
+@@ -92,12 +92,10 @@ static void sw_i2c_wait(void)
+      * it's more reliable than counter loop ..
+      * write 0x61 to 0x3ce and read from 0x3cf
+      */
+-	int i, tmp;
++	int i;
  
- 	init_completion(&xmitpriv->SdioXmitStart);
- 	init_completion(&xmitpriv->SdioXmitTerminate);
+-	for (i = 0; i < 600; i++) {
+-		tmp = i;
+-		tmp += i;
+-	}
++	for (i = 0; i < 600; i++)
++		;
+ }
+ 
+ /*
 -- 
 2.55.0
 
