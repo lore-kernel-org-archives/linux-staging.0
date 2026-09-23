@@ -1,148 +1,107 @@
-Received: from mail-vs2-f40.google.com (mail-vs2-f40.google.com [74.125.227.40])
+Received: from mail-pj2-f43.google.com (mail-pj2-f43.google.com [74.125.227.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AA9B43FD3B
-	for <linux-staging@lists.linux.dev>; Wed, 23 Sep 2026 15:48:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.227.40
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790178511; cv=pass; b=tFg/HCN3k5bNZITIubUV8k1OTTfDocEofPnoxrCeH8GwddMFWncB56Y+qS+orHvp9dN9A4lpJPBA1kvzj04UxzPqnPCknf3klpGDErtj5dLqAjL/q0fiIud/NJn+z7Fmmkpq54WAn4SplgNMxEg2cE75aleSyLbRwbOzS/Ynx1k=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790178511; c=relaxed/simple;
-	bh=l2pmTaYj5bsjg/VqjbuilhgmiwEDlikpvuksfpHs4aE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ePKWh/pK2XVqwE+/EV4iPlV8baq4zYLAA8qf1EJDRFmdEODpDcgF25nru6VEc+3S8+b3a37YDccnHg5w6JvIKN0KUcqnCBvprJOVhFyTz8AdbdcQQ3cv/pNlgP5u6vSebEOTTcknNmF++73dCbGmN8IRFgSlmCkVz67KtbN6WoY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zzq6Gd15; arc=pass smtp.client-ip=74.125.227.40
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2362740B383
+	for <linux-staging@lists.linux.dev>; Wed, 23 Sep 2026 16:17:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.171
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790180224; cv=none; b=I93lw5Hz7E3XNrA849ZUIBwVdqT1zs/VCiSk5E3yiWWfS0pTdAGJFG8xJHd31F4XeKaXkRZFggC1PsaHNuqI7asv2CphVRTqv2BGg4PPXNYH5Vw+PiIdI4LSOZnmyWq7/TJCuG8Id7jX5q6popNCbkyZW6hUcRmUqxrP7TEz1Ag=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790180224; c=relaxed/simple;
+	bh=O2H1JqE5eKhA4nle7+NJGPZcT/lhXou48K8NVRXwhcw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=L/qEGLXPdoKdY/qxT/+rJr3Yn4sIpUInMHmu9Zd3JJrimjS9UBuqPllxPGd8RmFMFEpsKM8p+4OR1Neq09/94GUevN3acGYqmhi3woqArjiCOyC4uGWqP7RtEPsn82SSLMRcyOgVE617lC8+z4vf/b5I1C4di5bfAHRm1/e+4aY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rSeCq/Dj; arc=none smtp.client-ip=74.125.227.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zzq6Gd15"
-Received: by mail-vs2-f40.google.com with SMTP id ada2fe7eead31-78565b4db79so596143137.3
-        for <linux-staging@lists.linux.dev>; Wed, 23 Sep 2026 08:48:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790178508; cv=none;
-        d=google.com; s=arc-20260327;
-        b=knb2/Twx2Ka8SXx6ldtmb+V1V/J+eJBZrjZKwYEG+76KHmdEPFMMGNx1CF18hs5RPH
-         gKK/J52onCwSxZ5Yi4keck8olwvJV/0k2bJUMF4c9vbNtsJ5/vevKsHysg3Pdj7cAx3c
-         t0xLiLvAUEyOzN0UIYvAEj/Hm0Ef99kphLoM0tiMq3Blxkv2Znu2fxVhc7O1rXz9gh/D
-         7zxcglzhs3f4XtmdZkqzckWuE0LfOF2Uah75//q3WYSE7uYN/4cb/NJsLtfs0iS5ypVV
-         +/4eU6RQ2cdFr6O64uv/4Kq4gCHeZRR7aL2et3a0IpV0LE/KuvC4TDiMd+FZnkWYSAPA
-         Ty9Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=f4WPZ4zqm8ezSWOAuYy2kHwqmOGcyX5dZpEWb9VtYmM=;
-        fh=VBjYSDJfXLtudf1wFn6Sz7UtqBM0k9NTskEE57CD2HY=;
-        b=oTU09RD3VjiQZh6Ks32ieHgO+1LoLyTeIW+HZhl27NS8/r1bknFswScw2syi1Q9Qh1
-         teSDPxVGh0x6F/aqprZ+Qo1AUdySG6zD9HDKJqEqLr9cCRwYxv+5mdHLRUPD/21UyIfC
-         zcvcXo/yYtUAYCujxRI7IgUNsU81bDxlt/e/OUj1OZBemdauicDtEUmoCcrzgnI/1Coo
-         BLQ1DHDjiBbctFhV4I613Kihu9hBhnp6bNPgwegXVgOVXED5iTxCEdbLANIlfAi9WhAd
-         KtTY7zluhwCdPQqomldgkqbxWhOfFvX7zV/An3MgfCNWXwpf4qcI1ifjj06Yot0kDds2
-         Sv4g==;
-        darn=lists.linux.dev
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rSeCq/Dj"
+Received: by mail-pj2-f43.google.com with SMTP id 98e67ed59e1d1-396cccbba92so849701a91.0
+        for <linux-staging@lists.linux.dev>; Wed, 23 Sep 2026 09:17:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790178508; x=1790783308; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=f4WPZ4zqm8ezSWOAuYy2kHwqmOGcyX5dZpEWb9VtYmM=;
-        b=Zzq6Gd15ZAGdDq+xzzZ71LxrwfzAl4Zoj4quNYcQcjAWJKocqgUTDMxh3I+cdTzTT3
-         dJ46wFQtkMXkkcS9JCZ0kpk4JgI8aXN4G/kexIB+Sxr64ifJpM14FuXUstKocUbTj0AF
-         YSfYgKw1bkmwOr5pAXAL6mzLBCe2qQINclgo68CL7vnqGrg/AEjBtdlWSYCzRZ1oYNDX
-         Zbpic9NA+JDPxco/dTHOhg+sEopAGCGNUs5lVYppSHWIEZWlfHBFV4PG7VSA1Vd3MuoU
-         JELU5T07YLLjXj4Fx8Rc3kvp4Npe/GU3n2gZNbyLxwc8teSCNKwsvItOXZ8gfxWtHglo
-         NAgg==
+        d=gmail.com; s=20251104; t=1790180222; x=1790785022; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=zDmUDt4wtJfsRkSR0DM1YQ/ag+cNN2NUAkzr2LI5PBc=;
+        b=rSeCq/Dj5AFOazl2ItT63YN4Q+8qMDrINIiRdO1lZS++4Mjn+S8+mmLmBFNgtgYFQn
+         J+gvCaMIHTSGuGYvN26NJ9YREaXMV0wEAJP4ItMtan3QLlwdeEhr5we3Z1G16vxVgCI5
+         6osdaBBpQ7ZwCLKypK5gHW0IFTMSzw2o3Ov2sfaR7wJUOVdg2xIDPC7cP8I+kKHil/Gn
+         dCiAYfb3Hcs/NzdmAAAwkynVSbAK5zp/Dm9F/FJwXSV8+vnSoDtb7mxuDZ6xByhmc+0w
+         zSNGZOIUOydaMUeap/Quy/oC1pMQCaBRF3c9Fe+ZFUuDtxcgxoIylYxWyL52eNtaW2Bk
+         LetA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790178508; x=1790783308;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=f4WPZ4zqm8ezSWOAuYy2kHwqmOGcyX5dZpEWb9VtYmM=;
-        b=sxzHzNKLrIRNFjyt4VOhnsjhLy1u13rdn6I1Dyc9XoCC2bdfTAL/IZlDAExsK97xlN
-         hZdjHm658lEi4yfWqJl/dpZtjuh9eMLgx/tCWILLTZl25t1vU6xg3E+G1eNsgiqWpHO3
-         H9/UezSh9w6PCk5pBgfwcIIQYUoe3CegXdwhx5VhmpRz+H5fMgCokGtFNBlOMXMaBjwU
-         d8eGwSopA5ZgtYIoFRpnXgEc9NIXlpdDTrWN6+46SII3cRbJNy0bZJZ7md3sDpchDQui
-         NnfpvgjDjib4EHxIZt+Ypqx0fl5X3et2gfEEi2/Y3uEMOG+FhQAn7Bzp2cHIXNmZjTX6
-         gBWg==
-X-Forwarded-Encrypted: i=1; AKwUvByVfyUl/M6LVBuZJRHV6rhQ8y7VnknMX9xqPE4Thdm/2mUwd8mYFhhsdBsz6Q1TKUGZ0luW/loIQ5jMzZrU@lists.linux.dev
-X-Gm-Message-State: AFuF++mhOsxiXPj/ccx1CHEAG+o2PJPtfEeMf/8i7Uz5VzLcg20GhiOb
-	+0TxEYNICexBs3WoUiu7seVSFVxHETiizLuCj8S3dmV4lr5Xj8DuhHGvXqo9K7gYLP8dFE0DHj8
-	EVm68vjc3MyWUIBvuil/8pjEuxpJKRdfuoR5K7ZE=
-X-Gm-Gg: AYBFou0LQWdDo8xFtZBLt5ABUYXr++Bp3EvPWELmarmDyZ5DK4QIP9UKqcJfIhHYgH2
-	4nSw4PdHNoZTs0w4F/So9brF+347dS0AJADjfMv+wXAHP7Un2mTSd8uwxALx/NY1iBzHaDp7Au9
-	qb+Azd+gvB9f3XjL3i9RFPiSu7KNDSz7b05snPTaNeZBtvgaZgnzDGtf7bXd9lumjV88B2Ffq/N
-	xQtXAOpE5UG+aPA3bG0UhKEXcUoYj2PGGLA/vJBBMV4glG7qrVl0ZH5Lkb45BBOpjMoG2FnAco5
-	wng2bXgvkV15vQZCvuVT+ZfmtMdgczmVdwsqtCYGNpcHSWf5vHlnS8ZkBt3RWT1vuZnTE7eJO5Y
-	EO2qqbQOjhVNl
-X-Received: by 2002:a05:6102:5808:b0:7a0:f7cc:5045 with SMTP id
- ada2fe7eead31-7ac1ace44e2mr3005717137.9.1790178508346; Wed, 23 Sep 2026
- 08:48:28 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1790180222; x=1790785022;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=zDmUDt4wtJfsRkSR0DM1YQ/ag+cNN2NUAkzr2LI5PBc=;
+        b=RGBC5MrEtI16IhdUtQ2B/CeHaMtTBF+K/6RJCHcRrLAd3kFADNjkcMBSo/OrBUvBo9
+         B1fDaNukeNR4w0kIjo6VWd+hFCqJEb1kG/qLOUnIqtiDkwMJWZun+ARYvi2e92BRAMqh
+         J8PUTXBhHrxt0Qa7X8R5gTHSbMv5W0+lwkjv3g4KQo7AIgTthl6ICn/Ssjw34rehY+At
+         fitugL4qrAGmxRyYqDiGF8lRHzxERjwOP3blcFMgo8Ylz8YkGq6WQATeCbO+FUMbi9TB
+         yIQYyL9X7zANhFc3ZCkiDWS/2YdBvRWJUmYFkItsMDYKnpi3CdL0o8OdnU+P1gPxwJb5
+         huFQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxLziX90dOEC9DFRvuORrNBUAB5NIC8MqWfDeK0905HRrwAGcvvUIDsDdhT7kdCjyMqDQVU0J+aFEjarEkr@lists.linux.dev
+X-Gm-Message-State: AFuF++lwKiftw1h6bnUZw23YeyBAFmjpqR+HwGtAwWCIifExOAmVp5gr
+	LmIuYMBz/NTDefL7OnhTU6a7XQB9JlC5JpHdBHaMKKQT7hAwszZ06xP0
+X-Gm-Gg: AYBFou2Tjufj8zYlREK/e2lVS2RqNb+I2S/XvaWg51Mcn5tSq7Dpi0173B3OP4fluyE
+	0r1//f9nhj53GvUyHY+FNq5SfdSPqHa/0Z1Ri9zLM5QINcKdwOWGTqMC9s0VYE6MFqHOzKBk9UP
+	i0mk8JSAmhT1ujACIXrNObDQThneWncSiRu3LSaqgkUWkXl15qJGPTUakkiaBvgroBMlyzKQZwB
+	lnBynHOHukALcCmj47EcD5O7qnSecWvWog/eI4I921bKxOsAaYUzqanGoFrYcaz05c/Fa2WDLnS
+	ZWlitjiTH5mEVLfZkwHLFaIjQ56IvuOdUkqXlpswC2iSbqOezsvdd5ELP3R+iqDV+Iuod6L+du4
+	Zvpzn4ahmnS+3BKdGDgh2cFytGqkT3X4Cfu2RcEZsbe1fdSNl1dVQMy7GRwLu7sGGPIMq2od+uw
+	QkwYdrD78dYyOEUrtphckO0yCDxDocagaFpHACUUH5imEKG9p23l6FsXj+K4rLS2IbVqldRCP1D
+	L8pPQXVP+SlzrpP
+X-Received: by 2002:a17:90a:d443:b0:3a0:22bd:6ee5 with SMTP id 98e67ed59e1d1-3a07e4e34a8mr2968262a91.14.1790180222330;
+        Wed, 23 Sep 2026 09:17:02 -0700 (PDT)
+Received: from localhost.localdomain ([223.167.219.30])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a07ddf23desm5743233a91.10.2026.09.23.09.16.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Sep 2026 09:17:01 -0700 (PDT)
+From: "Eric LI (Honggang)" <eric.lee0305@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Hungyu Lin <dennylin0707@gmail.com>,
+	Khushal Chitturi <khushalchitturi@gmail.com>,
+	Andrei Khomenkov <khomenkov@mailbox.org>,
+	Jennifer Guo <guojy.bj@gmail.com>,
+	Oskar Ray-Frayssinet <rayfraytech@gmail.com>,
+	Minu Jin <s9430939@naver.com>,
+	Dalvin-Ehinoma Noah Aiguobas <fliegbert2@gmail.com>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rtl8723bs: remove unused-but-set-variable phal
+Date: Thu, 24 Sep 2026 00:16:42 +0800
+Message-Id: <20260923161642.318671-1-eric.lee0305@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20260922225501.1792665-1-inakisobera8@gmail.com> <e0bf7dfe-c03d-4fa6-abdd-ac88cab8faa8@sezginduran.net>
-In-Reply-To: <e0bf7dfe-c03d-4fa6-abdd-ac88cab8faa8@sezginduran.net>
-From: =?UTF-8?Q?I=C3=B1aki_Sobera_Sotomayor?= <inakisobera8@gmail.com>
-Date: Wed, 23 Sep 2026 09:48:17 -0600
-X-Gm-Features: AclHuK8teJhZIneAm-pS1paRCtlXiHjDfzAKz7zCRFZ5JookA8cSJaHe4mqvE2Q
-Message-ID: <CAAqk8=3zK9bJV2Oejb9vTD_tKA9agcsCWnKgEEPm5tgnza8A+w@mail.gmail.com>
-Subject: Re: [PATCH] staging: sm750fb: mark g_fbmode as const
-To: Ahmet Sezgin Duran <ahmet@sezginduran.net>
-Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com, 
-	gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Ahmet,
+Remove the unused variable phal in the function rtl8723bs_init_xmit_priv as it is not
+used anymore after removing SdioTxFIFOFreePageLock spinlock (in commit e9b50a2821bb).
 
-Thank you for pointing this out. You are completely right.
+Signed-off-by: Eric LI (Honggang) <eric.lee0305@gmail.com>
+---
+ drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-I mistakenly missed that g_fbmode elements are assigned in sm750.c
-(lines 762, 764, 872, 876) when handling display options, so making the
-array itself const breaks compilation when CONFIG_FB_SM750 is enabled.
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
+index 7f55448d544e..0441e84ea87d 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
+@@ -525,9 +525,6 @@ s32	rtl8723bs_hal_xmitframe_enqueue(
+ s32 rtl8723bs_init_xmit_priv(struct adapter *padapter)
+ {
+ 	struct xmit_priv *xmitpriv = &padapter->xmitpriv;
+-	struct hal_com_data *phal;
+-
+-	phal = GET_HAL_DATA(padapter);
+ 
+ 	init_completion(&xmitpriv->SdioXmitStart);
+ 	init_completion(&xmitpriv->SdioXmitTerminate);
+-- 
+2.34.1
 
-Please disregard this patch. Apologies for the noise.
-
-Best regards,
-I=C3=B1aki Sobera Sotomayor
-
-
-El mi=C3=A9, 23 sept 2026 a las 1:27, Ahmet Sezgin Duran
-(<ahmet@sezginduran.net>) escribi=C3=B3:
->
-> On 9/23/26 1:55 AM, I=C3=B1aki Sobera Sotomayor wrote:
-> > The g_fbmode array of pointers is only used during module initializatio=
-n
-> > to parse display options and is never modified. Marking both the pointe=
-rs
-> > and the array const allows the compiler to place it in .rodata, which
-> > avoids accidental modifications and cleans up a checkpatch warning.
-> >
-> > Signed-off-by: I=C3=B1aki Sobera Sotomayor <inakisobera8@gmail.com>
-> > ---
-> >   drivers/staging/sm750fb/sm750.c | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/=
-sm750.c
-> > index 8b93bfeb2..c3f391cdd 100644
-> > --- a/drivers/staging/sm750fb/sm750.c
-> > +++ b/drivers/staging/sm750fb/sm750.c
-> > @@ -12,7 +12,7 @@
-> >   static int g_hwcursor =3D 1;
-> >   static int g_noaccel __ro_after_init;
-> >   static int g_nomtrr __ro_after_init;
-> > -static const char *g_fbmode[] =3D {NULL, NULL};
-> > +static const char * const g_fbmode[] =3D {NULL, NULL};
-> >   static const char *g_def_fbmode =3D "1024x768-32@60";
-> >   static char *g_settings;
-> >   static int g_dualview __ro_after_init;
->
-> Did you compile this patch? While SM750 module is enabled?
->
-> Regards,
-> Ahmet Sezgin Duran
