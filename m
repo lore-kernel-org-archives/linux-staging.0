@@ -1,83 +1,107 @@
-Received: from forward502a.mail.yandex.net (forward502a.mail.yandex.net [178.154.239.82])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed2-f35.google.com (mail-ed2-f35.google.com [74.125.228.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CF5A44BC97
-	for <linux-staging@lists.linux.dev>; Wed, 23 Sep 2026 07:33:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.82
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDDBA44F556
+	for <linux-staging@lists.linux.dev>; Wed, 23 Sep 2026 07:34:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.99
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790148800; cv=none; b=M80LkTU43DregwJ7ryUiR2t1N7glbeBZPoHt8ZMWZnt9AMgipDWinKYTZY4sK2xeiCn6dq9OJfcf9XDRgqYeNfYcltZ6MDq2E3ihB5hCaMT20uHDhZ+whiEMMCP+ytFKL1pftsjZMppwPpR3G0MvAQL8ngBD2zHsoDFhQfQ+AAg=
+	t=1790148876; cv=none; b=ssAzaFmpon3Z4w/cTF2YQR4JWA/EpzAqi3vMnSi6242QfY9vNw0ierFTRFq3xovY2j2EKOTKvwaBiQfuEd4DcaXqc341M1MNZVIWw4Cgk3pq7PhLBTqvyyoNIvX3HSYu08kqZ72tzC6HNFEMMbKpWtV8/pE8oBNM1juziPS7ZRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790148800; c=relaxed/simple;
-	bh=j9K7038HQlqGAJDtLdBxvW9ZeIsq2TVZGyQYLXt5Nck=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JPUP0pspBUFsY2TtdfYrzG3tcxlbVn4Yi6loqyNq5tS4BS0RAD1UAvK57xpbT4NGYittIHsJcAQcUk6k2qIgWGe2+gOKoe2+mhzSZanq4EkTvBa9tVwfsV2o5QpDF138Kk7GIwR3kiOYx57sPqc5V7rvb87hKs/mSLlfCW+e1KM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net; spf=pass smtp.mailfrom=sezginduran.net; dkim=fail (0-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b=USJZhr/O reason="key not found in DNS"; arc=none smtp.client-ip=178.154.239.82
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sezginduran.net
+	s=arc-20240116; t=1790148876; c=relaxed/simple;
+	bh=oxjEu3g1JDs13VRgHPDWh/8ulg6HFNUl6DeNgeFs1Ng=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XP7xaPHi60QJ6lOeKnLA9yQk1ck3z4tLIWVxNJxG8MtQF2C/10028yjLbQPtuteBJcCTV0rzMxFfT5Ztn01RqND8v6x1DcX6vUtTamqqiMA526rmBsHYTsx2PfRAM0CmnbMPiZ6pH3aFBV3xuw6i2gIzcC+UD1vHlJd/gEFTs/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mPt/gmjD; arc=none smtp.client-ip=74.125.228.99
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b="USJZhr/O"
-Received: from mail-nwsmtp-smtp-production-main-95.vla.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-95.vla.yp-c.yandex.net [IPv6:2a02:6b8:c15:340d:0:640:ad51:0])
-	by forward502a.mail.yandex.net (postfix) with ESMTPS id 1B4E389B8A;
-	Wed, 23 Sep 2026 10:27:36 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-95.vla.yp-c.yandex.net (smtp) with ESMTPSA id VRWR4DBfVCg0-BDEuOpqA;
-	Wed, 23 Sep 2026 10:27:35 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sezginduran.net;
-	s=mail; t=1790148455;
-	bh=JxNhnZVX0zisr9Q6dCty2PkG5yvkM2Jo3j4bOUjwosE=;
-	h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
-	b=USJZhr/OFDp0RHs8/5Wl4TEUHYcG5kXaPMz+lV3oYlbzLrQlwr2xO0AFbbyVIOWW1
-	 7mfny93kS45+IpakLHNPQlCrTmtcSrRt6dORfSaPcT58d/xO5nlggjPBEIKPW1eUec
-	 Ji9nT41j+ZawJ35xWFYdvMb+SDJJNJM/7CIAq+Ew=
-Authentication-Results: mail-nwsmtp-smtp-production-main-95.vla.yp-c.yandex.net; dkim=pass header.i=@sezginduran.net
-Message-ID: <e0bf7dfe-c03d-4fa6-abdd-ac88cab8faa8@sezginduran.net>
-Date: Wed, 23 Sep 2026 10:27:31 +0300
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mPt/gmjD"
+Received: by mail-ed2-f35.google.com with SMTP id 4fb4d7f45d1cf-6aab226e7c8so1114005a12.2
+        for <linux-staging@lists.linux.dev>; Wed, 23 Sep 2026 00:34:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790148873; x=1790753673; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=d5uHsM00XwjcAY5oHukw8fi+wOputRr/BzL4BNlEpqM=;
+        b=mPt/gmjDsp1oHbD8mBuMTYl6JTv/8AjLnAyIIU9nbCSjbHVqfnV/Y+WlKcV0VaKcTf
+         ZalBybiXXJPCzwJoS6PorSJB0EiyYH2pKxRd/7DBNXC8nXBbqium+MZHtDqlOZxZ/RPU
+         x/1qHNwsovy3eEPdtyHkAd8A3c7MojE8Kf5TetDk4sbZtjFqzfSDja9phRiC/41spAzP
+         tCeIHUWCJfXZnyqzTF6rOR/Dz9CQxq9inH0/uDbzNm7LptTRYMe8P5b+zdewEKIJg27/
+         2+acQmOToOzqX12SrVccesIOobE/+V1GF7oTwyx384lZyZAjhlRXnoMDa00ImSwmIago
+         IodA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790148873; x=1790753673;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=d5uHsM00XwjcAY5oHukw8fi+wOputRr/BzL4BNlEpqM=;
+        b=eizd+Icui+mZKRp3mSDwDUltAG0bjP68gvuoo99fPWH6PfAgugwXyu3Fxo63WOFRtS
+         O6cB/TNzrH9yCJ5UR1XLNP7EXBEG35MSMnLNqlWk2NddOOf/h3geREeAIqPkT44phXmZ
+         sZ0SklX0SOV9zXHPGgdA2vOjwechI1airpWaw49g43MaIij+d4+DdX+ABA3ynu3USFtS
+         ADh3w2IU4R7dVSpfyPbGPqW5jimzMojCZCxS06I++r1zTJG/VikBq1Z6jlaDTXsMD3jx
+         KV89xW31BsR3AeuxZTi992GDoRSbWia7g7jAkrfXVtrNwYgvaxaXnhYLmbnz+wZoWvF4
+         mxgA==
+X-Forwarded-Encrypted: i=1; AKwUvBz5e6IPWnQ1NV4axa93huD0rCy5XUuXeKPa3mj8XetUz/Bqg3TFjdNwEmZLGXe8di+ofdnl1cmOyPwt3umw@lists.linux.dev
+X-Gm-Message-State: AFuF++mtR6Gfee1t8C8l/n9OCC/8T7TojFFPzp0aJo5V5C+roG5B6GmQ
+	4bnqZZNlvg0eeGqm4XjEgXaF0igfm4Xxsg0yYUr5fFTpnMoR1KTRNwqH
+X-Gm-Gg: AYBFou0rjs/7Ps16IgdLFhIIZgMdplSU/ohtl6ALIoq7XBNdXn389hZegeD0pp6Xl3h
+	1bpGmzM7ZABIE4kJSsIgNFrz1+tWDUC7n73n2aYUxS9dmYJGl8isj48xkV+2VpBalA1J3w3V+0u
+	9tdtrPzOauVcMie8YX3gAiUzWoFMXUdpUFek5cAx1jRMAP10bhBqpiY3L5uSp4rPIM1XJqP3hpr
+	wcBSppfIdQWXsUN8dxdw9UudbVdpMZSbboqySNzw8p+t+rVpRTtNhPl3aKDz5VvUeQVFnRdKolV
+	pwLmjfhvkhfEyJqSG4tMyik4rq/B/DtUL2ZZL1K3P48AMGBUiJrBC4rzWpCe3mW8DJXK5BcfVqs
+	fUFMvIaZg6bWyyxcByx63PnRL/AAdJibbNUv5uhlr4YpXVSy9cwP4GrEFkOWa0KP9aL7ejA84iV
+	Q0Ca2o5U11bgEUxKxmMh73MwFe3mSUMF/jaCEpqsvXP0jJOWLqAADBV5hZolim+Cj6HjQ=
+X-Received: by 2002:a05:6402:51d4:b0:6aa:1db:f7f3 with SMTP id 4fb4d7f45d1cf-6aab3b7f6aemr1427318a12.37.1790148872625;
+        Wed, 23 Sep 2026 00:34:32 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6aab3896c88sm970410a12.20.2026.09.23.00.34.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Sep 2026 00:34:31 -0700 (PDT)
+Date: Wed, 23 Sep 2026 10:34:27 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Eduard Zateev <hackerowskiy@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>,
+	linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: sm750fb: remove unused variable 'tmp' in
+ sw_i2c_wait
+Message-ID: <arOBA2jJ7_9a1XMs@stanley.mountain>
+References: <20260923013526.12225-1-hackerowskiy@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: sm750fb: mark g_fbmode as const
-To: =?UTF-8?Q?I=C3=B1aki_Sobera_Sotomayor?= <inakisobera8@gmail.com>,
- sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
- gregkh@linuxfoundation.org
-Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20260922225501.1792665-1-inakisobera8@gmail.com>
-Content-Language: tr
-From: Ahmet Sezgin Duran <ahmet@sezginduran.net>
-In-Reply-To: <20260922225501.1792665-1-inakisobera8@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260923013526.12225-1-hackerowskiy@gmail.com>
 
-On 9/23/26 1:55 AM, Iñaki Sobera Sotomayor wrote:
-> The g_fbmode array of pointers is only used during module initialization
-> to parse display options and is never modified. Marking both the pointers
-> and the array const allows the compiler to place it in .rodata, which
-> avoids accidental modifications and cleans up a checkpatch warning.
+On Wed, Sep 23, 2026 at 03:35:26AM +0200, Eduard Zateev wrote:
+> The variable 'tmp' in sw_i2c_wait() is written but never read outside
+> the loop, triggering a set-but-not-used warning with W=1. The loop
+> itself is a fixed-count busy-wait with no side effects; remove the
+> unused variable and keep the empty loop body.
 > 
-> Signed-off-by: Iñaki Sobera Sotomayor <inakisobera8@gmail.com>
+> Signed-off-by: Eduard Zateev <hackerowskiy@gmail.com>
 > ---
->   drivers/staging/sm750fb/sm750.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-> index 8b93bfeb2..c3f391cdd 100644
-> --- a/drivers/staging/sm750fb/sm750.c
-> +++ b/drivers/staging/sm750fb/sm750.c
-> @@ -12,7 +12,7 @@
->   static int g_hwcursor = 1;
->   static int g_noaccel __ro_after_init;
->   static int g_nomtrr __ro_after_init;
-> -static const char *g_fbmode[] = {NULL, NULL};
-> +static const char * const g_fbmode[] = {NULL, NULL};
->   static const char *g_def_fbmode = "1024x768-32@60";
->   static char *g_settings;
->   static int g_dualview __ro_after_init;
 
-Did you compile this patch? While SM750 module is enabled?
+Search the archives to see if someone has sent a patch like this
+before.
 
-Regards,
-Ahmet Sezgin Duran
+https://lore.kernel.org/all/abfFn_AET_xAVjji@stanley.mountain/
+
+Compilers often remove empty busy loops so that probably explains
+why they added the nonsense code.
+
+We don't want to silence this warning because the code is legitimately
+bad and should trigger a warning.  But until someone can test it, then
+it's impossible to fix.
+
+regards,
+dan carpenter
+
