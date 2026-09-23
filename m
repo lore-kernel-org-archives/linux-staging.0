@@ -1,82 +1,113 @@
-Received: from forward500b.mail.yandex.net (forward500b.mail.yandex.net [178.154.239.144])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej2-f31.google.com (mail-ej2-f31.google.com [74.125.228.159])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC80644C4FB
-	for <linux-staging@lists.linux.dev>; Wed, 23 Sep 2026 07:34:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C03045D5C4
+	for <linux-staging@lists.linux.dev>; Wed, 23 Sep 2026 08:01:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790148899; cv=none; b=tBsEdz55dJ8Ev7r/VjLKv0pm9OIcm2gsRNsEoZKDEekB7tiyc+u6a6SRuN43qzx4x7v+G9e34vkq/QsDnishPmn9yTTEjNwrmrxM/7DHhfWExJxUTu+Y97GxTa4FWY5PyXrBzMaonPliQgOWw25mPDK5QUD9XCkCbbmbMd2OAw4=
+	t=1790150509; cv=none; b=d9KLwAO5GbPh/1VzXYlOGFsMlRtaNheIVAt7c7QEM02z6dx40SOMJl1p8fOzWMtQeK8T3bre16K+RLqbmBAKVG24YbdhTwfn50I4WmKTGZexIjlEaJ1mF5jxJ6juR4Oo+ARZ2q544cUyTy5vOsJv0oy8wxZShWMIL7+xEKS6wxw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790148899; c=relaxed/simple;
-	bh=Si75C+Y0YyLNGJ1i2b6KzBTmTQMrY954jFp2HZUBAAU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rq5LqOKpH8i3pJMa2tVFsqo7UPpawLYYZgmLzGzsT50JUQj9hJioXoSg1oxmngG6b3GS7pDTrYcObdHL7j6Qs2sBwHg4Wy7V9QXGUPloKTqcwsq4lUCuUh1TLD8cipjpv+K+eKkrt7HkjH4GRYSzW1qb6Fk7Tr/8fGiiCJB7Tzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net; spf=pass smtp.mailfrom=sezginduran.net; dkim=fail (0-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b=foqtToNQ reason="key not found in DNS"; arc=none smtp.client-ip=178.154.239.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sezginduran.net
+	s=arc-20240116; t=1790150509; c=relaxed/simple;
+	bh=CA4XKi0Cd6YgI13rxF8FR/gNyyNEOMYqWRuRazHMyaM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tj2HA9eV8RwP5ZoetvK1uwkILFpD9Q1dVeb/athLUb82ZwXZkr3a8kMKbMEOs6foM9JoJT/M2PjAMtRiVcXdOp3zCHKn6i2O/s4sxDsEWV7VQCROvnXVlAzw3o6RzbuYpwzoLD04ZZjS6MbEOEU/0STo8NWWJ1RG+RQgeNhcVqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aY3rVKAK; arc=none smtp.client-ip=74.125.228.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b="foqtToNQ"
-Received: from mail-nwsmtp-smtp-production-main-89.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-89.sas.yp-c.yandex.net [IPv6:2a02:6b8:c23:1d28:0:640:bb6:0])
-	by forward500b.mail.yandex.net (postfix) with ESMTPS id 8DFD0C3299;
-	Wed, 23 Sep 2026 10:28:14 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-89.sas.yp-c.yandex.net (smtp) with ESMTPSA id 9SWtFQ9dQ8c0-QuX2bP9e;
-	Wed, 23 Sep 2026 10:28:14 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sezginduran.net;
-	s=mail; t=1790148494;
-	bh=fQJvHJXSD2r3UzSnt4BJscRM6z+qSTNXyzxKBbs1hrk=;
-	h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
-	b=foqtToNQVy0ei/4BUWTeOt0ZmA4LxKVo4N5OWjwrvEqaUzbE4MrlqC+Tt90jarBRN
-	 yvYkRfMv7zVmULRoqTBeYQs7IsTvT4FdZLXN0QXByZXaFVsGhjuJpYKwQZSNGnbuwI
-	 oxRqXZ1mnkUpJBLJ/eQCzdWC2i1FhsyKpilG/FtM=
-Authentication-Results: mail-nwsmtp-smtp-production-main-89.sas.yp-c.yandex.net; dkim=pass header.i=@sezginduran.net
-Message-ID: <f6fc1427-f771-4709-8153-f9814254a50d@sezginduran.net>
-Date: Wed, 23 Sep 2026 10:28:09 +0300
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aY3rVKAK"
+Received: by mail-ej2-f31.google.com with SMTP id a640c23a62f3a-c29703cb796so79943366b.2
+        for <linux-staging@lists.linux.dev>; Wed, 23 Sep 2026 01:01:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790150506; x=1790755306; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=yIsED9qvHGygDRbseLLF7eMBztpFKvOOESnk1D0m6Q8=;
+        b=aY3rVKAKz2ZaBInsCDA708tjxBuf6PaELj8GQ7vXImSAyEkY+S3niCqV9rjnJEcUos
+         XJ0MuFByHRlWo2bvoY+VQNXn5PnAKr010uh/7C9zo0qT0OL3A7SMT+IdZxxwv41CoJiv
+         680/zbaSehSq6xZ/DZbpiKrWlfmv/QOdKVCqD89K20LiHLjW+JXrWs7THouwsGScKBhC
+         fvK0lnLB1pKBzk9Ad1+VeDB2pP1lBEpHboDzciC69wbwlwPX9+CidB3/Wouyky3BiSJb
+         0JmhDtSbUrmx9QSH2P6lBbLnlafeADQ8eoz/GNq6laN3XXBv5WGIg2mFoBGh/bkzn89P
+         u3EA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790150506; x=1790755306;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=yIsED9qvHGygDRbseLLF7eMBztpFKvOOESnk1D0m6Q8=;
+        b=2f/XRydbLD/UZlNejcwPPW8Ij+cERzPGeB6C9qQbvwqnDEIAi/u27FKxN729lzfcQF
+         35fyKhcskTrwY0JKGVIQ4f9SWlIZRPYB2h/jUH9XOcFF8EuxlVi4ayoGres7VaaKKbW2
+         hckhw42zs9C2+6aeDi3uytcj9LOjEUXgU5QU9xZhSo5BWRWRg7OSUQXf2IAR81kJg7Jx
+         6co1iQE3kRKb35UWEi87vKgMWzEAac/TMBSfSpeXrpfZecD4XpH9H1J/2+At3qHgwYG5
+         EZTfhSaJqmUX0yp8bdSOZiGfoFEKIIePQr/hkgHeM1R3RuUVChV0Ge+UaJnggl/dc6qo
+         PqrA==
+X-Forwarded-Encrypted: i=1; AKwUvBxPK7/fl1JxQO0/m4MRclDkdunt3E/QZ1guiIPG+s4tLC/Ue2STmq1S5LGmskYbUoEn6yRIBw1XKhgn93MZ@lists.linux.dev
+X-Gm-Message-State: AFuF++nAvzSlghfjIiDcQlzDH0quqPb4+cHhY60/tEdcP1PdVJF0vShN
+	5qE8/cqsCWUUmAD5O0ZcZDuYJuBUbCmKJ+UnsM2fv/Cc+tL2znnH4ZTB
+X-Gm-Gg: AYBFou0MHi6W4p9R3NN8YQmsvQwTKyKte/+aBsyMkSKhwHStL6HgUz3BHKs9iCqkxx5
+	0kXWAAqyPw1kV2KGlQsIom4eDMgGH0GaMRXXjjjtRMYU0V6ndY+yY6H9c9k3E60WXC3eQL0js53
+	ik2KOEYuE5vTZRlzhwWi6+mewigPuf44aQhQ2mvUPqfwFPpNPP1srMSvxgZiBH0GuoggNZkRFgw
+	ZT0SRcJAv/h/CrNUzMs5fOSCv/hUQEHyK4pmT0AWksT983R3XdexeQtYLaefm55eppYOLzfaH99
+	10ztfByMbOr0Brn7DwqZlQnpvof20tK5tolSDHUAUrDVZ/8ksij4zxBJYjNWX7g2wBrivsZdNbH
+	7Skpix114j03pmdDr0oVfP3Wq3+mQpEzvpO6BMYvIwIcKstnUKR376QeKh1vwdkU/atQ9ZZA/jM
+	7kuqs+M0SA2nQjIUeE3DE6ExK6Oce8nbiWqGZnDPVmlcQVnlcVswfcyc6iTY4f12ebVzM=
+X-Received: by 2002:a17:907:d408:b0:c26:1648:a076 with SMTP id a640c23a62f3a-c2aae140494mr127071166b.49.1790150506122;
+        Wed, 23 Sep 2026 01:01:46 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2aae6d2defsm62414266b.56.2026.09.23.01.01.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Sep 2026 01:01:45 -0700 (PDT)
+Date: Wed, 23 Sep 2026 11:01:41 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Eduard Zateev <hackerowskiy@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Vaibhav Agarwal <vaibhav.sr@gmail.com>,
+	Mark Greer <mgreer@animalcreek.com>,
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: greybus: avoid snprintf truncation in audio
+ topology
+Message-ID: <arOHZcAocfvxCJP3@stanley.mountain>
+References: <20260923023405.41700-1-hackerowskiy@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: sm750fb: fix const pointer declaration in
- sm750.c
-To: Vladan Kalaba <vladan.kalaba@gmail.com>, gregkh@linuxfoundation.org,
- sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com
-Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20260922193653.16086-1-vladan.kalaba@gmail.com>
-Content-Language: tr
-From: Ahmet Sezgin Duran <ahmet@sezginduran.net>
-In-Reply-To: <20260922193653.16086-1-vladan.kalaba@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260923023405.41700-1-hackerowskiy@gmail.com>
 
-On 9/22/26 10:36 PM, Vladan Kalaba wrote:
-> Fix static const char * declaration for g_fbmode[] to static const
-> char * const as reported by checkpatch to cohere to Linux kernel
-> coding standards.
+On Wed, Sep 23, 2026 at 04:34:05AM +0200, Eduard Zateev wrote:
+> Building with W=1 reports format truncation warnings when prefixing
+> the Greybus device id to widget and control names.
 > 
-> Signed-off-by: Vladan Kalaba <vladan.kalaba@gmail.com>
+> The destination buffers are NAME_SIZE bytes, while the copied topology
+> names may already take most of that space. Split the operation into
+> writing the prefix first and then copying the remaining name into the
+> space left in the destination buffer.
+> 
+> This avoids the -Wformat-truncation warnings while preserving bounded
+> string handling.
+> 
+> Signed-off-by: Eduard Zateev <hackerowskiy@gmail.com>
 > ---
->   drivers/staging/sm750fb/sm750.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-> index 1ea3dd8b8f28..79d0221cdeae 100644
-> --- a/drivers/staging/sm750fb/sm750.c
-> +++ b/drivers/staging/sm750fb/sm750.c
-> @@ -12,7 +12,7 @@
->   static int g_hwcursor = 1;
->   static int g_noaccel __ro_after_init;
->   static int g_nomtrr __ro_after_init;
-> -static const char *g_fbmode[] = {NULL, NULL};
-> +static const char * const g_fbmode[] = {NULL, NULL};
->   static const char * const g_def_fbmode = "1024x768-32@60";
->   static char *g_settings;
->   static int g_dualview __ro_after_init;
 
-Did you compile this patch? While SM750 module is enabled?
+I hate the -Wformat-truncation warning.  It doesn't really matter for
+the kernel.  Dmesg output has always been really grotty and especially
+when you actually need it because of a crash then that's when it's
+the most jumbled.  Truncating the last couple bytes is not going to
+make a crash noticably more difficult to solve.
 
-Regards,
-Ahmet Sezgin Duran
+The fix is to get rid of -Wformat-truncation for kernel builds.
+
+This patch silences the warning but doesn't fix anything and makes
+the code less readable.
+
+regards,
+dan carpenter
+
