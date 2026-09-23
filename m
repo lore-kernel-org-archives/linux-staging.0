@@ -1,125 +1,626 @@
-Received: from mail-oi2-f12.google.com (mail-oi2-f12.google.com [74.125.231.204])
+Received: from mail-pj2-f43.google.com (mail-pj2-f43.google.com [74.125.227.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1B8E3F484C
-	for <linux-staging@lists.linux.dev>; Wed, 23 Sep 2026 17:21:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.204
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4065D40DB35
+	for <linux-staging@lists.linux.dev>; Wed, 23 Sep 2026 18:56:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790184111; cv=none; b=bG0eZ5Hlmk7EcDptPAsj0G8kIhGNqXzuaCPz/WbT/BqBFluKSgWnYCS9S0iFoo04nbxPDrBNE2NBNvgqKi/BiZLCrQvdHO+cYyrryacbi71Swy09RSxfx3hm27GUmezoW8IJ6iSCTT4du82f1p4Sjj/sxAnWHvg4N3RlnCzwsBE=
+	t=1790189819; cv=none; b=m1GDAEXaBZM4cjT2OWMZxkGiebcA3MV0p0xubW6gsMwp1vV67jOOSOk1iSS/cBdw50EFmbsLaAGa9v00mXYsL5M2skVh4ntXgbKNizuirhhxdb9ZQ29cl90s7CztLmWsOQoY+2LD9pXe92Ltq7XhI4Q3ZoBVPsIEd0tVFAnxOUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790184111; c=relaxed/simple;
-	bh=TqkNICbwN1x9KaXxiUdyguV19IIY322QyRf1K7BAAlo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=u7fV+DIxSpc46zTQBY1iyV7nT/Pf+tYxjPh6oC9bgr485I9IRZcl3KDcHW2YoR+X43I9GkUVd4zXsDm6eSe/DEmkLL216ls8r+gGhgTHO7cPy79/7b1xkbN7Mdo6m7FDAN0P9Tdxd+pcwAmFuHtYkpwHHpWfCPKrs9+tHi8Kq0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FkKmA3Vz; arc=none smtp.client-ip=74.125.231.204
+	s=arc-20240116; t=1790189819; c=relaxed/simple;
+	bh=svagNVg/eJdrSC74cvVuAQ6ya3Bx8hstNw7sgpQl64A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=U4q7P+4F8nIEz9RKpw55TXmyprAcfKBJ+eiCVW2z1coR/25ptkBkN98uyIUOGJmRQNXmzCkAEnd+1am+wYjMas6UeoqFmOBFJzWi55ruDZOLQq7ZzJ1ZW0sux3ZiaCHihKIq87ZbNS0nXycqCWUJSQ4XDU7FW2R0pu8e+mp+TC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CU6hvHd8; arc=none smtp.client-ip=74.125.227.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FkKmA3Vz"
-Received: by mail-oi2-f12.google.com with SMTP id 5614622812f47-4bf948737e1so756414b6e.2
-        for <linux-staging@lists.linux.dev>; Wed, 23 Sep 2026 10:21:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CU6hvHd8"
+Received: by mail-pj2-f43.google.com with SMTP id 98e67ed59e1d1-39e03468a5fso810430a91.0
+        for <linux-staging@lists.linux.dev>; Wed, 23 Sep 2026 11:56:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790184108; x=1790788908; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=/02lLjzL2fnwF7OUXeqY5NnoVSsm4L1xbooI6lvkXrQ=;
-        b=FkKmA3Vz09uQK7XBYL+6GXF5hYhNlMczbB0JOVKQRWFGVVqMZjyox2+JGO+lb7Cp/G
-         6us5RWH+q80+FcjYc4zp4qcgzQK925sUSH5PqxjsuwB5tEroKa/4wTn86FZF79J7W8oW
-         tNpHEvhPMf11UgRvkdKZ9U+9X5nOxrvGeHWutBjNJo2caHmgIcGSuKiRjm3QzOjyDs1/
-         EyrTrrrQwp6HCT78fe2v1pnc1oYNgjVIiwSseSlQEjKS6bFx1Gzk/Rbsc/2p33U9K5Fz
-         lJ5jbOZX4WYD0OvfCwmXlmr8+Y7gFBaDof6lD7TWUrUzV7tUokieo8/3jdK1nAphOun+
-         ttgg==
+        d=gmail.com; s=20251104; t=1790189816; x=1790794616; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=2iK9Wap/LJ5xdtpuyVnEeefK/YKuis4GLtVXv33cAeA=;
+        b=CU6hvHd8+DOyvbU6nhLphk8mdfqirGvVSr/HoVPT+OGKovQ8P9pa/0yynbM+/NyVVD
+         mAe/arnt7NzgG16Q2oDF6/m07izrBIjT2yqUGFGFoQmTYOZ6Jprrgd/SeSvZ362hfYvn
+         DkmnIz5KYRvnrAyEOnCUn1b83Ttffu8yXBP4IdUNdmzRcghayfkgrq9oNqngNrAqQ2Xo
+         5k75ujzWP+/ldmEHK2/Xs1oh7uOdnzIBuw8KOKFjVvTd7NsKX2TxjYIGIWgslxusuSYc
+         svs7zFvDxngI6W3uAd/zfxXDZNcOU89ARykiCRQHdjyvgT4f5J9ePn2PMfjCs7VAiacC
+         y0uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790184108; x=1790788908;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=/02lLjzL2fnwF7OUXeqY5NnoVSsm4L1xbooI6lvkXrQ=;
-        b=kjPwKD5XaprDA9PfZ6jXFHJ9Hjh3YatiVRfEG+M3HqRY6lzexxAd0btNkMU0t5VZXb
-         y1FV4h3m5GOFEz7vLrrGxckd551ac7p1Whn0uNkPxup7OZYIbgQD9tlWTInHe+4ZaeiQ
-         KeAYxCO8uZ16dHDsed54EAotPf1UWjlPkf9qKzhKWbBtuNedlQDr3027bALT2mEMSQyw
-         4c1s3vP0RPUcJ9oO9SVH7v2Dx/t59jPZKxrzyGorz9RIRZAcxURz3PF3JtYo7BrdfILx
-         tCM/Mjun/IOukqw2kpkVBWVURWldQWUaS0y6JFLseOjXtM5TMqDq+8/5vmpWSVrLDmhg
-         vc7Q==
-X-Gm-Message-State: AFuF++k0NVj79X8ZiVr81hEXW3EnmnGOzwCSlFi/j6qMUdBiCnWtG+Jd
-	696tTP36xpr/OHDxzUXgU0eWw3iAeup1Wk3gHy9wlw9yZoGC3CK1Nz6o
-X-Gm-Gg: AYBFou1IRrDUC19s2AhXA//Ah2vAKvj4dJ/M3AVC/ptTHzPEffDC4idh8OdKNa1GYBd
-	xF+YmY904K3Hc6bW76dbhAe1b7U/NnYZsnLPsG9A5wYjT0wBD5iqINlMlJRwPVqJdlYylwKegTo
-	opo5COthk5+7mr/xFR3JL6rY8XLDxafP294bCufKGffeGhwKifAfXVSLtKW3EYoaB+LSsF5NKQp
-	wyKAQkBK45UWY9b99P4BE4Z9MX3gps2hwfJN8CFvt3q+feYGXVrk/tC73Z92mbIWvKCW2nwAb2G
-	C4OTK8yg54/+KKwY4VFR+gRjwzKlwz1V340cg8CGB4KR6KCumbG1kYnjg/YUEjvlVdlIkiIwpOe
-	YNLRsqLwIMjNU/sboamNvFAzoFUQTfYKhDUoX/BMsLAiqMsi5c8E9aCF662TTTE0nqjrBXZhDnq
-	T6KFjm97ZjTnqUZHlT7cUz0LFkQ7b1NUSUhEvXIGpWfez8eDEw3Gk/WgwGzGcKIkuBi/qOOsqhh
-	e5N1UnOemd8aVgv1vT1Qp9HFG5J96vjKJA=
-X-Received: by 2002:a05:6808:1a17:b0:4d6:9412:45c6 with SMTP id 5614622812f47-4d694125b11mr1336790b6e.66.1790184108608;
-        Wed, 23 Sep 2026 10:21:48 -0700 (PDT)
-Received: from Arch ([201.110.78.131])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4d5c49e720esm2867839b6e.11.2026.09.23.10.21.47
+        d=1e100.net; s=20260707; t=1790189816; x=1790794616;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=2iK9Wap/LJ5xdtpuyVnEeefK/YKuis4GLtVXv33cAeA=;
+        b=zwRv0nHNkn+UfR2ajPOK2oBJ644D+dZ00FjldA6VtTiLBoMaMNu4oRIzDuyzYlC5/0
+         LSy7GNkJjT6JuxwCV7hev4V2t8mfJapyWo0Ty2XFR0cYVX/zHDoTLfLPl9kietdG0scp
+         WxS7yKkG6uueBnH4KYSi4ZPf4fEyBCibos5V4usynNmA5F2aojPeY2Awsg6xH+2X7u71
+         VaiVhhK+azA30NEhLocVwYBmjcTGg4pkTuT1YJQwJ6sAF4Ib3KIJcRHJUB2ojf6d9oNA
+         7qsErlwjvbEFE3By0m0YyuUohbbh9Q7841fAzbUhsTk+b9Q4qe6RAkyDx6ppTg727UC3
+         24Gg==
+X-Gm-Message-State: AFuF++kPxW8Z5YVx/BdDpjIEr7qSnb5TSfRlt3ZjvLEntM7tRyjkjjPP
+	kpNEBh4gpSMa5/9pKvdrtt8P4r7p3b1cXAb68s92RwVhnaE+84Qbn4ii
+X-Gm-Gg: AYBFou2A0WavvS6fx27anDfHdDEM+76AADuuvlZLx9ClfssQtGZOj4tt6Unb42oCT2U
+	0uSSyKb9Qaan2++hoyPlkHwwK59FjWWugwRP5oHvueU2IlGebatA+NRfrWtOVdxgLnp2tC3AphJ
+	m9vAaMGzsuepEQvTaz/kV/crGNvsTjQ6lnl8Fby6UfC51nCpPt9hTQrGkTF0+rO4qDuaQyIWOgU
+	C6XNRIXvhs/2hw7xyh668+o0a17/1S0UToY3x5jrf3Xrp/+1KU06CLwVVhVDYkyQMB3Z2fa347X
+	8VJ3pgzGzeibSizTAR/PIGDMggV5VizIMqxn3vGOb+zbByDojWRmwePLb7WNJ4Y4eB2nfvStf6J
+	XA3pyFq20hps8mLvMDHHQtsuJNHePpX2jZfFIu8wi9rwDpxEf4rUF8EqgJXTKEnirqbcPXuMCEU
+	Ak2Fle4yUbouJ9XXAb6wFWDZid8BPe+crML1ibmIDQ/6vQJXsUWuqZkYNv+2lJvdXObvMRhmqYM
+	ZVDIa+cqFo=
+X-Received: by 2002:a17:90b:314e:b0:39e:6a81:5a90 with SMTP id 98e67ed59e1d1-3a098e37387mr46159a91.36.1790189816114;
+        Wed, 23 Sep 2026 11:56:56 -0700 (PDT)
+Received: from sihokim-XPS-13-9340.. ([61.105.254.72])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a0812c87e9sm2159435a91.3.2026.09.23.11.56.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2026 10:21:48 -0700 (PDT)
-From: =?UTF-8?q?I=C3=B1aki=20Sobera=20Sotomayor?= <inakisobera8@gmail.com>
+        Wed, 23 Sep 2026 11:56:54 -0700 (PDT)
+From: Siho Kim <siho93.kim@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?I=C3=B1aki=20Sobera=20Sotomayor?= <inakisobera8@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: remove unused NDIS association and auth defines
-Date: Wed, 23 Sep 2026 11:20:49 -0600
-Message-ID: <20260923172049.1644917-1-inakisobera8@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	Siho Kim <siho93.kim@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: fix block comment style
+Date: Thu, 24 Sep 2026 03:56:49 +0900
+Message-ID: <20260923185649.1634863-1-siho93.kim@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The NDIS_802_11_AI_REQFI_*, NDIS_802_11_AI_RESFI_* and
-NDIS_802_11_AUTH_REQUEST_* macros are leftovers from the original
-NDIS-based vendor driver. None of them is referenced anywhere in the
-driver, so drop them.
+Add a leading asterisk to each line of block comments to follow the
+kernel coding style.
 
-No functional change intended.
-
-Signed-off-by: Iñaki Sobera Sotomayor <inakisobera8@gmail.com>
+Signed-off-by: Siho Kim <siho93.kim@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/wlan_bssdef.h | 15 ---------------
- 1 file changed, 15 deletions(-)
+ drivers/staging/rtl8723bs/include/rtw_cmd.h | 404 ++++++++++----------
+ 1 file changed, 192 insertions(+), 212 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/wlan_bssdef.h b/drivers/staging/rtl8723bs/include/wlan_bssdef.h
-index 9137057726e..d318c80c3be 100644
---- a/drivers/staging/rtl8723bs/include/wlan_bssdef.h
-+++ b/drivers/staging/rtl8723bs/include/wlan_bssdef.h
-@@ -78,14 +78,6 @@ enum {
- 	Ndis802_11_EncrypteionWAPI
+diff --git a/drivers/staging/rtl8723bs/include/rtw_cmd.h b/drivers/staging/rtl8723bs/include/rtw_cmd.h
+index 58a5ec39ce76..29ef8f045012 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_cmd.h
++++ b/drivers/staging/rtl8723bs/include/rtw_cmd.h
+@@ -159,80 +159,75 @@ enum {
  };
  
--#define NDIS_802_11_AI_REQFI_CAPABILITIES      1
--#define NDIS_802_11_AI_REQFI_LISTENINTERVAL    2
--#define NDIS_802_11_AI_REQFI_CURRENTAPADDRESS  4
+ /*
+-Caller Mode: Infra, Ad-HoC
 -
--#define NDIS_802_11_AI_RESFI_CAPABILITIES      1
--#define NDIS_802_11_AI_RESFI_STATUSCODE        2
--#define NDIS_802_11_AI_RESFI_ASSOCIATIONID     4
+-Notes: To join a known BSS.
 -
- /*  Key mapping keys require a BSSID */
+-Command-Event Mode
+-
+-*/
++ * Caller Mode: Infra, Ad-HoC
++ *
++ * Notes: To join a known BSS.
++ *
++ * Command-Event Mode
++ */
  
- struct ndis_802_11_wep {
-@@ -95,13 +87,6 @@ struct ndis_802_11_wep {
- 	u8 key_material[16];/*  variable length depending on above field */
+ /*
+-Caller Mode: Infra, Ad-Hoc
+-
+-Notes: To join the specified bss
+-
+-Command Event Mode
+-
+-*/
++ * Caller Mode: Infra, Ad-Hoc
++ *
++ * Notes: To join the specified bss
++ *
++ * Command Event Mode
++ */
+ struct joinbss_parm {
+ 	struct wlan_bssid_ex network;
  };
  
--/*  mask for authentication/integrity fields */
--#define NDIS_802_11_AUTH_REQUEST_AUTH_FIELDS        0x0f
--#define NDIS_802_11_AUTH_REQUEST_REAUTH			0x01
--#define NDIS_802_11_AUTH_REQUEST_KEYUPDATE		0x02
--#define NDIS_802_11_AUTH_REQUEST_PAIRWISE_ERROR		0x06
--#define NDIS_802_11_AUTH_REQUEST_GROUP_ERROR		0x0E
+ /*
+-Caller Mode: Infra, Ad-HoC(C)
 -
- /*  MIC check time, 60 seconds. */
- #define MIC_CHECK_TIME	60000000
+-Notes: To disconnect the current associated BSS
+-
+-Command Mode
+-
+-*/
++ * Caller Mode: Infra, Ad-HoC(C)
++ *
++ * Notes: To disconnect the current associated BSS
++ *
++ * Command Mode
++ */
+ struct disconnect_parm {
+ 	u32 deauth_timeout_ms;
+ };
+ 
+ /*
+-Caller Mode: AP, Ad-HoC(M)
+-
+-Notes: To create a BSS
+-
+-Command Mode
+-*/
++ * Caller Mode: AP, Ad-HoC(M)
++ *
++ * Notes: To create a BSS
++ *
++ * Command Mode
++ */
+ struct createbss_parm {
+ 	struct wlan_bssid_ex network;
+ };
+ 
+ /*
+-Caller Mode: AP, Ad-HoC, Infra
+-
+-Notes: To set the NIC mode of RTL8711
+-
+-Command Mode
+-
+-The definition of mode:
+-
+-#define IW_MODE_AUTO	0	 Let the driver decides which AP to join
+-#define IW_MODE_ADHOC	1	 Single cell network (Ad-Hoc Clients)
+-#define IW_MODE_INFRA	2	 Multi cell network, roaming, ..
+-#define IW_MODE_MASTER	3	 Synchronisation master or Access Point
+-#define IW_MODE_REPEAT	4	 Wireless Repeater (forwarder)
+-#define IW_MODE_SECOND	5	 Secondary master/repeater (backup)
+-#define IW_MODE_MONITOR	6	 Passive monitor (listen only)
+-
+-*/
++ * Caller Mode: AP, Ad-HoC, Infra
++ *
++ * Notes: To set the NIC mode of RTL8711
++ *
++ * Command Mode
++ *
++ * The definition of mode:
++ *
++ * #define IW_MODE_AUTO	0	 Let the driver decides which AP to join
++ * #define IW_MODE_ADHOC	1	 Single cell network (Ad-Hoc Clients)
++ * #define IW_MODE_INFRA	2	 Multi cell network, roaming, ..
++ * #define IW_MODE_MASTER	3	 Synchronisation master or Access Point
++ * #define IW_MODE_REPEAT	4	 Wireless Repeater (forwarder)
++ * #define IW_MODE_SECOND	5	 Secondary master/repeater (backup)
++ * #define IW_MODE_MONITOR	6	 Passive monitor (listen only)
++ */
+ struct	setopmode_parm {
+ 	u8 mode;
+ 	u8 rsvd[3];
+ };
+ 
+ /*
+-Caller Mode: AP, Ad-HoC, Infra
+-
+-Notes: To ask RTL8711 performing site-survey
+-
+-Command-Event Mode
+-
+-*/
++ * Caller Mode: AP, Ad-HoC, Infra
++ *
++ * Notes: To ask RTL8711 performing site-survey
++ *
++ * Command-Event Mode
++ */
+ 
+ #define RTW_SSID_SCAN_AMOUNT 9 /*  for WEXT_CSCAN_AMOUNT 9 */
+ #define RTW_CHANNEL_SCAN_AMOUNT (14+37)
+@@ -245,13 +240,12 @@ struct sitesurvey_parm {
+ };
+ 
+ /*
+-Caller Mode: Any
+-
+-Notes: To set the auth type of RTL8711. open/shared/802.1x
+-
+-Command Mode
+-
+-*/
++ * Caller Mode: Any
++ *
++ * Notes: To set the auth type of RTL8711. open/shared/802.1x
++ *
++ * Command Mode
++ */
+ struct setauth_parm {
+ 	u8 mode;  /* 0: legacy open, 1: legacy shared 2: 802.1x */
+ 	u8 _1x;   /* 0: PSK, 1: TLS */
+@@ -259,17 +253,16 @@ struct setauth_parm {
+ };
+ 
+ /*
+-Caller Mode: Infra
+-
+-a. algorithm: wep40, wep104, tkip & aes
+-b. keytype: grp key/unicast key
+-c. key contents
+-
+-when shared key ==> keyid is the camid
+-when 802.1x ==> keyid [0:1] ==> grp key
+-when 802.1x ==> keyid > 2 ==> unicast key
+-
+-*/
++ * Caller Mode: Infra
++ *
++ * a. algorithm: wep40, wep104, tkip & aes
++ * b. keytype: grp key/unicast key
++ * c. key contents
++ *
++ * when shared key ==> keyid is the camid
++ * when 802.1x ==> keyid [0:1] ==> grp key
++ * when 802.1x ==> keyid > 2 ==> unicast key
++ */
+ struct setkey_parm {
+ 	u8 algorithm;	/*  encryption algorithm, could be none, wep40, TKIP, CCMP, wep104 */
+ 	u8 keyid;
+@@ -279,14 +272,13 @@ struct setkey_parm {
+ };
+ 
+ /*
+-When in AP or Ad-Hoc mode, this is used to
+-allocate an sw/hw entry for a newly associated sta.
+-
+-Command
+-
+-when shared key ==> algorithm/keyid
+-
+-*/
++ * When in AP or Ad-Hoc mode, this is used to
++ * allocate an sw/hw entry for a newly associated sta.
++ *
++ * Command
++ *
++ * when shared key ==> algorithm/keyid
++ */
+ struct set_stakey_parm {
+ 	u8 addr[ETH_ALEN];
+ 	u8 algorithm;
+@@ -301,15 +293,14 @@ struct set_stakey_rsp {
+ };
+ 
+ /*
+-Caller Ad-Hoc/AP
+-
+-Command -Rsp(AID == CAMID) mode
+-
+-This is to force fw to add an sta_data entry per driver's request.
+-
+-FW will write an cam entry associated with it.
+-
+-*/
++ * Caller Ad-Hoc/AP
++ *
++ * Command -Rsp(AID == CAMID) mode
++ *
++ * This is to force fw to add an sta_data entry per driver's request.
++ *
++ * FW will write an cam entry associated with it.
++ */
+ struct set_assocsta_parm {
+ 	u8 addr[ETH_ALEN];
+ };
+@@ -320,27 +311,25 @@ struct set_assocsta_rsp {
+ };
+ 
+ /*
+-	Caller Ad-Hoc/AP
++ *	Caller Ad-Hoc/AP
+ 
+-	Command mode
++ *	Command mode
+ 
+-	This is to force fw to del an sta_data entry per driver's request
++ *	This is to force fw to del an sta_data entry per driver's request
+ 
+-	FW will invalidate the cam entry associated with it.
+-
+-*/
++ *	FW will invalidate the cam entry associated with it.
++ */
+ struct del_assocsta_parm {
+ 	u8 addr[ETH_ALEN];
+ };
+ 
+ /*
+-Caller Mode: AP/Ad-HoC(M)
+-
+-Notes: To notify fw that given staid has changed its power state
+-
+-Command Mode
+-
+-*/
++ * Caller Mode: AP/Ad-HoC(M)
++ *
++ * Notes: To notify fw that given staid has changed its power state
++ *
++ * Command Mode
++ */
+ struct setstapwrstate_parm {
+ 	u8 staid;
+ 	u8 status;
+@@ -348,68 +337,63 @@ struct setstapwrstate_parm {
+ };
+ 
+ /*
+-Caller Mode: Any
+-
+-Notes: To setup the basic rate of RTL8711
+-
+-Command Mode
+-
+-*/
++ * Caller Mode: Any
++ *
++ * Notes: To setup the basic rate of RTL8711
++ *
++ * Command Mode
++ */
+ struct	setbasicrate_parm {
+ 	u8 basicrates[NumRates];
+ };
+ 
+ /*
+-Caller Mode: Any
+-
+-Notes: To read the current basic rate
+-
+-Command-Rsp Mode
+-
+-*/
++ * Caller Mode: Any
++ *
++ * Notes: To read the current basic rate
++ *
++ * Command-Rsp Mode
++ */
+ struct getbasicrate_parm {
+ 	u32 rsvd;
+ };
+ 
+ /*
+-Caller Mode: Any
+-
+-Notes: To setup the data rate of RTL8711
+-
+-Command Mode
+-
+-*/
++ * Caller Mode: Any
++ *
++ * Notes: To setup the data rate of RTL8711
++ *
++ * Command Mode
++ */
+ struct setdatarate_parm {
+ 	u8 mac_id;
+ 	u8 datarates[NumRates];
+ };
+ 
+ /*
+-Caller Mode: Any
+-
+-Notes: To read the current data rate
+-
+-Command-Rsp Mode
+-
+-*/
++ * Caller Mode: Any
++ *
++ * Notes: To read the current data rate
++ *
++ * Command-Rsp Mode
++ */
+ struct getdatarate_parm {
+ 	u32 rsvd;
+ 
+ };
+ 
+ /*
+-Caller Mode: Any
+-AP: AP can use the info for the contents of beacon frame
+-Infra: STA can use the info when sitesurveying
+-Ad-HoC(M): Like AP
+-Ad-HoC(C): Like STA
++ * Caller Mode: Any
++ * AP: AP can use the info for the contents of beacon frame
++ * Infra: STA can use the info when sitesurveying
++ * Ad-HoC(M): Like AP
++ * Ad-HoC(C): Like STA
+ 
+ 
+-Notes: To set the phy capability of the NIC
++ * Notes: To set the phy capability of the NIC
+ 
+-Command Mode
+-
+-*/
++ * Command Mode
++ */
+ 
+ struct	setphyinfo_parm {
+ 	struct regulatory_class class_sets[NUM_REGULATORYS];
+@@ -421,27 +405,25 @@ struct	getphyinfo_parm {
+ };
+ 
+ /*
+-Caller Mode: Any
+-
+-Notes: To set the channel/modem/band
+-This command will be used when channel/modem/band is changed.
+-
+-Command Mode
+-
+-*/
++ * Caller Mode: Any
++ *
++ * Notes: To set the channel/modem/band
++ * This command will be used when channel/modem/band is changed.
++ *
++ * Command Mode
++ */
+ struct	setphy_parm {
+ 	u8 rfchannel;
+ 	u8 modem;
+ };
+ 
+ /*
+-Caller Mode: Any
+-
+-Notes: To get the current setting of channel/modem/band
+-
+-Command-Rsp Mode
+-
+-*/
++ * Caller Mode: Any
++ *
++ * Notes: To get the current setting of channel/modem/band
++ *
++ * Command-Rsp Mode
++ */
+ struct	getphy_parm {
+ 	u32 rsvd;
+ 
+@@ -452,58 +434,57 @@ struct Tx_Beacon_param {
+ };
+ 
+ /*
+-	Notes: This command is used for H2C/C2H loopback testing
+-
+-	mac[0] == 0
+-	==> CMD mode, return H2C_SUCCESS.
+-	The following condition must be true under CMD mode
+-		mac[1] == mac[4], mac[2] == mac[3], mac[0]=mac[5]= 0;
+-		s0 == 0x1234, s1 == 0xabcd, w0 == 0x78563412, w1 == 0x5aa5def7;
+-		s2 == (b1 << 8 | b0);
+-
+-	mac[0] == 1
+-	==> CMD_RSP mode, return H2C_SUCCESS_RSP
+-
+-	The rsp layout shall be:
+-	rsp:			parm:
+-		mac[0]  =   mac[5];
+-		mac[1]  =   mac[4];
+-		mac[2]  =   mac[3];
+-		mac[3]  =   mac[2];
+-		mac[4]  =   mac[1];
+-		mac[5]  =   mac[0];
+-		s0		=   s1;
+-		s1		=   swap16(s0);
+-		w0		=	swap32(w1);
+-		b0		=	b1
+-		s2		=	s0 + s1
+-		b1		=	b0
+-		w1		=	w0
+-
+-	mac[0] ==	2
+-	==> CMD_EVENT mode, return	H2C_SUCCESS
+-	The event layout shall be:
+-	event:			parm:
+-		mac[0]  =   mac[5];
+-		mac[1]  =   mac[4];
+-		mac[2]  =   event's sequence number, starting from 1 to parm's marc[3]
+-		mac[3]  =   mac[2];
+-		mac[4]  =   mac[1];
+-		mac[5]  =   mac[0];
+-		s0		=   swap16(s0) - event.mac[2];
+-		s1		=   s1 + event.mac[2];
+-		w0		=	swap32(w0);
+-		b0		=	b1
+-		s2		=	s0 + event.mac[2]
+-		b1		=	b0
+-		w1		=	swap32(w1) - event.mac[2];
+-
+-		parm->mac[3] is the total event counts that host requested.
+-
+-
+-	event will be the same with the cmd's param.
+-
+-*/
++ *	Notes: This command is used for H2C/C2H loopback testing
++ *
++ *	mac[0] == 0
++ *	==> CMD mode, return H2C_SUCCESS.
++ *	The following condition must be true under CMD mode
++ *		mac[1] == mac[4], mac[2] == mac[3], mac[0]=mac[5]= 0;
++ *		s0 == 0x1234, s1 == 0xabcd, w0 == 0x78563412, w1 == 0x5aa5def7;
++ *		s2 == (b1 << 8 | b0);
++ *
++ *	mac[0] == 1
++ *	==> CMD_RSP mode, return H2C_SUCCESS_RSP
++ *
++ *	The rsp layout shall be:
++ *	rsp:			parm:
++ *		mac[0]  =   mac[5];
++ *		mac[1]  =   mac[4];
++ *		mac[2]  =   mac[3];
++ *		mac[3]  =   mac[2];
++ *		mac[4]  =   mac[1];
++ *		mac[5]  =   mac[0];
++ *		s0		=   s1;
++ *		s1		=   swap16(s0);
++ *		w0		=	swap32(w1);
++ *		b0		=	b1
++ *		s2		=	s0 + s1
++ *		b1		=	b0
++ *		w1		=	w0
++ *
++ *	mac[0] ==	2
++ *	==> CMD_EVENT mode, return	H2C_SUCCESS
++ *	The event layout shall be:
++ *	event:			parm:
++ *		mac[0]  =   mac[5];
++ *		mac[1]  =   mac[4];
++ *		mac[2]  =   event's sequence number, starting from 1 to parm's marc[3]
++ *		mac[3]  =   mac[2];
++ *		mac[4]  =   mac[1];
++ *		mac[5]  =   mac[0];
++ *		s0		=   swap16(s0) - event.mac[2];
++ *		s1		=   s1 + event.mac[2];
++ *		w0		=	swap32(w0);
++ *		b0		=	b1
++ *		s2		=	s0 + event.mac[2]
++ *		b1		=	b0
++ *		w1		=	swap32(w1) - event.mac[2];
++ *
++ *		parm->mac[3] is the total event counts that host requested.
++ *
++ *
++ *	event will be the same with the cmd's param.
++ */
+ 
+ /*  CMD param Formart for driver extra cmd handler */
+ struct drvextra_cmd_parm {
+@@ -551,15 +532,14 @@ struct RunInThread_param {
+ 
+ 
+ /*
+-
+-Result:
+-0x00: success
+-0x01: success, and check Response.
+-0x02: cmd ignored due to duplicated sequence number
+-0x03: cmd dropped due to invalid cmd code
+-0x04: reserved.
+-
+-*/
++ *
++ * Result:
++ * 0x00: success
++ * 0x01: success, and check Response.
++ * 0x02: cmd ignored due to duplicated sequence number
++ * 0x03: cmd dropped due to invalid cmd code
++ * 0x04: reserved.
++ */
+ 
+ #define H2C_RSP_OFFSET			512
  
 -- 
-2.55.0
+2.43.0
 
