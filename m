@@ -1,85 +1,70 @@
-Received: from mail-lr2-f35.google.com (mail-lr2-f35.google.com [74.125.230.99])
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8D18414413
-	for <linux-staging@lists.linux.dev>; Thu, 24 Sep 2026 17:19:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.99
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 058614BFE67
+	for <linux-staging@lists.linux.dev>; Thu, 24 Sep 2026 18:54:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790270397; cv=none; b=NYuWzQ/QZoFRQy77cihj9hWgfoqAfAsys58+PW4fsPIan6qYWmZpDpazvHIXwHJi2Ng91ognOGGBStxbFJGDuvVV+aAHp0sfiW+gyGg9moFhFbrcwSIPgMamMa4mtqpd7+sb9uTLYtj5xMrC/T3qDSDRTLJVrYxpdwzxsdXQGiI=
+	t=1790276046; cv=none; b=abM07JPYER2gqRy3qTqsUULpg5tcGMdqmMtELTnyxgkt0ldCdUwTS1+lpBGlQiH60AMeqhexchrEXaWx7v1IRvKMicinceW2Ya6/5LKToKQrUDwGYmlKHyn2PGEtrebdVnV0DT+/Hd0uDgUE3ox7YBdhdwOLkTdRIhZPFx4nFqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790270397; c=relaxed/simple;
-	bh=kNsp9G05G8WGjn3P3znsOi9X3ME3wXj+8AnD9ltBjcQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UWGbXg6Tnb6Lh4USwoQZKi95gVCp9XjzLHKNHJHPI9YpSMUR6m6rc6axbBfUzqPfhSFp1D4QKJXZym2V09VDjn787D+Yq4COmGcM7x+II/Os0cQ4UsQnt3H8E5Ek39jpi2RpIWbPhl3dC4Fs4MYdLIE8YHbIWE/LyfimRDQmpEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XPtt2B/k; arc=none smtp.client-ip=74.125.230.99
+	s=arc-20240116; t=1790276046; c=relaxed/simple;
+	bh=zFkMOllcHrS6pEnX9XO0Vwq/OY+p3PIw5QAvu5BrTDk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=k7IDocUCpziA8eCoNP1m0O3RrH3Ot5PEp7tIkEmABVIpZHWq2SSoGgPmBXS70N5zdkd++Kr+ycivORInr/6CXxRxoFX6UF0bV+5xVmEGTqb6MMRU5U4wHlCFYsaIRKfVQu6gO5oijn/jAepTI2MpCROUkipcwuWz6RKd2F58eYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jwB9jFCl; arc=none smtp.client-ip=74.125.225.141
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XPtt2B/k"
-Received: by mail-lr2-f35.google.com with SMTP id 38308e7fff4ca-3a59fa3112cso19968991fa.3
-        for <linux-staging@lists.linux.dev>; Thu, 24 Sep 2026 10:19:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jwB9jFCl"
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e6c0fce17so960535e9.1
+        for <linux-staging@lists.linux.dev>; Thu, 24 Sep 2026 11:54:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790270394; x=1790875194; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=XNrPKdIDWghZHggUCTG80u3uh2+EvahbyhlOPaj6JDc=;
-        b=XPtt2B/kQKpILJgwuJw4fopsDaotK6NJmfIpvFRYYja4FLlBpYK7bdBQ921lGf95GO
-         s2NxgIx+n/vXdOSAeJKtb/BrrNdMnPCVRkOOfHSR+uXEORYqq9KpXtt2XDFGZ4qXmgqO
-         3AaYadhI7lkYAWLKtinPC8Q5HElGq2VRB0n9rrbPy0QLup3pEPlmSyR1Ch+et52kyf9k
-         8kFwhY8PZgoKVtQRMKqh+caN/5EChK9Fu2p1+/xyDd6NK/ZNJ5nkRZhu0jePbhDLTi3/
-         EaeEfOwxVfEd0bhv+XUHK3axVfFZeBt0ecQAY8Z/7MPSBfirLi0HdUU67MY+S2O97hBX
-         HimA==
+        d=gmail.com; s=20251104; t=1790276038; x=1790880838; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Br6bJ2Gt35fGfFnxQNY46odJs2rrBpY5wuK/cZ+VUbM=;
+        b=jwB9jFClIi2jeVUxYj9ajhiu78RpFZsqA8x/5E5kFbl3iRwiq8s7dOZhvuDvXydn0v
+         Xtjvrd6jfaaqhIPYQ0twNGBAKHNGn7pTepCugzx7Zn51a1k12Jj/VFoc1OHGAE3fyBSt
+         fSIx4DnsM6ODW/FVhzs3xoStdk5Ghm3wTpxJn2+epBxcLh350AdvXsFcoqtCfUbiHkLB
+         mtkvCYxl3KpRs+uzSGIbXPDFPLVz1lI1KZM1yIaCcOG2YQnJtI6Mgkby6j+NAdSwoWkF
+         nmaPaNPPi2TaHeULfX+Zv12NN4K+LsY340Ta1SDDKvCoP7Aovhz9b6EUe0WpsEgeo7k4
+         7AzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790270394; x=1790875194;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=XNrPKdIDWghZHggUCTG80u3uh2+EvahbyhlOPaj6JDc=;
-        b=OYXGqn7v+O3VWd6PQ8MRURufgN0LzphLdUDc4T+k5aanL+QzaQX5loYzzrnV1TALQO
-         ACKFcEq0YW6zBsifYkeH9bn2xiu4/UK69tZAJuL/mradvj7suEtXDNu9CFJoi1AndZe2
-         e079MAiGzOQXxQiTQfjdLvEtyfRxLAoi/emcTmoPptfwOESHGpqR0nsX/k6hT4y98Bug
-         nhexBtBEqHye11Dyf/QnnZzDcDidh93umR0XiysV7BEQpfM5X4rDhvkM/1WxFhxIs2Sr
-         N0RSEGBNUxitdjaB6+vCD/BaQswFxeRO7UP1vP6g+pG0mDE+mjw3MAsfwzjg7xWT0Tzt
-         Z6KQ==
-X-Forwarded-Encrypted: i=1; AKwUvBybKDib86WekggkEubJXIAtkKryTcx5d2uqC49197NCTJQVi+0M6SjfpBem3YnCO7x90EHTToAflN8/J5TU@lists.linux.dev
-X-Gm-Message-State: AFuF++n5Zn3/DozyrWRVIRUnHbmUqoFvaR1AOa99GULIjsWGFT587DtK
-	lwowqO8QVAvDVophfISdJZOKex8wRmiU4+k69X33fG1fmLPhPjzeIltH
-X-Gm-Gg: AYBFou37WKwpYKA/N7SNULmRoA737a9V/l0lSMtg6uBDaP0p64YQEFZCj8yxAS9GFbn
-	NnKWc4kuqHAUnMDK7Vn3q9x/HXbxWXo7gKSHwQwkGKoK0HjxA1m3unzvRcPEJmAW35bXFruiP+8
-	Dpll53yJIrL+7ofwgre/iM1vOdOjk+2Mdp4E52NIZBeBwnQTjXZ2IsaXkn2osXGL9e5ZG28KOA4
-	xYsqJd8tmEkoPGAL3BlVcz15dy45q7nhUTaADONJbQoZsUeNEXVjSIqtRhxVQXGkZBsYphWAASW
-	KqaWHwpPLgnLn4ey/BxVo9btqmedYjwqB91TZaiDVZDrjbisC9pypwAjYfRbvRcADhZUgX8+8mV
-	vfzcNIETJz19mh4VsytkW2//GS8xiB1pNeLgkf+eomjYDa+y2Dt452g1yzaRvvGI8bemN322YV8
-	qVRfF1W4L/3lJI5++DWEOONiHusARzytB3FvUA59gnkhDlvZ2/q3eppmmhIqlNq7zcdeLmkAhX5
-	N6ypPAciXkVeEI=
-X-Received: by 2002:a05:651c:31c6:b0:3a5:d0ad:7df5 with SMTP id 38308e7fff4ca-3a63c0f6fb0mr7777901fa.21.1790270393687;
-        Thu, 24 Sep 2026 10:19:53 -0700 (PDT)
-Received: from quietus.tail91f8a6.ts.net ([104.194.144.188])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3a63bf2c4aesm9450601fa.8.2026.09.24.10.19.51
+        d=1e100.net; s=20260707; t=1790276038; x=1790880838;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Br6bJ2Gt35fGfFnxQNY46odJs2rrBpY5wuK/cZ+VUbM=;
+        b=ks8x2noFYioH5ZC+cUjWLbDyDGE1U9cl7K9Pym+r62Omy3yAZuZwlYUWsWDDDH3Fbs
+         5jTrpr1RugzLe5QGozNyu20tvHCip1eeP/Q6piPyX6WAzddtzl1CtvSFV8QC2jbJ/nbp
+         mprGIldNK85easksGifA8WkDN9ID49EWChuVBbIzAzIfeJoW8Pd7koZ8TMwA6xIJ0doO
+         PvRVG1WicruJdc2aSI9VSdWi+jpsJQEeG7ZTz9Tq4ir5N4twz959EqbYRQstZ0mzVLB9
+         kywNqT98JaAtn/d2Vykd/cUaoVmQa0eLJAMljMjQTZhJEVbgidt9WqCVi+ftT8yKC2de
+         2cig==
+X-Gm-Message-State: AFuF++lgUu1MBziVAsfUPsJhPfmw7IrXcT0KcRHOTGdQzIJj5ReDdFhx
+	ulVdpUMSioiydpOeIVczJF9jpzQfosKxFrl17RH1/ZOo+BgHQYP8dMQF
+X-Gm-Gg: AYBFou13PYdI/GG6Vd35h886n/v84xh5dZt+UMXQEqCMaoUVlxYOThkNxFnkReZAaHe
+	boD32HlDhRNn3bqSJ3h+vKIOEMIOpRJWpKpmAnGrK+lbV95sXWfM6a5EpT73oTCY5TBHz10PZor
+	HymBsqfngUp/ArTmn8qmjte+3ubp/4qAg6f+QTNMW6uEKGlhTB5NVLqSjS8gPdnW56ter9gDe/L
+	NiP1XctPjLlyDFx5L396txoNPCPPFxFVp1WqhZ+tvc22AuvRJpAGHTxxWUKgcR7TsJPA9D+fek9
+	jHJ6AKLnlEGMY6j7LmOJAIEo/zK09ijYisFdq5RquQcN6HUSKhORdJffNKCWJT4GvRsn/G+V8/g
+	E0J1n7rCEP02dNml9UyAibNquGxz19gzRVuQXOOtVfq9cI0vJltlREIRKNesUdiv+m3LXqLL0QM
+	z75cb0x+sAmuLw20pkqEHx0O1w5X+tg+JXQbRn0Cts5Ng7gkhX8U0B8/tflYM9WaNq1rLSsg==
+X-Received: by 2002:a05:600c:4f86:b0:49e:84bf:6110 with SMTP id 5b1f17b1804b1-49fe66bdf47mr56579105e9.6.1790276037988;
+        Thu, 24 Sep 2026 11:53:57 -0700 (PDT)
+Received: from fedora ([2a02:587:200f:d100:bf67:f785:caad:e278])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fef605cc5sm958245e9.4.2026.09.24.11.53.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Sep 2026 10:19:53 -0700 (PDT)
-From: Ruslan Koreev <koreev.r@gmail.com>
-To: sakari.ailus@linux.intel.com,
-	benjamin.mugnier@foss.st.com,
-	sylvain.petinot@foss.st.com,
-	dan.scally@ideasonboard.com
-Cc: mchehab@kernel.org,
-	hansg@kernel.org,
-	ilpo.jarvinen@linux.intel.com,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	linux-staging@lists.linux.dev,
+        Thu, 24 Sep 2026 11:53:57 -0700 (PDT)
+From: George Karagounis <taterraster@gmail.com>
+X-Google-Original-From: George Karagounis <mail@taterr.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Peter Marshall <pm@petermarshall.ca>,
-	Ruslan Koreev <koreev.r@gmail.com>
-Subject: [PATCH 4/4] media: staging/ipu7: Add monochrome pixel formats
-Date: Thu, 24 Sep 2026 20:18:20 +0300
-Message-ID: <20260924171820.1179823-5-koreev.r@gmail.com>
+	mail@taterr.org
+Subject: [PATCH] staging: rtl8723bs: remove unused variable 'phal'
+Date: Thu, 24 Sep 2026 21:53:49 +0300
+Message-ID: <20260924185350.42180-1-mail@taterr.org>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260924171820.1179823-1-koreev.r@gmail.com>
-References: <20260924171820.1179823-1-koreev.r@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -88,97 +73,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The CSI-2 receiver already accepts MEDIA_BUS_FMT_Y10_1X10 but the video
-nodes offer no pixel format for it, and MEDIA_BUS_FMT_Y8_1X8 is not
-accepted at all, so a monochrome sensor cannot stream through the IPU7:
-the ST VD55G1 IR camera of the Lenovo ThinkPad X1 Carbon Gen 14 only
-produces Y8 and Y10 and no configuration can be negotiated for it.
+In rtl8723bs_init_xmit_priv() the variable 'phal' is assigned via
+GET_HAL_DATA() but never actually read.
 
-Add the GREY, Y10 and Y10P pixel formats, mapped to the RAW8, RAW16
-and RAW10 frame formats like their Bayer counterparts, and accept
-MEDIA_BUS_FMT_Y8_1X8 on the CSI-2 receiver with the RAW8 data type.
-ipu7_isys_is_bayer_format() treats every raw code as Bayer, so the mono
-codes take the raw path in the CSI-2 cropping code; leave them alone in
-ipu7_isys_convert_bayer_order(), which otherwise warns about them. The
-two parts belong together: with the mono codes exposed but not excluded
-there, any crop offset on a mono stream triggers the warning.
+This triggers a -Wunused-but-set-variable compiler warning when
+building the driver with W=1. I removed the unused variable and its
+assignment to clean up the code and silence the warning.
 
-Tested with the VD55G1 on that laptop: libcamera negotiates Y8 and
-streams 804x704 at 58 fps, and Y10 and Y10P stream with plain V4L2.
-
-Signed-off-by: Ruslan Koreev <koreev.r@gmail.com>
+Signed-off-by: George Karagounis <mail@taterr.org>
 ---
- drivers/staging/media/ipu7/ipu7-isys-csi2.c   | 1 +
- drivers/staging/media/ipu7/ipu7-isys-subdev.c | 5 +++++
- drivers/staging/media/ipu7/ipu7-isys-video.c  | 6 ++++++
- 3 files changed, 12 insertions(+)
+ drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/staging/media/ipu7/ipu7-isys-csi2.c b/drivers/staging/media/ipu7/ipu7-isys-csi2.c
-index f34eabfe8..3067ae942 100644
---- a/drivers/staging/media/ipu7/ipu7-isys-csi2.c
-+++ b/drivers/staging/media/ipu7/ipu7-isys-csi2.c
-@@ -27,6 +27,7 @@
- #include "ipu7-isys-csi-phy.h"
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
+index 7f55448d544e..0441e84ea87d 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
+@@ -525,9 +525,6 @@ s32	rtl8723bs_hal_xmitframe_enqueue(
+ s32 rtl8723bs_init_xmit_priv(struct adapter *padapter)
+ {
+ 	struct xmit_priv *xmitpriv = &padapter->xmitpriv;
+-	struct hal_com_data *phal;
+-
+-	phal = GET_HAL_DATA(padapter);
  
- static const u32 csi2_supported_codes[] = {
-+	MEDIA_BUS_FMT_Y8_1X8,
- 	MEDIA_BUS_FMT_Y10_1X10,
- 	MEDIA_BUS_FMT_RGB565_1X16,
- 	MEDIA_BUS_FMT_RGB888_1X24,
-diff --git a/drivers/staging/media/ipu7/ipu7-isys-subdev.c b/drivers/staging/media/ipu7/ipu7-isys-subdev.c
-index 67a776033..10908383b 100644
---- a/drivers/staging/media/ipu7/ipu7-isys-subdev.c
-+++ b/drivers/staging/media/ipu7/ipu7-isys-subdev.c
-@@ -42,6 +42,7 @@ unsigned int ipu7_isys_mbus_code_to_mipi(u32 code)
- 	case MEDIA_BUS_FMT_SGRBG10_1X10:
- 	case MEDIA_BUS_FMT_SRGGB10_1X10:
- 		return MIPI_CSI2_DT_RAW10;
-+	case MEDIA_BUS_FMT_Y8_1X8:
- 	case MEDIA_BUS_FMT_SBGGR8_1X8:
- 	case MEDIA_BUS_FMT_SGBRG8_1X8:
- 	case MEDIA_BUS_FMT_SGRBG8_1X8:
-@@ -88,6 +89,10 @@ u32 ipu7_isys_convert_bayer_order(u32 code, int x, int y)
- 	};
- 	unsigned int i;
- 
-+	/* Monochrome raw formats have no Bayer order to convert */
-+	if (code == MEDIA_BUS_FMT_Y8_1X8 || code == MEDIA_BUS_FMT_Y10_1X10)
-+		return code;
-+
- 	for (i = 0; i < ARRAY_SIZE(code_map); i++)
- 		if (code_map[i] == code)
- 			break;
-diff --git a/drivers/staging/media/ipu7/ipu7-isys-video.c b/drivers/staging/media/ipu7/ipu7-isys-video.c
-index 8c6730833..c9abd4560 100644
---- a/drivers/staging/media/ipu7/ipu7-isys-video.c
-+++ b/drivers/staging/media/ipu7/ipu7-isys-video.c
-@@ -54,6 +54,8 @@ const struct ipu7_isys_pixelformat ipu7_isys_pfmts[] = {
- 	 IPU_INSYS_FRAME_FORMAT_RAW16},
- 	{V4L2_PIX_FMT_SRGGB10, 16, 10, MEDIA_BUS_FMT_SRGGB10_1X10,
- 	 IPU_INSYS_FRAME_FORMAT_RAW16},
-+	{V4L2_PIX_FMT_Y10, 16, 10, MEDIA_BUS_FMT_Y10_1X10,
-+	 IPU_INSYS_FRAME_FORMAT_RAW16},
- 	{V4L2_PIX_FMT_SBGGR8, 8, 8, MEDIA_BUS_FMT_SBGGR8_1X8,
- 	 IPU_INSYS_FRAME_FORMAT_RAW8},
- 	{V4L2_PIX_FMT_SGBRG8, 8, 8, MEDIA_BUS_FMT_SGBRG8_1X8,
-@@ -62,6 +64,8 @@ const struct ipu7_isys_pixelformat ipu7_isys_pfmts[] = {
- 	 IPU_INSYS_FRAME_FORMAT_RAW8},
- 	{V4L2_PIX_FMT_SRGGB8, 8, 8, MEDIA_BUS_FMT_SRGGB8_1X8,
- 	 IPU_INSYS_FRAME_FORMAT_RAW8},
-+	{V4L2_PIX_FMT_GREY, 8, 8, MEDIA_BUS_FMT_Y8_1X8,
-+	 IPU_INSYS_FRAME_FORMAT_RAW8},
- 	{V4L2_PIX_FMT_SBGGR12P, 12, 12, MEDIA_BUS_FMT_SBGGR12_1X12,
- 	 IPU_INSYS_FRAME_FORMAT_RAW12},
- 	{V4L2_PIX_FMT_SGBRG12P, 12, 12, MEDIA_BUS_FMT_SGBRG12_1X12,
-@@ -78,6 +82,8 @@ const struct ipu7_isys_pixelformat ipu7_isys_pfmts[] = {
- 	 IPU_INSYS_FRAME_FORMAT_RAW10},
- 	{V4L2_PIX_FMT_SRGGB10P, 10, 10, MEDIA_BUS_FMT_SRGGB10_1X10,
- 	 IPU_INSYS_FRAME_FORMAT_RAW10},
-+	{V4L2_PIX_FMT_Y10P, 10, 10, MEDIA_BUS_FMT_Y10_1X10,
-+	 IPU_INSYS_FRAME_FORMAT_RAW10},
- 	{V4L2_PIX_FMT_UYVY, 16, 16, MEDIA_BUS_FMT_UYVY8_1X16,
- 	 IPU_INSYS_FRAME_FORMAT_UYVY},
- 	{V4L2_PIX_FMT_YUYV, 16, 16, MEDIA_BUS_FMT_YUYV8_1X16,
+ 	init_completion(&xmitpriv->SdioXmitStart);
+ 	init_completion(&xmitpriv->SdioXmitTerminate);
 -- 
 2.55.0
 
