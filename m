@@ -1,237 +1,158 @@
-Received: from mail-vs2-f12.google.com (mail-vs2-f12.google.com [74.125.227.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C15E3BED59
-	for <linux-staging@lists.linux.dev>; Thu, 24 Sep 2026 22:21:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D92347ACF1
+	for <linux-staging@lists.linux.dev>; Fri, 25 Sep 2026 08:50:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790288507; cv=none; b=hvKP1JlaNk7aEaWRHifsTkwgM92xj3isndOPebRhYCiGR5YQsTw2cbK4cF3CV84DITcYYHmvcMNz1TOce06g08XdBgIukGRYjRnUhltNyd2igNNT4n4JfOn1J2n6oZNSS8ytEjPWtDCG7hVQHnmpoC15ue+VUj32PiU5fES80Bc=
+	t=1790326225; cv=none; b=fu6+As9rdpxF3g/ZqIITAmdYoM86B0HRiU2vwRqrUJI+Segp4JR/ZyrUQVcx8jdmPAqYpHMxdtOKIf6SKy/KkEUGHAciM2nlbt7mursKZO2se3lyV3u4SJpOeaNBk6L66XaGLqFpxG5EBg27VgjLs7Bwr2omO3MIwNnfJTcN/bY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790288507; c=relaxed/simple;
-	bh=VGnx62vJu8x6U3p4kivR/4DDstToyFK7UfpRsYleEVg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PN4cFPpd06Rcv9fres35eKyn46F9hKxPPqgor8ZFMI3yw6YDYOVfnixECYLYRcjyhQpDgVPttG+Lk+jHeb6SCIsOxJwMS2Mh4iKXogtrd+5V8N9noWwrcwSPhLR2uX7HEnM/cr6ty1IfY68Ek5K5oN84ocpSQXf5nsSe+JMFh/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KRTsRv2V; arc=none smtp.client-ip=74.125.227.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790326225; c=relaxed/simple;
+	bh=ZrqQea9QfkZIfeOp+G1ykf1/KoVZrNbjpHZRRBgZypo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YIh8V0GxgWhZPnzUnl95VRxIFVPVSehlduzlIJzEef61pc2CnuBk2ekqccQC8X1sOpETTrg9l9fwfv+H56dYEOTu/Y7W7dFgYKkAofZa8ZSY43WNamOluqAhnrQ0xxqkp6mrJv/zSl8DiNA680SXmVuqAghteiUXdYowbsWI9zs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k5VHwC/E; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KRTsRv2V"
-Received: by mail-vs2-f12.google.com with SMTP id ada2fe7eead31-785692e59a4so169905137.3
-        for <linux-staging@lists.linux.dev>; Thu, 24 Sep 2026 15:21:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790288504; x=1790893304; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Sa89UHRmyzmZY6TxGzw+0o/wrvuxvTidU3ERLkCQopo=;
-        b=KRTsRv2V1e2Nu2PvhxQWqA0FrW0KEsyVgxTrT6mQSpWcbup2ZfIMw0u1r5d/9uOKjl
-         KvJxzUacD7v091Bo5tWRadGGzDUFVB5oaG6k7JDztgXWAg4JjKnRBuPknkS9Ecdfg1IP
-         bP5FYz5r81mt5E2zP1qQS6ElsSemYLZ+2g5fsxJskwo/apln7ww/aqspN55tzIm4ll8g
-         KIgXbblZoo7TLV7Y/AU5VQkJheK4jqXjK7Dv+fnuzwFKku1QM5My82IUaUgP59vkRWGC
-         lZYj/8LK7zLsqRl9OxyPlOTM3m/pF/q1En4SVDOW7XRYSHRywCkVQffyx7M49ZCm3FNJ
-         si/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790288504; x=1790893304;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Sa89UHRmyzmZY6TxGzw+0o/wrvuxvTidU3ERLkCQopo=;
-        b=2WFaevc1Bwje6enk/2Pvn5uTIZHUPZin5wgE9aiDVzxgxZOVR2s/+Nktuy6UmH+kYM
-         2maBlAhBLkYQnDS7ouqvcTyXjwCXMIdTQIbdVfGCpqXoUQMqxjWRcYwdfKVGPliLSL/A
-         sN06oVGxBTZ5CxlK7dqpFPCNp58o3rqXDu6rJimbSTfSsAM6uQNuW1wTnci/vbldc08n
-         sBVfMaiwFh3OCsGoGmI0ina9hLbcJ7u9viYMyM6FvtMRaPHentyYqhs+eVVwhL9pLC2q
-         y7Z6K3ZpWHVDpSBAn5LV/nqv0oaqxSgjCYgTcTqYJKdHudm1brkN1QxI8YHizaU+XYlr
-         zlXA==
-X-Forwarded-Encrypted: i=1; AKwUvBxHGy2v2sAep7pQeGWOqETI6rYKHzlrfhFpHiugMOTTwzZfCf2KUwPE9ae/Bcopeu22q2i1d8EQdnKyHVEu@lists.linux.dev
-X-Gm-Message-State: AFuF++mh4tF1Dn1Eb4Ml6n9Awh5rubGiUyW6r+FEOqClJEWDy1nXax3H
-	Pq9vKcRd4e66RCPsa4uSkvOEh0+km+bGY6/nnrj4Ex7PRtKP9vF9xuh0
-X-Gm-Gg: AYBFou1FOc7U57dc5MlCIbp2mddVFT7Ac3tUZn5qwwStl3qvtXyGKxLnCNd51ufmDhx
-	FP17XkSOF5FzwftCAVwSxB8ogmWch7REwi0v6omSDAbK4HMkxYCriT6SGjGvNSndwFT4x4yi59c
-	flXuu24ifN5i22fuZunC8Wg/EK1q3noDzYP2HhRZrgGGuzkFs+FGk2ofwooUyZpMXx4oEtG1UFd
-	WkVJLmDkvdHkm8KFzXJ1mXln5mVxQ/7S1uOrERky0KNgwxD8aojsaqhSigZVjmuRA09Qqcdb+IO
-	fTROEDV5VzJGzUIsqZO8xZSPPec3ggzKUBeA4HjvnGhSpd3+pNKhfuzBa1f/BYBwTJBbT0wloz9
-	3NOXqi9gm7rJXxVvLxHwmXLkbT8gNfv9JpqlO/iBnd7/wnwXOO5I84sUAB+6XNB1Y0v39VFUnzb
-	HYelrnXX0uIT/aBCJL0oU2RQM/yKvPEYK3jMatZrOhAJ9Dryg0QnUHMyVocTKGfq2Ml2voiLwKA
-	BLqaTvF/R8fB3tE
-X-Received: by 2002:a05:6102:3f46:b0:7a7:19aa:8a88 with SMTP id ada2fe7eead31-7af1f2fda6cmr2110732137.35.1790288504244;
-        Thu, 24 Sep 2026 15:21:44 -0700 (PDT)
-Received: from pop-os.lan ([2803:9810:44c0:6b08:5f74:5a16:c98e:9be])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-9860de80b19sm540339241.1.2026.09.24.15.21.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Sep 2026 15:21:43 -0700 (PDT)
-From: Franco Hector Hugo Montenegro <franco.montenegro.ruke@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: ethantidmore06@gmail.com,
-	nikolayof23@gmail.com,
-	trohan2000@gmail.com,
-	error27@gmail.com,
-	fliegbert2@gmail.com,
-	s9430939@naver.com,
-	luka.gejak@linux.dev,
-	khushalchitturi@gmail.com,
-	khomenkov@mailbox.org,
-	me@cipherat.com,
-	azpijr@gmail.com,
-	gianmariabiselli@gmail.com,
-	johannes.berg@intel.com,
-	arend.vanspriel@broadcom.com,
-	asm.artisan256@gmail.com,
-	miriam.rachel.korenblit@intel.com,
-	serhatkumral1@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Franco Hector Hugo Montenegro <franco.montenegro.ruke@gmail.com>
-Subject: [PATCH] Staging: rtl8723bs: fixed camel case coding style issue.
-Date: Thu, 24 Sep 2026 19:21:22 -0300
-Message-ID: <20260924222122.682920-1-franco.montenegro.ruke@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k5VHwC/E"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790326220; x=1821862220;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZrqQea9QfkZIfeOp+G1ykf1/KoVZrNbjpHZRRBgZypo=;
+  b=k5VHwC/EGT6HGqXs6ZXOTVUTbpl2aeZ8PS1OCvcbEZKxf12vjLUcToM/
+   f5nEEd8+6c26oD2HsiB/XtfGm8NUZw83YU6TV2UmPogOE+vFbKvgUDItO
+   KGTFtE2Jry8VFJNtOxpDAvBkyb5R3htZt89MJloVkBL2amjAdaUymhaiF
+   VeFj7vU/XileW+OyXbf3HQhnY1YQmKZ5QE0icfiYF0CNArcIjJBD4MQjl
+   gQUSHpIkhznwBI+eHIG5ktiZOBCYsEOJoyE0Uvgjvi2oYGfqLuMZQ4AL2
+   fVnfn1rOXo6Lb1C0/McDH25tC2w5bnCZHqU4382gURae1Ohqxiq+22Ko/
+   w==;
+X-CSE-ConnectionGUID: pcfIXaqFQAa8GRFMJc5Zow==
+X-CSE-MsgGUID: RNQPi4VHTvuP1B3zWGn4oA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="107490051"
+X-IronPort-AV: E=Sophos;i="6.27,122,1787036400"; 
+   d="scan'208";a="107490051"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 01:50:19 -0700
+X-CSE-ConnectionGUID: +tmOa1deSK6kvpaIvTS51Q==
+X-CSE-MsgGUID: Eip1mKhXQWyde3+uEpgK1A==
+X-ExtLoop1: 1
+Received: from hrotuna-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.84])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2026 01:50:16 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 29189121BA5;
+	Fri, 25 Sep 2026 11:50:16 +0300 (EEST)
+Date: Fri, 25 Sep 2026 11:50:16 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Ruslan Koreev <koreev.r@gmail.com>
+Cc: benjamin.mugnier@foss.st.com, sylvain.petinot@foss.st.com,
+	dan.scally@ideasonboard.com, mchehab@kernel.org, hansg@kernel.org,
+	ilpo.jarvinen@linux.intel.com, gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Peter Marshall <pm@petermarshall.ca>
+Subject: Re: [PATCH 3/4] media: i2c: vd55g1: Add ACPI support for the Lenovo
+ TBE20A1 HID
+Message-ID: <arY1yBWSAD-6IkQD@kekkonen.localdomain>
+References: <20260924171820.1179823-1-koreev.r@gmail.com>
+ <20260924171820.1179823-4-koreev.r@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260924171820.1179823-4-koreev.r@gmail.com>
 
-Fixed a coding style issue for the field dot118021XPrivacy in the struct
-sta_info.
+Hi Ruslan,
 
-Signed-off-by: Franco Hector Hugo Montenegro
-<franco.montenegro.ruke@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_ap.c        |  2 +-
- drivers/staging/rtl8723bs/core/rtw_mlme.c      |  4 ++--
- .../staging/rtl8723bs/include/rtw_security.h   |  2 +-
- drivers/staging/rtl8723bs/include/sta_info.h   |  2 +-
- .../staging/rtl8723bs/os_dep/ioctl_cfg80211.c  | 18 +++++++++---------
- 5 files changed, 14 insertions(+), 14 deletions(-)
+Thanks for the set.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
-index 9face4c8ded2..0486e55da68f 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ap.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-@@ -1165,7 +1165,7 @@ u8 rtw_ap_set_pairwise_key(struct adapter *padapter, struct sta_info *psta)
- 
- 	init_h2fwcmd_w_parm_no_rsp(ph2c, psetstakey_para, SET_STA_KEY_CMD);
- 
--	psetstakey_para->algorithm = (u8)psta->dot118021XPrivacy;
-+	psetstakey_para->algorithm = (u8)psta->dot118021_x_privacy;
- 
- 	memcpy(psetstakey_para->addr, psta->hwaddr, ETH_ALEN);
- 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index e22e33c364bb..56b5da67cf3b 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -982,7 +982,7 @@ static struct sta_info *rtw_joinbss_update_stainfo(struct adapter *adapter, stru
- 			adapter->securitypriv.bgrpkey_handshake = false;
- 
- 			psta->ieee8021x_blocked = true;
--			psta->dot118021XPrivacy = adapter->securitypriv.dot11_privacy_algrthm;
-+			psta->dot118021_x_privacy = adapter->securitypriv.dot11_privacy_algrthm;
- 
- 			memset((u8 *)&psta->dot118021x_UncstKey, 0, sizeof(union Keytype));
- 
-@@ -1340,7 +1340,7 @@ void rtw_stassoc_event_callback(struct adapter *adapter, u8 *buf)
- 	rtw_sta_media_status_rpt(adapter, psta, 1);
- 
- 	if (adapter->securitypriv.dot11_auth_algrthm == dot11_auth_algrthm_8021x)
--		psta->dot118021XPrivacy = adapter->securitypriv.dot11_privacy_algrthm;
-+		psta->dot118021_x_privacy = adapter->securitypriv.dot11_privacy_algrthm;
- 
- 	psta->ieee8021x_blocked = false;
- 
-diff --git a/drivers/staging/rtl8723bs/include/rtw_security.h b/drivers/staging/rtl8723bs/include/rtw_security.h
-index a3bbc605e2ba..88131a027221 100644
---- a/drivers/staging/rtl8723bs/include/rtw_security.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_security.h
-@@ -180,7 +180,7 @@ do {\
- 		if (bmcst)\
- 			encry_algo = (u8)psecuritypriv->dot118021XGrpPrivacy;\
- 		else\
--			encry_algo = (u8)psta->dot118021XPrivacy;\
-+			encry_algo = (u8)psta->dot118021_x_privacy;\
- 		break;\
- 	case dot11_auth_algrthm_wapi:\
- 		encry_algo = (u8)psecuritypriv->dot11_privacy_algrthm;\
-diff --git a/drivers/staging/rtl8723bs/include/sta_info.h b/drivers/staging/rtl8723bs/include/sta_info.h
-index bc78c32192c0..e7c69c4de615 100644
---- a/drivers/staging/rtl8723bs/include/sta_info.h
-+++ b/drivers/staging/rtl8723bs/include/sta_info.h
-@@ -87,7 +87,7 @@ struct sta_info {
- 	u8 hwaddr[ETH_ALEN];
- 
- 	bool ieee8021x_blocked;
--	uint dot118021XPrivacy; /* aes, tkip... */
-+	uint dot118021_x_privacy; /* aes, tkip... */
- 	union Keytype dot11tkiptxmickey;
- 	union Keytype dot11tkiprxmickey;
- 	union Keytype dot118021x_UncstKey;
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index 4416d0ec1db9..f29f8a39ec0b 100644
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -602,7 +602,7 @@ static int rtw_cfg80211_ap_set_encryption(struct net_device *dev, struct ieee_pa
- 			pbcmc_sta = rtw_get_bcmc_stainfo(padapter);
- 			if (pbcmc_sta) {
- 				pbcmc_sta->ieee8021x_blocked = false;
--				pbcmc_sta->dot118021XPrivacy = psecuritypriv->dot118021XGrpPrivacy;/* rx will use bmc_sta's dot118021XPrivacy */
-+				pbcmc_sta->dot118021_x_privacy = psecuritypriv->dot118021XGrpPrivacy;/* rx will use bmc_sta's dot118021_x_privacy */
- 			}
- 		}
- 
-@@ -615,11 +615,11 @@ static int rtw_cfg80211_ap_set_encryption(struct net_device *dev, struct ieee_pa
- 				memcpy(psta->dot118021x_UncstKey.skey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
- 
- 				if (strcmp(param->u.crypt.alg, "WEP") == 0) {
--					psta->dot118021XPrivacy = _WEP40_;
-+					psta->dot118021_x_privacy = _WEP40_;
- 					if (param->u.crypt.key_len == 13)
--						psta->dot118021XPrivacy = _WEP104_;
-+						psta->dot118021_x_privacy = _WEP104_;
- 				} else if (strcmp(param->u.crypt.alg, "TKIP") == 0) {
--					psta->dot118021XPrivacy = _TKIP_;
-+					psta->dot118021_x_privacy = _TKIP_;
- 
- 					/* set mic key */
- 					memcpy(psta->dot11tkiptxmickey.skey, &param->u.crypt.key[16], 8);
-@@ -628,9 +628,9 @@ static int rtw_cfg80211_ap_set_encryption(struct net_device *dev, struct ieee_pa
- 					psecuritypriv->busetkipkey = true;
- 
- 				} else if (strcmp(param->u.crypt.alg, "CCMP") == 0) {
--					psta->dot118021XPrivacy = _AES_;
-+					psta->dot118021_x_privacy = _AES_;
- 				} else {
--					psta->dot118021XPrivacy = _NO_PRIVACY_;
-+					psta->dot118021_x_privacy = _NO_PRIVACY_;
- 				}
- 
- 				rtw_ap_set_pairwise_key(padapter, psta);
-@@ -676,7 +676,7 @@ static int rtw_cfg80211_ap_set_encryption(struct net_device *dev, struct ieee_pa
- 				pbcmc_sta = rtw_get_bcmc_stainfo(padapter);
- 				if (pbcmc_sta) {
- 					pbcmc_sta->ieee8021x_blocked = false;
--					pbcmc_sta->dot118021XPrivacy = psecuritypriv->dot118021XGrpPrivacy;/* rx will use bmc_sta's dot118021XPrivacy */
-+					pbcmc_sta->dot118021_x_privacy = psecuritypriv->dot118021XGrpPrivacy;/* rx will use bmc_sta's dot118021_x_privacy */
- 				}
- 			}
- 		}
-@@ -770,7 +770,7 @@ static int rtw_cfg80211_set_encryption(struct net_device *dev, struct ieee_param
- 
- 				if ((padapter->securitypriv.ndisencryptstatus == Ndis802_11Encryption2Enabled) ||
- 				    (padapter->securitypriv.ndisencryptstatus ==  Ndis802_11Encryption3Enabled)) {
--					psta->dot118021XPrivacy = padapter->securitypriv.dot11_privacy_algrthm;
-+					psta->dot118021_x_privacy = padapter->securitypriv.dot11_privacy_algrthm;
- 				}
- 
- 				if (param->u.crypt.set_tx == 1) { /* pairwise key */
-@@ -812,7 +812,7 @@ static int rtw_cfg80211_set_encryption(struct net_device *dev, struct ieee_param
- 
- 				if ((padapter->securitypriv.ndisencryptstatus == Ndis802_11Encryption2Enabled) ||
- 				    (padapter->securitypriv.ndisencryptstatus ==  Ndis802_11Encryption3Enabled)) {
--					pbcmc_sta->dot118021XPrivacy = padapter->securitypriv.dot11_privacy_algrthm;
-+					pbcmc_sta->dot118021_x_privacy = padapter->securitypriv.dot11_privacy_algrthm;
- 				}
- 			}
- 		} else if (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)) { /* adhoc mode */
+On Thu, Sep 24, 2026 at 08:18:19PM +0300, Ruslan Koreev wrote:
+> The IR camera of the Lenovo ThinkPad X1 Carbon Gen 14 is an ST VD55G1
+> enumerated by ACPI as TBE20A1, connected to the Intel IPU7 with one
+> CSI-2 lane and powered through an INT3472 discrete device. Match the
+> HID and take the sensor version from the match data, as for OF. Only
+> the analog supply is switchable on this platform; vcore and vddio are
+> always on and fall back to dummy regulators.
+> 
+> On these platforms the CSI-2 endpoint is a software node that
+> ipu-bridge attaches to the sensor device when the IPU driver probes,
+> which can happen after the sensor driver has been bound. Defer probing
+> instead of failing when there is no endpoint yet, as the other sensor
+> drivers used with the IPU bridge do and as v4l2_fwnode_endpoint_parse()
+> itself does for a missing endpoint.
+> 
+> Tested on a ThinkPad X1 Carbon Gen 14 (Core Ultra X7 358H, IPU7),
+> streaming 804x704 through libcamera.
+
+Please describe here what the patch does; most of the above goes to the
+cover letter.
+
+I'd split the endpoint handling changes into a separate patch, too.
+
+> 
+> Signed-off-by: Ruslan Koreev <koreev.r@gmail.com>
+> ---
+>  drivers/media/i2c/vd55g1.c | 15 +++++++++++----
+>  1 file changed, 11 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/vd55g1.c b/drivers/media/i2c/vd55g1.c
+> index 6f458f611..64889c35d 100644
+> --- a/drivers/media/i2c/vd55g1.c
+> +++ b/drivers/media/i2c/vd55g1.c
+> @@ -1903,10 +1903,9 @@ static int vd55g1_parse_dt(struct vd55g1 *sensor)
+>  
+>  	endpoint = fwnode_graph_get_endpoint_by_id(dev_fwnode(sensor->dev),
+>  						   0, 0, 0);
+> -	if (!endpoint) {
+> -		dev_err(sensor->dev, "Endpoint node not found\n");
+> -		return -EINVAL;
+> -	}
+> +	if (!endpoint)
+> +		return dev_err_probe(sensor->dev, -EPROBE_DEFER,
+> +				     "waiting for fwnode graph endpoint\n");
+
+I'd drop the check here and return v4l2_fwnode_endpoint_alloc_parse()'s
+return value in vd55g1_check_csi_conf(). Then -EPROBE_DEFER is returned
+when appropriate.
+
+>  
+>  	ret = vd55g1_check_csi_conf(sensor, endpoint);
+>  	fwnode_handle_put(endpoint);
+> @@ -2084,6 +2083,13 @@ static const struct of_device_id vd55g1_dt_ids[] = {
+>  };
+>  MODULE_DEVICE_TABLE(of, vd55g1_dt_ids);
+>  
+> +static const struct acpi_device_id vd55g1_acpi_ids[] = {
+> +	/* Lenovo ThinkPad X1 Carbon Gen 14 IR camera, Intel IPU7 */
+
+No need for such a comment here, I think it's enough it's documented in the
+IPU bridge.
+
+> +	{ "TBE20A1", (kernel_ulong_t)&vd55g1_versions[0] },
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(acpi, vd55g1_acpi_ids);
+> +
+>  static const struct dev_pm_ops vd55g1_pm_ops = {
+>  	SET_RUNTIME_PM_OPS(vd55g1_power_off, vd55g1_power_on, NULL)
+>  };
+> @@ -2092,6 +2098,7 @@ static struct i2c_driver vd55g1_i2c_driver = {
+>  	.driver = {
+>  		.name  = "vd55g1",
+>  		.of_match_table = vd55g1_dt_ids,
+> +		.acpi_match_table = vd55g1_acpi_ids,
+>  		.pm = &vd55g1_pm_ops,
+>  	},
+>  	.probe = vd55g1_probe,
+
 -- 
-2.43.0
+Kind regrds,
 
+Sakari Ailus
