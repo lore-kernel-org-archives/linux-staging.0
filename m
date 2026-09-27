@@ -1,86 +1,135 @@
-Received: from sonic308-17.consmr.mail.ir2.yahoo.com (sonic308-17.consmr.mail.ir2.yahoo.com [77.238.178.145])
+Received: from mail-lr2-f35.google.com (mail-lr2-f35.google.com [74.125.230.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D25E3BED78
-	for <linux-staging@lists.linux.dev>; Sun, 27 Sep 2026 07:57:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.238.178.145
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790495841; cv=none; b=u6jhv7TSY3fypbhKNA0r4+0Uj65hs7MzAl7PVM/tJOhPFG2rh7aUYtImgEO8S6HRc3unpaRZT2wf3qkU5L2LtkcrpMvtWQdDFeUhjn0bR4aFzp/Z4Sr/o0Zb45BeXCx63NbqTVSWvZTmCyYd4nmr/9ItR06BD6wlm/RsTZFNQUI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790495841; c=relaxed/simple;
-	bh=18zJkDzr62duq9aYUDivNzap0V8KYXPeytuSHMR3AM4=;
-	h=Date:From:To:Message-ID:References:Subject:MIME-Version:
-	 Content-Type; b=ezE5iHDbqqhRrvRQ3GPCyfePWIUuWj+mrvzQy20GstcZpSWBSiAKmr53B5dCs6/tMWoDeObyz6r3++UkPT9OZ8nY0LOwWMqihTufbvPIVeAuRERV25RUvjQt1WoPOTxUZsETUdBn2MJlxotro3Q2hKEZLqPWO1knz9wpQ4sNcQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com; spf=pass smtp.mailfrom=yahoo.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=UHYLMEts; arc=none smtp.client-ip=77.238.178.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20A0C2701B6
+	for <linux-staging@lists.linux.dev>; Sun, 27 Sep 2026 09:48:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.230.99
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790502530; cv=pass; b=upYWuvTVtwL2CWrz0VbhtV7g9j6w2LNIlTJPzqk14FootzuEiMicH5cT6KZUhSEVcuRERG0ckZHWf7S4fiQ6BKm0LAsiY6n3vEb28WQQR3yqonF2FKMMDwFUjmKKledGlqV0Vd42RBqgsqu8DsIpfLNU1EE7DI9QeaU5lip9Sdw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790502530; c=relaxed/simple;
+	bh=VbNaCBv97oG90I5mvgMS936SO9aqYeDUwCKNKwEYwwA=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=mKLyLN5QrXiYrscmpEDgyfJ6j9+i9ePo2GTSJnpl4NjAzJMuvDIIy81lThQDAx2nLj7SO2hW1GCm5HPOe0tyR0CTaechNzQGdMEZewRzjai/eQTFKeIqIjJVMMjAA7J4oIUPALQ4fGxk7zg2QMyesSJbuOE1RgBEnvGjZzBaA+4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nLKQkJQT; arc=pass smtp.client-ip=74.125.230.99
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="UHYLMEts"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1790495827; bh=18zJkDzr62duq9aYUDivNzap0V8KYXPeytuSHMR3AM4=; h=Date:From:To:References:Subject:From:Subject:Reply-To; b=UHYLMEtsTYOLK/f9bZtAyPy+cib8HujCKgu8zmeFNfXTtz1fFOOoZJFUJqoZ0B4TBQS2+j0blb6tRanqjuhjx4qxMHD/mjMbFQ23Glt5j6NycT7CHwPA8QbmsHMIGyFkejW/7lPTzUFYGUYskqeKRyTUW6rjp2Jr2DI3Hnrhqti+0ybkXqDqYdiIXq+aKuJgtUEk5TZQZx8Re+3RquM8Smh1bCH4234smG/C8ki/iPS1r/uecA+9uwuSz6BNEe/b0cEH9lTgD5Y2dYZG6lfAUB+p9UxSJ9L3IMyoGJtHvjV+mQ/rMvn2YS03U1D5U8eX53LND7Hmbs1bTjRyfsNDfg==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1790495827; bh=FFDx1k6vqIiDM1E0SIGul3Hb/Wf8oMg2ykRyIsav6Lu=; h=X-Sonic-MF:Date:From:To:Subject:From:Subject; b=c0ZCy9ZBJY8r+bqtU9NxrGH6kbnFhoNyv0RXPied42xalafSv/GtZo3U6iFdMHlxMu9R7smqgmjFycjkIFz0sqf09zlY8+1LFhFiytTh7t8CTOUY8lOJcln4M6/y+nBimllB2ydRG45+u1qx5tVC1EZwjP6AKPzCdgT5kVkaGWPnTd4jVHuQYjMOOcho/aa1aDgjiFPuhZssc4PYGodZa5eFFGGiF0NPg83eirvpF4oFB2yQL6EGcznqr0t+77V6sbIzuyjwfLrRBDWB69M3118tcfsqlqHvGDP6brKED4mmypUpYHr3fOfSRqg8nz1dQE4TAAieu7qkGCJzXgI9Mg==
-X-YMail-OSG: Fc2MWoAVM1nRky6tgK2ltAQH5tpil2QAx3Cc94HnQdiHt3x5hqfS1hQuW9i9j9L
- eJq8h0o1PzisPCHPxV4iEBehD1850Fj0KLCJ6GpaD8ZxpiMDMc3gXHqzl1Y6CUEab85QsKoxFBkY
- RyMMwF9LdrVXMJxXlMbnMesYa0MU.El6jMAN4d7G91yVVYVN7_JHvyT4CAOqWnz..0OHDhI6dgwR
- AtXbFHMoNU2l1hjAb7bkJ.Oj6i5kYjm.AJ771IEoJjpQlYqNYG1tQkIgtnpV1vIv6IKJ_FyJXpaJ
- .pZzYbFTH5e8TPmNd28PiPwYlNKwX67u4Uv2AcmM2SPu5GJE70PVS3QdWFNPcNexf7cvlPUvWQMr
- sxVio5qtohrbuA7R7pWWbbkzvBNa7T224W8G1HnifRKPz.rkAxEoS3lNywttX2M6EAb5RPvESec9
- F3F9dPQj150IAsRKf43qkfE6dzIIkaUp.xrs5D96xHTBkgLVCCuCz4kRGsF0.3xbF3k_K7EoPOa8
- 6wfrFPw6.leCtlYbszHeJWspVQA_KGSYi_1hCVhzPpN_dE_j3.vQFvv8vRFHGXHgwerKTaMlM4D7
- pDsNrGO15eYA_JF8nGzR_vjg98RQy8uvDXCGVbBqCp097xs83lGesKgPY4NTo8_zuyWD_qh.hEVP
- hSGPvHljYjdI8gkkTaGQ1YUYKAvMeKmSwDTY8i8UIYpXlXbV3GQqRu5S8cWB7BEVx4bxgksHBUaj
- SJHX3NzI6WpozxhVYRGPVYWQjxzqSHkEJ6yqHx0kak6jcrqr4gI2nBxO1g7EgMFLiON0j_pO1DAP
- 98s9_OqR07a5P_IAxf7q9CPMWBmPMpvjvseYJz6_POKYZuYlIxhM9Z4XO5dGb.8qssyKyJLAPIkW
- Qvuf0IxcwSTyVmseP8xoagGl9wTYrYLVZH9YuCKdlRH_SZdfk3EPQ_qbNNcQVejaX.G_whzlRfPY
- Wd7vdWL.piAcPaRT4bB9v7qJ8hcSIipQkn8.uyL2lT.2rfJR_jzO41lMBjXgTYj9sLlsQC3gSNal
- oZ.uwLJTN3AMk6IuO0_O2E8qt3L62AqQpxmylEqHGRx7.6G5oJ0svqdVt83RBrRBj8nlC4QPZMJw
- CK2qXKFsyy43SHeyQQfipwjPA_5iXXywTEGqHyzpYlqYNBEjifezRGZvvA6toRIoWwBqKCxeOWoS
- 5o.vmq_5j6N6d0_YUew0yqsNqg9qyjQgxI1ENVhEZLMLcX6mOGEyrZWCB6.j4XNWSN52RJbqxqCG
- CYRNX35AUM7AyJsXXmSCypgZ6WVMaxePthGlgG10K0lmYgIfbSnhlvH1WpuJDhQ4uMlFEm2kNj16
- BCmXDDbwwhSAbrmQLnp6sWD.95M4ZrUfd4hxCzBrKU8KUXYiI5EflbmGFgp5O9oeNZGn0DaWQ1LG
- zdfQO66vkhrX_CMcx1CYYZURB.w8sdJhb_CeEg4Nj2dixdG1MAoJ80pHuDvfz4.cSX1RvIS.F73K
- CHYbA.WA_1V_Bje3SwHZ9s53xyN5M.IEl.IJ_4Nrhf6Cn4vUO6rhfudwtKHFKm5Y7wgvqeg7ukW_
- 86uhLLeJyEmZZXMW8K3QH7s8hBF7C0Dp5SM3Xlf6RTpZNSzAsbmLVZgiA7DsTMqOBjqV92M8ebhq
- U0MaKNCw0SSBJ6.fh4hhiKvnyqnVQhOTAR3mKg7TVuhyupQzDltLt56SLuOGNkEzd9YUtL4LBvJX
- J32OaBY_dPyU0C0b7mhQmikutfRd5jJoRReYJX566Glw6v6KUsapztfLyDtGicmc8AOxx9rVnlGj
- YSXZJ4zLz.BR3F6hmaQEBiEqgSeZf8BHyKgbcst7PrIP.HgDb5OSCwUSg0hNDzr15d5NWUzqcci7
- 4kRQYdO4_HJbormeXW4JY1foOIp7DKu60S1AJDxqxMJkUDNzIdIgSG.eXcVpEyWH0Nnb0NNWARUW
- DmKn_DMqQKZf6qo8.CdRXRKshnBxvL739RNF7FNpqytbcdy6KBAp1QyJqvGwFH5mGnCpg8Up_HMc
- G3iiwlJ1caEswpglp5EGHYEcYH24Z1hnH1FZ9ChTQ5WJ5c1UZLQb.p6cbKq5NCTMbKUfbAG19Fi6
- iVs0QU1t_fdqanf_uTM4pdUh0MkwMgHSiZQGWPipS9UI8WjVIIqTjRw--
-X-Sonic-MF: <ak416_kingz@yahoo.com>
-X-Sonic-ID: b5d2e1ac-bd78-4afd-a967-471eac55dfd5
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic308.consmr.mail.ir2.yahoo.com with HTTP; Sun, 27 Sep 2026 07:57:07 +0000
-Date: Sun, 27 Sep 2026 07:56:40 +0000 (UTC)
-From: Kingz Tuffa <ak416_kingz@yahoo.com>
-To: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>, 
-	"greybus-dev@lists.linaro.org" <greybus-dev@lists.linaro.org>, 
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Message-ID: <378088904.1527494.1790495800044@mail.yahoo.com>
-References: <378088904.1527494.1790495800044.ref@mail.yahoo.com>
-Subject: greybus uart patch.
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nLKQkJQT"
+Received: by mail-lr2-f35.google.com with SMTP id 38308e7fff4ca-3a64d20990fso19125261fa.1
+        for <linux-staging@lists.linux.dev>; Sun, 27 Sep 2026 02:48:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790502521; cv=none;
+        d=google.com; s=arc-20260327;
+        b=mJxk7s5sJtH7dY8iJV8aPqcA9Ce23YyAATTvxNLjv3Mg4JDD2ZP3czi62zj2YaezqE
+         60FkBA/sYx6HeR/oQdEfQwVkBTcjIbCf+0uxT6s+L5Mhp3i8xW5ZdBfwezQ3PMIBAT9C
+         vzQUvMh9qbtiCt+3n+UFZ+oPM8rcObo/hyCAPpLbQuUpXsO5TsNsAciYD9HkVIzfQ0jk
+         PI1DbpDlh1t/Y6hvRhVuqLQjCB6R+8DkQc4N7eM6O9qIH1VVj5hcodT0KscWCMTHF7ZG
+         j3DwdocJFuSbK9vrJsm0/zeAiTraQiMnlwuu8sFg+/cWnJYkWBSDAGrrKxJTPQgIVL10
+         qOVA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=G1OxfNq/5YdzHTbdOohSN8hvy0lgOzxPTHbFi5QdzsE=;
+        fh=Uvp3xIv0gtD3eIem8+NmzWLRPavkgEtQqGjqnkrk0AI=;
+        b=oLjVchmeHcCmd+dMHdGvWd6f4rbRebZoYxfhyn27gQkEg4vDCz7gugtIjqZGNhj519
+         lv5OTHyRr5c1cStygu+rH9x/d2hlUnQ0b8k4cVimY8EQWKcAah+O2KlM5XB2g9rfBfyq
+         9e1HMr0FXwB32SQvH3mnBOm2d5HLBrWVTgfzYvtqvb5K+f2WU+Dl4O5fX+UKNiq298/r
+         GBDLQAq3nJH/s0cWso2iPAwleDwqMM0Y5aFs6uB5qx5YUm0F4GkZCEM/yEeNhkyJs5mX
+         jgd6JQySNpgXRkRhDPjLKo+p1UDhBp2mU52Os7EoXHol76pFI1uupN3yko3wNsa5QFYF
+         btmg==;
+        darn=lists.linux.dev
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790502521; x=1791107321; darn=lists.linux.dev;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=G1OxfNq/5YdzHTbdOohSN8hvy0lgOzxPTHbFi5QdzsE=;
+        b=nLKQkJQTczEoOE/OYDokixTVfvBW/MRVecA0A8NpA7cjzAPTJlxba4tIyc5DhMg7b0
+         n2R4KjYTFfD11NVH/tyTLaFyge6+nmRxIgtZIyV/fICo1/zl44C4bnGz8N+MIgTFxrIT
+         4ywDJiYkxd9vWIyndlMsIt0N7CvVYAAsiB/xiRNM2Ui944kK1BUDmeBzCyKjbz/3I29T
+         AakdlEB2Pk09UINnaQdsafHwOTqGsv74aa+ruJxriH9RM45QaHuHIkhcgnB2OMLuiYPT
+         D52lrP+BSI1USX6AU+KlCqUJUC5TTfuoIqQLjbeCppdhLJD73ioJuxN3YKa39KIelgcf
+         Firg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790502521; x=1791107321;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=G1OxfNq/5YdzHTbdOohSN8hvy0lgOzxPTHbFi5QdzsE=;
+        b=vRe0NBjZSwG7PThedob7Z/DHEOy6lMgViw+1IO1kUAsJGKNkj89MlBEjcWKhjLM4BO
+         XdGVCdWBG2A1/JVV/mDeL7rOmkZDLLATMj5F0r2M/zOQRLYLobgTonMrov/sGoes9No2
+         bkI9Ug/idGF47ii+PkxPWyb8zvdIsjT6XGBLeHQ7GPdtbZYi7fZ1fO6Vr5bZ9M/a5leO
+         IhHAg+6Q57QsWa0tPkJ30jHQXA9rQBuwxJEyqWODaxU6v01crQJZ3cY77biYzPie206/
+         Gy0Z3JhfzWXw6A3e3aELP2C9JUwy8JqPKiPHsm6LNFPzFka5uvviMLRa4+D6OZL5h6LZ
+         fQGA==
+X-Forwarded-Encrypted: i=1; AKwUvBxxh+pa5B0hAqpWGmA6X9NDHi0Y0/mzc74eC/V3/1i/sstcIlEezg1BnXUF8YW96rAf3g1VP4QSXz+Sm6cA@lists.linux.dev
+X-Gm-Message-State: AFq9FYIhHL7vb4+antGITCX/l91aRamveFyITSuJEy5RwApiMtsFyWhu
+	o5vSx0/yaYyHBGgwUY2moMyD8Z8LL8rfdr/ED6yUqv/z2fdPEIa6dGaaLJzUoUyriweTQnASbwx
+	v91ggkHpGcsYGTsowMdFPJVstiX/GuBU=
+X-Gm-Gg: AYBFou1l/xW+gvhdw0hHIF0K+QCCtOHH9N1YsDAUAHwaeLZQiCzPIKChc8B0ykj5Xnk
+	0Zc+s+IodF1b9qTrV/C7Ivd0ginAbham7/5s9Ne+cvVAXKVMR/g5gBzXGB6lykfMq6u0sgu9Wv2
+	S1piGHqtZ8SjHdb3WzIFz+i7VXDvviG3BoYcMkyPFtdMnqJ9EgDVSADKL/Q732TNZNdui9tJ0GY
+	m/o0ZsTOjpg/+dq+xIS9itii8vtv8OnxBH95741NjVwZ5IK4GtPOuaedR/iher3KsvZ+t38+w1q
+	+kTcpCX4RW9PqIRWk8xxgETDqhEHFT/D6TZr5nGCapJRiVzcsciuzhtxjP5COHtd5EyvKfog4l1
+	2borhgaB38YHow4FNRwAk2hLEUdvWxZjiz5cVkgBCXrGVLuIl7x4JL2M+9SDeUaFMCXxS98KMDY
+	j+
+X-Received: by 2002:a2e:a812:0:b0:3a3:749e:31a1 with SMTP id
+ 38308e7fff4ca-3a63de5c715mr24136561fa.21.1790502520622; Sun, 27 Sep 2026
+ 02:48:40 -0700 (PDT)
+Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
+ Sun, 27 Sep 2026 02:48:40 -0700
+Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
+ Sun, 27 Sep 2026 02:48:40 -0700
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: WebService/1.1.26577 YMailNovation
+From: krishnanand G <krishnanandgeetheswaran@gmail.com>
+Date: Sun, 27 Sep 2026 02:48:40 -0700
+X-Gm-Features: AclHuK8BTBfNpqz3m6BQ2iIMJxIt6xRy_BCLLwu5RAkXd_Z2NtIUajK6RkAMxFU
+Message-ID: <CAG_41BL-nu7tDFjGgehz9Bf+KKPty8kR6A0RUUUfpepJu4doHQ@mail.gmail.com>
+Subject: [PATCH] staging: fbtft: fix spacing in macro calls
+To: andy@kernel.org
+Cc: gregkh@linuxfoundation.org, dri-devel@lists.freedesktop.org, 
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
- From: =3D?utf-8?q?Roberts=3D20Bric=3DC4=3DABtis?=3D <ak416_kingz@yahoo.com=
-> Date: Sun, 27 Sep 2026 10:48:38 +0000 Subject: [PATCH] staging: greybus: =
-uart: fix alignment to match open parenthesis MIME-Version: 1.0 Content-Typ=
-e: text/plain; charset=3Dutf-8 Content-Transfer-Encoding: 8bit Clean up the=
- coding style in uart.c by aligning the arguments of wait_for_completion_ti=
-meout() properly. Signed-off-by: Roberts Bric=C4=ABtis <ak416_kingz@yahoo.c=
-om> --- drivers/staging/greybus/uart.c | 2 +- 1 file changed, 1 insertion(+=
-), 1 deletion(-) diff --git a/drivers/staging/greybus/uart.c b/drivers/stag=
-ing/greybus/uart.c index 24b4dab069c3..3d5ff4f65555 100644 --- a/drivers/st=
-aging/greybus/uart.c +++ b/drivers/staging/greybus/uart.c @@ -318,7 +318,7 =
-@@ static int gb_uart_wait_for_all_credits(struct gb_tty *gb_tty) return 0;=
- ret =3D wait_for_completion_timeout(&gb_tty->credits_complete, - msecs_to_=
-jiffies(GB_UART_CREDIT_WAIT_TIMEOUT_MSEC)); + msecs_to_jiffies(GB_UART_CRED=
-IT_WAIT_TIMEOUT_MSEC)); if (!ret) { dev_err(&gb_tty->gbphy_dev->dev, "time =
-out waiting for credits\n"); -- 2.55.0=20
+From 5473fd52eeda7ab1f608c414e386dad0ea40bef4 Mon Sep 17 00:00:00 2001
+From: Krishnanand G <118352827+Krishnanand-G@users.noreply.github.com>
+Date: Sat, 26 Sep 2026 19:41:06 +0530
+Subject: [PATCH] staging: fbtft: fix spacing in macro calls
+
+The two calls to define_fbtft_write_reg() that use the default
+modifier have a space before the closing parenthesis. This triggers
+two checkpatch.pl errors.
+
+Add an inline comment for the intentionally empty modifier argument.
+It satisfies the spacing check without changing the macro expansion.
+
+Tests: scripts/checkpatch.pl --no-tree -f --terse --strict
+  drivers/staging/fbtft/fbtft-bus.c
+Signed-off-by: Krishnanand G <118352827+Krishnanand-G@users.noreply.github.com>
+Assisted-by: LLM
+---
+ drivers/staging/fbtft/fbtft-bus.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/fbtft/fbtft-bus.c
+b/drivers/staging/fbtft/fbtft-bus.c
+index 30e436f..5f320de 100644
+--- a/drivers/staging/fbtft/fbtft-bus.c
++++ b/drivers/staging/fbtft/fbtft-bus.c
+@@ -62,9 +62,9 @@ out:									      \
+ }                                                                             \
+ EXPORT_SYMBOL(func);
+
+-define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8, )
++define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8, /* no modifier */)
+ define_fbtft_write_reg(fbtft_write_reg16_bus8, __be16, u16, cpu_to_be16)
+-define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16, )
++define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16, /* no modifier */)
+
+ void fbtft_write_reg8_bus9(struct fbtft_par *par, int len, ...)
+ {
+-- 
+2.39.0.windows.2
