@@ -1,242 +1,123 @@
-Received: from mail-lf2-f13.google.com (mail-lf2-f13.google.com [74.125.229.205])
+Received: from mail-ua2-f12.google.com (mail-ua2-f12.google.com [74.125.226.204])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B742734D92C
-	for <linux-staging@lists.linux.dev>; Sat, 26 Sep 2026 17:01:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FB16846A
+	for <linux-staging@lists.linux.dev>; Sun, 27 Sep 2026 01:17:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.226.204
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790442081; cv=none; b=OEc7KloaIsxStthgEDyu2iBFQhNP6ZLZCDfY5jLiO7j3puuSJyni7qqt9aM9Iyqco4zdkh8JHonjfAa+LV+jJgj8ZgD33yutlTI5FqliKWvn0UzdmkCym18sr01QLkKj+LMpOcQZ6QQLQSZJTK2TXpobtCb57zUPv8EUNzGzwjM=
+	t=1790471862; cv=none; b=hcoM3RZ0qKOsmNEeZr6O02DZ9FDy+0XUFeNCMFQ4rJdxBNOoSGiIlUXtVRT6ER5oWE9KN0Yl1WuM32ob5Czz7dlzTt5wQtNE8Z3qZGhPuzOyPcjuRCKSsT2l4/zqX4HvW7v1bvzxgibvU4RhlsTJj0AFwBJB1qbNzjWJf4+Y3y4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790442081; c=relaxed/simple;
-	bh=6Gqyybi5f1+/rOaFiBrAjuOWPKQM/C9FIcvNqzTZ//I=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GuM9CAU4T9Utcawib/Utq6KcZoV9rDIv5PfuwLVL2ceNG9Xsn1JaZbpezpzQK5899JQrsPwYeubX0lgqUKrvyULQTBniN1trZdy/iPgw7cCch0QphdV1R8yhs9XkdbwOuZ1TRCEXDCvBs4M++gyEdopahNEIeagkr9Xc8OZwxGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rTUxnvnc; arc=none smtp.client-ip=74.125.229.205
+	s=arc-20240116; t=1790471862; c=relaxed/simple;
+	bh=ePnRvq3UMM+sa2D8dc9jnBVFW8hpD++8XhlbdDDl/iI=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=RcJxqJ9XVvY60XcxJqOYsqj/I2Z1h1Lcekv6yC5uKCLek0b2iT9fIRMjzqHEPuXXWIZC0lvOV7HUA/7O9bK6eEPRywkAOpfyX+IMrl+bJqmox5CH949hYuhJPIaIgUg/XFV1XKNQEAE3jKMYRqLrWKgeOaXk7BBKWmt1PIlbI6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KPcDc2ej; arc=none smtp.client-ip=74.125.226.204
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rTUxnvnc"
-Received: by mail-lf2-f13.google.com with SMTP id 2adb3069b0e04-5b8d47b5987so1693625e87.2
-        for <linux-staging@lists.linux.dev>; Sat, 26 Sep 2026 10:01:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KPcDc2ej"
+Received: by mail-ua2-f12.google.com with SMTP id a1e0cc1a2514c-982db8d3b1eso510073241.1
+        for <linux-staging@lists.linux.dev>; Sat, 26 Sep 2026 18:17:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790442078; x=1791046878; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=D2LtHAaylmzUwvtZGxdyjvEKCHez6qvwObhUlbLkE8c=;
-        b=rTUxnvncXZjbjnAGMA5mnry4Axqst+WPV7ZNp01GbdXBI0Y3CTFUWHylod5pUguLL4
-         A/ZepG0bh7IyAnybpp1DqV/nuWLZN2Awi1RB0LFVaUyfbcDV+UMLBbeCyreRffnO8oNW
-         Bfj6nldoRhravMtyw3V4srj8HMiLxVMfeFaPFmctivB3pAdAuEL4RgYe8n9yvQK/y6Ep
-         R9O39pU7sQbuM2j8HGy/kamW0TCqEe3VdITa47c2rX7BWiI3RC8j+5gkH9PXSoE9bFWg
-         gPTbPrR/1ICo2UQajkZlK6p/ki6F7xlwvCUCGelXWNOFb1DGg3fDoVhHPhxQoJFotYou
-         UAnQ==
+        d=gmail.com; s=20251104; t=1790471860; x=1791076660; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=AZj1MR82XkpbobvFczq8ok2+SpPrjJF23vq7+BjVWUU=;
+        b=KPcDc2ejVLoP8mXTTCRH5p9NupoEzbaHDl3RwJnIowN9c8JStcg+wxMvDfCPttoxh9
+         b3Gb7S0GveQiP6gwuvHiFVkDpBatp34SCZx66ilatw5+l7t0lhuE/+ddl/x9/Ita4WXn
+         Fi37EIOtm2buMvoPSt9fSWgXs2+fGql3U+I774K7BYwoTlt4za+2y5K3vsvm1vam+yO9
+         CdUBUHMB1GXRTmilhZLh5Hs9eA3Cffs88/PwTclVAsxJy/nYhB5FZKTrRwlKJe3AtV4M
+         6j6SBrlSiXWZ2I3hP713Zz93WT9tGz3ZpsOQqz6v/BFBIx5eGrf5UhzJ9gcLKaG/ZSDU
+         Fepw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790442078; x=1791046878;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=D2LtHAaylmzUwvtZGxdyjvEKCHez6qvwObhUlbLkE8c=;
-        b=QsgMZQiNHEz6izcO+DXEFRARQWLTAWU5cEiEBD0HvontyEsqvoSusZu8X4DFoLShVq
-         wuHNEQvyQT5tlT8uS4LCLo31B8VTyTi1GUIAUvqBxB5pEhrY/AolI442Snz5KEEibYNS
-         tI5AKgNvGSlpxbGu2uiaQGdO94Ak1qimZx49A1G5Nhhql3xbaqZ6U/FBdcTyrDuVOc6F
-         BsXclGIHGk9jPaMeGNddDBAIG7MGpP+gXgW0HShLcDC5HvWYRXEyVJvQGu21us5SwWrr
-         b0TVBKA1mrmMThTUPao8yozIuEkaytHll4cF/FHvkVxhZ6SJl7/Oc+FJEUFHOzCMEyFE
-         CD/g==
-X-Forwarded-Encrypted: i=1; AKwUvBzi/5SCZ+vI9djiu3wxXvoO4A7/yUMLitpWUzMRxBg4Emm5bMgYZnFsJnvBCEWOTW2qW+rgVps1cEe5r7oH@lists.linux.dev
-X-Gm-Message-State: AFuF++k5yIEtVA0xiokDXIdjCg13nYL8z95A6GpamWoUhLyAvk26MXMf
-	M3UCJsXIkwZ6wJeo78Mswwm82kciso4gduqZWLdNgyhrknbSQJ8R2bby
-X-Gm-Gg: AYBFou3gD3NmZ9qvmjG23d/eC5XgxPDTURhVod886fTF3ik9dGYxIUrvHZM/2EwRGUM
-	Vbc/dlvtlanAgRnyr8DZM2e9sqIedoyqjg6ic4ToerCcYET/YeLXmfeaXuiBPAr88HFD6ZgvxCx
-	QER5dZ6j0UTnzp51k+G0JH3QqTsk/7dV4HUsLuOOiNH6AMRT5USfd5B/p5lPx/L9Ull3oGT4KJT
-	vPGFkscEsqYqVhPeXIQlb7zViQbQzjpFI3/W6mCfj7A6WS4qhu962qF03aPB4nOy2LT6ngAwCaV
-	YqvFYwcuITygyccV90Se3XjIeNh1ZxIWj54i6PS7dUK0sbzU1EAVaicG03gO//2KRK5gRdVuUFM
-	f15gNQeRG61B/6SF5MeM4gycTRIma+j7/lxoicMtNmydk3ib1VGY6NCYf8apXL2eleOhbUqQoNd
-	93uf84w9Ft8WCnilSzfPO+JsaQ8/eYqL9NdQTrQij15z3aG+UtylPyn2U8+aUDXvDbX6q4It3tX
-	RVxLJbCOKmQaGpa6hE70TklPFMnykKi4E3Jf4/j878vyK8IXUo=
-X-Received: by 2002:a05:6512:3f22:b0:5b8:f4d4:7fe1 with SMTP id 2adb3069b0e04-5b8f4d480admr35233e87.35.1790442077440;
-        Sat, 26 Sep 2026 10:01:17 -0700 (PDT)
-Received: from Hedgehog.. (broadband-188-32-185-163.ip.moscow.rt.ru. [188.32.185.163])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b8e836df4bsm1235398e87.72.2026.09.26.10.01.13
+        d=1e100.net; s=20260707; t=1790471860; x=1791076660;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=AZj1MR82XkpbobvFczq8ok2+SpPrjJF23vq7+BjVWUU=;
+        b=LZGPVLPDBTFXwVNYyjkBBtoLqLyC/BpNIk+pFLKG0RoM4ldhsSA4oaBc1P6sWqLXqL
+         tGDt36Tl8rOUiAC9Jizq91gFHfHw7FyysAwsRnDph9LFmuWzb0m6eQpuUkn4W9nLg3B2
+         Av68LQNJCx5sDqumQ+csCECAlfVA5lv6REaNlR382H1Sud4isBv4Y0kAdeCyucIMz51D
+         CUEGH+srokB7/q2EGz08xhpdWzVpbbHNcxWzjGaw0Qa6vFhOD9LRF+Hg6KmpazRnFO36
+         8y8tKsWP45koik4zV6qiwi7z5k7OuOqdYSUInw4zlKsuEjQLcB3zibpzhIeieCL2hBB0
+         8gBA==
+X-Gm-Message-State: AFq9FYJyP3FYJIhvjgjqBafC1Zf7FxqI8laWnLhrGiSUfiirVKu0zPyf
+	JCYerrWckkwVoBlIw9K/vUhWNd77mid7HIgfxhfKCYd6Gz2lTToXEHyk
+X-Gm-Gg: AYBFou1NA3dTQlfbp6KuIdOCXfH9p5Bra8WK5AawwML3nGKHRvXquP96ux2kVoZ/8u9
+	2WicI8LWl8ROYXRIeqx0gh6eOLk4q39MYLOno+w2hBeOMaXr7lwJVH8SlZeeVoRk8zW7fnAuG1k
+	muEY7hgD89yEPXLn+8Jimx3ZtRhY+yXKHkWnIdtgGW3DaUu2O0Dos72YDA4B5dZXMZD7xrpp8s9
+	uqSISAwbCUBLp69m/TseuNprHdKTBpomp4xYDVo7Wn6v3U2FhCCRSr+oUSL+e+tMzRI1tQVN+Ka
+	Ftrd+6y+WTlIuOm8+aPm2FL/JFKrLilBndaQWfsgGH4NFm4nI6AMIxzdPjC9c3QyFt2yJ3Chhal
+	HckBdRhGhsbP7w4mPyDpB6SfNjrgwUZrASx0zSYwsmGg1VEtybb6piCqKuIo7RqlI++TGSYKjP2
+	w8NwucvXGZuQN+GM/BVZmygqBXLejmgVjvR69nhO8kf0tpkdKqvR1yeo+v
+X-Received: by 2002:a05:6102:4429:b0:7a2:2a4c:606a with SMTP id ada2fe7eead31-7b1c5536ae3mr1905560137.15.1790471859988;
+        Sat, 26 Sep 2026 18:17:39 -0700 (PDT)
+Received: from [127.0.1.1] ([2804:14d:78b3:5cda::1002])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-9889b1d413asm820433241.10.2026.09.26.18.17.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Sep 2026 10:01:15 -0700 (PDT)
-From: Artem Shelenko <artem.shelenko@gmail.com>
-X-Google-Original-From: Artem Shelenko <Artem.Shelenko@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Dan Carpenter <error27@gmail.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] staging: rtl8723bs: use standard error returns in HAL interface
-Date: Sat, 26 Sep 2026 20:00:49 +0300
-Message-ID: <20260926170049.315302-1-Artem.Shelenko@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <arfBy_n6FsDI39p-@stanley.mountain>
-References: <arfBy_n6FsDI39p-@stanley.mountain>
+        Sat, 26 Sep 2026 18:17:38 -0700 (PDT)
+From: Leonardo Martins Martins <dev.lmmrtns@gmail.com>
+Subject: [PATCH 0/4] staging: rtl8723bs: refactor
+ PHY_ConvertTxPowerLimitToPowerIndex()
+Date: Sat, 26 Sep 2026 22:12:23 -0300
+Message-Id: <20260926-rtl8723bs-tx-pwr-limit-v1-0-989dcbc113fd@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHdtuGoC/x3MTQqEMAxA4atI1gbaCKPxKuLCOlED/pGWGUG8+
+ 5RZfov3bohiKhHa4gaTj0Y99gxfFjAuwz4L6jsbyNHLMRFaWpuaqhAxXXh+DVfdNCEPnkPgiZ0
+ XyPFpMun1H3f98/wA7wwFz2gAAAA=
+X-Change-ID: 20260922-rtl8723bs-tx-pwr-limit-9a19bb9f901e
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Leonardo Martins Martins <dev.lmmrtns@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1790471854; l=1530;
+ i=dev.lmmrtns@gmail.com; s=20260813; h=from:subject:message-id;
+ bh=ePnRvq3UMM+sa2D8dc9jnBVFW8hpD++8XhlbdDDl/iI=;
+ b=Jks1UthAo6nYxCSO90vZ/xP1AGslNfQhYyvU2ijEGDp9kIDJXEydZf3QI+/KSukdZMwZ/gIce
+ AAWx3Jo0pGjD+A+My/G0eWKFkYr7vZ4//EOTxclpNQlmUcFOlALKXqf
+X-Developer-Key: i=dev.lmmrtns@gmail.com; a=ed25519;
+ pk=dOFSCpUL7hbyVftAaUGDebsgsSl9Uk/Tx0Aqpd4Bcng=
 
-rtw_hal_init() and rtw_hal_deinit() return vendor-style status values,
-with one indicating success and zero indicating failure. Convert both
-interfaces to return int with zero on success and -EIO on failure. The
-lower HAL functions retain their legacy status contract and do not
-provide a more specific error code at this boundary.
+The function PHY_ConvertTxPowerLimitToPowerIndex() has several style
+problems, such as mixed-case names, deeply nested code, and redundant
+bounds checking.
 
-Update the init callers to check the new return convention. Propagate
-HAL errors through _netdev_open(), while preserving its existing -1
-return for failure of the unrelated rtw_start_drv_threads() API. Keep
-the _SUCCESS/_FAIL contract of ips_netdrv_open() for its IPS callers.
+Patches 1 and 2 rename mixed-case names that are on the same scope as
+this function, struct fields such as TxPwrLimit_2_4G were left as is.
+Patch 3 removes redundant parts of the code, and patch 4 solves the
+nesting issue by extracting the inner loop into an auxiliary function
+like it is done in rtw_phy_tx_power_limit_config(), at
+drivers/net/wireless/realtek/rtw88/phy.c
 
-Preserve the hw_init_completed transitions, including clearing the
-flag only after a successful lower-layer deinitialization. The lower
-deinit function currently always reports success; this change does
-not add detection of hardware teardown failures.
+Checkpatch issues a few warnings and checks for deep nesting and long
+lines, but these are solved by the last patch.
 
-Suggested-by: Dan Carpenter <error27@gmail.com>
-Assisted-by: LLM
-Signed-off-by: Artem Shelenko <Artem.Shelenko@gmail.com>
+Compile tested only.
+
+Signed-off-by: Leonardo Martins Martins <dev.lmmrtns@gmail.com>
 ---
+Leonardo Martins Martins (4):
+      staging: rtl8723bs: rename PHY_ConvertTxPowerLimitToPowerIndex()
+      staging: rtl8723bs: rename local vars in phy_tx_power_limit_to_index()
+      staging: rtl8723bs: access TxPowerByRateBase2_4G directly
+      staging: rtl8723bs: extract inner loop in phy_tx_power_limit_to_index()
 
-Notes:
-    Changes in v2:
-    - Replace the type-only cleanup with standard 0/-errno HAL return values as suggested by Dan Carpenter.
-    - Update init callers for the new convention and propagate the HAL error through _netdev_open().
-    - Preserve the existing IPS and rtw_start_drv_threads() return conventions.
-
- drivers/staging/rtl8723bs/hal/hal_intf.c     | 14 ++++++++------
- drivers/staging/rtl8723bs/include/hal_intf.h |  4 ++--
- drivers/staging/rtl8723bs/os_dep/os_intfs.c  | 17 ++++++++---------
- 3 files changed, 18 insertions(+), 17 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/hal/hal_intf.c b/drivers/staging/rtl8723bs/hal/hal_intf.c
-index 1443875d1..870cfaf1d 100644
---- a/drivers/staging/rtl8723bs/hal/hal_intf.c
-+++ b/drivers/staging/rtl8723bs/hal/hal_intf.c
-@@ -4,6 +4,8 @@
-  * Copyright(c) 2007 - 2012 Realtek Corporation. All rights reserved.
-  *
-  ******************************************************************************/
-+#include <linux/errno.h>
-+
- #include <drv_types.h>
- #include <hal_data.h>
- 
-@@ -27,9 +29,9 @@ static void rtw_hal_init_opmode(struct adapter *padapter)
- 	rtw_setopmode_cmd(padapter, networkType, false);
- }
- 
--uint rtw_hal_init(struct adapter *padapter)
-+int rtw_hal_init(struct adapter *padapter)
- {
--	uint status;
-+	int status;
- 	struct dvobj_priv *dvobj = adapter_to_dvobj(padapter);
- 
- 	status = rtl8723bs_hal_init(padapter);
-@@ -51,12 +53,12 @@ uint rtw_hal_init(struct adapter *padapter)
- 		dvobj->padapters->hw_init_completed = false;
- 	}
- 
--	return status;
-+	return status == _SUCCESS ? 0 : -EIO;
- }
- 
--uint rtw_hal_deinit(struct adapter *padapter)
-+int rtw_hal_deinit(struct adapter *padapter)
- {
--	uint status = _SUCCESS;
-+	int status;
- 	struct dvobj_priv *dvobj = adapter_to_dvobj(padapter);
- 
- 	status = rtl8723bs_hal_deinit(padapter);
-@@ -66,7 +68,7 @@ uint rtw_hal_deinit(struct adapter *padapter)
- 		padapter->hw_init_completed = false;
- 	}
- 
--	return status;
-+	return status == _SUCCESS ? 0 : -EIO;
- }
- 
- void rtw_hal_set_hwreg(struct adapter *padapter, u8 variable, u8 *val)
-diff --git a/drivers/staging/rtl8723bs/include/hal_intf.h b/drivers/staging/rtl8723bs/include/hal_intf.h
-index 7b6311652..77aed5939 100644
---- a/drivers/staging/rtl8723bs/include/hal_intf.h
-+++ b/drivers/staging/rtl8723bs/include/hal_intf.h
-@@ -175,8 +175,8 @@ typedef s32 (*c2h_id_filter)(u8 *c2h_evt);
- #define	RX_PNOWakeUp			0x55
- #define	AP_WakeUp			0x66
- 
--uint rtw_hal_init(struct adapter *padapter);
--uint rtw_hal_deinit(struct adapter *padapter);
-+int rtw_hal_init(struct adapter *padapter);
-+int rtw_hal_deinit(struct adapter *padapter);
- void rtw_hal_stop(struct adapter *padapter);
- void rtw_hal_set_hwreg(struct adapter *padapter, u8 variable, u8 *val);
- void rtw_hal_get_hwreg(struct adapter *padapter, u8 variable, u8 *val);
-diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-index c15056ee2..691dc248a 100644
---- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-+++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-@@ -786,7 +786,7 @@ int rtw_drv_register_netdev(struct adapter *if1)
- 
- static int _netdev_open(struct net_device *pnetdev)
- {
--	unsigned int status;
-+	int ret;
- 	struct adapter *padapter = rtw_netdev_priv(pnetdev);
- 	struct pwrctrl_priv *pwrctrlpriv = adapter_to_pwrctl(padapter);
- 
-@@ -802,13 +802,14 @@ static int _netdev_open(struct net_device *pnetdev)
- 		padapter->bSurpriseRemoved = false;
- 		padapter->bCardDisableWOHSM = false;
- 
--		status = rtw_hal_init(padapter);
--		if (status == _FAIL)
-+		ret = rtw_hal_init(padapter);
-+		if (ret)
- 			goto netdev_open_error;
- 
--		status = rtw_start_drv_threads(padapter);
--		if (status == _FAIL)
-+		if (rtw_start_drv_threads(padapter) == _FAIL) {
-+			ret = -1;
- 			goto netdev_open_error;
-+		}
- 
- 		if (padapter->intf_start)
- 			padapter->intf_start(padapter);
-@@ -838,7 +839,7 @@ static int _netdev_open(struct net_device *pnetdev)
- 	netif_carrier_off(pnetdev);
- 	rtw_netif_stop_queue(pnetdev);
- 
--	return (-1);
-+	return ret;
- }
- 
- int netdev_open(struct net_device *pnetdev)
-@@ -861,7 +862,6 @@ int netdev_open(struct net_device *pnetdev)
- 
- static int  ips_netdrv_open(struct adapter *padapter)
- {
--	int status = _SUCCESS;
- 	/* struct pwrctrl_priv *pwrpriv = adapter_to_pwrctl(padapter); */
- 
- 	padapter->net_closed = false;
-@@ -870,8 +870,7 @@ static int  ips_netdrv_open(struct adapter *padapter)
- 	padapter->bCardDisableWOHSM = false;
- 	/* padapter->bup = true; */
- 
--	status = rtw_hal_init(padapter);
--	if (status == _FAIL)
-+	if (rtw_hal_init(padapter))
- 		goto netdev_open_error;
- 
- 	if (padapter->intf_start)
-
+ drivers/staging/rtl8723bs/hal/hal_com_phycfg.c     | 88 ++++++++--------------
+ drivers/staging/rtl8723bs/hal/rtl8723b_phycfg.c    |  2 +-
+ drivers/staging/rtl8723bs/include/hal_com_phycfg.h |  5 +-
+ 3 files changed, 32 insertions(+), 63 deletions(-)
+---
 base-commit: 8444548bd905f22093729065408284a6b46f7eee
+change-id: 20260922-rtl8723bs-tx-pwr-limit-9a19bb9f901e
+
+Best regards,
 -- 
-2.43.0
+Leonardo Martins Martins <dev.lmmrtns@gmail.com>
 
