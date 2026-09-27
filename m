@@ -1,36 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4C15332621;
-	Sun, 27 Sep 2026 16:40:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7DCF2DFA3A;
+	Sun, 27 Sep 2026 16:40:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790527209; cv=none; b=httEJBY3C4w27U7BhfiI38/tUv4J4fXEIt0Fe3X2xht/tHHHBIjs8geoLecrOmb2Yg1l7tf7Q0LiXnagchnvgxe0dMHTMgKPGy+dN51jF/ZH7TUcNnOkA0ejTtqk3zJDPCZqPWZ6zHK/Oih40O4aU+ABGVdY9yz/qu+NNORH6GY=
+	t=1790527244; cv=none; b=C9ehOrRgfFe/QbUKOuMnOhkB1uEQk4Q8/HAryhhII0vnb2KAeoN2I+MAN4L8FBu4+5mi50Cp8VIUjHtr3gF5uYwvL9+tK05oWvswc4kaBjAEteUPBXVDn5pnBVRumVk7i2k7jsIdgYHkcUsA89zMo374mT/ry0FSnmlolBi4wL0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790527209; c=relaxed/simple;
-	bh=XBofaJSwVq+dKoD/BnWEUCa2r8DAc4GFKsFJNI7wzJc=;
+	s=arc-20240116; t=1790527244; c=relaxed/simple;
+	bh=+c6jvSBjJKUoRoWIDllGQAot7LTNhcv0Sv4yg8kD/jk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NMdMCVxaCgPWqbYkJV54Ou46hRjAzE5asnF70+WL7UqD+wQ5wwMThgJkTE9zWpeh9uGWW2P1VtNMgOZ9yDrPKN+S5cGW0mlLU2Ga/wcHbZe50FZRld/QnqfBV/eeDlUQu7Ui8dqzBWuKbuVnjPCYijiFn0wxpHSoFm9MO2gARmc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ObR+bLCN; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=JD/Eg7NvF2iBdalynQeLrkBnKcqD0LTArwDvL9i9XJq2fg9b8Q7Di3pRMpSnITK/SHKxSD9VH0RPxhLhi5cxIfmSUa3X6uUeJEA5qsiupHenIK4kw43pWT5vCu3Hh6CfpHU7xHbk+O3H+vs6mfGkCKxvPwQo9a97X2Irsed2yas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=JhWCk/UL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ObR+bLCN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DFC71F000FF;
-	Sun, 27 Sep 2026 16:40:07 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="JhWCk/UL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD3281F000FF;
+	Sun, 27 Sep 2026 16:40:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1790527208;
-	bh=QVOQ34sr18ixV7r32sVe/ehF+3x2MfGvdAz1mNuDkgo=;
+	s=korg; t=1790527243;
+	bh=hdSxhCJW5r+p08ucSTWCv//oBwOMAXPTnGrUabM0kNg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ObR+bLCNpIwVDuYFB6Yp+nLHdXusXw8YzDu0btdpUPKvtS4eYAOhuvBG8vTUxArTP
-	 1UDYUqqk3imKBQn9dnOpOD7rGnFZxB8VbTKluAMq+/WYkkMJqfri4qbxVFohqrGu/F
-	 zsladJGT0KjzkPcYhcotTsuZmWf4O1Crmgm7GBVA=
-Date: Sun, 27 Sep 2026 18:40:04 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: krishnanand G <krishnanandgeetheswaran@gmail.com>
-Cc: andy@kernel.org, dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: fbtft: fix spacing in macro calls
-Message-ID: <2026092736-problem-crayon-031b@gregkh>
-References: <CAG_41BL-nu7tDFjGgehz9Bf+KKPty8kR6A0RUUUfpepJu4doHQ@mail.gmail.com>
+	b=JhWCk/ULHXEpOzqRpFHtcCMH/uZf4qL/teKrH/56kZUJDkP5BVRt9Oauls+cRlKSX
+	 u70B6y29EXZqogvct1+yFFfnjXfRPmw+ntRVqtByl/WOO1TE9VesqCHX6y4k4sJltV
+	 pl6vdSrORQXN2RT1sPcCS5wyC/3CNnr9h8E6kIjI=
+Date: Sun, 27 Sep 2026 18:40:40 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Artem Shelenko <artem.shelenko@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: use unsigned int in HAL interface
+Message-ID: <2026092727-ought-capsize-fb90@gregkh>
+References: <20260926125150.161466-1-Artem.Shelenko@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,27 +38,18 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAG_41BL-nu7tDFjGgehz9Bf+KKPty8kR6A0RUUUfpepJu4doHQ@mail.gmail.com>
+In-Reply-To: <20260926125150.161466-1-Artem.Shelenko@gmail.com>
 
-On Sun, Sep 27, 2026 at 02:48:40AM -0700, krishnanand G wrote:
-> >From 5473fd52eeda7ab1f608c414e386dad0ea40bef4 Mon Sep 17 00:00:00 2001
-> From: Krishnanand G <118352827+Krishnanand-G@users.noreply.github.com>
-> Date: Sat, 26 Sep 2026 19:41:06 +0530
-> Subject: [PATCH] staging: fbtft: fix spacing in macro calls
+On Sat, Sep 26, 2026 at 03:51:50PM +0300, Artem Shelenko wrote:
+> The rtl8723bs TODO asks to convert remaining unusual variable types.
 > 
-> The two calls to define_fbtft_write_reg() that use the default
-> modifier have a space before the closing parenthesis. This triggers
-> two checkpatch.pl errors.
+> Replace uses of the uint typedef with unsigned int in rtw_hal_init()
+> and rtw_hal_deinit(), including their local status variables and
+> declarations. uint is a typedef for unsigned int, so this does not
+> change behavior.
 > 
-> Add an inline comment for the intentionally empty modifier argument.
-> It satisfies the spacing check without changing the macro expansion.
-> 
-> Tests: scripts/checkpatch.pl --no-tree -f --terse --strict
->   drivers/staging/fbtft/fbtft-bus.c
-> Signed-off-by: Krishnanand G <118352827+Krishnanand-G@users.noreply.github.com>
 > Assisted-by: LLM
+> Signed-off-by: Artem Shelenko <Artem.Shelenko@gmail.com>
 
-Please read the email archives for why both this will not work, AND why
-you can not use LLMs on this part of the kernel.
-
-Also, your email address isn't valid :(
+Please read:
+	https://lore.kernel.org/r/2026080354-skater-urgent-31b2@gregkh
