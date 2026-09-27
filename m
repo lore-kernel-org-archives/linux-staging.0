@@ -1,165 +1,86 @@
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
+Received: from sonic308-17.consmr.mail.ir2.yahoo.com (sonic308-17.consmr.mail.ir2.yahoo.com [77.238.178.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D49A18D62A
-	for <linux-staging@lists.linux.dev>; Sun, 27 Sep 2026 01:18:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D25E3BED78
+	for <linux-staging@lists.linux.dev>; Sun, 27 Sep 2026 07:57:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.238.178.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790471881; cv=none; b=Vpqr9cpxJhZcdX9Bsg9f4RR57g/ug5z2Chb3A79e2V/S8B1LHsRhqqYYR1gWAVKhv2+CHc86YrRPE9kDsWvXHzpz8fTwgeyhXx76otQx9JiVACrNL/5ZkWSJIrSC6/o3ujNtGUhuXW7kYKTaw19L8Ab7RKkgSJQIaUlqSgRJikY=
+	t=1790495841; cv=none; b=u6jhv7TSY3fypbhKNA0r4+0Uj65hs7MzAl7PVM/tJOhPFG2rh7aUYtImgEO8S6HRc3unpaRZT2wf3qkU5L2LtkcrpMvtWQdDFeUhjn0bR4aFzp/Z4Sr/o0Zb45BeXCx63NbqTVSWvZTmCyYd4nmr/9ItR06BD6wlm/RsTZFNQUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790471881; c=relaxed/simple;
-	bh=j4MY2CMuvs7m5BNgdWLNKr7Heqr8s743RA0gDwzd388=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=e8dYZbasoEBuZLQQmcj15Z8HuUn3TVYzOxZBb89ydvxB3sncniJEMAFye6YyU1dMm+e7VQx4/T/K2vXg9w4CvZ6F2XzvD36hs2djLYKzQjlX59nhc9pYIPuJUqyjKJzCra3RUiGtq2pVnHYjYAm1R24MVbt5+OhZQqczK+qHjek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VgHczA/o; arc=none smtp.client-ip=209.85.222.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790495841; c=relaxed/simple;
+	bh=18zJkDzr62duq9aYUDivNzap0V8KYXPeytuSHMR3AM4=;
+	h=Date:From:To:Message-ID:References:Subject:MIME-Version:
+	 Content-Type; b=ezE5iHDbqqhRrvRQ3GPCyfePWIUuWj+mrvzQy20GstcZpSWBSiAKmr53B5dCs6/tMWoDeObyz6r3++UkPT9OZ8nY0LOwWMqihTufbvPIVeAuRERV25RUvjQt1WoPOTxUZsETUdBn2MJlxotro3Q2hKEZLqPWO1knz9wpQ4sNcQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com; spf=pass smtp.mailfrom=yahoo.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=UHYLMEts; arc=none smtp.client-ip=77.238.178.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VgHczA/o"
-Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-98536aec408so1731846241.0
-        for <linux-staging@lists.linux.dev>; Sat, 26 Sep 2026 18:18:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790471879; x=1791076679; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=dpkfUBdF/f1+2EmRosbv+bRw3hNHZJ3PSm5fQl8Ev5g=;
-        b=VgHczA/ou8wp8dxG3lESFy1qLYzI1Yp+v+qYhEBkoONFPpE+ZbYESbdp+2xIkWm7dh
-         tOw7z1+pKJCpOe3Owg4k8nOnKbPuFDLgHupWQBKqSaVgXOp/BIST9wGNf8ZZhkaI1xxl
-         xhj0p+W1lIer8zeEdDKZbJLED2rJxVtscSFu8ZWsR3f5/FlvvnZnRVfp8dgkByTIR5tS
-         7JZHptdyBq6hDdd3a3gOo7sJ1+9t8KuzfMRKAgKnxvvz0xaPA1wfCMSHB9zCQgzDlcDe
-         72qdVE68zmp3dlNbmjFIyApEfYxzVtyKmVGhnZB38S3rLxvUt5VcDNr20yFUdH7Seegj
-         LtEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790471879; x=1791076679;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=dpkfUBdF/f1+2EmRosbv+bRw3hNHZJ3PSm5fQl8Ev5g=;
-        b=sYl2VbQxGBFr+zuEVx/QWmFnCXePBy8/WFAkn80C8t5onvyqOBDae3/js05IlTuKH7
-         69YLhRb8veX2ptWW7/Kt2I40Udi1t0sT5xqIDAcDvIzH/RdWO25IBjDf8we+nsjrsjlQ
-         ZnqFLiKLuUGYWD0iK+fx7c93aoknu23zDMIq8h0myfkLR9pEq2z/N0nsyEG7CzkGQcAU
-         U2tuPKIDvqLiywVURJDB+OBnwv3haGxZeCH7gLqc+3NRT4A0ELpQ/GNAvxJNXiZC1Iz6
-         wrYw1s37txjd3BzPByQi/VOH2s8RlpNB9x0izl2HHHry6Lh+yjsgI+fHR08jgAJ2Sa2R
-         +0eA==
-X-Gm-Message-State: AFq9FYIYybx7XMExCpzwlv7SRkOL9Ac/nbLAEDMnX8j3DWIk+3HTMCh6
-	SQ/DPv6JQEtOpyOdR3p0ZeipiVBLzu3snUSIhWvwSJ6im55UsngqhPVA
-X-Gm-Gg: AYBFou0iVb+icUGgTKnHOt1c/mpEKPJSeG+m1AJMSp4UWagH78QA3Eqt0CmBzHKi34N
-	e/qeEyg2t0Cu1b41+IWa27BUJOiOVtlkKyBnD8TeW1l+6vc2Ua0HwoNasWW7jz1TfWdflK18xqo
-	ZUdMGoOXJ39gNh0p5LvKAPsWhND3h2XUspktDJmVUR3EqSvDj+SWs1qXjtLvFAbeTD+35ooiWLy
-	JLils6BZ9/Jihug4q0Ip8+KKSOPYD+8eMpRH9PGnnMXAnVkzARA+znKongcRyeIfvyIixLfPdVC
-	T2wS5bizZaO2B4KoTi2JiV9FeMxWQje8AjmyRRzUDPjmj1CI9FN770TH0c/VD8lagePpX1XL1nZ
-	+5rZNaGoPYc+mCjmcS8ydwms6R5BBxLxmuVZ+4BMJSyjdSv/VmZ48sW4JX3DdQtnS2uw7wD0OXS
-	VLVK4ZJ1VqJobv95cocXQaWW6uJBFfpppBvD+/BiopqeuzyUhX+oKCbd7MlyslFmBhBg==
-X-Received: by 2002:a05:6102:3a42:b0:7a8:cecd:42c8 with SMTP id ada2fe7eead31-7af1fc1869bmr2370136137.40.1790471879328;
-        Sat, 26 Sep 2026 18:17:59 -0700 (PDT)
-Received: from [127.0.1.1] ([2804:14d:78b3:5cda::1002])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-9889b1d413asm820433241.10.2026.09.26.18.17.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Sep 2026 18:17:55 -0700 (PDT)
-From: Leonardo Martins Martins <dev.lmmrtns@gmail.com>
-Date: Sat, 26 Sep 2026 22:12:27 -0300
-Subject: [PATCH 4/4] staging: rtl8723bs: extract inner loop in
- phy_tx_power_limit_to_index()
+	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="UHYLMEts"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1790495827; bh=18zJkDzr62duq9aYUDivNzap0V8KYXPeytuSHMR3AM4=; h=Date:From:To:References:Subject:From:Subject:Reply-To; b=UHYLMEtsTYOLK/f9bZtAyPy+cib8HujCKgu8zmeFNfXTtz1fFOOoZJFUJqoZ0B4TBQS2+j0blb6tRanqjuhjx4qxMHD/mjMbFQ23Glt5j6NycT7CHwPA8QbmsHMIGyFkejW/7lPTzUFYGUYskqeKRyTUW6rjp2Jr2DI3Hnrhqti+0ybkXqDqYdiIXq+aKuJgtUEk5TZQZx8Re+3RquM8Smh1bCH4234smG/C8ki/iPS1r/uecA+9uwuSz6BNEe/b0cEH9lTgD5Y2dYZG6lfAUB+p9UxSJ9L3IMyoGJtHvjV+mQ/rMvn2YS03U1D5U8eX53LND7Hmbs1bTjRyfsNDfg==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1790495827; bh=FFDx1k6vqIiDM1E0SIGul3Hb/Wf8oMg2ykRyIsav6Lu=; h=X-Sonic-MF:Date:From:To:Subject:From:Subject; b=c0ZCy9ZBJY8r+bqtU9NxrGH6kbnFhoNyv0RXPied42xalafSv/GtZo3U6iFdMHlxMu9R7smqgmjFycjkIFz0sqf09zlY8+1LFhFiytTh7t8CTOUY8lOJcln4M6/y+nBimllB2ydRG45+u1qx5tVC1EZwjP6AKPzCdgT5kVkaGWPnTd4jVHuQYjMOOcho/aa1aDgjiFPuhZssc4PYGodZa5eFFGGiF0NPg83eirvpF4oFB2yQL6EGcznqr0t+77V6sbIzuyjwfLrRBDWB69M3118tcfsqlqHvGDP6brKED4mmypUpYHr3fOfSRqg8nz1dQE4TAAieu7qkGCJzXgI9Mg==
+X-YMail-OSG: Fc2MWoAVM1nRky6tgK2ltAQH5tpil2QAx3Cc94HnQdiHt3x5hqfS1hQuW9i9j9L
+ eJq8h0o1PzisPCHPxV4iEBehD1850Fj0KLCJ6GpaD8ZxpiMDMc3gXHqzl1Y6CUEab85QsKoxFBkY
+ RyMMwF9LdrVXMJxXlMbnMesYa0MU.El6jMAN4d7G91yVVYVN7_JHvyT4CAOqWnz..0OHDhI6dgwR
+ AtXbFHMoNU2l1hjAb7bkJ.Oj6i5kYjm.AJ771IEoJjpQlYqNYG1tQkIgtnpV1vIv6IKJ_FyJXpaJ
+ .pZzYbFTH5e8TPmNd28PiPwYlNKwX67u4Uv2AcmM2SPu5GJE70PVS3QdWFNPcNexf7cvlPUvWQMr
+ sxVio5qtohrbuA7R7pWWbbkzvBNa7T224W8G1HnifRKPz.rkAxEoS3lNywttX2M6EAb5RPvESec9
+ F3F9dPQj150IAsRKf43qkfE6dzIIkaUp.xrs5D96xHTBkgLVCCuCz4kRGsF0.3xbF3k_K7EoPOa8
+ 6wfrFPw6.leCtlYbszHeJWspVQA_KGSYi_1hCVhzPpN_dE_j3.vQFvv8vRFHGXHgwerKTaMlM4D7
+ pDsNrGO15eYA_JF8nGzR_vjg98RQy8uvDXCGVbBqCp097xs83lGesKgPY4NTo8_zuyWD_qh.hEVP
+ hSGPvHljYjdI8gkkTaGQ1YUYKAvMeKmSwDTY8i8UIYpXlXbV3GQqRu5S8cWB7BEVx4bxgksHBUaj
+ SJHX3NzI6WpozxhVYRGPVYWQjxzqSHkEJ6yqHx0kak6jcrqr4gI2nBxO1g7EgMFLiON0j_pO1DAP
+ 98s9_OqR07a5P_IAxf7q9CPMWBmPMpvjvseYJz6_POKYZuYlIxhM9Z4XO5dGb.8qssyKyJLAPIkW
+ Qvuf0IxcwSTyVmseP8xoagGl9wTYrYLVZH9YuCKdlRH_SZdfk3EPQ_qbNNcQVejaX.G_whzlRfPY
+ Wd7vdWL.piAcPaRT4bB9v7qJ8hcSIipQkn8.uyL2lT.2rfJR_jzO41lMBjXgTYj9sLlsQC3gSNal
+ oZ.uwLJTN3AMk6IuO0_O2E8qt3L62AqQpxmylEqHGRx7.6G5oJ0svqdVt83RBrRBj8nlC4QPZMJw
+ CK2qXKFsyy43SHeyQQfipwjPA_5iXXywTEGqHyzpYlqYNBEjifezRGZvvA6toRIoWwBqKCxeOWoS
+ 5o.vmq_5j6N6d0_YUew0yqsNqg9qyjQgxI1ENVhEZLMLcX6mOGEyrZWCB6.j4XNWSN52RJbqxqCG
+ CYRNX35AUM7AyJsXXmSCypgZ6WVMaxePthGlgG10K0lmYgIfbSnhlvH1WpuJDhQ4uMlFEm2kNj16
+ BCmXDDbwwhSAbrmQLnp6sWD.95M4ZrUfd4hxCzBrKU8KUXYiI5EflbmGFgp5O9oeNZGn0DaWQ1LG
+ zdfQO66vkhrX_CMcx1CYYZURB.w8sdJhb_CeEg4Nj2dixdG1MAoJ80pHuDvfz4.cSX1RvIS.F73K
+ CHYbA.WA_1V_Bje3SwHZ9s53xyN5M.IEl.IJ_4Nrhf6Cn4vUO6rhfudwtKHFKm5Y7wgvqeg7ukW_
+ 86uhLLeJyEmZZXMW8K3QH7s8hBF7C0Dp5SM3Xlf6RTpZNSzAsbmLVZgiA7DsTMqOBjqV92M8ebhq
+ U0MaKNCw0SSBJ6.fh4hhiKvnyqnVQhOTAR3mKg7TVuhyupQzDltLt56SLuOGNkEzd9YUtL4LBvJX
+ J32OaBY_dPyU0C0b7mhQmikutfRd5jJoRReYJX566Glw6v6KUsapztfLyDtGicmc8AOxx9rVnlGj
+ YSXZJ4zLz.BR3F6hmaQEBiEqgSeZf8BHyKgbcst7PrIP.HgDb5OSCwUSg0hNDzr15d5NWUzqcci7
+ 4kRQYdO4_HJbormeXW4JY1foOIp7DKu60S1AJDxqxMJkUDNzIdIgSG.eXcVpEyWH0Nnb0NNWARUW
+ DmKn_DMqQKZf6qo8.CdRXRKshnBxvL739RNF7FNpqytbcdy6KBAp1QyJqvGwFH5mGnCpg8Up_HMc
+ G3iiwlJ1caEswpglp5EGHYEcYH24Z1hnH1FZ9ChTQ5WJ5c1UZLQb.p6cbKq5NCTMbKUfbAG19Fi6
+ iVs0QU1t_fdqanf_uTM4pdUh0MkwMgHSiZQGWPipS9UI8WjVIIqTjRw--
+X-Sonic-MF: <ak416_kingz@yahoo.com>
+X-Sonic-ID: b5d2e1ac-bd78-4afd-a967-471eac55dfd5
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic308.consmr.mail.ir2.yahoo.com with HTTP; Sun, 27 Sep 2026 07:57:07 +0000
+Date: Sun, 27 Sep 2026 07:56:40 +0000 (UTC)
+From: Kingz Tuffa <ak416_kingz@yahoo.com>
+To: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>, 
+	"greybus-dev@lists.linaro.org" <greybus-dev@lists.linaro.org>, 
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Message-ID: <378088904.1527494.1790495800044@mail.yahoo.com>
+References: <378088904.1527494.1790495800044.ref@mail.yahoo.com>
+Subject: greybus uart patch.
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260926-rtl8723bs-tx-pwr-limit-v1-4-989dcbc113fd@gmail.com>
-References: <20260926-rtl8723bs-tx-pwr-limit-v1-0-989dcbc113fd@gmail.com>
-In-Reply-To: <20260926-rtl8723bs-tx-pwr-limit-v1-0-989dcbc113fd@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Leonardo Martins Martins <dev.lmmrtns@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1790471854; l=2758;
- i=dev.lmmrtns@gmail.com; s=20260813; h=from:subject:message-id;
- bh=j4MY2CMuvs7m5BNgdWLNKr7Heqr8s743RA0gDwzd388=;
- b=Hg5K+V4QmTVouBv8J5ouqlK4RRVp3Fz0i1kZ+QlfSZkqpGbV0SDNlvdvBxWzwNd/qE2hmTiy0
- Ohl4f6CSLMgC0luTnAxhXzDxti8q0WEPCRc68SNFmWHDEO+/tZ1kQl8
-X-Developer-Key: i=dev.lmmrtns@gmail.com; a=ed25519;
- pk=dOFSCpUL7hbyVftAaUGDebsgsSl9Uk/Tx0Aqpd4Bcng=
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: WebService/1.1.26577 YMailNovation
 
-phy_tx_power_limit_to_index() iterates over an array with 5 indexes,
-making the code deeply nested, move the inner loop into an auxiliary
-static function to reduce nesting and improve readability.
-
-Signed-off-by: Leonardo Martins Martins <dev.lmmrtns@gmail.com>
----
- drivers/staging/rtl8723bs/hal/hal_com_phycfg.c | 47 ++++++++++++++------------
- 1 file changed, 25 insertions(+), 22 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
-index 46402ab07d757b2aba69d6fb7fec127681c9d012..8e39419b95f445f0eb153efcd28dd97fafeb8e03 100644
---- a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
-+++ b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
-@@ -713,35 +713,38 @@ s8 phy_get_tx_pwr_lmt(struct adapter *adapter, u32 reg_pwr_tbl_sel,
- 	return pwr_lmt;
- }
- 
-+static void __phy_tx_power_limit_to_index(struct hal_com_data *hal_data, struct registry_priv *r,
-+					  u8 reg, u8 bw, u8 ch, u8 rs)
-+{
-+	s8 tmp_pwr_lmt = hal_data->TxPwrLimit_2_4G[reg][bw][rs][ch][RF_PATH_A];
-+	s8 tmp;
-+	u8 path;
-+	u8 pwr_base;
-+
-+	for (path = RF_PATH_A; path < MAX_RF_PATH_NUM; ++path) {
-+		if (hal_data->odmpriv.PhyRegPgValueType == PHY_REG_PG_EXACT_VALUE)
-+			pwr_base = hal_data->TxPwrByRateBase2_4G[path][rs];
-+		else
-+			pwr_base = r->reg_power_base * 2;
-+
-+		if (tmp_pwr_lmt != MAX_POWER_INDEX) {
-+			tmp = tmp_pwr_lmt - pwr_base;
-+			hal_data->TxPwrLimit_2_4G[reg][bw][rs][ch][path] = tmp;
-+		}
-+	}
-+}
-+
- void phy_tx_power_limit_to_index(struct adapter *adapter)
- {
- 	struct hal_com_data *hal_data = GET_HAL_DATA(adapter);
- 	struct registry_priv *r = &adapter->registrypriv;
--	u8 pwr_base = 0x2E;
- 	u8 reg, bw, ch, rs;
--	s8 tmp = 0, tmp_pwr_lmt = 0;
--	u8 path = 0;
- 
- 	for (reg = 0; reg < MAX_REGULATION_NUM; ++reg) {
--		for (bw = 0; bw < MAX_2_4G_BANDWIDTH_NUM; ++bw) {
--			for (ch = 0; ch < CHANNEL_MAX_NUMBER_2G; ++ch) {
--				for (rs = 0; rs < MAX_RATE_SECTION_NUM; ++rs) {
--					tmp_pwr_lmt = hal_data->TxPwrLimit_2_4G[reg][bw][rs][ch][RF_PATH_A];
--
--					for (path = RF_PATH_A; path < MAX_RF_PATH_NUM; ++path) {
--						if (hal_data->odmpriv.PhyRegPgValueType == PHY_REG_PG_EXACT_VALUE)
--							pwr_base = hal_data->TxPwrByRateBase2_4G[path][rs];
--						else
--							pwr_base = r->reg_power_base * 2;
--
--						if (tmp_pwr_lmt != MAX_POWER_INDEX) {
--							tmp = tmp_pwr_lmt - pwr_base;
--							hal_data->TxPwrLimit_2_4G[reg][bw][rs][ch][path] = tmp;
--						}
--					}
--				}
--			}
--		}
-+		for (bw = 0; bw < MAX_2_4G_BANDWIDTH_NUM; ++bw)
-+			for (ch = 0; ch < CHANNEL_MAX_NUMBER_2G; ++ch)
-+				for (rs = 0; rs < MAX_RATE_SECTION_NUM; ++rs)
-+					__phy_tx_power_limit_to_index(hal_data, r, reg, bw, ch, rs);
- 	}
- }
- 
-
--- 
-2.47.3
-
+ From: =3D?utf-8?q?Roberts=3D20Bric=3DC4=3DABtis?=3D <ak416_kingz@yahoo.com=
+> Date: Sun, 27 Sep 2026 10:48:38 +0000 Subject: [PATCH] staging: greybus: =
+uart: fix alignment to match open parenthesis MIME-Version: 1.0 Content-Typ=
+e: text/plain; charset=3Dutf-8 Content-Transfer-Encoding: 8bit Clean up the=
+ coding style in uart.c by aligning the arguments of wait_for_completion_ti=
+meout() properly. Signed-off-by: Roberts Bric=C4=ABtis <ak416_kingz@yahoo.c=
+om> --- drivers/staging/greybus/uart.c | 2 +- 1 file changed, 1 insertion(+=
+), 1 deletion(-) diff --git a/drivers/staging/greybus/uart.c b/drivers/stag=
+ing/greybus/uart.c index 24b4dab069c3..3d5ff4f65555 100644 --- a/drivers/st=
+aging/greybus/uart.c +++ b/drivers/staging/greybus/uart.c @@ -318,7 +318,7 =
+@@ static int gb_uart_wait_for_all_credits(struct gb_tty *gb_tty) return 0;=
+ ret =3D wait_for_completion_timeout(&gb_tty->credits_complete, - msecs_to_=
+jiffies(GB_UART_CREDIT_WAIT_TIMEOUT_MSEC)); + msecs_to_jiffies(GB_UART_CRED=
+IT_WAIT_TIMEOUT_MSEC)); if (!ret) { dev_err(&gb_tty->gbphy_dev->dev, "time =
+out waiting for credits\n"); -- 2.55.0=20
