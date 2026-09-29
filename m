@@ -1,36 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C562952E063;
-	Tue, 29 Sep 2026 14:12:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 877024FD78A;
+	Tue, 29 Sep 2026 16:05:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790691173; cv=none; b=GwbVgku2nhct02zTDDLYJlMUHRHxqGVChh3nrPmNUHCd5dxDAtxd9YYxxBxyIssFUbbtGwxrkjXI+AyEFO4wrDzKA6htkBVFFI9XbfpCgybbnVLb1aXpnTRsZ8lVQBQWAsv4QVaeDF9NPfb1w4Te06Tqqo2WKGfGgyF0JIf+2S0=
+	t=1790697926; cv=none; b=i/N5Ou5dmXZNhl3YmltM/1eBW+SgnUuWJ7nqxPETnqSAAzoQSwRI2kphYyo7IiU8r0+TZZA7ZXhXVmFX8LDUEFTCV8sqpbMpg87wQPM9ijX9Qad+1c14h56/Rpzxd/H/GKR3lt1HQb0lyisUr/PvmtispudOXc61/4ectSWbeeo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790691173; c=relaxed/simple;
-	bh=szSFMY0AWAILbKkJ9Dy/Yz5DYTk8REhbT2KwxcV8Gt8=;
+	s=arc-20240116; t=1790697926; c=relaxed/simple;
+	bh=McJ8z5XBo11cViQ+wyvp109B22XdP5gvjWylc4F7Rs4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NN5q39Hi7yCJK6egA0M56nfrTmzAjDdASunP/PF+xafmoLF1JQvIrHSpYRgRht8tScoSou5qNw3oDl/zJzJn2M4TU9CHHXTKCCoKLXWIv7xqN18OaONUrsZdJysDHbBytHL0mAIVNhyUwuFz7ZzxOxcJV0ek87x/3hFPFNAtXaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=NaS+1nBo; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=gKtQcub0/XzXjZU7ErKsf8vpfCRsDoNLy/rT0MlvvpbpbVQTQSNAj138OZi1jHFnmpO7kdsqmDDTtFqjymKm+dpkfMVxU4C7lS/Cqgvnv1ri89YVAntMtNWlYsIN+GBd3B7TqBxyALylIJIiDptWcNuho7LJXaY387MDWoAOwzk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=RlPW8VJ1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="NaS+1nBo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BE1C1F00898;
-	Tue, 29 Sep 2026 14:12:51 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="RlPW8VJ1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEFF81F0089A;
+	Tue, 29 Sep 2026 16:05:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1790691172;
-	bh=szSFMY0AWAILbKkJ9Dy/Yz5DYTk8REhbT2KwxcV8Gt8=;
+	s=korg; t=1790697916;
+	bh=OGn63YaPShNrl1yPLo3koVX6LHPw+HKS2Nou9lHW8Ws=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=NaS+1nBoAfHGvE2WcWj8evAvDRkrQXKs6pc1Ib+TXgEeKNKcMtGwmuTySBb+jQcy+
-	 hYAqL+qNNsDD+U8Rh3kADLOypIyxwbZHMVJvJ/K44Fza0yOEklk6IAit5X53FU37UQ
-	 xVVcZTYhddLUXJRkqBlzNH+kPZ5vOa3o12SpFX0Y=
-Date: Tue, 29 Sep 2026 16:12:46 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+	b=RlPW8VJ1sQqjB4hTsawkcrr/6s9j9Q/udhKoST5cGFnCscKfwCGZA0vMV182To5mc
+	 J6/Ij+mI4EkzAGPP//9vUUL7ENIepc6f9vpzUALAXODu/gTaA8EKiIyBQdTIV6GVVs
+	 ra1T6fGe6Mv05Jb1LH4q/mn8q3ojJ/G9FrqRdzY0=
+Date: Tue, 29 Sep 2026 18:05:12 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
 To: Amirhossein Hajimohammadi <info@hajimohammadi.net>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: stop overreading monitor interface
- name
-Message-ID: <2026092934-jacket-monopoly-dfe7@gregkh>
-References: <4E27F487-1146-4557-8A26-51F6E9E2E2C6@hajimohammadi.net>
+Subject: Re: [PATCH v3] staging: rtl8723bs: stop overreading monitor
+ interface name
+Message-ID: <2026092915-luxury-shush-6b29@gregkh>
+References: <3B4B0B72-4DCE-4E40-9E87-732DCBAA4EAF@hajimohammadi.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,13 +39,44 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4E27F487-1146-4557-8A26-51F6E9E2E2C6@hajimohammadi.net>
+In-Reply-To: <3B4B0B72-4DCE-4E40-9E87-732DCBAA4EAF@hajimohammadi.net>
 
-On Tue, Sep 29, 2026 at 01:38:19PM +0330, Amirhossein Hajimohammadi wrote:
-> Patch attached as text/plain.
+On Tue, Sep 29, 2026 at 07:18:11PM +0330, Amirhossein Hajimohammadi wrote:
+> From: AmirHossein HajiMohammadi <info@hajimohammadi.net>
+> 
+> cfg80211 passes a NUL-terminated interface name. memcpy() always reads
+> IFNAMSIZ + 1 bytes, even when the caller supplied a shorter string.
+> 
+> Use strscpy() to stop at the terminator and bound the write to the
+> destination buffer.
+> 
+> Signed-off-by: AmirHossein HajiMohammadi <info@hajimohammadi.net>
+> ---
+> Changes in v3:
+> - Add an explicit From header matching the Signed-off-by identity.
+> 
+> Changes in v2:
+> - Send the patch inline instead of as a MIME attachment.
+> 
+>  drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+> index 4416d0ec1..8f5032844 100644
+> --- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+> +++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+> @@ -2158,7 +2158,7 @@ static int rtw_cfg80211_add_monitor_if(struct adapter *padapter, char *name, str
+>  		goto out;
+>  
+>  	*ndev = pwdev_priv->pmon_ndev = mon_ndev;
+> -	memcpy(pwdev_priv->ifname_mon, name, IFNAMSIZ + 1);
+> +	strscpy(pwdev_priv->ifname_mon, name);
 
-Please do not do that, please read the documentation for how to do this
-properly.
+But we are replacing str*() calls in the kernel with memcpy() calls
+where it can happen, so why go backwards here?
+
+What caused you to notice this change is needed?  Have you measured a
+speed up in throughput with this change applied?  How was it tested?
 
 thanks,
 
